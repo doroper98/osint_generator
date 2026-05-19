@@ -2,15 +2,19 @@
 <html lang="ko">
 <!--
   tier: 3
-  last_synced_with: v0.1.0
+  last_synced_with: v0.1.1
   ssot_for: [branch-viewer]
   depends_on: [../VERSION]
   last_review: 2026-05-19
 
-  사용법: 즐겨찾기에 다음 중 하나를 등록.
-    A) GitHub Pages 활성화 후: https://doroper98.github.io/osint_generator/branches.html
-    B) 즉시 사용 가능: https://htmlpreview.github.io/?https://github.com/doroper98/osint_generator/blob/main/docs/branches.html
-  데이터 출처: GitHub Public REST API (시간당 60 요청, 인증 불요)
+  배포 / 호스팅:
+    Vercel (Private 저장소 GitHub 연동, 푸시마다 자동 재배포).
+    설정 후 즐겨찾기 URL 예: https://osint-generator.vercel.app/
+
+  인증:
+    저장소가 Private 이므로 GitHub Personal Access Token (PAT) 이 필요합니다.
+    페이지에서 한 번 입력하면 브라우저 localStorage 에 저장되며 저장소에는 들어가지 않습니다.
+    필요 권한: `repo` 의 read 만. (Settings → Developer settings → Personal access tokens → Fine-grained tokens)
 -->
 <head>
   <meta charset="utf-8">
@@ -77,6 +81,60 @@
       font: inherit;
     }
     header .refresh:hover { border-color: var(--accent); color: var(--accent); }
+    header .token-btn {
+      background: transparent;
+      color: var(--muted);
+      border: 1px dashed var(--line);
+      padding: 4px 10px;
+      border-radius: 4px;
+      cursor: pointer;
+      font: inherit;
+    }
+    header .token-btn:hover { color: var(--accent); border-color: var(--accent); border-style: solid; }
+    header .token-btn.set { color: var(--good); border-color: var(--good); border-style: solid; }
+
+    .token-dialog {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.6);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 10;
+    }
+    .token-dialog.open { display: flex; }
+    .token-dialog .box {
+      background: var(--panel);
+      border: 1px solid var(--accent);
+      border-radius: 8px;
+      padding: 20px;
+      width: 520px;
+      max-width: 90vw;
+    }
+    .token-dialog h3 { margin: 0 0 8px 0; color: var(--accent); font-size: 14px; }
+    .token-dialog p { color: var(--muted); font-size: 12px; line-height: 1.6; }
+    .token-dialog input {
+      width: 100%;
+      padding: 8px 10px;
+      background: #0d1117;
+      color: var(--text);
+      border: 1px solid var(--line);
+      border-radius: 4px;
+      font: inherit;
+      margin: 8px 0;
+    }
+    .token-dialog .actions { display: flex; gap: 8px; justify-content: flex-end; margin-top: 8px; }
+    .token-dialog button {
+      padding: 6px 14px;
+      background: var(--accent);
+      color: #0d1117;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font: inherit;
+      font-weight: 700;
+    }
+    .token-dialog button.secondary { background: transparent; color: var(--muted); border: 1px solid var(--line); }
 
     main {
       display: grid;
@@ -216,8 +274,30 @@
     <h1>osint_generator — Branch Viewer</h1>
     <span class="version" id="repo-version">v?.?.?</span>
     <span class="meta" id="meta-info">loading...</span>
+    <button class="token-btn" id="token-btn" onclick="openTokenDialog()">token</button>
     <button class="refresh" onclick="loadAll(true)">refresh</button>
   </header>
+
+  <div class="token-dialog" id="token-dialog">
+    <div class="box">
+      <h3>GitHub Personal Access Token</h3>
+      <p>
+        본 저장소가 <b>Private</b> 이므로 브랜치/커밋/PR 데이터를 받으려면 토큰이 필요합니다.<br>
+        토큰은 <b>이 브라우저 localStorage 에만</b> 저장됩니다. 저장소에는 절대 들어가지 않습니다.<br><br>
+        <b>발급 방법</b>:
+        GitHub → Settings → Developer settings → Personal access tokens →
+        <b>Fine-grained tokens</b> → Generate new token →
+        <b>Resource owner</b> 본인 → <b>Repository access</b> = osint_generator →
+        <b>Repository permissions</b>: <code>Contents: Read-only</code>, <code>Metadata: Read-only</code>, <code>Pull requests: Read-only</code>.
+      </p>
+      <input id="token-input" type="password" placeholder="ghp_... 또는 github_pat_..." autocomplete="off">
+      <div class="actions">
+        <button class="secondary" onclick="clearToken()">delete</button>
+        <button class="secondary" onclick="closeTokenDialog()">cancel</button>
+        <button onclick="saveToken()">save</button>
+      </div>
+    </div>
+  </div>
 
   <main>
     <section class="tree" id="tree">
@@ -237,25 +317,75 @@
     const REPO = "osint_generator";
     const API = `https://api.github.com/repos/${OWNER}/${REPO}`;
     const RAW_VERSION = `https://raw.githubusercontent.com/${OWNER}/${REPO}/main/VERSION`;
+    const TOKEN_KEY = "osint_generator.github_token.v1";
 
     // 브랜치별 설명 (수기 유지). 새 브랜치는 여기에 한 줄 추가.
+    // 사용자가 GitHub 에서 default branch 를 main 으로 통합. 작업 브랜치는 더 이상 분리하지 않음.
     const BRANCH_DESCRIPTIONS = {
-      "main": "안정 본선. 머지 후에만 갱신.",
-      "claude/osint-video-system-IaGd0": "OSINT 영상 시스템 개발 메인 작업 브랜치. Phase 0 + Phase 1 시작."
+      "main": "default 브랜치이자 메인 개발 라인. 모든 Phase 작업이 여기서 진행. v0.1.0 부터 시작."
     };
 
     const VERSION_RE = /^v(\d+\.\d+\.\d+):/;
     let prDataByBranch = {};
     let selectedBranch = null;
 
+    function getToken() {
+      return localStorage.getItem(TOKEN_KEY) || "";
+    }
+    function setTokenBadge() {
+      const btn = document.getElementById("token-btn");
+      if (getToken()) {
+        btn.classList.add("set");
+        btn.textContent = "token ✓";
+      } else {
+        btn.classList.remove("set");
+        btn.textContent = "token";
+      }
+    }
+    function openTokenDialog() {
+      document.getElementById("token-dialog").classList.add("open");
+      document.getElementById("token-input").value = getToken();
+      document.getElementById("token-input").focus();
+    }
+    function closeTokenDialog() {
+      document.getElementById("token-dialog").classList.remove("open");
+    }
+    function saveToken() {
+      const v = document.getElementById("token-input").value.trim();
+      if (v) localStorage.setItem(TOKEN_KEY, v);
+      else localStorage.removeItem(TOKEN_KEY);
+      closeTokenDialog();
+      setTokenBadge();
+      loadAll(true);
+    }
+    function clearToken() {
+      localStorage.removeItem(TOKEN_KEY);
+      document.getElementById("token-input").value = "";
+      setTokenBadge();
+    }
+
+    function authHeaders() {
+      const headers = { "Accept": "application/vnd.github+json" };
+      const t = getToken();
+      if (t) headers["Authorization"] = `Bearer ${t}`;
+      return headers;
+    }
+
     async function fetchJSON(url) {
-      const res = await fetch(url, { headers: { "Accept": "application/vnd.github+json" } });
-      if (!res.ok) throw new Error(`${res.status} ${res.statusText} (${url})`);
+      const res = await fetch(url, { headers: authHeaders() });
+      if (!res.ok) {
+        if (res.status === 401 || res.status === 403 || res.status === 404) {
+          throw new Error(`${res.status} ${res.statusText} (Private 저장소 — token 버튼을 눌러 PAT 를 등록하세요)`);
+        }
+        throw new Error(`${res.status} ${res.statusText} (${url})`);
+      }
       return res.json();
     }
 
     async function fetchText(url) {
-      const res = await fetch(url);
+      const t = getToken();
+      const headers = t ? { "Authorization": `Bearer ${t}` } : {};
+      const res = await fetch(url, { headers });
       if (!res.ok) throw new Error(`${res.status} ${res.statusText} (${url})`);
       return res.text();
     }
@@ -275,9 +405,12 @@
     }
 
     async function loadVersion() {
+      // Private 저장소이므로 raw.githubusercontent.com 대신 contents API 사용 (Bearer 인증 지원).
       try {
-        const txt = await fetchText(RAW_VERSION);
-        document.getElementById("repo-version").textContent = "v" + txt.trim();
+        const data = await fetchJSON(`${API}/contents/VERSION`);
+        // data.content 는 base64 인코딩된 파일 내용.
+        const raw = atob((data.content || "").replace(/\n/g, ""));
+        document.getElementById("repo-version").textContent = "v" + raw.trim();
       } catch (e) {
         document.getElementById("repo-version").textContent = "v(unknown)";
       }
@@ -432,6 +565,11 @@
       }
     }
 
+    setTokenBadge();
+    if (!getToken()) {
+      // 토큰이 없으면 첫 진입 시 자동으로 안내 다이얼로그 노출
+      setTimeout(openTokenDialog, 200);
+    }
     loadAll();
   </script>
 </body>

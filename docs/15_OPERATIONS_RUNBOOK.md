@@ -1,6 +1,6 @@
 <!--
 tier: 2
-last_synced_with: v0.1.0
+last_synced_with: v0.1.1
 ssot_for: [operations-runbook]
 depends_on: [../WORKFLOWS.md, 02_SYSTEM_ARCHITECTURE.md]
 last_review: 2026-05-19

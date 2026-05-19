@@ -1,6 +1,6 @@
 <!--
 tier: 3
-last_synced_with: v0.1.0
+last_synced_with: v0.1.1
 ssot_for: [development-log]
 depends_on: [CHANGELOG.md]
 last_review: 2026-05-19
@@ -40,5 +40,19 @@ last_review: 2026-05-19
   - `python -m py_compile orchestrator/*.py workers/*.py schemas/*.py` 통과.
   - Phase 1 smoke test 중 PIPELINE-AP-006 발견 즉시 수정: worker slot finalize 시 terminal 상태를 잔존시키면 `depends_on` 후속 task 가 영원히 queued 로 남는 문제. fix → `_finalize_slot`에서 즉시 idle 환원. 카탈로그 append.
 - **연관**: PIPELINE-AP-006
+
+## 2026-05-19 v0.1.1 — 호스팅 / 인증 / default branch 통합
+
+- **무엇을**: branches.html 의 즐겨찾기 URL 을 위해 Vercel 호스팅 경로 확정, GitHub PAT 입력 UI 추가, default branch 가 `main` 으로 통합된 것을 로컬에도 반영.
+- **왜**: 저장소가 **Private** 이라 GitHub Pages 무료 플랜이 막혀 있고, `htmlpreview.github.io` 도 raw 접근이 안 됨 → Vercel 만이 무료로 Private 저장소 정적 호스팅을 지원. 그리고 같은 이유로 페이지 안에서 GitHub API 를 호출하려면 사용자 토큰이 필요함.
+- **어떻게**:
+  - `vercel.json` 추가: `outputDirectory: docs`, `/` → `/branches.html` rewrite, cleanUrls.
+  - `branches.html`: token 입력 다이얼로그 + `localStorage` 저장 + `Authorization: Bearer` 헤더 부착. raw.githubusercontent.com 대신 contents API 사용.
+  - GitHub UI 가 `claude/osint-video-system-IaGd0 → main` rename 안내 → 로컬도 `git branch -m`, `git fetch`, `git branch -u`, `git remote set-head` 으로 정리.
+  - VERSION 0.1.0 → 0.1.1, 30개 마크다운/HTML 의 `last_synced_with` 일괄 갱신.
+- **결과**:
+  - vercel.json 1개 커밋만으로 Vercel 가져오기 후 즉시 배포 가능.
+  - branches.html 이 Private 저장소에서도 정상 동작.
+- **연관**: 없음 (호스팅·운영 영역 PATCH)
 
 ---

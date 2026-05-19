@@ -1,6 +1,6 @@
 <!--
 tier: 3
-last_synced_with: v0.1.0
+last_synced_with: v0.1.1
 ssot_for: [tts-antipatterns]
 depends_on: [../08_AUDIO_AND_TTS_SPEC.md]
 last_review: 2026-05-19

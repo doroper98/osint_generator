@@ -1,6 +1,6 @@
 <!--
 tier: 1
-last_synced_with: v0.1.0
+last_synced_with: v0.1.1
 ssot_for: [project-entry-point]
 depends_on: [GOAL.md, CLAUDE.md, DOCS_GOVERNANCE.md, docs/02_SYSTEM_ARCHITECTURE.md]
 last_review: 2026-05-19
@@ -58,16 +58,34 @@ run_pipeline.bat                # Windows
 ## 브랜치 / 버전 현황판 (즐겨찾기 권장)
 
 브랜치, 커밋, PR, 각 커밋의 버전(`vX.Y.Z:` prefix)을 한눈에 보는 정적 HTML 페이지가 있습니다.
-사용자 본인 전용이며, **GitHub Public API를 클라이언트에서 호출**해 매번 최신 상태를 보여줍니다 (인증 불요, 시간당 60 요청).
+사용자 본인 전용이며, **GitHub REST API를 클라이언트에서 호출**해 매번 최신 상태를 보여줍니다.
 
-다음 두 URL 중 하나를 즐겨찾기 하십시오:
+### 호스팅: Vercel (Private 저장소 지원)
 
-| 옵션 | URL | 비고 |
-|---|---|---|
-| A (권장) | `https://doroper98.github.io/osint_generator/branches.html` | GitHub Pages 1회 활성화 필요 (Settings → Pages → Source: `main` 브랜치 `/docs` 또는 `/(root)`) |
-| B (즉시) | `https://htmlpreview.github.io/?https://github.com/doroper98/osint_generator/blob/main/docs/branches.html` | 설정 불요, 약간 못생김 |
+본 저장소는 Private 이므로 GitHub Pages 가 무료 플랜에서 동작하지 않습니다. 대신 Vercel 을 사용합니다.
 
-페이지는 항상 저장소의 최신 `docs/branches.html`을 사용하므로, 본 파일이 갱신되면 즐겨찾기 URL도 자동으로 따라갑니다. 새 브랜치를 만들면 본 파일의 `BRANCH_DESCRIPTIONS` 객체에 한 줄 설명을 추가하십시오.
+1. [https://vercel.com/new](https://vercel.com/new) 접속 → GitHub 계정 연결.
+2. `doroper98/osint_generator` 저장소 import (Private 저장소도 무료 플랜에서 사용 가능).
+3. **Framework Preset**: Other / Static. **Root Directory**: `.` (기본). Build/Install command 는 비워둠.
+4. Deploy. 약 1분 후 `https://<project-name>.vercel.app/` 가 발급됨.
+5. 이 URL 을 즐겨찾기. 푸시할 때마다 Vercel 이 자동 재배포.
+
+`vercel.json` 이 저장소 루트에 있어서 별다른 설정 없이 위 절차만으로 끝납니다.
+
+### 인증: Personal Access Token (PAT)
+
+Private 저장소이므로 페이지가 GitHub API 를 호출하려면 사용자 본인의 토큰이 필요합니다.
+페이지 첫 진입 시 안내 다이얼로그가 뜨며, 입력한 토큰은 **본인 브라우저 localStorage 에만** 저장됩니다 (저장소에는 들어가지 않음).
+
+토큰 발급: GitHub → Settings → Developer settings → Personal access tokens → **Fine-grained tokens** → Generate new token
+
+- Resource owner: 본인
+- Repository access: `osint_generator` 만 선택
+- Repository permissions: `Contents: Read-only`, `Metadata: Read-only`, `Pull requests: Read-only`
+
+만료일을 길게 설정하시면 갱신 주기가 줄어듭니다.
+
+새 브랜치를 만들면 `docs/branches.html` 의 `BRANCH_DESCRIPTIONS` 객체에 한 줄 설명을 추가하십시오.
 
 ## 현재 상태
 
