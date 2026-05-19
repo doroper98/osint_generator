@@ -1,6 +1,6 @@
 <!--
 tier: 3
-last_synced_with: v0.1.5
+last_synced_with: v0.2.0
 ssot_for: [release-notes]
 depends_on: [README.md, GOAL.md]
 last_review: 2026-05-19
@@ -25,6 +25,22 @@ released 항목은 **append-only**입니다.
 
 ### Fixed
 -
+
+---
+
+## [v0.2.0] — 2026-05-19
+
+### Added
+- **Phase 2 완료: Project Manager / State Machine**.
+- `orchestrator/state_machine.py` 신설. `LINEAR_SEQUENCE` 가 docs/02 §4 의 24개 상태 선형 흐름을 SSOT 로 보유. `allowed_next_states` / `validate_transition` 순수 함수 제공.
+- `orchestrator/project_manager.py` 신설. `project_manifest.json` 의 유일한 쓰기자. `new_project` / `resume_project` / `transition_state` 공개 API.
+- `schemas/models.py` 에 `StateTransition` 모델 추가, `ProjectManifest.state_history` (append-only) 필드 추가. schema_version 은 1 유지 (optional 필드 추가).
+- CLI 명령 `new-project <pid> --title ... --category ... [--duration-min] [--topic-summary]`, `resume <pid>`, `transition <pid> --to <state> [--reason]` 정식 구현.
+- 전이 규칙: 선형 다음 상태 또는 `archived` 만 허용. 동일 상태 전이 / 임의 점프는 명확한 한글 메시지와 함께 `ValueError` (CLI exit=2).
+
+### Changed
+- `orchestrator/command_center.py` 가 `project_manager.load_manifest` 를 통해 manifest 를 read-only 로 로드하도록 정리. raw json 파싱 코드 제거.
+- `orchestrator/main.py` 의 `new-project` / `approve` placeholder 문구 제거, 실 구현으로 교체.
 
 ---
 

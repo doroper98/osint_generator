@@ -157,6 +157,20 @@ class VersionedModel(BaseModel):
 # ---------------------------------------------------------------------------
 
 
+class StateTransition(BaseModel):
+    """ProjectManifest.state_history 항목.
+
+    append-only 히스토리. from_state -> to_state 전이를 시간순으로 기록합니다.
+    """
+
+    model_config = ConfigDict(extra="forbid", use_enum_values=True)
+
+    from_state: ProjectState
+    to_state: ProjectState
+    transitioned_at: datetime = Field(default_factory=utc_now)
+    reason: str = ""
+
+
 class ProjectManifest(VersionedModel):
     project_id: str
     title: str
@@ -170,6 +184,7 @@ class ProjectManifest(VersionedModel):
     render_mode_status: dict[str, str] = Field(default_factory=dict)
     approval_status: dict[str, str] = Field(default_factory=dict)
     final_outputs: dict[str, str] = Field(default_factory=dict)
+    state_history: list[StateTransition] = Field(default_factory=list)
 
 
 # ---------------------------------------------------------------------------

@@ -1,6 +1,6 @@
 <!--
 tier: 3
-last_synced_with: v0.1.5
+last_synced_with: v0.2.0
 ssot_for: [development-log]
 depends_on: [CHANGELOG.md]
 last_review: 2026-05-19
@@ -117,5 +117,24 @@ last_review: 2026-05-19
   - 원격 브랜치 목록: `main`, `claude/resume-session-YLOYE` 두 개로 복귀.
   - `branches.html` 새로고침 시 단일 라인 그래프 (v0.1.3 시점과 동일 모양) + 현재 commit 5 개 (v0.1.0~v0.1.5).
 - **연관**: 없음 (정리 PATCH)
+
+## 2026-05-19 v0.2.0 — Phase 2: Project Manager / State Machine
+
+- **무엇을**: 프로젝트의 라이프사이클을 관리하는 Project Manager 와 State Machine 을 정식 구현. `new-project / resume / transition` CLI 명령이 동작하고, `project_manifest.json` 이 디스크에 영속화되며, 모든 상태 전이는 검증을 거치고 `state_history` 에 append-only 로 기록된다.
+- **왜**: Phase 1 까지는 더미 워커가 task_queue.json 만으로 돌아갔으나, Phase 3+ 의 Worker 들이 자기 산출물을 어디로 떨어뜨릴지·언제 다음 단계로 전진할지 결정하려면 "프로젝트가 지금 어떤 상태인가" 가 단일 출처로 박혀 있어야 한다. 임의 점프를 막아야 `created → render_final` 같은 사고를 차단할 수 있다.
+- **어떻게**:
+  - `schemas/models.py` 에 `StateTransition` 모델과 `ProjectManifest.state_history` (default `[]`) 추가. schema_version 은 1 유지 — 신규 optional 필드는 호환 방향 (C3).
+  - `orchestrator/state_machine.py` 신설: docs/02 §4 의 24개 상태를 `LINEAR_SEQUENCE` 에 박고, `allowed_next_states` 가 (다음 선형 상태 + `archived`) 집합을 반환. `archived` 는 어디서든 종료 허용하지만 archived 에서 추가 전이 불가. `validate_transition` 이 실패 시 한글 메시지로 ValueError. Pydantic `use_enum_values=True` 때문에 manifest 로드 시 enum 이 str 로 들어오는 점을 `_coerce` 헬퍼로 흡수.
+  - `orchestrator/project_manager.py` 신설: `MANIFEST_FILENAME` 상수, `_SLUG_RE` 로 project_id 검증, `new_project / resume_project / transition_state` 공개 API. 모든 디스크 쓰기는 `_write_manifest` 한 군데로 단일화 — `updated_at` 자동 갱신.
+  - `orchestrator/main.py` 의 `new-project` placeholder 를 실 구현으로 교체. `resume`, `transition` 서브커맨드 신설. category / state 는 enum choices 로 argparse 가 자동 검증.
+  - `orchestrator/command_center.py` 가 raw json 파싱 대신 `project_manager.load_manifest` 를 호출하도록 정리. manifest 가 손상되면 created 로 fallback (TUI 진입 자체는 막지 않음).
+  - 스모크 테스트 (demo2): 정상 new-project, 중복 new-project (FileExistsError), 잘못된 project_id (ValueError), resume 정상, resume 미존재 (FileNotFoundError, 디렉토리도 안 만듦), 정상 전이 2회, 불법 점프 (created→render_debug 거부), 동일 상태 전이 거부, archived 종료, archived 에서 추가 전이 거부 — 모두 의도대로 동작. state_history 3개 엔트리 직렬화 확인.
+  - 작업 중 `resume_project` 가 `_ensure_project_layout` 을 먼저 호출해서 미존재 프로젝트에도 빈 폴더가 생기는 버그 발견 → manifest 검증을 먼저 수행하도록 순서 교체.
+  - VERSION 0.1.5 → 0.2.0 (MINOR · Phase 완료), 31 개 마크다운/HTML `last_synced_with` 일괄 갱신.
+- **결과**:
+  - `python -m py_compile orchestrator/*.py workers/*.py schemas/*.py` 통과.
+  - HANDOFF DoD 6 항목 모두 충족: new-project 시 manifest 가 `state: "created"` 로 생성, resume 으로 마지막 상태에서 이어짐, 불법 전이는 ValueError + 한글 메시지, py_compile 통과, last_synced_with 갱신, CHANGELOG/DEVLOG 엔트리 추가.
+  - Phase 3 (Dynamic Intake Page) 가 `intake_planning → intake_pending_user → source_collecting` 흐름을 그대로 호출하면 됨.
+- **연관**: 없음 (새 Antipattern 없음. 잘못된 전이 시도는 schema_machine 이 ValueError 로 차단함 — 카탈로그에 등록할 만한 미발견 결함이 아니라 사전 차단된 케이스이므로 SCHEMA-AP 등록 보류)
 
 ---
