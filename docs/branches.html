@@ -2,7 +2,7 @@
 <html lang="ko">
 <!--
   tier: 3
-  last_synced_with: v0.1.1
+  last_synced_with: v0.1.3
   ssot_for: [branch-viewer]
   depends_on: [../VERSION]
   last_review: 2026-05-19
@@ -15,11 +15,16 @@
     저장소가 Private 이므로 GitHub Personal Access Token (PAT) 이 필요합니다.
     페이지에서 한 번 입력하면 브라우저 localStorage 에 저장되며 저장소에는 들어가지 않습니다.
     필요 권한: `repo` 의 read 만. (Settings → Developer settings → Personal access tokens → Fine-grained tokens)
+
+  그래프 렌더러:
+    @gitgraph/js (jsDelivr CDN). GitHub API 의 commit.parents 필드를 사용해
+    진짜 git 토폴로지를 SVG 로 그림. 브랜치가 갈라지면 자동으로 가지 그림이 나옴.
 -->
 <head>
   <meta charset="utf-8">
   <title>osint_generator — Branch Viewer</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script src="https://cdn.jsdelivr.net/npm/@gitgraph/js"></script>
   <style>
     :root {
       --bg: #0d1117;
@@ -146,8 +151,20 @@
     .tree {
       padding: 20px;
       border-right: 1px solid var(--line);
-      overflow-x: auto;
+      overflow: auto;
+      background: var(--bg);
     }
+    .tree #graph {
+      min-height: 200px;
+    }
+    .tree #graph svg {
+      background: transparent;
+    }
+    .tree #graph svg text {
+      fill: var(--text) !important;
+      font-family: ui-monospace, SFMono-Regular, "JetBrains Mono", Menlo, Consolas, monospace !important;
+    }
+
     .side {
       padding: 20px;
       background: var(--panel);
@@ -167,7 +184,9 @@
       padding: 10px 12px;
       margin-bottom: 10px;
       background: #0d1117;
+      cursor: pointer;
     }
+    .side .branch-card:hover { border-color: var(--accent); }
     .side .branch-card.active {
       border-color: var(--accent);
       box-shadow: 0 0 0 1px var(--accent);
@@ -182,65 +201,18 @@
       font-size: 12px;
       margin-top: 6px;
     }
-
-    .branch-row {
-      padding: 10px 0;
-      border-bottom: 1px dashed var(--line);
-      cursor: pointer;
-    }
-    .branch-row:hover { background: rgba(88, 166, 255, 0.05); }
-    .branch-row.selected { background: rgba(88, 166, 255, 0.08); }
-    .branch-head {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      flex-wrap: wrap;
-    }
-    .branch-name {
-      font-weight: 600;
-      color: var(--text);
-    }
-    .badge {
+    .side .branch-card .pr-badge {
+      display: inline-block;
+      margin-top: 6px;
       font-size: 11px;
       padding: 1px 6px;
       border-radius: 10px;
       font-weight: 700;
     }
-    .badge.open    { background: rgba(63, 185, 80, 0.15);  color: var(--open);   border: 1px solid var(--open); }
-    .badge.merged  { background: rgba(163, 113, 247, 0.15); color: var(--merged); border: 1px solid var(--merged); }
-    .badge.closed  { background: rgba(248, 81, 73, 0.15);  color: var(--closed); border: 1px solid var(--closed); }
-    .badge.default { background: rgba(88, 166, 255, 0.15); color: var(--accent); border: 1px solid var(--accent); }
-    .badge.ver     { background: #21262d; color: var(--accent); border: 1px solid var(--accent); }
-
-    .commits {
-      margin-left: 16px;
-      padding-left: 12px;
-      border-left: 1px solid var(--line);
-      margin-top: 6px;
-    }
-    .commit-row {
-      display: flex;
-      gap: 10px;
-      align-items: baseline;
-      padding: 3px 0;
-      color: var(--muted);
-    }
-    .commit-row .sha {
-      color: var(--accent);
-      font-weight: 600;
-    }
-    .commit-row .v {
-      color: var(--good);
-      font-weight: 700;
-    }
-    .commit-row .msg {
-      color: var(--text);
-    }
-    .commit-row .when {
-      margin-left: auto;
-      color: var(--muted);
-      font-size: 11px;
-    }
+    .side .branch-card .pr-badge.open    { background: rgba(63, 185, 80, 0.15);   color: var(--open);   border: 1px solid var(--open); }
+    .side .branch-card .pr-badge.merged  { background: rgba(163, 113, 247, 0.15); color: var(--merged); border: 1px solid var(--merged); }
+    .side .branch-card .pr-badge.closed  { background: rgba(248, 81, 73, 0.15);   color: var(--closed); border: 1px solid var(--closed); }
+    .side .branch-card .pr-badge.default { background: rgba(88, 166, 255, 0.15);  color: var(--accent); border: 1px solid var(--accent); }
 
     .loading {
       color: var(--muted);
@@ -300,15 +272,17 @@
   </div>
 
   <main>
-    <section class="tree" id="tree">
-      <div class="loading">브랜치 정보를 가져오는 중...</div>
+    <section class="tree">
+      <div id="graph">
+        <div class="loading">브랜치 정보를 가져오는 중...</div>
+      </div>
     </section>
     <aside class="side" id="side">
       <h2>브랜치 설명</h2>
       <div id="branch-desc" class="loading">왼쪽에서 브랜치를 선택하세요.</div>
     </aside>
     <footer id="footer">
-      데이터: GitHub Public REST API · 인증 불요 · 시간당 60 요청 한도
+      데이터: GitHub REST API · 그래프: @gitgraph/js · 인증: 본인 PAT (localStorage)
     </footer>
   </main>
 
@@ -316,17 +290,17 @@
     const OWNER = "doroper98";
     const REPO = "osint_generator";
     const API = `https://api.github.com/repos/${OWNER}/${REPO}`;
-    const RAW_VERSION = `https://raw.githubusercontent.com/${OWNER}/${REPO}/main/VERSION`;
     const TOKEN_KEY = "osint_generator.github_token.v1";
+    const COMMITS_PER_BRANCH = 30;
 
     // 브랜치별 설명 (수기 유지). 새 브랜치는 여기에 한 줄 추가.
-    // 사용자가 GitHub 에서 default branch 를 main 으로 통합. 작업 브랜치는 더 이상 분리하지 않음.
     const BRANCH_DESCRIPTIONS = {
       "main": "default 브랜치이자 메인 개발 라인. 모든 Phase 작업이 여기서 진행. v0.1.0 부터 시작."
     };
 
     const VERSION_RE = /^v(\d+\.\d+\.\d+):/;
     let prDataByBranch = {};
+    let branchTipsByBranch = {};
     let selectedBranch = null;
 
     function getToken() {
@@ -382,33 +356,23 @@
       return res.json();
     }
 
-    async function fetchText(url) {
-      const t = getToken();
-      const headers = t ? { "Authorization": `Bearer ${t}` } : {};
-      const res = await fetch(url, { headers });
-      if (!res.ok) throw new Error(`${res.status} ${res.statusText} (${url})`);
-      return res.text();
-    }
-
     function parseVersionFromCommitMsg(msg) {
       const firstLine = (msg || "").split("\n")[0];
       const m = firstLine.match(VERSION_RE);
       return m ? m[1] : null;
     }
 
-    function relTime(iso) {
-      const diff = (Date.now() - new Date(iso).getTime()) / 1000;
-      if (diff < 60) return `${Math.floor(diff)}초 전`;
-      if (diff < 3600) return `${Math.floor(diff/60)}분 전`;
-      if (diff < 86400) return `${Math.floor(diff/3600)}시간 전`;
-      return `${Math.floor(diff/86400)}일 전`;
+    function escapeHtml(s) {
+      return (s || "")
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;");
     }
 
     async function loadVersion() {
-      // Private 저장소이므로 raw.githubusercontent.com 대신 contents API 사용 (Bearer 인증 지원).
       try {
         const data = await fetchJSON(`${API}/contents/VERSION`);
-        // data.content 는 base64 인코딩된 파일 내용.
         const raw = atob((data.content || "").replace(/\n/g, ""));
         document.getElementById("repo-version").textContent = "v" + raw.trim();
       } catch (e) {
@@ -417,8 +381,7 @@
     }
 
     async function loadBranches() {
-      const branches = await fetchJSON(`${API}/branches?per_page=100`);
-      return branches;
+      return await fetchJSON(`${API}/branches?per_page=100`);
     }
 
     async function loadPulls() {
@@ -427,87 +390,140 @@
       for (const p of pulls) {
         const key = p.head && p.head.ref;
         if (!key) continue;
-        const state = p.merged_at ? "merged" : p.state; // open / closed / merged
+        const state = p.merged_at ? "merged" : p.state;
         if (!map[key]) map[key] = { state, number: p.number, title: p.title, url: p.html_url };
       }
       return map;
     }
 
-    async function loadCommits(branch) {
+    async function loadCommits(branchName) {
       try {
-        const commits = await fetchJSON(`${API}/commits?sha=${encodeURIComponent(branch)}&per_page=20`);
-        return commits;
+        return await fetchJSON(`${API}/commits?sha=${encodeURIComponent(branchName)}&per_page=${COMMITS_PER_BRANCH}`);
       } catch (e) {
         return [];
       }
     }
 
-    function renderBranch(branch, prInfo) {
-      const div = document.createElement("div");
-      div.className = "branch-row";
-      div.dataset.branch = branch.name;
-      div.onclick = () => selectBranch(branch.name);
+    // 모든 브랜치의 커밋을 한 번에 가져와서 토폴로지 그래프 데이터 구축.
+    async function buildCommitGraph(branches) {
+      const all = new Map(); // sha → raw commit obj
+      const tipBranches = new Map(); // sha → Set<branchName>
+      const containingBranches = new Map(); // sha → Set<branchName> (해당 sha 가 등장한 모든 브랜치)
 
-      const head = document.createElement("div");
-      head.className = "branch-head";
+      // 모든 브랜치를 동시 fetch (병렬, rate-limit 절약).
+      const results = await Promise.all(
+        branches.map(br => loadCommits(br.name).then(commits => ({ br, commits })))
+      );
 
-      const name = document.createElement("span");
-      name.className = "branch-name";
-      name.textContent = branch.name;
-      head.appendChild(name);
+      for (const { br, commits } of results) {
+        if (!commits.length) continue;
+        const tipSha = commits[0].sha;
+        if (!tipBranches.has(tipSha)) tipBranches.set(tipSha, new Set());
+        tipBranches.get(tipSha).add(br.name);
 
-      if (branch.name === "main") {
-        const b = document.createElement("span");
-        b.className = "badge default";
-        b.textContent = "default";
-        head.appendChild(b);
-      }
-      if (prInfo) {
-        const b = document.createElement("span");
-        b.className = "badge " + prInfo.state;
-        b.textContent = `PR #${prInfo.number} · ${prInfo.state}`;
-        head.appendChild(b);
-      }
-
-      div.appendChild(head);
-
-      const commitsDiv = document.createElement("div");
-      commitsDiv.className = "commits";
-      commitsDiv.innerHTML = `<div class="loading">commits...</div>`;
-      div.appendChild(commitsDiv);
-
-      loadCommits(branch.name).then(commits => {
-        commitsDiv.innerHTML = "";
-        if (!commits.length) {
-          commitsDiv.innerHTML = `<div class="loading">no commits</div>`;
-          return;
-        }
         for (const c of commits) {
-          const row = document.createElement("div");
-          row.className = "commit-row";
-          const sha = (c.sha || "").slice(0, 7);
-          const msg = (c.commit && c.commit.message) || "";
-          const ver = parseVersionFromCommitMsg(msg);
-          const when = (c.commit && c.commit.author && c.commit.author.date) || "";
-          row.innerHTML = `
-            <span class="sha">${sha}</span>
-            ${ver ? `<span class="v">v${ver}</span>` : `<span class="badge ver">no-ver</span>`}
-            <span class="msg">${escapeHtml(msg.split("\n")[0].replace(VERSION_RE, "").trim() || msg.split("\n")[0])}</span>
-            <span class="when">${when ? relTime(when) : ""}</span>
-          `;
-          commitsDiv.appendChild(row);
+          if (!all.has(c.sha)) all.set(c.sha, c);
+          if (!containingBranches.has(c.sha)) containingBranches.set(c.sha, new Set());
+          containingBranches.get(c.sha).add(br.name);
+        }
+      }
+
+      // 시간순 오름차순 (오래된 것 먼저). gitgraph.import 는 oldest-first 를 기대.
+      const sorted = [...all.values()].sort((a, b) => {
+        const ad = new Date(a.commit.author.date).getTime();
+        const bd = new Date(b.commit.author.date).getTime();
+        return ad - bd;
+      });
+
+      // 각 브랜치의 tip sha 를 역으로 저장 (사이드 카드 클릭 → 강조용).
+      const tipByBranch = {};
+      for (const { br, commits } of results) {
+        if (commits.length) tipByBranch[br.name] = commits[0].sha;
+      }
+
+      return { sorted, tipBranches, containingBranches, tipByBranch };
+    }
+
+    function renderGraph(sorted, tipBranches) {
+      const container = document.getElementById("graph");
+      container.innerHTML = "";
+
+      if (!sorted.length) {
+        container.innerHTML = `<div class="loading">표시할 커밋이 없습니다.</div>`;
+        return;
+      }
+
+      // gitgraph.js 의 다크 테마 커스터마이즈.
+      const template = GitgraphJS.templateExtend(GitgraphJS.TemplateName.Metro, {
+        colors: ["#58a6ff", "#a371f7", "#3fb950", "#d29922", "#f85149", "#f778ba", "#79c0ff"],
+        branch: {
+          lineWidth: 3,
+          spacing: 36,
+          label: {
+            display: true,
+            bgColor: "#161b22",
+            color: "#c9d1d9",
+            strokeColor: "#30363d",
+            borderRadius: 6,
+            font: "600 12px ui-monospace, SFMono-Regular, Menlo, Consolas, monospace"
+          }
+        },
+        commit: {
+          spacing: 56,
+          dot: { size: 7, strokeWidth: 0 },
+          message: {
+            display: true,
+            displayAuthor: false,
+            displayHash: true,
+            font: "13px ui-monospace, SFMono-Regular, Menlo, Consolas, monospace",
+            color: "#c9d1d9"
+          }
         }
       });
 
-      return div;
-    }
+      const gitgraph = GitgraphJS.createGitgraph(container, {
+        template,
+        orientation: "vertical",
+        mode: undefined,
+        author: " "
+      });
 
-    function escapeHtml(s) {
-      return s
-        .replace(/&/g, "&amp;")
-        .replace(/</g, "&lt;")
-        .replace(/>/g, "&gt;")
-        .replace(/"/g, "&quot;");
+      const commits = sorted.map(c => {
+        const subject = (c.commit.message || "").split("\n")[0];
+        const refs = [...(tipBranches.get(c.sha) || [])];
+        return {
+          hash: c.sha,
+          hashAbbrev: c.sha.slice(0, 7),
+          parents: (c.parents || []).map(p => p.sha),
+          parentsAbbrev: (c.parents || []).map(p => p.sha.slice(0, 7)),
+          subject,
+          body: "",
+          bodyHTML: "",
+          notes: "",
+          stats: [],
+          refs,
+          author: {
+            name: (c.commit.author && c.commit.author.name) || "?",
+            email: (c.commit.author && c.commit.author.email) || "",
+            timestamp: Math.floor(new Date(c.commit.author.date).getTime() / 1000)
+          },
+          committer: {
+            name: (c.commit.committer && c.commit.committer.name) || "?",
+            email: (c.commit.committer && c.commit.committer.email) || "",
+            timestamp: Math.floor(new Date((c.commit.committer && c.commit.committer.date) || c.commit.author.date).getTime() / 1000)
+          },
+          style: {
+            dot: {},
+            message: { color: "#c9d1d9" }
+          },
+          onClick: () => {
+            const branchSet = tipBranches.get(c.sha);
+            if (branchSet && branchSet.size) selectBranch([...branchSet][0]);
+          }
+        };
+      });
+
+      gitgraph.import(commits);
     }
 
     function renderSide() {
@@ -521,9 +537,32 @@
       for (const name of keys) {
         const card = document.createElement("div");
         card.className = "branch-card" + (name === selectedBranch ? " active" : "");
+        const pr = prDataByBranch[name];
+        const isDefault = name === "main";
+        let badges = "";
+        if (isDefault) badges += `<span class="pr-badge default">default</span> `;
+        if (pr) badges += `<span class="pr-badge ${pr.state}">PR #${pr.number} · ${pr.state}</span>`;
         card.innerHTML = `
           <div class="name">${escapeHtml(name)}</div>
+          ${badges ? `<div>${badges}</div>` : ""}
           <div class="desc">${escapeHtml(BRANCH_DESCRIPTIONS[name])}</div>
+        `;
+        card.onclick = () => selectBranch(name);
+        container.appendChild(card);
+      }
+
+      // 설명이 등록되지 않은 브랜치들도 카드로 노출 (등록 권장 메시지).
+      for (const name of Object.keys(branchTipsByBranch)) {
+        if (BRANCH_DESCRIPTIONS[name]) continue;
+        const card = document.createElement("div");
+        card.className = "branch-card" + (name === selectedBranch ? " active" : "");
+        const pr = prDataByBranch[name];
+        let badges = "";
+        if (pr) badges += `<span class="pr-badge ${pr.state}">PR #${pr.number} · ${pr.state}</span>`;
+        card.innerHTML = `
+          <div class="name">${escapeHtml(name)}</div>
+          ${badges ? `<div>${badges}</div>` : ""}
+          <div class="desc" style="color: var(--warn)">설명 미등록. docs/branches.html 의 BRANCH_DESCRIPTIONS 에 한 줄 추가하세요.</div>
         `;
         card.onclick = () => selectBranch(name);
         container.appendChild(card);
@@ -532,42 +571,35 @@
 
     function selectBranch(name) {
       selectedBranch = name;
-      document.querySelectorAll(".branch-row").forEach(r => {
-        r.classList.toggle("selected", r.dataset.branch === name);
-      });
       renderSide();
     }
 
     async function loadAll(force) {
-      const tree = document.getElementById("tree");
       const meta = document.getElementById("meta-info");
-      tree.innerHTML = `<div class="loading">브랜치 정보를 가져오는 중...</div>`;
+      const graphDiv = document.getElementById("graph");
+      graphDiv.innerHTML = `<div class="loading">브랜치 정보를 가져오는 중...</div>`;
       try {
         await loadVersion();
         const [branches, pulls] = await Promise.all([loadBranches(), loadPulls()]);
         prDataByBranch = pulls;
 
-        tree.innerHTML = "";
-        const sorted = branches.slice().sort((a, b) => {
-          if (a.name === "main") return -1;
-          if (b.name === "main") return 1;
-          return a.name.localeCompare(b.name);
-        });
-        for (const br of sorted) {
-          tree.appendChild(renderBranch(br, pulls[br.name]));
-        }
+        const { sorted, tipBranches, tipByBranch } = await buildCommitGraph(branches);
+
+        // 사이드 패널이 알 수 있도록 브랜치 tip 정보 저장.
+        branchTipsByBranch = tipByBranch;
+
+        renderGraph(sorted, tipBranches);
 
         const now = new Date().toLocaleString("ko-KR");
-        meta.textContent = `${sorted.length} branches · ${Object.keys(pulls).length} PRs known · refreshed ${now}`;
+        meta.textContent = `${branches.length} branches · ${sorted.length} commits · ${Object.keys(pulls).length} PRs · refreshed ${now}`;
         renderSide();
       } catch (e) {
-        tree.innerHTML = `<div class="error">데이터 로딩 실패: ${escapeHtml(e.message)}<br>잠시 후 다시 시도해 주세요. (GitHub API 시간당 60 요청 한도)</div>`;
+        graphDiv.innerHTML = `<div class="error">데이터 로딩 실패: ${escapeHtml(e.message)}<br>잠시 후 다시 시도해 주세요.</div>`;
       }
     }
 
     setTokenBadge();
     if (!getToken()) {
-      // 토큰이 없으면 첫 진입 시 자동으로 안내 다이얼로그 노출
       setTimeout(openTokenDialog, 200);
     }
     loadAll();
