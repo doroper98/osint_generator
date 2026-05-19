@@ -1,6 +1,6 @@
 <!--
 tier: 3
-last_synced_with: v0.1.1
+last_synced_with: v0.1.2
 ssot_for: [release-notes]
 depends_on: [README.md, GOAL.md]
 last_review: 2026-05-19
@@ -25,6 +25,19 @@ released 항목은 **append-only**입니다.
 
 ### Fixed
 -
+
+---
+
+## [v0.1.2] — 2026-05-19
+
+### Added
+- `docs/index.html` 추가. 루트 URL (`/`) 접근 시 `/branches.html` 로 즉시 리다이렉트 (meta-refresh + JS 양쪽).
+
+### Fixed
+- Vercel 배포에서 루트 URL 이 `404: NOT_FOUND` 를 반환하던 문제 수정. `vercel.json` 의 `rewrites` 룰이 `outputDirectory: "docs"` 와 함께 쓰일 때 안정적이지 않아 실제 `index.html` 파일로 대체.
+
+### Changed
+- `vercel.json` 에서 `rewrites` 블록 제거 (정적 `index.html` 로 충분).
 
 ---
 

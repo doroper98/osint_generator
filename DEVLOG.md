@@ -1,6 +1,6 @@
 <!--
 tier: 3
-last_synced_with: v0.1.1
+last_synced_with: v0.1.2
 ssot_for: [development-log]
 depends_on: [CHANGELOG.md]
 last_review: 2026-05-19
@@ -54,5 +54,18 @@ last_review: 2026-05-19
   - vercel.json 1개 커밋만으로 Vercel 가져오기 후 즉시 배포 가능.
   - branches.html 이 Private 저장소에서도 정상 동작.
 - **연관**: 없음 (호스팅·운영 영역 PATCH)
+
+## 2026-05-19 v0.1.2 — Vercel 루트 404 수정
+
+- **무엇을**: Vercel 첫 배포 후 루트 URL (`/`) 이 `404: NOT_FOUND` 를 띄우던 문제 수정. `docs/index.html` 정적 파일 추가, `vercel.json` 의 `rewrites` 룰 제거.
+- **왜**: `outputDirectory: "docs"` + `rewrites: [{ source: "/", destination: "/branches.html" }]` 조합이 Vercel 의 정적 호스팅 모드에서 안정적으로 매칭되지 않음. 실측 시 deployment URL 루트가 404. `/branches.html` 직접 접근은 정상.
+- **어떻게**:
+  - `docs/index.html` 신설: meta-refresh + `window.location.replace('/branches.html')` 양쪽으로 즉시 리다이렉트.
+  - `vercel.json` 의 `rewrites` 블록 삭제. cleanUrls / 캐시 헤더는 유지.
+  - VERSION 0.1.1 → 0.1.2, 30 개 마크다운 `last_synced_with` 일괄 갱신.
+- **결과**:
+  - 푸시 후 Vercel 자동 재배포 → 루트 URL 이 `branches.html` 로 정상 진입.
+  - 안정 도메인 (`osint-generator.vercel.app`) 도 동일하게 동작.
+- **연관**: 없음 (호스팅 hotfix)
 
 ---

@@ -1,6 +1,6 @@
 <!--
 tier: 3
-last_synced_with: v0.1.1
+last_synced_with: v0.1.2
 ssot_for: [execution-procedures]
 depends_on: [README.md, docs/15_OPERATIONS_RUNBOOK.md]
 last_review: 2026-05-19

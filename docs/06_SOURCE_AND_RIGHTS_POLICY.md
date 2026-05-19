@@ -1,6 +1,6 @@
 <!--
 tier: 2
-last_synced_with: v0.1.1
+last_synced_with: v0.1.2
 ssot_for: [rights-policy, source-policy]
 depends_on: [05_DATA_SCHEMA_SPEC.md]
 last_review: 2026-05-19

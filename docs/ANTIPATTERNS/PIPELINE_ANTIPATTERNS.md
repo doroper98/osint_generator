@@ -1,6 +1,6 @@
 <!--
 tier: 3
-last_synced_with: v0.1.1
+last_synced_with: v0.1.2
 ssot_for: [pipeline-antipatterns]
 depends_on: [../02_SYSTEM_ARCHITECTURE.md, ../ADDENDUM_01_ORCHESTRATOR_COMMAND_CENTER_LAYOUT.md]
 last_review: 2026-05-19

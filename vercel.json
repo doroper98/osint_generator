@@ -6,9 +6,6 @@
   "framework": null,
   "trailingSlash": false,
   "cleanUrls": true,
-  "rewrites": [
-    { "source": "/", "destination": "/branches.html" }
-  ],
   "headers": [
     {
       "source": "/(.*)",
