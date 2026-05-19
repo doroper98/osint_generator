@@ -1,6 +1,6 @@
 <!--
 tier: 3
-last_synced_with: v0.2.0
+last_synced_with: v0.2.1
 ssot_for: [development-log]
 depends_on: [CHANGELOG.md]
 last_review: 2026-05-19
@@ -136,5 +136,25 @@ last_review: 2026-05-19
   - HANDOFF DoD 6 항목 모두 충족: new-project 시 manifest 가 `state: "created"` 로 생성, resume 으로 마지막 상태에서 이어짐, 불법 전이는 ValueError + 한글 메시지, py_compile 통과, last_synced_with 갱신, CHANGELOG/DEVLOG 엔트리 추가.
   - Phase 3 (Dynamic Intake Page) 가 `intake_planning → intake_pending_user → source_collecting` 흐름을 그대로 호출하면 됨.
 - **연관**: 없음 (새 Antipattern 없음. 잘못된 전이 시도는 schema_machine 이 ValueError 로 차단함 — 카탈로그에 등록할 만한 미발견 결함이 아니라 사전 차단된 케이스이므로 SCHEMA-AP 등록 보류)
+
+## 2026-05-19 v0.2.1 — Subscription LLM Bridge 패턴 정립 (문서 PATCH)
+
+- **무엇을**: 본 시스템이 LLM API 키 (`ANTHROPIC_API_KEY` 등) 와 공식 SDK (`anthropic`, `openai` 등) 를 사용하지 않고, 사용자가 이미 구독 중인 `claude` / `codex` CLI 를 subprocess 로 자동 호출한다는 핵심 아키텍처 결정을 정식 문서화. 코드 변경 없음.
+- **왜**:
+  - 사용자가 강하게 어필하고 싶다고 명시. 비용 예측성 / rate-limit 여유 / 최신 모델 우선 반영 / 결제 중인 자원 활용도 극대화 / API 키 관리 부담 제거.
+  - "Agent 가 LLM API 직접 호출" 전제로 docs/03 이 작성되어 있었던 것을 정정해야 Phase 3 이후 코드가 잘못된 방향으로 가지 않음.
+  - 한 번 의사결정 + 본 세션 안에서 짧은 시행착오: 처음에 "프롬프트 출력 → 사용자 복붙" 패턴으로 해석했으나 사용자가 즉시 정정 — "에이전트가 CLI 에서 JSON 응답을 만들어 낼 수 있다, 왜 복붙해야 하나" — 정확한 의도는 **구독 인증된 CLI subprocess** 였음. 이 정정을 DEVLOG 에도 남겨 둠.
+- **어떻게**:
+  - `docs/ADDENDUM_04_SUBSCRIPTION_LLM_BRIDGE.md` 신설 (9개 절): 위상·핵심원칙(Hard NO/YES)·rationale·BaseLLMWorker 설계 (`llm_backend`, `llm_mode`)·CLI 인터페이스 가정·추적성 (`llm_calls/{call_id}.json`)·에러 모드·향후 확장·관련 안티패턴.
+  - `docs/03_AGENT_ARCHITECTURE.md` 의 §4 베이스워커 안내문에 "LLM 호출 Worker 는 BaseLLMWorker 상속 필수" 박스 추가, §4.5 신설 (BaseLLMWorker 계약 요약 + 호출 모드 표 + 백엔드 선택 가이드).
+  - `CLAUDE.md` C6 안티패턴 카테고리 목록에 `LLM-AP-N` 추가.
+  - `docs/ANTIPATTERNS/LLM_ANTIPATTERNS.md` 골격 신설, `docs/ANTIPATTERNS/README.md` 인덱스 행 추가.
+  - 거버넌스 결정: GOAL.md G4 본문은 건드리지 않음. C5.4 에 따르면 G4 변경은 MAJOR 사유인데 본 변경은 PATCH 로 흡수하기 위함. ADDENDUM_04 자체에 "G4 와 동등한 강제력으로 운용" 을 명시해 어필 강도는 유지하고, v1.0.0 시점에 G4 #13 으로 정식 흡수 예정.
+  - VERSION 0.2.0 → 0.2.1, 31 개 마크다운/HTML `last_synced_with` 일괄 갱신.
+- **결과**:
+  - 코드 변경 없음 → py_compile 영향 없음.
+  - Phase 3 시작 시 `BaseLLMWorker` 구현 + IntakePlannerWorker 가 본 패턴을 그대로 채택. ADDENDUM_04 §4 의 시그니처를 코드로 옮기면 됨.
+  - 다음 세션은 v0.2.2 (BaseLLMWorker 코드 도입) 또는 v0.3.0 (Phase 3 + BaseLLMWorker 동시) 중 사용자가 선택.
+- **연관**: 없음 (안티패턴 카테고리 신설 1건. LLM-AP 항목은 Phase 3 첫 실 호출부터 누적 예정.)
 
 ---

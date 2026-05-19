@@ -1,6 +1,6 @@
 <!--
 tier: 3
-last_synced_with: v0.2.0
+last_synced_with: v0.2.1
 ssot_for: [antipattern-catalog-index]
 depends_on: [../../CLAUDE.md]
 last_review: 2026-05-19
@@ -19,6 +19,7 @@ last_review: 2026-05-19
 | `RIGHTS-AP` | [RIGHTS_ANTIPATTERNS.md](RIGHTS_ANTIPATTERNS.md) | 권리·라이선스 (Phase 7부터) |
 | `RENDER-AP` | [RENDER_ANTIPATTERNS.md](RENDER_ANTIPATTERNS.md) | Remotion·FFmpeg·렌더 (Phase 9부터) |
 | `SCHEMA-AP` | [SCHEMA_ANTIPATTERNS.md](SCHEMA_ANTIPATTERNS.md) | JSON 계약·Pydantic (Phase 2부터) |
+| `LLM-AP` | [LLM_ANTIPATTERNS.md](LLM_ANTIPATTERNS.md) | 구독 LLM Bridge · `claude`/`codex` CLI subprocess 호출 (ADDENDUM_04) |
 
 미생성 파일은 해당 Phase 시작 시 첫 항목과 함께 생성합니다.
 

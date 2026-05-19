@@ -1,6 +1,6 @@
 <!--
 tier: 1
-last_synced_with: v0.2.0
+last_synced_with: v0.2.1
 ssot_for: [session-handoff]
 depends_on: [CLAUDE.md, GOAL.md, VERSION, docs/13_IMPLEMENTATION_ROADMAP.md]
 last_review: 2026-05-19
@@ -29,7 +29,7 @@ last_review: 2026-05-19
 
 ---
 
-## 1. 지금 어디까지 와 있나 (v0.2.0 기준)
+## 1. 지금 어디까지 와 있나 (v0.2.1 기준)
 
 ### 완료된 Phase
 
@@ -43,6 +43,7 @@ last_review: 2026-05-19
 | 한글 라벨 + 분기 검증 | v0.1.4 | `COMMIT_DESCRIPTIONS` 한글 override, `BRANCH_PRIORITY` 정렬, `test/graph-demo` 분기 시연 | 사용자 스크린샷 확인 |
 | 검증 정리 | v0.1.5 | `test/graph-demo` 삭제 + dead code 청소 | 원격 브랜치 목록 2개로 복귀 |
 | Phase 2: Project Manager / State Machine | v0.2.0 | `state_machine.py` + `project_manager.py` 신설, `ProjectManifest.state_history` 추가, CLI `new-project / resume / transition` 정식 구현, 전이 검증 | py_compile 통과, smoke test 10케이스 (정상/중복/불법/archived) 모두 의도대로 |
+| LLM Bridge 패턴 정립 (문서 PATCH) | v0.2.1 | `ADDENDUM_04_SUBSCRIPTION_LLM_BRIDGE.md` 신설, `docs/03 §4.5` 에 `BaseLLMWorker` 계약 추가, `CLAUDE.md C6` 에 `LLM-AP-N` 카테고리 추가, `LLM_ANTIPATTERNS.md` 골격. **시스템은 LLM API 키를 사용하지 않으며 사용자 구독의 `claude` / `codex` CLI 를 subprocess 로 호출한다 (G4 와 동등한 강제력)**. | 문서 only, 코드 변경 없음 |
 
 ### 핵심 산출물
 
@@ -66,49 +67,51 @@ last_review: 2026-05-19
 
 - `docs/ANTIPATTERNS/TTS_ANTIPATTERNS.md` — TTS-AP-001 ~ TTS-AP-053
 - `docs/ANTIPATTERNS/PIPELINE_ANTIPATTERNS.md` — PIPELINE-AP-001 ~ PIPELINE-AP-006
+- `docs/ANTIPATTERNS/LLM_ANTIPATTERNS.md` — (v0.2.1 시점 카테고리 신설만, 항목 없음)
 
 **문제 발생 시 반드시 이 카탈로그를 먼저 검색.** 중복 발견 시 동일 번호에 `[superseded by ...]` 마킹만, 새로 발견 시 다음 번호로 append.
 
 ---
 
-## 2. 다음 작업 — Phase 3 (v0.3.0 예상)
+## 2. 다음 작업 — v0.2.2 (BaseLLMWorker 코드) 또는 Phase 3 (v0.3.0)
 
-### 목표: Dynamic Intake Page
+v0.2.1 에서 **구독 LLM Bridge 패턴** 을 정식 문서화했음. 다음 세션 시작 시 사용자가 둘 중 선택:
 
-`intake_plan.json` 생성 + 동적 인테이크 웹 페이지 + `source_intake.json` 제출.
+### 옵션 A: v0.2.2 — BaseLLMWorker 코드 도입 (PATCH, 추천)
 
-**Roadmap 출처**: `docs/13_IMPLEMENTATION_ROADMAP.md` Phase 3 절을 정식 SSOT.
-**SSOT**: `docs/04_DYNAMIC_INTAKE_PAGE_SPEC.md`, `docs/03_AGENT_ARCHITECTURE.md` 의 Dynamic Intake Planner Agent 절.
-**스키마**: `IntakePlan`, `IntakePlanItem`, `SourceIntake`, `UserDecision` (이미 `schemas/models.py` 에 골격 있음).
+- `workers/base_llm_worker.py` 신설. `ADDENDUM_04 §4` 의 시그니처를 코드로 옮김.
+- `llm_backend ∈ {"claude", "codex"}`, `llm_mode ∈ {"response", "agent"}` 분기.
+- `_invoke_llm(prompt)` 가 backend 별 subprocess 호출 인자 매핑·JSON 파싱·에러 처리.
+- `_log_llm_call` 이 `projects/{pid}/llm_calls/{call_id}.json` 영속화.
+- `schemas/models.py` 에 `LLMCallRecord` Pydantic 모델 추가.
+- 더미 LLMWorker 한 개로 smoke test (`echo`-based stub 또는 실 `claude` CLI 호출).
+- 코드 도입 후 Phase 3 가 BaseLLMWorker 위에서 자연스럽게 진행됨.
 
-### 구체 작업 단위 (Phase 3 후보)
+### 옵션 B: 바로 Phase 3 (v0.3.0) — Dynamic Intake Page
 
-1. `agents/dynamic_intake_planner.py` 신설.
-   - 입력: `ProjectManifest` (title, category, target_duration_min, topic_summary)
-   - 출력: `IntakePlan` → `projects/{pid}/01_intake/intake_plan.json` 저장
-   - LLM 호출 (없으면 rule-based fallback) 으로 카테고리별 표준 항목을 생성
-2. `web/intake_page_app.py` 신설.
-   - FastAPI 또는 단순 정적 페이지 + JSON POST
-   - `intake_plan.json` 을 읽어 항목별 라디오/체크박스 렌더, 사용자가 mode 선택
-   - 제출 시 `source_intake.json` 저장
-3. CLI 통합: `python -m orchestrator.main plan-intake <pid>` (planner agent 호출 + 상태 `created → intake_planning` 전이).
-4. 상태 전이 자동화: planner 완료 시 `intake_planning → intake_pending_user`, 웹 제출 시 `intake_pending_user → source_collecting`.
-5. TUI Job Dashboard 에 intake_plan 항목 개수 표시.
+- `agents/dynamic_intake_planner.py` (= `IntakePlannerWorker`) 가 `BaseLLMWorker` 상속 (옵션 A 코드와 함께 묶음).
+- 또는 LLM 없이 rule-based 만으로 시작 (카테고리별 표준 템플릿) — 더 빠르지만 동적 항목 생성 묘미 떨어짐.
+- `web/intake_page_app.py` 신설 (FastAPI 또는 정적), `intake_plan.json → source_intake.json`.
+- CLI: `python -m orchestrator.main plan-intake <pid>`.
+- 상태 전이 자동화: planner → `intake_planning → intake_pending_user`, 웹 제출 → `intake_pending_user → source_collecting`.
+
+**추천**: 옵션 A (작은 단위 + 한 커밋 한 의도 원칙). 다만 사용자가 "빠르게 Phase 3 가시화" 를 원하면 옵션 B 로 직행도 OK.
 
 ### Phase 3 의 종료 조건 (DoD)
 
 - [ ] `plan-intake demo3` 호출 시 `intake_plan.json` 생성, `state == intake_planning` 으로 전이.
 - [ ] 웹 페이지에서 항목 선택 후 제출하면 `source_intake.json` 생성, `state == source_collecting` 으로 전이.
 - [ ] 모든 항목이 `IntakePlanItem` / `UserDecision` Pydantic 모델로 검증 통과.
+- [ ] LLM 호출은 `BaseLLMWorker` 경유 + `llm_calls/{call_id}.json` 영속화.
 - [ ] `python -m py_compile` 통과.
 - [ ] `CHANGELOG.md` `[v0.3.0]` 절 추가, `DEVLOG.md` 엔트리 추가.
 
 ### Phase 3 이후 (Phase 4 예고)
 
-`docs/13_IMPLEMENTATION_ROADMAP.md` 의 Phase 4 절 참조. 대략:
+`docs/13_IMPLEMENTATION_ROADMAP.md` 의 Phase 4 절 참조:
 - `source_intake.json → task_queue.json` 변환 로직
 - AI Delegation 항목 → Worker subprocess 실행
-- 첫 실제 Worker (`source_collector_worker`) 도입
+- 첫 실제 Worker (`source_collector_worker`, `BaseLLMWorker(mode="agent")`) 도입
 
 ---
 
@@ -116,7 +119,7 @@ last_review: 2026-05-19
 
 다음 세션이 첫 번째로 실행할 일 (순서 중요):
 
-1. **읽기**: `CLAUDE.md` → `GOAL.md` → `VERSION` (현재 `0.2.0`) → 본 `HANDOFF.md` → `docs/13_IMPLEMENTATION_ROADMAP.md` → 가장 최근 `DEVLOG.md` 엔트리 3 개.
+1. **읽기**: `CLAUDE.md` → `GOAL.md` → `VERSION` (현재 `0.2.1`) → 본 `HANDOFF.md` → `docs/ADDENDUM_04_SUBSCRIPTION_LLM_BRIDGE.md` (v0.2.1 신설, **반드시 정독**) → `docs/13_IMPLEMENTATION_ROADMAP.md` → 가장 최근 `DEVLOG.md` 엔트리 3 개.
 2. **상태 확인**:
    ```bash
    git status                       # clean 인지
@@ -126,7 +129,7 @@ last_review: 2026-05-19
    git log --oneline HEAD..origin/main   # 비어 있으면 OK, 아니면 pull/rebase 필수
    python -m py_compile orchestrator/*.py workers/*.py schemas/*.py
    ```
-3. **사용자 의도 확인**: "Phase 3 시작?" 또는 "그 외 작업?" 한 줄 질문.
+3. **사용자 의도 확인**: "v0.2.2 (BaseLLMWorker 코드) 먼저?" 또는 "Phase 3 직행?" 한 줄 질문.
 4. **작업 진행**: 항상 작은 단위 커밋, 한 커밋 = 한 의도.
 
 ---
@@ -142,6 +145,7 @@ last_review: 2026-05-19
 - ✅ 도메인 데이터는 Pydantic v2 BaseModel 만 사용. raw dict 금지.
 - ✅ 시스템 프롬프트 포맷팅은 `.replace()` (`format()` 은 JSON `{}` 와 충돌).
 - ✅ 새 브랜치 만들면 `docs/branches.html` 의 `BRANCH_DESCRIPTIONS` 에 **한국어** 설명 한 줄 추가.
+- ✅ **LLM API 키 / `anthropic` / `openai` SDK 절대 금지** (ADDENDUM_04). LLM 호출은 `BaseLLMWorker` 가 `claude` / `codex` CLI 를 subprocess 로 호출하는 방식만 허용. 위반 시 PR 차단.
 
 ---
 
@@ -163,4 +167,4 @@ last_review: 2026-05-19
 
 ---
 
-마지막 갱신: v0.2.0, 2026-05-19.
+마지막 갱신: v0.2.1, 2026-05-19.

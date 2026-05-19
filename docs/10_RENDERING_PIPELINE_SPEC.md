@@ -1,6 +1,6 @@
 <!--
 tier: 2
-last_synced_with: v0.2.0
+last_synced_with: v0.2.1
 ssot_for: [rendering-pipeline]
 depends_on: [05_DATA_SCHEMA_SPEC.md, ADDENDUM_02_PRE_PRODUCTION_DEBUG_LAYER.md]
 last_review: 2026-05-19

@@ -1,6 +1,6 @@
 <!--
 tier: 1
-last_synced_with: v0.2.0
+last_synced_with: v0.2.1
 ssot_for: [ai-assistant-rules, code-style, commit-conventions]
 depends_on: [GOAL.md, DOCS_GOVERNANCE.md]
 last_review: 2026-05-19
@@ -96,6 +96,7 @@ last_review: 2026-05-19
    - `RIGHTS-AP-N`: 권리·라이선스 관련
    - `RENDER-AP-N`: Remotion·FFmpeg 관련
    - `SCHEMA-AP-N`: JSON 계약 위반
+   - `LLM-AP-N`: 구독 LLM Bridge / `claude`·`codex` CLI subprocess 호출 관련 (docs/ADDENDUM_04 참조)
 3. **기록**: `docs/ANTIPATTERNS/{CATEGORY}_ANTIPATTERNS.md`에 새 N번을 **append**합니다.
 4. **구조적 조치**: 같은 클래스의 버그가 재발하지 않도록 검증기·테스트·git hook을 추가합니다.
 5. **DEVLOG**: `DEVLOG.md`에 한 줄 요약과 AP 번호를 남깁니다.

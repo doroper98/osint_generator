@@ -1,6 +1,6 @@
 <!--
 tier: 3
-last_synced_with: v0.2.0
+last_synced_with: v0.2.1
 ssot_for: [release-notes]
 depends_on: [README.md, GOAL.md]
 last_review: 2026-05-19
@@ -25,6 +25,22 @@ released 항목은 **append-only**입니다.
 
 ### Fixed
 -
+
+---
+
+## [v0.2.1] — 2026-05-19
+
+### Added
+- **Subscription LLM Bridge 패턴 정식 문서화** — 본 시스템은 LLM API 키를 사용하지 않고, 사용자가 이미 구독 중인 `claude` (Claude.ai) 와 `codex` (ChatGPT Plus/Pro) CLI 를 subprocess 로 자동 호출한다는 핵심 아키텍처 결정 정립.
+- `docs/ADDENDUM_04_SUBSCRIPTION_LLM_BRIDGE.md` 신설. GOAL.md G4 와 동등한 강제력으로 운용. `BaseLLMWorker` 인터페이스 명세, 호출 모드 (`response` / `agent`), 백엔드 선택 가이드, 추적성 (`projects/{pid}/llm_calls/{call_id}.json`), 에러 모드 정의.
+- `docs/03_AGENT_ARCHITECTURE.md` §4.5 에 `BaseLLMWorker` 계약 요약 추가. §4 베이스워커 안내문에 "LLM 호출은 `BaseLLMWorker` 상속 필수" 명시.
+- `CLAUDE.md` C6 안티패턴 카테고리에 `LLM-AP-N` 추가.
+- `docs/ANTIPATTERNS/LLM_ANTIPATTERNS.md` 골격 신설 (항목은 Phase 3 첫 실 호출부터 누적).
+- `docs/ANTIPATTERNS/README.md` 인덱스에 `LLM-AP` 행 추가.
+
+### Notes
+- 본 변경은 **G4 본문은 건드리지 않는** PATCH. ADDENDUM_04 가 G4 와 동등한 강제력을 갖도록 본문에 명시. v1.0.0 시점에 G4 #13 으로 정식 흡수 (MAJOR 증분).
+- 코드 변경 없음. `BaseLLMWorker` 코드는 v0.2.2 patch 또는 Phase 3 시작 시점에 도입.
 
 ---
 

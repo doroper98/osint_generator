@@ -1,6 +1,6 @@
 <!--
 tier: 2
-last_synced_with: v0.2.0
+last_synced_with: v0.2.1
 ssot_for: [agent-catalog, worker-catalog]
 depends_on: [02_SYSTEM_ARCHITECTURE.md]
 last_review: 2026-05-19
@@ -56,6 +56,11 @@ last_review: 2026-05-19
 
 ## 4. BaseWorker 계약
 
+> **LLM 호출이 필요한 Worker 는 BaseWorker 가 아니라 `BaseLLMWorker` 를 상속해야 합니다.**
+> §4.5 와 [ADDENDUM_04](ADDENDUM_04_SUBSCRIPTION_LLM_BRIDGE.md) 를 참조하십시오.
+> Agent 카탈로그(§2) 의 "LLM ✅" 항목들은 본 시스템에서 **모두 `BaseLLMWorker` 기반 Worker 로 구현**됩니다.
+> ("Agent" 는 도메인 역할명, "Worker" 는 구현 형태. LLM 활용은 구독 CLI subprocess 만 허용 — ADDENDUM_04 §2.1)
+
 모든 Worker는 `workers/base_worker.py:BaseWorker`를 상속하고 다음을 구현합니다.
 
 ```python
@@ -84,6 +89,49 @@ Worker는 종료 코드로 결과를 전달합니다.
 - `2`: 사용자 입력 필요 → status=needs_user_upload / needs_user_confirmation
 - `3`: 권리 검토 필요 → status=rights_review_required
 - `1` (기타): 실패 → status=failed
+
+## 4.5 BaseLLMWorker 계약 (구독 LLM Bridge)
+
+LLM 호출이 필요한 Worker 는 `workers/base_llm_worker.py:BaseLLMWorker` 를 상속합니다.
+본 절은 인터페이스 요약만 두고, 정식 명세는 [ADDENDUM_04](ADDENDUM_04_SUBSCRIPTION_LLM_BRIDGE.md) 입니다.
+
+```python
+class BaseLLMWorker(BaseWorker):
+    llm_backend: Literal["claude", "codex"]   # 구독 인증된 CLI
+    llm_mode: Literal["response", "agent"]    # one-shot JSON / 도구 사용 모드
+    system_prompt: str
+
+    def build_user_prompt(self, task) -> str: ...
+    def parse_response(self, raw_text: str) -> VersionedModel: ...
+    # _invoke_llm / _log_llm_call 은 base 가 제공
+```
+
+**핵심 강제**:
+
+- LLM API 키 (`ANTHROPIC_API_KEY` 등) 를 코드/환경변수에 두지 않는다.
+- `anthropic` / `openai` SDK 를 requirements 에 추가하지 않는다.
+- 모든 LLM 호출은 사용자 머신의 **구독 인증된 CLI subprocess** (`claude`, `codex`) 로만 수행한다.
+- 모든 LLM 호출은 `projects/{pid}/llm_calls/{call_id}.json` 으로 영속화한다.
+
+위 강제는 GOAL.md G4 와 동등한 강제력으로 운용됩니다 (위반 시 PR 차단).
+
+### 4.5.1 호출 모드
+
+| 모드 | 의미 | 적용 |
+|---|---|---|
+| `response` | one-shot JSON 응답, 도구 사용 없음 | intake planner, research, script, scene planner, thumbnail brief, youtube metadata |
+| `agent` | CLI 가 파일 IO·외부 명령 사용, task_result.json 까지 직접 작성 | source collector 류 복합 작업 |
+
+### 4.5.2 백엔드 선택 가이드
+
+| 작업 | 추천 |
+|---|---|
+| 한국어 자연어 (intake, script) | `claude` |
+| 구조화 JSON one-shot | `claude` |
+| 코드/셸 생성 | `codex` |
+| 다국어 cross-check | A/B |
+
+(강제 아님, 각 Worker 가 선택.)
 
 ## 5. 새 Worker 추가 절차
 
