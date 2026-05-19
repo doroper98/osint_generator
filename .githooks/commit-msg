@@ -1,0 +1,48 @@
+#!/usr/bin/env bash
+# commit-msg hook
+# 본 hook은 첫 줄이 `vX.Y.Z: {summary}` 포맷을 따르고,
+# 그 X.Y.Z가 저장소 root의 VERSION 파일과 일치하는지 검증합니다.
+#
+# 활성화: git config core.hooksPath .githooks
+# 우회 (rebase/cherry-pick): SKIP_VERSION_CHECK=1 git commit ...
+
+set -eu
+
+if [ "${SKIP_VERSION_CHECK:-0}" = "1" ]; then
+  exit 0
+fi
+
+msg_file="$1"
+first_line="$(head -n 1 "$msg_file")"
+
+# merge / fixup / revert / squash 자동 메시지는 통과
+case "$first_line" in
+  "Merge "*|"merge "*) exit 0 ;;
+  "Revert "*|"revert "*) exit 0 ;;
+  "fixup!"*|"squash!"*|"amend!"*) exit 0 ;;
+esac
+
+# 포맷 검증
+if ! printf '%s\n' "$first_line" | grep -Eq '^v[0-9]+\.[0-9]+\.[0-9]+: .+'; then
+  echo "ERROR commit-msg: 첫 줄이 'vX.Y.Z: {summary}' 포맷이 아닙니다."
+  echo "  현재: $first_line"
+  echo "  예시: v0.1.0: Phase 0 + Phase 1 — orchestrator command center MVP"
+  exit 1
+fi
+
+# VERSION 파일과 일치하는지
+if [ ! -f VERSION ]; then
+  echo "ERROR commit-msg: VERSION 파일이 없습니다. 저장소 root에 VERSION 한 줄을 만드십시오."
+  exit 1
+fi
+
+repo_version="$(tr -d '[:space:]' < VERSION)"
+commit_version="$(printf '%s' "$first_line" | sed -E 's/^v([0-9]+\.[0-9]+\.[0-9]+):.*/\1/')"
+
+if [ "$commit_version" != "$repo_version" ]; then
+  echo "ERROR commit-msg: 커밋 prefix v$commit_version != VERSION 파일 v$repo_version"
+  echo "  VERSION 파일을 먼저 갱신하거나, 커밋 prefix를 v$repo_version 로 맞추십시오."
+  exit 1
+fi
+
+exit 0

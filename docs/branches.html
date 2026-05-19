@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="ko">
+<!--
+  tier: 3
+  last_synced_with: v0.1.0
+  ssot_for: [branch-viewer]
+  depends_on: [../VERSION]
+  last_review: 2026-05-19
+
+  사용법: 즐겨찾기에 다음 중 하나를 등록.
+    A) GitHub Pages 활성화 후: https://doroper98.github.io/osint_generator/branches.html
+    B) 즉시 사용 가능: https://htmlpreview.github.io/?https://github.com/doroper98/osint_generator/blob/main/docs/branches.html
+  데이터 출처: GitHub Public REST API (시간당 60 요청, 인증 불요)
+-->
+<head>
+  <meta charset="utf-8">
+  <title>osint_generator — Branch Viewer</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    :root {
+      --bg: #0d1117;
+      --panel: #161b22;
+      --line: #30363d;
+      --text: #c9d1d9;
+      --muted: #8b949e;
+      --accent: #58a6ff;
+      --good: #3fb950;
+      --warn: #d29922;
+      --bad: #f85149;
+      --merged: #a371f7;
+      --open: #3fb950;
+      --closed: #f85149;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: ui-monospace, SFMono-Regular, "JetBrains Mono", Menlo, Consolas, monospace;
+      background: var(--bg);
+      color: var(--text);
+      font-size: 13px;
+      line-height: 1.5;
+    }
+    header {
+      padding: 16px 20px;
+      border-bottom: 1px solid var(--line);
+      background: var(--panel);
+      display: flex;
+      align-items: baseline;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+    header h1 {
+      margin: 0;
+      font-size: 16px;
+      font-weight: 600;
+    }
+    header .version {
+      background: var(--accent);
+      color: #0d1117;
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-weight: 700;
+      font-size: 12px;
+    }
+    header .meta {
+      color: var(--muted);
+      font-size: 12px;
+    }
+    header .refresh {
+      margin-left: auto;
+      background: transparent;
+      color: var(--text);
+      border: 1px solid var(--line);
+      padding: 4px 10px;
+      border-radius: 4px;
+      cursor: pointer;
+      font: inherit;
+    }
+    header .refresh:hover { border-color: var(--accent); color: var(--accent); }
+
+    main {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 360px;
+      gap: 0;
+      min-height: calc(100vh - 60px);
+    }
+
+    .tree {
+      padding: 20px;
+      border-right: 1px solid var(--line);
+      overflow-x: auto;
+    }
+    .side {
+      padding: 20px;
+      background: var(--panel);
+      overflow-y: auto;
+      max-height: calc(100vh - 60px);
+      position: sticky;
+      top: 0;
+    }
+    .side h2 {
+      margin: 0 0 12px 0;
+      font-size: 14px;
+      color: var(--accent);
+    }
+    .side .branch-card {
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      padding: 10px 12px;
+      margin-bottom: 10px;
+      background: #0d1117;
+    }
+    .side .branch-card.active {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 1px var(--accent);
+    }
+    .side .branch-card .name {
+      font-weight: 600;
+      color: var(--text);
+      word-break: break-all;
+    }
+    .side .branch-card .desc {
+      color: var(--muted);
+      font-size: 12px;
+      margin-top: 6px;
+    }
+
+    .branch-row {
+      padding: 10px 0;
+      border-bottom: 1px dashed var(--line);
+      cursor: pointer;
+    }
+    .branch-row:hover { background: rgba(88, 166, 255, 0.05); }
+    .branch-row.selected { background: rgba(88, 166, 255, 0.08); }
+    .branch-head {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    .branch-name {
+      font-weight: 600;
+      color: var(--text);
+    }
+    .badge {
+      font-size: 11px;
+      padding: 1px 6px;
+      border-radius: 10px;
+      font-weight: 700;
+    }
+    .badge.open    { background: rgba(63, 185, 80, 0.15);  color: var(--open);   border: 1px solid var(--open); }
+    .badge.merged  { background: rgba(163, 113, 247, 0.15); color: var(--merged); border: 1px solid var(--merged); }
+    .badge.closed  { background: rgba(248, 81, 73, 0.15);  color: var(--closed); border: 1px solid var(--closed); }
+    .badge.default { background: rgba(88, 166, 255, 0.15); color: var(--accent); border: 1px solid var(--accent); }
+    .badge.ver     { background: #21262d; color: var(--accent); border: 1px solid var(--accent); }
+
+    .commits {
+      margin-left: 16px;
+      padding-left: 12px;
+      border-left: 1px solid var(--line);
+      margin-top: 6px;
+    }
+    .commit-row {
+      display: flex;
+      gap: 10px;
+      align-items: baseline;
+      padding: 3px 0;
+      color: var(--muted);
+    }
+    .commit-row .sha {
+      color: var(--accent);
+      font-weight: 600;
+    }
+    .commit-row .v {
+      color: var(--good);
+      font-weight: 700;
+    }
+    .commit-row .msg {
+      color: var(--text);
+    }
+    .commit-row .when {
+      margin-left: auto;
+      color: var(--muted);
+      font-size: 11px;
+    }
+
+    .loading {
+      color: var(--muted);
+      font-style: italic;
+      padding: 20px 0;
+    }
+    .error {
+      color: var(--bad);
+      padding: 12px;
+      border: 1px solid var(--bad);
+      border-radius: 6px;
+      background: rgba(248, 81, 73, 0.05);
+    }
+
+    footer {
+      grid-column: 1 / -1;
+      padding: 12px 20px;
+      border-top: 1px solid var(--line);
+      color: var(--muted);
+      font-size: 11px;
+      background: var(--panel);
+    }
+    @media (max-width: 900px) {
+      main { grid-template-columns: 1fr; }
+      .side { position: static; max-height: none; border-top: 1px solid var(--line); }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>osint_generator — Branch Viewer</h1>
+    <span class="version" id="repo-version">v?.?.?</span>
+    <span class="meta" id="meta-info">loading...</span>
+    <button class="refresh" onclick="loadAll(true)">refresh</button>
+  </header>
+
+  <main>
+    <section class="tree" id="tree">
+      <div class="loading">브랜치 정보를 가져오는 중...</div>
+    </section>
+    <aside class="side" id="side">
+      <h2>브랜치 설명</h2>
+      <div id="branch-desc" class="loading">왼쪽에서 브랜치를 선택하세요.</div>
+    </aside>
+    <footer id="footer">
+      데이터: GitHub Public REST API · 인증 불요 · 시간당 60 요청 한도
+    </footer>
+  </main>
+
+  <script>
+    const OWNER = "doroper98";
+    const REPO = "osint_generator";
+    const API = `https://api.github.com/repos/${OWNER}/${REPO}`;
+    const RAW_VERSION = `https://raw.githubusercontent.com/${OWNER}/${REPO}/main/VERSION`;
+
+    // 브랜치별 설명 (수기 유지). 새 브랜치는 여기에 한 줄 추가.
+    const BRANCH_DESCRIPTIONS = {
+      "main": "안정 본선. 머지 후에만 갱신.",
+      "claude/osint-video-system-IaGd0": "OSINT 영상 시스템 개발 메인 작업 브랜치. Phase 0 + Phase 1 시작."
+    };
+
+    const VERSION_RE = /^v(\d+\.\d+\.\d+):/;
+    let prDataByBranch = {};
+    let selectedBranch = null;
+
+    async function fetchJSON(url) {
+      const res = await fetch(url, { headers: { "Accept": "application/vnd.github+json" } });
+      if (!res.ok) throw new Error(`${res.status} ${res.statusText} (${url})`);
+      return res.json();
+    }
+
+    async function fetchText(url) {
+      const res = await fetch(url);
+      if (!res.ok) throw new Error(`${res.status} ${res.statusText} (${url})`);
+      return res.text();
+    }
+
+    function parseVersionFromCommitMsg(msg) {
+      const firstLine = (msg || "").split("\n")[0];
+      const m = firstLine.match(VERSION_RE);
+      return m ? m[1] : null;
+    }
+
+    function relTime(iso) {
+      const diff = (Date.now() - new Date(iso).getTime()) / 1000;
+      if (diff < 60) return `${Math.floor(diff)}초 전`;
+      if (diff < 3600) return `${Math.floor(diff/60)}분 전`;
+      if (diff < 86400) return `${Math.floor(diff/3600)}시간 전`;
+      return `${Math.floor(diff/86400)}일 전`;
+    }
+
+    async function loadVersion() {
+      try {
+        const txt = await fetchText(RAW_VERSION);
+        document.getElementById("repo-version").textContent = "v" + txt.trim();
+      } catch (e) {
+        document.getElementById("repo-version").textContent = "v(unknown)";
+      }
+    }
+
+    async function loadBranches() {
+      const branches = await fetchJSON(`${API}/branches?per_page=100`);
+      return branches;
+    }
+
+    async function loadPulls() {
+      const pulls = await fetchJSON(`${API}/pulls?state=all&per_page=100`);
+      const map = {};
+      for (const p of pulls) {
+        const key = p.head && p.head.ref;
+        if (!key) continue;
+        const state = p.merged_at ? "merged" : p.state; // open / closed / merged
+        if (!map[key]) map[key] = { state, number: p.number, title: p.title, url: p.html_url };
+      }
+      return map;
+    }
+
+    async function loadCommits(branch) {
+      try {
+        const commits = await fetchJSON(`${API}/commits?sha=${encodeURIComponent(branch)}&per_page=20`);
+        return commits;
+      } catch (e) {
+        return [];
+      }
+    }
+
+    function renderBranch(branch, prInfo) {
+      const div = document.createElement("div");
+      div.className = "branch-row";
+      div.dataset.branch = branch.name;
+      div.onclick = () => selectBranch(branch.name);
+
+      const head = document.createElement("div");
+      head.className = "branch-head";
+
+      const name = document.createElement("span");
+      name.className = "branch-name";
+      name.textContent = branch.name;
+      head.appendChild(name);
+
+      if (branch.name === "main") {
+        const b = document.createElement("span");
+        b.className = "badge default";
+        b.textContent = "default";
+        head.appendChild(b);
+      }
+      if (prInfo) {
+        const b = document.createElement("span");
+        b.className = "badge " + prInfo.state;
+        b.textContent = `PR #${prInfo.number} · ${prInfo.state}`;
+        head.appendChild(b);
+      }
+
+      div.appendChild(head);
+
+      const commitsDiv = document.createElement("div");
+      commitsDiv.className = "commits";
+      commitsDiv.innerHTML = `<div class="loading">commits...</div>`;
+      div.appendChild(commitsDiv);
+
+      loadCommits(branch.name).then(commits => {
+        commitsDiv.innerHTML = "";
+        if (!commits.length) {
+          commitsDiv.innerHTML = `<div class="loading">no commits</div>`;
+          return;
+        }
+        for (const c of commits) {
+          const row = document.createElement("div");
+          row.className = "commit-row";
+          const sha = (c.sha || "").slice(0, 7);
+          const msg = (c.commit && c.commit.message) || "";
+          const ver = parseVersionFromCommitMsg(msg);
+          const when = (c.commit && c.commit.author && c.commit.author.date) || "";
+          row.innerHTML = `
+            <span class="sha">${sha}</span>
+            ${ver ? `<span class="v">v${ver}</span>` : `<span class="badge ver">no-ver</span>`}
+            <span class="msg">${escapeHtml(msg.split("\n")[0].replace(VERSION_RE, "").trim() || msg.split("\n")[0])}</span>
+            <span class="when">${when ? relTime(when) : ""}</span>
+          `;
+          commitsDiv.appendChild(row);
+        }
+      });
+
+      return div;
+    }
+
+    function escapeHtml(s) {
+      return s
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;");
+    }
+
+    function renderSide() {
+      const container = document.getElementById("branch-desc");
+      container.innerHTML = "";
+      const keys = Object.keys(BRANCH_DESCRIPTIONS);
+      if (!keys.length) {
+        container.innerHTML = `<div class="loading">설명이 등록된 브랜치가 없습니다.</div>`;
+        return;
+      }
+      for (const name of keys) {
+        const card = document.createElement("div");
+        card.className = "branch-card" + (name === selectedBranch ? " active" : "");
+        card.innerHTML = `
+          <div class="name">${escapeHtml(name)}</div>
+          <div class="desc">${escapeHtml(BRANCH_DESCRIPTIONS[name])}</div>
+        `;
+        card.onclick = () => selectBranch(name);
+        container.appendChild(card);
+      }
+    }
+
+    function selectBranch(name) {
+      selectedBranch = name;
+      document.querySelectorAll(".branch-row").forEach(r => {
+        r.classList.toggle("selected", r.dataset.branch === name);
+      });
+      renderSide();
+    }
+
+    async function loadAll(force) {
+      const tree = document.getElementById("tree");
+      const meta = document.getElementById("meta-info");
+      tree.innerHTML = `<div class="loading">브랜치 정보를 가져오는 중...</div>`;
+      try {
+        await loadVersion();
+        const [branches, pulls] = await Promise.all([loadBranches(), loadPulls()]);
+        prDataByBranch = pulls;
+
+        tree.innerHTML = "";
+        const sorted = branches.slice().sort((a, b) => {
+          if (a.name === "main") return -1;
+          if (b.name === "main") return 1;
+          return a.name.localeCompare(b.name);
+        });
+        for (const br of sorted) {
+          tree.appendChild(renderBranch(br, pulls[br.name]));
+        }
+
+        const now = new Date().toLocaleString("ko-KR");
+        meta.textContent = `${sorted.length} branches · ${Object.keys(pulls).length} PRs known · refreshed ${now}`;
+        renderSide();
+      } catch (e) {
+        tree.innerHTML = `<div class="error">데이터 로딩 실패: ${escapeHtml(e.message)}<br>잠시 후 다시 시도해 주세요. (GitHub API 시간당 60 요청 한도)</div>`;
+      }
+    }
+
+    loadAll();
+  </script>
+</body>
+</html>

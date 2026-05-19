@@ -1,0 +1,66 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+.venv/
+venv/
+ENV/
+.eggs/
+build/
+dist/
+
+# Pytest / coverage
+.pytest_cache/
+.coverage
+htmlcov/
+.mypy_cache/
+.ruff_cache/
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# 환경변수 / 시크릿
+.env
+.env.local
+credentials.json
+*.pem
+
+# Remotion / Node
+remotion/node_modules/
+remotion/.cache/
+remotion/out/
+node_modules/
+
+# 운영 데이터 (재현 가능한 JSON manifest는 commit, 무거운 미디어는 ignore)
+projects/*/02_sources/uploaded/
+projects/*/02_sources/google_drive/
+projects/*/02_sources/downloaded/
+projects/*/02_sources/article_captures_raw/
+projects/*/07_assets/video/
+projects/*/07_assets/articles/
+projects/*/07_assets/maps/
+projects/*/07_assets/charts/
+projects/*/07_assets/images/
+projects/*/07_assets/source_cards/
+projects/*/08_audio/narration/
+projects/*/08_audio/music/
+projects/*/09_render/*.mp4
+projects/*/09_render/*.webm
+projects/*/10_thumbnail/*.png
+projects/*/logs/
+
+# 로그
+logs/
+
+# 임시
+*.tmp
+*.bak

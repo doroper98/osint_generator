@@ -1,0 +1,50 @@
+# longform-briefing-pipeline 운영 설정
+# 이 파일은 SSOT가 아닙니다. 변경 가능한 운영 파라미터만 둡니다.
+# 도메인 데이터 SSOT는 projects/{project_id}/ 아래의 JSON 파일들입니다.
+
+schema_version: 1
+
+command_center:
+  worker_slot_count: 4
+  heartbeat_timeout_sec: 60
+  log_panel_max_lines: 500
+  log_router_read_chunk: 1024
+  tui_refresh_interval_sec: 0.5
+
+logging:
+  level: INFO
+  file: logs/orchestrator.log
+  rotate_daily: true
+  retention_days: 30
+
+paths:
+  projects_root: projects
+  remotion_root: remotion
+  python_bin: python   # Windows의 경우 python, Linux는 python3 권장
+
+render:
+  default_resolution: [1920, 1080]
+  default_fps: 30
+  threads: 4
+  crf:
+    debug: 28
+    preview: 23
+    final: 18
+
+tts:
+  pronunciation_dict: config/pronunciation_ko.yaml   # Phase 8에서 생성
+  asr_qa_enabled: true
+  retry_failed_segments: 2
+
+review_gates:
+  # 사용자 승인 없이 진행하지 않음. 본 값이 false면 진행 불가.
+  require_human_approval:
+    intake_review: true
+    source_completeness_review: true
+    blueprint_review: true
+    script_review: true
+    scene_review: true
+    draft_debug_review: true
+    draft_preview_review: true
+    thumbnail_review: true
+    final_review: true

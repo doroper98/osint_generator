@@ -1,0 +1,104 @@
+{
+  "schema_version": 1,
+  "project_id": "demo",
+  "tasks": [
+    {
+      "task_id": "task_0001",
+      "input_item_id": null,
+      "assigned_worker": "dummy_worker",
+      "task_type": "dummy",
+      "description": "demo task 1 - quick completion",
+      "status": "queued",
+      "priority": "high",
+      "depends_on": [],
+      "parallelizable": true,
+      "input_refs": [
+        "4"
+      ],
+      "output_refs": [],
+      "error_message": null
+    },
+    {
+      "task_id": "task_0002",
+      "input_item_id": null,
+      "assigned_worker": "dummy_worker",
+      "task_type": "dummy",
+      "description": "demo task 2 - medium length",
+      "status": "queued",
+      "priority": "normal",
+      "depends_on": [],
+      "parallelizable": true,
+      "input_refs": [
+        "6"
+      ],
+      "output_refs": [],
+      "error_message": null
+    },
+    {
+      "task_id": "task_0003",
+      "input_item_id": null,
+      "assigned_worker": "dummy_worker",
+      "task_type": "dummy",
+      "description": "demo task 3 - needs_user_confirmation simulation",
+      "status": "queued",
+      "priority": "normal",
+      "depends_on": [],
+      "parallelizable": true,
+      "input_refs": [
+        "3"
+      ],
+      "output_refs": [],
+      "error_message": null
+    },
+    {
+      "task_id": "task_0004",
+      "input_item_id": null,
+      "assigned_worker": "dummy_worker",
+      "task_type": "dummy",
+      "description": "demo task 4 - simulated fail",
+      "status": "queued",
+      "priority": "low",
+      "depends_on": [],
+      "parallelizable": true,
+      "input_refs": [
+        "2"
+      ],
+      "output_refs": [],
+      "error_message": null
+    },
+    {
+      "task_id": "task_0005",
+      "input_item_id": null,
+      "assigned_worker": "dummy_worker",
+      "task_type": "dummy",
+      "description": "demo task 5 - depends on task_0001, runs after",
+      "status": "queued",
+      "priority": "normal",
+      "depends_on": [
+        "task_0001"
+      ],
+      "parallelizable": true,
+      "input_refs": [
+        "3"
+      ],
+      "output_refs": [],
+      "error_message": null
+    },
+    {
+      "task_id": "task_0006",
+      "input_item_id": null,
+      "assigned_worker": "dummy_worker",
+      "task_type": "dummy",
+      "description": "demo task 6 - rights review required simulation",
+      "status": "queued",
+      "priority": "low",
+      "depends_on": [],
+      "parallelizable": true,
+      "input_refs": [
+        "2"
+      ],
+      "output_refs": [],
+      "error_message": null
+    }
+  ]
+}

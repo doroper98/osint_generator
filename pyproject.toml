@@ -1,0 +1,44 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "longform-briefing-pipeline"
+version = "0.1.0"
+description = "OSINT 기반 세계 이슈 롱폼 브리핑 영상 제작 시스템"
+readme = "README.md"
+requires-python = ">=3.11"
+authors = [
+  { name = "doroper98" }
+]
+license = { text = "Proprietary" }
+keywords = ["osint", "video", "remotion", "tts", "orchestrator"]
+
+dependencies = [
+  "pydantic>=2.6,<3.0",
+  "PyYAML>=6.0",
+  "textual>=0.58",
+  "rich>=13.7",
+  "httpx>=0.27",
+]
+
+[project.optional-dependencies]
+dev = [
+  "pytest>=8.0",
+  "pytest-asyncio>=0.23",
+  "ruff>=0.4",
+]
+
+[project.scripts]
+osint-pipeline = "orchestrator.main:main"
+
+[tool.setuptools]
+packages = ["orchestrator", "agents", "workers", "web", "schemas"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+testpaths = ["tests"]
