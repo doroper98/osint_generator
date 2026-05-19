@@ -1,6 +1,6 @@
 <!--
 tier: 1
-last_synced_with: v0.1.4
+last_synced_with: v0.1.5
 ssot_for: [session-handoff]
 depends_on: [CLAUDE.md, GOAL.md, VERSION, docs/13_IMPLEMENTATION_ROADMAP.md]
 last_review: 2026-05-19
@@ -29,7 +29,7 @@ last_review: 2026-05-19
 
 ---
 
-## 1. 지금 어디까지 와 있나 (v0.1.3 기준)
+## 1. 지금 어디까지 와 있나 (v0.1.5 기준)
 
 ### 완료된 Phase
 
@@ -40,6 +40,8 @@ last_review: 2026-05-19
 | 호스팅 / 인증 | v0.1.1 | Vercel 정적 호스팅 셋업, PAT 인증 다이얼로그, default branch `main` 통합 | 사용자 측 Vercel 연결 완료 |
 | 호스팅 hotfix | v0.1.2 | Vercel 루트 URL 404 수정 (`docs/index.html` 추가) | 사용자 측 재배포 확인 |
 | 브랜치 뷰어 그래프화 | v0.1.3 | `@gitgraph/js` 라이브러리로 진짜 git 토폴로지 SVG 그래프 렌더링 | 사용자 시각 확인 |
+| 한글 라벨 + 분기 검증 | v0.1.4 | `COMMIT_DESCRIPTIONS` 한글 override, `BRANCH_PRIORITY` 정렬, `test/graph-demo` 분기 시연 | 사용자 스크린샷 확인 |
+| 검증 정리 | v0.1.5 | `test/graph-demo` 삭제 + dead code 청소 | 원격 브랜치 목록 2개로 복귀 |
 
 ### 핵심 산출물
 
@@ -109,7 +111,7 @@ last_review: 2026-05-19
 
 다음 세션이 첫 번째로 실행할 일 (순서 중요):
 
-1. **읽기**: `CLAUDE.md` → `GOAL.md` → `VERSION` (현재 `0.1.4`) → 본 `HANDOFF.md` → `docs/13_IMPLEMENTATION_ROADMAP.md` → 가장 최근 `DEVLOG.md` 엔트리 3 개.
+1. **읽기**: `CLAUDE.md` → `GOAL.md` → `VERSION` (현재 `0.1.5`) → 본 `HANDOFF.md` → `docs/13_IMPLEMENTATION_ROADMAP.md` → 가장 최근 `DEVLOG.md` 엔트리 3 개.
 2. **상태 확인**:
    ```bash
    git status                       # clean 인지
@@ -154,4 +156,4 @@ last_review: 2026-05-19
 
 ---
 
-마지막 갱신: v0.1.3, 2026-05-19.
+마지막 갱신: v0.1.5, 2026-05-19.

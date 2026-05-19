@@ -1,6 +1,6 @@
 <!--
 tier: 3
-last_synced_with: v0.1.4
+last_synced_with: v0.1.5
 ssot_for: [development-log]
 depends_on: [CHANGELOG.md]
 last_review: 2026-05-19
@@ -103,5 +103,19 @@ last_review: 2026-05-19
   - 사용자 스크린샷 확인: `bb530d2 → 083a764 → d0c8771` 까지 단일 라인, `d0c8771` 에서 보라색 곡선이 분기되어 `c359bd8 (main)` 과 `0159299 (test/graph-demo)` 로 갈라짐. ✓
   - 한글 override / main 라벨 우선순위는 사용자 다음 새로고침에서 검증 예정.
 - **연관**: 없음 (검증 + UX 개선)
+
+## 2026-05-19 v0.1.5 — test/graph-demo 정리
+
+- **무엇을**: 검증용 임시 브랜치 `test/graph-demo` 삭제, 관련 dead code 제거.
+- **왜**: v0.1.3 그래프 분기 시각화 검증이 v0.1.4 사용자 스크린샷으로 완료됨. 임시 브랜치 / 더미 commit / 더미 파일을 더 이상 유지할 이유가 없음. 카탈로그를 깨끗이 유지하는 것이 다음 세션의 인지 부담을 줄임.
+- **어떻게**:
+  - 컨테이너 측 `git push origin --delete test/graph-demo` 가 HTTP 403 (Claude Code 인프라가 main / claude/* 외의 브랜치 삭제 차단) → 사용자가 GitHub 웹 UI 에서 직접 삭제.
+  - `git fetch --prune origin` 으로 로컬 원격 추적 ref 정리.
+  - `branches.html`: `BRANCH_DESCRIPTIONS["test/graph-demo"]` 제거, `COMMIT_DESCRIPTIONS["0159299"]` 제거.
+  - VERSION 0.1.4 → 0.1.5, 31 개 마크다운 `last_synced_with` 일괄 갱신.
+- **결과**:
+  - 원격 브랜치 목록: `main`, `claude/resume-session-YLOYE` 두 개로 복귀.
+  - `branches.html` 새로고침 시 단일 라인 그래프 (v0.1.3 시점과 동일 모양) + 현재 commit 5 개 (v0.1.0~v0.1.5).
+- **연관**: 없음 (정리 PATCH)
 
 ---
