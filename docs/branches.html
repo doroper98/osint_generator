@@ -2,7 +2,7 @@
 <html lang="ko">
 <!--
   tier: 3
-  last_synced_with: v0.1.3
+  last_synced_with: v0.1.4
   ssot_for: [branch-viewer]
   depends_on: [../VERSION]
   last_review: 2026-05-19
@@ -295,7 +295,43 @@
 
     // 브랜치별 설명 (수기 유지). 새 브랜치는 여기에 한 줄 추가.
     const BRANCH_DESCRIPTIONS = {
-      "main": "default 브랜치이자 메인 개발 라인. 모든 Phase 작업이 여기서 진행. v0.1.0 부터 시작."
+      "main": "default 브랜치이자 메인 개발 라인. 모든 Phase 작업이 여기서 진행. v0.1.0 부터 시작.",
+      "test/graph-demo": "그래프 분기 시각화 검증용 임시 브랜치. 검증 끝나면 즉시 삭제."
+    };
+
+    // 같은 SHA 에 두 개 이상 브랜치가 가리킬 때 어느 라벨을 우선 표시할지 결정.
+    // 숫자가 작을수록 먼저. 매칭 안 되면 999 + 알파벳 순.
+    const BRANCH_PRIORITY = [
+      /^main$/,
+      /^develop$/,
+      /^release\//,
+      /^feature\//,
+      /^test\//,
+      /^claude\//,
+    ];
+    function branchPriority(name) {
+      for (let i = 0; i < BRANCH_PRIORITY.length; i++) {
+        if (BRANCH_PRIORITY[i].test(name)) return i;
+      }
+      return 999;
+    }
+    function sortBranchRefs(refs) {
+      return [...refs].sort((a, b) => {
+        const pa = branchPriority(a);
+        const pb = branchPriority(b);
+        if (pa !== pb) return pa - pb;
+        return a.localeCompare(b);
+      });
+    }
+
+    // 커밋 SHA (앞 7자) → 한글 설명. 영어로 작성된 과거 커밋을 한글로 표시.
+    // 신규 커밋은 처음부터 한글 prefix 부분을 갖도록 commit 작성을 권장 (이 맵 갱신 불필요).
+    const COMMIT_DESCRIPTIONS = {
+      "bb530d2": "Phase 0 + Phase 1 — 저장소 초기화, 거버넌스 골격, Command Center MVP",
+      "083a764": "Vercel 호스팅 + Private 저장소 PAT 인증 다이얼로그 추가",
+      "d0c8771": "docs/index.html 추가로 Vercel 루트 URL 404 수정",
+      "c359bd8": "Branch Viewer 를 진짜 git graph 로 교체 + 다음 세션용 HANDOFF.md 신설",
+      "0159299": "그래프 분기 시연용 임시 commit (검증 완료 후 삭제 예정)"
     };
 
     const VERSION_RE = /^v(\d+\.\d+\.\d+):/;
@@ -489,11 +525,21 @@
       });
 
       const commits = sorted.map(c => {
-        const subject = (c.commit.message || "").split("\n")[0];
-        const refs = [...(tipBranches.get(c.sha) || [])];
+        const shortSha = c.sha.slice(0, 7);
+        const rawSubject = (c.commit.message || "").split("\n")[0];
+        // 한글 override 가 있으면 vX.Y.Z prefix 는 보존하고 뒤만 교체.
+        const verMatch = rawSubject.match(VERSION_RE);
+        const overrideText = COMMIT_DESCRIPTIONS[shortSha];
+        let subject;
+        if (overrideText) {
+          subject = verMatch ? `v${verMatch[1]}: ${overrideText}` : overrideText;
+        } else {
+          subject = rawSubject;
+        }
+        const refs = sortBranchRefs(tipBranches.get(c.sha) || []);
         return {
           hash: c.sha,
-          hashAbbrev: c.sha.slice(0, 7),
+          hashAbbrev: shortSha,
           parents: (c.parents || []).map(p => p.sha),
           parentsAbbrev: (c.parents || []).map(p => p.sha.slice(0, 7)),
           subject,
@@ -517,8 +563,8 @@
             message: { color: "#c9d1d9" }
           },
           onClick: () => {
-            const branchSet = tipBranches.get(c.sha);
-            if (branchSet && branchSet.size) selectBranch([...branchSet][0]);
+            const sorted = sortBranchRefs(tipBranches.get(c.sha) || []);
+            if (sorted.length) selectBranch(sorted[0]);
           }
         };
       });

@@ -1,6 +1,6 @@
 <!--
 tier: 1
-last_synced_with: v0.1.3
+last_synced_with: v0.1.4
 ssot_for: [session-handoff]
 depends_on: [CLAUDE.md, GOAL.md, VERSION, docs/13_IMPLEMENTATION_ROADMAP.md]
 last_review: 2026-05-19
@@ -109,7 +109,7 @@ last_review: 2026-05-19
 
 다음 세션이 첫 번째로 실행할 일 (순서 중요):
 
-1. **읽기**: `CLAUDE.md` → `GOAL.md` → `VERSION` (현재 `0.1.3`) → 본 `HANDOFF.md` → `docs/13_IMPLEMENTATION_ROADMAP.md` → 가장 최근 `DEVLOG.md` 엔트리 3 개.
+1. **읽기**: `CLAUDE.md` → `GOAL.md` → `VERSION` (현재 `0.1.4`) → 본 `HANDOFF.md` → `docs/13_IMPLEMENTATION_ROADMAP.md` → 가장 최근 `DEVLOG.md` 엔트리 3 개.
 2. **상태 확인**:
    ```bash
    git status                       # clean 인지
@@ -124,7 +124,7 @@ last_review: 2026-05-19
 
 ## 4. 자주 까먹는 규칙 (Reminder)
 
-- ✅ 모든 커밋 첫 줄: `vX.Y.Z: {summary}` (영문 prefix + 한글/영문 요약 가능).
+- ✅ 모든 커밋 첫 줄: `vX.Y.Z: {summary}`. **`{summary}` 는 한국어로 작성** (사용자가 `branches.html` 에서 한글로 본다. 영문으로 쓰면 `COMMIT_DESCRIPTIONS` SHA 매핑을 추가해야 한다).
 - ✅ 버전 증분 시: `VERSION` 한 줄 + 30 개 마크다운 `last_synced_with` 일괄 갱신 (`sed -i`).
 - ✅ `orchestrator/__version__` 은 VERSION 을 동적으로 읽으므로 별도 편집 불필요.
 - ✅ Worker subprocess 는 stdout 1 줄 1 이벤트, `task_result.json` 필수 종료.

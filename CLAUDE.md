@@ -1,6 +1,6 @@
 <!--
 tier: 1
-last_synced_with: v0.1.3
+last_synced_with: v0.1.4
 ssot_for: [ai-assistant-rules, code-style, commit-conventions]
 depends_on: [GOAL.md, DOCS_GOVERNANCE.md]
 last_review: 2026-05-19

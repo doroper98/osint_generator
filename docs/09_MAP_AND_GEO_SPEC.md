@@ -1,6 +1,6 @@
 <!--
 tier: 2
-last_synced_with: v0.1.3
+last_synced_with: v0.1.4
 ssot_for: [map-spec, geo-data-policy]
 depends_on: [06_SOURCE_AND_RIGHTS_POLICY.md]
 last_review: 2026-05-19

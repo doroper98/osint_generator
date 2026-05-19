@@ -1,6 +1,6 @@
 <!--
 tier: 2
-last_synced_with: v0.1.3
+last_synced_with: v0.1.4
 ssot_for: [phase-roadmap]
 depends_on: [../GOAL.md, ../CHANGELOG.md]
 last_review: 2026-05-19
