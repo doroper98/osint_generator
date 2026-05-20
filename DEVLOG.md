@@ -1,6 +1,6 @@
 <!--
 tier: 3
-last_synced_with: v0.2.1
+last_synced_with: v0.2.2
 ssot_for: [development-log]
 depends_on: [CHANGELOG.md]
 last_review: 2026-05-19
@@ -156,5 +156,25 @@ last_review: 2026-05-19
   - Phase 3 시작 시 `BaseLLMWorker` 구현 + IntakePlannerWorker 가 본 패턴을 그대로 채택. ADDENDUM_04 §4 의 시그니처를 코드로 옮기면 됨.
   - 다음 세션은 v0.2.2 (BaseLLMWorker 코드 도입) 또는 v0.3.0 (Phase 3 + BaseLLMWorker 동시) 중 사용자가 선택.
 - **연관**: 없음 (안티패턴 카테고리 신설 1건. LLM-AP 항목은 Phase 3 첫 실 호출부터 누적 예정.)
+
+## 2026-05-20 v0.2.2 — BaseLLMWorker 코드 도입 + LLM-AP-001 발견
+
+- **무엇을**: ADDENDUM_04 §4 의 BaseLLMWorker 인터페이스 명세를 코드로 옮김. `workers/base_llm_worker.py` 신설, `schemas/models.py` 에 `LLMCallRecord` 추가, `workers/dummy_llm_worker.py` 로 4 케이스 smoke test. 실 `claude` CLI 호출 케이스에서 응답 wrapper 발견 → LLM-AP-001 등록 (구조적 조치는 v0.2.3 patch).
+- **왜**:
+  - v0.2.1 에서 패턴은 문서화했지만 코드가 없으면 Phase 3 의 IntakePlannerWorker 가 base 클래스를 직접 짜야 함. 작은 단위 (C8.2) 원칙에 따라 인프라 먼저 박고 Phase 3 진입.
+  - 사용자가 "옵션 A (v0.2.2 — BaseLLMWorker 코드 도입)" 명시적으로 선택.
+- **어떻게**:
+  - `LLMCallRecord` Pydantic 모델: `call_id`, `task_id`, `worker`, `backend`, `mode`, `system_prompt_hash`, `user_prompt_path`, `raw_response_path`, `parsed_status`, `started_at/completed_at`, `exit_code`, `retry_index`, `error_message`. schema_version 1 유지 (신규 optional 모델 추가는 호환).
+  - `BaseLLMWorker(BaseWorker)`: 클래스 변수 (`llm_backend`, `llm_mode`, `system_prompt`, `response_model`, `invoke_timeout_sec=600`), 추상 (`build_user_prompt`, `output_path`), `run` 오버라이드로 전체 흐름 흡수. `_invoke_llm` 가 `CLI_INVOCATION` 매핑 (`(backend, mode) → list[str]`) 으로 subprocess 호출하고 `FileNotFoundError` / `TimeoutExpired` / 비0 종료 모두 `LLMSubprocessError` 로 변환. `OSINT_LLM_STUB=1` + `OSINT_LLM_STUB_RESPONSE` 환경변수로 실 CLI 우회.
+  - 모든 호출은 3 파일로 영속화: `{call_id}.prompt.txt` (system+user 합쳐서 sha256 해시 함께), `{call_id}.raw.txt` (subprocess stdout 그대로), `{call_id}.json` (LLMCallRecord). `TaskResult.outputs` 에 LLMCallRecord 경로 포함 → task ↔ LLM 호출 양방향 추적.
+  - `DummyLLMWorker` + `DummyLLMResponse` 로 demo3 프로젝트에 task_queue 만들고 4 케이스 smoke test: (1) 정상 stub → completed/parsed_status=ok, (2) `"not a json"` → failed/validation_failed, (3) `{"unknown_field":42}` → failed/validation_failed (extra_forbidden), (4) `OSINT_LLM_STUB` 없이 실 `/opt/node22/bin/claude` 호출 → JSON 응답은 받았으나 wrapper 때문에 validation_failed.
+  - 4번째 케이스에서 wrapper 구조 확인: `{"type":"result","subtype":"success","result":"<actual_text>","session_id":...,"duration_ms":...,"usage":{...},"uuid":"..."}` — 도메인 응답은 `result` 필드의 string. 이 발견을 LLM-AP-001 로 정식 등록. 구조적 조치는 v0.2.3 patch 에서 `BaseLLMWorker._invoke_llm` 내부에 backend 별 wrapper unwrap 단계 추가 예정.
+  - VERSION 0.2.1 → 0.2.2 (MINOR — C5.4 "새 Worker 추가" 트리거). 31 개 마크다운 `last_synced_with` 일괄 갱신.
+  - ADDENDUM_04 §4 인트로를 "v0.2.2 코드 도입 완료" 로 갱신, §8 #1 미결 항목을 LLM-AP-001 로 구체화.
+- **결과**:
+  - py_compile 통과. Pydantic 검증 + 추적성 파일 영속화 모두 의도대로 동작.
+  - Phase 3 의 `IntakePlannerWorker` 는 `BaseLLMWorker` 를 그대로 상속하면 됨 — `system_prompt`, `response_model=IntakePlan`, `build_user_prompt(args, task)`, `output_path` 만 구현.
+  - 다음 patch (v0.2.3) 는 LLM-AP-001 fix: wrapper unwrap 로직 + 회귀 테스트 fixture.
+- **연관**: LLM-AP-001 (active, v0.2.3 대기)
 
 ---

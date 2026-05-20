@@ -1,6 +1,6 @@
 <!--
 tier: 3
-last_synced_with: v0.2.1
+last_synced_with: v0.2.2
 ssot_for: [llm-antipatterns]
 depends_on: [README.md, ../ADDENDUM_04_SUBSCRIPTION_LLM_BRIDGE.md, ../../CLAUDE.md]
 last_review: 2026-05-19
@@ -18,6 +18,44 @@ last_review: 2026-05-19
 
 ---
 
-## (현재 등록 항목 없음 — v0.2.1 시점 카테고리 신설만 완료)
+## LLM-AP-001 — `claude -p ... --output-format json` 응답은 wrapper 가 씌워진 JSON
 
-> Phase 3 의 `IntakePlannerWorker` 첫 실 호출에서부터 항목 누적 예정.
+- **증상 (symptom)**: `claude -p "<prompt>" --output-format json` 의 stdout 이 도메인 JSON 이 아니라 metadata wrapper 가 씌워진 JSON 이다.
+  실제 관측된 형태:
+  ```json
+  {
+    "type": "result",
+    "subtype": "success",
+    "is_error": false,
+    "result": "<actual_text_content>",
+    "session_id": "...",
+    "duration_ms": 155135,
+    "usage": {...},
+    "uuid": "ee141d1f-..."
+  }
+  ```
+  도메인 응답은 `result` 필드의 string 안에 들어 있고, 그 string 이 다시 JSON / markdown / 자연어일 수 있다.
+
+- **나쁜 예 (bad)**: `response_model.model_validate_json(raw_stdout)` 를 그대로 호출.
+  `extra="forbid"` 인 Pydantic 모델은 `uuid`, `type`, `session_id` 등 wrapper 필드 때문에 `extra_forbidden` 으로 reject.
+
+- **좋은 예 (good)**: BaseLLMWorker 가 backend 별로 wrapper 를 unwrap 한 뒤 response_model 검증.
+  ```python
+  def _unwrap_claude_response(raw: str) -> str:
+      wrapper = json.loads(raw)
+      if wrapper.get("type") == "result" and wrapper.get("subtype") == "success":
+          inner = wrapper["result"]  # str
+          # inner 가 JSON 이면 그대로, markdown code fence 가 있으면 추출
+          return _extract_json_block(inner)
+      raise LLMSubprocessError(f"unexpected claude wrapper: {wrapper.get('type')}")
+  ```
+
+- **자동 조치 (mitigation)**: v0.2.3 patch 에서 `BaseLLMWorker._invoke_llm` 내부에 wrapper unwrap 단계를 추가하고, backend 별 dispatcher 로 분리. codex CLI 도 유사한 wrapper 가 있을 가능성 있음 (검증 필요).
+
+- **회귀 테스트 (regression_test)**: `pending` — v0.2.3 patch 동시에 fixture-based 단위 테스트 추가 예정 (`tests/test_base_llm_worker.py::test_claude_wrapper_unwrap`).
+
+- **발견 버전 (discovered)**: v0.2.2 smoke test (3번째 케이스 — `OSINT_LLM_STUB` 없이 실 `claude` CLI 호출).
+
+- **상태 (status)**: `active` (구조적 조치 v0.2.3 대기)
+
+- **연관**: ADDENDUM_04 §5 (CLI 인터페이스 가정), ADDENDUM_04 §8 #1 (CLI 인자 정밀화 — v0.2.2 미결 항목이 본 AP 로 구체화).

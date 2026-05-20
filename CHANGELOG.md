@@ -1,6 +1,6 @@
 <!--
 tier: 3
-last_synced_with: v0.2.1
+last_synced_with: v0.2.2
 ssot_for: [release-notes]
 depends_on: [README.md, GOAL.md]
 last_review: 2026-05-19
@@ -25,6 +25,28 @@ released 항목은 **append-only**입니다.
 
 ### Fixed
 -
+
+---
+
+## [v0.2.2] — 2026-05-20
+
+### Added
+- **`workers/base_llm_worker.py:BaseLLMWorker` 코드 도입** (ADDENDUM_04 §4 의 정식 구현).
+  - 클래스 변수: `llm_backend ∈ {"claude", "codex"}`, `llm_mode ∈ {"response", "agent"}`, `system_prompt`, `response_model`.
+  - 추상 메서드: `build_user_prompt(args, task)`, `output_path(args, task)`.
+  - `_invoke_llm` 가 backend/mode 별 `CLI_INVOCATION` 매핑으로 subprocess 호출. `FileNotFoundError` / `TimeoutExpired` / 비0 종료 모두 `LLMSubprocessError` 로 흡수.
+  - `OSINT_LLM_STUB=1` + `OSINT_LLM_STUB_RESPONSE` 환경변수로 실 CLI 우회 (smoke test 전용).
+  - 전 호출이 `projects/{pid}/llm_calls/{call_id}.{json,prompt.txt,raw.txt}` 3 파일로 영속화.
+- `schemas/models.py` 에 `LLMCallRecord` Pydantic 모델 추가. `parsed_status ∈ {"ok", "parse_failed", "validation_failed", "subprocess_error"}`.
+- `workers/dummy_llm_worker.py` 신설 (`DummyLLMResponse` 응답 모델 포함). smoke test 전용.
+- `docs/ANTIPATTERNS/LLM_ANTIPATTERNS.md` 의 첫 항목 **LLM-AP-001** 등록 — `claude -p ... --output-format json` 응답이 wrapper JSON (`type/subtype/result/usage/uuid` 등) 으로 감싸여 있어 그대로는 도메인 Pydantic 모델 검증 통과 안 함. 구조적 조치 v0.2.3 patch.
+
+### Changed
+- `docs/ADDENDUM_04 §4` 인트로를 "v0.2.2 코드 도입 완료" 로 갱신, §8 #1 미결 항목을 LLM-AP-001 으로 구체화.
+
+### Notes
+- smoke test 4 케이스 (정상 stub / 잘못된 JSON / 스키마 위반 / 실 claude CLI) 모두 의도대로 동작. LLMCallRecord 4건 영속화 확인.
+- `BaseLLMWorker` 는 새 Worker 베이스이므로 C5.4 의 MINOR 사유 ("새 Worker 추가") 에 해당. MINOR 0.2.1 → 0.2.2.
 
 ---
 

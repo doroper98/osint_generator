@@ -1,6 +1,6 @@
 <!--
 tier: 2
-last_synced_with: v0.2.1
+last_synced_with: v0.2.2
 ssot_for: [review-gates, qa-policy]
 depends_on: [05_DATA_SCHEMA_SPEC.md, ../GOAL.md]
 last_review: 2026-05-19

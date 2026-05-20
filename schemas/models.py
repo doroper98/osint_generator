@@ -466,3 +466,33 @@ class ThumbnailManifest(VersionedModel):
     project_id: str
     candidates: list[ThumbnailEntry] = Field(default_factory=list)
     chosen_thumbnail_id: Optional[str] = None
+
+
+# ---------------------------------------------------------------------------
+# 12. LLMCallRecord (docs/ADDENDUM_04 §6 의 추적성 영속화)
+# ---------------------------------------------------------------------------
+
+
+class LLMCallRecord(VersionedModel):
+    """단일 LLM 호출의 추적·재현 메타데이터.
+
+    `projects/{pid}/llm_calls/{call_id}.json` 으로 영속화됩니다.
+    실제 프롬프트/응답 본문은 별도 파일(`{call_id}.prompt.txt`, `{call_id}.raw.txt`)에 둡니다.
+
+    schema_version 은 1 유지. 본 모델은 v0.2.2 신규 도입 (optional 모델 추가는 호환).
+    """
+
+    call_id: str
+    task_id: str
+    worker: str
+    backend: Literal["claude", "codex"]
+    mode: Literal["response", "agent"]
+    system_prompt_hash: str
+    user_prompt_path: str
+    raw_response_path: str
+    parsed_status: Literal["ok", "parse_failed", "validation_failed", "subprocess_error"]
+    started_at: datetime
+    completed_at: datetime
+    exit_code: int = 0
+    retry_index: int = 0
+    error_message: Optional[str] = None

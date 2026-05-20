@@ -1,6 +1,6 @@
 <!--
 tier: 2
-last_synced_with: v0.2.1
+last_synced_with: v0.2.2
 ssot_for: [subscription-llm-bridge, base-llm-worker-contract, llm-call-traceability]
 depends_on: [03_AGENT_ARCHITECTURE.md, ../GOAL.md, ../CLAUDE.md]
 last_review: 2026-05-19
@@ -61,7 +61,10 @@ last_review: 2026-05-19
 
 ## 4. BaseLLMWorker 설계 (코드 인터페이스)
 
-> 본 절은 v0.2.1 시점의 인터페이스 명세이며, 실제 코드 도입은 v0.2.2 이후 patch 에서 진행됩니다.
+> **v0.2.2 에 코드 도입 완료**: `workers/base_llm_worker.py:BaseLLMWorker`.
+> `OSINT_LLM_STUB=1` 환경변수로 실 CLI 호출을 우회하는 stub 모드 지원 (smoke test 전용).
+> Stub 모드 / 실 `claude` CLI 양쪽으로 v0.2.2 smoke test 통과. 단 실 응답 wrapper 처리는
+> [LLM-AP-001](ANTIPATTERNS/LLM_ANTIPATTERNS.md#llm-ap-001) 으로 등록, 구조적 조치는 v0.2.3 patch 예정.
 
 ```python
 # workers/base_llm_worker.py
@@ -203,7 +206,7 @@ projects/{project_id}/
 
 ## 8. 향후 확장 / 미결 항목
 
-1. **CLI 인자 정밀화** (v0.2.2): `codex` CLI 의 실제 인자, 인증 만료 감지 방식 검증 후 backend dispatcher 확정.
+1. **CLI 응답 wrapper unwrap** (v0.2.3): [LLM-AP-001](ANTIPATTERNS/LLM_ANTIPATTERNS.md#llm-ap-001) 구조적 조치. `claude -p --output-format json` 의 wrapper 를 `BaseLLMWorker._invoke_llm` 내부에서 unwrap. codex wrapper 도 동시 검증.
 2. **정적 스캔** (v0.2.3 이후): pre-commit 또는 CI 가 `requirements.txt` 에서 금지 SDK, 코드에서 금지 환경변수 사용을 자동 차단.
 3. **LLM 호출 캐시** (Phase 6 이후): 동일 입력 프롬프트가 반복되면 디스크에서 재사용 (특히 retry / re-render 시).
 4. **A/B 라우팅** (Phase 8 이후): 같은 task 를 claude/codex 양쪽에 보내 응답을 비교하는 검증 모드.

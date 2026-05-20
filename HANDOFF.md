@@ -1,6 +1,6 @@
 <!--
 tier: 1
-last_synced_with: v0.2.1
+last_synced_with: v0.2.2
 ssot_for: [session-handoff]
 depends_on: [CLAUDE.md, GOAL.md, VERSION, docs/13_IMPLEMENTATION_ROADMAP.md]
 last_review: 2026-05-19
@@ -29,7 +29,7 @@ last_review: 2026-05-19
 
 ---
 
-## 1. 지금 어디까지 와 있나 (v0.2.1 기준)
+## 1. 지금 어디까지 와 있나 (v0.2.2 기준)
 
 ### 완료된 Phase
 
@@ -44,6 +44,7 @@ last_review: 2026-05-19
 | 검증 정리 | v0.1.5 | `test/graph-demo` 삭제 + dead code 청소 | 원격 브랜치 목록 2개로 복귀 |
 | Phase 2: Project Manager / State Machine | v0.2.0 | `state_machine.py` + `project_manager.py` 신설, `ProjectManifest.state_history` 추가, CLI `new-project / resume / transition` 정식 구현, 전이 검증 | py_compile 통과, smoke test 10케이스 (정상/중복/불법/archived) 모두 의도대로 |
 | LLM Bridge 패턴 정립 (문서 PATCH) | v0.2.1 | `ADDENDUM_04_SUBSCRIPTION_LLM_BRIDGE.md` 신설, `docs/03 §4.5` 에 `BaseLLMWorker` 계약 추가, `CLAUDE.md C6` 에 `LLM-AP-N` 카테고리 추가, `LLM_ANTIPATTERNS.md` 골격. **시스템은 LLM API 키를 사용하지 않으며 사용자 구독의 `claude` / `codex` CLI 를 subprocess 로 호출한다 (G4 와 동등한 강제력)**. | 문서 only, 코드 변경 없음 |
+| BaseLLMWorker 코드 도입 + LLM-AP-001 | v0.2.2 | `workers/base_llm_worker.py` 신설 (CLI_INVOCATION 매핑, `OSINT_LLM_STUB` 환경변수, 3-파일 영속화), `schemas/models.py` 에 `LLMCallRecord` 추가, `dummy_llm_worker.py` 로 4 케이스 smoke test. 실 `claude` CLI 호출 시 응답 wrapper 발견 → **LLM-AP-001** 등록 (구조적 조치 v0.2.3 대기). | py_compile 통과, 4 케이스 (정상 stub / 잘못된 JSON / 스키마 위반 / 실 CLI) 모두 의도대로 |
 
 ### 핵심 산출물
 
@@ -67,35 +68,38 @@ last_review: 2026-05-19
 
 - `docs/ANTIPATTERNS/TTS_ANTIPATTERNS.md` — TTS-AP-001 ~ TTS-AP-053
 - `docs/ANTIPATTERNS/PIPELINE_ANTIPATTERNS.md` — PIPELINE-AP-001 ~ PIPELINE-AP-006
-- `docs/ANTIPATTERNS/LLM_ANTIPATTERNS.md` — (v0.2.1 시점 카테고리 신설만, 항목 없음)
+- `docs/ANTIPATTERNS/LLM_ANTIPATTERNS.md` — LLM-AP-001 (active, v0.2.2 발견, v0.2.3 patch 대기: claude CLI 응답 wrapper unwrap)
 
 **문제 발생 시 반드시 이 카탈로그를 먼저 검색.** 중복 발견 시 동일 번호에 `[superseded by ...]` 마킹만, 새로 발견 시 다음 번호로 append.
 
 ---
 
-## 2. 다음 작업 — v0.2.2 (BaseLLMWorker 코드) 또는 Phase 3 (v0.3.0)
+## 2. 다음 작업 — v0.2.3 (LLM-AP-001 fix) 또는 Phase 3 (v0.3.0)
 
-v0.2.1 에서 **구독 LLM Bridge 패턴** 을 정식 문서화했음. 다음 세션 시작 시 사용자가 둘 중 선택:
+v0.2.2 에서 `BaseLLMWorker` 코드를 도입했고 실 `claude` CLI 호출에서 응답 wrapper 문제 (LLM-AP-001) 를 발견. 다음 세션은 둘 중 선택.
 
-### 옵션 A: v0.2.2 — BaseLLMWorker 코드 도입 (PATCH, 추천)
+### 옵션 A: v0.2.3 — LLM-AP-001 구조적 조치 (PATCH, 추천)
 
-- `workers/base_llm_worker.py` 신설. `ADDENDUM_04 §4` 의 시그니처를 코드로 옮김.
-- `llm_backend ∈ {"claude", "codex"}`, `llm_mode ∈ {"response", "agent"}` 분기.
-- `_invoke_llm(prompt)` 가 backend 별 subprocess 호출 인자 매핑·JSON 파싱·에러 처리.
-- `_log_llm_call` 이 `projects/{pid}/llm_calls/{call_id}.json` 영속화.
-- `schemas/models.py` 에 `LLMCallRecord` Pydantic 모델 추가.
-- 더미 LLMWorker 한 개로 smoke test (`echo`-based stub 또는 실 `claude` CLI 호출).
-- 코드 도입 후 Phase 3 가 BaseLLMWorker 위에서 자연스럽게 진행됨.
+- `workers/base_llm_worker.py:_invoke_llm` 내부에 backend 별 wrapper unwrap 추가.
+  - claude: `{"type":"result","subtype":"success","result":"<text>",...}` → `result` 필드 추출 → JSON 이면 그대로, markdown code fence 면 추출.
+  - codex: 동일 패턴 검증 후 분기.
+- `tests/test_base_llm_worker.py` 신설 + fixture 기반 회귀 테스트 (LLM-AP-001 의 "regression_test" 항목 closing).
+- `LLM_ANTIPATTERNS.md` 의 LLM-AP-001 상태를 `active → fixed in v0.2.3` 으로 갱신.
+- VERSION 0.2.2 → 0.2.3 (PATCH — 버그 수정).
 
 ### 옵션 B: 바로 Phase 3 (v0.3.0) — Dynamic Intake Page
 
-- `agents/dynamic_intake_planner.py` (= `IntakePlannerWorker`) 가 `BaseLLMWorker` 상속 (옵션 A 코드와 함께 묶음).
-- 또는 LLM 없이 rule-based 만으로 시작 (카테고리별 표준 템플릿) — 더 빠르지만 동적 항목 생성 묘미 떨어짐.
-- `web/intake_page_app.py` 신설 (FastAPI 또는 정적), `intake_plan.json → source_intake.json`.
-- CLI: `python -m orchestrator.main plan-intake <pid>`.
-- 상태 전이 자동화: planner → `intake_planning → intake_pending_user`, 웹 제출 → `intake_pending_user → source_collecting`.
+- LLM-AP-001 은 wrapper 가 항상 같은 구조면 임시로 IntakePlannerWorker 안에서 우회 가능하지만, 깔끔하지 않음.
+- `agents/dynamic_intake_planner.py` (= `IntakePlannerWorker(BaseLLMWorker)`) 신설.
+  - `llm_backend="claude"`, `llm_mode="response"`, `response_model=IntakePlan`.
+  - `system_prompt`: 카테고리별 표준 인테이크 항목 생성 지시.
+  - `build_user_prompt`: ProjectManifest (title, category, target_duration_min, topic_summary) → 사용자 프롬프트.
+  - `output_path`: `projects/{pid}/01_intake/intake_plan.json`.
+- `web/intake_page_app.py` 신설 (FastAPI). `intake_plan.json` 렌더 + `source_intake.json` POST 저장.
+- CLI: `python -m orchestrator.main plan-intake <pid>` (planner 호출 + 상태 `created → intake_planning → intake_pending_user`).
+- 웹 제출 시 `intake_pending_user → source_collecting` 전이.
 
-**추천**: 옵션 A (작은 단위 + 한 커밋 한 의도 원칙). 다만 사용자가 "빠르게 Phase 3 가시화" 를 원하면 옵션 B 로 직행도 OK.
+**추천**: 옵션 A. 작은 단위 (한 커밋 한 의도) + LLM-AP-001 이 fix 되지 않으면 Phase 3 의 IntakePlannerWorker 첫 호출부터 막힘.
 
 ### Phase 3 의 종료 조건 (DoD)
 
@@ -119,7 +123,7 @@ v0.2.1 에서 **구독 LLM Bridge 패턴** 을 정식 문서화했음. 다음 �
 
 다음 세션이 첫 번째로 실행할 일 (순서 중요):
 
-1. **읽기**: `CLAUDE.md` → `GOAL.md` → `VERSION` (현재 `0.2.1`) → 본 `HANDOFF.md` → `docs/ADDENDUM_04_SUBSCRIPTION_LLM_BRIDGE.md` (v0.2.1 신설, **반드시 정독**) → `docs/13_IMPLEMENTATION_ROADMAP.md` → 가장 최근 `DEVLOG.md` 엔트리 3 개.
+1. **읽기**: `CLAUDE.md` → `GOAL.md` → `VERSION` (현재 `0.2.2`) → 본 `HANDOFF.md` → `docs/ADDENDUM_04_SUBSCRIPTION_LLM_BRIDGE.md` → `docs/ANTIPATTERNS/LLM_ANTIPATTERNS.md` (LLM-AP-001 정독) → `docs/13_IMPLEMENTATION_ROADMAP.md` → 가장 최근 `DEVLOG.md` 엔트리 3 개.
 2. **상태 확인**:
    ```bash
    git status                       # clean 인지
@@ -129,7 +133,7 @@ v0.2.1 에서 **구독 LLM Bridge 패턴** 을 정식 문서화했음. 다음 �
    git log --oneline HEAD..origin/main   # 비어 있으면 OK, 아니면 pull/rebase 필수
    python -m py_compile orchestrator/*.py workers/*.py schemas/*.py
    ```
-3. **사용자 의도 확인**: "v0.2.2 (BaseLLMWorker 코드) 먼저?" 또는 "Phase 3 직행?" 한 줄 질문.
+3. **사용자 의도 확인**: "v0.2.3 (LLM-AP-001 fix) 먼저?" 또는 "Phase 3 직행?" 한 줄 질문.
 4. **작업 진행**: 항상 작은 단위 커밋, 한 커밋 = 한 의도.
 
 ---
@@ -167,4 +171,4 @@ v0.2.1 에서 **구독 LLM Bridge 패턴** 을 정식 문서화했음. 다음 �
 
 ---
 
-마지막 갱신: v0.2.1, 2026-05-19.
+마지막 갱신: v0.2.2, 2026-05-20.
