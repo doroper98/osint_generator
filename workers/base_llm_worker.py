@@ -76,7 +76,26 @@ CLI_INVOCATION: dict[tuple[str, str], list[str]] = {
 
 
 class LLMSubprocessError(Exception):
-    """CLI 호출 실패. CLI 미설치 / 비정상 종료 / timeout 등."""
+    """CLI 호출 실패. CLI 미설치 / 비정상 종료 / timeout 등.
+
+    부가 정보:
+    - stdout: 비0 종료/timeout 으로 인한 부분 출력 (있다면). raw.txt 영속화용.
+    - stderr: stderr 부분 출력.
+    - exit_code: 실제 종료코드. None = 미실행 (FileNotFoundError 등) 또는 timeout.
+    """
+
+    def __init__(
+        self,
+        message: str,
+        *,
+        stdout: str = "",
+        stderr: str = "",
+        exit_code: Optional[int] = None,
+    ) -> None:
+        super().__init__(message)
+        self.stdout = stdout
+        self.stderr = stderr
+        self.exit_code = exit_code
 
 
 # ---------------------------------------------------------------------------
@@ -93,6 +112,10 @@ class BaseLLMWorker(BaseWorker):
     system_prompt: ClassVar[str] = ""
     response_model: ClassVar[Type[VersionedModel]]
     invoke_timeout_sec: ClassVar[int] = 600
+
+    # LLM-AP-003: agent 모드는 prompt injection 면적이 넓어 명시적 opt-in 강제.
+    # 하위 클래스가 `llm_mode = "agent"` 를 쓰려면 동시에 `allow_agent_mode = True` 도 명시해야 함.
+    allow_agent_mode: ClassVar[bool] = False
 
     # -----------------------------------------------------------------
     # 추상 메서드
@@ -121,84 +144,116 @@ class BaseLLMWorker(BaseWorker):
             f"llm call_id={call_id} backend={self.llm_backend} mode={self.llm_mode}",
         )
 
+        # LLM-AP-003: agent 모드는 opt-in 강제.
+        if self.llm_mode == "agent" and not self.allow_agent_mode:
+            return self._build_failure_result(
+                args,
+                f"agent mode requires allow_agent_mode=True opt-in (LLM-AP-003). "
+                f"worker={self.worker_name}",
+                started=started,
+            )
+
         user_prompt = self.build_user_prompt(args, task)
         full_prompt = self._compose_full_prompt(user_prompt)
         prompt_path = self._dump_prompt(args, call_id, full_prompt)
         prompt_hash = self._hash(full_prompt)
 
-        # subprocess 호출
         raw_text = ""
-        exit_code = 0
+        exit_code: Optional[int] = None
         parsed_status: Literal[
             "ok", "parse_failed", "validation_failed", "subprocess_error"
         ] = "ok"
         error_message: Optional[str] = None
-        completed: Optional[datetime] = None
+        parsed: Optional[VersionedModel] = None
+        output_rel_path: Optional[str] = None
+        record_path = self._llm_calls_dir(args) / f"{call_id}.json"
 
         try:
-            raw_text, exit_code = self._invoke_llm(args, full_prompt)
-        except LLMSubprocessError as e:
-            parsed_status = "subprocess_error"
-            error_message = str(e)
-            emit("stderr", f"llm subprocess error: {e}")
-
-        raw_path = self._dump_raw(args, call_id, raw_text)
-
-        # 검증 (LLM-AP-001: backend 별 wrapper 를 먼저 벗긴 뒤 Pydantic 검증)
-        parsed: Optional[VersionedModel] = None
-        if parsed_status == "ok":
+            # subprocess 호출 (H1+H2: 부분 stdout / exit_code 복원)
             try:
-                domain_json = self._unwrap_response(raw_text)
-                parsed = self.response_model.model_validate_json(domain_json)
+                raw_text, exit_code = self._invoke_llm(args, full_prompt)
             except LLMSubprocessError as e:
                 parsed_status = "subprocess_error"
-                error_message = f"wrapper unwrap: {e}"
-                emit("stderr", error_message)
-            except ValidationError as e:
-                parsed_status = "validation_failed"
-                error_message = f"Pydantic validation: {e}"
-                emit("stderr", error_message)
-            except ValueError as e:
-                parsed_status = "parse_failed"
-                error_message = f"JSON parse: {e}"
-                emit("stderr", error_message)
+                error_message = str(e)
+                raw_text = e.stdout or ""
+                exit_code = e.exit_code
+                emit("stderr", f"llm subprocess error: {e}")
 
-        completed = utc_now()
+            # 검증 — H3: parse_failed 와 validation_failed 명확 분리.
+            if parsed_status == "ok":
+                try:
+                    domain_json = self._unwrap_response(raw_text)
+                except LLMSubprocessError as e:
+                    parsed_status = "subprocess_error"
+                    error_message = f"wrapper unwrap: {e}"
+                    emit("stderr", error_message)
 
-        # 출력 저장 (성공한 경우만)
-        output_rel_path: Optional[str] = None
-        if parsed is not None:
-            outp = self.output_path(args, task)
-            outp.parent.mkdir(parents=True, exist_ok=True)
-            outp.write_text(parsed.model_dump_json(indent=2), encoding="utf-8")
-            output_rel_path = self._as_relative(args, outp)
-            emit("system", f"output written: {output_rel_path}")
+            parsed_obj = None
+            if parsed_status == "ok":
+                try:
+                    parsed_obj = json.loads(domain_json)
+                except json.JSONDecodeError as e:
+                    parsed_status = "parse_failed"
+                    error_message = f"JSON parse: {e}"
+                    emit("stderr", error_message)
 
-        # LLMCallRecord 영속화
-        record = LLMCallRecord(
-            call_id=call_id,
-            task_id=args.task_id,
-            worker=self.worker_name,
-            backend=self.llm_backend,
-            mode=self.llm_mode,
-            system_prompt_hash=prompt_hash,
-            user_prompt_path=self._as_relative(args, prompt_path),
-            raw_response_path=self._as_relative(args, raw_path),
-            parsed_status=parsed_status,
-            started_at=started,
-            completed_at=completed,
-            exit_code=exit_code,
-            error_message=error_message,
-        )
-        record_path = self._llm_calls_dir(args) / f"{call_id}.json"
-        record_path.write_text(record.model_dump_json(indent=2), encoding="utf-8")
+            if parsed_status == "ok" and parsed_obj is not None:
+                try:
+                    parsed = self.response_model.model_validate(parsed_obj)
+                except ValidationError as e:
+                    parsed_status = "validation_failed"
+                    error_message = f"Pydantic validation: {e}"
+                    emit("stderr", error_message)
 
-        # TaskResult 구성
+            # H5: output 저장 (성공 + path 검증 통과 시만)
+            if parsed is not None:
+                try:
+                    outp = self.output_path(args, task)
+                    self._validate_output_path(args, task, outp)
+                    outp.parent.mkdir(parents=True, exist_ok=True)
+                    outp.write_text(
+                        parsed.model_dump_json(indent=2), encoding="utf-8"
+                    )
+                    output_rel_path = self._as_relative(args, outp)
+                    emit("system", f"output written: {output_rel_path}")
+                except Exception as e:
+                    # LLM 응답은 정상이었으나 output 단계에서 실패. parsed_status 는 ok 유지하되
+                    # task 결과는 실패로. record 의 error_message 에 명시.
+                    error_message = f"output write failed: {e}"
+                    parsed = None
+                    output_rel_path = None
+                    emit("stderr", error_message)
+        finally:
+            # H4: 어떤 경로든 LLMCallRecord 와 raw.txt 는 항상 영속화.
+            completed = utc_now()
+            raw_path = self._dump_raw(args, call_id, raw_text)
+            record = LLMCallRecord(
+                call_id=call_id,
+                task_id=args.task_id,
+                worker=self.worker_name,
+                backend=self.llm_backend,
+                mode=self.llm_mode,
+                system_prompt_hash=prompt_hash,
+                user_prompt_path=self._as_relative(args, prompt_path),
+                raw_response_path=self._as_relative(args, raw_path),
+                parsed_status=parsed_status,
+                started_at=started,
+                completed_at=completed,
+                exit_code=exit_code,
+                error_message=error_message,
+            )
+            try:
+                record_path.write_text(
+                    record.model_dump_json(indent=2), encoding="utf-8"
+                )
+            except Exception as e:
+                emit("stderr", f"record write failed: {e}")
+
         outputs: list[str] = [self._as_relative(args, record_path)]
         if output_rel_path is not None:
             outputs.insert(0, output_rel_path)
 
-        if parsed is not None:
+        if parsed is not None and parsed_status == "ok":
             return TaskResult(
                 project_id=args.project_id,
                 task_id=args.task_id,
@@ -265,17 +320,32 @@ class BaseLLMWorker(BaseWorker):
         except FileNotFoundError as e:
             raise LLMSubprocessError(
                 f"{self.llm_backend} CLI not found: {e}. "
-                f"ADDENDUM_04 §5 의 CLI 설치 확인 필요."
+                f"ADDENDUM_04 §5 의 CLI 설치 확인 필요.",
+                exit_code=None,
             ) from e
         except subprocess.TimeoutExpired as e:
+            # H2: partial stdout/stderr 를 보존해서 raw.txt 영속화에 사용
+            partial_stdout = e.stdout if isinstance(e.stdout, str) else (
+                e.stdout.decode("utf-8", errors="replace") if e.stdout else ""
+            )
+            partial_stderr = e.stderr if isinstance(e.stderr, str) else (
+                e.stderr.decode("utf-8", errors="replace") if e.stderr else ""
+            )
             raise LLMSubprocessError(
-                f"{self.llm_backend} CLI timeout after {self.invoke_timeout_sec}s"
+                f"{self.llm_backend} CLI timeout after {self.invoke_timeout_sec}s",
+                stdout=partial_stdout,
+                stderr=partial_stderr,
+                exit_code=None,
             ) from e
 
         if proc.returncode != 0:
+            # H1: 비0 종료라도 stdout 을 LLMSubprocessError 에 실어 raw.txt 영속화
             raise LLMSubprocessError(
                 f"{self.llm_backend} exit {proc.returncode}: "
-                f"{(proc.stderr or '').strip()[:500]}"
+                f"{(proc.stderr or '').strip()[:500]}",
+                stdout=proc.stdout or "",
+                stderr=proc.stderr or "",
+                exit_code=proc.returncode,
             )
 
         return proc.stdout, proc.returncode
@@ -339,6 +409,32 @@ class BaseLLMWorker(BaseWorker):
         except ValueError:
             return str(path)
 
+    def _validate_output_path(
+        self, args: argparse.Namespace, task: TaskQueueItem, outp: Path
+    ) -> None:
+        """output_path 가 project_dir 안이고 task.output_refs 와 일치하는지 검증.
+
+        CLAUDE.md C4 "Worker 는 자기 자신의 output_refs 만 쓴다" 의 코드 단 가드.
+        - project_dir 밖이면 ValueError.
+        - task.output_refs 가 비어 있지 않으면 outp 의 project_dir 상대경로가
+          그중 하나와 일치해야 함 (path separator 차이 흡수).
+        """
+        pdir = self.project_dir(args).resolve()
+        try:
+            rel = outp.resolve().relative_to(pdir)
+        except ValueError as e:
+            raise ValueError(
+                f"output_path {outp} is outside project_dir {pdir}"
+            ) from e
+        if task.output_refs:
+            rel_str = str(rel).replace("\\", "/")
+            allowed = {r.replace("\\", "/") for r in task.output_refs}
+            if rel_str not in allowed:
+                raise ValueError(
+                    f"output_path {rel_str!r} not in task.output_refs "
+                    f"{sorted(allowed)}"
+                )
+
     def _build_failure_result(
         self, args: argparse.Namespace, message: str, started: datetime
     ) -> TaskResult:
@@ -368,10 +464,13 @@ def _unwrap_claude_response(raw: str) -> str:
           "result": "<도메인 응답 문자열>", "session_id": "...", ...
         }
 
-    - wrapper 가 `type=result, subtype=success` 면 `result` 문자열을 꺼내고
-      그 안에 markdown code fence 가 있으면 추가로 벗긴다.
-    - wrapper 가 `is_error=True` 면 LLMSubprocessError.
-    - JSON 이 아니거나 wrapper 형태가 아니면 pass-through (이미 도메인 JSON 가능성).
+    규칙 (M1 엄격화):
+    - JSON 이 아니거나 dict 가 아니면 pass-through (이미 도메인 JSON 가능성).
+    - `type != "result"` 면 pass-through (stream 이벤트 등 다른 포맷).
+    - `is_error == True` 면 `LLMSubprocessError`.
+    - `type == "result"` 인데 `subtype != "success"` 면 `LLMSubprocessError`
+      (이전 버전은 pass-through 였으나 validation_failed 로 흡수되어 원인 추적이 어려움).
+    - 정상 케이스: `result` 문자열을 꺼내고 markdown code fence 가 있으면 추가로 벗긴다.
     """
     stripped = raw.strip()
     try:
@@ -382,18 +481,25 @@ def _unwrap_claude_response(raw: str) -> str:
         return raw
     if wrapper.get("type") != "result":
         return raw
+
     if wrapper.get("is_error") is True:
         inner = wrapper.get("result", "")
         snippet = inner[:300] if isinstance(inner, str) else str(inner)[:300]
         raise LLMSubprocessError(f"claude returned error wrapper: {snippet}")
-    if wrapper.get("subtype") == "success":
-        inner = wrapper.get("result", "")
-        if not isinstance(inner, str):
-            raise LLMSubprocessError(
-                f"claude wrapper.result is not a string: {type(inner).__name__}"
-            )
-        return _extract_json_block(inner)
-    return raw
+
+    subtype = wrapper.get("subtype")
+    if subtype != "success":
+        snippet = str(wrapper.get("result", ""))[:300]
+        raise LLMSubprocessError(
+            f"claude wrapper subtype={subtype!r} (expected 'success'): {snippet}"
+        )
+
+    inner = wrapper.get("result", "")
+    if not isinstance(inner, str):
+        raise LLMSubprocessError(
+            f"claude wrapper.result is not a string: {type(inner).__name__}"
+        )
+    return _extract_json_block(inner)
 
 
 def _unwrap_codex_response(raw: str) -> str:

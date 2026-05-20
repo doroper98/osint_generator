@@ -1,6 +1,6 @@
 <!--
 tier: 3
-last_synced_with: v0.2.4
+last_synced_with: v0.2.5
 ssot_for: [release-notes]
 depends_on: [README.md, GOAL.md]
 last_review: 2026-05-19
@@ -25,6 +25,32 @@ released 항목은 **append-only**입니다.
 
 ### Fixed
 -
+
+---
+
+## [v0.2.5] — 2026-05-20
+
+### Fixed (외부 코드 리뷰 1차 반영 — codex `exec review`)
+- **(H1) 비0 종료 stdout 보존** — `LLMSubprocessError` 에 `stdout`/`stderr`/`exit_code` 첨부. CLI 가 비0 으로 종료해도 stdout 부분이 `raw.txt` 에 영속화되어 postmortem 가능.
+- **(H2) Timeout stdout/exit_code 보존** — `subprocess.TimeoutExpired.stdout/stderr` 를 동일 경로로 보존. `exit_code=None` 으로 "미완료" sentinel 기록.
+- **(H3) `parse_failed` 도달 가능** — `model_validate_json` 대신 `json.loads` → `model_validate(dict)` 2 단계로 분리. JSON 파싱 실패와 schema 위반이 별도 `parsed_status` 로 기록.
+- **(H4) `LLMCallRecord` 항상 영속화** — `run()` 전체를 `try/finally` 로 감싸 어떤 예외 경로에서도 record/prompt/raw 3 파일이 디스크에 남음. output write 실패 시에도 record 의 `error_message` 에 기록.
+- **(H5) `output_path` 컨테인먼트 검증** — `_validate_output_path` 헬퍼 추가. project_dir 밖이면 거부, `task.output_refs` 가 비어있지 않으면 그중 하나와 일치해야 함. CLAUDE.md C4 "writes only own output_refs" 의 코드 단 가드.
+- **(M1) claude wrapper subtype 엄격화** — `type=="result"` 인데 `subtype != "success"` 면 `LLMSubprocessError` raise (이전 pass-through 였음 → `validation_failed` 로 흡수돼 원인 추적 어려웠음).
+
+### Added
+- **(H6 / LLM-AP-003) agent 모드 opt-in 가드** — `BaseLLMWorker.allow_agent_mode: ClassVar[bool] = False`. `llm_mode="agent"` worker 가 `allow_agent_mode=True` 를 명시 선언하지 않으면 LLM 호출 전 즉시 `TaskResult(FAILED)`. prompt injection 면적 축소의 1 단계 가드. 본격 sandbox (CLI `--sandbox`, scratch dir) 는 Phase 3+ 후속.
+- **(M3) `tests/test_base_llm_worker_run.py`** 신설 — 4 `parsed_status` 케이스 (ok / parse_failed / validation_failed / subprocess_error 2 종) + agent gate + output_path 컨테인먼트 (project_dir 밖 / output_refs 불일치) 총 8 케이스. 모든 케이스에서 prompt.txt / raw.txt / record.json 3 파일 영속화 검증.
+- **(M1) `tests/test_base_llm_worker.py`** 에 wrapper subtype 검증 2 케이스 추가 (`subtype=partial`, subtype 누락).
+
+### Changed
+- **(M2) `schemas/models.py:LLMCallRecord.exit_code`** `int = 0` → `Optional[int] = None`. None = "CLI 호출 이전 실패" 또는 "timeout" sentinel. schema_version 1 유지 (호환 변경).
+- `LLM_ANTIPATTERNS.md` 에 **LLM-AP-003** 신규 등록 (status=`resolved-partial`).
+
+### Notes
+- 단위 테스트 총 20 → 30 케이스 (unwrap 22 + run 통합 8). 전부 통과.
+- 외부 리뷰 verdict ("방향성 OK, 추적성/상태 분류 정밀화 필요") 의 모든 High/Medium 항목 반영. Low/Nit 은 모두 OK 확인 항목이라 변경 없음.
+- Phase 3 의 IntakePlannerWorker 가 BaseLLMWorker 를 상속할 때 보장되는 것: (a) record 가 어떤 실패 경로에서도 남음, (b) output_path 가 project_dir 안에 강제, (c) agent 모드는 의도적 opt-in 필요, (d) 모든 4 parsed_status 가 의미적으로 구분.
 
 ---
 

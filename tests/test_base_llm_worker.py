@@ -109,6 +109,29 @@ class TestUnwrapClaudeResponse(unittest.TestCase):
         s = json.dumps(wrapper)
         self.assertEqual(_unwrap_claude_response(s), s)
 
+    def test_wrapper_subtype_not_success_raises(self) -> None:
+        # v0.2.5 M1 엄격화: type=result + subtype != success 면 pass-through 가 아니라 raise
+        wrapper = {
+            "type": "result",
+            "subtype": "partial",
+            "is_error": False,
+            "result": "incomplete...",
+            "uuid": "u5",
+        }
+        with self.assertRaises(LLMSubprocessError) as ctx:
+            _unwrap_claude_response(json.dumps(wrapper))
+        self.assertIn("partial", str(ctx.exception))
+
+    def test_wrapper_subtype_missing_raises(self) -> None:
+        wrapper = {
+            "type": "result",
+            "is_error": False,
+            "result": "no subtype",
+            "uuid": "u6",
+        }
+        with self.assertRaises(LLMSubprocessError):
+            _unwrap_claude_response(json.dumps(wrapper))
+
 
 class TestUnwrapCodexResponse(unittest.TestCase):
     """`codex exec --json` JSONL stream 처리 (LLM-AP-002).

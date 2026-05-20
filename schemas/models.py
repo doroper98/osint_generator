@@ -493,6 +493,6 @@ class LLMCallRecord(VersionedModel):
     parsed_status: Literal["ok", "parse_failed", "validation_failed", "subprocess_error"]
     started_at: datetime
     completed_at: datetime
-    exit_code: int = 0
+    exit_code: Optional[int] = None
     retry_index: int = 0
     error_message: Optional[str] = None

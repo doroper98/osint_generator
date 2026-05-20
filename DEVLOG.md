@@ -1,6 +1,6 @@
 <!--
 tier: 3
-last_synced_with: v0.2.4
+last_synced_with: v0.2.5
 ssot_for: [development-log]
 depends_on: [CHANGELOG.md]
 last_review: 2026-05-19
@@ -219,5 +219,30 @@ last_review: 2026-05-19
   - codex backend 가 실제 호출 가능 상태로 진입. Phase 3 의 IntakePlannerWorker 가 claude/codex 양쪽 모두 안전히 사용 가능.
   - Windows cmd 환경에서 subprocess 매핑이 잘 도는지는 Phase 3 첫 실 호출에서 추가 검증 (인용부호 / shell=False 동작 확인).
 - **연관**: LLM-AP-002 (resolved), LLM-AP-001 (자매 항목 — claude wrapper), ADDENDUM_04 §5
+
+---
+
+## 2026-05-20 v0.2.5 — 외부 코드 리뷰 1차 반영 (BaseLLMWorker 견고성 강화 + LLM-AP-003)
+
+- **무엇을**: 사용자가 codex CLI 로 v0.2.2~v0.2.4 변경에 대해 코드 리뷰를 돌린 결과 (Critical 0 / High 6 / Medium 3 / Low+Nit 모두 OK) 의 High/Medium 항목을 한 PATCH 로 일괄 반영. 신규 LLM-AP-003 (agent 모드 prompt injection) 등록 + opt-in 가드 도입.
+- **왜**:
+  - 외부 리뷰는 BaseWorker 가 Phase 3 의 첫 도메인 worker (IntakePlannerWorker) 의 베이스로 들어가기 전 마지막 견고화 기회. 추적성·상태 분류·output 컨테인먼트는 한 번 합의된 뒤 깨면 회귀 비용이 크므로 지금 정리.
+  - Critical 이 없었다는 사실 자체가 핵심 로직 (wrapper unwrap, subprocess 호출, Pydantic 검증) 의 방향성이 맞다는 확인. 다만 6 개 High 모두 정당해서 방어할 항목 없음.
+- **어떻게**:
+  - **(H1+H2)** `LLMSubprocessError` 에 `stdout`/`stderr`/`exit_code` 첨부. `_invoke_llm` 의 비0 종료 / `TimeoutExpired` / `FileNotFoundError` 모두 부분 출력과 exit_code 를 보존하도록 변경. `run()` 의 except 가 `e.stdout` 을 `raw_text` 로 복원해 `raw.txt` 영속화에 사용.
+  - **(H3)** `model_validate_json(raw)` 한 줄을 `json.loads(raw)` → `model_validate(parsed_obj)` 2 단계로 분리. `JSONDecodeError` → `parsed_status="parse_failed"`, `ValidationError` → `validation_failed`. 4 `parsed_status` 가 의미적으로 구분됨.
+  - **(H4)** `run()` 의 LLM 호출 + 검증 + output 저장을 `try` 안에, LLMCallRecord 영속화를 `finally` 안에 배치. 어떤 예외 경로에서도 record/prompt/raw 3 파일이 항상 남음. output write 실패 시 `parsed_status` 는 `ok` 유지 (LLM 응답은 정상이었음) 하되 `error_message` 에 명시하고 task 는 FAILED.
+  - **(H5)** `_validate_output_path(args, task, outp)` 헬퍼 추가. project_dir 밖이면 `ValueError`. `task.output_refs` 가 비어있지 않으면 outp 의 상대경로가 그중 하나와 일치해야 함 (Windows `\` 와 POSIX `/` 차이 흡수). CLAUDE.md C4 "writes only own output_refs" 의 코드 단 가드.
+  - **(H6 / LLM-AP-003)** `BaseLLMWorker.allow_agent_mode: ClassVar[bool] = False` 도입. `run()` 시작 직후 `llm_mode=="agent" and not allow_agent_mode` 면 즉시 `TaskResult(FAILED)` 반환 — LLM 호출 자체가 일어나지 않으므로 `llm_calls/` 디렉토리도 생성되지 않음. agent 모드 사용 worker 는 명시적으로 `allow_agent_mode = True` 선언 필요. LLM-AP-003 본문에 옵션 (1)~(3) 단계별 보강 (외부 자료 격리, CLI sandbox 옵션) 을 향후 Phase 3+ 후속으로 기록.
+  - **(M1)** `_unwrap_claude_response` 의 subtype 검증 엄격화. `type=="result"` 면 `subtype=="success"` 강제, 아니면 `LLMSubprocessError`. 이전엔 `subtype != "success"` 도 pass-through 였어서 `validation_failed` 로 흡수돼 원인 추적 어려웠음.
+  - **(M2)** `LLMCallRecord.exit_code: int = 0` → `Optional[int] = None`. 이전엔 CLI 호출 실패 (FileNotFoundError) 케이스도 `exit_code=0` 으로 남아 "정상 실행 후 실패" 와 구분 안 됐음. None = "미실행 또는 timeout" sentinel.
+  - **(M3)** `tests/test_base_llm_worker_run.py` 신설. monkeypatch + stub mode 로 `_invoke_llm` 을 가짜 함수로 교체하거나 `OSINT_LLM_STUB` 으로 fake stdout 주입. 4 `parsed_status` 모두 도달성 + agent gate + output 컨테인먼트 (project_dir 밖 / output_refs 불일치) 총 8 케이스.
+  - 단위 테스트 총 20 → 30. 모두 통과.
+  - VERSION 0.2.4 → 0.2.5 (PATCH — C5.4 "버그 수정/비기능 개선"). schema_version 은 1 유지 (`exit_code` Optional 화는 호환 변경).
+- **결과**:
+  - py_compile 통과, import smoke 통과, 30/30 단위 테스트 통과.
+  - BaseLLMWorker 의 추적성·상태 분류·output 컨테인먼트가 외부 리뷰가 요구한 수준에 도달. Phase 3 의 IntakePlannerWorker 가 안전하게 상속 가능.
+  - 다음 후보: (a) Phase 3 IntakePlannerWorker 착수, (b) agent 모드 본격 sandbox (CLI `--sandbox` 매핑 + scratch dir) — LLM-AP-003 의 후속 단계.
+- **연관**: LLM-AP-003 (resolved-partial), LLM-AP-001/002 (자매 항목), 외부 codex 리뷰 결과, ADDENDUM_04 §5/§7, CLAUDE.md C2/C4.
 
 ---
