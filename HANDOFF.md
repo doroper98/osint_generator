@@ -1,6 +1,6 @@
 <!--
 tier: 1
-last_synced_with: v0.2.6
+last_synced_with: v0.2.7
 ssot_for: [session-handoff]
 depends_on: [CLAUDE.md, GOAL.md, VERSION, docs/13_IMPLEMENTATION_ROADMAP.md, docs/REVIEW_PROMPT.md]
 last_review: 2026-05-20
@@ -29,7 +29,7 @@ last_review: 2026-05-20
 
 ---
 
-## 1. 지금 어디까지 와 있나 (v0.2.6 기준)
+## 1. 지금 어디까지 와 있나 (v0.2.7 기준)
 
 ### 완료된 Phase
 
@@ -49,6 +49,7 @@ last_review: 2026-05-20
 | LLM-AP-002 (codex JSONL) | v0.2.4 | `codex exec --json` 이 단일 wrapper 아닌 JSONL stream 발견 (`thread.started` / `turn.started` / `item.completed` / `turn.completed`). `_unwrap_codex_response` 실 구현 (마지막 `agent_message.text` 채택). `CLI_INVOCATION` codex 매핑에 `--skip-git-repo-check` / `--color never` 추가. 단위 테스트 13 → 20. | 20/20 통과, codex-cli 0.130.0 실 캡쳐 fixture 보존 |
 | 외부 코드 리뷰 1차 반영 + LLM-AP-003 | v0.2.5 | codex `exec review` 결과 (Critical 0 / High 6 / Medium 3) 일괄 흡수. `LLMSubprocessError.stdout/stderr/exit_code` 첨부, `parse_failed` vs `validation_failed` 분리, `try/finally` 로 record 영속화 보장, `_validate_output_path` 컨테인먼트, `allow_agent_mode` opt-in 가드 (LLM-AP-003), claude wrapper subtype 엄격화, `exit_code: Optional[int]`. `tests/test_base_llm_worker_run.py` 8 케이스. 단위 테스트 20 → 30. | 30/30 통과 |
 | codex review 절차 정형화 | v0.2.6 | `CLAUDE.md` 에 **C10. 외부 코드 리뷰 의무화** 추가. `docs/REVIEW_PROMPT.md` 신설 (표준 프롬프트 + Windows/Linux 호출 명령어 + 결과 처리 가이드). MINOR/MAJOR/Phase 완료 직전 codex review 필수화. | 문서 only |
+| 평행 브랜치 흡수 (Ij1TX) | v0.2.7 | 동일 출발점의 다른 세션 브랜치 `claude/start-after-handoff-Ij1TX` 의 차별점 3 가지 흡수: (1) **SCHEMA-AP 카탈로그** + SCHEMA-AP-001 (임의 상태 점프 / self-loop), (2) **TUI 라이브 manifest reload** (`_tick_loop` 가 매 tick 마다 `load_manifest` → 외부 transition 즉시 반영, 실패 모드 3 분류: unknown/invalid/정상), (3) **`_write_manifest` atomic write** (tmp→`Path.replace`, half-written race 차단). | py_compile + 5 케이스 smoke (atomic / corrupt JSON ValidationError / non-JSON JSONDecodeError 포함) 통과 |
 
 ### 핵심 산출물
 
@@ -72,6 +73,7 @@ last_review: 2026-05-20
 
 - `docs/ANTIPATTERNS/TTS_ANTIPATTERNS.md` — TTS-AP-001 ~ TTS-AP-053
 - `docs/ANTIPATTERNS/PIPELINE_ANTIPATTERNS.md` — PIPELINE-AP-001 ~ PIPELINE-AP-006
+- `docs/ANTIPATTERNS/SCHEMA_ANTIPATTERNS.md` — SCHEMA-AP-001 (v0.2.7 신설, 임의 상태 점프 / self-loop)
 - `docs/ANTIPATTERNS/LLM_ANTIPATTERNS.md`:
   - LLM-AP-001 (resolved v0.2.3) — claude `--output-format json` 단일 wrapper
   - LLM-AP-002 (resolved v0.2.4) — codex `exec --json` JSONL 이벤트 stream
@@ -159,7 +161,7 @@ BaseLLMWorker 인프라가 외부 리뷰까지 거쳐 견고해졌고 (v0.2.5), 
 
 다음 세션이 첫 번째로 실행할 일 (순서 중요):
 
-1. **읽기 (필독)**: `CLAUDE.md` (특히 신규 **C10**) → `GOAL.md` → `VERSION` (현재 `0.2.6`) → 본 `HANDOFF.md` → `docs/ADDENDUM_04_SUBSCRIPTION_LLM_BRIDGE.md` → `docs/ANTIPATTERNS/LLM_ANTIPATTERNS.md` (LLM-AP-001/002/003 정독) → `docs/REVIEW_PROMPT.md` (codex review 절차) → `docs/13_IMPLEMENTATION_ROADMAP.md` → 가장 최근 `DEVLOG.md` 엔트리 5 개 (v0.2.2 ~ v0.2.6).
+1. **읽기 (필독)**: `CLAUDE.md` (특히 신규 **C10**) → `GOAL.md` → `VERSION` (현재 `0.2.7`) → 본 `HANDOFF.md` → `docs/ADDENDUM_04_SUBSCRIPTION_LLM_BRIDGE.md` → `docs/ANTIPATTERNS/LLM_ANTIPATTERNS.md` (LLM-AP-001/002/003 정독) → `docs/ANTIPATTERNS/SCHEMA_ANTIPATTERNS.md` (SCHEMA-AP-001) → `docs/REVIEW_PROMPT.md` (codex review 절차) → `docs/13_IMPLEMENTATION_ROADMAP.md` → 가장 최근 `DEVLOG.md` 엔트리 6 개 (v0.2.2 ~ v0.2.7).
 2. **상태 확인**:
    ```bash
    git status                                       # clean 인지
@@ -214,4 +216,4 @@ BaseLLMWorker 인프라가 외부 리뷰까지 거쳐 견고해졌고 (v0.2.5), 
 
 ---
 
-마지막 갱신: v0.2.6, 2026-05-20.
+마지막 갱신: v0.2.7, 2026-05-20.

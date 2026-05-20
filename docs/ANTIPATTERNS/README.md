@@ -18,10 +18,10 @@ last_review: 2026-05-19
 | `PIPELINE-AP` | [PIPELINE_ANTIPATTERNS.md](PIPELINE_ANTIPATTERNS.md) | Orchestrator, Worker, Task Queue, Log Router |
 | `RIGHTS-AP` | [RIGHTS_ANTIPATTERNS.md](RIGHTS_ANTIPATTERNS.md) | 권리·라이선스 (Phase 7부터) |
 | `RENDER-AP` | [RENDER_ANTIPATTERNS.md](RENDER_ANTIPATTERNS.md) | Remotion·FFmpeg·렌더 (Phase 9부터) |
-| `SCHEMA-AP` | [SCHEMA_ANTIPATTERNS.md](SCHEMA_ANTIPATTERNS.md) | JSON 계약·Pydantic (Phase 2부터) |
+| `SCHEMA-AP` | [SCHEMA_ANTIPATTERNS.md](SCHEMA_ANTIPATTERNS.md) | JSON 계약·Pydantic·상태 머신 (Phase 2 v0.2.7 신설, SCHEMA-AP-001~) |
 | `LLM-AP` | [LLM_ANTIPATTERNS.md](LLM_ANTIPATTERNS.md) | 구독 LLM Bridge · `claude`/`codex` CLI subprocess 호출 (ADDENDUM_04) |
 
-미생성 파일은 해당 Phase 시작 시 첫 항목과 함께 생성합니다.
+미생성 파일 (`RIGHTS_ANTIPATTERNS.md`, `RENDER_ANTIPATTERNS.md`) 은 해당 Phase 시작 시 첫 항목과 함께 생성합니다.
 
 ## 엔트리 표준 포맷
 

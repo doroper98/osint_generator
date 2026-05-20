@@ -1,6 +1,6 @@
 <!--
 tier: 3
-last_synced_with: v0.2.6
+last_synced_with: v0.2.7
 ssot_for: [release-notes]
 depends_on: [README.md, GOAL.md]
 last_review: 2026-05-19
@@ -25,6 +25,37 @@ released 항목은 **append-only**입니다.
 
 ### Fixed
 -
+
+---
+
+## [v0.2.7] — 2026-05-20
+
+평행 브랜치 (`claude/start-after-handoff-Ij1TX`) 흡수 — SCHEMA-AP 카탈로그 + TUI 라이브 manifest 반영 + atomic write.
+
+배경: 동일 출발점 (`v0.1.5` main) 에서 두 Claude Code 세션이 평행으로 Phase 2 를 구현. 본 브랜치 (`claude/phase-2-finalize` ← `n9ird` 베이스) 가 정본이고, Ij1TX 의 차별점 3 가지만 본 PATCH 로 가져옴.
+
+### Added
+- **`docs/ANTIPATTERNS/SCHEMA_ANTIPATTERNS.md`** 신설 + **SCHEMA-AP-001** 등록: `ProjectState` 임의 점프 / self-loop 전이. mitigation 칸에 `LINEAR_SEQUENCE` + `allowed_next_states` + `transition_state` 단일 진입점 + atomic write 의 4중 방어 명시.
+- **TUI Job Dashboard 라이브 manifest 반영** — `orchestrator/tui_app.py:_tick_loop` 가 매 tick 마다 `load_manifest` 로 디스크 재로딩. 외부 프로세스 (`python -m orchestrator.main transition ...`) 의 상태 변경을 TUI 가 즉시 따라잡음. 변경 감지 시 Orch CLI Log 에 `state changed: A → B` 한 줄 emit.
+
+### Changed
+- **`orchestrator/project_manager.py:_write_manifest`** atomic write 화. `path.write_text` 직접 호출 → tmp 파일에 쓴 뒤 `Path.replace` 로 교체. 외부 reader (TUI 라이브 reload) 가 half-written 상태를 보는 race 차단. POSIX rename / Windows `os.replace` 모두 atomic.
+- `docs/ANTIPATTERNS/README.md` SCHEMA-AP 줄을 "Phase 2부터" → "Phase 2 v0.2.7 신설, SCHEMA-AP-001~" 로 갱신.
+- 모든 Tier 1·2·3 마크다운 `last_synced_with: v0.2.6 → v0.2.7` 일괄 갱신.
+
+### Fixed
+- TUI 가 외부 `transition` CLI 호출 후에도 stale state 를 표시하던 문제.
+- `_write_manifest` 의 partial-write race (드물지만 atomic 미적용 시 reader 가 깨진 JSON 을 볼 수 있었음).
+
+### Failure modes added to `_reload_manifest_state`
+- `FileNotFoundError` → state=`unknown` 표시, 다음 tick 재시도.
+- `JSONDecodeError` / `pydantic.ValidationError` → state=`invalid` 표시, 다음 tick 재시도. 동일 상태 진입 시에만 1 회 stderr 로그 (noise 억제).
+- 모든 예외 swallow → tick loop 유지.
+
+### Notes
+- 본 PATCH 는 코드 변경이 작아 (3 파일, ~70 줄 추가) C10 self-exemption 가 아닌 정식 codex review 대상. 통합 검수 시 본 브랜치 + n9ird + Ij1TX 3-way 비교를 권장.
+- 평행 브랜치 `claude/start-after-handoff-Ij1TX` 는 본 흡수 완료 후 폐기 예정.
+- 단위 테스트 5 케이스 smoke (생성·atomic·전이·corrupt manifest ValidationError·non-JSON JSONDecodeError) 모두 통과.
 
 ---
 

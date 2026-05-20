@@ -14,8 +14,10 @@ from __future__ import annotations
 
 import asyncio
 from datetime import datetime
+from json import JSONDecodeError
 from pathlib import Path
 
+from pydantic import ValidationError
 from textual.app import App, ComposeResult
 from textual.binding import Binding
 from textual.containers import Container, Horizontal, Vertical
@@ -25,8 +27,9 @@ from textual.widgets import Footer, Header, RichLog, Static
 from orchestrator import __version__
 from orchestrator.config import AppConfig
 from orchestrator.dashboard import DashboardSnapshot
+from orchestrator.project_manager import load_manifest
 from orchestrator.worker_slot_manager import WorkerSlotManager
-from schemas.models import WorkerSlot, WorkerSlotsSnapshot
+from schemas.models import ProjectState, WorkerSlot, WorkerSlotsSnapshot
 
 
 STATUS_STYLES = {
@@ -267,10 +270,53 @@ class CommandCenterApp(App[None]):
         while True:
             try:
                 await self.manager.tick()
+                self._reload_manifest_state()
                 self._refresh_dashboard()
             except Exception as e:  # noqa: BLE001
                 self._orch_emit("stderr", f"tick error: {e}")
             await asyncio.sleep(interval)
+
+    def _reload_manifest_state(self) -> None:
+        """매 tick 마다 디스크 manifest 를 다시 읽어 current_state 를 라이브 반영.
+
+        외부 프로세스 (`python -m orchestrator.main transition ...`) 가 manifest 를
+        갱신해도 TUI 가 즉시 따라잡도록 한다.
+
+        실패 모드별:
+        - 매니페스트 자체가 사라짐 (`FileNotFoundError`) → `unknown` 표시.
+        - JSON 파싱 실패 / Pydantic 검증 실패 (외부 도구가 손상시켰거나
+          atomic write 도중의 극단적 race) → `invalid` 표시.
+        - 상태 안정될 때까지 stderr noise 를 줄이기 위해 새 진입 시 1회만 로그.
+        - 본 메서드는 모든 예외를 swallow 하므로 tick loop 를 죽이지 않는다.
+        """
+        try:
+            manifest = load_manifest(self.project_id, self.cfg)
+        except FileNotFoundError:
+            if self.current_state != "unknown":
+                self._orch_emit(
+                    "stderr",
+                    f"project_manifest.json 이 사라졌습니다: {self.project_id}",
+                )
+            self.current_state = "unknown"
+            return
+        except (JSONDecodeError, ValidationError) as e:
+            if self.current_state != "invalid":
+                self._orch_emit(
+                    "stderr",
+                    f"manifest 파싱 실패 (재시도 예정): {type(e).__name__}: {e}",
+                )
+            self.current_state = "invalid"
+            return
+
+        new_state = manifest.current_state
+        if isinstance(new_state, ProjectState):
+            new_state = new_state.value
+        if new_state != self.current_state:
+            self._orch_emit(
+                "system",
+                f"state changed: {self.current_state} → {new_state}",
+            )
+            self.current_state = new_state
 
     # -----------------------------------------------------------------
     # 콜백

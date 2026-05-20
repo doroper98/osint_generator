@@ -1,6 +1,6 @@
 <!--
 tier: 3
-last_synced_with: v0.2.6
+last_synced_with: v0.2.7
 ssot_for: [development-log]
 depends_on: [CHANGELOG.md]
 last_review: 2026-05-19
@@ -280,3 +280,27 @@ last_review: 2026-05-19
 - **연관**: CLAUDE.md C10, docs/REVIEW_PROMPT.md, HANDOFF.md.
 
 ---
+
+## 2026-05-20 v0.2.7 — 평행 브랜치 흡수: SCHEMA-AP + TUI 라이브 reload + atomic write
+
+- **무엇을**: 같은 출발점 (`v0.1.5` main) 에서 두 Claude Code 세션이 평행으로 Phase 2 를 구현한 것을 발견. 본 브랜치 (`n9ird` 계열) 가 정본이고, 평행 브랜치 `claude/start-after-handoff-Ij1TX` 의 차별점 3 가지만 본 PATCH 로 흡수.
+- **왜**: 평행 브랜치는 양적·질적으로 본 브랜치가 훨씬 깊었지만 (BaseLLMWorker 등 +2,500 줄), Ij1TX 에 있는 다음 3 가지는 본 브랜치에 부재했고 모두 채택 가치가 있었다:
+  1. **SCHEMA-AP 안티패턴 카탈로그**: 상태 머신을 우회한 임의 점프 / self-loop 라는 클래스의 안티패턴을 카탈로그화. Phase 3+ 에서 새로운 schema 위반이 발견됐을 때 들어갈 자리.
+  2. **TUI 라이브 manifest reload**: 외부 프로세스가 `transition` 으로 state 를 바꿔도 본 브랜치의 TUI 는 stale state 를 보여줬다. 사용자는 "지금 어디까지 왔는가"라는 기본 질문에 답할 수 없게 된다. Phase 3+ 의 IntakePlannerWorker 가 `created → intake_planning → intake_pending_user` 로 전이시킬 때 즉시 시각화 필요.
+  3. **Atomic write**: 본 브랜치의 `_write_manifest` 는 `path.write_text` 직접 호출 — 외부 reader (위 2번 reload) 가 half-written 상태를 잠깐도 볼 수 있는 race. TUI reload 를 도입하는 순간 이 race 가 실제로 발현될 수 있어 함께 차단.
+- **어떻게**:
+  - `orchestrator/project_manager.py:_write_manifest`: tmp 파일에 쓴 뒤 `Path.replace` 로 교체. POSIX rename / Windows `os.replace` 모두 atomic. tmp 파일 잔존 가능성 없음 (`replace` 가 unlink 까지 보장).
+  - `orchestrator/tui_app.py`:
+    - imports: `JSONDecodeError`, `pydantic.ValidationError`, `orchestrator.project_manager.load_manifest`, `schemas.models.ProjectState`.
+    - `_tick_loop` 에 `_reload_manifest_state()` 호출 1 줄 추가.
+    - 새 메서드 `_reload_manifest_state`: 매 tick 마다 `load_manifest` 호출, 실패 모드 3 분류 (`FileNotFoundError` → `unknown` / `JSONDecodeError|ValidationError` → `invalid` / 정상 → 변경 시 log). 동일 상태 진입 시에만 1 회 stderr 로그 (noise 억제). 모든 예외 swallow → tick loop 유지.
+  - `docs/ANTIPATTERNS/SCHEMA_ANTIPATTERNS.md` 신설 + `SCHEMA-AP-001 — ProjectState 임의 점프 / self-loop 전이`. mitigation 칸은 본 브랜치의 API 이름 (`LINEAR_SEQUENCE`, `allowed_next_states`, `transition_state`) 에 맞춰 작성. atomic write 도 4중 방어의 한 축으로 명시.
+  - `docs/ANTIPATTERNS/README.md` SCHEMA-AP 줄 갱신.
+  - VERSION 0.2.6 → 0.2.7, 모든 Tier 1·2·3 마크다운 `last_synced_with` 일괄 갱신.
+  - smoke test 5 케이스: ① new_project 성공 ② tmp 파일 잔존 없음 (atomic) ③ transition + history append ④ 손상된 manifest 로드 시 `ValidationError` ⑤ non-JSON manifest 로드 시 `JSONDecodeError` — TUI reload 가 의존하는 모든 경로 검증.
+- **결과**:
+  - `python -m py_compile orchestrator/*.py workers/*.py schemas/*.py` 통과.
+  - 5 케이스 smoke test 모두 의도대로.
+  - 외부 `transition` 호출 → manifest 디스크 갱신 → 다음 tick (≤ `tui_refresh_interval_sec`, 기본 0.5s) 에 TUI 가 `state changed: A → B` log + Dashboard 라이브 반영.
+  - 평행 브랜치 `claude/start-after-handoff-Ij1TX` 의 가치 있는 부분 모두 본 브랜치에 흡수됨. 그 브랜치는 외부 codex review 통과 후 폐기 예정.
+- **연관**: SCHEMA-AP-001 (신설). 평행 브랜치 발견 자체는 거버넌스 문제 (PR 없이 두 세션이 동시 작동) 라 별도 카탈로그 항목으로 등록은 보류 — 본 PATCH 자체가 그 사고의 복구.

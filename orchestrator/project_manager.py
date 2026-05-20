@@ -63,11 +63,18 @@ def _ensure_project_layout(project_id: str, cfg: AppConfig) -> Path:
 
 
 def _write_manifest(manifest: ProjectManifest, cfg: AppConfig) -> Path:
-    """manifest 를 디스크에 직렬화. 항상 updated_at 을 현재시간으로 갱신."""
+    """manifest 를 디스크에 직렬화. 항상 updated_at 을 현재시간으로 갱신.
+
+    Atomic write: tmp 파일에 먼저 쓴 뒤 `Path.replace` 로 교체. 외부 reader
+    (예: TUI 의 라이브 manifest reload) 가 half-written 상태를 잠깐도 보지
+    못하도록 차단. POSIX rename 은 atomic, Windows 의 `os.replace` 도 atomic.
+    """
     manifest.updated_at = utc_now()
     path = manifest_path(manifest.project_id, cfg)
     path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_text(manifest.model_dump_json(indent=2), encoding="utf-8")
+    tmp = path.with_suffix(path.suffix + ".tmp")
+    tmp.write_text(manifest.model_dump_json(indent=2), encoding="utf-8")
+    tmp.replace(path)
     return path
 
 
