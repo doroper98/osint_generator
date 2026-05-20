@@ -1,6 +1,6 @@
 <!--
 tier: 3
-last_synced_with: v0.2.3
+last_synced_with: v0.2.4
 ssot_for: [development-log]
 depends_on: [CHANGELOG.md]
 last_review: 2026-05-19
@@ -197,5 +197,27 @@ last_review: 2026-05-19
   - 다음 단계: Phase 3 IntakePlannerWorker 착수 가능. 실 `claude` CLI 호출 시에도 도메인 JSON 검증이 정상 동작할 것으로 기대 (실 호출 검증은 Phase 3 smoke test 에서).
   - codex CLI wrapper 검증은 별도 작업 (LLM-AP-002 후보) 으로 분리.
 - **연관**: LLM-AP-001 (resolved), ADDENDUM_04 §5
+
+---
+
+## 2026-05-20 v0.2.4 — codex JSONL stream 처리 + LLM-AP-002 발견 즉시 해결
+
+- **무엇을**: v0.2.3 시점에 미검증 pass-through 였던 codex CLI 의 wrapper 를 사용자 머신 (codex-cli 0.130.0, Windows cmd) 한 줄 호출 캡쳐로 검증. 단일 JSON wrapper 가 아니라 JSONL 이벤트 스트림 패턴이라는 사실을 발견 → LLM-AP-002 등록 + 즉시 fix.
+- **왜**:
+  - v0.2.3 시점의 codex pass-through 는 "실 호출 시 검증 실패" 라는 알려진 risk 였음. Phase 3 진입 전에 해소되어야 IntakePlannerWorker 가 codex backend 도 안전히 쓸 수 있음.
+  - 사용자가 codex CLI 보유 확인 → 즉석 검증 가능해짐.
+- **어떻게**:
+  - 검증 절차: `codex exec --json --skip-git-repo-check "<프롬프트>"` 를 사용자 머신에서 던져 stdout 캡쳐. 4 줄 JSONL: `thread.started` / `turn.started` / `item.completed`(agent_message) / `turn.completed`. 도메인 응답은 `item.completed` 의 `item.type=="agent_message"` 의 `text` 필드.
+  - `_unwrap_codex_response` 실 구현: 모든 줄을 순회하며 codex 이벤트 (`thread.*`, `turn.*`, `item.completed`) 가 한 번이라도 보이면 codex stream 으로 인정. 마지막 agent_message 의 text 를 채택. markdown code fence 가 끼면 `_extract_json_block` 으로 한 번 더 벗김. codex stream 인데 agent_message 가 하나도 없으면 `LLMSubprocessError`. codex stream 패턴이 전혀 안 보이면 pass-through (단일 JSON / stub mode 보호).
+  - 의도적 호환성: tool_call / reasoning 등 미지 item type 은 무시. codex 가 새 이벤트 타입을 추가해도 깨지지 않음. 그 대신 fixture 기반 회귀 테스트가 포맷 변경을 빠르게 감지.
+  - `CLI_INVOCATION` codex 매핑 보강: `--skip-git-repo-check` (project_dir 이 git repo 아닐 수 있음), `--color never` (ANSI 코드 안전장치). agent 모드는 `--cd {project_dir}` 유지.
+  - `tests/test_base_llm_worker.py::TestUnwrapCodexResponse` 8 케이스 추가 (실 캡쳐 / fence / 다중 message / unknown item / no message / 단일 JSON / non-JSONL / 빈 입력). 단위 테스트 13 → 20.
+  - LLM_ANTIPATTERNS.md 에 LLM-AP-002 신규 등록 (status=resolved). LLM-AP-001 본문은 수정하지 않고 별개 항목으로 분리 (claude / codex 가 다른 패턴이라는 사실 자체가 카탈로그 가치).
+  - VERSION 0.2.3 → 0.2.4 (PATCH — C5.4 "버그 수정/비기능 개선").
+- **결과**:
+  - py_compile 통과, import smoke 통과, 20/20 단위 테스트 통과.
+  - codex backend 가 실제 호출 가능 상태로 진입. Phase 3 의 IntakePlannerWorker 가 claude/codex 양쪽 모두 안전히 사용 가능.
+  - Windows cmd 환경에서 subprocess 매핑이 잘 도는지는 Phase 3 첫 실 호출에서 추가 검증 (인용부호 / shell=False 동작 확인).
+- **연관**: LLM-AP-002 (resolved), LLM-AP-001 (자매 항목 — claude wrapper), ADDENDUM_04 §5
 
 ---

@@ -1,6 +1,6 @@
 <!--
 tier: 3
-last_synced_with: v0.2.3
+last_synced_with: v0.2.4
 ssot_for: [release-notes]
 depends_on: [README.md, GOAL.md]
 last_review: 2026-05-19
@@ -25,6 +25,28 @@ released 항목은 **append-only**입니다.
 
 ### Fixed
 -
+
+---
+
+## [v0.2.4] — 2026-05-20
+
+### Fixed
+- **LLM-AP-002 발견 즉시 해결** — `codex exec --json` 의 stdout 은 단일 JSON wrapper 가 아니라 JSONL 이벤트 스트림 (`thread.started` / `turn.started` / `item.completed` / `turn.completed`). 도메인 응답은 마지막 `item.completed` 의 `item.type=="agent_message"` 의 `text` 필드. `_unwrap_codex_response` 가 JSONL 을 순회하며 마지막 agent_message 의 text 를 추출하고, markdown fence 가 끼면 `_extract_json_block` 으로 한 번 더 벗긴다.
+
+### Changed
+- `workers/base_llm_worker.py:CLI_INVOCATION` 의 codex 매핑 보강:
+  - `--skip-git-repo-check` 추가 (project_dir 이 .git 아닐 수 있음)
+  - `--color never` 추가 (ANSI 코드 안전장치)
+  - agent 모드는 `--cd {project_dir}` 유지
+- 검증 환경: codex-cli 0.130.0 (Windows cmd). 실제 한 줄 호출 캡쳐를 fixture 로 보존.
+
+### Added
+- `tests/test_base_llm_worker.py::TestUnwrapCodexResponse` 8 케이스 — 실 캡쳐 / markdown fence / 다중 agent_message / tool_call 등 미지 item type 무시 / agent_message 없음 → `LLMSubprocessError` / 단일 JSON pass-through / non-JSONL pass-through / 빈 입력. 총 단위 테스트 13 → 20 케이스.
+- `LLM_ANTIPATTERNS.md` 에 **LLM-AP-002** 신규 등록 (status=resolved, 발견 즉시 해결).
+
+### Notes
+- 알려진 한계: 다중 turn / `--output-schema` / `--output-last-message` 같은 더 견고한 codex 옵션은 도입하지 않음 (단순성 우선). Phase 3 에서 schema 강제 도입 재검토.
+- 본 fix 로 v0.2.2 시점의 "codex 는 별도 후속" 항목이 해소됨. Phase 3 의 IntakePlannerWorker 가 backend 를 claude/codex 어느 쪽으로 설정해도 BaseLLMWorker 가 정상 동작.
 
 ---
 

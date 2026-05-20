@@ -60,8 +60,18 @@ from workers.base_worker import BaseWorker, emit, utc_now
 CLI_INVOCATION: dict[tuple[str, str], list[str]] = {
     ("claude", "response"): ["claude", "-p", "{prompt}", "--output-format", "json"],
     ("claude", "agent"): ["claude", "--print", "--add-dir", "{project_dir}", "-p", "{prompt}"],
-    ("codex", "response"): ["codex", "exec", "--json", "{prompt}"],
-    ("codex", "agent"): ["codex", "exec", "--cd", "{project_dir}", "{prompt}"],
+    # codex 옵션 설명 (codex-cli 0.130.0 기준):
+    #   --json: JSONL 이벤트 스트림 (마지막 agent_message 가 도메인 응답)
+    #   --skip-git-repo-check: project_dir 이 git repo 아니어도 실행 허용
+    #   --color never: ANSI 코드 끼지 않게 안전장치
+    ("codex", "response"): [
+        "codex", "exec", "--json", "--skip-git-repo-check",
+        "--color", "never", "{prompt}",
+    ],
+    ("codex", "agent"): [
+        "codex", "exec", "--json", "--skip-git-repo-check",
+        "--color", "never", "--cd", "{project_dir}", "{prompt}",
+    ],
 }
 
 
@@ -387,12 +397,59 @@ def _unwrap_claude_response(raw: str) -> str:
 
 
 def _unwrap_codex_response(raw: str) -> str:
-    """`codex exec --json` 의 wrapper. v0.2.3 시점에는 실 포맷 미검증으로 pass-through.
+    """`codex exec --json` 의 JSONL stream 에서 도메인 응답을 추출한다.
 
-    실제 codex CLI 호출이 가능한 환경에서 검증 후 본 함수를 확장합니다.
-    (별도 AP — LLM-AP-002 후보 — 로 트래킹 예정.)
+    codex-cli 0.130.0 의 실제 출력 (LLM-AP-002):
+        {"type":"thread.started","thread_id":"..."}
+        {"type":"turn.started"}
+        {"type":"item.completed","item":{"id":"item_0","type":"agent_message","text":"<도메인>"}}
+        {"type":"turn.completed","usage":{...}}
+
+    규칙:
+    - 마지막 `item.completed` 이벤트 중 `item.type=="agent_message"` 의 `text` 를 본문으로 채택.
+    - 본문이 markdown code fence 로 감싸여 있으면 `_extract_json_block` 으로 한 번 더 벗긴다.
+    - JSONL 형식이 아니면 (단일 JSON 또는 자연어) pass-through — 매핑 변경/stub 응답 보호.
+    - codex 이벤트는 보이지만 `agent_message` 가 하나도 없으면 `LLMSubprocessError`.
     """
-    return raw
+    stripped = raw.strip()
+    if not stripped:
+        return raw
+    lines = [ln for ln in stripped.splitlines() if ln.strip()]
+    if not lines:
+        return raw
+
+    last_agent_text: Optional[str] = None
+    saw_codex_event = False
+    for ln in lines:
+        try:
+            evt = json.loads(ln)
+        except json.JSONDecodeError:
+            # JSONL 이 아닌 라인이 섞이면 codex 응답으로 간주하지 않는다.
+            return raw
+        if not isinstance(evt, dict):
+            return raw
+        etype = evt.get("type")
+        if isinstance(etype, str) and (
+            etype.startswith("thread.")
+            or etype.startswith("turn.")
+            or etype == "item.completed"
+        ):
+            saw_codex_event = True
+        if etype == "item.completed":
+            item = evt.get("item")
+            if isinstance(item, dict) and item.get("type") == "agent_message":
+                text = item.get("text")
+                if isinstance(text, str):
+                    last_agent_text = text
+        # 미지의 이벤트 타입은 호환성 차원에서 무시 (codex 가 새 이벤트 추가해도 깨지지 않음)
+
+    if not saw_codex_event:
+        return raw
+    if last_agent_text is None:
+        raise LLMSubprocessError(
+            "codex JSONL stream had no agent_message item.completed event"
+        )
+    return _extract_json_block(last_agent_text)
 
 
 def _extract_json_block(text: str) -> str:

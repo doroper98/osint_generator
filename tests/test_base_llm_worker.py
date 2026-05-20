@@ -111,11 +111,85 @@ class TestUnwrapClaudeResponse(unittest.TestCase):
 
 
 class TestUnwrapCodexResponse(unittest.TestCase):
-    """codex 는 v0.2.3 시점에 pass-through."""
+    """`codex exec --json` JSONL stream 처리 (LLM-AP-002).
 
-    def test_passthrough(self) -> None:
-        s = '{"any": "thing"}'
+    fixture 는 codex-cli 0.130.0 의 실제 캡쳐 (Windows cmd).
+    """
+
+    REAL_CAPTURE: str = (
+        '{"type":"thread.started","thread_id":"019e453e-0b10-77a3-a23d-2e37de112cd5"}\n'
+        '{"type":"turn.started"}\n'
+        '{"type":"item.completed","item":{"id":"item_0","type":"agent_message",'
+        '"text":"{\\"schema_version\\":1,\\"echo\\":\\"hello\\",\\"items\\":[\\"a\\",\\"b\\"]}"}}\n'
+        '{"type":"turn.completed","usage":{"input_tokens":26904,'
+        '"cached_input_tokens":6528,"output_tokens":21,"reasoning_output_tokens":0}}\n'
+    )
+
+    def test_real_capture_extracts_domain_json(self) -> None:
+        out = _unwrap_codex_response(self.REAL_CAPTURE)
+        parsed = json.loads(out)
+        self.assertEqual(
+            parsed,
+            {"schema_version": 1, "echo": "hello", "items": ["a", "b"]},
+        )
+
+    def test_agent_message_with_markdown_fence(self) -> None:
+        # codex 가 markdown code fence 로 감싸서 답하는 경우
+        inner = "```json\\n{\\\"schema_version\\\":1,\\\"echo\\\":\\\"fenced\\\"}\\n```"
+        stream = (
+            '{"type":"thread.started","thread_id":"t"}\n'
+            '{"type":"turn.started"}\n'
+            '{"type":"item.completed","item":{"id":"i","type":"agent_message","text":"'
+            + inner + '"}}\n'
+            '{"type":"turn.completed","usage":{}}\n'
+        )
+        out = _unwrap_codex_response(stream)
+        self.assertEqual(
+            json.loads(out), {"schema_version": 1, "echo": "fenced"}
+        )
+
+    def test_multiple_agent_messages_uses_last(self) -> None:
+        stream = (
+            '{"type":"thread.started","thread_id":"t"}\n'
+            '{"type":"turn.started"}\n'
+            '{"type":"item.completed","item":{"id":"i1","type":"agent_message","text":"first"}}\n'
+            '{"type":"item.completed","item":{"id":"i2","type":"agent_message","text":"last"}}\n'
+            '{"type":"turn.completed","usage":{}}\n'
+        )
+        self.assertEqual(_unwrap_codex_response(stream), "last")
+
+    def test_no_agent_message_raises(self) -> None:
+        # codex 이벤트는 있지만 agent_message 가 하나도 없는 경우 (모델이 응답 못 함 등)
+        stream = (
+            '{"type":"thread.started","thread_id":"t"}\n'
+            '{"type":"turn.started"}\n'
+            '{"type":"turn.completed","usage":{}}\n'
+        )
+        with self.assertRaises(LLMSubprocessError):
+            _unwrap_codex_response(stream)
+
+    def test_ignores_unknown_item_types(self) -> None:
+        # tool_call, reasoning 같은 미지의 item type 은 무시되고 agent_message 만 추출
+        stream = (
+            '{"type":"thread.started","thread_id":"t"}\n'
+            '{"type":"item.completed","item":{"id":"i1","type":"tool_call","name":"sh"}}\n'
+            '{"type":"item.completed","item":{"id":"i2","type":"agent_message","text":"final"}}\n'
+            '{"type":"turn.completed","usage":{}}\n'
+        )
+        self.assertEqual(_unwrap_codex_response(stream), "final")
+
+    def test_passthrough_when_not_jsonl(self) -> None:
+        # 단일 JSON 또는 자연어가 그대로 들어온 경우 (stub mode, 매핑 변경 등)
+        s = '{"schema_version":1,"direct":true}'
         self.assertEqual(_unwrap_codex_response(s), s)
+
+    def test_passthrough_when_first_line_not_json(self) -> None:
+        s = "plain text\nmore text"
+        self.assertEqual(_unwrap_codex_response(s), s)
+
+    def test_empty_input(self) -> None:
+        self.assertEqual(_unwrap_codex_response(""), "")
+        self.assertEqual(_unwrap_codex_response("   \n  "), "   \n  ")
 
 
 if __name__ == "__main__":
