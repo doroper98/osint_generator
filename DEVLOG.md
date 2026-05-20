@@ -1,6 +1,6 @@
 <!--
 tier: 3
-last_synced_with: v0.2.0
+last_synced_with: v0.2.1
 ssot_for: [development-log]
 depends_on: [CHANGELOG.md]
 last_review: 2026-05-19
@@ -22,6 +22,22 @@ last_review: 2026-05-19
 - 결과:  …
 - 연관:  AP-번호, 이슈, PR 번호 등
 ```
+
+---
+
+## 2026-05-20 v0.2.1 — Phase 2 마무리: SCHEMA-AP 카탈로그 + TUI 라이브 상태 반영
+
+- **무엇을**: v0.2.0 으로 Phase 2 본체를 끝냈으나, HANDOFF DoD 의 후보 항목 5번 ("SCHEMA-AP 카탈로그에 추가") 과 6번 ("TUI Job Dashboard 와 연동: 현재 프로젝트 / 상태 표시") 의 라이브 반영 부분이 누락된 것을 다른 세션 지적으로 확인. 두 구멍을 v0.2.1 PATCH 로 닫음.
+- **왜**: Phase 3 (Dynamic Intake) 의 `plan-intake` 명령이 manifest 를 `created → intake_planning → intake_pending_user` 로 전이시킬 때, TUI 가 외부 프로세스의 상태 변경을 못 따라잡으면 사용자는 "지금 어디까지 왔는가" 라는 가장 기본적인 질문에 답할 수 없다. 그리고 SCHEMA-AP 카탈로그가 비어 있으면 Phase 3+ 에서 비슷한 유형 (예: `IntakePlan` 의 잘못된 `IntakeMode` 사용) 의 안티패턴이 어디에 들어갈 자리가 없다 — 골격을 미리 깔아두는 것이 비용이 가장 싸다.
+- **어떻게**:
+  - `docs/ANTIPATTERNS/SCHEMA_ANTIPATTERNS.md` 신설 + `SCHEMA-AP-001 — ProjectState 임의 점프 / self-loop 전이` 첫 항목. 표준 포맷 (symptom / bad / good / mitigation / regression_test / discovered / status) 모두 채움. mitigation 칸은 `ALLOWED_TRANSITIONS` 표·`transition_state` 단일 진입점·`InvalidTransitionError` 거부 흐름을 명시.
+  - `orchestrator/tui_app.py:_tick_loop` 에 `_reload_manifest_state()` 호출 1줄 추가. 매 tick 마다 `load_manifest` 로 디스크에서 다시 읽어 `self.current_state` 갱신. 변경 감지 시 Orch CLI Log 에 `state changed: A → B` 한 줄 emit (감사 추적용). manifest 가 사라진 드문 경우 `unknown` 표시 + 다음 tick 재시도 (1회만 stderr 로그).
+  - VERSION 0.2.0 → 0.2.1, 모든 Tier 1·3 마크다운 `last_synced_with` 일괄 갱신.
+- **결과**:
+  - `python -m py_compile` 통과.
+  - 외부 `transition` 시뮬레이션: `load_manifest('_tui_test')` 가 `created` → `intake_planning` 변화를 정확히 감지 (TUI reload 로직 검증).
+  - HANDOFF DoD 후보 5/6번 완전 충족. Phase 2 가 진짜로 끝남.
+- **연관**: SCHEMA-AP-001 (신설). 다른 세션의 "Phase 2 미완 지적" 에 대한 응답.
 
 ---
 

@@ -1,6 +1,6 @@
 <!--
 tier: 3
-last_synced_with: v0.2.0
+last_synced_with: v0.2.1
 ssot_for: [release-notes]
 depends_on: [README.md, GOAL.md]
 last_review: 2026-05-19
@@ -25,6 +25,24 @@ released 항목은 **append-only**입니다.
 
 ### Fixed
 -
+
+---
+
+## [v0.2.1] — 2026-05-20
+
+Phase 2 마무리 — HANDOFF DoD 후보 5/6번에서 누락된 두 구멍 메움.
+
+### Added
+- `docs/ANTIPATTERNS/SCHEMA_ANTIPATTERNS.md` 신설. `SCHEMA-AP-001 — ProjectState 임의 점프 / self-loop 전이` 첫 항목 등록. `ALLOWED_TRANSITIONS` 표 + `transition_state` 단일 진입점 + `InvalidTransitionError` 가 구조적 조치.
+- TUI Job Dashboard 가 매 tick 마다 `project_manifest.json` 을 재로딩해 `current_state` 변경을 라이브 반영. 외부에서 `python -m orchestrator.main transition ...` 호출 시 TUI 가 즉시 따라잡음. 상태 변경 시 Orch CLI Log 에 `state changed: A → B` 1줄 emit.
+
+### Changed
+- `orchestrator/tui_app.py`: `_tick_loop` 에 `_reload_manifest_state()` 호출 추가. manifest 가 사라진 드문 경우 상태를 `unknown` 으로 표시하고 다음 tick 에서 재시도.
+- 모든 Tier 1·3 마크다운 `last_synced_with: v0.2.0 → v0.2.1` 일괄 갱신.
+
+### Fixed
+- HANDOFF DoD 후보 5번 (SCHEMA-AP 카탈로그) 누락 보완.
+- HANDOFF DoD 후보 6번 (TUI Job Dashboard 와 연동: 현재 프로젝트 / 상태 표시) 의 "라이브 반영" 부분 보완.
 
 ---
 

@@ -1,6 +1,6 @@
 <!--
 tier: 2
-last_synced_with: v0.2.0
+last_synced_with: v0.2.1
 ssot_for: [phase-roadmap]
 depends_on: [../GOAL.md, ../CHANGELOG.md]
 last_review: 2026-05-19
@@ -32,6 +32,9 @@ last_review: 2026-05-19
   - CLI: `new-project {id} --category ...`, `resume {id}`, `transition {id} --to {state}`.
   - `ProjectManifest.state_history` 필드 추가 (append-only 감사 로그).
   - 잘못된 전이는 `InvalidTransitionError`(`ValueError` 하위) 로 거부.
+- **마무리 (v0.2.1)**:
+  - `docs/ANTIPATTERNS/SCHEMA_ANTIPATTERNS.md` 신설 + SCHEMA-AP-001 등록 (HANDOFF DoD 후보 5번).
+  - TUI Job Dashboard 가 매 tick 마다 manifest 재로딩 → 외부 `transition` 라이브 반영 (HANDOFF DoD 후보 6번).
 
 ## Phase 3: Dynamic Intake Page
 

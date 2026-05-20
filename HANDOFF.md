@@ -1,6 +1,6 @@
 <!--
 tier: 1
-last_synced_with: v0.2.0
+last_synced_with: v0.2.1
 ssot_for: [session-handoff]
 depends_on: [CLAUDE.md, GOAL.md, VERSION, docs/13_IMPLEMENTATION_ROADMAP.md]
 last_review: 2026-05-20
@@ -29,7 +29,7 @@ last_review: 2026-05-20
 
 ---
 
-## 1. 지금 어디까지 와 있나 (v0.2.0 기준)
+## 1. 지금 어디까지 와 있나 (v0.2.1 기준)
 
 ### 완료된 Phase
 
@@ -43,6 +43,7 @@ last_review: 2026-05-20
 | 한글 라벨 + 분기 검증 | v0.1.4 | `COMMIT_DESCRIPTIONS` 한글 override, `BRANCH_PRIORITY` 정렬, `test/graph-demo` 분기 시연 | 사용자 스크린샷 확인 |
 | 검증 정리 | v0.1.5 | `test/graph-demo` 삭제 + dead code 청소 | 원격 브랜치 목록 2개로 복귀 |
 | Phase 2: Project Manager / State Machine | v0.2.0 | `project_manager.py` + `state_machine.py` 신설, `new-project / resume / transition` CLI, `state_history` 감사 로그, 24-state 선형 전이표 + ARCHIVED 어디서든 도달 | smoke test 9개 시나리오, CLI 종단 테스트, `python -m py_compile` 통과 |
+| Phase 2 마무리 | v0.2.1 | `SCHEMA-AP` 안티패턴 카탈로그 신설 (SCHEMA-AP-001 — 임의 상태 점프 / self-loop), TUI Job Dashboard 가 매 tick 마다 manifest 재로딩 (외부 `transition` 후 라이브 반영) | TUI reload 시뮬레이션 검증, `python -m py_compile` 통과 |
 
 ### 핵심 산출물
 
@@ -64,6 +65,7 @@ last_review: 2026-05-20
 
 - `docs/ANTIPATTERNS/TTS_ANTIPATTERNS.md` — TTS-AP-001 ~ TTS-AP-053
 - `docs/ANTIPATTERNS/PIPELINE_ANTIPATTERNS.md` — PIPELINE-AP-001 ~ PIPELINE-AP-006
+- `docs/ANTIPATTERNS/SCHEMA_ANTIPATTERNS.md` — SCHEMA-AP-001 (Phase 2 신설)
 
 **문제 발생 시 반드시 이 카탈로그를 먼저 검색.** 중복 발견 시 동일 번호에 `[superseded by ...]` 마킹만, 새로 발견 시 다음 번호로 append.
 
@@ -103,7 +105,7 @@ last_review: 2026-05-20
 - [ ] manifest 가 `source_collecting` 으로 전이.
 - [ ] `python -m py_compile` 통과.
 - [ ] `CHANGELOG.md` `[v0.3.0]` 절 + `DEVLOG.md` 엔트리.
-- [ ] 모든 Tier 1·2 마크다운 `last_synced_with: v0.2.0 → v0.3.0`.
+- [ ] 모든 Tier 1·2 마크다운 `last_synced_with: v0.2.1 → v0.3.0`.
 
 ### Phase 3 이후 (Phase 4 예고)
 
@@ -115,7 +117,7 @@ last_review: 2026-05-20
 
 다음 세션이 첫 번째로 실행할 일 (순서 중요):
 
-1. **읽기**: `CLAUDE.md` → `GOAL.md` → `VERSION` (현재 `0.2.0`) → 본 `HANDOFF.md` → `docs/13_IMPLEMENTATION_ROADMAP.md` → `docs/04_DYNAMIC_INTAKE_PAGE_SPEC.md` → 가장 최근 `DEVLOG.md` 엔트리 3 개.
+1. **읽기**: `CLAUDE.md` → `GOAL.md` → `VERSION` (현재 `0.2.1`) → 본 `HANDOFF.md` → `docs/13_IMPLEMENTATION_ROADMAP.md` → `docs/04_DYNAMIC_INTAKE_PAGE_SPEC.md` → 가장 최근 `DEVLOG.md` 엔트리 3 개.
 2. **상태 확인**:
    ```bash
    git status                       # clean 인지
@@ -161,4 +163,4 @@ last_review: 2026-05-20
 
 ---
 
-마지막 갱신: v0.2.0, 2026-05-20.
+마지막 갱신: v0.2.1, 2026-05-20.

@@ -25,8 +25,12 @@ from textual.widgets import Footer, Header, RichLog, Static
 from orchestrator import __version__
 from orchestrator.config import AppConfig
 from orchestrator.dashboard import DashboardSnapshot
+from orchestrator.project_manager import (
+    ProjectNotFoundError,
+    load_manifest,
+)
 from orchestrator.worker_slot_manager import WorkerSlotManager
-from schemas.models import WorkerSlot, WorkerSlotsSnapshot
+from schemas.models import ProjectState, WorkerSlot, WorkerSlotsSnapshot
 
 
 STATUS_STYLES = {
@@ -267,10 +271,38 @@ class CommandCenterApp(App[None]):
         while True:
             try:
                 await self.manager.tick()
+                self._reload_manifest_state()
                 self._refresh_dashboard()
             except Exception as e:  # noqa: BLE001
                 self._orch_emit("stderr", f"tick error: {e}")
             await asyncio.sleep(interval)
+
+    def _reload_manifest_state(self) -> None:
+        """매 tick 마다 manifest 를 다시 읽어 현재 상태를 라이브 반영.
+
+        외부 프로세스 (`orchestrator.main transition ...`) 가 manifest 를
+        업데이트하면 TUI 가 바로 따라잡도록. 매니페스트가 사라진 경우
+        (드물지만) 상태를 `unknown` 으로 표시하고 다음 tick 에서 재시도.
+        """
+        try:
+            manifest = load_manifest(self.project_id, self.cfg)
+        except ProjectNotFoundError:
+            if self.current_state != "unknown":
+                self._orch_emit(
+                    "stderr",
+                    f"project_manifest.json 이 사라졌습니다: {self.project_id}",
+                )
+            self.current_state = "unknown"
+            return
+        new_state = manifest.current_state
+        if isinstance(new_state, ProjectState):
+            new_state = new_state.value
+        if new_state != self.current_state:
+            self._orch_emit(
+                "system",
+                f"state changed: {self.current_state} → {new_state}",
+            )
+            self.current_state = new_state
 
     # -----------------------------------------------------------------
     # 콜백
