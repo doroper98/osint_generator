@@ -1,6 +1,6 @@
 <!--
 tier: 3
-last_synced_with: v0.2.7
+last_synced_with: v0.2.8
 ssot_for: [development-log]
 depends_on: [CHANGELOG.md]
 last_review: 2026-05-19
@@ -304,3 +304,23 @@ last_review: 2026-05-19
   - 외부 `transition` 호출 → manifest 디스크 갱신 → 다음 tick (≤ `tui_refresh_interval_sec`, 기본 0.5s) 에 TUI 가 `state changed: A → B` log + Dashboard 라이브 반영.
   - 평행 브랜치 `claude/start-after-handoff-Ij1TX` 의 가치 있는 부분 모두 본 브랜치에 흡수됨. 그 브랜치는 외부 codex review 통과 후 폐기 예정.
 - **연관**: SCHEMA-AP-001 (신설). 평행 브랜치 발견 자체는 거버넌스 문제 (PR 없이 두 세션이 동시 작동) 라 별도 카탈로그 항목으로 등록은 보류 — 본 PATCH 자체가 그 사고의 복구.
+
+## 2026-05-20 v0.2.8 — Codex 2차 리뷰 H2 반영: atomic write durability + tmp cleanup
+
+- **무엇을**: `claude/phase-2-finalize` (v0.2.7) 에 대한 Codex Cloud 3-way 통합 리뷰 결과 (High 2 / Medium 3 / Low 4) 중 코드 측 High 1 건 (H2 — atomic write durability + tmp leftover) 을 머지 전 PATCH 로 흡수.
+- **왜**: v0.2.7 의 `_write_manifest` 는 `tmp.write_text(...) + tmp.replace(path)` 로 **visibility** (rename atomicity) 만 보장했으나, durability (전원장애·강제종료 시 마지막 write 유실 방지) 는 별개. 또한 write 와 replace 사이에서 예외가 발생하면 tmp 파일이 leftover 로 남는 문제. TUI 라이브 reload 가 동시에 manifest 를 읽는 본 PATCH 시점부터는 이 두 갭이 실제 운영 리스크로 격상됨. Codex H2 의 지적이 정확함.
+- **어떻게**:
+  - `orchestrator/project_manager.py:_write_manifest` 전면 재작성:
+    - `path.write_text` 를 `open() / write() / flush() / os.fsync(fileno())` 4단으로 분해. fsync 가 OS 버퍼 → 디스크 매체까지 강제. `f.flush()` 만으로는 OS 버퍼만 비우고 디스크 도달은 미보장이므로 둘 다 필요.
+    - rename 후 부모 디렉토리도 `os.fsync(dir_fd)`. POSIX `rename(2)` 의 원자성과 디렉토리 entry 의 durability 는 별개라서 dir fsync 가 필요 (널리 알려진 함정). `O_DIRECTORY` 가 없는 Windows 환경은 `OSError` 로 떨어지므로 best-effort skip.
+    - write/replace 단계 전체를 `try/except` 로 감싸 leftover tmp 를 `unlink` (cleanup 실패는 swallow, 원본 예외만 전파). `replace` 성공 후엔 tmp 가 이미 path 로 옮겨졌으므로 잔존 불가.
+    - docstring 을 "atomic visibility" vs "durability" 로 분리. 향후 reader 가 "이 함수가 무엇을 보장하고 무엇을 안 하는지" 한눈에 알 수 있게.
+  - `os` 모듈 import 추가 (`fsync`, `O_DIRECTORY`, `open` 헬퍼).
+  - smoke test 에 `Path.replace` mock 으로 의도적 실패를 흉내내 cleanup 동작 검증 1 케이스 추가. 정상 happy path / corrupt manifest ValidationError / non-JSON JSONDecodeError 와 함께 5 케이스 모두 통과.
+  - n9ird 의 기존 30 단위 테스트 회귀 전부 통과.
+- **결과**:
+  - `python -m py_compile` 통과.
+  - 5 smoke + 30 unit = 35 케이스 모두 의도대로.
+  - 머지 차단 사유 (H2) 해제. H1 (Ij1TX 원본 커밋 부재로 흡수 완전성 입증 불가) 은 코드 이슈가 아닌 절차 이슈로 분리:
+    Codex Cloud 가 본 저장소 clone 시 모든 브랜치를 fetch 하지 않을 수 있음 → 다음 리뷰 시 사용자가 명시적으로 `claude/start-after-handoff-Ij1TX` 와 `claude/phase-2-implementation-n9ird` 를 비교 대상으로 지정. 본 저장소에서는 두 브랜치 모두 origin 에 존재.
+- **연관**: Codex H2. M/L 5건은 v0.2.9 또는 Phase 3 진입 전 일괄 처리 후보로 분리.

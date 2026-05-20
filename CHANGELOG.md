@@ -1,6 +1,6 @@
 <!--
 tier: 3
-last_synced_with: v0.2.7
+last_synced_with: v0.2.8
 ssot_for: [release-notes]
 depends_on: [README.md, GOAL.md]
 last_review: 2026-05-19
@@ -25,6 +25,22 @@ released 항목은 **append-only**입니다.
 
 ### Fixed
 -
+
+---
+
+## [v0.2.8] — 2026-05-20
+
+Codex 2차 리뷰 (3-way 통합 검수) 의 High 2건 중 코드 측 H2 반영. H1 은 절차 이슈로 별도 처리.
+
+### Fixed (외부 코드 리뷰 2차 반영 — codex `exec review` H2)
+- **`_write_manifest` durability + 예외 안전 보강** — v0.2.7 의 atomic write 는 visibility (rename atomicity) 만 보장했고, 전원장애·강제종료 시 마지막 write 유실 가능성이 있었음. tmp write 직후 `flush()` + `os.fsync(fd)` 로 데이터의 디스크 도달을 보장하고, rename 직후 부모 디렉토리 `os.fsync(dir_fd)` (POSIX 한정, Windows 는 `O_DIRECTORY` 미지원이라 best-effort skip) 로 rename 사실까지 durable. 또한 write/replace 도중 예외 발생 시 leftover tmp 파일을 best-effort `unlink` 로 cleanup (실패해도 원본 예외만 전파).
+- docstring 을 "atomic visibility" vs "durability" 로 명시적으로 분리하여 향후 reader 가 어떤 보장이 어디까지 적용되는지 명확화.
+
+### Notes
+- 본 PATCH 는 외부 리뷰 결과 흡수 PATCH 이지만 C10.3 의 자기 검증 면제는 적용 안 함 (코드 변경 있음, M/L 항목은 다음 PATCH 로 분리하기 위해 본 PATCH 만 다시 검증 가능 상태로 둠).
+- 5 케이스 smoke test: 정상 happy path / `Path.replace` 실패 시 tmp cleanup 검증 / corrupt manifest → `ValidationError` / non-JSON → `JSONDecodeError`. 30/30 기존 단위 테스트 회귀 통과.
+- Codex H1 (Ij1TX 원본 커밋 `ef49e49` 부재) 은 코드가 아닌 절차 이슈. Codex Cloud 에 비교 브랜치를 fetch 하도록 안내 (다음 리뷰 요청 시 `claude/start-after-handoff-Ij1TX` 명시).
+- Codex M/L 항목 (TUI reload `PermissionError`/`OSError` 분기, current_state 대입 조건 단순화, SCHEMA-AP-001 회귀 테스트 추가, _SLUG_RE 주석 정합화, state_machine ARCHIVED 중복 표현, CLAUDE.md C5.2 해석 충돌) 은 다음 PATCH (v0.2.9) 또는 Phase 3 진입 전 일괄 처리 후보.
 
 ---
 

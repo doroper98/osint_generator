@@ -1,6 +1,6 @@
 <!--
 tier: 2
-last_synced_with: v0.2.7
+last_synced_with: v0.2.8
 ssot_for: [codex-review-procedure]
 depends_on: [../CLAUDE.md]
 last_review: 2026-05-20

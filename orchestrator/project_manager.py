@@ -13,6 +13,7 @@ TUI / CLI 는 본 모듈을 통해서만 manifest 를 갱신합니다.
 from __future__ import annotations
 
 import json
+import os
 import re
 from datetime import datetime, timezone
 from pathlib import Path
@@ -65,16 +66,51 @@ def _ensure_project_layout(project_id: str, cfg: AppConfig) -> Path:
 def _write_manifest(manifest: ProjectManifest, cfg: AppConfig) -> Path:
     """manifest 를 디스크에 직렬화. 항상 updated_at 을 현재시간으로 갱신.
 
-    Atomic write: tmp 파일에 먼저 쓴 뒤 `Path.replace` 로 교체. 외부 reader
-    (예: TUI 의 라이브 manifest reload) 가 half-written 상태를 잠깐도 보지
-    못하도록 차단. POSIX rename 은 atomic, Windows 의 `os.replace` 도 atomic.
+    Atomic **visibility** vs **durability** 를 분리해 보장:
+
+    - Visibility (외부 reader 가 half-written 상태를 보지 못함):
+      tmp 파일에 먼저 write 한 뒤 `Path.replace` 로 교체. POSIX `rename(2)`
+      와 Windows `os.replace` 는 동일한 inode/path 교체 의미에서 atomic.
+      이 단계까지만 보장하면 TUI 의 라이브 manifest reload 같은 동시 reader
+      가 깨진 JSON 을 잠깐도 볼 수 없다.
+
+    - Durability (전원장애·강제종료에도 마지막 write 가 살아남음):
+      tmp write 직후 `flush()` + `os.fsync()` 로 데이터가 디스크 매체에 도달함을
+      보장한 뒤 rename. 추가로 부모 디렉토리도 fsync (POSIX 한정, Windows 는
+      `O_DIRECTORY` 미지원이라 best-effort skip) 해 rename 사실 자체도 durable.
+
+    - 예외 안전: write 중간 실패 시 tmp 파일을 best-effort cleanup. `replace`
+      이후의 tmp 는 이미 path 로 옮겨졌으므로 잔존 없음.
     """
     manifest.updated_at = utc_now()
     path = manifest_path(manifest.project_id, cfg)
     path.parent.mkdir(parents=True, exist_ok=True)
     tmp = path.with_suffix(path.suffix + ".tmp")
-    tmp.write_text(manifest.model_dump_json(indent=2), encoding="utf-8")
-    tmp.replace(path)
+    data = manifest.model_dump_json(indent=2)
+    try:
+        with open(tmp, "w", encoding="utf-8") as f:
+            f.write(data)
+            f.flush()
+            os.fsync(f.fileno())
+        tmp.replace(path)
+    except Exception:
+        # 실패 시 leftover tmp 정리 (best-effort, 실패해도 원본 예외만 전파).
+        try:
+            if tmp.exists():
+                tmp.unlink()
+        except OSError:
+            pass
+        raise
+    # 부모 디렉토리 fsync — rename 사실 자체를 durable 하게 만든다 (POSIX).
+    # Windows 는 directory fd open 이 막혀있어 best-effort skip.
+    try:
+        dir_fd = os.open(path.parent, getattr(os, "O_DIRECTORY", os.O_RDONLY))
+        try:
+            os.fsync(dir_fd)
+        finally:
+            os.close(dir_fd)
+    except OSError:
+        pass
     return path
 
 
