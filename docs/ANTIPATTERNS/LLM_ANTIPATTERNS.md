@@ -1,6 +1,6 @@
 <!--
 tier: 3
-last_synced_with: v0.2.2
+last_synced_with: v0.2.3
 ssot_for: [llm-antipatterns]
 depends_on: [README.md, ../ADDENDUM_04_SUBSCRIPTION_LLM_BRIDGE.md, ../../CLAUDE.md]
 last_review: 2026-05-19
@@ -52,10 +52,12 @@ last_review: 2026-05-19
 
 - **자동 조치 (mitigation)**: v0.2.3 patch 에서 `BaseLLMWorker._invoke_llm` 내부에 wrapper unwrap 단계를 추가하고, backend 별 dispatcher 로 분리. codex CLI 도 유사한 wrapper 가 있을 가능성 있음 (검증 필요).
 
-- **회귀 테스트 (regression_test)**: `pending` — v0.2.3 patch 동시에 fixture-based 단위 테스트 추가 예정 (`tests/test_base_llm_worker.py::test_claude_wrapper_unwrap`).
+- **회귀 테스트 (regression_test)**: `tests/test_base_llm_worker.py` (v0.2.3 추가). 13 케이스 — wrapper success / markdown fence / wrapper error / result-not-string / pass-through(non-wrapper) / pass-through(non-json) / unknown type / codex pass-through 등.
 
 - **발견 버전 (discovered)**: v0.2.2 smoke test (3번째 케이스 — `OSINT_LLM_STUB` 없이 실 `claude` CLI 호출).
 
-- **상태 (status)**: `active` (구조적 조치 v0.2.3 대기)
+- **해결 버전 (resolved)**: v0.2.3 — `workers/base_llm_worker.py` 에 `_unwrap_response` / `_unwrap_claude_response` / `_extract_json_block` 추가. `run()` 의 `model_validate_json` 직전에 backend 별 unwrap 적용. `raw.txt` 는 디버깅용 원본으로 보존. codex 는 v0.2.3 시점 미검증이라 pass-through (별도 후속에서 검증 예정).
+
+- **상태 (status)**: `resolved` (v0.2.3 구조적 조치 + 회귀 테스트 완료)
 
 - **연관**: ADDENDUM_04 §5 (CLI 인터페이스 가정), ADDENDUM_04 §8 #1 (CLI 인자 정밀화 — v0.2.2 미결 항목이 본 AP 로 구체화).

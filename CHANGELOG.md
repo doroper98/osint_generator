@@ -1,6 +1,6 @@
 <!--
 tier: 3
-last_synced_with: v0.2.2
+last_synced_with: v0.2.3
 ssot_for: [release-notes]
 depends_on: [README.md, GOAL.md]
 last_review: 2026-05-19
@@ -25,6 +25,22 @@ released 항목은 **append-only**입니다.
 
 ### Fixed
 -
+
+---
+
+## [v0.2.3] — 2026-05-20
+
+### Fixed
+- **LLM-AP-001 구조적 조치** — `BaseLLMWorker` 가 `claude -p ... --output-format json` 의 wrapper (`{type:result, subtype:success, result:"...", ...}`) 를 벗긴 뒤 `response_model.model_validate_json` 을 호출하도록 변경. wrapper `is_error=True` 면 `LLMSubprocessError` 로 변환. `result` 문자열 안의 markdown code fence (```` ```json ... ``` ````) 도 자동 제거.
+- `raw.txt` 영속화는 unwrap 전 stdout 그대로 유지 → 디버깅 추적성 보존.
+
+### Added
+- `tests/__init__.py`, `tests/test_base_llm_worker.py` — 13 케이스 단위 테스트 (extract_json_block 5 / claude wrapper 7 / codex pass-through 1). `python -m unittest tests.test_base_llm_worker` 통과.
+- `workers/base_llm_worker.py` 에 모듈 레벨 헬퍼: `_unwrap_claude_response`, `_unwrap_codex_response`, `_extract_json_block`. `BaseLLMWorker._unwrap_response(raw)` 가 `self.llm_backend` 로 dispatch.
+
+### Notes
+- codex CLI wrapper 는 v0.2.3 시점 미검증 → pass-through. 실제 호출 가능 환경 확보 후 별도 작업 (LLM-AP-002 후보) 으로 분리.
+- LLM-AP-001 status `active` → `resolved`.
 
 ---
 

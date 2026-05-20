@@ -1,6 +1,6 @@
 <!--
 tier: 3
-last_synced_with: v0.2.2
+last_synced_with: v0.2.3
 ssot_for: [development-log]
 depends_on: [CHANGELOG.md]
 last_review: 2026-05-19
@@ -176,5 +176,26 @@ last_review: 2026-05-19
   - Phase 3 의 `IntakePlannerWorker` 는 `BaseLLMWorker` 를 그대로 상속하면 됨 — `system_prompt`, `response_model=IntakePlan`, `build_user_prompt(args, task)`, `output_path` 만 구현.
   - 다음 patch (v0.2.3) 는 LLM-AP-001 fix: wrapper unwrap 로직 + 회귀 테스트 fixture.
 - **연관**: LLM-AP-001 (active, v0.2.3 대기)
+
+---
+
+## 2026-05-20 v0.2.3 — LLM-AP-001 구조적 조치 (wrapper unwrap)
+
+- **무엇을**: v0.2.2 에서 발견한 LLM-AP-001 (claude CLI 응답 wrapper 로 인한 Pydantic `extra_forbidden` reject) 을 구조적으로 해결. `BaseLLMWorker` 가 backend 별 wrapper 를 벗긴 뒤 검증하도록 변경. 회귀 테스트 `tests/test_base_llm_worker.py` 신설.
+- **왜**:
+  - 실 `claude` CLI 호출이 stub 없이 정상 동작하려면 wrapper unwrap 이 필수. Phase 3 의 IntakePlannerWorker 가 stub 없이 돌아가야 의미가 있음.
+  - 회귀 테스트가 없으면 같은 종류의 버그 (코덱스, 향후 CLI 갱신) 가 재발해도 알아채지 못함. C6.4 "구조적 조치" 요구.
+- **어떻게**:
+  - `workers/base_llm_worker.py` 에 모듈 레벨 헬퍼 3 종: `_unwrap_claude_response` (wrapper `{type:result, subtype:success}` 에서 `result` 필드 추출, `is_error=True` 면 `LLMSubprocessError`), `_unwrap_codex_response` (v0.2.3 시점 미검증 → pass-through), `_extract_json_block` (markdown code fence 제거).
+  - `BaseLLMWorker._unwrap_response(raw)` 가 `self.llm_backend` 로 dispatch. `run()` 의 `model_validate_json` 직전에 호출. `LLMSubprocessError` 도 잡아서 `parsed_status="subprocess_error"` 로 기록.
+  - `raw.txt` 는 unwrap 전 원본 그대로 보존 → 디버깅 추적성 유지.
+  - `tests/__init__.py` + `tests/test_base_llm_worker.py` 신설. 13 케이스: extract_json_block 5 + claude unwrap 7 + codex pass-through 1. 모두 `python -m unittest tests.test_base_llm_worker` 로 통과.
+  - LLM_ANTIPATTERNS.md 의 LLM-AP-001 status `active` → `resolved`, regression_test pending → 실제 파일 경로로 갱신. 본문 (증상/원인) 은 수정하지 않음 (C6 append-only 준수, 상태 라이프사이클만 진행).
+  - VERSION 0.2.2 → 0.2.3 (PATCH — C5.4 "버그 수정" 트리거).
+- **결과**:
+  - py_compile 통과, import smoke 통과, 13 단위 테스트 통과.
+  - 다음 단계: Phase 3 IntakePlannerWorker 착수 가능. 실 `claude` CLI 호출 시에도 도메인 JSON 검증이 정상 동작할 것으로 기대 (실 호출 검증은 Phase 3 smoke test 에서).
+  - codex CLI wrapper 검증은 별도 작업 (LLM-AP-002 후보) 으로 분리.
+- **연관**: LLM-AP-001 (resolved), ADDENDUM_04 §5
 
 ---

@@ -30,6 +30,7 @@ from __future__ import annotations
 
 import argparse
 import hashlib
+import json
 import os
 import secrets
 import subprocess
@@ -133,11 +134,16 @@ class BaseLLMWorker(BaseWorker):
 
         raw_path = self._dump_raw(args, call_id, raw_text)
 
-        # 검증
+        # 검증 (LLM-AP-001: backend 별 wrapper 를 먼저 벗긴 뒤 Pydantic 검증)
         parsed: Optional[VersionedModel] = None
         if parsed_status == "ok":
             try:
-                parsed = self.response_model.model_validate_json(raw_text)
+                domain_json = self._unwrap_response(raw_text)
+                parsed = self.response_model.model_validate_json(domain_json)
+            except LLMSubprocessError as e:
+                parsed_status = "subprocess_error"
+                error_message = f"wrapper unwrap: {e}"
+                emit("stderr", error_message)
             except ValidationError as e:
                 parsed_status = "validation_failed"
                 error_message = f"Pydantic validation: {e}"
@@ -265,6 +271,25 @@ class BaseLLMWorker(BaseWorker):
         return proc.stdout, proc.returncode
 
     # -----------------------------------------------------------------
+    # Backend 별 wrapper unwrap (LLM-AP-001)
+    # -----------------------------------------------------------------
+
+    def _unwrap_response(self, raw: str) -> str:
+        """backend 별 wrapper 를 벗기고 도메인 JSON 문자열을 반환합니다.
+
+        - raw 가 비어 있으면 그대로 (Pydantic 단계에서 ValueError 로 처리됨).
+        - 알 수 없는 backend 는 pass-through.
+        - 자세한 배경은 docs/ANTIPATTERNS/LLM_ANTIPATTERNS.md LLM-AP-001 참고.
+        """
+        if not raw.strip():
+            return raw
+        if self.llm_backend == "claude":
+            return _unwrap_claude_response(raw)
+        if self.llm_backend == "codex":
+            return _unwrap_codex_response(raw)
+        return raw
+
+    # -----------------------------------------------------------------
     # 내부 헬퍼
     # -----------------------------------------------------------------
 
@@ -317,3 +342,69 @@ class BaseLLMWorker(BaseWorker):
             errors=[message],
             qa_status=QAStatus.FAIL,
         )
+
+
+# ---------------------------------------------------------------------------
+# 모듈 레벨 unwrap 헬퍼 (LLM-AP-001)
+# ---------------------------------------------------------------------------
+
+
+def _unwrap_claude_response(raw: str) -> str:
+    """`claude -p ... --output-format json` 의 wrapper 를 벗긴다.
+
+    실제 wrapper 예 (LLM-AP-001):
+        {
+          "type": "result", "subtype": "success", "is_error": false,
+          "result": "<도메인 응답 문자열>", "session_id": "...", ...
+        }
+
+    - wrapper 가 `type=result, subtype=success` 면 `result` 문자열을 꺼내고
+      그 안에 markdown code fence 가 있으면 추가로 벗긴다.
+    - wrapper 가 `is_error=True` 면 LLMSubprocessError.
+    - JSON 이 아니거나 wrapper 형태가 아니면 pass-through (이미 도메인 JSON 가능성).
+    """
+    stripped = raw.strip()
+    try:
+        wrapper = json.loads(stripped)
+    except json.JSONDecodeError:
+        return raw
+    if not isinstance(wrapper, dict):
+        return raw
+    if wrapper.get("type") != "result":
+        return raw
+    if wrapper.get("is_error") is True:
+        inner = wrapper.get("result", "")
+        snippet = inner[:300] if isinstance(inner, str) else str(inner)[:300]
+        raise LLMSubprocessError(f"claude returned error wrapper: {snippet}")
+    if wrapper.get("subtype") == "success":
+        inner = wrapper.get("result", "")
+        if not isinstance(inner, str):
+            raise LLMSubprocessError(
+                f"claude wrapper.result is not a string: {type(inner).__name__}"
+            )
+        return _extract_json_block(inner)
+    return raw
+
+
+def _unwrap_codex_response(raw: str) -> str:
+    """`codex exec --json` 의 wrapper. v0.2.3 시점에는 실 포맷 미검증으로 pass-through.
+
+    실제 codex CLI 호출이 가능한 환경에서 검증 후 본 함수를 확장합니다.
+    (별도 AP — LLM-AP-002 후보 — 로 트래킹 예정.)
+    """
+    return raw
+
+
+def _extract_json_block(text: str) -> str:
+    """markdown code fence 가 있으면 내부 본문만 반환, 없으면 strip 만."""
+    s = text.strip()
+    if not s.startswith("```"):
+        return s
+    nl = s.find("\n")
+    if nl == -1:
+        return s
+    body = s[nl + 1:]
+    end = body.rfind("```")
+    if end != -1:
+        body = body[:end]
+    return body.strip()
