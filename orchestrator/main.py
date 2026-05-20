@@ -22,7 +22,7 @@ from orchestrator.project_manager import (
     resume_project,
     transition_state,
 )
-from schemas.models import Category, ProjectState
+from schemas.models import Category, ProjectManifest, ProjectState
 
 
 def build_parser() -> argparse.ArgumentParser:
@@ -70,7 +70,7 @@ def build_parser() -> argparse.ArgumentParser:
     return parser
 
 
-def _print_manifest_summary(manifest) -> None:  # type: ignore[no-untyped-def]
+def _print_manifest_summary(manifest: ProjectManifest) -> None:
     state = manifest.current_state
     state_str = state.value if hasattr(state, "value") else state
     cat = manifest.category

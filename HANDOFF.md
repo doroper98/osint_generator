@@ -1,6 +1,6 @@
 <!--
 tier: 1
-last_synced_with: v0.2.8
+last_synced_with: v0.2.9
 ssot_for: [session-handoff]
 depends_on: [CLAUDE.md, GOAL.md, VERSION, docs/13_IMPLEMENTATION_ROADMAP.md, docs/REVIEW_PROMPT.md]
 last_review: 2026-05-20
@@ -29,7 +29,7 @@ last_review: 2026-05-20
 
 ---
 
-## 1. 지금 어디까지 와 있나 (v0.2.8 기준)
+## 1. 지금 어디까지 와 있나 (v0.2.9 기준)
 
 ### 완료된 Phase
 
@@ -51,6 +51,7 @@ last_review: 2026-05-20
 | codex review 절차 정형화 | v0.2.6 | `CLAUDE.md` 에 **C10. 외부 코드 리뷰 의무화** 추가. `docs/REVIEW_PROMPT.md` 신설 (표준 프롬프트 + Windows/Linux 호출 명령어 + 결과 처리 가이드). MINOR/MAJOR/Phase 완료 직전 codex review 필수화. | 문서 only |
 | 평행 브랜치 흡수 (Ij1TX) | v0.2.7 | 동일 출발점의 다른 세션 브랜치 `claude/start-after-handoff-Ij1TX` 의 차별점 3 가지 흡수: (1) **SCHEMA-AP 카탈로그** + SCHEMA-AP-001 (임의 상태 점프 / self-loop), (2) **TUI 라이브 manifest reload** (`_tick_loop` 가 매 tick 마다 `load_manifest` → 외부 transition 즉시 반영, 실패 모드 3 분류: unknown/invalid/정상), (3) **`_write_manifest` atomic write** (tmp→`Path.replace`, half-written race 차단). | py_compile + 5 케이스 smoke (atomic / corrupt JSON ValidationError / non-JSON JSONDecodeError 포함) 통과 |
 | codex 2차 리뷰 H2 반영 | v0.2.8 | v0.2.7 atomic write 의 내구성(`durability`) 보강: `flush()` + `os.fsync()` (파일 fd) + 부모 디렉토리 fsync (POSIX, Windows best-effort skip). 예외 발생 시 leftover tmp best-effort cleanup. docstring 을 visibility vs durability 로 분리 명시. H1 (Ij1TX 원본 커밋 부재) 은 절차 이슈로 별도 처리 — Codex Cloud 가 비교 브랜치를 fetch 하도록 안내. | py_compile + 5 케이스 smoke (정상 / replace 실패 시 tmp cleanup / corrupt JSON / non-JSON 포함) 통과, 30/30 회귀 통과 |
+| codex 3차 리뷰 흡수 (H+M+L) | v0.2.9 | dir fsync `OSError` swallow → `logging.warning` (platform·errno 포함) 으로 신호화. `_print_manifest_summary` 타입 힌트 보강 (`# type: ignore` 제거). `_SLUG_RE` 주석을 실제 정규식 (하이픈·언더스코어 허용) 과 정합화. 본 저장소 첫 표준 `logging.getLogger(__name__)` 도입. | py_compile + 5 smoke (dir fsync 실패 warning 로그 검증 포함) + 30/30 단위 테스트 회귀 통과 |
 
 ### 핵심 산출물
 
@@ -162,7 +163,7 @@ BaseLLMWorker 인프라가 외부 리뷰까지 거쳐 견고해졌고 (v0.2.5), 
 
 다음 세션이 첫 번째로 실행할 일 (순서 중요):
 
-1. **읽기 (필독)**: `CLAUDE.md` (특히 신규 **C10**) → `GOAL.md` → `VERSION` (현재 `0.2.8`) → 본 `HANDOFF.md` → `docs/ADDENDUM_04_SUBSCRIPTION_LLM_BRIDGE.md` → `docs/ANTIPATTERNS/LLM_ANTIPATTERNS.md` (LLM-AP-001/002/003 정독) → `docs/ANTIPATTERNS/SCHEMA_ANTIPATTERNS.md` (SCHEMA-AP-001) → `docs/REVIEW_PROMPT.md` (codex review 절차) → `docs/13_IMPLEMENTATION_ROADMAP.md` → 가장 최근 `DEVLOG.md` 엔트리 7 개 (v0.2.2 ~ v0.2.8).
+1. **읽기 (필독)**: `CLAUDE.md` (특히 신규 **C10**) → `GOAL.md` → `VERSION` (현재 `0.2.9`) → 본 `HANDOFF.md` → `docs/ADDENDUM_04_SUBSCRIPTION_LLM_BRIDGE.md` → `docs/ANTIPATTERNS/LLM_ANTIPATTERNS.md` (LLM-AP-001/002/003 정독) → `docs/ANTIPATTERNS/SCHEMA_ANTIPATTERNS.md` (SCHEMA-AP-001) → `docs/REVIEW_PROMPT.md` (codex review 절차) → `docs/13_IMPLEMENTATION_ROADMAP.md` → 가장 최근 `DEVLOG.md` 엔트리 8 개 (v0.2.2 ~ v0.2.9).
 2. **상태 확인**:
    ```bash
    git status                                       # clean 인지
@@ -217,4 +218,4 @@ BaseLLMWorker 인프라가 외부 리뷰까지 거쳐 견고해졌고 (v0.2.5), 
 
 ---
 
-마지막 갱신: v0.2.8, 2026-05-20.
+마지막 갱신: v0.2.9, 2026-05-20.

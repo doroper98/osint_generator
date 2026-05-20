@@ -13,6 +13,7 @@ TUI / CLI 는 본 모듈을 통해서만 manifest 를 갱신합니다.
 from __future__ import annotations
 
 import json
+import logging
 import os
 import re
 from datetime import datetime, timezone
@@ -29,9 +30,13 @@ from schemas.models import (
 )
 
 
+logger = logging.getLogger(__name__)
+
+
 MANIFEST_FILENAME = "project_manifest.json"
 
-# project_id slug 정규식. 영문 소문자/숫자/하이픈만 허용.
+# project_id slug 정규식. 영문 소문자·숫자·하이픈·언더스코어를 허용하며,
+# 첫 글자는 영문 소문자 또는 숫자여야 한다 (선두 `-` / `_` 차단).
 _SLUG_RE = re.compile(r"^[a-z0-9][a-z0-9\-_]*$")
 
 
@@ -103,14 +108,24 @@ def _write_manifest(manifest: ProjectManifest, cfg: AppConfig) -> Path:
         raise
     # 부모 디렉토리 fsync — rename 사실 자체를 durable 하게 만든다 (POSIX).
     # Windows 는 directory fd open 이 막혀있어 best-effort skip.
+    # 실패는 흡수하되 (rename 자체는 이미 visible) 운영자에게 신호하기 위해
+    # platform · errno 를 포함해 warning 로그를 남긴다. docstring 의 durability
+    # 보장 문구와 runtime 현실의 어긋남을 가시화.
     try:
         dir_fd = os.open(path.parent, getattr(os, "O_DIRECTORY", os.O_RDONLY))
         try:
             os.fsync(dir_fd)
         finally:
             os.close(dir_fd)
-    except OSError:
-        pass
+    except OSError as e:
+        logger.warning(
+            "dir fsync 실패 (rename durability 약화 가능): "
+            "path=%s platform=%s errno=%s msg=%s",
+            path.parent,
+            os.name,
+            e.errno,
+            e,
+        )
     return path
 
 

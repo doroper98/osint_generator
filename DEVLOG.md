@@ -1,6 +1,6 @@
 <!--
 tier: 3
-last_synced_with: v0.2.8
+last_synced_with: v0.2.9
 ssot_for: [development-log]
 depends_on: [CHANGELOG.md]
 last_review: 2026-05-19
@@ -324,3 +324,25 @@ last_review: 2026-05-19
   - 머지 차단 사유 (H2) 해제. H1 (Ij1TX 원본 커밋 부재로 흡수 완전성 입증 불가) 은 코드 이슈가 아닌 절차 이슈로 분리:
     Codex Cloud 가 본 저장소 clone 시 모든 브랜치를 fetch 하지 않을 수 있음 → 다음 리뷰 시 사용자가 명시적으로 `claude/start-after-handoff-Ij1TX` 와 `claude/phase-2-implementation-n9ird` 를 비교 대상으로 지정. 본 저장소에서는 두 브랜치 모두 origin 에 존재.
 - **연관**: Codex H2. M/L 5건은 v0.2.9 또는 Phase 3 진입 전 일괄 처리 후보로 분리.
+
+## 2026-05-20 v0.2.9 — Codex 3차 리뷰 결과 흡수 (dir fsync 신호화 + 타입 힌트 + 주석 정합)
+
+- **무엇을**: `claude/phase-2-finalize` HEAD 78f11bb (v0.2.8) 에 대한 Codex Cloud 단일 브랜치 리뷰 결과 (Critical 0 / High 1 / Medium 1 / Low 1) 를 v0.2.9 PATCH 로 흡수. 머지 차단 사유 해제.
+- **왜**: 3차 리뷰의 H1 ("dir fsync 실패가 완전히 묵살되어 docstring 의 durability 보장과 어긋남") 이 머지 차단 사유였음. v0.2.8 에서 `try/except OSError: pass` 가 너무 적극적인 swallow 였다. POSIX 환경에서 권한·FS 특성·일시 오류로 dir fsync 가 실패하면 rename durability 가 약화되는데, 호출자에게도 로그에도 신호가 없으면 사후 추적 불가능. 운영자 기대치 (docstring 의 durability 보장) 와 runtime 현실의 정합이 필요.
+- **어떻게**:
+  - `orchestrator/project_manager.py`:
+    - 모듈 레벨 `logger = logging.getLogger(__name__)` 도입. 본 저장소 첫 표준 logging 진입점.
+    - dir fsync `except OSError as e:` 에서 platform (`os.name`) · errno · 메시지를 포함한 `logger.warning(...)`. 실패는 여전히 흡수 (rename 은 이미 visible) 하되 신호화. 호출 측이 logging 설정 없으면 root logger 가 stderr 로 송출.
+    - `_SLUG_RE` 주석을 "하이픈만" 뉘앙스 → "하이픈·언더스코어 허용, 첫 글자는 영숫자" 로 실제 정규식 의도와 일치하게 정합화 (3차 리뷰 L 항목).
+  - `orchestrator/main.py`:
+    - `_print_manifest_summary(manifest)  # type: ignore[no-untyped-def]` → `_print_manifest_summary(manifest: ProjectManifest) -> None`. type ignore 제거. CLAUDE.md C2 "모든 함수 시그니처 타입 힌트 필수" 정합.
+    - `from schemas.models import ... ProjectManifest` 추가.
+  - smoke test 추가: `unittest.mock.patch('orchestrator.project_manager.os.fsync', ...)` 로 두 번째 fsync 호출 (dir fsync) 만 `OSError(13, ...)` 던지게 mock. warning 로그에 `errno=13` / `platform=posix` / 한국어 메시지 포함을 직접 검증.
+  - 5 케이스 smoke (happy / dir fsync 실패 시 warning log / cleanup 회귀 / corrupt JSON / non-JSON) + 30 기존 단위 테스트 회귀 모두 통과.
+  - VERSION 0.2.8 → 0.2.9, 갱신된 4 파일 (`CHANGELOG.md`, `DEVLOG.md`, `HANDOFF.md`, `docs/ANTIPATTERNS/SCHEMA_ANTIPATTERNS.md`) 의 `last_synced_with` 만 v0.2.9 로 (n9ird 컨벤션: 수정한 파일만 갱신).
+- **결과**:
+  - `python -m py_compile` 통과.
+  - 35 케이스 (5 smoke + 30 unit) 모두 의도대로.
+  - Codex 머지 차단 사유 (H) 해제. M·L 도 같이 처리. main 머지 직전 단계.
+  - 본 PATCH 자체에 대해 머지 전 한 차례 더 codex 리뷰를 돌리는 것이 안전 (코드 변경 있음, C10.3 self-exemption 미적용).
+- **연관**: Codex 3차 리뷰 H1/M1/L1. 미반영 4 항목은 CHANGELOG v0.2.9 의 "Codex 3차 리뷰 미반영 항목" 절에 사유와 함께 기록.

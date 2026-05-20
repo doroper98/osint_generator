@@ -1,6 +1,6 @@
 <!--
 tier: 3
-last_synced_with: v0.2.8
+last_synced_with: v0.2.9
 ssot_for: [release-notes]
 depends_on: [README.md, GOAL.md]
 last_review: 2026-05-19
@@ -25,6 +25,32 @@ released 항목은 **append-only**입니다.
 
 ### Fixed
 -
+
+---
+
+## [v0.2.9] — 2026-05-20
+
+Codex 3차 리뷰 (단일 브랜치, HEAD 78f11bb 검증) 결과 흡수 — High 1 + Medium 1 + Low 1. 새 코드 결함 (`new` defects) 만 처리, 이전 리뷰에서 v0.2.9 후보로 분리해둔 나머지 4건 (TUI reload 분기 보강, current_state 단순화, SCHEMA-AP-001 회귀 테스트, ARCHIVED 중복) 은 Codex 가 본 차에서 모두 "OK 확인" 또는 미언급으로 분류해 별도 후속.
+
+### Fixed (외부 코드 리뷰 3차 반영)
+- **(H) `_write_manifest` 의 디렉토리 fsync 실패 신호화** — v0.2.8 의 dir fsync 가 `OSError` 를 통째로 swallow 해서 durability 보장 문구와 runtime 현실이 어긋날 수 있던 문제. `logging.getLogger(__name__).warning(...)` 로 platform·errno·메시지를 포함한 경고 emit. 실패 자체는 여전히 흡수 (rename 은 이미 visible, durability 만 약화) 하되 운영자가 사후 인지 가능. 호출 측이 logging 설정 없으면 root logger 가 stderr 로 보낸다.
+- **(M) `orchestrator/main.py:_print_manifest_summary` 타입 힌트** — `# type: ignore[no-untyped-def]` 우회를 제거하고 `manifest: ProjectManifest` 명시. CLAUDE.md C2 "모든 함수 시그니처 타입 힌트 필수" 정합. `from schemas.models import ... ProjectManifest` 추가.
+- **(L) `_SLUG_RE` 주석 정합화** — "영문 소문자/숫자/하이픈만 허용" → "영문 소문자·숫자·하이픈·언더스코어를 허용하며, 첫 글자는 영문 소문자 또는 숫자 (선두 `-`/`_` 차단)" 로 실제 정규식 의도와 일치. 코드 독해 혼란 제거.
+
+### Added
+- `orchestrator/project_manager.py` 모듈 레벨 `logger = logging.getLogger(__name__)`. 본 저장소 첫 표준 logging 도입.
+
+### Notes
+- smoke test 신규: `os.fsync` mock 으로 dir fsync 실패 시뮬레이션 → warning 로그에 `errno=13` / `platform=posix` 포함 검증. 기존 `Path.replace` mock cleanup 회귀 동시 통과.
+- 30/30 단위 테스트 회귀 통과.
+- 본 PATCH 자체는 외부 리뷰 결과 흡수 PATCH 이지만 코드 변경이 작아 (3 파일, ~30 줄) C10.3 self-exemption 미적용. 머지 전 final 검증으로 다음 codex 리뷰 1 회 추가 권장.
+
+### Codex 3차 리뷰 미반영 항목 (의도적)
+- 이전 리뷰 M ("TUI reload PermissionError 분기"): 3차 Codex 가 "분리 명확, 외곽 tick except 로 집계됨" 으로 OK 분류.
+- 이전 리뷰 M ("current_state 대입 단순화"): 3차 Codex 가 "ProjectState → str 처리 적절" 로 OK.
+- 이전 리뷰 M ("SCHEMA-AP-001 회귀 테스트"): 3차 Codex 도 동일 지적, 다만 본 PATCH 범위에서 분리해 Phase 3 진입 전 별도 PATCH 후보.
+- 이전 리뷰 L ("ARCHIVED 중복 표현"): 3차 Codex 미언급. 코스메틱.
+- 이전 리뷰 L ("CLAUDE.md C5.2 해석 충돌"): 거버넌스 논의 후보. 본 PATCH 범위 외.
 
 ---
 
