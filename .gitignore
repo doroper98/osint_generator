@@ -64,3 +64,7 @@ logs/
 # 임시
 *.tmp
 *.bak
+
+# 외부 코드 리뷰 (codex review) 일회용 산출물 — CLAUDE.md C10.4
+review-prompt.txt
+review-out.jsonl

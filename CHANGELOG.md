@@ -1,6 +1,6 @@
 <!--
 tier: 3
-last_synced_with: v0.2.5
+last_synced_with: v0.2.6
 ssot_for: [release-notes]
 depends_on: [README.md, GOAL.md]
 last_review: 2026-05-19
@@ -25,6 +25,23 @@ released 항목은 **append-only**입니다.
 
 ### Fixed
 -
+
+---
+
+## [v0.2.6] — 2026-05-20
+
+### Added
+- **CLAUDE.md C10 — 외부 코드 리뷰 (codex review) 의무화**. MINOR/MAJOR/Phase 완료 직전 codex review 1 회 실행 필수. Critical/High 흡수 후에만 버전 증분 허용. 본 절차 자체와 외부 리뷰 결과 흡수 PATCH 는 자기 검증 면제.
+- **`docs/REVIEW_PROMPT.md`** 신설 (tier 2 ssot_for=codex-review-procedure). 표준 영문 프롬프트 템플릿, Windows cmd / macOS-Linux 호출 명령어, 결과 해석 가이드 (Critical/High/Medium/Low/Nit), 거짓 양성 처리 절차, 절차의 알려진 한계.
+- **`HANDOFF.md`** 의 신규 세션 체크리스트에 codex review 단계 + 30 단위 테스트 통과 확인 명령 추가.
+
+### Changed
+- `HANDOFF.md` 의 "1. 지금 어디까지 와 있나" 표에 v0.2.3 / v0.2.4 / v0.2.5 / v0.2.6 행 추가, "2. 다음 작업" 절을 Phase 3 (v0.3.0 — Dynamic Intake Page + IntakePlannerWorker) 로 갱신. 알려진 antipattern 카탈로그 갱신 (LLM-AP-001/002 resolved, LLM-AP-003 resolved-partial).
+- "자주 까먹는 규칙" 에 agent 모드 opt-in, codex review 의무, parsed_status 4 상태, exit_code Optional, output_path 컨테인먼트 항목 추가.
+
+### Notes
+- 본 PATCH 는 거버넌스 강화 + 다음 세션 인계 정리. 코드/스키마/테스트 변경 없음.
+- C10.3 의 self-exemption 에 의해 본 PATCH 자체에는 codex review 를 돌리지 않음.
 
 ---
 

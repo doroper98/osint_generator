@@ -130,6 +130,45 @@ last_review: 2026-05-19
 - AI 생성 이미지는 기본 자산으로 사용하지 않습니다. (예외는 risk_flag 명시)
 - 미검증 정보는 영상 내에서 `<미검증>` 라벨로만 표기.
 
+## C10. 외부 코드 리뷰 (codex review) 의무화
+
+본 시스템은 자기 자신을 만든 AI 의 사각지대를 보정하기 위해 **다른 LLM CLI (`codex exec`) 로
+주기적 코드 리뷰를 실행**합니다. 운영 매뉴얼은 `docs/REVIEW_PROMPT.md` 에 있습니다.
+
+### C10.1 실행 의무 시점
+
+| 트리거 | 실행 | 비고 |
+|---|---|---|
+| **MINOR / MAJOR 증분 직전** | **필수** | 리뷰의 Critical/High 모두 흡수한 뒤에만 증분 가능 |
+| **Phase 완료 직전** | **필수** | Phase DoD 의 마지막 체크 항목 |
+| **새 Worker / 새 도메인 모델 도입 PATCH** | 권장 | 사용자 판단 |
+| **단순 bug fix / docs 보강 PATCH** | 면제 | 단, 같은 카테고리 fix 3 회 누적 시 한 번 실행 |
+| **외부 리뷰 결과 반영 PATCH** | 면제 | 본 절차의 산출물을 다시 리뷰하지 않는다 (무한 루프 방지) |
+
+### C10.2 절차 요약
+
+1. `docs/REVIEW_PROMPT.md` §2 의 표준 프롬프트 템플릿에 변경 범위 (버전, 핵심 파일, 우선순위) 만
+   채워 `review-prompt.txt` 작성.
+2. 사용자 머신에서 `codex exec --skip-git-repo-check --color never -C <repo> -` 에 stdin 으로
+   전달 → stdout JSONL 을 `review-out.jsonl` 로 저장.
+3. 마지막 `agent_message.text` 가 리뷰 본문. 사용자가 AI 어시스턴트 세션에 paste.
+4. 결과의 Critical/High/Medium 을 **단일 PATCH** ("외부 코드 리뷰 N차 반영") 로 흡수.
+5. False positive 라고 판단되는 항목은 **사용자 합의 후** 무시. DEVLOG 다음 엔트리에 근거 명시.
+
+명령어 / 인코딩 / 프롬프트 전문은 `docs/REVIEW_PROMPT.md` 참고.
+
+### C10.3 본 절차의 자기 검증 면제
+
+본 절차 자체를 도입/수정하는 PATCH 는 codex review 면제 (자기 검증 회피).
+외부 리뷰 결과를 흡수하는 PATCH 도 면제 (이미 리뷰된 변경의 반영이므로).
+
+### C10.4 산출물 처리
+
+- `review-prompt.txt`, `review-out.jsonl` 은 **커밋 금지**. 일회용 산출물.
+  - 개인 환경 전용: `.git/info/exclude` 에 추가.
+- 리뷰 본문 자체는 commit message body 또는 DEVLOG 에 발췌하여 남기는 것을 **권장**.
+  완전 사본은 GitHub Discussions / Issue 등 별도 채널에 보존.
+
 ---
 
 본 문서를 위반하는 PR은 자동으로 차단되어야 합니다. 차단 메커니즘이 아직 없다면

@@ -1,6 +1,6 @@
 <!--
 tier: 3
-last_synced_with: v0.2.5
+last_synced_with: v0.2.6
 ssot_for: [development-log]
 depends_on: [CHANGELOG.md]
 last_review: 2026-05-19
@@ -244,5 +244,39 @@ last_review: 2026-05-19
   - BaseLLMWorker 의 추적성·상태 분류·output 컨테인먼트가 외부 리뷰가 요구한 수준에 도달. Phase 3 의 IntakePlannerWorker 가 안전하게 상속 가능.
   - 다음 후보: (a) Phase 3 IntakePlannerWorker 착수, (b) agent 모드 본격 sandbox (CLI `--sandbox` 매핑 + scratch dir) — LLM-AP-003 의 후속 단계.
 - **연관**: LLM-AP-003 (resolved-partial), LLM-AP-001/002 (자매 항목), 외부 codex 리뷰 결과, ADDENDUM_04 §5/§7, CLAUDE.md C2/C4.
+
+---
+
+## 2026-05-20 v0.2.6 — codex review 절차 정형화 + 다음 세션 인계 정리
+
+- **무엇을**: 외부 LLM (codex) 코드 리뷰를 일회성 실험에서 정식 거버넌스 절차로 격상. `CLAUDE.md C10` 신설, `docs/REVIEW_PROMPT.md` 운영 매뉴얼 신설, `HANDOFF.md` 를 v0.2.6 기준 + Phase 3 진입 준비로 전면 갱신. 코드/스키마/테스트 변경 없음.
+- **왜**:
+  - v0.2.5 의 외부 리뷰가 6 개 High 를 발견 — 자기 검증의 사각지대가 분명히 존재. 일회성으로 두면 재발. **MINOR/MAJOR/Phase 완료 직전 의무화** 로 강제력 부여.
+  - 사용자가 매번 "어떤 프롬프트로 시켜야 하지?" / "어떻게 호출하지?" 를 묻지 않도록 운영 매뉴얼 분리. 변경 범위만 채워 재사용 가능한 영문 프롬프트 템플릿.
+  - 다음 세션이 어떤 컨텍스트에서 시작할지 분명히 — Phase 3 의 IntakePlannerWorker 가 정식 다음 항목, BaseLLMWorker 인프라는 이미 외부 리뷰까지 거친 견고한 상태.
+- **어떻게**:
+  - **CLAUDE.md C10 신설** — 4 절 구조: C10.1 실행 의무 시점 표 (MINOR/MAJOR 필수, Phase 완료 필수, 새 Worker 권장, 단순 fix 면제), C10.2 절차 5 단계 요약, C10.3 자기 검증 면제 (본 절차 자체와 외부 리뷰 결과 흡수 PATCH 는 무한 루프 방지로 면제), C10.4 산출물 처리 (`review-prompt.txt`/`review-out.jsonl` 커밋 금지).
+  - **`docs/REVIEW_PROMPT.md` 신설** (tier 2, ssot_for=codex-review-procedure) — 6 절 구조:
+    1. 언제 실행하나 (표)
+    2. 표준 영문 프롬프트 (재사용 템플릿 + 작성 가이드)
+    3. 실행 명령어 (Windows cmd / macOS-Linux / .git/info/exclude)
+    4. 결과 해석 (Critical/High/Medium/Low/Nit 처치표 + commit 컨벤션 + false positive 처리)
+    5. 절차의 한계 (codex 가 ADDENDUM/AP 카탈로그 모름)
+    6. 관련 문서
+    프롬프트는 영문 고정 — codex 의 reasoning 일관성 + Windows 한글 코드페이지 이슈 회피.
+  - **HANDOFF.md 전면 갱신**:
+    - `last_synced_with: v0.2.2 → v0.2.6`, `depends_on` 에 `docs/REVIEW_PROMPT.md` 추가.
+    - "1. 지금 어디까지 와 있나" 표에 v0.2.3 / v0.2.4 / v0.2.5 / v0.2.6 4 행 추가.
+    - 알려진 antipattern 카탈로그 갱신 (LLM-AP-001/002/003 상태 명시).
+    - "2. 다음 작업" 절을 v0.2.3/Phase 3 양자택일 → **Phase 3 (v0.3.0) IntakePlannerWorker 단독** 으로 교체. 도메인 모델 4 종, Worker 명세, 웹 페이지, CLI 확장, DoD 7 항목, 알려진 risk 4 종, Phase 4 예고 포함. 대안 절 (LLM-AP-003 후속 보안 강화 먼저) 도 명시.
+    - "3. 작업 시작 전 체크리스트" 에 codex review 단계 + 30 단위 테스트 통과 확인 (`python -m unittest tests.test_base_llm_worker tests.test_base_llm_worker_run`) 추가.
+    - "자주 까먹는 규칙" 에 6 개 항목 추가 — agent 모드 opt-in, codex review 의무, parsed_status 4 상태 의미, exit_code Optional 의미, output_path 컨테인먼트.
+  - VERSION 0.2.5 → 0.2.6 (PATCH — C5.4 "문서 보강"). 코드 변경 없으므로 schema_version 영향 없음.
+  - C10.3 self-exemption 의해 본 PATCH 자체에는 codex review 미실시.
+- **결과**:
+  - 다음 세션이 HANDOFF.md 의 §3 체크리스트만 따라가면 즉시 Phase 3 진입 가능.
+  - codex review 가 일회성 실험에서 정식 거버넌스 절차로 격상. 같은 종류의 사각지대 (자기 검증 한계) 재발 위험 ↓.
+  - 사용자가 매 리뷰 시점마다 절차 / 명령어 / 프롬프트 / 결과 처리를 새로 생각할 필요 없음.
+- **연관**: CLAUDE.md C10, docs/REVIEW_PROMPT.md, HANDOFF.md.
 
 ---
