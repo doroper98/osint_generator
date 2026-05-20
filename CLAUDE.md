@@ -1,6 +1,6 @@
 <!--
 tier: 1
-last_synced_with: v0.2.1
+last_synced_with: v0.2.2
 ssot_for: [ai-assistant-rules, code-style, commit-conventions]
 depends_on: [GOAL.md, DOCS_GOVERNANCE.md]
 last_review: 2026-05-19
@@ -121,6 +121,7 @@ last_review: 2026-05-19
 3. **테스트 가능한 산출물**. 매 Phase는 `python -m py_compile`과 import smoke test 통과.
 4. **무리하게 미래 기능을 만들지 않는다**. 본 Phase 범위 안에서만 구현.
 5. **사용자가 명시적으로 요청하지 않은 PR 생성 금지**.
+6. **Phase / PATCH 완료 시 Codex Cloud 리뷰 안내**. push 직후 사용자에게 "Codex Cloud (`chatgpt.com/codex`) 에서 `{branch}` 리뷰해 주세요" 한 줄 안내. 사용자가 결과 붙여넣으면 반영. 절차는 `WORKFLOWS.md W8`.
 
 ## C9. 보안 / 권리
 

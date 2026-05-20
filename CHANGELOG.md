@@ -1,6 +1,6 @@
 <!--
 tier: 3
-last_synced_with: v0.2.1
+last_synced_with: v0.2.2
 ssot_for: [release-notes]
 depends_on: [README.md, GOAL.md]
 last_review: 2026-05-19
@@ -25,6 +25,24 @@ released 항목은 **append-only**입니다.
 
 ### Fixed
 -
+
+---
+
+## [v0.2.2] — 2026-05-20
+
+Codex Cloud 코드 리뷰 절차를 본 워크플로에 정식 편입.
+
+### Added
+- `WORKFLOWS.md` **W8. Codex Cloud 코드 리뷰** 절 신설. 흐름(AI push → 사용자 수동 실행 → 결과 전달 → 반영 → 재리뷰), 권장 프롬프트(CLAUDE.md 규칙 위반, Worker 규칙, 상태 머신 우회, 보안, SemVer, 일반 품질 6개 기준), 보류 사유 예시 포함.
+- `WORKFLOWS.md` **W7. Phase 완료 체크리스트** 에 "Codex Cloud 코드 리뷰 통과" 항목 추가.
+- `CLAUDE.md` **C8. 작업 흐름** 에 6번 항목 "Phase / PATCH 완료 시 Codex Cloud 리뷰 안내" 추가.
+- `HANDOFF.md` **자주 까먹는 규칙** 에 Codex Cloud 리뷰 안내 한 줄 추가.
+
+### Changed
+- 모든 Tier 1·3 마크다운 `last_synced_with: v0.2.1 → v0.2.2` 일괄 갱신.
+
+### Fixed
+- 없음 (문서 보강 PATCH).
 
 ---
 

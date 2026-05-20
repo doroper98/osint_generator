@@ -1,6 +1,6 @@
 <!--
 tier: 1
-last_synced_with: v0.2.1
+last_synced_with: v0.2.2
 ssot_for: [session-handoff]
 depends_on: [CLAUDE.md, GOAL.md, VERSION, docs/13_IMPLEMENTATION_ROADMAP.md]
 last_review: 2026-05-20
@@ -105,7 +105,7 @@ last_review: 2026-05-20
 - [ ] manifest 가 `source_collecting` 으로 전이.
 - [ ] `python -m py_compile` 통과.
 - [ ] `CHANGELOG.md` `[v0.3.0]` 절 + `DEVLOG.md` 엔트리.
-- [ ] 모든 Tier 1·2 마크다운 `last_synced_with: v0.2.1 → v0.3.0`.
+- [ ] 모든 Tier 1·2 마크다운 `last_synced_with: v0.2.2 → v0.3.0`.
 
 ### Phase 3 이후 (Phase 4 예고)
 
@@ -117,7 +117,7 @@ last_review: 2026-05-20
 
 다음 세션이 첫 번째로 실행할 일 (순서 중요):
 
-1. **읽기**: `CLAUDE.md` → `GOAL.md` → `VERSION` (현재 `0.2.1`) → 본 `HANDOFF.md` → `docs/13_IMPLEMENTATION_ROADMAP.md` → `docs/04_DYNAMIC_INTAKE_PAGE_SPEC.md` → 가장 최근 `DEVLOG.md` 엔트리 3 개.
+1. **읽기**: `CLAUDE.md` → `GOAL.md` → `VERSION` (현재 `0.2.2`) → 본 `HANDOFF.md` → `docs/13_IMPLEMENTATION_ROADMAP.md` → `docs/04_DYNAMIC_INTAKE_PAGE_SPEC.md` → `WORKFLOWS.md W7-W8` → 가장 최근 `DEVLOG.md` 엔트리 3 개.
 2. **상태 확인**:
    ```bash
    git status                       # clean 인지
@@ -142,6 +142,7 @@ last_review: 2026-05-20
 - ✅ 도메인 데이터는 Pydantic v2 BaseModel 만 사용. raw dict 금지.
 - ✅ 시스템 프롬프트 포맷팅은 `.replace()` (`format()` 은 JSON `{}` 와 충돌).
 - ✅ 새 브랜치 만들면 `docs/branches.html` 의 `BRANCH_DESCRIPTIONS` 에 **한국어** 설명 한 줄 추가.
+- ✅ Phase / PATCH 완료 push 직후 사용자에게 **Codex Cloud 리뷰 안내** (`WORKFLOWS.md W8`). 사용자가 결과 붙여넣을 때까지 다음 Phase 시작 보류.
 
 ---
 
@@ -163,4 +164,4 @@ last_review: 2026-05-20
 
 ---
 
-마지막 갱신: v0.2.1, 2026-05-20.
+마지막 갱신: v0.2.2, 2026-05-20.

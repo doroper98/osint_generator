@@ -1,6 +1,6 @@
 <!--
 tier: 2
-last_synced_with: v0.2.1
+last_synced_with: v0.2.2
 ssot_for: [thumbnail-system]
 depends_on: [07_VIDEO_STYLE_GUIDE.md]
 last_review: 2026-05-19

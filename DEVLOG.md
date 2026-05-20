@@ -1,6 +1,6 @@
 <!--
 tier: 3
-last_synced_with: v0.2.1
+last_synced_with: v0.2.2
 ssot_for: [development-log]
 depends_on: [CHANGELOG.md]
 last_review: 2026-05-19
@@ -22,6 +22,24 @@ last_review: 2026-05-19
 - 결과:  …
 - 연관:  AP-번호, 이슈, PR 번호 등
 ```
+
+---
+
+## 2026-05-20 v0.2.2 — Codex Cloud 코드 리뷰 워크플로 편입
+
+- **무엇을**: Phase / PATCH 완료 단계에 **Codex Cloud** (chatgpt.com/codex) 코드 리뷰를 정식 절차로 추가. `WORKFLOWS.md W8` 신설, `W7` 체크리스트 보강, `CLAUDE.md C8` 6번 항목 추가, `HANDOFF.md` 자주 까먹는 규칙에 한 줄 추가.
+- **왜**: v0.2.0 push 후 사용자가 "Codex 코드 리뷰는 왜 빠졌지?" 라고 물어봤을 때 본 저장소 어디에도 Codex 절차가 문서화되어 있지 않다는 것이 드러났다. 다음 세션 AI 가 동일하게 빠뜨리지 않으려면 W7 체크리스트와 C8 작업 흐름에 박아둬야 한다. 사용자 선택은 **Codex Cloud** (로컬 클론 불필요, 컨테이너에서 fresh clone) — Claude Code on the Web 과 같은 분리 실행 모델이라 조합이 자연스럽다.
+- **어떻게**:
+  - `WORKFLOWS.md` 에 W8 절을 W7 바로 아래에 신설. 5 단계 흐름과 권장 프롬프트 6 기준(CLAUDE.md 규칙·Worker 규칙·상태 머신 우회·보안·SemVer·일반 품질) 명시. 의도적 보류 사유 예시도 동봉해서 DEVLOG 한 줄 남기는 규칙까지 박음.
+  - `W7` 체크리스트 마지막 줄에 Codex 통과 항목 추가. 의도적 보류 시 DEVLOG 명시 명령 포함.
+  - `CLAUDE.md C8` 작업 흐름 1–5 다음 6번으로 "Phase / PATCH 완료 시 Codex Cloud 리뷰 안내" 추가. AI 가 push 직후 사용자에게 안내해야 함을 명시.
+  - `HANDOFF.md` "자주 까먹는 규칙" 절 끝에 한 줄. "사용자가 Codex 결과 붙여넣을 때까지 다음 Phase 시작 보류".
+  - VERSION 0.2.1 → 0.2.2, 모든 Tier 1·3 마크다운 `last_synced_with` 일괄 갱신.
+- **결과**:
+  - 다음 세션 AI 가 push 후 자동으로 Codex 안내 → 사용자가 chatgpt.com/codex 에서 브랜치 지정 → 결과 붙여넣기 → AI 가 PATCH 로 반영 흐름이 SSOT 화됨.
+  - `python -m py_compile` 통과 (코드 변경 없음, 문서 PATCH).
+  - Codex 리뷰: 본 PATCH 자체가 Codex 도입 PATCH 이므로 v0.2.2 의 Codex 리뷰는 본 push 이후 첫 사용 케이스가 됨.
+- **연관**: 없음 (워크플로 신규 도입).
 
 ---
 

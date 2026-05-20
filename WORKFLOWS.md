@@ -1,6 +1,6 @@
 <!--
 tier: 3
-last_synced_with: v0.2.1
+last_synced_with: v0.2.2
 ssot_for: [execution-procedures]
 depends_on: [README.md, docs/15_OPERATIONS_RUNBOOK.md]
 last_review: 2026-05-19
@@ -97,3 +97,41 @@ python -m orchestrator.main approve \
 - [ ] MINOR 또는 PATCH 버전 증분
 - [ ] `last_synced_with` 모든 Tier 1·2 헤더 일괄 업데이트
 - [ ] DEVLOG에 Phase 회고 1엔트리 추가
+- [ ] **Codex Cloud 코드 리뷰 통과** (W8 참조). 사용자가 실행, AI 는 push 후 사용자에게 "Codex 리뷰 돌려주세요" 안내. 의도적 보류 시 사유를 DEVLOG 에 명시.
+
+## W8. Codex Cloud 코드 리뷰
+
+본 저장소는 Phase / PATCH 완료 직전 단계로 **Codex Cloud** (chatgpt.com/codex) 리뷰를 거칩니다.
+Claude Code (이 세션) 가 push 한 직후 사용자가 수동으로 실행합니다.
+
+### 흐름
+
+1. **AI 가 push**: 작업 브랜치에 커밋 push. 사용자에게 "Codex Cloud 에서 `{branch}` 리뷰해 주세요" 한 줄 안내.
+2. **사용자가 Codex Cloud 실행**:
+   - chatgpt.com/codex 진입 → 본 저장소 (`doroper98/osint_generator`) 의 작업 브랜치를 가리킴.
+   - 아래 권장 프롬프트로 리뷰 요청.
+3. **사용자가 결과 전달**: Codex 의 코멘트 / suggested diff 를 그대로 본 세션에 붙여넣음.
+4. **AI 가 반영**: 같은 버전 안에서 PATCH 추가 commit, 또는 다음 PATCH 로 묶음.
+5. **재리뷰**: 큰 수정 후엔 1 회 더 Codex 리뷰. 사소한 수정이면 생략 가능.
+
+### 권장 프롬프트
+
+```
+이 브랜치 (diff) 를 코드 리뷰해줘. 다음 기준을 함께 확인:
+1. CLAUDE.md 규칙 위반: Python 3.11+ 타입 힌트 누락, Pydantic v2 BaseModel 미사용,
+   .format() 사용 (.replace() 만 허용), schema_version 누락.
+2. Worker 규칙: 사용자 stdin 질문, 다른 Worker 산출물 수정, task_result.json
+   누락, stdout 1줄 1이벤트 위반.
+3. 상태 머신 우회: ALLOWED_TRANSITIONS 표를 거치지 않고 ProjectManifest.current_state
+   직접 대입.
+4. 보안: 하드코딩된 키·토큰, .env / credentials.json 커밋 흔적.
+5. SemVer / 버전 표기: VERSION 일관성, last_synced_with 누락, schema_version 증분 규칙.
+6. 일반 코드 품질: dead code, 미사용 import, 명백한 버그.
+```
+
+### 의도적 보류 사유 (예시)
+
+- "Hotfix urgency, post-merge review" — 우선순위로 머지 후 다음 PATCH 에서 처리.
+- "Docs-only change, no executable code" — 코드 변경 없음.
+
+이 경우 DEVLOG 의 "결과" 절에 `Codex 리뷰: 보류 ({사유})` 한 줄 남깁니다.

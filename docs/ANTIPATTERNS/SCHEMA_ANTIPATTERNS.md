@@ -1,6 +1,6 @@
 <!--
 tier: 3
-last_synced_with: v0.2.1
+last_synced_with: v0.2.2
 ssot_for: [schema-antipatterns]
 depends_on: [../../schemas/models.py, ../02_SYSTEM_ARCHITECTURE.md, ../05_DATA_SCHEMA_SPEC.md]
 last_review: 2026-05-20
