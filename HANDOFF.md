@@ -1,9 +1,9 @@
 <!--
 tier: 1
-last_synced_with: v0.1.5
+last_synced_with: v0.2.0
 ssot_for: [session-handoff]
 depends_on: [CLAUDE.md, GOAL.md, VERSION, docs/13_IMPLEMENTATION_ROADMAP.md]
-last_review: 2026-05-19
+last_review: 2026-05-20
 -->
 
 # HANDOFF — 다음 세션 AI 인계 문서
@@ -29,7 +29,7 @@ last_review: 2026-05-19
 
 ---
 
-## 1. 지금 어디까지 와 있나 (v0.1.5 기준)
+## 1. 지금 어디까지 와 있나 (v0.2.0 기준)
 
 ### 완료된 Phase
 
@@ -42,12 +42,17 @@ last_review: 2026-05-19
 | 브랜치 뷰어 그래프화 | v0.1.3 | `@gitgraph/js` 라이브러리로 진짜 git 토폴로지 SVG 그래프 렌더링 | 사용자 시각 확인 |
 | 한글 라벨 + 분기 검증 | v0.1.4 | `COMMIT_DESCRIPTIONS` 한글 override, `BRANCH_PRIORITY` 정렬, `test/graph-demo` 분기 시연 | 사용자 스크린샷 확인 |
 | 검증 정리 | v0.1.5 | `test/graph-demo` 삭제 + dead code 청소 | 원격 브랜치 목록 2개로 복귀 |
+| Phase 2: Project Manager / State Machine | v0.2.0 | `project_manager.py` + `state_machine.py` 신설, `new-project / resume / transition` CLI, `state_history` 감사 로그, 24-state 선형 전이표 + ARCHIVED 어디서든 도달 | smoke test 9개 시나리오, CLI 종단 테스트, `python -m py_compile` 통과 |
 
 ### 핵심 산출물
 
 - 라이브 사이트: <https://osint-generator.vercel.app/> (PAT 필요, Private 저장소)
 - TUI 진입: `python -m orchestrator.main command-center --project demo` 또는 `run_pipeline.bat`
-- 더미 워커 directory: `workers/dummy_worker.py`
+- 새 프로젝트: `python -m orchestrator.main new-project {pid} --category {cat} [--title ...]`
+- 재개: `python -m orchestrator.main resume {pid}`
+- 상태 전이: `python -m orchestrator.main transition {pid} --to {state} [--reason ...]`
+- 더미 워커: `workers/dummy_worker.py`
+- Phase 2 산출물: `orchestrator/project_manager.py`, `orchestrator/state_machine.py`
 
 ### 인프라 상태
 
@@ -64,46 +69,45 @@ last_review: 2026-05-19
 
 ---
 
-## 2. 다음 작업 — Phase 2 (v0.2.0 예상)
+## 2. 다음 작업 — Phase 3 (v0.3.0 예상)
 
-### 목표: Project Manager / State Machine
+### 목표: Dynamic Intake Page
 
-사용자가 새 영상 프로젝트를 시작하고 중단/재개할 수 있는 상태 머신을 구현한다.
+사용자가 주제를 입력하면, Dynamic Intake Planner Agent 가 그 주제에 필요한
+정보 항목을 동적으로 생성하고, 웹 페이지에서 사용자가 항목별로 입력 방식을 선택해
+제출할 수 있게 한다.
 
-**Roadmap 출처**: `docs/13_IMPLEMENTATION_ROADMAP.md` Phase 2 절을 정식 SSOT 로 따른다.
-**아키텍처 SSOT**: `docs/02_SYSTEM_ARCHITECTURE.md`, `docs/03_AGENT_ARCHITECTURE.md`.
-**스키마 SSOT**: `docs/05_DATA_SCHEMA_SPEC.md`, `schemas/models.py`.
+**Roadmap 출처**: `docs/13_IMPLEMENTATION_ROADMAP.md` Phase 3 절을 정식 SSOT 로 따른다.
+**스펙 SSOT**: `docs/04_DYNAMIC_INTAKE_PAGE_SPEC.md`, `docs/03_AGENT_ARCHITECTURE.md`.
+**스키마 SSOT**: `schemas/models.py` 의 `IntakePlan / IntakePlanItem / SourceIntake / UserDecision`.
 
-### 구체 작업 단위 (Phase 2 후보)
+### 구체 작업 단위 (Phase 3 후보)
 
-1. `orchestrator/project_manager.py` 신설.
-   - `new_project(name) -> ProjectManifest`
-   - `resume_project(name) -> ProjectManifest`
-   - `transition_state(project, next_state) -> ProjectManifest`
-2. `schemas/project_manifest.py` 의 `ProjectManifest` Pydantic v2 모델 확정.
-   - `state` enum: `draft / intake / planning / collecting / scripting / rendering / qa / done / failed / paused`
-   - `state_history` (append-only)
-   - `current_phase`, `current_workers`, `output_refs`
-3. CLI 명령 추가: `python -m orchestrator.main new-project <name>`, `... resume <name>`.
-4. `projects/{name}/project_manifest.json` 디스크 영속화.
-5. 상태 전이 시 검증 (불가능한 전이는 거부, `SCHEMA-AP` 카탈로그에 추가).
-6. TUI 의 Job Dashboard 와 연동: 현재 프로젝트 / 상태 표시.
+1. `agents/dynamic_intake_planner.py` 신설.
+   - 입력: `ProjectManifest.title + topic_summary + category`.
+   - 출력: `IntakePlan` (`required_items: list[IntakePlanItem]`).
+   - Anthropic / OpenAI API 호출 (.env 의 키 사용). `.replace()` 로 시스템 프롬프트 포맷.
+2. CLI 추가: `python -m orchestrator.main plan-intake {pid}` → `projects/{pid}/intake_plan.json` 생성.
+   - 동시에 manifest 를 `intake_planning` 상태로 전이, 완료 시 `intake_pending_user` 로 전이.
+3. `web/intake_page_app.py` 신설 (FastAPI 또는 Flask 1 파일).
+   - `intake_plan.json` 을 읽어 항목별 선택 UI 렌더.
+   - 제출 시 `source_intake.json` (`SourceIntake`) 생성, manifest 를 `source_collecting` 으로 전이.
+4. 파일 업로드 경로: `projects/{pid}/uploads/{item_id}/...`. `UserDecision.uploaded_files` 에 상대경로 기록.
+5. 사용자에게 보여줄 URL 은 로컬 `http://localhost:8765/intake/{pid}` (포트는 config.yaml).
 
-### Phase 2 의 종료 조건 (DoD)
+### Phase 3 의 종료 조건 (DoD)
 
-- [ ] 사용자가 `new-project demo2` 하면 `projects/demo2/project_manifest.json` 이 `state: "draft"` 로 생성됨.
-- [ ] 중단 후 `resume demo2` 하면 마지막 상태에서 이어짐.
-- [ ] 잘못된 상태 전이는 `ValueError` + 명확한 메시지.
+- [ ] `plan-intake demo2` 하면 `projects/demo2/intake_plan.json` 이 생성되고 manifest 상태가 `intake_pending_user` 로 전이.
+- [ ] `web/intake_page_app.py` 를 띄우고 브라우저에서 항목별 선택·파일 업로드·링크 입력 가능.
+- [ ] 제출 시 `source_intake.json` 이 검증된 Pydantic 모델로 저장.
+- [ ] manifest 가 `source_collecting` 으로 전이.
 - [ ] `python -m py_compile` 통과.
-- [ ] 모든 Tier 1·2 마크다운 `last_synced_with` 갱신.
-- [ ] `CHANGELOG.md` `[v0.2.0]` 절 추가, `DEVLOG.md` 엔트리 추가.
+- [ ] `CHANGELOG.md` `[v0.3.0]` 절 + `DEVLOG.md` 엔트리.
+- [ ] 모든 Tier 1·2 마크다운 `last_synced_with: v0.2.0 → v0.3.0`.
 
-### Phase 2 이후 (Phase 3 예고)
+### Phase 3 이후 (Phase 4 예고)
 
-`docs/13_IMPLEMENTATION_ROADMAP.md` 의 Phase 3 절 참조. 대략:
-- Intake Worker (사용자 입력 → 토픽 수집 계획)
-- Source Collector Worker (X / Telegram / 기사 영상 수집, `rights_status` 필수)
-- Source Verifier Worker (`<미검증>` 라벨 결정)
+- Task Queue Builder: `source_intake.json` → `task_queue.json` 변환 + Worker 배정 + 결과 수집.
 
 ---
 
@@ -111,15 +115,16 @@ last_review: 2026-05-19
 
 다음 세션이 첫 번째로 실행할 일 (순서 중요):
 
-1. **읽기**: `CLAUDE.md` → `GOAL.md` → `VERSION` (현재 `0.1.5`) → 본 `HANDOFF.md` → `docs/13_IMPLEMENTATION_ROADMAP.md` → 가장 최근 `DEVLOG.md` 엔트리 3 개.
+1. **읽기**: `CLAUDE.md` → `GOAL.md` → `VERSION` (현재 `0.2.0`) → 본 `HANDOFF.md` → `docs/13_IMPLEMENTATION_ROADMAP.md` → `docs/04_DYNAMIC_INTAKE_PAGE_SPEC.md` → 가장 최근 `DEVLOG.md` 엔트리 3 개.
 2. **상태 확인**:
    ```bash
    git status                       # clean 인지
    git log --oneline -10            # 최근 커밋
    cat VERSION                       # 현재 버전
    python -m py_compile orchestrator/*.py workers/*.py schemas/*.py
+   python -m orchestrator.main version
    ```
-3. **사용자 의도 확인**: "Phase 2 시작?" 또는 "그 외 작업?" 한 줄 질문.
+3. **사용자 의도 확인**: "Phase 3 시작?" 또는 "그 외 작업?" 한 줄 질문.
 4. **작업 진행**: 항상 작은 단위 커밋, 한 커밋 = 한 의도.
 
 ---
@@ -156,4 +161,4 @@ last_review: 2026-05-19
 
 ---
 
-마지막 갱신: v0.1.5, 2026-05-19.
+마지막 갱신: v0.2.0, 2026-05-20.

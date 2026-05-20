@@ -157,6 +157,17 @@ class VersionedModel(BaseModel):
 # ---------------------------------------------------------------------------
 
 
+class StateHistoryEntry(BaseModel):
+    """프로젝트 상태 전이 1건의 감사 로그. append-only."""
+
+    model_config = ConfigDict(extra="forbid", use_enum_values=True)
+
+    from_state: Optional[ProjectState] = None
+    to_state: ProjectState
+    at: datetime = Field(default_factory=utc_now)
+    reason: str = ""
+
+
 class ProjectManifest(VersionedModel):
     project_id: str
     title: str
@@ -170,6 +181,7 @@ class ProjectManifest(VersionedModel):
     render_mode_status: dict[str, str] = Field(default_factory=dict)
     approval_status: dict[str, str] = Field(default_factory=dict)
     final_outputs: dict[str, str] = Field(default_factory=dict)
+    state_history: list[StateHistoryEntry] = Field(default_factory=list)
 
 
 # ---------------------------------------------------------------------------

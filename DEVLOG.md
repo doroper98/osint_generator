@@ -1,6 +1,6 @@
 <!--
 tier: 3
-last_synced_with: v0.1.5
+last_synced_with: v0.2.0
 ssot_for: [development-log]
 depends_on: [CHANGELOG.md]
 last_review: 2026-05-19
@@ -22,6 +22,26 @@ last_review: 2026-05-19
 - 결과:  …
 - 연관:  AP-번호, 이슈, PR 번호 등
 ```
+
+---
+
+## 2026-05-20 v0.2.0 — Phase 2: Project Manager / State Machine
+
+- **무엇을**: `ProjectManifest` 의 생성·재진입·상태 전이를 책임지는 Project Manager 와, 24-state 전이표를 강제하는 State Machine 을 추가. CLI `new-project / resume / transition` 서브커맨드 도입.
+- **왜**: Phase 3 (Dynamic Intake) 이후로는 모든 산출물이 "어떤 프로젝트의 어느 상태에서 만든 것인가"라는 좌표 위에 놓여야 한다. 그 좌표계가 없으면 후속 Worker 들이 자기 산출물을 어디에 둘지·다음 누구를 깨울지 정할 수 없다. 그래서 본 Phase 가 Phase 1(실행 인프라) 와 Phase 3+ (도메인 작업) 사이의 단단한 뼈대로 들어가야 했다.
+- **어떻게**:
+  - `schemas/models.py` 에 `StateHistoryEntry` 를 추가하고 `ProjectManifest.state_history` (append-only) 를 도입. additive 변경이라 `schema_version` 은 1 유지.
+  - `orchestrator/state_machine.py`: `docs/02 §4` 의 24-state 선형 흐름을 `_LINEAR_ORDER` 로 코드화하고, 어디서든 `ARCHIVED` 도달을 허용. `validate_transition` 은 동일 상태 self-loop 도 거부. 표에 없는 전이는 `InvalidTransitionError`(`ValueError` 하위) 와 함께 "현 상태에서 허용된 다음 상태" 목록을 반환해 호출자가 즉시 알 수 있게 함.
+  - `orchestrator/project_manager.py`: 디스크 SSOT 책임자. `save_manifest` 는 `tmp → replace` atomic write. `new_project` 는 manifest 작성과 동시에 `03_tasks/`, `03_tasks/task_results/`, `logs/workers/` 표준 폴더를 보장 (command_center 와 일치).
+  - `orchestrator/main.py` 에서 `command-center` 의존성(`textual`) 을 함수 안으로 내려 비-TUI CLI 가 textual 없이도 동작하도록 함. (사용자가 서버/CI 환경에서 `new-project` 만 빠르게 돌릴 수 있다.)
+  - `orchestrator/command_center.py` 는 더 이상 inline `json.loads` 로 `current_state` 만 빼오지 않고 `resume_project` 를 호출해 전체 매니페스트를 SSOT 로 적재. 매니페스트가 없으면 진입 거부.
+  - 기존 `projects/demo/` 에 manifest 마이그레이션 1회 (Phase 1 더미 프로젝트, category=`geopolitics`).
+  - smoke test 로 9개 시나리오 검증: 생성·중복 거부·재개·정상 전이·점프 거부·self-loop 거부·ARCHIVED 도달·미존재 프로젝트 거부·history 영속화 (3 entries).
+- **결과**:
+  - `python -m py_compile orchestrator/*.py workers/*.py schemas/*.py` 통과.
+  - CLI 종단 테스트: `new-project _clitest --category economy` → `resume` → `transition --to intake_planning` → 잘못된 점프 `--to render_final` 시 exit=3 + 명확한 한국어 에러 메시지 + 허용된 다음 상태 안내.
+  - DoD 6개 항목 모두 충족 (manifest 생성·재개·invalid transition ValueError·py_compile·last_synced_with 갱신·CHANGELOG/DEVLOG 엔트리).
+- **연관**: 없음 (Phase 2 신규 작업, 카탈로그에 추가할 신규 antipattern 미발견).
 
 ---
 

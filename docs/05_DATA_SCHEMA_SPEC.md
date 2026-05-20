@@ -1,6 +1,6 @@
 <!--
 tier: 2
-last_synced_with: v0.1.5
+last_synced_with: v0.2.0
 ssot_for: [json-contracts-overview]
 depends_on: [../schemas/models.py]
 last_review: 2026-05-19
@@ -72,6 +72,7 @@ last_review: 2026-05-19
 | render_mode_status | dict[str, str] | debug/preview/final 별 상태 |
 | approval_status | dict[str, str] | gate_id → status |
 | final_outputs | dict[str, str] | 최종 산출물 경로 |
+| state_history | list[StateHistoryEntry] | append-only 상태 전이 감사 로그 (Phase 2~). 각 항목: `from_state / to_state / at / reason` |
 
 ### 3.2 `TaskQueue` / `TaskQueueItem`
 

@@ -1,6 +1,6 @@
 <!--
 tier: 2
-last_synced_with: v0.1.5
+last_synced_with: v0.2.0
 ssot_for: [phase-roadmap]
 depends_on: [../GOAL.md, ../CHANGELOG.md]
 last_review: 2026-05-19
@@ -20,12 +20,18 @@ last_review: 2026-05-19
 - Orch CLI Log + Job Dashboard + Worker Slot 4개.
 - Log Router, Worker Slot Manager.
 - 완료 기준: dummy Worker 4개가 subprocess로 동시 실행되며 각 Slot 패널에 로그가 흐른다.
-- **상태**: 🚧 v0.1.0 진행 중
+- **상태**: ✅ v0.1.0
 
 ## Phase 2: Project Manager / State Machine
 
 - 프로젝트 생성, `project_manifest.json`, 상태 전이, 프로젝트 폴더 구조 생성.
 - 완료 기준: 새 project_id 생성·재진입·상태 복구 가능.
+- **상태**: ✅ v0.2.0
+  - `orchestrator/project_manager.py` — `new_project` / `resume_project` / `transition_state`.
+  - `orchestrator/state_machine.py` — `ALLOWED_TRANSITIONS` 표 (24-state 선형 흐름 + 어디서든 `ARCHIVED`).
+  - CLI: `new-project {id} --category ...`, `resume {id}`, `transition {id} --to {state}`.
+  - `ProjectManifest.state_history` 필드 추가 (append-only 감사 로그).
+  - 잘못된 전이는 `InvalidTransitionError`(`ValueError` 하위) 로 거부.
 
 ## Phase 3: Dynamic Intake Page
 

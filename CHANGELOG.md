@@ -1,6 +1,6 @@
 <!--
 tier: 3
-last_synced_with: v0.1.5
+last_synced_with: v0.2.0
 ssot_for: [release-notes]
 depends_on: [README.md, GOAL.md]
 last_review: 2026-05-19
@@ -25,6 +25,29 @@ released 항목은 **append-only**입니다.
 
 ### Fixed
 -
+
+---
+
+## [v0.2.0] — 2026-05-20
+
+Phase 2 — Project Manager / State Machine 완료.
+
+### Added
+- `orchestrator/state_machine.py` 신설. `ProjectState` 24-state 선형 전이표 + 어디서든 `ARCHIVED` 도달 가능. `validate_transition` / `is_allowed` / `next_linear_state` 노출. `InvalidTransitionError`(`ValueError` 하위).
+- `orchestrator/project_manager.py` 신설. `new_project` / `resume_project` / `transition_state` / `load_manifest` / `save_manifest`. atomic write (tmp → rename). 표준 하위 폴더 (`03_tasks/`, `03_tasks/task_results/`, `logs/workers/`) 자동 생성.
+- `schemas/models.py` 에 `StateHistoryEntry` Pydantic 모델 추가. `ProjectManifest.state_history: list[StateHistoryEntry]` 필드 추가 (append-only 감사 로그). schema_version 은 1 유지 (additive).
+- CLI 신규 서브커맨드: `new-project {pid} --category ... [--title ... --duration-min ... --topic-summary ...]`, `resume {pid}`, `transition {pid} --to {state} [--reason ...]`.
+- 기존 `projects/demo/` 에 `project_manifest.json` 마이그레이션 (Phase 1 검증용 더미 프로젝트).
+
+### Changed
+- `orchestrator/main.py` 의 `command-center` import 가 지연 로딩으로 전환 (textual 미설치 환경에서도 비-TUI 커맨드 동작).
+- `orchestrator/command_center.py` 가 manifest 존재 여부를 강제. 없으면 `ProjectNotFoundError` 로 진입 거부 (먼저 `new-project` 필요).
+- `docs/05_DATA_SCHEMA_SPEC.md` ProjectManifest 표에 `state_history` 행 추가.
+- `docs/13_IMPLEMENTATION_ROADMAP.md` Phase 1 ✅ v0.1.0, Phase 2 ✅ v0.2.0 마킹.
+- 모든 Tier 1·2·3 마크다운 `last_synced_with: v0.1.5 → v0.2.0` 일괄 갱신.
+
+### Fixed
+- 없음 (Phase 2 신규 기능).
 
 ---
 
