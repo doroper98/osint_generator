@@ -1,6 +1,6 @@
 <!--
 tier: 3
-last_synced_with: v0.2.9
+last_synced_with: v0.3.0
 ssot_for: [development-log]
 depends_on: [CHANGELOG.md]
 last_review: 2026-05-19
@@ -265,7 +265,7 @@ last_review: 2026-05-19
     6. 관련 문서
     프롬프트는 영문 고정 — codex 의 reasoning 일관성 + Windows 한글 코드페이지 이슈 회피.
   - **HANDOFF.md 전면 갱신**:
-    - `last_synced_with: v0.2.2 → v0.2.6`, `depends_on` 에 `docs/REVIEW_PROMPT.md` 추가.
+    - `last_synced_with: v0.3.0 → v0.2.6`, `depends_on` 에 `docs/REVIEW_PROMPT.md` 추가.
     - "1. 지금 어디까지 와 있나" 표에 v0.2.3 / v0.2.4 / v0.2.5 / v0.2.6 4 행 추가.
     - 알려진 antipattern 카탈로그 갱신 (LLM-AP-001/002/003 상태 명시).
     - "2. 다음 작업" 절을 v0.2.3/Phase 3 양자택일 → **Phase 3 (v0.3.0) IntakePlannerWorker 단독** 으로 교체. 도메인 모델 4 종, Worker 명세, 웹 페이지, CLI 확장, DoD 7 항목, 알려진 risk 4 종, Phase 4 예고 포함. 대안 절 (LLM-AP-003 후속 보안 강화 먼저) 도 명시.
@@ -346,3 +346,64 @@ last_review: 2026-05-19
   - Codex 머지 차단 사유 (H) 해제. M·L 도 같이 처리. main 머지 직전 단계.
   - 본 PATCH 자체에 대해 머지 전 한 차례 더 codex 리뷰를 돌리는 것이 안전 (코드 변경 있음, C10.3 self-exemption 미적용).
 - **연관**: Codex 3차 리뷰 H1/M1/L1. 미반영 4 항목은 CHANGELOG v0.2.9 의 "Codex 3차 리뷰 미반영 항목" 절에 사유와 함께 기록.
+
+## 2026-05-21 v0.3.0 — Phase 3: Dynamic Intake Page + IntakePlannerWorker
+
+- **무엇을**: Phase 3 의 핵심 산출물 3 종 (도메인 LLM Worker + 웹 폼 + CLI) 을 단일 MINOR
+  로 묶어 도입. HANDOFF §2.2 의 DoD 8 항목을 모두 충족.
+- **왜**: BaseLLMWorker 인프라가 외부 리뷰 3 차까지 (v0.2.9) 견고해졌고, codex review 절차도
+  정형화 (v0.2.6) 됐다. 다음 자연스러운 단계는 **첫 도메인 LLM Worker** 인 IntakePlannerWorker.
+  이 Worker 가 도입되면 (a) Phase 0 의 IntakePlan Pydantic 모델이 처음으로 실 데이터로 채워지고,
+  (b) BaseLLMWorker 의 4 parsed_status / output_path 가드 / agent 모드 opt-in 이 도메인 흐름에서
+  실제로 검증되며, (c) 사용자가 처음으로 웹 UI 로 파이프라인과 상호작용하게 된다 (지금까지는
+  CLI / TUI 만).
+- **어떻게**:
+  - `workers/intake_planner_worker.py` 신설. BaseLLMWorker 상속. `system_prompt` 가 IntakePlan
+    스키마 + IntakeMode 9 enum 값 + 출력 규칙을 LLM 에 강제. `CATEGORY_GUIDANCE` (모듈 레벨 dict)
+    가 GOAL.md G2 의 5 카테고리별 baseline 항목 카탈로그. `build_user_prompt` 가 manifest 의
+    title/category/duration/topic_summary 를 `.replace()` 로만 치환 (`.format()` 은 JSON `{}` 와
+    충돌 — CLAUDE.md C2). `output_path` 는 `01_intake/intake_plan.json` 으로 고정.
+    `load_manifest` 의존을 의도적으로 회피하고 `BaseWorker.project_dir(args)` 가 책임지는 경로 기반
+    파일 read 로 가서 단위 테스트의 `args.projects_root=<tmp>` 가 정상 동작.
+  - `web/intake_page_app.py` 신설. FastAPI + 인라인 HTML (Jinja 미도입). `_render_intake_html`
+    이 manifest + plan 을 카드 폼으로 직렬화, 모든 사용자/manifest 유래 문자열에 `html.escape`.
+    `_form_to_decisions` 가 form-urlencoded 입력을 `UserDecision[]` 로 검증된 변환 — 알 수 없는
+    enum 값은 `default_mode` 폴백, 누락 mode 도 폴백. `submit` 핸들러는 `transition_state` 를 통해서만
+    상태를 변경 (직접 manifest 쓰지 않음). 401·404 등은 `HTTPException` 으로 일관 응답.
+  - `orchestrator/main.py` 에 `plan-intake` / `submit-intake` 서브커맨드 추가. `_cmd_plan_intake`
+    가 합성 `TaskQueueItem` (output_refs=["01_intake/intake_plan.json"]) 으로 worker.run() 직접
+    호출 + state 두 단계 전이. `_cmd_submit_intake` 가 입력 JSON 의 project_id 일치 검증 + 영속화 +
+    `source_collecting` 전이. Phase 4 의 자동 task_queue.json 도입 전 단계라 의도적으로 task_queue
+    파일 영속화는 하지 않음.
+  - 의존성: `requirements.txt` + `pyproject.toml` 에 fastapi/uvicorn/python-multipart 추가.
+  - 테스트: `tests/test_intake_planner_worker.py` (13 케이스) + `tests/test_intake_flow.py` (6
+    케이스). 후자는 `orchestrator.config.REPO_ROOT` 와 `workers.base_worker.REPO_ROOT` 양쪽을
+    임시 디렉토리로 monkeypatch 해 실제 `projects/` 를 건드리지 않으면서 CLI end-to-end (new-project
+    → plan-intake → submit-intake) + FastAPI `TestClient` POST 흐름까지 검증. stub mode 로 실 LLM
+    호출은 회피.
+  - 문서: `docs/03_AGENT_ARCHITECTURE.md` Agent 카탈로그의 Dynamic Intake Planner 행을 실제 구현
+    파일 (`workers/intake_planner_worker.py (BaseLLMWorker)`) 로 갱신 + Worker 카탈로그에 한 행
+    추가. 본 저장소 정책에 따라 LLM 호출 worker 의 parallelizable 은 ❌ (slot 1개 점유 가정).
+  - VERSION 0.2.9 → 0.3.0, 36 개 마크다운/HTML `last_synced_with` 일괄 갱신 (sed).
+- **결과**:
+  - `python -m py_compile orchestrator/*.py workers/*.py schemas/*.py web/*.py` 모두 통과.
+  - 단위 테스트 49 케이스 (30 회귀 + 13 IntakePlanner + 6 인테이크 flow) 모두 통과.
+  - DoD 8 항목 (HANDOFF §2.2) 충족 확인:
+    - [x] plan-intake → intake_plan.json + intake_pending_user 상태 (test_intake_flow.TestPlanIntakeCLI 검증)
+    - [x] 웹 제출 → source_intake.json + source_collecting (test_intake_flow.TestWebSubmit 검증)
+    - [x] 모든 도메인 데이터 Pydantic 검증 통과 (IntakePlan / SourceIntake / UserDecision 통합 케이스)
+    - [x] LLM 호출은 BaseLLMWorker 경유, llm_calls/{call_id}.{json,prompt.txt,raw.txt} 영속화
+    - [x] codex backend 도 stub mode 케이스 추가 (test_codex_backend_passthrough). 실 호출은 Windows
+          에서 사용자 검증 필요 — 본 컨테이너는 codex CLI 미설치.
+    - [x] py_compile + 단위 테스트 49 케이스 통과 (35+ 초과)
+    - [x] CHANGELOG.md `[v0.3.0]` + DEVLOG.md 본 엔트리
+    - [ ] **C10.1 codex review** — 본 컨테이너에 codex CLI 부재. 사용자 머신에서 `docs/REVIEW_PROMPT.md`
+          §3 절차로 실행 예정. 결과는 v0.3.1 PATCH 로 흡수 또는 false-positive 합의.
+- **알려진 위험과 향후**:
+  - Phase 4 (`task_queue.json` 자동 생성 + 일반 worker subprocess 흐름) 가 도입되면 IntakePlannerWorker
+    도 합성 task 대신 실제 queue 의 task 로 호출되도록 plan-intake CLI 를 단순화.
+  - LLM-AP-003 후속 (codex --sandbox, scratch dir, `<untrusted_source>` envelope) 은 Phase 4 의
+    `source_collector_worker` 도입 전에 처리 — IntakePlanner 는 agent 모드 미사용이라 본 Phase 미해당.
+  - SCHEMA-AP-001 회귀 테스트는 v0.2.9 에서 v0.3.x 후보로 분리되어 있었음 — 본 PATCH 에서도 다루지
+    않음. intake flow 의 정상 전이 (6 케이스) 가 부분 cover 하지만 임의 점프 명시 회귀는 별도.
+- **연관**: HANDOFF §2 Phase 3 DoD, GOAL.md G3 #7/#8/#10, docs/04_DYNAMIC_INTAKE_PAGE_SPEC.md.

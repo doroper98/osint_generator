@@ -1,6 +1,6 @@
 <!--
 tier: 2
-last_synced_with: v0.2.2
+last_synced_with: v0.3.0
 ssot_for: [agent-catalog, worker-catalog]
 depends_on: [02_SYSTEM_ARCHITECTURE.md]
 last_review: 2026-05-19
@@ -23,7 +23,7 @@ last_review: 2026-05-19
 
 | Agent | 파일 | 입력 | 출력 | LLM | Phase |
 |---|---|---|---|---|---|
-| Dynamic Intake Planner | `agents/dynamic_intake_planner.py` | user command + topic_summary | `intake_plan.json` | ✅ | 3 |
+| Dynamic Intake Planner | `workers/intake_planner_worker.py` (BaseLLMWorker) | project_manifest.json (title/category/duration/summary) | `01_intake/intake_plan.json` | ✅ | 3 |
 | Source Registry Builder | `agents/source_registry_builder.py` | source_intake + task results | `source_registry.json` | ❌ | 5 |
 | Research Agent | `agents/research_agent.py` | source_registry | `research_dossier.json` | ✅ | 6 |
 | Evidence Guard | `agents/evidence_guard.py` | research_dossier | `qa_evidence_report.json` | ✅ | 6 |
@@ -37,6 +37,7 @@ last_review: 2026-05-19
 | Worker | 파일 | 입력 | 출력 | parallelizable | Phase |
 |---|---|---|---|---|---|
 | Dummy Worker | `workers/dummy_worker.py` | task spec | `task_result_*.json` | ✅ | 1 |
+| Intake Planner | `workers/intake_planner_worker.py` | project_manifest.json | `01_intake/intake_plan.json` | ❌ (LLM 호출, slot 1개) | 3 |
 | Video Acquisition | `workers/video_acquisition_worker.py` | url + rights flag | mp4 clip + manifest 행 | ✅ | 7 |
 | Article Capture | `workers/article_capture_worker.py` | url | png screenshot + manifest 행 | ✅ | 7 |
 | X Source Card | `workers/x_card_worker.py` | tweet metadata | png card | ✅ | 7 |

@@ -1,9 +1,9 @@
 <!--
 tier: 1
-last_synced_with: v0.2.9
+last_synced_with: v0.3.0
 ssot_for: [session-handoff]
 depends_on: [CLAUDE.md, GOAL.md, VERSION, docs/13_IMPLEMENTATION_ROADMAP.md, docs/REVIEW_PROMPT.md]
-last_review: 2026-05-20
+last_review: 2026-05-21
 -->
 
 # HANDOFF — 다음 세션 AI 인계 문서
@@ -29,7 +29,7 @@ last_review: 2026-05-20
 
 ---
 
-## 1. 지금 어디까지 와 있나 (v0.2.9 기준)
+## 1. 지금 어디까지 와 있나 (v0.3.0 기준)
 
 ### 완료된 Phase
 
@@ -52,6 +52,7 @@ last_review: 2026-05-20
 | 평행 브랜치 흡수 (Ij1TX) | v0.2.7 | 동일 출발점의 다른 세션 브랜치 `claude/start-after-handoff-Ij1TX` 의 차별점 3 가지 흡수: (1) **SCHEMA-AP 카탈로그** + SCHEMA-AP-001 (임의 상태 점프 / self-loop), (2) **TUI 라이브 manifest reload** (`_tick_loop` 가 매 tick 마다 `load_manifest` → 외부 transition 즉시 반영, 실패 모드 3 분류: unknown/invalid/정상), (3) **`_write_manifest` atomic write** (tmp→`Path.replace`, half-written race 차단). | py_compile + 5 케이스 smoke (atomic / corrupt JSON ValidationError / non-JSON JSONDecodeError 포함) 통과 |
 | codex 2차 리뷰 H2 반영 | v0.2.8 | v0.2.7 atomic write 의 내구성(`durability`) 보강: `flush()` + `os.fsync()` (파일 fd) + 부모 디렉토리 fsync (POSIX, Windows best-effort skip). 예외 발생 시 leftover tmp best-effort cleanup. docstring 을 visibility vs durability 로 분리 명시. H1 (Ij1TX 원본 커밋 부재) 은 절차 이슈로 별도 처리 — Codex Cloud 가 비교 브랜치를 fetch 하도록 안내. | py_compile + 5 케이스 smoke (정상 / replace 실패 시 tmp cleanup / corrupt JSON / non-JSON 포함) 통과, 30/30 회귀 통과 |
 | codex 3차 리뷰 흡수 (H+M+L) | v0.2.9 | dir fsync `OSError` swallow → `logging.warning` (platform·errno 포함) 으로 신호화. `_print_manifest_summary` 타입 힌트 보강 (`# type: ignore` 제거). `_SLUG_RE` 주석을 실제 정규식 (하이픈·언더스코어 허용) 과 정합화. 본 저장소 첫 표준 `logging.getLogger(__name__)` 도입. | py_compile + 5 smoke (dir fsync 실패 warning 로그 검증 포함) + 30/30 단위 테스트 회귀 통과 |
+| **Phase 3: Dynamic Intake Page + IntakePlannerWorker** | **v0.3.0** | **첫 도메인 LLM Worker** (`workers/intake_planner_worker.py`, BaseLLMWorker 상속, `response_model=IntakePlan`, claude 기본/codex 전환 가능, `CATEGORY_GUIDANCE` 5 카테고리), **FastAPI 인테이크 페이지** (`web/intake_page_app.py`: `GET /intake/{pid}` 렌더 + `POST /intake/{pid}/submit` 가 `UserDecision[]` → `SourceIntake` 영속화 + `source_collecting` 전이, `html.escape` XSS 방지), **CLI 확장** (`plan-intake <pid> [--backend ...]` + `submit-intake <pid> --file ...`). 단위 테스트 30 → **49** (IntakePlanner 13 + 인테이크 flow 6 + 회귀 30). fastapi/uvicorn/python-multipart 의존성 추가. | py_compile + 49/49 통과. DoD 8 항목 중 7 항목 충족, 마지막 1 항목 (C10.1 codex review) 은 사용자 머신에서 실행 필요 (본 컨테이너 codex CLI 미설치). |
 
 ### 핵심 산출물
 
@@ -61,7 +62,11 @@ last_review: 2026-05-20
   - `python -m orchestrator.main new-project <pid> --title ... --category geopolitics`
   - `python -m orchestrator.main resume <pid>`
   - `python -m orchestrator.main transition <pid> --to intake_planning --reason "..."`
+  - **`python -m orchestrator.main plan-intake <pid> [--backend claude|codex]`** (v0.3.0)
+  - **`python -m orchestrator.main submit-intake <pid> --file <source_intake.json>`** (v0.3.0)
 - 더미 워커 directory: `workers/dummy_worker.py`
+- **첫 도메인 LLM Worker: `workers/intake_planner_worker.py`** (Phase 3)
+- **인테이크 웹 페이지: `web/intake_page_app.py`** — `uvicorn web.intake_page_app:app` 또는 `python -m web.intake_page_app` (Phase 3)
 - Project Manager 모듈: `orchestrator/project_manager.py` (project_manifest.json 의 유일한 쓰기자)
 - State Machine 모듈: `orchestrator/state_machine.py` (`LINEAR_SEQUENCE`, `allowed_next_states`, `validate_transition`)
 
@@ -85,77 +90,64 @@ last_review: 2026-05-20
 
 ---
 
-## 2. 다음 작업 — Phase 3 (v0.3.0) Dynamic Intake Page
+## 2. 다음 작업 — Phase 4 (v0.4.0) source_intake → task_queue + 첫 agent 모드 Worker
 
-BaseLLMWorker 인프라가 외부 리뷰까지 거쳐 견고해졌고 (v0.2.5), codex review 절차도
-정형화 (v0.2.6) 됐다. 다음은 **첫 도메인 worker 인 IntakePlannerWorker** 를 도입하는 Phase 3.
+Phase 3 (v0.3.0) 가 완료되어 `intake_plan.json` → `source_intake.json` 의 인테이크 흐름이
+사용자 손에 들어왔다. 다음은 그 결정을 **자동 실행 가능한 task 로 변환** 하는 Phase 4.
 
-### 2.1 Phase 3 의 범위 (v0.3.0 — MINOR)
+### 2.1 Phase 4 의 범위 (v0.4.0 — MINOR)
 
-#### 새 도메인 모델 (`schemas/models.py` 확장)
+#### 새 변환기 (`orchestrator/task_queue_builder.py` 가칭)
 
-- `IntakePlanItem` — planner 가 사용자에게 제시할 인테이크 항목 (id, question, candidate_options, rationale, …)
-- `IntakePlan(VersionedModel)` — `items: list[IntakePlanItem]`, `project_id`, `category` …
-- `UserDecision` — 사용자가 인테이크 페이지에서 선택한 결과
-- `SourceIntake(VersionedModel)` — `decisions: list[UserDecision]`, source_collecting Phase 의 입력
+- `source_intake.json` 의 `UserDecision[]` 을 읽어 `task_queue.json` 의 `TaskQueueItem[]` 생성.
+- `mode == "ai_delegate"` (+`"mixed"` 의 잔여분) → `source_collector_worker` 에 위임할 task.
+- `mode == "direct_provide" / "link_provide" / "file_upload"` → 이미 사용자가 자료 제공 완료
+  로 마킹된 task (실행 불필요, status=completed 또는 skipped 처리).
+- `mode == "skip"` → 큐에 넣지 않음.
+- `mode == "must_use"` → priority=`must_use` 로 승격, 자료 제공 모드 한 번 더 묻기 (UX 후속).
 
-#### 새 Worker (`workers/intake_planner_worker.py`)
+#### 새 Worker (`workers/source_collector_worker.py`) — 첫 agent 모드 Worker
 
-`IntakePlannerWorker(BaseLLMWorker)`:
-- `llm_backend = "claude"` (또는 `"codex"` — 사용자 결정)
-- `llm_mode = "response"` (agent 모드 불필요 — 외부 자료 읽기 없음)
-- `response_model = IntakePlan`
-- `system_prompt`: 카테고리별 표준 인테이크 항목 생성 지시 (지정학/군사/경제/허위정보/지진 별)
-- `build_user_prompt(args, task)`: `ProjectManifest` 로딩 → title, category, target_duration_min, topic_summary 를 자연어 프롬프트로
-- `output_path(args, task)`: `projects/{pid}/01_intake/intake_plan.json`
+- `BaseLLMWorker` 상속, `llm_mode="agent"`, **`allow_agent_mode = True`** (LLM-AP-003 opt-in).
+- backend 는 codex 권장 (`--sandbox read-only` 또는 `workspace-write` 매핑 도입).
+- `ai_delegate_task` 를 입력으로 외부 자료 (URL) 를 읽어 `source_registry.json` 후보를 생성.
+- 출력 단계는 Phase 5 의 `source_registry_builder` 가 합치므로 본 Worker 는 항목별 부분 결과만.
 
-#### 새 웹 페이지 (`web/intake_page_app.py`)
+#### LLM-AP-003 후속 (Phase 4 의 의무 선결 작업)
 
-- FastAPI. `GET /intake/{pid}` 가 `intake_plan.json` 렌더링.
-- `POST /intake/{pid}/submit` 이 `UserDecision[]` 받아 `source_intake.json` 으로 영속화.
-- 사용자가 항목 선택/추가/거절 가능. 각 결정마다 rationale 입력 옵션.
+agent 모드 Worker 도입과 동시에 본격 sandbox 가 필요:
+- `CLI_INVOCATION` 의 codex agent 엔트리에 `--sandbox read-only|workspace-write` 매핑.
+- agent 모드 Worker 용 scratch dir 격리 (`projects/{pid}/scratch/{task_id}/`).
+- 외부 자료를 prompt 에 넣을 때 `<untrusted_source>...</untrusted_source>` envelope 자동 wrap
+  헬퍼. `BaseLLMWorker` 또는 별도 `prompt_safety.py` 모듈.
 
-#### CLI 확장 (`orchestrator/main.py`)
+#### Command Center 통합
 
-- `python -m orchestrator.main plan-intake <pid>` — IntakePlannerWorker 호출 + 상태 전이
-  `created → intake_planning → intake_pending_user`.
-- 웹 제출 시 (또는 별도 CLI `submit-intake <pid>`) `intake_pending_user → source_collecting` 전이.
+- TUI 가 `task_queue.json` 의 task 를 Worker Slot 에 배정 (Phase 1 의 dummy 흐름 위에 실 worker).
+- v0.3.0 의 `plan-intake` 합성 task 경로를 일반 task_queue 흐름으로 단순화.
 
-### 2.2 Phase 3 종료 조건 (DoD)
+### 2.2 Phase 4 종료 조건 (DoD)
 
-- [ ] `plan-intake demo3` 호출 시 `intake_plan.json` 생성, `state == intake_pending_user` 로 전이.
-- [ ] 웹 페이지에서 항목 선택 후 제출하면 `source_intake.json` 생성, `state == source_collecting` 으로 전이.
-- [ ] 모든 항목이 `IntakePlanItem` / `UserDecision` / `IntakePlan` / `SourceIntake` Pydantic 모델로 검증 통과.
-- [ ] LLM 호출은 `BaseLLMWorker` 경유 + `llm_calls/{call_id}.{json,prompt.txt,raw.txt}` 영속화.
-- [ ] Windows cmd 에서 `codex` backend 도 정상 동작 검증 (이전 세션이 LLM-AP-002 까지 처리해 둠).
-- [ ] `python -m py_compile` 통과 + `tests/` 30+ → 35+ (IntakePlanner 단위 테스트 추가).
-- [ ] `CHANGELOG.md` `[v0.3.0]` 절 추가, `DEVLOG.md` 엔트리.
-- [ ] **C10.1 의무**: v0.3.0 (MINOR) 증분 직전에 codex review 1 회 실행, 결과 흡수.
+- [ ] `submit-intake` 결과로 `task_queue.json` 자동 생성.
+- [ ] task 가 Worker Slot 에 배정되고 첫 `source_collector_worker` 가 정상 실행.
+- [ ] agent 모드 호출에 `--sandbox` 가 실제 매핑됨. scratch dir 외부 write 차단 검증.
+- [ ] `<untrusted_source>` envelope 가 적어도 1 케이스 단위 테스트로 검증.
+- [ ] `python -m py_compile` + 단위 테스트 49 → 60+.
+- [ ] CHANGELOG / DEVLOG / 일괄 last_synced_with 갱신.
+- [ ] **C10.1 의무**: v0.4.0 직전 codex review 1 회.
 
-### 2.3 Phase 3 의 알려진 risk
+### 2.3 Phase 4 의 알려진 risk
 
-1. **agent 모드 필요 없음** — IntakePlannerWorker 는 ProjectManifest 의 사용자 입력만 읽고 외부 자료 안 봄. `allow_agent_mode=False` 그대로. LLM-AP-003 우회.
-2. **시스템 프롬프트 길이** — 카테고리 5 종 × 표준 항목 다수를 한 프롬프트로 묶으면 길어짐. 카테고리별 분리 또는 system_prompt 의 동적 조합 (`.replace()`, **never `.format()`**) 고려.
-3. **claude vs codex 선택** — claude 가 한국어 지시 이해 더 자연스러우나 codex 의 `--output-schema` 가 강제 검증에 유리. 사용자에게 한 번 의견 묻기.
-4. **Windows quoting** — codex backend 사용 시 prompt 안의 큰따옴표가 cmd 인용부호와 충돌할 수 있음. `subprocess.run([...])` 의 argv 리스트는 안전하지만 실 호출 검증 필요.
+1. **agent 모드 prompt injection (LLM-AP-003)** — 외부 자료를 LLM 에 보이는 첫 단계. sandbox + envelope 둘 다 필요. 미적용 시 worker 가 사용자 머신의 다른 디렉토리에 쓰거나 다른 명령을 실행할 위험.
+2. **codex `--sandbox` 매핑 신뢰성** — codex-cli 버전별 옵션 차이 가능. 실 호출 캡쳐로 검증 후 fixture 갱신.
+3. **task_queue 의 의존성 관리** — `depends_on` 필드 활용. Phase 4 에선 단순 (source_collector → registry_builder) 만 다루고, 본격 DAG 는 Phase 5.
 
-### 2.4 Phase 3 이후 (Phase 4 예고)
+### 2.4 v0.3.x PATCH 후보 (Phase 4 전에 처리 가능)
 
-`docs/13_IMPLEMENTATION_ROADMAP.md` Phase 4 절:
-- `source_intake.json → task_queue.json` 변환 (orchestrator 책임).
-- AI Delegation 항목 → Worker subprocess 실행.
-- 첫 agent 모드 Worker (`source_collector_worker`, `BaseLLMWorker(mode="agent", allow_agent_mode=True)`) — LLM-AP-003 후속 작업의 첫 실증.
-
----
-
-## 2.5 대안: LLM-AP-003 후속 (Phase 3 전에 보안 강화)
-
-원하시면 Phase 3 전에 LLM-AP-003 후속을 한 PATCH 로 처리할 수 있다:
-- codex `--sandbox read-only` / `workspace-write` 매핑.
-- agent 모드 worker 용 scratch dir 격리.
-- prompt 안의 외부 자료를 `<untrusted_source>` envelope 으로 자동 wrap 하는 헬퍼.
-
-다만 IntakePlannerWorker 는 agent 모드를 안 쓰니 Phase 3 와 무관하다. **Phase 4 (source_collector_worker) 진입 전에만** 처리하면 충분. 사용자 우선순위에 따라 선택.
+- v0.3.1: **C10.1 codex review 결과 흡수** (사용자가 본 v0.3.0 에 대해 1 회 실행).
+- v0.3.x: SCHEMA-AP-001 회귀 테스트 명시 (v0.2.9 부터 누적된 미반영 항목).
+- v0.3.x: LLM-AP-003 후속의 사전 작업 (`prompt_safety.py` 의 envelope 헬퍼만 먼저 도입,
+  실 sandbox 매핑은 Phase 4 와 함께).
 
 ---
 
@@ -163,18 +155,19 @@ BaseLLMWorker 인프라가 외부 리뷰까지 거쳐 견고해졌고 (v0.2.5), 
 
 다음 세션이 첫 번째로 실행할 일 (순서 중요):
 
-1. **읽기 (필독)**: `CLAUDE.md` (특히 신규 **C10**) → `GOAL.md` → `VERSION` (현재 `0.2.9`) → 본 `HANDOFF.md` → `docs/ADDENDUM_04_SUBSCRIPTION_LLM_BRIDGE.md` → `docs/ANTIPATTERNS/LLM_ANTIPATTERNS.md` (LLM-AP-001/002/003 정독) → `docs/ANTIPATTERNS/SCHEMA_ANTIPATTERNS.md` (SCHEMA-AP-001) → `docs/REVIEW_PROMPT.md` (codex review 절차) → `docs/13_IMPLEMENTATION_ROADMAP.md` → 가장 최근 `DEVLOG.md` 엔트리 8 개 (v0.2.2 ~ v0.2.9).
+1. **읽기 (필독)**: `CLAUDE.md` (특히 **C10**) → `GOAL.md` → `VERSION` (현재 `0.3.0`) → 본 `HANDOFF.md` → `docs/ADDENDUM_04_SUBSCRIPTION_LLM_BRIDGE.md` → `docs/ANTIPATTERNS/LLM_ANTIPATTERNS.md` (LLM-AP-001/002/003 정독, **003 은 Phase 4 의 핵심 위험**) → `docs/ANTIPATTERNS/SCHEMA_ANTIPATTERNS.md` (SCHEMA-AP-001) → `docs/04_DYNAMIC_INTAKE_PAGE_SPEC.md` (v0.3.0 의 정식 구현 대상) → `docs/REVIEW_PROMPT.md` (codex review 절차) → `docs/13_IMPLEMENTATION_ROADMAP.md` → 가장 최근 `DEVLOG.md` 엔트리 (v0.2.2 ~ v0.3.0).
 2. **상태 확인**:
    ```bash
    git status                                       # clean 인지
    git log --oneline -10                            # 최근 커밋
-   cat VERSION                                      # 현재 버전 (0.2.6)
+   cat VERSION                                      # 현재 버전 (0.3.0)
    git fetch origin main                            # 다른 세션이 main 에 push 했을 수 있음
    git log --oneline HEAD..origin/main              # 비어 있으면 OK, 아니면 pull/rebase 필수
-   python -m py_compile orchestrator/*.py workers/*.py schemas/*.py
-   python -m unittest tests.test_base_llm_worker tests.test_base_llm_worker_run   # 30 케이스 통과 확인
+   python -m py_compile orchestrator/*.py workers/*.py schemas/*.py web/*.py
+   python -m unittest tests.test_base_llm_worker tests.test_base_llm_worker_run \
+                      tests.test_intake_planner_worker tests.test_intake_flow   # 49 케이스 통과 확인
    ```
-3. **사용자 의도 확인**: "Phase 3 (IntakePlannerWorker) 직행?" 또는 "LLM-AP-003 후속 보안 강화 먼저?" 한 줄 질문.
+3. **사용자 의도 확인**: "v0.3.x PATCH (codex review 흡수 / SCHEMA-AP 회귀 / envelope 헬퍼) 먼저?" 또는 "Phase 4 (source_intake → task_queue + agent 모드 Worker) 직행?" 한 줄 질문.
 4. **작업 진행**: 항상 작은 단위 커밋, 한 커밋 = 한 의도.
 5. **MINOR / MAJOR / Phase 완료 직전**: C10.1 의무 — codex review 1 회 실행, 결과 흡수 후 증분.
 
@@ -218,4 +211,4 @@ BaseLLMWorker 인프라가 외부 리뷰까지 거쳐 견고해졌고 (v0.2.5), 
 
 ---
 
-마지막 갱신: v0.2.9, 2026-05-20.
+마지막 갱신: v0.3.0, 2026-05-21.
