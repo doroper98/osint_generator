@@ -1,6 +1,6 @@
 <!--
 tier: 1
-last_synced_with: v0.3.0
+last_synced_with: v0.3.1
 ssot_for: [session-handoff]
 depends_on: [CLAUDE.md, GOAL.md, VERSION, docs/13_IMPLEMENTATION_ROADMAP.md, docs/REVIEW_PROMPT.md]
 last_review: 2026-05-21
@@ -29,7 +29,7 @@ last_review: 2026-05-21
 
 ---
 
-## 1. 지금 어디까지 와 있나 (v0.3.0 기준)
+## 1. 지금 어디까지 와 있나 (v0.3.1 기준)
 
 ### 완료된 Phase
 
@@ -52,7 +52,8 @@ last_review: 2026-05-21
 | 평행 브랜치 흡수 (Ij1TX) | v0.2.7 | 동일 출발점의 다른 세션 브랜치 `claude/start-after-handoff-Ij1TX` 의 차별점 3 가지 흡수: (1) **SCHEMA-AP 카탈로그** + SCHEMA-AP-001 (임의 상태 점프 / self-loop), (2) **TUI 라이브 manifest reload** (`_tick_loop` 가 매 tick 마다 `load_manifest` → 외부 transition 즉시 반영, 실패 모드 3 분류: unknown/invalid/정상), (3) **`_write_manifest` atomic write** (tmp→`Path.replace`, half-written race 차단). | py_compile + 5 케이스 smoke (atomic / corrupt JSON ValidationError / non-JSON JSONDecodeError 포함) 통과 |
 | codex 2차 리뷰 H2 반영 | v0.2.8 | v0.2.7 atomic write 의 내구성(`durability`) 보강: `flush()` + `os.fsync()` (파일 fd) + 부모 디렉토리 fsync (POSIX, Windows best-effort skip). 예외 발생 시 leftover tmp best-effort cleanup. docstring 을 visibility vs durability 로 분리 명시. H1 (Ij1TX 원본 커밋 부재) 은 절차 이슈로 별도 처리 — Codex Cloud 가 비교 브랜치를 fetch 하도록 안내. | py_compile + 5 케이스 smoke (정상 / replace 실패 시 tmp cleanup / corrupt JSON / non-JSON 포함) 통과, 30/30 회귀 통과 |
 | codex 3차 리뷰 흡수 (H+M+L) | v0.2.9 | dir fsync `OSError` swallow → `logging.warning` (platform·errno 포함) 으로 신호화. `_print_manifest_summary` 타입 힌트 보강 (`# type: ignore` 제거). `_SLUG_RE` 주석을 실제 정규식 (하이픈·언더스코어 허용) 과 정합화. 본 저장소 첫 표준 `logging.getLogger(__name__)` 도입. | py_compile + 5 smoke (dir fsync 실패 warning 로그 검증 포함) + 30/30 단위 테스트 회귀 통과 |
-| **Phase 3: Dynamic Intake Page + IntakePlannerWorker** | **v0.3.0** | **첫 도메인 LLM Worker** (`workers/intake_planner_worker.py`, BaseLLMWorker 상속, `response_model=IntakePlan`, claude 기본/codex 전환 가능, `CATEGORY_GUIDANCE` 5 카테고리), **FastAPI 인테이크 페이지** (`web/intake_page_app.py`: `GET /intake/{pid}` 렌더 + `POST /intake/{pid}/submit` 가 `UserDecision[]` → `SourceIntake` 영속화 + `source_collecting` 전이, `html.escape` XSS 방지), **CLI 확장** (`plan-intake <pid> [--backend ...]` + `submit-intake <pid> --file ...`). 단위 테스트 30 → **49** (IntakePlanner 13 + 인테이크 flow 6 + 회귀 30). fastapi/uvicorn/python-multipart 의존성 추가. | py_compile + 49/49 통과. DoD 8 항목 중 7 항목 충족, 마지막 1 항목 (C10.1 codex review) 은 사용자 머신에서 실행 필요 (본 컨테이너 codex CLI 미설치). |
+| Phase 3: Dynamic Intake Page + IntakePlannerWorker | v0.3.0 | **첫 도메인 LLM Worker** (`workers/intake_planner_worker.py`, BaseLLMWorker 상속, `response_model=IntakePlan`, claude 기본/codex 전환 가능, `CATEGORY_GUIDANCE` 5 카테고리), **FastAPI 인테이크 페이지** (`web/intake_page_app.py`: `GET /intake/{pid}` 렌더 + `POST /intake/{pid}/submit` 가 `UserDecision[]` → `SourceIntake` 영속화 + `source_collecting` 전이, `html.escape` XSS 방지), **CLI 확장** (`plan-intake <pid> [--backend ...]` + `submit-intake <pid> --file ...`). 단위 테스트 30 → 49 (IntakePlanner 13 + 인테이크 flow 6 + 회귀 30). fastapi/uvicorn/python-multipart 의존성 추가. | py_compile + 49/49 통과. DoD 8 항목 중 7 항목 충족, 마지막 1 항목 (C10.1 codex review) 은 사용자 머신에서 실행 필요 (본 컨테이너 codex CLI 미설치). |
+| **Codex 4차 리뷰 흡수 (C/H/M/L/Nit 11항목)** | **v0.3.1** | **web 보안** — `validate_project_id` 공개 가드 분리 (`{project_id}` path traversal 차단), 404 detail 의 절대경로 누출 차단 (logger.warning 으로만), form body 한도 `MAX_FORM_BYTES=256KiB` + 413. **state 견고성** — `plan-intake` idempotency (`--force` + 유효 plan 발견 시 worker skip), `submit-intake` 가 tmp write → transition → atomic rename (CLI), web 은 state precondition → transition → write 순으로 재배열. **추적성** — `plan-intake` 가 `worker.write_result()` 호출로 task_result.json 영속화 (C4 stopgap). **테스트** — IntakePlanner 의 `parse_failed`/`subprocess_error` 분기 + web 의 traversal/대문자 PID/404 generic/413/M1 race/M2/H3 idempotent skip 회귀 신설. 단위 테스트 49 → **60**. | py_compile + 60/60 통과. C10.3 self-exemption 적용 (외부 리뷰 결과 흡수 PATCH 는 추가 review 면제). |
 
 ### 핵심 산출물
 
@@ -155,17 +156,17 @@ agent 모드 Worker 도입과 동시에 본격 sandbox 가 필요:
 
 다음 세션이 첫 번째로 실행할 일 (순서 중요):
 
-1. **읽기 (필독)**: `CLAUDE.md` (특히 **C10**) → `GOAL.md` → `VERSION` (현재 `0.3.0`) → 본 `HANDOFF.md` → `docs/ADDENDUM_04_SUBSCRIPTION_LLM_BRIDGE.md` → `docs/ANTIPATTERNS/LLM_ANTIPATTERNS.md` (LLM-AP-001/002/003 정독, **003 은 Phase 4 의 핵심 위험**) → `docs/ANTIPATTERNS/SCHEMA_ANTIPATTERNS.md` (SCHEMA-AP-001) → `docs/04_DYNAMIC_INTAKE_PAGE_SPEC.md` (v0.3.0 의 정식 구현 대상) → `docs/REVIEW_PROMPT.md` (codex review 절차) → `docs/13_IMPLEMENTATION_ROADMAP.md` → 가장 최근 `DEVLOG.md` 엔트리 (v0.2.2 ~ v0.3.0).
+1. **읽기 (필독)**: `CLAUDE.md` (특히 **C10**) → `GOAL.md` → `VERSION` (현재 `0.3.1`) → 본 `HANDOFF.md` → `docs/ADDENDUM_04_SUBSCRIPTION_LLM_BRIDGE.md` → `docs/ANTIPATTERNS/LLM_ANTIPATTERNS.md` (LLM-AP-001/002/003 정독, **003 은 Phase 4 의 핵심 위험**) → `docs/ANTIPATTERNS/SCHEMA_ANTIPATTERNS.md` (SCHEMA-AP-001) → `docs/04_DYNAMIC_INTAKE_PAGE_SPEC.md` (v0.3.0 의 정식 구현 대상) → `docs/REVIEW_PROMPT.md` (codex review 절차) → `docs/13_IMPLEMENTATION_ROADMAP.md` → 가장 최근 `DEVLOG.md` 엔트리 (v0.2.2 ~ v0.3.1).
 2. **상태 확인**:
    ```bash
    git status                                       # clean 인지
    git log --oneline -10                            # 최근 커밋
-   cat VERSION                                      # 현재 버전 (0.3.0)
+   cat VERSION                                      # 현재 버전 (0.3.1)
    git fetch origin main                            # 다른 세션이 main 에 push 했을 수 있음
    git log --oneline HEAD..origin/main              # 비어 있으면 OK, 아니면 pull/rebase 필수
    python -m py_compile orchestrator/*.py workers/*.py schemas/*.py web/*.py
    python -m unittest tests.test_base_llm_worker tests.test_base_llm_worker_run \
-                      tests.test_intake_planner_worker tests.test_intake_flow   # 49 케이스 통과 확인
+                      tests.test_intake_planner_worker tests.test_intake_flow   # 60 케이스 통과 확인
    ```
 3. **사용자 의도 확인**: "v0.3.x PATCH (codex review 흡수 / SCHEMA-AP 회귀 / envelope 헬퍼) 먼저?" 또는 "Phase 4 (source_intake → task_queue + agent 모드 Worker) 직행?" 한 줄 질문.
 4. **작업 진행**: 항상 작은 단위 커밋, 한 커밋 = 한 의도.
@@ -211,4 +212,4 @@ agent 모드 Worker 도입과 동시에 본격 sandbox 가 필요:
 
 ---
 
-마지막 갱신: v0.3.0, 2026-05-21.
+마지막 갱신: v0.3.1, 2026-05-21.

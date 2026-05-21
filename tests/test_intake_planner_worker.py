@@ -306,7 +306,9 @@ class TestRunOkCodex(_IntegrationBase):
 
 class TestRunValidationFailed(_IntegrationBase):
     def test_schema_mismatch_yields_validation_failed(self) -> None:
-        # required_items 누락 → IntakePlan validation 통과지만 forbid 필드 추가로 실패 유도.
+        # 알 수 없는 필드 (`unknown_extra_field`) 가 IntakePlan 의 `extra="forbid"`
+        # 정책에 막혀 ValidationError → parsed_status="validation_failed" 도달.
+        # (required_items 가 default_factory=list 이라 누락만으로는 위반 안 됨.)
         bad = json.dumps(
             {
                 "schema_version": 1,
@@ -325,6 +327,52 @@ class TestRunValidationFailed(_IntegrationBase):
         self.assertEqual(len(records), 1)
         record = LLMCallRecord.model_validate_json(records[0].read_text(encoding="utf-8"))
         self.assertEqual(record.parsed_status, "validation_failed")
+
+
+class TestRunParseFailed(_IntegrationBase):
+    """v0.3.1 M3: parse_failed 분기 명시 도달."""
+
+    def test_non_json_stub_yields_parse_failed(self) -> None:
+        # stub 응답이 JSON 도 아니고 wrapper 도 아닌 자연어 → JSONDecodeError →
+        # parsed_status="parse_failed".
+        self._stub("not a json at all — just prose")
+        result = IntakePlannerWorker().run(self._args(), self._task())
+        self.assertEqual(result.status, TaskStatus.FAILED)
+        records = list((self.projects_root / "demo3" / "llm_calls").glob("*.json"))
+        self.assertEqual(len(records), 1)
+        record = LLMCallRecord.model_validate_json(records[0].read_text(encoding="utf-8"))
+        self.assertEqual(record.parsed_status, "parse_failed")
+        self.assertIsNotNone(record.error_message)
+
+
+class TestRunSubprocessError(_IntegrationBase):
+    """v0.3.1 M3: subprocess_error 분기 명시 도달.
+
+    `_invoke_llm` 을 monkeypatch 해 LLMSubprocessError 를 모사. 본 worker 도 BaseLLMWorker
+    의 동일 try/finally 흐름을 따라가는지 확인.
+    """
+
+    def test_subprocess_error_persists_record_with_exit_code(self) -> None:
+        from workers.base_llm_worker import LLMSubprocessError
+
+        worker = IntakePlannerWorker()
+
+        def fake_invoke(args, full_prompt):
+            raise LLMSubprocessError(
+                "fake CLI failure",
+                stdout="partial",
+                stderr="boom",
+                exit_code=7,
+            )
+
+        worker._invoke_llm = fake_invoke  # type: ignore[method-assign]
+        result = worker.run(self._args(), self._task())
+        self.assertEqual(result.status, TaskStatus.FAILED)
+        records = list((self.projects_root / "demo3" / "llm_calls").glob("*.json"))
+        self.assertEqual(len(records), 1)
+        record = LLMCallRecord.model_validate_json(records[0].read_text(encoding="utf-8"))
+        self.assertEqual(record.parsed_status, "subprocess_error")
+        self.assertEqual(record.exit_code, 7)
 
 
 if __name__ == "__main__":

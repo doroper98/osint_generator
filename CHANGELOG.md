@@ -1,9 +1,9 @@
 <!--
 tier: 3
-last_synced_with: v0.3.0
+last_synced_with: v0.3.1
 ssot_for: [release-notes]
 depends_on: [README.md, GOAL.md]
-last_review: 2026-05-19
+last_review: 2026-05-21
 -->
 
 # CHANGELOG
@@ -25,6 +25,78 @@ released 항목은 **append-only**입니다.
 
 ### Fixed
 -
+
+---
+
+## [v0.3.1] — 2026-05-21
+
+Codex 4차 리뷰 (v0.3.0, 89f56f9 검증, Phase 3 직후) 결과 일괄 흡수 —
+Critical 1 / High 3 / Medium 4 / Low 1 / Nit 1. 모두 진짜로 판정, false positive 없음.
+본 PATCH 는 C10.3 self-exemption (외부 리뷰 결과 흡수 PATCH) 에 해당해 추가 review 면제.
+
+### Fixed (외부 코드 리뷰 4차 반영)
+
+- **(C1) `{project_id}` path traversal 차단** — `web/intake_page_app.py` 의 GET/POST 가
+  raw path segment 를 그대로 `project_dir(pid)` 에 전달해 `../../etc` 같은 입력으로 `projects/`
+  바깥에 접근 가능했음. `orchestrator/project_manager.py` 에 공개 가드 `validate_project_id`
+  를 분리 (기존 `new_project` 의 내부 검증을 추출). web 의 `_validated_pid` 가 두 endpoint
+  진입점에서 강제, CLI `plan-intake` / `submit-intake` 도 동일 가드 호출. 위반 시 400 +
+  `"invalid project_id"` generic 메시지 (사용자 입력 echo 안 함, 정찰 가치 축소).
+- **(H1) 404 detail 의 절대경로 누출 차단** — `FileNotFoundError` 의 원본 메시지에 절대 경로
+  + 후속 명령어 예시가 포함돼 그대로 HTTP detail 로 노출됐음. 이제 generic 메시지만 클라이언트에
+  반환하고 절대경로는 `logger.warning(...)` 으로 서버 측에만 기록.
+- **(H2) form body 크기 상한 (`MAX_FORM_BYTES=256KiB`)** — `await request.form()` 이 무제한
+  입력을 받아 DoS 가능했음. submit 핸들러가 `content-length` 헤더를 미리 검사해 초과 시 413
+  + `"request body too large"` 즉시 거부. 변조된 헤더는 무시하고 starlette 내부 한도가 fallback.
+  운영 튜닝/테스트용으로 모듈 변수 형태 노출.
+- **(H3) `plan-intake` idempotency 보강** — 이전 흐름은 매 호출마다 worker 를 재실행해
+  LLM 호출 비용 + record 누적. `intake_planning` 상태에서 유효한 `01_intake/intake_plan.json`
+  이 이미 있으면 worker skip 하고 `intake_pending_user` 로 전이만 진행. 손상된 plan 은 재실행.
+  `--force` 옵션으로 강제 재실행. 출력에 `skipped=True/False` 명시.
+- **(M1) `submit-intake` write 와 transition 순서 역전 (CLI + Web)** — 이전 흐름은
+  `source_intake.json` 을 먼저 디스크에 쓰고 `transition_state` 가 실패해도 파일이 남아 잘못된
+  상태에서 덮어쓰기 가능. CLI 는 tmp write → transition → atomic rename (transition 실패 시
+  tmp cleanup). Web 은 state precondition 검증 → transition → write 순으로 재배열 + 사전
+  current_state 검증 (intake_pending_user 아니면 409 즉시 거부, 파일 미수정).
+- **(M2) `plan-intake` 가 `task_result.json` 영속화** — `worker.run()` 직접 호출 경로가
+  `BaseWorker.main` 의 표준 흐름을 우회해 task_result.json 이 안 만들어졌음. C4 의 추적성 정합을
+  위해 `worker.write_result(args, result)` 명시 호출. Phase 4 의 정식 task_queue 흐름 도입
+  전까지의 stopgap 이지만 PR review 와 사후 분석에서 일관된 인공물 생성 보장.
+
+### Added (회귀 테스트)
+
+- **(M3) IntakePlannerWorker `parse_failed` / `subprocess_error` 회귀** — 기존엔 ok /
+  validation_failed 두 케이스만 cover. 본 PATCH 가 4 parsed_status 분기 전부 명시 도달.
+  `tests/test_intake_planner_worker.py::TestRunParseFailed` (자연어 stub → JSONDecodeError) +
+  `TestRunSubprocessError` (`_invoke_llm` monkeypatch → exit_code 7 record 영속화 검증).
+- **(M4) Web negative path 회귀** — `tests/test_intake_flow.py::TestWebSecurityAndNegativePaths`
+  6 케이스. (a) `..` 인코딩 PID GET/POST 거부, (b) 대문자 PID 거부 (정책 정규식), (c) 없는 PID 의
+  404 generic detail (절대경로 미노출), (d) MAX_FORM_BYTES 임계치 잠시 낮춰 413 확인, (e) state
+  precondition 미충족 시 POST 409 + 기존 source_intake.json bytes 보존 (M1 검증), (f) plan-intake
+  의 task_result.json 영속화 (M2 검증), (g) idempotent skip 회귀 (LLM stub unset 상태에서도 worker
+  미호출, llm_calls/ 미생성).
+
+### Fixed (Nit)
+
+- **(N1) `tests/test_intake_planner_worker.py` 코멘트 정정** — "required_items 누락 →
+  IntakePlan validation 통과" 는 사실과 다름 (required_items 가 `default_factory=list` 라
+  누락만으로는 위반 안 됨; 실제 실패 유발은 `unknown_extra_field` 의 `extra="forbid"` 위반).
+  코멘트를 정확히 다시 작성.
+
+### Notes
+
+- 단위 테스트 49 → **60 케이스** (BaseLLMWorker 22 + run 통합 8 + IntakePlanner 15 + 인테이크
+  flow 15). 모든 추가가 회귀 테스트로 검증.
+- 본 PATCH 는 `last_synced_with` 일괄 갱신을 하지 않음 — v0.2.9 의 n9ird 컨벤션 (수정한 파일의
+  헤더만 갱신) 을 따름. PATCH 범위가 코드 4 파일 + 테스트 2 파일 + 본 CHANGELOG + DEVLOG +
+  HANDOFF 만 수정. 다음 MINOR (v0.4.0) 에서 다시 일괄.
+- **C10.3 self-exemption**: 본 PATCH 는 외부 코드 리뷰 결과 흡수 PATCH 이므로 codex review
+  의무 면제 (무한 루프 방지). 다음 외부 리뷰는 v0.4.0 MINOR 직전.
+- HANDOFF.md 의 "1. 지금 어디까지 와 있나" 표에 v0.3.1 행 추가.
+
+### Codex 4차 리뷰 미반영 항목
+
+없음. C/H/M/L/Nit 11 항목 전부 흡수.
 
 ---
 

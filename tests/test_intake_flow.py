@@ -287,5 +287,157 @@ class TestWebSubmit(_IsolatedProjectsRoot):
         self.assertIn("영상 생성 착수", body)
 
 
+# ---------------------------------------------------------------------------
+# v0.3.1 codex 4차 리뷰 회귀 — 보안/negative path
+# ---------------------------------------------------------------------------
+
+
+class TestWebSecurityAndNegativePaths(_IsolatedProjectsRoot):
+    """v0.3.1 (C1/H1/H2/M1/M4): web 보안·negative path 회귀."""
+
+    def _client(self):
+        from web.intake_page_app import app
+
+        return TestClient(app)
+
+    # ---- C1: project_id path traversal ----
+
+    def test_traversal_in_pid_rejected_on_get(self) -> None:
+        # `..` 포함 PID 는 정책 정규식 위반 → 400. starlette 가 path 정규화로 404 를
+        # 먼저 줄 수도 있으므로 두 값 모두 허용 (둘 다 traversal 차단을 의미).
+        resp = self._client().get("/intake/..%2F..%2Fetc")
+        self.assertIn(resp.status_code, (400, 404))
+
+    def test_uppercase_pid_rejected(self) -> None:
+        # _SLUG_RE 는 소문자만 허용.
+        resp = self._client().get("/intake/Bad-PID")
+        self.assertEqual(resp.status_code, 400)
+        self.assertEqual(resp.json()["detail"], "invalid project_id")
+
+    def test_traversal_in_pid_rejected_on_post(self) -> None:
+        resp = self._client().post("/intake/..%2Fevil/submit", data={})
+        self.assertIn(resp.status_code, (400, 404))
+
+    # ---- H1: 404 generic detail ----
+
+    def test_missing_project_returns_generic_404(self) -> None:
+        resp = self._client().get("/intake/nonexistent_pid")
+        self.assertEqual(resp.status_code, 404)
+        # generic 메시지만, 절대경로 미노출.
+        detail = resp.json()["detail"]
+        self.assertNotIn(str(self.projects_root), detail)
+        self.assertNotIn("nonexistent_pid/", detail)
+        self.assertNotIn(".json", detail)
+
+    # ---- H2: form body size limit ----
+
+    def test_oversized_form_rejected_413(self) -> None:
+        self._create_demo3()
+        self._stub(VALID_PLAN_JSON)
+        cli_main(["plan-intake", "demo3"])
+        from web import intake_page_app
+
+        original = intake_page_app.MAX_FORM_BYTES
+        intake_page_app.MAX_FORM_BYTES = 64  # 매우 작은 한도
+        try:
+            big_payload = "x" * 4096
+            resp = self._client().post(
+                "/intake/demo3/submit",
+                data={"mode__core_event": "skip", "user_note__core_event": big_payload},
+            )
+            self.assertEqual(resp.status_code, 413)
+            self.assertEqual(resp.json()["detail"], "request body too large")
+        finally:
+            intake_page_app.MAX_FORM_BYTES = original
+
+    # ---- M1: state precondition before write ----
+
+    def test_submit_rejected_when_state_not_pending_user(self) -> None:
+        # 프로젝트만 만들고 plan-intake 안 함 → state=CREATED → submit 거부.
+        self._create_demo3()
+        # 인테이크 페이지 spec 에 따라 plan 도 없으므로 404 가 먼저 나는 게 정상.
+        # 따라서 plan-intake 까지 진행한 뒤 다시 한 번 submit 두번 흐름으로 검증.
+        self._stub(VALID_PLAN_JSON)
+        cli_main(["plan-intake", "demo3"])
+
+        # 1차 제출 — 정상 (intake_pending_user → source_collecting)
+        resp1 = self._client().post(
+            "/intake/demo3/submit",
+            data={"mode__core_event": "skip", "mode__context_sources": "skip"},
+        )
+        self.assertEqual(resp1.status_code, 200)
+
+        out_path = self.projects_root / "demo3" / "01_intake" / "source_intake.json"
+        first_bytes = out_path.read_bytes()
+
+        # 2차 제출 — state 가 이미 source_collecting → 409 + 파일 unchanged
+        resp2 = self._client().post(
+            "/intake/demo3/submit",
+            data={"mode__core_event": "link_provide", "mode__context_sources": "link_provide"},
+        )
+        self.assertEqual(resp2.status_code, 409)
+        self.assertEqual(out_path.read_bytes(), first_bytes, "M1: source_intake.json 가 잘못된 상태에서 덮어쓰여짐")
+
+    # ---- M2: task_result.json persisted by plan-intake ----
+
+    def test_plan_intake_persists_task_result_json(self) -> None:
+        self._create_demo3()
+        self._stub(VALID_PLAN_JSON)
+        cli_main(["plan-intake", "demo3"])
+        result_path = (
+            self.projects_root
+            / "demo3"
+            / "03_tasks"
+            / "task_results"
+            / "intake-plan-demo3_result.json"
+        )
+        self.assertTrue(result_path.exists(), f"M2: task_result.json 미생성 ({result_path})")
+
+    # ---- H3: plan-intake idempotency ----
+
+    def test_plan_intake_skips_worker_when_valid_plan_exists(self) -> None:
+        """`intake_planning` 상태에서 유효한 intake_plan.json 이 이미 있으면 worker
+        를 재실행하지 않고 intake_pending_user 로 전이만 진행."""
+        from orchestrator.project_manager import resume_project, transition_state
+        from schemas.models import IntakePlan, ProjectState
+
+        self._create_demo3()
+        # state 를 intake_planning 까지 이동 (worker 호출 없이 transition 만).
+        manifest = resume_project("demo3")
+        transition_state(manifest, ProjectState.INTAKE_PLANNING, reason="setup for H3")
+
+        # intake_plan.json 을 미리 디스크에 만들어둠 (이전 plan-intake 의 산출물 시뮬레이션).
+        plan = IntakePlan.model_validate_json(VALID_PLAN_JSON)
+        plan_path = self.projects_root / "demo3" / "01_intake" / "intake_plan.json"
+        plan_path.parent.mkdir(parents=True, exist_ok=True)
+        plan_path.write_text(plan.model_dump_json(indent=2), encoding="utf-8")
+
+        # LLM stub 을 일부러 unset — worker 가 호출되면 실패해야 idempotency 가 의미.
+        os.environ.pop("OSINT_LLM_STUB", None)
+        os.environ.pop("OSINT_LLM_STUB_RESPONSE", None)
+
+        rc = cli_main(["plan-intake", "demo3"])
+        self.assertEqual(rc, 0)
+        self.assertEqual(
+            self._load_manifest("demo3").current_state,
+            ProjectState.INTAKE_PENDING_USER.value,
+        )
+        # worker 가 안 돌았으면 llm_calls/ 디렉토리에 record 가 생기지 않음.
+        llm_dir = self.projects_root / "demo3" / "llm_calls"
+        self.assertFalse(
+            llm_dir.exists() and any(llm_dir.iterdir()),
+            "H3: worker 가 재실행되어 llm_calls 가 누적됨 (idempotency 실패)",
+        )
+
+    def test_plan_intake_rejected_when_state_past_planning(self) -> None:
+        """plan-intake 가 허용 상태 (created/intake_planning) 밖에서는 거부."""
+        self._create_demo3()
+        self._stub(VALID_PLAN_JSON)
+        cli_main(["plan-intake", "demo3"])
+        # 이제 state=intake_pending_user → plan-intake 재호출 시 exit=2
+        rc = cli_main(["plan-intake", "demo3"])
+        self.assertEqual(rc, 2)
+
+
 if __name__ == "__main__":
     unittest.main()

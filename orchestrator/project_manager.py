@@ -40,6 +40,25 @@ MANIFEST_FILENAME = "project_manifest.json"
 _SLUG_RE = re.compile(r"^[a-z0-9][a-z0-9\-_]*$")
 
 
+def validate_project_id(project_id: str) -> str:
+    """project_id slug 정책을 외부 호출 지점에서 강제하는 공개 가드.
+
+    `new_project` 의 내부 검증을 web/CLI/외부 통합 코드에서 재사용할 수 있게 분리.
+    v0.3.1: codex 4차 리뷰 C1 (web {project_id} path traversal) 의 구조적 조치.
+
+    raises
+    ------
+    ValueError : project_id 가 _SLUG_RE 패턴에 맞지 않으면. 메시지에 사용자 입력 자체는
+                 노출하지 않고 정책만 명시 (정찰 가치를 낮춤).
+    """
+    if not isinstance(project_id, str) or not _SLUG_RE.match(project_id):
+        raise ValueError(
+            "잘못된 project_id 입니다. "
+            "영문 소문자·숫자·하이픈·언더스코어만 허용되며 첫 글자는 영숫자입니다."
+        )
+    return project_id
+
+
 def utc_now() -> datetime:
     return datetime.now(timezone.utc)
 
@@ -159,11 +178,7 @@ def new_project(
     """
     cfg = cfg or load_config()
 
-    if not _SLUG_RE.match(project_id):
-        raise ValueError(
-            f"잘못된 project_id: '{project_id}'. "
-            "영문 소문자·숫자·하이픈·언더스코어만 허용됩니다 (첫 글자는 영숫자)."
-        )
+    validate_project_id(project_id)
 
     path = manifest_path(project_id, cfg)
     if path.exists():

@@ -34,15 +34,19 @@ from __future__ import annotations
 import argparse
 import html
 import json
-import sys
+import logging
 from pathlib import Path
 from typing import Optional
 
 from fastapi import FastAPI, HTTPException, Request
 from fastapi.responses import HTMLResponse, JSONResponse, RedirectResponse
 
-from orchestrator.config import AppConfig, load_config, project_dir
-from orchestrator.project_manager import load_manifest, transition_state
+from orchestrator.config import AppConfig, project_dir
+from orchestrator.project_manager import (
+    load_manifest,
+    transition_state,
+    validate_project_id,
+)
 from schemas.models import (
     IntakeMode,
     IntakePlan,
@@ -54,7 +58,33 @@ from schemas.models import (
 )
 
 
-app = FastAPI(title="OSINT Dynamic Intake Page", version="0.3.0")
+logger = logging.getLogger(__name__)
+
+
+# v0.3.1: codex 4차 리뷰 H2 — form body 크기 상한 (DoS 방어).
+# content-length 기준으로 거부. 256 KiB 면 인테이크 제출 (텍스트 메모/링크) 에 충분.
+MAX_FORM_BYTES: int = 256 * 1024
+# 호출자 (테스트, 운영 튜닝) 가 한도를 갱신할 수 있게 dict 가 아닌 모듈 변수.
+
+
+app = FastAPI(title="OSINT Dynamic Intake Page", version="0.3.1")
+
+
+# ---------------------------------------------------------------------------
+# 입력 검증 (v0.3.1 C1 — path traversal 차단)
+# ---------------------------------------------------------------------------
+
+
+def _validated_pid(project_id: str) -> str:
+    """`{project_id}` path parameter 를 정책 정규식으로 검증.
+
+    `project_manager.validate_project_id` 와 동일 정책. 위반 시 400 응답.
+    실패 메시지에 사용자 입력 자체는 노출하지 않는다 (정찰 가치 축소).
+    """
+    try:
+        return validate_project_id(project_id)
+    except ValueError:
+        raise HTTPException(status_code=400, detail="invalid project_id")
 
 
 # ---------------------------------------------------------------------------
@@ -98,33 +128,74 @@ async def root_redirect() -> RedirectResponse:
 
 @app.get("/intake/{project_id}", response_class=HTMLResponse)
 async def get_intake_page(project_id: str) -> HTMLResponse:
+    project_id = _validated_pid(project_id)
     try:
         manifest = load_manifest(project_id)
         plan = _load_intake_plan(project_id)
     except FileNotFoundError as e:
-        raise HTTPException(status_code=404, detail=str(e))
+        # v0.3.1 H1: 절대경로가 담긴 원본 메시지는 서버 로그에만 남기고
+        # 클라이언트엔 generic 메시지만 노출.
+        logger.warning("intake page 404 — pid=%s detail=%s", project_id, e)
+        raise HTTPException(
+            status_code=404,
+            detail="intake plan not found for the requested project",
+        )
     return HTMLResponse(_render_intake_html(manifest, plan))
 
 
 @app.post("/intake/{project_id}/submit")
 async def submit_intake(project_id: str, request: Request) -> JSONResponse:
-    """form-urlencoded 제출을 받아 SourceIntake 로 영속화 + 상태 전이."""
+    """form-urlencoded 제출을 받아 SourceIntake 로 영속화 + 상태 전이.
+
+    v0.3.1 (codex 4차 리뷰 흡수):
+    - C1: project_id 정책 정규식 검증.
+    - H2: content-length 가 MAX_FORM_BYTES 초과면 즉시 413.
+    - M1: source_intake.json 을 transition 검증을 통과한 뒤에만 영속화 (이전엔 write
+          먼저 한 뒤 transition 검증 → 잘못된 상태에서도 파일 덮어쓰기 가능했음).
+    """
+    project_id = _validated_pid(project_id)
+
+    cl = request.headers.get("content-length")
+    if cl is not None:
+        try:
+            if int(cl) > MAX_FORM_BYTES:
+                raise HTTPException(
+                    status_code=413,
+                    detail="request body too large",
+                )
+        except ValueError:
+            # 위조된 content-length 헤더는 무시하고 진행. 실제 본문 길이 검증은
+            # `request.form()` 의 starlette 내부 한도가 별도로 처리.
+            pass
+
     try:
         manifest = load_manifest(project_id)
         plan = _load_intake_plan(project_id)
     except FileNotFoundError as e:
-        raise HTTPException(status_code=404, detail=str(e))
+        logger.warning("intake submit 404 — pid=%s detail=%s", project_id, e)
+        raise HTTPException(
+            status_code=404,
+            detail="intake plan not found for the requested project",
+        )
+
+    # v0.3.1 M1: write 전에 state precondition 검증. transition_state 와 동일한 게이트를
+    # 두 번 사용하지만, 첫 번째 호출은 "쓰기 허용 여부" 만 가늠 (실제 전이는 아래에서).
+    current_str = _state_str(manifest.current_state)
+    if current_str != ProjectState.INTAKE_PENDING_USER.value:
+        return JSONResponse(
+            status_code=409,
+            content={
+                "error": "state precondition failed",
+                "expected_state": ProjectState.INTAKE_PENDING_USER.value,
+                "current_state": current_str,
+            },
+        )
 
     form = await request.form()
     decisions = _form_to_decisions(plan, form)
     intake = SourceIntake(project_id=project_id, user_decisions=decisions)
 
-    out_path = _source_intake_path(project_id)
-    out_path.parent.mkdir(parents=True, exist_ok=True)
-    out_path.write_text(intake.model_dump_json(indent=2), encoding="utf-8")
-
-    # 상태 전이: intake_pending_user → source_collecting
-    # 이미 다른 상태이면 transition_state 가 ValueError. 사용자에게 그대로 노출.
+    # 상태 전이를 먼저 시도. 성공해야만 파일을 디스크에 쓴다.
     try:
         manifest = transition_state(
             manifest,
@@ -132,15 +203,19 @@ async def submit_intake(project_id: str, request: Request) -> JSONResponse:
             reason="Dynamic Intake Page 제출",
         )
     except ValueError as e:
-        # source_intake.json 은 이미 저장됐으므로 잃지 않는다. 상태 전이 실패는 응답에 명시.
+        # 위 precondition 통과 후에도 전이가 실패한 경우 (드물지만 race 가능).
+        logger.warning("intake submit transition fail — pid=%s err=%s", project_id, e)
         return JSONResponse(
             status_code=409,
             content={
-                "saved": str(out_path),
-                "state_transition_error": str(e),
+                "error": "state transition failed",
                 "current_state": _state_str(manifest.current_state),
             },
         )
+
+    out_path = _source_intake_path(project_id)
+    out_path.parent.mkdir(parents=True, exist_ok=True)
+    out_path.write_text(intake.model_dump_json(indent=2), encoding="utf-8")
 
     return JSONResponse(
         content={
@@ -312,6 +387,8 @@ def _render_item_card(item: IntakePlanItem) -> str:
             + html.escape(mode_str) + "</label>"
         )
 
+    # v0.3.1 L1: parser 가 처리하는 모든 UserDecision 필드 (gdrive, uploaded_files,
+    # ai_delegate_remaining) 를 form 에도 노출. parser ↔ UI contract 일치.
     return (
         "<div class=\"card\" id=\"card-" + iid + "\">\n"
         "<h2>" + label + " <span class=\"badge " + badge + "\">" + priority + "</span></h2>\n"
@@ -322,7 +399,10 @@ def _render_item_card(item: IntakePlanItem) -> str:
         "<div class=\"extras\">\n"
         "  <textarea name=\"user_note__" + iid + "\" rows=\"2\" placeholder=\"메모\"></textarea>\n"
         "  <textarea name=\"provided_links__" + iid + "\" rows=\"2\" placeholder=\"링크 (한 줄에 하나)\"></textarea>\n"
+        "  <textarea name=\"google_drive_links__" + iid + "\" rows=\"2\" placeholder=\"Google Drive 링크 (한 줄에 하나)\"></textarea>\n"
+        "  <textarea name=\"uploaded_files__" + iid + "\" rows=\"2\" placeholder=\"업로드 파일 경로 (한 줄에 하나, 향후 multipart 도입 전 placeholder)\"></textarea>\n"
         "</div>\n"
+        "<div class=\"modes\"><label><input type=\"checkbox\" name=\"ai_delegate_remaining__" + iid + "\" value=\"1\"> 사용자가 일부 제공하고 나머지는 AI 위임</label></div>\n"
         "</div>"
     )
 
