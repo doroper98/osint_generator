@@ -28,6 +28,64 @@ released 항목은 **append-only**입니다.
 
 ---
 
+## [v0.5.0] — 2026-05-22
+
+Phase 5 첫 PATCH — `SourceCollectorWorker` 도입 (codex agent 모드 첫 도메인 worker).
+본 시점에 v0.4.0–v0.4.2 의 LLM-AP-003 mitigation (sandbox + scratch dir + path
+가드 + side-channel known-limits) 위에서 실 호출하는 worker 가 처음 들어온다.
+
+### Added
+
+- **`workers/source_collector_worker.py`** — `BaseLLMWorker` 상속, `llm_backend=
+  "codex"`, `llm_mode="agent"`, `allow_agent_mode=True` (LLM-AP-003 opt-in).
+  `response_model=SourceCollectionPartial`. system prompt 가 SourceCollectionPartial
+  / SourceEntry / RightsStatus 스키마와 codex agent sandbox 의 verified side
+  channels (`%TEMP%`, `~/.codex/memories`) 접근 금지를 명시. `build_user_prompt`
+  는 `01_intake/source_intake.json` 의 매칭 `UserDecision` 을 읽어 `user_note`,
+  `provided_links`, `google_drive_links`, `uploaded_files` 를 `wrap_untrusted`
+  로 단일 `<untrusted_source>` envelope 으로 격리. mode ∈ {ai_delegate, mixed}
+  외에는 ValueError. output_path = `02_sources/partials/{task_id}.json`.
+- **`orchestrator/source_collection_planner.py`** — 순수 함수 빌더. `task_id_for`,
+  `needs_collection`, `build_source_collection_tasks(intake, existing_task_ids=...)`.
+  `ai_delegate` / `mixed(ai_delegate_remaining=True)` 만 task 로 변환. `task_id`
+  prefix `src_collect__{item_id}` 로 `_is_safe_path_segment` 통과 보장.
+  `existing_task_ids` 로 idempotency.
+- **`tests/test_source_collector_worker.py`** — 29 케이스 / 7 클러스터:
+  system_prompt 정합 (스키마 / enum / sandbox 경계 / envelope guidance /
+  `.format()` 금지), build_user_prompt (정상 매핑 / envelope injection 격리 /
+  누락 / 잘못된 mode), output_path, run() 4 분기 (ok / parse_failed /
+  validation_failed / subprocess_error), agent opt-in 가드 통과,
+  `_build_invocation_cmd` 의 sandbox argv shape + scratch dir 부수 효과,
+  task builder mode 필터 + idempotency.
+
+### Changed
+
+- **`VERSION`** 0.4.2 → 0.5.0 (MINOR — 새 worker 추가, C5.4).
+
+### Verification
+
+- `python -m py_compile` 통과 (신규 3 파일).
+- `python -m unittest discover -s tests` = **129/129 통과** (기존 100 + 신규 29).
+- 본 PATCH 는 commit + push 후 codex 클라우드 외부 리뷰 예정 (CLAUDE.md C10.1
+  MINOR 직전 의무). 결과 흡수는 후속 v0.5.1 PATCH (v0.4.0 → v0.4.1 패턴과 동일).
+
+### Migration / Compatibility
+
+- 스키마 변경 없음 (`SourceCollectionPartial` 은 v0.4.0 도입). `schema_version`
+  변경 없음.
+- 호출하는 task / CLI / state 전이는 후속 PATCH. 본 PATCH 만으로는 worker 가
+  pipeline 에 자동 합류하지 않음 — orchestrator 가 source_collection task 를
+  생성하기 시작해야 활성화.
+
+### Out of Scope (deferred)
+
+- `task_queue.json` 영속화 + CLI 명령 (`build-source-tasks` 등) + state 전이.
+- `SourceRegistryBuilder` (partial → `SourceRegistry` 합치기).
+- 실 codex 프로세스를 띄우는 e2e smoke (사용자 머신에서 후속 PATCH).
+- Phase 5 완료 marker.
+
+---
+
 ## [v0.4.2] — 2026-05-22
 
 LLM-AP-003 mitigation 의 실 효과 검증 (codex 0.130.0 Windows) 후 known-limits

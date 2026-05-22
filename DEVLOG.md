@@ -774,3 +774,54 @@ last_review: 2026-05-22
 - **연관**: LLM-AP-003 (mitigation 의 "verified guarantees" 절 신설),
   v0.4.0/v0.4.1 (본 PATCH 가 검증한 변경), ADDENDUM_04 §5.2.1 (신설), Phase 5
   의 `source_collector_worker` (sandbox 가정을 활용할 첫 worker).
+
+## 2026-05-22 v0.5.0 — Phase 5 첫 PATCH: SourceCollectorWorker 도입 (codex agent 모드)
+
+- **무엇을**: v0.4.0–v0.4.2 의 LLM-AP-003 mitigation (codex `--sandbox workspace-write`
+  + per-task scratch dir + path 가드 + side-channel known-limits) 위에서 실 호출하는
+  첫 agent 모드 worker 를 도입. `workers/source_collector_worker.py` (BaseLLMWorker
+  상속, `allow_agent_mode=True`, `response_model=SourceCollectionPartial`),
+  `orchestrator/source_collection_planner.py` (SourceIntake → TaskQueueItem 순수
+  빌더), `tests/test_source_collector_worker.py` (29 케이스). 신규만, 기존 동작
+  변경 없음. VERSION 0.4.2 → 0.5.0.
+- **왜**: Phase 5 의 목적은 `SourceIntake.user_decisions` 중 AI 위임 항목 (`ai_delegate`
+  / `mixed(ai_delegate_remaining=True)`) 을 자동 자료 수집 task 로 변환하고 실행하는
+  것. v0.4.x 까지는 sandbox 가드와 envelope 헬퍼만 마련했고 실제 호출자가 없었다.
+  본 PATCH 는 그 첫 호출자다. 단일 PATCH 의 부담을 줄이기 위해 task_queue 영속화 /
+  CLI / SourceRegistryBuilder / 실 codex e2e 는 후속 PATCH 로 분리.
+- **어떻게**:
+  - **worker**: codex agent mode + opt-in 가드 통과. system prompt 가 ADDENDUM_04
+    §5.2.1 의 verified side channels (`%TEMP%`, `~/.codex/memories`) 접근 금지를
+    명시. `build_user_prompt` 는 source_intake.json 의 매칭 UserDecision 의
+    외부 자료 4 종 (user_note + provided_links + google_drive_links +
+    uploaded_files) 을 `wrap_untrusted` 로 단일 envelope 격리. mode 화이트리스트
+    {ai_delegate, mixed} 외 항목은 ValueError 로 거부 (worker 책임 밖).
+    input_item_id 누락 / unknown item_id / 파일 부재 모두 명시적 raise.
+    output_path = `02_sources/partials/{task_id}.json`.
+  - **planner**: 순수 함수 모듈. `task_id = src_collect__{item_id}` (단일 path
+    세그먼트, `_is_safe_path_segment` 통과 보장). `existing_task_ids` set 인자로
+    재제출 idempotency. mixed-with-ai_delegate_remaining=False 와 direct_provide /
+    skip / link_provide / file_upload / reference_only / must_use 는 모두 제외.
+  - **테스트**: 7 클러스터. (1) system_prompt 가 SourceCollectionPartial /
+    SourceEntry 필드 + 8 개 RightsStatus enum 값 + sandbox 경계 + envelope
+    guidance 를 모두 포함하고 `.format()` 시 raise. (2) build_user_prompt 의
+    happy path / envelope tag-injection 격리 / 6 가지 에러 분기. (3) output_path
+    위치 고정. (4) run() 의 4 가지 parsed_status 분기 (stub backend). (5) agent
+    opt-in 가드 통과. (6) `_build_invocation_cmd` argv 가 `--sandbox
+    workspace-write` + `--cd {scratch_dir}` 를 포함하고 scratch dir 이 실제
+    생성됨 + task_id 가 `_is_safe_path_segment` 통과. (7) 빌더의 mode 필터링 /
+    task shape / existing_task_ids idempotency / empty intake / needs_collection
+    helper.
+- **결과**:
+  - `python -m py_compile workers/source_collector_worker.py
+    orchestrator/source_collection_planner.py
+    tests/test_source_collector_worker.py` 통과.
+  - `python -m unittest discover -s tests` = **129/129 통과** (기존 100 + 신규 29).
+  - 본 commit 은 push 직후 codex 클라우드 외부 리뷰 대상. CLAUDE.md C10.1 의
+    "MINOR 증분 직전 필수" 는 v0.4.0 → v0.4.1 의 패턴 (push → 외부 리뷰 → 흡수
+    PATCH) 으로 해석. 결과 흡수는 v0.5.1 (PATCH).
+- **연관**: LLM-AP-003 (resolved-partial → 본 worker 가 첫 실 호출자), SCHEMA
+  (SourceCollectionPartial 의 input_item_id Optional 인 채 worker 단 강제 — 본
+  PATCH 가 worker 단 ValueError 로 강제), `wrap_untrusted` (v0.3.3 부터 호출
+  대기 → 본 PATCH 에서 첫 사용), `_scratch_dir_for_task` + `_is_safe_path_segment`
+  + sandbox argv (v0.4.0–v0.4.1) — 본 PATCH 가 그 가드 위에서 동작.
