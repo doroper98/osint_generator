@@ -1,6 +1,6 @@
 <!--
 tier: 3
-last_synced_with: v0.4.0
+last_synced_with: v0.4.1
 ssot_for: [release-notes]
 depends_on: [README.md, GOAL.md]
 last_review: 2026-05-22
@@ -25,6 +25,91 @@ released 항목은 **append-only**입니다.
 
 ### Fixed
 -
+
+---
+
+## [v0.4.1] — 2026-05-22
+
+v0.4.0 의 codex 1차 외부 리뷰 흡수 (Critical 2 / High 3 / Medium 3 / Low 1 / Nit 1).
+sandbox + scratch dir 격리의 "의도된 가정" 들을 명시적 가드로 승격하고 회귀 테스트로
+잠근다. 본 PATCH 는 CLAUDE.md C10.3 에 따라 codex 재리뷰 면제.
+
+### Added
+
+- **`workers/base_llm_worker.py:_is_safe_path_segment`** (module-level helper)
+  — task_id 가 단일 path 세그먼트로 안전한지 검사. `/`, `\\`, `..`, `.`,
+  leading `.`, 길이 > 128 거부. `Path(s).name == s` 추가 확인.
+- **`workers/base_llm_worker.py:_assert_no_symlinks_in_path`** (module-level
+  helper) — `path` 부터 `stop_at` 까지 위로 올라가며 symlink 검사. scratch
+  경계가 symlink 인 escape 시나리오 차단.
+- **`BaseLLMWorker.clean_scratch_on_start: ClassVar[bool] = True`** — scratch
+  dir ephemeral 보장. 같은 task_id 재실행 시 이전 잔존물 노출 차단. 멱등
+  worker (parse-on-resume) 가 잔존물 활용해야 하면 False 로 opt-out.
+- **`BaseLLMWorker._build_invocation_cmd(args, full_prompt) -> list[str]`** —
+  `_invoke_llm` 에서 argv 빌드 로직을 분리. subprocess 호출 없는 순수 함수라
+  argv shape 회귀 테스트 가능.
+- **`tests/test_base_llm_worker_sandbox.py`** — 17 메소드. path segment
+  safety / scratch dir lifecycle / symlink preflight / codex-agent argv 의
+  sandbox+scratch_cd 존재 / response argv 의 sandbox 부재 / placeholder
+  fail-fast / response 모드 + `{scratch_dir}` raise / 사용자 prompt 본문 내
+  `{...}` 허용 카테고리.
+
+### Changed
+
+- **`BaseLLMWorker._scratch_dir_for_task`** — (a) `_is_safe_path_segment` 로
+  task_id 검증, 실패 시 `LLMSubprocessError` (LLM-AP-003 path traversal 가드).
+  (b) `clean_scratch_on_start=True` 면 mkdir 전에 `shutil.rmtree`. (c) mkdir
+  직후 `_assert_no_symlinks_in_path` preflight 로 scratch_root → scratch_dir
+  경로상 symlink 검사.
+- **`BaseLLMWorker._build_invocation_cmd`** (분리된 신규 메서드 안) —
+  (a) template-driven scratch: `{scratch_dir}` 가 template 에 있을 때만
+  `_scratch_dir_for_task` 호출 (mode-driven → template-driven). (b) response
+  모드 template 에 `{scratch_dir}` 발견 시 `LLMSubprocessError` raise (silent
+  empty-string substitution footgun 제거). (c) 치환 후 `{name}` 패턴이 cmd
+  argv 에 잔존하면 fail-fast (사용자 prompt 자리는 예외 — JSON `{}` 충돌 회피).
+- **`schemas/models.py:SourceCollectionPartial`** — (a) docstring "Phase 4"
+  → "Phase 5" 정정 (DEVLOG/CHANGELOG/LLM-AP-003 의 표기와 일치). (b)
+  `notes` → `collector_notes` rename (consumer 입장에서 출처 명확화). 본
+  모델은 v0.4.0 신규로 영속 인스턴스 없어 호환성 부담 없음.
+- **`docs/ANTIPATTERNS/LLM_ANTIPATTERNS.md` LLM-AP-003** — mitigation /
+  regression_test / resolved / status / known-limits 절 v0.4.1 항목 추가.
+  v0.4.0 의 "scratch 밖으로도 write 못 함" 단정 → "의도된 가정 하에서 …"
+  로 톤다운 (known-limits 의 symlink/mount 불확실성과 균형).
+
+### Rationale
+
+codex 1차 리뷰가 정확히 짚은 것: v0.4.0 는 "올바른 방향" 이지만 "실 효과를
+보장하는 가드" 가 빠져 있었다. v0.4.0 의 LLM-AP-003 본문이 "intent" 만 적고
+"verified guarantees" 까지 적지 못한 것을 v0.4.1 에서 보강.
+
+Critical 2 항목 (task_id traversal / symlink escape) 은 단일 가드 함수
+도입으로 처리. High 3 (placeholder footgun / mode-template drift / 테스트
+부재) 는 `_build_invocation_cmd` 추출 + fail-fast + 17 회귀 테스트로 처리.
+Medium 3 / Low 1 / Nit 1 도 같은 PATCH 에 묶음 — 모두 같은 의도 "v0.4.0
+mitigation 의 가드 승격" 하에 있음.
+
+### Testing
+
+- `python -m py_compile workers/base_llm_worker.py schemas/models.py
+  tests/test_base_llm_worker_sandbox.py` 통과.
+- `python -m unittest discover tests` — 100 케이스 통과 (기존 83 + 신규 17,
+  회귀 없음).
+
+### False positive
+
+리뷰의 첫 번째 round (commit 9b200a8 이전 working tree 기준) 는 컨테이너의
+uncommitted 변경을 사용자 머신에서 못 봐서 "구현 안 됨" 으로 정확히 짚었지만,
+두 번째 round (commit 9b200a8 기준) 로 superseded. 본 PATCH 는 두 번째 round
+만 흡수.
+
+### Migration / Compatibility
+
+- `SourceCollectionPartial.notes` → `.collector_notes` rename: 본 모델은
+  v0.4.0 신규라 영속 데이터 없음. 호환성 영향 없음.
+- 기존 BaseLLMWorker 하위 클래스에서 `clean_scratch_on_start` 를 명시하지
+  않으면 기본 True 가 적용 — 이전엔 잔존물 보존이었지만 v0.4.1 부터는
+  ephemeral. 의도적 잔존물 활용 worker 가 있으면 클래스 변수로 `False` 명시.
+  현재 agent 모드 worker 가 0 개이므로 실 영향 없음.
 
 ---
 

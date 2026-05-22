@@ -1,6 +1,6 @@
 <!--
 tier: 3
-last_synced_with: v0.4.0
+last_synced_with: v0.4.1
 ssot_for: [llm-antipatterns]
 depends_on: [README.md, ../ADDENDUM_04_SUBSCRIPTION_LLM_BRIDGE.md, ../../CLAUDE.md]
 last_review: 2026-05-22
@@ -141,11 +141,22 @@ last_review: 2026-05-22
     `{project_dir}` → `{scratch_dir}` (= `projects/{pid}/scratch/{task_id}/`) 로 변경.
     `BaseLLMWorker._scratch_dir_for_task` 헬퍼가 task 별 scratch 디렉토리를 mkdir.
     `_invoke_llm` 의 placeholder 치환 시 `llm_mode == "agent"` 일 때만 scratch dir
-    경로로 치환 (response 모드는 빈 문자열). 결과: agent 가 codex sandbox 안에서,
-    동시에 scratch 디렉토리 밖으로도 write 못 함. 즉 (a) 사용자 자료 / (b) 다른 worker
-    의 산출물 / (c) git 추적 코드 모두 보호.
+    경로로 치환 (response 모드는 빈 문자열). 의도된 가정 하에서 — codex 가
+    `--sandbox workspace-write` 를 honor 하고, scratch 경로상 symlink 가 없으며,
+    task_id 가 단일 path 세그먼트인 경우 — agent 는 (a) 사용자 자료 / (b) 다른
+    worker 산출물 / (c) git 추적 코드 모두 건드릴 수 없다. v0.4.0 시점에는 본
+    가정들의 실제 검증이 정적 정합성에 그침.
+  - v0.4.1 — codex 1차 리뷰 흡수. v0.4.0 의 "의도된 가정" 들을 명시적 가드로 승격:
+    (i) `_is_safe_path_segment` 로 task_id path traversal 거부 (C1),
+    (ii) `_assert_no_symlinks_in_path` 로 scratch_root → scratch_dir 경로상 symlink
+    검사 — sandbox 경계가 symlink 인 escape 시나리오 차단 (C2),
+    (iii) `clean_scratch_on_start: ClassVar[bool] = True` 기본 — 잔존물 노출 차단 (M1),
+    (iv) `_invoke_llm` 의 placeholder 치환을 template-driven 화: 치환 후 `{name}`
+    잔존 토큰 fail-fast + response 모드 template 이 `{scratch_dir}` 를 가지면
+    raise (H1+H2),
+    (v) `tests/test_base_llm_worker_sandbox.py` 17 메소드로 위 가드를 회귀 잠금 (H3).
   - 후속 (Phase 5) — `source_collector_worker` 의 실제 agent 모드 호출 + e2e
-    smoke test 로 sandbox 효과 실증.
+    smoke test (실제 codex 프로세스를 띄워 sandbox escape 시나리오 테스트).
 
 - **회귀 테스트 (regression_test)**:
   - `tests/test_base_llm_worker_run.py::TestAgentModeGate::test_agent_mode_without_opt_in_fails_early`
@@ -153,9 +164,13 @@ last_review: 2026-05-22
     종료하고 `llm_calls/` 디렉토리 자체가 생성되지 않음을 확인.
   - `tests/test_prompt_safety.py` (v0.3.3, 13 메소드) — wrap 형식 / close-tag
     injection / open-tag injection / case·whitespace 변형 / label 안전화 5 카테고리.
-  - `_scratch_dir_for_task` / `--sandbox workspace-write` placeholder 치환의 회귀는
-    Phase 5 의 `source_collector_worker` 도입과 함께 추가 예정 (현 v0.4.0 은 CLI
-    인자 변경의 정적 정합성만 — 실 효과는 worker 가 들어와야 검증 가능).
+  - `tests/test_base_llm_worker_sandbox.py` (v0.4.1, 11 메소드) — task_id 안전
+    세그먼트 / scratch dir 멱등성 / clean_scratch_on_start 동작 / symlink preflight /
+    codex-agent argv 의 `--sandbox workspace-write` + `--cd {scratch_dir}` 존재 /
+    response argv 의 sandbox 부재 / placeholder 미해결 fail-fast / response 모드
+    template 이 `{scratch_dir}` 가지면 raise 5 카테고리.
+  - 실제 codex 프로세스 띄우는 sandbox escape 회귀는 Phase 5 worker 도입과 함께
+    별도 (현재는 정적/단위 회귀에 그침).
 
 - **발견 버전 (discovered)**: v0.2.5 외부 코드 리뷰 (codex `exec review`).
 
@@ -164,11 +179,14 @@ last_review: 2026-05-22
   - v0.3.3 — envelope 헬퍼 (`wrap_untrusted`). 순수 함수 + 회귀 테스트만, 호출은 Phase 5.
   - v0.4.0 — codex `--sandbox workspace-write` 매핑 + scratch dir 격리 (CLI 매핑 +
     `_scratch_dir_for_task` 헬퍼).
+  - v0.4.1 — codex 1차 리뷰 흡수: task_id traversal 가드 + symlink preflight +
+    scratch ephemeral + placeholder fail-fast + 11 회귀 테스트.
   - Phase 5 (예정) — `source_collector_worker` 의 실 호출 + e2e 검증.
 
 - **상태 (status)**: `resolved-partial` — opt-in 가드 + envelope 헬퍼 + sandbox /
-  scratch dir 매핑까지 마련. 실 호출하는 agent 모드 worker (`source_collector_worker`)
-  의 도입과 e2e 검증은 Phase 5 에서 완료 예정.
+  scratch dir 매핑 + 경로 안전 가드 + 회귀 테스트까지 마련. 실 호출하는 agent
+  모드 worker (`source_collector_worker`) 의 도입과 실제 codex 프로세스를 띄우는
+  e2e sandbox escape 검증은 Phase 5 에서 완료 예정.
 
 - **알려진 한계**:
   - sandbox / scratch dir 매핑은 도입했지만 아직 호출하는 agent 모드 worker 가 없음.
@@ -176,10 +194,11 @@ last_review: 2026-05-22
   - sandbox 가 활성화돼도 envelope 안에서 일반 문장으로 LLM 을 속이는 semantic
     injection 은 막지 못한다 — 시스템 prompt + envelope 명시 책임.
   - codex `--sandbox workspace-write` 의 정확한 escape 경계 (symlink 처리, mount
-    bind 등) 는 codex 버전마다 달라질 수 있음. `docs/ADDENDUM_04` §5 의 가정 절에
-    버전 정보와 함께 정기 갱신 필요.
-  - scratch dir 은 task_id 단위로 mkdir 만 한다. 같은 task_id 가 두 번 실행되면
-    이전 잔존물이 보임. 현재는 worker 가 멱등 실행을 보장하지 않으므로 수용 가능.
-    필요 시 Phase 5 worker 단에서 `shutil.rmtree → mkdir` 로 ephemeral 화.
+    bind 등) 는 codex 버전마다 달라질 수 있음. v0.4.1 의 preflight 는 scratch
+    경로상 우리 쪽 symlink 만 검사 — codex 가 자기 안에서 만든 symlink 를 따라가는
+    행동은 codex 의 책임. `docs/ADDENDUM_04` §5 에 버전 정보와 함께 정기 갱신 필요.
+  - `input_item_id` 같이 "도메인적으로 필수지만 schema 호환성 위해 optional" 인
+    필드는 worker 단 task_type 별 검증으로 강제 (Phase 5 `source_collector_worker`
+    의 의무).
 
 - **연관**: ADDENDUM_04 §5 / §7 (CLI 인터페이스 / agent 모드 권한), LLM-AP-001, LLM-AP-002.

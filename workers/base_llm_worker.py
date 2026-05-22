@@ -32,7 +32,9 @@ import argparse
 import hashlib
 import json
 import os
+import re
 import secrets
+import shutil
 import subprocess
 from abc import abstractmethod
 from datetime import datetime, timezone
@@ -87,6 +89,74 @@ CLI_INVOCATION: dict[tuple[str, str], list[str]] = {
 }
 
 
+# ---------------------------------------------------------------------------
+# Path safety helpers (v0.4.1 — LLM-AP-003 defense-in-depth)
+# ---------------------------------------------------------------------------
+
+
+def _is_safe_path_segment(s: str) -> bool:
+    """`s` 가 단일 path 세그먼트로 안전한지.
+
+    True 조건:
+    - 비어 있지 않음
+    - `/`, `\\` 미포함 (path separator)
+    - `..` 와 `.` 자체가 아님
+    - `.` 으로 시작하지 않음 (`.env`, `.ssh` 같은 hidden 자료 차단)
+    - 길이 ≤ 128 (운영적 sanity)
+
+    Path 객체로도 정합 확인 (`Path(s).name == s`) — Windows 의 `:` (드라이브)
+    같은 OS-specific 케이스를 한 번 더 거른다.
+    """
+    if not s or len(s) > 128:
+        return False
+    if "/" in s or "\\" in s:
+        return False
+    if s in (".", ".."):
+        return False
+    if s.startswith("."):
+        return False
+    try:
+        if Path(s).name != s:
+            return False
+    except (ValueError, OSError):
+        return False
+    return True
+
+
+def _assert_no_symlinks_in_path(path: Path, *, stop_at: Path) -> None:
+    """`path` 부터 `stop_at` 까지 위로 올라가며 symlink 가 없는지 확인.
+
+    `stop_at` 자체는 검사 대상에서 제외 (project_dir 등 외부에서 관리되는 경계).
+    중간에 symlink 가 있으면 `LLMSubprocessError`. codex `--sandbox` 경계의
+    OS-level resolve 가 sandbox 밖으로 향하는 사고를 막기 위한 preflight.
+    """
+    path = path.absolute()
+    stop = stop_at.absolute()
+    current = path
+    # 무한 루프 방어 (root 까지 doh 가도 stop 못 만나는 경우)
+    for _ in range(64):
+        if current == stop:
+            return
+        if current.is_symlink():
+            raise LLMSubprocessError(
+                f"symlink detected in scratch path: {current} → "
+                f"{current.resolve()}. LLM-AP-003 sandbox boundary integrity "
+                f"requires non-symlink path."
+            )
+        parent = current.parent
+        if parent == current:
+            # filesystem root 도달했는데 stop_at 못 찾음 — 경로가 stop_at 의 하위가 아님
+            raise LLMSubprocessError(
+                f"scratch path {path} is not under expected base {stop_at}. "
+                f"refusing to proceed."
+            )
+        current = parent
+    raise LLMSubprocessError(
+        f"_assert_no_symlinks_in_path: depth > 64 from {path} to {stop_at}. "
+        f"refusing to proceed."
+    )
+
+
 class LLMSubprocessError(Exception):
     """CLI 호출 실패. CLI 미설치 / 비정상 종료 / timeout 등.
 
@@ -128,6 +198,12 @@ class BaseLLMWorker(BaseWorker):
     # LLM-AP-003: agent 모드는 prompt injection 면적이 넓어 명시적 opt-in 강제.
     # 하위 클래스가 `llm_mode = "agent"` 를 쓰려면 동시에 `allow_agent_mode = True` 도 명시해야 함.
     allow_agent_mode: ClassVar[bool] = False
+
+    # v0.4.1: scratch dir 의 task-단위 ephemeral 화 (codex 1차 리뷰 M1).
+    # True 이면 _scratch_dir_for_task 진입 시 기존 디렉토리를 rmtree 후 재생성한다.
+    # 같은 task_id 재실행 시 이전 잔존물이 LLM 에 노출되지 않는다.
+    # 멱등 실행 worker (예: parse-on-resume) 가 잔존물을 활용해야 한다면 False 로 opt-out.
+    clean_scratch_on_start: ClassVar[bool] = True
 
     # -----------------------------------------------------------------
     # 추상 메서드
@@ -293,6 +369,71 @@ class BaseLLMWorker(BaseWorker):
     # CLI subprocess
     # -----------------------------------------------------------------
 
+    def _build_invocation_cmd(
+        self, args: argparse.Namespace, full_prompt: str
+    ) -> list[str]:
+        """subprocess argv 만 빌드 (실 호출 없음). v0.4.1 refactor.
+
+        분리 이유: argv shape 회귀 테스트가 subprocess 를 띄우지 않고 검증 가능하도록.
+        본 메서드 안에 v0.4.1 가드들 (template-driven scratch / response 모드 충돌
+        / placeholder fail-fast) 이 들어 있다.
+        """
+        key = (self.llm_backend, self.llm_mode)
+        template = CLI_INVOCATION.get(key)
+        if template is None:
+            raise LLMSubprocessError(
+                f"unsupported backend/mode combination: {key}"
+            )
+
+        # v0.4.1 (codex 1차 리뷰 H2): template-driven mkdir.
+        # mode-driven 으로 가면 template 이 `{scratch_dir}` 를 참조하지 않아도
+        # 매 호출마다 scratch 디렉토리를 만들게 되어 의도 drift. 또한 response 모드
+        # 에서 누군가 실수로 `{scratch_dir}` 를 끼우면 빈 문자열로 silent corruption.
+        # 두 문제 모두 "template 이 placeholder 를 가질 때만 활성, 모드와 정합 안 맞으면
+        # 즉시 raise" 로 해결.
+        template_uses_scratch = any("{scratch_dir}" in seg for seg in template)
+        if template_uses_scratch and self.llm_mode != "agent":
+            raise LLMSubprocessError(
+                f"template for {key} references {{scratch_dir}} but llm_mode "
+                f"is not 'agent'. scratch dir is only meaningful for agent-mode "
+                f"sandbox (LLM-AP-003). fix CLI_INVOCATION or set llm_mode='agent'."
+            )
+
+        scratch_value = ""
+        if template_uses_scratch:
+            scratch_value = str(self._scratch_dir_for_task(args))
+
+        cmd = [
+            seg.replace("{prompt}", full_prompt)
+               .replace("{project_dir}", str(self.project_dir(args)))
+               .replace("{scratch_dir}", scratch_value)
+            for seg in template
+        ]
+
+        # v0.4.1 (codex 1차 리뷰 H1): 치환 후 남은 `{name}` 토큰이 있으면 즉시 실패.
+        # 새 placeholder 가 도입됐는데 _build_invocation_cmd 의 치환 코드가 갱신되지
+        # 않은 경우, 또는 사용자 prompt 본문에 우연히 `{...}` 가 들어가 argv 까지
+        # 흘러간 경우를 잡는다. prompt 본문은 이미 치환 단계에서 흡수됐으므로 cmd 에
+        # 남은 `{...}` 는 진짜 미해결 placeholder. JSON `{}` 와 충돌하지 않도록 `{`
+        # 직후 영문/숫자/언더스코어 만 잡는다.
+        unresolved_pattern = re.compile(r"\{[A-Za-z_][A-Za-z0-9_]*\}")
+        for i, seg in enumerate(cmd):
+            # full_prompt 가 들어간 자리는 사용자/시스템 prompt 자체에 placeholder-like
+            # 토큰이 있을 수 있어 검사에서 제외 (placeholder 는 template 정의 위치에만
+            # 존재하므로, full_prompt 가 통째로 들어간 seg 는 template seg 와 동일했어야
+            # 한다).
+            if seg == full_prompt:
+                continue
+            m = unresolved_pattern.search(seg)
+            if m:
+                raise LLMSubprocessError(
+                    f"unresolved placeholder {m.group(0)} remains in argv[{i}]={seg!r} "
+                    f"for {key}. _build_invocation_cmd substitution is out of sync "
+                    f"with CLI_INVOCATION."
+                )
+
+        return cmd
+
     def _invoke_llm(
         self, args: argparse.Namespace, full_prompt: str
     ) -> tuple[str, int]:
@@ -307,25 +448,7 @@ class BaseLLMWorker(BaseWorker):
             emit("system", "OSINT_LLM_STUB=1: skipping real CLI invocation")
             return stub, 0
 
-        key = (self.llm_backend, self.llm_mode)
-        template = CLI_INVOCATION.get(key)
-        if template is None:
-            raise LLMSubprocessError(
-                f"unsupported backend/mode combination: {key}"
-            )
-
-        # {scratch_dir} 는 agent 모드 templates 가 참조. agent 모드일 때만 미리 생성하고
-        # response 모드에서는 placeholder 가 없으니 빈 문자열로 둬도 안전.
-        scratch_value = ""
-        if self.llm_mode == "agent":
-            scratch_value = str(self._scratch_dir_for_task(args))
-
-        cmd = [
-            seg.replace("{prompt}", full_prompt)
-               .replace("{project_dir}", str(self.project_dir(args)))
-               .replace("{scratch_dir}", scratch_value)
-            for seg in template
-        ]
+        cmd = self._build_invocation_cmd(args, full_prompt)
 
         try:
             proc = subprocess.run(
@@ -407,9 +530,38 @@ class BaseLLMWorker(BaseWorker):
         밖으로 write 하지 못하도록 `--sandbox workspace-write` 와 함께 사용
         (LLM-AP-003 mitigation). 본 디렉토리 내용은 task 단위 일회용이며,
         영속 산출물은 worker 가 `output_refs` 로 따로 기록한다.
+
+        보안 (v0.4.1, codex 1차 리뷰 C1+C2):
+        - args.task_id 는 단일 path 세그먼트여야 한다 (`/`, `\\`, `..`, leading `.`
+          금지). 오케스트레이터 계약은 이미 단순 ID 를 보장하지만, 본 함수가
+          최종 path join 의 안전 경계가 되도록 defense-in-depth.
+        - `clean_scratch_on_start=True` 면 기존 scratch 를 rmtree 후 재생성 →
+          이전 task_id 재실행 / 외부에서 미리 깔아둔 symlink 모두 제거.
+        - 그래도 scratch dir 자체에 도달하는 경로상 (예: projects/{pid}/scratch)
+          에 symlink 가 있으면 OS 레벨에서 escape 가능 → preflight 로 거부.
         """
-        d = self.project_dir(args) / "scratch" / args.task_id
+        task_id = args.task_id
+        if not _is_safe_path_segment(task_id):
+            raise LLMSubprocessError(
+                f"unsafe task_id={task_id!r}: must be a single path segment "
+                f"(no '/', '\\\\', '..', leading '.'). LLM-AP-003 path traversal guard."
+            )
+
+        scratch_root = self.project_dir(args) / "scratch"
+        d = scratch_root / task_id
+
+        # cleanup: ephemeral 보장. rmtree 실패는 그냥 raise (호출자가 LLMSubprocessError 로 wrap).
+        if self.clean_scratch_on_start and d.exists():
+            shutil.rmtree(d)
+
         d.mkdir(parents=True, exist_ok=True)
+
+        # preflight: scratch_root ~ d 까지의 경로상 symlink 검사.
+        # codex `--sandbox workspace-write` 는 `--cd` 디렉토리 안에서만 write 를
+        # 허용하지만, 경계 자체가 symlink 면 resolve 결과가 sandbox 밖으로 갈 수 있다.
+        # codex 버전에 따른 차이를 최소화하기 위해 우리 쪽에서 한 번 더 확인.
+        _assert_no_symlinks_in_path(d, stop_at=self.project_dir(args))
+
         return d
 
     def _compose_full_prompt(self, user_prompt: str) -> str:

@@ -1,6 +1,6 @@
 <!--
 tier: 3
-last_synced_with: v0.4.0
+last_synced_with: v0.4.1
 ssot_for: [development-log]
 depends_on: [CHANGELOG.md]
 last_review: 2026-05-22
@@ -658,3 +658,68 @@ last_review: 2026-05-22
 - **codex 리뷰**: 본 PATCH 직후 v0.3.4 의 새 C10.0/C10.2 규칙에 따라 AI 가
   생성한 review-prompt.txt 로 codex 외부 리뷰 실행. 결과 흡수는 v0.4.1 PATCH
   ("외부 코드 리뷰 N차 반영") 로.
+
+## 2026-05-22 v0.4.1 — codex 1차 외부 리뷰 흡수: sandbox 가드 승격 + 회귀 잠금
+
+- **무엇을**: v0.4.0 의 codex 외부 리뷰 (Critical 2 / High 3 / Medium 3 / Low 1 /
+  Nit 1) 단일 PATCH 흡수. v0.4.0 의 "의도된 가정" 들을 명시적 가드로 승격하고
+  17 회귀 테스트로 잠금.
+- **왜**: v0.4.0 는 codex `--sandbox workspace-write` + `--cd {scratch_dir}` 의
+  "방향" 은 옳았지만 (i) task_id 가 path traversal 페이로드면 scratch 경계가
+  깨지고, (ii) scratch 경로상 누군가 미리 깔아둔 symlink 가 있으면 codex 의
+  sandbox resolve 가 우회될 수 있고, (iii) response 모드 template 에 누군가
+  `{scratch_dir}` 를 끼우면 빈 문자열로 silent corruption 되며, (iv) 새
+  placeholder 가 도입돼도 자동으로 알 방법이 없었다. 보안 mitigation 의 "intent"
+  를 "verified guarantees" 로 끌어올리려면 가드 + 회귀 잠금이 필수.
+- **어떻게**:
+  - **C1 (task_id traversal)**: module-level helper `_is_safe_path_segment` 도입.
+    `/`, `\\`, `..`, `.`, leading `.`, len > 128 거부 + `Path(s).name == s` 추가
+    확인. `_scratch_dir_for_task` 진입 즉시 호출, 실패 시 `LLMSubprocessError`.
+  - **C2 (symlink escape)**: module-level helper `_assert_no_symlinks_in_path`
+    도입. scratch dir 부터 `project_dir` 까지 위로 올라가며 symlink 검사. 발견
+    시 raise. codex 가 자기 안에서 만든 symlink 를 따라가는 행동은 codex 의
+    책임이지만, scratch 경계 자체가 symlink 인 시나리오는 우리 쪽에서 차단.
+  - **H1 (placeholder footgun)**: `_invoke_llm` 의 argv 빌드 로직을
+    `_build_invocation_cmd` 로 추출 (subprocess 호출 없는 순수 함수 → 테스트
+    가능). 그 안에서 치환 후 `cmd` argv 의 각 seg 에 `\{[A-Za-z_][A-Za-z0-9_]*\}`
+    패턴이 잔존하면 `LLMSubprocessError`. `seg == full_prompt` 인 자리는 검사
+    제외 (사용자 prompt 본문의 JSON `{}` 와 충돌 회피).
+  - **H2 (mode/template drift)**: 같은 메서드에서 `template_uses_scratch =
+    any("{scratch_dir}" in seg for seg in template)` 로 검사. (a) True 이면서
+    `llm_mode != "agent"` 면 raise (silent empty-string 차단). (b) True 일
+    때만 `_scratch_dir_for_task` 호출 (mode-driven → template-driven, 의도 drift
+    제거).
+  - **H3 (테스트 부재)**: `tests/test_base_llm_worker_sandbox.py` 신설. 17
+    메소드, 4 클래스 (`TestPathSegmentSafety`, `TestScratchDirHelper`,
+    `TestAssertNoSymlinks`, `TestInvocationCmdShape`, `TestPlaceholderFailFast`).
+    POSIX 한정 symlink 테스트는 `sys.platform == "win32"` 일 때 skip.
+  - **M1 (scratch lifecycle)**: `BaseLLMWorker.clean_scratch_on_start: ClassVar
+    [bool] = True` 신설. `_scratch_dir_for_task` 가 mkdir 전에 `shutil.rmtree`
+    수행. 기본값 True 로 ephemeral 보장 — 멱등 worker 가 잔존물 활용해야 하면
+    클래스 변수로 `False` 명시 (현재 그런 worker 0 개).
+  - **M2 (Phase 4 → 5)**: `SourceCollectionPartial` docstring 정정.
+  - **M3 (notes 범용)**: `notes` → `collector_notes` rename. 모델이 v0.4.0
+    신규로 영속 인스턴스 없어 호환성 부담 없음.
+  - **L1 (input_item_id 도메인 불변식)**: schema 는 Optional 유지 (C3
+    additive-first), 강제는 Phase 5 worker 단으로 미룸. LLM-AP-003 known-limits
+    에 명시.
+  - **N1 (단정 톤)**: LLM-AP-003 v0.4.0 mitigation 본문의 "scratch 밖으로도
+    write 못 함" → "의도된 가정 하에서 — codex 가 `--sandbox workspace-write` 를
+    honor 하고, scratch 경로상 symlink 가 없으며, task_id 가 단일 path 세그먼트
+    인 경우 — agent 는 (a) 사용자 자료 / (b) 다른 worker 산출물 / (c) git 추적
+    코드 모두 건드릴 수 없다." 로 톤다운. known-limits 의 symlink/mount 불확실성
+    과 균형.
+- **결과**:
+  - `python -m unittest discover tests` 100 케이스 통과 (기존 83 + 신규 17, 회귀 없음).
+  - codex 1차 리뷰의 모든 Critical/High/Medium/Low/Nit 흡수.
+  - argv shape 회귀가 잠겨 향후 CLI 매핑 변경 시 sandbox/scratch 플래그가
+    실수로 누락되면 즉시 테스트 실패.
+- **False positive**: 첫 번째 리뷰 round (commit 9b200a8 이전 working tree 기준,
+  사용자 머신의 v0.3.4 코드를 본 결과) 의 모든 Critical 항목은 "구현 안 됨" 으로
+  정확했지만 두 번째 round (commit 9b200a8 기준) 로 superseded — 모두 흡수 대상
+  외. 두 번째 round 만 흡수.
+- **codex 재리뷰 면제**: 본 PATCH 는 CLAUDE.md C10.3 ("외부 리뷰 결과 반영
+  PATCH 는 면제 — 무한 루프 방지") 에 해당.
+- **연관**: LLM-AP-003 (mitigation 의 v0.4.0 가정 → v0.4.1 가드 승격),
+  v0.4.0 (본 PATCH 가 흡수하는 변경), Phase 5 의 `source_collector_worker`
+  (본 가드들을 활용할 첫 worker).
