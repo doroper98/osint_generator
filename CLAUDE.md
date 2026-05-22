@@ -1,9 +1,9 @@
 <!--
 tier: 1
-last_synced_with: v0.3.3
+last_synced_with: v0.3.4
 ssot_for: [ai-assistant-rules, code-style, commit-conventions]
 depends_on: [GOAL.md, DOCS_GOVERNANCE.md]
-last_review: 2026-05-19
+last_review: 2026-05-22
 -->
 
 # CLAUDE.md — AI Assistant Operating Rules
@@ -135,6 +135,17 @@ last_review: 2026-05-19
 본 시스템은 자기 자신을 만든 AI 의 사각지대를 보정하기 위해 **다른 LLM CLI (`codex exec`) 로
 주기적 코드 리뷰를 실행**합니다. 운영 매뉴얼은 `docs/REVIEW_PROMPT.md` 에 있습니다.
 
+### C10.0 역할 분담 (변경 불가)
+
+| 역할 | 책임 |
+|---|---|
+| **AI 어시스턴트** | (a) 본 절차의 트리거 시점 (C10.1) 을 **스스로 인식** 한다. (b) `review-prompt.txt` 본문을 **직접 작성** 하여 사용자에게 전달한다 (SendUserFile 또는 코드블록). 사용자에게 템플릿 빈 칸을 메우게 시키지 않는다. (c) 사용자가 paste 해 준 codex 결과의 Critical/High/Medium 을 흡수한다. |
+| **사용자** | (a) AI 가 전달한 `review-prompt.txt` 를 자기 머신의 codex 에 stdin 으로 전달한다. (b) `agent_message.text` 본문을 AI 세션에 paste 한다. (c) false positive 합의 / 절차 자체에 대한 결정. |
+
+**AI 어시스턴트는 본 절차를 임의로 생략하지 못한다.** 트리거 시점에 절차를 *안내만* 하고
+사용자의 명시적 요청을 기다리는 형태도 **위반** 으로 간주한다. 트리거 시점에 절차를 능동적으로
+시작하지 않은 채 후속 MINOR/MAJOR/Phase 완료 커밋을 만들면 그 커밋 자체가 규칙 위반이다.
+
 ### C10.1 실행 의무 시점
 
 | 트리거 | 실행 | 비고 |
@@ -147,13 +158,18 @@ last_review: 2026-05-19
 
 ### C10.2 절차 요약
 
-1. `docs/REVIEW_PROMPT.md` §2 의 표준 프롬프트 템플릿에 변경 범위 (버전, 핵심 파일, 우선순위) 만
-   채워 `review-prompt.txt` 작성.
-2. 사용자 머신에서 `codex exec --skip-git-repo-check --color never -C <repo> -` 에 stdin 으로
+1. **(AI 어시스턴트 책임)** `docs/REVIEW_PROMPT.md` §2 의 표준 프롬프트 템플릿의
+   `Versions in scope` / `Key files` / `Review priorities` 세 절을 **모두 직접 채워서**
+   완성된 `review-prompt.txt` 본문을 사용자에게 전달. 사용자에게 "이 칸을 채우세요" 는
+   **금지**. 변경 SHA / 핵심 파일 / 우선순위는 AI 가 diff 와 컨텍스트로부터 추론한다.
+2. **(사용자 책임)** 자기 머신에서
+   `codex exec --skip-git-repo-check --color never -C <repo> -` 에 stdin 으로
    전달 → stdout JSONL 을 `review-out.jsonl` 로 저장.
-3. 마지막 `agent_message.text` 가 리뷰 본문. 사용자가 AI 어시스턴트 세션에 paste.
-4. 결과의 Critical/High/Medium 을 **단일 PATCH** ("외부 코드 리뷰 N차 반영") 로 흡수.
-5. False positive 라고 판단되는 항목은 **사용자 합의 후** 무시. DEVLOG 다음 엔트리에 근거 명시.
+3. **(사용자 책임)** 마지막 `agent_message.text` (리뷰 본문) 를 AI 세션에 paste.
+4. **(AI 어시스턴트 책임)** Critical/High/Medium 을 **단일 PATCH** ("외부 코드 리뷰 N차 반영")
+   로 흡수. 또는 MINOR/MAJOR 본 커밋이 아직 안 박혔으면 그 커밋에 직접 반영.
+5. **(공동)** False positive 라고 판단되는 항목은 **사용자 합의 후** 무시. AI 는 DEVLOG 다음
+   엔트리에 근거 (LLM-AP / ADDENDUM 위치 등) 를 명시.
 
 명령어 / 인코딩 / 프롬프트 전문은 `docs/REVIEW_PROMPT.md` 참고.
 

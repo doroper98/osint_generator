@@ -1,6 +1,6 @@
 <!--
 tier: 3
-last_synced_with: v0.3.3
+last_synced_with: v0.3.4
 ssot_for: [development-log]
 depends_on: [CHANGELOG.md]
 last_review: 2026-05-22
@@ -553,3 +553,47 @@ last_review: 2026-05-22
     필요 시 truncate + summary 단계 도입.
 - **연관**: LLM-AP-003 (resolved-partial 의 (b) envelope 격리 완료), HANDOFF §2.4
   envelope 헬퍼 항목, Phase 4 의 `source_collector_worker` 선결 작업.
+
+## 2026-05-22 v0.3.4 — codex 리뷰 절차의 역할 분담을 규칙으로 박음
+
+- **무엇을**: `CLAUDE.md` C10 과 `docs/REVIEW_PROMPT.md` §2 에 codex 외부 리뷰의
+  역할 분담을 명문화. 새 §C10.0 "역할 분담 (변경 불가)" 추가 — AI 어시스턴트가
+  `review-prompt.txt` 본문을 직접 생성하고, 사용자는 codex 실행 + 결과 paste 만
+  수행. AI 가 절차를 *안내만* 하고 사용자 명시적 요청을 기다리는 형태도 위반으로
+  정의. C10.2 5 단계에 `(AI 어시스턴트 책임)` / `(사용자 책임)` / `(공동)` 태그 부여.
+- **왜**: 직전 세션 (v0.3.3 직후 / v0.4.0 작업 도중) 에 AI 어시스턴트가 MINOR
+  증분 직전이라는 trigger 시점을 인식했음에도, codex 리뷰를 "사용자가 자기
+  머신에서 직접 수행하는 단계" 로만 안내하고 능동적으로 시작하지 않는 사고가
+  발생. 사용자가 직접 "왜 의무인데 패스하느냐 / 프롬프트는 AI 가 생성해서
+  나에게 줘라" 라고 교정 지시. 같은 ambiguity 가 재발하지 않도록 규칙 자체를
+  닫음. (v0.2.6 의 절차 정형화 PATCH 가 *언제 실행하나* / *어떻게 실행하나* 까지는
+  박았지만 *누가 채우나* 는 암묵적이었음.)
+- **어떻게**:
+  - C10 머리에 새 §C10.0 표로 AI 어시스턴트 / 사용자 책임을 분리 명시. 표
+    아래에 "AI 어시스턴트는 본 절차를 임의로 생략하지 못한다" 를 굵게 명문화.
+    "trigger 시점에 절차를 안내만 하고 사용자의 명시적 요청을 기다리는 것" 도
+    위반으로 정의.
+  - C10.2 의 5 단계 각각에 책임자 태그 부여. step 1 은 "AI 가 세 절을 모두
+    직접 채워서 완성된 `review-prompt.txt` 를 SendUserFile 또는 코드블록으로
+    전달" 로 강화. 사용자에게 "이 칸을 채우세요" 는 명시적 금지.
+  - `docs/REVIEW_PROMPT.md` §2 의 템플릿 안내 직후에 인용 블록으로 같은 규칙을
+    재진술 (작업자가 CLAUDE.md 까지 안 봐도 매뉴얼만 보고 알 수 있도록).
+  - 본 PATCH 는 `CLAUDE.md` C10.3 "본 절차 자체를 도입/수정하는 PATCH 는
+    codex review 면제" 에 의해 외부 리뷰 면제. 자기 검증 회피 방지.
+  - 버전 / 동기화: VERSION 0.3.3 → 0.3.4, CLAUDE.md / REVIEW_PROMPT.md /
+    CHANGELOG / DEVLOG 헤더 last_synced_with 갱신.
+- **결과**:
+  - 다음 trigger 시점부터 AI 어시스턴트는 "리뷰 절차를 안내" 가 아니라
+    **"완성된 review-prompt.txt 본문을 전달"** 을 의무로 수행. 사용자의 명시적
+    요청 없이도 능동적으로 시작해야 함이 규칙으로 박힘.
+  - 본 PATCH 직후 v0.4.0 (LLM-AP-003 sandbox + scratch dir mitigation) 작업에서
+    본 규칙을 최초로 자기 자신에게 적용 — 코드 완성 후 review-prompt.txt 본문
+    생성 → 사용자 paste → 흡수 → v0.4.0 커밋.
+- **알려진 한계와 향후**:
+  - "trigger 인식" 자체를 자동화하는 git hook / CI 검증기는 아직 없음. AI 가
+    self-discipline 으로 수행. 향후 commit-msg hook 에 "MINOR/MAJOR 커밋이면
+    직전 N 커밋 안에 'codex' 라는 단어가 포함된 commit body 가 있는지" 같은
+    weak signal 검증을 추가 검토.
+  - false positive 합의 / DEVLOG 근거 명시 의무는 C10.2 step 5 에 그대로.
+- **연관**: CLAUDE.md C10, docs/REVIEW_PROMPT.md, v0.2.6 (절차 정형화의
+  연속), v0.4.0 (본 규칙의 첫 적용 대상).

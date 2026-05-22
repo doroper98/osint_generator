@@ -1,9 +1,9 @@
 <!--
 tier: 2
-last_synced_with: v0.3.3
+last_synced_with: v0.3.4
 ssot_for: [codex-review-procedure]
 depends_on: [../CLAUDE.md]
-last_review: 2026-05-20
+last_review: 2026-05-22
 -->
 
 # 외부 코드 리뷰 표준 — codex `exec` Review
@@ -28,6 +28,11 @@ last_review: 2026-05-20
 
 본 프롬프트는 **영문 고정**입니다 (codex 의 일관된 reasoning 유지 + 한글 코드페이지 이슈 회피).
 변경마다 `Versions in scope`, `Key files`, `Review priorities` 세 절만 수정해서 재사용합니다.
+
+> **세 절의 변수 채움은 AI 어시스턴트의 책임입니다** (CLAUDE.md C10.0 / C10.2 step 1).
+> 사용자는 AI 가 전달한 완성된 `review-prompt.txt` 를 codex 에 paste 하고, codex 결과를 AI 에
+> paste 하는 역할만 합니다. AI 가 빈 칸을 사용자에게 떠넘기는 형태는 본 문서에 의해
+> 명시적으로 금지됩니다.
 
 ### 프롬프트 템플릿
 
