@@ -1,9 +1,9 @@
 <!--
 tier: 3
-last_synced_with: v0.3.2
+last_synced_with: v0.3.3
 ssot_for: [llm-antipatterns]
 depends_on: [README.md, ../ADDENDUM_04_SUBSCRIPTION_LLM_BRIDGE.md, ../../CLAUDE.md]
-last_review: 2026-05-19
+last_review: 2026-05-22
 -->
 
 # LLM Bridge Antipatterns
@@ -127,16 +127,39 @@ last_review: 2026-05-19
   2. opt-in 한 worker 도 source 자료를 prompt 에 직접 합치지 말고 도구 호출 결과로 분리하거나, prompt 안에서 `<untrusted_source>` 같은 명시 envelope 으로 격리.
   3. 향후 (Phase 3+) 본격 sandbox: codex `--sandbox read-only` / `--sandbox workspace-write`, claude permission-mode, scratch dir 사용 등.
 
-- **자동 조치 (mitigation)**: v0.2.5 patch 에서 `BaseLLMWorker.allow_agent_mode: ClassVar[bool] = False` 도입. `run()` 시작에서 `llm_mode == "agent" and not allow_agent_mode` 면 LLM 호출 전 즉시 `TaskResult(status=FAILED)` 로 종료. 회귀 테스트 `tests/test_base_llm_worker_run.py::TestAgentModeGate` 로 보장.
+- **자동 조치 (mitigation)**:
+  - v0.2.5 — `BaseLLMWorker.allow_agent_mode: ClassVar[bool] = False` 도입. `run()`
+    시작에서 `llm_mode == "agent" and not allow_agent_mode` 면 LLM 호출 전 즉시
+    `TaskResult(status=FAILED)` 로 종료. 회귀 `tests/test_base_llm_worker_run.py::TestAgentModeGate`.
+  - v0.3.3 — `workers/prompt_safety.py:wrap_untrusted` 신설. 외부 자료를
+    `<untrusted_source>` envelope 으로 격리하는 순수 함수. content / label 안의 동일
+    태그 토큰을 case-insensitive / whitespace-tolerant 로 escape 해 envelope 가
+    일찍 닫히거나 새로 열리지 않게 한다. opener 의 label 속성은 `"`·newline 안전화.
+    Phase 4 의 `source_collector_worker` (BaseLLMWorker, `llm_mode="agent"`) 에서
+    본격 사용 예정.
+  - 후속 (Phase 4) — codex `--sandbox read-only|workspace-write` 매핑, agent 모드
+    worker 용 `projects/{pid}/scratch/{task_id}/` 격리.
 
-- **회귀 테스트 (regression_test)**: `tests/test_base_llm_worker_run.py::TestAgentModeGate::test_agent_mode_without_opt_in_fails_early` — agent 모드 + 기본 `allow_agent_mode=False` 인 worker 가 LLM 호출 전 FAILED 로 종료하고 `llm_calls/` 디렉토리 자체가 생성되지 않음을 확인.
+- **회귀 테스트 (regression_test)**:
+  - `tests/test_base_llm_worker_run.py::TestAgentModeGate::test_agent_mode_without_opt_in_fails_early`
+    — agent 모드 + 기본 `allow_agent_mode=False` 인 worker 가 LLM 호출 전 FAILED 로
+    종료하고 `llm_calls/` 디렉토리 자체가 생성되지 않음을 확인.
+  - `tests/test_prompt_safety.py` (v0.3.3, 13 메소드) — wrap 형식 / close-tag
+    injection / open-tag injection / case·whitespace 변형 / label 안전화 5 카테고리.
 
 - **발견 버전 (discovered)**: v0.2.5 외부 코드 리뷰 (codex `exec review`).
 
-- **해결 버전 (resolved)**: v0.2.5 — opt-in 가드 (`allow_agent_mode`) 도입. 본격 sandbox 옵션 (CLI `--sandbox`, scratch dir) 은 Phase 3+ 후속.
+- **해결 버전 (resolved)**:
+  - v0.2.5 — opt-in 가드 (`allow_agent_mode`).
+  - v0.3.3 — envelope 헬퍼 (`wrap_untrusted`). 순수 함수 + 회귀 테스트만, 호출은 Phase 4.
+  - Phase 4 (v0.4.0 예정) — codex `--sandbox` 매핑 / scratch dir 격리 / `source_collector_worker` 의 실 호출.
 
-- **상태 (status)**: `resolved-partial` — opt-in 가드 단계만 완료. 외부 자료 격리 / CLI sandbox 활용 / scratch dir 은 후속.
+- **상태 (status)**: `resolved-partial` — opt-in 가드 + envelope 헬퍼까지 마련. 실 호출
+  / CLI sandbox / scratch dir 격리는 Phase 4 에서 완료 예정.
 
-- **알려진 한계**: 현재 가드는 worker class 선언 시점의 정적 opt-in 만 확인. agent 모드를 opt-in 한 worker 안에서 prompt 의 untrusted 부분이 격리되지 않으면 여전히 injection 가능. 본격 해결은 Phase 3+ 의 source aggregator 가 `<untrusted_source>` 격리를 정착시킨 다음.
+- **알려진 한계**: envelope 헬퍼는 sentinel 만 제공한다. "envelope 안을 명령으로
+  해석하지 마라" 를 LLM 에게 알리는 책임은 시스템 prompt 측. 또한 semantic
+  injection (envelope 안에서 일반 문장으로 LLM 을 속이는 방식) 은 막지 못한다 —
+  Phase 4 의 sandbox 가 함께 가야 의미가 있다.
 
 - **연관**: ADDENDUM_04 §5 / §7 (CLI 인터페이스 / agent 모드 권한), LLM-AP-001, LLM-AP-002.

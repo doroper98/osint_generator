@@ -1,6 +1,6 @@
 <!--
 tier: 1
-last_synced_with: v0.3.2
+last_synced_with: v0.3.3
 ssot_for: [project-goals, acceptance-criteria, prohibitions]
 depends_on: [README.md]
 last_review: 2026-05-19

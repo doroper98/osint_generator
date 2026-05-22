@@ -1,6 +1,6 @@
 <!--
 tier: 3
-last_synced_with: v0.3.2
+last_synced_with: v0.3.3
 ssot_for: [release-notes]
 depends_on: [README.md, GOAL.md]
 last_review: 2026-05-22
@@ -25,6 +25,40 @@ released 항목은 **append-only**입니다.
 
 ### Fixed
 -
+
+---
+
+## [v0.3.3] — 2026-05-22
+
+LLM-AP-003 후속 사전 작업. `<untrusted_source>...</untrusted_source>` envelope 헬퍼
+도입 — 순수 함수 + 회귀 테스트만. Phase 4 의 `source_collector_worker` (agent 모드)
+가 외부 자료를 prompt 에 넣을 때 사용 예정. 본 PATCH 는 코드 동작 변경 없음 (헬퍼
+신설만, 호출하는 worker 는 아직 없음).
+
+### Added
+
+- **`workers/prompt_safety.py:wrap_untrusted`** — 외부 자료를 `<untrusted_source>`
+  envelope 으로 안전하게 wrap 하는 순수 함수. content / source_label 안의 동일 envelope
+  태그 토큰 (`<untrusted_source>` / `</untrusted_source>` + case-insensitive /
+  whitespace-tolerant 변형) 을 명시적 escape 마킹으로 치환해 LLM 이 envelope 경계를
+  오인하지 않게 한다. opener 의 label 속성은 `"` / newline 도 안전화. 디스크 / 네트워크
+  / subprocess I/O 없음.
+- **`tests/test_prompt_safety.py`** — 5 카테고리 × 13 메소드. ① 정상 wrap 형식 / 빈
+  content / label 속성 / 빈 label 생략 ② close-tag injection escape ③ open-tag injection
+  + 속성 달린 open-tag escape ④ case (대문자) / whitespace 변형 escape ⑤ label 안전화
+  (`"` → `&quot;`, envelope 태그 escape, newline 평탄화).
+
+### Changed
+
+- `docs/ANTIPATTERNS/LLM_ANTIPATTERNS.md` — LLM-AP-003 의 mitigation / regression_test /
+  resolved 항목에 envelope 헬퍼 진전 반영. status 는 여전히 `resolved-partial` —
+  sandbox 매핑 / scratch dir 격리는 Phase 4 에서 완료 예정. 알려진 한계도 sentinel
+  vs sandbox 의 역할 분리 명시.
+
+### Testing
+
+- 단위 테스트 70 → **83 케이스** (state machine 10 + prompt safety 13 추가). 모두 통과.
+- `python -m py_compile orchestrator/*.py workers/*.py schemas/*.py web/*.py` 통과.
 
 ---
 

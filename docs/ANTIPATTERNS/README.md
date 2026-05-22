@@ -1,6 +1,6 @@
 <!--
 tier: 3
-last_synced_with: v0.3.2
+last_synced_with: v0.3.3
 ssot_for: [antipattern-catalog-index]
 depends_on: [../../CLAUDE.md]
 last_review: 2026-05-19

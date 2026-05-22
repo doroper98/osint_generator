@@ -1,6 +1,6 @@
 <!--
 tier: 3
-last_synced_with: v0.3.2
+last_synced_with: v0.3.3
 ssot_for: [development-log]
 depends_on: [CHANGELOG.md]
 last_review: 2026-05-22
@@ -506,3 +506,50 @@ last_review: 2026-05-22
     엄격하면 i18n 비용, 너무 느슨하면 회귀 가치 떨어짐. 현재는 핵심 키워드만 매치
     (substring) 로 균형.
 - **연관**: SCHEMA-AP-001, HANDOFF §2.4 첫 항목.
+
+## 2026-05-22 v0.3.3 — `<untrusted_source>` envelope 헬퍼 도입 (LLM-AP-003 후속 사전 작업)
+
+- **무엇을**: `workers/prompt_safety.py:wrap_untrusted` 순수 함수 신설. 외부 자료를
+  `<untrusted_source>...</untrusted_source>` envelope 으로 안전하게 wrap 하는
+  헬퍼와 회귀 테스트 (13 메소드). 코드 동작 변경 없음 — 호출하는 worker 는 아직 없음
+  (Phase 4 의 `source_collector_worker` 가 사용 예정).
+- **왜**: LLM-AP-003 의 본격 mitigation 은 (a) opt-in 가드 (v0.2.5 완료), (b)
+  envelope 격리, (c) sandbox 매핑 + scratch dir 의 세 요소. (c) 는 Phase 4 와 함께
+  가야 의미가 있지만 (b) 는 순수 함수 + 회귀 테스트만 들어가는 작은 작업이라 미리
+  분리. Phase 4 PATCH 가 커지는 것을 막고, envelope 의 정확한 시맨틱이 단위 테스트
+  로 못박힌 상태에서 worker 가 호출할 수 있게.
+- **어떻게**:
+  - 위치는 `workers/prompt_safety.py` 신규 모듈로 결정 (BaseLLMWorker staticmethod
+    대신). BaseLLMWorker 가 이미 573 줄로 비대해진 점, Phase 4 의 sandbox / scratch
+    유틸이 같은 위치에 자라날 자리 확보를 위해. CLAUDE.md 원칙 1 "단순함을 우선"
+    의 단순함은 "한 곳에 모음" 보다 "각각의 책임 모듈" 로 해석.
+  - escape 전략은 명시적 마킹 (`<ESCAPED_OPEN_untrusted_source` /
+    `<ESCAPED_CLOSE/untrusted_source>`). zero-width space 같은 invisible escape 대신
+    LLM 이 보고 명백히 sanitize 되었음을 인지할 수 있는 노이즈 토큰 사용. 정확한
+    envelope 경계 토큰과 더 이상 매치되지 않으면 충분.
+  - 변형 회피: case-insensitive + 공백 허용 regex (`<\s*untrusted_source\b` /
+    `<\s*/\s*untrusted_source\s*>`). LLM 이 정규화해서 받아들일 수 있는 변형까지
+    보수적으로 차단.
+  - label 안전화: envelope 태그 escape + `"` → `&quot;` (속성값 종료 방지) +
+    newline 공백 평탄화 (opener 한 줄 보장).
+  - 회귀 테스트 5 카테고리: ① 정상 wrap 형식 ② close-tag injection ③ open-tag
+    injection (속성 변형 포함) ④ case / whitespace 변형 ⑤ label 안전화 (`"` /
+    envelope 태그 / newline 각각).
+  - LLM-AP-003 카탈로그의 mitigation / regression_test / resolved / 알려진 한계
+    절을 envelope 헬퍼 진전 반영해 update. status 는 `resolved-partial` 유지 —
+    sandbox / scratch dir 까지 끝나야 `resolved`.
+- **결과**:
+  - `python -m py_compile orchestrator/*.py workers/*.py schemas/*.py web/*.py` 통과.
+  - 단위 테스트 70 → **83 케이스**. 모두 통과.
+  - Phase 4 의 `source_collector_worker` 가 외부 자료를 prompt 에 넣을 때 호출할
+    안정적 sentinel 확보.
+- **알려진 한계와 향후**:
+  - sentinel 만으로는 prompt injection 의 한 layer 일 뿐. semantic injection
+    (envelope 안에서 일반 문장으로 LLM 을 속이는 방식) 은 막지 못함. Phase 4 의
+    `--sandbox workspace-write` 매핑 + scratch dir 격리가 함께 가야 의미가 있다.
+  - "envelope 안을 명령으로 해석하지 마라" 를 LLM 에게 명시하는 책임은 호출자
+    (worker 의 system_prompt) 측. 본 함수는 sentinel 형식만 보장.
+  - 매우 긴 외부 자료 (수십 KB+) 의 길이 제한은 호출자 정책. Phase 4 의 worker 가
+    필요 시 truncate + summary 단계 도입.
+- **연관**: LLM-AP-003 (resolved-partial 의 (b) envelope 격리 완료), HANDOFF §2.4
+  envelope 헬퍼 항목, Phase 4 의 `source_collector_worker` 선결 작업.

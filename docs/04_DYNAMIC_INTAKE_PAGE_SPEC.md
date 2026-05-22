@@ -1,6 +1,6 @@
 <!--
 tier: 2
-last_synced_with: v0.3.2
+last_synced_with: v0.3.3
 ssot_for: [dynamic-intake-page]
 depends_on: [02_SYSTEM_ARCHITECTURE.md, 05_DATA_SCHEMA_SPEC.md]
 last_review: 2026-05-19

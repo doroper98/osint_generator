@@ -1,6 +1,6 @@
 <!--
 tier: 2
-last_synced_with: v0.3.2
+last_synced_with: v0.3.3
 ssot_for: [test-strategy]
 depends_on: [../GOAL.md, 13_IMPLEMENTATION_ROADMAP.md]
 last_review: 2026-05-19
