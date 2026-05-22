@@ -1,6 +1,6 @@
 <!--
 tier: 1
-last_synced_with: v0.3.4
+last_synced_with: v0.5.1
 ssot_for: [ai-assistant-rules, code-style, commit-conventions]
 depends_on: [GOAL.md, DOCS_GOVERNANCE.md]
 last_review: 2026-05-22
@@ -139,37 +139,49 @@ last_review: 2026-05-22
 
 | 역할 | 책임 |
 |---|---|
-| **AI 어시스턴트** | (a) 본 절차의 트리거 시점 (C10.1) 을 **스스로 인식** 한다. (b) `review-prompt.txt` 본문을 **직접 작성** 하여 사용자에게 전달한다 (SendUserFile 또는 코드블록). 사용자에게 템플릿 빈 칸을 메우게 시키지 않는다. (c) 사용자가 paste 해 준 codex 결과의 Critical/High/Medium 을 흡수한다. |
-| **사용자** | (a) AI 가 전달한 `review-prompt.txt` 를 자기 머신의 codex 에 stdin 으로 전달한다. (b) `agent_message.text` 본문을 AI 세션에 paste 한다. (c) false positive 합의 / 절차 자체에 대한 결정. |
+| **AI 어시스턴트** | (a) 본 절차의 트리거 시점 (C10.1) 을 **스스로 인식** 한다. (b) 트리거 commit (MINOR/MAJOR) 을 만들고 `claude/...` 작업 브랜치에 **push 까지 완료** 한다 (codex 클라우드는 commit 된 브랜치를 fetch 하므로 push 가 선행되어야 한다). (c) push 직후 `review-prompt.txt` 본문을 **직접 작성** 하여 사용자에게 전달한다 — **SendUserFile 과 inline 코드블록 두 가지 형태를 동시에** (사용자가 SendUserFile 의 다운로드 위치를 못 찾을 때를 대비; 위반 사례 v0.4.x → v0.5.0 세션 참고). 사용자에게 템플릿 빈 칸을 메우게 시키지 않는다. (d) 사용자가 paste 해 준 codex 응답의 Critical/High/Medium 을 다음 PATCH (`vX.Y.(Z+1)` "외부 코드 리뷰 N차 반영") 로 흡수한다. |
+| **사용자** | (a) AI 가 전달한 `review-prompt.txt` 본문을 **codex 클라우드** (권장 — ChatGPT codex agent 등 GitHub repo + 브랜치를 자동 fetch 하는 방식) 또는 **로컬 `codex exec`** (폴백) 에 전달한다. (b) codex 응답 본문 (markdown 리뷰 본체) 을 AI 세션에 paste 한다. (c) false positive 합의 / 절차 자체에 대한 결정. |
 
 **AI 어시스턴트는 본 절차를 임의로 생략하지 못한다.** 트리거 시점에 절차를 *안내만* 하고
 사용자의 명시적 요청을 기다리는 형태도 **위반** 으로 간주한다. 트리거 시점에 절차를 능동적으로
 시작하지 않은 채 후속 MINOR/MAJOR/Phase 완료 커밋을 만들면 그 커밋 자체가 규칙 위반이다.
 
+또한 review-prompt 본문을 SendUserFile **만** 으로 전달하고 inline 코드블록 동시 노출을
+누락하는 형태도 위반이다 (사용자가 다운로드 파일을 못 찾는 사고가 v0.5.0 세션에서 실제로
+발생). inline 노출이 길어 보여도 항상 동봉.
+
 ### C10.1 실행 의무 시점
 
 | 트리거 | 실행 | 비고 |
 |---|---|---|
-| **MINOR / MAJOR 증분 직전** | **필수** | 리뷰의 Critical/High 모두 흡수한 뒤에만 증분 가능 |
-| **Phase 완료 직전** | **필수** | Phase DoD 의 마지막 체크 항목 |
+| **MINOR / MAJOR commit + push 직후** | **필수** | push 가 선행되어야 codex 클라우드가 fetch 가능. 결과 흡수는 다음 PATCH (`vX.Y.(Z+1)`). v0.4.0 → v0.4.1, v0.5.0 → v0.5.1 패턴. |
+| **Phase 완료 직전** | **필수** | Phase DoD 의 마지막 체크 항목. Phase 완료 marker commit 직전 또는 직후 (위와 동일 패턴). |
 | **새 Worker / 새 도메인 모델 도입 PATCH** | 권장 | 사용자 판단 |
 | **단순 bug fix / docs 보강 PATCH** | 면제 | 단, 같은 카테고리 fix 3 회 누적 시 한 번 실행 |
 | **외부 리뷰 결과 반영 PATCH** | 면제 | 본 절차의 산출물을 다시 리뷰하지 않는다 (무한 루프 방지) |
+| **본 C10 절차 자체를 도입/수정하는 PATCH** | 면제 | C10.3 자기 검증 면제 |
 
 ### C10.2 절차 요약
 
-1. **(AI 어시스턴트 책임)** `docs/REVIEW_PROMPT.md` §2 의 표준 프롬프트 템플릿의
+1. **(AI 어시스턴트 책임)** 트리거 commit (MINOR/MAJOR) 을 만들고 작업 브랜치에 push.
+   commit message 는 `vX.Y.Z:` prefix 강제 (C5.3 commit-msg hook).
+2. **(AI 어시스턴트 책임)** push 직후, `docs/REVIEW_PROMPT.md` §2 의 표준 프롬프트 템플릿의
    `Versions in scope` / `Key files` / `Review priorities` 세 절을 **모두 직접 채워서**
-   완성된 `review-prompt.txt` 본문을 사용자에게 전달. 사용자에게 "이 칸을 채우세요" 는
-   **금지**. 변경 SHA / 핵심 파일 / 우선순위는 AI 가 diff 와 컨텍스트로부터 추론한다.
-2. **(사용자 책임)** 자기 머신에서
-   `codex exec --skip-git-repo-check --color never -C <repo> -` 에 stdin 으로
-   전달 → stdout JSONL 을 `review-out.jsonl` 로 저장.
-3. **(사용자 책임)** 마지막 `agent_message.text` (리뷰 본문) 를 AI 세션에 paste.
-4. **(AI 어시스턴트 책임)** Critical/High/Medium 을 **단일 PATCH** ("외부 코드 리뷰 N차 반영")
-   로 흡수. 또는 MINOR/MAJOR 본 커밋이 아직 안 박혔으면 그 커밋에 직접 반영.
-5. **(공동)** False positive 라고 판단되는 항목은 **사용자 합의 후** 무시. AI 는 DEVLOG 다음
-   엔트리에 근거 (LLM-AP / ADDENDUM 위치 등) 를 명시.
+   완성된 `review-prompt.txt` 본문을 사용자에게 전달. 변경 SHA / 핵심 파일 / 우선순위는
+   AI 가 diff 와 컨텍스트로부터 추론한다. **전달 형태는 SendUserFile + inline 코드블록
+   두 가지 동시** (C10.0 위반 사례 방지). 사용자에게 "이 칸을 채우세요" 는 **금지**.
+3. **(사용자 책임)** 본문을 codex 클라우드 (권장) 또는 로컬 `codex exec` (폴백) 에 전달.
+   - codex 클라우드 패턴: 사용자가 GitHub repo + 브랜치명 (예: `claude/eager-ride-lfYXC`)
+     을 codex 에 제시 + review-prompt 본문 paste. codex 가 commit 된 working tree
+     를 fetch 한다. **commit 안 된 working-tree-only 변경은 못 봄** → AI 가 push 까지
+     마치는 것이 본 패턴의 전제 조건 (C10.0(b)).
+   - 로컬 codex CLI 패턴: `docs/REVIEW_PROMPT.md §3` 참고.
+4. **(사용자 책임)** codex 응답 본문 (markdown 리뷰 본체) 을 AI 세션에 paste.
+5. **(AI 어시스턴트 책임)** Critical/High/Medium 을 **다음 PATCH 한 번** ("외부 코드 리뷰
+   N차 반영, `vX.Y.(Z+1)`") 으로 흡수. 같은 prefix 또는 흡수 PATCH 의 새 prefix 둘 다
+   허용 — VERSION 파일과 일치만 하면 commit-msg hook 통과.
+6. **(공동)** False positive 라고 판단되는 항목은 **사용자 합의 후** 무시. AI 는 DEVLOG
+   다음 엔트리에 근거 (LLM-AP / ADDENDUM 위치 등) 를 명시.
 
 명령어 / 인코딩 / 프롬프트 전문은 `docs/REVIEW_PROMPT.md` 참고.
 

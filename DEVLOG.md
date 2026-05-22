@@ -825,3 +825,40 @@ last_review: 2026-05-22
   PATCH 가 worker 단 ValueError 로 강제), `wrap_untrusted` (v0.3.3 부터 호출
   대기 → 본 PATCH 에서 첫 사용), `_scratch_dir_for_task` + `_is_safe_path_segment`
   + sandbox argv (v0.4.0–v0.4.1) — 본 PATCH 가 그 가드 위에서 동작.
+
+## 2026-05-22 v0.5.1 — C10 외부 코드 리뷰 절차 갱신: push-then-review + 전달 형태 의무화
+
+- **무엇을**: CLAUDE.md C10.0 / C10.1 / C10.2 와 docs/REVIEW_PROMPT.md §3 갱신.
+  (1) MINOR/MAJOR 의 codex 리뷰 트리거 시점을 "commit + push 직후" 로 명문화하고,
+  (2) codex 클라우드 (권장) / 로컬 codex CLI (폴백) 두 패턴을 docs/REVIEW_PROMPT.md
+  §3.0 으로 분기 정리하고, (3) AI 어시스턴트가 review-prompt 본문을 SendUserFile
+  단독으로 전달하는 것을 위반으로 명시 (inline 코드블록 동시 전달 의무화).
+  VERSION 0.5.0 → 0.5.1.
+- **왜**: v0.5.0 세션에서 실 사용 중 두 가지 사고가 드러났다.
+  (1) AI 가 review-prompt.txt 를 SendUserFile 만으로 전달했고 사용자가 다운로드된
+  파일을 어디서 열어야 할지 못 찾았다 — 사용자 답답함 폭발 + 세션 시간 손실.
+  (2) "MINOR 증분 직전 codex 리뷰" 라는 표현이 codex 클라우드 (commit 된 브랜치를
+  fetch 하는 방식) 와 본질적으로 충돌했다. codex 클라우드는 push 된 SHA 만 보므로
+  "commit 전 리뷰" 는 불가능하다. v0.4.0 → v0.4.1 사례도 사실은 "commit + push
+  후 리뷰 → 다음 PATCH 흡수" 패턴이었는데 규칙이 그 점을 명확히 안 박았다.
+- **어떻게**:
+  - C10.0 표의 AI 어시스턴트 책임을 (a)-(d) 4 항목으로 확장. push 의무 (b) 와
+    SendUserFile + inline 코드블록 동시 전달 (c) 명시. 위반 사례로 "SendUserFile
+    단독" 도 명문화 ("위반 사례 v0.5.0 세션 참고").
+  - C10.0 표의 사용자 책임에 codex 클라우드 (권장) / 로컬 codex CLI (폴백) 선택
+    명시. AI 가 사용자 머신 OS / CLI 설치 상태를 모르므로 둘 다 지원.
+  - C10.1 트리거 표의 "MINOR / MAJOR 증분 직전" 행을 "MINOR / MAJOR commit +
+    push 직후" 로 갱신. 비고에 v0.4.0 → v0.4.1, v0.5.0 → v0.5.1 패턴 박음.
+    "본 C10 절차 자체를 도입/수정하는 PATCH" 행 신설 (C10.3 정합).
+  - C10.2 절차를 5 → 6 단계로 재구성. 1번이 "commit + push", 2번이 "review-prompt
+    전달 (SendUserFile + inline)", 3번이 "codex 클라우드 / 로컬 CLI 분기".
+  - docs/REVIEW_PROMPT.md §3 위에 §3.0 codex 클라우드 절 신설. 두 패턴의 비교
+    표 (codex 가 코드를 읽는 위치 / 전제) + 클라우드 패턴의 장단점 명시. 기존
+    Windows cmd / Linux 절은 "로컬 codex CLI (폴백)" 으로 재라벨.
+  - 두 문서의 YAML 헤더 last_synced_with v0.3.4 → v0.5.1.
+- **결과**:
+  - 본 PATCH 는 문서 변경만. 코드 / 스키마 / 테스트 영향 없음.
+  - CLAUDE.md C10.3 에 따라 codex 재리뷰 면제 (본 절차 자체의 수정 PATCH).
+  - 다음 MINOR/MAJOR commit (v0.5.2+ 또는 v0.6.0+) 부터 본 절차 적용.
+- **연관**: v0.4.0 → v0.4.1 (본 패턴의 첫 사례, 당시는 규칙에 박혀있지 않음),
+  v0.5.0 (본 PATCH 의 트리거 — push 직후 review-prompt 전달 실패 사고).

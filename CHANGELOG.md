@@ -28,6 +28,49 @@ released 항목은 **append-only**입니다.
 
 ---
 
+## [v0.5.1] — 2026-05-22
+
+CLAUDE.md C10 외부 코드 리뷰 절차의 운영 패턴을 갱신. v0.5.0 세션에서 실 사용 중
+드러난 두 사고를 규칙으로 박는다 — (1) review-prompt 본문이 SendUserFile 만으로
+전달되어 사용자가 다운로드 파일을 못 찾는 사고, (2) "MINOR 증분 직전" 표현이 codex
+클라우드 (commit 된 브랜치를 fetch 하는 방식) 와 충돌하던 모호성.
+
+CLAUDE.md C10.3 에 따라 codex 재리뷰 면제 (본 절차 자체의 수정).
+
+### Changed
+
+- **`CLAUDE.md` C10.0** — AI 어시스턴트 책임에 다음 항목을 신설/강화:
+  - (b) 트리거 commit (MINOR/MAJOR) 을 만들고 작업 브랜치에 **push 까지 완료** 한다
+    (codex 클라우드는 push 된 브랜치만 fetch 하므로).
+  - (c) review-prompt 본문을 **SendUserFile 과 inline 코드블록 두 가지 형태로
+    동시에** 전달한다 (사용자가 다운로드 파일을 못 찾는 사고 방지).
+  - (d) 결과 흡수는 다음 PATCH (`vX.Y.(Z+1)` "외부 코드 리뷰 N차 반영").
+  - 사용자 책임에 codex 클라우드 (권장) / 로컬 codex CLI (폴백) 선택 명시.
+  - 위반 사례로 "SendUserFile 단독 전달" 도 명문화.
+- **`CLAUDE.md` C10.1** — 트리거 표 갱신:
+  - "MINOR / MAJOR 증분 직전" → "**MINOR / MAJOR commit + push 직후**"
+    (v0.4.0 → v0.4.1, v0.5.0 → v0.5.1 패턴 명시).
+  - "본 C10 절차 자체를 도입/수정하는 PATCH" 행 신설 (면제 명시).
+- **`CLAUDE.md` C10.2** — 절차를 6 단계로 재구성. push 가 1 번 단계로 선행.
+  codex 클라우드 vs 로컬 codex CLI 두 패턴 분기 명시.
+- **`docs/REVIEW_PROMPT.md` §3** — 실행 패턴 절을 재구성:
+  - **§3.0 codex 클라우드 (권장)** 신설. repo + 브랜치 + review-prompt 본문 paste
+    패턴. 장단점 표. commit-안된-변경 못 보는 제약 명시.
+  - 기존 §3.1 Windows cmd, §3.2 macOS/Linux 는 "로컬 codex CLI (폴백)" 으로 재라벨.
+- **`CLAUDE.md` / `docs/REVIEW_PROMPT.md` 의 `last_synced_with`** v0.3.4 → v0.5.1.
+
+### Verification
+
+- 본 PATCH 는 문서 변경만. 코드 / 스키마 / 테스트 영향 없음.
+- C10.3 에 따라 codex 재리뷰 면제 — 본 절차 자체의 수정.
+
+### Migration / Compatibility
+
+- 다음 MINOR/MAJOR commit 부터 본 절차 적용. 절차상 차이는 push 시점 (commit 전 →
+  commit 직후) 뿐, 결과 흡수 형식은 동일.
+
+---
+
 ## [v0.5.0] — 2026-05-22
 
 Phase 5 첫 PATCH — `SourceCollectorWorker` 도입 (codex agent 모드 첫 도메인 worker).

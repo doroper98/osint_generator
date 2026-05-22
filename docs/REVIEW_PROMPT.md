@@ -1,6 +1,6 @@
 <!--
 tier: 2
-last_synced_with: v0.3.4
+last_synced_with: v0.5.1
 ssot_for: [codex-review-procedure]
 depends_on: [../CLAUDE.md]
 last_review: 2026-05-22
@@ -73,11 +73,38 @@ Output format:
 
 ---
 
-## 3. 실행 명령어
+## 3. 실행 패턴
 
-사용자 머신은 Windows cmd 가정. macOS/Linux 사용자는 4 절 참고.
+본 절차는 **두 가지 패턴** 을 지원합니다. **codex 클라우드 (권장)** 와 **로컬 codex CLI
+(폴백)**. 차이의 핵심은 codex 가 코드 본문을 어디서 읽느냐:
 
-### 3.1 Windows cmd
+| 패턴 | codex 가 코드를 읽는 위치 | 전제 |
+|---|---|---|
+| **3.0 codex 클라우드** | push 된 GitHub repo + 브랜치 working tree | AI 가 트리거 commit 을 **이미 push** 함 (CLAUDE.md C10.0(b)) |
+| **3.1/3.2 로컬 codex CLI** | 사용자 머신의 working directory (`-C "%CD%"`) | 사용자 머신에 repo clone 이 있어야 함. uncommitted 변경도 읽음 |
+
+### 3.0 codex 클라우드 (권장)
+
+조건: AI 가 트리거 MINOR/MAJOR commit 을 작업 브랜치 (`claude/...`) 에 push 완료.
+
+1. 사용자가 codex 클라우드 (ChatGPT codex agent 등) 에 접속.
+2. **repo + 브랜치 지정**: `doroper98/osint_generator`, 브랜치 = AI 가 push 한 작업 브랜치
+   (예: `claude/eager-ride-lfYXC`). codex 가 해당 브랜치의 working tree 를 자동 fetch.
+3. AI 가 전달한 `review-prompt.txt` **본문 그대로** paste. inline 코드 본문 같은 추가
+   부착물 불필요 — codex 가 브랜치에서 직접 모든 파일을 읽음.
+4. codex 응답 본문 (markdown 리뷰) 을 AI 세션에 paste.
+
+장점:
+- 로컬 clone 불필요. 사용자 머신에 codex CLI 가 없어도 가능.
+- 작업 디렉토리 / stdin 검출 / cmd 인코딩 이슈 없음.
+- codex 가 commit 된 정확한 SHA 를 본다 — AI 와 사용자가 같은 코드를 본다는 보장.
+
+제약:
+- **commit 안 된 working-tree-only 변경은 못 봄**. 그래서 AI 의 push 가 선행되어야 함
+  (C10.0(b)).
+- false positive 분기에서 AI 가 codex 에게 추가 컨텍스트를 줄 때, 사용자가 중계해야 함.
+
+### 3.1 Windows cmd (로컬 codex CLI, 폴백)
 
 ```cmd
 :: 0. 콘솔을 UTF-8 로 (한 번만)
@@ -101,7 +128,7 @@ type review-prompt.txt | codex exec --skip-git-repo-check --color never -C "%CD%
 notepad review-out.jsonl
 ```
 
-### 3.2 macOS / Linux
+### 3.2 macOS / Linux (로컬 codex CLI, 폴백)
 
 ```bash
 cd ~/path/to/osint_generator
