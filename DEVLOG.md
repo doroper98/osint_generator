@@ -1,6 +1,6 @@
 <!--
 tier: 3
-last_synced_with: v0.4.1
+last_synced_with: v0.4.2
 ssot_for: [development-log]
 depends_on: [CHANGELOG.md]
 last_review: 2026-05-22
@@ -723,3 +723,54 @@ last_review: 2026-05-22
 - **연관**: LLM-AP-003 (mitigation 의 v0.4.0 가정 → v0.4.1 가드 승격),
   v0.4.0 (본 PATCH 가 흡수하는 변경), Phase 5 의 `source_collector_worker`
   (본 가드들을 활용할 첫 worker).
+
+## 2026-05-22 v0.4.2 — 실 codex sandbox 검증 → known-limits 갱신
+
+- **무엇을**: 사용자 머신 (Windows 11 + ChatGPT Plus + codex-cli 0.130.0) 에서
+  v0.4.0-v0.4.1 mitigation 의 실 효과를 호출 단위로 검증. 결과를 ADDENDUM_04
+  §5.2.1 (신설) 과 LLM-AP-003 known-limits (재구성) 에 반영. 코드 변경 없음.
+- **왜**: 단위 테스트는 "우리 가드가 의도대로 호출되는가" 만 보장하고, 실
+  codex 가 `--sandbox workspace-write` 를 어떻게 honor 하는지 / Windows 의
+  junction 을 처리하는지 등은 호출해 봐야 알 수 있다. v0.4.0 의 LLM-AP-003
+  본문이 "intent" 만 적었고 v0.4.1 이 "intent → guarded intent" 로 끌어올렸으면,
+  v0.4.2 는 "guarded intent → verified guarantees" 로 한 단계 더.
+- **어떻게**:
+  - Stage 1 (실 codex 호출, 4 회):
+    - 1a `workdir 안 write` → ✅ inside.txt 정상 생성.
+    - 1b `Desktop write` → ✅ codex 가 명시적 거부 ("workspace-write,
+      writable paths are limited to …, Desktop is outside").
+    - 1b-multi `C:\tmp\sibling / %TEMP% / .codex/memories` 각각 시도:
+      - `C:\tmp\sibling_outside.txt` → 🚫 차단 (UnauthorizedAccessException).
+        codex header 의 `/tmp` 라벨은 Windows literal `C:\tmp` 가 **아니라**
+        `%TEMP%` 의 OS-relative 라벨.
+      - `%TEMP%\temp_outside.txt` → ⚠️ 자동 허용.
+      - `~/.codex/memories\memory_test.txt` → ⚠️ 자동 허용.
+    - 1c `junction escape` → ✅ codex 가 OS-level resolve 한 뒤 차단
+      (`PermissionDenied`).
+  - Stage 2 (Python 가드 단독, 컨테이너):
+    - `_is_safe_path_segment` 11 케이스 모두 기대값.
+    - `_scratch_dir_for_task` 멱등 / clean_scratch True ephemeral / False opt-out 정상.
+    - `_build_invocation_cmd` argv: codex agent 에 `--sandbox workspace-write
+      --cd <scratch>` 포함, claude response 에 sandbox 부재 + scratch 미생성.
+    - `_assert_no_symlinks_in_path` POSIX symlink 검출.
+    - placeholder fail-fast + response + `{scratch_dir}` raise + 본문 brace 허용
+      모두 동작.
+  - 결과를 ADDENDUM_04 §5.2.1 (신설) 에 검증 표 + 우리가 닫을 수 없는 영역의
+    의미 (side channel) + codex CLI 의 한계 + 버전 종속성으로 정리. 동일 핵심을
+    LLM-AP-003 known-limits 에 요약. 두 문서는 ADDENDUM_04 가 source 의 위상.
+- **결과**:
+  - `%TEMP%` 와 `~/.codex/memories` 두 곳이 codex CLI 의 디폴트로 우리가 닫을
+    수 없는 side channel 임을 명시. prompt 측 / 운영 절차로 보강.
+  - v0.4.1 의 `_assert_no_symlinks_in_path` preflight 가 codex 0.130.0 의
+    OS-level junction 차단과 중복하지만 defense-in-depth 로 유지 결정 (다른
+    codex 버전 / Linux/macOS / 다른 backend 대비).
+  - codex CLI 의 `--help` 에서 `workspace-write` 영역을 좁히는 옵션 부재 확인.
+    `-c sandbox_permissions=[...]` 는 확장 방향 (예: disk-full-read-access),
+    `--dangerously-bypass-approvals-and-sandbox` 는 우회. 따라서 본 두 side
+    channel 은 codex CLI 의 디폴트 가정.
+- **codex 재리뷰 면제**: 본 PATCH 는 외부 검증 결과를 반영하는 문서/메타 변경
+  으로 CLAUDE.md C10.3 의 정신 ("외부 리뷰 결과 반영 PATCH 는 codex 재리뷰
+  면제") 과 동일. 코드 변경이 0 이라 정적/동적 회귀의 새 표면이 없다.
+- **연관**: LLM-AP-003 (mitigation 의 "verified guarantees" 절 신설),
+  v0.4.0/v0.4.1 (본 PATCH 가 검증한 변경), ADDENDUM_04 §5.2.1 (신설), Phase 5
+  의 `source_collector_worker` (sandbox 가정을 활용할 첫 worker).

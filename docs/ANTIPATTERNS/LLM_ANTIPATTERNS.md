@@ -1,6 +1,6 @@
 <!--
 tier: 3
-last_synced_with: v0.4.1
+last_synced_with: v0.4.2
 ssot_for: [llm-antipatterns]
 depends_on: [README.md, ../ADDENDUM_04_SUBSCRIPTION_LLM_BRIDGE.md, ../../CLAUDE.md]
 last_review: 2026-05-22
@@ -180,7 +180,10 @@ last_review: 2026-05-22
   - v0.4.0 — codex `--sandbox workspace-write` 매핑 + scratch dir 격리 (CLI 매핑 +
     `_scratch_dir_for_task` 헬퍼).
   - v0.4.1 — codex 1차 리뷰 흡수: task_id traversal 가드 + symlink preflight +
-    scratch ephemeral + placeholder fail-fast + 11 회귀 테스트.
+    scratch ephemeral + placeholder fail-fast + 17 회귀 테스트.
+  - v0.4.2 — 실 codex 0.130.0 (Windows) sandbox boundary 검증 완료. 본 항목의
+    "verified guarantees" 와 "known side channels" 를 ADDENDUM_04 §5.2.1 에
+    명시. (코드 변경 없음, 문서/known-limits 만 갱신.)
   - Phase 5 (예정) — `source_collector_worker` 의 실 호출 + e2e 검증.
 
 - **상태 (status)**: `resolved-partial` — opt-in 가드 + envelope 헬퍼 + sandbox /
@@ -188,15 +191,27 @@ last_review: 2026-05-22
   모드 worker (`source_collector_worker`) 의 도입과 실제 codex 프로세스를 띄우는
   e2e sandbox escape 검증은 Phase 5 에서 완료 예정.
 
-- **알려진 한계**:
+- **알려진 한계 (v0.4.2 갱신, 실 codex 0.130.0 Windows 검증 후)**:
+  - **검증된 보호** (codex 0.130.0 Windows): workdir 의 sibling (다른 task scratch),
+    git 추적 코드, 사용자 자료 (Desktop 등), junction 우회 — 모두 sandbox 가 차단.
+    상세는 `docs/ADDENDUM_04` §5.2.1 의 검증 표.
+  - **검증된 side channels** (우리가 닫을 수 없음, codex CLI 의 디폴트):
+    (a) `%TEMP%` (Unix `/tmp`) write 허용 — prompt injection 으로 임시 자료 누설 /
+    trojan 파일 가능. (b) `~/.codex/memories` write 허용 — long-lived semantic
+    injection 경로. codex 다음 세션들에 영향. 영향 최소화는 system prompt 명시
+    + 운영 절차 (memories 주기 점검).
   - sandbox / scratch dir 매핑은 도입했지만 아직 호출하는 agent 모드 worker 가 없음.
-    Phase 5 의 `source_collector_worker` 가 들어오면 비로소 실 효과 검증 가능.
+    Phase 5 의 `source_collector_worker` 가 들어오면 비로소 실 사용 검증 가능
+    (실제 task 의 prompt injection 시나리오 / 산출물 의도 일치).
   - sandbox 가 활성화돼도 envelope 안에서 일반 문장으로 LLM 을 속이는 semantic
     injection 은 막지 못한다 — 시스템 prompt + envelope 명시 책임.
-  - codex `--sandbox workspace-write` 의 정확한 escape 경계 (symlink 처리, mount
-    bind 등) 는 codex 버전마다 달라질 수 있음. v0.4.1 의 preflight 는 scratch
-    경로상 우리 쪽 symlink 만 검사 — codex 가 자기 안에서 만든 symlink 를 따라가는
-    행동은 codex 의 책임. `docs/ADDENDUM_04` §5 에 버전 정보와 함께 정기 갱신 필요.
+  - codex `--sandbox workspace-write` 의 실효 영역은 codex 버전 / OS 마다 다름.
+    v0.4.2 는 codex 0.130.0 Windows 기준. 사용자 머신의 codex 갱신 / Linux/macOS
+    배포 시 ADDENDUM_04 §5.2.1 재검증 필요.
+  - v0.4.1 의 `_assert_no_symlinks_in_path` preflight 는 검증 결과 codex 0.130.0
+    이 OS-level 에서 같은 일을 함 (junction 차단 확인). 우리 preflight 는 **defense-in-depth**
+    — 다른 codex 버전 / 다른 backend (claude agent 등) / Linux/macOS 의 alternate symlink
+    semantic 에 대비. 폐기하지 않는다.
   - `input_item_id` 같이 "도메인적으로 필수지만 schema 호환성 위해 optional" 인
     필드는 worker 단 task_type 별 검증으로 강제 (Phase 5 `source_collector_worker`
     의 의무).

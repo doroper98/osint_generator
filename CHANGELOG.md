@@ -1,6 +1,6 @@
 <!--
 tier: 3
-last_synced_with: v0.4.1
+last_synced_with: v0.4.2
 ssot_for: [release-notes]
 depends_on: [README.md, GOAL.md]
 last_review: 2026-05-22
@@ -25,6 +25,55 @@ released 항목은 **append-only**입니다.
 
 ### Fixed
 -
+
+---
+
+## [v0.4.2] — 2026-05-22
+
+LLM-AP-003 mitigation 의 실 효과 검증 (codex 0.130.0 Windows) 후 known-limits
+및 ADDENDUM_04 §5.2.1 갱신. 코드 변경 없음, 문서만. CLAUDE.md C10.3 에 따라
+codex 재리뷰 면제 (외부 검증 결과 반영 PATCH).
+
+### Changed
+
+- **`docs/ADDENDUM_04_SUBSCRIPTION_LLM_BRIDGE.md` §5.2.1 신설** — codex agent
+  mode sandbox 가정의 실 검증 표. workdir 외 자동 허용 영역 (`%TEMP%`,
+  `~/.codex/memories`) + junction 차단 확인 + codex 0.130.0 CLI 의 narrowing
+  옵션 부재 + 버전 종속성 명시.
+- **`docs/ANTIPATTERNS/LLM_ANTIPATTERNS.md` LLM-AP-003 known-limits** —
+  v0.4.2 갱신. "검증된 보호" / "검증된 side channels" 두 절로 재구성. v0.4.1
+  의 `_assert_no_symlinks_in_path` preflight 가 codex 0.130.0 의 OS-level
+  junction 차단과 중복하지만 defense-in-depth 로 유지함을 명시.
+
+### Verification
+
+실 검증 시나리오 (사용자 머신, ChatGPT Plus 구독, codex-cli 0.130.0):
+
+**Stage 1 — codex CLI 직접 호출**:
+- 1a: workdir 안 write → ✅ 정상 (codex 가 `inside.txt` 생성)
+- 1b-Desktop: workdir 밖 명확한 write → ✅ codex 가 sandbox 거부 명시
+- 1b-multi: `C:\tmp\sibling`, `%TEMP%`, `~/.codex/memories` 각각 시도 →
+  sibling 차단 ✅ / `%TEMP%` 허용 ⚠️ / memories 허용 ⚠️
+- 1c-junction: `mklink /J` 로 scratch 안에 outside 가리키는 junction 깐 뒤
+  via_junction.txt 작성 시도 → codex 가 OS-level 차단 ✅
+
+**Stage 2 — Python 가드 단독** (컨테이너):
+- `_is_safe_path_segment` 11 케이스 모두 기대값
+- `_scratch_dir_for_task` 멱등성 / clean_scratch ephemeral / opt-out 정상
+- `_build_invocation_cmd` argv 모양: codex agent 에 sandbox + scratch_cd 포함,
+  claude response 에 sandbox 부재 + mkdir 부재
+- `_assert_no_symlinks_in_path` POSIX symlink 검출 동작
+- placeholder fail-fast + response + `{scratch_dir}` raise 모두 동작
+- 사용자 prompt 본문의 JSON `{}` 는 검사 제외
+
+**결론**: v0.4.0-v0.4.1 mitigation 은 핵심 자산 보호 (다른 worker 산출물 /
+git 추적 코드 / 사용자 자료) 에 효과적. `%TEMP%` 와 `.codex/memories` 두
+side channel 은 codex CLI 의 디폴트로 닫을 수 없어 known-limit 로 명시 +
+prompt 측 / 운영 절차로 보강.
+
+### Migration / Compatibility
+
+문서 변경만. 코드/스키마 변경 없음.
 
 ---
 

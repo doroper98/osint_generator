@@ -1,9 +1,9 @@
 <!--
 tier: 2
-last_synced_with: v0.3.3
+last_synced_with: v0.4.2
 ssot_for: [subscription-llm-bridge, base-llm-worker-contract, llm-call-traceability]
 depends_on: [03_AGENT_ARCHITECTURE.md, ../GOAL.md, ../CLAUDE.md]
-last_review: 2026-05-19
+last_review: 2026-05-22
 -->
 
 # ADDENDUM 04 — Subscription LLM Bridge Pattern
@@ -135,7 +135,51 @@ class BaseLLMWorker(BaseWorker):
 
 - 진입: 사용자 머신 기준 정확한 인자는 v0.2.2 코드 도입 시점에 검증·기록.
 - 인증: 사용자 머신의 ChatGPT 로그인 세션을 자동 사용.
-- 출력: stdout 으로 응답.
+- 출력: stdout 으로 응답 (JSONL — `--json` 옵션 시).
+
+### 5.2.1 `codex` agent mode sandbox 가정 (v0.4.2 갱신, codex 0.130.0 Windows 검증)
+
+agent 모드는 `codex exec --sandbox workspace-write --cd {scratch_dir}` 로 호출됩니다.
+실 검증 결과 본 sandbox 정책의 *실효* 영역은 다음과 같습니다.
+
+**검증 환경**: codex-cli 0.130.0, Windows 11, ChatGPT Plus 구독.
+세션 ID 들은 DEVLOG v0.4.2 엔트리 참고.
+
+**검증된 boundary**:
+
+| 위치 | write | 비고 |
+|---|---|---|
+| `--cd {workdir}` (= scratch dir) | ✅ | 의도된 곳. apply_patch / Set-Content 모두 동작. |
+| `%TEMP%` (Windows) / `/tmp` (Unix) | ⚠️ 자동 허용 | codex sandbox header 의 `/tmp` 라벨은 OS-relative. **우리가 닫을 수 없음**. |
+| `~/.codex/memories` | ⚠️ 자동 허용 | codex 자체의 장기 메모리. **우리가 닫을 수 없음**. |
+| workdir 의 sibling (예: `C:\tmp\sibling.txt` 같은 형제 task scratch) | 🚫 차단 | `UnauthorizedAccessException` |
+| 일반 사용자 자료 (Desktop, Documents 등) | 🚫 차단 | codex 가 명시적으로 거부 |
+| junction (Windows reparse point) 으로 outside 우회 | 🚫 차단 | codex 가 OS-level 에서 resolve 한 뒤 target 검사 |
+
+**우리가 닫을 수 없는 영역의 의미 (side channel)**:
+
+1. **`%TEMP%` write**: prompt injection 으로 임시 자료 누설, 또는 다른 도구가
+   픽업할 trojan file 심기 가능. 영향 최소화는 prompt 측 — system prompt 에서
+   "ephemeral 작업물 외 `%TEMP%` 접근 금지" 명시.
+2. **`.codex/memories` write**: codex 의 long-lived 메모리. prompt injection 으로
+   심어진 내용이 *이후 codex 세션들에* 영향 → semantic injection 의 가장 심한
+   장기화 경로. 영향 최소화는 (a) agent 모드 worker 가 사용자 자료를 prompt
+   에 넣을 때 반드시 `wrap_untrusted` envelope, (b) `.codex/memories` 의 주기적
+   점검 (운영 절차).
+
+**codex 0.130.0 CLI 의 한계**:
+- `--sandbox workspace-write` 의 디폴트 영역을 **좁히는** CLI 옵션 없음.
+- `-c sandbox_permissions=[...]` 는 **확장** 방향 (예: `disk-full-read-access`).
+- `--dangerously-bypass-approvals-and-sandbox` 는 우회 (반대 방향).
+- 따라서 본 두 side channel 은 codex CLI 의 디폴트 가정으로 받아들이고,
+  prompt 측 / 운영 절차로 보강.
+
+**버전 종속성**:
+- 본 가정은 codex 0.130.0 시점. 사용자 머신의 codex 버전이 갱신될 때마다
+  `(workdir + ?)` 의 실효 영역이 변할 수 있음. Phase 5 worker 도입 시
+  smoke test 첫 단계에서 `codex --version` 과 sandbox header 를 항상 기록.
+- Linux/macOS 의 `/tmp` 는 literal 경로. Windows 의 `%TEMP%` 매핑과 다름.
+  Linux/macOS 배포 시 본 절 재검증 필요.
 
 ### 5.3 추상화 원칙
 
