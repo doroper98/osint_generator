@@ -1,6 +1,6 @@
 <!--
 tier: 2
-last_synced_with: v0.3.0
+last_synced_with: v0.3.2
 ssot_for: [video-style-guide]
 depends_on: [09_MAP_AND_GEO_SPEC.md, 10_RENDERING_PIPELINE_SPEC.md]
 last_review: 2026-05-19

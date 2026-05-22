@@ -1,9 +1,9 @@
 <!--
 tier: 1
-last_synced_with: v0.3.1
+last_synced_with: v0.3.2
 ssot_for: [session-handoff]
 depends_on: [CLAUDE.md, GOAL.md, VERSION, docs/13_IMPLEMENTATION_ROADMAP.md, docs/REVIEW_PROMPT.md]
-last_review: 2026-05-21
+last_review: 2026-05-22
 -->
 
 # HANDOFF — 다음 세션 AI 인계 문서
@@ -54,6 +54,7 @@ last_review: 2026-05-21
 | codex 3차 리뷰 흡수 (H+M+L) | v0.2.9 | dir fsync `OSError` swallow → `logging.warning` (platform·errno 포함) 으로 신호화. `_print_manifest_summary` 타입 힌트 보강 (`# type: ignore` 제거). `_SLUG_RE` 주석을 실제 정규식 (하이픈·언더스코어 허용) 과 정합화. 본 저장소 첫 표준 `logging.getLogger(__name__)` 도입. | py_compile + 5 smoke (dir fsync 실패 warning 로그 검증 포함) + 30/30 단위 테스트 회귀 통과 |
 | Phase 3: Dynamic Intake Page + IntakePlannerWorker | v0.3.0 | **첫 도메인 LLM Worker** (`workers/intake_planner_worker.py`, BaseLLMWorker 상속, `response_model=IntakePlan`, claude 기본/codex 전환 가능, `CATEGORY_GUIDANCE` 5 카테고리), **FastAPI 인테이크 페이지** (`web/intake_page_app.py`: `GET /intake/{pid}` 렌더 + `POST /intake/{pid}/submit` 가 `UserDecision[]` → `SourceIntake` 영속화 + `source_collecting` 전이, `html.escape` XSS 방지), **CLI 확장** (`plan-intake <pid> [--backend ...]` + `submit-intake <pid> --file ...`). 단위 테스트 30 → 49 (IntakePlanner 13 + 인테이크 flow 6 + 회귀 30). fastapi/uvicorn/python-multipart 의존성 추가. | py_compile + 49/49 통과. DoD 8 항목 중 7 항목 충족, 마지막 1 항목 (C10.1 codex review) 은 사용자 머신에서 실행 필요 (본 컨테이너 codex CLI 미설치). |
 | **Codex 4차 리뷰 흡수 (C/H/M/L/Nit 11항목)** | **v0.3.1** | **web 보안** — `validate_project_id` 공개 가드 분리 (`{project_id}` path traversal 차단), 404 detail 의 절대경로 누출 차단 (logger.warning 으로만), form body 한도 `MAX_FORM_BYTES=256KiB` + 413. **state 견고성** — `plan-intake` idempotency (`--force` + 유효 plan 발견 시 worker skip), `submit-intake` 가 tmp write → transition → atomic rename (CLI), web 은 state precondition → transition → write 순으로 재배열. **추적성** — `plan-intake` 가 `worker.write_result()` 호출로 task_result.json 영속화 (C4 stopgap). **테스트** — IntakePlanner 의 `parse_failed`/`subprocess_error` 분기 + web 의 traversal/대문자 PID/404 generic/413/M1 race/M2/H3 idempotent skip 회귀 신설. 단위 테스트 49 → **60**. | py_compile + 60/60 통과. C10.3 self-exemption 적용 (외부 리뷰 결과 흡수 PATCH 는 추가 review 면제). |
+| **SCHEMA-AP-001 회귀 테스트 명시** | **v0.3.2** | `tests/test_state_machine.py` 신설. 5 카테고리 × 10 메소드 — ① 정상 선형 (`LinearSequenceTransitions`, 인접 페어 + str coerce) ② 임의 점프 거부 (정·역) ③ self-loop 거부 (비-archived + archived) ④ ARCHIVED 어디서든 도달 ⑤ ARCHIVED 종착성. 메시지 contract ("잘못된 상태 전이"/"동일 상태"/"허용된 다음 상태") 도 회귀화. `SCHEMA_ANTIPATTERNS.md` 의 `regression_test: pending` → 실제 경로 + 매핑 갱신 (v0.2.7 카탈로그 등록 이래 누적 부채 청산). 코드 동작 변경 없음. | py_compile + **70/70 통과** (60 → 70). |
 
 ### 핵심 산출물
 
@@ -145,8 +146,8 @@ agent 모드 Worker 도입과 동시에 본격 sandbox 가 필요:
 
 ### 2.4 v0.3.x PATCH 후보 (Phase 4 전에 처리 가능)
 
-- v0.3.1: **C10.1 codex review 결과 흡수** (사용자가 본 v0.3.0 에 대해 1 회 실행).
-- v0.3.x: SCHEMA-AP-001 회귀 테스트 명시 (v0.2.9 부터 누적된 미반영 항목).
+- ✅ v0.3.1: **C10.1 codex review 결과 흡수** (사용자가 본 v0.3.0 에 대해 1 회 실행).
+- ✅ v0.3.2: SCHEMA-AP-001 회귀 테스트 명시 (v0.2.9 부터 누적된 미반영 항목).
 - v0.3.x: LLM-AP-003 후속의 사전 작업 (`prompt_safety.py` 의 envelope 헬퍼만 먼저 도입,
   실 sandbox 매핑은 Phase 4 와 함께).
 
@@ -161,12 +162,11 @@ agent 모드 Worker 도입과 동시에 본격 sandbox 가 필요:
    ```bash
    git status                                       # clean 인지
    git log --oneline -10                            # 최근 커밋
-   cat VERSION                                      # 현재 버전 (0.3.1)
+   cat VERSION                                      # 현재 버전 (0.3.2)
    git fetch origin main                            # 다른 세션이 main 에 push 했을 수 있음
    git log --oneline HEAD..origin/main              # 비어 있으면 OK, 아니면 pull/rebase 필수
    python -m py_compile orchestrator/*.py workers/*.py schemas/*.py web/*.py
-   python -m unittest tests.test_base_llm_worker tests.test_base_llm_worker_run \
-                      tests.test_intake_planner_worker tests.test_intake_flow   # 60 케이스 통과 확인
+   python -m unittest discover -s tests -t .                # 70 케이스 통과 확인
    ```
 3. **사용자 의도 확인**: "v0.3.x PATCH (codex review 흡수 / SCHEMA-AP 회귀 / envelope 헬퍼) 먼저?" 또는 "Phase 4 (source_intake → task_queue + agent 모드 Worker) 직행?" 한 줄 질문.
 4. **작업 진행**: 항상 작은 단위 커밋, 한 커밋 = 한 의도.
@@ -212,4 +212,4 @@ agent 모드 Worker 도입과 동시에 본격 sandbox 가 필요:
 
 ---
 
-마지막 갱신: v0.3.1, 2026-05-21.
+마지막 갱신: v0.3.2, 2026-05-22.

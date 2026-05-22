@@ -1,9 +1,9 @@
 <!--
 tier: 3
-last_synced_with: v0.3.0
+last_synced_with: v0.3.2
 ssot_for: [schema-antipatterns]
 depends_on: [../../schemas/models.py, ../02_SYSTEM_ARCHITECTURE.md, ../05_DATA_SCHEMA_SPEC.md]
-last_review: 2026-05-20
+last_review: 2026-05-22
 -->
 
 # Schema Antipatterns
@@ -41,11 +41,15 @@ last_review: 2026-05-20
     `validate_transition` 통과 후에만 디스크 쓰기.
   - 동일 상태 self-loop 도 거부 (no-op 호출자 책임).
   - `_write_manifest` 는 atomic write (tmp → `Path.replace`) — partial write 도 차단.
-- **회귀 테스트 (regression_test)**: pending (`tests/orchestrator/test_state_machine.py`
-  에 ① 정상 선형 ② 점프 거부 ③ self-loop 거부 ④ ARCHIVED 어디서든 도달
-  ⑤ ARCHIVED 에서 추가 전이 거부 5 케이스 추가 예정).
+- **회귀 테스트 (regression_test)**: `tests/test_state_machine.py` (v0.3.2 작성).
+  ① 정상 선형 (`LinearSequenceTransitions`, 인접 페어 + str coerce)
+  ② 임의 점프 거부 (`ArbitraryJumpRejected`, 정·역 양방향)
+  ③ self-loop 거부 (`SelfLoopRejected`, 비-archived + archived)
+  ④ ARCHIVED 어디서든 도달 (`ArchivedReachableFromAnywhere`, allowed_next_states + 실 전이)
+  ⑤ ARCHIVED 종착성 (`ArchivedIsTerminal`, allowed 빈 집합 + 모든 전이 거부)
+  5 카테고리 × 총 10 테스트 메소드. 테스트 카운트 60 → 70.
 - **발견 버전 (discovered)**: v0.2.0 (Phase 2 구축 시 선제 카탈로그화, v0.2.7 등록).
-- **상태 (status)**: active
+- **상태 (status)**: active (감지·차단·회귀 모두 마련됨)
 
 ---
 

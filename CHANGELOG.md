@@ -1,9 +1,9 @@
 <!--
 tier: 3
-last_synced_with: v0.3.1
+last_synced_with: v0.3.2
 ssot_for: [release-notes]
 depends_on: [README.md, GOAL.md]
-last_review: 2026-05-21
+last_review: 2026-05-22
 -->
 
 # CHANGELOG
@@ -25,6 +25,34 @@ released 항목은 **append-only**입니다.
 
 ### Fixed
 -
+
+---
+
+## [v0.3.2] — 2026-05-22
+
+SCHEMA-AP-001 (`ProjectState` 임의 점프 / self-loop) 회귀 테스트 명시. v0.2.7 카탈로그
+등록 시점부터 `pending` 으로 남아있던 부채를 청산. 코드 동작 변경 없음, 테스트만 추가.
+
+### Added
+
+- **`tests/test_state_machine.py`** — SCHEMA-AP-001 회귀 5 카테고리 × 10 테스트 메소드.
+  ① 정상 선형 (`LinearSequenceTransitions`: `LINEAR_SEQUENCE` 의 모든 인접 페어 + str
+  coerce) ② 임의 점프 거부 (`ArbitraryJumpRejected`: 정·역 양방향) ③ self-loop 거부
+  (`SelfLoopRejected`: 비-archived + archived) ④ ARCHIVED 어디서든 도달
+  (`ArchivedReachableFromAnywhere`: `allowed_next_states` + 실 전이) ⑤ ARCHIVED 종착성
+  (`ArchivedIsTerminal`: allowed 빈 집합 + 모든 외부 전이 거부).
+
+### Changed
+
+- `docs/ANTIPATTERNS/SCHEMA_ANTIPATTERNS.md` — SCHEMA-AP-001 의 `regression_test` 가
+  `pending` → 실제 파일 경로로 갱신. 5 카테고리·10 메소드 매핑 명시. `status: active`
+  의 의미를 "감지·차단·회귀 모두 마련됨" 로 보강.
+
+### Testing
+
+- 단위 테스트 60 → **70 케이스** (BaseLLMWorker 22 + run 통합 8 + IntakePlanner 15 +
+  인테이크 flow 15 + state machine 10). 모두 통과.
+- `python -m py_compile orchestrator/*.py workers/*.py schemas/*.py web/*.py` 통과.
 
 ---
 

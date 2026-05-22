@@ -1,9 +1,9 @@
 <!--
 tier: 3
-last_synced_with: v0.3.1
+last_synced_with: v0.3.2
 ssot_for: [development-log]
 depends_on: [CHANGELOG.md]
-last_review: 2026-05-21
+last_review: 2026-05-22
 -->
 
 # DEVLOG
@@ -466,3 +466,43 @@ last_review: 2026-05-21
   - H3 의 `--force` 는 의도적 우회로 두되, Phase 4 의 task_queue 흐름이 도입되면 task
     재실행은 큐 레벨에서 결정 (worker 단의 `--force` 는 사라질 가능성).
 - **연관**: Codex 4차 리뷰 11 항목 전부. C10.3 self-exemption 적용.
+
+## 2026-05-22 v0.3.2 — SCHEMA-AP-001 회귀 테스트 명시 (누적 부채 청산)
+
+- **무엇을**: `orchestrator.state_machine.validate_transition` 의 다섯 가지 보호 조건
+  (정상 선형 / 임의 점프 거부 / self-loop 거부 / ARCHIVED 어디서든 도달 / ARCHIVED
+  종착성) 을 단위 테스트로 회귀화. `docs/ANTIPATTERNS/SCHEMA_ANTIPATTERNS.md` 의
+  `regression_test: pending` 을 실제 파일 경로 + 카테고리 매핑으로 갱신. 코드 동작
+  변경 없음.
+- **왜**: SCHEMA-AP-001 은 v0.2.7 에 카탈로그 등록되었지만 회귀 테스트가 5 케이스
+  pending 으로 남아 있어 v0.2.9 부터 누적 부채. Phase 4 (task_queue + 첫 agent 모드
+  Worker) 가 state 머신 위에 새 전이 사용처를 얹기 전에 가드의 정확성을 명시적으로
+  고정해 두는 것이 안전. v0.3.x PATCH 후보 (HANDOFF §2.4) 의 첫 항목.
+- **어떻게**:
+  - `tests/test_state_machine.py` 신설. 5 카테고리 × 평균 2 메소드 = 10 테스트 메소드.
+    각 카테고리를 별도 `TestCase` 클래스로 분리해 실패 시 어느 보호 조건이 깨졌는지
+    즉시 식별 가능. `LINEAR_SEQUENCE` 의 모든 인접 페어를 `subTest` 로 순회해 정의가
+    바뀌면 즉시 신호.
+  - `_coerce` 가 str → enum 변환을 한다는 사실도 한 케이스로 명시
+    (manifest 의 `use_enum_values=True` 와 정합).
+  - 메시지 contract 도 회귀화: "잘못된 상태 전이" / "동일 상태" / "허용된 다음 상태"
+    힌트가 메시지에 포함되는지 검증. CLI / web 의 사용자-facing 에러 메시지가 조용히
+    바뀌는 것을 차단.
+  - `SCHEMA_ANTIPATTERNS.md` 의 `regression_test` 필드를 `pending` 에서 실제 위치로
+    갱신. README 가 명시한 `status` / 위치 정보의 운영 라이프사이클 갱신 (내용 자체
+    수정 아님, append-only 정책 준수).
+  - 테스트 디렉토리 구조는 카탈로그 표기 `tests/orchestrator/test_state_machine.py`
+    대신 기존 평면 구조 `tests/test_state_machine.py` 채택 (CLAUDE.md 원칙 1
+    "단순함을 우선"). 카탈로그도 평면 경로로 정정.
+- **결과**:
+  - `python -m py_compile orchestrator/*.py workers/*.py schemas/*.py web/*.py` 통과.
+  - 단위 테스트 60 → **70 케이스**. 모두 통과.
+  - 카탈로그의 `pending` 부채 1건 청산. v0.4.0 의 Phase 4 가 state 머신 위에 안심하고
+    얹을 수 있는 기반 마련.
+- **알려진 한계와 향후**:
+  - `LINEAR_SEQUENCE` 자체의 진화 (예: 새 상태 삽입) 는 본 회귀가 자동으로 따라간다
+    (인접 페어 순회). 그러나 ARCHIVED 의 특수 의미가 바뀌면 ④/⑤ 케이스 직접 수정 필요.
+  - 메시지 contract 검증은 영어 → 한국어 / 표현 변경 시 함께 갱신해야 한다. 너무
+    엄격하면 i18n 비용, 너무 느슨하면 회귀 가치 떨어짐. 현재는 핵심 키워드만 매치
+    (substring) 로 균형.
+- **연관**: SCHEMA-AP-001, HANDOFF §2.4 첫 항목.
