@@ -55,8 +55,16 @@ from workers.base_worker import BaseWorker, emit, utc_now
 # ---------------------------------------------------------------------------
 # CLI 호출 매핑 (ADDENDUM_04 §5)
 # ---------------------------------------------------------------------------
-# v0.2.2 시점의 가정. 사용자 머신 CLI 갱신 시 본 dict 만 수정하면 됩니다.
-# placeholder: {prompt}, {project_dir}
+# 사용자 머신 CLI 갱신 시 본 dict 만 수정하면 됩니다.
+# placeholder: {prompt}, {project_dir}, {scratch_dir}
+#
+# v0.4.0 변경 — LLM-AP-003 본격 mitigation:
+#   - codex agent: `--sandbox workspace-write` 추가. codex 가 `--cd` 디렉토리 안에서만
+#     write 하도록 강제 (자세한 옵션 의미는 `codex exec --help` 참고).
+#   - codex agent 의 `--cd` 를 `{scratch_dir}` 로 변경. agent worker 는 자기 task 의
+#     `projects/{pid}/scratch/{task_id}/` 안에서만 동작. project_dir 의 다른 산출물을
+#     덮어쓸 수 없다. 필요한 prompt-time 자료는 build_user_prompt 에서 텍스트로
+#     내장 (외부 자료는 `<untrusted_source>` envelope 으로 격리).
 CLI_INVOCATION: dict[tuple[str, str], list[str]] = {
     ("claude", "response"): ["claude", "-p", "{prompt}", "--output-format", "json"],
     ("claude", "agent"): ["claude", "--print", "--add-dir", "{project_dir}", "-p", "{prompt}"],
@@ -64,13 +72,17 @@ CLI_INVOCATION: dict[tuple[str, str], list[str]] = {
     #   --json: JSONL 이벤트 스트림 (마지막 agent_message 가 도메인 응답)
     #   --skip-git-repo-check: project_dir 이 git repo 아니어도 실행 허용
     #   --color never: ANSI 코드 끼지 않게 안전장치
+    #   --sandbox workspace-write: --cd 디렉토리 안에서만 write 허용 (agent 모드 전용)
     ("codex", "response"): [
         "codex", "exec", "--json", "--skip-git-repo-check",
         "--color", "never", "{prompt}",
     ],
     ("codex", "agent"): [
         "codex", "exec", "--json", "--skip-git-repo-check",
-        "--color", "never", "--cd", "{project_dir}", "{prompt}",
+        "--color", "never",
+        "--sandbox", "workspace-write",
+        "--cd", "{scratch_dir}",
+        "{prompt}",
     ],
 }
 
@@ -302,10 +314,16 @@ class BaseLLMWorker(BaseWorker):
                 f"unsupported backend/mode combination: {key}"
             )
 
+        # {scratch_dir} 는 agent 모드 templates 가 참조. agent 모드일 때만 미리 생성하고
+        # response 모드에서는 placeholder 가 없으니 빈 문자열로 둬도 안전.
+        scratch_value = ""
+        if self.llm_mode == "agent":
+            scratch_value = str(self._scratch_dir_for_task(args))
+
         cmd = [
-            seg.replace("{prompt}", full_prompt).replace(
-                "{project_dir}", str(self.project_dir(args))
-            )
+            seg.replace("{prompt}", full_prompt)
+               .replace("{project_dir}", str(self.project_dir(args)))
+               .replace("{scratch_dir}", scratch_value)
             for seg in template
         ]
 
@@ -379,6 +397,18 @@ class BaseLLMWorker(BaseWorker):
 
     def _llm_calls_dir(self, args: argparse.Namespace) -> Path:
         d = self.project_dir(args) / "llm_calls"
+        d.mkdir(parents=True, exist_ok=True)
+        return d
+
+    def _scratch_dir_for_task(self, args: argparse.Namespace) -> Path:
+        """agent 모드 codex CLI 의 `--cd` 대상 디렉토리.
+
+        `projects/{pid}/scratch/{task_id}/` 를 만들어 반환. agent 가 본 디렉토리
+        밖으로 write 하지 못하도록 `--sandbox workspace-write` 와 함께 사용
+        (LLM-AP-003 mitigation). 본 디렉토리 내용은 task 단위 일회용이며,
+        영속 산출물은 worker 가 `output_refs` 로 따로 기록한다.
+        """
+        d = self.project_dir(args) / "scratch" / args.task_id
         d.mkdir(parents=True, exist_ok=True)
         return d
 

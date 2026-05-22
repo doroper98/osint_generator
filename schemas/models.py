@@ -469,6 +469,28 @@ class ThumbnailManifest(VersionedModel):
 
 
 # ---------------------------------------------------------------------------
+# 11.5 SourceCollectionPartial (Phase 4 의 source_collector_worker 단일 task 출력)
+# ---------------------------------------------------------------------------
+
+
+class SourceCollectionPartial(VersionedModel):
+    """source_collector_worker 의 단일 task 출력.
+
+    한 task 는 SourceIntake 의 한 UserDecision (ai_delegate / mixed 의 잔여분) 을 처리.
+    수집된 후보 자료를 SourceEntry 목록으로 영속화하며, Phase 5 의
+    SourceRegistryBuilder 가 모든 partial 을 합쳐 정식 SourceRegistry 를 생성합니다.
+
+    스키마 추가는 optional 모델 추가에 해당해 schema_version 1 유지.
+    """
+
+    project_id: str
+    task_id: str
+    input_item_id: Optional[str] = None
+    collected_sources: list[SourceEntry] = Field(default_factory=list)
+    notes: str = ""
+
+
+# ---------------------------------------------------------------------------
 # 12. LLMCallRecord (docs/ADDENDUM_04 §6 의 추적성 영속화)
 # ---------------------------------------------------------------------------
 

@@ -1,6 +1,6 @@
 <!--
 tier: 3
-last_synced_with: v0.3.4
+last_synced_with: v0.4.0
 ssot_for: [development-log]
 depends_on: [CHANGELOG.md]
 last_review: 2026-05-22
@@ -597,3 +597,64 @@ last_review: 2026-05-22
   - false positive 합의 / DEVLOG 근거 명시 의무는 C10.2 step 5 에 그대로.
 - **연관**: CLAUDE.md C10, docs/REVIEW_PROMPT.md, v0.2.6 (절차 정형화의
   연속), v0.4.0 (본 규칙의 첫 적용 대상).
+
+## 2026-05-22 v0.4.0 — LLM-AP-003 sandbox + scratch dir 본격 mitigation + SourceCollectionPartial
+
+- **무엇을**: codex agent CLI 매핑에 `--sandbox workspace-write` 추가, `--cd` 를
+  `{project_dir}` → `{scratch_dir}` (`projects/{pid}/scratch/{task_id}/`) 로 변경.
+  `BaseLLMWorker._scratch_dir_for_task` 헬퍼 신설. `_invoke_llm` 의 placeholder
+  치환 시 `llm_mode == "agent"` 인 경우만 scratch dir 경로로 치환. 동시에 Phase 5
+  의 `source_collector_worker` 출력 모델 `SourceCollectionPartial` (VersionedModel,
+  schema_version=1 유지) 선행 정의.
+- **왜**: LLM-AP-003 의 mitigation 세 layer 중 마지막 한 칸. (a) opt-in 가드
+  (v0.2.5 완료) (b) envelope 격리 (v0.3.3 완료) (c) OS 레벨 sandbox + 파일시스템
+  격리 — 본 PATCH 의 본론. agent 모드의 LLM 이 prompt injection 으로 sandbox
+  바깥 / scratch 바깥에 write 하지 못하도록 두 겹의 boundary 를 둔다.
+  Phase 5 worker 가 들어와야 실 효과 실증되지만, CLI 매핑과 헬퍼는 worker 보다
+  먼저 박혀 있어야 worker 가 일관된 sandbox 가정 위에서 동작할 수 있음.
+  `SourceCollectionPartial` 도 같은 맥락 — Phase 5 PATCH 가 worker + 모델을
+  동시에 도입하지 않아도 되도록 모델만 선행 (작은 단위 커밋 C8.2).
+- **어떻게**:
+  - `CLI_INVOCATION` 의 `("codex", "agent")` 엔트리만 수정 (claude 와 codex
+    response 는 동일). `--sandbox workspace-write` 의 의미는 codex `--cd` 디렉토리
+    내부에서만 write 허용 — codex 자체의 OS 레벨 boundary.
+  - `--cd` 인자를 `{scratch_dir}` 로 옮긴 이유: sandbox 가 active 여도 codex 의
+    "현재 작업 디렉토리" 가 project_dir 이면 사용자가 무심코 거기에 write 가능한
+    파일들 (다른 worker 산출물 / git 추적 코드) 이 sandbox 안에 포함된다. scratch
+    dir 로 격리하면 sandbox + cwd 두 boundary 가 일치해 가장 좁아진다.
+  - `_scratch_dir_for_task` 의 위치는 `BaseLLMWorker` 로. BaseWorker 에 두는 안도
+    검토했지만, scratch dir 은 LLM agent 모드 의 sandbox 와 짝을 이루는 개념이라
+    역할이 맞는 쪽에 둠. 비-LLM worker 가 scratch 공간이 필요해지면 그 때
+    BaseWorker 로 lift.
+  - placeholder 치환 분기: `llm_mode == "agent"` 일 때만 헬퍼 호출 (= mkdir 발생).
+    response 모드는 빈 문자열 substitution → 만약 template 이 실수로 `{scratch_dir}`
+    를 갖고 있어도 argv 가 빈 문자열로 변형되어 codex 측에서 명시적으로 실패
+    (silent corruption 보다 낫다). 단 향후 response template 이 `{scratch_dir}`
+    를 의도적으로 참조하지 않도록 코드 리뷰 / 회귀로 관리.
+  - LLM-AP-003 카탈로그의 mitigation / regression_test / resolved / status /
+    알려진 한계 절을 v0.4.0 진전 반영. status 는 `resolved-partial` 유지하되
+    partial 의 의미가 "sandbox/scratch 매핑까지 마련, 실 호출 worker 는 Phase 5"
+    로 이동.
+- **결과**:
+  - `python -m py_compile orchestrator/*.py workers/*.py schemas/*.py web/*.py` 통과.
+  - 기존 단위 테스트 83 케이스 회귀 없이 통과.
+  - codex agent CLI 가 자기 task 의 scratch 디렉토리 밖으로 write 못 하는 두 겹
+    boundary 확보 — sandbox + cwd.
+  - Phase 5 의 `source_collector_worker` 가 일관된 가정 위에서 도입 가능.
+- **알려진 한계와 향후**:
+  - 실 호출 worker (`source_collector_worker`) 가 아직 없음. sandbox 의 실제
+    효과 — symlink escape, mount bind escape, codex 버전별 차이 — 는 worker
+    도입 후 e2e smoke test 에서 검증.
+  - scratch dir 은 task_id 단위 mkdir 만. 같은 task_id 재실행 시 잔존물 보임.
+    현재 workers 가 멱등 실행 가정 없으므로 수용 가능. 필요 시 Phase 5 에서
+    `shutil.rmtree → mkdir` 로 ephemeral.
+  - codex `--sandbox workspace-write` 의 정확한 escape 경계는 codex 버전마다
+    달라질 수 있어 `docs/ADDENDUM_04` §5 에 정기 갱신 필요.
+  - 사용자 머신의 codex CLI 가 `--sandbox` 미지원이면 agent 모드 호출이 unknown
+    flag 로 실패. 호출자가 분기 가능 (LLMSubprocessError exit_code != 0).
+- **연관**: LLM-AP-003 (mitigation layer (c) 완료, status 는 여전히 resolved-partial
+  — 호출 worker 도입까지), v0.3.3 (envelope 헬퍼), Phase 5 의
+  `source_collector_worker` (본 PATCH 의 가정을 활용할 첫 worker).
+- **codex 리뷰**: 본 PATCH 직후 v0.3.4 의 새 C10.0/C10.2 규칙에 따라 AI 가
+  생성한 review-prompt.txt 로 codex 외부 리뷰 실행. 결과 흡수는 v0.4.1 PATCH
+  ("외부 코드 리뷰 N차 반영") 로.

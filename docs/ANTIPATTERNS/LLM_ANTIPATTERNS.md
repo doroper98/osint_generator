@@ -1,6 +1,6 @@
 <!--
 tier: 3
-last_synced_with: v0.3.3
+last_synced_with: v0.4.0
 ssot_for: [llm-antipatterns]
 depends_on: [README.md, ../ADDENDUM_04_SUBSCRIPTION_LLM_BRIDGE.md, ../../CLAUDE.md]
 last_review: 2026-05-22
@@ -135,10 +135,17 @@ last_review: 2026-05-22
     `<untrusted_source>` envelope 으로 격리하는 순수 함수. content / label 안의 동일
     태그 토큰을 case-insensitive / whitespace-tolerant 로 escape 해 envelope 가
     일찍 닫히거나 새로 열리지 않게 한다. opener 의 label 속성은 `"`·newline 안전화.
-    Phase 4 의 `source_collector_worker` (BaseLLMWorker, `llm_mode="agent"`) 에서
+    Phase 5 의 `source_collector_worker` (BaseLLMWorker, `llm_mode="agent"`) 에서
     본격 사용 예정.
-  - 후속 (Phase 4) — codex `--sandbox read-only|workspace-write` 매핑, agent 모드
-    worker 용 `projects/{pid}/scratch/{task_id}/` 격리.
+  - v0.4.0 — codex agent CLI 매핑에 `--sandbox workspace-write` 추가. `--cd` 를
+    `{project_dir}` → `{scratch_dir}` (= `projects/{pid}/scratch/{task_id}/`) 로 변경.
+    `BaseLLMWorker._scratch_dir_for_task` 헬퍼가 task 별 scratch 디렉토리를 mkdir.
+    `_invoke_llm` 의 placeholder 치환 시 `llm_mode == "agent"` 일 때만 scratch dir
+    경로로 치환 (response 모드는 빈 문자열). 결과: agent 가 codex sandbox 안에서,
+    동시에 scratch 디렉토리 밖으로도 write 못 함. 즉 (a) 사용자 자료 / (b) 다른 worker
+    의 산출물 / (c) git 추적 코드 모두 보호.
+  - 후속 (Phase 5) — `source_collector_worker` 의 실제 agent 모드 호출 + e2e
+    smoke test 로 sandbox 효과 실증.
 
 - **회귀 테스트 (regression_test)**:
   - `tests/test_base_llm_worker_run.py::TestAgentModeGate::test_agent_mode_without_opt_in_fails_early`
@@ -146,20 +153,33 @@ last_review: 2026-05-22
     종료하고 `llm_calls/` 디렉토리 자체가 생성되지 않음을 확인.
   - `tests/test_prompt_safety.py` (v0.3.3, 13 메소드) — wrap 형식 / close-tag
     injection / open-tag injection / case·whitespace 변형 / label 안전화 5 카테고리.
+  - `_scratch_dir_for_task` / `--sandbox workspace-write` placeholder 치환의 회귀는
+    Phase 5 의 `source_collector_worker` 도입과 함께 추가 예정 (현 v0.4.0 은 CLI
+    인자 변경의 정적 정합성만 — 실 효과는 worker 가 들어와야 검증 가능).
 
 - **발견 버전 (discovered)**: v0.2.5 외부 코드 리뷰 (codex `exec review`).
 
 - **해결 버전 (resolved)**:
   - v0.2.5 — opt-in 가드 (`allow_agent_mode`).
-  - v0.3.3 — envelope 헬퍼 (`wrap_untrusted`). 순수 함수 + 회귀 테스트만, 호출은 Phase 4.
-  - Phase 4 (v0.4.0 예정) — codex `--sandbox` 매핑 / scratch dir 격리 / `source_collector_worker` 의 실 호출.
+  - v0.3.3 — envelope 헬퍼 (`wrap_untrusted`). 순수 함수 + 회귀 테스트만, 호출은 Phase 5.
+  - v0.4.0 — codex `--sandbox workspace-write` 매핑 + scratch dir 격리 (CLI 매핑 +
+    `_scratch_dir_for_task` 헬퍼).
+  - Phase 5 (예정) — `source_collector_worker` 의 실 호출 + e2e 검증.
 
-- **상태 (status)**: `resolved-partial` — opt-in 가드 + envelope 헬퍼까지 마련. 실 호출
-  / CLI sandbox / scratch dir 격리는 Phase 4 에서 완료 예정.
+- **상태 (status)**: `resolved-partial` — opt-in 가드 + envelope 헬퍼 + sandbox /
+  scratch dir 매핑까지 마련. 실 호출하는 agent 모드 worker (`source_collector_worker`)
+  의 도입과 e2e 검증은 Phase 5 에서 완료 예정.
 
-- **알려진 한계**: envelope 헬퍼는 sentinel 만 제공한다. "envelope 안을 명령으로
-  해석하지 마라" 를 LLM 에게 알리는 책임은 시스템 prompt 측. 또한 semantic
-  injection (envelope 안에서 일반 문장으로 LLM 을 속이는 방식) 은 막지 못한다 —
-  Phase 4 의 sandbox 가 함께 가야 의미가 있다.
+- **알려진 한계**:
+  - sandbox / scratch dir 매핑은 도입했지만 아직 호출하는 agent 모드 worker 가 없음.
+    Phase 5 의 `source_collector_worker` 가 들어오면 비로소 실 효과 검증 가능.
+  - sandbox 가 활성화돼도 envelope 안에서 일반 문장으로 LLM 을 속이는 semantic
+    injection 은 막지 못한다 — 시스템 prompt + envelope 명시 책임.
+  - codex `--sandbox workspace-write` 의 정확한 escape 경계 (symlink 처리, mount
+    bind 등) 는 codex 버전마다 달라질 수 있음. `docs/ADDENDUM_04` §5 의 가정 절에
+    버전 정보와 함께 정기 갱신 필요.
+  - scratch dir 은 task_id 단위로 mkdir 만 한다. 같은 task_id 가 두 번 실행되면
+    이전 잔존물이 보임. 현재는 worker 가 멱등 실행을 보장하지 않으므로 수용 가능.
+    필요 시 Phase 5 worker 단에서 `shutil.rmtree → mkdir` 로 ephemeral 화.
 
 - **연관**: ADDENDUM_04 §5 / §7 (CLI 인터페이스 / agent 모드 권한), LLM-AP-001, LLM-AP-002.

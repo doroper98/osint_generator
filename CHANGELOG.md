@@ -1,6 +1,6 @@
 <!--
 tier: 3
-last_synced_with: v0.3.4
+last_synced_with: v0.4.0
 ssot_for: [release-notes]
 depends_on: [README.md, GOAL.md]
 last_review: 2026-05-22
@@ -25,6 +25,73 @@ released 항목은 **append-only**입니다.
 
 ### Fixed
 -
+
+---
+
+## [v0.4.0] — 2026-05-22
+
+LLM-AP-003 의 본격 sandbox/scratch dir 격리 도입 — codex agent 모드의 CLI
+매핑을 안전한 형태로 변경하고, Phase 5 `source_collector_worker` 의 출력 모델
+(`SourceCollectionPartial`) 을 선행 정의. 본 PATCH 는 CLI 매핑 변경 + 헬퍼
+신설 + 도메인 모델 추가에 해당해 **MINOR** 증분.
+
+### Added
+
+- **`workers/base_llm_worker.py:BaseLLMWorker._scratch_dir_for_task`** — agent
+  모드 codex CLI 의 `--cd` 대상 디렉토리. `projects/{pid}/scratch/{task_id}/`
+  를 mkdir(parents=True, exist_ok=True) 로 생성하고 반환. agent 가 본 디렉토리
+  밖으로 write 하지 못하도록 `--sandbox workspace-write` 와 함께 사용.
+- **`schemas/models.py:SourceCollectionPartial`** — Phase 5 의
+  `source_collector_worker` 단일 task 출력 모델. project_id / task_id /
+  input_item_id (Optional) / collected_sources (list[SourceEntry]) / notes
+  필드. 추가는 optional 모델 신설이므로 `schema_version` 1 유지 (C3 준수).
+
+### Changed
+
+- **`workers/base_llm_worker.py:CLI_INVOCATION`** — codex agent 엔트리에
+  `--sandbox workspace-write` 추가. `--cd` 인자를 `{project_dir}` → 새
+  placeholder `{scratch_dir}` 로 변경. response 모드는 영향 없음 (entry
+  자체가 `--cd` / `--sandbox` 를 갖지 않음).
+- **`workers/base_llm_worker.py:_invoke_llm`** — placeholder 치환 시
+  `llm_mode == "agent"` 인 경우에만 `{scratch_dir}` 를
+  `_scratch_dir_for_task(args)` 결과로, response 모드는 빈 문자열로 치환.
+  agent 모드 templates 가 본 placeholder 를 갖지 않으면 빈 문자열로도 안전.
+- **`docs/ANTIPATTERNS/LLM_ANTIPATTERNS.md` LLM-AP-003** — mitigation /
+  regression_test / resolved / 상태 / 알려진 한계 절 갱신. status 는
+  `resolved-partial` 유지하되 partial 의 의미가 "sandbox 매핑까지 마련,
+  실 호출하는 worker 도입은 Phase 5" 로 이동.
+
+### Rationale
+
+LLM-AP-003 의 v0.2.5 (opt-in 가드) / v0.3.3 (envelope 헬퍼) 다음 단계.
+agent 모드의 prompt injection 면적을 줄이는 세 번째 layer: OS 레벨 sandbox
++ 파일시스템 격리. Phase 5 의 `source_collector_worker` 가 들어와야 실
+효과를 실증할 수 있지만, CLI 매핑과 헬퍼는 worker 보다 먼저 박혀 있어야
+worker 가 일관된 sandbox 가정 위에서 동작할 수 있다.
+
+`SourceCollectionPartial` 도 같은 맥락 — Phase 5 worker 를 짤 때 출력 모델이
+schema 에 미리 있어야 한 PATCH 안에서 worker + 모델을 동시에 도입하지 않아도
+된다 (작은 단위 커밋 원칙 C8.2).
+
+### Testing
+
+- `python -m py_compile orchestrator/*.py workers/*.py schemas/*.py web/*.py` 통과.
+- 기존 단위 테스트 83 케이스 모두 통과 (회귀 없음).
+- 새 코드 경로의 회귀 테스트는 Phase 5 의 `source_collector_worker` 도입과
+  함께 추가 예정 — 본 v0.4.0 은 CLI 인자 정적 정합성과 헬퍼 mkdir 의 부수
+  효과만 다루므로 단위 테스트만으로는 실 효과 검증이 제한적.
+
+### Migration / Compatibility
+
+- 사용자 머신의 codex CLI 가 `--sandbox` 플래그를 지원해야 한다 (rust 구현 기준
+  현재 버전 대다수 지원). 미지원 codex 는 agent 모드 호출 시 unknown flag
+  로 비0 종료 → `_invoke_llm` 의 H1 로깅 후 `LLMSubprocessError`. 호출자가
+  분기 가능.
+- 기존 agent 모드 worker 가 `{project_dir}` 안의 자료를 prompt-time 에 직접
+  파일로 읽던 경우, v0.4.0 부터는 codex 가 sandbox 외부를 못 보므로 그 자료를
+  `build_user_prompt` 안에서 텍스트로 inline (가급적 `wrap_untrusted` 로
+  격리) 해야 한다. 현재 agent 모드를 opt-in 한 worker 는 0 개이므로 실
+  마이그레이션 영향 없음.
 
 ---
 
