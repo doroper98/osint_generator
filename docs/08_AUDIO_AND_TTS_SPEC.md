@@ -1,6 +1,6 @@
 <!--
 tier: 2
-last_synced_with: v0.2.2
+last_synced_with: v0.3.0
 ssot_for: [tts-spec, audio-spec, pronunciation-policy]
 depends_on: [ANTIPATTERNS/TTS_ANTIPATTERNS.md]
 last_review: 2026-05-19

@@ -1,6 +1,6 @@
 <!--
 tier: 3
-last_synced_with: v0.2.5
+last_synced_with: v0.3.0
 ssot_for: [llm-antipatterns]
 depends_on: [README.md, ../ADDENDUM_04_SUBSCRIPTION_LLM_BRIDGE.md, ../../CLAUDE.md]
 last_review: 2026-05-19

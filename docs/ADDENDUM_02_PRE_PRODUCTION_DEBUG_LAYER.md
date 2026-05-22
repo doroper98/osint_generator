@@ -1,6 +1,6 @@
 <!--
 tier: 2
-last_synced_with: v0.2.2
+last_synced_with: v0.3.0
 ssot_for: [pre-production-debug-layer, scene-provenance]
 depends_on: [05_DATA_SCHEMA_SPEC.md, 10_RENDERING_PIPELINE_SPEC.md]
 last_review: 2026-05-19
