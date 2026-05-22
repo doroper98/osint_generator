@@ -18,14 +18,13 @@
 
 from __future__ import annotations
 
-from typing import Optional
-
 from schemas.models import (
     IntakeMode,
     SourceIntake,
     TaskQueueItem,
     UserDecision,
 )
+from workers.base_llm_worker import _is_safe_path_segment
 
 
 SOURCE_COLLECTOR_WORKER = "source_collector"
@@ -38,12 +37,37 @@ _TASK_ID_PREFIX = "src_collect__"
 def task_id_for(item_id: str) -> str:
     """item_id 로부터 source_collector task_id 생성.
 
-    단일 path 세그먼트로서 `BaseLLMWorker._is_safe_path_segment` 통과를 보장:
-    - `/`, `\\` 미포함, `..` 아님, leading `.` 없음, 길이 ≤ 128.
-    `item_id` 는 IntakePlannerWorker 의 system_prompt 가 영문 snake_case 만
-    요구하지만, 빌더는 외부 입력 신뢰 없이도 호출되도록 분리 prefix 를 박는다.
+    `BaseLLMWorker._is_safe_path_segment` 통과를 **함수 단에서 강제** (codex 1차
+    리뷰 Critical 흡수, v0.5.2). 단순 prefix 조합만 하던 v0.5.0 구현은 buggy /
+    malicious upstream 이 `/`, `..`, leading `.`, 매우 긴 문자열을 넘기면 task
+    생성은 성공하고 worker 실행 시점 (`_scratch_dir_for_task`) 에서야 sandbox 가드
+    가 raise 하는 contract drift 가 있었다. 본 함수는 planning boundary 에서 fail
+    fast.
+
+    raise:
+      ValueError: 생성된 task_id 가 `_is_safe_path_segment` 를 통과하지 못할 때.
     """
-    return f"{_TASK_ID_PREFIX}{item_id}"
+    # item_id 자체에도 path-traversal 의도가 있는 토큰이 없는지 확인. prefix 가
+    # 붙으면 candidate 가 `..` / `.` 자체는 아니게 되어 `_is_safe_path_segment`
+    # 를 통과하지만, 의도적 traversal 시도일 가능성이 높으므로 명시적 거부.
+    if "/" in item_id or "\\" in item_id:
+        raise ValueError(
+            f"unsafe item_id={item_id!r}: path separator (`/`, `\\\\`) 포함."
+        )
+    if ".." in item_id:
+        raise ValueError(
+            f"unsafe item_id={item_id!r}: '..' 토큰 포함 (path traversal 의도)."
+        )
+
+    candidate = f"{_TASK_ID_PREFIX}{item_id}"
+    if not _is_safe_path_segment(candidate):
+        raise ValueError(
+            f"unsafe item_id={item_id!r}: derived task_id={candidate!r} 가 "
+            f"_is_safe_path_segment 가드 (no '/', '\\\\', '..', leading '.', "
+            f"length ≤ 128) 를 통과하지 못합니다. UserDecision 의 item_id 는 "
+            f"영문 snake_case 만 허용해야 합니다."
+        )
+    return candidate
 
 
 def needs_collection(decision: UserDecision) -> bool:
@@ -59,7 +83,7 @@ def needs_collection(decision: UserDecision) -> bool:
 def build_source_collection_tasks(
     intake: SourceIntake,
     *,
-    existing_task_ids: Optional[set[str]] = None,
+    existing_task_ids: set[str] | None = None,
 ) -> list[TaskQueueItem]:
     """SourceIntake 에서 source_collector task 만 생성.
 

@@ -28,20 +28,22 @@ agent 모드 worker. partial 들은 후속 PATCH 의 `SourceRegistryBuilder` 가
 from __future__ import annotations
 
 import argparse
-import json
 from pathlib import Path
-from typing import ClassVar, Type
+from typing import ClassVar, Optional, Type
 
 from schemas.models import (
     IntakeMode,
+    QAStatus,
     SourceCollectionPartial,
     SourceIntake,
     TaskQueueItem,
+    TaskResult,
+    TaskStatus,
     UserDecision,
     VersionedModel,
 )
 from workers.base_llm_worker import BaseLLMWorker
-from workers.base_worker import run_worker
+from workers.base_worker import emit, run_worker, utc_now
 from workers.prompt_safety import wrap_untrusted
 
 
@@ -63,8 +65,9 @@ _SYSTEM_PROMPT = """당신은 OSINT 영상 자동 제작 파이프라인의 Sour
   필요한 임시 자료가 있다면 scratch 안에서만 다루십시오.
 - codex 의 디폴트 side channel 이지만 본 task 의 ephemeral 작업 외에는 절대 접근
   하지 마십시오:
-  - %TEMP% (Unix /tmp): 임시 자료 누설 / trojan 파일 경로. 본 task 외 write 금지.
-  - ~/.codex/memories: long-lived semantic injection 경로. write 절대 금지.
+  - OS 임시 디렉토리 (Windows `%TEMP%`, Unix `/tmp`): 임시 자료 누설 / trojan
+    파일 경로. 본 task 외 write 금지.
+  - `~/.codex/memories`: long-lived semantic injection 경로. write 절대 금지.
 - 다른 task 의 scratch / 사용자 자료 / git 추적 코드 / 다른 worker 산출물은 sandbox
   가 차단합니다. 시도 자체를 하지 마십시오.
 
@@ -170,44 +173,17 @@ class SourceCollectorWorker(BaseLLMWorker):
     def build_user_prompt(self, args: argparse.Namespace, task: TaskQueueItem) -> str:
         """source_intake.json 의 매칭 UserDecision 을 envelope 으로 격리해 prompt 구성.
 
-        - `task.input_item_id` 가 비어 있으면 `ValueError`. SourceCollector 의 도메인
-          계약상 한 task = 한 UserDecision (LLM-AP-003 known-limits, schemas/models.py
-          `SourceCollectionPartial` docstring 참고).
-        - source_intake.json 이 없거나 매칭 결정이 없으면 명시적 에러.
-        - mode 가 `ai_delegate` / `mixed` 아니면 `ValueError` (skip / direct_provide 등은
-          본 worker 의 책임 밖).
-        - 외부 자료는 `wrap_untrusted` 로 단일 envelope 격리. 호출자 책임 (LLM-AP-003).
+        실 검증은 `_preflight_validate` 에 위임. 본 메서드는 prompt 텍스트 생성만 책임.
+        run() override 가 LLM 호출 전 동일 검증을 먼저 돌려 raise 를 TaskResult(FAILED)
+        로 변환한다.
         """
+        decision, _intake = self._preflight_validate(args, task)
+        # _preflight_validate 가 통과했으므로 item_id 비어 있지 않음.
+        assert task.input_item_id is not None  # for type checker
         item_id = task.input_item_id
-        if not item_id:
-            raise ValueError(
-                "task.input_item_id 누락. SourceCollector 는 UserDecision 의 "
-                "item_id 가 필요합니다 (한 task = 한 UserDecision)."
-            )
-
-        intake_path = self.project_dir(args) / "01_intake" / "source_intake.json"
-        if not intake_path.exists():
-            raise FileNotFoundError(
-                f"source_intake.json 이 없습니다: {intake_path}"
-            )
-        intake = SourceIntake.model_validate_json(
-            intake_path.read_text(encoding="utf-8")
-        )
-
-        decision = self._find_decision(intake, item_id)
-        if decision is None:
-            raise ValueError(
-                f"UserDecision 매칭 실패: item_id={item_id!r} 가 source_intake.json 에 없습니다."
-            )
-
         mode_value = (
             decision.mode.value if isinstance(decision.mode, IntakeMode) else str(decision.mode)
         )
-        if mode_value not in self.ACCEPTED_MODES:
-            raise ValueError(
-                f"SourceCollector 는 mode ∈ {sorted(self.ACCEPTED_MODES)} 만 처리합니다. "
-                f"item_id={item_id} mode={mode_value!r}"
-            )
 
         untrusted_body = wrap_untrusted(
             self._format_user_payload(decision),
@@ -249,15 +225,167 @@ class SourceCollectorWorker(BaseLLMWorker):
         return self.project_dir(args) / "02_sources" / "partials" / f"{args.task_id}.json"
 
     # -----------------------------------------------------------------
+    # run override — preflight + post-parse identity invariant
+    # -----------------------------------------------------------------
+
+    def run(
+        self, args: argparse.Namespace, task: Optional[TaskQueueItem]
+    ) -> TaskResult:
+        """BaseLLMWorker.run() 을 감싸 preflight + post-parse invariant 추가.
+
+        - **Preflight (LLM 호출 전)**: `_preflight_validate` 가 raise 하면 LLM 호출
+          비용 없이 즉시 `TaskResult(FAILED)`. 본 worker 의 build_user_prompt 도
+          동일 검증을 다시 수행 — preflight 가 미리 통과시킨 입력만 prompt 단계로
+          들어간다. (LLM 호출 전 catch 의 이유: codex 호출은 시간/요금 비용이 있고,
+          입력 invariants 위반은 LLM 응답을 보기 전에 잡아야 디버깅 단순.)
+        - **Post-parse identity invariant**: LLM 이 echo 해야 할 식별자
+          (`project_id` / `task_id` / `input_item_id`) 가 task 와 일치하는지
+          확인. Pydantic 은 well-typed 값을 통과시키지만 LLM 이 다른 task 의 값을
+          섞어 응답하는 cross-task contamination 시나리오를 잡는다. 불일치 시
+          FAILED 로 마킹 (output 파일 자체는 base 가 이미 영속화했지만 errors 와
+          status 로 표시).
+        """
+        started = utc_now()
+
+        # task 가 None 이면 base 가 즉시 FAILED 반환 — 그대로 위임.
+        if task is None:
+            return super().run(args, task)
+
+        # preflight — LLM 호출 전 검증.
+        try:
+            self._preflight_validate(args, task)
+        except (ValueError, FileNotFoundError) as e:
+            emit("stderr", f"preflight failed: {type(e).__name__}: {e}")
+            return TaskResult(
+                project_id=args.project_id,
+                task_id=args.task_id,
+                worker=self.worker_name,
+                status=TaskStatus.FAILED,
+                started_at=started,
+                completed_at=utc_now(),
+                errors=[f"preflight: {type(e).__name__}: {e}"],
+                qa_status=QAStatus.FAIL,
+            )
+
+        result = super().run(args, task)
+        if result.status != TaskStatus.COMPLETED:
+            return result
+
+        # post-parse identity invariant — output 다시 읽어 검증.
+        outp = self.output_path(args, task)
+        try:
+            partial = SourceCollectionPartial.model_validate_json(
+                outp.read_text(encoding="utf-8")
+            )
+        except Exception as e:  # noqa: BLE001 — 파일/JSON/Pydantic 어떤 실패든 동일 처치
+            emit("stderr", f"post-parse re-read failed: {e}")
+            result.status = TaskStatus.FAILED
+            result.errors.append(f"post_parse_reread: {type(e).__name__}: {e}")
+            result.qa_status = QAStatus.FAIL
+            return result
+
+        identity_errors: list[str] = []
+        if partial.project_id != args.project_id:
+            identity_errors.append(
+                f"identity_mismatch:project_id "
+                f"partial={partial.project_id!r} expected={args.project_id!r}"
+            )
+        if partial.task_id != args.task_id:
+            identity_errors.append(
+                f"identity_mismatch:task_id "
+                f"partial={partial.task_id!r} expected={args.task_id!r}"
+            )
+        if not partial.input_item_id or partial.input_item_id != task.input_item_id:
+            identity_errors.append(
+                f"identity_mismatch:input_item_id "
+                f"partial={partial.input_item_id!r} expected={task.input_item_id!r}"
+            )
+        if identity_errors:
+            for e_msg in identity_errors:
+                emit("stderr", e_msg)
+            result.status = TaskStatus.FAILED
+            result.errors.extend(identity_errors)
+            result.qa_status = QAStatus.FAIL
+
+        return result
+
+    # -----------------------------------------------------------------
     # 내부 헬퍼
     # -----------------------------------------------------------------
 
+    def _preflight_validate(
+        self, args: argparse.Namespace, task: TaskQueueItem
+    ) -> tuple[UserDecision, SourceIntake]:
+        """build_user_prompt + run() 양쪽이 호출하는 단일 검증 함수.
+
+        raise:
+          - ValueError: input_item_id 누락 / 매칭 결정 없음 / 중복 매칭 / 잘못된 mode /
+            mixed-인데-ai_delegate_remaining=False.
+          - FileNotFoundError: source_intake.json 부재.
+
+        returns:
+          (decision, intake) — caller 가 그대로 재사용. 같은 검증을 두 번 돌리지 않게.
+        """
+        item_id = task.input_item_id
+        if not item_id:
+            raise ValueError(
+                "task.input_item_id 누락. SourceCollector 는 UserDecision 의 "
+                "item_id 가 필요합니다 (한 task = 한 UserDecision)."
+            )
+
+        intake_path = self.project_dir(args) / "01_intake" / "source_intake.json"
+        if not intake_path.exists():
+            raise FileNotFoundError(
+                f"source_intake.json 이 없습니다: {intake_path}"
+            )
+        intake = SourceIntake.model_validate_json(
+            intake_path.read_text(encoding="utf-8")
+        )
+
+        decision = self._find_decision(intake, item_id)
+        if decision is None:
+            raise ValueError(
+                f"UserDecision 매칭 실패: item_id={item_id!r} 가 source_intake.json 에 없습니다."
+            )
+
+        mode_value = (
+            decision.mode.value if isinstance(decision.mode, IntakeMode) else str(decision.mode)
+        )
+        if mode_value not in self.ACCEPTED_MODES:
+            raise ValueError(
+                f"SourceCollector 는 mode ∈ {sorted(self.ACCEPTED_MODES)} 만 처리합니다. "
+                f"item_id={item_id} mode={mode_value!r}"
+            )
+
+        # mixed 모드는 ai_delegate_remaining=True 인 경우에만 처리. planner 가 이미
+        # 동일 필터링하지만 worker 단에서도 enforce — 수동/잘못된 task_queue 진입 차단.
+        if mode_value == IntakeMode.MIXED.value and not decision.ai_delegate_remaining:
+            raise ValueError(
+                f"mixed 모드인데 ai_delegate_remaining=False 입니다. "
+                f"item_id={item_id} — 사용자 제공 자료로 이미 완료된 항목이므로 "
+                f"SourceCollector 처리 대상이 아닙니다."
+            )
+
+        return decision, intake
+
     @staticmethod
-    def _find_decision(intake: SourceIntake, item_id: str) -> UserDecision | None:
-        for d in intake.user_decisions:
-            if d.item_id == item_id:
-                return d
-        return None
+    def _find_decision(intake: SourceIntake, item_id: str) -> Optional[UserDecision]:
+        """`item_id` 매칭 UserDecision 을 0/1/many 분기로 명시 처리.
+
+        - 0 개: None 반환 (caller 가 ValueError 로 변환).
+        - 1 개: 정상 반환.
+        - 2 개 이상: ValueError. 동일 item_id 중복은 source_intake.json 의 데이터
+          오류이며, 어느 것을 선택해도 의미가 모호하므로 명시적 실패.
+        """
+        matches = [d for d in intake.user_decisions if d.item_id == item_id]
+        if not matches:
+            return None
+        if len(matches) > 1:
+            raise ValueError(
+                f"source_intake.json 에 item_id={item_id!r} 가 {len(matches)} 회 "
+                f"중복 등장. UserDecision 은 item_id 당 단일이어야 합니다."
+            )
+        return matches[0]
 
     @staticmethod
     def _format_user_payload(decision: UserDecision) -> str:

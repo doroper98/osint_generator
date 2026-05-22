@@ -862,3 +862,60 @@ last_review: 2026-05-22
   - 다음 MINOR/MAJOR commit (v0.5.2+ 또는 v0.6.0+) 부터 본 절차 적용.
 - **연관**: v0.4.0 → v0.4.1 (본 패턴의 첫 사례, 당시는 규칙에 박혀있지 않음),
   v0.5.0 (본 PATCH 의 트리거 — push 직후 review-prompt 전달 실패 사고).
+
+## 2026-05-22 v0.5.2 — codex 1차 리뷰 흡수 (SourceCollectorWorker) + C10 전달 형태 강제
+
+- **무엇을**: v0.5.0 의 codex 외부 1차 리뷰 결과 (Critical 2 / High 3 / Medium 3 /
+  Low 2) 를 흡수하고, 본 절차 자체의 사용자 워크플로우 적합성을 v0.5.1 에 이어
+  한 번 더 박음 (CLAUDE.md C10.5 신설). worker / planner / tests 의 4 갈래
+  robustness 갭을 메움. VERSION 0.5.1 → 0.5.2.
+- **왜**: v0.5.0 PATCH 의 4 갈래 갭과 v0.5.0/v0.5.1 운용 사고를 한 번에 정리.
+  (1) `task_id_for` 가 sanitization 없이 prefix 만 붙여 contract drift 가능
+  했음 → planner 단 fail-fast. (2) LLM 응답의 echo 식별자 (project_id /
+  task_id / input_item_id) 검증 부재 → cross-task contamination 위험.
+  (3) `_find_decision` 의 duplicate first-match-wins silent 동작 → 명시적
+  ValueError. (4) `build_user_prompt` 의 raise 가 run() 안에서 catch 안 되어
+  task_result.json 추적성 손실 가능 → preflight 흐름으로 catch. 추가로
+  v0.5.1 에서 잠시 박았던 "SendUserFile + inline 동시 노출" 규칙은 사용자가
+  중복 거추장스럽다 거부 → C10.5 의 크기 분기표로 교체. v0.5.0 의 codex 클라우드
+  fetch 실패 (HTTP 403) 사고를 반영해 "신규 파일 inline 박는다" 를 디폴트로 승격.
+- **어떻게**:
+  - **Critical 1**: `source_collection_planner.task_id_for` 가 item_id 자체에
+    `/`, `\\`, `..` 토큰 검사 + candidate 의 `_is_safe_path_segment` 검증. 양쪽
+    위반 모두 ValueError. (단순 prefix concatenation 만 하던 v0.5.0 → planner
+    단 fail-fast.)
+  - **Critical 2**: `SourceCollectorWorker.run` override. `BaseLLMWorker.run`
+    호출 후, output 을 다시 읽어 partial.project_id / task_id / input_item_id
+    가 task 와 일치하는지 검증. 불일치 시 status=FAILED + errors 에
+    `identity_mismatch:<field>` 추가. base 코드는 안 건드림.
+  - **High 1**: `_find_decision` 을 0/1/many 분기로 재작성. matches 가 2+ 이면
+    ValueError.
+  - **High 2**: `_preflight_validate` 헬퍼 신설. `build_user_prompt` 가 호출하던
+    검증을 분리해 `run()` override 가 LLM 호출 전에 직접 호출 → ValueError /
+    FileNotFoundError 잡아 TaskResult(FAILED) 변환. LLM 호출 비용 절감 + 추적성
+    보장.
+  - **High 3**: tests 의 `_argv_get_option(cmd, name)` 헬퍼 신설. `--name value`
+    와 `--name=value` 두 형태 모두 인식. 기존 index-based 검증 교체.
+  - **Medium**: unused `import json` 제거. `mode == mixed and not
+    ai_delegate_remaining` 도 `_preflight_validate` 에서 reject. SourceEntry
+    전체 16 필드 prompt 정합 회귀. 80 KB user_note boundary 회귀.
+  - **Low**: planner 의 `Optional[set[str]]` → `set[str] | None`. system_prompt
+    의 `%TEMP% (Unix /tmp)` → "OS 임시 디렉토리 (Windows `%TEMP%`, Unix `/tmp`)".
+  - **규칙 강화**: CLAUDE.md C10.0 의 AI 책임에 (d) 신설 — "codex 환경이 GitHub
+    fetch 못 할 가능성을 디폴트로 가정하고 신규/변경 파일 본문을 review-prompt
+    안에 inline (`### FILE: <path>` 헤더 구분) 으로 함께 박는다". v0.5.0 세션의
+    HTTP 403 / outbound 차단 사고 반영. C10.5 신설 — 본문 크기 (≤ 30 KB inline
+    단독 / > 30 KB SendUserFile 단독) 분기표 + 4 가지 금지 형태 (동시 노출 /
+    SendUserFile-단독-with-작은-본문 / 코드블록 분할 / 머신 경로 placeholder
+    노출) 를 v0.5.0/v0.5.1 운용 사고 사례와 함께 명문화. C10.2 절차 본문도
+    inline 박는 의무 반복 명시.
+- **결과**:
+  - py_compile 통과 (수정된 3 파일).
+  - 전체 unittest = **148/148 통과** (직전 129 + 신규 19).
+  - 본 PATCH 는 CLAUDE.md C10.3 에 따라 codex 재리뷰 면제 (외부 리뷰 결과 흡수
+    PATCH + 본 절차 자체의 수정 PATCH 의 합집합 면제).
+- **연관**: v0.5.0 (본 흡수의 대상), v0.5.1 (전달 형태 규칙의 첫 시도 — "inline +
+  SendUserFile 동시 노출" 은 본 PATCH 에서 폐기), LLM-AP-003 (codex agent 모드
+  worker 의 첫 호출자가 본 PATCH 로 production-ready 한 상태로 진입), codex 1차
+  리뷰 결과 (Critical 2 / High 3 / Medium 3 / Low 2 / Nit 5 — Nit 5 개는 모두
+  OK 평가라 흡수 불필요).

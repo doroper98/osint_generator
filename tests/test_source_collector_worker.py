@@ -1,4 +1,4 @@
-"""SourceCollectorWorker + source_collection_planner 단위 테스트 (Phase 5, v0.5.0).
+"""SourceCollectorWorker + source_collection_planner 단위 테스트 (Phase 5, v0.5.0+v0.5.2).
 
 실 codex 호출은 `OSINT_LLM_STUB=1` 로 우회. codex agent 모드 + `allow_agent_mode=True`
 경로의 정상 흐름과 4 가지 parsed_status 분기, 그리고 sandbox-related argv shape
@@ -6,16 +6,21 @@
 
 검증 범위
 --------
-1. system_prompt 의 정합 (SourceCollectionPartial / SourceEntry 필드, RightsStatus enum,
-   sandbox 경계 / side channels, envelope 안내, .format() 금지).
+1. system_prompt 의 정합 (SourceCollectionPartial / SourceEntry 필드 전체, RightsStatus
+   enum, sandbox 경계 / side channels, envelope 안내, .format() 금지).
 2. build_user_prompt 의 동작 (정상 매핑, envelope 격리, 잘못된 mode / 누락된 결정 / 누락된
-   input_item_id 의 명시적 에러).
+   input_item_id / 중복 item_id / mixed-with-remaining=False 의 명시적 에러).
 3. output_path 의 위치 고정 (`02_sources/partials/{task_id}.json`).
 4. run() 통합 — stub codex backend 에서 ok / parse_failed / validation_failed /
    subprocess_error 4 분기 + agent 모드 opt-in 가드 통과 확인.
-5. _build_invocation_cmd 의 sandbox argv shape (`--sandbox workspace-write`, `--cd
-   {scratch_dir}`) 와 scratch dir 부수 효과.
-6. build_source_collection_tasks 의 mode 필터링 / idempotency.
+5. run() preflight: build_user_prompt 가 raise 하는 모든 분기가 run() 에서
+   TaskResult(FAILED) 로 변환되는지 (v0.5.2 High 흡수).
+6. run() post-parse identity invariant: LLM 이 echo 한 project_id / task_id /
+   input_item_id 가 task 와 일치하지 않으면 FAILED 마킹 (v0.5.2 Critical 흡수).
+7. _build_invocation_cmd 의 sandbox argv shape — both `--name value` and
+   `--name=value` 형태 robust 검증 (v0.5.2 High 흡수).
+8. build_source_collection_tasks 의 mode 필터링 / idempotency / task_id_for 의
+   path-segment 가드 (v0.5.2 Critical 흡수).
 
 실행:
     python -m unittest tests.test_source_collector_worker
@@ -144,11 +149,20 @@ class TestSystemPromptStructure(unittest.TestCase):
             self.assertIn(key, self.prompt, f"missing partial key: {key}")
 
     def test_mentions_source_entry_keys(self) -> None:
+        # v0.5.2 (codex Medium 흡수): SourceEntry 의 모든 필드를 prompt 가 명시.
+        # 빠진 필드가 있으면 LLM 이 추측해서 채울 위험.
         for key in [
             "source_id",
             "platform",
             "source_type",
             "original_url",
+            "local_path",
+            "title",
+            "author",
+            "published_at",
+            "language",
+            "original_text",
+            "translated_text",
             "rights_status",
             "reliability_score",
             "verification_status",
@@ -163,7 +177,16 @@ class TestSystemPromptStructure(unittest.TestCase):
 
     def test_mentions_sandbox_boundary_and_side_channels(self) -> None:
         # codex sandbox + verified side channels (LLM-AP-003 known-limits).
-        for needle in ["%TEMP%", "~/.codex/memories", "scratch", "sandbox"]:
+        # v0.5.2: %TEMP% 가 platform-confusing 하지 않게 OS 임시 디렉토리 표현으로
+        # 보강 (codex Low 흡수).
+        for needle in [
+            "%TEMP%",
+            "/tmp",
+            "OS 임시 디렉토리",
+            "~/.codex/memories",
+            "scratch",
+            "sandbox",
+        ]:
             self.assertIn(needle, self.prompt, f"missing sandbox text: {needle}")
 
     def test_mentions_untrusted_envelope_guidance(self) -> None:
@@ -277,7 +300,7 @@ class TestBuildUserPrompt(unittest.TestCase):
         with self.assertRaises(ValueError):
             SourceCollectorWorker().build_user_prompt(self._args(), self._task())
 
-    def test_accepts_mixed_mode(self) -> None:
+    def test_accepts_mixed_mode_with_remaining(self) -> None:
         _write_source_intake(
             self.projects_root,
             mode=IntakeMode.MIXED,
@@ -286,6 +309,53 @@ class TestBuildUserPrompt(unittest.TestCase):
         prompt = SourceCollectorWorker().build_user_prompt(self._args(), self._task())
         self.assertIn("mixed", prompt)
         self.assertIn("True", prompt)
+
+    def test_rejects_mixed_with_ai_delegate_remaining_false(self) -> None:
+        # v0.5.2 (codex Medium 흡수): mixed 인데 remaining=False 면 사용자가 이미
+        # 자기 자료로 끝낸 항목이므로 SourceCollector 처리 대상 아님.
+        _write_source_intake(
+            self.projects_root,
+            mode=IntakeMode.MIXED,
+            ai_delegate_remaining=False,
+        )
+        with self.assertRaises(ValueError) as ctx:
+            SourceCollectorWorker().build_user_prompt(self._args(), self._task())
+        self.assertIn("ai_delegate_remaining", str(ctx.exception))
+
+    def test_long_user_note_does_not_raise(self) -> None:
+        # v0.5.2 (codex Medium 흡수): 매우 긴 user_note 도 build_user_prompt 가
+        # 그대로 wrap_untrusted envelope 에 넣고 raise 하지 않는다. 명시적
+        # truncation 정책은 본 PATCH 범위 외 (후속 PATCH 결정) — 본 테스트는
+        # "현재 동작은 raise 없이 통과" 임을 잠근다.
+        long_note = "한국어 본문 반복. " * 5000  # 약 80KB
+        _write_source_intake(self.projects_root, user_note=long_note)
+        prompt = SourceCollectorWorker().build_user_prompt(self._args(), self._task())
+        # 본문이 envelope 안에 들어 있고 envelope 가 정확히 한 번 닫혀 있다.
+        self.assertIn(long_note[:60], prompt)
+        self.assertEqual(prompt.count("</untrusted_source>"), 1)
+
+    def test_rejects_duplicate_item_id_in_intake(self) -> None:
+        # v0.5.2 (codex High 흡수): source_intake.json 에 동일 item_id 가
+        # 중복 등장하면 ValueError (first-match-wins silent 동작 차단).
+        pdir = self.projects_root / PROJECT_ID / "01_intake"
+        pdir.mkdir(parents=True, exist_ok=True)
+        intake = SourceIntake(
+            project_id=PROJECT_ID,
+            user_decisions=[
+                UserDecision(item_id=ITEM_ID, mode=IntakeMode.AI_DELEGATE),
+                UserDecision(
+                    item_id=ITEM_ID,
+                    mode=IntakeMode.AI_DELEGATE,
+                    user_note="dup",
+                ),
+            ],
+        )
+        (pdir / "source_intake.json").write_text(
+            intake.model_dump_json(indent=2), encoding="utf-8"
+        )
+        with self.assertRaises(ValueError) as ctx:
+            SourceCollectorWorker().build_user_prompt(self._args(), self._task())
+        self.assertIn("중복", str(ctx.exception))
 
 
 # ---------------------------------------------------------------------------
@@ -483,6 +553,23 @@ class TestRunAgentOptInGuardPassed(_RunBase):
 # ---------------------------------------------------------------------------
 
 
+def _argv_get_option(cmd: list[str], name: str) -> str | None:
+    """argv 에서 `--name value` 와 `--name=value` 두 형태 모두 탐색.
+
+    v0.5.2 (codex High 흡수): index-based adjacency 검증이 codex CLI 의 옵션 표기
+    변화 (`--sandbox workspace-write` → `--sandbox=workspace-write` 같은) 에
+    brittle 했음. 양쪽 정규화.
+    """
+    for i, seg in enumerate(cmd):
+        if seg == name:
+            if i + 1 < len(cmd):
+                return cmd[i + 1]
+            return None
+        if seg.startswith(f"{name}="):
+            return seg[len(name) + 1:]
+    return None
+
+
 class TestSandboxInvocationCmd(unittest.TestCase):
     def setUp(self) -> None:
         self._tmp = tempfile.TemporaryDirectory()
@@ -505,25 +592,212 @@ class TestSandboxInvocationCmd(unittest.TestCase):
     def test_argv_contains_sandbox_workspace_write(self) -> None:
         worker = SourceCollectorWorker()
         cmd = worker._build_invocation_cmd(self._args(), "user prompt body")
-        self.assertIn("--sandbox", cmd)
-        idx = cmd.index("--sandbox")
-        self.assertEqual(cmd[idx + 1], "workspace-write")
+        self.assertEqual(
+            _argv_get_option(cmd, "--sandbox"),
+            "workspace-write",
+            f"--sandbox=workspace-write 없음. argv={cmd}",
+        )
 
     def test_argv_cd_is_scratch_dir_and_dir_exists(self) -> None:
         worker = SourceCollectorWorker()
         args = self._args()
         cmd = worker._build_invocation_cmd(args, "user prompt body")
-        self.assertIn("--cd", cmd)
-        idx = cmd.index("--cd")
-        cd_value = cmd[idx + 1]
+        cd_value = _argv_get_option(cmd, "--cd")
+        self.assertIsNotNone(cd_value, f"--cd 옵션 없음. argv={cmd}")
         expected = self.projects_root / PROJECT_ID / "scratch" / TASK_ID
-        self.assertEqual(Path(cd_value), expected)
+        self.assertEqual(Path(cd_value), expected)  # type: ignore[arg-type]
         self.assertTrue(expected.exists(), f"scratch dir 미생성: {expected}")
         self.assertTrue(expected.is_dir())
 
     def test_task_id_is_safe_path_segment(self) -> None:
         # 빌더가 만든 task_id 가 BaseLLMWorker 의 sandbox 가드를 통과하는지.
         self.assertTrue(_is_safe_path_segment(TASK_ID))
+
+
+# ---------------------------------------------------------------------------
+# 7. run() preflight — build_user_prompt 의 모든 raise 가 TaskResult(FAILED) 로 변환
+# ---------------------------------------------------------------------------
+# v0.5.2 (codex High 흡수): build_user_prompt 가 raise 한 ValueError /
+# FileNotFoundError 가 worker.run() 안에서 catch 되어 TaskResult(FAILED) 로 변환
+# 되는지. v0.5.0 까지는 build_user_prompt 직접 호출만 테스트 — run() 호출 시 catch
+# 되는지는 미검증이었음.
+
+
+class TestRunPreflight(_RunBase):
+    def _run_with_intake(
+        self, intake: SourceIntake, *, task_input_item_id: str | None = ITEM_ID
+    ) -> TaskStatus:
+        pdir = self.projects_root / PROJECT_ID / "01_intake"
+        pdir.mkdir(parents=True, exist_ok=True)
+        (pdir / "source_intake.json").write_text(
+            intake.model_dump_json(indent=2), encoding="utf-8"
+        )
+        task = TaskQueueItem(
+            task_id=TASK_ID,
+            input_item_id=task_input_item_id,
+            assigned_worker=SOURCE_COLLECTOR_WORKER,
+            task_type=SOURCE_COLLECTOR_TASK_TYPE,
+            description="test",
+            output_refs=[PARTIAL_REL_PATH],
+        )
+        # stub 응답이 있어도 preflight 가 raise 면 LLM 호출 전 FAILED.
+        self._stub(VALID_PARTIAL_JSON)
+        result = SourceCollectorWorker().run(self._args(), task)
+        return result.status
+
+    def test_missing_input_item_id_yields_failed(self) -> None:
+        _write_source_intake(self.projects_root)
+        task = TaskQueueItem(
+            task_id=TASK_ID,
+            input_item_id=None,
+            assigned_worker=SOURCE_COLLECTOR_WORKER,
+            task_type=SOURCE_COLLECTOR_TASK_TYPE,
+            description="test",
+            output_refs=[PARTIAL_REL_PATH],
+        )
+        self._stub(VALID_PARTIAL_JSON)
+        result = SourceCollectorWorker().run(self._args(), task)
+        self.assertEqual(result.status, TaskStatus.FAILED)
+        self.assertTrue(any("input_item_id" in e for e in result.errors))
+        # LLM 호출 전 catch 이므로 llm_calls 디렉토리 미생성.
+        self.assertFalse(
+            (self.projects_root / PROJECT_ID / "llm_calls").exists(),
+            "preflight 단계여서 llm_calls 디렉토리가 생성되면 안 됨",
+        )
+
+    def test_missing_intake_file_yields_failed(self) -> None:
+        # _RunBase.setUp 이 미리 만든 source_intake.json 을 지운다 — 본 테스트는
+        # "파일 자체가 없는" 시나리오를 의도.
+        (self.projects_root / PROJECT_ID / "01_intake" / "source_intake.json").unlink()
+        task = TaskQueueItem(
+            task_id=TASK_ID,
+            input_item_id=ITEM_ID,
+            assigned_worker=SOURCE_COLLECTOR_WORKER,
+            task_type=SOURCE_COLLECTOR_TASK_TYPE,
+            description="test",
+            output_refs=[PARTIAL_REL_PATH],
+        )
+        self._stub(VALID_PARTIAL_JSON)
+        result = SourceCollectorWorker().run(self._args(), task)
+        self.assertEqual(result.status, TaskStatus.FAILED)
+        self.assertTrue(any("preflight" in e for e in result.errors))
+
+    def test_unknown_item_id_yields_failed(self) -> None:
+        intake = SourceIntake(
+            project_id=PROJECT_ID,
+            user_decisions=[
+                UserDecision(item_id="other_item", mode=IntakeMode.AI_DELEGATE)
+            ],
+        )
+        status = self._run_with_intake(intake)
+        self.assertEqual(status, TaskStatus.FAILED)
+
+    def test_skip_mode_yields_failed(self) -> None:
+        intake = SourceIntake(
+            project_id=PROJECT_ID,
+            user_decisions=[UserDecision(item_id=ITEM_ID, mode=IntakeMode.SKIP)],
+        )
+        status = self._run_with_intake(intake)
+        self.assertEqual(status, TaskStatus.FAILED)
+
+    def test_mixed_without_remaining_yields_failed(self) -> None:
+        intake = SourceIntake(
+            project_id=PROJECT_ID,
+            user_decisions=[
+                UserDecision(
+                    item_id=ITEM_ID,
+                    mode=IntakeMode.MIXED,
+                    ai_delegate_remaining=False,
+                )
+            ],
+        )
+        status = self._run_with_intake(intake)
+        self.assertEqual(status, TaskStatus.FAILED)
+
+    def test_duplicate_item_id_yields_failed(self) -> None:
+        intake = SourceIntake(
+            project_id=PROJECT_ID,
+            user_decisions=[
+                UserDecision(item_id=ITEM_ID, mode=IntakeMode.AI_DELEGATE),
+                UserDecision(item_id=ITEM_ID, mode=IntakeMode.AI_DELEGATE),
+            ],
+        )
+        status = self._run_with_intake(intake)
+        self.assertEqual(status, TaskStatus.FAILED)
+
+
+# ---------------------------------------------------------------------------
+# 8. run() post-parse identity invariant
+# ---------------------------------------------------------------------------
+# v0.5.2 (codex Critical 흡수): LLM 이 echo 해야 할 식별자가 task 와 일치하지
+# 않으면 — Pydantic 은 통과해도 — FAILED 로 마킹. cross-task contamination
+# 시나리오 (LLM 이 다른 task 의 값 섞어 응답) 차단.
+
+
+def _partial_json_with(
+    *,
+    project_id: str = PROJECT_ID,
+    task_id: str = TASK_ID,
+    input_item_id: str | None = ITEM_ID,
+) -> str:
+    return json.dumps(
+        {
+            "schema_version": 1,
+            "project_id": project_id,
+            "task_id": task_id,
+            "input_item_id": input_item_id,
+            "collected_sources": [],
+            "collector_notes": "",
+        },
+        ensure_ascii=False,
+    )
+
+
+class TestRunIdentityInvariant(_RunBase):
+    def test_mismatched_project_id_fails(self) -> None:
+        self._stub(_partial_json_with(project_id="wrong_pid"))
+        result = SourceCollectorWorker().run(self._args(), self._task())
+        self.assertEqual(result.status, TaskStatus.FAILED)
+        self.assertTrue(
+            any("identity_mismatch:project_id" in e for e in result.errors),
+            f"errors={result.errors}",
+        )
+
+    def test_mismatched_task_id_fails(self) -> None:
+        self._stub(_partial_json_with(task_id="src_collect__other"))
+        result = SourceCollectorWorker().run(self._args(), self._task())
+        self.assertEqual(result.status, TaskStatus.FAILED)
+        self.assertTrue(
+            any("identity_mismatch:task_id" in e for e in result.errors),
+            f"errors={result.errors}",
+        )
+
+    def test_mismatched_input_item_id_fails(self) -> None:
+        self._stub(_partial_json_with(input_item_id="other_item"))
+        result = SourceCollectorWorker().run(self._args(), self._task())
+        self.assertEqual(result.status, TaskStatus.FAILED)
+        self.assertTrue(
+            any("identity_mismatch:input_item_id" in e for e in result.errors),
+            f"errors={result.errors}",
+        )
+
+    def test_missing_input_item_id_in_output_fails(self) -> None:
+        # 시스템 prompt 는 '누락 금지' 라 했지만 schema 는 Optional. LLM 이 null
+        # 로 응답하면 Pydantic 은 통과 — 본 invariant 검증이 마지막 안전망.
+        self._stub(_partial_json_with(input_item_id=None))
+        result = SourceCollectorWorker().run(self._args(), self._task())
+        self.assertEqual(result.status, TaskStatus.FAILED)
+        self.assertTrue(
+            any("identity_mismatch:input_item_id" in e for e in result.errors),
+            f"errors={result.errors}",
+        )
+
+    def test_all_identities_match_completes(self) -> None:
+        # 식별자 echo 정상이면 COMPLETED — 본 worker 의 run override 가 정상 경로를
+        # 깨지 않는다는 회귀.
+        self._stub(_partial_json_with())
+        result = SourceCollectorWorker().run(self._args(), self._task())
+        self.assertEqual(result.status, TaskStatus.COMPLETED, result.errors)
 
 
 # ---------------------------------------------------------------------------
@@ -589,6 +863,48 @@ class TestTaskBuilder(unittest.TestCase):
     def test_empty_intake_returns_empty(self) -> None:
         intake = SourceIntake(project_id=PROJECT_ID, user_decisions=[])
         self.assertEqual(build_source_collection_tasks(intake), [])
+
+    def test_task_id_for_rejects_unsafe_item_ids(self) -> None:
+        # v0.5.2 (codex Critical 흡수): item_id 가 path-segment 가드를 위반하면
+        # planner 단에서 fail-fast.
+        for bad_item_id in [
+            "with/slash",
+            "with\\backslash",
+            "../up",
+            "leading_dot_ok_because_prefix",  # 실제로는 prefix 가 있어 안전
+        ]:
+            try:
+                task_id_for(bad_item_id)
+            except ValueError:
+                continue
+            # leading_dot_ok_because_prefix 같은 case 는 raise 안 해도 됨.
+            # 실 위반 (slash / backslash / ..) 만 강제 검증.
+            if any(s in bad_item_id for s in ["/", "\\", ".."]):
+                self.fail(f"task_id_for should reject {bad_item_id!r}")
+
+    def test_task_id_for_rejects_very_long_item_id(self) -> None:
+        long_item = "x" * 200
+        with self.assertRaises(ValueError):
+            task_id_for(long_item)
+
+    def test_task_id_for_rejects_slash_item_id(self) -> None:
+        with self.assertRaises(ValueError):
+            task_id_for("foo/bar")
+
+    def test_task_id_for_rejects_dotdot_item_id(self) -> None:
+        with self.assertRaises(ValueError):
+            task_id_for("..")
+
+    def test_build_tasks_propagates_unsafe_item_id_error(self) -> None:
+        # planner 의 fail-fast 가 build_source_collection_tasks 까지 전파.
+        intake = SourceIntake(
+            project_id=PROJECT_ID,
+            user_decisions=[
+                UserDecision(item_id="bad/slash", mode=IntakeMode.AI_DELEGATE)
+            ],
+        )
+        with self.assertRaises(ValueError):
+            build_source_collection_tasks(intake)
 
     def test_needs_collection_helper(self) -> None:
         self.assertTrue(

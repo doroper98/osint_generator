@@ -28,6 +28,97 @@ released 항목은 **append-only**입니다.
 
 ---
 
+## [v0.5.2] — 2026-05-22
+
+v0.5.0 의 codex 1차 외부 리뷰 흡수 (Critical 2 / High 3 / Medium 3 / Low 2 / Nit 5).
+worker / planner / tests 의 4 가지 robustness 갭을 메우고, 본 절차 자체의 사용자
+워크플로우 적합성을 v0.5.1 에 이어 한 번 더 박는다 (전달 형태 강제 규칙 C10.5).
+
+본 PATCH 는 CLAUDE.md C10.3 에 따라 codex 재리뷰 면제 (외부 리뷰 결과 흡수 PATCH +
+본 절차 자체의 수정).
+
+### Changed
+
+**Critical 흡수:**
+
+- **`orchestrator/source_collection_planner.py:task_id_for`** — single-line
+  concatenation 만 하던 v0.5.0 구현이 buggy/malicious upstream 의 `/`, `\\`,
+  `..`, 매우 긴 item_id 를 그대로 통과시켜 worker 실행 시점의 sandbox guard 까지
+  contract drift 됐던 것을 fail-fast 로 승격. (1) item_id 자체에 path
+  separator / `..` 토큰 검사, (2) `_TASK_ID_PREFIX{item_id}` candidate 의
+  `_is_safe_path_segment` 검증. 양쪽 모두 ValueError. planner 단에서 fail.
+- **`workers/source_collector_worker.py:run`** — `BaseLLMWorker.run` 위에 post-
+  parse identity invariant 검증을 추가. LLM 응답의 `project_id` / `task_id` /
+  `input_item_id` 가 task 와 일치하지 않으면 (Pydantic 은 통과해도) `FAILED` 로
+  마킹 + `identity_mismatch:<field>` 에러. cross-task contamination 차단.
+
+**High 흡수:**
+
+- **`SourceCollectorWorker._find_decision`** — 0/1/many 분기 명시. duplicate
+  item_id 가 source_intake.json 에 있으면 ValueError (이전엔 first-match-wins
+  silent 동작).
+- **`SourceCollectorWorker.run` preflight** — `build_user_prompt` 가 raise 하는
+  모든 분기 (input_item_id 누락 / intake 부재 / 매칭 결정 없음 / 잘못된 mode /
+  중복 / mixed-with-remaining=False) 가 run() 안에서 catch 되어
+  `TaskResult(FAILED)` 로 변환. LLM 호출 비용 절감 + task_result.json 추적성 보장.
+- **`tests/test_source_collector_worker.py` argv 검증** — index-based adjacency
+  (`cmd[idx+1]`) → `_argv_get_option` 헬퍼로 `--name value` 와 `--name=value` 두
+  형태 모두 robust 인식. codex CLI 의 옵션 표기 변화에 brittle 하지 않음.
+
+**Medium 흡수:**
+
+- **`workers/source_collector_worker.py`** unused `import json` 제거 (C2 hygiene).
+- **`SourceCollectorWorker._preflight_validate`** — `mode == mixed` 이고
+  `ai_delegate_remaining == False` 인 경우 ValueError. planner 가 이미
+  필터링하지만 worker 단에서도 enforce — 수동/잘못된 task_queue 진입 차단.
+- **`tests/test_source_collector_worker.py::test_mentions_source_entry_keys`** —
+  9 → 16 필드 (전체) 검증. prompt 에서 일부 필드가 빠지는 회귀 차단.
+- **`test_long_user_note_does_not_raise`** — 약 80 KB user_note 도 raise 없이
+  envelope 안에 wrap. 명시적 truncation 정책은 후속 PATCH (현재 동작 잠금).
+
+**Low 흡수:**
+
+- **`source_collection_planner.py`** `Optional[set[str]]` → `set[str] | None`
+  modern union 스타일 통일.
+- **`source_collector_worker.py` system_prompt** — `%TEMP% (Unix /tmp)` →
+  "OS 임시 디렉토리 (Windows `%TEMP%`, Unix `/tmp`)" 로 platform 표현 명확화.
+
+**규칙 강화 (사용자 요청, v0.5.0/v0.5.1 운용 사고 반영):**
+
+- **`CLAUDE.md` C10.0** — AI 책임에 (d) 신설: "**codex 환경이 GitHub fetch 못 할
+  가능성을 디폴트로 가정**하고 신규/변경 파일 본문을 review-prompt 안에 inline
+  으로 (`### FILE: <path>` 헤더 구분) 함께 박는다". v0.5.0 세션에서 codex 클라우드
+  fetch 가 HTTP 403 / outbound 차단으로 실패해 리뷰가 blocked 됐던 사고 반영.
+  v0.5.1 에서 잠시 박았던 "inline + SendUserFile 동시 노출" 규칙은 사용자가 중복
+  거추장스럽다 거부 → C10.5 의 크기 분기 표로 교체.
+- **`CLAUDE.md` C10.5** 신설 — review-prompt 본문 전달 형태 강제 규칙. ≤ 30 KB
+  는 inline 코드블록 단독, > 30 KB 는 SendUserFile 단독. 4 가지 금지 형태
+  (동시 노출 / SendUserFile 단독 with 작은 본문 / 코드블록 분할 / 머신 경로
+  placeholder 노출) 를 v0.5.0/v0.5.1 운용 사고 사례와 함께 명시.
+- **`CLAUDE.md` C10.2 step 2** — inline 본문 박는 의무를 절차 본문에도 반복
+  명시. 전달 형태는 C10.5 위임.
+- **`CLAUDE.md` last_synced_with** v0.5.1 → v0.5.2.
+
+### Verification
+
+- `python -m py_compile` 통과 (수정된 worker / planner / tests).
+- `python -m unittest discover -s tests` = **148/148 통과** (직전 129 + 신규 19).
+  신규 19 분포: source entry full-fields 1 + duplicate 1 + mixed-False 1 +
+  long-payload 1 + preflight run-level 6 + identity invariant 5 + argv
+  helper 3 + planner unsafe item_id 5 = 22 추가 중 일부는 기존 ID 변경
+  (실제 +19).
+- 본 PATCH 의 코드 변경은 backward-compat — v0.5.0 의 contract 를 부수지 않음
+  (test_run_ok_persists_partial_and_record 등 기존 정상 경로 회귀 통과).
+
+### Migration / Compatibility
+
+- 코드: worker / planner 의 raise 조건이 더 엄격해졌으나 정상 입력은 영향 없음.
+  malicious / buggy upstream 만 빨리 fail.
+- 절차: 다음 MINOR/MAJOR commit 부터 C10.5 의 전달 형태 분기표 적용. 본 세션
+  컨텍스트 안의 AI 어시스턴트도 즉시 따른다 ("기억해" 사용자 명령 반영).
+
+---
+
 ## [v0.5.1] — 2026-05-22
 
 CLAUDE.md C10 외부 코드 리뷰 절차의 운영 패턴을 갱신. v0.5.0 세션에서 실 사용 중

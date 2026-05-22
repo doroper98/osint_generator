@@ -1,6 +1,6 @@
 <!--
 tier: 1
-last_synced_with: v0.5.1
+last_synced_with: v0.5.2
 ssot_for: [ai-assistant-rules, code-style, commit-conventions]
 depends_on: [GOAL.md, DOCS_GOVERNANCE.md]
 last_review: 2026-05-22
@@ -139,16 +139,33 @@ last_review: 2026-05-22
 
 | 역할 | 책임 |
 |---|---|
-| **AI 어시스턴트** | (a) 본 절차의 트리거 시점 (C10.1) 을 **스스로 인식** 한다. (b) 트리거 commit (MINOR/MAJOR) 을 만들고 `claude/...` 작업 브랜치에 **push 까지 완료** 한다 (codex 클라우드는 commit 된 브랜치를 fetch 하므로 push 가 선행되어야 한다). (c) push 직후 `review-prompt.txt` 본문을 **직접 작성** 하여 사용자에게 전달한다 — **SendUserFile 과 inline 코드블록 두 가지 형태를 동시에** (사용자가 SendUserFile 의 다운로드 위치를 못 찾을 때를 대비; 위반 사례 v0.4.x → v0.5.0 세션 참고). 사용자에게 템플릿 빈 칸을 메우게 시키지 않는다. (d) 사용자가 paste 해 준 codex 응답의 Critical/High/Medium 을 다음 PATCH (`vX.Y.(Z+1)` "외부 코드 리뷰 N차 반영") 로 흡수한다. |
-| **사용자** | (a) AI 가 전달한 `review-prompt.txt` 본문을 **codex 클라우드** (권장 — ChatGPT codex agent 등 GitHub repo + 브랜치를 자동 fetch 하는 방식) 또는 **로컬 `codex exec`** (폴백) 에 전달한다. (b) codex 응답 본문 (markdown 리뷰 본체) 을 AI 세션에 paste 한다. (c) false positive 합의 / 절차 자체에 대한 결정. |
+| **AI 어시스턴트** | (a) 본 절차의 트리거 시점 (C10.1) 을 **스스로 인식** 한다. (b) 트리거 commit (MINOR/MAJOR) 을 만들고 `claude/...` 작업 브랜치에 **push 까지 완료** 한다 (codex 환경이 fetch 가능한 경우 commit 된 SHA 를 본다 — push 가 선행되어야 한다). (c) push 직후 `review-prompt.txt` 본문을 **직접 작성** 하여 사용자에게 전달한다. **전달 형태 규칙은 C10.5** 를 따른다. **사용자에게 템플릿 빈 칸을 메우게 시키지 않는다.** (d) **codex 환경이 GitHub repo 를 fetch 못 할 가능성을 디폴트로 가정**하고, 신규/변경 파일 본문을 review-prompt 안에 inline 으로 (`### FILE: <path>` 헤더 구분) 함께 박는다 — Private repo + outbound 차단이 codex 클라우드의 흔한 디폴트 환경이며 v0.5.0 세션에서 실제로 fetch 가 막혀 리뷰가 blocked 된 사고가 있었다. fetch 가능 환경은 보너스 컨텍스트로 작동. (e) 사용자가 paste 해 준 codex 응답의 Critical/High/Medium 을 다음 PATCH (`vX.Y.(Z+1)` "외부 코드 리뷰 N차 반영") 로 흡수한다. |
+| **사용자** | (a) AI 가 전달한 `review-prompt.txt` 본문을 **codex 클라우드** (권장 — ChatGPT codex agent 등) 또는 **로컬 `codex exec`** (폴백) 에 전달한다. (b) codex 응답 본문 (markdown 리뷰 본체) 을 AI 세션에 paste 한다. (c) false positive 합의 / 절차 자체에 대한 결정. |
 
 **AI 어시스턴트는 본 절차를 임의로 생략하지 못한다.** 트리거 시점에 절차를 *안내만* 하고
 사용자의 명시적 요청을 기다리는 형태도 **위반** 으로 간주한다. 트리거 시점에 절차를 능동적으로
 시작하지 않은 채 후속 MINOR/MAJOR/Phase 완료 커밋을 만들면 그 커밋 자체가 규칙 위반이다.
 
-또한 review-prompt 본문을 SendUserFile **만** 으로 전달하고 inline 코드블록 동시 노출을
-누락하는 형태도 위반이다 (사용자가 다운로드 파일을 못 찾는 사고가 v0.5.0 세션에서 실제로
-발생). inline 노출이 길어 보여도 항상 동봉.
+### C10.5 review-prompt 본문 전달 형태 (강제 규칙, v0.5.2 박음)
+
+| 본문 크기 | 디폴트 전달 형태 | 비고 |
+|---|---|---|
+| **≤ 30 KB (대략 1000 줄 미만)** | **inline 코드블록 단독** | 사용자가 즉시 select-all → copy → paste. SendUserFile / 다운로드 금지. |
+| **> 30 KB** | **SendUserFile 단독** | inline 으로 한 응답에 박기 어려운 크기. 코드블록 분할 paste 도 사용자에게 답답함을 주므로 파일 1 회 전달이 더 단순. |
+
+**금지 형태**:
+
+- "**inline + SendUserFile 동시 노출**" — 중복 노이즈. v0.5.1 에서 잠시 박았던 규칙이지만
+  실제 세션에서 사용자가 "중복 거추장스럽다, 둘 중 하나만" 으로 거부 (v0.5.2 트리거).
+- "**SendUserFile 만** 전달하고 inline 노출 누락" (본문이 ≤ 30 KB 인 경우) — 사용자가
+  다운로드 위치 (Downloads 폴더 등) 를 못 찾아 워크플로우 stall 된 사고 (v0.5.0).
+- "**코드블록 분할** (Part 1/N, Part 2/N ...)" — 4 part 분할 paste 는 사용자 답답함 폭증.
+  분할이 필요할 만큼 크면 그냥 SendUserFile.
+- **사용자 머신 경로 placeholder** (`C:\path\to\osint_generator`) 를 그대로 노출 — 사용자가
+  실제 경로로 받아들이는 사고 (v0.5.0). 경로가 필요하면 사용자에게 묻거나 일반 변수명 사용.
+
+**사용자 명시 요청은 본 디폴트를 override**. "코드블록으로 줘" 라고 하면 본문이 크더라도
+일단 inline 시도, 응답 한도 초과 시 사과 후 SendUserFile 로 폴백 명시.
 
 ### C10.1 실행 의무 시점
 
@@ -168,8 +185,11 @@ last_review: 2026-05-22
 2. **(AI 어시스턴트 책임)** push 직후, `docs/REVIEW_PROMPT.md` §2 의 표준 프롬프트 템플릿의
    `Versions in scope` / `Key files` / `Review priorities` 세 절을 **모두 직접 채워서**
    완성된 `review-prompt.txt` 본문을 사용자에게 전달. 변경 SHA / 핵심 파일 / 우선순위는
-   AI 가 diff 와 컨텍스트로부터 추론한다. **전달 형태는 SendUserFile + inline 코드블록
-   두 가지 동시** (C10.0 위반 사례 방지). 사용자에게 "이 칸을 채우세요" 는 **금지**.
+   AI 가 diff 와 컨텍스트로부터 추론한다. **신규/변경 파일 본문을 review-prompt 안에
+   inline 으로 (`### FILE: <path>` 헤더 구분) 함께 박는다** — codex 환경이 GitHub fetch
+   못 할 가능성을 디폴트로 가정 (C10.0(d)). **전달 형태는 C10.5 의 크기 분기 표** 를
+   따른다 (≤ 30 KB inline 코드블록 단독 / > 30 KB SendUserFile 단독). 사용자에게 "이
+   칸을 채우세요" 는 **금지**.
 3. **(사용자 책임)** 본문을 codex 클라우드 (권장) 또는 로컬 `codex exec` (폴백) 에 전달.
    - codex 클라우드 패턴: 사용자가 GitHub repo + 브랜치명 (예: `claude/eager-ride-lfYXC`)
      을 codex 에 제시 + review-prompt 본문 paste. codex 가 commit 된 working tree
