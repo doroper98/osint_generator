@@ -1,9 +1,9 @@
 <!--
 tier: 2
-last_synced_with: v0.3.3
+last_synced_with: v0.6.0
 ssot_for: [phase-roadmap]
 depends_on: [../GOAL.md, ../CHANGELOG.md]
-last_review: 2026-05-19
+last_review: 2026-05-23
 -->
 
 # 13 — Implementation Roadmap
@@ -43,6 +43,10 @@ last_review: 2026-05-19
 
 - `source_registry.json`, `source_completeness_report.json`.
 - 완료 기준: 소스별 권리·신뢰도·위험도 기록, 부족 자료 식별.
+- **상태**: ✅ v0.6.0 — SourceCollectorWorker (v0.5.0) → partials, SourceRegistryBuilder
+  (v0.5.3/v0.5.4) → registry, source_registry_io (v0.5.5) → 영속화 wiring,
+  SourceCompletenessReport + checker (v0.6.0) → 부족 자료 식별. CLI
+  `build-source-registry` 가 두 산출물 생성 후 `source_completeness_review` 전이.
 
 ## Phase 6: Research / Script / Scene
 

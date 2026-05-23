@@ -34,6 +34,7 @@ from schemas.models import (
     ProjectManifest,
     ProjectState,
     SourceCollectionPartial,
+    SourceCompletenessReport,
     SourceEntry,
     SourceIntake,
     SourceRegistry,
@@ -487,20 +488,40 @@ class TestBuildSourceRegistryCLI(_IsolatedProjectsRoot):
         )
         rc = cli_main(["build-source-registry", "demo3"])
         self.assertEqual(rc, 0)
-        reg_path = self.projects_root / "demo3" / "02_sources" / "source_registry.json"
+        sources_dir = self.projects_root / "demo3" / "02_sources"
+        reg_path = sources_dir / "source_registry.json"
         self.assertTrue(reg_path.exists())
         reg = SourceRegistry.model_validate_json(reg_path.read_text(encoding="utf-8"))
         # 결정론적 순서: task_id asc (src_collect__a 먼저).
         self.assertEqual([s.source_id for s in reg.sources], ["s1", "s2"])
+        # completeness report 도 생성되고 상태가 게이트로 전이.
+        report_path = sources_dir / "source_completeness_report.json"
+        self.assertTrue(report_path.exists())
+        self.assertEqual(
+            self._load_manifest("demo3").current_state,
+            ProjectState.SOURCE_COMPLETENESS_REVIEW.value,
+        )
 
     def test_no_partials_yields_empty_registry(self) -> None:
         self._advance_to_source_collecting()
         rc = cli_main(["build-source-registry", "demo3"])
         self.assertEqual(rc, 0)
-        reg_path = self.projects_root / "demo3" / "02_sources" / "source_registry.json"
+        sources_dir = self.projects_root / "demo3" / "02_sources"
+        reg_path = sources_dir / "source_registry.json"
         self.assertTrue(reg_path.exists())
         reg = SourceRegistry.model_validate_json(reg_path.read_text(encoding="utf-8"))
         self.assertEqual(reg.sources, [])
+        # 자료 0개 → report.overall_status=insufficient 이지만, 게이트로 전이하여
+        # 사용자가 '보완 또는 진행' 을 판단하게 한다.
+        report = SourceCompletenessReport.model_validate_json(
+            (sources_dir / "source_completeness_report.json").read_text(encoding="utf-8")
+        )
+        self.assertEqual(report.overall_status, "insufficient")
+        self.assertEqual(report.blocker_count, 1)
+        self.assertEqual(
+            self._load_manifest("demo3").current_state,
+            ProjectState.SOURCE_COMPLETENESS_REVIEW.value,
+        )
 
     def test_rejected_outside_source_collecting(self) -> None:
         # created 상태에서 바로 호출 → exit 2 (precondition 위반).

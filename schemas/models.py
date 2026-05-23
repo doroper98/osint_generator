@@ -350,6 +350,76 @@ class SourceRegistry(VersionedModel):
 
 
 # ---------------------------------------------------------------------------
+# 7.5 SourceCompletenessReport (Phase 5, Review Gate 2 입력)
+# ---------------------------------------------------------------------------
+
+
+class CompletenessSeverity(str, Enum):
+    """source_completeness_report 이슈 심각도.
+
+    분류 정책 (v0.6.0, 사용자 확정): 사용 가능 자료가 0개일 때만 blocker.
+    권리 미확보 / 신뢰도 낮음 / 위험 플래그는 warning (게이트에서 사용자 판단),
+    rights_unknown 은 info (Review Gate 통과 시 사용 가능).
+    """
+
+    BLOCKER = "blocker"
+    WARNING = "warning"
+    INFO = "info"
+
+
+class CompletenessIssueType(str, Enum):
+    """부족 자료 식별 결과의 이슈 종류. docs/06_SOURCE_AND_RIGHTS_POLICY.md §2 와 동기화."""
+
+    NO_USABLE_SOURCES = "no_usable_sources"
+    RIGHTS_DO_NOT_USE = "rights_do_not_use"
+    RIGHTS_REVIEW_REQUIRED = "rights_review_required"
+    RIGHTS_UNKNOWN = "rights_unknown"
+    SOURCE_UNUSABLE = "source_unusable"
+    LOW_RELIABILITY = "low_reliability"
+    RISK_FLAG_PRESENT = "risk_flag_present"
+
+
+class CompletenessIssue(BaseModel):
+    """단일 부족/위험 항목. registry-level 이슈 (NO_USABLE_SOURCES) 는 source_id=None."""
+
+    model_config = ConfigDict(extra="forbid", use_enum_values=True)
+
+    issue_type: CompletenessIssueType
+    severity: CompletenessSeverity
+    source_id: Optional[str] = None
+    detail: str = ""
+    recommendation: str = ""
+
+
+class SourceCompletenessReport(VersionedModel):
+    """source_registry 의 '부족 자료 식별' 결과 (Phase 5).
+
+    docs/12_QA_AND_REVIEW_SPEC.md §1 의 `source_completeness_review` (Review Gate 2)
+    가 본 보고서를 검수하여 '부족 자료 보완' 또는 '계속 진행' 을 결정합니다.
+    Orchestrator 가 생성하며, 자료 자체의 SSOT 는 `source_registry.json` 입니다.
+
+    스키마 추가는 optional 모델 추가에 해당해 schema_version 1 유지 (C3).
+
+    overall_status
+    --------------
+    - `insufficient` : 사용 가능 자료 (rights_clear / manual_user_provided) 0개.
+    - `needs_attention` : 사용 가능 자료는 있으나 warning 이슈 존재.
+    - `ready` : 사용 가능 자료 있고 warning 없음.
+    """
+
+    project_id: str
+    generated_at: datetime = Field(default_factory=utc_now)
+    reliability_threshold: float = 0.5
+    total_sources: int = 0
+    usable_sources: int = 0
+    blocker_count: int = 0
+    warning_count: int = 0
+    info_count: int = 0
+    overall_status: Literal["ready", "needs_attention", "insufficient"] = "ready"
+    issues: list[CompletenessIssue] = Field(default_factory=list)
+
+
+# ---------------------------------------------------------------------------
 # 8. SceneManifest (Phase 6 핵심, 본 파일은 골격만)
 # ---------------------------------------------------------------------------
 

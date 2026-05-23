@@ -1,6 +1,6 @@
 <!--
 tier: 3
-last_synced_with: v0.5.5
+last_synced_with: v0.6.0
 ssot_for: [release-notes]
 depends_on: [README.md, GOAL.md]
 last_review: 2026-05-23
@@ -25,6 +25,43 @@ released 항목은 **append-only**입니다.
 
 ### Fixed
 -
+
+---
+
+## [v0.6.0] — 2026-05-23
+
+**Phase 5 완료** — Source Registry & Source Completeness Check. roadmap §42 의
+두 산출물 (`source_registry.json` + `source_completeness_report.json`) 이 모두
+생성되고, Review Gate 2 (`source_completeness_review`) 로 전이한다.
+
+### Added
+
+- **`schemas/models.py`** — `SourceCompletenessReport` (+ `CompletenessIssue`,
+  `CompletenessSeverity`, `CompletenessIssueType`). optional 모델 추가이므로
+  schema_version 1 유지 (C3). Review Gate 2 입력 산출물.
+- **`orchestrator/source_completeness_checker.py`** — 순수 함수
+  `check_source_completeness(registry, *, reliability_threshold=0.5)`. 부족 자료
+  식별:
+  - 사용 가능 (✅): `rights_clear` / `manual_user_provided` → usable_sources 집계.
+  - `do_not_use` / `review_required` / `download_failed` / `login_required` /
+    `private_or_deleted` → WARNING.
+  - `rights_unknown` → INFO (Review Gate 통과 시 사용 가능).
+  - `reliability_score < threshold` (strict `<`, 기본 0.5) → WARNING.
+  - `risk_flags` 존재 → WARNING (정책 §5).
+  - **사용 가능 자료 0개일 때만 BLOCKER** (`no_usable_sources`). overall_status
+    ∈ {ready, needs_attention, insufficient}.
+- **`orchestrator/source_registry_io.py`** — `persist_source_completeness_report`
+  + `source_completeness_report_path`.
+- **테스트** — `test_source_completeness_checker.py` (18) + io report round-trip
+  (1) + CLI 검증 강화. baseline 204 → 222.
+
+### Changed
+
+- **`orchestrator/main.py`** — `build-source-registry` 가 registry 영속화 후
+  completeness report 를 생성하고 `source_collecting → source_completeness_review`
+  로 전이. 두 산출물이 갖춰진 뒤에만 전진 (영속화 실패 시 전이 안 함).
+- **docs** — `05_DATA_SCHEMA_SPEC.md` 에 `SourceCompletenessReport` 요약 추가,
+  `13_IMPLEMENTATION_ROADMAP.md` Phase 5 ✅ 마킹.
 
 ---
 

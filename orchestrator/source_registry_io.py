@@ -29,12 +29,17 @@ from typing import Optional
 
 from orchestrator.config import AppConfig, load_config, project_dir
 from orchestrator.source_registry_builder import build_source_registry, partial_counter
-from schemas.models import SourceCollectionPartial, SourceRegistry
+from schemas.models import (
+    SourceCollectionPartial,
+    SourceCompletenessReport,
+    SourceRegistry,
+)
 
 
 SOURCES_DIRNAME = "02_sources"
 PARTIALS_DIRNAME = "partials"
 SOURCE_REGISTRY_FILENAME = "source_registry.json"
+SOURCE_COMPLETENESS_FILENAME = "source_completeness_report.json"
 
 
 # ---------------------------------------------------------------------------
@@ -50,6 +55,13 @@ def partials_dir(project_id: str, cfg: Optional[AppConfig] = None) -> Path:
 def source_registry_path(project_id: str, cfg: Optional[AppConfig] = None) -> Path:
     """`projects/{pid}/02_sources/source_registry.json` 경로."""
     return project_dir(project_id, cfg) / SOURCES_DIRNAME / SOURCE_REGISTRY_FILENAME
+
+
+def source_completeness_report_path(
+    project_id: str, cfg: Optional[AppConfig] = None
+) -> Path:
+    """`projects/{pid}/02_sources/source_completeness_report.json` 경로."""
+    return project_dir(project_id, cfg) / SOURCES_DIRNAME / SOURCE_COMPLETENESS_FILENAME
 
 
 # ---------------------------------------------------------------------------
@@ -144,6 +156,22 @@ def persist_source_registry(
     return path
 
 
+def persist_source_completeness_report(
+    project_id: str, report: SourceCompletenessReport, cfg: Optional[AppConfig] = None
+) -> Path:
+    """`SourceCompletenessReport` 를 `source_completeness_report.json` 으로 atomic 영속화.
+
+    returns
+    -------
+    Path
+        쓰여진 파일 경로.
+    """
+    cfg = cfg or load_config()
+    path = source_completeness_report_path(project_id, cfg)
+    _atomic_write_text(path, report.model_dump_json(indent=2))
+    return path
+
+
 def build_and_persist_source_registry(
     project_id: str,
     *,
@@ -184,7 +212,9 @@ def build_and_persist_source_registry(
 __all__ = [
     "partials_dir",
     "source_registry_path",
+    "source_completeness_report_path",
     "load_partials",
     "persist_source_registry",
+    "persist_source_completeness_report",
     "build_and_persist_source_registry",
 ]

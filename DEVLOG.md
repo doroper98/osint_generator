@@ -1,6 +1,6 @@
 <!--
 tier: 3
-last_synced_with: v0.5.5
+last_synced_with: v0.6.0
 ssot_for: [development-log]
 depends_on: [CHANGELOG.md]
 last_review: 2026-05-23
@@ -24,6 +24,26 @@ last_review: 2026-05-23
 ```
 
 ---
+
+## 2026-05-23 v0.6.0 — Phase 5 완료 (SourceCompletenessReport + checker)
+
+- **무엇을**: `SourceCompletenessReport` 모델 + `source_completeness_checker`
+  (순수 함수) + CLI 와이어링. `build-source-registry` 가 registry + completeness
+  report 2 산출물을 만들고 Review Gate 2 (`source_completeness_review`) 로 전이.
+- **왜**: roadmap §42 의 Phase 5 완료 기준 = `source_registry.json` +
+  `source_completeness_report.json` 2 산출물 ("소스별 권리·신뢰도·위험도 기록,
+  부족 자료 식별"). registry 만으로는 "부족 자료 식별" 이 빠졌다.
+- **어떻게**: checker 도 builder 처럼 순수 함수 (디스크 I/O 없음, 영속화는 io
+  모듈). 판정 기준은 docs/06 §2 의 권리 표에 근거 — 사용 가능 (rights_clear /
+  manual_user_provided) 집계, 그 외는 warning/info. **severity 정책은
+  AskUserQuestion 으로 사용자 확정**: (1) reliability 임계 기본 0.5 (strict `<`,
+  기본값 0.5 자체는 통과), (2) **사용 가능 자료 0개일 때만 blocker** — 권리
+  미확보/위험은 warning 으로 두고 Review Gate 2 에서 사용자가 '보완 또는 진행'
+  판단. overall_status ∈ {ready, needs_attention, insufficient}.
+- **결과**: 테스트 204 → 222 (checker 18 + io 1 + CLI 강화). 전부 통과.
+  Phase 5 완료 marker (MINOR). C3 준수 (optional 모델 추가, schema_version 1 유지).
+- **연관**: Phase 5 완료. C7 동기화 (05_DATA_SCHEMA_SPEC, 13_ROADMAP).
+  C10.1 — MINOR + Phase 완료 → push 직후 codex 외부 리뷰 **필수** (트리거).
 
 ## 2026-05-23 v0.5.5 — Phase 5 셋째 PATCH (source_registry.json 영속화 wiring)
 

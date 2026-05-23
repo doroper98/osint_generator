@@ -1,9 +1,9 @@
 <!--
 tier: 2
-last_synced_with: v0.3.3
+last_synced_with: v0.6.0
 ssot_for: [json-contracts-overview]
 depends_on: [../schemas/models.py]
-last_review: 2026-05-19
+last_review: 2026-05-23
 -->
 
 # 05 — Data Schema Spec
@@ -119,6 +119,32 @@ last_review: 2026-05-19
 | asset_refs | list[str] | 생성한 asset_id |
 | qa_status | enum | pass / warn / fail / pending |
 | risk_flags | list[str] | `graphic_content`, `youtube_age_restriction_risk` 등 |
+
+### 3.4b `SourceCompletenessReport` (Review Gate 2 입력)
+
+`source_completeness_report.json` — Orchestrator 가 `source_registry.json` 으로부터
+'부족 자료' 를 식별한 결과. Review Gate 2 (`source_completeness_review`) 입력.
+
+| 필드 | 타입 | 설명 |
+|---|---|---|
+| schema_version | int | 1 |
+| project_id | str | registry 와 동일 |
+| generated_at | datetime | UTC |
+| reliability_threshold | float | `reliability_score <` 비교 임계 (기본 0.5) |
+| total_sources | int | registry 의 전체 소스 수 |
+| usable_sources | int | `rights_clear` / `manual_user_provided` 수 (정책 §2 ✅) |
+| blocker_count / warning_count / info_count | int | severity 별 이슈 수 |
+| overall_status | enum | `ready` / `needs_attention` / `insufficient` |
+| issues | list[`CompletenessIssue`] | 이슈 목록 |
+
+`CompletenessIssue`: `issue_type` (no_usable_sources / rights_do_not_use /
+rights_review_required / rights_unknown / source_unusable / low_reliability /
+risk_flag_present), `severity` (blocker / warning / info), `source_id`
+(registry-level 이슈는 null), `detail`, `recommendation`.
+
+**severity 정책**: 사용 가능 자료가 0개일 때만 `blocker` (`no_usable_sources`).
+권리 미확보·신뢰도 낮음·위험 플래그는 `warning`, `rights_unknown` 은 `info`.
+부족 여부의 최종 판단은 Review Gate 2 에서 사용자가 수행 (`docs/06` §2 근거).
 
 ### 3.5 `SceneManifest` Provenance
 

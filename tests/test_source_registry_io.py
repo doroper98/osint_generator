@@ -27,11 +27,14 @@ from orchestrator.source_registry_io import (
     build_and_persist_source_registry,
     load_partials,
     partials_dir,
+    persist_source_completeness_report,
     persist_source_registry,
+    source_completeness_report_path,
     source_registry_path,
 )
 from schemas.models import (
     SourceCollectionPartial,
+    SourceCompletenessReport,
     SourceEntry,
     SourceRegistry,
 )
@@ -143,6 +146,22 @@ class PersistTests(_TmpProjects):
         path = persist_source_registry("proj_001", reg, self.cfg)
         tmp = path.with_suffix(path.suffix + ".tmp")
         self.assertFalse(tmp.exists())
+
+    def test_persist_completeness_report_round_trip(self):
+        report = SourceCompletenessReport(
+            project_id="proj_001",
+            total_sources=1,
+            usable_sources=1,
+            overall_status="ready",
+        )
+        path = persist_source_completeness_report("proj_001", report, self.cfg)
+        self.assertEqual(path, source_completeness_report_path("proj_001", self.cfg))
+        self.assertTrue(path.exists())
+        reloaded = SourceCompletenessReport.model_validate_json(
+            path.read_text(encoding="utf-8")
+        )
+        self.assertEqual(reloaded.project_id, "proj_001")
+        self.assertEqual(reloaded.overall_status, "ready")
 
 
 class BuildAndPersistTests(_TmpProjects):

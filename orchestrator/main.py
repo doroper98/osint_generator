@@ -9,7 +9,8 @@
 - plan-intake {pid} [--backend claude|codex]: IntakePlannerWorker 호출 + 인테이크 상태 전이
 - submit-intake {pid} --file path/to/source_intake.json
                                             : SourceIntake 영속화 + source_collecting 전이
-- build-source-registry {pid}               : partials 합쳐 source_registry.json 생성 (Phase 5)
+- build-source-registry {pid}               : partials → source_registry.json +
+                                              source_completeness_report.json + 전이 (Phase 5)
 - approve --project {pid} --gate ...        : Review Gate 승인 기록 (Phase 11)
 - version                                   : 현재 버전 출력
 """
@@ -106,7 +107,10 @@ def build_parser() -> argparse.ArgumentParser:
 
     bsr = sub.add_parser(
         "build-source-registry",
-        help="02_sources/partials/*.json 을 합쳐 source_registry.json 생성 (Phase 5)",
+        help=(
+            "partials 합쳐 source_registry.json + source_completeness_report.json "
+            "생성 후 source_completeness_review 전이 (Phase 5)"
+        ),
     )
     bsr.add_argument("project_id", help="project_id")
     bsr.add_argument(
@@ -424,20 +428,26 @@ def _cmd_submit_intake(args: argparse.Namespace) -> int:
 
 
 def _cmd_build_source_registry(args: argparse.Namespace) -> int:
-    """build-source-registry: partials 합쳐 source_registry.json 영속화 (Phase 5).
+    """build-source-registry: partials → source_registry.json + completeness report + 전이.
 
-    흐름:
+    Phase 5 완료 게이트 (Review Gate 2, `source_completeness_review`) 의 두 입력을
+    한 번에 만든다:
     1. project_id 정책 검증 (C1 path traversal 가드).
     2. manifest 로딩 + state precondition (source_collecting 에서만 허용).
     3. build_and_persist_source_registry — partials 로딩 → builder → 영속화.
+    4. check_source_completeness — 부족 자료 식별 → source_completeness_report.json.
+    5. source_collecting → source_completeness_review 전이.
 
-    builder 는 순수 함수 (디스크 I/O 없음). 로딩·쓰기는 source_registry_io 가
-    담당하며 본 CLI 는 그 thin orchestration 을 호출. 상태 전이는 source
-    completeness report 가 함께 생성되는 후속 단계 (Phase 5 완료) 에서 처리하므로
-    본 단계에서는 registry 영속화까지만 수행.
+    builder / checker 는 순수 함수 (디스크 I/O 없음). 로딩·쓰기는 source_registry_io
+    가 담당하며 본 CLI 는 thin orchestration. registry/report 영속화 실패 시 전이
+    하지 않는다 (게이트 입력이 갖춰진 뒤에만 전진).
     """
     from orchestrator.project_manager import validate_project_id
-    from orchestrator.source_registry_io import build_and_persist_source_registry
+    from orchestrator.source_completeness_checker import check_source_completeness
+    from orchestrator.source_registry_io import (
+        build_and_persist_source_registry,
+        persist_source_completeness_report,
+    )
 
     try:
         validate_project_id(args.project_id)
@@ -473,13 +483,37 @@ def _cmd_build_source_registry(args: argparse.Namespace) -> int:
         print(f"error: source_registry 빌드 실패 — {e}", file=sys.stderr)
         return 1
 
-    out_path = manifest_sources_path(args.project_id) / "source_registry.json"
+    report = check_source_completeness(registry)
+    try:
+        persist_source_completeness_report(args.project_id, report)
+    except OSError as e:
+        print(f"error: source_completeness_report 영속화 실패 — {e}", file=sys.stderr)
+        return 1
+
+    try:
+        manifest = transition_state(
+            resume_project(args.project_id),
+            ProjectState.SOURCE_COMPLETENESS_REVIEW,
+            reason="source_registry + completeness report 생성",
+        )
+    except ValueError as e:
+        print(f"warning: 상태 전이 실패 — {e}", file=sys.stderr)
+        return 2
+
+    sources_dir = manifest_sources_path(args.project_id)
     print(f"build-source-registry 완료: {args.project_id}")
-    print(f"saved   : {out_path}")
+    print(f"saved   : {sources_dir / 'source_registry.json'}")
+    print(f"report  : {sources_dir / 'source_completeness_report.json'}")
     print(
         f"stats   : partials={stats['partial_count']} "
         f"(empty={stats['empty_partial_count']}) sources={stats['source_count']}"
     )
+    print(
+        f"report  : status={report.overall_status} usable={report.usable_sources}/"
+        f"{report.total_sources} blocker={report.blocker_count} "
+        f"warning={report.warning_count} info={report.info_count}"
+    )
+    _print_manifest_summary(manifest)
     return 0
 
 
