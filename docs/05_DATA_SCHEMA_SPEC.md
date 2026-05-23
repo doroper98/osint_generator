@@ -1,6 +1,6 @@
 <!--
 tier: 2
-last_synced_with: v0.7.2
+last_synced_with: v0.8.0
 ssot_for: [json-contracts-overview]
 depends_on: [../schemas/models.py]
 last_review: 2026-05-23
@@ -148,6 +148,38 @@ risk_flag_present / rights_status_unknown_value), `severity` (blocker / warning
 **severity 정책**: 사용 가능 자료가 0개일 때만 `blocker` (`no_usable_sources`).
 권리 미확보·신뢰도 낮음·위험 플래그는 `warning`, `rights_unknown` 은 `info`.
 부족 여부의 최종 판단은 Review Gate 2 에서 사용자가 수행 (`docs/06` §2 근거).
+
+### 3.4c `ResearchDossier` (Phase 6A, Research Agent 산출)
+
+`research_dossier.json` — `ResearchWorker` 가 `source_registry.json` (사용 가능 소스)
+와 `ProjectManifest.initial_links` (리서치 시드) 로부터 영상 서사의 주장-근거 페어를
+정리한 결과. docs/12 §3 의 qa_evidence_report (6B) 와 docs/13 의 6C Blueprint 입력.
+
+| 필드 | 타입 | 설명 |
+|---|---|---|
+| schema_version | int | 1 |
+| project_id | str | manifest 와 동일 |
+| generated_at | datetime | UTC |
+| topic | str | 영상 1줄 주제 |
+| summary | str | 리서치 총평 (핵심 발견·미확인 영역) |
+| seeds | list[`ResearchSeed`] | initial_links 유래 = 2차/파생 분석 (사실 앵커 아님) |
+| claims | list[`ResearchClaim`] | 주장-근거 페어 |
+| open_questions | list[str] | 추가 1차 확인 필요 질문 |
+
+`ResearchSeed`: `seed_id`, `url`, `description`, `is_derivative`(기본 True),
+`requires_verification`(기본 True). 사용자 사전 제공 리포트는 파생 분석이므로 1차
+출처로 별도 교차검증 필요.
+
+`ResearchClaim`: `claim_id`, `statement`, `status` (`ResearchClaimStatus`:
+confirmed / inferred / claim / unverified / disputed), `evidence`
+(list[`Evidence`]), `cross_checked`, `confidence` (low/medium/high), `notes`,
+`risk_flags`. `display_label` 은 status 에서 파생되는 읽기 전용 속성
+(`<확인>`/`<추론>`/`<주장>`/`<미검증>`/`<반박됨>`, `CLAIM_STATUS_LABELS` 매핑) —
+status 가 SSOT 이며 라벨은 직렬화되지 않음.
+
+`Evidence`: `source_id` (registry 1차 자료 인용) / `seed_id` (파생 시드 인용) 중
+하나 이상, `quote`, `locator`, `stance` (supports/refutes/contextual). registry
+source_id 존재 여부의 cross-check 는 6B Evidence Guard 책임 (본 스키마엔 validator 없음).
 
 ### 3.5 `SceneManifest` Provenance
 

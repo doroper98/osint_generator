@@ -1,6 +1,6 @@
 <!--
 tier: 3
-last_synced_with: v0.7.3
+last_synced_with: v0.8.0
 ssot_for: [development-log]
 depends_on: [CHANGELOG.md]
 last_review: 2026-05-23
@@ -22,6 +22,26 @@ last_review: 2026-05-23
 - 결과:  …
 - 연관:  AP-번호, 이슈, PR 번호 등
 ```
+
+---
+
+## 2026-05-23 v0.8.0 — Phase 6A Research 구현
+
+- **무엇을**: `ResearchWorker`(BaseLLMWorker) + `ResearchDossier` 모델 + `research_io`
+  + `research_service` + `build-research-dossier` CLI + 단위테스트. source_registry +
+  manifest.initial_links → 주장-근거 페어 dossier. state `source_completeness_review →
+  research_in_progress`.
+- **왜**: Phase 6A. Research 단계는 영상 서사의 사실 토대를 만든다. 사용자가 사전 제공한
+  분석 리포트(initial_links)는 자체 생성 2차 분석이라 사실 앵커가 아니므로, 시드로만
+  다루고 1차 출처 별도 검증을 강제할 구조가 필요했다.
+- **어떻게**: Phase 5 패턴 답습 — 모델(schemas) → worker(.replace() 프롬프트, 질문 금지)
+  → io 경계(atomic write/load) → thin CLI(precondition→worker→영속화 검증 게이트→전이).
+  claim `status`(ResearchClaimStatus)가 SSOT 이고 영상 라벨(`<미검증>` 등)은
+  `CLAIM_STATUS_LABELS` 로 파생(이중출처 방지). `Evidence` 는 source_id(1차)/seed_id(파생)
+  둘 다 인용 가능, registry 존재 cross-check 는 6B Evidence Guard 로 미룸(additive 유지).
+- **결과**: 242 테스트 통과(6 신규). py_compile + import smoke OK. VERSION 0.7.3 → 0.8.0.
+  MINOR push 후 codex 외부 리뷰(C10.1) 대상 — 결과는 다음 PATCH v0.8.1 로 흡수.
+- **연관**: docs/13 6A, docs/05 §3.4c, docs/03 Research Agent 행, docs/12 §3.
 
 ---
 

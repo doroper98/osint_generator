@@ -1,9 +1,9 @@
 <!--
 tier: 2
-last_synced_with: v0.3.3
+last_synced_with: v0.8.0
 ssot_for: [agent-catalog, worker-catalog]
 depends_on: [02_SYSTEM_ARCHITECTURE.md]
-last_review: 2026-05-19
+last_review: 2026-05-23
 -->
 
 # 03 — Agent & Worker Architecture
@@ -25,7 +25,7 @@ last_review: 2026-05-19
 |---|---|---|---|---|---|
 | Dynamic Intake Planner | `workers/intake_planner_worker.py` (BaseLLMWorker) | project_manifest.json (title/category/duration/summary) | `01_intake/intake_plan.json` | ✅ | 3 |
 | Source Registry Builder | `agents/source_registry_builder.py` | source_intake + task results | `source_registry.json` | ❌ | 5 |
-| Research Agent | `agents/research_agent.py` | source_registry | `research_dossier.json` | ✅ | 6 |
+| Research Agent | `workers/research_worker.py` (BaseLLMWorker) | source_registry + manifest.initial_links | `04_research/research_dossier.json` | ✅ | 6A |
 | Evidence Guard | `agents/evidence_guard.py` | research_dossier | `qa_evidence_report.json` | ✅ | 6 |
 | Script Agent | `agents/script_agent.py` | research_dossier + blueprint | `full_script.json` | ✅ | 6 |
 | Scene Planner | `agents/scene_planner.py` | full_script + asset_manifest | `scene_manifest.json` | ✅ | 6 |

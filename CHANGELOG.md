@@ -1,6 +1,6 @@
 <!--
 tier: 3
-last_synced_with: v0.7.3
+last_synced_with: v0.8.0
 ssot_for: [release-notes]
 depends_on: [README.md, GOAL.md]
 last_review: 2026-05-23
@@ -25,6 +25,37 @@ released 항목은 **append-only**입니다.
 
 ### Fixed
 -
+
+---
+
+## [v0.8.0] — 2026-05-23
+
+**Phase 6A Research 구현**. source_registry + manifest.initial_links 를 입력으로
+영상 서사의 주장-근거 페어(`ResearchDossier`)를 생성하는 ResearchWorker 와
+`build-research-dossier` CLI 를 추가. Phase 5 패턴(모델→worker→io→thin CLI→전이)을
+답습. 사용자 사전 제공 리포트(initial_links)는 2차/파생 시드로 다루고 1차 출처 별도
+검증을 프롬프트·스키마에 강제. state `source_completeness_review → research_in_progress`.
+
+### Added
+
+- **`schemas/models.py`** — `ResearchDossier` (+ `ResearchSeed` / `ResearchClaim` /
+  `Evidence` / `ResearchClaimStatus` enum / `CLAIM_STATUS_LABELS` 매핑). schema_version 1
+  유지 (additive). claim 의 검증 상태가 SSOT 이고 영상 라벨(`<미검증>` 등)은 파생.
+- **`workers/research_worker.py`** — `ResearchWorker` (BaseLLMWorker, response 모드).
+  build_user_prompt 는 `.replace()` 로 source_registry + 시드 합성, 사용자 질문 없이
+  open_questions/notes 로만 신호 (C4).
+- **`orchestrator/research_io.py`** — `04_research/research_dossier.json` atomic 영속화·
+  로딩·경로 SSOT (source_registry_io 패턴).
+- **`orchestrator/research_service.py`** — `run_research_worker` thin orchestration
+  (precondition → worker → 영속화 검증 게이트 → 전이). idempotent (유효 dossier 시 skip).
+- **`orchestrator/main.py`** — `build-research-dossier {pid} [--backend] [--force]` CLI.
+- **`tests/test_research_flow.py`** — happy path / stub 검증 실패 / state precondition /
+  영속화·idempotency / 워커 프롬프트 회귀.
+
+### Docs
+
+- **`docs/05`** §3.4c (ResearchDossier), **`docs/03`** (Research Agent 행 → workers/),
+  **`docs/12`** §3 (claim 라벨 매핑), **`docs/13`** (6A ✅ 표기) 동기화.
 
 ---
 

@@ -1,9 +1,9 @@
 <!--
 tier: 2
-last_synced_with: v0.3.3
+last_synced_with: v0.8.0
 ssot_for: [review-gates, qa-policy]
 depends_on: [05_DATA_SCHEMA_SPEC.md, ../GOAL.md]
-last_review: 2026-05-19
+last_review: 2026-05-23
 -->
 
 # 12 — QA & Review Spec
@@ -50,6 +50,12 @@ last_review: 2026-05-19
 | `evidence_source_ids` | 근거 소스 |
 | `cross_check` | 다른 출처 일치 여부 |
 | `confidence` | low / medium / high |
+
+`claim_type` 의 근거가 되는 검증 상태는 6A `ResearchDossier` 의
+`ResearchClaim.status` (`ResearchClaimStatus`: confirmed / inferred / claim /
+unverified / disputed) 에서 출발한다. 영상 내 라벨(`<확인>`/`<추론>`/`<주장>`/
+`<미검증>`/`<반박됨>`)은 `CLAIM_STATUS_LABELS` 매핑으로 status 에서 파생된다
+(docs/05 §3.4c).
 
 ## 4. 라벨 시각화
 

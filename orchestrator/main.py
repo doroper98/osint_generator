@@ -11,6 +11,8 @@
                                             : SourceIntake 영속화 + source_collecting 전이
 - build-source-registry {pid}               : partials → source_registry.json +
                                               source_completeness_report.json + 전이 (Phase 5)
+- build-research-dossier {pid} [--backend]  : ResearchWorker 호출 → research_dossier.json
+                                              + research_in_progress 전이 (Phase 6A)
 - approve --project {pid} --gate ...        : Review Gate 승인 기록 (Phase 11)
 - version                                   : 현재 버전 출력
 """
@@ -130,6 +132,30 @@ def build_parser() -> argparse.ArgumentParser:
         ),
     )
 
+    brd = sub.add_parser(
+        "build-research-dossier",
+        help=(
+            "ResearchWorker 호출 → research_dossier.json 생성 후 "
+            "research_in_progress 전이 (Phase 6A)"
+        ),
+    )
+    brd.add_argument("project_id", help="project_id")
+    brd.add_argument(
+        "--backend",
+        choices=["claude", "codex"],
+        default="claude",
+        help="LLM backend (기본: claude)",
+    )
+    brd.add_argument(
+        "--force",
+        action="store_true",
+        help=(
+            "이미 유효한 research_dossier.json 이 있어도 worker 를 재실행. "
+            "기본 동작은 idempotent — 유효한 dossier 가 있으면 재실행을 건너뛰고 "
+            "research_in_progress 로 전이만 진행."
+        ),
+    )
+
     apv = sub.add_parser("approve", help="Review Gate 승인 기록 (Phase 11)")
     apv.add_argument("--project", required=True)
     apv.add_argument("--gate", required=True)
@@ -217,6 +243,9 @@ def main(argv: list[str] | None = None) -> int:
 
     if args.cmd == "build-source-registry":
         return _cmd_build_source_registry(args)
+
+    if args.cmd == "build-research-dossier":
+        return _cmd_build_research_dossier(args)
 
     if args.cmd == "approve":
         print("approve: Phase 11 에서 구현 예정입니다.")
@@ -444,6 +473,57 @@ def _cmd_build_source_registry(args: argparse.Namespace) -> int:
         f"{report.total_sources} blocker={report.blocker_count} "
         f"warning={report.warning_count} info={report.info_count}"
     )
+    _print_manifest_summary(manifest)
+    return 0
+
+
+def _cmd_build_research_dossier(args: argparse.Namespace) -> int:
+    """build-research-dossier: ResearchWorker 1회 호출 + 상태 전이 (Phase 6A).
+
+    오케스트레이션 로직은 `orchestrator.research_service.run_research_worker` 에 있으며,
+    본 핸들러는 thin wrapper — 입력 검증과 사용자 출력/exit code 매핑만 담당한다.
+
+    - precondition: source_completeness_review 상태에서만 실행 (Review Gate 2 통과 후).
+    - idempotency: 유효한 기존 research_dossier.json 이 있고 `--force` 미지정이면 worker
+      재실행을 건너뛰고 전이만 진행 (재실행은 LLM 호출 비용).
+    - worker 실패 / 영속화 검증 실패 시 source_completeness_review 에서 멈춤.
+    """
+    from orchestrator.project_manager import validate_project_id
+    from orchestrator.research_service import ResearchError, run_research_worker
+
+    try:
+        validate_project_id(args.project_id)
+    except ValueError as e:
+        print(f"error: {e}", file=sys.stderr)
+        return 1
+
+    try:
+        manifest, outputs_summary, skipped = run_research_worker(
+            args.project_id, backend=args.backend, force=args.force
+        )
+    except FileNotFoundError as e:
+        print(f"error: {e}", file=sys.stderr)
+        return 1
+    except ResearchError as e:
+        if e.kind == "state":
+            print(f"error: {e}", file=sys.stderr)
+            return 2
+        print(f"build-research-dossier 실패: {e} errors={e.errors}", file=sys.stderr)
+        return 1
+    except ValueError as e:
+        print(f"warning: 상태 전이 실패 — {e}", file=sys.stderr)
+        return 2
+
+    if skipped:
+        print(
+            "build-research-dossier: 기존 research_dossier.json 재사용 — "
+            "worker 건너뜀 (재실행 원하면 --force)."
+        )
+    print(
+        f"build-research-dossier 완료: {args.project_id} "
+        f"(backend={args.backend}, skipped={skipped})"
+    )
+    print(f"outputs : {outputs_summary}")
     _print_manifest_summary(manifest)
     return 0
 

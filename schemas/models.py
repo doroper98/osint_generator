@@ -427,6 +427,114 @@ class SourceCompletenessReport(VersionedModel):
 
 
 # ---------------------------------------------------------------------------
+# 7.6 ResearchDossier (Phase 6A, Research Agent 산출)
+# ---------------------------------------------------------------------------
+
+
+class ResearchClaimStatus(str, Enum):
+    """주장의 검증 상태. 영상 내 라벨의 근거가 된다.
+
+    docs/12_QA_AND_REVIEW_SPEC.md §3 의 claim_type 과 docs/06_SOURCE_AND_RIGHTS_POLICY.md
+    §6 의 라벨(<미검증>/<추론>/<주장>)을 통합한다. 라벨 문자열은 CLAIM_STATUS_LABELS
+    에서 파생되며 status 가 SSOT (이중 출처 방지).
+    """
+
+    CONFIRMED = "confirmed"      # <확인> — 2개 이상 독립 출처로 교차검증된 사실.
+    INFERRED = "inferred"        # <추론> — 자료에서 합리적으로 도출했으나 직접 진술 아님.
+    CLAIM = "claim"              # <주장> — 특정 출처가 주장하나 교차검증 안 됨.
+    UNVERIFIED = "unverified"    # <미검증> — 확인 불가/근거 부족.
+    DISPUTED = "disputed"        # <반박됨> — 다른 출처가 반박.
+
+
+# status → 영상 내 표기 라벨. docs/06 §6 / docs/12 §4 의 라벨 시스템과 동기화.
+CLAIM_STATUS_LABELS: dict[str, str] = {
+    ResearchClaimStatus.CONFIRMED.value: "<확인>",
+    ResearchClaimStatus.INFERRED.value: "<추론>",
+    ResearchClaimStatus.CLAIM.value: "<주장>",
+    ResearchClaimStatus.UNVERIFIED.value: "<미검증>",
+    ResearchClaimStatus.DISPUTED.value: "<반박됨>",
+}
+
+
+class ResearchSeed(BaseModel):
+    """ProjectManifest.initial_links 유래의 리서치 시드.
+
+    사용자가 사전 제공한 자료(자체 생성 OSINT 분석 리포트 등)는 2차/파생 분석이므로
+    사실 앵커가 아니라 리서치 시드로 다룬다 (docs/13 Phase 6 분해 노트). 여기서 추출한
+    주장은 1차 출처로 별도 교차검증이 필요함을 구조에 박는다.
+    """
+
+    model_config = ConfigDict(extra="forbid", use_enum_values=True)
+
+    seed_id: str
+    url: str
+    description: str = ""
+    # 기본 True — 사용자 사전 제공 리포트는 파생 분석으로 가정. 1차 자료면 False.
+    is_derivative: bool = True
+    requires_verification: bool = True
+
+
+class Evidence(BaseModel):
+    """주장(ResearchClaim)의 근거 1건.
+
+    source_id (source_registry.json 의 1차 자료) 또는 seed_id (파생 시드) 중 하나 이상을
+    가리킨다. registry source_id 존재 여부의 cross-check 는 6B Evidence Guard 의 책임이므로
+    본 모델에는 validator 를 두지 않는다 (additive 유지).
+    """
+
+    model_config = ConfigDict(extra="forbid", use_enum_values=True)
+
+    source_id: Optional[str] = None
+    seed_id: Optional[str] = None
+    quote: str = ""
+    locator: Optional[str] = None
+    stance: Literal["supports", "refutes", "contextual"] = "supports"
+
+
+class ResearchClaim(BaseModel):
+    """주장-근거 페어. 영상 서사의 사실 단위.
+
+    display_label 은 status 에서 파생되는 읽기 전용 속성으로, 직렬화되지 않는다.
+    """
+
+    model_config = ConfigDict(extra="forbid", use_enum_values=True)
+
+    claim_id: str
+    statement: str
+    status: ResearchClaimStatus = ResearchClaimStatus.UNVERIFIED
+    evidence: list[Evidence] = Field(default_factory=list)
+    cross_checked: bool = False
+    confidence: Literal["low", "medium", "high"] = "low"
+    notes: str = ""
+    risk_flags: list[str] = Field(default_factory=list)
+
+    @property
+    def display_label(self) -> str:
+        """영상 내 표기 라벨 (<확인>/<추론>/<주장>/<미검증>/<반박됨>)."""
+        status_value = self.status if isinstance(self.status, str) else self.status.value
+        return CLAIM_STATUS_LABELS.get(status_value, "<미검증>")
+
+
+class ResearchDossier(VersionedModel):
+    """Research Agent (ResearchWorker, Phase 6A) 산출.
+
+    `source_registry.json` (사용 가능 소스) + `ProjectManifest.initial_links` (리서치 시드)
+    를 입력으로, 영상 서사의 토대가 될 주장-근거 페어를 정리한다. docs/12 §3 의
+    qa_evidence_report (6B) 와 docs/13 의 6C Blueprint 의 입력이 된다.
+
+    스키마 추가는 optional 모델 추가에 해당해 schema_version 1 유지 (C3).
+    """
+
+    project_id: str
+    generated_at: datetime = Field(default_factory=utc_now)
+    topic: str = ""
+    summary: str = ""
+    seeds: list[ResearchSeed] = Field(default_factory=list)
+    claims: list[ResearchClaim] = Field(default_factory=list)
+    open_questions: list[str] = Field(default_factory=list)
+
+
+# ---------------------------------------------------------------------------
 # 8. SceneManifest (Phase 6 핵심, 본 파일은 골격만)
 # ---------------------------------------------------------------------------
 

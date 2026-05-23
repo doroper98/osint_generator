@@ -1,6 +1,6 @@
 <!--
 tier: 2
-last_synced_with: v0.7.3
+last_synced_with: v0.8.0
 ssot_for: [phase-roadmap]
 depends_on: [../GOAL.md, ../CHANGELOG.md]
 last_review: 2026-05-23
@@ -63,7 +63,7 @@ docs/03 §2 의 Agent 들은 모두 `BaseLLMWorker` 기반 Worker 로 구현된�
 
 | 서브스텝 | 산출물 (신규 모델) | 워커 | 입력 | state / Gate | 증분 |
 |---|---|---|---|---|---|
-| **6A Research** | `research_dossier.json` (`ResearchDossier`) | `ResearchWorker` | `source_registry.json` + `manifest.initial_links` | `research_in_progress` | MINOR |
+| **6A Research** ✅ v0.8.0 | `research_dossier.json` (`ResearchDossier`) | `ResearchWorker` | `source_registry.json` + `manifest.initial_links` | `research_in_progress` | MINOR |
 | **6B Evidence Guard** | `qa_evidence_report.json` (`QaEvidenceReport`) | `EvidenceGuardWorker` | `research_dossier` | (research 내 QA, docs/12 §3) | MINOR |
 | **6C Blueprint** | `argument_map.json` (`ArgumentMap`) + `episode_blueprint.json` (`EpisodeBlueprint`) | `BlueprintWorker` | `research_dossier` (+evidence) | → `blueprint_review` (**Gate 3**) | MINOR |
 | **6D Script** | `full_script.json` (`FullScript`/`ScriptSegment`) | `ScriptWorker` | `research_dossier` + `episode_blueprint` | `script_writing → script_review` (**Gate 4**) | MINOR |
