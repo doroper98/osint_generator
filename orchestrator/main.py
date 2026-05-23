@@ -201,6 +201,15 @@ def build_parser() -> argparse.ArgumentParser:
         action="store_true",
         help="render_props.json 만 생성하고 Remotion 렌더는 건너뜀 (node 미설치 환경용).",
     )
+    rdg.add_argument(
+        "--browser-executable",
+        default=None,
+        help=(
+            "Remotion 이 쓸 chrome-headless-shell 바이너리 경로. 미지정 시 "
+            "OSINT_HEADLESS_SHELL 환경변수 또는 자동탐지 (RENDER-AP-001 — chromium "
+            "자동 다운로드가 막힌 환경 대응)."
+        ),
+    )
 
     apv = sub.add_parser("approve", help="Review Gate 승인 기록 (Phase 11)")
     apv.add_argument("--project", required=True)
@@ -686,6 +695,30 @@ def _cmd_build_scene(args: argparse.Namespace) -> int:
     return 0
 
 
+def _detect_headless_shell() -> str | None:
+    """chrome-headless-shell 바이너리 자동탐지 (RENDER-AP-001).
+
+    Remotion 이 자체 다운로드를 못 하는 환경(네트워크 allowlist)에서, 머신에 이미
+    있는 headless-shell 을 찾아 `--browser-executable` 로 넘기기 위함. full chrome 가
+    아니라 headless_shell 만 채택한다 (full chrome 는 Remotion 의 old-headless 요구를
+    충족 못 해 launch 실패). 못 찾으면 None — 호출자가 다운로드/안내로 폴백.
+    """
+    import glob
+
+    patterns = [
+        # Playwright 가 설치한 chromium headless shell.
+        "/opt/pw-browsers/chromium_headless_shell-*/chrome-linux/headless_shell",
+        str(Path.home() / ".cache/ms-playwright/chromium_headless_shell-*/chrome-linux/headless_shell"),
+        # Puppeteer chrome-headless-shell.
+        str(Path.home() / ".cache/puppeteer/chrome-headless-shell/*/*/chrome-headless-shell"),
+    ]
+    for pat in patterns:
+        matches = sorted(glob.glob(pat))
+        if matches:
+            return matches[-1]  # 최신(정렬 마지막) 채택.
+    return None
+
+
 def _cmd_render_debug(args: argparse.Namespace) -> int:
     """render-debug: scene_manifest+full_script → render_props.json → Remotion mp4 (V3).
 
@@ -696,6 +729,7 @@ def _cmd_render_debug(args: argparse.Namespace) -> int:
     1. render_props.json 생성 (build_and_persist_render_props).
     2. --props-only 면 종료. 아니면 remotion/ 에서 `npx remotion render` 호출.
     """
+    import os
     import subprocess
 
     from orchestrator.config import REPO_ROOT
@@ -744,6 +778,14 @@ def _cmd_render_debug(args: argparse.Namespace) -> int:
         str(out_path.resolve()),
         f"--props={props_path.resolve()}",
     ]
+    # RENDER-AP-001: Remotion 의 chromium headless-shell 자동 다운로드가 막힌 환경
+    # (네트워크 allowlist) 을 위해, 기존 chrome-headless-shell 바이너리를 가리킨다.
+    # 우선순위: --browser-executable 플래그 > OSINT_HEADLESS_SHELL 환경변수 > 자동탐지.
+    # full chrome 가 아니라 headless_shell(old headless 구현)이어야 한다 (full chrome 는
+    # old headless 미지원으로 launch 실패).
+    shell = args.browser_executable or os.environ.get("OSINT_HEADLESS_SHELL") or _detect_headless_shell()
+    if shell:
+        cmd.append(f"--browser-executable={shell}")
     print(f"렌더 시작: {' '.join(cmd)} (cwd={remotion_dir})")
     try:
         proc = subprocess.run(cmd, cwd=str(remotion_dir), timeout=1800)

@@ -1,6 +1,6 @@
 <!--
 tier: 3
-last_synced_with: v0.11.0
+last_synced_with: v0.11.1
 ssot_for: [development-log]
 depends_on: [CHANGELOG.md]
 last_review: 2026-05-23
@@ -22,6 +22,23 @@ last_review: 2026-05-23
 - 결과:  …
 - 연관:  AP-번호, 이슈, PR 번호 등
 ```
+
+---
+
+## 2026-05-23 v0.11.1 — 렌더 환경 대응 (RENDER-AP-001) + 첫 실물 영상 완주
+
+- **무엇을**: V3 코드를 실제로 렌더해보니 Remotion 의 chromium headless-shell 자동
+  다운로드가 네트워크 allowlist 에 막힘(403). 머신의 chrome-headless-shell 자동탐지 +
+  `--browser-executable` 부착으로 우회. RENDER-AP-001 기록.
+- **왜**: 또 한 번 "실물 실행"이 stub/단위테스트가 못 보는 환경 의존성을 드러냄 — 이번엔
+  렌더 인프라. V3 의 진짜 산출물(영상)을 뽑으려면 필수.
+- **어떻게**: full chrome 는 old-headless 미지원으로 launch 실패 → headless_shell 만 채택.
+  Playwright(`/opt/pw-browsers/...`)/puppeteer/ms-playwright 캐시를 자동탐지, 우선순위는
+  플래그 > OSINT_HEADLESS_SHELL > 자동탐지. 못 찾으면 정상 다운로드로 폴백.
+- **결과**: hualien2024 draft_debug.mp4 — 13170 프레임(7분19초), 27MB 렌더 성공.
+  **topic 한 줄 → research → script → scene → 영상까지 파이프라인 첫 완주.** 미검증/추론/
+  주장 라벨이 슬라이드 색 배지로 표시됨을 실물로 확인. (무음/캡션 슬라이드 버전.)
+- **연관**: RENDER-AP-001, CHANGELOG v0.11.1, docs/13 수직 슬라이스.
 
 ---
 

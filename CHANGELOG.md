@@ -1,6 +1,6 @@
 <!--
 tier: 3
-last_synced_with: v0.11.0
+last_synced_with: v0.11.1
 ssot_for: [release-notes]
 depends_on: [README.md, GOAL.md]
 last_review: 2026-05-23
@@ -25,6 +25,25 @@ released 항목은 **append-only**입니다.
 
 ### Fixed
 -
+
+---
+
+## [v0.11.1] — 2026-05-23
+
+**렌더 환경 대응 (RENDER-AP-001) + 첫 실물 영상**. V3 첫 실 렌더에서 Remotion 의
+chromium headless-shell 자동 다운로드가 네트워크 allowlist(403)에 막힘. 머신의
+chrome-headless-shell 을 자동탐지해 `--browser-executable` 로 넘기도록 수정 →
+hualien2024 영상(13170 프레임, 7분19초, 27MB) 렌더 성공. **topic→영상 파이프라인 첫 완주.**
+
+### Fixed
+
+- **`orchestrator/main.py`** — `render-debug` 에 `_detect_headless_shell()` 자동탐지 +
+  `--browser-executable` 플래그 + `OSINT_HEADLESS_SHELL` 환경변수 override. full chrome
+  가 아닌 chrome-headless-shell 만 채택(full chrome 는 old-headless 미지원 launch 실패).
+
+### Docs
+
+- **`docs/ANTIPATTERNS/RENDER_ANTIPATTERNS.md`** — 신규. RENDER-AP-001 기록.
 
 ---
 
