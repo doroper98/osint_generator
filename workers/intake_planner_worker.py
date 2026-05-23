@@ -224,6 +224,14 @@ class IntakePlannerWorker(BaseLLMWorker):
         )
         topic_summary = manifest.topic_summary or "(요약 미입력 — title 기반으로 추론하십시오)"
 
+        # 사용자가 생성 시 제공한 자료 링크. 한 줄에 하나씩 번호를 매겨 prompt 에 노출.
+        if manifest.initial_links:
+            links_block = "\n".join(
+                f"  {i}. {link}" for i, link in enumerate(manifest.initial_links, start=1)
+            )
+        else:
+            links_block = "  (사용자가 사전 제공한 링크 없음)"
+
         template = (
             "프로젝트 메타데이터\n"
             "-------------------\n"
@@ -232,6 +240,10 @@ class IntakePlannerWorker(BaseLLMWorker):
             "category          : {category}\n"
             "target_duration_min: {duration}\n"
             "topic_summary     : {summary}\n"
+            "\n"
+            "사용자 사전 제공 자료 (manual_user_provided 후보)\n"
+            "------------------------------------------------\n"
+            "{links}\n"
             "\n"
             "카테고리별 가이드 (참고 baseline, 자유롭게 추가/조정 가능)\n"
             "---------------------------------------------------------\n"
@@ -243,6 +255,9 @@ class IntakePlannerWorker(BaseLLMWorker):
             "- required_items 는 5~12개. 본 주제에 핵심적인 자료부터 우선.\n"
             "- project_id, category, target_duration_min 은 위 값 그대로 사용.\n"
             "- topic 은 title 보다 간결한 1줄 표현 (필요 시 title 그대로 사용).\n"
+            "- 사용자 사전 제공 자료가 있으면, 해당 자료로 충족되는 required_item 의\n"
+            "  default_mode 를 link_provide 로, why_needed 에 어떤 링크가 관련되는지\n"
+            "  명시. 단 사용자 제공 자료라도 사실 검증은 별도로 필요함을 전제로 한다.\n"
             "- 출력은 JSON 한 객체. 자연어/설명/markdown fence 일체 금지.\n"
         )
         return (
@@ -252,6 +267,7 @@ class IntakePlannerWorker(BaseLLMWorker):
             .replace("{category}", category_str)
             .replace("{duration}", str(manifest.target_duration_min))
             .replace("{summary}", topic_summary)
+            .replace("{links}", links_block)
             .replace("{guidance}", guidance)
         )
 

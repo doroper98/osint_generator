@@ -58,6 +58,13 @@ def build_parser() -> argparse.ArgumentParser:
     )
     npj.add_argument("--duration-min", type=int, default=18, help="목표 영상 길이 (분)")
     npj.add_argument("--topic-summary", default="", help="주제 요약")
+    npj.add_argument(
+        "--link",
+        action="append",
+        default=None,
+        metavar="URL",
+        help="사용자 사전 제공 자료 링크 (반복 가능). IntakePlanner 가 참고.",
+    )
 
     rsm = sub.add_parser("resume", help="기존 프로젝트 manifest 출력")
     rsm.add_argument("project_id", help="project_id")
@@ -168,6 +175,7 @@ def main(argv: list[str] | None = None) -> int:
                 category=args.category,
                 target_duration_min=args.duration_min,
                 topic_summary=args.topic_summary,
+                initial_links=args.link,
             )
         except (FileExistsError, ValueError) as e:
             print(f"error: {e}", file=sys.stderr)
@@ -221,25 +229,16 @@ def main(argv: list[str] | None = None) -> int:
 def _cmd_plan_intake(args: argparse.Namespace) -> int:
     """plan-intake: IntakePlannerWorker 1회 호출 + 상태 전이.
 
-    v0.3.1 (codex 4차 리뷰 흡수):
-    - H3: idempotency 보강. current_state=intake_planning 이고 유효한 `01_intake/intake_plan.json`
-      이 이미 있으면 worker 를 다시 돌리지 않고 intake_pending_user 로 전이만 진행 (재실행
-      한 번이 LLM 호출 비용 + record 누적이라 idempotent 가 기본). `--force` 로 강제 재실행.
-    - M2: worker.run() 결과를 `BaseWorker.write_result(args, result)` 로 task_result.json 까지
-      영속화. Phase 4 의 정식 task_queue 흐름 도입 전까지의 C4 추적성 정합 stopgap.
+    오케스트레이션 로직 자체는 `orchestrator.intake_service.run_intake_planner` 에
+    있으며 (CLI 와 Web `POST /new` 가 공유), 본 핸들러는 thin wrapper — 입력 검증과
+    사용자 출력/exit code 매핑만 담당한다.
 
-    흐름:
-    1. project_id 정책 검증.
-    2. manifest 로딩 + state precondition.
-    3. created → intake_planning 전이 (이미 planning 이면 skip).
-    4. 기존 intake_plan.json 이 유효하고 `--force` 미지정이면 worker skip → step 6.
-    5. 합성 TaskQueueItem + worker.run() + write_result (task_result.json 영속화).
-    6. intake_planning → intake_pending_user 전이.
+    - idempotency: 유효한 기존 `intake_plan.json` 이 있고 `--force` 미지정이면 worker
+      재실행을 건너뛰고 전이만 진행 (재실행은 LLM 호출 비용).
+    - worker 실패 시 intake_planning 에서 멈춤 (pending_user 까지 전진하지 않음).
     """
-    # 지연 import: TUI / FastAPI 미설치 환경에서도 CLI 의 다른 서브커맨드는 동작해야 함.
+    from orchestrator.intake_service import IntakePlanningError, run_intake_planner
     from orchestrator.project_manager import validate_project_id
-    from schemas.models import IntakePlan, TaskQueueItem
-    from workers.intake_planner_worker import IntakePlannerWorker
 
     try:
         validate_project_id(args.project_id)
@@ -248,96 +247,25 @@ def _cmd_plan_intake(args: argparse.Namespace) -> int:
         return 1
 
     try:
-        manifest = resume_project(args.project_id)
+        manifest, outputs_summary, skipped = run_intake_planner(
+            args.project_id, backend=args.backend, force=args.force
+        )
     except FileNotFoundError as e:
         print(f"error: {e}", file=sys.stderr)
         return 1
-
-    current_str = manifest.current_state.value if hasattr(manifest.current_state, "value") else manifest.current_state
-    if current_str == ProjectState.CREATED.value:
-        try:
-            manifest = transition_state(
-                manifest,
-                ProjectState.INTAKE_PLANNING,
-                reason="plan-intake CLI 시작",
-            )
-        except ValueError as e:
+    except IntakePlanningError as e:
+        if e.kind == "state":
             print(f"error: {e}", file=sys.stderr)
             return 2
-    elif current_str != ProjectState.INTAKE_PLANNING.value:
-        print(
-            f"error: 현재 상태 '{current_str}' 에서는 plan-intake 를 실행할 수 없습니다. "
-            f"(허용: created 또는 intake_planning)",
-            file=sys.stderr,
-        )
-        return 2
-
-    plan_path = manifest_intake_path(args.project_id) / "intake_plan.json"
-
-    # v0.3.1 H3: 기존 plan 이 유효하면 worker skip.
-    skip_worker = False
-    if plan_path.exists() and not args.force:
-        try:
-            IntakePlan.model_validate_json(plan_path.read_text(encoding="utf-8"))
-            skip_worker = True
-            print(
-                f"plan-intake: 기존 intake_plan.json 발견 — worker 재실행 건너뜀 "
-                f"(재실행 원하면 --force). path={plan_path}"
-            )
-        except (json.JSONDecodeError, ValueError) as e:
-            print(
-                f"plan-intake: 기존 intake_plan.json 이 손상되어 worker 를 재실행합니다. "
-                f"({type(e).__name__})",
-                file=sys.stderr,
-            )
-
-    if not skip_worker:
-        task_id = f"intake-plan-{args.project_id}"
-        task = TaskQueueItem(
-            task_id=task_id,
-            task_type="intake_planning",
-            assigned_worker="intake_planner",
-            description="Phase 3 IntakePlannerWorker 1회 실행",
-            input_refs=["project_manifest.json"],
-            output_refs=["01_intake/intake_plan.json"],
-        )
-        worker = IntakePlannerWorker()
-        worker.llm_backend = args.backend  # type: ignore[misc]
-
-        worker_args = argparse.Namespace(
-            project_id=args.project_id,
-            task_id=task_id,
-            projects_root="projects",
-        )
-        result = worker.run(worker_args, task)
-        # v0.3.1 M2: task_result.json 영속화 — BaseWorker.main 의 표준 흐름 보강.
-        try:
-            worker.write_result(worker_args, result)
-        except OSError as e:
-            print(f"warning: task_result.json 영속화 실패 — {e}", file=sys.stderr)
-
-        result_status = result.status.value if hasattr(result.status, "value") else result.status
-        if result_status != "completed":
-            print(
-                f"plan-intake 실패: status={result_status} errors={result.errors}",
-                file=sys.stderr,
-            )
-            return 1
-        outputs_summary = result.outputs
-    else:
-        outputs_summary = [str(plan_path)]
-
-    try:
-        manifest = transition_state(
-            resume_project(args.project_id),
-            ProjectState.INTAKE_PENDING_USER,
-            reason="IntakePlannerWorker 성공" if not skip_worker else "기존 intake_plan.json 재사용",
-        )
+        print(f"plan-intake 실패: {e} errors={e.errors}", file=sys.stderr)
+        return 1
     except ValueError as e:
         print(f"warning: 상태 전이 실패 — {e}", file=sys.stderr)
         return 2
 
-    print(f"plan-intake 완료: {args.project_id} (backend={args.backend}, skipped={skip_worker})")
+    if skipped:
+        print("plan-intake: 기존 intake_plan.json 재사용 — worker 건너뜀 (재실행 원하면 --force).")
+    print(f"plan-intake 완료: {args.project_id} (backend={args.backend}, skipped={skipped})")
     print(f"outputs : {outputs_summary}")
     _print_manifest_summary(manifest)
     return 0

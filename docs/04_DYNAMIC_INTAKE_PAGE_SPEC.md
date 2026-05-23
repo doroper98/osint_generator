@@ -1,6 +1,6 @@
 <!--
 tier: 2
-last_synced_with: v0.3.3
+last_synced_with: v0.7.0
 ssot_for: [dynamic-intake-page]
 depends_on: [02_SYSTEM_ARCHITECTURE.md, 05_DATA_SCHEMA_SPEC.md]
 last_review: 2026-05-19
@@ -12,14 +12,21 @@ last_review: 2026-05-19
 
 Dynamic Intake Page는 **고정 폼이 아니라**, Orchestrator가 주제를 분석해 만든 `intake_plan.json`을 기반으로 **그때마다 렌더링되는 동적 입력 페이지**다.
 
+진입은 두 단계다:
+1. **프로젝트 생성 화면 (`GET/POST /new`, v0.7.0)** — 주제/카테고리/길이/**초기 자료 링크**를 입력. 제출하면 `new_project` + `IntakePlanner` 가 실행되고 `/intake/{pid}` 로 리다이렉트.
+2. **동적 인테이크 페이지 (`GET /intake/{pid}`)** — 생성된 `intake_plan.json` 을 항목 카드로 렌더, 항목별 결정을 받아 `source_intake.json` 으로 저장.
+
 ## 2. 책임
 
 | 역할 | 책임 |
 |---|---|
-| Dynamic Intake Planner Agent | 주제 분석 → `intake_plan.json` 생성 |
+| Web App (`GET/POST /new`) | 주제 + 초기 링크 입력 → `new_project` + planner 실행 → `/intake/{pid}` 리다이렉트 |
+| Dynamic Intake Planner Agent | 주제(+초기 링크) 분석 → `intake_plan.json` 생성 |
 | Web App (`web/intake_page_app.py`) | `intake_plan.json` 읽어 폼 렌더 |
 | 사용자 | 각 항목 모드 선택 + 자료 업로드 |
 | Web App | 결과를 `source_intake.json`으로 저장 |
+
+> **공유 오케스트레이션**: `new-project` 후의 planner 실행은 CLI(`plan-intake`)와 Web(`POST /new`)이 `orchestrator/intake_service.py:run_intake_planner` 를 공유한다 (전이 순서·idempotency 단일 출처).
 
 ## 3. 항목 모드
 

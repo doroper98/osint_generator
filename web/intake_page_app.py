@@ -42,12 +42,15 @@ from fastapi import FastAPI, HTTPException, Request
 from fastapi.responses import HTMLResponse, JSONResponse, RedirectResponse
 
 from orchestrator.config import AppConfig, project_dir
+from orchestrator.intake_service import IntakePlanningError, run_intake_planner
 from orchestrator.project_manager import (
     load_manifest,
+    new_project,
     transition_state,
     validate_project_id,
 )
 from schemas.models import (
+    Category,
     IntakeMode,
     IntakePlan,
     IntakePlanItem,
@@ -67,7 +70,7 @@ MAX_FORM_BYTES: int = 256 * 1024
 # 호출자 (테스트, 운영 튜닝) 가 한도를 갱신할 수 있게 dict 가 아닌 모듈 변수.
 
 
-app = FastAPI(title="OSINT Dynamic Intake Page", version="0.3.1")
+app = FastAPI(title="OSINT Dynamic Intake Page", version="0.7.0")
 
 
 # ---------------------------------------------------------------------------
@@ -123,7 +126,88 @@ async def healthz() -> dict[str, str]:
 
 @app.get("/")
 async def root_redirect() -> RedirectResponse:
-    return RedirectResponse(url="/healthz")
+    return RedirectResponse(url="/new")
+
+
+@app.get("/new", response_class=HTMLResponse)
+async def get_new_project_page() -> HTMLResponse:
+    """주제 + 초기 링크 입력 폼. 제출하면 프로젝트 생성 + intake_plan 생성으로 이어진다."""
+    return HTMLResponse(_render_new_project_html())
+
+
+@app.post("/new")
+async def create_project(request: Request):
+    """주제/카테고리/길이/초기 링크를 받아 프로젝트 생성 + IntakePlanner 실행.
+
+    성공 시 생성된 프로젝트의 동적 인테이크 페이지(`/intake/{pid}`)로 303 리다이렉트.
+
+    - C1: project_id 정책 검증 (400).
+    - H2: content-length 가 MAX_FORM_BYTES 초과면 413.
+    - 중복 project_id 는 409.
+    - IntakePlanner 실패는 500 (프로젝트 manifest 는 생성된 상태로 남음 — 사용자가
+      backend 를 바꿔 재시도하거나 CLI `plan-intake --force` 로 이어갈 수 있음).
+    """
+    cl = request.headers.get("content-length")
+    if cl is not None:
+        try:
+            if int(cl) > MAX_FORM_BYTES:
+                raise HTTPException(status_code=413, detail="request body too large")
+        except ValueError:
+            pass
+
+    form = await request.form()
+    project_id = (form.get("project_id") or "").strip()
+    try:
+        project_id = validate_project_id(project_id)
+    except ValueError:
+        raise HTTPException(status_code=400, detail="invalid project_id")
+
+    title = (form.get("title") or "").strip()
+    if not title:
+        raise HTTPException(status_code=400, detail="title is required")
+
+    category_str = (form.get("category") or "").strip()
+    try:
+        category = Category(category_str)
+    except ValueError:
+        raise HTTPException(status_code=400, detail="invalid category")
+
+    duration = _parse_duration(form.get("target_duration_min"))
+    topic_summary = (form.get("topic_summary") or "").strip()
+    initial_links = _split_lines(form.get("initial_links"))
+    backend = (form.get("backend") or "claude").strip()
+    if backend not in {"claude", "codex"}:
+        backend = "claude"
+
+    try:
+        new_project(
+            project_id=project_id,
+            title=title,
+            category=category,
+            target_duration_min=duration,
+            topic_summary=topic_summary,
+            initial_links=initial_links,
+        )
+    except FileExistsError:
+        return JSONResponse(
+            status_code=409,
+            content={"error": "project already exists", "project_id": project_id},
+        )
+
+    try:
+        run_intake_planner(project_id, backend=backend)
+    except IntakePlanningError as e:
+        logger.warning("new-project planner fail — pid=%s kind=%s", project_id, e.kind)
+        return JSONResponse(
+            status_code=500,
+            content={
+                "error": "intake planning failed",
+                "kind": e.kind,
+                "detail": str(e),
+            },
+        )
+
+    return RedirectResponse(url=f"/intake/{project_id}", status_code=303)
 
 
 @app.get("/intake/{project_id}", response_class=HTMLResponse)
@@ -296,6 +380,17 @@ def _truthy(value) -> bool:
     return str(value).strip().lower() in {"1", "true", "on", "yes"}
 
 
+def _parse_duration(value, default: int = 18) -> int:
+    """target_duration_min form 값을 int 로. 비거나 비정상이면 default. 1~180 으로 clamp."""
+    if value is None or str(value).strip() == "":
+        return default
+    try:
+        n = int(str(value).strip())
+    except ValueError:
+        return default
+    return max(1, min(180, n))
+
+
 def _state_str(state) -> str:
     return state.value if hasattr(state, "value") else str(state)
 
@@ -303,6 +398,60 @@ def _state_str(state) -> str:
 # ---------------------------------------------------------------------------
 # HTML 렌더링 (외부 템플릿 엔진 없이)
 # ---------------------------------------------------------------------------
+
+
+def _render_new_project_html() -> str:
+    """주제 + 초기 링크 입력 폼 HTML. 외부 템플릿 엔진 없이 인라인."""
+    options = "\n".join(
+        "    <option value=\"" + html.escape(c.value) + "\">" + html.escape(c.value) + "</option>"
+        for c in Category
+    )
+    return (
+        "<!doctype html>\n"
+        "<html lang=\"ko\"><head><meta charset=\"utf-8\">\n"
+        "<title>새 영상 프로젝트</title>\n"
+        "<style>\n"
+        "body{font-family:system-ui,sans-serif;background:#f4f4f7;color:#222;margin:0;padding:24px;}\n"
+        ".wrap{max-width:680px;margin:0 auto;}\n"
+        "h1{font-size:1.4rem;margin:0 0 4px 0;}\n"
+        ".sub{color:#555;font-size:0.9rem;margin-bottom:20px;}\n"
+        ".card{background:#fff;border:1px solid #ddd;border-radius:8px;padding:20px;}\n"
+        "label{display:block;font-weight:600;font-size:0.9rem;margin:14px 0 4px 0;}\n"
+        ".hint{font-weight:400;color:#777;font-size:0.8rem;}\n"
+        "input,select,textarea{width:100%;font-family:inherit;font-size:0.95rem;padding:8px;"
+        "border:1px solid #ccc;border-radius:4px;box-sizing:border-box;}\n"
+        "textarea{resize:vertical;}\n"
+        ".row{display:grid;grid-template-columns:2fr 1fr;gap:12px;}\n"
+        ".footer{margin-top:20px;text-align:right;}\n"
+        ".footer button{background:#1565c0;color:#fff;border:0;border-radius:6px;"
+        "padding:10px 20px;font-size:1rem;cursor:pointer;}\n"
+        ".footer button:hover{background:#0d3f78;}\n"
+        "</style></head><body>\n"
+        "<div class=\"wrap\">\n"
+        "<h1>새 영상 프로젝트</h1>\n"
+        "<div class=\"sub\">주제와 사전 확보 자료를 입력하면 Orchestrator 가 인테이크 계획을 생성합니다.</div>\n"
+        "<form method=\"POST\" action=\"/new\" class=\"card\">\n"
+        "  <div class=\"row\">\n"
+        "    <div><label>project_id <span class=\"hint\">(영문 소문자/숫자/하이픈/언더스코어)</span>"
+        "<input name=\"project_id\" required pattern=\"[a-z0-9_-]+\" placeholder=\"kursk_2026\"></label></div>\n"
+        "    <div><label>목표 길이(분)<input name=\"target_duration_min\" type=\"number\" min=\"1\" max=\"180\" value=\"18\"></label></div>\n"
+        "  </div>\n"
+        "  <label>제목 (주제)<input name=\"title\" required placeholder=\"쿠르스크 전선 교착 — OSINT 종합 브리핑\"></label>\n"
+        "  <label>카테고리<select name=\"category\" required>\n"
+        + options + "\n"
+        "  </select></label>\n"
+        "  <label>주제 요약 <span class=\"hint\">(선택)</span>"
+        "<textarea name=\"topic_summary\" rows=\"2\" placeholder=\"한두 문장으로 영상의 초점을 적어 주세요.\"></textarea></label>\n"
+        "  <label>사전 확보 자료 링크 <span class=\"hint\">(선택, 한 줄에 하나 — 분석 리포트·기사·영상 등)</span>"
+        "<textarea name=\"initial_links\" rows=\"4\" placeholder=\"https://...\"></textarea></label>\n"
+        "  <label>LLM backend<select name=\"backend\">\n"
+        "    <option value=\"claude\">claude</option>\n"
+        "    <option value=\"codex\">codex</option>\n"
+        "  </select></label>\n"
+        "  <div class=\"footer\"><button type=\"submit\">인테이크 계획 생성</button></div>\n"
+        "</form>\n"
+        "</div></body></html>\n"
+    )
 
 
 def _render_intake_html(manifest: ProjectManifest, plan: IntakePlan) -> str:

@@ -1,6 +1,6 @@
 <!--
 tier: 3
-last_synced_with: v0.6.1
+last_synced_with: v0.7.0
 ssot_for: [release-notes]
 depends_on: [README.md, GOAL.md]
 last_review: 2026-05-23
@@ -25,6 +25,39 @@ released 항목은 **append-only**입니다.
 
 ### Fixed
 -
+
+---
+
+## [v0.7.0] — 2026-05-23
+
+**웹 주제 입력 진입 화면 + 초기 링크 주입**. 그동안 CLI 전용이던 "주제 입력 → 인테이크
+계획 생성" 흐름을 웹으로 끌어올렸다. 사용자가 사전 확보한 자료 링크(분석 리포트 등)를
+프로젝트 생성 시 함께 넣으면 IntakePlanner 가 계획에 반영한다.
+
+### Added
+
+- **`web/intake_page_app.py`** — `GET /new` (주제/카테고리/길이/초기 링크 입력 폼) +
+  `POST /new` (검증 → `new_project` → `IntakePlanner` → `/intake/{pid}` 303 리다이렉트).
+  루트 `/` 는 `/new` 로 리다이렉트. content-length 상한·project_id 검증·중복 409·
+  planner 실패 500 처리.
+- **`orchestrator/intake_service.py`** (신규) — `run_intake_planner` : `created`/
+  `intake_planning` → `intake_pending_user` 전이 + worker 실행 + idempotency 를 한
+  함수로. CLI(`plan-intake`)와 Web(`POST /new`)이 공유하는 단일 출처.
+- **`ProjectManifest.initial_links: list[str]`** — 생성 시 사용자 사전 제공 링크.
+  additive (schema_version 1 유지).
+- **`new-project --link URL`** (반복 가능) + `new_project(initial_links=...)`.
+- IntakePlanner 프롬프트에 "사용자 사전 제공 자료(manual_user_provided 후보)" 섹션
+  추가 — 링크가 있으면 관련 required_item 의 default_mode 를 link_provide 로 유도.
+
+### Changed
+
+- **`orchestrator/main.py:_cmd_plan_intake`** — 오케스트레이션을 `intake_service` 로
+  위임하는 thin wrapper 로 리팩토링 (동작·exit code 보존).
+
+### Tests
+
+- 신규 10 케이스 (초기 링크 영속화·프롬프트 반영, 웹 `/new` 폼 렌더·생성·리다이렉트·
+  중복/검증 오류). 전체 222 → 232 통과.
 
 ---
 

@@ -1,6 +1,6 @@
 <!--
 tier: 3
-last_synced_with: v0.6.1
+last_synced_with: v0.7.0
 ssot_for: [development-log]
 depends_on: [CHANGELOG.md]
 last_review: 2026-05-23
@@ -24,6 +24,31 @@ last_review: 2026-05-23
 ```
 
 ---
+
+## 2026-05-23 v0.7.0 — 웹 주제 입력 진입 화면 + 초기 링크 주입
+
+- **무엇을**: CLI 전용이던 "주제 입력 → intake_plan 생성" 흐름을 웹으로. `GET /new`
+  폼 + `POST /new` (new_project + planner + `/intake/{pid}` 리다이렉트). 프로젝트
+  생성 시 사용자 사전 제공 링크(`initial_links`)를 받아 planner 프롬프트에 반영.
+- **왜**: "주제는 intake 화면 어디서 주입되나?" 질문에서 출발 — 기존엔 주제 입력
+  경로가 CLI(`new-project`) 전용이고 웹 intake 페이지는 이미 만들어진 plan 을 렌더만
+  했다. 사용자가 자체 생성 OSINT 분석 리포트 링크를 보유 → 이를 생성 시점에 넣어
+  계획에 반영하고 싶다는 요구(AskUserQuestion: "주제+초기 링크 동시 입력").
+- **어떻게**:
+  - planner 오케스트레이션(전이+worker+idempotency)을 `orchestrator/intake_service.py:
+    run_intake_planner` 로 추출, CLI `_cmd_plan_intake` 는 thin wrapper 로 위임 →
+    CLI/Web 가 전이 순서를 공유 (drift 방지). 기존 35 intake 테스트로 동작 보존 확인.
+  - `ProjectManifest.initial_links` additive 필드 (schema_version 1 유지). planner
+    프롬프트에 "사용자 사전 제공 자료(manual_user_provided 후보)" 섹션 — 단 사용자
+    제공이라도 사실 검증은 별도 필요함을 명시(환각 방지).
+  - 웹 폼은 기존 intake 페이지와 동일하게 외부 템플릿 엔진 없이 인라인, html.escape,
+    project_id 정규식 검증, content-length 상한, 중복 409 / 검증 400 / planner 500.
+  - **링크 자체의 소스 평가**: 사용자 확인 결과 자체 생성 리포트 → manual_user_provided
+    (사용 가능). 단 2차/파생 분석이므로 reliability 중간, 1차 자료 추출·교차검증을
+    Phase 6 ResearchWorker 가 수행하는 것이 바람직(본 PATCH 범위 밖, 설계 메모).
+- **결과**: 신규 10 테스트, 전체 222 → 232 통과. py_compile 통과.
+- **연관**: Phase 3(Dynamic Intake Page)의 진입부 확장. docs/04, docs/05 동기화(C7).
+  MINOR → push 직후 codex 외부 리뷰 **필수**(C10.1). 결과 흡수는 다음 PATCH(v0.7.1).
 
 ## 2026-05-23 v0.6.1 — 외부 코드 리뷰 1차 반영 (Phase 5 산출물 robustness)
 

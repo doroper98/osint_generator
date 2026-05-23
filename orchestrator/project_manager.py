@@ -169,12 +169,14 @@ def new_project(
     category: Category | str,
     target_duration_min: int = 18,
     topic_summary: str = "",
+    initial_links: Optional[list[str]] = None,
     cfg: Optional[AppConfig] = None,
 ) -> ProjectManifest:
     """새 프로젝트 manifest 를 생성·저장하고 반환합니다.
 
     - 이미 동일 project_id 가 존재하면 FileExistsError.
     - project_id 는 영문 소문자/숫자/하이픈/언더스코어만 허용.
+    - initial_links : 생성 시 사용자가 미리 제공한 자료 링크. IntakePlanner 가 참고.
     """
     cfg = cfg or load_config()
 
@@ -194,6 +196,7 @@ def new_project(
         category=cat,
         target_duration_min=target_duration_min,
         topic_summary=topic_summary,
+        initial_links=initial_links or [],
         current_state=ProjectState.CREATED,
         state_history=[],
     )

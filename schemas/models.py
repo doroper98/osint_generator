@@ -180,6 +180,10 @@ class ProjectManifest(VersionedModel):
     current_state: ProjectState = ProjectState.CREATED
     target_duration_min: int = 18
     topic_summary: str = ""
+    # 프로젝트 생성 시 사용자가 미리 제공한 자료 링크 (분석 리포트·기사·영상 등).
+    # IntakePlanner 가 plan 생성에 참고하며, 사용자 자체 제공이므로 후속 source
+    # 단계에서 manual_user_provided 후보로 다룬다. additive (schema_version 1 유지).
+    initial_links: list[str] = Field(default_factory=list)
     paths: dict[str, str] = Field(default_factory=dict)
     render_mode_status: dict[str, str] = Field(default_factory=dict)
     approval_status: dict[str, str] = Field(default_factory=dict)

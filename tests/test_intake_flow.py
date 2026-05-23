@@ -548,5 +548,124 @@ class TestBuildSourceRegistryCLI(_IsolatedProjectsRoot):
         self.assertEqual(rc, 1)
 
 
+class TestInitialLinks(_IsolatedProjectsRoot):
+    """new-project --link 와 planner 프롬프트 반영 (v0.7.0)."""
+
+    def test_cli_link_flag_persists_initial_links(self) -> None:
+        rc = cli_main([
+            "new-project", "demo3",
+            "--title", "테스트", "--category", "geopolitics",
+            "--link", "https://a.example/r1",
+            "--link", "https://a.example/r2",
+        ])
+        self.assertEqual(rc, 0)
+        m = self._load_manifest("demo3")
+        self.assertEqual(m.initial_links, ["https://a.example/r1", "https://a.example/r2"])
+
+    def test_new_project_without_links_defaults_empty(self) -> None:
+        self._create_demo3()
+        self.assertEqual(self._load_manifest("demo3").initial_links, [])
+
+    def test_initial_links_surfaced_in_planner_prompt(self) -> None:
+        import argparse
+
+        cli_main([
+            "new-project", "demo3",
+            "--title", "테스트", "--category", "geopolitics",
+            "--link", "https://report.example/analysis_1",
+        ])
+        from schemas.models import TaskQueueItem
+        from workers.intake_planner_worker import IntakePlannerWorker
+
+        worker = IntakePlannerWorker()
+        args = argparse.Namespace(project_id="demo3", task_id="t", projects_root="projects")
+        task = TaskQueueItem(
+            task_id="t", task_type="intake_planning",
+            assigned_worker="intake_planner", description="d",
+        )
+        prompt = worker.build_user_prompt(args, task)
+        self.assertIn("https://report.example/analysis_1", prompt)
+        self.assertIn("manual_user_provided", prompt)
+
+
+class TestNewProjectWeb(_IsolatedProjectsRoot):
+    """웹 주제+초기 링크 입력 흐름 (POST /new → new_project + planner → /intake 리다이렉트)."""
+
+    def _client(self):
+        from web.intake_page_app import app
+        return TestClient(app)
+
+    def test_root_redirects_to_new(self) -> None:
+        r = self._client().get("/", follow_redirects=False)
+        self.assertIn(r.status_code, (302, 303, 307))
+        self.assertEqual(r.headers["location"], "/new")
+
+    def test_get_new_form_renders(self) -> None:
+        r = self._client().get("/new")
+        self.assertEqual(r.status_code, 200)
+        for token in ("project_id", "initial_links", "geopolitics", "backend"):
+            self.assertIn(token, r.text)
+
+    def test_post_new_creates_project_with_links_and_advances(self) -> None:
+        self._stub(VALID_PLAN_JSON)
+        r = self._client().post(
+            "/new",
+            data={
+                "project_id": "demo3",
+                "title": "테스트 주제",
+                "category": "geopolitics",
+                "target_duration_min": "20",
+                "topic_summary": "요약",
+                "initial_links": "https://a.example/r1\nhttps://a.example/r2",
+                "backend": "claude",
+            },
+            follow_redirects=False,
+        )
+        self.assertEqual(r.status_code, 303)
+        self.assertEqual(r.headers["location"], "/intake/demo3")
+        m = self._load_manifest("demo3")
+        self.assertEqual(m.initial_links, ["https://a.example/r1", "https://a.example/r2"])
+        self.assertEqual(m.target_duration_min, 20)
+        self.assertEqual(m.current_state, ProjectState.INTAKE_PENDING_USER.value)
+        self.assertTrue(
+            (self.projects_root / "demo3" / "01_intake" / "intake_plan.json").exists()
+        )
+
+    def test_post_new_duplicate_returns_409(self) -> None:
+        self._stub(VALID_PLAN_JSON)
+        client = self._client()
+        data = {"project_id": "demo3", "title": "t", "category": "geopolitics"}
+        self.assertEqual(
+            client.post("/new", data=data, follow_redirects=False).status_code, 303
+        )
+        self.assertEqual(
+            client.post("/new", data=data, follow_redirects=False).status_code, 409
+        )
+
+    def test_post_new_invalid_project_id_400(self) -> None:
+        r = self._client().post(
+            "/new",
+            data={"project_id": "Bad ID!", "title": "t", "category": "geopolitics"},
+            follow_redirects=False,
+        )
+        self.assertEqual(r.status_code, 400)
+
+    def test_post_new_invalid_category_400(self) -> None:
+        r = self._client().post(
+            "/new",
+            data={"project_id": "demo3", "title": "t", "category": "nope"},
+            follow_redirects=False,
+        )
+        self.assertEqual(r.status_code, 400)
+
+    def test_post_new_missing_title_400(self) -> None:
+        r = self._client().post(
+            "/new",
+            data={"project_id": "demo3", "title": "", "category": "geopolitics"},
+            follow_redirects=False,
+        )
+        self.assertEqual(r.status_code, 400)
+
+
 if __name__ == "__main__":
     unittest.main()
