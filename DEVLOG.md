@@ -1,6 +1,6 @@
 <!--
 tier: 3
-last_synced_with: v0.9.0
+last_synced_with: v0.10.0
 ssot_for: [development-log]
 depends_on: [CHANGELOG.md]
 last_review: 2026-05-23
@@ -22,6 +22,22 @@ last_review: 2026-05-23
 - 결과:  …
 - 연관:  AP-번호, 이슈, PR 번호 등
 ```
+
+---
+
+## 2026-05-23 v0.10.0 — 수직 슬라이스 V2: 최소 Scene
+
+- **무엇을**: scene_builder(순수) + scene_io + `build-scene` CLI. full_script →
+  scene_manifest.json (세그먼트 1:1 매핑, 누적 타이밍).
+- **왜**: 수직 슬라이스 V2. 텍스트 슬라이드 영상 목표라 scene 계획에 LLM 불필요 →
+  결정론적 변환이 더 빠르고 확정적. Phase 5 source_registry_builder 의 순수 함수 패턴 채택.
+- **어떻게**: SceneEntry 골격(기존 모델) 재사용. inference_label_required=segment.label
+  유무로 미검증 배지 신호, source_link_required=claim_refs 유무. state 는
+  script_writing→script_review→scene_planning (script_review Gate 흡수).
+- **결과**: 252 테스트 통과. hualien2024 실행 → 16 scene, 누적 7.32분, 확인 사실
+  scene 무라벨 / 미검증·추론·주장 scene LABEL 정확. 빌더가 타이밍 권위(LLM 자체 보고
+  total 466초 오차를 실제 합 439초로 정정). 다음: V3 Remotion 최소 렌더.
+- **연관**: docs/03 Scene Planner 행, docs/13 수직 슬라이스, CHANGELOG v0.10.0.
 
 ---
 

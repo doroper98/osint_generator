@@ -1,6 +1,6 @@
 <!--
 tier: 3
-last_synced_with: v0.9.0
+last_synced_with: v0.10.0
 ssot_for: [release-notes]
 depends_on: [README.md, GOAL.md]
 last_review: 2026-05-23
@@ -25,6 +25,26 @@ released 항목은 **append-only**입니다.
 
 ### Fixed
 -
+
+---
+
+## [v0.10.0] — 2026-05-23
+
+**수직 슬라이스 V2: 최소 Scene**. `full_script → scene_manifest.json` 을 만드는
+결정론적 빌더 + `build-scene` CLI. 텍스트 슬라이드 영상이 목표라 LLM 없이 세그먼트
+1개를 SceneEntry 1개로 매핑(누적 타이밍, 캡션, 라벨 신호). hualien2024 실행으로 16
+scene / 7.32분 생성 확인 — 미검증/추론/주장 세그먼트에 inference_label_required 정확 표기.
+
+### Added
+
+- **`orchestrator/scene_builder.py`** — `build_scene_manifest(full_script)` 순수 함수.
+  segment→SceneEntry 1:1, start_sec 누적, inference_label_required=segment.label 유무,
+  source_link_required=claim_refs 유무.
+- **`orchestrator/scene_io.py`** — `06_scene/scene_manifest.json` atomic 영속화·로딩 +
+  `build_and_persist_scene_manifest`.
+- **`orchestrator/main.py`** — `build-scene {pid}` CLI (precondition script_writing →
+  `script_review` 흡수 → `scene_planning` 전이).
+- **`tests/test_scene_flow.py`** — 순수 빌더 결정론·매핑 + CLI happy/precondition (252 통과).
 
 ---
 

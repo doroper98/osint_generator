@@ -15,6 +15,8 @@
                                               + research_in_progress 전이 (Phase 6A)
 - build-script {pid} [--backend]            : ScriptWorker 호출 → full_script.json
                                               + script_writing 전이 (Phase 6 Script)
+- build-scene {pid}                         : full_script → scene_manifest.json (결정론적)
+                                              + scene_planning 전이 (수직 슬라이스 V2)
 - approve --project {pid} --gate ...        : Review Gate 승인 기록 (Phase 11)
 - version                                   : 현재 버전 출력
 """
@@ -175,6 +177,15 @@ def build_parser() -> argparse.ArgumentParser:
         help="유효한 full_script.json 이 있어도 worker 재실행 (기본은 idempotent skip).",
     )
 
+    bsn = sub.add_parser(
+        "build-scene",
+        help=(
+            "full_script → scene_manifest.json (결정론적, 텍스트 슬라이드) 생성 후 "
+            "scene_planning 전이 (수직 슬라이스 V2)"
+        ),
+    )
+    bsn.add_argument("project_id", help="project_id")
+
     apv = sub.add_parser("approve", help="Review Gate 승인 기록 (Phase 11)")
     apv.add_argument("--project", required=True)
     apv.add_argument("--gate", required=True)
@@ -268,6 +279,9 @@ def main(argv: list[str] | None = None) -> int:
 
     if args.cmd == "build-script":
         return _cmd_build_script(args)
+
+    if args.cmd == "build-scene":
+        return _cmd_build_scene(args)
 
     if args.cmd == "approve":
         print("approve: Phase 11 에서 구현 예정입니다.")
@@ -588,6 +602,76 @@ def _cmd_build_script(args: argparse.Namespace) -> int:
     print(f"outputs : {outputs_summary}")
     _print_manifest_summary(manifest)
     return 0
+
+
+def _cmd_build_scene(args: argparse.Namespace) -> int:
+    """build-scene: full_script → scene_manifest.json (결정론적) + 상태 전이 (V2).
+
+    scene_builder 는 순수 함수, scene_io 가 I/O. LLM 미사용. precondition 은
+    script_writing 이며, 수직 슬라이스라 script_review(Gate 4)를 통과만 하고
+    scene_planning 에 안착한다. 영속화 성공 후에만 전이.
+    """
+    from orchestrator.project_manager import validate_project_id
+    from orchestrator.scene_io import build_and_persist_scene_manifest
+
+    try:
+        validate_project_id(args.project_id)
+    except ValueError as e:
+        print(f"error: {e}", file=sys.stderr)
+        return 1
+
+    try:
+        manifest = resume_project(args.project_id)
+    except FileNotFoundError as e:
+        print(f"error: {e}", file=sys.stderr)
+        return 1
+
+    current_str = (
+        manifest.current_state.value
+        if hasattr(manifest.current_state, "value")
+        else manifest.current_state
+    )
+    if current_str != ProjectState.SCRIPT_WRITING.value:
+        print(
+            f"error: 현재 상태 '{current_str}' 에서는 build-scene 을 실행할 수 없습니다. "
+            f"(허용: script_writing)",
+            file=sys.stderr,
+        )
+        return 2
+
+    try:
+        scene_manifest = build_and_persist_scene_manifest(args.project_id)
+    except FileNotFoundError as e:
+        print(f"error: {e}", file=sys.stderr)
+        return 1
+    except (json.JSONDecodeError, ValueError, OSError) as e:
+        print(f"error: scene_manifest 빌드/영속화 실패 — {e}", file=sys.stderr)
+        return 1
+
+    # script_review(Gate 4)를 통과만 하고 scene_planning 안착 (수직 슬라이스: gate 흡수).
+    try:
+        manifest = transition_state(
+            manifest, ProjectState.SCRIPT_REVIEW, reason="script_review 흡수 (수직 슬라이스)",
+        )
+        manifest = transition_state(
+            manifest, ProjectState.SCENE_PLANNING, reason="scene_manifest 생성",
+        )
+    except ValueError as e:
+        print(f"warning: 상태 전이 실패 — {e}", file=sys.stderr)
+        return 2
+
+    print(f"build-scene 완료: {args.project_id}")
+    print(f"saved   : {manifest_scene_path(args.project_id) / 'scene_manifest.json'}")
+    print(f"scenes  : {len(scene_manifest.scenes)}")
+    _print_manifest_summary(manifest)
+    return 0
+
+
+def manifest_scene_path(project_id: str) -> Path:
+    """`projects/{pid}/06_scene/` 디렉토리."""
+    from orchestrator.config import project_dir as _pdir
+
+    return _pdir(project_id) / "06_scene"
 
 
 def manifest_sources_path(project_id: str) -> Path:

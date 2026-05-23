@@ -1,6 +1,6 @@
 <!--
 tier: 2
-last_synced_with: v0.9.0
+last_synced_with: v0.10.0
 ssot_for: [agent-catalog, worker-catalog]
 depends_on: [02_SYSTEM_ARCHITECTURE.md]
 last_review: 2026-05-23
@@ -28,7 +28,7 @@ last_review: 2026-05-23
 | Research Agent | `workers/research_worker.py` (BaseLLMWorker) | source_registry + manifest.initial_links | `04_research/research_dossier.json` | ✅ | 6A |
 | Evidence Guard | `agents/evidence_guard.py` | research_dossier | `qa_evidence_report.json` | ✅ | 6 |
 | Script Agent | `workers/script_worker.py` (BaseLLMWorker) | research_dossier | `05_script/full_script.json` | ✅ | 6 (수직 슬라이스: blueprint 흡수) |
-| Scene Planner | `agents/scene_planner.py` | full_script + asset_manifest | `scene_manifest.json` | ✅ | 6 |
+| Scene Planner | `orchestrator/scene_builder.py` (V2 결정론적) / 추후 LLM | full_script | `06_scene/scene_manifest.json` | ❌ (V2 슬라이스, LLM 추후) | 6 (수직 슬라이스 V2) |
 | Thumbnail Agent | `agents/thumbnail_agent.py` | full_script + project_manifest | `thumbnail_brief.json` | ✅ | 10 |
 | YouTube Metadata Agent | `agents/youtube_metadata_agent.py` | full_script + thumbnail | `youtube_metadata.json` | ✅ | 11 |
 
