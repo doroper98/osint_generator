@@ -33,7 +33,10 @@ from schemas.models import (
     IntakePlan,
     ProjectManifest,
     ProjectState,
+    SourceCollectionPartial,
+    SourceEntry,
     SourceIntake,
+    SourceRegistry,
 )
 
 
@@ -437,6 +440,91 @@ class TestWebSecurityAndNegativePaths(_IsolatedProjectsRoot):
         # 이제 state=intake_pending_user → plan-intake 재호출 시 exit=2
         rc = cli_main(["plan-intake", "demo3"])
         self.assertEqual(rc, 2)
+
+
+class TestBuildSourceRegistryCLI(_IsolatedProjectsRoot):
+    """build-source-registry CLI (Phase 5, v0.5.5)."""
+
+    def _advance_to_source_collecting(self) -> None:
+        self._create_demo3()
+        self._stub(VALID_PLAN_JSON)
+        self.assertEqual(cli_main(["plan-intake", "demo3"]), 0)
+        intake = SourceIntake(project_id="demo3", user_decisions=[])
+        intake_file = self.root / "decisions.json"
+        intake_file.write_text(intake.model_dump_json(indent=2), encoding="utf-8")
+        self.assertEqual(
+            cli_main(["submit-intake", "demo3", "--file", str(intake_file)]), 0
+        )
+        self.assertEqual(
+            self._load_manifest("demo3").current_state,
+            ProjectState.SOURCE_COLLECTING.value,
+        )
+
+    def _write_partial(self, partial: SourceCollectionPartial) -> None:
+        pdir = self.projects_root / "demo3" / "02_sources" / "partials"
+        pdir.mkdir(parents=True, exist_ok=True)
+        (pdir / f"{partial.task_id}.json").write_text(
+            partial.model_dump_json(indent=2), encoding="utf-8"
+        )
+
+    def test_builds_and_persists_registry(self) -> None:
+        self._advance_to_source_collecting()
+        self._write_partial(
+            SourceCollectionPartial(
+                project_id="demo3",
+                task_id="src_collect__b",
+                input_item_id="i2",
+                collected_sources=[SourceEntry(source_id="s2", platform="x", source_type="post")],
+            )
+        )
+        self._write_partial(
+            SourceCollectionPartial(
+                project_id="demo3",
+                task_id="src_collect__a",
+                input_item_id="i1",
+                collected_sources=[SourceEntry(source_id="s1", platform="x", source_type="post")],
+            )
+        )
+        rc = cli_main(["build-source-registry", "demo3"])
+        self.assertEqual(rc, 0)
+        reg_path = self.projects_root / "demo3" / "02_sources" / "source_registry.json"
+        self.assertTrue(reg_path.exists())
+        reg = SourceRegistry.model_validate_json(reg_path.read_text(encoding="utf-8"))
+        # 결정론적 순서: task_id asc (src_collect__a 먼저).
+        self.assertEqual([s.source_id for s in reg.sources], ["s1", "s2"])
+
+    def test_no_partials_yields_empty_registry(self) -> None:
+        self._advance_to_source_collecting()
+        rc = cli_main(["build-source-registry", "demo3"])
+        self.assertEqual(rc, 0)
+        reg_path = self.projects_root / "demo3" / "02_sources" / "source_registry.json"
+        self.assertTrue(reg_path.exists())
+        reg = SourceRegistry.model_validate_json(reg_path.read_text(encoding="utf-8"))
+        self.assertEqual(reg.sources, [])
+
+    def test_rejected_outside_source_collecting(self) -> None:
+        # created 상태에서 바로 호출 → exit 2 (precondition 위반).
+        self._create_demo3()
+        rc = cli_main(["build-source-registry", "demo3"])
+        self.assertEqual(rc, 2)
+
+    def test_builder_collision_returns_error(self) -> None:
+        self._advance_to_source_collecting()
+        for tid, iid in (("src_collect__a", "i1"), ("src_collect__b", "i2")):
+            self._write_partial(
+                SourceCollectionPartial(
+                    project_id="demo3",
+                    task_id=tid,
+                    input_item_id=iid,
+                    collected_sources=[SourceEntry(source_id="dup", platform="x", source_type="post")],
+                )
+            )
+        rc = cli_main(["build-source-registry", "demo3"])
+        self.assertEqual(rc, 1)
+
+    def test_invalid_project_id_rejected(self) -> None:
+        rc = cli_main(["build-source-registry", "../etc"])
+        self.assertEqual(rc, 1)
 
 
 if __name__ == "__main__":

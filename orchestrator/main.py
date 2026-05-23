@@ -9,6 +9,7 @@
 - plan-intake {pid} [--backend claude|codex]: IntakePlannerWorker 호출 + 인테이크 상태 전이
 - submit-intake {pid} --file path/to/source_intake.json
                                             : SourceIntake 영속화 + source_collecting 전이
+- build-source-registry {pid}               : partials 합쳐 source_registry.json 생성 (Phase 5)
 - approve --project {pid} --gate ...        : Review Gate 승인 기록 (Phase 11)
 - version                                   : 현재 버전 출력
 """
@@ -103,6 +104,21 @@ def build_parser() -> argparse.ArgumentParser:
     )
     sin.add_argument("--reason", default="CLI submit-intake", help="전이 사유")
 
+    bsr = sub.add_parser(
+        "build-source-registry",
+        help="02_sources/partials/*.json 을 합쳐 source_registry.json 생성 (Phase 5)",
+    )
+    bsr.add_argument("project_id", help="project_id")
+    bsr.add_argument(
+        "--lenient-input-item-id",
+        action="store_true",
+        help=(
+            "input_item_id=None 을 허용 (builder 의 strict_input_item_id=False). "
+            "기본은 strict — pipeline production path 에서는 source_collector 가 "
+            "항상 input_item_id 를 set 하므로 None 자체가 drift 신호."
+        ),
+    )
+
     apv = sub.add_parser("approve", help="Review Gate 승인 기록 (Phase 11)")
     apv.add_argument("--project", required=True)
     apv.add_argument("--gate", required=True)
@@ -186,6 +202,9 @@ def main(argv: list[str] | None = None) -> int:
 
     if args.cmd == "submit-intake":
         return _cmd_submit_intake(args)
+
+    if args.cmd == "build-source-registry":
+        return _cmd_build_source_registry(args)
 
     if args.cmd == "approve":
         print("approve: Phase 11 에서 구현 예정입니다.")
@@ -402,6 +421,73 @@ def _cmd_submit_intake(args: argparse.Namespace) -> int:
     print(f"decisions: {len(intake.user_decisions)}")
     _print_manifest_summary(manifest)
     return 0
+
+
+def _cmd_build_source_registry(args: argparse.Namespace) -> int:
+    """build-source-registry: partials 합쳐 source_registry.json 영속화 (Phase 5).
+
+    흐름:
+    1. project_id 정책 검증 (C1 path traversal 가드).
+    2. manifest 로딩 + state precondition (source_collecting 에서만 허용).
+    3. build_and_persist_source_registry — partials 로딩 → builder → 영속화.
+
+    builder 는 순수 함수 (디스크 I/O 없음). 로딩·쓰기는 source_registry_io 가
+    담당하며 본 CLI 는 그 thin orchestration 을 호출. 상태 전이는 source
+    completeness report 가 함께 생성되는 후속 단계 (Phase 5 완료) 에서 처리하므로
+    본 단계에서는 registry 영속화까지만 수행.
+    """
+    from orchestrator.project_manager import validate_project_id
+    from orchestrator.source_registry_io import build_and_persist_source_registry
+
+    try:
+        validate_project_id(args.project_id)
+    except ValueError as e:
+        print(f"error: {e}", file=sys.stderr)
+        return 1
+
+    try:
+        manifest = resume_project(args.project_id)
+    except FileNotFoundError as e:
+        print(f"error: {e}", file=sys.stderr)
+        return 1
+
+    current_str = (
+        manifest.current_state.value
+        if hasattr(manifest.current_state, "value")
+        else manifest.current_state
+    )
+    if current_str != ProjectState.SOURCE_COLLECTING.value:
+        print(
+            f"error: 현재 상태 '{current_str}' 에서는 build-source-registry 를 실행할 수 "
+            f"없습니다. (허용: source_collecting)",
+            file=sys.stderr,
+        )
+        return 2
+
+    try:
+        registry, stats = build_and_persist_source_registry(
+            args.project_id,
+            strict_input_item_id=not args.lenient_input_item_id,
+        )
+    except (json.JSONDecodeError, ValueError) as e:
+        print(f"error: source_registry 빌드 실패 — {e}", file=sys.stderr)
+        return 1
+
+    out_path = manifest_sources_path(args.project_id) / "source_registry.json"
+    print(f"build-source-registry 완료: {args.project_id}")
+    print(f"saved   : {out_path}")
+    print(
+        f"stats   : partials={stats['partial_count']} "
+        f"(empty={stats['empty_partial_count']}) sources={stats['source_count']}"
+    )
+    return 0
+
+
+def manifest_sources_path(project_id: str) -> Path:
+    """`projects/{pid}/02_sources/` 디렉토리."""
+    from orchestrator.config import project_dir as _pdir
+
+    return _pdir(project_id) / "02_sources"
 
 
 def manifest_intake_path(project_id: str) -> Path:

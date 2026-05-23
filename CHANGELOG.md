@@ -1,6 +1,6 @@
 <!--
 tier: 3
-last_synced_with: v0.5.4
+last_synced_with: v0.5.5
 ssot_for: [release-notes]
 depends_on: [README.md, GOAL.md]
 last_review: 2026-05-23
@@ -25,6 +25,37 @@ released 항목은 **append-only**입니다.
 
 ### Fixed
 -
+
+---
+
+## [v0.5.5] — 2026-05-23
+
+Phase 5 셋째 PATCH — `source_registry_builder` (순수 함수) 의 **I/O 경계** 를
+신설하고 CLI 에 연결한다. partials 가 디스크에 흩어진 채로는 효용이 없으므로,
+`02_sources/partials/*.json` 을 로드 → builder → `02_sources/source_registry.json`
+영속화하는 wiring 을 추가. builder 의 순수성 (디스크 I/O 없음) 은 유지.
+
+### Added
+
+- **`orchestrator/source_registry_io.py`** — builder 의 I/O 경계.
+  - `load_partials(project_id, cfg)` — `02_sources/partials/*.json` 로드 →
+    `SourceCollectionPartial[]`. **결정론적 순서** (parsed `task_id` asc, tie-break
+    파일명) 로 반환하여 builder 의 caller-ordering 계약 충족. `Path.glob` 의
+    OS 의존적 순서를 builder 에 그대로 넘기지 않는다. 손상 partial 은 건너뛰지
+    않고 예외 전파 (fail-fast).
+  - `persist_source_registry(project_id, registry, cfg)` — atomic write
+    (tmp → fsync → rename, 부모 디렉토리 best-effort fsync). `project_manager`
+    의 manifest 영속화와 동일 정책.
+  - `build_and_persist_source_registry(project_id, *, strict_input_item_id, cfg)`
+    — 로딩 → builder → 영속화 thin orchestration. registry + `partial_counter`
+    통계 반환.
+- **`orchestrator/main.py`** — `build-source-registry {pid}` 서브커맨드.
+  state precondition (`source_collecting` 에서만 허용), `--lenient-input-item-id`
+  플래그 (builder 의 `strict_input_item_id=False`). 상태 전이는 source
+  completeness report 와 함께 처리하는 Phase 5 완료 단계로 미룸 (본 단계는
+  registry 영속화까지).
+- **테스트** — `tests/test_source_registry_io.py` (15), `test_intake_flow.py` 에
+  `TestBuildSourceRegistryCLI` (5). baseline 184 → 204.
 
 ---
 

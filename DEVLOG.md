@@ -1,6 +1,6 @@
 <!--
 tier: 3
-last_synced_with: v0.5.4
+last_synced_with: v0.5.5
 ssot_for: [development-log]
 depends_on: [CHANGELOG.md]
 last_review: 2026-05-23
@@ -24,6 +24,25 @@ last_review: 2026-05-23
 ```
 
 ---
+
+## 2026-05-23 v0.5.5 — Phase 5 셋째 PATCH (source_registry.json 영속화 wiring)
+
+- **무엇을**: `source_registry_builder` (순수 함수) 의 I/O 경계
+  `orchestrator/source_registry_io.py` 신설 + `build-source-registry` CLI
+  서브커맨드. `02_sources/partials/*.json` → builder → `source_registry.json`.
+- **왜**: v0.5.3/v0.5.4 의 builder 는 디스크 I/O 가 없어 (의도된 순수성) 그
+  자체로는 partials 를 registry 로 만들 수 없었다. partials 가 효용을 발생시키는
+  지점 = registry 영속화. Phase 5 e2e (intake → planner → worker → partials →
+  registry) 의 디스크 측 한 단을 닫음.
+- **어떻게**: builder 의 순수성 유지 — 로딩·쓰기는 io 모듈에만. `load_partials`
+  는 `Path.glob` 의 OS 의존적 순서를 그대로 넘기지 않고 parsed `task_id` asc 로
+  정렬 (builder docstring 의 caller-ordering 계약 충족). 영속화는 atomic
+  (tmp → fsync → rename), `project_manager._write_manifest` 와 동일 정책. CLI 는
+  precondition (`source_collecting`) 검증 후 thin orchestration 호출. 상태 전이는
+  completeness report 와 함께 처리할 Phase 5 완료 단계로 미룸.
+- **결과**: 테스트 184 → 204 (io 15 + CLI 5). 전부 통과.
+- **연관**: Phase 5, docs/13_IMPLEMENTATION_ROADMAP.md:42. 다음 단계 =
+  SourceCompletenessReport 모델 + checker (Phase 5 완료, MINOR → C10 codex 리뷰).
 
 ## 2026-05-23 v0.5.4 — 외부 코드 리뷰 5차 반영 (SourceRegistryBuilder fail-fast 강화)
 
