@@ -154,7 +154,7 @@ class SourceCollectorWorker(BaseLLMWorker):
     worker_name = "source_collector"
     task_type = "source_collection"
 
-    llm_backend: ClassVar[str] = "codex"
+    llm_backend: str = "codex"
     llm_mode: ClassVar[str] = "agent"
     # LLM-AP-003: agent 모드 opt-in. BaseLLMWorker.run() 의 가드 통과 조건.
     allow_agent_mode: ClassVar[bool] = True

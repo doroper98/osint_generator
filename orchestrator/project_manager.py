@@ -163,6 +163,37 @@ def load_manifest(project_id: str, cfg: Optional[AppConfig] = None) -> ProjectMa
 # ---------------------------------------------------------------------------
 
 
+INITIAL_LINK_MAX_LEN: int = 2048
+INITIAL_LINK_MAX_COUNT: int = 50
+
+
+def _normalize_initial_links(links: Optional[list[str]]) -> list[str]:
+    """사용자 제공 링크를 신뢰 경계에서 정규화.
+
+    링크는 IntakePlanner 프롬프트에 삽입되므로 (trust boundary) 제어문자·개행으로
+    프롬프트 구조를 깨거나 비-URL 텍스트로 prompt-injection 을 시도하지 못하게 한다.
+
+    - 제어문자·공백을 모두 제거 (URL 에 내부 공백은 없음).
+    - http:// 또는 https:// 로 시작하는 것만 유지 (그 외는 drop).
+    - 링크당 최대 INITIAL_LINK_MAX_LEN, 최대 INITIAL_LINK_MAX_COUNT 개.
+    """
+    if not links:
+        return []
+    out: list[str] = []
+    for raw in links:
+        if raw is None:
+            continue
+        s = "".join(ch for ch in str(raw) if ch.isprintable() and not ch.isspace())
+        if not (s.startswith("http://") or s.startswith("https://")):
+            continue
+        if len(s) > INITIAL_LINK_MAX_LEN:
+            continue
+        out.append(s)
+        if len(out) >= INITIAL_LINK_MAX_COUNT:
+            break
+    return out
+
+
 def new_project(
     project_id: str,
     title: str,
@@ -196,7 +227,7 @@ def new_project(
         category=cat,
         target_duration_min=target_duration_min,
         topic_summary=topic_summary,
-        initial_links=initial_links or [],
+        initial_links=_normalize_initial_links(initial_links),
         current_state=ProjectState.CREATED,
         state_history=[],
     )

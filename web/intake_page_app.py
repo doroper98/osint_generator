@@ -150,10 +150,11 @@ async def create_project(request: Request):
     cl = request.headers.get("content-length")
     if cl is not None:
         try:
-            if int(cl) > MAX_FORM_BYTES:
-                raise HTTPException(status_code=413, detail="request body too large")
+            cl_int = int(cl)
         except ValueError:
-            pass
+            raise HTTPException(status_code=400, detail="invalid Content-Length header")
+        if cl_int > MAX_FORM_BYTES:
+            raise HTTPException(status_code=413, detail="request body too large")
 
     form = await request.form()
     project_id = (form.get("project_id") or "").strip()
@@ -177,7 +178,7 @@ async def create_project(request: Request):
     initial_links = _split_lines(form.get("initial_links"))
     backend = (form.get("backend") or "claude").strip()
     if backend not in {"claude", "codex"}:
-        backend = "claude"
+        raise HTTPException(status_code=400, detail="invalid backend")
 
     try:
         new_project(
@@ -205,6 +206,19 @@ async def create_project(request: Request):
                 "kind": e.kind,
                 "detail": str(e),
             },
+        )
+    except ValueError as e:
+        # 상태 전이 실패 — 보통 다른 프로세스/라우트가 동시에 상태를 바꾼 경우.
+        logger.warning("new-project transition fail — pid=%s err=%s", project_id, e)
+        return JSONResponse(
+            status_code=409,
+            content={"error": "project state changed concurrently; retry", "detail": str(e)},
+        )
+    except Exception:  # noqa: BLE001 — 라우트 경계: 구조화 500 보장 + traceback 로깅
+        logger.exception("new-project unexpected error — pid=%s", project_id)
+        return JSONResponse(
+            status_code=500,
+            content={"error": "internal error during intake planning"},
         )
 
     return RedirectResponse(url=f"/intake/{project_id}", status_code=303)

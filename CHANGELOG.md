@@ -1,6 +1,6 @@
 <!--
 tier: 3
-last_synced_with: v0.7.0
+last_synced_with: v0.7.1
 ssot_for: [release-notes]
 depends_on: [README.md, GOAL.md]
 last_review: 2026-05-23
@@ -25,6 +25,41 @@ released 항목은 **append-only**입니다.
 
 ### Fixed
 -
+
+---
+
+## [v0.7.1] — 2026-05-23
+
+**외부 코드 리뷰 1차 반영** (codex review, v0.7.0 대상). High 2 / Medium 3 / Low 2 를
+모두 흡수 (false positive 없음).
+
+### Fixed
+
+- **`web/intake_page_app.py:create_project`** — `run_intake_planner` 의 `ValueError`
+  (상태 전이 실패 — 동시 상태 변경 등) 와 예기치 못한 예외를 구조화 JSON 으로 처리
+  (각각 409 "retry" / 500 + traceback 로깅). 이전엔 `IntakePlanningError` 만 잡아
+  나머지가 비구조화 500 으로 샜다. (codex High2)
+- **`orchestrator/intake_service.py`** — 최종 `intake_pending_user` 전이가
+  `resume_project` 재호출 대신 in-memory manifest 를 사용 — worker 완료 후 재로딩
+  사이의 race window 제거 (planner 는 manifest 를 건드리지 않음). (codex High1)
+
+### Changed
+
+- **`web/intake_page_app.py`** — 잘못된 `Content-Length` 헤더는 무시하지 않고 400,
+  잘못된 `backend` 는 조용한 claude fallback 대신 400. (codex Med1/Med3)
+- **`orchestrator/project_manager.py`** — `initial_links` 를 입력 경계에서 정규화
+  (`_normalize_initial_links`): 제어문자/공백 제거, `http(s)://` 만 유지, 링크당
+  2048자·최대 50개 cap. 사용자 링크가 IntakePlanner 프롬프트에 삽입되는 trust
+  boundary 를 강화 (prompt-injection/구조 훼손 방지). (codex Med2)
+- **`workers/base_llm_worker.py` 외 3개 worker** — `llm_backend` 를 `ClassVar` 에서
+  일반 속성으로 변경하여 인스턴스 단위 override (`worker.llm_backend = backend`) 가
+  타입상 합법이 되도록 → `# type: ignore[misc]` 제거. (codex Low1)
+- **`orchestrator/intake_service.py`** — 미사용 `projects_root` 파라미터 제거
+  (`worker_args.projects_root="projects"` 고정, cfg 와 단일 출처). (codex Low2)
+
+### Tests
+
+- 신규 2 케이스 (링크 정규화 drop, 잘못된 backend 400). 전체 232 → 234 통과.
 
 ---
 

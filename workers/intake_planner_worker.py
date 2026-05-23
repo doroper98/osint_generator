@@ -188,7 +188,7 @@ class IntakePlannerWorker(BaseLLMWorker):
     worker_name = "intake_planner"
     task_type = "intake_planning"
 
-    llm_backend: ClassVar[str] = "claude"
+    llm_backend: str = "claude"
     llm_mode: ClassVar[str] = "response"
     system_prompt: ClassVar[str] = _SYSTEM_PROMPT_TEMPLATE
     response_model: ClassVar[Type[VersionedModel]] = IntakePlan

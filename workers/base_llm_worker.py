@@ -188,8 +188,11 @@ class LLMSubprocessError(Exception):
 class BaseLLMWorker(BaseWorker):
     """LLM 호출이 필요한 Worker 의 공통 베이스."""
 
-    # 하위 클래스가 오버라이드해야 하는 클래스 변수
-    llm_backend: ClassVar[Literal["claude", "codex"]] = "claude"
+    # 하위 클래스가 오버라이드해야 하는 클래스 변수.
+    # llm_backend 는 호출자가 인스턴스 단위로 override 할 수 있어야 하므로 (CLI/Web 의
+    # --backend 선택) ClassVar 가 아닌 일반 속성으로 둔다. 값 검증은 입력 경계
+    # (argparse choices / web 400) 와 CLI_INVOCATION 키 조회에서 수행.
+    llm_backend: str = "claude"
     llm_mode: ClassVar[Literal["response", "agent"]] = "response"
     system_prompt: ClassVar[str] = ""
     response_model: ClassVar[Type[VersionedModel]]

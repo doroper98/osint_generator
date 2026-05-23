@@ -1,6 +1,6 @@
 <!--
 tier: 3
-last_synced_with: v0.7.0
+last_synced_with: v0.7.1
 ssot_for: [development-log]
 depends_on: [CHANGELOG.md]
 last_review: 2026-05-23
@@ -24,6 +24,34 @@ last_review: 2026-05-23
 ```
 
 ---
+
+## 2026-05-23 v0.7.1 — 외부 코드 리뷰 1차 반영 (v0.7.0 웹 진입 robustness)
+
+- **무엇을**: codex 외부 리뷰(v0.7.0 대상) High 2 / Medium 3 / Low 2 를 전부 흡수.
+  false positive 없음.
+- **흡수 내역**:
+  - **High1 (race window)**: intake_service 최종 전이가 `resume_project` 재호출 대신
+    in-memory manifest 사용. planner worker 가 manifest 를 건드리지 않으므로 디스크
+    상태와 동일 — 재로딩 사이 동시 변경 race 를 제거.
+  - **High2 (web 예외 누락)**: create_project 가 `ValueError`(전이 실패)를 409
+    "retry" 로, 기타 예외를 500 + `logger.exception` 으로 구조화 처리. 라우트의
+    JSON 에러 계약 일관성 확보.
+  - **Med1 (Content-Length)**: 잘못된 헤더를 무시(pass)하지 않고 400. (submit 라우트의
+    동일 패턴은 prior-reviewed 라 본 PATCH scope 밖으로 유지.)
+  - **Med2 (링크 trust boundary)**: `_normalize_initial_links` 를 new_project 입력
+    경계에 신설 — 제어문자/공백 제거, http(s) allowlist, 2048자·50개 cap. 사용자
+    링크가 planner 프롬프트에 verbatim 삽입되므로 prompt-injection/구조 훼손 차단.
+    web/CLI 두 경로가 new_project 한 곳을 통과하므로 단일 출처.
+  - **Med3 (backend fallback)**: 잘못된 backend 를 조용히 claude 로 fallback 하지 않고
+    400 (클라이언트 버그 가시화). 폼은 select 라 정상 경로 영향 없음.
+  - **Low1 (type:ignore)**: `llm_backend` 를 `ClassVar` → 일반 속성으로 (base + 3
+    worker). 인스턴스 override 가 타입상 합법이 되어 `# type: ignore[misc]` 제거.
+    런타임 동일(ClassVar 는 타입 힌트일 뿐), 값 검증은 입력 경계·CLI_INVOCATION 키.
+  - **Low2 (projects_root)**: run_intake_planner 의 미사용 파라미터 제거, cfg 와 단일
+    출처로.
+- **결과**: 신규 2 테스트, 전체 232 → 234 통과. py_compile 통과.
+- **연관**: C10.3 — 본 PATCH 는 "외부 리뷰 결과 반영" 카테고리로 codex 재리뷰 **면제**
+  (무한 루프 방지). v0.7.0 (본 PATCH 가 반영하는 트리거).
 
 ## 2026-05-23 v0.7.0 — 웹 주제 입력 진입 화면 + 초기 링크 주입
 

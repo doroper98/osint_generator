@@ -43,7 +43,6 @@ def run_intake_planner(
     *,
     backend: str = "claude",
     force: bool = False,
-    projects_root: str = "projects",
     cfg: Optional[AppConfig] = None,
 ) -> tuple[ProjectManifest, list[str], bool]:
     """plan-intake 전체 흐름 실행.
@@ -117,12 +116,12 @@ def run_intake_planner(
             output_refs=["01_intake/intake_plan.json"],
         )
         worker = IntakePlannerWorker()
-        worker.llm_backend = backend  # type: ignore[misc]
+        worker.llm_backend = backend
 
         worker_args = argparse.Namespace(
             project_id=project_id,
             task_id=task_id,
-            projects_root=projects_root,
+            projects_root="projects",
         )
         result = worker.run(worker_args, task)
         try:
@@ -140,8 +139,10 @@ def run_intake_planner(
             )
         outputs = list(result.outputs)
 
+    # in-memory manifest 를 그대로 전이 (planner worker 는 manifest 를 건드리지 않으므로
+    # 디스크 상태와 동일). resume_project 재호출을 피해 그 사이 race window 를 제거.
     manifest = transition_state(
-        resume_project(project_id, cfg),
+        manifest,
         ProjectState.INTAKE_PENDING_USER,
         reason="IntakePlannerWorker 성공" if not skipped else "기존 intake_plan.json 재사용",
         cfg=cfg,

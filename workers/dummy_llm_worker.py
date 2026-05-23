@@ -33,7 +33,7 @@ class DummyLLMWorker(BaseLLMWorker):
     worker_name = "dummy_llm_worker"
     task_type = "dummy_llm"
 
-    llm_backend: ClassVar[str] = "claude"
+    llm_backend: str = "claude"
     llm_mode: ClassVar[str] = "response"
     system_prompt: ClassVar[str] = (
         "You are a stub. Echo back the user input as JSON: "
