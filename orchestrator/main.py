@@ -479,8 +479,11 @@ def _cmd_build_source_registry(args: argparse.Namespace) -> int:
             args.project_id,
             strict_input_item_id=not args.lenient_input_item_id,
         )
-    except (json.JSONDecodeError, ValueError) as e:
-        print(f"error: source_registry 빌드 실패 — {e}", file=sys.stderr)
+    except (json.JSONDecodeError, ValueError, OSError) as e:
+        # JSONDecodeError/ValidationError(=ValueError) : partial 손상·스키마 위반,
+        # ValueError : builder fail-fast invariant, OSError : registry 디스크 영속화 실패.
+        # report persist 의 OSError 처리와 대칭 — 영속화 단계가 어디서 깨지든 전이 금지.
+        print(f"error: source_registry 빌드/영속화 실패 — {e}", file=sys.stderr)
         return 1
 
     report = check_source_completeness(registry)

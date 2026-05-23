@@ -1,6 +1,6 @@
 <!--
 tier: 3
-last_synced_with: v0.6.0
+last_synced_with: v0.6.1
 ssot_for: [release-notes]
 depends_on: [README.md, GOAL.md]
 last_review: 2026-05-23
@@ -25,6 +25,35 @@ released 항목은 **append-only**입니다.
 
 ### Fixed
 -
+
+---
+
+## [v0.6.1] — 2026-05-23
+
+**외부 코드 리뷰 1차 반영** (codex review, v0.5.5/v0.6.0 대상). Critical/Medium/Nit
+중 합의된 항목 흡수. High(빈 partials strict 모드) 와 일부 Low 는 false positive /
+scope 밖으로 보류 (DEVLOG 근거 명시).
+
+### Fixed
+
+- **`orchestrator/main.py`** — `build-source-registry` 의 `source_registry.json`
+  영속화 단계에서 발생하는 디스크 `OSError` 가 잡히지 않아 controlled exit code
+  대신 uncaught exception 으로 종료되던 갭 수정. report persist 의 `OSError`
+  처리와 대칭으로, 두 영속화 단계 중 어디서 깨지든 상태 전이를 막는다.
+
+### Changed
+
+- **`orchestrator/source_completeness_checker.py`** — severity 카운터를
+  `str(i.severity)` 로 정규화하여 `CompletenessIssue.model_config` (`use_enum_values`)
+  변경에 결합되지 않도록 robustness 보강.
+
+### Added
+
+- **`schemas/models.py`** — `CompletenessIssueType.RIGHTS_STATUS_UNKNOWN_VALUE`
+  신규 값. 정책 §2 미정의 권리 상태(스키마 drift) 를 known `review_required` 와
+  구분되는 전용 진단으로 표면화. `SourceEntry.reliability_score` 와
+  `SourceCompletenessReport.reliability_threshold` 에 `ge=0.0, le=1.0` 범위 제약
+  추가. 모두 additive — `schema_version` 1 유지.
 
 ---
 

@@ -110,8 +110,9 @@ def _rights_issue(entry: SourceEntry) -> CompletenessIssue | None:
             recommendation="Review Gate 통과 시 사용 가능. 출처/라이선스 확인을 권장합니다.",
         )
     # 알 수 없는 신규 권리 상태 (스키마 drift) — 보수적으로 WARNING 으로 표면화.
+    # known REVIEW_REQUIRED 와 구분되는 전용 issue_type 으로 진단을 선명하게.
     return CompletenessIssue(
-        issue_type=CompletenessIssueType.RIGHTS_REVIEW_REQUIRED,
+        issue_type=CompletenessIssueType.RIGHTS_STATUS_UNKNOWN_VALUE,
         severity=CompletenessSeverity.WARNING,
         source_id=entry.source_id,
         detail=f"rights_status={rv} — 정책에 정의되지 않은 권리 상태.",
@@ -197,9 +198,14 @@ def check_source_completeness(
             ),
         )
 
-    blocker_count = sum(1 for i in issues if i.severity == CompletenessSeverity.BLOCKER.value)
-    warning_count = sum(1 for i in issues if i.severity == CompletenessSeverity.WARNING.value)
-    info_count = sum(1 for i in issues if i.severity == CompletenessSeverity.INFO.value)
+    # use_enum_values=True 라 i.severity 는 런타임에 str 이지만, config 변경에
+    # 결합되지 않도록 str() 로 정규화한 뒤 enum .value 와 비교한다.
+    def _sev_count(target: CompletenessSeverity) -> int:
+        return sum(1 for i in issues if str(i.severity) == target.value)
+
+    blocker_count = _sev_count(CompletenessSeverity.BLOCKER)
+    warning_count = _sev_count(CompletenessSeverity.WARNING)
+    info_count = _sev_count(CompletenessSeverity.INFO)
 
     if usable == 0:
         overall_status = "insufficient"

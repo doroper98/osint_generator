@@ -338,7 +338,7 @@ class SourceEntry(BaseModel):
     original_text: Optional[str] = None
     translated_text: Optional[str] = None
     rights_status: RightsStatus = RightsStatus.RIGHTS_UNKNOWN
-    reliability_score: float = 0.5
+    reliability_score: float = Field(default=0.5, ge=0.0, le=1.0)
     verification_status: Literal["unverified", "cross_checked", "official", "disputed"] = "unverified"
     risk_flags: list[str] = Field(default_factory=list)
     usage_plan: list[str] = Field(default_factory=list)
@@ -377,6 +377,9 @@ class CompletenessIssueType(str, Enum):
     SOURCE_UNUSABLE = "source_unusable"
     LOW_RELIABILITY = "low_reliability"
     RISK_FLAG_PRESENT = "risk_flag_present"
+    # 정책 §2 에 정의되지 않은 rights_status 값 (스키마 drift). '검토 필요' 와 구분되는
+    # 별도 진단 — known review_required 와 unknown value 를 혼동하지 않기 위함.
+    RIGHTS_STATUS_UNKNOWN_VALUE = "rights_status_unknown_value"
 
 
 class CompletenessIssue(BaseModel):
@@ -409,7 +412,7 @@ class SourceCompletenessReport(VersionedModel):
 
     project_id: str
     generated_at: datetime = Field(default_factory=utc_now)
-    reliability_threshold: float = 0.5
+    reliability_threshold: float = Field(default=0.5, ge=0.0, le=1.0)
     total_sources: int = 0
     usable_sources: int = 0
     blocker_count: int = 0

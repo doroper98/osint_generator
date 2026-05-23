@@ -1,6 +1,6 @@
 <!--
 tier: 3
-last_synced_with: v0.6.0
+last_synced_with: v0.6.1
 ssot_for: [development-log]
 depends_on: [CHANGELOG.md]
 last_review: 2026-05-23
@@ -24,6 +24,37 @@ last_review: 2026-05-23
 ```
 
 ---
+
+## 2026-05-23 v0.6.1 — 외부 코드 리뷰 1차 반영 (Phase 5 산출물 robustness)
+
+- **무엇을**: codex 외부 리뷰(v0.5.5/v0.6.0 대상)의 Critical/Medium/Nit 중 합의된
+  항목 흡수. (1) `build-source-registry` 의 registry 영속화 디스크 `OSError`
+  누락 수정, (2) checker severity 카운터 `str()` 정규화, (3) 미정의 권리 상태용
+  `RIGHTS_STATUS_UNKNOWN_VALUE` issue_type 신설, (4) reliability_score /
+  reliability_threshold `ge=0.0, le=1.0` 제약.
+- **왜**: (1) report persist 는 `OSError` 를 잡는데 registry persist 는 안 잡아
+  비대칭이었다 — codex 는 report 쪽만 지적했으나 실제 더 정확한 갭은 registry
+  쪽. 영속화 어디서 깨지든 controlled exit + 전이 금지여야 한다. (2) `i.severity
+  == Enum.value` 는 `use_enum_values=True` config 에 결합 — config 변경 시 조용히
+  깨진다. (3) known `review_required` 와 unknown value 혼동 방지(진단 선명화).
+  (4) score/threshold 는 도메인상 0~1 (worker 문서 명시) — 외부 주입 방어.
+- **어떻게**: codex 가 제안한 광범위 `except Exception` 은 CLAUDE.md "일어날 수
+  없는 시나리오 방어 금지" 에 어긋나 `OSError` 범위로 한정. 제약 추가 전 전체
+  test 의 reliability_score 값(0.1~0.9)이 범위 내임을 확인 — breaking 없음.
+- **보류 (사용자 합의, false positive / scope 밖)**:
+  - **High (빈 partials strict 모드)**: AskUserQuestion → "현재 유지". `partials/`
+    부재 시 `NO_USABLE_SOURCES` blocker 리포트가 이미 '자료 0개' 를 명확히 신호하고
+    Review Gate 2 에서 사용자가 보완/진행 판단. 추가 플래그는 YAGNI(C8.4).
+  - **Medium 2 (state `hasattr` fallback)**: 신규 코드 아님 — `plan-intake`
+    (main.py:256)·`submit-intake`(:370) 와 동일한 기존 컨벤션. load-boundary
+    리팩토링은 본 PATCH scope 밖.
+  - **Low (temp 파일 race)**: `project_manager._write_manifest` 정책을 의도적
+    미러링. 선형 state machine 상 동일 프로젝트 동시 쓰기 미발생.
+  - **Low (filename casefold)**: 대소문자만 다른 파일명 + task_id 동률의 exotic
+    케이스. cross-platform 재현성 요구가 명시되기 전까지 보류.
+- **결과**: 테스트 222/222 통과 (회귀 없음). py_compile 통과.
+- **연관**: C10.1 — 본 PATCH 는 "외부 리뷰 결과 반영" 카테고리로 codex 재리뷰
+  **면제**(무한 루프 방지, C10.3). C7 동기화 (05_DATA_SCHEMA_SPEC).
 
 ## 2026-05-23 v0.6.0 — Phase 5 완료 (SourceCompletenessReport + checker)
 

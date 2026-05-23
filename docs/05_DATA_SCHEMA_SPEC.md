@@ -1,6 +1,6 @@
 <!--
 tier: 2
-last_synced_with: v0.6.0
+last_synced_with: v0.6.1
 ssot_for: [json-contracts-overview]
 depends_on: [../schemas/models.py]
 last_review: 2026-05-23
@@ -130,7 +130,7 @@ last_review: 2026-05-23
 | schema_version | int | 1 |
 | project_id | str | registry 와 동일 |
 | generated_at | datetime | UTC |
-| reliability_threshold | float | `reliability_score <` 비교 임계 (기본 0.5) |
+| reliability_threshold | float | `reliability_score <` 비교 임계 (기본 0.5, 범위 0.0~1.0) |
 | total_sources | int | registry 의 전체 소스 수 |
 | usable_sources | int | `rights_clear` / `manual_user_provided` 수 (정책 §2 ✅) |
 | blocker_count / warning_count / info_count | int | severity 별 이슈 수 |
@@ -139,8 +139,10 @@ last_review: 2026-05-23
 
 `CompletenessIssue`: `issue_type` (no_usable_sources / rights_do_not_use /
 rights_review_required / rights_unknown / source_unusable / low_reliability /
-risk_flag_present), `severity` (blocker / warning / info), `source_id`
-(registry-level 이슈는 null), `detail`, `recommendation`.
+risk_flag_present / rights_status_unknown_value), `severity` (blocker / warning
+/ info), `source_id` (registry-level 이슈는 null), `detail`, `recommendation`.
+`rights_status_unknown_value` 는 정책 §2 에 정의되지 않은 권리 상태(스키마 drift)
+전용 — known `review_required` 와 구분되는 보수적 `warning` 진단.
 
 **severity 정책**: 사용 가능 자료가 0개일 때만 `blocker` (`no_usable_sources`).
 권리 미확보·신뢰도 낮음·위험 플래그는 `warning`, `rights_unknown` 은 `info`.
