@@ -1,9 +1,9 @@
 <!--
 tier: 3
-last_synced_with: v0.4.2
+last_synced_with: v0.5.3
 ssot_for: [release-notes]
 depends_on: [README.md, GOAL.md]
-last_review: 2026-05-22
+last_review: 2026-05-23
 -->
 
 # CHANGELOG
@@ -25,6 +25,72 @@ released 항목은 **append-only**입니다.
 
 ### Fixed
 -
+
+---
+
+## [v0.5.3] — 2026-05-23
+
+Phase 5 의 두 번째 PATCH. SourceCollectionPartial[] 을 정식 SourceRegistry 로
+합치는 순수 함수 빌더 도입. 직전 PATCH (v0.5.0 / v0.5.2) 에서 deferred 된 항목
+중 §3 표의 1 번 (가장 작고 위험 적은 항목) 부터 진입.
+
+본 PATCH 는 **순수 함수 + Pydantic 합성**. 디스크 I/O / 네트워크 / LLM 호출 모두
+없음. 단위 테스트만으로 충분.
+
+본 PATCH 는 새 도메인 컴포넌트 도입 (CLAUDE.md C10.1 의 "권장" 카테고리) — codex
+재리뷰 의무 면제. 단, 후속 v0.5.4 (MINOR) 진행 전에 본 PATCH 의 빌더 정책이
+실제로 source_intake → partials → registry 의 e2e 흐름에서 정합한지 한 번
+재검토 권장.
+
+### Added
+
+- **`orchestrator/source_registry_builder.py`** — 순수 함수 빌더 두 개:
+  - `build_source_registry(project_id, partials) -> SourceRegistry` —
+    partials 를 합쳐 정식 레지스트리 생성.
+  - `partial_counter(partials) -> dict[str, int]` — 빌드 통계 (호출자 로그용).
+
+  **설계 결정 (사용자 확정)**: 본 빌더는 fail-fast 정책 — 충돌 자체가 worker /
+  planner 단의 버그 신호이거나 buggy upstream 의 사고이므로 조용히 merge / dedup
+  하지 않고 raise. 무결성 사고 은폐 방지. 다섯 가지 invariant:
+
+  1. **cross-partial source_id 충돌**     → raise (LLM-AP-003 echo identifier
+                                            production breach 신호)
+  2. **cross-partial input_item_id 충돌** → raise (한 input_item_id 는 한
+                                            partial, planner / task_queue
+                                            idempotency 검증)
+  3. **intra-partial source_id 중복**     → raise (Pydantic 가 list uniqueness
+                                            강제 안 함, builder 진입 전 검증)
+  4. **schema_version 불일치**            → raise (C3 additive-first 위반)
+  5. **project_id 불일치**                → raise (다른 프로젝트와 섞임 방지)
+
+  **빈 partial 처리**: `collected_sources` 가 빈 partial 은 통계
+  (`empty_partial_count`) 에만 +1, `sources` 에는 기여 없음. "collector 가
+  실행됐으나 후보 없음" 을 구분 가능하게.
+
+  **머지 정책 (raise 정책상 도달 불가, 향후 dedupe 모드 재사용 대비
+  docstring 으로만 명문화)**:
+  - `rights_status`: `do_not_use > review_required > rights_unknown > rights_clear`
+    (legal-safe, false negative 회피)
+  - `verification_status`: `disputed > unverified > cross_checked > official`
+    (의심 우선 — 자동 머지가 임의로 official 로 승격하지 않음)
+  - `reliability_score`: `min(a, b)` (정보 손실 최소화)
+  - `risk_flags` / `usage_plan`: 순서 보존 합집합 (정보 보존)
+
+- **`tests/test_source_registry_builder.py`** — 신규 19 케이스. happy path 8
+  (빈 입력, 단일 partial, 다수 partial 순서 보존, 빈 partial 통계 반영,
+  input_item_id=None 허용, schema_version 일치, 필드 통과) + 충돌 / 무결성
+  5 (cross source_id / cross input_item_id / intra source_id / project_id /
+  schema_version) + counter 3 + 충돌 검출 순서 1 + 추가 보조 케이스.
+
+### Changed
+
+- **`VERSION`** 0.5.2 → 0.5.3.
+- **`CHANGELOG.md`** `last_synced_with: v0.5.3`, `last_review: 2026-05-23`.
+
+### Test baseline
+
+- `python -m unittest discover -s tests` : **167/167** (운영 148 + 신규 19).
+  실 codex e2e 는 본 PATCH 의 범위 밖 (디스크 I/O / 네트워크 / LLM 호출 없음).
 
 ---
 

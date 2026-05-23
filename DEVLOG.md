@@ -1,9 +1,9 @@
 <!--
 tier: 3
-last_synced_with: v0.4.2
+last_synced_with: v0.5.3
 ssot_for: [development-log]
 depends_on: [CHANGELOG.md]
-last_review: 2026-05-22
+last_review: 2026-05-23
 -->
 
 # DEVLOG
@@ -919,3 +919,61 @@ last_review: 2026-05-22
   worker 의 첫 호출자가 본 PATCH 로 production-ready 한 상태로 진입), codex 1차
   리뷰 결과 (Critical 2 / High 3 / Medium 3 / Low 2 / Nit 5 — Nit 5 개는 모두
   OK 평가라 흡수 불필요).
+
+---
+
+## 2026-05-23 v0.5.3 — Phase 5 둘째 PATCH: SourceRegistryBuilder 도입
+
+- **무엇을**: `02_sources/partials/*.json` 의 `SourceCollectionPartial[]` 을
+  합쳐 정식 `SourceRegistry` 를 생성하는 순수 함수 빌더 모듈 도입
+  (`orchestrator/source_registry_builder.py`) + 단위 테스트 19 케이스
+  (`tests/test_source_registry_builder.py`).
+- **왜**: 직전 PATCH (v0.5.0 / v0.5.2) 에서 명시적으로 deferred 한 §3 표 1 번
+  항목. partial 들이 "효용을 발생시키는 지점" — 빌더가 없으면 partials/*.json
+  은 단순 산출물 더미. Phase 5 의 e2e 흐름 (intake → planner → worker →
+  partials → registry) 의 마지막 한 단을 닫음. 가장 작고 위험 적은 항목부터
+  진입 (순수 함수 + Pydantic 합성, 디스크 I/O / 네트워크 / LLM 호출 없음).
+- **어떻게**:
+  - **fail-fast 정책**: 사용자 확정. 조용히 dedup / merge 하지 않고 raise.
+    근거: LLM-AP-003 (echo identifier) 의 production 사용자인
+    SourceCollectorWorker 가 발급한 source_id 가 task 단위로 고유해야 하므로,
+    충돌 자체가 worker / planner 단의 버그 신호이거나 buggy upstream 의 사고.
+    조용히 dedupe 하면 무결성 사고가 은폐된다.
+  - **다섯 가지 invariant**:
+    1. cross-partial source_id 충돌 → raise
+    2. cross-partial input_item_id 충돌 → raise (한 input_item_id 는 한
+       partial, planner / task_queue idempotency 검증)
+    3. intra-partial source_id 중복 → raise (Pydantic 가 list uniqueness 강제
+       안 함, builder 진입 전 검증)
+    4. schema_version 불일치 → raise
+    5. project_id 불일치 → raise
+  - **빈 partial 처리**: `collected_sources` 가 빈 partial 은 통계
+    (`empty_partial_count`) 에만 +1, `sources` 에는 기여 없음. "collector 가
+    실행됐으나 후보 없음" 을 구분 가능하게.
+  - **머지 정책은 docstring 으로만 명문화** (raise 정책상 dead path, 향후
+    dedupe 모드 도입 시 재사용 대비):
+    - rights: `do_not_use > review_required > rights_unknown > rights_clear`
+    - verification: `disputed > unverified > cross_checked > official`
+      (의심 우선 — official 이 가장 낮은 우선순위 = 분쟁 시 보수적 강등)
+    - reliability_score: min(a, b)
+    - risk_flags / usage_plan: 순서 보존 합집합
+  - **`partial_counter`** 보조 함수: 호출자 (후속 v0.5.4 CLI / orchestrator)
+    가 로그·검증에 사용. partial_count / empty_partial_count / source_count.
+  - **테스트 19 케이스**: happy path 8 (빈 입력, 단일 partial, 다수 partial
+    순서 보존, 빈 partial 통계 반영, input_item_id=None 허용,
+    schema_version 일치, 필드 통과) + 충돌 / 무결성 5 (cross source_id /
+    cross input_item_id / intra source_id / project_id / schema_version) +
+    counter 3 + 충돌 검출 순서 1 + 보조 케이스 2.
+  - VERSION 0.5.2 → 0.5.3. `__version__` 은 SSOT (VERSION) 에서 자동 갱신.
+  - CHANGELOG / DEVLOG `last_synced_with: v0.5.3`.
+- **결과**:
+  - py_compile 통과.
+  - 전체 unittest = **167/167 통과** (직전 148 + 신규 19).
+  - 본 PATCH 는 CLAUDE.md C10.1 의 "새 도메인 컴포넌트 도입 PATCH" 카테고리
+    (권장, 의무 아님). 실 codex e2e 와 후속 v0.5.4 (task_queue.json 영속화
+    CLI — MINOR 트리거) 전 한 번 더 정합성 검토 권장.
+- **연관**: v0.5.0 (본 PATCH 가 닫는 partial 산출 흐름의 시작), v0.5.2 (planner
+  단 fail-fast 패턴 — 본 PATCH 의 builder 단 fail-fast 와 일관), LLM-AP-003
+  (echo identifier 무결성 — cross/intra source_id 충돌 검증의 근거), §3 후속
+  PATCH 표 2 번 (task_queue.json 영속화 + CLI, v0.5.4 MINOR) — 본 PATCH 이
+  후 진입.
