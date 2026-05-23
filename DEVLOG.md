@@ -1,6 +1,6 @@
 <!--
 tier: 3
-last_synced_with: v0.8.0
+last_synced_with: v0.8.1
 ssot_for: [development-log]
 depends_on: [CHANGELOG.md]
 last_review: 2026-05-23
@@ -22,6 +22,27 @@ last_review: 2026-05-23
 - 결과:  …
 - 연관:  AP-번호, 이슈, PR 번호 등
 ```
+
+---
+
+## 2026-05-23 v0.8.1 — LLM 브리지 response 모드 격리 (LLM-AP-004) + 개발 방향 전환
+
+- **무엇을**: 6A 를 처음으로 **실제 `claude`** 로 돌려 검증. 그 과정에서 response 모드
+  호출이 에이전트로 변질되는 사고를 발견·수정. `--tools ""`/`--no-session-persistence`
+  + 중립 cwd 로 격리. LLM-AP-004 기록.
+- **왜**: 사용자가 "stub 테스트만 하고 실물을 안 쓰는 게 맞냐"는 의문 제기 → 개발 방향을
+  **수직 슬라이스(실물 영상까지 최단경로) + 실제 LLM run 으로 기능 리뷰 + codex 외부
+  리뷰 일시 중단**으로 전환. 그 첫 실 run 에서 인프라 버그가 바로 드러남 — stub 초록불
+  뒤에 숨어 있던 문제.
+- **어떻게**: `claude -p ... --output-format json` 이 cwd 의 CLAUDE.md/훅/도구를 물어
+  22턴/6분/$0.74 동안 commit 시도하고 JSON 을 안 줌. 도구 비활성 + repo 밖 cwd 로 1턴/
+  1.3초/$0.005/정확 JSON 으로 정상화. 에러 처리(raw 보존·parse_failed·전이 차단)는
+  설계대로 작동해 상태 오염은 없었음.
+- **결과**: 6A 실 run 으로 hualien2024(2024 대만 화롄 M7.4) research_dossier 정상 생성.
+  검증 로직(공식 2기관→confirmed, 단일언론→claim, 미검증 X→unverified+risk_flag 전파,
+  시드→unverified+1차검증 요구)이 의도대로 동작 확인. 단 소스 본문이 registry 에 없어
+  evidence quote 가 일부 재구성됨 — 6A 품질 천장이 Phase 5 본문 적재량에 묶임을 확인.
+- **연관**: LLM-AP-004, ADDENDUM_04 §4.1/§5.1, CHANGELOG v0.8.1.
 
 ---
 

@@ -36,6 +36,7 @@ import re
 import secrets
 import shutil
 import subprocess
+import tempfile
 from abc import abstractmethod
 from datetime import datetime, timezone
 from pathlib import Path
@@ -68,7 +69,17 @@ from workers.base_worker import BaseWorker, emit, utc_now
 #     덮어쓸 수 없다. 필요한 prompt-time 자료는 build_user_prompt 에서 텍스트로
 #     내장 (외부 자료는 `<untrusted_source>` envelope 으로 격리).
 CLI_INVOCATION: dict[tuple[str, str], list[str]] = {
-    ("claude", "response"): ["claude", "-p", "{prompt}", "--output-format", "json"],
+    # response 모드: 한 방 JSON 생성기로만 동작해야 한다. 그런데 `claude -p` 는 print
+    # 모드여도 cwd 의 CLAUDE.md / .claude 훅 / 도구를 자동으로 물어 에이전트처럼 22턴씩
+    # 돌며 git commit 까지 시도하는 사고가 있었다 (LLM-AP-004, v0.8.1 실제 run 에서 발견).
+    #   - `--tools ""`            : 내장 도구 전체 비활성 → 파일 IO/Bash 불가, 순수 텍스트.
+    #   - `--no-session-persistence`: 세션 파일을 디스크에 남기지 않음 (호출 격리).
+    # 추가로 _invoke_llm 이 subprocess 를 **repo 밖 중립 cwd** 에서 실행해 CLAUDE.md
+    # 자동 탐색을 차단한다 (도구만 꺼도 cwd 가 repo 면 CLAUDE.md 가 컨텍스트를 오염시킴).
+    ("claude", "response"): [
+        "claude", "-p", "{prompt}", "--output-format", "json",
+        "--tools", "", "--no-session-persistence",
+    ],
     ("claude", "agent"): ["claude", "--print", "--add-dir", "{project_dir}", "-p", "{prompt}"],
     # codex 옵션 설명 (codex-cli 0.130.0 기준):
     #   --json: JSONL 이벤트 스트림 (마지막 agent_message 가 도메인 응답)
@@ -453,6 +464,13 @@ class BaseLLMWorker(BaseWorker):
 
         cmd = self._build_invocation_cmd(args, full_prompt)
 
+        # LLM-AP-004: subprocess 를 repo 밖 중립 디렉토리에서 실행한다. `claude` 는 cwd
+        # 에서 위로 올라가며 CLAUDE.md / .claude/settings (훅) 를 자동 탐색하는데, repo
+        # cwd 면 그것들이 컨텍스트를 오염시켜 응답이 도메인 JSON 대신 repo 작업 지시로
+        # 변질된다. codex 는 자체 `--cd`/`--skip-git-repo-check` 로 cwd 비의존이라 영향 없음.
+        neutral_cwd = Path(tempfile.gettempdir()) / "osint_llm_neutral_cwd"
+        neutral_cwd.mkdir(parents=True, exist_ok=True)
+
         try:
             proc = subprocess.run(
                 cmd,
@@ -460,6 +478,7 @@ class BaseLLMWorker(BaseWorker):
                 text=True,
                 timeout=self.invoke_timeout_sec,
                 check=False,
+                cwd=str(neutral_cwd),
             )
         except FileNotFoundError as e:
             raise LLMSubprocessError(

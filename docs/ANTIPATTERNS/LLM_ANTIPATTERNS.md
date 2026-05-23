@@ -217,3 +217,29 @@ last_review: 2026-05-22
     의 의무).
 
 - **연관**: ADDENDUM_04 §5 / §7 (CLI 인터페이스 / agent 모드 권한), LLM-AP-001, LLM-AP-002.
+
+---
+
+## LLM-AP-004 — `claude -p ... --output-format json` (response 모드) 가 cwd 의 CLAUDE.md/훅/도구를 물고 에이전트로 변질
+
+- **증상 (symptom)**: response 모드 worker (ResearchWorker 등) 가 `claude -p "<prompt>" --output-format json` 으로 한 방 JSON 을 받으려 했는데, 실제로는 중첩 실행된 `claude` 가 **에이전트로 22턴**을 돌며 repo 의 CLAUDE.md 지시(버전 증분·commit·push)를 수행하려다 권한 거부당하고, 최종 `result` 가 도메인 JSON 이 아니라 `"Write permissions are waiting for your approval…"` 같은 채팅 메시지였다. 1회 호출에 **약 6분 / $0.74** 소모 후 `parse_failed`. (v0.8.0 6A 실제 run 에서 발견 — stub 테스트는 subprocess 를 타지 않아 전혀 잡지 못함.)
+
+- **원인 (root cause)**: `claude -p` 는 print(비대화) 모드여도 (a) 내장 **도구(Bash/Edit 등)** 가 활성이고 (b) **cwd 에서 상위로 CLAUDE.md / `.claude/settings` 훅을 자동 탐색**한다. worker subprocess 가 repo cwd 에서 실행되므로 repo 의 거버넌스 문서·stop hook 이 system 컨텍스트에 주입되어, 모델이 "이 repo 에서 작업하라"로 해석하고 도구를 호출한다. `--output-format json` 은 출력 wrapper 만 규정할 뿐 에이전트화를 막지 못한다.
+
+- **구조적 조치 (structural fix, v0.8.1)**:
+  - `CLI_INVOCATION[("claude","response")]` 에 `--tools ""` (내장 도구 전체 비활성) + `--no-session-persistence` 추가. 도구가 없으면 파일 IO/Bash 불가 → 순수 텍스트 생성으로 강제.
+  - `_invoke_llm` 이 subprocess 를 **repo 밖 중립 cwd**(`<tmp>/osint_llm_neutral_cwd`)에서 실행 → CLAUDE.md/훅 자동 탐색 차단. (도구만 꺼도 cwd 가 repo 면 CLAUDE.md 가 컨텍스트를 오염시켜 모델이 가짜 function_calls 를 내뱉는 것을 실측 확인.)
+  - 효과 (실측): 22턴/6분/$0.74/JSON 아님 → **1턴/1.3초/$0.005/요청 JSON 정확 반환**.
+
+- **발견 버전 (discovered)**: v0.8.0 (Phase 6A ResearchWorker 실제 claude 실행).
+
+- **해결 버전 (resolved)**: v0.8.1 — CLI 매핑 `--tools ""`/`--no-session-persistence` + 중립 cwd. stub 테스트 242개 유지 통과, 실 run 으로 정상 dossier 생성 확인.
+
+- **상태 (status)**: `resolved` (response 모드). 단 **agent 모드 claude (`--add-dir {project_dir} -p`)** 는 의도적으로 도구·repo 접근을 주므로 같은 hijack 면적이 남아 있다 — 본 모드는 codex 가 주 backend 이고 codex 는 자체 `--cd`/sandbox 로 cwd 비의존이라 영향이 다르다. claude agent 모드를 실제로 쓰게 되면 별도 검증 필요 (LLM-AP-003 와 함께).
+
+- **알려진 한계**:
+  - `--tools ""` 가 미래 claude CLI 버전에서 의미가 바뀌면 재검증 필요 (CLI 인터페이스는 ADDENDUM_04 §5 가정에 묶임).
+  - 중립 cwd 의 상위 경로(예: `/tmp` 위)에 CLAUDE.md 가 있으면 여전히 탐색될 수 있음 — 운영 환경 가정상 극히 낮은 위험.
+  - 본 조치는 **에이전트화/거버넌스 오염**을 막을 뿐, 모델이 소스 본문 없이 일반 지식으로 evidence quote 를 재구성하는 **인용 충실도 한계**(6A 품질이 source_registry 본문 적재량에 묶임)는 별개 — Phase 5 소스 수집이 본문까지 캡처해야 해소.
+
+- **연관**: ADDENDUM_04 §5 (CLI 인터페이스), LLM-AP-001 (response wrapper), LLM-AP-003 (agent 모드 injection 면적).

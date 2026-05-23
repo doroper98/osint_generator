@@ -99,7 +99,7 @@ class BaseLLMWorker(BaseWorker):
 
 | 모드 | 의미 | 호출 형태 (가정) | 적용 Worker |
 |---|---|---|---|
-| `response` | 단순 LLM 응답. 도구·파일 IO 없음. JSON one-shot. | `claude -p "<prompt>" --output-format json` | Phase 3 `dynamic_intake_planner`, Phase 6 `research_agent`, Phase 11 `youtube_metadata_agent` 등 |
+| `response` | 단순 LLM 응답. 도구·파일 IO 없음. JSON one-shot. | `claude -p "<prompt>" --output-format json --tools "" --no-session-persistence` (repo 밖 중립 cwd 에서 실행) | Phase 3 `dynamic_intake_planner`, Phase 6 `research_agent`, Phase 11 `youtube_metadata_agent` 등 |
 | `agent` | CLI 가 도구·파일 IO 를 사용해 task 를 직접 처리. `task_result.json` 까지 CLI 가 작성. | `claude --print --add-dir <project_dir> -p "<task_spec>"` (또는 그에 상응하는 codex 호출) | Phase 7 `source_collector_worker` 처럼 외부 자료 수집·정리가 복잡한 경우 |
 
 **구분 기준**: 산출물이 **단일 JSON 문서로 표현 가능**하면 `response`, **파일 시스템 위에서 다단계 작업**이 필요하면 `agent`.
@@ -130,6 +130,12 @@ class BaseLLMWorker(BaseWorker):
 - 인증: 사용자 머신의 Claude.ai 로그인 세션을 자동 사용 (별도 키 주입 X)
 - 출력: stdout 으로 응답 텍스트, optionally `--output-format json`
 - 에러: 종료 코드 비-0, stderr 에 사유
+- **response 모드 격리 (v0.8.1, LLM-AP-004)**: `claude -p` 는 print 모드여도 cwd 의
+  CLAUDE.md / `.claude` 훅 / 내장 도구를 자동으로 물어 **에이전트로 변질**(commit/push
+  시도)한다. 따라서 response 모드는 반드시 `--tools ""` (도구 전체 비활성) +
+  `--no-session-persistence` 로 호출하고, subprocess 를 **repo 밖 중립 cwd** 에서 실행해
+  CLAUDE.md 자동 탐색을 차단한다. 둘 다 필요 — 도구만 꺼도 cwd 가 repo 면 CLAUDE.md 가
+  컨텍스트를 오염시킨다. 상세는 LLM-AP-004.
 
 ### 5.2 `codex` CLI (ChatGPT Plus/Pro 구독)
 

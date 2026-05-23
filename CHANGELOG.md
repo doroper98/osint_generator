@@ -1,6 +1,6 @@
 <!--
 tier: 3
-last_synced_with: v0.8.0
+last_synced_with: v0.8.1
 ssot_for: [release-notes]
 depends_on: [README.md, GOAL.md]
 last_review: 2026-05-23
@@ -25,6 +25,26 @@ released 항목은 **append-only**입니다.
 
 ### Fixed
 -
+
+---
+
+## [v0.8.1] — 2026-05-23
+
+**LLM 브리지 response 모드 격리 (LLM-AP-004)**. 6A 를 실제 `claude` 로 처음 돌렸더니
+`claude -p ... --output-format json` 이 한 방 JSON 이 아니라 **에이전트로 22턴**(repo
+CLAUDE.md/훅을 물고 commit·push 시도, 6분/$0.74, JSON 아님)을 도는 사고 발견. stub
+테스트가 subprocess 를 안 타서 못 잡던 실 환경 이슈.
+
+### Fixed
+
+- **`workers/base_llm_worker.py`** — `CLI_INVOCATION` 의 claude response 모드에
+  `--tools ""` + `--no-session-persistence` 추가, `_invoke_llm` 이 subprocess 를 repo
+  밖 중립 cwd 에서 실행 (CLAUDE.md 자동 탐색 차단). 실측 22턴/6분/$0.74 → 1턴/1.3초/$0.005.
+
+### Docs
+
+- **`docs/ANTIPATTERNS/LLM_ANTIPATTERNS.md`** — LLM-AP-004 신규 기록.
+- **`docs/ADDENDUM_04`** §4.1/§5.1 — response 모드 호출 형태/격리 규칙 동기화.
 
 ---
 
