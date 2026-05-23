@@ -1,6 +1,6 @@
 <!--
 tier: 2
-last_synced_with: v0.6.0
+last_synced_with: v0.7.2
 ssot_for: [phase-roadmap]
 depends_on: [../GOAL.md, ../CHANGELOG.md]
 last_review: 2026-05-23
@@ -51,7 +51,7 @@ last_review: 2026-05-23
 ## Phase 6: Research / Script / Scene
 
 - `research_dossier.json`, `argument_map.json`, `episode_blueprint.json`, `full_script.json`, `scene_manifest.json` (with provenance), `asset_manifest.json`.
-- 완료 기준: 샘플 주제로 15–20분 구조 생성.
+- 완료 기준: 샘플 주제로 3–20분 구조 생성 (target_duration_min 3~20 범위 내 폭넓게 조정 가능).
 
 ## Phase 7: Media Workers
 

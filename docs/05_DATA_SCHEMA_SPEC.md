@@ -1,6 +1,6 @@
 <!--
 tier: 2
-last_synced_with: v0.7.0
+last_synced_with: v0.7.2
 ssot_for: [json-contracts-overview]
 depends_on: [../schemas/models.py]
 last_review: 2026-05-23
@@ -66,7 +66,7 @@ last_review: 2026-05-23
 | created_at | datetime | UTC |
 | updated_at | datetime | UTC |
 | current_state | enum | `02_SYSTEM_ARCHITECTURE.md §4` 참조 |
-| target_duration_min | int | 15–20 |
+| target_duration_min | int | 3–20 (ge=3, le=20) |
 | topic_summary | str | |
 | initial_links | list[str] | 생성 시 사용자 사전 제공 자료 링크. IntakePlanner 가 참고, 후속 단계의 manual_user_provided 후보 |
 | paths | dict[str, str] | 주요 산출물 상대경로 인덱스 |

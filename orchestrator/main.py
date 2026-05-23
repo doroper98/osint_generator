@@ -56,7 +56,7 @@ def build_parser() -> argparse.ArgumentParser:
         choices=[c.value for c in Category],
         help="주제 카테고리",
     )
-    npj.add_argument("--duration-min", type=int, default=18, help="목표 영상 길이 (분)")
+    npj.add_argument("--duration-min", type=int, default=18, help="목표 영상 길이 (분, 3~20)")
     npj.add_argument("--topic-summary", default="", help="주제 요약")
     npj.add_argument(
         "--link",

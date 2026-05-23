@@ -395,14 +395,17 @@ def _truthy(value) -> bool:
 
 
 def _parse_duration(value, default: int = 18) -> int:
-    """target_duration_min form 값을 int 로. 비거나 비정상이면 default. 1~180 으로 clamp."""
+    """target_duration_min form 값을 int 로. 비거나 비정상이면 default. 3~20 분으로 clamp.
+
+    지원 길이 범위는 3~20 분 (ProjectManifest/IntakePlan 의 ge=3/le=20 과 일치).
+    """
     if value is None or str(value).strip() == "":
         return default
     try:
         n = int(str(value).strip())
     except ValueError:
         return default
-    return max(1, min(180, n))
+    return max(3, min(20, n))
 
 
 def _state_str(state) -> str:
@@ -448,7 +451,7 @@ def _render_new_project_html() -> str:
         "  <div class=\"row\">\n"
         "    <div><label>project_id <span class=\"hint\">(영문 소문자/숫자/하이픈/언더스코어)</span>"
         "<input name=\"project_id\" required pattern=\"[a-z0-9_-]+\" placeholder=\"kursk_2026\"></label></div>\n"
-        "    <div><label>목표 길이(분)<input name=\"target_duration_min\" type=\"number\" min=\"1\" max=\"180\" value=\"18\"></label></div>\n"
+        "    <div><label>목표 길이(분) <span class=\"hint\">(3~20)</span><input name=\"target_duration_min\" type=\"number\" min=\"3\" max=\"20\" value=\"18\"></label></div>\n"
         "  </div>\n"
         "  <label>제목 (주제)<input name=\"title\" required placeholder=\"쿠르스크 전선 교착 — OSINT 종합 브리핑\"></label>\n"
         "  <label>카테고리<select name=\"category\" required>\n"

@@ -566,6 +566,23 @@ class TestInitialLinks(_IsolatedProjectsRoot):
         self._create_demo3()
         self.assertEqual(self._load_manifest("demo3").initial_links, [])
 
+    def test_new_project_duration_out_of_range_rejected(self) -> None:
+        # 지원 범위 3~20 분. 범위 밖은 ProjectManifest 검증에서 거부 → exit 1.
+        self.assertEqual(
+            cli_main([
+                "new-project", "demo3",
+                "--title", "t", "--category", "geopolitics", "--duration-min", "50",
+            ]),
+            1,
+        )
+        self.assertEqual(
+            cli_main([
+                "new-project", "demo3",
+                "--title", "t", "--category", "geopolitics", "--duration-min", "2",
+            ]),
+            1,
+        )
+
     def test_initial_links_normalized_drops_non_http_and_control(self) -> None:
         # v0.7.1: trust-boundary 정규화 — http(s) 만 유지, 제어문자/비-URL drop.
         rc = cli_main([
@@ -681,6 +698,19 @@ class TestNewProjectWeb(_IsolatedProjectsRoot):
             follow_redirects=False,
         )
         self.assertEqual(r.status_code, 400)
+
+    def test_post_new_duration_clamped_to_range(self) -> None:
+        # 폼 입력은 3~20 으로 clamp (모델 거부 대신 보정). 1 → 3, 999 → 20.
+        self._stub(VALID_PLAN_JSON)
+        client = self._client()
+        r = client.post(
+            "/new",
+            data={"project_id": "demo3", "title": "t", "category": "geopolitics",
+                  "target_duration_min": "1"},
+            follow_redirects=False,
+        )
+        self.assertEqual(r.status_code, 303)
+        self.assertEqual(self._load_manifest("demo3").target_duration_min, 3)
 
     def test_post_new_invalid_backend_400(self) -> None:
         # v0.7.1 Med3: 잘못된 backend 는 조용한 fallback 대신 400.

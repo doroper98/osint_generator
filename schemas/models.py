@@ -178,7 +178,7 @@ class ProjectManifest(VersionedModel):
     created_at: datetime = Field(default_factory=utc_now)
     updated_at: datetime = Field(default_factory=utc_now)
     current_state: ProjectState = ProjectState.CREATED
-    target_duration_min: int = 18
+    target_duration_min: int = Field(default=18, ge=3, le=20)
     topic_summary: str = ""
     # 프로젝트 생성 시 사용자가 미리 제공한 자료 링크 (분석 리포트·기사·영상 등).
     # IntakePlanner 가 plan 생성에 참고하며, 사용자 자체 제공이므로 후속 source
@@ -216,7 +216,7 @@ class IntakePlan(VersionedModel):
     project_id: str
     topic: str
     category: Category
-    target_duration_min: int
+    target_duration_min: int = Field(ge=3, le=20)
     orchestrator_assessment: str = ""
     required_items: list[IntakePlanItem] = Field(default_factory=list)
 

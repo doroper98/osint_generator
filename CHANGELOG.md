@@ -1,6 +1,6 @@
 <!--
 tier: 3
-last_synced_with: v0.7.1
+last_synced_with: v0.7.2
 ssot_for: [release-notes]
 depends_on: [README.md, GOAL.md]
 last_review: 2026-05-23
@@ -25,6 +25,25 @@ released 항목은 **append-only**입니다.
 
 ### Fixed
 -
+
+---
+
+## [v0.7.2] — 2026-05-23
+
+**목표 영상 길이 범위 3~20분으로 통일**. 기존 "15–20분" 가정을 풀어 짧은 브리핑부터
+가능하게 하고, 웹 폼이 1~180으로 과하게 열려 있던 것을 지원 범위로 좁혔다.
+
+### Changed
+
+- **`schemas/models.py`** — `ProjectManifest.target_duration_min` 과
+  `IntakePlan.target_duration_min` 에 `ge=3, le=20` 제약 추가 (schema_version 1 유지).
+- **`web/intake_page_app.py`** — 새 프로젝트 폼의 길이 입력을 `min=3 max=20` 으로,
+  `_parse_duration` clamp 를 1~180 → 3~20 으로.
+- **docs** — roadmap Phase 6 완료 기준 "15–20분" → "3–20분", 05 스키마 스펙 범위 표기.
+
+### Tests
+
+- 신규 2 케이스 (범위 밖 CLI 거부, 웹 폼 clamp). 전체 234 → 236 통과.
 
 ---
 

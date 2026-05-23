@@ -1,6 +1,6 @@
 <!--
 tier: 3
-last_synced_with: v0.7.1
+last_synced_with: v0.7.2
 ssot_for: [development-log]
 depends_on: [CHANGELOG.md]
 last_review: 2026-05-23
@@ -24,6 +24,20 @@ last_review: 2026-05-23
 ```
 
 ---
+
+## 2026-05-23 v0.7.2 — 목표 길이 범위 3~20분으로 통일
+
+- **무엇을**: target_duration_min 지원 범위를 3~20분으로. 모델 제약(ge=3/le=20), 웹 폼
+  min/max + clamp, 로드맵 Phase 6 완료 기준("15–20분" → "3–20분") 동기화.
+- **왜**: 사용자 요청 — 샘플/실제 길이를 짧은 브리핑(3분)부터 폭넓게 조정 가능하게.
+  기존엔 longform 가정(15–20)이라 짧은 영상이 스펙상 애매했고, 웹 폼은 반대로 1~180
+  으로 과하게 열려 있어 범위가 일관되지 않았다.
+- **어떻게**: 단일 범위(3~20)를 모델 제약·UI·문서 세 곳에 일치. 웹은 보정(clamp)으로
+  UX 친화, CLI/직접 모델 생성은 범위 밖이면 ValidationError 로 거부(경계 enforce).
+  v0.6.1 의 reliability ge/le 추가와 동일한 패턴 — additive 제약, schema_version 1 유지.
+- **결과**: 신규 2 테스트(CLI 거부, 웹 clamp), 전체 234 → 236 통과.
+- **연관**: PATCH (비구조적 범위 조정) — C10.1 mandatory codex 트리거 아님. docs 05/13
+  동기화(C7).
 
 ## 2026-05-23 v0.7.1 — 외부 코드 리뷰 1차 반영 (v0.7.0 웹 진입 robustness)
 
