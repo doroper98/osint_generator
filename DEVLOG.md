@@ -1,6 +1,6 @@
 <!--
 tier: 3
-last_synced_with: v0.7.2
+last_synced_with: v0.7.3
 ssot_for: [development-log]
 depends_on: [CHANGELOG.md]
 last_review: 2026-05-23
@@ -24,6 +24,22 @@ last_review: 2026-05-23
 ```
 
 ---
+
+## 2026-05-23 v0.7.3 — Phase 6 세부 분해 (서브스텝) 문서화
+
+- **무엇을**: Phase 6 를 6A(Research) / 6B(Evidence Guard) / 6C(Blueprint) /
+  6D(Script) / 6E(Scene) 서브스텝으로 분해해 docs/13 에 표로 추가. 산출물(신규 모델)·
+  워커·입력·state/Review Gate·증분 단위 명시.
+- **왜**: "Phase 6 = ResearchWorker 하나?" 라는 사용자 질문에서 출발 — Phase 6 는
+  Research→Script→Scene 전 구간이고 워커가 5개(Research/Evidence Guard/Blueprint/
+  Script/ScenePlanner)다. 새 세션이 한 번에 다 만들지 않고 서브스텝 단위로 진행하도록
+  분해도를 SSOT(로드맵)에 박았다.
+- **어떻게**: 각 서브스텝에 Phase 5 패턴(모델 → 순수 worker/agent → io 경계 → thin
+  CLI → Review Gate) 을 반복. Gate 3(blueprint)/4(script)/5(scene)는 docs/12 와 정합.
+  6A 의 입력에 manifest.initial_links(사용자 분석 리포트)를 1차 자료 추출 시드로 명시.
+- **결과**: 문서 PATCH (코드 변경 없음, 236 테스트 유지). 다음: 6A 착수(ResearchDossier
+  모델 + ResearchWorker + research_io + CLI).
+- **연관**: docs/13. C10.1 mandatory 트리거 아님(docs PATCH).
 
 ## 2026-05-23 v0.7.2 — 목표 길이 범위 3~20분으로 통일
 

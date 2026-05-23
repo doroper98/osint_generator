@@ -1,6 +1,6 @@
 <!--
 tier: 2
-last_synced_with: v0.7.2
+last_synced_with: v0.7.3
 ssot_for: [phase-roadmap]
 depends_on: [../GOAL.md, ../CHANGELOG.md]
 last_review: 2026-05-23
@@ -52,6 +52,35 @@ last_review: 2026-05-23
 
 - `research_dossier.json`, `argument_map.json`, `episode_blueprint.json`, `full_script.json`, `scene_manifest.json` (with provenance), `asset_manifest.json`.
 - 완료 기준: 샘플 주제로 3–20분 구조 생성 (target_duration_min 3~20 범위 내 폭넓게 조정 가능).
+
+### Phase 6 세부 분해 (서브스텝)
+
+Phase 6 는 단일 워커가 아니라 Research→Script→Scene 전 구간이다 (state:
+`research_in_progress → blueprint_review → script_writing → script_review →
+scene_planning → (Phase 7 asset_production) → scene_review`). Phase 5 패턴
+(**모델 → 순수 worker/agent → io 경계 → thin CLI → Review Gate**) 을 각 서브스텝에 반복한다.
+docs/03 §2 의 Agent 들은 모두 `BaseLLMWorker` 기반 Worker 로 구현된다 (Agent=역할명).
+
+| 서브스텝 | 산출물 (신규 모델) | 워커 | 입력 | state / Gate | 증분 |
+|---|---|---|---|---|---|
+| **6A Research** | `research_dossier.json` (`ResearchDossier`) | `ResearchWorker` | `source_registry.json` + `manifest.initial_links` | `research_in_progress` | MINOR |
+| **6B Evidence Guard** | `qa_evidence_report.json` (`QaEvidenceReport`) | `EvidenceGuardWorker` | `research_dossier` | (research 내 QA, docs/12 §3) | MINOR |
+| **6C Blueprint** | `argument_map.json` (`ArgumentMap`) + `episode_blueprint.json` (`EpisodeBlueprint`) | `BlueprintWorker` | `research_dossier` (+evidence) | → `blueprint_review` (**Gate 3**) | MINOR |
+| **6D Script** | `full_script.json` (`FullScript`/`ScriptSegment`) | `ScriptWorker` | `research_dossier` + `episode_blueprint` | `script_writing → script_review` (**Gate 4**) | MINOR |
+| **6E Scene** | `scene_manifest.json` (`SceneManifest` 골격 확장) + `asset_manifest.json` (`AssetManifest`) | `ScenePlannerWorker` | `full_script` | `scene_planning → … → scene_review` (**Gate 5**) | MINOR |
+
+- **이미 존재**: `SceneEntry`, `SceneManifest` (골격, schemas/models.py). 나머지 모델은 신규.
+- **각 서브스텝 DoD**: py_compile + import smoke + 단위테스트 + CLI 1 서브커맨드 + state
+  전이 + (해당 시) Review Gate 산출물. MINOR push 마다 codex 외부 리뷰 (C10.1),
+  결과 흡수는 다음 PATCH. Phase 6 완료 marker 는 6E 직후.
+- **공통 설계 원칙** (Phase 5 답습):
+  - 모델은 `schemas/models.py` (SSOT), Pydantic v2, 가능하면 `schema_version` 1 유지(additive).
+  - 워커는 `BaseLLMWorker` 상속, `build_user_prompt` 는 `.replace()` (C2), 사용자 질문 금지(C4).
+  - 병합·판정 로직은 순수 함수, 디스크 I/O 는 별도 io 모듈 (예: `orchestrator/research_io.py`).
+  - CLI 는 thin orchestration (`orchestrator/intake_service.py` 패턴) — precondition →
+    atomic write → state 전이.
+  - `manifest.initial_links` (사용자 분석 리포트) 는 **6A 에서 1차 자료 추출·교차검증의 입력**.
+    리포트 자체는 2차/파생이므로 사실 앵커가 아니라 리서치 시드로 다룬다.
 
 ## Phase 7: Media Workers
 

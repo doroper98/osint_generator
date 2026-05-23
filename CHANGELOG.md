@@ -1,6 +1,6 @@
 <!--
 tier: 3
-last_synced_with: v0.7.2
+last_synced_with: v0.7.3
 ssot_for: [release-notes]
 depends_on: [README.md, GOAL.md]
 last_review: 2026-05-23
@@ -25,6 +25,19 @@ released 항목은 **append-only**입니다.
 
 ### Fixed
 -
+
+---
+
+## [v0.7.3] — 2026-05-23
+
+**Phase 6 세부 분해 (서브스텝) 문서화**. Phase 6(Research/Script/Scene)를 6A~6E
+서브스텝으로 분해하여 docs/13 로드맵에 추가. 각 서브스텝의 산출물·워커·입력·state/Gate·
+증분 단위를 표로 정리하고 Phase 5 패턴(모델→worker→io→CLI→Gate) 답습 원칙을 명시.
+
+### Docs
+
+- **`docs/13_IMPLEMENTATION_ROADMAP.md`** — "Phase 6 세부 분해" 서브섹션 추가
+  (6A Research / 6B Evidence Guard / 6C Blueprint / 6D Script / 6E Scene).
 
 ---
 
