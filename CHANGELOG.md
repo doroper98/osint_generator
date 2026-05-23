@@ -1,6 +1,6 @@
 <!--
 tier: 3
-last_synced_with: v0.5.3
+last_synced_with: v0.5.4
 ssot_for: [release-notes]
 depends_on: [README.md, GOAL.md]
 last_review: 2026-05-23
@@ -18,13 +18,101 @@ released 항목은 **append-only**입니다.
 ## [Unreleased]
 
 ### Added
-- 
+-
 
 ### Changed
 -
 
 ### Fixed
 -
+
+---
+
+## [v0.5.4] — 2026-05-23
+
+v0.5.3 (SourceRegistryBuilder) 의 codex 1차 외부 리뷰 흡수 — Critical 0 /
+High 2 / Medium 3 / Low 2 / Nit 1. fail-fast invariant 의 두 가지 식별자
+무결성 갭 (input_item_id=None 우회, 식별자 정규화 미검증) 을 메우고, 에러
+메시지에 operator action hint 를 박는다.
+
+본 PATCH 는 CLAUDE.md C10.3 에 따라 codex 재리뷰 면제 (외부 리뷰 결과 흡수
+PATCH).
+
+### Changed
+
+**High 흡수:**
+
+- **`orchestrator/source_registry_builder.py:build_source_registry`** —
+  `strict_input_item_id: bool = True` 키워드 인자 추가. pipeline production
+  path 의 default 는 strict (None 자체 raise — planner / worker drift 신호).
+  도메인 재사용 (다른 collector 가 input_item_id 안 쓰는 경우) 을 위해
+  strict=False lenient 모드 보존 — 이 경우 v0.5.3 동작과 동일 (None 끼리는
+  충돌 검사 skip). codex High#1 ("None 충돌 검사 우회로 idempotency 약화").
+
+- **`orchestrator/source_registry_builder.py:_validate_identifier`** — 신규
+  헬퍼. 모든 식별자 (project_id / task_id / input_item_id / source_id) 에
+  대해 **case-sensitive + NFC + 전후 공백 금지** contract 강제. 정규화 후
+  매칭이 아니라 의심 변이 자체를 reject — 정규화 매칭은 정상 case 차이를
+  충돌로 오인할 수 있고 (`ABC` ↔ `abc`), 침묵 정규화는 식별자 무결성을
+  약화시킨다. cross-partial 정규화 충돌이 들어오면 fail-fast 로 raise 하여
+  upstream 의 string formatting / OS 정규화 차이 (macOS HFS+ NFD 등) 를
+  즉시 노출. codex High#2 ("byte-exact 비교만 수행, 변이 무결성 갭").
+
+**Medium 흡수:**
+
+- **builder 의 모든 raise 메시지** — `action: ...` 형식의 operator next-step
+  hint 추가. LLM-AP-003 production breach 신호 시 (1) 어느 task 의 raw
+  response 를 비교할지, (2) 머지를 재실행하지 말고 어느 단계를 수정할지,
+  (3) idempotency 가드의 어느 로그를 inspect 할지 명시. codex Medium#1
+  ("진단 정보는 풍부하지만 cold reader 가 첫 단계를 모름, alert fatigue
+  위험"). LLM-AP-003 참조는 유지 — 진단의 정합 근거.
+
+- **`tests/test_source_registry_builder.py`** — codex Medium#2 흡수.
+  v0.5.3 의 `test_input_item_id_none_is_allowed_and_skips_collision_check`
+  를 두 갈래로 양분: (a) strict default 에서는 raise (negative test),
+  (b) strict=False 에서는 v0.5.3 동작 (lenient positive test). 약한
+  invariant 의 영속화 방지.
+
+- **`tests/test_source_registry_builder.py`** — codex Medium#3 흡수.
+  `IdentifierNormalizationContractTests` 클래스 신설 (10 케이스):
+  case-sensitive 충돌 아님 (2), 전후 공백 raise (6 — source_id /
+  input_item_id / project_id arg / project_id arg with empty partials /
+  task_id, leading / trailing), NFC raise (2 — source_id NFD / input_item_id
+  NFD, plus 정상 NFC 통과).
+
+**Low 흡수:**
+
+- **`build_source_registry` docstring** — caller ordering 계약을 "MUST
+  provide deterministic order (recommended: sort by task_id asc)" 로 강화.
+  다른 loader (e.g. `os.listdir` 의 OS-dependent 순서) 와 mix 시 발생할 수
+  있는 비결정성을 docstring 에서 명시. codex Low#1.
+
+- **`tests/test_source_registry_builder.py:CollisionAlwaysRaisesSentinelTests`**
+  — sentinel test class 신설 (3 케이스). 미래 dedupe 모드 도입 시 본
+  sentinel 이 깨지고, docstring 의 "머지 정책" 섹션도 같이 갱신해야 함을
+  코드 레벨에서 마킹. builder docstring 의 dead-path 정책과 코드의 연결
+  포인트. codex Low#2.
+
+**Nit 흡수:**
+
+- **`tests/test_source_registry_builder.py:_partial / _entry`** — helper 의
+  `kwargs: dict` → `dict[str, object]` 로 타입 정밀화. codex Nit.
+
+### False positives / 흡수 안 함
+
+없음. codex 1차 리뷰의 모든 항목을 흡수.
+
+### Test baseline
+
+- `python -m unittest discover -s tests` : **184/184** (운영 148 + builder
+  36; v0.5.3 의 19 → 36 으로 +17 케이스 신설).
+- `python -m py_compile orchestrator/source_registry_builder.py` 통과.
+
+### Changed
+
+- **`VERSION`** 0.5.3 → 0.5.4.
+- **`CHANGELOG.md`** `last_synced_with: v0.5.4`.
+- **`DEVLOG.md`** `last_synced_with: v0.5.4`.
 
 ---
 

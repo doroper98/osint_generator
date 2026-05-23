@@ -1,6 +1,6 @@
 <!--
 tier: 3
-last_synced_with: v0.5.3
+last_synced_with: v0.5.4
 ssot_for: [development-log]
 depends_on: [CHANGELOG.md]
 last_review: 2026-05-23
@@ -22,6 +22,46 @@ last_review: 2026-05-23
 - 결과:  …
 - 연관:  AP-번호, 이슈, PR 번호 등
 ```
+
+---
+
+## 2026-05-23 v0.5.4 — 외부 코드 리뷰 5차 반영 (SourceRegistryBuilder fail-fast 강화)
+
+- **무엇을**: v0.5.3 (SourceRegistryBuilder) 의 codex 1차 외부 리뷰 결과
+  Critical 0 / High 2 / Medium 3 / Low 2 / Nit 1 을 한 PATCH 로 흡수.
+- **왜**: fail-fast 빌더의 두 가지 식별자 무결성 갭 — (1) input_item_id=None
+  이 충돌 검사를 우회하여 idempotency 가드를 약화시키는 분기, (2) 식별자
+  비교가 byte-exact 만이라 ` s1` / `s1 ` / NFD 같은 의심 변이가 정상으로
+  통과되는 분기 — 가 production path 의 무결성 사고를 은폐할 수 있다는
+  codex 의 지적이 정합. fail-fast 의 기조와 일치하는 방향으로 갭을 메운다.
+- **어떻게**:
+  - `strict_input_item_id: bool = True` 키워드 추가 (default strict, raise
+    on None). 도메인 재사용을 위해 lenient 모드는 보존 — 현실 production
+    경로는 strict 만 사용.
+  - `_validate_identifier` 헬퍼 — case-sensitive contract 를 docstring 에
+    명문화하고, NFC 정규화 결과와 다르거나 strip 결과와 다른 식별자는
+    raise. 정규화 후 매칭이 아니라 의심 변이 자체를 reject (`ABC` ↔ `abc`
+    같은 정상 case 차이를 충돌로 오인하지 않으면서 ingest 단의 직렬화 사고
+    는 차단).
+  - 모든 raise 메시지에 `action: ...` 형식 operator next-step hint 추가.
+    LLM-AP-003 참조는 유지하되, alert fatigue 방지 차원에서 "어디를
+    inspect 하고 어디를 수정할지" 의 첫 단계를 명시.
+  - 테스트: 19 → 36 케이스. `InputItemIdNoneStrictModeTests` (4),
+    `IdentifierNormalizationContractTests` (10),
+    `CollisionAlwaysRaisesSentinelTests` (3) 신설. 미래 dedupe 모드 도입
+    시 sentinel 이 깨지고 docstring 머지 정책과 같이 갱신해야 함을 마킹.
+- **결과**:
+  - `python -m unittest discover -s tests` : 184/184 (운영 148 + builder
+    36). v0.5.3 의 167 에서 +17.
+  - `python -m py_compile orchestrator/source_registry_builder.py
+    tests/test_source_registry_builder.py` 통과.
+  - CLAUDE.md C10.3 에 따라 본 PATCH 자체는 codex 재리뷰 면제 (외부 리뷰
+    흡수 PATCH).
+  - False positive 흡수 안 함 항목 없음 — 1차 리뷰의 모든 지적을 정합으로
+    판단.
+- **연관**: LLM-AP-003 (echo identifier production breach 신호 — builder
+  의 source_id 충돌 invariant 의 근거). v0.5.3 (대상). v0.5.2 (v0.5.0
+  SourceCollectorWorker 의 1차 리뷰 흡수 — 같은 시리즈의 직전 흡수 PATCH).
 
 ---
 
