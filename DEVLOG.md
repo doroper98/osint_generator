@@ -1,6 +1,6 @@
 <!--
 tier: 3
-last_synced_with: v0.8.1
+last_synced_with: v0.9.0
 ssot_for: [development-log]
 depends_on: [CHANGELOG.md]
 last_review: 2026-05-23
@@ -22,6 +22,22 @@ last_review: 2026-05-23
 - 결과:  …
 - 연관:  AP-번호, 이슈, PR 번호 등
 ```
+
+---
+
+## 2026-05-23 v0.9.0 — Phase 6 Script (수직 슬라이스 V1)
+
+- **무엇을**: ScriptWorker + FullScript 모델 + script_io/script_service + `build-script`
+  CLI. research_dossier → full_script.json. blueprint 단계 흡수.
+- **왜**: 수직 슬라이스 V1. 실물 영상까지 최단경로의 첫 콘텐츠 단계. 6A 와 같은 패턴.
+- **어떻게**: 6A 패턴 답습 (모델→worker(.replace())→io→thin service→CLI→전이). state 는
+  research_in_progress→blueprint_review→script_writing 으로 blueprint_review 를 통과만.
+  segment.label 에 claim status 라벨을 박아 미검증 정보 추적(GOAL G4).
+- **결과**: stub 247 테스트 통과 + **실제 claude run** 으로 hualien2024 대본 생성. 라벨
+  전파 무손실(로이터 단독→<주장>, X→<미검증>, 추론→<추론>, 시드→<미검증>, 공식2기관→
+  무라벨), 미검증 헤지 서술, 466초≈7.8분(목표 8분) 분량 정확. 인용 충실도는 6A 와 같은
+  천장(소스 본문 부재) 상속.
+- **연관**: docs/05 §3.4d, docs/03 Script Agent 행, docs/13 6D, CHANGELOG v0.9.0.
 
 ---
 

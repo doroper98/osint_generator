@@ -1,6 +1,6 @@
 <!--
 tier: 3
-last_synced_with: v0.8.1
+last_synced_with: v0.9.0
 ssot_for: [release-notes]
 depends_on: [README.md, GOAL.md]
 last_review: 2026-05-23
@@ -25,6 +25,32 @@ released 항목은 **append-only**입니다.
 
 ### Fixed
 -
+
+---
+
+## [v0.9.0] — 2026-05-23
+
+**Phase 6 Script (수직 슬라이스 V1)**. `research_dossier → full_script.json` 을 만드는
+ScriptWorker + `build-script` CLI 추가. 별도 Blueprint 단계를 흡수해 dossier 에서 곧장
+대본을 뽑는다. 실제 claude run 으로 검증 — claim status 라벨(`<미검증>`/`<추론>`/`<주장>`
+/`<반박됨>`)이 research→script 로 무손실 전파되고, 미검증 내용은 헤지 서술, 목표 길이
+(8분) 분량 맞춤 확인.
+
+### Added
+
+- **`schemas/models.py`** — `FullScript` (+ `ScriptChapter` / `ScriptSegment`).
+  schema_version 1 유지. segment.label 로 미검증/추론/주장/반박 항목 영상 라벨 추적.
+- **`workers/script_worker.py`** — `ScriptWorker` (BaseLLMWorker, response).
+- **`orchestrator/script_io.py`** — `05_script/full_script.json` atomic 영속화·로딩.
+- **`orchestrator/script_service.py`** — `run_script_worker` (precondition → worker →
+  영속화 게이트 → `research_in_progress→blueprint_review→script_writing` 전이).
+- **`orchestrator/main.py`** — `build-script {pid} [--backend] [--force]` CLI.
+- **`tests/test_script_flow.py`** — happy/검증실패/precondition/프롬프트 회귀 (247 통과).
+
+### Changed
+
+- **개발 방향**: 수직 슬라이스로 전환 (실물 영상 최단경로 + 실제 LLM run 검증).
+  codex 외부 리뷰(C10.1) 한시 중단. docs/13 에 기록.
 
 ---
 

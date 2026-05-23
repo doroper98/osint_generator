@@ -1,6 +1,6 @@
 <!--
 tier: 2
-last_synced_with: v0.8.0
+last_synced_with: v0.9.0
 ssot_for: [json-contracts-overview]
 depends_on: [../schemas/models.py]
 last_review: 2026-05-23
@@ -180,6 +180,27 @@ status 가 SSOT 이며 라벨은 직렬화되지 않음.
 `Evidence`: `source_id` (registry 1차 자료 인용) / `seed_id` (파생 시드 인용) 중
 하나 이상, `quote`, `locator`, `stance` (supports/refutes/contextual). registry
 source_id 존재 여부의 cross-check 는 6B Evidence Guard 책임 (본 스키마엔 validator 없음).
+
+### 3.4d `FullScript` (Phase 6 Script, Script Agent 산출)
+
+`full_script.json` — `ScriptWorker` 가 `research_dossier.json` 으로부터 영상 나레이션
+대본을 생성. docs/12 §1 의 `script_review` (Review Gate 4) 입력이며 Scene Planner 입력.
+
+| 필드 | 타입 | 설명 |
+|---|---|---|
+| schema_version | int | 1 |
+| project_id | str | |
+| generated_at | datetime | UTC |
+| title / topic | str | 영상 제목 / 1줄 주제 |
+| target_duration_min | int | 3~20 |
+| chapters | list[`ScriptChapter`] | 서사 챕터 (chapter_id/title/summary) |
+| segments | list[`ScriptSegment`] | 나레이션 세그먼트 |
+| total_est_duration_sec | float | segment est_duration_sec 합 근사 |
+
+`ScriptSegment`: `segment_id`, `chapter_id`, `narration`(TTS 본문), `on_screen_caption`,
+`claim_refs`(research_dossier claim_id), `label`(`<미검증>` 등 — claim status 유래,
+미검증/추론/주장/반박 항목 분리. confirmed 만이면 null), `est_duration_sec`. 미검증
+정보의 제목/썸네일 사용 금지(GOAL G4)는 label 로 추적.
 
 ### 3.5 `SceneManifest` Provenance
 

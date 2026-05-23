@@ -1,6 +1,6 @@
 <!--
 tier: 2
-last_synced_with: v0.8.0
+last_synced_with: v0.9.0
 ssot_for: [phase-roadmap]
 depends_on: [../GOAL.md, ../CHANGELOG.md]
 last_review: 2026-05-23
@@ -66,9 +66,15 @@ docs/03 §2 의 Agent 들은 모두 `BaseLLMWorker` 기반 Worker 로 구현된�
 | **6A Research** ✅ v0.8.0 | `research_dossier.json` (`ResearchDossier`) | `ResearchWorker` | `source_registry.json` + `manifest.initial_links` | `research_in_progress` | MINOR |
 | **6B Evidence Guard** | `qa_evidence_report.json` (`QaEvidenceReport`) | `EvidenceGuardWorker` | `research_dossier` | (research 내 QA, docs/12 §3) | MINOR |
 | **6C Blueprint** | `argument_map.json` (`ArgumentMap`) + `episode_blueprint.json` (`EpisodeBlueprint`) | `BlueprintWorker` | `research_dossier` (+evidence) | → `blueprint_review` (**Gate 3**) | MINOR |
-| **6D Script** | `full_script.json` (`FullScript`/`ScriptSegment`) | `ScriptWorker` | `research_dossier` + `episode_blueprint` | `script_writing → script_review` (**Gate 4**) | MINOR |
+| **6D Script** ✅ v0.9.0 | `full_script.json` (`FullScript`/`ScriptSegment`) | `ScriptWorker` | `research_dossier` (blueprint 흡수) | `research_in_progress → blueprint_review → script_writing` | MINOR |
 | **6E Scene** | `scene_manifest.json` (`SceneManifest` 골격 확장) + `asset_manifest.json` (`AssetManifest`) | `ScenePlannerWorker` | `full_script` | `scene_planning → … → scene_review` (**Gate 5**) | MINOR |
 
+- **개발 방향 전환 (v0.8.1~, 수직 슬라이스)**: 6A 실제 LLM run 에서 인프라 이슈
+  (LLM-AP-004) 와 "stub 만으로는 출력 품질을 못 본다"는 한계를 확인 후, **실물 영상까지
+  최단경로로 관통하는 수직 슬라이스**로 전환. 6B(Evidence Guard)·6C(Blueprint) 정식
+  산출물은 뒤로 미루고, 6D Script 가 dossier 에서 곧장 대본을 뽑음(blueprint 흡수).
+  각 단계는 stub 단위테스트 + **실제 claude run 으로 출력 육안 검증**. codex 외부 리뷰
+  (C10.1) 는 한시적으로 일시 중단(사용자 결정) — 깊이는 슬라이스 관통 후 보강.
 - **이미 존재**: `SceneEntry`, `SceneManifest` (골격, schemas/models.py). 나머지 모델은 신규.
 - **각 서브스텝 DoD**: py_compile + import smoke + 단위테스트 + CLI 1 서브커맨드 + state
   전이 + (해당 시) Review Gate 산출물. MINOR push 마다 codex 외부 리뷰 (C10.1),

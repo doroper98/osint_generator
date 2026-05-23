@@ -535,6 +535,58 @@ class ResearchDossier(VersionedModel):
 
 
 # ---------------------------------------------------------------------------
+# 7.7 FullScript (Phase 6 Script, Script Agent 산출)
+# ---------------------------------------------------------------------------
+
+
+class ScriptChapter(BaseModel):
+    """대본 챕터(서사 단위). full_script 의 segments 를 그룹핑한다."""
+
+    model_config = ConfigDict(extra="forbid", use_enum_values=True)
+
+    chapter_id: str
+    title: str
+    summary: str = ""
+
+
+class ScriptSegment(BaseModel):
+    """나레이션 1세그먼트. TTS 가 읽는 최소 단위이자 scene 매핑의 기준.
+
+    label 은 ResearchClaim.display_label 에서 유래하는 영상 표기 라벨
+    (`<미검증>` 등). 미검증/추론/주장/반박 항목을 화면에서 분리하기 위함
+    (docs/06 §6, GOAL G4 — 미검증 정보는 라벨로만, 제목/썸네일 금지).
+    """
+
+    model_config = ConfigDict(extra="forbid", use_enum_values=True)
+
+    segment_id: str
+    chapter_id: str
+    narration: str
+    on_screen_caption: str = ""
+    claim_refs: list[str] = Field(default_factory=list)
+    label: Optional[str] = None
+    est_duration_sec: float = 0.0
+
+
+class FullScript(VersionedModel):
+    """Script Agent (ScriptWorker) 산출. research_dossier → 영상 대본.
+
+    docs/12 §1 의 `script_review` (Review Gate 4) 입력이며, Scene Planner(다음
+    단계)의 입력이 된다. 스키마 추가는 optional 모델 추가에 해당해 schema_version
+    1 유지 (C3).
+    """
+
+    project_id: str
+    generated_at: datetime = Field(default_factory=utc_now)
+    title: str = ""
+    topic: str = ""
+    target_duration_min: int = Field(default=8, ge=3, le=20)
+    chapters: list[ScriptChapter] = Field(default_factory=list)
+    segments: list[ScriptSegment] = Field(default_factory=list)
+    total_est_duration_sec: float = 0.0
+
+
+# ---------------------------------------------------------------------------
 # 8. SceneManifest (Phase 6 핵심, 본 파일은 골격만)
 # ---------------------------------------------------------------------------
 
