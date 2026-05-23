@@ -1,6 +1,6 @@
 <!--
 tier: 3
-last_synced_with: v0.10.0
+last_synced_with: v0.11.0
 ssot_for: [development-log]
 depends_on: [CHANGELOG.md]
 last_review: 2026-05-23
@@ -22,6 +22,23 @@ last_review: 2026-05-23
 - 결과:  …
 - 연관:  AP-번호, 이슈, PR 번호 등
 ```
+
+---
+
+## 2026-05-23 v0.11.0 — 수직 슬라이스 V3: Remotion 최소 렌더
+
+- **무엇을**: `remotion/` 프로젝트(텍스트 슬라이드 `Briefing` 컴포지션) + RenderProps 모델
+  + render_io(scene_manifest+full_script→render_props.json) + `render-debug` CLI.
+- **왜**: 수직 슬라이스 마지막 단계 — topic 부터 영상까지 처음으로 관통. 사용자가 실물을
+  눈으로 보고 톤·구조·라벨 표시를 검증하기 위함.
+- **어떻게**: 이 환경에 node22/npm + chromium 네이티브 라이브러리(libnss3 등 5종) 존재 확인
+  후 진행. render_props 는 scene_manifest(타이밍/라벨) + full_script(나레이션)를 join 한
+  평면 구조(TS camelCase). 라벨은 슬라이드 우상단 색 배지. render-debug 는 state 전이 없는
+  미리보기(현재 scene_manifest 로 언제든 재생성). node_modules/mp4 는 gitignore.
+- **결과**: 256 테스트 통과. hualien2024 render_props 16 scene 생성 확인 (라벨 전파 유지).
+  실제 Remotion 렌더는 본 커밋 후 실행 검증. 정식 RemotionJob/render_worker·TTS·Phase 7
+  에셋은 슬라이스 관통 후 보강 예정.
+- **연관**: docs/05 §3.4e, docs/13 수직 슬라이스, CHANGELOG v0.11.0.
 
 ---
 

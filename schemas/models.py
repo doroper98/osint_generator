@@ -587,6 +587,44 @@ class FullScript(VersionedModel):
 
 
 # ---------------------------------------------------------------------------
+# 7.8 RenderProps (수직 슬라이스 V3, Remotion 최소 렌더 입력)
+# ---------------------------------------------------------------------------
+
+
+class RenderSceneProps(BaseModel):
+    """Remotion 컴포지션이 읽는 scene 1개 props. 필드명은 TS 친화 camelCase.
+
+    scene_manifest(타이밍/라벨 신호) + full_script(나레이션/캡션)를 해석해 만든 평면
+    구조. 텍스트 슬라이드 렌더에 필요한 값만 담는다 (정식 RemotionJob 은 추후).
+    """
+
+    model_config = ConfigDict(extra="forbid")
+
+    sceneId: str
+    startSec: float
+    durationSec: float
+    caption: str = ""
+    narration: str = ""
+    label: Optional[str] = None
+    sourceLinkRequired: bool = False
+
+
+class RenderProps(VersionedModel):
+    """Remotion 렌더 props (`09_render/render_props.json`). 수직 슬라이스 V3.
+
+    Remotion `Briefing` 컴포지션의 입력. schema_version 은 VersionedModel 이 강제하나
+    Remotion 측 타입은 무시한다 (구조적 타이핑). 정식 RemotionJob/render_worker 는 추후.
+    """
+
+    project_id: str
+    title: str = ""
+    fps: int = 30
+    width: int = 1920
+    height: int = 1080
+    scenes: list[RenderSceneProps] = Field(default_factory=list)
+
+
+# ---------------------------------------------------------------------------
 # 8. SceneManifest (Phase 6 핵심, 본 파일은 골격만)
 # ---------------------------------------------------------------------------
 

@@ -1,6 +1,6 @@
 <!--
 tier: 3
-last_synced_with: v0.10.0
+last_synced_with: v0.11.0
 ssot_for: [release-notes]
 depends_on: [README.md, GOAL.md]
 last_review: 2026-05-23
@@ -25,6 +25,27 @@ released 항목은 **append-only**입니다.
 
 ### Fixed
 -
+
+---
+
+## [v0.11.0] — 2026-05-23
+
+**수직 슬라이스 V3: Remotion 최소 렌더**. scene_manifest + full_script → render_props.json
+→ Remotion `Briefing` 컴포지션(텍스트 슬라이드)으로 draft_debug.mp4. 미검증/추론/주장
+라벨이 슬라이드 배지로 표시된다. 이로써 topic → 영상까지 파이프라인이 처음으로 관통.
+
+### Added
+
+- **`remotion/`** — Remotion 프로젝트 (package.json/tsconfig/src). `Briefing` 컴포지션:
+  scene 당 풀스크린 슬라이드(캡션+나레이션+라벨 배지+출처 표기), calculateMetadata 로
+  총 길이를 props 에서 산출.
+- **`schemas/models.py`** — `RenderProps` (+ `RenderSceneProps`). camelCase (TS 친화).
+- **`orchestrator/render_io.py`** — `build_render_props`(순수: scene_manifest+full_script
+  join) + `09_render/render_props.json` atomic 영속화.
+- **`orchestrator/main.py`** — `render-debug {pid} [--props-only]` CLI (props 생성 →
+  `npx remotion render` → draft_debug.mp4, state 전이 없는 미리보기).
+- **`tests/test_render_flow.py`** — render_props 빌더(순수) + render-debug --props-only
+  CLI (256 통과). 실제 Remotion 렌더는 실행 검증.
 
 ---
 

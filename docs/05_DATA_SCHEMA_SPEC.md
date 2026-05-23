@@ -1,6 +1,6 @@
 <!--
 tier: 2
-last_synced_with: v0.9.0
+last_synced_with: v0.11.0
 ssot_for: [json-contracts-overview]
 depends_on: [../schemas/models.py]
 last_review: 2026-05-23
@@ -201,6 +201,24 @@ source_id 존재 여부의 cross-check 는 6B Evidence Guard 책임 (본 스키�
 `claim_refs`(research_dossier claim_id), `label`(`<미검증>` 등 — claim status 유래,
 미검증/추론/주장/반박 항목 분리. confirmed 만이면 null), `est_duration_sec`. 미검증
 정보의 제목/썸네일 사용 금지(GOAL G4)는 label 로 추적.
+
+### 3.4e `RenderProps` (수직 슬라이스 V3, Remotion 렌더 입력)
+
+`09_render/render_props.json` — scene_manifest(타이밍/라벨 신호) + full_script(나레이션/
+캡션)를 합쳐 만든 Remotion `Briefing` 컴포지션 입력. 텍스트 슬라이드 렌더용 최소 평면
+구조 (정식 `RemotionJob`/render_worker 는 Phase 9 에서). 필드명은 TS 친화 camelCase.
+
+| 필드 | 타입 | 설명 |
+|---|---|---|
+| schema_version | int | 1 (Remotion 측은 무시) |
+| project_id | str | |
+| title | str | 영상 제목 |
+| fps / width / height | int | 기본 30 / 1920 / 1080 |
+| scenes | list[`RenderSceneProps`] | 슬라이드 목록 |
+
+`RenderSceneProps`: `sceneId`, `startSec`, `durationSec`, `caption`, `narration`
+(narration_segment_ids 로 full_script 에서 해석), `label`(`<미검증>` 등 — 배지 표기),
+`sourceLinkRequired`.
 
 ### 3.5 `SceneManifest` Provenance
 

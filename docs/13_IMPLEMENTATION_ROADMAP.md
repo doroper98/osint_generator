@@ -1,6 +1,6 @@
 <!--
 tier: 2
-last_synced_with: v0.10.0
+last_synced_with: v0.11.0
 ssot_for: [phase-roadmap]
 depends_on: [../GOAL.md, ../CHANGELOG.md]
 last_review: 2026-05-23
@@ -75,6 +75,12 @@ docs/03 §2 의 Agent 들은 모두 `BaseLLMWorker` 기반 Worker 로 구현된�
   산출물은 뒤로 미루고, 6D Script 가 dossier 에서 곧장 대본을 뽑음(blueprint 흡수).
   각 단계는 stub 단위테스트 + **실제 claude run 으로 출력 육안 검증**. codex 외부 리뷰
   (C10.1) 는 한시적으로 일시 중단(사용자 결정) — 깊이는 슬라이스 관통 후 보강.
+- **수직 슬라이스 V1/V2/V3 (v0.9.0~v0.11.0)**: research → **script(V1, v0.9.0)** →
+  **scene(V2, v0.10.0)** → **Remotion 최소 렌더(V3, v0.11.0)**. V3 는 `remotion/` 프로젝트
+  (텍스트 슬라이드 컴포지션 `Briefing`) + `orchestrator/render_io.py`(scene_manifest+
+  full_script → `09_render/render_props.json`) + CLI `render-debug`. 라벨(`<미검증>` 등)이
+  배지로 표시됨. node/chromium 환경에서 `draft_debug.mp4` 생성. TTS·정식 RemotionJob·
+  Phase 7 에셋은 슬라이스 관통 후 보강.
 - **이미 존재**: `SceneEntry`, `SceneManifest` (골격, schemas/models.py). 나머지 모델은 신규.
 - **각 서브스텝 DoD**: py_compile + import smoke + 단위테스트 + CLI 1 서브커맨드 + state
   전이 + (해당 시) Review Gate 산출물. MINOR push 마다 codex 외부 리뷰 (C10.1),

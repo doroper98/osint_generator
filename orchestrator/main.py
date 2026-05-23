@@ -17,6 +17,8 @@
                                               + script_writing 전이 (Phase 6 Script)
 - build-scene {pid}                         : full_script → scene_manifest.json (결정론적)
                                               + scene_planning 전이 (수직 슬라이스 V2)
+- render-debug {pid}                         : scene_manifest+full_script → render_props.json
+                                              → Remotion 으로 draft_debug.mp4 (수직 슬라이스 V3)
 - approve --project {pid} --gate ...        : Review Gate 승인 기록 (Phase 11)
 - version                                   : 현재 버전 출력
 """
@@ -186,6 +188,20 @@ def build_parser() -> argparse.ArgumentParser:
     )
     bsn.add_argument("project_id", help="project_id")
 
+    rdg = sub.add_parser(
+        "render-debug",
+        help=(
+            "render_props.json 생성 후 Remotion 으로 draft_debug.mp4 렌더 "
+            "(수직 슬라이스 V3, 미리보기 — state 전이 없음)"
+        ),
+    )
+    rdg.add_argument("project_id", help="project_id")
+    rdg.add_argument(
+        "--props-only",
+        action="store_true",
+        help="render_props.json 만 생성하고 Remotion 렌더는 건너뜀 (node 미설치 환경용).",
+    )
+
     apv = sub.add_parser("approve", help="Review Gate 승인 기록 (Phase 11)")
     apv.add_argument("--project", required=True)
     apv.add_argument("--gate", required=True)
@@ -282,6 +298,9 @@ def main(argv: list[str] | None = None) -> int:
 
     if args.cmd == "build-scene":
         return _cmd_build_scene(args)
+
+    if args.cmd == "render-debug":
+        return _cmd_render_debug(args)
 
     if args.cmd == "approve":
         print("approve: Phase 11 에서 구현 예정입니다.")
@@ -664,6 +683,81 @@ def _cmd_build_scene(args: argparse.Namespace) -> int:
     print(f"saved   : {manifest_scene_path(args.project_id) / 'scene_manifest.json'}")
     print(f"scenes  : {len(scene_manifest.scenes)}")
     _print_manifest_summary(manifest)
+    return 0
+
+
+def _cmd_render_debug(args: argparse.Namespace) -> int:
+    """render-debug: scene_manifest+full_script → render_props.json → Remotion mp4 (V3).
+
+    수직 슬라이스의 최소 렌더(미리보기). precondition 은 scene_planning 이상이면
+    충분하나(scene_manifest 존재), 단순히 scene_manifest/full_script 존재로 판정한다.
+    상태 전이는 하지 않는다 — 현재 scene_manifest 로부터 언제든 다시 뽑는 미리보기.
+
+    1. render_props.json 생성 (build_and_persist_render_props).
+    2. --props-only 면 종료. 아니면 remotion/ 에서 `npx remotion render` 호출.
+    """
+    import subprocess
+
+    from orchestrator.config import REPO_ROOT
+    from orchestrator.project_manager import validate_project_id
+    from orchestrator.render_io import (
+        build_and_persist_render_props,
+        draft_debug_path,
+        render_props_path,
+    )
+
+    try:
+        validate_project_id(args.project_id)
+    except ValueError as e:
+        print(f"error: {e}", file=sys.stderr)
+        return 1
+
+    try:
+        props, props_path = build_and_persist_render_props(args.project_id)
+    except FileNotFoundError as e:
+        print(f"error: {e} (먼저 build-scene 으로 scene_manifest 를 만드십시오)", file=sys.stderr)
+        return 1
+    except (json.JSONDecodeError, ValueError, OSError) as e:
+        print(f"error: render_props 빌드/영속화 실패 — {e}", file=sys.stderr)
+        return 1
+
+    print(f"render_props 생성: {props_path} (scenes={len(props.scenes)})")
+
+    if args.props_only:
+        print("--props-only: Remotion 렌더 건너뜀.")
+        return 0
+
+    remotion_dir = REPO_ROOT / "remotion"
+    if not (remotion_dir / "node_modules").exists():
+        print(
+            f"error: remotion 의존성 미설치. 먼저:\n"
+            f"  cd {remotion_dir} && npm install\n"
+            f"그 뒤 render-debug 를 다시 실행하거나, render_props.json 으로 로컬에서 렌더하십시오.",
+            file=sys.stderr,
+        )
+        return 1
+
+    out_path = draft_debug_path(args.project_id)
+    out_path.parent.mkdir(parents=True, exist_ok=True)
+    cmd = [
+        "npx", "remotion", "render", "src/index.ts", "Briefing",
+        str(out_path.resolve()),
+        f"--props={props_path.resolve()}",
+    ]
+    print(f"렌더 시작: {' '.join(cmd)} (cwd={remotion_dir})")
+    try:
+        proc = subprocess.run(cmd, cwd=str(remotion_dir), timeout=1800)
+    except FileNotFoundError:
+        print("error: npx/node 를 찾을 수 없습니다. Node.js 설치 필요.", file=sys.stderr)
+        return 1
+    except subprocess.TimeoutExpired:
+        print("error: Remotion 렌더 타임아웃 (30분).", file=sys.stderr)
+        return 1
+    if proc.returncode != 0:
+        print(f"error: Remotion 렌더 실패 (exit {proc.returncode}).", file=sys.stderr)
+        return 1
+
+    print(f"render-debug 완료: {out_path}")
     return 0
 
 

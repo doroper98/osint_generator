@@ -1,0 +1,21 @@
+{
+  "name": "osint-remotion",
+  "version": "1.0.0",
+  "private": true,
+  "description": "OSINT 브리핑 영상 Remotion 컴포지션 (수직 슬라이스 V3 최소 텍스트 슬라이드)",
+  "scripts": {
+    "render": "remotion render src/index.ts Briefing",
+    "studio": "remotion studio src/index.ts"
+  },
+  "dependencies": {
+    "@remotion/cli": "^4.0.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "remotion": "^4.0.0"
+  },
+  "devDependencies": {
+    "@types/react": "^18.3.0",
+    "@types/react-dom": "^18.3.0",
+    "typescript": "^5.4.0"
+  }
+}
