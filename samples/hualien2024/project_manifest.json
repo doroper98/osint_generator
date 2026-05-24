@@ -1,0 +1,74 @@
+{
+  "schema_version": 1,
+  "project_id": "hualien2024",
+  "title": "2024년 4월 대만 화롄 지진 (M7.4) OSINT 브리핑",
+  "category": "earthquake",
+  "created_at": "2026-05-23T13:16:14.552107Z",
+  "updated_at": "2026-05-23T14:52:25.587990Z",
+  "current_state": "scene_planning",
+  "target_duration_min": 8,
+  "topic_summary": "2024-04-03 대만 화롄 인근 규모 7.4 지진. 진앙·피해·쓰나미 경보·여진 추이를 1차 출처 기반으로 정리.",
+  "initial_links": [
+    "https://example-analyst.org/reports/hualien-2024-osint-summary"
+  ],
+  "paths": {},
+  "render_mode_status": {},
+  "approval_status": {},
+  "final_outputs": {},
+  "state_history": [
+    {
+      "from_state": "created",
+      "to_state": "intake_planning",
+      "transitioned_at": "2026-05-23T13:16:15.206305Z",
+      "reason": "plan-intake 시작"
+    },
+    {
+      "from_state": "intake_planning",
+      "to_state": "intake_pending_user",
+      "transitioned_at": "2026-05-23T13:16:15.214830Z",
+      "reason": "IntakePlannerWorker 성공"
+    },
+    {
+      "from_state": "intake_pending_user",
+      "to_state": "source_collecting",
+      "transitioned_at": "2026-05-23T13:16:15.867494Z",
+      "reason": "CLI submit-intake"
+    },
+    {
+      "from_state": "source_collecting",
+      "to_state": "source_completeness_review",
+      "transitioned_at": "2026-05-23T13:16:16.555860Z",
+      "reason": "source_registry + completeness report 생성"
+    },
+    {
+      "from_state": "source_completeness_review",
+      "to_state": "research_in_progress",
+      "transitioned_at": "2026-05-23T13:29:25.061318Z",
+      "reason": "ResearchWorker 성공"
+    },
+    {
+      "from_state": "research_in_progress",
+      "to_state": "blueprint_review",
+      "transitioned_at": "2026-05-23T13:49:15.598839Z",
+      "reason": "blueprint 단계 흡수 (수직 슬라이스, v0.9.0)"
+    },
+    {
+      "from_state": "blueprint_review",
+      "to_state": "script_writing",
+      "transitioned_at": "2026-05-23T13:49:15.604717Z",
+      "reason": "ScriptWorker 성공"
+    },
+    {
+      "from_state": "script_writing",
+      "to_state": "script_review",
+      "transitioned_at": "2026-05-23T14:52:25.582321Z",
+      "reason": "script_review 흡수 (수직 슬라이스)"
+    },
+    {
+      "from_state": "script_review",
+      "to_state": "scene_planning",
+      "transitioned_at": "2026-05-23T14:52:25.587974Z",
+      "reason": "scene_manifest 생성"
+    }
+  ]
+}

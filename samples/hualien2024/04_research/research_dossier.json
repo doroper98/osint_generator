@@ -1,0 +1,298 @@
+{
+  "schema_version": 1,
+  "project_id": "hualien2024",
+  "generated_at": "2026-05-23T13:29:25.035258Z",
+  "topic": "2024년 4월 3일 대만 화롄 규모 7.4 지진: 진앙·피해·쓰나미 경보·여진 OSINT 브리핑",
+  "summary": "2024년 4월 3일 대만 화롄 인근에서 USGS 기준 규모 7.4의 강진이 발생하였으며, USGS와 대만 중앙기상서(CWA) 두 공식 기관이 독립적으로 이를 확인하였다. 쓰나미 경보 발령, 건물 피해, 인명 피해 등은 로이터 등 언론을 통해 보도되었으나 정확한 수치는 공식 1차 출처 교차 검증이 미완료된 상태이다. 화롄 시내 건물 기울어짐 영상의 지리적 위치 분석은 신뢰도 낮은 미검증 X 게시물에만 근거하여 독립 검증이 필요하다. 사상자 규모, CWA 공식 규모 수치, 쓰나미 경보 해제 시각 등 핵심 세부 사항은 추가 1차 출처 확인이 필요한 미확인 영역으로 남아 있다.",
+  "seeds": [
+    {
+      "seed_id": "seed_1",
+      "url": "https://example-analyst.org/reports/hualien-2024-osint-summary",
+      "description": "외부 OSINT 분석가가 작성한 화롄 2024 지진 종합 요약 분석 리포트(2차 파생 자료)",
+      "is_derivative": true,
+      "requires_verification": true
+    }
+  ],
+  "claims": [
+    {
+      "claim_id": "claim_01",
+      "statement": "2024년 4월 3일 대만 화롄 인근에서 규모 7.4의 강진이 발생하였으며, USGS와 CWA 두 공식 기관이 이를 독립적으로 확인하였다.",
+      "status": "confirmed",
+      "evidence": [
+        {
+          "source_id": "usgs_event",
+          "seed_id": null,
+          "quote": "USGS 공식 이벤트 페이지에 'M 7.4 - 18 km SSW of Hualien City, Taiwan'으로 기록됨",
+          "locator": "event title",
+          "stance": "supports"
+        },
+        {
+          "source_id": "cwa_report",
+          "seed_id": null,
+          "quote": "대만 중앙기상서(CWA) 지진 보고서에 동일 지진이 공식 등재됨",
+          "locator": null,
+          "stance": "supports"
+        }
+      ],
+      "cross_checked": true,
+      "confidence": "high",
+      "notes": "USGS(신뢰도 0.97)와 CWA(신뢰도 0.96) 두 독립 공식 기관이 지진 발생 사실을 확인. 공식 규모 수치는 두 기관 간 소폭 차이 가능성 있음.",
+      "risk_flags": []
+    },
+    {
+      "claim_id": "claim_02",
+      "statement": "USGS 기준 지진 규모는 Mw 7.4이며, 로이터 역시 동일 규모를 전달하였다.",
+      "status": "confirmed",
+      "evidence": [
+        {
+          "source_id": "usgs_event",
+          "seed_id": null,
+          "quote": "'M 7.4 - 18 km SSW of Hualien City, Taiwan'",
+          "locator": "event title",
+          "stance": "supports"
+        },
+        {
+          "source_id": "reuters_art",
+          "seed_id": null,
+          "quote": "로이터 기사 'Taiwan hit by strongest quake in 25 years'에서 규모 7.4 보도",
+          "locator": "headline / article body",
+          "stance": "supports"
+        }
+      ],
+      "cross_checked": true,
+      "confidence": "high",
+      "notes": "CWA 공식 발표 규모는 USGS와 소폭 차이가 날 수 있으므로 CWA 수치와의 별도 교차 확인 권장. 로이터는 rights_unknown 상태임.",
+      "risk_flags": []
+    },
+    {
+      "claim_id": "claim_03",
+      "statement": "진앙은 화롄 시내 남남서 약 18km 지점으로 특정된다.",
+      "status": "inferred",
+      "evidence": [
+        {
+          "source_id": "usgs_event",
+          "seed_id": null,
+          "quote": "USGS 이벤트 제목 및 위치 필드: '18 km SSW of Hualien City, Taiwan'",
+          "locator": "event title / location field",
+          "stance": "supports"
+        }
+      ],
+      "cross_checked": false,
+      "confidence": "high",
+      "notes": "신뢰도 높은 USGS 단일 공식 출처 확인. CWA 보고서의 진앙 좌표와 비교 교차 검증 시 cross_checked=true로 갱신 가능.",
+      "risk_flags": []
+    },
+    {
+      "claim_id": "claim_04",
+      "statement": "이번 지진은 1999년 지지 대지진 이후 약 25년 만에 대만을 강타한 최대 규모 지진으로 보도되었다.",
+      "status": "claim",
+      "evidence": [
+        {
+          "source_id": "reuters_art",
+          "seed_id": null,
+          "quote": "'Taiwan hit by strongest quake in 25 years'",
+          "locator": "headline",
+          "stance": "supports"
+        }
+      ],
+      "cross_checked": false,
+      "confidence": "medium",
+      "notes": "로이터 단일 언론 출처(rights_unknown, reliability=0.85). 역사 지진 데이터베이스(CWA 또는 ISC 카탈로그)와 교차 검증하여 '25년 만에 최대' 표현의 정확성 확인 필요.",
+      "risk_flags": []
+    },
+    {
+      "claim_id": "claim_05",
+      "statement": "지진 발생 직후 대만 및 인근 국가·지역을 대상으로 쓰나미 경보가 발령되었다.",
+      "status": "confirmed",
+      "evidence": [
+        {
+          "source_id": "usgs_event",
+          "seed_id": null,
+          "quote": "USGS 공식 이벤트 페이지에 쓰나미 경보 발령 관련 정보 포함",
+          "locator": null,
+          "stance": "supports"
+        },
+        {
+          "source_id": "cwa_report",
+          "seed_id": null,
+          "quote": "CWA 공식 지진 보고서에 쓰나미 경보 발령 사실 기록",
+          "locator": null,
+          "stance": "supports"
+        }
+      ],
+      "cross_checked": true,
+      "confidence": "high",
+      "notes": "USGS와 CWA 두 독립 공식 기관이 모두 쓰나미 경보 발령을 확인함.",
+      "risk_flags": []
+    },
+    {
+      "claim_id": "claim_06",
+      "statement": "쓰나미 경보는 이후 해제되었으며, 실제 파괴적 규모의 쓰나미는 발생하지 않은 것으로 추론된다.",
+      "status": "inferred",
+      "evidence": [
+        {
+          "source_id": "usgs_event",
+          "seed_id": null,
+          "quote": "USGS 이벤트 페이지는 쓰나미 경보 해제 후 최종 업데이트되는 것이 일반적 관행임",
+          "locator": null,
+          "stance": "supports"
+        }
+      ],
+      "cross_checked": false,
+      "confidence": "medium",
+      "notes": "경보 해제 사실에 대한 명시적 인용이 현재 레지스트리에 없어 추론으로 분류. 태평양쓰나미경보센터(PTWC) 자료 또는 CWA 보고서로 발령·해제 시각 교차 확인 필요.",
+      "risk_flags": []
+    },
+    {
+      "claim_id": "claim_07",
+      "statement": "화롄 시내 및 인근 지역에서 건물 붕괴 또는 심각한 구조물 피해가 발생하였다.",
+      "status": "claim",
+      "evidence": [
+        {
+          "source_id": "reuters_art",
+          "seed_id": null,
+          "quote": "로이터 기사에서 화롄 지역 건물 피해 상황 보도",
+          "locator": null,
+          "stance": "supports"
+        },
+        {
+          "source_id": "x_osint_geo",
+          "seed_id": null,
+          "quote": "X 게시물에 화롄 시내 건물 기울어짐 영상 공유",
+          "locator": null,
+          "stance": "contextual"
+        }
+      ],
+      "cross_checked": false,
+      "confidence": "medium",
+      "notes": "로이터(rights_unknown)와 미검증 X 게시물에 의존. X 출처 신뢰도(0.55)가 낮고 로이터 단독으로는 독립 1차 교차 미충족. CWA 또는 대만 소방방재청 공식 자료로 확인 필요.",
+      "risk_flags": []
+    },
+    {
+      "claim_id": "claim_08",
+      "statement": "화롄 시내에서 건물이 심하게 기울어진 장면을 촬영한 영상이 SNS에 유포되었으며, 해당 영상의 촬영 위치가 화롄 시내로 geolocation 분석된 것으로 주장된다.",
+      "status": "unverified",
+      "evidence": [
+        {
+          "source_id": "x_osint_geo",
+          "seed_id": null,
+          "quote": "X 게시물에서 화롄 시내 특정 건물 기울어짐 영상에 대한 지리적 위치 분석 결과 제시",
+          "locator": null,
+          "stance": "supports"
+        }
+      ],
+      "cross_checked": false,
+      "confidence": "low",
+      "notes": "신뢰도 낮은 X 미검증 게시물(reliability=0.55, rights_unknown, verification=unverified) 단독 근거. geolocation 분석 방법론 및 정확성 미검증. 독립적 OSINT 지리 검증과 영상 진위 확인 필요.",
+      "risk_flags": [
+        "graphic_content"
+      ]
+    },
+    {
+      "claim_id": "claim_09",
+      "statement": "지진으로 인한 인명 피해(사망 및 부상자)가 발생하였다.",
+      "status": "claim",
+      "evidence": [
+        {
+          "source_id": "reuters_art",
+          "seed_id": null,
+          "quote": "로이터 기사에서 지진으로 인한 인명 피해(사망·부상) 보도",
+          "locator": null,
+          "stance": "supports"
+        }
+      ],
+      "cross_checked": false,
+      "confidence": "medium",
+      "notes": "로이터 단일 언론 출처(rights_unknown). 정확한 사상자 수와 최종 집계는 CWA, 대만 내정부 소방서 또는 국가재난관리센터 공식 발표로 1차 교차 검증 필요.",
+      "risk_flags": []
+    },
+    {
+      "claim_id": "claim_10",
+      "statement": "본진 이후 다수의 여진이 연속 발생하였으며, USGS 이벤트 페이지에 여진 시퀀스가 기록되었다.",
+      "status": "inferred",
+      "evidence": [
+        {
+          "source_id": "usgs_event",
+          "seed_id": null,
+          "quote": "USGS 공식 이벤트 페이지는 규모 7.4 본진 이후 발생한 여진 목록 및 시퀀스를 기록하는 것이 표준 절차임",
+          "locator": null,
+          "stance": "supports"
+        },
+        {
+          "source_id": "cwa_report",
+          "seed_id": null,
+          "quote": "CWA 지진 보고서에 여진 관련 정보 포함 가능",
+          "locator": null,
+          "stance": "contextual"
+        }
+      ],
+      "cross_checked": false,
+      "confidence": "high",
+      "notes": "규모 7.4 이상 지진에서 여진 발생은 지진학적 표준 패턴. USGS 1차 출처가 지지하나, CWA는 contextual 수준에 그침. 구체적 여진 목록(규모·시각·진앙)은 USGS 이벤트 페이지 직접 확인 필요.",
+      "risk_flags": []
+    },
+    {
+      "claim_id": "claim_11",
+      "statement": "지진의 진원 깊이는 비교적 얕은 수십 km 이내로 분류되며, 이로 인해 지표 진동과 구조물 피해가 증폭되었을 것으로 추론된다.",
+      "status": "inferred",
+      "evidence": [
+        {
+          "source_id": "usgs_event",
+          "seed_id": null,
+          "quote": "USGS 공식 이벤트 데이터에 진원 깊이(depth) 수치 포함",
+          "locator": "depth field",
+          "stance": "supports"
+        }
+      ],
+      "cross_checked": false,
+      "confidence": "medium",
+      "notes": "정확한 깊이 수치는 USGS 이벤트 페이지 직접 확인 및 CWA 교차 검증 필요. 얕은 진원이 피해를 증폭시킨다는 내용은 지진학적 추론이므로 status=inferred로 분류.",
+      "risk_flags": []
+    },
+    {
+      "claim_id": "claim_12",
+      "statement": "지진 발생 후 구조·수색 작업이 전개되었으며, 긴급 대응팀이 피해 지역에 투입되었다.",
+      "status": "claim",
+      "evidence": [
+        {
+          "source_id": "reuters_art",
+          "seed_id": null,
+          "quote": "로이터 기사에서 구조대 및 긴급 대응 작업 전개 보도",
+          "locator": null,
+          "stance": "supports"
+        }
+      ],
+      "cross_checked": false,
+      "confidence": "medium",
+      "notes": "로이터 단일 언론 출처(rights_unknown). 대만 정부 공식 브리핑 또는 대만 소방청 자료로 교차 검증 필요.",
+      "risk_flags": []
+    },
+    {
+      "claim_id": "claim_13",
+      "statement": "파생 OSINT 분석 리포트(seed_1)는 화롄 지진 관련 추가 정보를 포함하고 있으나, 1차 출처 기반의 독립 검증이 이루어지지 않은 2차 분석이다.",
+      "status": "unverified",
+      "evidence": [
+        {
+          "source_id": null,
+          "seed_id": "seed_1",
+          "quote": "파생 분석 리포트에 화롄 지진 관련 종합 OSINT 요약 포함",
+          "locator": null,
+          "stance": "contextual"
+        }
+      ],
+      "cross_checked": false,
+      "confidence": "low",
+      "notes": "seed_1 단독 근거. 2차 파생 분석이므로 status=unverified 유지. 리포트 내 개별 주장은 source_registry의 1차 출처로 각각 별도 교차 검증 필요.",
+      "risk_flags": []
+    }
+  ],
+  "open_questions": [
+    "CWA 공식 발표 지진 규모(Mw)는 USGS 발표 7.4와 정확히 어떻게 다른가?",
+    "쓰나미 경보 발령 및 해제의 정확한 시각과 대상 지역은 태평양쓰나미경보센터(PTWC) 자료로 확인 가능한가?",
+    "공식 기관 최종 집계 기준 사망자 수, 부상자 수, 실종자 수는 각각 얼마인가?",
+    "규모 5.0 이상 주요 여진의 발생 시각·규모·진앙 목록은 USGS 또는 CWA에서 확인 가능한가?",
+    "화롄 시내 기울어진 건물(x_osint_geo 영상)의 정확한 주소 및 geolocation 좌표를 독립적으로 검증할 수 있는가?",
+    "지진의 단층 메커니즘(주향 이동, 역단층 등 focal mechanism)은 USGS 또는 GCMT 카탈로그에서 확인 가능한가?",
+    "seed_1 OSINT 리포트에 포함된 개별 주장 각각에 대응하는 1차 공개 출처가 존재하는가?"
+  ]
+}

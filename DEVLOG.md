@@ -1,6 +1,6 @@
 <!--
 tier: 3
-last_synced_with: v0.15.0
+last_synced_with: v0.15.1
 ssot_for: [development-log]
 depends_on: [CHANGELOG.md]
 last_review: 2026-05-24
@@ -22,6 +22,20 @@ last_review: 2026-05-24
 - 결과:  …
 - 연관:  AP-번호, 이슈, PR 번호 등
 ```
+
+---
+
+## 2026-05-24 v0.15.1 — 로컬 테스트 샘플 + 가이드
+
+- **무엇을**: samples/hualien2024/ (research/script/scene JSON) + docs/RUN_LOCAL.md.
+- **왜**: "대본+음성 입히는 테스트 해보고 싶어" 요구. 근데 hualien2024 는 클라우드 세션
+  안에만 있고(gitignore) 사용자 PC엔 없음 → 동일 산출물을 커밋해 마찰 제거.
+- **어떻게**: 실제 claude run 으로 만든 4개 JSON 을 samples/ 로 복사 커밋. 사용자는
+  projects/ 로 복사 후 ELEVENLABS_API_KEY 만 넣고 build-audio --backend elevenlabs +
+  render-debug → research/script 재생성 없이 음성+영상 확인. wav/mp4 는 gitignore.
+- **결과**: 사용자가 2~3줄로 대본+음성 영상 테스트 가능. 키는 사용자 환경변수(세션에
+  넣지 않음). 다른 주제는 full 파이프라인(claude 필요).
+- **연관**: docs/RUN_LOCAL.md, CHANGELOG v0.15.1.
 
 ---
 

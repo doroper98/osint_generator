@@ -1,6 +1,6 @@
 <!--
 tier: 3
-last_synced_with: v0.15.0
+last_synced_with: v0.15.1
 ssot_for: [release-notes]
 depends_on: [README.md, GOAL.md]
 last_review: 2026-05-23
@@ -25,6 +25,22 @@ released 항목은 **append-only**입니다.
 
 ### Fixed
 -
+
+---
+
+## [v0.15.1] — 2026-05-24
+
+**로컬 테스트 샘플 + 가이드**. 클라우드 세션에서 만든 hualien2024 산출물은 그 세션
+안에만 있어, 사용자가 본인 PC 에서 대본+음성 영상을 바로 테스트할 수 있도록 동일
+산출물을 커밋.
+
+### Added
+
+- **`samples/hualien2024/`** — 화롄 지진 브리핑의 project_manifest / research_dossier /
+  full_script / scene_manifest JSON (실제 claude run 산출물). `projects/` 로 복사하면
+  research/script 재생성 없이 build-audio + render-debug 만으로 음성+영상 테스트 가능.
+- **`docs/RUN_LOCAL.md`** — ElevenLabs 키만으로 음성 입히고 렌더하는 최소 절차
+  (복사 → build-audio --backend elevenlabs → render-debug). 백엔드 교체 안내 포함.
 
 ---
 

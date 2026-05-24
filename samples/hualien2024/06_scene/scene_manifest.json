@@ -1,0 +1,534 @@
+{
+  "schema_version": 1,
+  "project_id": "hualien2024",
+  "scenes": [
+    {
+      "scene_id": "scene_01",
+      "chapter_id": "ch_intro",
+      "start_sec": 0.0,
+      "duration_sec": 35.0,
+      "scene_type": "text_slide",
+      "narration_segment_ids": [
+        "seg_01"
+      ],
+      "caption": "2024.04.03 화롄 규모 7.4 강진 발생",
+      "visual_type": "text_slide",
+      "source_refs": [],
+      "asset_refs": [],
+      "map_refs": [],
+      "annotation_refs": [],
+      "transition": null,
+      "camera_motion": null,
+      "inference_label_required": false,
+      "source_link_required": true,
+      "worker_provenance": {
+        "primary_worker": "scene_builder",
+        "supporting_workers": [],
+        "generated_files": [],
+        "input_manifests": [
+          "05_script/full_script.json"
+        ],
+        "source_ids": [],
+        "asset_ids": [],
+        "task_ids": [],
+        "qa_status": "pending",
+        "risk_flags": []
+      }
+    },
+    {
+      "scene_id": "scene_02",
+      "chapter_id": "ch_intro",
+      "start_sec": 35.0,
+      "duration_sec": 25.0,
+      "scene_type": "text_slide",
+      "narration_segment_ids": [
+        "seg_02"
+      ],
+      "caption": "25년 만의 최대 규모? — 언론 보도 주장",
+      "visual_type": "text_slide",
+      "source_refs": [],
+      "asset_refs": [],
+      "map_refs": [],
+      "annotation_refs": [],
+      "transition": null,
+      "camera_motion": null,
+      "inference_label_required": true,
+      "source_link_required": true,
+      "worker_provenance": {
+        "primary_worker": "scene_builder",
+        "supporting_workers": [],
+        "generated_files": [],
+        "input_manifests": [
+          "05_script/full_script.json"
+        ],
+        "source_ids": [],
+        "asset_ids": [],
+        "task_ids": [],
+        "qa_status": "pending",
+        "risk_flags": []
+      }
+    },
+    {
+      "scene_id": "scene_03",
+      "chapter_id": "ch_intro",
+      "start_sec": 60.0,
+      "duration_sec": 32.0,
+      "scene_type": "text_slide",
+      "narration_segment_ids": [
+        "seg_03"
+      ],
+      "caption": "OSINT 방법론: 출처 신뢰도 분류",
+      "visual_type": "text_slide",
+      "source_refs": [],
+      "asset_refs": [],
+      "map_refs": [],
+      "annotation_refs": [],
+      "transition": null,
+      "camera_motion": null,
+      "inference_label_required": true,
+      "source_link_required": true,
+      "worker_provenance": {
+        "primary_worker": "scene_builder",
+        "supporting_workers": [],
+        "generated_files": [],
+        "input_manifests": [
+          "05_script/full_script.json"
+        ],
+        "source_ids": [],
+        "asset_ids": [],
+        "task_ids": [],
+        "qa_status": "pending",
+        "risk_flags": []
+      }
+    },
+    {
+      "scene_id": "scene_04",
+      "chapter_id": "ch_quake",
+      "start_sec": 92.0,
+      "duration_sec": 30.0,
+      "scene_type": "text_slide",
+      "narration_segment_ids": [
+        "seg_04"
+      ],
+      "caption": "공식 규모 Mw 7.4 — USGS·CWA 확인",
+      "visual_type": "text_slide",
+      "source_refs": [],
+      "asset_refs": [],
+      "map_refs": [],
+      "annotation_refs": [],
+      "transition": null,
+      "camera_motion": null,
+      "inference_label_required": false,
+      "source_link_required": true,
+      "worker_provenance": {
+        "primary_worker": "scene_builder",
+        "supporting_workers": [],
+        "generated_files": [],
+        "input_manifests": [
+          "05_script/full_script.json"
+        ],
+        "source_ids": [],
+        "asset_ids": [],
+        "task_ids": [],
+        "qa_status": "pending",
+        "risk_flags": []
+      }
+    },
+    {
+      "scene_id": "scene_05",
+      "chapter_id": "ch_quake",
+      "start_sec": 122.0,
+      "duration_sec": 22.0,
+      "scene_type": "text_slide",
+      "narration_segment_ids": [
+        "seg_05"
+      ],
+      "caption": "진앙: 화롄 남남서 약 18km — 추정치",
+      "visual_type": "text_slide",
+      "source_refs": [],
+      "asset_refs": [],
+      "map_refs": [],
+      "annotation_refs": [],
+      "transition": null,
+      "camera_motion": null,
+      "inference_label_required": true,
+      "source_link_required": true,
+      "worker_provenance": {
+        "primary_worker": "scene_builder",
+        "supporting_workers": [],
+        "generated_files": [],
+        "input_manifests": [
+          "05_script/full_script.json"
+        ],
+        "source_ids": [],
+        "asset_ids": [],
+        "task_ids": [],
+        "qa_status": "pending",
+        "risk_flags": []
+      }
+    },
+    {
+      "scene_id": "scene_06",
+      "chapter_id": "ch_quake",
+      "start_sec": 144.0,
+      "duration_sec": 28.0,
+      "scene_type": "text_slide",
+      "narration_segment_ids": [
+        "seg_06"
+      ],
+      "caption": "얕은 진원 깊이 → 피해 증폭 추론",
+      "visual_type": "text_slide",
+      "source_refs": [],
+      "asset_refs": [],
+      "map_refs": [],
+      "annotation_refs": [],
+      "transition": null,
+      "camera_motion": null,
+      "inference_label_required": true,
+      "source_link_required": true,
+      "worker_provenance": {
+        "primary_worker": "scene_builder",
+        "supporting_workers": [],
+        "generated_files": [],
+        "input_manifests": [
+          "05_script/full_script.json"
+        ],
+        "source_ids": [],
+        "asset_ids": [],
+        "task_ids": [],
+        "qa_status": "pending",
+        "risk_flags": []
+      }
+    },
+    {
+      "scene_id": "scene_07",
+      "chapter_id": "ch_tsunami",
+      "start_sec": 172.0,
+      "duration_sec": 23.0,
+      "scene_type": "text_slide",
+      "narration_segment_ids": [
+        "seg_07"
+      ],
+      "caption": "쓰나미 경보 공식 발령 — USGS·CWA 확인",
+      "visual_type": "text_slide",
+      "source_refs": [],
+      "asset_refs": [],
+      "map_refs": [],
+      "annotation_refs": [],
+      "transition": null,
+      "camera_motion": null,
+      "inference_label_required": false,
+      "source_link_required": true,
+      "worker_provenance": {
+        "primary_worker": "scene_builder",
+        "supporting_workers": [],
+        "generated_files": [],
+        "input_manifests": [
+          "05_script/full_script.json"
+        ],
+        "source_ids": [],
+        "asset_ids": [],
+        "task_ids": [],
+        "qa_status": "pending",
+        "risk_flags": []
+      }
+    },
+    {
+      "scene_id": "scene_08",
+      "chapter_id": "ch_tsunami",
+      "start_sec": 195.0,
+      "duration_sec": 26.0,
+      "scene_type": "text_slide",
+      "narration_segment_ids": [
+        "seg_08"
+      ],
+      "caption": "쓰나미 경보 해제 추론 — 해제 시각 미확인",
+      "visual_type": "text_slide",
+      "source_refs": [],
+      "asset_refs": [],
+      "map_refs": [],
+      "annotation_refs": [],
+      "transition": null,
+      "camera_motion": null,
+      "inference_label_required": true,
+      "source_link_required": true,
+      "worker_provenance": {
+        "primary_worker": "scene_builder",
+        "supporting_workers": [],
+        "generated_files": [],
+        "input_manifests": [
+          "05_script/full_script.json"
+        ],
+        "source_ids": [],
+        "asset_ids": [],
+        "task_ids": [],
+        "qa_status": "pending",
+        "risk_flags": []
+      }
+    },
+    {
+      "scene_id": "scene_09",
+      "chapter_id": "ch_damage",
+      "start_sec": 221.0,
+      "duration_sec": 27.0,
+      "scene_type": "text_slide",
+      "narration_segment_ids": [
+        "seg_09"
+      ],
+      "caption": "건물 붕괴·구조 피해 보고 — 주장",
+      "visual_type": "text_slide",
+      "source_refs": [],
+      "asset_refs": [],
+      "map_refs": [],
+      "annotation_refs": [],
+      "transition": null,
+      "camera_motion": null,
+      "inference_label_required": true,
+      "source_link_required": true,
+      "worker_provenance": {
+        "primary_worker": "scene_builder",
+        "supporting_workers": [],
+        "generated_files": [],
+        "input_manifests": [
+          "05_script/full_script.json"
+        ],
+        "source_ids": [],
+        "asset_ids": [],
+        "task_ids": [],
+        "qa_status": "pending",
+        "risk_flags": []
+      }
+    },
+    {
+      "scene_id": "scene_10",
+      "chapter_id": "ch_damage",
+      "start_sec": 248.0,
+      "duration_sec": 28.0,
+      "scene_type": "text_slide",
+      "narration_segment_ids": [
+        "seg_10"
+      ],
+      "caption": "기울어진 건물 영상 SNS 유포 — 미검증",
+      "visual_type": "text_slide",
+      "source_refs": [],
+      "asset_refs": [],
+      "map_refs": [],
+      "annotation_refs": [],
+      "transition": null,
+      "camera_motion": null,
+      "inference_label_required": true,
+      "source_link_required": true,
+      "worker_provenance": {
+        "primary_worker": "scene_builder",
+        "supporting_workers": [],
+        "generated_files": [],
+        "input_manifests": [
+          "05_script/full_script.json"
+        ],
+        "source_ids": [],
+        "asset_ids": [],
+        "task_ids": [],
+        "qa_status": "pending",
+        "risk_flags": []
+      }
+    },
+    {
+      "scene_id": "scene_11",
+      "chapter_id": "ch_damage",
+      "start_sec": 276.0,
+      "duration_sec": 27.0,
+      "scene_type": "text_slide",
+      "narration_segment_ids": [
+        "seg_11"
+      ],
+      "caption": "인명 피해(사망·부상) 발생 — 주장",
+      "visual_type": "text_slide",
+      "source_refs": [],
+      "asset_refs": [],
+      "map_refs": [],
+      "annotation_refs": [],
+      "transition": null,
+      "camera_motion": null,
+      "inference_label_required": true,
+      "source_link_required": true,
+      "worker_provenance": {
+        "primary_worker": "scene_builder",
+        "supporting_workers": [],
+        "generated_files": [],
+        "input_manifests": [
+          "05_script/full_script.json"
+        ],
+        "source_ids": [],
+        "asset_ids": [],
+        "task_ids": [],
+        "qa_status": "pending",
+        "risk_flags": []
+      }
+    },
+    {
+      "scene_id": "scene_12",
+      "chapter_id": "ch_damage",
+      "start_sec": 303.0,
+      "duration_sec": 27.0,
+      "scene_type": "text_slide",
+      "narration_segment_ids": [
+        "seg_12"
+      ],
+      "caption": "구조·수색 작업 전개 — 주장",
+      "visual_type": "text_slide",
+      "source_refs": [],
+      "asset_refs": [],
+      "map_refs": [],
+      "annotation_refs": [],
+      "transition": null,
+      "camera_motion": null,
+      "inference_label_required": true,
+      "source_link_required": true,
+      "worker_provenance": {
+        "primary_worker": "scene_builder",
+        "supporting_workers": [],
+        "generated_files": [],
+        "input_manifests": [
+          "05_script/full_script.json"
+        ],
+        "source_ids": [],
+        "asset_ids": [],
+        "task_ids": [],
+        "qa_status": "pending",
+        "risk_flags": []
+      }
+    },
+    {
+      "scene_id": "scene_13",
+      "chapter_id": "ch_aftershock",
+      "start_sec": 330.0,
+      "duration_sec": 25.0,
+      "scene_type": "text_slide",
+      "narration_segment_ids": [
+        "seg_13"
+      ],
+      "caption": "다수 여진 연속 발생 — USGS 기록",
+      "visual_type": "text_slide",
+      "source_refs": [],
+      "asset_refs": [],
+      "map_refs": [],
+      "annotation_refs": [],
+      "transition": null,
+      "camera_motion": null,
+      "inference_label_required": true,
+      "source_link_required": true,
+      "worker_provenance": {
+        "primary_worker": "scene_builder",
+        "supporting_workers": [],
+        "generated_files": [],
+        "input_manifests": [
+          "05_script/full_script.json"
+        ],
+        "source_ids": [],
+        "asset_ids": [],
+        "task_ids": [],
+        "qa_status": "pending",
+        "risk_flags": []
+      }
+    },
+    {
+      "scene_id": "scene_14",
+      "chapter_id": "ch_aftershock",
+      "start_sec": 355.0,
+      "duration_sec": 24.0,
+      "scene_type": "text_slide",
+      "narration_segment_ids": [
+        "seg_14"
+      ],
+      "caption": "얕은 진원 + 여진 지속 → 추가 피해 위험",
+      "visual_type": "text_slide",
+      "source_refs": [],
+      "asset_refs": [],
+      "map_refs": [],
+      "annotation_refs": [],
+      "transition": null,
+      "camera_motion": null,
+      "inference_label_required": true,
+      "source_link_required": true,
+      "worker_provenance": {
+        "primary_worker": "scene_builder",
+        "supporting_workers": [],
+        "generated_files": [],
+        "input_manifests": [
+          "05_script/full_script.json"
+        ],
+        "source_ids": [],
+        "asset_ids": [],
+        "task_ids": [],
+        "qa_status": "pending",
+        "risk_flags": []
+      }
+    },
+    {
+      "scene_id": "scene_15",
+      "chapter_id": "ch_conclusion",
+      "start_sec": 379.0,
+      "duration_sec": 27.0,
+      "scene_type": "text_slide",
+      "narration_segment_ids": [
+        "seg_15"
+      ],
+      "caption": "확인된 핵심 사실 요약",
+      "visual_type": "text_slide",
+      "source_refs": [],
+      "asset_refs": [],
+      "map_refs": [],
+      "annotation_refs": [],
+      "transition": null,
+      "camera_motion": null,
+      "inference_label_required": false,
+      "source_link_required": true,
+      "worker_provenance": {
+        "primary_worker": "scene_builder",
+        "supporting_workers": [],
+        "generated_files": [],
+        "input_manifests": [
+          "05_script/full_script.json"
+        ],
+        "source_ids": [],
+        "asset_ids": [],
+        "task_ids": [],
+        "qa_status": "pending",
+        "risk_flags": []
+      }
+    },
+    {
+      "scene_id": "scene_16",
+      "chapter_id": "ch_conclusion",
+      "start_sec": 406.0,
+      "duration_sec": 33.0,
+      "scene_type": "text_slide",
+      "narration_segment_ids": [
+        "seg_16"
+      ],
+      "caption": "미확인 쟁점 — 추가 검증 필요",
+      "visual_type": "text_slide",
+      "source_refs": [],
+      "asset_refs": [],
+      "map_refs": [],
+      "annotation_refs": [],
+      "transition": null,
+      "camera_motion": null,
+      "inference_label_required": true,
+      "source_link_required": true,
+      "worker_provenance": {
+        "primary_worker": "scene_builder",
+        "supporting_workers": [],
+        "generated_files": [],
+        "input_manifests": [
+          "05_script/full_script.json"
+        ],
+        "source_ids": [],
+        "asset_ids": [],
+        "task_ids": [],
+        "qa_status": "pending",
+        "risk_flags": []
+      }
+    }
+  ]
+}
