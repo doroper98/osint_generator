@@ -1,6 +1,6 @@
 <!--
 tier: 3
-last_synced_with: v0.15.2
+last_synced_with: v0.15.3
 ssot_for: [development-log]
 depends_on: [CHANGELOG.md]
 last_review: 2026-05-24
@@ -22,6 +22,19 @@ last_review: 2026-05-24
 - 결과:  …
 - 연관:  AP-번호, 이슈, PR 번호 등
 ```
+
+---
+
+## 2026-05-24 v0.15.3 — TTS env 값 공백 strip (Windows set 트레일링 스페이스)
+
+- **무엇을**: tts_backends 의 ElevenLabs/Voicebox 환경변수 값을 .strip().
+- **왜**: 사용자가 `set ELEVENLABS_API_KEY=sk_...930 ` (뒤 공백 포함)로 설정 → httpx
+  "Illegal header value" 로 거부. Windows `set VAR=값 ` 이 뒤 공백을 값에 포함시킴.
+- **어떻게**: api_key/voice/base_url/model_id, voicebox url/profile/lang 모두 .strip().
+  뒤 공백 키 회귀 테스트 추가.
+- **결과**: 275 통과. 또 실물 실행이 환경 의존 버그를 잡음(cp949 → 헤더 공백). 사용자는
+  키 재설정(뒤 공백 없이) 또는 git pull 후 그대로 진행 가능.
+- **연관**: CHANGELOG v0.15.3.
 
 ---
 

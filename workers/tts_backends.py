@@ -171,11 +171,13 @@ class ElevenLabsTTSBackend(TTSBackend):
     default_base_url = "https://api.elevenlabs.io"
 
     def _base_url(self) -> str:
-        return os.environ.get("ELEVENLABS_BASE_URL", self.default_base_url).rstrip("/")
+        return (os.environ.get("ELEVENLABS_BASE_URL") or self.default_base_url).strip().rstrip("/")
 
     def _resolve_voice(self, base: str, api_key: str, voice: Optional[str], httpx) -> str:
         """voice 인자 > ELEVENLABS_VOICE_ID > 계정의 첫 목소리(GET /v1/voices)."""
-        voice_id = voice or os.environ.get("ELEVENLABS_VOICE_ID")
+        # env 값은 .strip() — Windows `set VAR=v ` 가 뒤 공백을 값에 포함시켜 httpx 가
+        # "Illegal header value" 로 거부하는 사고 방지 (실제 사용자 환경에서 발생).
+        voice_id = (voice or os.environ.get("ELEVENLABS_VOICE_ID") or "").strip()
         if voice_id:
             return voice_id
         try:
@@ -197,7 +199,7 @@ class ElevenLabsTTSBackend(TTSBackend):
         return voices[0]["voice_id"]
 
     def synthesize(self, text: str, out_path: Path, voice: Optional[str]) -> float:
-        api_key = os.environ.get("ELEVENLABS_API_KEY")
+        api_key = (os.environ.get("ELEVENLABS_API_KEY") or "").strip()
         if not api_key:
             raise TTSError(
                 "elevenlabs 백엔드는 ELEVENLABS_API_KEY 환경변수가 필요합니다 "
@@ -208,7 +210,7 @@ class ElevenLabsTTSBackend(TTSBackend):
 
         base = self._base_url()
         voice_id = self._resolve_voice(base, api_key, voice, httpx)
-        model_id = os.environ.get("ELEVENLABS_MODEL_ID", "eleven_multilingual_v2")
+        model_id = (os.environ.get("ELEVENLABS_MODEL_ID") or "eleven_multilingual_v2").strip()
 
         url = f"{base}/v1/text-to-speech/{voice_id}"
         params = {"output_format": f"pcm_{self.sample_rate}"}
@@ -253,15 +255,15 @@ class VoiceboxTTSBackend(TTSBackend):
     def synthesize(self, text: str, out_path: Path, voice: Optional[str]) -> float:
         import httpx
 
-        base = os.environ.get("OSINT_VOICEBOX_URL", self.default_url).rstrip("/")
-        profile = voice or os.environ.get("OSINT_VOICEBOX_PROFILE")
+        base = (os.environ.get("OSINT_VOICEBOX_URL") or self.default_url).strip().rstrip("/")
+        profile = (voice or os.environ.get("OSINT_VOICEBOX_PROFILE") or "").strip()
         if not profile:
             raise TTSError(
                 "voicebox 백엔드는 profile_id 가 필요합니다 (voice 인자 또는 "
                 "OSINT_VOICEBOX_PROFILE). Voicebox 앱에서 본인 목소리로 프로필을 만들고 "
                 "GET /profiles 로 id 를 확인하십시오."
             )
-        lang = os.environ.get("OSINT_VOICEBOX_LANG", "ko")
+        lang = (os.environ.get("OSINT_VOICEBOX_LANG") or "ko").strip()
         payload = {"text": text, "profile_id": profile, "language": lang}
         try:
             resp = httpx.post(f"{base}/generate", json=payload, timeout=self.timeout_sec)

@@ -1,6 +1,6 @@
 <!--
 tier: 3
-last_synced_with: v0.15.2
+last_synced_with: v0.15.3
 ssot_for: [release-notes]
 depends_on: [README.md, GOAL.md]
 last_review: 2026-05-23
@@ -25,6 +25,20 @@ released 항목은 **append-only**입니다.
 
 ### Fixed
 -
+
+---
+
+## [v0.15.3] — 2026-05-24
+
+**TTS env 값 공백 strip (Windows `set` 트레일링 스페이스)**. ElevenLabs 키에 뒤 공백이
+붙어 `httpx ... Illegal header value` 로 실패. Windows `set VAR=값 ` 이 뒤 공백을 값에
+포함시킨 게 원인 (실제 사용자 환경).
+
+### Fixed
+
+- **`workers/tts_backends.py`** — ElevenLabs(api_key/voice/base_url/model_id) 및
+  Voicebox(url/profile/lang) 환경변수 값을 `.strip()`. 트레일링 공백/탭에 안 깨짐.
+- **`tests/test_audio_flow.py`** — 뒤 공백 키 strip 회귀 테스트 (275 통과).
 
 ---
 

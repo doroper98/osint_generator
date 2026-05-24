@@ -369,6 +369,21 @@ class TestElevenLabsIntegration(_AudioHarness):
         os.environ.pop("ELEVENLABS_API_KEY", None)
         self.assertEqual(cli_main(["build-audio", "demo3", "--backend", "elevenlabs"]), 1)
 
+    def test_key_with_trailing_space_is_stripped(self) -> None:
+        # Windows `set VAR=v ` 가 붙이는 뒤 공백이 .strip() 되어 헤더 오류 없이 동작.
+        import os
+
+        self._advance_to_script()
+        with _MockElevenLabsServer() as url:
+            for k in ("ELEVENLABS_API_KEY", "ELEVENLABS_BASE_URL", "ELEVENLABS_VOICE_ID"):
+                self.addCleanup(lambda k=k: os.environ.pop(k, None))
+            os.environ["ELEVENLABS_API_KEY"] = "test-key \t"  # 뒤 공백/탭
+            os.environ["ELEVENLABS_BASE_URL"] = url + "  "
+            os.environ.pop("ELEVENLABS_VOICE_ID", None)
+            manifest = build_audio("demo3", backend="elevenlabs")
+        self.assertEqual(len(manifest.segments), 3)
+        self.assertTrue(all(s.duration_sec > 0 for s in manifest.segments))
+
 
 if __name__ == "__main__":
     import unittest
