@@ -53,7 +53,8 @@ def build_audio(
     segments: list[AudioSegment] = []
     total = 0.0
     for seg in script.segments:
-        out_path = ndir / f"{seg.segment_id}.wav"
+        # 확장자는 백엔드가 결정 (mp3 를 내는 ElevenLabs 무료 등은 .mp3).
+        out_path = ndir / f"{seg.segment_id}{engine.file_ext}"
         duration = engine.synthesize(seg.narration, out_path, voice)
         total += duration
         segments.append(

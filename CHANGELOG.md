@@ -1,6 +1,6 @@
 <!--
 tier: 3
-last_synced_with: v0.15.5
+last_synced_with: v0.15.6
 ssot_for: [release-notes]
 depends_on: [README.md, GOAL.md]
 last_review: 2026-05-23
@@ -25,6 +25,23 @@ released 항목은 **append-only**입니다.
 
 ### Fixed
 -
+
+---
+
+## [v0.15.6] — 2026-05-24
+
+**ElevenLabs 무료 플랜용 mp3 기본 출력**. 권한·목소리 다 통과한 뒤에도 `500
+service_unavailable` — 원인은 요청한 `pcm_16000` 출력이 무료 플랜에서 막힘(무료는 mp3만).
+사용자 실제 무료 키에서 발견(재현 일관).
+
+### Fixed
+
+- **`workers/tts_backends.py`** — ElevenLabs 기본 출력 `mp3_44100_128`(무료 OK).
+  `ELEVENLABS_OUTPUT_FORMAT` 로 변경 가능(유료/정밀 길이는 `pcm_16000`→wav). 백엔드별
+  `file_ext` 추가, mp3 는 CBR 비트레이트로 길이 추정(`_mp3_duration_sec`).
+- **`orchestrator/audio_service.py`** — 출력 파일 확장자를 백엔드 `file_ext` 로 결정
+  (mp3/wav). Remotion `<Audio>` 는 둘 다 재생.
+- **`tests/test_audio_flow.py`** — mp3 기본 출력 단언 (276 통과).
 
 ---
 

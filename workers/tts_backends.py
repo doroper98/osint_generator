@@ -40,10 +40,16 @@ class TTSError(RuntimeError):
 
 class TTSBackend(ABC):
     name: str = "base"
+    # 산출 오디오 파일 확장자. audio_service 가 이걸로 파일명을 정한다. mp3 를 내는
+    # 백엔드(예: ElevenLabs 무료)는 ".mp3" 로 오버라이드. Remotion <Audio> 는 둘 다 재생.
+    file_ext: str = ".wav"
 
     @abstractmethod
     def synthesize(self, text: str, out_path: Path, voice: Optional[str]) -> float:
-        """text 를 음성으로 합성해 out_path(wav)에 쓰고 길이(초)를 반환."""
+        """text 를 음성으로 합성해 out_path 에 쓰고 길이(초)를 반환.
+
+        out_path 의 확장자는 호출자(audio_service)가 본 백엔드의 file_ext 로 맞춰 준다.
+        """
 
 
 # ---------------------------------------------------------------------------
@@ -88,6 +94,34 @@ def _write_pcm16_as_wav(path: Path, pcm: bytes, sample_rate: int) -> float:
         w.setframerate(sample_rate)
         w.writeframes(pcm)
     return len(pcm) / float(2 * sample_rate)
+
+
+# mp3 CBR 비트레이트(bps) — ElevenLabs output_format 별. 길이는 (오디오 바이트*8)/bitrate.
+_MP3_BITRATES: dict[str, int] = {
+    "mp3_22050_32": 32000,
+    "mp3_44100_32": 32000,
+    "mp3_44100_64": 64000,
+    "mp3_44100_96": 96000,
+    "mp3_44100_128": 128000,
+    "mp3_44100_192": 192000,
+}
+
+
+def _mp3_duration_sec(data: bytes, bitrate: int) -> float:
+    """CBR mp3 길이 추정. ID3v2 헤더가 있으면 건너뛰고 (바이트*8)/bitrate.
+
+    프레임 워킹 대신 CBR 근사 — ElevenLabs mp3_* 는 CBR 이고 ID3 가 작아 sync 에 충분.
+    """
+    audio = data
+    if len(data) >= 10 and data[:3] == b"ID3":
+        size = (
+            ((data[6] & 0x7F) << 21)
+            | ((data[7] & 0x7F) << 14)
+            | ((data[8] & 0x7F) << 7)
+            | (data[9] & 0x7F)
+        )
+        audio = data[10 + size:]
+    return max(0.1, round(len(audio) * 8 / float(bitrate), 3))
 
 
 # ---------------------------------------------------------------------------
@@ -166,16 +200,24 @@ class ElevenLabsTTSBackend(TTSBackend):
     """
 
     name = "elevenlabs"
-    sample_rate = 16000
     timeout_sec = 120
     default_base_url = "https://api.elevenlabs.io"
-    # ElevenLabs premade voice "Rachel". multilingual_v2 로 한국어도 합성됨. 자동
-    # /v1/voices 목록 조회는 voices_read 권한이 필요해 권한 제한 키에서 401 이 나므로
-    # (실제 사용자 사고), 미지정 시 권한 없이 쓸 수 있는 기본 voice 로 폴백한다.
+    # 무료 플랜은 pcm_* 출력이 막혀 있어(500 service_unavailable, 실제 사용자 사고)
+    # 무료에서도 되는 mp3 를 기본으로. 유료/정밀 길이는 ELEVENLABS_OUTPUT_FORMAT=pcm_16000.
+    default_output_format = "mp3_44100_128"
+    # ElevenLabs premade voice "Rachel". 단 무료 플랜은 라이브러리 목소리를 API 로 못 써
+    # (402) — 무료는 본인 생성 목소리의 ELEVENLABS_VOICE_ID 를 줘야 한다.
     default_voice_id = "21m00Tcm4TlvDq8ikWAM"
 
     def _base_url(self) -> str:
         return (os.environ.get("ELEVENLABS_BASE_URL") or self.default_base_url).strip().rstrip("/")
+
+    def _output_format(self) -> str:
+        return (os.environ.get("ELEVENLABS_OUTPUT_FORMAT") or self.default_output_format).strip()
+
+    @property
+    def file_ext(self) -> str:
+        return ".wav" if self._output_format().startswith("pcm_") else ".mp3"
 
     def _resolve_voice(self, voice: Optional[str]) -> str:
         """voice 인자 > ELEVENLABS_VOICE_ID > 기본 premade voice (네트워크/권한 불요).
@@ -199,8 +241,9 @@ class ElevenLabsTTSBackend(TTSBackend):
         voice_id = self._resolve_voice(voice)
         model_id = (os.environ.get("ELEVENLABS_MODEL_ID") or "eleven_multilingual_v2").strip()
 
+        fmt = self._output_format()
         url = f"{base}/v1/text-to-speech/{voice_id}"
-        params = {"output_format": f"pcm_{self.sample_rate}"}
+        params = {"output_format": fmt}
         headers = {"xi-api-key": api_key, "content-type": "application/json"}
         payload = {"text": text, "model_id": model_id}
         try:
@@ -213,7 +256,19 @@ class ElevenLabsTTSBackend(TTSBackend):
             raise TTSError(
                 f"elevenlabs 응답 {resp.status_code}: {resp.text[:300]}"
             )
-        return _write_pcm16_as_wav(out_path, resp.content, self.sample_rate)
+
+        if fmt.startswith("pcm_"):
+            # pcm_16000 → sample rate 16000. wav 로 감싸 정밀 길이 측정 (유료 플랜).
+            try:
+                rate = int(fmt.split("_")[1])
+            except (IndexError, ValueError):
+                rate = 16000
+            return _write_pcm16_as_wav(out_path, resp.content, rate)
+
+        # mp3 (무료 기본). 바이트 그대로 쓰고 CBR 비트레이트로 길이 추정.
+        out_path.parent.mkdir(parents=True, exist_ok=True)
+        out_path.write_bytes(resp.content)
+        return _mp3_duration_sec(resp.content, _MP3_BITRATES.get(fmt, 128000))
 
 
 class VoiceboxTTSBackend(TTSBackend):

@@ -1,6 +1,6 @@
 <!--
 tier: 3
-last_synced_with: v0.15.5
+last_synced_with: v0.15.6
 ssot_for: [development-log]
 depends_on: [CHANGELOG.md]
 last_review: 2026-05-24
@@ -22,6 +22,22 @@ last_review: 2026-05-24
 - 결과:  …
 - 연관:  AP-번호, 이슈, PR 번호 등
 ```
+
+---
+
+## 2026-05-24 v0.15.6 — ElevenLabs 무료 플랜용 mp3 기본 출력
+
+- **무엇을**: ElevenLabs 기본 출력 포맷을 pcm_16000 → mp3_44100_128. file_ext 백엔드별
+  결정 + mp3 CBR 길이 추정.
+- **왜**: 권한(text_to_speech)·목소리(본인 생성) 다 통과 후에도 500 service_unavailable
+  반복(같은 request_id). 원인은 pcm_* 출력이 무료 플랜에서 막힘 — 무료는 mp3 만.
+- **어떻게**: _output_format(ELEVENLABS_OUTPUT_FORMAT, 기본 mp3) + file_ext 프로퍼티
+  (mp3→.mp3 / pcm→.wav). mp3 는 _mp3_duration_sec(CBR bitrate, ID3 skip). audio_service 가
+  engine.file_ext 로 파일명 결정. Remotion <Audio> 는 mp3/wav 둘 다 재생.
+- **결과**: 276 통과. 무료 키 + 본인 목소리로 동작 기대. 정밀 길이/유료는 pcm 옵션.
+  실물(무료 키)이 또 실서비스 제약을 잡음 — 이번 세션 ElevenLabs 무료 연쇄 6종
+  (voices_read→text_to_speech→library voice 402→voice id 형식→pcm 500).
+- **연관**: CHANGELOG v0.15.6.
 
 ---
 

@@ -361,7 +361,8 @@ class TestElevenLabsIntegration(_AudioHarness):
         )
         post = next(r for r in server.requests if r["method"] == "POST")
         self.assertIn("/v1/text-to-speech/21m00Tcm4TlvDq8ikWAM", post["path"])
-        self.assertIn("output_format=pcm_16000", post["path"])
+        # 무료 기본 출력은 mp3 (pcm 은 무료 플랜 500). 정밀 길이는 ELEVENLABS_OUTPUT_FORMAT=pcm.
+        self.assertIn("output_format=mp3_44100_128", post["path"])
         self.assertEqual(post["headers"].get("xi-api-key"), "test-key")
 
     def test_explicit_voice_id_override(self) -> None:
