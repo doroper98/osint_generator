@@ -1,6 +1,6 @@
 <!--
 tier: 3
-last_synced_with: v0.15.6
+last_synced_with: v0.15.7
 ssot_for: [release-notes]
 depends_on: [README.md, GOAL.md]
 last_review: 2026-05-23
@@ -25,6 +25,17 @@ released 항목은 **append-only**입니다.
 
 ### Fixed
 -
+
+---
+
+## [v0.15.7] — 2026-05-24
+
+**build-audio 세그먼트 진행 로그**. 백엔드 합성은 건당 수 초(외부 API)라 16개를 도는
+동안 출력이 없어 "멈춘 것처럼" 보이는 혼동(실제 사용자). 건별 `[i/n] ... 합성/완료` 로그.
+
+### Changed
+
+- **`orchestrator/audio_service.py`** — build_audio 가 세그먼트별 진행을 stdout 으로 출력.
 
 ---
 

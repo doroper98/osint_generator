@@ -52,10 +52,16 @@ def build_audio(
 
     segments: list[AudioSegment] = []
     total = 0.0
-    for seg in script.segments:
+    n = len(script.segments)
+    # 세그먼트 합성은 백엔드(외부 API/엔진) 호출이라 건당 수 초 걸린다. 진행 로그가
+    # 없으면 "멈춘 것처럼" 보이므로(실제 사용자 혼동) 건별로 출력한다.
+    print(f"build-audio: {n}개 세그먼트 합성 시작 (backend={backend})", flush=True)
+    for i, seg in enumerate(script.segments, start=1):
         # 확장자는 백엔드가 결정 (mp3 를 내는 ElevenLabs 무료 등은 .mp3).
         out_path = ndir / f"{seg.segment_id}{engine.file_ext}"
+        print(f"  [{i}/{n}] {seg.segment_id} 합성 중...", flush=True)
         duration = engine.synthesize(seg.narration, out_path, voice)
+        print(f"  [{i}/{n}] {seg.segment_id} 완료 ({duration:.1f}s)", flush=True)
         total += duration
         segments.append(
             AudioSegment(

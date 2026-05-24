@@ -1,6 +1,6 @@
 <!--
 tier: 3
-last_synced_with: v0.15.6
+last_synced_with: v0.15.7
 ssot_for: [development-log]
 depends_on: [CHANGELOG.md]
 last_review: 2026-05-24
@@ -22,6 +22,17 @@ last_review: 2026-05-24
 - 결과:  …
 - 연관:  AP-번호, 이슈, PR 번호 등
 ```
+
+---
+
+## 2026-05-24 v0.15.7 — build-audio 세그먼트 진행 로그
+
+- **무엇을**: build_audio 가 세그먼트별 `[i/n] 합성/완료` 를 출력.
+- **왜**: mp3 전환으로 ElevenLabs 가 실제로 동작하기 시작하니, 16건 순차 합성 동안 출력이
+  없어 사용자가 "멈췄나?" 혼동. (즉시 에러 → 무응답 전환 자체가 성공 신호였음.)
+- **어떻게**: 루프에 print(flush=True) 진행 표시.
+- **결과**: 276 통과. 다음 실행부터 진행률 보임.
+- **연관**: CHANGELOG v0.15.7.
 
 ---
 
