@@ -1,6 +1,6 @@
 <!--
 tier: 3
-last_synced_with: v0.11.1
+last_synced_with: v0.12.0
 ssot_for: [development-log]
 depends_on: [CHANGELOG.md]
 last_review: 2026-05-23
@@ -22,6 +22,25 @@ last_review: 2026-05-23
 - 결과:  …
 - 연관:  AP-번호, 이슈, PR 번호 등
 ```
+
+---
+
+## 2026-05-23 v0.12.0 — 수직 슬라이스 V4: TTS 흡수 (교체 가능 백엔드)
+
+- **무엇을**: TTS 백엔드 추상화(`workers/tts_backends.py`) + AudioManifest 모델 +
+  audio_io/audio_service + `build-audio` CLI. full_script → 나레이션 wav + manifest.
+- **왜**: 사용자가 공유한 외부 워크플로(VoiceBox 로컬 음성복제 + HyperFrames)에서 음성
+  부분만 흡수 결정. 영상의 무음 한계를 메움. "ElevenLabs 로도 교체 가능하게"라는 요구를
+  백엔드 추상화로 충족 (BaseLLMWorker 의 llm_backend 패턴 차용).
+- **어떻게**: local(기본·OSINT_TTS_CMD·프라이버시) / elevenlabs(ELEVENLABS_API_KEY·외부·
+  opt-in) / stub(무음·테스트) 3종. 길이는 wav 측정(권위 소스). HyperFrames 는 보류
+  (Remotion 이미 보유). 이 환경엔 보장된 로컬 엔진/키가 없어 stub 로만 실검증.
+- **결과**: 265 테스트 통과. hualien2024 stub 실행 → 16 wav + manifest(471초). stub 길이
+  (471초)가 LLM scene est(439초)와 달라, **실제 TTS 길이로 타이밍 재계산이 필요함을 확인**
+  (V4b 과제). 권리(본인 목소리만, elevenlabs opt-in)는 docs/06 §8.5 에 기록.
+- **다음(V4b)**: audio_manifest 의 실측 길이로 scene/render_props 타이밍 재계산 + Remotion
+  에 나레이션 오디오 트랙 삽입 → 음성 들어간 영상.
+- **연관**: docs/05 §3.4f, docs/06 §8.5, docs/03 TTS 행, CHANGELOG v0.12.0.
 
 ---
 

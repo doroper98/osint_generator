@@ -1,6 +1,6 @@
 <!--
 tier: 2
-last_synced_with: v0.3.3
+last_synced_with: v0.12.0
 ssot_for: [rights-policy, source-policy]
 depends_on: [05_DATA_SCHEMA_SPEC.md]
 last_review: 2026-05-19
@@ -74,6 +74,14 @@ last_review: 2026-05-19
 - 군사 주제는 지형/위성 지도. 경제/외교는 다크맵 허용.
 
 상세 지도 정책은 [09_MAP_AND_GEO_SPEC.md](09_MAP_AND_GEO_SPEC.md).
+
+## 8.5 TTS 음성 권리 (수직 슬라이스 V4)
+
+- TTS 나레이션은 **본인 목소리 또는 합성/라이선스 보이스만** 사용한다. 타인의 목소리를
+  무단 복제하는 것은 법적 문제가 될 수 있다.
+- 기본 백엔드는 **로컬**(외부 전송 없음, 프라이버시·무료). `elevenlabs` 등 외부 API
+  백엔드는 사용자가 명시적으로 선택할 때만 쓰며, 데이터가 외부로 나가는 트레이드오프를
+  전제로 한다. API 키는 환경변수로만 두고 커밋하지 않는다 (C9).
 
 ## 9. 위반 시 조치
 

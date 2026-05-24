@@ -19,6 +19,8 @@
                                               + scene_planning 전이 (수직 슬라이스 V2)
 - render-debug {pid}                         : scene_manifest+full_script → render_props.json
                                               → Remotion 으로 draft_debug.mp4 (수직 슬라이스 V3)
+- build-audio {pid} [--backend]              : full_script → 나레이션 wav + audio_manifest.json
+                                              (TTS 백엔드 교체 가능, 수직 슬라이스 V4)
 - approve --project {pid} --gate ...        : Review Gate 승인 기록 (Phase 11)
 - version                                   : 현재 버전 출력
 """
@@ -43,6 +45,13 @@ from schemas.models import (
     ProjectState,
     SourceIntake,
 )
+
+
+def _tts_backend_choices() -> tuple[str, ...]:
+    """TTS 백엔드 선택지 (지연 import — worker 의존성 격리)."""
+    from workers.tts_backends import BACKEND_CHOICES
+
+    return BACKEND_CHOICES
 
 
 def build_parser() -> argparse.ArgumentParser:
@@ -211,6 +220,25 @@ def build_parser() -> argparse.ArgumentParser:
         ),
     )
 
+    bad = sub.add_parser(
+        "build-audio",
+        help=(
+            "full_script → 나레이션 wav + audio_manifest.json (TTS 백엔드 교체 가능: "
+            "local/elevenlabs/stub, 수직 슬라이스 V4 — state 전이 없음)"
+        ),
+    )
+    bad.add_argument("project_id", help="project_id")
+    bad.add_argument(
+        "--backend",
+        choices=list(_tts_backend_choices()),
+        default="local",
+        help=(
+            "TTS 백엔드. local(기본·프라이버시·OSINT_TTS_CMD) / elevenlabs(외부 API·"
+            "ELEVENLABS_API_KEY) / stub(무음, 테스트)."
+        ),
+    )
+    bad.add_argument("--voice", default=None, help="백엔드별 보이스 식별자(선택).")
+
     apv = sub.add_parser("approve", help="Review Gate 승인 기록 (Phase 11)")
     apv.add_argument("--project", required=True)
     apv.add_argument("--gate", required=True)
@@ -310,6 +338,9 @@ def main(argv: list[str] | None = None) -> int:
 
     if args.cmd == "render-debug":
         return _cmd_render_debug(args)
+
+    if args.cmd == "build-audio":
+        return _cmd_build_audio(args)
 
     if args.cmd == "approve":
         print("approve: Phase 11 에서 구현 예정입니다.")
@@ -692,6 +723,47 @@ def _cmd_build_scene(args: argparse.Namespace) -> int:
     print(f"saved   : {manifest_scene_path(args.project_id) / 'scene_manifest.json'}")
     print(f"scenes  : {len(scene_manifest.scenes)}")
     _print_manifest_summary(manifest)
+    return 0
+
+
+def _cmd_build_audio(args: argparse.Namespace) -> int:
+    """build-audio: full_script → 나레이션 wav + audio_manifest.json (V4).
+
+    TTS 백엔드 교체 가능(local/elevenlabs/stub). state 전이 없는 산출물 생성(재생성 가능).
+    full_script 가 있어야 한다.
+    """
+    from orchestrator.audio_io import audio_manifest_path
+    from orchestrator.audio_service import build_audio
+    from orchestrator.project_manager import validate_project_id
+    from workers.tts_backends import TTSError
+
+    try:
+        validate_project_id(args.project_id)
+    except ValueError as e:
+        print(f"error: {e}", file=sys.stderr)
+        return 1
+
+    try:
+        manifest = build_audio(
+            args.project_id, backend=args.backend, voice=args.voice
+        )
+    except FileNotFoundError as e:
+        print(f"error: {e} (먼저 build-script 로 full_script 를 만드십시오)", file=sys.stderr)
+        return 1
+    except TTSError as e:
+        print(f"error: TTS 실패 — {e}", file=sys.stderr)
+        return 1
+    except (ValueError, OSError) as e:
+        print(f"error: audio 빌드/영속화 실패 — {e}", file=sys.stderr)
+        return 1
+
+    print(f"build-audio 완료: {args.project_id} (backend={args.backend})")
+    print(f"saved   : {audio_manifest_path(args.project_id)}")
+    print(
+        f"segments: {len(manifest.segments)}  "
+        f"total   : {manifest.total_duration_sec:.1f}s "
+        f"({manifest.total_duration_sec / 60:.2f} min)"
+    )
     return 0
 
 

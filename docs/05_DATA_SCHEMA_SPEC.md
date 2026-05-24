@@ -1,6 +1,6 @@
 <!--
 tier: 2
-last_synced_with: v0.11.0
+last_synced_with: v0.12.0
 ssot_for: [json-contracts-overview]
 depends_on: [../schemas/models.py]
 last_review: 2026-05-23
@@ -219,6 +219,26 @@ source_id 존재 여부의 cross-check 는 6B Evidence Guard 책임 (본 스키�
 `RenderSceneProps`: `sceneId`, `startSec`, `durationSec`, `caption`, `narration`
 (narration_segment_ids 로 full_script 에서 해석), `label`(`<미검증>` 등 — 배지 표기),
 `sourceLinkRequired`.
+
+### 3.4f `AudioManifest` (Phase 8 TTS, 수직 슬라이스 V4)
+
+`08_audio/audio_manifest.json` — full_script 의 각 세그먼트를 TTS 로 합성한 결과.
+백엔드 교체 가능(local/elevenlabs/stub). wav 는 `08_audio/narration/{segment_id}.wav`
+(gitignore), 본 manifest 만 추적. **실제 음성 길이**를 담아 후속 scene/render 타이밍의
+권위 소스가 된다.
+
+| 필드 | 타입 | 설명 |
+|---|---|---|
+| schema_version | int | 1 |
+| project_id | str | |
+| generated_at | datetime | UTC |
+| backend | str | stub / local / elevenlabs |
+| total_duration_sec | float | 세그먼트 길이 합 |
+| segments | list[`AudioSegment`] | |
+
+`AudioSegment`: `segment_id`(full_script ScriptSegment 대응), `audio_path`(project
+상대경로), `duration_sec`(실측), `text`, `backend`, `voice`. 백엔드 정책은
+`workers/tts_backends.py` (기본 local=프라이버시, elevenlabs=opt-in 외부 API).
 
 ### 3.5 `SceneManifest` Provenance
 

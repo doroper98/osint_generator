@@ -625,6 +625,38 @@ class RenderProps(VersionedModel):
 
 
 # ---------------------------------------------------------------------------
+# 7.9 AudioManifest (Phase 8 TTS, 수직 슬라이스 V4 — 나레이션 음성)
+# ---------------------------------------------------------------------------
+
+
+class AudioSegment(BaseModel):
+    """나레이션 세그먼트 1개의 합성 결과. full_script 의 ScriptSegment 와 segment_id 로 대응."""
+
+    model_config = ConfigDict(extra="forbid", use_enum_values=True)
+
+    segment_id: str
+    audio_path: str            # project_dir 기준 상대경로 (예: 08_audio/narration/seg_01.wav)
+    duration_sec: float        # 실제 합성 음성 길이 (scene 타이밍의 권위 소스가 됨)
+    text: str = ""             # 합성에 사용된 나레이션 본문 (추적성)
+    backend: str = ""          # stub / elevenlabs / local
+    voice: Optional[str] = None
+
+
+class AudioManifest(VersionedModel):
+    """TTS 산출 (`08_audio/audio_manifest.json`). 수직 슬라이스 V4.
+
+    백엔드 교체 가능(local/elevenlabs/stub). 실제 음성 길이를 담아 후속 scene/render 타이밍
+    정확도를 올린다. wav 자체는 gitignore(08_audio/narration/), 본 manifest 만 추적.
+    """
+
+    project_id: str
+    generated_at: datetime = Field(default_factory=utc_now)
+    backend: str = ""
+    total_duration_sec: float = 0.0
+    segments: list[AudioSegment] = Field(default_factory=list)
+
+
+# ---------------------------------------------------------------------------
 # 8. SceneManifest (Phase 6 핵심, 본 파일은 골격만)
 # ---------------------------------------------------------------------------
 

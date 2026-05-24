@@ -1,6 +1,6 @@
 <!--
 tier: 3
-last_synced_with: v0.11.1
+last_synced_with: v0.12.0
 ssot_for: [release-notes]
 depends_on: [README.md, GOAL.md]
 last_review: 2026-05-23
@@ -25,6 +25,31 @@ released 항목은 **append-only**입니다.
 
 ### Fixed
 -
+
+---
+
+## [v0.12.0] — 2026-05-23
+
+**수직 슬라이스 V4: TTS 흡수 (교체 가능 백엔드)**. full_script → 나레이션 wav +
+audio_manifest.json. 영상의 무음 한계를 메우기 위한 음성 단계. 백엔드를 갈아끼울 수
+있게 설계: `local`(기본·프라이버시·무료) / `elevenlabs`(외부 API·고품질·opt-in) /
+`stub`(테스트). 실제 음성 길이를 담아 후속 타이밍 정확도 기반 마련.
+
+### Added
+
+- **`workers/tts_backends.py`** — `TTSBackend` 추상화 + Stub/Local/ElevenLabs 구현 +
+  `get_backend`. local 은 `OSINT_TTS_CMD`, elevenlabs 는 `ELEVENLABS_API_KEY`(커밋 금지).
+- **`schemas/models.py`** — `AudioManifest` (+ `AudioSegment`).
+- **`orchestrator/audio_io.py`** — `08_audio/audio_manifest.json` 영속화/로딩/경로.
+- **`orchestrator/audio_service.py`** — `build_audio`: full_script → 세그먼트별 합성 →
+  manifest (실측 길이).
+- **`orchestrator/main.py`** — `build-audio {pid} [--backend] [--voice]` CLI.
+- **`tests/test_audio_flow.py`** — 백엔드 추상화 + stub CLI + 미설정 실패 (265 통과).
+
+### Docs
+
+- **`docs/06` §8.5** — TTS 음성 권리(본인 목소리만, elevenlabs opt-in 트레이드오프).
+- docs/03/05/13 동기화.
 
 ---
 
