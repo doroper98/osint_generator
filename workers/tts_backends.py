@@ -156,12 +156,45 @@ class LocalTTSBackend(TTSBackend):
 class ElevenLabsTTSBackend(TTSBackend):
     """ElevenLabs HTTP API (고품질·외부 전송 — opt-in, 로컬 보장 깨짐).
 
-    PCM 16kHz 로 받아 wav 로 감싼다(길이 측정 가능). 키는 환경변수에서만 읽고 커밋 금지(C9).
+    "키만 있으면 기본 목소리로 바로" 가 목표:
+    - 목소리 미지정 시 계정의 첫 목소리를 GET /v1/voices 로 자동 선택 (voice ID 안 찾아도 됨).
+    - eleven_multilingual_v2 로 한국어 합성. PCM 16kHz → wav (길이 측정).
+
+    환경변수: ELEVENLABS_API_KEY(필수, 커밋 금지 C9), ELEVENLABS_VOICE_ID(선택),
+    ELEVENLABS_MODEL_ID(기본 eleven_multilingual_v2), ELEVENLABS_BASE_URL(기본
+    https://api.elevenlabs.io — 테스트/프록시용).
     """
 
     name = "elevenlabs"
     sample_rate = 16000
     timeout_sec = 120
+    default_base_url = "https://api.elevenlabs.io"
+
+    def _base_url(self) -> str:
+        return os.environ.get("ELEVENLABS_BASE_URL", self.default_base_url).rstrip("/")
+
+    def _resolve_voice(self, base: str, api_key: str, voice: Optional[str], httpx) -> str:
+        """voice 인자 > ELEVENLABS_VOICE_ID > 계정의 첫 목소리(GET /v1/voices)."""
+        voice_id = voice or os.environ.get("ELEVENLABS_VOICE_ID")
+        if voice_id:
+            return voice_id
+        try:
+            resp = httpx.get(
+                f"{base}/v1/voices",
+                headers={"xi-api-key": api_key},
+                timeout=self.timeout_sec,
+            )
+        except httpx.HTTPError as e:
+            raise TTSError(f"elevenlabs voices 조회 실패: {e}") from e
+        if resp.status_code != 200:
+            raise TTSError(f"elevenlabs voices 응답 {resp.status_code}: {resp.text[:200]}")
+        voices = (resp.json() or {}).get("voices") or []
+        if not voices:
+            raise TTSError(
+                "elevenlabs 계정에 사용 가능한 목소리가 없습니다. "
+                "ELEVENLABS_VOICE_ID 를 지정하거나 대시보드에서 목소리를 추가하십시오."
+            )
+        return voices[0]["voice_id"]
 
     def synthesize(self, text: str, out_path: Path, voice: Optional[str]) -> float:
         api_key = os.environ.get("ELEVENLABS_API_KEY")
@@ -170,16 +203,17 @@ class ElevenLabsTTSBackend(TTSBackend):
                 "elevenlabs 백엔드는 ELEVENLABS_API_KEY 환경변수가 필요합니다 "
                 "(외부 API — opt-in). 키를 커밋하지 마십시오 (C9)."
             )
-        voice_id = voice or os.environ.get("ELEVENLABS_VOICE_ID")
-        if not voice_id:
-            raise TTSError("elevenlabs 백엔드는 voice(또는 ELEVENLABS_VOICE_ID)가 필요합니다.")
 
         import httpx
 
-        url = f"https://api.elevenlabs.io/v1/text-to-speech/{voice_id}"
+        base = self._base_url()
+        voice_id = self._resolve_voice(base, api_key, voice, httpx)
+        model_id = os.environ.get("ELEVENLABS_MODEL_ID", "eleven_multilingual_v2")
+
+        url = f"{base}/v1/text-to-speech/{voice_id}"
         params = {"output_format": f"pcm_{self.sample_rate}"}
         headers = {"xi-api-key": api_key, "content-type": "application/json"}
-        payload = {"text": text, "model_id": "eleven_multilingual_v2"}
+        payload = {"text": text, "model_id": model_id}
         try:
             resp = httpx.post(
                 url, params=params, headers=headers, json=payload, timeout=self.timeout_sec

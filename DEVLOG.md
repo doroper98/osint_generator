@@ -1,6 +1,6 @@
 <!--
 tier: 3
-last_synced_with: v0.14.1
+last_synced_with: v0.15.0
 ssot_for: [development-log]
 depends_on: [CHANGELOG.md]
 last_review: 2026-05-24
@@ -22,6 +22,21 @@ last_review: 2026-05-24
 - 결과:  …
 - 연관:  AP-번호, 이슈, PR 번호 등
 ```
+
+---
+
+## 2026-05-24 v0.15.0 — ElevenLabs "키만 있으면 동작" 보강 + 통합 검증
+
+- **무엇을**: 사용자가 "설치 X + 기본 목소리" 로 ElevenLabs 선택. 백엔드를 voice ID 없이
+  키만으로 동작하게 보강 + mock 서버 통합 테스트.
+- **왜**: Voicebox 자가호스팅/로컬설치는 "기본 목소리" 목적엔 과함 → 관리형 클라우드 TTS.
+  ElevenLabs 백엔드는 이미 있었으나 voice 지정을 요구해 마찰이 있었음.
+- **어떻게**: voice 미지정 시 GET /v1/voices 로 첫 목소리 자동선택. BASE_URL/MODEL_ID
+  환경변수화(테스트·프록시·모델 선택). _MockElevenLabsServer 로 GET voices + POST tts
+  전 경로 실 소켓 검증 (xi-api-key 헤더, output_format=pcm_16000, pcm→wav 길이).
+- **결과**: 274 테스트. 실제 합성은 사용자 키 필요(외부 API라 세션에 키 넣지 않음) →
+  사용자 로컬/머신에서 검증. 우리 쪽은 "키만 넣으면 작동" 상태.
+- **연관**: docs 추후(테스트 가이드 v0.15.1), CHANGELOG v0.15.0.
 
 ---
 

@@ -262,6 +262,114 @@ class TestVoiceboxIntegration(_AudioHarness):
         self.assertEqual(req["body"]["language"], "ko")
 
 
+class _MockElevenLabsServer:
+    """ElevenLabs 모양 mock 서버: GET /v1/voices + POST /v1/text-to-speech/{id} → PCM."""
+
+    def __init__(self) -> None:
+        import http.server
+
+        self.requests: list[dict] = []
+        outer = self
+
+        class Handler(http.server.BaseHTTPRequestHandler):
+            def log_message(self, *a):  # noqa: ANN001
+                pass
+
+            def do_GET(self):  # noqa: N802
+                import json as _json
+
+                outer.requests.append({"method": "GET", "path": self.path,
+                                       "headers": dict(self.headers)})
+                if self.path.startswith("/v1/voices"):
+                    body = _json.dumps(
+                        {"voices": [{"voice_id": "auto_voice_1", "name": "Default"}]}
+                    ).encode("utf-8")
+                    self.send_response(200)
+                    self.send_header("content-type", "application/json")
+                    self.send_header("content-length", str(len(body)))
+                    self.end_headers()
+                    self.wfile.write(body)
+                else:
+                    self.send_response(404)
+                    self.end_headers()
+
+            def do_POST(self):  # noqa: N802
+                import json as _json
+
+                length = int(self.headers.get("content-length", 0))
+                body = _json.loads(self.rfile.read(length) or b"{}")
+                outer.requests.append({"method": "POST", "path": self.path,
+                                       "headers": dict(self.headers), "body": body})
+                # 16-bit PCM(무음) — 텍스트 길이 비례.
+                n = max(1, len(body.get("text", "")) * 320)
+                pcm = b"\x00\x00" * n
+                self.send_response(200)
+                self.send_header("content-type", "audio/pcm")
+                self.send_header("content-length", str(len(pcm)))
+                self.end_headers()
+                self.wfile.write(pcm)
+
+        self._Handler = Handler
+
+    def __enter__(self) -> str:
+        import http.server
+        import threading
+
+        self._srv = http.server.ThreadingHTTPServer(("127.0.0.1", 0), self._Handler)
+        self._thread = threading.Thread(target=self._srv.serve_forever, daemon=True)
+        self._thread.start()
+        return f"http://127.0.0.1:{self._srv.server_address[1]}"
+
+    def __exit__(self, *exc) -> None:
+        self._srv.shutdown()
+        self._srv.server_close()
+        self._thread.join(timeout=5)
+
+
+class TestElevenLabsIntegration(_AudioHarness):
+    """elevenlabs 백엔드를 ElevenLabs-모양 mock 에 물려 검증 (키만 있으면 기본 목소리)."""
+
+    def _set_env(self, url: str) -> None:
+        import os
+
+        for k in ("ELEVENLABS_API_KEY", "ELEVENLABS_BASE_URL", "ELEVENLABS_VOICE_ID"):
+            self.addCleanup(lambda k=k: os.environ.pop(k, None))
+        os.environ["ELEVENLABS_API_KEY"] = "test-key"
+        os.environ["ELEVENLABS_BASE_URL"] = url
+        os.environ.pop("ELEVENLABS_VOICE_ID", None)
+
+    def test_autovoice_and_synthesis(self) -> None:
+        self._advance_to_script()
+        server = _MockElevenLabsServer()
+        with server as url:
+            self._set_env(url)
+            rc = cli_main(["build-audio", "demo3", "--backend", "elevenlabs"])
+            self.assertEqual(rc, 0)
+
+        manifest = AudioManifest.model_validate_json(
+            (self.projects_root / "demo3" / "08_audio" / "audio_manifest.json").read_text(
+                encoding="utf-8"
+            )
+        )
+        self.assertEqual(manifest.backend, "elevenlabs")
+        self.assertEqual(len(manifest.segments), 3)
+        self.assertTrue(all(s.duration_sec > 0 for s in manifest.segments))
+        # voice 미지정 → GET /v1/voices 로 자동 선택, POST 는 그 voice_id 로.
+        methods = [(r["method"], r["path"]) for r in server.requests]
+        self.assertIn(("GET", "/v1/voices"), [(m, p.split("?")[0]) for m, p in methods])
+        post = next(r for r in server.requests if r["method"] == "POST")
+        self.assertIn("/v1/text-to-speech/auto_voice_1", post["path"])
+        self.assertIn("output_format=pcm_16000", post["path"])
+        self.assertEqual(post["headers"].get("xi-api-key"), "test-key")
+
+    def test_missing_key_via_cli_errors(self) -> None:
+        import os
+
+        self._advance_to_script()
+        os.environ.pop("ELEVENLABS_API_KEY", None)
+        self.assertEqual(cli_main(["build-audio", "demo3", "--backend", "elevenlabs"]), 1)
+
+
 if __name__ == "__main__":
     import unittest
 

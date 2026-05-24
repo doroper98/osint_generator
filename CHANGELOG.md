@@ -1,6 +1,6 @@
 <!--
 tier: 3
-last_synced_with: v0.14.1
+last_synced_with: v0.15.0
 ssot_for: [release-notes]
 depends_on: [README.md, GOAL.md]
 last_review: 2026-05-23
@@ -25,6 +25,27 @@ released 항목은 **append-only**입니다.
 
 ### Fixed
 -
+
+---
+
+## [v0.15.0] — 2026-05-24
+
+**ElevenLabs 백엔드 "키만 있으면 동작" 보강 + 통합 검증**. 사용자가 default-voice 경로로
+ElevenLabs 선택. voice ID 안 찾아도 되게 자동 선택 추가.
+
+### Changed
+
+- **`workers/tts_backends.py`** — `ElevenLabsTTSBackend`: 목소리 미지정 시
+  `GET /v1/voices` 로 계정 첫 목소리 자동 선택(voice > ELEVENLABS_VOICE_ID > auto).
+  `ELEVENLABS_BASE_URL`(기본 api.elevenlabs.io)·`ELEVENLABS_MODEL_ID`(기본
+  eleven_multilingual_v2, 한국어) 환경변수화. pcm_16000 → wav(길이 측정) 유지.
+
+### Tests
+
+- **`tests/test_audio_flow.py`** — `_MockElevenLabsServer`(GET /v1/voices + POST
+  /v1/text-to-speech/{id}). 키만으로 자동 목소리 선택→합성→audio_manifest, 요청이
+  xi-api-key 헤더 + output_format=pcm_16000 계약을 따름을 실 소켓 검증. 키 누락 시
+  CLI exit 1 (274 통과).
 
 ---
 
