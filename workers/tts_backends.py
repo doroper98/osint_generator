@@ -193,10 +193,83 @@ class ElevenLabsTTSBackend(TTSBackend):
         return _write_pcm16_as_wav(out_path, resp.content, self.sample_rate)
 
 
+class VoiceboxTTSBackend(TTSBackend):
+    """jamiepine/voicebox 로컬 앱의 FastAPI HTTP API 호출 (MIT — 로컬·프라이버시·상업 OK).
+
+    Voicebox 는 라이브러리가 아니라 데스크톱 앱 + 로컬 FastAPI 서버(기본 127.0.0.1:17493)
+    이다. 본 백엔드는 그 로컬 API(`POST /generate`)를 호출만 하므로, 무거운 모델/가중치/
+    GPU 부담은 Voicebox 쪽에 있고 우리 repo 는 가벼운 HTTP 어댑터만 유지한다 (벤더링 아님).
+    배치 합성이라 저사양·CPU(LuxTTS/Kokoro 엔진)도 실용적.
+
+    설정(환경변수):
+    - OSINT_VOICEBOX_URL     : 기본 http://127.0.0.1:17493
+    - OSINT_VOICEBOX_PROFILE : 클로닝으로 만든 프로필 id (필수; voice 인자로도 가능).
+                               Voicebox 앱에서 본인 목소리 ~30초로 1회 생성 → GET /profiles.
+    - OSINT_VOICEBOX_LANG    : 언어 코드 (기본 ko).
+
+    주의(LLM 검증 불가 환경): /generate 응답 포맷(audio bytes / JSON path·base64)이
+    Voicebox 버전마다 다를 수 있어 방어적으로 처리하고, wav 면 길이를 측정·아니면 추정으로
+    폴백한다. 정확한 계약은 사용자 머신의 http://127.0.0.1:17493/docs 로 확인/조정.
+    """
+
+    name = "voicebox"
+    timeout_sec = 300
+    default_url = "http://127.0.0.1:17493"
+
+    def synthesize(self, text: str, out_path: Path, voice: Optional[str]) -> float:
+        import httpx
+
+        base = os.environ.get("OSINT_VOICEBOX_URL", self.default_url).rstrip("/")
+        profile = voice or os.environ.get("OSINT_VOICEBOX_PROFILE")
+        if not profile:
+            raise TTSError(
+                "voicebox 백엔드는 profile_id 가 필요합니다 (voice 인자 또는 "
+                "OSINT_VOICEBOX_PROFILE). Voicebox 앱에서 본인 목소리로 프로필을 만들고 "
+                "GET /profiles 로 id 를 확인하십시오."
+            )
+        lang = os.environ.get("OSINT_VOICEBOX_LANG", "ko")
+        payload = {"text": text, "profile_id": profile, "language": lang}
+        try:
+            resp = httpx.post(f"{base}/generate", json=payload, timeout=self.timeout_sec)
+        except httpx.HTTPError as e:
+            raise TTSError(
+                f"voicebox 요청 실패: {e} (Voicebox 앱이 {base} 에 떠 있어야 함)"
+            ) from e
+        if resp.status_code != 200:
+            raise TTSError(f"voicebox 응답 {resp.status_code}: {resp.text[:300]}")
+
+        out_path.parent.mkdir(parents=True, exist_ok=True)
+        ctype = resp.headers.get("content-type", "")
+        if "application/json" in ctype:
+            data = resp.json()
+            b64 = data.get("audio") or data.get("audio_base64")
+            src = data.get("path") or data.get("audio_path") or data.get("file")
+            if isinstance(b64, str):
+                import base64
+
+                out_path.write_bytes(base64.b64decode(b64))
+            elif isinstance(src, str) and Path(src).exists():
+                out_path.write_bytes(Path(src).read_bytes())
+            else:
+                raise TTSError(
+                    f"voicebox JSON 응답에서 오디오를 못 찾음 (keys={list(data)[:8]}). "
+                    f"/docs 로 응답 포맷 확인 후 어댑터 조정 필요."
+                )
+        else:
+            out_path.write_bytes(resp.content)
+
+        # wav 면 정확한 길이, 아니면(mp3 등) 텍스트 기반 추정으로 폴백 (배치라 허용).
+        try:
+            return _wav_duration_sec(out_path)
+        except TTSError:
+            return _estimate_duration_sec(text)
+
+
 _BACKENDS: dict[str, type[TTSBackend]] = {
     "stub": StubTTSBackend,
     "local": LocalTTSBackend,
     "elevenlabs": ElevenLabsTTSBackend,
+    "voicebox": VoiceboxTTSBackend,
 }
 
 BACKEND_CHOICES = tuple(_BACKENDS.keys())
@@ -216,6 +289,7 @@ __all__ = [
     "StubTTSBackend",
     "LocalTTSBackend",
     "ElevenLabsTTSBackend",
+    "VoiceboxTTSBackend",
     "get_backend",
     "BACKEND_CHOICES",
     "CHARS_PER_SEC",

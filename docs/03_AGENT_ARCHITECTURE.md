@@ -1,6 +1,6 @@
 <!--
 tier: 2
-last_synced_with: v0.12.0
+last_synced_with: v0.14.0
 ssot_for: [agent-catalog, worker-catalog]
 depends_on: [02_SYSTEM_ARCHITECTURE.md]
 last_review: 2026-05-23
@@ -48,7 +48,7 @@ last_review: 2026-05-23
 | Earthquake | `workers/earthquake_worker.py` | epicenter + magnitude | map+chart pair | ✅ | 7 |
 | Chart | `workers/chart_worker.py` | data + chart spec | png + manifest 행 | ✅ | 7 |
 | Annotation | `workers/annotation_worker.py` | source asset + annotation spec | png overlay | ✅ | 7 |
-| TTS | `workers/tts_backends.py` + `orchestrator/audio_service.py` (V4) | full_script segments | wav + `08_audio/audio_manifest.json` | ❌ (engine rate limit) | 8 (V4: backend 교체 local/elevenlabs/stub) |
+| TTS | `workers/tts_backends.py` + `orchestrator/audio_service.py` (V4) | full_script segments | wav + `08_audio/audio_manifest.json` | ❌ (engine rate limit) | 8 (V4: backend 교체 local/voicebox/elevenlabs/stub) |
 | TTS QA | `workers/tts_qa_worker.py` | wav + original text | `tts_qa_report.json` | ✅ | 8 |
 | Music | `workers/music_worker.py` | mood + duration | wav loop | ✅ | 8 |
 | Remotion Job Builder | `workers/remotion_job_builder.py` | scene + asset + audio manifests | `remotion_job_*.json` | ❌ | 9 |

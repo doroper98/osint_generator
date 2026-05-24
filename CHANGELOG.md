@@ -1,6 +1,6 @@
 <!--
 tier: 3
-last_synced_with: v0.13.0
+last_synced_with: v0.14.0
 ssot_for: [release-notes]
 depends_on: [README.md, GOAL.md]
 last_review: 2026-05-23
@@ -25,6 +25,30 @@ released 항목은 **append-only**입니다.
 
 ### Fixed
 -
+
+---
+
+## [v0.14.0] — 2026-05-24
+
+**Voicebox TTS 백엔드 흡수** (github.com/jamiepine/voicebox, MIT). 로컬 음성복제 앱의
+FastAPI 서버를 HTTP 로 호출하는 `voicebox` 백엔드 추가. 무거운 모델/가중치/GPU 는
+Voicebox 쪽이고 우리 repo 는 가벼운 어댑터만 유지(벤더링 아님).
+
+### Added
+
+- **`workers/tts_backends.py`** — `VoiceboxTTSBackend` (name="voicebox"). `POST {OSINT_
+  VOICEBOX_URL=http://127.0.0.1:17493}/generate {text, profile_id, language}`. profile_id
+  는 `OSINT_VOICEBOX_PROFILE`/voice 인자, 언어 `OSINT_VOICEBOX_LANG`(기본 ko). 응답이
+  audio bytes/JSON(path·base64) 양쪽을 방어적으로 처리, wav 면 길이 측정·아니면 추정 폴백.
+- **`tests/test_audio_flow.py`** — voicebox 등록 + profile 미지정 가드 (269 통과).
+
+### Notes
+
+- **검증은 사용자 로컬에서**: 이 클라우드 환경은 HF(가중치)를 allowlist 차단(`Host not in
+  allowlist`)하고 Voicebox 서버도 없어 합성 실검증 불가. 어댑터 + stub 테스트만 검증.
+  사용자 머신에서 Voicebox 앱 실행 → `build-audio <pid> --backend voicebox --voice <profile_id>`.
+- 사양: Voicebox 는 엔진 선택형 — LuxTTS(~1GB VRAM, CPU 150x)/Kokoro(82M) 는 저사양, Qwen3/
+  TADA 는 GPU 권장. 배치 합성이라 저사양도 실용적. GPU/부담은 Voicebox 측, 우리 repo 무관.
 
 ---
 

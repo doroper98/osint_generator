@@ -62,6 +62,20 @@ class TestStubBackend(_AudioHarness):
         with self.assertRaises(TTSError):
             get_backend("elevenlabs").synthesize("t", Path(self._tmp.name) / "z.wav", None)
 
+    def test_voicebox_backend_registered(self) -> None:
+        from workers.tts_backends import BACKEND_CHOICES, VoiceboxTTSBackend
+
+        self.assertIn("voicebox", BACKEND_CHOICES)
+        self.assertIsInstance(get_backend("voicebox"), VoiceboxTTSBackend)
+
+    def test_voicebox_without_profile_raises(self) -> None:
+        import os
+
+        os.environ.pop("OSINT_VOICEBOX_PROFILE", None)
+        # profile 미지정 → 네트워크 호출 전에 TTSError (테스트가 localhost 를 안 침).
+        with self.assertRaises(TTSError):
+            get_backend("voicebox").synthesize("t", Path(self._tmp.name) / "v.wav", None)
+
 
 class TestBuildAudioCLI(_AudioHarness):
     def test_build_audio_stub_creates_manifest_and_wavs(self) -> None:

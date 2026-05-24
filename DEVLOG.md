@@ -1,6 +1,6 @@
 <!--
 tier: 3
-last_synced_with: v0.13.0
+last_synced_with: v0.14.0
 ssot_for: [development-log]
 depends_on: [CHANGELOG.md]
 last_review: 2026-05-24
@@ -22,6 +22,27 @@ last_review: 2026-05-24
 - 결과:  …
 - 연관:  AP-번호, 이슈, PR 번호 등
 ```
+
+---
+
+## 2026-05-24 v0.14.0 — Voicebox TTS 백엔드 흡수 (HTTP, MIT)
+
+- **무엇을**: 사용자가 지정한 github.com/jamiepine/voicebox 를 `voicebox` TTS 백엔드로
+  흡수. Voicebox 의 로컬 FastAPI(`127.0.0.1:17493`) `POST /generate` 를 HTTP 호출.
+- **왜**: "TTS 엔진 자체를 흡수" 요구. Voicebox 는 라이브러리가 아니라 풀스택 앱(Tauri+
+  FastAPI+Rust, MIT)이라 벤더링 대신 **로컬 API 호출**이 정답 — 무거운 모델/GPU/가중치는
+  Voicebox 측, 우리 repo·CI 는 가벼운 HTTP 어댑터만.
+- **어떻게**: WebFetch 로 레포 확인 — MIT, 7엔진(Qwen3-TTS/Chatterbox/Kokoro/LuxTTS 등),
+  zero-shot 클로닝, API `POST /generate {text, profile_id, language}`. profile_id 는
+  앱에서 본인 목소리로 1회 생성. 응답 포맷(bytes/JSON)이 버전마다 달라 방어적 처리 +
+  wav 길이측정/추정 폴백. ElevenLabs 어댑터와 동형(대상이 localhost).
+- **사양 확인(사용자 요청)**: 엔진 선택형 — LuxTTS(~1GB VRAM, CPU 150x)/Kokoro(82M) 저사양,
+  Qwen3(0.6B/1.7B)/TADA(1B/3B) GPU 권장. CPU "works everywhere, just slower". 우리는 배치
+  합성이라 저사양도 실용. GPU 부담은 Voicebox 쪽이라 우리 프로젝트는 무거워지지 않음.
+- **결과**: 269 테스트 통과(stub/factory/guard). **합성 실검증은 사용자 로컬**에서만 가능 —
+  이 환경은 HF 가중치 allowlist 차단(`Host not in allowlist`) + Voicebox 미설치. github/
+  pypi 는 도달 가능 확인. /generate 응답 포맷은 사용자 머신 /docs 로 확정 후 조정 가능.
+- **연관**: docs/03 TTS 행, docs/06 §8.5(권리), CHANGELOG v0.14.0.
 
 ---
 
