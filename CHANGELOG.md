@@ -1,6 +1,6 @@
 <!--
 tier: 3
-last_synced_with: v0.15.7
+last_synced_with: v0.16.0
 ssot_for: [release-notes]
 depends_on: [README.md, GOAL.md]
 last_review: 2026-05-23
@@ -25,6 +25,31 @@ released 항목은 **append-only**입니다.
 
 ### Fixed
 -
+
+---
+
+## [v0.16.0] — 2026-05-24
+
+**TTS 발음 안전 — 생성 차단 + 자동 린터 (재발 방지)**. ElevenLabs 합성을 들어보니
+나레이션의 약어(USGS/CWA/OSINT 등)를 영어식으로 읽어 "AI 티"가 났다. 사용자가 제공한
+실무 표기-해석 오류 리스트(50+)를 두 갈래로 흡수.
+
+### Added
+
+- **`orchestrator/tts_lint.py`** — `lint_narration` 순수 린터. narration 의 TTS-위험
+  표기(로마자 약어 / 시각 콜론 / 날짜 점·하이픈 / 화살표 / 범위 / 슬래시 / 천단위 콤마 /
+  숫자+영문단위 / 버전 / URL·이메일 / 파일경로 / 기호)를 카테고리별 탐지. 한국어 숫자·
+  단위는 정상. (한글이 유니코드 \w 라 \b 대신 숫자 룩어라운드.)
+- **`orchestrator/main.py`** — `lint-script {pid} [--strict]` CLI + `build-script` 가
+  생성 직후 TTS-lint 요약 자동 출력.
+- **`tests/test_tts_lint.py`** — 카테고리별 탐지 + 깨끗한 한국어 통과 (288 통과).
+
+### Changed
+
+- **`workers/script_worker.py`** — system prompt "TTS 발음 안전 규칙" 확장(약어→한국어,
+  날짜·시각·범위·슬래시·단위·버전·URL·기호 발화형, 영문/기호는 caption 에만).
+- **`docs/ANTIPATTERNS/TTS_ANTIPATTERNS.md`** — 부록 A: 사용자 실무 리스트 정리.
+- **`samples/hualien2024/`** — TTS-안전 규칙으로 대본·scene 재생성(약어 제거).
 
 ---
 

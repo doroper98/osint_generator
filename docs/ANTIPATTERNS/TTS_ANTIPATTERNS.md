@@ -1,9 +1,9 @@
 <!--
 tier: 3
-last_synced_with: v0.3.3
+last_synced_with: v0.16.0
 ssot_for: [tts-antipatterns]
 depends_on: [../08_AUDIO_AND_TTS_SPEC.md]
-last_review: 2026-05-19
+last_review: 2026-05-24
 -->
 
 # TTS Antipatterns
@@ -319,3 +319,49 @@ last_review: 2026-05-19
 
 > 본 카탈로그는 `workers/tts_qa_worker.py` (Phase 8)가 기계 검사 항목 입력으로 사용합니다.
 > 새 항목 추가 시 가능하면 회귀 테스트를 동시에 작성하세요. 회귀 테스트 미작성 시 `regression_test: pending`.
+
+---
+
+## 부록 A — 표기 해석 오류 운영 규칙 (v0.16.0, 사용자 제공 실무 리스트 정리)
+
+사용자 실무 리스트(50+항목)를 본 시스템의 **두 갈래 방어**로 흡수했다:
+
+- **(1) 생성 단계 차단** — `workers/script_worker.py` system prompt 의 "TTS 발음 안전 규칙".
+  LLM 이 narration 을 처음부터 발화형 한국어로 쓰게 한다 (약어→한국어 명칭/음차, 단위·날짜·
+  시각·범위·기호 풀어쓰기, 영문/기호는 caption 에만).
+- **(2) 자동 검출** — `orchestrator/tts_lint.py:lint_narration` + CLI `lint-script`.
+  생성된 narration 을 스캔해 위험 표기를 카테고리별로 보고. `build-script` 가 자동 실행하고
+  `lint-script <pid> --strict` 는 위반 시 exit 1 (CI 게이트).
+
+### A.1 자동 검출되는 표기 (narration 금지 — TTS-LINT-*)
+
+| 카테고리 | 예 (금지) | 발화형 |
+|---|---|---|
+| `roman_letters` | USGS, CWA, R&D, API, c-DN | 미국 지질조사소 / 알앤디 / 에이피아이 / 씨디엔 |
+| `time_colon` | 09:30, 16:00 | 아홉 시 삼십 분 / 오후 네 시 (비율 1:1 → 일대일) |
+| `date_sep` | 2026.05.19, 2026-05-19 | 이천이십육년 오월 십구일 |
+| `arrow` | 14일 → 4일 | 십사일에서 사일로 |
+| `range_tilde` | 3~5일, 10~20% | 삼에서 오일 / 십에서 이십 퍼센트 |
+| `slash` | 설계/해석, A/B | 설계와 해석 / 에이비 |
+| `thousands_comma` | 3,000원, 1,200명 | 삼천 원 / 천이백 명 |
+| `unit_attached` | 3.5kg, 100kWh, 220V | 삼점오 킬로그램 / 백 킬로와트시 / 이백이십 볼트 |
+| `version` | v1.2.3, Ver.2.1 | 버전 일 점 이 점 삼 |
+| `url_email` | https://…, a@b.com | 자막/화면으로 (음성 금지) |
+| `file_path` | input.json, C:\…, .exe | "해당 실행 파일" 등 의미로 |
+| `symbols` | ※ ▲ ▼ • # @ → | 풀어 읽거나 생략 ("참고로", "첫 번째") |
+
+> 숫자 자체(7.4, 2024)와 한국어 단위(킬로미터, 퍼센트)는 정상 — 플래그하지 않는다.
+> caption(on_screen_caption)은 검사 대상이 아니다 (영문/기호 표기 허용, TTS 미낭독).
+
+### A.2 가장 치명적인 Top (즉시 AI 티)
+
+`16시→"열여섯 시"`, `2차전지→"두 차 전지"`(→이차전지), `c-DN→CDN`, `R&D→"알 앤드 디"`,
+`L/T→"엘 슬래시 티"`, `14일→4일`을 "화살표"로, `2026.05.19`를 점 단위로, `3.5kg→"케이지"`,
+`1:1→"콜론"`, 파일경로/URL 통째 낭독, 괄호·따옴표 그대로, 한 영상 내 약어 발음 혼용.
+
+### A.3 사람 검수 영역 (린터가 못 잡는, 비표기 항목)
+
+운율·강조 위치·쉼표 남발·문장끝 억양 단조·감정/태도 불일치(사과문/임원보고/쇼츠)·호흡·
+속도·문어체 낭독·자막↔음성 불일치·화면 전환 타이밍·믹싱(치찰음/룸톤/배경음 충돌). 이들은
+표기 규칙으로 못 막으므로 **대본 작성 가이드 + 사람/QA 검수**로 다룬다. 발음 사전(고유명사·
+사내약어)은 백엔드(ElevenLabs Pronunciation dictionary / Voicebox)에서 별도 관리.

@@ -239,6 +239,16 @@ def build_parser() -> argparse.ArgumentParser:
     )
     bad.add_argument("--voice", default=None, help="백엔드별 보이스 식별자(선택).")
 
+    lsc = sub.add_parser(
+        "lint-script",
+        help="full_script narration 의 TTS-위험 표기(약어/기호/단위/URL 등) 검사",
+    )
+    lsc.add_argument("project_id", help="project_id")
+    lsc.add_argument(
+        "--strict", action="store_true",
+        help="위험 표기가 하나라도 있으면 exit 1 (CI 게이트용).",
+    )
+
     apv = sub.add_parser("approve", help="Review Gate 승인 기록 (Phase 11)")
     apv.add_argument("--project", required=True)
     apv.add_argument("--gate", required=True)
@@ -341,6 +351,9 @@ def main(argv: list[str] | None = None) -> int:
 
     if args.cmd == "build-audio":
         return _cmd_build_audio(args)
+
+    if args.cmd == "lint-script":
+        return _cmd_lint_script(args)
 
     if args.cmd == "approve":
         print("approve: Phase 11 에서 구현 예정입니다.")
@@ -659,8 +672,59 @@ def _cmd_build_script(args: argparse.Namespace) -> int:
         print("build-script: 기존 full_script.json 재사용 — worker 건너뜀 (재실행 원하면 --force).")
     print(f"build-script 완료: {args.project_id} (backend={args.backend}, skipped={skipped})")
     print(f"outputs : {outputs_summary}")
+    _print_tts_lint_summary(args.project_id)
     _print_manifest_summary(manifest)
     return 0
+
+
+def _print_tts_lint_summary(project_id: str) -> None:
+    """생성된 full_script narration 의 TTS-위험 표기를 검사해 경고 출력 (재발 방지)."""
+    from orchestrator.script_io import load_full_script
+    from orchestrator.tts_lint import lint_full_script
+
+    try:
+        script = load_full_script(project_id)
+    except (FileNotFoundError, json.JSONDecodeError, ValueError):
+        return
+    issues = lint_full_script(script)
+    if not issues:
+        print("TTS-lint : narration 깨끗 (위험 표기 없음)")
+        return
+    print(f"TTS-lint : 경고 {len(issues)}건 — narration 에 TTS 가 어색하게 읽을 표기:")
+    for seg_id, issue in issues[:20]:
+        print(f"  - [{seg_id}] {issue.category}: {issue.snippet!r} → {issue.hint}")
+    if len(issues) > 20:
+        print(f"  ... 외 {len(issues) - 20}건. `lint-script {project_id}` 로 전체 확인.")
+
+
+def _cmd_lint_script(args: argparse.Namespace) -> int:
+    """lint-script: full_script narration 의 TTS-위험 표기 리포트. --strict 면 issue 시 exit 1."""
+    from orchestrator.project_manager import validate_project_id
+    from orchestrator.script_io import load_full_script
+    from orchestrator.tts_lint import lint_full_script
+
+    try:
+        validate_project_id(args.project_id)
+    except ValueError as e:
+        print(f"error: {e}", file=sys.stderr)
+        return 1
+    try:
+        script = load_full_script(args.project_id)
+    except FileNotFoundError as e:
+        print(f"error: {e}", file=sys.stderr)
+        return 1
+    except (json.JSONDecodeError, ValueError) as e:
+        print(f"error: full_script 파싱 실패 — {e}", file=sys.stderr)
+        return 1
+
+    issues = lint_full_script(script)
+    if not issues:
+        print(f"lint-script: {args.project_id} narration 깨끗 (위험 표기 0건).")
+        return 0
+    print(f"lint-script: {args.project_id} — TTS-위험 표기 {len(issues)}건")
+    for seg_id, issue in issues:
+        print(f"  [{seg_id}] {issue.category}: {issue.snippet!r}\n      → {issue.hint}")
+    return 1 if args.strict else 0
 
 
 def _cmd_build_scene(args: argparse.Namespace) -> int:

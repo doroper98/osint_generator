@@ -1,6 +1,6 @@
 <!--
 tier: 3
-last_synced_with: v0.15.7
+last_synced_with: v0.16.0
 ssot_for: [development-log]
 depends_on: [CHANGELOG.md]
 last_review: 2026-05-24
@@ -22,6 +22,23 @@ last_review: 2026-05-24
 - 결과:  …
 - 연관:  AP-번호, 이슈, PR 번호 등
 ```
+
+---
+
+## 2026-05-24 v0.16.0 — TTS 발음 안전 (생성 차단 + 자동 린터)
+
+- **무엇을**: tts_lint 린터(순수) + lint-script CLI + build-script 자동 검사 +
+  script_worker 프롬프트 TTS 규칙 확장 + TTS_ANTIPATTERNS 부록 A + 샘플 재생성.
+- **왜**: 실제 ElevenLabs 합성을 들어보니 narration 의 약어(USGS/CWA/OSINT)를 영어식으로
+  읽어 AI 티. 카탈로그는 있었지만 파이프라인에 안 물려 있었음. 사용자가 50+ 실무 표기-해석
+  오류 리스트를 주며 "재발 안 하게 확실히"를 요구.
+- **어떻게**: 2겹 방어 — (1) 생성: script 프롬프트가 발화형 한국어 강제(약어→명칭/음차,
+  날짜·시각·범위·단위·버전·URL·기호 풀어쓰기, 영문은 caption 에만). (2) 검출:
+  lint_narration 이 12 카테고리 정규식으로 위험 표기 탐지, build-script 자동 경고 +
+  lint-script --strict CI 게이트. 한글이 유니코드 \w 라 \b 대신 숫자 룩어라운드(버그 수정).
+- **결과**: 288 통과(린트 12). 샘플 대본을 규칙으로 재생성하니 narration 로마자 0건(lint
+  깨끗), 약어는 caption 에만. 운율·감정·믹싱 등 비표기 항목은 사람 검수 영역으로 명시.
+- **연관**: docs/ANTIPATTERNS/TTS_ANTIPATTERNS.md 부록 A, CHANGELOG v0.16.0.
 
 ---
 
