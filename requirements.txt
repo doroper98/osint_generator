@@ -1,7 +1,10 @@
-# Phase 0–3 의존성. 후속 Phase에서 확장.
+# Phase 0-3 dependencies; extended in later phases.
 # Python 3.11+
+# NOTE: keep this file ASCII-only. pip on non-UTF-8 locales (e.g. Korean
+# Windows cp949) decodes requirements.txt with the locale codec and crashes on
+# non-ASCII bytes (UnicodeDecodeError). See DEVLOG v0.15.2.
 
-# 핵심 데이터 / 검증
+# Core data / validation
 pydantic>=2.6,<3.0
 PyYAML>=6.0
 
@@ -9,7 +12,7 @@ PyYAML>=6.0
 textual>=0.58
 rich>=13.7
 
-# 외부 호출 (후속 Phase Worker용 사전 설치)
+# Outbound calls (preinstalled for later-phase workers / TTS HTTP backends)
 httpx>=0.27
 
 # Phase 3: Dynamic Intake Page (web/intake_page_app.py)
@@ -17,7 +20,7 @@ fastapi>=0.110
 uvicorn>=0.27
 python-multipart>=0.0.9
 
-# 개발 / 테스트
+# Dev / test
 pytest>=8.0
 pytest-asyncio>=0.23
 ruff>=0.4

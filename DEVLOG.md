@@ -1,6 +1,6 @@
 <!--
 tier: 3
-last_synced_with: v0.15.1
+last_synced_with: v0.15.2
 ssot_for: [development-log]
 depends_on: [CHANGELOG.md]
 last_review: 2026-05-24
@@ -22,6 +22,21 @@ last_review: 2026-05-24
 - 결과:  …
 - 연관:  AP-번호, 이슈, PR 번호 등
 ```
+
+---
+
+## 2026-05-24 v0.15.2 — requirements.txt cp949 디코드 버그 수정 (Windows)
+
+- **무엇을**: requirements.txt 를 ASCII-only 로 정리(한글 주석→영문, en-dash→hyphen) +
+  상단에 재발 방지 주석.
+- **왜**: 사용자가 한국어 Windows 에서 `pip install -r requirements.txt` →
+  `UnicodeDecodeError: 'cp949' ... 0xe2`. pip 가 requirements 를 로케일 코덱(cp949)으로
+  읽는데 파일에 UTF-8 문자(한글/en-dash)가 있어 실패. 리눅스 CI 엔 안 터지던 환경 의존
+  버그 — 또 "실물 실행"이 잡아냄.
+- **어떻게**: 주석 영문화 + en-dash 제거. 패키지 핀 동일. 워크어라운드 `set PYTHONUTF8=1`.
+  .py 소스는 Python 이 UTF-8 로 읽어 영향 없음.
+- **결과**: ASCII 검증 통과. git pull 후 그냥 pip install 가능.
+- **연관**: CHANGELOG v0.15.2.
 
 ---
 

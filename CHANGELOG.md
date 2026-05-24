@@ -1,6 +1,6 @@
 <!--
 tier: 3
-last_synced_with: v0.15.1
+last_synced_with: v0.15.2
 ssot_for: [release-notes]
 depends_on: [README.md, GOAL.md]
 last_review: 2026-05-23
@@ -25,6 +25,21 @@ released 항목은 **append-only**입니다.
 
 ### Fixed
 -
+
+---
+
+## [v0.15.2] — 2026-05-24
+
+**requirements.txt cp949 디코드 버그 수정 (Windows)**. 한국어 Windows 에서
+`pip install -r requirements.txt` 가 `UnicodeDecodeError: 'cp949' ... 0xe2` 로 실패.
+pip 가 requirements 파일을 로케일 코덱(cp949)으로 읽는데 파일에 한글 주석 + en-dash
+같은 UTF-8 문자가 있어서였다. 사용자의 실제 Windows 실행에서 발견.
+
+### Fixed
+
+- **`requirements.txt`** — 주석을 ASCII(영문)로, en-dash→hyphen. 상단에 "ASCII-only
+  유지" 주석 추가(재발 방지). 패키지 목록은 동일.
+- 워크어라운드(구버전 받은 경우): `set PYTHONUTF8=1` 후 pip install.
 
 ---
 
