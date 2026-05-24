@@ -338,7 +338,7 @@ class TestElevenLabsIntegration(_AudioHarness):
         os.environ["ELEVENLABS_BASE_URL"] = url
         os.environ.pop("ELEVENLABS_VOICE_ID", None)
 
-    def test_autovoice_and_synthesis(self) -> None:
+    def test_default_voice_and_synthesis(self) -> None:
         self._advance_to_script()
         server = _MockElevenLabsServer()
         with server as url:
@@ -354,13 +354,27 @@ class TestElevenLabsIntegration(_AudioHarness):
         self.assertEqual(manifest.backend, "elevenlabs")
         self.assertEqual(len(manifest.segments), 3)
         self.assertTrue(all(s.duration_sec > 0 for s in manifest.segments))
-        # voice 미지정 → GET /v1/voices 로 자동 선택, POST 는 그 voice_id 로.
-        methods = [(r["method"], r["path"]) for r in server.requests]
-        self.assertIn(("GET", "/v1/voices"), [(m, p.split("?")[0]) for m, p in methods])
+        # voice 미지정 → /v1/voices(=voices_read 필요) 호출 없이 기본 premade voice 로 POST.
+        self.assertFalse(
+            any(r["method"] == "GET" for r in server.requests),
+            "voices_read 불필요해야 하는데 GET /v1/voices 를 호출함",
+        )
         post = next(r for r in server.requests if r["method"] == "POST")
-        self.assertIn("/v1/text-to-speech/auto_voice_1", post["path"])
+        self.assertIn("/v1/text-to-speech/21m00Tcm4TlvDq8ikWAM", post["path"])
         self.assertIn("output_format=pcm_16000", post["path"])
         self.assertEqual(post["headers"].get("xi-api-key"), "test-key")
+
+    def test_explicit_voice_id_override(self) -> None:
+        import os
+
+        self._advance_to_script()
+        server = _MockElevenLabsServer()
+        with server as url:
+            self._set_env(url)
+            os.environ["ELEVENLABS_VOICE_ID"] = "my_custom_voice"
+            cli_main(["build-audio", "demo3", "--backend", "elevenlabs"])
+        post = next(r for r in server.requests if r["method"] == "POST")
+        self.assertIn("/v1/text-to-speech/my_custom_voice", post["path"])
 
     def test_missing_key_via_cli_errors(self) -> None:
         import os

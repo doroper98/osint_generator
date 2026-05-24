@@ -169,34 +169,21 @@ class ElevenLabsTTSBackend(TTSBackend):
     sample_rate = 16000
     timeout_sec = 120
     default_base_url = "https://api.elevenlabs.io"
+    # ElevenLabs premade voice "Rachel". multilingual_v2 로 한국어도 합성됨. 자동
+    # /v1/voices 목록 조회는 voices_read 권한이 필요해 권한 제한 키에서 401 이 나므로
+    # (실제 사용자 사고), 미지정 시 권한 없이 쓸 수 있는 기본 voice 로 폴백한다.
+    default_voice_id = "21m00Tcm4TlvDq8ikWAM"
 
     def _base_url(self) -> str:
         return (os.environ.get("ELEVENLABS_BASE_URL") or self.default_base_url).strip().rstrip("/")
 
-    def _resolve_voice(self, base: str, api_key: str, voice: Optional[str], httpx) -> str:
-        """voice 인자 > ELEVENLABS_VOICE_ID > 계정의 첫 목소리(GET /v1/voices)."""
-        # env 값은 .strip() — Windows `set VAR=v ` 가 뒤 공백을 값에 포함시켜 httpx 가
-        # "Illegal header value" 로 거부하는 사고 방지 (실제 사용자 환경에서 발생).
-        voice_id = (voice or os.environ.get("ELEVENLABS_VOICE_ID") or "").strip()
-        if voice_id:
-            return voice_id
-        try:
-            resp = httpx.get(
-                f"{base}/v1/voices",
-                headers={"xi-api-key": api_key},
-                timeout=self.timeout_sec,
-            )
-        except httpx.HTTPError as e:
-            raise TTSError(f"elevenlabs voices 조회 실패: {e}") from e
-        if resp.status_code != 200:
-            raise TTSError(f"elevenlabs voices 응답 {resp.status_code}: {resp.text[:200]}")
-        voices = (resp.json() or {}).get("voices") or []
-        if not voices:
-            raise TTSError(
-                "elevenlabs 계정에 사용 가능한 목소리가 없습니다. "
-                "ELEVENLABS_VOICE_ID 를 지정하거나 대시보드에서 목소리를 추가하십시오."
-            )
-        return voices[0]["voice_id"]
+    def _resolve_voice(self, voice: Optional[str]) -> str:
+        """voice 인자 > ELEVENLABS_VOICE_ID > 기본 premade voice (네트워크/권한 불요).
+
+        env 값은 .strip() — Windows `set VAR=v ` 가 뒤 공백을 값에 포함시켜 httpx 가
+        "Illegal header value" 로 거부하는 사고 방지.
+        """
+        return (voice or os.environ.get("ELEVENLABS_VOICE_ID") or self.default_voice_id).strip()
 
     def synthesize(self, text: str, out_path: Path, voice: Optional[str]) -> float:
         api_key = (os.environ.get("ELEVENLABS_API_KEY") or "").strip()
@@ -209,7 +196,7 @@ class ElevenLabsTTSBackend(TTSBackend):
         import httpx
 
         base = self._base_url()
-        voice_id = self._resolve_voice(base, api_key, voice, httpx)
+        voice_id = self._resolve_voice(voice)
         model_id = (os.environ.get("ELEVENLABS_MODEL_ID") or "eleven_multilingual_v2").strip()
 
         url = f"{base}/v1/text-to-speech/{voice_id}"

@@ -1,6 +1,6 @@
 <!--
 tier: 3
-last_synced_with: v0.15.4
+last_synced_with: v0.15.5
 ssot_for: [release-notes]
 depends_on: [README.md, GOAL.md]
 last_review: 2026-05-23
@@ -25,6 +25,23 @@ released 항목은 **append-only**입니다.
 
 ### Fixed
 -
+
+---
+
+## [v0.15.5] — 2026-05-24
+
+**ElevenLabs 기본 voice 폴백 (voices_read 권한 불요)**. TTS 권한만 있는 키로
+`build-audio --backend elevenlabs` 시 `401 missing_permissions voices_read` 로 실패.
+목소리 자동선택을 위해 `GET /v1/voices` 를 호출했는데 그게 voices_read 권한을 요구.
+사용자 실제 키에서 발견.
+
+### Fixed
+
+- **`workers/tts_backends.py`** — voice 미지정 시 `/v1/voices` 조회 대신 기본 premade
+  voice(`21m00Tcm4TlvDq8ikWAM`, Rachel)로 폴백 → **text_to_speech 권한만으로 동작**.
+  voice 인자 > ELEVENLABS_VOICE_ID > 기본. 본인 목소리/클론은 ELEVENLABS_VOICE_ID 지정.
+- **`tests/test_audio_flow.py`** — 기본 voice 사용 시 GET 미호출 + POST 가 기본 voice id,
+  ELEVENLABS_VOICE_ID override 검증 (276 통과).
 
 ---
 

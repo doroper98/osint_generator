@@ -1,6 +1,6 @@
 <!--
 tier: 3
-last_synced_with: v0.15.4
+last_synced_with: v0.15.5
 ssot_for: [development-log]
 depends_on: [CHANGELOG.md]
 last_review: 2026-05-24
@@ -22,6 +22,20 @@ last_review: 2026-05-24
 - 결과:  …
 - 연관:  AP-번호, 이슈, PR 번호 등
 ```
+
+---
+
+## 2026-05-24 v0.15.5 — ElevenLabs 기본 voice 폴백 (voices_read 권한 불요)
+
+- **무엇을**: voice 미지정 시 /v1/voices 자동조회 대신 기본 premade voice 로 폴백.
+- **왜**: 사용자 키가 text_to_speech 권한만 있어 GET /v1/voices(=voices_read 필요)에서
+  401 missing_permissions. 목록 조회는 사실 불필요했음.
+- **어떻게**: _resolve_voice = voice > ELEVENLABS_VOICE_ID > default_voice_id
+  (21m00Tcm4TlvDq8ikWAM, Rachel). /v1/voices 호출 제거. 본인 목소리/클론은
+  ELEVENLABS_VOICE_ID 로 지정.
+- **결과**: 276 통과. text_to_speech 권한만으로 동작. 실물 키가 또 실제 동작을 잡음
+  (cp949 → set 공백 → npx.cmd → voices_read, 4연속 환경/실서비스 이슈).
+- **연관**: CHANGELOG v0.15.5.
 
 ---
 
