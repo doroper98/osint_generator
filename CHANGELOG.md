@@ -1,6 +1,6 @@
 <!--
 tier: 3
-last_synced_with: v0.15.3
+last_synced_with: v0.15.4
 ssot_for: [release-notes]
 depends_on: [README.md, GOAL.md]
 last_review: 2026-05-23
@@ -25,6 +25,20 @@ released 항목은 **append-only**입니다.
 
 ### Fixed
 -
+
+---
+
+## [v0.15.4] — 2026-05-24
+
+**Windows npx 실행 버그 수정 (RENDER-AP-002)**. Windows 에서 `render-debug` 가
+`npx/node 를 찾을 수 없습니다` 로 실패 — Node 는 설치돼 있고 셸에선 `npx` 동작하나,
+Python subprocess 가 `npx.cmd`(배치)를 PATHEXT 없이 못 찾음. 사용자 실제 Windows 발견.
+
+### Fixed
+
+- **`orchestrator/main.py`** — `shutil.which("npx")` 로 실제 경로(Windows 면 npx.cmd)
+  해석 후, 배치면 `cmd /c` 경유 실행. POSIX 영향 없음.
+- **`docs/ANTIPATTERNS/RENDER_ANTIPATTERNS.md`** — RENDER-AP-002.
 
 ---
 

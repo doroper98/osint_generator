@@ -1,6 +1,6 @@
 <!--
 tier: 3
-last_synced_with: v0.11.1
+last_synced_with: v0.15.4
 ssot_for: [render-antipatterns]
 depends_on: [../13_IMPLEMENTATION_ROADMAP.md]
 last_review: 2026-05-23
@@ -47,3 +47,32 @@ last_review: 2026-05-23
     `--browser-executable` / `OSINT_HEADLESS_SHELL` 로 명시해야 한다.
   - chrome-headless-shell 버전과 Remotion 요구 버전이 크게 어긋나면 호환 문제 가능 —
     그 경우 Remotion 권장 버전을 별도 확보.
+
+---
+
+## RENDER-AP-002 — Windows 에서 subprocess 가 `npx`(=npx.cmd) 를 못 찾음
+
+- **증상 (symptom)**: Windows 에서 `render-debug` 가 `error: npx/node 를 찾을 수 없습니다`
+  로 실패. 그런데 같은 cmd 창에서 `npx --version` 은 정상 동작(11.x). Node 도 설치돼
+  있음(`node --version` v24). (실제 사용자 한국어 Windows 에서 발견.)
+
+- **원인 (root cause)**: Windows 에서 npx 실행파일은 `npx.cmd`(배치)다. Python
+  `subprocess.run(["npx", ...], shell=False)` 는 CreateProcess 를 쓰는데, CreateProcess
+  는 PATHEXT 를 적용하지 않아 확장자 없는 `npx` 를 찾지 못하고 FileNotFoundError 를
+  던진다. (cmd 셸은 PATHEXT 로 `.cmd` 를 찾아주므로 셸에선 됨.)
+
+- **구조적 조치 (structural fix, v0.15.4)**:
+  - `orchestrator/main.py:render-debug` 가 `shutil.which("npx")` 로 실제 경로(Windows 면
+    `...\npx.cmd`)를 해석한다. None 이면 친절한 설치 안내.
+  - 해석된 경로가 `.cmd`/`.bat` 이고 `os.name == "nt"` 면 `["cmd", "/c", npx, *args]` 로
+    실행 (배치파일은 CreateProcess 직접 실행 불가 → cmd.exe 경유). 그 외엔 `[npx, *args]`.
+
+- **발견 버전 (discovered)**: v0.15.3 (사용자 Windows 첫 렌더 시도).
+- **해결 버전 (resolved)**: v0.15.4.
+
+- **상태 (status)**: `resolved`. POSIX(Linux/macOS)는 `shutil.which` 가 npx 스크립트를
+  그대로 반환·실행되어 영향 없음.
+
+- **알려진 한계**:
+  - cmd.exe /c 경유 시 인자는 `subprocess.list2cmdline` 규칙으로 인용된다. 산출물 경로에
+    특수문자가 많으면 별도 검증 필요(현재 경로엔 공백 정도만 가정).

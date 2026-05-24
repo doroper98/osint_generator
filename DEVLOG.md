@@ -1,6 +1,6 @@
 <!--
 tier: 3
-last_synced_with: v0.15.3
+last_synced_with: v0.15.4
 ssot_for: [development-log]
 depends_on: [CHANGELOG.md]
 last_review: 2026-05-24
@@ -22,6 +22,20 @@ last_review: 2026-05-24
 - 결과:  …
 - 연관:  AP-번호, 이슈, PR 번호 등
 ```
+
+---
+
+## 2026-05-24 v0.15.4 — Windows npx 실행 버그 수정 (RENDER-AP-002)
+
+- **무엇을**: render-debug 의 npx 호출을 shutil.which 로 해석 + 배치면 cmd /c 경유.
+- **왜**: 사용자 Windows 에서 render-debug 가 "npx/node 못 찾음" 으로 실패. Node v24
+  설치돼 있고 셸 `npx --version` 도 됐지만, Python subprocess 가 `npx.cmd`(배치)를
+  PATHEXT 없이 못 찾아 FileNotFoundError. 또 실물 실행이 Windows 전용 버그를 잡음.
+- **어떻게**: shutil.which("npx") → Windows 면 npx.cmd 절대경로. .cmd/.bat 이고 nt 면
+  ["cmd","/c",npx,*args], 아니면 [npx,*args]. POSIX 무영향(스크립트 직접 실행).
+- **결과**: 275 통과(렌더 경로는 Linux 단위테스트 비대상이라 로직 분기만 검증). 사용자는
+  git pull 후 render-debug 재시도.
+- **연관**: RENDER-AP-002, CHANGELOG v0.15.4.
 
 ---
 

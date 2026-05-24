@@ -802,6 +802,7 @@ def _cmd_render_debug(args: argparse.Namespace) -> int:
     2. --props-only 면 종료. 아니면 remotion/ 에서 `npx remotion render` 호출.
     """
     import os
+    import shutil
     import subprocess
 
     from orchestrator.config import REPO_ROOT
@@ -850,8 +851,20 @@ def _cmd_render_debug(args: argparse.Namespace) -> int:
     from orchestrator.config import project_dir as _pdir
 
     public_dir = _pdir(args.project_id)
-    cmd = [
-        "npx", "remotion", "render", "src/index.ts", "Briefing",
+
+    # Windows 에서 npx 는 npx.cmd(배치)라 subprocess 가 bare "npx" 를 못 찾는다
+    # (PATHEXT 미적용 → FileNotFoundError). shutil.which 로 실제 경로(npx.cmd 포함)를
+    # 해석하고, 배치(.cmd/.bat)면 cmd.exe 를 거쳐 실행한다.
+    npx = shutil.which("npx")
+    if npx is None:
+        print(
+            "error: npx 를 찾을 수 없습니다. Node.js(LTS) 설치 후 새 터미널에서 다시 시도.",
+            file=sys.stderr,
+        )
+        return 1
+
+    render_args = [
+        "remotion", "render", "src/index.ts", "Briefing",
         str(out_path.resolve()),
         f"--props={props_path.resolve()}",
         f"--public-dir={public_dir.resolve()}",
@@ -863,7 +876,13 @@ def _cmd_render_debug(args: argparse.Namespace) -> int:
     # old headless 미지원으로 launch 실패).
     shell = args.browser_executable or os.environ.get("OSINT_HEADLESS_SHELL") or _detect_headless_shell()
     if shell:
-        cmd.append(f"--browser-executable={shell}")
+        render_args.append(f"--browser-executable={shell}")
+
+    # 배치파일은 CreateProcess 로 직접 실행 불가 → cmd.exe /c 경유 (Windows).
+    if os.name == "nt" and npx.lower().endswith((".cmd", ".bat")):
+        cmd = ["cmd", "/c", npx, *render_args]
+    else:
+        cmd = [npx, *render_args]
     print(f"렌더 시작: {' '.join(cmd)} (cwd={remotion_dir})")
     try:
         proc = subprocess.run(cmd, cwd=str(remotion_dir), timeout=1800)
