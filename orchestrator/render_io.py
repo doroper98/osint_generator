@@ -17,7 +17,13 @@ from typing import Optional
 from orchestrator.config import AppConfig, load_config, project_dir
 from orchestrator.scene_io import load_scene_manifest
 from orchestrator.script_io import load_full_script
-from schemas.models import FullScript, RenderProps, RenderSceneProps, SceneManifest
+from schemas.models import (
+    AudioManifest,
+    FullScript,
+    RenderProps,
+    RenderSceneProps,
+    SceneManifest,
+)
 
 
 RENDER_DIRNAME = "09_render"
@@ -42,33 +48,59 @@ def build_render_props(
     scene_manifest: SceneManifest,
     script: FullScript,
     *,
+    audio_manifest: Optional[AudioManifest] = None,
     fps: int = 30,
     width: int = 1920,
     height: int = 1080,
 ) -> RenderProps:
-    """scene_manifest + full_script 를 합쳐 RenderProps 생성 (순수 함수).
+    """scene_manifest + full_script (+ audio_manifest) 를 합쳐 RenderProps 생성 (순수 함수).
 
     각 scene 의 narration_segment_ids 로 full_script 세그먼트를 찾아 나레이션을
-    이어붙이고, 세그먼트의 label 을 그대로 표기 라벨로 쓴다 (scene 의
-    inference_label_required 와 정합).
+    이어붙이고, 세그먼트의 label 을 표기 라벨로 쓴다.
+
+    audio_manifest 가 주어지면 (V4b): scene 길이를 **실제 음성 길이**로 교체하고
+    start_sec 를 음성 길이로 재누적하며, scene 의 wav 경로를 audioPath 로 단다 (오디오
+    트랙 + 슬라이드 길이 동기화). 없으면 scene_manifest 의 (추정) 타이밍을 그대로 쓰고
+    audioPath 는 None (무음 — 하위호환).
     """
     seg_by_id = {s.segment_id: s for s in script.segments}
+    audio_by_seg = (
+        {a.segment_id: a for a in audio_manifest.segments} if audio_manifest else {}
+    )
 
     scenes: list[RenderSceneProps] = []
+    cursor = 0.0
     for scene in scene_manifest.scenes:
-        segs = [seg_by_id[sid] for sid in scene.narration_segment_ids if sid in seg_by_id]
+        seg_ids = scene.narration_segment_ids
+        segs = [seg_by_id[sid] for sid in seg_ids if sid in seg_by_id]
         narration = " ".join(s.narration for s in segs).strip()
-        # 라벨: 세그먼트 중 라벨이 달린 첫 값 (없으면 None). 단일 세그먼트가 일반적.
         label = next((s.label for s in segs if s.label), None)
+
+        # 이 scene 에 대응하는 오디오 (세그먼트 전부가 audio_manifest 에 있을 때만 사용).
+        audio_segs = [audio_by_seg[sid] for sid in seg_ids if sid in audio_by_seg]
+        use_audio = bool(audio_segs) and len(audio_segs) == len(seg_ids)
+
+        if use_audio:
+            duration = round(sum(a.duration_sec for a in audio_segs), 3)
+            start = round(cursor, 3)
+            # 단일 세그먼트 scene(기본 빌더)이면 그 wav 경로. 다중이면 첫 트랙만(드묾).
+            audio_path = audio_segs[0].audio_path
+            cursor += duration
+        else:
+            duration = scene.duration_sec
+            start = scene.start_sec
+            audio_path = None
+
         scenes.append(
             RenderSceneProps(
                 sceneId=scene.scene_id,
-                startSec=scene.start_sec,
-                durationSec=scene.duration_sec,
+                startSec=start,
+                durationSec=duration,
                 caption=scene.caption,
                 narration=narration,
                 label=label,
                 sourceLinkRequired=scene.source_link_required,
+                audioPath=audio_path,
             )
         )
 
@@ -134,8 +166,17 @@ def build_and_persist_render_props(
     cfg = cfg or load_config()
     scene_manifest = load_scene_manifest(project_id, cfg)
     script = load_full_script(project_id, cfg)
+    # audio_manifest 가 있으면 실측 길이/오디오 트랙을 반영 (V4b). 없으면 무음.
+    audio_manifest = None
+    try:
+        from orchestrator.audio_io import load_audio_manifest
+
+        audio_manifest = load_audio_manifest(project_id, cfg)
+    except FileNotFoundError:
+        audio_manifest = None
     props = build_render_props(
-        scene_manifest, script, fps=fps, width=width, height=height
+        scene_manifest, script, audio_manifest=audio_manifest,
+        fps=fps, width=width, height=height,
     )
     path = persist_render_props(project_id, props, cfg)
     return props, path

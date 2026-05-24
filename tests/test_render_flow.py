@@ -8,6 +8,7 @@ scene_manifest + full_script → render_props.json 변환을 검증한다. 실�
 
 from __future__ import annotations
 
+from orchestrator.audio_service import build_audio
 from orchestrator.main import main as cli_main
 from orchestrator.render_io import build_render_props
 from orchestrator.scene_builder import build_scene_manifest
@@ -63,6 +64,44 @@ class TestRenderDebugCLI(_RenderHarness):
         # scene_manifest 없이 호출 → exit 1 (build-scene 안내).
         self._create_demo3()
         self.assertEqual(cli_main(["render-debug", "demo3", "--props-only"]), 1)
+
+
+class TestRenderWithAudio(_RenderHarness):
+    """V4b — audio_manifest 가 있으면 실측 길이/오디오 경로가 render_props 에 반영."""
+
+    def test_props_use_audio_durations_and_paths(self) -> None:
+        self._advance_to_scene_planning()
+        audio = build_audio("demo3", backend="stub")
+
+        rc = cli_main(["render-debug", "demo3", "--props-only"])
+        self.assertEqual(rc, 0)
+        path = self.projects_root / "demo3" / "09_render" / "render_props.json"
+        props = RenderProps.model_validate_json(path.read_text(encoding="utf-8"))
+
+        # 각 scene 에 audioPath 가 붙고, 그 길이가 audio_manifest 와 일치.
+        dur_by_seg = {a.segment_id: a.duration_sec for a in audio.segments}
+        cursor = 0.0
+        for sc in props.scenes:
+            self.assertIsNotNone(sc.audioPath, f"{sc.sceneId} audioPath 누락")
+            self.assertTrue(sc.audioPath.endswith(".wav"))
+            # scene 1:1 segment → seg_id = sceneId 의 대응 (seg_01↔scene_01 순서).
+            # 길이는 audio 와 일치, start 는 누적.
+            self.assertAlmostEqual(sc.startSec, round(cursor, 3), places=2)
+            cursor += sc.durationSec
+        # 총 길이가 audio_manifest 총합과 근사.
+        self.assertAlmostEqual(
+            sum(s.durationSec for s in props.scenes),
+            audio.total_duration_sec,
+            places=1,
+        )
+
+    def test_pure_builder_without_audio_is_silent(self) -> None:
+        # audio_manifest 미전달 → audioPath None, scene 타이밍 유지 (하위호환).
+        script = FullScript.model_validate_json(VALID_SCRIPT_JSON)
+        scene_manifest = build_scene_manifest(script)
+        props = build_render_props(scene_manifest, script)
+        self.assertTrue(all(s.audioPath is None for s in props.scenes))
+        self.assertEqual(props.scenes[1].startSec, 6.0)
 
 
 if __name__ == "__main__":

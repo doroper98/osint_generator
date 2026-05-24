@@ -1,6 +1,6 @@
 <!--
 tier: 2
-last_synced_with: v0.12.0
+last_synced_with: v0.13.0
 ssot_for: [phase-roadmap]
 depends_on: [../GOAL.md, ../CHANGELOG.md]
 last_review: 2026-05-23
@@ -81,6 +81,12 @@ docs/03 §2 의 Agent 들은 모두 `BaseLLMWorker` 기반 Worker 로 구현된�
   full_script → `09_render/render_props.json`) + CLI `render-debug`. 라벨(`<미검증>` 등)이
   배지로 표시됨. node/chromium 환경에서 `draft_debug.mp4` 생성. TTS·정식 RemotionJob·
   Phase 7 에셋은 슬라이스 관통 후 보강.
+- **수직 슬라이스 V4 (v0.12.0~v0.13.0)**: **음성 흡수** — TTS 백엔드 추상화(local/
+  elevenlabs/stub, `workers/tts_backends.py`)로 `full_script → audio_manifest`(V4a) →
+  render_props 가 **실측 음성 길이로 타이밍 재계산 + Remotion `<Audio>` 트랙**(V4b). 영상이
+  음성과 동기화됨. 실제 음성은 로컬 TTS 엔진(OSINT_TTS_CMD)/ElevenLabs(키) 필요 — 이
+  환경에선 stub(무음)으로 싱크 메커니즘만 검증. 외부 워크플로(VoiceBox)의 음성 부분 흡수,
+  HyperFrames(영상 생성)는 Remotion 보유로 보류.
 - **이미 존재**: `SceneEntry`, `SceneManifest` (골격, schemas/models.py). 나머지 모델은 신규.
 - **각 서브스텝 DoD**: py_compile + import smoke + 단위테스트 + CLI 1 서브커맨드 + state
   전이 + (해당 시) Review Gate 산출물. MINOR push 마다 codex 외부 리뷰 (C10.1),

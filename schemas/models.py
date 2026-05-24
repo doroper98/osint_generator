@@ -607,6 +607,9 @@ class RenderSceneProps(BaseModel):
     narration: str = ""
     label: Optional[str] = None
     sourceLinkRequired: bool = False
+    # 나레이션 wav 의 project_dir 기준 상대경로 (audio_manifest 가 있을 때). Remotion 은
+    # --public-dir 를 project_dir 로 두고 staticFile(audioPath) 로 참조한다. 무음이면 None.
+    audioPath: Optional[str] = None
 
 
 class RenderProps(VersionedModel):

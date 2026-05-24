@@ -1,9 +1,9 @@
 <!--
 tier: 3
-last_synced_with: v0.12.0
+last_synced_with: v0.13.0
 ssot_for: [development-log]
 depends_on: [CHANGELOG.md]
-last_review: 2026-05-23
+last_review: 2026-05-24
 -->
 
 # DEVLOG
@@ -22,6 +22,25 @@ last_review: 2026-05-23
 - 결과:  …
 - 연관:  AP-번호, 이슈, PR 번호 등
 ```
+
+---
+
+## 2026-05-24 v0.13.0 — 수직 슬라이스 V4b: 영상-음성 싱크
+
+- **무엇을**: render_props 가 scene+script+audio 의 결합점이 되어, audio_manifest 가
+  있으면 scene 타이밍을 실측 음성 길이로 재계산하고 각 scene 에 wav 경로(audioPath)를
+  단다. Remotion Briefing 이 `<Audio>`+`staticFile` 로 오디오 트랙 삽입, 렌더 시
+  `--public-dir`=project_dir.
+- **왜**: V4a 가 음성 파일까지만 만들었음 → 영상에 실제로 싱크. stub 길이(471)가 LLM
+  scene est(439)와 달랐던 것을 실측 길이로 정정.
+- **어떻게**: build_render_props 에 audio_manifest 옵션 추가, 있으면 duration=음성 길이,
+  start_sec 재누적, audioPath 부착. 없으면 무음 폴백(하위호환, 기존 테스트 유지).
+  Remotion 은 public-dir 로 project_dir 를 정적 서빙해 08_audio/narration/*.wav 참조.
+- **결과**: 267 테스트 통과. hualien2024 재렌더 14136 프레임(471초, 오디오 기반) +
+  오디오 트랙 muxing(28.9MB) 성공. staticFile/public-dir 정상 작동 확인. 소리는 stub라
+  무음 — 실제 음성은 사용자 로컬의 OSINT_TTS_CMD(local) 또는 ELEVENLABS_API_KEY(elevenlabs)
+  로 build-audio 후 render-debug. 수직 슬라이스(주제→음성 싱크 영상) 메커니즘 완성.
+- **연관**: docs/05 §3.4e(audioPath), docs/13 V4, CHANGELOG v0.13.0.
 
 ---
 

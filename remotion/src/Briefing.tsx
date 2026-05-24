@@ -1,8 +1,10 @@
 import React from "react";
 import {
   AbsoluteFill,
+  Audio,
   Sequence,
   interpolate,
+  staticFile,
   useCurrentFrame,
   useVideoConfig,
 } from "remotion";
@@ -20,6 +22,8 @@ export type Scene = {
   narration: string;
   label: string | null;
   sourceLinkRequired: boolean;
+  // 나레이션 wav 의 public-dir(=project_dir) 기준 상대경로. 무음이면 null.
+  audioPath?: string | null;
 };
 
 export type BriefingProps = {
@@ -119,6 +123,7 @@ export const Briefing: React.FC<BriefingProps> = ({ scenes }) => {
         const dur = Math.max(1, Math.round(scene.durationSec * fps));
         return (
           <Sequence key={scene.sceneId} from={from} durationInFrames={dur} name={scene.sceneId}>
+            {scene.audioPath ? <Audio src={staticFile(scene.audioPath)} /> : null}
             <Slide scene={scene} />
           </Sequence>
         );

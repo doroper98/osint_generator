@@ -1,6 +1,6 @@
 <!--
 tier: 3
-last_synced_with: v0.12.0
+last_synced_with: v0.13.0
 ssot_for: [release-notes]
 depends_on: [README.md, GOAL.md]
 last_review: 2026-05-23
@@ -25,6 +25,31 @@ released 항목은 **append-only**입니다.
 
 ### Fixed
 -
+
+---
+
+## [v0.13.0] — 2026-05-24
+
+**수직 슬라이스 V4b: 영상-음성 싱크**. render_props 가 scene + script + audio 의 최종
+결합점이 되어, audio_manifest 가 있으면 **실측 음성 길이로 scene 타이밍을 재계산**하고
+각 scene 에 나레이션 wav 를 단다. Remotion `Briefing` 이 `<Audio>` + `staticFile` 로
+오디오 트랙을 삽입(렌더 시 `--public-dir`=project_dir). 영상이 음성과 동기화됨.
+
+### Added / Changed
+
+- **`schemas/models.py`** — `RenderSceneProps.audioPath` 추가 (Optional).
+- **`orchestrator/render_io.py`** — `build_render_props(audio_manifest=...)`: 음성 길이로
+  duration/start 재계산 + audioPath. `build_and_persist_render_props` 가 audio_manifest 를
+  자동 로드(있으면). 무음 폴백 유지(하위호환).
+- **`remotion/src/Briefing.tsx`** — scene 에 `<Audio src={staticFile(audioPath)}>`.
+- **`orchestrator/main.py`** — `render-debug` 가 `--public-dir`=project_dir 전달.
+- **`tests/test_render_flow.py`** — 오디오 반영/무음 폴백 (267 통과).
+
+### Verified
+
+- hualien2024 재렌더: 14136 프레임(471초, **오디오 길이 기반** 재계산) + 오디오 트랙
+  muxing(28.9MB). staticFile/public-dir 정상. 소리는 stub(무음) — 실제 음성은 로컬
+  TTS/ElevenLabs 백엔드 필요.
 
 ---
 

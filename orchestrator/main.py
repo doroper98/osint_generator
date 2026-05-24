@@ -845,10 +845,16 @@ def _cmd_render_debug(args: argparse.Namespace) -> int:
 
     out_path = draft_debug_path(args.project_id)
     out_path.parent.mkdir(parents=True, exist_ok=True)
+    # --public-dir 를 project_dir 로 두어 Briefing 의 staticFile(audioPath) 가 나레이션
+    # wav(08_audio/narration/*.wav)를 참조할 수 있게 한다 (V4b 오디오 트랙).
+    from orchestrator.config import project_dir as _pdir
+
+    public_dir = _pdir(args.project_id)
     cmd = [
         "npx", "remotion", "render", "src/index.ts", "Briefing",
         str(out_path.resolve()),
         f"--props={props_path.resolve()}",
+        f"--public-dir={public_dir.resolve()}",
     ]
     # RENDER-AP-001: Remotion 의 chromium headless-shell 자동 다운로드가 막힌 환경
     # (네트워크 allowlist) 을 위해, 기존 chrome-headless-shell 바이너리를 가리킨다.
