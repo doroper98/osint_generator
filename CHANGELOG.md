@@ -1,6 +1,6 @@
 <!--
 tier: 3
-last_synced_with: v0.14.0
+last_synced_with: v0.14.1
 ssot_for: [release-notes]
 depends_on: [README.md, GOAL.md]
 last_review: 2026-05-23
@@ -25,6 +25,21 @@ released 항목은 **append-only**입니다.
 
 ### Fixed
 -
+
+---
+
+## [v0.14.1] — 2026-05-24
+
+**Voicebox 백엔드 파이프라인 통합 검증**. 실제 음성 합성(Voicebox+GPU+가중치)은 이
+환경에서 불가하지만, **우리 통합 쪽**(HTTP 어댑터 → audio_manifest)이 도는지 Voicebox-모양
+mock 서버로 실 소켓 검증.
+
+### Tests
+
+- **`tests/test_audio_flow.py`** — `_MockVoiceboxServer`(스레드 HTTP, `POST /generate` →
+  무음 wav). voicebox 백엔드가 (1) audio/wav 응답, (2) JSON+base64 응답 모두 처리해
+  audio_manifest+wav 생성, (3) 요청이 문서화된 `{text, profile_id, language}` 계약을
+  따름을 검증 (272 통과). 신경망 합성만 Voicebox 몫, 우리 통합은 실제 작동 확인.
 
 ---
 

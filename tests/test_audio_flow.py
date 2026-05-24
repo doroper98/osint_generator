@@ -124,6 +124,144 @@ class TestBuildAudioCLI(_AudioHarness):
         )
 
 
+class _MockVoiceboxServer:
+    """Voicebox 모양의 가짜 로컬 서버 (POST /generate → wav). 통합 테스트용.
+
+    실제 Voicebox 의 신경망 합성은 흉내내지 않고, 문서화된 요청 계약
+    (`{text, profile_id, language}`)을 받아 무음 wav 를 반환한다. 우리 voicebox 백엔드
+    → audio_manifest 의 HTTP/파일/길이측정 경로가 실제 소켓에서 도는지 검증한다.
+    """
+
+    def __init__(self, *, as_json_base64: bool = False) -> None:
+        import http.server
+
+        self.as_json_base64 = as_json_base64
+        self.requests: list[dict] = []
+        outer = self
+
+        class Handler(http.server.BaseHTTPRequestHandler):
+            def log_message(self, *a):  # noqa: ANN001, D401
+                pass
+
+            def do_POST(self):  # noqa: N802
+                import json as _json
+                import wave as _wave
+                from io import BytesIO
+
+                length = int(self.headers.get("content-length", 0))
+                body = _json.loads(self.rfile.read(length) or b"{}")
+                outer.requests.append({"path": self.path, "body": body})
+
+                # 텍스트 길이에 비례한 무음 wav 생성 (실제 합성 대체).
+                text = body.get("text", "")
+                n = max(1, len(text) * 320)  # 16kHz 기준 대략적 프레임 수
+                buf = BytesIO()
+                with _wave.open(buf, "wb") as w:
+                    w.setnchannels(1)
+                    w.setsampwidth(2)
+                    w.setframerate(16000)
+                    w.writeframes(b"\x00\x00" * n)
+                wav_bytes = buf.getvalue()
+
+                if outer.as_json_base64:
+                    import base64
+
+                    payload = _json.dumps(
+                        {"audio": base64.b64encode(wav_bytes).decode("ascii")}
+                    ).encode("utf-8")
+                    self.send_response(200)
+                    self.send_header("content-type", "application/json")
+                    self.send_header("content-length", str(len(payload)))
+                    self.end_headers()
+                    self.wfile.write(payload)
+                else:
+                    self.send_response(200)
+                    self.send_header("content-type", "audio/wav")
+                    self.send_header("content-length", str(len(wav_bytes)))
+                    self.end_headers()
+                    self.wfile.write(wav_bytes)
+
+        self._Handler = Handler
+
+    def __enter__(self) -> str:
+        import http.server
+        import threading
+
+        self._srv = http.server.ThreadingHTTPServer(("127.0.0.1", 0), self._Handler)
+        self._thread = threading.Thread(target=self._srv.serve_forever, daemon=True)
+        self._thread.start()
+        port = self._srv.server_address[1]
+        return f"http://127.0.0.1:{port}"
+
+    def __exit__(self, *exc) -> None:
+        self._srv.shutdown()
+        self._srv.server_close()
+        self._thread.join(timeout=5)
+
+
+class TestVoiceboxIntegration(_AudioHarness):
+    """voicebox 백엔드를 Voicebox-모양 mock 서버에 물려 전 체인 검증 (실 소켓)."""
+
+    def _set_voicebox_env(self, url: str) -> None:
+        import os
+
+        for k in ("OSINT_VOICEBOX_URL", "OSINT_VOICEBOX_PROFILE", "OSINT_VOICEBOX_LANG"):
+            self.addCleanup(lambda k=k: os.environ.pop(k, None))
+        os.environ["OSINT_VOICEBOX_URL"] = url
+        os.environ["OSINT_VOICEBOX_PROFILE"] = "test_profile"
+
+    def test_voicebox_audio_bytes_response(self) -> None:
+        self._advance_to_script()
+        with _MockVoiceboxServer() as url:
+            self._set_voicebox_env(url)
+            rc = cli_main(["build-audio", "demo3", "--backend", "voicebox"])
+            self.assertEqual(rc, 0, "voicebox(audio/wav) 백엔드 build-audio 실패")
+
+        manifest = AudioManifest.model_validate_json(
+            (self.projects_root / "demo3" / "08_audio" / "audio_manifest.json").read_text(
+                encoding="utf-8"
+            )
+        )
+        self.assertEqual(manifest.backend, "voicebox")
+        self.assertEqual(len(manifest.segments), 3)
+        for seg in manifest.segments:
+            self.assertGreater(seg.duration_sec, 0)
+            self.assertTrue((self.projects_root / "demo3" / seg.audio_path).exists())
+
+    def test_voicebox_json_base64_response(self) -> None:
+        self._advance_to_script()
+        with _MockVoiceboxServer(as_json_base64=True) as url:
+            self._set_voicebox_env(url)
+            manifest = build_audio("demo3", backend="voicebox", voice="p1")
+        # JSON+base64 응답 경로도 wav 로 복원되어 길이 측정됨.
+        self.assertEqual(len(manifest.segments), 3)
+        self.assertTrue(all(s.duration_sec > 0 for s in manifest.segments))
+
+    def test_voicebox_request_follows_documented_contract(self) -> None:
+        # mock 이 받은 요청이 POST /generate {text, profile_id, language} 계약을 따르는지.
+        import os
+
+        from workers.tts_backends import get_backend
+
+        server = _MockVoiceboxServer()
+        with server as url:
+            for k in ("OSINT_VOICEBOX_URL", "OSINT_VOICEBOX_PROFILE", "OSINT_VOICEBOX_LANG"):
+                self.addCleanup(lambda k=k: os.environ.pop(k, None))
+            os.environ["OSINT_VOICEBOX_URL"] = url
+            os.environ["OSINT_VOICEBOX_LANG"] = "ko"
+            out = Path(self._tmp.name) / "vb.wav"
+            dur = get_backend("voicebox").synthesize("테스트 문장", out, "prof_42")
+
+        self.assertGreater(dur, 0)
+        self.assertTrue(out.exists())
+        self.assertEqual(len(server.requests), 1)
+        req = server.requests[0]
+        self.assertEqual(req["path"], "/generate")
+        self.assertEqual(req["body"]["text"], "테스트 문장")
+        self.assertEqual(req["body"]["profile_id"], "prof_42")
+        self.assertEqual(req["body"]["language"], "ko")
+
+
 if __name__ == "__main__":
     import unittest
 

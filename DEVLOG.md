@@ -1,6 +1,6 @@
 <!--
 tier: 3
-last_synced_with: v0.14.0
+last_synced_with: v0.14.1
 ssot_for: [development-log]
 depends_on: [CHANGELOG.md]
 last_review: 2026-05-24
@@ -22,6 +22,24 @@ last_review: 2026-05-24
 - 결과:  …
 - 연관:  AP-번호, 이슈, PR 번호 등
 ```
+
+---
+
+## 2026-05-24 v0.14.1 — Voicebox 백엔드 파이프라인 통합 검증 (mock 서버)
+
+- **무엇을**: "우리 파이프라인 상에서 작동되게 할 수 있어?" 요구. 실제 Voicebox 합성은
+  이 환경에서 불가(HF 차단+미설치)하지만, 우리 통합 경로를 Voicebox-모양 mock HTTP
+  서버(`_MockVoiceboxServer`, 스레드 ThreadingHTTPServer)로 실 소켓 검증.
+- **왜**: stub(엔진 미접촉)만으로는 HTTP 어댑터의 실제 동작(httpx POST, content-type 분기,
+  바이트/JSON 응답 처리, wav 길이측정, 요청 계약)을 못 본다. 신경망만 Voicebox 몫이고
+  나머지 배선은 여기서 증명 가능.
+- **어떻게**: mock 이 `POST /generate {text,profile_id,language}` 를 받아 무음 wav 를
+  audio/wav 또는 JSON+base64 로 반환. build-audio --backend voicebox 가 양쪽을 처리해
+  audio_manifest+wav 를 만들고, 요청 본문이 문서 계약과 일치함을 assert.
+- **결과**: 272 테스트 통과(voicebox 통합 3종 추가). 우리 쪽은 "Voicebox 가 뜨면 바로
+  작동" 상태. 사용자 측 차단요인은 Voicebox 앱 미실행(localhost:17493 연결거부) — 앱
+  설치·실행 후 /docs 로 응답 포맷 확정 시 어댑터 미세조정만 남음.
+- **연관**: CHANGELOG v0.14.1, tests/test_audio_flow.py.
 
 ---
 
