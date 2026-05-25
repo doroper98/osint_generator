@@ -66,6 +66,7 @@ def _valid_bundle() -> dict:
             }
         ],
         "map": {
+            "id": "map-1",
             "center": [127.05, 37.0],
             "zoom": 6.5,
             "markers": [{"id": "mk-1", "name": "평택", "lng": 127.11, "lat": 37.0, "highlight": True}],
@@ -168,6 +169,19 @@ class TestReportBundleModel(unittest.TestCase):
         raw["charts"][0]["data"] = {"arbitrary": ["shape", 1, 2]}
         bundle = ReportBundle.model_validate(raw)
         self.assertEqual(bundle.charts[0].data, {"arbitrary": ["shape", 1, 2]})
+
+    def test_map_ref_resolves_to_map_id(self) -> None:
+        raw = _valid_bundle()
+        raw["sections"][0]["map_ref"] = "map-1"  # map.id 와 일치 → resolve
+        bundle = ReportBundle.model_validate(raw)
+        self.assertEqual(bundle.sections[0].map_ref, "map-1")
+        self.assertEqual(bundle.map.id, "map-1")
+
+    def test_dangling_map_ref_rejected(self) -> None:
+        raw = _valid_bundle()
+        raw["sections"][0]["map_ref"] = "map-nope"
+        with self.assertRaises(ValueError):
+            ReportBundle.model_validate(raw)
 
     def test_minimal_bundle_optionals_absent(self) -> None:
         # map/signals/contradictions/confidence 통째 absent 도 통과(지리 없는 보고서).

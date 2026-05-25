@@ -952,6 +952,7 @@ class BundleMapLegend(BaseModel):
 class BundleMap(BaseModel):
     model_config = ConfigDict(extra="forbid", use_enum_values=True)
 
+    id: str = ""
     center: list[float] = Field(default_factory=list)
     zoom: float = 0.0
     markers: list[BundleMapMarker] = Field(default_factory=list)
@@ -1074,8 +1075,9 @@ class ReportBundle(VersionedModel):
 
         chart_ids = {c.chart_id for c in self.charts}
         claim_ids = {c.claim_id for c in self.claims}
-        # map_ref 는 단일 map 객체에 id 필드가 없어 현재 계약상 resolve 대상이 아니다
-        # (seam 갭으로 producer 에 보고됨) → 강제하지 않는다.
+        # 계약 v1 보정: 보고서당 map 은 단일 객체 + id. section.map_ref 는 그 map.id 로
+        # resolve 하거나 null (다중 지도는 회피 — speculative generality).
+        map_id = self.map.id if self.map is not None else None
         for s in self.sections:
             bad = [r for r in s.chart_refs if r not in chart_ids]
             if bad:
@@ -1083,6 +1085,11 @@ class ReportBundle(VersionedModel):
             bad = [r for r in s.claim_refs if r not in claim_ids]
             if bad:
                 raise ValueError(f"section {s.section_id} 의 미해결 claim_refs: {bad}")
+            if s.map_ref is not None and s.map_ref != map_id:
+                raise ValueError(
+                    f"section {s.section_id} 의 미해결 map_ref: {s.map_ref} "
+                    f"(map.id={map_id})"
+                )
         for c in self.claims:
             bad = [r for r in c.chart_refs if r not in chart_ids]
             if bad:

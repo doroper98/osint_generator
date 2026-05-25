@@ -1,6 +1,6 @@
 <!--
 tier: 3
-last_synced_with: v0.18.0
+last_synced_with: v0.18.1
 ssot_for: [release-notes]
 depends_on: [README.md, GOAL.md]
 last_review: 2026-05-23
@@ -25,6 +25,21 @@ released 항목은 **append-only**입니다.
 
 ### Fixed
 -
+
+---
+
+## [v0.18.1] — 2026-05-25
+
+**외부 계약 v1 draft 보정 동기화 — map.id + section.map_ref resolve**. seam 에서 보고한
+`map_ref` 미해소 갭을 agents_reviewer 가 "단일 map + id" 로 확정(정본 계약 보정) → 우리
+수신 mirror 반영.
+
+### Changed
+
+- **`schemas/models.py`** — `BundleMap.id` 필드 추가. `ReportBundle` model_validator 에
+  `section.map_ref → map.id` resolve 검증 추가(보고서당 단일 map, 다중 지도 회피).
+- **`tests/test_bundle_flow.py`** — map_ref resolve / dangling map_ref 거부 테스트(304 통과).
+- 계약 schema_version 무증분(draft 보정, 양측 합의).
 
 ---
 

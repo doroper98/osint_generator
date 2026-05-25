@@ -1,6 +1,6 @@
 <!--
 tier: 3
-last_synced_with: v0.18.0
+last_synced_with: v0.18.1
 ssot_for: [development-log]
 depends_on: [CHANGELOG.md]
 last_review: 2026-05-24
@@ -22,6 +22,21 @@ last_review: 2026-05-24
 - 결과:  …
 - 연관:  AP-번호, 이슈, PR 번호 등
 ```
+
+---
+
+## 2026-05-25 v0.18.1 — 외부 계약 v1 draft 보정 동기화 (map.id + map_ref resolve)
+
+- **무엇을**: `BundleMap.id` 필드 + `section.map_ref → map.id` resolve 검증 추가. 테스트 2종.
+- **왜**: v0.18.0 seam 에서 보고한 구조적 갭 — 번들 `map` 은 단일 객체인데 id 가 없어
+  `section.map_ref="m-1"` 이 resolve 안 됐다. agents_reviewer 가 "단일 map + id"(예: "map-1")로
+  계약 정본을 보정(A안 list[Map]·B안 bool 둘 다 회피 — 다중 지도 speculative generality 회피 +
+  §8 균일 ref 모델 보존)했고, 우리 수신 mirror 를 동기화.
+- **어떻게**: map.id 추가, validator 에 map_ref→map.id resolve(null 허용) 강제. 계약
+  schema_version 무증분(draft 보정, 양측 합의). PATCH.
+- **결과**: 304 테스트 통과(신규 2: map_ref resolve / dangling 거부). 보정된 예시 번들
+  resolve 확인.
+- **연관**: 계약 v1(agents_reviewer repo, commit 37416d4), CHANGELOG v0.18.1, docs/05 §3.4g.
 
 ---
 
