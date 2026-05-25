@@ -8,6 +8,7 @@ import {
   useCurrentFrame,
   useVideoConfig,
 } from "remotion";
+import { MapView, MapData } from "./MapView";
 
 export const FPS = 30;
 export const WIDTH = 1920;
@@ -27,6 +28,7 @@ export type Scene = {
   caption: string;
   narration: string;
   subtitleCues?: SubtitleCue[];
+  mapData?: MapData | null;
   label: string | null;
   sourceLinkRequired: boolean;
   // 화면 상단 출처 표기(있을 때만). 소스 본문 배선 전엔 빈 문자열.
@@ -78,6 +80,7 @@ const Slide: React.FC<{ scene: Scene }> = ({ scene }) => {
     extrapolateRight: "clamp",
   });
   const isQuote = Boolean(scene.isQuote);
+  const hasMap = Boolean(scene.mapData && (scene.mapData.markers?.length ?? 0) > 0);
   const takeaway = scene.caption
     ? isQuote
       ? `“${scene.caption}”` // “ ”
@@ -156,27 +159,55 @@ const Slide: React.FC<{ scene: Scene }> = ({ scene }) => {
         </div>
       ) : null}
 
-      {/* 중앙: key takeaway (화면엔 핵심만) */}
-      <AbsoluteFill
-        style={{
-          justifyContent: "center",
-          alignItems: "center",
-          padding: "180px 220px 320px",
-          opacity,
-        }}
-      >
-        <div
+      {/* 중앙: 지도(있으면) + key takeaway. 지도가 있으면 caption 은 제목으로 축소. */}
+      {hasMap ? (
+        <AbsoluteFill
           style={{
-            fontSize: 96,
-            fontWeight: 800,
-            lineHeight: 1.22,
-            textAlign: "center",
-            color: isQuote ? ACCENT : "#f5f7fa",
+            flexDirection: "column",
+            justifyContent: "center",
+            alignItems: "center",
+            paddingTop: 150,
+            paddingBottom: 280,
+            opacity,
           }}
         >
-          {takeaway}
-        </div>
-      </AbsoluteFill>
+          <div
+            style={{
+              fontSize: 52,
+              fontWeight: 800,
+              lineHeight: 1.25,
+              textAlign: "center",
+              maxWidth: 1500,
+              marginBottom: 20,
+              color: isQuote ? ACCENT : "#f5f7fa",
+            }}
+          >
+            {takeaway}
+          </div>
+          <MapView data={scene.mapData as MapData} width={1360} height={600} />
+        </AbsoluteFill>
+      ) : (
+        <AbsoluteFill
+          style={{
+            justifyContent: "center",
+            alignItems: "center",
+            padding: "180px 220px 320px",
+            opacity,
+          }}
+        >
+          <div
+            style={{
+              fontSize: 96,
+              fontWeight: 800,
+              lineHeight: 1.22,
+              textAlign: "center",
+              color: isQuote ? ACCENT : "#f5f7fa",
+            }}
+          >
+            {takeaway}
+          </div>
+        </AbsoluteFill>
+      )}
 
       {/* 하단 자막 바: 전체 나레이션 (인용이면 강조색 + 「」) */}
       {subtitle ? (

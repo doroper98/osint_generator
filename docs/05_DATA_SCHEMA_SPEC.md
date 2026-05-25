@@ -1,6 +1,6 @@
 <!--
 tier: 2
-last_synced_with: v0.22.0
+last_synced_with: v0.23.0
 ssot_for: [json-contracts-overview]
 depends_on: [../schemas/models.py]
 last_review: 2026-05-23
@@ -229,6 +229,11 @@ project_dir + `staticFile` 로 참조). audio_manifest 가 있으면 startSec/du
 영상 문법(v0.19.0): 화면엔 **key takeaway(caption)만 중앙**에 크게, **전체 나레이션은 하단
 자막 바**, 좌상단 브랜드 / 상단 출처 / 우상단 검증 라벨 배지. 인용(`isQuote`)은 테마 강조색 +
 인용부호로 명확히 구분. Remotion `Briefing` 컴포지션이 SSOT.
+
+`mapData`(`RenderMap`: center/zoom/markers/arcs, v0.23.0 Phase B): scene 의 claim_refs 에
+bundle map id 가 있으면 붙는다. Remotion `MapView`(d3-geo + world-atlas)가 중앙에 지도를
+재렌더(마커·arc·highlight)하고 caption 은 제목으로 축소. 차트(line/bubble 등)는 추후 SVG
+passthrough.
 
 ### 3.4f `AudioManifest` (Phase 8 TTS, 수직 슬라이스 V4)
 

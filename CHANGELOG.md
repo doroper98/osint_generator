@@ -1,6 +1,6 @@
 <!--
 tier: 3
-last_synced_with: v0.22.1
+last_synced_with: v0.23.0
 ssot_for: [release-notes]
 depends_on: [README.md, GOAL.md]
 last_review: 2026-05-23
@@ -25,6 +25,32 @@ released 항목은 **append-only**입니다.
 
 ### Fixed
 -
+
+---
+
+## [v0.23.0] — 2026-05-25
+
+**② 지도 비주얼 (Phase B) — bundle map 을 d3-geo 로 재렌더**. geo 번들의 지도(마커·arc)를
+영상 중앙에 그린다. 비주얼↔scene 배치는 claim_refs 로 보존(차트/지도를 claim 으로 합성한
+결과)되어, map id 를 참조하는 scene 에만 지도가 붙는다.
+
+### Added
+
+- **`schemas/models.py`** — `RenderMap`/`RenderMapMarker`/`RenderMapArc` +
+  `RenderSceneProps.mapData`. (additive)
+- **`orchestrator/bundle_io.py`** — `persist_report_bundle`/`load_persisted_bundle`
+  (받은 bundle 사본을 `04_research/report_bundle.json` 으로). import-bundle 이 영속화.
+- **`orchestrator/render_io.py`** — bundle.map → RenderMap 변환 + scene 의 claim_refs 에
+  map id 가 있으면 `mapData` attach.
+- **`remotion/src/MapView.tsx`** (신규) — d3-geo(geoMercator) + world-atlas(npm, 런타임
+  fetch 없음) 베이스맵 + 마커(라벨/highlight) + arc(곡선·강조). markers fitExtent 투영.
+- **`remotion/src/Briefing.tsx`** — mapData 있으면 중앙에 지도, caption 은 제목으로 축소.
+- **`remotion/`** — d3-geo / topojson-client / world-atlas 의존성 추가.
+
+### Notes
+
+- 차트(line/bubble/gantt 등)는 agents_reviewer 의 `prerendered_svg`(v5.5.0 엔 null) 도착 후
+  SVG passthrough 로. 지도는 타입이 하나라 재렌더가 합리적이라 먼저 구현.
 
 ---
 

@@ -31,6 +31,33 @@ from schemas.models import (
 )
 
 
+def persisted_bundle_path(project_id: str, cfg=None) -> Path:
+    """받은 bundle 의 영속 사본 경로 (`04_research/report_bundle.json`). render_io 가
+    차트/지도 지오데이터를 scene 에 붙일 때 읽는다.
+    """
+    from orchestrator.research_io import research_dir
+
+    return research_dir(project_id, cfg) / "report_bundle.json"
+
+
+def persist_report_bundle(project_id: str, bundle: ReportBundle, cfg=None) -> Path:
+    """받은 bundle 을 `04_research/report_bundle.json` 으로 영속화(tmp→replace)."""
+    path = persisted_bundle_path(project_id, cfg)
+    path.parent.mkdir(parents=True, exist_ok=True)
+    tmp = path.with_suffix(".json.tmp")
+    tmp.write_text(bundle.model_dump_json(indent=2), encoding="utf-8")
+    tmp.replace(path)
+    return path
+
+
+def load_persisted_bundle(project_id: str, cfg=None) -> ReportBundle:
+    """`04_research/report_bundle.json` → ReportBundle. 없으면 FileNotFoundError."""
+    path = persisted_bundle_path(project_id, cfg)
+    if not path.exists():
+        raise FileNotFoundError(f"report_bundle.json 영속 사본이 없습니다: {path}")
+    return ReportBundle.model_validate(json.loads(path.read_text(encoding="utf-8")))
+
+
 def load_report_bundle(path: Path) -> ReportBundle:
     """report_bundle.json 을 로드 → `ReportBundle` (fail-closed 검증).
 
@@ -247,4 +274,11 @@ def bundle_to_research_dossier(bundle: ReportBundle, project_id: str) -> Researc
     )
 
 
-__all__ = ["load_report_bundle", "bundle_to_research_dossier", "bundle_to_source_registry"]
+__all__ = [
+    "load_report_bundle",
+    "persist_report_bundle",
+    "load_persisted_bundle",
+    "persisted_bundle_path",
+    "bundle_to_research_dossier",
+    "bundle_to_source_registry",
+]

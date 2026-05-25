@@ -604,6 +604,42 @@ class SubtitleCue(BaseModel):
     durationSec: float
 
 
+class RenderMapMarker(BaseModel):
+    """지도 마커(좌표 핀). Remotion MapView 가 d3-geo 투영으로 화면 좌표로 그린다."""
+
+    model_config = ConfigDict(extra="forbid")
+
+    id: str
+    name: str = ""
+    lng: float
+    lat: float
+    highlight: bool = False
+
+
+class RenderMapArc(BaseModel):
+    """마커 간 흐름선(arc). fromId/toId 는 marker id. TS 친화 camelCase."""
+
+    model_config = ConfigDict(extra="forbid")
+
+    fromId: str
+    toId: str
+    label: str = ""
+    highlight: bool = False
+
+
+class RenderMap(BaseModel):
+    """scene 중앙에 그릴 지도 지오데이터(bundle.map 에서 유래). Phase B — 우리가 d3-geo 로
+    재렌더해 마커·arc 배치·애니를 제어한다(차트와 달리 지도는 타입이 하나라 재렌더가 합리적).
+    """
+
+    model_config = ConfigDict(extra="forbid")
+
+    center: list[float] = Field(default_factory=list)  # [lng, lat]
+    zoom: float = 0.0
+    markers: list[RenderMapMarker] = Field(default_factory=list)
+    arcs: list[RenderMapArc] = Field(default_factory=list)
+
+
 class RenderSceneProps(BaseModel):
     """Remotion 컴포지션이 읽는 scene 1개 props. 필드명은 TS 친화 camelCase.
 
@@ -628,6 +664,9 @@ class RenderSceneProps(BaseModel):
     # 이 scene 의 on-screen 텍스트가 인용(누군가의 발언/quote)인지. True 면 강조색 +
     # 인용부호로 렌더(영상 문법 ③). pull_quote/evidence quote 출처일 때 set.
     isQuote: bool = False
+    # 이 scene 이 지도 비주얼을 가질 때(claim_refs 에 bundle map id 포함) 지오데이터. Phase B.
+    # 있으면 중앙에 지도를 그리고 caption 은 제목으로 축소된다.
+    mapData: Optional[RenderMap] = None
     # 나레이션 wav 의 project_dir 기준 상대경로 (audio_manifest 가 있을 때). Remotion 은
     # --public-dir 를 project_dir 로 두고 staticFile(audioPath) 로 참조한다. 무음이면 None.
     audioPath: Optional[str] = None

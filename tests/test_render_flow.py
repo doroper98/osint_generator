@@ -108,6 +108,64 @@ class TestSceneSourceCitation(unittest.TestCase):
         self.assertEqual(props.scenes[0].source, "")
 
 
+class TestSceneMapAttach(unittest.TestCase):
+    def test_map_attaches_to_scene_referencing_map_id(self) -> None:
+        from orchestrator.render_io import build_render_props
+        from orchestrator.scene_builder import build_scene_manifest
+        from schemas.models import (
+            BundleMap, BundleMapArc, BundleMapMarker, BundleProducer, BundleReport,
+            FullScript as _FS, ReportBundle, ScriptChapter, ScriptSegment,
+        )
+
+        script = _FS(
+            project_id="p", title="t", topic="t",
+            chapters=[ScriptChapter(chapter_id="c", title="c")],
+            segments=[
+                ScriptSegment(segment_id="seg_01", chapter_id="c", narration="첫.",
+                              claim_refs=["map-1"], est_duration_sec=4.0),
+                ScriptSegment(segment_id="seg_02", chapter_id="c", narration="둘.",
+                              claim_refs=[], est_duration_sec=4.0),
+            ],
+        )
+        bundle = ReportBundle(
+            producer=BundleProducer(system="agents_reviewer", version="v5.5.0"),
+            report=BundleReport(report_id="r", headline="h"),
+            map=BundleMap(
+                id="map-1", center=[48.0, 32.0], zoom=4.0,
+                markers=[
+                    BundleMapMarker(id="a", name="A", lng=51.0, lat=35.0, highlight=True),
+                    BundleMapMarker(id="b", name="B", lng=35.0, lat=32.0),
+                ],
+                arcs=[BundleMapArc(from_id="a", to_id="b", highlight=True)],
+            ),
+        )
+        sm = build_scene_manifest(script)
+        props = build_render_props(sm, script, report_bundle=bundle)
+
+        s0 = props.scenes[0]
+        self.assertIsNotNone(s0.mapData)
+        self.assertEqual(len(s0.mapData.markers), 2)
+        self.assertEqual(s0.mapData.arcs[0].fromId, "a")  # from_id → fromId 변환
+        self.assertTrue(s0.mapData.arcs[0].highlight)
+        # map id 를 참조하지 않는 scene 엔 안 붙음.
+        self.assertIsNone(props.scenes[1].mapData)
+
+    def test_no_map_without_bundle(self) -> None:
+        from orchestrator.render_io import build_render_props
+        from orchestrator.scene_builder import build_scene_manifest
+        from schemas.models import FullScript as _FS, ScriptChapter, ScriptSegment
+
+        script = _FS(
+            project_id="p", title="t", topic="t",
+            chapters=[ScriptChapter(chapter_id="c", title="c")],
+            segments=[ScriptSegment(segment_id="seg_01", chapter_id="c",
+                                    narration="문장.", est_duration_sec=4.0)],
+        )
+        sm = build_scene_manifest(script)
+        props = build_render_props(sm, script)
+        self.assertIsNone(props.scenes[0].mapData)
+
+
 class TestBuildRenderPropsPure(_RenderHarness):
     def test_resolves_narration_label_and_source(self) -> None:
         script = FullScript.model_validate_json(VALID_SCRIPT_JSON)

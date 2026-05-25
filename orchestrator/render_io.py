@@ -22,14 +22,38 @@ from orchestrator.script_io import load_full_script
 from schemas.models import (
     AudioManifest,
     FullScript,
+    RenderMap,
+    RenderMapArc,
+    RenderMapMarker,
     RenderProps,
     RenderSceneProps,
+    ReportBundle,
     ResearchDossier,
     SceneManifest,
     SourceEntry,
     SourceRegistry,
     SubtitleCue,
 )
+
+
+def _bundle_map_to_render_map(bm) -> RenderMap:
+    """bundle.map (BundleMap) → RenderMap (TS 친화 필드명 변환)."""
+    return RenderMap(
+        center=list(bm.center),
+        zoom=bm.zoom,
+        markers=[
+            RenderMapMarker(
+                id=m.id, name=m.name, lng=m.lng, lat=m.lat, highlight=m.highlight
+            )
+            for m in bm.markers
+        ],
+        arcs=[
+            RenderMapArc(
+                fromId=a.from_id, toId=a.to_id, label=a.label, highlight=a.highlight
+            )
+            for a in bm.arcs
+        ],
+    )
 
 # 화면 상단 출처 표기에 노출할 최대 출처 수.
 _SCENE_SOURCE_MAX = 3
@@ -152,6 +176,7 @@ def build_render_props(
     audio_manifest: Optional[AudioManifest] = None,
     research_dossier: Optional[ResearchDossier] = None,
     source_registry: Optional[SourceRegistry] = None,
+    report_bundle: Optional[ReportBundle] = None,
     fps: int = 30,
     width: int = 1920,
     height: int = 1080,
@@ -176,6 +201,15 @@ def build_render_props(
     registry_by_id = (
         {e.source_id: e for e in source_registry.sources} if source_registry else {}
     )
+    # 지도 비주얼: bundle map 을 claim_refs 로 해당 scene 에 붙인다(비주얼↔scene 연결은
+    # claim_refs 로 보존됨 — 차트/지도를 claim 으로 합성한 결과).
+    bundle_map = (
+        report_bundle.map
+        if (report_bundle is not None and report_bundle.map is not None)
+        else None
+    )
+    map_id = bundle_map.id if bundle_map is not None else None
+    render_map = _bundle_map_to_render_map(bundle_map) if bundle_map is not None else None
 
     # 인용부호가 들어간 caption 은 인용(quote)으로 표기 (영상 문법 ③). 정식 인용 마킹
     # (ScriptSegment 필드 / bundle pull_quote)이 생기기 전의 휴리스틱.
@@ -189,6 +223,9 @@ def build_render_props(
         narration = " ".join(s.narration for s in segs).strip()
         label = next((s.label for s in segs if s.label), None)
         is_quote = any(m in scene.caption for m in quote_marks)
+        # 이 scene 의 segment claim_refs 에 map id 가 있으면 지도 attach.
+        scene_claim_refs = {r for s in segs for r in s.claim_refs}
+        scene_map = render_map if (map_id is not None and map_id in scene_claim_refs) else None
 
         # 이 scene 에 대응하는 오디오 (세그먼트 전부가 audio_manifest 에 있을 때만 사용).
         audio_segs = [audio_by_seg[sid] for sid in seg_ids if sid in audio_by_seg]
@@ -217,6 +254,7 @@ def build_render_props(
                 sourceLinkRequired=scene.source_link_required,
                 source=_scene_source_citation(segs, claims_by_id, registry_by_id),
                 isQuote=is_quote,
+                mapData=scene_map,
                 audioPath=audio_path,
             )
         )
@@ -306,9 +344,18 @@ def build_and_persist_render_props(
         source_registry = load_source_registry(project_id, cfg)
     except (FileNotFoundError, json.JSONDecodeError, ValueError):
         source_registry = None
+    # 지도 지오데이터용 받은 bundle 사본 (외부 연동 경로에서만 존재).
+    report_bundle = None
+    try:
+        from orchestrator.bundle_io import load_persisted_bundle
+
+        report_bundle = load_persisted_bundle(project_id, cfg)
+    except (FileNotFoundError, json.JSONDecodeError, ValueError):
+        report_bundle = None
     props = build_render_props(
         scene_manifest, script, audio_manifest=audio_manifest,
         research_dossier=research_dossier, source_registry=source_registry,
+        report_bundle=report_bundle,
         fps=fps, width=width, height=height,
     )
     path = persist_render_props(project_id, props, cfg)

@@ -17,6 +17,7 @@ from orchestrator.bundle_io import (
     bundle_to_research_dossier,
     bundle_to_source_registry,
     load_report_bundle,
+    persist_report_bundle,
 )
 from orchestrator.config import AppConfig, load_config
 from orchestrator.project_manager import resume_project, transition_state
@@ -90,6 +91,12 @@ def import_report_bundle(
         persist_source_registry(
             project_id, bundle_to_source_registry(bundle, project_id), cfg
         )
+    except OSError:
+        pass
+
+    # 차트/지도 지오데이터를 render 단계에서 scene 에 붙이기 위해 받은 bundle 사본 영속화.
+    try:
+        persist_report_bundle(project_id, bundle, cfg)
     except OSError:
         pass
 

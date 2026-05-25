@@ -1,6 +1,6 @@
 <!--
 tier: 3
-last_synced_with: v0.22.1
+last_synced_with: v0.23.0
 ssot_for: [development-log]
 depends_on: [CHANGELOG.md]
 last_review: 2026-05-24
@@ -22,6 +22,27 @@ last_review: 2026-05-24
 - 결과:  …
 - 연관:  AP-번호, 이슈, PR 번호 등
 ```
+
+---
+
+## 2026-05-25 v0.23.0 — ② 지도 비주얼 (Phase B): bundle map 을 d3-geo 로 재렌더
+
+- **무엇을**: RenderMap 모델 + bundle 사본 영속화 + render_io 의 map attach + Remotion
+  MapView(d3-geo) + Briefing 통합 + 테스트.
+- **왜**: 영상이 텍스트 슬라이드뿐이라 지도/차트가 없었음(사용자 목표 = 직관적 비주얼).
+  geo 번들엔 실제 지도(테헤란/이스파한/호르무즈 + 공격축)가 있어 먼저 지도부터.
+- **어떻게**: 핵심 발견 — 차트/지도를 v0.20.0 에서 claim 으로 합성한 덕에 ScriptWorker 가
+  claim_refs 로 참조(seg_03→map-1) → 비주얼↔scene 배치가 보존됨. import-bundle 이 받은
+  bundle 을 04_research/report_bundle.json 으로 영속화 → render_io 가 map id 를 참조하는
+  scene 에 RenderMap attach(from_id→fromId 변환). MapView 는 geoMercator.fitExtent(마커 전체
+  표시) + world-atlas(npm 번들, 런타임 fetch 없음 — remotion.media 차단 우회) 베이스맵 +
+  마커(라벨·highlight) + arc(곡선·강조색). mapData 있으면 caption 은 제목으로 축소.
+- **결과**: 319 통과(신규 2). **실물 geo seg_03 프레임 렌더 확인** — 중동 지형 + 마커 5
+  (이스파한/호르무즈 강조) + 텔아비브→이스파한 공격축 arc(강조색) + 제목 + <추론> 배지 +
+  하단 자막. 레퍼런스(날리지식) 지도 스타일과 일치.
+- **다음**: 차트는 agents_reviewer prerendered_svg(v5.5.0 null) 도착 후 SVG passthrough.
+  forced-alignment 백엔드 → ③ 자동 캐치.
+- **연관**: CHANGELOG v0.23.0, docs/05 §3.4e.
 
 ---
 
