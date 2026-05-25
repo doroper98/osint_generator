@@ -1,6 +1,6 @@
 <!--
 tier: 3
-last_synced_with: v0.23.0
+last_synced_with: v0.23.1
 ssot_for: [release-notes]
 depends_on: [README.md, GOAL.md]
 last_review: 2026-05-23
@@ -25,6 +25,18 @@ released 항목은 **append-only**입니다.
 
 ### Fixed
 -
+
+---
+
+## [v0.23.1] — 2026-05-25
+
+**보류 작업 추적 (docs-only)**. 사용자가 순서를 미룬 작업(forced-alignment, ③ 자동 캐치,
+차트 SVG 대기)을 HANDOFF 상단에 박아 세션 재개 시 상기되도록.
+
+### Changed
+
+- **`HANDOFF.md`** — 상단에 "⏳ 다음 할 일 (사용자 보류)" 블록 추가 + last_synced_with
+  v0.3.3→v0.23.1. 세션이 바뀌어도(컨테이너 재생성) 보류 작업이 유실되지 않게 영속화.
 
 ---
 

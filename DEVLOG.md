@@ -1,6 +1,6 @@
 <!--
 tier: 3
-last_synced_with: v0.23.0
+last_synced_with: v0.23.1
 ssot_for: [development-log]
 depends_on: [CHANGELOG.md]
 last_review: 2026-05-24
@@ -22,6 +22,18 @@ last_review: 2026-05-24
 - 결과:  …
 - 연관:  AP-번호, 이슈, PR 번호 등
 ```
+
+---
+
+## 2026-05-25 v0.23.1 — 보류 작업 추적 (HANDOFF 상단 박음)
+
+- **무엇을**: HANDOFF.md 상단에 "⏳ 다음 할 일(사용자 보류)" 블록 추가.
+- **왜**: 사용자가 "3(Windows 실음성 검증) 먼저, 1(forced-alignment)·2(자동 캐치)는 나중"으로
+  순서를 미루며 "까먹어도 알려달라"고 함. 세션 메모리는 컨테이너 재생성 시 초기화되므로,
+  말 약속이 아니라 저장소 문서(다음 세션이 가장 먼저 읽는 HANDOFF)에 박아 durable 화.
+- **결과**: forced-alignment / ③ 자동 캐치 / 차트 SVG 대기 / Windows 검증을 추적. 처리 시
+  DEVLOG 반영 후 블록에서 제거.
+- **연관**: CHANGELOG v0.23.1.
 
 ---
 

@@ -1,6 +1,6 @@
 <!--
 tier: 1
-last_synced_with: v0.3.3
+last_synced_with: v0.23.1
 ssot_for: [session-handoff]
 depends_on: [CLAUDE.md, GOAL.md, VERSION, docs/13_IMPLEMENTATION_ROADMAP.md, docs/REVIEW_PROMPT.md]
 last_review: 2026-05-22
@@ -10,6 +10,30 @@ last_review: 2026-05-22
 
 본 문서는 **다음 Claude Code 세션이 작업을 이어받을 때 가장 먼저 읽어야 할 문서**입니다.
 짧고 행동 지향적으로 유지합니다. 과거 항목은 `DEVLOG.md` 가, 미래 항목은 `docs/13_IMPLEMENTATION_ROADMAP.md` 가 정식 SSOT 입니다.
+
+---
+
+## ⏳ 다음 할 일 (사용자가 명시적으로 보류 — 까먹지 말고 먼저 상기시킬 것)
+
+> agents_reviewer 외부 연동 슬라이스 진행 중(v0.18~0.23). 아래는 **사용자가 순서를 미룬**
+> 작업이다. 세션 재개 시 **사용자에게 이 목록을 먼저 상기**시켜라.
+
+1. **forced-alignment (자막 정밀 싱크)** — 현재 자막 큐 타이밍은 글자수 비례 추정
+   (`render_io.split_subtitle_cues`). 정밀 싱크는 교체형 백엔드(TTS 패턴, `OSINT_ALIGN_*`)
+   + 비례 폴백으로. **실제 음성 + 정렬 모델은 사용자 Windows 머신에서만**(이 클라우드는
+   음성=stub + huggingface 차단). → 사용자가 "나중에(1)".
+2. **③ 자동 캐치 트리거** — 지금은 수동(`import-bundle --file`). agents_reviewer 가
+   `--bundle` 로 Pages 에 올린 새 번들을 감시→자동 import 하는 워처 CLI + push 알림 설계.
+   상시 데몬/실행 위치 결정 필요. → 사용자가 "나중에(2)".
+3. **차트 비주얼 (지도는 v0.23.0 완료, 차트는 보류)** — line/bubble/gantt 등은
+   agents_reviewer 의 `prerendered_svg` 가 **v5.5.0 엔 null**(fast-follow)이라 막힘. SVG
+   도착 후 범용 SVG passthrough 컴포넌트로. → **사용자가 agents_reviewer 에 "SVG 채우기"
+   요청해야 풀림**.
+4. **(사용자 액션) Windows 실제 음성 풀 렌더 검증** — 이 클라우드는 stub(무음)이라 지도+
+   자막+실제 음성이 함께 도는 영상을 사용자가 본 적 없음. 브랜치 pull → `build-audio
+   --backend elevenlabs` + `render-debug` 로 확인 (현재 사용자가 이걸 먼저 하는 중).
+
+(이 블록은 v0.23.0 기준 최신. 처리되면 DEVLOG 에 반영하고 본 블록에서 제거.)
 
 ---
 
