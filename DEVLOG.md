@@ -1,6 +1,6 @@
 <!--
 tier: 3
-last_synced_with: v0.28.0
+last_synced_with: v0.29.0
 ssot_for: [development-log]
 depends_on: [CHANGELOG.md]
 last_review: 2026-05-24
@@ -24,6 +24,20 @@ last_review: 2026-05-24
 ```
 
 ---
+
+## 2026-05-25 v0.29.0 — Visual Skin 1차: Aurora Glass Card (영상미 표면 처리)
+
+- **무엇을**: AuroraGlassCard 공용 컴포넌트 + 브랜드/배지/자막 바에 적용.
+- **왜**: ChatGPT 피드백 — 영상미는 차트 선보다 패널·카드·콜아웃·자막·배지의 표면 처리에서
+  크게 나온다. C0(영상미)의 구체적 HOW. 핵심은 절제(본체 차분, 강조만 럭셔리).
+- **어떻게**: 다크 글래스 fill + 오로라 그라데이션 보더(conic) + frame 구동 회전(엣지
+  하이라이트, 프레임 정확) + soft bloom. CSS 키프레임 대신 frame 으로 각도 구동(결정론).
+  차트/지도 본체엔 적용 안 함(축·격자 glow 금지). 화면당 글로우 카드 3개 수준으로 제한.
+- **결과**: 호르무즈 line 차트 scene 프레임으로 확인 — 브랜드/배지/자막이 글래스 카드, 차트는
+  깔끔. "다크 럭셔리 OSINT 브리핑" 미감. python 변경 없음(328 통과 유지).
+- **다음(스테이징)**: 차트 내 이벤트 콜아웃 카드, title glow, surface 프리셋/토큰, scene
+  surfaceEffect, 프롬프트 규칙, 스타일 가이드 문서. 거친 부분 반복 다듬기.
+- **연관**: C0/G0, CHANGELOG v0.29.0.
 
 ## 2026-05-25 v0.28.0 — forced-alignment 스캐폴드 (자막 음성 정밀 싱크)
 

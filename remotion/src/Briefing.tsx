@@ -10,6 +10,7 @@ import {
 } from "remotion";
 import { MapView, MapData } from "./MapView";
 import { ChartView, ChartData } from "./ChartView";
+import { AuroraGlassCard } from "./AuroraGlassCard";
 
 export const FPS = 30;
 export const WIDTH = 1920;
@@ -111,19 +112,13 @@ const Slide: React.FC<{ scene: Scene }> = ({ scene }) => {
 
   return (
     <AbsoluteFill style={{ backgroundColor: BG, color: "#f5f7fa", fontFamily: "sans-serif" }}>
-      {/* 좌상단 브랜드 */}
-      <div
-        style={{
-          position: "absolute",
-          top: 56,
-          left: 64,
-          fontSize: 34,
-          fontWeight: 700,
-          letterSpacing: 3,
-          color: "rgba(245,247,250,0.42)",
-        }}
-      >
-        {BRAND}
+      {/* 좌상단 브랜드 — 절제된 글래스 태그(글로우 약하게) */}
+      <div style={{ position: "absolute", top: 48, left: 56 }}>
+        <AuroraGlassCard radius={10} padding="8px 20px" glow={false} sweepSec={14}>
+          <span style={{ fontSize: 30, fontWeight: 700, letterSpacing: 3, color: "rgba(245,247,250,0.78)" }}>
+            {BRAND}
+          </span>
+        </AuroraGlassCard>
       </div>
 
       {/* 상단 출처 표기 (있을 때만) */}
@@ -144,22 +139,17 @@ const Slide: React.FC<{ scene: Scene }> = ({ scene }) => {
         </div>
       ) : null}
 
-      {/* 우상단 검증 라벨 배지 */}
+      {/* 우상단 검증 라벨 배지 — 글래스 카드 + 라벨 색 점/텍스트 */}
       {scene.label ? (
-        <div
-          style={{
-            position: "absolute",
-            top: 52,
-            right: 64,
-            backgroundColor: LABEL_COLOR[scene.label] ?? "#888888",
-            color: "#10131a",
-            padding: "12px 28px",
-            borderRadius: 10,
-            fontSize: 40,
-            fontWeight: 800,
-          }}
-        >
-          {scene.label}
+        <div style={{ position: "absolute", top: 48, right: 60 }}>
+          <AuroraGlassCard radius={12} padding="10px 22px" sweepSec={11}>
+            <span style={{ display: "flex", alignItems: "center", gap: 12 }}>
+              <span style={{ width: 16, height: 16, borderRadius: 8, background: LABEL_COLOR[scene.label] ?? "#888888" }} />
+              <span style={{ fontSize: 38, fontWeight: 800, color: LABEL_COLOR[scene.label] ?? "#cdd4df" }}>
+                {scene.label}
+              </span>
+            </span>
+          </AuroraGlassCard>
         </div>
       ) : null}
 
@@ -222,24 +212,16 @@ const Slide: React.FC<{ scene: Scene }> = ({ scene }) => {
         <div
           style={{
             position: "absolute",
-            bottom: 70,
+            bottom: 64,
             left: 0,
             right: 0,
             display: "flex",
             justifyContent: "center",
-            padding: "0 140px",
+            padding: "0 130px",
+            opacity: cueOpacity,
           }}
         >
-          <div
-            style={{
-              backgroundColor: "rgba(8,11,16,0.82)",
-              borderRadius: 14,
-              padding: "22px 44px",
-              maxWidth: 1480,
-              borderLeft: isQuote ? `8px solid ${ACCENT}` : "none",
-              opacity: cueOpacity,
-            }}
-          >
+          <AuroraGlassCard radius={16} padding="22px 46px" maxWidth={1520} accentBar={isQuote ? ACCENT : undefined}>
             <span
               style={{
                 fontSize: 42,
@@ -250,7 +232,7 @@ const Slide: React.FC<{ scene: Scene }> = ({ scene }) => {
             >
               {subtitle}
             </span>
-          </div>
+          </AuroraGlassCard>
         </div>
       ) : null}
     </AbsoluteFill>

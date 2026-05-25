@@ -1,6 +1,6 @@
 <!--
 tier: 3
-last_synced_with: v0.28.0
+last_synced_with: v0.29.0
 ssot_for: [release-notes]
 depends_on: [README.md, GOAL.md]
 last_review: 2026-05-23
@@ -27,6 +27,25 @@ released 항목은 **append-only**입니다.
 -
 
 ---
+
+## [v0.29.0] — 2026-05-25
+
+**Visual Skin 1차 — Aurora Glass Card (영상미 C0, ChatGPT 피드백 반영)**. 카드 표면 처리로
+"다크 럭셔리 OSINT 브리핑" 미감. 절제 원칙(본체 차분, 강조 레이어만 럭셔리).
+
+### Added
+
+- **`remotion/src/AuroraGlassCard.tsx`**(신규) — 다크 glassmorphism fill + 얇은 오로라
+  그라데이션 보더(블루·바이올렛·마젠타·샴페인) + 느린 엣지 하이라이트(frame 구동 회전 →
+  프레임 정확) + soft bloom. CSS 키프레임 미사용(결정론).
+- **`remotion/src/Briefing.tsx`** — 브랜드 태그 / `<추론>` 배지(색 점+텍스트) / 하단 자막
+  바를 AuroraGlassCard 로 교체. **차트·지도 본체는 그대로**(축·선·격자 glow 금지 — 절제).
+
+### Notes
+
+- 후속(스테이징): 이벤트 콜아웃 카드(차트 내), title glow panel, 스타일 프리셋(surface 토큰),
+  scene 별 surfaceEffect, 프롬프트 규칙, 스타일 가이드 문서.
+- 절제 가드: 화면당 글로우 카드 3~4개, 느린 sweep, pulsing 금지(과하면 사이버펑크화).
 
 ## [v0.28.0] — 2026-05-25
 
