@@ -388,8 +388,25 @@ def build_and_persist_render_props(
         report_bundle=report_bundle,
         fps=fps, width=width, height=height,
     )
+    # forced-alignment(opt-in, OSINT_ALIGN_BACKEND): 음성이 있으면 자막 큐 타이밍을 실측으로
+    # 정밀화. 백엔드 미설정/무음/실패면 비례 큐 유지(graceful). 본 클라우드는 기본 no-op.
+    _maybe_align_subtitles(props, project_id, cfg)
     path = persist_render_props(project_id, props, cfg)
     return props, path
+
+
+def _maybe_align_subtitles(props: RenderProps, project_id: str, cfg: AppConfig) -> None:
+    from orchestrator.subtitle_align import align_cues, alignment_enabled
+
+    if not alignment_enabled():
+        return
+    pdir = project_dir(project_id, cfg)
+    for sc in props.scenes:
+        if not sc.audioPath or not sc.subtitleCues:
+            continue
+        aligned = align_cues(sc.subtitleCues, pdir / sc.audioPath)
+        if aligned:
+            sc.subtitleCues = aligned
 
 
 __all__ = [

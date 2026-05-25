@@ -1,6 +1,6 @@
 <!--
 tier: 3
-last_synced_with: v0.27.0
+last_synced_with: v0.28.0
 ssot_for: [development-log]
 depends_on: [CHANGELOG.md]
 last_review: 2026-05-24
@@ -24,6 +24,16 @@ last_review: 2026-05-24
 ```
 
 ---
+
+## 2026-05-25 v0.28.0 — forced-alignment 스캐폴드 (자막 음성 정밀 싱크)
+
+- **무엇을**: subtitle_align 모듈(교체형 백엔드 + 비례 폴백) + render_io 배선 + 테스트.
+- **왜**: 사용자 요청. 자막 타이밍을 글자수 비례 추정에서 음성 실측으로 정밀화(영상미 C0).
+- **어떻게**: OSINT_ALIGN_BACKEND=whisper 면 단어 타임스탬프로 큐 [start,dur] 교체. 미설정/
+  무음/실패는 None → 비례 폴백(파이프라인 안 깨짐). 정밀 정렬은 모델+실제음성 필요라 사용자
+  머신 전용 — 클라우드(stub 무음)는 기본 no-op.
+- **결과**: 328 통과(신규 5). 클라우드 동작 변화 없음(폴백), 사용자 머신서 whisper 붙이면 정밀.
+- **연관**: C0, CHANGELOG v0.28.0. (HANDOFF 보류항목 1 = forced-alignment 진행 시작.)
 
 ## 2026-05-25 v0.27.0 — 전 차트 family 영상용 렌더러 + 라벨 다듬기
 

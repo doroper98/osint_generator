@@ -1,6 +1,6 @@
 <!--
 tier: 3
-last_synced_with: v0.27.0
+last_synced_with: v0.28.0
 ssot_for: [release-notes]
 depends_on: [README.md, GOAL.md]
 last_review: 2026-05-23
@@ -27,6 +27,23 @@ released 항목은 **append-only**입니다.
 -
 
 ---
+
+## [v0.28.0] — 2026-05-25
+
+**forced-alignment 스캐폴드 — 자막 음성 정밀 싱크(교체형 백엔드 + 비례 폴백)**.
+
+### Added
+
+- **`orchestrator/subtitle_align.py`** — `align_cues`: 음성에 맞춰 자막 큐 [start,dur] 정밀화.
+  백엔드 env `OSINT_ALIGN_BACKEND`(none/whisper). whisper 는 단어 타임스탬프→큐 매핑(모델+실제
+  음성 필요 = 사용자 머신). 실패/미설정/무음은 모두 None(비례 폴백) — graceful.
+- **`orchestrator/render_io.py`** — `build_and_persist_render_props` 가 백엔드 설정 시 scene
+  자막 큐를 정렬로 교체(opt-in). 본 클라우드는 stub 무음이라 기본 no-op(기존 비례 큐 유지).
+- **`tests/test_subtitle_align.py`** — 백엔드 선택 + 폴백(None) 경로 5종(328 통과).
+
+### Notes
+
+- 정밀 정렬은 사용자 Windows(실제 음성 + whisper)에서만 동작. 클라우드는 항상 폴백.
 
 ## [v0.27.0] — 2026-05-25
 
