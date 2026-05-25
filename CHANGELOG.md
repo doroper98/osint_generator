@@ -1,6 +1,6 @@
 <!--
 tier: 3
-last_synced_with: v0.23.1
+last_synced_with: v0.24.0
 ssot_for: [release-notes]
 depends_on: [README.md, GOAL.md]
 last_review: 2026-05-23
@@ -25,6 +25,32 @@ released 항목은 **append-only**입니다.
 
 ### Fixed
 -
+
+---
+
+## [v0.24.0] — 2026-05-25
+
+**관대한 수신자(tolerant reader) — 진화하는 보고서 수용 + v5.5.2 timeline**. bundle 수신
+모델을 `extra="forbid"` → `extra="ignore"` 로 전환. agents_reviewer 보고서 양식이
+진화(새 top-level 블록·섹션 필드)해도 깨지지 않는다.
+
+### Fixed / Changed
+
+- **`schemas/models.py`** — bundle 모델 공용 베이스 `_BundleModel(extra="ignore")` 도입,
+  모든 Bundle* + `ReportBundle` 이 상속/적용. 모르는 필드는 무시(거부 X), 선언 필드는
+  계속 검증(타입·enum·필수·참조무결성). **v5.5.2 가 추가한 `timeline` 블록 수용**
+  (`BundleTimeline`/`BundleTimelinePoint`, 현재 보관만 — 영상 소비는 추후 타임라인 비주얼).
+- **`orchestrator/bundle_io.py`** — `load_report_bundle` 이 모델 미정의 top-level 필드를
+  로그(warning)로 surface(무시하되 인지 — 새 블록 추가를 알아채도록).
+- **근거**: 직전 `extra="forbid"` 가 v5.5.2 의 `timeline` 하나에 번들 전체를 거부 → 계약 §1
+  "additive=schema_version 무증분" 과 모순. tolerant reader 가 §1 과 정합.
+- **`tests/`** — extra-rejected 테스트를 tolerant(무시) 테스트로 교체 + timeline/섹션
+  미지필드 수용 테스트. 321 통과.
+
+### Notes
+
+- 계약 §1 문구(consumer `extra="forbid"`)는 "consumer=tolerant reader"로 갱신 권고
+  (agents_reviewer 정본 doc). 우리 consumer 가 관대해도 producer 검증은 그쪽 schemas.py 가 유지.
 
 ---
 

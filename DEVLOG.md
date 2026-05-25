@@ -1,6 +1,6 @@
 <!--
 tier: 3
-last_synced_with: v0.23.1
+last_synced_with: v0.24.0
 ssot_for: [development-log]
 depends_on: [CHANGELOG.md]
 last_review: 2026-05-24
@@ -22,6 +22,23 @@ last_review: 2026-05-24
 - 결과:  …
 - 연관:  AP-번호, 이슈, PR 번호 등
 ```
+
+---
+
+## 2026-05-25 v0.24.0 — 관대한 수신자(tolerant reader): 진화하는 보고서 수용 + v5.5.2 timeline
+
+- **무엇을**: bundle 수신 모델 `extra="forbid"` → `extra="ignore"`(공용 `_BundleModel` 베이스).
+  미지 top-level 필드 로깅. `timeline` 모델 추가. 테스트 갱신.
+- **왜**: 사용자가 v5.5.2 실물 번들을 줬는데 우리 모델이 거부. 원인 — v5.5.2 가 새 top-level
+  `timeline` 필드를 추가했고 `extra="forbid"` 가 번들 전체를 reject. 사용자가 "보고서 양식은
+  계속 진화하니 flexibility 가 필요하다" 고 정확히 지적. 게다가 forbid 는 계약 §1("additive=
+  schema_version 무증분")과 모순 — 추가 필드에 consumer 가 깨지면 안 됨.
+- **어떻게**: tolerant reader 패턴 — 받을 땐 관대(모르는 필드 무시), 쓸 땐 엄격(선언 필드는
+  타입·enum·필수·참조무결성 유지). 미지 필드는 로더가 warning 로 surface(인지). 차트
+  `data: Any`(기존 유연)에 이어 구조 전체가 진화에 견딤. timeline 은 흡수(보관, 영상 소비 추후).
+- **결과**: 321 통과. v5.5.2 실물 번들 검증 통과(timeline 수용) → 어댑터가 12 claims
+  (confirmed 4/inferred 6/disputed 2) 합성. extra-rejected 테스트는 tolerant 테스트로 교체.
+- **연관**: 계약 v1 §1(consumer=tolerant reader 로 갱신 권고), CHANGELOG v0.24.0, docs/05 §3.4g.
 
 ---
 

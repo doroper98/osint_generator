@@ -1,6 +1,6 @@
 <!--
 tier: 2
-last_synced_with: v0.23.0
+last_synced_with: v0.24.0
 ssot_for: [json-contracts-overview]
 depends_on: [../schemas/models.py]
 last_review: 2026-05-23
@@ -272,10 +272,13 @@ passthrough.
 | claims | list[`BundleClaim`] | status(=ResearchClaimStatus) 라벨 척추 단일 근거 |
 | signals / contradictions / sources / confidence | list / Optional | 관찰 신호·모순·정규화 출처·신뢰도 |
 
-핵심 규약: ① `extra="forbid"` fail-closed, ② `model_validator` 로 bundle 내 id unique +
-chart_refs/claim_refs resolve + `section.map_ref → map.id` resolve(보고서당 단일 map) 강제,
+핵심 규약: ① **관대한 수신자(tolerant reader, `extra="ignore"`)** — 진화하는 보고서의
+모르는 필드(새 top-level 블록·새 섹션 필드 등)는 무시해 추가 변경에 깨지지 않되, 선언 필드는
+타입·enum·필수 검증(소비 데이터 건전성 유지). 미지 top-level 필드는 로더가 로그로 surface
+(인지). 계약 §1 의 "additive=schema_version 무증분" 과 정합. ② `model_validator` 로 bundle 내
+id unique + chart_refs/claim_refs resolve + `section.map_ref → map.id` resolve 강제,
 ③ 차트 `data` 는 재검증하지 않음(이중 SSOT 회피), ④ `provenance.verification` 을 그대로
-신뢰(재검증 floor 없음).
+신뢰(재검증 floor 없음). 진화 수용 예: v5.5.2 가 추가한 `timeline` 블록(모델에 흡수, 보관).
 
 claims 분기(`orchestrator/bundle_io.py`): v5.5.0 real emit 은 `claims=[]`(라이브 2-call 은
 산문+차트만 생성). 이때 어댑터가 **charts/map provenance + contradictions 에서 claim 을

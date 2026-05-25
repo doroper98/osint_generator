@@ -912,25 +912,33 @@ class LLMCallRecord(VersionedModel):
 # (재검증/강등 floor 없음 — 사용자 결정).
 
 
-class BundleProducer(BaseModel):
-    model_config = ConfigDict(extra="forbid", use_enum_values=True)
+class _BundleModel(BaseModel):
+    """bundle 수신 모델의 공용 베이스 — **관대한 수신자(tolerant reader)**.
 
+    `extra="ignore"`: agents_reviewer 보고서 양식은 계속 진화하므로(새 top-level 블록,
+    새 섹션 필드 등), 모르는 필드는 **무시**해 추가 변경에 깨지지 않는다. 우리가 선언한
+    필드는 여전히 타입·enum·필수 검증되어 소비 데이터의 건전성은 유지된다. 미지 필드의
+    "인지"는 로더(bundle_io.load_report_bundle)가 로그로 surface 한다. 계약 §1 의
+    "additive 변경은 schema_version 무증분" 원칙과 정합 — 추가 필드에 consumer 가 깨지면
+    안 된다.
+    """
+
+    model_config = ConfigDict(extra="ignore", use_enum_values=True)
+
+
+class BundleProducer(_BundleModel):
     system: str
     version: str
     mode: str = ""
 
 
-class BundleTheme(BaseModel):
-    model_config = ConfigDict(extra="forbid", use_enum_values=True)
-
+class BundleTheme(_BundleModel):
     id: str
     tokens: dict[str, str] = Field(default_factory=dict)
     fonts: dict[str, str] = Field(default_factory=dict)
 
 
-class BundleReport(BaseModel):
-    model_config = ConfigDict(extra="forbid", use_enum_values=True)
-
+class BundleReport(_BundleModel):
     report_id: str
     headline: str
     deck: str = ""
@@ -939,9 +947,7 @@ class BundleReport(BaseModel):
     theme: Optional[BundleTheme] = None
 
 
-class BundleProvenanceSource(BaseModel):
-    model_config = ConfigDict(extra="forbid", use_enum_values=True)
-
+class BundleProvenanceSource(_BundleModel):
     source_id: str = ""
     provider: str = ""
     code: str = ""
@@ -950,7 +956,7 @@ class BundleProvenanceSource(BaseModel):
     url: str = ""
 
 
-class BundleProvenance(BaseModel):
+class BundleProvenance(_BundleModel):
     """차트/지도/주장의 출처·검증 메타 (계약 §5).
 
     verification 이 우리 화면 라벨의 단일 근거다. origin→verification 기본 매핑
@@ -958,21 +964,17 @@ class BundleProvenance(BaseModel):
     producer 책임이며, 우리는 verification 을 그대로 신뢰한다.
     """
 
-    model_config = ConfigDict(extra="forbid", use_enum_values=True)
-
     origin: Literal["measured", "narrative_inference", "model_forecast"]
     verification: ResearchClaimStatus = ResearchClaimStatus.UNVERIFIED
     confidence: Literal["low", "medium", "high"] = "medium"
     sources: list[BundleProvenanceSource] = Field(default_factory=list)
 
 
-class BundleChart(BaseModel):
+class BundleChart(_BundleModel):
     """차트 1개. data 의 타입별 모양 SSOT 는 agents_reviewer schemas.py (계약 §9) 라
     본 모델은 data 를 Any 로 통과시킨다(이중 SSOT 회피). prerendered_svg 는 B안
     대상(sankey/choropleth/map/network)에서만 채워진다.
     """
-
-    model_config = ConfigDict(extra="forbid", use_enum_values=True)
 
     chart_id: str
     type: str
@@ -983,9 +985,7 @@ class BundleChart(BaseModel):
     prerendered_svg: Optional[str] = None
 
 
-class BundleMapMarker(BaseModel):
-    model_config = ConfigDict(extra="forbid", use_enum_values=True)
-
+class BundleMapMarker(_BundleModel):
     id: str
     name: str = ""
     lng: float
@@ -993,26 +993,20 @@ class BundleMapMarker(BaseModel):
     highlight: bool = False
 
 
-class BundleMapArc(BaseModel):
-    model_config = ConfigDict(extra="forbid", use_enum_values=True)
-
+class BundleMapArc(_BundleModel):
     from_id: str = ""
     to_id: str = ""
     label: str = ""
     highlight: bool = False
 
 
-class BundleMapLegend(BaseModel):
-    model_config = ConfigDict(extra="forbid", use_enum_values=True)
-
+class BundleMapLegend(_BundleModel):
     label: str = ""
     kind: str = ""
     highlight: bool = False
 
 
-class BundleMap(BaseModel):
-    model_config = ConfigDict(extra="forbid", use_enum_values=True)
-
+class BundleMap(_BundleModel):
     id: str = ""
     center: list[float] = Field(default_factory=list)
     zoom: float = 0.0
@@ -1023,12 +1017,10 @@ class BundleMap(BaseModel):
     prerendered_svg: Optional[str] = None
 
 
-class BundleSection(BaseModel):
+class BundleSection(_BundleModel):
     """서사 섹션. prose 는 '나레이션 원천'(편집체)이며, 최종 발화형 변환은 우리
     ScriptWorker 가 한다(계약 §6). chart_refs/map_ref 는 시각 에셋 착지점(Phase 7).
     """
-
-    model_config = ConfigDict(extra="forbid", use_enum_values=True)
 
     section_id: str
     heading: str = ""
@@ -1041,9 +1033,7 @@ class BundleSection(BaseModel):
     claim_refs: list[str] = Field(default_factory=list)
 
 
-class BundleEvidence(BaseModel):
-    model_config = ConfigDict(extra="forbid", use_enum_values=True)
-
+class BundleEvidence(_BundleModel):
     source_id: str = ""
     quote_or_data: str = ""
     locator: str = ""
@@ -1051,10 +1041,8 @@ class BundleEvidence(BaseModel):
     stance: Literal["supports", "refutes", "contextual"] = "supports"
 
 
-class BundleClaim(BaseModel):
+class BundleClaim(_BundleModel):
     """주장-근거 페어 (우리 ResearchDossier.claims 직매핑). status 는 우리 enum 그대로."""
-
-    model_config = ConfigDict(extra="forbid", use_enum_values=True)
 
     claim_id: str
     statement: str
@@ -1065,9 +1053,7 @@ class BundleClaim(BaseModel):
     chart_refs: list[str] = Field(default_factory=list)
 
 
-class BundleSignal(BaseModel):
-    model_config = ConfigDict(extra="forbid", use_enum_values=True)
-
+class BundleSignal(_BundleModel):
     signal: str
     description: str = ""
     indicates: str = ""
@@ -1075,18 +1061,14 @@ class BundleSignal(BaseModel):
     verification: ResearchClaimStatus = ResearchClaimStatus.UNVERIFIED
 
 
-class BundleContradiction(BaseModel):
-    model_config = ConfigDict(extra="forbid", use_enum_values=True)
-
+class BundleContradiction(_BundleModel):
     side_a: str = ""
     side_b: str = ""
     evidence: str = ""
     resolution: str = ""
 
 
-class BundleSource(BaseModel):
-    model_config = ConfigDict(extra="forbid", use_enum_values=True)
-
+class BundleSource(_BundleModel):
     source_id: str
     url: str = ""
     publisher: str = ""
@@ -1094,20 +1076,33 @@ class BundleSource(BaseModel):
     fetched_at: str = ""
 
 
-class BundleConfidence(BaseModel):
-    model_config = ConfigDict(extra="forbid", use_enum_values=True)
-
+class BundleConfidence(_BundleModel):
     score: float = 0.0
     summary: str = ""
+
+
+class BundleTimelinePoint(_BundleModel):
+    date: str = ""
+    label: str = ""
+    phase: str = ""  # past / present / future
+    note: str = ""
+
+
+class BundleTimeline(_BundleModel):
+    heading: str = ""
+    points: list[BundleTimelinePoint] = Field(default_factory=list)
 
 
 class ReportBundle(VersionedModel):
     """agents_reviewer → osint_generator 핸드오프 (인터페이스 계약 v1).
 
-    extra="forbid" 로 미지 필드를 fail-closed 거부하고, model_validator 로 bundle 내
-    id unique + chart_refs/claim_refs resolve 를 강제한다(계약 §8). schema_version 은
-    이 계약의 버전이며(현재 1) producer.version 과 분리된다(§1).
+    **관대한 수신자**: `extra="ignore"` 로 미지 필드(진화하는 보고서의 새 블록 등)를
+    무시하되, 선언 필드는 검증하고 model_validator 로 id unique + chart_refs/claim_refs/
+    map_ref resolve 를 강제한다(계약 §8). 미지 top-level 필드는 로더가 로그로 알린다.
+    schema_version 은 이 계약의 버전(현재 1)이며 producer.version 과 분리된다(§1).
     """
+
+    model_config = ConfigDict(extra="ignore", use_enum_values=True)
 
     bundle_kind: Literal["report_bundle"] = "report_bundle"
     generated_at: Optional[datetime] = None
@@ -1121,9 +1116,43 @@ class ReportBundle(VersionedModel):
     contradictions: list[BundleContradiction] = Field(default_factory=list)
     sources: list[BundleSource] = Field(default_factory=list)
     confidence: Optional[BundleConfidence] = None
+    # 진화 수용 예: v5.5.2 가 추가한 연표. 현재는 보관만(영상 소비는 추후 — 타임라인 비주얼).
+    timeline: Optional[BundleTimeline] = None
 
     @model_validator(mode="after")
     def _check_referential_integrity(self) -> "ReportBundle":
+        for label, ids in (
+            ("chart_id", [c.chart_id for c in self.charts]),
+            ("section_id", [s.section_id for s in self.sections]),
+            ("claim_id", [c.claim_id for c in self.claims]),
+            ("source_id", [s.source_id for s in self.sources]),
+        ):
+            dupes = sorted({i for i in ids if ids.count(i) > 1})
+            if dupes:
+                raise ValueError(f"중복 {label}: {dupes}")
+
+        chart_ids = {c.chart_id for c in self.charts}
+        claim_ids = {c.claim_id for c in self.claims}
+        # 계약 v1 보정: 보고서당 map 은 단일 객체 + id. section.map_ref 는 그 map.id 로
+        # resolve 하거나 null (다중 지도는 회피 — speculative generality).
+        map_id = self.map.id if self.map is not None else None
+        for s in self.sections:
+            bad = [r for r in s.chart_refs if r not in chart_ids]
+            if bad:
+                raise ValueError(f"section {s.section_id} 의 미해결 chart_refs: {bad}")
+            bad = [r for r in s.claim_refs if r not in claim_ids]
+            if bad:
+                raise ValueError(f"section {s.section_id} 의 미해결 claim_refs: {bad}")
+            if s.map_ref is not None and s.map_ref != map_id:
+                raise ValueError(
+                    f"section {s.section_id} 의 미해결 map_ref: {s.map_ref} "
+                    f"(map.id={map_id})"
+                )
+        for c in self.claims:
+            bad = [r for r in c.chart_refs if r not in chart_ids]
+            if bad:
+                raise ValueError(f"claim {c.claim_id} 의 미해결 chart_refs: {bad}")
+        return self
         for label, ids in (
             ("chart_id", [c.chart_id for c in self.charts]),
             ("section_id", [s.section_id for s in self.sections]),

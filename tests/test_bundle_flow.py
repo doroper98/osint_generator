@@ -132,11 +132,32 @@ class TestReportBundleModel(unittest.TestCase):
         self.assertEqual(bundle.claims[0].status, "confirmed")
         self.assertEqual(bundle.charts[0].provenance.verification, "confirmed")
 
-    def test_extra_field_rejected(self) -> None:
+    def test_unknown_top_level_field_ignored(self) -> None:
+        # 관대한 수신자(tolerant reader): 모르는 top-level 필드는 무시(거부 안 함) →
+        # 진화하는 보고서(새 블록 추가)에 안 깨진다. extra="ignore".
         raw = _valid_bundle()
-        raw["unexpected_top_level"] = 1
-        with self.assertRaises(ValueError):
-            ReportBundle.model_validate(raw)
+        raw["some_future_block"] = {"foo": 1}
+        bundle = ReportBundle.model_validate(raw)  # 안 깨짐
+        self.assertEqual(bundle.report.headline, raw["report"]["headline"])
+        self.assertFalse(hasattr(bundle, "some_future_block"))
+
+    def test_unknown_section_field_ignored(self) -> None:
+        # 섹션 구조 진화도 수용 — 섹션에 모르는 필드가 있어도 무시.
+        raw = _valid_bundle()
+        raw["sections"][0]["new_section_field"] = "x"
+        bundle = ReportBundle.model_validate(raw)
+        self.assertEqual(bundle.sections[0].section_id, "s1")
+
+    def test_timeline_accepted(self) -> None:
+        # v5.5.2 가 추가한 timeline 블록 수용(보관).
+        raw = _valid_bundle()
+        raw["timeline"] = {
+            "heading": "연표",
+            "points": [{"date": "2026-05-24", "label": "합의", "phase": "present", "note": ""}],
+        }
+        bundle = ReportBundle.model_validate(raw)
+        self.assertIsNotNone(bundle.timeline)
+        self.assertEqual(len(bundle.timeline.points), 1)
 
     def test_unknown_verification_value_rejected(self) -> None:
         raw = _valid_bundle()
