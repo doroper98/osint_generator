@@ -607,6 +607,11 @@ class RenderSceneProps(BaseModel):
     narration: str = ""
     label: Optional[str] = None
     sourceLinkRequired: bool = False
+    # 화면 상단 출처 표기 텍스트(있을 때만 표시). 소스 본문 배선 전엔 빈 문자열.
+    source: str = ""
+    # 이 scene 의 on-screen 텍스트가 인용(누군가의 발언/quote)인지. True 면 강조색 +
+    # 인용부호로 렌더(영상 문법 ③). pull_quote/evidence quote 출처일 때 set.
+    isQuote: bool = False
     # 나레이션 wav 의 project_dir 기준 상대경로 (audio_manifest 가 있을 때). Remotion 은
     # --public-dir 를 project_dir 로 두고 staticFile(audioPath) 로 참조한다. 무음이면 None.
     audioPath: Optional[str] = None

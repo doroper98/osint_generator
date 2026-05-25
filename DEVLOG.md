@@ -1,6 +1,6 @@
 <!--
 tier: 3
-last_synced_with: v0.18.1
+last_synced_with: v0.19.0
 ssot_for: [development-log]
 depends_on: [CHANGELOG.md]
 last_review: 2026-05-24
@@ -22,6 +22,27 @@ last_review: 2026-05-24
 - 결과:  …
 - 연관:  AP-번호, 이슈, PR 번호 등
 ```
+
+---
+
+## 2026-05-25 v0.19.0 — 영상 문법 재설계 (key takeaway 중앙 + 전체 나레이션 자막 바 + 인용 강조)
+
+- **무엇을**: Remotion Briefing 레이아웃 재설계 + RenderSceneProps `source`/`isQuote` 필드 +
+  render_io 인용 휴리스틱 + 테스트. "글자 도배"에서 "화면엔 핵심(key takeaway)만, 음성+하단
+  자막 바" 형태로(레퍼런스 브리핑 스타일).
+- **왜**: 사용자 원래 목표 — 직관적 화면 + 음성 + 세련된 작은 자막. ①②③ 결정 반영:
+  ① key takeaway = on_screen_caption(caption) 중앙(pull_quote 는 추후 강조 인용 레이어),
+  ② 자막 = 전체 narration(하단 바), ③ 캡션 바 스타일 + 인용은 강조색·인용부호로 명확히.
+- **어떻게**: caption→중앙 대형 텍스트, narration→하단 반투명 자막 바, 좌상단 브랜드 /
+  상단 출처(source) / 우상단 검증 라벨 배지. isQuote 면 강조색(골드) + 인용부호(`" "`/`「 」`)
+  + 좌측 보더. isQuote 는 caption 의 인용부호 휴리스틱(정식 마킹은 ScriptWorker/bundle
+  pull_quote 도입 시 교체). source 텍스트 배선은 bundle 어댑터 강화와 함께(다음).
+- **결과**: 305 테스트 통과(신규 1). **still 프레임 실물 검증**: 정상 scene(브랜드/출처/
+  `<추론>` 배지/중앙 takeaway/자막 바) + 인용 scene(골드 강조 + 인용부호) 둘 다 레퍼런스
+  문법과 일치 확인(remotion npm install + headless-shell 렌더).
+- **다음**: source 텍스트 per-scene 배선 + 정식 인용 마킹(ScriptSegment/bundle pull_quote).
+  Phase B 차트/지도 SVG 가 중앙 슬롯에 합류하면 caption 은 제목/라벨로 축소.
+- **연관**: CHANGELOG v0.19.0, docs/05 §3.4e.
 
 ---
 

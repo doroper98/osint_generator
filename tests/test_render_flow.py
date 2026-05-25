@@ -45,6 +45,37 @@ class TestBuildRenderPropsPure(_RenderHarness):
         self.assertTrue(props.scenes[2].sourceLinkRequired)
         # 타이밍 보존.
         self.assertEqual(props.scenes[1].startSec, 6.0)
+        # 인용부호 없는 caption → isQuote False (영상 문법 ③).
+        self.assertFalse(props.scenes[0].isQuote)
+
+    def test_quote_caption_marks_is_quote(self) -> None:
+        # on_screen_caption 에 인용부호가 있으면 isQuote=True (강조색 렌더 신호).
+        from schemas.models import ScriptChapter, ScriptSegment
+
+        script = FullScript(
+            project_id="demo3",
+            title="t",
+            topic="t",
+            chapters=[ScriptChapter(chapter_id="ch1", title="c")],
+            segments=[
+                ScriptSegment(
+                    segment_id="seg_01", chapter_id="ch1",
+                    narration="한 관계자는 그렇게 말했다.",
+                    on_screen_caption="「수요가 공급을 추월했다」",
+                    est_duration_sec=4.0,
+                ),
+                ScriptSegment(
+                    segment_id="seg_02", chapter_id="ch1",
+                    narration="일반 서술 문장.",
+                    on_screen_caption="평범한 캡션",
+                    est_duration_sec=4.0,
+                ),
+            ],
+        )
+        scene_manifest = build_scene_manifest(script)
+        props = build_render_props(scene_manifest, script)
+        self.assertTrue(props.scenes[0].isQuote)
+        self.assertFalse(props.scenes[1].isQuote)
 
 
 class TestRenderDebugCLI(_RenderHarness):

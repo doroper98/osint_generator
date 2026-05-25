@@ -1,6 +1,6 @@
 <!--
 tier: 3
-last_synced_with: v0.18.1
+last_synced_with: v0.19.0
 ssot_for: [release-notes]
 depends_on: [README.md, GOAL.md]
 last_review: 2026-05-23
@@ -25,6 +25,29 @@ released 항목은 **append-only**입니다.
 
 ### Fixed
 -
+
+---
+
+## [v0.19.0] — 2026-05-25
+
+**영상 문법 재설계 — key takeaway 중앙 + 전체 나레이션 자막 바 + 인용 강조**. 글자 도배
+슬라이드에서 "화면엔 핵심만, 음성+자막" 형태로(레퍼런스 브리핑 스타일).
+
+### Added
+
+- **`remotion/src/Briefing.tsx`** — 레이아웃 재설계: 중앙 key takeaway(caption) 크게,
+  하단 **자막 바**에 전체 narration, 좌상단 브랜드, 상단 출처, 우상단 검증 라벨 배지.
+  인용(`isQuote`)은 테마 강조색 + 인용부호(`" "`/`「 」`) + 좌측 강조 보더로 명확히 구분.
+- **`schemas/models.py`** — `RenderSceneProps`에 `source`(상단 출처 텍스트) + `isQuote`
+  (인용 표기 신호) 필드 추가(additive, schema_version 1 유지).
+- **`orchestrator/render_io.py`** — caption 의 인용부호 휴리스틱으로 `isQuote` 자동 set
+  (정식 인용 마킹은 ScriptWorker/bundle pull_quote 도입 시 교체).
+- **`tests/test_render_flow.py`** — isQuote 휴리스틱 테스트(305 통과). still 프레임 2종
+  (정상/인용)으로 레이아웃 실물 검증.
+
+### Notes
+
+- `source` 텍스트 배선(소스체인/bundle sources)은 다음 단계(bundle 어댑터 강화)와 함께.
 
 ---
 

@@ -68,6 +68,10 @@ def build_render_props(
         {a.segment_id: a for a in audio_manifest.segments} if audio_manifest else {}
     )
 
+    # 인용부호가 들어간 caption 은 인용(quote)으로 표기 (영상 문법 ③). 정식 인용 마킹
+    # (ScriptSegment 필드 / bundle pull_quote)이 생기기 전의 휴리스틱.
+    quote_marks = ("「", "」", "『", "』", "“", "”", '"')
+
     scenes: list[RenderSceneProps] = []
     cursor = 0.0
     for scene in scene_manifest.scenes:
@@ -75,6 +79,7 @@ def build_render_props(
         segs = [seg_by_id[sid] for sid in seg_ids if sid in seg_by_id]
         narration = " ".join(s.narration for s in segs).strip()
         label = next((s.label for s in segs if s.label), None)
+        is_quote = any(m in scene.caption for m in quote_marks)
 
         # 이 scene 에 대응하는 오디오 (세그먼트 전부가 audio_manifest 에 있을 때만 사용).
         audio_segs = [audio_by_seg[sid] for sid in seg_ids if sid in audio_by_seg]
@@ -100,6 +105,7 @@ def build_render_props(
                 narration=narration,
                 label=label,
                 sourceLinkRequired=scene.source_link_required,
+                isQuote=is_quote,
                 audioPath=audio_path,
             )
         )

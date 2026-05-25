@@ -1,6 +1,6 @@
 <!--
 tier: 2
-last_synced_with: v0.18.0
+last_synced_with: v0.19.0
 ssot_for: [json-contracts-overview]
 depends_on: [../schemas/models.py]
 last_review: 2026-05-23
@@ -217,11 +217,17 @@ source_id 존재 여부의 cross-check 는 6B Evidence Guard 책임 (본 스키�
 | fps / width / height | int | 기본 30 / 1920 / 1080 |
 | scenes | list[`RenderSceneProps`] | 슬라이드 목록 |
 
-`RenderSceneProps`: `sceneId`, `startSec`, `durationSec`, `caption`, `narration`
-(narration_segment_ids 로 full_script 에서 해석), `label`(`<미검증>` 등 — 배지 표기),
-`sourceLinkRequired`, `audioPath`(V4b — audio_manifest 가 있으면 나레이션 wav 의 project
-상대경로; Remotion 이 `--public-dir`=project_dir + `staticFile` 로 참조). audio_manifest 가
-있으면 startSec/durationSec 는 **실측 음성 길이**로 재계산된다 (무음이면 scene 추정 유지).
+`RenderSceneProps`: `sceneId`, `startSec`, `durationSec`, `caption`(중앙 key takeaway),
+`narration`(narration_segment_ids 로 full_script 에서 해석 — 하단 자막 바에 전체 표시),
+`label`(`<미검증>` 등 — 우상단 배지), `sourceLinkRequired`, `source`(상단 출처 표기 텍스트,
+배선 전엔 ""), `isQuote`(인용이면 강조색+인용부호 렌더 — 영상 문법 ③), `audioPath`(V4b —
+audio_manifest 가 있으면 나레이션 wav 의 project 상대경로; Remotion 이 `--public-dir`=
+project_dir + `staticFile` 로 참조). audio_manifest 가 있으면 startSec/durationSec 는
+**실측 음성 길이**로 재계산된다 (무음이면 scene 추정 유지).
+
+영상 문법(v0.19.0): 화면엔 **key takeaway(caption)만 중앙**에 크게, **전체 나레이션은 하단
+자막 바**, 좌상단 브랜드 / 상단 출처 / 우상단 검증 라벨 배지. 인용(`isQuote`)은 테마 강조색 +
+인용부호로 명확히 구분. Remotion `Briefing` 컴포지션이 SSOT.
 
 ### 3.4f `AudioManifest` (Phase 8 TTS, 수직 슬라이스 V4)
 
