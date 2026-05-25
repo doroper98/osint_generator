@@ -36,9 +36,14 @@ from schemas.models import (
     SubtitleCue,
 )
 
-# 영상용 family 렌더러가 있는(=cinematic 재렌더 가능한) 차트 타입. 늘려가며 확장(C0).
-# 미지원 타입은 attach 안 함 → 해당 scene 은 텍스트 takeaway 로 폴백(외부 SVG 폴백은 추후).
-SUPPORTED_CHART_TYPES = {"line"}
+# 영상용 family 렌더러가 있는(=cinematic 재렌더 가능한) 차트 타입 (Remotion ChartView 와 동기).
+# 영상미 최우선(C0): 전 타입을 우리가 데이터로 재렌더. 미지원 타입만 텍스트 폴백.
+SUPPORTED_CHART_TYPES = {
+    "line", "area", "stacked_area", "small_multiples", "dual_line", "forecast",
+    "bar", "lollipop", "range_bar", "stacked", "stacked_bar", "waterfall",
+    "scatter", "bubble", "candle", "donut", "gantt", "slope", "heatmap",
+    "network", "sankey", "choropleth",
+}
 
 
 def _bundle_map_to_render_map(bm) -> RenderMap:

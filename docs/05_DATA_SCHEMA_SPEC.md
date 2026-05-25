@@ -1,6 +1,6 @@
 <!--
 tier: 2
-last_synced_with: v0.26.0
+last_synced_with: v0.27.0
 ssot_for: [json-contracts-overview]
 depends_on: [../schemas/models.py]
 last_review: 2026-05-23
@@ -234,8 +234,9 @@ project_dir + `staticFile` 로 참조). audio_manifest 가 있으면 startSec/du
 bundle map id 가 있으면 붙는다. Remotion `MapView`(d3-geo + world-atlas)가 중앙에 지도를
 재렌더(마커·arc·highlight)하고 caption 은 제목으로 축소. `chartData`(`RenderChart`: type/title/data/unit): scene 의 claim_refs 에 지원 차트 id 가
 있으면 붙는다. Remotion `ChartView` family 렌더러가 데이터로 **cinematic 재렌더**(line:
-좌→우 draw-on + event 강조; v0.26.0). 지원 타입은 `render_io.SUPPORTED_CHART_TYPES`(현재
-{line}, 확장 중). 미지원 타입은 텍스트 폴백(외부 SVG 폴백은 복잡 타입 한정 추후).
+좌→우 draw-on + event 강조; v0.26.0). 지원 타입(v0.27.0): line/area/stacked_area/small_multiples/dual_line/forecast/bar/
+lollipop/range_bar/stacked(_bar)/waterfall/scatter/bubble/candle/donut/gantt/slope/heatmap/
+network/sankey/choropleth (전 타입). `render_io.SUPPORTED_CHART_TYPES` 가 SSOT. 미지원 타입은 텍스트 폴백(외부 SVG 폴백은 복잡 타입 한정 추후).
 
 ### 3.4f `AudioManifest` (Phase 8 TTS, 수직 슬라이스 V4)
 

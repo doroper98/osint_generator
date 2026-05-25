@@ -1,6 +1,6 @@
 <!--
 tier: 3
-last_synced_with: v0.26.0
+last_synced_with: v0.27.0
 ssot_for: [development-log]
 depends_on: [CHANGELOG.md]
 last_review: 2026-05-24
@@ -24,6 +24,19 @@ last_review: 2026-05-24
 ```
 
 ---
+
+## 2026-05-25 v0.27.0 — 전 차트 family 영상용 렌더러 + 라벨 다듬기
+
+- **무엇을**: ChartView 를 21종 전 타입 family 렌더러로 확장 + render_io SUPPORTED 전 타입 +
+  버블 inset/gantt 라벨 anchor 등 클립 다듬기.
+- **왜**: 사용자 "모든 차트 family 와 다듬기를 한번에 다 해"(영상미 C0). line 만으론 부족.
+- **어떻게**: 공용 헬퍼(scale/draw-on/팔레트/edgeAnchor·clampX)로 family 별 렌더러. XY 묶음,
+  bar 묶음, point(scatter/bubble), candle/donut/gantt/slope/heatmap/network/sankey/choropleth.
+  미지원(미래 신규) 타입은 텍스트 폴백.
+- **결과**: 323 통과. 실물 호르무즈로 network(원형 관계도)/gantt(11개월 타임라인)/bubble(시나리오)/
+  line(브렌트) 프레임 렌더 확인 — 전부 안 깨지고 인식 가능. 거친 부분은 의도적 잔존(반복 다듬기).
+- **다음**: 클립/겹침 미세조정 반복. network/sankey/choropleth 고도화.
+- **연관**: C0/G0, CHANGELOG v0.27.0, docs/05 §3.4e.
 
 ## 2026-05-25 v0.26.0 — 영상용 차트 family 렌더러 (line, 영상미 C0 첫 구현)
 

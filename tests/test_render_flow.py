@@ -120,8 +120,8 @@ class TestSceneChartAttach(unittest.TestCase):
             charts=[
                 BundleChart(chart_id="ch-line", type="line", title="유가",
                             data=[{"x": "a", "y": 1}, {"x": "b", "y": 2}], provenance=prov),
-                BundleChart(chart_id="ch-bub", type="bubble", title="시나리오",
-                            data=[{"x": 1, "y": 2, "size": 3}], provenance=prov),
+                BundleChart(chart_id="ch-unk", type="future_unknown_type", title="미래형",
+                            data=[{"x": 1, "y": 2}], provenance=prov),
             ],
         )
 
@@ -154,7 +154,7 @@ class TestSceneChartAttach(unittest.TestCase):
         from orchestrator.render_io import build_render_props
         from orchestrator.scene_builder import build_scene_manifest
 
-        script = self._script(["ch-bub"], [])  # bubble = 미지원 → attach 안 됨(텍스트 폴백)
+        script = self._script(["ch-unk"], [])  # 미지원 타입 → attach 안 됨(텍스트 폴백)
         bundle = self._bundle_with_charts()
         props = build_render_props(build_scene_manifest(script), script, report_bundle=bundle)
         self.assertIsNone(props.scenes[0].chartData)

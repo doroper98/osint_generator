@@ -1,6 +1,6 @@
 <!--
 tier: 3
-last_synced_with: v0.26.0
+last_synced_with: v0.27.0
 ssot_for: [release-notes]
 depends_on: [README.md, GOAL.md]
 last_review: 2026-05-23
@@ -27,6 +27,25 @@ released 항목은 **append-only**입니다.
 -
 
 ---
+
+## [v0.27.0] — 2026-05-25
+
+**전 차트 family 영상용 렌더러 + 라벨 다듬기 (영상미 C0)**. line 에 이어 21종 전 타입을
+Remotion 에서 데이터로 cinematic 재렌더.
+
+### Added
+
+- **`remotion/src/ChartView.tsx`** — family 렌더러 전면 확장: XY(line/area/stacked_area/
+  small_multiples), dual_line, forecast(전망 band), bar/lollipop/range_bar, stacked(_bar),
+  waterfall, scatter/bubble, candle, donut, gantt, slope, heatmap, network(원형), sankey(간이),
+  choropleth(간이 막대). 공용 draw-on 애니 + 팔레트 + 라벨 clamp/anchor(경계 클립 방지).
+- **`orchestrator/render_io.py`** — `SUPPORTED_CHART_TYPES` 전 타입으로 확장.
+- 실물 호르무즈 보고서로 network/gantt/bubble/line 프레임 검증(안 깨짐).
+
+### Notes
+
+- 거친 부분(버블/라벨 미세 겹침·일부 클립)은 의도적으로 남김 — 사용자가 계속 다듬는 전제.
+- network/sankey/choropleth 는 간이 버전(원형/2열/막대) — 추후 고도화 여지.
 
 ## [v0.26.0] — 2026-05-25
 
