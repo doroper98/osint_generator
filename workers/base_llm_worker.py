@@ -763,15 +763,57 @@ def _unwrap_codex_response(raw: str) -> str:
 
 
 def _extract_json_block(text: str) -> str:
-    """markdown code fence 가 있으면 내부 본문만 반환, 없으면 strip 만."""
+    """도메인 JSON 문자열을 추출한다 (LLM-AP-005).
+
+    모델이 형식 지시를 어기고 (a) markdown code fence 로 감싸거나 (b) 서두 설명
+    텍스트를 붙이는 경우를 견고하게 처리한다. 처리 순서:
+    1. 선두 ```fence``` → 내부 본문.
+    2. 이미 순수 JSON ({ 또는 [ 로 시작) → 그대로.
+    3. 본문 어딘가의 첫 ```json ... ``` 블록 → 그 본문 (서두 prose 무시).
+    4. 첫 균형 잡힌 {...} 객체 → 그 부분 (최후 폴백).
+    그래도 못 찾으면 strip 만 반환 (Pydantic 단계에서 parse_failed 로 흡수).
+    """
     s = text.strip()
-    if not s.startswith("```"):
+    if not s:
         return s
-    nl = s.find("\n")
-    if nl == -1:
+    # 1) 선두 fence
+    if s.startswith("```"):
+        nl = s.find("\n")
+        if nl != -1:
+            body = s[nl + 1:]
+            end = body.rfind("```")
+            if end != -1:
+                body = body[:end]
+            return body.strip()
+    # 2) 이미 순수 JSON
+    if s[0] in "{[":
         return s
-    body = s[nl + 1:]
-    end = body.rfind("```")
-    if end != -1:
-        body = body[:end]
-    return body.strip()
+    # 3) 본문 중간의 첫 fenced 블록 (서두 prose 가 있는 경우)
+    fence = re.search(r"```(?:json)?\s*\n(.*?)\n```", s, re.DOTALL)
+    if fence:
+        return fence.group(1).strip()
+    # 4) 첫 균형 {...} 객체 (문자열 내 중괄호/이스케이프 고려)
+    start = s.find("{")
+    if start != -1:
+        depth = 0
+        in_str = False
+        esc = False
+        for i in range(start, len(s)):
+            ch = s[i]
+            if in_str:
+                if esc:
+                    esc = False
+                elif ch == "\\":
+                    esc = True
+                elif ch == '"':
+                    in_str = False
+            else:
+                if ch == '"':
+                    in_str = True
+                elif ch == "{":
+                    depth += 1
+                elif ch == "}":
+                    depth -= 1
+                    if depth == 0:
+                        return s[start:i + 1]
+    return s

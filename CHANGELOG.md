@@ -1,6 +1,6 @@
 <!--
 tier: 3
-last_synced_with: v0.20.0
+last_synced_with: v0.20.1
 ssot_for: [release-notes]
 depends_on: [README.md, GOAL.md]
 last_review: 2026-05-23
@@ -25,6 +25,24 @@ released 항목은 **append-only**입니다.
 
 ### Fixed
 -
+
+---
+
+## [v0.20.1] — 2026-05-25
+
+**LLM-AP-005 — bundle 경로 대본 생성 실패 수정**. geo 실물 번들 풀 seam 에서 발견:
+거대 입력이 ScriptWorker(LLM) 출력을 쪼개고 형식을 깨 parse_failed.
+
+### Fixed
+
+- **`orchestrator/bundle_io.py`** — `_narrative_summary` 가 섹션당 prose 를 문장 경계에서
+  발췌(`_SECTION_PROSE_CAP=320`)해 '구조적 개요'만 summary 로 전달(입력 비대화 방지).
+  geo summary 4,833 → 2,462자. 살은 ScriptWorker 가 붙인다(5분 대본은 응축).
+- **`workers/base_llm_worker.py`** — `_extract_json_block` 견고화: 서두 prose + 본문 중간
+  ```json 블록 / 첫 균형 {...} 객체(문자열 내 중괄호·이스케이프 고려) 추출. 모델이 형식
+  지시를 어기고 펜스·서두를 붙여도 도메인 JSON 회수.
+- **`docs/ANTIPATTERNS/LLM_ANTIPATTERNS.md`** — LLM-AP-005 기록(C6).
+- **`tests/test_base_llm_worker.py`** — 서두+펜스/균형객체 추출 테스트.
 
 ---
 

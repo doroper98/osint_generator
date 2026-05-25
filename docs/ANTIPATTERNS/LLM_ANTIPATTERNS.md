@@ -243,3 +243,40 @@ last_review: 2026-05-22
   - 본 조치는 **에이전트화/거버넌스 오염**을 막을 뿐, 모델이 소스 본문 없이 일반 지식으로 evidence quote 를 재구성하는 **인용 충실도 한계**(6A 품질이 source_registry 본문 적재량에 묶임)는 별개 — Phase 5 소스 수집이 본문까지 캡처해야 해소.
 
 - **연관**: ADDENDUM_04 §5 (CLI 인터페이스), LLM-AP-001 (response wrapper), LLM-AP-003 (agent 모드 injection 면적).
+
+---
+
+## LLM-AP-005 — 비대한 입력(bundle 전체 prose)을 ScriptWorker 에 넣으면 LLM 이 출력을 쪼개고 형식을 깬다
+
+- **증상 (symptom)**: 외부 연동(agents_reviewer report_bundle) 경로에서 build-script 가
+  `parse_failed: Expecting value: line 1 column 1 (char 0)` 로 실패. 실제 claude 응답은
+  빈 값이 아니라 (a) 서두 나레이션 prose + (b) "JSON 이 잘렸으니 두 부분으로 나눠
+  출력하겠다" + (c) ```json 펜스 2개로 쪼갠 불완전 JSON + (d) 병합 설명 텍스트였다.
+  latency 526초(ttft 430초)로 비정상.
+
+- **재현 (repro)**: v5.5.0 real emit 번들(geo, 7 섹션·약 4,800자 prose)을 bundle 어댑터가
+  섹션 prose 전체를 `research_dossier.summary` 로 통째 실어 ScriptWorker 에 넘김 →
+  모델이 4~6분/12세그먼트 대본으로 압축하려다 출력이 비대해져 스스로 분할.
+
+- **원인 (root cause)**: 두 겹.
+  1. **입력 비대화**: 완성된 보고서 본문(수천 자)을 그대로 넘기면 모델이 그 디테일을
+     보존하려 해 출력이 커지고, perceived token limit 에서 응답을 분할한다. (손으로 쓴
+     작은 예시 번들은 같은 5분 대본을 한 블록으로 성공 — 차이는 입력 크기였다.)
+  2. **추출기 취약**: `_extract_json_block` 이 텍스트가 ``` 로 **시작할 때만** 펜스를
+     벗겨, 서두 prose 가 붙은 경우 통과시키지 못했다.
+
+- **구조적 조치 (structural fix, v0.20.x)**:
+  - 어댑터(`orchestrator/bundle_io.py`): 섹션당 prose 를 문장 경계에서 발췌
+    (`_SECTION_PROSE_CAP=320`)해 '구조적 개요'만 summary 로 전달. 살은 ScriptWorker 가
+    붙인다(5분 대본은 어차피 응축). geo summary 4,833 → 2,462자.
+  - 추출기(`workers/base_llm_worker.py:_extract_json_block`): 서두 prose + 본문 중간
+    ```json 블록, 또는 첫 균형 {...} 객체(문자열 내 중괄호/이스케이프 고려)를 추출하도록
+    견고화. 단 모델이 **두 개의 분리된 JSON 객체**로 쪼개면 병합 불가 → 입력 캡으로
+    분할 자체를 예방하는 것이 1차 방어.
+
+- **상태 (status)**: 입력 캡 + 추출기 견고화. 실 run 재검증은 v0.20.x seam 에서.
+
+- **알려진 한계**: 캡은 보고서 디테일 일부를 떨군다(5분 포맷의 본질적 응축). 더 충실한
+  반영이 필요하면 섹션 단위 분할 생성(다중 LLM 호출) 또는 더 긴 영상 포맷이 별도 과제.
+
+- **연관**: LLM-AP-001(claude wrapper), 계약 v1 §6(prose=나레이션 원천), CHANGELOG v0.20.x.

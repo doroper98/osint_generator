@@ -1,6 +1,6 @@
 <!--
 tier: 3
-last_synced_with: v0.20.0
+last_synced_with: v0.20.1
 ssot_for: [development-log]
 depends_on: [CHANGELOG.md]
 last_review: 2026-05-24
@@ -22,6 +22,23 @@ last_review: 2026-05-24
 - 결과:  …
 - 연관:  AP-번호, 이슈, PR 번호 등
 ```
+
+---
+
+## 2026-05-25 v0.20.1 — LLM-AP-005: bundle 경로 대본 생성 실패 수정 (입력 캡 + 추출기 견고화)
+
+- **무엇을**: bundle 어댑터 summary 섹션당 발췌 캡 + base_llm_worker JSON 추출기 견고화 +
+  LLM-AP-005 기록 + 테스트.
+- **왜**: v0.20.0 의 geo 실물 번들 풀 seam 에서 build-script 가 parse_failed. 진단: claude 가
+  빈 응답이 아니라, 거대 summary(4,833자 prose 통째)를 5분 대본으로 압축하다 출력이 비대해져
+  스스로 ```json 펜스 2개로 쪼개고(불완전) 서두 설명을 붙였다(526초). 손예시(작은 입력)는
+  같은 5분 대본을 한 블록으로 성공했던 것과 대조 — 차이는 입력 크기.
+- **어떻게**: (1) 어댑터가 섹션 prose 를 문장 경계 발췌(320자/섹션)해 개요만 전달 → 출력
+  비대화·분할 예방(geo 4,833→2,462자). (2) 추출기가 서두 prose + 중간 ```json 블록 / 첫 균형
+  {...}(문자열 내 중괄호 고려)를 회수. 단 두 분리 JSON 객체는 병합 불가 → 입력 캡이 1차 방어.
+- **결과**: 단위 검증 — 추출기(서두+펜스/균형객체) + geo summary 2,462자 확인. 309→311 통과.
+  **geo 실 run(실제 claude) 재검증은 본 커밋 직후 진행**(단일 완전 JSON 생성 확인 목표).
+- **연관**: LLM-AP-005, 계약 v1 §6, CHANGELOG v0.20.1.
 
 ---
 

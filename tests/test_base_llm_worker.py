@@ -42,6 +42,16 @@ class TestExtractJsonBlock(unittest.TestCase):
         s = '```json\n{"a": 1}'
         self.assertEqual(_extract_json_block(s), '{"a": 1}')
 
+    def test_preamble_then_fenced_block(self) -> None:
+        # LLM-AP-005: 모델이 서두 설명 prose 를 붙이고 ```json 펜스로 감싼 경우.
+        s = '설명 문장입니다.\n\n```json\n{"a": 1}\n```\n뒤따르는 설명.'
+        self.assertEqual(_extract_json_block(s), '{"a": 1}')
+
+    def test_preamble_then_bare_object(self) -> None:
+        # 펜스 없이 서두 prose + 첫 균형 {...} (문자열 내 중괄호 포함).
+        s = 'preamble {"x": "값 {중괄호}", "y": 2} trailing'
+        self.assertEqual(_extract_json_block(s), '{"x": "값 {중괄호}", "y": 2}')
+
 
 class TestUnwrapClaudeResponse(unittest.TestCase):
     """`claude -p --output-format json` wrapper 처리."""

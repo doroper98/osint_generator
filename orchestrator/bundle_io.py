@@ -137,11 +137,32 @@ def _synthesize_claims_from_visuals(bundle: ReportBundle) -> list[ResearchClaim]
     return claims
 
 
+# 섹션당 prose 발췌 상한(자). 전체 보고서(수천 자)를 통째로 넘기면 ScriptWorker(LLM)가
+# 5분 대본으로 압축하다 출력이 비대해져 응답을 쪼개고 형식이 깨진다(LLM-AP-005). 헤딩 +
+# 앞 문장들의 '구조적 개요'를 넘기고 살은 ScriptWorker 가 붙이게 한다.
+_SECTION_PROSE_CAP = 320
+
+
+def _truncate_at_sentence(text: str, max_chars: int) -> str:
+    """max_chars 근처의 문장 종결 지점에서 자른다(문장 중간 절단 방지)."""
+    text = text.strip()
+    if len(text) <= max_chars:
+        return text
+    cut = text[:max_chars]
+    best = -1
+    for ender in ("다. ", "다.\n", "다.", ". ", ".\n", "? ", "! "):
+        idx = cut.rfind(ender)
+        if idx != -1:
+            best = max(best, idx + len(ender.rstrip()))
+    return (cut[:best] if best != -1 else cut).strip()
+
+
 def _narrative_summary(bundle: ReportBundle) -> str:
-    """deck + (섹션 heading+prose) + closing 을 ScriptWorker 가 쓸 서사 원천으로 결합.
+    """deck + (섹션 heading + prose 발췌) + closing 을 ScriptWorker 가 쓸 서사 개요로 결합.
 
     v5.5.0 emit 은 알맹이가 sections[].prose 에 있으므로(계약 §6: prose=나레이션 원천),
-    summary 에 실어 ScriptWorker 가 발화형으로 변환하도록 넘긴다.
+    summary 에 실어 ScriptWorker 가 발화형으로 변환하도록 넘긴다. 단 섹션당 발췌 상한을
+    둬 입력 비대화를 막는다(5분 대본은 어차피 응축이므로 개요로 충분, LLM-AP-005).
     """
     parts: list[str] = []
     if bundle.report.deck:
@@ -149,7 +170,7 @@ def _narrative_summary(bundle: ReportBundle) -> str:
     for s in bundle.sections:
         if s.prose:
             head = f"[{s.heading}] " if s.heading else ""
-            parts.append(f"{head}{s.prose}")
+            parts.append(f"{head}{_truncate_at_sentence(s.prose, _SECTION_PROSE_CAP)}")
     if bundle.report.closing:
         parts.append(bundle.report.closing)
     return "\n\n".join(parts).strip()
