@@ -254,5 +254,79 @@ class TestBundleToResearchDossier(unittest.TestCase):
         self.assertEqual(len(reloaded.claims), 2)
 
 
+def _v55_bundle() -> dict:
+    """v5.5.0 real emit 모양: claims=[], 라벨 척추는 charts/map provenance + contradictions."""
+    return {
+        "schema_version": 1,
+        "producer": {"system": "agents_reviewer", "version": "v5.5.0", "mode": "deep"},
+        "report": {"report_id": "r1", "headline": "엔 캐리가 풀린다",
+                   "deck": "BOJ 인상 이후 변동성.", "closing": "다음 확인점은 표결 분포."},
+        "sections": [
+            {"section_id": "s1", "heading": "새 지형", "kicker": "1",
+             "prose": "VKOSPI 가 평년의 두 배 수준에 자리 잡았다.", "chart_refs": ["ch-1"]},
+        ],
+        "charts": [
+            {"chart_id": "ch-1", "type": "line", "title": "VKOSPI 주요 지점",
+             "data": [{"x": "2026-03-04", "y": 80.37, "event": "risk-off"}],
+             "provenance": {"origin": "measured", "verification": "confirmed", "confidence": "high",
+                            "sources": [{"source_id": "mkt-1", "provider": "YAHOO", "code": "^VKOSPI"}]}},
+            {"chart_id": "ch-2", "type": "bubble", "title": "시나리오 확률 × 영향",
+             "data": [{"label": "점진", "x": 0.45, "y": 35, "size": 35}],
+             "provenance": {"origin": "narrative_inference", "verification": "inferred", "confidence": "medium", "sources": []}},
+        ],
+        "map": {
+            "id": "map-1", "center": [48.0, 32.0], "zoom": 4.2,
+            "markers": [{"id": "isfahan", "name": "이스파한", "lng": 51.7, "lat": 32.7, "highlight": True}],
+            "arcs": [{"from_id": "telaviv", "to_id": "isfahan", "highlight": True, "label": "공격축"}],
+            "legend": [{"label": "공습 축", "kind": "line", "highlight": True}],
+            "provenance": {"origin": "narrative_inference", "verification": "inferred", "confidence": "medium"},
+        },
+        "claims": [],
+        "signals": [{"signal": "BOJ 표결", "description": "인상 위원 수", "verification": "unverified"}],
+        "contradictions": [
+            {"side_a": "안전판이 sidecar 를 막는다", "side_b": "vega 압력은 못 막는다",
+             "evidence": "2024-08 전례", "resolution": "side_b 채택"},
+        ],
+        "sources": [{"source_id": "mkt-1", "publisher": "YAHOO", "title": ""}],
+        "confidence": {"score": 0.72, "summary": "출처 양호."},
+    }
+
+
+class TestV55EmptyClaimsSynthesis(unittest.TestCase):
+    def test_map_arc_highlight_accepted(self) -> None:
+        # 실물 emit 의 map arc highlight 필드(§11 갭 수정) 수용.
+        bundle = ReportBundle.model_validate(_v55_bundle())
+        self.assertTrue(bundle.map.arcs[0].highlight)
+
+    def test_claims_synthesized_from_charts(self) -> None:
+        bundle = ReportBundle.model_validate(_v55_bundle())
+        dossier = bundle_to_research_dossier(bundle, "p1")
+        by_id = {c.claim_id: c for c in dossier.claims}
+        # 차트 provenance.verification → claim status → 라벨 척추.
+        self.assertEqual(by_id["ch-1"].status, "confirmed")
+        self.assertEqual(by_id["ch-1"].display_label, "<확인>")
+        self.assertEqual(by_id["ch-2"].status, "inferred")
+        self.assertEqual(by_id["ch-2"].display_label, "<추론>")
+        # 시장데이터 차트는 provenance.sources → evidence.
+        self.assertTrue(len(by_id["ch-1"].evidence) >= 1)
+
+    def test_map_and_contradictions_become_claims(self) -> None:
+        bundle = ReportBundle.model_validate(_v55_bundle())
+        dossier = bundle_to_research_dossier(bundle, "p1")
+        by_id = {c.claim_id: c for c in dossier.claims}
+        self.assertIn("map-1", by_id)
+        self.assertEqual(by_id["map-1"].display_label, "<추론>")
+        # 모순은 봉합하지 않고 disputed(<반박됨>) 로.
+        self.assertEqual(by_id["contradiction_1"].status, "disputed")
+        self.assertEqual(by_id["contradiction_1"].display_label, "<반박됨>")
+
+    def test_narrative_summary_carries_prose(self) -> None:
+        bundle = ReportBundle.model_validate(_v55_bundle())
+        dossier = bundle_to_research_dossier(bundle, "p1")
+        # deck + 섹션 prose + closing 이 summary 에 실린다(ScriptWorker 원천).
+        self.assertIn("VKOSPI 가 평년의 두 배", dossier.summary)
+        self.assertIn("다음 확인점", dossier.summary)
+
+
 if __name__ == "__main__":
     unittest.main()

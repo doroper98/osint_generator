@@ -1,6 +1,6 @@
 <!--
 tier: 3
-last_synced_with: v0.19.0
+last_synced_with: v0.20.0
 ssot_for: [development-log]
 depends_on: [CHANGELOG.md]
 last_review: 2026-05-24
@@ -22,6 +22,26 @@ last_review: 2026-05-24
 - 결과:  …
 - 연관:  AP-번호, 이슈, PR 번호 등
 ```
+
+---
+
+## 2026-05-25 v0.20.0 — 실물 v5.5.0 emit 연동 (§11 갭 수정 + 라벨 척추 provenance 합성)
+
+- **무엇을**: agents_reviewer 실제 번들 2건(fin=엔캐리/VKOSPI, geo=이스라엘·이란)으로
+  수신 모델 §11 대조 + 어댑터 강화. `BundleMapArc.highlight` 추가, 빈 claims 합성 로직.
+- **왜**: v5.5.0 real emit 은 `claims=[]`(라이브 2-call 이 산문+차트만 생성, claim 그래프
+  없음). 라벨 척추가 chart/map provenance + contradictions 를 타야 한다(agents_reviewer 가
+  못박은 전제). 손예시(claims 있음)와 실물(claims 없음)의 간극을 실물로 메움.
+- **어떻게**: §11 실물 대조에서 갭 1건 발견 — geo map arc 가 `highlight` 를 emit 하는데
+  `BundleMapArc` 에 없어 extra=forbid 거부 → 필드 추가(additive). 어댑터는 claims 비면
+  charts→claim(provenance.verification→status), map→claim, contradictions→disputed 합성 +
+  섹션 prose 를 summary 로(ScriptWorker 가 발화형 변환). claims 차 있으면 직매핑(v5.6+).
+- **결과**: 309 통과(신규 4). 두 실물 번들 검증 통과(arc 수정 후). 어댑터 산출:
+  fin 5 claims(<확인> 1/<추론> 1/<반박됨> 3) + summary 4239자, geo 6 claims(<추론> 3/
+  <반박됨> 3) + summary 4833자. **라벨 척추가 chart/map provenance 를 탐을 실물로 확인.**
+  build-script→render 풀 seam(실제 claude)은 본 커밋 직후 검증.
+- **다음**: source 텍스트 per-scene 배선(bundle sources→화면 출처), 정식 인용 마킹.
+- **연관**: 계약 v1(agents_reviewer repo), CHANGELOG v0.20.0, docs/05 §3.4g.
 
 ---
 

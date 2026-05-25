@@ -269,7 +269,13 @@ project_dir + `staticFile` 로 참조). audio_manifest 가 있으면 startSec/du
 핵심 규약: ① `extra="forbid"` fail-closed, ② `model_validator` 로 bundle 내 id unique +
 chart_refs/claim_refs resolve + `section.map_ref → map.id` resolve(보고서당 단일 map) 강제,
 ③ 차트 `data` 는 재검증하지 않음(이중 SSOT 회피), ④ `provenance.verification` 을 그대로
-신뢰(재검증 floor 없음). 변환 매핑(§9)은
+신뢰(재검증 floor 없음).
+
+claims 분기(`orchestrator/bundle_io.py`): v5.5.0 real emit 은 `claims=[]`(라이브 2-call 은
+산문+차트만 생성). 이때 어댑터가 **charts/map provenance + contradictions 에서 claim 을
+합성**해 라벨 척추가 chart/map `verification` 을 타게 한다(measured→`<확인>`, narrative_
+inference→`<추론>`, contradictions→`<반박됨>`). 섹션 prose 는 `summary` 로 실어 ScriptWorker
+가 발화형으로 변환. bundle.claims 가 차 있으면(v5.6+) 그대로 직매핑. 변환 매핑(§9)은
 `orchestrator/bundle_io.py:bundle_to_research_dossier` 참조.
 
 ### 3.5 `SceneManifest` Provenance

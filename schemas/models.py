@@ -944,6 +944,7 @@ class BundleMapArc(BaseModel):
     from_id: str = ""
     to_id: str = ""
     label: str = ""
+    highlight: bool = False
 
 
 class BundleMapLegend(BaseModel):

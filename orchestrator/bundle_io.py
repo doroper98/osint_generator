@@ -45,12 +45,8 @@ def load_report_bundle(path: Path) -> ReportBundle:
     return ReportBundle.model_validate(raw)
 
 
-def bundle_to_research_dossier(bundle: ReportBundle, project_id: str) -> ResearchDossier:
-    """`ReportBundle` → `ResearchDossier` (순수 변환, 계약 v1 §9)."""
-    summary = bundle.report.deck
-    if bundle.report.closing:
-        summary = f"{summary} {bundle.report.closing}".strip()
-
+def _claims_from_bundle_claims(bundle: ReportBundle) -> list[ResearchClaim]:
+    """bundle.claims (v5.6+ prose→claim 그래프가 있을 때) 직매핑."""
     claims: list[ResearchClaim] = []
     for c in bundle.claims:
         evidence = [
@@ -72,6 +68,106 @@ def bundle_to_research_dossier(bundle: ReportBundle, project_id: str) -> Researc
                 confidence=c.confidence,
             )
         )
+    return claims
+
+
+def _synthesize_claims_from_visuals(bundle: ReportBundle) -> list[ResearchClaim]:
+    """bundle.claims 가 비었을 때(v5.5.0 현실) 라벨 척추를 charts/map/contradictions
+    provenance 에서 합성한다 — 검증 상태(verification)가 영상 라벨로 전파되도록.
+    """
+    claims: list[ResearchClaim] = []
+
+    for ch in bundle.charts:
+        statement = ch.title
+        if ch.note:
+            statement = f"{statement} — {ch.note}"
+        prov = ch.provenance
+        evidence = [
+            Evidence(
+                source_id=s.source_id or None,
+                quote=" ".join(p for p in (s.provider, s.code, s.unit) if p).strip(),
+                stance="supports",
+            )
+            for s in prov.sources
+        ]
+        claims.append(
+            ResearchClaim(
+                claim_id=ch.chart_id,
+                statement=statement or ch.chart_id,
+                status=prov.verification,
+                evidence=evidence,
+                cross_checked=(prov.verification == "confirmed"),
+                confidence=prov.confidence,
+                notes=f"chart:{ch.type}",
+            )
+        )
+
+    if bundle.map is not None:
+        m = bundle.map
+        names = [mk.name for mk in m.markers if mk.name]
+        if names:
+            claims.append(
+                ResearchClaim(
+                    claim_id=m.id or "map",
+                    statement="지리적 배치: " + ", ".join(names),
+                    status=m.provenance.verification if m.provenance else "inferred",
+                    confidence=m.provenance.confidence if m.provenance else "medium",
+                    notes="map",
+                )
+            )
+
+    # 모순(contradictions)은 봉합하지 않고 disputed claim 으로 — <반박됨> 라벨 신호.
+    for i, c in enumerate(bundle.contradictions, start=1):
+        note = f"반론: {c.side_b}"
+        if c.resolution:
+            note = f"{note} / 판단: {c.resolution}"
+        claims.append(
+            ResearchClaim(
+                claim_id=f"contradiction_{i}",
+                statement=c.side_a,
+                status="disputed",
+                evidence=(
+                    [Evidence(quote=c.evidence, stance="contextual")] if c.evidence else []
+                ),
+                confidence="medium",
+                notes=note,
+            )
+        )
+
+    return claims
+
+
+def _narrative_summary(bundle: ReportBundle) -> str:
+    """deck + (섹션 heading+prose) + closing 을 ScriptWorker 가 쓸 서사 원천으로 결합.
+
+    v5.5.0 emit 은 알맹이가 sections[].prose 에 있으므로(계약 §6: prose=나레이션 원천),
+    summary 에 실어 ScriptWorker 가 발화형으로 변환하도록 넘긴다.
+    """
+    parts: list[str] = []
+    if bundle.report.deck:
+        parts.append(bundle.report.deck)
+    for s in bundle.sections:
+        if s.prose:
+            head = f"[{s.heading}] " if s.heading else ""
+            parts.append(f"{head}{s.prose}")
+    if bundle.report.closing:
+        parts.append(bundle.report.closing)
+    return "\n\n".join(parts).strip()
+
+
+def bundle_to_research_dossier(bundle: ReportBundle, project_id: str) -> ResearchDossier:
+    """`ReportBundle` → `ResearchDossier` (순수 변환, 계약 v1 §9).
+
+    claims 분기:
+    - bundle.claims 가 있으면(v5.6+ prose→claim) 그대로 매핑.
+    - 비어 있으면(v5.5.0 현실) charts/map/contradictions provenance 에서 합성 —
+      라벨 척추가 chart/map provenance 를 타게 한다(검증 상태 무손실 전파).
+    서사(section prose)는 summary 로 실어 ScriptWorker 가 발화형으로 변환한다.
+    """
+    if bundle.claims:
+        claims = _claims_from_bundle_claims(bundle)
+    else:
+        claims = _synthesize_claims_from_visuals(bundle)
 
     open_questions: list[str] = []
     for s in bundle.signals:
@@ -82,7 +178,7 @@ def bundle_to_research_dossier(bundle: ReportBundle, project_id: str) -> Researc
     return ResearchDossier(
         project_id=project_id,
         topic=bundle.report.headline,
-        summary=summary,
+        summary=_narrative_summary(bundle),
         seeds=[],
         claims=claims,
         open_questions=open_questions,

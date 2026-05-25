@@ -1,6 +1,6 @@
 <!--
 tier: 3
-last_synced_with: v0.19.0
+last_synced_with: v0.20.0
 ssot_for: [release-notes]
 depends_on: [README.md, GOAL.md]
 last_review: 2026-05-23
@@ -25,6 +25,29 @@ released 항목은 **append-only**입니다.
 
 ### Fixed
 -
+
+---
+
+## [v0.20.0] — 2026-05-25
+
+**실물 v5.5.0 emit 연동 — §11 갭 수정 + 라벨 척추 provenance 합성**. agents_reviewer
+실제 번들 2건(fin/geo)으로 수신 모델 대조 + 어댑터 강화.
+
+### Fixed
+
+- **`schemas/models.py`** — `BundleMapArc.highlight` 필드 추가. 실물 geo 번들의 map arc 가
+  `highlight` 를 emit 하는데 모델에 없어 거부되던 §11 갭 수정(extra=forbid). additive.
+
+### Added
+
+- **`orchestrator/bundle_io.py`** — `claims=[]`(v5.5.0 현실)일 때 라벨 척추를
+  charts/map `provenance.verification` + contradictions 에서 합성: 차트→claim
+  (measured→`<확인>`, inference→`<추론>`), map→claim, contradictions→`disputed`(`<반박됨>`).
+  섹션 prose 는 `summary` 로 실어 ScriptWorker 가 발화형 변환(계약 §6). bundle.claims 가
+  차 있으면(v5.6+) 직매핑.
+- **`tests/test_bundle_flow.py`** — v5.5.0 빈 claims 합성 + arc.highlight 수용 4종(309 통과).
+- 실물 검증: fin/geo 번들이 우리 v0.20.0 수신 모델로 검증 통과(arc 수정 후), 어댑터가
+  라벨 보유 claim(fin 5 / geo 6) + 서사 summary(4천여 자) 생성 확인.
 
 ---
 
