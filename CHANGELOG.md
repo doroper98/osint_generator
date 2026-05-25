@@ -1,6 +1,6 @@
 <!--
 tier: 3
-last_synced_with: v0.22.0
+last_synced_with: v0.22.1
 ssot_for: [release-notes]
 depends_on: [README.md, GOAL.md]
 last_review: 2026-05-23
@@ -25,6 +25,18 @@ released 항목은 **append-only**입니다.
 
 ### Fixed
 -
+
+---
+
+## [v0.22.1] — 2026-05-25
+
+**ScriptWorker LLM 타임아웃 상향(600→1200초)**. 5분 대본 1-shot 생성에서 claude think
+시간이 600초를 넘겨 timeout 실패하는 사례 관측(실측 526초 성공 / 600초 timeout). 긴 생성
+전용으로 한도를 올림(다른 worker 는 600초 유지).
+
+### Fixed
+
+- **`workers/script_worker.py`** — `invoke_timeout_sec` ClassVar=1200 override.
 
 ---
 

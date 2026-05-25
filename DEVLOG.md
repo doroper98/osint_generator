@@ -1,6 +1,6 @@
 <!--
 tier: 3
-last_synced_with: v0.22.0
+last_synced_with: v0.22.1
 ssot_for: [development-log]
 depends_on: [CHANGELOG.md]
 last_review: 2026-05-24
@@ -22,6 +22,19 @@ last_review: 2026-05-24
 - 결과:  …
 - 연관:  AP-번호, 이슈, PR 번호 등
 ```
+
+---
+
+## 2026-05-25 v0.22.1 — ScriptWorker LLM 타임아웃 상향 (600→1200초)
+
+- **무엇을**: ScriptWorker.invoke_timeout_sec ClassVar=1200 override.
+- **왜**: fin 실물 번들 build-script 가 `claude CLI timeout after 600s` 로 실패. 5분 대본
+  1-shot 생성은 claude think 시간이 길어 600초를 넘기는 경우가 있음(실측: geo 526초 성공,
+  fin 600초 초과). 로직 오류 아님 — 순수 latency.
+- **어떻게**: 긴 생성 전용으로 ScriptWorker 만 1200초로(다른 worker 기본 600초 유지). 전역
+  상향 대신 surgical override.
+- **결과**: fin build-script 재실행(1200초)으로 ① 출처 프레임 확인 예정.
+- **연관**: CHANGELOG v0.22.1.
 
 ---
 
