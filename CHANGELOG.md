@@ -1,6 +1,6 @@
 <!--
 tier: 3
-last_synced_with: v0.24.0
+last_synced_with: v0.25.0
 ssot_for: [release-notes]
 depends_on: [README.md, GOAL.md]
 last_review: 2026-05-23
@@ -25,6 +25,27 @@ released 항목은 **append-only**입니다.
 
 ### Fixed
 -
+
+---
+
+## [v0.25.0] — 2026-05-25
+
+**최우선 가치 "영상미(Cinematic Quality First)" 를 최상위 규칙으로 박음 (사용자 결정)**.
+정적 보고서 이식이 아니라, 데이터·맥락을 이해해 영상용으로 재렌더하는 것을 osint_generator
+의 제1 미덕으로 확정.
+
+### Changed
+
+- **`CLAUDE.md`** — **C0. 최우선 가치 — 영상미** 신설(C1 위, 최상위). 선택지가 갈리면 정적·쉬운
+  길보다 영상미 높은 길을 택한다(쫓는 비용 감수). 차트는 정적 SVG 이식이 아니라 데이터로
+  cinematic 재렌더, 외부 SVG 는 렌더러 없는 복잡 타입 폴백. 경계: 사실 정확성·검증(G4)·권리(C9)
+  위에서만.
+- **`GOAL.md`** — **G0. 최우선 미덕 — 영상미** 신설(G1 위). 비주얼은 영상에 적합하게 생성/재렌더.
+- **방침 전환**: 이전의 "전 타입 SVG passthrough 로 안 쫓기"(v0.18~0.20 논의)는 폐기. 전반
+  구도를 모른 채 내린 결정이었음(사용자). agents_reviewer 계약의 A안(consumer 가 데이터로
+  재렌더)과도 정합 — 분쟁이 아니라 수렴.
+- **`HANDOFF.md` / `docs/05`** — 차트 보류 항목을 "우리가 데이터로 cinematic 재렌더(family
+  렌더러) + 복잡 타입만 SVG 폴백" 으로 재정의.
 
 ---
 

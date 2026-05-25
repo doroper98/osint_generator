@@ -1,6 +1,6 @@
 <!--
 tier: 3
-last_synced_with: v0.24.0
+last_synced_with: v0.25.0
 ssot_for: [development-log]
 depends_on: [CHANGELOG.md]
 last_review: 2026-05-24
@@ -22,6 +22,23 @@ last_review: 2026-05-24
 - 결과:  …
 - 연관:  AP-번호, 이슈, PR 번호 등
 ```
+
+---
+
+## 2026-05-25 v0.25.0 — 최우선 가치 "영상미(Cinematic Quality First)" 최상위 규칙으로 확정
+
+- **무엇을**: CLAUDE.md C0 + GOAL.md G0 신설("영상미 최우선"). 차트 전략 방침 전환(전-타입
+  SVG passthrough 폐기 → 우리가 데이터로 cinematic 재렌더). HANDOFF/docs 정합.
+- **왜**: 사용자가 영상 구성·구도를 충분히 이해한 뒤 "영상미를 제1 미덕으로 놓자"고 결정.
+  이전의 "안 쫓기 위해 전-타입 SVG" 방침은 전반 구도를 모른 채 내린 거라 폐기. 마침
+  agents_reviewer 가 "계약은 A안(consumer 가 데이터로 재렌더)이지 전-타입 SVG 아니다"라고
+  잡아준 것과 **수렴** — 우리가 영상미 위해 데이터로 직접 그리는 게 곧 A안.
+- **어떻게**: 영상미 = 정적 이식이 아니라 데이터·취지·맥락 이해 후 영상용 생성(애니·음성싱크·
+  맥락강조). 선택지 갈리면 정적·편의보다 영상미. 단 사실정확성·G4·C9 위에서(정확성 깬 화려함
+  금지). 차트는 family 렌더러로 우리가 cinematic 렌더, 외부 SVG 는 복잡 타입 폴백.
+- **결과**: 321 통과(원칙 문서 변경, 코드 무변경). MINOR(G1/G2/G4 미변경이라 MAJOR 아님 —
+  G0 는 additive). 다음: family 차트 렌더러 구현이 영상미 후속 작업.
+- **연관**: CLAUDE C0, GOAL G0, HANDOFF, docs/05 §3.4e, CHANGELOG v0.25.0.
 
 ---
 

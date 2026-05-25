@@ -25,10 +25,12 @@ last_review: 2026-05-22
 2. **③ 자동 캐치 트리거** — 지금은 수동(`import-bundle --file`). agents_reviewer 가
    `--bundle` 로 Pages 에 올린 새 번들을 감시→자동 import 하는 워처 CLI + push 알림 설계.
    상시 데몬/실행 위치 결정 필요. → 사용자가 "나중에(2)".
-3. **차트 비주얼 (지도는 v0.23.0 완료, 차트는 보류)** — line/bubble/gantt 등은
-   agents_reviewer 의 `prerendered_svg` 가 **v5.5.0 엔 null**(fast-follow)이라 막힘. SVG
-   도착 후 범용 SVG passthrough 컴포넌트로. → **사용자가 agents_reviewer 에 "SVG 채우기"
-   요청해야 풀림**.
+3. **차트 비주얼 — 영상미 최우선(C0/G0)대로 우리가 데이터로 cinematic 재렌더** (지도는
+   v0.23.0 완료). line/bar/bubble/candle 등은 **family 렌더러**로 우리가 영상용으로 그린다
+   (애니·음성싱크·맥락강조). agents_reviewer 정적 SVG 는 **아직 렌더러 없는 복잡 타입
+   (network/sankey/choropleth)의 폴백**으로만. ※ 이전의 "전 타입 SVG passthrough" 방침은
+   폐기 — agents_reviewer 계약(A안: consumer 가 데이터로 재렌더)과도 정합. agents_reviewer
+   는 데이터+provenance(이미 함) + 복잡 4종 SVG(폴백) 담당.
 4. **(사용자 액션) Windows 실제 음성 풀 렌더 검증** — 이 클라우드는 stub(무음)이라 지도+
    자막+실제 음성이 함께 도는 영상을 사용자가 본 적 없음. 브랜치 pull → `build-audio
    --backend elevenlabs` + `render-debug` 로 확인 (현재 사용자가 이걸 먼저 하는 중).

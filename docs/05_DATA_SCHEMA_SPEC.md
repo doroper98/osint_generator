@@ -1,6 +1,6 @@
 <!--
 tier: 2
-last_synced_with: v0.24.0
+last_synced_with: v0.25.0
 ssot_for: [json-contracts-overview]
 depends_on: [../schemas/models.py]
 last_review: 2026-05-23
@@ -232,8 +232,9 @@ project_dir + `staticFile` 로 참조). audio_manifest 가 있으면 startSec/du
 
 `mapData`(`RenderMap`: center/zoom/markers/arcs, v0.23.0 Phase B): scene 의 claim_refs 에
 bundle map id 가 있으면 붙는다. Remotion `MapView`(d3-geo + world-atlas)가 중앙에 지도를
-재렌더(마커·arc·highlight)하고 caption 은 제목으로 축소. 차트(line/bubble 등)는 추후 SVG
-passthrough.
+재렌더(마커·arc·highlight)하고 caption 은 제목으로 축소. 차트(line/bar/bubble/candle 등)도
+**영상미 최우선(C0/G0)대로 우리가 데이터로 cinematic 재렌더**(family 렌더러, 추후) — 정적
+SVG 는 아직 렌더러 없는 복잡 타입(network/sankey/choropleth)의 폴백으로만.
 
 ### 3.4f `AudioManifest` (Phase 8 TTS, 수직 슬라이스 V4)
 
