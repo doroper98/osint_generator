@@ -1,6 +1,6 @@
 <!--
 tier: 3
-last_synced_with: v0.16.0
+last_synced_with: v0.17.0
 ssot_for: [release-notes]
 depends_on: [README.md, GOAL.md]
 last_review: 2026-05-23
@@ -25,6 +25,21 @@ released 항목은 **append-only**입니다.
 
 ### Fixed
 -
+
+---
+
+## [v0.17.0] — 2026-05-24
+
+**대본 규칙: 4~6분 길이 + 후속 안내 마무리**. 브리핑 포맷 규칙을 script_worker 에 적용.
+
+### Changed
+
+- **`workers/script_worker.py`** — system prompt 규칙 추가:
+  - 영상 길이를 **4~6분(240~360초)** 으로 제한(total_est_duration_sec 가 그 범위). manifest
+    target_duration_min(3~20)과 별개의 스크립트 포맷 운영 목표.
+  - **마지막 세그먼트는 항상 '후속 안내' 마무리**("앞으로도 지속 확인하고 새 사실은 이어서
+    전하겠다" 뉘앙스)로 끝내되 매번 표현을 다르게. label=null, claim_refs 비움 허용.
+- 본 규칙은 이후 `build-script` 생성분부터 적용(기존 samples 대본은 규칙 전 스냅샷).
 
 ---
 
