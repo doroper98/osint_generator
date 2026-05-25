@@ -1,6 +1,6 @@
 <!--
 tier: 3
-last_synced_with: v0.25.0
+last_synced_with: v0.26.0
 ssot_for: [release-notes]
 depends_on: [README.md, GOAL.md]
 last_review: 2026-05-23
@@ -27,6 +27,27 @@ released 항목은 **append-only**입니다.
 -
 
 ---
+
+## [v0.26.0] — 2026-05-25
+
+**영상용 차트 family 렌더러 — line (영상미 C0 첫 구현)**. 정적 SVG 이식이 아니라, 차트
+데이터로 우리가 cinematic 재렌더(좌→우 draw-on + event 강조). 실물 호르무즈 보고서의 브렌트
+유가 라인차트로 검증.
+
+### Added
+
+- **`schemas/models.py`** — `RenderChart`(type/title/data/unit) + `RenderSceneProps.chartData`.
+- **`orchestrator/render_io.py`** — claim_refs 에 지원 차트 id 가 있으면 scene 에 chartData
+  attach. `SUPPORTED_CHART_TYPES={line}`(확장 중). unit 은 provenance.sources 에서.
+- **`remotion/src/ChartView.tsx`**(신규) — line family: 데이터 스케일 + 좌→우 draw-on
+  애니(stroke-dashoffset) + event 마커/라벨 + 축. type 별 디스패치(미지원→null=텍스트 폴백).
+- **`remotion/src/Briefing.tsx`** — 중앙 비주얼 우선순위 map>chart>text, caption 은 제목 축소.
+- **`tests/test_render_flow.py`** — 차트 attach/미지원 제외 테스트(323 통과).
+
+### Notes
+
+- 알려진 다듬기: 끝점 event 라벨이 SVG 경계서 잘림 / 라벨 겹침 — 후속 미세조정.
+- 다음 family: bar/bubble/waterfall/gantt → 그다음 복잡 타입(network 등).
 
 ## [v0.25.0] — 2026-05-25
 

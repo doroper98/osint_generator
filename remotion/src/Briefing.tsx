@@ -9,6 +9,7 @@ import {
   useVideoConfig,
 } from "remotion";
 import { MapView, MapData } from "./MapView";
+import { ChartView, ChartData } from "./ChartView";
 
 export const FPS = 30;
 export const WIDTH = 1920;
@@ -29,6 +30,7 @@ export type Scene = {
   narration: string;
   subtitleCues?: SubtitleCue[];
   mapData?: MapData | null;
+  chartData?: ChartData | null;
   label: string | null;
   sourceLinkRequired: boolean;
   // 화면 상단 출처 표기(있을 때만). 소스 본문 배선 전엔 빈 문자열.
@@ -81,6 +83,8 @@ const Slide: React.FC<{ scene: Scene }> = ({ scene }) => {
   });
   const isQuote = Boolean(scene.isQuote);
   const hasMap = Boolean(scene.mapData && (scene.mapData.markers?.length ?? 0) > 0);
+  const hasChart = Boolean(scene.chartData && scene.chartData.type);
+  const hasVisual = hasMap || hasChart;
   const takeaway = scene.caption
     ? isQuote
       ? `“${scene.caption}”` // “ ”
@@ -159,8 +163,8 @@ const Slide: React.FC<{ scene: Scene }> = ({ scene }) => {
         </div>
       ) : null}
 
-      {/* 중앙: 지도(있으면) + key takeaway. 지도가 있으면 caption 은 제목으로 축소. */}
-      {hasMap ? (
+      {/* 중앙: 비주얼(지도/차트, 있으면) + key takeaway 는 제목으로 축소. 없으면 큰 takeaway. */}
+      {hasVisual ? (
         <AbsoluteFill
           style={{
             flexDirection: "column",
@@ -184,7 +188,11 @@ const Slide: React.FC<{ scene: Scene }> = ({ scene }) => {
           >
             {takeaway}
           </div>
-          <MapView data={scene.mapData as MapData} width={1360} height={600} />
+          {hasMap ? (
+            <MapView data={scene.mapData as MapData} width={1360} height={600} />
+          ) : (
+            <ChartView chart={scene.chartData as ChartData} width={1360} height={560} />
+          )}
         </AbsoluteFill>
       ) : (
         <AbsoluteFill

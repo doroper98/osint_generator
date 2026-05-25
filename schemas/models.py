@@ -640,6 +640,21 @@ class RenderMap(BaseModel):
     arcs: list[RenderMapArc] = Field(default_factory=list)
 
 
+class RenderChart(BaseModel):
+    """scene 중앙에 그릴 차트(bundle.chart 에서 유래). 영상미 최우선(C0): 정적 SVG 이식이
+    아니라 우리 Remotion family 렌더러가 데이터로 cinematic 재렌더(애니·강조). data 의 타입별
+    모양 SSOT 는 agents_reviewer schemas.py 라 Any 로 통과(Remotion 측이 type 별 해석).
+    """
+
+    model_config = ConfigDict(extra="forbid")
+
+    chartId: str
+    type: str
+    title: str = ""
+    data: Any = None
+    unit: str = ""
+
+
 class RenderSceneProps(BaseModel):
     """Remotion 컴포지션이 읽는 scene 1개 props. 필드명은 TS 친화 camelCase.
 
@@ -667,6 +682,9 @@ class RenderSceneProps(BaseModel):
     # 이 scene 이 지도 비주얼을 가질 때(claim_refs 에 bundle map id 포함) 지오데이터. Phase B.
     # 있으면 중앙에 지도를 그리고 caption 은 제목으로 축소된다.
     mapData: Optional[RenderMap] = None
+    # 이 scene 이 차트 비주얼을 가질 때(claim_refs 에 chart id 포함, 지원 타입). 영상미 C0:
+    # 우리 family 렌더러가 데이터로 cinematic 재렌더. 있으면 중앙에 차트, caption 은 제목으로.
+    chartData: Optional[RenderChart] = None
     # 나레이션 wav 의 project_dir 기준 상대경로 (audio_manifest 가 있을 때). Remotion 은
     # --public-dir 를 project_dir 로 두고 staticFile(audioPath) 로 참조한다. 무음이면 None.
     audioPath: Optional[str] = None

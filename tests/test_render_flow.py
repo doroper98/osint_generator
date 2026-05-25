@@ -108,6 +108,58 @@ class TestSceneSourceCitation(unittest.TestCase):
         self.assertEqual(props.scenes[0].source, "")
 
 
+class TestSceneChartAttach(unittest.TestCase):
+    def _bundle_with_charts(self):
+        from schemas.models import (
+            BundleChart, BundleProvenance, BundleProducer, BundleReport, ReportBundle,
+        )
+        prov = BundleProvenance(origin="measured", verification="confirmed")
+        return ReportBundle(
+            producer=BundleProducer(system="agents_reviewer", version="v5.5.2"),
+            report=BundleReport(report_id="r", headline="h"),
+            charts=[
+                BundleChart(chart_id="ch-line", type="line", title="유가",
+                            data=[{"x": "a", "y": 1}, {"x": "b", "y": 2}], provenance=prov),
+                BundleChart(chart_id="ch-bub", type="bubble", title="시나리오",
+                            data=[{"x": 1, "y": 2, "size": 3}], provenance=prov),
+            ],
+        )
+
+    def _script(self, refs0, refs1):
+        from schemas.models import FullScript as _FS, ScriptChapter, ScriptSegment
+        return _FS(
+            project_id="p", title="t", topic="t",
+            chapters=[ScriptChapter(chapter_id="c", title="c")],
+            segments=[
+                ScriptSegment(segment_id="seg_01", chapter_id="c", narration="첫.",
+                              claim_refs=refs0, est_duration_sec=4.0),
+                ScriptSegment(segment_id="seg_02", chapter_id="c", narration="둘.",
+                              claim_refs=refs1, est_duration_sec=4.0),
+            ],
+        )
+
+    def test_supported_line_chart_attaches(self) -> None:
+        from orchestrator.render_io import build_render_props
+        from orchestrator.scene_builder import build_scene_manifest
+
+        script = self._script(["ch-line"], [])
+        bundle = self._bundle_with_charts()
+        props = build_render_props(build_scene_manifest(script), script, report_bundle=bundle)
+        self.assertIsNotNone(props.scenes[0].chartData)
+        self.assertEqual(props.scenes[0].chartData.type, "line")
+        self.assertEqual(props.scenes[0].chartData.chartId, "ch-line")
+        self.assertIsNone(props.scenes[1].chartData)
+
+    def test_unsupported_type_not_attached(self) -> None:
+        from orchestrator.render_io import build_render_props
+        from orchestrator.scene_builder import build_scene_manifest
+
+        script = self._script(["ch-bub"], [])  # bubble = 미지원 → attach 안 됨(텍스트 폴백)
+        bundle = self._bundle_with_charts()
+        props = build_render_props(build_scene_manifest(script), script, report_bundle=bundle)
+        self.assertIsNone(props.scenes[0].chartData)
+
+
 class TestSceneMapAttach(unittest.TestCase):
     def test_map_attaches_to_scene_referencing_map_id(self) -> None:
         from orchestrator.render_io import build_render_props

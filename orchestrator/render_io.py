@@ -22,6 +22,7 @@ from orchestrator.script_io import load_full_script
 from schemas.models import (
     AudioManifest,
     FullScript,
+    RenderChart,
     RenderMap,
     RenderMapArc,
     RenderMapMarker,
@@ -34,6 +35,10 @@ from schemas.models import (
     SourceRegistry,
     SubtitleCue,
 )
+
+# 영상용 family 렌더러가 있는(=cinematic 재렌더 가능한) 차트 타입. 늘려가며 확장(C0).
+# 미지원 타입은 attach 안 함 → 해당 scene 은 텍스트 takeaway 로 폴백(외부 SVG 폴백은 추후).
+SUPPORTED_CHART_TYPES = {"line"}
 
 
 def _bundle_map_to_render_map(bm) -> RenderMap:
@@ -210,6 +215,10 @@ def build_render_props(
     )
     map_id = bundle_map.id if bundle_map is not None else None
     render_map = _bundle_map_to_render_map(bundle_map) if bundle_map is not None else None
+    # 차트 비주얼: claim_refs 에 chart id 가 있고 지원 타입이면 그 scene 에 차트 attach.
+    chart_by_id = (
+        {c.chart_id: c for c in report_bundle.charts} if report_bundle is not None else {}
+    )
 
     # 인용부호가 들어간 caption 은 인용(quote)으로 표기 (영상 문법 ③). 정식 인용 마킹
     # (ScriptSegment 필드 / bundle pull_quote)이 생기기 전의 휴리스틱.
@@ -224,8 +233,23 @@ def build_render_props(
         label = next((s.label for s in segs if s.label), None)
         is_quote = any(m in scene.caption for m in quote_marks)
         # 이 scene 의 segment claim_refs 에 map id 가 있으면 지도 attach.
-        scene_claim_refs = {r for s in segs for r in s.claim_refs}
-        scene_map = render_map if (map_id is not None and map_id in scene_claim_refs) else None
+        scene_claim_refs = [r for s in segs for r in s.claim_refs]
+        scene_map = (
+            render_map
+            if (map_id is not None and map_id in set(scene_claim_refs))
+            else None
+        )
+        # 첫 번째로 매칭되는 지원 타입 차트를 attach (claim_refs 순서 보존).
+        scene_chart = None
+        for cid in scene_claim_refs:
+            ch = chart_by_id.get(cid)
+            if ch is not None and ch.type in SUPPORTED_CHART_TYPES:
+                unit = ch.provenance.sources[0].unit if ch.provenance.sources else ""
+                scene_chart = RenderChart(
+                    chartId=ch.chart_id, type=ch.type, title=ch.title,
+                    data=ch.data, unit=unit,
+                )
+                break
 
         # 이 scene 에 대응하는 오디오 (세그먼트 전부가 audio_manifest 에 있을 때만 사용).
         audio_segs = [audio_by_seg[sid] for sid in seg_ids if sid in audio_by_seg]
@@ -255,6 +279,7 @@ def build_render_props(
                 source=_scene_source_citation(segs, claims_by_id, registry_by_id),
                 isQuote=is_quote,
                 mapData=scene_map,
+                chartData=scene_chart,
                 audioPath=audio_path,
             )
         )

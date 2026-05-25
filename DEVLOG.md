@@ -1,6 +1,6 @@
 <!--
 tier: 3
-last_synced_with: v0.25.0
+last_synced_with: v0.26.0
 ssot_for: [development-log]
 depends_on: [CHANGELOG.md]
 last_review: 2026-05-24
@@ -24,6 +24,21 @@ last_review: 2026-05-24
 ```
 
 ---
+
+## 2026-05-25 v0.26.0 — 영상용 차트 family 렌더러 (line, 영상미 C0 첫 구현)
+
+- **무엇을**: RenderChart 모델 + render_io chart attach + Remotion ChartView(line family) +
+  Briefing 통합 + 테스트.
+- **왜**: 영상미 최우선(C0) 결정에 따라 차트를 정적 SVG 가 아니라 데이터로 우리가 cinematic
+  재렌더. line 이 실물 분포상 압도적(호르무즈 9개 중 5개)이라 line family 부터.
+- **어떻게**: claim_refs 에 지원 차트 id 가 있으면 그 scene 에 chartData attach(지도와 동형).
+  ChartView line: 데이터 스케일 → 좌→우 draw-on(stroke-dashoffset) + event 마커/라벨 + 축.
+  미지원 타입은 attach 안 함(텍스트 폴백). 중앙 비주얼 우선순위 map>chart>text.
+- **결과**: 323 통과(신규 2). 실물 호르무즈 브렌트 유가 라인차트 프레임 렌더 확인 — $80→$120
+  봉쇄 피크→$105→$114 event 콜아웃, <추론> 배지, 발화형 자막.
+- **알려진 다듬기**: 끝점 event 라벨 SVG 경계 클립 / 라벨 겹침 → 후속.
+- **다음**: bar/bubble/waterfall/gantt family → 복잡 타입(network 등).
+- **연관**: C0/G0(영상미), CHANGELOG v0.26.0, docs/05 §3.4e.
 
 ## 2026-05-25 v0.25.0 — 최우선 가치 "영상미(Cinematic Quality First)" 최상위 규칙으로 확정
 
