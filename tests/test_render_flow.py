@@ -59,6 +59,55 @@ class TestSubtitleCues(unittest.TestCase):
         self.assertEqual(split_subtitle_cues("내용", 0.0), [])
 
 
+class TestSceneSourceCitation(unittest.TestCase):
+    def test_source_citation_via_build_render_props(self) -> None:
+        from orchestrator.render_io import build_render_props
+        from orchestrator.scene_builder import build_scene_manifest
+        from schemas.models import (
+            Evidence, FullScript as _FS, ResearchClaim, ResearchDossier,
+            ScriptChapter, ScriptSegment, SourceEntry, SourceRegistry,
+        )
+
+        script = _FS(
+            project_id="p", title="t", topic="t",
+            chapters=[ScriptChapter(chapter_id="c", title="c")],
+            segments=[
+                ScriptSegment(segment_id="seg_01", chapter_id="c",
+                              narration="첫 문장.", on_screen_caption="캡션",
+                              claim_refs=["C-1"], est_duration_sec=4.0),
+            ],
+        )
+        dossier = ResearchDossier(
+            project_id="p", claims=[
+                ResearchClaim(claim_id="C-1", statement="주장",
+                              evidence=[Evidence(source_id="mkt-1", quote="q")]),
+            ],
+        )
+        registry = SourceRegistry(project_id="p", sources=[
+            SourceEntry(source_id="mkt-1", platform="YAHOO", source_type="data_series"),
+        ])
+        sm = build_scene_manifest(script)
+        props = build_render_props(
+            sm, script, research_dossier=dossier, source_registry=registry
+        )
+        self.assertEqual(props.scenes[0].source, "YAHOO")
+
+    def test_no_source_when_unresolvable(self) -> None:
+        from orchestrator.render_io import build_render_props
+        from orchestrator.scene_builder import build_scene_manifest
+        from schemas.models import FullScript as _FS, ScriptChapter, ScriptSegment
+
+        script = _FS(
+            project_id="p", title="t", topic="t",
+            chapters=[ScriptChapter(chapter_id="c", title="c")],
+            segments=[ScriptSegment(segment_id="seg_01", chapter_id="c",
+                                    narration="문장.", claim_refs=[], est_duration_sec=4.0)],
+        )
+        sm = build_scene_manifest(script)
+        props = build_render_props(sm, script)  # dossier/registry 없음
+        self.assertEqual(props.scenes[0].source, "")
+
+
 class TestBuildRenderPropsPure(_RenderHarness):
     def test_resolves_narration_label_and_source(self) -> None:
         script = FullScript.model_validate_json(VALID_SCRIPT_JSON)

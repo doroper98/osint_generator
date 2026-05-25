@@ -26,6 +26,8 @@ from schemas.models import (
     ReportBundle,
     ResearchClaim,
     ResearchDossier,
+    SourceEntry,
+    SourceRegistry,
 )
 
 
@@ -176,6 +178,45 @@ def _narrative_summary(bundle: ReportBundle) -> str:
     return "\n\n".join(parts).strip()
 
 
+def bundle_to_source_registry(bundle: ReportBundle, project_id: str) -> SourceRegistry:
+    """bundle 의 출처(top-level sources + 차트/지도 provenance.sources)를 SourceRegistry 로.
+
+    화면 상단 출처 표기(영상 문법)를 위해 source_id → 표기명을 해소할 수 있게 한다.
+    source_id 로 dedup(top-level sources 가 우선). 차트 provenance 의 데이터 출처
+    (예: mkt-1=YAHOO/KRX)도 포함해야 chart-derived claim 의 출처가 해소된다.
+    """
+    by_id: dict[str, SourceEntry] = {}
+
+    # 차트/지도 provenance.sources (데이터 시리즈 출처).
+    provs = [c.provenance for c in bundle.charts]
+    if bundle.map is not None and bundle.map.provenance is not None:
+        provs.append(bundle.map.provenance)
+    for prov in provs:
+        for s in prov.sources:
+            if not s.source_id or s.source_id in by_id:
+                continue
+            label = " ".join(p for p in (s.provider, s.code) if p).strip()
+            by_id[s.source_id] = SourceEntry(
+                source_id=s.source_id,
+                platform=s.provider or "data",
+                source_type="data_series",
+                original_url=s.url or None,
+                title=label or s.provider or s.source_id,
+            )
+
+    # top-level sources (보고서 인용 출처) — 우선(덮어쓰기).
+    for s in bundle.sources:
+        by_id[s.source_id] = SourceEntry(
+            source_id=s.source_id,
+            platform=s.publisher or "source",
+            source_type="report_cited",
+            original_url=s.url or None,
+            title=s.title or s.publisher or s.source_id,
+        )
+
+    return SourceRegistry(project_id=project_id, sources=list(by_id.values()))
+
+
 def bundle_to_research_dossier(bundle: ReportBundle, project_id: str) -> ResearchDossier:
     """`ReportBundle` → `ResearchDossier` (순수 변환, 계약 v1 §9).
 
@@ -206,4 +247,4 @@ def bundle_to_research_dossier(bundle: ReportBundle, project_id: str) -> Researc
     )
 
 
-__all__ = ["load_report_bundle", "bundle_to_research_dossier"]
+__all__ = ["load_report_bundle", "bundle_to_research_dossier", "bundle_to_source_registry"]

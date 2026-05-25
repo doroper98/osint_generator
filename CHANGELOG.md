@@ -1,6 +1,6 @@
 <!--
 tier: 3
-last_synced_with: v0.21.0
+last_synced_with: v0.22.0
 ssot_for: [release-notes]
 depends_on: [README.md, GOAL.md]
 last_review: 2026-05-23
@@ -25,6 +25,31 @@ released 항목은 **append-only**입니다.
 
 ### Fixed
 -
+
+---
+
+## [v0.22.0] — 2026-05-25
+
+**① 화면 상단 출처 텍스트 배선**. bundle 출처를 source_registry 로 영속화하고 scene 의
+claim→evidence→출처로 해소해 화면 상단에 표기.
+
+### Added
+
+- **`orchestrator/bundle_io.py`** — `bundle_to_source_registry`: bundle top-level
+  sources + 차트/지도 `provenance.sources`(예: mkt-1=YAHOO)를 `SourceRegistry` 로 수집
+  (source_id dedup, top-level 우선).
+- **`orchestrator/bundle_service.py`** — import-bundle 이 `02_sources/source_registry.json`
+  도 영속화(선택적, 실패해도 전이 무방).
+- **`orchestrator/render_io.py`** — scene 의 segment claim_refs → dossier claim →
+  evidence.source_id → registry 표기명(publisher/provider/도메인)으로 `source` 해소
+  (해소 불가 시 ""; v5.5.0 의 sparse 한 claim-출처 연결에서 과잉 귀속 방지). 최대 3개.
+- **`orchestrator/source_registry_io.py`** — `load_source_registry` 추가.
+- **`tests/`** — bundle→registry 수집 + scene 출처 해소 테스트(317 통과).
+
+### Notes
+
+- v5.5.0 은 claim-출처 연결이 sparse(차트 데이터 출처 위주) → fin(시장데이터)은 출처 표기,
+  geo(서술 위주)는 대부분 빈 출처(과잉 귀속 방지). 정밀화는 claim-출처 연결 강화(v5.6+)와 함께.
 
 ---
 

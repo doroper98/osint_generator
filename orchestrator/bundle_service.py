@@ -13,7 +13,11 @@ import json
 from pathlib import Path
 from typing import Optional
 
-from orchestrator.bundle_io import bundle_to_research_dossier, load_report_bundle
+from orchestrator.bundle_io import (
+    bundle_to_research_dossier,
+    bundle_to_source_registry,
+    load_report_bundle,
+)
 from orchestrator.config import AppConfig, load_config
 from orchestrator.project_manager import resume_project, transition_state
 from orchestrator.research_io import (
@@ -21,6 +25,7 @@ from orchestrator.research_io import (
     persist_research_dossier,
     research_dossier_path,
 )
+from orchestrator.source_registry_io import persist_source_registry
 from schemas.models import ProjectManifest, ProjectState
 
 
@@ -78,6 +83,15 @@ def import_report_bundle(
 
     dossier = bundle_to_research_dossier(bundle, project_id)
     persist_research_dossier(project_id, dossier, cfg)
+
+    # 화면 상단 출처 표기를 위해 bundle 출처를 source_registry 로 영속화(선택적 — 실패해도
+    # 본류 전이는 막지 않는다). render_io 가 scene→claim→evidence→출처로 해소한다.
+    try:
+        persist_source_registry(
+            project_id, bundle_to_source_registry(bundle, project_id), cfg
+        )
+    except OSError:
+        pass
 
     # 전이 게이트: dossier 가 디스크에 유효하게 영속화됐는지 확인 후에만 전진.
     try:

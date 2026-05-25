@@ -328,5 +328,29 @@ class TestV55EmptyClaimsSynthesis(unittest.TestCase):
         self.assertIn("다음 확인점", dossier.summary)
 
 
+class TestBundleToSourceRegistry(unittest.TestCase):
+    def test_collects_provenance_and_toplevel_sources(self) -> None:
+        from orchestrator.bundle_io import bundle_to_source_registry
+
+        raw = _v55_bundle()
+        # 차트 전용 데이터 출처(top-level 에 없음)를 하나 추가.
+        raw["charts"][1]["provenance"]["sources"] = [
+            {"source_id": "mkt-9", "provider": "KRX", "code": "005930"}
+        ]
+        raw["sources"] = [
+            {"source_id": "src-1", "publisher": "reuters.com", "title": ""},
+        ]
+        bundle = ReportBundle.model_validate(raw)
+        reg = bundle_to_source_registry(bundle, "p1")
+        by_id = {s.source_id: s for s in reg.sources}
+        # 차트 provenance 출처 (데이터 시리즈).
+        self.assertEqual(by_id["mkt-1"].platform, "YAHOO")
+        self.assertEqual(by_id["mkt-1"].source_type, "data_series")
+        self.assertEqual(by_id["mkt-9"].platform, "KRX")
+        # top-level 보고서 인용 출처.
+        self.assertEqual(by_id["src-1"].platform, "reuters.com")
+        self.assertEqual(by_id["src-1"].source_type, "report_cited")
+
+
 if __name__ == "__main__":
     unittest.main()

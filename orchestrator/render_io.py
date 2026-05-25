@@ -10,6 +10,7 @@ Remotion 최소 렌더(텍스트 슬라이드)의 입력 props 를 만든다. sc
 
 from __future__ import annotations
 
+import json
 import os
 import re
 from pathlib import Path
@@ -23,9 +24,57 @@ from schemas.models import (
     FullScript,
     RenderProps,
     RenderSceneProps,
+    ResearchDossier,
     SceneManifest,
+    SourceEntry,
+    SourceRegistry,
     SubtitleCue,
 )
+
+# 화면 상단 출처 표기에 노출할 최대 출처 수.
+_SCENE_SOURCE_MAX = 3
+
+
+def _source_display_name(entry: SourceEntry) -> str:
+    """SourceEntry → 화면 표기명 (publisher/provider 우선, 없으면 도메인/title)."""
+    if entry.platform and entry.platform not in ("data", "source"):
+        return entry.platform
+    if entry.original_url:
+        dom = re.sub(r"^https?://(www\.)?", "", entry.original_url).split("/")[0]
+        if dom:
+            return dom
+    if entry.title:
+        return entry.title
+    return entry.platform or entry.source_id
+
+
+def _scene_source_citation(
+    segs: list,
+    claims_by_id: dict,
+    registry_by_id: dict,
+) -> str:
+    """scene 의 segment claim_refs → dossier claim → evidence.source_id → registry 표기명.
+
+    해소 가능한 출처가 없으면 "" (자막바 위 출처 줄을 숨김). v5.5.0 은 claim-출처 연결이
+    sparse 하므로(차트 데이터 출처 위주) 해소되는 scene 에서만 표기한다(과잉 귀속 방지).
+    """
+    names: list[str] = []
+    seen: set[str] = set()
+    for seg in segs:
+        for cid in seg.claim_refs:
+            claim = claims_by_id.get(cid)
+            if claim is None:
+                continue
+            for ev in claim.evidence:
+                sid = ev.source_id
+                if not sid or sid in seen:
+                    continue
+                entry = registry_by_id.get(sid)
+                if entry is None:
+                    continue
+                seen.add(sid)
+                names.append(_source_display_name(entry))
+    return ", ".join(names[:_SCENE_SOURCE_MAX])
 
 
 # 자막 한 줄(큐) 최대 글자 수. 한 화면 자막은 통문단이 아니라 1~2줄이어야 한다.
@@ -101,6 +150,8 @@ def build_render_props(
     script: FullScript,
     *,
     audio_manifest: Optional[AudioManifest] = None,
+    research_dossier: Optional[ResearchDossier] = None,
+    source_registry: Optional[SourceRegistry] = None,
     fps: int = 30,
     width: int = 1920,
     height: int = 1080,
@@ -118,6 +169,12 @@ def build_render_props(
     seg_by_id = {s.segment_id: s for s in script.segments}
     audio_by_seg = (
         {a.segment_id: a for a in audio_manifest.segments} if audio_manifest else {}
+    )
+    claims_by_id = (
+        {c.claim_id: c for c in research_dossier.claims} if research_dossier else {}
+    )
+    registry_by_id = (
+        {e.source_id: e for e in source_registry.sources} if source_registry else {}
     )
 
     # 인용부호가 들어간 caption 은 인용(quote)으로 표기 (영상 문법 ③). 정식 인용 마킹
@@ -158,6 +215,7 @@ def build_render_props(
                 subtitleCues=split_subtitle_cues(narration, duration),
                 label=label,
                 sourceLinkRequired=scene.source_link_required,
+                source=_scene_source_citation(segs, claims_by_id, registry_by_id),
                 isQuote=is_quote,
                 audioPath=audio_path,
             )
@@ -233,8 +291,24 @@ def build_and_persist_render_props(
         audio_manifest = load_audio_manifest(project_id, cfg)
     except FileNotFoundError:
         audio_manifest = None
+    # 화면 상단 출처 표기용 (선택적 — 없으면 source 빈 문자열로 graceful).
+    research_dossier = None
+    try:
+        from orchestrator.research_io import load_research_dossier
+
+        research_dossier = load_research_dossier(project_id, cfg)
+    except (FileNotFoundError, json.JSONDecodeError, ValueError):
+        research_dossier = None
+    source_registry = None
+    try:
+        from orchestrator.source_registry_io import load_source_registry
+
+        source_registry = load_source_registry(project_id, cfg)
+    except (FileNotFoundError, json.JSONDecodeError, ValueError):
+        source_registry = None
     props = build_render_props(
         scene_manifest, script, audio_manifest=audio_manifest,
+        research_dossier=research_dossier, source_registry=source_registry,
         fps=fps, width=width, height=height,
     )
     path = persist_render_props(project_id, props, cfg)

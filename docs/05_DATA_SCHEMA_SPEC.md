@@ -1,6 +1,6 @@
 <!--
 tier: 2
-last_synced_with: v0.21.0
+last_synced_with: v0.22.0
 ssot_for: [json-contracts-overview]
 depends_on: [../schemas/models.py]
 last_review: 2026-05-23

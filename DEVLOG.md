@@ -1,6 +1,6 @@
 <!--
 tier: 3
-last_synced_with: v0.21.0
+last_synced_with: v0.22.0
 ssot_for: [development-log]
 depends_on: [CHANGELOG.md]
 last_review: 2026-05-24
@@ -22,6 +22,26 @@ last_review: 2026-05-24
 - 결과:  …
 - 연관:  AP-번호, 이슈, PR 번호 등
 ```
+
+---
+
+## 2026-05-25 v0.22.0 — ① 화면 상단 출처 텍스트 배선 (bundle sources → source_registry → scene)
+
+- **무엇을**: import-bundle 이 bundle 출처를 source_registry 로 영속화 + render_io 가
+  scene→claim→evidence→출처로 해소해 RenderSceneProps.source 채움 + 테스트.
+- **왜**: 영상 문법의 상단 출처 슬롯이 비어 있었음(레퍼런스엔 출처 표기가 핵심). bundle 에
+  출처 데이터가 있으니 연결.
+- **어떻게**: `bundle_to_source_registry` 가 top-level sources + 차트/지도 provenance.sources
+  를 SourceEntry 로 수집(dedup, top-level 우선). render_io 가 dossier claim 의 evidence
+  source_id 를 registry 표기명(publisher/provider/도메인)으로 해소, scene 의 claim_refs 로
+  모음(최대 3, 해소 불가 시 "" — 과잉 귀속 방지). 기존 source_registry 인프라 재사용.
+- **결과**: 317 통과(신규 3). fin 번들 import → source_registry 에 mkt-1=YAHOO(차트 데이터)
+  + src-1/2=bloomberg/federalreserve(top-level) 정확 수집 확인. 시각 프레임(YAHOO 출처 줄)은
+  fin build-script(실 claude) 후 확인 예정.
+- **한계(정직)**: v5.5.0 은 claim-출처 연결이 sparse(차트 데이터 출처 위주). fin(시장데이터)은
+  출처 표기되지만 geo(서술 위주)는 대부분 빈 출처 — 과잉 귀속보다 빈 표기가 정직. 보고서-레벨
+  출처를 크레딧 scene 으로 노출하는 건 별도 과제.
+- **연관**: CHANGELOG v0.22.0, docs/05 §3.4e, docs/03 Bundle Importer.
 
 ---
 
