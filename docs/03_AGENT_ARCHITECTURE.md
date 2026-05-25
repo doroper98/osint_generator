@@ -1,6 +1,6 @@
 <!--
 tier: 2
-last_synced_with: v0.14.0
+last_synced_with: v0.18.0
 ssot_for: [agent-catalog, worker-catalog]
 depends_on: [02_SYSTEM_ARCHITECTURE.md]
 last_review: 2026-05-23
@@ -26,6 +26,7 @@ last_review: 2026-05-23
 | Dynamic Intake Planner | `workers/intake_planner_worker.py` (BaseLLMWorker) | project_manifest.json (title/category/duration/summary) | `01_intake/intake_plan.json` | ✅ | 3 |
 | Source Registry Builder | `agents/source_registry_builder.py` | source_intake + task results | `source_registry.json` | ❌ | 5 |
 | Research Agent | `workers/research_worker.py` (BaseLLMWorker) | source_registry + manifest.initial_links | `04_research/research_dossier.json` | ✅ | 6A |
+| Bundle Importer (외부 연동) | `orchestrator/bundle_io.py` + `bundle_service.py` (`import-bundle`) | agents_reviewer `report_bundle.json` (계약 v1) | `04_research/research_dossier.json` | ❌ (외부 분석 흡수, Research Agent 드롭인 대체) | 6A |
 | Evidence Guard | `agents/evidence_guard.py` | research_dossier | `qa_evidence_report.json` | ✅ | 6 |
 | Script Agent | `workers/script_worker.py` (BaseLLMWorker) | research_dossier | `05_script/full_script.json` | ✅ | 6 (수직 슬라이스: blueprint 흡수) |
 | Scene Planner | `orchestrator/scene_builder.py` (V2 결정론적) / 추후 LLM | full_script | `06_scene/scene_manifest.json` | ❌ (V2 슬라이스, LLM 추후) | 6 (수직 슬라이스 V2) |

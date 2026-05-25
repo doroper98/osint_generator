@@ -1,6 +1,6 @@
 <!--
 tier: 3
-last_synced_with: v0.17.0
+last_synced_with: v0.18.0
 ssot_for: [release-notes]
 depends_on: [README.md, GOAL.md]
 last_review: 2026-05-23
@@ -25,6 +25,35 @@ released 항목은 **append-only**입니다.
 
 ### Fixed
 -
+
+---
+
+## [v0.18.0] — 2026-05-25
+
+**외부 연동: agents_reviewer `report_bundle` 수신 (인터페이스 계약 v1, 텍스트 슬라이드 seam)**.
+agents_reviewer 의 보고서 분석 데이터를 우리 `research_dossier` 로 흡수하는 새 intake 경로
+(`build-research-dossier` LLM 단계의 드롭인 대체). 이번 단계는 차트 없이 컨테이너·매핑을
+검증하는 ② seam.
+
+### Added
+
+- **`schemas/models.py`** — `ReportBundle` 수신 모델 + 하위 모델(Producer/Report/Theme/
+  Provenance/Chart/Map·Marker·Arc·Legend/Section/Evidence/Claim/Signal/Contradiction/
+  Source/Confidence). 계약 v1 의 소비자측 미러. `extra="forbid"` fail-closed +
+  `model_validator` 로 bundle 내 id unique + chart_refs/claim_refs resolve 강제(§8).
+  차트 `data` 모양 SSOT 는 agents_reviewer `schemas.py` 라 `Any` 로 통과(§9, 이중 SSOT 회피).
+- **`orchestrator/bundle_io.py`** — `load_report_bundle`(검증 로드) +
+  `bundle_to_research_dossier`(순수 변환: claims→ResearchClaim 라벨 무손실,
+  quote_or_data→quote, signals→open_questions).
+- **`orchestrator/bundle_service.py`** — `import_report_bundle` 오케스트레이션
+  (source_completeness_review → research_in_progress, research_service 동형).
+- **`import-bundle {pid} --file <path>`** CLI 서브커맨드.
+- **`tests/test_bundle_flow.py`** — 모델 검증 + 어댑터 14종 (302 통과).
+
+### Changed
+
+- 라벨 척추: bundle `provenance.verification`(=`ResearchClaimStatus`) 단일 축에서 화면 라벨
+  파생, 그대로 신뢰(재검증 floor 없음 — 사용자 결정). `model_forecast→inferred` 매핑(producer).
 
 ---
 

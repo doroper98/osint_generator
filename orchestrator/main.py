@@ -13,6 +13,9 @@
                                               source_completeness_report.json + 전이 (Phase 5)
 - build-research-dossier {pid} [--backend]  : ResearchWorker 호출 → research_dossier.json
                                               + research_in_progress 전이 (Phase 6A)
+- import-bundle {pid} --file <path>          : agents_reviewer report_bundle.json →
+                                              research_dossier.json + research_in_progress
+                                              전이 (외부 연동, build-research-dossier 대체)
 - build-script {pid} [--backend]            : ScriptWorker 호출 → full_script.json
                                               + script_writing 전이 (Phase 6 Script)
 - build-scene {pid}                         : full_script → scene_manifest.json (결정론적)
@@ -169,6 +172,20 @@ def build_parser() -> argparse.ArgumentParser:
             "기본 동작은 idempotent — 유효한 dossier 가 있으면 재실행을 건너뛰고 "
             "research_in_progress 로 전이만 진행."
         ),
+    )
+
+    imb = sub.add_parser(
+        "import-bundle",
+        help=(
+            "agents_reviewer report_bundle.json → research_dossier.json 변환 후 "
+            "research_in_progress 전이 (외부 연동, build-research-dossier 드롭인 대체)"
+        ),
+    )
+    imb.add_argument("project_id", help="project_id")
+    imb.add_argument(
+        "--file",
+        required=True,
+        help="report_bundle.json 경로 (ReportBundle 스키마, extra=forbid 검증)",
     )
 
     bsc = sub.add_parser(
@@ -339,6 +356,9 @@ def main(argv: list[str] | None = None) -> int:
 
     if args.cmd == "build-research-dossier":
         return _cmd_build_research_dossier(args)
+
+    if args.cmd == "import-bundle":
+        return _cmd_import_bundle(args)
 
     if args.cmd == "build-script":
         return _cmd_build_script(args)
@@ -632,6 +652,43 @@ def _cmd_build_research_dossier(args: argparse.Namespace) -> int:
         f"(backend={args.backend}, skipped={skipped})"
     )
     print(f"outputs : {outputs_summary}")
+    _print_manifest_summary(manifest)
+    return 0
+
+
+def _cmd_import_bundle(args: argparse.Namespace) -> int:
+    """import-bundle: report_bundle.json → research_dossier.json + 전이 (외부 연동).
+
+    thin wrapper — 검증·출력·exit code 매핑만. 오케스트레이션은
+    orchestrator.bundle_service.import_report_bundle. build-research-dossier 의
+    드롭인 대체(LLM 대신 외부 bundle 흡수)이므로 이후 단계는 동일하다.
+    """
+    from orchestrator.bundle_service import BundleImportError, import_report_bundle
+    from orchestrator.project_manager import validate_project_id
+
+    try:
+        validate_project_id(args.project_id)
+    except ValueError as e:
+        print(f"error: {e}", file=sys.stderr)
+        return 1
+
+    try:
+        manifest, outputs = import_report_bundle(args.project_id, Path(args.file))
+    except FileNotFoundError as e:
+        print(f"error: {e}", file=sys.stderr)
+        return 1
+    except BundleImportError as e:
+        if e.kind == "state":
+            print(f"error: {e}", file=sys.stderr)
+            return 2
+        print(f"import-bundle 실패: {e}", file=sys.stderr)
+        return 1
+    except ValueError as e:
+        print(f"warning: 상태 전이 실패 — {e}", file=sys.stderr)
+        return 2
+
+    print(f"import-bundle 완료: {args.project_id}")
+    print(f"outputs : {outputs}")
     _print_manifest_summary(manifest)
     return 0
 

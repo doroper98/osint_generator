@@ -1,6 +1,6 @@
 <!--
 tier: 3
-last_synced_with: v0.17.0
+last_synced_with: v0.18.0
 ssot_for: [development-log]
 depends_on: [CHANGELOG.md]
 last_review: 2026-05-24
@@ -22,6 +22,35 @@ last_review: 2026-05-24
 - 결과:  …
 - 연관:  AP-번호, 이슈, PR 번호 등
 ```
+
+---
+
+## 2026-05-25 v0.18.0 — 외부 연동: agents_reviewer report_bundle 수신 (계약 v1, 텍스트 슬라이드 seam)
+
+- **무엇을**: `ReportBundle` 수신 모델 + `bundle_io`(어댑터) + `bundle_service` +
+  `import-bundle` CLI + 테스트 14. agents_reviewer 의 `report_bundle.json` 을 우리
+  `research_dossier` 로 변환·흡수하는 새 intake 경로(`build-research-dossier`(LLM) 드롭인 대체).
+- **왜**: agents_reviewer(텔레그램 보고서/분석 producer)와의 연동. "흡수(코드 복사)는
+  파편화" 라 **버전 박힌 데이터 계약**으로 분석/차트데이터를 받기로 양측 합의(인터페이스 계약
+  v1, 정본은 agents_reviewer repo `docs/CONTRACTS/report_bundle_v1.md`). 이번은 차트 없이
+  컨테이너·매핑을 싸게 검증하는 ② seam 단계(비싼 producer PR/Q5 provenance 배선 앞에 둠).
+- **어떻게**: 계약 §1~9 를 수신 모델로 미러. ① `extra="forbid"` fail-closed,
+  ② `model_validator` 로 id unique + chart_refs/claim_refs resolve 강제(§8),
+  ③ 차트 `data` 모양은 agents_reviewer `schemas.py` 가 SSOT 라 `Any` 통과(§9, 이중 SSOT 회피),
+  ④ 라벨은 `verification`(=ResearchClaimStatus) 단일 축에서 파생 + 그대로 신뢰(재검증 floor
+  없음, 사용자 결정), `model_forecast→inferred`(사용자 선택). 어댑터는 순수 변환(영속화는
+  research_io). import-bundle 은 research_service 동형(precondition·전이 게이트).
+- **결과**: 302 테스트 통과(신규 14). **실물 seam 관통**(예시 번들로): import-bundle →
+  research_dossier(claims/라벨/근거/open_questions 정확) → build-script(실제 claude,
+  6챕터/12세그/316초, TTS-lint 깨끗 — "HBM4"→"에이치비엠 사세대", "71,800원"→"칠만 천팔백 원")
+  → build-scene(12) → build-audio stub(264.6초) → render_props(12 scene). **라벨 척추 무손실**:
+  bundle claim C-2 `inferred` → 대본·scene·render 까지 `<추론>` 전파, C-1 `confirmed` → 무라벨.
+- **seam 갭(producer PR 에 보고)**: `map_ref="m-1"` 이 단일 `map` 객체(id 필드 없음)로 resolve
+  안 됨 → map 을 list+id 로 하거나 map_ref 의미 재정의 필요(현재 validator 는 map_ref 미강제).
+  optional 빈값은 `""`/`null`/키생략 모두 우리 모델이 수용(producer 유연).
+- **다음**: agents_reviewer producer PR(v5.5.0, Q5 provenance 실배선) → 실제 emit 으로
+  필드 충실도 재검증. 우리 측 Phase 2(차트 컴포넌트 A안 + 복잡 3종 prerendered_svg B안).
+- **연관**: 인터페이스 계약 v1(agents_reviewer repo), CHANGELOG v0.18.0, docs/05 §3.4g, docs/03.
 
 ---
 

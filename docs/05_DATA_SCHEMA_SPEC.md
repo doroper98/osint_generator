@@ -1,6 +1,6 @@
 <!--
 tier: 2
-last_synced_with: v0.13.0
+last_synced_with: v0.18.0
 ssot_for: [json-contracts-overview]
 depends_on: [../schemas/models.py]
 last_review: 2026-05-23
@@ -32,6 +32,7 @@ last_review: 2026-05-23
 | `source_registry.json` | `SourceRegistry` | Source Registry Builder | 4 |
 | `source_completeness_report.json` | `SourceCompletenessReport` | Orchestrator | 4 |
 | `research_dossier.json` | `ResearchDossier` | Research Agent | 5 |
+| `report_bundle.json` (수신, 외부 연동) | `ReportBundle` | agents_reviewer (외부) | 외부 → 5 |
 | `argument_map.json` | `ArgumentMap` | Research Agent | 5 |
 | `episode_blueprint.json` | `EpisodeBlueprint` | Script Agent | 5 |
 | `full_script.json` | `FullScript` | Script Agent | 5 |
@@ -241,6 +242,28 @@ source_id 존재 여부의 cross-check 는 6B Evidence Guard 책임 (본 스키�
 `AudioSegment`: `segment_id`(full_script ScriptSegment 대응), `audio_path`(project
 상대경로), `duration_sec`(실측), `text`, `backend`, `voice`. 백엔드 정책은
 `workers/tts_backends.py` (기본 local=프라이버시, elevenlabs=opt-in 외부 API).
+
+### 3.4g `ReportBundle` (외부 연동 — agents_reviewer 인터페이스 계약 v1)
+
+`report_bundle.json` (수신) — agents_reviewer(텔레그램 보고서/분석 producer)가 emit 하는
+핸드오프 산출물의 **소비자측 미러**다. `import-bundle` 이 이를 `ResearchDossier` 로 변환·흡수해
+`build-research-dossier`(LLM)를 대체한다. 계약 정본은 agents_reviewer repo 의
+`docs/CONTRACTS/report_bundle_v1.md` 이며, 본 모델은 수신 검증(fail-closed)용이다.
+
+| 필드 | 타입 | 설명 |
+|---|---|---|
+| schema_version | int | 이 계약의 버전(현재 1). producer.version 과 분리 |
+| bundle_kind | "report_bundle" | |
+| producer / report | `BundleProducer` / `BundleReport` | 생산 시스템·보고서 메타(headline/deck/theme) |
+| sections | list[`BundleSection`] | prose(나레이션 원천)·chart_refs·claim_refs |
+| charts / map | list[`BundleChart`] / `BundleMap` | 차트 data 모양 SSOT 는 agents_reviewer schemas.py(§9) → `data: Any` |
+| claims | list[`BundleClaim`] | status(=ResearchClaimStatus) 라벨 척추 단일 근거 |
+| signals / contradictions / sources / confidence | list / Optional | 관찰 신호·모순·정규화 출처·신뢰도 |
+
+핵심 규약: ① `extra="forbid"` fail-closed, ② `model_validator` 로 bundle 내 id unique +
+chart_refs/claim_refs resolve 강제, ③ 차트 `data` 는 재검증하지 않음(이중 SSOT 회피),
+④ `provenance.verification` 을 그대로 신뢰(재검증 floor 없음). 변환 매핑(§9)은
+`orchestrator/bundle_io.py:bundle_to_research_dossier` 참조.
 
 ### 3.5 `SceneManifest` Provenance
 
