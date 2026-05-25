@@ -11,6 +11,7 @@ Remotion 최소 렌더(텍스트 슬라이드)의 입력 props 를 만든다. sc
 from __future__ import annotations
 
 import os
+import re
 from pathlib import Path
 from typing import Optional
 
@@ -23,7 +24,58 @@ from schemas.models import (
     RenderProps,
     RenderSceneProps,
     SceneManifest,
+    SubtitleCue,
 )
+
+
+# 자막 한 줄(큐) 최대 글자 수. 한 화면 자막은 통문단이 아니라 1~2줄이어야 한다.
+_SUBTITLE_CUE_MAX_CHARS = 42
+
+
+def split_subtitle_cues(narration: str, total_sec: float) -> list[SubtitleCue]:
+    """narration 을 줄 단위 큐로 쪼개고 scene 길이를 글자수 비례로 배분한다.
+
+    TTS 가 문장별 타임스탬프를 주지 않으므로 글자수 비례로 추정 타이밍을 만든다
+    (자동 자막의 표준 근사). 문장(종결부호) 단위로 먼저 나누고, 너무 긴 문장은
+    공백 경계에서 한 줄 길이로 다시 쪼갠다.
+    """
+    text = narration.strip()
+    if not text or total_sec <= 0:
+        return []
+
+    # 1) 문장 분할 — 종결부호(. ? ! 。) 뒤 공백에서.
+    sentences = [s for s in re.split(r"(?<=[.?!。])\s+", text) if s.strip()]
+
+    # 2) 긴 문장은 한 줄 길이로 재분할 (공백 경계 우선).
+    chunks: list[str] = []
+    for sent in sentences:
+        s = sent.strip()
+        while len(s) > _SUBTITLE_CUE_MAX_CHARS:
+            cut = s.rfind(" ", 0, _SUBTITLE_CUE_MAX_CHARS)
+            if cut <= 0:
+                cut = _SUBTITLE_CUE_MAX_CHARS
+            chunks.append(s[:cut].strip())
+            s = s[cut:].strip()
+        if s:
+            chunks.append(s)
+
+    if not chunks:
+        return []
+
+    # 3) 글자수 비례 타이밍 배분 (scene 시작 기준 상대).
+    total_chars = sum(len(c) for c in chunks)
+    cues: list[SubtitleCue] = []
+    cursor = 0.0
+    for i, c in enumerate(chunks):
+        if i == len(chunks) - 1:
+            dur = max(0.0, total_sec - cursor)  # 마지막 큐는 끝까지 (반올림 오차 흡수).
+        else:
+            dur = total_sec * (len(c) / total_chars)
+        cues.append(
+            SubtitleCue(text=c, startSec=round(cursor, 3), durationSec=round(dur, 3))
+        )
+        cursor += dur
+    return cues
 
 
 RENDER_DIRNAME = "09_render"
@@ -103,6 +155,7 @@ def build_render_props(
                 durationSec=duration,
                 caption=scene.caption,
                 narration=narration,
+                subtitleCues=split_subtitle_cues(narration, duration),
                 label=label,
                 sourceLinkRequired=scene.source_link_required,
                 isQuote=is_quote,
@@ -192,6 +245,7 @@ __all__ = [
     "render_dir",
     "render_props_path",
     "draft_debug_path",
+    "split_subtitle_cues",
     "build_render_props",
     "persist_render_props",
     "build_and_persist_render_props",

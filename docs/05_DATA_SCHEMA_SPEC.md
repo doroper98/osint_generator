@@ -1,6 +1,6 @@
 <!--
 tier: 2
-last_synced_with: v0.19.0
+last_synced_with: v0.21.0
 ssot_for: [json-contracts-overview]
 depends_on: [../schemas/models.py]
 last_review: 2026-05-23
@@ -218,8 +218,9 @@ source_id 존재 여부의 cross-check 는 6B Evidence Guard 책임 (본 스키�
 | scenes | list[`RenderSceneProps`] | 슬라이드 목록 |
 
 `RenderSceneProps`: `sceneId`, `startSec`, `durationSec`, `caption`(중앙 key takeaway),
-`narration`(narration_segment_ids 로 full_script 에서 해석 — 하단 자막 바에 전체 표시),
-`label`(`<미검증>` 등 — 우상단 배지), `sourceLinkRequired`, `source`(상단 출처 표기 텍스트,
+`narration`(full_script 에서 해석), `subtitleCues`(narration 을 줄 단위로 쪼갠 자막 큐 —
+하단 자막 바에 **순차** 표시; 글자수 비례 추정 타이밍, scene 시작 기준 상대), `label`
+(`<미검증>` 등 — 우상단 배지), `sourceLinkRequired`, `source`(상단 출처 표기 텍스트,
 배선 전엔 ""), `isQuote`(인용이면 강조색+인용부호 렌더 — 영상 문법 ③), `audioPath`(V4b —
 audio_manifest 가 있으면 나레이션 wav 의 project 상대경로; Remotion 이 `--public-dir`=
 project_dir + `staticFile` 로 참조). audio_manifest 가 있으면 startSec/durationSec 는

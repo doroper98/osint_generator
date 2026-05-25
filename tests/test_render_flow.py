@@ -8,6 +8,8 @@ scene_manifest + full_script → render_props.json 변환을 검증한다. 실�
 
 from __future__ import annotations
 
+import unittest
+
 from orchestrator.audio_service import build_audio
 from orchestrator.main import main as cli_main
 from orchestrator.render_io import build_render_props
@@ -25,6 +27,36 @@ class _RenderHarness(_SceneHarness):
             self._load_manifest("demo3").current_state,
             ProjectState.SCENE_PLANNING.value,
         )
+
+
+class TestSubtitleCues(unittest.TestCase):
+    def test_splits_sentences_and_distributes_time(self) -> None:
+        from orchestrator.render_io import split_subtitle_cues
+
+        nar = "첫 문장입니다. 두 번째 문장이고요. 세 번째 문장으로 마칩니다."
+        cues = split_subtitle_cues(nar, 12.0)
+        self.assertEqual(len(cues), 3)  # 문장 단위 3개
+        # 첫 큐는 scene 시작.
+        self.assertEqual(cues[0].startSec, 0.0)
+        # 타이밍이 scene 길이를 정확히 채움(반올림 오차 흡수).
+        self.assertAlmostEqual(cues[-1].startSec + cues[-1].durationSec, 12.0, places=2)
+        # 큐가 순서대로 이어짐.
+        for a, b in zip(cues, cues[1:]):
+            self.assertAlmostEqual(a.startSec + a.durationSec, b.startSec, places=2)
+
+    def test_long_sentence_wrapped_to_lines(self) -> None:
+        from orchestrator.render_io import split_subtitle_cues
+
+        long_one = "가" * 100 + "."  # 한 줄 상한(42) 초과 → 여러 큐로
+        cues = split_subtitle_cues(long_one, 10.0)
+        self.assertGreater(len(cues), 1)
+        self.assertTrue(all(len(c.text) <= 42 for c in cues))
+
+    def test_empty_or_zero_duration(self) -> None:
+        from orchestrator.render_io import split_subtitle_cues
+
+        self.assertEqual(split_subtitle_cues("", 5.0), [])
+        self.assertEqual(split_subtitle_cues("내용", 0.0), [])
 
 
 class TestBuildRenderPropsPure(_RenderHarness):

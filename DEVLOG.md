@@ -1,6 +1,6 @@
 <!--
 tier: 3
-last_synced_with: v0.20.1
+last_synced_with: v0.21.0
 ssot_for: [development-log]
 depends_on: [CHANGELOG.md]
 last_review: 2026-05-24
@@ -22,6 +22,25 @@ last_review: 2026-05-24
 - 결과:  …
 - 연관:  AP-번호, 이슈, PR 번호 등
 ```
+
+---
+
+## 2026-05-25 v0.21.0 — 순차 자막 (통문단 → 줄 단위 큐)
+
+- **무엇을**: `SubtitleCue` 모델 + `RenderSceneProps.subtitleCues` + render_io
+  `split_subtitle_cues` + Briefing 의 프레임 기반 큐 표시 + 테스트.
+- **왜**: 자막이 나레이션 전체를 한 화면에 통째로 띄워 "자막답지 않다"는 지적(사용자). 실제
+  자막은 줄 단위로 순차 전환된다.
+- **어떻게**: narration 을 종결부호로 문장 분할 → 긴 문장은 42자 줄 길이로 공백 경계 재분할
+  → scene 길이를 글자수 비례로 배분(TTS 가 문장별 타임스탬프를 안 주므로 표준 근사).
+  Remotion 이 현재 프레임 시각(`frame/fps`, Sequence 가 0 기준 rebase)에 해당하는 큐만 띄움
+  (짧은 페이드인). 큐 없으면 narration 폴백.
+- **결과**: 314 통과(신규 3). **실물 geo 번들로 검증**: 같은 scene_02 를 frame 707/1126 에
+  렌더하니 자막이 cue0("이 위기의 출발점은…추정됩니다.") → cue2("그 공격으로 사망했다는
+  주장이 있습니다.") 로 줄 단위 전환됨을 프레임으로 확인. 중앙 takeaway/라벨 배지는 유지.
+- **한계**: 글자수 비례라 실제 발화와 미세 오차. 정밀 싱크는 forced-alignment(whisper 등)가
+  별도 과제. source 텍스트 화면 배선·차트 비주얼(Phase B)도 다음.
+- **연관**: CHANGELOG v0.21.0, docs/05 §3.4e.
 
 ---
 

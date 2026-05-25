@@ -14,12 +14,19 @@ export const WIDTH = 1920;
 export const HEIGHT = 1080;
 
 // render_props.json 의 scene 1개와 동일 구조 (orchestrator/render_io.py:RenderSceneProps).
+export type SubtitleCue = {
+  text: string;
+  startSec: number;
+  durationSec: number;
+};
+
 export type Scene = {
   sceneId: string;
   startSec: number;
   durationSec: number;
   caption: string;
   narration: string;
+  subtitleCues?: SubtitleCue[];
   label: string | null;
   sourceLinkRequired: boolean;
   // 화면 상단 출처 표기(있을 때만). 소스 본문 배선 전엔 빈 문자열.
@@ -65,6 +72,7 @@ export const DEFAULT_PROPS: BriefingProps = {
 
 const Slide: React.FC<{ scene: Scene }> = ({ scene }) => {
   const frame = useCurrentFrame();
+  const { fps } = useVideoConfig();
   const opacity = interpolate(frame, [0, 15], [0, 1], {
     extrapolateLeft: "clamp",
     extrapolateRight: "clamp",
@@ -75,11 +83,24 @@ const Slide: React.FC<{ scene: Scene }> = ({ scene }) => {
       ? `“${scene.caption}”` // “ ”
       : scene.caption
     : "";
-  const subtitle = scene.narration
-    ? isQuote
-      ? `「${scene.narration}」` // 「 」
-      : scene.narration
-    : "";
+
+  // 자막은 통문단이 아니라 큐(줄) 단위로 순차 표시 — 현재 프레임 시각에 해당하는 큐만.
+  const cues = scene.subtitleCues ?? [];
+  const tSec = frame / fps;
+  let subtitle = scene.narration;
+  let cueOpacity = 1;
+  if (cues.length > 0) {
+    const active =
+      cues.find((c) => tSec >= c.startSec && tSec < c.startSec + c.durationSec) ??
+      cues[cues.length - 1];
+    subtitle = active.text;
+    // 큐 시작 시 짧은 페이드인.
+    const cueFrame = (tSec - active.startSec) * fps;
+    cueOpacity = interpolate(cueFrame, [0, 6], [0, 1], {
+      extrapolateLeft: "clamp",
+      extrapolateRight: "clamp",
+    });
+  }
 
   return (
     <AbsoluteFill style={{ backgroundColor: BG, color: "#f5f7fa", fontFamily: "sans-serif" }}>
@@ -177,6 +198,7 @@ const Slide: React.FC<{ scene: Scene }> = ({ scene }) => {
               padding: "22px 44px",
               maxWidth: 1480,
               borderLeft: isQuote ? `8px solid ${ACCENT}` : "none",
+              opacity: cueOpacity,
             }}
           >
             <span

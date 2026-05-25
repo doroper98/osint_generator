@@ -1,6 +1,6 @@
 <!--
 tier: 3
-last_synced_with: v0.20.1
+last_synced_with: v0.21.0
 ssot_for: [release-notes]
 depends_on: [README.md, GOAL.md]
 last_review: 2026-05-23
@@ -25,6 +25,25 @@ released 항목은 **append-only**입니다.
 
 ### Fixed
 -
+
+---
+
+## [v0.21.0] — 2026-05-25
+
+**순차 자막 — 통문단 대신 줄 단위로**. 자막 바가 나레이션 전체를 한 번에 띄우던 것을
+문장/줄 단위 큐로 쪼개 순차 표시(자막다운 표시).
+
+### Added
+
+- **`schemas/models.py`** — `SubtitleCue`(text/startSec/durationSec) 모델 +
+  `RenderSceneProps.subtitleCues`. additive(schema_version 1).
+- **`orchestrator/render_io.py`** — `split_subtitle_cues`: narration 을 문장 단위로 나누고
+  긴 문장은 줄 길이(42자)로 재분할, scene 길이를 글자수 비례로 배분(TTS 타임스탬프 부재 시
+  표준 근사). 각 scene 의 `subtitleCues` 채움.
+- **`remotion/src/Briefing.tsx`** — 현재 프레임 시각에 해당하는 큐만 자막 바에 표시(짧은
+  페이드인). 큐 없으면 narration 전체 폴백.
+- **`tests/test_render_flow.py`** — 큐 분할/타이밍/긴문장 줄바꿈 테스트(314 통과). 실물 geo
+  번들로 같은 scene 두 시각 렌더 → 자막 줄 단위 전환 확인.
 
 ---
 

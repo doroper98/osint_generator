@@ -591,6 +591,19 @@ class FullScript(VersionedModel):
 # ---------------------------------------------------------------------------
 
 
+class SubtitleCue(BaseModel):
+    """자막 1줄(큐). 한 scene 의 narration 을 문장/줄 단위로 쪼갠 조각 + scene 시작
+    기준 상대 타이밍. 통문단 자막 대신 순차 표시하기 위함(타임스탬프 부재 시 글자수 비례
+    추정). Remotion 이 현재 프레임에 해당하는 큐만 띄운다.
+    """
+
+    model_config = ConfigDict(extra="forbid")
+
+    text: str
+    startSec: float
+    durationSec: float
+
+
 class RenderSceneProps(BaseModel):
     """Remotion 컴포지션이 읽는 scene 1개 props. 필드명은 TS 친화 camelCase.
 
@@ -605,6 +618,9 @@ class RenderSceneProps(BaseModel):
     durationSec: float
     caption: str = ""
     narration: str = ""
+    # narration 을 줄 단위로 쪼개 순차 표시할 자막 큐(scene 시작 기준 상대 타이밍).
+    # 비면 Remotion 이 narration 전체를 폴백 표시.
+    subtitleCues: list[SubtitleCue] = Field(default_factory=list)
     label: Optional[str] = None
     sourceLinkRequired: bool = False
     # 화면 상단 출처 표기 텍스트(있을 때만 표시). 소스 본문 배선 전엔 빈 문자열.
