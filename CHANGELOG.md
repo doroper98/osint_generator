@@ -1,6 +1,6 @@
 <!--
 tier: 3
-last_synced_with: v0.32.1
+last_synced_with: v0.32.2
 ssot_for: [release-notes]
 depends_on: [README.md, GOAL.md]
 last_review: 2026-06-05
@@ -25,6 +25,45 @@ released 항목은 **append-only**입니다.
 
 ### Fixed
 -
+
+---
+
+## [v0.32.2] — 2026-06-05
+
+**`build-audio-demo` CLI — 데모 props 에 음성 입히기 (사용자 편의)**. project state /
+full_script 흐름을 거치지 않고 props 한 파일만으로 ElevenLabs (또는 다른 백엔드) 음성을
+입혀, 새 차트 데모 + 음성을 빠르게 검수.
+
+### Added
+
+- **`orchestrator/audio_demo.py`**(신규) — `build_audio_demo(props_path, backend,
+  voice, audio_subdir)`. props 의 각 scene narration → TTS 합성 → `demo_audio/`
+  서브폴더에 wav/mp3 저장 → scene `audioPath` + `durationSec` + `startSec`
+  실 음성 길이에 맞춰 갱신 → `<원본stem>_with_audio.json` 출력. project state /
+  full_script / project_dir 컨텍스트 없이 동작.
+- **`orchestrator/main.py`** — `build-audio-demo <props_path> [--backend
+  elevenlabs|local|stub|voicebox] [--voice ID] [--audio-subdir NAME]` 서브커맨드.
+  `_cmd_build_audio_demo` 핸들러.
+- **`tests/test_audio_demo.py`**(신규, 4 케이스) — stub backend e2e (props 갱신,
+  startSec 재누적, 누락 파일 / 빈 scenes 에러).
+
+### Changed
+
+- 본 PATCH 는 기존 `build-audio` (project state 기반) 동작을 변경하지 않음. demo 전용
+  병렬 경로 추가.
+
+### 사용자 측 사용법
+
+```cmd
+cd C:\01_Antigravity\osint_generator
+python -m orchestrator.main build-audio-demo remotion\demo_props.json --backend elevenlabs
+
+cd remotion
+npx remotion render src/index.ts Briefing demo_out.mp4 ^
+  --props=demo_props_with_audio.json --public-dir=.
+```
+
+`.env` 의 `ELEVENLABS_API_KEY` / `ELEVENLABS_VOICE_ID` 자동 사용(v0.32.1).
 
 ---
 

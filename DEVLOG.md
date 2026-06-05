@@ -1,6 +1,6 @@
 <!--
 tier: 3
-last_synced_with: v0.32.1
+last_synced_with: v0.32.2
 ssot_for: [development-log]
 depends_on: [CHANGELOG.md]
 last_review: 2026-06-05
@@ -22,6 +22,47 @@ last_review: 2026-06-05
 - 결과:  …
 - 연관:  AP-번호, 이슈, PR 번호 등
 ```
+
+---
+
+## 2026-06-05 v0.32.2 — build-audio-demo CLI (사용자 편의 PATCH)
+
+- **무엇을**: `orchestrator/audio_demo.py:build_audio_demo(props_path, backend, voice,
+  audio_subdir)` + `build-audio-demo` 서브커맨드. props 한 파일만 받아 각 scene
+  narration 을 TTS 합성 → `demo_audio/` 에 wav/mp3 저장 → `audioPath` +
+  `durationSec` + `startSec` 실 음성 길이로 갱신 → `<원본>_with_audio.json` 출력.
+- **왜**: 사용자가 호르무즈 풀 렌더 시도 → `full_script.json` 없음 → `projects/
+  seam-hormuz/` 가 git 에 없어 사용자 머신에 산출물 0 → bundle 부터 다시 빌드해야 하는
+  큰 작업. 그 와중 "목소리도 입혀야지" 즉, **데모만이라도 음성이 입혀진 영상을 보고
+  싶다**. 기존 `build-audio` 는 project state machine + full_script 가 전제라 데모엔
+  과한 의존. → state 머신 거치지 않는 1회용 헬퍼 신설.
+- **어떻게**:
+  - 입력: `remotion/demo_props.json` (또는 같은 스키마의 임의 props). `scenes[].
+    narration` 이 본 작업의 입력.
+  - 백엔드 재사용: `workers/tts_backends.get_backend(backend)` 그대로. v0.32.1 의
+    `.env` 자동 로딩 덕에 `ELEVENLABS_API_KEY` / `ELEVENLABS_VOICE_ID` 자동 적용.
+  - **출력 위치**: props 가 있는 폴더 아래 `demo_audio/<sceneId>.<ext>`. Remotion 의
+    `--public-dir=.` 로 props 디렉토리를 public 으로 두면 `staticFile()` 가 그대로
+    잡음 (`render-debug` 의 패턴과 정합 — main.py:992 의 `--public-dir=project_dir`).
+  - **시간 재누적**: 진입 모션 / wipe / stagger 들이 결국 `durationSec` 에 fit 하므로,
+    실 음성 길이로 `durationSec` 갱신하고 다음 scene 의 `startSec` 도 재계산. 결과 영상
+    길이가 원본보다 늘어나거나 줄 수 있음(자연스러움). Briefing.tsx 의 `calculateMetadata`
+    가 총 길이를 다시 합산하므로 mp4 길이도 자동 맞춰짐.
+  - **빈 narration 처리**: skip + audioPath 안 박음. 무음 scene 으로 남음. `durationSec`
+    유지.
+  - **오류 흡수**: 파일 없음 / 빈 scenes / JSON 깨짐 / TTS 실패 모두 별도 exit code.
+  - 단위 테스트 4 케이스 (stub backend e2e + startSec 재누적 + 누락 / 빈 입력 에러).
+- **결과**: 332 → 336 통과 (+4). build-audio 기존 동작 변화 없음(독립 경로).
+- **다음 (사용자 측)**:
+  ```
+  python -m orchestrator.main build-audio-demo remotion\demo_props.json --backend elevenlabs
+  cd remotion
+  npx remotion render src/index.ts Briefing demo_out.mp4 ^
+    --props=demo_props_with_audio.json --public-dir=.
+  ```
+- **연관**: v0.32.0(demo_props.json 도입), v0.32.1(.env 자동 로딩), HANDOFF 보류항목 4
+  (Windows 실제 음성 풀 렌더 검증 — 호르무즈 풀 파이프라인은 별도이나 본 PATCH 가
+  "데모만이라도 음성 검수" 의 작은 우회로). CHANGELOG v0.32.2.
 
 ---
 

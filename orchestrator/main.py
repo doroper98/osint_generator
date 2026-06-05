@@ -256,6 +256,28 @@ def build_parser() -> argparse.ArgumentParser:
     )
     bad.add_argument("--voice", default=None, help="백엔드별 보이스 식별자(선택).")
 
+    bdm = sub.add_parser(
+        "build-audio-demo",
+        help=(
+            "데모 props (remotion/demo_props.json 등) 에 음성 입히고 "
+            "scene durationSec 을 실 음성 길이로 갱신 후 <props>_with_audio.json 저장. "
+            "project state 머신 거치지 않는 1회용 헬퍼 (v0.32.2)."
+        ),
+    )
+    bdm.add_argument("props_path", help="원본 props JSON 경로 (예: remotion/demo_props.json)")
+    bdm.add_argument(
+        "--backend",
+        choices=list(_tts_backend_choices()),
+        default="elevenlabs",
+        help="TTS 백엔드 (기본: elevenlabs).",
+    )
+    bdm.add_argument("--voice", default=None, help="백엔드별 voice id 오버라이드(선택).")
+    bdm.add_argument(
+        "--audio-subdir",
+        default="demo_audio",
+        help="props 와 같은 디렉토리 아래 만들 wav 폴더(기본 demo_audio).",
+    )
+
     lsc = sub.add_parser(
         "lint-script",
         help="full_script narration 의 TTS-위험 표기(약어/기호/단위/URL 등) 검사",
@@ -389,6 +411,9 @@ def main(argv: list[str] | None = None) -> int:
 
     if args.cmd == "build-audio":
         return _cmd_build_audio(args)
+
+    if args.cmd == "build-audio-demo":
+        return _cmd_build_audio_demo(args)
 
     if args.cmd == "lint-script":
         return _cmd_lint_script(args)
@@ -928,6 +953,35 @@ def _detect_headless_shell() -> str | None:
         if matches:
             return matches[-1]  # 최신(정렬 마지막) 채택.
     return None
+
+
+def _cmd_build_audio_demo(args: argparse.Namespace) -> int:
+    """build-audio-demo: props 한 파일 → 음성 + 동기화된 props (state 머신 없음).
+
+    v0.32.2. project state / full_script / project_dir 없이 동작. 사용자가 데모만
+    빠르게 보고 싶을 때.
+    """
+    from orchestrator.audio_demo import build_audio_demo
+    from workers.tts_backends import TTSError
+
+    props_path = Path(args.props_path).resolve()
+    try:
+        build_audio_demo(
+            props_path,
+            backend=args.backend,
+            voice=args.voice,
+            audio_subdir=args.audio_subdir,
+        )
+    except FileNotFoundError as e:
+        print(f"error: {e}", file=sys.stderr)
+        return 1
+    except TTSError as e:
+        print(f"error: TTS 실패 — {e}", file=sys.stderr)
+        return 1
+    except (ValueError, OSError, json.JSONDecodeError) as e:
+        print(f"error: demo audio 빌드 실패 — {e}", file=sys.stderr)
+        return 1
+    return 0
 
 
 def _cmd_render_debug(args: argparse.Namespace) -> int:
