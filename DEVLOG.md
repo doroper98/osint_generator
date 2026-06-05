@@ -1,9 +1,9 @@
 <!--
 tier: 3
-last_synced_with: v0.29.0
+last_synced_with: v0.30.0
 ssot_for: [development-log]
 depends_on: [CHANGELOG.md]
-last_review: 2026-05-24
+last_review: 2026-06-05
 -->
 
 # DEVLOG
@@ -22,6 +22,46 @@ last_review: 2026-05-24
 - 결과:  …
 - 연관:  AP-번호, 이슈, PR 번호 등
 ```
+
+---
+
+## 2026-06-05 v0.30.0 — Phase 0: 프로페셔널 재빌드 디자인 시스템 토대 (영상미 C0)
+
+- **무엇을**: 차팅·자막·타이포의 전면 재빌드 사이클(v0.30.0 → v0.36.0) 출발.
+  `docs/PROFESSIONAL_REBUILD_PLAN.md`(SSOT) + `remotion/src/design.ts`(토큰) +
+  공용 컴포넌트 4 종(`ChartFrame` / `Axis` / `Callout` / `ReferenceRegion`) +
+  npm 의존성(`d3-scale d3-shape d3-time-format d3-array d3-scale-chromatic labella`).
+- **왜**: 사용자 평가 — "전반적으로 차팅의 기술이나 시각화 기술이 너무 구려.
+  총체적으로 다시 재빌드, 리팩토링을 전면적으로 해야 할거 같아. 프로페셔널한 수준으로
+  그 레벨을 높일 수 있는 계획을 세워." 비주얼 기준은 날리지식 (YouTube `FaOqn3-YdkI`,
+  `ucl9RED4Ye4` — YTN 세계는 날리지가 아님). 사용자 ack: "응 진행해."
+- **어떻게**: 차트 본체 코드는 **한 줄도 안 건드린다**(Phase 1 부터 진입).
+  Phase A 외부 리서치 5 트랙 통합 → 자기 평가(평균 갭 -5.9) → MVP Professional Bar
+  20 합격 기준 → Phase 0–5+E 실행 계획. 디자인 토큰 SSOT 박음:
+  - **Color**: Material Dark 베이스 `#121214`(`#000` 의 OLED 잔상·과대비 회피) +
+    Okabe-Ito 색맹 안전 시리즈 7 색 + 의미 라벨 4 색(확인/추론/주장/미검증) +
+    Aurora 4 색(보더 그라디언트).
+  - **Typography**: Pretendard Variable(45–920 wght axis) 폰트 스택 + 1.618 황금비
+    size scale(14→18→28→46→76→124) + **한글 `word-break: keep-all` + `overflow-wrap:
+    anywhere`** 모든 텍스트에. Netflix Korean 자막 표준(16자/2줄/17CPS/5–7sec).
+  - **Motion**: Material easing(decelerate `[0,0,0.2,1]` / standard / accelerate),
+    duration 150/300/400/600/900ms, `stagger(n)` 헬퍼(`clamp(min(80, 600/N), 20, 120)`).
+  - **Spacing**: 8-grid + safe area + chart 영역 + radius + stroke 토큰.
+  - 헬퍼: `msToFrames(ms, fps)`, `seriesColor(i)`, `labelColor(key)`.
+  공용 컴포넌트:
+  - `ChartFrame`: kicker / title / subtitle / source 슬롯. 빈 슬롯 공간 차지 안 함.
+  - `Axis`: SVG group x/y 축 + grid + tick + 라벨. d3-axis 의존 회피(결정론).
+  - `Callout`: D3-annotation Subject + Note + Connector. 진입 트랙(subject 300ms →
+    connector 300ms → note 200ms), Bezier curved connector, foreignObject 로 한글
+    줄바꿈 안전.
+  - `ReferenceRegion`: 위기 구간 / 이벤트 회색 알파 fill + 점선 경계 + 라벨.
+- **결과**: 새 컴포넌트 tsc `--noEmit` 통과(기존 MapView 의 JSON resolve 경고는
+  사전 존재). Python 회귀 328/328 통과. 차트 본체 동작 변경 없음(의도).
+- **다음**: Phase 1 — XY family 정통 재구현(v0.31.0). line/area/dual_line/forecast/
+  stacked_area 를 d3-scale + d3-shape + ChartFrame + Axis + Callout + Direct
+  labeling + labella 충돌 회피로 다시.
+- **연관**: C0/G0, CHANGELOG v0.30.0, docs/PROFESSIONAL_REBUILD_PLAN.md (본 사이클
+  SSOT). HANDOFF 보류항목 3 (차트 영상미) 의 본격 진입.
 
 ---
 

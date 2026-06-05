@@ -1,9 +1,9 @@
 <!--
 tier: 1
-last_synced_with: v0.23.1
+last_synced_with: v0.30.0
 ssot_for: [session-handoff]
-depends_on: [CLAUDE.md, GOAL.md, VERSION, docs/13_IMPLEMENTATION_ROADMAP.md, docs/REVIEW_PROMPT.md]
-last_review: 2026-05-22
+depends_on: [CLAUDE.md, GOAL.md, VERSION, docs/13_IMPLEMENTATION_ROADMAP.md, docs/REVIEW_PROMPT.md, docs/PROFESSIONAL_REBUILD_PLAN.md]
+last_review: 2026-06-05
 -->
 
 # HANDOFF — 다음 세션 AI 인계 문서
@@ -25,12 +25,22 @@ last_review: 2026-05-22
 2. **③ 자동 캐치 트리거** — 지금은 수동(`import-bundle --file`). agents_reviewer 가
    `--bundle` 로 Pages 에 올린 새 번들을 감시→자동 import 하는 워처 CLI + push 알림 설계.
    상시 데몬/실행 위치 결정 필요. → 사용자가 "나중에(2)".
-3. **차트 비주얼 — 영상미 최우선(C0/G0)대로 우리가 데이터로 cinematic 재렌더** (지도는
-   v0.23.0 완료). line/bar/bubble/candle 등은 **family 렌더러**로 우리가 영상용으로 그린다
-   (애니·음성싱크·맥락강조). agents_reviewer 정적 SVG 는 **아직 렌더러 없는 복잡 타입
-   (network/sankey/choropleth)의 폴백**으로만. ※ 이전의 "전 타입 SVG passthrough" 방침은
-   폐기 — agents_reviewer 계약(A안: consumer 가 데이터로 재렌더)과도 정합. agents_reviewer
-   는 데이터+provenance(이미 함) + 복잡 4종 SVG(폴백) 담당.
+3. **차트·자막·타이포 프로페셔널 재빌드** (v0.30.0 ~ v0.36.0 사이클 — **진행 중**).
+   사용자 평가 "전반적으로 너무 구려"에 대한 구조적 대응. 비주얼 기준은 **날리지식**
+   (YouTube `FaOqn3-YdkI`, `ucl9RED4Ye4` — **YTN 세계는 날리지가 아님**).
+   SSOT: `docs/PROFESSIONAL_REBUILD_PLAN.md` (Phase 0–5+E, MVP Professional Bar 20).
+   - **v0.30.0 (완료)**: Phase 0 디자인 시스템 토대 — `design.ts` 토큰 + 공용 컴포넌트
+     `ChartFrame` / `Axis` / `Callout` / `ReferenceRegion` + npm `d3-scale d3-shape
+     d3-time-format d3-array d3-scale-chromatic labella`.
+   - **v0.31.0 (다음)**: Phase 1 XY family 정통 재구현 — line/area/dual_line/forecast/
+     stacked_area 를 d3-scale + d3-shape + ChartFrame + Axis + Callout + Direct
+     labeling + labella 1D 충돌 회피로 재작성. 차트 본체 첫 진입.
+   - 이후: Phase 2 Bar/Point (v0.32.0) → Phase 3 Specialty (v0.33.0) → Phase 4 모멘트
+     음성 싱크 (v0.34.0) → Phase 5 자막/타이포 표준 (v0.35.0) → Phase E 최종 mp4 검수
+     (v0.36.0).
+   - agents_reviewer 정적 SVG 는 **아직 렌더러 없는 복잡 타입의 폴백**으로만.
+     `network/sankey/choropleth` 는 Phase 3 에서 d3-force / d3-sankey / world-atlas
+     로 정통 재구현 예정.
 4. **(사용자 액션) Windows 실제 음성 풀 렌더 검증** — 이 클라우드는 stub(무음)이라 지도+
    자막+실제 음성이 함께 도는 영상을 사용자가 본 적 없음. 브랜치 pull → `build-audio
    --backend elevenlabs` + `render-debug` 로 확인 (현재 사용자가 이걸 먼저 하는 중).

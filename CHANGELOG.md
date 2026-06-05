@@ -1,9 +1,9 @@
 <!--
 tier: 3
-last_synced_with: v0.29.0
+last_synced_with: v0.30.0
 ssot_for: [release-notes]
 depends_on: [README.md, GOAL.md]
-last_review: 2026-05-23
+last_review: 2026-06-05
 -->
 
 # CHANGELOG
@@ -25,6 +25,44 @@ released 항목은 **append-only**입니다.
 
 ### Fixed
 -
+
+---
+
+## [v0.30.0] — 2026-06-05
+
+**Phase 0 — 프로페셔널 재빌드 디자인 시스템 토대 (영상미 C0)**. 차트·자막·타이포의 전면
+재빌드 사이클 (v0.30.0 → v0.36.0) 출발. 본 PATCH 는 **차트 본체는 한 줄도 안 건드린다** —
+토큰·공용 컴포넌트·외부 리서치 통합·합격 기준만 박는다. 사용자 평가 "전반적으로 너무 구려"
+에 대한 구조적 대응.
+
+### Added
+
+- **`docs/PROFESSIONAL_REBUILD_PLAN.md`**(신규) — 5 트랙 외부 리서치 통합(차트 애니메이션 /
+  한글 타이포 / 시각화 이론 / 다크 컬러 / 날리지식·Vox 미학) + 현 코드 자기 평가(평균 갭
+  -5.9) + Phase 0 → 5+E 실행 계획 + **MVP Professional Bar 20 합격 기준**. 본 사이클의 SSOT.
+- **`remotion/src/design.ts`**(신규) — 디자인 시스템 토큰 SSOT. **Color**(Material Dark
+  베이스 `#121214` + Okabe-Ito 색맹 안전 시리즈 7 색 + 의미 라벨 4 색 + Aurora 4 색),
+  **Typography**(Pretendard Variable 폰트 스택, 1.618 황금비 size scale 14→18→28→46→76→124,
+  weight 400–900, lineHeight tight/normal/relaxed/loose, **한글 `word-break: keep-all` +
+  `overflow-wrap: anywhere`**, Netflix Korean 자막 표준 16자/2줄/17CPS), **Motion**(Material
+  easing decelerate `[0,0,0.2,1]` / standard / accelerate, duration 150/300/400/600/900ms,
+  `stagger(n)` 헬퍼), **Spacing**(8 grid + safe area + chart 영역 + radius + stroke).
+  헬퍼 `msToFrames(ms, fps)`, `seriesColor(i)`, `labelColor(key)`.
+- **`remotion/src/components/ChartFrame.tsx`**(신규) — 모든 차트 family 공용 외곽: kicker /
+  title / subtitle / source 슬롯. 빈 슬롯은 공간 차지 안 함. design.ts 토큰만 사용.
+- **`remotion/src/components/Axis.tsx`**(신규) — SVG group x/y 축 + grid + tick + 라벨.
+  d3-axis 의존 회피(결정론·경량). 호출자가 미리 계산한 tick 배열을 전달.
+- **`remotion/src/components/Callout.tsx`**(신규) — D3-annotation Subject + Note + Connector
+  패턴. 진입 모션 트랙(subject grow 300ms → connector draw 300ms → note fade 200ms),
+  Bezier 곡선 connector, foreignObject 로 한글 줄바꿈 안전, design.ts 토큰만.
+- **`remotion/src/components/ReferenceRegion.tsx`**(신규) — 위기 구간 / 이벤트 영역 표시.
+  회색 알파 fill + 점선 경계 + 라벨(top/inside/bottom). 시계열 차트 맥락 강조.
+- **npm 의존성 추가** — `d3-scale` `d3-shape` `d3-time-format` `d3-array`
+  `d3-scale-chromatic` `labella` + 각 `@types/*`. Phase 1 XY family 정통 재구현용.
+
+### Changed
+
+- 본 PATCH 는 **차트/자막/지도 본체 동작 변경 없음**(기존 211/328 회귀 모두 그대로).
 
 ---
 
