@@ -1,6 +1,10 @@
 import React from "react";
 import { interpolate, useCurrentFrame, useVideoConfig } from "remotion";
 
+import { DualLineChart } from "./charts/xy/DualLineChart";
+import { ForecastChart as ForecastChartV2 } from "./charts/xy/ForecastChart";
+import { XYChart } from "./charts/xy/XYChart";
+
 // render_props.json 의 chartData 와 동일 구조 (orchestrator/render_io.py:RenderChart).
 export type ChartData = {
   chartId: string;
@@ -68,113 +72,8 @@ function yGrid(min: number, max: number, Y: (v: number) => number, x0: number, x
   });
 }
 
-// ── XY (line / area) ──────────────────────────────────────────────
-const LineLike: React.FC<{ data: any; unit?: string; area?: boolean } & Box> = ({ data, unit, area, width, height }) => {
-  const prog = useDraw();
-  const rows: any[] = Array.isArray(data) ? data.filter((d) => d && typeof d.y === "number") : [];
-  if (rows.length < 2) return null;
-  const seriesNames = Array.from(new Set(rows.map((d) => d.series ?? "_")));
-  const ys = rows.map((d) => d.y);
-  let min = Math.min(...ys), max = Math.max(...ys);
-  if (min === max) { min -= 1; max += 1; }
-  if (area && min > 0) min = 0;
-  const xs = Array.from(new Set(rows.map((d) => String(d.x))));
-  const X = (xi: number) => PAD.l + (xi * (width - PAD.l - PAD.r)) / Math.max(1, xs.length - 1);
-  const Y = (v: number) => PAD.t + (1 - (v - min) / (max - min)) * (height - PAD.t - PAD.b);
-  return (
-    <svg width={width} height={height} style={{ display: "block" }}>
-      {yGrid(min, max, Y, PAD.l, width - PAD.r, unit)}
-      <text x={PAD.l} y={height - 18} fontSize={22} fill={TXT} textAnchor="start" style={FONT}>{xs[0]}</text>
-      <text x={width - PAD.r} y={height - 18} fontSize={22} fill={TXT} textAnchor="end" style={FONT}>{xs[xs.length - 1]}</text>
-      {seriesNames.map((sn, si) => {
-        const pts = rows.filter((d) => (d.series ?? "_") === sn).map((d) => [X(xs.indexOf(String(d.x))), Y(d.y)] as [number, number]);
-        if (pts.length < 2) return null;
-        let len = 0;
-        for (let i = 1; i < pts.length; i++) len += Math.hypot(pts[i][0] - pts[i - 1][0], pts[i][1] - pts[i - 1][1]);
-        const col = PALETTE[si % PALETTE.length];
-        const dPath = pts.map(([x, y], i) => `${i ? "L" : "M"}${x.toFixed(1)},${y.toFixed(1)}`).join(" ");
-        return (
-          <g key={si}>
-            {area && (
-              <path d={`${dPath} L${pts[pts.length - 1][0]},${Y(min)} L${pts[0][0]},${Y(min)} Z`} fill={col} opacity={0.18 * prog} />
-            )}
-            <path d={dPath} fill="none" stroke={col} strokeWidth={4} strokeLinejoin="round" strokeLinecap="round"
-              strokeDasharray={len} strokeDashoffset={len * (1 - prog)} />
-          </g>
-        );
-      })}
-      {rows.map((d, i) => {
-        if (!d.event) return null;
-        const xi = xs.indexOf(String(d.x));
-        if (xi / Math.max(1, xs.length - 1) > prog + 0.03) return null;
-        const cx = X(xi), cy = Y(d.y);
-        return (
-          <g key={`e${i}`}>
-            <circle cx={cx} cy={cy} r={7} fill={ACCENT} stroke="#0e1116" strokeWidth={2} />
-            <Halo x={clampX(cx, width)} y={cy - 16} fontSize={21} fontWeight={700} fill={FG} textAnchor={edgeAnchor(cx, width)}>{d.event}</Halo>
-          </g>
-        );
-      })}
-    </svg>
-  );
-};
-
-// ── forecast (actual + 전망 band) ─────────────────────────────────
-const ForecastChart: React.FC<{ data: any; unit?: string } & Box> = ({ data, unit, width, height }) => {
-  const prog = useDraw();
-  const actual: any[] = data?.actual ?? [];
-  const fc: any[] = data?.forecast ?? [];
-  if (!actual.length && !fc.length) return null;
-  const xs = [...actual.map((d) => String(d.x)), ...fc.map((d) => String(d.x))];
-  const ux = Array.from(new Set(xs));
-  const allV = [...actual.map((d) => d.y), ...fc.flatMap((d) => [d.low, d.mid, d.high])].filter((v) => typeof v === "number");
-  let min = Math.min(...allV), max = Math.max(...allV);
-  if (min === max) { min -= 1; max += 1; }
-  const X = (xv: string) => PAD.l + (ux.indexOf(xv) * (width - PAD.l - PAD.r)) / Math.max(1, ux.length - 1);
-  const Y = (v: number) => PAD.t + (1 - (v - min) / (max - min)) * (height - PAD.t - PAD.b);
-  const aPath = actual.map((d, i) => `${i ? "L" : "M"}${X(String(d.x))},${Y(d.y)}`).join(" ");
-  const mPath = fc.map((d, i) => `${i ? "L" : "M"}${X(String(d.x))},${Y(d.mid)}`).join(" ");
-  const band = fc.length ? `M${fc.map((d) => `${X(String(d.x))},${Y(d.high)}`).join(" L")} L${[...fc].reverse().map((d) => `${X(String(d.x))},${Y(d.low)}`).join(" L")} Z` : "";
-  return (
-    <svg width={width} height={height} style={{ display: "block" }}>
-      {yGrid(min, max, Y, PAD.l, width - PAD.r, unit)}
-      {band && <path d={band} fill={ACCENT} opacity={0.16 * prog} />}
-      <path d={aPath} fill="none" stroke={PALETTE[0]} strokeWidth={4} strokeLinecap="round" opacity={prog} />
-      <path d={mPath} fill="none" stroke={ACCENT} strokeWidth={3.5} strokeDasharray="8 7" strokeLinecap="round" opacity={prog} />
-      <text x={PAD.l} y={height - 18} fontSize={22} fill={TXT} textAnchor="start" style={FONT}>{ux[0]}</text>
-      <text x={width - PAD.r} y={height - 18} fontSize={22} fill={TXT} textAnchor="end" style={FONT}>{ux[ux.length - 1]}</text>
-    </svg>
-  );
-};
-
-// ── dual_line (좌우 축) ───────────────────────────────────────────
-const DualLine: React.FC<{ data: any } & Box> = ({ data, width, height }) => {
-  const prog = useDraw();
-  const sides = [data?.left, data?.right].filter(Boolean);
-  if (!sides.length) return null;
-  const ux = Array.from(new Set(sides.flatMap((s: any) => (s.series ?? []).map((p: any) => String(p.x)))));
-  const X = (xv: string) => PAD.l + (ux.indexOf(xv) * (width - PAD.l - PAD.r)) / Math.max(1, ux.length - 1);
-  return (
-    <svg width={width} height={height} style={{ display: "block" }}>
-      {sides.map((s: any, si: number) => {
-        const ser = s.series ?? [];
-        const vs = ser.map((p: any) => p.y);
-        let min = Math.min(...vs), max = Math.max(...vs);
-        if (min === max) { min -= 1; max += 1; }
-        const Y = (v: number) => PAD.t + (1 - (v - min) / (max - min)) * (height - PAD.t - PAD.b);
-        const col = PALETTE[si];
-        const dPath = ser.map((p: any, i: number) => `${i ? "L" : "M"}${X(String(p.x))},${Y(p.y)}`).join(" ");
-        return (
-          <g key={si}>
-            <path d={dPath} fill="none" stroke={col} strokeWidth={4} strokeLinecap="round" opacity={prog} />
-            <text x={si === 0 ? PAD.l - 12 : width - PAD.r + 12} y={PAD.t + 4} fontSize={20} fill={col}
-              textAnchor={si === 0 ? "end" : "start"} style={FONT}>{s.label ?? ""}{s.unit ? ` (${s.unit})` : ""}</text>
-          </g>
-        );
-      })}
-    </svg>
-  );
-};
+// NOTE: XY family (line/area/stacked_area/small_multiples/dual_line/forecast) 는
+// v0.31.0 부터 charts/xy/ 로 이관됨. 본 파일은 Phase 2+ 의 bar/point/specialty 폴백.
 
 // ── bar / lollipop / range_bar ────────────────────────────────────
 const BarChart: React.FC<{ data: any; unit?: string; mode?: "bar" | "lollipop" | "range" } & Box> = ({ data, unit, mode = "bar", width, height }) => {
@@ -515,21 +414,39 @@ const ChoroplethBars: React.FC<{ data: any; unit?: string } & Box> = ({ data, un
 );
 
 // ── 디스패치 ──────────────────────────────────────────────────────
+// v0.31.0 부터 XY family (line/area/stacked_area/small_multiples/dual_line/forecast) 는
+// charts/xy/ 의 정통 재구현 컴포넌트로 라우팅. 나머지는 본 파일의 legacy 렌더러 (Phase 2+ 에서 교체).
 export const ChartView: React.FC<{ chart: ChartData; width: number; height: number }> = ({ chart, width, height }) => {
   const t = chart.type, d = chart.data, u = chart.unit, box = { width, height };
   switch (t) {
-    case "line": return <LineLike data={d} unit={u} {...box} />;
-    case "area": return <LineLike data={d} unit={u} area {...box} />;
-    case "stacked_area": {
-      const flat = (d?.series ?? []).flatMap((s: any) => (s.values ?? []).map((p: any) => ({ x: p.x, y: p.y, series: s.name })));
-      return <LineLike data={flat} unit={u} area {...box} />;
-    }
-    case "small_multiples": {
-      const flat = (d?.panels ?? []).flatMap((p: any) => (p.series ?? []).map((q: any) => ({ x: q.x, y: q.y, series: p.label })));
-      return <LineLike data={flat} unit={u} {...box} />;
-    }
-    case "dual_line": return <DualLine data={d} {...box} />;
-    case "forecast": return <ForecastChart data={d} unit={u} {...box} />;
+    case "line":
+    case "area":
+    case "stacked_area":
+    case "small_multiples":
+      return (
+        <XYChart
+          chartId={chart.chartId}
+          type={t as "line" | "area" | "stacked_area" | "small_multiples"}
+          title={chart.title}
+          unit={u}
+          data={d}
+          width={width}
+          height={height}
+        />
+      );
+    case "dual_line":
+      return <DualLineChart chartId={chart.chartId} title={chart.title} data={d} width={width} height={height} />;
+    case "forecast":
+      return (
+        <ForecastChartV2
+          chartId={chart.chartId}
+          title={chart.title}
+          unit={u}
+          data={d}
+          width={width}
+          height={height}
+        />
+      );
     case "bar": return <BarChart data={d} unit={u} mode="bar" {...box} />;
     case "lollipop": return <BarChart data={d} unit={u} mode="lollipop" {...box} />;
     case "range_bar": return <BarChart data={d} unit={u} mode="range" {...box} />;

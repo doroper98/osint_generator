@@ -183,16 +183,16 @@ Subject+Note+Connector annotation + time-wipe stagger.
 **비-목표 (다음 Phase 로 이관)**: 차트 family 본체 교체, annotation 실제 사용, network/sankey
 재작성.
 
-### Phase 1 — XY family 정통 재구현 (v0.31.0)
+### Phase 1 — XY family 정통 재구현 (v0.31.0) [완료]
 
-- line / area / dual_line / stacked_area / forecast
-- d3-scale (time + linear), d3-shape line/area generator
-- 시간 위계 축 (year/quarter/month/day) — d3-time-format
-- Direct labeling (끝점 값 + 시리즈명, labella 충돌 회피)
-- Subject+Note+Connector callout 실 사용 (peak/위기 시점 강조)
-- ReferenceRegion 사용 (위기 구간 음영)
-- Draw progression: x 방향 wipe + 끝점 값 카운트업
-- Stagger: 다중 시리즈는 `clamp(min(80ms, 600/N))` 간격
+- [x] line / area / stacked_area / small_multiples / dual_line / forecast
+- [x] d3-scale (time + linear) + d3-shape `line()` / `area()` + `curveMonotoneX`
+- [x] 시간 위계 축 (year / month / day 자동) — d3-time-format
+- [x] Direct labeling (끝점 값 + 시리즈명) + 1D 라벨 충돌 회피(자체 구현, 결정론)
+- [x] Subject+Note+Connector 콜아웃 (XY 의 `event` 필드 자동)
+- [x] ReferenceRegion (위기/전망 구간 음영) — XY 옵션 + Forecast 전망 구간 자동
+- [x] Draw progression: clipPath x-wipe + Material decelerate
+- [x] Stagger 헬퍼 (`charts/util.ts` 의 `useSeriesProgress`, stacked_area 후속 적용 예정)
 
 ### Phase 2 — Bar/Point family (v0.32.0)
 

@@ -1,6 +1,6 @@
 <!--
 tier: 1
-last_synced_with: v0.30.0
+last_synced_with: v0.31.0
 ssot_for: [session-handoff]
 depends_on: [CLAUDE.md, GOAL.md, VERSION, docs/13_IMPLEMENTATION_ROADMAP.md, docs/REVIEW_PROMPT.md, docs/PROFESSIONAL_REBUILD_PLAN.md]
 last_review: 2026-06-05
@@ -32,12 +32,17 @@ last_review: 2026-06-05
    - **v0.30.0 (완료)**: Phase 0 디자인 시스템 토대 — `design.ts` 토큰 + 공용 컴포넌트
      `ChartFrame` / `Axis` / `Callout` / `ReferenceRegion` + npm `d3-scale d3-shape
      d3-time-format d3-array d3-scale-chromatic labella`.
-   - **v0.31.0 (다음)**: Phase 1 XY family 정통 재구현 — line/area/dual_line/forecast/
-     stacked_area 를 d3-scale + d3-shape + ChartFrame + Axis + Callout + Direct
-     labeling + labella 1D 충돌 회피로 재작성. 차트 본체 첫 진입.
-   - 이후: Phase 2 Bar/Point (v0.32.0) → Phase 3 Specialty (v0.33.0) → Phase 4 모멘트
-     음성 싱크 (v0.34.0) → Phase 5 자막/타이포 표준 (v0.35.0) → Phase E 최종 mp4 검수
-     (v0.36.0).
+   - **v0.31.0 (완료)**: Phase 1 XY family 정통 재구현 — `charts/util.ts`(time-aware x
+     스케일 + nice ticks y 스케일 + Material easing 결정론 t→y + 1D 라벨 충돌 회피 자체
+     구현) + `XYChart`(line/area/stacked_area/small_multiples) + `DualLineChart` +
+     `ForecastChart`. clipPath wipe, 끝점 직접 라벨, Subject+Note+Connector 콜아웃,
+     ReferenceRegion 자동 노출.
+   - **v0.32.0 (다음)**: Phase 2 Bar/Point — bar / lollipop / range_bar / stacked_bar /
+     waterfall / scatter / bubble / slope / candle 를 동일 토대로 재작성. waterfall
+     connector 선, bubble quadrant label, lollipop stem grow + head pop.
+   - 이후: Phase 3 Specialty (v0.33.0, network=d3-force / sankey=d3-sankey / gantt /
+     choropleth=world-atlas+ISO) → Phase 4 모멘트 음성 싱크 (v0.34.0) → Phase 5 자막/
+     타이포 표준 (v0.35.0) → Phase E 최종 mp4 검수 (v0.36.0).
    - agents_reviewer 정적 SVG 는 **아직 렌더러 없는 복잡 타입의 폴백**으로만.
      `network/sankey/choropleth` 는 Phase 3 에서 d3-force / d3-sankey / world-atlas
      로 정통 재구현 예정.

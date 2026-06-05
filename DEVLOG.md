@@ -1,6 +1,6 @@
 <!--
 tier: 3
-last_synced_with: v0.30.0
+last_synced_with: v0.31.0
 ssot_for: [development-log]
 depends_on: [CHANGELOG.md]
 last_review: 2026-06-05
@@ -22,6 +22,52 @@ last_review: 2026-06-05
 - 결과:  …
 - 연관:  AP-번호, 이슈, PR 번호 등
 ```
+
+---
+
+## 2026-06-05 v0.31.0 — Phase 1: XY family 정통 재구현 (영상미 C0)
+
+- **무엇을**: XY 6 종(line / area / stacked_area / small_multiples / dual_line / forecast)
+  을 디자인 시스템(v0.30.0) 토대 + d3-scale + d3-shape + 자체 1D 라벨 충돌 회피 + Subject+
+  Note+Connector + ReferenceRegion 으로 재구현.
+  - `charts/util.ts`: time-aware x 스케일(ISO 면 scaleTime, 아니면 scalePoint), nice ticks
+    y 스케일, Material easing(t→y, Newton 2-step), draw progress hook + 시리즈 stagger
+    hook, 1D 라벨 충돌 회피(양방향 패스 + 경계 클램프), 시리즈 그룹화.
+  - `charts/xy/XYChart.tsx`: line/area/stacked_area/small_multiples 통합. d3-shape `line()`
+    + `area()` + `curveMonotoneX`. clipPath 로 x-wipe 진입(Material decelerate). 끝점 마커
+    + leader line + 시리즈명 + 값(직접 라벨, 75% progress 후 등장). `event` 필드 있으면
+    `Callout` 자동 노출. `referenceRegions` 옵션으로 위기 구간 음영.
+  - `charts/xy/DualLineChart.tsx`: 좌/우 독립 y 스케일, 우 시리즈 점선, 색 매칭 헤더.
+  - `charts/xy/ForecastChart.tsx`: 실측(실선) + 전망(점선 mid + band area) + 전망 구간
+    ReferenceRegion + "실측"/"전망" 끝점 라벨.
+- **왜**: Phase 0 토대만 박으면 디자인 토큰이 실 차트에 흐르지 않으므로, XY 6 종을 첫 family
+  로 본체 진입. XY 는 OSINT 시계열의 빈도·중요도 1 등(line·area 가 전체 차트의 ~60%).
+  d3-shape 의 `area()` / `line()` 은 우리가 직접 path 문자열을 만들던 v0.27.0 보다 곡률
+  보간(`curveMonotoneX`) 등 정밀도가 훨씬 높고, `scaleTime` 은 ISO 입력에 대해 시간 위계
+  를 자동(연/월/일 자동 포맷)으로 줘서 사용자가 데이터를 그대로 던져도 영상미 보존.
+- **어떻게**:
+  - **결정론**: labella(UMD, 비결정 정렬 의존) 회피하고 자체 1D 충돌 회피 구현 — 양방향
+    패스(아래로 + 위로) + 경계 클램프. 입력 동일하면 출력 동일.
+  - **Material easing 의 결정론적 t→y**: Remotion `interpolate` 는 함수형 easing 을 받으므로
+    cubic Bezier `(0,0)→(cp0,cp1)→(cp2,cp3)→(1,1)` 의 t→y 를 Newton 2-step 으로 (정확도
+    < 0.005). CSS keyframe / `cubic-bezier()` 안 씀 — 프레임 정확.
+  - **Wipe 진입**: line/area 의 stroke-dasharray 트릭 대신 `clipPath` rect 의 width 를
+    progress 로. area fill 도 동일 클립으로 잘려서 영상의 "데이터 그려지는 느낌" 일관성.
+  - **끝점 라벨 시점**: progress 0–75% 는 wipe, 75–95% 는 라벨 페이드인. 라벨이 wipe 보다
+    먼저 나오면 시각적 혼란.
+  - **이벤트 콜아웃**: `event` 필드(legacy 호환) 있으면 `Callout`(Subject + Note + Bezier
+    Connector) 자동 노출. note 위치는 데이터 포인트가 영역 우측 30% 안에 있으면 왼쪽 위,
+    아니면 오른쪽 위.
+  - **legacy 코드 청소**: `LineLike` / `ForecastChart` / `DualLine` 제거(~110 LOC).
+    Bar/Point/Specialty 등 나머지 14 종은 본 PATCH 에선 손 안 댐(Phase 2/3).
+- **결과**: tsc `--noEmit` 통과(MapView 의 JSON resolve 경고는 사전 존재). Python 328/328
+  통과. ChartView 디스패치만 변경, 외부 인터페이스(ChartData) 동일.
+- **다음**: Phase 2 — Bar/Point family (v0.32.0). bar / lollipop / range_bar /
+  stacked_bar / waterfall / scatter / bubble / slope / candle 를 동일 토대로 재작성.
+  Waterfall connector 선, bubble quadrant label, lollipop stem grow + head pop, label
+  collision 자체 구현 재사용.
+- **연관**: C0/G0, CHANGELOG v0.31.0, docs/PROFESSIONAL_REBUILD_PLAN.md §3 Phase 1,
+  MVP Professional Bar 8/9/10/11/12 진행. v0.30.0 (토대) 의 첫 본체 적용.
 
 ---
 

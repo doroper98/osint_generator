@@ -1,6 +1,6 @@
 <!--
 tier: 3
-last_synced_with: v0.30.0
+last_synced_with: v0.31.0
 ssot_for: [release-notes]
 depends_on: [README.md, GOAL.md]
 last_review: 2026-06-05
@@ -25,6 +25,58 @@ released 항목은 **append-only**입니다.
 
 ### Fixed
 -
+
+---
+
+## [v0.31.0] — 2026-06-05
+
+**Phase 1 — XY family 정통 재구현 (영상미 C0)**. line / area / stacked_area /
+small_multiples / dual_line / forecast 를 d3-scale + d3-shape + ChartFrame + Axis +
+Callout + ReferenceRegion + 자체 1D 라벨 충돌 회피로 다시. 차트 family 첫 본체 진입.
+
+### Added
+
+- **`remotion/src/charts/util.ts`**(신규) — XY 공용 헬퍼.
+  - `buildXScale(xs, range)` — **time-aware**: ISO(`%Y-%m-%d` / `%Y-%m` / `%Y/%m/%d` / `%Y`)
+    면 d3 `scaleTime` + 시간 위계 자동 포맷(연/월/일), 아니면 `scalePoint` 폴백.
+  - `buildYScale(values, range, opts)` — **nice ticks** (Robert Wickham nice-numbers
+    알고리즘), `includeZero`, unit 자동 접미사(`k` for 10k+).
+  - `easeDecelerate` / `easeStandard` — Material easing 의 결정론적 t→y 함수(Newton 2-step).
+  - `useDrawProgress(delaySec, durMs)` — Remotion frame → 0–1 progress + Material easing.
+  - `useSeriesProgress(i, total, ...)` — stagger 적용 시리즈별 진입.
+  - `layoutEndpointLabels` — 자체 1D 충돌 회피(labella 의존 회피, 결정론). 양방향 패스 +
+    경계 클램프.
+  - `groupBySeries` / `unionXs` — flat rows → 시리즈 그룹화 + x 합집합(순서 보존).
+- **`remotion/src/charts/xy/XYChart.tsx`**(신규) — line / area / stacked_area /
+  small_multiples 통합 컴포넌트.
+  - d3-shape `line()` + `area()` + `curveMonotoneX`.
+  - **Draw progression**: x-방향 `clipPath` wipe + Material decelerate easing.
+  - **Direct labeling**: 끝점 마커 + leader line + 시리즈명 + 값(75% progress 후 등장).
+  - 끝점 라벨 1D 충돌 회피(`layoutEndpointLabels`).
+  - **Subject + Note + Connector 콜아웃**(`Callout`): `event` 필드 있으면 자동 노출.
+  - **ReferenceRegion**: 위기 구간(`referenceRegions` 옵션) 음영 + 라벨.
+  - Surface plate (배경 카드) + Pretendard + design.ts 토큰만.
+- **`remotion/src/charts/xy/DualLineChart.tsx`**(신규) — 좌/우 독립 y 스케일, 우 시리즈
+  점선(`dasharray`), 시리즈명 색-매칭 헤더, 끝점 마커.
+- **`remotion/src/charts/xy/ForecastChart.tsx`**(신규) — 실측(실선) + 전망(점선 mid +
+  band area) + ReferenceRegion 으로 전망 구간 시각 분리 + "실측"/"전망" 끝점 라벨.
+
+### Changed
+
+- **`remotion/src/ChartView.tsx`** — XY family(6 종) 디스패치를 새 컴포넌트로 라우팅:
+  `line` / `area` / `stacked_area` / `small_multiples` → `XYChart`,
+  `dual_line` → `DualLineChart`, `forecast` → `ForecastChart`.
+  legacy `LineLike` / `ForecastChart` / `DualLine` 코드 제거(~110 LOC).
+  bar / stacked / waterfall / scatter 등 나머지 14 종은 legacy 렌더러 유지(Phase 2+ 교체).
+
+### MVP Professional Bar 진행
+
+- ✅ 8. Stagger 헬퍼 도입(`stagger(n)`, XY 시리즈별 진입).
+- ✅ 9. Draw progression(x-wipe + Material decelerate).
+- ✅ 10. Subject+Note+Connector 콜아웃(XY 의 event 필드).
+- ✅ 11. Direct labeling(끝점 시리즈명+값, 1D 충돌 회피).
+- ✅ 12. ReferenceRegion 동작(forecast 전망 구간 + XY 옵션).
+- 부분 ✅ 1. 토큰 일관성(XY 만 design.ts 100%, 나머지 family 는 Phase 2+ 에 이관).
 
 ---
 
