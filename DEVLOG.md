@@ -1,6 +1,6 @@
 <!--
 tier: 3
-last_synced_with: v0.32.0
+last_synced_with: v0.32.1
 ssot_for: [development-log]
 depends_on: [CHANGELOG.md]
 last_review: 2026-06-05
@@ -22,6 +22,38 @@ last_review: 2026-06-05
 - 결과:  …
 - 연관:  AP-번호, 이슈, PR 번호 등
 ```
+
+---
+
+## 2026-06-05 v0.32.1 — `.env` 자동 로딩 (사용자 편의 PATCH)
+
+- **무엇을**: `orchestrator/main._load_env_file()` 진입점 도입. 저장소 root `.env` 가
+  있으면 `python-dotenv` 로 로드. `override=False` 라 운영 환경의 export 우선.
+  `requirements.txt` 에 `python-dotenv>=1.0` 추가, `.env.example` 갱신, 4 케이스 단위
+  테스트.
+- **왜**: 사용자가 호르무즈 풀 렌더 시도 중 "내 api키와 voice id 를 env 에 넣어서 쓰면
+  안돼? 내가 매번 입력 해야 돼? 너무 불편한데?" 명시적 요청. setx(영구 환경변수) 와
+  `.env` 두 옵션 제안 → 사용자 `.env` 선택. 비밀값을 한 곳에 모으고 추가 키(향후 whisper /
+  다른 TTS) 가 늘어도 동일 패턴.
+- **어떻게**:
+  - 진입점 한 곳에서 호출(`main()` 첫 줄). 모든 서브커맨드 자동 적용.
+  - **override=False**: 사용자 머신 OS 환경에 키가 export 되어 있으면 그쪽 우선 — 본
+    저장소를 prod 머신으로 옮길 때도 안전. .env 는 dev 보조 채널.
+  - `python-dotenv` 미설치 / `.env` 미존재 = 둘 다 silent no-op. CI 영향 0.
+  - `requirements.txt` 주석은 ASCII-only (DEVLOG v0.15.2 의 한글 Windows cp949 사고
+    재발 방지) — 한글 주석을 영문으로 작성.
+  - `.env.example` 정리: ANTHROPIC/OPENAI 같은 미사용 placeholder 제거(우리는 구독 CLI
+    호출이라 LLM API 키 불필요 — ADDENDUM_04), 실제 사용 중인 ELEVENLABS_* + OSINT_* 만
+    명시적으로 박음. 사용자가 본 파일만 보면 환경변수 전모 파악.
+  - 테스트: ① 키 로드, ② 기존 export override 안 함, ③ .env 없을 때 silent, ④ dotenv
+    미설치 시 silent — `mock.patch.dict("sys.modules", {"dotenv": None})` 로 import
+    실패 흉내.
+- **결과**: 328 → 332 통과(+4 신규). 코드 변경 영향 0(미설치/.env미존재 시 동일 동작).
+- **다음**: 사용자가 본인 머신 .env 채우고 `python -m orchestrator.main build-audio
+  seam-hormuz --backend elevenlabs` 실행. 음성 산출되면 Remotion 풀 렌더로 새 차트(Phase
+  1+2) + 음성 + 자막 + 지도가 함께 도는 호르무즈 영상 확인. 그 피드백 → Phase 3 진입.
+- **연관**: C9(secret 미커밋), .gitignore 32-33(.env), ADDENDUM_04(LLM 구독 CLI 호출,
+  LLM API 키 없음), CHANGELOG v0.32.1.
 
 ---
 

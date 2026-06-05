@@ -291,7 +291,25 @@ def _print_manifest_summary(manifest: ProjectManifest) -> None:
     print(f"state_history  : {len(manifest.state_history)} entries")
 
 
+def _load_env_file() -> None:
+    """저장소 root 의 .env 를 자동 로딩(있으면).
+
+    v0.32.1 도입. ELEVENLABS_API_KEY / ELEVENLABS_VOICE_ID 등 secret 을 사용자가
+    매 cmd 세션마다 입력하지 않게. **이미 환경에 같은 키가 있으면 override 하지 않는다**
+    (`override=False`) — 운영 환경의 명시적 export 가 .env 보다 우선.
+
+    .env 미존재 / `python-dotenv` 미설치는 silent no-op. CI / 테스트는 영향 없음.
+    """
+    try:
+        from dotenv import load_dotenv  # type: ignore[import-not-found]
+    except ImportError:
+        return
+    env_path = Path(__file__).resolve().parent.parent / ".env"
+    load_dotenv(env_path, override=False)
+
+
 def main(argv: list[str] | None = None) -> int:
+    _load_env_file()
     parser = build_parser()
     args = parser.parse_args(argv)
 

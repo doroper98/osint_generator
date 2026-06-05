@@ -1,6 +1,6 @@
 <!--
 tier: 3
-last_synced_with: v0.32.0
+last_synced_with: v0.32.1
 ssot_for: [release-notes]
 depends_on: [README.md, GOAL.md]
 last_review: 2026-06-05
@@ -25,6 +25,31 @@ released 항목은 **append-only**입니다.
 
 ### Fixed
 -
+
+---
+
+## [v0.32.1] — 2026-06-05
+
+**`.env` 자동 로딩 — 매 cmd 세션 키 입력 불필요 (사용자 편의)**. ElevenLabs 등 secret 을
+저장소 root `.env` 한 곳에 모으고, 모든 `python -m orchestrator.main ...` CLI 가 자동
+로드. `.env` 는 `.gitignore` 가 이미 차단(C9).
+
+### Added
+
+- **`orchestrator/main._load_env_file()`**(신규) — `main()` 진입점에서 호출. 저장소 root
+  `.env` 가 있으면 `python-dotenv` 로 로드. **`override=False`** — 운영 환경의 명시적
+  export 가 `.env` 보다 우선(prod 안전). `.env` 미존재 / `python-dotenv` 미설치는 silent
+  no-op.
+- **`requirements.txt`** — `python-dotenv>=1.0` 추가(ASCII-only 주석 규칙 준수).
+- **`.env.example`** — 갱신. 옛 placeholder (ANTHROPIC/OPENAI/Telegram/YouTube/Drive) 정리,
+  실제 사용 중인 `ELEVENLABS_API_KEY` / `ELEVENLABS_VOICE_ID` / `ELEVENLABS_MODEL_ID` /
+  `OSINT_ALIGN_BACKEND` / `OSINT_LLM_STUB` 등 도큐먼트.
+- **`tests/test_env_loader.py`**(신규, 4 케이스) — ① 키 로드, ② 기존 환경변수 override 안
+  함, ③ .env 없을 때 silent, ④ dotenv 미설치 시 silent.
+
+### MVP Professional Bar 진행
+
+- 없음 (사용자 편의 PATCH — 영상미 사이클과 직접 무관).
 
 ---
 
