@@ -1,6 +1,12 @@
 import React from "react";
 import { interpolate, useCurrentFrame, useVideoConfig } from "remotion";
 
+import { BarChart as BarChartV2 } from "./charts/cat/BarChart";
+import { CandleChart as CandleChartV2 } from "./charts/cat/CandleChart";
+import { PointChart as PointChartV2 } from "./charts/cat/PointChart";
+import { SlopeChart as SlopeChartV2 } from "./charts/cat/SlopeChart";
+import { StackedBarChart as StackedBarChartV2 } from "./charts/cat/StackedBarChart";
+import { Waterfall as WaterfallV2 } from "./charts/cat/Waterfall";
 import { DualLineChart } from "./charts/xy/DualLineChart";
 import { ForecastChart as ForecastChartV2 } from "./charts/xy/ForecastChart";
 import { XYChart } from "./charts/xy/XYChart";
@@ -72,164 +78,9 @@ function yGrid(min: number, max: number, Y: (v: number) => number, x0: number, x
   });
 }
 
-// NOTE: XY family (line/area/stacked_area/small_multiples/dual_line/forecast) 는
-// v0.31.0 부터 charts/xy/ 로 이관됨. 본 파일은 Phase 2+ 의 bar/point/specialty 폴백.
-
-// ── bar / lollipop / range_bar ────────────────────────────────────
-const BarChart: React.FC<{ data: any; unit?: string; mode?: "bar" | "lollipop" | "range" } & Box> = ({ data, unit, mode = "bar", width, height }) => {
-  const prog = useDraw(8, 1.0);
-  const rows: any[] = Array.isArray(data) ? data : [];
-  if (!rows.length) return null;
-  const vals = mode === "range" ? rows.flatMap((d) => [d.low, d.high]) : rows.map((d) => d.value);
-  let min = Math.min(0, ...vals), max = Math.max(...vals);
-  if (min === max) max += 1;
-  const n = rows.length;
-  const bw = (width - PAD.l - PAD.r) / n;
-  const Y = (v: number) => PAD.t + (1 - (v - min) / (max - min)) * (height - PAD.t - PAD.b);
-  return (
-    <svg width={width} height={height} style={{ display: "block" }}>
-      {yGrid(min, max, Y, PAD.l, width - PAD.r, unit)}
-      {rows.map((d, i) => {
-        const cx = PAD.l + bw * (i + 0.5);
-        const col = PALETTE[i % PALETTE.length];
-        const lab = (
-          <text key={`l${i}`} x={clampX(cx, width)} y={height - 18} fontSize={20} fill={TXT}
-            textAnchor={edgeAnchor(cx, width)} style={FONT}>{d.label}</text>
-        );
-        if (mode === "range") {
-          const yH = Y(d.high), yL = Y(d.low);
-          return (<g key={i}><rect x={cx - bw * 0.18} y={yH} width={bw * 0.36} height={(yL - yH) * prog} rx={6} fill={col} />{lab}</g>);
-        }
-        if (mode === "lollipop") {
-          const y = Y(d.value);
-          return (<g key={i}><line x1={cx} y1={Y(0)} x2={cx} y2={Y(0) + (y - Y(0)) * prog} stroke={col} strokeWidth={4} /><circle cx={cx} cy={Y(0) + (y - Y(0)) * prog} r={9} fill={col} />{lab}</g>);
-        }
-        const y = Y(d.value), base = Y(Math.max(0, min));
-        const h = (base - y) * prog;
-        return (<g key={i}><rect x={cx - bw * 0.32} y={base - h} width={bw * 0.64} height={Math.abs(h)} rx={5} fill={col} /><text x={cx} y={base - h - 8} fontSize={19} fill={FG} textAnchor="middle" style={FONT} opacity={prog}>{fmtNum(d.value)}</text>{lab}</g>);
-      })}
-    </svg>
-  );
-};
-
-// ── stacked / stacked_bar ─────────────────────────────────────────
-const StackedBar: React.FC<{ data: any; unit?: string } & Box> = ({ data, unit, width, height }) => {
-  const prog = useDraw(8, 1.0);
-  const cats: string[] = data?.categories ?? [];
-  const series: any[] = data?.series ?? [];
-  if (!cats.length || !series.length) return null;
-  const totals = cats.map((_, ci) => series.reduce((s, se) => s + (se.values?.[ci] ?? 0), 0));
-  const max = Math.max(...totals) || 1;
-  const n = cats.length;
-  const bw = (width - PAD.l - PAD.r) / n;
-  const Y = (v: number) => PAD.t + (1 - v / max) * (height - PAD.t - PAD.b);
-  return (
-    <svg width={width} height={height} style={{ display: "block" }}>
-      {yGrid(0, max, Y, PAD.l, width - PAD.r, unit)}
-      {cats.map((c, ci) => {
-        const cx = PAD.l + bw * (ci + 0.5);
-        let acc = 0;
-        return (
-          <g key={ci}>
-            {series.map((se, si) => {
-              const v = se.values?.[ci] ?? 0;
-              const y0 = Y(acc), y1 = Y(acc + v);
-              acc += v;
-              return <rect key={si} x={cx - bw * 0.32} y={y1} width={bw * 0.64} height={(y0 - y1) * prog} fill={PALETTE[si % PALETTE.length]} />;
-            })}
-            <text x={clampX(cx, width)} y={height - 18} fontSize={20} fill={TXT} textAnchor={edgeAnchor(cx, width)} style={FONT}>{c}</text>
-          </g>
-        );
-      })}
-    </svg>
-  );
-};
-
-// ── waterfall ─────────────────────────────────────────────────────
-const Waterfall: React.FC<{ data: any; unit?: string } & Box> = ({ data, unit, width, height }) => {
-  const prog = useDraw(8, 1.1);
-  const rows: any[] = Array.isArray(data) ? data : [];
-  if (!rows.length) return null;
-  let run = 0; const bars = rows.map((d) => {
-    if (d.type === "total") { const b = { lo: 0, hi: d.value, t: "total", label: d.label, val: d.value }; run = d.value; return b; }
-    const lo = run, hi = run + d.value; run = hi; return { lo: Math.min(lo, hi), hi: Math.max(lo, hi), t: d.type, label: d.label, val: d.value };
-  });
-  const max = Math.max(...bars.map((b) => b.hi)), min = Math.min(0, ...bars.map((b) => b.lo));
-  const n = bars.length, bw = (width - PAD.l - PAD.r) / n;
-  const Y = (v: number) => PAD.t + (1 - (v - min) / (max - min)) * (height - PAD.t - PAD.b);
-  return (
-    <svg width={width} height={height} style={{ display: "block" }}>
-      {yGrid(min, max, Y, PAD.l, width - PAD.r, unit)}
-      {bars.map((b, i) => {
-        const cx = PAD.l + bw * (i + 0.5);
-        const col = b.t === "total" ? PALETTE[0] : b.t === "pos" ? POS : NEG;
-        const yTop = Y(b.hi), yBot = Y(b.lo);
-        return (
-          <g key={i} opacity={i / n <= prog + 0.05 ? 1 : 0}>
-            <rect x={cx - bw * 0.32} y={yTop} width={bw * 0.64} height={Math.max(2, yBot - yTop)} rx={4} fill={col} />
-            <text x={cx} y={yTop - 8} fontSize={19} fill={FG} textAnchor="middle" style={FONT}>{(b.val > 0 && b.t !== "total" ? "+" : "") + fmtNum(b.val)}</text>
-            <text x={clampX(cx, width)} y={height - 18} fontSize={18} fill={TXT} textAnchor={edgeAnchor(cx, width)} style={FONT}>{b.label}</text>
-          </g>
-        );
-      })}
-    </svg>
-  );
-};
-
-// ── scatter / bubble ──────────────────────────────────────────────
-const PointChart: React.FC<{ data: any; bubble?: boolean } & Box> = ({ data, bubble, width, height }) => {
-  const prog = useDraw(8, 0.9);
-  const rows: any[] = Array.isArray(data) ? data.filter((d) => typeof d.x === "number" && typeof d.y === "number") : [];
-  if (!rows.length) return null;
-  const xs = rows.map((d) => d.x), ys = rows.map((d) => d.y);
-  let xmin = Math.min(...xs), xmax = Math.max(...xs), ymin = Math.min(...ys), ymax = Math.max(...ys);
-  if (xmin === xmax) { xmin -= 1; xmax += 1; } if (ymin === ymax) { ymin -= 1; ymax += 1; }
-  const smax = Math.max(...rows.map((d) => d.size ?? 1));
-  const maxR = bubble ? 60 : 12; // 원이 가장자리서 잘리지 않게 plot 영역을 반지름만큼 inset (다듬기).
-  const X = (v: number) => PAD.l + maxR + ((v - xmin) / (xmax - xmin)) * (width - PAD.l - PAD.r - 2 * maxR);
-  const Y = (v: number) => PAD.t + maxR + (1 - (v - ymin) / (ymax - ymin)) * (height - PAD.t - PAD.b - 2 * maxR);
-  return (
-    <svg width={width} height={height} style={{ display: "block" }}>
-      {yGrid(ymin, ymax, Y, PAD.l, width - PAD.r)}
-      {rows.map((d, i) => {
-        const r = bubble ? 14 + 46 * Math.sqrt((d.size ?? 1) / smax) : 11;
-        const cx = X(d.x), cy = Y(d.y), col = PALETTE[i % PALETTE.length];
-        return (
-          <g key={i} opacity={prog}>
-            <circle cx={cx} cy={cy} r={r * prog} fill={col} opacity={0.62} stroke={col} strokeWidth={2} />
-            {d.label && <Halo x={clampX(cx, width)} y={cy - r - 6} fontSize={20} fontWeight={700} fill={FG} textAnchor={edgeAnchor(cx, width)}>{d.label}</Halo>}
-          </g>
-        );
-      })}
-    </svg>
-  );
-};
-
-// ── candle ────────────────────────────────────────────────────────
-const Candle: React.FC<{ data: any; unit?: string } & Box> = ({ data, unit, width, height }) => {
-  const prog = useDraw(8, 1.0);
-  const rows: any[] = Array.isArray(data) ? data : [];
-  if (!rows.length) return null;
-  const min = Math.min(...rows.map((d) => d.low)), max = Math.max(...rows.map((d) => d.high));
-  const n = rows.length, bw = (width - PAD.l - PAD.r) / n;
-  const Y = (v: number) => PAD.t + (1 - (v - min) / (max - min)) * (height - PAD.t - PAD.b);
-  return (
-    <svg width={width} height={height} style={{ display: "block" }}>
-      {yGrid(min, max, Y, PAD.l, width - PAD.r, unit)}
-      {rows.map((d, i) => {
-        if (i / n > prog + 0.05) return null;
-        const cx = PAD.l + bw * (i + 0.5);
-        const up = d.close >= d.open, col = up ? POS : NEG;
-        return (
-          <g key={i}>
-            <line x1={cx} y1={Y(d.high)} x2={cx} y2={Y(d.low)} stroke={col} strokeWidth={2} />
-            <rect x={cx - bw * 0.28} y={Y(Math.max(d.open, d.close))} width={bw * 0.56} height={Math.max(2, Math.abs(Y(d.open) - Y(d.close)))} fill={col} />
-          </g>
-        );
-      })}
-    </svg>
-  );
-};
+// NOTE: XY family (v0.31.0) + Bar/Point/Waterfall/Slope/Candle family (v0.32.0) 는
+// charts/{xy,cat}/ 로 이관됨. 본 파일의 legacy 는 Phase 3 의 Donut/Gantt/Heatmap/Network/
+// Sankey 만 임시 유지(Phase 3 에서 d3-force/d3-sankey/world-atlas 로 정통 재구현).
 
 // ── donut ─────────────────────────────────────────────────────────
 const Donut: React.FC<{ data: any } & Box> = ({ data, width, height }) => {
@@ -283,35 +134,6 @@ const Gantt: React.FC<{ data: any } & Box> = ({ data, width, height }) => {
             <rect x={x0} y={y} width={Math.max(4, (x1 - x0))} height={h} rx={6} fill={col} opacity={0.85} />
             <text x={clampX(x0, width)} y={y - 6} fontSize={19} fill={FG} textAnchor={edgeAnchor(x0, width)} style={FONT}>{d.label}</text>
             {d.note && <text x={clampX(x0, width)} y={y + h + 20} fontSize={16} fill={TXT} textAnchor={edgeAnchor(x0, width)} style={FONT}>{d.note}</text>}
-          </g>
-        );
-      })}
-    </svg>
-  );
-};
-
-// ── slope ─────────────────────────────────────────────────────────
-const Slope: React.FC<{ data: any } & Box> = ({ data, width, height }) => {
-  const prog = useDraw();
-  const items: any[] = data?.items ?? [];
-  if (!items.length) return null;
-  const all = items.flatMap((d) => [d.a, d.b]);
-  let min = Math.min(...all), max = Math.max(...all); if (min === max) { min -= 1; max += 1; }
-  const Y = (v: number) => PAD.t + (1 - (v - min) / (max - min)) * (height - PAD.t - PAD.b);
-  const xL = PAD.l + 60, xR = width - PAD.r - 60;
-  return (
-    <svg width={width} height={height} style={{ display: "block" }}>
-      <text x={xL} y={PAD.t - 6} fontSize={20} fill={TXT} textAnchor="middle" style={FONT}>{data.left_label}</text>
-      <text x={xR} y={PAD.t - 6} fontSize={20} fill={TXT} textAnchor="middle" style={FONT}>{data.right_label}</text>
-      {items.map((d, i) => {
-        const col = PALETTE[i % PALETTE.length];
-        const yA = Y(d.a), yB = Y(d.b), xMid = xL + (xR - xL) * prog;
-        return (
-          <g key={i}>
-            <line x1={xL} y1={yA} x2={xMid} y2={yA + (yB - yA) * prog} stroke={col} strokeWidth={3} />
-            <circle cx={xL} cy={yA} r={6} fill={col} />
-            <text x={xL - 12} y={yA + 5} fontSize={18} fill={FG} textAnchor="end" style={FONT}>{d.label}</text>
-            {prog > 0.98 && <circle cx={xR} cy={yB} r={6} fill={col} />}
           </g>
         );
       })}
@@ -408,11 +230,6 @@ const Sankey: React.FC<{ data: any } & Box> = ({ data, width, height }) => {
   );
 };
 
-// ── choropleth (간이: 지역코드 막대 — 추후 지도 채색으로 업그레이드) ──
-const ChoroplethBars: React.FC<{ data: any; unit?: string } & Box> = ({ data, unit, width, height }) => (
-  <BarChart data={(Array.isArray(data) ? data : []).map((d: any) => ({ label: d.country_code, value: d.value }))} unit={unit} width={width} height={height} />
-);
-
 // ── 디스패치 ──────────────────────────────────────────────────────
 // v0.31.0 부터 XY family (line/area/stacked_area/small_multiples/dual_line/forecast) 는
 // charts/xy/ 의 정통 재구현 컴포넌트로 라우팅. 나머지는 본 파일의 legacy 렌더러 (Phase 2+ 에서 교체).
@@ -447,21 +264,32 @@ export const ChartView: React.FC<{ chart: ChartData; width: number; height: numb
           height={height}
         />
       );
-    case "bar": return <BarChart data={d} unit={u} mode="bar" {...box} />;
-    case "lollipop": return <BarChart data={d} unit={u} mode="lollipop" {...box} />;
-    case "range_bar": return <BarChart data={d} unit={u} mode="range" {...box} />;
-    case "stacked": case "stacked_bar": return <StackedBar data={d} unit={u} {...box} />;
-    case "waterfall": return <Waterfall data={d} unit={u} {...box} />;
-    case "scatter": return <PointChart data={d} {...box} />;
-    case "bubble": return <PointChart data={d} bubble {...box} />;
-    case "candle": return <Candle data={d} unit={u} {...box} />;
+    case "bar":
+      return <BarChartV2 chartId={chart.chartId} mode="bar" title={chart.title} unit={u} data={d} width={width} height={height} />;
+    case "lollipop":
+      return <BarChartV2 chartId={chart.chartId} mode="lollipop" title={chart.title} unit={u} data={d} width={width} height={height} />;
+    case "range_bar":
+      return <BarChartV2 chartId={chart.chartId} mode="range" title={chart.title} unit={u} data={d} width={width} height={height} />;
+    case "stacked":
+    case "stacked_bar":
+      return <StackedBarChartV2 chartId={chart.chartId} title={chart.title} unit={u} data={d} width={width} height={height} />;
+    case "waterfall":
+      return <WaterfallV2 chartId={chart.chartId} title={chart.title} unit={u} data={d} width={width} height={height} />;
+    case "scatter":
+      return <PointChartV2 chartId={chart.chartId} title={chart.title} unit={u} data={d} width={width} height={height} />;
+    case "bubble":
+      return <PointChartV2 chartId={chart.chartId} title={chart.title} unit={u} data={d} width={width} height={height} bubble />;
+    case "candle":
+      return <CandleChartV2 chartId={chart.chartId} title={chart.title} unit={u} data={d} width={width} height={height} />;
+    case "slope":
+      return <SlopeChartV2 chartId={chart.chartId} title={chart.title} unit={u} data={d} width={width} height={height} />;
     case "donut": return <Donut data={d} {...box} />;
     case "gantt": return <Gantt data={d} {...box} />;
-    case "slope": return <Slope data={d} {...box} />;
     case "heatmap": return <Heatmap data={d} {...box} />;
     case "network": return <Network data={d} {...box} />;
     case "sankey": return <Sankey data={d} {...box} />;
-    case "choropleth": return <ChoroplethBars data={d} unit={u} {...box} />;
+    case "choropleth":
+      return <BarChartV2 chartId={chart.chartId} mode="bar" title={chart.title} unit={u} data={(Array.isArray(d) ? d : []).map((x: any) => ({ label: x.country_code, value: x.value }))} width={width} height={height} />;
     default: return null;
   }
 };

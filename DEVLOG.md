@@ -1,6 +1,6 @@
 <!--
 tier: 3
-last_synced_with: v0.31.0
+last_synced_with: v0.32.0
 ssot_for: [development-log]
 depends_on: [CHANGELOG.md]
 last_review: 2026-06-05
@@ -22,6 +22,53 @@ last_review: 2026-06-05
 - 결과:  …
 - 연관:  AP-번호, 이슈, PR 번호 등
 ```
+
+---
+
+## 2026-06-05 v0.32.0 — Phase 2: Bar/Point family 정통 재구현 (영상미 C0)
+
+- **무엇을**: Bar/Point family 9 종(bar / lollipop / range_bar / stacked_bar / waterfall /
+  scatter / bubble / slope / candle) 을 디자인 시스템 토대로 재구현.
+  - `charts/cat/BarChart.tsx`: `scaleBand` + mode 분기(bar/lollipop/range), 카테고리
+    stagger 진입, 막대 grow + 직접 값 라벨, 음수 막대 다크오렌지.
+  - `charts/cat/StackedBarChart.tsx`: 카테고리 sweep + 시리즈 60ms 내부 stagger, 마지막
+    시리즈 상단 둥근 모서리, 우상단 범례.
+  - `charts/cat/Waterfall.tsx`: 누적 막대 + connector 점선(이전 끝 → 본 시작), +/- 부호
+    자동, total 막대 분리.
+  - `charts/cat/PointChart.tsx`: scatter / bubble. bubble 반지름 = sqrt(size/smax)*50
+    (면적 비례), 라벨 1D 충돌 회피 + leader line.
+  - `charts/cat/SlopeChart.tsx`: 좌·우 양쪽 라벨 충돌 회피, 컬러 매칭, 도달 시 우 마커.
+  - `charts/cat/CandleChart.tsx`: 양봉 accent.positive / 음봉 accent.negative, wick + box
+    grow, x tick 자동 thinning.
+- **왜**: XY 다음으로 OSINT 빈도 높은 family — bar/scatter/lollipop 은 카테고리 비교의
+  주력, waterfall 은 경제·트레이드 흐름 분석, candle 은 시장·환율, slope 은 비교 시점
+  변화. Phase 1 의 토대(util.ts/ChartFrame/Axis 등)를 그대로 재사용해 빠르게 영상미 끌어
+  올림 — 21 종 중 15/21(71%) 가 design.ts 토큰 100% 적용.
+- **어떻게**:
+  - **scaleBand**: 카테고리 막대는 d3 `scaleBand({padding: 0.34})` — bandwidth() 가
+    자동 산출되므로 막대 폭 결정론.
+  - **음수 처리**: bar 의 음수 막대는 baseY(=0) 아래로 grow. 라벨도 막대 아래 배치.
+  - **양봉/음봉 컬러**: `accent.positive`(녹) / `accent.negative`(적). open ≥ close 는
+    양봉 — 다크 환경에서 양봉=녹 컨벤션(미국식). 한국 증시 컨벤션(적이 양) 은 향후 옵션.
+  - **bubble 면적 비례**: 시각 인지는 면적 ∝ 데이터값 — radius = sqrt(value/max) * maxR.
+    선형 비례하면 큰 값 시각적 과대 표현.
+  - **Connector 점선 (waterfall)**: 이전 막대 끝 점 → 본 막대 시작 점. total 막대 앞엔
+    연결 없음(누적 리셋).
+  - **slope 좌·우 라벨 양쪽 충돌 회피**: `layoutEndpointLabels` 두 번(좌, 우). 같은
+    `data.label` 이 좌·우 양쪽에 컬러 동기화.
+  - **candle x tick thinning**: 라벨 너무 많으면 `Math.floor(n/6)` 간격으로 sparse.
+  - **legacy 청소**: BarChart / StackedBar / Waterfall / PointChart / Candle / Slope /
+    ChoroplethBars 제거(~200 LOC). Donut/Gantt/Heatmap/Network/Sankey 만 임시 유지.
+  - **choropleth**: 임시로 BarChartV2 에 country_code/value 매핑. Phase 3 에서 world-atlas
+    + ISO 매핑 + sequential color 스케일로 본격 재구현.
+- **결과**: tsc clean(MapView 사전 경고만), Python 328/328. ChartView dispatcher 단순화
+  (legacy 코드 ~50% 감축).
+- **다음**: Phase 3 — Specialty (v0.33.0). Donut(외부 라벨 + %), Gantt(time-wipe stagger
+  + 마일스톤 별), Heatmap(셀 행→열 stagger), Network(d3-force 헤드리스 사전 시뮬레이션 +
+  degree 큰 노드부터 등장), Sankey(d3-sankey 실 사용), Choropleth(world-atlas + ISO +
+  sequential color).
+- **연관**: C0/G0, CHANGELOG v0.32.0, docs/PROFESSIONAL_REBUILD_PLAN.md §3 Phase 2,
+  MVP Professional Bar 1/7/8/9/11 진행. v0.31.0(Phase 1) 의 util.ts 재사용.
 
 ---
 

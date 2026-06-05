@@ -194,14 +194,15 @@ Subject+Note+Connector annotation + time-wipe stagger.
 - [x] Draw progression: clipPath x-wipe + Material decelerate
 - [x] Stagger 헬퍼 (`charts/util.ts` 의 `useSeriesProgress`, stacked_area 후속 적용 예정)
 
-### Phase 2 — Bar/Point family (v0.32.0)
+### Phase 2 — Bar/Point family (v0.32.0) [완료]
 
-- bar / lollipop / range_bar / stacked_bar / waterfall / scatter / bubble / slope / candle
-- Waterfall: connector 선 + +/- 색 + 누적값 라벨
-- Bubble: quadrant label + Okabe-Ito 카테고리 색
-- Lollipop: stem grow + head pop
-- Label collision: labella 1D 사용
-- Stagger: 카테고리 순/값 정렬 순 등장
+- [x] bar / lollipop / range_bar / stacked_bar / waterfall / scatter / bubble / slope / candle
+- [x] Waterfall: connector 점선(이전 막대 끝 → 본 시작) + `accent.positive`/`negative`
+  분기 + +/- 부호 자동 + total 막대
+- [x] Bubble: 면적 비례 반지름 sqrt(size/smax)*50 + 라벨 1D 충돌 회피 + leader line
+- [x] Lollipop: stem grow + head pop(스케일 1.4×)
+- [x] Label collision: 자체 1D 구현 재사용(좌·우 양쪽)
+- [x] Stagger: `staggerToken(n)` 카테고리 순 + stacked 내부 시리즈 60ms
 
 ### Phase 3 — Specialty 정통 (v0.33.0)
 

@@ -1,6 +1,6 @@
 <!--
 tier: 1
-last_synced_with: v0.31.0
+last_synced_with: v0.32.0
 ssot_for: [session-handoff]
 depends_on: [CLAUDE.md, GOAL.md, VERSION, docs/13_IMPLEMENTATION_ROADMAP.md, docs/REVIEW_PROMPT.md, docs/PROFESSIONAL_REBUILD_PLAN.md]
 last_review: 2026-06-05
@@ -37,12 +37,17 @@ last_review: 2026-06-05
      구현) + `XYChart`(line/area/stacked_area/small_multiples) + `DualLineChart` +
      `ForecastChart`. clipPath wipe, 끝점 직접 라벨, Subject+Note+Connector 콜아웃,
      ReferenceRegion 자동 노출.
-   - **v0.32.0 (다음)**: Phase 2 Bar/Point — bar / lollipop / range_bar / stacked_bar /
-     waterfall / scatter / bubble / slope / candle 를 동일 토대로 재작성. waterfall
-     connector 선, bubble quadrant label, lollipop stem grow + head pop.
-   - 이후: Phase 3 Specialty (v0.33.0, network=d3-force / sankey=d3-sankey / gantt /
-     choropleth=world-atlas+ISO) → Phase 4 모멘트 음성 싱크 (v0.34.0) → Phase 5 자막/
-     타이포 표준 (v0.35.0) → Phase E 최종 mp4 검수 (v0.36.0).
+   - **v0.32.0 (완료)**: Phase 2 Bar/Point family 정통 재구현 — `charts/cat/`{BarChart
+     (bar/lollipop/range), StackedBarChart, Waterfall, PointChart(scatter/bubble),
+     SlopeChart, CandleChart}. scaleBand + 카테고리 stagger + Material decelerate + 직접
+     값 라벨 + bubble 면적 비례 + slope 양쪽 라벨 충돌 회피. legacy ~200 LOC 청산.
+     15/21 차트가 design.ts 토큰 100% (71%).
+   - **v0.33.0 (다음)**: Phase 3 Specialty — Donut(외부 라벨 + %), Gantt(time-wipe
+     stagger + 마일스톤 별), Heatmap(셀 행→열 stagger + sequential color), Network
+     (d3-force 헤드리스 사전 시뮬레이션 + degree 큰 노드부터 등장), Sankey(d3-sankey
+     실 사용), Choropleth(world-atlas + ISO 매핑 + sequential color).
+   - 이후: Phase 4 모멘트 음성 싱크 (v0.34.0) → Phase 5 자막/타이포 표준 (v0.35.0) →
+     Phase E 최종 mp4 검수 (v0.36.0).
    - agents_reviewer 정적 SVG 는 **아직 렌더러 없는 복잡 타입의 폴백**으로만.
      `network/sankey/choropleth` 는 Phase 3 에서 d3-force / d3-sankey / world-atlas
      로 정통 재구현 예정.

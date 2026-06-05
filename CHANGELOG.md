@@ -1,6 +1,6 @@
 <!--
 tier: 3
-last_synced_with: v0.31.0
+last_synced_with: v0.32.0
 ssot_for: [release-notes]
 depends_on: [README.md, GOAL.md]
 last_review: 2026-06-05
@@ -25,6 +25,60 @@ released 항목은 **append-only**입니다.
 
 ### Fixed
 -
+
+---
+
+## [v0.32.0] — 2026-06-05
+
+**Phase 2 — Bar / Point family 정통 재구현 (영상미 C0)**. bar / lollipop / range_bar /
+stacked_bar / waterfall / scatter / bubble / slope / candle 를 디자인 시스템 + d3-scale
+`scaleBand` + 카테고리 stagger + Material easing + 직접 라벨 + 라벨 충돌 회피로 재구현.
+
+### Added
+
+- **`remotion/src/charts/cat/BarChart.tsx`**(신규) — `mode: "bar" | "lollipop" | "range"`
+  단일 컴포넌트. `scaleBand` 로 카테고리 배치, 카테고리 stagger 진입(`staggerToken(n)`),
+  Material decelerate easing, 막대 위/아래 값 라벨(grow 끝나기 직전 페이드인), 음수 막대는
+  `seriesColor(5)` 다크오렌지. Range 막대는 중앙에서 양쪽으로 확장.
+- **`remotion/src/charts/cat/StackedBarChart.tsx`**(신규) — 카테고리 + 시리즈 이중 stagger
+  (카테고리 sweep + 그 안에서 시리즈 60ms 간격), 마지막 시리즈 상단 둥근 모서리, 우상단
+  시리즈 범례.
+- **`remotion/src/charts/cat/Waterfall.tsx`**(신규) — 누적 막대 + connector 점선
+  (이전 막대 끝 → 본 막대 시작), `accent.positive`/`accent.negative`/`seriesColor(0)`
+  분기, `+`/`-` 부호 자동 표기, total 막대는 기준선부터 grow.
+- **`remotion/src/charts/cat/PointChart.tsx`**(신규) — scatter / bubble. bubble 반지름 =
+  `sqrt(size/smax) * 50`(면적 비례), 점 stagger pop-in(60ms × 항목), 라벨 1D 충돌 회피 +
+  leader line + 데이터 점 우측/좌측 자동 결정, 축 라벨(xLabel/yLabel) 슬롯.
+- **`remotion/src/charts/cat/SlopeChart.tsx`**(신규) — 좌·우 라벨 각각 충돌 회피, 좌/우
+  세로 가이드, 라벨 = 시리즈명(컬러) + 값(보조 컬러), 도착 마커는 도달 시(`prog > 0.97`)
+  나타남.
+- **`remotion/src/charts/cat/CandleChart.tsx`**(신규) — 양봉/음봉 `accent.positive`/
+  `accent.negative`, high-low wick + open-close 박스 grow, x tick 자동 thinning (라벨
+  너무 많을 때 균등 분포).
+
+### Changed
+
+- **`remotion/src/ChartView.tsx`** — Bar/Point family(9 종) 디스패치 새 컴포넌트로 라우팅:
+  `bar` / `lollipop` / `range_bar` → `BarChartV2(mode=...)`,
+  `stacked` / `stacked_bar` → `StackedBarChartV2`,
+  `waterfall` → `WaterfallV2`,
+  `scatter` → `PointChartV2`, `bubble` → `PointChartV2(bubble)`,
+  `slope` → `SlopeChartV2`, `candle` → `CandleChartV2`,
+  `choropleth` → `BarChartV2`(country_code/value 매핑).
+  legacy `BarChart` / `StackedBar` / `Waterfall` / `PointChart` / `Candle` / `Slope` /
+  `ChoroplethBars` 제거(~200 LOC).
+- 남은 legacy: `Donut` / `Gantt` / `Heatmap` / `Network` / `Sankey` (Phase 3 에서
+  `d3-force` / `d3-sankey` / `world-atlas` 로 정통 재구현 예정).
+
+### MVP Professional Bar 진행 (누적)
+
+- ✅ 1. 차트 토큰 일관성 — XY 6 종 + Bar/Point family 9 종 = 15/21 (71%) 가 design.ts 토큰
+  100% 사용. 남은 6 종(donut/gantt/heatmap/network/sankey/choropleth 의 실 지도 버전)은
+  Phase 3.
+- ✅ 7. Material easing 만 사용 — XY + cat family 15 종 모두 적용.
+- ✅ 8. Stagger — 카테고리 stagger(staggerToken), 시리즈 stagger(stacked) 모두 적용.
+- ✅ 9. Draw progression — 막대 grow / 점 pop / 슬로프 sweep / 캔들 박스 grow.
+- ✅ 11. Direct labeling — 모든 cat family 의 값 라벨 직접 표시.
 
 ---
 
