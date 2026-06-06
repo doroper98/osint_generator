@@ -1,6 +1,6 @@
 <!--
 tier: 1
-last_synced_with: v0.34.13
+last_synced_with: v0.34.14
 ssot_for: [session-handoff]
 depends_on: [CLAUDE.md, GOAL.md, VERSION, docs/13_IMPLEMENTATION_ROADMAP.md, docs/REVIEW_PROMPT.md, docs/PROFESSIONAL_REBUILD_PLAN.md]
 last_review: 2026-06-05
@@ -56,11 +56,16 @@ last_review: 2026-06-05
      + `index.html` 이 candle 을 `data-composition-src` 로 import + `examples/gallery.html`
      시퀀싱 템플릿. sub-comp 데이터 주입(host `data-variable-values` DOM 직독) + 타임라인
      이중 키 등록 패턴 실측 확립. stacked/waterfall/scatter/heatmap/gantt/network 는 후속.
-   - **v0.34.14~ (다음, 합의된 우선순위)**:
-     ① 차트 family 확장 (stacked/waterfall/scatter/heatmap/gantt/network) →
-     ② agents_reviewer 번들 → HyperFrames 다중 씬 자동 변환 (orchestrator/render_io 후속) →
+   - **v0.34.14 (완료)**: ② agents_reviewer 번들 → HyperFrames 다중 씬 자동 변환
+     (`orchestrator/hyperframes_compose.py` + CLI `compose-hyperframes`). BundleSection→씬,
+     차트는 `lib/charts` 컴포넌트 임베드(번들 데이터 주입), 미지원 타입 텍스트 폴백. render_io
+     의 HyperFrames 후속. sub-comp 변수 타입 정합(복합값 JSON 문자열) + root 해소 견고화 패치.
+   - **v0.34.15~ (다음, 합의된 우선순위)**:
+     ②-b 씬 narration/cue 정밀화 — 현재 prose 글자수 비례 추정 → ScriptWorker narration +
+        실 음성 길이 sync (cuesync 패턴 재사용) + scene별 cue/콜아웃 LLM 추출·수동 override →
      ③ 인물 카드 + 엔티티 연결선 (날리지식 패턴 ③④) →
-     ④ 다크 지도 GeoScene (날리지식 패턴 ⑤). 자세한 컨텍스트는
+     ④ 다크 지도 GeoScene (날리지식 패턴 ⑤) →
+     B-ext 차트 확장 (stacked/waterfall/scatter/heatmap/gantt/network). 자세한 컨텍스트는
      `hyperframes/scripts/NEXT_SESSION_PROMPT.md`.
    - agents_reviewer 정적 SVG 는 **아직 렌더러 없는 복잡 타입의 폴백**으로만.
      `network/sankey/choropleth` 는 Phase 3 에서 d3-force / d3-sankey / world-atlas

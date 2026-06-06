@@ -51,8 +51,13 @@
 
         <script>
           (function () {
+            // 루트 해소: HyperFrames 래퍼가 노출하는 __hfFindRoot()(런타임 인스턴스 id 로
+            // 해소된 루트)를 1차로 — authored-id querySelector 는 런타임 id 재작성과 충돌해
+            // 멀티 씬 컴포지션에서 null 이 되는 사고가 있었다(v0.34.14). currentScript/authored
+            // 셀렉터는 standalone 폴백.
             var thisScript = document.currentScript;
-            var root = (thisScript && thisScript.closest('[data-composition-id="bar"]'))
+            var root = (typeof __hfFindRoot === "function" ? __hfFindRoot() : null)
+              || (thisScript && thisScript.closest('[data-composition-id="bar"]'))
               || document.querySelector('[data-composition-id="bar"]');
 
             var D = {

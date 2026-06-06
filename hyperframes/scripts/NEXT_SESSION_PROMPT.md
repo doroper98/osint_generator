@@ -1,8 +1,20 @@
-# NEXT SESSION PROMPT — v0.34.14 시작점
+# NEXT SESSION PROMPT — v0.34.15 시작점
 
 > 본 파일은 **다음 Claude Code 세션 시작 시 첫 메시지로 paste** 해 사용한다.
-> v0.34.13 (2026-06-06, 옵션 B 1차 완료) 이후 작업을 이어 받을 컨텍스트.
+> v0.34.14 (2026-06-06, 옵션 C 완료) 이후 작업을 이어 받을 컨텍스트.
 > SSOT: HANDOFF.md, docs/PROFESSIONAL_REBUILD_PLAN.md, DEVLOG.md (append-only).
+
+## v0.34.14 완료 요약 (옵션 C)
+
+- **`orchestrator/hyperframes_compose.py`** + CLI `compose-hyperframes <pid> [--file bundle.json]`:
+  ReportBundle → 다중 씬 HyperFrames 컴포지션(`hyperframes/generated/<pid>.html`, gitignore).
+  각 BundleSection → 1 씬. 차트는 `lib/charts/<type>.html` 임베드 + 번들 데이터 주입, 미지원
+  타입은 텍스트 씬 폴백. 차트 데이터 매핑(candle/line/bar/donut) + 자동 축 경계 + 자막 큐.
+- **실측 사고 2 해소**: ① host 복합 변수는 **JSON 문자열로 인코딩**해야 함(raw 배열/null →
+  첫 sub-comp 인스턴스화 깨짐). ② 컴포넌트 root 는 `__hfFindRoot()` 1차로 해소(멀티 씬에서
+  authored-id querySelector null 사고). 4 컴포넌트 공통 패치.
+- 미흡: 씬 narration/cue 가 아직 prose 글자수 비례 추정(정밀 narration·실 음성 sync 후속).
+- codex 리뷰: v0.34.13 review-prompt 전달됨(미흡수). 다음 라운드에 v0.34.13+14 함께 검토 권장.
 
 ## v0.34.13 완료 요약 (옵션 B 1차)
 
@@ -67,7 +79,8 @@ python hyperframes\scripts\render_demo.py --with-narration
 |---|---|---|
 | ~~**B**~~ | ~~**차트 family HyperFrames 컴포넌트화**~~ | **v0.34.13 1차 완료** — candle/line/bar/donut 4 종. SSOT 패턴 확립: `hyperframes/lib/charts/<type>.html` (template) + host `data-variable-values` 주입 + GSAP timeline. **확장 잔여**: stacked/waterfall/scatter/heatmap/gantt/network (= 아래 B-ext). |
 | **B-ext** | **차트 family 확장** | 남은 차트 종류 추가 (stacked_bar/waterfall/scatter/bubble/heatmap/gantt/network/sankey). candle/line/bar/donut 의 컨트랙트(template + host 변수 DOM 직독 + 타임라인 이중 키)를 그대로 따른다. network/sankey 는 헤드리스 레이아웃 사전계산 필요. |
-| **C** | **agents_reviewer 번들 → HyperFrames 자동 변환** | `orchestrator/render_io.py` 의 후속. ReportBundle → 다중 scene HyperFrames 컴포지션 자동 생성. `index.html` 이 sub-composition 들을 `data-composition-src` 로 import. Scene 별 cue 데이터 + narration 명시 자동 추출(LLM)·수동 override 패턴. |
+| ~~**C**~~ | ~~**agents_reviewer 번들 → HyperFrames 자동 변환**~~ | **v0.34.14 완료** — `orchestrator/hyperframes_compose.py` + CLI `compose-hyperframes`. ReportBundle → `hyperframes/generated/<pid>.html`. **잔여(C-ext)**: scene 별 cue/narration 의 LLM 추출·수동 override + 실 음성 길이 sync(현재 prose 글자수 비례 추정). |
+| **C-ext** | **씬 narration/cue 정밀화** | compose-hyperframes 의 자막·타이밍을 ScriptWorker narration + cuesync(실 음성 길이) 로 교체. scene별 콜아웃/강조 cue 자동 추출(LLM)·수동 override. build_narration/cuesync 패턴 재사용. |
 | **D** | **인물 카드 + 엔티티 연결선 draw** | 날리지식 패턴 ③ ④. 인물 사진/플래그 + 부드러운 fade + 두 엔티티 간 Bezier path stroke-dash draw-on. SVG 컴포넌트 + GSAP 통합. |
 | **E** | **다크 지도 GeoScene** | 날리지식 패턴 ⑤. d3-geo + world-atlas + ISO 매핑. 국가 하이라이트 + 마커 + 아크. dark theme 별도 디자인 토큰. |
 | **A** | **forced-alignment (자막 정밀 sync)** | HANDOFF 보류 1. whisper 단어 타임스탬프 → cue 의 자막 시점 정밀화. 사용자 머신 전용 (huggingface 차단). 현재 v0.34.12 의 timing (cuesync.json 기반) 도 충분히 정확하므로 우선순위 낮음. |
@@ -75,9 +88,9 @@ python hyperframes\scripts\render_demo.py --with-narration
 | **G** | **Codex 영상미 검수 체계** | v0.33.x 사용자 5번 피드백 부채. 매 PATCH 키프레임 추출 → 영상 LLM 검사. CLAUDE.md 의 C10 (코드 리뷰) 와 분리된 새 카테고리. |
 | **H** | **pronounce.json 운영** | 새 misread 발견 시 사전 갱신 + 회귀 테스트 추가. 누적 운영. |
 
-**제 추천 시작점**: **C** (agents_reviewer 번들 → 다중 씬 자동 변환) — B 의 컴포넌트 토대가
-생겼으니, 이제 `examples/gallery.html` 시퀀싱 패턴을 ReportBundle → N 씬 자동 생성으로 잇는다.
-차트 종류가 더 필요해지면 그때 **B-ext** 로 해당 차트만 추가(컨트랙트 동일).
+**제 추천 시작점**: **C-ext** (씬 narration/cue 정밀화) — B(컴포넌트)·C(번들→컴포지션)가
+끝났으니, 이제 자막/타이밍을 글자수 추정에서 ScriptWorker narration + 실 음성 sync 로 올려
+실제 시청 가능한 영상 품질로. 그 다음 D/E(인물카드·지도) 또는 B-ext(차트 확장).
 
 ## 진행 규칙 (CLAUDE.md 참조)
 
@@ -91,15 +104,14 @@ python hyperframes\scripts\render_demo.py --with-narration
 ## 즉시 사용할 첫 프롬프트 (사용자 paste 용)
 
 ```
-이전 세션 v0.34.13 머지 완료 (옵션 B 1차 — candle/line/bar/donut 컴포넌트 + 루트 승격).
+이전 세션 v0.34.14 머지 완료 (옵션 C — ReportBundle → 다중 씬 컴포지션 자동 생성).
 다음 작업은 hyperframes/scripts/NEXT_SESSION_PROMPT.md 의 우선순위 표 참조.
-옵션 C (agents_reviewer 번들 → HyperFrames 다중 씬 자동 변환) 부터 시작해.
-examples/gallery.html 의 시퀀싱 패턴을 ReportBundle → N 씬 자동 생성으로 잇고,
-각 씬은 lib/charts/<type>.html 을 data-composition-src + data-variable-values 로 주입.
-scene 별 cue/narration 자동 추출(LLM)·수동 override 패턴 설계.
+옵션 C-ext (씬 narration/cue 정밀화) 부터 시작해. compose-hyperframes 의 자막·타이밍을
+지금의 prose 글자수 비례 추정에서 ScriptWorker narration + 실 음성 길이 sync(cuesync 패턴)로
+교체하고, scene별 콜아웃/강조 cue 의 LLM 추출·수동 override 를 설계.
 
-먼저 hyperframes/scripts/NEXT_SESSION_PROMPT.md 와 HANDOFF.md,
-hyperframes/CLAUDE.md(sub-comp 작성 규칙), DEVLOG v0.34.13 정독 후 시작.
+먼저 hyperframes/scripts/NEXT_SESSION_PROMPT.md 와 HANDOFF.md, hyperframes/CLAUDE.md
+(sub-comp 작성 규칙), orchestrator/hyperframes_compose.py, DEVLOG v0.34.13/14 정독 후 시작.
 ```
 
-(원하면 다른 옵션 [B-ext/D/E/A 등] 으로 교체)
+(원하면 다른 옵션 [D/E/B-ext/A 등] 으로 교체)

@@ -25,6 +25,43 @@ last_review: 2026-06-06
 
 ---
 
+## 2026-06-06 v0.34.14 — ReportBundle → 다중 씬 HyperFrames 컴포지션 자동 생성 (옵션 C, 영상미 C0)
+
+- **무엇을**: agents_reviewer `ReportBundle` 을 받아 각 `BundleSection` 을 1 씬으로 펼친
+  HyperFrames 컴포지션 HTML 을 자동 생성하는 변환기(`orchestrator/hyperframes_compose.py`)
+  + CLI `compose-hyperframes`. 차트 섹션은 `lib/charts/<type>.html` 을 `data-composition-src`
+  로 임베드하고 번들 차트 데이터를 `data-variable-values` 로 주입. `examples/gallery.html` 의
+  시퀀싱 패턴을 데이터 구동으로 일반화 — render_io(Remotion render_props)의 HyperFrames 후속.
+- **왜**: v0.34.13 으로 차트 컴포넌트 라이브러리가 생겼으니, 이제 번들 → N 씬 영상을 자동
+  조립하는 엔트리가 필요. 12 씬 호르무즈 파이프라인의 실 변환 단계.
+- **어떻게**:
+  - 차트 데이터 매핑: agents_reviewer 모양(candle `[{date,open,high,low,close}]`, line
+    `[{x,y,event}]`, bar/donut `[{label,value}]`, 실 fixture 로 확인) → 컴포넌트 변수(candle
+    `[{d,o,h,l,c}]` + 자동 yMin/yMax nice-bounds, line series/xLabels/event 콜아웃, donut
+    중앙값 실데이터 산출). 미지원 타입(sankey/bubble 등)은 텍스트 씬 폴백.
+  - 섹션→씬: prose 글자수로 길이 추정 + 큐 분할(절대 타임라인 자막). 차트/텍스트 분기.
+  - 순수 함수(`build_composed_scenes`/`render_composition_html`) + I/O 경계
+    (`build_and_persist_composition` → `hyperframes/generated/<pid>.html`). 산출은 gitignore.
+  - **실측 사고 2 건 해소**(PNG ground-truth):
+    1. **host `data-variable-values` 에 raw 배열/null → 첫 sub-comp 인스턴스화 깨짐(root null)**.
+       v0.6.76 가 `type="string"` 선언 변수에 배열을 주면 첫 인스턴스 처리에서 throw. 복합값을
+       JSON 문자열로 인코딩(`_stringify_complex`)해 선언 타입과 정합 — 컴포넌트는 문자열도
+       parseJSON 하므로 무손실. (gallery 가 문자열로 줘서 안 깨졌던 것과 일치.)
+    2. **멀티 씬에서 authored-id querySelector 가 런타임 id 재작성과 충돌해 root null**. 래퍼가
+       노출하는 `__hfFindRoot()`(런타임 인스턴스 id 로 해소)를 1차로, currentScript/authored
+       셀렉터를 폴백으로. 4 컴포넌트 공통 패치.
+- **결과**:
+  - 단위 테스트 `tests/test_hyperframes_compose.py` 12 케이스(매핑 5 + 씬 3 + stringify 1 +
+    HTML 3). 전체 **364/364 통과**(직전 352 + 12). py_compile 통과.
+  - PNG ground-truth: 합성 번들(candle/line/donut + 텍스트 4 씬)이 끝까지 정상 렌더 — 차트
+    데이터·축·중앙값·자막 모두 번들에서 주입. CLI `compose-hyperframes` 정상.
+- **연관**: CHANGELOG v0.34.14, HANDOFF 로드맵 ②, NEXT_SESSION 옵션 C, render_io(Remotion
+  선행), GOAL G0. 후속: scene 별 narration/cue 의 LLM 추출·수동 override + 실 음성 길이 sync
+  (현재는 prose 글자수 비례 추정), 인물카드/지도(D/E). **codex 리뷰**: v0.34.13 review-prompt
+  전달됨(미흡수) — 다음 리뷰 라운드에 v0.34.13 컴포넌트 + 본 v0.34.14 변환기 함께 검토 권장.
+
+---
+
 ## 2026-06-06 v0.34.13 — 차트 family HyperFrames 컴포넌트화 (옵션 B, 영상미 C0)
 
 - **무엇을**: demo 의 인라인 캔들 차트를 재사용 가능한 sub-composition 라이브러리로 분리하고

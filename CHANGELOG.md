@@ -28,6 +28,32 @@ released 항목은 **append-only**입니다.
 
 ---
 
+## [v0.34.14] — 2026-06-06
+
+**ReportBundle → 다중 씬 HyperFrames 컴포지션 자동 생성 (옵션 C)**. `examples/gallery.html` 의
+시퀀싱 패턴을 데이터 구동으로 일반화. agents_reviewer 번들을 받아 각 섹션을 1 씬으로 펼치고
+차트는 `lib/charts` 컴포넌트로 임베드한다 (render_io 의 HyperFrames 후속).
+
+### Added
+
+- **`orchestrator/hyperframes_compose.py`** — ReportBundle → 컴포지션 HTML 변환기(순수
+  함수 + I/O 경계). `chart_to_component` 가 agents_reviewer 차트 데이터 모양(candle
+  `[{date,open,high,low,close}]`, line `[{x,y,event}]`, bar/donut `[{label,value}]`)을 우리
+  컴포넌트 변수로 매핑. `build_composed_scenes` 가 BundleSection → ComposedScene(차트/텍스트).
+  미지원 타입은 텍스트 씬 폴백. 산출: `hyperframes/generated/<pid>.html`.
+- **CLI `compose-hyperframes <pid> [--file report_bundle.json]`** — 영속 bundle 또는 파일에서
+  컴포지션 생성 (state 전이 없는 미리보기).
+
+### Fixed
+
+- **sub-comp 변수 타입 정합** — host `data-variable-values` 에 raw 배열/null 을 주면
+  HyperFrames v0.6.76 가 첫 sub-comp 인스턴스화를 깨뜨리는(root null) 사고. 복합값을 JSON
+  문자열로 인코딩해 컴포넌트의 `type="string"` 선언과 정합화(컴포넌트는 문자열도 parseJSON).
+- **컴포넌트 root 해소 견고화** — 멀티 씬 컴포지션에서 authored-id querySelector 가 런타임
+  id 재작성과 충돌해 null 이 되던 문제 → 래퍼의 `__hfFindRoot()` 1차 사용 + 폴백.
+
+---
+
 ## [v0.34.13] — 2026-06-06
 
 **차트 family HyperFrames 컴포넌트화 (옵션 B) — candle/line/bar/donut 4 종 + 프로젝트 루트 승격**.

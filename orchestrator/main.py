@@ -188,6 +188,20 @@ def build_parser() -> argparse.ArgumentParser:
         help="report_bundle.json 경로 (ReportBundle 스키마, extra=forbid 검증)",
     )
 
+    cph = sub.add_parser(
+        "compose-hyperframes",
+        help=(
+            "ReportBundle → 다중 씬 HyperFrames 컴포지션 HTML 자동 생성 "
+            "(hyperframes/generated/<pid>.html, 옵션 C)"
+        ),
+    )
+    cph.add_argument("project_id", help="project_id (산출 파일명에도 사용)")
+    cph.add_argument(
+        "--file",
+        default=None,
+        help="report_bundle.json 경로. 생략 시 04_research 의 영속 bundle 사용.",
+    )
+
     bsc = sub.add_parser(
         "build-script",
         help=(
@@ -338,6 +352,9 @@ def main(argv: list[str] | None = None) -> int:
     if args.cmd == "version":
         print(f"orchestrator v{__version__}")
         return 0
+
+    if args.cmd == "compose-hyperframes":
+        return _cmd_compose_hyperframes(args)
 
     if args.cmd == "command-center":
         run_command_center(project_id=args.project)
@@ -733,6 +750,53 @@ def _cmd_import_bundle(args: argparse.Namespace) -> int:
     print(f"import-bundle 완료: {args.project_id}")
     print(f"outputs : {outputs}")
     _print_manifest_summary(manifest)
+    return 0
+
+
+def _cmd_compose_hyperframes(args: argparse.Namespace) -> int:
+    """compose-hyperframes: ReportBundle → 다중 씬 HyperFrames 컴포지션 HTML (옵션 C).
+
+    thin wrapper. --file 이 있으면 그 report_bundle.json 을, 없으면 04_research 의 영속
+    bundle 을 로드해 hyperframes/generated/<pid>.html 로 생성한다 (state 전이 없음 — 미리보기).
+    """
+    import json as _json
+
+    from orchestrator.hyperframes_compose import (
+        build_composed_scenes,
+        build_and_persist_composition,
+    )
+    from orchestrator.project_manager import validate_project_id
+
+    try:
+        validate_project_id(args.project_id)
+    except ValueError as e:
+        print(f"error: {e}", file=sys.stderr)
+        return 1
+
+    try:
+        if args.file:
+            from orchestrator.bundle_io import load_report_bundle
+
+            bundle = load_report_bundle(Path(args.file))
+        else:
+            from orchestrator.bundle_io import load_persisted_bundle
+
+            bundle = load_persisted_bundle(args.project_id)
+    except FileNotFoundError as e:
+        print(f"error: report_bundle 을 찾을 수 없습니다 — {e}", file=sys.stderr)
+        return 1
+    except (ValueError, _json.JSONDecodeError) as e:
+        print(f"error: report_bundle 파싱/검증 실패 — {e}", file=sys.stderr)
+        return 1
+
+    scenes = build_composed_scenes(bundle)
+    path = build_and_persist_composition(args.project_id, bundle)
+    n_chart = sum(1 for s in scenes if s.kind == "chart")
+    n_text = sum(1 for s in scenes if s.kind == "text")
+    print(f"compose-hyperframes 완료: {args.project_id}")
+    print(f"  씬 {len(scenes)} 개 (차트 {n_chart} / 텍스트 {n_text})")
+    print(f"  출력: {path}")
+    print(f"  렌더: cd hyperframes && npx hyperframes render -c generated/{path.name}")
     return 0
 
 

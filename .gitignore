@@ -54,6 +54,8 @@ hyperframes/index.synced.html
 hyperframes/cuesync.json
 hyperframes/demo/index.synced.html
 hyperframes/demo/cuesync.json
+# v0.34.14 — compose-hyperframes 산출(ReportBundle → 컴포지션 HTML). 재생성 가능한 파생물.
+hyperframes/generated/
 
 # 운영 데이터 (재현 가능한 JSON manifest는 commit, 무거운 미디어는 ignore)
 projects/*/02_sources/uploaded/
