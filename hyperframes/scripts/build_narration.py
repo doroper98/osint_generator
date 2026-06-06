@@ -8,8 +8,8 @@ v0.34.5 → 0.34.8 변경: cue 시점을 고정 timeline 으로 박지 않고, �
 지나간 화면의 자막을 읽고 있어" → 음성이 cue 간격보다 길어 누적 drift 했던 사고.
 
 산출:
-    hyperframes/demo/assets/audio/brent.mp3  (실 음성 길이에 맞춘 mp3)
-    hyperframes/demo/cuesync.json            (각 cue 의 실 시작 시점 + 총 길이)
+    hyperframes/assets/audio/brent.mp3  (실 음성 길이에 맞춘 mp3)
+    hyperframes/cuesync.json            (각 cue 의 실 시작 시점 + 총 길이)
 
 사용법 (사용자 머신, render_demo wrapper 가 자동 호출):
     python hyperframes/scripts/render_demo.py --with-narration
@@ -142,9 +142,10 @@ CUES: list[tuple[str, str | None]] = [
      "유까는 지정학적 리스크에 가장 민감한 지표입니다."),
 ]
 
-DEMO_DIR = Path(__file__).resolve().parent.parent / "demo"
-OUTPUT_PATH = DEMO_DIR / "assets" / "audio" / "brent.mp3"
-CUESYNC_PATH = DEMO_DIR / "cuesync.json"
+# v0.34.13 — 프로젝트 루트 승격(hyperframes/demo/ → hyperframes/). 산출 경로도 루트 기준.
+PROJECT_DIR = Path(__file__).resolve().parent.parent
+OUTPUT_PATH = PROJECT_DIR / "assets" / "audio" / "brent.mp3"
+CUESYNC_PATH = PROJECT_DIR / "cuesync.json"
 
 
 def synth_one(text: str, api_key: str, voice_id: str, model_id: str) -> bytes:
@@ -289,11 +290,11 @@ def main(argv: list[str] | None = None) -> int:
     workdir.mkdir(exist_ok=True)
 
     # 1) 발음 사전 로드 (v0.34.10). 자막은 원본 한글, 합성용 텍스트만 음차 치환.
-    pron_dict = load_dict(DEMO_DIR / "assets" / "pronounce.json")
+    pron_dict = load_dict(PROJECT_DIR / "assets" / "pronounce.json")
     if pron_dict:
         print(
             f"build_narration: 발음 사전 {len(pron_dict)} 항목 적용 "
-            f"({DEMO_DIR / 'assets' / 'pronounce.json'})",
+            f"({PROJECT_DIR / 'assets' / 'pronounce.json'})",
             flush=True,
         )
 

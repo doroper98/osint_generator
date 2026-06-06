@@ -1,6 +1,6 @@
 <!--
 tier: 1
-last_synced_with: v0.34.12
+last_synced_with: v0.34.13
 ssot_for: [session-handoff]
 depends_on: [CLAUDE.md, GOAL.md, VERSION, docs/13_IMPLEMENTATION_ROADMAP.md, docs/REVIEW_PROMPT.md, docs/PROFESSIONAL_REBUILD_PLAN.md]
 last_review: 2026-06-05
@@ -51,9 +51,14 @@ last_review: 2026-06-05
    - **v0.34.5~0.34.12 (완료)**: 음성 파이프라인 — build_narration (ElevenLabs API
      + cuesync.json) + render_demo (portable ffmpeg + index.html 자동 patch) +
      TTS-AP-054~057 발음 사전 + cue (text, narration) 명시 분리. 사용자 mp4 검수.
-   - **v0.34.13~ (다음, 합의된 우선순위)**: ① 차트 family HyperFrames 컴포넌트화
-     (line/bar/donut/stacked/waterfall/scatter/heatmap/gantt/network) →
-     ② agents_reviewer 번들 → HyperFrames 자동 변환 (orchestrator/render_io 후속) →
+   - **v0.34.13 (완료)**: ① 차트 family HyperFrames 컴포넌트화 1 차 — candle/line/bar/donut
+     4 종 (`hyperframes/lib/charts/`) + 프로젝트 루트 승격(`hyperframes/demo/` → `hyperframes/`)
+     + `index.html` 이 candle 을 `data-composition-src` 로 import + `examples/gallery.html`
+     시퀀싱 템플릿. sub-comp 데이터 주입(host `data-variable-values` DOM 직독) + 타임라인
+     이중 키 등록 패턴 실측 확립. stacked/waterfall/scatter/heatmap/gantt/network 는 후속.
+   - **v0.34.14~ (다음, 합의된 우선순위)**:
+     ① 차트 family 확장 (stacked/waterfall/scatter/heatmap/gantt/network) →
+     ② agents_reviewer 번들 → HyperFrames 다중 씬 자동 변환 (orchestrator/render_io 후속) →
      ③ 인물 카드 + 엔티티 연결선 (날리지식 패턴 ③④) →
      ④ 다크 지도 GeoScene (날리지식 패턴 ⑤). 자세한 컨텍스트는
      `hyperframes/scripts/NEXT_SESSION_PROMPT.md`.

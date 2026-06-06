@@ -1,0 +1,232 @@
+<!doctype html>
+<!--
+  lib/charts/line.html — 라인(시계열) 차트 HyperFrames 컴포넌트 (v0.34.13).
+  candle.html 과 동일한 컨트랙트: <template> wrapper, data-* 주입(host data-variable-values
+  DOM 직독), JS 폴백, GSAP fromTo, __timelines 이중 키 등록.
+  좌표계: viewBox 0 0 1408 500. plot x [130..1290], y: BASE=416(yMin)→TOP=0(yMax).
+  라인 draw-on 은 stroke-dasharray 고정값(3000) + dashoffset 트윈(getTotalLength 의존 회피).
+-->
+<html lang="ko" data-composition-variables='[
+  {"id":"takeaway","type":"string","label":"헤드라인","default":"브렌트 vs WTI — 호르무즈 충격"},
+  {"id":"accent","type":"color","label":"강조색","default":"#e84a2d"},
+  {"id":"yMin","type":"number","label":"y축 최소","default":60},
+  {"id":"yMax","type":"number","label":"y축 최대","default":130},
+  {"id":"yStep","type":"number","label":"y축 격자 간격","default":20},
+  {"id":"yUnit","type":"string","label":"y축 단위","default":"$"},
+  {"id":"xLabels","type":"string","label":"x축 라벨(JSON)","default":"[\"1월\",\"2월\",\"3월\",\"4월\",\"5월\",\"6월\"]"},
+  {"id":"series","type":"string","label":"시리즈(JSON)","default":"[{\"name\":\"브렌트\",\"color\":\"#e84a2d\",\"points\":[78,82,120,110,106,102]},{\"name\":\"WTI\",\"color\":\"#9aa0a6\",\"points\":[74,78,114,104,100,97]}]"},
+  {"id":"callouts","type":"string","label":"콜아웃(JSON)","default":"[{\"xi\":2,\"si\":0,\"t\":3.0,\"title\":\"호르무즈 봉쇄\",\"sub\":\"브렌트 $120 피크\",\"dir\":\"ur\"}]"},
+  {"id":"drawStart","type":"number","label":"라인 draw 시작(초)","default":0.6}
+]'>
+  <head>
+    <meta charset="UTF-8" />
+    <script src="assets/gsap.min.js"></script>
+  </head>
+  <body>
+    <template id="line-template">
+      <div data-composition-id="line" data-width="1920" data-height="1080">
+        <style>
+          [data-composition-id="line"] {
+            position: absolute; inset: 0; width: 1920px; height: 1080px; background: transparent;
+            font-family: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            color: #1a1a1a; word-break: keep-all; overflow-wrap: anywhere;
+          }
+          [data-composition-id="line"] .hf-stage {
+            position: absolute; top: 160px; left: 0; right: 0; bottom: 300px;
+            display: flex; align-items: center; justify-content: center;
+          }
+          [data-composition-id="line"] .hf-card {
+            width: 1520px; background: #ffffff; border-radius: 22px;
+            box-shadow: 0 2px 16px rgba(26,26,26,0.06), 0 1px 3px rgba(26,26,26,0.04); padding: 56px;
+          }
+          [data-composition-id="line"] .hf-takeaway {
+            font-size: 56px; font-weight: 900; line-height: 1.15; letter-spacing: -0.3px;
+            color: #1a1a1a; margin-bottom: 24px;
+          }
+          [data-composition-id="line"] svg.hf-chart { display: block; width: 1408px; height: 500px; overflow: visible; }
+        </style>
+
+        <div class="hf-stage">
+          <div class="hf-card">
+            <div class="hf-takeaway" data-role="takeaway"></div>
+            <svg class="hf-chart" viewBox="0 0 1408 500" data-role="chart" aria-hidden="true"></svg>
+          </div>
+        </div>
+
+        <script>
+          (function () {
+            var thisScript = document.currentScript;
+            var root = (thisScript && thisScript.closest('[data-composition-id="line"]'))
+              || document.querySelector('[data-composition-id="line"]');
+
+            var D = {
+              takeaway: "브렌트 vs WTI — 호르무즈 충격", accent: "#e84a2d",
+              yMin: 60, yMax: 130, yStep: 20, yUnit: "$",
+              xLabels: ["1월", "2월", "3월", "4월", "5월", "6월"],
+              series: [
+                { name: "브렌트", color: "#e84a2d", points: [78, 82, 120, 110, 106, 102] },
+                { name: "WTI", color: "#9aa0a6", points: [74, 78, 114, 104, 100, 97] }
+              ],
+              callouts: [{ xi: 2, si: 0, t: 3.0, title: "호르무즈 봉쇄", sub: "브렌트 $120 피크", dir: "ur" }],
+              drawStart: 0.6
+            };
+            var gv = (window.__hyperframes && window.__hyperframes.getVariables)
+              ? (window.__hyperframes.getVariables() || {}) : {};
+            var hostVV = root && root.closest('[data-variable-values]');
+            var hostVals = {};
+            if (hostVV) { try { hostVals = JSON.parse(hostVV.getAttribute("data-variable-values")) || {}; } catch (e) { hostVals = {}; } }
+            var V = Object.assign({}, gv, hostVals);
+
+            var accent = V.accent || D.accent;
+            var yMin = V.yMin != null ? +V.yMin : D.yMin;
+            var yMax = V.yMax != null ? +V.yMax : D.yMax;
+            var yStep = V.yStep != null ? +V.yStep : D.yStep;
+            var yUnit = V.yUnit != null ? V.yUnit : D.yUnit;
+            var xLabels = parseJSON(V.xLabels, D.xLabels);
+            var series = parseJSON(V.series, D.series);
+            var callouts = parseJSON(V.callouts, D.callouts);
+            var drawStart = V.drawStart != null ? +V.drawStart : D.drawStart;
+            root.querySelector('[data-role="takeaway"]').textContent = V.takeaway != null ? V.takeaway : D.takeaway;
+
+            var BASE = 416, TOP = 0, X0 = 130, X1 = 1290, GW = 96, GRID_R = 1308;
+            var NX = xLabels.length;
+            var xGap = NX > 1 ? (X1 - X0) / (NX - 1) : 0;
+            var span = (yMax - yMin) || 1, scaleY = BASE / span;
+            function yOf(p) { return BASE - (p - yMin) * scaleY; }
+            function xOf(i) { return X0 + i * xGap; }
+
+            var svg = root.querySelector('[data-role="chart"]');
+            var parts = [];
+
+            // 격자 + 축 라벨
+            parts.push('<g data-role="grid">');
+            for (var p = yMin; p <= yMax + 0.001; p += yStep) {
+              var gy = yOf(p), isBase = Math.abs(p - yMin) < 0.001;
+              parts.push('<line x1="' + GW + '" y1="' + r1(gy) + '" x2="' + GRID_R + '" y2="' + r1(gy) +
+                '" stroke="rgba(26,26,26,' + (isBase ? 0.2 : 0.06) + ')" stroke-width="' + (isBase ? 1.5 : 1) + '"/>');
+              parts.push('<text x="' + (GW - 16) + '" y="' + r1(gy) + '" fill="rgba(26,26,26,0.6)" font-size="20" font-weight="500" ' +
+                'text-anchor="end" dominant-baseline="middle">' + fmtNum(p) + ' ' + esc(yUnit) + '</text>');
+            }
+            for (var i = 0; i < NX; i++) {
+              parts.push('<text x="' + r1(xOf(i)) + '" y="' + (BASE + 30) + '" fill="rgba(26,26,26,0.6)" font-size="20" ' +
+                'font-weight="500" text-anchor="middle">' + esc(xLabels[i]) + '</text>');
+            }
+            parts.push('</g>');
+
+            // 시리즈: 면적(첫 시리즈만) + 라인 + 끝점 라벨
+            var endLabels = [];
+            series.forEach(function (s, si) {
+              var col = s.color || (si === 0 ? accent : "#9aa0a6");
+              var pts = s.points || [];
+              var d = "", area = "M " + r1(xOf(0)) + " " + r1(BASE);
+              pts.forEach(function (val, i) {
+                var x = r1(xOf(i)), y = r1(yOf(val));
+                d += (i === 0 ? "M " : "L ") + x + " " + y + " ";
+                area += " L " + x + " " + y;
+              });
+              area += " L " + r1(xOf(pts.length - 1)) + " " + r1(BASE) + " Z";
+              if (si === 0) {
+                parts.push('<path data-role="area" d="' + area + '" fill="' + col + '" style="opacity:0"/>');
+              }
+              parts.push('<path data-role="linepath" data-si="' + si + '" d="' + d.trim() + '" fill="none" stroke="' + col +
+                '" stroke-width="' + (si === 0 ? 4 : 3) + '" stroke-linecap="round" stroke-linejoin="round" ' +
+                'style="stroke-dasharray:3000;stroke-dashoffset:3000;"/>');
+              var lx = xOf(pts.length - 1), ly = yOf(pts[pts.length - 1]);
+              endLabels.push({ si: si, x: lx, y: ly, col: col, name: s.name, val: pts[pts.length - 1] });
+            });
+            // 끝점 라벨 1D 충돌 회피(간단 nudge)
+            endLabels.sort(function (a, b) { return a.y - b.y; });
+            for (var e = 1; e < endLabels.length; e++) {
+              if (endLabels[e].y - endLabels[e - 1].y < 58) endLabels[e].y = endLabels[e - 1].y + 58;
+            }
+            endLabels.forEach(function (el) {
+              parts.push('<g data-role="endlabel" data-si="' + el.si + '" style="opacity:0">');
+              parts.push('<circle cx="' + r1(el.x) + '" cy="' + r1(yOf2(el)) + '" r="7" fill="' + el.col +
+                '" stroke="#ffffff" stroke-width="2.5"/>');
+              parts.push('<text x="' + r1(el.x + 18) + '" y="' + r1(el.y - 4) + '" fill="' + el.col +
+                '" font-size="22" font-weight="800">' + esc(el.name) + '</text>');
+              parts.push('<text x="' + r1(el.x + 18) + '" y="' + r1(el.y + 22) + '" fill="#1a1a1a" font-size="24" font-weight="900">' +
+                fmtNum(el.val) + ' ' + esc(yUnit) + '</text>');
+              parts.push('</g>');
+            });
+            function yOf2(el) { return yOf(el.val); } // 점은 실제 값 위치, 텍스트만 nudge
+
+            // 콜아웃
+            var coMeta = [];
+            callouts.forEach(function (co, k) {
+              var s = series[co.si || 0]; if (!s) return;
+              var ax = xOf(co.xi), ay = yOf(s.points[co.xi]);
+              var place = labelPlace(co.dir || "ur", ax, ay);
+              coMeta.push({ k: k, t: co.t, ax: ax, ay: ay });
+              parts.push('<g data-role="callout" data-i="' + k + '" style="opacity:0">');
+              parts.push('<path data-role="conn" d="' + leaderPath(ax, ay, place) + '" stroke="' + accent +
+                '" stroke-width="1.5" fill="none" style="stroke-dasharray:600;stroke-dashoffset:600;"/>');
+              parts.push('<circle cx="' + r1(ax) + '" cy="' + r1(ay) + '" r="6" fill="' + accent + '" stroke="#ffffff" stroke-width="2"/>');
+              parts.push('<text data-role="co-t" x="' + r1(place.lx) + '" y="' + r1(place.ly) + '" fill="' + accent +
+                '" font-size="22" font-weight="800" letter-spacing="1.5" text-anchor="' + place.anchor + '">' + esc(co.title || "") + '</text>');
+              parts.push('<text data-role="co-t" x="' + r1(place.lx) + '" y="' + r1(place.ly + 26) +
+                '" fill="rgba(26,26,26,0.7)" font-size="20" font-weight="600" text-anchor="' + place.anchor + '">' + esc(co.sub || "") + '</text>');
+              parts.push('</g>');
+            });
+            svg.innerHTML = parts.join("");
+
+            if (typeof gsap === "undefined") return;
+            window.__timelines = window.__timelines || {};
+            var tl = gsap.timeline({ paused: true });
+
+            tl.fromTo(svg.querySelector('[data-role="grid"]'), { opacity: 0 }, { opacity: 1, duration: 0.4, ease: "power1.out" }, 0.3);
+            var areaEl = svg.querySelector('[data-role="area"]');
+            if (areaEl) tl.fromTo(areaEl, { opacity: 0 }, { opacity: 0.12, duration: 0.8, ease: "power1.out" }, drawStart + 0.4);
+            // 라인 draw (시리즈 stagger)
+            svg.querySelectorAll('[data-role="linepath"]').forEach(function (lp, si) {
+              tl.fromTo(lp, { strokeDashoffset: 3000 }, { strokeDashoffset: 0, duration: 1.3, ease: "power2.inOut" }, drawStart + si * 0.25);
+            });
+            // 끝점 라벨
+            svg.querySelectorAll('[data-role="endlabel"]').forEach(function (g, si) {
+              tl.to(g, { opacity: 1, duration: 0.001 }, drawStart + 1.3 + si * 0.12);
+              tl.fromTo(g.querySelector("circle"), { scale: 0, transformOrigin: "center center" },
+                { scale: 1, duration: 0.3, ease: "back.out(2)" }, drawStart + 1.3 + si * 0.12);
+              tl.fromTo(g.querySelectorAll("text"), { opacity: 0, x: -8 },
+                { opacity: 1, x: 0, duration: 0.3, stagger: 0.06, ease: "power2.out" }, drawStart + 1.4 + si * 0.12);
+            });
+            // 콜아웃
+            coMeta.forEach(function (m) {
+              var g = svg.querySelector('[data-role="callout"][data-i="' + m.k + '"]'); if (!g) return;
+              tl.to(g, { opacity: 1, duration: 0.001 }, m.t);
+              tl.fromTo(g.querySelector("circle"), { scale: 0, transformOrigin: r1(m.ax) + "px " + r1(m.ay) + "px" },
+                { scale: 1, duration: 0.3, ease: "back.out(2)" }, m.t);
+              tl.fromTo(g.querySelector('[data-role="conn"]'), { strokeDashoffset: 600 }, { strokeDashoffset: 0, duration: 0.4, ease: "power2.inOut" }, m.t + 0.3);
+              tl.fromTo(g.querySelectorAll('[data-role="co-t"]'), { opacity: 0, x: -8 },
+                { opacity: 1, x: 0, duration: 0.3, stagger: 0.08, ease: "power2.out" }, m.t + 0.5);
+            });
+
+            window.__timelines["line"] = tl;
+            var cid = (typeof __hfTimelineCompId !== "undefined" && __hfTimelineCompId)
+              || (typeof __hfCompId !== "undefined" && __hfCompId)
+              || (root && root.getAttribute("data-composition-id")) || "line";
+            if (cid && cid !== "line") window.__timelines[cid] = tl;
+
+            function parseJSON(s, fb) { try { return typeof s === "string" ? JSON.parse(s) : (s || fb); } catch (e) { return fb; } }
+            function r1(n) { return Math.round(n * 10) / 10; }
+            function esc(s) { return String(s == null ? "" : s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;"); }
+            function fmtNum(n) { return (Math.round(n * 100) / 100).toString(); }
+            function labelPlace(dir, ax, ay) {
+              var lx, ly, anchor;
+              if (dir === "ur") { lx = ax + 140; ly = clampY(ay - 6); anchor = "start"; }
+              else if (dir === "ul") { lx = ax - 140; ly = clampY(ay - 6); anchor = "end"; }
+              else if (dir === "dr") { lx = ax + 50; ly = clampY(ay + 96); anchor = "start"; }
+              else { lx = ax - 50; ly = clampY(ay + 96); anchor = "end"; }
+              return { lx: lx, ly: ly, anchor: anchor };
+            }
+            function clampY(y) { return Math.max(30, Math.min(BASE - 8, y)); }
+            function leaderPath(ax, ay, place) {
+              var midx = (ax + place.lx) / 2;
+              return "M " + r1(ax) + " " + r1(ay) + " Q " + r1(midx) + " " + r1(place.ly - 10) + " " +
+                r1(place.lx + (place.anchor === "end" ? 8 : -8)) + " " + r1(place.ly - 6);
+            }
+          })();
+        </script>
+      </div>
+    </template>
+  </body>
+</html>

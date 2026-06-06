@@ -54,12 +54,26 @@ Topics: `data-attributes`, `gsap`, `compositions`, `rendering`, `examples`, `tro
 https://hyperframes.heygen.com/llms.txt
 ```
 
-## Project Structure
+## Project Structure (v0.34.13 — 루트 승격)
 
-- `index.html` — main composition (root timeline)
-- `compositions/` — sub-compositions referenced via `data-composition-src`
+- `index.html` — 메인 컴포지션 (브렌트 캔들 씬, root timeline). `lib/charts/candle.html` 을
+  `data-composition-src` 로 import.
+- `lib/charts/{candle,line,bar,donut}.html` — 재사용 차트 컴포넌트 라이브러리.
+  각각 `<template>` wrapper sub-composition. `data-composition-variables` 로 변수 선언 +
+  host 의 `data-variable-values`(JSON)로 데이터 주입.
+- `examples/gallery.html` — 4 종 쇼케이스 / 12 씬 시퀀싱 템플릿 (`render -c examples/gallery.html`).
+- `assets/` — gsap.min.js, fonts/, audio/, pronounce.json (sub-comp 은 루트 기준 `assets/...`
+  로 참조; examples 처럼 하위 디렉토리는 `../assets/...`).
+- `scripts/` — `render_demo.py`(통합 빌드), `build_narration.py`(ElevenLabs narration).
 - `meta.json` — project metadata (id, name)
-- `transcript.json` — whisper word-level transcript (if generated)
+
+> **차트 컴포넌트 작성 규칙 (v0.6.76 실측 quirk 대응)**:
+> 1. 타임라인은 **authored id 와 runtime 인스턴스 id 둘 다**로 `window.__timelines` 에 등록
+>    (`__timelines["candle"]` + `__timelines[__hfTimelineCompId]`). 한쪽만 등록하면 45s 대기 후 실패.
+> 2. 데이터 주입은 host 의 `data-variable-values` 를 **DOM 에서 직접 읽음**
+>    (`root.closest('[data-variable-values]')`). v0.6.76 에서 `getVariables()` 의 sub-comp
+>    host override 가 전파 안 되므로. `getVariables()` + JS 폴백을 보조 경로로 둠.
+> 3. `data-composition-src` 는 **프로젝트 루트 밖으로 못 나감** — 차트는 반드시 루트 하위에.
 
 ## Linting — ALWAYS RUN AFTER CHANGES
 

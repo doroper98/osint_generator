@@ -25,6 +25,46 @@ last_review: 2026-06-06
 
 ---
 
+## 2026-06-06 v0.34.13 — 차트 family HyperFrames 컴포넌트화 (옵션 B, 영상미 C0)
+
+- **무엇을**: demo 의 인라인 캔들 차트를 재사용 가능한 sub-composition 라이브러리로 분리하고
+  line/bar/donut 3 종을 추가. 각 컴포넌트는 `data-*` 변수 주입 + GSAP 타임라인. `index.html`
+  은 `lib/charts/candle.html` 을 `data-composition-src` 로 import. 본격 호르무즈 12 씬
+  파이프라인의 토대 (NEXT_SESSION_PROMPT 우선순위 B).
+- **왜**: demo 가 단일 차트만 인라인으로 갖고 있어 다른 씬·차트 종류를 못 만들었음. 데이터
+  주입형 컴포넌트 라이브러리가 있어야 12 씬 파이프라인(옵션 C)·인물카드·지도(D/E)로 확장 가능.
+- **어떻게**:
+  - **HyperFrames sub-composition 모델 실측 규명** (문서 불충분 → 번들 skill `SKILL.md`/
+    `motion-principles.md` 정독 + `hyperframe.runtime.iife.js` 소스 분석 + PNG 렌더 ground-truth):
+    1. sub-comp 은 `<template>` wrapper + 내부 `data-composition-id` div 구조.
+    2. 런타임이 sub-comp 스크립트를 `po()` 래퍼로 감싸 주입 (`__hfTimelineCompId` 등 in scope).
+       타임라인은 **authored id + runtime 인스턴스 id 둘 다**로 등록해야 폴링 통과(한쪽만
+       등록 시 45s 대기 후 "timelines not registered" 실패). 실측으로 확정.
+    3. **`getVariables()` 의 host override 가 v0.6.76 sub-comp 에서 전파 안 됨**
+       (`__hfVariablesByComp=null` 실측). → 컴포넌트가 자기 host(`data-variable-values` 보유
+       조상)를 DOM 에서 직접 찾아 읽는 경로를 1차로 두고, getVariables/JS 폴백을 보조로.
+       이게 12 씬 파이프라인의 실 데이터 주입 경로.
+    4. **번들러는 `data-composition-src` 를 프로젝트 루트 밖으로 못 나감** (`../lib` → 404).
+       → 요청 경로 `hyperframes/lib/charts/` 를 쓰려면 프로젝트 루트를 `hyperframes/demo/` →
+       `hyperframes/` 로 승격해야 함 (사용자 결정: "루트 승격"). `git mv` 로 히스토리 보존.
+       루트-내부 `../` (examples/gallery.html → ../lib/charts)는 허용됨(실측).
+  - candle/line/bar/donut 4 종 작성. 공통 컨트랙트: 카드 + 헤드라인 + SVG, light dashboard
+    토큰(흰 카드/오렌지 accent/Pretendard), `fromTo`(SKILL 의 immediateRender 사고 회피),
+    한 요소 단일 transform, 결정론.
+  - `index.html` 리팩터(인라인 SVG 제거 → candle import). `render_demo.py`/`build_narration.py`
+    경로 상수를 루트 기준으로 갱신. `examples/gallery.html` 쇼케이스/시퀀싱 템플릿 신설.
+- **결과**:
+  - `npx hyperframes lint/validate/inspect` 통과 (0 error; 잔여 warning 은 폰트 폴백 명칭 +
+    자막 대비 false positive — 둘 다 v0.34.13 이전부터 있던 benign).
+  - PNG ground-truth 렌더로 4 종 모두 정상 + 변수 주입(헤드라인/accent 색) 동작 확인.
+  - 브렌트 캔들 씬은 분리 후에도 narration/자막 sync·Ken Burns 보존.
+- **연관**: CHANGELOG v0.34.13, NEXT_SESSION_PROMPT 우선순위 B, HANDOFF 로드맵 ①, GOAL G0
+  영상미. 후속: 옵션 C(agents_reviewer 번들 → 다중 씬 자동 변환). RENDER-AP 후보:
+  "sub-comp 타임라인 이중 키 등록 + host 변수 DOM 직독" 패턴(v0.6.76 quirk 대응) — 재발 시
+  `RENDER_ANTIPATTERNS.md` 등록 검토.
+
+---
+
 ## 2026-06-06 v0.34.2 — 라인/자막 안 보이던 사고 2 픽스 + 30초 확장 (영상미 C0)
 
 - **무엇을**: v0.34.1 영상 사용자 검수 후 스크린샷 진단 — 차트 라인 0:10 시점에서도

@@ -28,6 +28,38 @@ released 항목은 **append-only**입니다.
 
 ---
 
+## [v0.34.13] — 2026-06-06
+
+**차트 family HyperFrames 컴포넌트화 (옵션 B) — candle/line/bar/donut 4 종 + 프로젝트 루트 승격**.
+demo 의 인라인 캔들 차트를 재사용 가능한 sub-composition 라이브러리로 분리. 본격 호르무즈
+파이프라인(12 씬)의 토대.
+
+### Added
+
+- **`hyperframes/lib/charts/{candle,line,bar,donut}.html`** — 4 종 차트 컴포넌트.
+  각각 `<template>` wrapper sub-composition. `data-composition-variables` 로 변수 스키마
+  선언 + 인스턴스 host 의 `data-variable-values`(JSON)로 데이터 주입 → 스크립트가 SVG 를
+  데이터에서 생성 → GSAP `fromTo` 타임라인으로 등장 애니메이션.
+  - candle: OHLC 12 봉 + 양/음봉 컨벤션 + 콜아웃 + 끝점 직접 라벨.
+  - line: 다중 시리즈 + 면적 + 라인 draw-on + 끝점 직접 라벨(충돌 회피) + 콜아웃.
+  - bar: 카테고리 막대 grow(scaleY) + 직접 값 라벨 + 강조 막대 + stagger.
+  - donut: arc draw-on(stroke-dasharray) + 중앙 값 + 우측 직접 라벨 리스트(≤5 슬라이스).
+- **`hyperframes/examples/gallery.html`** — 4 종을 `data-composition-src` 로 시간순
+  임베드한 쇼케이스 / 12 씬 시퀀싱 템플릿.
+
+### Changed
+
+- **HyperFrames 프로젝트 루트 승격** — `hyperframes/demo/` → `hyperframes/`.
+  HyperFrames 번들러가 `data-composition-src` 를 프로젝트 루트 밖으로 해석하지 못해
+  (`../lib/...` → 404, 실측 확인), 요청 경로 `hyperframes/lib/charts/` 를 demo 가 import
+  하려면 루트 승격이 필요. `demo/index.html` → `index.html` 등 `git mv` (히스토리 보존).
+- **`index.html`** — 인라인 캔들 SVG 를 제거하고 `lib/charts/candle.html` 을
+  `data-composition-src` 로 import. 브렌트 narration/자막 sync, Ken Burns 보존.
+- **`scripts/render_demo.py` / `scripts/build_narration.py`** — 산출 경로를 프로젝트 루트
+  기준으로 갱신(`HF_PROJECT_DIR` / `PROJECT_DIR`).
+
+---
+
 ## [v0.34.2] — 2026-06-06
 
 **v0.34.1 사용자 검수 후 버그 픽스 — 라인/자막 안 보이던 문제 해결 + 30초 확장**.

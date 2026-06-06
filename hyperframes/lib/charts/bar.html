@@ -1,0 +1,146 @@
+<!doctype html>
+<!--
+  lib/charts/bar.html — 막대(카테고리) 차트 HyperFrames 컴포넌트 (v0.34.13).
+  컨트랙트는 candle/line 과 동일. 막대는 baseline 에서 scaleY 0→1 grow(단일 transform,
+  transform-origin = 막대 하단). 직접 값 라벨 + 카테고리 stagger.
+-->
+<html lang="ko" data-composition-variables='[
+  {"id":"takeaway","type":"string","label":"헤드라인","default":"호르무즈 통과 원유 — 주요 도착지"},
+  {"id":"accent","type":"color","label":"강조색","default":"#e84a2d"},
+  {"id":"yMax","type":"number","label":"y축 최대(0=자동)","default":0},
+  {"id":"unit","type":"string","label":"값 단위","default":"백만 배럴/일"},
+  {"id":"bars","type":"string","label":"막대(JSON)","default":"[{\"label\":\"중국\",\"value\":5.4},{\"label\":\"인도\",\"value\":2.1},{\"label\":\"한국\",\"value\":1.5},{\"label\":\"일본\",\"value\":1.3},{\"label\":\"기타\",\"value\":4.0}]"},
+  {"id":"highlight","type":"number","label":"강조 막대 index(-1=없음)","default":0},
+  {"id":"barStart","type":"number","label":"막대 등장 시작(초)","default":0.6},
+  {"id":"barStagger","type":"number","label":"막대 stagger(초)","default":0.12}
+]'>
+  <head>
+    <meta charset="UTF-8" />
+    <script src="assets/gsap.min.js"></script>
+  </head>
+  <body>
+    <template id="bar-template">
+      <div data-composition-id="bar" data-width="1920" data-height="1080">
+        <style>
+          [data-composition-id="bar"] {
+            position: absolute; inset: 0; width: 1920px; height: 1080px; background: transparent;
+            font-family: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            color: #1a1a1a; word-break: keep-all; overflow-wrap: anywhere;
+          }
+          [data-composition-id="bar"] .hf-stage {
+            position: absolute; top: 160px; left: 0; right: 0; bottom: 300px;
+            display: flex; align-items: center; justify-content: center;
+          }
+          [data-composition-id="bar"] .hf-card {
+            width: 1520px; background: #ffffff; border-radius: 22px;
+            box-shadow: 0 2px 16px rgba(26,26,26,0.06), 0 1px 3px rgba(26,26,26,0.04); padding: 56px;
+          }
+          [data-composition-id="bar"] .hf-takeaway {
+            font-size: 56px; font-weight: 900; line-height: 1.15; letter-spacing: -0.3px;
+            color: #1a1a1a; margin-bottom: 24px;
+          }
+          [data-composition-id="bar"] svg.hf-chart { display: block; width: 1408px; height: 500px; overflow: visible; }
+        </style>
+
+        <div class="hf-stage">
+          <div class="hf-card">
+            <div class="hf-takeaway" data-role="takeaway"></div>
+            <svg class="hf-chart" viewBox="0 0 1408 500" data-role="chart" aria-hidden="true"></svg>
+          </div>
+        </div>
+
+        <script>
+          (function () {
+            var thisScript = document.currentScript;
+            var root = (thisScript && thisScript.closest('[data-composition-id="bar"]'))
+              || document.querySelector('[data-composition-id="bar"]');
+
+            var D = {
+              takeaway: "호르무즈 통과 원유 — 주요 도착지", accent: "#e84a2d", yMax: 0, unit: "백만 배럴/일",
+              bars: [
+                { label: "중국", value: 5.4 }, { label: "인도", value: 2.1 },
+                { label: "한국", value: 1.5 }, { label: "일본", value: 1.3 }, { label: "기타", value: 4.0 }
+              ],
+              highlight: 0, barStart: 0.6, barStagger: 0.12
+            };
+            var gv = (window.__hyperframes && window.__hyperframes.getVariables)
+              ? (window.__hyperframes.getVariables() || {}) : {};
+            var hostVV = root && root.closest('[data-variable-values]');
+            var hostVals = {};
+            if (hostVV) { try { hostVals = JSON.parse(hostVV.getAttribute("data-variable-values")) || {}; } catch (e) { hostVals = {}; } }
+            var V = Object.assign({}, gv, hostVals);
+
+            var accent = V.accent || D.accent;
+            var unit = V.unit != null ? V.unit : D.unit;
+            var bars = parseJSON(V.bars, D.bars);
+            var highlight = V.highlight != null ? +V.highlight : D.highlight;
+            var barStart = V.barStart != null ? +V.barStart : D.barStart;
+            var barStagger = V.barStagger != null ? +V.barStagger : D.barStagger;
+            root.querySelector('[data-role="takeaway"]').textContent = V.takeaway != null ? V.takeaway : D.takeaway;
+
+            var BASE = 416, TOP = 24, X0 = 120, X1 = 1308;
+            var N = bars.length;
+            var maxVal = 0; bars.forEach(function (b) { if (+b.value > maxVal) maxVal = +b.value; });
+            var yMax = (V.yMax != null && +V.yMax > 0) ? +V.yMax : (maxVal * 1.18 || 1);
+            var plotW = X1 - X0;
+            var slot = plotW / N;
+            var barW = Math.min(150, slot * 0.56);
+            function cxOf(i) { return X0 + slot * (i + 0.5); }
+            function hOf(v) { return (v / yMax) * (BASE - TOP); }
+
+            var svg = root.querySelector('[data-role="chart"]');
+            var parts = [];
+            // baseline
+            parts.push('<line x1="' + X0 + '" y1="' + BASE + '" x2="' + X1 + '" y2="' + BASE + '" stroke="rgba(26,26,26,0.2)" stroke-width="1.5"/>');
+            // 막대 + 값/카테고리 라벨
+            parts.push('<g data-role="bars">');
+            for (var i = 0; i < N; i++) {
+              var b = bars[i], cx = cxOf(i), h = hOf(+b.value), y = BASE - h;
+              var col = b.color || (i === highlight ? accent : "rgba(26,26,26,0.22)");
+              parts.push('<g class="hf-bar" data-i="' + i + '">');
+              parts.push('<rect data-role="rect" x="' + r1(cx - barW / 2) + '" y="' + r1(y) + '" width="' + r1(barW) +
+                '" height="' + r1(h) + '" rx="6" fill="' + col + '"/>');
+              parts.push('<text data-role="val" x="' + r1(cx) + '" y="' + r1(y - 16) + '" fill="' + (i === highlight ? accent : "#1a1a1a") +
+                '" font-size="30" font-weight="900" text-anchor="middle">' + fmtNum(+b.value) + '</text>');
+              parts.push('<text data-role="cat" x="' + r1(cx) + '" y="' + (BASE + 36) + '" fill="rgba(26,26,26,0.7)" ' +
+                'font-size="24" font-weight="700" text-anchor="middle">' + esc(b.label) + '</text>');
+              parts.push('</g>');
+            }
+            parts.push('</g>');
+            // 단위 캡션 우상단
+            parts.push('<text x="' + X1 + '" y="14" fill="rgba(26,26,26,0.45)" font-size="20" font-weight="600" text-anchor="end">단위 · ' + esc(unit) + '</text>');
+            svg.innerHTML = parts.join("");
+
+            if (typeof gsap === "undefined") return;
+            window.__timelines = window.__timelines || {};
+            var tl = gsap.timeline({ paused: true });
+
+            // 막대 grow (scaleY 0→1, origin = 하단). 단일 transform.
+            svg.querySelectorAll(".hf-bar").forEach(function (g, i) {
+              var rect = g.querySelector('[data-role="rect"]');
+              var cx = cxOf(i);
+              tl.fromTo(rect,
+                { scaleY: 0, transformOrigin: r1(cx) + "px " + BASE + "px" },
+                { scaleY: 1, duration: 0.55, ease: "power3.out" }, barStart + i * barStagger);
+              tl.fromTo(g.querySelector('[data-role="cat"]'), { opacity: 0, y: 8 },
+                { opacity: 1, y: 0, duration: 0.3, ease: "power2.out" }, barStart + i * barStagger);
+              tl.fromTo(g.querySelector('[data-role="val"]'), { opacity: 0, y: 12 },
+                { opacity: 1, y: 0, duration: 0.35, ease: "back.out(1.6)" }, barStart + i * barStagger + 0.35);
+            });
+
+            window.__timelines["bar"] = tl;
+            var cid = (typeof __hfTimelineCompId !== "undefined" && __hfTimelineCompId)
+              || (typeof __hfCompId !== "undefined" && __hfCompId)
+              || (root && root.getAttribute("data-composition-id")) || "bar";
+            if (cid && cid !== "bar") window.__timelines[cid] = tl;
+
+            function parseJSON(s, fb) { try { return typeof s === "string" ? JSON.parse(s) : (s || fb); } catch (e) { return fb; } }
+            function r1(n) { return Math.round(n * 10) / 10; }
+            function esc(s) { return String(s == null ? "" : s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;"); }
+            function fmtNum(n) { return (Math.round(n * 100) / 100).toString(); }
+          })();
+        </script>
+      </div>
+    </template>
+  </body>
+</html>

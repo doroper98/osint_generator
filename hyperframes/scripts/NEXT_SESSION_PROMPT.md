@@ -1,8 +1,21 @@
-# NEXT SESSION PROMPT — v0.34.13 시작점
+# NEXT SESSION PROMPT — v0.34.14 시작점
 
 > 본 파일은 **다음 Claude Code 세션 시작 시 첫 메시지로 paste** 해 사용한다.
-> v0.34.12 (2026-06-06 머지) 이후 작업을 이어 받을 컨텍스트.
+> v0.34.13 (2026-06-06, 옵션 B 1차 완료) 이후 작업을 이어 받을 컨텍스트.
 > SSOT: HANDOFF.md, docs/PROFESSIONAL_REBUILD_PLAN.md, DEVLOG.md (append-only).
+
+## v0.34.13 완료 요약 (옵션 B 1차)
+
+- **차트 컴포넌트 라이브러리** `hyperframes/lib/charts/{candle,line,bar,donut}.html` 신설.
+  각각 `<template>` sub-composition + `data-*` 변수 주입 + GSAP `fromTo` 타임라인.
+- **프로젝트 루트 승격**: `hyperframes/demo/` → `hyperframes/` (번들러가 루트 밖 import 불가
+  실측 → 요청 경로 `lib/charts/` 쓰려면 필수, 사용자 결정). `git mv` 히스토리 보존.
+- `index.html` 이 `lib/charts/candle.html` 을 `data-composition-src` 로 import (브렌트 씬
+  narration/자막 sync·Ken Burns 보존). `examples/gallery.html` 시퀀싱 템플릿 신설.
+- **실측 확립한 sub-comp 패턴 (v0.6.76)**: ① 타임라인은 authored id + runtime id 둘 다 등록
+  ② 데이터 주입은 host `data-variable-values` 를 DOM 직독(getVariables host override 미전파)
+  ③ `data-composition-src` 는 루트 밖 못 나감. (상세: DEVLOG v0.34.13 / hyperframes/CLAUDE.md)
+- 빌드 한 줄: `python hyperframes/scripts/render_demo.py --with-narration` (경로 루트 기준 갱신됨).
 
 ---
 
@@ -52,7 +65,8 @@ python hyperframes\scripts\render_demo.py --with-narration
 
 | # | 항목 | 비고 |
 |---|---|---|
-| **B** | **차트 family HyperFrames 컴포넌트화** | Remotion 의 charts/{xy,cat}/ 15 종을 HTML+SVG+GSAP 으로 포팅. demo 가 1 차트만 동작 — 본격 호르무즈 파이프라인 (12 씬) 위해 line/bar/donut/stacked/waterfall/scatter/heatmap/gantt/network 동등 라이브러리 필요. SSOT 패턴: `hyperframes/lib/charts/<type>.html` (template) + `data-*` 속성으로 데이터 주입 + GSAP timeline. |
+| ~~**B**~~ | ~~**차트 family HyperFrames 컴포넌트화**~~ | **v0.34.13 1차 완료** — candle/line/bar/donut 4 종. SSOT 패턴 확립: `hyperframes/lib/charts/<type>.html` (template) + host `data-variable-values` 주입 + GSAP timeline. **확장 잔여**: stacked/waterfall/scatter/heatmap/gantt/network (= 아래 B-ext). |
+| **B-ext** | **차트 family 확장** | 남은 차트 종류 추가 (stacked_bar/waterfall/scatter/bubble/heatmap/gantt/network/sankey). candle/line/bar/donut 의 컨트랙트(template + host 변수 DOM 직독 + 타임라인 이중 키)를 그대로 따른다. network/sankey 는 헤드리스 레이아웃 사전계산 필요. |
 | **C** | **agents_reviewer 번들 → HyperFrames 자동 변환** | `orchestrator/render_io.py` 의 후속. ReportBundle → 다중 scene HyperFrames 컴포지션 자동 생성. `index.html` 이 sub-composition 들을 `data-composition-src` 로 import. Scene 별 cue 데이터 + narration 명시 자동 추출(LLM)·수동 override 패턴. |
 | **D** | **인물 카드 + 엔티티 연결선 draw** | 날리지식 패턴 ③ ④. 인물 사진/플래그 + 부드러운 fade + 두 엔티티 간 Bezier path stroke-dash draw-on. SVG 컴포넌트 + GSAP 통합. |
 | **E** | **다크 지도 GeoScene** | 날리지식 패턴 ⑤. d3-geo + world-atlas + ISO 매핑. 국가 하이라이트 + 마커 + 아크. dark theme 별도 디자인 토큰. |
@@ -61,8 +75,9 @@ python hyperframes\scripts\render_demo.py --with-narration
 | **G** | **Codex 영상미 검수 체계** | v0.33.x 사용자 5번 피드백 부채. 매 PATCH 키프레임 추출 → 영상 LLM 검사. CLAUDE.md 의 C10 (코드 리뷰) 와 분리된 새 카테고리. |
 | **H** | **pronounce.json 운영** | 새 misread 발견 시 사전 갱신 + 회귀 테스트 추가. 누적 운영. |
 
-**제 추천 시작점**: **B** — 다른 모든 작업 (C/D/E/G) 의 토대. 차트 1 종이라도 더
-포팅하면 호르무즈 파이프라인 실 데모 가능.
+**제 추천 시작점**: **C** (agents_reviewer 번들 → 다중 씬 자동 변환) — B 의 컴포넌트 토대가
+생겼으니, 이제 `examples/gallery.html` 시퀀싱 패턴을 ReportBundle → N 씬 자동 생성으로 잇는다.
+차트 종류가 더 필요해지면 그때 **B-ext** 로 해당 차트만 추가(컨트랙트 동일).
 
 ## 진행 규칙 (CLAUDE.md 참조)
 
@@ -76,14 +91,15 @@ python hyperframes\scripts\render_demo.py --with-narration
 ## 즉시 사용할 첫 프롬프트 (사용자 paste 용)
 
 ```
-이전 세션 v0.34.12 머지 완료. 다음 작업은 hyperframes/scripts/NEXT_SESSION_PROMPT.md
-의 우선순위 표 참조. 차트 family HyperFrames 컴포넌트화 (옵션 B) 부터 시작해.
-demo 의 캔들 차트를 별도 컴포넌트 (`hyperframes/lib/charts/candle.html`) 로 분리하고,
-line / bar / donut 3 종 추가 컴포넌트 만들어. 각 컴포넌트는 data-* 속성 + GSAP
-timeline. demo 의 index.html 은 sub-composition 들을 data-composition-src 로 import.
+이전 세션 v0.34.13 머지 완료 (옵션 B 1차 — candle/line/bar/donut 컴포넌트 + 루트 승격).
+다음 작업은 hyperframes/scripts/NEXT_SESSION_PROMPT.md 의 우선순위 표 참조.
+옵션 C (agents_reviewer 번들 → HyperFrames 다중 씬 자동 변환) 부터 시작해.
+examples/gallery.html 의 시퀀싱 패턴을 ReportBundle → N 씬 자동 생성으로 잇고,
+각 씬은 lib/charts/<type>.html 을 data-composition-src + data-variable-values 로 주입.
+scene 별 cue/narration 자동 추출(LLM)·수동 override 패턴 설계.
 
-먼저 hyperframes/scripts/NEXT_SESSION_PROMPT.md 와 HANDOFF.md, docs/PROFESSIONAL_REBUILD_PLAN.md
-정독 후 시작.
+먼저 hyperframes/scripts/NEXT_SESSION_PROMPT.md 와 HANDOFF.md,
+hyperframes/CLAUDE.md(sub-comp 작성 규칙), DEVLOG v0.34.13 정독 후 시작.
 ```
 
-(원하면 다른 옵션 [C/D/E/A 등] 으로 교체)
+(원하면 다른 옵션 [B-ext/D/E/A 등] 으로 교체)

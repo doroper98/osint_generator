@@ -43,10 +43,15 @@ node_modules/
 # HyperFrames (v0.34.0+)
 hyperframes/node_modules/
 hyperframes/*/node_modules/
+hyperframes/renders/
 hyperframes/*/renders/
+hyperframes/.hyperframes-cache/
 hyperframes/*/.hyperframes-cache/
 
 # v0.34.8 — build_narration / render_demo 산출물 (1회용, sync drift 회피 패턴).
+# v0.34.13 — 프로젝트 루트 승격으로 경로가 hyperframes/demo/ → hyperframes/ 로 이동.
+hyperframes/index.synced.html
+hyperframes/cuesync.json
 hyperframes/demo/index.synced.html
 hyperframes/demo/cuesync.json
 

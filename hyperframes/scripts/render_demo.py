@@ -33,10 +33,12 @@ import tempfile
 from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parent.parent.parent
-HF_DEMO_DIR = REPO_ROOT / "hyperframes" / "demo"
-CUESYNC_PATH = HF_DEMO_DIR / "cuesync.json"
-INDEX_HTML = HF_DEMO_DIR / "index.html"
-SYNCED_HTML = HF_DEMO_DIR / "index.synced.html"
+# v0.34.13 — 프로젝트 루트 승격: 차트 컴포넌트 라이브러리(lib/charts/)를 demo 가 import 할 수
+# 있도록 HyperFrames 프로젝트 루트를 hyperframes/demo/ → hyperframes/ 로 올림.
+HF_PROJECT_DIR = REPO_ROOT / "hyperframes"
+CUESYNC_PATH = HF_PROJECT_DIR / "cuesync.json"
+INDEX_HTML = HF_PROJECT_DIR / "index.html"
+SYNCED_HTML = HF_PROJECT_DIR / "index.synced.html"
 
 
 def _resolve_portable_ffmpeg() -> str:
@@ -222,8 +224,8 @@ def main() -> int:
     )
     args = parser.parse_args()
 
-    if not HF_DEMO_DIR.is_dir():
-        print(f"error: HyperFrames demo 디렉토리 없음: {HF_DEMO_DIR}", file=sys.stderr)
+    if not HF_PROJECT_DIR.is_dir():
+        print(f"error: HyperFrames 프로젝트 디렉토리 없음: {HF_PROJECT_DIR}", file=sys.stderr)
         return 1
 
     if args.with_narration:
@@ -250,9 +252,9 @@ def main() -> int:
 
     npx = _resolve_npx()
     cmd = [npx, "hyperframes", "render", "-c", synced.name]
-    print(f"[render_demo] {' '.join(cmd)} (cwd={HF_DEMO_DIR})", flush=True)
+    print(f"[render_demo] {' '.join(cmd)} (cwd={HF_PROJECT_DIR})", flush=True)
     try:
-        result = subprocess.run(cmd, cwd=str(HF_DEMO_DIR), env=env)
+        result = subprocess.run(cmd, cwd=str(HF_PROJECT_DIR), env=env)
         return result.returncode
     finally:
         # 임시 stage dir 정리 (실패해도 무시).

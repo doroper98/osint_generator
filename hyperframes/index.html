@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1920, height=1080" />
+    <!-- v0.34.3 — 로컬 GSAP (jsdelivr CDN 의존 제거, 차단 시 모든 트윈 정지 사고 회피). -->
+    <script src="assets/gsap.min.js"></script>
+    <style>
+      @font-face {
+        font-family: "Pretendard Variable";
+        src: url("assets/fonts/PretendardVariable.woff2") format("woff2-variations");
+        font-weight: 100 900;
+        font-style: normal;
+        font-display: block;
+      }
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body {
+        margin: 0; width: 1920px; height: 1080px; overflow: hidden;
+        background: #f5f1ea;
+        font-family: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        color: #1a1a1a;
+        word-break: keep-all;
+        overflow-wrap: anywhere;
+      }
+      .brand { position: absolute; top: 56px; left: 80px; display: flex; align-items: center; gap: 12px; z-index: 10; }
+      .brand-mark { width: 14px; height: 14px; border-radius: 3px; background: #e84a2d; }
+      .brand-name { font-size: 20px; font-weight: 900; letter-spacing: 2px; text-transform: uppercase; color: #1a1a1a; }
+      .source { position: absolute; top: 60px; left: 460px; right: 460px; text-align: center;
+        font-size: 16px; color: rgba(26,26,26,0.42); font-weight: 500; }
+
+      /* v0.34.13 — 차트 본체는 lib/charts/candle.html sub-composition 으로 분리.
+         #stage 는 Ken Burns 대상(차트 host 를 감싸 스케일). 카드/SVG/콜아웃은 컴포넌트가 소유. */
+      .stage { position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+        transform-origin: center center; }
+      .chart-host { position: absolute; inset: 0; }
+
+      /* v0.34.2 — 자막 박스: position:relative 명시, 박스 하나 안에 텍스트 swap. */
+      .subtitle-bar { position: absolute; bottom: 72px; left: 0; right: 0;
+        display: flex; justify-content: center; padding: 0 140px; z-index: 20; }
+      .subtitle { background: #4a1e10; padding: 24px 48px; border-radius: 12px;
+        max-width: 1520px; box-shadow: 0 6px 32px rgba(74,30,16,0.4);
+        min-height: 96px; min-width: 720px;
+        display: flex; align-items: center; justify-content: center; }
+      .subtitle .text { font-size: 40px; line-height: 1.3; font-weight: 800;
+        color: #ffffff; letter-spacing: -0.4px; text-align: center;
+        word-break: keep-all; overflow-wrap: anywhere; }
+    </style>
+  </head>
+  <body>
+    <div
+      id="root"
+      class="clip"
+      data-composition-id="brent"
+      data-start="0"
+      data-duration="30"
+      data-track-index="0"
+      data-width="1920"
+      data-height="1080"
+    >
+      <div class="brand">
+        <span class="brand-mark"></span>
+        <span class="brand-name">OSINT 브리핑</span>
+      </div>
+      <div class="source">출처 · Bloomberg (가상 데이터)</div>
+
+      <!-- v0.34.13 — 캔들 차트 컴포넌트 import (data-composition-src).
+           데이터는 data-variable-values 로 주입. 브렌트 OHLC/콜아웃/끝점은 candle.html 의
+           default(브렌트 canonical 예시)를 그대로 쓰고, 여기서는 헤드라인/강조색만 override.
+           새 씬은 candles/callouts/endpoint/yMin/yMax 를 아래 JSON 에 추가해 주입. -->
+      <div class="stage" id="stage">
+        <div
+          class="chart-host clip"
+          id="brentChart"
+          data-composition-id="brent-chart"
+          data-composition-src="lib/charts/candle.html"
+          data-variable-values='{"takeaway":"브렌트 유가 — 봉쇄에서 협상까지","accent":"#e84a2d"}'
+          data-start="0"
+          data-duration="30"
+          data-track-index="1"
+        ></div>
+      </div>
+
+      <!-- v0.34.2 — 자막: 박스 하나 + 안에 텍스트 한 줄 textContent swap. -->
+      <div class="subtitle-bar">
+        <div class="subtitle">
+          <span class="text" id="subtitleText">2026년 3월 4일, 호르무즈 해협 봉쇄 사태가 발생했습니다.</span>
+        </div>
+      </div>
+
+      <audio
+        id="narration-brent"
+        class="clip"
+        data-start="0"
+        data-duration="30"
+        data-track-index="100"
+        src="assets/audio/brent.mp3"
+        preload="auto"
+      ></audio>
+    </div>
+
+    <script>
+      window.__timelines = window.__timelines || {};
+      const tl = gsap.timeline({ paused: true, defaults: { ease: "power2.out" } });
+
+      // 진입(상단 오버레이). 차트 등장은 candle.html 컴포넌트 타임라인이 담당.
+      tl.from(".brand",  { opacity: 0, y: -8, duration: 0.4 }, 0);
+      tl.from(".source", { opacity: 0, duration: 0.5 }, 0.1);
+
+      // Ken Burns 전체 (30초). #stage 가 차트 host 를 감싸 스케일 (단일 transform).
+      tl.fromTo("#stage", { scale: 1.0 }, { scale: 1.04, duration: 30, ease: "none" }, 0);
+
+      // v0.34.2 — 자막 textContent swap (8 cue, 30초 자연 분포).
+      // 자막 박스는 항상 보이고, 텍스트만 시간에 맞춰 swap. 짧은 페이드.
+      // (render_demo 가 cuesync.json 으로 아래 const cues 의 t 값을 자동 patch.)
+      const cues = [
+        { t: 0.6,  text: "2026년 3월 4일, 호르무즈 해협 봉쇄 사태가 발생했습니다." },
+        { t: 4.5,  text: "전 세계 원유 공급의 약 20%가 차단되며 충격이 전파됐습니다." },
+        { t: 9.0,  text: "봉쇄 직후 브렌트유는 배럴당 80달러에서 120달러로 급등했습니다." },
+        { t: 13.5, text: "한 달 만에 약 50% 가까이 오른 셈입니다." },
+        { t: 17.0, text: "4월 7일 1차 휴전 합의로 유가는 잠시 안정세를 보였지만," },
+        { t: 21.0, text: "5월 5일 UAE 표적 공격으로 다시 약 114달러까지 반등했습니다." },
+        { t: 25.0, text: "5월 19일 현재 102달러 수준에서 협상이 이어지고 있습니다." },
+        { t: 28.5, text: "유가는 지정학적 리스크에 가장 민감한 지표입니다." },
+      ];
+      const $sub = document.getElementById("subtitleText");
+      const $box = document.querySelector(".subtitle");
+      // 초기 텍스트: 첫 큐.
+      $sub.textContent = cues[0].text;
+
+      // v0.34.3 — overwrite:"auto" 로 트윈 겹침 자동 해소 (lint overlap 경고 해결).
+      cues.forEach((c, i) => {
+        if (i === 0) {
+          tl.fromTo($box,
+            { opacity: 0, y: 12 },
+            { opacity: 1, y: 0, duration: 0.5, overwrite: "auto" }, c.t);
+        } else {
+          tl.to($box, { opacity: 0, duration: 0.2, overwrite: "auto" }, c.t - 0.25);
+          tl.call(() => { $sub.textContent = c.text; }, [], c.t - 0.05);
+          tl.to($box, { opacity: 1, duration: 0.25, overwrite: "auto" }, c.t);
+        }
+      });
+
+      window.__timelines["brent"] = tl;
+    </script>
+  </body>
+</html>

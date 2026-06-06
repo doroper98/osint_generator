@@ -1,10 +1,14 @@
 {
-  "name": "hyperframes",
+  "name": "osint-hyperframes",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "OSINT 한국어 영상 HyperFrames 프로젝트 (루트 승격, lib/charts 차트 컴포넌트 라이브러리)",
+  "private": true,
+  "type": "module",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "npx --yes hyperframes@0.6.76 preview",
+    "check": "npx --yes hyperframes@0.6.76 lint && npx --yes hyperframes@0.6.76 validate && npx --yes hyperframes@0.6.76 inspect",
+    "render": "npx --yes hyperframes@0.6.76 render",
+    "publish": "npx --yes hyperframes@0.6.76 publish"
   },
   "keywords": [],
   "author": "",

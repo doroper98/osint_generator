@@ -1,0 +1,66 @@
+<!doctype html>
+<!--
+  gallery.html — 차트 컴포넌트 라이브러리 쇼케이스 / 12 씬 파이프라인 시퀀싱 템플릿 (v0.34.13).
+  lib/charts/{candle,line,bar,donut}.html 4 종을 data-composition-src 로 시간순 임베드.
+  각 씬 = data-start 오프셋 + data-duration 5s. data-variable-values 로 씬별 데이터 주입.
+  (본격 파이프라인은 이 패턴을 N 씬으로 확장하고 narration/자막 트랙을 얹는다.)
+  렌더: npx hyperframes render -c gallery.html
+-->
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <script src="../assets/gsap.min.js"></script>
+    <style>
+      @font-face {
+        font-family: "Pretendard Variable";
+        src: url("../assets/fonts/PretendardVariable.woff2") format("woff2-variations");
+        font-weight: 100 900; font-style: normal; font-display: block;
+      }
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body {
+        margin: 0; width: 1920px; height: 1080px; overflow: hidden; background: #f5f1ea;
+        font-family: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        color: #1a1a1a; word-break: keep-all; overflow-wrap: anywhere;
+      }
+      .brand { position: absolute; top: 56px; left: 80px; display: flex; align-items: center; gap: 12px; z-index: 10; }
+      .brand-mark { width: 14px; height: 14px; border-radius: 3px; background: #e84a2d; }
+      .brand-name { font-size: 20px; font-weight: 900; letter-spacing: 2px; text-transform: uppercase; }
+      .kicker { position: absolute; top: 60px; right: 80px; font-size: 18px; font-weight: 700;
+        letter-spacing: 2px; color: rgba(26,26,26,0.4); text-transform: uppercase; z-index: 10; }
+      .scene-host { position: absolute; inset: 0; }
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="root" data-width="1920" data-height="1080"
+         data-start="0" data-duration="20" data-track-index="0">
+      <div class="brand"><span class="brand-mark"></span><span class="brand-name">OSINT 차트 라이브러리</span></div>
+      <div class="kicker">HyperFrames · v0.34.13</div>
+
+      <div class="scene-host clip" data-composition-id="scene-candle"
+           data-composition-src="../lib/charts/candle.html"
+           data-variable-values='{"callouts":"[{\"ci\":2,\"at\":\"high\",\"t\":2.4,\"title\":\"호르무즈 봉쇄\",\"sub\":\"유가 피크 $120\",\"dir\":\"ur\"}]","endpoint":"{\"ci\":11,\"at\":\"close\",\"t\":3.6,\"title\":\"현재가\",\"value\":\"102 $\"}"}'
+           data-start="0" data-duration="5" data-track-index="1"></div>
+
+      <div class="scene-host clip" data-composition-id="scene-line"
+           data-composition-src="../lib/charts/line.html"
+           data-variable-values='{"callouts":"[{\"xi\":2,\"si\":0,\"t\":2.6,\"title\":\"호르무즈 봉쇄\",\"sub\":\"브렌트 $120 피크\",\"dir\":\"ur\"}]"}'
+           data-start="5" data-duration="5" data-track-index="1"></div>
+
+      <div class="scene-host clip" data-composition-id="scene-bar"
+           data-composition-src="../lib/charts/bar.html"
+           data-start="10" data-duration="5" data-track-index="1"></div>
+
+      <div class="scene-host clip" data-composition-id="scene-donut"
+           data-composition-src="../lib/charts/donut.html"
+           data-start="15" data-duration="5" data-track-index="1"></div>
+    </div>
+
+    <script>
+      window.__timelines = window.__timelines || {};
+      var tl = gsap.timeline({ paused: true });
+      tl.from(".brand", { opacity: 0, y: -8, duration: 0.4 }, 0);
+      tl.from(".kicker", { opacity: 0, duration: 0.5 }, 0.1);
+      window.__timelines["root"] = tl;
+    </script>
+  </body>
+</html>
