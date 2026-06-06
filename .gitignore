@@ -46,6 +46,10 @@ hyperframes/*/node_modules/
 hyperframes/*/renders/
 hyperframes/*/.hyperframes-cache/
 
+# v0.34.8 — build_narration / render_demo 산출물 (1회용, sync drift 회피 패턴).
+hyperframes/demo/index.synced.html
+hyperframes/demo/cuesync.json
+
 # 운영 데이터 (재현 가능한 JSON manifest는 commit, 무거운 미디어는 ignore)
 projects/*/02_sources/uploaded/
 projects/*/02_sources/google_drive/

@@ -1,33 +1,24 @@
-"""build_narration — HyperFrames demo 의 narration 음성 생성 (v0.34.5).
+"""build_narration — HyperFrames demo narration 음성 생성 + sync 데이터 출력 (v0.34.8).
 
-목적: 사용자 머신의 `.env` 의 ELEVENLABS_API_KEY / ELEVENLABS_VOICE_ID 를 써서
-demo 의 8 cue narration 을 한 mp3 로 합성. 각 cue 사이에 정확한 무음을 끼워
-HyperFrames 의 timeline (t=0.6, 4.5, 9.0, 13.5, 17.0, 21.0, 25.0, 28.5) 와 sync.
+v0.34.5 → 0.34.8 변경: cue 시점을 고정 timeline 으로 박지 않고, 실 음성 길이를
+측정해 누적 시점을 계산 → cuesync.json 출력. render_demo 가 그걸로 index.html
+의 cue.t + 영상 duration 을 자동 patch → 음성·자막 sync drift 사고 회피.
 
-cloud 는 외부 TTS API 가 차단되어 음성 생성 불가 — 사용자 머신 전용.
-
-사용법 (사용자 머신):
-    cd C:\\01_Antigravity\\osint_generator
-    git pull origin claude/stoic-galileo-Xmxyj
-    pip install -r requirements.txt    # imageio-ffmpeg + mutagen 포함 (v0.34.6)
-    python hyperframes\\scripts\\build_narration.py
+사용자: "음성과 자막의 싱크가 안맞아. 자막은 이미 저 멀리 가고, 음성은 이미
+지나간 화면의 자막을 읽고 있어" → 음성이 cue 간격보다 길어 누적 drift 했던 사고.
 
 산출:
-    hyperframes/demo/assets/audio/brent.mp3 (30초)
+    hyperframes/demo/assets/audio/brent.mp3  (실 음성 길이에 맞춘 mp3)
+    hyperframes/demo/cuesync.json            (각 cue 의 실 시작 시점 + 총 길이)
 
-이후:
-    cd hyperframes/demo
-    npx hyperframes render
-
-의존성 메모:
-    - imageio-ffmpeg: portable ffmpeg 바이너리 (PATH 따로 안 잡아도 작동).
-    - mutagen: mp3 길이 측정 (pure python, ffprobe 의존 회피).
-    위 두 패키지가 requirements.txt 에 있어 pip install 만으로 됨. 시스템에
-    ffmpeg 이미 있어도 imageio-ffmpeg 가 자동 발견하니 중복 OK.
+사용법 (사용자 머신, render_demo wrapper 가 자동 호출):
+    python hyperframes/scripts/render_demo.py --with-narration
 """
 
 from __future__ import annotations
 
+import argparse
+import json
 import os
 import shutil
 import subprocess
@@ -110,22 +101,22 @@ def _probe_duration_mp3(path: Path) -> float:
 FFMPEG_BIN = _resolve_ffmpeg()
 
 
-# index.html 의 cue 배열과 1:1 매칭.
-CUES: list[tuple[float, str]] = [
-    (0.6, "2026년 3월 4일, 호르무즈 해협 봉쇄 사태가 발생했습니다."),
-    (4.5, "전 세계 원유 공급의 약 20%가 차단되며 충격이 전파됐습니다."),
-    (9.0, "봉쇄 직후 브렌트유는 배럴당 80달러에서 120달러로 급등했습니다."),
-    (13.5, "한 달 만에 약 50% 가까이 오른 셈입니다."),
-    (17.0, "4월 7일 1차 휴전 합의로 유가는 잠시 안정세를 보였지만,"),
-    (21.0, "5월 5일 UAE 표적 공격으로 다시 약 114달러까지 반등했습니다."),
-    (25.0, "5월 19일 현재 102달러 수준에서 협상이 이어지고 있습니다."),
-    (28.5, "유가는 지정학적 리스크에 가장 민감한 지표입니다."),
+# v0.34.8 — index.html 의 cue 배열과 1:1 매칭. t 값은 더 이상 hardcoded 가 아니라
+# 실 음성 길이 + lead/pause/tail 로 누적 계산해 cuesync.json 으로 출력.
+CUE_TEXTS: list[str] = [
+    "2026년 3월 4일, 호르무즈 해협 봉쇄 사태가 발생했습니다.",
+    "전 세계 원유 공급의 약 20%가 차단되며 충격이 전파됐습니다.",
+    "봉쇄 직후 브렌트유는 배럴당 80달러에서 120달러로 급등했습니다.",
+    "한 달 만에 약 50% 가까이 오른 셈입니다.",
+    "4월 7일 1차 휴전 합의로 유가는 잠시 안정세를 보였지만,",
+    "5월 5일 UAE 표적 공격으로 다시 약 114달러까지 반등했습니다.",
+    "5월 19일 현재 102달러 수준에서 협상이 이어지고 있습니다.",
+    "유가는 지정학적 리스크에 가장 민감한 지표입니다.",
 ]
 
-TOTAL_DURATION_SEC = 30.0
-OUTPUT_PATH = (
-    Path(__file__).resolve().parent.parent / "demo" / "assets" / "audio" / "brent.mp3"
-)
+DEMO_DIR = Path(__file__).resolve().parent.parent / "demo"
+OUTPUT_PATH = DEMO_DIR / "assets" / "audio" / "brent.mp3"
+CUESYNC_PATH = DEMO_DIR / "cuesync.json"
 
 
 def synth_one(text: str, api_key: str, voice_id: str, model_id: str) -> bytes:
@@ -202,7 +193,33 @@ def concat_mp3s(parts: list[Path], output: Path) -> None:
     listfile.unlink()
 
 
-def main() -> int:
+def main(argv: list[str] | None = None) -> int:
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument(
+        "--pause-sec",
+        type=float,
+        default=0.5,
+        help="문장(cue)과 문장 사이 무음 길이 초. 기본 0.5. 자연 broadcast 톤은 "
+        "0.4~0.7 권장. 더 짧으면 빠른 호흡, 더 길면 차분.",
+    )
+    parser.add_argument(
+        "--lead-sec",
+        type=float,
+        default=0.5,
+        help="영상 시작 후 첫 음성까지 lead-in 무음. 기본 0.5.",
+    )
+    parser.add_argument(
+        "--tail-sec",
+        type=float,
+        default=0.5,
+        help="마지막 음성 끝난 뒤 영상 끝까지 tail 무음. 기본 0.5.",
+    )
+    args = parser.parse_args(argv)
+
+    if args.pause_sec < 0 or args.lead_sec < 0 or args.tail_sec < 0:
+        print("error: pause/lead/tail 값은 0 이상이어야 합니다.", file=sys.stderr)
+        return 1
+
     api_key = (os.environ.get("ELEVENLABS_API_KEY") or "").strip()
     voice_id = (os.environ.get("ELEVENLABS_VOICE_ID") or "").strip()
     model_id = (os.environ.get("ELEVENLABS_MODEL_ID") or "eleven_multilingual_v2").strip()
@@ -219,47 +236,73 @@ def main() -> int:
     workdir = OUTPUT_PATH.parent / "_segments"
     workdir.mkdir(exist_ok=True)
 
-    # 1) 각 cue 음성 합성.
-    print(f"build_narration: {len(CUES)} cue 합성 시작 (voice={voice_id}, model={model_id})", flush=True)
+    # 1) 각 cue 음성 합성 + 실 길이 측정.
+    print(
+        f"build_narration: {len(CUE_TEXTS)} cue 합성 (voice={voice_id}, model={model_id}, "
+        f"lead={args.lead_sec}s, pause={args.pause_sec}s, tail={args.tail_sec}s)",
+        flush=True,
+    )
     seg_paths: list[Path] = []
-    for i, (t_start, text) in enumerate(CUES, start=1):
+    seg_durs: list[float] = []
+    for i, text in enumerate(CUE_TEXTS, start=1):
         seg = workdir / f"cue_{i:02d}.mp3"
-        print(f"  [{i}/{len(CUES)}] {text[:30]}...", flush=True)
+        print(f"  [{i}/{len(CUE_TEXTS)}] {text[:30]}...", flush=True)
         mp3_bytes = synth_one(text, api_key, voice_id, model_id)
         seg.write_bytes(mp3_bytes)
         dur = probe_duration(seg)
         print(f"    → {seg.name} ({dur:.2f}s)", flush=True)
         seg_paths.append(seg)
+        seg_durs.append(dur)
 
-    # 2) cue 들 사이 정확한 무음을 끼워서 timeline 매칭.
-    print(f"build_narration: cue 사이 무음 삽입 + concat", flush=True)
+    # 2) 누적 시점 계산 — 자막 cue 가 정확히 음성 시작과 sync.
+    cue_starts: list[float] = []
+    t = args.lead_sec
+    for i, dur in enumerate(seg_durs):
+        cue_starts.append(round(t, 3))
+        t += dur
+        if i < len(seg_durs) - 1:
+            t += args.pause_sec
+    total_duration = round(t + args.tail_sec, 3)
+    print(f"build_narration: 누적 timing 계산 완료, total={total_duration:.2f}s", flush=True)
+
+    # 3) lead/pause/tail 무음 끼워 concat.
     parts: list[Path] = []
-
-    # 0 ~ cue1 시작 (t=0.6s) 의 lead-in 무음.
-    lead = workdir / "_lead.mp3"
-    write_silence(lead, CUES[0][0])
-    parts.append(lead)
-
+    lead_path = workdir / "_lead.mp3"
+    write_silence(lead_path, args.lead_sec)
+    parts.append(lead_path)
     for i, seg in enumerate(seg_paths):
         parts.append(seg)
-        seg_dur = probe_duration(seg)
-        cue_t = CUES[i][0]
-        next_t = CUES[i + 1][0] if i + 1 < len(CUES) else TOTAL_DURATION_SEC
-        avail = next_t - cue_t
-        gap = avail - seg_dur
-        if gap > 0.05:
-            gap_path = workdir / f"_gap_{i:02d}.mp3"
-            write_silence(gap_path, gap)
-            parts.append(gap_path)
-        elif gap < -0.2:
-            print(
-                f"  warning: cue {i+1} 음성 길이 {seg_dur:.2f}s 가 가용 시간 {avail:.2f}s 보다 김 (자막과 어긋날 수 있음).",
-                flush=True,
-            )
+        if i < len(seg_paths) - 1:
+            pause_path = workdir / f"_pause_{i:02d}.mp3"
+            write_silence(pause_path, args.pause_sec)
+            parts.append(pause_path)
+    tail_path = workdir / "_tail.mp3"
+    write_silence(tail_path, args.tail_sec)
+    parts.append(tail_path)
 
     concat_mp3s(parts, OUTPUT_PATH)
     final_dur = probe_duration(OUTPUT_PATH)
-    print(f"build_narration 완료: {OUTPUT_PATH} ({final_dur:.2f}s)", flush=True)
+    print(f"build_narration mp3: {OUTPUT_PATH} ({final_dur:.2f}s)", flush=True)
+
+    # 4) cuesync.json 출력 — render_demo 가 index.html 자동 patch 용.
+    sync_data = {
+        "leadInSec": args.lead_sec,
+        "interPauseSec": args.pause_sec,
+        "tailSec": args.tail_sec,
+        "totalDurationSec": total_duration,
+        "cues": [
+            {
+                "t": cue_starts[i],
+                "len": round(seg_durs[i], 3),
+                "text": CUE_TEXTS[i],
+            }
+            for i in range(len(CUE_TEXTS))
+        ],
+    }
+    CUESYNC_PATH.write_text(
+        json.dumps(sync_data, ensure_ascii=False, indent=2), encoding="utf-8"
+    )
+    print(f"build_narration sync: {CUESYNC_PATH}", flush=True)
 
     # 작업물 정리.
     for p in seg_paths:
@@ -270,8 +313,8 @@ def main() -> int:
 
     print("", flush=True)
     print("다음 단계:", flush=True)
-    print(f"  cd hyperframes\\demo", flush=True)
-    print(f"  npx hyperframes render", flush=True)
+    print(f"  python hyperframes/scripts/render_demo.py", flush=True)
+    print(f"  (또는 build_narration 까지 한 번에: python ... --with-narration)", flush=True)
     return 0
 
 
