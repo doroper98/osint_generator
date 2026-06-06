@@ -109,17 +109,32 @@ def _probe_duration_mp3(path: Path) -> float:
 FFMPEG_BIN = _resolve_ffmpeg()
 
 
-# v0.34.8 — index.html 의 cue 배열과 1:1 매칭. t 값은 더 이상 hardcoded 가 아니라
-# 실 음성 길이 + lead/pause/tail 로 누적 계산해 cuesync.json 으로 출력.
-CUE_TEXTS: list[str] = [
-    "2026년 3월 4일, 호르무즈 해협 봉쇄 사태가 발생했습니다.",
-    "전 세계 원유 공급의 약 20%가 차단되며 충격이 전파됐습니다.",
-    "봉쇄 직후 브렌트유는 배럴당 80달러에서 120달러로 급등했습니다.",
-    "한 달 만에 약 50% 가까이 오른 셈입니다.",
-    "4월 7일 1차 휴전 합의로 유가는 잠시 안정세를 보였지만,",
-    "5월 5일 UAE 표적 공격으로 다시 약 114달러까지 반등했습니다.",
-    "5월 19일 현재 102달러 수준에서 협상이 이어지고 있습니다.",
-    "유가는 지정학적 리스크에 가장 민감한 지표입니다.",
+# v0.34.11 — cue 구조: (자막용 text, 합성용 narration | None) 튜플.
+# narration 이 None 이면 build_narration 이 pronounce.json + 자동 숫자 변환만 적용.
+# narration 이 명시되면 그것을 그대로 ElevenLabs 에 보냄(사용자 제안 — TTS 가 사람처럼
+# 읽도록 직접 발음 표기). 자막은 항상 text 그대로.
+#
+# 작성 가이드:
+# - text     = 정상 한국어 표기 (시청자 자막).
+# - narration= 발음 표기 (선택). 한자어 숫자, 경음화, 띄어쓰기 prosody 다 사용자 의도대로.
+#   기본 사전이 잘 잡으면 None 으로 두면 됨. 모델이 특수 misread 하는 곳만 채움.
+CUES: list[tuple[str, str | None]] = [
+    ("2026년 3월 4일, 호르무즈 해협 봉쇄 사태가 발생했습니다.",
+     "이천 이십 육년 삼 월 사 일, 호르무즈 해협 봉쇄 사태가 발생했습니다."),
+    ("전 세계 원유 공급의 약 20%가 차단되며 충격이 전파됐습니다.",
+     "전 세계 워뉴 공급의 약 이십 퍼센트가 차단되며 충격이 전파됐습니다."),
+    ("봉쇄 직후 브렌트유는 배럴당 80달러에서 120달러로 급등했습니다.",
+     "봉쇄 직후 브렌트유는 배럴당 팔십 딸러에서 백 이십 딸러로 급등했습니다."),
+    ("한 달 만에 약 50% 가까이 오른 셈입니다.",
+     "한 달 만에 약 오십 퍼센트 가까이 오른 셈입니다."),
+    ("4월 7일 1차 휴전 합의로 유가는 잠시 안정세를 보였지만,",
+     "사 월 칠 일 일 차 휴전 합의로 유까는 잠시 안정세를 보였지만,"),
+    ("5월 5일 UAE 표적 공격으로 다시 약 114달러까지 반등했습니다.",
+     "오 월 오 일 유에이이 표적 공격으로 다시 약 백 십사 딸러까지 반등했습니다."),
+    ("5월 19일 현재 102달러 수준에서 협상이 이어지고 있습니다.",
+     "오 월 십구 일 현재 백 이 딸러 수준에서 협상이 이어지고 있습니다."),
+    ("유가는 지정학적 리스크에 가장 민감한 지표입니다.",
+     "유까는 지정학적 리스크에 가장 민감한 지표입니다."),
 ]
 
 DEMO_DIR = Path(__file__).resolve().parent.parent / "demo"
@@ -272,19 +287,24 @@ def main(argv: list[str] | None = None) -> int:
         )
 
     # 2) 각 cue 음성 합성 + 실 길이 측정.
+    # v0.34.11 — 합성용 텍스트는 narration 명시값 우선, 없으면 자동(사전+숫자 변환).
     print(
-        f"build_narration: {len(CUE_TEXTS)} cue 합성 (voice={voice_id}, model={model_id}, "
+        f"build_narration: {len(CUES)} cue 합성 (voice={voice_id}, model={model_id}, "
         f"lead={args.lead_sec}s, pause={args.pause_sec}s, tail={args.tail_sec}s)",
         flush=True,
     )
     seg_paths: list[Path] = []
     seg_durs: list[float] = []
-    for i, text in enumerate(CUE_TEXTS, start=1):
-        spoken = apply_pronunciation(text, pron_dict)
-        if spoken != text:
-            print(f"     발음 치환: {text[:30]} → {spoken[:30]}", flush=True)
+    for i, (text, narration_override) in enumerate(CUES, start=1):
+        if narration_override is not None:
+            spoken = narration_override
+            origin = "명시"
+        else:
+            spoken = apply_pronunciation(text, pron_dict)
+            origin = "자동" if spoken != text else "원본"
         seg = workdir / f"cue_{i:02d}.mp3"
-        print(f"  [{i}/{len(CUE_TEXTS)}] {text[:30]}...", flush=True)
+        print(f"  [{i}/{len(CUES)}] {text[:30]}...", flush=True)
+        print(f"     합성({origin}): {spoken[:50]}...", flush=True)
         mp3_bytes = synth_one(spoken, api_key, voice_id, model_id)
         seg.write_bytes(mp3_bytes)
         dur = probe_duration(seg)
@@ -328,13 +348,15 @@ def main(argv: list[str] | None = None) -> int:
         "interPauseSec": args.pause_sec,
         "tailSec": args.tail_sec,
         "totalDurationSec": total_duration,
+        # cuesync.json 의 cues 는 자막용. text 만 (narration override 는 합성 시 한 번
+        # 사용되고 끝, 자막엔 노출 안 함).
         "cues": [
             {
                 "t": cue_starts[i],
                 "len": round(seg_durs[i], 3),
-                "text": CUE_TEXTS[i],
+                "text": CUES[i][0],
             }
-            for i in range(len(CUE_TEXTS))
+            for i in range(len(CUES))
         ],
     }
     CUESYNC_PATH.write_text(
