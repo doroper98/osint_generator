@@ -1,6 +1,6 @@
 <!--
 tier: 3
-last_synced_with: v0.33.1
+last_synced_with: v0.34.0
 ssot_for: [release-notes]
 depends_on: [README.md, GOAL.md]
 last_review: 2026-06-06
@@ -25,6 +25,94 @@ released 항목은 **append-only**입니다.
 
 ### Fixed
 -
+
+---
+
+## [v0.34.0] — 2026-06-06
+
+**HyperFrames 마이그레이션 시작 — Remotion 폐기, HTML+GSAP+headless Chrome 으로 전환 (영상미 C0)**.
+사용자가 v0.33.1 영상 검수 후 HyperFrames (HeyGen 오픈소스, Apache 2.0) 검토 요청 →
+deep research 결과 GSAP/Lottie 1급 지원, HTML 단순성, deterministic seek 가 NYT/Vox-grade
+편집 영상미와 정합. 사용자 결정: "1로 가자" (완전 전환). 첫 프로토타입 1 씬 (브렌트 유가
+line chart) 렌더 + SendUserFile 전달 완료. 사용자 평가 "훨씬 나아졌다, 방향 OK".
+
+### Added
+
+- **`hyperframes/` 디렉토리** — 새 모션그래픽 엔진 (Remotion 대체 후보, 병렬 검증 중).
+  - `hyperframes/package.json` + `node_modules/hyperframes@0.6.76` CLI.
+  - **`hyperframes/demo/index.html`** (프로토타입 1 씬, 10초):
+    - Pretendard Variable `@font-face` 로컬 로드 (`assets/fonts/PretendardVariable.woff2`)
+    - 광범위 light dashboard 톤 (`#f5f1ea` 크림 + `#ffffff` 카드 + `#e84a2d` 오렌지 accent)
+    - SVG line + 콜아웃 2개 (Subject + Connector + Note) + 끝점 라벨
+    - GSAP timeline (paused, `window.__timelines["brent"]` 등록) 으로:
+      * 브랜드 / 출처 / takeaway 페이드인
+      * 라인 `strokeDashoffset` draw-on (2초, power1.inOut)
+      * 콜아웃 1·2 subject pop + connector draw + note 페이드 stagger
+      * 끝점 마커 pop + 시리즈명·값 슬라이드인
+      * Ken Burns 전체 scale 1.0 → 1.03 (10초)
+    - 자막 바 다크 translucent `rgba(26,26,26,0.82)` + 흰 굵은 글씨 (한국 broadcast 톤)
+  - `hyperframes/demo/{CLAUDE.md, AGENTS.md, hyperframes.json, meta.json, package.json}`
+    — `npx hyperframes init` scaffold 산출.
+- **`.gitignore`** — hyperframes `node_modules` / `renders` / `.hyperframes-cache` 추가.
+- **시스템 설치**: `ffmpeg 6.1.1` (apt), `chromium-browser` 제거 (snap 의존이라 puppeteer
+  실패), `PUPPETEER_EXECUTABLE_PATH=/opt/pw-browsers/chromium-1194/chrome-linux/chrome` 로
+  playwright 번들 chromium 우회.
+
+### 결정 근거 (Deep Research 5 트랙 통합)
+
+| 축 | Remotion | HyperFrames |
+|---|---|---|
+| 모델 | React + `useCurrentFrame` | HTML + `data-*` + GSAP timeline.seek |
+| GSAP | wall-clock 충돌 위험 | **1급 어댑터, deterministic** |
+| Lottie | `@remotion/lottie` expression 이슈 | **1급 어댑터** (AE → JSON 워크플로우 표준) |
+| 폰트 | `@remotion/fonts` cancelRender 사고 (v0.33.0) | HTML `@font-face` 단순 |
+| 라이센스 | Apache 2.0 + 회사 seat | Apache 2.0 **완전 무료** |
+| 산업 사례 | NYT/Vox 0건 | HeyGen 자체 + tldraw/TanStack |
+
+### 사용자 1차 평가 (HyperFrames 프로토)
+
+- ✅ "훨씬 나아졌다" — 방향 옳음
+- ⚠️ "차트에 데이터가 없었던 것 같다" — line path 만 그리고 각 데이터 점 마커 누락
+- ➕ "자막을 진짜 나레이션 스러운 자막 + 음성을 입혀보자" — ElevenLabs TTS 통합
+- ➕ "자막 폰트는 어떤걸로?" — 권장: Pretendard ExtraBold 단일계 유지
+- ➕ "자막 배경을 차트/지도/정보에 맞는 짙은 색으로" — 씬별 `subtitleBgColor` 동적
+
+### 다음 (v0.34.1 — 사용자 4 피드백 반영)
+
+1. 데이터 점 마커 추가 (line 의 각 7 점에 작은 원)
+2. ElevenLabs TTS + 단어 단위 자막 sync
+3. 자막 폰트 = Pretendard ExtraBold 단일계
+4. 자막 배경 동적 (씬별 `subtitleBgColor`, dark variant 자동 derive)
+
+### 다음 (사이클)
+
+- v0.34.x: HyperFrames 프로토 검증·확장 + 음성·자막 통합 + 차트 데이터 표현 보강
+- v0.35.0: 차트 family 15종 HTML+SVG+GSAP 으로 포팅 (Remotion 의 React 자산 변환)
+- v0.36.0: `orchestrator/render_io.py` → HyperFrames 매니페스트 출력. `build-audio-demo`
+  → HyperFrames 음성 동기. Remotion 디렉토리 archive 또는 삭제.
+- v0.37.0+: 호르무즈 풀 파이프라인 + 사용자 최종 검수
+
+### Deep Research 출처 (v0.34.0 결정 근거)
+
+- [HyperFrames GitHub (heygen-com/hyperframes)](https://github.com/heygen-com/hyperframes)
+- [Hyperframes Student Kit — GSAP/HTML 예제 12개](https://github.com/nateherkai/hyperframes-student-kit)
+- [HyperFrames Open-Source Framework — Medium 해설](https://medium.com/data-science-in-your-pocket/heygen-hyperframes-open-source-video-generation-framework-bcb9c447b444)
+
+---
+
+## [v0.33.1] — 2026-06-06
+
+**사용자 1차 검수 후 4 픽스 (영상미 C0)**.
+
+### Fixed
+
+- `ChartView.tsx`: 모든 차트에 `title={chart.title}` → `title={null}` (Briefing takeaway
+  와 중복 정보 → line 차트 왼쪽 첫 점 라벨이 차트 제목에 가려 안 보이던 문제 해소).
+- `Briefing.tsx`: 우상단 `<확인>` `<추정>` 라벨 배지 화면 표시 제거 (`scene.label` 데이터
+  는 보존).
+- `design.ts`: `chart.padRight` 100 → 180 (stacked area 우측 끝점 직접 라벨 잘림 픽스).
+- `charts/xy/ForecastChart.tsx`: actual 마지막 점을 forecast mid + band 시작에 prepend
+  (두 시리즈 간 공백 제거, agents_reviewer 동일 지적 사용자 재확인).
 
 ---
 

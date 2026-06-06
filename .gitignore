@@ -40,6 +40,12 @@ remotion/.cache/
 remotion/out/
 node_modules/
 
+# HyperFrames (v0.34.0+)
+hyperframes/node_modules/
+hyperframes/*/node_modules/
+hyperframes/*/renders/
+hyperframes/*/.hyperframes-cache/
+
 # 운영 데이터 (재현 가능한 JSON manifest는 commit, 무거운 미디어는 ignore)
 projects/*/02_sources/uploaded/
 projects/*/02_sources/google_drive/

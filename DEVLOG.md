@@ -1,6 +1,6 @@
 <!--
 tier: 3
-last_synced_with: v0.33.1
+last_synced_with: v0.34.0
 ssot_for: [development-log]
 depends_on: [CHANGELOG.md]
 last_review: 2026-06-06
@@ -22,6 +22,71 @@ last_review: 2026-06-06
 - 결과:  …
 - 연관:  AP-번호, 이슈, PR 번호 등
 ```
+
+---
+
+## 2026-06-06 v0.34.0 — HyperFrames 마이그레이션 시작 (Remotion 폐기 결정)
+
+- **무엇을**: 모션그래픽 엔진을 Remotion → **HyperFrames** (HeyGen 오픈소스, Apache 2.0)
+  로 전환 결정. 첫 프로토타입 1 씬 (브렌트 유가 line chart, 10초) 렌더 + SendUserFile
+  전달 + 사용자 1 평가 ("훨씬 나아졌다") 수령.
+- **왜**: v0.33.0/v0.33.1 의 Remotion+React+d3 시스템이 사용자 평가 "촌스러워" 를 두 라운드
+  픽스 후에도 영상미의 천장에 도달 못 함. 사용자가 HyperFrames (HeyGen) 검토 요청 →
+  deep research 5 트랙 결과 GSAP/Lottie 1급 지원, HTML 단순성, deterministic seek 가
+  NYT/Vox-grade 편집 영상미와 정합. 사용자 선택: "1로 가자" (완전 전환).
+- **어떻게**:
+  - **환경 셋업**: `npm install hyperframes@0.6.76`. `apt install ffmpeg` 성공. 단
+    `chromium-browser` apt 패키지는 snap 의존이라 puppeteer 가 실패 → 패키지 제거 후
+    `PUPPETEER_EXECUTABLE_PATH=/opt/pw-browsers/chromium-1194/chrome-linux/chrome` 로
+    playwright 번들 chromium 우회 → 렌더 성공.
+  - **scaffold**: `npx hyperframes init demo` 가 `index.html + hyperframes.json +
+    meta.json + package.json + CLAUDE.md + AGENTS.md` 생성. 기본 HTML 은 빈 root composition
+    + GSAP 스크립트 inline + jsdelivr CDN 의존 (클라우드 차단이지만 렌더 시 puppeteer
+    환경에선 통과한 듯, 25KB 빈 mp4 렌더 됨).
+  - **폰트**: `cp remotion/public/fonts/PretendardVariable.woff2 hyperframes/demo/assets/
+    fonts/`. HTML 의 `@font-face` 단순 선언 → Remotion 의 cancelRender 사고 0.
+  - **프로토타입 씬**:
+    - 좌상단 브랜드 (`#e84a2d` 사각형 + "OSINT 브리핑" 캡스)
+    - 중앙 흰 카드 (`#ffffff` + 22px radius + soft shadow) + takeaway + SVG line chart
+    - 데이터: 7 점 (`80→120→118→105→108→114→102`)
+    - 이벤트 콜아웃 2개: 호르무즈 봉쇄 (피크), 1차 휴전 (2주 유효) — Subject 점 + Bezier
+      Connector + 라벨 텍스트 (caps + 보조 텍스트)
+    - 끝점 마커 + 시리즈명 "브렌트" + 값 "102 $"
+    - 하단 다크 자막 바 `rgba(26,26,26,0.82)` + 흰 굵은 글씨
+    - GSAP timeline (paused, `window.__timelines["brent"]` 등록):
+      * 브랜드/출처/takeaway 페이드인 stagger 0-0.6s
+      * 그리드 페이드인 0.4s
+      * 라인 `strokeDashoffset` 1 → 0 draw-on 2.0s (power1.inOut)
+      * 콜아웃 1 (1.2-2.0s): subject scale 0 → 1, connector dashoffset, 텍스트 fade-in stagger
+      * 콜아웃 2 (2.4-3.2s): 동일 패턴
+      * 끝점 마커 + 라벨 (2.7-3.3s)
+      * Ken Burns 전체 `#stage` scale 1.0 → 1.03 (전 10초, ease none)
+      * 자막 fade-in + slide-up 0.5s @ 0.6s
+  - **렌더**: `PUPPETEER_EXECUTABLE_PATH=... npx hyperframes render` — 300 프레임 (10초 @
+    30fps) × 2 워커, 100s 소요, mp4 109.5KB. headless Chrome 프레임 시킹 + ffmpeg 인코딩.
+  - **SendUserFile** 로 전달 → 사용자 평가 "어 훨씬 나아졌는데". 방향 확정.
+- **결과**: 1 씬 HyperFrames 프로토 성공. Remotion 의 `@remotion/fonts` cancelRender
+  / chromium-headless-shell 다운로드 차단 / React 의존성 추상화 → 모두 회피. HTML+GSAP
+  단순성이 영상미의 천장 더 높다는 가설 1 라운드 검증.
+- **사용자 1차 평가 + 후속 4 요청 (v0.34.1 작업)**:
+  1. "차트에 데이터가 없었던 것 같다" — line path 만 그리고 각 7 데이터 점 마커 누락 →
+     각 점에 작은 원 추가.
+  2. "자막을 진짜 나레이션 스러운 자막 + 음성을 입혀보자" — ElevenLabs TTS 통합 +
+     단어 단위 자막 sync.
+  3. "자막 폰트 어떤걸로?" — 권장 Pretendard ExtraBold (800) 단일계 유지. 한국 broadcast
+     표준(Rix정고딕/MBC 새로움체) 은 commercial license. Noto Sans KR Black 대안 가능
+     하나 통일성 위해 Pretendard 권장.
+  4. "자막 배경을 차트/지도/정보에 맞는 짙은 색으로" — 씬별 `subtitleBgColor` 토큰 추가.
+     오렌지 차트 → `#4a1e10` dark burnt orange. 지도 빨강 → `#2a0a0a` deep maroon.
+     기본 → `#1a1a1a` near-black. dominant color derive 알고리즘 또는 명시 지정.
+- **다음**:
+  - v0.34.1: 위 4 요청 적용 + 재렌더.
+  - v0.35.0: Remotion 차트 family 15종 → HyperFrames HTML+SVG+GSAP 포팅.
+  - v0.36.0: orchestrator/render_io.py → HyperFrames 매니페스트 출력. build-audio-demo
+    → HyperFrames 음성 동기. Remotion archive.
+  - v0.37.0+: 호르무즈 풀 파이프라인 + 사용자 최종 검수.
+- **연관**: CHANGELOG v0.34.0, v0.33.x (폐기 결정), GOAL G0 영상미 최우선. v0.33.x 의
+  Remotion 코드는 v0.36 에서 정리 또는 archive 결정.
 
 ---
 
