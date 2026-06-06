@@ -15,6 +15,19 @@ rich>=13.7
 # Outbound calls (preinstalled for later-phase workers / TTS HTTP backends)
 httpx>=0.27
 
+# v0.32.1: .env auto-loading (orchestrator/main.py entrypoint).
+# Lets users persist ELEVENLABS_API_KEY / ELEVENLABS_VOICE_ID etc. in
+# repo-root .env so they aren't re-entered each cmd session.
+# .env is NOT committed (.gitignore + CLAUDE C9).
+python-dotenv>=1.0
+
+# v0.34.6: build_narration.py needs portable ffmpeg + mp3 duration probing.
+# imageio-ffmpeg ships a portable ffmpeg binary so users don't have to
+# install ffmpeg manually (Windows-friendly). mutagen reads mp3 length in
+# pure python so ffprobe doesn't have to be on PATH.
+imageio-ffmpeg>=0.4
+mutagen>=1.47
+
 # Phase 3: Dynamic Intake Page (web/intake_page_app.py)
 fastapi>=0.110
 uvicorn>=0.27

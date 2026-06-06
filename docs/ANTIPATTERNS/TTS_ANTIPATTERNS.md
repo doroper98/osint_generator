@@ -1,9 +1,9 @@
 <!--
 tier: 3
-last_synced_with: v0.16.0
+last_synced_with: v0.34.10
 ssot_for: [tts-antipatterns]
 depends_on: [../08_AUDIO_AND_TTS_SPEC.md]
-last_review: 2026-05-24
+last_review: 2026-06-06
 -->
 
 # TTS Antipatterns
@@ -363,5 +363,51 @@ last_review: 2026-05-24
 
 운율·강조 위치·쉼표 남발·문장끝 억양 단조·감정/태도 불일치(사과문/임원보고/쇼츠)·호흡·
 속도·문어체 낭독·자막↔음성 불일치·화면 전환 타이밍·믹싱(치찰음/룸톤/배경음 충돌). 이들은
-표기 규칙으로 못 막으므로 **대본 작성 가이드 + 사람/QA 검수**로 다룬다. 발음 사전(고유명사·
-사내약어)은 백엔드(ElevenLabs Pronunciation dictionary / Voicebox)에서 별도 관리.
+표기 규칙으로 못 막으므로 **대본 작성 가이드 + 사람/QA 검수**로 다룬다.
+
+---
+
+## 6. 백엔드별 misread (정확한 한국어 표기조차 잘못 읽음) — v0.34.10
+
+정확한 한국어 표기가 lint 를 통과해도 ElevenLabs 같은 백엔드가 한국어 음운 규칙을 잘못
+적용해 자막과 발음이 어긋난다. lint 로 차단 불가(원본 표기에 잘못 없음). **발음 사전
+(`orchestrator/tts_pronounce.py` + `*/assets/pronounce.json`)** 으로 narration 직전
+음차 치환 — subtitle 은 원본 한글 유지.
+
+### TTS-AP-054 — 외래어 / 한자어 misread (경음화 누락)
+
+- 사례: "달러" → [딸러] 가 정상 broadcast 발음인데 [달러] 평음.
+- 사례: "유가" → [유까] 가 정상인데 [유가] 평음.
+- 픽스: `pronounce.json` 에 `"달러": "딸러"`, `"유가": "유까"`, `"원유": "워뉴"` 같이
+  매핑. narration 합성 직전 substring 치환. 자막은 원본 한국어 그대로.
+
+### TTS-AP-055 — 한자어 숫자 misread (한자어/고유어 혼동)
+
+- 사례: "102 달러" → [백두 달러] 또는 [백쥐 달러] 같이 한자어와 고유어가 섞임. 정상은
+  [백 이 딸러] 또는 [백이 딸러].
+- 사례: "12345" → 잘못 읽으면 자릿수 누락 또는 한자어/고유어 혼합.
+- 픽스: `tts_pronounce.num_to_sino_kr(n)` 가 1~9999 한자어 풀이 ("102" → "백 이",
+  "12345" → "일 만 이 천 삼 백 사 십 오"). `apply_pronunciation` 가 narration 의
+  모든 1~8자리 정수를 자동 변환. 자막은 원본 숫자.
+- 보충: 숫자 직후 한글 단위어 ("80달러", "19일") 사이 공백 1 칸 자동 삽입 — TTS 가
+  단위 발음을 분리 적용하도록 prosody hint.
+
+### TTS-AP-056 — 기호 % / $ / # narration 직접 사용
+
+- 사례: "50%" 를 그대로 두면 일부 백엔드가 "퍼센트" 가 아닌 [픽센트] 등 오발음 또는
+  영문 "percent" 로 코드 스위치.
+- 픽스: `pronounce.json` 에 `"%": " 퍼센트 "` (앞뒤 공백 — 단위어 분리). 또는 cue
+  텍스트에서 명시적으로 "퍼센트" 로 풀어쓰기.
+
+### TTS-AP-057 — narration ↔ subtitle 텍스트 분리 누락
+
+- 사례: 합성용 텍스트("팔 십 딸러") 가 자막에도 노출되어 시청자 가독성 손상.
+- 픽스: `pronounce.json` 의 변환은 **narration 직전만** 적용. subtitle / caption 은
+  원본 한글 보존 (시청자가 자막에서 "80달러" 로 볼 수 있도록).
+
+### A.4 자동 검출되지 않는 misread — 누적 사전 운영
+
+- `pronounce.json` 은 **append-only**. 새 misread 발견 → 매핑 추가 → 다음 PATCH 반영.
+- 본 사이클(v0.34.x 영상미 재빌드) 의 hyperframes/demo 가 첫 사전 (`hyperframes/demo/
+  assets/pronounce.json`). 본격 파이프라인 통합 시 `orchestrator` 가 project 별 사전 +
+  공용 사전 로딩 패턴으로 확장 예정.

@@ -1,15 +1,61 @@
 <!--
 tier: 1
-last_synced_with: v0.3.3
+last_synced_with: v0.34.2
 ssot_for: [session-handoff]
-depends_on: [CLAUDE.md, GOAL.md, VERSION, docs/13_IMPLEMENTATION_ROADMAP.md, docs/REVIEW_PROMPT.md]
-last_review: 2026-05-22
+depends_on: [CLAUDE.md, GOAL.md, VERSION, docs/13_IMPLEMENTATION_ROADMAP.md, docs/REVIEW_PROMPT.md, docs/PROFESSIONAL_REBUILD_PLAN.md]
+last_review: 2026-06-05
 -->
 
 # HANDOFF — 다음 세션 AI 인계 문서
 
 본 문서는 **다음 Claude Code 세션이 작업을 이어받을 때 가장 먼저 읽어야 할 문서**입니다.
 짧고 행동 지향적으로 유지합니다. 과거 항목은 `DEVLOG.md` 가, 미래 항목은 `docs/13_IMPLEMENTATION_ROADMAP.md` 가 정식 SSOT 입니다.
+
+---
+
+## ⏳ 다음 할 일 (사용자가 명시적으로 보류 — 까먹지 말고 먼저 상기시킬 것)
+
+> agents_reviewer 외부 연동 슬라이스 진행 중(v0.18~0.23). 아래는 **사용자가 순서를 미룬**
+> 작업이다. 세션 재개 시 **사용자에게 이 목록을 먼저 상기**시켜라.
+
+1. **forced-alignment (자막 정밀 싱크)** — 현재 자막 큐 타이밍은 글자수 비례 추정
+   (`render_io.split_subtitle_cues`). 정밀 싱크는 교체형 백엔드(TTS 패턴, `OSINT_ALIGN_*`)
+   + 비례 폴백으로. **실제 음성 + 정렬 모델은 사용자 Windows 머신에서만**(이 클라우드는
+   음성=stub + huggingface 차단). → 사용자가 "나중에(1)".
+2. **③ 자동 캐치 트리거** — 지금은 수동(`import-bundle --file`). agents_reviewer 가
+   `--bundle` 로 Pages 에 올린 새 번들을 감시→자동 import 하는 워처 CLI + push 알림 설계.
+   상시 데몬/실행 위치 결정 필요. → 사용자가 "나중에(2)".
+3. **차트·자막·타이포 프로페셔널 재빌드** (v0.30.0 ~ v0.36.0 사이클 — **진행 중**).
+   사용자 평가 "전반적으로 너무 구려"에 대한 구조적 대응. 비주얼 기준은 **날리지식**
+   (YouTube `FaOqn3-YdkI`, `ucl9RED4Ye4` — **YTN 세계는 날리지가 아님**).
+   SSOT: `docs/PROFESSIONAL_REBUILD_PLAN.md` (Phase 0–5+E, MVP Professional Bar 20).
+   - **v0.30.0 (완료)**: Phase 0 디자인 시스템 토대 — `design.ts` 토큰 + 공용 컴포넌트
+     `ChartFrame` / `Axis` / `Callout` / `ReferenceRegion` + npm `d3-scale d3-shape
+     d3-time-format d3-array d3-scale-chromatic labella`.
+   - **v0.31.0 (완료)**: Phase 1 XY family 정통 재구현 — `charts/util.ts`(time-aware x
+     스케일 + nice ticks y 스케일 + Material easing 결정론 t→y + 1D 라벨 충돌 회피 자체
+     구현) + `XYChart`(line/area/stacked_area/small_multiples) + `DualLineChart` +
+     `ForecastChart`. clipPath wipe, 끝점 직접 라벨, Subject+Note+Connector 콜아웃,
+     ReferenceRegion 자동 노출.
+   - **v0.32.0 (완료)**: Phase 2 Bar/Point family 정통 재구현 — `charts/cat/`{BarChart
+     (bar/lollipop/range), StackedBarChart, Waterfall, PointChart(scatter/bubble),
+     SlopeChart, CandleChart}. scaleBand + 카테고리 stagger + Material decelerate + 직접
+     값 라벨 + bubble 면적 비례 + slope 양쪽 라벨 충돌 회피. legacy ~200 LOC 청산.
+     15/21 차트가 design.ts 토큰 100% (71%).
+   - **v0.33.0 (다음)**: Phase 3 Specialty — Donut(외부 라벨 + %), Gantt(time-wipe
+     stagger + 마일스톤 별), Heatmap(셀 행→열 stagger + sequential color), Network
+     (d3-force 헤드리스 사전 시뮬레이션 + degree 큰 노드부터 등장), Sankey(d3-sankey
+     실 사용), Choropleth(world-atlas + ISO 매핑 + sequential color).
+   - 이후: Phase 4 모멘트 음성 싱크 (v0.34.0) → Phase 5 자막/타이포 표준 (v0.35.0) →
+     Phase E 최종 mp4 검수 (v0.36.0).
+   - agents_reviewer 정적 SVG 는 **아직 렌더러 없는 복잡 타입의 폴백**으로만.
+     `network/sankey/choropleth` 는 Phase 3 에서 d3-force / d3-sankey / world-atlas
+     로 정통 재구현 예정.
+4. **(사용자 액션) Windows 실제 음성 풀 렌더 검증** — 이 클라우드는 stub(무음)이라 지도+
+   자막+실제 음성이 함께 도는 영상을 사용자가 본 적 없음. 브랜치 pull → `build-audio
+   --backend elevenlabs` + `render-debug` 로 확인 (현재 사용자가 이걸 먼저 하는 중).
+
+(이 블록은 v0.23.0 기준 최신. 처리되면 DEVLOG 에 반영하고 본 블록에서 제거.)
 
 ---
 

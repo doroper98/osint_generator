@@ -1,6 +1,6 @@
 <!--
 tier: 1
-last_synced_with: v0.3.3
+last_synced_with: v0.25.0
 ssot_for: [project-goals, acceptance-criteria, prohibitions]
 depends_on: [README.md]
 last_review: 2026-05-19
@@ -12,6 +12,17 @@ last_review: 2026-05-19
 어떤 기능도 본 문서의 목표나 합격 기준에 우선할 수 없습니다.
 
 ---
+
+## G0. 최우선 미덕 — 영상미 (Cinematic Quality First)
+
+osint_generator 의 **최우선 가치는 영상미**다: "정적 보고서를 화면에 박은 것"이 아니라
+연출·움직임·맥락 강조가 살아있는 영상다운 영상. 모든 비주얼(차트·도식·지도·자막·화면 구성)은
+원본 데이터·취지·맥락을 이해한 뒤 **영상에 적합한 형태로 생성/재렌더**한다(정적 이식이 아니라).
+구현 트레이드오프에서 영상미가 기본 우선순위이며, 비주얼 종류가 늘 때 따라 만드는 비용도
+영상미를 위해 감수한다.
+
+**단 G4(검증·미검증 라벨·권리·TTS QA)와 사실 정확성 위에서** 추구한다 — 정확성을 깬 화려함은
+금지. (운영 규칙·구현 지침은 CLAUDE.md C0.)
 
 ## G1. 최종 산출물 (Final Outputs)
 

@@ -1,6 +1,6 @@
 <!--
 tier: 2
-last_synced_with: v0.13.0
+last_synced_with: v0.27.0
 ssot_for: [json-contracts-overview]
 depends_on: [../schemas/models.py]
 last_review: 2026-05-23
@@ -32,6 +32,7 @@ last_review: 2026-05-23
 | `source_registry.json` | `SourceRegistry` | Source Registry Builder | 4 |
 | `source_completeness_report.json` | `SourceCompletenessReport` | Orchestrator | 4 |
 | `research_dossier.json` | `ResearchDossier` | Research Agent | 5 |
+| `report_bundle.json` (수신, 외부 연동) | `ReportBundle` | agents_reviewer (외부) | 외부 → 5 |
 | `argument_map.json` | `ArgumentMap` | Research Agent | 5 |
 | `episode_blueprint.json` | `EpisodeBlueprint` | Script Agent | 5 |
 | `full_script.json` | `FullScript` | Script Agent | 5 |
@@ -216,11 +217,26 @@ source_id 존재 여부의 cross-check 는 6B Evidence Guard 책임 (본 스키�
 | fps / width / height | int | 기본 30 / 1920 / 1080 |
 | scenes | list[`RenderSceneProps`] | 슬라이드 목록 |
 
-`RenderSceneProps`: `sceneId`, `startSec`, `durationSec`, `caption`, `narration`
-(narration_segment_ids 로 full_script 에서 해석), `label`(`<미검증>` 등 — 배지 표기),
-`sourceLinkRequired`, `audioPath`(V4b — audio_manifest 가 있으면 나레이션 wav 의 project
-상대경로; Remotion 이 `--public-dir`=project_dir + `staticFile` 로 참조). audio_manifest 가
-있으면 startSec/durationSec 는 **실측 음성 길이**로 재계산된다 (무음이면 scene 추정 유지).
+`RenderSceneProps`: `sceneId`, `startSec`, `durationSec`, `caption`(중앙 key takeaway),
+`narration`(full_script 에서 해석), `subtitleCues`(narration 을 줄 단위로 쪼갠 자막 큐 —
+하단 자막 바에 **순차** 표시; 글자수 비례 추정 타이밍, scene 시작 기준 상대), `label`
+(`<미검증>` 등 — 우상단 배지), `sourceLinkRequired`, `source`(상단 출처 표기 텍스트,
+배선 전엔 ""), `isQuote`(인용이면 강조색+인용부호 렌더 — 영상 문법 ③), `audioPath`(V4b —
+audio_manifest 가 있으면 나레이션 wav 의 project 상대경로; Remotion 이 `--public-dir`=
+project_dir + `staticFile` 로 참조). audio_manifest 가 있으면 startSec/durationSec 는
+**실측 음성 길이**로 재계산된다 (무음이면 scene 추정 유지).
+
+영상 문법(v0.19.0): 화면엔 **key takeaway(caption)만 중앙**에 크게, **전체 나레이션은 하단
+자막 바**, 좌상단 브랜드 / 상단 출처 / 우상단 검증 라벨 배지. 인용(`isQuote`)은 테마 강조색 +
+인용부호로 명확히 구분. Remotion `Briefing` 컴포지션이 SSOT.
+
+`mapData`(`RenderMap`: center/zoom/markers/arcs, v0.23.0 Phase B): scene 의 claim_refs 에
+bundle map id 가 있으면 붙는다. Remotion `MapView`(d3-geo + world-atlas)가 중앙에 지도를
+재렌더(마커·arc·highlight)하고 caption 은 제목으로 축소. `chartData`(`RenderChart`: type/title/data/unit): scene 의 claim_refs 에 지원 차트 id 가
+있으면 붙는다. Remotion `ChartView` family 렌더러가 데이터로 **cinematic 재렌더**(line:
+좌→우 draw-on + event 강조; v0.26.0). 지원 타입(v0.27.0): line/area/stacked_area/small_multiples/dual_line/forecast/bar/
+lollipop/range_bar/stacked(_bar)/waterfall/scatter/bubble/candle/donut/gantt/slope/heatmap/
+network/sankey/choropleth (전 타입). `render_io.SUPPORTED_CHART_TYPES` 가 SSOT. 미지원 타입은 텍스트 폴백(외부 SVG 폴백은 복잡 타입 한정 추후).
 
 ### 3.4f `AudioManifest` (Phase 8 TTS, 수직 슬라이스 V4)
 
@@ -241,6 +257,38 @@ source_id 존재 여부의 cross-check 는 6B Evidence Guard 책임 (본 스키�
 `AudioSegment`: `segment_id`(full_script ScriptSegment 대응), `audio_path`(project
 상대경로), `duration_sec`(실측), `text`, `backend`, `voice`. 백엔드 정책은
 `workers/tts_backends.py` (기본 local=프라이버시, elevenlabs=opt-in 외부 API).
+
+### 3.4g `ReportBundle` (외부 연동 — agents_reviewer 인터페이스 계약 v1)
+
+`report_bundle.json` (수신) — agents_reviewer(텔레그램 보고서/분석 producer)가 emit 하는
+핸드오프 산출물의 **소비자측 미러**다. `import-bundle` 이 이를 `ResearchDossier` 로 변환·흡수해
+`build-research-dossier`(LLM)를 대체한다. 계약 정본은 agents_reviewer repo 의
+`docs/CONTRACTS/report_bundle_v1.md` 이며, 본 모델은 수신 검증(fail-closed)용이다.
+
+| 필드 | 타입 | 설명 |
+|---|---|---|
+| schema_version | int | 이 계약의 버전(현재 1). producer.version 과 분리 |
+| bundle_kind | "report_bundle" | |
+| producer / report | `BundleProducer` / `BundleReport` | 생산 시스템·보고서 메타(headline/deck/theme) |
+| sections | list[`BundleSection`] | prose(나레이션 원천)·chart_refs·claim_refs |
+| charts / map | list[`BundleChart`] / `BundleMap` | 차트 data 모양 SSOT 는 agents_reviewer schemas.py(§9) → `data: Any` |
+| claims | list[`BundleClaim`] | status(=ResearchClaimStatus) 라벨 척추 단일 근거 |
+| signals / contradictions / sources / confidence | list / Optional | 관찰 신호·모순·정규화 출처·신뢰도 |
+
+핵심 규약: ① **관대한 수신자(tolerant reader, `extra="ignore"`)** — 진화하는 보고서의
+모르는 필드(새 top-level 블록·새 섹션 필드 등)는 무시해 추가 변경에 깨지지 않되, 선언 필드는
+타입·enum·필수 검증(소비 데이터 건전성 유지). 미지 top-level 필드는 로더가 로그로 surface
+(인지). 계약 §1 의 "additive=schema_version 무증분" 과 정합. ② `model_validator` 로 bundle 내
+id unique + chart_refs/claim_refs resolve + `section.map_ref → map.id` resolve 강제,
+③ 차트 `data` 는 재검증하지 않음(이중 SSOT 회피), ④ `provenance.verification` 을 그대로
+신뢰(재검증 floor 없음). 진화 수용 예: v5.5.2 가 추가한 `timeline` 블록(모델에 흡수, 보관).
+
+claims 분기(`orchestrator/bundle_io.py`): v5.5.0 real emit 은 `claims=[]`(라이브 2-call 은
+산문+차트만 생성). 이때 어댑터가 **charts/map provenance + contradictions 에서 claim 을
+합성**해 라벨 척추가 chart/map `verification` 을 타게 한다(measured→`<확인>`, narrative_
+inference→`<추론>`, contradictions→`<반박됨>`). 섹션 prose 는 `summary` 로 실어 ScriptWorker
+가 발화형으로 변환. bundle.claims 가 차 있으면(v5.6+) 그대로 직매핑. 변환 매핑(§9)은
+`orchestrator/bundle_io.py:bundle_to_research_dossier` 참조.
 
 ### 3.5 `SceneManifest` Provenance
 

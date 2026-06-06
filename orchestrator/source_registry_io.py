@@ -156,6 +156,21 @@ def persist_source_registry(
     return path
 
 
+def load_source_registry(
+    project_id: str, cfg: Optional[AppConfig] = None
+) -> SourceRegistry:
+    """`02_sources/source_registry.json` 을 로드 → `SourceRegistry`.
+
+    raise: FileNotFoundError (없음) / json.JSONDecodeError / pydantic.ValidationError (손상).
+    """
+    cfg = cfg or load_config()
+    path = source_registry_path(project_id, cfg)
+    if not path.exists():
+        raise FileNotFoundError(f"source_registry.json 이 없습니다: {path}")
+    raw = json.loads(path.read_text(encoding="utf-8"))
+    return SourceRegistry.model_validate(raw)
+
+
 def persist_source_completeness_report(
     project_id: str, report: SourceCompletenessReport, cfg: Optional[AppConfig] = None
 ) -> Path:

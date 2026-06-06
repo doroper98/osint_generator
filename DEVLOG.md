@@ -1,9 +1,9 @@
 <!--
 tier: 3
-last_synced_with: v0.17.0
+last_synced_with: v0.34.2
 ssot_for: [development-log]
 depends_on: [CHANGELOG.md]
-last_review: 2026-05-24
+last_review: 2026-06-06
 -->
 
 # DEVLOG
@@ -22,6 +22,697 @@ last_review: 2026-05-24
 - 결과:  …
 - 연관:  AP-번호, 이슈, PR 번호 등
 ```
+
+---
+
+## 2026-06-06 v0.34.2 — 라인/자막 안 보이던 사고 2 픽스 + 30초 확장 (영상미 C0)
+
+- **무엇을**: v0.34.1 영상 사용자 검수 후 스크린샷 진단 — 차트 라인 0:10 시점에서도
+  안 그려져있고, 자막 박스만 보이고 텍스트 비어있음. 두 근본 원인 픽스 + 30초로 확장.
+- **왜**: 사용자 피드백 "여전히 차트 내 데이터와 자막이 보이지 않아. 한 30초 정도 되는
+  영상으로 다시 수정후 만들어." v0.34.1 픽스가 사실상 무효였음을 스크린샷이 증명.
+- **어떻게**:
+  - **사고 1 진단 (라인 draw-on)**: HTML 의 `<path pathLength="1" stroke-dasharray="1"
+    stroke-dashoffset="1">` 패턴이 GSAP 의 `tl.to({strokeDashoffset:0})` 트윈 시작점
+    인식에서 실패. GSAP 가 SVG attribute 가 아닌 computed CSS style 을 읽으려 했고,
+    `pathLength` SVG attribute 가 Chromium 의 dash 계산에 일관되게 반영되지 않은 것
+    으로 추정. **픽스**: `path.getTotalLength()` 로 실 길이 측정 + `gsap.set(p,
+    {strokeDasharray: len, strokeDashoffset: len})` 명시 시작 상태. 콜아웃 connector
+    3개 동일 패턴. 표준 SVG line-drawing 패턴.
+  - **사고 2 진단 (자막 텍스트)**: `.subtitle { background: #4a1e10; padding: 24px; }`
+    에 `position: relative` 누락. cue `<span class="cue" id="cue1" style="position:
+    absolute">` 들이 첫 positioned ancestor (root 또는 body) 기준으로 absolute 배치 →
+    viewport 좌상단 어딘가에 박혀버림. 박스만 보이고 텍스트 안 보였던 이유. **픽스**:
+    구조 자체 단순화 — 박스 하나 `<span id="subtitleText">` 만 두고 GSAP `.call()` 로
+    시간 시점에 `textContent` swap + 짧은 opacity 페이드 (0.2-0.25s).
+  - **데이터 점 마커 스타일 강화**: r=5 → r=6, fill 오렌지 → 흰 fill + stroke #e84a2d
+    3px (line 위에서 가독성 향상, "데이터가 없는" 느낌 해소).
+  - **콜아웃 명시 inline opacity**: 콜아웃 group 들에 `style="opacity:0"` inline 으로
+    GSAP `tl.to({opacity:1, duration:0.001})` 시작점 안전. 이전엔 HTML attribute
+    `opacity="0"` 였음.
+  - **30초 확장**: composition duration 14 → 30, narration cue 4 → 8 (호르무즈 시나리오
+    확장: 봉쇄 발생 → 원유 20% 차단 → 유가 50% 급등 → 1차 휴전 안정 → UAE 표적 공격
+    재반등 → 협상 진행 → 지정학 리스크 요약), 콜아웃 2 → 3 (UAE 표적 공격 추가).
+  - 라인 draw 시간 2 → 3s, Ken Burns scale 1.03 → 1.04 (30초 동안 좀 더 확대).
+  - 렌더 30s × 30fps = 900 프레임, 2 워커, 228KB.
+- **결과**: 30초 silent mp4 + SendUserFile 전달. 차트 라인 + 자막 텍스트 가시성
+  확인 대기.
+- **다음**: 사용자 v0.34.2 영상 검수 결과 → 음성 통합 (사용자 머신 ElevenLabs) /
+  씬별 subtitleBgColor 토큰화 / v0.35.0 차트 family 포팅.
+- **연관**: CHANGELOG v0.34.2, v0.34.0 (HyperFrames 채택), v0.34.1 (실패한 픽스), GOAL G0.
+
+---
+
+## 2026-06-06 v0.34.1 — HyperFrames 사용자 1차 피드백 4 픽스 (영상미 C0)
+
+- **무엇을**: v0.34.0 의 HyperFrames 프로토 영상 본 사용자 평가 + 4 후속 요청 반영.
+  데이터 점 마커 추가, 자막 다중 큐 swap, 자막 폰트 ExtraBold, 자막 배경 dark burnt
+  orange. 14초 silent mp4 재렌더 + 사용자 전달.
+- **왜**: 사용자 평가 "어 훨씬 나아졌는데, 그 차트에 데이터가 없었던 것 같아. 그리고
+  자막을 이제 진짜 나레이션 스러운 자막과 음성을 입히는걸 해보자. 그리고 자막의 폰트는
+  어떤걸로 할까? 그리고 자막의 배경은 화면에서 보여주는 차트나 지도, 정보에 맞는 짙은
+  색을 자막 박스의 배경색으로 하는거야 어때". 4 항목 모두 즉시 적용 가능 (음성만 환경
+  제약).
+- **어떻게**:
+  - **① 데이터 점 마커**: `<g id="points">` 에 line path 의 각 9 좌표에 `<circle r=5
+    fill="#e84a2d" stroke="#fff" stroke-width=2 opacity="0">`. GSAP `tl.to(".pt",
+    {opacity:1, stagger:0.18}, 0.8)` 으로 라인 draw-on (2초) 진행에 맞춰 차례로 등장.
+    9 × 0.18 = 1.62초 → 라인 끝나는 시점과 거의 동기.
+  - **② 음성**: 클라우드 SSL 인터셉트로 edge-tts(`speech.platform.bing.com`) +
+    ElevenLabs (`api.elevenlabs.io` 403) 모두 차단. 자체 SSL bypass 시도(monkey-patch
+    `aiohttp.TCPConnector`)했으나 edge-tts 모듈이 자체 세션 생성으로 우회 안 됨.
+    → composition 에 `<audio class="clip" data-start=0 data-duration=14
+    src="assets/audio/brent.mp3" preload="auto">` placeholder 만 사전 배선. 사용자
+    머신에서 본인 ElevenLabs key 로 mp3 생성 시 자동 재생. HyperFrames + audio 통합은
+    이미 1급 (`<audio data-*>` 표준 패턴).
+  - **③ 자막 폰트**: `font-weight: 700` → `font-weight: 800` (Pretendard ExtraBold).
+    Pretendard Variable woff2 가 100-900 wght axis 지원하므로 추가 파일 없이 weight
+    변경만으로 적용. `letter-spacing: -0.3px` → `-0.4px` 조여서 broadcast 톤. 사용자
+    질문 "자막 폰트 어떤걸로?" 답변: Pretendard 단일계 유지 권장 (한국 broadcast 표준
+    Rix정고딕/MBC 새로움체 는 commercial license 불가, 무료 대안 Noto Sans KR Black /
+    G마켓 산스 Bold 가능하나 본문/타이틀과 폰트 갈리면 통일성 깨짐).
+  - **④ 자막 배경 동적**: `rgba(26,26,26,0.82)` (uniform near-black) →
+    `#4a1e10` (dark burnt orange, 차트 accent `#e84a2d` 의 brightness 30% 톤).
+    `box-shadow` 도 `rgba(74,30,16,0.35)` 톤 매칭. 본 PATCH 는 line chart 씬에 대해
+    하드코딩, 향후 v0.35+ 에서 씬별 `subtitleBgColor` 토큰화 (`render_props.json` 또는
+    composition data-attr). 매핑 가이드:
+      * 오렌지 차트 → `#4a1e10` (dark burnt orange)
+      * 지도 빨강 강조 → `#2a0a0a` (deep maroon)
+      * 회색 dashboard → `#1a1a1a` (near-black, 기본)
+      * 네이비 차트 → `#0a1a2e` (deep navy)
+  - **자막 다중 큐**: 4 큐를 `position:absolute` 로 겹쳐 두고 opacity 만 swap. cue
+    1=3.2s/cue2=3.5s/cue3=3.0s/cue4=3.5s = total 13.2s + 진입 0.8s = 14s.
+  - composition duration 10s → 14s (자막 분량 확보).
+- **결과**: 14초 silent mp4 90.9KB 렌더 + SendUserFile 전달. 영상미 추가 향상 검증 대기.
+- **다음 (사용자 평가 후)**:
+  - 음성 자동 합성 + HyperFrames 통합 (build-audio-demo 의 HyperFrames 적응판)
+  - 씬별 subtitleBgColor 토큰화 (data-attr 또는 compose props)
+  - v0.35.0: 차트 family 15종 React → HTML+SVG+GSAP 포팅
+- **연관**: CHANGELOG v0.34.1, v0.34.0 (HyperFrames 채택), GOAL G0 영상미.
+
+---
+
+## 2026-06-06 v0.34.0 — HyperFrames 마이그레이션 시작 (Remotion 폐기 결정)
+
+- **무엇을**: 모션그래픽 엔진을 Remotion → **HyperFrames** (HeyGen 오픈소스, Apache 2.0)
+  로 전환 결정. 첫 프로토타입 1 씬 (브렌트 유가 line chart, 10초) 렌더 + SendUserFile
+  전달 + 사용자 1 평가 ("훨씬 나아졌다") 수령.
+- **왜**: v0.33.0/v0.33.1 의 Remotion+React+d3 시스템이 사용자 평가 "촌스러워" 를 두 라운드
+  픽스 후에도 영상미의 천장에 도달 못 함. 사용자가 HyperFrames (HeyGen) 검토 요청 →
+  deep research 5 트랙 결과 GSAP/Lottie 1급 지원, HTML 단순성, deterministic seek 가
+  NYT/Vox-grade 편집 영상미와 정합. 사용자 선택: "1로 가자" (완전 전환).
+- **어떻게**:
+  - **환경 셋업**: `npm install hyperframes@0.6.76`. `apt install ffmpeg` 성공. 단
+    `chromium-browser` apt 패키지는 snap 의존이라 puppeteer 가 실패 → 패키지 제거 후
+    `PUPPETEER_EXECUTABLE_PATH=/opt/pw-browsers/chromium-1194/chrome-linux/chrome` 로
+    playwright 번들 chromium 우회 → 렌더 성공.
+  - **scaffold**: `npx hyperframes init demo` 가 `index.html + hyperframes.json +
+    meta.json + package.json + CLAUDE.md + AGENTS.md` 생성. 기본 HTML 은 빈 root composition
+    + GSAP 스크립트 inline + jsdelivr CDN 의존 (클라우드 차단이지만 렌더 시 puppeteer
+    환경에선 통과한 듯, 25KB 빈 mp4 렌더 됨).
+  - **폰트**: `cp remotion/public/fonts/PretendardVariable.woff2 hyperframes/demo/assets/
+    fonts/`. HTML 의 `@font-face` 단순 선언 → Remotion 의 cancelRender 사고 0.
+  - **프로토타입 씬**:
+    - 좌상단 브랜드 (`#e84a2d` 사각형 + "OSINT 브리핑" 캡스)
+    - 중앙 흰 카드 (`#ffffff` + 22px radius + soft shadow) + takeaway + SVG line chart
+    - 데이터: 7 점 (`80→120→118→105→108→114→102`)
+    - 이벤트 콜아웃 2개: 호르무즈 봉쇄 (피크), 1차 휴전 (2주 유효) — Subject 점 + Bezier
+      Connector + 라벨 텍스트 (caps + 보조 텍스트)
+    - 끝점 마커 + 시리즈명 "브렌트" + 값 "102 $"
+    - 하단 다크 자막 바 `rgba(26,26,26,0.82)` + 흰 굵은 글씨
+    - GSAP timeline (paused, `window.__timelines["brent"]` 등록):
+      * 브랜드/출처/takeaway 페이드인 stagger 0-0.6s
+      * 그리드 페이드인 0.4s
+      * 라인 `strokeDashoffset` 1 → 0 draw-on 2.0s (power1.inOut)
+      * 콜아웃 1 (1.2-2.0s): subject scale 0 → 1, connector dashoffset, 텍스트 fade-in stagger
+      * 콜아웃 2 (2.4-3.2s): 동일 패턴
+      * 끝점 마커 + 라벨 (2.7-3.3s)
+      * Ken Burns 전체 `#stage` scale 1.0 → 1.03 (전 10초, ease none)
+      * 자막 fade-in + slide-up 0.5s @ 0.6s
+  - **렌더**: `PUPPETEER_EXECUTABLE_PATH=... npx hyperframes render` — 300 프레임 (10초 @
+    30fps) × 2 워커, 100s 소요, mp4 109.5KB. headless Chrome 프레임 시킹 + ffmpeg 인코딩.
+  - **SendUserFile** 로 전달 → 사용자 평가 "어 훨씬 나아졌는데". 방향 확정.
+- **결과**: 1 씬 HyperFrames 프로토 성공. Remotion 의 `@remotion/fonts` cancelRender
+  / chromium-headless-shell 다운로드 차단 / React 의존성 추상화 → 모두 회피. HTML+GSAP
+  단순성이 영상미의 천장 더 높다는 가설 1 라운드 검증.
+- **사용자 1차 평가 + 후속 4 요청 (v0.34.1 작업)**:
+  1. "차트에 데이터가 없었던 것 같다" — line path 만 그리고 각 7 데이터 점 마커 누락 →
+     각 점에 작은 원 추가.
+  2. "자막을 진짜 나레이션 스러운 자막 + 음성을 입혀보자" — ElevenLabs TTS 통합 +
+     단어 단위 자막 sync.
+  3. "자막 폰트 어떤걸로?" — 권장 Pretendard ExtraBold (800) 단일계 유지. 한국 broadcast
+     표준(Rix정고딕/MBC 새로움체) 은 commercial license. Noto Sans KR Black 대안 가능
+     하나 통일성 위해 Pretendard 권장.
+  4. "자막 배경을 차트/지도/정보에 맞는 짙은 색으로" — 씬별 `subtitleBgColor` 토큰 추가.
+     오렌지 차트 → `#4a1e10` dark burnt orange. 지도 빨강 → `#2a0a0a` deep maroon.
+     기본 → `#1a1a1a` near-black. dominant color derive 알고리즘 또는 명시 지정.
+- **다음**:
+  - v0.34.1: 위 4 요청 적용 + 재렌더.
+  - v0.35.0: Remotion 차트 family 15종 → HyperFrames HTML+SVG+GSAP 포팅.
+  - v0.36.0: orchestrator/render_io.py → HyperFrames 매니페스트 출력. build-audio-demo
+    → HyperFrames 음성 동기. Remotion archive.
+  - v0.37.0+: 호르무즈 풀 파이프라인 + 사용자 최종 검수.
+- **연관**: CHANGELOG v0.34.0, v0.33.x (폐기 결정), GOAL G0 영상미 최우선. v0.33.x 의
+  Remotion 코드는 v0.36 에서 정리 또는 archive 결정.
+
+---
+
+## 2026-06-06 v0.33.0 — Editorial Restraint Reset + 사용자 1차 픽스 (영상미 C0 갈아엎기)
+
+- **무엇을**: 디자인 시스템 전면 갈아엎기 (Aurora Glass + 8색 + 다크 + 글로우 폐기) +
+  사용자 첫 검수 후 4 픽스 (라벨 배지 화면 제거, ChartView title 중복 제거, 끝점 라벨
+  잘림 픽스, Forecast 공백 잇기). 클라우드 mp4 2회 직접 렌더 + 사용자 SendUserFile 전달
+  완료.
+- **왜**: v0.32.2 후 사용자 평가 "전반적으로 차트라던지 폰트, 네온 글로우 같은 이펙트가
+  너무 구려. 촌스러워" + "최고의 인포그래픽 엔진을 찾아. 그리고 적용해서 데모를 나한테
+  만들어 올려" → 제가 결정+빌드+전달까지. Deep research 5 트랙 결과 + 사용자 9장
+  dashboard 레퍼런스 + 3장 날리지식 화면 + 5 모션 패턴 텍스트 통합해 방향 확정.
+- **어떻게**:
+  - **Research synthesis**: NYT/Vox/FT 의 motion infographic 도구 = AE+Lottie 표준이나
+    D3 가 NYT 엔진(천장이 가장 높음, 유지). Remotion + D3 = 결정론적 패턴(useCurrentFrame
+    + interpolate + d3-shape 만, GSAP/Lottie 는 wall-clock 충돌). 편집 안티패턴: NN/g
+    glassmorphism 가이드 위반(Aurora glass), Wilke 3D/gradient 금지, neon cyan/violet
+    은 Reuters/FT/NYT 시스템 0건, direct labeling > legend (Amanda Cox annotation
+    layer). 한국 broadcast 타이포: Fontrix Rix헤드/MBC 새로움체/KBS Yoon이 표준이나
+    본 사용자 레퍼런스(dashboard infographic)는 Pretendard 적합. 한국 채널 실 사용:
+    지식은 날리지(`UCQKZQFd7AfgHOYoui6OE9Ew`) 채널 ID 정정 + 슈카월드 Paint 3D 라이브.
+  - **레퍼런스 9+3 + 5 패턴 통합**: dashboard 9장 = light bg + 오렌지 accent + Pretendard
+    ExtraBold + 거대 숫자 hero + 둥근 카드 + 직접 라벨. 날리지식 3장 = 다크 지도 +
+    엔티티 토큰 + 부드러운 연결선 + Ken Burns + 다크 broadcast 자막. → 둘 다 수용:
+    dashboard 톤이 차트/데이터 씬, 날리지식 모션 패턴이 전 씬 공통.
+  - **design.ts 재작성**: surface.page #f5f1ea, surface.card #ffffff, accent.primary
+    #e84a2d, 시리즈 5색, weight 400-900, size 14→180, Material easing 단일계, stagger
+    50-150ms. 8색 Okabe-Ito/aurora/cyan spotlight/샴페인 골드 quote 폐기.
+  - **차트 일괄 rename** (sed): surface.s1/base → surface.cardAlt/page, accent.quote →
+    accent.primary, accent.positive/negative → label.verified/unverified.
+  - **Briefing.tsx**: AuroraGlassCard 의존 제거. 사각형+캡스 브랜드, 흰 카드 라벨 배지,
+    SurfaceCard 중앙, Ken Burns 1.0→1.03 전 씬, 다크 translucent + 흰 굵은 자막.
+  - **fonts.ts no-op**: @remotion/fonts 의 loadFont 가 fetch 실패 시 cancelRender →
+    렌더 자체 실패. 클라우드는 remotion.media + jsdelivr/unpkg 모두 차단 → npm
+    `pretendard` 패키지 설치 후 `node_modules/pretendard/dist/web/variable/woff2/`
+    추출해 `public/fonts/` 배치만. fonts.ts 는 Phase 5 에서 안전 패턴(staticFile +
+    FontFace + delayRender/continueRender)으로 재구현 예정.
+  - **Chromium**: Remotion 기본 다운로드 URL 클라우드 allowlist 차단 → playwright 의
+    `/opt/pw-browsers/chromium_headless_shell-1194/chrome-linux/headless_shell` 감지해
+    `--browser-executable=` 직접 지정.
+  - **렌더 1차** (v0.33.0): 52초 1080p, 10.9MB, SendUserFile 전달.
+  - **사용자 1차 평가** = 5 피드백: ① line 차트 왼쪽 라벨 가림 (ChartFrame title +
+    Briefing takeaway 중복), ② `<확인>` `<추정>` 배지 제거, ③ stacked area 우측 끝점
+    라벨 짤림, ④ forecast 공백 (agents_reviewer 동일 지적), ⑤ Codex 미적 검수 체계
+    신설.
+  - **v0.33.1 픽스 4건**: ChartView 의 `title={chart.title}` → `title={null}` (Briefing
+    takeaway 가 같은 정보). Briefing 의 LabelBadge 렌더 제거 (데이터 보존). design.ts
+    chart.padRight 100→180. ForecastChart 의 actual 마지막 점을 forecast mid + band
+    시작에 prepend.
+  - **렌더 2차** (v0.33.1): 52초 1080p, 9.3MB, SendUserFile 전달.
+  - **5번 (Codex 미적 검수 체계)** 은 별도 v0.33.2 메타 PATCH 로 분리 — 본 PATCH 는
+    코드 픽스만.
+- **결과**: 사용자가 즉시 검수 가능. v0.29.0 의 Aurora glass/glow 100% 제거. 4 픽스
+  적용된 두 번째 컷 까지 사용자 전달.
+- **다음**: ① 사용자 v0.33.1 영상 평가, ② v0.33.2 = Codex 미적 검수 체계 (영상 키프레임
+  추출 → 영상 LLM 검사 → 다음 PATCH 입력), ③ Phase 4 인물 카드 + 엔티티 연결선 draw,
+  ④ Phase 3 다크 지도 GeoScene (날리지식 스타일).
+- **연관**: C0/G0, CHANGELOG v0.33.0, docs/PROFESSIONAL_REBUILD_PLAN.md (Phase 메타
+  결정). v0.29.0(폐기), v0.30~32(토대 유지, 표면 처리만 갈아엎음).
+
+---
+
+## 2026-06-05 v0.32.2 — build-audio-demo CLI (사용자 편의 PATCH)
+
+- **무엇을**: `orchestrator/audio_demo.py:build_audio_demo(props_path, backend, voice,
+  audio_subdir)` + `build-audio-demo` 서브커맨드. props 한 파일만 받아 각 scene
+  narration 을 TTS 합성 → `demo_audio/` 에 wav/mp3 저장 → `audioPath` +
+  `durationSec` + `startSec` 실 음성 길이로 갱신 → `<원본>_with_audio.json` 출력.
+- **왜**: 사용자가 호르무즈 풀 렌더 시도 → `full_script.json` 없음 → `projects/
+  seam-hormuz/` 가 git 에 없어 사용자 머신에 산출물 0 → bundle 부터 다시 빌드해야 하는
+  큰 작업. 그 와중 "목소리도 입혀야지" 즉, **데모만이라도 음성이 입혀진 영상을 보고
+  싶다**. 기존 `build-audio` 는 project state machine + full_script 가 전제라 데모엔
+  과한 의존. → state 머신 거치지 않는 1회용 헬퍼 신설.
+- **어떻게**:
+  - 입력: `remotion/demo_props.json` (또는 같은 스키마의 임의 props). `scenes[].
+    narration` 이 본 작업의 입력.
+  - 백엔드 재사용: `workers/tts_backends.get_backend(backend)` 그대로. v0.32.1 의
+    `.env` 자동 로딩 덕에 `ELEVENLABS_API_KEY` / `ELEVENLABS_VOICE_ID` 자동 적용.
+  - **출력 위치**: props 가 있는 폴더 아래 `demo_audio/<sceneId>.<ext>`. Remotion 의
+    `--public-dir=.` 로 props 디렉토리를 public 으로 두면 `staticFile()` 가 그대로
+    잡음 (`render-debug` 의 패턴과 정합 — main.py:992 의 `--public-dir=project_dir`).
+  - **시간 재누적**: 진입 모션 / wipe / stagger 들이 결국 `durationSec` 에 fit 하므로,
+    실 음성 길이로 `durationSec` 갱신하고 다음 scene 의 `startSec` 도 재계산. 결과 영상
+    길이가 원본보다 늘어나거나 줄 수 있음(자연스러움). Briefing.tsx 의 `calculateMetadata`
+    가 총 길이를 다시 합산하므로 mp4 길이도 자동 맞춰짐.
+  - **빈 narration 처리**: skip + audioPath 안 박음. 무음 scene 으로 남음. `durationSec`
+    유지.
+  - **오류 흡수**: 파일 없음 / 빈 scenes / JSON 깨짐 / TTS 실패 모두 별도 exit code.
+  - 단위 테스트 4 케이스 (stub backend e2e + startSec 재누적 + 누락 / 빈 입력 에러).
+- **결과**: 332 → 336 통과 (+4). build-audio 기존 동작 변화 없음(독립 경로).
+- **다음 (사용자 측)**:
+  ```
+  python -m orchestrator.main build-audio-demo remotion\demo_props.json --backend elevenlabs
+  cd remotion
+  npx remotion render src/index.ts Briefing demo_out.mp4 ^
+    --props=demo_props_with_audio.json --public-dir=.
+  ```
+- **연관**: v0.32.0(demo_props.json 도입), v0.32.1(.env 자동 로딩), HANDOFF 보류항목 4
+  (Windows 실제 음성 풀 렌더 검증 — 호르무즈 풀 파이프라인은 별도이나 본 PATCH 가
+  "데모만이라도 음성 검수" 의 작은 우회로). CHANGELOG v0.32.2.
+
+---
+
+## 2026-06-05 v0.32.1 — `.env` 자동 로딩 (사용자 편의 PATCH)
+
+- **무엇을**: `orchestrator/main._load_env_file()` 진입점 도입. 저장소 root `.env` 가
+  있으면 `python-dotenv` 로 로드. `override=False` 라 운영 환경의 export 우선.
+  `requirements.txt` 에 `python-dotenv>=1.0` 추가, `.env.example` 갱신, 4 케이스 단위
+  테스트.
+- **왜**: 사용자가 호르무즈 풀 렌더 시도 중 "내 api키와 voice id 를 env 에 넣어서 쓰면
+  안돼? 내가 매번 입력 해야 돼? 너무 불편한데?" 명시적 요청. setx(영구 환경변수) 와
+  `.env` 두 옵션 제안 → 사용자 `.env` 선택. 비밀값을 한 곳에 모으고 추가 키(향후 whisper /
+  다른 TTS) 가 늘어도 동일 패턴.
+- **어떻게**:
+  - 진입점 한 곳에서 호출(`main()` 첫 줄). 모든 서브커맨드 자동 적용.
+  - **override=False**: 사용자 머신 OS 환경에 키가 export 되어 있으면 그쪽 우선 — 본
+    저장소를 prod 머신으로 옮길 때도 안전. .env 는 dev 보조 채널.
+  - `python-dotenv` 미설치 / `.env` 미존재 = 둘 다 silent no-op. CI 영향 0.
+  - `requirements.txt` 주석은 ASCII-only (DEVLOG v0.15.2 의 한글 Windows cp949 사고
+    재발 방지) — 한글 주석을 영문으로 작성.
+  - `.env.example` 정리: ANTHROPIC/OPENAI 같은 미사용 placeholder 제거(우리는 구독 CLI
+    호출이라 LLM API 키 불필요 — ADDENDUM_04), 실제 사용 중인 ELEVENLABS_* + OSINT_* 만
+    명시적으로 박음. 사용자가 본 파일만 보면 환경변수 전모 파악.
+  - 테스트: ① 키 로드, ② 기존 export override 안 함, ③ .env 없을 때 silent, ④ dotenv
+    미설치 시 silent — `mock.patch.dict("sys.modules", {"dotenv": None})` 로 import
+    실패 흉내.
+- **결과**: 328 → 332 통과(+4 신규). 코드 변경 영향 0(미설치/.env미존재 시 동일 동작).
+- **다음**: 사용자가 본인 머신 .env 채우고 `python -m orchestrator.main build-audio
+  seam-hormuz --backend elevenlabs` 실행. 음성 산출되면 Remotion 풀 렌더로 새 차트(Phase
+  1+2) + 음성 + 자막 + 지도가 함께 도는 호르무즈 영상 확인. 그 피드백 → Phase 3 진입.
+- **연관**: C9(secret 미커밋), .gitignore 32-33(.env), ADDENDUM_04(LLM 구독 CLI 호출,
+  LLM API 키 없음), CHANGELOG v0.32.1.
+
+---
+
+## 2026-06-05 v0.32.0 — Phase 2: Bar/Point family 정통 재구현 (영상미 C0)
+
+- **무엇을**: Bar/Point family 9 종(bar / lollipop / range_bar / stacked_bar / waterfall /
+  scatter / bubble / slope / candle) 을 디자인 시스템 토대로 재구현.
+  - `charts/cat/BarChart.tsx`: `scaleBand` + mode 분기(bar/lollipop/range), 카테고리
+    stagger 진입, 막대 grow + 직접 값 라벨, 음수 막대 다크오렌지.
+  - `charts/cat/StackedBarChart.tsx`: 카테고리 sweep + 시리즈 60ms 내부 stagger, 마지막
+    시리즈 상단 둥근 모서리, 우상단 범례.
+  - `charts/cat/Waterfall.tsx`: 누적 막대 + connector 점선(이전 끝 → 본 시작), +/- 부호
+    자동, total 막대 분리.
+  - `charts/cat/PointChart.tsx`: scatter / bubble. bubble 반지름 = sqrt(size/smax)*50
+    (면적 비례), 라벨 1D 충돌 회피 + leader line.
+  - `charts/cat/SlopeChart.tsx`: 좌·우 양쪽 라벨 충돌 회피, 컬러 매칭, 도달 시 우 마커.
+  - `charts/cat/CandleChart.tsx`: 양봉 accent.positive / 음봉 accent.negative, wick + box
+    grow, x tick 자동 thinning.
+- **왜**: XY 다음으로 OSINT 빈도 높은 family — bar/scatter/lollipop 은 카테고리 비교의
+  주력, waterfall 은 경제·트레이드 흐름 분석, candle 은 시장·환율, slope 은 비교 시점
+  변화. Phase 1 의 토대(util.ts/ChartFrame/Axis 등)를 그대로 재사용해 빠르게 영상미 끌어
+  올림 — 21 종 중 15/21(71%) 가 design.ts 토큰 100% 적용.
+- **어떻게**:
+  - **scaleBand**: 카테고리 막대는 d3 `scaleBand({padding: 0.34})` — bandwidth() 가
+    자동 산출되므로 막대 폭 결정론.
+  - **음수 처리**: bar 의 음수 막대는 baseY(=0) 아래로 grow. 라벨도 막대 아래 배치.
+  - **양봉/음봉 컬러**: `accent.positive`(녹) / `accent.negative`(적). open ≥ close 는
+    양봉 — 다크 환경에서 양봉=녹 컨벤션(미국식). 한국 증시 컨벤션(적이 양) 은 향후 옵션.
+  - **bubble 면적 비례**: 시각 인지는 면적 ∝ 데이터값 — radius = sqrt(value/max) * maxR.
+    선형 비례하면 큰 값 시각적 과대 표현.
+  - **Connector 점선 (waterfall)**: 이전 막대 끝 점 → 본 막대 시작 점. total 막대 앞엔
+    연결 없음(누적 리셋).
+  - **slope 좌·우 라벨 양쪽 충돌 회피**: `layoutEndpointLabels` 두 번(좌, 우). 같은
+    `data.label` 이 좌·우 양쪽에 컬러 동기화.
+  - **candle x tick thinning**: 라벨 너무 많으면 `Math.floor(n/6)` 간격으로 sparse.
+  - **legacy 청소**: BarChart / StackedBar / Waterfall / PointChart / Candle / Slope /
+    ChoroplethBars 제거(~200 LOC). Donut/Gantt/Heatmap/Network/Sankey 만 임시 유지.
+  - **choropleth**: 임시로 BarChartV2 에 country_code/value 매핑. Phase 3 에서 world-atlas
+    + ISO 매핑 + sequential color 스케일로 본격 재구현.
+- **결과**: tsc clean(MapView 사전 경고만), Python 328/328. ChartView dispatcher 단순화
+  (legacy 코드 ~50% 감축).
+- **다음**: Phase 3 — Specialty (v0.33.0). Donut(외부 라벨 + %), Gantt(time-wipe stagger
+  + 마일스톤 별), Heatmap(셀 행→열 stagger), Network(d3-force 헤드리스 사전 시뮬레이션 +
+  degree 큰 노드부터 등장), Sankey(d3-sankey 실 사용), Choropleth(world-atlas + ISO +
+  sequential color).
+- **연관**: C0/G0, CHANGELOG v0.32.0, docs/PROFESSIONAL_REBUILD_PLAN.md §3 Phase 2,
+  MVP Professional Bar 1/7/8/9/11 진행. v0.31.0(Phase 1) 의 util.ts 재사용.
+
+---
+
+## 2026-06-05 v0.31.0 — Phase 1: XY family 정통 재구현 (영상미 C0)
+
+- **무엇을**: XY 6 종(line / area / stacked_area / small_multiples / dual_line / forecast)
+  을 디자인 시스템(v0.30.0) 토대 + d3-scale + d3-shape + 자체 1D 라벨 충돌 회피 + Subject+
+  Note+Connector + ReferenceRegion 으로 재구현.
+  - `charts/util.ts`: time-aware x 스케일(ISO 면 scaleTime, 아니면 scalePoint), nice ticks
+    y 스케일, Material easing(t→y, Newton 2-step), draw progress hook + 시리즈 stagger
+    hook, 1D 라벨 충돌 회피(양방향 패스 + 경계 클램프), 시리즈 그룹화.
+  - `charts/xy/XYChart.tsx`: line/area/stacked_area/small_multiples 통합. d3-shape `line()`
+    + `area()` + `curveMonotoneX`. clipPath 로 x-wipe 진입(Material decelerate). 끝점 마커
+    + leader line + 시리즈명 + 값(직접 라벨, 75% progress 후 등장). `event` 필드 있으면
+    `Callout` 자동 노출. `referenceRegions` 옵션으로 위기 구간 음영.
+  - `charts/xy/DualLineChart.tsx`: 좌/우 독립 y 스케일, 우 시리즈 점선, 색 매칭 헤더.
+  - `charts/xy/ForecastChart.tsx`: 실측(실선) + 전망(점선 mid + band area) + 전망 구간
+    ReferenceRegion + "실측"/"전망" 끝점 라벨.
+- **왜**: Phase 0 토대만 박으면 디자인 토큰이 실 차트에 흐르지 않으므로, XY 6 종을 첫 family
+  로 본체 진입. XY 는 OSINT 시계열의 빈도·중요도 1 등(line·area 가 전체 차트의 ~60%).
+  d3-shape 의 `area()` / `line()` 은 우리가 직접 path 문자열을 만들던 v0.27.0 보다 곡률
+  보간(`curveMonotoneX`) 등 정밀도가 훨씬 높고, `scaleTime` 은 ISO 입력에 대해 시간 위계
+  를 자동(연/월/일 자동 포맷)으로 줘서 사용자가 데이터를 그대로 던져도 영상미 보존.
+- **어떻게**:
+  - **결정론**: labella(UMD, 비결정 정렬 의존) 회피하고 자체 1D 충돌 회피 구현 — 양방향
+    패스(아래로 + 위로) + 경계 클램프. 입력 동일하면 출력 동일.
+  - **Material easing 의 결정론적 t→y**: Remotion `interpolate` 는 함수형 easing 을 받으므로
+    cubic Bezier `(0,0)→(cp0,cp1)→(cp2,cp3)→(1,1)` 의 t→y 를 Newton 2-step 으로 (정확도
+    < 0.005). CSS keyframe / `cubic-bezier()` 안 씀 — 프레임 정확.
+  - **Wipe 진입**: line/area 의 stroke-dasharray 트릭 대신 `clipPath` rect 의 width 를
+    progress 로. area fill 도 동일 클립으로 잘려서 영상의 "데이터 그려지는 느낌" 일관성.
+  - **끝점 라벨 시점**: progress 0–75% 는 wipe, 75–95% 는 라벨 페이드인. 라벨이 wipe 보다
+    먼저 나오면 시각적 혼란.
+  - **이벤트 콜아웃**: `event` 필드(legacy 호환) 있으면 `Callout`(Subject + Note + Bezier
+    Connector) 자동 노출. note 위치는 데이터 포인트가 영역 우측 30% 안에 있으면 왼쪽 위,
+    아니면 오른쪽 위.
+  - **legacy 코드 청소**: `LineLike` / `ForecastChart` / `DualLine` 제거(~110 LOC).
+    Bar/Point/Specialty 등 나머지 14 종은 본 PATCH 에선 손 안 댐(Phase 2/3).
+- **결과**: tsc `--noEmit` 통과(MapView 의 JSON resolve 경고는 사전 존재). Python 328/328
+  통과. ChartView 디스패치만 변경, 외부 인터페이스(ChartData) 동일.
+- **다음**: Phase 2 — Bar/Point family (v0.32.0). bar / lollipop / range_bar /
+  stacked_bar / waterfall / scatter / bubble / slope / candle 를 동일 토대로 재작성.
+  Waterfall connector 선, bubble quadrant label, lollipop stem grow + head pop, label
+  collision 자체 구현 재사용.
+- **연관**: C0/G0, CHANGELOG v0.31.0, docs/PROFESSIONAL_REBUILD_PLAN.md §3 Phase 1,
+  MVP Professional Bar 8/9/10/11/12 진행. v0.30.0 (토대) 의 첫 본체 적용.
+
+---
+
+## 2026-06-05 v0.30.0 — Phase 0: 프로페셔널 재빌드 디자인 시스템 토대 (영상미 C0)
+
+- **무엇을**: 차팅·자막·타이포의 전면 재빌드 사이클(v0.30.0 → v0.36.0) 출발.
+  `docs/PROFESSIONAL_REBUILD_PLAN.md`(SSOT) + `remotion/src/design.ts`(토큰) +
+  공용 컴포넌트 4 종(`ChartFrame` / `Axis` / `Callout` / `ReferenceRegion`) +
+  npm 의존성(`d3-scale d3-shape d3-time-format d3-array d3-scale-chromatic labella`).
+- **왜**: 사용자 평가 — "전반적으로 차팅의 기술이나 시각화 기술이 너무 구려.
+  총체적으로 다시 재빌드, 리팩토링을 전면적으로 해야 할거 같아. 프로페셔널한 수준으로
+  그 레벨을 높일 수 있는 계획을 세워." 비주얼 기준은 날리지식 (YouTube `FaOqn3-YdkI`,
+  `ucl9RED4Ye4` — YTN 세계는 날리지가 아님). 사용자 ack: "응 진행해."
+- **어떻게**: 차트 본체 코드는 **한 줄도 안 건드린다**(Phase 1 부터 진입).
+  Phase A 외부 리서치 5 트랙 통합 → 자기 평가(평균 갭 -5.9) → MVP Professional Bar
+  20 합격 기준 → Phase 0–5+E 실행 계획. 디자인 토큰 SSOT 박음:
+  - **Color**: Material Dark 베이스 `#121214`(`#000` 의 OLED 잔상·과대비 회피) +
+    Okabe-Ito 색맹 안전 시리즈 7 색 + 의미 라벨 4 색(확인/추론/주장/미검증) +
+    Aurora 4 색(보더 그라디언트).
+  - **Typography**: Pretendard Variable(45–920 wght axis) 폰트 스택 + 1.618 황금비
+    size scale(14→18→28→46→76→124) + **한글 `word-break: keep-all` + `overflow-wrap:
+    anywhere`** 모든 텍스트에. Netflix Korean 자막 표준(16자/2줄/17CPS/5–7sec).
+  - **Motion**: Material easing(decelerate `[0,0,0.2,1]` / standard / accelerate),
+    duration 150/300/400/600/900ms, `stagger(n)` 헬퍼(`clamp(min(80, 600/N), 20, 120)`).
+  - **Spacing**: 8-grid + safe area + chart 영역 + radius + stroke 토큰.
+  - 헬퍼: `msToFrames(ms, fps)`, `seriesColor(i)`, `labelColor(key)`.
+  공용 컴포넌트:
+  - `ChartFrame`: kicker / title / subtitle / source 슬롯. 빈 슬롯 공간 차지 안 함.
+  - `Axis`: SVG group x/y 축 + grid + tick + 라벨. d3-axis 의존 회피(결정론).
+  - `Callout`: D3-annotation Subject + Note + Connector. 진입 트랙(subject 300ms →
+    connector 300ms → note 200ms), Bezier curved connector, foreignObject 로 한글
+    줄바꿈 안전.
+  - `ReferenceRegion`: 위기 구간 / 이벤트 회색 알파 fill + 점선 경계 + 라벨.
+- **결과**: 새 컴포넌트 tsc `--noEmit` 통과(기존 MapView 의 JSON resolve 경고는
+  사전 존재). Python 회귀 328/328 통과. 차트 본체 동작 변경 없음(의도).
+- **다음**: Phase 1 — XY family 정통 재구현(v0.31.0). line/area/dual_line/forecast/
+  stacked_area 를 d3-scale + d3-shape + ChartFrame + Axis + Callout + Direct
+  labeling + labella 충돌 회피로 다시.
+- **연관**: C0/G0, CHANGELOG v0.30.0, docs/PROFESSIONAL_REBUILD_PLAN.md (본 사이클
+  SSOT). HANDOFF 보류항목 3 (차트 영상미) 의 본격 진입.
+
+---
+
+## 2026-05-25 v0.29.0 — Visual Skin 1차: Aurora Glass Card (영상미 표면 처리)
+
+- **무엇을**: AuroraGlassCard 공용 컴포넌트 + 브랜드/배지/자막 바에 적용.
+- **왜**: ChatGPT 피드백 — 영상미는 차트 선보다 패널·카드·콜아웃·자막·배지의 표면 처리에서
+  크게 나온다. C0(영상미)의 구체적 HOW. 핵심은 절제(본체 차분, 강조만 럭셔리).
+- **어떻게**: 다크 글래스 fill + 오로라 그라데이션 보더(conic) + frame 구동 회전(엣지
+  하이라이트, 프레임 정확) + soft bloom. CSS 키프레임 대신 frame 으로 각도 구동(결정론).
+  차트/지도 본체엔 적용 안 함(축·격자 glow 금지). 화면당 글로우 카드 3개 수준으로 제한.
+- **결과**: 호르무즈 line 차트 scene 프레임으로 확인 — 브랜드/배지/자막이 글래스 카드, 차트는
+  깔끔. "다크 럭셔리 OSINT 브리핑" 미감. python 변경 없음(328 통과 유지).
+- **다음(스테이징)**: 차트 내 이벤트 콜아웃 카드, title glow, surface 프리셋/토큰, scene
+  surfaceEffect, 프롬프트 규칙, 스타일 가이드 문서. 거친 부분 반복 다듬기.
+- **연관**: C0/G0, CHANGELOG v0.29.0.
+
+## 2026-05-25 v0.28.0 — forced-alignment 스캐폴드 (자막 음성 정밀 싱크)
+
+- **무엇을**: subtitle_align 모듈(교체형 백엔드 + 비례 폴백) + render_io 배선 + 테스트.
+- **왜**: 사용자 요청. 자막 타이밍을 글자수 비례 추정에서 음성 실측으로 정밀화(영상미 C0).
+- **어떻게**: OSINT_ALIGN_BACKEND=whisper 면 단어 타임스탬프로 큐 [start,dur] 교체. 미설정/
+  무음/실패는 None → 비례 폴백(파이프라인 안 깨짐). 정밀 정렬은 모델+실제음성 필요라 사용자
+  머신 전용 — 클라우드(stub 무음)는 기본 no-op.
+- **결과**: 328 통과(신규 5). 클라우드 동작 변화 없음(폴백), 사용자 머신서 whisper 붙이면 정밀.
+- **연관**: C0, CHANGELOG v0.28.0. (HANDOFF 보류항목 1 = forced-alignment 진행 시작.)
+
+## 2026-05-25 v0.27.0 — 전 차트 family 영상용 렌더러 + 라벨 다듬기
+
+- **무엇을**: ChartView 를 21종 전 타입 family 렌더러로 확장 + render_io SUPPORTED 전 타입 +
+  버블 inset/gantt 라벨 anchor 등 클립 다듬기.
+- **왜**: 사용자 "모든 차트 family 와 다듬기를 한번에 다 해"(영상미 C0). line 만으론 부족.
+- **어떻게**: 공용 헬퍼(scale/draw-on/팔레트/edgeAnchor·clampX)로 family 별 렌더러. XY 묶음,
+  bar 묶음, point(scatter/bubble), candle/donut/gantt/slope/heatmap/network/sankey/choropleth.
+  미지원(미래 신규) 타입은 텍스트 폴백.
+- **결과**: 323 통과. 실물 호르무즈로 network(원형 관계도)/gantt(11개월 타임라인)/bubble(시나리오)/
+  line(브렌트) 프레임 렌더 확인 — 전부 안 깨지고 인식 가능. 거친 부분은 의도적 잔존(반복 다듬기).
+- **다음**: 클립/겹침 미세조정 반복. network/sankey/choropleth 고도화.
+- **연관**: C0/G0, CHANGELOG v0.27.0, docs/05 §3.4e.
+
+## 2026-05-25 v0.26.0 — 영상용 차트 family 렌더러 (line, 영상미 C0 첫 구현)
+
+- **무엇을**: RenderChart 모델 + render_io chart attach + Remotion ChartView(line family) +
+  Briefing 통합 + 테스트.
+- **왜**: 영상미 최우선(C0) 결정에 따라 차트를 정적 SVG 가 아니라 데이터로 우리가 cinematic
+  재렌더. line 이 실물 분포상 압도적(호르무즈 9개 중 5개)이라 line family 부터.
+- **어떻게**: claim_refs 에 지원 차트 id 가 있으면 그 scene 에 chartData attach(지도와 동형).
+  ChartView line: 데이터 스케일 → 좌→우 draw-on(stroke-dashoffset) + event 마커/라벨 + 축.
+  미지원 타입은 attach 안 함(텍스트 폴백). 중앙 비주얼 우선순위 map>chart>text.
+- **결과**: 323 통과(신규 2). 실물 호르무즈 브렌트 유가 라인차트 프레임 렌더 확인 — $80→$120
+  봉쇄 피크→$105→$114 event 콜아웃, <추론> 배지, 발화형 자막.
+- **알려진 다듬기**: 끝점 event 라벨 SVG 경계 클립 / 라벨 겹침 → 후속.
+- **다음**: bar/bubble/waterfall/gantt family → 복잡 타입(network 등).
+- **연관**: C0/G0(영상미), CHANGELOG v0.26.0, docs/05 §3.4e.
+
+## 2026-05-25 v0.25.0 — 최우선 가치 "영상미(Cinematic Quality First)" 최상위 규칙으로 확정
+
+- **무엇을**: CLAUDE.md C0 + GOAL.md G0 신설("영상미 최우선"). 차트 전략 방침 전환(전-타입
+  SVG passthrough 폐기 → 우리가 데이터로 cinematic 재렌더). HANDOFF/docs 정합.
+- **왜**: 사용자가 영상 구성·구도를 충분히 이해한 뒤 "영상미를 제1 미덕으로 놓자"고 결정.
+  이전의 "안 쫓기 위해 전-타입 SVG" 방침은 전반 구도를 모른 채 내린 거라 폐기. 마침
+  agents_reviewer 가 "계약은 A안(consumer 가 데이터로 재렌더)이지 전-타입 SVG 아니다"라고
+  잡아준 것과 **수렴** — 우리가 영상미 위해 데이터로 직접 그리는 게 곧 A안.
+- **어떻게**: 영상미 = 정적 이식이 아니라 데이터·취지·맥락 이해 후 영상용 생성(애니·음성싱크·
+  맥락강조). 선택지 갈리면 정적·편의보다 영상미. 단 사실정확성·G4·C9 위에서(정확성 깬 화려함
+  금지). 차트는 family 렌더러로 우리가 cinematic 렌더, 외부 SVG 는 복잡 타입 폴백.
+- **결과**: 321 통과(원칙 문서 변경, 코드 무변경). MINOR(G1/G2/G4 미변경이라 MAJOR 아님 —
+  G0 는 additive). 다음: family 차트 렌더러 구현이 영상미 후속 작업.
+- **연관**: CLAUDE C0, GOAL G0, HANDOFF, docs/05 §3.4e, CHANGELOG v0.25.0.
+
+---
+
+## 2026-05-25 v0.24.0 — 관대한 수신자(tolerant reader): 진화하는 보고서 수용 + v5.5.2 timeline
+
+- **무엇을**: bundle 수신 모델 `extra="forbid"` → `extra="ignore"`(공용 `_BundleModel` 베이스).
+  미지 top-level 필드 로깅. `timeline` 모델 추가. 테스트 갱신.
+- **왜**: 사용자가 v5.5.2 실물 번들을 줬는데 우리 모델이 거부. 원인 — v5.5.2 가 새 top-level
+  `timeline` 필드를 추가했고 `extra="forbid"` 가 번들 전체를 reject. 사용자가 "보고서 양식은
+  계속 진화하니 flexibility 가 필요하다" 고 정확히 지적. 게다가 forbid 는 계약 §1("additive=
+  schema_version 무증분")과 모순 — 추가 필드에 consumer 가 깨지면 안 됨.
+- **어떻게**: tolerant reader 패턴 — 받을 땐 관대(모르는 필드 무시), 쓸 땐 엄격(선언 필드는
+  타입·enum·필수·참조무결성 유지). 미지 필드는 로더가 warning 로 surface(인지). 차트
+  `data: Any`(기존 유연)에 이어 구조 전체가 진화에 견딤. timeline 은 흡수(보관, 영상 소비 추후).
+- **결과**: 321 통과. v5.5.2 실물 번들 검증 통과(timeline 수용) → 어댑터가 12 claims
+  (confirmed 4/inferred 6/disputed 2) 합성. extra-rejected 테스트는 tolerant 테스트로 교체.
+- **연관**: 계약 v1 §1(consumer=tolerant reader 로 갱신 권고), CHANGELOG v0.24.0, docs/05 §3.4g.
+
+---
+
+## 2026-05-25 v0.23.1 — 보류 작업 추적 (HANDOFF 상단 박음)
+
+- **무엇을**: HANDOFF.md 상단에 "⏳ 다음 할 일(사용자 보류)" 블록 추가.
+- **왜**: 사용자가 "3(Windows 실음성 검증) 먼저, 1(forced-alignment)·2(자동 캐치)는 나중"으로
+  순서를 미루며 "까먹어도 알려달라"고 함. 세션 메모리는 컨테이너 재생성 시 초기화되므로,
+  말 약속이 아니라 저장소 문서(다음 세션이 가장 먼저 읽는 HANDOFF)에 박아 durable 화.
+- **결과**: forced-alignment / ③ 자동 캐치 / 차트 SVG 대기 / Windows 검증을 추적. 처리 시
+  DEVLOG 반영 후 블록에서 제거.
+- **연관**: CHANGELOG v0.23.1.
+
+---
+
+## 2026-05-25 v0.23.0 — ② 지도 비주얼 (Phase B): bundle map 을 d3-geo 로 재렌더
+
+- **무엇을**: RenderMap 모델 + bundle 사본 영속화 + render_io 의 map attach + Remotion
+  MapView(d3-geo) + Briefing 통합 + 테스트.
+- **왜**: 영상이 텍스트 슬라이드뿐이라 지도/차트가 없었음(사용자 목표 = 직관적 비주얼).
+  geo 번들엔 실제 지도(테헤란/이스파한/호르무즈 + 공격축)가 있어 먼저 지도부터.
+- **어떻게**: 핵심 발견 — 차트/지도를 v0.20.0 에서 claim 으로 합성한 덕에 ScriptWorker 가
+  claim_refs 로 참조(seg_03→map-1) → 비주얼↔scene 배치가 보존됨. import-bundle 이 받은
+  bundle 을 04_research/report_bundle.json 으로 영속화 → render_io 가 map id 를 참조하는
+  scene 에 RenderMap attach(from_id→fromId 변환). MapView 는 geoMercator.fitExtent(마커 전체
+  표시) + world-atlas(npm 번들, 런타임 fetch 없음 — remotion.media 차단 우회) 베이스맵 +
+  마커(라벨·highlight) + arc(곡선·강조색). mapData 있으면 caption 은 제목으로 축소.
+- **결과**: 319 통과(신규 2). **실물 geo seg_03 프레임 렌더 확인** — 중동 지형 + 마커 5
+  (이스파한/호르무즈 강조) + 텔아비브→이스파한 공격축 arc(강조색) + 제목 + <추론> 배지 +
+  하단 자막. 레퍼런스(날리지식) 지도 스타일과 일치.
+- **다음**: 차트는 agents_reviewer prerendered_svg(v5.5.0 null) 도착 후 SVG passthrough.
+  forced-alignment 백엔드 → ③ 자동 캐치.
+- **연관**: CHANGELOG v0.23.0, docs/05 §3.4e.
+
+---
+
+## 2026-05-25 v0.22.1 — ScriptWorker LLM 타임아웃 상향 (600→1200초)
+
+- **무엇을**: ScriptWorker.invoke_timeout_sec ClassVar=1200 override.
+- **왜**: fin 실물 번들 build-script 가 `claude CLI timeout after 600s` 로 실패. 5분 대본
+  1-shot 생성은 claude think 시간이 길어 600초를 넘기는 경우가 있음(실측: geo 526초 성공,
+  fin 600초 초과). 로직 오류 아님 — 순수 latency.
+- **어떻게**: 긴 생성 전용으로 ScriptWorker 만 1200초로(다른 worker 기본 600초 유지). 전역
+  상향 대신 surgical override.
+- **결과**: fin build-script 재실행(1200초)으로 ① 출처 프레임 확인 예정.
+- **연관**: CHANGELOG v0.22.1.
+
+---
+
+## 2026-05-25 v0.22.0 — ① 화면 상단 출처 텍스트 배선 (bundle sources → source_registry → scene)
+
+- **무엇을**: import-bundle 이 bundle 출처를 source_registry 로 영속화 + render_io 가
+  scene→claim→evidence→출처로 해소해 RenderSceneProps.source 채움 + 테스트.
+- **왜**: 영상 문법의 상단 출처 슬롯이 비어 있었음(레퍼런스엔 출처 표기가 핵심). bundle 에
+  출처 데이터가 있으니 연결.
+- **어떻게**: `bundle_to_source_registry` 가 top-level sources + 차트/지도 provenance.sources
+  를 SourceEntry 로 수집(dedup, top-level 우선). render_io 가 dossier claim 의 evidence
+  source_id 를 registry 표기명(publisher/provider/도메인)으로 해소, scene 의 claim_refs 로
+  모음(최대 3, 해소 불가 시 "" — 과잉 귀속 방지). 기존 source_registry 인프라 재사용.
+- **결과**: 317 통과(신규 3). fin 번들 import → source_registry 에 mkt-1=YAHOO(차트 데이터)
+  + src-1/2=bloomberg/federalreserve(top-level) 정확 수집 확인. 시각 프레임(YAHOO 출처 줄)은
+  fin build-script(실 claude) 후 확인 예정.
+- **한계(정직)**: v5.5.0 은 claim-출처 연결이 sparse(차트 데이터 출처 위주). fin(시장데이터)은
+  출처 표기되지만 geo(서술 위주)는 대부분 빈 출처 — 과잉 귀속보다 빈 표기가 정직. 보고서-레벨
+  출처를 크레딧 scene 으로 노출하는 건 별도 과제.
+- **연관**: CHANGELOG v0.22.0, docs/05 §3.4e, docs/03 Bundle Importer.
+
+---
+
+## 2026-05-25 v0.21.0 — 순차 자막 (통문단 → 줄 단위 큐)
+
+- **무엇을**: `SubtitleCue` 모델 + `RenderSceneProps.subtitleCues` + render_io
+  `split_subtitle_cues` + Briefing 의 프레임 기반 큐 표시 + 테스트.
+- **왜**: 자막이 나레이션 전체를 한 화면에 통째로 띄워 "자막답지 않다"는 지적(사용자). 실제
+  자막은 줄 단위로 순차 전환된다.
+- **어떻게**: narration 을 종결부호로 문장 분할 → 긴 문장은 42자 줄 길이로 공백 경계 재분할
+  → scene 길이를 글자수 비례로 배분(TTS 가 문장별 타임스탬프를 안 주므로 표준 근사).
+  Remotion 이 현재 프레임 시각(`frame/fps`, Sequence 가 0 기준 rebase)에 해당하는 큐만 띄움
+  (짧은 페이드인). 큐 없으면 narration 폴백.
+- **결과**: 314 통과(신규 3). **실물 geo 번들로 검증**: 같은 scene_02 를 frame 707/1126 에
+  렌더하니 자막이 cue0("이 위기의 출발점은…추정됩니다.") → cue2("그 공격으로 사망했다는
+  주장이 있습니다.") 로 줄 단위 전환됨을 프레임으로 확인. 중앙 takeaway/라벨 배지는 유지.
+- **한계**: 글자수 비례라 실제 발화와 미세 오차. 정밀 싱크는 forced-alignment(whisper 등)가
+  별도 과제. source 텍스트 화면 배선·차트 비주얼(Phase B)도 다음.
+- **연관**: CHANGELOG v0.21.0, docs/05 §3.4e.
+
+---
+
+## 2026-05-25 v0.20.1 — LLM-AP-005: bundle 경로 대본 생성 실패 수정 (입력 캡 + 추출기 견고화)
+
+- **무엇을**: bundle 어댑터 summary 섹션당 발췌 캡 + base_llm_worker JSON 추출기 견고화 +
+  LLM-AP-005 기록 + 테스트.
+- **왜**: v0.20.0 의 geo 실물 번들 풀 seam 에서 build-script 가 parse_failed. 진단: claude 가
+  빈 응답이 아니라, 거대 summary(4,833자 prose 통째)를 5분 대본으로 압축하다 출력이 비대해져
+  스스로 ```json 펜스 2개로 쪼개고(불완전) 서두 설명을 붙였다(526초). 손예시(작은 입력)는
+  같은 5분 대본을 한 블록으로 성공했던 것과 대조 — 차이는 입력 크기.
+- **어떻게**: (1) 어댑터가 섹션 prose 를 문장 경계 발췌(320자/섹션)해 개요만 전달 → 출력
+  비대화·분할 예방(geo 4,833→2,462자). (2) 추출기가 서두 prose + 중간 ```json 블록 / 첫 균형
+  {...}(문자열 내 중괄호 고려)를 회수. 단 두 분리 JSON 객체는 병합 불가 → 입력 캡이 1차 방어.
+- **결과**: 단위 검증 — 추출기(서두+펜스/균형객체) + geo summary 2,462자 확인. 309→311 통과.
+  **geo 실 run(실제 claude) 재검증은 본 커밋 직후 진행**(단일 완전 JSON 생성 확인 목표).
+- **연관**: LLM-AP-005, 계약 v1 §6, CHANGELOG v0.20.1.
+
+---
+
+## 2026-05-25 v0.20.0 — 실물 v5.5.0 emit 연동 (§11 갭 수정 + 라벨 척추 provenance 합성)
+
+- **무엇을**: agents_reviewer 실제 번들 2건(fin=엔캐리/VKOSPI, geo=이스라엘·이란)으로
+  수신 모델 §11 대조 + 어댑터 강화. `BundleMapArc.highlight` 추가, 빈 claims 합성 로직.
+- **왜**: v5.5.0 real emit 은 `claims=[]`(라이브 2-call 이 산문+차트만 생성, claim 그래프
+  없음). 라벨 척추가 chart/map provenance + contradictions 를 타야 한다(agents_reviewer 가
+  못박은 전제). 손예시(claims 있음)와 실물(claims 없음)의 간극을 실물로 메움.
+- **어떻게**: §11 실물 대조에서 갭 1건 발견 — geo map arc 가 `highlight` 를 emit 하는데
+  `BundleMapArc` 에 없어 extra=forbid 거부 → 필드 추가(additive). 어댑터는 claims 비면
+  charts→claim(provenance.verification→status), map→claim, contradictions→disputed 합성 +
+  섹션 prose 를 summary 로(ScriptWorker 가 발화형 변환). claims 차 있으면 직매핑(v5.6+).
+- **결과**: 309 통과(신규 4). 두 실물 번들 검증 통과(arc 수정 후). 어댑터 산출:
+  fin 5 claims(<확인> 1/<추론> 1/<반박됨> 3) + summary 4239자, geo 6 claims(<추론> 3/
+  <반박됨> 3) + summary 4833자. **라벨 척추가 chart/map provenance 를 탐을 실물로 확인.**
+  build-script→render 풀 seam(실제 claude)은 본 커밋 직후 검증.
+- **다음**: source 텍스트 per-scene 배선(bundle sources→화면 출처), 정식 인용 마킹.
+- **연관**: 계약 v1(agents_reviewer repo), CHANGELOG v0.20.0, docs/05 §3.4g.
+
+---
+
+## 2026-05-25 v0.19.0 — 영상 문법 재설계 (key takeaway 중앙 + 전체 나레이션 자막 바 + 인용 강조)
+
+- **무엇을**: Remotion Briefing 레이아웃 재설계 + RenderSceneProps `source`/`isQuote` 필드 +
+  render_io 인용 휴리스틱 + 테스트. "글자 도배"에서 "화면엔 핵심(key takeaway)만, 음성+하단
+  자막 바" 형태로(레퍼런스 브리핑 스타일).
+- **왜**: 사용자 원래 목표 — 직관적 화면 + 음성 + 세련된 작은 자막. ①②③ 결정 반영:
+  ① key takeaway = on_screen_caption(caption) 중앙(pull_quote 는 추후 강조 인용 레이어),
+  ② 자막 = 전체 narration(하단 바), ③ 캡션 바 스타일 + 인용은 강조색·인용부호로 명확히.
+- **어떻게**: caption→중앙 대형 텍스트, narration→하단 반투명 자막 바, 좌상단 브랜드 /
+  상단 출처(source) / 우상단 검증 라벨 배지. isQuote 면 강조색(골드) + 인용부호(`" "`/`「 」`)
+  + 좌측 보더. isQuote 는 caption 의 인용부호 휴리스틱(정식 마킹은 ScriptWorker/bundle
+  pull_quote 도입 시 교체). source 텍스트 배선은 bundle 어댑터 강화와 함께(다음).
+- **결과**: 305 테스트 통과(신규 1). **still 프레임 실물 검증**: 정상 scene(브랜드/출처/
+  `<추론>` 배지/중앙 takeaway/자막 바) + 인용 scene(골드 강조 + 인용부호) 둘 다 레퍼런스
+  문법과 일치 확인(remotion npm install + headless-shell 렌더).
+- **다음**: source 텍스트 per-scene 배선 + 정식 인용 마킹(ScriptSegment/bundle pull_quote).
+  Phase B 차트/지도 SVG 가 중앙 슬롯에 합류하면 caption 은 제목/라벨로 축소.
+- **연관**: CHANGELOG v0.19.0, docs/05 §3.4e.
+
+---
+
+## 2026-05-25 v0.18.1 — 외부 계약 v1 draft 보정 동기화 (map.id + map_ref resolve)
+
+- **무엇을**: `BundleMap.id` 필드 + `section.map_ref → map.id` resolve 검증 추가. 테스트 2종.
+- **왜**: v0.18.0 seam 에서 보고한 구조적 갭 — 번들 `map` 은 단일 객체인데 id 가 없어
+  `section.map_ref="m-1"` 이 resolve 안 됐다. agents_reviewer 가 "단일 map + id"(예: "map-1")로
+  계약 정본을 보정(A안 list[Map]·B안 bool 둘 다 회피 — 다중 지도 speculative generality 회피 +
+  §8 균일 ref 모델 보존)했고, 우리 수신 mirror 를 동기화.
+- **어떻게**: map.id 추가, validator 에 map_ref→map.id resolve(null 허용) 강제. 계약
+  schema_version 무증분(draft 보정, 양측 합의). PATCH.
+- **결과**: 304 테스트 통과(신규 2: map_ref resolve / dangling 거부). 보정된 예시 번들
+  resolve 확인.
+- **연관**: 계약 v1(agents_reviewer repo, commit 37416d4), CHANGELOG v0.18.1, docs/05 §3.4g.
+
+---
+
+## 2026-05-25 v0.18.0 — 외부 연동: agents_reviewer report_bundle 수신 (계약 v1, 텍스트 슬라이드 seam)
+
+- **무엇을**: `ReportBundle` 수신 모델 + `bundle_io`(어댑터) + `bundle_service` +
+  `import-bundle` CLI + 테스트 14. agents_reviewer 의 `report_bundle.json` 을 우리
+  `research_dossier` 로 변환·흡수하는 새 intake 경로(`build-research-dossier`(LLM) 드롭인 대체).
+- **왜**: agents_reviewer(텔레그램 보고서/분석 producer)와의 연동. "흡수(코드 복사)는
+  파편화" 라 **버전 박힌 데이터 계약**으로 분석/차트데이터를 받기로 양측 합의(인터페이스 계약
+  v1, 정본은 agents_reviewer repo `docs/CONTRACTS/report_bundle_v1.md`). 이번은 차트 없이
+  컨테이너·매핑을 싸게 검증하는 ② seam 단계(비싼 producer PR/Q5 provenance 배선 앞에 둠).
+- **어떻게**: 계약 §1~9 를 수신 모델로 미러. ① `extra="forbid"` fail-closed,
+  ② `model_validator` 로 id unique + chart_refs/claim_refs resolve 강제(§8),
+  ③ 차트 `data` 모양은 agents_reviewer `schemas.py` 가 SSOT 라 `Any` 통과(§9, 이중 SSOT 회피),
+  ④ 라벨은 `verification`(=ResearchClaimStatus) 단일 축에서 파생 + 그대로 신뢰(재검증 floor
+  없음, 사용자 결정), `model_forecast→inferred`(사용자 선택). 어댑터는 순수 변환(영속화는
+  research_io). import-bundle 은 research_service 동형(precondition·전이 게이트).
+- **결과**: 302 테스트 통과(신규 14). **실물 seam 관통**(예시 번들로): import-bundle →
+  research_dossier(claims/라벨/근거/open_questions 정확) → build-script(실제 claude,
+  6챕터/12세그/316초, TTS-lint 깨끗 — "HBM4"→"에이치비엠 사세대", "71,800원"→"칠만 천팔백 원")
+  → build-scene(12) → build-audio stub(264.6초) → render_props(12 scene). **라벨 척추 무손실**:
+  bundle claim C-2 `inferred` → 대본·scene·render 까지 `<추론>` 전파, C-1 `confirmed` → 무라벨.
+- **seam 갭(producer PR 에 보고)**: `map_ref="m-1"` 이 단일 `map` 객체(id 필드 없음)로 resolve
+  안 됨 → map 을 list+id 로 하거나 map_ref 의미 재정의 필요(현재 validator 는 map_ref 미강제).
+  optional 빈값은 `""`/`null`/키생략 모두 우리 모델이 수용(producer 유연).
+- **다음**: agents_reviewer producer PR(v5.5.0, Q5 provenance 실배선) → 실제 emit 으로
+  필드 충실도 재검증. 우리 측 Phase 2(차트 컴포넌트 A안 + 복잡 3종 prerendered_svg B안).
+- **연관**: 인터페이스 계약 v1(agents_reviewer repo), CHANGELOG v0.18.0, docs/05 §3.4g, docs/03.
 
 ---
 
