@@ -1,6 +1,6 @@
 <!--
 tier: 1
-last_synced_with: v0.34.2
+last_synced_with: v0.34.12
 ssot_for: [session-handoff]
 depends_on: [CLAUDE.md, GOAL.md, VERSION, docs/13_IMPLEMENTATION_ROADMAP.md, docs/REVIEW_PROMPT.md, docs/PROFESSIONAL_REBUILD_PLAN.md]
 last_review: 2026-06-05
@@ -42,12 +42,21 @@ last_review: 2026-06-05
      SlopeChart, CandleChart}. scaleBand + 카테고리 stagger + Material decelerate + 직접
      값 라벨 + bubble 면적 비례 + slope 양쪽 라벨 충돌 회피. legacy ~200 LOC 청산.
      15/21 차트가 design.ts 토큰 100% (71%).
-   - **v0.33.0 (다음)**: Phase 3 Specialty — Donut(외부 라벨 + %), Gantt(time-wipe
-     stagger + 마일스톤 별), Heatmap(셀 행→열 stagger + sequential color), Network
-     (d3-force 헤드리스 사전 시뮬레이션 + degree 큰 노드부터 등장), Sankey(d3-sankey
-     실 사용), Choropleth(world-atlas + ISO 매핑 + sequential color).
-   - 이후: Phase 4 모멘트 음성 싱크 (v0.34.0) → Phase 5 자막/타이포 표준 (v0.35.0) →
-     Phase E 최종 mp4 검수 (v0.36.0).
+   - **v0.33.0~0.33.1 (완료)**: 사용자 평가 "촌스러움" → Aurora Glass / 8색 / glow
+     전면 폐기 → light dashboard + 오렌지 단일 accent + Pretendard + Ken Burns + 다크
+     broadcast 자막. mp4 사용자 검수.
+   - **v0.34.0~0.34.4 (완료, 방향 변경)**: Remotion 폐기 + HyperFrames (HeyGen
+     오픈소스 HTML+GSAP→mp4) 전환. 브렌트 유가 line→캔들 12 주봉 + 콜아웃 +
+     자막 sync 작동.
+   - **v0.34.5~0.34.12 (완료)**: 음성 파이프라인 — build_narration (ElevenLabs API
+     + cuesync.json) + render_demo (portable ffmpeg + index.html 자동 patch) +
+     TTS-AP-054~057 발음 사전 + cue (text, narration) 명시 분리. 사용자 mp4 검수.
+   - **v0.34.13~ (다음, 합의된 우선순위)**: ① 차트 family HyperFrames 컴포넌트화
+     (line/bar/donut/stacked/waterfall/scatter/heatmap/gantt/network) →
+     ② agents_reviewer 번들 → HyperFrames 자동 변환 (orchestrator/render_io 후속) →
+     ③ 인물 카드 + 엔티티 연결선 (날리지식 패턴 ③④) →
+     ④ 다크 지도 GeoScene (날리지식 패턴 ⑤). 자세한 컨텍스트는
+     `hyperframes/scripts/NEXT_SESSION_PROMPT.md`.
    - agents_reviewer 정적 SVG 는 **아직 렌더러 없는 복잡 타입의 폴백**으로만.
      `network/sankey/choropleth` 는 Phase 3 에서 d3-force / d3-sankey / world-atlas
      로 정통 재구현 예정.
