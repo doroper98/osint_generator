@@ -147,7 +147,7 @@ export const DualLineChart: React.FC<DualLineChartProps> = ({
           y={y0}
           width={plotW}
           height={plotH}
-          fill={surface.s1}
+          fill={surface.cardAlt}
           opacity={0.35}
           rx={8}
         />
@@ -254,7 +254,7 @@ export const DualLineChart: React.FC<DualLineChartProps> = ({
                 cy={yL.apply(last.y)}
                 r={6}
                 fill={colL}
-                stroke={surface.base}
+                stroke={surface.page}
                 strokeWidth={stroke.base}
                 opacity={progress}
               />
@@ -269,7 +269,7 @@ export const DualLineChart: React.FC<DualLineChartProps> = ({
                 cy={yR.apply(last.y)}
                 r={6}
                 fill={colR}
-                stroke={surface.base}
+                stroke={surface.page}
                 strokeWidth={stroke.base}
                 opacity={progress}
               />

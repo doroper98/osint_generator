@@ -1,9 +1,9 @@
 <!--
 tier: 1
-last_synced_with: v0.32.0
+last_synced_with: v0.33.0
 ssot_for: [session-handoff]
 depends_on: [CLAUDE.md, GOAL.md, VERSION, docs/13_IMPLEMENTATION_ROADMAP.md, docs/REVIEW_PROMPT.md, docs/PROFESSIONAL_REBUILD_PLAN.md]
-last_review: 2026-06-05
+last_review: 2026-06-06
 -->
 
 # HANDOFF — 다음 세션 AI 인계 문서

@@ -1,9 +1,9 @@
 <!--
 tier: 3
-last_synced_with: v0.32.2
+last_synced_with: v0.33.0
 ssot_for: [development-log]
 depends_on: [CHANGELOG.md]
-last_review: 2026-06-05
+last_review: 2026-06-06
 -->
 
 # DEVLOG
@@ -22,6 +22,76 @@ last_review: 2026-06-05
 - 결과:  …
 - 연관:  AP-번호, 이슈, PR 번호 등
 ```
+
+---
+
+## 2026-06-06 v0.33.0 — Editorial Restraint Reset (영상미 C0 갈아엎기)
+
+- **무엇을**: 디자인 시스템 전면 갈아엎기. v0.29.0 의 Aurora Glass + 8색 Okabe-Ito
+  + 다크 베이스 + 글로우 노선 폐기. 사용자 9장 dashboard 레퍼런스 + 3장 날리지식
+  레퍼런스 + 5개 deep-research 에이전트 (NYT/Vox/FT/Bloomberg 편집 룰, Remotion
+  베스트 프랙티스, 한국 broadcast 타이포, 한국 채널 실 사용 도구, 편집 디자인 안티패턴)
+  결과를 통합해 **light dashboard + 오렌지 단일 accent + Pretendard 굵은 산세리프 +
+  Ken Burns + 다크 자막 바** 로 전면 재구성. 클라우드 환경에서 chromium-headless-shell
+  사용해 직접 mp4 렌더 + SendUserFile 로 사용자 전달까지 완료.
+- **왜**: v0.32.2 (build-audio-demo) 까지 진행 후 사용자가 데모 영상 보고 "전반적으로
+  차트라던지 폰트, 네온 글로우 같은 이펙트가 너무 구려. 촌스러워" 직격. v0.25.0 이래
+  쌓아온 다크 럭셔리 노선(Aurora Glass v0.29.0, Okabe-Ito 8색 v0.30.0 등) 이 사용자
+  미감과 정반대. 사용자 명시 지시: "최고의 인포그래픽 엔진을 찾아. 그리고 적용해서
+  데모를 나한테 만들어 올려" — 즉 제가 결정하고 빌드하고 결과물 전달까지.
+- **어떻게**:
+  - **Deep Research 5 트랙 병렬**: ① NYT/Vox/FT 의 motion infographic 도구
+    (결론: AE+Lottie 표준이지만 D3 가 NYT 의 엔진 — D3 유지가 영상미 천장), ②
+    Remotion + D3 베스트 프랙티스 (`useCurrentFrame` + `interpolate` + d3-shape
+    path 생성기 + `@remotion/paths` evolvePath. GSAP/Lottie 는 wall-clock 충돌로
+    deterministic 위험), ③ 편집 디자인 안티패턴 (NN/g glassmorphism 가이드 위반 = Aurora
+    glass; Wilke 3D / gradient on data marks 금지; Reuters/FT/NYT 시스템엔 neon
+    cyan/violet 0건; Direct labeling > legend by Amanda Cox annotation layer),
+    ④ 한국 broadcast 타이포 (Fontrix Rix헤드/MBC 새로움체/KBS Yoon; Pretendard 는 디지털
+    UI 표준이지 broadcast 표준 아님; 단 본 사용자 레퍼런스는 dashboard infographic
+    이라 Pretendard 적용 적합), ⑤ 한국 채널 실 사용 (지식은 날리지 = 채널 ID 정정,
+    슈카월드 = Paint 3D 라이브, 어쩌다어른 = O tvN 스트랜드 broadcast).
+  - **사용자 레퍼런스 9+3 장 분석**: dashboard 9장 = light bg + 오렌지 accent +
+    Pretendard ExtraBold + 거대 숫자 hero + 둥근 카드 + soft shadow + 직접 라벨;
+    날리지식 3장 = 다크 지도 + 국가 fill + 엔티티 토큰 카드 + 부드러운 연결선 +
+    Ken Burns + 다크 broadcast 자막 바. → 둘 다 수용: dashboard 톤(차트/데이터 씬)
+    + 날리지식 모션 패턴(전 씬 공통, 지도 씬은 별도 dark mode 추후).
+  - **design.ts 재작성**: surface.page(`#f5f1ea`) / surface.card(`#ffffff`) /
+    accent.primary(`#e84a2d`) / series 5색 / weight 400-900 / size 14→180 hero /
+    Material easing 단일계 / stagger 50-150ms. 8색 Okabe-Ito / accent.spotlight
+    cyan / aurora 4색 / accent.quote 샴페인골드 / surface.s1/s2/base / line.grid 등
+    구 토큰 전부 제거.
+  - **모든 차트 컴포넌트 일괄 rename** (`sed -i 's/surface\.s1/surface.cardAlt/g;
+    s/surface\.base/surface.page/g'`). 추가로 `accent.quote` → `accent.primary`,
+    `accent.positive/negative` → `label.verified/unverified` (의미 라벨 매핑).
+  - **Briefing.tsx 전면 재작성**: AuroraGlassCard 의존 제거. 좌상단 브랜드 = 사각형
+    + 캡스. 우상단 라벨 배지 = 흰 카드. 중앙 = SurfaceCard. Ken Burns scale
+    `1.0 → 1.03` 전 씬. 자막 = 다크 translucent + 흰 굵은 글씨 (날리지식 broadcast 톤).
+  - **fonts.ts no-op**: `@remotion/fonts` 의 `loadFont` 가 fetch 실패 시 cancelRender
+    까지 가서 렌더 자체 실패. 클라우드는 `remotion.media` 도메인 차단 + jsdelivr/unpkg
+    도 allowlist 차단 → npm `pretendard` 패키지 설치해 woff2 추출(`node_modules/
+    pretendard/dist/web/variable/woff2/`)해 `public/fonts/` 에 배치만. fonts.ts 는
+    Phase 5 에서 안전 패턴(staticFile + FontFace + delayRender/continueRender)으로
+    재구현 예정. 현재는 family stack 폴백.
+  - **Chromium 우회**: Remotion 의 기본 chromium-headless-shell 다운로드 URL
+    `remotion.media` 가 클라우드 allowlist 차단 → playwright 의
+    `/opt/pw-browsers/chromium_headless_shell-1194/chrome-linux/headless_shell`
+    감지해 `--browser-executable=` 로 직접 지정. Chromium 141 호환 통과.
+  - **렌더**: `npx remotion render src/index.ts Briefing /tmp/demo_v33.mp4
+    --props=demo_props.json --public-dir=public --browser-executable=... --concurrency=2`.
+    52초 (1560 프레임) 렌더 + h264 인코딩 ~3분. 10.9MB.
+  - **SendUserFile** 로 사용자에게 mp4 직접 전달 (status=proactive). 사용자가
+    설치된 데스크탑/모바일 클라이언트에서 즉시 다운로드/시청 가능.
+- **결과**: 사용자 즉시 검수 가능. 9장 dashboard 미감과 정합되는 light 톤 + 오렌지
+  accent + 굵은 산세리프 + Ken Burns + 다크 broadcast 자막. v0.29.0 의 Aurora glass
+  glow는 100% 제거됨.
+- **다음**: 사용자 평가 → ① 차트 본체 컬러·여백 세밀화, ② 날리지식 다크 지도 씬
+  (별도 GeoScene 컴포넌트), ③ 인물 카드 + 엔티티 연결선 draw, ④ 폰트 안전 로딩
+  (Phase 5), ⑤ 음성 입힌 데모 재렌더 중 어디로 가야 하는지 결정.
+- **연관**: C0/G0, CHANGELOG v0.33.0, docs/PROFESSIONAL_REBUILD_PLAN.md (본 PATCH 는
+  Phase 1/2 의 위에 디자인 시스템 갈아엎는 메타 결정 — 향후 v0.34+ Phase 3/4/5
+  적용시 본 디자인 토대 위에서 진행). v0.29.0(폐기), v0.30.0(첫 시도 토대), v0.31.0
+  (XY 본체), v0.32.0(Bar/Point 본체) — 토대는 유지, 표면 처리만 갈아엎음.
 
 ---
 

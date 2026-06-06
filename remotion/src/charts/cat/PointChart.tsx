@@ -138,7 +138,7 @@ export const PointChart: React.FC<PointChartProps> = ({
       height={height}
     >
       <svg width={width} height={height} style={{ display: "block" }}>
-        <rect x={x0} y={y0 - maxR} width={plotW} height={plotH + 2 * maxR} fill={surface.s1} opacity={0.35} rx={8} />
+        <rect x={x0} y={y0 - maxR} width={plotW} height={plotH + 2 * maxR} fill={surface.cardAlt} opacity={0.35} rx={8} />
 
         <Axis
           orientation="y"

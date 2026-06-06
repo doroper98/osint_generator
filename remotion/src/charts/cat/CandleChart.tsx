@@ -5,7 +5,7 @@ import { scaleBand } from "d3-scale";
 import { Axis } from "../../components/Axis";
 import { ChartFrame } from "../../components/ChartFrame";
 import {
-  accent,
+  label,
   chart as chartToken,
   duration,
   fontFamily,
@@ -106,7 +106,7 @@ export const CandleChart: React.FC<CandleChartProps> = ({
   return (
     <ChartFrame kicker={kicker} title={title} subtitle={subtitle} source={source} width={width} height={height}>
       <svg width={width} height={height} style={{ display: "block" }}>
-        <rect x={x0} y={y0} width={plotW} height={plotH} fill={surface.s1} opacity={0.35} rx={8} />
+        <rect x={x0} y={y0} width={plotW} height={plotH} fill={surface.cardAlt} opacity={0.35} rx={8} />
 
         <Axis
           orientation="y"
@@ -137,7 +137,7 @@ export const CandleChart: React.FC<CandleChartProps> = ({
           const cx = (bandScale(String(r.x)) ?? 0) + bandScale.bandwidth() / 2;
           const bw = bandScale.bandwidth();
           const up = r.close >= r.open;
-          const col = up ? accent.positive : accent.negative;
+          const col = up ? label.verified : label.unverified;
           const yHi = yScale.apply(r.high);
           const yLo = yScale.apply(r.low);
           const yO = yScale.apply(r.open);

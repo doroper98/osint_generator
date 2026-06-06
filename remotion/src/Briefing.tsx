@@ -10,7 +10,22 @@ import {
 } from "remotion";
 import { MapView, MapData } from "./MapView";
 import { ChartView, ChartData } from "./ChartView";
-import { AuroraGlassCard } from "./AuroraGlassCard";
+import { SurfaceCard } from "./components/SurfaceCard";
+import {
+  accent,
+  fontFamily,
+  koreanTextStyle,
+  labelColor,
+  letterSpacing,
+  lineHeight,
+  radius,
+  shadow,
+  size,
+  space,
+  surface,
+  text,
+  weight,
+} from "./design";
 
 export const FPS = 30;
 export const WIDTH = 1920;
@@ -47,18 +62,37 @@ export type BriefingProps = {
   scenes: Scene[];
 };
 
-// 라벨별 배지 색 (docs/06 §6 라벨 시스템).
-const LABEL_COLOR: Record<string, string> = {
-  "<확인>": "#5cb85c",
-  "<추론>": "#5bc0de",
-  "<주장>": "#f0ad4e",
-  "<미검증>": "#d9534f",
-  "<반박됨>": "#d9534f",
-};
-
-const BG = "#0e1116";
-const ACCENT = "#e0a458"; // 인용 강조색
 const BRAND = "OSINT 브리핑"; // 채널 브랜드(좌상단). 추후 config 화.
+
+// 작은 라벨 배지 — 흰 카드 + 컬러 도트 + 컬러 텍스트 (light 톤).
+const LabelBadge: React.FC<{ label: string }> = ({ label }) => {
+  const c = labelColor(label);
+  return (
+    <div
+      style={{
+        display: "inline-flex",
+        alignItems: "center",
+        gap: 10,
+        padding: "8px 18px",
+        background: surface.card,
+        borderRadius: radius.pill,
+        boxShadow: shadow.card,
+      }}
+    >
+      <span style={{ width: 12, height: 12, borderRadius: 6, background: c }} />
+      <span
+        style={{
+          fontSize: size.caption,
+          fontWeight: weight.black,
+          color: c,
+          letterSpacing: letterSpacing.wide,
+        }}
+      >
+        {label}
+      </span>
+    </div>
+  );
+};
 
 export const DEFAULT_PROPS: BriefingProps = {
   title: "OSINT 브리핑 (샘플)",
@@ -78,7 +112,7 @@ export const DEFAULT_PROPS: BriefingProps = {
 const Slide: React.FC<{ scene: Scene }> = ({ scene }) => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
-  const opacity = interpolate(frame, [0, 15], [0, 1], {
+  const opacity = interpolate(frame, [0, 18], [0, 1], {
     extrapolateLeft: "clamp",
     extrapolateRight: "clamp",
   });
@@ -88,11 +122,10 @@ const Slide: React.FC<{ scene: Scene }> = ({ scene }) => {
   const hasVisual = hasMap || hasChart;
   const takeaway = scene.caption
     ? isQuote
-      ? `“${scene.caption}”` // “ ”
+      ? `"${scene.caption}"`
       : scene.caption
     : "";
 
-  // 자막은 통문단이 아니라 큐(줄) 단위로 순차 표시 — 현재 프레임 시각에 해당하는 큐만.
   const cues = scene.subtitleCues ?? [];
   const tSec = frame / fps;
   let subtitle = scene.narration;
@@ -102,137 +135,191 @@ const Slide: React.FC<{ scene: Scene }> = ({ scene }) => {
       cues.find((c) => tSec >= c.startSec && tSec < c.startSec + c.durationSec) ??
       cues[cues.length - 1];
     subtitle = active.text;
-    // 큐 시작 시 짧은 페이드인.
     const cueFrame = (tSec - active.startSec) * fps;
-    cueOpacity = interpolate(cueFrame, [0, 6], [0, 1], {
+    cueOpacity = interpolate(cueFrame, [0, 8], [0, 1], {
       extrapolateLeft: "clamp",
       extrapolateRight: "clamp",
     });
   }
 
+  // Ken Burns 미세 스케일 — 모든 씬 1.0 → 1.03 (날리지식 풍 천천히 확대).
+  const kenScale = interpolate(frame, [0, scene.durationSec * fps], [1.0, 1.03], {
+    extrapolateLeft: "clamp",
+    extrapolateRight: "clamp",
+  });
+
   return (
-    <AbsoluteFill style={{ backgroundColor: BG, color: "#f5f7fa", fontFamily: "sans-serif" }}>
-      {/* 좌상단 브랜드 — 절제된 글래스 태그(글로우 약하게) */}
-      <div style={{ position: "absolute", top: 48, left: 56 }}>
-        <AuroraGlassCard radius={10} padding="8px 20px" glow={false} sweepSec={14}>
-          <span style={{ fontSize: 30, fontWeight: 700, letterSpacing: 3, color: "rgba(245,247,250,0.78)" }}>
-            {BRAND}
-          </span>
-        </AuroraGlassCard>
+    <AbsoluteFill
+      style={{
+        backgroundColor: surface.page,
+        color: text.primary,
+        fontFamily,
+        ...koreanTextStyle,
+      }}
+    >
+      {/* 좌상단 브랜드 */}
+      <div
+        style={{
+          position: "absolute",
+          top: space.xxl,
+          left: space.xxxl,
+          display: "flex",
+          alignItems: "center",
+          gap: 12,
+          zIndex: 10,
+        }}
+      >
+        <span style={{ width: 14, height: 14, borderRadius: 3, background: accent.primary }} />
+        <span
+          style={{
+            fontSize: size.caption,
+            fontWeight: weight.black,
+            letterSpacing: letterSpacing.wider,
+            color: text.primary,
+            textTransform: "uppercase",
+          }}
+        >
+          {BRAND}
+        </span>
       </div>
 
-      {/* 상단 출처 표기 (있을 때만) */}
+      {/* 상단 출처 */}
       {scene.source ? (
         <div
           style={{
             position: "absolute",
-            top: 60,
-            left: 420,
-            right: 420,
+            top: space.xxl + 4,
+            left: 460,
+            right: 460,
             textAlign: "center",
-            fontSize: 24,
-            lineHeight: 1.45,
-            color: "rgba(245,247,250,0.4)",
+            fontSize: size.meta,
+            color: text.tertiary,
+            fontWeight: weight.medium,
           }}
         >
-          출처 : {scene.source}
+          출처 · {scene.source}
         </div>
       ) : null}
 
-      {/* 우상단 검증 라벨 배지 — 글래스 카드 + 라벨 색 점/텍스트 */}
+      {/* 우상단 검증 라벨 배지 */}
       {scene.label ? (
-        <div style={{ position: "absolute", top: 48, right: 60 }}>
-          <AuroraGlassCard radius={12} padding="10px 22px" sweepSec={11}>
-            <span style={{ display: "flex", alignItems: "center", gap: 12 }}>
-              <span style={{ width: 16, height: 16, borderRadius: 8, background: LABEL_COLOR[scene.label] ?? "#888888" }} />
-              <span style={{ fontSize: 38, fontWeight: 800, color: LABEL_COLOR[scene.label] ?? "#cdd4df" }}>
-                {scene.label}
-              </span>
-            </span>
-          </AuroraGlassCard>
+        <div style={{ position: "absolute", top: space.xxl, right: space.xxxl, zIndex: 10 }}>
+          <LabelBadge label={scene.label} />
         </div>
       ) : null}
 
-      {/* 중앙: 비주얼(지도/차트, 있으면) + key takeaway 는 제목으로 축소. 없으면 큰 takeaway. */}
-      {hasVisual ? (
-        <AbsoluteFill
-          style={{
-            flexDirection: "column",
-            justifyContent: "center",
-            alignItems: "center",
-            paddingTop: 150,
-            paddingBottom: 280,
-            opacity,
-          }}
-        >
+      {/* 중앙 컨텐츠 — Ken Burns */}
+      <AbsoluteFill
+        style={{
+          transform: `scale(${kenScale})`,
+          transformOrigin: "center",
+          opacity,
+        }}
+      >
+        {hasVisual ? (
           <div
             style={{
-              fontSize: 52,
-              fontWeight: 800,
-              lineHeight: 1.25,
-              textAlign: "center",
-              maxWidth: 1500,
-              marginBottom: 20,
-              color: isQuote ? ACCENT : "#f5f7fa",
+              position: "absolute",
+              top: 160,
+              left: 0,
+              right: 0,
+              bottom: 280,
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              justifyContent: "center",
             }}
           >
-            {takeaway}
+            <SurfaceCard padding={space.xxl} style={{ width: 1520 }}>
+              <div
+                style={{
+                  fontSize: size.title,
+                  fontWeight: weight.black,
+                  lineHeight: lineHeight.display,
+                  letterSpacing: letterSpacing.tight,
+                  color: isQuote ? accent.primary : text.primary,
+                  marginBottom: space.lg,
+                  ...koreanTextStyle,
+                }}
+              >
+                {takeaway}
+              </div>
+              {hasMap ? (
+                <MapView data={scene.mapData as MapData} width={1456} height={560} />
+              ) : (
+                <ChartView chart={scene.chartData as ChartData} width={1456} height={560} />
+              )}
+            </SurfaceCard>
           </div>
-          {hasMap ? (
-            <MapView data={scene.mapData as MapData} width={1360} height={600} />
-          ) : (
-            <ChartView chart={scene.chartData as ChartData} width={1360} height={560} />
-          )}
-        </AbsoluteFill>
-      ) : (
-        <AbsoluteFill
-          style={{
-            justifyContent: "center",
-            alignItems: "center",
-            padding: "180px 220px 320px",
-            opacity,
-          }}
-        >
+        ) : (
           <div
             style={{
-              fontSize: 96,
-              fontWeight: 800,
-              lineHeight: 1.22,
-              textAlign: "center",
-              color: isQuote ? ACCENT : "#f5f7fa",
+              position: "absolute",
+              top: 0,
+              left: 0,
+              right: 0,
+              bottom: 0,
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              padding: "200px 200px 280px",
             }}
           >
-            {takeaway}
+            <div
+              style={{
+                fontSize: 124,
+                fontWeight: weight.black,
+                lineHeight: lineHeight.tight,
+                letterSpacing: letterSpacing.tighter,
+                textAlign: "center",
+                color: isQuote ? accent.primary : text.primary,
+                maxWidth: 1600,
+                ...koreanTextStyle,
+              }}
+            >
+              {takeaway}
+            </div>
           </div>
-        </AbsoluteFill>
-      )}
+        )}
+      </AbsoluteFill>
 
-      {/* 하단 자막 바: 전체 나레이션 (인용이면 강조색 + 「」) */}
+      {/* 하단 자막 — 날리지식 풍 다크 translucent + 흰 굵은 자막 */}
       {subtitle ? (
         <div
           style={{
             position: "absolute",
-            bottom: 64,
+            bottom: space.xxl,
             left: 0,
             right: 0,
             display: "flex",
             justifyContent: "center",
-            padding: "0 130px",
+            padding: "0 140px",
             opacity: cueOpacity,
+            zIndex: 20,
           }}
         >
-          <AuroraGlassCard radius={16} padding="22px 46px" maxWidth={1520} accentBar={isQuote ? ACCENT : undefined}>
+          <div
+            style={{
+              background: "rgba(26,26,26,0.82)",
+              padding: "20px 40px",
+              borderRadius: 10,
+              maxWidth: 1520,
+              borderLeft: isQuote ? `4px solid ${accent.primary}` : undefined,
+            }}
+          >
             <span
               style={{
-                fontSize: 42,
-                lineHeight: 1.5,
-                fontWeight: 600,
-                color: isQuote ? ACCENT : "#ffffff",
+                fontSize: 36,
+                lineHeight: lineHeight.normal,
+                fontWeight: weight.bold,
+                color: isQuote ? accent.primary : "#ffffff",
+                letterSpacing: letterSpacing.tight,
+                ...koreanTextStyle,
               }}
             >
               {subtitle}
             </span>
-          </AuroraGlassCard>
+          </div>
         </div>
       ) : null}
     </AbsoluteFill>
@@ -242,7 +329,7 @@ const Slide: React.FC<{ scene: Scene }> = ({ scene }) => {
 export const Briefing: React.FC<BriefingProps> = ({ scenes }) => {
   const { fps } = useVideoConfig();
   return (
-    <AbsoluteFill style={{ backgroundColor: BG }}>
+    <AbsoluteFill style={{ backgroundColor: surface.page }}>
       {scenes.map((scene) => {
         const from = Math.round(scene.startSec * fps);
         const dur = Math.max(1, Math.round(scene.durationSec * fps));

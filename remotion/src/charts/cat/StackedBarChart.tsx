@@ -117,7 +117,7 @@ export const StackedBarChart: React.FC<StackedBarChartProps> = ({
           y={y0}
           width={plotW}
           height={plotH}
-          fill={surface.s1}
+          fill={surface.cardAlt}
           opacity={0.35}
           rx={8}
         />

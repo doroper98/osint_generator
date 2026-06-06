@@ -1,5 +1,6 @@
 import React from "react";
 import { interpolate, useCurrentFrame, useVideoConfig } from "remotion";
+
 import {
   accent,
   duration,
@@ -13,30 +14,18 @@ import {
   weight,
 } from "../design";
 
-// Callout — D3-annotation Subject + Note + Connector 패턴.
-// Subject: 데이터 포인트 (점/원).
-// Connector: leader line (curved 또는 straight).
-// Note: 라벨 텍스트 (제목 + 본문).
-//
-// SVG group 으로 반환. 호출자가 차트 좌표계에 위치시킨다.
-// 진입 모션: Subject (300ms) → Connector draw (300ms) → Note fade (200ms).
+// Callout v2 (v0.33.0) — light 톤. Subject + Connector + Note.
+// 글로우/halo 제거. 1px hairline + 채워진 점. 검정 텍스트.
 
 export type CalloutProps = {
-  // Subject 위치 (데이터 포인트, px).
   subject: { x: number; y: number };
-  // Note 위치 (라벨 박스 좌상단, px). Connector 가 subject → note 로 그려진다.
   note: { x: number; y: number };
   title: string;
   body?: string | null;
-  // 강조 컬러 (기본 spotlight).
   color?: string;
-  // 진입 시작 프레임 (호출자가 차트 진입 + 지연을 제어).
   startFrame?: number;
-  // Subject 점 반경.
   subjectRadius?: number;
-  // Note 라벨 박스 폭.
   noteWidth?: number;
-  // Connector 곡률 (0 = 직선, 1 = 강한 곡선).
   curve?: number;
 };
 
@@ -45,61 +34,48 @@ export const Callout: React.FC<CalloutProps> = ({
   note,
   title,
   body,
-  color = accent.spotlight,
+  color = accent.primary,
   startFrame = 0,
-  subjectRadius = 6,
-  noteWidth = 280,
-  curve = 0.35,
+  subjectRadius = 5,
+  noteWidth = 260,
+  curve = 0.3,
 }) => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
   const f = Math.max(0, frame - startFrame);
 
-  // 진입 트랙: subject grow → connector draw → note fade.
   const subjectEnd = msToFrames(duration.short, fps);
   const connectorStart = subjectEnd;
   const connectorEnd = connectorStart + msToFrames(duration.short, fps);
   const noteStart = connectorEnd - msToFrames(duration.micro, fps);
-  const noteEnd = noteStart + msToFrames(duration.micro * 1.5, fps);
+  const noteEnd = noteStart + msToFrames(duration.short, fps);
 
   const subjectScale = interpolate(f, [0, subjectEnd], [0, 1], {
     extrapolateLeft: "clamp",
     extrapolateRight: "clamp",
-    easing: (t) => 1 - Math.pow(1 - t, 3), // decelerate 근사
+    easing: (t) => 1 - Math.pow(1 - t, 3),
   });
-
-  const connectorProgress = interpolate(
-    f,
-    [connectorStart, connectorEnd],
-    [0, 1],
-    {
-      extrapolateLeft: "clamp",
-      extrapolateRight: "clamp",
-      easing: (t) => 1 - Math.pow(1 - t, 3),
-    }
-  );
-
+  const connectorProgress = interpolate(f, [connectorStart, connectorEnd], [0, 1], {
+    extrapolateLeft: "clamp",
+    extrapolateRight: "clamp",
+    easing: (t) => 1 - Math.pow(1 - t, 3),
+  });
   const noteOpacity = interpolate(f, [noteStart, noteEnd], [0, 1], {
     extrapolateLeft: "clamp",
     extrapolateRight: "clamp",
   });
 
-  // Bezier 컨트롤 포인트 — subject 와 note 의 중간점에 곡률 적용.
   const midX = (subject.x + note.x) / 2;
   const midY = (subject.y + note.y) / 2;
   const dx = note.x - subject.x;
   const dy = note.y - subject.y;
-  // 수직 방향으로 곡률 — 부호는 note 위치에 따라.
-  const cx = midX + dy * curve * 0.5;
-  const cy = midY - dx * curve * 0.5;
-
-  // path 길이 근사로 stroke-dasharray 진입.
-  const approxLen = Math.hypot(dx, dy) * 1.15;
+  const cx = midX + dy * curve * 0.4;
+  const cy = midY - dx * curve * 0.4;
+  const approxLen = Math.hypot(dx, dy) * 1.1;
   const dashOffset = approxLen * (1 - connectorProgress);
 
   return (
     <g>
-      {/* Connector (curved) */}
       <path
         d={`M ${subject.x} ${subject.y} Q ${cx} ${cy} ${note.x} ${note.y}`}
         stroke={color}
@@ -108,16 +84,7 @@ export const Callout: React.FC<CalloutProps> = ({
         strokeDasharray={approxLen}
         strokeDashoffset={dashOffset}
         strokeLinecap="round"
-        opacity={0.85}
-      />
-
-      {/* Subject — outer halo + inner dot */}
-      <circle
-        cx={subject.x}
-        cy={subject.y}
-        r={subjectRadius * 2.4 * subjectScale}
-        fill={color}
-        opacity={0.18 * subjectScale}
+        opacity={0.7}
       />
       <circle
         cx={subject.x}
@@ -125,8 +92,6 @@ export const Callout: React.FC<CalloutProps> = ({
         r={subjectRadius * subjectScale}
         fill={color}
       />
-
-      {/* Note — foreignObject 로 한글 줄바꿈 적용. */}
       <foreignObject
         x={note.x}
         y={note.y - 12}
@@ -143,11 +108,13 @@ export const Callout: React.FC<CalloutProps> = ({
         >
           <div
             style={{
-              fontSize: size.body,
-              fontWeight: weight.bold,
+              fontSize: size.caption,
+              fontWeight: weight.extrabold,
               lineHeight: lineHeight.tight,
               color,
               marginBottom: 4,
+              textTransform: "uppercase",
+              letterSpacing: 1.5,
             }}
           >
             {title}

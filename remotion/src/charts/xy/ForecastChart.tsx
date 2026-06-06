@@ -115,7 +115,7 @@ export const ForecastChart: React.FC<ForecastChartProps> = ({
   const clipId = `clip-${chartId}`;
 
   const colActual = seriesColor(0);
-  const colFc = accent.quote;
+  const colFc = accent.primary;
 
   const lineGen = d3Line<[number, number]>()
     .x((d) => d[0])
@@ -165,7 +165,7 @@ export const ForecastChart: React.FC<ForecastChartProps> = ({
           y={y0}
           width={plotW}
           height={plotH}
-          fill={surface.s1}
+          fill={surface.cardAlt}
           opacity={0.35}
           rx={8}
         />
@@ -237,7 +237,7 @@ export const ForecastChart: React.FC<ForecastChartProps> = ({
             const py = yScale.apply(last.y);
             return (
               <g opacity={progress}>
-                <circle cx={px} cy={py} r={6} fill={colActual} stroke={surface.base} strokeWidth={stroke.base} />
+                <circle cx={px} cy={py} r={6} fill={colActual} stroke={surface.page} strokeWidth={stroke.base} />
                 <text
                   x={px - 10}
                   y={py - 14}
@@ -259,7 +259,7 @@ export const ForecastChart: React.FC<ForecastChartProps> = ({
             const py = yScale.apply(last.mid);
             return (
               <g opacity={progress > 0.6 ? Math.min(1, (progress - 0.6) / 0.3) : 0}>
-                <circle cx={px} cy={py} r={6} fill={colFc} stroke={surface.base} strokeWidth={stroke.base} />
+                <circle cx={px} cy={py} r={6} fill={colFc} stroke={surface.page} strokeWidth={stroke.base} />
                 <text
                   x={px + 10}
                   y={py - 14}

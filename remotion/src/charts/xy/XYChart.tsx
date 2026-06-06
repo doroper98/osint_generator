@@ -195,7 +195,7 @@ export const XYChart: React.FC<XYChartProps> = ({
           y={y0}
           width={plotW}
           height={plotH}
-          fill={surface.s1}
+          fill={surface.cardAlt}
           opacity={0.35}
           rx={8}
         />
@@ -299,7 +299,7 @@ export const XYChart: React.FC<XYChartProps> = ({
                 cy={py}
                 r={6}
                 fill={meta.color}
-                stroke={surface.base}
+                stroke={surface.page}
                 strokeWidth={stroke.base}
                 opacity={progress}
               />

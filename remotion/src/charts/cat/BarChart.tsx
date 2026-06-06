@@ -138,7 +138,7 @@ export const BarChart: React.FC<BarChartProps> = ({
           y={y0}
           width={plotW}
           height={plotH}
-          fill={surface.s1}
+          fill={surface.cardAlt}
           opacity={0.35}
           rx={8}
         />
@@ -242,7 +242,7 @@ export const BarChart: React.FC<BarChartProps> = ({
                   cy={drawY}
                   r={9 * Math.min(1, prog * 1.4)}
                   fill={col}
-                  stroke={surface.base}
+                  stroke={surface.page}
                   strokeWidth={stroke.base}
                 />
                 <text

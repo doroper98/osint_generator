@@ -5,7 +5,7 @@ import { scaleBand } from "d3-scale";
 import { Axis } from "../../components/Axis";
 import { ChartFrame } from "../../components/ChartFrame";
 import {
-  accent,
+  label,
   chart as chartToken,
   duration,
   fontFamily,
@@ -130,7 +130,7 @@ export const Waterfall: React.FC<WaterfallProps> = ({
       height={height}
     >
       <svg width={width} height={height} style={{ display: "block" }}>
-        <rect x={x0} y={y0} width={plotW} height={plotH} fill={surface.s1} opacity={0.35} rx={8} />
+        <rect x={x0} y={y0} width={plotW} height={plotH} fill={surface.cardAlt} opacity={0.35} rx={8} />
 
         <Axis
           orientation="y"
@@ -171,8 +171,8 @@ export const Waterfall: React.FC<WaterfallProps> = ({
             b.type === "total"
               ? seriesColor(0)
               : b.type === "pos"
-                ? accent.positive
-                : accent.negative;
+                ? label.verified
+                : label.unverified;
 
           return (
             <g key={`b-${i}`}>

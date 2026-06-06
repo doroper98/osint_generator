@@ -1,9 +1,9 @@
 <!--
 tier: 3
-last_synced_with: v0.32.2
+last_synced_with: v0.33.0
 ssot_for: [release-notes]
 depends_on: [README.md, GOAL.md]
-last_review: 2026-06-05
+last_review: 2026-06-06
 -->
 
 # CHANGELOG
@@ -25,6 +25,107 @@ released 항목은 **append-only**입니다.
 
 ### Fixed
 -
+
+---
+
+## [v0.33.0] — 2026-06-06
+
+**Editorial Restraint Reset — 디자인 시스템 전면 갈아엎기 (영상미 C0, 사용자 평가
+"전반적으로 너무 구려 / 촌스러워" 대응)**. v0.29.0 의 Aurora Glass + 8색 Okabe-Ito
++ 다크 베이스 + 글로우 노선을 폐기하고, 사용자가 보내주신 9장 dashboard 인포그래픽
+레퍼런스 + 3장 날리지식 모션 레퍼런스 + 5개 deep-research 에이전트 결과(NYT/Vox/FT
+편집 룰 + Remotion 베스트 프랙티스)를 합쳐 **light dashboard + 오렌지 단일 accent**
+로 전면 재구성. 클라우드 환경에서 chromium-headless-shell 로 직접 mp4 렌더 및 사용자
+전달까지 완료.
+
+### Removed
+
+- **`remotion/src/AuroraGlassCard.tsx`** 삭제. conic gradient 보더 + 회전 글로우는
+  편집 영상미와 정반대(NN/g glassmorphism 가이드 위반, Reuters/FT/NYT 시스템 0건).
+
+### Added
+
+- **`remotion/src/design.ts` 전면 재작성** — 편집 dashboard 디자인 토큰 SSOT.
+  - **Color**: `surface.page` 크림 `#f5f1ea` (밝은 베이스) + `surface.card` `#ffffff`
+    카드 + `accent.primary` `#e84a2d` 오렌지 단일 accent. 시리즈 5색
+    (오렌지 / 네이비 / 라벤더 / 핑크 / 앰버 — circle infographic 레퍼런스 매핑).
+    의미 라벨 4색 톤다운(녹·블루·앰버·레드). 8색 Okabe-Ito · Aurora · neon 색 폐기.
+  - **Typography**: Pretendard Variable 폰트 스택. weight 400-900 단일계.
+    Size scale 14→20→28→36→56→96→180 (hero 거대 숫자 추가). `letterSpacing.tightest -2`
+    (거대 숫자 자간 조이기), `letterSpacing.caps 3` (kicker 캡스).
+  - **Motion**: Material decelerate / standard / accelerate 만. 글로우 / spring /
+    bounce 폐기. duration 150-1200ms, `stagger(n)` 50-150ms (Vox/NYT 편집 기준).
+  - **Spacing**: 8 grid + radius.lg=22 (대형 라운드 카드).
+  - **Shadow**: `0 2px 16px rgba(26,26,26,0.06)` 절제 1단계.
+- **`remotion/src/components/SurfaceCard.tsx`**(신규) — 흰 라운드 카드 + soft shadow.
+  Aurora glass 대체 표준 컨테이너.
+- **`remotion/src/components/NumericHero.tsx`**(신규) — 거대 숫자 카운트업 hero
+  (`$750K` / `31 MILLION` 풍 시그니처). 0 → value count-up + Material decelerate +
+  suffix 페이드인.
+- **`remotion/src/fonts.ts`**(신규, no-op 스텁) — Phase 5 에서 staticFile +
+  FontFace + delayRender/continueRender 안전 패턴으로 본격 구현 예정.
+  본 PATCH 에서는 `@remotion/fonts` 의 `loadFont` 가 fetch 실패 시 cancelRender 까지
+  가서 렌더 자체를 막아 silent skip.
+- **`remotion/public/fonts/PretendardVariable.woff2`** — Pretendard Variable
+  woff2 (2MB). 사용자 머신은 system font stack 이 잡고, 클라우드에선 시스템
+  sans-serif 폴백.
+- **npm**: `@remotion/fonts` `@remotion/paths` `@remotion/layout-utils` + `pretendard`
+  + `@fontsource/pretendard` (deep-research 결과 권장 스택).
+
+### Changed
+
+- **`remotion/src/Briefing.tsx`** — 전면 갈아엎기. AuroraGlassCard 의존 제거.
+  - 배경: `#0e1116` 다크 → `surface.page` 크림.
+  - 브랜드: 사각형 + 캡스 텍스트 (좌상단).
+  - 라벨 배지: 흰 카드 + 컬러 점 + 컬러 텍스트 (`LabelBadge` 컴포넌트화).
+  - 중앙 컨텐츠: SurfaceCard 안에 takeaway + 차트/지도. Ken Burns 미세 스케일
+    (`1.0 → 1.03`) 전 씬 적용 (날리지식 패턴 ②).
+  - 자막: 다크 translucent (`rgba(26,26,26,0.82)`) + 흰 굵은 글씨 (한국 broadcast
+    표준, 날리지식 풍).
+  - takeaway 컬러: 인용 시 오렌지 accent.
+- **`remotion/src/components/{ChartFrame,Axis,Callout,ReferenceRegion}.tsx`** —
+  새 토큰으로 재배선. 글로우/halo/foreignObject blur 제거.
+- **모든 차트 컴포넌트** (XYChart / DualLineChart / ForecastChart / BarChart /
+  StackedBarChart / Waterfall / PointChart / SlopeChart / CandleChart) — `surface.s1` /
+  `surface.base` → `surface.cardAlt` / `surface.page` 일괄 rename, `accent.quote` →
+  `accent.primary`, `accent.positive/negative` → `label.verified/unverified` 으로
+  의미 라벨 매핑.
+
+### 사용자 머신 사용법
+
+```cmd
+cd C:\01_Antigravity\osint_generator
+git pull origin claude/stoic-galileo-Xmxyj
+cd remotion
+npm install
+npx remotion render src/index.ts Briefing demo_out.mp4 ^
+  --props=demo_props.json --public-dir=public
+```
+
+음성 있는 데모: `build-audio-demo` 로 audio 빌드 후 `demo_props_with_audio.json` 사용
+(public-dir 분기 주의 — fonts 와 audio 디렉토리 위치 다름, Phase 5 에서 정리 예정).
+
+### 날리지식 5개 모션 패턴 — 본 PATCH 진행상황
+
+| 패턴 | 상태 |
+|---|---|
+| 1. 화면전환 부드러움 (cross-fade) | 부분 — 씬 진입 18f opacity fade. cross-fade 는 Phase 4 |
+| 2. 스틸이미지 미세 확대 (Ken Burns) | ✅ 적용 — 모든 씬 1.0 → 1.03 |
+| 3. 인물 부드러운 등장 | 미구현 — Phase 4 (인물 카드 컴포넌트 신설 예정) |
+| 4. 엔티티 연결선 draw | 미구현 — Phase 4 (Callout 의 connector 가 부분 패턴) |
+| 5. 다크 지도 + 국가 하이라이트 + 토큰 | 미구현 — Phase 3 의 일부 (별도 GeoScene 컴포넌트) |
+
+### Deep Research 5 에이전트 출처 (의사결정 근거)
+
+- NYT/Vox/FT/Bloomberg 편집 룰 (FlowingData NYT, FT Visual Vocabulary, Reuters
+  Graphics style, Wilke Fundamentals Ch.26, Amanda Cox annotation layer, NN/g
+  glassmorphism, Source Han Serif, Pretendard)
+- Remotion 베스트 프랙티스 (remotion-dev/d3-example, remotion-dev/skills/charts.md,
+  @remotion/fonts loadFont, @remotion/paths evolvePath, GSAP/Lottie deterministic
+  pitfalls)
+- 한국 broadcast 타이포 (Fontrix Rix헤드/Rix정고딕 SBS, MBC 새로움체, KBS Yoon
+  Design, Pretendard GOV 2024-04 적용)
+- 9장 dashboard 인포그래픽 레퍼런스 + 3장 날리지식(`UCQKZQFd7AfgHOYoui6OE9Ew`) 화면
 
 ---
 

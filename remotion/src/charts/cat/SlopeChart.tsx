@@ -107,7 +107,7 @@ export const SlopeChart: React.FC<SlopeChartProps> = ({
   return (
     <ChartFrame kicker={kicker} title={title} subtitle={subtitle} source={source} width={width} height={height}>
       <svg width={width} height={height} style={{ display: "block" }}>
-        <rect x={xL - 20} y={y0 - 8} width={xR - xL + 40} height={plotH + 16} fill={surface.s1} opacity={0.3} rx={8} />
+        <rect x={xL - 20} y={y0 - 8} width={xR - xL + 40} height={plotH + 16} fill={surface.cardAlt} opacity={0.3} rx={8} />
 
         {/* 좌·우 컬럼 헤더 */}
         <text
@@ -155,9 +155,9 @@ export const SlopeChart: React.FC<SlopeChartProps> = ({
           return (
             <g key={`it-${i}`}>
               <line x1={xL} y1={yA} x2={xMid} y2={yMid} stroke={col} strokeWidth={strokeToken.thick} strokeLinecap="round" />
-              <circle cx={xL} cy={yA} r={6} fill={col} stroke={surface.base} strokeWidth={strokeToken.base} />
+              <circle cx={xL} cy={yA} r={6} fill={col} stroke={surface.page} strokeWidth={strokeToken.base} />
               {prog > 0.97 && (
-                <circle cx={xR} cy={yB} r={6} fill={col} stroke={surface.base} strokeWidth={strokeToken.base} />
+                <circle cx={xR} cy={yB} r={6} fill={col} stroke={surface.page} strokeWidth={strokeToken.base} />
               )}
             </g>
           );
