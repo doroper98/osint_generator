@@ -1,6 +1,6 @@
 <!--
 tier: 3
-last_synced_with: v0.34.0
+last_synced_with: v0.34.1
 ssot_for: [development-log]
 depends_on: [CHANGELOG.md]
 last_review: 2026-06-06
@@ -22,6 +22,55 @@ last_review: 2026-06-06
 - 결과:  …
 - 연관:  AP-번호, 이슈, PR 번호 등
 ```
+
+---
+
+## 2026-06-06 v0.34.1 — HyperFrames 사용자 1차 피드백 4 픽스 (영상미 C0)
+
+- **무엇을**: v0.34.0 의 HyperFrames 프로토 영상 본 사용자 평가 + 4 후속 요청 반영.
+  데이터 점 마커 추가, 자막 다중 큐 swap, 자막 폰트 ExtraBold, 자막 배경 dark burnt
+  orange. 14초 silent mp4 재렌더 + 사용자 전달.
+- **왜**: 사용자 평가 "어 훨씬 나아졌는데, 그 차트에 데이터가 없었던 것 같아. 그리고
+  자막을 이제 진짜 나레이션 스러운 자막과 음성을 입히는걸 해보자. 그리고 자막의 폰트는
+  어떤걸로 할까? 그리고 자막의 배경은 화면에서 보여주는 차트나 지도, 정보에 맞는 짙은
+  색을 자막 박스의 배경색으로 하는거야 어때". 4 항목 모두 즉시 적용 가능 (음성만 환경
+  제약).
+- **어떻게**:
+  - **① 데이터 점 마커**: `<g id="points">` 에 line path 의 각 9 좌표에 `<circle r=5
+    fill="#e84a2d" stroke="#fff" stroke-width=2 opacity="0">`. GSAP `tl.to(".pt",
+    {opacity:1, stagger:0.18}, 0.8)` 으로 라인 draw-on (2초) 진행에 맞춰 차례로 등장.
+    9 × 0.18 = 1.62초 → 라인 끝나는 시점과 거의 동기.
+  - **② 음성**: 클라우드 SSL 인터셉트로 edge-tts(`speech.platform.bing.com`) +
+    ElevenLabs (`api.elevenlabs.io` 403) 모두 차단. 자체 SSL bypass 시도(monkey-patch
+    `aiohttp.TCPConnector`)했으나 edge-tts 모듈이 자체 세션 생성으로 우회 안 됨.
+    → composition 에 `<audio class="clip" data-start=0 data-duration=14
+    src="assets/audio/brent.mp3" preload="auto">` placeholder 만 사전 배선. 사용자
+    머신에서 본인 ElevenLabs key 로 mp3 생성 시 자동 재생. HyperFrames + audio 통합은
+    이미 1급 (`<audio data-*>` 표준 패턴).
+  - **③ 자막 폰트**: `font-weight: 700` → `font-weight: 800` (Pretendard ExtraBold).
+    Pretendard Variable woff2 가 100-900 wght axis 지원하므로 추가 파일 없이 weight
+    변경만으로 적용. `letter-spacing: -0.3px` → `-0.4px` 조여서 broadcast 톤. 사용자
+    질문 "자막 폰트 어떤걸로?" 답변: Pretendard 단일계 유지 권장 (한국 broadcast 표준
+    Rix정고딕/MBC 새로움체 는 commercial license 불가, 무료 대안 Noto Sans KR Black /
+    G마켓 산스 Bold 가능하나 본문/타이틀과 폰트 갈리면 통일성 깨짐).
+  - **④ 자막 배경 동적**: `rgba(26,26,26,0.82)` (uniform near-black) →
+    `#4a1e10` (dark burnt orange, 차트 accent `#e84a2d` 의 brightness 30% 톤).
+    `box-shadow` 도 `rgba(74,30,16,0.35)` 톤 매칭. 본 PATCH 는 line chart 씬에 대해
+    하드코딩, 향후 v0.35+ 에서 씬별 `subtitleBgColor` 토큰화 (`render_props.json` 또는
+    composition data-attr). 매핑 가이드:
+      * 오렌지 차트 → `#4a1e10` (dark burnt orange)
+      * 지도 빨강 강조 → `#2a0a0a` (deep maroon)
+      * 회색 dashboard → `#1a1a1a` (near-black, 기본)
+      * 네이비 차트 → `#0a1a2e` (deep navy)
+  - **자막 다중 큐**: 4 큐를 `position:absolute` 로 겹쳐 두고 opacity 만 swap. cue
+    1=3.2s/cue2=3.5s/cue3=3.0s/cue4=3.5s = total 13.2s + 진입 0.8s = 14s.
+  - composition duration 10s → 14s (자막 분량 확보).
+- **결과**: 14초 silent mp4 90.9KB 렌더 + SendUserFile 전달. 영상미 추가 향상 검증 대기.
+- **다음 (사용자 평가 후)**:
+  - 음성 자동 합성 + HyperFrames 통합 (build-audio-demo 의 HyperFrames 적응판)
+  - 씬별 subtitleBgColor 토큰화 (data-attr 또는 compose props)
+  - v0.35.0: 차트 family 15종 React → HTML+SVG+GSAP 포팅
+- **연관**: CHANGELOG v0.34.1, v0.34.0 (HyperFrames 채택), GOAL G0 영상미.
 
 ---
 

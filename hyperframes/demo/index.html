@@ -26,7 +26,7 @@
       .brand-name { font-size: 20px; font-weight: 900; letter-spacing: 2px; text-transform: uppercase; color: #1a1a1a; }
       .source { position: absolute; top: 60px; left: 460px; right: 460px; text-align: center;
         font-size: 16px; color: rgba(26,26,26,0.42); font-weight: 500; }
-      .stage { position: absolute; top: 160px; left: 0; right: 0; bottom: 280px;
+      .stage { position: absolute; top: 160px; left: 0; right: 0; bottom: 300px;
         display: flex; align-items: center; justify-content: center; transform-origin: center; }
       .card { width: 1520px; background: #ffffff; border-radius: 22px;
         box-shadow: 0 2px 16px rgba(26,26,26,0.06), 0 1px 3px rgba(26,26,26,0.04);
@@ -34,12 +34,16 @@
       .takeaway { font-size: 56px; font-weight: 900; line-height: 1.15;
         letter-spacing: -0.3px; color: #1a1a1a; margin-bottom: 24px; }
       svg.chart { display: block; width: 1408px; height: 500px; overflow: visible; }
-      .subtitle-bar { position: absolute; bottom: 56px; left: 0; right: 0;
+      .subtitle-bar { position: absolute; bottom: 64px; left: 0; right: 0;
         display: flex; justify-content: center; padding: 0 140px; z-index: 20; }
-      .subtitle { background: rgba(26,26,26,0.82); padding: 20px 40px; border-radius: 10px;
-        max-width: 1520px; }
-      .subtitle span { font-size: 36px; line-height: 1.35; font-weight: 700;
-        color: #ffffff; letter-spacing: -0.3px; }
+      /* v0.34.1 — 자막 배경: 차트 accent(#e84a2d 오렌지) 의 dark variant. */
+      .subtitle { background: #4a1e10; padding: 22px 44px; border-radius: 10px;
+        max-width: 1520px; box-shadow: 0 4px 24px rgba(74,30,16,0.35); }
+      /* v0.34.1 — Pretendard ExtraBold(800) 자막. */
+      .subtitle .cue { font-size: 38px; line-height: 1.35; font-weight: 800;
+        color: #ffffff; letter-spacing: -0.4px; display: block;
+        word-break: keep-all; overflow-wrap: anywhere; }
+      .cue { opacity: 0; }
     </style>
   </head>
   <body>
@@ -48,7 +52,7 @@
       class="clip"
       data-composition-id="brent"
       data-start="0"
-      data-duration="10"
+      data-duration="14"
       data-track-index="0"
       data-width="1920"
       data-height="1080"
@@ -89,8 +93,21 @@
                   fill="none" stroke="#e84a2d" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"
                   pathLength="1" stroke-dasharray="1" stroke-dashoffset="1"/>
 
+            <!-- v0.34.1 — 데이터 점 마커 (각 7 점에 작은 원, 흰 테두리로 line 위에 잘 보임) -->
+            <g id="points">
+              <circle class="pt" cx="160"  cy="260" r="5" fill="#e84a2d" stroke="#ffffff" stroke-width="2" opacity="0"/>
+              <circle class="pt" cx="370"  cy="100" r="5" fill="#e84a2d" stroke="#ffffff" stroke-width="2" opacity="0"/>
+              <circle class="pt" cx="475"  cy="108" r="5" fill="#e84a2d" stroke="#ffffff" stroke-width="2" opacity="0"/>
+              <circle class="pt" cx="580"  cy="164" r="5" fill="#e84a2d" stroke="#ffffff" stroke-width="2" opacity="0"/>
+              <circle class="pt" cx="790"  cy="220" r="5" fill="#e84a2d" stroke="#ffffff" stroke-width="2" opacity="0"/>
+              <circle class="pt" cx="895"  cy="188" r="5" fill="#e84a2d" stroke="#ffffff" stroke-width="2" opacity="0"/>
+              <circle class="pt" cx="1000" cy="200" r="5" fill="#e84a2d" stroke="#ffffff" stroke-width="2" opacity="0"/>
+              <circle class="pt" cx="1100" cy="152" r="5" fill="#e84a2d" stroke="#ffffff" stroke-width="2" opacity="0"/>
+              <circle class="pt" cx="1210" cy="128" r="5" fill="#e84a2d" stroke="#ffffff" stroke-width="2" opacity="0"/>
+            </g>
+
             <g id="callout1" opacity="0">
-              <circle cx="370" cy="100" r="6" fill="#e84a2d"/>
+              <circle cx="370" cy="100" r="7" fill="#e84a2d" stroke="#ffffff" stroke-width="2"/>
               <path id="conn1" d="M 376 100 Q 460 70 540 50" stroke="#e84a2d" stroke-width="1.5" fill="none"
                     pathLength="1" stroke-dasharray="1" stroke-dashoffset="1"/>
               <text x="552" y="44" fill="#e84a2d" font-size="20" font-weight="800" letter-spacing="1.5">호르무즈 봉쇄</text>
@@ -98,7 +115,7 @@
             </g>
 
             <g id="callout2" opacity="0">
-              <circle cx="790" cy="220" r="6" fill="#e84a2d"/>
+              <circle cx="790" cy="220" r="7" fill="#e84a2d" stroke="#ffffff" stroke-width="2"/>
               <path id="conn2" d="M 790 226 Q 760 280 720 320" stroke="#e84a2d" stroke-width="1.5" fill="none"
                     pathLength="1" stroke-dasharray="1" stroke-dashoffset="1"/>
               <text x="715" y="345" fill="#e84a2d" font-size="20" font-weight="800" letter-spacing="1.5" text-anchor="end">1차 휴전</text>
@@ -106,7 +123,7 @@
             </g>
 
             <g id="endpoint" opacity="0">
-              <circle cx="1308" cy="184" r="7" fill="#e84a2d" stroke="#f5f1ea" stroke-width="2"/>
+              <circle cx="1308" cy="184" r="8" fill="#e84a2d" stroke="#f5f1ea" stroke-width="2.5"/>
               <text x="1326" y="178" fill="#e84a2d" font-size="20" font-weight="800">브렌트</text>
               <text x="1326" y="206" fill="#1a1a1a" font-size="28" font-weight="900">102 $</text>
             </g>
@@ -114,40 +131,79 @@
         </div>
       </div>
 
+      <!-- v0.34.1 — 다중 자막 큐, 시간에 따라 swap.
+           나레이션 (실 음성은 사용자 머신에서 ElevenLabs 로 생성, assets/audio/brent.mp3 에 배치). -->
       <div class="subtitle-bar">
-        <div class="subtitle" id="subtitle">
-          <span>봉쇄 직후 브렌트유가 배럴당 80달러에서 120달러로 급등했습니다.</span>
+        <div class="subtitle">
+          <span class="cue" id="cue1">3월 4일, 호르무즈 해협 봉쇄로 브렌트유가 한 달 만에 50% 급등했습니다.</span>
+          <span class="cue" id="cue2" style="position:absolute;">유가는 한때 배럴당 120달러를 돌파하며 시장에 충격을 줬습니다.</span>
+          <span class="cue" id="cue3" style="position:absolute;">4월 7일 1차 휴전 합의 직후 잠시 안정세를 보였지만,</span>
+          <span class="cue" id="cue4" style="position:absolute;">5월 들어 다시 약 114달러까지 반등하며 변동성을 이어가고 있습니다.</span>
         </div>
       </div>
+
+      <!-- v0.34.1 — 사용자 머신에서 assets/audio/brent.mp3 배치 시 자동 재생. 클라우드 silent. -->
+      <audio
+        class="clip"
+        data-start="0"
+        data-duration="14"
+        data-track-index="100"
+        src="assets/audio/brent.mp3"
+        preload="auto"
+      ></audio>
     </div>
 
     <script>
       window.__timelines = window.__timelines || {};
       const tl = gsap.timeline({ paused: true, defaults: { ease: "power2.out" } });
 
+      // 진입
       tl.from(".brand", { opacity: 0, y: -8, duration: 0.4 }, 0);
       tl.from(".source", { opacity: 0, duration: 0.5 }, 0.1);
       tl.from("#takeaway", { opacity: 0, y: 24, duration: 0.6 }, 0.2);
       tl.from("#grid", { opacity: 0, duration: 0.4 }, 0.4);
 
+      // 라인 draw-on (2초)
       tl.to("#line", { strokeDashoffset: 0, duration: 2.0, ease: "power1.inOut" }, 0.7);
 
-      tl.to("#callout1", { opacity: 1, duration: 0.001 }, 1.2);
-      tl.from("#callout1 circle", { scale: 0, transformOrigin: "370px 100px", duration: 0.3 }, 1.2);
-      tl.to("#conn1", { strokeDashoffset: 0, duration: 0.4 }, 1.5);
-      tl.from("#callout1 text", { opacity: 0, x: -8, duration: 0.3, stagger: 0.05 }, 1.7);
+      // v0.34.1 — 데이터 점 마커 stagger pop-in (라인 그려지는 진행에 맞춰 차례로).
+      tl.to(".pt", { opacity: 1, duration: 0.3, stagger: 0.18 }, 0.8);
 
-      tl.to("#callout2", { opacity: 1, duration: 0.001 }, 2.4);
-      tl.from("#callout2 circle", { scale: 0, transformOrigin: "790px 220px", duration: 0.3 }, 2.4);
-      tl.to("#conn2", { strokeDashoffset: 0, duration: 0.4 }, 2.7);
-      tl.from("#callout2 text", { opacity: 0, x: 8, duration: 0.3, stagger: 0.05 }, 2.9);
+      // 콜아웃 1: 호르무즈 봉쇄
+      tl.to("#callout1", { opacity: 1, duration: 0.001 }, 1.4);
+      tl.from("#callout1 circle", { scale: 0, transformOrigin: "370px 100px", duration: 0.3 }, 1.4);
+      tl.to("#conn1", { strokeDashoffset: 0, duration: 0.4 }, 1.7);
+      tl.from("#callout1 text", { opacity: 0, x: -8, duration: 0.3, stagger: 0.05 }, 1.9);
 
-      tl.to("#endpoint", { opacity: 1, duration: 0.001 }, 2.7);
-      tl.from("#endpoint circle", { scale: 0, transformOrigin: "1308px 184px", duration: 0.3 }, 2.7);
-      tl.from("#endpoint text", { opacity: 0, x: -8, duration: 0.4, stagger: 0.08 }, 2.9);
+      // 콜아웃 2: 1차 휴전
+      tl.to("#callout2", { opacity: 1, duration: 0.001 }, 2.8);
+      tl.from("#callout2 circle", { scale: 0, transformOrigin: "790px 220px", duration: 0.3 }, 2.8);
+      tl.to("#conn2", { strokeDashoffset: 0, duration: 0.4 }, 3.1);
+      tl.from("#callout2 text", { opacity: 0, x: 8, duration: 0.3, stagger: 0.05 }, 3.3);
 
-      tl.fromTo("#stage", { scale: 1.0 }, { scale: 1.03, duration: 10, ease: "none" }, 0);
-      tl.from(".subtitle-bar", { opacity: 0, y: 12, duration: 0.5 }, 0.6);
+      // 끝점 마커 + 직접 라벨
+      tl.to("#endpoint", { opacity: 1, duration: 0.001 }, 3.0);
+      tl.from("#endpoint circle", { scale: 0, transformOrigin: "1308px 184px", duration: 0.3 }, 3.0);
+      tl.from("#endpoint text", { opacity: 0, x: -8, duration: 0.4, stagger: 0.08 }, 3.2);
+
+      // Ken Burns 전체 (14초 동안)
+      tl.fromTo("#stage", { scale: 1.0 }, { scale: 1.03, duration: 14, ease: "none" }, 0);
+
+      // 자막 바 페이드인
+      tl.from(".subtitle", { opacity: 0, y: 12, duration: 0.5 }, 0.6);
+
+      // v0.34.1 — 자막 다중 큐 (14초 동안 4 cue swap, 글자 단위 자연 발화 길이 비례).
+      // cue1: 0.8 - 4.0s   (3.2초, 33자)
+      // cue2: 4.0 - 7.5s   (3.5초, 30자)
+      // cue3: 7.5 - 10.5s  (3.0초, 27자)
+      // cue4: 10.5 - 14s   (3.5초, 34자)
+      tl.to("#cue1", { opacity: 1, duration: 0.35 }, 0.8);
+      tl.to("#cue1", { opacity: 0, duration: 0.25 }, 4.0);
+      tl.to("#cue2", { opacity: 1, duration: 0.35 }, 4.0);
+      tl.to("#cue2", { opacity: 0, duration: 0.25 }, 7.5);
+      tl.to("#cue3", { opacity: 1, duration: 0.35 }, 7.5);
+      tl.to("#cue3", { opacity: 0, duration: 0.25 }, 10.5);
+      tl.to("#cue4", { opacity: 1, duration: 0.35 }, 10.5);
 
       window.__timelines["brent"] = tl;
     </script>

@@ -1,6 +1,6 @@
 <!--
 tier: 3
-last_synced_with: v0.34.0
+last_synced_with: v0.34.1
 ssot_for: [release-notes]
 depends_on: [README.md, GOAL.md]
 last_review: 2026-06-06
@@ -25,6 +25,41 @@ released 항목은 **append-only**입니다.
 
 ### Fixed
 -
+
+---
+
+## [v0.34.1] — 2026-06-06
+
+**HyperFrames 프로토 — 사용자 1차 피드백 4 픽스 (영상미 C0)**.
+
+### Added
+
+- **데이터 점 마커 9개** — line path 의 각 데이터 점에 오렌지 fill + 흰 테두리 r=5px
+  원. 라인 draw-on 진행에 맞춰 stagger pop-in (0.18s 간격, 라인이 닿을 때 차례로 등장).
+  사용자 피드백 "차트에 데이터가 없었던 것 같다" 대응.
+- **자막 다중 큐 4개** — 14초 동안 시간 비례로 swap (3.2s / 3.5s / 3.0s / 3.5s):
+  - "3월 4일, 호르무즈 해협 봉쇄로 브렌트유가 한 달 만에 50% 급등했습니다"
+  - "유가는 한때 배럴당 120달러를 돌파하며 시장에 충격을 줬습니다"
+  - "4월 7일 1차 휴전 합의 직후 잠시 안정세를 보였지만"
+  - "5월 들어 다시 약 114달러까지 반등하며 변동성을 이어가고 있습니다"
+- **`<audio data-start data-duration src="assets/audio/brent.mp3">`** placeholder —
+  사용자 머신에서 ElevenLabs key 로 생성한 mp3 를 본 경로에 두면 자동 재생.
+
+### Changed
+
+- **자막 폰트 weight 700 → 800 (Pretendard ExtraBold)** — Korean broadcast 가독성 +
+  편집 톤. letter-spacing -0.4px 조여서.
+- **자막 배경 `rgba(26,26,26,0.82)` → `#4a1e10` (dark burnt orange)** — 차트 accent
+  `#e84a2d` 의 dark variant. 사용자 요청 "차트/지도/정보에 맞는 짙은 색" 대응. 톤 매칭
+  그림자 `rgba(74,30,16,0.35)` 추가.
+- 향후 씬별 토큰화 예정 (회색 dashboard → `#1a1a1a`, 지도 빨강 강조 → `#2a0a0a`).
+
+### Known Limitations
+
+- **음성 클라우드 미렌더**: SSL 인터셉트 (`certificate verify failed`) 로 edge-tts /
+  ElevenLabs API 호출 불가. 음성 합성은 사용자 머신에서 본인 `.env` 의 ElevenLabs key
+  로 실행. 본 PATCH 는 `<audio>` placeholder 만 사전 배선.
+- composition duration 10s → 14s 로 확장 (자막 4 큐 시간 확보).
 
 ---
 
