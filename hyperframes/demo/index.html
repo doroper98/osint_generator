@@ -3,7 +3,8 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=1920, height=1080" />
-    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <!-- v0.34.3 — 로컬 GSAP (jsdelivr CDN 의존 제거, 차단 시 모든 트윈 정지 사고 회피). -->
+    <script src="assets/gsap.min.js"></script>
     <style>
       @font-face {
         font-family: "Pretendard Variable";
@@ -92,7 +93,7 @@
             <path id="line"
                   d="M 160 260 L 370 100 L 475 108 L 580 164 L 790 220 L 895 188 L 1000 200 L 1100 152 L 1210 128 L 1308 184"
                   fill="none" stroke="#e84a2d" stroke-width="3.5" stroke-linejoin="round" stroke-linecap="round"
-                  pathLength="1" stroke-dasharray="1" stroke-dashoffset="1"/>
+                  style="stroke-dasharray: 4000; stroke-dashoffset: 4000;"/>
 
             <!-- v0.34.2 — 데이터 점 마커: 명시 opacity 1, GSAP from() 으로 등장. -->
             <g id="points">
@@ -110,7 +111,7 @@
             <g id="callout1" style="opacity:0">
               <circle cx="370" cy="100" r="8" fill="#e84a2d" stroke="#ffffff" stroke-width="2.5"/>
               <path id="conn1" d="M 376 100 Q 460 70 540 50" stroke="#e84a2d" stroke-width="1.5" fill="none"
-                    pathLength="1" stroke-dasharray="1" stroke-dashoffset="1"/>
+                    style="stroke-dasharray: 600; stroke-dashoffset: 600;"/>
               <text x="552" y="44" fill="#e84a2d" font-size="22" font-weight="800" letter-spacing="1.5">호르무즈 봉쇄</text>
               <text x="552" y="70" fill="rgba(26,26,26,0.7)" font-size="20" font-weight="600">유가 피크 $120</text>
             </g>
@@ -118,7 +119,7 @@
             <g id="callout2" style="opacity:0">
               <circle cx="790" cy="220" r="8" fill="#e84a2d" stroke="#ffffff" stroke-width="2.5"/>
               <path id="conn2" d="M 790 226 Q 760 280 720 320" stroke="#e84a2d" stroke-width="1.5" fill="none"
-                    pathLength="1" stroke-dasharray="1" stroke-dashoffset="1"/>
+                    style="stroke-dasharray: 600; stroke-dashoffset: 600;"/>
               <text x="715" y="345" fill="#e84a2d" font-size="22" font-weight="800" letter-spacing="1.5" text-anchor="end">1차 휴전</text>
               <text x="715" y="371" fill="rgba(26,26,26,0.7)" font-size="20" font-weight="600" text-anchor="end">2주 유효</text>
             </g>
@@ -126,7 +127,7 @@
             <g id="callout3" style="opacity:0">
               <circle cx="1100" cy="152" r="8" fill="#e84a2d" stroke="#ffffff" stroke-width="2.5"/>
               <path id="conn3" d="M 1100 146 Q 1080 110 1040 80" stroke="#e84a2d" stroke-width="1.5" fill="none"
-                    pathLength="1" stroke-dasharray="1" stroke-dashoffset="1"/>
+                    style="stroke-dasharray: 600; stroke-dashoffset: 600;"/>
               <text x="1032" y="72" fill="#e84a2d" font-size="22" font-weight="800" letter-spacing="1.5" text-anchor="end">UAE 표적 공격</text>
               <text x="1032" y="98" fill="rgba(26,26,26,0.7)" font-size="20" font-weight="600" text-anchor="end">$114 재반등</text>
             </g>
@@ -143,11 +144,12 @@
       <!-- v0.34.2 — 자막: 박스 하나 + 안에 텍스트 한 줄 textContent swap. -->
       <div class="subtitle-bar">
         <div class="subtitle">
-          <span class="text" id="subtitleText"></span>
+          <span class="text" id="subtitleText">2026년 3월 4일, 호르무즈 해협 봉쇄 사태가 발생했습니다.</span>
         </div>
       </div>
 
       <audio
+        id="narration-brent"
         class="clip"
         data-start="0"
         data-duration="30"
@@ -167,18 +169,10 @@
       tl.from("#takeaway",     { opacity: 0, y: 24, duration: 0.6 }, 0.2);
       tl.from("#grid",         { opacity: 0, duration: 0.4 }, 0.4);
 
-      // v0.34.2 — 라인/connector path 길이 측정 후 dash 명시. pathLength="1" 의존
-      // 회피 (GSAP 트윈 시 시작점 인식 실패 사고).
-      const setDash = (sel) => {
-        document.querySelectorAll(sel).forEach((p) => {
-          const len = p.getTotalLength();
-          gsap.set(p, { strokeDasharray: len, strokeDashoffset: len });
-        });
-      };
-      setDash("#line");
-      setDash("#conn1, #conn2, #conn3");
+      // v0.34.3 — path 의 dasharray/offset 은 HTML 의 inline style 로 명시(4000/600).
+      // getTotalLength() 의존 제거 (script error 가능성 회피).
 
-      // 라인 draw-on (3초 — 좀 더 느긋하게).
+      // 라인 draw-on (3초).
       tl.to("#line", { strokeDashoffset: 0, duration: 3.0, ease: "power1.inOut" }, 0.7);
 
       // 데이터 점 마커 stagger 등장 (라인에 맞춰).
@@ -229,14 +223,16 @@
       // 초기 텍스트: 첫 큐.
       $sub.textContent = cues[0].text;
 
+      // v0.34.3 — overwrite:"auto" 로 트윈 겹침 자동 해소 (lint overlap 경고 해결).
       cues.forEach((c, i) => {
-        // 페이드아웃 직전 큐 → swap → 페이드인.
         if (i === 0) {
-          tl.fromTo($box, { opacity: 0, y: 12 }, { opacity: 1, y: 0, duration: 0.5 }, c.t);
+          tl.fromTo($box,
+            { opacity: 0, y: 12 },
+            { opacity: 1, y: 0, duration: 0.5, overwrite: "auto" }, c.t);
         } else {
-          tl.to($box, { opacity: 0, duration: 0.2 }, c.t - 0.25);
+          tl.to($box, { opacity: 0, duration: 0.2, overwrite: "auto" }, c.t - 0.25);
           tl.call(() => { $sub.textContent = c.text; }, [], c.t - 0.05);
-          tl.to($box, { opacity: 1, duration: 0.25 }, c.t);
+          tl.to($box, { opacity: 1, duration: 0.25, overwrite: "auto" }, c.t);
         }
       });
 
