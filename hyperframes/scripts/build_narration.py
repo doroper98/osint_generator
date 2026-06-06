@@ -25,13 +25,21 @@ import subprocess
 import sys
 from pathlib import Path
 
+# v0.34.10 — orchestrator.tts_pronounce 가 같은 repo 안에 있어 sys.path 추가.
+_REPO_ROOT = Path(__file__).resolve().parent.parent.parent
+if str(_REPO_ROOT) not in sys.path:
+    sys.path.insert(0, str(_REPO_ROOT))
+
 # .env 자동 로딩 (v0.32.1 패턴).
 try:
     from dotenv import load_dotenv  # type: ignore[import-not-found]
 
-    load_dotenv(Path(__file__).resolve().parent.parent.parent / ".env", override=False)
+    load_dotenv(_REPO_ROOT / ".env", override=False)
 except ImportError:
     pass
+
+# 발음 사전 (v0.34.10).
+from orchestrator.tts_pronounce import apply_pronunciation, load_dict
 
 
 def _resolve_ffmpeg() -> str:
@@ -254,7 +262,16 @@ def main(argv: list[str] | None = None) -> int:
     workdir = OUTPUT_PATH.parent / "_segments"
     workdir.mkdir(exist_ok=True)
 
-    # 1) 각 cue 음성 합성 + 실 길이 측정.
+    # 1) 발음 사전 로드 (v0.34.10). 자막은 원본 한글, 합성용 텍스트만 음차 치환.
+    pron_dict = load_dict(DEMO_DIR / "assets" / "pronounce.json")
+    if pron_dict:
+        print(
+            f"build_narration: 발음 사전 {len(pron_dict)} 항목 적용 "
+            f"({DEMO_DIR / 'assets' / 'pronounce.json'})",
+            flush=True,
+        )
+
+    # 2) 각 cue 음성 합성 + 실 길이 측정.
     print(
         f"build_narration: {len(CUE_TEXTS)} cue 합성 (voice={voice_id}, model={model_id}, "
         f"lead={args.lead_sec}s, pause={args.pause_sec}s, tail={args.tail_sec}s)",
@@ -263,9 +280,12 @@ def main(argv: list[str] | None = None) -> int:
     seg_paths: list[Path] = []
     seg_durs: list[float] = []
     for i, text in enumerate(CUE_TEXTS, start=1):
+        spoken = apply_pronunciation(text, pron_dict)
+        if spoken != text:
+            print(f"     발음 치환: {text[:30]} → {spoken[:30]}", flush=True)
         seg = workdir / f"cue_{i:02d}.mp3"
         print(f"  [{i}/{len(CUE_TEXTS)}] {text[:30]}...", flush=True)
-        mp3_bytes = synth_one(text, api_key, voice_id, model_id)
+        mp3_bytes = synth_one(spoken, api_key, voice_id, model_id)
         seg.write_bytes(mp3_bytes)
         dur = probe_duration(seg)
         print(f"    → {seg.name} ({dur:.2f}s)", flush=True)
