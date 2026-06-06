@@ -120,15 +120,33 @@ CUESYNC_PATH = DEMO_DIR / "cuesync.json"
 
 
 def synth_one(text: str, api_key: str, voice_id: str, model_id: str) -> bytes:
-    """ElevenLabs API 단일 합성 — mp3 bytes 반환."""
+    """ElevenLabs API 단일 합성 — mp3 bytes 반환.
+
+    v0.34.9 — voice_settings 를 더 이상 hardcode 안 함.
+    사용자가 ElevenLabs 웹의 voice library 에서 stability/similarity/style 등
+    조정한 값을 그대로 반영하려면 payload 의 voice_settings 필드를 omit 해
+    ElevenLabs 가 voice 의 default 를 적용하게 두는 게 정답. 사용자가 매 호출마다
+    override 하고 싶으면 .env 의 ELEVENLABS_STABILITY / ELEVENLABS_SIMILARITY_BOOST /
+    ELEVENLABS_STYLE / ELEVENLABS_USE_SPEAKER_BOOST 를 set.
+    """
     import httpx
 
     url = f"https://api.elevenlabs.io/v1/text-to-speech/{voice_id}"
-    payload = {
-        "text": text,
-        "model_id": model_id,
-        "voice_settings": {"stability": 0.5, "similarity_boost": 0.7},
-    }
+    payload: dict = {"text": text, "model_id": model_id}
+
+    # 사용자가 .env 에 명시 override 한 값만 voice_settings 에 채움.
+    overrides: dict = {}
+    if (v := os.environ.get("ELEVENLABS_STABILITY")):
+        overrides["stability"] = float(v)
+    if (v := os.environ.get("ELEVENLABS_SIMILARITY_BOOST")):
+        overrides["similarity_boost"] = float(v)
+    if (v := os.environ.get("ELEVENLABS_STYLE")):
+        overrides["style"] = float(v)
+    if (v := os.environ.get("ELEVENLABS_USE_SPEAKER_BOOST")):
+        overrides["use_speaker_boost"] = v.strip().lower() in ("1", "true", "yes")
+    if overrides:
+        payload["voice_settings"] = overrides
+
     headers = {
         "xi-api-key": api_key,
         "Accept": "audio/mpeg",
