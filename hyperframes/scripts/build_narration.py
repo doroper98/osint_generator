@@ -9,6 +9,7 @@ cloud 는 외부 TTS API 가 차단되어 음성 생성 불가 — 사용자 머
 사용법 (사용자 머신):
     cd C:\\01_Antigravity\\osint_generator
     git pull origin claude/stoic-galileo-Xmxyj
+    pip install -r requirements.txt    # imageio-ffmpeg + mutagen 포함 (v0.34.6)
     python hyperframes\\scripts\\build_narration.py
 
 산출:
@@ -17,12 +18,18 @@ cloud 는 외부 TTS API 가 차단되어 음성 생성 불가 — 사용자 머
 이후:
     cd hyperframes/demo
     npx hyperframes render
+
+의존성 메모:
+    - imageio-ffmpeg: portable ffmpeg 바이너리 (PATH 따로 안 잡아도 작동).
+    - mutagen: mp3 길이 측정 (pure python, ffprobe 의존 회피).
+    위 두 패키지가 requirements.txt 에 있어 pip install 만으로 됨. 시스템에
+    ffmpeg 이미 있어도 imageio-ffmpeg 가 자동 발견하니 중복 OK.
 """
 
 from __future__ import annotations
 
-import io
 import os
+import shutil
 import subprocess
 import sys
 from pathlib import Path
@@ -34,6 +41,73 @@ try:
     load_dotenv(Path(__file__).resolve().parent.parent.parent / ".env", override=False)
 except ImportError:
     pass
+
+
+def _resolve_ffmpeg() -> str:
+    """ffmpeg 실행 파일 경로 자동 발견.
+
+    1. imageio-ffmpeg (pip 으로 설치되는 portable 바이너리) → PATH 불요.
+    2. 시스템 PATH 의 ffmpeg.
+    3. 둘 다 없으면 명확한 안내 + exit.
+    """
+    try:
+        import imageio_ffmpeg  # type: ignore[import-not-found]
+
+        return imageio_ffmpeg.get_ffmpeg_exe()
+    except ImportError:
+        pass
+
+    found = shutil.which("ffmpeg")
+    if found:
+        return found
+
+    print(
+        "error: ffmpeg 가 없습니다. 둘 중 하나로 설치:\n"
+        "  (권장) pip install imageio-ffmpeg mutagen\n"
+        "  (대안) winget install ffmpeg 또는 https://ffmpeg.org/download.html",
+        file=sys.stderr,
+    )
+    sys.exit(1)
+
+
+def _probe_duration_mp3(path: Path) -> float:
+    """mp3 길이 측정 — mutagen(pure python) 우선, 없으면 ffprobe 폴백.
+
+    Windows 의 ffprobe 가 PATH 에 없는 경우 사고 회피.
+    """
+    try:
+        from mutagen.mp3 import MP3  # type: ignore[import-not-found]
+
+        return float(MP3(str(path)).info.length)
+    except ImportError:
+        pass
+
+    ffprobe = shutil.which("ffprobe")
+    if not ffprobe:
+        print(
+            "error: mp3 길이 측정 불가. pip install mutagen 권장.",
+            file=sys.stderr,
+        )
+        sys.exit(1)
+    out = subprocess.run(
+        [
+            ffprobe,
+            "-v",
+            "error",
+            "-show_entries",
+            "format=duration",
+            "-of",
+            "default=noprint_wrappers=1:nokey=1",
+            str(path),
+        ],
+        check=True,
+        capture_output=True,
+        text=True,
+    )
+    return float(out.stdout.strip())
+
+
+FFMPEG_BIN = _resolve_ffmpeg()
 
 
 # index.html 의 cue 배열과 1:1 매칭.
@@ -80,12 +154,12 @@ def write_silence(path: Path, duration_sec: float) -> None:
     """ffmpeg 으로 정확한 길이의 무음 mp3 생성."""
     subprocess.run(
         [
-            "ffmpeg",
+            FFMPEG_BIN,
             "-y",
             "-f",
             "lavfi",
             "-i",
-            f"anullsrc=r=44100:cl=mono",
+            "anullsrc=r=44100:cl=mono",
             "-t",
             f"{duration_sec:.3f}",
             "-q:a",
@@ -100,23 +174,8 @@ def write_silence(path: Path, duration_sec: float) -> None:
 
 
 def probe_duration(path: Path) -> float:
-    """ffprobe 로 mp3 길이 측정."""
-    out = subprocess.run(
-        [
-            "ffprobe",
-            "-v",
-            "error",
-            "-show_entries",
-            "format=duration",
-            "-of",
-            "default=noprint_wrappers=1:nokey=1",
-            str(path),
-        ],
-        check=True,
-        capture_output=True,
-        text=True,
-    )
-    return float(out.stdout.strip())
+    """mp3 길이 측정 — mutagen 우선."""
+    return _probe_duration_mp3(path)
 
 
 def concat_mp3s(parts: list[Path], output: Path) -> None:
@@ -125,7 +184,7 @@ def concat_mp3s(parts: list[Path], output: Path) -> None:
     listfile.write_text("\n".join(f"file '{p.resolve()}'" for p in parts) + "\n")
     subprocess.run(
         [
-            "ffmpeg",
+            FFMPEG_BIN,
             "-y",
             "-f",
             "concat",
