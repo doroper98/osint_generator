@@ -119,20 +119,25 @@ FFMPEG_BIN = _resolve_ffmpeg()
 # - narration= 발음 표기 (선택). 한자어 숫자, 경음화, 띄어쓰기 prosody 다 사용자 의도대로.
 #   기본 사전이 잘 잡으면 None 으로 두면 됨. 모델이 특수 misread 하는 곳만 채움.
 CUES: list[tuple[str, str | None]] = [
+    # (자막용 text, 합성용 narration | None)
+    # narration 명시 = 사용자가 직접 발음 표기. None = text 그대로 ElevenLabs 에.
+    # v0.34.12 — 사용자 보고: "오 월 사 일" 처럼 풀어쓰면 끊어 읽어 어색.
+    # 날짜는 원본 표기("5월 4일", "102") 유지 — ElevenLabs 가 자연스럽게 읽음.
+    # misread 단어(달러/유가/원유) 만 음차 치환.
     ("2026년 3월 4일, 호르무즈 해협 봉쇄 사태가 발생했습니다.",
-     "이천 이십 육년 삼 월 사 일, 호르무즈 해협 봉쇄 사태가 발생했습니다."),
+     None),
     ("전 세계 원유 공급의 약 20%가 차단되며 충격이 전파됐습니다.",
-     "전 세계 워뉴 공급의 약 이십 퍼센트가 차단되며 충격이 전파됐습니다."),
+     "전 세계 워뉴 공급의 약 20%가 차단되며 충격이 전파됐습니다."),
     ("봉쇄 직후 브렌트유는 배럴당 80달러에서 120달러로 급등했습니다.",
-     "봉쇄 직후 브렌트유는 배럴당 팔십 딸러에서 백 이십 딸러로 급등했습니다."),
+     "봉쇄 직후 브렌트유는 배럴당 80딸러에서 120딸러로 급등했습니다."),
     ("한 달 만에 약 50% 가까이 오른 셈입니다.",
-     "한 달 만에 약 오십 퍼센트 가까이 오른 셈입니다."),
+     None),
     ("4월 7일 1차 휴전 합의로 유가는 잠시 안정세를 보였지만,",
-     "사 월 칠 일 일 차 휴전 합의로 유까는 잠시 안정세를 보였지만,"),
+     "4월 7일 1차 휴전 합의로 유까는 잠시 안정세를 보였지만,"),
     ("5월 5일 UAE 표적 공격으로 다시 약 114달러까지 반등했습니다.",
-     "오 월 오 일 유에이이 표적 공격으로 다시 약 백 십사 딸러까지 반등했습니다."),
+     "5월 5일 유에이이 표적 공격으로 다시 약 114딸러까지 반등했습니다."),
     ("5월 19일 현재 102달러 수준에서 협상이 이어지고 있습니다.",
-     "오 월 십구 일 현재 백 이 딸러 수준에서 협상이 이어지고 있습니다."),
+     "5월 19일 현재 102딸러 수준에서 협상이 이어지고 있습니다."),
     ("유가는 지정학적 리스크에 가장 민감한 지표입니다.",
      "유까는 지정학적 리스크에 가장 민감한 지표입니다."),
 ]
@@ -255,6 +260,12 @@ def main(argv: list[str] | None = None) -> int:
         default=0.5,
         help="마지막 음성 끝난 뒤 영상 끝까지 tail 무음. 기본 0.5.",
     )
+    parser.add_argument(
+        "--auto-pronounce",
+        action="store_true",
+        help="narration None 인 cue 에 자동 발음 변환(사전+숫자 한자어) 적용. "
+        "기본 OFF — 사용자 의도와 어긋나 끊어 읽는 사고(v0.34.11) 회피.",
+    )
     args = parser.parse_args(argv)
 
     if args.pause_sec < 0 or args.lead_sec < 0 or args.tail_sec < 0:
@@ -296,12 +307,18 @@ def main(argv: list[str] | None = None) -> int:
     seg_paths: list[Path] = []
     seg_durs: list[float] = []
     for i, (text, narration_override) in enumerate(CUES, start=1):
+        # v0.34.12 — default 동작 변경: narration None 이면 text 그대로 ElevenLabs 에.
+        # 자동 사전 변환은 --auto-pronounce 명시 시에만 (날짜·숫자 자동 풀이가
+        # 사용자 의도와 어긋나 끊어 읽는 사고 회피).
         if narration_override is not None:
             spoken = narration_override
             origin = "명시"
-        else:
+        elif args.auto_pronounce:
             spoken = apply_pronunciation(text, pron_dict)
             origin = "자동" if spoken != text else "원본"
+        else:
+            spoken = text
+            origin = "원본"
         seg = workdir / f"cue_{i:02d}.mp3"
         print(f"  [{i}/{len(CUES)}] {text[:30]}...", flush=True)
         print(f"     합성({origin}): {spoken[:50]}...", flush=True)

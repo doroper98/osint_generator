@@ -90,22 +90,22 @@ def _resolve_npx() -> str:
     sys.exit(1)
 
 
-def _run_build_narration(pause_sec: float, lead_sec: float, tail_sec: float) -> int:
-    """build_narration.py 를 같은 인터프리터로 실행 (pause/lead/tail forward)."""
+def _run_build_narration(
+    pause_sec: float, lead_sec: float, tail_sec: float, auto_pronounce: bool
+) -> int:
+    """build_narration.py 를 같은 인터프리터로 실행 (옵션 forward)."""
     script = Path(__file__).resolve().parent / "build_narration.py"
     print(f"[render_demo] narration 음성 합성 시작...", flush=True)
-    result = subprocess.run(
-        [
-            sys.executable,
-            str(script),
-            "--pause-sec",
-            str(pause_sec),
-            "--lead-sec",
-            str(lead_sec),
-            "--tail-sec",
-            str(tail_sec),
-        ]
-    )
+    cmd = [
+        sys.executable,
+        str(script),
+        "--pause-sec", str(pause_sec),
+        "--lead-sec", str(lead_sec),
+        "--tail-sec", str(tail_sec),
+    ]
+    if auto_pronounce:
+        cmd.append("--auto-pronounce")
+    result = subprocess.run(cmd)
     if result.returncode != 0:
         print(
             f"[render_demo] build_narration 실패 (exit {result.returncode}). 진행 중단.",
@@ -214,6 +214,12 @@ def main() -> int:
         default=0.5,
         help="마지막 음성 후 tail 무음 (기본 0.5).",
     )
+    parser.add_argument(
+        "--auto-pronounce",
+        action="store_true",
+        help="narration None 인 cue 에 자동 사전+숫자 한자어 변환 적용 (기본 OFF, "
+        "v0.34.12 — 명시 narration 만 쓰는 패턴 권장).",
+    )
     args = parser.parse_args()
 
     if not HF_DEMO_DIR.is_dir():
@@ -221,7 +227,9 @@ def main() -> int:
         return 1
 
     if args.with_narration:
-        rc = _run_build_narration(args.pause_sec, args.lead_sec, args.tail_sec)
+        rc = _run_build_narration(
+            args.pause_sec, args.lead_sec, args.tail_sec, args.auto_pronounce
+        )
         if rc != 0:
             return rc
 
