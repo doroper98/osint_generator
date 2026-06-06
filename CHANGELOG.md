@@ -1,6 +1,6 @@
 <!--
 tier: 3
-last_synced_with: v0.34.1
+last_synced_with: v0.34.2
 ssot_for: [release-notes]
 depends_on: [README.md, GOAL.md]
 last_review: 2026-06-06
@@ -25,6 +25,42 @@ released 항목은 **append-only**입니다.
 
 ### Fixed
 -
+
+---
+
+## [v0.34.2] — 2026-06-06
+
+**v0.34.1 사용자 검수 후 버그 픽스 — 라인/자막 안 보이던 문제 해결 + 30초 확장**.
+사용자 스크린샷으로 진단: 차트 라인 0:10 시점에서도 보이지 않고, 자막 박스만 보이고
+텍스트는 빈 상태. 두 근본 원인 식별 후 픽스.
+
+### Fixed
+
+- **라인 draw-on 작동 안 함** — SVG `pathLength="1"` + `stroke-dasharray="1"` +
+  `stroke-dashoffset="1"` attribute 의존이 GSAP 트윈 시작점 인식 실패 야기. `path
+  .getTotalLength()` 로 실제 path 길이 측정 후 `gsap.set(p, {strokeDasharray: len,
+  strokeDashoffset: len})` 명시 시작. 콜아웃 connector 3개 (`#conn1-3`) 동일 패턴.
+- **자막 텍스트 비어 보임** — cue 들이 `position: absolute` 인데 부모 `.subtitle` 에
+  `position: relative` 누락으로 cue 가 viewport 어딘가 튀어감. 자막 박스 하나
+  (`<span id="subtitleText">`) 만 두고 GSAP `.call()` 로 시간 시점에 `textContent`
+  swap + 박스 자체 opacity 짧은 페이드 (0.2-0.25s).
+
+### Changed
+
+- **composition duration 14s → 30s** (사용자 요청).
+- **narration cue 4 → 8** (호르무즈 시나리오 확장: 봉쇄 발생 → 원유 20% 차단 → 유가
+  50% 급등 → 1차 휴전 안정 → UAE 표적 공격 재반등 → 협상 진행 → 지정학 리스크 요약).
+- **콜아웃 2 → 3** (호르무즈 봉쇄 + 1차 휴전 + UAE 표적 공격). 명시 `style="opacity:0"`
+  inline 으로 GSAP 트윈 시작점 안전 확보.
+- **데이터 점 마커 스타일** = 흰 fill + 두꺼운 오렌지 stroke 3px → line 위에서 가독성
+  향상. r=5 → r=6.
+- **라인 draw-on 시간** 2.0s → 3.0s (좀 더 느긋하게).
+- **Ken Burns** 1.03 → 1.04 (30초 동안 좀 더 확대).
+
+### Known Limitations
+
+- 음성 여전히 placeholder (`assets/audio/brent.mp3`). 사용자 머신에서 ElevenLabs 로
+  생성 시 자동 재생.
 
 ---
 

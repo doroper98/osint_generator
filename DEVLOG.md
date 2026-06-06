@@ -1,6 +1,6 @@
 <!--
 tier: 3
-last_synced_with: v0.34.1
+last_synced_with: v0.34.2
 ssot_for: [development-log]
 depends_on: [CHANGELOG.md]
 last_review: 2026-06-06
@@ -22,6 +22,44 @@ last_review: 2026-06-06
 - 결과:  …
 - 연관:  AP-번호, 이슈, PR 번호 등
 ```
+
+---
+
+## 2026-06-06 v0.34.2 — 라인/자막 안 보이던 사고 2 픽스 + 30초 확장 (영상미 C0)
+
+- **무엇을**: v0.34.1 영상 사용자 검수 후 스크린샷 진단 — 차트 라인 0:10 시점에서도
+  안 그려져있고, 자막 박스만 보이고 텍스트 비어있음. 두 근본 원인 픽스 + 30초로 확장.
+- **왜**: 사용자 피드백 "여전히 차트 내 데이터와 자막이 보이지 않아. 한 30초 정도 되는
+  영상으로 다시 수정후 만들어." v0.34.1 픽스가 사실상 무효였음을 스크린샷이 증명.
+- **어떻게**:
+  - **사고 1 진단 (라인 draw-on)**: HTML 의 `<path pathLength="1" stroke-dasharray="1"
+    stroke-dashoffset="1">` 패턴이 GSAP 의 `tl.to({strokeDashoffset:0})` 트윈 시작점
+    인식에서 실패. GSAP 가 SVG attribute 가 아닌 computed CSS style 을 읽으려 했고,
+    `pathLength` SVG attribute 가 Chromium 의 dash 계산에 일관되게 반영되지 않은 것
+    으로 추정. **픽스**: `path.getTotalLength()` 로 실 길이 측정 + `gsap.set(p,
+    {strokeDasharray: len, strokeDashoffset: len})` 명시 시작 상태. 콜아웃 connector
+    3개 동일 패턴. 표준 SVG line-drawing 패턴.
+  - **사고 2 진단 (자막 텍스트)**: `.subtitle { background: #4a1e10; padding: 24px; }`
+    에 `position: relative` 누락. cue `<span class="cue" id="cue1" style="position:
+    absolute">` 들이 첫 positioned ancestor (root 또는 body) 기준으로 absolute 배치 →
+    viewport 좌상단 어딘가에 박혀버림. 박스만 보이고 텍스트 안 보였던 이유. **픽스**:
+    구조 자체 단순화 — 박스 하나 `<span id="subtitleText">` 만 두고 GSAP `.call()` 로
+    시간 시점에 `textContent` swap + 짧은 opacity 페이드 (0.2-0.25s).
+  - **데이터 점 마커 스타일 강화**: r=5 → r=6, fill 오렌지 → 흰 fill + stroke #e84a2d
+    3px (line 위에서 가독성 향상, "데이터가 없는" 느낌 해소).
+  - **콜아웃 명시 inline opacity**: 콜아웃 group 들에 `style="opacity:0"` inline 으로
+    GSAP `tl.to({opacity:1, duration:0.001})` 시작점 안전. 이전엔 HTML attribute
+    `opacity="0"` 였음.
+  - **30초 확장**: composition duration 14 → 30, narration cue 4 → 8 (호르무즈 시나리오
+    확장: 봉쇄 발생 → 원유 20% 차단 → 유가 50% 급등 → 1차 휴전 안정 → UAE 표적 공격
+    재반등 → 협상 진행 → 지정학 리스크 요약), 콜아웃 2 → 3 (UAE 표적 공격 추가).
+  - 라인 draw 시간 2 → 3s, Ken Burns scale 1.03 → 1.04 (30초 동안 좀 더 확대).
+  - 렌더 30s × 30fps = 900 프레임, 2 워커, 228KB.
+- **결과**: 30초 silent mp4 + SendUserFile 전달. 차트 라인 + 자막 텍스트 가시성
+  확인 대기.
+- **다음**: 사용자 v0.34.2 영상 검수 결과 → 음성 통합 (사용자 머신 ElevenLabs) /
+  씬별 subtitleBgColor 토큰화 / v0.35.0 차트 family 포팅.
+- **연관**: CHANGELOG v0.34.2, v0.34.0 (HyperFrames 채택), v0.34.1 (실패한 픽스), GOAL G0.
 
 ---
 
