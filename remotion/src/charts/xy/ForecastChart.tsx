@@ -123,17 +123,25 @@ export const ForecastChart: React.FC<ForecastChartProps> = ({
     .curve(curveMonotoneX);
 
   const actualPts = actual.map((p) => [xScale.apply(p.x), yScale.apply(p.y)] as [number, number]);
-  const midPts = fc.map((p) => [xScale.apply(p.x), yScale.apply(p.mid)] as [number, number]);
+  // v0.33.1 — actual 마지막 점을 forecast mid 첫 점으로 prepend 해서 두 시리즈
+  // 사이 공백 제거 (agents_reviewer 동일 지적 사용자 재확인).
+  const midPtsBase = fc.map((p) => [xScale.apply(p.x), yScale.apply(p.mid)] as [number, number]);
+  const midPts: Array<[number, number]> = actual.length && fc.length
+    ? [actualPts[actualPts.length - 1], ...midPtsBase]
+    : midPtsBase;
   const pathActual = lineGen(actualPts) ?? "";
   const pathMid = lineGen(midPts) ?? "";
 
-  // Band area (high → low).
+  // Band area (high → low) — actual 마지막 점을 band 시작점에 잇기.
+  const bandFc: ForecastBand[] = actual.length && fc.length
+    ? [{ x: actual[actual.length - 1].x, low: actual[actual.length - 1].y, mid: actual[actual.length - 1].y, high: actual[actual.length - 1].y }, ...fc]
+    : fc;
   const areaGen = d3Area<ForecastBand>()
     .x((p) => xScale.apply(p.x))
     .y0((p) => yScale.apply(p.low))
     .y1((p) => yScale.apply(p.high))
     .curve(curveMonotoneX);
-  const bandPath = fc.length ? areaGen(fc) ?? "" : "";
+  const bandPath = fc.length ? areaGen(bandFc) ?? "" : "";
 
   // Forecast 구간 = ReferenceRegion 으로 (전망 영역 시각 분리).
   const fcStart = fc.length ? xScale.apply(fc[0].x) : null;

@@ -201,12 +201,9 @@ const Slide: React.FC<{ scene: Scene }> = ({ scene }) => {
         </div>
       ) : null}
 
-      {/* 우상단 검증 라벨 배지 */}
-      {scene.label ? (
-        <div style={{ position: "absolute", top: space.xxl, right: space.xxxl, zIndex: 10 }}>
-          <LabelBadge label={scene.label} />
-        </div>
-      ) : null}
+      {/* 우상단 검증 라벨 배지 — v0.33.1 사용자 요청으로 화면 표기 제거.
+          데이터(scene.label) 는 보존, 디버그/필요 시 다시 노출. */}
+      {/* scene.label 화면 표시 끔 */}
 
       {/* 중앙 컨텐츠 — Ken Burns */}
       <AbsoluteFill

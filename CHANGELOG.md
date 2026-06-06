@@ -1,6 +1,6 @@
 <!--
 tier: 3
-last_synced_with: v0.33.0
+last_synced_with: v0.33.1
 ssot_for: [release-notes]
 depends_on: [README.md, GOAL.md]
 last_review: 2026-06-06
@@ -30,68 +30,59 @@ released 항목은 **append-only**입니다.
 
 ## [v0.33.0] — 2026-06-06
 
-**Editorial Restraint Reset — 디자인 시스템 전면 갈아엎기 (영상미 C0, 사용자 평가
-"전반적으로 너무 구려 / 촌스러워" 대응)**. v0.29.0 의 Aurora Glass + 8색 Okabe-Ito
-+ 다크 베이스 + 글로우 노선을 폐기하고, 사용자가 보내주신 9장 dashboard 인포그래픽
-레퍼런스 + 3장 날리지식 모션 레퍼런스 + 5개 deep-research 에이전트 결과(NYT/Vox/FT
-편집 룰 + Remotion 베스트 프랙티스)를 합쳐 **light dashboard + 오렌지 단일 accent**
-로 전면 재구성. 클라우드 환경에서 chromium-headless-shell 로 직접 mp4 렌더 및 사용자
-전달까지 완료.
+**Editorial Restraint Reset — 디자인 시스템 전면 갈아엎기 + 사용자 1차 픽스 (영상미 C0)**.
+사용자 평가 "전반적으로 차트라던지 폰트, 네온 글로우 같은 이펙트가 너무 구려. 촌스러워"
+→ v0.29.0 Aurora Glass + 8색 Okabe-Ito + 다크 베이스 + 글로우 노선 폐기. Deep research 5
+트랙(NYT/Vox/FT/Bloomberg 편집 룰, Remotion 베스트 프랙티스, 편집 안티패턴, 한국 broadcast
+타이포, 한국 채널 실 사용) + 사용자 9장 dashboard 레퍼런스 + 3장 날리지식 화면 + 5개
+모션 패턴 텍스트 지시 통합해 **light dashboard + 오렌지 단일 accent + Pretendard 굵은
+산세리프 + Ken Burns + 다크 broadcast 자막** 으로 전면 재구성. 클라우드 환경에서 직접 mp4
+2회 렌더 (v0.33.0 첫 컷 + v0.33.1 사용자 피드백 4 픽스) 사용자 SendUserFile 전달 완료.
 
 ### Removed
 
-- **`remotion/src/AuroraGlassCard.tsx`** 삭제. conic gradient 보더 + 회전 글로우는
-  편집 영상미와 정반대(NN/g glassmorphism 가이드 위반, Reuters/FT/NYT 시스템 0건).
+- **`remotion/src/AuroraGlassCard.tsx`** 삭제. conic gradient + 회전 글로우 폐기
+  (NN/g glassmorphism 가이드 위반, Reuters/FT/NYT 시스템 0건).
 
 ### Added
 
-- **`remotion/src/design.ts` 전면 재작성** — 편집 dashboard 디자인 토큰 SSOT.
-  - **Color**: `surface.page` 크림 `#f5f1ea` (밝은 베이스) + `surface.card` `#ffffff`
-    카드 + `accent.primary` `#e84a2d` 오렌지 단일 accent. 시리즈 5색
-    (오렌지 / 네이비 / 라벤더 / 핑크 / 앰버 — circle infographic 레퍼런스 매핑).
-    의미 라벨 4색 톤다운(녹·블루·앰버·레드). 8색 Okabe-Ito · Aurora · neon 색 폐기.
-  - **Typography**: Pretendard Variable 폰트 스택. weight 400-900 단일계.
-    Size scale 14→20→28→36→56→96→180 (hero 거대 숫자 추가). `letterSpacing.tightest -2`
-    (거대 숫자 자간 조이기), `letterSpacing.caps 3` (kicker 캡스).
-  - **Motion**: Material decelerate / standard / accelerate 만. 글로우 / spring /
-    bounce 폐기. duration 150-1200ms, `stagger(n)` 50-150ms (Vox/NYT 편집 기준).
-  - **Spacing**: 8 grid + radius.lg=22 (대형 라운드 카드).
-  - **Shadow**: `0 2px 16px rgba(26,26,26,0.06)` 절제 1단계.
-- **`remotion/src/components/SurfaceCard.tsx`**(신규) — 흰 라운드 카드 + soft shadow.
+- **`remotion/src/design.ts` 전면 재작성** — 편집 dashboard 토큰 SSOT.
+  - Color: `surface.page #f5f1ea` (크림) + `surface.card #ffffff` + `accent.primary
+    #e84a2d` (오렌지) + 시리즈 5색 (오렌지/네이비/라벤더/핑크/앰버). 의미 라벨 4색
+    톤다운. 8색 Okabe-Ito + Aurora + neon 폐기.
+  - Typography: Pretendard Variable 폰트 스택, weight 400-900, size 14→180 hero,
+    `letterSpacing.tightest -2` (거대 숫자), `letterSpacing.caps 3` (kicker).
+  - Motion: Material decelerate/standard/accelerate, duration 150-1200ms, stagger
+    50-150ms (Vox/NYT 편집 기준). spring/bounce/glow 폐기.
+  - Spacing: 8 grid, `radius.lg 22` 라운드 카드, shadow 1단계 절제.
+  - **v0.33.1 픽스**: `chart.padRight 100 → 180` (끝점 직접 라벨 잘림 해소).
+- **`remotion/src/components/SurfaceCard.tsx`**(신규) — 흰 라운드 카드 + soft shadow,
   Aurora glass 대체 표준 컨테이너.
-- **`remotion/src/components/NumericHero.tsx`**(신규) — 거대 숫자 카운트업 hero
-  (`$750K` / `31 MILLION` 풍 시그니처). 0 → value count-up + Material decelerate +
-  suffix 페이드인.
-- **`remotion/src/fonts.ts`**(신규, no-op 스텁) — Phase 5 에서 staticFile +
-  FontFace + delayRender/continueRender 안전 패턴으로 본격 구현 예정.
-  본 PATCH 에서는 `@remotion/fonts` 의 `loadFont` 가 fetch 실패 시 cancelRender 까지
-  가서 렌더 자체를 막아 silent skip.
-- **`remotion/public/fonts/PretendardVariable.woff2`** — Pretendard Variable
-  woff2 (2MB). 사용자 머신은 system font stack 이 잡고, 클라우드에선 시스템
-  sans-serif 폴백.
-- **npm**: `@remotion/fonts` `@remotion/paths` `@remotion/layout-utils` + `pretendard`
-  + `@fontsource/pretendard` (deep-research 결과 권장 스택).
+- **`remotion/src/components/NumericHero.tsx`**(신규) — 거대 숫자 카운트업 hero.
+- **`remotion/src/fonts.ts`**(신규, no-op 스텁) — Phase 5 에서 staticFile+FontFace+
+  delayRender 안전 패턴 재구현 예정. `@remotion/fonts` 의 `loadFont` 가 fetch 실패 시
+  cancelRender 까지 가서 렌더 자체 실패 → silent skip.
+- **`remotion/public/fonts/PretendardVariable.woff2`** (2MB, npm `pretendard` 추출).
+- **npm**: `@remotion/fonts`, `@remotion/paths`, `@remotion/layout-utils`,
+  `pretendard`, `@fontsource/pretendard`.
 
 ### Changed
 
-- **`remotion/src/Briefing.tsx`** — 전면 갈아엎기. AuroraGlassCard 의존 제거.
-  - 배경: `#0e1116` 다크 → `surface.page` 크림.
-  - 브랜드: 사각형 + 캡스 텍스트 (좌상단).
-  - 라벨 배지: 흰 카드 + 컬러 점 + 컬러 텍스트 (`LabelBadge` 컴포넌트화).
-  - 중앙 컨텐츠: SurfaceCard 안에 takeaway + 차트/지도. Ken Burns 미세 스케일
-    (`1.0 → 1.03`) 전 씬 적용 (날리지식 패턴 ②).
-  - 자막: 다크 translucent (`rgba(26,26,26,0.82)`) + 흰 굵은 글씨 (한국 broadcast
-    표준, 날리지식 풍).
-  - takeaway 컬러: 인용 시 오렌지 accent.
-- **`remotion/src/components/{ChartFrame,Axis,Callout,ReferenceRegion}.tsx`** —
-  새 토큰으로 재배선. 글로우/halo/foreignObject blur 제거.
-- **모든 차트 컴포넌트** (XYChart / DualLineChart / ForecastChart / BarChart /
-  StackedBarChart / Waterfall / PointChart / SlopeChart / CandleChart) — `surface.s1` /
-  `surface.base` → `surface.cardAlt` / `surface.page` 일괄 rename, `accent.quote` →
-  `accent.primary`, `accent.positive/negative` → `label.verified/unverified` 으로
-  의미 라벨 매핑.
+- **`remotion/src/Briefing.tsx`** 전면 재작성. AuroraGlassCard 제거. 사각형+캡스 브랜드,
+  SurfaceCard 중앙 컨텐츠, Ken Burns 1.0→1.03 전 씬, 다크 translucent 자막.
+  **v0.33.1 픽스**: 우상단 `<확인>` `<추정>` 라벨 배지 화면 표시 제거 (scene.label 데이터
+  보존, 사용자 명시 요청).
+- **`remotion/src/ChartView.tsx`** **v0.33.1 픽스**: 모든 차트에 `chart.title` 대신 `null`
+  전달 (Briefing 의 takeaway 와 중복 정보 → 왼쪽 첫 점 라벨 가림 해소).
+- **`remotion/src/charts/xy/ForecastChart.tsx`** **v0.33.1 픽스**: `actual` 마지막 점을
+  `forecast.mid` 와 `band` 시작에 prepend → 두 시리즈 간 공백 제거 (agents_reviewer 가
+  지적했던 동일 이슈 사용자 재확인).
+- **`remotion/src/components/{ChartFrame,Axis,Callout,ReferenceRegion}.tsx`** — 새 토큰
+  재배선, glow/halo/blur 제거.
+- 모든 차트 컴포넌트 — `surface.s1/base` → `surface.cardAlt/page`, `accent.quote` →
+  `accent.primary`, `accent.positive/negative` → `label.verified/unverified` 일괄 rename.
 
-### 사용자 머신 사용법
+### 사용자 측 사용법
 
 ```cmd
 cd C:\01_Antigravity\osint_generator
@@ -102,30 +93,31 @@ npx remotion render src/index.ts Briefing demo_out.mp4 ^
   --props=demo_props.json --public-dir=public
 ```
 
-음성 있는 데모: `build-audio-demo` 로 audio 빌드 후 `demo_props_with_audio.json` 사용
-(public-dir 분기 주의 — fonts 와 audio 디렉토리 위치 다름, Phase 5 에서 정리 예정).
-
-### 날리지식 5개 모션 패턴 — 본 PATCH 진행상황
+### 날리지식 5 모션 패턴 진행
 
 | 패턴 | 상태 |
 |---|---|
-| 1. 화면전환 부드러움 (cross-fade) | 부분 — 씬 진입 18f opacity fade. cross-fade 는 Phase 4 |
-| 2. 스틸이미지 미세 확대 (Ken Burns) | ✅ 적용 — 모든 씬 1.0 → 1.03 |
-| 3. 인물 부드러운 등장 | 미구현 — Phase 4 (인물 카드 컴포넌트 신설 예정) |
-| 4. 엔티티 연결선 draw | 미구현 — Phase 4 (Callout 의 connector 가 부분 패턴) |
-| 5. 다크 지도 + 국가 하이라이트 + 토큰 | 미구현 — Phase 3 의 일부 (별도 GeoScene 컴포넌트) |
+| ① 화면전환 부드러움 | 부분 (씬 진입 18f opacity fade) |
+| ② Ken Burns 스케일 | ✅ 적용 — 전 씬 1.0→1.03 |
+| ③ 인물 부드러운 등장 | 미구현 (Phase 4) |
+| ④ 엔티티 연결선 draw | 미구현 (Phase 4, Callout 부분 패턴) |
+| ⑤ 다크 지도 + 토큰 | 미구현 (별도 GeoScene, Phase 3) |
 
-### Deep Research 5 에이전트 출처 (의사결정 근거)
+### 다음 (사용자 요청 별도 PATCH)
 
-- NYT/Vox/FT/Bloomberg 편집 룰 (FlowingData NYT, FT Visual Vocabulary, Reuters
-  Graphics style, Wilke Fundamentals Ch.26, Amanda Cox annotation layer, NN/g
-  glassmorphism, Source Han Serif, Pretendard)
-- Remotion 베스트 프랙티스 (remotion-dev/d3-example, remotion-dev/skills/charts.md,
-  @remotion/fonts loadFont, @remotion/paths evolvePath, GSAP/Lottie deterministic
-  pitfalls)
-- 한국 broadcast 타이포 (Fontrix Rix헤드/Rix정고딕 SBS, MBC 새로움체, KBS Yoon
-  Design, Pretendard GOV 2024-04 적용)
-- 9장 dashboard 인포그래픽 레퍼런스 + 3장 날리지식(`UCQKZQFd7AfgHOYoui6OE9Ew`) 화면
+사용자 5번 피드백 = **Codex 영상미 검수 체계** 신설 (v0.33.2 메타 PATCH 예정). 매 PATCH 마다
+자동 키프레임 추출 → 영상 LLM 에 편집 영상미 룰 위반 검사 → review 결과를 다음 PATCH 입력
+으로. C10 (코드 리뷰) 와 분리된 새 카테고리 (디자인 리뷰) 로 CLAUDE.md 박음.
+
+### Deep Research 출처 (의사결정 근거)
+
+- NYT/Vox/FT/Bloomberg 편집 룰 (FlowingData NYT, FT Visual Vocabulary, Reuters Graphics
+  style, Wilke Fundamentals Ch.26, Amanda Cox annotation layer, NN/g glassmorphism)
+- Remotion 베스트 프랙티스 (remotion-dev/d3-example, charts.md, @remotion/fonts,
+  @remotion/paths evolvePath, GSAP/Lottie deterministic pitfalls)
+- 한국 broadcast 타이포 (Fontrix Rix헤드/Rix정고딕 SBS, MBC 새로움체, KBS Yoon Design,
+  Pretendard GOV 2024-04 적용)
+- 사용자 9장 dashboard 인포그래픽 레퍼런스 + 3장 날리지식 (`UCQKZQFd7AfgHOYoui6OE9Ew`)
 
 ---
 

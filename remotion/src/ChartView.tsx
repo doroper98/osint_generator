@@ -244,7 +244,7 @@ export const ChartView: React.FC<{ chart: ChartData; width: number; height: numb
         <XYChart
           chartId={chart.chartId}
           type={t as "line" | "area" | "stacked_area" | "small_multiples"}
-          title={chart.title}
+          title={null}
           unit={u}
           data={d}
           width={width}
@@ -252,12 +252,12 @@ export const ChartView: React.FC<{ chart: ChartData; width: number; height: numb
         />
       );
     case "dual_line":
-      return <DualLineChart chartId={chart.chartId} title={chart.title} data={d} width={width} height={height} />;
+      return <DualLineChart chartId={chart.chartId} title={null} data={d} width={width} height={height} />;
     case "forecast":
       return (
         <ForecastChartV2
           chartId={chart.chartId}
-          title={chart.title}
+          title={null}
           unit={u}
           data={d}
           width={width}
@@ -265,31 +265,31 @@ export const ChartView: React.FC<{ chart: ChartData; width: number; height: numb
         />
       );
     case "bar":
-      return <BarChartV2 chartId={chart.chartId} mode="bar" title={chart.title} unit={u} data={d} width={width} height={height} />;
+      return <BarChartV2 chartId={chart.chartId} mode="bar" title={null} unit={u} data={d} width={width} height={height} />;
     case "lollipop":
-      return <BarChartV2 chartId={chart.chartId} mode="lollipop" title={chart.title} unit={u} data={d} width={width} height={height} />;
+      return <BarChartV2 chartId={chart.chartId} mode="lollipop" title={null} unit={u} data={d} width={width} height={height} />;
     case "range_bar":
-      return <BarChartV2 chartId={chart.chartId} mode="range" title={chart.title} unit={u} data={d} width={width} height={height} />;
+      return <BarChartV2 chartId={chart.chartId} mode="range" title={null} unit={u} data={d} width={width} height={height} />;
     case "stacked":
     case "stacked_bar":
-      return <StackedBarChartV2 chartId={chart.chartId} title={chart.title} unit={u} data={d} width={width} height={height} />;
+      return <StackedBarChartV2 chartId={chart.chartId} title={null} unit={u} data={d} width={width} height={height} />;
     case "waterfall":
-      return <WaterfallV2 chartId={chart.chartId} title={chart.title} unit={u} data={d} width={width} height={height} />;
+      return <WaterfallV2 chartId={chart.chartId} title={null} unit={u} data={d} width={width} height={height} />;
     case "scatter":
-      return <PointChartV2 chartId={chart.chartId} title={chart.title} unit={u} data={d} width={width} height={height} />;
+      return <PointChartV2 chartId={chart.chartId} title={null} unit={u} data={d} width={width} height={height} />;
     case "bubble":
-      return <PointChartV2 chartId={chart.chartId} title={chart.title} unit={u} data={d} width={width} height={height} bubble />;
+      return <PointChartV2 chartId={chart.chartId} title={null} unit={u} data={d} width={width} height={height} bubble />;
     case "candle":
-      return <CandleChartV2 chartId={chart.chartId} title={chart.title} unit={u} data={d} width={width} height={height} />;
+      return <CandleChartV2 chartId={chart.chartId} title={null} unit={u} data={d} width={width} height={height} />;
     case "slope":
-      return <SlopeChartV2 chartId={chart.chartId} title={chart.title} unit={u} data={d} width={width} height={height} />;
+      return <SlopeChartV2 chartId={chart.chartId} title={null} unit={u} data={d} width={width} height={height} />;
     case "donut": return <Donut data={d} {...box} />;
     case "gantt": return <Gantt data={d} {...box} />;
     case "heatmap": return <Heatmap data={d} {...box} />;
     case "network": return <Network data={d} {...box} />;
     case "sankey": return <Sankey data={d} {...box} />;
     case "choropleth":
-      return <BarChartV2 chartId={chart.chartId} mode="bar" title={chart.title} unit={u} data={(Array.isArray(d) ? d : []).map((x: any) => ({ label: x.country_code, value: x.value }))} width={width} height={height} />;
+      return <BarChartV2 chartId={chart.chartId} mode="bar" title={null} unit={u} data={(Array.isArray(d) ? d : []).map((x: any) => ({ label: x.country_code, value: x.value }))} width={width} height={height} />;
     default: return null;
   }
 };

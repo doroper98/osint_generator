@@ -189,7 +189,7 @@ export const chart = {
   width: 1360,
   height: 600,
   padTop: 64,
-  padRight: 100,
+  padRight: 180,   // v0.33.1 — 끝점 직접 라벨 ("사우디 8.1 mb/d") 잘림 픽스.
   padBottom: 72,
   padLeft: 96,
 } as const;
