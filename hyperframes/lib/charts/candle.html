@@ -232,10 +232,12 @@
             tl.fromTo(svg.querySelector('[data-role="grid"]'),
               { opacity: 0 }, { opacity: 1, duration: 0.4, ease: "power1.out" }, 0.4);
 
-            // 캔들 stagger 등장 (scale+opacity 한 트윈에 묶음 — transform 단일)
+            // 캔들 stagger 등장 (scale+opacity 한 트윈에 묶음 — transform 단일).
+            // dense 데이터(예: 64봉) 대비 총 stagger 가 ~3.2s 를 넘지 않게 자동 축소.
+            var effStagger = Math.min(candleStagger, 3.2 / Math.max(1, N));
             tl.fromTo(svg.querySelectorAll(".hf-candle"),
               { opacity: 0, scale: 0.7, transformOrigin: "center center" },
-              { opacity: 1, scale: 1, duration: 0.35, stagger: candleStagger, ease: "back.out(1.4)" },
+              { opacity: 1, scale: 1, duration: 0.35, stagger: effStagger, ease: "back.out(1.4)" },
               candleStart);
 
             // 콜아웃: circle pop → connector draw → text 등장

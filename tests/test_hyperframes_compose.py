@@ -119,6 +119,53 @@ class TestComposedScenes(unittest.TestCase):
         scenes = build_composed_scenes(b)
         self.assertEqual(scenes[0].kind, "text")
 
+    def test_multiple_charts_in_section_split_into_scenes(self) -> None:
+        # 한 섹션이 지원 차트 3개를 참조 → 차트당 1씬(v0.34.15).
+        b = _bundle(
+            sections=[{"section_id": "s1", "heading": "패널", "prose": "p", "chart_refs": ["c1", "c2", "c3"]}],
+            charts=[
+                {"chart_id": "c1", "type": "candle", "title": "A",
+                 "data": [{"date": "2026-03-02", "open": 80, "high": 90, "low": 78, "close": 88}],
+                 "provenance": {"origin": "measured", "verification": "confirmed", "confidence": "high"}},
+                {"chart_id": "c2", "type": "line", "title": "B", "data": [{"x": "1", "y": 1}, {"x": "2", "y": 2}],
+                 "provenance": {"origin": "measured", "verification": "confirmed", "confidence": "high"}},
+                {"chart_id": "c3", "type": "bar", "title": "C", "data": [{"label": "x", "value": 3}],
+                 "provenance": {"origin": "measured", "verification": "confirmed", "confidence": "high"}},
+            ],
+        )
+        scenes = build_composed_scenes(b)
+        self.assertEqual([s.component for s in scenes], ["candle", "line", "bar"])
+        self.assertTrue(all(s.section_id == "s1" for s in scenes))
+        # 누적 타이밍 연속.
+        self.assertEqual(scenes[0].start_sec, 0.0)
+        self.assertAlmostEqual(scenes[1].start_sec, scenes[0].duration_sec, places=3)
+
+    def test_unsupported_with_prerendered_svg_becomes_svg_scene(self) -> None:
+        b = _bundle(
+            sections=[{"section_id": "s1", "heading": "흐름", "prose": "p", "chart_refs": ["c1"]}],
+            charts=[{"chart_id": "c1", "type": "sankey", "title": "Sankey", "data": {"nodes": [], "links": []},
+                     "prerendered_svg": "<svg><rect/></svg>",
+                     "provenance": {"origin": "narrative_inference", "verification": "inferred", "confidence": "medium"}}],
+        )
+        scenes = build_composed_scenes(b)
+        self.assertEqual(scenes[0].kind, "svg")
+        self.assertIn("<svg>", scenes[0].svg)
+        self.assertEqual(scenes[0].heading, "Sankey")
+
+    def test_theme_accent_injected_into_chart_vars(self) -> None:
+        b = ReportBundle.model_validate({
+            "schema_version": 1, "bundle_kind": "report_bundle",
+            "producer": {"system": "agents_reviewer", "version": "6"},
+            "report": {"report_id": "r", "headline": "H",
+                       "theme": {"id": "forest_sage", "tokens": {"accent": "#4A7C5B"}}},
+            "sections": [{"section_id": "s1", "heading": "h", "prose": "p", "chart_refs": ["c1"]}],
+            "charts": [{"chart_id": "c1", "type": "candle", "title": "T",
+                        "data": [{"date": "2026-03-02", "open": 80, "high": 90, "low": 78, "close": 88}],
+                        "provenance": {"origin": "measured", "verification": "confirmed", "confidence": "high"}}],
+        })
+        scenes = build_composed_scenes(b)
+        self.assertEqual(scenes[0].variables.get("accent"), "#4A7C5B")
+
     def test_chart_takeaway_falls_back_to_heading(self) -> None:
         b = _bundle(
             sections=[{"section_id": "s1", "heading": "섹션 제목", "prose": "p", "chart_refs": ["c1"]}],

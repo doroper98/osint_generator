@@ -25,6 +25,36 @@ last_review: 2026-06-06
 
 ---
 
+## 2026-06-06 v0.34.15 — compose-hyperframes 충실도 강화 (실 번들 검증, 영상미 C0 / 정확성 경계)
+
+- **무엇을**: 실제 agents_reviewer 번들(SpaceX-구글 컴퓨팅 임대, v6.0.5, 차트 11개·섹션 7개)을
+  사용자가 붙여줘서 compose-hyperframes 로 통과. 1차(v0.34.14)는 "섹션당 1차트 + 미지원 텍스트
+  폴백"이라 캔들 1개만 영상이 됐다. 사용자 선택("이 번들 제대로 영상화")으로 4개 강화:
+  ① 섹션 다중차트 → 차트당 1씬 분할 ② dense stagger 자동축소 ③ 번들 theme.accent 주입
+  ④ sankey 등 prerendered_svg passthrough 씬. → 동일 번들이 14씬(캔들+라인6+sankey SVG+텍스트6).
+- **왜(정확성 경계 — 사용자 질문)**: "영상 근거가 JSON 범위로 한정되는가?" → **그렇다, 설계상.**
+  compose-hyperframes 는 순수 결정론 매퍼로 LLM 미호출 → 없는 내용 생성 불가. 화면의 헤드라인/
+  차트 제목/데이터/자막(prose 그대로)/단위 전부 번들 필드 출처. 축 경계·도넛 %는 번들 데이터의
+  산술 파생(새 사실 아님). JSON 밖 요소는 고정 chrome(브랜드/색/애니)뿐. (미래 C-ext 의 narration
+  재서술에 LLM 개입 시 C9 검증 규율 적용 — 별도 경고 예정.)
+- **어떻게**:
+  - `build_composed_scenes`: section 의 chart_refs 를 모두 펼침. 지원 타입→chart 씬,
+    미지원+prerendered_svg→svg 씬, 둘 다 아니면 섹션에 시각자산 없을 때만 text 씬. 차트/SVG 씬은
+    고정 5s. 자막은 section.prose 를 그 섹션의 전 씬 구간(여러 차트가 흐르는 동안)에 배분.
+  - `chart_to_component(accent=)` + `_theme_accent`: theme.tokens.accent → candle/line/bar.
+  - candle/bar: `effStagger = min(stagger, ~3.2/N)` 자동 축소(64봉 사고).
+  - svg 씬: prerendered_svg(1st-party producer) 를 카드에 raw 인라인 + fade.
+- **결과**:
+  - 단위 테스트 +3 (다중차트 분할 / svg 폴백 / theme accent) → `test_hyperframes_compose` 15,
+    전체 **367/367 통과**. py_compile 통과.
+  - PNG ground-truth: 캔들 64봉 전부 그려지고 forest_sage 그린 accent 적용, sankey SVG 카드
+    인라인(데모 SVG 는 손번역 시 truncate — 실파일은 full), 라인/텍스트 정상.
+- **한계(남음)**: waterfall/gantt/scatter 는 component 도 svg 도 없어 여전히 text 폴백 → B-ext
+  (컴포넌트 신설) 필요. 라인 6종 순차는 단조 → small-multiples 그룹핑 후속 검토.
+- **연관**: CHANGELOG v0.34.15, v0.34.14(컨버터 도입), HANDOFF 로드맵 ②, GOAL G0/G4(정확성 경계).
+
+---
+
 ## 2026-06-06 v0.34.14 — ReportBundle → 다중 씬 HyperFrames 컴포지션 자동 생성 (옵션 C, 영상미 C0)
 
 - **무엇을**: agents_reviewer `ReportBundle` 을 받아 각 `BundleSection` 을 1 씬으로 펼친

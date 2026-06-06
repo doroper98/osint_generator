@@ -1,8 +1,19 @@
-# NEXT SESSION PROMPT — v0.34.15 시작점
+# NEXT SESSION PROMPT — v0.34.16 시작점
 
 > 본 파일은 **다음 Claude Code 세션 시작 시 첫 메시지로 paste** 해 사용한다.
-> v0.34.14 (2026-06-06, 옵션 C 완료) 이후 작업을 이어 받을 컨텍스트.
+> v0.34.15 (2026-06-06, 실 번들 검증 + 충실도 강화) 이후 작업을 이어 받을 컨텍스트.
 > SSOT: HANDOFF.md, docs/PROFESSIONAL_REBUILD_PLAN.md, DEVLOG.md (append-only).
+
+## v0.34.15 완료 요약 (compose 충실도 강화 + 실 번들 검증)
+
+- 실제 agents_reviewer 번들(SpaceX-구글 임대, 차트 11·섹션 7)로 compose-hyperframes 검증 →
+  14씬(캔들+라인6+sankey SVG+텍스트6). 강화 4건: 섹션 다중차트→차트당 1씬 / 번들 theme.accent
+  주입 / prerendered_svg passthrough 씬(kind="svg") / candle·bar dense stagger 자동축소.
+- **정확성 경계 확정**: compose 는 순수 결정론 매퍼(LLM 미개입) → 영상 내용은 전부 번들 파생,
+  할루시네이션 0. JSON 밖은 고정 chrome(브랜드/색/애니)뿐. C-ext narration 단계부터 LLM 개입
+  가능 → 그때 C9 검증 규율 적용.
+- **남은 한계**: waterfall/gantt/scatter 는 component·svg 둘 다 없어 text 폴백 → B-ext 필요.
+  라인 N종 순차는 단조 → small-multiples 그룹핑 후속.
 
 ## v0.34.14 완료 요약 (옵션 C)
 

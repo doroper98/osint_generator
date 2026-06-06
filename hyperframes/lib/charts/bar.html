@@ -121,16 +121,18 @@
             var tl = gsap.timeline({ paused: true });
 
             // 막대 grow (scaleY 0→1, origin = 하단). 단일 transform.
+            // dense 카테고리 대비 총 stagger 가 ~2.6s 를 넘지 않게 자동 축소.
+            var effBarStagger = Math.min(barStagger, 2.6 / Math.max(1, N));
             svg.querySelectorAll(".hf-bar").forEach(function (g, i) {
               var rect = g.querySelector('[data-role="rect"]');
               var cx = cxOf(i);
               tl.fromTo(rect,
                 { scaleY: 0, transformOrigin: r1(cx) + "px " + BASE + "px" },
-                { scaleY: 1, duration: 0.55, ease: "power3.out" }, barStart + i * barStagger);
+                { scaleY: 1, duration: 0.55, ease: "power3.out" }, barStart + i * effBarStagger);
               tl.fromTo(g.querySelector('[data-role="cat"]'), { opacity: 0, y: 8 },
-                { opacity: 1, y: 0, duration: 0.3, ease: "power2.out" }, barStart + i * barStagger);
+                { opacity: 1, y: 0, duration: 0.3, ease: "power2.out" }, barStart + i * effBarStagger);
               tl.fromTo(g.querySelector('[data-role="val"]'), { opacity: 0, y: 12 },
-                { opacity: 1, y: 0, duration: 0.35, ease: "back.out(1.6)" }, barStart + i * barStagger + 0.35);
+                { opacity: 1, y: 0, duration: 0.35, ease: "back.out(1.6)" }, barStart + i * effBarStagger + 0.35);
             });
 
             window.__timelines["bar"] = tl;

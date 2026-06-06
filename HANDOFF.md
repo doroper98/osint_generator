@@ -1,6 +1,6 @@
 <!--
 tier: 1
-last_synced_with: v0.34.14
+last_synced_with: v0.34.15
 ssot_for: [session-handoff]
 depends_on: [CLAUDE.md, GOAL.md, VERSION, docs/13_IMPLEMENTATION_ROADMAP.md, docs/REVIEW_PROMPT.md, docs/PROFESSIONAL_REBUILD_PLAN.md]
 last_review: 2026-06-05
@@ -60,7 +60,11 @@ last_review: 2026-06-05
      (`orchestrator/hyperframes_compose.py` + CLI `compose-hyperframes`). BundleSection→씬,
      차트는 `lib/charts` 컴포넌트 임베드(번들 데이터 주입), 미지원 타입 텍스트 폴백. render_io
      의 HyperFrames 후속. sub-comp 변수 타입 정합(복합값 JSON 문자열) + root 해소 견고화 패치.
-   - **v0.34.15~ (다음, 합의된 우선순위)**:
+   - **v0.34.15 (완료)**: compose-hyperframes 충실도 강화 — 실 agents_reviewer 번들(SpaceX,
+     차트 11·섹션 7)로 검증. 섹션 다중차트→차트당 1씬 분할 + 번들 theme.accent 주입 + sankey
+     등 prerendered_svg passthrough 씬 + candle/bar dense stagger 자동축소. 동일 번들이 14씬.
+     **정확성 경계 확인**: compose 는 순수 결정론(LLM 미개입), 영상 내용은 전부 번들 파생.
+   - **v0.34.16~ (다음, 합의된 우선순위)**:
      ②-b 씬 narration/cue 정밀화 — 현재 prose 글자수 비례 추정 → ScriptWorker narration +
         실 음성 길이 sync (cuesync 패턴 재사용) + scene별 cue/콜아웃 LLM 추출·수동 override →
      ③ 인물 카드 + 엔티티 연결선 (날리지식 패턴 ③④) →

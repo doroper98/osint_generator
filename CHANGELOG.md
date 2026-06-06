@@ -28,6 +28,27 @@ released 항목은 **append-only**입니다.
 
 ---
 
+## [v0.34.15] — 2026-06-06
+
+**compose-hyperframes 충실도 강화 — 섹션 다중차트 분할 + 번들 theme accent + sankey SVG 폴백 +
+dense stagger 자동축소**. 실제 agents_reviewer 번들(SpaceX/구글 임대, 차트 11개·섹션 7개)로
+검증 → 14씬 컴포지션. 영상 내용은 전부 번들에서만 파생(LLM 미개입, 할루시네이션 0).
+
+### Added
+
+- **섹션 다중차트 → 차트당 1씬 분할** — 한 BundleSection 이 여러 chart_refs 를 가지면 지원
+  차트마다 별도 씬 생성(이전엔 첫 1개만). section.prose 는 그 섹션의 전 씬 구간에 자막으로 배분.
+- **prerendered_svg 폴백 씬(kind="svg")** — 미지원 타입(sankey/map 등)이 prerendered_svg 를
+  가지면 그 SVG 를 카드에 인라인(C0 v0.25.0 — 렌더러 없는 타입의 폴백).
+- **번들 theme accent 주입** — `report.theme.tokens.accent` 를 candle/line/bar 강조색으로 전달.
+
+### Changed
+
+- candle/bar 컴포넌트: 등장 stagger 를 N 에 따라 자동 축소(64봉도 ~3.2s 안에 완료 — 고정
+  0.2s 가 dense 데이터에서 씬 길이를 넘던 문제).
+
+---
+
 ## [v0.34.14] — 2026-06-06
 
 **ReportBundle → 다중 씬 HyperFrames 컴포지션 자동 생성 (옵션 C)**. `examples/gallery.html` 의

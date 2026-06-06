@@ -45,6 +45,8 @@ COMPONENT_BY_TYPE: dict[str, str] = {
 _NARRATION_CPS = 6.0
 _SCENE_MIN_SEC = 4.0
 _SCENE_MAX_SEC = 12.0
+# 차트/SVG 씬 1 개 고정 길이 (등장 애니 + 숨고르기).
+_CHART_SCENE_SEC = 5.0
 # 자막 한 줄(큐) 최대 글자수.
 _CUE_MAX_CHARS = 42
 
@@ -64,18 +66,20 @@ class ComposedCue(BaseModel):
 
 
 class ComposedScene(BaseModel):
-    """펼쳐진 씬 1 개. chart 면 컴포넌트+주입변수, text 면 heading/prose 만."""
+    """펼쳐진 씬 1 개. chart=컴포넌트+주입변수, svg=prerendered_svg 폴백, text=heading/본문."""
 
     model_config = ConfigDict(extra="forbid")
 
     scene_id: str
+    section_id: str = ""                   # 어느 BundleSection 에서 나왔나 (자막 큐 그룹핑용)
     start_sec: float
     duration_sec: float
-    kind: str  # "chart" | "text"
+    kind: str  # "chart" | "svg" | "text"
     component: Optional[str] = None       # kind=="chart" 일 때 lib/charts 파일명
     variables: dict[str, Any] = Field(default_factory=dict)  # data-variable-values 페이로드
-    heading: str = ""                     # text 씬 헤드라인 (chart 는 variables.takeaway)
+    heading: str = ""                     # svg/text 씬 헤드라인 (chart 는 variables.takeaway)
     body: str = ""                        # text 씬 본문(pull_quote/prose)
+    svg: str = ""                         # kind=="svg" 일 때 prerendered_svg 원문
 
 
 # ---------------------------------------------------------------------------
@@ -201,10 +205,14 @@ def _unit(chart: BundleChart) -> str:
     return srcs[0].unit if srcs and srcs[0].unit else ""
 
 
-def chart_to_component(chart: BundleChart, *, callout_t: float = 3.0) -> Optional[tuple[str, dict]]:
+def chart_to_component(
+    chart: BundleChart, *, callout_t: float = 3.0, accent: Optional[str] = None
+) -> Optional[tuple[str, dict]]:
     """BundleChart → (lib/charts 컴포넌트 파일명, data-variable-values 변수 dict).
 
-    지원 타입이 아니거나 데이터가 비어 매핑 불가면 None (호출자가 텍스트 씬 폴백).
+    지원 타입이 아니거나 데이터가 비어 매핑 불가면 None (호출자가 svg/텍스트 폴백).
+    accent 가 주어지면(번들 theme.tokens.accent) 강조색으로 주입(candle/line/bar). donut 은
+    슬라이스 자체 팔레트라 제외.
     """
     comp = COMPONENT_BY_TYPE.get(chart.type)
     if comp is None:
@@ -222,7 +230,19 @@ def chart_to_component(chart: BundleChart, *, callout_t: float = 3.0) -> Optiona
     if v is None:
         return None
     v["takeaway"] = chart.title or ""
+    if accent and comp in ("candle", "line", "bar"):
+        v["accent"] = accent
     return comp, v
+
+
+def _theme_accent(bundle: ReportBundle) -> Optional[str]:
+    """번들 report.theme.tokens.accent (있으면). 보고서 테마색을 영상 강조색으로 잇는다."""
+    theme = bundle.report.theme if bundle.report else None
+    if theme and isinstance(theme.tokens, dict):
+        acc = theme.tokens.get("accent")
+        if isinstance(acc, str) and acc.strip():
+            return acc.strip()
+    return None
 
 
 # ---------------------------------------------------------------------------
@@ -263,39 +283,58 @@ def _split_cues(text: str, total_sec: float) -> list[SubtitleCue]:
 
 
 def build_composed_scenes(bundle: ReportBundle) -> list[ComposedScene]:
-    """ReportBundle 의 각 section → ComposedScene. chart_refs 의 첫 지원 차트를 attach."""
+    """ReportBundle 의 각 section → 1개 이상의 ComposedScene.
+
+    한 section 의 chart_refs 에서 **모든** 시각 자산을 펼친다(차트당 1씬):
+    - 지원 타입(candle/line/bar/donut) → chart 씬 (번들 데이터 주입)
+    - 미지원 + prerendered_svg 있음 → svg 씬 (정적 폴백, C0 v0.25.0)
+    - 미지원 + svg 없음 → 건너뜀(섹션에 시각 자산이 하나도 없으면 text 씬)
+    section.prose 는 그 섹션의 전 씬 구간에 자막 큐로 깔린다(별도 build 단계).
+    """
     charts_by_id = {c.chart_id: c for c in bundle.charts}
+    accent = _theme_accent(bundle)
     scenes: list[ComposedScene] = []
     cursor = 0.0
     for i, sec in enumerate(bundle.sections):
         prose = sec.prose or ""
-        duration = _estimate_duration(prose)
-        callout_t = round(min(3.0, max(1.5, duration * 0.5)), 2)
+        sid = sec.section_id or f"s{i + 1}"
+        callout_t = round(min(3.0, _CHART_SCENE_SEC * 0.5), 2)
 
-        mapped: Optional[tuple[str, dict]] = None
+        visuals: list[ComposedScene] = []
         for cid in sec.chart_refs:
             ch = charts_by_id.get(cid)
             if ch is None:
                 continue
-            mapped = chart_to_component(ch, callout_t=callout_t)
+            mapped = chart_to_component(ch, callout_t=callout_t, accent=accent)
             if mapped is not None:
-                break
+                comp, variables = mapped
+                if not variables.get("takeaway"):
+                    variables["takeaway"] = sec.heading or ""
+                visuals.append(ComposedScene(
+                    scene_id=f"{sid}-{cid}", section_id=sid, start_sec=0.0,
+                    duration_sec=_CHART_SCENE_SEC, kind="chart",
+                    component=comp, variables=variables,
+                ))
+            elif ch.prerendered_svg:
+                visuals.append(ComposedScene(
+                    scene_id=f"{sid}-{cid}", section_id=sid, start_sec=0.0,
+                    duration_sec=_CHART_SCENE_SEC, kind="svg",
+                    heading=ch.title or sec.heading or "", svg=ch.prerendered_svg,
+                ))
 
-        sid = sec.section_id or f"s{i + 1}"
-        if mapped is not None:
-            comp, variables = mapped
-            if not variables.get("takeaway"):
-                variables["takeaway"] = sec.heading or ""
-            scenes.append(ComposedScene(
-                scene_id=sid, start_sec=round(cursor, 3), duration_sec=duration,
-                kind="chart", component=comp, variables=variables,
-            ))
+        if visuals:
+            for v in visuals:
+                v.start_sec = round(cursor, 3)
+                cursor += v.duration_sec
+            scenes.extend(visuals)
         else:
+            dur = _estimate_duration(prose)
             scenes.append(ComposedScene(
-                scene_id=sid, start_sec=round(cursor, 3), duration_sec=duration,
-                kind="text", heading=sec.heading or "", body=sec.pull_quote or prose,
+                scene_id=sid, section_id=sid, start_sec=round(cursor, 3),
+                duration_sec=dur, kind="text",
+                heading=sec.heading or "", body=sec.pull_quote or prose,
             ))
-        cursor += duration
+            cursor += dur
     return scenes
 
 
@@ -356,6 +395,23 @@ def render_composition_html(
                 f'           data-composition-src="{html.escape(src)}"\n'
                 f"           data-variable-values='{_attr_json(_stringify_complex(sc.variables))}'\n"
                 f'           data-start="{s}" data-duration="{d}" data-track-index="1"></div>'
+            )
+        elif sc.kind == "svg":
+            # 미지원 타입의 정적 폴백 — agents_reviewer prerendered_svg 를 그대로 인라인
+            # (1st-party producer 산출이라 raw 삽입). 카드 위에 제목, 루트 타임라인이 fade.
+            heading = html.escape(sc.heading or "")
+            scene_divs.append(
+                f'      <div class="scene-host svg-scene clip" id="{host_id}"\n'
+                f'           data-start="{s}" data-duration="{d}" data-track-index="1">\n'
+                f'        <div class="hf-card svg-card">\n'
+                f'          <div class="svg-heading">{heading}</div>\n'
+                f'          <div class="svg-wrap">{sc.svg}</div>\n'
+                f'        </div>\n'
+                f'      </div>'
+            )
+            text_anim.append(
+                f'      tl.fromTo("#{host_id} .svg-card", {{ opacity: 0, y: 24 }}, '
+                f'{{ opacity: 1, y: 0, duration: 0.6, ease: "power2.out" }}, {s});'
             )
         else:
             heading = html.escape(sc.heading or "")
@@ -430,6 +486,12 @@ _COMPOSITION_TEMPLATE = """<!doctype html>
       .text-card { width: 1400px; padding: 0 80px; text-align: center; }
       .text-heading { font-size: 84px; font-weight: 900; line-height: 1.12; letter-spacing: -0.5px; color: #1a1a1a; }
       .text-body { margin-top: 28px; font-size: 38px; font-weight: 600; line-height: 1.5; color: rgba(26,26,26,0.66); }
+      .svg-scene { display: flex; align-items: center; justify-content: center; }
+      .svg-card { width: 1520px; background: #ffffff; border-radius: 22px;
+        box-shadow: 0 2px 16px rgba(26,26,26,0.06), 0 1px 3px rgba(26,26,26,0.04); padding: 56px; }
+      .svg-heading { font-size: 56px; font-weight: 900; line-height: 1.15; letter-spacing: -0.3px; color: #1a1a1a; margin-bottom: 24px; }
+      .svg-wrap { width: 1408px; }
+      .svg-wrap svg { display: block; width: 100%; height: auto; max-height: 560px; }
       .subtitle-bar { position: absolute; bottom: 72px; left: 0; right: 0; display: flex; justify-content: center;
         padding: 0 140px; z-index: 20; }
       .subtitle { background: #4a1e10; padding: 24px 48px; border-radius: 12px; max-width: 1520px;
@@ -502,13 +564,30 @@ def _safe_slug(project_id: str) -> str:
 
 
 def build_composition_html_from_bundle(bundle: ReportBundle) -> tuple[list[ComposedScene], str]:
-    """ReportBundle → (씬 목록, 컴포지션 HTML). 자막 큐는 section.prose 에서 절대 타임라인으로."""
+    """ReportBundle → (씬 목록, 컴포지션 HTML).
+
+    자막 큐: 각 section.prose 를 그 섹션의 **전 씬 구간**(차트당 1씬으로 펼쳐졌어도)에 걸쳐
+    글자수 비례로 깐다 — 차트가 여러 개 흐르는 동안 narration 이 이어지도록.
+    """
     scenes = build_composed_scenes(bundle)
-    # 절대 타임라인 자막 큐: 각 section.prose 를 씬 구간 안에서 큐 분할.
+    prose_by_sid = {(s.section_id or f"s{i + 1}"): (s.prose or "")
+                    for i, s in enumerate(bundle.sections)}
+
+    # section 별 [start, span] 산출 (씬들을 section_id 로 그룹핑).
+    spans: dict[str, list[float]] = {}
+    for sc in scenes:
+        sid = sc.section_id
+        if sid not in spans:
+            spans[sid] = [sc.start_sec, 0.0]
+        spans[sid][0] = min(spans[sid][0], sc.start_sec)
+        spans[sid][1] += sc.duration_sec
+
     abs_cues: list[ComposedCue] = []
-    for sec, sc in zip(bundle.sections, scenes):
-        for cue in _split_cues(sec.prose or "", sc.duration_sec):
-            abs_cues.append(ComposedCue(text=cue.text, at_sec=round(sc.start_sec + cue.startSec, 3)))
+    for sid, (start, span) in spans.items():
+        for cue in _split_cues(prose_by_sid.get(sid, ""), span):
+            abs_cues.append(ComposedCue(text=cue.text, at_sec=round(start + cue.startSec, 3)))
+    abs_cues.sort(key=lambda c: c.at_sec)
+
     title = bundle.report.headline if bundle.report else ""
     html_str = render_composition_html(title=title, scenes=scenes, cues=abs_cues)
     return scenes, html_str
