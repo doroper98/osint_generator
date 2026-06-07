@@ -538,24 +538,40 @@ def render_composition_html(
 
     scene_divs: list[str] = []
     text_anim: list[str] = []
+    n_sc = len(scenes)
+    _XF = 0.6  # 크로스페이드 길이(초)
     for idx, sc in enumerate(scenes):
         host_id = f"scene-{idx + 1}"
         s, d = f"{sc.start_sec:.3f}", f"{sc.duration_sec:.3f}"
+        next_start = scenes[idx + 1].start_sec if idx + 1 < n_sc else None
+
+        # 씬 전환(모션 내재화): 모든 씬은 opacity:0 으로 시작, 자기 시작에 fade-in,
+        # 다음 씬 시작에 fade-out → 크로스페이드(clip 하드컷 대신). 챕터는 sub-comp 가 내부
+        # 등장 애니를, 텍스트/svg 는 헤딩 reveal 을 추가로 얹는다.
+        text_anim.append(
+            f'      tl.fromTo("#{host_id}", {{ opacity: 0 }}, '
+            f'{{ opacity: 1, duration: {_XF}, ease: "power2.inOut" }}, {s});'
+        )
+        if next_start is not None:
+            text_anim.append(
+                f'      tl.to("#{host_id}", {{ opacity: 0, duration: {_XF}, '
+                f'ease: "power2.inOut" }}, {next_start:.3f});'
+            )
+
         if sc.kind == "chart" and sc.component:
             src = f"{charts_prefix}/{sc.component}.html"
             scene_divs.append(
-                f'      <div class="scene-host clip" data-composition-id="{html.escape(host_id)}"\n'
+                f'      <div class="scene-host" id="{html.escape(host_id)}" style="opacity:0"\n'
+                f'           data-composition-id="{html.escape(host_id)}"\n'
                 f'           data-composition-src="{html.escape(src)}"\n'
                 f"           data-variable-values='{_attr_json(_stringify_complex(sc.variables))}'\n"
                 f'           data-start="{s}" data-duration="{d}" data-track-index="1"></div>'
             )
         elif sc.kind == "svg":
-            # 미지원 타입의 정적 폴백 — agents_reviewer prerendered_svg 를 그대로 인라인
-            # (1st-party producer 산출이라 raw 삽입). 카드 위에 제목, 루트 타임라인이 fade.
+            # 미지원 타입의 정적 폴백 — agents_reviewer prerendered_svg 를 그대로 인라인.
             heading = html.escape(sc.heading or "")
             scene_divs.append(
-                f'      <div class="scene-host svg-scene clip" id="{host_id}"\n'
-                f'           data-start="{s}" data-duration="{d}" data-track-index="1">\n'
+                f'      <div class="scene-host svg-scene" id="{host_id}" style="opacity:0">\n'
                 f'        <div class="hf-card svg-card">\n'
                 f'          <div class="svg-heading">{heading}</div>\n'
                 f'          <div class="svg-wrap">{sc.svg}</div>\n'
@@ -563,29 +579,26 @@ def render_composition_html(
                 f'      </div>'
             )
             text_anim.append(
-                f'      tl.fromTo("#{host_id} .svg-card", {{ opacity: 0, y: 24 }}, '
-                f'{{ opacity: 1, y: 0, duration: 0.6, ease: "power2.out" }}, {s});'
+                f'      if (window.__hf) window.__hf.revealWords(tl, '
+                f'document.querySelector("#{host_id} .svg-heading"), {s} + 0.2, {{ stagger: 0.05 }});'
             )
         else:
             heading = html.escape(sc.heading or "")
             body = html.escape(sc.body or "")
             scene_divs.append(
-                f'      <div class="scene-host text-scene clip" id="{host_id}"\n'
-                f'           data-start="{s}" data-duration="{d}" data-track-index="1">\n'
+                f'      <div class="scene-host text-scene" id="{host_id}" style="opacity:0">\n'
                 f'        <div class="text-card">\n'
                 f'          <div class="text-heading">{heading}</div>\n'
                 f'          <div class="text-body">{body}</div>\n'
                 f'        </div>\n'
                 f'      </div>'
             )
-            # 텍스트 씬 등장(모션 내재화): 카드 fade + 헤딩 SplitText reveal + 본문 fade.
+            # 텍스트 씬: 헤딩 SplitText reveal + 본문 fade(호스트 크로스페이드 위에 얹음).
             text_anim.append(
-                f'      tl.fromTo("#{host_id} .text-card", {{ opacity: 0 }}, '
-                f'{{ opacity: 1, duration: 0.5, ease: "power2.out" }}, {s});\n'
                 f'      if (window.__hf) window.__hf.revealWords(tl, '
-                f'document.querySelector("#{host_id} .text-heading"), {s} + 0.15, {{ stagger: 0.05 }});\n'
+                f'document.querySelector("#{host_id} .text-heading"), {s} + 0.25, {{ stagger: 0.05 }});\n'
                 f'      tl.fromTo("#{host_id} .text-body", {{ opacity: 0, y: 18 }}, '
-                f'{{ opacity: 1, y: 0, duration: 0.6, ease: "power2.out" }}, {s} + 0.4);'
+                f'{{ opacity: 1, y: 0, duration: 0.6, ease: "power2.out" }}, {s} + 0.5);'
             )
 
     # 자막 큐 JS 배열 (절대 타임라인).
@@ -646,19 +659,21 @@ _COMPOSITION_TEMPLATE = """<!doctype html>
       .text-card { width: 1280px; margin-left: 160px; padding-left: 50px; text-align: left; border-left: 6px solid #b5482e; }
       .text-heading { font-size: 96px; font-weight: 900; line-height: 1.05; letter-spacing: -2px; color: #16130f; }
       .text-body { margin-top: 30px; font-size: 40px; font-weight: 600; line-height: 1.5; color: #6a6157; max-width: 1040px; }
-      .svg-scene { display: flex; align-items: center; justify-content: center; }
+      /* svg/text 씬도 차트 sub-comp 과 동일한 top:160px 띠에서 시작 — topline(116px) 비켜감.
+         (이전 align-items:center 는 콘텐츠가 크면 카드 윗변이 116px 위로 올라가 헤어라인을 뚫었음) */
+      .svg-scene { display: flex; align-items: flex-start; justify-content: center; padding-top: 160px; }
       .svg-card { width: 1520px; background: #fbf9f4; border: 1px solid #e2dccf; border-radius: 18px;
-        box-shadow: 0 1px 2px rgba(22,19,15,0.05); padding: 56px; }
+        box-shadow: 0 1px 2px rgba(22,19,15,0.05); padding: 48px 56px; max-height: 780px; overflow: hidden; }
       .svg-heading { font-size: 56px; font-weight: 900; line-height: 1.15; letter-spacing: -0.3px; color: #16130f; margin-bottom: 24px; }
       .svg-wrap { width: 1408px; }
       .svg-wrap svg { display: block; width: 100%; height: auto; max-height: 560px; }
-      .subtitle-bar { position: absolute; bottom: 72px; left: 0; right: 0; display: flex; justify-content: center;
-        padding: 0 140px; z-index: 20; }
-      .subtitle { background: #4a1e10; padding: 24px 48px; border-radius: 12px; max-width: 1520px;
-        box-shadow: 0 6px 32px rgba(74,30,16,0.4); min-height: 96px; min-width: 720px;
+      .subtitle-bar { position: absolute; bottom: 40px; left: 0; right: 0; display: flex; justify-content: center;
+        padding: 0 160px; z-index: 20; }
+      .subtitle { background: #2a2320; padding: 15px 34px; border-radius: 10px; max-width: 1320px;
+        box-shadow: 0 4px 18px rgba(22,19,15,0.22); min-height: 66px; min-width: 480px;
         display: flex; align-items: center; justify-content: center; }
-      .subtitle .text { font-size: 40px; line-height: 1.3; font-weight: 800; color: #ffffff;
-        letter-spacing: -0.4px; text-align: center; word-break: keep-all; overflow-wrap: anywhere; }
+      .subtitle .text { font-size: 33px; line-height: 1.3; font-weight: 700; color: #f6f3ec;
+        letter-spacing: -0.3px; text-align: center; word-break: keep-all; overflow-wrap: anywhere; }
     </style>
   </head>
   <body>
