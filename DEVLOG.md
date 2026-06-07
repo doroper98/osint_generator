@@ -2584,3 +2584,12 @@ last_review: 2026-06-06
 - 특징: ?t=초 쿼리로 모든 타임라인을 그 시점으로 seek 후 정지(실제 렌더 파이프라인과
   동일한 결정론적 프레임 방식) — 헤드리스 캡처/검수 용이. 모션 코드는 hf-motion.js 패턴 자체 내장.
 - 검증: node --check 통과 + chrome-headless-shell 로 t=0.6/1.2/2.2 캡처 확인.
+
+## 2026-06-07 v0.36.7 — 모션 데모 재생 영상(gif/mp4) 저장소 커밋
+
+- 무엇을: hyperframes/motion_demo.{gif,mp4} 추가. motion_demo.html 을 chrome-headless-shell
+  로 ?t=0.0~3.2 시점별 seek-캡처(33프레임) → ffmpeg 인코딩.
+- 왜: 저장소가 비공개라 raw.githack/htmlpreview 외부 렌더 불가. GitHub 파일 화면은 gif 를
+  자동재생하므로(로그인 본인은 비공개여도 열람) 링크 하나로 모션 확인 가능.
+- 검증: gif 389KB / mp4 100KB, 8종 모션(reveal/chars/countUp/spring/line+callout/bar/donut/
+  crossfade) 진행→완료 캡처 확인.
