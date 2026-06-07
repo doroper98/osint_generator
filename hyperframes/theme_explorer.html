@@ -1,0 +1,153 @@
+<!doctype html>
+<!-- theme_explorer.html — 같은 장면을 4개 테마로 비교(정적 목업). 테마 방향 결정용. -->
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <script src="assets/gsap.min.js"></script>
+    <style>
+      @font-face { font-family:"Pretendard Variable"; src:url("assets/fonts/PretendardVariable.woff2") format("woff2-variations"); font-weight:100 900; font-display:swap; }
+      * { box-sizing:border-box; margin:0; padding:0; }
+      body { background:#2a2a2a; font-family:"Pretendard Variable",Pretendard,-apple-system,sans-serif; }
+      .sheet { width:1180px; margin:0 auto; padding:30px; }
+      .label { color:#bbb; font-size:15px; font-weight:800; letter-spacing:1px; margin:26px 4px 10px; }
+      .label b { color:#fff; }
+      .scene { width:1120px; height:630px; border-radius:14px; overflow:hidden; position:relative; }
+      .pad { position:absolute; inset:0; padding:54px 64px; display:flex; flex-direction:column; }
+      .kick { font-size:16px; font-weight:800; letter-spacing:4px; text-transform:uppercase; }
+      .head { font-weight:900; letter-spacing:-1.5px; line-height:1.08; margin-top:auto; }
+      .src { font-size:18px; font-weight:600; margin-top:18px; }
+      svg { display:block; overflow:visible; }
+      .endval { font-weight:900; }
+      .co { font-weight:800; }
+
+      /* ===== A. Terminal Dark ===== */
+      #A { background:#080b12; }
+      #A .kick { color:#27e0a0; }
+      #A .head { font-size:62px; color:#eef3f5; }
+      #A .src { color:#5b6b78; font-family:ui-monospace,Menlo,monospace; }
+      #A .dot { color:#27e0a0; }
+      #A .grid line { stroke:#1a2230; }
+      #A .axis { fill:#4a5a68; font-family:ui-monospace,Menlo,monospace; font-size:18px; }
+      #A .line { stroke:#27e0a0; }
+      #A .area { fill:url(#aGrad); }
+      #A .endval { fill:#eef3f5; font-family:ui-monospace,Menlo,monospace; }
+      #A .endlbl { fill:#27e0a0; }
+      #A .co { fill:#34d0ff; }
+      #A .coplate { fill:#0e1622; stroke:#1f3344; }
+
+      /* ===== B. Ink & Gold (documentary) ===== */
+      #B { background:#16130f; }
+      #B .kick { color:#caa05a; }
+      #B .head { font-size:66px; color:#f3ece0; font-family:Georgia,"Times New Roman",serif; font-weight:700; letter-spacing:-1px; }
+      #B .src { color:#8a7f6d; font-style:italic; font-family:Georgia,serif; }
+      #B .grid line { stroke:#2a2419; }
+      #B .axis { fill:#7a6f5c; font-size:18px; }
+      #B .line { stroke:#d4a858; }
+      #B .area { fill:url(#bGrad); }
+      #B .endval { fill:#f3ece0; }
+      #B .endlbl { fill:#d4a858; }
+      #B .co { fill:#e6c886; }
+      #B .coplate { fill:#1f1a12; stroke:#3a3020; }
+
+      /* ===== C. Brutalist Mono ===== */
+      #C { background:#0f0f0f; }
+      #C .kick { color:#e8ff00; letter-spacing:6px; }
+      #C .head { font-size:80px; color:#fff; letter-spacing:-3px; line-height:0.96; text-transform:none; }
+      #C .src { color:#888; text-transform:uppercase; letter-spacing:2px; font-size:15px; }
+      #C .grid line { stroke:#222; }
+      #C .axis { fill:#777; font-size:18px; font-weight:700; }
+      #C .line { stroke:#e8ff00; stroke-width:6; }
+      #C .area { fill:#e8ff0014; }
+      #C .endval { fill:#0f0f0f; }
+      #C .endlbl { fill:#0f0f0f; }
+      #C .coplate { fill:#e8ff00; stroke:none; }
+      #C .co { fill:#0f0f0f; }
+
+      /* ===== D. Aurora Glass ===== */
+      #D { background:radial-gradient(120% 120% at 80% 10%,#3b2a72 0%,#1a1740 45%,#0d0b22 100%); }
+      #D .kick { color:#9fb4ff; }
+      #D .head { font-size:62px; color:#fff; }
+      #D .src { color:#8b93c4; }
+      #D .glass { position:absolute; left:64px; right:64px; top:150px; height:330px; border-radius:20px;
+        background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.14); backdrop-filter:blur(8px); }
+      #D .grid line { stroke:rgba(255,255,255,0.08); }
+      #D .axis { fill:#9aa0d0; font-size:18px; }
+      #D .line { stroke:#7c9bff; }
+      #D .area { fill:url(#dGrad); }
+      #D .endval { fill:#fff; }
+      #D .endlbl { fill:#9fd4ff; }
+      #D .co { fill:#c4b5ff; }
+      #D .coplate { fill:rgba(30,28,70,0.85); stroke:rgba(255,255,255,0.18); }
+    </style>
+  </head>
+  <body>
+    <div class="sheet">
+      <div class="label">A · <b>Terminal Dark</b> — 인텔리전스/핀테크 (네온 그린, 모노 숫자, 그리드)</div>
+      <div class="scene" id="A"></div>
+      <div class="label">B · <b>Ink & Gold</b> — 다큐멘터리 럭셔리 (딥 잉크, 골드, 세리프 헤드라인)</div>
+      <div class="scene" id="B"></div>
+      <div class="label">C · <b>Brutalist Mono</b> — 강렬/모던 (순흑백 + 애시드 옐로, 초대형 타입)</div>
+      <div class="scene" id="C"></div>
+      <div class="label">D · <b>Aurora Glass</b> — 테크 키노트 (보라 그라데이션, 프로스티드 글래스)</div>
+      <div class="scene" id="D"></div>
+    </div>
+
+    <script>
+      // 같은 데이터로 4 테마 장면을 그린다. 점: 2023=0.2, 2024=0.6, 2025=1.9 (yMin -1, yMax 3)
+      var XL=["2023","2024","2025"], YS=[0.2,0.6,1.9], yMin=-1,yMax=3,yStep=1;
+      function buildScene(id, opt){
+        var el=document.getElementById(id);
+        var grad = id==="A"?'aGrad':id==="B"?'bGrad':'dGrad';
+        var gradStops = {
+          A:'<stop offset="0" stop-color="#27e0a0" stop-opacity="0.28"/><stop offset="1" stop-color="#27e0a0" stop-opacity="0"/>',
+          B:'<stop offset="0" stop-color="#d4a858" stop-opacity="0.26"/><stop offset="1" stop-color="#d4a858" stop-opacity="0"/>',
+          D:'<stop offset="0" stop-color="#7c9bff" stop-opacity="0.34"/><stop offset="1" stop-color="#7c9bff" stop-opacity="0"/>'
+        }[id] || '';
+        // chart geom
+        var W=992,H=300, X0=70,X1=900, BASE=270,TOP=20;
+        var xOf=function(i){return X0+i*((X1-X0)/(XL.length-1));};
+        var yOf=function(v){return BASE-((v-yMin)/(yMax-yMin))*(BASE-TOP);};
+        var grid="";
+        for(var p=yMin;p<=yMax+0.001;p+=yStep){ var gy=yOf(p);
+          grid+='<line x1="'+X0+'" y1="'+gy+'" x2="'+(X1+20)+'" y2="'+gy+'"/>';
+          grid+='<text class="axis" x="'+(X0-14)+'" y="'+(gy+6)+'" text-anchor="end">'+p+'</text>'; }
+        var ax="";
+        for(var i=0;i<XL.length;i++) ax+='<text class="axis" x="'+xOf(i)+'" y="'+(BASE+34)+'" text-anchor="middle">'+XL[i]+'</text>';
+        var d="",area="M "+xOf(0)+" "+BASE;
+        YS.forEach(function(v,i){ var x=xOf(i),y=yOf(v); d+=(i?"L":"M")+x+" "+y+" "; area+=" L "+x+" "+y; });
+        area+=" L "+xOf(YS.length-1)+" "+BASE+" Z";
+        var ex=xOf(2),ey=yOf(1.9);
+        var coX=xOf(2), coY=yOf(1.9);
+        // brutalist: endplate is accent block, text dark
+        var endPlate = id==="C"
+          ? '<rect x="'+(ex-150)+'" y="'+(ey-30)+'" width="150" height="48" fill="#e8ff00"/><text class="endval" x="'+(ex-14)+'" y="'+(ey+4)+'" text-anchor="end" font-size="30">1.9</text>'
+          : '<circle class="dot" cx="'+ex+'" cy="'+ey+'" r="7" fill="currentColor"/>'+
+            '<rect class="coplate" x="'+(ex+14)+'" y="'+(ey-26)+'" width="92" height="40" rx="8"/>'+
+            '<text class="endval" x="'+(ex+26)+'" y="'+(ey+1)+'" font-size="24">1.9</text>'+
+            '<text class="endlbl" x="'+(ex+26)+'" y="'+(ey-30)+'" font-size="15" font-weight="800">GW</text>';
+        // callout near left point
+        var clX=xOf(1), clY=yOf(0.6);
+        var callout = id==="C"
+          ? '<rect class="coplate" x="120" y="60" width="300" height="40"/><text class="co" x="136" y="87" font-size="20">딥시크 후 오히려 가속</text>'
+          : '<rect class="coplate" x="118" y="58" width="290" height="40" rx="9"/><text class="co" x="134" y="84" font-size="19">딥시크 충격 후 오히려 가속</text>';
+        var svg =
+          '<svg width="992" height="320" viewBox="0 0 992 320">'+
+            (gradStops?'<defs><linearGradient id="'+grad+'" x1="0" y1="0" x2="0" y2="1">'+gradStops+'</linearGradient></defs>':'')+
+            '<g class="grid">'+grid+'</g>'+ax+
+            '<path class="area" d="'+area+'"/>'+
+            '<path class="line" d="'+d.trim()+'" fill="none" stroke-width="'+(id==="C"?6:4)+'" stroke-linecap="round" stroke-linejoin="round"/>'+
+            callout+ endPlate+
+          '</svg>';
+        var glass = id==="D" ? '<div class="glass"></div>' : '';
+        el.innerHTML = glass +
+          '<div class="pad">'+
+            '<div class="kick">OSINT 브리핑</div>'+
+            '<div style="margin-top:14px">'+svg+'</div>'+
+            '<div class="head">오픈AI 컴퓨트 규모,<br>두 해에 9배</div>'+
+            '<div class="src">출처 · OpenAI / Epoch AI · 2023–2025</div>'+
+          '</div>';
+      }
+      ["A","B","C","D"].forEach(function(id){ buildScene(id); });
+    </script>
+  </body>
+</html>
