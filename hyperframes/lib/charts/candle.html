@@ -55,12 +55,17 @@
           [data-composition-id="candle"] svg.hf-chart {
             display: block; width: 1408px; height: 500px; overflow: visible;
           }
+          [data-composition-id="candle"] .hf-source {
+            margin-top: 20px; font-size: 22px; font-weight: 600;
+            color: rgba(26,26,26,0.42); letter-spacing: -0.2px;
+          }
         </style>
 
         <div class="hf-stage">
           <div class="hf-card">
             <div class="hf-takeaway" data-role="takeaway"></div>
             <svg class="hf-chart" viewBox="0 0 1408 500" data-role="chart" aria-hidden="true"></svg>
+            <div class="hf-source" data-role="source"></div>
           </div>
         </div>
 
@@ -127,6 +132,7 @@
             var candleStagger = V.candleStagger != null ? +V.candleStagger : D.candleStagger;
 
             root.querySelector('[data-role="takeaway"]').textContent = takeaway;
+            setSourceFooter(root, V);
 
             // ---- 2. 지오메트리 ----
             var BASE = 416, TOP = 0, X0 = 207, X1 = 1197, GW = 96, GRID_R = 1308;
@@ -279,6 +285,14 @@
             function r1(n) { return Math.round(n * 10) / 10; }
             function esc(s) { return String(s == null ? "" : s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;"); }
             function fmtNum(n) { return (Math.round(n * 100) / 100).toString(); }
+            function setSourceFooter(rt, vars) {
+              var el = rt && rt.querySelector('[data-role="source"]'); if (!el) return;
+              var p = [];
+              if (vars.source) p.push("출처 · " + vars.source);
+              if (vars.periodStart && vars.periodEnd)
+                p.push(vars.periodStart + " ~ " + vars.periodEnd + (vars.interval ? " · " + vars.interval : ""));
+              el.textContent = p.join("      ");
+            }
             function labelPlace(dir, ax, ay) {
               var lx, ly, anchor;
               if (dir === "ur") { lx = ax + 150; ly = clampY(ay - 6); anchor = "start"; }

@@ -28,6 +28,28 @@ released 항목은 **append-only**입니다.
 
 ---
 
+## [v0.34.17] — 2026-06-07
+
+**차트 메타데이터 footer(출처·기간·시작~끝·인터벌) + candle=메인 + 종목 dedupe**. 사용자
+지적 — 티커 보드의 보조차트에 출처·기간이 없고, 엔비디아(candle)를 스파크라인으로 축소했으며,
+같은 종목이 중복됐다.
+
+### Added
+
+- **모든 차트 컴포넌트 footer** — 출처(`provenance.sources[0].provider(+code)`) + 기간
+  (데이터 첫·끝 날짜) + 인터벌(일/주/월봉 추론). candle/line/bar/donut/tickerboard 공통.
+  (`_attach_meta` / `setSourceFooter`). C9/GOAL 출처 표기 의무 충족.
+
+### Changed
+
+- **candle 은 strip 후보에서 제외 → 기본 메인(full)** (docs/CHART_DISPLAY_RULES.md v0.34.17).
+  candle 은 sparkline 이 아니라 상세 OHLC 단일 종목 차트. 엔비디아 candle 이 풀스크린 메인으로,
+  지수 line 들만 티커 보드로.
+- **티커 보드 dedupe** — 같은 섹션에서 메인으로 이미 그린 종목명은 보드에서 제외(NVDA candle
+  메인이면 NVDA line 은 보드에 미표기). 보드도 공통 출처·기간 footer.
+
+---
+
 ## [v0.34.16] — 2026-06-06
 
 **보조차트(strip) vs 메인차트(full) 판독 규칙 + 티커 보드**. 사용자 지적 — v0.34.15 영상이

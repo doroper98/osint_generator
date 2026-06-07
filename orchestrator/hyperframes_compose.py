@@ -25,6 +25,7 @@ import json
 import math
 import os
 import re
+from datetime import date as _date
 from pathlib import Path
 from typing import Any, Optional
 
@@ -205,6 +206,57 @@ def _unit(chart: BundleChart) -> str:
     return srcs[0].unit if srcs and srcs[0].unit else ""
 
 
+def _source_label(chart: BundleChart) -> str:
+    """출처 표기 — provenance.sources[0].provider (+ code). 없으면 ""."""
+    srcs = chart.provenance.sources if chart.provenance else []
+    if not srcs:
+        return ""
+    s = srcs[0]
+    prov = (s.provider or "").strip()
+    code = (s.code or "").strip()
+    if prov and code:
+        return f"{prov} ({code})"
+    return prov or code
+
+
+def _chart_dates(chart: BundleChart) -> list[str]:
+    out: list[str] = []
+    for r in _rows(chart):
+        d = r.get("date") if "date" in r else r.get("x")
+        if d not in (None, ""):
+            out.append(str(d))
+    return out
+
+
+def _period_interval(dates: list[str]) -> tuple[str, str, str]:
+    """날짜 목록 → (시작, 끝, 인터벌라벨). 인터벌은 중앙 간격(일)으로 추론."""
+    if not dates:
+        return "", "", ""
+    start, end = _short_date(dates[0]), _short_date(dates[-1])
+    parsed: list[Any] = []
+    for d in dates:
+        m = re.match(r"^(\d{4})-(\d{2})(?:-(\d{2}))?", str(d))
+        if m:
+            y, mo, da = int(m.group(1)), int(m.group(2)), int(m.group(3) or 1)
+            try:
+                parsed.append(_date(y, mo, da))
+            except ValueError:
+                pass
+    interval = ""
+    if len(parsed) >= 2:
+        gaps = sorted((parsed[i + 1] - parsed[i]).days for i in range(len(parsed) - 1))
+        med = gaps[len(gaps) // 2]
+        interval = "일봉" if med <= 3 else "주봉" if med <= 10 else "월봉" if med <= 45 else ""
+    return start, end, interval
+
+
+def _attach_meta(v: dict, chart: BundleChart) -> None:
+    """차트 변수에 출처·기간·인터벌 footer 메타 주입 (모든 컴포넌트 공통)."""
+    v["source"] = _source_label(chart)
+    start, end, interval = _period_interval(_chart_dates(chart))
+    v["periodStart"], v["periodEnd"], v["interval"] = start, end, interval
+
+
 def chart_to_component(
     chart: BundleChart, *, callout_t: float = 3.0, accent: Optional[str] = None
 ) -> Optional[tuple[str, dict]]:
@@ -232,6 +284,7 @@ def chart_to_component(
     v["takeaway"] = chart.title or ""
     if accent and comp in ("candle", "line", "bar"):
         v["accent"] = accent
+    _attach_meta(v, chart)  # 출처·기간·시작~끝 footer (필수)
     return comp, v
 
 
@@ -250,8 +303,9 @@ def _theme_accent(bundle: ReportBundle) -> Optional[str]:
     return _theme_token(bundle, "accent")
 
 
-# 보조차트(strip) 후보 type — 시장 시계열. 단, display 가 우선(docs/CHART_DISPLAY_RULES.md).
-_STRIP_CANDIDATE_TYPES = {"line", "candle", "area"}
+# 보조차트(strip) 후보 type — 시장 시계열 sparkline. candle 은 상세 OHLC 라 제외(기본 메인,
+# v0.34.17). display 가 항상 우선(docs/CHART_DISPLAY_RULES.md).
+_STRIP_CANDIDATE_TYPES = {"line", "area"}
 
 
 def _classify_section(charts: list[BundleChart]) -> list[str]:
@@ -357,15 +411,36 @@ def build_composed_scenes(bundle: ReportBundle) -> list[ComposedScene]:
 
         visuals: list[ComposedScene] = []
         strip_buf: list[BundleChart] = []
+        main_names: set[str] = set()   # 이 섹션에서 메인으로 그린 종목명(dedupe 기준)
+
+        def _norm(s: str) -> str:
+            return re.sub(r"\s+", "", (s or "")).lower()
 
         def _flush_strips() -> None:
             if not strip_buf:
                 return
-            items = [s for s in (_strip_series(c) for c in strip_buf) if s]
+            charts = list(strip_buf)
             strip_buf.clear()
+            items, seen = [], set()
+            board_src = ""
+            for c in charts:
+                s = _strip_series(c)
+                if not s:
+                    continue
+                nm = _norm(s["name"])
+                if nm in main_names or nm in seen:  # 메인 중복 / 보드 내 중복 제외
+                    continue
+                seen.add(nm)
+                items.append(s)
+                if not board_src:
+                    board_src = _source_label(c)
             if not items:
                 return
-            tb_vars: dict[str, Any] = {"takeaway": sec.heading or "주요 지표", "items": items}
+            start, end, interval = _period_interval(_chart_dates(charts[0]))
+            tb_vars: dict[str, Any] = {
+                "takeaway": sec.heading or "주요 지표", "items": items,
+                "source": board_src, "periodStart": start, "periodEnd": end, "interval": interval,
+            }
             if up_color:
                 tb_vars["upColor"] = up_color
             if down_color:
@@ -386,6 +461,7 @@ def build_composed_scenes(bundle: ReportBundle) -> list[ComposedScene]:
                 comp, variables = mapped
                 if not variables.get("takeaway"):
                     variables["takeaway"] = sec.heading or ""
+                main_names.add(_norm(ch.title))  # dedupe: 보드에서 이 종목 제외
                 visuals.append(ComposedScene(
                     scene_id=f"{sid}-{ch.chart_id}", section_id=sid, start_sec=0.0,
                     duration_sec=_CHART_SCENE_SEC, kind="chart",

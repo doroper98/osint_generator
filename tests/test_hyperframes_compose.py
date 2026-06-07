@@ -135,8 +135,8 @@ class TestComposedScenes(unittest.TestCase):
         self.assertEqual(scenes[0].start_sec, 0.0)
         self.assertAlmostEqual(scenes[1].start_sec, scenes[0].duration_sec, places=3)
 
-    def test_consecutive_timeseries_grouped_into_tickerboard(self) -> None:
-        # line/candle 2개 이상 연속 → strip → 티커 보드 한 컷(docs/CHART_DISPLAY_RULES.md).
+    def test_candle_is_main_lines_grouped_into_tickerboard(self) -> None:
+        # candle 은 메인(상세 OHLC), line 2개 연속은 strip → 티커 보드(docs/CHART_DISPLAY_RULES.md).
         b = _bundle(
             sections=[{"section_id": "s1", "heading": "지표", "prose": "p",
                        "chart_refs": ["c1", "c2", "c3"]}],
@@ -144,7 +144,8 @@ class TestComposedScenes(unittest.TestCase):
                 {"chart_id": "c1", "type": "candle", "title": "엔비디아",
                  "data": [{"date": "2026-03-02", "open": 80, "high": 90, "low": 78, "close": 88},
                           {"date": "2026-03-03", "open": 88, "high": 95, "low": 85, "close": 92}],
-                 "provenance": {"origin": "measured", "verification": "confirmed", "confidence": "high"}},
+                 "provenance": {"origin": "measured", "verification": "confirmed", "confidence": "high",
+                                "sources": [{"source_id": "s", "provider": "YAHOO", "code": "NVDA", "unit": "$"}]}},
                 {"chart_id": "c2", "type": "line", "title": "알파벳", "data": [{"x": "1", "y": 1}, {"x": "2", "y": 2}],
                  "provenance": {"origin": "measured", "verification": "confirmed", "confidence": "high"}},
                 {"chart_id": "c3", "type": "line", "title": "MS", "data": [{"x": "1", "y": 3}, {"x": "2", "y": 5}],
@@ -152,12 +153,32 @@ class TestComposedScenes(unittest.TestCase):
             ],
         )
         scenes = build_composed_scenes(b)
-        self.assertEqual(len(scenes), 1)
-        self.assertEqual(scenes[0].component, "tickerboard")
-        items = scenes[0].variables["items"]
-        self.assertEqual([it["name"] for it in items], ["엔비디아", "알파벳", "MS"])
-        # candle 은 종가선으로 축약.
-        self.assertEqual(items[0]["points"], [88, 92])
+        self.assertEqual([s.component for s in scenes], ["candle", "tickerboard"])
+        # candle 메인에 출처·기간 메타.
+        self.assertEqual(scenes[0].variables["source"], "YAHOO (NVDA)")
+        self.assertEqual(scenes[0].variables["periodStart"], "03-02")
+        # 티커 보드엔 line 2종만(candle 은 메인이라 제외).
+        items = scenes[1].variables["items"]
+        self.assertEqual([it["name"] for it in items], ["알파벳", "MS"])
+
+    def test_tickerboard_dedupes_name_already_shown_as_main(self) -> None:
+        # 같은 종목이 candle(메인)+line(strip) 둘 다면 보드에서 그 종목 제외(dedupe).
+        b = _bundle(
+            sections=[{"section_id": "s1", "heading": "h", "prose": "p", "chart_refs": ["c1", "c2", "c3"]}],
+            charts=[
+                {"chart_id": "c1", "type": "candle", "title": "엔비디아",
+                 "data": [{"date": "2026-03-02", "open": 80, "high": 90, "low": 78, "close": 88}],
+                 "provenance": {"origin": "measured", "verification": "confirmed", "confidence": "high"}},
+                {"chart_id": "c2", "type": "line", "title": "엔비디아", "data": [{"x": "1", "y": 1}, {"x": "2", "y": 2}],
+                 "provenance": {"origin": "measured", "verification": "confirmed", "confidence": "high"}},
+                {"chart_id": "c3", "type": "line", "title": "알파벳", "data": [{"x": "1", "y": 3}, {"x": "2", "y": 5}],
+                 "provenance": {"origin": "measured", "verification": "confirmed", "confidence": "high"}},
+            ],
+        )
+        scenes = build_composed_scenes(b)
+        self.assertEqual([s.component for s in scenes], ["candle", "tickerboard"])
+        items = scenes[1].variables["items"]
+        self.assertEqual([it["name"] for it in items], ["알파벳"])  # 엔비디아 line 은 dedupe
 
     def test_display_full_overrides_strip_heuristic(self) -> None:
         # display=="full" 이면 line 2연속이어도 개별 메인 씬(휴리스틱 무시).

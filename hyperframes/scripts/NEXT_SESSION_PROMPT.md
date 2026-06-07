@@ -1,8 +1,16 @@
-# NEXT SESSION PROMPT — v0.34.17 시작점
+# NEXT SESSION PROMPT — v0.34.18 시작점
 
 > 본 파일은 **다음 Claude Code 세션 시작 시 첫 메시지로 paste** 해 사용한다.
-> v0.34.16 (2026-06-06, 보조/메인차트 판독 + 티커보드) 이후 작업을 이어 받을 컨텍스트.
+> v0.34.17 (2026-06-07, 차트 메타 footer + candle=메인 + dedupe) 이후 작업을 이어 받을 컨텍스트.
 > SSOT: HANDOFF.md, docs/PROFESSIONAL_REBUILD_PLAN.md, DEVLOG.md (append-only).
+
+## v0.34.17 완료 요약 (차트 메타데이터 + candle=메인)
+
+- **모든 차트에 footer**: 출처(provider+code) · 기간(첫~끝 날짜) · 인터벌(일/주/월봉) — 번들
+  provenance/data 에서 추출. C9/G4 출처 표기 의무 충족.
+- **candle = 기본 메인**(strip 후보 제외) — 엔비디아 candle 은 풀스크린 메인, 지수 line 들만
+  티커 보드. **티커 보드 종목 dedupe**(메인으로 그린 종목명 제외).
+- docs/CHART_DISPLAY_RULES.md 에 메타데이터·candle=메인·dedupe 규칙 명문화.
 
 ## v0.34.16 완료 요약 (보조차트 strip vs 메인차트 full)
 

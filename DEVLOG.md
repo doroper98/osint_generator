@@ -25,6 +25,35 @@ last_review: 2026-06-06
 
 ---
 
+## 2026-06-07 v0.34.17 — 차트 메타 footer(출처·기간) + candle=메인 + 종목 dedupe (정확성 C9, 사용자 지적)
+
+- **무엇을**: 차트 신뢰성 메타 강화 — 모든 차트에 footer 로 출처·기간·시작~끝·인터벌 표기,
+  candle 을 메인으로 승격, 티커 보드 종목 중복 제거.
+- **왜(사용자 지적)**: v0.34.16 티커 보드가 (1) 출처·기간이 전혀 없고 (2) 엔비디아 candle 을
+  스파크라인으로 축소(메인이어야), (3) 엔비디아가 candle+line 둘 다라 보드에 중복, (4) 데모
+  라인이 3점이라 무의미한 삼각형. "무슨 의미냐 / 출처·기간·시작끝 당연히 표기 / 왜 두개 / 무슨
+  생각이냐."
+- **어떻게**:
+  - `_attach_meta`: provenance.sources[0].provider(+code) → 출처, data 첫·끝 날짜 → 기간,
+    날짜 간격 중앙값 → 인터벌(일/주/월봉). chart_to_component 가 candle/line/bar/donut 변수에
+    주입. 컴포넌트는 `setSourceFooter` 로 카드 하단 한 줄 표기.
+  - candle 을 `_STRIP_CANDIDATE_TYPES` 에서 제외 → 기본 메인(상세 OHLC). line/area 만 strip
+    묶음 후보. docs/CHART_DISPLAY_RULES.md 보정 + 근거(사용자 피드백).
+  - 티커 보드: 섹션 메인 종목명(`main_names`)·보드 내 중복을 정규화 비교로 제외. 보드도 공통
+    출처·기간 footer(strip 첫 차트 기준).
+  - 데모 번들(/tmp): 라인 6종을 실제 값 12점(매 ~6거래일)으로 복원 — 무의미 삼각형 해소
+    (실 번들은 일별 64점, 데모는 토큰상 subsample이라 인터벌이 '주봉'으로 정직 표기).
+- **결과**:
+  - SpaceX: s1 = 엔비디아 candle(메인, 64일봉, footer "출처·YAHOO (NVDA) 03-05~06-05·일봉")
+    + 티커 보드(알파벳/MS/아마존/S&P/필반 5종, NVDA dedupe, footer "YAHOO (GOOGL)…주봉")
+    + sankey svg → 9씬. 메인차트 1/티커보드 1/SVG 1/텍스트 6.
+  - 단위 테스트 +1(메인/보드 분리·dedupe 갱신) → `test_hyperframes_compose` 18, 전체 **370/370
+    통과**. py_compile 통과. PNG ground-truth 로 candle footer·보드 footer·dedupe 확인.
+- **연관**: CHANGELOG v0.34.17, docs/CHART_DISPLAY_RULES.md(메타데이터·candle=메인·dedupe 규칙),
+  GOAL G4(출처 표기), C9. 후속: role 2순위, strip 인터벌 densify(데이터소스), B-ext, C-ext.
+
+---
+
 ## 2026-06-06 v0.34.16 — 보조차트(strip) vs 메인차트(full) 판독 + 티커 보드 (영상미 C0, 사용자 결정)
 
 - **무엇을**: 보고서 번들 차트를 메인(full)/보조(strip)로 구분해 배치. 보조차트(시장 시계열

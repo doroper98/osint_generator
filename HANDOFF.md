@@ -1,6 +1,6 @@
 <!--
 tier: 1
-last_synced_with: v0.34.16
+last_synced_with: v0.34.17
 ssot_for: [session-handoff]
 depends_on: [CLAUDE.md, GOAL.md, VERSION, docs/13_IMPLEMENTATION_ROADMAP.md, docs/REVIEW_PROMPT.md, docs/PROFESSIONAL_REBUILD_PLAN.md]
 last_review: 2026-06-05
@@ -68,7 +68,10 @@ last_review: 2026-06-05
      (`docs/CHART_DISPLAY_RULES.md`, 사용자 결정). display→role→type 휴리스틱으로 분류, strip
      연속 묶음은 `lib/charts/tickerboard.html` 한 컷, 메인만 풀스크린. SpaceX s1 8씬→2씬.
      `BundleChart.display` 필드 수신.
-   - **v0.34.17~ (다음, 합의된 우선순위)**:
+   - **v0.34.17 (완료)**: 차트 메타 footer(출처·기간·시작~끝·인터벌) 전 컴포넌트 + candle=메인
+     승격(strip 후보 제외) + 티커 보드 종목 dedupe. 사용자 지적(출처·기간 누락 / 엔비디아 축소
+     / 중복) 반영. SpaceX s1 = 엔비디아 candle 메인 + 지수 5종 티커 보드(NVDA dedupe).
+   - **v0.34.18~ (다음, 합의된 우선순위)**:
      ②-b 씬 narration/cue 정밀화 — 현재 prose 글자수 비례 추정 → ScriptWorker narration +
         실 음성 길이 sync (cuesync 패턴 재사용) + scene별 cue/콜아웃 LLM 추출·수동 override →
      ③ 인물 카드 + 엔티티 연결선 (날리지식 패턴 ③④) →

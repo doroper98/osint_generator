@@ -40,12 +40,14 @@
             color: #1a1a1a; margin-bottom: 24px;
           }
           [data-composition-id="donut"] svg.hf-chart { display: block; width: 1408px; height: 500px; overflow: visible; }
+          [data-composition-id="donut"] .hf-source { margin-top: 20px; font-size: 22px; font-weight: 600; color: rgba(26,26,26,0.42); letter-spacing: -0.2px; }
         </style>
 
         <div class="hf-stage">
           <div class="hf-card">
             <div class="hf-takeaway" data-role="takeaway"></div>
             <svg class="hf-chart" viewBox="0 0 1408 500" data-role="chart" aria-hidden="true"></svg>
+            <div class="hf-source" data-role="source"></div>
           </div>
         </div>
 
@@ -85,6 +87,7 @@
             var slices = parseJSON(V.slices, D.slices);
             var drawStart = V.drawStart != null ? +V.drawStart : D.drawStart;
             root.querySelector('[data-role="takeaway"]').textContent = V.takeaway != null ? V.takeaway : D.takeaway;
+            setSourceFooter(root, V);
 
             var PALETTE = ["#e84a2d", "#f0883e", "#5aa9e6", "#7d8597", "#c9cdd4"];
             var total = 0; slices.forEach(function (s) { total += +s.value; });
@@ -169,6 +172,14 @@
             function r1(n) { return Math.round(n * 10) / 10; }
             function esc(s) { return String(s == null ? "" : s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;"); }
             function fmtNum(n) { return (Math.round(n * 100) / 100).toString(); }
+            function setSourceFooter(rt, vars) {
+              var el = rt && rt.querySelector('[data-role="source"]'); if (!el) return;
+              var p = [];
+              if (vars.source) p.push("출처 · " + vars.source);
+              if (vars.periodStart && vars.periodEnd)
+                p.push(vars.periodStart + " ~ " + vars.periodEnd + (vars.interval ? " · " + vars.interval : ""));
+              el.textContent = p.join("      ");
+            }
             function polar(cx, cy, r, deg) {
               var a = (deg - 90) * Math.PI / 180; // 12시 기준 시계방향
               return { x: cx + r * Math.cos(a), y: cy + r * Math.sin(a) };

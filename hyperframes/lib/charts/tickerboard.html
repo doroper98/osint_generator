@@ -40,12 +40,14 @@
             color: #1a1a1a; margin-bottom: 24px;
           }
           [data-composition-id="tickerboard"] svg.hf-chart { display: block; width: 1408px; height: 500px; overflow: visible; }
+          [data-composition-id="tickerboard"] .hf-source { margin-top: 20px; font-size: 22px; font-weight: 600; color: rgba(26,26,26,0.42); letter-spacing: -0.2px; }
         </style>
 
         <div class="hf-stage">
           <div class="hf-card">
             <div class="hf-takeaway" data-role="takeaway"></div>
             <svg class="hf-chart" viewBox="0 0 1408 500" data-role="chart" aria-hidden="true"></svg>
+            <div class="hf-source" data-role="source"></div>
           </div>
         </div>
 
@@ -78,6 +80,14 @@
             var items = parseJSON(V.items, D.items);
             var drawStart = V.drawStart != null ? +V.drawStart : D.drawStart;
             root.querySelector('[data-role="takeaway"]').textContent = V.takeaway != null ? V.takeaway : D.takeaway;
+            (function () {
+              var el = root.querySelector('[data-role="source"]'); if (!el) return;
+              var p = [];
+              if (V.source) p.push("출처 · " + V.source);
+              if (V.periodStart && V.periodEnd)
+                p.push(V.periodStart + " ~ " + V.periodEnd + (V.interval ? " · " + V.interval : ""));
+              el.textContent = p.join("      ");
+            })();
 
             var N = items.length || 1;
             var cols = Math.min(4, N), rows = Math.ceil(N / cols);
