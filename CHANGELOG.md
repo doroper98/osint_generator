@@ -28,6 +28,29 @@ released 항목은 **append-only**입니다.
 
 ---
 
+## [v0.34.16] — 2026-06-06
+
+**보조차트(strip) vs 메인차트(full) 판독 규칙 + 티커 보드**. 사용자 지적 — v0.34.15 영상이
+보고서의 **보조 티커 차트(시장 sparkline) 6종을 각각 풀스크린 메인처럼 30초** 할애했다. 보고서
+규칙(display→role→type)으로 분류해 보조차트는 **한 컷에 작게 묶고**, 메인차트만 크게.
+
+### Added
+
+- **`docs/CHART_DISPLAY_RULES.md`** — 번들 차트 판독 규칙(사용자 결정). `charts[].display`
+  ("full"/"strip") 1순위 → role 2순위 → type 휴리스틱(line/candle/area 2개 이상 연속 → strip).
+- **`hyperframes/lib/charts/tickerboard.html`** — strip 차트 묶음을 미니 스파크라인 그리드
+  한 컷으로(티커명 + 최근값 + 등락% + sparkline, 테마 up/down 색). candle 은 종가선으로 축약.
+- `schemas/models.py:BundleChart.display` (Optional, tolerant) — producer 의 명시 분류 수신.
+
+### Changed
+
+- `compose-hyperframes`: 섹션 내 차트를 full/strip 분류 → full 은 개별 풀스크린 씬, strip 연속
+  묶음은 tickerboard 한 컷. SpaceX 실 번들 기준 s1 이 8씬(40s) → 2씬(티커보드+sankey, 10s)로 축소.
+- 인터벌 규칙 명문화(CHART_DISPLAY_RULES): 영상 차트는 번들 최대 해상도를 손실 없이 사용
+  (strip 의 sparse interval 은 보고서 크기용, 영상 제약 아님).
+
+---
+
 ## [v0.34.15] — 2026-06-06
 
 **compose-hyperframes 충실도 강화 — 섹션 다중차트 분할 + 번들 theme accent + sankey SVG 폴백 +

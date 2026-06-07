@@ -1,6 +1,6 @@
 <!--
 tier: 1
-last_synced_with: v0.34.15
+last_synced_with: v0.34.16
 ssot_for: [session-handoff]
 depends_on: [CLAUDE.md, GOAL.md, VERSION, docs/13_IMPLEMENTATION_ROADMAP.md, docs/REVIEW_PROMPT.md, docs/PROFESSIONAL_REBUILD_PLAN.md]
 last_review: 2026-06-05
@@ -64,7 +64,11 @@ last_review: 2026-06-05
      차트 11·섹션 7)로 검증. 섹션 다중차트→차트당 1씬 분할 + 번들 theme.accent 주입 + sankey
      등 prerendered_svg passthrough 씬 + candle/bar dense stagger 자동축소. 동일 번들이 14씬.
      **정확성 경계 확인**: compose 는 순수 결정론(LLM 미개입), 영상 내용은 전부 번들 파생.
-   - **v0.34.16~ (다음, 합의된 우선순위)**:
+   - **v0.34.16 (완료)**: 보조차트(strip) vs 메인차트(full) 판독 규칙 + 티커 보드
+     (`docs/CHART_DISPLAY_RULES.md`, 사용자 결정). display→role→type 휴리스틱으로 분류, strip
+     연속 묶음은 `lib/charts/tickerboard.html` 한 컷, 메인만 풀스크린. SpaceX s1 8씬→2씬.
+     `BundleChart.display` 필드 수신.
+   - **v0.34.17~ (다음, 합의된 우선순위)**:
      ②-b 씬 narration/cue 정밀화 — 현재 prose 글자수 비례 추정 → ScriptWorker narration +
         실 음성 길이 sync (cuesync 패턴 재사용) + scene별 cue/콜아웃 LLM 추출·수동 override →
      ③ 인물 카드 + 엔티티 연결선 (날리지식 패턴 ③④) →

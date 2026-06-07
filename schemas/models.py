@@ -999,6 +999,9 @@ class BundleChart(_BundleModel):
     title: str = ""
     data: Any = None
     note: str = ""
+    # v0.34.16 — 보조차트(strip) vs 메인차트(full) 판독 (docs/CHART_DISPLAY_RULES.md).
+    # producer 가 명시하면 1순위. tolerant: 미지 값도 Optional[str] 로 통과(컨버터가 해석).
+    display: Optional[str] = None
     provenance: BundleProvenance
     prerendered_svg: Optional[str] = None
 

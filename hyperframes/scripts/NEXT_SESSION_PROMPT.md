@@ -1,8 +1,16 @@
-# NEXT SESSION PROMPT — v0.34.16 시작점
+# NEXT SESSION PROMPT — v0.34.17 시작점
 
 > 본 파일은 **다음 Claude Code 세션 시작 시 첫 메시지로 paste** 해 사용한다.
-> v0.34.15 (2026-06-06, 실 번들 검증 + 충실도 강화) 이후 작업을 이어 받을 컨텍스트.
+> v0.34.16 (2026-06-06, 보조/메인차트 판독 + 티커보드) 이후 작업을 이어 받을 컨텍스트.
 > SSOT: HANDOFF.md, docs/PROFESSIONAL_REBUILD_PLAN.md, DEVLOG.md (append-only).
+
+## v0.34.16 완료 요약 (보조차트 strip vs 메인차트 full)
+
+- **`docs/CHART_DISPLAY_RULES.md`** 규칙(사용자 결정): display→role→type 휴리스틱으로 메인/보조
+  분류. 보조(strip, line/candle/area 2연속 또는 display="strip")는 `lib/charts/tickerboard.html`
+  **한 컷**으로 묶고, 메인(full)만 풀스크린 개별 씬. `BundleChart.display` 필드 수신.
+- SpaceX 실 번들: s1 의 시계열 7종 → 티커 보드 1컷, s1 8씬(40s)→2씬(10s). 보조차트 과대표현 해소.
+- 인터벌 규칙: 영상 차트는 번들 최대 해상도 손실없이(다운샘플 금지).
 
 ## v0.34.15 완료 요약 (compose 충실도 강화 + 실 번들 검증)
 

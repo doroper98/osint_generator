@@ -25,6 +25,37 @@ last_review: 2026-06-06
 
 ---
 
+## 2026-06-06 v0.34.16 — 보조차트(strip) vs 메인차트(full) 판독 + 티커 보드 (영상미 C0, 사용자 결정)
+
+- **무엇을**: 보고서 번들 차트를 메인(full)/보조(strip)로 구분해 배치. 보조차트(시장 시계열
+  sparkline 묶음)는 풀스크린 메인으로 키우지 않고 **티커 보드 한 컷**으로 작게. 규칙은
+  `docs/CHART_DISPLAY_RULES.md` 에 영구 기록.
+- **왜(사용자 지적)**: v0.34.15 SpaceX 영상이 보고서의 **보조 티커 차트 6종(라인)을 각각 5초
+  풀스크린**(총 30s)으로 메인처럼 과대 표현. 보고서에선 작은 한 줄 묶음인데. "보조차트를 마치
+  메인인양 너무 많은 시간 할애" → 메인/보조 구분 강제.
+- **어떻게**:
+  - 판단 순서(사용자 스펙): ① `charts[].display`("full"/"strip") ② role(composed_report.json,
+    함께 올 때) ③ type 휴리스틱(line/candle/area 가 같은 섹션 2개 이상 연속 → strip).
+    `_classify_section()` 구현. display 가 있으면 그걸로 끝(type 단정 금지).
+  - `schemas/models.py:BundleChart.display` 추가(Optional, tolerant — 미지 값 통과).
+  - `lib/charts/tickerboard.html` 신설 — strip 묶음 미니 스파크라인 그리드(티커명+최근값+등락%
+    +sparkline, 테마 up/down 색). candle 은 종가선 축약. 컨트랙트 동일(template/__hfFindRoot/
+    host 변수 DOM 직독/이중 키).
+  - compose: 섹션 차트를 순회하며 full→개별 씬, strip 연속→tickerboard 한 컷(full 이 run 을
+    끊으면 먼저 flush). prose 자막은 섹션 전 씬 구간에 배분(기존).
+  - 인터벌 규칙 명문화: 영상 차트는 번들 최대 해상도 손실 없이 사용(다운샘플 금지). 번들이
+    sparse 만 줄 때 더 촘촘한 데이터 재취득은 데이터소스 연동 후속.
+- **결과**:
+  - 단위 테스트 +2 (strip 묶음 / display override) + 기존 갱신 → `test_hyperframes_compose` 17,
+    전체 **369/369 통과**. py_compile 통과.
+  - PNG ground-truth: SpaceX s1 의 7 시계열(엔비디아 candle 종가선 + 6 라인) → 티커 보드 한 컷
+    (테마 그린 ▲ 등락%), sankey svg 1컷. s1 8씬(40s) → 2씬(10s). CLI 요약도 보드/SVG 구분 표기.
+- **연관**: CHANGELOG v0.34.16, docs/CHART_DISPLAY_RULES.md, v0.34.15(과대 표현 사고), GOAL
+  G0/G4. 후속: role(composed_report.json) 2순위 연동, strip 인터벌 densify(데이터소스), B-ext
+  (waterfall/gantt/scatter 컴포넌트), C-ext(narration).
+
+---
+
 ## 2026-06-06 v0.34.15 — compose-hyperframes 충실도 강화 (실 번들 검증, 영상미 C0 / 정확성 경계)
 
 - **무엇을**: 실제 agents_reviewer 번들(SpaceX-구글 컴퓨팅 임대, v6.0.5, 차트 11개·섹션 7개)을

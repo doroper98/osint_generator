@@ -791,10 +791,12 @@ def _cmd_compose_hyperframes(args: argparse.Namespace) -> int:
 
     scenes = build_composed_scenes(bundle)
     path = build_and_persist_composition(args.project_id, bundle)
-    n_chart = sum(1 for s in scenes if s.kind == "chart")
+    n_chart = sum(1 for s in scenes if s.kind == "chart" and s.component != "tickerboard")
+    n_board = sum(1 for s in scenes if s.component == "tickerboard")
+    n_svg = sum(1 for s in scenes if s.kind == "svg")
     n_text = sum(1 for s in scenes if s.kind == "text")
     print(f"compose-hyperframes 완료: {args.project_id}")
-    print(f"  씬 {len(scenes)} 개 (차트 {n_chart} / 텍스트 {n_text})")
+    print(f"  씬 {len(scenes)} 개 (메인차트 {n_chart} / 티커보드 {n_board} / SVG폴백 {n_svg} / 텍스트 {n_text})")
     print(f"  출력: {path}")
     print(f"  렌더: cd hyperframes && npx hyperframes render -c generated/{path.name}")
     return 0

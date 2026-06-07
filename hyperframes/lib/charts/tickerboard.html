@@ -1,0 +1,159 @@
+<!doctype html>
+<!--
+  lib/charts/tickerboard.html — 보조차트(strip) 묶음 = 티커 보드 (v0.34.16).
+  보고서의 작은 sparkline 한 줄(line/candle/area, display="strip")들을 영상에서 단독
+  풀스크린으로 키우지 않고 **한 컷에 미니 스파크라인 그리드**로 묶는다
+  (docs/CHART_DISPLAY_RULES.md). 각 셀: 티커명 + 최근값 + 등락% + sparkline.
+  컨트랙트는 candle/line/bar/donut 과 동일(template, __hfFindRoot, host 변수 DOM 직독,
+  __timelines 이중 키, JS 폴백, fromTo).
+-->
+<html lang="ko" data-composition-variables='[
+  {"id":"takeaway","type":"string","label":"헤드라인","default":"주요 지표"},
+  {"id":"upColor","type":"color","label":"상승색","default":"#3d6b4d"},
+  {"id":"downColor","type":"color","label":"하락색","default":"#a8584a"},
+  {"id":"items","type":"string","label":"티커(JSON)","default":"[{\"name\":\"엔비디아\",\"unit\":\"$\",\"points\":[183,177,167,196,208,224,205]},{\"name\":\"알파벳\",\"unit\":\"$\",\"points\":[300,290,274,332,344,376,368]},{\"name\":\"마이크로소프트\",\"unit\":\"$\",\"points\":[409,394,355,392,423,460,416]},{\"name\":\"아마존\",\"unit\":\"$\",\"points\":[218,207,199,249,263,261,246]}]"},
+  {"id":"drawStart","type":"number","label":"등장 시작(초)","default":0.5}
+]'>
+  <head>
+    <meta charset="UTF-8" />
+    <script src="assets/gsap.min.js"></script>
+  </head>
+  <body>
+    <template id="tickerboard-template">
+      <div data-composition-id="tickerboard" data-width="1920" data-height="1080">
+        <style>
+          [data-composition-id="tickerboard"] {
+            position: absolute; inset: 0; width: 1920px; height: 1080px; background: transparent;
+            font-family: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            color: #1a1a1a; word-break: keep-all; overflow-wrap: anywhere;
+          }
+          [data-composition-id="tickerboard"] .hf-stage {
+            position: absolute; top: 160px; left: 0; right: 0; bottom: 300px;
+            display: flex; align-items: center; justify-content: center;
+          }
+          [data-composition-id="tickerboard"] .hf-card {
+            width: 1520px; background: #ffffff; border-radius: 22px;
+            box-shadow: 0 2px 16px rgba(26,26,26,0.06), 0 1px 3px rgba(26,26,26,0.04); padding: 56px;
+          }
+          [data-composition-id="tickerboard"] .hf-takeaway {
+            font-size: 56px; font-weight: 900; line-height: 1.15; letter-spacing: -0.3px;
+            color: #1a1a1a; margin-bottom: 24px;
+          }
+          [data-composition-id="tickerboard"] svg.hf-chart { display: block; width: 1408px; height: 500px; overflow: visible; }
+        </style>
+
+        <div class="hf-stage">
+          <div class="hf-card">
+            <div class="hf-takeaway" data-role="takeaway"></div>
+            <svg class="hf-chart" viewBox="0 0 1408 500" data-role="chart" aria-hidden="true"></svg>
+          </div>
+        </div>
+
+        <script>
+          (function () {
+            var thisScript = document.currentScript;
+            var root = (typeof __hfFindRoot === "function" ? __hfFindRoot() : null)
+              || (thisScript && thisScript.closest('[data-composition-id="tickerboard"]'))
+              || document.querySelector('[data-composition-id="tickerboard"]');
+
+            var D = {
+              takeaway: "주요 지표", upColor: "#3d6b4d", downColor: "#a8584a",
+              items: [
+                { name: "엔비디아", unit: "$", points: [183, 177, 167, 196, 208, 224, 205] },
+                { name: "알파벳", unit: "$", points: [300, 290, 274, 332, 344, 376, 368] },
+                { name: "마이크로소프트", unit: "$", points: [409, 394, 355, 392, 423, 460, 416] },
+                { name: "아마존", unit: "$", points: [218, 207, 199, 249, 263, 261, 246] }
+              ],
+              drawStart: 0.5
+            };
+            var gv = (window.__hyperframes && window.__hyperframes.getVariables)
+              ? (window.__hyperframes.getVariables() || {}) : {};
+            var hostVV = root && root.closest('[data-variable-values]');
+            var hostVals = {};
+            if (hostVV) { try { hostVals = JSON.parse(hostVV.getAttribute("data-variable-values")) || {}; } catch (e) { hostVals = {}; } }
+            var V = Object.assign({}, gv, hostVals);
+
+            var upColor = V.upColor || D.upColor;
+            var downColor = V.downColor || D.downColor;
+            var items = parseJSON(V.items, D.items);
+            var drawStart = V.drawStart != null ? +V.drawStart : D.drawStart;
+            root.querySelector('[data-role="takeaway"]').textContent = V.takeaway != null ? V.takeaway : D.takeaway;
+
+            var N = items.length || 1;
+            var cols = Math.min(4, N), rows = Math.ceil(N / cols);
+            var GW = 1408, GH = 500, GAPX = 28, GAPY = 24;
+            var cellW = (GW - GAPX * (cols - 1)) / cols;
+            var cellH = (GH - GAPY * (rows - 1)) / rows;
+
+            var svg = root.querySelector('[data-role="chart"]');
+            var parts = [];
+            var metas = [];
+            items.forEach(function (it, i) {
+              var col = i % cols, row = Math.floor(i / cols);
+              var ox = col * (cellW + GAPX), oy = row * (cellH + GAPY);
+              var pts = (it.points || []).map(Number).filter(function (n) { return !isNaN(n); });
+              var first = pts.length ? pts[0] : 0, last = pts.length ? pts[pts.length - 1] : 0;
+              var pct = first ? (last - first) / Math.abs(first) * 100 : 0;
+              var up = pct >= 0;
+              var col2 = up ? upColor : downColor;
+              var unit = it.unit || "";
+
+              parts.push('<g class="hf-cell" data-i="' + i + '" style="opacity:0">');
+              // 셀 배경
+              parts.push('<rect x="' + r1(ox) + '" y="' + r1(oy) + '" width="' + r1(cellW) + '" height="' + r1(cellH) +
+                '" rx="12" fill="#fbfcfb" stroke="rgba(26,26,26,0.06)"/>');
+              // 티커명
+              parts.push('<text x="' + r1(ox + 22) + '" y="' + r1(oy + 40) + '" fill="#1a1a1a" font-size="26" font-weight="800">' +
+                esc(it.name || "") + '</text>');
+              // 최근값
+              parts.push('<text x="' + r1(ox + 22) + '" y="' + r1(oy + 78) + '" fill="#1a1a1a" font-size="30" font-weight="900">' +
+                fmtNum(last) + (unit ? ' ' + esc(unit) : '') + '</text>');
+              // 등락%
+              parts.push('<text x="' + r1(ox + cellW - 22) + '" y="' + r1(oy + 78) + '" fill="' + col2 +
+                '" font-size="24" font-weight="800" text-anchor="end">' + (up ? '▲ ' : '▼ ') +
+                fmtNum(Math.abs(Math.round(pct * 10) / 10)) + '%</text>');
+              // sparkline 영역
+              var sx0 = ox + 22, sx1 = ox + cellW - 22, sy0 = oy + cellH - 22, sy1 = oy + 96;
+              var lo = Math.min.apply(null, pts.length ? pts : [0]);
+              var hi = Math.max.apply(null, pts.length ? pts : [1]);
+              var span = (hi - lo) || 1;
+              var gap = pts.length > 1 ? (sx1 - sx0) / (pts.length - 1) : 0;
+              var d = "";
+              pts.forEach(function (v, k) {
+                var x = sx0 + k * gap, y = sy0 - (v - lo) / span * (sy0 - sy1);
+                d += (k === 0 ? "M " : "L ") + r1(x) + " " + r1(y) + " ";
+              });
+              parts.push('<path data-role="spark" data-i="' + i + '" d="' + d.trim() + '" fill="none" stroke="' + col2 +
+                '" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" ' +
+                'style="stroke-dasharray:2000;stroke-dashoffset:2000;"/>');
+              parts.push('</g>');
+              metas.push({ i: i });
+            });
+            svg.innerHTML = parts.join("");
+
+            if (typeof gsap === "undefined") return;
+            window.__timelines = window.__timelines || {};
+            var tl = gsap.timeline({ paused: true });
+            var stg = Math.min(0.12, 1.6 / N);
+            svg.querySelectorAll(".hf-cell").forEach(function (g, i) {
+              tl.fromTo(g, { opacity: 0, y: 16 }, { opacity: 1, y: 0, duration: 0.4, ease: "power2.out" }, drawStart + i * stg);
+              tl.fromTo(g.querySelector('[data-role="spark"]'), { strokeDashoffset: 2000 },
+                { strokeDashoffset: 0, duration: 0.8, ease: "power2.inOut" }, drawStart + 0.2 + i * stg);
+            });
+
+            window.__timelines["tickerboard"] = tl;
+            var cid = (typeof __hfTimelineCompId !== "undefined" && __hfTimelineCompId)
+              || (typeof __hfCompId !== "undefined" && __hfCompId)
+              || (root && root.getAttribute("data-composition-id")) || "tickerboard";
+            if (cid && cid !== "tickerboard") window.__timelines[cid] = tl;
+
+            function parseJSON(s, fb) { try { return typeof s === "string" ? JSON.parse(s) : (s || fb); } catch (e) { return fb; } }
+            function r1(n) { return Math.round(n * 10) / 10; }
+            function esc(s) { return String(s == null ? "" : s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;"); }
+            function fmtNum(n) { return (Math.round(n * 100) / 100).toString(); }
+          })();
+        </script>
+      </div>
+    </template>
+  </body>
+</html>

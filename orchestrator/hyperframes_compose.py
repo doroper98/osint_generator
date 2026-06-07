@@ -235,14 +235,64 @@ def chart_to_component(
     return comp, v
 
 
-def _theme_accent(bundle: ReportBundle) -> Optional[str]:
-    """번들 report.theme.tokens.accent (있으면). 보고서 테마색을 영상 강조색으로 잇는다."""
+def _theme_token(bundle: ReportBundle, key: str) -> Optional[str]:
+    """번들 report.theme.tokens[key] (있으면). accent/up/down 등 테마색."""
     theme = bundle.report.theme if bundle.report else None
     if theme and isinstance(theme.tokens, dict):
-        acc = theme.tokens.get("accent")
-        if isinstance(acc, str) and acc.strip():
-            return acc.strip()
+        v = theme.tokens.get(key)
+        if isinstance(v, str) and v.strip():
+            return v.strip()
     return None
+
+
+def _theme_accent(bundle: ReportBundle) -> Optional[str]:
+    """번들 report.theme.tokens.accent (있으면). 보고서 테마색을 영상 강조색으로 잇는다."""
+    return _theme_token(bundle, "accent")
+
+
+# 보조차트(strip) 후보 type — 시장 시계열. 단, display 가 우선(docs/CHART_DISPLAY_RULES.md).
+_STRIP_CANDIDATE_TYPES = {"line", "candle", "area"}
+
+
+def _classify_section(charts: list[BundleChart]) -> list[str]:
+    """섹션 내 각 차트의 "full"/"strip" 판정 (docs/CHART_DISPLAY_RULES.md).
+
+    1순위 display 필드 → 없으면 type 휴리스틱(line/candle/area 가 같은 섹션에 2개 이상
+    연속이면 strip). role(composed_report.json) 기반 2순위는 그 JSON 이 함께 올 때 후속.
+    """
+    n = len(charts)
+    run_strip = [False] * n
+    i = 0
+    while i < n:
+        if charts[i].type in _STRIP_CANDIDATE_TYPES:
+            j = i
+            while j < n and charts[j].type in _STRIP_CANDIDATE_TYPES:
+                j += 1
+            if j - i >= 2:
+                for k in range(i, j):
+                    run_strip[k] = True
+            i = j
+        else:
+            i += 1
+    out: list[str] = []
+    for idx, c in enumerate(charts):
+        d = (c.display or "").strip().lower()
+        out.append(d if d in ("full", "strip") else ("strip" if run_strip[idx] else "full"))
+    return out
+
+
+def _strip_series(chart: BundleChart) -> Optional[dict]:
+    """strip 차트 → 티커 보드 item {name, unit, points}. candle 은 종가선, line/area 는 y."""
+    rows = _rows(chart)
+    pts: list[float] = []
+    for r in rows:
+        if "close" in r:
+            pts.append(_clean(_num(r.get("close"))))
+        elif "y" in r:
+            pts.append(_clean(_num(r.get("y"))))
+    if not pts:
+        return None
+    return {"name": chart.title or "", "unit": _unit(chart), "points": pts}
 
 
 # ---------------------------------------------------------------------------
@@ -293,6 +343,7 @@ def build_composed_scenes(bundle: ReportBundle) -> list[ComposedScene]:
     """
     charts_by_id = {c.chart_id: c for c in bundle.charts}
     accent = _theme_accent(bundle)
+    up_color, down_color = _theme_token(bundle, "up"), _theme_token(bundle, "down")
     scenes: list[ComposedScene] = []
     cursor = 0.0
     for i, sec in enumerate(bundle.sections):
@@ -300,27 +351,53 @@ def build_composed_scenes(bundle: ReportBundle) -> list[ComposedScene]:
         sid = sec.section_id or f"s{i + 1}"
         callout_t = round(min(3.0, _CHART_SCENE_SEC * 0.5), 2)
 
+        # 섹션 차트를 순서대로 해소하고 full/strip 분류 (docs/CHART_DISPLAY_RULES.md).
+        sec_charts = [charts_by_id[cid] for cid in sec.chart_refs if cid in charts_by_id]
+        disp = _classify_section(sec_charts)
+
         visuals: list[ComposedScene] = []
-        for cid in sec.chart_refs:
-            ch = charts_by_id.get(cid)
-            if ch is None:
+        strip_buf: list[BundleChart] = []
+
+        def _flush_strips() -> None:
+            if not strip_buf:
+                return
+            items = [s for s in (_strip_series(c) for c in strip_buf) if s]
+            strip_buf.clear()
+            if not items:
+                return
+            tb_vars: dict[str, Any] = {"takeaway": sec.heading or "주요 지표", "items": items}
+            if up_color:
+                tb_vars["upColor"] = up_color
+            if down_color:
+                tb_vars["downColor"] = down_color
+            visuals.append(ComposedScene(
+                scene_id=f"{sid}-strip{len(visuals)}", section_id=sid, start_sec=0.0,
+                duration_sec=_CHART_SCENE_SEC, kind="chart", component="tickerboard",
+                variables=tb_vars,
+            ))
+
+        for ch, dsp in zip(sec_charts, disp):
+            if dsp == "strip":
+                strip_buf.append(ch)
                 continue
+            _flush_strips()  # full 이 strip run 을 끊으면 먼저 보드로 묶어 낸다
             mapped = chart_to_component(ch, callout_t=callout_t, accent=accent)
             if mapped is not None:
                 comp, variables = mapped
                 if not variables.get("takeaway"):
                     variables["takeaway"] = sec.heading or ""
                 visuals.append(ComposedScene(
-                    scene_id=f"{sid}-{cid}", section_id=sid, start_sec=0.0,
+                    scene_id=f"{sid}-{ch.chart_id}", section_id=sid, start_sec=0.0,
                     duration_sec=_CHART_SCENE_SEC, kind="chart",
                     component=comp, variables=variables,
                 ))
             elif ch.prerendered_svg:
                 visuals.append(ComposedScene(
-                    scene_id=f"{sid}-{cid}", section_id=sid, start_sec=0.0,
+                    scene_id=f"{sid}-{ch.chart_id}", section_id=sid, start_sec=0.0,
                     duration_sec=_CHART_SCENE_SEC, kind="svg",
                     heading=ch.title or sec.heading or "", svg=ch.prerendered_svg,
                 ))
+        _flush_strips()
 
         if visuals:
             for v in visuals:

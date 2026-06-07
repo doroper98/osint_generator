@@ -119,26 +119,61 @@ class TestComposedScenes(unittest.TestCase):
         scenes = build_composed_scenes(b)
         self.assertEqual(scenes[0].kind, "text")
 
-    def test_multiple_charts_in_section_split_into_scenes(self) -> None:
-        # 한 섹션이 지원 차트 3개를 참조 → 차트당 1씬(v0.34.15).
+    def test_full_charts_split_into_individual_scenes(self) -> None:
+        # full 메인 차트(bar/donut)는 차트당 1씬으로 분리.
         b = _bundle(
-            sections=[{"section_id": "s1", "heading": "패널", "prose": "p", "chart_refs": ["c1", "c2", "c3"]}],
+            sections=[{"section_id": "s1", "heading": "패널", "prose": "p", "chart_refs": ["c1", "c2"]}],
             charts=[
-                {"chart_id": "c1", "type": "candle", "title": "A",
-                 "data": [{"date": "2026-03-02", "open": 80, "high": 90, "low": 78, "close": 88}],
+                {"chart_id": "c1", "type": "bar", "title": "A", "data": [{"label": "x", "value": 3}],
                  "provenance": {"origin": "measured", "verification": "confirmed", "confidence": "high"}},
-                {"chart_id": "c2", "type": "line", "title": "B", "data": [{"x": "1", "y": 1}, {"x": "2", "y": 2}],
-                 "provenance": {"origin": "measured", "verification": "confirmed", "confidence": "high"}},
-                {"chart_id": "c3", "type": "bar", "title": "C", "data": [{"label": "x", "value": 3}],
+                {"chart_id": "c2", "type": "donut", "title": "B", "data": [{"label": "y", "value": 4}],
                  "provenance": {"origin": "measured", "verification": "confirmed", "confidence": "high"}},
             ],
         )
         scenes = build_composed_scenes(b)
-        self.assertEqual([s.component for s in scenes], ["candle", "line", "bar"])
-        self.assertTrue(all(s.section_id == "s1" for s in scenes))
-        # 누적 타이밍 연속.
+        self.assertEqual([s.component for s in scenes], ["bar", "donut"])
         self.assertEqual(scenes[0].start_sec, 0.0)
         self.assertAlmostEqual(scenes[1].start_sec, scenes[0].duration_sec, places=3)
+
+    def test_consecutive_timeseries_grouped_into_tickerboard(self) -> None:
+        # line/candle 2개 이상 연속 → strip → 티커 보드 한 컷(docs/CHART_DISPLAY_RULES.md).
+        b = _bundle(
+            sections=[{"section_id": "s1", "heading": "지표", "prose": "p",
+                       "chart_refs": ["c1", "c2", "c3"]}],
+            charts=[
+                {"chart_id": "c1", "type": "candle", "title": "엔비디아",
+                 "data": [{"date": "2026-03-02", "open": 80, "high": 90, "low": 78, "close": 88},
+                          {"date": "2026-03-03", "open": 88, "high": 95, "low": 85, "close": 92}],
+                 "provenance": {"origin": "measured", "verification": "confirmed", "confidence": "high"}},
+                {"chart_id": "c2", "type": "line", "title": "알파벳", "data": [{"x": "1", "y": 1}, {"x": "2", "y": 2}],
+                 "provenance": {"origin": "measured", "verification": "confirmed", "confidence": "high"}},
+                {"chart_id": "c3", "type": "line", "title": "MS", "data": [{"x": "1", "y": 3}, {"x": "2", "y": 5}],
+                 "provenance": {"origin": "measured", "verification": "confirmed", "confidence": "high"}},
+            ],
+        )
+        scenes = build_composed_scenes(b)
+        self.assertEqual(len(scenes), 1)
+        self.assertEqual(scenes[0].component, "tickerboard")
+        items = scenes[0].variables["items"]
+        self.assertEqual([it["name"] for it in items], ["엔비디아", "알파벳", "MS"])
+        # candle 은 종가선으로 축약.
+        self.assertEqual(items[0]["points"], [88, 92])
+
+    def test_display_full_overrides_strip_heuristic(self) -> None:
+        # display=="full" 이면 line 2연속이어도 개별 메인 씬(휴리스틱 무시).
+        b = _bundle(
+            sections=[{"section_id": "s1", "heading": "h", "prose": "p", "chart_refs": ["c1", "c2"]}],
+            charts=[
+                {"chart_id": "c1", "type": "line", "title": "A", "display": "full",
+                 "data": [{"x": "1", "y": 1}, {"x": "2", "y": 2}],
+                 "provenance": {"origin": "measured", "verification": "confirmed", "confidence": "high"}},
+                {"chart_id": "c2", "type": "line", "title": "B", "display": "full",
+                 "data": [{"x": "1", "y": 3}, {"x": "2", "y": 4}],
+                 "provenance": {"origin": "measured", "verification": "confirmed", "confidence": "high"}},
+            ],
+        )
+        scenes = build_composed_scenes(b)
+        self.assertEqual([s.component for s in scenes], ["line", "line"])
 
     def test_unsupported_with_prerendered_svg_becomes_svg_scene(self) -> None:
         b = _bundle(
