@@ -2525,3 +2525,14 @@ last_review: 2026-06-06
   통과(신규 회귀 1건). 실 렌더 재검증은 사용자 PC(이 환경엔 hyperframes 런타임 없음).
 - C10: 버그 수정 PATCH → 외부 리뷰 면제.
 - 후속: 데모 index.html / render_demo 의 동일 tl.call 도 같은 패턴으로 교체(현재 범위 밖).
+
+## 2026-06-07 v0.36.2 — 나레이션 음성 자산을 서버 루트(generated/) 아래로 (RENDER-AP-005)
+
+- 무엇을: 나레이션 mp3 를 hyperframes/assets/audio → generated/assets/audio 로 옮기고
+  HTML audio src 를 ../assets → assets 로. 렌더러가 -c 파일 디렉토리를 정적 루트로 서빙해
+  ../assets 가 루트 밖이라 net::ERR_ABORTED → zero duration 으로 실패하던 것.
+- 왜: tl.call 수정(v0.36.1) 후에도 렌더 실패. 음성만 브라우저 fetch 라 경로가 깨졌고(차트는
+  번들러 resolve 라 무사), 음성 미로딩이 런타임 ready 를 막아 zero duration.
+- 검증: 생성물 위치(generated/assets/audio/<pid>.mp3) + HTML src="assets/audio/.." 확인.
+  unittest 400개 통과. 실 렌더 재검증 사용자 PC.
+- C10: 버그 수정 PATCH → 면제.

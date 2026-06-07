@@ -893,7 +893,11 @@ def _compose_with_narration(args: argparse.Namespace, bundle: Any, plan: Any) ->
 
         backend = get_backend(args.tts_backend)
         pid = composition_path(args.project_id).stem
-        audio_out = repo_root / "hyperframes" / "assets" / "audio" / f"{pid}.mp3"
+        # 음성 mp3 는 생성 HTML 과 **같은 서버 루트(generated/)** 아래 둔다 — 렌더러는 -c
+        # 파일의 디렉토리를 정적 루트로 서빙하므로, generated/ 밖(../assets)을 브라우저가
+        # 못 가져와 net::ERR_ABORTED → zero duration 으로 실패한다(RENDER-AP). 데모와 동일한
+        # 상대 구조(assets/audio/<pid>.mp3)로 맞춘다.
+        audio_out = generated_dir() / "assets" / "audio" / f"{pid}.mp3"
         audio_out.parent.mkdir(parents=True, exist_ok=True)
 
         result = build_scene_narration(
@@ -918,7 +922,7 @@ def _compose_with_narration(args: argparse.Namespace, bundle: Any, plan: Any) ->
                  else (bundle.report.headline if bundle.report else ""))
         html_str = render_composition_html(
             title=title, scenes=scenes, cues=cues,
-            audio_src=f"../assets/audio/{pid}.mp3",
+            audio_src=f"assets/audio/{pid}.mp3",
             total_override=result.total_sec,
         )
 

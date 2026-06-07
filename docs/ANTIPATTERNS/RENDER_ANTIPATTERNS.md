@@ -146,3 +146,29 @@ last_review: 2026-05-23
   교체 필요.
 
 - **연관**: RENDER-AP-001/002(렌더 환경), hf-motion.js(seek-safe 모션 규약).
+
+---
+
+## RENDER-AP-005 — generated/ 의 컴포지션이 `../assets` 로 음성을 가리켜 렌더러 서버 루트 밖이라 로드 실패
+
+- **증상 (symptom)**: 나레이션 영상 렌더가 `tl.call` 수정(RENDER-AP-004) 후에도 실패.
+  `[Browser:REQUESTFAILED] GET .../assets/audio/aimem01.mp3 net::ERR_ABORTED` →
+  `Composition has zero duration. Runtime ready: false`. JS PAGEERROR 는 없음(콜백 수정됨).
+
+- **원인 (root cause)**: HyperFrames 렌더러는 `-c` 로 받은 파일의 **디렉토리를 정적 서버
+  루트**로 서빙한다(`generated/aimem01.html` → 루트=`generated/`, 파일은 `/index.html`).
+  compose HTML 은 `<audio src="../assets/audio/<pid>.mp3">` 로 음성을 가리켰는데, 브라우저가
+  `/index.html` 기준 `../assets` 를 정규화하면 루트 밖으로 못 나가 `/assets/...`(=generated/
+  assets, 부재)로 떨어진다 → 미디어 로드 실패 → 런타임이 음성 대기에서 ready 못 됨 → zero
+  duration. (차트 `../lib/charts` 는 **번들러가 파일 실위치 기준으로 resolve**해 영향 없음 —
+  raw `<audio>` 만 브라우저 fetch 라 깨졌다. 데모는 루트의 index.html + `assets/audio/...`
+  라 원래 맞았다.)
+
+- **구조적 조치 (structural fix, v0.36.2)**:
+  - `_compose_with_narration`: 음성 mp3 를 `generated/assets/audio/<pid>.mp3` 로 쓰고
+    `audio_src="assets/audio/<pid>.mp3"`(상대, ../ 없음). 데모와 동일한 서버-루트 상대 구조.
+
+- **상태 (status)**: fix 적용. 실 렌더 재검증은 사용자 PC(이 환경엔 hyperframes 렌더러 없음 —
+  파일 위치/HTML src 까지만 검증).
+
+- **연관**: RENDER-AP-004(선행 tl.call 수정), 데모 render_demo 의 루트-기준 자산 배치.
