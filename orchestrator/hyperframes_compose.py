@@ -20,6 +20,7 @@ ReportBundle 을 받아, 각 BundleSection 을 1 개 씬으로 펼친 HyperFrame
 
 from __future__ import annotations
 
+import hashlib
 import html
 import json
 import math
@@ -174,7 +175,8 @@ def _line_vars(chart: BundleChart, callout_t: float) -> Optional[dict]:
     y_min, y_max, y_step = _nice_bounds(min(ys), max(ys))
     # 단일 시리즈는 끝점 라벨 이름을 비운다 — chart.title 은 이미 takeaway 헤드라인으로
     # 표시되므로 series.name 에 또 박으면 긴 문장이 차트 밖으로 넘쳐 값과 겹친다(v0.36.4).
-    series = [{"name": "", "color": "#e84a2d", "points": ys}]
+    # color 미지정 → 차트가 테마 var(--accent) 사용(영상단위 테마가 색을 지배).
+    series = [{"name": "", "points": ys}]
     return {"xLabels": x_labels, "series": series, "yMin": y_min, "yMax": y_max,
             "yStep": y_step, "yUnit": _unit(chart), "callouts": callouts}
 
@@ -606,6 +608,7 @@ def render_composition_html(
     height: int = 1080,
     audio_src: Optional[str] = None,
     total_override: Optional[float] = None,
+    theme: str = "midnight_indigo",
 ) -> str:
     """ComposedScene[] (+ 절대 타임라인 자막 cues) → HyperFrames 컴포지션 HTML 문자열.
 
@@ -647,11 +650,14 @@ def render_composition_html(
 
         if sc.kind == "chart" and sc.component:
             src = f"{charts_prefix}/{sc.component}.html"
+            # 차트 sub-comp 은 별도 문서라 CSS 변수가 상속되지 않는다 → 테마명을 변수로 주입,
+            # 차트가 자기 root 에 data-theme 를 걸어 토큰을 자체 해소한다.
+            chart_vars = {**sc.variables, "theme": theme}
             scene_divs.append(
                 f'      <div class="scene-host" id="{html.escape(host_id)}" style="opacity:0"\n'
                 f'           data-composition-id="{html.escape(host_id)}"\n'
                 f'           data-composition-src="{html.escape(src)}"\n'
-                f"           data-variable-values='{_attr_json(_stringify_complex(sc.variables))}'\n"
+                f"           data-variable-values='{_attr_json(_stringify_complex(chart_vars))}'\n"
                 f'           data-start="{s}" data-duration="{d}" data-track-index="1"></div>'
             )
         elif sc.kind == "svg":
@@ -717,6 +723,9 @@ def render_composition_html(
         .replace("@@WIDTH@@", str(width))
         .replace("@@HEIGHT@@", str(height))
         .replace("@@ASSETS@@", assets_prefix)
+        .replace("@@FONTLINKS@@", THEME_FONT_LINKS)
+        .replace("@@THEMECSS@@", THEME_TOKENS_CSS)
+        .replace("@@THEME@@", theme if theme in THEMES else THEMES[0])
         .replace("@@TOTAL@@", f"{total:.3f}")
         .replace("@@HEADLINE@@", html.escape(title))
         .replace("@@SCENES@@", "\n".join(scene_divs))
@@ -731,12 +740,57 @@ def _escape_js(s: str) -> str:
     return s.replace("\\", "\\\\").replace('"', '\\"')
 
 
+# ---------------------------------------------------------------------------
+# 테마 시스템 (agents_reviewer v6 5종) — 영상단위 순환
+# ---------------------------------------------------------------------------
+
+# 토큰: bg/card/border/text/muted/accent/up/down. 차트·셸이 CSS 변수로 참조.
+THEMES: tuple[str, ...] = (
+    "editorial_cream", "burgundy_mono", "midnight_indigo", "pine_forest", "graphite_slate",
+)
+
+# 셸과 모든 차트 sub-comp 이 공유하는 토큰 정의(같은 문자열을 차트에도 inject).
+THEME_TOKENS_CSS = """
+      [data-theme="editorial_cream"]{--bg:#F2EBDB;--card:#ECE3D0;--border:#D4C8B0;--text:#1F1814;--muted:#6B5C4A;--accent:#B05A38;--up:#4A6B3E;--down:#8B2A2A;}
+      [data-theme="burgundy_mono"]{--bg:#2A0F18;--card:#371721;--border:#5A2832;--text:#EFE5D1;--muted:#A88E7A;--accent:#D4A858;--up:#A8B582;--down:#C9837A;}
+      [data-theme="midnight_indigo"]{--bg:#161A2E;--card:#1F2440;--border:#3A4060;--text:#E8ECEF;--muted:#8A92A8;--accent:#6FB3FF;--up:#88B888;--down:#DC7A7A;}
+      [data-theme="pine_forest"]{--bg:#132019;--card:#1B2C22;--border:#32503E;--text:#E7EEE8;--muted:#8AA294;--accent:#7CC6A4;--up:#88B888;--down:#DC7A7A;}
+      [data-theme="graphite_slate"]{--bg:#191B1E;--card:#23262B;--border:#3D424A;--text:#E9EBED;--muted:#969BA3;--accent:#D69A5E;--up:#88B888;--down:#DC7A7A;}"""
+
+# 폰트: 본문 IBM Plex Sans KR / 숫자 IBM Plex Mono / 헤드라인 Newsreader+Noto Serif KR.
+THEME_FONT_LINKS = (
+    '<link rel="preconnect" href="https://fonts.googleapis.com">\n'
+    '    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>\n'
+    '    <link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;'
+    '6..72,700;6..72,800&family=Noto+Serif+KR:wght@400;700;900&family=IBM+Plex+Sans+KR:'
+    'wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@500;600;700&display=swap" rel="stylesheet">'
+)
+
+# 폰트 스택(차트/셸 공용 — Pretendard 를 한글 폴백으로 유지).
+FONT_BODY = "'IBM Plex Sans KR', Pretendard, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
+FONT_SERIF = "'Newsreader', 'Noto Serif KR', Pretendard, Georgia, serif"
+FONT_MONO = "'IBM Plex Mono', ui-monospace, Menlo, monospace"
+
+
+def theme_for_project(project_id: str, override: Optional[str] = None) -> str:
+    """영상(프로젝트)당 테마 1개. override 가 유효하면 그걸, 아니면 project_id 결정론 순환.
+
+    엄밀한 1→2→3→4→5 순차는 전역 카운터가 필요하나(미보유), project_id 해시로 5개에
+    안정적으로 분산(같은 영상은 항상 같은 테마). override 로 강제 지정 가능.
+    """
+    if override and override in THEMES:
+        return override
+    h = hashlib.sha1((project_id or "").encode("utf-8")).hexdigest()
+    return THEMES[int(h[:8], 16) % len(THEMES)]
+
+
 _COMPOSITION_TEMPLATE = """<!doctype html>
 <!-- 자동 생성 (orchestrator/hyperframes_compose.py). 직접 편집 금지 — 재생성됨. -->
 <html lang="ko">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=@@WIDTH@@, height=@@HEIGHT@@" />
+    @@FONTLINKS@@
     <script src="@@ASSETS@@/gsap.min.js"></script>
     <script src="@@ASSETS@@/../lib/motion/hf-motion.js"></script>
     <style>
@@ -745,43 +799,42 @@ _COMPOSITION_TEMPLATE = """<!doctype html>
         src: url("@@ASSETS@@/fonts/PretendardVariable.woff2") format("woff2-variations");
         font-weight: 100 900; font-style: normal; font-display: block;
       }
+      /* 테마 토큰(agents_reviewer v6 5종) — data-theme 로 선택, 영상단위 순환 */@@THEMECSS@@
       * { margin: 0; padding: 0; box-sizing: border-box; }
       html, body {
-        margin: 0; width: @@WIDTH@@px; height: @@HEIGHT@@px; overflow: hidden; background: #f6f3ec;
-        font-family: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-        color: #16130f; word-break: keep-all; overflow-wrap: anywhere;
+        margin: 0; width: @@WIDTH@@px; height: @@HEIGHT@@px; overflow: hidden; background: var(--bg);
+        font-family: 'IBM Plex Sans KR', Pretendard, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        color: var(--text); word-break: keep-all; overflow-wrap: anywhere;
       }
-      /* 에디토리얼 톤 (v0.34.21) — 따뜻한 종이 + 절제된 테라코타 + 헤어라인 */
+      #root { background: var(--bg); }
       .brand { position: absolute; top: 64px; left: 120px; display: flex; align-items: center; gap: 12px; z-index: 10; }
-      .brand-mark { width: 14px; height: 14px; border-radius: 3px; background: #b5482e; }
-      .brand-name { font-size: 22px; font-weight: 800; letter-spacing: 5px; text-transform: uppercase; color: #16130f; }
-      .kicker { position: absolute; top: 66px; right: 120px; left: 560px; text-align: right; font-size: 20px;
-        font-weight: 700; letter-spacing: 1px; color: #9b9082; z-index: 10; }
-      .topline { position: absolute; top: 116px; left: 120px; right: 120px; height: 2px; background: #16130f; z-index: 10; }
+      .brand-mark { width: 14px; height: 14px; border-radius: 3px; background: var(--accent); }
+      .brand-name { font-family: 'IBM Plex Mono', ui-monospace, monospace; font-size: 20px; font-weight: 700; letter-spacing: 5px; text-transform: uppercase; color: var(--text); }
+      .kicker { position: absolute; top: 68px; right: 120px; left: 560px; text-align: right; font-family: 'IBM Plex Mono', ui-monospace, monospace;
+        font-size: 18px; font-weight: 600; letter-spacing: 1px; color: var(--muted); z-index: 10; }
+      .topline { position: absolute; top: 116px; left: 120px; right: 120px; height: 2px; background: var(--accent); opacity: 0.8; z-index: 10; }
       .scene-host { position: absolute; inset: 0; }
       .text-scene { display: flex; align-items: center; justify-content: flex-start; }
-      .text-card { width: 1280px; margin-left: 160px; padding-left: 50px; text-align: left; border-left: 6px solid #b5482e; }
-      .text-heading { font-size: 96px; font-weight: 900; line-height: 1.05; letter-spacing: -2px; color: #16130f; }
-      .text-body { margin-top: 30px; font-size: 40px; font-weight: 600; line-height: 1.5; color: #6a6157; max-width: 1040px; }
-      /* svg/text 씬도 차트 sub-comp 과 동일한 top:160px 띠에서 시작 — topline(116px) 비켜감.
-         (이전 align-items:center 는 콘텐츠가 크면 카드 윗변이 116px 위로 올라가 헤어라인을 뚫었음) */
+      .text-card { width: 1280px; margin-left: 160px; padding-left: 50px; text-align: left; border-left: 6px solid var(--accent); }
+      .text-heading { font-family: 'Newsreader', 'Noto Serif KR', Pretendard, Georgia, serif; font-size: 92px; font-weight: 700; line-height: 1.06; letter-spacing: -2px; color: var(--text); }
+      .text-body { margin-top: 30px; font-size: 40px; font-weight: 500; line-height: 1.5; color: var(--muted); max-width: 1040px; }
       .svg-scene { display: flex; align-items: flex-start; justify-content: center; padding-top: 160px; }
-      .svg-card { width: 1520px; background: #fbf9f4; border: 1px solid #e2dccf; border-radius: 18px;
-        box-shadow: 0 1px 2px rgba(22,19,15,0.05); padding: 48px 56px; max-height: 780px; overflow: hidden; }
-      .svg-heading { font-size: 56px; font-weight: 900; line-height: 1.15; letter-spacing: -0.3px; color: #16130f; margin-bottom: 24px; }
+      .svg-card { width: 1520px; background: var(--card); border: 1px solid var(--border); border-radius: 18px;
+        box-shadow: 0 1px 2px rgba(0,0,0,0.18); padding: 48px 56px; max-height: 780px; overflow: hidden; }
+      .svg-heading { font-family: 'Newsreader', 'Noto Serif KR', Pretendard, Georgia, serif; font-size: 54px; font-weight: 700; line-height: 1.15; letter-spacing: -0.3px; color: var(--text); margin-bottom: 24px; }
       .svg-wrap { width: 1408px; }
       .svg-wrap svg { display: block; width: 100%; height: auto; max-height: 560px; }
       .subtitle-bar { position: absolute; bottom: 40px; left: 0; right: 0; display: flex; justify-content: center;
         padding: 0 160px; z-index: 20; }
-      .subtitle { background: #2a2320; padding: 15px 34px; border-radius: 10px; max-width: 1320px;
-        box-shadow: 0 4px 18px rgba(22,19,15,0.22); min-height: 66px; min-width: 480px;
+      .subtitle { background: var(--card); border: 1px solid var(--border); padding: 14px 34px; border-radius: 10px; max-width: 1320px;
+        box-shadow: 0 6px 22px rgba(0,0,0,0.28); min-height: 66px; min-width: 480px;
         display: flex; align-items: center; justify-content: center; }
-      .subtitle .text { font-size: 33px; line-height: 1.3; font-weight: 700; color: #f6f3ec;
+      .subtitle .text { font-size: 33px; line-height: 1.3; font-weight: 600; color: var(--text);
         letter-spacing: -0.3px; text-align: center; word-break: keep-all; overflow-wrap: anywhere; }
     </style>
   </head>
-  <body>
-    <div id="root" class="clip" data-composition-id="root" data-start="0" data-duration="@@TOTAL@@"
+  <body data-theme="@@THEME@@">
+    <div id="root" class="clip" data-composition-id="root" data-theme="@@THEME@@" data-start="0" data-duration="@@TOTAL@@"
          data-track-index="0" data-width="@@WIDTH@@" data-height="@@HEIGHT@@">
       <div class="brand"><span class="brand-mark"></span><span class="brand-name">OSINT 브리핑</span></div>
       <div class="kicker">@@HEADLINE@@</div>
@@ -853,7 +906,7 @@ def _safe_slug(project_id: str) -> str:
 
 
 def build_composition_html_from_bundle(
-    bundle: ReportBundle, plan: Any = None
+    bundle: ReportBundle, plan: Any = None, theme: str = "midnight_indigo"
 ) -> tuple[list[ComposedScene], str]:
     """ReportBundle → (씬 목록, 컴포지션 HTML).
 
@@ -882,7 +935,7 @@ def build_composition_html_from_bundle(
 
     title = (plan.title if (plan is not None and plan.title) else
              (bundle.report.headline if bundle.report else ""))
-    html_str = render_composition_html(title=title, scenes=scenes, cues=abs_cues)
+    html_str = render_composition_html(title=title, scenes=scenes, cues=abs_cues, theme=theme)
     return scenes, html_str
 
 
@@ -927,10 +980,11 @@ def _atomic_write_text(path: Path, data: str) -> None:
 
 
 def build_and_persist_composition(
-    project_id: str, bundle: ReportBundle, plan: Any = None
+    project_id: str, bundle: ReportBundle, plan: Any = None, theme_override: Optional[str] = None
 ) -> Path:
     """ReportBundle → `hyperframes/generated/<project_id>.html` 영속화 후 경로 반환."""
-    _, html_str = build_composition_html_from_bundle(bundle, plan)
+    theme = theme_for_project(project_id, theme_override)
+    _, html_str = build_composition_html_from_bundle(bundle, plan, theme=theme)
     path = composition_path(project_id)
     _atomic_write_text(path, html_str)
     return path
@@ -946,4 +1000,6 @@ __all__ = [
     "composition_path",
     "generated_dir",
     "build_and_persist_composition",
+    "theme_for_project",
+    "THEMES",
 ]

@@ -20,6 +20,9 @@
 ]'>
   <head>
     <meta charset="UTF-8" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,700;6..72,800&family=Noto+Serif+KR:wght@400;700;900&family=IBM+Plex+Sans+KR:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@500;600;700&display=swap" rel="stylesheet">
     <script src="assets/gsap.min.js"></script>
     <script src="lib/motion/hf-motion.js"></script>
   </head>
@@ -27,25 +30,31 @@
     <template id="line-template">
       <div data-composition-id="line" data-width="1920" data-height="1080">
         <style>
+          [data-theme="editorial_cream"]{--bg:#F2EBDB;--card:#ECE3D0;--border:#D4C8B0;--text:#1F1814;--muted:#6B5C4A;--accent:#B05A38;--up:#4A6B3E;--down:#8B2A2A;}
+          [data-theme="burgundy_mono"]{--bg:#2A0F18;--card:#371721;--border:#5A2832;--text:#EFE5D1;--muted:#A88E7A;--accent:#D4A858;--up:#A8B582;--down:#C9837A;}
+          [data-theme="midnight_indigo"]{--bg:#161A2E;--card:#1F2440;--border:#3A4060;--text:#E8ECEF;--muted:#8A92A8;--accent:#6FB3FF;--up:#88B888;--down:#DC7A7A;}
+          [data-theme="pine_forest"]{--bg:#132019;--card:#1B2C22;--border:#32503E;--text:#E7EEE8;--muted:#8AA294;--accent:#7CC6A4;--up:#88B888;--down:#DC7A7A;}
+          [data-theme="graphite_slate"]{--bg:#191B1E;--card:#23262B;--border:#3D424A;--text:#E9EBED;--muted:#969BA3;--accent:#D69A5E;--up:#88B888;--down:#DC7A7A;}
           [data-composition-id="line"] {
             position: absolute; inset: 0; width: 1920px; height: 1080px; background: transparent;
-            font-family: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-            color: #16130f; word-break: keep-all; overflow-wrap: anywhere;
+            font-family: 'IBM Plex Sans KR', Pretendard, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            color: var(--text); word-break: keep-all; overflow-wrap: anywhere;
           }
           [data-composition-id="line"] .hf-stage {
             position: absolute; top: 150px; left: 0; right: 0; bottom: 110px;
             display: flex; align-items: flex-start; justify-content: center;
           }
           [data-composition-id="line"] .hf-card {
-            width: 1520px; background: #fbf9f4; border-radius: 18px; border: 1px solid #e2dccf;
-            box-shadow: 0 1px 2px rgba(22,19,15,0.05); padding: 56px;
+            width: 1520px; background: var(--card); border-radius: 18px; border: 1px solid var(--border);
+            box-shadow: 0 1px 2px rgba(0,0,0,0.18); padding: 56px;
           }
           [data-composition-id="line"] .hf-takeaway {
-            font-size: 56px; font-weight: 900; line-height: 1.15; letter-spacing: -0.3px;
-            color: #16130f; margin-bottom: 24px;
+            font-family: 'Newsreader', 'Noto Serif KR', Pretendard, Georgia, serif;
+            font-size: 56px; font-weight: 700; line-height: 1.15; letter-spacing: -0.3px;
+            color: var(--text); margin-bottom: 24px;
           }
           [data-composition-id="line"] svg.hf-chart { display: block; width: 1408px; height: 500px; overflow: visible; }
-          [data-composition-id="line"] .hf-source { margin-top: 20px; font-size: 22px; font-weight: 600; color: #9b9082; letter-spacing: -0.2px; }
+          [data-composition-id="line"] .hf-source { margin-top: 20px; font-family: 'IBM Plex Mono', ui-monospace, Menlo, monospace; font-size: 20px; font-weight: 500; color: var(--muted); letter-spacing: -0.2px; }
         </style>
 
         <div class="hf-stage">
@@ -96,6 +105,8 @@
             var drawStart = V.drawStart != null ? +V.drawStart : D.drawStart;
             root.querySelector('[data-role="takeaway"]').textContent = V.takeaway != null ? V.takeaway : D.takeaway;
             setSourceFooter(root, V);
+            if (V.theme) root.setAttribute("data-theme", V.theme);  // 테마 토큰 해소(영상단위)
+            var MONO = "'IBM Plex Mono', ui-monospace, Menlo, monospace";  // SVG 숫자/라벨 폰트
 
             var BASE = 416, TOP = 0, X0 = 130, X1 = 1290, GW = 96, GRID_R = 1308;
             var NX = xLabels.length;
@@ -112,12 +123,12 @@
             for (var p = yMin; p <= yMax + 0.001; p += yStep) {
               var gy = yOf(p), isBase = Math.abs(p - yMin) < 0.001;
               parts.push('<line x1="' + GW + '" y1="' + r1(gy) + '" x2="' + GRID_R + '" y2="' + r1(gy) +
-                '" stroke="rgba(26,26,26,' + (isBase ? 0.2 : 0.06) + ')" stroke-width="' + (isBase ? 1.5 : 1) + '"/>');
-              parts.push('<text x="' + (GW - 16) + '" y="' + r1(gy) + '" fill="rgba(26,26,26,0.6)" font-size="20" font-weight="500" ' +
+                '" stroke="var(--border)" stroke-opacity="' + (isBase ? 0.7 : 0.3) + '" stroke-width="' + (isBase ? 1.5 : 1) + '"/>');
+              parts.push('<text x="' + (GW - 16) + '" y="' + r1(gy) + '" fill="var(--muted)" font-size="20" font-weight="500" font-family="' + MONO + '" ' +
                 'text-anchor="end" dominant-baseline="middle">' + fmtNum(p) + ' ' + esc(yUnit) + '</text>');
             }
             for (var i = 0; i < NX; i++) {
-              parts.push('<text x="' + r1(xOf(i)) + '" y="' + (BASE + 30) + '" fill="rgba(26,26,26,0.6)" font-size="20" ' +
+              parts.push('<text x="' + r1(xOf(i)) + '" y="' + (BASE + 30) + '" fill="var(--muted)" font-size="20" font-family="' + MONO + '" ' +
                 'font-weight="500" text-anchor="middle">' + esc(xLabels[i]) + '</text>');
             }
             parts.push('</g>');
@@ -125,7 +136,7 @@
             // 시리즈: 면적(첫 시리즈만) + 라인 + 끝점 라벨
             var endLabels = [];
             series.forEach(function (s, si) {
-              var col = s.color || (si === 0 ? accent : "#9aa0a6");
+              var col = s.color || (si === 0 ? "var(--accent)" : "var(--muted)");
               var pts = s.points || [];
               var d = "", area = "M " + r1(xOf(0)) + " " + r1(BASE);
               pts.forEach(function (val, i) {
@@ -162,14 +173,14 @@
               var rectY = Math.max(4, Math.min(BASE - rectH - 2, el.y - (hasName ? 26 : 20)));
               parts.push('<g data-role="endlabel" data-si="' + el.si + '" style="opacity:0">');
               parts.push('<circle cx="' + r1(el.x) + '" cy="' + r1(yOf2(el)) + '" r="7" fill="' + el.col +
-                '" stroke="#fbf9f4" stroke-width="2.5"/>');
+                '" stroke="var(--bg)" stroke-width="2.5"/>');
               parts.push('<rect x="' + r1(rectX) + '" y="' + r1(rectY) + '" width="' + r1(tw + padX * 2) +
-                '" height="' + rectH + '" rx="8" fill="#fbf9f4" fill-opacity="0.92" stroke="#e2dccf" stroke-width="1"/>');
+                '" height="' + rectH + '" rx="8" fill="var(--card)" fill-opacity="0.92" stroke="var(--border)" stroke-width="1"/>');
               if (hasName)
                 parts.push('<text x="' + r1(tx) + '" y="' + r1(rectY + 24) + '" fill="' + el.col +
                   '" font-size="' + fsN + '" font-weight="800" text-anchor="' + anchor + '">' + esc(nm) + '</text>');
               parts.push('<text data-role="endval" x="' + r1(tx) + '" y="' + r1(rectY + (hasName ? 46 : 24)) +
-                '" fill="#16130f" font-size="' + fsV + '" font-weight="900" text-anchor="' + anchor + '">' + valStr + '</text>');
+                '" fill="var(--text)" font-family="' + MONO + '" font-size="' + fsV + '" font-weight="700" text-anchor="' + anchor + '">' + valStr + '</text>');
               parts.push('</g>');
             });
             function yOf2(el) { return yOf(el.val); } // 점은 실제 값 위치, 텍스트만 nudge
@@ -184,16 +195,16 @@
               var rectX = place.anchor === "end" ? place.lx - place.tw - place.padX : place.lx - place.padX;
               var rectH = place.hasSub ? 58 : 36, rectY = place.ly - 25;
               parts.push('<g data-role="callout" data-i="' + k + '" style="opacity:0">');
-              parts.push('<path data-role="conn" d="' + leaderPath(ax, ay, place) + '" stroke="' + accent +
+              parts.push('<path data-role="conn" d="' + leaderPath(ax, ay, place) + '" stroke="var(--accent)' +
                 '" stroke-width="1.5" fill="none" style="stroke-dasharray:600;stroke-dashoffset:600;"/>');
-              parts.push('<circle cx="' + r1(ax) + '" cy="' + r1(ay) + '" r="6" fill="' + accent + '" stroke="#fbf9f4" stroke-width="2"/>');
+              parts.push('<circle cx="' + r1(ax) + '" cy="' + r1(ay) + '" r="6" fill="var(--accent)" stroke="var(--bg)" stroke-width="2"/>');
               parts.push('<rect x="' + r1(rectX) + '" y="' + r1(rectY) + '" width="' + r1(place.tw + place.padX * 2) +
-                '" height="' + rectH + '" rx="9" fill="#fbf9f4" fill-opacity="0.92" stroke="#e2dccf" stroke-width="1"/>');
-              parts.push('<text data-role="co-t" x="' + r1(place.lx) + '" y="' + r1(place.ly) + '" fill="' + accent +
+                '" height="' + rectH + '" rx="9" fill="var(--card)" fill-opacity="0.92" stroke="var(--border)" stroke-width="1"/>');
+              parts.push('<text data-role="co-t" x="' + r1(place.lx) + '" y="' + r1(place.ly) + '" fill="var(--accent)' +
                 '" font-size="22" font-weight="800" text-anchor="' + place.anchor + '">' + esc(co.title || "") + '</text>');
               if (place.hasSub)
                 parts.push('<text data-role="co-t" x="' + r1(place.lx) + '" y="' + r1(place.ly + 26) +
-                  '" fill="rgba(26,26,26,0.7)" font-size="20" font-weight="600" text-anchor="' + place.anchor + '">' + esc(co.sub || "") + '</text>');
+                  '" fill="var(--muted)" font-size="20" font-weight="600" text-anchor="' + place.anchor + '">' + esc(co.sub || "") + '</text>');
               parts.push('</g>');
             });
             svg.innerHTML = parts.join("");

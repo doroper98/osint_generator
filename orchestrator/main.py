@@ -202,6 +202,17 @@ def build_parser() -> argparse.ArgumentParser:
         default=None,
         help="report_bundle.json 경로. 생략 시 04_research 의 영속 bundle 사용.",
     )
+    from orchestrator.hyperframes_compose import THEMES as _THEMES
+
+    cph.add_argument(
+        "--theme",
+        choices=list(_THEMES),
+        default=None,
+        help=(
+            "테마 강제 지정(5종). 생략 시 project_id 결정론 순환(영상단위). "
+            f"선택지: {', '.join(_THEMES)}."
+        ),
+    )
     cph.add_argument(
         "--planner",
         choices=["off", "stub", "codex", "claude"],
@@ -845,7 +856,9 @@ def _cmd_compose_hyperframes(args: argparse.Namespace) -> int:
         print("  나레이션 빌드 실패 → 무음성 컴포지션으로 폴백", file=sys.stderr)
 
     scenes = build_composed_scenes(bundle, plan)
-    path = build_and_persist_composition(args.project_id, bundle, plan)
+    path = build_and_persist_composition(
+        args.project_id, bundle, plan, theme_override=getattr(args, "theme", None)
+    )
     n_chart = sum(1 for s in scenes if s.kind == "chart" and s.component != "tickerboard")
     n_board = sum(1 for s in scenes if s.component == "tickerboard")
     n_svg = sum(1 for s in scenes if s.kind == "svg")
@@ -872,6 +885,7 @@ def _compose_with_narration(args: argparse.Namespace, bundle: Any, plan: Any) ->
         composition_path,
         generated_dir,
         render_composition_html,
+        theme_for_project,
         _atomic_write_text,
     )
     from orchestrator.tts_pronounce import load_dict
@@ -924,6 +938,7 @@ def _compose_with_narration(args: argparse.Namespace, bundle: Any, plan: Any) ->
             title=title, scenes=scenes, cues=cues,
             audio_src=f"assets/audio/{pid}.mp3",
             total_override=result.total_sec,
+            theme=theme_for_project(args.project_id, getattr(args, "theme", None)),
         )
 
         out_path = generated_dir() / f"{pid}.html"

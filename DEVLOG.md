@@ -2606,3 +2606,15 @@ last_review: 2026-06-06
 - 검증: node --check + chrome-headless seek 캡처(31프레임, t=0~3.0)로 진행/완료 확인 후 인코딩.
 - 후속(원하면): 이 중 채택분을 차트/씬 컴포넌트에 실제 반영(MotionPath→라인, odometer/scramble
   →값, parallax→인트로 씬, particle→마일스톤, sheen→헤드라인).
+
+## 2026-06-07 v0.37.0 — 전면 테마 교체 1/2: 토큰 시스템 + 셸 + line 차트 (영상단위 순환)
+
+- 무엇을: agents_reviewer v6 의 5개 테마(editorial_cream/burgundy_mono/midnight_indigo/
+  pine_forest/graphite_slate)를 data-theme + CSS 변수(bg/card/border/text/muted/accent/up/down)로
+  도입. 폰트도 교체(본문 IBM Plex Sans KR, 숫자 IBM Plex Mono, 헤드라인 Newsreader/Noto Serif KR).
+- 적용 범위(이번 커밋): compose 셸 템플릿 전체 var() 화 + 폰트 링크 + body/root data-theme,
+  theme_for_project(project_id 결정론 순환, --theme override), 차트 변수에 theme 주입,
+  line.html 완전 토큰화(폰트/카드/그리드/축/라인/끝점/콜아웃 전부 var()).
+- 검증: py_compile + node --check + 하니스로 line 차트를 editorial_cream/midnight_indigo/
+  graphite_slate 실렌더 캡처 확인(토큰·폰트·SVG var() 작동).
+- 다음(2/2): bar/donut/candle/tickerboard 동일 패턴 토큰화 → 전 컴포넌트 테마 일관.
