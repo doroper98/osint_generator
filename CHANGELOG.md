@@ -28,6 +28,28 @@ released 항목은 **append-only**입니다.
 
 ---
 
+## [v0.35.0] — 2026-06-07
+
+**codex 연출 엔진 도입 (CompositionPlanner)** — compose 의 결정론 스켈레톤 위에 codex/claude
+(구독 CLI·ADDENDUM_04)가 **연출 판단·자막 재작성**을 얹는 계층. 사실/차트 데이터는 여전히
+번들에서 결정론으로 나오고, 플랜은 헤드라인·강조·순서·페이싱·자막만 바꾼다. 사실 가드가
+번들에 없는 숫자를 `<미검증>` 라벨로 강제(C9/C0).
+
+### Added
+
+- `orchestrator/composition_planner.py` — `CompositionPlannerWorker(BaseLLMWorker, backend=codex)`
+  + `plan_for_bundle()` 실행기. `backend="stub"` 으로 codex 부재 환경에서도 전 구간 증명.
+- `orchestrator/plan_validator.py` — 순수 사실 가드. 플랜 텍스트의 번들 외 숫자를 `<미검증>` 표시.
+- `schemas/models.py` — `CompositionPlan`/`PlannedScene`/`PlannedCaption`/`PlanValidationReport`.
+- `compose-hyperframes --planner {off,stub,codex,claude}` 플래그.
+
+### Changed
+
+- `build_composed_scenes`/`build_composition_html_from_bundle` 가 선택적 plan 을 받아 연출을
+  얹는다(없으면 기존 결정론 그대로 — back-compat). 자막은 plan.captions(씬별 순차) 우선.
+
+---
+
 ## [v0.34.21] — 2026-06-07
 
 **에디토리얼 톤 적용 (사용자 확정 A)** — FT/Bloomberg/Pudding 급 + Beveridge(gsap_taste)

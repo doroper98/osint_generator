@@ -201,6 +201,16 @@ def build_parser() -> argparse.ArgumentParser:
         default=None,
         help="report_bundle.json 경로. 생략 시 04_research 의 영속 bundle 사용.",
     )
+    cph.add_argument(
+        "--planner",
+        choices=["off", "stub", "codex", "claude"],
+        default="off",
+        help=(
+            "연출 플랜 엔진(ADDENDUM_04). off=순수 결정론. codex/claude=구독 CLI 로 "
+            "CompositionPlan 생성(연출·자막 재작성, 사실은 번들 고정+미검증 라벨). "
+            "stub=결정론 stub 으로 파이프라인 증명(codex 불요)."
+        ),
+    )
 
     bsc = sub.add_parser(
         "build-script",
@@ -789,8 +799,25 @@ def _cmd_compose_hyperframes(args: argparse.Namespace) -> int:
         print(f"error: report_bundle 파싱/검증 실패 — {e}", file=sys.stderr)
         return 1
 
-    scenes = build_composed_scenes(bundle)
-    path = build_and_persist_composition(args.project_id, bundle)
+    plan = None
+    planner = getattr(args, "planner", "off")
+    if planner != "off":
+        from orchestrator.composition_planner import plan_for_bundle
+        from orchestrator.plan_validator import validate_and_label_plan
+
+        raw_plan, why = plan_for_bundle(
+            bundle, project_id=args.project_id, backend=planner
+        )
+        if raw_plan is None:
+            print(f"  플래너({planner}) 실패 → 결정론 폴백: {why}", file=sys.stderr)
+        else:
+            plan, report = validate_and_label_plan(raw_plan, bundle)
+            n_unv = len(report.findings)
+            print(f"  플래너({planner}): 씬 {len(plan.scenes)} / 자막 {len(plan.captions)}"
+                  f" / 미검증 라벨 {n_unv}건")
+
+    scenes = build_composed_scenes(bundle, plan)
+    path = build_and_persist_composition(args.project_id, bundle, plan)
     n_chart = sum(1 for s in scenes if s.kind == "chart" and s.component != "tickerboard")
     n_board = sum(1 for s in scenes if s.component == "tickerboard")
     n_svg = sum(1 for s in scenes if s.kind == "svg")

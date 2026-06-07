@@ -2430,3 +2430,19 @@ last_review: 2026-06-06
   (echo identifier 무결성 — cross/intra source_id 충돌 검증의 근거), §3 후속
   PATCH 표 2 번 (task_queue.json 영속화 + CLI, v0.5.4 MINOR) — 본 PATCH 이
   후 진입.
+
+## 2026-06-07 v0.35.0 — codex 연출 엔진(CompositionPlanner) 도입
+
+- 무엇을: compose ②③(build_composed_scenes / HTML 템플릿) 위에 codex/claude 연출 계층 추가.
+  CompositionPlan(Pydantic) = 씬 순서·헤드라인·강조·페이싱·자막 재작성. BaseLLMWorker 상속
+  (ADDENDUM_04 subprocess 구독 CLI). plan_validator 가 번들 외 숫자를 <미검증> 라벨.
+  build_composed_scenes(bundle, plan) / --planner {off,stub,codex,claude}.
+- 왜: 사용자 결정 — "codex 를 엔진으로 넣어 영상 생성 판단·자막생성·완성도 향상". 단 사실/차트
+  데이터는 결정론 고정(환각 0), 연출·문장만 LLM. 전면 위임 + 번들 외 텍스트 허용(미검증 라벨).
+- 경계: C9/C0 — 정확성을 깨는 화려함 금지. codex 가 데이터(variables)는 못 건드림. 비결정론은
+  플랜 영속(compose_plan.json) + llm_calls 추적(G6)로 재현성 확보. 이 환경엔 codex 부재 →
+  stub 로 전 구간 검증, 실 codex 는 사용자 PC(C10 구도와 동일).
+- 검증: unittest 26개(compose 18 + planner 8) 통과. stub end-to-end 로 추적성 산출물·plan 유래
+  자막·사실 가드(999조/5000억 라벨) 확인.
+- 후속: 03_AGENT_ARCHITECTURE/CATALOGS 워커 표 동기화(C7), 차트 type 재지정 소비(전면 위임 잔여),
+  codex 외부 리뷰 반영(C10.1 MINOR 트리거).

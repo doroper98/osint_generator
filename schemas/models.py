@@ -918,6 +918,80 @@ class LLMCallRecord(VersionedModel):
 
 
 # ---------------------------------------------------------------------------
+# 12.5 CompositionPlan (codex/claude 가 영상 연출을 판단하는 계층 — ADDENDUM_04)
+# ---------------------------------------------------------------------------
+#
+# compose-hyperframes 의 결정론 스켈레톤 위에 LLM(기본 codex)이 "데이터가 아니라 판단"을
+# 얹는 계약. 사실/숫자/차트 데이터는 여전히 번들에서 결정론으로 나오고, 본 플랜은 **연출·
+# 문장·강조·순서**만 바꾼다. plan_validator 가 본 플랜의 모든 텍스트를 번들 사실과 대조해
+# 번들에 없는 사실은 `<미검증>` 라벨을 강제한다(C9/C0 — 정확성을 깨는 화려함은 금지).
+
+
+class PlannedCaption(BaseModel):
+    """codex 가 재작성한 자막 1줄. 통문단 글자수 분할 대신 화면용 순차 큐(key-takeaway).
+
+    scene_ref 는 PlannedScene.scene_id(=결정론 스켈레톤의 scene_id). 타이밍은 소비 단계에서
+    같은 scene 안 순서·글자수 비례로 결정론 산출(LLM 이 초 단위를 직접 못 박게 해 재현성 유지).
+    """
+
+    model_config = ConfigDict(extra="forbid")
+
+    scene_ref: str
+    order: int = 0
+    text: str
+    unverified: bool = False  # plan_validator 가 번들 대조 후 set. True 면 렌더가 <미검증> 라벨.
+
+
+class PlannedScene(BaseModel):
+    """씬 1개에 대한 연출 판단. scene_id 는 결정론 스켈레톤과 1:1 매칭(없으면 무시)."""
+
+    model_config = ConfigDict(extra="forbid")
+
+    scene_id: str
+    order: int = 0                       # 씬 재배열 순서(작을수록 먼저). 동률은 스켈레톤 순서.
+    headline: Optional[str] = None       # 헤드라인 override(차트 takeaway / 텍스트 heading)
+    emphasis_words: list[str] = Field(default_factory=list)  # SplitText 강조 단어
+    role: Optional[Literal["full", "strip", "keep"]] = None  # full/strip 재지정(keep=스켈레톤 유지)
+    countup_value: Optional[str] = None  # 카운트업으로 띄울 핵심 숫자(번들 대조 대상)
+    duration_sec: Optional[float] = None # 페이싱 override(범위는 소비 단계 clamp)
+    transition: Optional[str] = None     # 전환 힌트(crossfade 등). 미지원 값은 무시.
+    chart_type: Optional[str] = None     # (전면 위임 예약) 차트 타입 재지정 — 후속 증분에서 소비
+    unverified_fields: list[str] = Field(default_factory=list)  # validator 가 라벨링한 필드명
+
+
+class CompositionPlan(VersionedModel):
+    """codex/claude 가 산출하는 영상 연출 플랜. BaseLLMWorker.response_model.
+
+    schema_version 1 유지(optional 모델 추가는 호환). 본 플랜은 build_composed_scenes 의
+    **권고 입력**이며, 없거나 검증 실패 시 결정론 스켈레톤으로 graceful fallback.
+    """
+
+    plan_engine: Literal["codex", "claude", "stub"] = "codex"
+    title: Optional[str] = None                # 전체 헤드라인 override
+    scenes: list[PlannedScene] = Field(default_factory=list)
+    captions: list[PlannedCaption] = Field(default_factory=list)
+    notes: str = ""                            # 연출 의도 메모(렌더에 안 들어감, 추적용)
+
+
+class PlanFactFinding(BaseModel):
+    """plan_validator 가 잡은 '번들에 없는 사실' 1건."""
+
+    model_config = ConfigDict(extra="forbid")
+
+    where: str          # "scene:<id>.headline" / "caption:<scene>.<order>" 등 위치
+    token: str          # 문제의 숫자/토큰
+    action: Literal["labeled_unverified", "kept", "rejected"]
+
+
+class PlanValidationReport(VersionedModel):
+    """plan_validator 산출 — 어떤 텍스트가 번들 대조에서 미검증 처리됐는지 기록(G6 추적)."""
+
+    plan_engine: str = ""
+    findings: list[PlanFactFinding] = Field(default_factory=list)
+    rejected: bool = False  # 치명적(데이터 변조 시도 등)이라 플랜 전체 폐기했는지
+
+
+# ---------------------------------------------------------------------------
 # 13. ReportBundle (외부 연동 — agents_reviewer 인터페이스 계약 v1)
 # ---------------------------------------------------------------------------
 #

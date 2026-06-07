@@ -386,8 +386,13 @@ def _split_cues(text: str, total_sec: float) -> list[SubtitleCue]:
     return cues
 
 
-def build_composed_scenes(bundle: ReportBundle) -> list[ComposedScene]:
+def build_composed_scenes(
+    bundle: ReportBundle, plan: Any = None
+) -> list[ComposedScene]:
     """ReportBundle 의 각 section → 1개 이상의 ComposedScene.
+
+    plan(검증된 CompositionPlan) 이 주어지면 마지막에 연출 판단(헤드라인/페이싱/순서)을
+    얹는다. 사실·차트 데이터는 plan 과 무관하게 결정론으로 산출된다(_apply_plan_to_scenes).
 
     한 section 의 chart_refs 에서 **모든** 시각 자산을 펼친다(차트당 1씬):
     - 지원 타입(candle/line/bar/donut) → chart 씬 (번들 데이터 주입)
@@ -488,7 +493,46 @@ def build_composed_scenes(bundle: ReportBundle) -> list[ComposedScene]:
                 heading=sec.heading or "", body=sec.pull_quote or prose,
             ))
             cursor += dur
+
+    if plan is not None:
+        scenes = _apply_plan_to_scenes(scenes, plan)
     return scenes
+
+
+def _apply_plan_to_scenes(scenes: list[ComposedScene], plan: Any) -> list[ComposedScene]:
+    """검증된 CompositionPlan 의 연출 판단을 결정론 씬에 얹는다(사실 불변, 연출만).
+
+    적용: 헤드라인 override(미검증 필드는 <미검증> 라벨) · 페이싱 override(clamp) · 씬 재정렬.
+    데이터(variables 의 차트 값)는 건드리지 않는다. plan 에 없는 씬은 원래 상대순서로 뒤에 붙는다.
+    """
+    by_id = {p.scene_id: p for p in plan.scenes}
+    # 1) 필드 override (사실 불변 — 헤드라인/페이싱만)
+    for sc in scenes:
+        p = by_id.get(sc.scene_id)
+        if p is None:
+            continue
+        if p.headline:
+            head = p.headline
+            if "headline" in p.unverified_fields:
+                head = f"<미검증> {head}"
+            if sc.kind == "chart":
+                sc.variables["takeaway"] = head
+            else:
+                sc.heading = head
+        if p.duration_sec is not None:
+            sc.duration_sec = round(min(30.0, max(3.0, float(p.duration_sec))), 3)
+    # 2) 재정렬 — plan order 우선, 그 외는 원래 순서 보존(stable)
+    order_of = {p.scene_id: p.order for p in plan.scenes}
+    big = max([p.order for p in plan.scenes], default=0) + 1
+    indexed = list(enumerate(scenes))
+    indexed.sort(key=lambda t: (order_of.get(t[1].scene_id, big + t[0]), t[0]))
+    ordered = [sc for _, sc in indexed]
+    # 3) start_sec 전구간 재계산
+    cur = 0.0
+    for sc in ordered:
+        sc.start_sec = round(cur, 3)
+        cur += sc.duration_sec
+    return ordered
 
 
 # ---------------------------------------------------------------------------
@@ -739,34 +783,60 @@ def _safe_slug(project_id: str) -> str:
     return slug or "composition"
 
 
-def build_composition_html_from_bundle(bundle: ReportBundle) -> tuple[list[ComposedScene], str]:
+def build_composition_html_from_bundle(
+    bundle: ReportBundle, plan: Any = None
+) -> tuple[list[ComposedScene], str]:
     """ReportBundle → (씬 목록, 컴포지션 HTML).
 
-    자막 큐: 각 section.prose 를 그 섹션의 **전 씬 구간**(차트당 1씬으로 펼쳐졌어도)에 걸쳐
-    글자수 비례로 깐다 — 차트가 여러 개 흐르는 동안 narration 이 이어지도록.
+    자막 큐(plan 없음): 각 section.prose 를 그 섹션의 **전 씬 구간**에 걸쳐 글자수 비례로 깐다.
+    자막 큐(plan 있음): codex 가 재작성한 plan.captions 를 각 씬 구간 안에 순차 배치(미검증 라벨).
     """
-    scenes = build_composed_scenes(bundle)
-    prose_by_sid = {(s.section_id or f"s{i + 1}"): (s.prose or "")
-                    for i, s in enumerate(bundle.sections)}
+    scenes = build_composed_scenes(bundle, plan)
 
-    # section 별 [start, span] 산출 (씬들을 section_id 로 그룹핑).
-    spans: dict[str, list[float]] = {}
-    for sc in scenes:
-        sid = sc.section_id
-        if sid not in spans:
-            spans[sid] = [sc.start_sec, 0.0]
-        spans[sid][0] = min(spans[sid][0], sc.start_sec)
-        spans[sid][1] += sc.duration_sec
-
-    abs_cues: list[ComposedCue] = []
-    for sid, (start, span) in spans.items():
-        for cue in _split_cues(prose_by_sid.get(sid, ""), span):
-            abs_cues.append(ComposedCue(text=cue.text, at_sec=round(start + cue.startSec, 3)))
+    if plan is not None and plan.captions:
+        abs_cues = _cues_from_plan(scenes, plan)
+    else:
+        prose_by_sid = {(s.section_id or f"s{i + 1}"): (s.prose or "")
+                        for i, s in enumerate(bundle.sections)}
+        spans: dict[str, list[float]] = {}
+        for sc in scenes:
+            sid = sc.section_id
+            if sid not in spans:
+                spans[sid] = [sc.start_sec, 0.0]
+            spans[sid][0] = min(spans[sid][0], sc.start_sec)
+            spans[sid][1] += sc.duration_sec
+        abs_cues = []
+        for sid, (start, span) in spans.items():
+            for cue in _split_cues(prose_by_sid.get(sid, ""), span):
+                abs_cues.append(ComposedCue(text=cue.text, at_sec=round(start + cue.startSec, 3)))
     abs_cues.sort(key=lambda c: c.at_sec)
 
-    title = bundle.report.headline if bundle.report else ""
+    title = (plan.title if (plan is not None and plan.title) else
+             (bundle.report.headline if bundle.report else ""))
     html_str = render_composition_html(title=title, scenes=scenes, cues=abs_cues)
     return scenes, html_str
+
+
+def _cues_from_plan(scenes: list[ComposedScene], plan: Any) -> list["ComposedCue"]:
+    """plan.captions(씬별 순차 자막)를 절대 타임라인 큐로 변환. 미검증은 <미검증> 라벨."""
+    span_of = {sc.scene_id: (sc.start_sec, sc.duration_sec) for sc in scenes}
+    by_scene: dict[str, list[Any]] = {}
+    for cap in plan.captions:
+        by_scene.setdefault(cap.scene_ref, []).append(cap)
+    cues: list[ComposedCue] = []
+    for scene_id, caps in by_scene.items():
+        if scene_id not in span_of:
+            continue
+        start, dur = span_of[scene_id]
+        caps = sorted(caps, key=lambda c: c.order)
+        total_chars = sum(max(1, len(c.text)) for c in caps) or 1
+        cursor = 0.0
+        for i, c in enumerate(caps):
+            text = f"<미검증> {c.text}" if c.unverified else c.text
+            cues.append(ComposedCue(text=text, at_sec=round(start + cursor, 3)))
+            slice_sec = dur if i == len(caps) - 1 else dur * (max(1, len(c.text)) / total_chars)
+            cursor += slice_sec
+    return cues
 
 
 def _atomic_write_text(path: Path, data: str) -> None:
@@ -787,9 +857,11 @@ def _atomic_write_text(path: Path, data: str) -> None:
         raise
 
 
-def build_and_persist_composition(project_id: str, bundle: ReportBundle) -> Path:
+def build_and_persist_composition(
+    project_id: str, bundle: ReportBundle, plan: Any = None
+) -> Path:
     """ReportBundle → `hyperframes/generated/<project_id>.html` 영속화 후 경로 반환."""
-    _, html_str = build_composition_html_from_bundle(bundle)
+    _, html_str = build_composition_html_from_bundle(bundle, plan)
     path = composition_path(project_id)
     _atomic_write_text(path, html_str)
     return path
