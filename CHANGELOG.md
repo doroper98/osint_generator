@@ -28,6 +28,23 @@ released 항목은 **append-only**입니다.
 
 ---
 
+## [v0.34.18] — 2026-06-07
+
+**모션·타이포 스킬 내재화 — gsap-skills(MIT) + taste-skill(MIT) 흡수**. AI 애니메이션 품질을
+높이는 두 오픈소스 스킬팩의 기술을 HyperFrames 결정론 영상 렌더에 맞게 골라 자체 구현으로
+내재화(플러그인 의존 없음). ScrollTrigger 류(스크롤 기반)는 제외, 서사 패턴만 타임라인으로 번역.
+
+### Added
+
+- **`hyperframes/lib/motion/hf-motion.js`** — 모션 헬퍼: `splitWords/splitChars/revealWords`
+  (SplitText 기법), `countUp`(ScrambleText/수치), `crossfade`(씬 전환), `prng/clamp/lerp/mapRange`
+  (gsap-utils, 결정론). 전부 paused 타임라인 add → seek 안전.
+- **`hyperframes/examples/motion_showcase.html`** — 적용 데모(SplitText 헤드라인 reveal +
+  0→21.7 count-up + 크로스페이드 + 이징 다양성 + 에디토리얼 여백). mp4 검증.
+- **`docs/MOTION_SKILLS.md`** — 내재화 기록(영상 렌더 적합성 판별표 / taste 원칙 / API / 후속).
+
+---
+
 ## [v0.34.17] — 2026-06-07
 
 **차트 메타데이터 footer(출처·기간·시작~끝·인터벌) + candle=메인 + 종목 dedupe**. 사용자

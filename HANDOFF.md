@@ -1,6 +1,6 @@
 <!--
 tier: 1
-last_synced_with: v0.34.17
+last_synced_with: v0.34.18
 ssot_for: [session-handoff]
 depends_on: [CLAUDE.md, GOAL.md, VERSION, docs/13_IMPLEMENTATION_ROADMAP.md, docs/REVIEW_PROMPT.md, docs/PROFESSIONAL_REBUILD_PLAN.md]
 last_review: 2026-06-05
@@ -71,7 +71,11 @@ last_review: 2026-06-05
    - **v0.34.17 (완료)**: 차트 메타 footer(출처·기간·시작~끝·인터벌) 전 컴포넌트 + candle=메인
      승격(strip 후보 제외) + 티커 보드 종목 dedupe. 사용자 지적(출처·기간 누락 / 엔비디아 축소
      / 중복) 반영. SpaceX s1 = 엔비디아 candle 메인 + 지수 5종 티커 보드(NVDA dedupe).
-   - **v0.34.18~ (다음, 합의된 우선순위)**:
+   - **v0.34.18 (완료)**: 모션·타이포 스킬 내재화 — gsap-skills(MIT)/taste-skill(MIT) 흡수.
+     `lib/motion/hf-motion.js`(SplitText reveal/count-up/crossfade/seeded PRNG, 플러그인 없이
+     자체) + `examples/motion_showcase.html` + `docs/MOTION_SKILLS.md`. ScrollTrigger 류(스크롤
+     기반) 제외, 서사만 타임라인으로 번역. 후속: 차트 takeaway revealWords / 씬 crossfade 자동.
+   - **v0.34.19~ (다음, 합의된 우선순위)**:
      ②-b 씬 narration/cue 정밀화 — 현재 prose 글자수 비례 추정 → ScriptWorker narration +
         실 음성 길이 sync (cuesync 패턴 재사용) + scene별 cue/콜아웃 LLM 추출·수동 override →
      ③ 인물 카드 + 엔티티 연결선 (날리지식 패턴 ③④) →

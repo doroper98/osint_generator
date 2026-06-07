@@ -1,0 +1,115 @@
+<!doctype html>
+<!--
+  examples/motion_showcase.html — 내재화한 모션 기술 쇼케이스 (v0.34.18).
+  gsap-skills(MIT) + taste-skill(MIT) 에서 흡수한 기술을 lib/motion/hf-motion.js 로 내재화해
+  적용: SplitText 단어 reveal / 수치 count-up / 크로스페이드 전환 / 이징 다양성(expo·back·
+  power) / 여백·타입 위계(taste). 전부 타임라인 구동(seek 안전, 결정론).
+  렌더: cd hyperframes && npx hyperframes render -c examples/motion_showcase.html
+-->
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1920, height=1080" />
+    <script src="../assets/gsap.min.js"></script>
+    <script src="../lib/motion/hf-motion.js"></script>
+    <style>
+      @font-face {
+        font-family: "Pretendard Variable";
+        src: url("../assets/fonts/PretendardVariable.woff2") format("woff2-variations");
+        font-weight: 100 900; font-style: normal; font-display: block;
+      }
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body {
+        margin: 0; width: 1920px; height: 1080px; overflow: hidden; background: #f5f1ea;
+        font-family: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        color: #1a1a1a; word-break: keep-all; overflow-wrap: anywhere;
+      }
+      .brand-mark { width: 14px; height: 14px; border-radius: 3px; background: #e84a2d; display: inline-block; vertical-align: middle; }
+      .scene { position: absolute; inset: 0; }
+
+      /* Scene A — intro (taste: 좌측 정렬, 큰 여백, 한 accent) */
+      .kicker { position: absolute; top: 150px; left: 160px; font-size: 24px; font-weight: 700;
+        letter-spacing: 6px; color: rgba(26,26,26,0.5); text-transform: uppercase; }
+      .rule { position: absolute; top: 210px; left: 162px; width: 360px; height: 3px;
+        background: #e84a2d; transform-origin: left center; }
+      .headline { position: absolute; left: 160px; top: 360px; font-size: 112px; font-weight: 900;
+        line-height: 1.08; letter-spacing: -2px; color: #1a1a1a; max-width: 1500px; }
+      .headline .l2 { color: #e84a2d; }
+      .subtitle { position: absolute; left: 164px; top: 720px; font-size: 44px; font-weight: 600;
+        color: rgba(26,26,26,0.55); letter-spacing: -0.5px; }
+
+      /* Scene B — metric count-up (taste: 중앙, 수치 위계) */
+      .b-kicker { position: absolute; top: 300px; left: 0; right: 0; text-align: center;
+        font-size: 30px; font-weight: 700; letter-spacing: 4px; color: rgba(26,26,26,0.5); }
+      .metric { position: absolute; top: 380px; left: 0; right: 0; text-align: center;
+        display: flex; align-items: baseline; justify-content: center; gap: 22px; }
+      .metric .num { font-size: 280px; font-weight: 900; letter-spacing: -6px; color: #e84a2d; line-height: 1; }
+      .metric .unit { font-size: 96px; font-weight: 800; color: #1a1a1a; }
+      .barwrap { position: absolute; top: 760px; left: 50%; transform: translateX(-50%);
+        width: 1000px; height: 18px; background: rgba(26,26,26,0.08); border-radius: 9px; overflow: hidden; }
+      .bar { position: absolute; inset: 0; background: #e84a2d; border-radius: 9px; transform-origin: left center; }
+      .b-caption { position: absolute; top: 820px; left: 0; right: 0; text-align: center;
+        font-size: 34px; font-weight: 600; color: rgba(26,26,26,0.55); letter-spacing: -0.3px; }
+
+      .footnote { position: absolute; bottom: 64px; left: 160px; font-size: 22px; font-weight: 500;
+        color: rgba(26,26,26,0.4); letter-spacing: 0.5px; }
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="root" data-width="1920" data-height="1080"
+         data-start="0" data-duration="11" data-track-index="0">
+
+      <div class="scene" id="sceneA">
+        <div class="kicker"><span class="brand-mark"></span>&nbsp; OSINT 브리핑 · 2026.06.05</div>
+        <div class="rule" id="rule"></div>
+        <div class="headline">
+          <div class="l1" id="h1">구글, SpaceX에</div>
+          <div class="l2" id="h2">월 9.2억 달러 임대</div>
+        </div>
+        <div class="subtitle" id="subA">IPO 엿새 전, 두 번째 메가 임대</div>
+      </div>
+
+      <div class="scene" id="sceneB" style="opacity:0">
+        <div class="b-kicker" id="bk">두 계약 합산 · 월 임대 런레이트</div>
+        <div class="metric">
+          <span class="num" id="num">0.0</span>
+          <span class="unit" id="unit" style="opacity:0">억 달러</span>
+        </div>
+        <div class="barwrap"><div class="bar" id="bar"></div></div>
+        <div class="b-caption" id="bcap">앤스로픽 12.5  +  구글 9.2</div>
+      </div>
+
+      <div class="footnote" id="foot">출처 · SEC FWP / TechCrunch · 2026-06-05</div>
+    </div>
+
+    <script>
+      window.__timelines = window.__timelines || {};
+      var H = window.__hf;
+      var tl = gsap.timeline({ paused: true });
+      var $ = function (id) { return document.getElementById(id); };
+
+      // ── Scene A: 이징 다양성(power/expo/back) + SplitText 단어 reveal + 여백 호흡 ──
+      tl.from(".kicker", { opacity: 0, y: -10, duration: 0.5, ease: "power2.out" }, 0.15);
+      tl.fromTo("#rule", { scaleX: 0 }, { scaleX: 1, duration: 0.7, ease: "power3.inOut" }, 0.3);
+      H.revealWords(tl, $("h1"), 0.45, { stagger: 0.07, ease: "expo.out" });
+      H.revealWords(tl, $("h2"), 0.78, { stagger: 0.07, ease: "expo.out" });
+      tl.fromTo("#subA", { opacity: 0, y: 24 }, { opacity: 1, y: 0, duration: 0.7, ease: "back.out(1.4)" }, 1.7);
+      tl.from("#foot", { opacity: 0, duration: 0.6 }, 1.2);
+
+      // ── 크로스페이드 전환 A→B (ScrollTrigger reveal 서사를 타임라인 위치로) ──
+      H.crossfade(tl, $("sceneA"), $("sceneB"), 4.4, { duration: 0.7 });
+
+      // ── Scene B: 수치 count-up(ScrambleText 기법) + 바 grow + 단위 pop ──
+      tl.fromTo("#bk", { opacity: 0, y: 16 }, { opacity: 1, y: 0, duration: 0.5, ease: "power2.out" }, 5.0);
+      H.countUp(tl, $("num"), 0, 21.7, {
+        at: 5.2, duration: 1.7, ease: "power2.out",
+        format: function (n) { return n.toFixed(1); },
+      });
+      tl.fromTo("#bar", { scaleX: 0 }, { scaleX: 1, duration: 1.7, ease: "power2.out" }, 5.2);
+      tl.fromTo("#unit", { opacity: 0, y: 18 }, { opacity: 1, y: 0, duration: 0.5, ease: "back.out(2)" }, 6.7);
+      tl.fromTo("#bcap", { opacity: 0 }, { opacity: 1, duration: 0.6, ease: "power2.out" }, 6.9);
+
+      window.__timelines["root"] = tl;
+    </script>
+  </body>
+</html>

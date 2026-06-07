@@ -25,6 +25,29 @@ last_review: 2026-06-06
 
 ---
 
+## 2026-06-07 v0.34.18 — 모션·타이포 스킬 내재화 (gsap-skills/taste-skill 흡수, 영상미 C0)
+
+- **무엇을**: AI 애니메이션 품질을 높이는 두 오픈소스 스킬팩(greensock/gsap-skills MIT,
+  Leonxlnx/taste-skill MIT)의 기술을 HyperFrames 결정론 영상 렌더에 맞게 골라 자체 구현으로
+  내재화. `lib/motion/hf-motion.js` + `examples/motion_showcase.html` + `docs/MOTION_SKILLS.md`.
+- **왜**: 사용자 질문("스킬 장착하면 더 나은 화면? 어차피 HTML 렌더잖아"). 답: correctness 는
+  무관하나 polish(전환/문자/수치 모션)는 향상 가능. 그래서 흡수.
+- **어떻게(핵심 판별)**: 우리 렌더는 paused 타임라인을 seek 캡처 → 스크롤·상호작용 없음.
+  - 이식: SplitText(단어/글자 reveal), count-up/ScrambleText, 크로스페이드 전환, gsap-utils
+    (seeded PRNG/clamp/lerp) — 전부 타임라인 add, 결정론.
+  - **제외: ScrollTrigger/Smoother/Draggable/Observer**(스크롤·상호작용 기반). 단 ScrollTrigger 의
+    "진행도 reveal 서사"는 타임라인 position 기반 reveal 로 **번역**해 흡수.
+  - 플러그인 통째 복사 안 함(라이선스/번들 위생) — 패턴을 core gsap 만으로 자체 구현.
+  - taste-skill 은 코드가 아니라 원칙(여백 규율/타입 위계/단일 accent/스프링 모션/density 다이얼)
+    을 우리 토큰 위에 적용. (em-dash 금지 룰은 우리 톤과 안 맞아 미채택.)
+- **결과**: 쇼케이스 — 헤드라인 SplitText reveal + 0→21.7 count-up + A→B 크로스페이드 + expo/
+  back/power 이징 + 에디토리얼 여백. PNG+mp4 ground-truth 확인(11s high). 결정론 검증(랜덤/시계/
+  ScrollTrigger 실사용 0 — 주석 언급만). py_compile 통과.
+- **연관**: CHANGELOG v0.34.18, docs/MOTION_SKILLS.md, hyperframes/CLAUDE.md(lib/motion). 후속:
+  차트 takeaway revealWords / 도넛·바 countUp / compose 씬 사이 crossfade 자동 / 지도 MotionPath.
+
+---
+
 ## 2026-06-07 v0.34.17 — 차트 메타 footer(출처·기간) + candle=메인 + 종목 dedupe (정확성 C9, 사용자 지적)
 
 - **무엇을**: 차트 신뢰성 메타 강화 — 모든 차트에 footer 로 출처·기간·시작~끝·인터벌 표기,

@@ -1,8 +1,18 @@
-# NEXT SESSION PROMPT — v0.34.18 시작점
+# NEXT SESSION PROMPT — v0.34.19 시작점
 
 > 본 파일은 **다음 Claude Code 세션 시작 시 첫 메시지로 paste** 해 사용한다.
-> v0.34.17 (2026-06-07, 차트 메타 footer + candle=메인 + dedupe) 이후 작업을 이어 받을 컨텍스트.
+> v0.34.18 (2026-06-07, 모션 스킬 내재화) 이후 작업을 이어 받을 컨텍스트.
 > SSOT: HANDOFF.md, docs/PROFESSIONAL_REBUILD_PLAN.md, DEVLOG.md (append-only).
+
+## v0.34.18 완료 요약 (모션·타이포 스킬 내재화)
+
+- gsap-skills(MIT)/taste-skill(MIT) 흡수 → `lib/motion/hf-motion.js`(플러그인 없이 자체):
+  `splitWords/revealWords`(SplitText), `countUp`(수치), `crossfade`(씬 전환), `prng/clamp/lerp`.
+- ScrollTrigger/Smoother/Draggable(스크롤·상호작용) **제외** — 영상엔 스크롤 없음. 서사 패턴만
+  타임라인 position 으로 번역. taste-skill 은 원칙(여백/타입/단일 accent/스프링)만 적용.
+- `examples/motion_showcase.html` 데모(mp4 검증). 상세: `docs/MOTION_SKILLS.md`.
+- **후속 내재화 지점**: 차트 takeaway→revealWords, 도넛/바 값→countUp, compose 씬 사이 crossfade
+  자동 삽입(지금 하드컷), 지도 아크 MotionPath.
 
 ## v0.34.17 완료 요약 (차트 메타데이터 + candle=메인)
 

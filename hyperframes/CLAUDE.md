@@ -62,6 +62,9 @@ https://hyperframes.heygen.com/llms.txt
   각각 `<template>` wrapper sub-composition. `data-composition-variables` 로 변수 선언 +
   host 의 `data-variable-values`(JSON)로 데이터 주입.
 - `examples/gallery.html` — 4 종 쇼케이스 / 12 씬 시퀀싱 템플릿 (`render -c examples/gallery.html`).
+- `examples/motion_showcase.html` — 내재화한 모션 기술 데모(SplitText reveal / count-up / 전환).
+- `lib/motion/hf-motion.js` — 모션 헬퍼(gsap-skills·taste-skill MIT 내재화). `window.__hf.*`.
+  splitWords/revealWords, countUp, crossfade, prng/clamp/lerp. 상세: `docs/MOTION_SKILLS.md`.
 - `generated/<pid>.html` — **자동 생성**(gitignore). `python -m orchestrator.main compose-hyperframes <pid>`
   가 ReportBundle → 다중 씬 컴포지션으로 만든 산출. `render -c generated/<pid>.html` 로 렌더.
 - `assets/` — gsap.min.js, fonts/, audio/, pronounce.json (sub-comp 은 루트 기준 `assets/...`
