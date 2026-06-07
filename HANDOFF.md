@@ -1,6 +1,6 @@
 <!--
 tier: 1
-last_synced_with: v0.34.18
+last_synced_with: v0.34.19
 ssot_for: [session-handoff]
 depends_on: [CLAUDE.md, GOAL.md, VERSION, docs/13_IMPLEMENTATION_ROADMAP.md, docs/REVIEW_PROMPT.md, docs/PROFESSIONAL_REBUILD_PLAN.md]
 last_review: 2026-06-05
@@ -74,8 +74,10 @@ last_review: 2026-06-05
    - **v0.34.18 (완료)**: 모션·타이포 스킬 내재화 — gsap-skills(MIT)/taste-skill(MIT) 흡수.
      `lib/motion/hf-motion.js`(SplitText reveal/count-up/crossfade/seeded PRNG, 플러그인 없이
      자체) + `examples/motion_showcase.html` + `docs/MOTION_SKILLS.md`. ScrollTrigger 류(스크롤
-     기반) 제외, 서사만 타임라인으로 번역. 후속: 차트 takeaway revealWords / 씬 crossfade 자동.
-   - **v0.34.19~ (다음, 합의된 우선순위)**:
+     기반) 제외, 서사만 타임라인으로 번역.
+   - **v0.34.19 (완료)**: 모션 내재화 파이프라인 적용 — 5 차트 컴포넌트 + compose 텍스트 씬
+     헤딩에 SplitText 단어 reveal, 컴포지션이 hf-motion 로드. 모든 씬 제목이 단어별 등장.
+   - **v0.34.20~ (다음, 합의된 우선순위)**:
      ②-b 씬 narration/cue 정밀화 — 현재 prose 글자수 비례 추정 → ScriptWorker narration +
         실 음성 길이 sync (cuesync 패턴 재사용) + scene별 cue/콜아웃 LLM 추출·수동 override →
      ③ 인물 카드 + 엔티티 연결선 (날리지식 패턴 ③④) →

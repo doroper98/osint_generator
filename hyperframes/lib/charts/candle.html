@@ -28,6 +28,7 @@
   <head>
     <meta charset="UTF-8" />
     <script src="assets/gsap.min.js"></script>
+    <script src="lib/motion/hf-motion.js"></script>
   </head>
   <body>
     <template id="candle-template">
@@ -274,6 +275,9 @@
 
             // 타임라인 등록 — 런타임은 authored id("candle")와 runtime 인스턴스 id(host id) 둘 다로
             // 폴링하므로 두 키 모두 등록한다(v0.6.76 실측: 한쪽만 등록하면 나머지를 45s 기다리다 실패).
+            // 헤드라인 SplitText reveal (모션 내재화 hf-motion, 있으면).
+            var __twk = root.querySelector('[data-role="takeaway"]');
+            if (window.__hf && window.__hf.revealWords && __twk) window.__hf.revealWords(tl, __twk, 0.15, { stagger: 0.05 });
             window.__timelines["candle"] = tl;
             var cid = (typeof __hfTimelineCompId !== "undefined" && __hfTimelineCompId)
               || (typeof __hfCompId !== "undefined" && __hfCompId)

@@ -21,6 +21,7 @@
   <head>
     <meta charset="UTF-8" />
     <script src="assets/gsap.min.js"></script>
+    <script src="lib/motion/hf-motion.js"></script>
   </head>
   <body>
     <template id="line-template">
@@ -208,6 +209,9 @@
                 { opacity: 1, x: 0, duration: 0.3, stagger: 0.08, ease: "power2.out" }, m.t + 0.5);
             });
 
+            // 헤드라인 SplitText reveal (모션 내재화 hf-motion, 있으면).
+            var __twk = root.querySelector('[data-role="takeaway"]');
+            if (window.__hf && window.__hf.revealWords && __twk) window.__hf.revealWords(tl, __twk, 0.15, { stagger: 0.05 });
             window.__timelines["line"] = tl;
             var cid = (typeof __hfTimelineCompId !== "undefined" && __hfTimelineCompId)
               || (typeof __hfCompId !== "undefined" && __hfCompId)

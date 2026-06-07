@@ -25,6 +25,22 @@ last_review: 2026-06-06
 
 ---
 
+## 2026-06-07 v0.34.19 — 모션 내재화 파이프라인 적용 (영상미 C0)
+
+- **무엇을**: v0.34.18 의 hf-motion 을 실제 영상에 입힘 — 5 차트 컴포넌트 + compose 텍스트 씬
+  헤딩에 SplitText 단어 reveal, 컴포지션이 hf-motion 로드.
+- **왜**: 사용자 "엄청 좋아졌는데? 영상 전체에 입혀진 부분으로 만들고 B-ext 로 가자."
+- **어떻게**: 컴포넌트 head 에 `<script src="lib/motion/hf-motion.js">`(root-relative, assets/
+  gsap 와 동일 해석) + 등록 직전 `revealWords(tl, takeaway, 0.15)`. compose 템플릿도 hf-motion
+  로드(../lib/motion), 텍스트 씬은 카드 fade + 헤딩 revealWords + 본문 fade. 차트 씬은 기존
+  내부 등장(grid/candle draw)으로 이미 애니. (씬 간 crossfade·count-up 은 후속 폴리시.)
+- **결과**: SpaceX 영상의 모든 씬 제목이 단어별 등장(엔비디아/티커보드/텍스트 헤딩). 전체
+  unittest 370/370, validate(brent index) 0 error, PNG ground-truth 확인.
+- **연관**: CHANGELOG v0.34.19, v0.34.18(hf-motion), docs/MOTION_SKILLS.md. 후속: 씬 crossfade,
+  수치 countUp(도넛 중앙값/바), 그리고 B-ext(waterfall/gantt/scatter 컴포넌트).
+
+---
+
 ## 2026-06-07 v0.34.18 — 모션·타이포 스킬 내재화 (gsap-skills/taste-skill 흡수, 영상미 C0)
 
 - **무엇을**: AI 애니메이션 품질을 높이는 두 오픈소스 스킬팩(greensock/gsap-skills MIT,

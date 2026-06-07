@@ -17,6 +17,7 @@
   <head>
     <meta charset="UTF-8" />
     <script src="assets/gsap.min.js"></script>
+    <script src="lib/motion/hf-motion.js"></script>
   </head>
   <body>
     <template id="tickerboard-template">
@@ -151,6 +152,9 @@
                 { strokeDashoffset: 0, duration: 0.8, ease: "power2.inOut" }, drawStart + 0.2 + i * stg);
             });
 
+            // 헤드라인 SplitText reveal (모션 내재화 hf-motion, 있으면).
+            var __twk = root.querySelector('[data-role="takeaway"]');
+            if (window.__hf && window.__hf.revealWords && __twk) window.__hf.revealWords(tl, __twk, 0.15, { stagger: 0.05 });
             window.__timelines["tickerboard"] = tl;
             var cid = (typeof __hfTimelineCompId !== "undefined" && __hfTimelineCompId)
               || (typeof __hfCompId !== "undefined" && __hfCompId)

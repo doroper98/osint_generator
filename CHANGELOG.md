@@ -28,6 +28,20 @@ released 항목은 **append-only**입니다.
 
 ---
 
+## [v0.34.19] — 2026-06-07
+
+**모션 내재화를 파이프라인에 적용** — 모든 차트 컴포넌트·텍스트 씬 헤딩에 SplitText 단어
+reveal, compose 컴포지션이 hf-motion 로드. v0.34.18 의 `hf-motion.js` 를 실제 영상에 입힘.
+
+### Changed
+
+- 5개 차트 컴포넌트(candle/line/bar/donut/tickerboard): head 에 `hf-motion.js` 로드 +
+  takeaway 를 `revealWords`(SplitText) 로 단어별 등장.
+- `compose-hyperframes`: 컴포지션이 hf-motion 로드 + 텍스트 씬 헤딩 `revealWords` + 본문 fade.
+  SpaceX 영상의 모든 씬 제목이 단어별로 등장.
+
+---
+
 ## [v0.34.18] — 2026-06-07
 
 **모션·타이포 스킬 내재화 — gsap-skills(MIT) + taste-skill(MIT) 흡수**. AI 애니메이션 품질을

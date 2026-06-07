@@ -578,10 +578,14 @@ def render_composition_html(
                 f'        </div>\n'
                 f'      </div>'
             )
-            # 텍스트 씬 등장 애니(루트 타임라인). 단일 transform.
+            # 텍스트 씬 등장(모션 내재화): 카드 fade + 헤딩 SplitText reveal + 본문 fade.
             text_anim.append(
-                f'      tl.fromTo("#{host_id} .text-card", {{ opacity: 0, y: 24 }}, '
-                f'{{ opacity: 1, y: 0, duration: 0.6, ease: "power2.out" }}, {s});'
+                f'      tl.fromTo("#{host_id} .text-card", {{ opacity: 0 }}, '
+                f'{{ opacity: 1, duration: 0.5, ease: "power2.out" }}, {s});\n'
+                f'      if (window.__hf) window.__hf.revealWords(tl, '
+                f'document.querySelector("#{host_id} .text-heading"), {s} + 0.15, {{ stagger: 0.05 }});\n'
+                f'      tl.fromTo("#{host_id} .text-body", {{ opacity: 0, y: 18 }}, '
+                f'{{ opacity: 1, y: 0, duration: 0.6, ease: "power2.out" }}, {s} + 0.4);'
             )
 
     # 자막 큐 JS 배열 (절대 타임라인).
@@ -617,6 +621,7 @@ _COMPOSITION_TEMPLATE = """<!doctype html>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=@@WIDTH@@, height=@@HEIGHT@@" />
     <script src="@@ASSETS@@/gsap.min.js"></script>
+    <script src="@@ASSETS@@/../lib/motion/hf-motion.js"></script>
     <style>
       @font-face {
         font-family: "Pretendard Variable";

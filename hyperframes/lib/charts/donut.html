@@ -17,6 +17,7 @@
   <head>
     <meta charset="UTF-8" />
     <script src="assets/gsap.min.js"></script>
+    <script src="lib/motion/hf-motion.js"></script>
   </head>
   <body>
     <template id="donut-template">
@@ -162,6 +163,9 @@
               tl.fromTo(g, { opacity: 0, x: 16 }, { opacity: 1, x: 0, duration: 0.4, ease: "power2.out" }, drawStart + 0.8 + i * 0.12);
             });
 
+            // 헤드라인 SplitText reveal (모션 내재화 hf-motion, 있으면).
+            var __twk = root.querySelector('[data-role="takeaway"]');
+            if (window.__hf && window.__hf.revealWords && __twk) window.__hf.revealWords(tl, __twk, 0.15, { stagger: 0.05 });
             window.__timelines["donut"] = tl;
             var cid = (typeof __hfTimelineCompId !== "undefined" && __hfTimelineCompId)
               || (typeof __hfCompId !== "undefined" && __hfCompId)
