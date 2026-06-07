@@ -2593,3 +2593,16 @@ last_review: 2026-06-06
   자동재생하므로(로그인 본인은 비공개여도 열람) 링크 하나로 모션 확인 가능.
 - 검증: gif 389KB / mp4 100KB, 8종 모션(reveal/chars/countUp/spring/line+callout/bar/donut/
   crossfade) 진행→완료 캡처 확인.
+
+## 2026-06-07 v0.36.8 — 고급 모션 데모 2탄(motion_demo2) — plugins 스킬 기법 자체구현
+
+- 무엇을: hyperframes/motion_demo2.{html,gif,mp4}. gsap-skills plugins/utils 스킬의 고급
+  기법을 core gsap + 타임라인 seek 로 플러그인 의존 없이 8종 구현:
+  MotionPath(점이 path 주행 + 라인 draw), masked wipe reveal, odometer 롤링 숫자,
+  ScrambleText(시드 고정), camera push-in/parallax, 3D flip card, particle burst(시드 고정),
+  sheen sweep.
+- 왜: 사용자 — "기본 수준 말고 스킬 저장소의 진짜 모션을 보여달라". MOTION_SKILLS.md 가
+  Flip/MorphSVG/MotionPath 를 "◐ 후속"으로 미뤄둔 상태였음(능력 부재가 아니라 미구현).
+- 검증: node --check + chrome-headless seek 캡처(31프레임, t=0~3.0)로 진행/완료 확인 후 인코딩.
+- 후속(원하면): 이 중 채택분을 차트/씬 컴포넌트에 실제 반영(MotionPath→라인, odometer/scramble
+  →값, parallax→인트로 씬, particle→마일스톤, sheen→헤드라인).
