@@ -853,7 +853,7 @@ def _cmd_compose_hyperframes(args: argparse.Namespace) -> int:
     print(f"compose-hyperframes 완료: {args.project_id}")
     print(f"  씬 {len(scenes)} 개 (메인차트 {n_chart} / 티커보드 {n_board} / SVG폴백 {n_svg} / 텍스트 {n_text})")
     print(f"  출력: {path}")
-    print(f"  렌더: cd hyperframes && npx hyperframes render -c generated/{path.name}")
+    print(f"  렌더: cd hyperframes && npx --yes hyperframes@0.6.76 render -c generated/{path.name}")
     return 0
 
 
@@ -936,7 +936,7 @@ def _compose_with_narration(args: argparse.Namespace, bundle: Any, plan: Any) ->
     print(f"  씬 {len(scenes)} 개 / 자막 큐 {len(cues)} 개 / 총 {result.total_sec:.2f}s")
     print(f"  오디오: {result.audio_path}")
     print(f"  출력: {out_path}")
-    print(f"  렌더: cd hyperframes && npx hyperframes render -c generated/{out_path.name}")
+    print(f"  렌더: cd hyperframes && npx --yes hyperframes@0.6.76 render -c generated/{out_path.name}")
     return True
 
 

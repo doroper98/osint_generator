@@ -2536,3 +2536,14 @@ last_review: 2026-06-06
 - 검증: 생성물 위치(generated/assets/audio/<pid>.mp3) + HTML src="assets/audio/.." 확인.
   unittest 400개 통과. 실 렌더 재검증 사용자 PC.
 - C10: 버그 수정 PATCH → 면제.
+
+## 2026-06-07 v0.36.3 — 렌더 안내 메시지를 고정 버전(hyperframes@0.6.76)으로
+
+- 무엇을: compose-hyperframes 의 렌더 안내 print 를 `npx hyperframes render` →
+  `npx --yes hyperframes@0.6.76 render` 로. package.json 의 핀과 일치.
+- 왜: 사용자가 무음 컴포지션조차 `Runtime ready: false / zero duration`(JS 에러 0)으로
+  렌더 실패. 원인 추정 = `npx hyperframes`(latest 0.6.79)와 프로젝트 타깃(0.6.76)의 런타임
+  "ready" 규약 불일치. 안내가 bare npx 라 사용자가 0.6.79 를 받았다. package.json scripts 는
+  이미 0.6.76 핀.
+- 검증: 메시지 문자열만 변경(py_compile). 실 렌더 0.6.76 검증은 사용자 PC.
+- 후속: 0.6.76 으로도 실패하면 런타임 ready 규약 자체를 재점검(컴포지션 init 계약).
