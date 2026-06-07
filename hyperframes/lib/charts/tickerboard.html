@@ -16,6 +16,9 @@
 ]'>
   <head>
     <meta charset="UTF-8" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,700;6..72,800&family=Noto+Serif+KR:wght@400;700;900&family=IBM+Plex+Sans+KR:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@500;600;700&display=swap" rel="stylesheet">
     <script src="assets/gsap.min.js"></script>
     <script src="lib/motion/hf-motion.js"></script>
   </head>
@@ -23,10 +26,15 @@
     <template id="tickerboard-template">
       <div data-composition-id="tickerboard" data-width="1920" data-height="1080">
         <style>
+          [data-theme="editorial_cream"]{--bg:#F2EBDB;--card:#ECE3D0;--border:#D4C8B0;--text:#1F1814;--muted:#6B5C4A;--accent:#B05A38;--up:#4A6B3E;--down:#8B2A2A;}
+          [data-theme="burgundy_mono"]{--bg:#2A0F18;--card:#371721;--border:#5A2832;--text:#EFE5D1;--muted:#A88E7A;--accent:#D4A858;--up:#A8B582;--down:#C9837A;}
+          [data-theme="midnight_indigo"]{--bg:#161A2E;--card:#1F2440;--border:#3A4060;--text:#E8ECEF;--muted:#8A92A8;--accent:#6FB3FF;--up:#88B888;--down:#DC7A7A;}
+          [data-theme="pine_forest"]{--bg:#132019;--card:#1B2C22;--border:#32503E;--text:#E7EEE8;--muted:#8AA294;--accent:#7CC6A4;--up:#88B888;--down:#DC7A7A;}
+          [data-theme="graphite_slate"]{--bg:#191B1E;--card:#23262B;--border:#3D424A;--text:#E9EBED;--muted:#969BA3;--accent:#D69A5E;--up:#88B888;--down:#DC7A7A;}
           [data-composition-id="tickerboard"] {
             position: absolute; inset: 0; width: 1920px; height: 1080px; background: transparent;
-            font-family: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-            color: #16130f; word-break: keep-all; overflow-wrap: anywhere;
+            font-family: 'IBM Plex Sans KR', Pretendard, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            color: var(--text); word-break: keep-all; overflow-wrap: anywhere;
           }
           [data-composition-id="tickerboard"] .hf-stage {
             /* 카드를 stage 상단(150px)에 고정 — topline(116px) 아래로 확실히 내려감.
@@ -35,15 +43,15 @@
             display: flex; align-items: flex-start; justify-content: center;
           }
           [data-composition-id="tickerboard"] .hf-card {
-            width: 1520px; background: #fbf9f4; border-radius: 18px; border: 1px solid #e2dccf;
-            box-shadow: 0 1px 2px rgba(22,19,15,0.05); padding: 56px;
+            width: 1520px; background: var(--card); border-radius: 18px; border: 1px solid var(--border);
+            box-shadow: 0 1px 2px rgba(0,0,0,0.18); padding: 56px;
           }
           [data-composition-id="tickerboard"] .hf-takeaway {
-            font-size: 56px; font-weight: 900; line-height: 1.15; letter-spacing: -0.3px;
-            color: #16130f; margin-bottom: 24px;
+            font-family: 'Newsreader', 'Noto Serif KR', Pretendard, Georgia, serif; font-size: 56px; font-weight: 700; line-height: 1.15; letter-spacing: -0.3px;
+            color: var(--text); margin-bottom: 24px;
           }
           [data-composition-id="tickerboard"] svg.hf-chart { display: block; width: 1408px; height: 500px; overflow: visible; }
-          [data-composition-id="tickerboard"] .hf-source { margin-top: 20px; font-size: 22px; font-weight: 600; color: #9b9082; letter-spacing: -0.2px; }
+          [data-composition-id="tickerboard"] .hf-source { margin-top: 20px; font-family: 'IBM Plex Mono', ui-monospace, Menlo, monospace; font-size: 20px; font-weight: 500; color: var(--muted); letter-spacing: -0.2px; }
         </style>
 
         <div class="hf-stage">
@@ -78,11 +86,12 @@
             if (hostVV) { try { hostVals = JSON.parse(hostVV.getAttribute("data-variable-values")) || {}; } catch (e) { hostVals = {}; } }
             var V = Object.assign({}, gv, hostVals);
 
-            var upColor = V.upColor || D.upColor;
-            var downColor = V.downColor || D.downColor;
+            var upColor = "var(--up)";
+            var downColor = "var(--down)";
             var items = parseJSON(V.items, D.items);
             var drawStart = V.drawStart != null ? +V.drawStart : D.drawStart;
             root.querySelector('[data-role="takeaway"]').textContent = V.takeaway != null ? V.takeaway : D.takeaway;
+            if (V.theme) root.setAttribute("data-theme", V.theme);
             (function () {
               var el = root.querySelector('[data-role="source"]'); if (!el) return;
               var p = [];
@@ -114,12 +123,12 @@
               parts.push('<g class="hf-cell" data-i="' + i + '" style="opacity:0">');
               // 셀 배경
               parts.push('<rect x="' + r1(ox) + '" y="' + r1(oy) + '" width="' + r1(cellW) + '" height="' + r1(cellH) +
-                '" rx="12" fill="#fbfcfb" stroke="rgba(26,26,26,0.06)"/>');
+                '" rx="12" fill="var(--bg)" stroke="var(--border)"/>');
               // 티커명
-              parts.push('<text x="' + r1(ox + 22) + '" y="' + r1(oy + 40) + '" fill="#16130f" font-size="26" font-weight="800">' +
+              parts.push('<text x="' + r1(ox + 22) + '" y="' + r1(oy + 40) + '" fill="var(--text)" font-size="26" font-weight="800">' +
                 esc(it.name || "") + '</text>');
               // 최근값
-              parts.push('<text x="' + r1(ox + 22) + '" y="' + r1(oy + 78) + '" fill="#16130f" font-size="30" font-weight="900">' +
+              parts.push('<text x="' + r1(ox + 22) + '" y="' + r1(oy + 78) + '" fill="var(--text)" font-size="30" font-weight="900">' +
                 fmtNum(last) + (unit ? ' ' + esc(unit) : '') + '</text>');
               // 등락%
               parts.push('<text x="' + r1(ox + cellW - 22) + '" y="' + r1(oy + 78) + '" fill="' + col2 +

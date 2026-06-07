@@ -16,6 +16,9 @@
 ]'>
   <head>
     <meta charset="UTF-8" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,700;6..72,800&family=Noto+Serif+KR:wght@400;700;900&family=IBM+Plex+Sans+KR:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@500;600;700&display=swap" rel="stylesheet">
     <script src="assets/gsap.min.js"></script>
     <script src="lib/motion/hf-motion.js"></script>
   </head>
@@ -23,25 +26,30 @@
     <template id="bar-template">
       <div data-composition-id="bar" data-width="1920" data-height="1080">
         <style>
+          [data-theme="editorial_cream"]{--bg:#F2EBDB;--card:#ECE3D0;--border:#D4C8B0;--text:#1F1814;--muted:#6B5C4A;--accent:#B05A38;--up:#4A6B3E;--down:#8B2A2A;}
+          [data-theme="burgundy_mono"]{--bg:#2A0F18;--card:#371721;--border:#5A2832;--text:#EFE5D1;--muted:#A88E7A;--accent:#D4A858;--up:#A8B582;--down:#C9837A;}
+          [data-theme="midnight_indigo"]{--bg:#161A2E;--card:#1F2440;--border:#3A4060;--text:#E8ECEF;--muted:#8A92A8;--accent:#6FB3FF;--up:#88B888;--down:#DC7A7A;}
+          [data-theme="pine_forest"]{--bg:#132019;--card:#1B2C22;--border:#32503E;--text:#E7EEE8;--muted:#8AA294;--accent:#7CC6A4;--up:#88B888;--down:#DC7A7A;}
+          [data-theme="graphite_slate"]{--bg:#191B1E;--card:#23262B;--border:#3D424A;--text:#E9EBED;--muted:#969BA3;--accent:#D69A5E;--up:#88B888;--down:#DC7A7A;}
           [data-composition-id="bar"] {
             position: absolute; inset: 0; width: 1920px; height: 1080px; background: transparent;
-            font-family: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-            color: #16130f; word-break: keep-all; overflow-wrap: anywhere;
+            font-family: 'IBM Plex Sans KR', Pretendard, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            color: var(--text); word-break: keep-all; overflow-wrap: anywhere;
           }
           [data-composition-id="bar"] .hf-stage {
             position: absolute; top: 150px; left: 0; right: 0; bottom: 110px;
             display: flex; align-items: flex-start; justify-content: center;
           }
           [data-composition-id="bar"] .hf-card {
-            width: 1520px; background: #fbf9f4; border-radius: 18px; border: 1px solid #e2dccf;
-            box-shadow: 0 1px 2px rgba(22,19,15,0.05); padding: 56px;
+            width: 1520px; background: var(--card); border-radius: 18px; border: 1px solid var(--border);
+            box-shadow: 0 1px 2px rgba(0,0,0,0.18); padding: 56px;
           }
           [data-composition-id="bar"] .hf-takeaway {
-            font-size: 56px; font-weight: 900; line-height: 1.15; letter-spacing: -0.3px;
-            color: #16130f; margin-bottom: 24px;
+            font-family: 'Newsreader', 'Noto Serif KR', Pretendard, Georgia, serif; font-size: 56px; font-weight: 700; line-height: 1.15; letter-spacing: -0.3px;
+            color: var(--text); margin-bottom: 24px;
           }
           [data-composition-id="bar"] svg.hf-chart { display: block; width: 1408px; height: 500px; overflow: visible; }
-          [data-composition-id="bar"] .hf-source { margin-top: 20px; font-size: 22px; font-weight: 600; color: #9b9082; letter-spacing: -0.2px; }
+          [data-composition-id="bar"] .hf-source { margin-top: 20px; font-family: 'IBM Plex Mono', ui-monospace, Menlo, monospace; font-size: 20px; font-weight: 500; color: var(--muted); letter-spacing: -0.2px; }
         </style>
 
         <div class="hf-stage">
@@ -78,7 +86,7 @@
             if (hostVV) { try { hostVals = JSON.parse(hostVV.getAttribute("data-variable-values")) || {}; } catch (e) { hostVals = {}; } }
             var V = Object.assign({}, gv, hostVals);
 
-            var accent = V.accent || D.accent;
+            var accent = "var(--accent)";
             var unit = V.unit != null ? V.unit : D.unit;
             var bars = parseJSON(V.bars, D.bars);
             var highlight = V.highlight != null ? +V.highlight : D.highlight;
@@ -86,6 +94,7 @@
             var barStagger = V.barStagger != null ? +V.barStagger : D.barStagger;
             root.querySelector('[data-role="takeaway"]').textContent = V.takeaway != null ? V.takeaway : D.takeaway;
             setSourceFooter(root, V);
+            if (V.theme) root.setAttribute("data-theme", V.theme);
 
             var BASE = 416, TOP = 24, X0 = 120, X1 = 1308;
             var N = bars.length;
@@ -100,24 +109,24 @@
             var svg = root.querySelector('[data-role="chart"]');
             var parts = [];
             // baseline
-            parts.push('<line x1="' + X0 + '" y1="' + BASE + '" x2="' + X1 + '" y2="' + BASE + '" stroke="rgba(26,26,26,0.2)" stroke-width="1.5"/>');
+            parts.push('<line x1="' + X0 + '" y1="' + BASE + '" x2="' + X1 + '" y2="' + BASE + '" stroke="var(--border)" stroke-width="1.5"/>');
             // 막대 + 값/카테고리 라벨
             parts.push('<g data-role="bars">');
             for (var i = 0; i < N; i++) {
               var b = bars[i], cx = cxOf(i), h = hOf(+b.value), y = BASE - h;
-              var col = b.color || (i === highlight ? accent : "rgba(26,26,26,0.22)");
+              var col = b.color || (i === highlight ? accent : "var(--muted)");
               parts.push('<g class="hf-bar" data-i="' + i + '">');
               parts.push('<rect data-role="rect" x="' + r1(cx - barW / 2) + '" y="' + r1(y) + '" width="' + r1(barW) +
                 '" height="' + r1(h) + '" rx="6" fill="' + col + '"/>');
-              parts.push('<text data-role="val" x="' + r1(cx) + '" y="' + r1(y - 16) + '" fill="' + (i === highlight ? accent : "#16130f") +
+              parts.push('<text data-role="val" x="' + r1(cx) + '" y="' + r1(y - 16) + '" fill="' + (i === highlight ? accent : "var(--text)") +
                 '" font-size="30" font-weight="900" text-anchor="middle">' + fmtNum(+b.value) + '</text>');
-              parts.push('<text data-role="cat" x="' + r1(cx) + '" y="' + (BASE + 36) + '" fill="rgba(26,26,26,0.7)" ' +
+              parts.push('<text data-role="cat" x="' + r1(cx) + '" y="' + (BASE + 36) + '" fill="var(--muted)" ' +
                 'font-size="24" font-weight="700" text-anchor="middle">' + esc(b.label) + '</text>');
               parts.push('</g>');
             }
             parts.push('</g>');
             // 단위 캡션 우상단
-            parts.push('<text x="' + X1 + '" y="14" fill="rgba(26,26,26,0.45)" font-size="20" font-weight="600" text-anchor="end">단위 · ' + esc(unit) + '</text>');
+            parts.push('<text x="' + X1 + '" y="14" fill="var(--muted)" font-size="20" font-weight="600" text-anchor="end">단위 · ' + esc(unit) + '</text>');
             svg.innerHTML = parts.join("");
 
             if (typeof gsap === "undefined") return;

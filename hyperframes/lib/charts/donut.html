@@ -16,6 +16,9 @@
 ]'>
   <head>
     <meta charset="UTF-8" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,700;6..72,800&family=Noto+Serif+KR:wght@400;700;900&family=IBM+Plex+Sans+KR:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@500;600;700&display=swap" rel="stylesheet">
     <script src="assets/gsap.min.js"></script>
     <script src="lib/motion/hf-motion.js"></script>
   </head>
@@ -23,25 +26,30 @@
     <template id="donut-template">
       <div data-composition-id="donut" data-width="1920" data-height="1080">
         <style>
+          [data-theme="editorial_cream"]{--bg:#F2EBDB;--card:#ECE3D0;--border:#D4C8B0;--text:#1F1814;--muted:#6B5C4A;--accent:#B05A38;--up:#4A6B3E;--down:#8B2A2A;}
+          [data-theme="burgundy_mono"]{--bg:#2A0F18;--card:#371721;--border:#5A2832;--text:#EFE5D1;--muted:#A88E7A;--accent:#D4A858;--up:#A8B582;--down:#C9837A;}
+          [data-theme="midnight_indigo"]{--bg:#161A2E;--card:#1F2440;--border:#3A4060;--text:#E8ECEF;--muted:#8A92A8;--accent:#6FB3FF;--up:#88B888;--down:#DC7A7A;}
+          [data-theme="pine_forest"]{--bg:#132019;--card:#1B2C22;--border:#32503E;--text:#E7EEE8;--muted:#8AA294;--accent:#7CC6A4;--up:#88B888;--down:#DC7A7A;}
+          [data-theme="graphite_slate"]{--bg:#191B1E;--card:#23262B;--border:#3D424A;--text:#E9EBED;--muted:#969BA3;--accent:#D69A5E;--up:#88B888;--down:#DC7A7A;}
           [data-composition-id="donut"] {
             position: absolute; inset: 0; width: 1920px; height: 1080px; background: transparent;
-            font-family: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-            color: #16130f; word-break: keep-all; overflow-wrap: anywhere;
+            font-family: 'IBM Plex Sans KR', Pretendard, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            color: var(--text); word-break: keep-all; overflow-wrap: anywhere;
           }
           [data-composition-id="donut"] .hf-stage {
             position: absolute; top: 150px; left: 0; right: 0; bottom: 110px;
             display: flex; align-items: flex-start; justify-content: center;
           }
           [data-composition-id="donut"] .hf-card {
-            width: 1520px; background: #fbf9f4; border-radius: 18px; border: 1px solid #e2dccf;
-            box-shadow: 0 1px 2px rgba(22,19,15,0.05); padding: 56px;
+            width: 1520px; background: var(--card); border-radius: 18px; border: 1px solid var(--border);
+            box-shadow: 0 1px 2px rgba(0,0,0,0.18); padding: 56px;
           }
           [data-composition-id="donut"] .hf-takeaway {
-            font-size: 56px; font-weight: 900; line-height: 1.15; letter-spacing: -0.3px;
-            color: #16130f; margin-bottom: 24px;
+            font-family: 'Newsreader', 'Noto Serif KR', Pretendard, Georgia, serif; font-size: 56px; font-weight: 700; line-height: 1.15; letter-spacing: -0.3px;
+            color: var(--text); margin-bottom: 24px;
           }
           [data-composition-id="donut"] svg.hf-chart { display: block; width: 1408px; height: 500px; overflow: visible; }
-          [data-composition-id="donut"] .hf-source { margin-top: 20px; font-size: 22px; font-weight: 600; color: #9b9082; letter-spacing: -0.2px; }
+          [data-composition-id="donut"] .hf-source { margin-top: 20px; font-family: 'IBM Plex Mono', ui-monospace, Menlo, monospace; font-size: 20px; font-weight: 500; color: var(--muted); letter-spacing: -0.2px; }
         </style>
 
         <div class="hf-stage">
@@ -89,6 +97,7 @@
             var drawStart = V.drawStart != null ? +V.drawStart : D.drawStart;
             root.querySelector('[data-role="takeaway"]').textContent = V.takeaway != null ? V.takeaway : D.takeaway;
             setSourceFooter(root, V);
+            if (V.theme) root.setAttribute("data-theme", V.theme);
 
             var PALETTE = ["#b5482e", "#f0883e", "#5aa9e6", "#7d8597", "#c9cdd4"];
             var total = 0; slices.forEach(function (s) { total += +s.value; });
@@ -99,7 +108,7 @@
             var parts = [];
 
             // 트랙(배경 링)
-            parts.push('<circle cx="' + CX + '" cy="' + CY + '" r="' + R + '" fill="none" stroke="rgba(26,26,26,0.06)" stroke-width="' + TH + '"/>');
+            parts.push('<circle cx="' + CX + '" cy="' + CY + '" r="' + R + '" fill="none" stroke="var(--border)" stroke-width="' + TH + '"/>');
 
             // arc 슬라이스
             var acc = 0, arcMeta = [];
@@ -108,13 +117,13 @@
               var a0 = acc * 360 + GAP / 2, a1 = (acc + frac) * 360 - GAP / 2;
               acc += frac;
               if (a1 <= a0) a1 = a0 + 0.1;
-              var col = s.color || PALETTE[i % PALETTE.length];
+              var col = "var(--accent)"; var _op = [1, 0.72, 0.52, 0.38, 0.28][i % 5];
               var p0 = polar(CX, CY, R, a0), p1 = polar(CX, CY, R, a1);
               var large = (a1 - a0) > 180 ? 1 : 0;
               var arcLen = ((a1 - a0) / 360) * C;
               parts.push('<path data-role="arc" data-i="' + i + '" d="M ' + r1(p0.x) + ' ' + r1(p0.y) +
                 ' A ' + R + ' ' + R + ' 0 ' + large + ' 1 ' + r1(p1.x) + ' ' + r1(p1.y) + '" fill="none" stroke="' + col +
-                '" stroke-width="' + TH + '" stroke-linecap="butt" ' +
+                '" stroke-opacity="' + _op + '" stroke-width="' + TH + '" stroke-linecap="butt" ' +
                 'style="stroke-dasharray:' + r1(arcLen) + ' ' + r1(C) + ';stroke-dashoffset:' + r1(arcLen) + ';"/>');
               arcMeta.push({ i: i });
             });
@@ -122,24 +131,24 @@
             // 중앙 텍스트
             parts.push('<text data-role="center" x="' + CX + '" y="' + (CY - 8) + '" fill="rgba(26,26,26,0.55)" font-size="24" ' +
               'font-weight="700" text-anchor="middle" style="opacity:0">' + esc(centerLabel) + '</text>');
-            parts.push('<text data-role="center" x="' + CX + '" y="' + (CY + 40) + '" fill="#16130f" font-size="58" ' +
+            parts.push('<text data-role="center" x="' + CX + '" y="' + (CY + 40) + '" fill="var(--text)" font-size="58" ' +
               'font-weight="900" text-anchor="middle" style="opacity:0">' + esc(centerValue) + '</text>');
 
             // 우측 직접 라벨 리스트
             var LX = 740, rowH = 76, startY = CY - (slices.length - 1) * rowH / 2;
             slices.forEach(function (s, i) {
-              var col = s.color || PALETTE[i % PALETTE.length];
+              var col = "var(--accent)"; var _op = [1, 0.72, 0.52, 0.38, 0.28][i % 5];
               var ry = startY + i * rowH, pct = Math.round((+s.value) / total * 1000) / 10;
               parts.push('<g data-role="legend" data-i="' + i + '" style="opacity:0">');
-              parts.push('<rect x="' + LX + '" y="' + r1(ry - 22) + '" width="30" height="30" rx="7" fill="' + col + '"/>');
-              parts.push('<text x="' + (LX + 48) + '" y="' + r1(ry) + '" fill="#16130f" font-size="30" font-weight="800" dominant-baseline="middle">' +
+              parts.push('<rect x="' + LX + '" y="' + r1(ry - 22) + '" width="30" height="30" rx="7" fill="' + col + '" fill-opacity="' + _op + '"/>');
+              parts.push('<text x="' + (LX + 48) + '" y="' + r1(ry) + '" fill="var(--text)" font-size="30" font-weight="800" dominant-baseline="middle">' +
                 esc(s.label) + '</text>');
               // 값이 이미 % 면 비중 sub-line 은 중복이라 생략. 절대값이면 계산된 % 를 보조 표기.
               var pctRedundant = (unit === "%");
-              parts.push('<text x="' + (LX + 600) + '" y="' + r1(pctRedundant ? ry : ry - 10) + '" fill="#16130f" font-size="30" font-weight="900" text-anchor="end" dominant-baseline="middle">' +
+              parts.push('<text x="' + (LX + 600) + '" y="' + r1(pctRedundant ? ry : ry - 10) + '" fill="var(--text)" font-size="30" font-weight="900" text-anchor="end" dominant-baseline="middle">' +
                 fmtNum(+s.value) + esc(unit) + '</text>');
               if (!pctRedundant) {
-                parts.push('<text x="' + (LX + 600) + '" y="' + r1(ry + 18) + '" fill="rgba(26,26,26,0.45)" font-size="18" font-weight="600" text-anchor="end" dominant-baseline="middle">' +
+                parts.push('<text x="' + (LX + 600) + '" y="' + r1(ry + 18) + '" fill="var(--muted)" font-size="18" font-weight="600" text-anchor="end" dominant-baseline="middle">' +
                   pct + '% 비중</text>');
               }
               parts.push('</g>');

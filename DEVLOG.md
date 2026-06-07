@@ -2618,3 +2618,15 @@ last_review: 2026-06-06
 - 검증: py_compile + node --check + 하니스로 line 차트를 editorial_cream/midnight_indigo/
   graphite_slate 실렌더 캡처 확인(토큰·폰트·SVG var() 작동).
 - 다음(2/2): bar/donut/candle/tickerboard 동일 패턴 토큰화 → 전 컴포넌트 테마 일관.
+
+## 2026-06-07 v0.37.1 — 전면 테마 교체 2/2: bar/donut/candle/tickerboard 토큰화
+
+- 무엇을: 나머지 4개 차트 컴포넌트를 data-theme + CSS 변수로. 폰트 링크/토큰 블록/카드·
+  헤드라인(세리프)·출처(모노) 공통 적용 + JS SVG 색 리터럴을 var(--token) 으로.
+  - bar: 강조막대 var(--accent), 비강조 var(--muted), 값 카운트업 유지.
+  - donut: 단색 팔레트 폐기 → var(--accent) 농담 ramp(1/0.72/0.52/0.38/0.28)로 조각 구분.
+  - candle: 양봉 var(--accent) 채움 / 음봉 hollow, 콜아웃·끝점 토큰화.
+  - tickerboard: 셀 var(--bg)+var(--border), 등락 var(--up)/var(--down).
+  각 차트는 host 주입 theme 로 자기 root 에 data-theme 설정(sub-comp 은 CSS 변수 미상속이므로).
+- 검증: 4개 JS node --check + 하니스로 bar(midnight_indigo)/donut(graphite_slate) 실렌더 확인.
+- 주의(미검증): candle/tickerboard 는 실렌더 미확인(동일 패턴+문법 통과) — 사용자 렌더 확인 권장.
