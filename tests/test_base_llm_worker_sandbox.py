@@ -22,9 +22,11 @@ import tempfile
 import unittest
 from pathlib import Path
 from typing import ClassVar, Type
+from unittest import mock
 
 from pydantic import Field
 
+import workers.base_llm_worker as blw
 from schemas.models import TaskQueueItem, VersionedModel
 from workers.base_llm_worker import (
     CLI_INVOCATION,
@@ -286,6 +288,67 @@ class TestPlaceholderFailFast(_ScratchTestBase):
         body = 'please output {"schema_version": 1}'
         cmd = w._build_invocation_cmd(self._args("t-001"), body)
         self.assertIn(body, cmd)
+
+
+# ---------------------------------------------------------------------------
+# 5. LLM-AP-006: codex response 프롬프트 stdin 경유 + Windows .cmd 셈 실행 해석
+# ---------------------------------------------------------------------------
+
+
+class TestStdinPromptAndLauncher(_ScratchTestBase):
+    def test_codex_response_argv_excludes_prompt(self) -> None:
+        # codex response 템플릿엔 {prompt} 가 없어야 한다 (프롬프트는 stdin 으로 넘김).
+        w = _ResponseCodexWorker()
+        cmd = w._build_invocation_cmd(self._args("t-001"), "THE_PROMPT_BODY")
+        self.assertNotIn("THE_PROMPT_BODY", cmd)
+        self.assertEqual(cmd[:2], ["codex", "exec"])
+        template = CLI_INVOCATION[("codex", "response")]
+        self.assertFalse(
+            any("{prompt}" in seg for seg in template),
+            "codex response 는 prompt 를 stdin 으로 넘기므로 argv 에 {prompt} 가 없어야 함",
+        )
+
+    def test_claude_response_keeps_prompt_in_argv(self) -> None:
+        # claude response 는 여전히 argv 경유 (-p {prompt}) — 회귀 방지.
+        w = _ResponseClaudeWorker()
+        cmd = w._build_invocation_cmd(self._args("t-001"), "THE_PROMPT_BODY")
+        self.assertIn("THE_PROMPT_BODY", cmd)
+
+    def test_codex_agent_keeps_prompt_in_argv(self) -> None:
+        # agent 모드는 prompt 를 마지막 argv 로 유지 (stdin 전환 대상 아님).
+        w = _AgentCodexWorker()
+        cmd = w._build_invocation_cmd(self._args("t-001"), "THE_PROMPT_BODY")
+        self.assertEqual(cmd[-1], "THE_PROMPT_BODY")
+
+    def test_resolve_launcher_wraps_windows_cmd_shim(self) -> None:
+        fake = r"C:\Users\x\.npm-global\codex.cmd"
+        comspec = r"C:\Windows\System32\cmd.exe"
+        with mock.patch.object(blw.shutil, "which", return_value=fake), \
+             mock.patch.object(blw.os, "name", "nt"), \
+             mock.patch.dict(blw.os.environ, {"COMSPEC": comspec}):
+            out = BaseLLMWorker._resolve_launcher(["codex", "exec", "--json"])
+        self.assertEqual(out, [comspec, "/c", fake, "exec", "--json"])
+
+    def test_resolve_launcher_posix_uses_plain_path(self) -> None:
+        fake = "/usr/local/bin/codex"
+        with mock.patch.object(blw.shutil, "which", return_value=fake), \
+             mock.patch.object(blw.os, "name", "posix"):
+            out = BaseLLMWorker._resolve_launcher(["codex", "exec"])
+        self.assertEqual(out, [fake, "exec"])
+
+    def test_resolve_launcher_windows_exe_not_wrapped(self) -> None:
+        # 실제 .exe 면 cmd /c 로 감싸지 않는다.
+        fake = r"C:\tools\codex.exe"
+        with mock.patch.object(blw.shutil, "which", return_value=fake), \
+             mock.patch.object(blw.os, "name", "nt"):
+            out = BaseLLMWorker._resolve_launcher(["codex", "exec"])
+        self.assertEqual(out, [fake, "exec"])
+
+    def test_resolve_launcher_missing_returns_original(self) -> None:
+        # which 가 None (미설치) → 원본 그대로 둬 FileNotFoundError 로 설치 안내 유지.
+        with mock.patch.object(blw.shutil, "which", return_value=None):
+            out = BaseLLMWorker._resolve_launcher(["codex", "exec"])
+        self.assertEqual(out, ["codex", "exec"])
 
 
 if __name__ == "__main__":

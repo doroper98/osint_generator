@@ -280,3 +280,49 @@ last_review: 2026-05-22
   반영이 필요하면 섹션 단위 분할 생성(다중 LLM 호출) 또는 더 긴 영상 포맷이 별도 과제.
 
 - **연관**: LLM-AP-001(claude wrapper), 계약 v1 §6(prose=나레이션 원천), CHANGELOG v0.20.x.
+
+---
+
+## LLM-AP-006 — Windows 에서 npm 으로 깐 `codex.cmd` 셈을 Python subprocess 가 못 띄워 폴백(`codex CLI not found: [WinError 2]`)
+
+- **증상 (symptom)**: 사용자 PC(Windows 11, Python 3.13)에서 `compose-hyperframes ... --planner
+  codex` 실행 시 `[stderr] llm subprocess error: codex CLI not found: [WinError 2] 지정된
+  파일을 찾을 수 없습니다.` → `플래너(codex) 실패 → 결정론 폴백`. 정작 cmd 창에서는
+  `codex --version` 이 `codex-cli 0.137.0` 으로 정상 동작.
+
+- **재현 (repro)**: `npm install -g @openai/codex` 로 codex 설치. `where codex` →
+  `...\.npm-global\codex` (Unix 셸 스크립트) + `...\.npm-global\codex.cmd` (배치 셈)만
+  존재하고 **`codex.exe` 는 PATH 에 없음**. `CLI_INVOCATION[("codex","response")]` 의
+  argv[0]=`"codex"` 를 `subprocess.run` 이 `CreateProcess` 로 띄우는데, CreateProcess 는
+  `.exe` 만 자동 인식하고 `.cmd`/`.bat` 은 직접 실행 못 한다 → FileNotFoundError.
+
+- **원인 (root cause)**: 두 겹.
+  1. **`.cmd` 셈 미해석**: argv[0] 을 PATH 에서 풀지 않고 raw `"codex"` 로 넘겨,
+     Windows 가 `codex.cmd` 셈을 못 찾았다(=WinError 2). npm 글로벌 설치는 `.exe` 가
+     아니라 `.cmd` 셈을 PATH 에 둔다.
+  2. **프롬프트 argv 전달의 cmd.exe 취약성**: 설령 `cmd /c codex.cmd ... "{prompt}"` 로
+     감싸도, cmd.exe 가 argv 를 재파싱하며 `%`(변수 확장)·`"`·`&` 등을 망가뜨린다.
+     번들 본문에 `20%`·따옴표가 흔해 프롬프트가 깨진다. (게다가 큰 프롬프트는
+     CreateProcess 32767자 한도에도 걸릴 수 있다.)
+
+- **구조적 조치 (structural fix, v0.35.1)**:
+  - `workers/base_llm_worker.py:_resolve_launcher` 신설: `shutil.which` 로 argv[0] 을
+    풀 경로(PATHEXT 존중 → `.cmd` 발견)로 해석. Windows + `.cmd`/`.bat` 이면
+    `COMSPEC /c <shim> ...` 로 감싼다. which 가 못 찾으면(미설치) 원본을 그대로 둬
+    기존 `FileNotFoundError` → 설치 안내 경로를 유지.
+  - codex response 템플릿에서 `{prompt}` 를 제거하고, `_invoke_llm` 이 템플릿에
+    `{prompt}` 가 없으면 프롬프트를 **stdin** 으로 넘긴다. cmd.exe argv 재파싱과
+    argv 길이 한도를 동시에 우회. claude response(`-p {prompt}`)·codex agent(마지막
+    argv 프롬프트)는 그대로 둬 회귀 없음.
+
+- **상태 (status)**: `resolved` (response 모드, Windows npm codex 0.137.0 경로). 단위 테스트
+  `tests/test_base_llm_worker_sandbox.py:TestStdinPromptAndLauncher` 7건으로 잠금
+  (cmd 셈 wrapping / posix 평문 / .exe 비-wrapping / 미설치 passthrough / argv 의 prompt
+  부재·존재). 실 codex end-to-end 재검증은 사용자 PC.
+
+- **알려진 한계**: codex agent 모드는 여전히 프롬프트를 argv 마지막으로 넘기므로
+  Windows `.cmd` + cmd.exe 재파싱 취약성이 남아 있다(현재 주 경로는 response 라 범위 밖).
+  또한 codex response 의 stdin 수신은 `codex exec` 가 positional prompt 부재 시 stdin 을
+  읽는다는 전제에 의존한다(codex 0.137 기준). codex CLI 메이저 갱신 시 재확인 필요.
+
+- **연관**: ADDENDUM_04 §5(CLI 인터페이스), LLM-AP-004(cwd 오염), C2(Windows cp949 incident DEVLOG v0.15.2).

@@ -2446,3 +2446,19 @@ last_review: 2026-06-06
   자막·사실 가드(999조/5000억 라벨) 확인.
 - 후속: 03_AGENT_ARCHITECTURE/CATALOGS 워커 표 동기화(C7), 차트 type 재지정 소비(전면 위임 잔여),
   codex 외부 리뷰 반영(C10.1 MINOR 트리거).
+
+## 2026-06-07 v0.35.1 — Windows codex.cmd 셈 실행 + 프롬프트 stdin 전환 (LLM-AP-006)
+
+- 무엇을: BaseLLMWorker 의 codex 호출이 Windows npm 설치(`codex.cmd` 셈)에서 폴백하던 버그 수정.
+  (a) `_resolve_launcher`: `shutil.which` 로 argv[0] 풀 경로 해석, Windows `.cmd`/`.bat` 이면
+  `COMSPEC /c` 로 감쌈. (b) codex response 프롬프트를 argv → **stdin** 으로 전환(cmd.exe 의
+  `%`·`"`·`&` 재파싱 및 argv 길이 한도 우회). claude response·codex agent 는 불변.
+- 왜: 사용자 PC(Windows 11, Python 3.13, codex-cli 0.137.0)에서 `--planner codex` 가
+  `codex CLI not found: [WinError 2]` 로 결정론 폴백. cmd 창에선 `codex --version` 정상인데
+  `subprocess` 가 `CreateProcess` 로 `.cmd` 를 못 띄운 것(.exe 만 인식). 실 데이터
+  (agents_reviewer 번들 「AI 메모리의 역설」)로 codex 연출 영상을 만들려는 흐름에서 발견.
+- 검증: unittest 99개 통과(신규 TestStdinPromptAndLauncher 7건 — cmd 셈 wrapping/posix 평문/
+  .exe 비-wrapping/미설치 passthrough/argv prompt 부재·존재). 실 codex end-to-end 는 사용자 PC.
+- 경계/한계: codex agent 모드는 여전히 argv 프롬프트(범위 밖). stdin 수신은 `codex exec` 가
+  positional 부재 시 stdin 을 읽는다는 전제(0.137 기준)에 의존 — 메이저 갱신 시 재확인.
+- 한계 기록: 사용자가 C10 외부 리뷰 면제를 명시(본 PATCH 는 버그 수정이라 C10.1 상 면제 대상).

@@ -86,9 +86,15 @@ CLI_INVOCATION: dict[tuple[str, str], list[str]] = {
     #   --skip-git-repo-check: project_dir 이 git repo 아니어도 실행 허용
     #   --color never: ANSI 코드 끼지 않게 안전장치
     #   --sandbox workspace-write: --cd 디렉토리 안에서만 write 허용 (agent 모드 전용)
+    # response 모드 프롬프트는 **argv 가 아니라 stdin** 으로 넘긴다 (LLM-AP-006).
+    #   - Windows: npm 으로 깐 codex 는 `codex.cmd` 셈이라 COMSPEC(/c) 경유로만 실행되는데,
+    #     cmd.exe 가 argv 를 재파싱하며 `%`·`"`·`&` 등을 망가뜨린다(번들에 "20%" 등 흔함).
+    #     stdin 으로 넘기면 cmd.exe 파싱을 우회한다.
+    #   - argv 길이 한도(Windows CreateProcess 32767) 도 함께 회피.
+    # 템플릿에 `{prompt}` 가 없으므로 _invoke_llm 이 stdin 경로로 인식한다.
     ("codex", "response"): [
         "codex", "exec", "--json", "--skip-git-repo-check",
-        "--color", "never", "{prompt}",
+        "--color", "never",
     ],
     ("codex", "agent"): [
         "codex", "exec", "--json", "--skip-git-repo-check",
@@ -448,6 +454,27 @@ class BaseLLMWorker(BaseWorker):
 
         return cmd
 
+    @staticmethod
+    def _resolve_launcher(cmd: list[str]) -> list[str]:
+        """argv[0] 을 실제 실행 파일 경로로 해석한다 (LLM-AP-006).
+
+        - `shutil.which` 로 PATH + PATHEXT 를 존중해 풀 경로를 찾는다. Windows 에서
+          npm 으로 깐 CLI 는 `codex.cmd`/`claude.cmd` 셈이므로 which 가 그 `.cmd` 를
+          찾아낸다.
+        - 찾은 경로가 Windows `.cmd`/`.bat` 이면 `CreateProcess` 가 직접 못 띄우므로
+          `COMSPEC /c <shim> ...` 로 감싼다.
+        - which 가 못 찾으면 (미설치) 원본을 그대로 둬 subprocess 가
+          `FileNotFoundError` 를 던지게 한다 → 기존 설치 안내 경로 유지.
+        """
+        exe = shutil.which(cmd[0])
+        if exe is None:
+            return cmd
+        rest = cmd[1:]
+        if os.name == "nt" and exe.lower().endswith((".cmd", ".bat")):
+            comspec = os.environ.get("COMSPEC", "cmd.exe")
+            return [comspec, "/c", exe, *rest]
+        return [exe, *rest]
+
     def _invoke_llm(
         self, args: argparse.Namespace, full_prompt: str
     ) -> tuple[str, int]:
@@ -464,6 +491,19 @@ class BaseLLMWorker(BaseWorker):
 
         cmd = self._build_invocation_cmd(args, full_prompt)
 
+        # LLM-AP-006: 템플릿에 `{prompt}` 가 없으면 프롬프트를 argv 가 아니라 stdin 으로
+        # 넘긴다 (codex response). Windows cmd.exe 의 argv 재파싱 / argv 길이 한도를 우회.
+        template = CLI_INVOCATION.get((self.llm_backend, self.llm_mode))
+        prompt_via_stdin = template is not None and not any(
+            "{prompt}" in seg for seg in template
+        )
+        stdin_data: Optional[str] = full_prompt if prompt_via_stdin else None
+
+        # LLM-AP-006: argv[0] 을 실제 실행 파일로 해석한다. Windows 에서 npm 으로 깐
+        # CLI 는 `codex.cmd`/`claude.cmd` 셈이라 CreateProcess 가 직접 못 띄운다
+        # (`.exe` 만 인식 → WinError 2). COMSPEC(/c) 로 감싸 실행한다.
+        cmd = self._resolve_launcher(cmd)
+
         # LLM-AP-004: subprocess 를 repo 밖 중립 디렉토리에서 실행한다. `claude` 는 cwd
         # 에서 위로 올라가며 CLAUDE.md / .claude/settings (훅) 를 자동 탐색하는데, repo
         # cwd 면 그것들이 컨텍스트를 오염시켜 응답이 도메인 JSON 대신 repo 작업 지시로
@@ -474,6 +514,7 @@ class BaseLLMWorker(BaseWorker):
         try:
             proc = subprocess.run(
                 cmd,
+                input=stdin_data,
                 capture_output=True,
                 text=True,
                 timeout=self.invoke_timeout_sec,
@@ -763,7 +804,7 @@ def _unwrap_codex_response(raw: str) -> str:
 
 
 def _extract_json_block(text: str) -> str:
-    """도메인 JSON 문자열을 추출한다 (LLM-AP-005).
+    """도메인 JSON 문자열을 추출한다 (LLM-AP-006).
 
     모델이 형식 지시를 어기고 (a) markdown code fence 로 감싸거나 (b) 서두 설명
     텍스트를 붙이는 경우를 견고하게 처리한다. 처리 순서:
