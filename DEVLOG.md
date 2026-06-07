@@ -2574,3 +2574,13 @@ last_review: 2026-06-06
   - donut.html: 중앙 큰 값(숫자만 0→값, "%"·단위 접미 보존; 비숫자면 정적 유지).
 - 검증: 세 차트 인라인 JS node --check 통과. 실제 모션은 사용자 0.6.76 렌더로 확인.
 - 후속(미적용): 범례 값/축 숫자 카운트업, taste 다이얼(MOTION/DENSITY) 노브.
+
+## 2026-06-07 v0.36.6 — 그래픽 모션 쇼케이스 데모(motion_demo.html) 추가
+
+- 무엇을: hyperframes/motion_demo.html — 스탠드얼론 자동재생/루프 HTML. 차트·씬에 적용
+  가능한 모션 8종(revealWords/splitChars/countUp/spring easing/line draw+callout/
+  bar grow+countUp/donut arc+center/crossfade)을 한 화면에 모아 반복 재생.
+- 왜: 사용자가 "적용 가능한 그래픽 모션 데모를 보여달라"(영상 아니어도 HTML 가능).
+- 특징: ?t=초 쿼리로 모든 타임라인을 그 시점으로 seek 후 정지(실제 렌더 파이프라인과
+  동일한 결정론적 프레임 방식) — 헤드리스 캡처/검수 용이. 모션 코드는 hf-motion.js 패턴 자체 내장.
+- 검증: node --check 통과 + chrome-headless-shell 로 t=0.6/1.2/2.2 캡처 확인.

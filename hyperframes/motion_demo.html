@@ -1,0 +1,335 @@
+<!doctype html>
+<!--
+  motion_demo.html — 그래픽 모션 쇼케이스 (스탠드얼론, 자동재생/루프).
+  브라우저로 직접 열면 됨(렌더 불필요). 차트·씬에 적용 가능한 모션을 한 화면에 모아
+  반복 재생한다. 모션 코드는 hyperframes/lib/motion/hf-motion.js 의 패턴을 자체 내장.
+  실행: 이 파일을 더블클릭하거나 브라우저에 끌어다 놓기. (assets/gsap.min.js 상대참조)
+-->
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>그래픽 모션 데모 — OSINT 브리핑</title>
+    <script src="assets/gsap.min.js"></script>
+    <style>
+      @font-face {
+        font-family: "Pretendard Variable";
+        src: url("assets/fonts/PretendardVariable.woff2") format("woff2-variations");
+        font-weight: 100 900; font-style: normal; font-display: swap;
+      }
+      :root {
+        --bg: #f4f1ea; --card: #fbf9f4; --ink: #16130f; --muted: #6f6555;
+        --line: #e2dccf; --accent: #c0532f; --accent2: #d4a858;
+      }
+      * { box-sizing: border-box; }
+      body {
+        margin: 0; background: var(--bg); color: var(--ink);
+        font-family: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        word-break: keep-all; -webkit-font-smoothing: antialiased;
+      }
+      .wrap { max-width: 1280px; margin: 0 auto; padding: 40px 28px 72px; }
+      header { display: flex; align-items: baseline; gap: 16px; margin-bottom: 8px; }
+      .kicker { font-size: 14px; font-weight: 800; letter-spacing: 3px; color: var(--accent);
+        text-transform: uppercase; }
+      h1 { font-size: 34px; font-weight: 900; letter-spacing: -0.5px; margin: 6px 0 4px; }
+      .sub { color: var(--muted); font-size: 15px; margin-bottom: 28px; }
+      .grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 22px; }
+      @media (max-width: 880px) { .grid { grid-template-columns: 1fr; } }
+      .panel {
+        background: var(--card); border: 1px solid var(--line); border-radius: 16px;
+        padding: 22px 24px; box-shadow: 0 1px 2px rgba(22,19,15,.05);
+        min-height: 220px; display: flex; flex-direction: column;
+      }
+      .panel .tag {
+        align-self: flex-start; font-size: 12px; font-weight: 800; letter-spacing: 1px;
+        color: var(--accent); background: rgba(192,83,47,.09); border: 1px solid rgba(192,83,47,.18);
+        padding: 4px 10px; border-radius: 999px; margin-bottom: 4px;
+      }
+      .panel .desc { font-size: 13px; color: var(--muted); margin: 2px 0 14px; }
+      .stage { flex: 1; display: flex; align-items: center; justify-content: center; position: relative; }
+      .big-head { font-size: 40px; font-weight: 900; letter-spacing: -1px; line-height: 1.1; text-align: center; }
+      .word { display: inline-block; }
+      .char { display: inline-block; }
+      .count { font-size: 64px; font-weight: 900; letter-spacing: -2px; }
+      .count .unit { font-size: 28px; font-weight: 800; color: var(--muted); margin-left: 4px; }
+      .springs { display: flex; gap: 14px; align-items: flex-end; }
+      .chip {
+        padding: 14px 18px; border-radius: 12px; font-weight: 800; color: #fff; font-size: 15px;
+        box-shadow: 0 6px 18px rgba(22,19,15,.12);
+      }
+      svg { display: block; overflow: visible; }
+      .cf-a, .cf-b { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
+        flex-direction: column; border-radius: 12px; }
+      .cf-a { background: linear-gradient(135deg,#c0532f,#d4a858); color: #fff; }
+      .cf-b { background: linear-gradient(135deg,#2f6fc0,#58c0a8); color: #fff; }
+      .cf-t { font-size: 26px; font-weight: 900; }
+      .cf-s { font-size: 14px; opacity: .9; margin-top: 4px; }
+      footer { margin-top: 30px; color: var(--muted); font-size: 13px; text-align: center; }
+      code { background: rgba(22,19,15,.06); padding: 1px 6px; border-radius: 5px; font-size: 12px; }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <header>
+        <span class="kicker">Motion Showcase</span>
+      </header>
+      <h1>적용 가능한 그래픽 모션</h1>
+      <div class="sub">스킬 저장소(gsap-skills / taste-skill) 내재화 자산을 차트·씬에 적용한 모습. 자동 반복 재생됩니다.</div>
+
+      <div class="grid">
+        <!-- 1. 텍스트 단어 등장 -->
+        <div class="panel">
+          <span class="tag">revealWords</span>
+          <div class="desc">헤드라인을 단어 단위로 아래에서 위로 stagger 등장 (ease: expo.out)</div>
+          <div class="stage"><div class="big-head" id="m-reveal">쥐어짤수록 더 부른다</div></div>
+        </div>
+
+        <!-- 2. 글자 스크램블/등장 -->
+        <div class="panel">
+          <span class="tag">splitChars</span>
+          <div class="desc">글자 단위 reveal — 블러+상승, 한 글자씩 (ease: power3.out)</div>
+          <div class="stage"><div class="big-head" id="m-chars">AI 메모리의 역설</div></div>
+        </div>
+
+        <!-- 3. 숫자 카운트업 -->
+        <div class="panel">
+          <span class="tag">countUp</span>
+          <div class="desc">데이터 숫자가 0에서 실제값으로 굴러옴 (접미 단위 보존)</div>
+          <div class="stage"><div class="count"><span id="m-count">0</span><span class="unit">기가와트</span></div></div>
+        </div>
+
+        <!-- 4. 스프링 이징 비교 -->
+        <div class="panel">
+          <span class="tag">spring easing</span>
+          <div class="desc">taste 스프링 — back.out(묵직 튕김) / expo.out / power3.out</div>
+          <div class="stage"><div class="springs">
+            <div class="chip" id="sp1" style="background:#c0532f">back.out</div>
+            <div class="chip" id="sp2" style="background:#d4a858">expo.out</div>
+            <div class="chip" id="sp3" style="background:#2f6fc0">power3.out</div>
+          </div></div>
+        </div>
+
+        <!-- 5. 라인 드로우 + 끝점 카운트업 + 콜아웃 -->
+        <div class="panel">
+          <span class="tag">line draw + callout</span>
+          <div class="desc">라인 그려지고 → 끝점 값 카운트업 → 배경판 콜아웃이 리더선과 등장</div>
+          <div class="stage">
+            <svg id="m-line" width="520" height="200" viewBox="0 0 520 200"></svg>
+          </div>
+        </div>
+
+        <!-- 6. 막대 grow + 값 카운트업 -->
+        <div class="panel">
+          <span class="tag">bar grow + countUp</span>
+          <div class="desc">막대가 scaleY 로 자라며 값이 동시에 카운트업 (stagger)</div>
+          <div class="stage">
+            <svg id="m-bar" width="520" height="200" viewBox="0 0 520 200"></svg>
+          </div>
+        </div>
+
+        <!-- 7. 도넛 arc 드로우 + 중앙 카운트업 -->
+        <div class="panel">
+          <span class="tag">donut arc + center</span>
+          <div class="desc">호(arc)가 stroke 로 그려지고 중앙 큰 값이 카운트업</div>
+          <div class="stage">
+            <svg id="m-donut" width="240" height="200" viewBox="0 0 240 200"></svg>
+          </div>
+        </div>
+
+        <!-- 8. 크로스페이드 전환 -->
+        <div class="panel">
+          <span class="tag">crossfade</span>
+          <div class="desc">씬 A → 씬 B 서사적 전환 (단순 컷 대신 opacity 교차)</div>
+          <div class="stage">
+            <div style="position:relative;width:100%;height:130px">
+              <div class="cf-a" id="cf-a"><div class="cf-t">씬 A — 현황</div><div class="cf-s">컴퓨트 9배</div></div>
+              <div class="cf-b" id="cf-b" style="opacity:0"><div class="cf-t">씬 B — 함의</div><div class="cf-s">HBM 병목</div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <footer>
+        모션 출처: <code>hyperframes/lib/motion/hf-motion.js</code> (gsap-skills / taste-skill MIT 내재화) ·
+        실제 영상은 동일 타임라인을 헤드리스 Chrome 으로 seek-캡처해 만듭니다.
+      </footer>
+    </div>
+
+    <script>
+      /* ── hf-motion 패턴 자체 내장 (데모 스탠드얼론용) ───────────────────── */
+      function splitWords(el) {
+        var text = el.getAttribute("data-text") || el.textContent;
+        el.setAttribute("data-text", text);
+        el.innerHTML = "";
+        var spans = [];
+        text.split(/(\s+)/).forEach(function (tok) {
+          if (/^\s+$/.test(tok)) { el.appendChild(document.createTextNode(tok)); return; }
+          var s = document.createElement("span"); s.className = "word"; s.textContent = tok;
+          el.appendChild(s); spans.push(s);
+        });
+        return spans;
+      }
+      function splitChars(el) {
+        var text = el.getAttribute("data-text") || el.textContent;
+        el.setAttribute("data-text", text);
+        el.innerHTML = "";
+        var spans = [];
+        text.split("").forEach(function (ch) {
+          if (ch === " ") { el.appendChild(document.createTextNode(" ")); return; }
+          var s = document.createElement("span"); s.className = "char"; s.textContent = ch;
+          el.appendChild(s); spans.push(s);
+        });
+        return spans;
+      }
+      function countUp(tl, el, from, to, opt) {
+        opt = opt || {};
+        var o = { v: from };
+        var fmt = opt.format || function (n) { return String(Math.round(n)); };
+        tl.to(o, {
+          v: to, duration: opt.duration || 1.4, ease: opt.ease || "power2.out",
+          onUpdate: function () { el.textContent = (opt.prefix || "") + fmt(o.v) + (opt.suffix || ""); }
+        }, opt.at != null ? opt.at : 0);
+      }
+      function fmt1(n) { return (Math.round(n * 10) / 10).toLocaleString("en-US"); }
+      function fmt0(n) { return Math.round(n).toLocaleString("en-US"); }
+
+      var LOOP = { repeat: -1, repeatDelay: 1.4 };
+      // 모든 타임라인을 모아 둠 — URL 에 ?t=초 가 있으면 그 시점으로 seek 후 정지(결정론적
+      // 프레임 캡처용, 실제 렌더 파이프라인과 동일 방식). 없으면 자동 재생/루프.
+      var TLS = [];
+      function T(cfg) { var tl = gsap.timeline(cfg); TLS.push(tl); return tl; }
+      gsap.ticker.lagSmoothing(0);
+
+      /* 1. revealWords */
+      (function () {
+        var el = document.getElementById("m-reveal");
+        var spans = splitWords(el);
+        var tl = T(LOOP);
+        tl.fromTo(spans, { yPercent: 120, opacity: 0 },
+          { yPercent: 0, opacity: 1, duration: 0.7, ease: "expo.out", stagger: 0.08 }, 0.2);
+      })();
+
+      /* 2. splitChars */
+      (function () {
+        var el = document.getElementById("m-chars");
+        var spans = splitChars(el);
+        var tl = T(LOOP);
+        tl.fromTo(spans, { y: 24, opacity: 0, filter: "blur(8px)" },
+          { y: 0, opacity: 1, filter: "blur(0px)", duration: 0.5, ease: "power3.out", stagger: 0.04 }, 0.2);
+      })();
+
+      /* 3. countUp */
+      (function () {
+        var el = document.getElementById("m-count");
+        var tl = T(LOOP);
+        countUp(tl, el, 0, 1.9, { at: 0.3, duration: 1.3, ease: "power2.out", format: fmt1 });
+      })();
+
+      /* 4. spring easing 비교 */
+      (function () {
+        var tl = T(LOOP);
+        tl.fromTo("#sp1", { y: 60, opacity: 0 }, { y: 0, opacity: 1, duration: 0.8, ease: "back.out(2.2)" }, 0.2);
+        tl.fromTo("#sp2", { y: 60, opacity: 0 }, { y: 0, opacity: 1, duration: 0.8, ease: "expo.out" }, 0.35);
+        tl.fromTo("#sp3", { y: 60, opacity: 0 }, { y: 0, opacity: 1, duration: 0.8, ease: "power3.out" }, 0.5);
+      })();
+
+      /* 5. line draw + endpoint countUp + callout */
+      (function () {
+        var svg = document.getElementById("m-line");
+        var pts = [[20,160],[140,150],[260,120],[380,70],[480,30]];
+        var d = pts.map(function (p, i) { return (i ? "L" : "M") + p[0] + " " + p[1]; }).join(" ");
+        var area = "M20 180 " + pts.map(function (p) { return "L" + p[0] + " " + p[1]; }).join(" ") + " L480 180 Z";
+        var end = pts[pts.length - 1];
+        svg.innerHTML =
+          '<path id="ml-area" d="' + area + '" fill="#c0532f" opacity="0"/>' +
+          '<path id="ml-line" d="' + d + '" fill="none" stroke="#c0532f" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" style="stroke-dasharray:1200;stroke-dashoffset:1200"/>' +
+          '<g id="ml-end" opacity="0">' +
+            '<circle cx="' + end[0] + '" cy="' + end[1] + '" r="6" fill="#c0532f" stroke="#fbf9f4" stroke-width="2.5"/>' +
+            '<rect x="' + (end[0] - 78) + '" y="' + (end[1] - 44) + '" width="74" height="34" rx="8" fill="#fbf9f4" fill-opacity="0.95" stroke="#e2dccf"/>' +
+            '<text id="ml-val" x="' + (end[0] - 12) + '" y="' + (end[1] - 21) + '" text-anchor="end" font-size="22" font-weight="900" fill="#16130f">0</text>' +
+          '</g>' +
+          '<g id="ml-co" opacity="0">' +
+            '<path d="M260 120 Q220 96 150 92" stroke="#d4a858" stroke-width="1.5" fill="none" style="stroke-dasharray:300;stroke-dashoffset:300" id="ml-conn"/>' +
+            '<circle cx="260" cy="120" r="5" fill="#d4a858" stroke="#fbf9f4" stroke-width="2"/>' +
+            '<rect x="18" y="74" width="136" height="34" rx="9" fill="#fbf9f4" fill-opacity="0.95" stroke="#e2dccf"/>' +
+            '<text x="30" y="96" font-size="17" font-weight="800" fill="#b5862e">GPT-4 학습 본격화</text>' +
+          '</g>';
+        var tl = T(LOOP);
+        tl.fromTo("#ml-area", { opacity: 0 }, { opacity: 0.12, duration: 0.8, ease: "power1.out" }, 0.3);
+        tl.fromTo("#ml-line", { strokeDashoffset: 1200 }, { strokeDashoffset: 0, duration: 1.3, ease: "power2.inOut" }, 0.3);
+        tl.to("#ml-end", { opacity: 1, duration: 0.01 }, 1.5);
+        tl.fromTo("#ml-end circle", { scale: 0, transformOrigin: "center" }, { scale: 1, duration: 0.3, ease: "back.out(2)" }, 1.5);
+        countUp(tl, document.getElementById("ml-val"), 0, 1.9, { at: 1.5, duration: 0.7, format: fmt1 });
+        tl.to("#ml-co", { opacity: 1, duration: 0.01 }, 1.9);
+        tl.fromTo("#ml-conn", { strokeDashoffset: 300 }, { strokeDashoffset: 0, duration: 0.4 }, 1.95);
+      })();
+
+      /* 6. bar grow + countUp */
+      (function () {
+        var svg = document.getElementById("m-bar");
+        var data = [[ "26", 54.6 ], [ "27", 116 ], [ "28", 168 ]];
+        var max = 168, BASE = 160, bw = 90, gap = 60, x0 = 70;
+        var html = "";
+        data.forEach(function (d, i) {
+          var h = (d[1] / max) * 130, x = x0 + i * (bw + gap), y = BASE - h;
+          html +=
+            '<g>' +
+              '<rect class="b-rect" x="' + x + '" y="' + y + '" width="' + bw + '" height="' + h + '" rx="6" fill="' + (i === 2 ? "#c0532f" : "#cdbfa6") + '" style="transform-box:fill-box;transform-origin:50% 100%"/>' +
+              '<text class="b-val" x="' + (x + bw / 2) + '" y="' + (y - 12) + '" text-anchor="middle" font-size="22" font-weight="900" fill="' + (i === 2 ? "#c0532f" : "#16130f") + '">0</text>' +
+              '<text x="' + (x + bw / 2) + '" y="' + (BASE + 24) + '" text-anchor="middle" font-size="16" font-weight="700" fill="#6f6555">20' + d[0] + '</text>' +
+            '</g>';
+        });
+        svg.innerHTML = html;
+        var rects = svg.querySelectorAll(".b-rect"), vals = svg.querySelectorAll(".b-val");
+        var tl = T(LOOP);
+        rects.forEach(function (r, i) {
+          tl.fromTo(r, { scaleY: 0 }, { scaleY: 1, duration: 0.55, ease: "power3.out" }, 0.2 + i * 0.18);
+          countUp(tl, vals[i], 0, data[i][1], { at: 0.25 + i * 0.18, duration: 0.6, format: fmt0 });
+        });
+      })();
+
+      /* 7. donut arc draw + center countUp */
+      (function () {
+        var svg = document.getElementById("m-donut");
+        var cx = 90, cy = 100, r = 64, C = 2 * Math.PI * r;
+        var slices = [[48, "#c0532f"], [33, "#d4a858"], [19, "#cdbfa6"]];
+        var off = 0, html = "";
+        slices.forEach(function (s, i) {
+          var seg = C * (s[0] / 100);
+          html += '<circle class="d-arc" cx="' + cx + '" cy="' + cy + '" r="' + r + '" fill="none" stroke="' + s[1] +
+            '" stroke-width="22" stroke-dasharray="' + seg + ' ' + (C - seg) + '" stroke-dashoffset="' + (-off + seg) +
+            '" transform="rotate(-90 ' + cx + ' ' + cy + ')"/>';
+          off += seg;
+        });
+        html += '<text id="d-label" x="' + cx + '" y="' + (cy - 6) + '" text-anchor="middle" font-size="13" font-weight="700" fill="#6f6555">최대 비중</text>';
+        html += '<text id="d-val" x="' + cx + '" y="' + (cy + 26) + '" text-anchor="middle" font-size="34" font-weight="900" fill="#16130f">0%</text>';
+        svg.innerHTML = html;
+        var arcs = svg.querySelectorAll(".d-arc");
+        var tl = T(LOOP);
+        arcs.forEach(function (a, i) {
+          var base = parseFloat(a.getAttribute("stroke-dashoffset"));
+          tl.fromTo(a, { strokeDashoffset: base + C * (slices[i][0] / 100) }, { strokeDashoffset: base, duration: 0.6, ease: "power2.inOut" }, 0.2 + i * 0.22);
+        });
+        gsap.set(["#d-label", "#d-val"], { opacity: 0 });
+        tl.fromTo(["#d-label", "#d-val"], { opacity: 0, scale: 0.9, transformOrigin: cx + "px " + cy + "px" },
+          { opacity: 1, scale: 1, duration: 0.4, stagger: 0.1, ease: "back.out(1.6)" }, 0.7);
+        countUp(tl, document.getElementById("d-val"), 0, 48, { at: 0.8, duration: 0.8, format: fmt0, suffix: "%" });
+      })();
+
+      /* 8. crossfade */
+      (function () {
+        var tl = T({ repeat: -1, repeatDelay: 0.6, yoyo: true });
+        tl.to("#cf-a", { opacity: 0, duration: 0.7, ease: "power2.inOut" }, 1.2);
+        tl.fromTo("#cf-b", { opacity: 0 }, { opacity: 1, duration: 0.7, ease: "power2.inOut" }, 1.45);
+      })();
+
+      /* ?t=초 → 모든 타임라인을 그 시점으로 seek 후 정지(결정론적 프레임 캡처) */
+      (function () {
+        var qs = new URLSearchParams(location.search);
+        if (!qs.has("t")) return;
+        var t = parseFloat(qs.get("t")) || 0;
+        TLS.forEach(function (tl) { tl.pause(); tl.time(t, false); });
+      })();
+    </script>
+  </body>
+</html>
