@@ -29,8 +29,10 @@
             color: #16130f; word-break: keep-all; overflow-wrap: anywhere;
           }
           [data-composition-id="tickerboard"] .hf-stage {
-            position: absolute; top: 160px; left: 0; right: 0; bottom: 300px;
-            display: flex; align-items: center; justify-content: center;
+            /* 카드를 stage 상단(150px)에 고정 — topline(116px) 아래로 확실히 내려감.
+               align-items:center 는 카드가 stage 보다 크면 위로 넘쳐 헤어라인을 뚫었음. */
+            position: absolute; top: 150px; left: 0; right: 0; bottom: 110px;
+            display: flex; align-items: flex-start; justify-content: center;
           }
           [data-composition-id="tickerboard"] .hf-card {
             width: 1520px; background: #fbf9f4; border-radius: 18px; border: 1px solid #e2dccf;
@@ -129,12 +131,11 @@
               var hi = Math.max.apply(null, pts.length ? pts : [1]);
               var span = (hi - lo) || 1;
               var gap = pts.length > 1 ? (sx1 - sx0) / (pts.length - 1) : 0;
-              var d = "";
-              pts.forEach(function (v, k) {
-                var x = sx0 + k * gap, y = sy0 - (v - lo) / span * (sy0 - sy1);
-                d += (k === 0 ? "M " : "L ") + r1(x) + " " + r1(y) + " ";
+              var coords = pts.map(function (v, k) {
+                return [sx0 + k * gap, sy0 - (v - lo) / span * (sy0 - sy1)];
               });
-              parts.push('<path data-role="spark" data-i="' + i + '" d="' + d.trim() + '" fill="none" stroke="' + col2 +
+              var d = smoothPath(coords);  // 직선 꺾임 대신 Catmull-Rom 곡선(세밀·매끈)
+              parts.push('<path data-role="spark" data-i="' + i + '" d="' + d + '" fill="none" stroke="' + col2 +
                 '" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" ' +
                 'style="stroke-dasharray:2000;stroke-dashoffset:2000;"/>');
               parts.push('</g>');
@@ -162,6 +163,21 @@
             if (cid && cid !== "tickerboard") window.__timelines[cid] = tl;
 
             function parseJSON(s, fb) { try { return typeof s === "string" ? JSON.parse(s) : (s || fb); } catch (e) { return fb; } }
+            function smoothPath(p) {
+              // Catmull-Rom → 3차 베지어. 결정론적. 점이 많을수록(일봉) 더 매끈한 곡선.
+              if (!p.length) return "";
+              if (p.length < 3) {
+                return p.map(function (q, k) { return (k ? "L " : "M ") + r1(q[0]) + " " + r1(q[1]); }).join(" ");
+              }
+              var d = "M " + r1(p[0][0]) + " " + r1(p[0][1]);
+              for (var i = 0; i < p.length - 1; i++) {
+                var p0 = p[i === 0 ? 0 : i - 1], p1 = p[i], p2 = p[i + 1], p3 = p[i + 2 < p.length ? i + 2 : p.length - 1];
+                var c1x = p1[0] + (p2[0] - p0[0]) / 6, c1y = p1[1] + (p2[1] - p0[1]) / 6;
+                var c2x = p2[0] - (p3[0] - p1[0]) / 6, c2y = p2[1] - (p3[1] - p1[1]) / 6;
+                d += " C " + r1(c1x) + " " + r1(c1y) + " " + r1(c2x) + " " + r1(c2y) + " " + r1(p2[0]) + " " + r1(p2[1]);
+              }
+              return d;
+            }
             function r1(n) { return Math.round(n * 10) / 10; }
             function esc(s) { return String(s == null ? "" : s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;"); }
             function fmtNum(n) { return (Math.round(n * 100) / 100).toString(); }

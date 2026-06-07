@@ -41,8 +41,10 @@
             color: #16130f; word-break: keep-all; overflow-wrap: anywhere;
           }
           [data-composition-id="candle"] .hf-stage {
-            position: absolute; top: 160px; left: 0; right: 0; bottom: 300px;
-            display: flex; align-items: center; justify-content: center;
+            /* 카드를 stage 상단(160px)에 고정 — topline(116px) 아래로 확실히 내려감.
+               align-items:center 는 카드가 stage 보다 크면 위로 넘쳐 헤어라인을 뚫었음. */
+            position: absolute; top: 150px; left: 0; right: 0; bottom: 110px;
+            display: flex; align-items: flex-start; justify-content: center;
           }
           [data-composition-id="candle"] .hf-card {
             width: 1520px; background: #fbf9f4; border-radius: 18px; border: 1px solid #e2dccf;
