@@ -153,18 +153,28 @@ def _candle_vars(chart: BundleChart) -> Optional[dict]:
 
 def _line_vars(chart: BundleChart, callout_t: float) -> Optional[dict]:
     rows = _rows(chart)
-    x_labels, ys, callouts = [], [], []
+    x_labels, ys, events = [], [], []
     for i, r in enumerate(rows):
         x_labels.append(_short_date(r.get("x", r.get("label", i))))
-        y = _num(r.get("y"))
-        ys.append(_clean(y))
+        ys.append(_clean(_num(r.get("y"))))
         ev = r.get("event")
-        if ev:
-            callouts.append({"xi": i, "si": 0, "t": callout_t, "title": str(ev), "sub": "", "dir": "ur"})
+        events.append(str(ev) if ev else None)
     if not ys:
         return None
+    n = len(ys)
+    # 콜아웃 방향: 오른쪽 가장자리(뒤 40%)의 점은 왼쪽("ul")으로 띄워 viewBox 밖 넘침과
+    # 끝점 라벨 충돌을 피한다. 그 외엔 오른쪽("ur"). 같은 t 로 동시 등장하지 않게 살짝 stagger.
+    callouts = []
+    for i, ev in enumerate(events):
+        if not ev:
+            continue
+        direction = "ul" if (n > 1 and i >= n * 0.6) else "ur"
+        callouts.append({"xi": i, "si": 0, "t": callout_t + 0.4 * len(callouts),
+                         "title": ev, "sub": "", "dir": direction})
     y_min, y_max, y_step = _nice_bounds(min(ys), max(ys))
-    series = [{"name": chart.title or "값", "color": "#e84a2d", "points": ys}]
+    # 단일 시리즈는 끝점 라벨 이름을 비운다 — chart.title 은 이미 takeaway 헤드라인으로
+    # 표시되므로 series.name 에 또 박으면 긴 문장이 차트 밖으로 넘쳐 값과 겹친다(v0.36.4).
+    series = [{"name": "", "color": "#e84a2d", "points": ys}]
     return {"xLabels": x_labels, "series": series, "yMin": y_min, "yMax": y_max,
             "yStep": y_step, "yUnit": _unit(chart), "callouts": callouts}
 
