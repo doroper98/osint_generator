@@ -28,6 +28,21 @@ released 항목은 **append-only**입니다.
 
 ---
 
+## [v0.34.20] — 2026-06-07
+
+**디자인 톤 mockup 3종 + 다크 씬 캡처 버그 학습**. taste-skill 을 지배적으로 쓸지/어느 톤일지
+결정하기 위한 비교 검수용 정지 프레임(에디토리얼·다크·스위스).
+
+### Added
+
+- `hyperframes/examples/mockups/{editorial,dark,swiss}.html` + `_candle.js` — 같은 콘텐츠 3톤 mockup.
+
+### Fixed
+
+- 다크 씬: body 배경 위 흰 텍스트가 캡처에서 knock-out → 불투명 scene 배경 레이어로 해소(학습).
+
+---
+
 ## [v0.34.19] — 2026-06-07
 
 **모션 내재화를 파이프라인에 적용** — 모든 차트 컴포넌트·텍스트 씬 헤딩에 SplitText 단어

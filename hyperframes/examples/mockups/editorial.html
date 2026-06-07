@@ -1,0 +1,63 @@
+<!doctype html>
+<!-- 톤 mockup A — 에디토리얼 미니멀 (FT/Bloomberg/Pudding 급). 비교 검수용 정지 프레임. -->
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" /><meta name="viewport" content="width=1920, height=1080" />
+    <script src="../../assets/gsap.min.js"></script>
+    <script src="examples/mockups/_candle.js"></script>
+    <style>
+      @font-face { font-family:"Pretendard Variable"; src:url("../../assets/fonts/PretendardVariable.woff2") format("woff2-variations"); font-weight:100 900; font-display:block; }
+      *{margin:0;padding:0;box-sizing:border-box;}
+      html,body{width:1920px;height:1080px;overflow:hidden;background:#f6f3ec;color:#16130f;
+        font-family:"Pretendard Variable",sans-serif;word-break:keep-all;}
+      .wrap{position:absolute;inset:0;padding:120px 150px;}
+      .top{display:flex;justify-content:space-between;align-items:center;border-bottom:2px solid #16130f;padding-bottom:18px;}
+      .kick{font-size:22px;font-weight:800;letter-spacing:5px;text-transform:uppercase;}
+      .kick b{color:#b5482e;}
+      .date{font-size:20px;font-weight:600;color:#8a7f72;letter-spacing:1px;}
+      .grid{display:grid;grid-template-columns:1fr 820px;gap:90px;margin-top:90px;align-items:start;}
+      .head{font-size:104px;font-weight:900;line-height:1.04;letter-spacing:-3px;}
+      .head .em{color:#b5482e;}
+      .sub{margin-top:34px;font-size:38px;font-weight:600;color:#6a6157;line-height:1.5;max-width:760px;}
+      .metric{margin-top:70px;display:flex;align-items:baseline;gap:18px;border-left:5px solid #b5482e;padding-left:30px;}
+      .metric .n{font-size:130px;font-weight:900;letter-spacing:-4px;line-height:0.9;}
+      .metric .u{font-size:46px;font-weight:800;color:#16130f;}
+      .metric .cap{font-size:24px;color:#8a7f72;font-weight:600;margin-left:8px;}
+      .card{background:#fbf9f4;border:1px solid #e2dccf;border-radius:6px;padding:40px 36px;}
+      .card .t{font-size:30px;font-weight:800;letter-spacing:-0.5px;}
+      .card .src{font-size:20px;color:#9b9082;font-weight:600;margin-top:6px;}
+      .mc-grid{stroke:rgba(22,19,15,0.08);stroke-width:1;}
+      .mc-axis{fill:#9b9082;font-size:18px;font-weight:600;}
+      .foot{position:absolute;left:150px;bottom:60px;font-size:20px;color:#9b9082;font-weight:600;letter-spacing:0.5px;}
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="root" data-width="1920" data-height="1080" data-start="0" data-duration="2" data-track-index="0">
+      <div class="wrap">
+        <div class="top">
+          <div class="kick"><b>■</b>&nbsp; OSINT 브리핑 · 컴퓨팅 임대업</div>
+          <div class="date">2026.06.05 · SEC FWP</div>
+        </div>
+        <div class="grid">
+          <div>
+            <div class="head">구글, SpaceX에<br><span class="em">월 9.2억 달러</span> 임대</div>
+            <div class="sub">IPO 엿새 전, 두 번째 메가 임대. 한 달 새 컴퓨팅 임대 매출이 런레이트로 자리 잡았다.</div>
+            <div class="metric"><span class="n">21.7</span><span class="u">억 달러</span><span class="cap">월 런레이트</span></div>
+          </div>
+          <div class="card">
+            <div class="t">엔비디아 · NVDA</div>
+            <div class="src">출처 · YAHOO · 2026-03-05 ~ 06-05 · 일봉</div>
+            <div id="mc" style="margin-top:18px;height:420px;"></div>
+          </div>
+        </div>
+      </div>
+      <div class="foot">출처 · SEC FWP / TechCrunch · 2026-06-05 — 미검증 추정치는 라벨 표기</div>
+    </div>
+    <script>
+      window.__mockCandle("#mc", { up:"#b5482e", down:"#fbf9f4", stroke:"#b5482e" });
+      window.__timelines = window.__timelines || {};
+      var tl = gsap.timeline({ paused:true }); tl.to("#root",{opacity:1,duration:0.1},0);
+      window.__timelines["root"] = tl;
+    </script>
+  </body>
+</html>

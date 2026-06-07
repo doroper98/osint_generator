@@ -25,6 +25,23 @@ last_review: 2026-06-06
 
 ---
 
+## 2026-06-07 v0.34.20 — 톤 mockup 3종(에디토리얼/다크/스위스) + 다크 씬 캡처 버그 학습
+
+- **무엇을**: 디자인 톤 결정을 위해 같은 콘텐츠(SpaceX 헤드라인+NVDA 캔들+21.7억 달러+출처)로
+  3톤 mockup 정지 프레임 제작(`hyperframes/examples/mockups/{editorial,dark,swiss}.html`).
+  사용자 검수용 — taste-skill 을 "지배적"으로 쓸지/어느 톤일지 판단.
+- **왜**: 사용자 "기존 취향이 기초적, 새 skill 을 더 지배적으로? 각 톤 mockup 봐야 판단 가능."
+- **버그 학습(RENDER)**: **다크 씬에서 body 배경 위 흰 텍스트가 헤드리스 캡처에서 knock-out**
+  (투명/소실)되는 사고. 같은 흰 텍스트라도 자체 배경을 가진 자식 div(lower-third) 안은 정상.
+  → **명시적 불투명 scene 배경 레이어**(`position:absolute;inset:0;background:#0e1116`)를 깔면
+  해소. 다크 톤 채택 시 모든 다크 씬에 이 레이어 필수. (mockup 비교용 학습; 정식 채택 시
+  RENDER_ANTIPATTERNS 에 등록.)
+- **상태**: 톤 결정 대기. 결정되면 그 톤을 디자인 토큰 1벌로 확정 → 5 컴포넌트 + compose +
+  모션 캐릭터에 적용(B-ext 전에). 가드레일(출처·기간·한글·결정론·가독성)은 불변.
+- **연관**: CHANGELOG v0.34.20, taste-skill/gsap-skills(MIT) 내재화 흐름(v0.34.18~19).
+
+---
+
 ## 2026-06-07 v0.34.19 — 모션 내재화 파이프라인 적용 (영상미 C0)
 
 - **무엇을**: v0.34.18 의 hf-motion 을 실제 영상에 입힘 — 5 차트 컴포넌트 + compose 텍스트 씬
