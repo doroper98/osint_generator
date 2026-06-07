@@ -2462,3 +2462,17 @@ last_review: 2026-06-06
 - 경계/한계: codex agent 모드는 여전히 argv 프롬프트(범위 밖). stdin 수신은 `codex exec` 가
   positional 부재 시 stdin 을 읽는다는 전제(0.137 기준)에 의존 — 메이저 갱신 시 재확인.
 - 한계 기록: 사용자가 C10 외부 리뷰 면제를 명시(본 PATCH 는 버그 수정이라 C10.1 상 면제 대상).
+
+## 2026-06-07 v0.35.2 — 텍스트 씬 통문단 도배 제거 (RENDER-AP-003)
+
+- 무엇을: 차트 없는 섹션이 prose 전문을 화면 body 로 박던 글자 벽 수정.
+  `_text_scene_body(pull_quote, prose, cap=140)` — pull_quote 우선, 없으면 첫 문장만
+  발췌한 key-takeaway 한 줄. prose 전문은 자막 큐로만 흐른다.
+- 왜: 사용자가 실 번들(「AI 메모리의 역설」) 렌더 스크린샷 제보 — "메모리 벽"(563자)·
+  "두 갈래 길"(711자) 섹션이 통문단을 화면에 도배. C0("화면은 글자 도배가 아니라
+  key-takeaway + 비주얼") 정면 위반. 실측: 563/711자 body → 46/23자로 축소.
+- 경계: 결정론 경로 수정(연출과 직교). codex `--planner codex` 는 그 위에서 자막을
+  key-takeaway 로 재작성 + 헤드라인/강조/순서를 더한다. codex 가 text 씬 핵심 한 줄을
+  직접 고르게 하려면 PlannedScene 필드 추가 필요(후속).
+- 검증: unittest 전체 통과(신규 회귀 2건 — 첫 문장 발췌/cap/ pull_quote 우선).
+- C10: 버그 수정 PATCH → 외부 리뷰 면제(사용자 면제 명시와도 일치).

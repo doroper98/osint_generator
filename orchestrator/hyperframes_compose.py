@@ -359,6 +359,27 @@ def _estimate_duration(prose: str) -> float:
     return max(_SCENE_MIN_SEC, min(_SCENE_MAX_SEC, n / _NARRATION_CPS)) if n else _SCENE_MIN_SEC
 
 
+def _text_scene_body(pull_quote: str, prose: str, cap: int = 140) -> str:
+    """텍스트 씬의 화면 body — **통문단 도배 금지(C0)**.
+
+    pull_quote 가 있으면 그 핵심 인용문을, 없으면 prose 의 첫 문장만 cap 자로 발췌한
+    key-takeaway 한 줄을 반환한다. prose 전문은 body 가 아니라 자막 큐로만 흐른다
+    (RENDER-AP: 차트 없는 섹션이 prose 전체를 body 로 박아 "정적 보고서를 화면에 박은"
+    글자 벽이 되던 사고).
+    """
+    pq = (pull_quote or "").strip()
+    if pq:
+        return pq
+    t = (prose or "").strip()
+    if not t:
+        return ""
+    m = re.search(r"[.!?。…](?:\s|$)", t)
+    first = t[: m.end()].strip() if m else t
+    if len(first) > cap:
+        first = first[:cap].rstrip() + "…"
+    return first
+
+
 def _split_cues(text: str, total_sec: float) -> list[SubtitleCue]:
     """prose 를 문장/줄 단위 큐로 쪼개고 글자수 비례로 타이밍 배분(씬 시작 기준 상대)."""
     t = text.strip()
@@ -490,7 +511,7 @@ def build_composed_scenes(
             scenes.append(ComposedScene(
                 scene_id=sid, section_id=sid, start_sec=round(cursor, 3),
                 duration_sec=dur, kind="text",
-                heading=sec.heading or "", body=sec.pull_quote or prose,
+                heading=sec.heading or "", body=_text_scene_body(sec.pull_quote, prose),
             ))
             cursor += dur
 

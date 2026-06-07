@@ -76,3 +76,39 @@ last_review: 2026-05-23
 - **알려진 한계**:
   - cmd.exe /c 경유 시 인자는 `subprocess.list2cmdline` 규칙으로 인용된다. 산출물 경로에
     특수문자가 많으면 별도 검증 필요(현재 경로엔 공백 정도만 가정).
+
+- **같은 클래스 재발**: LLM subprocess(codex/claude)도 동일한 Windows `.cmd` 셈 문제를
+  겪었다 → `LLM-AP-006`(v0.35.1, `workers/base_llm_worker.py:_resolve_launcher`).
+  현재 두 call site(render-debug 인라인 / `_resolve_launcher`)가 같은 패턴을 각자
+  구현한다. 세 번째 재발 시 공용 유틸로 추출 권장(워커→orchestrator.main 역의존은 피하고
+  중립 모듈에 둘 것).
+
+---
+
+## RENDER-AP-003 — 차트 없는 섹션이 prose 전문을 화면 body 로 박아 "정적 보고서를 화면에 박은" 글자 벽이 됨
+
+- **증상 (symptom)**: 실 번들(「AI 메모리의 역설」)을 compose → 렌더한 영상에서, 차트가
+  없는 섹션("메모리 벽" 563자 / "두 갈래 길" 711자)이 **섹션 통문단 전체를 화면 본문에
+  그대로 표시**. 화면이 빽빽한 글자 벽이 됨 — C0("화면은 글자 도배가 아니라 key-takeaway
+  + 비주얼") 정면 위반. (사용자 스크린샷으로 발견.)
+
+- **원인 (root cause)**: `orchestrator/hyperframes_compose.py` 의 text 씬 생성이
+  `body = sec.pull_quote or prose` 였다. pull_quote 가 없는 섹션은 prose **전문**으로
+  폴백 → body 에 수백 자가 박힘. (prose 는 이미 자막 큐로도 흐르므로 이중 노출이기도 함.)
+
+- **구조적 조치 (structural fix, v0.35.2)**:
+  - `_text_scene_body(pull_quote, prose, cap=140)` 신설: pull_quote 우선, 없으면
+    prose **첫 문장만** cap 자로 발췌한 key-takeaway 한 줄을 body 로. prose 전문은
+    body 가 아니라 자막 큐로만 흐른다. text 씬 생성이 이 헬퍼를 쓴다.
+  - 회귀 테스트 `tests/test_hyperframes_compose.py`: pull_quote 없는 섹션의 body 가
+    첫 문장만(통문단 아님)인지 / 마침표 없는 초장문도 cap 으로 잘리는지 / pull_quote
+    우선인지 잠금.
+
+- **발견 버전 (discovered)**: v0.35.1 (사용자 첫 실 번들 렌더).
+- **해결 버전 (resolved)**: v0.35.2.
+
+- **상태 (status)**: `resolved` (결정론 경로). codex 연출(`--planner codex`)은 그 위에서
+  자막을 key-takeaway 로 재작성 + 헤드라인/강조/순서를 더한다(연출 레이어, 본 수정과 직교).
+
+- **알려진 한계**: codex 가 text 씬의 핵심 한 줄(body/pull-quote)을 직접 고르게 하려면
+  `PlannedScene` 에 필드 추가가 필요(현재 codex 는 heading override 만). 후속 증분 과제.

@@ -17,6 +17,7 @@ from orchestrator.hyperframes_compose import (
     chart_to_component,
     render_composition_html,
     _stringify_complex,
+    _text_scene_body,
 )
 from schemas.models import BundleChart, ReportBundle
 
@@ -109,6 +110,30 @@ class TestComposedScenes(unittest.TestCase):
         # 누적 타이밍: 두번째 시작 == 첫번째 시작+길이.
         self.assertAlmostEqual(scenes[1].start_sec, scenes[0].start_sec + scenes[0].duration_sec, places=3)
         self.assertEqual(scenes[0].start_sec, 0.0)
+
+    def test_text_scene_without_pull_quote_uses_lead_not_full_prose(self) -> None:
+        # RENDER-AP: pull_quote 없는 차트-없는 섹션이 prose 전문을 body 로 박으면
+        # "정적 보고서를 화면에 박은" 글자 벽이 된다(C0 위반). 첫 문장만 떠야 함.
+        long_prose = "첫 문장이다. " + ("뒤따르는 본문 문장이 길게 이어진다. " * 30)
+        b = _bundle(
+            sections=[{"section_id": "s1", "heading": "텍스트", "prose": long_prose, "chart_refs": []}],
+            charts=[],
+        )
+        scenes = build_composed_scenes(b)
+        self.assertEqual(len(scenes), 1)
+        sc = scenes[0]
+        self.assertEqual(sc.kind, "text")
+        self.assertEqual(sc.body, "첫 문장이다.")
+        self.assertNotIn("뒤따르는", sc.body)  # 통문단 도배가 아님
+        self.assertLess(len(sc.body), len(long_prose))
+
+    def test_text_scene_body_helper_caps_long_single_sentence(self) -> None:
+        # 마침표 없는 초장문 한 문장도 cap 으로 잘려 벽이 되지 않아야 함.
+        body = _text_scene_body("", "마침표가없는아주긴문장" * 40, cap=140)
+        self.assertTrue(body.endswith("…"))
+        self.assertLessEqual(len(body), 141)
+        # pull_quote 가 있으면 그대로 우선.
+        self.assertEqual(_text_scene_body("핵심 인용", "긴 본문 " * 50), "핵심 인용")
 
     def test_unsupported_chart_falls_back_to_text(self) -> None:
         b = _bundle(
