@@ -351,5 +351,58 @@ class TestStdinPromptAndLauncher(_ScratchTestBase):
         self.assertEqual(out, ["codex", "exec"])
 
 
+# ---------------------------------------------------------------------------
+# 6. LLM-AP-007: subprocess 인코딩 UTF-8 고정 (한국어 Windows cp949 회피)
+# ---------------------------------------------------------------------------
+
+
+class TestInvokeEncoding(_ScratchTestBase):
+    def _fake_proc(self, stdout: str = "{}"):
+        return blw.subprocess.CompletedProcess(
+            args=[], returncode=0, stdout=stdout, stderr=""
+        )
+
+    def test_codex_response_uses_utf8_and_stdin(self) -> None:
+        w = _ResponseCodexWorker()
+        captured: dict = {}
+
+        def fake_run(cmd, **kw):
+            captured["cmd"] = cmd
+            captured["kw"] = kw
+            return self._fake_proc()
+
+        prompt = "한글 시스템 프롬프트 — 20% 상승 \"인용\""
+        with mock.patch.object(blw.shutil, "which", return_value="/usr/local/bin/codex"), \
+             mock.patch.object(blw.subprocess, "run", side_effect=fake_run), \
+             mock.patch.dict(blw.os.environ, {}, clear=False):
+            blw.os.environ.pop("OSINT_LLM_STUB", None)
+            out, rc = w._invoke_llm(self._args("t-001"), prompt)
+
+        self.assertEqual(captured["kw"].get("encoding"), "utf-8")
+        # codex response 는 프롬프트를 stdin 으로 (argv 엔 없음)
+        self.assertEqual(captured["kw"].get("input"), prompt)
+        self.assertNotIn(prompt, captured["cmd"])
+        self.assertEqual(out, "{}")
+        self.assertEqual(rc, 0)
+
+    def test_claude_response_utf8_without_stdin(self) -> None:
+        w = _ResponseClaudeWorker()
+        captured: dict = {}
+
+        def fake_run(cmd, **kw):
+            captured["kw"] = kw
+            return self._fake_proc()
+
+        with mock.patch.object(blw.shutil, "which", return_value="/usr/local/bin/claude"), \
+             mock.patch.object(blw.subprocess, "run", side_effect=fake_run), \
+             mock.patch.dict(blw.os.environ, {}, clear=False):
+            blw.os.environ.pop("OSINT_LLM_STUB", None)
+            w._invoke_llm(self._args("t-001"), "PROMPT")
+
+        self.assertEqual(captured["kw"].get("encoding"), "utf-8")
+        # claude 는 argv 경유 → stdin input 없음
+        self.assertIsNone(captured["kw"].get("input"))
+
+
 if __name__ == "__main__":
     unittest.main()

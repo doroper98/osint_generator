@@ -325,4 +325,42 @@ last_review: 2026-05-22
   또한 codex response 의 stdin 수신은 `codex exec` 가 positional prompt 부재 시 stdin 을
   읽는다는 전제에 의존한다(codex 0.137 기준). codex CLI 메이저 갱신 시 재확인 필요.
 
-- **연관**: ADDENDUM_04 §5(CLI 인터페이스), LLM-AP-004(cwd 오염), C2(Windows cp949 incident DEVLOG v0.15.2).
+- **연관**: ADDENDUM_04 §5(CLI 인터페이스), LLM-AP-004(cwd 오염), RENDER-AP-002(동일 .cmd
+  클래스), LLM-AP-007(같은 codex-on-Windows 후속 인코딩 버그), C2(Windows cp949 incident
+  DEVLOG v0.15.2).
+
+---
+
+## LLM-AP-007 — subprocess `text=True` 가 로케일 인코딩(한국어 Windows cp949)을 써서 codex stdin/stdout 이 깨짐
+
+- **증상 (symptom)**: LLM-AP-006 수정으로 codex 가 **실제 실행**된 직후, 한국어 Windows 에서
+  `codex exit 1: Reading prompt from stdin... Failed to read prompt from stdin: input is not
+  valid UTF-8 (invalid byte at offset 0)`. codex 는 stdin 을 읽기 시작했으나 첫 바이트부터
+  유효 UTF-8 이 아니라며 거부.
+
+- **재현 (repro)**: 한국어 Windows(cp949 로케일) + Python `subprocess.run(..., text=True,
+  input=<한글 프롬프트>)`. `text=True` 는 stdin 인코딩/stdout 디코딩에 `locale.
+  getpreferredencoding()`(=cp949)을 쓴다. 우리 프롬프트(UTF-8 한글)가 cp949 로 재인코딩돼
+  codex(UTF-8 기대)에 전달 → 첫 바이트부터 invalid. (대칭으로 codex 의 UTF-8 JSON 출력도
+  cp949 로 디코딩돼 깨졌을 것 — stdin 에서 먼저 죽어 표면화만 안 됐다.)
+
+- **원인 (root cause)**: `text=True` 의 인코딩이 **OS 로케일 의존**. 우리 도메인 데이터는
+  전부 UTF-8(한글)인데 실행 환경이 비-UTF-8 로케일이면 양방향이 깨진다. argv 경로는
+  Python 이 CreateProcessW(UTF-16)로 넘겨 영향 없지만, **stdin/stdout 은 로케일 코덱**을 탄다.
+
+- **구조적 조치 (structural fix, v0.35.3)**:
+  - `workers/base_llm_worker.py:_invoke_llm` 의 `subprocess.run` 에서 `text=True` →
+    `encoding="utf-8", errors="replace"`. stdin 인코딩·stdout/stderr 디코딩을 UTF-8 로 고정.
+  - 회귀 테스트 `tests/test_base_llm_worker_sandbox.py:TestInvokeEncoding`: codex response 가
+    `encoding="utf-8"` + 프롬프트 stdin 경유(argv 부재), claude response 가 utf-8 +
+    stdin 미사용임을 mock 으로 잠금.
+
+- **상태 (status)**: `resolved`. POSIX 는 보통 로케일이 UTF-8 이라 무영향이었으나, 명시
+  고정으로 환경 비의존이 됨.
+
+- **알려진 한계**: `errors="replace"` 는 codex 가 비정상적으로 비-UTF-8 바이트를 섞어
+  내보낼 때 그 자리를 대체문자로 바꾼다(JSON 파싱은 유효 UTF-8 출력엔 무영향). codex 출력이
+  정상 UTF-8 이라는 전제.
+
+- **연관**: LLM-AP-006(선행 .cmd 수정 — 본 버그를 표면화시킨 직전 단계), C2(Python cp949
+  incident DEVLOG v0.15.2 — requirements.txt ASCII-only 와 같은 cp949 클래스).

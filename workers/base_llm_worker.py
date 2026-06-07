@@ -512,11 +512,16 @@ class BaseLLMWorker(BaseWorker):
         neutral_cwd.mkdir(parents=True, exist_ok=True)
 
         try:
+            # LLM-AP-007: 인코딩을 UTF-8 로 고정한다. `text=True` 는 stdin 인코딩/stdout
+            # 디코딩에 로케일 인코딩을 쓰는데(한국어 Windows = cp949), codex 는 stdin 을
+            # UTF-8 로 기대해 "input is not valid UTF-8" 로 죽고, UTF-8 출력도 cp949 로
+            # 디코딩돼 깨진다. encoding="utf-8" 로 양방향을 UTF-8 로 강제.
             proc = subprocess.run(
                 cmd,
                 input=stdin_data,
                 capture_output=True,
-                text=True,
+                encoding="utf-8",
+                errors="replace",
                 timeout=self.invoke_timeout_sec,
                 check=False,
                 cwd=str(neutral_cwd),

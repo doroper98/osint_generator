@@ -2476,3 +2476,16 @@ last_review: 2026-06-06
   직접 고르게 하려면 PlannedScene 필드 추가 필요(후속).
 - 검증: unittest 전체 통과(신규 회귀 2건 — 첫 문장 발췌/cap/ pull_quote 우선).
 - C10: 버그 수정 PATCH → 외부 리뷰 면제(사용자 면제 명시와도 일치).
+
+## 2026-06-07 v0.35.3 — codex subprocess 인코딩 UTF-8 고정 (LLM-AP-007)
+
+- 무엇을: `_invoke_llm` 의 `subprocess.run` 을 `text=True` → `encoding="utf-8",
+  errors="replace"` 로 변경. stdin 인코딩·stdout 디코딩을 UTF-8 로 고정.
+- 왜: v0.35.1(.cmd 수정)로 codex 가 실제 실행된 직후, 한국어 Windows(cp949)에서
+  `Failed to read prompt from stdin: input is not valid UTF-8 (offset 0)` 로 실패.
+  `text=True` 가 로케일 코덱(cp949)으로 stdin 을 인코딩해 codex(UTF-8 기대)와 충돌.
+- 경계: argv 경로는 CreateProcessW(UTF-16)라 무영향 — stdin/stdout 만 로케일 코덱을 탔다.
+  POSIX(UTF-8 로케일)는 원래 무영향이나 명시 고정으로 환경 비의존화.
+- 검증: unittest 전체 통과(신규 TestInvokeEncoding 2건 — mock 으로 encoding/stdin 잠금).
+- C10: 버그 수정 PATCH → 외부 리뷰 면제. codex-on-Windows 3연속(.cmd→stdin→인코딩)
+  수정의 마지막 고리 — 이제 한국어 Windows 에서 codex response end-to-end 가 열렸을 것.
