@@ -794,16 +794,24 @@ _COMPOSITION_TEMPLATE = """<!doctype html>
       const cues = @@CUES@@;
       const $sub = document.getElementById("subtitleText");
       const $box = document.querySelector(".subtitle");
-      if (cues.length) { $sub.textContent = cues[0].text; }
-      cues.forEach((c, i) => {
-        if (i === 0) {
-          tl.fromTo($box, { opacity: 0, y: 12 }, { opacity: 1, y: 0, duration: 0.5, overwrite: "auto" }, c.t);
-        } else {
-          tl.to($box, { opacity: 0, duration: 0.2, overwrite: "auto" }, Math.max(0, c.t - 0.25));
-          tl.call(() => { $sub.textContent = c.text; }, [], Math.max(0, c.t - 0.05));
-          tl.to($box, { opacity: 1, duration: 0.25, overwrite: "auto" }, c.t);
-        }
-      });
+      if (cues.length) {
+        $sub.textContent = cues[0].text;
+        tl.fromTo($box, { opacity: 0, y: 12 }, { opacity: 1, y: 0, duration: 0.5, overwrite: "auto" }, cues[0].t);
+        // 자막 swap: 순수 콜백 큐(tl 의 call)는 seek 기반 캡처 렌더러가 미지원("... is not a
+        // function" → zero duration). hf-motion 의 countUp 과 동일하게 tl.to(proxy, {onUpdate})
+        // 로 현재 시점의 활성 큐 텍스트를 고른다(seek-safe, RENDER-AP).
+        var __cue = { t: 0 };
+        tl.to(__cue, {
+          t: @@TOTAL@@, duration: @@TOTAL@@, ease: "none",
+          onUpdate: function () {
+            var now = __cue.t, txt = cues[0].text;
+            for (var k = 0; k < cues.length; k++) {
+              if (cues[k].t <= now + 1e-4) { txt = cues[k].text; } else { break; }
+            }
+            if ($sub.textContent !== txt) { $sub.textContent = txt; }
+          }
+        }, 0);
+      }
 
       window.__timelines["root"] = tl;
     </script>

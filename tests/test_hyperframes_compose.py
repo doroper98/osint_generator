@@ -304,6 +304,22 @@ class TestRenderHtml(unittest.TestCase):
         self.assertIn("data-duration=", html)
         self.assertIn("const cues = []", html)
 
+    def test_subtitle_swap_is_seek_safe_no_tl_call(self) -> None:
+        # RENDER-AP: tl.call(순수 콜백)은 seek 기반 캡처 렌더러가 미지원("tl.call is not a
+        # function" → zero duration). 자막 swap 은 tl.to(proxy,{onUpdate}) (seek-safe)여야 함.
+        b = _bundle(
+            sections=[{"section_id": "s1", "heading": "H", "prose": "한 문장. 두 문장.",
+                       "chart_refs": []}],
+            charts=[],
+        )
+        _scenes, html = build_composition_html_from_bundle(b)
+        # 코드상 실제 tl.call( 호출이 없어야 한다(주석 언급은 허용하므로 호출 형태로 검사).
+        import re as _re
+        code_calls = [m for m in _re.findall(r"tl\.call\(", html)]
+        self.assertEqual(code_calls, [], "tl.call( 호출이 남아 있으면 캡처 렌더러에서 크래시")
+        self.assertIn("onUpdate", html)
+        self.assertIn("window.__timelines[\"root\"]", html)
+
 
 if __name__ == "__main__":
     unittest.main()

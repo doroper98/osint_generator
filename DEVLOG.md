@@ -2511,3 +2511,17 @@ last_review: 2026-06-06
 - C10: MINOR 트리거지만 사용자 외부 리뷰 면제 명시.
 - 후속(C7): docs/05_DATA_SCHEMA_SPEC(PlannedScene.narration)·03_AGENT_ARCHITECTURE 동기화,
   codex 가 텍스트 씬 핵심 한 줄(body) 직접 선택(PlannedScene 필드), 나레이션 톤/속도 .env 노출.
+
+## 2026-06-07 v0.36.1 — 자막 swap seek-safe 화 (tl.call → onUpdate, RENDER-AP-004)
+
+- 무엇을: compose HTML 의 자막 swap 을 `tl.call`(순수 콜백) → `tl.to(proxy,{onUpdate})`
+  (hf-motion countUp 과 동일한 seek-safe 패턴)로 교체. 단일 트윈 onUpdate 가 현재 시점의
+  활성 큐를 골라 $sub.textContent 갱신. 콜백 0, 레이아웃 변경 0.
+- 왜: 나레이션 영상 첫 실 렌더에서 `tl.call is not a function → Composition has zero
+  duration` 으로 렌더 실패(사용자 보고). HyperFrames 는 paused 타임라인을 frame seek 로
+  캡처하는데 순수 콜백 .call 이 그 런타임 timeline 에 노출되지 않아 IIFE 중단 → 타임라인
+  미등록 → zero duration. tl.call 은 나레이션과 무관하게 v0.35.3 이전부터 있던 잠재 버그.
+- 검증: 생성 HTML 에 tl.call( 호출 0 / onUpdate 존재 / @@TOTAL@@ 주입 확인. unittest 400개
+  통과(신규 회귀 1건). 실 렌더 재검증은 사용자 PC(이 환경엔 hyperframes 런타임 없음).
+- C10: 버그 수정 PATCH → 외부 리뷰 면제.
+- 후속: 데모 index.html / render_demo 의 동일 tl.call 도 같은 패턴으로 교체(현재 범위 밖).

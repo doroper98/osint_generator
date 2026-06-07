@@ -112,3 +112,37 @@ last_review: 2026-05-23
 
 - **알려진 한계**: codex 가 text 씬의 핵심 한 줄(body/pull-quote)을 직접 고르게 하려면
   `PlannedScene` 에 필드 추가가 필요(현재 codex 는 heading override 만). 후속 증분 과제.
+
+---
+
+## RENDER-AP-004 — 자막 swap 을 `tl.call`(순수 콜백)로 하면 seek 기반 캡처 렌더러에서 크래시
+
+- **증상 (symptom)**: `npx hyperframes render` 가 capture 단계에서 실패.
+  `[Browser:PAGEERROR] tl.call is not a function (index.html:...)` →
+  `✗ Render failed: Composition has zero duration. Runtime ready: false`. 음성 나레이션
+  영상(v0.36.0) 첫 실 렌더에서 사용자 보고. (data-duration 은 155s 로 정상인데도 실패.)
+
+- **원인 (root cause)**: compose 템플릿의 자막 큐 루프가 `tl.call(() => { $sub.textContent
+  = c.text; }, [], t)` 로 텍스트를 swap 했다. HyperFrames 렌더러는 **paused 타임라인을
+  frame 별로 seek** 해 캡처하는데(`hyperframes/lib/motion/hf-motion.js` §"모든 효과는 paused
+  타임라인에 add 되어 seek 로 재생"), 이 환경의 timeline 에는 순수 콜백 `.call` 이 노출되지
+  않는다(결정론 캡처라 콜백 비결정성 배제로 추정). `.call` 이 throw → 타임라인 IIFE 중단 →
+  `window.__timelines["root"]` 미설정 → 런타임이 zero duration 으로 판단 → 렌더 실패.
+  (데모 index.html 도 동일 `tl.call` 패턴을 갖고 있어 같은 클래스 잠재.)
+
+- **구조적 조치 (structural fix, v0.36.1)**:
+  - `render_composition_html` 의 자막 swap 을 `tl.call` 대신 **`tl.to(proxy, {onUpdate})`**
+    (hf-motion 의 `countUp` 과 동일한 seek-safe 패턴)로 교체. 전체 길이에 걸친 단일 트윈의
+    onUpdate 에서 현재 시점(now)의 활성 큐(가장 최근 `c.t <= now`)를 골라 `$sub.textContent`
+    를 갱신. 콜백 0, 레이아웃 변경 0.
+  - 회귀 테스트 `tests/test_hyperframes_compose.py:test_subtitle_swap_is_seek_safe_no_tl_call`:
+    생성 HTML 에 `tl.call(` 호출이 없고 `onUpdate` 가 있는지 잠금.
+
+- **상태 (status)**: `resolved` (compose 경로). 실 렌더 재검증은 사용자 PC(이 환경엔
+  hyperframes 렌더러/GSAP 런타임이 없어 HTML 구조까지만 검증).
+
+- **알려진 한계**: 데모(`hyperframes/index.html`)·`build_narration`/`render_demo` 경로의 동일
+  `tl.call` 은 본 수정 범위 밖(현재 사용자 경로는 compose). 데모를 다시 쓰면 같은 패턴으로
+  교체 필요.
+
+- **연관**: RENDER-AP-001/002(렌더 환경), hf-motion.js(seek-safe 모션 규약).
