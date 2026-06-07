@@ -34,6 +34,7 @@ import argparse
 import json
 import sys
 from pathlib import Path
+from typing import Any
 
 from orchestrator import __version__
 from orchestrator.command_center import run_command_center
@@ -210,6 +211,27 @@ def build_parser() -> argparse.ArgumentParser:
             "CompositionPlan 생성(연출·자막 재작성, 사실은 번들 고정+미검증 라벨). "
             "stub=결정론 stub 으로 파이프라인 증명(codex 불요)."
         ),
+    )
+    cph.add_argument(
+        "--with-narration",
+        action="store_true",
+        help=(
+            "음성 나레이션(TTS) + 자막/씬 sync 생성. 각 씬 narration 스크립트를 문장 단위로 "
+            "합성, 실 음성 길이로 자막·씬 길이를 다시 깐다(drift 회피). 실패 시 무음성 폴백."
+        ),
+    )
+    from workers.tts_backends import BACKEND_CHOICES as _TTS_CHOICES
+
+    cph.add_argument(
+        "--tts-backend",
+        choices=_TTS_CHOICES,
+        default="elevenlabs",
+        help="TTS 백엔드(--with-narration 시). 기본 elevenlabs. 키 없으면 stub/local 등.",
+    )
+    cph.add_argument(
+        "--voice",
+        default=None,
+        help="TTS voice id/이름(백엔드별). 생략 시 백엔드 기본 목소리.",
     )
 
     bsc = sub.add_parser(
@@ -816,6 +838,12 @@ def _cmd_compose_hyperframes(args: argparse.Namespace) -> int:
             print(f"  플래너({planner}): 씬 {len(plan.scenes)} / 자막 {len(plan.captions)}"
                   f" / 미검증 라벨 {n_unv}건")
 
+    # --with-narration: 실 음성(TTS) + 자막/씬 sync. 실패 시 무음성 폴백.
+    if getattr(args, "with_narration", False):
+        if _compose_with_narration(args, bundle, plan):
+            return 0
+        print("  나레이션 빌드 실패 → 무음성 컴포지션으로 폴백", file=sys.stderr)
+
     scenes = build_composed_scenes(bundle, plan)
     path = build_and_persist_composition(args.project_id, bundle, plan)
     n_chart = sum(1 for s in scenes if s.kind == "chart" and s.component != "tickerboard")
@@ -827,6 +855,85 @@ def _cmd_compose_hyperframes(args: argparse.Namespace) -> int:
     print(f"  출력: {path}")
     print(f"  렌더: cd hyperframes && npx hyperframes render -c generated/{path.name}")
     return 0
+
+
+def _compose_with_narration(args: argparse.Namespace, bundle: Any, plan: Any) -> bool:
+    """--with-narration 경로: TTS 합성 + 실 음성 길이로 자막·씬 sync → 컴포지션 HTML 영속화.
+
+    성공 시 True(요약 출력 포함), 실패(백엔드/ffmpeg 오류 등) 시 False — 호출자가 무음성 폴백.
+    예외는 여기서 잡아 경고만 출력한다(명령을 죽이지 않는다).
+    """
+    import shutil
+
+    from orchestrator.compose_narration import build_scene_narration
+    from orchestrator.hyperframes_compose import (
+        ComposedCue,
+        build_composed_scenes,
+        composition_path,
+        generated_dir,
+        render_composition_html,
+        _atomic_write_text,
+    )
+    from orchestrator.tts_pronounce import load_dict
+    from workers.tts_backends import get_backend
+
+    try:
+        scenes = build_composed_scenes(bundle, plan)
+
+        # ffmpeg 경로 — imageio-ffmpeg(portable) 우선, 그다음 PATH.
+        try:
+            import imageio_ffmpeg  # type: ignore[import-not-found]
+
+            ffmpeg_bin = imageio_ffmpeg.get_ffmpeg_exe()
+        except ImportError:
+            ffmpeg_bin = shutil.which("ffmpeg") or "ffmpeg"
+
+        repo_root = Path(__file__).resolve().parent.parent
+        pron_dict = load_dict(repo_root / "hyperframes" / "assets" / "pronounce.json")
+
+        backend = get_backend(args.tts_backend)
+        pid = composition_path(args.project_id).stem
+        audio_out = repo_root / "hyperframes" / "assets" / "audio" / f"{pid}.mp3"
+        audio_out.parent.mkdir(parents=True, exist_ok=True)
+
+        result = build_scene_narration(
+            scenes,
+            backend=backend,
+            voice=args.voice,
+            audio_out=audio_out,
+            ffmpeg_bin=ffmpeg_bin,
+            pronounce_dict=pron_dict or None,
+        )
+
+        # 실 음성 길이로 씬 타임라인 재배치 — 비주얼이 자기 나레이션 구간과 정렬되도록.
+        lead_sec = 0.5
+        cursor = lead_sec
+        for sc in scenes:
+            sc.start_sec = round(cursor, 3)
+            sc.duration_sec = round(result.scene_durations.get(sc.scene_id, sc.duration_sec), 3)
+            cursor += sc.duration_sec
+
+        cues = [ComposedCue(text=c.text, at_sec=c.at_sec) for c in result.cues]
+        title = (plan.title if (plan is not None and plan.title)
+                 else (bundle.report.headline if bundle.report else ""))
+        html_str = render_composition_html(
+            title=title, scenes=scenes, cues=cues,
+            audio_src=f"../assets/audio/{pid}.mp3",
+            total_override=result.total_sec,
+        )
+
+        out_path = generated_dir() / f"{pid}.html"
+        _atomic_write_text(out_path, html_str)
+    except Exception as e:  # noqa: BLE001 — 폴백 경계(나레이션 실패가 명령을 죽이지 않게)
+        print(f"  나레이션 오류: {e}", file=sys.stderr)
+        return False
+
+    print(f"compose-hyperframes 완료(+나레이션): {args.project_id}")
+    print(f"  씬 {len(scenes)} 개 / 자막 큐 {len(cues)} 개 / 총 {result.total_sec:.2f}s")
+    print(f"  오디오: {result.audio_path}")
+    print(f"  출력: {out_path}")
+    print(f"  렌더: cd hyperframes && npx hyperframes render -c generated/{out_path.name}")
+    return True
 
 
 def _cmd_build_script(args: argparse.Namespace) -> int:

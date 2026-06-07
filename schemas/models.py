@@ -953,6 +953,7 @@ class PlannedScene(BaseModel):
     emphasis_words: list[str] = Field(default_factory=list)  # SplitText 강조 단어
     role: Optional[Literal["full", "strip", "keep"]] = None  # full/strip 재지정(keep=스켈레톤 유지)
     countup_value: Optional[str] = None  # 카운트업으로 띄울 핵심 숫자(번들 대조 대상)
+    narration: Optional[str] = None      # codex가 이 씬에서 음성이 읽을 깊이 있는 나레이션 스크립트(2~5문장). 자막=이 문장들로 싱크. 번들 사실에 묶임.
     duration_sec: Optional[float] = None # 페이싱 override(범위는 소비 단계 clamp)
     transition: Optional[str] = None     # 전환 힌트(crossfade 등). 미지원 값은 무시.
     chart_type: Optional[str] = None     # (전면 위임 예약) 차트 타입 재지정 — 후속 증분에서 소비

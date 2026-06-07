@@ -66,7 +66,7 @@ def validate_and_label_plan(
     new_scenes = []
     for sc in plan.scenes:
         uf = list(sc.unverified_fields)
-        for field in ("headline", "countup_value"):
+        for field in ("headline", "countup_value", "narration"):
             bad = _unverified_numbers(getattr(sc, field), allowed)
             if bad:
                 if field not in uf:

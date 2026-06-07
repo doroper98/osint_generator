@@ -2489,3 +2489,25 @@ last_review: 2026-06-06
 - 검증: unittest 전체 통과(신규 TestInvokeEncoding 2건 — mock 으로 encoding/stdin 잠금).
 - C10: 버그 수정 PATCH → 외부 리뷰 면제. codex-on-Windows 3연속(.cmd→stdin→인코딩)
   수정의 마지막 고리 — 이제 한국어 Windows 에서 codex response end-to-end 가 열렸을 것.
+
+## 2026-06-07 v0.36.0 — compose 경로 음성 나레이션(TTS) + 자막/씬 실음성 sync
+
+- 무엇을: `compose-hyperframes --with-narration --tts-backend {elevenlabs|stub|...}` 추가.
+  codex 가 씬당 깊이 있는 나레이션 스크립트(2~4문장)를 생성(PlannedScene.narration) →
+  문장 cue 분할 → TTS 합성 → **실 음성 길이로 자막 cue 시점·씬 길이 재배치** → HTML 에
+  `<audio>` 임베드. 자막=음성 1:1 싱크.
+- 왜: 사용자 요청 — (1) 음성(.env ElevenLabs) (2) 음성·자막·영상 흐름 싱크 (3) "영상이
+  보고서 원문만큼 깊이가 없다"(codex 가 씬당 1줄로 과압축) → 나레이션 스크립트로 깊이 회복.
+- 신규: `orchestrator/compose_narration.py`(순수 타임라인 plan_narration_timeline + 문장분할
+  + build_scene_narration). PlannedScene.narration / ComposedScene.narration. plan_validator
+  가 narration 의 번들 외 숫자도 <미검증> 라벨. _stub_plan 도 narration 생성(전 구간 stub 검증).
+- drift 회피(사용자 과거 보고 "자막 먼저, 음성 늦게"): 파트별 mp3 재인코딩 패딩 누적(실측
+  1.6s drift)을 **PCM WAV 샘플정확 조립 + 실측 길이(stdlib wave) + 최종 mp3 1회 인코딩**으로
+  제거(실 mp3 174.47s vs 계산 174.43s, 0.04s = 끝 패딩 1회). cue at_sec == 실 오디오 위치.
+- total_override: 씬이 lead 오프셋에서 시작하면 sum(씬) 이 실 총길이보다 짧아 마지막 씬/음성이
+  잘리던 버그 → render_composition_html(total_override) 로 루트·audio data-duration 강제.
+- 검증: 실 번들(「AI 메모리의 역설」) stub end-to-end — 씬6/cue18(깊이↑)/총174s, 씬·cue 시점
+  정렬 확인. unittest 399개 통과(신규 test_compose_narration 10건). 실 ElevenLabs 는 사용자 PC.
+- C10: MINOR 트리거지만 사용자 외부 리뷰 면제 명시.
+- 후속(C7): docs/05_DATA_SCHEMA_SPEC(PlannedScene.narration)·03_AGENT_ARCHITECTURE 동기화,
+  codex 가 텍스트 씬 핵심 한 줄(body) 직접 선택(PlannedScene 필드), 나레이션 톤/속도 .env 노출.

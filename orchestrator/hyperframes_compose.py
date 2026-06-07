@@ -81,6 +81,7 @@ class ComposedScene(BaseModel):
     heading: str = ""                     # svg/text 씬 헤드라인 (chart 는 variables.takeaway)
     body: str = ""                        # text 씬 본문(pull_quote/prose)
     svg: str = ""                         # kind=="svg" 일 때 prerendered_svg 원문
+    narration: str = ""                   # 음성 나레이션 스크립트(plan 에서 주입)
 
 
 # ---------------------------------------------------------------------------
@@ -540,6 +541,8 @@ def _apply_plan_to_scenes(scenes: list[ComposedScene], plan: Any) -> list[Compos
                 sc.variables["takeaway"] = head
             else:
                 sc.heading = head
+        if p.narration:
+            sc.narration = ("<미검증> " + p.narration) if "narration" in p.unverified_fields else p.narration
         if p.duration_sec is not None:
             sc.duration_sec = round(min(30.0, max(3.0, float(p.duration_sec))), 3)
     # 2) 재정렬 — plan order 우선, 그 외는 원래 순서 보존(stable)
@@ -591,14 +594,23 @@ def render_composition_html(
     charts_prefix: str = "../lib/charts",
     width: int = 1920,
     height: int = 1080,
+    audio_src: Optional[str] = None,
+    total_override: Optional[float] = None,
 ) -> str:
     """ComposedScene[] (+ 절대 타임라인 자막 cues) → HyperFrames 컴포지션 HTML 문자열.
 
     각 씬은 class="clip" + data-start/duration 으로 프레임워크가 표시 구간을 관리한다.
     차트 씬은 sub-composition 임베드, 텍스트 씬은 인라인 카드(루트 타임라인이 fade).
     하단 자막바는 항상 떠 있고 텍스트만 큐 시점에 swap.
+
+    total_override: 나레이션 경로처럼 씬이 0 이 아닌 lead 오프셋에서 시작하거나 말미 tail
+    무음이 붙는 경우, 루트·audio 의 data-duration 을 실제 컴포지션 길이로 강제한다. 없으면
+    씬 길이 합(씬이 0 부터 연속이라는 가정)을 쓴다.
     """
-    total = round(sum(s.duration_sec for s in scenes), 3) if scenes else 1.0
+    if total_override is not None:
+        total = round(float(total_override), 3)
+    else:
+        total = round(sum(s.duration_sec for s in scenes), 3) if scenes else 1.0
     abs_cues: list[ComposedCue] = list(cues or [])
 
     scene_divs: list[str] = []
@@ -673,6 +685,22 @@ def render_composition_html(
     cues_block = f"[\n        {cue_lines},\n      ]" if abs_cues else "[]"
     first_cue = html.escape(abs_cues[0].text) if abs_cues else ""  # HTML 컨텍스트(span 안)
 
+    # 음성 나레이션 <audio> 블록 — audio_src 가 있을 때만 (HyperFrames 가 재생할 정확한 마크업).
+    if audio_src:
+        audio_block = (
+            '      <audio\n'
+            '        id="narration-comp"\n'
+            '        class="clip"\n'
+            '        data-start="0"\n'
+            f'        data-duration="{total:.3f}"\n'
+            '        data-track-index="100"\n'
+            f'        src="{html.escape(audio_src)}"\n'
+            '        preload="auto"\n'
+            '      ></audio>'
+        )
+    else:
+        audio_block = ""
+
     tmpl = _COMPOSITION_TEMPLATE
     return (
         tmpl
@@ -685,6 +713,7 @@ def render_composition_html(
         .replace("@@FIRSTCUE@@", first_cue)
         .replace("@@CUES@@", cues_block)
         .replace("@@TEXTANIM@@", "\n".join(text_anim))
+        .replace("@@AUDIO@@", audio_block)
     )
 
 
@@ -751,6 +780,7 @@ _COMPOSITION_TEMPLATE = """<!doctype html>
 @@SCENES@@
 
       <div class="subtitle-bar"><div class="subtitle"><span class="text" id="subtitleText">@@FIRSTCUE@@</span></div></div>
+@@AUDIO@@
     </div>
 
     <script>

@@ -40,6 +40,10 @@ _SYSTEM_PROMPT = """너는 OSINT 데이터 브리핑 영상의 **연출 감독**
   자동으로 화면에서 <미검증> 라벨이 붙는다(그래도 되지만 남발 금지).
 - 자막(captions)은 통문단을 그대로 쪼개지 말고, 각 씬에 맞춰 **순차적 key-takeaway** 한 줄씩
   자연스러운 한국어로 재작성. scene_ref 는 해당 씬의 scene_id. order 는 0부터.
+- **각 씬 객체는 `"narration"` 문자열을 반드시 포함**한다 — 그 씬에서 음성이 읽을 깊이 있는
+  2~4문장의 한국어 나레이션 스크립트. 한 줄 자막보다 더 풍부하게 그 섹션의 **본질**을 전달하되,
+  번들 사실에만 묶어라(없는 숫자 금지 — 번들 밖 숫자는 화면에서 <미검증> 라벨이 붙는다).
+  자막은 이 나레이션 문장들과 1:1 로 싱크되어 음성과 함께 순차 표시된다.
 - 씬 순서(order), 헤드라인(headline), 강조 단어(emphasis_words), full/strip 역할(role),
   카운트업 숫자(countup_value), 페이싱(duration_sec)을 영상미가 살도록 판단해 채워라.
 - scene_id 는 입력 스켈레톤의 값을 그대로 써라(없는 id 는 무시된다).
@@ -51,7 +55,9 @@ JSON 형식:
   "scenes": [
     {"scene_id": "<id>", "order": 0, "headline": "<또는 null>",
      "emphasis_words": ["..."], "role": "full|strip|keep|null",
-     "countup_value": "<숫자 문자열 또는 null>", "duration_sec": <숫자 또는 null>}
+     "countup_value": "<숫자 문자열 또는 null>",
+     "narration": "<이 씬에서 음성이 읽을 2~4문장 나레이션. 번들 사실에 묶임.>",
+     "duration_sec": <숫자 또는 null>}
   ],
   "captions": [
     {"scene_ref": "<scene_id>", "order": 0, "text": "<자막 한 줄>"}
@@ -144,15 +150,18 @@ def _stub_plan(bundle: ReportBundle, skeleton: list[dict[str, Any]]) -> dict[str
     seen_sid: set[str] = set()
     for idx, sk in enumerate(skeleton):
         emph = [w for w in re.split(r"[\s,·]+", sk["headline"]) if len(w) >= 2][:2]
+        sid = sk["section_id"]
+        sents = [s.strip() for s in re.split(r"(?<=[.?!。])\s+", prose_by_sid.get(sid, "")) if s.strip()]
+        # 나레이션 = 그 섹션 prose 의 첫 2~3문장(stub: 결정론 음성 스크립트 — 전 구간 테스트용).
+        narration = " ".join(sents[:3]) or None
         scenes.append({
             "scene_id": sk["scene_id"], "order": idx,
             "emphasis_words": emph, "role": "keep",
+            "narration": narration,
         })
-        sid = sk["section_id"]
         if sid in seen_sid:
             continue
         seen_sid.add(sid)
-        sents = [s.strip() for s in re.split(r"(?<=[.?!。])\s+", prose_by_sid.get(sid, "")) if s.strip()]
         for j, sent in enumerate(sents[:3]):
             captions.append({"scene_ref": sk["scene_id"], "order": j, "text": sent})
     return {"plan_engine": "stub", "title": None, "scenes": scenes,
