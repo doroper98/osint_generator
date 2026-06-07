@@ -1,0 +1,91 @@
+<!doctype html>
+<!-- theme_explorer5.html — agents_reviewer v6 의 5개 테마를 우리 브리핑 라인 장면에 적용(정적 목업). -->
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,700;6..72,800&family=Noto+Serif+KR:wght@400;700;900&family=IBM+Plex+Sans+KR:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@500;600;700&display=swap" rel="stylesheet">
+    <style>
+      * { box-sizing:border-box; margin:0; padding:0; }
+      body { background:#0E1014; font-family:'IBM Plex Sans KR',sans-serif; }
+      .sheet { width:1180px; margin:0 auto; padding:30px; }
+      .label { color:#9aa; font-family:'IBM Plex Mono',monospace; font-size:13px; letter-spacing:2px; text-transform:uppercase; margin:24px 4px 10px; }
+      .label b { color:#fff; }
+
+      .scene { width:1120px; height:600px; border-radius:14px; overflow:hidden; background:var(--bg); color:var(--text); position:relative; }
+      .pad { position:absolute; inset:0; padding:48px 60px; display:flex; flex-direction:column; }
+      .kick { font-family:'IBM Plex Mono',monospace; font-size:13px; font-weight:700; letter-spacing:3px; text-transform:uppercase; color:var(--accent); }
+      .chartwrap { background:var(--card); border:1px solid var(--border); border-radius:14px; padding:26px 30px; margin-top:16px; }
+      .head { font-family:'Newsreader','Noto Serif KR',Georgia,serif; font-weight:700; font-size:54px; line-height:1.08; letter-spacing:-1px; color:var(--text); margin-top:auto; }
+      .row { display:flex; gap:12px; margin-top:14px; align-items:center; }
+      .chip { font-family:'IBM Plex Mono',monospace; font-size:15px; font-weight:600; padding:6px 12px; border-radius:8px; border:1px solid var(--border); }
+      .chip.up { color:var(--up); } .chip.down { color:var(--down); }
+      .src { font-family:'IBM Plex Mono',monospace; font-size:14px; color:var(--muted); margin-top:14px; letter-spacing:0.5px; }
+
+      .grid line { stroke:var(--border); }
+      .axis { fill:var(--muted); font-family:'IBM Plex Mono',monospace; font-size:17px; }
+      .line { stroke:var(--accent); }
+      .endval { fill:var(--text); font-family:'IBM Plex Mono',monospace; font-weight:700; }
+      .endlbl { fill:var(--accent); font-family:'IBM Plex Mono',monospace; }
+      .co { fill:var(--accent); }
+      .coplate { fill:var(--card); stroke:var(--border); }
+
+      [data-theme="editorial_cream"]  { --bg:#F2EBDB; --card:#ECE3D0; --border:#D4C8B0; --text:#1F1814; --muted:#6B5C4A; --accent:#B05A38; --up:#4A6B3E; --down:#8B2A2A; }
+      [data-theme="burgundy_mono"]    { --bg:#2A0F18; --card:#371721; --border:#5A2832; --text:#EFE5D1; --muted:#A88E7A; --accent:#D4A858; --up:#A8B582; --down:#C9837A; }
+      [data-theme="midnight_indigo"]  { --bg:#161A2E; --card:#1F2440; --border:#3A4060; --text:#E8ECEF; --muted:#8A92A8; --accent:#6FB3FF; --up:#88B888; --down:#DC7A7A; }
+      [data-theme="pine_forest"]      { --bg:#132019; --card:#1B2C22; --border:#32503E; --text:#E7EEE8; --muted:#8AA294; --accent:#7CC6A4; --up:#88B888; --down:#DC7A7A; }
+      [data-theme="graphite_slate"]   { --bg:#191B1E; --card:#23262B; --border:#3D424A; --text:#E9EBED; --muted:#969BA3; --accent:#D69A5E; --up:#88B888; --down:#DC7A7A; }
+    </style>
+  </head>
+  <body>
+    <div class="sheet" id="sheet"></div>
+    <script>
+      var THEMES = [
+        ["editorial_cream","Editorial Cream","따뜻한 종이·에디토리얼"],
+        ["burgundy_mono","Burgundy Mono","딥 버건디·골드"],
+        ["midnight_indigo","Midnight Indigo","미드나잇 인디고·블루"],
+        ["pine_forest","Pine Forest","파인 포레스트·민트"],
+        ["graphite_slate","Graphite Slate","그래파이트·앰버"]
+      ];
+      var XL=["2023","2024","2025"], YS=[0.2,0.6,1.9], yMin=-1,yMax=3,yStep=1;
+      function chartSVG(){
+        var X0=70,X1=900,BASE=250,TOP=18;
+        var xOf=function(i){return X0+i*((X1-X0)/(XL.length-1));};
+        var yOf=function(v){return BASE-((v-yMin)/(yMax-yMin))*(BASE-TOP);};
+        var grid="",ax="";
+        for(var p=yMin;p<=yMax+0.001;p+=yStep){ var gy=yOf(p);
+          grid+='<line x1="'+X0+'" y1="'+gy+'" x2="'+(X1+20)+'" y2="'+gy+'"/>';
+          grid+='<text class="axis" x="'+(X0-14)+'" y="'+(gy+6)+'" text-anchor="end">'+p+'</text>'; }
+        for(var i=0;i<XL.length;i++) ax+='<text class="axis" x="'+xOf(i)+'" y="'+(BASE+34)+'" text-anchor="middle">'+XL[i]+'</text>';
+        var d="",area="M "+xOf(0)+" "+BASE;
+        YS.forEach(function(v,i){ var x=xOf(i),y=yOf(v); d+=(i?"L":"M")+x+" "+y+" "; area+=" L "+x+" "+y; });
+        area+=" L "+xOf(YS.length-1)+" "+BASE+" Z";
+        var ex=xOf(2),ey=yOf(1.9), clX=xOf(1);
+        return '<svg width="992" height="300" viewBox="0 0 992 300">'+
+          '<g class="grid">'+grid+'</g>'+ax+
+          '<path class="area" d="'+area+'" fill="var(--accent)" fill-opacity="0.13"/>'+
+          '<path class="line" d="'+d.trim()+'" fill="none" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>'+
+          '<rect class="coplate" x="120" y="40" width="290" height="38" rx="9"/>'+
+          '<text class="co" x="136" y="65" font-size="18" font-weight="600">딥시크 충격 후 오히려 가속</text>'+
+          '<circle cx="'+ex+'" cy="'+ey+'" r="6" fill="var(--accent)"/>'+
+          '<rect class="coplate" x="'+(ex+14)+'" y="'+(ey-26)+'" width="84" height="38" rx="8"/>'+
+          '<text class="endlbl" x="'+(ex+26)+'" y="'+(ey-30)+'" font-size="14">GW</text>'+
+          '<text class="endval" x="'+(ex+26)+'" y="'+(ey-1)+'" font-size="22">1.9</text>'+
+        '</svg>';
+      }
+      var html="";
+      THEMES.forEach(function(t){
+        html += '<div class="label"><b>'+t[1]+'</b> · '+t[0]+' — '+t[2]+'</div>'+
+          '<div class="scene" data-theme="'+t[0]+'"><div class="pad">'+
+            '<div class="kick">OSINT 브리핑 · INTELLIGENCE</div>'+
+            '<div class="chartwrap">'+chartSVG()+'</div>'+
+            '<div class="head">오픈AI 컴퓨트 규모, 두 해에 9배</div>'+
+            '<div class="row"><span class="chip up">▲ 컴퓨트 +850%</span><span class="chip down">▼ 효율 압박 -12%</span></div>'+
+            '<div class="src">출처 · OpenAI / Epoch AI · 2023–2025</div>'+
+          '</div></div>';
+      });
+      document.getElementById("sheet").innerHTML = html;
+    </script>
+  </body>
+</html>
