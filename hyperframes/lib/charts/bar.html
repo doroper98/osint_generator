@@ -135,8 +135,15 @@
                 { scaleY: 1, duration: 0.55, ease: "power3.out" }, barStart + i * effBarStagger);
               tl.fromTo(g.querySelector('[data-role="cat"]'), { opacity: 0, y: 8 },
                 { opacity: 1, y: 0, duration: 0.3, ease: "power2.out" }, barStart + i * effBarStagger);
+              var valAt = barStart + i * effBarStagger + 0.1;
               tl.fromTo(g.querySelector('[data-role="val"]'), { opacity: 0, y: 12 },
-                { opacity: 1, y: 0, duration: 0.35, ease: "back.out(1.6)" }, barStart + i * effBarStagger + 0.35);
+                { opacity: 1, y: 0, duration: 0.3, ease: "back.out(1.6)" }, valAt);
+              // 막대 값 카운트업 — 막대가 자라는 동안 숫자가 0→값으로 굴러오게.
+              var bv = g.querySelector('[data-role="val"]');
+              if (window.__hf && window.__hf.countUp && bv && bars[i]) {
+                window.__hf.countUp(tl, bv, 0, +bars[i].value,
+                  { at: valAt, duration: 0.6, ease: "power2.out", format: fmtNum });
+              }
             });
 
             // 헤드라인 SplitText reveal (모션 내재화 hf-motion, 있으면).

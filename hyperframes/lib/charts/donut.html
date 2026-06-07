@@ -158,6 +158,18 @@
             // 중앙 텍스트
             tl.fromTo(svg.querySelectorAll('[data-role="center"]'), { opacity: 0, scale: 0.9, transformOrigin: CX + "px " + CY + "px" },
               { opacity: 1, scale: 1, duration: 0.5, stagger: 0.1, ease: "back.out(1.6)" }, drawStart + 0.5);
+            // 중앙 큰 값 카운트업 — "91%"/"3.2조" 처럼 숫자+접미 문자열에서 숫자만 0→값으로
+            // 굴리고 접미(%, 조 등)는 보존. 숫자가 없으면(텍스트 라벨) 정적 유지.
+            (function () {
+              var cvBig = svg.querySelectorAll('[data-role="center"]')[1];
+              var raw = String(centerValue);
+              var cvNum = parseFloat(raw.replace(/[^0-9.\-]/g, ""));
+              var cvSuffix = raw.replace(/^[\s\-0-9.,]+/, "");
+              if (window.__hf && window.__hf.countUp && cvBig && isFinite(cvNum)) {
+                window.__hf.countUp(tl, cvBig, 0, cvNum,
+                  { at: drawStart + 0.6, duration: 0.9, ease: "power2.out", format: fmtNum, suffix: cvSuffix });
+              }
+            })();
             // 라벨 리스트
             svg.querySelectorAll('[data-role="legend"]').forEach(function (g, i) {
               tl.fromTo(g, { opacity: 0, x: 16 }, { opacity: 1, x: 0, duration: 0.4, ease: "power2.out" }, drawStart + 0.8 + i * 0.12);

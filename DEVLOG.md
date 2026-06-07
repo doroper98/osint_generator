@@ -2562,3 +2562,15 @@ last_review: 2026-06-06
     leaderPath 를 배경판에 연결.
 - 검증: py_compile + _line_vars 단위 테스트(name="" / dir ur→ul / t stagger 확인),
   line.html 인라인 JS node --check 통과. 실제 렌더 영상미 확인은 사용자 재생성+0.6.76 렌더.
+
+## 2026-06-07 v0.36.5 — 차트 숫자 카운트업 모션 적용 (hf-motion countUp 활용)
+
+- 배경: 사용자 지적 — 스킬 저장소(gsap-skills/taste-skill) 내재화 자산(hf-motion.js)의
+  countUp 을 차트가 전혀 안 쓰고 페이드인만 하고 있었다. revealWords/back.out 은 쓰는데
+  데이터-영상의 핵심인 "숫자 카운트업"이 빠짐(C0 영상미 미달).
+- 적용: window.__hf.countUp(tl, el, 0, value, {at, format, suffix}) 로
+  - line.html: 끝점 값(끝점 도달 순간 0→실제값).
+  - bar.html: 각 막대 값(막대 grow 와 동반).
+  - donut.html: 중앙 큰 값(숫자만 0→값, "%"·단위 접미 보존; 비숫자면 정적 유지).
+- 검증: 세 차트 인라인 JS node --check 통과. 실제 모션은 사용자 0.6.76 렌더로 확인.
+- 후속(미적용): 범례 값/축 숫자 카운트업, taste 다이얼(MOTION/DENSITY) 노브.
