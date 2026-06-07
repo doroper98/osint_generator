@@ -14,7 +14,7 @@
 -->
 <html lang="ko" data-composition-variables='[
   {"id":"takeaway","type":"string","label":"헤드라인","default":"브렌트 유가 — 봉쇄에서 협상까지"},
-  {"id":"accent","type":"color","label":"강조색","default":"#e84a2d"},
+  {"id":"accent","type":"color","label":"강조색","default":"#b5482e"},
   {"id":"yMin","type":"number","label":"y축 최소","default":50},
   {"id":"yMax","type":"number","label":"y축 최대","default":130},
   {"id":"yStep","type":"number","label":"y축 격자 간격","default":20},
@@ -38,27 +38,27 @@
             position: absolute; inset: 0; width: 1920px; height: 1080px;
             background: transparent;
             font-family: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-            color: #1a1a1a; word-break: keep-all; overflow-wrap: anywhere;
+            color: #16130f; word-break: keep-all; overflow-wrap: anywhere;
           }
           [data-composition-id="candle"] .hf-stage {
             position: absolute; top: 160px; left: 0; right: 0; bottom: 300px;
             display: flex; align-items: center; justify-content: center;
           }
           [data-composition-id="candle"] .hf-card {
-            width: 1520px; background: #ffffff; border-radius: 22px;
-            box-shadow: 0 2px 16px rgba(26,26,26,0.06), 0 1px 3px rgba(26,26,26,0.04);
+            width: 1520px; background: #fbf9f4; border-radius: 18px; border: 1px solid #e2dccf;
+            box-shadow: 0 1px 2px rgba(22,19,15,0.05);
             padding: 56px;
           }
           [data-composition-id="candle"] .hf-takeaway {
             font-size: 56px; font-weight: 900; line-height: 1.15;
-            letter-spacing: -0.3px; color: #1a1a1a; margin-bottom: 24px;
+            letter-spacing: -0.3px; color: #16130f; margin-bottom: 24px;
           }
           [data-composition-id="candle"] svg.hf-chart {
             display: block; width: 1408px; height: 500px; overflow: visible;
           }
           [data-composition-id="candle"] .hf-source {
             margin-top: 20px; font-size: 22px; font-weight: 600;
-            color: rgba(26,26,26,0.42); letter-spacing: -0.2px;
+            color: #9b9082; letter-spacing: -0.2px;
           }
         </style>
 
@@ -87,7 +87,7 @@
             // getVariables() 가 비어도 항상 렌더되도록 JS 폴백(브렌트 canonical)을 함께 둔다.
             var D = {
               takeaway: "브렌트 유가 — 봉쇄에서 협상까지",
-              accent: "#e84a2d", yMin: 50, yMax: 130, yStep: 20, yUnit: "$",
+              accent: "#b5482e", yMin: 50, yMax: 130, yStep: 20, yUnit: "$",
               candles: [
                 { d: "02-22", o: 80, h: 82, l: 78, c: 81 },
                 { d: "03-01", o: 81, h: 96, l: 80, c: 95 },
@@ -187,7 +187,7 @@
               parts.push('<rect x="' + r1(cx - bodyW / 2) + '" y="' + r1(yTop) + '" width="' + r1(bodyW) +
                 '" height="' + r1(bh) + '" ' + (up
                   ? 'fill="' + accent + '"'
-                  : 'fill="#ffffff" stroke="' + accent + '" stroke-width="2.5"') + '/>');
+                  : 'fill="#fbf9f4" stroke="' + accent + '" stroke-width="2.5"') + '/>');
               parts.push('</g>');
             }
             parts.push('</g>');
@@ -204,7 +204,7 @@
                 '" stroke="' + accent + '" stroke-width="1.5" fill="none" ' +
                 'style="stroke-dasharray:600;stroke-dashoffset:600;"/>');
               parts.push('<circle cx="' + r1(ax) + '" cy="' + r1(ay) + '" r="6" fill="' + accent +
-                '" stroke="#ffffff" stroke-width="2"/>');
+                '" stroke="#fbf9f4" stroke-width="2"/>');
               parts.push('<text data-role="co-t" x="' + r1(place.lx) + '" y="' + r1(place.ly) + '" fill="' + accent +
                 '" font-size="22" font-weight="800" letter-spacing="1.5" text-anchor="' + place.anchor + '">' +
                 esc(co.title || "") + '</text>');
@@ -222,10 +222,10 @@
               if (ex > GRID_R - 180) { elx = ex - 41; eAnchor = "end"; }
               parts.push('<g data-role="endpoint" style="opacity:0">');
               parts.push('<circle cx="' + r1(ex) + '" cy="' + r1(ey) + '" r="9" fill="' + accent +
-                '" stroke="#f5f1ea" stroke-width="3"/>');
+                '" stroke="#f6f3ec" stroke-width="3"/>');
               parts.push('<text data-role="ep-t" x="' + r1(elx) + '" y="' + r1(ey - 8) + '" fill="' + accent +
                 '" font-size="22" font-weight="800" text-anchor="' + eAnchor + '">' + esc(endpoint.title || "") + '</text>');
-              parts.push('<text data-role="ep-t" x="' + r1(elx) + '" y="' + r1(ey + 22) + '" fill="#1a1a1a" ' +
+              parts.push('<text data-role="ep-t" x="' + r1(elx) + '" y="' + r1(ey + 22) + '" fill="#16130f" ' +
                 'font-size="30" font-weight="900" text-anchor="' + eAnchor + '">' + esc(endpoint.value || "") + '</text>');
             }
             if (endpoint) parts.push('</g>');

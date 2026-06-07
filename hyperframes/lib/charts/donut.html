@@ -11,7 +11,7 @@
   {"id":"unit","type":"string","label":"값 단위","default":"%"},
   {"id":"centerLabel","type":"string","label":"중앙 라벨","default":"아시아 4개국"},
   {"id":"centerValue","type":"string","label":"중앙 값","default":"91%"},
-  {"id":"slices","type":"string","label":"슬라이스(JSON)","default":"[{\"label\":\"중국\",\"value\":48,\"color\":\"#e84a2d\"},{\"label\":\"인도\",\"value\":19,\"color\":\"#f0883e\"},{\"label\":\"한국\",\"value\":13,\"color\":\"#5aa9e6\"},{\"label\":\"일본\",\"value\":11,\"color\":\"#7d8597\"},{\"label\":\"기타\",\"value\":9,\"color\":\"#c9cdd4\"}]"},
+  {"id":"slices","type":"string","label":"슬라이스(JSON)","default":"[{\"label\":\"중국\",\"value\":48,\"color\":\"#b5482e\"},{\"label\":\"인도\",\"value\":19,\"color\":\"#f0883e\"},{\"label\":\"한국\",\"value\":13,\"color\":\"#5aa9e6\"},{\"label\":\"일본\",\"value\":11,\"color\":\"#7d8597\"},{\"label\":\"기타\",\"value\":9,\"color\":\"#c9cdd4\"}]"},
   {"id":"drawStart","type":"number","label":"arc draw 시작(초)","default":0.6}
 ]'>
   <head>
@@ -26,22 +26,22 @@
           [data-composition-id="donut"] {
             position: absolute; inset: 0; width: 1920px; height: 1080px; background: transparent;
             font-family: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-            color: #1a1a1a; word-break: keep-all; overflow-wrap: anywhere;
+            color: #16130f; word-break: keep-all; overflow-wrap: anywhere;
           }
           [data-composition-id="donut"] .hf-stage {
             position: absolute; top: 160px; left: 0; right: 0; bottom: 300px;
             display: flex; align-items: center; justify-content: center;
           }
           [data-composition-id="donut"] .hf-card {
-            width: 1520px; background: #ffffff; border-radius: 22px;
-            box-shadow: 0 2px 16px rgba(26,26,26,0.06), 0 1px 3px rgba(26,26,26,0.04); padding: 56px;
+            width: 1520px; background: #fbf9f4; border-radius: 18px; border: 1px solid #e2dccf;
+            box-shadow: 0 1px 2px rgba(22,19,15,0.05); padding: 56px;
           }
           [data-composition-id="donut"] .hf-takeaway {
             font-size: 56px; font-weight: 900; line-height: 1.15; letter-spacing: -0.3px;
-            color: #1a1a1a; margin-bottom: 24px;
+            color: #16130f; margin-bottom: 24px;
           }
           [data-composition-id="donut"] svg.hf-chart { display: block; width: 1408px; height: 500px; overflow: visible; }
-          [data-composition-id="donut"] .hf-source { margin-top: 20px; font-size: 22px; font-weight: 600; color: rgba(26,26,26,0.42); letter-spacing: -0.2px; }
+          [data-composition-id="donut"] .hf-source { margin-top: 20px; font-size: 22px; font-weight: 600; color: #9b9082; letter-spacing: -0.2px; }
         </style>
 
         <div class="hf-stage">
@@ -67,7 +67,7 @@
               takeaway: "호르무즈 해협 원유 — 목적지 비중", unit: "%",
               centerLabel: "아시아 4개국", centerValue: "91%",
               slices: [
-                { label: "중국", value: 48, color: "#e84a2d" },
+                { label: "중국", value: 48, color: "#b5482e" },
                 { label: "인도", value: 19, color: "#f0883e" },
                 { label: "한국", value: 13, color: "#5aa9e6" },
                 { label: "일본", value: 11, color: "#7d8597" },
@@ -90,7 +90,7 @@
             root.querySelector('[data-role="takeaway"]').textContent = V.takeaway != null ? V.takeaway : D.takeaway;
             setSourceFooter(root, V);
 
-            var PALETTE = ["#e84a2d", "#f0883e", "#5aa9e6", "#7d8597", "#c9cdd4"];
+            var PALETTE = ["#b5482e", "#f0883e", "#5aa9e6", "#7d8597", "#c9cdd4"];
             var total = 0; slices.forEach(function (s) { total += +s.value; });
             if (total <= 0) total = 1;
 
@@ -122,7 +122,7 @@
             // 중앙 텍스트
             parts.push('<text data-role="center" x="' + CX + '" y="' + (CY - 8) + '" fill="rgba(26,26,26,0.55)" font-size="24" ' +
               'font-weight="700" text-anchor="middle" style="opacity:0">' + esc(centerLabel) + '</text>');
-            parts.push('<text data-role="center" x="' + CX + '" y="' + (CY + 40) + '" fill="#1a1a1a" font-size="58" ' +
+            parts.push('<text data-role="center" x="' + CX + '" y="' + (CY + 40) + '" fill="#16130f" font-size="58" ' +
               'font-weight="900" text-anchor="middle" style="opacity:0">' + esc(centerValue) + '</text>');
 
             // 우측 직접 라벨 리스트
@@ -132,11 +132,11 @@
               var ry = startY + i * rowH, pct = Math.round((+s.value) / total * 1000) / 10;
               parts.push('<g data-role="legend" data-i="' + i + '" style="opacity:0">');
               parts.push('<rect x="' + LX + '" y="' + r1(ry - 22) + '" width="30" height="30" rx="7" fill="' + col + '"/>');
-              parts.push('<text x="' + (LX + 48) + '" y="' + r1(ry) + '" fill="#1a1a1a" font-size="30" font-weight="800" dominant-baseline="middle">' +
+              parts.push('<text x="' + (LX + 48) + '" y="' + r1(ry) + '" fill="#16130f" font-size="30" font-weight="800" dominant-baseline="middle">' +
                 esc(s.label) + '</text>');
               // 값이 이미 % 면 비중 sub-line 은 중복이라 생략. 절대값이면 계산된 % 를 보조 표기.
               var pctRedundant = (unit === "%");
-              parts.push('<text x="' + (LX + 600) + '" y="' + r1(pctRedundant ? ry : ry - 10) + '" fill="#1a1a1a" font-size="30" font-weight="900" text-anchor="end" dominant-baseline="middle">' +
+              parts.push('<text x="' + (LX + 600) + '" y="' + r1(pctRedundant ? ry : ry - 10) + '" fill="#16130f" font-size="30" font-weight="900" text-anchor="end" dominant-baseline="middle">' +
                 fmtNum(+s.value) + esc(unit) + '</text>');
               if (!pctRedundant) {
                 parts.push('<text x="' + (LX + 600) + '" y="' + r1(ry + 18) + '" fill="rgba(26,26,26,0.45)" font-size="18" font-weight="600" text-anchor="end" dominant-baseline="middle">' +

@@ -8,13 +8,13 @@
 -->
 <html lang="ko" data-composition-variables='[
   {"id":"takeaway","type":"string","label":"헤드라인","default":"브렌트 vs WTI — 호르무즈 충격"},
-  {"id":"accent","type":"color","label":"강조색","default":"#e84a2d"},
+  {"id":"accent","type":"color","label":"강조색","default":"#b5482e"},
   {"id":"yMin","type":"number","label":"y축 최소","default":60},
   {"id":"yMax","type":"number","label":"y축 최대","default":130},
   {"id":"yStep","type":"number","label":"y축 격자 간격","default":20},
   {"id":"yUnit","type":"string","label":"y축 단위","default":"$"},
   {"id":"xLabels","type":"string","label":"x축 라벨(JSON)","default":"[\"1월\",\"2월\",\"3월\",\"4월\",\"5월\",\"6월\"]"},
-  {"id":"series","type":"string","label":"시리즈(JSON)","default":"[{\"name\":\"브렌트\",\"color\":\"#e84a2d\",\"points\":[78,82,120,110,106,102]},{\"name\":\"WTI\",\"color\":\"#9aa0a6\",\"points\":[74,78,114,104,100,97]}]"},
+  {"id":"series","type":"string","label":"시리즈(JSON)","default":"[{\"name\":\"브렌트\",\"color\":\"#b5482e\",\"points\":[78,82,120,110,106,102]},{\"name\":\"WTI\",\"color\":\"#9aa0a6\",\"points\":[74,78,114,104,100,97]}]"},
   {"id":"callouts","type":"string","label":"콜아웃(JSON)","default":"[{\"xi\":2,\"si\":0,\"t\":3.0,\"title\":\"호르무즈 봉쇄\",\"sub\":\"브렌트 $120 피크\",\"dir\":\"ur\"}]"},
   {"id":"drawStart","type":"number","label":"라인 draw 시작(초)","default":0.6}
 ]'>
@@ -30,22 +30,22 @@
           [data-composition-id="line"] {
             position: absolute; inset: 0; width: 1920px; height: 1080px; background: transparent;
             font-family: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-            color: #1a1a1a; word-break: keep-all; overflow-wrap: anywhere;
+            color: #16130f; word-break: keep-all; overflow-wrap: anywhere;
           }
           [data-composition-id="line"] .hf-stage {
             position: absolute; top: 160px; left: 0; right: 0; bottom: 300px;
             display: flex; align-items: center; justify-content: center;
           }
           [data-composition-id="line"] .hf-card {
-            width: 1520px; background: #ffffff; border-radius: 22px;
-            box-shadow: 0 2px 16px rgba(26,26,26,0.06), 0 1px 3px rgba(26,26,26,0.04); padding: 56px;
+            width: 1520px; background: #fbf9f4; border-radius: 18px; border: 1px solid #e2dccf;
+            box-shadow: 0 1px 2px rgba(22,19,15,0.05); padding: 56px;
           }
           [data-composition-id="line"] .hf-takeaway {
             font-size: 56px; font-weight: 900; line-height: 1.15; letter-spacing: -0.3px;
-            color: #1a1a1a; margin-bottom: 24px;
+            color: #16130f; margin-bottom: 24px;
           }
           [data-composition-id="line"] svg.hf-chart { display: block; width: 1408px; height: 500px; overflow: visible; }
-          [data-composition-id="line"] .hf-source { margin-top: 20px; font-size: 22px; font-weight: 600; color: rgba(26,26,26,0.42); letter-spacing: -0.2px; }
+          [data-composition-id="line"] .hf-source { margin-top: 20px; font-size: 22px; font-weight: 600; color: #9b9082; letter-spacing: -0.2px; }
         </style>
 
         <div class="hf-stage">
@@ -68,11 +68,11 @@
               || document.querySelector('[data-composition-id="line"]');
 
             var D = {
-              takeaway: "브렌트 vs WTI — 호르무즈 충격", accent: "#e84a2d",
+              takeaway: "브렌트 vs WTI — 호르무즈 충격", accent: "#b5482e",
               yMin: 60, yMax: 130, yStep: 20, yUnit: "$",
               xLabels: ["1월", "2월", "3월", "4월", "5월", "6월"],
               series: [
-                { name: "브렌트", color: "#e84a2d", points: [78, 82, 120, 110, 106, 102] },
+                { name: "브렌트", color: "#b5482e", points: [78, 82, 120, 110, 106, 102] },
                 { name: "WTI", color: "#9aa0a6", points: [74, 78, 114, 104, 100, 97] }
               ],
               callouts: [{ xi: 2, si: 0, t: 3.0, title: "호르무즈 봉쇄", sub: "브렌트 $120 피크", dir: "ur" }],
@@ -151,10 +151,10 @@
             endLabels.forEach(function (el) {
               parts.push('<g data-role="endlabel" data-si="' + el.si + '" style="opacity:0">');
               parts.push('<circle cx="' + r1(el.x) + '" cy="' + r1(yOf2(el)) + '" r="7" fill="' + el.col +
-                '" stroke="#ffffff" stroke-width="2.5"/>');
+                '" stroke="#fbf9f4" stroke-width="2.5"/>');
               parts.push('<text x="' + r1(el.x + 18) + '" y="' + r1(el.y - 4) + '" fill="' + el.col +
                 '" font-size="22" font-weight="800">' + esc(el.name) + '</text>');
-              parts.push('<text x="' + r1(el.x + 18) + '" y="' + r1(el.y + 22) + '" fill="#1a1a1a" font-size="24" font-weight="900">' +
+              parts.push('<text x="' + r1(el.x + 18) + '" y="' + r1(el.y + 22) + '" fill="#16130f" font-size="24" font-weight="900">' +
                 fmtNum(el.val) + ' ' + esc(yUnit) + '</text>');
               parts.push('</g>');
             });
@@ -170,7 +170,7 @@
               parts.push('<g data-role="callout" data-i="' + k + '" style="opacity:0">');
               parts.push('<path data-role="conn" d="' + leaderPath(ax, ay, place) + '" stroke="' + accent +
                 '" stroke-width="1.5" fill="none" style="stroke-dasharray:600;stroke-dashoffset:600;"/>');
-              parts.push('<circle cx="' + r1(ax) + '" cy="' + r1(ay) + '" r="6" fill="' + accent + '" stroke="#ffffff" stroke-width="2"/>');
+              parts.push('<circle cx="' + r1(ax) + '" cy="' + r1(ay) + '" r="6" fill="' + accent + '" stroke="#fbf9f4" stroke-width="2"/>');
               parts.push('<text data-role="co-t" x="' + r1(place.lx) + '" y="' + r1(place.ly) + '" fill="' + accent +
                 '" font-size="22" font-weight="800" letter-spacing="1.5" text-anchor="' + place.anchor + '">' + esc(co.title || "") + '</text>');
               parts.push('<text data-role="co-t" x="' + r1(place.lx) + '" y="' + r1(place.ly + 26) +

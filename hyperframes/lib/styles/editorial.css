@@ -1,0 +1,41 @@
+/*
+  editorial.css — 에디토리얼 미니멀 디자인 토큰 (v0.34.21, 사용자 확정 톤 A).
+  FT/Bloomberg/Pudding 급 + Beveridge(gsap_taste) 레퍼런스(#ede7dd/#171412/모노 숫자)를 우리
+  OSINT 브리핑 톤으로 확정. 컴포지션(루트 문서)이 로드하면 :root 변수가 sub-comp 까지 전파.
+  컴포넌트는 var(--x, 폴백) 으로 참조(폴백 덕분에 standalone 도 안전).
+
+  가드레일(불변): 출처·기간 footer / 한글 keep-all·Pretendard / 결정론 / 1080p 가독성.
+  취향은 이 위에서만.
+*/
+:root {
+  /* 표면 — 따뜻한 종이 */
+  --bg: #f6f3ec;           /* 베이스(컴포지션 배경) */
+  --card: #fbf9f4;         /* 카드 표면 */
+  --hairline: #e2dccf;     /* 1px 경계선·구분선 */
+  /* 잉크 */
+  --ink: #16130f;          /* 본문/제목 */
+  --muted: #6a6157;        /* 부제 */
+  --faint: #9b9082;        /* 출처·축·메타 */
+  /* 강조 — 절제된 테라코타 1개 (의미 컬러는 별도) */
+  --accent: #b5482e;
+  /* 의미 컬러(검증/추론/상승/하락) — 정확성 라벨용, 취향이 못 바꿈 */
+  --up: #3d6b4d;
+  --down: #a8584a;
+  /* 형태 */
+  --radius: 18px;
+  --shadow: 0 1px 2px rgba(22,19,15,0.05);
+  /* 타입 스케일(1080p 시청거리 기준 — 웹보다 큼) */
+  --t-kicker: 22px;
+  --t-source: 22px;
+  --t-takeaway: 56px;
+  --t-display: 104px;
+  --font: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+/* 공용 base 클래스(선택적 — 컴포지션 chrome 에서 사용) */
+.ed-kicker { font-size: var(--t-kicker); font-weight: 800; letter-spacing: 5px;
+  text-transform: uppercase; color: var(--ink); }
+.ed-kicker .mk { color: var(--accent); }
+.ed-rule { height: 2px; background: var(--ink); transform-origin: left center; }
+.ed-source { font-size: var(--t-source); font-weight: 600; color: var(--faint); letter-spacing: 0.3px; }
+.ed-card { background: var(--card); border: 1px solid var(--hairline); border-radius: var(--radius); box-shadow: var(--shadow); }

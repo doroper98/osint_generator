@@ -26,22 +26,22 @@
           [data-composition-id="tickerboard"] {
             position: absolute; inset: 0; width: 1920px; height: 1080px; background: transparent;
             font-family: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-            color: #1a1a1a; word-break: keep-all; overflow-wrap: anywhere;
+            color: #16130f; word-break: keep-all; overflow-wrap: anywhere;
           }
           [data-composition-id="tickerboard"] .hf-stage {
             position: absolute; top: 160px; left: 0; right: 0; bottom: 300px;
             display: flex; align-items: center; justify-content: center;
           }
           [data-composition-id="tickerboard"] .hf-card {
-            width: 1520px; background: #ffffff; border-radius: 22px;
-            box-shadow: 0 2px 16px rgba(26,26,26,0.06), 0 1px 3px rgba(26,26,26,0.04); padding: 56px;
+            width: 1520px; background: #fbf9f4; border-radius: 18px; border: 1px solid #e2dccf;
+            box-shadow: 0 1px 2px rgba(22,19,15,0.05); padding: 56px;
           }
           [data-composition-id="tickerboard"] .hf-takeaway {
             font-size: 56px; font-weight: 900; line-height: 1.15; letter-spacing: -0.3px;
-            color: #1a1a1a; margin-bottom: 24px;
+            color: #16130f; margin-bottom: 24px;
           }
           [data-composition-id="tickerboard"] svg.hf-chart { display: block; width: 1408px; height: 500px; overflow: visible; }
-          [data-composition-id="tickerboard"] .hf-source { margin-top: 20px; font-size: 22px; font-weight: 600; color: rgba(26,26,26,0.42); letter-spacing: -0.2px; }
+          [data-composition-id="tickerboard"] .hf-source { margin-top: 20px; font-size: 22px; font-weight: 600; color: #9b9082; letter-spacing: -0.2px; }
         </style>
 
         <div class="hf-stage">
@@ -114,10 +114,10 @@
               parts.push('<rect x="' + r1(ox) + '" y="' + r1(oy) + '" width="' + r1(cellW) + '" height="' + r1(cellH) +
                 '" rx="12" fill="#fbfcfb" stroke="rgba(26,26,26,0.06)"/>');
               // 티커명
-              parts.push('<text x="' + r1(ox + 22) + '" y="' + r1(oy + 40) + '" fill="#1a1a1a" font-size="26" font-weight="800">' +
+              parts.push('<text x="' + r1(ox + 22) + '" y="' + r1(oy + 40) + '" fill="#16130f" font-size="26" font-weight="800">' +
                 esc(it.name || "") + '</text>');
               // 최근값
-              parts.push('<text x="' + r1(ox + 22) + '" y="' + r1(oy + 78) + '" fill="#1a1a1a" font-size="30" font-weight="900">' +
+              parts.push('<text x="' + r1(ox + 22) + '" y="' + r1(oy + 78) + '" fill="#16130f" font-size="30" font-weight="900">' +
                 fmtNum(last) + (unit ? ' ' + esc(unit) : '') + '</text>');
               // 등락%
               parts.push('<text x="' + r1(ox + cellW - 22) + '" y="' + r1(oy + 78) + '" fill="' + col2 +

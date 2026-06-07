@@ -25,6 +25,25 @@ last_review: 2026-06-06
 
 ---
 
+## 2026-06-07 v0.34.21 — 에디토리얼 톤 파이프라인 적용 (사용자 확정 A, 영상미 C0)
+
+- **무엇을**: 사용자가 mockup 비교 후 확정한 **에디토리얼 미니멀(A)** 톤을 디자인 토큰
+  1벌(`lib/styles/editorial.css`)로 정의하고 5 컴포넌트 + compose chrome 에 일괄 적용.
+- **왜**: 사용자 "A 에디토리얼이 제일 낫네." + codex Beveridge 파일(gsap_taste, #ede7dd/모노)
+  레퍼런스가 사실상 같은 톤이라 함께 전진.
+- **어떻게**: 토큰(bg #f6f3ec / card #fbf9f4 / hairline #e2dccf / ink #16130f / muted #6a6157 /
+  faint #9b9082 / accent #b5482e). 컴포넌트는 따뜻한 카드+헤어라인+테라코타 기본 accent+soft
+  shadow. compose chrome 은 테라코타 마크+상단 헤어라인 룰+텍스트 씬 좌측정렬(accent 룰)+따뜻한
+  svg 카드. 가드레일(출처·기간·한글 keep-all·결정론·1080p 가독성) 불변.
+- **결과**: SpaceX 영상이 FT/에디토리얼 톤으로 — 따뜻한 종이, 헤어라인, 좌측정렬 헤드라인,
+  절제된 accent. unittest 370/370, validate(brent) 0 error, PNG ground-truth 확인. (번들
+  theme.accent 가 있으면 차트는 그 색(예: forest_sage green) — chrome 은 에디토리얼.)
+- **연관**: CHANGELOG v0.34.21, docs/MOTION_SKILLS.md, 톤 mockup(v0.34.20). 후속: ① index.html
+  brent chrome 도 에디토리얼 통일 ② **Beveridge식 인사이트 차트**(궤적 connected-scatter +
+  커서+트레일+국면+beat+하단 동기화) = B-ext 의 scatter 업그레이드 — 사용자 적극 반영 요청.
+
+---
+
 ## 2026-06-07 v0.34.20 — 톤 mockup 3종(에디토리얼/다크/스위스) + 다크 씬 캡처 버그 학습
 
 - **무엇을**: 디자인 톤 결정을 위해 같은 콘텐츠(SpaceX 헤드라인+NVDA 캔들+21.7억 달러+출처)로

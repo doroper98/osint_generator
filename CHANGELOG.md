@@ -28,6 +28,24 @@ released 항목은 **append-only**입니다.
 
 ---
 
+## [v0.34.21] — 2026-06-07
+
+**에디토리얼 톤 적용 (사용자 확정 A)** — FT/Bloomberg/Pudding 급 + Beveridge(gsap_taste)
+레퍼런스를 우리 디자인 토큰으로 확정해 5 차트 컴포넌트 + compose 파이프라인에 일괄 적용.
+
+### Added
+
+- `hyperframes/lib/styles/editorial.css` — 에디토리얼 디자인 토큰 SSOT(:root 변수 + base 클래스).
+
+### Changed
+
+- 5 컴포넌트: 따뜻한 종이 카드(#fbf9f4)+헤어라인 경계, 잉크 #16130f, 기본 accent 절제된
+  테라코타 #b5482e, soft shadow.
+- compose chrome: 따뜻한 베이스(#f6f3ec) + 테라코타 브랜드 마크 + 상단 헤어라인 룰 + 텍스트
+  씬 좌측정렬 에디토리얼(accent 룰) + 따뜻한 svg 카드. 가드레일(출처·기간·한글·결정론) 불변.
+
+---
+
 ## [v0.34.20] — 2026-06-07
 
 **디자인 톤 mockup 3종 + 다크 씬 캡처 버그 학습**. taste-skill 을 지배적으로 쓸지/어느 톤일지

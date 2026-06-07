@@ -630,24 +630,26 @@ _COMPOSITION_TEMPLATE = """<!doctype html>
       }
       * { margin: 0; padding: 0; box-sizing: border-box; }
       html, body {
-        margin: 0; width: @@WIDTH@@px; height: @@HEIGHT@@px; overflow: hidden; background: #f5f1ea;
+        margin: 0; width: @@WIDTH@@px; height: @@HEIGHT@@px; overflow: hidden; background: #f6f3ec;
         font-family: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-        color: #1a1a1a; word-break: keep-all; overflow-wrap: anywhere;
+        color: #16130f; word-break: keep-all; overflow-wrap: anywhere;
       }
-      .brand { position: absolute; top: 56px; left: 80px; display: flex; align-items: center; gap: 12px; z-index: 10; }
-      .brand-mark { width: 14px; height: 14px; border-radius: 3px; background: #e84a2d; }
-      .brand-name { font-size: 20px; font-weight: 900; letter-spacing: 2px; text-transform: uppercase; }
-      .kicker { position: absolute; top: 60px; right: 80px; left: 460px; text-align: right; font-size: 18px;
-        font-weight: 700; letter-spacing: 1px; color: rgba(26,26,26,0.4); z-index: 10; }
+      /* 에디토리얼 톤 (v0.34.21) — 따뜻한 종이 + 절제된 테라코타 + 헤어라인 */
+      .brand { position: absolute; top: 64px; left: 120px; display: flex; align-items: center; gap: 12px; z-index: 10; }
+      .brand-mark { width: 14px; height: 14px; border-radius: 3px; background: #b5482e; }
+      .brand-name { font-size: 22px; font-weight: 800; letter-spacing: 5px; text-transform: uppercase; color: #16130f; }
+      .kicker { position: absolute; top: 66px; right: 120px; left: 560px; text-align: right; font-size: 20px;
+        font-weight: 700; letter-spacing: 1px; color: #9b9082; z-index: 10; }
+      .topline { position: absolute; top: 116px; left: 120px; right: 120px; height: 2px; background: #16130f; z-index: 10; }
       .scene-host { position: absolute; inset: 0; }
-      .text-scene { display: flex; align-items: center; justify-content: center; }
-      .text-card { width: 1400px; padding: 0 80px; text-align: center; }
-      .text-heading { font-size: 84px; font-weight: 900; line-height: 1.12; letter-spacing: -0.5px; color: #1a1a1a; }
-      .text-body { margin-top: 28px; font-size: 38px; font-weight: 600; line-height: 1.5; color: rgba(26,26,26,0.66); }
+      .text-scene { display: flex; align-items: center; justify-content: flex-start; }
+      .text-card { width: 1280px; margin-left: 160px; padding-left: 50px; text-align: left; border-left: 6px solid #b5482e; }
+      .text-heading { font-size: 96px; font-weight: 900; line-height: 1.05; letter-spacing: -2px; color: #16130f; }
+      .text-body { margin-top: 30px; font-size: 40px; font-weight: 600; line-height: 1.5; color: #6a6157; max-width: 1040px; }
       .svg-scene { display: flex; align-items: center; justify-content: center; }
-      .svg-card { width: 1520px; background: #ffffff; border-radius: 22px;
-        box-shadow: 0 2px 16px rgba(26,26,26,0.06), 0 1px 3px rgba(26,26,26,0.04); padding: 56px; }
-      .svg-heading { font-size: 56px; font-weight: 900; line-height: 1.15; letter-spacing: -0.3px; color: #1a1a1a; margin-bottom: 24px; }
+      .svg-card { width: 1520px; background: #fbf9f4; border: 1px solid #e2dccf; border-radius: 18px;
+        box-shadow: 0 1px 2px rgba(22,19,15,0.05); padding: 56px; }
+      .svg-heading { font-size: 56px; font-weight: 900; line-height: 1.15; letter-spacing: -0.3px; color: #16130f; margin-bottom: 24px; }
       .svg-wrap { width: 1408px; }
       .svg-wrap svg { display: block; width: 100%; height: auto; max-height: 560px; }
       .subtitle-bar { position: absolute; bottom: 72px; left: 0; right: 0; display: flex; justify-content: center;
@@ -664,6 +666,7 @@ _COMPOSITION_TEMPLATE = """<!doctype html>
          data-track-index="0" data-width="@@WIDTH@@" data-height="@@HEIGHT@@">
       <div class="brand"><span class="brand-mark"></span><span class="brand-name">OSINT 브리핑</span></div>
       <div class="kicker">@@HEADLINE@@</div>
+      <div class="topline"></div>
 
 @@SCENES@@
 

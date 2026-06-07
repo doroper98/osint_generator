@@ -6,7 +6,7 @@
 -->
 <html lang="ko" data-composition-variables='[
   {"id":"takeaway","type":"string","label":"헤드라인","default":"호르무즈 통과 원유 — 주요 도착지"},
-  {"id":"accent","type":"color","label":"강조색","default":"#e84a2d"},
+  {"id":"accent","type":"color","label":"강조색","default":"#b5482e"},
   {"id":"yMax","type":"number","label":"y축 최대(0=자동)","default":0},
   {"id":"unit","type":"string","label":"값 단위","default":"백만 배럴/일"},
   {"id":"bars","type":"string","label":"막대(JSON)","default":"[{\"label\":\"중국\",\"value\":5.4},{\"label\":\"인도\",\"value\":2.1},{\"label\":\"한국\",\"value\":1.5},{\"label\":\"일본\",\"value\":1.3},{\"label\":\"기타\",\"value\":4.0}]"},
@@ -26,22 +26,22 @@
           [data-composition-id="bar"] {
             position: absolute; inset: 0; width: 1920px; height: 1080px; background: transparent;
             font-family: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-            color: #1a1a1a; word-break: keep-all; overflow-wrap: anywhere;
+            color: #16130f; word-break: keep-all; overflow-wrap: anywhere;
           }
           [data-composition-id="bar"] .hf-stage {
             position: absolute; top: 160px; left: 0; right: 0; bottom: 300px;
             display: flex; align-items: center; justify-content: center;
           }
           [data-composition-id="bar"] .hf-card {
-            width: 1520px; background: #ffffff; border-radius: 22px;
-            box-shadow: 0 2px 16px rgba(26,26,26,0.06), 0 1px 3px rgba(26,26,26,0.04); padding: 56px;
+            width: 1520px; background: #fbf9f4; border-radius: 18px; border: 1px solid #e2dccf;
+            box-shadow: 0 1px 2px rgba(22,19,15,0.05); padding: 56px;
           }
           [data-composition-id="bar"] .hf-takeaway {
             font-size: 56px; font-weight: 900; line-height: 1.15; letter-spacing: -0.3px;
-            color: #1a1a1a; margin-bottom: 24px;
+            color: #16130f; margin-bottom: 24px;
           }
           [data-composition-id="bar"] svg.hf-chart { display: block; width: 1408px; height: 500px; overflow: visible; }
-          [data-composition-id="bar"] .hf-source { margin-top: 20px; font-size: 22px; font-weight: 600; color: rgba(26,26,26,0.42); letter-spacing: -0.2px; }
+          [data-composition-id="bar"] .hf-source { margin-top: 20px; font-size: 22px; font-weight: 600; color: #9b9082; letter-spacing: -0.2px; }
         </style>
 
         <div class="hf-stage">
@@ -64,7 +64,7 @@
               || document.querySelector('[data-composition-id="bar"]');
 
             var D = {
-              takeaway: "호르무즈 통과 원유 — 주요 도착지", accent: "#e84a2d", yMax: 0, unit: "백만 배럴/일",
+              takeaway: "호르무즈 통과 원유 — 주요 도착지", accent: "#b5482e", yMax: 0, unit: "백만 배럴/일",
               bars: [
                 { label: "중국", value: 5.4 }, { label: "인도", value: 2.1 },
                 { label: "한국", value: 1.5 }, { label: "일본", value: 1.3 }, { label: "기타", value: 4.0 }
@@ -109,7 +109,7 @@
               parts.push('<g class="hf-bar" data-i="' + i + '">');
               parts.push('<rect data-role="rect" x="' + r1(cx - barW / 2) + '" y="' + r1(y) + '" width="' + r1(barW) +
                 '" height="' + r1(h) + '" rx="6" fill="' + col + '"/>');
-              parts.push('<text data-role="val" x="' + r1(cx) + '" y="' + r1(y - 16) + '" fill="' + (i === highlight ? accent : "#1a1a1a") +
+              parts.push('<text data-role="val" x="' + r1(cx) + '" y="' + r1(y - 16) + '" fill="' + (i === highlight ? accent : "#16130f") +
                 '" font-size="30" font-weight="900" text-anchor="middle">' + fmtNum(+b.value) + '</text>');
               parts.push('<text data-role="cat" x="' + r1(cx) + '" y="' + (BASE + 36) + '" fill="rgba(26,26,26,0.7)" ' +
                 'font-size="24" font-weight="700" text-anchor="middle">' + esc(b.label) + '</text>');
