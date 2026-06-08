@@ -2188,3 +2188,24 @@ last_review: 2026-06-06
   (echo identifier 무결성 — cross/intra source_id 충돌 검증의 근거), §3 후속
   PATCH 표 2 번 (task_queue.json 영속화 + CLI, v0.5.4 MINOR) — 본 PATCH 이
   후 진입.
+
+---
+
+## 2026-06-08 v0.34.13 — OSINT 시네마틱 브리핑 컴포지션 신규 (영상미 C0, 과거 미감 비상속)
+
+- **무엇을**: `hyperframes/briefing/` 신규 컴포지션. agents_reviewer report_bundle
+  (`midnight_indigo` 테마) 데이터를 100% 적용한 60초 6씬 GSAP 영상 HTML. 기존
+  `hyperframes/demo`(베이지/캔들) 미감을 1도 상속하지 않고 전면 재설계.
+- **왜**: 사용자 요청 — 영상미를 완전·전면 재설계하고, 차트/도식을 정적 이미지가
+  아니라 원본 데이터에서 영상용으로 재렌더(C0). gsap-skills/taste-skill 류의 프로
+  애니메이션·고급 미감 지향.
+- **어떻게**: 단일 마스터 타임라인(`window.__timelines["briefing"]`, demo 패턴) +
+  6씬(타이틀/에스컬레이션 사다리/5행위자 네트워크/3좌표 지도+미사일 아크/시장
+  스파크라인/클로징). 모든 씬을 BUNDLE 임베드 데이터에서 JS로 결정론적 빌드.
+  SplitText/MotionPath 플러그인 없이 코어 GSAP 3.15 + 직접 글자분할·이차베지어
+  비행으로 구현. 권리/정확성(C9): 시나리오(가상) 라벨 + `<미검증>` 원칙 명시.
+- **결과**: Playwright(chromium 1194)로 6씬 12프레임 시킹 렌더 검수 — pageerror 0,
+  자막·차트·아크·카운터 정상. 영상미 확인.
+- **연관**: C0(영상미 최우선), C9(권리/미검증 라벨), 기준 bundle
+  analysis_20260608_065042. 검증 함정: Playwright `evaluate(()=>tl.time(t))` 가
+  GSAP 타임라인 객체를 반환→직렬화 무한 대기. 블록바디로 undefined 반환해 해소.

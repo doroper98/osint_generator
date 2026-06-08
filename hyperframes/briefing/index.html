@@ -1,0 +1,740 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1920, height=1080" />
+    <!--
+      OSINT 시네마틱 브리핑 — 60일 휴전 뒤 이란 미사일
+      기준 데이터: agents_reviewer report_bundle (midnight_indigo theme)
+      전면 재설계: 과거 demo(베이지/캔들) 미감을 1도 상속하지 않음.
+      엔진 계약만 유지 — window.__timelines["briefing"], 로컬 GSAP, 결정론적(no random/date/fetch).
+    -->
+    <script src="assets/gsap.min.js"></script>
+    <style>
+      @font-face {
+        font-family: "Pretendard Variable";
+        src: url("assets/fonts/PretendardVariable.woff2") format("woff2-variations");
+        font-weight: 100 900;
+        font-style: normal;
+        font-display: block;
+      }
+
+      :root {
+        /* midnight_indigo 격상 팔레트 */
+        --bg0: #0b0e1f;
+        --bg1: #12162b;
+        --bg2: #161a2e;
+        --card: #1f2440;
+        --card2: #262c4e;
+        --border: #3a4060;
+        --text: #e8ecef;
+        --muted: #8a92a8;
+        --faint: #5a6280;
+        --accent: #6fb3ff;
+        --accent-bright: #a9cbff;
+        --up: #88b888;
+        --down: #dc7a7a;
+        --warn: #e8b06f; /* 현재/경보 국면 */
+      }
+
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body {
+        width: 1920px; height: 1080px; overflow: hidden;
+        background: var(--bg0);
+        font-family: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, sans-serif;
+        color: var(--text);
+        word-break: keep-all;
+        overflow-wrap: anywhere;
+        -webkit-font-smoothing: antialiased;
+      }
+
+      /* ── 배경 레이어 (전 씬 공통, 미세 패럴랙스) ── */
+      #bg { position: absolute; inset: 0; z-index: 0; overflow: hidden;
+            background:
+              radial-gradient(1400px 900px at 22% 12%, #1b2240 0%, transparent 60%),
+              radial-gradient(1200px 1000px at 84% 90%, #161d3a 0%, transparent 62%),
+              linear-gradient(160deg, #0b0e1f 0%, #12162b 52%, #0c1022 100%); }
+      #bgblob { position: absolute; width: 1100px; height: 1100px; left: 55%; top: -260px;
+                border-radius: 50%; filter: blur(64px); opacity: 0.5;
+                background: radial-gradient(circle, rgba(111,179,255,0.20) 0%, rgba(111,179,255,0) 70%); }
+      #bgblob2 { position: absolute; width: 900px; height: 900px; left: -200px; top: 540px;
+                 border-radius: 50%; filter: blur(64px); opacity: 0.42;
+                 background: radial-gradient(circle, rgba(232,176,111,0.14) 0%, rgba(232,176,111,0) 70%); }
+      #grid { position: absolute; inset: 0; opacity: 0.5;
+              background-image:
+                linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px);
+              background-size: 64px 64px; mask-image: radial-gradient(120% 120% at 50% 40%, #000 50%, transparent 100%); }
+      #grain { position: absolute; inset: 0; opacity: 0.05; mix-blend-mode: overlay; pointer-events: none; }
+      #vignette { position: absolute; inset: 0; pointer-events: none;
+                  box-shadow: inset 0 0 360px 80px rgba(4,6,16,0.85); }
+
+      /* ── 상단 크롬 ── */
+      #prog { position: absolute; top: 0; left: 0; width: 100%; height: 3px; z-index: 40;
+              background: linear-gradient(90deg, var(--accent), var(--accent-bright));
+              transform-origin: left center; }
+      .topbar { position: absolute; top: 52px; left: 96px; right: 96px; height: 40px;
+                display: flex; align-items: center; justify-content: space-between; z-index: 30; }
+      .brand { display: flex; align-items: center; gap: 16px; }
+      .brand-mark { width: 16px; height: 16px; background: var(--accent);
+                    transform: rotate(45deg); border-radius: 3px;
+                    box-shadow: 0 0 18px rgba(111,179,255,0.7); }
+      .brand-name { font-size: 20px; font-weight: 800; letter-spacing: 5px; }
+      .brand-sub { font-size: 15px; font-weight: 600; letter-spacing: 2px; color: var(--muted);
+                   padding-left: 16px; border-left: 1px solid var(--border); }
+      .topright { display: flex; align-items: center; gap: 22px;
+                  font-size: 15px; font-weight: 600; letter-spacing: 1.5px; color: var(--muted); }
+      .chip { display: inline-flex; align-items: center; gap: 9px; padding: 7px 16px;
+              border: 1px solid var(--border); border-radius: 999px;
+              background: rgba(31,36,64,0.5); }
+      .chip .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--accent); }
+      #scene-chip { color: var(--text); }
+      #scene-chip .dot { background: var(--warn); }
+
+      /* ── 하단 자막 (재설계 lower-third, 좌측 정렬 + 액센트 바) ── */
+      .subwrap { position: absolute; left: 96px; bottom: 96px; right: 600px; z-index: 35;
+                 display: flex; gap: 22px; align-items: flex-start; }
+      .subbar { width: 5px; align-self: stretch; min-height: 56px; border-radius: 3px;
+                background: linear-gradient(180deg, var(--accent), rgba(111,179,255,0.1));
+                box-shadow: 0 0 16px rgba(111,179,255,0.45); }
+      #cap { font-size: 38px; line-height: 1.34; font-weight: 700; letter-spacing: -0.4px;
+             color: #f3f6f9; max-width: 1160px;
+             text-shadow: 0 2px 24px rgba(0,0,0,0.6); }
+      .source { position: absolute; right: 96px; bottom: 100px; z-index: 35; text-align: right;
+                font-size: 15px; line-height: 1.7; font-weight: 500; color: var(--faint);
+                letter-spacing: 0.5px; }
+      .source b { color: var(--muted); font-weight: 700; }
+
+      /* ── 씬 공통 ── */
+      #stage { position: absolute; inset: 0; z-index: 10; }
+      .scene { position: absolute; inset: 0; visibility: hidden; opacity: 0; }
+      .scene-head { position: absolute; top: 150px; left: 96px; right: 96px; }
+      .kicker { font-size: 20px; font-weight: 700; letter-spacing: 6px; text-transform: uppercase;
+                color: var(--accent); margin-bottom: 16px; }
+      .scene-title { font-size: 52px; font-weight: 800; letter-spacing: -1px; color: var(--text); }
+      .scene-no { position: absolute; top: 150px; right: 96px; font-size: 150px; font-weight: 900;
+                  line-height: 1; color: rgba(255,255,255,0.04); letter-spacing: -4px; }
+
+      /* ── S1 타이틀 ── */
+      .s1-kicker { font-size: 22px; font-weight: 700; letter-spacing: 8px; text-transform: uppercase;
+                   color: var(--accent); }
+      .s1-rule { height: 2px; background: linear-gradient(90deg, var(--accent), transparent);
+                 transform-origin: left center; margin: 30px 0 36px; }
+      .headline { font-size: 104px; font-weight: 900; line-height: 1.08; letter-spacing: -2.5px; }
+      .headline .em { color: var(--accent-bright); }
+      .deck { margin-top: 40px; font-size: 32px; line-height: 1.5; font-weight: 500;
+              color: var(--muted); max-width: 1360px; letter-spacing: -0.3px; }
+      .watermark { position: absolute; right: -20px; bottom: 40px; font-size: 230px; font-weight: 900;
+                   color: rgba(111,179,255,0.045); letter-spacing: -8px; line-height: 0.9;
+                   text-align: right; pointer-events: none; }
+      .line { display: block; overflow: hidden; }
+      .ch { display: inline-block; will-change: transform, opacity; }
+
+      /* ── 텍스트/노드 공통 ── */
+      .node-label { font-family: "Pretendard Variable", sans-serif; }
+      .legend { position: absolute; top: 178px; right: 96px; display: flex; flex-direction: column;
+                gap: 12px; align-items: flex-end; }
+      .legend .row { display: flex; align-items: center; gap: 12px; font-size: 18px;
+                     font-weight: 600; color: var(--muted); }
+      .legend .swatch { width: 30px; height: 0; border-top-width: 3px; border-top-style: solid; }
+
+      /* ── S5 마켓 카드 ── */
+      .mcard { position: absolute; top: 300px; width: 360px; height: 440px;
+               background: linear-gradient(165deg, rgba(38,44,78,0.85), rgba(24,28,52,0.85));
+               border: 1px solid var(--border); border-radius: 20px; padding: 36px 34px;
+               box-shadow: 0 24px 60px rgba(0,0,0,0.35); }
+      .mcard .mname { font-size: 22px; font-weight: 700; color: var(--muted); letter-spacing: 0.5px; }
+      .mcard .mpct { font-size: 60px; font-weight: 900; letter-spacing: -2px; margin-top: 12px;
+                     font-variant-numeric: tabular-nums; white-space: nowrap; }
+      .mcard .msub { position: absolute; bottom: 34px; left: 34px; font-size: 18px; font-weight: 600;
+                     color: var(--faint); font-variant-numeric: tabular-nums; }
+      .mcard svg { position: absolute; left: 34px; right: 34px; bottom: 86px; width: 292px; height: 150px; }
+
+      /* ── S6 클로징 ── */
+      .quote { position: absolute; top: 330px; left: 96px; right: 520px; font-size: 64px;
+               font-weight: 800; line-height: 1.3; letter-spacing: -1.5px; color: var(--text); }
+      .quote .mark { color: var(--accent); font-weight: 900; }
+      .closing { position: absolute; left: 96px; bottom: 250px; right: 700px; font-size: 26px;
+                 line-height: 1.55; font-weight: 500; color: var(--muted); }
+      .confbox { position: absolute; right: 96px; top: 340px; width: 380px;
+                 background: rgba(31,36,64,0.6); border: 1px solid var(--border); border-radius: 18px;
+                 padding: 32px; }
+      .confbox .clabel { font-size: 16px; font-weight: 700; letter-spacing: 3px; text-transform: uppercase;
+                         color: var(--muted); }
+      .confbox .cscore { font-size: 72px; font-weight: 900; color: var(--warn); letter-spacing: -2px;
+                         font-variant-numeric: tabular-nums; margin: 6px 0 18px; }
+      .confbox .ctrack { height: 10px; border-radius: 6px; background: rgba(255,255,255,0.06); overflow: hidden; }
+      .confbox .cfill { height: 100%; width: 32%; border-radius: 6px;
+                        background: linear-gradient(90deg, var(--down), var(--warn)); transform-origin: left; }
+      .confbox .cdesc { margin-top: 16px; font-size: 16px; line-height: 1.55; color: var(--faint); }
+    </style>
+  </head>
+
+  <body>
+    <!-- 단일 마스터 타임라인 컴포지션: root 만 clip, 내부는 전부 GSAP 제어 (demo 패턴) -->
+    <div
+      id="root"
+      class="clip"
+      data-composition-id="briefing"
+      data-start="0"
+      data-duration="60"
+      data-track-index="0"
+      data-width="1920"
+      data-height="1080"
+    >
+      <!-- 배경 -->
+      <div id="bg">
+        <div id="bgblob"></div>
+        <div id="bgblob2"></div>
+        <div id="grid"></div>
+        <svg id="grain" viewBox="0 0 1920 1080" preserveAspectRatio="none">
+          <filter id="noiseFilter"><feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" seed="7" stitchTiles="stitch"/></filter>
+          <rect width="100%" height="100%" filter="url(#noiseFilter)"/>
+        </svg>
+        <div id="vignette"></div>
+      </div>
+
+      <!-- 상단 진행 + 크롬 -->
+      <div id="prog"></div>
+      <div class="topbar">
+        <div class="brand">
+          <span class="brand-mark"></span>
+          <span class="brand-name">OSINT BRIEFING</span>
+          <span class="brand-sub">지정학 시나리오 분석</span>
+        </div>
+        <div class="topright">
+          <span class="chip" id="scene-chip"><span class="dot"></span><span id="scene-label">01 · 타이틀</span></span>
+          <span>2026.06.07</span>
+        </div>
+      </div>
+
+      <!-- 무대 -->
+      <div id="stage">
+        <!-- S1 타이틀 -->
+        <section class="scene" id="s1">
+          <div class="watermark">진실의<br/>약속 5</div>
+          <div style="position:absolute; top:300px; left:96px; right:96px;">
+            <div class="s1-kicker" id="s1-kicker">휴전 60일째 · 2026년 6월 7일</div>
+            <div class="s1-rule" id="s1-rule"></div>
+            <div class="headline" id="headline"></div>
+            <div class="deck" id="deck"></div>
+          </div>
+        </section>
+
+        <!-- S2 사다리(타임라인) -->
+        <section class="scene" id="s2">
+          <div class="scene-head">
+            <div class="kicker">Escalation Ladder</div>
+            <div class="scene-title">이틀 동안 사다리가 어떻게 올라갔나</div>
+          </div>
+          <div class="scene-no">02</div>
+          <svg id="s2-svg" viewBox="0 0 1920 1080" style="position:absolute; inset:0;"></svg>
+        </section>
+
+        <!-- S3 다섯 행위자 네트워크 -->
+        <section class="scene" id="s3">
+          <div class="scene-head">
+            <div class="kicker">Actor Network</div>
+            <div class="scene-title">사건을 움직인 다섯 행위자</div>
+          </div>
+          <div class="scene-no">03</div>
+          <div class="legend" id="s3-legend"></div>
+          <svg id="s3-svg" viewBox="0 0 1920 1080" style="position:absolute; inset:0;"></svg>
+        </section>
+
+        <!-- S4 지도(세 좌표) -->
+        <section class="scene" id="s4">
+          <div class="scene-head">
+            <div class="kicker">Geospatial Chain</div>
+            <div class="scene-title">테헤란에서 베이루트, 다시 북부 이스라엘로</div>
+          </div>
+          <div class="scene-no">04</div>
+          <svg id="s4-svg" viewBox="0 0 1920 1080" style="position:absolute; inset:0;"></svg>
+        </section>
+
+        <!-- S5 시장 반응 -->
+        <section class="scene" id="s5">
+          <div class="scene-head">
+            <div class="kicker">Market Trajectory</div>
+            <div class="scene-title">60일 휴전, 시장은 어떻게 반응했나</div>
+          </div>
+          <div class="scene-no">05</div>
+          <div id="s5-cards"></div>
+        </section>
+
+        <!-- S6 클로징 -->
+        <section class="scene" id="s6">
+          <div class="scene-head">
+            <div class="kicker">Outlook · 다섯 갈래의 향방</div>
+            <div class="scene-title">앞으로 며칠, 무엇이 방향을 정하나</div>
+          </div>
+          <div class="scene-no">06</div>
+          <div class="quote" id="s6-quote"></div>
+          <div class="closing" id="s6-closing"></div>
+          <div class="confbox">
+            <div class="clabel">신뢰도</div>
+            <div class="cscore" id="conf-score">0.00</div>
+            <div class="ctrack"><div class="cfill" id="conf-fill"></div></div>
+            <div class="cdesc">10개 출처가 발사 시점·약 10발 규모·트럼프 자제 압박을 일관 보도. 내부 의사결정·다음 판단은 공개 정보 제한.</div>
+          </div>
+        </section>
+      </div>
+
+      <!-- 자막 -->
+      <div class="subwrap">
+        <div class="subbar"></div>
+        <div id="cap"></div>
+      </div>
+      <div class="source">
+        <b>출처</b> · NPR · 알자지라 · CBS · Times of Israel 외 10개<br/>
+        데이터 · 시나리오(가상) · 미검증 영역은 <b>&lt;미검증&gt;</b> 표기 원칙
+      </div>
+    </div>
+
+    <script>
+      "use strict";
+      // ───────────────────────── 데이터 (bundle에서 추출, 결정론적 임베드) ─────────────────────────
+      const BUNDLE = {
+        headlineLines: [
+          [["60일 휴전 뒤 ", 0], ["이란 미사일", 1]],
+          [["트럼프는 ", 0], ["참으라", 1], [" 지시", 0]],
+        ],
+        deck: "7일 밤 이란이 북부 이스라엘로 탄도미사일 약 10발을 쐈다. 헤즈볼라 사격과 베이루트 공습이 도화선이 됐고, 트럼프는 보복하지 말라 직접 지시했다.",
+        timeline: [
+          { date: "2025.06.13", label: "12일 전쟁 개전", phase: "past" },
+          { date: "2026.02.28", label: "본격전 재발 (5주 교전)", phase: "past" },
+          { date: "2026.04.08", label: "파키스탄 중재 60일 휴전", phase: "past" },
+          { date: "2026.06.04", label: "레바논·이스라엘 휴전, 헤즈볼라 거부", phase: "crack" },
+          { date: "2026.06.07", label: "헤즈볼라 사격·베이루트 공습\n이란 ‘진실의 약속 5’", phase: "present" },
+          { date: "2026.06.10", label: "이스라엘 보복 결정 시점", phase: "future" },
+          { date: "2026.06.14", label: "이란 추가 발사 또는 자제", phase: "future" },
+        ],
+        nodes: [
+          { id: "us", label: "미국·트럼프", role: "중재", x: 960, y: 290, kind: "mediator" },
+          { id: "iran", label: "이란", role: "발사 결정", x: 470, y: 540, kind: "iran" },
+          { id: "israel", label: "이스라엘", role: "표적·보복", x: 1450, y: 540, kind: "israel" },
+          { id: "hezbollah", label: "헤즈볼라", role: "대리세력", x: 720, y: 790, kind: "proxy" },
+          { id: "lebanon", label: "레바논 정부", role: "영향권", x: 1200, y: 790, kind: "actor" },
+        ],
+        links: [
+          { s: "iran", t: "israel", type: "대립" },
+          { s: "iran", t: "hezbollah", type: "동맹" },
+          { s: "israel", t: "hezbollah", type: "대립" },
+          { s: "us", t: "iran", type: "협상" },
+          { s: "us", t: "israel", type: "동맹" },
+          { s: "hezbollah", t: "lebanon", type: "영향" },
+          { s: "us", t: "lebanon", type: "영향" },
+        ],
+        markers: [
+          { id: "tehran", name: "테헤란", note: "발사 결정", x: 1514, y: 335, hi: true },
+          { id: "dahieh", name: "베이루트 다히예", note: "이스라엘 공습 표적", x: 465, y: 526, hi: true },
+          { id: "nisrael", name: "북부 이스라엘", note: "미사일 도착점", x: 432, y: 629, hi: true },
+        ],
+        markets: [
+          { name: "달러인덱스", last: 100.07, pct: 0.9, kind: "flat",
+            arr: [0,0.05,1.19,0.53,0.92,0.47,0.25,0.42,0.98,0.79,0.86,0.81,-0.05,-0.53,-1.07,-0.97,-1.09,-0.78,-0.38,-0.71,-0.56,-1.11,-0.72,-1.17,-1.35,-1.25,-0.71,0.09,0.12,-0.07,0.14,0.03,-0.27,0.02,0.35,0.9] },
+          { name: "WTI 유가", last: 95.96, pct: 1.38, kind: "vol",
+            arr: [0,-8.29,1.01,-1.33,1.55,1.54,-5.62,-3.32,1.62,10.61,7.66,19.63,21.06,5.25,3.9,-1.67,1.91,-9.23,-1.07,0.12,3.98,9.3,16.71,11.34,11.63,4.33,4.46,11.76,10.43,15.15,18.43,7.44,6.02,-2.43,-2.11,1.38] },
+          { name: "S&P 500", last: 7383.74, pct: 8.65, kind: "up",
+            arr: [0,-0.3,-2.41,-1.42,-2.52,-4.26,-3.53,-3,-6.29,-3.94,-3.14,-2.71,-0.19,0.31,2.52,3.61,4.86,3.94,4.6,5.56,5.04,6.08,5.96,8.37,8.87,9.08,9.54,9.01,8.21,9.37,9.97,10.66,11.54,11.83,11.15,8.65] },
+          { name: "코스피", last: 8160.59, pct: 55.38, kind: "up",
+            arr: [0,6.82,6.31,5.67,12.82,10.08,2.93,7.43,3.56,0.48,4.32,2.39,4.63,11.81,11.56,13.63,15.99,17.9,21.64,23.3,23.3,26.45,25.65,32.09,42.62,48.94,49.36,51.97,43.11,37.26,48.82,53.23,55.85,67.34,67.59,55.38] },
+        ],
+        quote: [[["미국이 이스라엘을 잡아 주는 한, ", 0], ["이란은 낮은 비용으로 명분", 1], ["을 쥔다.", 0]]],
+        closing: "이번 발사로 4월 휴전은 ‘직접 공격’이라는 형태로 처음 위반됐다. 확전이냐 봉합이냐는 다음 며칠 안에 나올 이스라엘의 한 판단과 트럼프의 압박 강도가 가른다.",
+      };
+
+      const SVGNS = "http://www.w3.org/2000/svg";
+      const el = (tag, attrs = {}, parent = null) => {
+        const n = document.createElementNS(SVGNS, tag);
+        for (const k in attrs) n.setAttribute(k, attrs[k]);
+        if (parent) parent.appendChild(n);
+        return n;
+      };
+      const COLOR = {
+        대립: "#dc7a7a", 동맹: "#88b888", 협상: "#6fb3ff", 영향: "#5a6280",
+        past: "#5a6280", crack: "#e8b06f", present: "#dc7a7a", future: "#6fb3ff",
+      };
+
+      // ── 글자 단위 split (SplitText 대체) — 줄/강조 구조 유지 ──
+      function buildSplit(container, lines, baseColor) {
+        const chs = [];
+        lines.forEach((segs) => {
+          const lineEl = document.createElement("span");
+          lineEl.className = "line";
+          segs.forEach(([txt, em]) => {
+            for (const c of txt) {
+              const s = document.createElement("span");
+              s.className = "ch";
+              s.textContent = c === " " ? " " : c;
+              if (em) s.classList.add("em");
+              lineEl.appendChild(s);
+              chs.push(s);
+            }
+          });
+          container.appendChild(lineEl);
+        });
+        return chs;
+      }
+
+      // ── S2: 상승 계단(사다리) 생성 ──
+      function buildLadder() {
+        const svg = document.getElementById("s2-svg");
+        const pts = BUNDLE.timeline;
+        const n = pts.length;
+        const x0 = 230, x1 = 1690, yBot = 850, yTop = 320;
+        const geo = pts.map((p, i) => ({
+          ...p,
+          x: x0 + (i / (n - 1)) * (x1 - x0),
+          y: yBot - (i / (n - 1)) * (yBot - yTop),
+        }));
+        // 계단형 연결선(가로→세로 zigzag)
+        let d = `M ${geo[0].x} ${geo[0].y}`;
+        for (let i = 1; i < n; i++) d += ` L ${geo[i].x} ${geo[i - 1].y} L ${geo[i].x} ${geo[i].y}`;
+        const riser = el("path", { d, fill: "none", stroke: "url(#ladgrad)", "stroke-width": "2.5",
+          "stroke-linejoin": "round", opacity: "0.55", class: "lad-riser" }, svg);
+        const defs = el("defs", {}, svg);
+        const lg = el("linearGradient", { id: "ladgrad", x1: "0", y1: "1", x2: "1", y2: "0" }, defs);
+        el("stop", { offset: "0", "stop-color": "#5a6280" }, lg);
+        el("stop", { offset: "0.6", "stop-color": "#e8b06f" }, lg);
+        el("stop", { offset: "1", "stop-color": "#6fb3ff" }, lg);
+        riser.setAttribute("stroke-dasharray", "4000");
+        riser.setAttribute("stroke-dashoffset", "4000");
+
+        geo.forEach((p, i) => {
+          const c = COLOR[p.phase];
+          const g = el("g", { class: p.phase === "present" ? "lad-step present-step" : "lad-step",
+            opacity: "0", transform: `translate(${p.x} ${p.y})` }, svg);
+          el("circle", { r: "13", fill: "#12162b", stroke: c, "stroke-width": "3" }, g);
+          if (p.phase === "present") el("circle", { r: "13", fill: "none", stroke: c, "stroke-width": "2",
+            class: "pulse-ring", opacity: "0.9" }, g);
+          // 라벨: 윗 스텝은 위로, 아랫 스텝은 아래로 분산
+          const above = i % 2 === 0;
+          const ty = above ? -34 : 70;
+          const dateT = el("text", { x: "0", y: above ? -64 : 40, "text-anchor": "middle",
+            fill: c, "font-size": "20", "font-weight": "800", "letter-spacing": "1", class: "node-label" }, g);
+          dateT.textContent = p.date;
+          const lines = p.label.split("\n");
+          lines.forEach((ln, k) => {
+            const t = el("text", { x: "0", y: ty + k * 26, "text-anchor": "middle",
+              fill: i >= 5 ? "#8a92a8" : "#e8ecef", "font-size": "21", "font-weight": "700",
+              class: "node-label" }, g);
+            t.textContent = ln;
+          });
+        });
+        return geo;
+      }
+
+      // ── S3: 네트워크 ──
+      function buildNetwork() {
+        const svg = document.getElementById("s3-svg");
+        const N = {}; BUNDLE.nodes.forEach((nd) => (N[nd.id] = nd));
+        const linkG = el("g", {}, svg);
+        const links = BUNDLE.links.map((lk) => {
+          const a = N[lk.s], b = N[lk.t];
+          const len = Math.hypot(b.x - a.x, b.y - a.y);
+          const dash = lk.type === "대립" ? "2 12" : lk.type === "협상" ? "9 11" : lk.type === "영향" ? "1 10" : "0";
+          const ln = el("line", { x1: a.x, y1: a.y, x2: b.x, y2: b.y,
+            stroke: COLOR[lk.type], "stroke-width": lk.type === "영향" ? "2" : "3",
+            "stroke-linecap": "round", opacity: "0", class: "net-link" }, linkG);
+          if (dash !== "0") ln.dataset.dash = dash;
+          ln.dataset.solidDash = len; ln.dataset.solidLen = len;
+          ln.setAttribute("stroke-dasharray", len);
+          ln.setAttribute("stroke-dashoffset", len);
+          return ln;
+        });
+        const nodeG = el("g", {}, svg);
+        BUNDLE.nodes.forEach((nd) => {
+          const c = nd.kind === "mediator" ? "#6fb3ff" : nd.kind === "iran" ? "#dc7a7a"
+            : nd.kind === "proxy" ? "#e8b06f" : "#aeb6cf";
+          const g = el("g", { class: "net-node", opacity: "0", transform: `translate(${nd.x} ${nd.y})` }, svg);
+          el("circle", { r: "60", fill: "#1f2440" }, g);
+          el("circle", { r: "60", fill: "none", stroke: c, "stroke-width": "3",
+            opacity: nd.kind === "mediator" ? "1" : "0.85" }, g);
+          if (nd.kind === "mediator") el("circle", { r: "60", fill: "none", stroke: c,
+            "stroke-width": "2", class: "pulse-ring", opacity: "0.7" }, g);
+          const role = el("text", { x: "0", y: "-8", "text-anchor": "middle", fill: c,
+            "font-size": "16", "font-weight": "700", "letter-spacing": "1", class: "node-label" }, g);
+          role.textContent = nd.role;
+          const lab = el("text", { x: "0", y: "22", "text-anchor": "middle", fill: "#e8ecef",
+            "font-size": "26", "font-weight": "800", class: "node-label" }, g);
+          lab.textContent = nd.label;
+          nodeG.appendChild(g);
+        });
+        // 범례
+        const lg = document.getElementById("s3-legend");
+        [["대립", "tension"], ["동맹", ""], ["협상", ""], ["영향", ""]].forEach(([k]) => {
+          const row = document.createElement("div"); row.className = "row";
+          const sw = document.createElement("div"); sw.className = "swatch";
+          sw.style.borderTopColor = COLOR[k];
+          sw.style.borderTopStyle = (k === "대립" || k === "협상" || k === "영향") ? "dashed" : "solid";
+          row.appendChild(sw);
+          const t = document.createElement("span"); t.textContent = k; row.appendChild(t);
+          lg.appendChild(row);
+        });
+        return links;
+      }
+
+      // ── S4: 지도 ──
+      function buildMap() {
+        const svg = document.getElementById("s4-svg");
+        // 그래티큘(전술 지도 느낌)
+        const grat = el("g", { opacity: "0.5" }, svg);
+        for (let gx = 280; gx <= 1640; gx += 170)
+          el("line", { x1: gx, y1: 230, x2: gx, y2: 860, stroke: "#2a3050", "stroke-width": "1" }, grat);
+        for (let gy = 250; gy <= 840; gy += 118)
+          el("line", { x1: 280, y1: gy, x2: 1640, y2: gy, stroke: "#2a3050", "stroke-width": "1" }, grat);
+        // 권역 라벨
+        [["이란", 1480, 250], ["레바논", 470, 470], ["이스라엘", 470, 720]].forEach(([t, x, y]) => {
+          const z = el("text", { x, y, fill: "rgba(138,146,168,0.28)", "font-size": "26",
+            "font-weight": "800", "letter-spacing": "4", class: "node-label" }, svg);
+          z.textContent = t;
+        });
+        const M = {}; BUNDLE.markers.forEach((m) => (M[m.id] = m));
+        // 보조 아크: 헤즈볼라 사격 / 이스라엘 공습 (베이루트↔북부)
+        const sec = el("g", {}, svg);
+        const secArcs = [];
+        [["dahieh", "nisrael", "헤즈볼라 사격", -40], ["nisrael", "dahieh", "이스라엘 공습", 40]].forEach(([s, t, lab, off]) => {
+          const a = M[s], b = M[t];
+          const cx = (a.x + b.x) / 2 + off, cy = (a.y + b.y) / 2;
+          const p = el("path", { d: `M ${a.x} ${a.y} Q ${cx} ${cy} ${b.x} ${b.y}`, fill: "none",
+            stroke: "#8a92a8", "stroke-width": "2", "stroke-dasharray": "7 8", opacity: "0",
+            class: "sec-arc" }, sec);
+          p.setAttribute("stroke-dashoffset", "3000");
+          secArcs.push(p);
+        });
+        // 메인 아크: 테헤란 → 북부 이스라엘 (탄도미사일 약 10발)
+        const a = M.tehran, b = M.nisrael;
+        const cp = { x: (a.x + b.x) / 2, y: (a.y + b.y) / 2 - 200 };
+        const main = el("path", { d: `M ${a.x} ${a.y} Q ${cp.x} ${cp.y} ${b.x} ${b.y}`, fill: "none",
+          stroke: "#dc7a7a", "stroke-width": "4", opacity: "0", class: "main-arc",
+          "stroke-dasharray": "3000", "stroke-dashoffset": "3000",
+          filter: "drop-shadow(0 0 10px rgba(220,122,122,0.6))" }, svg);
+        // 미사일 헤드
+        const missile = el("circle", { r: "9", fill: "#ffd9d9", opacity: "0", class: "missile",
+          filter: "drop-shadow(0 0 12px rgba(220,122,122,0.95))" }, svg);
+        // 아크 라벨
+        const mlab = el("text", { x: cp.x, y: cp.y + 64, "text-anchor": "middle", fill: "#dc7a7a",
+          "font-size": "24", "font-weight": "800", opacity: "0", class: "main-lab", "letter-spacing": "1",
+          class: "node-label main-lab" }, svg);
+        mlab.textContent = "이란 탄도미사일 약 10발 · 약 1,500km";
+        // 마커
+        const markerGs = [];
+        BUNDLE.markers.forEach((m) => {
+          const c = m.hi ? "#dc7a7a" : "#8a92a8";
+          const g = el("g", { class: "map-marker", opacity: "0", transform: `translate(${m.x} ${m.y})` }, svg);
+          el("circle", { r: "9", fill: c, stroke: "#0b0e1f", "stroke-width": "2.5" }, g);
+          el("circle", { r: "9", fill: "none", stroke: c, "stroke-width": "2", class: "pulse-ring", opacity: "0.8" }, g);
+          const right = m.x < 960;
+          const nm = el("text", { x: right ? 22 : -22, y: "-2", "text-anchor": right ? "start" : "end",
+            fill: "#e8ecef", "font-size": "26", "font-weight": "800", class: "node-label" }, g);
+          nm.textContent = m.name;
+          const nt = el("text", { x: right ? 22 : -22, y: "26", "text-anchor": right ? "start" : "end",
+            fill: "#8a92a8", "font-size": "19", "font-weight": "600", class: "node-label" }, g);
+          nt.textContent = m.note;
+          markerGs.push(g);
+        });
+        return { main, missile, mlab, secArcs, markerGs, a, b, cp };
+      }
+
+      // ── S5: 마켓 카드 + 스파크라인 ──
+      function buildMarkets() {
+        const wrap = document.getElementById("s5-cards");
+        const startX = 150, cw = 360, gap = 60;
+        const paths = [];
+        BUNDLE.markets.forEach((mk, i) => {
+          const card = document.createElement("div");
+          card.className = "mcard"; card.style.left = (startX + i * (cw + gap)) + "px";
+          const col = mk.kind === "up" ? "#88b888" : mk.kind === "vol" ? "#e8b06f" : "#aeb6cf";
+          card.innerHTML =
+            `<div class="mname">${mk.name}</div>` +
+            `<div class="mpct" style="color:${col}" data-pct="${mk.pct}">+0.0%</div>` +
+            `<div class="msub">현재 ${mk.last.toLocaleString()}</div>`;
+          // 스파크라인
+          const min = Math.min(...mk.arr), max = Math.max(...mk.arr);
+          const W = 292, H = 150, pad = 8, span = (max - min) || 1;
+          const xs = (k) => (k / (mk.arr.length - 1)) * W;
+          const ys = (v) => H - pad - ((v - min) / span) * (H - 2 * pad);
+          let d = `M ${xs(0)} ${ys(mk.arr[0])}`;
+          mk.arr.forEach((v, k) => { if (k) d += ` L ${xs(k)} ${ys(v)}`; });
+          const area = `${d} L ${W} ${H} L 0 ${H} Z`;
+          const svg = document.createElementNS(SVGNS, "svg");
+          svg.setAttribute("viewBox", `0 0 ${W} ${H}`);
+          const defs = el("defs", {}, svg);
+          const grad = el("linearGradient", { id: `mg${i}`, x1: "0", y1: "0", x2: "0", y2: "1" }, defs);
+          el("stop", { offset: "0", "stop-color": col, "stop-opacity": "0.32" }, grad);
+          el("stop", { offset: "1", "stop-color": col, "stop-opacity": "0" }, grad);
+          const af = el("path", { d: area, fill: `url(#mg${i})`, opacity: "0", class: "spark-area" }, svg);
+          el("line", { x1: 0, y1: ys(0), x2: W, y2: ys(0), stroke: "#3a4060", "stroke-width": "1", "stroke-dasharray": "3 5" }, svg);
+          const lp = el("path", { d, fill: "none", stroke: col, "stroke-width": "3",
+            "stroke-linecap": "round", "stroke-linejoin": "round" }, svg);
+          lp.setAttribute("stroke-dasharray", "2000");
+          lp.setAttribute("stroke-dashoffset", "2000");
+          el("circle", { cx: xs(mk.arr.length - 1), cy: ys(mk.arr[mk.arr.length - 1]), r: "5",
+            fill: col, class: "spark-end", opacity: "0" }, svg);
+          card.appendChild(svg);
+          wrap.appendChild(card);
+          paths.push({ card, lp, af, pctEl: card.querySelector(".mpct"), pct: mk.pct });
+        });
+        return paths;
+      }
+
+      // 빌드 실행
+      const headlineChs = buildSplit(document.getElementById("headline"), BUNDLE.headlineLines, null);
+      document.getElementById("deck").textContent = BUNDLE.deck;
+      const ladderGeo = buildLadder();
+      const netLinks = buildNetwork();
+      const mapObj = buildMap();
+      const marketPaths = buildMarkets();
+      const quoteChs = buildSplit(document.getElementById("s6-quote"), BUNDLE.quote, null);
+      document.getElementById("s6-closing").textContent = BUNDLE.closing;
+
+      // ───────────────────────── 마스터 타임라인 ─────────────────────────
+      window.__timelines = window.__timelines || {};
+      const tl = gsap.timeline({ paused: true, defaults: { ease: "power3.out" } });
+
+      // 전 씬 초기 숨김
+      gsap.set(["#s1", "#s2", "#s3", "#s4", "#s5", "#s6"], { autoAlpha: 0 });
+
+      // 진행바 + 배경 패럴랙스(60초 풀)
+      tl.fromTo("#prog", { scaleX: 0 }, { scaleX: 1, duration: 60, ease: "none" }, 0);
+      tl.to("#bgblob", { x: -180, y: 120, duration: 60, ease: "sine.inOut" }, 0);
+      tl.to("#bgblob2", { x: 160, y: -90, duration: 60, ease: "sine.inOut" }, 0);
+      tl.fromTo("#stage", { scale: 1.0 }, { scale: 1.025, duration: 60, ease: "none" }, 0);
+
+      // pulse-ring 펄스(시킹 안전: 타임라인 내 반복, scale 기반이라 r 누적 없음)
+      tl.to(".pulse-ring", { scale: 2.2, opacity: 0, duration: 1.5,
+        repeat: 38, ease: "sine.out", transformOrigin: "50% 50%" }, 0);
+
+      // 씬 전환 헬퍼
+      const sceneIn = (sel, t) => tl.fromTo(sel, { autoAlpha: 0, y: 26, scale: 0.992 },
+        { autoAlpha: 1, y: 0, scale: 1, duration: 0.85, ease: "power3.out" }, t);
+      const sceneOut = (sel, t) => tl.to(sel, { autoAlpha: 0, y: -18, duration: 0.6, ease: "power2.in" }, t);
+      const chip = (t, label) => tl.call(() => { document.getElementById("scene-label").textContent = label; }, [], t);
+
+      // ── S1 (0–9) ──
+      sceneIn("#s1", 0);
+      chip(0, "01 · 타이틀");
+      tl.from("#s1-kicker", { opacity: 0, y: 16, duration: 0.7 }, 0.3);
+      tl.fromTo("#s1-rule", { scaleX: 0 }, { scaleX: 1, duration: 0.9, ease: "power4.out" }, 0.6);
+      tl.from(headlineChs, { yPercent: 115, opacity: 0, duration: 0.9, stagger: 0.025, ease: "power4.out" }, 0.8);
+      tl.from("#deck", { opacity: 0, y: 20, duration: 0.9 }, 1.9);
+      sceneOut("#s1", 8.5);
+
+      // ── S2 (9–21) 사다리 ──
+      sceneIn("#s2", 9);
+      chip(9, "02 · 에스컬레이션");
+      tl.from("#s2 .scene-head", { opacity: 0, y: 18, duration: 0.7 }, 9.1);
+      tl.to(".lad-riser", { strokeDashoffset: 0, duration: 3.0, ease: "power2.inOut" }, 9.5);
+      tl.to(".lad-step", { opacity: 1, duration: 0.5, stagger: 0.42, ease: "power2.out" }, 9.7);
+      // 현재 국면(6/7) 강조 — 노드 살짝 확대 펄스 (빨강 점 + pulse-ring과 함께)
+      tl.fromTo(".present-step circle:first-child", { scale: 1 },
+        { scale: 1.4, transformOrigin: "50% 50%", duration: 0.5, yoyo: true, repeat: 1, ease: "sine.inOut" }, 13.4);
+      sceneOut("#s2", 20.5);
+
+      // ── S3 (21–33) 네트워크 ──
+      sceneIn("#s3", 21);
+      chip(21, "03 · 행위자 관계망");
+      tl.from("#s3 .scene-head", { opacity: 0, y: 18, duration: 0.7 }, 21.1);
+      tl.to(".net-node", { opacity: 1, duration: 0.6, stagger: 0.12, ease: "back.out(1.6)" }, 21.5);
+      tl.fromTo(".net-node", { scale: 0.6, transformOrigin: "center" }, { scale: 1, duration: 0.6,
+        stagger: 0.12, ease: "back.out(1.7)" }, 21.5);
+      tl.to(".net-link", { opacity: 0.95, duration: 0.3, stagger: 0.1 }, 22.6);
+      tl.to(".net-link", { strokeDashoffset: 0, duration: 0.9, stagger: 0.1, ease: "power2.out",
+        onComplete: function () {
+          // 점선 타입 링크는 draw 후 dash 패턴으로 환원
+          netLinks.forEach((ln) => { if (ln.dataset.dash) ln.setAttribute("stroke-dasharray", ln.dataset.dash); });
+        } }, 22.7);
+      tl.from(".legend .row", { opacity: 0, x: 20, duration: 0.5, stagger: 0.1 }, 24.5);
+      sceneOut("#s3", 32.5);
+
+      // ── S4 (33–45) 지도 ──
+      sceneIn("#s4", 33);
+      chip(33, "04 · 좌표의 사슬");
+      tl.from("#s4 .scene-head", { opacity: 0, y: 18, duration: 0.7 }, 33.1);
+      tl.to(".map-marker", { opacity: 1, duration: 0.6, stagger: 0.3, ease: "power2.out" }, 33.6);
+      tl.to(".sec-arc", { opacity: 0.7, duration: 0.8, stagger: 0.3, ease: "power1.inOut" }, 35.2);
+      // 메인 미사일 아크 + 헤드 비행
+      tl.to(".main-arc", { opacity: 1, duration: 0.2 }, 37.4);
+      tl.to(".main-arc", { strokeDashoffset: 0, duration: 1.6, ease: "power1.in" }, 37.5);
+      tl.to(".missile", { opacity: 1, duration: 0.1 }, 37.5);
+      const flight = { p: 0 };
+      const A = mapObj.a, C = mapObj.cp, B = mapObj.b;
+      tl.to(flight, { p: 1, duration: 1.6, ease: "power1.in",
+        onUpdate: function () {
+          const u = 1 - flight.p, t2 = flight.p;
+          const x = u * u * A.x + 2 * u * t2 * C.x + t2 * t2 * B.x;
+          const y = u * u * A.y + 2 * u * t2 * C.y + t2 * t2 * B.y;
+          mapObj.missile.setAttribute("cx", x);
+          mapObj.missile.setAttribute("cy", y);
+        } }, 37.5);
+      tl.to(".missile", { opacity: 0, scale: 2.4, transformOrigin: "center", duration: 0.4 }, 39.1);
+      tl.fromTo(".main-lab", { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.6 }, 39.0);
+      sceneOut("#s4", 44.5);
+
+      // ── S5 (45–54) 마켓 ──
+      sceneIn("#s5", 45);
+      chip(45, "05 · 시장 궤적");
+      tl.from("#s5 .scene-head", { opacity: 0, y: 18, duration: 0.7 }, 45.1);
+      marketPaths.forEach((m, i) => {
+        const at = 45.6 + i * 0.35;
+        tl.from(m.card, { opacity: 0, y: 40, duration: 0.7, ease: "power3.out" }, at);
+        tl.to(m.af, { opacity: 1, duration: 0.8 }, at + 0.3);
+        tl.to(m.lp, { strokeDashoffset: 0, duration: 1.3, ease: "power2.out" }, at + 0.2);
+        tl.to(m.card.querySelector(".spark-end"), { opacity: 1, duration: 0.3 }, at + 1.3);
+        const counter = { v: 0 };
+        tl.to(counter, { v: m.pct, duration: 1.2, ease: "power1.out",
+          onUpdate: function () {
+            m.pctEl.textContent = (counter.v >= 0 ? "+" : "") + counter.v.toFixed(1) + "%";
+          } }, at + 0.3);
+      });
+      sceneOut("#s5", 53.5);
+
+      // ── S6 (54–60) 클로징 ──
+      sceneIn("#s6", 54);
+      chip(54, "06 · 향방");
+      tl.from("#s6 .scene-head", { opacity: 0, y: 18, duration: 0.7 }, 54.1);
+      tl.from(quoteChs, { opacity: 0, y: 18, duration: 0.7, stagger: 0.012, ease: "power3.out" }, 54.4);
+      tl.from("#s6-closing", { opacity: 0, y: 20, duration: 0.8 }, 55.6);
+      tl.from(".confbox", { opacity: 0, x: 30, duration: 0.7 }, 55.2);
+      const cf = { v: 0 };
+      tl.to(cf, { v: 0.32, duration: 1.2, ease: "power2.out",
+        onUpdate: function () { document.getElementById("conf-score").textContent = cf.v.toFixed(2); } }, 55.6);
+      tl.fromTo("#conf-fill", { scaleX: 0 }, { scaleX: 1, duration: 1.2, ease: "power3.out" }, 55.6);
+
+      // ───────────────────────── 자막 ─────────────────────────
+      const cues = [
+        { t: 0.8,  text: "2026년 6월 7일 밤, 60일 휴전이 직접 공격으로 처음 흔들렸습니다." },
+        { t: 4.8,  text: "이란이 북부 이스라엘로 탄도미사일 약 10발을 발사했습니다." },
+        { t: 9.6,  text: "두 달의 궤적을 쌓아 보면, 휴전은 임시 연장의 연속이었습니다." },
+        { t: 13.6, text: "6월 4일 별도 휴전을 헤즈볼라가 거부하며 균열이 생겼고," },
+        { t: 17.4, text: "사흘 뒤, 사다리의 첫 단이 직접 공격으로 올라섰습니다." },
+        { t: 21.6, text: "이번 사건은 다섯 행위자의 관계망 위에서 움직였습니다." },
+        { t: 25.6, text: "이란과 이스라엘의 대립, 그 사이에 선 헤즈볼라," },
+        { t: 29.4, text: "양쪽을 동시에 붙잡은 미국·트럼프가 확전의 제동을 쥐었습니다." },
+        { t: 33.6, text: "세 좌표를 한 지도에 놓으면 인과의 사슬이 드러납니다." },
+        { t: 37.0, text: "헤즈볼라 사격과 베이루트 다히예 공습이 도화선이 됐고," },
+        { t: 40.4, text: "약 1,500km 떨어진 테헤란이 미사일을 북부 이스라엘로 보냈습니다." },
+        { t: 45.6, text: "60일 휴전 구간, 시장은 충격보다 회복에 무게를 실었습니다." },
+        { t: 49.8, text: "안전자산은 잠잠했고 위험자산—특히 코스피가 크게 반등했습니다." },
+        { t: 54.4, text: "다음 며칠, 이스라엘의 한 판단과 트럼프의 압박이 방향을 가릅니다." },
+        { t: 58.0, text: "단발 신호로 끝날지, 사다리의 첫 단이 될지—기록은 아직 열려 있습니다." },
+      ];
+      const cap = document.getElementById("cap");
+      const subwrap = document.querySelector(".subwrap");
+      gsap.set(subwrap, { autoAlpha: 0 });
+      cues.forEach((c, i) => {
+        if (i === 0) {
+          tl.call(() => { cap.textContent = c.text; }, [], c.t - 0.1);
+          tl.fromTo(subwrap, { autoAlpha: 0, x: -20 }, { autoAlpha: 1, x: 0, duration: 0.55, overwrite: "auto" }, c.t);
+        } else {
+          tl.to(subwrap, { autoAlpha: 0, x: -16, duration: 0.25, overwrite: "auto" }, c.t - 0.3);
+          tl.call(() => { cap.textContent = c.text; }, [], c.t - 0.05);
+          tl.fromTo(subwrap, { x: 16 }, { autoAlpha: 1, x: 0, duration: 0.3, overwrite: "auto" }, c.t);
+        }
+      });
+
+      window.__timelines["briefing"] = tl;
+    </script>
+  </body>
+</html>

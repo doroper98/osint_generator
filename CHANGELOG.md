@@ -18,7 +18,10 @@ released 항목은 **append-only**입니다.
 ## [Unreleased]
 
 ### Added
--
+- `hyperframes/briefing/` — OSINT 시네마틱 브리핑 컴포지션 신규. report_bundle
+  (`midnight_indigo` 테마) 데이터를 100% 적용한 60초 6씬 GSAP 영상 HTML(타이틀·
+  에스컬레이션 사다리·5행위자 네트워크·3좌표 지도/미사일 아크·시장 스파크라인·
+  클로징). 과거 demo 미감 비상속, 전면 재설계(영상미 C0). (v0.34.13)
 
 ### Changed
 -
