@@ -1,6 +1,6 @@
 <!--
 tier: 3
-last_synced_with: v0.34.2
+last_synced_with: v0.35.0
 ssot_for: [development-log]
 depends_on: [CHANGELOG.md]
 last_review: 2026-06-06
@@ -2209,3 +2209,43 @@ last_review: 2026-06-06
 - **연관**: C0(영상미 최우선), C9(권리/미검증 라벨), 기준 bundle
   analysis_20260608_065042. 검증 함정: Playwright `evaluate(()=>tl.time(t))` 가
   GSAP 타임라인 객체를 반환→직렬화 무한 대기. 블록바디로 undefined 반환해 해소.
+
+---
+
+## 2026-06-11 v0.35.0 — SceneKit 엔진 리팩토링 (브리핑 HTML 엔진 전면 개선, 영상미 C0)
+
+- **무엇을**: ZE 브랜치(claude/keen-fermi-ZEY1R, v0.34.13)의 `hyperframes/briefing/`
+  을 머지한 뒤, 일회성 하드코딩 레이아웃을 `assets/scene_kit.js` (SceneKit 엔진)
+  기반 데이터 주도 빌드로 전면 리팩토링. VERSION 0.34.13 → 0.35.0 (MINOR — 새
+  엔진 레이어 도입).
+- **왜**: 사용자 보고 — "html 엔진이 너무 취약하고 구려. 글씨나 마킹이 서로 막
+  겹치고 줄 위로 글씨가 있고 어디에 내놓을 수가 없어." 실측(Playwright 시킹
+  스크린샷)으로 확인된 결함: S2 사다리 상단 3개 스텝 라벨 상호 겹침 + 날짜/라벨이
+  연결선 위에 얹힘 + 씬번호 "02" 와 충돌, S3 범례·씬번호 겹침 + 노드 원 밖 글자
+  넘침, S4 인접 마커 라벨 완전 겹침 + 점선 아크가 글자 관통 + 보조 아크 라벨
+  미렌더(데이터에만 존재), S6 인용문 단어 중간 줄바꿈("명/분").
+- **어떻게**:
+  - **SceneKit 엔진** (`hyperframes/briefing/assets/scene_kit.js`): ① 안전영역
+    밴드(LAYOUT: 헤더 150~268 / 스테이지 268~866 / 자막 866~) + 씬번호 장식
+    영역을 장애물로 선등록한 `stageField()`. ② 결정론적 텍스트 폭 추정
+    (`estTextWidth` — 폰트 로드 타이밍 무관 → 시킹 렌더 안전, canvas 측정 대신
+    코드포인트 가중치). ③ `LabelField` 충돌 회피 배치기 — 선분/베지어 샘플링
+    장애물 + 4방 후보 슬롯 + 수직 밀어내기 탐색, 배치 후 자기 자신도 장애물로
+    등록해 라벨 간 겹침 원천 차단. ④ `plateLabel` 반투명 플레이트 + 자동 줄바꿈
+    멀티라인 라벨. ⑤ `leader` 마커↔플레이트 리더선. ⑥ `prepDraw` —
+    getTotalLength 실측 draw-on (하드코딩 dasharray 4000/3000/2000 제거).
+    ⑦ `splitChars` 단어 span 래핑 (keep-all 보존). ⑧ 씬 빌더 4종:
+    buildStepTimeline / buildNetwork(라벨 폭 기반 노드 반지름 + 링크 가장자리
+    트리밍) / buildGeoScene(마커+아크+아크라벨 통합 충돌장) / buildMarketCards.
+  - **index.html**: 모든 씬을 BUNDLE 데이터 → SceneKit 빌더로 구성. 미사일 도착
+    임팩트 링, 자막 하단 스크림, 마켓 카드 kind 태그(상승/변동/보합) 추가.
+    엔진 계약 유지 (window.__timelines["briefing"], 결정론, 로컬 GSAP).
+  - agents_reviewer 차트 보강은 참고만 — 영상 맥락(타임라인 시킹·결정론·
+    브로드캐스트 안전영역)에 맞춘 독자 설계 (사용자 지시).
+- **결과**: Playwright(chromium 1194) 시킹 11프레임 + 자동 감사(플레이트 쌍별
+  겹침 / 스테이지 밴드 위반) — pageerror 0, 겹침 0, 위반 0. 씬별 스크린샷 검수
+  (전/후 비교) 통과.
+- **연관**: C0(영상미 최우선), v0.34.13(리팩토링 대상), NEXT_SESSION_PROMPT 옵션
+  B/C 의 토대(차트 컴포넌트화·번들 자동 변환이 본 엔진 프리미티브 위에 올라감).
+  검증 함정: Edit 도구가 NBSP(글자 span 공백) 매칭 실패 — 라인 단위 python 치환
+  으로 우회.

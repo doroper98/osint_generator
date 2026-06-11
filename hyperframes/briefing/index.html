@@ -6,10 +6,17 @@
     <!--
       OSINT 시네마틱 브리핑 — 60일 휴전 뒤 이란 미사일
       기준 데이터: agents_reviewer report_bundle (midnight_indigo theme)
-      전면 재설계: 과거 demo(베이지/캔들) 미감을 1도 상속하지 않음.
-      엔진 계약만 유지 — window.__timelines["briefing"], 로컬 GSAP, 결정론적(no random/date/fetch).
+
+      v0.35.0 엔진 리팩토링:
+        - assets/scene_kit.js (SceneKit) 위에서 모든 씬을 데이터 주도로 빌드.
+        - 라벨 겹침 / 선 위 글자 사고를 LabelField(충돌 회피 배치기) + 플레이트
+          라벨 + 리더선으로 구조적으로 차단.
+        - draw-on 은 전부 getTotalLength 실측 (하드코딩 dasharray 제거).
+      엔진 계약 유지 — window.__timelines["briefing"], 로컬 GSAP,
+      결정론적(no random/date/fetch).
     -->
     <script src="assets/gsap.min.js"></script>
+    <script src="assets/scene_kit.js"></script>
     <style>
       @font-face {
         font-family: "Pretendard Variable";
@@ -47,6 +54,12 @@
         overflow-wrap: anywhere;
         -webkit-font-smoothing: antialiased;
       }
+      svg text { font-family: "Pretendard Variable", Pretendard, sans-serif; }
+
+      /* ── SceneKit 공용 ── */
+      .sk-plate-bg { fill: rgba(13, 17, 36, 0.86); stroke: rgba(58, 64, 96, 0.75); stroke-width: 1; }
+      .sk-leader { stroke: rgba(138, 146, 168, 0.55); stroke-width: 1.5; }
+      .sk-halo { paint-order: stroke; stroke: #0b0e1f; stroke-width: 5px; stroke-linejoin: round; }
 
       /* ── 배경 레이어 (전 씬 공통, 미세 패럴랙스) ── */
       #bg { position: absolute; inset: 0; z-index: 0; overflow: hidden;
@@ -68,6 +81,10 @@
       #grain { position: absolute; inset: 0; opacity: 0.05; mix-blend-mode: overlay; pointer-events: none; }
       #vignette { position: absolute; inset: 0; pointer-events: none;
                   box-shadow: inset 0 0 360px 80px rgba(4,6,16,0.85); }
+      /* 자막 가독용 하단 스크림 — 스테이지(z10) 위, 자막(z35) 아래 */
+      #scrim { position: absolute; left: 0; right: 0; bottom: 0; height: 230px; z-index: 20;
+               pointer-events: none;
+               background: linear-gradient(180deg, rgba(7,9,20,0) 0%, rgba(7,9,20,0.45) 55%, rgba(7,9,20,0.66) 100%); }
 
       /* ── 상단 크롬 ── */
       #prog { position: absolute; top: 0; left: 0; width: 100%; height: 3px; z-index: 40;
@@ -91,7 +108,7 @@
       #scene-chip { color: var(--text); }
       #scene-chip .dot { background: var(--warn); }
 
-      /* ── 하단 자막 (재설계 lower-third, 좌측 정렬 + 액센트 바) ── */
+      /* ── 하단 자막 (lower-third, 좌측 정렬 + 액센트 바) ── */
       .subwrap { position: absolute; left: 96px; bottom: 96px; right: 600px; z-index: 35;
                  display: flex; gap: 22px; align-items: flex-start; }
       .subbar { width: 5px; align-self: stretch; min-height: 56px; border-radius: 3px;
@@ -108,12 +125,13 @@
       /* ── 씬 공통 ── */
       #stage { position: absolute; inset: 0; z-index: 10; }
       .scene { position: absolute; inset: 0; visibility: hidden; opacity: 0; }
-      .scene-head { position: absolute; top: 150px; left: 96px; right: 96px; }
+      .scene-head { position: absolute; top: 150px; left: 96px; right: 320px; }
       .kicker { font-size: 20px; font-weight: 700; letter-spacing: 6px; text-transform: uppercase;
                 color: var(--accent); margin-bottom: 16px; }
       .scene-title { font-size: 52px; font-weight: 800; letter-spacing: -1px; color: var(--text); }
-      .scene-no { position: absolute; top: 150px; right: 96px; font-size: 150px; font-weight: 900;
-                  line-height: 1; color: rgba(255,255,255,0.04); letter-spacing: -4px; }
+      /* 씬 번호: SceneKit.LAYOUT.sceneNo 영역과 일치 (충돌장이 보호) */
+      .scene-no { position: absolute; top: 158px; right: 96px; font-size: 118px; font-weight: 900;
+                  line-height: 1; color: rgba(255,255,255,0.05); letter-spacing: -3px; }
 
       /* ── S1 타이틀 ── */
       .s1-kicker { font-size: 22px; font-weight: 700; letter-spacing: 8px; text-transform: uppercase;
@@ -128,35 +146,41 @@
                    color: rgba(111,179,255,0.045); letter-spacing: -8px; line-height: 0.9;
                    text-align: right; pointer-events: none; }
       .line { display: block; overflow: hidden; }
+      .word { display: inline-block; white-space: nowrap; }
       .ch { display: inline-block; will-change: transform, opacity; }
 
-      /* ── 텍스트/노드 공통 ── */
-      .node-label { font-family: "Pretendard Variable", sans-serif; }
-      .legend { position: absolute; top: 178px; right: 96px; display: flex; flex-direction: column;
-                gap: 12px; align-items: flex-end; }
-      .legend .row { display: flex; align-items: center; gap: 12px; font-size: 18px;
-                     font-weight: 600; color: var(--muted); }
-      .legend .swatch { width: 30px; height: 0; border-top-width: 3px; border-top-style: solid; }
+      /* ── 범례 (수평 pill, 우상단 씬번호 아래 — 충돌장에 등록됨) ── */
+      .legend-row { position: absolute; top: 300px; right: 96px; display: flex; gap: 18px;
+                    align-items: center; z-index: 12; }
+      .legend-row .item { display: flex; align-items: center; gap: 10px; font-size: 17px;
+                          font-weight: 600; color: var(--muted); padding: 6px 14px;
+                          border: 1px solid rgba(58,64,96,0.6); border-radius: 999px;
+                          background: rgba(13,17,36,0.7); }
+      .legend-row .swatch { width: 26px; height: 0; border-top-width: 3px; border-top-style: solid; }
 
       /* ── S5 마켓 카드 ── */
-      .mcard { position: absolute; top: 300px; width: 360px; height: 440px;
+      .mcard { position: absolute; top: 318px; width: 360px; height: 430px; overflow: hidden;
                background: linear-gradient(165deg, rgba(38,44,78,0.85), rgba(24,28,52,0.85));
-               border: 1px solid var(--border); border-radius: 20px; padding: 36px 34px;
+               border: 1px solid var(--border); border-radius: 20px; padding: 34px;
                box-shadow: 0 24px 60px rgba(0,0,0,0.35); }
+      .mcard .mtop { position: absolute; top: 0; left: 0; right: 0; height: 4px; opacity: 0.85; }
+      .mcard .mhead { display: flex; align-items: center; justify-content: space-between; }
       .mcard .mname { font-size: 22px; font-weight: 700; color: var(--muted); letter-spacing: 0.5px; }
-      .mcard .mpct { font-size: 60px; font-weight: 900; letter-spacing: -2px; margin-top: 12px;
+      .mcard .mtag { font-size: 13px; font-weight: 800; letter-spacing: 2px; padding: 4px 10px;
+                     border: 1px solid; border-radius: 999px; }
+      .mcard .mpct { font-size: 58px; font-weight: 900; letter-spacing: -2px; margin-top: 14px;
                      font-variant-numeric: tabular-nums; white-space: nowrap; }
-      .mcard .msub { position: absolute; bottom: 34px; left: 34px; font-size: 18px; font-weight: 600;
+      .mcard .msub { position: absolute; bottom: 30px; left: 34px; font-size: 17px; font-weight: 600;
                      color: var(--faint); font-variant-numeric: tabular-nums; }
-      .mcard svg { position: absolute; left: 34px; right: 34px; bottom: 86px; width: 292px; height: 150px; }
+      .mcard svg { position: absolute; left: 34px; right: 34px; bottom: 78px; width: 292px; height: 150px; }
 
       /* ── S6 클로징 ── */
-      .quote { position: absolute; top: 330px; left: 96px; right: 520px; font-size: 64px;
-               font-weight: 800; line-height: 1.3; letter-spacing: -1.5px; color: var(--text); }
-      .quote .mark { color: var(--accent); font-weight: 900; }
-      .closing { position: absolute; left: 96px; bottom: 250px; right: 700px; font-size: 26px;
-                 line-height: 1.55; font-weight: 500; color: var(--muted); }
-      .confbox { position: absolute; right: 96px; top: 340px; width: 380px;
+      .quote { position: absolute; top: 322px; left: 96px; right: 580px; font-size: 58px;
+               font-weight: 800; line-height: 1.32; letter-spacing: -1.5px; color: var(--text); }
+      .quote .em { color: var(--accent-bright); }
+      .closing { position: absolute; left: 96px; top: 656px; right: 660px; font-size: 25px;
+                 line-height: 1.6; font-weight: 500; color: var(--muted); }
+      .confbox { position: absolute; right: 96px; top: 330px; width: 400px;
                  background: rgba(31,36,64,0.6); border: 1px solid var(--border); border-radius: 18px;
                  padding: 32px; }
       .confbox .clabel { font-size: 16px; font-weight: 700; letter-spacing: 3px; text-transform: uppercase;
@@ -166,12 +190,12 @@
       .confbox .ctrack { height: 10px; border-radius: 6px; background: rgba(255,255,255,0.06); overflow: hidden; }
       .confbox .cfill { height: 100%; width: 32%; border-radius: 6px;
                         background: linear-gradient(90deg, var(--down), var(--warn)); transform-origin: left; }
-      .confbox .cdesc { margin-top: 16px; font-size: 16px; line-height: 1.55; color: var(--faint); }
+      .confbox .cdesc { margin-top: 18px; font-size: 16px; line-height: 1.6; color: var(--faint); }
     </style>
   </head>
 
   <body>
-    <!-- 단일 마스터 타임라인 컴포지션: root 만 clip, 내부는 전부 GSAP 제어 (demo 패턴) -->
+    <!-- 단일 마스터 타임라인 컴포지션: root 만 clip, 내부는 전부 GSAP 제어 -->
     <div
       id="root"
       class="clip"
@@ -238,7 +262,7 @@
             <div class="scene-title">사건을 움직인 다섯 행위자</div>
           </div>
           <div class="scene-no">03</div>
-          <div class="legend" id="s3-legend"></div>
+          <div class="legend-row" id="s3-legend"></div>
           <svg id="s3-svg" viewBox="0 0 1920 1080" style="position:absolute; inset:0;"></svg>
         </section>
 
@@ -280,7 +304,8 @@
         </section>
       </div>
 
-      <!-- 자막 -->
+      <!-- 자막 스크림 + 자막 -->
+      <div id="scrim"></div>
       <div class="subwrap">
         <div class="subbar"></div>
         <div id="cap"></div>
@@ -293,7 +318,9 @@
 
     <script>
       "use strict";
-      // ───────────────────────── 데이터 (bundle에서 추출, 결정론적 임베드) ─────────────────────────
+      const SK = window.SceneKit;
+
+      // ───────────────────── 데이터 (bundle에서 추출, 결정론적 임베드) ─────────────────────
       const BUNDLE = {
         headlineLines: [
           [["60일 휴전 뒤 ", 0], ["이란 미사일", 1]],
@@ -310,11 +337,11 @@
           { date: "2026.06.14", label: "이란 추가 발사 또는 자제", phase: "future" },
         ],
         nodes: [
-          { id: "us", label: "미국·트럼프", role: "중재", x: 960, y: 290, kind: "mediator" },
-          { id: "iran", label: "이란", role: "발사 결정", x: 470, y: 540, kind: "iran" },
-          { id: "israel", label: "이스라엘", role: "표적·보복", x: 1450, y: 540, kind: "israel" },
-          { id: "hezbollah", label: "헤즈볼라", role: "대리세력", x: 720, y: 790, kind: "proxy" },
-          { id: "lebanon", label: "레바논 정부", role: "영향권", x: 1200, y: 790, kind: "actor" },
+          { id: "us", label: "미국·트럼프", role: "중재", x: 960, y: 352, kind: "mediator" },
+          { id: "iran", label: "이란", role: "발사 결정", x: 450, y: 575, kind: "iran" },
+          { id: "israel", label: "이스라엘", role: "표적·보복", x: 1470, y: 575, kind: "israel" },
+          { id: "hezbollah", label: "헤즈볼라", role: "대리세력", x: 705, y: 782, kind: "proxy" },
+          { id: "lebanon", label: "레바논 정부", role: "영향권", x: 1215, y: 782, kind: "actor" },
         ],
         links: [
           { s: "iran", t: "israel", type: "대립" },
@@ -325,11 +352,27 @@
           { s: "hezbollah", t: "lebanon", type: "영향" },
           { s: "us", t: "lebanon", type: "영향" },
         ],
-        markers: [
-          { id: "tehran", name: "테헤란", note: "발사 결정", x: 1514, y: 335, hi: true },
-          { id: "dahieh", name: "베이루트 다히예", note: "이스라엘 공습 표적", x: 465, y: 526, hi: true },
-          { id: "nisrael", name: "북부 이스라엘", note: "미사일 도착점", x: 432, y: 629, hi: true },
-        ],
+        geo: {
+          regions: [
+            { name: "이란", x: 1580, y: 520 },
+            { name: "레바논", x: 262, y: 408 },
+            { name: "이스라엘", x: 286, y: 812 },
+          ],
+          markers: [
+            { id: "tehran", name: "테헤란", note: "발사 결정", x: 1520, y: 372, hi: true },
+            { id: "dahieh", name: "베이루트 다히예", note: "이스라엘 공습 표적", x: 478, y: 466, hi: true },
+            { id: "nisrael", name: "북부 이스라엘", note: "미사일 도착점", x: 540, y: 700, hi: true },
+          ],
+          arcs: [
+            { id: "hezfire", from: "dahieh", to: "nisrael", bend: -74, color: "#e8b06f",
+              width: 2.5, dash: "7 8", label: "헤즈볼라 사격", cls: "sec-arc" },
+            { id: "strike", from: "nisrael", to: "dahieh", bend: -74, color: "#aeb6cf",
+              width: 2.5, dash: "7 8", label: "이스라엘 공습", cls: "sec-arc" },
+            { id: "main", from: "tehran", to: "nisrael", bend: 195, color: "#dc7a7a",
+              width: 4, glow: "rgba(220,122,122,0.6)", cls: "main-arc",
+              label: "이란 탄도미사일 약 10발 · 약 1,500km" },
+          ],
+        },
         markets: [
           { name: "달러인덱스", last: 100.07, pct: 0.9, kind: "flat",
             arr: [0,0.05,1.19,0.53,0.92,0.47,0.25,0.42,0.98,0.79,0.86,0.81,-0.05,-0.53,-1.07,-0.97,-1.09,-0.78,-0.38,-0.71,-0.56,-1.11,-0.72,-1.17,-1.35,-1.25,-0.71,0.09,0.12,-0.07,0.14,0.03,-0.27,0.02,0.35,0.9] },
@@ -344,256 +387,77 @@
         closing: "이번 발사로 4월 휴전은 ‘직접 공격’이라는 형태로 처음 위반됐다. 확전이냐 봉합이냐는 다음 며칠 안에 나올 이스라엘의 한 판단과 트럼프의 압박 강도가 가른다.",
       };
 
-      const SVGNS = "http://www.w3.org/2000/svg";
-      const el = (tag, attrs = {}, parent = null) => {
-        const n = document.createElementNS(SVGNS, tag);
-        for (const k in attrs) n.setAttribute(k, attrs[k]);
-        if (parent) parent.appendChild(n);
-        return n;
-      };
-      const COLOR = {
-        대립: "#dc7a7a", 동맹: "#88b888", 협상: "#6fb3ff", 영향: "#5a6280",
-        past: "#5a6280", crack: "#e8b06f", present: "#dc7a7a", future: "#6fb3ff",
-      };
+      const PHASE_COLOR = { past: "#5a6280", crack: "#e8b06f", present: "#dc7a7a", future: "#6fb3ff" };
+      const LINK_COLOR = { 대립: "#dc7a7a", 동맹: "#88b888", 협상: "#6fb3ff", 영향: "#5a6280" };
+      const LINK_DASH = { 대립: "2 12", 협상: "9 11", 영향: "1 10" };
 
-      // ── 글자 단위 split (SplitText 대체) — 줄/강조 구조 유지 ──
-      function buildSplit(container, lines, baseColor) {
-        const chs = [];
-        lines.forEach((segs) => {
-          const lineEl = document.createElement("span");
-          lineEl.className = "line";
-          segs.forEach(([txt, em]) => {
-            for (const c of txt) {
-              const s = document.createElement("span");
-              s.className = "ch";
-              s.textContent = c === " " ? " " : c;
-              if (em) s.classList.add("em");
-              lineEl.appendChild(s);
-              chs.push(s);
-            }
-          });
-          container.appendChild(lineEl);
-        });
-        return chs;
-      }
-
-      // ── S2: 상승 계단(사다리) 생성 ──
-      function buildLadder() {
-        const svg = document.getElementById("s2-svg");
-        const pts = BUNDLE.timeline;
-        const n = pts.length;
-        const x0 = 230, x1 = 1690, yBot = 850, yTop = 320;
-        const geo = pts.map((p, i) => ({
-          ...p,
-          x: x0 + (i / (n - 1)) * (x1 - x0),
-          y: yBot - (i / (n - 1)) * (yBot - yTop),
-        }));
-        // 계단형 연결선(가로→세로 zigzag)
-        let d = `M ${geo[0].x} ${geo[0].y}`;
-        for (let i = 1; i < n; i++) d += ` L ${geo[i].x} ${geo[i - 1].y} L ${geo[i].x} ${geo[i].y}`;
-        const riser = el("path", { d, fill: "none", stroke: "url(#ladgrad)", "stroke-width": "2.5",
-          "stroke-linejoin": "round", opacity: "0.55", class: "lad-riser" }, svg);
-        const defs = el("defs", {}, svg);
-        const lg = el("linearGradient", { id: "ladgrad", x1: "0", y1: "1", x2: "1", y2: "0" }, defs);
-        el("stop", { offset: "0", "stop-color": "#5a6280" }, lg);
-        el("stop", { offset: "0.6", "stop-color": "#e8b06f" }, lg);
-        el("stop", { offset: "1", "stop-color": "#6fb3ff" }, lg);
-        riser.setAttribute("stroke-dasharray", "4000");
-        riser.setAttribute("stroke-dashoffset", "4000");
-
-        geo.forEach((p, i) => {
-          const c = COLOR[p.phase];
-          const g = el("g", { class: p.phase === "present" ? "lad-step present-step" : "lad-step",
-            opacity: "0", transform: `translate(${p.x} ${p.y})` }, svg);
-          el("circle", { r: "13", fill: "#12162b", stroke: c, "stroke-width": "3" }, g);
-          if (p.phase === "present") el("circle", { r: "13", fill: "none", stroke: c, "stroke-width": "2",
-            class: "pulse-ring", opacity: "0.9" }, g);
-          // 라벨: 윗 스텝은 위로, 아랫 스텝은 아래로 분산
-          const above = i % 2 === 0;
-          const ty = above ? -34 : 70;
-          const dateT = el("text", { x: "0", y: above ? -64 : 40, "text-anchor": "middle",
-            fill: c, "font-size": "20", "font-weight": "800", "letter-spacing": "1", class: "node-label" }, g);
-          dateT.textContent = p.date;
-          const lines = p.label.split("\n");
-          lines.forEach((ln, k) => {
-            const t = el("text", { x: "0", y: ty + k * 26, "text-anchor": "middle",
-              fill: i >= 5 ? "#8a92a8" : "#e8ecef", "font-size": "21", "font-weight": "700",
-              class: "node-label" }, g);
-            t.textContent = ln;
-          });
-        });
-        return geo;
-      }
-
-      // ── S3: 네트워크 ──
-      function buildNetwork() {
-        const svg = document.getElementById("s3-svg");
-        const N = {}; BUNDLE.nodes.forEach((nd) => (N[nd.id] = nd));
-        const linkG = el("g", {}, svg);
-        const links = BUNDLE.links.map((lk) => {
-          const a = N[lk.s], b = N[lk.t];
-          const len = Math.hypot(b.x - a.x, b.y - a.y);
-          const dash = lk.type === "대립" ? "2 12" : lk.type === "협상" ? "9 11" : lk.type === "영향" ? "1 10" : "0";
-          const ln = el("line", { x1: a.x, y1: a.y, x2: b.x, y2: b.y,
-            stroke: COLOR[lk.type], "stroke-width": lk.type === "영향" ? "2" : "3",
-            "stroke-linecap": "round", opacity: "0", class: "net-link" }, linkG);
-          if (dash !== "0") ln.dataset.dash = dash;
-          ln.dataset.solidDash = len; ln.dataset.solidLen = len;
-          ln.setAttribute("stroke-dasharray", len);
-          ln.setAttribute("stroke-dashoffset", len);
-          return ln;
-        });
-        const nodeG = el("g", {}, svg);
-        BUNDLE.nodes.forEach((nd) => {
-          const c = nd.kind === "mediator" ? "#6fb3ff" : nd.kind === "iran" ? "#dc7a7a"
-            : nd.kind === "proxy" ? "#e8b06f" : "#aeb6cf";
-          const g = el("g", { class: "net-node", opacity: "0", transform: `translate(${nd.x} ${nd.y})` }, svg);
-          el("circle", { r: "60", fill: "#1f2440" }, g);
-          el("circle", { r: "60", fill: "none", stroke: c, "stroke-width": "3",
-            opacity: nd.kind === "mediator" ? "1" : "0.85" }, g);
-          if (nd.kind === "mediator") el("circle", { r: "60", fill: "none", stroke: c,
-            "stroke-width": "2", class: "pulse-ring", opacity: "0.7" }, g);
-          const role = el("text", { x: "0", y: "-8", "text-anchor": "middle", fill: c,
-            "font-size": "16", "font-weight": "700", "letter-spacing": "1", class: "node-label" }, g);
-          role.textContent = nd.role;
-          const lab = el("text", { x: "0", y: "22", "text-anchor": "middle", fill: "#e8ecef",
-            "font-size": "26", "font-weight": "800", class: "node-label" }, g);
-          lab.textContent = nd.label;
-          nodeG.appendChild(g);
-        });
-        // 범례
-        const lg = document.getElementById("s3-legend");
-        [["대립", "tension"], ["동맹", ""], ["협상", ""], ["영향", ""]].forEach(([k]) => {
-          const row = document.createElement("div"); row.className = "row";
-          const sw = document.createElement("div"); sw.className = "swatch";
-          sw.style.borderTopColor = COLOR[k];
-          sw.style.borderTopStyle = (k === "대립" || k === "협상" || k === "영향") ? "dashed" : "solid";
-          row.appendChild(sw);
-          const t = document.createElement("span"); t.textContent = k; row.appendChild(t);
-          lg.appendChild(row);
-        });
-        return links;
-      }
-
-      // ── S4: 지도 ──
-      function buildMap() {
-        const svg = document.getElementById("s4-svg");
-        // 그래티큘(전술 지도 느낌)
-        const grat = el("g", { opacity: "0.5" }, svg);
-        for (let gx = 280; gx <= 1640; gx += 170)
-          el("line", { x1: gx, y1: 230, x2: gx, y2: 860, stroke: "#2a3050", "stroke-width": "1" }, grat);
-        for (let gy = 250; gy <= 840; gy += 118)
-          el("line", { x1: 280, y1: gy, x2: 1640, y2: gy, stroke: "#2a3050", "stroke-width": "1" }, grat);
-        // 권역 라벨
-        [["이란", 1480, 250], ["레바논", 470, 470], ["이스라엘", 470, 720]].forEach(([t, x, y]) => {
-          const z = el("text", { x, y, fill: "rgba(138,146,168,0.28)", "font-size": "26",
-            "font-weight": "800", "letter-spacing": "4", class: "node-label" }, svg);
-          z.textContent = t;
-        });
-        const M = {}; BUNDLE.markers.forEach((m) => (M[m.id] = m));
-        // 보조 아크: 헤즈볼라 사격 / 이스라엘 공습 (베이루트↔북부)
-        const sec = el("g", {}, svg);
-        const secArcs = [];
-        [["dahieh", "nisrael", "헤즈볼라 사격", -40], ["nisrael", "dahieh", "이스라엘 공습", 40]].forEach(([s, t, lab, off]) => {
-          const a = M[s], b = M[t];
-          const cx = (a.x + b.x) / 2 + off, cy = (a.y + b.y) / 2;
-          const p = el("path", { d: `M ${a.x} ${a.y} Q ${cx} ${cy} ${b.x} ${b.y}`, fill: "none",
-            stroke: "#8a92a8", "stroke-width": "2", "stroke-dasharray": "7 8", opacity: "0",
-            class: "sec-arc" }, sec);
-          p.setAttribute("stroke-dashoffset", "3000");
-          secArcs.push(p);
-        });
-        // 메인 아크: 테헤란 → 북부 이스라엘 (탄도미사일 약 10발)
-        const a = M.tehran, b = M.nisrael;
-        const cp = { x: (a.x + b.x) / 2, y: (a.y + b.y) / 2 - 200 };
-        const main = el("path", { d: `M ${a.x} ${a.y} Q ${cp.x} ${cp.y} ${b.x} ${b.y}`, fill: "none",
-          stroke: "#dc7a7a", "stroke-width": "4", opacity: "0", class: "main-arc",
-          "stroke-dasharray": "3000", "stroke-dashoffset": "3000",
-          filter: "drop-shadow(0 0 10px rgba(220,122,122,0.6))" }, svg);
-        // 미사일 헤드
-        const missile = el("circle", { r: "9", fill: "#ffd9d9", opacity: "0", class: "missile",
-          filter: "drop-shadow(0 0 12px rgba(220,122,122,0.95))" }, svg);
-        // 아크 라벨
-        const mlab = el("text", { x: cp.x, y: cp.y + 64, "text-anchor": "middle", fill: "#dc7a7a",
-          "font-size": "24", "font-weight": "800", opacity: "0", class: "main-lab", "letter-spacing": "1",
-          class: "node-label main-lab" }, svg);
-        mlab.textContent = "이란 탄도미사일 약 10발 · 약 1,500km";
-        // 마커
-        const markerGs = [];
-        BUNDLE.markers.forEach((m) => {
-          const c = m.hi ? "#dc7a7a" : "#8a92a8";
-          const g = el("g", { class: "map-marker", opacity: "0", transform: `translate(${m.x} ${m.y})` }, svg);
-          el("circle", { r: "9", fill: c, stroke: "#0b0e1f", "stroke-width": "2.5" }, g);
-          el("circle", { r: "9", fill: "none", stroke: c, "stroke-width": "2", class: "pulse-ring", opacity: "0.8" }, g);
-          const right = m.x < 960;
-          const nm = el("text", { x: right ? 22 : -22, y: "-2", "text-anchor": right ? "start" : "end",
-            fill: "#e8ecef", "font-size": "26", "font-weight": "800", class: "node-label" }, g);
-          nm.textContent = m.name;
-          const nt = el("text", { x: right ? 22 : -22, y: "26", "text-anchor": right ? "start" : "end",
-            fill: "#8a92a8", "font-size": "19", "font-weight": "600", class: "node-label" }, g);
-          nt.textContent = m.note;
-          markerGs.push(g);
-        });
-        return { main, missile, mlab, secArcs, markerGs, a, b, cp };
-      }
-
-      // ── S5: 마켓 카드 + 스파크라인 ──
-      function buildMarkets() {
-        const wrap = document.getElementById("s5-cards");
-        const startX = 150, cw = 360, gap = 60;
-        const paths = [];
-        BUNDLE.markets.forEach((mk, i) => {
-          const card = document.createElement("div");
-          card.className = "mcard"; card.style.left = (startX + i * (cw + gap)) + "px";
-          const col = mk.kind === "up" ? "#88b888" : mk.kind === "vol" ? "#e8b06f" : "#aeb6cf";
-          card.innerHTML =
-            `<div class="mname">${mk.name}</div>` +
-            `<div class="mpct" style="color:${col}" data-pct="${mk.pct}">+0.0%</div>` +
-            `<div class="msub">현재 ${mk.last.toLocaleString()}</div>`;
-          // 스파크라인
-          const min = Math.min(...mk.arr), max = Math.max(...mk.arr);
-          const W = 292, H = 150, pad = 8, span = (max - min) || 1;
-          const xs = (k) => (k / (mk.arr.length - 1)) * W;
-          const ys = (v) => H - pad - ((v - min) / span) * (H - 2 * pad);
-          let d = `M ${xs(0)} ${ys(mk.arr[0])}`;
-          mk.arr.forEach((v, k) => { if (k) d += ` L ${xs(k)} ${ys(v)}`; });
-          const area = `${d} L ${W} ${H} L 0 ${H} Z`;
-          const svg = document.createElementNS(SVGNS, "svg");
-          svg.setAttribute("viewBox", `0 0 ${W} ${H}`);
-          const defs = el("defs", {}, svg);
-          const grad = el("linearGradient", { id: `mg${i}`, x1: "0", y1: "0", x2: "0", y2: "1" }, defs);
-          el("stop", { offset: "0", "stop-color": col, "stop-opacity": "0.32" }, grad);
-          el("stop", { offset: "1", "stop-color": col, "stop-opacity": "0" }, grad);
-          const af = el("path", { d: area, fill: `url(#mg${i})`, opacity: "0", class: "spark-area" }, svg);
-          el("line", { x1: 0, y1: ys(0), x2: W, y2: ys(0), stroke: "#3a4060", "stroke-width": "1", "stroke-dasharray": "3 5" }, svg);
-          const lp = el("path", { d, fill: "none", stroke: col, "stroke-width": "3",
-            "stroke-linecap": "round", "stroke-linejoin": "round" }, svg);
-          lp.setAttribute("stroke-dasharray", "2000");
-          lp.setAttribute("stroke-dashoffset", "2000");
-          el("circle", { cx: xs(mk.arr.length - 1), cy: ys(mk.arr[mk.arr.length - 1]), r: "5",
-            fill: col, class: "spark-end", opacity: "0" }, svg);
-          card.appendChild(svg);
-          wrap.appendChild(card);
-          paths.push({ card, lp, af, pctEl: card.querySelector(".mpct"), pct: mk.pct });
-        });
-        return paths;
-      }
-
-      // 빌드 실행
-      const headlineChs = buildSplit(document.getElementById("headline"), BUNDLE.headlineLines, null);
+      // ───────────────────── 씬 빌드 (SceneKit) ─────────────────────
+      // S1 / S6 텍스트
+      const headlineChs = SK.splitChars(document.getElementById("headline"), BUNDLE.headlineLines);
       document.getElementById("deck").textContent = BUNDLE.deck;
-      const ladderGeo = buildLadder();
-      const netLinks = buildNetwork();
-      const mapObj = buildMap();
-      const marketPaths = buildMarkets();
-      const quoteChs = buildSplit(document.getElementById("s6-quote"), BUNDLE.quote, null);
+      const quoteChs = SK.splitChars(document.getElementById("s6-quote"), BUNDLE.quote);
       document.getElementById("s6-closing").textContent = BUNDLE.closing;
 
-      // ───────────────────────── 마스터 타임라인 ─────────────────────────
+      // S2 에스컬레이션 사다리
+      const ladder = SK.buildStepTimeline(document.getElementById("s2-svg"), BUNDLE.timeline, {
+        x0: 250, x1: 1640, yBottom: 778, yTop: 360,
+        colors: PHASE_COLOR,
+        gradId: "ladgrad",
+        gradStops: [["0", "#5a6280"], ["0.6", "#e8b06f"], ["1", "#6fb3ff"]],
+      });
+
+      // S3 행위자 네트워크
+      const net = SK.buildNetwork(document.getElementById("s3-svg"), BUNDLE.nodes, BUNDLE.links, {
+        linkColors: LINK_COLOR,
+        dashByType: LINK_DASH,
+        nodeColor: (nd) =>
+          nd.kind === "mediator" ? "#6fb3ff" : nd.kind === "iran" ? "#dc7a7a"
+          : nd.kind === "proxy" ? "#e8b06f" : "#aeb6cf",
+      });
+      // 범례 (수평 pill — CSS .legend-row 위치는 LabelField 가 침범하지 않는 우상단 밴드)
+      {
+        const lg = document.getElementById("s3-legend");
+        ["대립", "동맹", "협상", "영향"].forEach((k) => {
+          const item = document.createElement("div");
+          item.className = "item";
+          const sw = document.createElement("div");
+          sw.className = "swatch";
+          sw.style.borderTopColor = LINK_COLOR[k];
+          sw.style.borderTopStyle = LINK_DASH[k] ? "dashed" : "solid";
+          item.appendChild(sw);
+          const t = document.createElement("span");
+          t.textContent = k;
+          item.appendChild(t);
+          lg.appendChild(item);
+        });
+      }
+
+      // S4 지오 씬
+      const geo = SK.buildGeoScene(document.getElementById("s4-svg"), BUNDLE.geo, {
+        grid: { x0: 230, x1: 1690, y0: 300, y1: 846, dx: 146, dy: 109.2 },
+        hiColor: "#dc7a7a",
+      });
+      const mainArc = geo.arcs.find((a) => a.id === "main");
+      // 미사일 헤드 + 도착 임팩트 링
+      const missile = SK.svgEl("circle", {
+        r: 9, fill: "#ffd9d9", opacity: 0, class: "missile",
+        filter: "drop-shadow(0 0 12px rgba(220,122,122,0.95))",
+      }, document.getElementById("s4-svg"));
+      const impact = SK.svgEl("circle", {
+        cx: mainArc.b.x, cy: mainArc.b.y, r: 14, fill: "none", stroke: "#dc7a7a",
+        "stroke-width": 3, opacity: 0, class: "impact-ring",
+      }, document.getElementById("s4-svg"));
+
+      // S5 마켓 카드
+      const marketCards = SK.buildMarketCards(document.getElementById("s5-cards"), BUNDLE.markets, {
+        colorByKind: { up: "#88b888", vol: "#e8b06f", flat: "#aeb6cf" },
+        tagByKind: { up: "상승", vol: "변동", flat: "보합" },
+      });
+
+      // ───────────────────── 마스터 타임라인 ─────────────────────
       window.__timelines = window.__timelines || {};
       const tl = gsap.timeline({ paused: true, defaults: { ease: "power3.out" } });
 
-      // 전 씬 초기 숨김
       gsap.set(["#s1", "#s2", "#s3", "#s4", "#s5", "#s6"], { autoAlpha: 0 });
 
       // 진행바 + 배경 패럴랙스(60초 풀)
@@ -602,7 +466,7 @@
       tl.to("#bgblob2", { x: 160, y: -90, duration: 60, ease: "sine.inOut" }, 0);
       tl.fromTo("#stage", { scale: 1.0 }, { scale: 1.025, duration: 60, ease: "none" }, 0);
 
-      // pulse-ring 펄스(시킹 안전: 타임라인 내 반복, scale 기반이라 r 누적 없음)
+      // pulse-ring 펄스 (시킹 안전: 타임라인 내 반복, scale 기반)
       tl.to(".pulse-ring", { scale: 2.2, opacity: 0, duration: 1.5,
         repeat: 38, ease: "sine.out", transformOrigin: "50% 50%" }, 0);
 
@@ -611,8 +475,10 @@
         { autoAlpha: 1, y: 0, scale: 1, duration: 0.85, ease: "power3.out" }, t);
       const sceneOut = (sel, t) => tl.to(sel, { autoAlpha: 0, y: -18, duration: 0.6, ease: "power2.in" }, t);
       const chip = (t, label) => tl.call(() => { document.getElementById("scene-label").textContent = label; }, [], t);
+      const draw = (el, at, dur, ease) =>
+        tl.to(el, { strokeDashoffset: 0, duration: dur, ease: ease || "power2.out" }, at);
 
-      // ── S1 (0–9) ──
+      // ── S1 (0–9) 타이틀 ──
       sceneIn("#s1", 0);
       chip(0, "01 · 타이틀");
       tl.from("#s1-kicker", { opacity: 0, y: 16, duration: 0.7 }, 0.3);
@@ -625,68 +491,87 @@
       sceneIn("#s2", 9);
       chip(9, "02 · 에스컬레이션");
       tl.from("#s2 .scene-head", { opacity: 0, y: 18, duration: 0.7 }, 9.1);
-      tl.to(".lad-riser", { strokeDashoffset: 0, duration: 3.0, ease: "power2.inOut" }, 9.5);
-      tl.to(".lad-step", { opacity: 1, duration: 0.5, stagger: 0.42, ease: "power2.out" }, 9.7);
-      // 현재 국면(6/7) 강조 — 노드 살짝 확대 펄스 (빨강 점 + pulse-ring과 함께)
-      tl.fromTo(".present-step circle:first-child", { scale: 1 },
-        { scale: 1.4, transformOrigin: "50% 50%", duration: 0.5, yoyo: true, repeat: 1, ease: "sine.inOut" }, 13.4);
+      draw(ladder.riser, 9.5, 3.0, "power2.inOut");
+      ladder.items.forEach((it, i) => {
+        const at = 9.8 + i * 0.42;
+        tl.to(it.marker, { opacity: 1, duration: 0.4, ease: "power2.out" }, at);
+        tl.fromTo(it.marker, { scale: 0.4, transformOrigin: "50% 50%" },
+          { scale: 1, duration: 0.5, ease: "back.out(2)" }, at);
+        if (it.leader) draw(it.leader, at + 0.12, 0.3, "power1.out");
+        tl.fromTo(it.plate.g, { opacity: 0 }, { opacity: 1, duration: 0.45 }, at + 0.22);
+      });
+      // 현재 국면(6/7) 강조 — 마커 확대 펄스
+      tl.fromTo(ladder.items[4].marker, { scale: 1 },
+        { scale: 1.35, transformOrigin: "50% 50%", duration: 0.5, yoyo: true, repeat: 1, ease: "sine.inOut" }, 13.6);
       sceneOut("#s2", 20.5);
 
       // ── S3 (21–33) 네트워크 ──
       sceneIn("#s3", 21);
       chip(21, "03 · 행위자 관계망");
       tl.from("#s3 .scene-head", { opacity: 0, y: 18, duration: 0.7 }, 21.1);
-      tl.to(".net-node", { opacity: 1, duration: 0.6, stagger: 0.12, ease: "back.out(1.6)" }, 21.5);
-      tl.fromTo(".net-node", { scale: 0.6, transformOrigin: "center" }, { scale: 1, duration: 0.6,
-        stagger: 0.12, ease: "back.out(1.7)" }, 21.5);
+      tl.to(".net-node", { opacity: 1, duration: 0.6, stagger: 0.12, ease: "power2.out" }, 21.5);
+      tl.fromTo(".net-node", { scale: 0.6, transformOrigin: "50% 50%" },
+        { scale: 1, duration: 0.6, stagger: 0.12, ease: "back.out(1.7)" }, 21.5);
       tl.to(".net-link", { opacity: 0.95, duration: 0.3, stagger: 0.1 }, 22.6);
       tl.to(".net-link", { strokeDashoffset: 0, duration: 0.9, stagger: 0.1, ease: "power2.out",
         onComplete: function () {
           // 점선 타입 링크는 draw 후 dash 패턴으로 환원
-          netLinks.forEach((ln) => { if (ln.dataset.dash) ln.setAttribute("stroke-dasharray", ln.dataset.dash); });
+          net.linkEls.forEach((ln) => { if (ln.dataset.dash) ln.setAttribute("stroke-dasharray", ln.dataset.dash); });
         } }, 22.7);
-      tl.from(".legend .row", { opacity: 0, x: 20, duration: 0.5, stagger: 0.1 }, 24.5);
+      tl.from(".legend-row .item", { opacity: 0, x: 20, duration: 0.5, stagger: 0.1 }, 24.5);
       sceneOut("#s3", 32.5);
 
       // ── S4 (33–45) 지도 ──
       sceneIn("#s4", 33);
       chip(33, "04 · 좌표의 사슬");
       tl.from("#s4 .scene-head", { opacity: 0, y: 18, duration: 0.7 }, 33.1);
-      tl.to(".map-marker", { opacity: 1, duration: 0.6, stagger: 0.3, ease: "power2.out" }, 33.6);
-      tl.to(".sec-arc", { opacity: 0.7, duration: 0.8, stagger: 0.3, ease: "power1.inOut" }, 35.2);
-      // 메인 미사일 아크 + 헤드 비행
-      tl.to(".main-arc", { opacity: 1, duration: 0.2 }, 37.4);
-      tl.to(".main-arc", { strokeDashoffset: 0, duration: 1.6, ease: "power1.in" }, 37.5);
-      tl.to(".missile", { opacity: 1, duration: 0.1 }, 37.5);
+      geo.markerItems.forEach((it, i) => {
+        const at = 33.6 + i * 0.3;
+        tl.to(it.g, { opacity: 1, duration: 0.5, ease: "power2.out" }, at);
+        if (it.leader) draw(it.leader, at + 0.1, 0.25, "power1.out");
+        tl.fromTo(it.plate.g, { opacity: 0 }, { opacity: 1, duration: 0.4 }, at + 0.18);
+      });
+      // 보조 아크(사격/공습) + 라벨
+      geo.arcs.filter((a) => a.id !== "main").forEach((ac, i) => {
+        const at = 35.2 + i * 0.5;
+        tl.to(ac.path, { opacity: 0.75, duration: 0.2 }, at);
+        tl.to(ac.path, { strokeDashoffset: 0, duration: 0.8, ease: "power1.inOut",
+          onComplete: () => { if (ac.path.dataset.dash) ac.path.setAttribute("stroke-dasharray", ac.path.dataset.dash); } }, at);
+      });
+      geo.arcLabels.filter((al) => al.ac.id !== "main").forEach((al, i) => {
+        tl.fromTo(al.plate.g, { opacity: 0 }, { opacity: 1, duration: 0.4 }, 35.6 + i * 0.5);
+      });
+      // 메인 미사일 아크 + 헤드 비행 + 임팩트
+      tl.to(mainArc.path, { opacity: 1, duration: 0.2 }, 37.4);
+      draw(mainArc.path, 37.5, 1.6, "power1.in");
+      tl.to(missile, { opacity: 1, duration: 0.1 }, 37.5);
       const flight = { p: 0 };
-      const A = mapObj.a, C = mapObj.cp, B = mapObj.b;
       tl.to(flight, { p: 1, duration: 1.6, ease: "power1.in",
         onUpdate: function () {
-          const u = 1 - flight.p, t2 = flight.p;
-          const x = u * u * A.x + 2 * u * t2 * C.x + t2 * t2 * B.x;
-          const y = u * u * A.y + 2 * u * t2 * C.y + t2 * t2 * B.y;
-          mapObj.missile.setAttribute("cx", x);
-          mapObj.missile.setAttribute("cy", y);
+          const pt = SK.quadAt(mainArc.a, mainArc.c, mainArc.b, flight.p);
+          missile.setAttribute("cx", pt.x);
+          missile.setAttribute("cy", pt.y);
         } }, 37.5);
-      tl.to(".missile", { opacity: 0, scale: 2.4, transformOrigin: "center", duration: 0.4 }, 39.1);
-      tl.fromTo(".main-lab", { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.6 }, 39.0);
+      tl.to(missile, { opacity: 0, scale: 2.4, transformOrigin: "50% 50%", duration: 0.4 }, 39.1);
+      tl.fromTo(impact, { opacity: 0.9, scale: 0.4, transformOrigin: "50% 50%" },
+        { opacity: 0, scale: 2.6, duration: 0.8, ease: "power2.out" }, 39.1);
+      geo.arcLabels.filter((al) => al.ac.id === "main").forEach((al) => {
+        tl.fromTo(al.plate.g, { opacity: 0 }, { opacity: 1, duration: 0.6 }, 39.0);
+      });
       sceneOut("#s4", 44.5);
 
       // ── S5 (45–54) 마켓 ──
       sceneIn("#s5", 45);
       chip(45, "05 · 시장 궤적");
       tl.from("#s5 .scene-head", { opacity: 0, y: 18, duration: 0.7 }, 45.1);
-      marketPaths.forEach((m, i) => {
+      marketCards.forEach((m, i) => {
         const at = 45.6 + i * 0.35;
         tl.from(m.card, { opacity: 0, y: 40, duration: 0.7, ease: "power3.out" }, at);
-        tl.to(m.af, { opacity: 1, duration: 0.8 }, at + 0.3);
-        tl.to(m.lp, { strokeDashoffset: 0, duration: 1.3, ease: "power2.out" }, at + 0.2);
-        tl.to(m.card.querySelector(".spark-end"), { opacity: 1, duration: 0.3 }, at + 1.3);
-        const counter = { v: 0 };
-        tl.to(counter, { v: m.pct, duration: 1.2, ease: "power1.out",
-          onUpdate: function () {
-            m.pctEl.textContent = (counter.v >= 0 ? "+" : "") + counter.v.toFixed(1) + "%";
-          } }, at + 0.3);
+        tl.to(m.area, { opacity: 1, duration: 0.8 }, at + 0.3);
+        draw(m.line, at + 0.2, 1.3);
+        tl.to(m.end, { opacity: 1, duration: 0.3 }, at + 1.3);
+        SK.counter(tl, m.pctEl, m.data.pct,
+          (v) => (v >= 0 ? "+" : "") + v.toFixed(1) + "%", at + 0.3, 1.2);
       });
       sceneOut("#s5", 53.5);
 
@@ -697,12 +582,11 @@
       tl.from(quoteChs, { opacity: 0, y: 18, duration: 0.7, stagger: 0.012, ease: "power3.out" }, 54.4);
       tl.from("#s6-closing", { opacity: 0, y: 20, duration: 0.8 }, 55.6);
       tl.from(".confbox", { opacity: 0, x: 30, duration: 0.7 }, 55.2);
-      const cf = { v: 0 };
-      tl.to(cf, { v: 0.32, duration: 1.2, ease: "power2.out",
-        onUpdate: function () { document.getElementById("conf-score").textContent = cf.v.toFixed(2); } }, 55.6);
+      SK.counter(tl, document.getElementById("conf-score"), 0.32,
+        (v) => v.toFixed(2), 55.6, 1.2, "power2.out");
       tl.fromTo("#conf-fill", { scaleX: 0 }, { scaleX: 1, duration: 1.2, ease: "power3.out" }, 55.6);
 
-      // ───────────────────────── 자막 ─────────────────────────
+      // ───────────────────── 자막 ─────────────────────
       const cues = [
         { t: 0.8,  text: "2026년 6월 7일 밤, 60일 휴전이 직접 공격으로 처음 흔들렸습니다." },
         { t: 4.8,  text: "이란이 북부 이스라엘로 탄도미사일 약 10발을 발사했습니다." },
