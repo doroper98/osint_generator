@@ -1,6 +1,6 @@
 <!--
 tier: 3
-last_synced_with: v0.35.6
+last_synced_with: v0.36.0
 ssot_for: [release-notes]
 depends_on: [README.md, GOAL.md]
 last_review: 2026-06-11
@@ -25,6 +25,29 @@ released 항목은 **append-only**입니다.
 
 ### Fixed
 -
+
+---
+
+## [v0.36.0] — 2026-06-11
+
+### Added
+- **번들 → 영상 자동 변환 1차** (NEXT_SESSION_PROMPT 옵션 C, MINOR):
+  - `hyperframes/scripts/bundle_to_video.py` — agents_reviewer report_bundle 을
+    읽어 씬 플랜(타이틀/타임라인/쟁점/가격/클로징)·cue·테마를 결정론 추출,
+    `hyperframes/briefing/auto.html` 생성. **데이터에 있는 씬만 조립** —
+    이번 번들(반도체 분석)은 지도·행위자가 없으므로 해당 씬 없음.
+  - `hyperframes/briefing/assets/auto_builder.js` — DATA 주도 제네릭 컴포지션
+    팩토리 (씬 조건부 생성 + 마스터 타임라인 + cue). CSS 는 briefing/index.html
+    <style> 재사용 (테마 SSOT).
+  - 번들 테마 토큰(accent/up/down) → CSS 변수 오버라이드 (graphite_slate 검증).
+  - 헤드라인 자동 줄바꿈+마지막 줄 강조, 타임라인 13→7 분기점 샘플링(비과거
+    우선), contradictions → 강세/보수 카드(다수설/소수설 + 게이지), line 차트
+    → 마켓 카드(%·kind 자동 분류), pull_quote 숫자+단위 자동 강조(em),
+    confidence → 신뢰도 박스, 출처 라인 자동 구성.
+- SceneKit `buildProfileCards` 게이지 축 라벨 파라미터화 (자제/확전 →
+  임의 축, 예: 신중/강세).
+- `samples/semicon2026/` — 검증에 사용한 실제 번들
+  (analysis_20260611_130642_9f7fbb749d) 보존.
 
 ---
 

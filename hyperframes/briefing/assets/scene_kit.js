@@ -997,6 +997,7 @@
     const total = people.length * cw + (people.length - 1) * gap;
     const startX = (W - total) / 2;
     const trackW = cw - 68; // 카드 padding 34*2
+    const gauge = { left: "자제", right: "확전", tag: "분석 추정", ...(opts.gauge || {}) };
     return people.map((p, i) => {
       const card = document.createElement("div");
       card.className = "pcard";
@@ -1013,7 +1014,7 @@
         `</div>` +
         `<div class="pline">${p.line}</div>` +
         `<div class="pgauge">` +
-        `<div class="glabels"><span>자제</span><span class="gtag">분석 추정</span><span>확전</span></div>` +
+        `<div class="glabels"><span>${gauge.left}</span><span class="gtag">${gauge.tag}</span><span>${gauge.right}</span></div>` +
         `<div class="gtrack"><div class="gdot" style="background:${p.color};box-shadow:0 0 14px ${p.color}"></div></div>` +
         `<div class="gstance" style="color:${p.color}">${p.stanceLabel}</div>` +
         `</div>`;

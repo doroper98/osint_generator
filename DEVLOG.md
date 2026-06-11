@@ -1,6 +1,6 @@
 <!--
 tier: 3
-last_synced_with: v0.35.6
+last_synced_with: v0.36.0
 ssot_for: [development-log]
 depends_on: [CHANGELOG.md]
 last_review: 2026-06-06
@@ -2386,3 +2386,35 @@ last_review: 2026-06-06
 - **결과**: 클로즈업 검수 — 미국→이란 아치가 레바논 플레이트 위로 상승 회피,
   이란→헤즈볼라가 국기 사이 통과, 간섭 0. 감사 클린.
 - **연관**: v0.35.4/0.35.5 (라우팅 계열), LabelField 철학(충돌 회피)의 링크 확장.
+
+---
+
+## 2026-06-11 v0.36.0 — 번들→영상 자동 변환 1차 (옵션 C, 실 JSON 검증)
+
+- **무엇을**: 사용자가 제공한 실제 agents_reviewer 번들
+  (analysis_20260611_130642_9f7fbb749d, 반도체 분석, graphite_slate)로
+  번들→컴포지션 변환기 1차 구현 + e2e 검증. VERSION 0.35.6 → 0.36.0 (MINOR).
+- **왜**: 사용자 — "샘플 영상이 마음에 드는데, 정말 json 이 제공되었을 때
+  그대로 작동되는지 보기 위함". 손으로 만든 데모가 아니라 데이터 주도
+  파이프라인의 증명.
+- **어떻게**: ① bundle_to_video.py (stdlib only, LLM 없음 — 결정론):
+  headline greedy wrap(+마지막 줄 em) / timeline 13→7 샘플링(crack·present·
+  future 우선, past 균등) / contradictions → versus 카드(조사 '은/는' 분리로
+  진영·주장 추출, resolution 의 다수·소수 키워드로 stance) / line+strip 차트
+  → 마켓 카드(첫값 대비 % 시리즈, pct·spread 로 kind 분류) / pull_quote
+  숫자+단위 regex em / 출처 publisher 상위 3 + 외 N. ② auto_builder.js:
+  BRIEFING_DATA 의 scenes[] 를 조건부 조립, data-duration 동적 주입,
+  번들 테마 토큰 → CSS 변수. CSS 는 index.html <style> 블록 재사용.
+  ③ 씬 부재 처리 검증: 본 번들은 map=None·행위자 없음 → 지도/네트워크 씬이
+  생성되지 않음 (엔진의 올바른 동작).
+- **결과**: scenes=[title, ladder, versus, markets, closing], 53초, cue 12개.
+  플레이트 겹침/밴드 감사 클린, pageerror 0. 5씬 스크린샷 검수 — 헤드라인
+  줄바꿈/강조, 타임라인 7분기점, 강세론(다수설) vs 보수론(소수설) 게이지,
+  SK하이닉스 +119.1% 마켓 카드, 150조원 자동 강조 인용 + 신뢰도 0.38 모두
+  번들 값 그대로.
+- **C10**: MINOR 트리거이나 사용자의 세션 명시 지시("코드리뷰는 생략해")로
+  생략. 차기 세션에서 필요 시 일괄 리뷰 권장.
+- **남은 것 (옵션 C 2차+)**: cue 문장 품질(LLM 보강), candle/bar/slope 차트
+  전용 씬, map 있는 번들에서 지오/네트워크 씬 자동 활성, narration 연동.
+- **연관**: v0.35.x 전체(엔진·씬·테마가 본 변환의 토대), 옵션 C/G4(미검증
+  라벨 — 출처 라인에 명시).
