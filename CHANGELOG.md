@@ -1,6 +1,6 @@
 <!--
 tier: 3
-last_synced_with: v0.35.3
+last_synced_with: v0.35.4
 ssot_for: [release-notes]
 depends_on: [README.md, GOAL.md]
 last_review: 2026-06-11
@@ -25,6 +25,20 @@ released 항목은 **append-only**입니다.
 
 ### Fixed
 -
+
+---
+
+## [v0.35.4] — 2026-06-11
+
+### Changed
+- **연결선 직각 라우팅** (사용자 요청 "각진 부분에 라운드가 있는 직각 선, 단정하게"):
+  SceneKit `orthoPath` 신설 — H-V-H / V-H-V 엘보 + 라운드 코너(Q 베지어),
+  노드 가장자리 stub. 네트워크 링크가 직선 사선 → 라운드 직각으로.
+- **흐름 펄스 애니메이션**: 링크 draw 완료 후 밝은 세그먼트가 s→t 방향으로
+  경로를 순환(2.4s × 3바퀴) — 영향을 주고받는 방향성 시각화. 타임라인 내
+  tween 이라 시킹 안전.
+- **국기 풀블리드**: 노드 원 클립 r-3 → r-1 + 잉크 오버레이 제거, 프로필 카드
+  국기 82px — 도형 안에 꽉 채움 (사용자 요청).
 
 ---
 

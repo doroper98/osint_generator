@@ -182,8 +182,7 @@
                       display: flex; align-items: center; justify-content: center; }
       .pcard .pmono span { font-size: 28px; font-weight: 800; letter-spacing: 1px;
                            font-family: "Noto Serif KR", serif; }
-      .pcard .pmono img { width: 74px; height: 74px; border-radius: 50%; object-fit: cover;
-                          filter: saturate(0.85) brightness(0.95); }
+      .pcard .pmono img { width: 82px; height: 82px; border-radius: 50%; object-fit: cover; }
       .pcard .pring-svg { position: absolute; inset: 0; }
       .pcard .pname { font-size: 29px; font-weight: 700; letter-spacing: -0.5px; }
       .pcard .porg { margin-top: 7px; font-size: 15px; font-weight: 500; color: var(--muted);
@@ -462,6 +461,7 @@
       const PHASE_COLOR = { past: "#6e6a60", crack: "#c4a265", present: "#b25450", future: "#8d99ae" };
       const LINK_COLOR = { 대립: "#b25450", 동맹: "#7d9b76", 협상: "#c4a265", 영향: "#6e6a60" };
       const LINK_DASH = { 대립: "2 12", 협상: "9 11", 영향: "1 10" };
+      const LINK_FLOW = { 대립: "#e08a86", 동맹: "#a8cba0", 협상: "#ecd2a0", 영향: "#b9b4a8" };
 
       // ───────────────────── 씬 빌드 (SceneKit) ─────────────────────
       // S1 / S6 텍스트
@@ -483,6 +483,7 @@
       const net = SK.buildNetwork(document.getElementById("s3-svg"), BUNDLE.nodes, BUNDLE.links, {
         linkColors: LINK_COLOR,
         dashByType: LINK_DASH,
+        flowColors: LINK_FLOW,
         nodeColor: (nd) =>
           nd.kind === "mediator" ? "#c4a265" : nd.kind === "iran" ? "#b25450"
           : nd.kind === "proxy" ? "#b07a4a" : "#8d99ae",
@@ -598,6 +599,16 @@
           // 점선 타입 링크는 draw 후 dash 패턴으로 환원
           net.linkEls.forEach((ln) => { if (ln.dataset.dash) ln.setAttribute("stroke-dasharray", ln.dataset.dash); });
         } }, 22.9);
+      // 흐름 펄스 — draw 완료 후 s→t 방향으로 순환 (영향의 방향성 시각화)
+      net.flows.forEach((fl, i) => {
+        const L = parseFloat(fl.dataset.len);
+        const seg = parseFloat(fl.dataset.seg);
+        const at = 24.4 + i * 0.22;
+        tl.to(fl, { opacity: 0.9, duration: 0.4 }, at);
+        tl.fromTo(fl, { strokeDashoffset: L + seg },
+          { strokeDashoffset: 0, duration: 2.4, ease: "none", repeat: 2 }, at);
+        tl.to(fl, { opacity: 0, duration: 0.4 }, at + 7.0);
+      });
       tl.from(".legend-row .item", { opacity: 0, x: 20, duration: 0.5, stagger: 0.1 }, 24.5);
       sceneOut("#s3", 32.5);
 

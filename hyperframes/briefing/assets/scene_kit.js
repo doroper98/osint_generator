@@ -286,6 +286,47 @@
     };
   }
 
+  // 직각(orthogonal) 라우팅 path — 모서리 라운드 (단정한 연결선).
+  // |dx| 우세 → H-V-H, |dy| 우세 → V-H-V. ra/rb 는 양 끝 노드 반지름 stub.
+  function orthoPath(a, b, opts = {}) {
+    const cr = opts.corner ?? 14;
+    const ra = opts.ra ?? 0;
+    const rb = opts.rb ?? 0;
+    const dx = b.x - a.x;
+    const dy = b.y - a.y;
+    const f = (v) => +v.toFixed(1);
+    if (Math.abs(dx) >= Math.abs(dy)) {
+      const sgx = Math.sign(dx) || 1;
+      const sx = a.x + sgx * ra;
+      const ex = b.x - sgx * rb;
+      if (Math.abs(dy) < cr * 2 + 4) return `M ${f(sx)} ${f(a.y)} L ${f(ex)} ${f(b.y)}`;
+      const mx = (sx + ex) / 2;
+      if (Math.abs(ex - sx) < cr * 2 + 4) return `M ${f(sx)} ${f(a.y)} L ${f(ex)} ${f(b.y)}`;
+      const sgy = Math.sign(dy);
+      return (
+        `M ${f(sx)} ${f(a.y)} L ${f(mx - sgx * cr)} ${f(a.y)} ` +
+        `Q ${f(mx)} ${f(a.y)} ${f(mx)} ${f(a.y + sgy * cr)} ` +
+        `L ${f(mx)} ${f(b.y - sgy * cr)} ` +
+        `Q ${f(mx)} ${f(b.y)} ${f(mx + sgx * cr)} ${f(b.y)} ` +
+        `L ${f(ex)} ${f(b.y)}`
+      );
+    }
+    const sgy = Math.sign(dy) || 1;
+    const sy = a.y + sgy * ra;
+    const ey = b.y - sgy * rb;
+    if (Math.abs(dx) < cr * 2 + 4) return `M ${f(a.x)} ${f(sy)} L ${f(b.x)} ${f(ey)}`;
+    const my = (sy + ey) / 2;
+    if (Math.abs(ey - sy) < cr * 2 + 4) return `M ${f(a.x)} ${f(sy)} L ${f(b.x)} ${f(ey)}`;
+    const sgx = Math.sign(dx);
+    return (
+      `M ${f(a.x)} ${f(sy)} L ${f(a.x)} ${f(my - sgy * cr)} ` +
+      `Q ${f(a.x)} ${f(my)} ${f(a.x + sgx * cr)} ${f(my)} ` +
+      `L ${f(b.x - sgx * cr)} ${f(my)} ` +
+      `Q ${f(b.x)} ${f(my)} ${f(b.x)} ${f(my + sgy * cr)} ` +
+      `L ${f(b.x)} ${f(ey)}`
+    );
+  }
+
   // 글자 단위 split (SplitText 대체) — lines: [[ [txt, em], ... ], ...]
   // 글자 span 은 단어 span(.word, inline-block) 안에 묶어 단어 중간 줄바꿈을 차단.
   function splitChars(container, lines) {
@@ -488,31 +529,42 @@
       N[nd.id] = nd;
     });
 
-    // 2) 링크 — 노드 원 가장자리에서 트리밍
+    // 2) 링크 — 직각(라운드 코너) 라우팅, 노드 가장자리 stub + 흐름 펄스 오버레이
+    const flows = [];
     const linkEls = links.map((lk) => {
       const a = N[lk.s];
       const b = N[lk.t];
-      const dx = b.x - a.x;
-      const dy = b.y - a.y;
-      const len = Math.hypot(dx, dy);
-      const ux = dx / len;
-      const uy = dy / len;
+      const d = orthoPath(a, b, { ra: a.r + 7, rb: b.r + 7, corner: 16 });
       const ln = svgEl(
-        "line",
+        "path",
         {
-          x1: (a.x + ux * (a.r + 7)).toFixed(1),
-          y1: (a.y + uy * (a.r + 7)).toFixed(1),
-          x2: (b.x - ux * (b.r + 7)).toFixed(1),
-          y2: (b.y - uy * (b.r + 7)).toFixed(1),
+          d,
+          fill: "none",
           stroke: opts.linkColors[lk.type],
           "stroke-width": lk.type === "영향" ? 2 : 3,
           "stroke-linecap": "round",
+          "stroke-linejoin": "round",
           opacity: 0,
           class: "net-link",
         },
         linkLayer,
       );
       prepDraw(ln, opts.dashByType[lk.type] || "");
+      // 흐름 펄스: 같은 경로 위를 밝은 세그먼트가 s→t 로 순환 (영향 방향)
+      const flow = svgEl(
+        "path",
+        { d, fill: "none", stroke: (opts.flowColors && opts.flowColors[lk.type]) || "#f2efe8",
+          "stroke-width": 3, "stroke-linecap": "round", "stroke-linejoin": "round",
+          opacity: 0, class: "net-flow" },
+        linkLayer,
+      );
+      const L = Math.ceil(flow.getTotalLength()) + 2;
+      const seg = Math.min(30, Math.floor(L / 4));
+      flow.setAttribute("stroke-dasharray", `${seg} ${L}`);
+      flow.setAttribute("stroke-dashoffset", L + seg);
+      flow.dataset.len = String(L);
+      flow.dataset.seg = String(seg);
+      flows.push(flow);
       return ln;
     });
 
@@ -547,7 +599,7 @@
       if (nd.img) {
         const cpId = `nclip-${nd.id}`;
         const cp = svgEl("clipPath", { id: cpId }, defs);
-        svgEl("circle", { r: nd.r - 3, cx: 0, cy: 0 }, cp);
+        svgEl("circle", { r: nd.r - 1, cx: 0, cy: 0 }, cp);
         svgEl(
           "image",
           { href: nd.img, x: -nd.r, y: -nd.r, width: 2 * nd.r, height: 2 * nd.r,
@@ -555,8 +607,6 @@
             class: "net-img" },
           g,
         );
-        // 이미지 위 은은한 잉크 톤 (테마 통일)
-        svgEl("circle", { r: nd.r - 3, fill: "rgba(18,18,20,0.18)" }, g);
       } else {
         const mono = svgEl(
           "text",
@@ -599,7 +649,7 @@
       plates.push(plate);
       return g;
     });
-    return { nodeGs, linkEls, plates, anchors, N };
+    return { nodeGs, linkEls, flows, plates, anchors, N };
   }
 
   // ───────────────────── ④ 지오 씬 (베이스맵/그래티큘 + 마커 + 아크) ─────────────────────
@@ -888,6 +938,7 @@
     leader,
     prepDraw,
     quadAt,
+    orthoPath,
     splitChars,
     counter,
     buildStepTimeline,
