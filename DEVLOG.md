@@ -1,6 +1,6 @@
 <!--
 tier: 3
-last_synced_with: v0.35.0
+last_synced_with: v0.35.1
 ssot_for: [development-log]
 depends_on: [CHANGELOG.md]
 last_review: 2026-06-06
@@ -2257,3 +2257,21 @@ last_review: 2026-06-06
 - v0.35.0 (MINOR) 의 C10 외부 코드 리뷰는 **사용자 명시 지시로 생략**
   (C10.0 사용자 책임 (c) "절차 자체에 대한 결정"). review-prompt.txt 는
   전달 완료된 상태였음. 코드 변경 없음.
+
+---
+
+## 2026-06-11 v0.35.1 — 키 플레이어 씬 신규 (SceneKit 엔진 첫 확장 검증)
+
+- **무엇을**: SceneKit 에 씬 빌더 ⑤ `buildProfileCards` 추가 + 브리핑에 S4
+  "키 플레이어" 씬 삽입 (60초 6씬 → 72초 7씬). VERSION 0.35.0 → 0.35.1.
+- **왜**: 사용자 요청 "씬을 한번 만들어봐" — v0.35.0 엔진이 새 씬 타입을 실제로
+  받아내는지 검증 + NEXT_SESSION_PROMPT 옵션 D (인물 카드) 첫 단 착수.
+- **어떻게**: 카드 = 모노그램(이니셜) + 컬러 링 draw-on (prepDraw 재사용) +
+  핵심 행동 라인 + 입장 게이지 (자제↔확전 스펙트럼 트랙 위 행위자 dot 슬라이드,
+  "분석 추정" 태그 명시 — C0 경계: 추정과 사실 구분). C9: 인물 사진/AI 이미지
+  대신 모노그램이 권리 안전 기본값. 지도/마켓/클로징 씬·cue +12s 시프트
+  (브리핑 narration mp3 미생성이라 sync 부채 없음). 씬 번호 05/06/07 재번호.
+- **결과**: Playwright 시킹 15프레임 + 플레이트 겹침/밴드 감사 — pageerror 0,
+  겹침 0, 위반 0. 4카드 스태거 진입 + 링 draw + 게이지 dot 슬라이드 정상.
+- **연관**: v0.35.0 (엔진), NEXT_SESSION_PROMPT 옵션 D, C9 (권리), C10 은
+  사용자 지시로 생략 유지 (PATCH 카테고리 — 권장 항목).

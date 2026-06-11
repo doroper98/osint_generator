@@ -11,7 +11,7 @@
  *  - plateLabel  : 반투명 플레이트 + 멀티라인 SVG 라벨 (자동 줄바꿈)
  *  - leader      : 마커 ↔ 플레이트 리더선
  *  - prepDraw    : getTotalLength 기반 draw-on 준비 (하드코딩 dasharray 제거)
- *  - buildStepTimeline / buildNetwork / buildGeoScene / buildMarketCards
+ *  - buildStepTimeline / buildNetwork / buildGeoScene / buildMarketCards / buildProfileCards
  *
  * 규약 (HyperFrames 계약):
  *  - 결정론만 허용 — Date.now() / Math.random() / fetch 금지.
@@ -734,6 +734,58 @@
     });
   }
 
+  // ───────────────────── ⑤ 프로필 카드 (키 플레이어, 날리지식 패턴 ③) ─────────────────────
+  // people: [{ initials, name, org, line, stance(0=자제..1=확전), stanceLabel, color }]
+  // opts: { cardW?, cardH?, gap?, top? }
+  // C9: 인물 사진/AI 이미지 대신 모노그램 + 컬러 링 (권리 안전 기본값).
+  function buildProfileCards(wrap, people, opts = {}) {
+    const cw = opts.cardW || 390;
+    const ch = opts.cardH || 440;
+    const gap = opts.gap || 48;
+    const total = people.length * cw + (people.length - 1) * gap;
+    const startX = (W - total) / 2;
+    const trackW = cw - 68; // 카드 padding 34*2
+    return people.map((p, i) => {
+      const card = document.createElement("div");
+      card.className = "pcard";
+      card.style.left = (startX + i * (cw + gap)) + "px";
+      card.style.width = cw + "px";
+      card.style.height = ch + "px";
+      card.innerHTML =
+        `<div class="ptop" style="background:${p.color}"></div>` +
+        `<div class="phead">` +
+        `<div class="pmono"><span style="color:${p.color}">${p.initials}</span></div>` +
+        `<div class="pid"><div class="pname">${p.name}</div><div class="porg">${p.org}</div></div>` +
+        `</div>` +
+        `<div class="pline">${p.line}</div>` +
+        `<div class="pgauge">` +
+        `<div class="glabels"><span>자제</span><span class="gtag">분석 추정</span><span>확전</span></div>` +
+        `<div class="gtrack"><div class="gdot" style="background:${p.color};box-shadow:0 0 14px ${p.color}"></div></div>` +
+        `<div class="gstance" style="color:${p.color}">${p.stanceLabel}</div>` +
+        `</div>`;
+      // 모노그램 링 (draw-on 용 SVG 원)
+      const mono = card.querySelector(".pmono");
+      const ringSvg = svgEl("svg", { viewBox: "0 0 92 92", class: "pring-svg" });
+      const ring = svgEl(
+        "circle",
+        { cx: 46, cy: 46, r: 42, fill: "none", stroke: p.color, "stroke-width": 3,
+          "stroke-linecap": "round", transform: "rotate(-90 46 46)", class: "pring" },
+        ringSvg,
+      );
+      prepDraw(ring);
+      mono.appendChild(ringSvg);
+      return {
+        card,
+        ring,
+        dot: card.querySelector(".gdot"),
+        lineEl: card.querySelector(".pline"),
+        stanceEl: card.querySelector(".gstance"),
+        dotX: p.stance * trackW,
+        data: p,
+      };
+    }).map((it) => (wrap.appendChild(it.card), it));
+  }
+
   window.SceneKit = {
     LAYOUT,
     svgEl,
@@ -752,5 +804,6 @@
     buildNetwork,
     buildGeoScene,
     buildMarketCards,
+    buildProfileCards,
   };
 })();

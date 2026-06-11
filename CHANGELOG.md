@@ -1,6 +1,6 @@
 <!--
 tier: 3
-last_synced_with: v0.35.0
+last_synced_with: v0.35.1
 ssot_for: [release-notes]
 depends_on: [README.md, GOAL.md]
 last_review: 2026-06-11
@@ -25,6 +25,21 @@ released 항목은 **append-only**입니다.
 
 ### Fixed
 -
+
+---
+
+## [v0.35.1] — 2026-06-11
+
+### Added
+- SceneKit 씬 빌더 ⑤ `buildProfileCards` — 키 플레이어 프로필 카드
+  (모노그램 + 컬러 링 draw-on + 입장 게이지 "자제↔확전" + 분석 추정 태그).
+  C9 권리 안전 기본값: 인물 사진/AI 이미지 대신 모노그램.
+- `hyperframes/briefing/` 신규 S4 "키 플레이어" 씬 (트럼프/이란 지도부/
+  이스라엘/헤즈볼라 4카드, 날리지식 패턴 ③ — NEXT_SESSION_PROMPT 옵션 D 첫 단).
+
+### Changed
+- 브리핑 컴포지션 60초 6씬 → **72초 7씬** (지도/마켓/클로징 +12s 시프트,
+  cue 3개 신규 + 7개 시프트). 브리핑은 narration mp3 미생성 상태라 시프트 안전.
 
 ---
 
