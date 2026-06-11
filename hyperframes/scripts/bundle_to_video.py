@@ -135,6 +135,71 @@ def build_ladder(timeline: dict) -> dict:
     return {"steps": steps}
 
 
+def timeline_kind(points: list) -> str:
+    """에스컬레이션 서사(crack+present 공존)면 계단, 아니면 수평 축."""
+    phases = {p.get("phase") for p in points}
+    return "ladder" if {"crack", "present"} <= phases else "axis"
+
+
+UNIT_RE = re.compile(r"[(（]단위[:：]\s*([^)）]+)[)）]")
+
+
+def split_unit(title: str) -> tuple[str, str]:
+    m = UNIT_RE.search(title)
+    unit = m.group(1).strip() if m else ""
+    return UNIT_RE.sub("", title).strip(), unit
+
+
+def build_candle(charts: list) -> dict | None:
+    c = next((c for c in charts if c.get("type") == "candle" and isinstance(c.get("data"), list)), None)
+    if not c or len(c["data"]) < 10:
+        return None
+    ohlc = [{k: d[k] for k in ("date", "open", "high", "low", "close")} for d in c["data"]]
+    return {"title": c.get("title", ""), "ohlc": ohlc, "chart_id": c.get("chart_id")}
+
+
+def build_bar_panels(charts: list) -> list:
+    """bar 차트 → 패널 그룹. 단일 차트 1패널 씬 + 잔여 2개 묶음 듀얼 패널 씬."""
+    bars = [c for c in charts if c.get("type") == "bar" and isinstance(c.get("data"), list) and c["data"]]
+    scenes = []
+    used = []
+    for c in bars:
+        title, unit = split_unit(c.get("title", ""))
+        items = [{"label": d.get("label", ""), "value": d.get("value", 0), "note": clip(d.get("note", "") or "", 46)}
+                 for d in c["data"][:7]]
+        used.append({"title": clip(title, 30), "unit": unit, "items": items, "chart_id": c.get("chart_id")})
+    if not used:
+        return []
+    # 같은 단위의 마지막 두 개는 듀얼 패널로 묶는다 (예: 두 회사의 목표주가)
+    if len(used) >= 3 and used[-1]["unit"] == used[-2]["unit"]:
+        scenes.append({"panels": [used[0]]})
+        scenes.append({"panels": used[-2:]})
+    elif len(used) >= 2 and used[-1]["unit"] == used[-2]["unit"]:
+        scenes.append({"panels": used[-2:]})
+    else:
+        scenes.append({"panels": [used[0]]})
+    return scenes
+
+
+def build_signals(signals: list) -> dict | None:
+    if not signals:
+        return None
+    items = [{
+        "when": clip(s.get("deadline", ""), 14),
+        "name": clip(s.get("signal", ""), 26),
+        "desc": clip(s.get("description", ""), 56),
+        "unverified": s.get("verification") == "unverified",
+    } for s in signals[:5]]
+    return {"items": items}
+
+
+def section_for_chart(sections: list, chart_id: str):
+    for s in sections:
+        if chart_id in (s.get("chart_refs") or []):
+            return s
+    return None
+
+
 def build_versus(contradiction: dict, theme: dict) -> dict:
     res = contradiction.get("resolution", "")
     if "강세" in res and "보수" in res:
@@ -274,43 +339,93 @@ def convert(bundle_path: Path, out_path: Path) -> dict:
     if len(deck_sents) > 1:
         cues.append({"t": 4.6, "text": clip(deck_sents[1], 58)})
 
-    # 2. 타임라인 (timeline.points 있으면)
+    charts = b.get("charts") or []
+
+    # 2. 타임라인 — 유형 자동 선택 (에스컬레이션 서사 = 계단 / 중립 시계열 = 수평 축)
     tl_data = b.get("timeline") or {}
     if tl_data.get("points"):
         t0 = t
         ladder = build_ladder(tl_data)
+        kind = timeline_kind(tl_data["points"])
         head = ("Timeline", tl_data.get("heading", "사건의 궤적"))
-        add_scene("ladder", 12, "타임라인", {"kicker": head[0], "title": head[1]}, ladder)
+        add_scene(kind, 11, "타임라인", {"kicker": head[0], "title": head[1]}, ladder)
         n = len(ladder["steps"])
         cues.append({"t": t0 + 0.6, "text": f"{head[1]} — {n}개의 분기점으로 흐름을 따라갑니다."})
         key = next((s for s in ladder["steps"] if s["phase"] in ("present", "crack")), None)
         if key:
-            cues.append({"t": t0 + 4.6, "text": clip(f"{date_kr(key['date'].replace('.', '-'))}, {key['label']}", 58)})
+            cues.append({"t": t0 + 4.4, "text": clip(f"{date_kr(key['date'].replace('.', '-'))}, {key['label']}", 58)})
         fut = next((s for s in ladder["steps"] if s["phase"] == "future"), None)
         if fut:
-            cues.append({"t": t0 + 8.4, "text": clip(f"다음 분기점은 {date_kr(fut['date'].replace('.', '-'))} — {fut['label']}", 58)})
+            cues.append({"t": t0 + 8.0, "text": clip(f"다음 분기점은 {date_kr(fut['date'].replace('.', '-'))} — {fut['label']}", 58)})
 
-    # 3. 쟁점 (contradictions 있으면)
+    # 3. 일봉 캔들 (candle 차트 있으면)
+    candle = build_candle(charts)
+    if candle:
+        t0 = t
+        sec = section_for_chart(sections, candle["chart_id"])
+        k = (sec.get("kicker") if sec else None) or "Daily"
+        h = (sec.get("heading") if sec else None) or candle["title"]
+        add_scene("candle", 9, "일봉", {"kicker": k, "title": h},
+                  {"ohlc": candle["ohlc"], "title": candle["title"]})
+        cues.append({"t": t0 + 0.6, "text": clip(f"{candle['title']} — 최근 {len(candle['ohlc'])}거래일의 흐름입니다.", 58)})
+        closes = [d["close"] for d in candle["ohlc"]]
+        chg = (closes[-1] / closes[0] - 1) * 100
+        cues.append({"t": t0 + 4.6, "text": f"구간 등락은 {chg:+.1f}%, 종가 {round(closes[-1]):,}입니다."})
+
+    # 4. 바 패널 (bar 차트 있으면 — 단일 + 듀얼)
+    for bp in build_bar_panels(charts):
+        t0 = t
+        first_id = bp["panels"][0].get("chart_id")
+        sec = section_for_chart(sections, first_id)
+        k = (sec.get("kicker") if sec else None) or "전망"
+        h = (sec.get("heading") if sec else None) or bp["panels"][0]["title"]
+        dur = 9 if len(bp["panels"]) == 1 else 10
+        add_scene("bars", dur, "전망" if len(bp["panels"]) == 1 else "목표가", {"kicker": k, "title": h}, bp)
+        if len(bp["panels"]) == 1:
+            pn = bp["panels"][0]
+            top = max(pn["items"], key=lambda it: it["value"])
+            cues.append({"t": t0 + 0.6, "text": clip(f"{pn['title']} — 상단은 {top['label']}, {top['value']:,}{pn['unit']}입니다.", 58)})
+        else:
+            # 패널(차트)별 상단/하단 비율 — 패널 간 혼합은 스케일이 달라 무의미
+            ratios = []
+            for pn in bp["panels"]:
+                vals = [it["value"] for it in pn["items"]]
+                if min(vals):
+                    ratios.append((pn["title"], max(vals) / min(vals)))
+            cues.append({"t": t0 + 0.6, "text": "같은 회사를 두고, 12개월 시선은 이렇게 벌어져 있습니다."})
+            if ratios:
+                wt, wr = max(ratios, key=lambda r: r[1])
+                cues.append({"t": t0 + 4.8, "text": clip(f"{wt} — 상단과 하단이 {wr:.1f}배 차이입니다.", 58)})
+
+    # 5. 쟁점 (contradictions 있으면)
     contras = b.get("contradictions") or []
     if contras:
         t0 = t
         versus = build_versus(contras[0], theme)
-        k, h = find_section(sections, ["강세", "보수", "쟁점", "대립", "vs"], ("쟁점", "갈리는 시각"))
+        k, h = find_section(sections, ["강세", "보수", "쟁점", "대립"], ("쟁점", "갈리는 시각"))
         add_scene("versus", 12, "쟁점", {"kicker": k, "title": h}, versus)
         a, bb = versus["cards"][0], versus["cards"][1]
         cues.append({"t": t0 + 0.6, "text": f"시각은 둘로 갈립니다 — {a['name']}과 {bb['name']}."})
         cues.append({"t": t0 + 4.4, "text": clip(f"{a['org']} — {a['line']}", 58)})
         cues.append({"t": t0 + 8.2, "text": clip(sentences(contras[0].get("resolution", ""))[0], 58)})
 
-    # 4. 가격 (line 차트 있으면)
-    markets = build_markets(b.get("charts") or [])
+    # 6. 가격 비교 (line 차트 있으면)
+    markets = build_markets(charts)
     if markets["markets"]:
         t0 = t
-        k, h = find_section(sections, ["시장", "가격", "마켓"], ("Market", "같은 기간, 가격의 궤적"))
-        add_scene("markets", 11, "가격", {"kicker": k, "title": h}, markets)
+        add_scene("markets", 10, "가격", {"kicker": "Relative", "title": "같은 기간, 가격의 궤적"}, markets)
         cues.append({"t": t0 + 0.6, "text": "같은 기간, 가격은 이렇게 움직였습니다."})
         top = max(markets["markets"], key=lambda mk: abs(mk["pct"]))
-        cues.append({"t": t0 + 4.8, "text": f"가장 크게 움직인 건 {top['name']}, {top['pct']:+.1f}%입니다."})
+        cues.append({"t": t0 + 4.6, "text": f"가장 크게 움직인 건 {top['name']}, {top['pct']:+.1f}%입니다."})
+
+    # 7. 관측 신호 (signals 있으면)
+    sig = build_signals(b.get("signals") or [])
+    if sig:
+        t0 = t
+        add_scene("signals", 10, "신호", {"kicker": "Signals", "title": "무엇이 갈림길을 정하는가"}, sig)
+        cues.append({"t": t0 + 0.6, "text": f"앞으로 확인할 신호 {len(sig['items'])}가지 — 전부 <미검증> 관측 대상입니다."})
+        first = sig["items"][0]
+        cues.append({"t": t0 + 4.6, "text": clip(f"가장 가까운 분기점은 {first['when']}, {first['name']}입니다.", 58)})
 
     # 5. 클로징 (항상)
     t0 = t
@@ -354,6 +469,9 @@ def convert(bundle_path: Path, out_path: Path) -> dict:
     # ── auto.html 생성 (CSS 는 briefing/index.html 의 <style> 재사용) ──
     index_html = (BRIEFING / "index.html").read_text(encoding="utf-8")
     css = re.search(r"<style>.*?</style>", index_html, re.DOTALL).group(0)
+    # 렌더러가 body 끝 외부 <script src> 를 실행하지 않는 사고(v0.36.0 빈 렌더)
+    # → 빌더를 인라인으로 박는다. SSOT 는 assets/auto_builder.js.
+    builder_js = (BRIEFING / "assets" / "auto_builder.js").read_text(encoding="utf-8")
 
     html = f"""<!doctype html>
 <html lang="ko">
@@ -397,7 +515,9 @@ def convert(bundle_path: Path, out_path: Path) -> dict:
       <div class="source"><span id="source-line1"></span><br/><span id="source-line2"></span></div>
     </div>
     <script>window.BRIEFING_DATA = {json.dumps(data, ensure_ascii=False)};</script>
-    <script src="assets/auto_builder.js"></script>
+    <script>
+{builder_js}
+    </script>
   </body>
 </html>
 """

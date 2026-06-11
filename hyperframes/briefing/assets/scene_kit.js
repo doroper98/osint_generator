@@ -459,6 +459,144 @@
     return { geo, riser, items, field };
   }
 
+  // ───────────────────── ①-b 수평 축 타임라인 (캘린더형 시계열) ─────────────────────
+  // 계단(에스컬레이션 서사)과 달리 중립적 시계열에 쓰는 수평 축 변형.
+  // steps: [{ date, label, phase }] / opts: { x0,x1,y, colors, field? }
+  function buildAxisTimeline(svg, steps, opts) {
+    const { x0, x1, y, colors } = opts;
+    const field = opts.field || stageField();
+    const n = steps.length;
+    const geo = steps.map((p, i) => ({ ...p, x: x0 + (i / (n - 1)) * (x1 - x0), y }));
+
+    const axis = svgEl(
+      "line",
+      { x1: x0 - 24, y1: y, x2: x1 + 24, y2: y, stroke: "var(--sk-hairline, rgba(236,233,226,0.2))",
+        "stroke-width": 2, "stroke-linecap": "round", class: "tlm-riser" },
+      svg,
+    );
+    prepDraw(axis);
+    field.addSegment(x0 - 24, y, x1 + 24, y, 14);
+    geo.forEach((p) => field.addCircle(p.x, p.y, 18));
+
+    const leaderLayer = svgEl("g", {}, svg);
+    const plateLayer = svgEl("g", {}, svg);
+    const markerLayer = svgEl("g", {}, svg);
+
+    const items = geo.map((p, i) => {
+      const c = colors[p.phase] || "#8a92a8";
+      const mg = svgEl(
+        "g",
+        { class: "tlm-marker", opacity: 0, transform: `translate(${p.x.toFixed(1)} ${p.y})` },
+        markerLayer,
+      );
+      svgEl("circle", { r: 11, fill: "var(--sk-ink, #141416)", stroke: c, "stroke-width": 3 }, mg);
+      svgEl("circle", { r: 4, fill: c }, mg);
+      if (p.phase === "present")
+        svgEl("circle", { r: 11, fill: "none", stroke: c, "stroke-width": 2, class: "pulse-ring", opacity: 0.9 }, mg);
+      const plate = plateLabel(
+        plateLayer,
+        [
+          { text: p.date, size: 16, fill: c, weight: 800, ls: "1.2" },
+          { text: p.label, size: 18, weight: 700,
+            fill: p.phase === "future" ? "var(--sk-dim, #8b877d)" : "var(--sk-text, #ece9e2)" },
+        ],
+        { maxW: 220, cls: "tlm-plate" },
+      );
+      // 위/아래 교차 우선 — 충돌 시 LabelField 가 재배치
+      const order = i % 2 === 0 ? ["above", "below", "right", "left"] : ["below", "above", "left", "right"];
+      const r = field.place(plate.w, plate.h, slotCandidates(p.x, p.y, plate.w, plate.h, order));
+      plate.setPos(r.x, r.y);
+      const ld = leader(leaderLayer, p.x, p.y, r, { cls: "tlm-leader" });
+      if (ld) prepDraw(ld);
+      return { geo: p, marker: mg, plate, leader: ld, color: c };
+    });
+    return { geo, riser: axis, items, field };
+  }
+
+  // ───────────────────── ①-c 가로 바 패널 (전망/목표가 비교) ─────────────────────
+  // panels: [{ title, unit, items:[{label, value, note?}], hiIndex? }]
+  // opts: { accent, top? } — HTML 기반, 컨테이너에 .barpanel 카드 생성.
+  function buildBarPanels(wrap, panels, opts) {
+    const accent = opts.accent || "#c4a265";
+    const count = panels.length;
+    const pw = count === 1 ? 1240 : 836;
+    const gap = 56;
+    const total = count * pw + (count - 1) * gap;
+    const startX = (W - total) / 2;
+    return panels.map((panel, pi) => {
+      const card = document.createElement("div");
+      card.className = "barpanel";
+      card.style.left = (startX + pi * (pw + gap)) + "px";
+      card.style.width = pw + "px";
+      const maxV = Math.max(...panel.items.map((it) => it.value));
+      const hi = panel.hiIndex ?? panel.items.findIndex((it) => it.value === maxV);
+      let html = `<div class="bp-title">${panel.title}` +
+        (panel.unit ? `<span class="bp-unit">단위 · ${panel.unit}</span>` : "") + `</div>`;
+      panel.items.forEach((it, i) => {
+        html +=
+          `<div class="bp-row">` +
+          `<div class="bp-label">${it.label}</div>` +
+          `<div class="bp-track"><div class="bp-fill" style="background:${accent};` +
+          `opacity:${i === hi ? 1 : 0.55};width:${((it.value / maxV) * 100).toFixed(1)}%"></div></div>` +
+          `<div class="bp-val" style="color:${i === hi ? accent : "var(--muted)"}">0</div>` +
+          `</div>` +
+          (it.note ? `<div class="bp-note">${it.note}</div>` : "");
+      });
+      card.innerHTML = html;
+      wrap.appendChild(card);
+      const fills = [...card.querySelectorAll(".bp-fill")];
+      const vals = [...card.querySelectorAll(".bp-val")];
+      return { card, rows: panel.items.map((it, i) => ({ fill: fills[i], valEl: vals[i], value: it.value, unit: panel.unit || "" })) };
+    });
+  }
+
+  // ───────────────────── ①-d 캔들 차트 (일봉) ─────────────────────
+  // ohlc: [{date,open,high,low,close}] / opts: { x0,x1,y0,y1, up, down }
+  function buildCandleChart(svg, ohlc, opts) {
+    const { x0, x1, y0, y1, up, down } = opts;
+    const lo = Math.min(...ohlc.map((d) => d.low));
+    const hi = Math.max(...ohlc.map((d) => d.high));
+    const span = hi - lo || 1;
+    const ys = (v) => y1 - ((v - lo) / span) * (y1 - y0);
+    const n = ohlc.length;
+    const step = (x1 - x0) / n;
+    const bw = Math.max(4, Math.min(18, step * 0.62));
+
+    // 가이드라인 3개 + 우측 가격 라벨
+    const gl = svgEl("g", {}, svg);
+    [lo, (lo + hi) / 2, hi].forEach((v) => {
+      svgEl("line", { x1: x0, y1: ys(v).toFixed(1), x2: x1, y2: ys(v).toFixed(1),
+        stroke: "var(--sk-grid, #232328)", "stroke-width": 1, "stroke-dasharray": "3 6" }, gl);
+      const t = svgEl("text", { x: x1 + 14, y: (ys(v) + 5).toFixed(1), fill: "var(--sk-dim, #8b877d)",
+        "font-size": 15, "font-weight": 600, class: "sk-text" }, gl);
+      t.textContent = Math.round(v).toLocaleString("ko-KR");
+    });
+
+    const candleLayer = svgEl("g", {}, svg);
+    const candles = ohlc.map((d, i) => {
+      const cx = x0 + step * (i + 0.5);
+      const c = d.close >= d.open ? up : down;
+      const g = svgEl("g", { class: "cd", opacity: 0 }, candleLayer);
+      svgEl("line", { x1: cx.toFixed(1), y1: ys(d.high).toFixed(1), x2: cx.toFixed(1), y2: ys(d.low).toFixed(1),
+        stroke: c, "stroke-width": 1.4 }, g);
+      const top = ys(Math.max(d.open, d.close));
+      const bot = ys(Math.min(d.open, d.close));
+      svgEl("rect", { x: (cx - bw / 2).toFixed(1), y: top.toFixed(1), width: bw.toFixed(1),
+        height: Math.max(1.5, bot - top).toFixed(1), fill: c, rx: 1 }, g);
+      return g;
+    });
+
+    // 마지막 종가 라인 + 라벨
+    const last = ohlc[n - 1].close;
+    const lastLine = svgEl("line", { x1: x0, y1: ys(last).toFixed(1), x2: x1, y2: ys(last).toFixed(1),
+      stroke: up, "stroke-width": 1.5, "stroke-dasharray": "6 7", opacity: 0, class: "cd-last" }, svg);
+    const lastPlate = plateLabel(svg, [
+      { text: "종가 " + Math.round(last).toLocaleString("ko-KR"), size: 17, weight: 800, fill: up },
+    ], { cls: "cd-plate" });
+    lastPlate.setPos(x1 - lastPlate.w, Math.max(y0, ys(last) - lastPlate.h - 10));
+    return { candles, lastLine, lastPlate, lo, hi };
+  }
+
   // ───────────────────── ② 베이스맵 (사전 계산 실측 지도) ─────────────────────
   // map: window.MIDEAST_MAP 형태 { countries:[{d,hi,name}], labels:[{name,x,y}] }
   function buildBasemap(svg, map, opts = {}) {
@@ -1057,6 +1195,9 @@
     splitChars,
     counter,
     buildStepTimeline,
+    buildAxisTimeline,
+    buildBarPanels,
+    buildCandleChart,
     buildBasemap,
     buildNetwork,
     buildGeoScene,

@@ -1,6 +1,6 @@
 <!--
 tier: 3
-last_synced_with: v0.36.0
+last_synced_with: v0.36.1
 ssot_for: [release-notes]
 depends_on: [README.md, GOAL.md]
 last_review: 2026-06-11
@@ -25,6 +25,29 @@ released 항목은 **append-only**입니다.
 
 ### Fixed
 -
+
+---
+
+## [v0.36.1] — 2026-06-11
+
+### Added
+- **씬 라이브러리 확장** (사용자 피드백 "단조롭다 + 화면 수 적다 + 계단 타임라인
+  매번은 별로"):
+  - SceneKit `buildAxisTimeline` — 수평 축 타임라인 (중립 시계열용). 변환기가
+    **crack+present 공존(에스컬레이션 서사)일 때만 계단**, 아니면 수평 축 자동 선택.
+  - SceneKit `buildCandleChart` — 일봉 캔들 (가이드라인 + 우측 가격축 + 종가 라인).
+  - SceneKit `buildBarPanels` — 가로 바 패널 1~2개 (최댓값 하이라이트 + 카운터 +
+    note). 같은 단위의 마지막 바 차트 2개는 듀얼 패널로 자동 묶음 (두 회사 목표가).
+  - auto 씬 "signals" — 관측 신호 카드 (deadline 칩 + `<미검증>` 태그, G4).
+- 반도체 번들 기준 자동 영상이 **5씬 53초 → 9씬 89초** (candle/bars×2/signals 추가).
+
+### Fixed
+- **렌더러 빈 화면 사고**: hyperframes 렌더 세션이 body 끝의 외부
+  `<script src>` 를 실행하지 않아 v0.36.0 의 auto.html 이 53초 내내 빈
+  프레임으로 인코딩됨 (로컬 Chromium 검증과 렌더 결과 불일치). 변환기가
+  auto_builder.js 를 **인라인**으로 박도록 수정 (SSOT 는 assets 파일 유지).
+- 듀얼 바 패널 cue 가 단위 스케일이 다른 두 패널을 섞어 비율(19.0배)을 내던
+  버그 → 패널별 상단/하단 비율로 교정.
 
 ---
 

@@ -135,6 +135,97 @@
       sceneOut(sec, sc.t1 - 0.5);
     },
 
+    axis(sc, sec) {
+      const svg = SK.svgEl("svg", { viewBox: "0 0 1920 1080", style: "position:absolute; inset:0;" });
+      sec.appendChild(svg);
+      const ax = SK.buildAxisTimeline(svg, sc.data.steps, {
+        x0: 240, x1: 1660, y: 586, colors: D.colors.phase,
+      });
+      const t0 = sc.t0;
+      sceneIn(sec, t0);
+      headIn(sec, t0);
+      draw(ax.riser, t0 + 0.4, 1.6, "power2.inOut");
+      ax.items.forEach((it, i) => {
+        const at = t0 + 0.7 + i * 0.4;
+        tl.to(it.marker, { opacity: 1, duration: 0.4, ease: "power2.out" }, at);
+        tl.fromTo(it.marker, { scale: 0.4, transformOrigin: "50% 50%" },
+          { scale: 1, duration: 0.5, ease: "back.out(2)" }, at);
+        if (it.leader) draw(it.leader, at + 0.12, 0.3, "power1.out");
+        tl.fromTo(it.plate.g, { opacity: 0 }, { opacity: 1, duration: 0.45 }, at + 0.22);
+      });
+      const pi = sc.data.steps.findIndex((s) => s.phase === "present");
+      if (pi >= 0)
+        tl.fromTo(ax.items[pi].marker, { scale: 1 },
+          { scale: 1.35, transformOrigin: "50% 50%", duration: 0.5, yoyo: true, repeat: 1, ease: "sine.inOut" },
+          t0 + 4.4);
+      sceneOut(sec, sc.t1 - 0.5);
+    },
+
+    bars(sc, sec) {
+      const wrap = document.createElement("div");
+      sec.appendChild(wrap);
+      const panels = SK.buildBarPanels(wrap, sc.data.panels, { accent: D.themeVars["--accent"] });
+      const t0 = sc.t0;
+      sceneIn(sec, t0);
+      headIn(sec, t0);
+      panels.forEach((pn, pi) => {
+        tl.from(pn.card, { opacity: 0, y: 40, duration: 0.7, ease: "power3.out" }, t0 + 0.5 + pi * 0.3);
+        pn.rows.forEach((row, ri) => {
+          const at = t0 + 0.9 + pi * 0.3 + ri * 0.22;
+          tl.fromTo(row.fill, { scaleX: 0 }, { scaleX: 1, duration: 0.9, ease: "power3.out" }, at);
+          SK.counter(tl, row.valEl, row.value,
+            (v) => (Number.isInteger(row.value) ? Math.round(v).toLocaleString("ko-KR") : v.toFixed(1)) + row.unit,
+            at, 0.9);
+        });
+      });
+      sceneOut(sec, sc.t1 - 0.5);
+    },
+
+    candle(sc, sec) {
+      const svg = SK.svgEl("svg", { viewBox: "0 0 1920 1080", style: "position:absolute; inset:0;" });
+      sec.appendChild(svg);
+      const ch = SK.buildCandleChart(svg, sc.data.ohlc, {
+        x0: 180, x1: 1640, y0: 320, y1: 820,
+        up: D.themeVars["--sage"] || "#7d9b76",
+        down: D.themeVars["--oxide"] || "#b25450",
+      });
+      const t0 = sc.t0;
+      sceneIn(sec, t0);
+      headIn(sec, t0);
+      tl.to(ch.candles, { opacity: 1, duration: 0.25, stagger: 0.022, ease: "power1.out" }, t0 + 0.5);
+      tl.fromTo(ch.candles, { y: 14 }, { y: 0, duration: 0.4, stagger: 0.022, ease: "power2.out" }, t0 + 0.5);
+      tl.to(ch.lastLine, { opacity: 0.85, duration: 0.5 }, t0 + 2.4);
+      tl.fromTo(ch.lastPlate.g, { opacity: 0 }, { opacity: 1, duration: 0.5 }, t0 + 2.5);
+      sceneOut(sec, sc.t1 - 0.5);
+    },
+
+    signals(sc, sec) {
+      const items = sc.data.items;
+      const cw = 318;
+      const gap = 26;
+      const total = items.length * cw + (items.length - 1) * gap;
+      const startX = (1920 - total) / 2;
+      const cards = items.map((it, i) => {
+        const card = document.createElement("div");
+        card.className = "sigcard";
+        card.style.left = (startX + i * (cw + gap)) + "px";
+        card.innerHTML =
+          `<span class="sg-when">${it.when}</span>` +
+          `<div class="sg-name">${it.name}</div>` +
+          `<div class="sg-desc">${it.desc}</div>` +
+          (it.unverified ? `<div class="sg-tag">&lt;미검증&gt; 관측 대기</div>` : "");
+        sec.appendChild(card);
+        return card;
+      });
+      const t0 = sc.t0;
+      sceneIn(sec, t0);
+      headIn(sec, t0);
+      cards.forEach((c, i) => {
+        tl.from(c, { opacity: 0, y: 44, duration: 0.65, ease: "power3.out" }, t0 + 0.5 + i * 0.18);
+      });
+      sceneOut(sec, sc.t1 - 0.5);
+    },
+
     versus(sc, sec) {
       const wrap = document.createElement("div");
       sec.appendChild(wrap);
