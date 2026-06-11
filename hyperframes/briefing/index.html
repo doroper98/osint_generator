@@ -400,14 +400,16 @@
           { id: "lebanon", label: "레바논 정부", role: "영향권", kind: "actor",
             anchor: { x: 766.3, y: 560.6 }, img: "assets/flags/lb.svg" },
         ],
+        // curve: 미국발 관계는 대양 건너 원거리 투사 — 거리 무관 곡선 강제.
+        // 나머지는 거리 기반 자동 (근거리 직각 / 장거리 아치).
         links: [
           { s: "iran", t: "israel", type: "대립" },
           { s: "iran", t: "hezbollah", type: "동맹" },
           { s: "israel", t: "hezbollah", type: "대립" },
-          { s: "us", t: "iran", type: "협상" },
-          { s: "us", t: "israel", type: "동맹" },
+          { s: "us", t: "iran", type: "협상", curve: true },
+          { s: "us", t: "israel", type: "동맹", curve: true },
           { s: "hezbollah", t: "lebanon", type: "영향" },
-          { s: "us", t: "lebanon", type: "영향" },
+          { s: "us", t: "lebanon", type: "영향", curve: true },
         ],
         // 마커 좌표: MIDEAST_MAP.places (실측 메르카토르). 권역 라벨은 베이스맵 centroid.
         geo: {

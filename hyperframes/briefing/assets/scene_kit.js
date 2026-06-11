@@ -529,12 +529,40 @@
       N[nd.id] = nd;
     });
 
-    // 2) 링크 — 직각(라운드 코너) 라우팅, 노드 가장자리 stub + 흐름 펄스 오버레이
+    // 2) 링크 — 하이브리드 라우팅 + 흐름 펄스 오버레이.
+    //    근거리(인접 관계) = 직각(라운드 코너) — 단정함.
+    //    장거리(원거리 지원/영향 투사) = 완만한 위쪽 아치 — 거리감.
+    //    링크별 lk.curve 로 강제 지정 가능, 기본은 거리 임계값(opts.curveDist).
     const flows = [];
+    const ptToward = (p, q, dist) => {
+      const dx = q.x - p.x;
+      const dy = q.y - p.y;
+      const L = Math.hypot(dx, dy) || 1;
+      return { x: +(p.x + (dx / L) * dist).toFixed(1), y: +(p.y + (dy / L) * dist).toFixed(1) };
+    };
     const linkEls = links.map((lk) => {
       const a = N[lk.s];
       const b = N[lk.t];
-      const d = orthoPath(a, b, { ra: a.r + 7, rb: b.r + 7, corner: 16 });
+      const dist = Math.hypot(b.x - a.x, b.y - a.y);
+      const useCurve = lk.curve ?? dist > (opts.curveDist ?? 430);
+      let d;
+      if (useCurve) {
+        const mx = (a.x + b.x) / 2;
+        const my = (a.y + b.y) / 2;
+        let nx = -(b.y - a.y) / dist;
+        let ny = (b.x - a.x) / dist;
+        if (ny > 0) {
+          nx = -nx;
+          ny = -ny; // 항상 위쪽 아치 (투사 느낌)
+        }
+        const bend = Math.min(150, Math.max(56, dist * 0.16));
+        const c = { x: mx + nx * bend, y: my + ny * bend };
+        const sa = ptToward(a, c, a.r + 7);
+        const sb = ptToward(b, c, b.r + 7);
+        d = `M ${sa.x} ${sa.y} Q ${c.x.toFixed(1)} ${c.y.toFixed(1)} ${sb.x} ${sb.y}`;
+      } else {
+        d = orthoPath(a, b, { ra: a.r + 7, rb: b.r + 7, corner: 16 });
+      }
       const ln = svgEl(
         "path",
         {
