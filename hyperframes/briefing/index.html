@@ -19,6 +19,7 @@
     <link rel="stylesheet" href="assets/noto_serif_kr.css" />
     <script src="assets/gsap.min.js"></script>
     <script src="assets/scene_kit.js"></script>
+    <script src="assets/mideast_map.js"></script>
     <style>
       @font-face {
         font-family: "Pretendard Variable";
@@ -73,6 +74,15 @@
       .sk-leader { stroke: rgba(163, 158, 146, 0.5); stroke-width: 1.2; }
       .sk-halo { paint-order: stroke; stroke: #121214; stroke-width: 5px; stroke-linejoin: round; }
 
+      /* ── 베이스맵 (실측 지형, ink 톤) ── */
+      .bm-land { fill: #1a1a1f; stroke: rgba(236, 233, 226, 0.10); stroke-width: 1; }
+      .bm-hi { fill: #232329; stroke: rgba(196, 162, 101, 0.28); stroke-width: 1.2; }
+      .bm-label { fill: rgba(163, 158, 146, 0.42); font-size: 23px; font-weight: 700;
+                  letter-spacing: 5px; }
+      .net-anchor-leader { stroke: rgba(163, 158, 146, 0.55); stroke-width: 1.2;
+                           stroke-dasharray: 3 5; }
+      .net-mono { font-family: "Noto Serif KR", serif; }
+
       /* ── 배경 (무광 잉크 차콜 — 글로우/블롭/그리드 없음) ── */
       #bg { position: absolute; inset: 0; z-index: 0; overflow: hidden;
             background:
@@ -123,14 +133,14 @@
       /* ── 씬 공통 ── */
       #stage { position: absolute; inset: 0; z-index: 10; }
       .scene { position: absolute; inset: 0; visibility: hidden; opacity: 0; }
-      .scene-head { position: absolute; top: 150px; left: 96px; right: 320px; }
+      .scene-head { position: absolute; top: 150px; left: 96px; right: 320px; z-index: 6; }
       .kicker { font-size: 16px; font-weight: 700; letter-spacing: 5px; text-transform: uppercase;
                 color: var(--accent); margin-bottom: 18px; display: flex; align-items: center; gap: 14px; }
       .kicker::before { content: ""; width: 30px; height: 1px; background: var(--accent); opacity: 0.7; }
       .scene-title { font-family: "Noto Serif KR", "Pretendard Variable", serif;
                      font-size: 54px; font-weight: 600; letter-spacing: -0.5px; color: var(--text); }
       /* 씬 번호: SceneKit.LAYOUT.sceneNo 영역과 일치 (충돌장이 보호) */
-      .scene-no { position: absolute; top: 158px; right: 96px; font-size: 112px; font-weight: 250;
+      .scene-no { position: absolute; top: 158px; right: 96px; font-size: 112px; font-weight: 250; z-index: 6;
                   font-family: "Noto Serif KR", serif; line-height: 1;
                   color: rgba(236, 233, 226, 0.07); letter-spacing: 2px; }
 
@@ -172,6 +182,8 @@
                       display: flex; align-items: center; justify-content: center; }
       .pcard .pmono span { font-size: 28px; font-weight: 800; letter-spacing: 1px;
                            font-family: "Noto Serif KR", serif; }
+      .pcard .pmono img { width: 74px; height: 74px; border-radius: 50%; object-fit: cover;
+                          filter: saturate(0.85) brightness(0.95); }
       .pcard .pring-svg { position: absolute; inset: 0; }
       .pcard .pname { font-size: 29px; font-weight: 700; letter-spacing: -0.5px; }
       .pcard .porg { margin-top: 7px; font-size: 15px; font-weight: 500; color: var(--muted);
@@ -376,12 +388,18 @@
           { date: "2026.06.10", label: "이스라엘 보복 결정 시점", phase: "future" },
           { date: "2026.06.14", label: "이란 추가 발사 또는 자제", phase: "future" },
         ],
+        // 노드 좌표: MIDEAST_MAP.places (메르카토르 사전 계산). us 는 지도 밖 고정.
         nodes: [
-          { id: "us", label: "미국·트럼프", role: "중재", x: 960, y: 352, kind: "mediator" },
-          { id: "iran", label: "이란", role: "발사 결정", x: 450, y: 575, kind: "iran" },
-          { id: "israel", label: "이스라엘", role: "표적·보복", x: 1470, y: 575, kind: "israel" },
-          { id: "hezbollah", label: "헤즈볼라", role: "대리세력", x: 705, y: 782, kind: "proxy" },
-          { id: "lebanon", label: "레바논 정부", role: "영향권", x: 1215, y: 782, kind: "actor" },
+          { id: "us", label: "미국·트럼프", role: "중재", x: 420, y: 392, kind: "mediator",
+            img: "assets/flags/us.svg" },
+          { id: "iran", label: "이란", role: "발사 결정", kind: "iran",
+            anchor: { x: 1325.8, y: 483.4 }, img: "assets/flags/ir.svg" },
+          { id: "israel", label: "이스라엘", role: "표적·보복", kind: "israel",
+            anchor: { x: 756.1, y: 649.4 }, img: "assets/flags/il.svg" },
+          { id: "hezbollah", label: "헤즈볼라", role: "대리세력", kind: "proxy",
+            anchor: { x: 762.8, y: 583.4 }, initials: "HZ" },
+          { id: "lebanon", label: "레바논 정부", role: "영향권", kind: "actor",
+            anchor: { x: 766.3, y: 560.6 }, img: "assets/flags/lb.svg" },
         ],
         links: [
           { s: "iran", t: "israel", type: "대립" },
@@ -392,25 +410,22 @@
           { s: "hezbollah", t: "lebanon", type: "영향" },
           { s: "us", t: "lebanon", type: "영향" },
         ],
+        // 마커 좌표: MIDEAST_MAP.places (실측 메르카토르). 권역 라벨은 베이스맵 centroid.
         geo: {
-          regions: [
-            { name: "이란", x: 1580, y: 520 },
-            { name: "레바논", x: 262, y: 408 },
-            { name: "이스라엘", x: 286, y: 812 },
-          ],
+          regions: window.MIDEAST_MAP.labels,
           markers: [
-            { id: "tehran", name: "테헤란", note: "발사 결정", x: 1520, y: 372, hi: true },
-            { id: "dahieh", name: "베이루트 다히예", note: "이스라엘 공습 표적", x: 478, y: 466, hi: true },
-            { id: "nisrael", name: "북부 이스라엘", note: "미사일 도착점", x: 540, y: 700, hi: true },
+            { id: "tehran", name: "테헤란", note: "발사 결정", x: 1325.8, y: 483.4, hi: true },
+            { id: "dahieh", name: "베이루트 다히예", note: "이스라엘 공습 표적", x: 766.3, y: 562.7, hi: true },
+            { id: "nisrael", name: "북부 이스라엘", note: "미사일 도착점", x: 759.3, y: 596, hi: true },
           ],
           arcs: [
-            { id: "hezfire", from: "dahieh", to: "nisrael", bend: -74, color: "#b07a4a",
+            { id: "hezfire", from: "dahieh", to: "nisrael", bend: -64, color: "#b07a4a",
               width: 2.5, dash: "7 8", label: "헤즈볼라 사격", cls: "sec-arc" },
-            { id: "strike", from: "nisrael", to: "dahieh", bend: -74, color: "#8d99ae",
+            { id: "strike", from: "nisrael", to: "dahieh", bend: -64, color: "#8d99ae",
               width: 2.5, dash: "7 8", label: "이스라엘 공습", cls: "sec-arc" },
-            { id: "main", from: "tehran", to: "nisrael", bend: 195, color: "#b25450",
+            { id: "main", from: "tehran", to: "nisrael", bend: 170, color: "#b25450",
               width: 4, glow: "rgba(178,84,80,0.45)", cls: "main-arc",
-              label: "이란 탄도미사일 약 10발 · 약 1,500km" },
+              label: "이란 탄도미사일 약 10발 · 약 1,500km", labelOrder: ["below", "right", "above", "left"] },
           ],
         },
         markets: [
@@ -425,12 +440,15 @@
         ],
         people: [
           { initials: "US", name: "트럼프", org: "미국 대통령 · 중재", color: "#c4a265",
+            img: "assets/flags/us.svg",
             line: "“보복하지 말라” — 이스라엘에 직접 지시. 휴전 골격 유지가 최우선.",
             stance: 0.1, stanceLabel: "자제 강제" },
           { initials: "IR", name: "이란 지도부", org: "최고지도부 · IRGC", color: "#b25450",
+            img: "assets/flags/ir.svg",
             line: "‘진실의 약속 5’ — 약 10발의 제한 발사로 명분 과시.",
             stance: 0.58, stanceLabel: "제한 과시" },
           { initials: "IL", name: "이스라엘", org: "전시내각", color: "#8d99ae",
+            img: "assets/flags/il.svg",
             line: "보복 결정 시점 6월 10일 — 응징 범위 저울질.",
             stance: 0.74, stanceLabel: "보복 검토" },
           { initials: "HZ", name: "헤즈볼라", org: "레바논 시아파 무장정파", color: "#b07a4a",
@@ -460,7 +478,8 @@
         gradStops: [["0", "#55524a"], ["0.62", "#b25450"], ["1", "#8d99ae"]],
       });
 
-      // S3 행위자 네트워크
+      // S3 행위자 네트워크 — 실측 지도 위 지오 앵커 + 국기 노드
+      const s3map = SK.buildBasemap(document.getElementById("s3-svg"), window.MIDEAST_MAP, { opacity: 0.55 });
       const net = SK.buildNetwork(document.getElementById("s3-svg"), BUNDLE.nodes, BUNDLE.links, {
         linkColors: LINK_COLOR,
         dashByType: LINK_DASH,
@@ -491,7 +510,7 @@
 
       // S5 지오 씬
       const geo = SK.buildGeoScene(document.getElementById("s5-svg"), BUNDLE.geo, {
-        grid: { x0: 230, x1: 1690, y0: 300, y1: 846, dx: 146, dy: 109.2 },
+        basemap: window.MIDEAST_MAP,
         hiColor: "#b25450",
       });
       const mainArc = geo.arcs.find((a) => a.id === "main");
@@ -560,19 +579,25 @@
         { scale: 1.35, transformOrigin: "50% 50%", duration: 0.5, yoyo: true, repeat: 1, ease: "sine.inOut" }, 13.6);
       sceneOut("#s2", 20.5);
 
-      // ── S3 (21–33) 네트워크 ──
+      // ── S3 (21–33) 네트워크 (지도 위) ──
       sceneIn("#s3", 21);
       chip(21, "03 · 행위자 관계망");
       tl.from("#s3 .scene-head", { opacity: 0, y: 18, duration: 0.7 }, 21.1);
-      tl.to(".net-node", { opacity: 1, duration: 0.6, stagger: 0.12, ease: "power2.out" }, 21.5);
-      tl.fromTo(".net-node", { scale: 0.6, transformOrigin: "50% 50%" },
-        { scale: 1, duration: 0.6, stagger: 0.12, ease: "back.out(1.7)" }, 21.5);
-      tl.to(".net-link", { opacity: 0.95, duration: 0.3, stagger: 0.1 }, 22.6);
+      tl.from(s3map, { opacity: 0, duration: 1.0, ease: "power2.out" }, 21.2);
+      tl.to("#s3 .net-anchor", { opacity: 1, duration: 0.4, stagger: 0.1 }, 21.5);
+      net.anchors.forEach((a, i) => { if (a.leader) draw(a.leader, 21.7 + i * 0.1, 0.3, "power1.out"); });
+      tl.to("#s3 .net-node", { opacity: 1, duration: 0.6, stagger: 0.12, ease: "power2.out" }, 21.7);
+      tl.fromTo("#s3 .net-node", { scale: 0.6, transformOrigin: "50% 50%" },
+        { scale: 1, duration: 0.6, stagger: 0.12, ease: "back.out(1.7)" }, 21.7);
+      net.plates.forEach((pl, i) => {
+        tl.fromTo(pl.g, { opacity: 0 }, { opacity: 1, duration: 0.45 }, 22.0 + i * 0.12);
+      });
+      tl.to(".net-link", { opacity: 0.95, duration: 0.3, stagger: 0.1 }, 22.8);
       tl.to(".net-link", { strokeDashoffset: 0, duration: 0.9, stagger: 0.1, ease: "power2.out",
         onComplete: function () {
           // 점선 타입 링크는 draw 후 dash 패턴으로 환원
           net.linkEls.forEach((ln) => { if (ln.dataset.dash) ln.setAttribute("stroke-dasharray", ln.dataset.dash); });
-        } }, 22.7);
+        } }, 22.9);
       tl.from(".legend-row .item", { opacity: 0, x: 20, duration: 0.5, stagger: 0.1 }, 24.5);
       sceneOut("#s3", 32.5);
 
@@ -596,6 +621,7 @@
       sceneIn("#s5", 45);
       chip(45, "05 · 좌표의 사슬");
       tl.from("#s5 .scene-head", { opacity: 0, y: 18, duration: 0.7 }, 45.1);
+      if (geo.basemap) tl.from(geo.basemap, { opacity: 0, duration: 1.0, ease: "power2.out" }, 45.15);
       geo.markerItems.forEach((it, i) => {
         const at = 45.6 + i * 0.3;
         tl.to(it.g, { opacity: 1, duration: 0.5, ease: "power2.out" }, at);

@@ -1,6 +1,6 @@
 <!--
 tier: 3
-last_synced_with: v0.35.2
+last_synced_with: v0.35.3
 ssot_for: [development-log]
 depends_on: [CHANGELOG.md]
 last_review: 2026-06-06
@@ -2299,3 +2299,29 @@ last_review: 2026-06-06
   스크린샷 검수 — 세리프 디스플레이 + 브라스 액센트 정상 렌더.
 - **연관**: C0 (영상미), v0.33.0 의 "Aurora glass 촌스러움" 피드백과 같은
   계열의 사용자 미감 결정. 폰트 서브셋 내장은 결정론 렌더 (오프라인) 전제.
+
+---
+
+## 2026-06-11 v0.35.3 — 실측 지도 중심 재구성 + 국기/인물 노드 (날리지식 패턴 ③⑤)
+
+- **무엇을**: S3(행위자 네트워크)·S5(지오 씬)를 실제 중동 지도 중심으로 재구성,
+  노드를 원형 국기 배지로 교체. VERSION 0.35.2 → 0.35.3.
+- **왜**: 사용자 요청 + 레퍼런스 이미지(날리지식 채널 스타일 — 실측 지도 풀블리드
+  + 원형 국기 배지 + 인물 사진 카드 + 이름 플레이트). "actor network 와
+  geospatial chain 은 지도가 중심적으로 나와야" + "노드는 국기나 인물 사진".
+- **어떻게**: ① world-atlas 50m → 메르카토르 사전 계산 생성기
+  (`build_mideast_map.mjs`, 재현 가능) → 52KB 정적 JS. 런타임 라이브러리 0
+  (HyperFrames 결정론 계약). ② buildBasemap — 잉크 톤 지형 + 당사국(이란/레바논/
+  이스라엘) 하이라이트 + 상단 페이드 마스크. ③ buildNetwork 재작성 — anchor 가
+  있으면 노드 원을 앵커 주위 충돌 회피 배치(LabelField), 앵커 점 + 점선 리더,
+  원형 클립 국기 이미지(slice) + 잉크 톤 오버레이, 이름 플레이트 분리. 미국은
+  지도 밖(동지중해 상공) 고정 노드. ④ 국기: flagcdn·위키미디어가 outbound
+  allowlist 차단 → npm `flag-icons`(MIT) 로 우회 확보. 인물 사진(트럼프 공식
+  초상, PD)은 차단으로 보류 — RIGHTS.md 에 교체 절차 명시 (C9). ⑤ 레이어 사고:
+  scene-head 가 svg 보다 DOM 앞이라 베이스맵 육지가 타이틀 글자를 덮음 — 처음엔
+  폰트 서브셋 누락으로 오판(document.fonts.check 전수 통과로 반증), scene-head
+  z-index 상향 + 베이스맵 상단 마스크로 이중 방어.
+- **결과**: 플레이트 겹침/밴드 감사 클린, pageerror 0. S3/S4/S5 스크린샷 검수
+  통과. 베이루트·남레바논·예루살렘 앵커 밀집(35px 간격)도 노드 충돌 회피로 분산.
+- **연관**: C0(영상미), C9(권리 — RIGHTS.md), 옵션 D/E, v0.35.0 엔진(LabelField
+  재사용이 본 작업의 토대).

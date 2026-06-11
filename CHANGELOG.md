@@ -1,6 +1,6 @@
 <!--
 tier: 3
-last_synced_with: v0.35.2
+last_synced_with: v0.35.3
 ssot_for: [release-notes]
 depends_on: [README.md, GOAL.md]
 last_review: 2026-06-11
@@ -25,6 +25,29 @@ released 항목은 **append-only**입니다.
 
 ### Fixed
 -
+
+---
+
+## [v0.35.3] — 2026-06-11
+
+### Added
+- **실측 베이스맵** (날리지식 패턴 ⑤, NEXT_SESSION_PROMPT 옵션 E 첫 단):
+  `hyperframes/scripts/build_mideast_map.mjs` — world-atlas(Natural Earth 50m,
+  PD) → 메르카토르 사전 계산 → `assets/mideast_map.js` (19개국 path + 지명 px,
+  52KB). 런타임 d3 의존 없음 (결정론 유지).
+- SceneKit `buildBasemap` — 잉크 톤 실측 지형 + 당사국 하이라이트 + 헤더 밴드
+  보호 상단 페이드 마스크.
+- **국기/인물 노드** (날리지식 패턴 ③, 사용자 레퍼런스): `buildNetwork` 재작성 —
+  지오 앵커(앵커 점 + 점선 리더 + 노드 충돌 회피 배치) + 원형 클립 국기/이미지
+  노드 + 이름 플레이트. 프로필 카드 모노그램에도 국기 적용.
+- `assets/flags/` — flag-icons(MIT) 국기 4종 + RIGHTS.md (C9 권리 기록).
+  헤즈볼라는 조직기 권리·민감성 문제로 모노그램 유지. 인물 사진은 위키미디어
+  차단(네트워크 정책)으로 보류 — `assets/portraits/` 추가만으로 교체 가능 구조.
+
+### Changed
+- S3 행위자 네트워크 / S5 지오 씬 모두 **실제 중동 지도 중심**으로 재구성
+  (사용자 요청). 마커·앵커 좌표 전부 실측 투영값.
+- scene-head/scene-no z-index 상향 — 지도 육지가 타이틀을 덮던 레이어 사고 픽스.
 
 ---
 

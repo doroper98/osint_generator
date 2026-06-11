@@ -11,7 +11,8 @@
  *  - plateLabel  : 반투명 플레이트 + 멀티라인 SVG 라벨 (자동 줄바꿈)
  *  - leader      : 마커 ↔ 플레이트 리더선
  *  - prepDraw    : getTotalLength 기반 draw-on 준비 (하드코딩 dasharray 제거)
- *  - buildStepTimeline / buildNetwork / buildGeoScene / buildMarketCards / buildProfileCards
+ *  - buildStepTimeline / buildBasemap / buildNetwork(지오 앵커·국기 노드) /
+ *    buildGeoScene(실측 베이스맵) / buildMarketCards / buildProfileCards
  *
  * 규약 (HyperFrames 계약):
  *  - 결정론만 허용 — Date.now() / Math.random() / fetch 금지.
@@ -417,18 +418,77 @@
     return { geo, riser, items, field };
   }
 
-  // ───────────────────── ② 행위자 네트워크 ─────────────────────
-  // nodes: [{ id,label,role,x,y,kind }] / links: [{ s,t,type }]
-  // opts: { linkColors, dashByType, nodeColor(nd)→color }
+  // ───────────────────── ② 베이스맵 (사전 계산 실측 지도) ─────────────────────
+  // map: window.MIDEAST_MAP 형태 { countries:[{d,hi,name}], labels:[{name,x,y}] }
+  function buildBasemap(svg, map, opts = {}) {
+    const g = svgEl("g", { class: "basemap", opacity: opts.opacity ?? 1 }, svg);
+    // 헤더 밴드 보호: 상단을 마스크로 페이드 (타이틀 밑으로 육지가 파고들지 않게)
+    if (opts.fadeTop !== false) {
+      const mid = (svg.id || "bm") + "-fade";
+      const defs = svgEl("defs", {}, svg);
+      const lg = svgEl(
+        "linearGradient",
+        { id: mid + "-g", x1: 0, y1: 175, x2: 0, y2: 345, gradientUnits: "userSpaceOnUse" },
+        defs,
+      );
+      svgEl("stop", { offset: "0", "stop-color": "#fff", "stop-opacity": "0" }, lg);
+      svgEl("stop", { offset: "0.55", "stop-color": "#fff", "stop-opacity": "0.55" }, lg);
+      svgEl("stop", { offset: "1", "stop-color": "#fff", "stop-opacity": "1" }, lg);
+      const mk = svgEl("mask", { id: mid }, defs);
+      svgEl("rect", { x: 0, y: 0, width: W, height: H, fill: `url(#${mid}-g)` }, mk);
+      g.setAttribute("mask", `url(#${mid})`);
+    }
+    map.countries.forEach((c) => {
+      svgEl("path", { d: c.d, class: c.hi ? "bm-land bm-hi" : "bm-land" }, g);
+    });
+    if (opts.labels !== false)
+      (map.labels || []).forEach((lb) => {
+        const t = svgEl(
+          "text",
+          { x: lb.x, y: lb.y, "text-anchor": "middle", class: "sk-text bm-label" },
+          g,
+        );
+        t.textContent = lb.name;
+      });
+    return g;
+  }
+
+  // ───────────────────── ③ 행위자 네트워크 (지오 앵커 + 국기/모노그램 노드) ─────────────────────
+  // nodes: [{ id,label,role,kind, img?, initials?, anchor?{x,y}, x?,y? }]
+  //   - anchor 가 있으면 노드 원을 anchor 주위에 충돌 회피 배치 + 앵커 점/리더선.
+  //   - img 가 있으면 원 안에 국기/인물 이미지 클립 (C9: 권리는 assets/flags/RIGHTS.md).
+  // links: [{ s,t,type }] / opts: { linkColors, dashByType, nodeColor(nd), nodeR?, field? }
   function buildNetwork(svg, nodes, links, opts) {
+    const field = opts.field || stageField();
+    const R = opts.nodeR ?? 54;
+    const defs = svgEl("defs", {}, svg);
+    const anchorLayer = svgEl("g", {}, svg);
+    const linkLayer = svgEl("g", {}, svg);
+    const nodeLayer = svgEl("g", {}, svg);
+    const plateLayer = svgEl("g", {}, svg);
+
+    // 1) 배치 — anchor 노드는 충돌장, 고정 노드는 장애물 등록만
     const N = {};
     nodes.forEach((nd) => {
-      const nameW = estTextWidth(nd.label, 23);
-      const roleW = estTextWidth(nd.role, 14);
-      nd.r = Math.min(88, Math.max(58, nameW / 2 + 20, roleW / 2 + 18));
+      nd.r = R;
+      if (nd.anchor) {
+        const a = nd.anchor;
+        const cand = [
+          { x: a.x + 30, y: a.y - R }, // right
+          { x: a.x - 2 * R - 30, y: a.y - R }, // left
+          { x: a.x - R, y: a.y - 2 * R - 34 }, // above
+          { x: a.x - R, y: a.y + 34 }, // below
+        ];
+        const rect = field.place(2 * R, 2 * R, cand, 10);
+        nd.x = rect.x + R;
+        nd.y = rect.y + R;
+      } else {
+        field.addCircle(nd.x, nd.y, R);
+      }
       N[nd.id] = nd;
     });
-    const linkLayer = svgEl("g", {}, svg);
+
+    // 2) 링크 — 노드 원 가장자리에서 트리밍
     const linkEls = links.map((lk) => {
       const a = N[lk.s];
       const b = N[lk.t];
@@ -437,14 +497,13 @@
       const len = Math.hypot(dx, dy);
       const ux = dx / len;
       const uy = dy / len;
-      // 노드 원 가장자리에서 끊기 — 원/라벨 밑으로 파고들지 않게
       const ln = svgEl(
         "line",
         {
-          x1: (a.x + ux * (a.r + 8)).toFixed(1),
-          y1: (a.y + uy * (a.r + 8)).toFixed(1),
-          x2: (b.x - ux * (b.r + 8)).toFixed(1),
-          y2: (b.y - uy * (b.r + 8)).toFixed(1),
+          x1: (a.x + ux * (a.r + 7)).toFixed(1),
+          y1: (a.y + uy * (a.r + 7)).toFixed(1),
+          x2: (b.x - ux * (b.r + 7)).toFixed(1),
+          y2: (b.y - uy * (b.r + 7)).toFixed(1),
           stroke: opts.linkColors[lk.type],
           "stroke-width": lk.type === "영향" ? 2 : 3,
           "stroke-linecap": "round",
@@ -456,9 +515,24 @@
       prepDraw(ln, opts.dashByType[lk.type] || "");
       return ln;
     });
-    const nodeLayer = svgEl("g", {}, svg);
+
+    // 3) 노드 + 앵커 점/리더 + 이름 플레이트
+    const anchors = [];
+    const plates = [];
     const nodeGs = nodes.map((nd) => {
       const c = opts.nodeColor(nd);
+      if (nd.anchor) {
+        const ag = svgEl(
+          "g",
+          { class: "net-anchor", opacity: 0, transform: `translate(${nd.anchor.x} ${nd.anchor.y})` },
+          anchorLayer,
+        );
+        svgEl("circle", { r: 5, fill: c, stroke: "var(--sk-ink, #141416)", "stroke-width": 1.5 }, ag);
+        const ld = leader(anchorLayer, nd.anchor.x, nd.anchor.y,
+          { x: nd.x - nd.r, y: nd.y - nd.r, w: 2 * nd.r, h: 2 * nd.r }, { cls: "net-anchor-leader" });
+        if (ld) prepDraw(ld);
+        anchors.push({ g: ag, leader: ld });
+      }
       const g = svgEl(
         "g",
         { class: "net-node", opacity: 0, transform: `translate(${nd.x} ${nd.y})` },
@@ -466,18 +540,36 @@
       );
       svgEl(
         "circle",
-        { r: nd.r, fill: "var(--sk-node-fill, rgba(29,29,33,0.94))", stroke: "var(--sk-hairline, rgba(236,233,226,0.14))", "stroke-width": 1 },
+        { r: nd.r, fill: "var(--sk-node-fill, rgba(29,29,33,0.94))",
+          stroke: "var(--sk-hairline, rgba(236,233,226,0.14))", "stroke-width": 1 },
         g,
       );
+      if (nd.img) {
+        const cpId = `nclip-${nd.id}`;
+        const cp = svgEl("clipPath", { id: cpId }, defs);
+        svgEl("circle", { r: nd.r - 3, cx: 0, cy: 0 }, cp);
+        svgEl(
+          "image",
+          { href: nd.img, x: -nd.r, y: -nd.r, width: 2 * nd.r, height: 2 * nd.r,
+            "clip-path": `url(#${cpId})`, preserveAspectRatio: "xMidYMid slice",
+            class: "net-img" },
+          g,
+        );
+        // 이미지 위 은은한 잉크 톤 (테마 통일)
+        svgEl("circle", { r: nd.r - 3, fill: "rgba(18,18,20,0.18)" }, g);
+      } else {
+        const mono = svgEl(
+          "text",
+          { x: 0, y: 11, "text-anchor": "middle", fill: c, "font-size": 30,
+            "font-weight": 800, "letter-spacing": 1, class: "sk-text net-mono" },
+          g,
+        );
+        mono.textContent = nd.initials || nd.label.slice(0, 2);
+      }
       svgEl(
         "circle",
-        {
-          r: nd.r,
-          fill: "none",
-          stroke: c,
-          "stroke-width": 3,
-          opacity: nd.kind === "mediator" ? 1 : 0.85,
-        },
+        { r: nd.r, fill: "none", stroke: c, "stroke-width": 2.5,
+          opacity: nd.kind === "mediator" ? 1 : 0.9 },
         g,
       );
       if (nd.kind === "mediator")
@@ -486,59 +578,53 @@
           { r: nd.r, fill: "none", stroke: c, "stroke-width": 2, class: "pulse-ring", opacity: 0.7 },
           g,
         );
-      const role = svgEl(
-        "text",
-        {
-          x: 0,
-          y: -12,
-          "text-anchor": "middle",
-          fill: c,
-          "font-size": 14,
-          "font-weight": 700,
-          "letter-spacing": 2,
-          class: "sk-text",
-        },
-        g,
+      // 이름 플레이트 (노드 아래 우선, 충돌 회피)
+      const plate = plateLabel(
+        plateLayer,
+        [
+          { text: nd.role, size: 13, weight: 700, fill: c, ls: "1.5" },
+          { text: nd.label, size: 21, weight: 800, fill: "var(--sk-text, #ece9e2)" },
+        ],
+        { maxW: 220, cls: "net-plate", padX: 12, padY: 8 },
       );
-      role.textContent = nd.role;
-      const lab = svgEl(
-        "text",
-        {
-          x: 0,
-          y: 20,
-          "text-anchor": "middle",
-          fill: "var(--sk-text, #ece9e2)",
-          "font-size": 23,
-          "font-weight": 800,
-          class: "sk-text",
-        },
-        g,
+      const rPos = field.place(
+        plate.w,
+        plate.h,
+        slotCandidates(nd.x, nd.y, plate.w, plate.h, ["below", "above", "right", "left"]).map(
+          (cd, i) => (i < 2 ? { x: cd.x, y: cd.y + (i === 0 ? nd.r - 14 : -(nd.r - 14)) } : {
+            x: cd.x + (i === 2 ? nd.r : -nd.r), y: cd.y }),
+        ),
       );
-      lab.textContent = nd.label;
+      plate.setPos(rPos.x, rPos.y);
+      plates.push(plate);
       return g;
     });
-    return { nodeGs, linkEls, N };
+    return { nodeGs, linkEls, plates, anchors, N };
   }
 
-  // ───────────────────── ③ 지오 씬 (그래티큘 + 마커 + 아크) ─────────────────────
+  // ───────────────────── ④ 지오 씬 (베이스맵/그래티큘 + 마커 + 아크) ─────────────────────
   // data: { regions:[{name,x,y}], markers:[{id,name,note,x,y,hi}],
   //         arcs:[{id,from,to,bend,color,width?,dash?,label?,glow?,cls?}] }
-  // opts: { grid:{x0,x1,y0,y1,dx,dy}, hiColor, field? }
+  // opts: { basemap?, grid?:{x0,x1,y0,y1,dx,dy}, hiColor, field? }
   function buildGeoScene(svg, data, opts) {
     const field = opts.field || stageField();
-    const grid = svgEl("g", { opacity: 0.45, class: "geo-grid" }, svg);
-    for (let gx = opts.grid.x0; gx <= opts.grid.x1; gx += opts.grid.dx)
-      svgEl(
-        "line",
-        { x1: gx, y1: opts.grid.y0, x2: gx, y2: opts.grid.y1, stroke: "var(--sk-grid, #232328)", "stroke-width": 1 },
-        grid,
-      );
-    for (let gy = opts.grid.y0; gy <= opts.grid.y1; gy += opts.grid.dy)
-      svgEl(
-        "line",
-        { x1: opts.grid.x0, y1: gy, x2: opts.grid.x1, y2: gy, stroke: "var(--sk-grid, #232328)", "stroke-width": 1 },
-        grid,
-      );
+    let basemap = null;
+    if (opts.basemap) basemap = buildBasemap(svg, opts.basemap, { labels: false });
+    if (opts.grid) {
+      const grid = svgEl("g", { opacity: 0.45, class: "geo-grid" }, svg);
+      for (let gx = opts.grid.x0; gx <= opts.grid.x1; gx += opts.grid.dx)
+        svgEl(
+          "line",
+          { x1: gx, y1: opts.grid.y0, x2: gx, y2: opts.grid.y1, stroke: "var(--sk-grid, #232328)", "stroke-width": 1 },
+          grid,
+        );
+      for (let gy = opts.grid.y0; gy <= opts.grid.y1; gy += opts.grid.dy)
+        svgEl(
+          "line",
+          { x1: opts.grid.x0, y1: gy, x2: opts.grid.x1, y2: gy, stroke: "var(--sk-grid, #232328)", "stroke-width": 1 },
+          grid,
+        );
+    }
 
     (data.regions || []).forEach((rg) => {
       const t = svgEl(
@@ -634,17 +720,19 @@
           [{ text: ac.label, size: 18, weight: 800, fill: ac.color, ls: "0.5" }],
           { maxW: 460, cls: "arc-plate" + (ac.labelCls ? " " + ac.labelCls : "") },
         );
-        const r = field.place(plate.w, plate.h, [
-          { x: mid.x - plate.w / 2, y: mid.y - 26 - plate.h },
-          { x: mid.x - plate.w / 2, y: mid.y + 26 },
-          { x: mid.x + 34, y: mid.y - plate.h / 2 },
-          { x: mid.x - 34 - plate.w, y: mid.y - plate.h / 2 },
-        ]);
+        const slots = {
+          above: { x: mid.x - plate.w / 2, y: mid.y - 26 - plate.h },
+          below: { x: mid.x - plate.w / 2, y: mid.y + 26 },
+          right: { x: mid.x + 34, y: mid.y - plate.h / 2 },
+          left: { x: mid.x - 34 - plate.w, y: mid.y - plate.h / 2 },
+        };
+        const order = ac.labelOrder || ["above", "below", "right", "left"];
+        const r = field.place(plate.w, plate.h, order.map((kk) => slots[kk]));
         plate.setPos(r.x, r.y);
         return { ac, plate };
       });
 
-    return { arcs, markerItems, arcLabels, field, M };
+    return { arcs, markerItems, arcLabels, field, M, basemap };
   }
 
   // ───────────────────── ④ 마켓 카드 (HTML + 스파크라인) ─────────────────────
@@ -735,7 +823,7 @@
   }
 
   // ───────────────────── ⑤ 프로필 카드 (키 플레이어, 날리지식 패턴 ③) ─────────────────────
-  // people: [{ initials, name, org, line, stance(0=자제..1=확전), stanceLabel, color }]
+  // people: [{ initials, name, org, line, stance(0=자제..1=확전), stanceLabel, color, img? }]
   // opts: { cardW?, cardH?, gap?, top? }
   // C9: 인물 사진/AI 이미지 대신 모노그램 + 컬러 링 (권리 안전 기본값).
   function buildProfileCards(wrap, people, opts = {}) {
@@ -754,7 +842,9 @@
       card.innerHTML =
         `<div class="ptop" style="background:${p.color}"></div>` +
         `<div class="phead">` +
-        `<div class="pmono"><span style="color:${p.color}">${p.initials}</span></div>` +
+        `<div class="pmono">${p.img
+          ? `<img src="${p.img}" alt="" />`
+          : `<span style="color:${p.color}">${p.initials}</span>`}</div>` +
         `<div class="pid"><div class="pname">${p.name}</div><div class="porg">${p.org}</div></div>` +
         `</div>` +
         `<div class="pline">${p.line}</div>` +
@@ -801,6 +891,7 @@
     splitChars,
     counter,
     buildStepTimeline,
+    buildBasemap,
     buildNetwork,
     buildGeoScene,
     buildMarketCards,
