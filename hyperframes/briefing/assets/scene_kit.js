@@ -193,7 +193,7 @@
     });
     w = Math.ceil(w + padX * 2);
     const g = svgEl("g", { class: "sk-plate" + (opts.cls ? " " + opts.cls : "") }, parent);
-    const bg = svgEl("rect", { rx: opts.rx ?? 10, class: "sk-plate-bg" }, g);
+    const bg = svgEl("rect", { rx: opts.rx ?? 4, class: "sk-plate-bg" }, g);
     let cy = padY;
     flat.forEach((L, i) => {
       const t = svgEl(
@@ -202,7 +202,7 @@
           x: padX,
           y: (cy + L.size * 0.92).toFixed(1),
           class: "sk-text",
-          fill: L.fill || "#e8ecef",
+          fill: L.fill || "var(--sk-text, #ece9e2)",
           "font-size": L.size,
           "font-weight": L.weight ?? 700,
         },
@@ -385,7 +385,7 @@
         { class: "tlm-marker", opacity: 0, transform: `translate(${p.x} ${p.y})` },
         markerLayer,
       );
-      svgEl("circle", { r: 12, fill: "#11152a", stroke: c, "stroke-width": 3 }, mg);
+      svgEl("circle", { r: 12, fill: "var(--sk-ink, #141416)", stroke: c, "stroke-width": 3 }, mg);
       svgEl("circle", { r: 4.5, fill: c }, mg);
       if (p.phase === "present")
         svgEl(
@@ -401,7 +401,7 @@
             text: p.label,
             size: 19,
             weight: 700,
-            fill: p.phase === "future" ? "#aeb6cf" : "#eef1f5",
+            fill: p.phase === "future" ? "var(--sk-dim, #8b877d)" : "var(--sk-text, #ece9e2)",
           },
         ],
         { maxW: 236, cls: "tlm-plate" },
@@ -466,7 +466,7 @@
       );
       svgEl(
         "circle",
-        { r: nd.r, fill: "rgba(31,36,64,0.93)", stroke: "rgba(58,64,96,0.6)", "stroke-width": 1 },
+        { r: nd.r, fill: "var(--sk-node-fill, rgba(29,29,33,0.94))", stroke: "var(--sk-hairline, rgba(236,233,226,0.14))", "stroke-width": 1 },
         g,
       );
       svgEl(
@@ -507,7 +507,7 @@
           x: 0,
           y: 20,
           "text-anchor": "middle",
-          fill: "#eef1f5",
+          fill: "var(--sk-text, #ece9e2)",
           "font-size": 23,
           "font-weight": 800,
           class: "sk-text",
@@ -530,13 +530,13 @@
     for (let gx = opts.grid.x0; gx <= opts.grid.x1; gx += opts.grid.dx)
       svgEl(
         "line",
-        { x1: gx, y1: opts.grid.y0, x2: gx, y2: opts.grid.y1, stroke: "#262c4e", "stroke-width": 1 },
+        { x1: gx, y1: opts.grid.y0, x2: gx, y2: opts.grid.y1, stroke: "var(--sk-grid, #232328)", "stroke-width": 1 },
         grid,
       );
     for (let gy = opts.grid.y0; gy <= opts.grid.y1; gy += opts.grid.dy)
       svgEl(
         "line",
-        { x1: opts.grid.x0, y1: gy, x2: opts.grid.x1, y2: gy, stroke: "#262c4e", "stroke-width": 1 },
+        { x1: opts.grid.x0, y1: gy, x2: opts.grid.x1, y2: gy, stroke: "var(--sk-grid, #232328)", "stroke-width": 1 },
         grid,
       );
 
@@ -546,7 +546,7 @@
         {
           x: rg.x,
           y: rg.y,
-          fill: "rgba(138,146,168,0.30)",
+          fill: "var(--sk-region, rgba(163,158,146,0.26))",
           "font-size": 27,
           "font-weight": 800,
           "letter-spacing": 6,
@@ -602,7 +602,7 @@
         { class: "map-marker", opacity: 0, transform: `translate(${m.x} ${m.y})` },
         markerLayer,
       );
-      svgEl("circle", { r: 9, fill: c, stroke: "#0b0e1f", "stroke-width": 2.5 }, g);
+      svgEl("circle", { r: 9, fill: c, stroke: "var(--sk-ink, #141416)", "stroke-width": 2.5 }, g);
       svgEl(
         "circle",
         { r: 9, fill: "none", stroke: c, "stroke-width": 2, class: "pulse-ring", opacity: 0.8 },
@@ -611,8 +611,8 @@
       const plate = plateLabel(
         plateLayer,
         [
-          { text: m.name, size: 23, weight: 800, fill: "#eef1f5" },
-          { text: m.note, size: 16, weight: 600, fill: "#9aa2b8" },
+          { text: m.name, size: 23, weight: 800, fill: "var(--sk-text, #ece9e2)" },
+          { text: m.note, size: 16, weight: 600, fill: "var(--sk-muted, #a39e92)" },
         ],
         { maxW: 250, cls: "map-plate" },
       );
@@ -696,7 +696,7 @@
             y1: ys(0).toFixed(1),
             x2: Wp,
             y2: ys(0).toFixed(1),
-            stroke: "#3a4060",
+            stroke: "var(--sk-hairline, rgba(236,233,226,0.16))",
             "stroke-width": 1,
             "stroke-dasharray": "3 5",
           },

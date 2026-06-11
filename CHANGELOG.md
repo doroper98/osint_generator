@@ -1,6 +1,6 @@
 <!--
 tier: 3
-last_synced_with: v0.35.1
+last_synced_with: v0.35.2
 ssot_for: [release-notes]
 depends_on: [README.md, GOAL.md]
 last_review: 2026-06-11
@@ -25,6 +25,21 @@ released 항목은 **append-only**입니다.
 
 ### Fixed
 -
+
+---
+
+## [v0.35.2] — 2026-06-11
+
+### Changed
+- **테마 전면 교체: midnight_indigo → ink & brass 에디토리얼** (사용자 피드백
+  "AI vibe가 너무 많이 느껴져 정성이 안 느껴진다").
+  - 네이비/파란 글로우/블롭/그리드/글래스 카드 등 AI-dashboard 문법 전부 제거.
+  - 잉크 차콜 배경 + 브라스(#c4a265) 단일 액센트 + 옥사이드/세이지/슬레이트
+    뮤트 데이터 컬러 + 헤어라인 룰.
+  - **Noto Serif KR**(가변, 124 서브셋 6.3MB 로컬 내장) — 헤드라인·씬
+    타이틀·인용·씬번호·모노그램에 세리프 디스플레이.
+  - SceneKit SVG 하드코딩 색 → CSS 토큰(`--sk-*`, 폴백 포함)으로 분리 —
+    엔진이 테마 독립적이 됨.
 
 ---
 

@@ -5,7 +5,8 @@
     <meta name="viewport" content="width=1920, height=1080" />
     <!--
       OSINT 시네마틱 브리핑 — 60일 휴전 뒤 이란 미사일
-      기준 데이터: agents_reviewer report_bundle (midnight_indigo theme)
+      기준 데이터: agents_reviewer report_bundle
+      테마: ink & brass 에디토리얼 (v0.35.2 — midnight_indigo 폐기, AI-dashboard 미감 제거)
 
       v0.35.0 엔진 리팩토링:
         - assets/scene_kit.js (SceneKit) 위에서 모든 씬을 데이터 주도로 빌드.
@@ -15,6 +16,7 @@
       엔진 계약 유지 — window.__timelines["briefing"], 로컬 GSAP,
       결정론적(no random/date/fetch).
     -->
+    <link rel="stylesheet" href="assets/noto_serif_kr.css" />
     <script src="assets/gsap.min.js"></script>
     <script src="assets/scene_kit.js"></script>
     <style>
@@ -27,21 +29,30 @@
       }
 
       :root {
-        /* midnight_indigo 격상 팔레트 */
-        --bg0: #0b0e1f;
-        --bg1: #12162b;
-        --bg2: #161a2e;
-        --card: #1f2440;
-        --card2: #262c4e;
-        --border: #3a4060;
-        --text: #e8ecef;
-        --muted: #8a92a8;
-        --faint: #5a6280;
-        --accent: #6fb3ff;
-        --accent-bright: #a9cbff;
-        --up: #88b888;
-        --down: #dc7a7a;
-        --warn: #e8b06f; /* 현재/경보 국면 */
+        /* ink & brass — 에디토리얼 다큐 팔레트 (v0.35.2, AI-dashboard 미감 폐기) */
+        --bg0: #121214;
+        --bg1: #18181b;
+        --surface: #1d1d21;
+        --surface2: #222227;
+        --hairline: rgba(236, 233, 226, 0.16);
+        --hairline-soft: rgba(236, 233, 226, 0.08);
+        --text: #ece9e2;
+        --muted: #a39e92;
+        --faint: #6e6a60;
+        --accent: #c4a265;  /* brass */
+        --oxide: #b25450;   /* muted oxblood — 대립/현재 */
+        --sage: #7d9b76;    /* 동맹/상승 */
+        --slate: #8d99ae;   /* 중립/전망 */
+        --sienna: #b07a4a;  /* 대리세력/변동 */
+        /* SceneKit SVG 토큰 */
+        --sk-ink: #141416;
+        --sk-node-fill: rgba(29, 29, 33, 0.94);
+        --sk-hairline: rgba(236, 233, 226, 0.14);
+        --sk-grid: #232328;
+        --sk-region: rgba(163, 158, 146, 0.26);
+        --sk-text: #ece9e2;
+        --sk-muted: #a39e92;
+        --sk-dim: #8b877d;
       }
 
       * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -55,169 +66,163 @@
         -webkit-font-smoothing: antialiased;
       }
       svg text { font-family: "Pretendard Variable", Pretendard, sans-serif; }
+      .serif { font-family: "Noto Serif KR", "Pretendard Variable", serif; }
 
       /* ── SceneKit 공용 ── */
-      .sk-plate-bg { fill: rgba(13, 17, 36, 0.86); stroke: rgba(58, 64, 96, 0.75); stroke-width: 1; }
-      .sk-leader { stroke: rgba(138, 146, 168, 0.55); stroke-width: 1.5; }
-      .sk-halo { paint-order: stroke; stroke: #0b0e1f; stroke-width: 5px; stroke-linejoin: round; }
+      .sk-plate-bg { fill: rgba(18, 18, 20, 0.92); stroke: rgba(236, 233, 226, 0.13); stroke-width: 1; }
+      .sk-leader { stroke: rgba(163, 158, 146, 0.5); stroke-width: 1.2; }
+      .sk-halo { paint-order: stroke; stroke: #121214; stroke-width: 5px; stroke-linejoin: round; }
 
-      /* ── 배경 레이어 (전 씬 공통, 미세 패럴랙스) ── */
+      /* ── 배경 (무광 잉크 차콜 — 글로우/블롭/그리드 없음) ── */
       #bg { position: absolute; inset: 0; z-index: 0; overflow: hidden;
             background:
-              radial-gradient(1400px 900px at 22% 12%, #1b2240 0%, transparent 60%),
-              radial-gradient(1200px 1000px at 84% 90%, #161d3a 0%, transparent 62%),
-              linear-gradient(160deg, #0b0e1f 0%, #12162b 52%, #0c1022 100%); }
-      #bgblob { position: absolute; width: 1100px; height: 1100px; left: 55%; top: -260px;
-                border-radius: 50%; filter: blur(64px); opacity: 0.5;
-                background: radial-gradient(circle, rgba(111,179,255,0.20) 0%, rgba(111,179,255,0) 70%); }
-      #bgblob2 { position: absolute; width: 900px; height: 900px; left: -200px; top: 540px;
-                 border-radius: 50%; filter: blur(64px); opacity: 0.42;
-                 background: radial-gradient(circle, rgba(232,176,111,0.14) 0%, rgba(232,176,111,0) 70%); }
-      #grid { position: absolute; inset: 0; opacity: 0.5;
-              background-image:
-                linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px);
-              background-size: 64px 64px; mask-image: radial-gradient(120% 120% at 50% 40%, #000 50%, transparent 100%); }
-      #grain { position: absolute; inset: 0; opacity: 0.05; mix-blend-mode: overlay; pointer-events: none; }
+              radial-gradient(1700px 850px at 50% -12%, #1c1c20 0%, transparent 62%),
+              linear-gradient(180deg, #141416 0%, #111113 100%); }
+      #grain { position: absolute; inset: 0; opacity: 0.045; mix-blend-mode: overlay; pointer-events: none; }
       #vignette { position: absolute; inset: 0; pointer-events: none;
-                  box-shadow: inset 0 0 360px 80px rgba(4,6,16,0.85); }
+                  box-shadow: inset 0 0 300px 70px rgba(8, 8, 9, 0.75); }
       /* 자막 가독용 하단 스크림 — 스테이지(z10) 위, 자막(z35) 아래 */
       #scrim { position: absolute; left: 0; right: 0; bottom: 0; height: 230px; z-index: 20;
                pointer-events: none;
-               background: linear-gradient(180deg, rgba(7,9,20,0) 0%, rgba(7,9,20,0.45) 55%, rgba(7,9,20,0.66) 100%); }
+               background: linear-gradient(180deg, rgba(13,13,14,0) 0%, rgba(13,13,14,0.5) 55%, rgba(13,13,14,0.72) 100%); }
 
       /* ── 상단 크롬 ── */
-      #prog { position: absolute; top: 0; left: 0; width: 100%; height: 3px; z-index: 40;
-              background: linear-gradient(90deg, var(--accent), var(--accent-bright));
-              transform-origin: left center; }
-      .topbar { position: absolute; top: 52px; left: 96px; right: 96px; height: 40px;
+      #prog { position: absolute; top: 0; left: 0; width: 100%; height: 2px; z-index: 40;
+              background: var(--accent); transform-origin: left center; }
+      .topbar { position: absolute; top: 50px; left: 96px; right: 96px; height: 40px;
                 display: flex; align-items: center; justify-content: space-between; z-index: 30; }
+      .toprule { position: absolute; top: 112px; left: 96px; right: 96px; height: 1px;
+                 background: var(--hairline-soft); z-index: 30; }
       .brand { display: flex; align-items: center; gap: 16px; }
-      .brand-mark { width: 16px; height: 16px; background: var(--accent);
-                    transform: rotate(45deg); border-radius: 3px;
-                    box-shadow: 0 0 18px rgba(111,179,255,0.7); }
-      .brand-name { font-size: 20px; font-weight: 800; letter-spacing: 5px; }
-      .brand-sub { font-size: 15px; font-weight: 600; letter-spacing: 2px; color: var(--muted);
-                   padding-left: 16px; border-left: 1px solid var(--border); }
+      .brand-mark { width: 10px; height: 10px; background: var(--accent);
+                    transform: rotate(45deg); }
+      .brand-name { font-size: 19px; font-weight: 700; letter-spacing: 6px; }
+      .brand-sub { font-size: 14px; font-weight: 500; letter-spacing: 2.5px; color: var(--muted);
+                   padding-left: 16px; border-left: 1px solid var(--hairline); }
       .topright { display: flex; align-items: center; gap: 22px;
-                  font-size: 15px; font-weight: 600; letter-spacing: 1.5px; color: var(--muted); }
+                  font-size: 14px; font-weight: 500; letter-spacing: 2px; color: var(--muted); }
       .chip { display: inline-flex; align-items: center; gap: 9px; padding: 7px 16px;
-              border: 1px solid var(--border); border-radius: 999px;
-              background: rgba(31,36,64,0.5); }
-      .chip .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--accent); }
+              border: 1px solid var(--hairline); border-radius: 2px; background: transparent; }
+      .chip .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--accent); }
       #scene-chip { color: var(--text); }
-      #scene-chip .dot { background: var(--warn); }
+      #scene-chip .dot { background: var(--accent); }
 
-      /* ── 하단 자막 (lower-third, 좌측 정렬 + 액센트 바) ── */
+      /* ── 하단 자막 (lower-third) ── */
       .subwrap { position: absolute; left: 96px; bottom: 96px; right: 600px; z-index: 35;
                  display: flex; gap: 22px; align-items: flex-start; }
-      .subbar { width: 5px; align-self: stretch; min-height: 56px; border-radius: 3px;
-                background: linear-gradient(180deg, var(--accent), rgba(111,179,255,0.1));
-                box-shadow: 0 0 16px rgba(111,179,255,0.45); }
-      #cap { font-size: 38px; line-height: 1.34; font-weight: 700; letter-spacing: -0.4px;
-             color: #f3f6f9; max-width: 1160px;
-             text-shadow: 0 2px 24px rgba(0,0,0,0.6); }
+      .subbar { width: 3px; align-self: stretch; min-height: 56px;
+                background: var(--accent); }
+      #cap { font-size: 37px; line-height: 1.38; font-weight: 600; letter-spacing: -0.2px;
+             color: #f2efe8; max-width: 1160px;
+             text-shadow: 0 2px 20px rgba(0, 0, 0, 0.55); }
       .source { position: absolute; right: 96px; bottom: 100px; z-index: 35; text-align: right;
-                font-size: 15px; line-height: 1.7; font-weight: 500; color: var(--faint);
+                font-size: 14px; line-height: 1.75; font-weight: 500; color: var(--faint);
                 letter-spacing: 0.5px; }
-      .source b { color: var(--muted); font-weight: 700; }
+      .source b { color: var(--muted); font-weight: 600; }
 
       /* ── 씬 공통 ── */
       #stage { position: absolute; inset: 0; z-index: 10; }
       .scene { position: absolute; inset: 0; visibility: hidden; opacity: 0; }
       .scene-head { position: absolute; top: 150px; left: 96px; right: 320px; }
-      .kicker { font-size: 20px; font-weight: 700; letter-spacing: 6px; text-transform: uppercase;
-                color: var(--accent); margin-bottom: 16px; }
-      .scene-title { font-size: 52px; font-weight: 800; letter-spacing: -1px; color: var(--text); }
+      .kicker { font-size: 16px; font-weight: 700; letter-spacing: 5px; text-transform: uppercase;
+                color: var(--accent); margin-bottom: 18px; display: flex; align-items: center; gap: 14px; }
+      .kicker::before { content: ""; width: 30px; height: 1px; background: var(--accent); opacity: 0.7; }
+      .scene-title { font-family: "Noto Serif KR", "Pretendard Variable", serif;
+                     font-size: 54px; font-weight: 600; letter-spacing: -0.5px; color: var(--text); }
       /* 씬 번호: SceneKit.LAYOUT.sceneNo 영역과 일치 (충돌장이 보호) */
-      .scene-no { position: absolute; top: 158px; right: 96px; font-size: 118px; font-weight: 900;
-                  line-height: 1; color: rgba(255,255,255,0.05); letter-spacing: -3px; }
+      .scene-no { position: absolute; top: 158px; right: 96px; font-size: 112px; font-weight: 250;
+                  font-family: "Noto Serif KR", serif; line-height: 1;
+                  color: rgba(236, 233, 226, 0.07); letter-spacing: 2px; }
 
       /* ── S1 타이틀 ── */
-      .s1-kicker { font-size: 22px; font-weight: 700; letter-spacing: 8px; text-transform: uppercase;
+      .s1-kicker { font-size: 19px; font-weight: 600; letter-spacing: 7px; text-transform: uppercase;
                    color: var(--accent); }
-      .s1-rule { height: 2px; background: linear-gradient(90deg, var(--accent), transparent);
-                 transform-origin: left center; margin: 30px 0 36px; }
-      .headline { font-size: 104px; font-weight: 900; line-height: 1.08; letter-spacing: -2.5px; }
-      .headline .em { color: var(--accent-bright); }
-      .deck { margin-top: 40px; font-size: 32px; line-height: 1.5; font-weight: 500;
-              color: var(--muted); max-width: 1360px; letter-spacing: -0.3px; }
-      .watermark { position: absolute; right: -20px; bottom: 40px; font-size: 230px; font-weight: 900;
-                   color: rgba(111,179,255,0.045); letter-spacing: -8px; line-height: 0.9;
+      .s1-rule { width: 76px; height: 3px; background: var(--accent);
+                 transform-origin: left center; margin: 32px 0 40px; }
+      .headline { font-family: "Noto Serif KR", "Pretendard Variable", serif;
+                  font-size: 94px; font-weight: 650; line-height: 1.22; letter-spacing: -1px; }
+      .headline .em { color: var(--accent); }
+      .deck { margin-top: 42px; font-size: 29px; line-height: 1.66; font-weight: 400;
+              color: var(--muted); max-width: 1300px; letter-spacing: -0.2px; }
+      .watermark { position: absolute; right: -10px; bottom: 48px; font-size: 196px; font-weight: 200;
+                   font-family: "Noto Serif KR", serif;
+                   color: rgba(196, 162, 101, 0.05); letter-spacing: -2px; line-height: 1.04;
                    text-align: right; pointer-events: none; }
       .line { display: block; overflow: hidden; }
       .word { display: inline-block; white-space: nowrap; }
       .ch { display: inline-block; will-change: transform, opacity; }
 
-      /* ── 범례 (수평 pill, 우상단 씬번호 아래 — 충돌장에 등록됨) ── */
-      .legend-row { position: absolute; top: 300px; right: 96px; display: flex; gap: 18px;
+      /* ── 범례 (수평, 우상단 씬번호 아래 — 충돌장에 등록됨) ── */
+      .legend-row { position: absolute; top: 300px; right: 96px; display: flex; gap: 14px;
                     align-items: center; z-index: 12; }
-      .legend-row .item { display: flex; align-items: center; gap: 10px; font-size: 17px;
-                          font-weight: 600; color: var(--muted); padding: 6px 14px;
-                          border: 1px solid rgba(58,64,96,0.6); border-radius: 999px;
-                          background: rgba(13,17,36,0.7); }
-      .legend-row .swatch { width: 26px; height: 0; border-top-width: 3px; border-top-style: solid; }
+      .legend-row .item { display: flex; align-items: center; gap: 10px; font-size: 15px;
+                          font-weight: 500; color: var(--muted); padding: 6px 13px;
+                          border: 1px solid var(--hairline-soft); border-radius: 2px;
+                          background: rgba(18, 18, 20, 0.6); letter-spacing: 1px; }
+      .legend-row .swatch { width: 24px; height: 0; border-top-width: 2px; border-top-style: solid; }
 
       /* ── S4 프로필 카드 (키 플레이어) ── */
       .pcard { position: absolute; top: 326px; overflow: hidden;
-               background: linear-gradient(165deg, rgba(38,44,78,0.85), rgba(24,28,52,0.85));
-               border: 1px solid var(--border); border-radius: 20px; padding: 34px;
-               box-shadow: 0 24px 60px rgba(0,0,0,0.35); }
-      .pcard .ptop { position: absolute; top: 0; left: 0; right: 0; height: 4px; opacity: 0.85; }
+               background: var(--surface);
+               border: 1px solid var(--hairline-soft); border-radius: 8px; padding: 34px;
+               box-shadow: 0 18px 50px rgba(0, 0, 0, 0.38); }
+      .pcard .ptop { position: absolute; top: 0; left: 0; right: 0; height: 3px; opacity: 0.9; }
       .pcard .phead { display: flex; align-items: center; gap: 22px; }
       .pcard .pmono { position: relative; width: 92px; height: 92px; flex: none;
                       display: flex; align-items: center; justify-content: center; }
-      .pcard .pmono span { font-size: 30px; font-weight: 900; letter-spacing: 1px; }
+      .pcard .pmono span { font-size: 28px; font-weight: 800; letter-spacing: 1px;
+                           font-family: "Noto Serif KR", serif; }
       .pcard .pring-svg { position: absolute; inset: 0; }
-      .pcard .pname { font-size: 30px; font-weight: 800; letter-spacing: -0.5px; }
-      .pcard .porg { margin-top: 6px; font-size: 16px; font-weight: 600; color: var(--muted);
-                     letter-spacing: 0.5px; }
-      .pcard .pline { margin-top: 30px; font-size: 20px; line-height: 1.55; font-weight: 600;
-                      color: #cdd4e4; min-height: 94px; }
+      .pcard .pname { font-size: 29px; font-weight: 700; letter-spacing: -0.5px; }
+      .pcard .porg { margin-top: 7px; font-size: 15px; font-weight: 500; color: var(--muted);
+                     letter-spacing: 1px; }
+      .pcard .pline { margin-top: 30px; font-size: 20px; line-height: 1.58; font-weight: 500;
+                      color: #cdc9bf; min-height: 94px; }
       .pcard .pgauge { position: absolute; left: 34px; right: 34px; bottom: 30px; }
-      .pcard .glabels { display: flex; justify-content: space-between; font-size: 14px;
-                        font-weight: 700; color: var(--faint); letter-spacing: 1px; }
-      .pcard .gtag { font-size: 12px; font-weight: 700; letter-spacing: 2px; color: var(--faint);
-                     border: 1px solid rgba(58,64,96,0.7); border-radius: 999px; padding: 2px 10px; }
-      .pcard .gtrack { position: relative; margin-top: 12px; height: 8px; border-radius: 5px;
-                       background: linear-gradient(90deg, rgba(111,179,255,0.35), rgba(232,176,111,0.3), rgba(220,122,122,0.4)); }
-      .pcard .gdot { position: absolute; top: -4px; left: -8px; width: 16px; height: 16px;
-                     border-radius: 50%; border: 2.5px solid #0b0e1f; }
-      .pcard .gstance { margin-top: 14px; font-size: 17px; font-weight: 800; letter-spacing: 0.5px; }
+      .pcard .glabels { display: flex; justify-content: space-between; font-size: 13px;
+                        font-weight: 600; color: var(--faint); letter-spacing: 1.5px; }
+      .pcard .gtag { font-size: 11px; font-weight: 600; letter-spacing: 2px; color: var(--faint);
+                     border: 1px solid var(--hairline-soft); border-radius: 2px; padding: 2px 9px; }
+      .pcard .gtrack { position: relative; margin-top: 12px; height: 6px; border-radius: 3px;
+                       background: linear-gradient(90deg, rgba(141,153,174,0.35), rgba(196,162,101,0.3), rgba(178,84,80,0.4)); }
+      .pcard .gdot { position: absolute; top: -5px; left: -8px; width: 16px; height: 16px;
+                     border-radius: 50%; border: 2.5px solid var(--sk-ink); }
+      .pcard .gstance { margin-top: 14px; font-size: 16px; font-weight: 700; letter-spacing: 1px; }
 
       /* ── S6 마켓 카드 ── */
       .mcard { position: absolute; top: 318px; width: 360px; height: 430px; overflow: hidden;
-               background: linear-gradient(165deg, rgba(38,44,78,0.85), rgba(24,28,52,0.85));
-               border: 1px solid var(--border); border-radius: 20px; padding: 34px;
-               box-shadow: 0 24px 60px rgba(0,0,0,0.35); }
-      .mcard .mtop { position: absolute; top: 0; left: 0; right: 0; height: 4px; opacity: 0.85; }
+               background: var(--surface);
+               border: 1px solid var(--hairline-soft); border-radius: 8px; padding: 34px;
+               box-shadow: 0 18px 50px rgba(0, 0, 0, 0.38); }
+      .mcard .mtop { position: absolute; top: 0; left: 0; right: 0; height: 3px; opacity: 0.9; }
       .mcard .mhead { display: flex; align-items: center; justify-content: space-between; }
-      .mcard .mname { font-size: 22px; font-weight: 700; color: var(--muted); letter-spacing: 0.5px; }
-      .mcard .mtag { font-size: 13px; font-weight: 800; letter-spacing: 2px; padding: 4px 10px;
-                     border: 1px solid; border-radius: 999px; }
-      .mcard .mpct { font-size: 58px; font-weight: 900; letter-spacing: -2px; margin-top: 14px;
+      .mcard .mname { font-size: 21px; font-weight: 600; color: var(--muted); letter-spacing: 0.5px; }
+      .mcard .mtag { font-size: 12px; font-weight: 700; letter-spacing: 2.5px; padding: 4px 10px;
+                     border: 1px solid; border-radius: 2px; }
+      .mcard .mpct { font-size: 56px; font-weight: 800; letter-spacing: -1.5px; margin-top: 16px;
                      font-variant-numeric: tabular-nums; white-space: nowrap; }
-      .mcard .msub { position: absolute; bottom: 30px; left: 34px; font-size: 17px; font-weight: 600;
-                     color: var(--faint); font-variant-numeric: tabular-nums; }
+      .mcard .msub { position: absolute; bottom: 30px; left: 34px; font-size: 16px; font-weight: 500;
+                     color: var(--faint); font-variant-numeric: tabular-nums; letter-spacing: 0.5px; }
       .mcard svg { position: absolute; left: 34px; right: 34px; bottom: 78px; width: 292px; height: 150px; }
 
       /* ── S7 클로징 ── */
-      .quote { position: absolute; top: 322px; left: 96px; right: 580px; font-size: 58px;
-               font-weight: 800; line-height: 1.32; letter-spacing: -1.5px; color: var(--text); }
-      .quote .em { color: var(--accent-bright); }
-      .closing { position: absolute; left: 96px; top: 656px; right: 660px; font-size: 25px;
-                 line-height: 1.6; font-weight: 500; color: var(--muted); }
+      .quote { position: absolute; top: 322px; left: 96px; right: 580px;
+               font-family: "Noto Serif KR", "Pretendard Variable", serif;
+               font-size: 54px; font-weight: 500; line-height: 1.5; letter-spacing: -0.5px; color: var(--text); }
+      .quote .em { color: var(--accent); }
+      .closing { position: absolute; left: 96px; top: 672px; right: 660px; font-size: 24px;
+                 line-height: 1.7; font-weight: 400; color: var(--muted); }
       .confbox { position: absolute; right: 96px; top: 330px; width: 400px;
-                 background: rgba(31,36,64,0.6); border: 1px solid var(--border); border-radius: 18px;
+                 background: var(--surface); border: 1px solid var(--hairline-soft); border-radius: 8px;
                  padding: 32px; }
-      .confbox .clabel { font-size: 16px; font-weight: 700; letter-spacing: 3px; text-transform: uppercase;
+      .confbox .clabel { font-size: 14px; font-weight: 600; letter-spacing: 4px; text-transform: uppercase;
                          color: var(--muted); }
-      .confbox .cscore { font-size: 72px; font-weight: 900; color: var(--warn); letter-spacing: -2px;
-                         font-variant-numeric: tabular-nums; margin: 6px 0 18px; }
-      .confbox .ctrack { height: 10px; border-radius: 6px; background: rgba(255,255,255,0.06); overflow: hidden; }
-      .confbox .cfill { height: 100%; width: 32%; border-radius: 6px;
-                        background: linear-gradient(90deg, var(--down), var(--warn)); transform-origin: left; }
-      .confbox .cdesc { margin-top: 18px; font-size: 16px; line-height: 1.6; color: var(--faint); }
+      .confbox .cscore { font-size: 70px; font-weight: 800; color: var(--accent); letter-spacing: -1px;
+                         font-variant-numeric: tabular-nums; margin: 8px 0 18px; }
+      .confbox .ctrack { height: 6px; border-radius: 3px; background: rgba(236, 233, 226, 0.07); overflow: hidden; }
+      .confbox .cfill { height: 100%; width: 32%; border-radius: 3px;
+                        background: linear-gradient(90deg, var(--oxide), var(--accent)); transform-origin: left; }
+      .confbox .cdesc { margin-top: 18px; font-size: 15px; line-height: 1.65; color: var(--faint); }
     </style>
   </head>
 
@@ -235,9 +240,6 @@
     >
       <!-- 배경 -->
       <div id="bg">
-        <div id="bgblob"></div>
-        <div id="bgblob2"></div>
-        <div id="grid"></div>
         <svg id="grain" viewBox="0 0 1920 1080" preserveAspectRatio="none">
           <filter id="noiseFilter"><feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" seed="7" stitchTiles="stitch"/></filter>
           <rect width="100%" height="100%" filter="url(#noiseFilter)"/>
@@ -258,6 +260,7 @@
           <span>2026.06.07</span>
         </div>
       </div>
+      <div class="toprule"></div>
 
       <!-- 무대 -->
       <div id="stage">
@@ -401,12 +404,12 @@
             { id: "nisrael", name: "북부 이스라엘", note: "미사일 도착점", x: 540, y: 700, hi: true },
           ],
           arcs: [
-            { id: "hezfire", from: "dahieh", to: "nisrael", bend: -74, color: "#e8b06f",
+            { id: "hezfire", from: "dahieh", to: "nisrael", bend: -74, color: "#b07a4a",
               width: 2.5, dash: "7 8", label: "헤즈볼라 사격", cls: "sec-arc" },
-            { id: "strike", from: "nisrael", to: "dahieh", bend: -74, color: "#aeb6cf",
+            { id: "strike", from: "nisrael", to: "dahieh", bend: -74, color: "#8d99ae",
               width: 2.5, dash: "7 8", label: "이스라엘 공습", cls: "sec-arc" },
-            { id: "main", from: "tehran", to: "nisrael", bend: 195, color: "#dc7a7a",
-              width: 4, glow: "rgba(220,122,122,0.6)", cls: "main-arc",
+            { id: "main", from: "tehran", to: "nisrael", bend: 195, color: "#b25450",
+              width: 4, glow: "rgba(178,84,80,0.45)", cls: "main-arc",
               label: "이란 탄도미사일 약 10발 · 약 1,500km" },
           ],
         },
@@ -421,16 +424,16 @@
             arr: [0,6.82,6.31,5.67,12.82,10.08,2.93,7.43,3.56,0.48,4.32,2.39,4.63,11.81,11.56,13.63,15.99,17.9,21.64,23.3,23.3,26.45,25.65,32.09,42.62,48.94,49.36,51.97,43.11,37.26,48.82,53.23,55.85,67.34,67.59,55.38] },
         ],
         people: [
-          { initials: "US", name: "트럼프", org: "미국 대통령 · 중재", color: "#6fb3ff",
+          { initials: "US", name: "트럼프", org: "미국 대통령 · 중재", color: "#c4a265",
             line: "“보복하지 말라” — 이스라엘에 직접 지시. 휴전 골격 유지가 최우선.",
             stance: 0.1, stanceLabel: "자제 강제" },
-          { initials: "IR", name: "이란 지도부", org: "최고지도부 · IRGC", color: "#dc7a7a",
+          { initials: "IR", name: "이란 지도부", org: "최고지도부 · IRGC", color: "#b25450",
             line: "‘진실의 약속 5’ — 약 10발의 제한 발사로 명분 과시.",
             stance: 0.58, stanceLabel: "제한 과시" },
-          { initials: "IL", name: "이스라엘", org: "전시내각", color: "#aeb6cf",
+          { initials: "IL", name: "이스라엘", org: "전시내각", color: "#8d99ae",
             line: "보복 결정 시점 6월 10일 — 응징 범위 저울질.",
             stance: 0.74, stanceLabel: "보복 검토" },
-          { initials: "HZ", name: "헤즈볼라", org: "레바논 시아파 무장정파", color: "#e8b06f",
+          { initials: "HZ", name: "헤즈볼라", org: "레바논 시아파 무장정파", color: "#b07a4a",
             line: "6월 4일 레바논·이스라엘 휴전 거부, 사격 재개.",
             stance: 0.8, stanceLabel: "거부·교전" },
         ],
@@ -438,8 +441,8 @@
         closing: "이번 발사로 4월 휴전은 ‘직접 공격’이라는 형태로 처음 위반됐다. 확전이냐 봉합이냐는 다음 며칠 안에 나올 이스라엘의 한 판단과 트럼프의 압박 강도가 가른다.",
       };
 
-      const PHASE_COLOR = { past: "#5a6280", crack: "#e8b06f", present: "#dc7a7a", future: "#6fb3ff" };
-      const LINK_COLOR = { 대립: "#dc7a7a", 동맹: "#88b888", 협상: "#6fb3ff", 영향: "#5a6280" };
+      const PHASE_COLOR = { past: "#6e6a60", crack: "#c4a265", present: "#b25450", future: "#8d99ae" };
+      const LINK_COLOR = { 대립: "#b25450", 동맹: "#7d9b76", 협상: "#c4a265", 영향: "#6e6a60" };
       const LINK_DASH = { 대립: "2 12", 협상: "9 11", 영향: "1 10" };
 
       // ───────────────────── 씬 빌드 (SceneKit) ─────────────────────
@@ -454,7 +457,7 @@
         x0: 250, x1: 1640, yBottom: 778, yTop: 360,
         colors: PHASE_COLOR,
         gradId: "ladgrad",
-        gradStops: [["0", "#5a6280"], ["0.6", "#e8b06f"], ["1", "#6fb3ff"]],
+        gradStops: [["0", "#55524a"], ["0.62", "#b25450"], ["1", "#8d99ae"]],
       });
 
       // S3 행위자 네트워크
@@ -462,8 +465,8 @@
         linkColors: LINK_COLOR,
         dashByType: LINK_DASH,
         nodeColor: (nd) =>
-          nd.kind === "mediator" ? "#6fb3ff" : nd.kind === "iran" ? "#dc7a7a"
-          : nd.kind === "proxy" ? "#e8b06f" : "#aeb6cf",
+          nd.kind === "mediator" ? "#c4a265" : nd.kind === "iran" ? "#b25450"
+          : nd.kind === "proxy" ? "#b07a4a" : "#8d99ae",
       });
       // 범례 (수평 pill — CSS .legend-row 위치는 LabelField 가 침범하지 않는 우상단 밴드)
       {
@@ -489,22 +492,22 @@
       // S5 지오 씬
       const geo = SK.buildGeoScene(document.getElementById("s5-svg"), BUNDLE.geo, {
         grid: { x0: 230, x1: 1690, y0: 300, y1: 846, dx: 146, dy: 109.2 },
-        hiColor: "#dc7a7a",
+        hiColor: "#b25450",
       });
       const mainArc = geo.arcs.find((a) => a.id === "main");
       // 미사일 헤드 + 도착 임팩트 링
       const missile = SK.svgEl("circle", {
-        r: 9, fill: "#ffd9d9", opacity: 0, class: "missile",
-        filter: "drop-shadow(0 0 12px rgba(220,122,122,0.95))",
+        r: 8, fill: "#f2cfc6", opacity: 0, class: "missile",
+        filter: "drop-shadow(0 0 10px rgba(178,84,80,0.85))",
       }, document.getElementById("s5-svg"));
       const impact = SK.svgEl("circle", {
-        cx: mainArc.b.x, cy: mainArc.b.y, r: 14, fill: "none", stroke: "#dc7a7a",
+        cx: mainArc.b.x, cy: mainArc.b.y, r: 14, fill: "none", stroke: "#b25450",
         "stroke-width": 3, opacity: 0, class: "impact-ring",
       }, document.getElementById("s5-svg"));
 
       // S6 마켓 카드
       const marketCards = SK.buildMarketCards(document.getElementById("s6-cards"), BUNDLE.markets, {
-        colorByKind: { up: "#88b888", vol: "#e8b06f", flat: "#aeb6cf" },
+        colorByKind: { up: "#7d9b76", vol: "#c4a265", flat: "#9aa3b2" },
         tagByKind: { up: "상승", vol: "변동", flat: "보합" },
       });
 
@@ -516,8 +519,6 @@
 
       // 진행바 + 배경 패럴랙스(72초 풀)
       tl.fromTo("#prog", { scaleX: 0 }, { scaleX: 1, duration: 72, ease: "none" }, 0);
-      tl.to("#bgblob", { x: -180, y: 120, duration: 72, ease: "sine.inOut" }, 0);
-      tl.to("#bgblob2", { x: 160, y: -90, duration: 72, ease: "sine.inOut" }, 0);
       tl.fromTo("#stage", { scale: 1.0 }, { scale: 1.025, duration: 72, ease: "none" }, 0);
 
       // pulse-ring 펄스 (시킹 안전: 타임라인 내 반복, scale 기반)
