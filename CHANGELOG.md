@@ -1,6 +1,6 @@
 <!--
 tier: 3
-last_synced_with: v0.35.5
+last_synced_with: v0.35.6
 ssot_for: [release-notes]
 depends_on: [README.md, GOAL.md]
 last_review: 2026-06-11
@@ -25,6 +25,17 @@ released 항목은 **append-only**입니다.
 
 ### Fixed
 -
+
+---
+
+## [v0.35.6] — 2026-06-11
+
+### Fixed
+- **링크의 국기/플레이트 간섭 제거** (사용자 보고 "선들이 국기에 가려지거나
+  간섭되면 안 될 것"): buildNetwork 라우팅에 회피 탐색 추가 — 곡선은 bend×방향
+  8후보, 직각은 엘보 위치 5후보(+곡선 폴백 6후보)를 22px 샘플링으로 검사해
+  ① 노드·플레이트 모두 회피 → ② 노드만 회피 순으로 선택. 스테이지 밴드 이탈
+  후보는 기각. 이름 플레이트 배치를 링크보다 먼저로 재배열(회피 대상 확정).
 
 ---
 

@@ -300,7 +300,7 @@
       const sx = a.x + sgx * ra;
       const ex = b.x - sgx * rb;
       if (Math.abs(dy) < cr * 2 + 4) return `M ${f(sx)} ${f(a.y)} L ${f(ex)} ${f(b.y)}`;
-      const mx = (sx + ex) / 2;
+      const mx = sx + (ex - sx) * (opts.frac ?? 0.5);
       if (Math.abs(ex - sx) < cr * 2 + 4) return `M ${f(sx)} ${f(a.y)} L ${f(ex)} ${f(b.y)}`;
       const sgy = Math.sign(dy);
       return (
@@ -529,74 +529,7 @@
       N[nd.id] = nd;
     });
 
-    // 2) 링크 — 하이브리드 라우팅 + 흐름 펄스 오버레이.
-    //    근거리(인접 관계) = 직각(라운드 코너) — 단정함.
-    //    장거리(원거리 지원/영향 투사) = 완만한 위쪽 아치 — 거리감.
-    //    링크별 lk.curve 로 강제 지정 가능, 기본은 거리 임계값(opts.curveDist).
-    const flows = [];
-    const ptToward = (p, q, dist) => {
-      const dx = q.x - p.x;
-      const dy = q.y - p.y;
-      const L = Math.hypot(dx, dy) || 1;
-      return { x: +(p.x + (dx / L) * dist).toFixed(1), y: +(p.y + (dy / L) * dist).toFixed(1) };
-    };
-    const linkEls = links.map((lk) => {
-      const a = N[lk.s];
-      const b = N[lk.t];
-      const dist = Math.hypot(b.x - a.x, b.y - a.y);
-      const useCurve = lk.curve ?? dist > (opts.curveDist ?? 430);
-      let d;
-      if (useCurve) {
-        const mx = (a.x + b.x) / 2;
-        const my = (a.y + b.y) / 2;
-        let nx = -(b.y - a.y) / dist;
-        let ny = (b.x - a.x) / dist;
-        if (ny > 0) {
-          nx = -nx;
-          ny = -ny; // 항상 위쪽 아치 (투사 느낌)
-        }
-        const bend = Math.min(150, Math.max(56, dist * 0.16));
-        const c = { x: mx + nx * bend, y: my + ny * bend };
-        const sa = ptToward(a, c, a.r + 7);
-        const sb = ptToward(b, c, b.r + 7);
-        d = `M ${sa.x} ${sa.y} Q ${c.x.toFixed(1)} ${c.y.toFixed(1)} ${sb.x} ${sb.y}`;
-      } else {
-        d = orthoPath(a, b, { ra: a.r + 7, rb: b.r + 7, corner: 16 });
-      }
-      const ln = svgEl(
-        "path",
-        {
-          d,
-          fill: "none",
-          stroke: opts.linkColors[lk.type],
-          "stroke-width": lk.type === "영향" ? 2 : 3,
-          "stroke-linecap": "round",
-          "stroke-linejoin": "round",
-          opacity: 0,
-          class: "net-link",
-        },
-        linkLayer,
-      );
-      prepDraw(ln, opts.dashByType[lk.type] || "");
-      // 흐름 펄스: 같은 경로 위를 밝은 세그먼트가 s→t 로 순환 (영향 방향)
-      const flow = svgEl(
-        "path",
-        { d, fill: "none", stroke: (opts.flowColors && opts.flowColors[lk.type]) || "#f2efe8",
-          "stroke-width": 3, "stroke-linecap": "round", "stroke-linejoin": "round",
-          opacity: 0, class: "net-flow" },
-        linkLayer,
-      );
-      const L = Math.ceil(flow.getTotalLength()) + 2;
-      const seg = Math.min(30, Math.floor(L / 4));
-      flow.setAttribute("stroke-dasharray", `${seg} ${L}`);
-      flow.setAttribute("stroke-dashoffset", L + seg);
-      flow.dataset.len = String(L);
-      flow.dataset.seg = String(seg);
-      flows.push(flow);
-      return ln;
-    });
-
-    // 3) 노드 + 앵커 점/리더 + 이름 플레이트
+    // 2) 노드 + 앵커 점/리더 + 이름 플레이트 — 링크보다 먼저 (링크가 회피할 대상 확정)
     const anchors = [];
     const plates = [];
     const nodeGs = nodes.map((nd) => {
@@ -677,6 +610,159 @@
       plates.push(plate);
       return g;
     });
+
+    // 3) 링크 — 하이브리드 라우팅 + 노드 원·이름 플레이트 회피 + 흐름 펄스.
+    //    근거리 = 직각(라운드 코너), 원거리/lk.curve = 위쪽 아치.
+    //    후보 경로를 샘플링해 다른 노드(국기)·플레이트와 간섭하지 않는 경로를 선택:
+    //    ① 노드·플레이트 모두 회피 → ② 노드만 회피 → ③ 원안 (이론상 도달 안 함).
+    const flows = [];
+    const ptToward = (p, q, dist) => {
+      const dx = q.x - p.x;
+      const dy = q.y - p.y;
+      const L = Math.hypot(dx, dy) || 1;
+      return { x: +(p.x + (dx / L) * dist).toFixed(1), y: +(p.y + (dy / L) * dist).toFixed(1) };
+    };
+    const PAD_NODE = 14;
+    const PAD_PLATE = 6;
+    const nodeHits = (pts, a, b) =>
+      pts.reduce(
+        (n, pt) =>
+          n +
+          (nodes.some(
+            (nd) => nd !== a && nd !== b && Math.hypot(pt.x - nd.x, pt.y - nd.y) < nd.r + PAD_NODE,
+          )
+            ? 1
+            : 0),
+        0,
+      );
+    const plateHits = (pts) =>
+      pts.reduce(
+        (n, pt) =>
+          n +
+          (plates.some(
+            (pl) =>
+              pt.x > pl.x - PAD_PLATE &&
+              pt.x < pl.x + pl.w + PAD_PLATE &&
+              pt.y > pl.y - PAD_PLATE &&
+              pt.y < pl.y + pl.h + PAD_PLATE,
+          )
+            ? 1
+            : 0),
+        0,
+      );
+    const inBand = (pts) => pts.every((pt) => pt.y > 272 && pt.y < 862 && pt.x > 84 && pt.x < 1836);
+    const sampleSeg = (pts, x1, y1, x2, y2, step = 22) => {
+      const n = Math.max(1, Math.ceil(Math.hypot(x2 - x1, y2 - y1) / step));
+      for (let i = 0; i <= n; i++)
+        pts.push({ x: x1 + ((x2 - x1) * i) / n, y: y1 + ((y2 - y1) * i) / n });
+    };
+
+    const linkEls = links.map((lk) => {
+      const a = N[lk.s];
+      const b = N[lk.t];
+      const dist = Math.hypot(b.x - a.x, b.y - a.y);
+      const useCurve = lk.curve ?? dist > (opts.curveDist ?? 430);
+      // 위쪽 정규화 normal
+      let nx = -(b.y - a.y) / dist;
+      let ny = (b.x - a.x) / dist;
+      if (ny > 0) {
+        nx = -nx;
+        ny = -ny;
+      }
+      const baseBend = Math.min(150, Math.max(56, dist * 0.16));
+
+      const curveGeom = (bend, dir) => {
+        const c = {
+          x: (a.x + b.x) / 2 + nx * bend * dir,
+          y: (a.y + b.y) / 2 + ny * bend * dir,
+        };
+        const sa = ptToward(a, c, a.r + 7);
+        const sb = ptToward(b, c, b.r + 7);
+        const pts = [];
+        for (let i = 0; i <= 28; i++) pts.push(quadAt(sa, c, sb, i / 28));
+        return { d: `M ${sa.x} ${sa.y} Q ${c.x.toFixed(1)} ${c.y.toFixed(1)} ${sb.x} ${sb.y}`, pts };
+      };
+      const orthoGeom = (frac) => {
+        const d = orthoPath(a, b, { ra: a.r + 7, rb: b.r + 7, corner: 16, frac });
+        const pts = [];
+        const dx = b.x - a.x;
+        const dy = b.y - a.y;
+        if (Math.abs(dx) >= Math.abs(dy)) {
+          const sgx = Math.sign(dx) || 1;
+          const sx = a.x + sgx * (a.r + 7);
+          const ex = b.x - sgx * (b.r + 7);
+          const mx = sx + (ex - sx) * frac;
+          sampleSeg(pts, sx, a.y, mx, a.y);
+          sampleSeg(pts, mx, a.y, mx, b.y);
+          sampleSeg(pts, mx, b.y, ex, b.y);
+        } else {
+          const sgy = Math.sign(dy) || 1;
+          const sy = a.y + sgy * (a.r + 7);
+          const ey = b.y - sgy * (b.r + 7);
+          const my = sy + (ey - sy) * frac;
+          sampleSeg(pts, a.x, sy, a.x, my);
+          sampleSeg(pts, a.x, my, b.x, my);
+          sampleSeg(pts, b.x, my, b.x, ey);
+        }
+        return { d, pts };
+      };
+
+      const cands = [];
+      if (useCurve) {
+        for (const dir of [1, -1])
+          for (const extra of [0, 45, 90, 140]) cands.push(curveGeom(baseBend + extra, dir));
+      } else {
+        for (const fr of [0.5, 0.35, 0.65, 0.25, 0.75]) cands.push(orthoGeom(fr));
+        for (const dir of [1, -1])
+          for (const extra of [0, 60, 120]) cands.push(curveGeom(60 + extra, dir));
+      }
+      let chosen = null;
+      let okNodesOnly = null;
+      for (const g of cands) {
+        if (!inBand(g.pts)) continue;
+        const nh = nodeHits(g.pts, a, b);
+        if (nh > 0) continue;
+        if (plateHits(g.pts) === 0) {
+          chosen = g;
+          break;
+        }
+        if (!okNodesOnly) okNodesOnly = g;
+      }
+      const geom = chosen || okNodesOnly || cands[0];
+      const d = geom.d;
+      const ln = svgEl(
+        "path",
+        {
+          d,
+          fill: "none",
+          stroke: opts.linkColors[lk.type],
+          "stroke-width": lk.type === "영향" ? 2 : 3,
+          "stroke-linecap": "round",
+          "stroke-linejoin": "round",
+          opacity: 0,
+          class: "net-link",
+        },
+        linkLayer,
+      );
+      prepDraw(ln, opts.dashByType[lk.type] || "");
+      // 흐름 펄스: 같은 경로 위를 밝은 세그먼트가 s→t 로 순환 (영향 방향)
+      const flow = svgEl(
+        "path",
+        { d, fill: "none", stroke: (opts.flowColors && opts.flowColors[lk.type]) || "#f2efe8",
+          "stroke-width": 3, "stroke-linecap": "round", "stroke-linejoin": "round",
+          opacity: 0, class: "net-flow" },
+        linkLayer,
+      );
+      const L = Math.ceil(flow.getTotalLength()) + 2;
+      const seg = Math.min(30, Math.floor(L / 4));
+      flow.setAttribute("stroke-dasharray", `${seg} ${L}`);
+      flow.setAttribute("stroke-dashoffset", L + seg);
+      flow.dataset.len = String(L);
+      flow.dataset.seg = String(seg);
+      flows.push(flow);
+      return ln;
+    });
+
     return { nodeGs, linkEls, flows, plates, anchors, N };
   }
 
