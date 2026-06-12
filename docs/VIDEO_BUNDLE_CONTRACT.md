@@ -1,6 +1,6 @@
 <!--
 tier: 2
-last_synced_with: v0.37.2
+last_synced_with: v0.38.0
 ssot_for: [video-bundle-contract]
 depends_on: [05_DATA_SCHEMA_SPEC.md]
 last_review: 2026-06-12
@@ -8,8 +8,8 @@ last_review: 2026-06-12
 
 # VIDEO_BUNDLE_CONTRACT — agents_reviewer ↔ osint_generator 영상 필드 계약
 
-> 상태: **제안 전달됨** (2026-06-12, 사용자가 agents_reviewer 세션에 프롬프트 전달).
-> agents_reviewer 쪽 합의/구현 후 본 문서를 "확정"으로 갱신할 것.
+> 상태: **확정** (2026-06-12). agents_reviewer 구현 완료
+> (analysis_20260606_114653 번들부터), osint_generator 소비 구현 v0.38.0.
 
 ## 목적
 
@@ -57,3 +57,6 @@ last_review: 2026-06-12
 ## 이력
 
 - 2026-06-12: 초안 작성, 사용자가 agents_reviewer 세션에 전달 (v0.37.2).
+
+- 2026-06-12: agents_reviewer 구현 확인 (전 섹션 video + narration_tts),
+  osint_generator 소비 구현 (v0.38.0) — 계약 확정.

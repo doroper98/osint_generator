@@ -1,6 +1,6 @@
 <!--
 tier: 3
-last_synced_with: v0.37.2
+last_synced_with: v0.38.0
 ssot_for: [release-notes]
 depends_on: [README.md, GOAL.md]
 last_review: 2026-06-11
@@ -25,6 +25,33 @@ released 항목은 **append-only**입니다.
 
 ### Fixed
 -
+
+---
+
+## [v0.38.0] — 2026-06-12
+
+### Added
+- **영상 필드 계약 소비 구현 (옵션 C 2차 완성, MINOR)** — agents_reviewer 가
+  계약(docs/VIDEO_BUNDLE_CONTRACT.md)대로 번들에 실어 보낸 video 필드를 영상이
+  실제로 사용:
+  - **내레이션 cue 교체**: sections[].video.narration + report.video
+    intro/outro_narration 을 해당 씬 시간창에 균등 배치 — 템플릿 문장 대체
+    (SpaceX 번들 기준 32문장 채택, 템플릿 17건 대체). narration_tts 는 cue.tts
+    로 보존 (음성 합성용).
+  - **검증기 (G4)**: narration/highlights 의 모든 수치 토큰을 번들 직렬화
+    말뭉치와 대조 — 불일치 문장 폐기 + 템플릿 폴백.
+  - **스테이트먼트 씬**: 차트 없는 서술 섹션의 highlights 를 대형 세리프
+    타이포(순차 등장 + emphasis 액센트)로 — 서술 전용 섹션 누락 해소.
+  - versus 진영명 자동 추출 ("A인가, B인가" 제목 패턴), 쟁점/신호 섹션 매칭
+    확장, 마켓/시그널 씬에 섹션 연결.
+- 테마 별칭 (forest_sage→forest_archive, midnight_indigo→midnight_navy).
+- `samples/spacex2026/` — 계약 구현 첫 번들 보존.
+
+### Fixed
+- 간트: 월 단위 날짜(YYYY-MM) 허용, 장기 범위에서 분기/연 눈금 자동 전환 +
+  기간 라벨 연도 표기 (3년 임대에서 월 라벨 도배되던 문제).
+- 스캐터: 좁은 범위(0~1) 눈금 소수 표기, accent→hi 매핑, 라벨 괄호 제거 +
+  플레이트 줄바꿈 활용.
 
 ---
 

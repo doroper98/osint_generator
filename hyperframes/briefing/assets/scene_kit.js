@@ -1608,15 +1608,17 @@
     const axis = svgEl("g", { class: "sct-axis" }, svg);
     svgEl("line", { x1: x0, y1: y0 - 10, x2: x0, y2: y1, stroke: "var(--sk-hairline, rgba(236,233,226,0.2))", "stroke-width": 1.5 }, axis);
     svgEl("line", { x1: x0, y1: y1, x2: x1 + 10, y2: y1, stroke: "var(--sk-hairline, rgba(236,233,226,0.2))", "stroke-width": 1.5 }, axis);
+    const fmtTick = (v, lov, hiv) =>
+      Math.abs(hiv - lov) <= 8 ? v.toFixed(1) : Math.round(v).toLocaleString("ko-KR");
     for (let i = 0; i <= 3; i++) {
       const vx = xlo + ((xhi - xlo) * i) / 3;
       const vy = ylo + ((yhi - ylo) * i) / 3;
       const tx = svgEl("text", { x: SX(vx).toFixed(1), y: y1 + 32, "text-anchor": "middle",
         fill: "var(--sk-dim, #8b877d)", "font-size": 15, "font-weight": 600, class: "sk-text" }, axis);
-      tx.textContent = Math.round(vx).toLocaleString("ko-KR");
+      tx.textContent = fmtTick(vx, xlo, xhi);
       const ty = svgEl("text", { x: x0 - 16, y: (SY(vy) + 5).toFixed(1), "text-anchor": "end",
         fill: "var(--sk-dim, #8b877d)", "font-size": 15, "font-weight": 600, class: "sk-text" }, axis);
-      ty.textContent = Math.round(vy).toLocaleString("ko-KR");
+      ty.textContent = fmtTick(vy, ylo, yhi);
       if (i > 0) svgEl("line", { x1: x0, y1: SY(vy).toFixed(1), x2: x1, y2: SY(vy).toFixed(1),
         stroke: "var(--sk-grid, #232328)", "stroke-width": 1, "stroke-dasharray": "3 7" }, axis);
     }
@@ -1745,18 +1747,24 @@
     const blockH = tasks.length * rowH + (tasks.length - 1) * gap;
     const yTop = opts.yTop ?? Math.max(330, 575 - blockH / 2);
 
-    // 월 눈금
+    // 눈금 — 범위에 따라 월/분기/연 단위 자동 전환 (라벨 도배 방지)
     const gridG = svgEl("g", { class: "gn-grid" }, svg);
+    const monthsSpan = (hi - lo) / (30.44 * 86400 * 1000);
+    const stepM = monthsSpan <= 14 ? 1 : monthsSpan <= 42 ? 3 : 12;
+    const multiYear = monthsSpan > 13;
     const d0 = new Date(lo);
     const tick = new Date(Date.UTC(d0.getUTCFullYear(), d0.getUTCMonth() + 1, 1));
+    while (stepM > 1 && tick.getUTCMonth() % stepM !== 0) tick.setUTCMonth(tick.getUTCMonth() + 1);
     while (tick.getTime() < hi) {
       const x = SX(tick.getTime());
       svgEl("line", { x1: x.toFixed(1), y1: yTop - 34, x2: x.toFixed(1), y2: yTop + blockH + 16,
         stroke: "var(--sk-grid, #232328)", "stroke-width": 1 }, gridG);
       const t = svgEl("text", { x: x.toFixed(1), y: yTop - 44, "text-anchor": "middle",
         fill: "var(--sk-dim, #8b877d)", "font-size": 15, "font-weight": 600, class: "sk-text" }, gridG);
-      t.textContent = (tick.getUTCMonth() + 1) + "월";
-      tick.setUTCMonth(tick.getUTCMonth() + 1);
+      t.textContent = multiYear
+        ? `${String(tick.getUTCFullYear()).slice(2)}.${tick.getUTCMonth() + 1}`
+        : (tick.getUTCMonth() + 1) + "월";
+      tick.setUTCMonth(tick.getUTCMonth() + stepM);
     }
 
     const bars = tasks.map((task, i) => {
@@ -1772,7 +1780,9 @@
         fill: color, opacity: 0.85 }, g);
       g.dataset.ox = String(bx);
       // 기간 텍스트 (막대 안 또는 우측)
-      const dur = `${task.start.slice(5).replace("-", ".")}–${task.end.slice(5).replace("-", ".")}`;
+      const dur = monthsSpan > 13
+        ? `${task.start.slice(2, 7).replace("-", ".")}–${task.end.slice(2, 7).replace("-", ".")}`
+        : `${task.start.slice(5).replace("-", ".")}–${task.end.slice(5).replace("-", ".")}`;
       const inside = bw > 150;
       const dt = svgEl("text", { x: (inside ? bx + 14 : bx + bw + 12).toFixed(1),
         y: (y + rowH / 2 + 5).toFixed(1), fill: inside ? "var(--sk-ink, #141416)" : "var(--sk-dim, #8b877d)",

@@ -271,6 +271,19 @@
       .iquote .iq-src { position: absolute; top: 770px; left: 200px; font-size: 18px;
                         font-weight: 600; color: var(--faint); letter-spacing: 1.5px; }
 
+      /* ── 스테이트먼트 씬 (서술 섹션 key takeaway — auto 컴포지션) ── */
+      .stmt { position: absolute; top: 330px; left: 96px; right: 420px; }
+      .stmt .stmt-line { display: flex; gap: 30px; align-items: baseline; margin-bottom: 64px; }
+      .stmt .stmt-no { font-size: 17px; font-weight: 700; color: var(--faint);
+                       letter-spacing: 3px; flex: none; width: 44px;
+                       font-variant-numeric: tabular-nums; }
+      .stmt .stmt-text { font-family: "Noto Serif KR", "Pretendard Variable", serif;
+                         font-size: 62px; font-weight: 600; line-height: 1.38;
+                         letter-spacing: -0.5px; color: var(--text); }
+      .stmt .stmt-text em { font-style: normal; color: var(--accent); }
+      .stmt .stmt-rule { height: 1px; background: var(--hairline-soft);
+                         margin: 0 0 64px 74px; }
+
       /* ── S7 클로징 ── */
       .quote { position: absolute; top: 322px; left: 96px; right: 580px;
                font-family: "Noto Serif KR", "Pretendard Variable", serif;

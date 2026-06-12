@@ -1,6 +1,6 @@
 <!--
 tier: 3
-last_synced_with: v0.37.2
+last_synced_with: v0.38.0
 ssot_for: [development-log]
 depends_on: [CHANGELOG.md]
 last_review: 2026-06-06
@@ -2507,3 +2507,27 @@ last_review: 2026-06-06
 - **다음**: agents_reviewer 합의/샘플 번들 도착 → 영상 쪽 소비 구현
   (스테이트먼트 씬 + 검증기 + cue 교체) → 본 문서 "확정" 갱신.
 - **연관**: 옵션 C 2차, G4 (사실 근거/미검증 라벨), v0.36.x 변환기.
+
+---
+
+## 2026-06-12 v0.38.0 — 계약 video 필드 소비 (스테이트먼트 씬 + 내레이션 + 검증기)
+
+- **무엇을**: VIDEO_BUNDLE_CONTRACT 의 영상 쪽 의무 구현. SpaceX/구글 번들
+  (analysis_20260606_114653, forest_sage)로 e2e 검증 — 12씬 118초.
+  VERSION 0.37.2 → 0.38.0 (MINOR, C10 은 사용자 세션 지시로 생략 유지).
+- **왜**: agents_reviewer 가 계약을 구현해 전 섹션 video(narration 4문장 +
+  highlights 2 + emphasis + narration_tts 발음 분리)를 실어 보냄. 사용자 —
+  "데이터 없는 씬 작업 반영, 내레이션 보완했다. 읽고 영상 만들어봐".
+- **어떻게**: ① section_videos() — 수치 토큰 ⊂ 번들 직렬화 말뭉치 검증,
+  위반 문장 폐기(이번 번들 0건). ② 씬에 _sid 연결 → 섹션 시간창 수집 →
+  narration 균등 배치, 해당 창의 템플릿 cue 제거. intro/outro 는 타이틀/클로징
+  창. ③ statement 씬 — 미소비 서술 섹션의 highlights 를 62px 세리프 순차
+  등장(emphasis 액센트, 헤어라인 룰 분리). versus/signals 소비 섹션은 제외.
+  ④ versus 진영명 "(A)인가, (B)인가" 패턴 추출 — "임대업" vs "궤도로 가는
+  다리". ⑤ 간트 눈금 월/분기/연 자동(30.44일 환산 monthsSpan, ≤14/≤42/초과)
+  + 기간 라벨 연도. 스캐터 눈금 범위≤8 → 소수 1자리.
+- **검증**: 감사 클린, pageerror 0. 스테이트먼트/간트/스캐터/versus 스크린샷
+  검수. 계약 narration 32문장 채택 로그 확인.
+- **남은 것**: sankey 차트 (이번 번들 ch-8, 미지원 스킵 — 차기 차트 유형),
+  cue.tts → build_narration 연동.
+- **연관**: VIDEO_BUNDLE_CONTRACT(확정으로 갱신), G4, v0.36~37 변환기 계열.
