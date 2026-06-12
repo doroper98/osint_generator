@@ -1,6 +1,6 @@
 <!--
 tier: 3
-last_synced_with: v0.38.2
+last_synced_with: v0.38.3
 ssot_for: [release-notes]
 depends_on: [README.md, GOAL.md]
 last_review: 2026-06-11
@@ -25,6 +25,16 @@ released 항목은 **append-only**입니다.
 
 ### Fixed
 -
+
+---
+
+## [v0.38.3] — 2026-06-12
+
+### Fixed
+- **평서문 끝 올림 억양** (사용자 검수): 문장 낱개 합성 시 모델이 문맥 없이
+  억양을 추측하던 것 → ElevenLabs `previous_text`/`next_text` request-stitching
+  으로 앞뒤 문장 전달 (synth_one 확장 + auto 내레이션 적용). .env 권장값 갱신
+  (STABILITY 0.6~0.75, STYLE 0~0.15) — 설정 레버와 이중 대응.
 
 ---
 

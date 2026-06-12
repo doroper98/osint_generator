@@ -147,8 +147,14 @@ OUTPUT_PATH = DEMO_DIR / "assets" / "audio" / "brent.mp3"
 CUESYNC_PATH = DEMO_DIR / "cuesync.json"
 
 
-def synth_one(text: str, api_key: str, voice_id: str, model_id: str) -> bytes:
+def synth_one(text: str, api_key: str, voice_id: str, model_id: str,
+              previous_text: str | None = None, next_text: str | None = None) -> bytes:
     """ElevenLabs API 단일 합성 — mp3 bytes 반환.
+
+    v0.38.3 — previous_text/next_text 로 앞뒤 문맥을 전달한다. 문장을 낱개로
+    합성하면 모델이 "이야기 중간인지 끝인지"를 모른 채 억양을 추측해 평서문
+    끝이 올라가는 사고가 남 (사용자 검수). 문맥을 주면 request-stitching 으로
+    문장 간 운율이 이어진다.
 
     v0.34.9 — voice_settings 를 더 이상 hardcode 안 함.
     사용자가 ElevenLabs 웹의 voice library 에서 stability/similarity/style 등
@@ -161,6 +167,10 @@ def synth_one(text: str, api_key: str, voice_id: str, model_id: str) -> bytes:
 
     url = f"https://api.elevenlabs.io/v1/text-to-speech/{voice_id}"
     payload: dict = {"text": text, "model_id": model_id}
+    if previous_text:
+        payload["previous_text"] = previous_text[-280:]
+    if next_text:
+        payload["next_text"] = next_text[:280]
 
     # 사용자가 .env 에 명시 override 한 값만 voice_settings 에 채움.
     overrides: dict = {}

@@ -114,11 +114,17 @@ def main(argv: list[str] | None = None) -> int:
             print("error: ELEVENLABS_API_KEY / ELEVENLABS_VOICE_ID 필요 (.env 또는 환경변수).",
                   file=sys.stderr)
             return 1
+        synth_texts = [c.get("tts") or c["text"] for c in cues]
         for i, c in enumerate(cues):
-            text = c.get("tts") or c["text"]
+            text = synth_texts[i]
             print(f"[auto_narration] {i + 1}/{len(cues)} 합성: {text[:32]}…", flush=True)
             raw = tmp / f"raw{i:03d}.mp3"
-            raw.write_bytes(synth_one(text, api_key, voice_id, model_id))
+            # 앞뒤 문맥 전달 — 평서문 끝 올림 억양 방지 (v0.38.3)
+            raw.write_bytes(synth_one(
+                text, api_key, voice_id, model_id,
+                previous_text=synth_texts[i - 1] if i > 0 else None,
+                next_text=synth_texts[i + 1] if i < len(cues) - 1 else None,
+            ))
             mp3 = tmp / f"cue{i:03d}.mp3"
             polish_tail(raw, mp3)  # 꼬리 흡기음 컷 + 페이드아웃
             durs.append(round(probe_duration(mp3), 3))

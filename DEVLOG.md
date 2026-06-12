@@ -1,6 +1,6 @@
 <!--
 tier: 3
-last_synced_with: v0.38.2
+last_synced_with: v0.38.3
 ssot_for: [development-log]
 depends_on: [CHANGELOG.md]
 last_review: 2026-06-06
@@ -2571,3 +2571,15 @@ last_review: 2026-06-06
   숨소리 컷은 실합성에서만 검증 가능 — 사용자 재합성 시 확인 항목.
 - **연관**: TTS-AP-054~057 계열, v0.34.8/12 교훈 재적용, VIDEO_BUNDLE_CONTRACT
   개정(75자/timeline.video — A 패키지).
+
+---
+
+## 2026-06-12 v0.38.3 — 억양 문맥 전달 (TTS-AP 계열)
+
+- **무엇을**: synth_one 에 previous_text/next_text 추가, auto 내레이션이 앞뒤
+  cue 를 전달. VERSION 0.38.2 → 0.38.3.
+- **왜**: 사용자 — "평서문인데 끝을 올린다, 어떤 설정치를 조정해야 하나".
+  진단: ElevenLabs 에 억양 직접 파라미터는 없음. ① stability↑/style↓ 가
+  간접 레버, ② 더 큰 원인은 우리의 문장 낱개 합성 — 모델이 담화 위치를
+  모른 채 억양 추측. API 의 request-stitching(previous/next_text)이 정답.
+- **검증**: 코드 경로만 (실합성은 사용자 재합성 시 확인 — 2차 검수 항목).
