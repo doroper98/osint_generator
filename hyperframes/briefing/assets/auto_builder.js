@@ -465,6 +465,142 @@
       sceneOut(sec, sc.t1 - 0.5);
     },
 
+    geo(sc, sec) {
+      // 사건의 좌표 — 권역 베이스맵 + 마커/아크 (계약 map 필드)
+      const svg = SK.svgEl("svg", { viewBox: "0 0 1920 1080", style: "position:absolute; inset:0;" });
+      sec.appendChild(svg);
+      const bm = window.SK_MAPS && window.SK_MAPS[sc.data.region];
+      const KINDC = { flow: ACCENT, subject: OXIDE, ally: SAGE, rival: SLATE };
+      const M = {};
+      sc.data.markers.forEach((m) => (M[m.id] = m));
+      const arcs = sc.data.arcs.map((a) => {
+        const A = M[a.from];
+        const B = M[a.to];
+        const dist = Math.hypot(B.x - A.x, B.y - A.y);
+        return { ...a, bend: Math.min(170, Math.max(54, dist * 0.22)),
+                 color: KINDC[a.kind] || ACCENT,
+                 dash: a.kind === "flow" ? "" : "7 8",
+                 glow: a.kind === "flow" ? "rgba(0,0,0,0)" : undefined,
+                 cls: a.kind === "flow" ? "main-arc" : "sec-arc" };
+      });
+      const built = SK.buildGeoScene(svg,
+        { regions: bm ? bm.labels : [], markers: sc.data.markers, arcs },
+        { basemap: bm, hiColor: OXIDE });
+      // 범례 + 분석 추정 태그
+      const lg = document.createElement("div");
+      lg.className = "legend-row";
+      (sc.data.legend || []).forEach((item) => {
+        const el = document.createElement("div");
+        el.className = "item";
+        const sw = document.createElement("div");
+        sw.className = "swatch";
+        sw.style.borderTopColor = KINDC[item.kind] || FAINT;
+        sw.style.borderTopStyle = "solid";
+        el.appendChild(sw);
+        const sp = document.createElement("span");
+        sp.textContent = item.label;
+        el.appendChild(sp);
+        lg.appendChild(el);
+      });
+      if (sc.data.inferred) {
+        const tag = document.createElement("div");
+        tag.className = "item";
+        tag.style.color = OXIDE;
+        tag.textContent = "관계도 · 분석 추정";
+        lg.appendChild(tag);
+      }
+      sec.appendChild(lg);
+      const t0 = sc.t0;
+      sceneIn(sec, t0);
+      headIn(sec, t0);
+      if (built.basemap) tl.from(built.basemap, { opacity: 0, duration: 1.0, ease: "power2.out" }, t0 + 0.15);
+      tl.from(lg, { opacity: 0, x: 20, duration: 0.5 }, t0 + 0.6);
+      built.markerItems.forEach((it, i) => {
+        const at = t0 + 0.7 + i * 0.3;
+        tl.to(it.g, { opacity: 1, duration: 0.5, ease: "power2.out" }, at);
+        if (it.leader) draw(it.leader, at + 0.1, 0.25, "power1.out");
+        tl.fromTo(it.plate.g, { opacity: 0 }, { opacity: 1, duration: 0.4 }, at + 0.18);
+      });
+      built.arcs.forEach((ac, i) => {
+        const at = t0 + 2.4 + i * 0.8;
+        tl.to(ac.path, { opacity: ac.kind === "flow" ? 1 : 0.75, duration: 0.2 }, at);
+        tl.to(ac.path, { strokeDashoffset: 0, duration: 1.2, ease: "power1.inOut",
+          onComplete: () => { if (ac.path.dataset.dash) ac.path.setAttribute("stroke-dasharray", ac.path.dataset.dash); } }, at);
+        if (ac.kind === "flow") {
+          // 흐름 헤드 — 아크를 따라 한 번 비행
+          const head = SK.svgEl("circle", { r: 7, fill: "#f2e9d8", opacity: 0,
+            filter: "drop-shadow(0 0 8px rgba(0,0,0,0.4))" }, svg);
+          const fl = { p: 0 };
+          tl.to(head, { opacity: 1, duration: 0.1 }, at + 0.05);
+          tl.to(fl, { p: 1, duration: 1.25, ease: "power1.inOut",
+            onUpdate: () => {
+              const pt = SK.quadAt(ac.a, ac.c, ac.b, fl.p);
+              head.setAttribute("cx", pt.x);
+              head.setAttribute("cy", pt.y);
+            } }, at + 0.05);
+          tl.to(head, { opacity: 0, scale: 2, transformOrigin: "50% 50%", duration: 0.35 }, at + 1.3);
+        }
+      });
+      built.arcLabels.forEach((al, i) => {
+        tl.fromTo(al.plate.g, { opacity: 0 }, { opacity: 1, duration: 0.5 }, t0 + 3.4 + i * 0.8);
+      });
+      sceneOut(sec, sc.t1 - 0.5);
+    },
+
+    geonet(sc, sec) {
+      // 관계망 (network 차트) — 중심+원형 배치, 국기 노드, 하이브리드 라우팅/흐름 펄스 재사용
+      const svg = SK.svgEl("svg", { viewBox: "0 0 1920 1080", style: "position:absolute; inset:0;" });
+      sec.appendChild(svg);
+      const LC = { 대립: OXIDE, 동맹: SAGE, 협상: ACCENT, 영향: FAINT };
+      const LD = { 대립: "2 12", 협상: "9 11", 영향: "1 10" };
+      const palette = [ACCENT, SLATE, SAGE, cv("--sienna", "#b07a4a"), OXIDE, FAINT, "#9aa3b2", "#cdc9bf"];
+      const net = SK.buildNetwork(svg, sc.data.nodes, sc.data.links, {
+        linkColors: LC, dashByType: LD,
+        nodeColor: (nd) => (nd.kind === "center" ? ACCENT : palette[(sc.data.nodes.indexOf(nd)) % palette.length]),
+        nodeR: 60,
+      });
+      const lg = document.createElement("div");
+      lg.className = "legend-row";
+      [...new Set(sc.data.links.map((l) => l.type))].forEach((k2) => {
+        const el = document.createElement("div");
+        el.className = "item";
+        const sw = document.createElement("div");
+        sw.className = "swatch";
+        sw.style.borderTopColor = LC[k2] || FAINT;
+        sw.style.borderTopStyle = LD[k2] ? "dashed" : "solid";
+        el.appendChild(sw);
+        const sp = document.createElement("span");
+        sp.textContent = k2;
+        el.appendChild(sp);
+        lg.appendChild(el);
+      });
+      sec.appendChild(lg);
+      const t0 = sc.t0;
+      sceneIn(sec, t0);
+      headIn(sec, t0);
+      tl.from(lg, { opacity: 0, x: 20, duration: 0.5 }, t0 + 0.5);
+      tl.to(sec.querySelectorAll(".net-node"), { opacity: 1, duration: 0.6, stagger: 0.12, ease: "power2.out" }, t0 + 0.6);
+      tl.fromTo(sec.querySelectorAll(".net-node"), { scale: 0.6, transformOrigin: "50% 50%" },
+        { scale: 1, duration: 0.6, stagger: 0.12, ease: "back.out(1.7)" }, t0 + 0.6);
+      net.plates.forEach((pl, i) => {
+        tl.fromTo(pl.g, { opacity: 0 }, { opacity: 1, duration: 0.45 }, t0 + 1.0 + i * 0.1);
+      });
+      tl.to(sec.querySelectorAll(".net-link"), { opacity: 0.95, duration: 0.3, stagger: 0.08 }, t0 + 1.8);
+      tl.to(sec.querySelectorAll(".net-link"), { strokeDashoffset: 0, duration: 0.9, stagger: 0.08, ease: "power2.out",
+        onComplete: function () {
+          net.linkEls.forEach((ln) => { if (ln.dataset.dash) ln.setAttribute("stroke-dasharray", ln.dataset.dash); });
+        } }, t0 + 1.9);
+      net.flows.forEach((fl, i) => {
+        const L = parseFloat(fl.dataset.len);
+        const seg = parseFloat(fl.dataset.seg);
+        const at = t0 + 3.6 + i * 0.18;
+        tl.to(fl, { opacity: 0.9, duration: 0.4 }, at);
+        tl.fromTo(fl, { strokeDashoffset: L + seg }, { strokeDashoffset: 0, duration: 2.4, ease: "none", repeat: 1 }, at);
+        tl.to(fl, { opacity: 0, duration: 0.4 }, at + 4.6);
+      });
+      sceneOut(sec, sc.t1 - 0.5);
+    },
+
     quote(sc, sec) {
       const d = sc.data;
       sec.innerHTML +=

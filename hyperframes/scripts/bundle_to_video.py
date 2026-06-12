@@ -481,6 +481,102 @@ def build_slopes(charts: list) -> list:
     return out
 
 
+import math
+
+MAPS_DIR = BRIEFING / "assets" / "maps"
+
+
+def _load_map_metas() -> list[dict]:
+    metas = []
+    for f in sorted(MAPS_DIR.glob("*_map.meta.json")):
+        metas.append(json.loads(f.read_text(encoding="utf-8")))
+    return metas
+
+
+def _project_merc(meta: dict, lng: float, lat: float) -> tuple[float, float]:
+    """d3 geoMercator 와 동일: x = t0 + k·λ, y = t1 − k·ln(tan(π/4 + φ/2))."""
+    k = meta["k"]
+    tx, ty = meta["t"]
+    x = tx + k * math.radians(lng)
+    y = ty - k * math.log(math.tan(math.pi / 4 + math.radians(lat) / 2))
+    return round(x, 1), round(y, 1)
+
+
+MAP_KIND_COLOR = {"flow": "ACCENT", "subject": "OXIDE", "ally": "SAGE", "rival": "SLATE"}
+
+
+def norm_map(map_data: dict) -> dict | None:
+    """번들 map → geo 씬 데이터. 마커 bbox 를 포함하는 권역 베이스맵 선택."""
+    markers = map_data.get("markers") or []
+    if len(markers) < 2:
+        return None
+    lngs = [m["lng"] for m in markers]
+    lats = [m["lat"] for m in markers]
+    meta = None
+    for cand in _load_map_metas():
+        (lo_lng, lo_lat), (hi_lng, hi_lat) = cand["bbox"]
+        if all(lo_lng <= g <= hi_lng for g in lngs) and all(lo_lat <= a <= hi_lat for a in lats):
+            meta = cand
+            break
+    if not meta:
+        print(f"[bundle_to_video] map 권역 미지원 (lng {min(lngs)}~{max(lngs)}) — geo 씬 생략")
+        return None
+    out_markers = []
+    for m in markers:
+        x, y = _project_merc(meta, m["lng"], m["lat"])
+        out_markers.append({"id": m["id"], "name": clip(m.get("name", ""), 12),
+                            "note": clip(m.get("value", "") or "", 26) or None,
+                            "x": x, "y": y, "hi": bool(m.get("highlight"))})
+    arcs = []
+    for a in (map_data.get("arcs") or [])[:4]:
+        arcs.append({"id": f'{a["from_id"]}-{a["to_id"]}', "from": a["from_id"], "to": a["to_id"],
+                     "kind": a.get("kind", "flow"), "width": min(5, 2 + (a.get("weight") or 2)),
+                     "label": clip(a.get("label", "") or "", 30) or None,
+                     "labelT": a.get("label_t", 0.5)})
+    legend = [{"label": clip(item.get("label", ""), 16), "kind": item.get("kind", "")}
+              for item in (map_data.get("legend") or [])[:5]]
+    inferred = ((map_data.get("provenance") or {}).get("verification") or "") != "official"
+    return {"region": meta["region"], "markers": out_markers, "arcs": arcs,
+            "legend": legend, "inferred": inferred}
+
+
+FLAG_IDS = {"nk": "kp", "kp": "kp", "kr": "kr", "jp": "jp", "cn": "cn", "ru": "ru",
+            "us": "us", "ir": "ir", "il": "il", "lb": "lb"}
+_FLAG_DIR = BRIEFING / "assets" / "flags"
+
+
+def norm_network(c: dict) -> dict | None:
+    """network 차트 → 관계망 씬. 최다 연결 노드 중심 + 나머지 원형 배치."""
+    d = c.get("data")
+    if not isinstance(d, dict) or not d.get("nodes") or not d.get("links"):
+        return None
+    nodes_raw = d["nodes"][:8]
+    links = [{"s": l.get("source"), "t": l.get("target"), "type": l.get("type", "영향")}
+             for l in d["links"][:14]]
+    deg: dict = {}
+    for l in links:
+        deg[l["s"]] = deg.get(l["s"], 0) + 1
+        deg[l["t"]] = deg.get(l["t"], 0) + 1
+    order = sorted(nodes_raw, key=lambda nd: -deg.get(nd["id"], 0))
+    cx, cy, r = 880, 566, 234
+    nodes = []
+    for i, nd in enumerate(order):
+        if i == 0:
+            x, y = cx, cy
+        else:
+            ang = -math.pi / 2 + (i - 1) * (2 * math.pi / max(1, len(order) - 1))
+            x, y = cx + r * math.cos(ang), cy + r * math.sin(ang)
+        flag = FLAG_IDS.get(str(nd["id"]).lower())
+        entry = {"id": nd["id"], "label": clip(nd.get("label", ""), 10),
+                 "x": round(x, 1), "y": round(y, 1), "kind": "center" if i == 0 else "ring"}
+        if flag and (_FLAG_DIR / f"{flag}.svg").exists():
+            entry["img"] = f"assets/flags/{flag}.svg"
+        else:
+            entry["initials"] = entry["label"][:2]
+        nodes.append(entry)
+    return {"nodes": nodes, "links": links}
+
+
 def section_for_chart(sections: list, chart_id: str):
     for s in sections:
         if chart_id in (s.get("chart_refs") or []):
@@ -705,6 +801,20 @@ def convert(bundle_path: Path, out_path: Path, tl_override: str | None = None,
         }, sid=pq_sec.get("section_id") if pq_sec else None)
         cues.append(tcue(t0 + 0.8, clip(pq, 58)))
 
+    # 2-c. 사건의 좌표 (map 있으면 — 권역 베이스맵 자동 선택)
+    geo = norm_map(b.get("map") or {}) if b.get("map") else None
+    if geo:
+        t0 = t
+        k, h, geo_sid = find_section(sections, ["좌표", "지도", "지정학"], ("Geospatial", "사건의 좌표"))
+        add_scene("geo", 11, "좌표", {"kicker": k, "title": h}, geo, sid=geo_sid)
+        cues.append(tcue(t0 + 0.6, "사건의 좌표를 지도 위에 놓으면 흐름이 보입니다."))
+        hi_m = next((m for m in geo["markers"] if m["hi"] and m["note"]), None)
+        if hi_m:
+            cues.append(tcue(t0 + 4.4, clip(f"{hi_m['name']} — {hi_m['note']}.", 75)))
+        arc_l = next((a for a in geo["arcs"] if a["label"]), None)
+        if arc_l:
+            cues.append(tcue(t0 + 7.8, clip(f"{arc_l['label']}{josa(arc_l['label'], '이', '가')} 핵심 동선입니다.", 75)))
+
     # 3. 일봉 캔들 (candle 차트 있으면)
     candle = build_candle(charts)
     if candle:
@@ -757,6 +867,26 @@ def convert(bundle_path: Path, out_path: Path, tl_override: str | None = None,
         hi = max(sl["items"], key=lambda it: abs(it["b"] - it["a"]))
         cues.append(tcue(t0 + 0.6, clip(f"{sl['title']} — {sl['left_label']}에서 {sl['right_label']}까지.", 58)))
         cues.append(tcue(t0 + 4.6, clip(f"가장 크게 움직인 건 {hi['label']}, {hi['a']:,}에서 {hi['b']:,}입니다.", 58)))
+
+    # 4-b2. 관계망 (network 차트 있으면)
+    for c in charts:
+        if c.get("type") != "network":
+            continue
+        nw = norm_network(c)
+        if not nw:
+            continue
+        t0 = t
+        sec = section_for_chart(sections, c.get("chart_id"))
+        k = (sec.get("kicker") if sec else None) or "Network"
+        h = (sec.get("heading") if sec else None) or c.get("title", "관계 구도")
+        add_scene("geonet", 11, "관계망", {"kicker": k, "title": h}, nw,
+                  sid=sec.get("section_id") if sec else None)
+        n = len(nw["nodes"])
+        nat = native_count(n)
+        cues.append(tcue(t0 + 0.6, clip(f"{split_unit(c.get('title', ''))[0]} — {n}개 행위자를 한 판에 놓았습니다.", 75),
+                         tts=tts_of(f"{split_unit(c.get('title', ''))[0]} — {nat or n} 행위자를 한 판에 놓았습니다.")))
+        center = nw["nodes"][0]["label"]
+        cues.append(tcue(t0 + 5.0, clip(f"관계가 가장 많이 얽힌 쪽은 {center}입니다.", 75)))
 
     # 4-c. 잔여 차트 유형 (stacked/waterfall/scatter/heatmap/gantt — 있으면)
     today_iso = m.group(0) if m else None
@@ -935,6 +1065,7 @@ def convert(bundle_path: Path, out_path: Path, tl_override: str | None = None,
         "scenes": scenes,
         "cues": cues,
         "audio": audio_src,
+        "mapRegion": (geo or {}).get("region") if "geo" in dir() and geo else None,
     }
 
     emit_html(data, out_path, bundle_path.name, report.get("report_id", ""))
@@ -944,6 +1075,9 @@ def convert(bundle_path: Path, out_path: Path, tl_override: str | None = None,
 def emit_html(data: dict, out_path: Path, src_name: str, report_id: str) -> None:
     """DATA → 컴포지션 HTML. CSS 는 briefing/index.html <style> 재사용 (테마 SSOT)."""
     total = data["total"]
+    map_script = ""
+    if data.get("mapRegion"):
+        map_script = f'    <script src="assets/maps/{data["mapRegion"]}_map.js"></script>'
     audio_tag = ""
     if data.get("audio"):
         audio_tag = (f'      <audio id="narration-auto" class="clip" data-start="0" '
@@ -967,6 +1101,7 @@ def emit_html(data: dict, out_path: Path, src_name: str, report_id: str) -> None
     <script src="assets/gsap.min.js"></script>
     <script src="assets/scene_kit.js"></script>
     <script src="assets/themes.js"></script>
+{map_script}
 {css}
   </head>
   <body>

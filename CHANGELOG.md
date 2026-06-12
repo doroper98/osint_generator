@@ -1,6 +1,6 @@
 <!--
 tier: 3
-last_synced_with: v0.38.4
+last_synced_with: v0.39.0
 ssot_for: [release-notes]
 depends_on: [README.md, GOAL.md]
 last_review: 2026-06-11
@@ -25,6 +25,29 @@ released 항목은 **append-only**입니다.
 
 ### Fixed
 -
+
+---
+
+## [v0.39.0] — 2026-06-13
+
+### Added
+- **지도·관계망 자동 소비 (옵션 E 완성, MINOR)** — 개정 계약 첫 번들
+  (동북아 핵잠, analysis_20260613_010946)로 e2e 검증:
+  - `build_basemap.mjs` 다권역판 — mideast + **neasia**(한국·북한·일본·중국·
+    러시아·몽골·대만) 사전 계산 + **투영 메타(.meta.json)** 출력. 변환기가
+    파이썬 메르카토르로 임의 lon/lat 를 px 투영, 마커 bbox ⊂ 권역 bbox 로
+    베이스맵 자동 선택 (미지원 권역은 geo 씬 생략).
+  - `norm_map` → **geo 씬**: 권역 실측 지도 + 마커(value 플레이트) +
+    아크(kind 색·weight 굵기·label_t 위치, flow 아크는 헤드 비행) + 번들
+    legend + provenance 비공식 시 "분석 추정" 태그 (G4).
+  - `norm_network` → **geonet 씬**: 최다 연결 노드 중심 + 원형 배치, 국기
+    노드(ISO 매핑, 동북아 5개국 추가 — flag-icons MIT), 하이브리드 라우팅·
+    회피·흐름 펄스 전부 재사용.
+  - timeline.video 첫 실소비 + 서펜타인 타임라인 첫 실전 (11분기점).
+- `samples/neasia2026/` — 개정 계약 검증 번들 보존.
+
+### Fixed
+- geo 마커 note·네트워크 role 없을 때 플레이트 한 줄 처리, 아크 라벨 label_t.
 
 ---
 

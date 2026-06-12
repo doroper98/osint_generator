@@ -1087,14 +1087,11 @@
           g,
         );
       // 이름 플레이트 (노드 아래 우선, 충돌 회피)
-      const plate = plateLabel(
-        plateLayer,
-        [
-          { text: nd.role, size: 13, weight: 700, fill: c, ls: "1.5" },
-          { text: nd.label, size: 21, weight: 800, fill: "var(--sk-text, #ece9e2)" },
-        ],
-        { maxW: 220, cls: "net-plate", padX: 12, padY: 8 },
-      );
+      const npLines = [];
+      if (nd.role) npLines.push({ text: nd.role, size: 13, weight: 700, fill: c, ls: "1.5" });
+      npLines.push({ text: nd.label, size: 21, weight: 800, fill: "var(--sk-text, #ece9e2)" });
+      const plate = plateLabel(plateLayer, npLines,
+        { maxW: 220, cls: "net-plate", padX: 12, padY: 8 });
       const rPos = field.place(
         plate.w,
         plate.h,
@@ -1355,14 +1352,9 @@
         { r: 9, fill: "none", stroke: c, "stroke-width": 2, class: "pulse-ring", opacity: 0.8 },
         g,
       );
-      const plate = plateLabel(
-        plateLayer,
-        [
-          { text: m.name, size: 23, weight: 800, fill: "var(--sk-text, #ece9e2)" },
-          { text: m.note, size: 16, weight: 600, fill: "var(--sk-muted, #a39e92)" },
-        ],
-        { maxW: 250, cls: "map-plate" },
-      );
+      const plateLines = [{ text: m.name, size: 23, weight: 800, fill: "var(--sk-text, #ece9e2)" }];
+      if (m.note) plateLines.push({ text: m.note, size: 16, weight: 600, fill: "var(--sk-muted, #a39e92)" });
+      const plate = plateLabel(plateLayer, plateLines, { maxW: 250, cls: "map-plate" });
       const order =
         m.x < W / 2 ? ["right", "left", "below", "above"] : ["left", "right", "below", "above"];
       const r = field.place(plate.w, plate.h, slotCandidates(m.x, m.y, plate.w, plate.h, order));
@@ -1375,7 +1367,7 @@
     const arcLabels = arcs
       .filter((ac) => ac.label)
       .map((ac) => {
-        const mid = quadAt(ac.a, ac.c, ac.b, 0.5);
+        const mid = quadAt(ac.a, ac.c, ac.b, ac.labelT ?? 0.5);
         const plate = plateLabel(
           plateLayer,
           [{ text: ac.label, size: 18, weight: 800, fill: ac.color, ls: "0.5" }],
