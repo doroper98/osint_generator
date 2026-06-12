@@ -1,6 +1,6 @@
 <!--
 tier: 3
-last_synced_with: v0.37.0
+last_synced_with: v0.37.1
 ssot_for: [release-notes]
 depends_on: [README.md, GOAL.md]
 last_review: 2026-06-11
@@ -25,6 +25,23 @@ released 항목은 **append-only**입니다.
 
 ### Fixed
 -
+
+---
+
+## [v0.37.1] — 2026-06-12
+
+### Added
+- **잔여 차트 유형 5종** (NEXT_SESSION_PROMPT 옵션 B 잔여분, 사용자 요청):
+  - SceneKit `buildStackedBars` — 가로 누적 막대 (세그먼트 좌→우 성장 + 범례
+    pill + 행 합계), `buildWaterfall` — 증감 브리지 (부유 컬럼 + 점선 커넥터 +
+    상승/하락/절대값 3색), `buildScatter` — 이변량 분포 (축·눈금 + 대각 기준선
+    draw-on + LabelField 충돌 회피 포인트 라벨), `buildHeatmap` — 행×열 강도
+    (단색/다이버징 자동 + 대각 웨이브 리빌 + 강한 셀 값 표기), `buildGantt` —
+    일정 레인 (월 눈금 + phase 색 + "오늘" 라인 + 막대 성장).
+  - auto_builder 씬 타입 5종 + 변환기 정규화기(`norm_*`, 복수 스키마 허용:
+    parts/segments/series, kind/type, dict/list 히트맵) + 씬 플랜 자동 통합.
+  - `--preview-charts` — 합성 데이터 갤러리 컴포지션 생성 (시각 회귀 픽스처,
+    `hyperframes/briefing/preview_charts.html`).
 
 ---
 

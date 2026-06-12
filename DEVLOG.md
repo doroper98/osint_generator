@@ -1,6 +1,6 @@
 <!--
 tier: 3
-last_synced_with: v0.37.0
+last_synced_with: v0.37.1
 ssot_for: [development-log]
 depends_on: [CHANGELOG.md]
 last_review: 2026-06-06
@@ -2467,3 +2467,25 @@ last_review: 2026-06-06
 - **C10**: MINOR 트리거이나 사용자 세션 지시로 생략 유지.
 - **연관**: v0.36.x(변환기), C0. 잔여: stacked/waterfall/scatter/heatmap/
   gantt 차트 씬, LLM cue 작문(옵션 C 2차), 도넛 실데이터 검증.
+
+---
+
+## 2026-06-12 v0.37.1 — 잔여 차트 유형 5종 (stacked/waterfall/scatter/heatmap/gantt)
+
+- **무엇을**: SceneKit 차트 빌더 5종 + auto_builder 씬 타입 + 변환기 정규화기
+  + `--preview-charts` 갤러리 픽스처. VERSION 0.37.0 → 0.37.1.
+- **왜**: 사용자 — "잔여 차트유형을 먼저 만들자. 비주얼하게 잘". 옵션 B 의
+  잔여분(스택/워터폴/스캐터/히트맵/간트). 현재 번들에는 해당 타입 실데이터가
+  없어 합성 데이터 갤러리로 비주얼 검증, 변환기 매핑은 미리 연결 (해당 타입
+  번들 도착 시 자동 씬 생성).
+- **어떻게**: ① 빌더는 전부 테마 토큰 파생 색 + 기존 프리미티브 재사용
+  (plateLabel/LabelField/prepDraw — 스캐터 포인트 라벨이 충돌 회피의 수혜).
+  ② 정규화기는 스키마 미확정을 전제로 관용 파싱 (segments|parts|series,
+  kind|type, dict|list 히트맵, 날짜 검증 후 간트) — 형식이 안 맞으면 씬 생략
+  (조용한 실패 대신 콘솔 로그 없음·데이터 없음 = 씬 없음 원칙). ③ 애니메이션:
+  스택 세그먼트 순차 성장(svgOrigin 기반 scaleX), 워터폴 컬럼 부유 상승 +
+  커넥터 페이드, 스캐터 대각선 draw-on + 백아웃 팝, 히트맵 (행+열) 대각
+  웨이브, 간트 막대 성장 + 오늘 라인.
+- **결과**: 갤러리 5씬 45초 — 감사 클린, pageerror 0, 5씬 스크린샷 검수 통과.
+- **연관**: v0.36.x(자동 변환), 옵션 B 완료에 근접 (남은 것: forecast 밴드,
+  network 차트 — 번들 스키마 확정 시).

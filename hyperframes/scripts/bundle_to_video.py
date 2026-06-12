@@ -206,6 +206,113 @@ def build_bar_panels(charts: list) -> list:
     return scenes
 
 
+def norm_stacked(c: dict) -> dict | None:
+    """stacked/stacked_bar — 행별 세그먼트. parts/segments/series(dict|list) 허용."""
+    raw = c.get("data")
+    if not isinstance(raw, list) or not raw:
+        return None
+    rows = []
+    for it in raw[:5]:
+        segs = it.get("segments") or it.get("parts") or it.get("series")
+        if isinstance(segs, dict):
+            segs = [{"name": k, "value": v} for k, v in segs.items()]
+        if not isinstance(segs, list) or not segs:
+            return None
+        rows.append({
+            "label": clip(str(it.get("label", "")), 14),
+            "segments": [{"name": clip(str(s.get("name") or s.get("label") or ""), 12),
+                          "value": float(s.get("value", 0))} for s in segs[:5]],
+        })
+    return {"rows": rows, "unit": split_unit(c.get("title", ""))[1]}
+
+
+def norm_waterfall(c: dict) -> dict | None:
+    """waterfall — 증감 브리지. kind/type 명시 없으면 첫 항목 start, 나머지 delta."""
+    raw = c.get("data")
+    if not isinstance(raw, list) or len(raw) < 2:
+        return None
+    items = []
+    for i, it in enumerate(raw[:9]):
+        v = it.get("value", it.get("delta", 0))
+        kind = it.get("kind") or it.get("type")
+        if kind not in ("start", "delta", "total"):
+            kind = "start" if i == 0 else "delta"
+        items.append({"label": clip(str(it.get("label", "")), 12), "value": float(v), "kind": kind})
+    return {"items": items, "unit": split_unit(c.get("title", ""))[1]}
+
+
+def norm_scatter(c: dict) -> dict | None:
+    raw = c.get("data")
+    if not isinstance(raw, list) or len(raw) < 3:
+        return None
+    pts = []
+    for it in raw[:14]:
+        if not isinstance(it.get("x"), (int, float)) or not isinstance(it.get("y"), (int, float)):
+            return None
+        pts.append({"x": it["x"], "y": it["y"],
+                    "label": clip(str(it.get("label", "")), 10) or None,
+                    "hi": bool(it.get("hi"))})
+    xs = [p["x"] for p in pts]
+    ys = [p["y"] for p in pts]
+    # 같은 스케일 축이면 대각 기준선 (변화 없음 선)
+    xr = (max(xs) - min(xs)) or 1
+    yr = (max(ys) - min(ys)) or 1
+    diagonal = 0.4 < (xr / yr) < 2.5 and min(max(xs), max(ys)) > max(min(xs), min(ys))
+    return {"points": pts, "xLabel": clip(str(c.get("x_label") or ""), 20) or None,
+            "yLabel": clip(str(c.get("y_label") or ""), 20) or None, "diagonal": diagonal}
+
+
+def norm_heatmap(c: dict) -> dict | None:
+    raw = c.get("data")
+    if isinstance(raw, dict) and raw.get("rows") and raw.get("cols") and raw.get("values"):
+        return {"rows": [clip(str(r), 10) for r in raw["rows"][:7]],
+                "cols": [clip(str(x), 8) for x in raw["cols"][:14]],
+                "values": [row[:14] for row in raw["values"][:7]]}
+    if isinstance(raw, list) and raw and {"row", "col", "value"} <= set(raw[0].keys()):
+        rows = []
+        cols = []
+        for it in raw:
+            if it["row"] not in rows:
+                rows.append(it["row"])
+            if it["col"] not in cols:
+                cols.append(it["col"])
+        V = [[0.0] * len(cols) for _ in rows]
+        for it in raw:
+            V[rows.index(it["row"])][cols.index(it["col"])] = float(it["value"])
+        return {"rows": [clip(str(r), 10) for r in rows[:7]],
+                "cols": [clip(str(x), 8) for x in cols[:14]],
+                "values": [row[:14] for row in V[:7]]}
+    return None
+
+
+DATE_RE = re.compile(r"^\d{4}-\d{2}-\d{2}$")
+
+
+def norm_gantt(c: dict, today: str | None) -> dict | None:
+    raw = c.get("data")
+    if not isinstance(raw, list) or not raw:
+        return None
+    tasks = []
+    for it in raw[:7]:
+        s = str(it.get("start", ""))
+        e = str(it.get("end", ""))
+        if not (DATE_RE.match(s) and DATE_RE.match(e)):
+            return None
+        tasks.append({"label": clip(str(it.get("label", "")), 16), "start": s, "end": e,
+                      "phase": it.get("phase")})
+    return {"tasks": tasks, "today": today}
+
+
+EXTRA_CHART_SCENES = {
+    "stacked": ("stacked", "구성", "구성으로 보면 이렇게 나뉩니다"),
+    "stacked_bar": ("stacked", "구성", "구성으로 보면 이렇게 나뉩니다"),
+    "waterfall": ("waterfall", "증감", "증감을 다리로 이으면 흐름이 보입니다"),
+    "scatter": ("scatter", "분포", "분포로 놓으면 각자의 위치가 드러납니다"),
+    "heatmap": ("heatmap", "강도", "강도의 지도로 보면 쏠림이 보입니다"),
+    "gantt": ("gantt", "일정", "남은 일정을 레인으로 펼칩니다"),
+}
+
+
 def build_signals(signals: list) -> dict | None:
     if not signals:
         return None
@@ -481,6 +588,26 @@ def convert(bundle_path: Path, out_path: Path, tl_override: str | None = None,
         cues.append({"t": t0 + 0.6, "text": clip(f"{sl['title']} — {sl['left_label']}에서 {sl['right_label']}까지.", 58)})
         cues.append({"t": t0 + 4.6, "text": clip(f"가장 크게 움직인 건 {hi['label']}, {hi['a']:,}에서 {hi['b']:,}입니다.", 58)})
 
+    # 4-c. 잔여 차트 유형 (stacked/waterfall/scatter/heatmap/gantt — 있으면)
+    today_iso = m.group(0) if m else None
+    for c in charts:
+        ctype = c.get("type")
+        if ctype not in EXTRA_CHART_SCENES:
+            continue
+        stype, chip_label, cue_tail = EXTRA_CHART_SCENES[ctype]
+        norm = {"stacked": norm_stacked, "waterfall": norm_waterfall, "scatter": norm_scatter,
+                "heatmap": norm_heatmap}.get(stype)
+        d = norm_gantt(c, today_iso) if stype == "gantt" else (norm(c) if norm else None)
+        if not d:
+            continue
+        t0 = t
+        sec = section_for_chart(sections, c.get("chart_id"))
+        title_clean = split_unit(c.get("title", ""))[0]
+        k = (sec.get("kicker") if sec else None) or chip_label
+        h = (sec.get("heading") if sec else None) or title_clean
+        add_scene(stype, 9, chip_label, {"kicker": k, "title": h}, d)
+        cues.append({"t": t0 + 0.6, "text": clip(f"{title_clean} — {cue_tail}.", 58)})
+
     # 5. 쟁점 (contradictions 있으면)
     contras = b.get("contradictions") or []
     if contras:
@@ -545,7 +672,13 @@ def convert(bundle_path: Path, out_path: Path, tl_override: str | None = None,
         "cues": cues,
     }
 
-    # ── auto.html 생성 (CSS 는 briefing/index.html 의 <style> 재사용) ──
+    emit_html(data, out_path, bundle_path.name, report.get("report_id", ""))
+    return data
+
+
+def emit_html(data: dict, out_path: Path, src_name: str, report_id: str) -> None:
+    """DATA → 컴포지션 HTML. CSS 는 briefing/index.html <style> 재사용 (테마 SSOT)."""
+    total = data["total"]
     index_html = (BRIEFING / "index.html").read_text(encoding="utf-8")
     css = re.search(r"<style>.*?</style>", index_html, re.DOTALL).group(0)
     # 렌더러가 body 끝 외부 <script src> 를 실행하지 않는 사고(v0.36.0 빈 렌더)
@@ -557,8 +690,8 @@ def convert(bundle_path: Path, out_path: Path, tl_override: str | None = None,
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=1920, height=1080" />
-    <!-- 자동 생성: bundle_to_video.py — {bundle_path.name}
-         report_id: {report.get("report_id", "")}
+    <!-- 자동 생성: bundle_to_video.py — {src_name}
+         report_id: {report_id}
          수정 금지. 변환기를 고치고 재실행할 것. -->
     <link rel="stylesheet" href="assets/noto_serif_kr.css" />
     <script src="assets/gsap.min.js"></script>
@@ -602,6 +735,81 @@ def convert(bundle_path: Path, out_path: Path, tl_override: str | None = None,
 </html>
 """
     out_path.write_text(html, encoding="utf-8")
+
+
+def preview_charts(out_path: Path, theme_id: str = "ink_brass") -> dict:
+    """신규 차트 5유형 비주얼 검증용 갤러리 컴포지션 (합성 데이터, 결정론)."""
+    scenes = []
+    cues = []
+    t = 0.0
+
+    def add(stype, dur, chip_label, head, data, cue):
+        nonlocal t
+        scenes.append({"type": stype, "t0": round(t, 2), "t1": round(t + dur, 2),
+                       "no": f"{len(scenes) + 1:02d}",
+                       "chip": f"{len(scenes) + 1:02d} · {chip_label}",
+                       "head": head, "data": data})
+        cues.append({"t": round(t + 0.6, 2), "text": cue})
+        t += dur
+
+    add("stacked", 9, "구성", {"kicker": "Stacked", "title": "HBM 출하 구성 — 세대 교체의 속도"},
+        {"unit": "만", "rows": [
+            {"label": "2024", "segments": [{"name": "HBM3", "value": 62}, {"name": "HBM3E", "value": 18}, {"name": "기타", "value": 20}]},
+            {"label": "2025", "segments": [{"name": "HBM3", "value": 30}, {"name": "HBM3E", "value": 58}, {"name": "기타", "value": 12}]},
+            {"label": "2026E", "segments": [{"name": "HBM3", "value": 12}, {"name": "HBM3E", "value": 56}, {"name": "HBM4", "value": 30}]},
+        ]},
+        "세대별 구성으로 보면 교체의 속도가 드러납니다.")
+
+    add("waterfall", 9, "증감", {"kicker": "Waterfall", "title": "영업이익 브리지 — 1분기에서 2분기로"},
+        {"unit": "조", "items": [
+            {"label": "1Q 실적", "value": 67, "kind": "start"},
+            {"label": "DRAM", "value": 18, "kind": "delta"},
+            {"label": "HBM", "value": 21, "kind": "delta"},
+            {"label": "NAND", "value": 9, "kind": "delta"},
+            {"label": "환영향", "value": -6, "kind": "delta"},
+            {"label": "2Q 전망", "value": 109, "kind": "total"},
+        ]},
+        "증감을 다리로 이으면 어디서 늘었는지 보입니다.")
+
+    add("scatter", 9, "분포", {"kicker": "Scatter", "title": "증권사 목표가 — 직전 대비 어디로 옮겼나"},
+        {"xLabel": "직전 목표가(만원)", "yLabel": "최근 목표가(만원)", "diagonal": True,
+         "points": [
+             {"x": 234, "y": 400, "label": "노무라", "hi": True},
+             {"x": 300, "y": 380, "label": "KB증권"},
+             {"x": 205, "y": 380, "label": "한국투자"},
+             {"x": 170, "y": 310, "label": "씨티"},
+             {"x": 260, "y": 340, "label": "골드만"},
+             {"x": 210, "y": 210, "label": "모건스탠리", "hi": True},
+         ]},
+        "대각선 위쪽은 전부 상향 — 한 점만 제자리입니다.")
+
+    add("heatmap", 9, "강도", {"kicker": "Heatmap", "title": "지표별 모멘텀 — 어디가 뜨거운가"},
+        {"rows": ["가격", "수급", "실적", "심리"],
+         "cols": ["1월", "2월", "3월", "4월", "5월", "6월"],
+         "values": [[1, 2, -1, 3, 4, -2], [0, 1, 2, 3, 2, -1],
+                    [1, 1, 2, 4, 5, 4], [2, -1, 1, 3, 4, -3]]},
+        "강도의 지도로 보면 쏠림과 균열이 같이 보입니다.")
+
+    add("gantt", 9, "일정", {"kicker": "Gantt", "title": "남은 분기점 — 검증의 달력"},
+        {"today": "2026-06-11", "tasks": [
+            {"label": "D램 판가 집계", "start": "2026-07-01", "end": "2026-07-15", "phase": "future"},
+            {"label": "2Q 잠정실적", "start": "2026-07-25", "end": "2026-07-31", "phase": "future"},
+            {"label": "엔비디아 실적", "start": "2026-08-20", "end": "2026-08-26", "phase": "future"},
+            {"label": "HBM4 수율 검증", "start": "2026-06-11", "end": "2026-09-30", "phase": "present"},
+        ]},
+        "남은 일정을 레인으로 펼치면 검증의 달력이 됩니다.")
+
+    data = {
+        "meta": {"brand": "OSINT BRIEFING", "sub": "차트 갤러리", "date": "2026.06.12",
+                 "sourceLine1": "데이터 · 합성 샘플 (비주얼 검증용)",
+                 "sourceLine2": "신규 차트 5유형 — stacked / waterfall / scatter / heatmap / gantt"},
+        "themeId": theme_id,
+        "themeVars": {},
+        "total": round(t, 2),
+        "scenes": scenes,
+        "cues": cues,
+    }
+    emit_html(data, out_path, "preview_charts (synthetic)", "preview")
     return data
 
 
@@ -609,10 +817,17 @@ def main() -> int:
     args = [a for a in sys.argv[1:] if not a.startswith("--")]
     flags = {a.split("=")[0]: (a.split("=", 1)[1] if "=" in a else "")
              for a in sys.argv[1:] if a.startswith("--")}
+    if "--preview-charts" in flags:
+        out = Path(args[0]) if args else BRIEFING / "preview_charts.html"
+        data = preview_charts(out, flags.get("--video-theme") or "ink_brass")
+        print(f"[bundle_to_video] preview-charts scenes={[s['type'] for s in data['scenes']]} "
+              f"total={data['total']}s -> {out}")
+        return 0
     if not args:
         print("usage: python bundle_to_video.py <bundle.json> [out.html] "
               "[--timeline=ladder|axis|serpentine|vertical|metro] "
-              "[--video-theme=ink_brass|graphite_slate|midnight_navy|forest_archive|paper_oxblood]",
+              "[--video-theme=ink_brass|graphite_slate|midnight_navy|forest_archive|paper_oxblood] "
+              "| --preview-charts [out.html]",
               file=sys.stderr)
         return 1
     bundle = Path(args[0])

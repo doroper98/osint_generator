@@ -1475,6 +1475,326 @@
     }).map((it) => (wrap.appendChild(it.card), it));
   }
 
+  // ───────────────────── ⑨ 스택 바 (구성/점유율 — 가로 누적) ─────────────────────
+  // data: { rows:[{label, segments:[{name, value}]}], unit? }
+  // opts: { x0,x1,yTop, palette:[color..] }
+  function buildStackedBars(svg, data, opts) {
+    const x0 = opts.x0 ?? 430;
+    const x1 = opts.x1 ?? 1640;
+    const palette = opts.palette;
+    const rows = data.rows;
+    const rowH = rows.length <= 4 ? 64 : 52;
+    const gap = rows.length <= 4 ? 46 : 32;
+    const blockH = rows.length * rowH + (rows.length - 1) * gap;
+    const yTop = opts.yTop ?? Math.max(320, 567 - blockH / 2);
+    const maxTotal = Math.max(...rows.map((r) => r.segments.reduce((s, g) => s + g.value, 0)));
+    const segNames = [];
+    rows.forEach((r) => r.segments.forEach((g) => { if (!segNames.includes(g.name)) segNames.push(g.name); }));
+    const colorOf = (name) => palette[segNames.indexOf(name) % palette.length];
+
+    const out = rows.map((r, ri) => {
+      const y = yTop + ri * (rowH + gap);
+      const lab = svgEl("text", { x: x0 - 26, y: y + rowH / 2 + 6, "text-anchor": "end",
+        fill: "var(--sk-muted, #a39e92)", "font-size": 19, "font-weight": 600, class: "sk-text" }, svg);
+      lab.textContent = r.label;
+      const total = r.segments.reduce((s, g) => s + g.value, 0);
+      let cx = x0;
+      const segRects = r.segments.map((g) => {
+        const w = ((g.value / maxTotal) * (x1 - x0));
+        const grp = svgEl("g", { class: "stk-seg", opacity: 0 }, svg);
+        svgEl("rect", { x: cx.toFixed(1), y, width: Math.max(0, w - 3).toFixed(1), height: rowH,
+          rx: 4, fill: colorOf(g.name), opacity: 0.92 }, grp);
+        if (w > 86) {
+          const vt = svgEl("text", { x: (cx + 14).toFixed(1), y: y + rowH / 2 + 6,
+            fill: "var(--sk-ink, #141416)", "font-size": 16, "font-weight": 800, class: "sk-text" }, grp);
+          vt.textContent = g.value.toLocaleString("ko-KR");
+        }
+        // 세그먼트는 자기 폭만큼 왼쪽에서 자라난다 (scaleX 애니용 origin 저장)
+        grp.dataset.ox = String(cx);
+        cx += w;
+        return grp;
+      });
+      const totalT = svgEl("text", { x: (cx + 18).toFixed(1), y: y + rowH / 2 + 7,
+        fill: "var(--sk-text, #ece9e2)", "font-size": 21, "font-weight": 800,
+        class: "sk-text stk-total", opacity: 0 }, svg);
+      totalT.textContent = total.toLocaleString("ko-KR") + (data.unit || "");
+      return { labelEl: lab, segRects, totalEl: totalT };
+    });
+    return { rows: out, segNames, colorOf };
+  }
+
+  // ───────────────────── ⑩ 워터폴 (증감 브리지) ─────────────────────
+  // data: { items:[{label, value, kind:"start"|"delta"|"total"}], unit? }
+  // opts: { x0,x1,y0,y1, up, down, accent }
+  function buildWaterfall(svg, data, opts) {
+    const { up, down, accent } = opts;
+    const x0 = opts.x0 ?? 250;
+    const x1 = opts.x1 ?? 1660;
+    const y0 = opts.y0 ?? 330;
+    const y1 = opts.y1 ?? 760;
+    const items = data.items;
+    // 러닝 합계 → [from, to] 구간
+    let run = 0;
+    const spans = items.map((it) => {
+      if (it.kind === "start" || it.kind === "total") {
+        const s = { from: 0, to: it.kind === "start" ? it.value : run, abs: true };
+        if (it.kind === "start") run = it.value;
+        return s;
+      }
+      const s = { from: run, to: run + it.value, abs: false };
+      run += it.value;
+      return s;
+    });
+    const lo = Math.min(0, ...spans.map((s) => Math.min(s.from, s.to)));
+    const hi = Math.max(...spans.map((s) => Math.max(s.from, s.to)));
+    const span = hi - lo || 1;
+    const ys = (v) => y1 - ((v - lo) / span) * (y1 - y0);
+    const n = items.length;
+    const slot = (x1 - x0) / n;
+    const bw = Math.min(140, slot * 0.58);
+
+    svgEl("line", { x1: x0 - 20, y1: ys(0).toFixed(1), x2: x1 + 20, y2: ys(0).toFixed(1),
+      stroke: "var(--sk-hairline, rgba(236,233,226,0.2))", "stroke-width": 1.5 }, svg);
+
+    const cols = items.map((it, i) => {
+      const cx = x0 + slot * (i + 0.5);
+      const s = spans[i];
+      const top = ys(Math.max(s.from, s.to));
+      const bot = ys(Math.min(s.from, s.to));
+      const color = s.abs ? accent : it.value >= 0 ? up : down;
+      const g = svgEl("g", { class: "wf-col", opacity: 0 }, svg);
+      svgEl("rect", { x: (cx - bw / 2).toFixed(1), y: top.toFixed(1), width: bw.toFixed(1),
+        height: Math.max(3, bot - top).toFixed(1), rx: 4, fill: color, opacity: 0.92 }, g);
+      // 값 라벨 (위) + 항목 라벨 (아래)
+      const vt = svgEl("text", { x: cx.toFixed(1), y: (top - 14).toFixed(1), "text-anchor": "middle",
+        fill: color, "font-size": 19, "font-weight": 800, class: "sk-text sk-halo" }, g);
+      vt.textContent = (s.abs ? "" : it.value > 0 ? "+" : "") + it.value.toLocaleString("ko-KR") + (data.unit || "");
+      const lt = svgEl("text", { x: cx.toFixed(1), y: y1 + 36, "text-anchor": "middle",
+        fill: "var(--sk-muted, #a39e92)", "font-size": 17, "font-weight": 600, class: "sk-text" }, g);
+      lt.textContent = it.label;
+      // 커넥터 (다음 컬럼으로, 점선)
+      let conn = null;
+      if (i < n - 1) {
+        const ny = ys(s.to);
+        conn = svgEl("line", { x1: (cx + bw / 2).toFixed(1), y1: ny.toFixed(1),
+          x2: (x0 + slot * (i + 1.5) - bw / 2).toFixed(1), y2: ny.toFixed(1),
+          stroke: "var(--sk-dim, #8b877d)", "stroke-width": 1.5, "stroke-dasharray": "4 6",
+          opacity: 0, class: "wf-conn" }, svg);
+      }
+      return { g, conn, cx, top, bot };
+    });
+    return { cols, ys };
+  }
+
+  // ───────────────────── ⑪ 스캐터 (이변량 분포) ─────────────────────
+  // data: { points:[{x,y,label?,hi?}], xLabel?, yLabel? }
+  // opts: { x0,x1,y0,y1, accent, hiColor, field? }
+  function buildScatter(svg, data, opts) {
+    const x0 = opts.x0 ?? 360;
+    const x1 = opts.x1 ?? 1600;
+    const y0 = opts.y0 ?? 320;
+    const y1 = opts.y1 ?? 790;
+    const pts = data.points;
+    const xs = pts.map((p) => p.x);
+    const ysv = pts.map((p) => p.y);
+    const pad = 0.08;
+    const xlo = Math.min(...xs); const xhi = Math.max(...xs);
+    const ylo = Math.min(...ysv); const yhi = Math.max(...ysv);
+    const xpd = (xhi - xlo || 1) * pad; const ypd = (yhi - ylo || 1) * pad;
+    const SX = (v) => x0 + ((v - xlo + xpd) / ((xhi - xlo) + 2 * xpd)) * (x1 - x0);
+    const SY = (v) => y1 - ((v - ylo + ypd) / ((yhi - ylo) + 2 * ypd)) * (y1 - y0);
+
+    // 축 + 눈금 4개씩
+    const axis = svgEl("g", { class: "sct-axis" }, svg);
+    svgEl("line", { x1: x0, y1: y0 - 10, x2: x0, y2: y1, stroke: "var(--sk-hairline, rgba(236,233,226,0.2))", "stroke-width": 1.5 }, axis);
+    svgEl("line", { x1: x0, y1: y1, x2: x1 + 10, y2: y1, stroke: "var(--sk-hairline, rgba(236,233,226,0.2))", "stroke-width": 1.5 }, axis);
+    for (let i = 0; i <= 3; i++) {
+      const vx = xlo + ((xhi - xlo) * i) / 3;
+      const vy = ylo + ((yhi - ylo) * i) / 3;
+      const tx = svgEl("text", { x: SX(vx).toFixed(1), y: y1 + 32, "text-anchor": "middle",
+        fill: "var(--sk-dim, #8b877d)", "font-size": 15, "font-weight": 600, class: "sk-text" }, axis);
+      tx.textContent = Math.round(vx).toLocaleString("ko-KR");
+      const ty = svgEl("text", { x: x0 - 16, y: (SY(vy) + 5).toFixed(1), "text-anchor": "end",
+        fill: "var(--sk-dim, #8b877d)", "font-size": 15, "font-weight": 600, class: "sk-text" }, axis);
+      ty.textContent = Math.round(vy).toLocaleString("ko-KR");
+      if (i > 0) svgEl("line", { x1: x0, y1: SY(vy).toFixed(1), x2: x1, y2: SY(vy).toFixed(1),
+        stroke: "var(--sk-grid, #232328)", "stroke-width": 1, "stroke-dasharray": "3 7" }, axis);
+    }
+    if (data.xLabel) {
+      const t = svgEl("text", { x: x1, y: y1 + 64, "text-anchor": "end", fill: "var(--sk-muted, #a39e92)",
+        "font-size": 16, "font-weight": 600, "letter-spacing": 1, class: "sk-text" }, axis);
+      t.textContent = data.xLabel + " →";
+    }
+    if (data.yLabel) {
+      const t = svgEl("text", { x: x0 - 14, y: y0 - 26, "text-anchor": "end", fill: "var(--sk-muted, #a39e92)",
+        "font-size": 16, "font-weight": 600, "letter-spacing": 1, class: "sk-text" }, axis);
+      t.textContent = "↑ " + data.yLabel;
+    }
+    // 대각 기준선 (x=y 스케일이 비슷할 때 — 변화 없음 선)
+    let diag = null;
+    if (opts.diagonal) {
+      const lov = Math.max(xlo, ylo); const hiv = Math.min(xhi, yhi);
+      if (hiv > lov) {
+        diag = svgEl("line", { x1: SX(lov).toFixed(1), y1: SY(lov).toFixed(1),
+          x2: SX(hiv).toFixed(1), y2: SY(hiv).toFixed(1), stroke: "var(--sk-dim, #8b877d)",
+          "stroke-width": 1.5, "stroke-dasharray": "6 8", opacity: 0, class: "sct-diag" }, svg);
+        prepDraw(diag);
+      }
+    }
+
+    const field = opts.field || stageField();
+    field.addSegment(x0, y1, x1, y1, 16);
+    pts.forEach((p) => field.addCircle(SX(p.x), SY(p.y), 16));
+    const dotLayer = svgEl("g", {}, svg);
+    const plateLayer = svgEl("g", {}, svg);
+    const items = pts.map((p) => {
+      const cx = SX(p.x); const cy = SY(p.y);
+      const c = p.hi ? opts.hiColor : opts.accent;
+      const g = svgEl("g", { class: "sct-dot", opacity: 0, transform: `translate(${cx.toFixed(1)} ${cy.toFixed(1)})` }, dotLayer);
+      svgEl("circle", { r: 10, fill: c, stroke: "var(--sk-ink, #141416)", "stroke-width": 2 }, g);
+      svgEl("circle", { r: 10, fill: "none", stroke: c, "stroke-width": 1.5, opacity: 0.45, class: "sct-halo" }, g);
+      let plate = null;
+      if (p.label) {
+        plate = plateLabel(plateLayer, [{ text: p.label, size: 16, weight: 700,
+          fill: "var(--sk-text, #ece9e2)" }], { maxW: 200, cls: "sct-plate", padX: 10, padY: 6 });
+        const r = field.place(plate.w, plate.h,
+          slotCandidates(cx, cy, plate.w, plate.h, ["right", "above", "below", "left"]));
+        plate.setPos(r.x, r.y);
+      }
+      return { g, plate, cx, cy };
+    });
+    return { items, diag, SX, SY };
+  }
+
+  // ───────────────────── ⑫ 히트맵 (행×열 강도) ─────────────────────
+  // data: { rows:[], cols:[], values:[[..]], unit? }
+  // opts: { x0,x1,yTop, pos, neg }  — 음수 있으면 diverging(neg↔pos), 아니면 pos 단색 스케일
+  function buildHeatmap(svg, data, opts) {
+    const rows = data.rows;
+    const cols = data.cols;
+    const V = data.values;
+    const flat = V.flat();
+    const lo = Math.min(...flat);
+    const hi = Math.max(...flat);
+    const diverging = lo < 0;
+    const x0 = opts.x0 ?? 470;
+    const x1 = opts.x1 ?? 1640;
+    const gapC = 8;
+    const cw = (x1 - x0 - gapC * (cols.length - 1)) / cols.length;
+    const chMax = 96;
+    const chH = Math.min(chMax, (480 - 8 * (rows.length - 1)) / rows.length);
+    const blockH = rows.length * chH + (rows.length - 1) * 8;
+    const yTop = opts.yTop ?? Math.max(330, 580 - blockH / 2);
+
+    cols.forEach((c, ci) => {
+      const t = svgEl("text", { x: (x0 + ci * (cw + gapC) + cw / 2).toFixed(1), y: yTop - 22,
+        "text-anchor": "middle", fill: "var(--sk-muted, #a39e92)", "font-size": 16,
+        "font-weight": 600, class: "sk-text" }, svg);
+      t.textContent = c;
+    });
+    const cellLayer = svgEl("g", {}, svg);
+    const cells = [];
+    rows.forEach((r, ri) => {
+      const y = yTop + ri * (chH + 8);
+      const t = svgEl("text", { x: x0 - 22, y: (y + chH / 2 + 6).toFixed(1), "text-anchor": "end",
+        fill: "var(--sk-muted, #a39e92)", "font-size": 18, "font-weight": 600, class: "sk-text" }, svg);
+      t.textContent = r;
+      cols.forEach((c, ci) => {
+        const v = V[ri][ci];
+        const x = x0 + ci * (cw + gapC);
+        let fill; let alpha;
+        if (diverging) {
+          const m = Math.max(Math.abs(lo), Math.abs(hi)) || 1;
+          alpha = 0.1 + 0.85 * (Math.abs(v) / m);
+          fill = v >= 0 ? opts.pos : opts.neg;
+        } else {
+          alpha = 0.08 + 0.87 * ((v - lo) / ((hi - lo) || 1));
+          fill = opts.pos;
+        }
+        const g = svgEl("g", { class: "hm-cell", opacity: 0 }, cellLayer);
+        svgEl("rect", { x: x.toFixed(1), y: y.toFixed(1), width: cw.toFixed(1), height: chH.toFixed(1),
+          rx: 5, fill, opacity: alpha.toFixed(2) }, g);
+        if (alpha > 0.62) {
+          const vt = svgEl("text", { x: (x + cw / 2).toFixed(1), y: (y + chH / 2 + 6).toFixed(1),
+            "text-anchor": "middle", fill: "var(--sk-ink, #141416)", "font-size": 16,
+            "font-weight": 800, class: "sk-text" }, g);
+          vt.textContent = (v > 0 && diverging ? "+" : "") + v.toLocaleString("ko-KR");
+        }
+        cells.push({ g, ri, ci });
+      });
+    });
+    return { cells, rows, cols };
+  }
+
+  // ───────────────────── ⑬ 간트 (일정 레인) ─────────────────────
+  // data: { tasks:[{label, start:"YYYY-MM-DD", end, phase?}], today? }
+  // opts: { x0,x1,yTop, colors(phase map), accent }
+  function buildGantt(svg, data, opts) {
+    const x0 = opts.x0 ?? 470;
+    const x1 = opts.x1 ?? 1660;
+    const parse = (s) => new Date(s + "T00:00:00Z").getTime();
+    const tasks = data.tasks;
+    let lo = Math.min(...tasks.map((t) => parse(t.start)));
+    let hi = Math.max(...tasks.map((t) => parse(t.end)));
+    if (data.today) { lo = Math.min(lo, parse(data.today)); hi = Math.max(hi, parse(data.today)); }
+    const padMs = (hi - lo || 1) * 0.04;
+    lo -= padMs; hi += padMs;
+    const SX = (ms) => x0 + ((ms - lo) / (hi - lo)) * (x1 - x0);
+    const rowH = tasks.length <= 5 ? 54 : 44;
+    const gap = tasks.length <= 5 ? 36 : 24;
+    const blockH = tasks.length * rowH + (tasks.length - 1) * gap;
+    const yTop = opts.yTop ?? Math.max(330, 575 - blockH / 2);
+
+    // 월 눈금
+    const gridG = svgEl("g", { class: "gn-grid" }, svg);
+    const d0 = new Date(lo);
+    const tick = new Date(Date.UTC(d0.getUTCFullYear(), d0.getUTCMonth() + 1, 1));
+    while (tick.getTime() < hi) {
+      const x = SX(tick.getTime());
+      svgEl("line", { x1: x.toFixed(1), y1: yTop - 34, x2: x.toFixed(1), y2: yTop + blockH + 16,
+        stroke: "var(--sk-grid, #232328)", "stroke-width": 1 }, gridG);
+      const t = svgEl("text", { x: x.toFixed(1), y: yTop - 44, "text-anchor": "middle",
+        fill: "var(--sk-dim, #8b877d)", "font-size": 15, "font-weight": 600, class: "sk-text" }, gridG);
+      t.textContent = (tick.getUTCMonth() + 1) + "월";
+      tick.setUTCMonth(tick.getUTCMonth() + 1);
+    }
+
+    const bars = tasks.map((task, i) => {
+      const y = yTop + i * (rowH + gap);
+      const bx = SX(parse(task.start));
+      const bw = Math.max(10, SX(parse(task.end)) - bx);
+      const color = (opts.colors && opts.colors[task.phase]) || opts.accent;
+      const lab = svgEl("text", { x: x0 - 24, y: (y + rowH / 2 + 6).toFixed(1), "text-anchor": "end",
+        fill: "var(--sk-text, #ece9e2)", "font-size": 18, "font-weight": 600, class: "sk-text gn-lab", opacity: 0 }, svg);
+      lab.textContent = task.label;
+      const g = svgEl("g", { class: "gn-bar", opacity: 0 }, svg);
+      svgEl("rect", { x: bx.toFixed(1), y, width: bw.toFixed(1), height: rowH, rx: 6,
+        fill: color, opacity: 0.85 }, g);
+      g.dataset.ox = String(bx);
+      // 기간 텍스트 (막대 안 또는 우측)
+      const dur = `${task.start.slice(5).replace("-", ".")}–${task.end.slice(5).replace("-", ".")}`;
+      const inside = bw > 150;
+      const dt = svgEl("text", { x: (inside ? bx + 14 : bx + bw + 12).toFixed(1),
+        y: (y + rowH / 2 + 5).toFixed(1), fill: inside ? "var(--sk-ink, #141416)" : "var(--sk-dim, #8b877d)",
+        "font-size": 14, "font-weight": 700, class: "sk-text gn-dur", opacity: 0 }, svg);
+      dt.textContent = dur;
+      return { g, lab, dt };
+    });
+
+    // 오늘 라인
+    let todayG = null;
+    if (data.today) {
+      const x = SX(parse(data.today));
+      todayG = svgEl("g", { class: "gn-today", opacity: 0 }, svg);
+      svgEl("line", { x1: x.toFixed(1), y1: yTop - 56, x2: x.toFixed(1), y2: yTop + blockH + 16,
+        stroke: opts.accent, "stroke-width": 2, "stroke-dasharray": "5 6" }, todayG);
+      const tp = plateLabel(todayG, [{ text: "오늘", size: 14, weight: 800, fill: opts.accent, ls: "2" }],
+        { padX: 10, padY: 5 });
+      tp.setPos(x - tp.w / 2, yTop - 56 - tp.h - 4);
+    }
+    return { bars, todayG };
+  }
+
   window.SceneKit = {
     LAYOUT,
     svgEl,
@@ -1497,6 +1817,11 @@
     buildMetroTimeline,
     buildSlopeChart,
     buildDonut,
+    buildStackedBars,
+    buildWaterfall,
+    buildScatter,
+    buildHeatmap,
+    buildGantt,
     buildBarPanels,
     buildCandleChart,
     buildBasemap,
