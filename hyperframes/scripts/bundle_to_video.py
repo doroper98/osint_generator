@@ -547,7 +547,7 @@ def find_section(sections: list, keywords: list[str], default: tuple[str, str]) 
 
 
 def convert(bundle_path: Path, out_path: Path, tl_override: str | None = None,
-            theme_override: str | None = None) -> dict:
+            theme_override: str | None = None, cuesync: dict | None = None) -> dict:
     b = json.loads(bundle_path.read_text(encoding="utf-8"))
     report = b["report"]
     sections = b.get("sections", [])
@@ -831,6 +831,28 @@ def convert(bundle_path: Path, out_path: Path, tl_override: str | None = None,
 
     total = round(t, 2)
 
+    # ── cuesync 적용 (내레이션 실측 시계 — build_auto_narration 산출) ──
+    audio_src = None
+    if cuesync:
+        sd = cuesync.get("scene_durs") or []
+        ct = cuesync.get("cue_times") or []
+        if len(sd) != len(scenes) or len(ct) != len(cues):
+            print(f"error: cuesync 불일치 (scenes {len(sd)}/{len(scenes)}, "
+                  f"cues {len(ct)}/{len(cues)}). 동일 번들로 재생성 필요.", file=sys.stderr)
+            sys.exit(1)
+        acc = 0.0
+        for sc, dur in zip(scenes, sd):
+            sc["t0"] = round(acc, 2)
+            sc["t1"] = round(acc + dur, 2)
+            acc = round(acc + dur, 2)
+        for c, ti in zip(cues, ct):
+            c["t"] = round(ti, 2)
+        cues.sort(key=lambda c: c["t"])
+        total = round(cuesync.get("total", acc), 2)
+        audio_src = cuesync.get("audio")
+        print(f"[bundle_to_video] cuesync 적용: 씬 {len(sd)}개 재시계, total={total}s, "
+              f"audio={audio_src}")
+
     # ── 출처 라인 ──
     pubs = []
     for s in b.get("sources", []):
@@ -853,6 +875,7 @@ def convert(bundle_path: Path, out_path: Path, tl_override: str | None = None,
         "total": total,
         "scenes": scenes,
         "cues": cues,
+        "audio": audio_src,
     }
 
     emit_html(data, out_path, bundle_path.name, report.get("report_id", ""))
@@ -862,6 +885,11 @@ def convert(bundle_path: Path, out_path: Path, tl_override: str | None = None,
 def emit_html(data: dict, out_path: Path, src_name: str, report_id: str) -> None:
     """DATA → 컴포지션 HTML. CSS 는 briefing/index.html <style> 재사용 (테마 SSOT)."""
     total = data["total"]
+    audio_tag = ""
+    if data.get("audio"):
+        audio_tag = (f'      <audio id="narration-auto" class="clip" data-start="0" '
+                     f'data-duration="{data["total"]}" data-track-index="100" '
+                     f'src="{data["audio"]}" preload="auto"></audio>')
     index_html = (BRIEFING / "index.html").read_text(encoding="utf-8")
     css = re.search(r"<style>.*?</style>", index_html, re.DOTALL).group(0)
     # 렌더러가 body 끝 외부 <script src> 를 실행하지 않는 사고(v0.36.0 빈 렌더)
@@ -909,6 +937,7 @@ def emit_html(data: dict, out_path: Path, src_name: str, report_id: str) -> None
       <div id="scrim"></div>
       <div class="subwrap"><div class="subbar"></div><div id="cap"></div></div>
       <div class="source"><span id="source-line1"></span><br/><span id="source-line2"></span></div>
+{audio_tag}
     </div>
     <script>window.BRIEFING_DATA = {json.dumps(data, ensure_ascii=False)};</script>
     <script>
@@ -1009,14 +1038,31 @@ def main() -> int:
     if not args:
         print("usage: python bundle_to_video.py <bundle.json> [out.html] "
               "[--timeline=ladder|axis|serpentine|vertical|metro] "
-              "[--video-theme=ink_brass|graphite_slate|midnight_navy|forest_archive|paper_oxblood] "
+              "[--video-theme=...] [--narration=estimate|synth] [--cuesync=path] "
               "| --preview-charts [out.html]",
               file=sys.stderr)
         return 1
     bundle = Path(args[0])
     out = Path(args[1]) if len(args) > 1 else BRIEFING / "auto.html"
-    data = convert(bundle, out, tl_override=flags.get("--timeline") or None,
-                   theme_override=flags.get("--video-theme") or None)
+
+    def run_convert(cs: dict | None = None) -> dict:
+        return convert(bundle, out, tl_override=flags.get("--timeline") or None,
+                       theme_override=flags.get("--video-theme") or None, cuesync=cs)
+
+    narration = flags.get("--narration")  # estimate | synth
+    cuesync_flag = flags.get("--cuesync")
+    if narration:
+        import subprocess
+        run_convert()  # 1차: cue 확정
+        cmd = [sys.executable, str(Path(__file__).parent / "build_auto_narration.py"), str(out)]
+        if narration == "estimate":
+            cmd.append("--estimate")
+        rc = subprocess.run(cmd).returncode
+        if rc != 0:
+            return rc
+        cuesync_flag = str(BRIEFING / "cuesync_auto.json")
+    cs = json.loads(Path(cuesync_flag).read_text(encoding="utf-8")) if cuesync_flag else None
+    data = run_convert(cs)
     print(f"[bundle_to_video] theme={data['themeId']} "
           f"scenes={[s['type'] for s in data['scenes']]} "
           f"total={data['total']}s cues={len(data['cues'])} -> {out}")

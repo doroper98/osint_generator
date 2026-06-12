@@ -1,6 +1,6 @@
 <!--
 tier: 3
-last_synced_with: v0.38.0
+last_synced_with: v0.38.1
 ssot_for: [release-notes]
 depends_on: [README.md, GOAL.md]
 last_review: 2026-06-11
@@ -25,6 +25,22 @@ released 항목은 **append-only**입니다.
 
 ### Fixed
 -
+
+---
+
+## [v0.38.1] — 2026-06-12
+
+### Added
+- **내레이션 파이프라인 (auto 컴포지션)** — 음성이 영상의 시계가 됨:
+  - `hyperframes/scripts/build_auto_narration.py` — cue(text/tts)별 ElevenLabs
+    합성 → **실측 커서 조립** (조각별 실측 길이 누적 = cue 시각, mp3 프레임
+    패딩 드리프트 원천 차단 — 최초 구현은 목표시각+무음 방식으로 2.9초
+    드리프트 발생, v0.34.8 교훈 재적용) → cuesync_auto.json + 단일 mp3.
+  - `bundle_to_video.py --narration=synth|estimate` — 1차 변환 → 합성 →
+    cuesync 재시계 2차 변환 + `<audio>` 트랙 주입(demo 계약)을 한 줄로.
+    `--cuesync=path` 단독 적용도 지원.
+  - `--estimate` 모드: API 없이 글자수 기반 길이 추정 + 무음 mp3 — sync
+    메커니즘 검증용 (본 환경 e2e: 12씬 118초 → 음성 페이스 207초 재시계).
 
 ---
 

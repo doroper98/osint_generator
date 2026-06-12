@@ -1,6 +1,6 @@
 <!--
 tier: 3
-last_synced_with: v0.38.0
+last_synced_with: v0.38.1
 ssot_for: [development-log]
 depends_on: [CHANGELOG.md]
 last_review: 2026-06-06
@@ -2531,3 +2531,24 @@ last_review: 2026-06-06
 - **남은 것**: sankey 차트 (이번 번들 ch-8, 미지원 스킵 — 차기 차트 유형),
   cue.tts → build_narration 연동.
 - **연관**: VIDEO_BUNDLE_CONTRACT(확정으로 갱신), G4, v0.36~37 변환기 계열.
+
+---
+
+## 2026-06-12 v0.38.1 — 내레이션 시계 (음성에 맞춘 화면 전환)
+
+- **무엇을**: build_auto_narration.py + 변환기 --narration/--cuesync. 씬
+  길이가 "해당 씬 내레이션 실측 길이 + 호흡(lead 1.1/pause 0.5/tail 1.3)"으로
+  재계산되고, 자막은 문장이 말해지는 시각에 정확히 뜸. VERSION 0.38.0 → 0.38.1.
+- **왜**: 사용자 — "나레이션이 들어가면 나레이션 소리에 맞춰 화면 전환이
+  이뤄져?" 기존 고정 시계(문장 수 기반)는 음성과 무관했음.
+- **사고/교훈 (RENDER 계열)**: 1차 구현은 목표 cue 시각을 먼저 정하고 무음으로
+  갭을 채움 → mp3 프레임(26ms) 반올림이 60개 조각에 누적되어 **+2.86초
+  드리프트** (요청 203.53 vs 실측 206.39). v0.34.8 의 교훈 그대로 — **실측이
+  시계의 원천**이어야 함. 조각(무음/문장)별 probe 길이를 누적한 커서를 cue
+  시각으로 삼는 방식으로 재작성 → 계산 207.02 = 실측 207.02 (드리프트 0).
+- **환경 메모**: 본 클라우드 환경은 api.elevenlabs.io 가 egress allowlist 에
+  없고 ELEVENLABS_API_KEY 도 없음 → --estimate 로 메커니즘만 e2e 검증.
+  실합성은 ① 환경 설정에 host+key 추가 후 본 세션에서, 또는 ② 사용자 머신
+  --narration=synth 한 줄.
+- **연관**: v0.34.5~12 (demo 음성 파이프라인 — synth_one/write_silence/
+  concat_mp3s 재사용), VIDEO_BUNDLE_CONTRACT (narration_tts 소비).
