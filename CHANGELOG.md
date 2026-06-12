@@ -1,6 +1,6 @@
 <!--
 tier: 3
-last_synced_with: v0.37.1
+last_synced_with: v0.37.2
 ssot_for: [release-notes]
 depends_on: [README.md, GOAL.md]
 last_review: 2026-06-11
@@ -25,6 +25,17 @@ released 항목은 **append-only**입니다.
 
 ### Fixed
 -
+
+---
+
+## [v0.37.2] — 2026-06-12
+
+### Added
+- `docs/VIDEO_BUNDLE_CONTRACT.md` — agents_reviewer 와의 영상 필드 계약 초안.
+  sections[].video (narration/narration_tts/highlights/emphasis) +
+  report.video (intro/outro_narration). 목적: ① cue 템플릿 문장 탈피 (대본
+  생성을 보고서 작성 주체로 이동, 영상 쪽 LLM 무호출 유지), ② 차트 없는
+  서술 전용 섹션의 영상 누락 해소 (스테이트먼트 씬). 사용자 결정 (옵션 ③).
 
 ---
 

@@ -1,6 +1,6 @@
 <!--
 tier: 3
-last_synced_with: v0.37.1
+last_synced_with: v0.37.2
 ssot_for: [development-log]
 depends_on: [CHANGELOG.md]
 last_review: 2026-06-06
@@ -2489,3 +2489,21 @@ last_review: 2026-06-06
 - **결과**: 갤러리 5씬 45초 — 감사 클린, pageerror 0, 5씬 스크린샷 검수 통과.
 - **연관**: v0.36.x(자동 변환), 옵션 B 완료에 근접 (남은 것: forecast 밴드,
   network 차트 — 번들 스키마 확정 시).
+
+---
+
+## 2026-06-12 v0.37.2 — 영상 필드 계약 초안 (agents_reviewer 전달)
+
+- **무엇을**: docs/VIDEO_BUNDLE_CONTRACT.md 신설 + 사용자에게 agents_reviewer
+  세션 전달용 프롬프트 작성. VERSION 0.37.1 → 0.37.2 (문서 PATCH).
+- **왜**: cue LLM 대본화의 방식으로 사용자가 옵션 ③ 확정 — "보고서를 쓴
+  LLM 이 영상 대본도 같이 쓴다". 부수 효과로 서술 전용 섹션(현 번들 s5/s6
+  류)의 영상 누락도 해소됨 (highlights → 스테이트먼트 씬).
+- **계약 요지**: sections[].video {narration ≤58자/문장, highlights ≤40자,
+  emphasis 는 정확한 부분 문자열, narration_tts 선택} + report.video
+  {intro/outro_narration}. 전부 optional (schema_version 1 유지). 사실 근거
+  강제 — 영상 쪽 검증기가 수치·날짜·고유명사를 번들과 대조, 위반 문장은
+  템플릿 폴백.
+- **다음**: agents_reviewer 합의/샘플 번들 도착 → 영상 쪽 소비 구현
+  (스테이트먼트 씬 + 검증기 + cue 교체) → 본 문서 "확정" 갱신.
+- **연관**: 옵션 C 2차, G4 (사실 근거/미검증 라벨), v0.36.x 변환기.
