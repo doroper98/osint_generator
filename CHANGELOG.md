@@ -1,6 +1,6 @@
 <!--
 tier: 3
-last_synced_with: v0.38.3
+last_synced_with: v0.38.4
 ssot_for: [release-notes]
 depends_on: [README.md, GOAL.md]
 last_review: 2026-06-11
@@ -25,6 +25,15 @@ released 항목은 **append-only**입니다.
 
 ### Fixed
 -
+
+---
+
+## [v0.38.4] — 2026-06-12
+
+### Changed
+- `docs/VIDEO_BUNDLE_CONTRACT.md` 개정판 동기화 — 1차 음성 검수 합의 반영
+  (narration ≤ 75자, 풀어쓰기/날짜 조사/제목 낭독 금지/발음 강화,
+  timeline.video 신설). agents_reviewer A 패키지와 정합.
 
 ---
 

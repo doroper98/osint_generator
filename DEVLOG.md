@@ -1,6 +1,6 @@
 <!--
 tier: 3
-last_synced_with: v0.38.3
+last_synced_with: v0.38.4
 ssot_for: [development-log]
 depends_on: [CHANGELOG.md]
 last_review: 2026-06-06
@@ -2583,3 +2583,14 @@ last_review: 2026-06-06
   간접 레버, ② 더 큰 원인은 우리의 문장 낱개 합성 — 모델이 담화 위치를
   모른 채 억양 추측. API 의 request-stitching(previous/next_text)이 정답.
 - **검증**: 코드 경로만 (실합성은 사용자 재합성 시 확인 — 2차 검수 항목).
+
+---
+
+## 2026-06-12 v0.38.4 — 계약 문서 개정판 동기화
+
+- **무엇을**: VIDEO_BUNDLE_CONTRACT.md 를 1차 검수 합의 내용(75자, timeline.video,
+  발음 강화)으로 갱신. VERSION 0.38.3 → 0.38.4 (문서 PATCH).
+- **왜**: agents_reviewer 가 A 패키지 반영 완료 통지. 코드(v0.38.2~3)는 이미
+  개정 스키마를 소비하는데 계약 문서가 구판(58자)이라 문서-코드 불일치 상태였음.
+- **상태**: 양측 배포 완료 — 개정 번들 도착 시 즉시 맞물림. 2차 검수 항목:
+  평서문 억양/숨소리/날짜 발음/캘린더 연출.
