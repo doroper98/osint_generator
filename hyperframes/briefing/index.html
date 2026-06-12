@@ -54,6 +54,20 @@
         --sk-text: #ece9e2;
         --sk-muted: #a39e92;
         --sk-dim: #8b877d;
+        /* 테마 시스템 토큰 (themes.js 프리셋이 오버라이드) */
+        --bg-radial: #1c1c20;
+        --bg-top: #141416;
+        --bg-bottom: #111113;
+        --plate-fill: rgba(18, 18, 20, 0.92);
+        --plate-stroke: rgba(236, 233, 226, 0.13);
+        --watermark-color: rgba(196, 162, 101, 0.05);
+        --sceneno-color: rgba(236, 233, 226, 0.07);
+        --cap-color: #f2efe8;
+        --cap-shadow: 0 2px 20px rgba(0, 0, 0, 0.55);
+        --scrim-rgb: 13, 13, 14;
+        --vignette-color: rgba(8, 8, 9, 0.75);
+        --grain-opacity: 0.045;
+        --legend-fill: rgba(18, 18, 20, 0.6);
       }
 
       * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -70,7 +84,7 @@
       .serif { font-family: "Noto Serif KR", "Pretendard Variable", serif; }
 
       /* ── SceneKit 공용 ── */
-      .sk-plate-bg { fill: rgba(18, 18, 20, 0.92); stroke: rgba(236, 233, 226, 0.13); stroke-width: 1; }
+      .sk-plate-bg { fill: var(--plate-fill); stroke: var(--plate-stroke); stroke-width: 1; }
       .sk-leader { stroke: rgba(163, 158, 146, 0.5); stroke-width: 1.2; }
       .sk-halo { paint-order: stroke; stroke: #121214; stroke-width: 5px; stroke-linejoin: round; }
 
@@ -86,15 +100,15 @@
       /* ── 배경 (무광 잉크 차콜 — 글로우/블롭/그리드 없음) ── */
       #bg { position: absolute; inset: 0; z-index: 0; overflow: hidden;
             background:
-              radial-gradient(1700px 850px at 50% -12%, #1c1c20 0%, transparent 62%),
-              linear-gradient(180deg, #141416 0%, #111113 100%); }
-      #grain { position: absolute; inset: 0; opacity: 0.045; mix-blend-mode: overlay; pointer-events: none; }
+              radial-gradient(1700px 850px at 50% -12%, var(--bg-radial) 0%, transparent 62%),
+              linear-gradient(180deg, var(--bg-top) 0%, var(--bg-bottom) 100%); }
+      #grain { position: absolute; inset: 0; opacity: var(--grain-opacity); mix-blend-mode: overlay; pointer-events: none; }
       #vignette { position: absolute; inset: 0; pointer-events: none;
-                  box-shadow: inset 0 0 300px 70px rgba(8, 8, 9, 0.75); }
+                  box-shadow: inset 0 0 300px 70px var(--vignette-color); }
       /* 자막 가독용 하단 스크림 — 스테이지(z10) 위, 자막(z35) 아래 */
       #scrim { position: absolute; left: 0; right: 0; bottom: 0; height: 230px; z-index: 20;
                pointer-events: none;
-               background: linear-gradient(180deg, rgba(13,13,14,0) 0%, rgba(13,13,14,0.5) 55%, rgba(13,13,14,0.72) 100%); }
+               background: linear-gradient(180deg, rgba(var(--scrim-rgb), 0) 0%, rgba(var(--scrim-rgb), 0.5) 55%, rgba(var(--scrim-rgb), 0.72) 100%); }
 
       /* ── 상단 크롬 ── */
       #prog { position: absolute; top: 0; left: 0; width: 100%; height: 2px; z-index: 40;
@@ -123,8 +137,8 @@
       .subbar { width: 3px; align-self: stretch; min-height: 56px;
                 background: var(--accent); }
       #cap { font-size: 37px; line-height: 1.38; font-weight: 600; letter-spacing: -0.2px;
-             color: #f2efe8; max-width: 1160px;
-             text-shadow: 0 2px 20px rgba(0, 0, 0, 0.55); }
+             color: var(--cap-color); max-width: 1160px;
+             text-shadow: var(--cap-shadow); }
       .source { position: absolute; right: 96px; bottom: 100px; z-index: 35; text-align: right;
                 font-size: 14px; line-height: 1.75; font-weight: 500; color: var(--faint);
                 letter-spacing: 0.5px; }
@@ -142,7 +156,7 @@
       /* 씬 번호: SceneKit.LAYOUT.sceneNo 영역과 일치 (충돌장이 보호) */
       .scene-no { position: absolute; top: 158px; right: 96px; font-size: 112px; font-weight: 250; z-index: 6;
                   font-family: "Noto Serif KR", serif; line-height: 1;
-                  color: rgba(236, 233, 226, 0.07); letter-spacing: 2px; }
+                  color: var(--sceneno-color); letter-spacing: 2px; }
 
       /* ── S1 타이틀 ── */
       .s1-kicker { font-size: 19px; font-weight: 600; letter-spacing: 7px; text-transform: uppercase;
@@ -156,7 +170,7 @@
               color: var(--muted); max-width: 1300px; letter-spacing: -0.2px; }
       .watermark { position: absolute; right: -10px; bottom: 48px; font-size: 196px; font-weight: 200;
                    font-family: "Noto Serif KR", serif;
-                   color: rgba(196, 162, 101, 0.05); letter-spacing: -2px; line-height: 1.04;
+                   color: var(--watermark-color); letter-spacing: -2px; line-height: 1.04;
                    text-align: right; pointer-events: none; }
       .line { display: block; overflow: hidden; }
       .word { display: inline-block; white-space: nowrap; }
@@ -168,7 +182,7 @@
       .legend-row .item { display: flex; align-items: center; gap: 10px; font-size: 15px;
                           font-weight: 500; color: var(--muted); padding: 6px 13px;
                           border: 1px solid var(--hairline-soft); border-radius: 2px;
-                          background: rgba(18, 18, 20, 0.6); letter-spacing: 1px; }
+                          background: var(--legend-fill); letter-spacing: 1px; }
       .legend-row .swatch { width: 24px; height: 0; border-top-width: 2px; border-top-style: solid; }
 
       /* ── S4 프로필 카드 (키 플레이어) ── */
@@ -244,6 +258,18 @@
       .sigcard .sg-desc { margin-top: 14px; font-size: 15px; line-height: 1.6; color: var(--muted); }
       .sigcard .sg-tag { position: absolute; left: 26px; bottom: 22px; font-size: 13px;
                          font-weight: 700; color: var(--oxide); letter-spacing: 1px; }
+
+      /* ── 인용 인터스티셜 (auto 컴포지션) ── */
+      .iquote { position: absolute; inset: 0; }
+      .iquote .iq-rule { position: absolute; top: 358px; left: 200px; width: 76px; height: 3px;
+                         background: var(--accent); transform-origin: left center; }
+      .iquote .iq-text { position: absolute; top: 408px; left: 200px; right: 240px;
+                         font-family: "Noto Serif KR", "Pretendard Variable", serif;
+                         font-size: 66px; font-weight: 550; line-height: 1.52;
+                         letter-spacing: -0.5px; color: var(--text); }
+      .iquote .iq-text .em { color: var(--accent); }
+      .iquote .iq-src { position: absolute; top: 770px; left: 200px; font-size: 18px;
+                        font-weight: 600; color: var(--faint); letter-spacing: 1.5px; }
 
       /* ── S7 클로징 ── */
       .quote { position: absolute; top: 322px; left: 96px; right: 580px;

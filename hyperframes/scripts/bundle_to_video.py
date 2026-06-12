@@ -124,9 +124,9 @@ def pick_timeline_steps(points: list, limit: int = 7) -> list:
     return merged[:limit]
 
 
-def build_ladder(timeline: dict) -> dict:
+def build_ladder(timeline: dict, limit: int = 7) -> dict:
     steps = []
-    for p in pick_timeline_steps(timeline.get("points", [])):
+    for p in pick_timeline_steps(timeline.get("points", []), limit):
         steps.append({
             "date": p.get("date", "").replace("-", "."),
             "label": clip(p.get("label", ""), 44),
@@ -135,10 +135,35 @@ def build_ladder(timeline: dict) -> dict:
     return {"steps": steps}
 
 
-def timeline_kind(points: list) -> str:
-    """에스컬레이션 서사(crack+present 공존)면 계단, 아니면 수평 축."""
+VIDEO_THEMES = {"ink_brass", "graphite_slate", "midnight_navy", "forest_archive", "paper_oxblood"}
+
+TIMELINE_LIMITS = {"ladder": 7, "axis": 7, "serpentine": 10, "vertical": 6, "metro": 7}
+
+
+def timeline_kind(points: list, override: str | None = None) -> str:
+    """타임라인 시각화 5유형 자동 선택.
+
+    - ladder     : crack+present 공존 — 에스컬레이션 서사 (계단)
+    - serpentine : 분기점 11개 이상 — 2단 S자 흐름
+    - vertical   : 라벨이 긴 설명형 (평균 26자 초과) — 기사 레일
+    - metro      : 미래 비중 40% 이상 — 국면 구간 색 노선도
+    - axis       : 그 외 중립 시계열 — 수평 축
+    """
+    if override:
+        return override
     phases = {p.get("phase") for p in points}
-    return "ladder" if {"crack", "present"} <= phases else "axis"
+    n = len(points)
+    if {"crack", "present"} <= phases:
+        return "ladder"
+    if n >= 11:
+        return "serpentine"
+    avg_label = sum(len(p.get("label", "")) for p in points) / max(1, n)
+    if avg_label > 26:
+        return "vertical"
+    fut = sum(1 for p in points if p.get("phase") == "future")
+    if fut / max(1, n) >= 0.4:
+        return "metro"
+    return "axis"
 
 
 UNIT_RE = re.compile(r"[(（]단위[:：]\s*([^)）]+)[)）]")
@@ -191,6 +216,26 @@ def build_signals(signals: list) -> dict | None:
         "unverified": s.get("verification") == "unverified",
     } for s in signals[:5]]
     return {"items": items}
+
+
+def build_slopes(charts: list) -> list:
+    out = []
+    for c in charts:
+        if c.get("type") != "slope" or not isinstance(c.get("data"), dict):
+            continue
+        d = c["data"]
+        items = [{"label": clip(it.get("label", ""), 12), "a": it.get("a", 0), "b": it.get("b", 0)}
+                 for it in (d.get("items") or [])[:6]]
+        if not items:
+            continue
+        out.append({
+            "left_label": clip(d.get("left_label", ""), 14),
+            "right_label": clip(d.get("right_label", ""), 14),
+            "items": items,
+            "title": split_unit(c.get("title", ""))[0],
+            "chart_id": c.get("chart_id"),
+        })
+    return out
 
 
 def section_for_chart(sections: list, chart_id: str):
@@ -277,8 +322,8 @@ def quote_segments(text: str) -> list:
     return [segs or [[text, 0]]]
 
 
-def build_closing(report: dict, sections: list, confidence: dict) -> dict:
-    pq = next((s.get("pull_quote") for s in sections if s.get("pull_quote")), None)
+def build_closing(report: dict, sections: list, confidence: dict, skip_pq: bool = False) -> dict:
+    pq = None if skip_pq else next((s.get("pull_quote") for s in sections if s.get("pull_quote")), None)
     quote_text = clip(pq or sentences(report.get("closing", ""))[0], 90)
     closing_sents = sentences(report.get("closing", ""))
     return {
@@ -302,7 +347,8 @@ def find_section(sections: list, keywords: list[str], default: tuple[str, str]) 
 # ── 메인 ────────────────────────────────────────────────────
 
 
-def convert(bundle_path: Path, out_path: Path) -> dict:
+def convert(bundle_path: Path, out_path: Path, tl_override: str | None = None,
+            theme_override: str | None = None) -> dict:
     b = json.loads(bundle_path.read_text(encoding="utf-8"))
     report = b["report"]
     sections = b.get("sections", [])
@@ -313,9 +359,24 @@ def convert(bundle_path: Path, out_path: Path) -> dict:
     date_dot = f"{m.group(1)}.{m.group(2)}.{m.group(3)}" if m else ""
     date_kor = f"{int(m.group(1))}년 {int(m.group(2))}월 {int(m.group(3))}일" if m else ""
 
-    accent = tokens.get("accent", "#c4a265")
-    up = tokens.get("up", "#7d9b76")
-    down = tokens.get("down", "#b25450")
+    # 비디오 테마: 번들 theme.id 가 프리셋과 일치하면 그대로, 아니면 ink_brass +
+    # 번들 토큰(accent/up/down)만 오버라이드. --video-theme 가 최우선.
+    bundle_tid = (theme.get("id") or "").strip()
+    if theme_override and theme_override in VIDEO_THEMES:
+        theme_id = theme_override
+        theme_vars = {}
+    elif bundle_tid in VIDEO_THEMES:
+        theme_id = bundle_tid
+        theme_vars = {}
+    else:
+        theme_id = "ink_brass"
+        theme_vars = {}
+        if tokens.get("accent"):
+            theme_vars["--accent"] = tokens["accent"]
+        if tokens.get("up"):
+            theme_vars["--sage"] = tokens["up"]
+        if tokens.get("down"):
+            theme_vars["--oxide"] = tokens["down"]
 
     # ── 씬 플랜 (데이터에 있는 것만) ──
     scenes = []
@@ -345,8 +406,8 @@ def convert(bundle_path: Path, out_path: Path) -> dict:
     tl_data = b.get("timeline") or {}
     if tl_data.get("points"):
         t0 = t
-        ladder = build_ladder(tl_data)
-        kind = timeline_kind(tl_data["points"])
+        kind = timeline_kind(tl_data["points"], tl_override)
+        ladder = build_ladder(tl_data, TIMELINE_LIMITS.get(kind, 7))
         head = ("Timeline", tl_data.get("heading", "사건의 궤적"))
         add_scene(kind, 11, "타임라인", {"kicker": head[0], "title": head[1]}, ladder)
         n = len(ladder["steps"])
@@ -357,6 +418,17 @@ def convert(bundle_path: Path, out_path: Path) -> dict:
         fut = next((s for s in ladder["steps"] if s["phase"] == "future"), None)
         if fut:
             cues.append({"t": t0 + 8.0, "text": clip(f"다음 분기점은 {date_kr(fut['date'].replace('.', '-'))} — {fut['label']}", 58)})
+
+    # 2-b. 인용 인터스티셜 (pull_quote 있으면 — 클로징은 폴백 인용 사용)
+    pq = next((s.get("pull_quote") for s in sections if s.get("pull_quote")), None)
+    if pq:
+        t0 = t
+        pq_sec = next((s for s in sections if s.get("pull_quote") == pq), None)
+        add_scene("quote", 7, "인용", None, {
+            "segments": quote_segments(clip(pq, 80)),
+            "source": (pq_sec.get("kicker") if pq_sec else "") or "보고서 본문",
+        })
+        cues.append({"t": t0 + 0.8, "text": clip(pq, 58)})
 
     # 3. 일봉 캔들 (candle 차트 있으면)
     candle = build_candle(charts)
@@ -397,6 +469,18 @@ def convert(bundle_path: Path, out_path: Path) -> dict:
                 wt, wr = max(ratios, key=lambda r: r[1])
                 cues.append({"t": t0 + 4.8, "text": clip(f"{wt} — 상단과 하단이 {wr:.1f}배 차이입니다.", 58)})
 
+    # 4-b. 슬로프 (slope 차트 있으면)
+    for sl in build_slopes(charts):
+        t0 = t
+        sec = section_for_chart(sections, sl["chart_id"])
+        k = (sec.get("kicker") if sec else None) or "변화 폭"
+        h = (sec.get("heading") if sec else None) or sl["title"]
+        add_scene("slope", 10, "상향 폭", {"kicker": k, "title": h},
+                  {"left_label": sl["left_label"], "right_label": sl["right_label"], "items": sl["items"]})
+        hi = max(sl["items"], key=lambda it: abs(it["b"] - it["a"]))
+        cues.append({"t": t0 + 0.6, "text": clip(f"{sl['title']} — {sl['left_label']}에서 {sl['right_label']}까지.", 58)})
+        cues.append({"t": t0 + 4.6, "text": clip(f"가장 크게 움직인 건 {hi['label']}, {hi['a']:,}에서 {hi['b']:,}입니다.", 58)})
+
     # 5. 쟁점 (contradictions 있으면)
     contras = b.get("contradictions") or []
     if contras:
@@ -429,7 +513,7 @@ def convert(bundle_path: Path, out_path: Path) -> dict:
 
     # 5. 클로징 (항상)
     t0 = t
-    closing = build_closing(report, sections, b.get("confidence") or {})
+    closing = build_closing(report, sections, b.get("confidence") or {}, skip_pq=bool(pq))
     k, h = (sections[-1].get("kicker"), sections[-1].get("heading")) if sections else ("Outlook", "다음 좌표")
     add_scene("closing", 9, "향방", {"kicker": k or "Outlook", "title": h or "다음 좌표"}, closing)
     cues.append({"t": t0 + 0.4, "text": clip(sentences(report.get("closing", ""))[0], 58)})
@@ -454,13 +538,8 @@ def convert(bundle_path: Path, out_path: Path) -> dict:
             "sourceLine1": src1,
             "sourceLine2": src2,
         },
-        "themeVars": {"--accent": accent, "--sage": up, "--oxide": down},
-        "colors": {
-            "phase": {"past": "#6e6a60", "crack": accent, "present": down, "future": "#8d99ae"},
-            "gradStops": [["0", "#55524a"], ["0.62", down], ["1", "#8d99ae"]],
-            "market": {"up": up, "down": down, "vol": accent, "flat": "#9aa3b2"},
-            "marketTag": {"up": "상승", "down": "하락", "vol": "변동", "flat": "보합"},
-        },
+        "themeId": theme_id,
+        "themeVars": theme_vars,
         "total": total,
         "scenes": scenes,
         "cues": cues,
@@ -484,6 +563,7 @@ def convert(bundle_path: Path, out_path: Path) -> dict:
     <link rel="stylesheet" href="assets/noto_serif_kr.css" />
     <script src="assets/gsap.min.js"></script>
     <script src="assets/scene_kit.js"></script>
+    <script src="assets/themes.js"></script>
 {css}
   </head>
   <body>
@@ -526,13 +606,21 @@ def convert(bundle_path: Path, out_path: Path) -> dict:
 
 
 def main() -> int:
-    if len(sys.argv) < 2:
-        print("usage: python bundle_to_video.py <bundle.json> [out.html]", file=sys.stderr)
+    args = [a for a in sys.argv[1:] if not a.startswith("--")]
+    flags = {a.split("=")[0]: (a.split("=", 1)[1] if "=" in a else "")
+             for a in sys.argv[1:] if a.startswith("--")}
+    if not args:
+        print("usage: python bundle_to_video.py <bundle.json> [out.html] "
+              "[--timeline=ladder|axis|serpentine|vertical|metro] "
+              "[--video-theme=ink_brass|graphite_slate|midnight_navy|forest_archive|paper_oxblood]",
+              file=sys.stderr)
         return 1
-    bundle = Path(sys.argv[1])
-    out = Path(sys.argv[2]) if len(sys.argv) > 2 else BRIEFING / "auto.html"
-    data = convert(bundle, out)
-    print(f"[bundle_to_video] scenes={[s['type'] for s in data['scenes']]} "
+    bundle = Path(args[0])
+    out = Path(args[1]) if len(args) > 1 else BRIEFING / "auto.html"
+    data = convert(bundle, out, tl_override=flags.get("--timeline") or None,
+                   theme_override=flags.get("--video-theme") or None)
+    print(f"[bundle_to_video] theme={data['themeId']} "
+          f"scenes={[s['type'] for s in data['scenes']]} "
           f"total={data['total']}s cues={len(data['cues'])} -> {out}")
     return 0
 

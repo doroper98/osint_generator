@@ -1,6 +1,6 @@
 <!--
 tier: 3
-last_synced_with: v0.36.1
+last_synced_with: v0.37.0
 ssot_for: [development-log]
 depends_on: [CHANGELOG.md]
 last_review: 2026-06-06
@@ -2442,3 +2442,28 @@ last_review: 2026-06-06
   단위/스케일 경계를 넘는 집계 금지 원칙.
 - **결과**: 9씬 89초, cue 19, 감사 클린. 캔들/바/시그널/수평축 스크린샷 검수.
 - **연관**: v0.36.0(변환기 1차), C0, G4(<미검증> 태그 — 시그널 카드).
+
+---
+
+## 2026-06-11 v0.37.0 — 타임라인 5유형 + 테마 5종 + 슬로프/도넛/인용 (MINOR)
+
+- **무엇을**: ① 타임라인 시각화 5유형(ladder/axis/serpentine/vertical/metro)
+  + 데이터 성격 기반 자동 선택 휴리스틱 + CLI 오버라이드. ② 테마 시스템 —
+  CSS 전면 토큰화(--plate-fill/--scrim-rgb/--cap-color 등 14토큰 신설) +
+  themes.js 프리셋 5종(라이트 paper_oxblood 포함) + 번들 theme.id 자동 매칭 +
+  의미색 런타임 파생. ③ 슬로프 씬(실데이터 ch-10)/도넛 빌더(하니스 검증)/
+  인용 인터스티셜. VERSION 0.36.1 → 0.37.0 (MINOR — 씬·테마 라이브러리).
+- **왜**: 사용자 — "타임라인 유형 5개, 컬러 테마 5개로 늘려라. 미개발 유형도
+  개발해 둬라." + 직전 피드백(매번 계단이면 단조).
+- **어떻게**: 자동 선택 — crack+present 공존=ladder(에스컬레이션), n≥11=
+  serpentine, 평균 라벨 26자↑=vertical, 미래 비중 40%↑=metro, 그 외 axis.
+  테마 — auto_builder 가 SK_THEMES[themeId].vars 적용 후 getComputedStyle 로
+  accent/oxide/sage/slate/faint 를 읽어 phase/market/gradient 파생 (테마-의미색
+  단일 출처). 라이트 테마는 scrim/cap/vignette/grain 토큰까지 오버라이드.
+- **검증**: 본 번들로 5유형 × 5테마 매트릭스 스크린샷 (모두 감사 클린,
+  pageerror 0). 도넛은 번들에 데이터가 없어 임시 하니스로 렌더 검증.
+  디폴트 실행 = graphite_slate(번들 theme.id 매칭) + serpentine(13분기점) —
+  11씬 106초 cue 22.
+- **C10**: MINOR 트리거이나 사용자 세션 지시로 생략 유지.
+- **연관**: v0.36.x(변환기), C0. 잔여: stacked/waterfall/scatter/heatmap/
+  gantt 차트 씬, LLM cue 작문(옵션 C 2차), 도넛 실데이터 검증.

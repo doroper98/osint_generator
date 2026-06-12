@@ -1,6 +1,6 @@
 <!--
 tier: 3
-last_synced_with: v0.36.1
+last_synced_with: v0.37.0
 ssot_for: [release-notes]
 depends_on: [README.md, GOAL.md]
 last_review: 2026-06-11
@@ -25,6 +25,27 @@ released 항목은 **append-only**입니다.
 
 ### Fixed
 -
+
+---
+
+## [v0.37.0] — 2026-06-11
+
+### Added
+- **타임라인 시각화 5유형** (사용자 요청): 계단(ladder)·수평 축(axis)에 더해
+  **서펜타인**(2단 S자 — 분기점 11개↑), **수직 레일**(긴 설명형 라벨),
+  **메트로**(국면 구간 색 노선도 — 미래 비중 40%↑) 신설. 변환기가 데이터
+  성격(국면 조합/개수/라벨 길이/미래 비중)으로 자동 선택, `--timeline=` 강제.
+- **컬러 테마 5종** (`assets/themes.js` + CSS 토큰화): ink_brass(디폴트),
+  graphite_slate(앰버 — agents_reviewer 동명 테마 자동 매칭), midnight_navy
+  (아이스 블루), forest_archive(민트 그린), **paper_oxblood(라이트 — 신문
+  인포그래픽)**. 번들 theme.id 일치 시 자동 적용, `--video-theme=` 강제.
+  의미색(국면/마켓)은 적용된 테마 변수에서 런타임 파생.
+- **미개발 유형 선반영**: 슬로프 차트 씬(ch-10 사용 — 좌→우 변화선 + 최대
+  변화 하이라이트), **도넛 차트 빌더**(구성비 — 세그먼트 draw + 리더 라벨,
+  데이터 도착 시 즉시 사용 가능), **인용 인터스티셜 씬**(pull_quote → 대형
+  세리프 한 장, 숫자 자동 강조).
+- 반도체 번들 자동 영상: 9씬 89초 → **11씬 106초** (인용·슬로프 추가,
+  graphite_slate + 서펜타인 자동 선택).
 
 ---
 

@@ -513,6 +513,302 @@
     return { geo, riser: axis, items, field };
   }
 
+  // ───────────────────── ①-e 서펜타인 타임라인 (2단 S자 — 분기점 多) ─────────────────────
+  // steps 를 2행으로 흐르게 배치: 윗행 좌→우, U턴, 아랫행 우→좌.
+  function buildSerpentineTimeline(svg, steps, opts) {
+    const { colors } = opts;
+    const field = opts.field || stageField();
+    const x0 = opts.x0 ?? 280;
+    const x1 = opts.x1 ?? 1560;
+    const yTop = opts.yTop ?? 420;
+    const yBot = opts.yBot ?? 712;
+    const n = steps.length;
+    const topN = Math.ceil(n / 2);
+    const botN = n - topN;
+
+    // 경로: 윗행 → 우측 라운드 U턴 → 아랫행 (uturn 반경)
+    const ur = (yBot - yTop) / 2;
+    const cxU = x1 + 30;
+    const d =
+      `M ${x0 - 30} ${yTop} L ${cxU} ${yTop} ` +
+      `A ${ur} ${ur} 0 0 1 ${cxU} ${yBot} ` +
+      `L ${x0 - 30} ${yBot}`;
+    const path = svgEl("path", { d, fill: "none", stroke: "var(--sk-hairline, rgba(236,233,226,0.2))",
+      "stroke-width": 2, "stroke-linecap": "round", class: "tlm-riser" }, svg);
+    prepDraw(path);
+    field.addSegment(x0 - 30, yTop, cxU, yTop, 14);
+    field.addSegment(x0 - 30, yBot, cxU, yBot, 14);
+    field.addQuad(cxU, yTop, cxU + ur * 1.4, (yTop + yBot) / 2, cxU, yBot, 14);
+
+    const geo = steps.map((p, i) => {
+      if (i < topN) {
+        const x = topN === 1 ? x0 : x0 + (i / (topN - 1)) * (x1 - x0);
+        return { ...p, x, y: yTop };
+      }
+      const j = i - topN;
+      const x = botN === 1 ? x1 : x1 - (j / (botN - 1)) * (x1 - x0);
+      return { ...p, x, y: yBot };
+    });
+    geo.forEach((p) => field.addCircle(p.x, p.y, 16));
+
+    const leaderLayer = svgEl("g", {}, svg);
+    const plateLayer = svgEl("g", {}, svg);
+    const markerLayer = svgEl("g", {}, svg);
+    const items = geo.map((p, i) => {
+      const c = colors[p.phase] || "#8a92a8";
+      const mg = svgEl("g", { class: "tlm-marker", opacity: 0,
+        transform: `translate(${p.x.toFixed(1)} ${p.y})` }, markerLayer);
+      svgEl("circle", { r: 10, fill: "var(--sk-ink, #141416)", stroke: c, "stroke-width": 3 }, mg);
+      svgEl("circle", { r: 3.5, fill: c }, mg);
+      if (p.phase === "present")
+        svgEl("circle", { r: 10, fill: "none", stroke: c, "stroke-width": 2, class: "pulse-ring", opacity: 0.9 }, mg);
+      const plate = plateLabel(plateLayer, [
+        { text: p.date, size: 15, fill: c, weight: 800, ls: "1" },
+        { text: p.label, size: 17, weight: 700,
+          fill: p.phase === "future" ? "var(--sk-dim, #8b877d)" : "var(--sk-text, #ece9e2)" },
+      ], { maxW: 210, cls: "tlm-plate" });
+      // 윗행은 위, 아랫행은 아래 우선
+      const order = p.y === yTop ? ["above", "below", "right", "left"] : ["below", "above", "left", "right"];
+      const r = field.place(plate.w, plate.h, slotCandidates(p.x, p.y, plate.w, plate.h, order));
+      plate.setPos(r.x, r.y);
+      const ld = leader(leaderLayer, p.x, p.y, r, { cls: "tlm-leader" });
+      if (ld) prepDraw(ld);
+      return { geo: p, marker: mg, plate, leader: ld, color: c };
+    });
+    return { geo, riser: path, items, field };
+  }
+
+  // ───────────────────── ①-f 수직 타임라인 (긴 설명형 — 기사 레일) ─────────────────────
+  // 좌측 레일 + 우측 와이드 플레이트. 라벨이 긴 시계열에 적합 (≤6개 권장).
+  function buildVerticalTimeline(svg, steps, opts) {
+    const { colors } = opts;
+    const field = opts.field || stageField();
+    const railX = opts.railX ?? 470;
+    const y0 = opts.y0 ?? 318;
+    const y1 = opts.y1 ?? 830;
+    const n = steps.length;
+
+    const rail = svgEl("line", { x1: railX, y1: y0 - 16, x2: railX, y2: y1 + 16,
+      stroke: "var(--sk-hairline, rgba(236,233,226,0.2))", "stroke-width": 2,
+      "stroke-linecap": "round", class: "tlm-riser" }, svg);
+    prepDraw(rail);
+    field.addSegment(railX, y0 - 16, railX, y1 + 16, 14);
+
+    const plateLayer = svgEl("g", {}, svg);
+    const markerLayer = svgEl("g", {}, svg);
+    const items = steps.map((p, i) => {
+      const y = n === 1 ? y0 : y0 + (i / (n - 1)) * (y1 - y0);
+      const c = colors[p.phase] || "#8a92a8";
+      const mg = svgEl("g", { class: "tlm-marker", opacity: 0,
+        transform: `translate(${railX} ${y.toFixed(1)})` }, markerLayer);
+      svgEl("circle", { r: 10, fill: "var(--sk-ink, #141416)", stroke: c, "stroke-width": 3 }, mg);
+      svgEl("circle", { r: 3.5, fill: c }, mg);
+      if (p.phase === "present")
+        svgEl("circle", { r: 10, fill: "none", stroke: c, "stroke-width": 2, class: "pulse-ring", opacity: 0.9 }, mg);
+      // 날짜 — 레일 좌측 (plate 없이 텍스트, 우측 정렬)
+      const dateT = svgEl("text", { x: railX - 26, y: (y + 6).toFixed(1), "text-anchor": "end",
+        fill: c, "font-size": 17, "font-weight": 800, "letter-spacing": "1",
+        class: "sk-text tlm-date", opacity: 0 }, svg);
+      dateT.textContent = p.date;
+      // 라벨 — 레일 우측 와이드 플레이트
+      const plate = plateLabel(plateLayer, [
+        { text: p.label, size: 19, weight: 700,
+          fill: p.phase === "future" ? "var(--sk-dim, #8b877d)" : "var(--sk-text, #ece9e2)" },
+      ], { maxW: 980, cls: "tlm-plate" });
+      const r = field.place(plate.w, plate.h, [
+        { x: railX + 36, y: y - plate.h / 2 },
+        { x: railX + 36, y: y - plate.h },
+        { x: railX + 36, y: y },
+      ]);
+      plate.setPos(r.x, r.y);
+      return { geo: { ...p, x: railX, y }, marker: mg, plate, dateEl: dateT, leader: null, color: c };
+    });
+    return { geo: items.map((it) => it.geo), riser: rail, items, field };
+  }
+
+  // ───────────────────── ①-g 메트로 타임라인 (국면 구간 색 노선도) ─────────────────────
+  // 정거장 사이 구간을 다음 정거장 phase 색으로 칠해 국면 전환을 선 자체로 보여준다.
+  function buildMetroTimeline(svg, steps, opts) {
+    const { colors } = opts;
+    const field = opts.field || stageField();
+    const x0 = opts.x0 ?? 250;
+    const x1 = opts.x1 ?? 1650;
+    const y = opts.y ?? 586;
+    const n = steps.length;
+    const geo = steps.map((p, i) => ({ ...p, x: x0 + (i / (n - 1)) * (x1 - x0), y }));
+
+    const segLayer = svgEl("g", {}, svg);
+    const segs = [];
+    for (let i = 1; i < n; i++) {
+      const c = colors[geo[i].phase] || "#8a92a8";
+      const sg = svgEl("line", { x1: geo[i - 1].x.toFixed(1), y1: y, x2: geo[i].x.toFixed(1), y2: y,
+        stroke: c, "stroke-width": 7, "stroke-linecap": "round", opacity: 0.85, class: "metro-seg" }, segLayer);
+      prepDraw(sg);
+      segs.push(sg);
+    }
+    field.addSegment(x0, y, x1, y, 16);
+    geo.forEach((p) => field.addCircle(p.x, p.y, 18));
+
+    const leaderLayer = svgEl("g", {}, svg);
+    const plateLayer = svgEl("g", {}, svg);
+    const markerLayer = svgEl("g", {}, svg);
+    const items = geo.map((p, i) => {
+      const c = colors[p.phase] || "#8a92a8";
+      const mg = svgEl("g", { class: "tlm-marker", opacity: 0,
+        transform: `translate(${p.x.toFixed(1)} ${p.y})` }, markerLayer);
+      svgEl("circle", { r: 13, fill: "var(--sk-ink, #141416)", stroke: c, "stroke-width": 4 }, mg);
+      if (p.phase === "present")
+        svgEl("circle", { r: 13, fill: "none", stroke: c, "stroke-width": 2, class: "pulse-ring", opacity: 0.9 }, mg);
+      const plate = plateLabel(plateLayer, [
+        { text: p.date, size: 16, fill: c, weight: 800, ls: "1.2" },
+        { text: p.label, size: 18, weight: 700,
+          fill: p.phase === "future" ? "var(--sk-dim, #8b877d)" : "var(--sk-text, #ece9e2)" },
+      ], { maxW: 220, cls: "tlm-plate" });
+      const order = i % 2 === 0 ? ["above", "below", "right", "left"] : ["below", "above", "left", "right"];
+      const r = field.place(plate.w, plate.h, slotCandidates(p.x, p.y, plate.w, plate.h, order));
+      plate.setPos(r.x, r.y);
+      const ld = leader(leaderLayer, p.x, p.y, r, { cls: "tlm-leader" });
+      if (ld) prepDraw(ld);
+      return { geo: p, marker: mg, plate, leader: ld, color: c };
+    });
+    return { geo, riser: null, segs, items, field };
+  }
+
+  // ───────────────────── ①-h 슬로프 차트 (좌→우 변화 비교) ─────────────────────
+  // data: { left_label, right_label, items:[{label, a, b}] } / opts: { accent }
+  function buildSlopeChart(svg, data, opts) {
+    const field = opts.field || stageField();
+    const xL = opts.xL ?? 620;
+    const xR = opts.xR ?? 1300;
+    const y0 = opts.y0 ?? 350;
+    const y1 = opts.y1 ?? 800;
+    const accent = opts.accent || "#c4a265";
+    const vals = data.items.flatMap((it) => [it.a, it.b]);
+    const lo = Math.min(...vals);
+    const hi = Math.max(...vals);
+    const span = hi - lo || 1;
+    const ys = (v) => y1 - ((v - lo) / span) * (y1 - y0);
+
+    // 좌/우 기둥 + 컬럼 라벨
+    [[xL, data.left_label], [xR, data.right_label]].forEach(([x, lab]) => {
+      svgEl("line", { x1: x, y1: y0 - 26, x2: x, y2: y1 + 26,
+        stroke: "var(--sk-hairline, rgba(236,233,226,0.16))", "stroke-width": 1.5 }, svg);
+      const t = svgEl("text", { x, y: y0 - 44, "text-anchor": "middle",
+        fill: "var(--sk-muted, #a39e92)", "font-size": 18, "font-weight": 700,
+        "letter-spacing": "2", class: "sk-text" }, svg);
+      t.textContent = lab;
+      field.addSegment(x, y0 - 26, x, y1 + 26, 12);
+    });
+
+    // 변화 폭 최대 항목 하이라이트
+    let hiIdx = 0;
+    data.items.forEach((it, i) => {
+      if (Math.abs(it.b - it.a) > Math.abs(data.items[hiIdx].b - data.items[hiIdx].a)) hiIdx = i;
+    });
+
+    const lineLayer = svgEl("g", {}, svg);
+    const plateLayer = svgEl("g", {}, svg);
+    const items = data.items.map((it, i) => {
+      const yA = ys(it.a);
+      const yB = ys(it.b);
+      const isHi = i === hiIdx;
+      const c = isHi ? accent : "var(--sk-dim, #8b877d)";
+      const ln = svgEl("line", { x1: xL, y1: yA.toFixed(1), x2: xR, y2: yB.toFixed(1),
+        stroke: c, "stroke-width": isHi ? 3.5 : 2, "stroke-linecap": "round",
+        opacity: 0, class: "slope-line" }, lineLayer);
+      prepDraw(ln);
+      field.addSegment(xL, yA, xR, yB, 10);
+      const dotA = svgEl("circle", { cx: xL, cy: yA.toFixed(1), r: isHi ? 6 : 4.5, fill: c, opacity: 0, class: "slope-dot" }, lineLayer);
+      const dotB = svgEl("circle", { cx: xR, cy: yB.toFixed(1), r: isHi ? 6 : 4.5, fill: c, opacity: 0, class: "slope-dot" }, lineLayer);
+      // 좌: 라벨+시작값 / 우: 종료값
+      const pA = plateLabel(plateLayer, [
+        { text: `${it.label} · ${it.a.toLocaleString("ko-KR")}`, size: 16, weight: isHi ? 800 : 600,
+          fill: isHi ? accent : "var(--sk-muted, #a39e92)" },
+      ], { cls: "slope-plate" });
+      const rA = field.place(pA.w, pA.h, [
+        { x: xL - 30 - pA.w, y: yA - pA.h / 2 },
+        { x: xL - 30 - pA.w, y: yA - pA.h },
+        { x: xL - 30 - pA.w, y: yA },
+      ]);
+      pA.setPos(rA.x, rA.y);
+      const pB = plateLabel(plateLayer, [
+        { text: it.b.toLocaleString("ko-KR"), size: 17, weight: isHi ? 800 : 600,
+          fill: isHi ? accent : "var(--sk-muted, #a39e92)" },
+      ], { cls: "slope-plate" });
+      const rB = field.place(pB.w, pB.h, [
+        { x: xR + 30, y: yB - pB.h / 2 },
+        { x: xR + 30, y: yB - pB.h },
+        { x: xR + 30, y: yB },
+      ]);
+      pB.setPos(rB.x, rB.y);
+      return { line: ln, dots: [dotA, dotB], plates: [pA, pB], hi: isHi };
+    });
+    return { items, hiIdx, field };
+  }
+
+  // ───────────────────── ①-i 도넛 차트 (구성비) ─────────────────────
+  // items: [{label, value}] / opts: { cx, cy, r, width, colors[] , centerLabel?, centerValue? }
+  function buildDonut(svg, items, opts) {
+    const cx = opts.cx ?? 760;
+    const cy = opts.cy ?? 580;
+    const R = opts.r ?? 175;
+    const wdt = opts.width ?? 46;
+    const palette = opts.colors;
+    const field = opts.field || stageField();
+    const total = items.reduce((s, it) => s + it.value, 0) || 1;
+    field.addCircle(cx, cy, R + wdt);
+
+    const segLayer = svgEl("g", {}, svg);
+    const plateLayer = svgEl("g", {}, svg);
+    let acc = -Math.PI / 2; // 12시 시작
+    const segs = items.map((it, i) => {
+      const frac = it.value / total;
+      const a0 = acc;
+      const a1 = acc + frac * Math.PI * 2;
+      acc = a1;
+      // 아크 path (간격 1.5도)
+      const gapA = 0.013;
+      const s0 = a0 + gapA;
+      const s1 = Math.max(s0 + 0.02, a1 - gapA);
+      const large = s1 - s0 > Math.PI ? 1 : 0;
+      const p0 = { x: cx + R * Math.cos(s0), y: cy + R * Math.sin(s0) };
+      const p1 = { x: cx + R * Math.cos(s1), y: cy + R * Math.sin(s1) };
+      const c = palette[i % palette.length];
+      const path = svgEl("path", {
+        d: `M ${p0.x.toFixed(1)} ${p0.y.toFixed(1)} A ${R} ${R} 0 ${large} 1 ${p1.x.toFixed(1)} ${p1.y.toFixed(1)}`,
+        fill: "none", stroke: c, "stroke-width": wdt, opacity: 0, class: "donut-seg",
+      }, segLayer);
+      prepDraw(path);
+      // 라벨 플레이트 + 리더
+      const mid = (s0 + s1) / 2;
+      const ax = cx + (R + wdt / 2 + 8) * Math.cos(mid);
+      const ay = cy + (R + wdt / 2 + 8) * Math.sin(mid);
+      const plate = plateLabel(plateLayer, [
+        { text: `${it.label} · ${Math.round(frac * 100)}%`, size: 17, weight: 700, fill: c },
+      ], { cls: "donut-plate" });
+      const ox = Math.cos(mid) >= 0 ? 36 : -36 - plate.w;
+      const r = field.place(plate.w, plate.h, [
+        { x: ax + ox, y: ay - plate.h / 2 },
+        { x: ax + ox, y: ay - plate.h - 8 },
+        { x: ax + ox, y: ay + 8 },
+      ]);
+      plate.setPos(r.x, r.y);
+      const ld = leader(plateLayer, ax, ay, r, { cls: "donut-leader" });
+      if (ld) prepDraw(ld);
+      return { path, plate, leader: ld, frac };
+    });
+    // 중심 라벨
+    if (opts.centerLabel) {
+      const t1 = svgEl("text", { x: cx, y: cy - 8, "text-anchor": "middle",
+        fill: "var(--sk-muted, #a39e92)", "font-size": 17, "font-weight": 600, class: "sk-text" }, svg);
+      t1.textContent = opts.centerLabel;
+      const t2 = svgEl("text", { x: cx, y: cy + 32, "text-anchor": "middle",
+        fill: "var(--sk-text, #ece9e2)", "font-size": 34, "font-weight": 800, class: "sk-text" }, svg);
+      t2.textContent = opts.centerValue || "";
+    }
+    return { segs, field };
+  }
+
   // ───────────────────── ①-c 가로 바 패널 (전망/목표가 비교) ─────────────────────
   // panels: [{ title, unit, items:[{label, value, note?}], hiIndex? }]
   // opts: { accent, top? } — HTML 기반, 컨테이너에 .barpanel 카드 생성.
@@ -1196,6 +1492,11 @@
     counter,
     buildStepTimeline,
     buildAxisTimeline,
+    buildSerpentineTimeline,
+    buildVerticalTimeline,
+    buildMetroTimeline,
+    buildSlopeChart,
+    buildDonut,
     buildBarPanels,
     buildCandleChart,
     buildBasemap,

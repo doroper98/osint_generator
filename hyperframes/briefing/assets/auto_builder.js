@@ -23,8 +23,27 @@
 
   // ── 총 길이/테마 주입 (hyperframes 가 attribute 를 읽기 전, 빌드 시점) ──
   root.setAttribute("data-duration", String(D.total));
+  // 테마: 프리셋(themes.js) 우선, 그 위에 개별 변수 오버라이드
+  if (window.SK_THEMES && D.themeId && window.SK_THEMES[D.themeId])
+    for (const k in window.SK_THEMES[D.themeId].vars)
+      document.documentElement.style.setProperty(k, window.SK_THEMES[D.themeId].vars[k]);
   if (D.themeVars)
     for (const k in D.themeVars) document.documentElement.style.setProperty(k, D.themeVars[k]);
+
+  // 의미색 — 적용된 테마 변수에서 파생 (D.colors 로 강제 오버라이드 가능)
+  const cssv = getComputedStyle(document.documentElement);
+  const cv = (n, fb) => (cssv.getPropertyValue(n) || "").trim() || fb;
+  const ACCENT = cv("--accent", "#c4a265");
+  const OXIDE = cv("--oxide", "#b25450");
+  const SAGE = cv("--sage", "#7d9b76");
+  const SLATE = cv("--slate", "#8d99ae");
+  const FAINT = cv("--faint", "#6e6a60");
+  const COLORS = D.colors || {
+    phase: { past: FAINT, crack: ACCENT, present: OXIDE, future: SLATE },
+    gradStops: [["0", FAINT], ["0.62", OXIDE], ["1", SLATE]],
+    market: { up: SAGE, down: OXIDE, vol: ACCENT, flat: SLATE },
+    marketTag: { up: "상승", down: "하락", vol: "변동", flat: "보합" },
+  };
 
   // ── 크롬 텍스트 ──
   const put = (id, text) => {
@@ -85,6 +104,30 @@
     if (h) tl.from(h, { opacity: 0, y: 18, duration: 0.7 }, t + 0.1);
   };
 
+  // 타임라인 변형 공용 연출
+  function pulsePresent(built, steps, at) {
+    const pi = steps.findIndex((s) => s.phase === "present");
+    if (pi >= 0)
+      tl.fromTo(built.items[pi].marker, { scale: 1 },
+        { scale: 1.35, transformOrigin: "50% 50%", duration: 0.5, yoyo: true, repeat: 1, ease: "sine.inOut" }, at);
+  }
+  function animateTimeline(built, sc, riserDur) {
+    const t0 = sc.t0;
+    sceneIn("#" + sc._secId, t0);
+    headIn(document.getElementById(sc._secId), t0);
+    if (built.riser) draw(built.riser, t0 + 0.4, riserDur, "power2.inOut");
+    built.items.forEach((it, i) => {
+      const at = t0 + 0.7 + i * 0.36;
+      tl.to(it.marker, { opacity: 1, duration: 0.4, ease: "power2.out" }, at);
+      tl.fromTo(it.marker, { scale: 0.4, transformOrigin: "50% 50%" },
+        { scale: 1, duration: 0.5, ease: "back.out(2)" }, at);
+      if (it.leader) draw(it.leader, at + 0.12, 0.3, "power1.out");
+      tl.fromTo(it.plate.g, { opacity: 0 }, { opacity: 1, duration: 0.45 }, at + 0.22);
+    });
+    pulsePresent(built, sc.data.steps, t0 + 4.4);
+    sceneOut("#" + sc._secId, sc.t1 - 0.5);
+  }
+
   // ── 씬 타입별 빌더 + 연출 ──
   const BUILDERS = {
     title(sc, sec) {
@@ -111,9 +154,9 @@
       sec.appendChild(svg);
       const lad = SK.buildStepTimeline(svg, sc.data.steps, {
         x0: 250, x1: 1640, yBottom: 778, yTop: 360,
-        colors: D.colors.phase,
+        colors: COLORS.phase,
         gradId: "ladgrad-auto",
-        gradStops: D.colors.gradStops,
+        gradStops: COLORS.gradStops,
       });
       const t0 = sc.t0;
       sceneIn(sec, t0);
@@ -139,7 +182,7 @@
       const svg = SK.svgEl("svg", { viewBox: "0 0 1920 1080", style: "position:absolute; inset:0;" });
       sec.appendChild(svg);
       const ax = SK.buildAxisTimeline(svg, sc.data.steps, {
-        x0: 240, x1: 1660, y: 586, colors: D.colors.phase,
+        x0: 240, x1: 1660, y: 586, colors: COLORS.phase,
       });
       const t0 = sc.t0;
       sceneIn(sec, t0);
@@ -161,10 +204,104 @@
       sceneOut(sec, sc.t1 - 0.5);
     },
 
+    serpentine(sc, sec) {
+      const svg = SK.svgEl("svg", { viewBox: "0 0 1920 1080", style: "position:absolute; inset:0;" });
+      sec.appendChild(svg);
+      const sp = SK.buildSerpentineTimeline(svg, sc.data.steps, { colors: COLORS.phase });
+      animateTimeline(sp, sc, 2.4);
+    },
+
+    vertical(sc, sec) {
+      const svg = SK.svgEl("svg", { viewBox: "0 0 1920 1080", style: "position:absolute; inset:0;" });
+      sec.appendChild(svg);
+      const vt = SK.buildVerticalTimeline(svg, sc.data.steps, { colors: COLORS.phase });
+      animateTimeline(vt, sc, 2.0);
+      vt.items.forEach((it, i) => {
+        tl.to(it.dateEl, { opacity: 1, duration: 0.4 }, sc.t0 + 0.7 + i * 0.4);
+      });
+    },
+
+    metro(sc, sec) {
+      const svg = SK.svgEl("svg", { viewBox: "0 0 1920 1080", style: "position:absolute; inset:0;" });
+      sec.appendChild(svg);
+      const mt = SK.buildMetroTimeline(svg, sc.data.steps, { colors: COLORS.phase });
+      const t0 = sc.t0;
+      sceneIn(sec, t0);
+      headIn(sec, t0);
+      mt.segs.forEach((sg, i) => draw(sg, t0 + 0.5 + i * 0.28, 0.5, "power1.inOut"));
+      mt.items.forEach((it, i) => {
+        const at = t0 + 0.6 + i * 0.32;
+        tl.to(it.marker, { opacity: 1, duration: 0.4, ease: "power2.out" }, at);
+        tl.fromTo(it.marker, { scale: 0.4, transformOrigin: "50% 50%" },
+          { scale: 1, duration: 0.5, ease: "back.out(2)" }, at);
+        if (it.leader) draw(it.leader, at + 0.12, 0.3, "power1.out");
+        tl.fromTo(it.plate.g, { opacity: 0 }, { opacity: 1, duration: 0.45 }, at + 0.22);
+      });
+      pulsePresent(mt, sc.data.steps, t0 + 4.4);
+      sceneOut(sec, sc.t1 - 0.5);
+    },
+
+    slope(sc, sec) {
+      const svg = SK.svgEl("svg", { viewBox: "0 0 1920 1080", style: "position:absolute; inset:0;" });
+      sec.appendChild(svg);
+      const sl = SK.buildSlopeChart(svg, sc.data, { accent: ACCENT });
+      const t0 = sc.t0;
+      sceneIn(sec, t0);
+      headIn(sec, t0);
+      sl.items.forEach((it, i) => {
+        const at = t0 + 0.6 + i * 0.3;
+        tl.fromTo(it.plates[0].g, { opacity: 0 }, { opacity: 1, duration: 0.4 }, at);
+        tl.to(it.dots[0], { opacity: 1, duration: 0.25 }, at + 0.1);
+        tl.to(it.line, { opacity: it.hi ? 1 : 0.7, duration: 0.2 }, at + 0.2);
+        draw(it.line, at + 0.25, 0.8, "power2.inOut");
+        tl.to(it.dots[1], { opacity: 1, duration: 0.25 }, at + 1.0);
+        tl.fromTo(it.plates[1].g, { opacity: 0 }, { opacity: 1, duration: 0.4 }, at + 1.05);
+      });
+      sceneOut(sec, sc.t1 - 0.5);
+    },
+
+    donut(sc, sec) {
+      const svg = SK.svgEl("svg", { viewBox: "0 0 1920 1080", style: "position:absolute; inset:0;" });
+      sec.appendChild(svg);
+      const dn = SK.buildDonut(svg, sc.data.items, {
+        colors: [ACCENT, SLATE, SAGE, OXIDE, FAINT],
+        centerLabel: sc.data.centerLabel,
+        centerValue: sc.data.centerValue,
+      });
+      const t0 = sc.t0;
+      sceneIn(sec, t0);
+      headIn(sec, t0);
+      dn.segs.forEach((sg, i) => {
+        const at = t0 + 0.5 + i * 0.3;
+        tl.to(sg.path, { opacity: 0.95, duration: 0.2 }, at);
+        draw(sg.path, at, 0.9, "power2.inOut");
+        if (sg.leader) draw(sg.leader, at + 0.7, 0.3, "power1.out");
+        tl.fromTo(sg.plate.g, { opacity: 0 }, { opacity: 1, duration: 0.4 }, at + 0.8);
+      });
+      sceneOut(sec, sc.t1 - 0.5);
+    },
+
+    quote(sc, sec) {
+      const d = sc.data;
+      sec.innerHTML +=
+        `<div class="iquote">` +
+        `<div class="iq-rule"></div>` +
+        `<div class="iq-text"></div>` +
+        `<div class="iq-src">${d.source || ""}</div>` +
+        `</div>`;
+      const chs = SK.splitChars(sec.querySelector(".iq-text"), d.segments);
+      const t0 = sc.t0;
+      sceneIn(sec, t0);
+      tl.fromTo(sec.querySelector(".iq-rule"), { scaleX: 0 }, { scaleX: 1, duration: 0.8, ease: "power4.out" }, t0 + 0.3);
+      tl.from(chs, { opacity: 0, y: 16, duration: 0.7, stagger: 0.014, ease: "power3.out" }, t0 + 0.5);
+      tl.from(sec.querySelector(".iq-src"), { opacity: 0, duration: 0.6 }, t0 + 1.8);
+      sceneOut(sec, sc.t1 - 0.5);
+    },
+
     bars(sc, sec) {
       const wrap = document.createElement("div");
       sec.appendChild(wrap);
-      const panels = SK.buildBarPanels(wrap, sc.data.panels, { accent: D.themeVars["--accent"] });
+      const panels = SK.buildBarPanels(wrap, sc.data.panels, { accent: ACCENT });
       const t0 = sc.t0;
       sceneIn(sec, t0);
       headIn(sec, t0);
@@ -186,8 +323,8 @@
       sec.appendChild(svg);
       const ch = SK.buildCandleChart(svg, sc.data.ohlc, {
         x0: 180, x1: 1640, y0: 320, y1: 820,
-        up: D.themeVars["--sage"] || "#7d9b76",
-        down: D.themeVars["--oxide"] || "#b25450",
+        up: SAGE,
+        down: OXIDE,
       });
       const t0 = sc.t0;
       sceneIn(sec, t0);
@@ -253,8 +390,8 @@
       const wrap = document.createElement("div");
       sec.appendChild(wrap);
       const cards = SK.buildMarketCards(wrap, sc.data.markets, {
-        colorByKind: D.colors.market,
-        tagByKind: D.colors.marketTag,
+        colorByKind: COLORS.market,
+        tagByKind: COLORS.marketTag,
       });
       const t0 = sc.t0;
       sceneIn(sec, t0);
@@ -300,6 +437,7 @@
   const sections = [];
   D.scenes.forEach((sc, i) => {
     const sec = sceneShell(sc, i);
+    sc._secId = sec.id;
     sections.push(sec);
     gsap.set(sec, { autoAlpha: 0 });
     chip(sc.t0, sc.chip);
