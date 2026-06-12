@@ -1,0 +1,805 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1920, height=1080" />
+    <!--
+      OSINT 시네마틱 브리핑 — 60일 휴전 뒤 이란 미사일
+      기준 데이터: agents_reviewer report_bundle
+      테마: ink & brass 에디토리얼 (v0.35.2 — midnight_indigo 폐기, AI-dashboard 미감 제거)
+
+      v0.35.0 엔진 리팩토링:
+        - assets/scene_kit.js (SceneKit) 위에서 모든 씬을 데이터 주도로 빌드.
+        - 라벨 겹침 / 선 위 글자 사고를 LabelField(충돌 회피 배치기) + 플레이트
+          라벨 + 리더선으로 구조적으로 차단.
+        - draw-on 은 전부 getTotalLength 실측 (하드코딩 dasharray 제거).
+      엔진 계약 유지 — window.__timelines["briefing"], 로컬 GSAP,
+      결정론적(no random/date/fetch).
+    -->
+    <link rel="stylesheet" href="assets/noto_serif_kr.css" />
+    <script src="assets/gsap.min.js"></script>
+    <script src="assets/scene_kit.js"></script>
+    <script src="assets/mideast_map.js"></script>
+    <style>
+      @font-face {
+        font-family: "Pretendard Variable";
+        src: url("assets/fonts/PretendardVariable.woff2") format("woff2-variations");
+        font-weight: 100 900;
+        font-style: normal;
+        font-display: block;
+      }
+
+      :root {
+        /* ink & brass — 에디토리얼 다큐 팔레트 (v0.35.2, AI-dashboard 미감 폐기) */
+        --bg0: #121214;
+        --bg1: #18181b;
+        --surface: #1d1d21;
+        --surface2: #222227;
+        --hairline: rgba(236, 233, 226, 0.16);
+        --hairline-soft: rgba(236, 233, 226, 0.08);
+        --text: #ece9e2;
+        --muted: #a39e92;
+        --faint: #6e6a60;
+        --accent: #c4a265;  /* brass */
+        --oxide: #b25450;   /* muted oxblood — 대립/현재 */
+        --sage: #7d9b76;    /* 동맹/상승 */
+        --slate: #8d99ae;   /* 중립/전망 */
+        --sienna: #b07a4a;  /* 대리세력/변동 */
+        /* SceneKit SVG 토큰 */
+        --sk-ink: #141416;
+        --sk-node-fill: rgba(29, 29, 33, 0.94);
+        --sk-hairline: rgba(236, 233, 226, 0.14);
+        --sk-grid: #232328;
+        --sk-region: rgba(163, 158, 146, 0.26);
+        --sk-text: #ece9e2;
+        --sk-muted: #a39e92;
+        --sk-dim: #8b877d;
+        /* 테마 시스템 토큰 (themes.js 프리셋이 오버라이드) */
+        --bg-radial: #1c1c20;
+        --bg-top: #141416;
+        --bg-bottom: #111113;
+        --plate-fill: rgba(18, 18, 20, 0.92);
+        --plate-stroke: rgba(236, 233, 226, 0.13);
+        --watermark-color: rgba(196, 162, 101, 0.05);
+        --sceneno-color: rgba(236, 233, 226, 0.07);
+        --cap-color: #f2efe8;
+        --cap-shadow: 0 2px 20px rgba(0, 0, 0, 0.55);
+        --scrim-rgb: 13, 13, 14;
+        --vignette-color: rgba(8, 8, 9, 0.75);
+        --grain-opacity: 0.045;
+        --legend-fill: rgba(18, 18, 20, 0.6);
+      }
+
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body {
+        width: 1920px; height: 1080px; overflow: hidden;
+        background: var(--bg0);
+        font-family: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, sans-serif;
+        color: var(--text);
+        word-break: keep-all;
+        overflow-wrap: anywhere;
+        -webkit-font-smoothing: antialiased;
+      }
+      svg text { font-family: "Pretendard Variable", Pretendard, sans-serif; }
+      .serif { font-family: "Noto Serif KR", "Pretendard Variable", serif; }
+
+      /* ── SceneKit 공용 ── */
+      .sk-plate-bg { fill: var(--plate-fill); stroke: var(--plate-stroke); stroke-width: 1; }
+      .sk-leader { stroke: rgba(163, 158, 146, 0.5); stroke-width: 1.2; }
+      .sk-halo { paint-order: stroke; stroke: #121214; stroke-width: 5px; stroke-linejoin: round; }
+
+      /* ── 베이스맵 (실측 지형, ink 톤) ── */
+      .bm-land { fill: #1a1a1f; stroke: rgba(236, 233, 226, 0.10); stroke-width: 1; }
+      .bm-hi { fill: #232329; stroke: rgba(196, 162, 101, 0.28); stroke-width: 1.2; }
+      .bm-label { fill: rgba(163, 158, 146, 0.42); font-size: 23px; font-weight: 700;
+                  letter-spacing: 5px; }
+      .net-anchor-leader { stroke: rgba(163, 158, 146, 0.55); stroke-width: 1.2;
+                           stroke-dasharray: 3 5; }
+      .net-mono { font-family: "Noto Serif KR", serif; }
+
+      /* ── 배경 (무광 잉크 차콜 — 글로우/블롭/그리드 없음) ── */
+      #bg { position: absolute; inset: 0; z-index: 0; overflow: hidden;
+            background:
+              radial-gradient(1700px 850px at 50% -12%, var(--bg-radial) 0%, transparent 62%),
+              linear-gradient(180deg, var(--bg-top) 0%, var(--bg-bottom) 100%); }
+      #grain { position: absolute; inset: 0; opacity: var(--grain-opacity); mix-blend-mode: overlay; pointer-events: none; }
+      #vignette { position: absolute; inset: 0; pointer-events: none;
+                  box-shadow: inset 0 0 300px 70px var(--vignette-color); }
+      /* 자막 가독용 하단 스크림 — 스테이지(z10) 위, 자막(z35) 아래 */
+      #scrim { position: absolute; left: 0; right: 0; bottom: 0; height: 230px; z-index: 20;
+               pointer-events: none;
+               background: linear-gradient(180deg, rgba(var(--scrim-rgb), 0) 0%, rgba(var(--scrim-rgb), 0.5) 55%, rgba(var(--scrim-rgb), 0.72) 100%); }
+
+      /* ── 상단 크롬 ── */
+      #prog { position: absolute; top: 0; left: 0; width: 100%; height: 2px; z-index: 40;
+              background: var(--accent); transform-origin: left center; }
+      .topbar { position: absolute; top: 50px; left: 96px; right: 96px; height: 40px;
+                display: flex; align-items: center; justify-content: space-between; z-index: 30; }
+      .toprule { position: absolute; top: 112px; left: 96px; right: 96px; height: 1px;
+                 background: var(--hairline-soft); z-index: 30; }
+      .brand { display: flex; align-items: center; gap: 16px; }
+      .brand-mark { width: 10px; height: 10px; background: var(--accent);
+                    transform: rotate(45deg); }
+      .brand-name { font-size: 19px; font-weight: 700; letter-spacing: 6px; }
+      .brand-sub { font-size: 14px; font-weight: 500; letter-spacing: 2.5px; color: var(--muted);
+                   padding-left: 16px; border-left: 1px solid var(--hairline); }
+      .topright { display: flex; align-items: center; gap: 22px;
+                  font-size: 14px; font-weight: 500; letter-spacing: 2px; color: var(--muted); }
+      .chip { display: inline-flex; align-items: center; gap: 9px; padding: 7px 16px;
+              border: 1px solid var(--hairline); border-radius: 2px; background: transparent; }
+      .chip .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--accent); }
+      #scene-chip { color: var(--text); }
+      #scene-chip .dot { background: var(--accent); }
+
+      /* ── 하단 자막 (lower-third) ── */
+      .subwrap { position: absolute; left: 96px; bottom: 96px; right: 600px; z-index: 35;
+                 display: flex; gap: 22px; align-items: flex-start; }
+      .subbar { width: 3px; align-self: stretch; min-height: 56px;
+                background: var(--accent); }
+      #cap { font-size: 37px; line-height: 1.38; font-weight: 600; letter-spacing: -0.2px;
+             color: var(--cap-color); max-width: 1160px;
+             text-shadow: var(--cap-shadow); }
+      .source { position: absolute; right: 96px; bottom: 100px; z-index: 35; text-align: right;
+                font-size: 14px; line-height: 1.75; font-weight: 500; color: var(--faint);
+                letter-spacing: 0.5px; }
+      .source b { color: var(--muted); font-weight: 600; }
+
+      /* ── 씬 공통 ── */
+      #stage { position: absolute; inset: 0; z-index: 10; }
+      .scene { position: absolute; inset: 0; visibility: hidden; opacity: 0; }
+      .scene-head { position: absolute; top: 150px; left: 96px; right: 320px; z-index: 6; }
+      .kicker { font-size: 16px; font-weight: 700; letter-spacing: 5px; text-transform: uppercase;
+                color: var(--accent); margin-bottom: 18px; display: flex; align-items: center; gap: 14px; }
+      .kicker::before { content: ""; width: 30px; height: 1px; background: var(--accent); opacity: 0.7; }
+      .scene-title { font-family: "Noto Serif KR", "Pretendard Variable", serif;
+                     font-size: 54px; font-weight: 600; letter-spacing: -0.5px; color: var(--text); }
+      /* 씬 번호: SceneKit.LAYOUT.sceneNo 영역과 일치 (충돌장이 보호) */
+      .scene-no { position: absolute; top: 158px; right: 96px; font-size: 112px; font-weight: 250; z-index: 6;
+                  font-family: "Noto Serif KR", serif; line-height: 1;
+                  color: var(--sceneno-color); letter-spacing: 2px; }
+
+      /* ── S1 타이틀 ── */
+      .s1-kicker { font-size: 19px; font-weight: 600; letter-spacing: 7px; text-transform: uppercase;
+                   color: var(--accent); }
+      .s1-rule { width: 76px; height: 3px; background: var(--accent);
+                 transform-origin: left center; margin: 32px 0 40px; }
+      .headline { font-family: "Noto Serif KR", "Pretendard Variable", serif;
+                  font-size: 94px; font-weight: 650; line-height: 1.22; letter-spacing: -1px; }
+      .headline .em { color: var(--accent); }
+      .deck { margin-top: 42px; font-size: 29px; line-height: 1.66; font-weight: 400;
+              color: var(--muted); max-width: 1300px; letter-spacing: -0.2px; }
+      .watermark { position: absolute; right: -10px; bottom: 48px; font-size: 196px; font-weight: 200;
+                   font-family: "Noto Serif KR", serif;
+                   color: var(--watermark-color); letter-spacing: -2px; line-height: 1.04;
+                   text-align: right; pointer-events: none; }
+      .line { display: block; overflow: hidden; }
+      .word { display: inline-block; white-space: nowrap; }
+      .ch { display: inline-block; will-change: transform, opacity; }
+
+      /* ── 범례 (수평, 우상단 씬번호 아래 — 충돌장에 등록됨) ── */
+      .legend-row { position: absolute; top: 300px; right: 96px; display: flex; gap: 14px;
+                    align-items: center; z-index: 12; }
+      .legend-row .item { display: flex; align-items: center; gap: 10px; font-size: 15px;
+                          font-weight: 500; color: var(--muted); padding: 6px 13px;
+                          border: 1px solid var(--hairline-soft); border-radius: 2px;
+                          background: var(--legend-fill); letter-spacing: 1px; }
+      .legend-row .swatch { width: 24px; height: 0; border-top-width: 2px; border-top-style: solid; }
+
+      /* ── S4 프로필 카드 (키 플레이어) ── */
+      .pcard { position: absolute; top: 326px; overflow: hidden;
+               background: var(--surface);
+               border: 1px solid var(--hairline-soft); border-radius: 8px; padding: 34px;
+               box-shadow: 0 18px 50px rgba(0, 0, 0, 0.38); }
+      .pcard .ptop { position: absolute; top: 0; left: 0; right: 0; height: 3px; opacity: 0.9; }
+      .pcard .phead { display: flex; align-items: center; gap: 22px; }
+      .pcard .pmono { position: relative; width: 92px; height: 92px; flex: none;
+                      display: flex; align-items: center; justify-content: center; }
+      .pcard .pmono span { font-size: 28px; font-weight: 800; letter-spacing: 1px;
+                           font-family: "Noto Serif KR", serif; }
+      .pcard .pmono img { width: 82px; height: 82px; border-radius: 50%; object-fit: cover; }
+      .pcard .pring-svg { position: absolute; inset: 0; }
+      .pcard .pname { font-size: 29px; font-weight: 700; letter-spacing: -0.5px; }
+      .pcard .porg { margin-top: 7px; font-size: 15px; font-weight: 500; color: var(--muted);
+                     letter-spacing: 1px; }
+      .pcard .pline { margin-top: 30px; font-size: 20px; line-height: 1.58; font-weight: 500;
+                      color: #cdc9bf; min-height: 94px; }
+      .pcard .pgauge { position: absolute; left: 34px; right: 34px; bottom: 30px; }
+      .pcard .glabels { display: flex; justify-content: space-between; font-size: 13px;
+                        font-weight: 600; color: var(--faint); letter-spacing: 1.5px; }
+      .pcard .gtag { font-size: 11px; font-weight: 600; letter-spacing: 2px; color: var(--faint);
+                     border: 1px solid var(--hairline-soft); border-radius: 2px; padding: 2px 9px; }
+      .pcard .gtrack { position: relative; margin-top: 12px; height: 6px; border-radius: 3px;
+                       background: linear-gradient(90deg, rgba(141,153,174,0.35), rgba(196,162,101,0.3), rgba(178,84,80,0.4)); }
+      .pcard .gdot { position: absolute; top: -5px; left: -8px; width: 16px; height: 16px;
+                     border-radius: 50%; border: 2.5px solid var(--sk-ink); }
+      .pcard .gstance { margin-top: 14px; font-size: 16px; font-weight: 700; letter-spacing: 1px; }
+
+      /* ── S6 마켓 카드 ── */
+      .mcard { position: absolute; top: 318px; width: 360px; height: 430px; overflow: hidden;
+               background: var(--surface);
+               border: 1px solid var(--hairline-soft); border-radius: 8px; padding: 34px;
+               box-shadow: 0 18px 50px rgba(0, 0, 0, 0.38); }
+      .mcard .mtop { position: absolute; top: 0; left: 0; right: 0; height: 3px; opacity: 0.9; }
+      .mcard .mhead { display: flex; align-items: center; justify-content: space-between; }
+      .mcard .mname { font-size: 21px; font-weight: 600; color: var(--muted); letter-spacing: 0.5px; }
+      .mcard .mtag { font-size: 12px; font-weight: 700; letter-spacing: 2.5px; padding: 4px 10px;
+                     border: 1px solid; border-radius: 2px; }
+      .mcard .mpct { font-size: 56px; font-weight: 800; letter-spacing: -1.5px; margin-top: 16px;
+                     font-variant-numeric: tabular-nums; white-space: nowrap; }
+      .mcard .msub { position: absolute; bottom: 30px; left: 34px; font-size: 16px; font-weight: 500;
+                     color: var(--faint); font-variant-numeric: tabular-nums; letter-spacing: 0.5px; }
+      .mcard svg { position: absolute; left: 34px; right: 34px; bottom: 78px; width: 292px; height: 150px; }
+
+      /* ── 바 패널 (전망/목표가 비교 — auto 컴포지션) ── */
+      .barpanel { position: absolute; top: 330px; background: var(--surface);
+                  border: 1px solid var(--hairline-soft); border-radius: 8px; padding: 36px 40px;
+                  box-shadow: 0 18px 50px rgba(0, 0, 0, 0.38); }
+      .barpanel .bp-title { font-size: 23px; font-weight: 700; margin-bottom: 28px;
+                            display: flex; align-items: baseline; justify-content: space-between; }
+      .barpanel .bp-unit { font-size: 14px; font-weight: 500; color: var(--faint); letter-spacing: 1px; }
+      .barpanel .bp-row { display: flex; align-items: center; gap: 18px; margin-top: 20px; }
+      .barpanel .bp-label { width: 175px; flex: none; font-size: 17px; font-weight: 600;
+                            color: var(--muted); letter-spacing: 0.3px; }
+      .barpanel .bp-track { flex: 1; height: 16px; border-radius: 3px;
+                            background: rgba(236, 233, 226, 0.05); overflow: hidden; }
+      .barpanel .bp-fill { height: 100%; border-radius: 3px; transform-origin: left center; }
+      .barpanel .bp-val { width: 120px; flex: none; text-align: right; font-size: 21px; font-weight: 800;
+                          font-variant-numeric: tabular-nums; letter-spacing: -0.5px; }
+      .barpanel .bp-note { margin: 4px 0 0 193px; font-size: 13px; color: var(--faint); }
+
+      /* ── 시그널 카드 (전방 관측 신호 — auto 컴포지션) ── */
+      .sigcard { position: absolute; top: 340px; width: 318px; height: 360px; overflow: hidden;
+                 background: var(--surface); border: 1px solid var(--hairline-soft);
+                 border-radius: 8px; padding: 26px; }
+      .sigcard .sg-when { display: inline-block; font-size: 13px; font-weight: 700; letter-spacing: 1.5px;
+                          color: var(--accent); border: 1px solid var(--hairline);
+                          border-radius: 2px; padding: 4px 10px; }
+      .sigcard .sg-name { margin-top: 18px; font-size: 20px; font-weight: 700; line-height: 1.4; }
+      .sigcard .sg-desc { margin-top: 14px; font-size: 15px; line-height: 1.6; color: var(--muted); }
+      .sigcard .sg-tag { position: absolute; left: 26px; bottom: 22px; font-size: 13px;
+                         font-weight: 700; color: var(--oxide); letter-spacing: 1px; }
+
+      /* ── 인용 인터스티셜 (auto 컴포지션) ── */
+      .iquote { position: absolute; inset: 0; }
+      .iquote .iq-rule { position: absolute; top: 358px; left: 200px; width: 76px; height: 3px;
+                         background: var(--accent); transform-origin: left center; }
+      .iquote .iq-text { position: absolute; top: 408px; left: 200px; right: 240px;
+                         font-family: "Noto Serif KR", "Pretendard Variable", serif;
+                         font-size: 66px; font-weight: 550; line-height: 1.52;
+                         letter-spacing: -0.5px; color: var(--text); }
+      .iquote .iq-text .em { color: var(--accent); }
+      .iquote .iq-src { position: absolute; top: 770px; left: 200px; font-size: 18px;
+                        font-weight: 600; color: var(--faint); letter-spacing: 1.5px; }
+
+      /* ── 스테이트먼트 씬 (서술 섹션 key takeaway — auto 컴포지션) ── */
+      .stmt { position: absolute; top: 330px; left: 96px; right: 420px; }
+      .stmt .stmt-line { display: flex; gap: 30px; align-items: baseline; margin-bottom: 64px; }
+      .stmt .stmt-no { font-size: 17px; font-weight: 700; color: var(--faint);
+                       letter-spacing: 3px; flex: none; width: 44px;
+                       font-variant-numeric: tabular-nums; }
+      .stmt .stmt-text { font-family: "Noto Serif KR", "Pretendard Variable", serif;
+                         font-size: 62px; font-weight: 600; line-height: 1.38;
+                         letter-spacing: -0.5px; color: var(--text); }
+      .stmt .stmt-text em { font-style: normal; color: var(--accent); }
+      .stmt .stmt-rule { height: 1px; background: var(--hairline-soft);
+                         margin: 0 0 64px 74px; }
+
+      /* ── S7 클로징 ── */
+      .quote { position: absolute; top: 322px; left: 96px; right: 580px;
+               font-family: "Noto Serif KR", "Pretendard Variable", serif;
+               font-size: 54px; font-weight: 500; line-height: 1.5; letter-spacing: -0.5px; color: var(--text); }
+      .quote .em { color: var(--accent); }
+      .closing { position: absolute; left: 96px; top: 672px; right: 660px; font-size: 24px;
+                 line-height: 1.7; font-weight: 400; color: var(--muted); }
+      .confbox { position: absolute; right: 96px; top: 330px; width: 400px;
+                 background: var(--surface); border: 1px solid var(--hairline-soft); border-radius: 8px;
+                 padding: 32px; }
+      .confbox .clabel { font-size: 14px; font-weight: 600; letter-spacing: 4px; text-transform: uppercase;
+                         color: var(--muted); }
+      .confbox .cscore { font-size: 70px; font-weight: 800; color: var(--accent); letter-spacing: -1px;
+                         font-variant-numeric: tabular-nums; margin: 8px 0 18px; }
+      .confbox .ctrack { height: 6px; border-radius: 3px; background: rgba(236, 233, 226, 0.07); overflow: hidden; }
+      .confbox .cfill { height: 100%; width: 32%; border-radius: 3px;
+                        background: linear-gradient(90deg, var(--oxide), var(--accent)); transform-origin: left; }
+      .confbox .cdesc { margin-top: 18px; font-size: 15px; line-height: 1.65; color: var(--faint); }
+    </style>
+  </head>
+
+  <body>
+    <!-- 단일 마스터 타임라인 컴포지션: root 만 clip, 내부는 전부 GSAP 제어 -->
+    <div
+      id="root"
+      class="clip"
+      data-composition-id="briefing"
+      data-start="0"
+      data-duration="72"
+      data-track-index="0"
+      data-width="1920"
+      data-height="1080"
+    >
+      <!-- 배경 -->
+      <div id="bg">
+        <svg id="grain" viewBox="0 0 1920 1080" preserveAspectRatio="none">
+          <filter id="noiseFilter"><feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" seed="7" stitchTiles="stitch"/></filter>
+          <rect width="100%" height="100%" filter="url(#noiseFilter)"/>
+        </svg>
+        <div id="vignette"></div>
+      </div>
+
+      <!-- 상단 진행 + 크롬 -->
+      <div id="prog"></div>
+      <div class="topbar">
+        <div class="brand">
+          <span class="brand-mark"></span>
+          <span class="brand-name">OSINT BRIEFING</span>
+          <span class="brand-sub">지정학 시나리오 분석</span>
+        </div>
+        <div class="topright">
+          <span class="chip" id="scene-chip"><span class="dot"></span><span id="scene-label">01 · 타이틀</span></span>
+          <span>2026.06.07</span>
+        </div>
+      </div>
+      <div class="toprule"></div>
+
+      <!-- 무대 -->
+      <div id="stage">
+        <!-- S1 타이틀 -->
+        <section class="scene" id="s1">
+          <div class="watermark">진실의<br/>약속 5</div>
+          <div style="position:absolute; top:300px; left:96px; right:96px;">
+            <div class="s1-kicker" id="s1-kicker">휴전 60일째 · 2026년 6월 7일</div>
+            <div class="s1-rule" id="s1-rule"></div>
+            <div class="headline" id="headline"></div>
+            <div class="deck" id="deck"></div>
+          </div>
+        </section>
+
+        <!-- S2 사다리(타임라인) -->
+        <section class="scene" id="s2">
+          <div class="scene-head">
+            <div class="kicker">Escalation Ladder</div>
+            <div class="scene-title">이틀 동안 사다리가 어떻게 올라갔나</div>
+          </div>
+          <div class="scene-no">02</div>
+          <svg id="s2-svg" viewBox="0 0 1920 1080" style="position:absolute; inset:0;"></svg>
+        </section>
+
+        <!-- S3 다섯 행위자 네트워크 -->
+        <section class="scene" id="s3">
+          <div class="scene-head">
+            <div class="kicker">Actor Network</div>
+            <div class="scene-title">사건을 움직인 다섯 행위자</div>
+          </div>
+          <div class="scene-no">03</div>
+          <div class="legend-row" id="s3-legend"></div>
+          <svg id="s3-svg" viewBox="0 0 1920 1080" style="position:absolute; inset:0;"></svg>
+        </section>
+
+        <!-- S4 키 플레이어 (프로필 카드) -->
+        <section class="scene" id="s4">
+          <div class="scene-head">
+            <div class="kicker">Key Players</div>
+            <div class="scene-title">네 행위자, 네 가지 계산</div>
+          </div>
+          <div class="scene-no">04</div>
+          <div id="s4-cards"></div>
+        </section>
+
+        <!-- S5 지도(세 좌표) -->
+        <section class="scene" id="s5">
+          <div class="scene-head">
+            <div class="kicker">Geospatial Chain</div>
+            <div class="scene-title">테헤란에서 베이루트, 다시 북부 이스라엘로</div>
+          </div>
+          <div class="scene-no">05</div>
+          <svg id="s5-svg" viewBox="0 0 1920 1080" style="position:absolute; inset:0;"></svg>
+        </section>
+
+        <!-- S6 시장 반응 -->
+        <section class="scene" id="s6">
+          <div class="scene-head">
+            <div class="kicker">Market Trajectory</div>
+            <div class="scene-title">60일 휴전, 시장은 어떻게 반응했나</div>
+          </div>
+          <div class="scene-no">06</div>
+          <div id="s6-cards"></div>
+        </section>
+
+        <!-- S7 클로징 -->
+        <section class="scene" id="s7">
+          <div class="scene-head">
+            <div class="kicker">Outlook · 다섯 갈래의 향방</div>
+            <div class="scene-title">앞으로 며칠, 무엇이 방향을 정하나</div>
+          </div>
+          <div class="scene-no">07</div>
+          <div class="quote" id="s7-quote"></div>
+          <div class="closing" id="s7-closing"></div>
+          <div class="confbox">
+            <div class="clabel">신뢰도</div>
+            <div class="cscore" id="conf-score">0.00</div>
+            <div class="ctrack"><div class="cfill" id="conf-fill"></div></div>
+            <div class="cdesc">10개 출처가 발사 시점·약 10발 규모·트럼프 자제 압박을 일관 보도. 내부 의사결정·다음 판단은 공개 정보 제한.</div>
+          </div>
+        </section>
+      </div>
+
+      <!-- 자막 스크림 + 자막 -->
+      <div id="scrim"></div>
+      <div class="subwrap">
+        <div class="subbar"></div>
+        <div id="cap"></div>
+      </div>
+      <div class="source">
+        <b>출처</b> · NPR · 알자지라 · CBS · Times of Israel 외 10개<br/>
+        데이터 · 시나리오(가상) · 미검증 영역은 <b>&lt;미검증&gt;</b> 표기 원칙
+      </div>
+    </div>
+
+    <script>
+      "use strict";
+      const SK = window.SceneKit;
+
+      // ───────────────────── 데이터 (bundle에서 추출, 결정론적 임베드) ─────────────────────
+      const BUNDLE = {
+        headlineLines: [
+          [["60일 휴전 뒤 ", 0], ["이란 미사일", 1]],
+          [["트럼프는 ", 0], ["참으라", 1], [" 지시", 0]],
+        ],
+        deck: "7일 밤 이란이 북부 이스라엘로 탄도미사일 약 10발을 쐈다. 헤즈볼라 사격과 베이루트 공습이 도화선이 됐고, 트럼프는 보복하지 말라 직접 지시했다.",
+        timeline: [
+          { date: "2025.06.13", label: "12일 전쟁 개전", phase: "past" },
+          { date: "2026.02.28", label: "본격전 재발 (5주 교전)", phase: "past" },
+          { date: "2026.04.08", label: "파키스탄 중재 60일 휴전", phase: "past" },
+          { date: "2026.06.04", label: "레바논·이스라엘 휴전, 헤즈볼라 거부", phase: "crack" },
+          { date: "2026.06.07", label: "헤즈볼라 사격·베이루트 공습\n이란 ‘진실의 약속 5’", phase: "present" },
+          { date: "2026.06.10", label: "이스라엘 보복 결정 시점", phase: "future" },
+          { date: "2026.06.14", label: "이란 추가 발사 또는 자제", phase: "future" },
+        ],
+        // 노드 좌표: MIDEAST_MAP.places (메르카토르 사전 계산). us 는 지도 밖 고정.
+        nodes: [
+          { id: "us", label: "미국·트럼프", role: "중재", x: 420, y: 392, kind: "mediator",
+            img: "assets/flags/us.svg" },
+          { id: "iran", label: "이란", role: "발사 결정", kind: "iran",
+            anchor: { x: 1325.8, y: 483.4 }, img: "assets/flags/ir.svg" },
+          { id: "israel", label: "이스라엘", role: "표적·보복", kind: "israel",
+            anchor: { x: 756.1, y: 649.4 }, img: "assets/flags/il.svg" },
+          { id: "hezbollah", label: "헤즈볼라", role: "대리세력", kind: "proxy",
+            anchor: { x: 762.8, y: 583.4 }, initials: "HZ" },
+          { id: "lebanon", label: "레바논 정부", role: "영향권", kind: "actor",
+            anchor: { x: 766.3, y: 560.6 }, img: "assets/flags/lb.svg" },
+        ],
+        // curve: 미국발 관계는 대양 건너 원거리 투사 — 거리 무관 곡선 강제.
+        // 나머지는 거리 기반 자동 (근거리 직각 / 장거리 아치).
+        links: [
+          { s: "iran", t: "israel", type: "대립" },
+          { s: "iran", t: "hezbollah", type: "동맹" },
+          { s: "israel", t: "hezbollah", type: "대립" },
+          { s: "us", t: "iran", type: "협상", curve: true },
+          { s: "us", t: "israel", type: "동맹", curve: true },
+          { s: "hezbollah", t: "lebanon", type: "영향" },
+          { s: "us", t: "lebanon", type: "영향", curve: true },
+        ],
+        // 마커 좌표: MIDEAST_MAP.places (실측 메르카토르). 권역 라벨은 베이스맵 centroid.
+        geo: {
+          regions: window.MIDEAST_MAP.labels,
+          markers: [
+            { id: "tehran", name: "테헤란", note: "발사 결정", x: 1325.8, y: 483.4, hi: true },
+            { id: "dahieh", name: "베이루트 다히예", note: "이스라엘 공습 표적", x: 766.3, y: 562.7, hi: true },
+            { id: "nisrael", name: "북부 이스라엘", note: "미사일 도착점", x: 759.3, y: 596, hi: true },
+          ],
+          arcs: [
+            { id: "hezfire", from: "dahieh", to: "nisrael", bend: -64, color: "#b07a4a",
+              width: 2.5, dash: "7 8", label: "헤즈볼라 사격", cls: "sec-arc" },
+            { id: "strike", from: "nisrael", to: "dahieh", bend: -64, color: "#8d99ae",
+              width: 2.5, dash: "7 8", label: "이스라엘 공습", cls: "sec-arc" },
+            { id: "main", from: "tehran", to: "nisrael", bend: 170, color: "#b25450",
+              width: 4, glow: "rgba(178,84,80,0.45)", cls: "main-arc",
+              label: "이란 탄도미사일 약 10발 · 약 1,500km", labelOrder: ["below", "right", "above", "left"] },
+          ],
+        },
+        markets: [
+          { name: "달러인덱스", last: 100.07, pct: 0.9, kind: "flat",
+            arr: [0,0.05,1.19,0.53,0.92,0.47,0.25,0.42,0.98,0.79,0.86,0.81,-0.05,-0.53,-1.07,-0.97,-1.09,-0.78,-0.38,-0.71,-0.56,-1.11,-0.72,-1.17,-1.35,-1.25,-0.71,0.09,0.12,-0.07,0.14,0.03,-0.27,0.02,0.35,0.9] },
+          { name: "WTI 유가", last: 95.96, pct: 1.38, kind: "vol",
+            arr: [0,-8.29,1.01,-1.33,1.55,1.54,-5.62,-3.32,1.62,10.61,7.66,19.63,21.06,5.25,3.9,-1.67,1.91,-9.23,-1.07,0.12,3.98,9.3,16.71,11.34,11.63,4.33,4.46,11.76,10.43,15.15,18.43,7.44,6.02,-2.43,-2.11,1.38] },
+          { name: "S&P 500", last: 7383.74, pct: 8.65, kind: "up",
+            arr: [0,-0.3,-2.41,-1.42,-2.52,-4.26,-3.53,-3,-6.29,-3.94,-3.14,-2.71,-0.19,0.31,2.52,3.61,4.86,3.94,4.6,5.56,5.04,6.08,5.96,8.37,8.87,9.08,9.54,9.01,8.21,9.37,9.97,10.66,11.54,11.83,11.15,8.65] },
+          { name: "코스피", last: 8160.59, pct: 55.38, kind: "up",
+            arr: [0,6.82,6.31,5.67,12.82,10.08,2.93,7.43,3.56,0.48,4.32,2.39,4.63,11.81,11.56,13.63,15.99,17.9,21.64,23.3,23.3,26.45,25.65,32.09,42.62,48.94,49.36,51.97,43.11,37.26,48.82,53.23,55.85,67.34,67.59,55.38] },
+        ],
+        people: [
+          { initials: "US", name: "트럼프", org: "미국 대통령 · 중재", color: "#c4a265",
+            img: "assets/flags/us.svg",
+            line: "“보복하지 말라” — 이스라엘에 직접 지시. 휴전 골격 유지가 최우선.",
+            stance: 0.1, stanceLabel: "자제 강제" },
+          { initials: "IR", name: "이란 지도부", org: "최고지도부 · IRGC", color: "#b25450",
+            img: "assets/flags/ir.svg",
+            line: "‘진실의 약속 5’ — 약 10발의 제한 발사로 명분 과시.",
+            stance: 0.58, stanceLabel: "제한 과시" },
+          { initials: "IL", name: "이스라엘", org: "전시내각", color: "#8d99ae",
+            img: "assets/flags/il.svg",
+            line: "보복 결정 시점 6월 10일 — 응징 범위 저울질.",
+            stance: 0.74, stanceLabel: "보복 검토" },
+          { initials: "HZ", name: "헤즈볼라", org: "레바논 시아파 무장정파", color: "#b07a4a",
+            line: "6월 4일 레바논·이스라엘 휴전 거부, 사격 재개.",
+            stance: 0.8, stanceLabel: "거부·교전" },
+        ],
+        quote: [[["미국이 이스라엘을 잡아 주는 한, ", 0], ["이란은 낮은 비용으로 명분", 1], ["을 쥔다.", 0]]],
+        closing: "이번 발사로 4월 휴전은 ‘직접 공격’이라는 형태로 처음 위반됐다. 확전이냐 봉합이냐는 다음 며칠 안에 나올 이스라엘의 한 판단과 트럼프의 압박 강도가 가른다.",
+      };
+
+      const PHASE_COLOR = { past: "#6e6a60", crack: "#c4a265", present: "#b25450", future: "#8d99ae" };
+      const LINK_COLOR = { 대립: "#b25450", 동맹: "#7d9b76", 협상: "#c4a265", 영향: "#6e6a60" };
+      const LINK_DASH = { 대립: "2 12", 협상: "9 11", 영향: "1 10" };
+      const LINK_FLOW = { 대립: "#e08a86", 동맹: "#a8cba0", 협상: "#ecd2a0", 영향: "#b9b4a8" };
+
+      // ───────────────────── 씬 빌드 (SceneKit) ─────────────────────
+      // S1 / S6 텍스트
+      const headlineChs = SK.splitChars(document.getElementById("headline"), BUNDLE.headlineLines);
+      document.getElementById("deck").textContent = BUNDLE.deck;
+      const quoteChs = SK.splitChars(document.getElementById("s7-quote"), BUNDLE.quote);
+      document.getElementById("s7-closing").textContent = BUNDLE.closing;
+
+      // S2 에스컬레이션 사다리
+      const ladder = SK.buildStepTimeline(document.getElementById("s2-svg"), BUNDLE.timeline, {
+        x0: 250, x1: 1640, yBottom: 778, yTop: 360,
+        colors: PHASE_COLOR,
+        gradId: "ladgrad",
+        gradStops: [["0", "#55524a"], ["0.62", "#b25450"], ["1", "#8d99ae"]],
+      });
+
+      // S3 행위자 네트워크 — 실측 지도 위 지오 앵커 + 국기 노드
+      const s3map = SK.buildBasemap(document.getElementById("s3-svg"), window.MIDEAST_MAP, { opacity: 0.55 });
+      const net = SK.buildNetwork(document.getElementById("s3-svg"), BUNDLE.nodes, BUNDLE.links, {
+        linkColors: LINK_COLOR,
+        dashByType: LINK_DASH,
+        flowColors: LINK_FLOW,
+        nodeColor: (nd) =>
+          nd.kind === "mediator" ? "#c4a265" : nd.kind === "iran" ? "#b25450"
+          : nd.kind === "proxy" ? "#b07a4a" : "#8d99ae",
+      });
+      // 범례 (수평 pill — CSS .legend-row 위치는 LabelField 가 침범하지 않는 우상단 밴드)
+      {
+        const lg = document.getElementById("s3-legend");
+        ["대립", "동맹", "협상", "영향"].forEach((k) => {
+          const item = document.createElement("div");
+          item.className = "item";
+          const sw = document.createElement("div");
+          sw.className = "swatch";
+          sw.style.borderTopColor = LINK_COLOR[k];
+          sw.style.borderTopStyle = LINK_DASH[k] ? "dashed" : "solid";
+          item.appendChild(sw);
+          const t = document.createElement("span");
+          t.textContent = k;
+          item.appendChild(t);
+          lg.appendChild(item);
+        });
+      }
+
+      // S4 키 플레이어 프로필 카드
+      const playerCards = SK.buildProfileCards(document.getElementById("s4-cards"), BUNDLE.people);
+
+      // S5 지오 씬
+      const geo = SK.buildGeoScene(document.getElementById("s5-svg"), BUNDLE.geo, {
+        basemap: window.MIDEAST_MAP,
+        hiColor: "#b25450",
+      });
+      const mainArc = geo.arcs.find((a) => a.id === "main");
+      // 미사일 헤드 + 도착 임팩트 링
+      const missile = SK.svgEl("circle", {
+        r: 8, fill: "#f2cfc6", opacity: 0, class: "missile",
+        filter: "drop-shadow(0 0 10px rgba(178,84,80,0.85))",
+      }, document.getElementById("s5-svg"));
+      const impact = SK.svgEl("circle", {
+        cx: mainArc.b.x, cy: mainArc.b.y, r: 14, fill: "none", stroke: "#b25450",
+        "stroke-width": 3, opacity: 0, class: "impact-ring",
+      }, document.getElementById("s5-svg"));
+
+      // S6 마켓 카드
+      const marketCards = SK.buildMarketCards(document.getElementById("s6-cards"), BUNDLE.markets, {
+        colorByKind: { up: "#7d9b76", vol: "#c4a265", flat: "#9aa3b2" },
+        tagByKind: { up: "상승", vol: "변동", flat: "보합" },
+      });
+
+      // ───────────────────── 마스터 타임라인 ─────────────────────
+      window.__timelines = window.__timelines || {};
+      const tl = gsap.timeline({ paused: true, defaults: { ease: "power3.out" } });
+
+      gsap.set(["#s1", "#s2", "#s3", "#s4", "#s5", "#s6", "#s7"], { autoAlpha: 0 });
+
+      // 진행바 + 배경 패럴랙스(72초 풀)
+      tl.fromTo("#prog", { scaleX: 0 }, { scaleX: 1, duration: 72, ease: "none" }, 0);
+      tl.fromTo("#stage", { scale: 1.0 }, { scale: 1.025, duration: 72, ease: "none" }, 0);
+
+      // pulse-ring 펄스 (시킹 안전: 타임라인 내 반복, scale 기반)
+      tl.to(".pulse-ring", { scale: 2.2, opacity: 0, duration: 1.5,
+        repeat: 46, ease: "sine.out", transformOrigin: "50% 50%" }, 0);
+
+      // 씬 전환 헬퍼
+      const sceneIn = (sel, t) => tl.fromTo(sel, { autoAlpha: 0, y: 26, scale: 0.992 },
+        { autoAlpha: 1, y: 0, scale: 1, duration: 0.85, ease: "power3.out" }, t);
+      const sceneOut = (sel, t) => tl.to(sel, { autoAlpha: 0, y: -18, duration: 0.6, ease: "power2.in" }, t);
+      const chip = (t, label) => tl.call(() => { document.getElementById("scene-label").textContent = label; }, [], t);
+      const draw = (el, at, dur, ease) =>
+        tl.to(el, { strokeDashoffset: 0, duration: dur, ease: ease || "power2.out" }, at);
+
+      // ── S1 (0–9) 타이틀 ──
+      sceneIn("#s1", 0);
+      chip(0, "01 · 타이틀");
+      tl.from("#s1-kicker", { opacity: 0, y: 16, duration: 0.7 }, 0.3);
+      tl.fromTo("#s1-rule", { scaleX: 0 }, { scaleX: 1, duration: 0.9, ease: "power4.out" }, 0.6);
+      tl.from(headlineChs, { yPercent: 115, opacity: 0, duration: 0.9, stagger: 0.025, ease: "power4.out" }, 0.8);
+      tl.from("#deck", { opacity: 0, y: 20, duration: 0.9 }, 1.9);
+      sceneOut("#s1", 8.5);
+
+      // ── S2 (9–21) 사다리 ──
+      sceneIn("#s2", 9);
+      chip(9, "02 · 에스컬레이션");
+      tl.from("#s2 .scene-head", { opacity: 0, y: 18, duration: 0.7 }, 9.1);
+      draw(ladder.riser, 9.5, 3.0, "power2.inOut");
+      ladder.items.forEach((it, i) => {
+        const at = 9.8 + i * 0.42;
+        tl.to(it.marker, { opacity: 1, duration: 0.4, ease: "power2.out" }, at);
+        tl.fromTo(it.marker, { scale: 0.4, transformOrigin: "50% 50%" },
+          { scale: 1, duration: 0.5, ease: "back.out(2)" }, at);
+        if (it.leader) draw(it.leader, at + 0.12, 0.3, "power1.out");
+        tl.fromTo(it.plate.g, { opacity: 0 }, { opacity: 1, duration: 0.45 }, at + 0.22);
+      });
+      // 현재 국면(6/7) 강조 — 마커 확대 펄스
+      tl.fromTo(ladder.items[4].marker, { scale: 1 },
+        { scale: 1.35, transformOrigin: "50% 50%", duration: 0.5, yoyo: true, repeat: 1, ease: "sine.inOut" }, 13.6);
+      sceneOut("#s2", 20.5);
+
+      // ── S3 (21–33) 네트워크 (지도 위) ──
+      sceneIn("#s3", 21);
+      chip(21, "03 · 행위자 관계망");
+      tl.from("#s3 .scene-head", { opacity: 0, y: 18, duration: 0.7 }, 21.1);
+      tl.from(s3map, { opacity: 0, duration: 1.0, ease: "power2.out" }, 21.2);
+      tl.to("#s3 .net-anchor", { opacity: 1, duration: 0.4, stagger: 0.1 }, 21.5);
+      net.anchors.forEach((a, i) => { if (a.leader) draw(a.leader, 21.7 + i * 0.1, 0.3, "power1.out"); });
+      tl.to("#s3 .net-node", { opacity: 1, duration: 0.6, stagger: 0.12, ease: "power2.out" }, 21.7);
+      tl.fromTo("#s3 .net-node", { scale: 0.6, transformOrigin: "50% 50%" },
+        { scale: 1, duration: 0.6, stagger: 0.12, ease: "back.out(1.7)" }, 21.7);
+      net.plates.forEach((pl, i) => {
+        tl.fromTo(pl.g, { opacity: 0 }, { opacity: 1, duration: 0.45 }, 22.0 + i * 0.12);
+      });
+      tl.to(".net-link", { opacity: 0.95, duration: 0.3, stagger: 0.1 }, 22.8);
+      tl.to(".net-link", { strokeDashoffset: 0, duration: 0.9, stagger: 0.1, ease: "power2.out",
+        onComplete: function () {
+          // 점선 타입 링크는 draw 후 dash 패턴으로 환원
+          net.linkEls.forEach((ln) => { if (ln.dataset.dash) ln.setAttribute("stroke-dasharray", ln.dataset.dash); });
+        } }, 22.9);
+      // 흐름 펄스 — draw 완료 후 s→t 방향으로 순환 (영향의 방향성 시각화)
+      net.flows.forEach((fl, i) => {
+        const L = parseFloat(fl.dataset.len);
+        const seg = parseFloat(fl.dataset.seg);
+        const at = 24.4 + i * 0.22;
+        tl.to(fl, { opacity: 0.9, duration: 0.4 }, at);
+        tl.fromTo(fl, { strokeDashoffset: L + seg },
+          { strokeDashoffset: 0, duration: 2.4, ease: "none", repeat: 2 }, at);
+        tl.to(fl, { opacity: 0, duration: 0.4 }, at + 7.0);
+      });
+      tl.from(".legend-row .item", { opacity: 0, x: 20, duration: 0.5, stagger: 0.1 }, 24.5);
+      sceneOut("#s3", 32.5);
+
+      // ── S4 (33–45) 키 플레이어 ──
+      sceneIn("#s4", 33);
+      chip(33, "04 · 키 플레이어");
+      tl.from("#s4 .scene-head", { opacity: 0, y: 18, duration: 0.7 }, 33.1);
+      playerCards.forEach((p, i) => {
+        const at = 33.6 + i * 0.35;
+        tl.from(p.card, { opacity: 0, y: 44, duration: 0.7, ease: "power3.out" }, at);
+        draw(p.ring, at + 0.25, 1.0, "power2.inOut");
+        tl.from(p.lineEl, { opacity: 0, y: 12, duration: 0.5 }, at + 0.45);
+        // 입장 게이지: 중앙에서 자기 위치로 슬라이드 + 입장 라벨
+        tl.fromTo(p.dot, { x: 0.5 * (390 - 68), opacity: 0 },
+          { x: p.dotX, opacity: 1, duration: 0.9, ease: "power3.inOut" }, at + 1.0);
+        tl.from(p.stanceEl, { opacity: 0, duration: 0.45 }, at + 1.6);
+      });
+      sceneOut("#s4", 44.5);
+
+      // ── S5 (45–57) 지도 ──
+      sceneIn("#s5", 45);
+      chip(45, "05 · 좌표의 사슬");
+      tl.from("#s5 .scene-head", { opacity: 0, y: 18, duration: 0.7 }, 45.1);
+      if (geo.basemap) tl.from(geo.basemap, { opacity: 0, duration: 1.0, ease: "power2.out" }, 45.15);
+      geo.markerItems.forEach((it, i) => {
+        const at = 45.6 + i * 0.3;
+        tl.to(it.g, { opacity: 1, duration: 0.5, ease: "power2.out" }, at);
+        if (it.leader) draw(it.leader, at + 0.1, 0.25, "power1.out");
+        tl.fromTo(it.plate.g, { opacity: 0 }, { opacity: 1, duration: 0.4 }, at + 0.18);
+      });
+      // 보조 아크(사격/공습) + 라벨
+      geo.arcs.filter((a) => a.id !== "main").forEach((ac, i) => {
+        const at = 47.2 + i * 0.5;
+        tl.to(ac.path, { opacity: 0.75, duration: 0.2 }, at);
+        tl.to(ac.path, { strokeDashoffset: 0, duration: 0.8, ease: "power1.inOut",
+          onComplete: () => { if (ac.path.dataset.dash) ac.path.setAttribute("stroke-dasharray", ac.path.dataset.dash); } }, at);
+      });
+      geo.arcLabels.filter((al) => al.ac.id !== "main").forEach((al, i) => {
+        tl.fromTo(al.plate.g, { opacity: 0 }, { opacity: 1, duration: 0.4 }, 47.6 + i * 0.5);
+      });
+      // 메인 미사일 아크 + 헤드 비행 + 임팩트
+      tl.to(mainArc.path, { opacity: 1, duration: 0.2 }, 49.4);
+      draw(mainArc.path, 49.5, 1.6, "power1.in");
+      tl.to(missile, { opacity: 1, duration: 0.1 }, 49.5);
+      const flight = { p: 0 };
+      tl.to(flight, { p: 1, duration: 1.6, ease: "power1.in",
+        onUpdate: function () {
+          const pt = SK.quadAt(mainArc.a, mainArc.c, mainArc.b, flight.p);
+          missile.setAttribute("cx", pt.x);
+          missile.setAttribute("cy", pt.y);
+        } }, 49.5);
+      tl.to(missile, { opacity: 0, scale: 2.4, transformOrigin: "50% 50%", duration: 0.4 }, 51.1);
+      tl.fromTo(impact, { opacity: 0.9, scale: 0.4, transformOrigin: "50% 50%" },
+        { opacity: 0, scale: 2.6, duration: 0.8, ease: "power2.out" }, 51.1);
+      geo.arcLabels.filter((al) => al.ac.id === "main").forEach((al) => {
+        tl.fromTo(al.plate.g, { opacity: 0 }, { opacity: 1, duration: 0.6 }, 51.0);
+      });
+      sceneOut("#s5", 56.5);
+
+      // ── S6 (57–66) 마켓 ──
+      sceneIn("#s6", 57);
+      chip(57, "06 · 시장 궤적");
+      tl.from("#s6 .scene-head", { opacity: 0, y: 18, duration: 0.7 }, 57.1);
+      marketCards.forEach((m, i) => {
+        const at = 57.6 + i * 0.35;
+        tl.from(m.card, { opacity: 0, y: 40, duration: 0.7, ease: "power3.out" }, at);
+        tl.to(m.area, { opacity: 1, duration: 0.8 }, at + 0.3);
+        draw(m.line, at + 0.2, 1.3);
+        tl.to(m.end, { opacity: 1, duration: 0.3 }, at + 1.3);
+        SK.counter(tl, m.pctEl, m.data.pct,
+          (v) => (v >= 0 ? "+" : "") + v.toFixed(1) + "%", at + 0.3, 1.2);
+      });
+      sceneOut("#s6", 65.5);
+
+      // ── S7 (66–72) 클로징 ──
+      sceneIn("#s7", 66);
+      chip(66, "07 · 향방");
+      tl.from("#s7 .scene-head", { opacity: 0, y: 18, duration: 0.7 }, 66.1);
+      tl.from(quoteChs, { opacity: 0, y: 18, duration: 0.7, stagger: 0.012, ease: "power3.out" }, 66.4);
+      tl.from("#s7-closing", { opacity: 0, y: 20, duration: 0.8 }, 67.6);
+      tl.from(".confbox", { opacity: 0, x: 30, duration: 0.7 }, 67.2);
+      SK.counter(tl, document.getElementById("conf-score"), 0.32,
+        (v) => v.toFixed(2), 67.6, 1.2, "power2.out");
+      tl.fromTo("#conf-fill", { scaleX: 0 }, { scaleX: 1, duration: 1.2, ease: "power3.out" }, 67.6);
+
+      // ───────────────────── 자막 ─────────────────────
+      const cues = [
+        { t: 0.8,  text: "2026년 6월 7일 밤, 60일 휴전이 직접 공격으로 처음 흔들렸습니다." },
+        { t: 4.8,  text: "이란이 북부 이스라엘로 탄도미사일 약 10발을 발사했습니다." },
+        { t: 9.6,  text: "두 달의 궤적을 쌓아 보면, 휴전은 임시 연장의 연속이었습니다." },
+        { t: 13.6, text: "6월 4일 별도 휴전을 헤즈볼라가 거부하며 균열이 생겼고," },
+        { t: 17.4, text: "사흘 뒤, 사다리의 첫 단이 직접 공격으로 올라섰습니다." },
+        { t: 21.6, text: "이번 사건은 다섯 행위자의 관계망 위에서 움직였습니다." },
+        { t: 25.6, text: "이란과 이스라엘의 대립, 그 사이에 선 헤즈볼라," },
+        { t: 29.4, text: "양쪽을 동시에 붙잡은 미국·트럼프가 확전의 제동을 쥐었습니다." },
+        { t: 33.6, text: "네 행위자의 계산을 카드로 놓으면 구도가 선명해집니다." },
+        { t: 37.4, text: "트럼프는 자제를 강제했고, 이란은 ‘제한된 과시’를 택했습니다." },
+        { t: 41.2, text: "이스라엘의 보복 검토와 헤즈볼라의 거부가 확전 변수로 남습니다." },
+        { t: 45.6, text: "세 좌표를 한 지도에 놓으면 인과의 사슬이 드러납니다." },
+        { t: 49.0, text: "헤즈볼라 사격과 베이루트 다히예 공습이 도화선이 됐고," },
+        { t: 52.4, text: "약 1,500km 떨어진 테헤란이 미사일을 북부 이스라엘로 보냈습니다." },
+        { t: 57.6, text: "60일 휴전 구간, 시장은 충격보다 회복에 무게를 실었습니다." },
+        { t: 61.8, text: "안전자산은 잠잠했고 위험자산—특히 코스피가 크게 반등했습니다." },
+        { t: 66.4, text: "다음 며칠, 이스라엘의 한 판단과 트럼프의 압박이 방향을 가릅니다." },
+        { t: 70.0, text: "단발 신호로 끝날지, 사다리의 첫 단이 될지—기록은 아직 열려 있습니다." },
+      ];
+      const cap = document.getElementById("cap");
+      const subwrap = document.querySelector(".subwrap");
+      gsap.set(subwrap, { autoAlpha: 0 });
+      cues.forEach((c, i) => {
+        if (i === 0) {
+          tl.call(() => { cap.textContent = c.text; }, [], c.t - 0.1);
+          tl.fromTo(subwrap, { autoAlpha: 0, x: -20 }, { autoAlpha: 1, x: 0, duration: 0.55, overwrite: "auto" }, c.t);
+        } else {
+          tl.to(subwrap, { autoAlpha: 0, x: -16, duration: 0.25, overwrite: "auto" }, c.t - 0.3);
+          tl.call(() => { cap.textContent = c.text; }, [], c.t - 0.05);
+          tl.fromTo(subwrap, { x: 16 }, { autoAlpha: 1, x: 0, duration: 0.3, overwrite: "auto" }, c.t);
+        }
+      });
+
+      window.__timelines["briefing"] = tl;
+    </script>
+  </body>
+</html>

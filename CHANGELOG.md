@@ -1,9 +1,9 @@
 <!--
 tier: 3
-last_synced_with: v0.34.2
+last_synced_with: v0.38.1
 ssot_for: [release-notes]
 depends_on: [README.md, GOAL.md]
-last_review: 2026-06-06
+last_review: 2026-06-11
 -->
 
 # CHANGELOG
@@ -28,213 +28,277 @@ released 항목은 **append-only**입니다.
 
 ---
 
-## [v0.35.0] — 2026-06-07
-
-**codex 연출 엔진 도입 (CompositionPlanner)** — compose 의 결정론 스켈레톤 위에 codex/claude
-(구독 CLI·ADDENDUM_04)가 **연출 판단·자막 재작성**을 얹는 계층. 사실/차트 데이터는 여전히
-번들에서 결정론으로 나오고, 플랜은 헤드라인·강조·순서·페이싱·자막만 바꾼다. 사실 가드가
-번들에 없는 숫자를 `<미검증>` 라벨로 강제(C9/C0).
+## [v0.38.1] — 2026-06-12
 
 ### Added
-
-- `orchestrator/composition_planner.py` — `CompositionPlannerWorker(BaseLLMWorker, backend=codex)`
-  + `plan_for_bundle()` 실행기. `backend="stub"` 으로 codex 부재 환경에서도 전 구간 증명.
-- `orchestrator/plan_validator.py` — 순수 사실 가드. 플랜 텍스트의 번들 외 숫자를 `<미검증>` 표시.
-- `schemas/models.py` — `CompositionPlan`/`PlannedScene`/`PlannedCaption`/`PlanValidationReport`.
-- `compose-hyperframes --planner {off,stub,codex,claude}` 플래그.
-
-### Changed
-
-- `build_composed_scenes`/`build_composition_html_from_bundle` 가 선택적 plan 을 받아 연출을
-  얹는다(없으면 기존 결정론 그대로 — back-compat). 자막은 plan.captions(씬별 순차) 우선.
+- **내레이션 파이프라인 (auto 컴포지션)** — 음성이 영상의 시계가 됨:
+  - `hyperframes/scripts/build_auto_narration.py` — cue(text/tts)별 ElevenLabs
+    합성 → **실측 커서 조립** (조각별 실측 길이 누적 = cue 시각, mp3 프레임
+    패딩 드리프트 원천 차단 — 최초 구현은 목표시각+무음 방식으로 2.9초
+    드리프트 발생, v0.34.8 교훈 재적용) → cuesync_auto.json + 단일 mp3.
+  - `bundle_to_video.py --narration=synth|estimate` — 1차 변환 → 합성 →
+    cuesync 재시계 2차 변환 + `<audio>` 트랙 주입(demo 계약)을 한 줄로.
+    `--cuesync=path` 단독 적용도 지원.
+  - `--estimate` 모드: API 없이 글자수 기반 길이 추정 + 무음 mp3 — sync
+    메커니즘 검증용 (본 환경 e2e: 12씬 118초 → 음성 페이스 207초 재시계).
 
 ---
 
-## [v0.34.21] — 2026-06-07
-
-**에디토리얼 톤 적용 (사용자 확정 A)** — FT/Bloomberg/Pudding 급 + Beveridge(gsap_taste)
-레퍼런스를 우리 디자인 토큰으로 확정해 5 차트 컴포넌트 + compose 파이프라인에 일괄 적용.
+## [v0.38.0] — 2026-06-12
 
 ### Added
-
-- `hyperframes/lib/styles/editorial.css` — 에디토리얼 디자인 토큰 SSOT(:root 변수 + base 클래스).
-
-### Changed
-
-- 5 컴포넌트: 따뜻한 종이 카드(#fbf9f4)+헤어라인 경계, 잉크 #16130f, 기본 accent 절제된
-  테라코타 #b5482e, soft shadow.
-- compose chrome: 따뜻한 베이스(#f6f3ec) + 테라코타 브랜드 마크 + 상단 헤어라인 룰 + 텍스트
-  씬 좌측정렬 에디토리얼(accent 룰) + 따뜻한 svg 카드. 가드레일(출처·기간·한글·결정론) 불변.
-
----
-
-## [v0.34.20] — 2026-06-07
-
-**디자인 톤 mockup 3종 + 다크 씬 캡처 버그 학습**. taste-skill 을 지배적으로 쓸지/어느 톤일지
-결정하기 위한 비교 검수용 정지 프레임(에디토리얼·다크·스위스).
-
-### Added
-
-- `hyperframes/examples/mockups/{editorial,dark,swiss}.html` + `_candle.js` — 같은 콘텐츠 3톤 mockup.
+- **영상 필드 계약 소비 구현 (옵션 C 2차 완성, MINOR)** — agents_reviewer 가
+  계약(docs/VIDEO_BUNDLE_CONTRACT.md)대로 번들에 실어 보낸 video 필드를 영상이
+  실제로 사용:
+  - **내레이션 cue 교체**: sections[].video.narration + report.video
+    intro/outro_narration 을 해당 씬 시간창에 균등 배치 — 템플릿 문장 대체
+    (SpaceX 번들 기준 32문장 채택, 템플릿 17건 대체). narration_tts 는 cue.tts
+    로 보존 (음성 합성용).
+  - **검증기 (G4)**: narration/highlights 의 모든 수치 토큰을 번들 직렬화
+    말뭉치와 대조 — 불일치 문장 폐기 + 템플릿 폴백.
+  - **스테이트먼트 씬**: 차트 없는 서술 섹션의 highlights 를 대형 세리프
+    타이포(순차 등장 + emphasis 액센트)로 — 서술 전용 섹션 누락 해소.
+  - versus 진영명 자동 추출 ("A인가, B인가" 제목 패턴), 쟁점/신호 섹션 매칭
+    확장, 마켓/시그널 씬에 섹션 연결.
+- 테마 별칭 (forest_sage→forest_archive, midnight_indigo→midnight_navy).
+- `samples/spacex2026/` — 계약 구현 첫 번들 보존.
 
 ### Fixed
-
-- 다크 씬: body 배경 위 흰 텍스트가 캡처에서 knock-out → 불투명 scene 배경 레이어로 해소(학습).
-
----
-
-## [v0.34.19] — 2026-06-07
-
-**모션 내재화를 파이프라인에 적용** — 모든 차트 컴포넌트·텍스트 씬 헤딩에 SplitText 단어
-reveal, compose 컴포지션이 hf-motion 로드. v0.34.18 의 `hf-motion.js` 를 실제 영상에 입힘.
-
-### Changed
-
-- 5개 차트 컴포넌트(candle/line/bar/donut/tickerboard): head 에 `hf-motion.js` 로드 +
-  takeaway 를 `revealWords`(SplitText) 로 단어별 등장.
-- `compose-hyperframes`: 컴포지션이 hf-motion 로드 + 텍스트 씬 헤딩 `revealWords` + 본문 fade.
-  SpaceX 영상의 모든 씬 제목이 단어별로 등장.
+- 간트: 월 단위 날짜(YYYY-MM) 허용, 장기 범위에서 분기/연 눈금 자동 전환 +
+  기간 라벨 연도 표기 (3년 임대에서 월 라벨 도배되던 문제).
+- 스캐터: 좁은 범위(0~1) 눈금 소수 표기, accent→hi 매핑, 라벨 괄호 제거 +
+  플레이트 줄바꿈 활용.
 
 ---
 
-## [v0.34.18] — 2026-06-07
-
-**모션·타이포 스킬 내재화 — gsap-skills(MIT) + taste-skill(MIT) 흡수**. AI 애니메이션 품질을
-높이는 두 오픈소스 스킬팩의 기술을 HyperFrames 결정론 영상 렌더에 맞게 골라 자체 구현으로
-내재화(플러그인 의존 없음). ScrollTrigger 류(스크롤 기반)는 제외, 서사 패턴만 타임라인으로 번역.
+## [v0.37.2] — 2026-06-12
 
 ### Added
-
-- **`hyperframes/lib/motion/hf-motion.js`** — 모션 헬퍼: `splitWords/splitChars/revealWords`
-  (SplitText 기법), `countUp`(ScrambleText/수치), `crossfade`(씬 전환), `prng/clamp/lerp/mapRange`
-  (gsap-utils, 결정론). 전부 paused 타임라인 add → seek 안전.
-- **`hyperframes/examples/motion_showcase.html`** — 적용 데모(SplitText 헤드라인 reveal +
-  0→21.7 count-up + 크로스페이드 + 이징 다양성 + 에디토리얼 여백). mp4 검증.
-- **`docs/MOTION_SKILLS.md`** — 내재화 기록(영상 렌더 적합성 판별표 / taste 원칙 / API / 후속).
+- `docs/VIDEO_BUNDLE_CONTRACT.md` — agents_reviewer 와의 영상 필드 계약 초안.
+  sections[].video (narration/narration_tts/highlights/emphasis) +
+  report.video (intro/outro_narration). 목적: ① cue 템플릿 문장 탈피 (대본
+  생성을 보고서 작성 주체로 이동, 영상 쪽 LLM 무호출 유지), ② 차트 없는
+  서술 전용 섹션의 영상 누락 해소 (스테이트먼트 씬). 사용자 결정 (옵션 ③).
 
 ---
 
-## [v0.34.17] — 2026-06-07
-
-**차트 메타데이터 footer(출처·기간·시작~끝·인터벌) + candle=메인 + 종목 dedupe**. 사용자
-지적 — 티커 보드의 보조차트에 출처·기간이 없고, 엔비디아(candle)를 스파크라인으로 축소했으며,
-같은 종목이 중복됐다.
+## [v0.37.1] — 2026-06-12
 
 ### Added
-
-- **모든 차트 컴포넌트 footer** — 출처(`provenance.sources[0].provider(+code)`) + 기간
-  (데이터 첫·끝 날짜) + 인터벌(일/주/월봉 추론). candle/line/bar/donut/tickerboard 공통.
-  (`_attach_meta` / `setSourceFooter`). C9/GOAL 출처 표기 의무 충족.
-
-### Changed
-
-- **candle 은 strip 후보에서 제외 → 기본 메인(full)** (docs/CHART_DISPLAY_RULES.md v0.34.17).
-  candle 은 sparkline 이 아니라 상세 OHLC 단일 종목 차트. 엔비디아 candle 이 풀스크린 메인으로,
-  지수 line 들만 티커 보드로.
-- **티커 보드 dedupe** — 같은 섹션에서 메인으로 이미 그린 종목명은 보드에서 제외(NVDA candle
-  메인이면 NVDA line 은 보드에 미표기). 보드도 공통 출처·기간 footer.
+- **잔여 차트 유형 5종** (NEXT_SESSION_PROMPT 옵션 B 잔여분, 사용자 요청):
+  - SceneKit `buildStackedBars` — 가로 누적 막대 (세그먼트 좌→우 성장 + 범례
+    pill + 행 합계), `buildWaterfall` — 증감 브리지 (부유 컬럼 + 점선 커넥터 +
+    상승/하락/절대값 3색), `buildScatter` — 이변량 분포 (축·눈금 + 대각 기준선
+    draw-on + LabelField 충돌 회피 포인트 라벨), `buildHeatmap` — 행×열 강도
+    (단색/다이버징 자동 + 대각 웨이브 리빌 + 강한 셀 값 표기), `buildGantt` —
+    일정 레인 (월 눈금 + phase 색 + "오늘" 라인 + 막대 성장).
+  - auto_builder 씬 타입 5종 + 변환기 정규화기(`norm_*`, 복수 스키마 허용:
+    parts/segments/series, kind/type, dict/list 히트맵) + 씬 플랜 자동 통합.
+  - `--preview-charts` — 합성 데이터 갤러리 컴포지션 생성 (시각 회귀 픽스처,
+    `hyperframes/briefing/preview_charts.html`).
 
 ---
 
-## [v0.34.16] — 2026-06-06
-
-**보조차트(strip) vs 메인차트(full) 판독 규칙 + 티커 보드**. 사용자 지적 — v0.34.15 영상이
-보고서의 **보조 티커 차트(시장 sparkline) 6종을 각각 풀스크린 메인처럼 30초** 할애했다. 보고서
-규칙(display→role→type)으로 분류해 보조차트는 **한 컷에 작게 묶고**, 메인차트만 크게.
+## [v0.37.0] — 2026-06-11
 
 ### Added
-
-- **`docs/CHART_DISPLAY_RULES.md`** — 번들 차트 판독 규칙(사용자 결정). `charts[].display`
-  ("full"/"strip") 1순위 → role 2순위 → type 휴리스틱(line/candle/area 2개 이상 연속 → strip).
-- **`hyperframes/lib/charts/tickerboard.html`** — strip 차트 묶음을 미니 스파크라인 그리드
-  한 컷으로(티커명 + 최근값 + 등락% + sparkline, 테마 up/down 색). candle 은 종가선으로 축약.
-- `schemas/models.py:BundleChart.display` (Optional, tolerant) — producer 의 명시 분류 수신.
-
-### Changed
-
-- `compose-hyperframes`: 섹션 내 차트를 full/strip 분류 → full 은 개별 풀스크린 씬, strip 연속
-  묶음은 tickerboard 한 컷. SpaceX 실 번들 기준 s1 이 8씬(40s) → 2씬(티커보드+sankey, 10s)로 축소.
-- 인터벌 규칙 명문화(CHART_DISPLAY_RULES): 영상 차트는 번들 최대 해상도를 손실 없이 사용
-  (strip 의 sparse interval 은 보고서 크기용, 영상 제약 아님).
+- **타임라인 시각화 5유형** (사용자 요청): 계단(ladder)·수평 축(axis)에 더해
+  **서펜타인**(2단 S자 — 분기점 11개↑), **수직 레일**(긴 설명형 라벨),
+  **메트로**(국면 구간 색 노선도 — 미래 비중 40%↑) 신설. 변환기가 데이터
+  성격(국면 조합/개수/라벨 길이/미래 비중)으로 자동 선택, `--timeline=` 강제.
+- **컬러 테마 5종** (`assets/themes.js` + CSS 토큰화): ink_brass(디폴트),
+  graphite_slate(앰버 — agents_reviewer 동명 테마 자동 매칭), midnight_navy
+  (아이스 블루), forest_archive(민트 그린), **paper_oxblood(라이트 — 신문
+  인포그래픽)**. 번들 theme.id 일치 시 자동 적용, `--video-theme=` 강제.
+  의미색(국면/마켓)은 적용된 테마 변수에서 런타임 파생.
+- **미개발 유형 선반영**: 슬로프 차트 씬(ch-10 사용 — 좌→우 변화선 + 최대
+  변화 하이라이트), **도넛 차트 빌더**(구성비 — 세그먼트 draw + 리더 라벨,
+  데이터 도착 시 즉시 사용 가능), **인용 인터스티셜 씬**(pull_quote → 대형
+  세리프 한 장, 숫자 자동 강조).
+- 반도체 번들 자동 영상: 9씬 89초 → **11씬 106초** (인용·슬로프 추가,
+  graphite_slate + 서펜타인 자동 선택).
 
 ---
 
-## [v0.34.15] — 2026-06-06
-
-**compose-hyperframes 충실도 강화 — 섹션 다중차트 분할 + 번들 theme accent + sankey SVG 폴백 +
-dense stagger 자동축소**. 실제 agents_reviewer 번들(SpaceX/구글 임대, 차트 11개·섹션 7개)로
-검증 → 14씬 컴포지션. 영상 내용은 전부 번들에서만 파생(LLM 미개입, 할루시네이션 0).
+## [v0.36.1] — 2026-06-11
 
 ### Added
-
-- **섹션 다중차트 → 차트당 1씬 분할** — 한 BundleSection 이 여러 chart_refs 를 가지면 지원
-  차트마다 별도 씬 생성(이전엔 첫 1개만). section.prose 는 그 섹션의 전 씬 구간에 자막으로 배분.
-- **prerendered_svg 폴백 씬(kind="svg")** — 미지원 타입(sankey/map 등)이 prerendered_svg 를
-  가지면 그 SVG 를 카드에 인라인(C0 v0.25.0 — 렌더러 없는 타입의 폴백).
-- **번들 theme accent 주입** — `report.theme.tokens.accent` 를 candle/line/bar 강조색으로 전달.
-
-### Changed
-
-- candle/bar 컴포넌트: 등장 stagger 를 N 에 따라 자동 축소(64봉도 ~3.2s 안에 완료 — 고정
-  0.2s 가 dense 데이터에서 씬 길이를 넘던 문제).
-
----
-
-## [v0.34.14] — 2026-06-06
-
-**ReportBundle → 다중 씬 HyperFrames 컴포지션 자동 생성 (옵션 C)**. `examples/gallery.html` 의
-시퀀싱 패턴을 데이터 구동으로 일반화. agents_reviewer 번들을 받아 각 섹션을 1 씬으로 펼치고
-차트는 `lib/charts` 컴포넌트로 임베드한다 (render_io 의 HyperFrames 후속).
-
-### Added
-
-- **`orchestrator/hyperframes_compose.py`** — ReportBundle → 컴포지션 HTML 변환기(순수
-  함수 + I/O 경계). `chart_to_component` 가 agents_reviewer 차트 데이터 모양(candle
-  `[{date,open,high,low,close}]`, line `[{x,y,event}]`, bar/donut `[{label,value}]`)을 우리
-  컴포넌트 변수로 매핑. `build_composed_scenes` 가 BundleSection → ComposedScene(차트/텍스트).
-  미지원 타입은 텍스트 씬 폴백. 산출: `hyperframes/generated/<pid>.html`.
-- **CLI `compose-hyperframes <pid> [--file report_bundle.json]`** — 영속 bundle 또는 파일에서
-  컴포지션 생성 (state 전이 없는 미리보기).
+- **씬 라이브러리 확장** (사용자 피드백 "단조롭다 + 화면 수 적다 + 계단 타임라인
+  매번은 별로"):
+  - SceneKit `buildAxisTimeline` — 수평 축 타임라인 (중립 시계열용). 변환기가
+    **crack+present 공존(에스컬레이션 서사)일 때만 계단**, 아니면 수평 축 자동 선택.
+  - SceneKit `buildCandleChart` — 일봉 캔들 (가이드라인 + 우측 가격축 + 종가 라인).
+  - SceneKit `buildBarPanels` — 가로 바 패널 1~2개 (최댓값 하이라이트 + 카운터 +
+    note). 같은 단위의 마지막 바 차트 2개는 듀얼 패널로 자동 묶음 (두 회사 목표가).
+  - auto 씬 "signals" — 관측 신호 카드 (deadline 칩 + `<미검증>` 태그, G4).
+- 반도체 번들 기준 자동 영상이 **5씬 53초 → 9씬 89초** (candle/bars×2/signals 추가).
 
 ### Fixed
-
-- **sub-comp 변수 타입 정합** — host `data-variable-values` 에 raw 배열/null 을 주면
-  HyperFrames v0.6.76 가 첫 sub-comp 인스턴스화를 깨뜨리는(root null) 사고. 복합값을 JSON
-  문자열로 인코딩해 컴포넌트의 `type="string"` 선언과 정합화(컴포넌트는 문자열도 parseJSON).
-- **컴포넌트 root 해소 견고화** — 멀티 씬 컴포지션에서 authored-id querySelector 가 런타임
-  id 재작성과 충돌해 null 이 되던 문제 → 래퍼의 `__hfFindRoot()` 1차 사용 + 폴백.
+- **렌더러 빈 화면 사고**: hyperframes 렌더 세션이 body 끝의 외부
+  `<script src>` 를 실행하지 않아 v0.36.0 의 auto.html 이 53초 내내 빈
+  프레임으로 인코딩됨 (로컬 Chromium 검증과 렌더 결과 불일치). 변환기가
+  auto_builder.js 를 **인라인**으로 박도록 수정 (SSOT 는 assets 파일 유지).
+- 듀얼 바 패널 cue 가 단위 스케일이 다른 두 패널을 섞어 비율(19.0배)을 내던
+  버그 → 패널별 상단/하단 비율로 교정.
 
 ---
 
-## [v0.34.13] — 2026-06-06
-
-**차트 family HyperFrames 컴포넌트화 (옵션 B) — candle/line/bar/donut 4 종 + 프로젝트 루트 승격**.
-demo 의 인라인 캔들 차트를 재사용 가능한 sub-composition 라이브러리로 분리. 본격 호르무즈
-파이프라인(12 씬)의 토대.
+## [v0.36.0] — 2026-06-11
 
 ### Added
+- **번들 → 영상 자동 변환 1차** (NEXT_SESSION_PROMPT 옵션 C, MINOR):
+  - `hyperframes/scripts/bundle_to_video.py` — agents_reviewer report_bundle 을
+    읽어 씬 플랜(타이틀/타임라인/쟁점/가격/클로징)·cue·테마를 결정론 추출,
+    `hyperframes/briefing/auto.html` 생성. **데이터에 있는 씬만 조립** —
+    이번 번들(반도체 분석)은 지도·행위자가 없으므로 해당 씬 없음.
+  - `hyperframes/briefing/assets/auto_builder.js` — DATA 주도 제네릭 컴포지션
+    팩토리 (씬 조건부 생성 + 마스터 타임라인 + cue). CSS 는 briefing/index.html
+    <style> 재사용 (테마 SSOT).
+  - 번들 테마 토큰(accent/up/down) → CSS 변수 오버라이드 (graphite_slate 검증).
+  - 헤드라인 자동 줄바꿈+마지막 줄 강조, 타임라인 13→7 분기점 샘플링(비과거
+    우선), contradictions → 강세/보수 카드(다수설/소수설 + 게이지), line 차트
+    → 마켓 카드(%·kind 자동 분류), pull_quote 숫자+단위 자동 강조(em),
+    confidence → 신뢰도 박스, 출처 라인 자동 구성.
+- SceneKit `buildProfileCards` 게이지 축 라벨 파라미터화 (자제/확전 →
+  임의 축, 예: 신중/강세).
+- `samples/semicon2026/` — 검증에 사용한 실제 번들
+  (analysis_20260611_130642_9f7fbb749d) 보존.
 
-- **`hyperframes/lib/charts/{candle,line,bar,donut}.html`** — 4 종 차트 컴포넌트.
-  각각 `<template>` wrapper sub-composition. `data-composition-variables` 로 변수 스키마
-  선언 + 인스턴스 host 의 `data-variable-values`(JSON)로 데이터 주입 → 스크립트가 SVG 를
-  데이터에서 생성 → GSAP `fromTo` 타임라인으로 등장 애니메이션.
-  - candle: OHLC 12 봉 + 양/음봉 컨벤션 + 콜아웃 + 끝점 직접 라벨.
-  - line: 다중 시리즈 + 면적 + 라인 draw-on + 끝점 직접 라벨(충돌 회피) + 콜아웃.
-  - bar: 카테고리 막대 grow(scaleY) + 직접 값 라벨 + 강조 막대 + stagger.
-  - donut: arc draw-on(stroke-dasharray) + 중앙 값 + 우측 직접 라벨 리스트(≤5 슬라이스).
-- **`hyperframes/examples/gallery.html`** — 4 종을 `data-composition-src` 로 시간순
-  임베드한 쇼케이스 / 12 씬 시퀀싱 템플릿.
+---
+
+## [v0.35.6] — 2026-06-11
+
+### Fixed
+- **링크의 국기/플레이트 간섭 제거** (사용자 보고 "선들이 국기에 가려지거나
+  간섭되면 안 될 것"): buildNetwork 라우팅에 회피 탐색 추가 — 곡선은 bend×방향
+  8후보, 직각은 엘보 위치 5후보(+곡선 폴백 6후보)를 22px 샘플링으로 검사해
+  ① 노드·플레이트 모두 회피 → ② 노드만 회피 순으로 선택. 스테이지 밴드 이탈
+  후보는 기각. 이름 플레이트 배치를 링크보다 먼저로 재배열(회피 대상 확정).
+
+---
+
+## [v0.35.5] — 2026-06-11
 
 ### Changed
+- **하이브리드 링크 라우팅** (사용자 결정 "원거리 지원/영향은 곡선"):
+  근거리(인접 관계) = 라운드 직각, 장거리 = 완만한 위쪽 아치(거리 비례 bend).
+  엔진 기본은 거리 임계값(430px) 자동 판별 + 링크별 `curve` 강제 오버라이드.
+  브리핑 데이터: 미국발 관계 3건은 대양 건너 투사 의미로 곡선 강제,
+  현지 관계(헤즈볼라↔이스라엘/레바논)는 직각 유지. 흐름 펄스는 두 라우팅
+  모두에서 동일 작동.
 
-- **HyperFrames 프로젝트 루트 승격** — `hyperframes/demo/` → `hyperframes/`.
-  HyperFrames 번들러가 `data-composition-src` 를 프로젝트 루트 밖으로 해석하지 못해
-  (`../lib/...` → 404, 실측 확인), 요청 경로 `hyperframes/lib/charts/` 를 demo 가 import
-  하려면 루트 승격이 필요. `demo/index.html` → `index.html` 등 `git mv` (히스토리 보존).
-- **`index.html`** — 인라인 캔들 SVG 를 제거하고 `lib/charts/candle.html` 을
-  `data-composition-src` 로 import. 브렌트 narration/자막 sync, Ken Burns 보존.
-- **`scripts/render_demo.py` / `scripts/build_narration.py`** — 산출 경로를 프로젝트 루트
-  기준으로 갱신(`HF_PROJECT_DIR` / `PROJECT_DIR`).
+---
+
+## [v0.35.4] — 2026-06-11
+
+### Changed
+- **연결선 직각 라우팅** (사용자 요청 "각진 부분에 라운드가 있는 직각 선, 단정하게"):
+  SceneKit `orthoPath` 신설 — H-V-H / V-H-V 엘보 + 라운드 코너(Q 베지어),
+  노드 가장자리 stub. 네트워크 링크가 직선 사선 → 라운드 직각으로.
+- **흐름 펄스 애니메이션**: 링크 draw 완료 후 밝은 세그먼트가 s→t 방향으로
+  경로를 순환(2.4s × 3바퀴) — 영향을 주고받는 방향성 시각화. 타임라인 내
+  tween 이라 시킹 안전.
+- **국기 풀블리드**: 노드 원 클립 r-3 → r-1 + 잉크 오버레이 제거, 프로필 카드
+  국기 82px — 도형 안에 꽉 채움 (사용자 요청).
+
+---
+
+## [v0.35.3] — 2026-06-11
+
+### Added
+- **실측 베이스맵** (날리지식 패턴 ⑤, NEXT_SESSION_PROMPT 옵션 E 첫 단):
+  `hyperframes/scripts/build_mideast_map.mjs` — world-atlas(Natural Earth 50m,
+  PD) → 메르카토르 사전 계산 → `assets/mideast_map.js` (19개국 path + 지명 px,
+  52KB). 런타임 d3 의존 없음 (결정론 유지).
+- SceneKit `buildBasemap` — 잉크 톤 실측 지형 + 당사국 하이라이트 + 헤더 밴드
+  보호 상단 페이드 마스크.
+- **국기/인물 노드** (날리지식 패턴 ③, 사용자 레퍼런스): `buildNetwork` 재작성 —
+  지오 앵커(앵커 점 + 점선 리더 + 노드 충돌 회피 배치) + 원형 클립 국기/이미지
+  노드 + 이름 플레이트. 프로필 카드 모노그램에도 국기 적용.
+- `assets/flags/` — flag-icons(MIT) 국기 4종 + RIGHTS.md (C9 권리 기록).
+  헤즈볼라는 조직기 권리·민감성 문제로 모노그램 유지. 인물 사진은 위키미디어
+  차단(네트워크 정책)으로 보류 — `assets/portraits/` 추가만으로 교체 가능 구조.
+
+### Changed
+- S3 행위자 네트워크 / S5 지오 씬 모두 **실제 중동 지도 중심**으로 재구성
+  (사용자 요청). 마커·앵커 좌표 전부 실측 투영값.
+- scene-head/scene-no z-index 상향 — 지도 육지가 타이틀을 덮던 레이어 사고 픽스.
+
+---
+
+## [v0.35.2] — 2026-06-11
+
+### Changed
+- **테마 전면 교체: midnight_indigo → ink & brass 에디토리얼** (사용자 피드백
+  "AI vibe가 너무 많이 느껴져 정성이 안 느껴진다").
+  - 네이비/파란 글로우/블롭/그리드/글래스 카드 등 AI-dashboard 문법 전부 제거.
+  - 잉크 차콜 배경 + 브라스(#c4a265) 단일 액센트 + 옥사이드/세이지/슬레이트
+    뮤트 데이터 컬러 + 헤어라인 룰.
+  - **Noto Serif KR**(가변, 124 서브셋 6.3MB 로컬 내장) — 헤드라인·씬
+    타이틀·인용·씬번호·모노그램에 세리프 디스플레이.
+  - SceneKit SVG 하드코딩 색 → CSS 토큰(`--sk-*`, 폴백 포함)으로 분리 —
+    엔진이 테마 독립적이 됨.
+
+---
+
+## [v0.35.1] — 2026-06-11
+
+### Added
+- SceneKit 씬 빌더 ⑤ `buildProfileCards` — 키 플레이어 프로필 카드
+  (모노그램 + 컬러 링 draw-on + 입장 게이지 "자제↔확전" + 분석 추정 태그).
+  C9 권리 안전 기본값: 인물 사진/AI 이미지 대신 모노그램.
+- `hyperframes/briefing/` 신규 S4 "키 플레이어" 씬 (트럼프/이란 지도부/
+  이스라엘/헤즈볼라 4카드, 날리지식 패턴 ③ — NEXT_SESSION_PROMPT 옵션 D 첫 단).
+
+### Changed
+- 브리핑 컴포지션 60초 6씬 → **72초 7씬** (지도/마켓/클로징 +12s 시프트,
+  cue 3개 신규 + 7개 시프트). 브리핑은 narration mp3 미생성 상태라 시프트 안전.
+
+---
+
+## [v0.35.0] — 2026-06-11
+
+### Added
+- `hyperframes/briefing/assets/scene_kit.js` — **SceneKit 영상 컴포지션 엔진**
+  신설. 안전영역 밴드(헤더/스테이지/자막), 결정론적 텍스트 폭 추정,
+  **LabelField 충돌 회피 라벨 배치기**(선분·베지어·원 장애물 + 후보 슬롯 +
+  밀어내기 탐색), 플레이트 라벨(자동 줄바꿈), 마커↔라벨 리더선,
+  `getTotalLength` 실측 draw-on, 단어 단위 글자 분할, 씬 빌더 4종
+  (스텝 타임라인 / 행위자 네트워크 / 지오 씬 / 마켓 카드).
+
+### Changed
+- `hyperframes/briefing/index.html` — v0.34.13의 일회성 하드코딩 레이아웃을
+  SceneKit 기반 데이터 주도 빌드로 전면 리팩토링. 사용자 보고 결함
+  ("라벨 겹침, 줄 위에 글자, 어디에 내놓을 수 없는 수준") 구조적 해소:
+  - S2 사다리: 7개 스텝 라벨이 서로/연결선/씬번호와 겹치던 사고 → 플레이트
+    + 리더선 + 충돌장 배치로 겹침 0.
+  - S3 네트워크: 노드 원 밖으로 글자 넘침 → 라벨 폭 기반 반지름 자동 산정.
+    링크가 원 중심까지 파고들던 것 → 원 가장자리에서 트리밍. 범례가 씬번호와
+    겹침 → 수평 pill 범례로 재배치.
+  - S4 지도: 인접 마커(베이루트/북부 이스라엘) 라벨 상호 겹침 + 점선 아크가
+    글자 관통 → 충돌장 배치 + 플레이트. 데이터에만 있고 미렌더되던 보조 아크
+    라벨(헤즈볼라 사격/이스라엘 공습) 렌더 + 미사일 도착 임팩트 링 추가.
+  - S6 인용문: 글자 단위 분할이 keep-all 을 무력화해 단어 중간 줄바꿈
+    ("명/분") → 단어 span 래핑으로 차단.
+  - 하드코딩 stroke-dasharray(4000/3000/2000) 전부 실측 길이로 대체.
+  - 자막 가독용 하단 스크림 추가.
+- 검증: Playwright(chromium 1194) 시킹 렌더 11프레임 + 플레이트 겹침/밴드
+  위반 자동 감사(pageerror 0, 겹침 0, 위반 0).
+
+### Note
+- agents_reviewer 의 차트 생성 보강은 **참고만** — 본 엔진은 영상 생성
+  맥락(GSAP 타임라인 시킹, 결정론, 1920×1080 브로드캐스트 레이아웃)에 맞춰
+  독자 설계 (C0).
+
+---
+
+## [v0.34.13] — 2026-06-08
+
+### Added
+- `hyperframes/briefing/` — OSINT 시네마틱 브리핑 컴포지션 신규. report_bundle
+  (`midnight_indigo` 테마) 데이터를 100% 적용한 60초 6씬 GSAP 영상 HTML(타이틀·
+  에스컬레이션 사다리·5행위자 네트워크·3좌표 지도/미사일 아크·시장 스파크라인·
+  클로징). 과거 demo 미감 비상속, 전면 재설계(영상미 C0).
 
 ---
 

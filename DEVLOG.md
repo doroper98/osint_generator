@@ -1,6 +1,6 @@
 <!--
 tier: 3
-last_synced_with: v0.34.2
+last_synced_with: v0.38.1
 ssot_for: [development-log]
 depends_on: [CHANGELOG.md]
 last_review: 2026-06-06
@@ -22,248 +22,6 @@ last_review: 2026-06-06
 - 결과:  …
 - 연관:  AP-번호, 이슈, PR 번호 등
 ```
-
----
-
-## 2026-06-07 v0.34.21 — 에디토리얼 톤 파이프라인 적용 (사용자 확정 A, 영상미 C0)
-
-- **무엇을**: 사용자가 mockup 비교 후 확정한 **에디토리얼 미니멀(A)** 톤을 디자인 토큰
-  1벌(`lib/styles/editorial.css`)로 정의하고 5 컴포넌트 + compose chrome 에 일괄 적용.
-- **왜**: 사용자 "A 에디토리얼이 제일 낫네." + codex Beveridge 파일(gsap_taste, #ede7dd/모노)
-  레퍼런스가 사실상 같은 톤이라 함께 전진.
-- **어떻게**: 토큰(bg #f6f3ec / card #fbf9f4 / hairline #e2dccf / ink #16130f / muted #6a6157 /
-  faint #9b9082 / accent #b5482e). 컴포넌트는 따뜻한 카드+헤어라인+테라코타 기본 accent+soft
-  shadow. compose chrome 은 테라코타 마크+상단 헤어라인 룰+텍스트 씬 좌측정렬(accent 룰)+따뜻한
-  svg 카드. 가드레일(출처·기간·한글 keep-all·결정론·1080p 가독성) 불변.
-- **결과**: SpaceX 영상이 FT/에디토리얼 톤으로 — 따뜻한 종이, 헤어라인, 좌측정렬 헤드라인,
-  절제된 accent. unittest 370/370, validate(brent) 0 error, PNG ground-truth 확인. (번들
-  theme.accent 가 있으면 차트는 그 색(예: forest_sage green) — chrome 은 에디토리얼.)
-- **연관**: CHANGELOG v0.34.21, docs/MOTION_SKILLS.md, 톤 mockup(v0.34.20). 후속: ① index.html
-  brent chrome 도 에디토리얼 통일 ② **Beveridge식 인사이트 차트**(궤적 connected-scatter +
-  커서+트레일+국면+beat+하단 동기화) = B-ext 의 scatter 업그레이드 — 사용자 적극 반영 요청.
-
----
-
-## 2026-06-07 v0.34.20 — 톤 mockup 3종(에디토리얼/다크/스위스) + 다크 씬 캡처 버그 학습
-
-- **무엇을**: 디자인 톤 결정을 위해 같은 콘텐츠(SpaceX 헤드라인+NVDA 캔들+21.7억 달러+출처)로
-  3톤 mockup 정지 프레임 제작(`hyperframes/examples/mockups/{editorial,dark,swiss}.html`).
-  사용자 검수용 — taste-skill 을 "지배적"으로 쓸지/어느 톤일지 판단.
-- **왜**: 사용자 "기존 취향이 기초적, 새 skill 을 더 지배적으로? 각 톤 mockup 봐야 판단 가능."
-- **버그 학습(RENDER)**: **다크 씬에서 body 배경 위 흰 텍스트가 헤드리스 캡처에서 knock-out**
-  (투명/소실)되는 사고. 같은 흰 텍스트라도 자체 배경을 가진 자식 div(lower-third) 안은 정상.
-  → **명시적 불투명 scene 배경 레이어**(`position:absolute;inset:0;background:#0e1116`)를 깔면
-  해소. 다크 톤 채택 시 모든 다크 씬에 이 레이어 필수. (mockup 비교용 학습; 정식 채택 시
-  RENDER_ANTIPATTERNS 에 등록.)
-- **상태**: 톤 결정 대기. 결정되면 그 톤을 디자인 토큰 1벌로 확정 → 5 컴포넌트 + compose +
-  모션 캐릭터에 적용(B-ext 전에). 가드레일(출처·기간·한글·결정론·가독성)은 불변.
-- **연관**: CHANGELOG v0.34.20, taste-skill/gsap-skills(MIT) 내재화 흐름(v0.34.18~19).
-
----
-
-## 2026-06-07 v0.34.19 — 모션 내재화 파이프라인 적용 (영상미 C0)
-
-- **무엇을**: v0.34.18 의 hf-motion 을 실제 영상에 입힘 — 5 차트 컴포넌트 + compose 텍스트 씬
-  헤딩에 SplitText 단어 reveal, 컴포지션이 hf-motion 로드.
-- **왜**: 사용자 "엄청 좋아졌는데? 영상 전체에 입혀진 부분으로 만들고 B-ext 로 가자."
-- **어떻게**: 컴포넌트 head 에 `<script src="lib/motion/hf-motion.js">`(root-relative, assets/
-  gsap 와 동일 해석) + 등록 직전 `revealWords(tl, takeaway, 0.15)`. compose 템플릿도 hf-motion
-  로드(../lib/motion), 텍스트 씬은 카드 fade + 헤딩 revealWords + 본문 fade. 차트 씬은 기존
-  내부 등장(grid/candle draw)으로 이미 애니. (씬 간 crossfade·count-up 은 후속 폴리시.)
-- **결과**: SpaceX 영상의 모든 씬 제목이 단어별 등장(엔비디아/티커보드/텍스트 헤딩). 전체
-  unittest 370/370, validate(brent index) 0 error, PNG ground-truth 확인.
-- **연관**: CHANGELOG v0.34.19, v0.34.18(hf-motion), docs/MOTION_SKILLS.md. 후속: 씬 crossfade,
-  수치 countUp(도넛 중앙값/바), 그리고 B-ext(waterfall/gantt/scatter 컴포넌트).
-
----
-
-## 2026-06-07 v0.34.18 — 모션·타이포 스킬 내재화 (gsap-skills/taste-skill 흡수, 영상미 C0)
-
-- **무엇을**: AI 애니메이션 품질을 높이는 두 오픈소스 스킬팩(greensock/gsap-skills MIT,
-  Leonxlnx/taste-skill MIT)의 기술을 HyperFrames 결정론 영상 렌더에 맞게 골라 자체 구현으로
-  내재화. `lib/motion/hf-motion.js` + `examples/motion_showcase.html` + `docs/MOTION_SKILLS.md`.
-- **왜**: 사용자 질문("스킬 장착하면 더 나은 화면? 어차피 HTML 렌더잖아"). 답: correctness 는
-  무관하나 polish(전환/문자/수치 모션)는 향상 가능. 그래서 흡수.
-- **어떻게(핵심 판별)**: 우리 렌더는 paused 타임라인을 seek 캡처 → 스크롤·상호작용 없음.
-  - 이식: SplitText(단어/글자 reveal), count-up/ScrambleText, 크로스페이드 전환, gsap-utils
-    (seeded PRNG/clamp/lerp) — 전부 타임라인 add, 결정론.
-  - **제외: ScrollTrigger/Smoother/Draggable/Observer**(스크롤·상호작용 기반). 단 ScrollTrigger 의
-    "진행도 reveal 서사"는 타임라인 position 기반 reveal 로 **번역**해 흡수.
-  - 플러그인 통째 복사 안 함(라이선스/번들 위생) — 패턴을 core gsap 만으로 자체 구현.
-  - taste-skill 은 코드가 아니라 원칙(여백 규율/타입 위계/단일 accent/스프링 모션/density 다이얼)
-    을 우리 토큰 위에 적용. (em-dash 금지 룰은 우리 톤과 안 맞아 미채택.)
-- **결과**: 쇼케이스 — 헤드라인 SplitText reveal + 0→21.7 count-up + A→B 크로스페이드 + expo/
-  back/power 이징 + 에디토리얼 여백. PNG+mp4 ground-truth 확인(11s high). 결정론 검증(랜덤/시계/
-  ScrollTrigger 실사용 0 — 주석 언급만). py_compile 통과.
-- **연관**: CHANGELOG v0.34.18, docs/MOTION_SKILLS.md, hyperframes/CLAUDE.md(lib/motion). 후속:
-  차트 takeaway revealWords / 도넛·바 countUp / compose 씬 사이 crossfade 자동 / 지도 MotionPath.
-
----
-
-## 2026-06-07 v0.34.17 — 차트 메타 footer(출처·기간) + candle=메인 + 종목 dedupe (정확성 C9, 사용자 지적)
-
-- **무엇을**: 차트 신뢰성 메타 강화 — 모든 차트에 footer 로 출처·기간·시작~끝·인터벌 표기,
-  candle 을 메인으로 승격, 티커 보드 종목 중복 제거.
-- **왜(사용자 지적)**: v0.34.16 티커 보드가 (1) 출처·기간이 전혀 없고 (2) 엔비디아 candle 을
-  스파크라인으로 축소(메인이어야), (3) 엔비디아가 candle+line 둘 다라 보드에 중복, (4) 데모
-  라인이 3점이라 무의미한 삼각형. "무슨 의미냐 / 출처·기간·시작끝 당연히 표기 / 왜 두개 / 무슨
-  생각이냐."
-- **어떻게**:
-  - `_attach_meta`: provenance.sources[0].provider(+code) → 출처, data 첫·끝 날짜 → 기간,
-    날짜 간격 중앙값 → 인터벌(일/주/월봉). chart_to_component 가 candle/line/bar/donut 변수에
-    주입. 컴포넌트는 `setSourceFooter` 로 카드 하단 한 줄 표기.
-  - candle 을 `_STRIP_CANDIDATE_TYPES` 에서 제외 → 기본 메인(상세 OHLC). line/area 만 strip
-    묶음 후보. docs/CHART_DISPLAY_RULES.md 보정 + 근거(사용자 피드백).
-  - 티커 보드: 섹션 메인 종목명(`main_names`)·보드 내 중복을 정규화 비교로 제외. 보드도 공통
-    출처·기간 footer(strip 첫 차트 기준).
-  - 데모 번들(/tmp): 라인 6종을 실제 값 12점(매 ~6거래일)으로 복원 — 무의미 삼각형 해소
-    (실 번들은 일별 64점, 데모는 토큰상 subsample이라 인터벌이 '주봉'으로 정직 표기).
-- **결과**:
-  - SpaceX: s1 = 엔비디아 candle(메인, 64일봉, footer "출처·YAHOO (NVDA) 03-05~06-05·일봉")
-    + 티커 보드(알파벳/MS/아마존/S&P/필반 5종, NVDA dedupe, footer "YAHOO (GOOGL)…주봉")
-    + sankey svg → 9씬. 메인차트 1/티커보드 1/SVG 1/텍스트 6.
-  - 단위 테스트 +1(메인/보드 분리·dedupe 갱신) → `test_hyperframes_compose` 18, 전체 **370/370
-    통과**. py_compile 통과. PNG ground-truth 로 candle footer·보드 footer·dedupe 확인.
-- **연관**: CHANGELOG v0.34.17, docs/CHART_DISPLAY_RULES.md(메타데이터·candle=메인·dedupe 규칙),
-  GOAL G4(출처 표기), C9. 후속: role 2순위, strip 인터벌 densify(데이터소스), B-ext, C-ext.
-
----
-
-## 2026-06-06 v0.34.16 — 보조차트(strip) vs 메인차트(full) 판독 + 티커 보드 (영상미 C0, 사용자 결정)
-
-- **무엇을**: 보고서 번들 차트를 메인(full)/보조(strip)로 구분해 배치. 보조차트(시장 시계열
-  sparkline 묶음)는 풀스크린 메인으로 키우지 않고 **티커 보드 한 컷**으로 작게. 규칙은
-  `docs/CHART_DISPLAY_RULES.md` 에 영구 기록.
-- **왜(사용자 지적)**: v0.34.15 SpaceX 영상이 보고서의 **보조 티커 차트 6종(라인)을 각각 5초
-  풀스크린**(총 30s)으로 메인처럼 과대 표현. 보고서에선 작은 한 줄 묶음인데. "보조차트를 마치
-  메인인양 너무 많은 시간 할애" → 메인/보조 구분 강제.
-- **어떻게**:
-  - 판단 순서(사용자 스펙): ① `charts[].display`("full"/"strip") ② role(composed_report.json,
-    함께 올 때) ③ type 휴리스틱(line/candle/area 가 같은 섹션 2개 이상 연속 → strip).
-    `_classify_section()` 구현. display 가 있으면 그걸로 끝(type 단정 금지).
-  - `schemas/models.py:BundleChart.display` 추가(Optional, tolerant — 미지 값 통과).
-  - `lib/charts/tickerboard.html` 신설 — strip 묶음 미니 스파크라인 그리드(티커명+최근값+등락%
-    +sparkline, 테마 up/down 색). candle 은 종가선 축약. 컨트랙트 동일(template/__hfFindRoot/
-    host 변수 DOM 직독/이중 키).
-  - compose: 섹션 차트를 순회하며 full→개별 씬, strip 연속→tickerboard 한 컷(full 이 run 을
-    끊으면 먼저 flush). prose 자막은 섹션 전 씬 구간에 배분(기존).
-  - 인터벌 규칙 명문화: 영상 차트는 번들 최대 해상도 손실 없이 사용(다운샘플 금지). 번들이
-    sparse 만 줄 때 더 촘촘한 데이터 재취득은 데이터소스 연동 후속.
-- **결과**:
-  - 단위 테스트 +2 (strip 묶음 / display override) + 기존 갱신 → `test_hyperframes_compose` 17,
-    전체 **369/369 통과**. py_compile 통과.
-  - PNG ground-truth: SpaceX s1 의 7 시계열(엔비디아 candle 종가선 + 6 라인) → 티커 보드 한 컷
-    (테마 그린 ▲ 등락%), sankey svg 1컷. s1 8씬(40s) → 2씬(10s). CLI 요약도 보드/SVG 구분 표기.
-- **연관**: CHANGELOG v0.34.16, docs/CHART_DISPLAY_RULES.md, v0.34.15(과대 표현 사고), GOAL
-  G0/G4. 후속: role(composed_report.json) 2순위 연동, strip 인터벌 densify(데이터소스), B-ext
-  (waterfall/gantt/scatter 컴포넌트), C-ext(narration).
-
----
-
-## 2026-06-06 v0.34.15 — compose-hyperframes 충실도 강화 (실 번들 검증, 영상미 C0 / 정확성 경계)
-
-- **무엇을**: 실제 agents_reviewer 번들(SpaceX-구글 컴퓨팅 임대, v6.0.5, 차트 11개·섹션 7개)을
-  사용자가 붙여줘서 compose-hyperframes 로 통과. 1차(v0.34.14)는 "섹션당 1차트 + 미지원 텍스트
-  폴백"이라 캔들 1개만 영상이 됐다. 사용자 선택("이 번들 제대로 영상화")으로 4개 강화:
-  ① 섹션 다중차트 → 차트당 1씬 분할 ② dense stagger 자동축소 ③ 번들 theme.accent 주입
-  ④ sankey 등 prerendered_svg passthrough 씬. → 동일 번들이 14씬(캔들+라인6+sankey SVG+텍스트6).
-- **왜(정확성 경계 — 사용자 질문)**: "영상 근거가 JSON 범위로 한정되는가?" → **그렇다, 설계상.**
-  compose-hyperframes 는 순수 결정론 매퍼로 LLM 미호출 → 없는 내용 생성 불가. 화면의 헤드라인/
-  차트 제목/데이터/자막(prose 그대로)/단위 전부 번들 필드 출처. 축 경계·도넛 %는 번들 데이터의
-  산술 파생(새 사실 아님). JSON 밖 요소는 고정 chrome(브랜드/색/애니)뿐. (미래 C-ext 의 narration
-  재서술에 LLM 개입 시 C9 검증 규율 적용 — 별도 경고 예정.)
-- **어떻게**:
-  - `build_composed_scenes`: section 의 chart_refs 를 모두 펼침. 지원 타입→chart 씬,
-    미지원+prerendered_svg→svg 씬, 둘 다 아니면 섹션에 시각자산 없을 때만 text 씬. 차트/SVG 씬은
-    고정 5s. 자막은 section.prose 를 그 섹션의 전 씬 구간(여러 차트가 흐르는 동안)에 배분.
-  - `chart_to_component(accent=)` + `_theme_accent`: theme.tokens.accent → candle/line/bar.
-  - candle/bar: `effStagger = min(stagger, ~3.2/N)` 자동 축소(64봉 사고).
-  - svg 씬: prerendered_svg(1st-party producer) 를 카드에 raw 인라인 + fade.
-- **결과**:
-  - 단위 테스트 +3 (다중차트 분할 / svg 폴백 / theme accent) → `test_hyperframes_compose` 15,
-    전체 **367/367 통과**. py_compile 통과.
-  - PNG ground-truth: 캔들 64봉 전부 그려지고 forest_sage 그린 accent 적용, sankey SVG 카드
-    인라인(데모 SVG 는 손번역 시 truncate — 실파일은 full), 라인/텍스트 정상.
-- **한계(남음)**: waterfall/gantt/scatter 는 component 도 svg 도 없어 여전히 text 폴백 → B-ext
-  (컴포넌트 신설) 필요. 라인 6종 순차는 단조 → small-multiples 그룹핑 후속 검토.
-- **연관**: CHANGELOG v0.34.15, v0.34.14(컨버터 도입), HANDOFF 로드맵 ②, GOAL G0/G4(정확성 경계).
-
----
-
-## 2026-06-06 v0.34.14 — ReportBundle → 다중 씬 HyperFrames 컴포지션 자동 생성 (옵션 C, 영상미 C0)
-
-- **무엇을**: agents_reviewer `ReportBundle` 을 받아 각 `BundleSection` 을 1 씬으로 펼친
-  HyperFrames 컴포지션 HTML 을 자동 생성하는 변환기(`orchestrator/hyperframes_compose.py`)
-  + CLI `compose-hyperframes`. 차트 섹션은 `lib/charts/<type>.html` 을 `data-composition-src`
-  로 임베드하고 번들 차트 데이터를 `data-variable-values` 로 주입. `examples/gallery.html` 의
-  시퀀싱 패턴을 데이터 구동으로 일반화 — render_io(Remotion render_props)의 HyperFrames 후속.
-- **왜**: v0.34.13 으로 차트 컴포넌트 라이브러리가 생겼으니, 이제 번들 → N 씬 영상을 자동
-  조립하는 엔트리가 필요. 12 씬 호르무즈 파이프라인의 실 변환 단계.
-- **어떻게**:
-  - 차트 데이터 매핑: agents_reviewer 모양(candle `[{date,open,high,low,close}]`, line
-    `[{x,y,event}]`, bar/donut `[{label,value}]`, 실 fixture 로 확인) → 컴포넌트 변수(candle
-    `[{d,o,h,l,c}]` + 자동 yMin/yMax nice-bounds, line series/xLabels/event 콜아웃, donut
-    중앙값 실데이터 산출). 미지원 타입(sankey/bubble 등)은 텍스트 씬 폴백.
-  - 섹션→씬: prose 글자수로 길이 추정 + 큐 분할(절대 타임라인 자막). 차트/텍스트 분기.
-  - 순수 함수(`build_composed_scenes`/`render_composition_html`) + I/O 경계
-    (`build_and_persist_composition` → `hyperframes/generated/<pid>.html`). 산출은 gitignore.
-  - **실측 사고 2 건 해소**(PNG ground-truth):
-    1. **host `data-variable-values` 에 raw 배열/null → 첫 sub-comp 인스턴스화 깨짐(root null)**.
-       v0.6.76 가 `type="string"` 선언 변수에 배열을 주면 첫 인스턴스 처리에서 throw. 복합값을
-       JSON 문자열로 인코딩(`_stringify_complex`)해 선언 타입과 정합 — 컴포넌트는 문자열도
-       parseJSON 하므로 무손실. (gallery 가 문자열로 줘서 안 깨졌던 것과 일치.)
-    2. **멀티 씬에서 authored-id querySelector 가 런타임 id 재작성과 충돌해 root null**. 래퍼가
-       노출하는 `__hfFindRoot()`(런타임 인스턴스 id 로 해소)를 1차로, currentScript/authored
-       셀렉터를 폴백으로. 4 컴포넌트 공통 패치.
-- **결과**:
-  - 단위 테스트 `tests/test_hyperframes_compose.py` 12 케이스(매핑 5 + 씬 3 + stringify 1 +
-    HTML 3). 전체 **364/364 통과**(직전 352 + 12). py_compile 통과.
-  - PNG ground-truth: 합성 번들(candle/line/donut + 텍스트 4 씬)이 끝까지 정상 렌더 — 차트
-    데이터·축·중앙값·자막 모두 번들에서 주입. CLI `compose-hyperframes` 정상.
-- **연관**: CHANGELOG v0.34.14, HANDOFF 로드맵 ②, NEXT_SESSION 옵션 C, render_io(Remotion
-  선행), GOAL G0. 후속: scene 별 narration/cue 의 LLM 추출·수동 override + 실 음성 길이 sync
-  (현재는 prose 글자수 비례 추정), 인물카드/지도(D/E). **codex 리뷰**: v0.34.13 review-prompt
-  전달됨(미흡수) — 다음 리뷰 라운드에 v0.34.13 컴포넌트 + 본 v0.34.14 변환기 함께 검토 권장.
-
----
-
-## 2026-06-06 v0.34.13 — 차트 family HyperFrames 컴포넌트화 (옵션 B, 영상미 C0)
-
-- **무엇을**: demo 의 인라인 캔들 차트를 재사용 가능한 sub-composition 라이브러리로 분리하고
-  line/bar/donut 3 종을 추가. 각 컴포넌트는 `data-*` 변수 주입 + GSAP 타임라인. `index.html`
-  은 `lib/charts/candle.html` 을 `data-composition-src` 로 import. 본격 호르무즈 12 씬
-  파이프라인의 토대 (NEXT_SESSION_PROMPT 우선순위 B).
-- **왜**: demo 가 단일 차트만 인라인으로 갖고 있어 다른 씬·차트 종류를 못 만들었음. 데이터
-  주입형 컴포넌트 라이브러리가 있어야 12 씬 파이프라인(옵션 C)·인물카드·지도(D/E)로 확장 가능.
-- **어떻게**:
-  - **HyperFrames sub-composition 모델 실측 규명** (문서 불충분 → 번들 skill `SKILL.md`/
-    `motion-principles.md` 정독 + `hyperframe.runtime.iife.js` 소스 분석 + PNG 렌더 ground-truth):
-    1. sub-comp 은 `<template>` wrapper + 내부 `data-composition-id` div 구조.
-    2. 런타임이 sub-comp 스크립트를 `po()` 래퍼로 감싸 주입 (`__hfTimelineCompId` 등 in scope).
-       타임라인은 **authored id + runtime 인스턴스 id 둘 다**로 등록해야 폴링 통과(한쪽만
-       등록 시 45s 대기 후 "timelines not registered" 실패). 실측으로 확정.
-    3. **`getVariables()` 의 host override 가 v0.6.76 sub-comp 에서 전파 안 됨**
-       (`__hfVariablesByComp=null` 실측). → 컴포넌트가 자기 host(`data-variable-values` 보유
-       조상)를 DOM 에서 직접 찾아 읽는 경로를 1차로 두고, getVariables/JS 폴백을 보조로.
-       이게 12 씬 파이프라인의 실 데이터 주입 경로.
-    4. **번들러는 `data-composition-src` 를 프로젝트 루트 밖으로 못 나감** (`../lib` → 404).
-       → 요청 경로 `hyperframes/lib/charts/` 를 쓰려면 프로젝트 루트를 `hyperframes/demo/` →
-       `hyperframes/` 로 승격해야 함 (사용자 결정: "루트 승격"). `git mv` 로 히스토리 보존.
-       루트-내부 `../` (examples/gallery.html → ../lib/charts)는 허용됨(실측).
-  - candle/line/bar/donut 4 종 작성. 공통 컨트랙트: 카드 + 헤드라인 + SVG, light dashboard
-    토큰(흰 카드/오렌지 accent/Pretendard), `fromTo`(SKILL 의 immediateRender 사고 회피),
-    한 요소 단일 transform, 결정론.
-  - `index.html` 리팩터(인라인 SVG 제거 → candle import). `render_demo.py`/`build_narration.py`
-    경로 상수를 루트 기준으로 갱신. `examples/gallery.html` 쇼케이스/시퀀싱 템플릿 신설.
-- **결과**:
-  - `npx hyperframes lint/validate/inspect` 통과 (0 error; 잔여 warning 은 폰트 폴백 명칭 +
-    자막 대비 false positive — 둘 다 v0.34.13 이전부터 있던 benign).
-  - PNG ground-truth 렌더로 4 종 모두 정상 + 변수 주입(헤드라인/accent 색) 동작 확인.
-  - 브렌트 캔들 씬은 분리 후에도 narration/자막 sync·Ken Burns 보존.
-- **연관**: CHANGELOG v0.34.13, NEXT_SESSION_PROMPT 우선순위 B, HANDOFF 로드맵 ①, GOAL G0
-  영상미. 후속: 옵션 C(agents_reviewer 번들 → 다중 씬 자동 변환). RENDER-AP 후보:
-  "sub-comp 타임라인 이중 키 등록 + host 변수 DOM 직독" 패턴(v0.6.76 quirk 대응) — 재발 시
-  `RENDER_ANTIPATTERNS.md` 등록 검토.
 
 ---
 
@@ -2431,108 +2189,366 @@ last_review: 2026-06-06
   PATCH 표 2 번 (task_queue.json 영속화 + CLI, v0.5.4 MINOR) — 본 PATCH 이
   후 진입.
 
-## 2026-06-07 v0.35.0 — codex 연출 엔진(CompositionPlanner) 도입
+---
 
-- 무엇을: compose ②③(build_composed_scenes / HTML 템플릿) 위에 codex/claude 연출 계층 추가.
-  CompositionPlan(Pydantic) = 씬 순서·헤드라인·강조·페이싱·자막 재작성. BaseLLMWorker 상속
-  (ADDENDUM_04 subprocess 구독 CLI). plan_validator 가 번들 외 숫자를 <미검증> 라벨.
-  build_composed_scenes(bundle, plan) / --planner {off,stub,codex,claude}.
-- 왜: 사용자 결정 — "codex 를 엔진으로 넣어 영상 생성 판단·자막생성·완성도 향상". 단 사실/차트
-  데이터는 결정론 고정(환각 0), 연출·문장만 LLM. 전면 위임 + 번들 외 텍스트 허용(미검증 라벨).
-- 경계: C9/C0 — 정확성을 깨는 화려함 금지. codex 가 데이터(variables)는 못 건드림. 비결정론은
-  플랜 영속(compose_plan.json) + llm_calls 추적(G6)로 재현성 확보. 이 환경엔 codex 부재 →
-  stub 로 전 구간 검증, 실 codex 는 사용자 PC(C10 구도와 동일).
-- 검증: unittest 26개(compose 18 + planner 8) 통과. stub end-to-end 로 추적성 산출물·plan 유래
-  자막·사실 가드(999조/5000억 라벨) 확인.
-- 후속: 03_AGENT_ARCHITECTURE/CATALOGS 워커 표 동기화(C7), 차트 type 재지정 소비(전면 위임 잔여),
-  codex 외부 리뷰 반영(C10.1 MINOR 트리거).
+## 2026-06-08 v0.34.13 — OSINT 시네마틱 브리핑 컴포지션 신규 (영상미 C0, 과거 미감 비상속)
 
-## 2026-06-07 v0.35.1 — Windows codex.cmd 셈 실행 + 프롬프트 stdin 전환 (LLM-AP-006)
+- **무엇을**: `hyperframes/briefing/` 신규 컴포지션. agents_reviewer report_bundle
+  (`midnight_indigo` 테마) 데이터를 100% 적용한 60초 6씬 GSAP 영상 HTML. 기존
+  `hyperframes/demo`(베이지/캔들) 미감을 1도 상속하지 않고 전면 재설계.
+- **왜**: 사용자 요청 — 영상미를 완전·전면 재설계하고, 차트/도식을 정적 이미지가
+  아니라 원본 데이터에서 영상용으로 재렌더(C0). gsap-skills/taste-skill 류의 프로
+  애니메이션·고급 미감 지향.
+- **어떻게**: 단일 마스터 타임라인(`window.__timelines["briefing"]`, demo 패턴) +
+  6씬(타이틀/에스컬레이션 사다리/5행위자 네트워크/3좌표 지도+미사일 아크/시장
+  스파크라인/클로징). 모든 씬을 BUNDLE 임베드 데이터에서 JS로 결정론적 빌드.
+  SplitText/MotionPath 플러그인 없이 코어 GSAP 3.15 + 직접 글자분할·이차베지어
+  비행으로 구현. 권리/정확성(C9): 시나리오(가상) 라벨 + `<미검증>` 원칙 명시.
+- **결과**: Playwright(chromium 1194)로 6씬 12프레임 시킹 렌더 검수 — pageerror 0,
+  자막·차트·아크·카운터 정상. 영상미 확인.
+- **연관**: C0(영상미 최우선), C9(권리/미검증 라벨), 기준 bundle
+  analysis_20260608_065042. 검증 함정: Playwright `evaluate(()=>tl.time(t))` 가
+  GSAP 타임라인 객체를 반환→직렬화 무한 대기. 블록바디로 undefined 반환해 해소.
 
-- 무엇을: BaseLLMWorker 의 codex 호출이 Windows npm 설치(`codex.cmd` 셈)에서 폴백하던 버그 수정.
-  (a) `_resolve_launcher`: `shutil.which` 로 argv[0] 풀 경로 해석, Windows `.cmd`/`.bat` 이면
-  `COMSPEC /c` 로 감쌈. (b) codex response 프롬프트를 argv → **stdin** 으로 전환(cmd.exe 의
-  `%`·`"`·`&` 재파싱 및 argv 길이 한도 우회). claude response·codex agent 는 불변.
-- 왜: 사용자 PC(Windows 11, Python 3.13, codex-cli 0.137.0)에서 `--planner codex` 가
-  `codex CLI not found: [WinError 2]` 로 결정론 폴백. cmd 창에선 `codex --version` 정상인데
-  `subprocess` 가 `CreateProcess` 로 `.cmd` 를 못 띄운 것(.exe 만 인식). 실 데이터
-  (agents_reviewer 번들 「AI 메모리의 역설」)로 codex 연출 영상을 만들려는 흐름에서 발견.
-- 검증: unittest 99개 통과(신규 TestStdinPromptAndLauncher 7건 — cmd 셈 wrapping/posix 평문/
-  .exe 비-wrapping/미설치 passthrough/argv prompt 부재·존재). 실 codex end-to-end 는 사용자 PC.
-- 경계/한계: codex agent 모드는 여전히 argv 프롬프트(범위 밖). stdin 수신은 `codex exec` 가
-  positional 부재 시 stdin 을 읽는다는 전제(0.137 기준)에 의존 — 메이저 갱신 시 재확인.
-- 한계 기록: 사용자가 C10 외부 리뷰 면제를 명시(본 PATCH 는 버그 수정이라 C10.1 상 면제 대상).
+---
 
-## 2026-06-07 v0.35.2 — 텍스트 씬 통문단 도배 제거 (RENDER-AP-003)
+## 2026-06-11 v0.35.0 — SceneKit 엔진 리팩토링 (브리핑 HTML 엔진 전면 개선, 영상미 C0)
 
-- 무엇을: 차트 없는 섹션이 prose 전문을 화면 body 로 박던 글자 벽 수정.
-  `_text_scene_body(pull_quote, prose, cap=140)` — pull_quote 우선, 없으면 첫 문장만
-  발췌한 key-takeaway 한 줄. prose 전문은 자막 큐로만 흐른다.
-- 왜: 사용자가 실 번들(「AI 메모리의 역설」) 렌더 스크린샷 제보 — "메모리 벽"(563자)·
-  "두 갈래 길"(711자) 섹션이 통문단을 화면에 도배. C0("화면은 글자 도배가 아니라
-  key-takeaway + 비주얼") 정면 위반. 실측: 563/711자 body → 46/23자로 축소.
-- 경계: 결정론 경로 수정(연출과 직교). codex `--planner codex` 는 그 위에서 자막을
-  key-takeaway 로 재작성 + 헤드라인/강조/순서를 더한다. codex 가 text 씬 핵심 한 줄을
-  직접 고르게 하려면 PlannedScene 필드 추가 필요(후속).
-- 검증: unittest 전체 통과(신규 회귀 2건 — 첫 문장 발췌/cap/ pull_quote 우선).
-- C10: 버그 수정 PATCH → 외부 리뷰 면제(사용자 면제 명시와도 일치).
+- **무엇을**: ZE 브랜치(claude/keen-fermi-ZEY1R, v0.34.13)의 `hyperframes/briefing/`
+  을 머지한 뒤, 일회성 하드코딩 레이아웃을 `assets/scene_kit.js` (SceneKit 엔진)
+  기반 데이터 주도 빌드로 전면 리팩토링. VERSION 0.34.13 → 0.35.0 (MINOR — 새
+  엔진 레이어 도입).
+- **왜**: 사용자 보고 — "html 엔진이 너무 취약하고 구려. 글씨나 마킹이 서로 막
+  겹치고 줄 위로 글씨가 있고 어디에 내놓을 수가 없어." 실측(Playwright 시킹
+  스크린샷)으로 확인된 결함: S2 사다리 상단 3개 스텝 라벨 상호 겹침 + 날짜/라벨이
+  연결선 위에 얹힘 + 씬번호 "02" 와 충돌, S3 범례·씬번호 겹침 + 노드 원 밖 글자
+  넘침, S4 인접 마커 라벨 완전 겹침 + 점선 아크가 글자 관통 + 보조 아크 라벨
+  미렌더(데이터에만 존재), S6 인용문 단어 중간 줄바꿈("명/분").
+- **어떻게**:
+  - **SceneKit 엔진** (`hyperframes/briefing/assets/scene_kit.js`): ① 안전영역
+    밴드(LAYOUT: 헤더 150~268 / 스테이지 268~866 / 자막 866~) + 씬번호 장식
+    영역을 장애물로 선등록한 `stageField()`. ② 결정론적 텍스트 폭 추정
+    (`estTextWidth` — 폰트 로드 타이밍 무관 → 시킹 렌더 안전, canvas 측정 대신
+    코드포인트 가중치). ③ `LabelField` 충돌 회피 배치기 — 선분/베지어 샘플링
+    장애물 + 4방 후보 슬롯 + 수직 밀어내기 탐색, 배치 후 자기 자신도 장애물로
+    등록해 라벨 간 겹침 원천 차단. ④ `plateLabel` 반투명 플레이트 + 자동 줄바꿈
+    멀티라인 라벨. ⑤ `leader` 마커↔플레이트 리더선. ⑥ `prepDraw` —
+    getTotalLength 실측 draw-on (하드코딩 dasharray 4000/3000/2000 제거).
+    ⑦ `splitChars` 단어 span 래핑 (keep-all 보존). ⑧ 씬 빌더 4종:
+    buildStepTimeline / buildNetwork(라벨 폭 기반 노드 반지름 + 링크 가장자리
+    트리밍) / buildGeoScene(마커+아크+아크라벨 통합 충돌장) / buildMarketCards.
+  - **index.html**: 모든 씬을 BUNDLE 데이터 → SceneKit 빌더로 구성. 미사일 도착
+    임팩트 링, 자막 하단 스크림, 마켓 카드 kind 태그(상승/변동/보합) 추가.
+    엔진 계약 유지 (window.__timelines["briefing"], 결정론, 로컬 GSAP).
+  - agents_reviewer 차트 보강은 참고만 — 영상 맥락(타임라인 시킹·결정론·
+    브로드캐스트 안전영역)에 맞춘 독자 설계 (사용자 지시).
+- **결과**: Playwright(chromium 1194) 시킹 11프레임 + 자동 감사(플레이트 쌍별
+  겹침 / 스테이지 밴드 위반) — pageerror 0, 겹침 0, 위반 0. 씬별 스크린샷 검수
+  (전/후 비교) 통과.
+- **연관**: C0(영상미 최우선), v0.34.13(리팩토링 대상), NEXT_SESSION_PROMPT 옵션
+  B/C 의 토대(차트 컴포넌트화·번들 자동 변환이 본 엔진 프리미티브 위에 올라감).
+  검증 함정: Edit 도구가 NBSP(글자 span 공백) 매칭 실패 — 라인 단위 python 치환
+  으로 우회.
 
-## 2026-06-07 v0.35.3 — codex subprocess 인코딩 UTF-8 고정 (LLM-AP-007)
+---
 
-- 무엇을: `_invoke_llm` 의 `subprocess.run` 을 `text=True` → `encoding="utf-8",
-  errors="replace"` 로 변경. stdin 인코딩·stdout 디코딩을 UTF-8 로 고정.
-- 왜: v0.35.1(.cmd 수정)로 codex 가 실제 실행된 직후, 한국어 Windows(cp949)에서
-  `Failed to read prompt from stdin: input is not valid UTF-8 (offset 0)` 로 실패.
-  `text=True` 가 로케일 코덱(cp949)으로 stdin 을 인코딩해 codex(UTF-8 기대)와 충돌.
-- 경계: argv 경로는 CreateProcessW(UTF-16)라 무영향 — stdin/stdout 만 로케일 코덱을 탔다.
-  POSIX(UTF-8 로케일)는 원래 무영향이나 명시 고정으로 환경 비의존화.
-- 검증: unittest 전체 통과(신규 TestInvokeEncoding 2건 — mock 으로 encoding/stdin 잠금).
-- C10: 버그 수정 PATCH → 외부 리뷰 면제. codex-on-Windows 3연속(.cmd→stdin→인코딩)
-  수정의 마지막 고리 — 이제 한국어 Windows 에서 codex response end-to-end 가 열렸을 것.
+## 2026-06-11 v0.35.0 후속 — codex 외부 리뷰 생략 (사용자 결정)
 
-## 2026-06-07 v0.36.0 — compose 경로 음성 나레이션(TTS) + 자막/씬 실음성 sync
+- v0.35.0 (MINOR) 의 C10 외부 코드 리뷰는 **사용자 명시 지시로 생략**
+  (C10.0 사용자 책임 (c) "절차 자체에 대한 결정"). review-prompt.txt 는
+  전달 완료된 상태였음. 코드 변경 없음.
 
-- 무엇을: `compose-hyperframes --with-narration --tts-backend {elevenlabs|stub|...}` 추가.
-  codex 가 씬당 깊이 있는 나레이션 스크립트(2~4문장)를 생성(PlannedScene.narration) →
-  문장 cue 분할 → TTS 합성 → **실 음성 길이로 자막 cue 시점·씬 길이 재배치** → HTML 에
-  `<audio>` 임베드. 자막=음성 1:1 싱크.
-- 왜: 사용자 요청 — (1) 음성(.env ElevenLabs) (2) 음성·자막·영상 흐름 싱크 (3) "영상이
-  보고서 원문만큼 깊이가 없다"(codex 가 씬당 1줄로 과압축) → 나레이션 스크립트로 깊이 회복.
-- 신규: `orchestrator/compose_narration.py`(순수 타임라인 plan_narration_timeline + 문장분할
-  + build_scene_narration). PlannedScene.narration / ComposedScene.narration. plan_validator
-  가 narration 의 번들 외 숫자도 <미검증> 라벨. _stub_plan 도 narration 생성(전 구간 stub 검증).
-- drift 회피(사용자 과거 보고 "자막 먼저, 음성 늦게"): 파트별 mp3 재인코딩 패딩 누적(실측
-  1.6s drift)을 **PCM WAV 샘플정확 조립 + 실측 길이(stdlib wave) + 최종 mp3 1회 인코딩**으로
-  제거(실 mp3 174.47s vs 계산 174.43s, 0.04s = 끝 패딩 1회). cue at_sec == 실 오디오 위치.
-- total_override: 씬이 lead 오프셋에서 시작하면 sum(씬) 이 실 총길이보다 짧아 마지막 씬/음성이
-  잘리던 버그 → render_composition_html(total_override) 로 루트·audio data-duration 강제.
-- 검증: 실 번들(「AI 메모리의 역설」) stub end-to-end — 씬6/cue18(깊이↑)/총174s, 씬·cue 시점
-  정렬 확인. unittest 399개 통과(신규 test_compose_narration 10건). 실 ElevenLabs 는 사용자 PC.
-- C10: MINOR 트리거지만 사용자 외부 리뷰 면제 명시.
-- 후속(C7): docs/05_DATA_SCHEMA_SPEC(PlannedScene.narration)·03_AGENT_ARCHITECTURE 동기화,
-  codex 가 텍스트 씬 핵심 한 줄(body) 직접 선택(PlannedScene 필드), 나레이션 톤/속도 .env 노출.
+---
 
-## 2026-06-07 v0.36.1 — 자막 swap seek-safe 화 (tl.call → onUpdate, RENDER-AP-004)
+## 2026-06-11 v0.35.1 — 키 플레이어 씬 신규 (SceneKit 엔진 첫 확장 검증)
 
-- 무엇을: compose HTML 의 자막 swap 을 `tl.call`(순수 콜백) → `tl.to(proxy,{onUpdate})`
-  (hf-motion countUp 과 동일한 seek-safe 패턴)로 교체. 단일 트윈 onUpdate 가 현재 시점의
-  활성 큐를 골라 $sub.textContent 갱신. 콜백 0, 레이아웃 변경 0.
-- 왜: 나레이션 영상 첫 실 렌더에서 `tl.call is not a function → Composition has zero
-  duration` 으로 렌더 실패(사용자 보고). HyperFrames 는 paused 타임라인을 frame seek 로
-  캡처하는데 순수 콜백 .call 이 그 런타임 timeline 에 노출되지 않아 IIFE 중단 → 타임라인
-  미등록 → zero duration. tl.call 은 나레이션과 무관하게 v0.35.3 이전부터 있던 잠재 버그.
-- 검증: 생성 HTML 에 tl.call( 호출 0 / onUpdate 존재 / @@TOTAL@@ 주입 확인. unittest 400개
-  통과(신규 회귀 1건). 실 렌더 재검증은 사용자 PC(이 환경엔 hyperframes 런타임 없음).
-- C10: 버그 수정 PATCH → 외부 리뷰 면제.
-- 후속: 데모 index.html / render_demo 의 동일 tl.call 도 같은 패턴으로 교체(현재 범위 밖).
+- **무엇을**: SceneKit 에 씬 빌더 ⑤ `buildProfileCards` 추가 + 브리핑에 S4
+  "키 플레이어" 씬 삽입 (60초 6씬 → 72초 7씬). VERSION 0.35.0 → 0.35.1.
+- **왜**: 사용자 요청 "씬을 한번 만들어봐" — v0.35.0 엔진이 새 씬 타입을 실제로
+  받아내는지 검증 + NEXT_SESSION_PROMPT 옵션 D (인물 카드) 첫 단 착수.
+- **어떻게**: 카드 = 모노그램(이니셜) + 컬러 링 draw-on (prepDraw 재사용) +
+  핵심 행동 라인 + 입장 게이지 (자제↔확전 스펙트럼 트랙 위 행위자 dot 슬라이드,
+  "분석 추정" 태그 명시 — C0 경계: 추정과 사실 구분). C9: 인물 사진/AI 이미지
+  대신 모노그램이 권리 안전 기본값. 지도/마켓/클로징 씬·cue +12s 시프트
+  (브리핑 narration mp3 미생성이라 sync 부채 없음). 씬 번호 05/06/07 재번호.
+- **결과**: Playwright 시킹 15프레임 + 플레이트 겹침/밴드 감사 — pageerror 0,
+  겹침 0, 위반 0. 4카드 스태거 진입 + 링 draw + 게이지 dot 슬라이드 정상.
+- **연관**: v0.35.0 (엔진), NEXT_SESSION_PROMPT 옵션 D, C9 (권리), C10 은
+  사용자 지시로 생략 유지 (PATCH 카테고리 — 권장 항목).
 
-## 2026-06-07 v0.36.2 — 나레이션 음성 자산을 서버 루트(generated/) 아래로 (RENDER-AP-005)
+---
 
-- 무엇을: 나레이션 mp3 를 hyperframes/assets/audio → generated/assets/audio 로 옮기고
-  HTML audio src 를 ../assets → assets 로. 렌더러가 -c 파일 디렉토리를 정적 루트로 서빙해
-  ../assets 가 루트 밖이라 net::ERR_ABORTED → zero duration 으로 실패하던 것.
-- 왜: tl.call 수정(v0.36.1) 후에도 렌더 실패. 음성만 브라우저 fetch 라 경로가 깨졌고(차트는
-  번들러 resolve 라 무사), 음성 미로딩이 런타임 ready 를 막아 zero duration.
-- 검증: 생성물 위치(generated/assets/audio/<pid>.mp3) + HTML src="assets/audio/.." 확인.
-  unittest 400개 통과. 실 렌더 재검증 사용자 PC.
-- C10: 버그 수정 PATCH → 면제.
+## 2026-06-11 v0.35.2 — ink & brass 에디토리얼 테마 (AI-dashboard 미감 폐기)
+
+- **무엇을**: 브리핑 컴포지션 비주얼 테마 전면 교체 + SceneKit 색 토큰화.
+  VERSION 0.35.1 → 0.35.2.
+- **왜**: 사용자 피드백 — "컬러감과 테마를 더 고급지게. AI vibe가 너무 많이
+  느껴져서 정성이 들어갔다는 느낌이 들지 않는다." 기존 midnight_indigo 는
+  네이비 + 파란 글로우 + 블롭 + 그리드 + 글래스 카드라는 전형적 AI 대시보드
+  문법이었음.
+- **어떻게**: ① 팔레트 — 잉크 차콜(#121214) + 브라스(#c4a265) 단일 액센트 +
+  옥사이드(#b25450)/세이지(#7d9b76)/슬레이트(#8d99ae)/시에나(#b07a4a) 뮤트
+  데이터 컬러. 글로우/박스섀도 액센트 전부 제거, 헤어라인 룰 추가.
+  ② 타이포 — Noto Serif KR 가변(구글 폰트 124 유니코드 서브셋, 6.3MB 로컬
+  내장 + 로컬 url 재작성 CSS) 을 헤드라인/씬 타이틀/인용/씬번호/모노그램에.
+  데이터 라벨은 Pretendard 산세리프 유지 (가독). ③ SceneKit 의 SVG 하드코딩
+  색을 CSS 변수(--sk-ink/--sk-node-fill/--sk-grid/--sk-region/--sk-text/
+  --sk-muted/--sk-dim/--sk-hairline, 폴백 포함) 로 분리 — 엔진 테마 독립.
+  플레이트 rx 10→4 (샤프 에디토리얼).
+- **결과**: Playwright 시킹 15프레임 + 겹침/밴드 감사 클린. 7씬 전부
+  스크린샷 검수 — 세리프 디스플레이 + 브라스 액센트 정상 렌더.
+- **연관**: C0 (영상미), v0.33.0 의 "Aurora glass 촌스러움" 피드백과 같은
+  계열의 사용자 미감 결정. 폰트 서브셋 내장은 결정론 렌더 (오프라인) 전제.
+
+---
+
+## 2026-06-11 v0.35.3 — 실측 지도 중심 재구성 + 국기/인물 노드 (날리지식 패턴 ③⑤)
+
+- **무엇을**: S3(행위자 네트워크)·S5(지오 씬)를 실제 중동 지도 중심으로 재구성,
+  노드를 원형 국기 배지로 교체. VERSION 0.35.2 → 0.35.3.
+- **왜**: 사용자 요청 + 레퍼런스 이미지(날리지식 채널 스타일 — 실측 지도 풀블리드
+  + 원형 국기 배지 + 인물 사진 카드 + 이름 플레이트). "actor network 와
+  geospatial chain 은 지도가 중심적으로 나와야" + "노드는 국기나 인물 사진".
+- **어떻게**: ① world-atlas 50m → 메르카토르 사전 계산 생성기
+  (`build_mideast_map.mjs`, 재현 가능) → 52KB 정적 JS. 런타임 라이브러리 0
+  (HyperFrames 결정론 계약). ② buildBasemap — 잉크 톤 지형 + 당사국(이란/레바논/
+  이스라엘) 하이라이트 + 상단 페이드 마스크. ③ buildNetwork 재작성 — anchor 가
+  있으면 노드 원을 앵커 주위 충돌 회피 배치(LabelField), 앵커 점 + 점선 리더,
+  원형 클립 국기 이미지(slice) + 잉크 톤 오버레이, 이름 플레이트 분리. 미국은
+  지도 밖(동지중해 상공) 고정 노드. ④ 국기: flagcdn·위키미디어가 outbound
+  allowlist 차단 → npm `flag-icons`(MIT) 로 우회 확보. 인물 사진(트럼프 공식
+  초상, PD)은 차단으로 보류 — RIGHTS.md 에 교체 절차 명시 (C9). ⑤ 레이어 사고:
+  scene-head 가 svg 보다 DOM 앞이라 베이스맵 육지가 타이틀 글자를 덮음 — 처음엔
+  폰트 서브셋 누락으로 오판(document.fonts.check 전수 통과로 반증), scene-head
+  z-index 상향 + 베이스맵 상단 마스크로 이중 방어.
+- **결과**: 플레이트 겹침/밴드 감사 클린, pageerror 0. S3/S4/S5 스크린샷 검수
+  통과. 베이루트·남레바논·예루살렘 앵커 밀집(35px 간격)도 노드 충돌 회피로 분산.
+- **연관**: C0(영상미), C9(권리 — RIGHTS.md), 옵션 D/E, v0.35.0 엔진(LabelField
+  재사용이 본 작업의 토대).
+
+---
+
+## 2026-06-11 v0.35.4 — 직각 연결선 + 흐름 펄스 + 국기 풀블리드
+
+- **무엇을**: 네트워크 연결선을 라운드 코너 직각 라우팅(`orthoPath`)으로 교체,
+  링크 위를 순환하는 흐름 펄스 추가, 국기 이미지를 노드/카드 도형에 꽉 채움.
+  VERSION 0.35.3 → 0.35.4.
+- **왜**: 사용자 요청 3건 — "연결선은 각진 부분에 라운드가 있는 직각 선으로
+  (단정하게)", "선 위에서 하이라이팅 색이 이동하는 애니메이션 (영향 방향)",
+  "국기/사진은 도형 안에 꽉 채워".
+- **어떻게**: ① orthoPath — 주축(|dx| vs |dy|) 기준 H-V-H/V-H-V 엘보, 코너는
+  Q 베지어 라운드(반경 16), 양 끝은 노드 반지름 stub. 짧은 구간은 직선 폴백.
+  ② 흐름 펄스 — 링크와 같은 d 의 오버레이 path 에 dasharray "seg L",
+  dashoffset L+seg → 0 tween (ease none, repeat 2) = 경로 1회 완주 × 3.
+  마스터 타임라인 내 tween 이라 시킹/오프라인 렌더 안전. 타입별 밝은 색
+  (LINK_FLOW). ③ 클립 r-1 + 오버레이 제거, pcard img 82px.
+- **사고 기록**: 편집 스크립트 앞에 `pkill -f "hyperframes render"` 를 붙였다가
+  pkill 이 자기 자신의 셸 command line 까지 매칭해 편집 전에 셸이 죽음(exit
+  144). 편집 0건 적용 상태를 grep 으로 확인 후 pkill 없이 재실행. pkill -f
+  는 self-match 위험 — 패턴에 자기 명령 문자열이 포함되지 않게 할 것.
+- **결과**: 겹침/밴드 감사 클린, pageerror 0. 클로즈업 연속 프레임(25.6/26.4/
+  27.2s)으로 펄스 세그먼트 이동 확인.
+- **연관**: v0.35.3(지도 노드), C0. 사용자 레퍼런스(날리지식)의 단정한 연출 계열.
+
+---
+
+## 2026-06-11 v0.35.5 — 하이브리드 링크 라우팅 (근거리 직각 / 원거리 아치)
+
+- **무엇을**: buildNetwork 링크 라우팅을 거리 기반 하이브리드로 — 근거리는
+  orthoPath(라운드 직각), 장거리는 위쪽 아치(Q 베지어, bend = clamp(dist×0.16,
+  56, 150)). 링크별 `curve` 오버라이드. 미국발 3개 링크 곡선 강제.
+  VERSION 0.35.4 → 0.35.5.
+- **왜**: 사용자 — "멀리서 지원하거나 영향을 주고받는 건 곡선으로 해도 돼.
+  적절하게 판단해서 로직에 반영". 직각의 단정함(v0.35.4)과 원거리 투사의
+  거리감을 의미 단위로 구분.
+- **어떻게**: 거리 임계값(opts.curveDist, 기본 430px) 자동 판별 + lk.curve
+  명시 오버라이드. 아치는 normal 방향을 항상 위로 정규화(투사 느낌), 양 끝은
+  control point 방향으로 노드 반지름 stub. 흐름 펄스 오버레이는 동일 d 를
+  공유하므로 변경 없음.
+- **결과**: 감사 클린. 미국→이란/이스라엘/레바논 = 아치, 이란→이스라엘/
+  헤즈볼라 = 거리 자동 아치, 헤즈볼라↔이스라엘/레바논 = 직각. 의미 가독 확인.
+- **연관**: v0.35.4(직각 라우팅), C0.
+
+---
+
+## 2026-06-11 v0.35.6 — 링크 회피 라우팅 (국기·플레이트 간섭 제거)
+
+- **무엇을**: 네트워크 링크가 다른 노드 원(국기)·이름 플레이트를 비켜 가도록
+  후보 경로 탐색 추가. VERSION 0.35.5 → 0.35.6.
+- **왜**: 사용자 보고 — 선이 국기 뒤로 지나가거나 가려짐. 링크가 노드 뒤
+  레이어라 시각적으로 잘려 보였음.
+- **어떻게**: buildNetwork 내부 순서 재배열 (노드→플레이트→링크). 링크별 후보:
+  곡선 = bend {base,+45,+90,+140} × 방향 {위,아래}, 직각 = 엘보 frac
+  {0.5,0.35,0.65,0.25,0.75} + 곡선 폴백. 각 후보를 22px 샘플링 →
+  스테이지 밴드 검사 + 노드 히트(패딩 14)/플레이트 히트(패딩 6) 계수.
+  노드·플레이트 클린 후보 우선, 없으면 노드 클린 후보. orthoPath 에 frac
+  파라미터 추가. 흐름 펄스는 선택된 d 공유라 변경 없음.
+- **결과**: 클로즈업 검수 — 미국→이란 아치가 레바논 플레이트 위로 상승 회피,
+  이란→헤즈볼라가 국기 사이 통과, 간섭 0. 감사 클린.
+- **연관**: v0.35.4/0.35.5 (라우팅 계열), LabelField 철학(충돌 회피)의 링크 확장.
+
+---
+
+## 2026-06-11 v0.36.0 — 번들→영상 자동 변환 1차 (옵션 C, 실 JSON 검증)
+
+- **무엇을**: 사용자가 제공한 실제 agents_reviewer 번들
+  (analysis_20260611_130642_9f7fbb749d, 반도체 분석, graphite_slate)로
+  번들→컴포지션 변환기 1차 구현 + e2e 검증. VERSION 0.35.6 → 0.36.0 (MINOR).
+- **왜**: 사용자 — "샘플 영상이 마음에 드는데, 정말 json 이 제공되었을 때
+  그대로 작동되는지 보기 위함". 손으로 만든 데모가 아니라 데이터 주도
+  파이프라인의 증명.
+- **어떻게**: ① bundle_to_video.py (stdlib only, LLM 없음 — 결정론):
+  headline greedy wrap(+마지막 줄 em) / timeline 13→7 샘플링(crack·present·
+  future 우선, past 균등) / contradictions → versus 카드(조사 '은/는' 분리로
+  진영·주장 추출, resolution 의 다수·소수 키워드로 stance) / line+strip 차트
+  → 마켓 카드(첫값 대비 % 시리즈, pct·spread 로 kind 분류) / pull_quote
+  숫자+단위 regex em / 출처 publisher 상위 3 + 외 N. ② auto_builder.js:
+  BRIEFING_DATA 의 scenes[] 를 조건부 조립, data-duration 동적 주입,
+  번들 테마 토큰 → CSS 변수. CSS 는 index.html <style> 블록 재사용.
+  ③ 씬 부재 처리 검증: 본 번들은 map=None·행위자 없음 → 지도/네트워크 씬이
+  생성되지 않음 (엔진의 올바른 동작).
+- **결과**: scenes=[title, ladder, versus, markets, closing], 53초, cue 12개.
+  플레이트 겹침/밴드 감사 클린, pageerror 0. 5씬 스크린샷 검수 — 헤드라인
+  줄바꿈/강조, 타임라인 7분기점, 강세론(다수설) vs 보수론(소수설) 게이지,
+  SK하이닉스 +119.1% 마켓 카드, 150조원 자동 강조 인용 + 신뢰도 0.38 모두
+  번들 값 그대로.
+- **C10**: MINOR 트리거이나 사용자의 세션 명시 지시("코드리뷰는 생략해")로
+  생략. 차기 세션에서 필요 시 일괄 리뷰 권장.
+- **남은 것 (옵션 C 2차+)**: cue 문장 품질(LLM 보강), candle/bar/slope 차트
+  전용 씬, map 있는 번들에서 지오/네트워크 씬 자동 활성, narration 연동.
+- **연관**: v0.35.x 전체(엔진·씬·테마가 본 변환의 토대), 옵션 C/G4(미검증
+  라벨 — 출처 라인에 명시).
+
+---
+
+## 2026-06-11 v0.36.1 — 씬 라이브러리 확장 + 렌더러 빈 화면 사고 픽스 (RENDER-AP 후보)
+
+- **무엇을**: 수평 축 타임라인/캔들/바 패널/시그널 씬 4종 추가, 타임라인 유형
+  자동 선택, auto_builder 인라인화. 반도체 번들 자동 영상 5씬→9씬.
+  VERSION 0.36.0 → 0.36.1.
+- **왜**: 사용자 피드백 3건 — ① "너무 단조롭다, 화면 수가 적다" (번들 차트
+  10개 중 7개를 미사용했음), ② "시계열마다 계단 모양이면 별로 — 유형 필요",
+  ③ v0.36.0 렌더 mp4 가 빈 화면(408KB/63kbps).
+- **어떻게**: ① buildAxisTimeline(수평 축) + timeline_kind 휴리스틱(crack+
+  present 공존 = 에스컬레이션 서사 → 계단, 그 외 → 수평 축. 본 번들은 축).
+  ② buildCandleChart/buildBarPanels + auto 씬 bars(단일+같은 단위 듀얼 자동
+  묶음)/candle/signals. ③ **빈 화면 근본 원인**: hyperframes 렌더 세션이
+  body 끝 외부 <script src> 를 실행하지 않음 — 정적 마크업만 보이고 JS 산출
+  전부 부재. 로컬 Chromium 141 + 렌더러의 chrome-headless-shell 131 양쪽에서
+  수동 검증 시 정상이라 페이지 문제 아님을 확정 후, 작동하는 index.html
+  패턴(인라인 스크립트)과의 구조 차이로 격리. 변환기가 빌더를 인라인 주입.
+- **사고 기록**: 듀얼 바 패널 cue 의 패널 혼합 비율(만원 단위 vs 만원 단위지만
+  스케일 상이) 19.0배 — 시각 검수에서 포착, 패널별 비율로 교정. 자동 cue 는
+  단위/스케일 경계를 넘는 집계 금지 원칙.
+- **결과**: 9씬 89초, cue 19, 감사 클린. 캔들/바/시그널/수평축 스크린샷 검수.
+- **연관**: v0.36.0(변환기 1차), C0, G4(<미검증> 태그 — 시그널 카드).
+
+---
+
+## 2026-06-11 v0.37.0 — 타임라인 5유형 + 테마 5종 + 슬로프/도넛/인용 (MINOR)
+
+- **무엇을**: ① 타임라인 시각화 5유형(ladder/axis/serpentine/vertical/metro)
+  + 데이터 성격 기반 자동 선택 휴리스틱 + CLI 오버라이드. ② 테마 시스템 —
+  CSS 전면 토큰화(--plate-fill/--scrim-rgb/--cap-color 등 14토큰 신설) +
+  themes.js 프리셋 5종(라이트 paper_oxblood 포함) + 번들 theme.id 자동 매칭 +
+  의미색 런타임 파생. ③ 슬로프 씬(실데이터 ch-10)/도넛 빌더(하니스 검증)/
+  인용 인터스티셜. VERSION 0.36.1 → 0.37.0 (MINOR — 씬·테마 라이브러리).
+- **왜**: 사용자 — "타임라인 유형 5개, 컬러 테마 5개로 늘려라. 미개발 유형도
+  개발해 둬라." + 직전 피드백(매번 계단이면 단조).
+- **어떻게**: 자동 선택 — crack+present 공존=ladder(에스컬레이션), n≥11=
+  serpentine, 평균 라벨 26자↑=vertical, 미래 비중 40%↑=metro, 그 외 axis.
+  테마 — auto_builder 가 SK_THEMES[themeId].vars 적용 후 getComputedStyle 로
+  accent/oxide/sage/slate/faint 를 읽어 phase/market/gradient 파생 (테마-의미색
+  단일 출처). 라이트 테마는 scrim/cap/vignette/grain 토큰까지 오버라이드.
+- **검증**: 본 번들로 5유형 × 5테마 매트릭스 스크린샷 (모두 감사 클린,
+  pageerror 0). 도넛은 번들에 데이터가 없어 임시 하니스로 렌더 검증.
+  디폴트 실행 = graphite_slate(번들 theme.id 매칭) + serpentine(13분기점) —
+  11씬 106초 cue 22.
+- **C10**: MINOR 트리거이나 사용자 세션 지시로 생략 유지.
+- **연관**: v0.36.x(변환기), C0. 잔여: stacked/waterfall/scatter/heatmap/
+  gantt 차트 씬, LLM cue 작문(옵션 C 2차), 도넛 실데이터 검증.
+
+---
+
+## 2026-06-12 v0.37.1 — 잔여 차트 유형 5종 (stacked/waterfall/scatter/heatmap/gantt)
+
+- **무엇을**: SceneKit 차트 빌더 5종 + auto_builder 씬 타입 + 변환기 정규화기
+  + `--preview-charts` 갤러리 픽스처. VERSION 0.37.0 → 0.37.1.
+- **왜**: 사용자 — "잔여 차트유형을 먼저 만들자. 비주얼하게 잘". 옵션 B 의
+  잔여분(스택/워터폴/스캐터/히트맵/간트). 현재 번들에는 해당 타입 실데이터가
+  없어 합성 데이터 갤러리로 비주얼 검증, 변환기 매핑은 미리 연결 (해당 타입
+  번들 도착 시 자동 씬 생성).
+- **어떻게**: ① 빌더는 전부 테마 토큰 파생 색 + 기존 프리미티브 재사용
+  (plateLabel/LabelField/prepDraw — 스캐터 포인트 라벨이 충돌 회피의 수혜).
+  ② 정규화기는 스키마 미확정을 전제로 관용 파싱 (segments|parts|series,
+  kind|type, dict|list 히트맵, 날짜 검증 후 간트) — 형식이 안 맞으면 씬 생략
+  (조용한 실패 대신 콘솔 로그 없음·데이터 없음 = 씬 없음 원칙). ③ 애니메이션:
+  스택 세그먼트 순차 성장(svgOrigin 기반 scaleX), 워터폴 컬럼 부유 상승 +
+  커넥터 페이드, 스캐터 대각선 draw-on + 백아웃 팝, 히트맵 (행+열) 대각
+  웨이브, 간트 막대 성장 + 오늘 라인.
+- **결과**: 갤러리 5씬 45초 — 감사 클린, pageerror 0, 5씬 스크린샷 검수 통과.
+- **연관**: v0.36.x(자동 변환), 옵션 B 완료에 근접 (남은 것: forecast 밴드,
+  network 차트 — 번들 스키마 확정 시).
+
+---
+
+## 2026-06-12 v0.37.2 — 영상 필드 계약 초안 (agents_reviewer 전달)
+
+- **무엇을**: docs/VIDEO_BUNDLE_CONTRACT.md 신설 + 사용자에게 agents_reviewer
+  세션 전달용 프롬프트 작성. VERSION 0.37.1 → 0.37.2 (문서 PATCH).
+- **왜**: cue LLM 대본화의 방식으로 사용자가 옵션 ③ 확정 — "보고서를 쓴
+  LLM 이 영상 대본도 같이 쓴다". 부수 효과로 서술 전용 섹션(현 번들 s5/s6
+  류)의 영상 누락도 해소됨 (highlights → 스테이트먼트 씬).
+- **계약 요지**: sections[].video {narration ≤58자/문장, highlights ≤40자,
+  emphasis 는 정확한 부분 문자열, narration_tts 선택} + report.video
+  {intro/outro_narration}. 전부 optional (schema_version 1 유지). 사실 근거
+  강제 — 영상 쪽 검증기가 수치·날짜·고유명사를 번들과 대조, 위반 문장은
+  템플릿 폴백.
+- **다음**: agents_reviewer 합의/샘플 번들 도착 → 영상 쪽 소비 구현
+  (스테이트먼트 씬 + 검증기 + cue 교체) → 본 문서 "확정" 갱신.
+- **연관**: 옵션 C 2차, G4 (사실 근거/미검증 라벨), v0.36.x 변환기.
+
+---
+
+## 2026-06-12 v0.38.0 — 계약 video 필드 소비 (스테이트먼트 씬 + 내레이션 + 검증기)
+
+- **무엇을**: VIDEO_BUNDLE_CONTRACT 의 영상 쪽 의무 구현. SpaceX/구글 번들
+  (analysis_20260606_114653, forest_sage)로 e2e 검증 — 12씬 118초.
+  VERSION 0.37.2 → 0.38.0 (MINOR, C10 은 사용자 세션 지시로 생략 유지).
+- **왜**: agents_reviewer 가 계약을 구현해 전 섹션 video(narration 4문장 +
+  highlights 2 + emphasis + narration_tts 발음 분리)를 실어 보냄. 사용자 —
+  "데이터 없는 씬 작업 반영, 내레이션 보완했다. 읽고 영상 만들어봐".
+- **어떻게**: ① section_videos() — 수치 토큰 ⊂ 번들 직렬화 말뭉치 검증,
+  위반 문장 폐기(이번 번들 0건). ② 씬에 _sid 연결 → 섹션 시간창 수집 →
+  narration 균등 배치, 해당 창의 템플릿 cue 제거. intro/outro 는 타이틀/클로징
+  창. ③ statement 씬 — 미소비 서술 섹션의 highlights 를 62px 세리프 순차
+  등장(emphasis 액센트, 헤어라인 룰 분리). versus/signals 소비 섹션은 제외.
+  ④ versus 진영명 "(A)인가, (B)인가" 패턴 추출 — "임대업" vs "궤도로 가는
+  다리". ⑤ 간트 눈금 월/분기/연 자동(30.44일 환산 monthsSpan, ≤14/≤42/초과)
+  + 기간 라벨 연도. 스캐터 눈금 범위≤8 → 소수 1자리.
+- **검증**: 감사 클린, pageerror 0. 스테이트먼트/간트/스캐터/versus 스크린샷
+  검수. 계약 narration 32문장 채택 로그 확인.
+- **남은 것**: sankey 차트 (이번 번들 ch-8, 미지원 스킵 — 차기 차트 유형),
+  cue.tts → build_narration 연동.
+- **연관**: VIDEO_BUNDLE_CONTRACT(확정으로 갱신), G4, v0.36~37 변환기 계열.
+
+---
+
+## 2026-06-12 v0.38.1 — 내레이션 시계 (음성에 맞춘 화면 전환)
+
+- **무엇을**: build_auto_narration.py + 변환기 --narration/--cuesync. 씬
+  길이가 "해당 씬 내레이션 실측 길이 + 호흡(lead 1.1/pause 0.5/tail 1.3)"으로
+  재계산되고, 자막은 문장이 말해지는 시각에 정확히 뜸. VERSION 0.38.0 → 0.38.1.
+- **왜**: 사용자 — "나레이션이 들어가면 나레이션 소리에 맞춰 화면 전환이
+  이뤄져?" 기존 고정 시계(문장 수 기반)는 음성과 무관했음.
+- **사고/교훈 (RENDER 계열)**: 1차 구현은 목표 cue 시각을 먼저 정하고 무음으로
+  갭을 채움 → mp3 프레임(26ms) 반올림이 60개 조각에 누적되어 **+2.86초
+  드리프트** (요청 203.53 vs 실측 206.39). v0.34.8 의 교훈 그대로 — **실측이
+  시계의 원천**이어야 함. 조각(무음/문장)별 probe 길이를 누적한 커서를 cue
+  시각으로 삼는 방식으로 재작성 → 계산 207.02 = 실측 207.02 (드리프트 0).
+- **환경 메모**: 본 클라우드 환경은 api.elevenlabs.io 가 egress allowlist 에
+  없고 ELEVENLABS_API_KEY 도 없음 → --estimate 로 메커니즘만 e2e 검증.
+  실합성은 ① 환경 설정에 host+key 추가 후 본 세션에서, 또는 ② 사용자 머신
+  --narration=synth 한 줄.
+- **연관**: v0.34.5~12 (demo 음성 파이프라인 — synth_one/write_silence/
+  concat_mp3s 재사용), VIDEO_BUNDLE_CONTRACT (narration_tts 소비).
