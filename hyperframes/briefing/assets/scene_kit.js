@@ -893,6 +893,69 @@
     return { candles, lastLine, lastPlate, lo, hi };
   }
 
+  // ───────────────────── ①-e 미니 캘린더 (타임라인 보조 패널) ─────────────────────
+  // steps: [{date:"YYYY.MM.DD", phase}] → 이벤트가 있는 달들의 월간 그리드.
+  // 내레이션 진행에 맞춰 달이 넘어가는 연출용 — months[i].g 를 호출측이 크로스페이드.
+  function buildMiniCalendar(svg, steps, opts) {
+    const { x, y, w, colors } = opts;
+    const pad = 18;
+    const cs = (w - pad * 2) / 7;
+    const headH = 64; // 월 타이틀 + 요일행
+    const gridH = cs * 6;
+    const h = pad * 2 + headH + gridH;
+
+    const frame = svgEl("g", { class: "cal-frame", opacity: 0 }, svg);
+    svgEl("rect", { x, y, width: w, height: h, rx: 8, class: "sk-plate-bg" }, frame);
+
+    // 달별 이벤트 그룹
+    const byMonth = new Map();
+    steps.forEach((s, i) => {
+      const m = s.date.slice(0, 7); // YYYY.MM
+      if (!byMonth.has(m)) byMonth.set(m, { key: m, days: [], firstIdx: i });
+      byMonth.get(m).days.push({ day: parseInt(s.date.slice(8), 10), phase: s.phase, idx: i });
+    });
+
+    const WD = ["일", "월", "화", "수", "목", "금", "토"];
+    const months = [...byMonth.values()].map((mo) => {
+      const g = svgEl("g", { class: "cal-month", opacity: 0 }, svg);
+      const yy = parseInt(mo.key.slice(0, 4), 10);
+      const mm = parseInt(mo.key.slice(5, 7), 10);
+      const title = svgEl("text", { x: x + pad, y: y + pad + 20, fill: "var(--sk-text, #ece9e2)",
+        "font-size": 20, "font-weight": 700, class: "sk-text cal-title" }, g);
+      title.textContent = `${yy}년 ${mm}월`;
+      WD.forEach((d, di) => {
+        const tx = svgEl("text", { x: (x + pad + cs * di + cs / 2).toFixed(1), y: y + pad + 50,
+          "text-anchor": "middle", fill: "var(--sk-dim, #8b877d)", "font-size": 12,
+          "font-weight": 600, class: "sk-text" }, g);
+        tx.textContent = d;
+      });
+      const first = new Date(Date.UTC(yy, mm - 1, 1));
+      const offset = first.getUTCDay();
+      const dim = new Date(Date.UTC(yy, mm, 0)).getUTCDate();
+      const evMap = new Map(mo.days.map((d) => [d.day, d]));
+      for (let d = 1; d <= dim; d++) {
+        const cell = offset + d - 1;
+        const cx = x + pad + cs * (cell % 7) + cs / 2;
+        const cy = y + pad + headH + cs * Math.floor(cell / 7) + cs / 2;
+        const ev = evMap.get(d);
+        if (ev) {
+          const c = colors[ev.phase] || "var(--sk-muted, #a39e92)";
+          svgEl("circle", { cx: cx.toFixed(1), cy: (cy - 2).toFixed(1), r: Math.min(15, cs * 0.36),
+            fill: c, opacity: 0.95 }, g);
+          if (ev.phase === "present")
+            svgEl("circle", { cx: cx.toFixed(1), cy: (cy - 2).toFixed(1), r: Math.min(15, cs * 0.36),
+              fill: "none", stroke: c, "stroke-width": 2, class: "pulse-ring", opacity: 0.85 }, g);
+        }
+        const tx = svgEl("text", { x: cx.toFixed(1), y: (cy + 3).toFixed(1), "text-anchor": "middle",
+          fill: ev ? "var(--sk-ink, #141416)" : "var(--sk-dim, #8b877d)", "font-size": 13,
+          "font-weight": ev ? 800 : 500, class: "sk-text" }, g);
+        tx.textContent = String(d);
+      }
+      return { key: mo.key, g, firstIdx: mo.firstIdx };
+    });
+    return { frame, months, h };
+  }
+
   // ───────────────────── ② 베이스맵 (사전 계산 실측 지도) ─────────────────────
   // map: window.MIDEAST_MAP 형태 { countries:[{d,hi,name}], labels:[{name,x,y}] }
   function buildBasemap(svg, map, opts = {}) {
@@ -1822,6 +1885,7 @@
     counter,
     buildStepTimeline,
     buildAxisTimeline,
+    buildMiniCalendar,
     buildSerpentineTimeline,
     buildVerticalTimeline,
     buildMetroTimeline,

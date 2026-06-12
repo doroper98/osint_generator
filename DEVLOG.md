@@ -1,6 +1,6 @@
 <!--
 tier: 3
-last_synced_with: v0.38.1
+last_synced_with: v0.38.2
 ssot_for: [development-log]
 depends_on: [CHANGELOG.md]
 last_review: 2026-06-06
@@ -2552,3 +2552,22 @@ last_review: 2026-06-06
   --narration=synth 한 줄.
 - **연관**: v0.34.5~12 (demo 음성 파이프라인 — synth_one/write_silence/
   concat_mp3s 재사용), VIDEO_BUNDLE_CONTRACT (narration_tts 소비).
+
+---
+
+## 2026-06-12 v0.38.2 — 1차 음성 영상 검수 반영 (렌더링 측 B 패키지)
+
+- **무엇을**: 검수 9건 중 렌더링 책임분 — 템플릿 cue 재작성+tts 자동 표기,
+  날짜 발음(유월/시월), 고유어 수사, 조사 선택, 숨소리 후처리, 자막 75자+폰트
+  축소, timeline.video 소비, 미니 캘린더. VERSION 0.38.1 → 0.38.2.
+  대본 측 A 패키지는 사용자가 agents_reviewer 에 전달 (계약 개정).
+- **사고 재발 방지 메모**: tts_of 1차 구현이 날짜를 "육 월 오 일"로 끊어 읽게
+  만듦 — v0.34.12 에서 자동 변환 default OFF 한 바로 그 사고 유형. 월 이름
+  사전(_MONTH_KR, 유월·시월 불규칙) + "N월 D일" 패턴 선처리로 해소. 템플릿
+  처럼 형식을 아는 텍스트는 패턴 선처리가 정답이고, 임의 텍스트 자동 변환은
+  여전히 위험(기존 결정 유지).
+- **검증**: 감사 클린. cue tts 샘플 확인 — "일곱 개", "유월 오일에는",
+  "구 점 이 억 딸러", "스페이스엑스". 캘린더 스크린샷 (월 전환 연출).
+  숨소리 컷은 실합성에서만 검증 가능 — 사용자 재합성 시 확인 항목.
+- **연관**: TTS-AP-054~057 계열, v0.34.8/12 교훈 재적용, VIDEO_BUNDLE_CONTRACT
+  개정(75자/timeline.video — A 패키지).

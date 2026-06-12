@@ -28,12 +28,32 @@ REPO = Path(__file__).resolve().parent.parent.parent
 BRIEFING = REPO / "hyperframes" / "briefing"
 sys.path.insert(0, str(REPO / "hyperframes" / "scripts"))
 
+import subprocess
+
 from build_narration import (  # noqa: E402 — demo 와 동일 계약 재사용
+    FFMPEG_BIN,
     concat_mp3s,
     probe_duration,
     synth_one,
     write_silence,
 )
+
+
+def polish_tail(src: Path, dst: Path) -> None:
+    """문장 꼬리의 무음·흡기음("흐흡") 제거 + 80ms 페이드아웃.
+
+    역방향 트릭: 뒤집은 뒤 머리(=원본 꼬리)의 -38dB 이하 구간을 60ms 만 남기고
+    잘라내고, 80ms 페이드인(=원본 페이드아웃)을 걸고 다시 뒤집는다.
+    실측 커서 조립이라 길이가 줄어도 sync 는 자동 유지 (v0.38.2 검수 반영).
+    """
+    subprocess.run(
+        [FFMPEG_BIN, "-y", "-i", str(src), "-af",
+         "areverse,"
+         "silenceremove=start_periods=1:start_threshold=-38dB:start_silence=0.06,"
+         "afade=t=in:st=0:d=0.08,areverse",
+         "-q:a", "4", "-acodec", "libmp3lame", str(dst)],
+        check=True, capture_output=True,
+    )
 
 AUDIO_DIR = BRIEFING / "assets" / "audio"
 AUDIO_OUT = AUDIO_DIR / "auto_narration.mp3"
@@ -97,8 +117,10 @@ def main(argv: list[str] | None = None) -> int:
         for i, c in enumerate(cues):
             text = c.get("tts") or c["text"]
             print(f"[auto_narration] {i + 1}/{len(cues)} 합성: {text[:32]}…", flush=True)
+            raw = tmp / f"raw{i:03d}.mp3"
+            raw.write_bytes(synth_one(text, api_key, voice_id, model_id))
             mp3 = tmp / f"cue{i:03d}.mp3"
-            mp3.write_bytes(synth_one(text, api_key, voice_id, model_id))
+            polish_tail(raw, mp3)  # 꼬리 흡기음 컷 + 페이드아웃
             durs.append(round(probe_duration(mp3), 3))
             parts.append(mp3)
 

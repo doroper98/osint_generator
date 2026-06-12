@@ -104,6 +104,28 @@
     if (h) tl.from(h, { opacity: 0, y: 18, duration: 0.7 }, t + 0.1);
   };
 
+  // 타임라인 보조 캘린더 — 전 스텝이 완전한 날짜(YYYY.MM.DD)일 때만
+  function attachCalendar(svg, sc, field) {
+    const full = sc.data.steps.every((s) => /^\d{4}\.\d{2}\.\d{2}$/.test(s.date));
+    if (!full) return null;
+    const CAL = { x: 1404, y: 352, w: 348 };
+    field.addRect(CAL.x - 12, CAL.y - 12, CAL.w + 24, 440);
+    return { cal: SK.buildMiniCalendar(svg, sc.data.steps, { ...CAL, colors: COLORS.phase }), CAL };
+  }
+  function animateCalendar(cal, t0, stepGap) {
+    if (!cal) return;
+    tl.fromTo(cal.frame, { opacity: 0 }, { opacity: 1, duration: 0.5 }, t0 + 0.35);
+    cal.months.forEach((m, mi) => {
+      const at = t0 + 0.7 + m.firstIdx * stepGap - 0.05;
+      if (mi === 0) {
+        tl.fromTo(m.g, { opacity: 0 }, { opacity: 1, duration: 0.45 }, Math.max(t0 + 0.5, at));
+      } else {
+        tl.to(cal.months[mi - 1].g, { opacity: 0, duration: 0.3 }, at);
+        tl.fromTo(m.g, { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.45 }, at + 0.08);
+      }
+    });
+  }
+
   // 타임라인 변형 공용 연출
   function pulsePresent(built, steps, at) {
     const pi = steps.findIndex((s) => s.phase === "present");
@@ -152,11 +174,14 @@
     ladder(sc, sec) {
       const svg = SK.svgEl("svg", { viewBox: "0 0 1920 1080", style: "position:absolute; inset:0;" });
       sec.appendChild(svg);
+      const field = SK.stageField();
+      const calx = attachCalendar(svg, sc, field);
       const lad = SK.buildStepTimeline(svg, sc.data.steps, {
-        x0: 250, x1: 1640, yBottom: 778, yTop: 360,
+        x0: 250, x1: calx ? 1300 : 1640, yBottom: 778, yTop: 360,
         colors: COLORS.phase,
         gradId: "ladgrad-auto",
         gradStops: COLORS.gradStops,
+        field,
       });
       const t0 = sc.t0;
       sceneIn(sec, t0);
@@ -175,14 +200,17 @@
         tl.fromTo(lad.items[pi].marker, { scale: 1 },
           { scale: 1.35, transformOrigin: "50% 50%", duration: 0.5, yoyo: true, repeat: 1, ease: "sine.inOut" },
           t0 + 4.6);
+      if (calx) animateCalendar(calx.cal, t0, 0.42);
       sceneOut(sec, sc.t1 - 0.5);
     },
 
     axis(sc, sec) {
       const svg = SK.svgEl("svg", { viewBox: "0 0 1920 1080", style: "position:absolute; inset:0;" });
       sec.appendChild(svg);
+      const field = SK.stageField();
+      const calx = attachCalendar(svg, sc, field);
       const ax = SK.buildAxisTimeline(svg, sc.data.steps, {
-        x0: 240, x1: 1660, y: 586, colors: COLORS.phase,
+        x0: 240, x1: calx ? 1310 : 1660, y: 586, colors: COLORS.phase, field,
       });
       const t0 = sc.t0;
       sceneIn(sec, t0);
@@ -201,6 +229,7 @@
         tl.fromTo(ax.items[pi].marker, { scale: 1 },
           { scale: 1.35, transformOrigin: "50% 50%", duration: 0.5, yoyo: true, repeat: 1, ease: "sine.inOut" },
           t0 + 4.4);
+      if (calx) animateCalendar(calx.cal, t0, 0.4);
       sceneOut(sec, sc.t1 - 0.5);
     },
 
@@ -609,13 +638,18 @@
   const cap = document.getElementById("cap");
   const subwrap = document.querySelector(".subwrap");
   gsap.set(subwrap, { autoAlpha: 0 });
+  // 긴 문장(>62자)은 폰트를 줄여 자막 2줄 유지 (계약 한도 75자 대응)
+  const applyCap = (c) => {
+    cap.textContent = c.text;
+    cap.style.fontSize = c.text.length > 62 ? "33px" : "";
+  };
   D.cues.forEach((c, i) => {
     if (i === 0) {
-      tl.call(() => { cap.textContent = c.text; }, [], c.t - 0.1);
+      tl.call(() => { applyCap(c); }, [], c.t - 0.1);
       tl.fromTo(subwrap, { autoAlpha: 0, x: -20 }, { autoAlpha: 1, x: 0, duration: 0.55, overwrite: "auto" }, c.t);
     } else {
       tl.to(subwrap, { autoAlpha: 0, x: -16, duration: 0.25, overwrite: "auto" }, c.t - 0.3);
-      tl.call(() => { cap.textContent = c.text; }, [], c.t - 0.05);
+      tl.call(() => { applyCap(c); }, [], c.t - 0.05);
       tl.fromTo(subwrap, { x: 16 }, { autoAlpha: 1, x: 0, duration: 0.3, overwrite: "auto" }, c.t);
     }
   });

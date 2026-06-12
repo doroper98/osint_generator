@@ -142,6 +142,51 @@ THEME_ALIASES = {"forest_sage": "forest_archive", "midnight_indigo": "midnight_n
 
 NUM_TOKEN = re.compile(r"\d[\d,\.]*")
 
+# ── TTS 발음 표기 (템플릿 cue 용 — 계약 narration_tts 와 동일 철학) ──
+sys.path.insert(0, str(REPO))
+from orchestrator.tts_pronounce import apply_pronunciation, load_dict, num_to_sino_kr  # noqa: E402
+
+_PRONOUNCE = load_dict(REPO / "hyperframes" / "demo" / "assets" / "pronounce.json")
+_NATIVE = ["", "한", "두", "세", "네", "다섯", "여섯", "일곱", "여덟", "아홉", "열",
+           "열한", "열두", "열세", "열네", "열다섯", "열여섯", "열일곱", "열여덟", "열아홉", "스무"]
+
+
+def native_count(n: int) -> str:
+    """수사+단위(개/곳/가지)용 고유어 — '7개'를 '칠 개'가 아니라 '일곱 개'로."""
+    return _NATIVE[n] if 0 < n <= 20 else None  # 초과는 한자어로 폴백
+
+
+def josa(word: str, with_jong: str, without_jong: str) -> str:
+    """받침 유무로 조사 선택 (이/가, 은/는, 을/를)."""
+    if not word:
+        return without_jong
+    o = ord(word[-1])
+    if 0xAC00 <= o <= 0xD7A3 and (o - 0xAC00) % 28:
+        return with_jong
+    return without_jong
+
+
+# 월 발음 — 6월(유월)·10월(시월) 불규칙 포함. "육 월 오 일" 끊어 읽기 방지 (TTS-AP-054 계열)
+_MONTH_KR = {1: "일월", 2: "이월", 3: "삼월", 4: "사월", 5: "오월", 6: "유월",
+             7: "칠월", 8: "팔월", 9: "구월", 10: "시월", 11: "십일월", 12: "십이월"}
+
+
+def _date_kr_tts(m: re.Match) -> str:
+    mon = _MONTH_KR.get(int(m.group(1)), m.group(1) + "월")
+    day = num_to_sino_kr(int(m.group(2)))
+    return f"{mon} {day}일"
+
+
+def tts_of(text: str) -> str:
+    """템플릿 문장 → 발음 표기: 날짜/부호/소수점 정리 후 사전+숫자 한글화."""
+    s = text.replace("+", " 플러스 ").replace("−", " 마이너스 ")
+    s = re.sub(r"(\d{1,2})월\s*(\d{1,2})일", _date_kr_tts, s)
+    s = re.sub(r"(?<![\d가-힣])(\d{1,2})월", lambda m: _MONTH_KR.get(int(m.group(1)), m.group(0)), s)
+    s = re.sub(r"(?<=\d)\.(?=\d)", " 점 ", s)
+    s = re.sub(r"\s+", " ", s).strip()
+    return apply_pronunciation(s, _PRONOUNCE)
+
+
 
 def build_corpus(b: dict) -> str:
     """검증용 말뭉치 — 번들 전체를 콤마/공백 제거 직렬화."""
@@ -198,12 +243,12 @@ def section_videos(sections: list, corpus: str) -> dict:
         narr = []
         tts_src = v.get("narration_tts") or []
         for i, sent in enumerate(v.get("narration") or []):
-            sent = clip(str(sent), 58)
+            sent = clip(str(sent), 75)
             if not sentence_grounded(sent, corpus):
                 dropped += 1
                 continue
             narr.append({"text": sent,
-                         "tts": clip(str(tts_src[i]), 90) if i < len(tts_src) else None})
+                         "tts": clip(str(tts_src[i]), 120) if i < len(tts_src) else None})
         his = []
         for h in (v.get("highlights") or [])[:3]:
             h = clip(str(h), 40)
@@ -583,18 +628,20 @@ def convert(bundle_path: Path, out_path: Path, tl_override: str | None = None,
     svideos = section_videos(sections, corpus)
     report_video = report.get("video") or {}
 
-    def grounded_list(key):
+    def grounded_narr(vdict, key="narration"):
         out = []
-        tts_src = report_video.get(key + "_tts") or []
-        for i, sent in enumerate(report_video.get(key) or []):
-            sent = clip(str(sent), 58)
+        tts_src = vdict.get(key + "_tts") or []
+        for i, sent in enumerate(vdict.get(key) or []):
+            sent = clip(str(sent), 75)
             if sentence_grounded(sent, corpus):
                 out.append({"text": sent,
-                            "tts": clip(str(tts_src[i]), 90) if i < len(tts_src) else None})
+                            "tts": clip(str(tts_src[i]), 120) if i < len(tts_src) else None})
         return out
 
-    intro_narr = grounded_list("intro_narration")
-    outro_narr = grounded_list("outro_narration")
+    intro_narr = grounded_narr(report_video, "intro_narration")
+    outro_narr = grounded_narr(report_video, "outro_narration")
+    # 계약 확장: timeline.video.narration (검수 반영 — 분기점 라벨 낭독 대체)
+    timeline_narr = grounded_narr((b.get("timeline") or {}).get("video") or {})
 
     # ── 씬 플랜 (데이터에 있는 것만) ──
     scenes = []
@@ -610,13 +657,16 @@ def convert(bundle_path: Path, out_path: Path, tl_override: str | None = None,
         })
         t += dur
 
+    def tcue(at, text, tts=None):
+        return {"t": at, "text": text, "tts": tts or tts_of(text)}
+
     # 1. 타이틀 (항상)
     title = build_title(report, sections, date_kor)
     add_scene("title", 9, "타이틀", None, title, sid="__intro")
     deck_sents = sentences(report.get("deck", ""))
-    cues.append({"t": 0.8, "text": clip(deck_sents[0], 58)})
+    cues.append(tcue(0.8, clip(deck_sents[0], 58)))
     if len(deck_sents) > 1:
-        cues.append({"t": 4.6, "text": clip(deck_sents[1], 58)})
+        cues.append(tcue(4.6, clip(deck_sents[1], 58)))
 
     charts = b.get("charts") or []
 
@@ -627,15 +677,22 @@ def convert(bundle_path: Path, out_path: Path, tl_override: str | None = None,
         kind = timeline_kind(tl_data["points"], tl_override)
         ladder = build_ladder(tl_data, TIMELINE_LIMITS.get(kind, 7))
         head = ("Timeline", tl_data.get("heading", "사건의 궤적"))
-        add_scene(kind, 11, "타임라인", {"kicker": head[0], "title": head[1]}, ladder)
+        add_scene(kind, 11, "타임라인", {"kicker": head[0], "title": head[1]}, ladder,
+                  sid="__timeline")
         n = len(ladder["steps"])
-        cues.append({"t": t0 + 0.6, "text": f"{head[1]} — {n}개의 분기점으로 흐름을 따라갑니다."})
+        nat = native_count(n)
+        cues.append(tcue(t0 + 0.6,
+                         f"이 흐름이 어떻게 쌓여 왔는지, {n}개의 분기점으로 따라가 보겠습니다.",
+                         tts=tts_of(f"이 흐름이 어떻게 쌓여 왔는지, {nat or n} 개의 분기점으로 따라가 보겠습니다.")))
         key = next((s for s in ladder["steps"] if s["phase"] in ("present", "crack")), None)
         if key:
-            cues.append({"t": t0 + 4.4, "text": clip(f"{date_kr(key['date'].replace('.', '-'))}, {key['label']}", 58)})
+            kd = date_kr(key["date"].replace(".", "-"))
+            cues.append(tcue(t0 + 4.4, clip(
+                f"{kd}에는 {key['label']}{josa(key['label'], '이', '가')} 있었습니다.", 75)))
         fut = next((s for s in ladder["steps"] if s["phase"] == "future"), None)
         if fut:
-            cues.append({"t": t0 + 8.0, "text": clip(f"다음 분기점은 {date_kr(fut['date'].replace('.', '-'))} — {fut['label']}", 58)})
+            fd = date_kr(fut["date"].replace(".", "-"))
+            cues.append(tcue(t0 + 8.0, clip(f"다음은 {fd}에 예정된 {fut['label']}입니다.", 75)))
 
     # 2-b. 인용 인터스티셜 (pull_quote 있으면 — 클로징은 폴백 인용 사용)
     pq = next((s.get("pull_quote") for s in sections if s.get("pull_quote")), None)
@@ -646,7 +703,7 @@ def convert(bundle_path: Path, out_path: Path, tl_override: str | None = None,
             "segments": quote_segments(clip(pq, 80)),
             "source": (pq_sec.get("kicker") if pq_sec else "") or "보고서 본문",
         }, sid=pq_sec.get("section_id") if pq_sec else None)
-        cues.append({"t": t0 + 0.8, "text": clip(pq, 58)})
+        cues.append(tcue(t0 + 0.8, clip(pq, 58)))
 
     # 3. 일봉 캔들 (candle 차트 있으면)
     candle = build_candle(charts)
@@ -658,10 +715,10 @@ def convert(bundle_path: Path, out_path: Path, tl_override: str | None = None,
         add_scene("candle", 9, "일봉", {"kicker": k, "title": h},
                   {"ohlc": candle["ohlc"], "title": candle["title"]},
                   sid=sec.get("section_id") if sec else None)
-        cues.append({"t": t0 + 0.6, "text": clip(f"{candle['title']} — 최근 {len(candle['ohlc'])}거래일의 흐름입니다.", 58)})
+        cues.append(tcue(t0 + 0.6, clip(f"{candle['title']} — 최근 {len(candle['ohlc'])}거래일의 흐름입니다.", 58)))
         closes = [d["close"] for d in candle["ohlc"]]
         chg = (closes[-1] / closes[0] - 1) * 100
-        cues.append({"t": t0 + 4.6, "text": f"구간 등락은 {chg:+.1f}%, 종가 {round(closes[-1]):,}입니다."})
+        cues.append(tcue(t0 + 4.6, f"구간 등락은 {chg:+.1f}%, 종가 {round(closes[-1]):,}입니다."))
 
     # 4. 바 패널 (bar 차트 있으면 — 단일 + 듀얼)
     for bp in build_bar_panels(charts):
@@ -675,7 +732,7 @@ def convert(bundle_path: Path, out_path: Path, tl_override: str | None = None,
         if len(bp["panels"]) == 1:
             pn = bp["panels"][0]
             top = max(pn["items"], key=lambda it: it["value"])
-            cues.append({"t": t0 + 0.6, "text": clip(f"{pn['title']} — 상단은 {top['label']}, {top['value']:,}{pn['unit']}입니다.", 58)})
+            cues.append(tcue(t0 + 0.6, clip(f"{pn['title']} — 상단은 {top['label']}, {top['value']:,}{pn['unit']}입니다.", 58)))
         else:
             # 패널(차트)별 상단/하단 비율 — 패널 간 혼합은 스케일이 달라 무의미
             ratios = []
@@ -683,10 +740,10 @@ def convert(bundle_path: Path, out_path: Path, tl_override: str | None = None,
                 vals = [it["value"] for it in pn["items"]]
                 if min(vals):
                     ratios.append((pn["title"], max(vals) / min(vals)))
-            cues.append({"t": t0 + 0.6, "text": "같은 회사를 두고, 12개월 시선은 이렇게 벌어져 있습니다."})
+            cues.append(tcue(t0 + 0.6, "같은 회사를 두고, 12개월 시선은 이렇게 벌어져 있습니다."))
             if ratios:
                 wt, wr = max(ratios, key=lambda r: r[1])
-                cues.append({"t": t0 + 4.8, "text": clip(f"{wt} — 상단과 하단이 {wr:.1f}배 차이입니다.", 58)})
+                cues.append(tcue(t0 + 4.8, clip(f"{wt} — 상단과 하단이 {wr:.1f}배 차이입니다.", 58)))
 
     # 4-b. 슬로프 (slope 차트 있으면)
     for sl in build_slopes(charts):
@@ -698,8 +755,8 @@ def convert(bundle_path: Path, out_path: Path, tl_override: str | None = None,
                   {"left_label": sl["left_label"], "right_label": sl["right_label"], "items": sl["items"]},
                   sid=sec.get("section_id") if sec else None)
         hi = max(sl["items"], key=lambda it: abs(it["b"] - it["a"]))
-        cues.append({"t": t0 + 0.6, "text": clip(f"{sl['title']} — {sl['left_label']}에서 {sl['right_label']}까지.", 58)})
-        cues.append({"t": t0 + 4.6, "text": clip(f"가장 크게 움직인 건 {hi['label']}, {hi['a']:,}에서 {hi['b']:,}입니다.", 58)})
+        cues.append(tcue(t0 + 0.6, clip(f"{sl['title']} — {sl['left_label']}에서 {sl['right_label']}까지.", 58)))
+        cues.append(tcue(t0 + 4.6, clip(f"가장 크게 움직인 건 {hi['label']}, {hi['a']:,}에서 {hi['b']:,}입니다.", 58)))
 
     # 4-c. 잔여 차트 유형 (stacked/waterfall/scatter/heatmap/gantt — 있으면)
     today_iso = m.group(0) if m else None
@@ -720,7 +777,7 @@ def convert(bundle_path: Path, out_path: Path, tl_override: str | None = None,
         h = (sec.get("heading") if sec else None) or title_clean
         add_scene(stype, 9, chip_label, {"kicker": k, "title": h}, d,
                   sid=sec.get("section_id") if sec else None)
-        cues.append({"t": t0 + 0.6, "text": clip(f"{title_clean} — {cue_tail}.", 58)})
+        cues.append(tcue(t0 + 0.6, clip(f"{title_clean} — {cue_tail}.", 58)))
 
     # 4-d. 스테이트먼트 (계약 video.highlights — 차트 없는 서술 섹션 구제)
     versus_k, versus_h, versus_sid = find_section(
@@ -756,9 +813,9 @@ def convert(bundle_path: Path, out_path: Path, tl_override: str | None = None,
             versus["cards"][1]["initials"] = versus["cards"][1]["name"][:2]
         add_scene("versus", 12, "쟁점", {"kicker": k, "title": h}, versus, sid=versus_sid)
         a, bb = versus["cards"][0], versus["cards"][1]
-        cues.append({"t": t0 + 0.6, "text": f"시각은 둘로 갈립니다 — {a['name']}과 {bb['name']}."})
-        cues.append({"t": t0 + 4.4, "text": clip(f"{a['org']} — {a['line']}", 58)})
-        cues.append({"t": t0 + 8.2, "text": clip(sentences(contras[0].get("resolution", ""))[0], 58)})
+        cues.append(tcue(t0 + 0.6, f"시각은 둘로 갈립니다 — {a['name']}과 {bb['name']}."))
+        cues.append(tcue(t0 + 4.4, clip(f"{a['org']} — {a['line']}", 58)))
+        cues.append(tcue(t0 + 8.2, clip(sentences(contras[0].get("resolution", ""))[0], 58)))
 
     # 6. 가격 비교 (line 차트 있으면)
     markets = build_markets(charts)
@@ -768,9 +825,9 @@ def convert(bundle_path: Path, out_path: Path, tl_override: str | None = None,
                          for c in charts if c.get("type") == "line"), None)
         add_scene("markets", 10, "가격", {"kicker": "Relative", "title": "같은 기간, 가격의 궤적"},
                   markets, sid=line_sec.get("section_id") if line_sec else None)
-        cues.append({"t": t0 + 0.6, "text": "같은 기간, 가격은 이렇게 움직였습니다."})
+        cues.append(tcue(t0 + 0.6, "같은 기간, 가격은 이렇게 움직였습니다."))
         top = max(markets["markets"], key=lambda mk: abs(mk["pct"]))
-        cues.append({"t": t0 + 4.6, "text": f"가장 크게 움직인 건 {top['name']}, {top['pct']:+.1f}%입니다."})
+        cues.append(tcue(t0 + 4.6, f"가장 크게 움직인 건 {top['name']}, {top['pct']:+.1f}%입니다."))
 
     # 7. 관측 신호 (signals 있으면)
     sig = build_signals(b.get("signals") or [])
@@ -778,17 +835,17 @@ def convert(bundle_path: Path, out_path: Path, tl_override: str | None = None,
         t0 = t
         add_scene("signals", 10, "신호", {"kicker": signals_k, "title": signals_h}, sig,
                   sid=signals_sid)
-        cues.append({"t": t0 + 0.6, "text": f"앞으로 확인할 신호 {len(sig['items'])}가지 — 전부 <미검증> 관측 대상입니다."})
+        cues.append(tcue(t0 + 0.6, f"앞으로 확인할 신호 {len(sig['items'])}가지 — 전부 <미검증> 관측 대상입니다."))
         first = sig["items"][0]
-        cues.append({"t": t0 + 4.6, "text": clip(f"가장 가까운 분기점은 {first['when']}, {first['name']}입니다.", 58)})
+        cues.append(tcue(t0 + 4.6, clip(f"가장 가까운 분기점은 {first['when']}, {first['name']}입니다.", 58)))
 
     # 5. 클로징 (항상)
     t0 = t
     closing = build_closing(report, sections, b.get("confidence") or {}, skip_pq=bool(pq))
     k, h = (sections[-1].get("kicker"), sections[-1].get("heading")) if sections else ("Outlook", "다음 좌표")
     add_scene("closing", 9, "향방", {"kicker": k or "Outlook", "title": h or "다음 좌표"}, closing, sid="__outro")
-    cues.append({"t": t0 + 0.4, "text": clip(sentences(report.get("closing", ""))[0], 58)})
-    cues.append({"t": t0 + 4.2, "text": f"신뢰도 {closing['confidence']['score']:.2f} — 근거와 한계는 화면과 같습니다."})
+    cues.append(tcue(t0 + 0.4, clip(sentences(report.get("closing", ""))[0], 58)))
+    cues.append(tcue(t0 + 4.2, f"신뢰도 {closing['confidence']['score']:.2f} — 근거와 한계는 화면과 같습니다."))
 
     # ── 계약 narration → cue 교체 (검증 통과 문장만, 섹션 시간창에 균등 배치) ──
     narration_map = {sid: sv for sid, sv in svideos.items() if sv.get("narration")}
@@ -796,6 +853,8 @@ def convert(bundle_path: Path, out_path: Path, tl_override: str | None = None,
         narration_map["__intro"] = {"narration": intro_narr}
     if outro_narr:
         narration_map["__outro"] = {"narration": outro_narr}
+    if timeline_narr:
+        narration_map["__timeline"] = {"narration": timeline_narr}
     windows_by_sid: dict = {}
     for sc in scenes:
         sid = sc.get("_sid")
@@ -961,7 +1020,7 @@ def preview_charts(out_path: Path, theme_id: str = "ink_brass") -> dict:
                        "no": f"{len(scenes) + 1:02d}",
                        "chip": f"{len(scenes) + 1:02d} · {chip_label}",
                        "head": head, "data": data})
-        cues.append({"t": round(t + 0.6, 2), "text": cue})
+        cues.append(tcue(round(t + 0.6, 2), cue))
         t += dur
 
     add("stacked", 9, "구성", {"kicker": "Stacked", "title": "HBM 출하 구성 — 세대 교체의 속도"},
