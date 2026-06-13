@@ -64,18 +64,19 @@ def generate_bed(out_path: Path, duration_sec: float) -> None:
     subprocess.run(cmd, check=True, capture_output=True)
 
 
-def duck_mix(narration: Path, bed: Path, out_path: Path, bed_db: float = -21.0) -> None:
+def duck_mix(narration: Path, bed: Path, out_path: Path, bed_lufs: float = -23.0) -> None:
     """내레이션 + 베드 사이드체인 더킹 믹스.
 
-    내레이션이 들릴 때 베드를 자동으로 낮추고(말 사이엔 복귀), bed_db 기준 음량.
-    내레이션은 원음 그대로.
+    베드를 loudnorm 으로 bed_lufs(목표 음량)에 맞춘 뒤(생성 레벨이 -44dB 라
+    고정 dB 곱은 이중 감쇠로 무음 사고 — v0.40.1), 내레이션을 키로 사이드체인
+    더킹한다. 내레이션은 원음 그대로.
     """
-    bed_lin = 10 ** (bed_db / 20.0)
     filt = (
-        f"[1:a]volume={bed_lin:.4f}[bedlow];"
-        # 사이드체인: 내레이션(0:a)을 키로 베드를 덕킹
-        "[bedlow][0:a]sidechaincompress="
-        "threshold=0.03:ratio=8:attack=20:release=400:makeup=1[ducked];"
+        # 베드를 목표 LUFS 로 정규화 — 생성 레벨과 무관하게 일정한 가청 음량
+        f"[1:a]loudnorm=I={bed_lufs}:LRA=7:TP=-4[bednorm];"
+        # 사이드체인: 내레이션(0:a)을 키로 베드를 더킹 (말할 때 더 낮춤)
+        "[bednorm][0:a]sidechaincompress="
+        "threshold=0.05:ratio=6:attack=25:release=450:makeup=1[ducked];"
         "[0:a][ducked]amix=inputs=2:normalize=0:dropout_transition=0[mix]"
     )
     cmd = [

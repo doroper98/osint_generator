@@ -1,6 +1,6 @@
 <!--
 tier: 3
-last_synced_with: v0.40.0
+last_synced_with: v0.40.1
 ssot_for: [release-notes]
 depends_on: [README.md, GOAL.md]
 last_review: 2026-06-11
@@ -25,6 +25,16 @@ released 항목은 **append-only**입니다.
 
 ### Fixed
 -
+
+---
+
+## [v0.40.1] — 2026-06-13
+
+### Fixed
+- **BGM 무음 사고** (사용자 보고 "BGM이 아예 없다"): 베드가 -44dB 로 생성되는데
+  duck_mix 가 또 -21dB 고정 곱을 적용해 ~-65dB(무음)가 됨. loudnorm 으로 베드를
+  목표 음량(-23 LUFS)에 정규화한 뒤 더킹하도록 수정 — 생성 레벨과 무관하게
+  일정한 가청 음량. 정적 구간 -65dB → -32dB 로 가청 복구.
 
 ---
 
