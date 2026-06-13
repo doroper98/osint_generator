@@ -203,7 +203,7 @@ def main(argv: list[str] | None = None) -> int:
             if not music.exists():
                 print(f"error: BGM 파일 없음: {music}", file=sys.stderr)
                 return 1
-            make_bgm_external(AUDIO_OUT, music, bgm_out, total)
+            make_bgm_external(AUDIO_OUT, music, bgm_out, total, bed_lufs=-30.0)
             print(f"[auto_narration] 외부 BGM 더킹 믹스 → {bgm_out.name} ({music.name})")
         audio_rel = "assets/audio/auto_narration_bgm.mp3"
 

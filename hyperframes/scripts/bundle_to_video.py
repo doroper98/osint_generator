@@ -173,7 +173,8 @@ _MONTH_KR = {1: "일월", 2: "이월", 3: "삼월", 4: "사월", 5: "오월", 6:
 
 
 # 표기 정규화 — 번들 transliteration 을 영상 표기로 (검수 반영)
-_DISPLAY_NORMALIZE = {"장보고-엔": "장보고 N", "장보고 엔": "장보고 N"}
+_DISPLAY_NORMALIZE = {"장보고-엔": "장보고 N", "장보고 엔": "장보고 N",
+                      "오커스(AUKUS)": "AUKUS", "오커스 (AUKUS)": "AUKUS", "오커스": "AUKUS"}
 
 
 def normalize_display(text: str) -> str:
@@ -761,7 +762,8 @@ def find_section(sections: list, keywords: list[str], default: tuple[str, str]) 
 
 
 def convert(bundle_path: Path, out_path: Path, tl_override: str | None = None,
-            theme_override: str | None = None, cuesync: dict | None = None) -> dict:
+            theme_override: str | None = None, cuesync: dict | None = None,
+            music_credit: str | None = None) -> dict:
     b = json.loads(bundle_path.read_text(encoding="utf-8"))
     report = b["report"]
     sections = b.get("sections", [])
@@ -1097,9 +1099,11 @@ def convert(bundle_path: Path, out_path: Path, tl_override: str | None = None,
               f"(섹션 {len(windows_by_sid)}곳, 템플릿 cue {len(cues) - len(kept)}건 대체)")
     cues = sorted(kept + narr_cues, key=lambda c: c["t"])
 
-    # 표기 정규화 일괄 적용 (장보고-엔 → 장보고 N 등) — display 텍스트 전반
+    # 표기 정규화(display) + 발음 사전 최종 적용(tts) — 계약 narration_tts 까지 커버, 멱등
     for c in cues:
         c["text"] = normalize_display(c["text"])
+        if c.get("tts"):
+            c["tts"] = apply_pronunciation(c["tts"], _PRONOUNCE)
     for sc in scenes:
         if sc.get("head"):
             sc["head"]["title"] = normalize_display(sc["head"]["title"])
@@ -1141,6 +1145,8 @@ def convert(bundle_path: Path, out_path: Path, tl_override: str | None = None,
             pubs.append(p)
     src1 = "출처 · " + " · ".join(pubs[:3]) + (f" 외 {len(b.get('sources', [])) - 3}개" if len(b.get("sources", [])) > 3 else "")
     src2 = "데이터 · agents_reviewer report_bundle · 미검증 영역은 <b>&lt;미검증&gt;</b> 표기 원칙"
+    if music_credit:
+        src2 += f" · Music: {music_credit}"
 
     data = {
         "meta": {
@@ -1332,7 +1338,8 @@ def main() -> int:
 
     def run_convert(cs: dict | None = None) -> dict:
         return convert(bundle, out, tl_override=flags.get("--timeline") or None,
-                       theme_override=flags.get("--video-theme") or None, cuesync=cs)
+                       theme_override=flags.get("--video-theme") or None, cuesync=cs,
+                       music_credit=flags.get("--music-credit") or None)
 
     narration = flags.get("--narration")  # estimate | synth
     cuesync_flag = flags.get("--cuesync")
@@ -1342,8 +1349,9 @@ def main() -> int:
         cmd = [sys.executable, str(Path(__file__).parent / "build_auto_narration.py"), str(out)]
         if narration == "estimate":
             cmd.append("--estimate")
-        if "--bgm" in flags:
-            cmd.append("--bgm")
+        bgm_val = flags.get("--bgm")
+        if bgm_val is not None:
+            cmd.append(f"--bgm={bgm_val}" if bgm_val else "--bgm")
         rc = subprocess.run(cmd).returncode
         if rc != 0:
             return rc

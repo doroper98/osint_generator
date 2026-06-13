@@ -1,6 +1,6 @@
 <!--
 tier: 3
-last_synced_with: v0.40.4
+last_synced_with: v0.40.5
 ssot_for: [release-notes]
 depends_on: [README.md, GOAL.md]
 last_review: 2026-06-11
@@ -25,6 +25,27 @@ released 항목은 **append-only**입니다.
 
 ### Fixed
 -
+
+---
+
+## [v0.40.5] — 2026-06-13
+
+### Fixed (3차 검수)
+- **"8000톤급" 발음** "톤급"→경음화 "톤끕" (pronounce.json). 음성만, 자막은 유지.
+- **AUKUS 표기**: 번들 "오커스/오커스(AUKUS)" → 화면 "AUKUS"(영문),
+  음성 "오커스"(pronounce). normalize_display + 사전 분리.
+- **전 cue tts 발음 사전 최종 패스**: 계약 narration_tts(톤급 등)도 사전 적용
+  (멱등) — 이전엔 템플릿 cue 만 거쳐 계약 tts 의 톤급/AUKUS 미보정.
+
+### Changed (파이프라인)
+- `--bgm=<path>` 값이 재합성 경로(build_auto_narration)로 정확히 전달 —
+  `--narration=synth --bgm=<music>` 한 명령으로 재합성+외부 BGM 더킹.
+- `--music-credit="..."` 신설 — 출처 라인에 음악 크레딧 자동 추가(CC BY, C9).
+- BGM 기본 음량 -30 LUFS(조용한 배경, 사용자 요청).
+
+### Note
+- 음성 반영(물러설 수 없는/팔천 톤끕/오커스)은 재합성 1회 필요 — 기존 합성본은
+  수정 전이라 그대로. 자막·표기(AUKUS)는 재렌더로 즉시 반영.
 
 ---
 

@@ -1,6 +1,6 @@
 <!--
 tier: 3
-last_synced_with: v0.40.4
+last_synced_with: v0.40.5
 ssot_for: [development-log]
 depends_on: [CHANGELOG.md]
 last_review: 2026-06-06
@@ -2711,3 +2711,17 @@ last_review: 2026-06-06
   것이라 자막만 즉시 교정, 음성 일치는 다음 재합성.
 - **검증**: Playwright bbox — 자막 하단 979 < 출처 상단 1015 (겹침 없음).
   자막 텍스트 "물러설 수 없는 한계선" 확인.
+
+---
+
+## 2026-06-13 v0.40.5 — 3차 검수(톤끕/AUKUS) + BGM·크레딧 파이프라인 일원화
+
+- **무엇을**: 톤급→톤끕, 오커스→AUKUS(표기)/오커스(음성), 전 cue tts 사전
+  최종패스. --bgm 경로 전달 + --music-credit. VERSION 0.40.4 → 0.40.5.
+- **핵심**: 계약 narration_tts 가 사전을 안 거쳐 톤급/AUKUS 미보정이었음 →
+  전 cue tts 에 apply_pronunciation 최종패스(멱등). 음성 반영은 재합성 필요.
+- **사고**: --narration=estimate 검증 실행이 진짜 synth cuesync(206s)를 추정
+  값(230s)으로 덮음 → git checkout 복구. 검증은 estimate 가 cuesync 를
+  덮어쓰지 않는 임시 경로로 했어야. (추후: estimate 출력 분리 고려.)
+- **다음**: 사용자 재합성(--narration=synth --bgm=<곡> --music-credit) 1회 →
+  음성까지 전 검수 반영 → 렌더.
