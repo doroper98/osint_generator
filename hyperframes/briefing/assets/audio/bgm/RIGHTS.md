@@ -1,11 +1,19 @@
 # bgm/ 권리 기록 (C9)
 
-영상 배경음악. 외부 음원은 반드시 출처·라이선스를 아래에 기록한다.
+영상 배경음악. 외부 음원은 반드시 출처·라이선스를 기록한다.
 
-| 파일 | 출처 | 라이선스 | 유튜브 안전 | rights_status |
+| 파일 | 출처 | 라이선스 | 출처표시 의무 | 영상 적용 |
 |---|---|---|---|---|
-| (예) between_the_spaces.mp3 | YouTube 오디오 보관함 | 출처표기 불필요(보관함 기본) | ✅ (구글 자체) | rights_clear |
+| The Life and Death of a Certain K. Zabriskie, Patriarch - Chris Zabriskie.mp3 | YouTube 오디오 보관함 | **CC BY 4.0** | **필수** | ✅ 사용중 |
+| Take Off and Shoot a Zero - Chris Zabriskie.mp3 | YouTube 오디오 보관함 | CC BY 4.0 | 필수 | 미사용 |
+| Drone in D - Kevin MacLeod.mp3 | YouTube 오디오 보관함 | CC BY 4.0 | 필수 | 미사용 |
 
-- 자체 생성 합성 베드(make_bgm.generate_bed)는 권리 자체생성이나 음악적 품질이
-  낮아(드론) 폴백으로만 둔다. 기본은 외부 라이선스 음원.
-- 파일을 추가하면 위 표에 한 줄 기록 + 라이선스 확인.
+## CC BY 4.0 출처 표시 의무
+- 사용중인 곡(Zabriskie Patriarch)은 영상 하단 출처 라인 + **유튜브 설명란**에
+  "Music: Chris Zabriskie (CC BY 4.0)" 또는 작가가 지정한 문구를 넣어야 함.
+- 작가 표준 표기: "The Life and Death of a Certain K. Zabriskie, Patriarch by
+  Chris Zabriskie — Licensed under CC BY 4.0 — https://chriszabriskie.com"
+
+## 저장소 보관 주의
+- 음악 파일(31~51MB)은 .gitignore 대상이나 본 건은 전달 위해 임시 커밋됨.
+- 운영 안정 후 git history 정리(BFG/filter-repo) 또는 LFS 전환 권장 — repo 비대화.

@@ -1,6 +1,6 @@
 <!--
 tier: 3
-last_synced_with: v0.40.2
+last_synced_with: v0.40.3
 ssot_for: [release-notes]
 depends_on: [README.md, GOAL.md]
 last_review: 2026-06-11
@@ -25,6 +25,17 @@ released 항목은 **append-only**입니다.
 
 ### Fixed
 -
+
+---
+
+## [v0.40.3] — 2026-06-13
+
+### Added
+- **외부 BGM 적용** — Chris Zabriskie "The Life and Death of a Certain K.
+  Zabriskie, Patriarch" (YouTube 오디오 보관함, CC BY 4.0). 사용자 요청
+  "조용한 앰비언트 배경" → -30 LUFS(내레이션 대비 -9dB) + 사이드체인 더킹 +
+  페이드. 영상 출처 라인 + RIGHTS.md 에 CC BY 출처 표시(의무).
+- 미사용 후보곡 2개(Take Off…, Drone in D) 추적 해제 — repo 비대화 방지.
 
 ---
 
