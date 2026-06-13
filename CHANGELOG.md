@@ -1,6 +1,6 @@
 <!--
 tier: 3
-last_synced_with: v0.39.1
+last_synced_with: v0.40.0
 ssot_for: [release-notes]
 depends_on: [README.md, GOAL.md]
 last_review: 2026-06-11
@@ -25,6 +25,21 @@ released 항목은 **append-only**입니다.
 
 ### Fixed
 -
+
+---
+
+## [v0.40.0] — 2026-06-13
+
+### Added
+- **배경음악 (BGM)** — 외부 음원 없이 자체 생성 (MINOR):
+  - `hyperframes/scripts/make_bgm.py` — ffmpeg lavfi 사인 합성으로 Cm 계열
+    저음 앰비언트 베드 생성 (서브 C2 + C3·Eb3·G3·Bb3, 느린 트레몰로, lowpass
+    540Hz 다크, 공간 에코, 5s/6s 페이드). 결정론·권리 자체생성 (C9).
+  - 사이드체인 더킹 믹스 — 내레이션 들릴 때 BGM 자동 -21dB 하강, 말 사이 복귀.
+    내레이션은 원음. lowpass 로 음악을 저음역에만 두어 말 대역 비움.
+  - `--bgm` 플래그 (bundle_to_video / build_auto_narration) — narration 합성
+    뒤 자동 믹스 + cuesync audio 경로 갱신. 한 줄로 BGM 영상.
+  - flags/RIGHTS.md 에 BGM 권리 기록 (자체생성 = rights_clear).
 
 ---
 

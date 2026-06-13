@@ -1,6 +1,6 @@
 <!--
 tier: 3
-last_synced_with: v0.39.1
+last_synced_with: v0.40.0
 ssot_for: [development-log]
 depends_on: [CHANGELOG.md]
 last_review: 2026-06-06
@@ -2633,3 +2633,23 @@ last_review: 2026-06-06
 - **남은 것 (A 패키지)**: highlight 가 heading 을 메아리("묵인이냐 침묵이냐"),
   contradictions 논설체 원문(영상은 경어체 변환으로 임시 대응 — contradictions.
   video 신설이 근본), "장보고-엔" 번들 표기, 가운뎃점 "담화·김정은" 띄어쓰기.
+
+---
+
+## 2026-06-13 v0.40.0 — 자체 생성 BGM + 더킹 믹스
+
+- **무엇을**: 외부 음원 없이 ffmpeg lavfi 로 앰비언트 베드 합성 + 사이드체인
+  더킹. make_bgm.py + --bgm 플래그. VERSION 0.39.1 → 0.40.0 (MINOR).
+- **왜**: 사용자 요청 — 라이브러리 음원 제시했으나 본 환경이 Pixabay/FreePD
+  등 음악 CDN 을 차단(403). 사용자가 "생성" 선택. C9 권리 측면에서도 자체
+  생성이 유튜브 Content-ID 안전.
+- **설계**: Cm 화성(긴장/비장) + lowpass 540Hz(내레이션 1~4kHz 대역 비움) +
+  사이드체인compress(threshold 0.03/ratio 8/release 400ms)로 말할 때 -21dB
+  하강. 정적 드론 방지용 보이스별 독립 트레몰로(0.1~0.17Hz — ffmpeg tremolo
+  최저 0.1Hz 제약 반영).
+- **사고 메모**: tremolo f 최저 0.1Hz — 더 느린 LFO(0.05) 시 exit 222
+  (out of range). 0.1+ 로 보정.
+- **검증**: 베드 mean -43.9dB, 믹스 mean -21.5/max -4.1dB(무클리핑).
+  실 내레이션(206s)에 믹스해 렌더 진행. 톤·음량 사용자 검수 대기.
+- **남은 것**: 베드 화성/음량 파라미터 조정(사용자 피드백), 보고서 톤별
+  BGM 변형(긴장↔중립) 가능성.

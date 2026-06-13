@@ -87,6 +87,8 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--pause-sec", type=float, default=PAUSE_SEC)
     parser.add_argument("--lead-sec", type=float, default=LEAD_SEC)
     parser.add_argument("--tail-sec", type=float, default=TAIL_SEC)
+    parser.add_argument("--bgm", action="store_true",
+                        help="생성 앰비언트 BGM 을 더킹 믹스해 깐다 (make_bgm, 권리 자체생성).")
     args = parser.parse_args(argv)
 
     data = extract_data(Path(args.html))
@@ -187,13 +189,21 @@ def main(argv: list[str] | None = None) -> int:
         print(f"warn: 조립 mp3 실측 {actual:.2f}s vs 계산 {total:.2f}s — 드리프트 확인 필요",
               file=sys.stderr)
 
+    audio_rel = "assets/audio/auto_narration.mp3"
+    if args.bgm and not args.estimate:
+        from make_bgm import make_bgm_for  # noqa: E402
+        bgm_out = AUDIO_DIR / "auto_narration_bgm.mp3"
+        make_bgm_for(AUDIO_OUT, bgm_out, total)
+        audio_rel = "assets/audio/auto_narration_bgm.mp3"
+        print(f"[auto_narration] BGM 더킹 믹스 → {bgm_out.name}")
+
     CUESYNC_OUT.write_text(json.dumps({
         "mode": "estimate" if args.estimate else "synth",
         "total": total,
         "scene_durs": scene_durs,
         "cue_times": cue_times,
         "cue_durs": durs,
-        "audio": "assets/audio/auto_narration.mp3",
+        "audio": audio_rel,
     }, ensure_ascii=False, indent=1), encoding="utf-8")
     print(f"[auto_narration] total={total}s scenes={len(scenes)} cues={len(cues)} "
           f"-> {CUESYNC_OUT.name}, {AUDIO_OUT.relative_to(BRIEFING)}")

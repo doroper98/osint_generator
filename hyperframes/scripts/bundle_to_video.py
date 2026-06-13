@@ -1311,7 +1311,7 @@ def main() -> int:
         print("usage: python bundle_to_video.py <bundle.json> [out.html] "
               "[--timeline=ladder|axis|serpentine|vertical|metro] "
               "[--video-theme=...] [--narration=estimate|synth] [--cuesync=path] "
-              "| --preview-charts [out.html]",
+              "[--bgm] | --preview-charts [out.html]",
               file=sys.stderr)
         return 1
     bundle = Path(args[0])
@@ -1329,6 +1329,8 @@ def main() -> int:
         cmd = [sys.executable, str(Path(__file__).parent / "build_auto_narration.py"), str(out)]
         if narration == "estimate":
             cmd.append("--estimate")
+        if "--bgm" in flags:
+            cmd.append("--bgm")
         rc = subprocess.run(cmd).returncode
         if rc != 0:
             return rc
