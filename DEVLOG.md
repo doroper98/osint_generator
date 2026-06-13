@@ -1,6 +1,6 @@
 <!--
 tier: 3
-last_synced_with: v0.40.3
+last_synced_with: v0.40.4
 ssot_for: [development-log]
 depends_on: [CHANGELOG.md]
 last_review: 2026-06-06
@@ -2698,3 +2698,16 @@ last_review: 2026-06-06
   미사용 2곡 untrack + 삭제. history 정리/LFS 는 운영 안정 후 과제로 기록.
 - **사고**: 사용자의 첫 git add 가 공백 파일명 + glob 미스로 실패 반복 →
   결국 이전 스테이징분이 3곡 전부 커밋됨. 권리·용량상 1곡만 유지가 맞아 정리.
+
+---
+
+## 2026-06-13 v0.40.4 — 자막↔출처 겹침 + "물러설 한계선" 안전망
+
+- **무엇을**: 출처 라인 하단 이동(겹침 해소), 번들 narration 비문 자동 보정.
+  VERSION 0.40.3 → 0.40.4.
+- **"왜 자꾸 살아나나"**: 해당 어구는 번들 sections[].video.narration 원문
+  (agents_reviewer A측). 우리는 대본을 충실히 소비하므로 매번 등장. A 에 1차
+  전달했으나 본 번들 미반영 → B 측 fix_phrasing 안전망 추가. 음성은 이미 합성된
+  것이라 자막만 즉시 교정, 음성 일치는 다음 재합성.
+- **검증**: Playwright bbox — 자막 하단 979 < 출처 상단 1015 (겹침 없음).
+  자막 텍스트 "물러설 수 없는 한계선" 확인.

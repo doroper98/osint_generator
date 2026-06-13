@@ -1,6 +1,6 @@
 <!--
 tier: 3
-last_synced_with: v0.40.3
+last_synced_with: v0.40.4
 ssot_for: [release-notes]
 depends_on: [README.md, GOAL.md]
 last_review: 2026-06-11
@@ -25,6 +25,19 @@ released 항목은 **append-only**입니다.
 
 ### Fixed
 -
+
+---
+
+## [v0.40.4] — 2026-06-13
+
+### Fixed
+- **자막 ↔ 출처 라인 겹침** (사용자 보고): 출처/크레딧 라인이 자막과 같은 높이라
+  긴 자막이 닿음 → 화면 맨 아래(bottom 26px, z 36)로 내려 세로 분리. 자막 하단
+  979px < 출처 상단 1015px 확인.
+- **"물러설 한계선" 비문 안전망**: 번들 narration 의 "물러설/양보할 {한계선|선
+  …}" 에 누락된 "수 없는" 을 변환기가 자동 보정(fix_phrasing). A 가 source 에서
+  못 고친 분의 B측 방어 — narration/highlights/tts 전 경로 적용. (자막은 즉시
+  교정, 음성은 다음 재합성 시 일치.)
 
 ---
 

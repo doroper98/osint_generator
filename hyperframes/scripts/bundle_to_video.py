@@ -292,6 +292,19 @@ def em_segments_line(text: str, emphasis: list[str]) -> list:
     return segs or [[text, 0]]
 
 
+# 번들 narration 어구 안전망 — A 미반영분 교정 (검수: "물러설 한계선" 등 비문)
+_PHRASING_FIXES = [
+    (re.compile(r"물러설 (한계선|선|지점|영역|레드라인)"), r"물러설 수 없는 \1"),
+    (re.compile(r"양보할 (한계선|선|지점)"), r"양보할 수 없는 \1"),
+]
+
+
+def fix_phrasing(text: str) -> str:
+    for rx, rep in _PHRASING_FIXES:
+        text = rx.sub(rep, text)
+    return text
+
+
 def section_videos(sections: list, corpus: str) -> dict:
     """계약 video 필드 수집 + 사실 근거 검증. 위반 문장은 폐기."""
     out = {}
@@ -303,15 +316,15 @@ def section_videos(sections: list, corpus: str) -> dict:
         narr = []
         tts_src = v.get("narration_tts") or []
         for i, sent in enumerate(v.get("narration") or []):
-            sent = clip(str(sent), 75)
+            sent = fix_phrasing(clip(str(sent), 75))
             if not sentence_grounded(sent, corpus):
                 dropped += 1
                 continue
             narr.append({"text": sent,
-                         "tts": clip(str(tts_src[i]), 120) if i < len(tts_src) else None})
+                         "tts": fix_phrasing(clip(str(tts_src[i]), 120)) if i < len(tts_src) else None})
         his = []
         for h in (v.get("highlights") or [])[:3]:
-            h = clip(str(h), 40)
+            h = fix_phrasing(clip(str(h), 40))
             if sentence_grounded(h, corpus):
                 his.append(h)
             else:
@@ -788,10 +801,10 @@ def convert(bundle_path: Path, out_path: Path, tl_override: str | None = None,
         out = []
         tts_src = vdict.get(key + "_tts") or []
         for i, sent in enumerate(vdict.get(key) or []):
-            sent = clip(str(sent), 75)
+            sent = fix_phrasing(clip(str(sent), 75))
             if sentence_grounded(sent, corpus):
                 out.append({"text": sent,
-                            "tts": clip(str(tts_src[i]), 120) if i < len(tts_src) else None})
+                            "tts": fix_phrasing(clip(str(tts_src[i]), 120)) if i < len(tts_src) else None})
         return out
 
     intro_narr = grounded_narr(report_video, "intro_narration")
