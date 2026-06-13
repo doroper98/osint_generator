@@ -272,17 +272,23 @@
                         font-weight: 600; color: var(--faint); letter-spacing: 1.5px; }
 
       /* ── 스테이트먼트 씬 (서술 섹션 key takeaway — auto 컴포지션) ── */
-      .stmt { position: absolute; top: 330px; left: 96px; right: 420px; }
-      .stmt .stmt-line { display: flex; gap: 30px; align-items: baseline; margin-bottom: 64px; }
-      .stmt .stmt-no { font-size: 17px; font-weight: 700; color: var(--faint);
-                       letter-spacing: 3px; flex: none; width: 44px;
+      /* 수직 중앙 정렬 — 빈 하단 사고 해소 (검수 반영). 라인은 카드형 띠. */
+      .stmt { position: absolute; top: 300px; bottom: 150px; left: 96px; right: 360px;
+              display: flex; flex-direction: column; justify-content: center; gap: 26px; }
+      .stmt .stmt-qmark { position: absolute; top: -34px; left: -8px; font-family: "Noto Serif KR", serif;
+                          font-size: 150px; font-weight: 700; color: var(--accent); opacity: 0.14;
+                          line-height: 1; pointer-events: none; }
+      .stmt .stmt-line { display: flex; gap: 26px; align-items: center;
+                         padding: 26px 34px; border-radius: 10px;
+                         background: linear-gradient(100deg, rgba(196,162,101,0.07), rgba(255,255,255,0.015));
+                         border-left: 3px solid var(--accent); }
+      .stmt .stmt-no { font-size: 17px; font-weight: 700; color: var(--accent);
+                       letter-spacing: 2px; flex: none; width: 40px; opacity: 0.8;
                        font-variant-numeric: tabular-nums; }
       .stmt .stmt-text { font-family: "Noto Serif KR", "Pretendard Variable", serif;
-                         font-size: 62px; font-weight: 600; line-height: 1.38;
+                         font-size: 50px; font-weight: 600; line-height: 1.32;
                          letter-spacing: -0.5px; color: var(--text); }
       .stmt .stmt-text em { font-style: normal; color: var(--accent); }
-      .stmt .stmt-rule { height: 1px; background: var(--hairline-soft);
-                         margin: 0 0 64px 74px; }
 
       /* ── S7 클로징 ── */
       .quote { position: absolute; top: 322px; left: 96px; right: 580px;

@@ -54,7 +54,8 @@ def clip(text: str, n: int) -> str:
 
 
 def sentences(text: str) -> list[str]:
-    return [s.strip() for s in re.split(r"(?<=[.!?다])\s+", text.strip()) if s.strip()]
+    # 구두점(. ! ?) 뒤에서만 분할 — 바 "다 "(보다/한다 중간) 오분할 방지
+    return [s.strip() for s in re.split(r"(?<=[.!?])\s+", text.strip()) if s.strip()]
 
 
 def wrap_units(text: str, max_units: float) -> list[str]:
@@ -171,21 +172,80 @@ _MONTH_KR = {1: "일월", 2: "이월", 3: "삼월", 4: "사월", 5: "오월", 6:
              7: "칠월", 8: "팔월", 9: "구월", 10: "시월", 11: "십일월", 12: "십이월"}
 
 
+# 표기 정규화 — 번들 transliteration 을 영상 표기로 (검수 반영)
+_DISPLAY_NORMALIZE = {"장보고-엔": "장보고 N", "장보고 엔": "장보고 N"}
+
+
+def normalize_display(text: str) -> str:
+    for a, b in _DISPLAY_NORMALIZE.items():
+        text = text.replace(a, b)
+    return text
+
+
+def iso_to_kr(s: str) -> str:
+    """ISO 날짜(YYYY-MM-DD) → 'M월 D일' 표시. 그 외는 원본."""
+    m = re.match(r"(\d{4})-(\d{2})-(\d{2})$", s.strip())
+    return f"{int(m.group(2))}월 {int(m.group(3))}일" if m else s
+
+
 def _date_kr_tts(m: re.Match) -> str:
     mon = _MONTH_KR.get(int(m.group(1)), m.group(1) + "월")
     day = num_to_sino_kr(int(m.group(2)))
     return f"{mon} {day}일"
 
 
+# 고유어 수사를 쓰는 단위 (가지/개/곳/척/명/번 …) — "5가지" → "다섯 가지"
+_NATIVE_UNITS = "가지|개|곳|척|명|번|살|발|건|차례|대"
+
+
+def _native_unit(m: re.Match) -> str:
+    n = int(m.group(1))
+    nat = native_count(n)
+    return f"{nat} {m.group(2)}" if nat else f"{num_to_sino_kr(n)} {m.group(2)}"
+
+
+def _iso_date_tts(m: re.Match) -> str:
+    mon = _MONTH_KR.get(int(m.group(2)), m.group(2) + "월")
+    return f"{mon} {num_to_sino_kr(int(m.group(3)))}일"
+
+
 def tts_of(text: str) -> str:
-    """템플릿 문장 → 발음 표기: 날짜/부호/소수점 정리 후 사전+숫자 한글화."""
-    s = text.replace("+", " 플러스 ").replace("−", " 마이너스 ")
+    """템플릿 문장 → 발음 표기: 부호/날짜/수사 정리 후 사전+숫자 한글화."""
+    s = normalize_display(text)
+    # 구두점 — em대시/가운뎃점/화살괄호는 음성에서 어색 (검수 반영)
+    s = s.replace("—", ", ").replace(" – ", ", ").replace(" - ", ", ")
+    s = s.replace("·", ", ").replace("<", "").replace(">", "")
+    s = s.replace("+", " 플러스 ").replace("−", " 마이너스 ")
+    # ISO 날짜 YYYY-MM-DD → "M월 D일" (연도 생략 — 근접 시점)
+    s = re.sub(r"(\d{4})-(\d{2})-(\d{2})", _iso_date_tts, s)
     s = re.sub(r"(\d{1,2})월\s*(\d{1,2})일", _date_kr_tts, s)
     s = re.sub(r"(?<![\d가-힣])(\d{1,2})월", lambda m: _MONTH_KR.get(int(m.group(1)), m.group(0)), s)
+    # 고유어 수사 (사전/한자어 변환 전에)
+    s = re.sub(rf"(\d{{1,2}})\s*({_NATIVE_UNITS})", _native_unit, s)
     s = re.sub(r"(?<=\d)\.(?=\d)", " 점 ", s)
     s = re.sub(r"\s+", " ", s).strip()
     return apply_pronunciation(s, _PRONOUNCE)
 
+
+
+# 논설체 → 다큐 경어체 (versus 등 원문 노출 cue/카드 용 — 반말 사고 해소)
+_POLITE_TAIL = [
+    (re.compile(r"이다\.?$"), "입니다."), (re.compile(r"([가-힣])다\.?$"), r"\1습니다."),
+    (re.compile(r"한다\.?$"), "합니다."), (re.compile(r"된다\.?$"), "됩니다."),
+    (re.compile(r"본다\.?$"), "봅니다."), (re.compile(r"있다\.?$"), "있습니다."),
+    (re.compile(r"없다\.?$"), "없습니다."), (re.compile(r"크다\.?$"), "큽니다."),
+    (re.compile(r"높다\.?$"), "높습니다."), (re.compile(r"낮다\.?$"), "낮습니다."),
+    (re.compile(r"같다\.?$"), "같습니다."), (re.compile(r"든다\.?$"), "듭니다."),
+]
+
+
+def to_polite(text: str) -> str:
+    """문장 종결을 다큐 경어체로. 끝맺지 않은(절단된) 문장은 그대로."""
+    s = text.strip()
+    for rx, rep in _POLITE_TAIL:
+        if rx.search(s):
+            return rx.sub(rep, s)
+    return s
 
 
 def build_corpus(b: dict) -> str:
@@ -453,7 +513,7 @@ def build_signals(signals: list) -> dict | None:
     if not signals:
         return None
     items = [{
-        "when": clip(s.get("deadline", ""), 14),
+        "when": clip(iso_to_kr(s.get("deadline", "")), 14),
         "name": clip(s.get("signal", ""), 26),
         "desc": clip(s.get("description", ""), 56),
         "unverified": s.get("verification") == "unverified",
@@ -525,7 +585,7 @@ def norm_map(map_data: dict) -> dict | None:
     for m in markers:
         x, y = _project_merc(meta, m["lng"], m["lat"])
         out_markers.append({"id": m["id"], "name": clip(m.get("name", ""), 12),
-                            "note": clip(m.get("value", "") or "", 26) or None,
+                            "note": clip(re.sub(r"\s*\([^)]*\)", "", m.get("value", "") or "").strip(), 26) or None,
                             "x": x, "y": y, "hi": bool(m.get("highlight"))})
     arcs = []
     for a in (map_data.get("arcs") or [])[:4]:
@@ -606,9 +666,9 @@ def build_versus(contradiction: dict, theme: dict) -> dict:
         "axis": {"left": "신중", "right": "강세", "tag": "분석 추정"},
         "cards": [
             {"initials": names[0][:2], "name": names[0], "org": org_a or "다수 진영",
-             "line": line_a, "stance": stance_a[0], "stanceLabel": stance_a[1], "color": up},
+             "line": to_polite(line_a), "stance": stance_a[0], "stanceLabel": stance_a[1], "color": up},
             {"initials": names[1][:2], "name": names[1], "org": org_b or "소수 진영",
-             "line": line_b, "stance": stance_b[0], "stanceLabel": stance_b[1], "color": "#8d99ae"},
+             "line": to_polite(line_b), "stance": stance_b[0], "stanceLabel": stance_b[1], "color": "#8d99ae"},
         ],
     }
 
@@ -778,8 +838,8 @@ def convert(bundle_path: Path, out_path: Path, tl_override: str | None = None,
         n = len(ladder["steps"])
         nat = native_count(n)
         cues.append(tcue(t0 + 0.6,
-                         f"이 흐름이 어떻게 쌓여 왔는지, {n}개의 분기점으로 따라가 보겠습니다.",
-                         tts=tts_of(f"이 흐름이 어떻게 쌓여 왔는지, {nat or n} 개의 분기점으로 따라가 보겠습니다.")))
+                         f"이 흐름이 어떻게 쌓여 왔는지, {n}개의 갈림길로 따라가 보겠습니다.",
+                         tts=tts_of(f"이 흐름이 어떻게 쌓여 왔는지, {nat or n} 개의 갈림길로 따라가 보겠습니다.")))
         key = next((s for s in ladder["steps"] if s["phase"] in ("present", "crack")), None)
         if key:
             kd = date_kr(key["date"].replace(".", "-"))
@@ -810,7 +870,7 @@ def convert(bundle_path: Path, out_path: Path, tl_override: str | None = None,
         cues.append(tcue(t0 + 0.6, "사건의 좌표를 지도 위에 놓으면 흐름이 보입니다."))
         hi_m = next((m for m in geo["markers"] if m["hi"] and m["note"]), None)
         if hi_m:
-            cues.append(tcue(t0 + 4.4, clip(f"{hi_m['name']} — {hi_m['note']}.", 75)))
+            cues.append(tcue(t0 + 4.4, clip(f"{hi_m['name']}에서는 {hi_m['note']}{josa(hi_m['note'], '이', '가')} 있었습니다.", 75)))
         arc_l = next((a for a in geo["arcs"] if a["label"]), None)
         if arc_l:
             cues.append(tcue(t0 + 7.8, clip(f"{arc_l['label']}{josa(arc_l['label'], '이', '가')} 핵심 동선입니다.", 75)))
@@ -883,8 +943,8 @@ def convert(bundle_path: Path, out_path: Path, tl_override: str | None = None,
                   sid=sec.get("section_id") if sec else None)
         n = len(nw["nodes"])
         nat = native_count(n)
-        cues.append(tcue(t0 + 0.6, clip(f"{split_unit(c.get('title', ''))[0]} — {n}개 행위자를 한 판에 놓았습니다.", 75),
-                         tts=tts_of(f"{split_unit(c.get('title', ''))[0]} — {nat or n} 행위자를 한 판에 놓았습니다.")))
+        cues.append(tcue(t0 + 0.6, clip(f"{split_unit(c.get('title', ''))[0]}, {n}개 행위자를 한 판에 놓았습니다.", 75),
+                         tts=tts_of(f"{split_unit(c.get('title', ''))[0]}, {nat or n} 행위자를 한 판에 놓았습니다.")))
         center = nw["nodes"][0]["label"]
         cues.append(tcue(t0 + 5.0, clip(f"관계가 가장 많이 얽힌 쪽은 {center}입니다.", 75)))
 
@@ -907,7 +967,7 @@ def convert(bundle_path: Path, out_path: Path, tl_override: str | None = None,
         h = (sec.get("heading") if sec else None) or title_clean
         add_scene(stype, 9, chip_label, {"kicker": k, "title": h}, d,
                   sid=sec.get("section_id") if sec else None)
-        cues.append(tcue(t0 + 0.6, clip(f"{title_clean} — {cue_tail}.", 58)))
+        cues.append(tcue(t0 + 0.6, clip(f"{title_clean}, {cue_tail}.", 75)))
 
     # 4-d. 스테이트먼트 (계약 video.highlights — 차트 없는 서술 섹션 구제)
     versus_k, versus_h, versus_sid = find_section(
@@ -943,9 +1003,15 @@ def convert(bundle_path: Path, out_path: Path, tl_override: str | None = None,
             versus["cards"][1]["initials"] = versus["cards"][1]["name"][:2]
         add_scene("versus", 12, "쟁점", {"kicker": k, "title": h}, versus, sid=versus_sid)
         a, bb = versus["cards"][0], versus["cards"][1]
-        cues.append(tcue(t0 + 0.6, f"시각은 둘로 갈립니다 — {a['name']}과 {bb['name']}."))
-        cues.append(tcue(t0 + 4.4, clip(f"{a['org']} — {a['line']}", 58)))
-        cues.append(tcue(t0 + 8.2, clip(sentences(contras[0].get("resolution", ""))[0], 58)))
+        if a["name"].startswith("시각"):
+            cues.append(tcue(t0 + 0.6, "이 사안을 보는 시각은 크게 둘로 갈립니다."))
+        else:
+            cues.append(tcue(t0 + 0.6,
+                             f"시각은 {a['name']}{josa(a['name'], '과', '와')} {bb['name']}, 둘로 갈립니다."))
+        cues.append(tcue(t0 + 4.4, clip(f"{a['org']}, {a['line']}", 75)))
+        res0 = sentences(contras[0].get("resolution", ""))
+        if res0:
+            cues.append(tcue(t0 + 8.2, clip(to_polite(res0[0]), 75)))
 
     # 6. 가격 비교 (line 차트 있으면)
     markets = build_markets(charts)
@@ -965,9 +1031,9 @@ def convert(bundle_path: Path, out_path: Path, tl_override: str | None = None,
         t0 = t
         add_scene("signals", 10, "신호", {"kicker": signals_k, "title": signals_h}, sig,
                   sid=signals_sid)
-        cues.append(tcue(t0 + 0.6, f"앞으로 확인할 신호 {len(sig['items'])}가지 — 전부 <미검증> 관측 대상입니다."))
+        cues.append(tcue(t0 + 0.6, f"앞으로 확인할 신호는 {len(sig['items'])}가지. 전부 <미검증> 관측 대상입니다."))
         first = sig["items"][0]
-        cues.append(tcue(t0 + 4.6, clip(f"가장 가까운 분기점은 {first['when']}, {first['name']}입니다.", 58)))
+        cues.append(tcue(t0 + 4.6, clip(f"가장 가까운 갈림길은 {first['when']}, {first['name']}입니다.", 75)))
 
     # 5. 클로징 (항상)
     t0 = t
@@ -1017,6 +1083,18 @@ def convert(bundle_path: Path, out_path: Path, tl_override: str | None = None,
         print(f"[bundle_to_video] 계약 narration 채택: {len(narr_cues)}문장 "
               f"(섹션 {len(windows_by_sid)}곳, 템플릿 cue {len(cues) - len(kept)}건 대체)")
     cues = sorted(kept + narr_cues, key=lambda c: c["t"])
+
+    # 표기 정규화 일괄 적용 (장보고-엔 → 장보고 N 등) — display 텍스트 전반
+    for c in cues:
+        c["text"] = normalize_display(c["text"])
+    for sc in scenes:
+        if sc.get("head"):
+            sc["head"]["title"] = normalize_display(sc["head"]["title"])
+        d = sc.get("data") or {}
+        if isinstance(d.get("lines"), list):  # statement
+            for ln in d["lines"]:
+                for seg in ln:
+                    seg[0] = normalize_display(seg[0])
 
     total = round(t, 2)
 

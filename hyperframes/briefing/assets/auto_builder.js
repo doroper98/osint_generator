@@ -424,11 +424,15 @@
     },
 
     statement(sc, sec) {
-      // 서술 섹션의 key takeaway — 대형 세리프 문구 순차 등장 (계약 video.highlights)
+      // 서술 섹션의 key takeaway — 카드형 띠로 순차 등장 (계약 video.highlights)
       const wrap = document.createElement("div");
       wrap.className = "stmt";
+      const qm = document.createElement("div");
+      qm.className = "stmt-qmark";
+      qm.textContent = "\u201C";
+      wrap.appendChild(qm);
       sec.appendChild(wrap);
-      const lineEls = sc.data.lines.map((segs, i) => {
+      const rows = sc.data.lines.map((segs, i) => {
         const row = document.createElement("div");
         row.className = "stmt-line";
         const no = document.createElement("span");
@@ -444,23 +448,16 @@
         });
         row.appendChild(tx);
         wrap.appendChild(row);
-        if (i < sc.data.lines.length - 1) {
-          const rule = document.createElement("div");
-          rule.className = "stmt-rule";
-          wrap.appendChild(rule);
-          return { row, rule };
-        }
-        return { row, rule: null };
+        return row;
       });
       const t0 = sc.t0;
-      const span = (sc.t1 - sc.t0 - 3.5) / Math.max(1, lineEls.length);
+      const span = (sc.t1 - sc.t0 - 3.5) / Math.max(1, rows.length);
       sceneIn(sec, t0);
       headIn(sec, t0);
-      lineEls.forEach((L, i) => {
+      tl.from(qm, { opacity: 0, scale: 0.6, transformOrigin: "left top", duration: 0.8 }, t0 + 0.4);
+      rows.forEach((row, i) => {
         const at = t0 + 0.9 + i * span;
-        tl.from(L.row, { opacity: 0, y: 34, duration: 0.85, ease: "power3.out" }, at);
-        if (L.rule) tl.fromTo(L.rule, { scaleX: 0, transformOrigin: "left center" },
-          { scaleX: 1, duration: 0.8, ease: "power2.out" }, at + 0.5);
+        tl.from(row, { opacity: 0, x: -28, duration: 0.75, ease: "power3.out" }, at);
       });
       sceneOut(sec, sc.t1 - 0.5);
     },
