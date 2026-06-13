@@ -1,6 +1,6 @@
 <!--
 tier: 3
-last_synced_with: v0.40.1
+last_synced_with: v0.40.2
 ssot_for: [release-notes]
 depends_on: [README.md, GOAL.md]
 last_review: 2026-06-11
@@ -25,6 +25,19 @@ released 항목은 **append-only**입니다.
 
 ### Fixed
 -
+
+---
+
+## [v0.40.2] — 2026-06-13
+
+### Changed
+- **BGM 외부 음원 모드** (사용자 평가 "합성 베드는 기계음·멜로디 없음"):
+  합성 베드를 폴백으로 강등, 라이선스 음원을 기본 경로로. `--bgm=<music.mp3>`
+  = 외부 음원(권장), `--bgm` = 합성(폴백). make_bgm.make_bgm_external —
+  음악을 영상 길이에 루프/트림 + 인/아웃 페이드 후 더킹. cuesync.audio 가
+  실제 사용 트랙을 가리키도록.
+- `assets/audio/bgm/` + RIGHTS.md 신설, 음악 파일은 .gitignore (C9 — 라이선스
+  음원 커밋 금지, RIGHTS.md 만 추적). auto.html 은 깨끗한 내레이션으로 복구.
 
 ---
 

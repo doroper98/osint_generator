@@ -78,3 +78,8 @@ logs/
 # 외부 코드 리뷰 (codex review) 일회용 산출물 — CLAUDE.md C10.4
 review-prompt.txt
 review-out.jsonl
+
+# BGM 음악 파일 — 라이선스 음원은 커밋 금지 (RIGHTS.md 만 추적)
+hyperframes/briefing/assets/audio/bgm/*.mp3
+hyperframes/briefing/assets/audio/bgm/*.wav
+hyperframes/briefing/assets/audio/bgm/*.m4a

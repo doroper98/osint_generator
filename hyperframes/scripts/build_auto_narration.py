@@ -87,8 +87,9 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--pause-sec", type=float, default=PAUSE_SEC)
     parser.add_argument("--lead-sec", type=float, default=LEAD_SEC)
     parser.add_argument("--tail-sec", type=float, default=TAIL_SEC)
-    parser.add_argument("--bgm", action="store_true",
-                        help="생성 앰비언트 BGM 을 더킹 믹스해 깐다 (make_bgm, 권리 자체생성).")
+    parser.add_argument("--bgm", nargs="?", const="__generate__", default=None,
+                        help="배경음악 더킹 믹스. --bgm=<music.mp3> 면 외부 음원(권장), "
+                        "값 없이 --bgm 이면 합성 베드(폴백, 품질 낮음).")
     args = parser.parse_args(argv)
 
     data = extract_data(Path(args.html))
@@ -191,11 +192,20 @@ def main(argv: list[str] | None = None) -> int:
 
     audio_rel = "assets/audio/auto_narration.mp3"
     if args.bgm and not args.estimate:
-        from make_bgm import make_bgm_for  # noqa: E402
         bgm_out = AUDIO_DIR / "auto_narration_bgm.mp3"
-        make_bgm_for(AUDIO_OUT, bgm_out, total)
+        if args.bgm == "__generate__":
+            from make_bgm import make_bgm_for  # noqa: E402
+            make_bgm_for(AUDIO_OUT, bgm_out, total)
+            print(f"[auto_narration] 합성 BGM 더킹 믹스(폴백) → {bgm_out.name}")
+        else:
+            from make_bgm import make_bgm_external  # noqa: E402
+            music = Path(args.bgm)
+            if not music.exists():
+                print(f"error: BGM 파일 없음: {music}", file=sys.stderr)
+                return 1
+            make_bgm_external(AUDIO_OUT, music, bgm_out, total)
+            print(f"[auto_narration] 외부 BGM 더킹 믹스 → {bgm_out.name} ({music.name})")
         audio_rel = "assets/audio/auto_narration_bgm.mp3"
-        print(f"[auto_narration] BGM 더킹 믹스 → {bgm_out.name}")
 
     CUESYNC_OUT.write_text(json.dumps({
         "mode": "estimate" if args.estimate else "synth",

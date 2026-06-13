@@ -87,6 +87,33 @@ def duck_mix(narration: Path, bed: Path, out_path: Path, bed_lufs: float = -23.0
     subprocess.run(cmd, check=True, capture_output=True)
 
 
+def prepare_external(music: Path, out_path: Path, duration_sec: float,
+                     fade_in: float = 3.0, fade_out: float = 6.0) -> None:
+    """외부 음악 파일을 영상 길이에 맞춰 루프/트림 + 인/아웃 페이드.
+
+    음악이 영상보다 짧으면 끊김 없이 반복(aloop), 길면 자른다. 끝 6초 페이드아웃.
+    """
+    subprocess.run(
+        [FFMPEG_BIN, "-y", "-stream_loop", "-1", "-i", str(music),
+         "-af",
+         f"afade=t=in:st=0:d={fade_in},"
+         f"afade=t=out:st={max(0.1, duration_sec - fade_out):.2f}:d={fade_out}",
+         "-t", f"{duration_sec:.3f}", "-ar", "44100", "-ac", "2",
+         "-q:a", "4", "-acodec", "libmp3lame", str(out_path)],
+        check=True, capture_output=True,
+    )
+
+
+def make_bgm_external(narration: Path, music: Path, out_path: Path,
+                      duration_sec: float, bed_lufs: float = -23.0) -> Path:
+    """외부 음악 + 내레이션 더킹 믹스 (라이선스 음원 — 권장 경로)."""
+    bed = narration.parent / "_extbed.mp3"
+    prepare_external(music, bed, duration_sec)
+    duck_mix(narration, bed, out_path, bed_lufs=bed_lufs)
+    bed.unlink(missing_ok=True)
+    return out_path
+
+
 def make_bgm_for(narration: Path, out_path: Path, duration_sec: float) -> Path:
     """내레이션 mp3 → 베드 생성 + 더킹 믹스 → out_path."""
     bed = narration.parent / "_bed.mp3"
