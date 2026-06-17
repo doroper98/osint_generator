@@ -1,0 +1,122 @@
+{
+  "title": "렌더러 리뷰 — Table + Graph (v0.41.x, BOM 보고서 데이터)",
+  "scenes": [
+    {
+      "sceneId": "review_table_ocml",
+      "startSec": 0,
+      "durationSec": 7,
+      "caption": "OCML은 BOM이 아니다 — 빠진 것을 보라",
+      "narration": "TABLE 렌더러 데모. 헤더가 먼저 들어오고 행이 순차로 등장한다. 별표 행(반제품 구조·부품 계층)은 강조 배경이 차오른다. 셀 선두 기호로 의미색 자동.",
+      "label": "<추론>",
+      "sourceLinkRequired": false,
+      "source": "R&D Master v0.4 (가상 데이터)",
+      "isQuote": false,
+      "chartData": {
+        "chartId": "tbl-ocml",
+        "type": "table",
+        "title": "OCML vs E-BOM",
+        "data": {
+          "columns": [
+            { "key": "field", "label": "필드", "align": "left", "weight": 1.5 },
+            { "key": "ocml", "label": "OCML", "align": "center", "accent": "#f59e0b", "weight": 1.2 },
+            { "key": "ebom", "label": "E-BOM", "align": "center", "accent": "#059669", "weight": 1.2 },
+            { "key": "note", "label": "비고", "align": "left", "weight": 1.6 }
+          ],
+          "rows": [
+            { "cells": { "field": "자재 리스트", "ocml": "✓ 있음", "ebom": "✓ 있음", "note": "" } },
+            { "cells": { "field": "소요량", "ocml": "✓ 1-Cell", "ebom": "✓ 계층별", "note": "스케일링 차이" } },
+            { "cells": { "field": "설계 Loss율", "ocml": "✓ 있음", "ebom": "✓ 있음", "note": "투명 전달" } },
+            { "cells": { "field": "반제품 구조", "ocml": "✗ 없음", "ebom": "✓ 있음", "note": "★ 가장 결정적 차이" }, "highlight": true },
+            { "cells": { "field": "부품 계층(트리)", "ocml": "✗ 평면", "ebom": "✓ 8레벨", "note": "★ 구조적 차이" }, "highlight": true },
+            { "cells": { "field": "CAD 참조", "ocml": "✗ 없음", "ebom": "✓ 있음", "note": "" } },
+            { "cells": { "field": "도면 번호", "ocml": "✗ 없음", "ebom": "✓ 있음", "note": "" } },
+            { "cells": { "field": "공정 정보", "ocml": "✗ 없음", "ebom": "부분적", "note": "M-BOM에서 추가" } },
+            { "cells": { "field": "사이트/플랜트", "ocml": "✗ 없음", "ebom": "✗ 없음", "note": "M-BOM에서 추가" } },
+            { "cells": { "field": "분류 체계", "ocml": "✓ taxonomy", "ebom": "✗ 없음", "note": "직교하는 범주" } }
+          ]
+        }
+      }
+    },
+    {
+      "sceneId": "review_table_inspection",
+      "startSec": 7,
+      "durationSec": 7,
+      "caption": "검사는 반제품 노드에 매핑된다",
+      "narration": "검사 매핑표 데모. 다섯 열(반제품·공정·검사항목·합격기준·SPC). SPC 채움/빔 기호가 의미색으로 구분된다. 행이 많을 때 폰트가 자동 축소된다.",
+      "label": "<추론>",
+      "sourceLinkRequired": false,
+      "source": "Q-View 매핑 (가상 데이터)",
+      "isQuote": false,
+      "chartData": {
+        "chartId": "tbl-inspect",
+        "type": "table",
+        "title": "반제품별 검사 매핑",
+        "data": {
+          "columns": [
+            { "key": "node", "label": "반제품(M-BOM)", "align": "left", "weight": 1.3 },
+            { "key": "proc", "label": "공정", "align": "left", "accent": "#d97706", "weight": 1.1 },
+            { "key": "item", "label": "검사 항목", "align": "left", "weight": 1.4 },
+            { "key": "crit", "label": "합격 기준", "align": "left", "weight": 1.2 },
+            { "key": "spc", "label": "SPC", "align": "center", "weight": 0.5 }
+          ],
+          "rows": [
+            { "cells": { "node": "Anode Slurry", "proc": "혼합", "item": "점도, 고형분, 분산도", "crit": "3000±500cP", "spc": "●" } },
+            { "cells": { "node": "Anode Pancake", "proc": "코팅", "item": "두께, 로딩, 밀도", "crit": "두께 ±3μm", "spc": "●" } },
+            { "cells": { "node": "Anode Pancake", "proc": "프레싱", "item": "밀도, 접착력", "crit": "1.55±0.03", "spc": "●" } },
+            { "cells": { "node": "Notched Pancake", "proc": "노칭", "item": "치수, 버 높이", "crit": "버 ≤30μm", "spc": "○" } },
+            { "cells": { "node": "Stacked Cell", "proc": "적층", "item": "정렬도", "crit": "±0.3mm", "spc": "●" } },
+            { "cells": { "node": "Cell Assembly", "proc": "주액", "item": "주액량, 시간", "crit": "주액량 ±2%", "spc": "●" } },
+            { "cells": { "node": "Cell Assembly", "proc": "봉합", "item": "강도, 외관", "crit": "≥15N/mm", "spc": "○" } },
+            { "cells": { "node": "Cell (최종)", "proc": "Formation", "item": "OCV, IR, 용량", "crit": "3.65±0.05V", "spc": "●" } },
+            { "cells": { "node": "Cell (최종)", "proc": "Aging", "item": "자기방전율", "crit": "<3mV/24h", "spc": "●" } }
+          ]
+        }
+      }
+    },
+    {
+      "sceneId": "review_bar_cost",
+      "startSec": 14,
+      "durationSec": 6,
+      "caption": "Cell 원가 구성 — 가공비가 빠지면?",
+      "narration": "BAR 렌더러 데모. 막대가 아래에서 위로 자라고 끝에 값 라벨이 페이드인. 가공비는 반제품 단위로 발생하는데 OCML엔 그 그릇이 없다.",
+      "label": "<추론>",
+      "sourceLinkRequired": false,
+      "source": "Cell C-BOM (가상 데이터)",
+      "isQuote": false,
+      "chartData": {
+        "chartId": "bar-cost",
+        "type": "bar",
+        "title": "Cell 원가 구성",
+        "unit": "₩",
+        "data": [
+          { "label": "재료비", "value": 45200 },
+          { "label": "가공비", "value": 12800 },
+          { "label": "간접비", "value": 3200 }
+        ]
+      }
+    },
+    {
+      "sceneId": "review_range_fidelity",
+      "startSec": 20,
+      "durationSec": 6,
+      "caption": "원가는 평행 차원 — 해상도만 정밀해진다",
+      "narration": "RANGE_BAR 렌더러 데모. 각 단계의 오차 밴드가 중앙에서 양쪽으로 펼쳐진다. RFQ에서 양산으로 갈수록 오차가 좁혀진다.",
+      "label": "<추론>",
+      "sourceLinkRequired": false,
+      "source": "원가 성숙도 사다리 (가상 데이터)",
+      "isQuote": false,
+      "chartData": {
+        "chartId": "range-fidelity",
+        "type": "range_bar",
+        "title": "원가 성숙도 (오차 ±%)",
+        "unit": "%",
+        "data": [
+          { "label": "RFQ", "low": 30, "high": 50 },
+          { "label": "설계", "low": 15, "high": 25 },
+          { "label": "제조", "low": 5, "high": 10 },
+          { "label": "양산", "low": 0, "high": 2 }
+        ]
+      }
+    }
+  ]
+}
