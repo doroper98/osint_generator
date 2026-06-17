@@ -10,6 +10,7 @@ import { Waterfall as WaterfallV2 } from "./charts/cat/Waterfall";
 import { DualLineChart } from "./charts/xy/DualLineChart";
 import { ForecastChart as ForecastChartV2 } from "./charts/xy/ForecastChart";
 import { XYChart } from "./charts/xy/XYChart";
+import { DataTable } from "./charts/table/DataTable";
 
 // render_props.json 의 chartData 와 동일 구조 (orchestrator/render_io.py:RenderChart).
 export type ChartData = {
@@ -283,6 +284,8 @@ export const ChartView: React.FC<{ chart: ChartData; width: number; height: numb
       return <CandleChartV2 chartId={chart.chartId} title={null} unit={u} data={d} width={width} height={height} />;
     case "slope":
       return <SlopeChartV2 chartId={chart.chartId} title={null} unit={u} data={d} width={width} height={height} />;
+    case "table":
+      return <DataTable data={d} width={width} height={height} />;
     case "donut": return <Donut data={d} {...box} />;
     case "gantt": return <Gantt data={d} {...box} />;
     case "heatmap": return <Heatmap data={d} {...box} />;
