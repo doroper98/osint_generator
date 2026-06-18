@@ -1,6 +1,6 @@
 <!--
 tier: 3
-last_synced_with: v0.41.0
+last_synced_with: v0.41.1
 ssot_for: [release-notes]
 depends_on: [README.md, GOAL.md]
 last_review: 2026-06-11
@@ -25,6 +25,18 @@ released 항목은 **append-only**입니다.
 
 ### Fixed
 -
+
+---
+
+## [v0.41.1] — 2026-06-17
+
+### Added
+- **BOM R&D 마스터 브리핑 번들** (`samples/bom_rnd/bom_rnd_master.bundle.json`) — "차트/표
+  템플릿 밖" 분석 보고서(배터리 셀 BOM 아키텍처)를 정식 `report_bundle` 로 손수 변환한
+  샘플. 한 줄(`bundle_to_video.py`)로 109초·11씬 브리핑이 조립됨:
+  title → 타임라인(metro) → 인용 → 원가 막대 → **표 2종(OCML vs E-BOM / 검사 매핑)** →
+  키포인트 → 쟁점(원가팀 vs 설계팀 교착) → 신호 → 클로징. 나레이션 20문장 자동 채택.
+  v0.41.0 의 신규 `table` 씬을 실제 보고서 데이터로 처음 구동하는 fixture.
 
 ---
 

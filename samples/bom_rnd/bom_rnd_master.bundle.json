@@ -1,0 +1,590 @@
+{
+  "schema_version": 1,
+  "bundle_kind": "report_bundle",
+  "generated_at": "2026-06-17T00:00:00Z",
+  "producer": {
+    "system": "claude-handcraft",
+    "version": "bom-v0.1",
+    "mode": "deep"
+  },
+  "report": {
+    "report_id": "bom-rnd-master-v01",
+    "headline": "OCML은 BOM이 아니다 — 끊어진 디지털 스레드",
+    "deck": "한 줄짜리 평면 리스트가 8레벨 BOM이 되는 블랙박스. 그 안에 가공비 30일과 끊긴 추적성이 숨어 있다.",
+    "closing": "폐기가 아니라 증축. 단어를 꺼내지 않고, 구조를 출현시킨다.",
+    "html_url": "",
+    "theme": {
+      "id": "graphite_slate",
+      "tokens": {
+        "bg": "#17181c",
+        "card": "#1f2127",
+        "border": "#3D424A",
+        "text": "#e9ebed",
+        "muted": "#969ba3",
+        "accent": "#d69a5e",
+        "up": "#88b888",
+        "down": "#dc7a7a"
+      },
+      "fonts": {
+        "serif": "Noto Serif KR",
+        "sans": "Noto Sans KR",
+        "mono": "IBM Plex Mono"
+      }
+    },
+    "video": {
+      "intro_narration": [
+        "한 줄짜리 평면 자재 리스트가, 블랙박스를 지나 8레벨 BOM이 됩니다.",
+        "그 블랙박스 안에 가공비 삼십 일과, 끊어진 추적성이 숨어 있습니다."
+      ],
+      "outro_narration": [
+        "해법은 기존을 폐기하는 것이 아니라, 그 위에 구조를 얹는 것입니다.",
+        "단어를 꺼내지 않고, 구조를 출현시킵니다."
+      ],
+      "intro_narration_tts": [
+        "한 줄짜리 평면 자재 리스트가, 블랙박스를 지나 팔 레벨 비오엠이 됩니다.",
+        "그 블랙박스 안에 가공비 삼십 일과, 끊어진 추적성이 숨어 있습니다."
+      ]
+    }
+  },
+  "sections": [
+    {
+      "section_id": "sec-diag",
+      "heading": "화학회사의 언어로 조립품을 관리한다",
+      "kicker": "진단",
+      "prose": "회사는 이미 셀·모듈·팩을 만드는 조립품 제조 기업이다. 그러나 정보 시스템은 여전히 조성 중심의 화학회사 모델에 머물러 있다. 이 간극이 모든 문제의 진앙이다.",
+      "pull_quote": "",
+      "chart_refs": [],
+      "map_ref": null,
+      "image_refs": [],
+      "claim_refs": [],
+      "video": {
+        "narration": [
+          "이 회사는 이미 셀과 모듈과 팩을 만드는 조립품 제조 기업입니다.",
+          "그런데 정보 시스템은 아직 화학회사의 조성 중심 사고에 머물러 있습니다.",
+          "조립품을 조성 도구로 관리하는 이 간극이, 문제의 진짜 진앙입니다."
+        ],
+        "highlights": [
+          "조립품 회사인데, 화학회사의 언어로 관리한다",
+          "간극이 문제의 진앙"
+        ],
+        "emphasis": [
+          "조립품 제조 기업",
+          "조성 중심"
+        ]
+      }
+    },
+    {
+      "section_id": "sec-ocml",
+      "heading": "OCML은 BOM이 아니다 — 빠진 한 줄",
+      "kicker": "구조",
+      "prose": "OCML은 분류체계 기반의 1-Level 평면 자재 리스트다. 반제품 구조와 조립 계층, CAD 연결이 모두 빠져 있다. 이것이 E-BOM과 OCML을 가르는 결정적 차이다.",
+      "pull_quote": "반제품이 없으면 가공비를 담을 그릇이 없다.",
+      "chart_refs": [
+        "ch-ocml"
+      ],
+      "map_ref": null,
+      "image_refs": [],
+      "claim_refs": [],
+      "video": {
+        "narration": [
+          "OCML은 자재를 평면으로 나열한 리스트입니다.",
+          "여기에는 반제품 구조도, 부품 계층도, 도면 연결도 없습니다.",
+          "바로 이 빠진 한 줄이 E-BOM과 OCML을 가릅니다."
+        ],
+        "highlights": [
+          "OCML엔 반제품 구조가 없다",
+          "그것이 결정적 차이"
+        ],
+        "emphasis": [
+          "반제품 구조",
+          "부품 계층"
+        ]
+      }
+    },
+    {
+      "section_id": "sec-insp",
+      "heading": "검사는 반제품 노드에 매핑된다",
+      "kicker": "품질",
+      "prose": "검사는 제조 각 단계에서 일어난다. 슬러리 점도, 팬케이크 두께, 셀 OCV. 검사 항목은 반제품·공정 노드에 1대 1로 매핑된다. 반제품이 없는 OCML로는 체계적 검사 매핑이 원천적으로 불가하다.",
+      "pull_quote": "",
+      "chart_refs": [
+        "ch-inspect"
+      ],
+      "map_ref": null,
+      "image_refs": [],
+      "claim_refs": [],
+      "video": {
+        "narration": [
+          "검사는 제조의 각 단계에서 일어납니다.",
+          "슬러리에서는 점도를, 팬케이크에서는 두께를, 셀에서는 전압과 저항을 봅니다.",
+          "검사는 반제품 노드에 일대일로 붙기 때문에, 반제품이 없으면 검사 체계도 설 수 없습니다."
+        ],
+        "highlights": [
+          "검사는 반제품 노드에 1:1로 붙는다",
+          "반제품 없으면 검사도 없다"
+        ],
+        "emphasis": [
+          "반제품 노드",
+          "1대 1"
+        ]
+      }
+    },
+    {
+      "section_id": "sec-cost",
+      "heading": "가공비 30일의 뿌리",
+      "kicker": "원가",
+      "prose": "RFQ 가공비 산정에 30영업일이 걸린다. 그 뿌리는 OCML에 반제품이 없어 가공비를 매핑할 그릇이 없다는 데 있다. 재료비·가공비·간접비의 3층 원가는 반제품 단위에서만 정확히 쌓인다.",
+      "pull_quote": "",
+      "chart_refs": [
+        "ch-cost"
+      ],
+      "map_ref": null,
+      "image_refs": [],
+      "claim_refs": [],
+      "video": {
+        "narration": [
+          "고객 견적에서 가공비를 산정하는 데에만 삼십 영업일이 걸립니다.",
+          "그 뿌리는, 반제품이 없어 가공비를 담을 그릇이 없다는 데 있습니다."
+        ],
+        "highlights": [
+          "가공비 산정 30일",
+          "반제품이 없어 담을 그릇이 없다"
+        ],
+        "emphasis": [
+          "삼십 영업일",
+          "가공비"
+        ],
+        "narration_tts": [
+          "고객 견적에서 가공비를 산정하는 데에만 삼십 영업일이 걸립니다.",
+          "그 뿌리는, 반제품이 없어 가공비를 담을 그릇이 없다는 데 있습니다."
+        ]
+      }
+    },
+    {
+      "section_id": "sec-fix",
+      "heading": "단어를 꺼내지 않고 출현시킨다",
+      "kicker": "처방",
+      "prose": "폐기가 아니라 증축이다. 멍청한 영구 식별자 위에 기존 코드를 공존시키고, 설계자의 입력 경험은 유지하되 시스템이 안에서 BOM 구조를 자동 합성한다. 현행 보존과 산업 표준이라는 두 좌표계를 동시에 운용한다.",
+      "pull_quote": "EBOM이라는 단어를 한 번도 꺼내지 않고, EBOM이 출현하는 것.",
+      "chart_refs": [],
+      "map_ref": null,
+      "image_refs": [],
+      "claim_refs": [],
+      "video": {
+        "narration": [
+          "해법은 폐기가 아니라 증축입니다.",
+          "기존 코드를 그대로 둔 채, 그 위에 영구 식별자를 깝니다.",
+          "설계자는 지금처럼 입력하고, 시스템이 안에서 구조를 자동으로 세웁니다."
+        ],
+        "highlights": [
+          "폐기가 아니라 증축",
+          "단어를 꺼내지 않고 출현시킨다"
+        ],
+        "emphasis": [
+          "영구 식별자",
+          "자동 합성"
+        ]
+      }
+    }
+  ],
+  "charts": [
+    {
+      "chart_id": "ch-ocml",
+      "type": "table",
+      "title": "OCML vs E-BOM",
+      "display": "full",
+      "note": "",
+      "provenance": {
+        "origin": "narrative_inference",
+        "verification": "inferred",
+        "confidence": "medium",
+        "sources": []
+      },
+      "prerendered_svg": null,
+      "data": {
+        "columns": [
+          {
+            "key": "field",
+            "label": "필드",
+            "weight": 1.5
+          },
+          {
+            "key": "ocml",
+            "label": "OCML",
+            "align": "center",
+            "weight": 1.1,
+            "accent": "#d69a5e"
+          },
+          {
+            "key": "ebom",
+            "label": "E-BOM",
+            "align": "center",
+            "weight": 1.1,
+            "accent": "#88b888"
+          },
+          {
+            "key": "note",
+            "label": "비고",
+            "weight": 1.6
+          }
+        ],
+        "rows": [
+          {
+            "cells": {
+              "field": "자재 리스트",
+              "ocml": "✓ 있음",
+              "ebom": "✓ 있음",
+              "note": ""
+            },
+            "highlight": false
+          },
+          {
+            "cells": {
+              "field": "소요량",
+              "ocml": "✓ 1-Cell",
+              "ebom": "✓ 계층별",
+              "note": "스케일링 차이"
+            },
+            "highlight": false
+          },
+          {
+            "cells": {
+              "field": "설계 Loss율",
+              "ocml": "✓ 있음",
+              "ebom": "✓ 있음",
+              "note": "투명 전달"
+            },
+            "highlight": false
+          },
+          {
+            "cells": {
+              "field": "반제품 구조",
+              "ocml": "✗ 없음",
+              "ebom": "✓ 있음",
+              "note": "★ 가장 결정적 차이"
+            },
+            "highlight": true
+          },
+          {
+            "cells": {
+              "field": "부품 계층",
+              "ocml": "✗ 평면",
+              "ebom": "✓ 8레벨",
+              "note": "★ 구조적 차이"
+            },
+            "highlight": true
+          },
+          {
+            "cells": {
+              "field": "CAD 참조",
+              "ocml": "✗ 없음",
+              "ebom": "✓ 있음",
+              "note": ""
+            },
+            "highlight": false
+          },
+          {
+            "cells": {
+              "field": "도면 번호",
+              "ocml": "✗ 없음",
+              "ebom": "✓ 있음",
+              "note": ""
+            },
+            "highlight": false
+          },
+          {
+            "cells": {
+              "field": "공정 정보",
+              "ocml": "✗ 없음",
+              "ebom": "부분적",
+              "note": "M-BOM에서 추가"
+            },
+            "highlight": false
+          },
+          {
+            "cells": {
+              "field": "사이트/플랜트",
+              "ocml": "✗ 없음",
+              "ebom": "✗ 없음",
+              "note": "M-BOM에서 추가"
+            },
+            "highlight": false
+          },
+          {
+            "cells": {
+              "field": "분류 체계",
+              "ocml": "✓ taxonomy",
+              "ebom": "✗ 없음",
+              "note": "직교 범주"
+            },
+            "highlight": false
+          }
+        ]
+      }
+    },
+    {
+      "chart_id": "ch-inspect",
+      "type": "table",
+      "title": "반제품별 검사 매핑",
+      "display": "full",
+      "note": "",
+      "provenance": {
+        "origin": "narrative_inference",
+        "verification": "inferred",
+        "confidence": "medium",
+        "sources": []
+      },
+      "prerendered_svg": null,
+      "data": {
+        "columns": [
+          {
+            "key": "node",
+            "label": "반제품(M-BOM)",
+            "weight": 1.3
+          },
+          {
+            "key": "proc",
+            "label": "공정",
+            "weight": 1.0,
+            "accent": "#d69a5e"
+          },
+          {
+            "key": "item",
+            "label": "검사 항목",
+            "weight": 1.4
+          },
+          {
+            "key": "crit",
+            "label": "합격 기준",
+            "weight": 1.2
+          },
+          {
+            "key": "spc",
+            "label": "SPC",
+            "align": "center",
+            "weight": 0.5
+          }
+        ],
+        "rows": [
+          {
+            "cells": {
+              "node": "Anode Slurry",
+              "proc": "혼합",
+              "item": "점도·고형분·분산도",
+              "crit": "3000±500cP",
+              "spc": "●"
+            }
+          },
+          {
+            "cells": {
+              "node": "Anode Pancake",
+              "proc": "코팅",
+              "item": "두께·로딩·밀도",
+              "crit": "두께 ±3μm",
+              "spc": "●"
+            }
+          },
+          {
+            "cells": {
+              "node": "Anode Pancake",
+              "proc": "프레싱",
+              "item": "밀도·접착력",
+              "crit": "1.55±0.03",
+              "spc": "●"
+            }
+          },
+          {
+            "cells": {
+              "node": "Notched Pancake",
+              "proc": "노칭",
+              "item": "치수·버 높이",
+              "crit": "버 ≤30μm",
+              "spc": "○"
+            }
+          },
+          {
+            "cells": {
+              "node": "Stacked Cell",
+              "proc": "적층",
+              "item": "정렬도",
+              "crit": "±0.3mm",
+              "spc": "●"
+            }
+          },
+          {
+            "cells": {
+              "node": "Cell Assembly",
+              "proc": "주액",
+              "item": "주액량·시간",
+              "crit": "주액량 ±2%",
+              "spc": "●"
+            }
+          },
+          {
+            "cells": {
+              "node": "Cell Assembly",
+              "proc": "봉합",
+              "item": "강도·외관",
+              "crit": "≥15N/mm",
+              "spc": "○"
+            }
+          },
+          {
+            "cells": {
+              "node": "Cell (최종)",
+              "proc": "Formation",
+              "item": "OCV·IR·용량",
+              "crit": "3.65±0.05V",
+              "spc": "●"
+            }
+          },
+          {
+            "cells": {
+              "node": "Cell (최종)",
+              "proc": "Aging",
+              "item": "자기방전율",
+              "crit": "<3mV/24h",
+              "spc": "●"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "chart_id": "ch-cost",
+      "type": "bar",
+      "title": "Cell 원가 구성 (₩)",
+      "display": "full",
+      "note": "",
+      "provenance": {
+        "origin": "narrative_inference",
+        "verification": "inferred",
+        "confidence": "medium",
+        "sources": []
+      },
+      "prerendered_svg": null,
+      "data": [
+        {
+          "label": "재료비",
+          "value": 45200
+        },
+        {
+          "label": "가공비",
+          "value": 12800
+        },
+        {
+          "label": "간접비",
+          "value": 3200
+        }
+      ]
+    }
+  ],
+  "map": null,
+  "claims": [],
+  "signals": [
+    {
+      "signal": "R2 수량 배분 K 분해식",
+      "description": "120.810g이 304.398g이 되는 정확한 계산식",
+      "indicates": "가공비 산정의 핵심 열쇠",
+      "deadline": "Phase 0",
+      "verification": "unverified"
+    },
+    {
+      "signal": "역산 블랙박스의 정체",
+      "description": "순방향 외에 역산 블랙박스가 별도로 존재",
+      "indicates": "역류 경로 양성화 가능성",
+      "deadline": "Phase 0",
+      "verification": "unverified"
+    },
+    {
+      "signal": "임시자재코드 주관 3곳",
+      "description": "채번 룰·속성·반제품 주관 미결",
+      "indicates": "주인 없는 8번째 코드 변종 위험",
+      "deadline": "Phase 0",
+      "verification": "unverified"
+    },
+    {
+      "signal": "입도 매핑 3난제",
+      "description": "두께·초기충전용량·전해액 조성의 의미론적 매핑",
+      "indicates": "코드보다 깊은 불일치",
+      "deadline": "Phase 1",
+      "verification": "unverified"
+    }
+  ],
+  "contradictions": [
+    {
+      "side_a": "원가팀 — 코드 없는 자재는 분석할 수 없습니다",
+      "side_b": "설계팀 — 새 자재인데 어떻게 코드가 있습니까",
+      "evidence": "RFQ 단계에서 신규 자재가 거론될 때마다 반복되는 교착.",
+      "resolution": "자재에 생애주기 상태를 도입해 양산 이전에도 임시 ID로 존재하게 한다."
+    }
+  ],
+  "sources": [
+    {
+      "source_id": "src-1",
+      "url": "",
+      "publisher": "v0.4 통합 진단·청사진",
+      "title": "R&D 마스터 정보 시스템 구축 프로젝트 v0.4",
+      "fetched_at": "2026-06-11"
+    },
+    {
+      "source_id": "src-2",
+      "url": "",
+      "publisher": "Phase 0 작업계획서",
+      "title": "정밀 진단 12주 계획",
+      "fetched_at": "2026-06-11"
+    },
+    {
+      "source_id": "src-3",
+      "url": "",
+      "publisher": "BOM Architecture Guide",
+      "title": "Digital Thread · OCML 분석",
+      "fetched_at": "2026-06-11"
+    }
+  ],
+  "confidence": {
+    "score": 0.72,
+    "summary": "1차 사실관계(회의 확인·v0.4 진단)는 일치하게 확인되며, 미래 분기점(K 분해식·역산 블랙박스 등)은 미검증 신호로 보수 처리."
+  },
+  "timeline": {
+    "heading": "절반의 길을 완성한다 — 단계별 로드맵",
+    "points": [
+      {
+        "date": "2024-11-01",
+        "label": "각형 셀 파이프라인 오픈",
+        "phase": "past",
+        "note": "설계·구축 성공, 활용 정착은 미완"
+      },
+      {
+        "date": "2026-06-01",
+        "label": "구조 문제 전원 인지",
+        "phase": "present",
+        "note": "c-DN↔PLM 단절 공식 확인"
+      },
+      {
+        "date": "2026-09-01",
+        "label": "Phase 0 정밀 진단 완료",
+        "phase": "future",
+        "note": "5규칙 초안 · KPI 베이스라인"
+      },
+      {
+        "date": "2027-01-01",
+        "label": "Phase 1 To-Be 설계",
+        "phase": "future",
+        "note": "Layer A/B/C · 역류 경로"
+      },
+      {
+        "date": "2027-07-01",
+        "label": "Phase 2 파일럿",
+        "phase": "future",
+        "note": "RFQ 리드타임 30일 → 10~15일"
+      }
+    ],
+    "video": {
+      "narration": [
+        "이미 절반의 길은 와 있습니다. 각형 셀 파이프라인을 열었지만 정착은 미완입니다.",
+        "남은 절반은, 분단된 시스템들 위에 얇은 통합 레이어를 까는 일입니다."
+      ]
+    }
+  }
+}
