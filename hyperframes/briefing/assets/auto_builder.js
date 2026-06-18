@@ -748,6 +748,90 @@
         (v) => v.toFixed(2), t0 + 1.6, 1.2, "power2.out");
       tl.fromTo(fill, { scaleX: 0 }, { scaleX: 1, duration: 1.2, ease: "power3.out" }, t0 + 1.6);
     },
+
+    // 표 (비교표·매핑표) — 헤더 등장 후 행 순차 stagger, 강조 행은 accent 바/배경.
+    // "정적 표를 박는 것"(C0 금지)이 아니라 읽기 흐름이 있는 영상용 표.
+    // 셀 선두 기호로 의미색 자동: ✓●→sage / ✗✘✕→oxide / ○→faint.
+    table(sc, sec) {
+      const d = sc.data;
+      const cols = d.columns || [];
+      const rows = d.rows || [];
+      const nCols = cols.length, nRows = rows.length;
+      let cellFont = nCols <= 3 ? 34 : nCols === 4 ? 30 : 27;
+      if (nRows > 8) cellFont -= 3;
+      const headFont = Math.max(20, cellFont - 4);
+      const gridCols = cols.map((c) => Math.max(0.4, c.weight || 1) + "fr").join(" ");
+      const minH = nRows > 8 ? 50 : 60;
+      const tone = (v) => {
+        const s = (v || "").trim();
+        if (s[0] === "✓" || s[0] === "●") return SAGE;
+        if (s[0] === "✗" || s[0] === "✘" || s[0] === "✕") return OXIDE;
+        if (s[0] === "○") return FAINT;
+        return "var(--text)";
+      };
+      const rgba = (hex, a) => {
+        const h = (hex || "").replace("#", "");
+        if (h.length < 6) return "rgba(196,162,101," + a + ")";
+        const n = parseInt(h.slice(0, 6), 16);
+        return "rgba(" + ((n >> 16) & 255) + "," + ((n >> 8) & 255) + "," + (n & 255) + "," + a + ")";
+      };
+
+      const wrap = document.createElement("div");
+      wrap.style.cssText = "position:absolute; left:104px; right:104px; top:316px;";
+
+      const hd = document.createElement("div");
+      hd.style.cssText = "display:grid; grid-template-columns:" + gridCols +
+        "; align-items:end; padding:0 0 12px; border-bottom:2px solid " + rgba(ACCENT, 0.5) + ";";
+      cols.forEach((c) => {
+        const cell = document.createElement("div");
+        cell.textContent = c.label || "";
+        cell.style.cssText = "font-weight:700; font-size:" + headFont + "px; line-height:1.2; color:" +
+          (c.accent || "var(--muted)") + "; text-align:" + (c.align || "left") +
+          "; padding:0 18px; letter-spacing:.3px;";
+        hd.appendChild(cell);
+      });
+      wrap.appendChild(hd);
+
+      const rowEls = [], barEls = [];
+      rows.forEach((r) => {
+        const row = document.createElement("div");
+        row.style.cssText = "position:relative; display:grid; grid-template-columns:" + gridCols +
+          "; align-items:center; min-height:" + minH + "px; border-bottom:1px solid " +
+          "var(--hairline-soft, rgba(255,255,255,0.06));" +
+          (r.highlight ? "background:" + rgba(ACCENT, 0.1) + ";" : "");
+        if (r.highlight) {
+          const bar = document.createElement("div");
+          bar.style.cssText = "position:absolute; left:0; top:0; bottom:0; width:4px; background:" + ACCENT + ";";
+          row.appendChild(bar);
+          barEls.push(bar);
+        }
+        cols.forEach((c, ci) => {
+          const v = ((r.cells || {})[c.key]) || "";
+          const cell = document.createElement("div");
+          cell.textContent = v;
+          cell.style.cssText = "font-weight:" + (ci === 0 ? 600 : 400) + "; font-size:" + cellFont +
+            "px; line-height:1.3; color:" + tone(v) + "; text-align:" + (c.align || "left") +
+            "; padding:8px 18px; word-break:keep-all;";
+          row.appendChild(cell);
+        });
+        wrap.appendChild(row);
+        rowEls.push(row);
+      });
+      sec.appendChild(wrap);
+
+      const t0 = sc.t0;
+      sceneIn(sec, t0);
+      headIn(sec, t0);
+      tl.from(hd, { opacity: 0, y: 14, duration: 0.55, ease: "power3.out" }, t0 + 0.4);
+      rowEls.forEach((row, i) => {
+        tl.from(row, { opacity: 0, y: 18, duration: 0.5, ease: "power3.out" }, t0 + 0.65 + i * 0.11);
+      });
+      barEls.forEach((bar) => {
+        tl.fromTo(bar, { scaleY: 0, transformOrigin: "50% 50%" },
+          { scaleY: 1, duration: 0.5, ease: "power2.out" }, t0 + 1.0);
+      });
+      sceneOut(sec, sc.t1 - 0.5);
+    },
   };
 
   // ── 씬 조립 ──

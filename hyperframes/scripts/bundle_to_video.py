@@ -555,6 +555,46 @@ def build_slopes(charts: list) -> list:
     return out
 
 
+def build_tables(charts: list) -> list:
+    """type=="table" 차트 → 표 씬 데이터 (비교표·매핑표). columns/rows 평면 통과 + clip.
+
+    data 계약: { columns: [{key, label, align?, weight?, accent?}],
+                 rows: [{cells: {key: str}, highlight?: bool}] }.
+    """
+    out = []
+    for c in charts:
+        if c.get("type") != "table" or not isinstance(c.get("data"), dict):
+            continue
+        d = c["data"]
+        cols = [
+            {
+                "key": str(col.get("key", "")),
+                "label": clip(str(col.get("label", "")), 20),
+                "align": col.get("align", "left"),
+                "weight": col.get("weight", 1),
+                "accent": col.get("accent"),
+            }
+            for col in (d.get("columns") or [])
+            if col.get("key")
+        ]
+        rows = []
+        for r in (d.get("rows") or [])[:12]:
+            cells = r.get("cells") or {}
+            rows.append({
+                "cells": {str(k): clip(str(v), 44) for k, v in cells.items()},
+                "highlight": bool(r.get("highlight")),
+            })
+        if not cols or not rows:
+            continue
+        out.append({
+            "columns": cols,
+            "rows": rows,
+            "title": split_unit(c.get("title", ""))[0],
+            "chart_id": c.get("chart_id"),
+        })
+    return out
+
+
 import math
 
 MAPS_DIR = BRIEFING / "assets" / "maps"
@@ -984,6 +1024,23 @@ def convert(bundle_path: Path, out_path: Path, tl_override: str | None = None,
                   sid=sec.get("section_id") if sec else None)
         cues.append(tcue(t0 + 0.6, clip(f"{title_clean}, {cue_tail}.", 75)))
 
+    # 4-c2. 표 (table 차트 있으면 — 비교표/매핑표)
+    for tb in build_tables(charts):
+        t0 = t
+        sec = section_for_chart(sections, tb["chart_id"])
+        k = (sec.get("kicker") if sec else None) or "비교"
+        h = (sec.get("heading") if sec else None) or tb["title"]
+        add_scene("table", 9, "표", {"kicker": k, "title": h},
+                  {"columns": tb["columns"], "rows": tb["rows"]},
+                  sid=sec.get("section_id") if sec else None)
+        first_col = tb["columns"][0]["key"]
+        hl = next((r for r in tb["rows"] if r["highlight"]), None)
+        if hl:
+            cues.append(tcue(t0 + 0.6, clip(
+                f"{tb['title']} — 갈리는 지점은 '{hl['cells'].get(first_col, '')}'입니다.", 75)))
+        else:
+            cues.append(tcue(t0 + 0.6, clip(f"{tb['title']} — 항목별로 나란히 보면 이렇습니다.", 75)))
+
     # 4-d. 스테이트먼트 (계약 video.highlights — 차트 없는 서술 섹션 구제)
     versus_k, versus_h, versus_sid = find_section(
         sections, ["강세", "보수", "쟁점", "대립", "해석"], ("쟁점", "갈리는 시각"))
@@ -1246,6 +1303,9 @@ def preview_charts(out_path: Path, theme_id: str = "ink_brass") -> dict:
     cues = []
     t = 0.0
 
+    def tcue(at, text, tts=None):
+        return {"t": at, "text": text, "tts": tts or tts_of(text)}
+
     def add(stype, dur, chip_label, head, data, cue):
         nonlocal t
         scenes.append({"type": stype, "t0": round(t, 2), "t1": round(t + dur, 2),
@@ -1302,10 +1362,27 @@ def preview_charts(out_path: Path, theme_id: str = "ink_brass") -> dict:
         ]},
         "남은 일정을 레인으로 펼치면 검증의 달력이 됩니다.")
 
+    add("table", 10, "비교", {"kicker": "Table", "title": "OCML vs E-BOM — 빠진 것을 보라"},
+        {"columns": [
+            {"key": "field", "label": "필드", "weight": 1.5},
+            {"key": "ocml", "label": "OCML", "align": "center", "weight": 1.1, "accent": "#d69a5e"},
+            {"key": "ebom", "label": "E-BOM", "align": "center", "weight": 1.1, "accent": "#88b888"},
+            {"key": "note", "label": "비고", "weight": 1.6},
+         ],
+         "rows": [
+            {"cells": {"field": "자재 리스트", "ocml": "✓ 있음", "ebom": "✓ 있음", "note": ""}},
+            {"cells": {"field": "소요량", "ocml": "✓ 1-Cell", "ebom": "✓ 계층별", "note": "스케일링 차이"}},
+            {"cells": {"field": "반제품 구조", "ocml": "✗ 없음", "ebom": "✓ 있음", "note": "★ 가장 결정적 차이"}, "highlight": True},
+            {"cells": {"field": "부품 계층", "ocml": "✗ 평면", "ebom": "✓ 8레벨", "note": "★ 구조적 차이"}, "highlight": True},
+            {"cells": {"field": "CAD 참조", "ocml": "✗ 없음", "ebom": "✓ 있음", "note": ""}},
+            {"cells": {"field": "공정 정보", "ocml": "✗ 없음", "ebom": "부분적", "note": "M-BOM에서 추가"}},
+         ]},
+        "표로 나란히 놓으면, 빠진 한 줄이 드러납니다.")
+
     data = {
         "meta": {"brand": "OSINT BRIEFING", "sub": "차트 갤러리", "date": "2026.06.12",
                  "sourceLine1": "데이터 · 합성 샘플 (비주얼 검증용)",
-                 "sourceLine2": "신규 차트 5유형 — stacked / waterfall / scatter / heatmap / gantt"},
+                 "sourceLine2": "신규 차트 6유형 — stacked / waterfall / scatter / heatmap / gantt / table"},
         "themeId": theme_id,
         "themeVars": {},
         "total": round(t, 2),

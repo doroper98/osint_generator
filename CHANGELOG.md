@@ -1,6 +1,6 @@
 <!--
 tier: 3
-last_synced_with: v0.40.5
+last_synced_with: v0.41.0
 ssot_for: [release-notes]
 depends_on: [README.md, GOAL.md]
 last_review: 2026-06-11
@@ -25,6 +25,31 @@ released 항목은 **append-only**입니다.
 
 ### Fixed
 -
+
+---
+
+## [v0.41.0] — 2026-06-17
+
+### Added
+- **HyperFrames `table` 씬 타입** — 비교표·매핑표(OCML vs E-BOM, 반제품별 검사 매핑 등)를
+  정식 파이프라인(`bundle_to_video.py` → `auto.html`)에서 영상화. 차트 family 밖이라
+  영상화 못 하던 표를, 헤더 등장 후 **행 순차 stagger**(GSAP) + 강조 행(highlight) accent
+  바/배경으로 재렌더 — "정적 표를 박는 것"(C0 금지)이 아닌 읽기 흐름이 있는 표.
+  - `auto_builder.js`: `BUILDERS.table` 신설 (인라인 스타일 + 테마 CSS 변수, `index.html` 미접촉).
+    셀 선두 기호로 의미색 자동: ✓●→sage / ✗✘✕→oxide / ○→faint.
+  - `bundle_to_video.py`: `build_tables(charts)` + 씬 조립 배선. `type=="table"` 차트
+    (`data:{columns,rows}`)를 표 씬으로 변환. chip "표", 강조 행 기반 cue.
+  - `preview_charts()`: 합성 table 케이스(OCML vs E-BOM) 추가 → `--preview-charts` 로 즉시 검수.
+
+### Fixed
+- **`--preview-charts` 복구** — `preview_charts()` 가 호출하던 `tcue` 가 메인 빌드 함수 안에만
+  중첩 정의돼 `NameError` 로 갤러리 생성이 깨져 있었다(기존 결함). preview 스코프에 동일한
+  `tcue` 를 정의해 복구. (table 씬 검수 경로가 이 함수에 의존)
+
+### Notes
+- 폐기된 Remotion 에 잘못 만든 v0.41.x 표 작업(이전 동일 버전번호)은 직전 커밋에서 revert 됨.
+  본 v0.41.0 이 HyperFrames 기반의 "진짜" table 구현이다.
+- 외부 코드 리뷰(C10)는 사용자 지시로 이번에는 생략(나중에 렌더러 리뷰로 갈음).
 
 ---
 
