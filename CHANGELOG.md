@@ -1,6 +1,6 @@
 <!--
 tier: 3
-last_synced_with: v0.41.1
+last_synced_with: v0.40.5
 ssot_for: [release-notes]
 depends_on: [README.md, GOAL.md]
 last_review: 2026-06-11
@@ -25,40 +25,6 @@ released 항목은 **append-only**입니다.
 
 ### Fixed
 -
-
----
-
-## [v0.41.1] — 2026-06-17
-
-### Added
-- **렌더러 리뷰 하니스** — `remotion/review_props.json` (BOM 보고서 실데이터로 채운
-  table×2 + bar + range_bar 4 scene) + npm 스크립트 `review`(mp4) / `review:still`(png) /
-  `review:studio`(인터랙티브). 새 렌더러를 명령 한 줄로 시각 QA 하기 위한 고정 fixture.
-
-### Notes
-- 이 컨테이너에서는 Remotion 헤드리스 크롬 다운로드가 네트워크 egress 정책에 막혀
-  픽셀 렌더가 안 된다(`remotion.media` allowlist 밖, apt chromium 은 snap 스텁). 하니스는
-  allowlist 개방 후 또는 로컬에서 `npm run review`로 즉시 동작한다.
-
----
-
-## [v0.41.0] — 2026-06-17
-
-### Added
-- **Cinematic Table 렌더러** (`remotion/src/charts/table/DataTable.tsx`) — 차트 family 밖이라
-  영상화하지 못하던 **표(table)** 타입을 신설. 헤더 → 행 순차 등장(stagger) + 강조 행
-  (highlight) accent 배경 차오름으로, "정적 표를 화면에 박는 것"(C0 금지)이 아니라
-  읽기 흐름이 있는 영상용 표로 재렌더. 비교표·매핑표(OCML vs E-BOM, 반제품별 검사 매핑 등)
-  분석 보고서 전반에 재사용.
-- 입력 계약: `{ columns: [{key,label,align?,weight?,accent?}], rows: [{cells,highlight?}] }`.
-  셀 선두 기호(✓ ● / ✗ ✘ ✕ / ○)로 의미색 자동 부여(결정론).
-
-### Changed
-- `ChartView` 디스패치에 `case "table"` 추가, `render_io.SUPPORTED_CHART_TYPES` 에 `"table"`
-  등록 — 이제 `claim_refs` 로 참조된 table 차트가 scene 에 attach 된다.
-
-### Tests
-- `tests/test_render_flow.py::test_table_chart_attaches` — table 차트 attach 회귀 잠금.
 
 ---
 

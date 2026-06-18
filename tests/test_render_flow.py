@@ -122,18 +122,6 @@ class TestSceneChartAttach(unittest.TestCase):
                             data=[{"x": "a", "y": 1}, {"x": "b", "y": 2}], provenance=prov),
                 BundleChart(chart_id="ch-unk", type="future_unknown_type", title="미래형",
                             data=[{"x": 1, "y": 2}], provenance=prov),
-                BundleChart(chart_id="ch-table", type="table", title="OCML vs E-BOM",
-                            data={
-                                "columns": [
-                                    {"key": "field", "label": "필드"},
-                                    {"key": "ocml", "label": "OCML", "align": "center"},
-                                    {"key": "ebom", "label": "E-BOM", "align": "center"},
-                                ],
-                                "rows": [
-                                    {"cells": {"field": "반제품 구조", "ocml": "✗ 없음",
-                                               "ebom": "✓ 있음"}, "highlight": True},
-                                ],
-                            }, provenance=prov),
             ],
         )
 
@@ -161,17 +149,6 @@ class TestSceneChartAttach(unittest.TestCase):
         self.assertEqual(props.scenes[0].chartData.type, "line")
         self.assertEqual(props.scenes[0].chartData.chartId, "ch-line")
         self.assertIsNone(props.scenes[1].chartData)
-
-    def test_table_chart_attaches(self) -> None:
-        from orchestrator.render_io import build_render_props
-        from orchestrator.scene_builder import build_scene_manifest
-
-        script = self._script(["ch-table"], [])  # table = cinematic 표 렌더러 (v0.41.0)
-        bundle = self._bundle_with_charts()
-        props = build_render_props(build_scene_manifest(script), script, report_bundle=bundle)
-        self.assertIsNotNone(props.scenes[0].chartData)
-        self.assertEqual(props.scenes[0].chartData.type, "table")
-        self.assertEqual(props.scenes[0].chartData.chartId, "ch-table")
 
     def test_unsupported_type_not_attached(self) -> None:
         from orchestrator.render_io import build_render_props

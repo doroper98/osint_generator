@@ -42,7 +42,7 @@ SUPPORTED_CHART_TYPES = {
     "line", "area", "stacked_area", "small_multiples", "dual_line", "forecast",
     "bar", "lollipop", "range_bar", "stacked", "stacked_bar", "waterfall",
     "scatter", "bubble", "candle", "donut", "gantt", "slope", "heatmap",
-    "network", "sankey", "choropleth", "table",
+    "network", "sankey", "choropleth",
 }
 
 

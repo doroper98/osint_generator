@@ -5,10 +5,7 @@
   "description": "OSINT 브리핑 영상 Remotion 컴포지션 (수직 슬라이스 V3 최소 텍스트 슬라이드)",
   "scripts": {
     "render": "remotion render src/index.ts Briefing",
-    "studio": "remotion studio src/index.ts",
-    "review": "remotion render src/index.ts Briefing out/review.mp4 --props=review_props.json",
-    "review:still": "remotion still src/index.ts Briefing out/review.png --props=review_props.json --frame=180",
-    "review:studio": "remotion studio src/index.ts --props=review_props.json"
+    "studio": "remotion studio src/index.ts"
   },
   "dependencies": {
     "@fontsource/pretendard": "^5.2.5",
