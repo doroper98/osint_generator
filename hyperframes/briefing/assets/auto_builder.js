@@ -757,11 +757,21 @@
       const cols = d.columns || [];
       const rows = d.rows || [];
       const nCols = cols.length, nRows = rows.length;
-      let cellFont = nCols <= 3 ? 34 : nCols === 4 ? 30 : 27;
-      if (nRows > 8) cellFont -= 3;
-      const headFont = Math.max(20, cellFont - 4);
+
+      // 안전 밴드: 헤드(top 150, 제목 54px → ~290) 아래 ~ 자막바(bottom 96 → ~884)/scrim(y850) 위.
+      // 표를 이 밴드 안에 가두고 행 높이를 행 수에 맞춰 자동 축소 → 자막 침범 방지.
+      const TOP = 300, BOTTOM = 812;
+      const availH = BOTTOM - TOP;
+      const headerH = 56;
+      let rowH = Math.max(34, Math.min(76, (availH - headerH) / Math.max(1, nRows)));
+      let cellFont = nCols <= 3 ? 32 : nCols === 4 ? 27 : 23;
+      cellFont = Math.max(17, Math.min(cellFont, Math.floor(rowH * 0.5)));
+      const headFont = Math.max(16, cellFont - 3);
+      const padH = nCols >= 5 ? 12 : 18;
+      const containerH = headerH + nRows * rowH;
+      const top = Math.round(TOP + Math.max(0, (availH - containerH) / 2));
       const gridCols = cols.map((c) => Math.max(0.4, c.weight || 1) + "fr").join(" ");
-      const minH = nRows > 8 ? 50 : 60;
+
       const tone = (v) => {
         const s = (v || "").trim();
         if (s[0] === "✓" || s[0] === "●") return SAGE;
@@ -777,17 +787,18 @@
       };
 
       const wrap = document.createElement("div");
-      wrap.style.cssText = "position:absolute; left:104px; right:104px; top:316px;";
+      wrap.style.cssText = "position:absolute; left:96px; right:96px; top:" + top + "px;";
 
       const hd = document.createElement("div");
       hd.style.cssText = "display:grid; grid-template-columns:" + gridCols +
-        "; align-items:end; padding:0 0 12px; border-bottom:2px solid " + rgba(ACCENT, 0.5) + ";";
+        "; align-items:end; height:" + headerH + "px; padding-bottom:12px; box-sizing:border-box;" +
+        " border-bottom:2px solid " + rgba(ACCENT, 0.5) + ";";
       cols.forEach((c) => {
         const cell = document.createElement("div");
         cell.textContent = c.label || "";
         cell.style.cssText = "font-weight:700; font-size:" + headFont + "px; line-height:1.2; color:" +
           (c.accent || "var(--muted)") + "; text-align:" + (c.align || "left") +
-          "; padding:0 18px; letter-spacing:.3px;";
+          "; padding:0 " + padH + "px; letter-spacing:.3px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;";
         hd.appendChild(cell);
       });
       wrap.appendChild(hd);
@@ -796,8 +807,8 @@
       rows.forEach((r) => {
         const row = document.createElement("div");
         row.style.cssText = "position:relative; display:grid; grid-template-columns:" + gridCols +
-          "; align-items:center; min-height:" + minH + "px; border-bottom:1px solid " +
-          "var(--hairline-soft, rgba(255,255,255,0.06));" +
+          "; align-items:center; height:" + rowH + "px; box-sizing:border-box; overflow:hidden;" +
+          " border-bottom:1px solid var(--hairline-soft, rgba(255,255,255,0.06));" +
           (r.highlight ? "background:" + rgba(ACCENT, 0.1) + ";" : "");
         if (r.highlight) {
           const bar = document.createElement("div");
@@ -810,8 +821,8 @@
           const cell = document.createElement("div");
           cell.textContent = v;
           cell.style.cssText = "font-weight:" + (ci === 0 ? 600 : 400) + "; font-size:" + cellFont +
-            "px; line-height:1.3; color:" + tone(v) + "; text-align:" + (c.align || "left") +
-            "; padding:8px 18px; word-break:keep-all;";
+            "px; line-height:1.25; color:" + tone(v) + "; text-align:" + (c.align || "left") +
+            "; padding:0 " + padH + "px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;";
           row.appendChild(cell);
         });
         wrap.appendChild(row);

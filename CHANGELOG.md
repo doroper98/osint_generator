@@ -1,6 +1,6 @@
 <!--
 tier: 3
-last_synced_with: v0.41.1
+last_synced_with: v0.41.2
 ssot_for: [release-notes]
 depends_on: [README.md, GOAL.md]
 last_review: 2026-06-11
@@ -25,6 +25,17 @@ released 항목은 **append-only**입니다.
 
 ### Fixed
 -
+
+---
+
+## [v0.41.2] — 2026-06-17
+
+### Fixed
+- **`table` 씬 자막 침범·정렬 깨짐** — 표가 `top:316` 에서 높이 제한 없이 행을 쌓아
+  ~980px 까지 흘러내려 하단 자막바(bottom 96 → ~884)·scrim(y850) 을 덮었다(사용자 보고).
+  표를 **안전 밴드 300~812px 에 가두고**, 행 높이를 행 수에 맞춰 자동 축소(34~76px),
+  폰트를 행 높이·열 수에 맞춰 산정. 셀을 고정 높이 1줄(nowrap + ellipsis)로 바꿔
+  좌우 정렬·행 높이 불균일 해소. (`auto_builder.js: BUILDERS.table` 레이아웃 재작성)
 
 ---
 
