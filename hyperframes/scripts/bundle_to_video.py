@@ -630,6 +630,11 @@ def fetch_photos(b: dict, report_id: str) -> dict:
         if rights != "cleared":
             entry["reason"] = f"권리 게이트: rights_status={rights} (cleared 만 사용)"
             continue
+        if not (im.get("credit") or "").strip():
+            # §3.1-a: cleared 의 근거가 출처표기 갈음이므로 credit 없는 cleared 는
+            # 전제 불성립 — 소비측 fail-closed 이중화 (producer 보증과 별개).
+            entry["reason"] = "credit 누락 — §3.1-a 출처표기 갈음 전제 불성립"
+            continue
         if iid not in referenced:
             entry["reason"] = "어느 섹션도 참조하지 않음"
             continue

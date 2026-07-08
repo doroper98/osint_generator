@@ -1,6 +1,6 @@
 <!--
 tier: 3
-last_synced_with: v0.42.1
+last_synced_with: v0.42.2
 ssot_for: [release-notes]
 depends_on: [README.md, GOAL.md]
 last_review: 2026-06-11
@@ -25,6 +25,19 @@ released 항목은 **append-only**입니다.
 
 ### Fixed
 -
+
+---
+
+## [v0.42.2] — 2026-07-08
+
+### Changed
+- **IMAGE_BUNDLE_CONTRACT 확정 + §3.1-a 동기화** — producer(agents_reviewer v8.3.5)
+  emit 구현 완료 통보 반영. cleared 의 의미가 "검증된 재사용 라이선스"에서
+  **"출처표기(credit)로 갈음한 자체 사용"**으로 개정됨(자체 브리핑 영상 한정).
+  계약 사본에 §3.1-a·따름 조건(credit 화면 노출 필수, 용도 한정)·인물 필터 위임을 반영.
+- **credit gate 추가** (`fetch_photos`) — cleared 인데 credit 이 비면 소비측도
+  거부(스킵+사유 기록). §3.1-a 의 법적 전제(출처표기)가 없는 사진은 사용하지 않는
+  fail-closed 이중화. photo 씬 우하단 `사진 · {credit}` 노출은 게이트로 항상 보장.
 
 ---
 

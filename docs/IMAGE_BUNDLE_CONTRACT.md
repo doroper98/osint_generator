@@ -8,8 +8,10 @@ last_review: 2026-07-08
 
 # IMAGE_BUNDLE_CONTRACT — agents_reviewer ↔ osint_generator 사진 필드 계약
 
-> 상태: **제안** (2026-07-08 초안). osint_generator 소비 구현 v0.42.0 완료(선행),
-> agents_reviewer emit 구현 대기. 확정 시 본 헤더를 갱신한다.
+> 상태: **확정** (2026-07-08). osint_generator 소비 구현 v0.42.0~2,
+> agents_reviewer emit 구현 v8.3.5 (§3.1-a 개정 포함). 계약 정본은 agents_reviewer
+> repo `docs/CONTRACTS/IMAGE_BUNDLE_CONTRACT.md` 이며 본 문서는 소비자측 사본
+> (정합 유지 의무).
 
 ## 목적
 
@@ -58,9 +60,17 @@ last_review: 2026-07-08
 
 ## 작성 규칙 (producer 의무)
 
-1. **rights_status 는 판단 근거와 함께**: 보도자료·회사 공식 배포·정부 공공누리·
-   CC 라이선스 등 재사용 근거가 확인된 것만 `cleared`. 불확실하면 `needs_review`
-   (영상은 스킵하고 로그만 남긴다). 무단 전재 위험이 있으면 `blocked`.
+1. **rights_status 판단 기준 — §3.1-a 개정 (2026-07-08, v8.3.5)**: 본 시스템은
+   *봇 본인 사용 목적*(자체 브리핑 영상)이므로 저작권을 **출처표기(credit)로
+   갈음**하는 기존 운영 방침을 따른다. cleared 의 근거:
+   - 정부 공식 배포·보도자료 와이어 도메인 → `cleared` (license="공식 배포")
+   - credit(출처표기)이 채워진 사진 → `cleared` (license="출처표기")
+   - credit 도 근거 도메인도 없는 사진 → `needs_review`
+   즉 cleared 의 의미는 "검증된 재사용 라이선스"가 아니라 **"출처표기로 갈음한
+   자체 사용"**이다. 무단 전재 위험·초상권 우려는 `blocked`.
+   **[§3.1-a 따름 조건]** 이 갈음이 성립하려면 (a) 영상 화면에 credit 이 반드시
+   노출되어야 하고 (b) 용도가 자체 브리핑 영상에 한정된다 — 제3자 재배포·상업
+   판매 용도로 전환 시 본 전제가 깨지므로 계약 재검토가 선행되어야 한다.
 2. **AI 생성 이미지 금지** (osint_generator G4-10). 실사 보도 사진·공식 배포
    이미지·문서 스캔만.
 3. **url 은 원본 직링크**: HTML 페이지가 아니라 이미지 파일. 서명 만료 URL
@@ -70,18 +80,28 @@ last_review: 2026-07-08
 5. 인물 사진은 공인의 공적 활동 장면만. 초상권 우려 장면은 `blocked`.
 6. 한 보고서당 이미지 총 2~6장 권장 (핵심 섹션 위주).
 
-## 영상 쪽 소비 규칙 (osint_generator v0.42.0 구현)
+## 영상 쪽 소비 규칙 (osint_generator v0.42.0~2 구현)
 
 - 빌드 시(`bundle_to_video.py`) `images[]` 를 다운로드해 로컬 자산화
   (`hyperframes/briefing/assets/photos/{report_id}/`). 다운로드 실패·타입 불일치
   는 해당 이미지 스킵 + 로그 (파이프라인은 계속).
 - **rights gate**: `rights_status == "cleared"` 가 아니면 다운로드 자체를 하지
   않는다. 소비 결과는 `photos_manifest.json` 에 기록 (C9 권리 추적).
+- **credit gate (§3.1-a 따름, v0.42.2)**: cleared 인데 credit 이 비어 있으면
+  소비측도 거부(스킵 + 사유 기록) — 출처표기 갈음의 전제가 성립하지 않으므로.
+  (producer 는 "credit 없는 cleared 는 없다"고 보증하나, 소비측 fail-closed 이중화)
+- **credit 화면 노출 필수**: photo 씬 우하단에 `사진 · {credit}` 을 항상 표기한다.
+  §3.1-a 의 법적 전제이므로 연출상 생략 불가.
 - `sections[].image_refs` 가 resolve 되는 섹션의 스테이트먼트 씬을 **photo 씬**
   으로 승격: 풀블리드 사진 + Ken Burns + 스크림 + key takeaway 오버레이 +
-  우하단 `사진 · {credit}` 크레딧.
+  우하단 캡션·크레딧.
 - `images` 부재 시: 기존 동작 그대로 (하위 호환).
+- 인물 사진 추가 필터: 현재 소비측 별도 필터 없음 — producer 의 blocked 처리에
+  위임. producer 가 추후 composer 신호(예: `person_flag`)를 추가하면 소비측
+  게이트를 확장한다.
 
 ## 이력
 
 - 2026-07-08: 초안 작성 (osint_generator v0.42.0 소비 구현 선행).
+- 2026-07-08: **확정** — agents_reviewer v8.3.5 emit 구현 + §3.1-a 개정(출처표기
+  갈음). osint v0.42.2 에서 사본 동기화 + credit gate 추가.
