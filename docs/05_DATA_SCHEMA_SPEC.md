@@ -274,6 +274,7 @@ network/sankey/choropleth (전 타입). `render_io.SUPPORTED_CHART_TYPES` 가 SS
 | charts / map | list[`BundleChart`] / `BundleMap` | 차트 data 모양 SSOT 는 agents_reviewer schemas.py(§9) → `data: Any` |
 | claims | list[`BundleClaim`] | status(=ResearchClaimStatus) 라벨 척추 단일 근거 |
 | signals / contradictions / sources / confidence | list / Optional | 관찰 신호·모순·정규화 출처·신뢰도 |
+| images | list[`BundleImage`] | 보도 사진(additive, v0.42.0). rights_status=cleared 만 영상 삽입(G4-8/C9). 계약: docs/IMAGE_BUNDLE_CONTRACT.md |
 
 핵심 규약: ① **관대한 수신자(tolerant reader, `extra="ignore"`)** — 진화하는 보고서의
 모르는 필드(새 top-level 블록·새 섹션 필드 등)는 무시해 추가 변경에 깨지지 않되, 선언 필드는

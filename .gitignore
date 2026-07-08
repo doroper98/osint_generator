@@ -83,3 +83,6 @@ review-out.jsonl
 hyperframes/briefing/assets/audio/bgm/*.mp3
 hyperframes/briefing/assets/audio/bgm/*.wav
 hyperframes/briefing/assets/audio/bgm/*.m4a
+
+# 보도 사진 로컬 자산 (IMAGE_BUNDLE_CONTRACT — 빌드 시 다운로드, 커밋 금지)
+hyperframes/briefing/assets/photos/

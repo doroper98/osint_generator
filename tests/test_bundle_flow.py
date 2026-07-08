@@ -159,6 +159,31 @@ class TestReportBundleModel(unittest.TestCase):
         self.assertIsNotNone(bundle.timeline)
         self.assertEqual(len(bundle.timeline.points), 1)
 
+    def test_images_accepted_and_refs_resolved(self) -> None:
+        # IMAGE_BUNDLE_CONTRACT: images[] + section.image_refs resolve (v0.42.0).
+        raw = _valid_bundle()
+        raw["images"] = [{
+            "image_id": "img-1", "url": "https://x/y.jpg", "caption": "현장",
+            "credit": "제공", "rights_status": "cleared",
+        }]
+        raw["sections"][0]["image_refs"] = ["img-1"]
+        bundle = ReportBundle.model_validate(raw)
+        self.assertEqual(bundle.images[0].image_id, "img-1")
+        self.assertEqual(bundle.images[0].rights_status, "cleared")
+
+    def test_unresolved_image_ref_rejected(self) -> None:
+        raw = _valid_bundle()
+        raw["sections"][0]["image_refs"] = ["img-404"]
+        with self.assertRaises(Exception):
+            ReportBundle.model_validate(raw)
+
+    def test_duplicate_image_id_rejected(self) -> None:
+        raw = _valid_bundle()
+        img = {"image_id": "img-1", "url": "https://x/y.jpg", "rights_status": "cleared"}
+        raw["images"] = [img, dict(img)]
+        with self.assertRaises(Exception):
+            ReportBundle.model_validate(raw)
+
     def test_unknown_verification_value_rejected(self) -> None:
         raw = _valid_bundle()
         raw["claims"][0]["status"] = "totally_made_up"

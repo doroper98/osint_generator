@@ -1,6 +1,6 @@
 <!--
 tier: 3
-last_synced_with: v0.41.2
+last_synced_with: v0.42.0
 ssot_for: [release-notes]
 depends_on: [README.md, GOAL.md]
 last_review: 2026-06-11
@@ -25,6 +25,32 @@ released 항목은 **append-only**입니다.
 
 ### Fixed
 -
+
+---
+
+## [v0.42.0] — 2026-07-08
+
+### Added
+- **IMAGE_BUNDLE_CONTRACT** (`docs/IMAGE_BUNDLE_CONTRACT.md`, 제안) — agents_reviewer 가
+  보도 사진을 `images[]`(image_id/url/caption/credit/**rights_status**/license/source_id/focus)
+  로 emit 하고 `sections[].image_refs`(기존 필드)로 연결하는 계약 초안. additive,
+  schema_version 1 유지. **rights_status=cleared 만 영상 삽입** (G4-8/C9).
+- **소비측 선행 구현 (v0.42.0)**:
+  - `schemas/models.py`: `BundleImage` + `ReportBundle.images` + image_refs resolve /
+    중복 id 검증 (fail-closed).
+  - `bundle_to_video.py: fetch_photos()` — cleared 만 다운로드(12MB 캡·타입 검사),
+    로컬 자산화(`assets/photos/{report_id}/`), 실패는 스킵+로그, 전 건
+    `photos_manifest.json` 권리 기록(C9). 로컬 경로 url 지원(테스트/오프라인).
+  - 씬 조립: 사진 있는 섹션의 스테이트먼트를 **photo 씬으로 승격** (같은 sid →
+    계약 나레이션 cue 그대로 승계).
+  - `auto_builder.js: BUILDERS.photo` — 풀블리드 + **Ken Burns**(focus 힌트) +
+    상/하 스크림 + key takeaway 오버레이(em accent) + 우하단 캡션·"사진 · credit".
+  - `--preview-charts` 에 photo 케이스(로컬 SVG 플레이스홀더, 네트워크 불필요).
+- `.gitignore`: `hyperframes/briefing/assets/photos/` (빌드 산출물, 커밋 금지).
+
+### Notes
+- agents_reviewer 쪽 emit 구현 대기 — 계약 본문은 사용자가 전달. images 부재 시
+  기존 동작 그대로(하위 호환, 실측 20개 번들 전부 통과).
 
 ---
 

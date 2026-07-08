@@ -843,6 +843,76 @@
       });
       sceneOut(sec, sc.t1 - 0.5);
     },
+
+    // 보도 사진 (IMAGE_BUNDLE_CONTRACT) — 풀블리드 + Ken Burns + 스크림 위 takeaway.
+    // rights 게이트는 변환기(fetch_photos)가 통과시킨 cleared 사진만 여기 도달한다.
+    photo(sc, sec) {
+      const d = sc.data;
+      const originMap = { center: "50% 50%", top: "50% 22%", bottom: "50% 78%",
+                          left: "28% 50%", right: "72% 50%" };
+      const origin = originMap[d.focus] || originMap.center;
+
+      const box = document.createElement("div");
+      box.style.cssText = "position:absolute; inset:0; overflow:hidden;";
+      const img = document.createElement("img");
+      img.src = d.src;
+      img.alt = d.caption || "";
+      img.style.cssText = "width:100%; height:100%; object-fit:cover; display:block;" +
+        " transform-origin:" + origin + ";";
+      box.appendChild(img);
+      // 스크림 — 상단(헤드 가독) + 하단(문장·자막 가독)
+      const scrimTop = document.createElement("div");
+      scrimTop.style.cssText = "position:absolute; left:0; right:0; top:0; height:340px;" +
+        " background:linear-gradient(180deg, rgba(10,12,16,0.78) 0%, rgba(10,12,16,0) 100%);";
+      const scrimBot = document.createElement("div");
+      scrimBot.style.cssText = "position:absolute; left:0; right:0; bottom:0; height:460px;" +
+        " background:linear-gradient(0deg, rgba(10,12,16,0.85) 0%, rgba(10,12,16,0) 100%);";
+      box.appendChild(scrimTop);
+      box.appendChild(scrimBot);
+      sec.appendChild(box);
+
+      // takeaway 오버레이 (statement lines 재사용 — em 은 accent)
+      const lines = d.lines || [];
+      const lwrap = document.createElement("div");
+      lwrap.style.cssText = "position:absolute; left:96px; bottom:250px; width:1180px;";
+      const rows = lines.map((segs, i) => {
+        const row = document.createElement("div");
+        row.style.cssText = "font-size:38px; font-weight:700; line-height:1.4;" +
+          " color:#f4f6f9; margin-top:" + (i ? 14 : 0) + "px;" +
+          " text-shadow:0 2px 14px rgba(0,0,0,0.55);";
+        segs.forEach(([txt, em]) => {
+          const sp = document.createElement("span");
+          sp.textContent = txt;
+          if (em) sp.style.color = ACCENT;
+          row.appendChild(sp);
+        });
+        lwrap.appendChild(row);
+        return row;
+      });
+      sec.appendChild(lwrap);
+
+      // 캡션 + 크레딧 (우하단, 자막 영역 오른쪽 여백)
+      const cred = document.createElement("div");
+      cred.style.cssText = "position:absolute; right:96px; bottom:118px; text-align:right;" +
+        " font-size:15px; line-height:1.6; color:rgba(244,246,249,0.75);" +
+        " text-shadow:0 1px 6px rgba(0,0,0,0.5);";
+      cred.innerHTML = (d.caption ? d.caption + "<br/>" : "") +
+        (d.credit ? "사진 · " + d.credit : "");
+      sec.appendChild(cred);
+
+      const t0 = sc.t0, dur = sc.t1 - sc.t0;
+      sceneIn(sec, t0);
+      headIn(sec, t0);
+      // Ken Burns — 씬 전체 길이 동안 천천히 (결정론, ease 없는 선형에 가깝게)
+      tl.fromTo(img, { scale: 1.12 }, { scale: 1.02, duration: dur, ease: "none" }, t0);
+      tl.from(box, { opacity: 0, duration: 0.9, ease: "power2.out" }, t0);
+      rows.forEach((row, i) => {
+        tl.from(row, { opacity: 0, y: 22, duration: 0.7, ease: "power3.out" },
+          t0 + 1.0 + i * 0.5);
+      });
+      tl.from(cred, { opacity: 0, duration: 0.6 }, t0 + 1.2);
+      sceneOut(sec, sc.t1 - 0.5);
+    },
   };
 
   // ── 씬 조립 ──

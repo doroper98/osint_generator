@@ -1111,6 +1111,22 @@ class BundleTimeline(_BundleModel):
     points: list[BundleTimelinePoint] = Field(default_factory=list)
 
 
+class BundleImage(_BundleModel):
+    """보도 사진 1장 (docs/IMAGE_BUNDLE_CONTRACT.md). 섹션 image_refs 로 참조되어
+    영상 photo 씬이 된다. rights_status == "cleared" 만 영상에 삽입한다(G4-8/C9) —
+    소비측(bundle_to_video)이 게이트를 강제하고 photos_manifest 에 기록한다.
+    """
+
+    image_id: str
+    url: str
+    caption: str = ""
+    credit: str = ""
+    rights_status: Literal["cleared", "needs_review", "blocked"] = "needs_review"
+    license: str = ""
+    source_id: str = ""
+    focus: Literal["center", "top", "bottom", "left", "right"] = "center"
+
+
 class ReportBundle(VersionedModel):
     """agents_reviewer → osint_generator 핸드오프 (인터페이스 계약 v1).
 
@@ -1136,6 +1152,8 @@ class ReportBundle(VersionedModel):
     confidence: Optional[BundleConfidence] = None
     # 진화 수용 예: v5.5.2 가 추가한 연표. 현재는 보관만(영상 소비는 추후 — 타임라인 비주얼).
     timeline: Optional[BundleTimeline] = None
+    # 보도 사진 (IMAGE_BUNDLE_CONTRACT, additive). 부재 시 기존 동작(하위 호환).
+    images: list[BundleImage] = Field(default_factory=list)
 
     @model_validator(mode="after")
     def _check_referential_integrity(self) -> "ReportBundle":
@@ -1144,10 +1162,17 @@ class ReportBundle(VersionedModel):
             ("section_id", [s.section_id for s in self.sections]),
             ("claim_id", [c.claim_id for c in self.claims]),
             ("source_id", [s.source_id for s in self.sources]),
+            ("image_id", [i.image_id for i in self.images]),
         ):
             dupes = sorted({i for i in ids if ids.count(i) > 1})
             if dupes:
                 raise ValueError(f"중복 {label}: {dupes}")
+
+        image_ids = {i.image_id for i in self.images}
+        for s in self.sections:
+            bad = [r for r in s.image_refs if r not in image_ids]
+            if bad:
+                raise ValueError(f"section {s.section_id} 의 미해결 image_refs: {bad}")
 
         chart_ids = {c.chart_id for c in self.charts}
         claim_ids = {c.claim_id for c in self.claims}
