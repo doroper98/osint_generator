@@ -858,8 +858,12 @@ def quote_segments(text: str) -> list:
 
 def build_closing(report: dict, sections: list, confidence: dict, skip_pq: bool = False) -> dict:
     pq = None if skip_pq else next((s.get("pull_quote") for s in sections if s.get("pull_quote")), None)
-    quote_text = clip(pq or sentences(report.get("closing", ""))[0], 90)
     closing_sents = sentences(report.get("closing", ""))
+    # closing 이 빈 실번들(v8.3.3 관측) 대비: pull_quote → closing → deck → headline 순 폴백.
+    quote_text = clip(
+        pq or (closing_sents[0] if closing_sents else "")
+        or (sentences(report.get("deck", "")) or [""])[0]
+        or report.get("headline", ""), 90)
     return {
         "quote": quote_segments(quote_text),
         "closing": clip(" ".join(closing_sents[:2]), 170),
@@ -1209,7 +1213,10 @@ def convert(bundle_path: Path, out_path: Path, tl_override: str | None = None,
     closing = build_closing(report, sections, b.get("confidence") or {}, skip_pq=bool(pq))
     k, h = (sections[-1].get("kicker"), sections[-1].get("heading")) if sections else ("Outlook", "다음 좌표")
     add_scene("closing", 9, "향방", {"kicker": k or "Outlook", "title": h or "다음 좌표"}, closing, sid="__outro")
-    cues.append(tcue(t0 + 0.4, clip(sentences(report.get("closing", ""))[0], 58)))
+    # closing 빈 실번들(v8.3.3 관측) 폴백 — deck 첫 문장. (__outro 계약 narration 이 있으면 어차피 대체됨)
+    closing_first = (sentences(report.get("closing", "")) or sentences(report.get("deck", "")) or [""])[0]
+    if closing_first:
+        cues.append(tcue(t0 + 0.4, clip(closing_first, 58)))
     cues.append(tcue(t0 + 4.2, f"신뢰도 {closing['confidence']['score']:.2f} — 근거와 한계는 화면과 같습니다."))
 
     # ── 계약 narration → cue 교체 (검증 통과 문장만, 섹션 시간창에 균등 배치) ──

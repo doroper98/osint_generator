@@ -1,6 +1,6 @@
 <!--
 tier: 3
-last_synced_with: v0.42.0
+last_synced_with: v0.42.1
 ssot_for: [release-notes]
 depends_on: [README.md, GOAL.md]
 last_review: 2026-06-11
@@ -25,6 +25,21 @@ released 항목은 **append-only**입니다.
 
 ### Fixed
 -
+
+---
+
+## [v0.42.1] — 2026-07-08
+
+### Added
+- **사진 포함 데모 번들** (`samples/skt_aidc/`) — 실번들(SKT AIDC, v8.3.3)에 합성 데모
+  사진 3장(데이터센터 복도/GPU 보드/산업단지 야경, PIL 절차 생성·"합성 샘플" 명시)을
+  images[]+image_refs 로 연결. 한 줄 실행으로 photo 씬 3개가 든 144초 브리핑 조립 확인
+  (s1 야경 / s2 데이터센터 / s8 GPU — 계약 나레이션 30문장 승계).
+
+### Fixed
+- **빈 closing 실번들 크래시 2건** — v8.3.3 실번들은 `report.closing=""` 가 흔한데
+  `build_closing`/클로징 cue 가 `sentences("")[0]` 로 IndexError. pull_quote → closing →
+  deck → headline 순 폴백으로 수정.
 
 ---
 
