@@ -57,12 +57,18 @@ class TestApplyPronunciation(unittest.TestCase):
         # 단순 숫자만 — sino-Korean 변환 (음절 붙임, TTS-AP-058).
         self.assertEqual(apply_pronunciation("19"), "십구")
 
-    def test_number_then_hangul_unit_inserts_space(self) -> None:
-        """TTS-AP-055 / 보충: 숫자 뭉치 뒤 한글 단위어 사이에만 공백 1칸.
-        숫자 내부는 붙이고(TTS-AP-058) 단위어와의 경계만 띄운다."""
-        self.assertEqual(apply_pronunciation("80달러"), "팔십 달러")
-        self.assertEqual(apply_pronunciation("19일"), "십구 일")
-        self.assertEqual(apply_pronunciation("5월"), "오 월")
+    def test_number_then_hangul_unit_attached(self) -> None:
+        """TTS-AP-065: 숫자와 단위어는 붙인다 — 한 호흡이어야 연음·경음이 산다.
+        (기존 '공백 삽입' 방침은 [백육십팔 / 딸러]로 끊겨 폐기 — 실청취 피드백 2026-07-12)"""
+        self.assertEqual(apply_pronunciation("80달러"), "팔십달러")
+        self.assertEqual(apply_pronunciation("19일"), "십구일")
+        self.assertEqual(apply_pronunciation("5월"), "오월")
+
+    def test_thousands_comma_merged(self) -> None:
+        """TTS-AP-064: 천단위 콤마는 하나의 수로 — '일,삼백구십오,영 원' 파탄 방지."""
+        self.assertEqual(apply_pronunciation("1,395,000원"), "백삼십구만오천원")
+        self.assertEqual(apply_pronunciation("339,500원"), "삼십삼만구천오백원")
+        self.assertEqual(apply_pronunciation("2,700"), "이천칠백")
 
     def test_dict_overrides_take_precedence(self) -> None:
         """TTS-AP-054: 외래어 경음화 매핑."""
@@ -72,7 +78,7 @@ class TestApplyPronunciation(unittest.TestCase):
     def test_dict_then_number_combined(self) -> None:
         """사용자 사전 적용 후 남은 숫자 자동 변환 — 둘 다 작동."""
         d = {"달러": "딸러"}
-        self.assertEqual(apply_pronunciation("102달러", d), "백이 딸러")
+        self.assertEqual(apply_pronunciation("102달러", d), "백이딸러")
 
     def test_percent_mapping(self) -> None:
         """TTS-AP-056: % 직접 사용 회피."""
@@ -86,7 +92,7 @@ class TestApplyPronunciation(unittest.TestCase):
         self.assertEqual(apply_pronunciation("20%", d), "이십 퍼센트")
 
     def test_no_mapping_none_safe(self) -> None:
-        self.assertEqual(apply_pronunciation("102달러", None), "백이 달러")
+        self.assertEqual(apply_pronunciation("102달러", None), "백이달러")
 
     def test_underscore_key_in_dict_filtered(self) -> None:
         """load_dict 가 _comment 같은 메타 key 를 필터 (적용 안 함)."""
