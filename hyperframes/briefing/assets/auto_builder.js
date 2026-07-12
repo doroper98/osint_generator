@@ -596,6 +596,120 @@
       sceneOut(sec, sc.t1 - 0.5);
     },
 
+    globe(sc, sec) {
+      // 르포 지구본 — d3 정사영(orthographic) + 자전 + 대권 호 흐름 + 마커 펄스 +
+      // 당사국 역할 색조 (reportage_globe_mockup 대응). 결정론: 애니메이션은 GSAP
+      // 타임라인 시간(elapsed)의 순수 함수 — d3.timer(벽시계) 미사용, 프레임 seek 안전.
+      const d3 = window.d3, topojson = window.topojson, world = window.WORLD_110M;
+      const svg = SK.svgEl("svg", { viewBox: "0 0 1920 1080", style: "position:absolute; inset:0;" });
+      sec.appendChild(svg);
+      const S = d3.select(svg);
+      const land = topojson.feature(world, world.objects.countries);
+      const borders = topojson.mesh(world, world.objects.countries, (a, b) => a !== b);
+
+      const CX = 1250, CY = 566, R = 452;
+      const cardC = cv("--surface", "#1d1d21"), bgC = cv("--bg0", "#121214");
+      const lineC = cv("--hairline", "rgba(236,233,226,0.16)");
+      const softC = cv("--hairline-soft", "rgba(236,233,226,0.08)");
+      const mutedC = cv("--muted", "#a39e92"), textC = cv("--text", "#ece9e2");
+
+      const mk = sc.data.markers || [];
+      const arcs = sc.data.arcs || [];
+      const byId = {}; mk.forEach((m) => (byId[m.id] = m));
+      let clon = 0, clat = 0;
+      if (mk.length) {
+        clon = mk.reduce((s, m) => s + m.lng, 0) / mk.length;
+        clat = mk.reduce((s, m) => s + m.lat, 0) / mk.length;
+      }
+      const baseLat = Math.max(-52, Math.min(52, clat));
+      const proj = d3.geoOrthographic().scale(R).translate([CX, CY]).clipAngle(90).rotate([-clon, -baseLat]);
+      const path = d3.geoPath(proj);
+      const arcColor = (a) => (a.kind === "tension" || a.kind === "rival" || a.kind === "conflict" ? OXIDE : ACCENT);
+
+      // 역할 색조 — 하이라이트 마커가 위치한 국가 = 당사국 (init 1회 계산)
+      const roleName = {};
+      mk.forEach((m) => {
+        if (!m.hi) return;
+        const f = land.features.find((ft) => d3.geoContains(ft, [m.lng, m.lat]));
+        if (f) roleName[f.properties.name] = ACCENT;
+      });
+
+      const sphere = S.append("path").datum({ type: "Sphere" }).attr("fill", cardC).attr("stroke", lineC).attr("stroke-width", 1.2);
+      const grat = S.append("path").datum(d3.geoGraticule10()).attr("fill", "none").attr("stroke", softC).attr("stroke-width", 0.6);
+      const landP = S.append("path").datum(land).attr("fill", bgC).attr("stroke", lineC).attr("stroke-width", 0.5);
+      const roleG = S.append("g");
+      const bord = S.append("path").datum(borders).attr("fill", "none").attr("stroke", lineC).attr("stroke-width", 0.6);
+      const arcG = S.append("g");
+      const markG = S.append("g");
+      const labelG = S.append("g");
+
+      function renderGlobe(elapsed) {
+        const drift = 16 * Math.sin(elapsed * 0.16); // ±16° 완만한 자전 (마커 시야 유지)
+        proj.rotate([-clon + drift, -baseLat]);
+        sphere.attr("d", path); grat.attr("d", path); landP.attr("d", path); bord.attr("d", path);
+        roleG.selectAll("path").data(land.features).join("path").attr("d", path)
+          .attr("fill", (d) => roleName[d.properties.name] || "none")
+          .attr("fill-opacity", (d) => (roleName[d.properties.name] ? 0.45 : 0)).attr("stroke", "none");
+        const rot = proj.rotate(); const center = [-rot[0], -rot[1]];
+        arcG.selectAll("path").data(arcs).join("path")
+          .attr("d", (a) => { const A = byId[a.from], B = byId[a.to]; return A && B ? path({ type: "LineString", coordinates: [[A.lng, A.lat], [B.lng, B.lat]] }) : null; })
+          .attr("fill", "none").attr("stroke", arcColor).attr("stroke-width", 2.4)
+          .attr("stroke-linecap", "round").attr("stroke-dasharray", "3 9")
+          .attr("stroke-dashoffset", -elapsed * 26).attr("opacity", 0.95);
+        const pr = 8 + 5 * Math.abs(Math.sin(elapsed * 1.7));
+        markG.selectAll("g.mk").data(mk).join((en) => {
+          const g = en.append("g").attr("class", "mk");
+          g.append("circle").attr("class", "ring"); g.append("circle").attr("class", "dot"); return g;
+        }).each(function (m) {
+          const vis = d3.geoDistance([m.lng, m.lat], center) < Math.PI / 2;
+          const p = proj([m.lng, m.lat]); const g = d3.select(this);
+          if (!vis || !p) { g.attr("opacity", 0); return; }
+          g.attr("opacity", 1);
+          g.select(".ring").attr("cx", p[0]).attr("cy", p[1]).attr("r", m.hi ? pr : 5)
+            .attr("fill", "none").attr("stroke", m.hi ? ACCENT : mutedC).attr("stroke-width", 1.8).attr("opacity", m.hi ? 0.9 : 0.55);
+          g.select(".dot").attr("cx", p[0]).attr("cy", p[1]).attr("r", m.hi ? 4.5 : 2.8)
+            .attr("fill", m.hi ? ACCENT : mutedC).attr("stroke", "none");
+        });
+        const labeled = mk.filter((m) => m.hi && m.name).slice(0, 4);
+        labelG.selectAll("text").data(labeled).join("text").each(function (m) {
+          const vis = d3.geoDistance([m.lng, m.lat], center) < Math.PI / 2;
+          const p = proj([m.lng, m.lat]); const t = d3.select(this);
+          if (!vis || !p) { t.attr("opacity", 0); return; }
+          const rightSide = p[0] > 1540;  // 오른쪽 가장자리 마커는 라벨을 왼쪽으로 (화면 밖 방지)
+          t.attr("opacity", 1).attr("x", rightSide ? p[0] - 16 : p[0] + 16).attr("y", p[1] + 7)
+            .attr("text-anchor", rightSide ? "end" : "start").text(m.name)
+            .attr("fill", textC).attr("font-size", 27).attr("font-weight", 700)
+            .attr("font-family", "'GmarketSans', 'Noto Sans KR', sans-serif")
+            .attr("paint-order", "stroke").attr("stroke", bgC).attr("stroke-width", 5).attr("stroke-linejoin", "round");
+        });
+      }
+
+      const lg = document.createElement("div");
+      lg.className = "legend-row";
+      (sc.data.legend || []).forEach((item) => {
+        const el = document.createElement("div"); el.className = "item";
+        const sw = document.createElement("div"); sw.className = "swatch";
+        sw.style.borderTopColor = (item.kind === "tension" || item.kind === "rival") ? OXIDE : ACCENT;
+        sw.style.borderTopStyle = "solid"; el.appendChild(sw);
+        const sp = document.createElement("span"); sp.textContent = item.label; el.appendChild(sp); lg.appendChild(el);
+      });
+      if (sc.data.inferred) {
+        const tag = document.createElement("div"); tag.className = "item";
+        tag.style.color = OXIDE; tag.textContent = "지도 · 분석 추정"; lg.appendChild(tag);
+      }
+      sec.appendChild(lg);
+
+      renderGlobe(0);
+      const t0 = sc.t0, dur = sc.t1 - sc.t0;
+      sceneIn(sec, t0); headIn(sec, t0);
+      tl.from(svg, { opacity: 0, duration: 1.0, ease: "power2.out" }, t0 + 0.1);
+      tl.from(lg, { opacity: 0, x: 20, duration: 0.5 }, t0 + 0.6);
+      // 결정론 자전/흐름/펄스 — elapsed 를 타임라인 시간으로 구동 (seek 안전)
+      const st = { e: 0 };
+      tl.to(st, { e: dur, duration: dur, ease: "none", onUpdate: () => renderGlobe(st.e) }, t0);
+      sceneOut(sec, sc.t1 - 0.5);
+    },
+
     geonet(sc, sec) {
       // 관계망 (network 차트) — 중심+원형 배치, 국기 노드, 하이브리드 라우팅/흐름 펄스 재사용
       const svg = SK.svgEl("svg", { viewBox: "0 0 1920 1080", style: "position:absolute; inset:0;" });
@@ -975,7 +1089,9 @@
     sections.push(sec);
     gsap.set(sec, { autoAlpha: 0 });
     chip(sc.t0, sc.chip);
-    BUILDERS[sc.type](sc, sec);
+    // 방어적 격리 — 한 씬 빌더가 실패해도 나머지 영상·타임라인은 살린다 (v0.46.0).
+    try { BUILDERS[sc.type](sc, sec); }
+    catch (e) { console.error("[auto_builder] scene '" + sc.type + "' 빌드 실패:", e); }
   });
 
   // pulse-ring (씬 빌드 후 존재 확정) — 시킹 안전 반복

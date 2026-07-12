@@ -884,7 +884,7 @@ def norm_map(map_data: dict) -> dict | None:
             meta = cand
             break
     if not meta:
-        print(f"[bundle_to_video] map 권역 미지원 (lng {min(lngs)}~{max(lngs)}) — geo 씬 생략")
+        print(f"[bundle_to_video] map 평면 권역 미지원 (lng {min(lngs)}~{max(lngs)}) — 지구본(globe) 폴백")
         return None
     out_markers = []
     for m in markers:
@@ -903,6 +903,33 @@ def norm_map(map_data: dict) -> dict | None:
     inferred = ((map_data.get("provenance") or {}).get("verification") or "") != "official"
     return {"region": meta["region"], "markers": out_markers, "arcs": arcs,
             "legend": legend, "inferred": inferred}
+
+
+def norm_globe(map_data: dict) -> dict | None:
+    """번들 map → 지구본(globe) 씬 데이터. 좌표는 lng/lat 원본 유지(정사영은 JS d3 가 수행).
+
+    평면 베이스맵(mideast/neasia)에 안 맞는 글로벌·다권역 이벤트용. reportage_globe
+    목업 대응 — 자전+대권 호 흐름+마커 펄스는 렌더러(auto_builder.globe)가 결정론으로.
+    """
+    markers = map_data.get("markers") or []
+    out_m = []
+    for m in markers:
+        if m.get("lng") is None or m.get("lat") is None:
+            continue
+        note = re.sub(r"\s*\([^)]*\)", "", m.get("value", "") or "").strip()
+        name = re.sub(r"\s*\([^)]*\)", "", m.get("name", "") or "").strip()  # 괄호부 제거 (지구본 라벨 짧게)
+        out_m.append({"id": m.get("id"), "name": clip(name, 12),
+                      "lng": float(m["lng"]), "lat": float(m["lat"]),
+                      "hi": bool(m.get("highlight")), "note": clip(note, 26) or None})
+    if len(out_m) < 2:
+        return None
+    arcs = [{"from": a.get("from_id"), "to": a.get("to_id"), "kind": a.get("kind", "flow"),
+             "label": clip(a.get("label", "") or "", 30) or None}
+            for a in (map_data.get("arcs") or [])[:6] if a.get("from_id") and a.get("to_id")]
+    legend = [{"label": clip(item.get("label", ""), 16), "kind": item.get("kind", "")}
+              for item in (map_data.get("legend") or [])[:5]]
+    inferred = ((map_data.get("provenance") or {}).get("verification") or "") != "official"
+    return {"markers": out_m, "arcs": arcs, "legend": legend, "inferred": inferred}
 
 
 FLAG_IDS = {"nk": "kp", "kp": "kp", "kr": "kr", "jp": "jp", "cn": "cn", "ru": "ru",
@@ -1182,7 +1209,7 @@ def convert(bundle_path: Path, out_path: Path, tl_override: str | None = None,
         }, sid=pq_sec.get("section_id") if pq_sec else None)
         cues.append(tcue(t0 + 0.8, clip(pq, 58)))
 
-    # 2-c. 사건의 좌표 (map 있으면 — 권역 베이스맵 자동 선택)
+    # 2-c. 사건의 좌표 (map 있으면) — 평면 권역맵(mideast/neasia) 우선, 아니면 지구본.
     geo = norm_map(b.get("map") or {}) if b.get("map") else None
     if geo:
         t0 = t
@@ -1195,6 +1222,20 @@ def convert(bundle_path: Path, out_path: Path, tl_override: str | None = None,
         arc_l = next((a for a in geo["arcs"] if a["label"]), None)
         if arc_l:
             cues.append(tcue(t0 + 7.8, clip(f"{arc_l['label']}{josa(arc_l['label'], '이', '가')} 핵심 동선입니다.", 75)))
+    elif b.get("map"):
+        # 평면 권역 미지원(글로벌·다권역) → 지구본 씬 (reportage_globe). 예전엔 통째 생략.
+        gl = norm_globe(b["map"])
+        if gl:
+            t0 = t
+            k, h, geo_sid = find_section(sections, ["좌표", "지도", "지정학"], ("Geospatial", "사건의 좌표"))
+            add_scene("globe", 12, "지도", {"kicker": k, "title": h}, gl, sid=geo_sid)
+            cues.append(tcue(t0 + 0.6, "사건의 좌표를 지구본 위에 놓으면 흐름이 보입니다."))
+            hi_m = next((m for m in gl["markers"] if m["hi"] and m["note"]), None)
+            if hi_m:
+                cues.append(tcue(t0 + 4.6, clip(f"{hi_m['name']}에서는 {hi_m['note']}{josa(hi_m['note'], '이', '가')} 있었습니다.", 75)))
+            arc_l = next((a for a in gl["arcs"] if a["label"]), None)
+            if arc_l:
+                cues.append(tcue(t0 + 8.4, clip(f"{arc_l['label']}{josa(arc_l['label'], '이', '가')} 핵심 동선입니다.", 75)))
 
     # 3. 일봉 캔들 (candle 차트 있으면)
     candle = build_candle(charts)
@@ -1584,6 +1625,9 @@ def emit_html(data: dict, out_path: Path, src_name: str, report_id: str) -> None
     <script src="assets/gsap.min.js"></script>
     <script src="assets/scene_kit.js"></script>
     <script src="assets/themes.js"></script>
+    <script src="assets/d3.min.js"></script>
+    <script src="assets/topojson-client.min.js"></script>
+    <script src="assets/world_atlas.js"></script>
 {map_script}
 {css}
   </head>

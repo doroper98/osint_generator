@@ -1,6 +1,6 @@
 <!--
 tier: 3
-last_synced_with: v0.45.2
+last_synced_with: v0.46.0
 ssot_for: [development-log]
 depends_on: [CHANGELOG.md]
 last_review: 2026-06-06
@@ -2816,3 +2816,32 @@ last_review: 2026-06-06
 - 어떻게: emit_html topbar 의 .brand 자식 제거(빈 div 로 우측 정렬 유지),
   auto_builder 의 brand-name/brand-sub put 호출 제거. put 은 null-safe.
 - 결과: reportage_noturno 재렌더 스크린샷 — 좌상단 비고 우측 칩·날짜만. 정상.
+
+## 2026-07-12 v0.46.0 — 르포 지구본(globe) 지도 씬 + 씬 격리
+
+- 무엇을: 사용자 제시 `reportage_globe_mockup` — 자전 지구본 + 대권 호 흐름 + 마커
+  펄스 지도를 우리 파이프라인에 이식. "지도는 이거야".
+- 왜: map 데이터 있는 32건 중 평면 권역맵(mideast/neasia)에 맞는 건 4건뿐, 28건이
+  "권역 미지원"으로 통째 스킵됐다. 글로벌·다권역 이벤트엔 지구본이 정답.
+- 어떻게:
+  - d3(geoOrthographic/geoPath/geoGraticule10/geoDistance/geoContains) + topojson-client
+    + world-atlas countries-110m 를 **로컬 벤더링**. world 는 fetch 대신 JS 전역 임베드
+    (`world_atlas.js`) — 오프라인/결정론.
+  - 핵심 난제: 우리 렌더는 GSAP 타임라인을 프레임별 seek 하는 방식이라 목업의
+    `d3.timer`(벽시계) 자전은 못 쓴다. → 자전각·아크 dashoffset·마커 펄스 반경을 전부
+    **elapsed(타임라인 시간)의 순수 함수**로 만들고, `tl.to(state,{onUpdate:draw})`
+    프록시 트윈으로 구동. seek 어느 프레임이든 결정론 재현.
+  - 라우팅: norm_map(평면) 실패 시 norm_globe 로 폴백 → `globe` 씬. 좁은 지역은 평면 유지.
+  - 당사국 역할 색조: 하이라이트 마커가 위치한 국가를 geoContains 로 찾아 accent 틴트.
+  - 라벨 오른쪽 가장자리 화면밖 방지(text-anchor end), 마커명 괄호부 제거.
+- 함정/발견: 첫 렌더가 블랭크 → 진단하니 globe 가 아니라 **geonet(관계망)의 기존 버그**
+  (scene_kit.js:1157 x undefined)가 예외를 던져 빌드 전체를 중단시키고 있었다. 씬
+  디스패치에 try/catch(방어적 격리)를 넣어 한 씬 실패가 영상을 통째로 날리지 않게 함
+  → 부수 효과로 network 번들 2건이 (geonet 빼고) 정상 렌더로 복구. geonet 버그 자체는
+  별건(후속).
+- 결과: 글로벌 map 번들(대만 CoWoS→중동 공급/보험 호) 지구본 렌더 — Chromium 2프레임
+  스크린샷으로 자전 확인(프레임 상이), 대권 호 흐름·펄스·역할 색조·GmarketSans 헤드라인
+  정상. py_compile·themes.js 파싱 통과.
+- 연관: C0(영상미)·C7(VIDEO_STYLE_GUIDE/09_MAP 동기화)·C9(d3 ISC/topojson BSD/world-atlas
+  Natural Earth 퍼블릭 도메인 — 재배포 가능 자산만). 후속: geonet 버그 수정, 지구본
+  흐름 헤드(비행 점) 추가, 유럽·미국 평면 베이스맵.

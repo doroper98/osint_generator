@@ -1,6 +1,6 @@
 <!--
 tier: 3
-last_synced_with: v0.45.2
+last_synced_with: v0.46.0
 ssot_for: [release-notes]
 depends_on: [README.md, GOAL.md]
 last_review: 2026-06-11
@@ -22,6 +22,25 @@ released 항목은 **append-only**입니다.
 
 ### Changed
 -
+
+## [0.46.0] — 2026-07-12
+
+### Added
+- **르포 지구본(globe) 지도 씬 신설** — d3 정사영(orthographic) 회전 지구본 +
+  대권 호 흐름(dash 이동) + 마커 펄스 + 당사국 역할 색조. agents_reviewer
+  `reportage_globe_mockup` 대응. 애니메이션은 GSAP 타임라인 시간의 순수 함수로
+  구동해 **결정론·프레임 seek 안전**(d3.timer 미사용). 8 르포 테마 CSS 변수로 그대로.
+  - **평면 권역맵(mideast/neasia)에 안 맞는 글로벌·다권역 이벤트를 지구본으로 렌더** —
+    이전엔 "권역 미지원"으로 지도를 통째 생략했다(map 있는 32건 중 28건 스킵). 이제
+    그 28건이 지구본으로 살아난다. 좁은 지역 사건은 기존 평면 권역맵을 그대로 유지.
+  - 벤더링(로컬, 오프라인/결정론): `d3.min.js`(v7.9, ISC), `topojson-client.min.js`
+    (v3.1, BSD), `world_atlas.js`(countries-110m, Natural Earth 기반 퍼블릭 도메인,
+    fetch 불필요하게 JS 전역 임베드).
+
+### Changed
+- **씬 빌더 방어적 격리** — 한 씬 빌더가 예외를 던져도 나머지 영상·타임라인을
+  살린다(try/catch + console.error). 기존엔 한 씬 실패가 영상 전체를 블랭크로 만들었다
+  (예: 일부 번들의 geonet 버그가 영상을 통째로 날림 → 이제 그 씬만 빠지고 나머지 정상).
 
 ## [0.45.2] — 2026-07-12
 
