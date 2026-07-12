@@ -1,6 +1,6 @@
 <!--
 tier: 3
-last_synced_with: v0.43.1
+last_synced_with: v0.43.2
 ssot_for: [release-notes]
 depends_on: [README.md, GOAL.md]
 last_review: 2026-06-11

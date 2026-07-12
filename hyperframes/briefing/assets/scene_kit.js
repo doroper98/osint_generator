@@ -1722,7 +1722,7 @@
       const g = svgEl("g", { class: "sky-node", opacity: 0 }, svg);
       const color = n.d === 0 ? (opts.accent || "#c4a265") : colorOfTarget(n);
       svgEl("rect", { x: n.x.toFixed(1), y: n.y.toFixed(1), width: BAR,
-        height: n.h.toFixed(1), rx: 5, fill: color, opacity: 0.95 }, g);
+        height: n.h.toFixed(1), fill: color, opacity: 0.95 }, g);
       const val = n.d === 0 ? n.vout : n.vin;
       const lines = [{ text: n.label, size: 21, weight: 800 }];
       if (val > 0)
