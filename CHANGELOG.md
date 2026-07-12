@@ -1,6 +1,6 @@
 <!--
 tier: 3
-last_synced_with: v0.46.1
+last_synced_with: v0.47.0
 ssot_for: [release-notes]
 depends_on: [README.md, GOAL.md]
 last_review: 2026-06-11
@@ -22,6 +22,17 @@ released 항목은 **append-only**입니다.
 
 ### Changed
 -
+
+## [0.47.0] — 2026-07-12
+
+### Changed
+- **르포 테마 8종을 라이트(밝은 배경)로 전환** — 사용자 요청("여전히 어둡네").
+  테마 팔레트는 고정하되 **밝은 색(cream)을 배경, 어두운 색을 글씨**로 역할 교체
+  (신문/프린트 르포 룩). accent 는 밝은 배경 가독을 위해 같은 계열 진한 톤으로 조정
+  (원래 파스텔 accent 는 cream 위에서 안 읽힘 — 가독성 > 영상미, C0 경계). `dark:false`
+  + 라이트 토큰(scrim/vignette/grain/plate/cap)로 전 씬 대응.
+- **지구본 육지색을 배경↔글씨 블렌드로** — 라이트 테마에서 육지·바다가 둘 다 밝아
+  지구본이 사라지던 문제. 육지 = blend(bg0, text, 0.14) 로 다크·라이트 모두 대비 확보.
 
 ## [0.46.1] — 2026-07-12
 

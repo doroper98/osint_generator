@@ -1,6 +1,6 @@
 <!--
 tier: 3
-last_synced_with: v0.46.1
+last_synced_with: v0.47.0
 ssot_for: [development-log]
 depends_on: [CHANGELOG.md]
 last_review: 2026-06-06
@@ -2854,3 +2854,17 @@ last_review: 2026-06-06
   마커 노트("타이난, 엔비디아 wafer 80% 통과.")·아크 라벨로 자막을 연다.
 - 결과: 라이트 지구본 재렌더 자막이 근거 문장으로 교체 확인.
 - 연관: C0(정확성>영상미). 슬롭은 파이프라인 템플릿에서 옴 — 근거 데이터로만 대체.
+
+## 2026-07-12 v0.47.0 — 르포 테마 라이트(밝은 배경) 전환
+
+- 무엇을: 르포 8종을 밝은 배경 + 어두운 글씨로 전환(사용자: "밝게 해달라 했는데 여전히
+  어둡네. 밝은 색을 배경으로, 어두운색을 글씨로").
+- 어떻게: themes.js 의 reportage_* 8종을 라이트로 재생성 — cream(원래 text)=bg0,
+  ink(원래 bg)=text, dark:false, 라이트 토큰(scrim-rgb=cream, cap-color=ink,
+  vignette/grain/plate). accent 는 cream 위 가독 위해 같은 계열 진한 톤으로 조정
+  (파스텔 accent 는 밝은 배경서 안 읽힘). 6색→30여 토큰 파생 스크립트.
+  globe 렌더러: 육지색을 blend(bg0,text,0.14)로 바꿔 다크·라이트 모두 대비.
+- 결과: reportage_cyprus(라이트)로 타이틀·지구본·bars 3씬 Chromium 스크린샷 —
+  cream 배경 + teal 잉크 헤드라인 + ochre accent, 전부 가독·밝음. 지구본 육지 silhouette
+  대비 확보. themes.js 파싱 통과.
+- 연관: C0(영상미·가독성). 다크 르포가 필요하면 reportage_*_dark 로 별도 추가 가능(후속).

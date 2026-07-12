@@ -612,6 +612,10 @@
       const lineC = cv("--hairline", "rgba(236,233,226,0.16)");
       const softC = cv("--hairline-soft", "rgba(236,233,226,0.08)");
       const mutedC = cv("--muted", "#a39e92"), textC = cv("--text", "#ece9e2");
+      // 육지색 — 배경(bg0)과 글씨(text) 사이를 살짝 블렌드해 다크·라이트 모두 대비 확보.
+      const hx = (c) => { const m = /#?([0-9a-f]{6})/i.exec(c || ""); if (!m) return [18, 18, 20]; const n = parseInt(m[1], 16); return [n >> 16 & 255, n >> 8 & 255, n & 255]; };
+      const blend = (a, b, t) => { const A = hx(a), B = hx(b); return "#" + [0, 1, 2].map((i) => Math.round(A[i] * (1 - t) + B[i] * t).toString(16).padStart(2, "0")).join(""); };
+      const landC = blend(bgC, textC, 0.14);
 
       const mk = sc.data.markers || [];
       const arcs = sc.data.arcs || [];
@@ -636,7 +640,7 @@
 
       const sphere = S.append("path").datum({ type: "Sphere" }).attr("fill", cardC).attr("stroke", lineC).attr("stroke-width", 1.2);
       const grat = S.append("path").datum(d3.geoGraticule10()).attr("fill", "none").attr("stroke", softC).attr("stroke-width", 0.6);
-      const landP = S.append("path").datum(land).attr("fill", bgC).attr("stroke", lineC).attr("stroke-width", 0.5);
+      const landP = S.append("path").datum(land).attr("fill", landC).attr("stroke", lineC).attr("stroke-width", 0.5);
       const roleG = S.append("g");
       const bord = S.append("path").datum(borders).attr("fill", "none").attr("stroke", lineC).attr("stroke-width", 0.6);
       const arcG = S.append("g");
