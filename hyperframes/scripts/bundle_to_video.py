@@ -186,6 +186,15 @@ THEME_ALIASES = {"forest_sage": "forest_archive", "midnight_indigo": "midnight_n
                  "pine_forest": "forest_archive", "burgundy_mono": "reportage_bridal",
                  "editorial_cream": "paper_oxblood"}
 
+# 다크 프리셋 → 색조 무드가 가까운 밝은 르포 팔레트 (v0.49.0 — 밝게 통일).
+# 번들이 다크 테마를 지정해도 여기서 라이트 등가로 바꾼다. --video-theme 는 예외(존중).
+DARK_TO_LIGHT = {
+    "ink_brass": "reportage_cyprus",       # 황동/ochre → 사이프러스 ochre
+    "graphite_slate": "reportage_steel",   # 그래파이트/앰버 → 스틸 앰버
+    "midnight_navy": "reportage_cosmos",   # 미드나이트 블루 → 코스모스 딥블루
+    "forest_archive": "reportage_laurel",  # 포레스트/민트 → 로렐 그린
+}
+
 NUM_TOKEN = re.compile(r"\d[\d,\.]*")
 
 # 자막 길이 예산 (C0.2 카피 규칙) — 억지 축약보다 '자연스럽고 온전한 문장'을 우선.
@@ -1214,10 +1223,14 @@ def convert(bundle_path: Path, out_path: Path, tl_override: str | None = None,
     date_dot = f"{m.group(1)}.{m.group(2)}.{m.group(3)}" if m else ""
     date_kor = f"{int(m.group(1))}년 {int(m.group(2))}월 {int(m.group(3))}일" if m else ""
 
-    # 비디오 테마: 번들 theme.id 가 프리셋과 일치하면 그대로, 아니면 ink_brass +
+    # 비디오 테마: 번들 theme.id 가 프리셋과 일치하면 그대로, 아니면 르포 라이트 +
     # 번들 토큰(accent/up/down)만 오버라이드. --video-theme 가 최우선.
     bundle_tid = (theme.get("id") or "").strip()
     bundle_tid = THEME_ALIASES.get(bundle_tid, bundle_tid)
+    # 밝게 통일 (사용자 결정 2026-07-12): 다크 프리셋을 지정한 번들도 색조 무드를 유지한
+    # 밝은 르포 등가 팔레트로 렌더한다. --video-theme 로 다크를 명시하면 그건 존중.
+    if not theme_override:
+        bundle_tid = DARK_TO_LIGHT.get(bundle_tid, bundle_tid)
     if theme_override and theme_override in VIDEO_THEMES:
         theme_id = theme_override
         theme_vars = {}

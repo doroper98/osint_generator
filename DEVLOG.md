@@ -1,6 +1,6 @@
 <!--
 tier: 3
-last_synced_with: v0.48.1
+last_synced_with: v0.49.0
 ssot_for: [development-log]
 depends_on: [CHANGELOG.md]
 last_review: 2026-06-06
@@ -2896,3 +2896,16 @@ last_review: 2026-06-06
 - 결과: 문제 케이스 전부 옳은 출력 재검증, 실번들 2건 e2e 린트 클린, 31/31 테스트 통과.
 - 연관: TTS-AP-064~067, C0.2, C6(①AP ②린트 ③테스트 3종 세트), G4-9.
 - 방침 폐기: v0.43.4 의 '숫자-단위 공백 삽입' [superseded by TTS-AP-065].
+
+## 2026-07-12 v0.49.0 — 다크 프리셋도 밝은 르포로 자동 매핑 (밝게 통일)
+
+- 무엇을: 사용자 지적("색감도 폰트만 바뀌고 색감은 그대로네?") — 라이트로 바뀐 건
+  reportage_* 뿐이라 다크 테마(midnight_indigo 등) 지정 번들은 여전히 어두웠다.
+- 어떻게: theme 해석부에 DARK_TO_LIGHT 매핑 추가 — ink_brass→reportage_cyprus,
+  graphite_slate→reportage_steel, midnight_navy→reportage_cosmos,
+  forest_archive→reportage_laurel. 별칭 해석(midnight_indigo→midnight_navy) 다음에
+  적용. --video-theme override 시엔 미적용(다크 명시 존중).
+- 결과: 실번들 63건 전부 라이트로 해석(다크 0). 문제의 번들(midnight_indigo)이
+  reportage_cosmos(크림 배경+크림슨)로 렌더되는 것 스크린샷 확인.
+- 연관: C0(영상미·밝게). 되돌리기 쉬움(맵 1개). 특정 무거운 토픽에 다크가 필요하면
+  --video-theme 로 지정 가능.

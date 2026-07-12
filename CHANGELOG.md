@@ -1,6 +1,6 @@
 <!--
 tier: 3
-last_synced_with: v0.48.1
+last_synced_with: v0.49.0
 ssot_for: [release-notes]
 depends_on: [README.md, GOAL.md]
 last_review: 2026-06-11
@@ -22,6 +22,16 @@ released 항목은 **append-only**입니다.
 
 ### Changed
 -
+
+## [0.49.0] — 2026-07-12
+
+### Changed
+- **모든 영상을 밝게 통일** (사용자 결정) — 번들이 다크 프리셋(`midnight_navy`/
+  `graphite_slate`/`ink_brass`/`forest_archive`, 별칭 `midnight_indigo` 등)을 지정해도
+  **색조 무드가 가까운 밝은 르포 팔레트로 자동 매핑**해 렌더한다(`DARK_TO_LIGHT`).
+  네이비→코스모스(딥블루), 그래파이트→스틸(앰버), 잉크→사이프러스(ochre),
+  포레스트→로렐(그린). 결과: 실번들 63건 전부 라이트로 해석(다크 잔존 0).
+  `--video-theme` 로 다크를 명시하면 그 선택은 존중.
 
 ## [0.48.1] — 2026-07-12
 
