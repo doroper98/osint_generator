@@ -1,6 +1,6 @@
 <!--
 tier: 3
-last_synced_with: v0.43.2
+last_synced_with: v0.43.3
 ssot_for: [release-notes]
 depends_on: [README.md, GOAL.md]
 last_review: 2026-06-11
@@ -25,6 +25,15 @@ released 항목은 **append-only**입니다.
 
 ### Fixed
 -
+
+---
+
+## [v0.43.3] — 2026-07-12
+
+### Changed
+- **SK하이닉스 뉴욕 상장 브리핑 — ElevenLabs 실합성 내레이션 반영** — 37문장 합성,
+  실측 길이 기준 씬 13개 재시계 (total 262.3s 추정 → 251.27s 실측). auto.html /
+  cuesync_auto.json / auto_narration.mp3 갱신. sankey 씬 포함 첫 유성(有聲) 산출.
 
 ---
 
