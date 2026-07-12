@@ -1,6 +1,6 @@
 <!--
 tier: 3
-last_synced_with: v0.46.0
+last_synced_with: v0.46.1
 ssot_for: [release-notes]
 depends_on: [README.md, GOAL.md]
 last_review: 2026-06-11
@@ -22,6 +22,13 @@ released 항목은 **append-only**입니다.
 
 ### Changed
 -
+
+## [0.46.1] — 2026-07-12
+
+### Removed
+- **지도·지구본 씬의 상투적 자막 오프너 제거** — "사건의 좌표를 지도/지구본 위에 놓으면
+  흐름이 보입니다" 같은 하드코딩 템플릿 프레이밍 문장(AI 슬롭)을 폐기. 근거 있는
+  마커 노트·아크 라벨 문장으로만 자막을 연다.
 
 ## [0.46.0] — 2026-07-12
 

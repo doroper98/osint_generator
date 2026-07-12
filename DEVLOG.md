@@ -1,6 +1,6 @@
 <!--
 tier: 3
-last_synced_with: v0.46.0
+last_synced_with: v0.46.1
 ssot_for: [development-log]
 depends_on: [CHANGELOG.md]
 last_review: 2026-06-06
@@ -2845,3 +2845,12 @@ last_review: 2026-06-06
 - 연관: C0(영상미)·C7(VIDEO_STYLE_GUIDE/09_MAP 동기화)·C9(d3 ISC/topojson BSD/world-atlas
   Natural Earth 퍼블릭 도메인 — 재배포 가능 자산만). 후속: geonet 버그 수정, 지구본
   흐름 헤드(비행 점) 추가, 유럽·미국 평면 베이스맵.
+
+## 2026-07-12 v0.46.1 — 지도/지구본 상투적 자막 오프너 제거
+
+- 무엇을: "사건의 좌표를 지구본 위에 놓으면 흐름이 보입니다" 등 하드코딩 템플릿
+  프레이밍 자막을 폐기(사용자 지적 — AI 슬롭).
+- 어떻게: geo/globe 씬의 t0+0.6 제네릭 오프너 cue 삭제. 대신 근거 있는 하이라이트
+  마커 노트("타이난, 엔비디아 wafer 80% 통과.")·아크 라벨로 자막을 연다.
+- 결과: 라이트 지구본 재렌더 자막이 근거 문장으로 교체 확인.
+- 연관: C0(정확성>영상미). 슬롭은 파이프라인 템플릿에서 옴 — 근거 데이터로만 대체.

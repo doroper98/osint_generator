@@ -1215,13 +1215,13 @@ def convert(bundle_path: Path, out_path: Path, tl_override: str | None = None,
         t0 = t
         k, h, geo_sid = find_section(sections, ["좌표", "지도", "지정학"], ("Geospatial", "사건의 좌표"))
         add_scene("geo", 11, "좌표", {"kicker": k, "title": h}, geo, sid=geo_sid)
-        cues.append(tcue(t0 + 0.6, "사건의 좌표를 지도 위에 놓으면 흐름이 보입니다."))
+        # 상투적 템플릿 오프너 폐기 — 근거 있는 마커·아크 문장으로만 (AI 슬롭 제거).
         hi_m = next((m for m in geo["markers"] if m["hi"] and m["note"]), None)
         if hi_m:
-            cues.append(tcue(t0 + 4.4, clip(f"{hi_m['name']}에서는 {hi_m['note']}{josa(hi_m['note'], '이', '가')} 있었습니다.", 75)))
+            cues.append(tcue(t0 + 0.9, clip(f"{hi_m['name']}, {hi_m['note']}.", 75)))
         arc_l = next((a for a in geo["arcs"] if a["label"]), None)
         if arc_l:
-            cues.append(tcue(t0 + 7.8, clip(f"{arc_l['label']}{josa(arc_l['label'], '이', '가')} 핵심 동선입니다.", 75)))
+            cues.append(tcue(t0 + 5.4, clip(f"{arc_l['label']} — 두 지점을 잇는 동선입니다.", 75)))
     elif b.get("map"):
         # 평면 권역 미지원(글로벌·다권역) → 지구본 씬 (reportage_globe). 예전엔 통째 생략.
         gl = norm_globe(b["map"])
@@ -1229,13 +1229,13 @@ def convert(bundle_path: Path, out_path: Path, tl_override: str | None = None,
             t0 = t
             k, h, geo_sid = find_section(sections, ["좌표", "지도", "지정학"], ("Geospatial", "사건의 좌표"))
             add_scene("globe", 12, "지도", {"kicker": k, "title": h}, gl, sid=geo_sid)
-            cues.append(tcue(t0 + 0.6, "사건의 좌표를 지구본 위에 놓으면 흐름이 보입니다."))
+            # 상투적 오프너 폐기 — 근거 있는 마커·아크 문장으로만.
             hi_m = next((m for m in gl["markers"] if m["hi"] and m["note"]), None)
             if hi_m:
-                cues.append(tcue(t0 + 4.6, clip(f"{hi_m['name']}에서는 {hi_m['note']}{josa(hi_m['note'], '이', '가')} 있었습니다.", 75)))
+                cues.append(tcue(t0 + 0.9, clip(f"{hi_m['name']}, {hi_m['note']}.", 75)))
             arc_l = next((a for a in gl["arcs"] if a["label"]), None)
             if arc_l:
-                cues.append(tcue(t0 + 8.4, clip(f"{arc_l['label']}{josa(arc_l['label'], '이', '가')} 핵심 동선입니다.", 75)))
+                cues.append(tcue(t0 + 5.8, clip(f"{arc_l['label']} — 대륙을 잇는 동선입니다.", 75)))
 
     # 3. 일봉 캔들 (candle 차트 있으면)
     candle = build_candle(charts)
