@@ -89,8 +89,8 @@ docs/03 §2 의 Agent 들은 모두 `BaseLLMWorker` 기반 Worker 로 구현된�
   HyperFrames(영상 생성)는 Remotion 보유로 보류.
 - **이미 존재**: `SceneEntry`, `SceneManifest` (골격, schemas/models.py). 나머지 모델은 신규.
 - **각 서브스텝 DoD**: py_compile + import smoke + 단위테스트 + CLI 1 서브커맨드 + state
-  전이 + (해당 시) Review Gate 산출물. MINOR push 마다 codex 외부 리뷰 (C10.1),
-  결과 흡수는 다음 PATCH. Phase 6 완료 marker 는 6E 직후.
+  전이 + (해당 시) Review Gate 산출물. (codex 외부 리뷰 C10.1 은 v0.43.1 에서
+  폐지됨 — 실행하지 않는다.) Phase 6 완료 marker 는 6E 직후.
 - **공통 설계 원칙** (Phase 5 답습):
   - 모델은 `schemas/models.py` (SSOT), Pydantic v2, 가능하면 `schema_version` 1 유지(additive).
   - 워커는 `BaseLLMWorker` 상속, `build_user_prompt` 는 `.replace()` (C2), 사용자 질문 금지(C4).

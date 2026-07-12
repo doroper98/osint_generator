@@ -1,6 +1,6 @@
 <!--
 tier: 3
-last_synced_with: v0.43.0
+last_synced_with: v0.43.1
 ssot_for: [release-notes]
 depends_on: [README.md, GOAL.md]
 last_review: 2026-06-11
@@ -25,6 +25,17 @@ released 항목은 **append-only**입니다.
 
 ### Fixed
 -
+
+---
+
+## [v0.43.1] — 2026-07-12
+
+### Changed
+- **C10 외부 코드 리뷰(codex review) 절차 완전 폐지** (사용자 결정) — 프로젝트 극초반
+  codex 코워킹 실험용 절차였음. CLAUDE.md C10 을 폐지 스텁으로 교체(과거 문서의
+  참조 번호는 유지), `docs/REVIEW_PROMPT.md` 삭제, 살아있는 지시 참조 3곳 정리
+  (NEXT_SESSION_PROMPT 진행 규칙 / HANDOFF 헤더 depends_on / 로드맵 Phase 6 DoD).
+  DEVLOG·CHANGELOG·HANDOFF 본문의 과거 실행 기록은 이력으로 보존 (append-only).
 
 ---
 

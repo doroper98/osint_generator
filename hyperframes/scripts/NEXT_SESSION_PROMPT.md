@@ -68,7 +68,7 @@ python hyperframes\scripts\render_demo.py --with-narration
 
 - C0 영상미 최우선 (정확성·검증 위에서).
 - C5 버전 표기 의무 (VERSION 파일 + `vX.Y.Z:` commit prefix).
-- C10 외부 코드 리뷰 의무 (MINOR/MAJOR 후 codex review).
+- C10 외부 코드 리뷰는 **폐지됨** (v0.43.1 사용자 결정) — 실행하지 않는다.
 - append-only (CHANGELOG/DEVLOG/ANTIPATTERNS 과거 수정 금지).
 - 사용자 명시 요청 없이는 PR 생성 / main push 금지.
 - 작업 브랜치: 새 세션은 새 `claude/<slug>` 브랜치 생성해 작업 (필요시).
