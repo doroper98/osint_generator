@@ -1,6 +1,6 @@
 <!--
 tier: 3
-last_synced_with: v0.40.5
+last_synced_with: v0.43.4
 ssot_for: [development-log]
 depends_on: [CHANGELOG.md]
 last_review: 2026-06-06
@@ -2725,3 +2725,27 @@ last_review: 2026-06-06
   덮어쓰지 않는 임시 경로로 했어야. (추후: estimate 출력 분리 고려.)
 - **다음**: 사용자 재합성(--narration=synth --bgm=<곡> --music-credit) 1회 →
   음성까지 전 검수 반영 → 렌더.
+
+---
+
+## 2026-07-12 v0.43.4 — 실합성 검수 2차: 숫자 연음·소수점·절단·티커·BGM (TTS-AP-058~063)
+
+- 무엇을: SK하이닉스 뉴욕 상장 브리핑 첫 유성 렌더를 사용자가 듣고 지적한 6건을
+  구조적으로 잠금. (1) 숫자 음절 공백 제거(연음), (2) 소수점 "쩜" 무공백, (3) 절단
+  "…" 음성 유입 차단(자막↔음성 분리), (4) 슬래시날짜·중복날짜·영문티커 정리,
+  (5) 경어체 규칙 순서 버그, (6) BGM 누락(재합성에 --bgm 상시).
+- 왜: ElevenLabs 는 공백에서 국어 연음을 끊는다 — "백 육 십 팔"[배규씹팔] vs
+  "백육십팔"[뱅뉵씹팔]. 소수점 " 점 " 공백은 반박자 쉼. clip() 의 "…" 를 음성이
+  삼켜 말이 중간에 끊김. 신호명 "7/13 SKHY …" 는 슬래시·중복날짜·티커를 그대로 낭독.
+- 어떻게:
+  - `tts_pronounce.num_to_sino_kr`: 한 숫자 내부 음절 `"".join` (공백 제거). 단위어
+    경계 공백만 유지. 회귀 테스트 단언 붙임으로 갱신.
+  - `bundle_to_video.tts_of`: `_decimal_tts`(168.49→백육십팔쩜사구),
+    `_slash_date_tts`(7/13→칠월 십삼일, 분기 제외), "…"/접속꼬리 제거. 계약
+    narration_tts 경로도 `apply_pronunciation` 단독 → `tts_of` 승격(멱등).
+  - `build_signals`: `_strip_lead_date` + `name_spoken`(첫 절). versus/signals cue 는
+    자막=절단, 음성=완결 문장(`tcue(tts=...)`).
+  - `_POLITE_TAIL`: 일반 폴백을 리스트 끝으로 (본다→봅니다 복구) + 하다→합니다.
+  - `pronounce.json`: SKHY/SKHYV/SKUU/SKDD/ETF/ADR/HBM/TSMC 매핑.
+- 결과: 단위 테스트 355/355 통과. 재합성(--bgm Zabriskie) → 재렌더로 음성 반영.
+- 연관: TTS-AP-058, 059, 060, 061, 062, 063. C0(영상미)·C6(안티패턴)·C9(BGM 권리).

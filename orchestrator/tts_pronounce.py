@@ -28,38 +28,44 @@ _ONES = ["", "일", "이", "삼", "사", "오", "육", "칠", "팔", "구"]
 
 
 def _num_to_sino_under_1000(n: int) -> str:
-    """1 ≤ n ≤ 999 를 한자어로. 단위는 '백 십 사' 처럼 단위어 우선 (자릿수 1 일 때
-    `일백`/`일십` 생략). 띄어쓰기는 모델에게 더 정확한 prosody 힌트 — 붙이는 것보다
-    안전."""
+    """1 ≤ n ≤ 999 를 한자어로. 단위는 '백십사' 처럼 단위어 우선 (자릿수 1 일 때
+    `일백`/`일십` 생략).
+
+    **한 숫자 안에서는 음절을 절대 띄우지 않는다** (TTS-AP-058) — 예전에는 prosody
+    힌트라며 "백 육 십 팔" 로 띄웠으나, ElevenLabs 는 공백을 만나면 국어의 연음(자음
+    동화)을 끊어 "백육십"[뱅뉵씹] 을 [배·규·씹] 으로 또박또박 읽고, 소수점 앞에서도
+    반박자 쉰다. 붙여 써야 모델이 연음/운율을 자연히 적용한다."""
     if n == 0:
         return ""
     hundred, rest = divmod(n, 100)
     ten, one = divmod(rest, 10)
     parts: list[str] = []
     if hundred:
-        parts.append("백" if hundred == 1 else f"{_ONES[hundred]} 백")
+        parts.append("백" if hundred == 1 else f"{_ONES[hundred]}백")
     if ten:
-        parts.append("십" if ten == 1 else f"{_ONES[ten]} 십")
+        parts.append("십" if ten == 1 else f"{_ONES[ten]}십")
     if one:
         parts.append(_ONES[one])
-    return " ".join(parts)
+    return "".join(parts)
 
 
 def num_to_sino_kr(n: int) -> str:
     """0 ≤ n ≤ 99,999,999 를 한자어로. 99,999,999 이상은 그대로 반환(드물고
-    OSINT 영상에선 만 단위 이상 거의 안 씀, 안전 폴백)."""
+    OSINT 영상에선 만 단위 이상 거의 안 씀, 안전 폴백).
+
+    한 숫자의 음절은 붙여서 반환 (TTS-AP-058) — 연음/운율 보존."""
     if n == 0:
         return "영"
     if n < 1000:
         return _num_to_sino_under_1000(n)
     if n < 10000:
         thousand, rest = divmod(n, 1000)
-        head = "천" if thousand == 1 else f"{_ONES[thousand]} 천"
-        return f"{head} {_num_to_sino_under_1000(rest)}".rstrip() if rest else head
+        head = "천" if thousand == 1 else f"{_ONES[thousand]}천"
+        return f"{head}{_num_to_sino_under_1000(rest)}" if rest else head
     if n < 100_000_000:
         man, rest = divmod(n, 10000)
-        head = f"{num_to_sino_kr(man)} 만"
-        return f"{head} {num_to_sino_kr(rest)}".rstrip() if rest else head
+        head = f"{num_to_sino_kr(man)}만"
+        return f"{head}{num_to_sino_kr(rest)}" if rest else head
     return str(n)
 
 

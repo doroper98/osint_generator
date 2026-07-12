@@ -210,33 +210,62 @@ def _iso_date_tts(m: re.Match) -> str:
     return f"{mon} {num_to_sino_kr(int(m.group(3)))}일"
 
 
+def _slash_date_tts(m: re.Match) -> str:
+    """'7/13' → '칠월 십삼일'. 월 1~12·일 1~31 아니면 원본 유지 (비율/분수 오변환 방지)."""
+    mo, dy = int(m.group(1)), int(m.group(2))
+    if not (1 <= mo <= 12 and 1 <= dy <= 31):
+        return m.group(0)
+    return f"{_MONTH_KR[mo]} {num_to_sino_kr(dy)}일"
+
+
+def _decimal_tts(m: re.Match) -> str:
+    """'168.49' → '백육십팔쩜사구' (TTS-AP-059). 소수점은 '쩜', 소수부는 자릿수별 낭독.
+    붙여 써서 반박자 쉼·연음 끊김 방지."""
+    intp = num_to_sino_kr(int(m.group(1)))
+    frac = "".join(num_to_sino_kr(int(d)) for d in m.group(2))
+    return f"{intp}쩜{frac}"
+
+
 def tts_of(text: str) -> str:
-    """템플릿 문장 → 발음 표기: 부호/날짜/수사 정리 후 사전+숫자 한글화."""
+    """템플릿/계약 문장 → 발음 표기: 부호/날짜/소수/수사 정리 후 사전+숫자 한글화.
+
+    계약 narration_tts(producer 제공)에도 동일 적용 — 소수·슬래시날짜·말끝 '…' 을
+    producer 가 안 풀어 보내도 소비측에서 마지막으로 교정 (멱등)."""
     s = normalize_display(text)
     # 구두점 — em대시/가운뎃점/화살괄호는 음성에서 어색 (검수 반영)
     s = s.replace("—", ", ").replace(" – ", ", ").replace(" - ", ", ")
     s = s.replace("·", ", ").replace("<", "").replace(">", "")
     s = s.replace("+", " 플러스 ").replace("−", " 마이너스 ")
+    # 소수 (168.49 → 백육십팔쩜사구) — 날짜/단위 변환보다 먼저 (점 소실 방지)
+    s = re.sub(r"(?<!\d)(\d+)\.(\d+)(?!\d)", _decimal_tts, s)
     # ISO 날짜 YYYY-MM-DD → "M월 D일" (연도 생략 — 근접 시점)
     s = re.sub(r"(\d{4})-(\d{2})-(\d{2})", _iso_date_tts, s)
+    # 슬래시 날짜 M/D → "M월 D일" ('분기' 앞은 제외 = 1/4분기 오변환 방지)
+    s = re.sub(r"(?<!\d)(\d{1,2})/(\d{1,2})(?!\d)(?!\s*분기)", _slash_date_tts, s)
     s = re.sub(r"(\d{1,2})월\s*(\d{1,2})일", _date_kr_tts, s)
     s = re.sub(r"(?<![\d가-힣])(\d{1,2})월", lambda m: _MONTH_KR.get(int(m.group(1)), m.group(0)), s)
     # 고유어 수사 (사전/한자어 변환 전에)
     s = re.sub(rf"(\d{{1,2}})\s*({_NATIVE_UNITS})", _native_unit, s)
-    s = re.sub(r"(?<=\d)\.(?=\d)", " 점 ", s)
+    # 말끝 정리 — 절단 표식 '…'/'...' 은 음성에서 말이 끊긴 것처럼 들리므로 제거 (TTS-AP-060)
+    s = s.replace("…", " ").replace("...", " ")
+    s = re.sub(r"[\s,]*(?:플러스|및|와|과)\s*$", "", s)  # 절단으로 남은 접속 꼬리 제거
     s = re.sub(r"\s+", " ", s).strip()
-    return apply_pronunciation(s, _PRONOUNCE)
+    return re.sub(r"\s+", " ", apply_pronunciation(s, _PRONOUNCE)).strip()
 
 
 
 # 논설체 → 다큐 경어체 (versus 등 원문 노출 cue/카드 용 — 반말 사고 해소)
+# 구체 규칙이 먼저, 일반 규칙(마지막 폴백)이 나중 — 순서 뒤집히면 "본다"→"본습니다"
+# 처럼 일반 규칙이 구체 규칙을 가려버린다 (TTS-AP-061).
 _POLITE_TAIL = [
-    (re.compile(r"이다\.?$"), "입니다."), (re.compile(r"([가-힣])다\.?$"), r"\1습니다."),
+    (re.compile(r"이다\.?$"), "입니다."),
     (re.compile(r"한다\.?$"), "합니다."), (re.compile(r"된다\.?$"), "됩니다."),
     (re.compile(r"본다\.?$"), "봅니다."), (re.compile(r"있다\.?$"), "있습니다."),
     (re.compile(r"없다\.?$"), "없습니다."), (re.compile(r"크다\.?$"), "큽니다."),
     (re.compile(r"높다\.?$"), "높습니다."), (re.compile(r"낮다\.?$"), "낮습니다."),
     (re.compile(r"같다\.?$"), "같습니다."), (re.compile(r"든다\.?$"), "듭니다."),
+    (re.compile(r"하다\.?$"), "합니다."),  # 우세하다→우세합니다 등 '하다' 류
+    (re.compile(r"([가-힣])다\.?$"), r"\1습니다."),  # 일반 폴백 — 반드시 마지막
 ]
 
 
@@ -559,15 +588,26 @@ EXTRA_CHART_SCENES = {
 }
 
 
+def _strip_lead_date(s: str) -> str:
+    """신호명 앞의 날짜 토큰(7/13 · 2026-07-13) 제거 — deadline(when)과 중복 낭독 방지."""
+    return re.sub(r"^\s*(?:\d{1,2}/\d{1,2}|\d{4}-\d{2}-\d{2})\s+", "", s.strip())
+
+
 def build_signals(signals: list) -> dict | None:
     if not signals:
         return None
-    items = [{
-        "when": clip(iso_to_kr(s.get("deadline", "")), 14),
-        "name": clip(s.get("signal", ""), 26),
-        "desc": clip(s.get("description", ""), 56),
-        "unverified": s.get("verification") == "unverified",
-    } for s in signals[:5]]
+    items = []
+    for s in signals[:5]:
+        nm = _strip_lead_date(s.get("signal", ""))
+        # 낭독용: 첫 절만 ('+·' 앞) — 절단 꼬리("+ 레버리지 ETF 상장…") 낭독 방지
+        spoken = re.split(r"\s*[+·]\s*", nm)[0].strip()
+        items.append({
+            "when": clip(iso_to_kr(s.get("deadline", "")), 14),
+            "name": clip(nm, 26),
+            "name_spoken": clip(spoken, 30),
+            "desc": clip(s.get("description", ""), 56),
+            "unverified": s.get("verification") == "unverified",
+        })
     return {"items": items}
 
 
@@ -1241,7 +1281,10 @@ def convert(bundle_path: Path, out_path: Path, tl_override: str | None = None,
         else:
             cues.append(tcue(t0 + 0.6,
                              f"시각은 {a['name']}{josa(a['name'], '과', '와')} {bb['name']}, 둘로 갈립니다."))
-        cues.append(tcue(t0 + 4.4, clip(f"{a['org']}, {a['line']}", 75)))
+        # 자막은 75자 클립, 음성은 첫 완결 문장 — 중간에 말이 끊기지 않게 (TTS-AP-060)
+        a_line_first = (sentences(a["line"]) or [a["line"]])[0]
+        cues.append(tcue(t0 + 4.4, clip(f"{a['org']}, {a['line']}", 75),
+                         tts=tts_of(f"{a['org']}, {to_polite(a_line_first)}")))
         res0 = sentences(contras[0].get("resolution", ""))
         if res0:
             cues.append(tcue(t0 + 8.2, clip(to_polite(res0[0]), 75)))
@@ -1266,7 +1309,11 @@ def convert(bundle_path: Path, out_path: Path, tl_override: str | None = None,
                   sid=signals_sid)
         cues.append(tcue(t0 + 0.6, f"앞으로 확인할 신호는 {len(sig['items'])}가지. 전부 <미검증> 관측 대상입니다."))
         first = sig["items"][0]
-        cues.append(tcue(t0 + 4.6, clip(f"가장 가까운 갈림길은 {first['when']}, {first['name']}입니다.", 75)))
+        # 자막은 name(풀), 음성은 name_spoken(첫 절·날짜 중복 제거) — 절단 "…" 낭독 방지
+        cues.append(tcue(
+            t0 + 4.6,
+            clip(f"가장 가까운 갈림길은 {first['when']}, {first['name']}입니다.", 75),
+            tts=tts_of(f"가장 가까운 갈림길은 {first['when']}, {first['name_spoken']}입니다.")))
 
     # 5. 클로징 (항상)
     t0 = t
@@ -1320,11 +1367,12 @@ def convert(bundle_path: Path, out_path: Path, tl_override: str | None = None,
               f"(섹션 {len(windows_by_sid)}곳, 템플릿 cue {len(cues) - len(kept)}건 대체)")
     cues = sorted(kept + narr_cues, key=lambda c: c["t"])
 
-    # 표기 정규화(display) + 발음 사전 최종 적용(tts) — 계약 narration_tts 까지 커버, 멱등
+    # 표기 정규화(display) + 발음 정규화(tts) — 계약 narration_tts 까지 소수·슬래시날짜·
+    # 말끝·사전·숫자 전부 커버 (tts_of 멱등). apply_pronunciation 단독 → tts_of 로 승격.
     for c in cues:
         c["text"] = normalize_display(c["text"])
         if c.get("tts"):
-            c["tts"] = apply_pronunciation(c["tts"], _PRONOUNCE)
+            c["tts"] = tts_of(c["tts"])
     for sc in scenes:
         if sc.get("head"):
             sc["head"]["title"] = normalize_display(sc["head"]["title"])

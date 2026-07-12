@@ -72,6 +72,10 @@ python hyperframes\scripts\render_demo.py --with-narration
 - append-only (CHANGELOG/DEVLOG/ANTIPATTERNS 과거 수정 금지).
 - 사용자 명시 요청 없이는 PR 생성 / main push 금지.
 - 작업 브랜치: 새 세션은 새 `claude/<slug>` 브랜치 생성해 작업 (필요시).
+- **재합성(synth)은 항상 BGM+크레딧 포함** (TTS-AP-063) — 무음 사고 방지:
+  `python hyperframes/scripts/bundle_to_video.py <bundle.json> --narration=synth \`
+  `--bgm="hyperframes/briefing/assets/audio/bgm/The Life and Death of a Certain K. Zabriskie, Patriarch - Chris Zabriskie.mp3" \`
+  `--music-credit="Chris Zabriskie (CC BY 4.0)"`
 
 ## 즉시 사용할 첫 프롬프트 (사용자 paste 용)
 
