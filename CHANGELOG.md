@@ -1,6 +1,6 @@
 <!--
 tier: 3
-last_synced_with: v0.42.2
+last_synced_with: v0.43.0
 ssot_for: [release-notes]
 depends_on: [README.md, GOAL.md]
 last_review: 2026-06-11
@@ -25,6 +25,25 @@ released 항목은 **append-only**입니다.
 
 ### Fixed
 -
+
+---
+
+## [v0.43.0] — 2026-07-12
+
+### Added
+- **sankey 씬 타입 신설** — 자금/물량 흐름 배분 차트(`type=="sankey"`)의 영상화.
+  실번들(SK하이닉스 뉴욕 상장, v8.3.6)의 "265억달러 조달금액의 흐름"이 씬 없이
+  조용히 버려지던 것을 정식 파이프라인에 추가 (C0: 정적 SVG 폴백 대신 애니메이션 재렌더).
+  - `scene_kit.js: buildSankey` — 링크 방향에서 깊이(컬럼) 전파 계산, 스루풋 비례
+    노드 막대/리본 폭, 컬럼별 세로 중앙 스택, 플레이트 라벨(첫 컬럼 왼쪽/끝 컬럼
+    오른쪽/중간 막대 위). 리본은 prepDraw 로 draw-on 준비.
+  - `auto_builder.js: BUILDERS.sankey` — 소스 노드 등장 → 깊이별 스테이지로 리본이
+    왼→오로 차오르고(흐름 입자 1회 비행) 닿는 순간 행선지 점등. provenance 가
+    official 이 아니면 "흐름도 · 분석 추정" 태그 (geo 씬 관행 승계).
+  - `bundle_to_video.py: norm_sankey` — 참조 무결성(양 끝 노드 존재)·양수 값·자기
+    루프 배제 검증, 라벨 18자 클립. cue 2건: 도입 + 최대 유입 종착지("가장 굵은
+    줄기는 {label} 쪽으로").
+  - `--preview-charts` 에 합성 sankey 케이스(3단 7노드, inferred 태그 검증).
 
 ---
 

@@ -364,6 +364,65 @@
       sceneOut(sec, sc.t1 - 0.5);
     },
 
+    sankey(sc, sec) {
+      // 흐름 배분 — 소스 등장 → 깊이별 리본이 왼→오로 차오르고, 닿는 순간 행선지 점등
+      const svg = SK.svgEl("svg", { viewBox: "0 0 1920 1080", style: "position:absolute; inset:0;" });
+      sec.appendChild(svg);
+      const palette = [ACCENT, SLATE, SAGE, cv("--sienna", "#b07a4a"), OXIDE];
+      const sk = SK.buildSankey(svg, sc.data, { accent: ACCENT, oxide: OXIDE, palette });
+      const t0 = sc.t0;
+      sceneIn(sec, t0);
+      headIn(sec, t0);
+      if (sc.data.inferred) {
+        const lg = document.createElement("div");
+        lg.className = "legend-row";
+        const tag = document.createElement("div");
+        tag.className = "item";
+        tag.style.color = OXIDE;
+        tag.textContent = "흐름도 · 분석 추정";
+        lg.appendChild(tag);
+        sec.appendChild(lg);
+        tl.from(lg, { opacity: 0, x: 20, duration: 0.5 }, t0 + 0.5);
+      }
+      // 깊이 0 노드 먼저
+      sk.nodes.filter((nd) => nd.d === 0).forEach((nd) => {
+        tl.to(nd.g, { opacity: 1, duration: 0.5 }, t0 + 0.55);
+        tl.from(nd.g, { y: 16, duration: 0.55, ease: "power3.out" }, t0 + 0.55);
+      });
+      // 리본 — 소스 깊이별 스테이지, 스테이지 내 위→아래 스태거
+      const STAGE = 2.0;
+      const perStage = {};
+      const arrival = {}; // 타깃 노드별 최초 도착 시각
+      sk.links.forEach((lk) => {
+        const k = (perStage[lk.sd] = (perStage[lk.sd] ?? -1) + 1);
+        const at = t0 + 1.05 + lk.sd * STAGE + k * 0.26;
+        tl.to(lk.path, { opacity: 0.42, duration: 0.25 }, at);
+        draw(lk.path, at, 1.05, "power2.inOut");
+        // 흐름 입자 — 리본을 따라 한 번 비행
+        const head = SK.svgEl("circle", { r: 6, fill: "#f2e9d8", opacity: 0,
+          filter: "drop-shadow(0 0 8px rgba(0,0,0,0.4))" }, svg);
+        const fl = { p: 0 };
+        tl.to(head, { opacity: 0.95, duration: 0.1 }, at + 0.08);
+        tl.to(fl, { p: 1, duration: 1.0, ease: "power2.inOut",
+          onUpdate: () => {
+            const pt = lk.path.getPointAtLength(fl.p * lk.len);
+            head.setAttribute("cx", pt.x);
+            head.setAttribute("cy", pt.y);
+          } }, at + 0.05);
+        tl.to(head, { opacity: 0, duration: 0.25 }, at + 1.0);
+        const arr = at + 0.95;
+        if (!(lk.targetId in arrival) || arr < arrival[lk.targetId]) arrival[lk.targetId] = arr;
+      });
+      // 행선지 점등 — 첫 리본이 닿는 순간
+      sk.nodes.filter((nd) => nd.d > 0).forEach((nd) => {
+        const at = arrival[nd.id] ?? t0 + 1.9;
+        tl.to(nd.g, { opacity: 1, duration: 0.45 }, at);
+        tl.fromTo(nd.g, { scale: 0.94, transformOrigin: "0% 50%" },
+          { scale: 1, duration: 0.5, ease: "back.out(1.8)" }, at);
+      });
+      sceneOut(sec, sc.t1 - 0.5);
+    },
+
     scatter(sc, sec) {
       const svg = SK.svgEl("svg", { viewBox: "0 0 1920 1080", style: "position:absolute; inset:0;" });
       sec.appendChild(svg);

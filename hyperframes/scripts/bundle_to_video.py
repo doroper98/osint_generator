@@ -513,6 +513,42 @@ def norm_gantt(c: dict, today: str | None) -> dict | None:
     return {"tasks": tasks, "today": today}
 
 
+def norm_sankey(c: dict) -> dict | None:
+    """sankey — 자금/물량 흐름 배분. nodes[{id,label,accent?}] + links[{source,target,value>0}].
+
+    깊이(컬럼) 배치는 빌더(JS)가 링크 방향에서 전파 계산. 여기서는 참조 무결성·
+    양수 값 검증과 라벨 클립만 담당. 내레이션용 최대 종착지(_max_sink)는 씬 조립
+    쪽에서 pop 해 소비한다 (BRIEFING_DATA 에 남기지 않음)."""
+    d = c.get("data")
+    if not isinstance(d, dict):
+        return None
+    nodes = [n for n in (d.get("nodes") or [])
+             if isinstance(n, dict) and n.get("id") and n.get("label")]
+    ids = {n["id"] for n in nodes}
+    links = [L for L in (d.get("links") or [])
+             if isinstance(L, dict) and L.get("source") in ids and L.get("target") in ids
+             and L.get("source") != L.get("target")
+             and isinstance(L.get("value"), (int, float)) and L["value"] > 0]
+    if len(nodes) < 2 or not links:
+        return None
+    linked = {L["source"] for L in links} | {L["target"] for L in links}
+    out_nodes = [{"id": n["id"], "label": clip(str(n["label"]), 18),
+                  "accent": bool(n.get("accent"))} for n in nodes if n["id"] in linked]
+    out_links = [{"source": L["source"], "target": L["target"], "value": float(L["value"])}
+                 for L in links]
+    # 최대 유입 종착 노드 (유출 없는 노드 중) — 두 번째 cue 용
+    sources = {L["source"] for L in out_links}
+    inflow: dict = {}
+    for L in out_links:
+        if L["target"] not in sources:
+            inflow[L["target"]] = inflow.get(L["target"], 0.0) + L["value"]
+    label_of = {n["id"]: n["label"] for n in out_nodes}
+    max_sink = label_of.get(max(inflow, key=inflow.get)) if inflow else None
+    inferred = ((c.get("provenance") or {}).get("verification") or "") != "official"
+    return {"nodes": out_nodes, "links": out_links, "unit": str(d.get("unit") or ""),
+            "inferred": inferred, "_max_sink": max_sink}
+
+
 EXTRA_CHART_SCENES = {
     "stacked": ("stacked", "구성", "구성으로 보면 이렇게 나뉩니다"),
     "stacked_bar": ("stacked", "구성", "구성으로 보면 이렇게 나뉩니다"),
@@ -1102,6 +1138,25 @@ def convert(bundle_path: Path, out_path: Path, tl_override: str | None = None,
         center = nw["nodes"][0]["label"]
         cues.append(tcue(t0 + 5.0, clip(f"관계가 가장 많이 얽힌 쪽은 {center}입니다.", 75)))
 
+    # 4-b2. 산키 (sankey 차트 있으면 — 자금/물량 흐름 배분)
+    for c in charts:
+        if c.get("type") != "sankey":
+            continue
+        sk = norm_sankey(c)
+        if not sk:
+            continue
+        max_sink = sk.pop("_max_sink")
+        t0 = t
+        sec = section_for_chart(sections, c.get("chart_id"))
+        title_clean = split_unit(c.get("title", ""))[0]
+        k = (sec.get("kicker") if sec else None) or "흐름"
+        h = (sec.get("heading") if sec else None) or title_clean
+        add_scene("sankey", 12, "흐름", {"kicker": k, "title": h}, sk,
+                  sid=sec.get("section_id") if sec else None)
+        cues.append(tcue(t0 + 0.6, clip(f"{title_clean} — 흐름을 따라가면 행선지가 보입니다.", 75)))
+        if max_sink:
+            cues.append(tcue(t0 + 6.2, clip(f"가장 굵은 줄기는 {max_sink} 쪽으로 흐릅니다.", 75)))
+
     # 4-c. 잔여 차트 유형 (stacked/waterfall/scatter/heatmap/gantt — 있으면)
     today_iso = m.group(0) if m else None
     for c in charts:
@@ -1442,6 +1497,28 @@ def preview_charts(out_path: Path, theme_id: str = "ink_brass") -> dict:
             {"label": "2Q 전망", "value": 109, "kind": "total"},
         ]},
         "증감을 다리로 이으면 어디서 늘었는지 보입니다.")
+
+    add("sankey", 12, "흐름", {"kicker": "Sankey", "title": "조달금액의 흐름 — 어디로 갈라지나"},
+        {"unit": "억달러", "inferred": True,
+         "nodes": [
+             {"id": "raise", "label": "조달총액"},
+             {"id": "fab", "label": "팹 투자"},
+             {"id": "rnd", "label": "R&D"},
+             {"id": "debt", "label": "재무"},
+             {"id": "pkg", "label": "패키징"},
+             {"id": "node2", "label": "차세대 공정"},
+             {"id": "repay", "label": "차입금 상환", "accent": True},
+         ],
+         "links": [
+             {"source": "raise", "target": "fab", "value": 14},
+             {"source": "raise", "target": "rnd", "value": 10},
+             {"source": "raise", "target": "debt", "value": 8},
+             {"source": "fab", "target": "pkg", "value": 9},
+             {"source": "fab", "target": "node2", "value": 5},
+             {"source": "rnd", "target": "node2", "value": 10},
+             {"source": "debt", "target": "repay", "value": 8},
+         ]},
+        "흐름을 따라가면 행선지가 보입니다.")
 
     add("scatter", 9, "분포", {"kicker": "Scatter", "title": "증권사 목표가 — 직전 대비 어디로 옮겼나"},
         {"xLabel": "직전 목표가(만원)", "yLabel": "최근 목표가(만원)", "diagonal": True,

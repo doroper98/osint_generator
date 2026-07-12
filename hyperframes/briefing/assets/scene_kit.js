@@ -1641,6 +1641,102 @@
     return { cols, ys };
   }
 
+  // ───────────────────── ⑩-b 산키 (흐름 배분) ─────────────────────
+  // data: { nodes:[{id,label,accent?}], links:[{source,target,value>0}], unit? }
+  // opts: { accent, oxide, palette:[..], x0,x1,y0,y1 }
+  // 깊이(컬럼)는 링크 방향에서 전파 계산 — 순환은 노드 수 상한에서 수렴 중단(방어).
+  function buildSankey(svg, data, opts) {
+    const x0 = opts.x0 ?? 340;
+    const x1 = opts.x1 ?? 1580;
+    const y0 = opts.y0 ?? 330;
+    const y1 = opts.y1 ?? 830;
+    const BAR = 18;
+    const GAP = 52;
+    const byId = {};
+    const nodes = data.nodes.map((n) => (byId[n.id] = { ...n, d: 0, vin: 0, vout: 0 }));
+    const links = data.links.filter((L) => byId[L.source] && byId[L.target]);
+    // 깊이 전파 (source 깊이 + 1 의 최대값)
+    for (let i = 0; i < nodes.length; i++)
+      links.forEach((L) => {
+        const s = byId[L.source]; const t2 = byId[L.target];
+        if (t2.d < s.d + 1) t2.d = s.d + 1;
+      });
+    const D = Math.max(1, ...nodes.map((n) => n.d));
+    // 스루풋 = max(유입, 유출)
+    links.forEach((L) => { byId[L.source].vout += L.value; byId[L.target].vin += L.value; });
+    nodes.forEach((n) => { n.v = Math.max(n.vin, n.vout) || 1; });
+    // 세로 스케일 — 컬럼 합이 가장 빠듯한 곳 기준
+    const cols = [];
+    for (let d = 0; d <= D; d++) cols.push(nodes.filter((n) => n.d === d));
+    let scale = Infinity;
+    cols.forEach((col) => {
+      if (!col.length) return;
+      const sum = col.reduce((a, n) => a + n.v, 0);
+      scale = Math.min(scale, ((y1 - y0) - GAP * (col.length - 1)) / sum);
+    });
+    // 컬럼 스택 (세로 중앙 정렬)
+    cols.forEach((col, d) => {
+      const totH = col.reduce((a, n) => a + n.v * scale, 0) + GAP * (col.length - 1);
+      let yy = (y0 + y1 - totH) / 2;
+      col.forEach((n) => {
+        n.x = x0 + (d / D) * (x1 - x0 - BAR);
+        n.y = yy;
+        n.h = Math.max(10, n.v * scale);
+        yy += n.h + GAP;
+      });
+    });
+    // 링크 색 — 타깃 노드 기준 (accent 노드는 oxide, 그 외 컬럼 내 순번 팔레트)
+    const palette = opts.palette || [opts.accent];
+    const colorOfTarget = (n) => {
+      if (n.accent) return opts.oxide || opts.accent;
+      const col = cols[n.d];
+      return palette[col.indexOf(n) % palette.length];
+    };
+    // 노드별 유출/유입 커서 — 상대 y 순으로 리본을 위에서부터 적층
+    const outCur = {}; const inCur = {};
+    nodes.forEach((n) => { outCur[n.id] = n.y; inCur[n.id] = n.y; });
+    const orderedLinks = links.slice().sort((a, b) =>
+      (byId[a.source].d - byId[b.source].d) ||
+      (byId[a.source].y - byId[b.source].y) ||
+      (byId[a.target].y - byId[b.target].y));
+    const linkItems = orderedLinks.map((L) => {
+      const s = byId[L.source]; const t2 = byId[L.target];
+      const w = Math.max(3, L.value * scale);
+      const sy = outCur[s.id] + w / 2; outCur[s.id] += w;
+      const ty = inCur[t2.id] + w / 2; inCur[t2.id] += w;
+      const sx = s.x + BAR; const tx = t2.x;
+      const mx = (sx + tx) / 2;
+      const color = colorOfTarget(t2);
+      const path = svgEl("path", {
+        d: `M ${sx.toFixed(1)} ${sy.toFixed(1)} C ${mx.toFixed(1)} ${sy.toFixed(1)}, ` +
+           `${mx.toFixed(1)} ${ty.toFixed(1)}, ${tx.toFixed(1)} ${ty.toFixed(1)}`,
+        fill: "none", stroke: color, "stroke-width": w.toFixed(1), opacity: 0,
+        class: "sky-link",
+      }, svg);
+      const len = prepDraw(path);
+      return { path, len, value: L.value, sd: s.d, color,
+               sourceId: s.id, targetId: t2.id };
+    });
+    // 노드 막대 + 플레이트 라벨 (첫 컬럼 왼쪽 / 끝 컬럼 오른쪽 / 중간 막대 위)
+    const nodeItems = nodes.map((n) => {
+      const g = svgEl("g", { class: "sky-node", opacity: 0 }, svg);
+      const color = n.d === 0 ? (opts.accent || "#c4a265") : colorOfTarget(n);
+      svgEl("rect", { x: n.x.toFixed(1), y: n.y.toFixed(1), width: BAR,
+        height: n.h.toFixed(1), rx: 5, fill: color, opacity: 0.95 }, g);
+      const val = n.d === 0 ? n.vout : n.vin;
+      const lines = [{ text: n.label, size: 21, weight: 800 }];
+      if (val > 0)
+        lines.push({ text: (n.d === 0 ? "총 " : "") + val.toLocaleString("ko-KR") + (data.unit || ""),
+                     size: 15, weight: 700, fill: "var(--sk-muted, #a39e92)" });
+      const plate = plateLabel(g, lines, { maxW: 240 });
+      if (n.d === 0) plate.setPos(n.x - plate.w - 16, n.y + n.h / 2 - plate.h / 2);
+      else if (n.d === D) plate.setPos(n.x + BAR + 16, n.y + n.h / 2 - plate.h / 2);
+      else plate.setPos(n.x + BAR / 2 - plate.w / 2, n.y - plate.h - 10);
+      return { id: n.id, d: n.d, g, x: n.x, y: n.y, h: n.h, color };
+    });
+    return { nodes: nodeItems, links: linkItems, D };
+  }
+
   // ───────────────────── ⑪ 스캐터 (이변량 분포) ─────────────────────
   // data: { points:[{x,y,label?,hi?}], xLabel?, yLabel? }
   // opts: { x0,x1,y0,y1, accent, hiColor, field? }
@@ -1885,6 +1981,7 @@
     buildDonut,
     buildStackedBars,
     buildWaterfall,
+    buildSankey,
     buildScatter,
     buildHeatmap,
     buildGantt,
