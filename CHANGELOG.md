@@ -1,6 +1,6 @@
 <!--
 tier: 3
-last_synced_with: v0.45.1
+last_synced_with: v0.45.2
 ssot_for: [release-notes]
 depends_on: [README.md, GOAL.md]
 last_review: 2026-06-11
@@ -22,6 +22,12 @@ released 항목은 **append-only**입니다.
 
 ### Changed
 -
+
+## [0.45.2] — 2026-07-12
+
+### Removed
+- **상단 브랜드 문구 제거** — 상단바 좌측의 "OSINT BRIEFING" 브랜드명 + "리서치 브리핑"
+  서브 + 다이아몬드 마크를 삭제(의미 없음). 상단바엔 씬 칩·날짜만 남는다.
 
 ## [0.45.1] — 2026-07-12
 

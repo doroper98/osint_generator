@@ -1599,11 +1599,7 @@ def emit_html(data: dict, out_path: Path, src_name: str, report_id: str) -> None
       </div>
       <div id="prog"></div>
       <div class="topbar">
-        <div class="brand">
-          <span class="brand-mark"></span>
-          <span class="brand-name" id="brand-name"></span>
-          <span class="brand-sub" id="brand-sub"></span>
-        </div>
+        <div class="brand"></div>
         <div class="topright">
           <span class="chip" id="scene-chip"><span class="dot"></span><span id="scene-label"></span></span>
           <span id="top-date"></span>

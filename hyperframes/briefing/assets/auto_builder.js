@@ -50,8 +50,7 @@
     const n = document.getElementById(id);
     if (n && text) n.textContent = text;
   };
-  put("brand-name", D.meta.brand);
-  put("brand-sub", D.meta.sub);
+  // 상단 브랜드 문구(OSINT BRIEFING / 리서치 브리핑)는 의미 없어 제거 (v0.45.2).
   put("top-date", D.meta.date);
   put("source-line1", D.meta.sourceLine1);
   const src2 = document.getElementById("source-line2");

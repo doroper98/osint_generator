@@ -1,6 +1,6 @@
 <!--
 tier: 3
-last_synced_with: v0.45.1
+last_synced_with: v0.45.2
 ssot_for: [development-log]
 depends_on: [CHANGELOG.md]
 last_review: 2026-06-06
@@ -2808,3 +2808,11 @@ last_review: 2026-06-06
   8개 스테이트먼트 전부 실제 편집 제목으로. py_compile 통과.
 - 연관: C0(영상미)·C7(CHANGELOG/DEVLOG). 슬롭 라벨은 producer highlights 필드에서
   오지만 소비측이 렌더 안 하도록 차단(계약 변경 없이).
+
+## 2026-07-12 v0.45.2 — 상단 브랜드 문구 제거
+
+- 무엇을: 상단바 좌측 "OSINT BRIEFING" + "리서치 브리핑" + 다이아몬드 마크 삭제.
+- 왜: 사용자 지적 — 의미 없는 문구. 상단바엔 씬 칩·날짜만 남긴다.
+- 어떻게: emit_html topbar 의 .brand 자식 제거(빈 div 로 우측 정렬 유지),
+  auto_builder 의 brand-name/brand-sub put 호출 제거. put 은 null-safe.
+- 결과: reportage_noturno 재렌더 스크린샷 — 좌상단 비고 우측 칩·날짜만. 정상.
