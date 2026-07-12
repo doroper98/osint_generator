@@ -1,6 +1,6 @@
 <!--
 tier: 3
-last_synced_with: v0.44.0
+last_synced_with: v0.45.0
 ssot_for: [release-notes]
 depends_on: [README.md, GOAL.md]
 last_review: 2026-06-11
@@ -23,7 +23,27 @@ released 항목은 **append-only**입니다.
 ### Changed
 -
 
-## [0.44.0] — 2026-07-12
+## [0.45.0] — 2026-07-12
+
+### Added
+- **르포(reportage) 테마 8종 영상화** — agents_reviewer 르포 테마 팔레트(cyprus,
+  noturno, bridal, cosmos, laurel, princess, steel, navy)를 `themes.js` `SK_THEMES`
+  에 추가하고 `VIDEO_THEMES` 에 등록. 번들 `report.theme.id` 가 `reportage_*` 이면
+  자동 적용된다. 이전엔 매칭 테마가 없어 전부 `ink_brass` 로 폴백했다.
+- **르포 서체 로컬 번들** — `GmarketSans`(Bold/Medium, 디스플레이) + `Noto Sans KR`
+  (400/500/700, 본문)을 `assets/fonts/` 에 번들하고 `assets/reportage_fonts.css`
+  로 로드. 결정론·오프라인 렌더 유지. 라이선스는 상업적 이용 가능 폰트만(C9).
+- **비-르포 테마 별칭** — `pine_forest→forest_archive`, `burgundy_mono→reportage_bridal`,
+  `editorial_cream→paper_oxblood`. 거의 모든 번들이 폴백 대신 어울리는 팔레트로 렌더.
+
+### Changed
+- **영상 타이포그래피를 르포 서체로 전환** (C0 영상미) — 디스플레이(헤드라인·타이틀·
+  키커·칩·스테이트먼트·인용)를 `Noto Serif KR` → `GmarketSans` 로, 본문을
+  `Pretendard` → `Noto Sans KR` 로 교체. index.html `<style>`(테마 SSOT) 반영.
+- **기본 폴백 테마를 `reportage_cyprus` 로** — 르포 서체·색감이 하우스 스타일.
+  번들 토큰(accent/up/down)이 있으면 그 위에 오버라이드.
+
+
 
 ### Fixed
 - **보도 사진이 영상에 아예 안 나오던 문제 복구.** 두 겹의 원인을 함께 해결.

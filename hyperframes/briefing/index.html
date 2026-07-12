@@ -17,6 +17,7 @@
       결정론적(no random/date/fetch).
     -->
     <link rel="stylesheet" href="assets/noto_serif_kr.css" />
+    <link rel="stylesheet" href="assets/reportage_fonts.css" />
     <script src="assets/gsap.min.js"></script>
     <script src="assets/scene_kit.js"></script>
     <script src="assets/mideast_map.js"></script>
@@ -74,14 +75,15 @@
       html, body {
         width: 1920px; height: 1080px; overflow: hidden;
         background: var(--bg0);
-        font-family: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, sans-serif;
+        font-family: "Noto Sans KR", "Pretendard Variable", -apple-system, BlinkMacSystemFont, sans-serif;
         color: var(--text);
         word-break: keep-all;
         overflow-wrap: anywhere;
         -webkit-font-smoothing: antialiased;
       }
-      svg text { font-family: "Pretendard Variable", Pretendard, sans-serif; }
-      .serif { font-family: "Noto Serif KR", "Pretendard Variable", serif; }
+      svg text { font-family: "Noto Sans KR", "Pretendard Variable", sans-serif; }
+      /* 르포 테마: 디스플레이(헤드라인·타이틀)는 GmarketSans, 본문은 Noto Sans KR. */
+      .serif { font-family: 'GmarketSans', "Noto Sans KR", sans-serif; letter-spacing: -0.01em; }
 
       /* ── SceneKit 공용 ── */
       .sk-plate-bg { fill: var(--plate-fill); stroke: var(--plate-stroke); stroke-width: 1; }
@@ -95,7 +97,7 @@
                   letter-spacing: 5px; }
       .net-anchor-leader { stroke: rgba(163, 158, 146, 0.55); stroke-width: 1.2;
                            stroke-dasharray: 3 5; }
-      .net-mono { font-family: "Noto Serif KR", serif; }
+      .net-mono { font-family: 'GmarketSans', "Noto Sans KR", sans-serif; }
 
       /* ── 배경 (무광 잉크 차콜 — 글로우/블롭/그리드 없음) ── */
       #bg { position: absolute; inset: 0; z-index: 0; overflow: hidden;
@@ -151,11 +153,11 @@
       .kicker { font-size: 16px; font-weight: 700; letter-spacing: 5px; text-transform: uppercase;
                 color: var(--accent); margin-bottom: 18px; display: flex; align-items: center; gap: 14px; }
       .kicker::before { content: ""; width: 30px; height: 1px; background: var(--accent); opacity: 0.7; }
-      .scene-title { font-family: "Noto Serif KR", "Pretendard Variable", serif;
+      .scene-title { font-family: 'GmarketSans', "Noto Sans KR", sans-serif;
                      font-size: 54px; font-weight: 600; letter-spacing: -0.5px; color: var(--text); }
       /* 씬 번호: SceneKit.LAYOUT.sceneNo 영역과 일치 (충돌장이 보호) */
       .scene-no { position: absolute; top: 158px; right: 96px; font-size: 112px; font-weight: 250; z-index: 6;
-                  font-family: "Noto Serif KR", serif; line-height: 1;
+                  font-family: 'GmarketSans', "Noto Sans KR", sans-serif; line-height: 1;
                   color: var(--sceneno-color); letter-spacing: 2px; }
 
       /* ── S1 타이틀 ── */
@@ -163,13 +165,13 @@
                    color: var(--accent); }
       .s1-rule { width: 76px; height: 3px; background: var(--accent);
                  transform-origin: left center; margin: 32px 0 40px; }
-      .headline { font-family: "Noto Serif KR", "Pretendard Variable", serif;
+      .headline { font-family: 'GmarketSans', "Noto Sans KR", sans-serif;
                   font-size: 94px; font-weight: 650; line-height: 1.22; letter-spacing: -1px; }
       .headline .em { color: var(--accent); }
       .deck { margin-top: 42px; font-size: 29px; line-height: 1.66; font-weight: 400;
               color: var(--muted); max-width: 1300px; letter-spacing: -0.2px; }
       .watermark { position: absolute; right: -10px; bottom: 48px; font-size: 196px; font-weight: 200;
-                   font-family: "Noto Serif KR", serif;
+                   font-family: 'GmarketSans', "Noto Sans KR", sans-serif;
                    color: var(--watermark-color); letter-spacing: -2px; line-height: 1.04;
                    text-align: right; pointer-events: none; }
       .line { display: block; overflow: hidden; }
@@ -195,7 +197,7 @@
       .pcard .pmono { position: relative; width: 92px; height: 92px; flex: none;
                       display: flex; align-items: center; justify-content: center; }
       .pcard .pmono span { font-size: 28px; font-weight: 800; letter-spacing: 1px;
-                           font-family: "Noto Serif KR", serif; }
+                           font-family: 'GmarketSans', "Noto Sans KR", sans-serif; }
       .pcard .pmono img { width: 82px; height: 82px; border-radius: 50%; object-fit: cover; }
       .pcard .pring-svg { position: absolute; inset: 0; }
       .pcard .pname { font-size: 29px; font-weight: 700; letter-spacing: -0.5px; }
@@ -264,7 +266,7 @@
       .iquote .iq-rule { position: absolute; top: 358px; left: 200px; width: 76px; height: 3px;
                          background: var(--accent); transform-origin: left center; }
       .iquote .iq-text { position: absolute; top: 408px; left: 200px; right: 240px;
-                         font-family: "Noto Serif KR", "Pretendard Variable", serif;
+                         font-family: 'GmarketSans', "Noto Sans KR", sans-serif;
                          font-size: 66px; font-weight: 550; line-height: 1.52;
                          letter-spacing: -0.5px; color: var(--text); }
       .iquote .iq-text .em { color: var(--accent); }
@@ -275,7 +277,7 @@
       /* 수직 중앙 정렬 — 빈 하단 사고 해소 (검수 반영). 라인은 카드형 띠. */
       .stmt { position: absolute; top: 300px; bottom: 150px; left: 96px; right: 360px;
               display: flex; flex-direction: column; justify-content: center; gap: 26px; }
-      .stmt .stmt-qmark { position: absolute; top: -34px; left: -8px; font-family: "Noto Serif KR", serif;
+      .stmt .stmt-qmark { position: absolute; top: -34px; left: -8px; font-family: 'GmarketSans', "Noto Sans KR", sans-serif;
                           font-size: 150px; font-weight: 700; color: var(--accent); opacity: 0.14;
                           line-height: 1; pointer-events: none; }
       .stmt .stmt-line { display: flex; gap: 26px; align-items: center;
@@ -285,14 +287,14 @@
       .stmt .stmt-no { font-size: 17px; font-weight: 700; color: var(--accent);
                        letter-spacing: 2px; flex: none; width: 40px; opacity: 0.8;
                        font-variant-numeric: tabular-nums; }
-      .stmt .stmt-text { font-family: "Noto Serif KR", "Pretendard Variable", serif;
+      .stmt .stmt-text { font-family: 'GmarketSans', "Noto Sans KR", sans-serif;
                          font-size: 50px; font-weight: 600; line-height: 1.32;
                          letter-spacing: -0.5px; color: var(--text); }
       .stmt .stmt-text em { font-style: normal; color: var(--accent); }
 
       /* ── S7 클로징 ── */
       .quote { position: absolute; top: 322px; left: 96px; right: 580px;
-               font-family: "Noto Serif KR", "Pretendard Variable", serif;
+               font-family: 'GmarketSans', "Noto Sans KR", sans-serif;
                font-size: 54px; font-weight: 500; line-height: 1.5; letter-spacing: -0.5px; color: var(--text); }
       .quote .em { color: var(--accent); }
       .closing { position: absolute; left: 96px; top: 672px; right: 660px; font-size: 24px;

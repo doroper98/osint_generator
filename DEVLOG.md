@@ -1,6 +1,6 @@
 <!--
 tier: 3
-last_synced_with: v0.44.0
+last_synced_with: v0.45.0
 ssot_for: [development-log]
 depends_on: [CHANGELOG.md]
 last_review: 2026-06-06
@@ -2770,3 +2770,24 @@ last_review: 2026-06-06
 - 결과: 실번들 5건 전부 `원문회수` 로 사진 확보 + photo 씬 생성(예: 061758 → photo 2개),
   로컬 데모 회귀 정상. `python -m py_compile` 통과.
 - 연관: PIPELINE-AP-007. C0(영상미)·C7(IMAGE_BUNDLE_CONTRACT 동기화)·C9(권리 추적).
+
+## 2026-07-12 v0.45.0 — 축 A 영상 강화 1탄: 르포 서체 + 르포 8종 팔레트 적용
+
+- 무엇을: 사용자 결정("보고서는 60% 아웃라인, 우리가 축 A=연출을 공격적으로 강화").
+  1탄으로 agents_reviewer 르포 테마의 **서체·색감**을 영상에 이식. 더 밝고 화려하게.
+- 왜: 번들이 이미 `report.theme.id = reportage_*` 를 실어 보내는데(princess/navy/steel/
+  bridal/cosmos/noturno/laurel), 영상엔 매칭 테마가 없어 전부 ink_brass 로 폴백 중이었다.
+  또 서체가 Noto Serif(에디토리얼)라 르포 프리뷰(GmarketSans+Noto Sans)와 달랐다.
+- 어떻게:
+  - 폰트: GmarketSans(Bold/Medium) + Noto Sans KR(400/500/700, fontsource 정적)을
+    `assets/fonts/` 에 로컬 번들 + `reportage_fonts.css`. 결정론/오프라인 유지, 상업적
+    이용 가능 폰트만(C9). index.html `<style>` 의 디스플레이 스택을 GmarketSans, 본문을
+    Noto Sans KR 로 교체(테마 SSOT).
+  - 팔레트: 르포 8종을 `themes.js:SK_THEMES` 에 추가(6색→30여 토큰 파생 스크립트로
+    생성) + `VIDEO_THEMES` 등록. 비-르포 id 3종 별칭(pine_forest/burgundy_mono/
+    editorial_cream). 기본 폴백을 reportage_cyprus 로.
+- 결과: reportage_noturno 번들 실변환 → theme=reportage_noturno 적용. 사전설치 Chromium
+  으로 타이틀·bars·statement 3씬 스크린샷 검증 — GmarketSans 헤드라인 + #FF4103 액센트
+  + 크림 본문, 밝고 화려. 토푸/깨짐 없음. py_compile·themes.js node 파싱 통과.
+- 연관: C0(영상미 최우선)·C7(VIDEO_STYLE_GUIDE 동기화)·C9(폰트 라이선스).
+  후속(축 A 2탄): 지도·모션·B-roll 강화 예정.

@@ -136,10 +136,16 @@ def build_ladder(timeline: dict, limit: int = 7) -> dict:
     return {"steps": steps}
 
 
-VIDEO_THEMES = {"ink_brass", "graphite_slate", "midnight_navy", "forest_archive", "paper_oxblood"}
+VIDEO_THEMES = {"ink_brass", "graphite_slate", "midnight_navy", "forest_archive", "paper_oxblood",
+                # 르포(reportage) 8종 — agents_reviewer 르포 테마 팔레트 (v0.44.0)
+                "reportage_cyprus", "reportage_noturno", "reportage_bridal", "reportage_cosmos",
+                "reportage_laurel", "reportage_princess", "reportage_steel", "reportage_navy"}
 
 # 번들 테마 id → 영상 테마 프리셋 별칭 (색 계열 매칭)
-THEME_ALIASES = {"forest_sage": "forest_archive", "midnight_indigo": "midnight_navy"}
+THEME_ALIASES = {"forest_sage": "forest_archive", "midnight_indigo": "midnight_navy",
+                 # agents_reviewer 비-르포 테마 id → 가장 가까운 영상 팔레트 (v0.44.0)
+                 "pine_forest": "forest_archive", "burgundy_mono": "reportage_bridal",
+                 "editorial_cream": "paper_oxblood"}
 
 NUM_TOKEN = re.compile(r"\d[\d,\.]*")
 
@@ -1074,7 +1080,9 @@ def convert(bundle_path: Path, out_path: Path, tl_override: str | None = None,
         theme_id = bundle_tid
         theme_vars = {}
     else:
-        theme_id = "ink_brass"
+        # 기본 폴백을 르포(reportage_cyprus)로 — 르포 서체·색감이 하우스 스타일 (v0.44.0).
+        # 번들 토큰(accent/up/down)이 있으면 그 위에 오버라이드해 밝게 유지.
+        theme_id = "reportage_cyprus"
         theme_vars = {}
         if tokens.get("accent"):
             theme_vars["--accent"] = tokens["accent"]
@@ -1569,6 +1577,7 @@ def emit_html(data: dict, out_path: Path, src_name: str, report_id: str) -> None
          report_id: {report_id}
          수정 금지. 변환기를 고치고 재실행할 것. -->
     <link rel="stylesheet" href="assets/noto_serif_kr.css" />
+    <link rel="stylesheet" href="assets/reportage_fonts.css" />
     <script src="assets/gsap.min.js"></script>
     <script src="assets/scene_kit.js"></script>
     <script src="assets/themes.js"></script>

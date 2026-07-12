@@ -1,0 +1,71 @@
+/* 르포(reportage) 테마 폰트 — GmarketSans(디스플레이) + Noto Sans KR(본문).
+ * agents_reviewer 르포 테마와 동일 서체. 전부 로컬 번들(결정론/오프라인 렌더).
+ * SSOT: 본 파일. auto.html <head> + index.html <head> 에서 link 로 로드.
+ *
+ * 라이선스 (C9): GmarketSans — G마켓 무료 배포(상업적 이용 허용).
+ *   Noto Sans KR — SIL Open Font License 1.1 (fontsource 정적 subset).
+ *   둘 다 재배포 가능 폰트만 번들.
+ */
+
+/* ── GmarketSans (디스플레이: 헤드라인·키커·칩·숫자·브랜드) ── */
+@font-face {
+  font-family: 'GmarketSans';
+  font-weight: 700;
+  font-style: normal;
+  font-display: block;
+  src: url(fonts/gmarketsans/GmarketSansBold.woff) format('woff');
+}
+@font-face {
+  font-family: 'GmarketSans';
+  font-weight: 500;
+  font-style: normal;
+  font-display: block;
+  src: url(fonts/gmarketsans/GmarketSansMedium.woff) format('woff');
+}
+
+/* ── Noto Sans KR (본문·데크·muted) — korean(전역) + latin(라틴 override) ── */
+@font-face {
+  font-family: 'Noto Sans KR';
+  font-weight: 400;
+  font-style: normal;
+  font-display: block;
+  src: url(fonts/notosanskr/notosanskr-korean-400.woff2) format('woff2');
+}
+@font-face {
+  font-family: 'Noto Sans KR';
+  font-weight: 500;
+  font-style: normal;
+  font-display: block;
+  src: url(fonts/notosanskr/notosanskr-korean-500.woff2) format('woff2');
+}
+@font-face {
+  font-family: 'Noto Sans KR';
+  font-weight: 700;
+  font-style: normal;
+  font-display: block;
+  src: url(fonts/notosanskr/notosanskr-korean-700.woff2) format('woff2');
+}
+@font-face {
+  font-family: 'Noto Sans KR';
+  font-weight: 400;
+  font-style: normal;
+  font-display: block;
+  src: url(fonts/notosanskr/notosanskr-latin-400.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+2018-2019, U+201C-201D, U+2020-2022, U+2026, U+2212, U+2013-2014;
+}
+@font-face {
+  font-family: 'Noto Sans KR';
+  font-weight: 500;
+  font-style: normal;
+  font-display: block;
+  src: url(fonts/notosanskr/notosanskr-latin-500.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+2018-2019, U+201C-201D, U+2020-2022, U+2026, U+2212, U+2013-2014;
+}
+@font-face {
+  font-family: 'Noto Sans KR';
+  font-weight: 700;
+  font-style: normal;
+  font-display: block;
+  src: url(fonts/notosanskr/notosanskr-latin-700.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+2018-2019, U+201C-201D, U+2020-2022, U+2026, U+2212, U+2013-2014;
+}
