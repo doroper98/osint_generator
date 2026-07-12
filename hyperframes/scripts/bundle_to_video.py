@@ -1334,12 +1334,15 @@ def convert(bundle_path: Path, out_path: Path, tl_override: str | None = None,
     consumed = {sc.get("_sid") for sc in scenes}
     photo_shown: set = set()
 
-    def add_photo(sid, s, lines):
-        # 풀블리드 보도 사진 + takeaway 오버레이 (IMAGE_BUNDLE_CONTRACT).
+    def add_photo(sid, s):
+        # 풀블리드 보도 사진 (IMAGE_BUNDLE_CONTRACT). 오버레이 텍스트 없음 —
+        # 화면엔 사진·캡션·크레딧만, 내레이션은 자막이 전달한다. (AI 슬롭 제거, v0.45.1)
         img = photo_by_sid[sid]
-        add_scene("photo", min(12, max(9, 3 + 3.0 * len(lines))), "현장",
+        sv = svideos.get(sid)
+        n = len(sv["narration"]) if sv and sv["narration"] else 3
+        add_scene("photo", min(12, max(9, 3 + 3.0 * n)), "현장",
                   {"kicker": s.get("kicker") or "현장", "title": s.get("heading") or ""},
-                  {**img, "lines": lines}, sid=sid)
+                  {**img, "lines": []}, sid=sid)
         photo_shown.add(sid)
 
     for s in sections:
@@ -1347,32 +1350,32 @@ def convert(bundle_path: Path, out_path: Path, tl_override: str | None = None,
         if sid in (versus_sid, signals_sid):
             continue
         sv = svideos.get(sid)
-        highlights = sv["highlights"] if sv else []
+        has_narr = bool(sv and sv["narration"])
         emphasis = sv["emphasis"] if sv else []
         img = photo_by_sid.get(sid)
+        heading = s.get("heading") or ""
 
         if sid in consumed:
-            # 원인② — 차트 등으로 이미 소진된 섹션이라도 cleared 사진이 있으면
-            # 인접 photo 씬으로 함께 노출한다 (C0 영상미 우선, 사용자 결정 2026-07-12).
+            # 차트 등으로 이미 소진된 섹션이라도 cleared 사진이 있으면 인접 photo 씬으로
+            # 함께 노출한다 (C0 영상미 우선). 사진 없으면 별도 씬 없음(차트가 담당).
             if img and sid not in photo_shown:
-                add_photo(sid, s, [em_segments_line(h2, emphasis) for h2 in highlights[:2]])
+                add_photo(sid, s)
             continue
 
-        if not highlights:
-            # 하이라이트 없는 섹션이라도 사진이 있으면 photo 씬으로 구제.
-            if img and sid not in photo_shown:
-                add_photo(sid, s, [])
-            continue
-
-        lines = [em_segments_line(h2, emphasis) for h2 in highlights]
         if img:
-            # 사진 있는 서술 섹션은 photo 씬으로 승격.
-            add_photo(sid, s, lines)
-        else:
+            # 차트 없는 사진 섹션 — 풀블리드 photo 씬.
+            if sid not in photo_shown:
+                add_photo(sid, s)
+            continue
+
+        # 차트·사진 없는 서술 섹션 — 섹션 제목을 큰 편집형 스테이트먼트로.
+        # (기존 video.highlights 번호 카드는 텔레그래프식 AI 슬롭이라 폐기 — 사용자
+        #  결정 2026-07-12. 살아있는 문장인 내레이션은 자막으로 그대로 나간다.)
+        if has_narr and heading:
             dur = min(14, max(9, 3 + 3.0 * len(sv["narration"])))
             add_scene("statement", dur, "키 포인트",
-                      {"kicker": s.get("kicker") or "Key Point", "title": s.get("heading") or ""},
-                      {"lines": lines}, sid=sid)
+                      {"kicker": s.get("kicker") or "Key Point", "title": ""},
+                      {"lines": [em_segments_line(heading, emphasis)]}, sid=sid)
 
     # 5. 쟁점 (contradictions 있으면)
     contras = b.get("contradictions") or []

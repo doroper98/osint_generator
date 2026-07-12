@@ -1,6 +1,6 @@
 <!--
 tier: 3
-last_synced_with: v0.45.0
+last_synced_with: v0.45.1
 ssot_for: [development-log]
 depends_on: [CHANGELOG.md]
 last_review: 2026-06-06
@@ -2791,3 +2791,20 @@ last_review: 2026-06-06
   + 크림 본문, 밝고 화려. 토푸/깨짐 없음. py_compile·themes.js node 파싱 통과.
 - 연관: C0(영상미 최우선)·C7(VIDEO_STYLE_GUIDE 동기화)·C9(폰트 라이선스).
   후속(축 A 2탄): 지도·모션·B-roll 강화 예정.
+
+## 2026-07-12 v0.45.1 — 스테이트먼트 씬 AI 슬롭 제거 (편집형 히어로로 교체)
+
+- 무엇을: 사용자 지적 — "다섯 진영의 식탁" 아래 "수요와 압력 사이의 3사 / 산업단체
+  9곳 서한" 같은 번호 카드 AI 슬롭을 완전 제거.
+- 왜: 화면 카드 = `video.highlights`(텔레그래프식 압축 라벨 = 슬롭), 자막 = `narration`
+  (살아있는 문장). 진단 결과 좋은 문장은 이미 자막으로 나가고 가운데 카드만 공허한
+  슬롭이었다. 번호형 불릿 카드 포맷 자체가 AI 슬롭 미감.
+- 어떻게: 스테이트먼트 씬을 섹션 **제목 한 줄**을 큰 편집형 히어로(GmarketSans 86px,
+  emphasis=accent)로 바꿈. `stmt-hero` 렌더러/CSS 신설, 번호(0N)·카드 chrome 제거.
+  4-d 빌더는 highlights 대신 heading 을 히어로 라인으로 전달하고 head.title 은 비워
+  상단 중복 제거. 사진 씬 오버레이 highlights 도 [] 로(풀블리드+캡션·크레딧만).
+- 결과: reportage_noturno 재렌더 + Chromium 스크린샷 — "다섯 진영의 식탁"(다섯 진영
+  accent 강조) 히어로 + 자막 "이 사건에는 다섯 진영이 둘러앉아 있습니다." 슬롭 0.
+  8개 스테이트먼트 전부 실제 편집 제목으로. py_compile 통과.
+- 연관: C0(영상미)·C7(CHANGELOG/DEVLOG). 슬롭 라벨은 producer highlights 필드에서
+  오지만 소비측이 렌더 안 하도록 차단(계약 변경 없이).

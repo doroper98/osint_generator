@@ -1,6 +1,6 @@
 <!--
 tier: 3
-last_synced_with: v0.45.0
+last_synced_with: v0.45.1
 ssot_for: [release-notes]
 depends_on: [README.md, GOAL.md]
 last_review: 2026-06-11
@@ -23,7 +23,16 @@ released 항목은 **append-only**입니다.
 ### Changed
 -
 
-## [0.45.0] — 2026-07-12
+## [0.45.1] — 2026-07-12
+
+### Removed
+- **스테이트먼트 씬의 AI 슬롭 제거** — 서술 섹션을 번호형 불릿 카드
+  (`video.highlights`: "수요와 압력 사이의 3사", "산업단체 9곳 서한" 같은 텔레그래프식
+  압축 라벨)로 박던 것을 폐기. 화면엔 섹션 제목을 **큰 편집형 히어로 스테이트먼트**
+  (GmarketSans, emphasis 강조)로 한 줄만 노출하고, 살아있는 문장인 내레이션은 자막이
+  그대로 전달한다. 사진 씬의 highlights 오버레이도 함께 제거(풀블리드 사진+캡션·크레딧만).
+
+
 
 ### Added
 - **르포(reportage) 테마 8종 영상화** — agents_reviewer 르포 테마 팔레트(cyprus,

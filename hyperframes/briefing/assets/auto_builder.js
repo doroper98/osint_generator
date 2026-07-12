@@ -483,40 +483,34 @@
     },
 
     statement(sc, sec) {
-      // 서술 섹션의 key takeaway — 카드형 띠로 순차 등장 (계약 video.highlights)
+      // 서술 섹션 — 섹션 제목을 큰 편집형 히어로 스테이트먼트로 (v0.45.1).
+      // 번호형 불릿 카드(구 video.highlights)는 AI 슬롭이라 폐기. 내레이션은 자막이 전달.
       const wrap = document.createElement("div");
-      wrap.className = "stmt";
+      wrap.className = "stmt stmt-hero";
       const qm = document.createElement("div");
       qm.className = "stmt-qmark";
       qm.textContent = "\u201C";
       wrap.appendChild(qm);
       sec.appendChild(wrap);
-      const rows = sc.data.lines.map((segs, i) => {
+      const rows = sc.data.lines.map((segs) => {
         const row = document.createElement("div");
-        row.className = "stmt-line";
-        const no = document.createElement("span");
-        no.className = "stmt-no";
-        no.textContent = String(i + 1).padStart(2, "0");
-        row.appendChild(no);
-        const tx = document.createElement("div");
-        tx.className = "stmt-text";
+        row.className = "stmt-hero-line";
         segs.forEach(([txt, em]) => {
           const sp = document.createElement(em ? "em" : "span");
           sp.textContent = txt;
-          tx.appendChild(sp);
+          row.appendChild(sp);
         });
-        row.appendChild(tx);
         wrap.appendChild(row);
         return row;
       });
       const t0 = sc.t0;
-      const span = (sc.t1 - sc.t0 - 3.5) / Math.max(1, rows.length);
+      const span = (sc.t1 - sc.t0 - 3.0) / Math.max(1, rows.length);
       sceneIn(sec, t0);
       headIn(sec, t0);
-      tl.from(qm, { opacity: 0, scale: 0.6, transformOrigin: "left top", duration: 0.8 }, t0 + 0.4);
+      tl.from(qm, { opacity: 0, scale: 0.6, transformOrigin: "left top", duration: 0.9 }, t0 + 0.3);
       rows.forEach((row, i) => {
-        const at = t0 + 0.9 + i * span;
-        tl.from(row, { opacity: 0, x: -28, duration: 0.75, ease: "power3.out" }, at);
+        const at = t0 + 0.8 + i * span;
+        tl.from(row, { opacity: 0, y: 34, duration: 0.9, ease: "power3.out" }, at);
       });
       sceneOut(sec, sc.t1 - 0.5);
     },
