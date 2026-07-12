@@ -149,6 +149,11 @@ THEME_ALIASES = {"forest_sage": "forest_archive", "midnight_indigo": "midnight_n
 
 NUM_TOKEN = re.compile(r"\d[\d,\.]*")
 
+# 자막 길이 예산 (C0.2 카피 규칙) — 억지 축약보다 '자연스럽고 온전한 문장'을 우선.
+# 다소 길어져 2줄이 되더라도 사람이 읽기 쉬운 쪽을 택한다(자막 박스 2줄 대응).
+SUB_CAP = 100   # 일반 자막 문장
+SUB_CAP_S = 82  # 차트 옆 등 약간 타이트한 자막
+
 # ── TTS 발음 표기 (템플릿 cue 용 — 계약 narration_tts 와 동일 철학) ──
 sys.path.insert(0, str(REPO))
 from orchestrator.tts_pronounce import apply_pronunciation, load_dict, num_to_sino_kr  # noqa: E402
@@ -356,7 +361,7 @@ def section_videos(sections: list, corpus: str) -> dict:
         narr = []
         tts_src = v.get("narration_tts") or []
         for i, sent in enumerate(v.get("narration") or []):
-            sent = fix_phrasing(clip(str(sent), 75))
+            sent = fix_phrasing(clip(str(sent), SUB_CAP))
             if not sentence_grounded(sent, corpus):
                 dropped += 1
                 continue
@@ -592,7 +597,7 @@ EXTRA_CHART_SCENES = {
     "stacked": ("stacked", "구성", "구성으로 보면 이렇게 나뉩니다"),
     "stacked_bar": ("stacked", "구성", "구성으로 보면 이렇게 나뉩니다"),
     "waterfall": ("waterfall", "증감", "증감을 다리로 이으면 흐름이 보입니다"),
-    "scatter": ("scatter", "분포", "분포로 놓으면 각자의 위치가 드러납니다"),
+    "scatter": ("scatter", "분포", "두 축 위에서 각 항목이 어디에 있는지입니다"),
     "heatmap": ("heatmap", "강도", "강도의 지도로 보면 쏠림이 보입니다"),
     "gantt": ("gantt", "일정", "남은 일정을 레인으로 펼칩니다"),
 }
@@ -1136,7 +1141,7 @@ def convert(bundle_path: Path, out_path: Path, tl_override: str | None = None,
         out = []
         tts_src = vdict.get(key + "_tts") or []
         for i, sent in enumerate(vdict.get(key) or []):
-            sent = fix_phrasing(clip(str(sent), 75))
+            sent = fix_phrasing(clip(str(sent), SUB_CAP))
             if sentence_grounded(sent, corpus):
                 out.append({"text": sent,
                             "tts": fix_phrasing(clip(str(tts_src[i]), 120)) if i < len(tts_src) else None})
@@ -1168,9 +1173,9 @@ def convert(bundle_path: Path, out_path: Path, tl_override: str | None = None,
     title = build_title(report, sections, date_kor)
     add_scene("title", 9, "타이틀", None, title, sid="__intro")
     deck_sents = sentences(report.get("deck", ""))
-    cues.append(tcue(0.8, clip(deck_sents[0], 58)))
+    cues.append(tcue(0.8, clip(deck_sents[0], SUB_CAP_S)))
     if len(deck_sents) > 1:
-        cues.append(tcue(4.6, clip(deck_sents[1], 58)))
+        cues.append(tcue(4.6, clip(deck_sents[1], SUB_CAP_S)))
 
     charts = b.get("charts") or []
 
@@ -1192,11 +1197,11 @@ def convert(bundle_path: Path, out_path: Path, tl_override: str | None = None,
         if key:
             kd = date_kr(key["date"].replace(".", "-"))
             cues.append(tcue(t0 + 4.4, clip(
-                f"{kd}에는 {key['label']}{josa(key['label'], '이', '가')} 있었습니다.", 75)))
+                f"{kd}에는 {key['label']}{josa(key['label'], '이', '가')} 있었습니다.", SUB_CAP)))
         fut = next((s for s in ladder["steps"] if s["phase"] == "future"), None)
         if fut:
             fd = date_kr(fut["date"].replace(".", "-"))
-            cues.append(tcue(t0 + 8.0, clip(f"다음은 {fd}에 예정된 {fut['label']}입니다.", 75)))
+            cues.append(tcue(t0 + 8.0, clip(f"다음은 {fd}에 예정된 {fut['label']}입니다.", SUB_CAP)))
 
     # 2-b. 인용 인터스티셜 (pull_quote 있으면 — 클로징은 폴백 인용 사용)
     pq = next((s.get("pull_quote") for s in sections if s.get("pull_quote")), None)
@@ -1207,7 +1212,7 @@ def convert(bundle_path: Path, out_path: Path, tl_override: str | None = None,
             "segments": quote_segments(clip(pq, 80)),
             "source": (pq_sec.get("kicker") if pq_sec else "") or "보고서 본문",
         }, sid=pq_sec.get("section_id") if pq_sec else None)
-        cues.append(tcue(t0 + 0.8, clip(pq, 58)))
+        cues.append(tcue(t0 + 0.8, clip(pq, SUB_CAP_S)))
 
     # 2-c. 사건의 좌표 (map 있으면) — 평면 권역맵(mideast/neasia) 우선, 아니면 지구본.
     geo = norm_map(b.get("map") or {}) if b.get("map") else None
@@ -1218,10 +1223,10 @@ def convert(bundle_path: Path, out_path: Path, tl_override: str | None = None,
         # 상투적 템플릿 오프너 폐기 — 근거 있는 마커·아크 문장으로만 (AI 슬롭 제거).
         hi_m = next((m for m in geo["markers"] if m["hi"] and m["note"]), None)
         if hi_m:
-            cues.append(tcue(t0 + 0.9, clip(f"{hi_m['name']}, {hi_m['note']}.", 75)))
+            cues.append(tcue(t0 + 0.9, clip(f"{hi_m['name']}, {hi_m['note']}.", SUB_CAP)))
         arc_l = next((a for a in geo["arcs"] if a["label"]), None)
         if arc_l:
-            cues.append(tcue(t0 + 5.4, clip(f"{arc_l['label']} — 두 지점을 잇는 동선입니다.", 75)))
+            cues.append(tcue(t0 + 5.4, clip(f"{arc_l['label']} — 두 지점을 잇는 동선입니다.", SUB_CAP)))
     elif b.get("map"):
         # 평면 권역 미지원(글로벌·다권역) → 지구본 씬 (reportage_globe). 예전엔 통째 생략.
         gl = norm_globe(b["map"])
@@ -1232,10 +1237,10 @@ def convert(bundle_path: Path, out_path: Path, tl_override: str | None = None,
             # 상투적 오프너 폐기 — 근거 있는 마커·아크 문장으로만.
             hi_m = next((m for m in gl["markers"] if m["hi"] and m["note"]), None)
             if hi_m:
-                cues.append(tcue(t0 + 0.9, clip(f"{hi_m['name']}, {hi_m['note']}.", 75)))
+                cues.append(tcue(t0 + 0.9, clip(f"{hi_m['name']}, {hi_m['note']}.", SUB_CAP)))
             arc_l = next((a for a in gl["arcs"] if a["label"]), None)
             if arc_l:
-                cues.append(tcue(t0 + 5.8, clip(f"{arc_l['label']} — 대륙을 잇는 동선입니다.", 75)))
+                cues.append(tcue(t0 + 5.8, clip(f"{arc_l['label']} — 대륙을 잇는 동선입니다.", SUB_CAP)))
 
     # 3. 일봉 캔들 (candle 차트 있으면)
     candle = build_candle(charts)
@@ -1247,7 +1252,7 @@ def convert(bundle_path: Path, out_path: Path, tl_override: str | None = None,
         add_scene("candle", 9, "일봉", {"kicker": k, "title": h},
                   {"ohlc": candle["ohlc"], "title": candle["title"]},
                   sid=sec.get("section_id") if sec else None)
-        cues.append(tcue(t0 + 0.6, clip(f"{candle['title']} — 최근 {len(candle['ohlc'])}거래일의 흐름입니다.", 58)))
+        cues.append(tcue(t0 + 0.6, clip(f"{candle['title']} — 최근 {len(candle['ohlc'])}거래일의 흐름입니다.", SUB_CAP_S)))
         closes = [d["close"] for d in candle["ohlc"]]
         chg = (closes[-1] / closes[0] - 1) * 100
         cues.append(tcue(t0 + 4.6, f"구간 등락은 {chg:+.1f}%, 종가 {round(closes[-1]):,}입니다."))
@@ -1264,7 +1269,7 @@ def convert(bundle_path: Path, out_path: Path, tl_override: str | None = None,
         if len(bp["panels"]) == 1:
             pn = bp["panels"][0]
             top = max(pn["items"], key=lambda it: it["value"])
-            cues.append(tcue(t0 + 0.6, clip(f"{pn['title']} — 상단은 {top['label']}, {top['value']:,}{pn['unit']}입니다.", 58)))
+            cues.append(tcue(t0 + 0.6, clip(f"{pn['title']} — 상단은 {top['label']}, {top['value']:,}{pn['unit']}입니다.", SUB_CAP_S)))
         else:
             # 패널(차트)별 상단/하단 비율 — 패널 간 혼합은 스케일이 달라 무의미
             ratios = []
@@ -1275,7 +1280,7 @@ def convert(bundle_path: Path, out_path: Path, tl_override: str | None = None,
             cues.append(tcue(t0 + 0.6, "같은 회사를 두고, 12개월 시선은 이렇게 벌어져 있습니다."))
             if ratios:
                 wt, wr = max(ratios, key=lambda r: r[1])
-                cues.append(tcue(t0 + 4.8, clip(f"{wt} — 상단과 하단이 {wr:.1f}배 차이입니다.", 58)))
+                cues.append(tcue(t0 + 4.8, clip(f"{wt} — 상단과 하단이 {wr:.1f}배 차이입니다.", SUB_CAP_S)))
 
     # 4-b. 슬로프 (slope 차트 있으면)
     for sl in build_slopes(charts):
@@ -1287,8 +1292,8 @@ def convert(bundle_path: Path, out_path: Path, tl_override: str | None = None,
                   {"left_label": sl["left_label"], "right_label": sl["right_label"], "items": sl["items"]},
                   sid=sec.get("section_id") if sec else None)
         hi = max(sl["items"], key=lambda it: abs(it["b"] - it["a"]))
-        cues.append(tcue(t0 + 0.6, clip(f"{sl['title']} — {sl['left_label']}에서 {sl['right_label']}까지.", 58)))
-        cues.append(tcue(t0 + 4.6, clip(f"가장 크게 움직인 건 {hi['label']}, {hi['a']:,}에서 {hi['b']:,}입니다.", 58)))
+        cues.append(tcue(t0 + 0.6, clip(f"{sl['title']} — {sl['left_label']}에서 {sl['right_label']}까지.", SUB_CAP_S)))
+        cues.append(tcue(t0 + 4.6, clip(f"가장 크게 움직인 건 {hi['label']}, {hi['a']:,}에서 {hi['b']:,}입니다.", SUB_CAP_S)))
 
     # 4-b2. 관계망 (network 차트 있으면)
     for c in charts:
@@ -1305,10 +1310,10 @@ def convert(bundle_path: Path, out_path: Path, tl_override: str | None = None,
                   sid=sec.get("section_id") if sec else None)
         n = len(nw["nodes"])
         nat = native_count(n)
-        cues.append(tcue(t0 + 0.6, clip(f"{split_unit(c.get('title', ''))[0]}, {n}개 행위자를 한 판에 놓았습니다.", 75),
-                         tts=tts_of(f"{split_unit(c.get('title', ''))[0]}, {nat or n} 행위자를 한 판에 놓았습니다.")))
+        cues.append(tcue(t0 + 0.6, clip(f"{split_unit(c.get('title', ''))[0]}, 여기 얽힌 행위자는 {n}곳입니다.", SUB_CAP),
+                         tts=tts_of(f"{split_unit(c.get('title', ''))[0]}, 여기 얽힌 행위자는 {nat or n} 곳입니다.")))
         center = nw["nodes"][0]["label"]
-        cues.append(tcue(t0 + 5.0, clip(f"관계가 가장 많이 얽힌 쪽은 {center}입니다.", 75)))
+        cues.append(tcue(t0 + 5.0, clip(f"관계가 가장 많이 얽힌 쪽은 {center}입니다.", SUB_CAP)))
 
     # 4-b2. 산키 (sankey 차트 있으면 — 자금/물량 흐름 배분)
     for c in charts:
@@ -1325,9 +1330,9 @@ def convert(bundle_path: Path, out_path: Path, tl_override: str | None = None,
         h = (sec.get("heading") if sec else None) or title_clean
         add_scene("sankey", 12, "흐름", {"kicker": k, "title": h}, sk,
                   sid=sec.get("section_id") if sec else None)
-        cues.append(tcue(t0 + 0.6, clip(f"{title_clean} — 흐름을 따라가면 행선지가 보입니다.", 75)))
+        cues.append(tcue(t0 + 0.6, clip(f"{title_clean}, 무엇이 어디로 얼마나 흘러가는지입니다.", SUB_CAP)))
         if max_sink:
-            cues.append(tcue(t0 + 6.2, clip(f"가장 굵은 줄기는 {max_sink} 쪽으로 흐릅니다.", 75)))
+            cues.append(tcue(t0 + 6.2, clip(f"가장 굵은 줄기는 {max_sink} 쪽으로 흐릅니다.", SUB_CAP)))
 
     # 4-c. 잔여 차트 유형 (stacked/waterfall/scatter/heatmap/gantt — 있으면)
     today_iso = m.group(0) if m else None
@@ -1348,7 +1353,7 @@ def convert(bundle_path: Path, out_path: Path, tl_override: str | None = None,
         h = (sec.get("heading") if sec else None) or title_clean
         add_scene(stype, 9, chip_label, {"kicker": k, "title": h}, d,
                   sid=sec.get("section_id") if sec else None)
-        cues.append(tcue(t0 + 0.6, clip(f"{title_clean}, {cue_tail}.", 75)))
+        cues.append(tcue(t0 + 0.6, clip(f"{title_clean}, {cue_tail}.", SUB_CAP)))
 
     # 4-c2. 표 (table 차트 있으면 — 비교표/매핑표)
     for tb in build_tables(charts):
@@ -1363,9 +1368,9 @@ def convert(bundle_path: Path, out_path: Path, tl_override: str | None = None,
         hl = next((r for r in tb["rows"] if r["highlight"]), None)
         if hl:
             cues.append(tcue(t0 + 0.6, clip(
-                f"{tb['title']} — 갈리는 지점은 '{hl['cells'].get(first_col, '')}'입니다.", 75)))
+                f"{tb['title']} — 갈리는 지점은 '{hl['cells'].get(first_col, '')}'입니다.", SUB_CAP)))
         else:
-            cues.append(tcue(t0 + 0.6, clip(f"{tb['title']} — 항목별로 나란히 보면 이렇습니다.", 75)))
+            cues.append(tcue(t0 + 0.6, clip(f"{tb['title']}, 항목별 수치를 나란히 놓았습니다.", SUB_CAP)))
 
     # 4-d. 스테이트먼트 (계약 video.highlights — 차트 없는 서술 섹션 구제)
     versus_k, versus_h, versus_sid = find_section(
@@ -1440,11 +1445,11 @@ def convert(bundle_path: Path, out_path: Path, tl_override: str | None = None,
                              f"시각은 {a['name']}{josa(a['name'], '과', '와')} {bb['name']}, 둘로 갈립니다."))
         # 자막은 75자 클립, 음성은 첫 완결 문장 — 중간에 말이 끊기지 않게 (TTS-AP-060)
         a_line_first = (sentences(a["line"]) or [a["line"]])[0]
-        cues.append(tcue(t0 + 4.4, clip(f"{a['org']}, {a['line']}", 75),
+        cues.append(tcue(t0 + 4.4, clip(f"{a['org']}, {a['line']}", SUB_CAP),
                          tts=tts_of(f"{a['org']}, {to_polite(a_line_first)}")))
         res0 = sentences(contras[0].get("resolution", ""))
         if res0:
-            cues.append(tcue(t0 + 8.2, clip(to_polite(res0[0]), 75)))
+            cues.append(tcue(t0 + 8.2, clip(to_polite(res0[0]), SUB_CAP)))
 
     # 6. 가격 비교 (line 차트 있으면)
     markets = build_markets(charts)
@@ -1454,7 +1459,7 @@ def convert(bundle_path: Path, out_path: Path, tl_override: str | None = None,
                          for c in charts if c.get("type") == "line"), None)
         add_scene("markets", 10, "가격", {"kicker": "Relative", "title": "같은 기간, 가격의 궤적"},
                   markets, sid=line_sec.get("section_id") if line_sec else None)
-        cues.append(tcue(t0 + 0.6, "같은 기간, 가격은 이렇게 움직였습니다."))
+        cues.append(tcue(t0 + 0.6, "같은 기간 동안, 종목별로 가격이 이만큼 갈렸습니다."))
         top = max(markets["markets"], key=lambda mk: abs(mk["pct"]))
         cues.append(tcue(t0 + 4.6, f"가장 크게 움직인 건 {top['name']}, {top['pct']:+.1f}%입니다."))
 
@@ -1469,7 +1474,7 @@ def convert(bundle_path: Path, out_path: Path, tl_override: str | None = None,
         # 자막은 name(풀), 음성은 name_spoken(첫 절·날짜 중복 제거) — 절단 "…" 낭독 방지
         cues.append(tcue(
             t0 + 4.6,
-            clip(f"가장 가까운 갈림길은 {first['when']}, {first['name']}입니다.", 75),
+            clip(f"가장 가까운 갈림길은 {first['when']}, {first['name']}입니다.", SUB_CAP),
             tts=tts_of(f"가장 가까운 갈림길은 {first['when']}, {first['name_spoken']}입니다.")))
 
     # 5. 클로징 (항상)
@@ -1480,7 +1485,7 @@ def convert(bundle_path: Path, out_path: Path, tl_override: str | None = None,
     # closing 빈 실번들(v8.3.3 관측) 폴백 — deck 첫 문장. (__outro 계약 narration 이 있으면 어차피 대체됨)
     closing_first = (sentences(report.get("closing", "")) or sentences(report.get("deck", "")) or [""])[0]
     if closing_first:
-        cues.append(tcue(t0 + 0.4, clip(closing_first, 58)))
+        cues.append(tcue(t0 + 0.4, clip(closing_first, SUB_CAP_S)))
     cues.append(tcue(t0 + 4.2, f"신뢰도 {closing['confidence']['score']:.2f} — 근거와 한계는 화면과 같습니다."))
 
     # ── 계약 narration → cue 교체 (검증 통과 문장만, 섹션 시간창에 균등 배치) ──
@@ -1723,7 +1728,7 @@ def preview_charts(out_path: Path, theme_id: str = "ink_brass") -> dict:
              {"source": "rnd", "target": "node2", "value": 10},
              {"source": "debt", "target": "repay", "value": 8},
          ]},
-        "흐름을 따라가면 행선지가 보입니다.")
+        "무엇이 어디로 얼마나 흘러가는지입니다.")
 
     add("scatter", 9, "분포", {"kicker": "Scatter", "title": "증권사 목표가 — 직전 대비 어디로 옮겼나"},
         {"xLabel": "직전 목표가(만원)", "yLabel": "최근 목표가(만원)", "diagonal": True,
@@ -1768,7 +1773,7 @@ def preview_charts(out_path: Path, theme_id: str = "ink_brass") -> dict:
             {"cells": {"field": "CAD 참조", "ocml": "✗ 없음", "ebom": "✓ 있음", "note": ""}},
             {"cells": {"field": "공정 정보", "ocml": "✗ 없음", "ebom": "부분적", "note": "M-BOM에서 추가"}},
          ]},
-        "표로 나란히 놓으면, 빠진 한 줄이 드러납니다.")
+        "항목별 수치를 나란히 놓았습니다.")
 
     # photo 씬 검증용 플레이스홀더 (네트워크 불필요 — 로컬 SVG 생성, 결정론)
     ph_dir = BRIEFING / "assets" / "photos" / "preview"

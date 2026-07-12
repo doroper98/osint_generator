@@ -137,12 +137,13 @@
       #scene-chip .dot { background: var(--accent); }
 
       /* ── 하단 자막 (lower-third) ── */
-      .subwrap { position: absolute; left: 96px; bottom: 96px; right: 600px; z-index: 35;
+      /* 자막 — 억지 축약보다 자연스러운 문장 우선(C0.2). 폭을 넓혀 2줄까지 편하게 수용. */
+      .subwrap { position: absolute; left: 96px; bottom: 92px; right: 470px; z-index: 35;
                  display: flex; gap: 22px; align-items: flex-start; }
       .subbar { width: 3px; align-self: stretch; min-height: 56px;
                 background: var(--accent); }
-      #cap { font-size: 37px; line-height: 1.38; font-weight: 600; letter-spacing: -0.2px;
-             color: var(--cap-color); max-width: 1280px;
+      #cap { font-size: 36px; line-height: 1.42; font-weight: 600; letter-spacing: -0.2px;
+             color: var(--cap-color); max-width: 1360px;
              text-shadow: var(--cap-shadow); }
       .source { position: absolute; right: 96px; left: 96px; bottom: 26px; z-index: 36; text-align: right;
                 font-size: 13px; line-height: 1.5; font-weight: 500; color: var(--faint);

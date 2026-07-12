@@ -1,6 +1,6 @@
 <!--
 tier: 3
-last_synced_with: v0.47.0
+last_synced_with: v0.48.0
 ssot_for: [development-log]
 depends_on: [CHANGELOG.md]
 last_review: 2026-06-06
@@ -2868,3 +2868,15 @@ last_review: 2026-06-06
   cream 배경 + teal 잉크 헤드라인 + ochre accent, 전부 가독·밝음. 지구본 육지 silhouette
   대비 확보. themes.js 파싱 통과.
 - 연관: C0(영상미·가독성). 다크 르포가 필요하면 reportage_*_dark 로 별도 추가 가능(후속).
+
+## 2026-07-12 v0.48.0 — AI 슬롭 카피 규칙(C0.2) + 자막 억지 축약 완화
+
+- 무엇을: 사용자 요청 — "억지 축약·인위적/작위적·상투적 표현 제거 룰. 자막이 길어져도
+  사람이 읽기 쉬운 게 낫다."
+- 어떻게: (1) CLAUDE.md 에 C0.2 카피/자막 규칙 명문화(거버넌스). (2) 자막 절단 완화 —
+  clip 한도를 SUB_CAP(100)/SUB_CAP_S(82) 상수로(기존 75/58), 자막 박스 폭↑·2줄 수용
+  (index.html .subwrap/#cap). 음성 예산(120)은 불변. (3) 상투 템플릿 오프너 8곳을
+  사실 서술로 교체(sankey/table/geonet/markets/scatter/미리보기).
+- 결과: 80자 완결 문장이 "…" 없이 2줄로 렌더 확인(versus 씬 스크린샷). 예전엔 75자 절단.
+- 함정: to_polite 가 "무게를 둔다"→"둔습니다"(오활용) 만드는 별건 버그 발견 — 후속(TTS-AP).
+- 연관: C0.2(신규)·C1(톤). 저작권은 agents_reviewer, 파이프라인은 LLM 무호출 유지.
