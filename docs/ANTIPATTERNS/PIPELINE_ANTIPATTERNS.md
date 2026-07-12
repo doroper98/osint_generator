@@ -54,6 +54,16 @@ last_review: 2026-05-19
 - **발견 버전**: v0.1.0 (Phase 1 smoke test 중)
 - **상태**: active
 
+## PIPELINE-AP-007 — 사진 자산 바이너리 미전달 + 차트가 사진 밀어냄 (사진 전량 미노출)
+- **증상**: 실제 보고서 번들로 영상을 만들면 보도 사진이 하나도 안 나오고 씬이 전부 차트가 된다.
+- **재현**: `python hyperframes/scripts/bundle_to_video.py json/analysis_*.bundle.json` → `photos: 0장 사용 / N건 스킵 (…로컬 파일 없음)`.
+- **원인 ①(자산 부재)**: agents_reviewer 백필 번들의 이미지 `url` 이 계약(원본 직링크) 대신 로컬 캐시 상대경로(`img/xxx.webp`)였고, 그 바이너리는 osint_generator 로 전달되지 않았다. `fetch_photos` 는 로컬 경로를 **CWD 기준**으로 찾아 전량 "로컬 파일 없음" 스킵.
+- **원인 ②(차트 독점)**: `photo` 씬은 4-d 스테이트먼트 승격 한 곳에서만 생성되는데, 그 앞에서 차트 씬이 섹션을 `consumed` 로 소진한다. 사진 2장이 붙은 리드 섹션에 차트가 8~10개면 그 섹션이 차트로 소진되어 사진이 조용히 버려진다.
+- **좋은 예**: (①) 자산 확보를 3단계 폴백(직링크 → 번들 디렉토리 기준 로컬 → 원문 페이지 og:image 직접 회수)으로. `source_id`→원문 URL→대표 이미지 회수, `recovered="source_page"` 로 추적. LLM 무호출·결정론 유지. (②) 차트로 소진된 섹션이라도 cleared 사진이 있으면 인접 photo 씬을 별도 추가 (C0 영상미 우선). 섹션당 첫 1장 캡 유지.
+- **자동 조치**: `hyperframes/scripts/bundle_to_video.py:fetch_photos` 폴백 + 4-d 씬 빌더 사진 공존. 실번들 5건 + 로컬 데모 1건 실변환으로 검증.
+- **회귀 테스트**: pending (실물 검증 방침 — pydantic 미설치 환경이라 실변환 로그로 확인)
+- **발견 버전**: v0.44.0 · **상태**: resolved (소비측). producer 가 `url` 을 원본 직링크로 emit 하면 폴백 없이 1단계로 동작.
+
 ---
 
 > 새 패턴 발견 시 본 파일 끝에 append. 과거 항목 수정 금지.

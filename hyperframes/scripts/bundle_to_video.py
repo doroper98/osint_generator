@@ -675,25 +675,76 @@ def build_tables(charts: list) -> list:
     return out
 
 
-def fetch_photos(b: dict, report_id: str) -> dict:
-    """images[] 를 다운로드해 로컬 자산화 → {image_id: photo 씬 dict}. (IMAGE_BUNDLE_CONTRACT)
+def fetch_photos(b: dict, report_id: str, bundle_dir: Path | None = None) -> dict:
+    """images[] 를 로컬 자산화 → {image_id: photo 씬 dict}. (IMAGE_BUNDLE_CONTRACT)
 
-    권리 게이트(G4-8/C9): rights_status == "cleared" 만 다운로드·사용. 나머지와
-    실패 건은 photos_manifest.json 에 사유와 함께 기록만 한다(추적성). 섹션이
-    참조하지 않는 이미지는 받지 않는다. url 이 로컬 파일 경로면 복사(테스트/오프라인).
+    권리 게이트(G4-8/C9): rights_status == "cleared" + credit 있는 사진만 사용.
+    나머지·실패 건은 photos_manifest.json 에 사유와 함께 기록만 한다(추적성).
+    섹션이 참조하지 않는 이미지는 받지 않는다.
+
+    자산 확보 순서 — 원인① (사용자 결정 2026-07-12: "우리가 직접 찾는다").
+    계약 §목적의 '영상 쪽 자동 스크래핑 금지' 대비 소비측 폴백 예외이며, LLM
+    무호출·결정론(고정 URL → 고정 og:image)은 유지한다:
+      1. url 이 http(s) 직링크면 그대로 다운로드.
+      2. url 이 로컬 경로면 bundle_dir 기준으로 resolve 해 읽는다 (CWD 아님).
+      3. 1·2 가 실패하고 source_id 로 원문 페이지 URL 을 알 수 있으면, 그 페이지의
+         대표 이미지(og:image → twitter:image)를 직접 회수한다. 회수 사실은
+         manifest 에 recovered="source_page" 로 남긴다.
+    권리는 producer 가 이미 cleared(출처표기 갈음)로 판정하고 credit 이 화면에
+    노출되므로, 같은 출처 도메인의 대표 이미지 회수는 §3.1-a 전제와 일치한다.
     """
-    import shutil
     import urllib.request
+    from urllib.parse import urljoin
 
     images = b.get("images") or []
     if not images:
         return {}
     referenced = {r for s in b.get("sections", []) for r in (s.get("image_refs") or [])}
+    src_url_by_id = {s.get("source_id"): s.get("url")
+                     for s in (b.get("sources") or []) if s.get("url")}
     photo_dir = BRIEFING / "assets" / "photos" / report_id
     out: dict = {}
     manifest = []
     ext_by_mime = {"image/jpeg": ".jpg", "image/png": ".png",
                    "image/webp": ".webp", "image/gif": ".gif"}
+
+    def _http_image(u: str) -> tuple[bytes | None, str, str]:
+        """직링크 다운로드 → (data, ext, reason). data 가 None 이면 reason 에 사유."""
+        try:
+            req = urllib.request.Request(u, headers={"User-Agent": "osint-generator/0.44"})
+            with urllib.request.urlopen(req, timeout=20) as resp:
+                mime = (resp.headers.get("Content-Type") or "").split(";")[0].strip()
+                data = resp.read(12 * 1024 * 1024 + 1)
+        except Exception as e:  # 네트워크 실패는 폴백/스킵 — 파이프라인은 계속
+            return None, "", f"다운로드 실패: {type(e).__name__}"
+        if len(data) > 12 * 1024 * 1024:
+            return None, "", "12MB 초과"
+        if mime and not mime.startswith("image/"):
+            return None, "", f"이미지 아님: {mime}"
+        ext = ext_by_mime.get(mime) or (Path(u.split("?")[0]).suffix or ".jpg")
+        return data, ext, ""
+
+    def _og_image(page_url: str) -> str | None:
+        """원문 페이지에서 대표 이미지 URL 추출 (og:image → twitter:image). 결정론."""
+        try:
+            req = urllib.request.Request(page_url,
+                                         headers={"User-Agent": "osint-generator/0.44"})
+            with urllib.request.urlopen(req, timeout=20) as resp:
+                ctype = resp.headers.get("Content-Type") or ""
+                if ctype and "html" not in ctype:
+                    return None
+                html = resp.read(2 * 1024 * 1024).decode("utf-8", "ignore")
+        except Exception:
+            return None
+        for pat in (
+            r'<meta[^>]+property=["\']og:image(?::url)?["\'][^>]+content=["\']([^"\']+)["\']',
+            r'<meta[^>]+content=["\']([^"\']+)["\'][^>]+property=["\']og:image(?::url)?["\']',
+            r'<meta[^>]+name=["\']twitter:image["\'][^>]+content=["\']([^"\']+)["\']',
+        ):
+            m = re.search(pat, html, re.IGNORECASE)
+            if m:
+                return urljoin(page_url, m.group(1).strip())
+        return None
 
     for im in images:
         iid = im.get("image_id") or ""
@@ -702,7 +753,7 @@ def fetch_photos(b: dict, report_id: str) -> dict:
         entry = {"image_id": iid, "url": url, "caption": im.get("caption", ""),
                  "credit": im.get("credit", ""), "rights_status": rights,
                  "license": im.get("license", ""), "source_id": im.get("source_id", ""),
-                 "used": False, "reason": ""}
+                 "used": False, "recovered": "", "reason": ""}
         manifest.append(entry)
         if not iid or not url:
             entry["reason"] = "image_id/url 누락"
@@ -718,32 +769,57 @@ def fetch_photos(b: dict, report_id: str) -> dict:
         if iid not in referenced:
             entry["reason"] = "어느 섹션도 참조하지 않음"
             continue
+
+        data: bytes | None = None
+        ext = ".jpg"
+        fail_reason = ""
+        # 1) http(s) 직링크
+        if url.startswith(("http://", "https://")):
+            data, ext, fail_reason = _http_image(url)
+        else:
+            # 2) 로컬 경로 — bundle_dir 기준 우선, 그다음 CWD (백필 오프라인 대비)
+            cands = []
+            p = Path(url)
+            if bundle_dir is not None and not p.is_absolute():
+                cands.append(bundle_dir / url)
+            cands.append(p)
+            src = next((c for c in cands if c.exists()), None)
+            if src is not None:
+                try:
+                    data = src.read_bytes()
+                    ext = src.suffix or ".jpg"
+                except Exception as e:
+                    fail_reason = f"로컬 읽기 실패: {type(e).__name__}"
+            else:
+                fail_reason = "로컬 파일 없음"
+
+        # 3) 원문 페이지에서 대표 이미지 회수 (1·2 실패 시 — 원인① 폴백)
+        if data is None:
+            page = src_url_by_id.get(im.get("source_id"))
+            if page and page.startswith(("http://", "https://")):
+                og = _og_image(page)
+                if og:
+                    data, ext, r2 = _http_image(og)
+                    if data is not None:
+                        entry["recovered"] = "source_page"
+                        entry["recovered_url"] = og
+                    else:
+                        fail_reason = f"원문 회수 실패: {r2}"
+                else:
+                    fail_reason = fail_reason or "원문 대표이미지 없음"
+
+        if data is None:
+            entry["reason"] = fail_reason or "자산 확보 실패"
+            continue
+
         try:
             photo_dir.mkdir(parents=True, exist_ok=True)
-            if url.startswith(("http://", "https://")):
-                req = urllib.request.Request(url, headers={"User-Agent": "osint-generator/0.42"})
-                with urllib.request.urlopen(req, timeout=20) as resp:
-                    mime = (resp.headers.get("Content-Type") or "").split(";")[0].strip()
-                    ext = ext_by_mime.get(mime) or (Path(url.split("?")[0]).suffix or ".jpg")
-                    data = resp.read(12 * 1024 * 1024 + 1)
-                if len(data) > 12 * 1024 * 1024:
-                    entry["reason"] = "12MB 초과"
-                    continue
-                if mime and not mime.startswith("image/"):
-                    entry["reason"] = f"이미지 아님: {mime}"
-                    continue
-                fname = f"{iid}{ext}"
-                (photo_dir / fname).write_bytes(data)
-            else:
-                src = Path(url)
-                if not src.exists():
-                    entry["reason"] = "로컬 파일 없음"
-                    continue
-                fname = f"{iid}{src.suffix or '.jpg'}"
-                shutil.copyfile(src, photo_dir / fname)
-        except Exception as e:  # 다운로드 실패는 스킵 — 파이프라인은 계속
-            entry["reason"] = f"다운로드 실패: {type(e).__name__}"
+            fname = f"{iid}{ext}"
+            (photo_dir / fname).write_bytes(data)
+        except Exception as e:
+            entry["reason"] = f"저장 실패: {type(e).__name__}"
             continue
+
         entry["used"] = True
         out[iid] = {"src": f"assets/photos/{report_id}/{fname}",
                     "caption": clip(im.get("caption", ""), 60),
@@ -755,7 +831,10 @@ def fetch_photos(b: dict, report_id: str) -> dict:
         (photo_dir / "photos_manifest.json").write_text(
             json.dumps(manifest, ensure_ascii=False, indent=2), encoding="utf-8")
         skipped = [m for m in manifest if not m["used"]]
-        print(f"[bundle_to_video] photos: {len(out)}장 사용 / {len(skipped)}건 스킵"
+        recovered = [m for m in manifest if m["used"] and m.get("recovered")]
+        print(f"[bundle_to_video] photos: {len(out)}장 사용"
+              + (f"(원문회수 {len(recovered)})" if recovered else "")
+              + f" / {len(skipped)}건 스킵"
               + (f" ({'; '.join(m['image_id'] + ':' + m['reason'] for m in skipped[:3])})"
                  if skipped else ""))
     return out
@@ -1009,7 +1088,7 @@ def convert(bundle_path: Path, out_path: Path, tl_override: str | None = None,
     svideos = section_videos(sections, corpus)
 
     # 보도 사진 (IMAGE_BUNDLE_CONTRACT) — cleared 만 로컬 자산화, 섹션당 첫 1장.
-    photos = fetch_photos(b, report.get("report_id") or "report")
+    photos = fetch_photos(b, report.get("report_id") or "report", bundle_dir=bundle_path.parent)
     photo_by_sid: dict = {}
     for s in sections:
         for r in (s.get("image_refs") or []):
@@ -1245,22 +1324,44 @@ def convert(bundle_path: Path, out_path: Path, tl_override: str | None = None,
     signals_k, signals_h, signals_sid = find_section(
         sections, ["신호", "감시", "Signal"], ("Signals", "무엇이 갈림길을 정하는가"))
     consumed = {sc.get("_sid") for sc in scenes}
+    photo_shown: set = set()
+
+    def add_photo(sid, s, lines):
+        # 풀블리드 보도 사진 + takeaway 오버레이 (IMAGE_BUNDLE_CONTRACT).
+        img = photo_by_sid[sid]
+        add_scene("photo", min(12, max(9, 3 + 3.0 * len(lines))), "현장",
+                  {"kicker": s.get("kicker") or "현장", "title": s.get("heading") or ""},
+                  {**img, "lines": lines}, sid=sid)
+        photo_shown.add(sid)
+
     for s in sections:
         sid = s.get("section_id")
+        if sid in (versus_sid, signals_sid):
+            continue
         sv = svideos.get(sid)
-        if not sv or not sv["highlights"]:
-            continue
-        if sid in consumed or sid in (versus_sid, signals_sid):
-            continue
-        dur = min(14, max(9, 3 + 3.0 * len(sv["narration"])))
-        lines = [em_segments_line(h2, sv["emphasis"]) for h2 in sv["highlights"]]
+        highlights = sv["highlights"] if sv else []
+        emphasis = sv["emphasis"] if sv else []
         img = photo_by_sid.get(sid)
+
+        if sid in consumed:
+            # 원인② — 차트 등으로 이미 소진된 섹션이라도 cleared 사진이 있으면
+            # 인접 photo 씬으로 함께 노출한다 (C0 영상미 우선, 사용자 결정 2026-07-12).
+            if img and sid not in photo_shown:
+                add_photo(sid, s, [em_segments_line(h2, emphasis) for h2 in highlights[:2]])
+            continue
+
+        if not highlights:
+            # 하이라이트 없는 섹션이라도 사진이 있으면 photo 씬으로 구제.
+            if img and sid not in photo_shown:
+                add_photo(sid, s, [])
+            continue
+
+        lines = [em_segments_line(h2, emphasis) for h2 in highlights]
         if img:
-            # 사진 있는 섹션은 photo 씬으로 승격 — 풀블리드 사진 + takeaway 오버레이.
-            add_scene("photo", dur, "현장",
-                      {"kicker": s.get("kicker") or "현장", "title": s.get("heading") or ""},
-                      {**img, "lines": lines}, sid=sid)
+            # 사진 있는 서술 섹션은 photo 씬으로 승격.
+            add_photo(sid, s, lines)
         else:
+            dur = min(14, max(9, 3 + 3.0 * len(sv["narration"])))
             add_scene("statement", dur, "키 포인트",
                       {"kicker": s.get("kicker") or "Key Point", "title": s.get("heading") or ""},
                       {"lines": lines}, sid=sid)

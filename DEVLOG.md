@@ -1,6 +1,6 @@
 <!--
 tier: 3
-last_synced_with: v0.43.4
+last_synced_with: v0.44.0
 ssot_for: [development-log]
 depends_on: [CHANGELOG.md]
 last_review: 2026-06-06
@@ -2749,3 +2749,24 @@ last_review: 2026-06-06
   - `pronounce.json`: SKHY/SKHYV/SKUU/SKDD/ETF/ADR/HBM/TSMC 매핑.
 - 결과: 단위 테스트 355/355 통과. 재합성(--bgm Zabriskie) → 재렌더로 음성 반영.
 - 연관: TTS-AP-058, 059, 060, 061, 062, 063. C0(영상미)·C6(안티패턴)·C9(BGM 권리).
+
+## 2026-07-12 v0.44.0 — 보도 사진 파이프라인 복구: 원문 이미지 회수 + 차트 섹션 사진 공존
+
+- 무엇을: "왜 사진 넣는 기능이 작동 안 하지? 영상이 차트 100% 비중" 사용자 지적
+  진단·복구. 두 겹의 원인이 겹쳐 실번들에서 사진이 전량 미노출이었다.
+- 왜: (①) agents_reviewer 백필 63건(#2)이 이미지 `url` 을 로컬 캐시 상대경로
+  (`img/xxx.webp`)로만 싣고 바이너리는 전달하지 않아, `fetch_photos` 가 CWD 기준으로
+  못 찾고 전량 스킵. (②) `photo` 씬이 4-d 승격 한 곳뿐인데 차트 씬이 섹션을 먼저
+  소진 → 사진+차트 동거 섹션(리드)에서 사진이 조용히 버려짐. 계약 취지(영상 중간
+  사진 삽입)·C0 위배.
+- 어떻게:
+  - `fetch_photos`: 자산 확보 3단계 폴백 — (1) http 직링크, (2) **번들 디렉토리
+    기준** 로컬 resolve(CWD 아님), (3) `source_id`→원문 URL→대표 이미지(og:image →
+    twitter:image) **직접 회수**. LLM 무호출·결정론. `recovered="source_page"` 로
+    manifest 추적. 사용자 결정(2026-07-12: "우리가 직접 찾는다")으로 계약 §목적
+    '스크래핑 금지'의 소비측 폴백 예외 — credit 화면 노출 + §3.1-a 전제 유지.
+  - 4-d 씬 빌더: 차트로 소진된 섹션이라도 cleared 사진 있으면 인접 photo 씬 추가.
+    섹션당 첫 1장 캡 유지.
+- 결과: 실번들 5건 전부 `원문회수` 로 사진 확보 + photo 씬 생성(예: 061758 → photo 2개),
+  로컬 데모 회귀 정상. `python -m py_compile` 통과.
+- 연관: PIPELINE-AP-007. C0(영상미)·C7(IMAGE_BUNDLE_CONTRACT 동기화)·C9(권리 추적).

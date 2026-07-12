@@ -1,6 +1,6 @@
 <!--
 tier: 3
-last_synced_with: v0.43.3
+last_synced_with: v0.44.0
 ssot_for: [release-notes]
 depends_on: [README.md, GOAL.md]
 last_review: 2026-06-11
@@ -22,6 +22,25 @@ released 항목은 **append-only**입니다.
 
 ### Changed
 -
+
+## [0.44.0] — 2026-07-12
+
+### Fixed
+- **보도 사진이 영상에 아예 안 나오던 문제 복구.** 두 겹의 원인을 함께 해결.
+  - **원인① 사진 원본 부재**: agents_reviewer 백필 번들의 이미지 `url` 이 로컬
+    캐시 상대경로(`img/xxx.webp`)인데 그 바이너리가 osint_generator 로 전달되지
+    않아, `fetch_photos` 가 전량 "로컬 파일 없음" 으로 스킵했다. 이제 자산 확보를
+    3단계(직링크 → 번들 디렉토리 기준 로컬 → **원문 페이지 og:image 직접 회수**)로
+    폴백한다. `source_id` 로 원문 URL 을 찾아 대표 이미지를 회수하며, 회수 사실은
+    `photos_manifest.json` 의 `recovered="source_page"` 로 남긴다. LLM 무호출·결정론
+    유지(고정 URL → 고정 og:image). 계약 §목적의 '영상 쪽 스크래핑 금지' 대비
+    소비측 폴백 예외(사용자 결정 2026-07-12).
+
+### Changed
+- **차트가 있는 섹션의 사진도 별도 photo 씬으로 함께 노출** (C0 영상미 우선).
+  기존에는 리드 섹션이 차트로 소진되면 그 섹션의 cleared 사진이 조용히 버려졌다.
+  이제 차트로 소진된 섹션이라도 사진이 있으면 인접 photo 씬을 추가한다. 섹션당
+  첫 1장 캡(IMAGE_BUNDLE_CONTRACT)은 유지.
 
 ### Fixed
 -
