@@ -69,19 +69,24 @@ def num_to_sino_kr(n: int) -> str:
     return str(n)
 
 
-# 숫자 + 한글 (단위어가 바로 붙는 경우 = "80달러", "19일") 패턴. num_to_sino_kr 의 결과
-# 뒤에 단위 한글이 붙으면 자연스럽게 공백 1 칸 삽입해 prosody 보정.
+# 숫자 + 한글 (단위어가 바로 붙는 경우 = "80달러", "19일") 패턴.
 _NUM_THEN_HANGUL_RE = re.compile(r"(?<!\d)(\d{1,8})(?=[가-힣])")
 _NUM_RE = re.compile(r"(?<!\d)(\d{1,8})(?!\d)")
+# 천단위 콤마 (1,395,000) — 콤마 그룹별 개별 변환 파탄 방지용 사전 제거 (TTS-AP-064)
+_THOUSANDS_COMMA_RE = re.compile(r"(?<=\d),(?=\d{3}(?!\d))")
 
 
 def apply_pronunciation(text: str, mapping: dict[str, str] | None = None) -> str:
-    """텍스트를 narration 용 음차로 변환.
+    """텍스트를 narration 용 음차로 변환. (docs/08_AUDIO_AND_TTS_SPEC.md §2·§4-a)
 
     1) `mapping` (사용자 사전) 의 key 가 text 에 있으면 value 로 치환 — 가장 우선.
-    2) 남은 숫자(연속 1~8자리) 는 한자어로 자동 변환.
-       2-1) 숫자 바로 뒤에 한글 단위어가 붙어있으면 (예: "80달러", "19일") 사이에
-            공백 한 칸 삽입 — TTS 가 단위어 발음을 분리 적용하도록.
+    2) 천단위 콤마를 제거해 하나의 수로 합침 — "1,395,000원"이 콤마 그룹별로 따로
+       변환돼 "일,삼백구십오,영 원"이 되는 파탄 방지 (TTS-AP-064).
+    3) 남은 숫자(연속 1~8자리) 는 한자어로 자동 변환.
+       3-1) 숫자 바로 뒤 한글 단위어는 **붙여서** 반환 — "백육십팔딸러"처럼 한 호흡
+            이어야 연음·경음이 산다([뱅뉵씹팔딸러]). 공백을 넣으면 [백육십팔 / 딸러]로
+            끊겨 AI 티가 난다 (TTS-AP-065 — 기존 '공백 삽입' 방침 폐기, 사용자 실청취
+            피드백 2026-07-12).
 
     단어 경계: mapping key 가 한국어이므로 `\b` 가 작동 안 함. 단순 substring 치환을
     긴 key 부터 적용해 부분 매칭 충돌 회피.
@@ -93,10 +98,8 @@ def apply_pronunciation(text: str, mapping: dict[str, str] | None = None) -> str
                 continue
             if key in out:
                 out = out.replace(key, mapping[key])
-    # 숫자 + 단위어 사이 공백 보정 → "팔십 달러", "십 구 일".
-    out = _NUM_THEN_HANGUL_RE.sub(
-        lambda m: num_to_sino_kr(int(m.group(1))) + " ", out
-    )
+    out = _THOUSANDS_COMMA_RE.sub("", out)
+    out = _NUM_THEN_HANGUL_RE.sub(lambda m: num_to_sino_kr(int(m.group(1))), out)
     out = _NUM_RE.sub(lambda m: num_to_sino_kr(int(m.group(1))), out)
     return out
 

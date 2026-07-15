@@ -1,12 +1,26 @@
 <!--
 tier: 2
-last_synced_with: v0.3.3
+last_synced_with: v0.46.0
 ssot_for: [map-spec, geo-data-policy]
 depends_on: [06_SOURCE_AND_RIGHTS_POLICY.md]
 last_review: 2026-05-19
 -->
 
 # 09 — Map & Geo Spec
+
+## 0. 영상 지도 씬 — 평면 권역맵 vs 지구본 (v0.46.0 구현)
+
+번들 `map` 필드(markers lng/lat, arcs, legend)는 두 가지 영상 씬으로 렌더된다.
+
+- **평면 권역맵 (`geo` 씬)**: 마커 bbox 가 사전 렌더 권역(현재 mideast·neasia)에
+  들어오는 **좁은 지역 사건**. 실측 베이스맵 + 플레이트 라벨 + 도시 디테일.
+- **지구본 (`globe` 씬, reportage_globe)**: 권역맵에 안 맞는 **글로벌·다권역 이벤트**.
+  d3 정사영 회전 지구본 + 대권 호 흐름(dash 이동) + 마커 펄스 + 당사국 역할 색조.
+  - 애니메이션은 **GSAP 타임라인 시간의 순수 함수**(자전각·dashoffset·펄스 반경) —
+    프레임 seek 결정론. d3.timer(벽시계) 금지.
+  - 자산: `d3.min.js`, `topojson-client.min.js`, `world_atlas.js`(countries-110m,
+    JS 전역 임베드) 로컬 번들. 테마는 8 르포 CSS 변수로 그대로 적용.
+  - 폴백 규칙: `norm_map`(평면) 실패 → `norm_globe` → `globe` 씬. 예전엔 통째 생략.
 
 ## 1. 지도 우선순위
 

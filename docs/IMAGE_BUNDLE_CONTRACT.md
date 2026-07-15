@@ -1,6 +1,6 @@
 <!--
 tier: 2
-last_synced_with: v0.42.0
+last_synced_with: v0.44.0
 ssot_for: [image-bundle-contract]
 depends_on: [VIDEO_BUNDLE_CONTRACT.md, 05_DATA_SCHEMA_SPEC.md]
 last_review: 2026-07-08
@@ -85,6 +85,19 @@ last_review: 2026-07-08
 - 빌드 시(`bundle_to_video.py`) `images[]` 를 다운로드해 로컬 자산화
   (`hyperframes/briefing/assets/photos/{report_id}/`). 다운로드 실패·타입 불일치
   는 해당 이미지 스킵 + 로그 (파이프라인은 계속).
+- **자산 확보 폴백 (v0.44.0, 원인① — 사용자 결정 2026-07-12)**: `url` 이 원본
+  직링크가 아니거나(예: 백필 번들의 `img/xxx.webp` 로컬 캐시 경로) 다운로드가
+  실패하면, 소비측이 아래 순서로 자산을 확보한다.
+  1. `url` 이 http(s) 직링크면 그대로 다운로드.
+  2. 로컬 경로면 **번들 파일 디렉토리 기준**으로 resolve (CWD 아님).
+  3. 1·2 실패 시 `source_id` 로 원문 페이지 URL 을 찾아 그 페이지의 대표
+     이미지(og:image → twitter:image)를 **직접 회수**. 회수 사실은
+     `photos_manifest.json` 의 `recovered="source_page"` (+`recovered_url`)로 기록.
+  본 폴백은 계약 §목적의 '영상 쪽 자동 스크래핑 금지' 원칙에 대한 소비측 예외이나,
+  (a) LLM 무호출·결정론(고정 URL → 고정 og:image)을 유지하고, (b) 권리는 producer
+  가 이미 `cleared`(출처표기 갈음)로 판정하고 credit 이 같은 출처 도메인이며 화면에
+  노출되므로 §3.1-a 전제와 일치한다. producer 가 향후 `url` 을 계약대로 원본
+  직링크로 emit 하면 폴백 없이 1단계로 동작한다.
 - **rights gate**: `rights_status == "cleared"` 가 아니면 다운로드 자체를 하지
   않는다. 소비 결과는 `photos_manifest.json` 에 기록 (C9 권리 추적).
 - **credit gate (§3.1-a 따름, v0.42.2)**: cleared 인데 credit 이 비어 있으면
@@ -95,6 +108,10 @@ last_review: 2026-07-08
 - `sections[].image_refs` 가 resolve 되는 섹션의 스테이트먼트 씬을 **photo 씬**
   으로 승격: 풀블리드 사진 + Ken Burns + 스크림 + key takeaway 오버레이 +
   우하단 캡션·크레딧.
+- **차트 섹션 사진 공존 (v0.44.0, 원인② — C0 영상미 우선)**: 섹션이 차트로
+  이미 소진되었더라도 그 섹션에 cleared 사진이 있으면 인접 photo 씬을 별도로
+  추가한다(차트 씬 + photo 씬 둘 다). 이전에는 차트가 사진을 밀어내 조용히
+  버려졌다. 섹션당 첫 1장 캡은 그대로 유지(남용 방지).
 - `images` 부재 시: 기존 동작 그대로 (하위 호환).
 - 인물 사진 추가 필터: 현재 소비측 별도 필터 없음 — producer 의 blocked 처리에
   위임. producer 가 추후 composer 신호(예: `person_flag`)를 추가하면 소비측
@@ -105,3 +122,6 @@ last_review: 2026-07-08
 - 2026-07-08: 초안 작성 (osint_generator v0.42.0 소비 구현 선행).
 - 2026-07-08: **확정** — agents_reviewer v8.3.5 emit 구현 + §3.1-a 개정(출처표기
   갈음). osint v0.42.2 에서 사본 동기화 + credit gate 추가.
+- 2026-07-12 (v0.44.0): 소비측 자산 확보 폴백(원문 페이지 og:image 회수) + 번들
+  디렉토리 기준 로컬 resolve + 차트 섹션 사진 공존 추가. 백필 번들이 로컬 캐시
+  경로만 싣고 바이너리를 전달하지 않아 사진이 전량 스킵되던 문제 대응(PIPELINE-AP-007).

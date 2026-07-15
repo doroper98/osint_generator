@@ -1,6 +1,6 @@
 <!--
 tier: 2
-last_synced_with: v0.3.3
+last_synced_with: v0.45.0
 ssot_for: [video-style-guide]
 depends_on: [09_MAP_AND_GEO_SPEC.md, 10_RENDERING_PIPELINE_SPEC.md]
 last_review: 2026-05-19
@@ -41,7 +41,38 @@ last_review: 2026-05-19
 - Spoqa Han Sans Neo
 - IBM Plex Sans KR
 
+### 3.1 채택 서체 — 르포(reportage) (v0.45.0, 구현 확정)
+
+agents_reviewer 르포 테마와 동일 서체를 채택한다. 전부 로컬 번들(결정론/오프라인).
+
+- **디스플레이** (헤드라인·타이틀·키커·칩·스테이트먼트·인용·네트워크 라벨):
+  **GmarketSans** (Bold 700 / Medium 500). `.serif` 클래스가 GmarketSans 로 매핑됨.
+- **본문·자막·데크·muted**: **Noto Sans KR** (400/500/700).
+- 로드: `assets/reportage_fonts.css`. 폰트 파일: `assets/fonts/gmarketsans/`,
+  `assets/fonts/notosanskr/`. 라이선스는 상업적 이용 가능 폰트만(C9).
+
 ## 4. 색상 시스템
+
+### 4.0 르포 팔레트 8종 (v0.45.0)
+
+`themes.js:SK_THEMES` 의 `reportage_*` 8종 — 전부 **다크 배경 + 크림 텍스트 +
+채도 높은 액센트** (밝고 화려한 르포 톤). 번들 `report.theme.id` 로 자동 선택되며
+기본 폴백은 `reportage_cyprus`.
+
+| id | 배경 | 액센트 | 성격 |
+|---|---|---|---|
+| reportage_cyprus | teal #004741 | ochre #E3A93C | 밝은 다큐 기본 |
+| reportage_noturno | near-black teal #001621 | vulcanico #FF4103 | 강렬·심야 |
+| reportage_bridal | maroon #741A2F | peach #FFB38F | 따뜻함 |
+| reportage_cosmos | deep blue #002F49 | crimson #E8503F | 정책·긴장 |
+| reportage_laurel | forest #0D3A35 | mint #86C0A4 | 환경·장기 |
+| reportage_princess | bright blue #015AA0 | coral #FF9457 | 금융·자본 |
+| reportage_steel | plum-grey #282433 | amber #E2B25C | 협상·중립 |
+| reportage_navy | indigo #0F0E49 | orchid #D9ABE8 | 권력·정치 |
+
+의미색: `--accent`(브랜드/강조), `--sage`(상승·동맹), `--oxide`(하락·대립).
+
+
 
 | 카테고리 | 주 색상 |
 |---|---|

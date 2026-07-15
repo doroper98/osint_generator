@@ -58,6 +58,45 @@ def sentences(text: str) -> list[str]:
     return [s.strip() for s in re.split(r"(?<=[.!?])\s+", text.strip()) if s.strip()]
 
 
+_ELLIPSIS_TAIL = re.compile(r"(?:…|\.\.\.)\s*$")
+
+
+def settle_ellipsis(text: str) -> str:
+    """말끝 절단 표식(…/...)을 마지막 완결 문장 경계로 되감는다 (C0.2, TTS-AP-066).
+
+    "SK하이닉스는 이번 거래로 …" 처럼 중간에 끊긴 원문은 자막이 그대로 나가면
+    말하다 마는 음성이 되고, 표식만 지워도 여전히 미완 문장이다. 완결 문장이
+    하나도 없으면 빈 문자열 — 억지 문장보다 자막 생략이 낫다.
+    """
+    s = text.strip()
+    if not _ELLIPSIS_TAIL.search(s):
+        return s
+    s = _ELLIPSIS_TAIL.sub("", s).strip()
+    m = re.search(r"^(.*[.!?])[^.!?]*$", s, re.DOTALL)
+    return m.group(1).strip() if m else ""
+
+
+def clip_cue(text: str, cap: int) -> str:
+    """자막/음성용 절단 — **문장 경계에서만** (C0.2 억지 축약 금지, TTS-AP-066).
+
+    clip() 과 달리 절대 문장 중간을 자르지 않고 '…' 도 만들지 않는다. cap 은
+    상한이 아니라 예산: 여러 문장이 넘치면 완결 문장까지만 싣고, 첫 문장부터
+    넘치면 길어도 통째로 둔다(자막 박스가 2줄로 감싼다 — 긴 온전함 > 짧은 절단).
+    """
+    s = settle_ellipsis(text)
+    if len(s) <= cap:
+        return s
+    sents = sentences(s)
+    if not sents:
+        return s
+    out = sents[0]
+    for nxt in sents[1:]:
+        if len(out) + 1 + len(nxt) > cap:
+            break
+        out = f"{out} {nxt}"
+    return out
+
+
 def wrap_units(text: str, max_units: float) -> list[str]:
     """공백 단위 greedy wrap (keep-all)."""
     words = text.split(" ")
@@ -136,12 +175,32 @@ def build_ladder(timeline: dict, limit: int = 7) -> dict:
     return {"steps": steps}
 
 
-VIDEO_THEMES = {"ink_brass", "graphite_slate", "midnight_navy", "forest_archive", "paper_oxblood"}
+VIDEO_THEMES = {"ink_brass", "graphite_slate", "midnight_navy", "forest_archive", "paper_oxblood",
+                # 르포(reportage) 8종 — agents_reviewer 르포 테마 팔레트 (v0.44.0)
+                "reportage_cyprus", "reportage_noturno", "reportage_bridal", "reportage_cosmos",
+                "reportage_laurel", "reportage_princess", "reportage_steel", "reportage_navy"}
 
 # 번들 테마 id → 영상 테마 프리셋 별칭 (색 계열 매칭)
-THEME_ALIASES = {"forest_sage": "forest_archive", "midnight_indigo": "midnight_navy"}
+THEME_ALIASES = {"forest_sage": "forest_archive", "midnight_indigo": "midnight_navy",
+                 # agents_reviewer 비-르포 테마 id → 가장 가까운 영상 팔레트 (v0.44.0)
+                 "pine_forest": "forest_archive", "burgundy_mono": "reportage_bridal",
+                 "editorial_cream": "paper_oxblood"}
+
+# 다크 프리셋 → 색조 무드가 가까운 밝은 르포 팔레트 (v0.49.0 — 밝게 통일).
+# 번들이 다크 테마를 지정해도 여기서 라이트 등가로 바꾼다. --video-theme 는 예외(존중).
+DARK_TO_LIGHT = {
+    "ink_brass": "reportage_cyprus",       # 황동/ochre → 사이프러스 ochre
+    "graphite_slate": "reportage_steel",   # 그래파이트/앰버 → 스틸 앰버
+    "midnight_navy": "reportage_cosmos",   # 미드나이트 블루 → 코스모스 딥블루
+    "forest_archive": "reportage_laurel",  # 포레스트/민트 → 로렐 그린
+}
 
 NUM_TOKEN = re.compile(r"\d[\d,\.]*")
+
+# 자막 길이 예산 (C0.2 카피 규칙) — 억지 축약보다 '자연스럽고 온전한 문장'을 우선.
+# 다소 길어져 2줄이 되더라도 사람이 읽기 쉬운 쪽을 택한다(자막 박스 2줄 대응).
+SUB_CAP = 100   # 일반 자막 문장
+SUB_CAP_S = 82  # 차트 옆 등 약간 타이트한 자막
 
 # ── TTS 발음 표기 (템플릿 cue 용 — 계약 narration_tts 와 동일 철학) ──
 sys.path.insert(0, str(REPO))
@@ -231,7 +290,12 @@ def tts_of(text: str) -> str:
 
     계약 narration_tts(producer 제공)에도 동일 적용 — 소수·슬래시날짜·말끝 '…' 을
     producer 가 안 풀어 보내도 소비측에서 마지막으로 교정 (멱등)."""
-    s = normalize_display(text)
+    # 절단 원문은 먼저 완결 문장으로 되감기 — "…거래로 …" 가 말하다 마는 음성 방지 (TTS-AP-066).
+    # 완결 문장이 하나도 없으면 음성도 침묵이 낫다 (말하다 마는 것보다).
+    settled = settle_ellipsis(text)
+    if text.strip() and not settled:
+        return ""
+    s = normalize_display(settled)
     # 구두점 — em대시/가운뎃점/화살괄호는 음성에서 어색 (검수 반영)
     s = s.replace("—", ", ").replace(" – ", ", ").replace(" - ", ", ")
     s = s.replace("·", ", ").replace("<", "").replace(">", "")
@@ -269,13 +333,39 @@ _POLITE_TAIL = [
     (re.compile(r"높다\.?$"), "높습니다."), (re.compile(r"낮다\.?$"), "낮습니다."),
     (re.compile(r"같다\.?$"), "같습니다."), (re.compile(r"든다\.?$"), "듭니다."),
     (re.compile(r"하다\.?$"), "합니다."),  # 우세하다→우세합니다 등 '하다' 류
+    (re.compile(r"는다\.?$"), "습니다."),  # 먹는다→먹습니다 (ㄴ다 일반 규칙보다 먼저)
     (re.compile(r"([가-힣])다\.?$"), r"\1습니다."),  # 일반 폴백 — 반드시 마지막
 ]
 
+# 이미 경어체인 종결 — to_polite 재적용 금지 (TTS-AP-067: "팔았습니다"→"팔았습니습니다")
+_ALREADY_POLITE = re.compile(r"(니다|니까|세요|시오|지요|네요|군요|어요|아요|예요|에요)[.!?…]?$")
+
+
+def _nda_polite(m: re.Match) -> str:
+    """받침 ㄴ + '다' 종결의 현재형 동사 활용 — 둔다→둡니다, 온다→옵니다 (TTS-AP-067).
+
+    일반 폴백('둔습니다')은 오활용. 자모 분해로 종성 ㄴ(4)→ㅂ(17) 교체 후 '니다'.
+    """
+    syl = m.group(1)
+    code = ord(syl) - 0xAC00
+    return chr(0xAC00 + code - 4 + 17) + "니다."
+
+
+_NDA_TAIL = re.compile(r"([가-힣])다\.?$")
+
 
 def to_polite(text: str) -> str:
-    """문장 종결을 다큐 경어체로. 끝맺지 않은(절단된) 문장은 그대로."""
+    """문장 종결을 다큐 경어체로. 끝맺지 않은(절단된) 문장·이미 경어체 문장은 그대로."""
     s = text.strip()
+    if _ALREADY_POLITE.search(s):
+        return s
+    # 받침 ㄴ + 다 (둔다/온다/간다/준다 …) — 구체 규칙(본다 등)보다 뒤, 일반 폴백보다 앞.
+    m = _NDA_TAIL.search(s)
+    if m and (ord(m.group(1)) - 0xAC00) % 28 == 4 and not s.endswith(("는다", "는다.")):
+        for rx, rep in _POLITE_TAIL[:-2]:  # 구체 규칙 우선 확인 (본다→봅니다 유지)
+            if rx.search(s):
+                return rx.sub(rep, s)
+        return _NDA_TAIL.sub(_nda_polite, s)
     for rx, rep in _POLITE_TAIL:
         if rx.search(s):
             return rx.sub(rep, s)
@@ -350,12 +440,12 @@ def section_videos(sections: list, corpus: str) -> dict:
         narr = []
         tts_src = v.get("narration_tts") or []
         for i, sent in enumerate(v.get("narration") or []):
-            sent = fix_phrasing(clip(str(sent), 75))
+            sent = fix_phrasing(clip_cue(str(sent), SUB_CAP))
             if not sentence_grounded(sent, corpus):
                 dropped += 1
                 continue
             narr.append({"text": sent,
-                         "tts": fix_phrasing(clip(str(tts_src[i]), 120)) if i < len(tts_src) else None})
+                         "tts": fix_phrasing(clip_cue(str(tts_src[i]), 160)) if i < len(tts_src) else None})
         his = []
         for h in (v.get("highlights") or [])[:3]:
             h = fix_phrasing(clip(str(h), 40))
@@ -586,7 +676,7 @@ EXTRA_CHART_SCENES = {
     "stacked": ("stacked", "구성", "구성으로 보면 이렇게 나뉩니다"),
     "stacked_bar": ("stacked", "구성", "구성으로 보면 이렇게 나뉩니다"),
     "waterfall": ("waterfall", "증감", "증감을 다리로 이으면 흐름이 보입니다"),
-    "scatter": ("scatter", "분포", "분포로 놓으면 각자의 위치가 드러납니다"),
+    "scatter": ("scatter", "분포", "두 축 위에서 각 항목이 어디에 있는지입니다"),
     "heatmap": ("heatmap", "강도", "강도의 지도로 보면 쏠림이 보입니다"),
     "gantt": ("gantt", "일정", "남은 일정을 레인으로 펼칩니다"),
 }
@@ -675,25 +765,76 @@ def build_tables(charts: list) -> list:
     return out
 
 
-def fetch_photos(b: dict, report_id: str) -> dict:
-    """images[] 를 다운로드해 로컬 자산화 → {image_id: photo 씬 dict}. (IMAGE_BUNDLE_CONTRACT)
+def fetch_photos(b: dict, report_id: str, bundle_dir: Path | None = None) -> dict:
+    """images[] 를 로컬 자산화 → {image_id: photo 씬 dict}. (IMAGE_BUNDLE_CONTRACT)
 
-    권리 게이트(G4-8/C9): rights_status == "cleared" 만 다운로드·사용. 나머지와
-    실패 건은 photos_manifest.json 에 사유와 함께 기록만 한다(추적성). 섹션이
-    참조하지 않는 이미지는 받지 않는다. url 이 로컬 파일 경로면 복사(테스트/오프라인).
+    권리 게이트(G4-8/C9): rights_status == "cleared" + credit 있는 사진만 사용.
+    나머지·실패 건은 photos_manifest.json 에 사유와 함께 기록만 한다(추적성).
+    섹션이 참조하지 않는 이미지는 받지 않는다.
+
+    자산 확보 순서 — 원인① (사용자 결정 2026-07-12: "우리가 직접 찾는다").
+    계약 §목적의 '영상 쪽 자동 스크래핑 금지' 대비 소비측 폴백 예외이며, LLM
+    무호출·결정론(고정 URL → 고정 og:image)은 유지한다:
+      1. url 이 http(s) 직링크면 그대로 다운로드.
+      2. url 이 로컬 경로면 bundle_dir 기준으로 resolve 해 읽는다 (CWD 아님).
+      3. 1·2 가 실패하고 source_id 로 원문 페이지 URL 을 알 수 있으면, 그 페이지의
+         대표 이미지(og:image → twitter:image)를 직접 회수한다. 회수 사실은
+         manifest 에 recovered="source_page" 로 남긴다.
+    권리는 producer 가 이미 cleared(출처표기 갈음)로 판정하고 credit 이 화면에
+    노출되므로, 같은 출처 도메인의 대표 이미지 회수는 §3.1-a 전제와 일치한다.
     """
-    import shutil
     import urllib.request
+    from urllib.parse import urljoin
 
     images = b.get("images") or []
     if not images:
         return {}
     referenced = {r for s in b.get("sections", []) for r in (s.get("image_refs") or [])}
+    src_url_by_id = {s.get("source_id"): s.get("url")
+                     for s in (b.get("sources") or []) if s.get("url")}
     photo_dir = BRIEFING / "assets" / "photos" / report_id
     out: dict = {}
     manifest = []
     ext_by_mime = {"image/jpeg": ".jpg", "image/png": ".png",
                    "image/webp": ".webp", "image/gif": ".gif"}
+
+    def _http_image(u: str) -> tuple[bytes | None, str, str]:
+        """직링크 다운로드 → (data, ext, reason). data 가 None 이면 reason 에 사유."""
+        try:
+            req = urllib.request.Request(u, headers={"User-Agent": "osint-generator/0.44"})
+            with urllib.request.urlopen(req, timeout=20) as resp:
+                mime = (resp.headers.get("Content-Type") or "").split(";")[0].strip()
+                data = resp.read(12 * 1024 * 1024 + 1)
+        except Exception as e:  # 네트워크 실패는 폴백/스킵 — 파이프라인은 계속
+            return None, "", f"다운로드 실패: {type(e).__name__}"
+        if len(data) > 12 * 1024 * 1024:
+            return None, "", "12MB 초과"
+        if mime and not mime.startswith("image/"):
+            return None, "", f"이미지 아님: {mime}"
+        ext = ext_by_mime.get(mime) or (Path(u.split("?")[0]).suffix or ".jpg")
+        return data, ext, ""
+
+    def _og_image(page_url: str) -> str | None:
+        """원문 페이지에서 대표 이미지 URL 추출 (og:image → twitter:image). 결정론."""
+        try:
+            req = urllib.request.Request(page_url,
+                                         headers={"User-Agent": "osint-generator/0.44"})
+            with urllib.request.urlopen(req, timeout=20) as resp:
+                ctype = resp.headers.get("Content-Type") or ""
+                if ctype and "html" not in ctype:
+                    return None
+                html = resp.read(2 * 1024 * 1024).decode("utf-8", "ignore")
+        except Exception:
+            return None
+        for pat in (
+            r'<meta[^>]+property=["\']og:image(?::url)?["\'][^>]+content=["\']([^"\']+)["\']',
+            r'<meta[^>]+content=["\']([^"\']+)["\'][^>]+property=["\']og:image(?::url)?["\']',
+            r'<meta[^>]+name=["\']twitter:image["\'][^>]+content=["\']([^"\']+)["\']',
+        ):
+            m = re.search(pat, html, re.IGNORECASE)
+            if m:
+                return urljoin(page_url, m.group(1).strip())
+        return None
 
     for im in images:
         iid = im.get("image_id") or ""
@@ -702,7 +843,7 @@ def fetch_photos(b: dict, report_id: str) -> dict:
         entry = {"image_id": iid, "url": url, "caption": im.get("caption", ""),
                  "credit": im.get("credit", ""), "rights_status": rights,
                  "license": im.get("license", ""), "source_id": im.get("source_id", ""),
-                 "used": False, "reason": ""}
+                 "used": False, "recovered": "", "reason": ""}
         manifest.append(entry)
         if not iid or not url:
             entry["reason"] = "image_id/url 누락"
@@ -718,32 +859,57 @@ def fetch_photos(b: dict, report_id: str) -> dict:
         if iid not in referenced:
             entry["reason"] = "어느 섹션도 참조하지 않음"
             continue
+
+        data: bytes | None = None
+        ext = ".jpg"
+        fail_reason = ""
+        # 1) http(s) 직링크
+        if url.startswith(("http://", "https://")):
+            data, ext, fail_reason = _http_image(url)
+        else:
+            # 2) 로컬 경로 — bundle_dir 기준 우선, 그다음 CWD (백필 오프라인 대비)
+            cands = []
+            p = Path(url)
+            if bundle_dir is not None and not p.is_absolute():
+                cands.append(bundle_dir / url)
+            cands.append(p)
+            src = next((c for c in cands if c.exists()), None)
+            if src is not None:
+                try:
+                    data = src.read_bytes()
+                    ext = src.suffix or ".jpg"
+                except Exception as e:
+                    fail_reason = f"로컬 읽기 실패: {type(e).__name__}"
+            else:
+                fail_reason = "로컬 파일 없음"
+
+        # 3) 원문 페이지에서 대표 이미지 회수 (1·2 실패 시 — 원인① 폴백)
+        if data is None:
+            page = src_url_by_id.get(im.get("source_id"))
+            if page and page.startswith(("http://", "https://")):
+                og = _og_image(page)
+                if og:
+                    data, ext, r2 = _http_image(og)
+                    if data is not None:
+                        entry["recovered"] = "source_page"
+                        entry["recovered_url"] = og
+                    else:
+                        fail_reason = f"원문 회수 실패: {r2}"
+                else:
+                    fail_reason = fail_reason or "원문 대표이미지 없음"
+
+        if data is None:
+            entry["reason"] = fail_reason or "자산 확보 실패"
+            continue
+
         try:
             photo_dir.mkdir(parents=True, exist_ok=True)
-            if url.startswith(("http://", "https://")):
-                req = urllib.request.Request(url, headers={"User-Agent": "osint-generator/0.42"})
-                with urllib.request.urlopen(req, timeout=20) as resp:
-                    mime = (resp.headers.get("Content-Type") or "").split(";")[0].strip()
-                    ext = ext_by_mime.get(mime) or (Path(url.split("?")[0]).suffix or ".jpg")
-                    data = resp.read(12 * 1024 * 1024 + 1)
-                if len(data) > 12 * 1024 * 1024:
-                    entry["reason"] = "12MB 초과"
-                    continue
-                if mime and not mime.startswith("image/"):
-                    entry["reason"] = f"이미지 아님: {mime}"
-                    continue
-                fname = f"{iid}{ext}"
-                (photo_dir / fname).write_bytes(data)
-            else:
-                src = Path(url)
-                if not src.exists():
-                    entry["reason"] = "로컬 파일 없음"
-                    continue
-                fname = f"{iid}{src.suffix or '.jpg'}"
-                shutil.copyfile(src, photo_dir / fname)
-        except Exception as e:  # 다운로드 실패는 스킵 — 파이프라인은 계속
-            entry["reason"] = f"다운로드 실패: {type(e).__name__}"
+            fname = f"{iid}{ext}"
+            (photo_dir / fname).write_bytes(data)
+        except Exception as e:
+            entry["reason"] = f"저장 실패: {type(e).__name__}"
             continue
+
         entry["used"] = True
         out[iid] = {"src": f"assets/photos/{report_id}/{fname}",
                     "caption": clip(im.get("caption", ""), 60),
@@ -755,7 +921,10 @@ def fetch_photos(b: dict, report_id: str) -> dict:
         (photo_dir / "photos_manifest.json").write_text(
             json.dumps(manifest, ensure_ascii=False, indent=2), encoding="utf-8")
         skipped = [m for m in manifest if not m["used"]]
-        print(f"[bundle_to_video] photos: {len(out)}장 사용 / {len(skipped)}건 스킵"
+        recovered = [m for m in manifest if m["used"] and m.get("recovered")]
+        print(f"[bundle_to_video] photos: {len(out)}장 사용"
+              + (f"(원문회수 {len(recovered)})" if recovered else "")
+              + f" / {len(skipped)}건 스킵"
               + (f" ({'; '.join(m['image_id'] + ':' + m['reason'] for m in skipped[:3])})"
                  if skipped else ""))
     return out
@@ -799,7 +968,7 @@ def norm_map(map_data: dict) -> dict | None:
             meta = cand
             break
     if not meta:
-        print(f"[bundle_to_video] map 권역 미지원 (lng {min(lngs)}~{max(lngs)}) — geo 씬 생략")
+        print(f"[bundle_to_video] map 평면 권역 미지원 (lng {min(lngs)}~{max(lngs)}) — 지구본(globe) 폴백")
         return None
     out_markers = []
     for m in markers:
@@ -818,6 +987,33 @@ def norm_map(map_data: dict) -> dict | None:
     inferred = ((map_data.get("provenance") or {}).get("verification") or "") != "official"
     return {"region": meta["region"], "markers": out_markers, "arcs": arcs,
             "legend": legend, "inferred": inferred}
+
+
+def norm_globe(map_data: dict) -> dict | None:
+    """번들 map → 지구본(globe) 씬 데이터. 좌표는 lng/lat 원본 유지(정사영은 JS d3 가 수행).
+
+    평면 베이스맵(mideast/neasia)에 안 맞는 글로벌·다권역 이벤트용. reportage_globe
+    목업 대응 — 자전+대권 호 흐름+마커 펄스는 렌더러(auto_builder.globe)가 결정론으로.
+    """
+    markers = map_data.get("markers") or []
+    out_m = []
+    for m in markers:
+        if m.get("lng") is None or m.get("lat") is None:
+            continue
+        note = re.sub(r"\s*\([^)]*\)", "", m.get("value", "") or "").strip()
+        name = re.sub(r"\s*\([^)]*\)", "", m.get("name", "") or "").strip()  # 괄호부 제거 (지구본 라벨 짧게)
+        out_m.append({"id": m.get("id"), "name": clip(name, 12),
+                      "lng": float(m["lng"]), "lat": float(m["lat"]),
+                      "hi": bool(m.get("highlight")), "note": clip(note, 26) or None})
+    if len(out_m) < 2:
+        return None
+    arcs = [{"from": a.get("from_id"), "to": a.get("to_id"), "kind": a.get("kind", "flow"),
+             "label": clip(a.get("label", "") or "", 30) or None}
+            for a in (map_data.get("arcs") or [])[:6] if a.get("from_id") and a.get("to_id")]
+    legend = [{"label": clip(item.get("label", ""), 16), "kind": item.get("kind", "")}
+              for item in (map_data.get("legend") or [])[:5]]
+    inferred = ((map_data.get("provenance") or {}).get("verification") or "") != "official"
+    return {"markers": out_m, "arcs": arcs, "legend": legend, "inferred": inferred}
 
 
 FLAG_IDS = {"nk": "kp", "kp": "kp", "kr": "kr", "jp": "jp", "cn": "cn", "ru": "ru",
@@ -968,6 +1164,49 @@ def find_section(sections: list, keywords: list[str], default: tuple[str, str]) 
     return default[0], default[1], None
 
 
+# ── 카피/발음 린트 게이트 (C0.2 · docs/08_AUDIO_AND_TTS_SPEC.md §4) ─────────
+# "한두 건만 들려도 AI 티가 확 나는" 클래스를 빌드 시점에 잡는다. 결정론 검사.
+
+_LINT_JOSA_TAIL = re.compile(
+    r"[가-힣](?:으로|로|에서|에게|한테|보다|까지|부터|과|와|고|며|는|은|을|를|이|가|의|도|만)$")
+_LINT_HANGUL_NUM = "영일이삼사오육칠팔구십백천만"
+
+
+def lint_cues(cues: list) -> list[str]:
+    """최종 cue(자막 text + 음성 tts)를 훑어 AI 슬롭 위험을 경고 목록으로 반환.
+
+    - 절단: 자막이 '…'/'...' 로 끝남 (중간에 끊긴 말)
+    - 미완: 종결부호 없이 조사/연결어미로 끝남 (말하다 마는 음성)
+    - 숫자잔재: 음성 텍스트에 아라비아 숫자가 남음 (한글화 누락)
+    - 콤마잔재: 한글 수사 사이에 콤마 (천단위 콤마 개별 변환 파탄, TTS-AP-064)
+    - 이중경어: '니습니다' 류 (to_polite 재적용, TTS-AP-067)
+    """
+    warns: list[str] = []
+    for c in cues:
+        txt = (c.get("text") or "").strip()
+        tts = (c.get("tts") or "").strip()
+        tail = txt[-34:]
+        if _ELLIPSIS_TAIL.search(txt):
+            warns.append(f"절단(자막): …{tail}")
+        elif txt and txt[-1] not in ".!?%)]』」\"'" and _LINT_JOSA_TAIL.search(txt):
+            warns.append(f"미완(자막): …{tail}")
+        if tts:
+            if re.search(r"\d", tts):
+                warns.append(f"숫자잔재(음성): …{tts[-34:]}")
+            if re.search(rf"[{_LINT_HANGUL_NUM}],[{_LINT_HANGUL_NUM}]", tts):
+                warns.append(f"콤마잔재(음성): …{tts[-34:]}")
+            if "니습니다" in tts or "다습니다" in tts:
+                warns.append(f"이중경어(음성): …{tts[-34:]}")
+            # 받침 ㄴ + 습니다 (둔습니다/온습니다 …) — ㄴ다 오활용 의심 (TTS-AP-067).
+            # 정상 활용 예외(신습니다 = 신다)만 허용.
+            m = re.search(r"([가-힣])습니다", tts)
+            if m and (ord(m.group(1)) - 0xAC00) % 28 == 4 and m.group(0) not in ("신습니다",):
+                warns.append(f"ㄴ다오활용(음성): …{tts[-34:]}")
+            if tts[-1:] not in ".!?" and _LINT_JOSA_TAIL.search(tts):
+                warns.append(f"미완(음성): …{tts[-34:]}")
+    return warns
+
+
 # ── 메인 ────────────────────────────────────────────────────
 
 
@@ -984,10 +1223,14 @@ def convert(bundle_path: Path, out_path: Path, tl_override: str | None = None,
     date_dot = f"{m.group(1)}.{m.group(2)}.{m.group(3)}" if m else ""
     date_kor = f"{int(m.group(1))}년 {int(m.group(2))}월 {int(m.group(3))}일" if m else ""
 
-    # 비디오 테마: 번들 theme.id 가 프리셋과 일치하면 그대로, 아니면 ink_brass +
+    # 비디오 테마: 번들 theme.id 가 프리셋과 일치하면 그대로, 아니면 르포 라이트 +
     # 번들 토큰(accent/up/down)만 오버라이드. --video-theme 가 최우선.
     bundle_tid = (theme.get("id") or "").strip()
     bundle_tid = THEME_ALIASES.get(bundle_tid, bundle_tid)
+    # 밝게 통일 (사용자 결정 2026-07-12): 다크 프리셋을 지정한 번들도 색조 무드를 유지한
+    # 밝은 르포 등가 팔레트로 렌더한다. --video-theme 로 다크를 명시하면 그건 존중.
+    if not theme_override:
+        bundle_tid = DARK_TO_LIGHT.get(bundle_tid, bundle_tid)
     if theme_override and theme_override in VIDEO_THEMES:
         theme_id = theme_override
         theme_vars = {}
@@ -995,7 +1238,9 @@ def convert(bundle_path: Path, out_path: Path, tl_override: str | None = None,
         theme_id = bundle_tid
         theme_vars = {}
     else:
-        theme_id = "ink_brass"
+        # 기본 폴백을 르포(reportage_cyprus)로 — 르포 서체·색감이 하우스 스타일 (v0.44.0).
+        # 번들 토큰(accent/up/down)이 있으면 그 위에 오버라이드해 밝게 유지.
+        theme_id = "reportage_cyprus"
         theme_vars = {}
         if tokens.get("accent"):
             theme_vars["--accent"] = tokens["accent"]
@@ -1009,7 +1254,7 @@ def convert(bundle_path: Path, out_path: Path, tl_override: str | None = None,
     svideos = section_videos(sections, corpus)
 
     # 보도 사진 (IMAGE_BUNDLE_CONTRACT) — cleared 만 로컬 자산화, 섹션당 첫 1장.
-    photos = fetch_photos(b, report.get("report_id") or "report")
+    photos = fetch_photos(b, report.get("report_id") or "report", bundle_dir=bundle_path.parent)
     photo_by_sid: dict = {}
     for s in sections:
         for r in (s.get("image_refs") or []):
@@ -1022,10 +1267,10 @@ def convert(bundle_path: Path, out_path: Path, tl_override: str | None = None,
         out = []
         tts_src = vdict.get(key + "_tts") or []
         for i, sent in enumerate(vdict.get(key) or []):
-            sent = fix_phrasing(clip(str(sent), 75))
+            sent = fix_phrasing(clip_cue(str(sent), SUB_CAP))
             if sentence_grounded(sent, corpus):
                 out.append({"text": sent,
-                            "tts": fix_phrasing(clip(str(tts_src[i]), 120)) if i < len(tts_src) else None})
+                            "tts": fix_phrasing(clip_cue(str(tts_src[i]), 160)) if i < len(tts_src) else None})
         return out
 
     intro_narr = grounded_narr(report_video, "intro_narration")
@@ -1054,9 +1299,9 @@ def convert(bundle_path: Path, out_path: Path, tl_override: str | None = None,
     title = build_title(report, sections, date_kor)
     add_scene("title", 9, "타이틀", None, title, sid="__intro")
     deck_sents = sentences(report.get("deck", ""))
-    cues.append(tcue(0.8, clip(deck_sents[0], 58)))
+    cues.append(tcue(0.8, clip_cue(deck_sents[0], SUB_CAP_S)))
     if len(deck_sents) > 1:
-        cues.append(tcue(4.6, clip(deck_sents[1], 58)))
+        cues.append(tcue(4.6, clip_cue(deck_sents[1], SUB_CAP_S)))
 
     charts = b.get("charts") or []
 
@@ -1078,11 +1323,11 @@ def convert(bundle_path: Path, out_path: Path, tl_override: str | None = None,
         if key:
             kd = date_kr(key["date"].replace(".", "-"))
             cues.append(tcue(t0 + 4.4, clip(
-                f"{kd}에는 {key['label']}{josa(key['label'], '이', '가')} 있었습니다.", 75)))
+                f"{kd}에는 {key['label']}{josa(key['label'], '이', '가')} 있었습니다.", SUB_CAP)))
         fut = next((s for s in ladder["steps"] if s["phase"] == "future"), None)
         if fut:
             fd = date_kr(fut["date"].replace(".", "-"))
-            cues.append(tcue(t0 + 8.0, clip(f"다음은 {fd}에 예정된 {fut['label']}입니다.", 75)))
+            cues.append(tcue(t0 + 8.0, clip_cue(f"다음은 {fd}에 예정된 {fut['label']}입니다.", SUB_CAP)))
 
     # 2-b. 인용 인터스티셜 (pull_quote 있으면 — 클로징은 폴백 인용 사용)
     pq = next((s.get("pull_quote") for s in sections if s.get("pull_quote")), None)
@@ -1093,21 +1338,35 @@ def convert(bundle_path: Path, out_path: Path, tl_override: str | None = None,
             "segments": quote_segments(clip(pq, 80)),
             "source": (pq_sec.get("kicker") if pq_sec else "") or "보고서 본문",
         }, sid=pq_sec.get("section_id") if pq_sec else None)
-        cues.append(tcue(t0 + 0.8, clip(pq, 58)))
+        cues.append(tcue(t0 + 0.8, clip_cue(pq, SUB_CAP_S)))
 
-    # 2-c. 사건의 좌표 (map 있으면 — 권역 베이스맵 자동 선택)
+    # 2-c. 사건의 좌표 (map 있으면) — 평면 권역맵(mideast/neasia) 우선, 아니면 지구본.
     geo = norm_map(b.get("map") or {}) if b.get("map") else None
     if geo:
         t0 = t
         k, h, geo_sid = find_section(sections, ["좌표", "지도", "지정학"], ("Geospatial", "사건의 좌표"))
         add_scene("geo", 11, "좌표", {"kicker": k, "title": h}, geo, sid=geo_sid)
-        cues.append(tcue(t0 + 0.6, "사건의 좌표를 지도 위에 놓으면 흐름이 보입니다."))
+        # 상투적 템플릿 오프너 폐기 — 근거 있는 마커·아크 문장으로만 (AI 슬롭 제거).
         hi_m = next((m for m in geo["markers"] if m["hi"] and m["note"]), None)
         if hi_m:
-            cues.append(tcue(t0 + 4.4, clip(f"{hi_m['name']}에서는 {hi_m['note']}{josa(hi_m['note'], '이', '가')} 있었습니다.", 75)))
+            cues.append(tcue(t0 + 0.9, clip_cue(f"{hi_m['name']}, {hi_m['note']}.", SUB_CAP)))
         arc_l = next((a for a in geo["arcs"] if a["label"]), None)
         if arc_l:
-            cues.append(tcue(t0 + 7.8, clip(f"{arc_l['label']}{josa(arc_l['label'], '이', '가')} 핵심 동선입니다.", 75)))
+            cues.append(tcue(t0 + 5.4, clip_cue(f"{arc_l['label']} — 두 지점을 잇는 동선입니다.", SUB_CAP)))
+    elif b.get("map"):
+        # 평면 권역 미지원(글로벌·다권역) → 지구본 씬 (reportage_globe). 예전엔 통째 생략.
+        gl = norm_globe(b["map"])
+        if gl:
+            t0 = t
+            k, h, geo_sid = find_section(sections, ["좌표", "지도", "지정학"], ("Geospatial", "사건의 좌표"))
+            add_scene("globe", 12, "지도", {"kicker": k, "title": h}, gl, sid=geo_sid)
+            # 상투적 오프너 폐기 — 근거 있는 마커·아크 문장으로만.
+            hi_m = next((m for m in gl["markers"] if m["hi"] and m["note"]), None)
+            if hi_m:
+                cues.append(tcue(t0 + 0.9, clip_cue(f"{hi_m['name']}, {hi_m['note']}.", SUB_CAP)))
+            arc_l = next((a for a in gl["arcs"] if a["label"]), None)
+            if arc_l:
+                cues.append(tcue(t0 + 5.8, clip_cue(f"{arc_l['label']} — 대륙을 잇는 동선입니다.", SUB_CAP)))
 
     # 3. 일봉 캔들 (candle 차트 있으면)
     candle = build_candle(charts)
@@ -1119,7 +1378,7 @@ def convert(bundle_path: Path, out_path: Path, tl_override: str | None = None,
         add_scene("candle", 9, "일봉", {"kicker": k, "title": h},
                   {"ohlc": candle["ohlc"], "title": candle["title"]},
                   sid=sec.get("section_id") if sec else None)
-        cues.append(tcue(t0 + 0.6, clip(f"{candle['title']} — 최근 {len(candle['ohlc'])}거래일의 흐름입니다.", 58)))
+        cues.append(tcue(t0 + 0.6, clip_cue(f"{candle['title']} — 최근 {len(candle['ohlc'])}거래일의 흐름입니다.", SUB_CAP_S)))
         closes = [d["close"] for d in candle["ohlc"]]
         chg = (closes[-1] / closes[0] - 1) * 100
         cues.append(tcue(t0 + 4.6, f"구간 등락은 {chg:+.1f}%, 종가 {round(closes[-1]):,}입니다."))
@@ -1136,7 +1395,7 @@ def convert(bundle_path: Path, out_path: Path, tl_override: str | None = None,
         if len(bp["panels"]) == 1:
             pn = bp["panels"][0]
             top = max(pn["items"], key=lambda it: it["value"])
-            cues.append(tcue(t0 + 0.6, clip(f"{pn['title']} — 상단은 {top['label']}, {top['value']:,}{pn['unit']}입니다.", 58)))
+            cues.append(tcue(t0 + 0.6, clip_cue(f"{pn['title']} — 상단은 {top['label']}, {top['value']:,}{pn['unit']}입니다.", SUB_CAP_S)))
         else:
             # 패널(차트)별 상단/하단 비율 — 패널 간 혼합은 스케일이 달라 무의미
             ratios = []
@@ -1147,7 +1406,7 @@ def convert(bundle_path: Path, out_path: Path, tl_override: str | None = None,
             cues.append(tcue(t0 + 0.6, "같은 회사를 두고, 12개월 시선은 이렇게 벌어져 있습니다."))
             if ratios:
                 wt, wr = max(ratios, key=lambda r: r[1])
-                cues.append(tcue(t0 + 4.8, clip(f"{wt} — 상단과 하단이 {wr:.1f}배 차이입니다.", 58)))
+                cues.append(tcue(t0 + 4.8, clip_cue(f"{wt} — 상단과 하단이 {wr:.1f}배 차이입니다.", SUB_CAP_S)))
 
     # 4-b. 슬로프 (slope 차트 있으면)
     for sl in build_slopes(charts):
@@ -1159,8 +1418,8 @@ def convert(bundle_path: Path, out_path: Path, tl_override: str | None = None,
                   {"left_label": sl["left_label"], "right_label": sl["right_label"], "items": sl["items"]},
                   sid=sec.get("section_id") if sec else None)
         hi = max(sl["items"], key=lambda it: abs(it["b"] - it["a"]))
-        cues.append(tcue(t0 + 0.6, clip(f"{sl['title']} — {sl['left_label']}에서 {sl['right_label']}까지.", 58)))
-        cues.append(tcue(t0 + 4.6, clip(f"가장 크게 움직인 건 {hi['label']}, {hi['a']:,}에서 {hi['b']:,}입니다.", 58)))
+        cues.append(tcue(t0 + 0.6, clip_cue(f"{sl['title']} — {sl['left_label']}에서 {sl['right_label']}까지.", SUB_CAP_S)))
+        cues.append(tcue(t0 + 4.6, clip_cue(f"가장 크게 움직인 건 {hi['label']}, {hi['a']:,}에서 {hi['b']:,}입니다.", SUB_CAP_S)))
 
     # 4-b2. 관계망 (network 차트 있으면)
     for c in charts:
@@ -1177,10 +1436,10 @@ def convert(bundle_path: Path, out_path: Path, tl_override: str | None = None,
                   sid=sec.get("section_id") if sec else None)
         n = len(nw["nodes"])
         nat = native_count(n)
-        cues.append(tcue(t0 + 0.6, clip(f"{split_unit(c.get('title', ''))[0]}, {n}개 행위자를 한 판에 놓았습니다.", 75),
-                         tts=tts_of(f"{split_unit(c.get('title', ''))[0]}, {nat or n} 행위자를 한 판에 놓았습니다.")))
+        cues.append(tcue(t0 + 0.6, clip_cue(f"{split_unit(c.get('title', ''))[0]}, 여기 얽힌 행위자는 {n}곳입니다.", SUB_CAP),
+                         tts=tts_of(f"{split_unit(c.get('title', ''))[0]}, 여기 얽힌 행위자는 {nat or n} 곳입니다.")))
         center = nw["nodes"][0]["label"]
-        cues.append(tcue(t0 + 5.0, clip(f"관계가 가장 많이 얽힌 쪽은 {center}입니다.", 75)))
+        cues.append(tcue(t0 + 5.0, clip_cue(f"관계가 가장 많이 얽힌 쪽은 {center}입니다.", SUB_CAP)))
 
     # 4-b2. 산키 (sankey 차트 있으면 — 자금/물량 흐름 배분)
     for c in charts:
@@ -1197,9 +1456,9 @@ def convert(bundle_path: Path, out_path: Path, tl_override: str | None = None,
         h = (sec.get("heading") if sec else None) or title_clean
         add_scene("sankey", 12, "흐름", {"kicker": k, "title": h}, sk,
                   sid=sec.get("section_id") if sec else None)
-        cues.append(tcue(t0 + 0.6, clip(f"{title_clean} — 흐름을 따라가면 행선지가 보입니다.", 75)))
+        cues.append(tcue(t0 + 0.6, clip_cue(f"{title_clean}, 무엇이 어디로 얼마나 흘러가는지입니다.", SUB_CAP)))
         if max_sink:
-            cues.append(tcue(t0 + 6.2, clip(f"가장 굵은 줄기는 {max_sink} 쪽으로 흐릅니다.", 75)))
+            cues.append(tcue(t0 + 6.2, clip_cue(f"가장 굵은 줄기는 {max_sink} 쪽으로 흐릅니다.", SUB_CAP)))
 
     # 4-c. 잔여 차트 유형 (stacked/waterfall/scatter/heatmap/gantt — 있으면)
     today_iso = m.group(0) if m else None
@@ -1220,7 +1479,7 @@ def convert(bundle_path: Path, out_path: Path, tl_override: str | None = None,
         h = (sec.get("heading") if sec else None) or title_clean
         add_scene(stype, 9, chip_label, {"kicker": k, "title": h}, d,
                   sid=sec.get("section_id") if sec else None)
-        cues.append(tcue(t0 + 0.6, clip(f"{title_clean}, {cue_tail}.", 75)))
+        cues.append(tcue(t0 + 0.6, clip_cue(f"{title_clean}, {cue_tail}.", SUB_CAP)))
 
     # 4-c2. 표 (table 차트 있으면 — 비교표/매핑표)
     for tb in build_tables(charts):
@@ -1235,9 +1494,9 @@ def convert(bundle_path: Path, out_path: Path, tl_override: str | None = None,
         hl = next((r for r in tb["rows"] if r["highlight"]), None)
         if hl:
             cues.append(tcue(t0 + 0.6, clip(
-                f"{tb['title']} — 갈리는 지점은 '{hl['cells'].get(first_col, '')}'입니다.", 75)))
+                f"{tb['title']} — 갈리는 지점은 '{hl['cells'].get(first_col, '')}'입니다.", SUB_CAP)))
         else:
-            cues.append(tcue(t0 + 0.6, clip(f"{tb['title']} — 항목별로 나란히 보면 이렇습니다.", 75)))
+            cues.append(tcue(t0 + 0.6, clip_cue(f"{tb['title']}, 항목별 수치를 나란히 놓았습니다.", SUB_CAP)))
 
     # 4-d. 스테이트먼트 (계약 video.highlights — 차트 없는 서술 섹션 구제)
     versus_k, versus_h, versus_sid = find_section(
@@ -1245,25 +1504,50 @@ def convert(bundle_path: Path, out_path: Path, tl_override: str | None = None,
     signals_k, signals_h, signals_sid = find_section(
         sections, ["신호", "감시", "Signal"], ("Signals", "무엇이 갈림길을 정하는가"))
     consumed = {sc.get("_sid") for sc in scenes}
+    photo_shown: set = set()
+
+    def add_photo(sid, s):
+        # 풀블리드 보도 사진 (IMAGE_BUNDLE_CONTRACT). 오버레이 텍스트 없음 —
+        # 화면엔 사진·캡션·크레딧만, 내레이션은 자막이 전달한다. (AI 슬롭 제거, v0.45.1)
+        img = photo_by_sid[sid]
+        sv = svideos.get(sid)
+        n = len(sv["narration"]) if sv and sv["narration"] else 3
+        add_scene("photo", min(12, max(9, 3 + 3.0 * n)), "현장",
+                  {"kicker": s.get("kicker") or "현장", "title": s.get("heading") or ""},
+                  {**img, "lines": []}, sid=sid)
+        photo_shown.add(sid)
+
     for s in sections:
         sid = s.get("section_id")
+        if sid in (versus_sid, signals_sid):
+            continue
         sv = svideos.get(sid)
-        if not sv or not sv["highlights"]:
-            continue
-        if sid in consumed or sid in (versus_sid, signals_sid):
-            continue
-        dur = min(14, max(9, 3 + 3.0 * len(sv["narration"])))
-        lines = [em_segments_line(h2, sv["emphasis"]) for h2 in sv["highlights"]]
+        has_narr = bool(sv and sv["narration"])
+        emphasis = sv["emphasis"] if sv else []
         img = photo_by_sid.get(sid)
+        heading = s.get("heading") or ""
+
+        if sid in consumed:
+            # 차트 등으로 이미 소진된 섹션이라도 cleared 사진이 있으면 인접 photo 씬으로
+            # 함께 노출한다 (C0 영상미 우선). 사진 없으면 별도 씬 없음(차트가 담당).
+            if img and sid not in photo_shown:
+                add_photo(sid, s)
+            continue
+
         if img:
-            # 사진 있는 섹션은 photo 씬으로 승격 — 풀블리드 사진 + takeaway 오버레이.
-            add_scene("photo", dur, "현장",
-                      {"kicker": s.get("kicker") or "현장", "title": s.get("heading") or ""},
-                      {**img, "lines": lines}, sid=sid)
-        else:
+            # 차트 없는 사진 섹션 — 풀블리드 photo 씬.
+            if sid not in photo_shown:
+                add_photo(sid, s)
+            continue
+
+        # 차트·사진 없는 서술 섹션 — 섹션 제목을 큰 편집형 스테이트먼트로.
+        # (기존 video.highlights 번호 카드는 텔레그래프식 AI 슬롭이라 폐기 — 사용자
+        #  결정 2026-07-12. 살아있는 문장인 내레이션은 자막으로 그대로 나간다.)
+        if has_narr and heading:
+            dur = min(14, max(9, 3 + 3.0 * len(sv["narration"])))
             add_scene("statement", dur, "키 포인트",
-                      {"kicker": s.get("kicker") or "Key Point", "title": s.get("heading") or ""},
-                      {"lines": lines}, sid=sid)
+                      {"kicker": s.get("kicker") or "Key Point", "title": ""},
+                      {"lines": [em_segments_line(heading, emphasis)]}, sid=sid)
 
     # 5. 쟁점 (contradictions 있으면)
     contras = b.get("contradictions") or []
@@ -1287,11 +1571,11 @@ def convert(bundle_path: Path, out_path: Path, tl_override: str | None = None,
                              f"시각은 {a['name']}{josa(a['name'], '과', '와')} {bb['name']}, 둘로 갈립니다."))
         # 자막은 75자 클립, 음성은 첫 완결 문장 — 중간에 말이 끊기지 않게 (TTS-AP-060)
         a_line_first = (sentences(a["line"]) or [a["line"]])[0]
-        cues.append(tcue(t0 + 4.4, clip(f"{a['org']}, {a['line']}", 75),
+        cues.append(tcue(t0 + 4.4, clip_cue(f"{a['org']}, {a['line']}", SUB_CAP),
                          tts=tts_of(f"{a['org']}, {to_polite(a_line_first)}")))
         res0 = sentences(contras[0].get("resolution", ""))
         if res0:
-            cues.append(tcue(t0 + 8.2, clip(to_polite(res0[0]), 75)))
+            cues.append(tcue(t0 + 8.2, clip_cue(to_polite(res0[0]), SUB_CAP)))
 
     # 6. 가격 비교 (line 차트 있으면)
     markets = build_markets(charts)
@@ -1301,7 +1585,7 @@ def convert(bundle_path: Path, out_path: Path, tl_override: str | None = None,
                          for c in charts if c.get("type") == "line"), None)
         add_scene("markets", 10, "가격", {"kicker": "Relative", "title": "같은 기간, 가격의 궤적"},
                   markets, sid=line_sec.get("section_id") if line_sec else None)
-        cues.append(tcue(t0 + 0.6, "같은 기간, 가격은 이렇게 움직였습니다."))
+        cues.append(tcue(t0 + 0.6, "같은 기간 동안, 종목별로 가격이 이만큼 갈렸습니다."))
         top = max(markets["markets"], key=lambda mk: abs(mk["pct"]))
         cues.append(tcue(t0 + 4.6, f"가장 크게 움직인 건 {top['name']}, {top['pct']:+.1f}%입니다."))
 
@@ -1316,7 +1600,7 @@ def convert(bundle_path: Path, out_path: Path, tl_override: str | None = None,
         # 자막은 name(풀), 음성은 name_spoken(첫 절·날짜 중복 제거) — 절단 "…" 낭독 방지
         cues.append(tcue(
             t0 + 4.6,
-            clip(f"가장 가까운 갈림길은 {first['when']}, {first['name']}입니다.", 75),
+            clip_cue(f"가장 가까운 갈림길은 {first['when']}, {first['name']}입니다.", SUB_CAP),
             tts=tts_of(f"가장 가까운 갈림길은 {first['when']}, {first['name_spoken']}입니다.")))
 
     # 5. 클로징 (항상)
@@ -1327,7 +1611,7 @@ def convert(bundle_path: Path, out_path: Path, tl_override: str | None = None,
     # closing 빈 실번들(v8.3.3 관측) 폴백 — deck 첫 문장. (__outro 계약 narration 이 있으면 어차피 대체됨)
     closing_first = (sentences(report.get("closing", "")) or sentences(report.get("deck", "")) or [""])[0]
     if closing_first:
-        cues.append(tcue(t0 + 0.4, clip(closing_first, 58)))
+        cues.append(tcue(t0 + 0.4, clip_cue(closing_first, SUB_CAP_S)))
     cues.append(tcue(t0 + 4.2, f"신뢰도 {closing['confidence']['score']:.2f} — 근거와 한계는 화면과 같습니다."))
 
     # ── 계약 narration → cue 교체 (검증 통과 문장만, 섹션 시간창에 균등 배치) ──
@@ -1421,6 +1705,14 @@ def convert(bundle_path: Path, out_path: Path, tl_override: str | None = None,
     if music_credit:
         src2 += f" · Music: {music_credit}"
 
+    # 빈 자막(절단 되감기로 문장이 사라진 경우) 제거 + 카피/발음 린트 게이트 (C0.2)
+    cues = [c for c in cues if (c.get("text") or "").strip()]
+    warns = lint_cues(cues)
+    if warns:
+        print(f"[cue-lint] 경고 {len(warns)}건 — docs/08_AUDIO_AND_TTS_SPEC.md §4 위반 의심:")
+        for w in warns[:12]:
+            print(f"[cue-lint]   {w}")
+
     data = {
         "meta": {
             "brand": "OSINT BRIEFING",
@@ -1468,9 +1760,13 @@ def emit_html(data: dict, out_path: Path, src_name: str, report_id: str) -> None
          report_id: {report_id}
          수정 금지. 변환기를 고치고 재실행할 것. -->
     <link rel="stylesheet" href="assets/noto_serif_kr.css" />
+    <link rel="stylesheet" href="assets/reportage_fonts.css" />
     <script src="assets/gsap.min.js"></script>
     <script src="assets/scene_kit.js"></script>
     <script src="assets/themes.js"></script>
+    <script src="assets/d3.min.js"></script>
+    <script src="assets/topojson-client.min.js"></script>
+    <script src="assets/world_atlas.js"></script>
 {map_script}
 {css}
   </head>
@@ -1486,11 +1782,7 @@ def emit_html(data: dict, out_path: Path, src_name: str, report_id: str) -> None
       </div>
       <div id="prog"></div>
       <div class="topbar">
-        <div class="brand">
-          <span class="brand-mark"></span>
-          <span class="brand-name" id="brand-name"></span>
-          <span class="brand-sub" id="brand-sub"></span>
-        </div>
+        <div class="brand"></div>
         <div class="topright">
           <span class="chip" id="scene-chip"><span class="dot"></span><span id="scene-label"></span></span>
           <span id="top-date"></span>
@@ -1570,7 +1862,7 @@ def preview_charts(out_path: Path, theme_id: str = "ink_brass") -> dict:
              {"source": "rnd", "target": "node2", "value": 10},
              {"source": "debt", "target": "repay", "value": 8},
          ]},
-        "흐름을 따라가면 행선지가 보입니다.")
+        "무엇이 어디로 얼마나 흘러가는지입니다.")
 
     add("scatter", 9, "분포", {"kicker": "Scatter", "title": "증권사 목표가 — 직전 대비 어디로 옮겼나"},
         {"xLabel": "직전 목표가(만원)", "yLabel": "최근 목표가(만원)", "diagonal": True,
@@ -1615,7 +1907,7 @@ def preview_charts(out_path: Path, theme_id: str = "ink_brass") -> dict:
             {"cells": {"field": "CAD 참조", "ocml": "✗ 없음", "ebom": "✓ 있음", "note": ""}},
             {"cells": {"field": "공정 정보", "ocml": "✗ 없음", "ebom": "부분적", "note": "M-BOM에서 추가"}},
          ]},
-        "표로 나란히 놓으면, 빠진 한 줄이 드러납니다.")
+        "항목별 수치를 나란히 놓았습니다.")
 
     # photo 씬 검증용 플레이스홀더 (네트워크 불필요 — 로컬 SVG 생성, 결정론)
     ph_dir = BRIEFING / "assets" / "photos" / "preview"

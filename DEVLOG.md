@@ -1,6 +1,6 @@
 <!--
 tier: 3
-last_synced_with: v0.43.4
+last_synced_with: v0.49.0
 ssot_for: [development-log]
 depends_on: [CHANGELOG.md]
 last_review: 2026-06-06
@@ -2749,3 +2749,163 @@ last_review: 2026-06-06
   - `pronounce.json`: SKHY/SKHYV/SKUU/SKDD/ETF/ADR/HBM/TSMC 매핑.
 - 결과: 단위 테스트 355/355 통과. 재합성(--bgm Zabriskie) → 재렌더로 음성 반영.
 - 연관: TTS-AP-058, 059, 060, 061, 062, 063. C0(영상미)·C6(안티패턴)·C9(BGM 권리).
+
+## 2026-07-12 v0.44.0 — 보도 사진 파이프라인 복구: 원문 이미지 회수 + 차트 섹션 사진 공존
+
+- 무엇을: "왜 사진 넣는 기능이 작동 안 하지? 영상이 차트 100% 비중" 사용자 지적
+  진단·복구. 두 겹의 원인이 겹쳐 실번들에서 사진이 전량 미노출이었다.
+- 왜: (①) agents_reviewer 백필 63건(#2)이 이미지 `url` 을 로컬 캐시 상대경로
+  (`img/xxx.webp`)로만 싣고 바이너리는 전달하지 않아, `fetch_photos` 가 CWD 기준으로
+  못 찾고 전량 스킵. (②) `photo` 씬이 4-d 승격 한 곳뿐인데 차트 씬이 섹션을 먼저
+  소진 → 사진+차트 동거 섹션(리드)에서 사진이 조용히 버려짐. 계약 취지(영상 중간
+  사진 삽입)·C0 위배.
+- 어떻게:
+  - `fetch_photos`: 자산 확보 3단계 폴백 — (1) http 직링크, (2) **번들 디렉토리
+    기준** 로컬 resolve(CWD 아님), (3) `source_id`→원문 URL→대표 이미지(og:image →
+    twitter:image) **직접 회수**. LLM 무호출·결정론. `recovered="source_page"` 로
+    manifest 추적. 사용자 결정(2026-07-12: "우리가 직접 찾는다")으로 계약 §목적
+    '스크래핑 금지'의 소비측 폴백 예외 — credit 화면 노출 + §3.1-a 전제 유지.
+  - 4-d 씬 빌더: 차트로 소진된 섹션이라도 cleared 사진 있으면 인접 photo 씬 추가.
+    섹션당 첫 1장 캡 유지.
+- 결과: 실번들 5건 전부 `원문회수` 로 사진 확보 + photo 씬 생성(예: 061758 → photo 2개),
+  로컬 데모 회귀 정상. `python -m py_compile` 통과.
+- 연관: PIPELINE-AP-007. C0(영상미)·C7(IMAGE_BUNDLE_CONTRACT 동기화)·C9(권리 추적).
+
+## 2026-07-12 v0.45.0 — 축 A 영상 강화 1탄: 르포 서체 + 르포 8종 팔레트 적용
+
+- 무엇을: 사용자 결정("보고서는 60% 아웃라인, 우리가 축 A=연출을 공격적으로 강화").
+  1탄으로 agents_reviewer 르포 테마의 **서체·색감**을 영상에 이식. 더 밝고 화려하게.
+- 왜: 번들이 이미 `report.theme.id = reportage_*` 를 실어 보내는데(princess/navy/steel/
+  bridal/cosmos/noturno/laurel), 영상엔 매칭 테마가 없어 전부 ink_brass 로 폴백 중이었다.
+  또 서체가 Noto Serif(에디토리얼)라 르포 프리뷰(GmarketSans+Noto Sans)와 달랐다.
+- 어떻게:
+  - 폰트: GmarketSans(Bold/Medium) + Noto Sans KR(400/500/700, fontsource 정적)을
+    `assets/fonts/` 에 로컬 번들 + `reportage_fonts.css`. 결정론/오프라인 유지, 상업적
+    이용 가능 폰트만(C9). index.html `<style>` 의 디스플레이 스택을 GmarketSans, 본문을
+    Noto Sans KR 로 교체(테마 SSOT).
+  - 팔레트: 르포 8종을 `themes.js:SK_THEMES` 에 추가(6색→30여 토큰 파생 스크립트로
+    생성) + `VIDEO_THEMES` 등록. 비-르포 id 3종 별칭(pine_forest/burgundy_mono/
+    editorial_cream). 기본 폴백을 reportage_cyprus 로.
+- 결과: reportage_noturno 번들 실변환 → theme=reportage_noturno 적용. 사전설치 Chromium
+  으로 타이틀·bars·statement 3씬 스크린샷 검증 — GmarketSans 헤드라인 + #FF4103 액센트
+  + 크림 본문, 밝고 화려. 토푸/깨짐 없음. py_compile·themes.js node 파싱 통과.
+- 연관: C0(영상미 최우선)·C7(VIDEO_STYLE_GUIDE 동기화)·C9(폰트 라이선스).
+  후속(축 A 2탄): 지도·모션·B-roll 강화 예정.
+
+## 2026-07-12 v0.45.1 — 스테이트먼트 씬 AI 슬롭 제거 (편집형 히어로로 교체)
+
+- 무엇을: 사용자 지적 — "다섯 진영의 식탁" 아래 "수요와 압력 사이의 3사 / 산업단체
+  9곳 서한" 같은 번호 카드 AI 슬롭을 완전 제거.
+- 왜: 화면 카드 = `video.highlights`(텔레그래프식 압축 라벨 = 슬롭), 자막 = `narration`
+  (살아있는 문장). 진단 결과 좋은 문장은 이미 자막으로 나가고 가운데 카드만 공허한
+  슬롭이었다. 번호형 불릿 카드 포맷 자체가 AI 슬롭 미감.
+- 어떻게: 스테이트먼트 씬을 섹션 **제목 한 줄**을 큰 편집형 히어로(GmarketSans 86px,
+  emphasis=accent)로 바꿈. `stmt-hero` 렌더러/CSS 신설, 번호(0N)·카드 chrome 제거.
+  4-d 빌더는 highlights 대신 heading 을 히어로 라인으로 전달하고 head.title 은 비워
+  상단 중복 제거. 사진 씬 오버레이 highlights 도 [] 로(풀블리드+캡션·크레딧만).
+- 결과: reportage_noturno 재렌더 + Chromium 스크린샷 — "다섯 진영의 식탁"(다섯 진영
+  accent 강조) 히어로 + 자막 "이 사건에는 다섯 진영이 둘러앉아 있습니다." 슬롭 0.
+  8개 스테이트먼트 전부 실제 편집 제목으로. py_compile 통과.
+- 연관: C0(영상미)·C7(CHANGELOG/DEVLOG). 슬롭 라벨은 producer highlights 필드에서
+  오지만 소비측이 렌더 안 하도록 차단(계약 변경 없이).
+
+## 2026-07-12 v0.45.2 — 상단 브랜드 문구 제거
+
+- 무엇을: 상단바 좌측 "OSINT BRIEFING" + "리서치 브리핑" + 다이아몬드 마크 삭제.
+- 왜: 사용자 지적 — 의미 없는 문구. 상단바엔 씬 칩·날짜만 남긴다.
+- 어떻게: emit_html topbar 의 .brand 자식 제거(빈 div 로 우측 정렬 유지),
+  auto_builder 의 brand-name/brand-sub put 호출 제거. put 은 null-safe.
+- 결과: reportage_noturno 재렌더 스크린샷 — 좌상단 비고 우측 칩·날짜만. 정상.
+
+## 2026-07-12 v0.46.0 — 르포 지구본(globe) 지도 씬 + 씬 격리
+
+- 무엇을: 사용자 제시 `reportage_globe_mockup` — 자전 지구본 + 대권 호 흐름 + 마커
+  펄스 지도를 우리 파이프라인에 이식. "지도는 이거야".
+- 왜: map 데이터 있는 32건 중 평면 권역맵(mideast/neasia)에 맞는 건 4건뿐, 28건이
+  "권역 미지원"으로 통째 스킵됐다. 글로벌·다권역 이벤트엔 지구본이 정답.
+- 어떻게:
+  - d3(geoOrthographic/geoPath/geoGraticule10/geoDistance/geoContains) + topojson-client
+    + world-atlas countries-110m 를 **로컬 벤더링**. world 는 fetch 대신 JS 전역 임베드
+    (`world_atlas.js`) — 오프라인/결정론.
+  - 핵심 난제: 우리 렌더는 GSAP 타임라인을 프레임별 seek 하는 방식이라 목업의
+    `d3.timer`(벽시계) 자전은 못 쓴다. → 자전각·아크 dashoffset·마커 펄스 반경을 전부
+    **elapsed(타임라인 시간)의 순수 함수**로 만들고, `tl.to(state,{onUpdate:draw})`
+    프록시 트윈으로 구동. seek 어느 프레임이든 결정론 재현.
+  - 라우팅: norm_map(평면) 실패 시 norm_globe 로 폴백 → `globe` 씬. 좁은 지역은 평면 유지.
+  - 당사국 역할 색조: 하이라이트 마커가 위치한 국가를 geoContains 로 찾아 accent 틴트.
+  - 라벨 오른쪽 가장자리 화면밖 방지(text-anchor end), 마커명 괄호부 제거.
+- 함정/발견: 첫 렌더가 블랭크 → 진단하니 globe 가 아니라 **geonet(관계망)의 기존 버그**
+  (scene_kit.js:1157 x undefined)가 예외를 던져 빌드 전체를 중단시키고 있었다. 씬
+  디스패치에 try/catch(방어적 격리)를 넣어 한 씬 실패가 영상을 통째로 날리지 않게 함
+  → 부수 효과로 network 번들 2건이 (geonet 빼고) 정상 렌더로 복구. geonet 버그 자체는
+  별건(후속).
+- 결과: 글로벌 map 번들(대만 CoWoS→중동 공급/보험 호) 지구본 렌더 — Chromium 2프레임
+  스크린샷으로 자전 확인(프레임 상이), 대권 호 흐름·펄스·역할 색조·GmarketSans 헤드라인
+  정상. py_compile·themes.js 파싱 통과.
+- 연관: C0(영상미)·C7(VIDEO_STYLE_GUIDE/09_MAP 동기화)·C9(d3 ISC/topojson BSD/world-atlas
+  Natural Earth 퍼블릭 도메인 — 재배포 가능 자산만). 후속: geonet 버그 수정, 지구본
+  흐름 헤드(비행 점) 추가, 유럽·미국 평면 베이스맵.
+
+## 2026-07-12 v0.46.1 — 지도/지구본 상투적 자막 오프너 제거
+
+- 무엇을: "사건의 좌표를 지구본 위에 놓으면 흐름이 보입니다" 등 하드코딩 템플릿
+  프레이밍 자막을 폐기(사용자 지적 — AI 슬롭).
+- 어떻게: geo/globe 씬의 t0+0.6 제네릭 오프너 cue 삭제. 대신 근거 있는 하이라이트
+  마커 노트("타이난, 엔비디아 wafer 80% 통과.")·아크 라벨로 자막을 연다.
+- 결과: 라이트 지구본 재렌더 자막이 근거 문장으로 교체 확인.
+- 연관: C0(정확성>영상미). 슬롭은 파이프라인 템플릿에서 옴 — 근거 데이터로만 대체.
+
+## 2026-07-12 v0.47.0 — 르포 테마 라이트(밝은 배경) 전환
+
+- 무엇을: 르포 8종을 밝은 배경 + 어두운 글씨로 전환(사용자: "밝게 해달라 했는데 여전히
+  어둡네. 밝은 색을 배경으로, 어두운색을 글씨로").
+- 어떻게: themes.js 의 reportage_* 8종을 라이트로 재생성 — cream(원래 text)=bg0,
+  ink(원래 bg)=text, dark:false, 라이트 토큰(scrim-rgb=cream, cap-color=ink,
+  vignette/grain/plate). accent 는 cream 위 가독 위해 같은 계열 진한 톤으로 조정
+  (파스텔 accent 는 밝은 배경서 안 읽힘). 6색→30여 토큰 파생 스크립트.
+  globe 렌더러: 육지색을 blend(bg0,text,0.14)로 바꿔 다크·라이트 모두 대비.
+- 결과: reportage_cyprus(라이트)로 타이틀·지구본·bars 3씬 Chromium 스크린샷 —
+  cream 배경 + teal 잉크 헤드라인 + ochre accent, 전부 가독·밝음. 지구본 육지 silhouette
+  대비 확보. themes.js 파싱 통과.
+- 연관: C0(영상미·가독성). 다크 르포가 필요하면 reportage_*_dark 로 별도 추가 가능(후속).
+
+## 2026-07-12 v0.48.0 — AI 슬롭 카피 규칙(C0.2) + 자막 억지 축약 완화
+
+- 무엇을: 사용자 요청 — "억지 축약·인위적/작위적·상투적 표현 제거 룰. 자막이 길어져도
+  사람이 읽기 쉬운 게 낫다."
+- 어떻게: (1) CLAUDE.md 에 C0.2 카피/자막 규칙 명문화(거버넌스). (2) 자막 절단 완화 —
+  clip 한도를 SUB_CAP(100)/SUB_CAP_S(82) 상수로(기존 75/58), 자막 박스 폭↑·2줄 수용
+  (index.html .subwrap/#cap). 음성 예산(120)은 불변. (3) 상투 템플릿 오프너 8곳을
+  사실 서술로 교체(sankey/table/geonet/markets/scatter/미리보기).
+- 결과: 80자 완결 문장이 "…" 없이 2줄로 렌더 확인(versus 씬 스크린샷). 예전엔 75자 절단.
+- 함정: to_polite 가 "무게를 둔다"→"둔습니다"(오활용) 만드는 별건 버그 발견 — 후속(TTS-AP).
+- 연관: C0.2(신규)·C1(톤). 저작권은 agents_reviewer, 파이프라인은 LLM 무호출 유지.
+
+## 2026-07-12 v0.48.1 — TTS 슬롭 4클래스 근절 + 빌드 린트 게이트 (fable 검증)
+
+- 무엇을: 사용자 지적 2건("…까지만 나오고 말하다 맒", "168달러=[배규십달러] 발음")을
+  재현 → 그 과정에서 4클래스를 확정 재현하고 전부 구조적으로 잠금.
+- 재현으로 확정한 버그: ① "1,395,000원"→"일,삼백구십오,영 원"(콤마 그룹별 변환 파탄
+  — 최악), ② "백육십팔 딸러"(단위 공백이 연음 절단), ③ 절단 원문("…거래로 …")이
+  자막 그대로 + 음성 말하다 맒, ④ to_polite 재적용("팔았습니습니다")·ㄴ다 오활용
+  ("둔습니다").
+- 어떻게: tts_pronounce(콤마 사전 제거·단위 붙임), settle_ellipsis/clip_cue(문장
+  경계 절단 — "…" 생성 금지, 자막·음성 27곳 교체), to_polite(_ALREADY_POLITE 조기
+  반환 + 자모 ㄴ→ㅂ), lint_cues 6종 게이트를 convert() 에 상시 배선. AP-064~067
+  append + 08 스펙 §2.5/§2.6/§4-a 상세 가이드화 + 회귀 테스트 31건.
+- 결과: 문제 케이스 전부 옳은 출력 재검증, 실번들 2건 e2e 린트 클린, 31/31 테스트 통과.
+- 연관: TTS-AP-064~067, C0.2, C6(①AP ②린트 ③테스트 3종 세트), G4-9.
+- 방침 폐기: v0.43.4 의 '숫자-단위 공백 삽입' [superseded by TTS-AP-065].
+
+## 2026-07-12 v0.49.0 — 다크 프리셋도 밝은 르포로 자동 매핑 (밝게 통일)
+
+- 무엇을: 사용자 지적("색감도 폰트만 바뀌고 색감은 그대로네?") — 라이트로 바뀐 건
+  reportage_* 뿐이라 다크 테마(midnight_indigo 등) 지정 번들은 여전히 어두웠다.
+- 어떻게: theme 해석부에 DARK_TO_LIGHT 매핑 추가 — ink_brass→reportage_cyprus,
+  graphite_slate→reportage_steel, midnight_navy→reportage_cosmos,
+  forest_archive→reportage_laurel. 별칭 해석(midnight_indigo→midnight_navy) 다음에
+  적용. --video-theme override 시엔 미적용(다크 명시 존중).
+- 결과: 실번들 63건 전부 라이트로 해석(다크 0). 문제의 번들(midnight_indigo)이
+  reportage_cosmos(크림 배경+크림슨)로 렌더되는 것 스크린샷 확인.
+- 연관: C0(영상미·밝게). 되돌리기 쉬움(맵 1개). 특정 무거운 토픽에 다크가 필요하면
+  --video-theme 로 지정 가능.
