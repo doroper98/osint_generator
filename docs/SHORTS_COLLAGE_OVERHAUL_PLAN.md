@@ -1,6 +1,6 @@
 <!--
 tier: 2
-last_synced_with: v0.43.5
+last_synced_with: v0.43.6
 ssot_for: [shorts-collage-overhaul-plan, collage-design-direction, asset-library-plan]
 depends_on: [CLAUDE.md, GOAL.md, docs/07_VIDEO_STYLE_GUIDE.md, docs/08_AUDIO_AND_TTS_SPEC.md, docs/10_RENDERING_PIPELINE_SPEC.md, docs/VIDEO_BUNDLE_CONTRACT.md, docs/PROFESSIONAL_REBUILD_PLAN.md]
 last_review: 2026-08-14
@@ -239,29 +239,32 @@ agents_reviewer 번들 ─┤ import-bundle (현행)
 
 - **1080×1920 @ 30fps**. `config.yaml` 의 `render.default_resolution` 을 컴포지션별 프로파일로
   재구성 (`profiles: {briefing: [1920,1080], shorts: [1080,1920]}` — 롱폼 체인 파괴 금지).
-- **길이: 45~60초 권고** (쇼츠 피드 최적·완주율). 번들 전체를 욱여넣지 않는다 — §5.3 컷다운.
+- **길이: 90~120초 타깃, 상한 120초** (**사용자 결정 2026-08-14: "2분 정도"**). 유튜브 쇼츠
+  3분 규격 내. 60초안 대비 섹션 2개 + 타임라인 + 검증 라벨 구분의 여유 확보 — 신뢰성 정체성
+  (G4)에 부합. 대가로 완주율 리스크 ↑ → HOOK 3초 법칙 + 씬당 3~6초 빠른 컷 + TURN 씬 후반
+  이전 배치로 상쇄한다. 번들 전체를 욱여넣지 않는 원칙은 동일 — §5.3 컷다운.
 - **Safe area**: 상단 ~200px(제목·검색 UI)·하단 ~340px(액션 버튼·캡션 UI)·좌우 60px 는 핵심
   텍스트 금지 구역. 디자인 시트 L1 토큰으로 고정.
 
 ### 5.2 쇼츠 씬 타입 (L3 템플릿, §6)
 
-| 씬 | 시간 | 내용 |
+| 씬 | 시간 (120s 기준) | 내용 |
 |---|---|---|
 | HOOK | 0–3s | 랜섬노트 헤드라인 1줄 + 핵심 컷아웃 "탁" 등장. 첫 문장 = 질문/충격 수치 |
-| CONTEXT | 3–10s | 종이 지도/몽타주로 무대 설정 |
-| ACTORS | ~10s | 판화 초상 등장 + 이름·직함 태그 + 붉은 실 관계선 |
-| EVIDENCE | 중반 | 기사 캡처·차트(콜라주 스킨)·타임라인 — 스탬프 라벨 동반 |
-| TURN | 후반 | 반전/핵심 판단 — `<추론>`/`<미검증>` 라벨 구분 필수 |
-| CLOSING | 마지막 3–5s | 결론 1문장 + 채널 스탬프 + BGM 크레딧 소형 표기 |
+| CONTEXT | 3–15s | 종이 지도/몽타주로 무대 설정 |
+| ACTORS | 15–30s | 판화 초상 등장 + 이름·직함 태그 + 붉은 실 관계선 |
+| EVIDENCE | 30–85s | 기사 캡처·차트(콜라주 스킨)·타임라인 (섹션 최대 2개) — 스탬프 라벨 동반 |
+| TURN | 85–110s | 반전/핵심 판단 — `<추론>`/`<미검증>` 라벨 구분 필수. 완주 유도를 위해 마지막 10초 이전 배치 |
+| CLOSING | 110–120s | 결론 1문장 + 채널 스탬프 + BGM 크레딧 소형 표기 |
 
 ### 5.3 번들 → 쇼츠 컷다운 (결정론 규칙)
 
 번들은 롱폼 분량이므로 쇼츠는 **1 스토리 추출**이 핵심이다. LLM 무호출 원칙 유지:
 
 1. `report.video.intro_narration` → HOOK 후보.
-2. 섹션 우선순위: `video.highlights` 보유 + emphasis 밀도 + 번들 섹션 순서로 상위 1~2 섹션만.
-3. `timeline.video.narration` 은 3~4문장 → 1~2문장으로 절단 (완결 문장 단위 — TTS-AP-058 학습 준수).
-4. 총 문장 수 상한: **12문장** (60s ÷ 문장당 4~6s). 초과분 폐기 로그.
+2. 섹션 우선순위: `video.highlights` 보유 + emphasis 밀도 + 번들 섹션 순서로 상위 **2 섹션**만.
+3. `timeline.video.narration` 은 3~4문장 → 2문장으로 절단 (완결 문장 단위 — TTS-AP-058 학습 준수).
+4. 총 문장 수 상한: **24문장** (120s ÷ 문장당 4~6s, 실측 cuesync 로 재시계). 초과분 폐기 로그.
 5. 문장·수치 검증기는 VIDEO_BUNDLE_CONTRACT 의 기존 규칙 그대로.
 6. (후속) agents_reviewer 계약에 `report.video.shorts` 필드(쇼츠 전용 대본) 추가 제안 —
    additive/optional 이라 schema_version 유지. 그전까지는 위 컷다운 규칙으로 동작.
@@ -341,7 +344,7 @@ agents_reviewer 번들 ─┤ import-bundle (현행)
 6. 스텝 모션·놓기 모션·draw-on 이 씬마다 최소 1회 (정적 프레임 금지 — C0).
 7. TTS QA 통과 + 자막·음성 cuesync 일치.
 8. 동일 입력 재렌더 시 동일 출력 (결정론).
-9. 45~60초, 12문장 이내.
+9. 90~120초, 24문장 이내.
 10. BGM 더킹으로 내레이션 명료도 유지.
 
 ---
@@ -350,7 +353,7 @@ agents_reviewer 번들 ─┤ import-bundle (현행)
 
 | # | 결정 | 권고 |
 |---|---|---|
-| 1 | 쇼츠 길이 타깃 | **45~60초** (3분형은 후속) |
+| 1 | 쇼츠 길이 타깃 | ~~45~60초~~ → **확정 (2026-08-14): 90~120초, 상한 2분** |
 | 2 | 롱폼 파이프라인 처리 | **동결 유지** (삭제 아님) |
 | 3 | 생성형 AI(힉스필드) 사용 여부 | **미채택 — G4-10 유지**, 판화는 절차적 스타일라이즈 |
 | 4 | 판화 기본 스타일 | Phase 1 PoC 에서 stipple vs engraving 실물 비교 후 선택 |
@@ -364,3 +367,5 @@ agents_reviewer 번들 ─┤ import-bundle (현행)
 ## 이력
 
 - 2026-08-14 v0.43.5: 최초 작성 (사용자 개편 지시 → 계획 수립).
+- 2026-08-14 v0.43.6: 쇼츠 길이 사용자 확정 — 45~60초안 → **90~120초(2분 상한)**. §5 시간
+  예산·문장 상한(12→24)·Bar 9항 개정, 결정 목록 #1 확정 처리.
