@@ -1,6 +1,6 @@
 <!--
 tier: 2
-last_synced_with: v0.44.0
+last_synced_with: v0.44.1
 ssot_for: [shorts-collage-overhaul-plan, collage-design-direction, asset-library-plan]
 depends_on: [CLAUDE.md, GOAL.md, docs/07_VIDEO_STYLE_GUIDE.md, docs/08_AUDIO_AND_TTS_SPEC.md, docs/10_RENDERING_PIPELINE_SPEC.md, docs/VIDEO_BUNDLE_CONTRACT.md, docs/PROFESSIONAL_REBUILD_PLAN.md]
 last_review: 2026-08-14
@@ -313,6 +313,26 @@ agents_reviewer 번들 ─┤ import-bundle (현행)
 
 ## 6. 디자인 시트 체계 (기본 골격)
 
+### 6.0 대원칙 — 시트는 문법이지 조판이 아니다 (사용자 지시 2026-08-14)
+
+> "모든 영상이 똑같은 엘레먼트들이 나오는 영상은 누구도 보지 않을 것" — 시트는 탄탄하게,
+> 적용은 기계적으로 하지 않는다.
+
+**고정되는 것 (정체성)**: 종이·판화·스탬프라는 재료, 검증 라벨 4종의 의미·색, 타이포 위계,
+모션의 물성(스텝·놓기·draw-on), safe area. **매 영상 달라지는 것 (연출)**: 배경 문법 선택,
+컴포넌트 변형, 배치·구도, 씬 순서·조합, 랜섬 조판, 색 변주. 변주는 3층으로 구현한다:
+
+| 층 | 메커니즘 | 결정 시점 | 비용 |
+|---|---|---|---|
+| **V1. 시드 변주** | `report_id` 해시 → 종이 톤(3종 중), 선버스트 각도, 컷아웃 기울기·테이프 위치·랜섬 조판 시드 등 미시 파라미터. 같은 번들 = 같은 영상(재현성), 다른 번들 = 다른 표정 | 렌더 시 (결정론) | 0 |
+| **V2. 콘텐츠 파생 변주** | 규칙 기반 — 카테고리→액센트·배경 문법 후보군, 데이터 모양→씬 타입(차트 유무·인물 수·타임라인 유무), 엔티티 수→ACTORS 연출(1인 스포트라이트 / 2자 대치 / 3자+ 관계망). **로테이션 규칙**: 동일 배경 문법 연속 2씬 금지, 최근 N편의 HOOK 연출 이력 기록(`projects/style_history.json`)과 중복 회피 | 변환기 (결정론) | 낮음 |
+| **V3. 아트 디렉션 레이어** | 신규 `ArtDirectorWorker`(BaseLLMWorker — ADDENDUM_04 구독 브리지)가 번들을 읽고 `art_direction.json` 산출: 씬별 배경 문법·컴포넌트 변형·강조 연출·랜섬 헤드라인 문안을 **디자인 시트 어휘(enum) 안에서만** 지정. Pydantic 이 시트 밖 지시를 reject. 사람이 게이트에서 승인 | 계획 시 (LLM) | 중간 |
+
+**경계 (G4)**: LLM(V3)은 연출만 정한다 — 사실·수치·검증 라벨·자막 문장은 건드리지 못한다
+(스키마가 필드 자체를 안 줌). **렌더는 여전히 결정론** — `art_direction.json` 이 직렬화된
+재현 소스이므로 "렌더 시점 LLM 무호출" 원칙은 유지되고, 무호출 대상이 계획 시점으로만 확장된다.
+V3 없이도 V1+V2 만으로 파이프라인은 완주 가능(폴백) — V3 는 연출 다양성의 증폭기다.
+
 **3계층 + 스페시먼**으로 구성한다. SSOT 문서는 신규 `docs/17_COLLAGE_DESIGN_SHEET.md` (Phase 0 산출).
 
 - **L1 — 토큰 (JSON + themes.js 프리셋)**: 종이 팔레트(크라프트/아이보리/차콜 파일), 잉크색,
@@ -377,10 +397,11 @@ agents_reviewer 번들 ─┤ import-bundle (현행)
 | **0. 스펙 확정** | v0.44.0 | **완료 (2026-08-14)** — 07 v2 개정 + `17_COLLAGE_DESIGN_SHEET.md` + Bundle video 블록·AssetLibrary·DesignSheet Pydantic 스키마 + config 프로파일 + 테스트 5건·실번들 회귀 | 문서 리뷰 (사용자) — **대기 중** |
 | **1. 판화 PoC** | v0.45.0 | `engraving_stylizer` — 트럼프 1인 stipple + engraving SVG, 스페시먼 페이지에서 비교 | **사용자 눈 검수** (스타일 방향 확정 — 이후 전체 생산의 기준) |
 | **2. 라이브러리 구축** | v0.46.0 | 인물 7인 × 스타일 변형, CI 로고 ~20종, 국기 확장, 텍스처·소품, 전 자산 RIGHTS 기록 + manifest 검증기 | rights 검증기 통과 + 샘플 검수 |
-| **3. 쇼츠 씬킷** | v0.47.0 | 1080×1920 컴포지션 + L2 컴포넌트 전체 + L3 씬 템플릿 + 스페시먼 mp4 | **스타일 데모 mp4 사용자 검수 — 합격선 = §1.0 최소 기준(원카AI 샘플 0:35~1:16) 동급** |
-| **4. 변환기** | v0.48.0 | `bundle_to_shorts.py` (컷다운 + 엔티티 매칭 + 씬 플랜) + 검증기 + 차트 타입 커버 확장(donut 매핑, diverging_bar→bar 정규화 — v0.43.7 검토에서 발견된 공백) | 실번들 1건 무음 렌더 검수 |
-| **5. 오디오 개편** | v0.49.0 | voice profile + (사용자) 새 voice key + BGM manifest + pulse 베드 + 크레딧 자동화 | Windows 실음성 렌더 (사용자) |
-| **6. 엔드투엔드** | v0.50.0 | 실제 번들 → 쇼츠 1편 완주 + Shorts Collage Bar 체크 | **최종 사용자 검수** |
+| **3. 쇼츠 씬킷** | v0.47.0 | 1080×1920 컴포지션 + L2 컴포넌트 전체(**컴포넌트당 표현 변형 2~4종** — §6.0 V2 의 재료) + L3 씬 템플릿 + 스페시먼 mp4 | **스타일 데모 mp4 사용자 검수 — 합격선 = §1.0 최소 기준(원카AI 샘플 0:35~1:16) 동급** |
+| **4. 변환기** | v0.48.0 | `bundle_to_shorts.py` (컷다운 + 엔티티 매칭 + 씬 플랜 + **V1 시드·V2 규칙 변주 + style_history 로테이션**) + 검증기 + 차트 타입 커버 확장(donut 매핑, diverging_bar→bar 정규화) | 실번들 1건 무음 렌더 검수 — **같은 시트, 다른 번들 2건이 뚜렷이 다른 화면인지 비교** |
+| **5. 아트 디렉터** | v0.49.0 | `ArtDirectorWorker` + `art_direction.json` 스키마 + 게이트 배선 (V3 — §6.0) | 동일 번들에 V3 on/off 비교 검수 |
+| **6. 오디오 개편** | v0.50.0 | voice profile 배선 + (사용자) 새 voice key + BGM manifest + pulse 베드 + 크레딧 자동화 | Windows 실음성 렌더 (사용자) |
+| **7. 엔드투엔드** | v0.51.0 | 실제 번들 → 쇼츠 1편 완주 + Shorts Collage Bar 체크 | **최종 사용자 검수** |
 
 병행 원칙: 롱폼 briefing 컴포지션은 **삭제하지 않는다** — 쇼츠가 채널 기준이 되어도 롱폼 체인은
 동결 유지(회귀 없음). 전면 폐기는 별도 사용자 결정.
@@ -397,6 +418,8 @@ agents_reviewer 번들 ─┤ import-bundle (현행)
 8. 동일 입력 재렌더 시 동일 출력 (결정론).
 9. 90~120초, 24문장 이내.
 10. BGM 더킹으로 내레이션 명료도 유지.
+11. **변주**: 연속 2편을 나란히 놓았을 때 배경 문법·HOOK 연출·씬 조합이 눈에 띄게 다를 것
+    (동일 조합 재사용은 style_history 로 차단 — §6.0).
 
 ---
 
@@ -425,6 +448,10 @@ agents_reviewer 번들 ─┤ import-bundle (현행)
   기구현 확인, 권장 세팅 시작점, 오디션 절차. 부수 발견 — 해당 번들 차트 5종 중
   stakeholder_map/diverging_bar/donut 은 현행 변환기 미지원(Phase 4 에서 donut 매핑 +
   diverging_bar→bar 정규화 필요).
+- 2026-08-14 v0.44.1: **변주 체계 신설 (§6.0)** — 사용자 지시 "모든 영상이 똑같은 엘레먼트면
+  누구도 안 본다". V1 시드 / V2 콘텐츠 규칙+로테이션 / V3 아트 디렉터(LLM, 계획 시점,
+  시트 어휘 내 enum 강제) 3층. 로드맵에 Phase 5(ArtDirectorWorker) 삽입, Phase 6~7 재번호
+  (v0.50~0.51). Bar 11항(연속 2편 변별) 추가.
 - 2026-08-14 v0.44.0: **Phase 0 구현 완료** — 07 v2 / 17 디자인 시트 / 스키마(BundleVideo·
   AssetLibrary·DesignSheet) / config 프로파일 / 테스트. 사용자 문서 리뷰 대기.
 - 2026-08-14 v0.43.8: 사용자 제시 레퍼런스 2건 스토리보드 프레임 분석 → §1.0 벤치마크 신설

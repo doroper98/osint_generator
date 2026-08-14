@@ -1,6 +1,6 @@
 <!--
 tier: 2
-last_synced_with: v0.44.0
+last_synced_with: v0.44.1
 ssot_for: [collage-design-sheet, shorts-design-tokens, collage-components, shorts-scene-templates]
 depends_on: [07_VIDEO_STYLE_GUIDE.md, SHORTS_COLLAGE_OVERHAUL_PLAN.md, ../schemas/models.py]
 last_review: 2026-08-14
@@ -16,6 +16,11 @@ last_review: 2026-08-14
 
 합격선: **§1.0 최소 기준(원카AI SK하이닉스 샘플 0:35~1:16) 동급** — 종이 질감이 살아있고,
 컷아웃이 물성 있게 움직이며, 검증 라벨이 스탬프로 명확히 구분되는 화면.
+
+> **대원칙 — 시트는 문법이지 조판이 아니다** (사용자 지시, 계획 §6.0): 본 시트는 어휘·재료·
+> 위계를 고정할 뿐, 화면 조판을 고정하지 않는다. 모든 L2 컴포넌트는 **표현 변형 2~4종**을
+> 갖고, 배경 문법·구도·조합은 영상마다 V1(시드)·V2(콘텐츠 규칙)·V3(아트 디렉터) 변주로
+> 달라진다. 씬 조립기가 본 시트를 "그대로 찍어내는" 구현은 리뷰에서 반려 대상이다.
 
 ---
 
@@ -84,10 +89,31 @@ last_review: 2026-08-14
 
 ---
 
+### 1.5 변주 파라미터 (V1 시드)
+
+`seed = fnv1a(report_id)` 에서 파생 (결정론 — 같은 번들이면 항상 같은 값):
+
+| 파라미터 | 범위 | 대상 |
+|---|---|---|
+| `paper_tone` | paper_base / paper_aged / paper_file | 영상 기조 종이 톤 |
+| `sunburst_rotation` | 0~360° | 선버스트 초기 각도 |
+| `cutout_tilt` | ±4° (요소별 서브시드) | 컷아웃 기울기 |
+| `tape_layout` | 4 변형 | 테이프·핀 배치 패턴 |
+| `ransom_seed` | 문자열 해시 | 랜섬 글자별 활자 조합 |
+
+### 1.6 배경 문법 후보군 (V2 규칙 변주의 재료)
+
+`sunburst` / `stage_curtain`(무대) / `file_desk`(서류 책상) / `paper_map` / `montage_wall`
+(사진 벽) / `plain_grain`(정적 종이 — 절제 씬용). 선택 규칙: 카테고리별 후보 2~4종 중
+콘텐츠 조건(인물 수·차트 유무)으로 압축 → 동일 문법 연속 2씬 금지 → 최근 N편 HOOK 이력
+(`projects/style_history.json`)과 중복 회피.
+
 ## 2. L2 — 컴포넌트 시트 (10종)
 
 각 컴포넌트는 `hyperframes/shorts/assets/collage_kit.js` 에 구현될 예정(Phase 3). 여기서는
-계약(입력·상태·모션·금지사항)만 확정한다.
+계약(입력·상태·모션·금지사항)만 확정한다. **각 컴포넌트는 표현 변형(variant) 2~4종을
+갖는다** — 예: StampLabel 의 각도·마모도, PhotoMontageGrid 의 격자/스택/부채꼴, CutoutActor
+의 등장 방향. 변형 선택은 V1~V3 변주 층의 몫이며 컴포넌트는 variant 인자로 받기만 한다.
 
 | # | 컴포넌트 | 입력 | 모션 | 금지사항 |
 |---|---|---|---|---|
@@ -121,3 +147,5 @@ last_review: 2026-08-14
 ## 이력
 
 - 2026-08-14 v0.44.0: 최초 작성 (Phase 0 산출).
+- 2026-08-14 v0.44.1: 대원칙 "시트는 문법이지 조판이 아니다" + §1.5 시드 변주 + §1.6 배경
+  문법 후보군 + 컴포넌트 변형 2~4종 요구 (사용자 지시 — 기계적 반복 금지).
