@@ -956,6 +956,36 @@ class BundleTheme(_BundleModel):
     fonts: dict[str, str] = Field(default_factory=dict)
 
 
+class BundleSectionVideo(_BundleModel):
+    """섹션별 영상 대본 블록 (docs/VIDEO_BUNDLE_CONTRACT.md — sections[i].video).
+
+    v0.44.0 까지 라이브 변환기(bundle_to_video)가 raw dict 로 읽던 계약을 Pydantic 으로
+    정식 모델링(additive — schema_version 1 유지). 자막=narration, 음성=narration_tts.
+    """
+
+    narration: list[str] = Field(default_factory=list)
+    narration_tts: list[str] = Field(default_factory=list)
+    highlights: list[str] = Field(default_factory=list)
+    emphasis: list[str] = Field(default_factory=list)
+
+
+class BundleReportVideo(_BundleModel):
+    """리포트 수준 영상 대본 (계약 — report.video). shorts 필드는 쇼츠 전용 대본이
+    추가될 경우를 위한 예약(additive 제안, SHORTS_COLLAGE_OVERHAUL_PLAN §5.3-6)."""
+
+    intro_narration: list[str] = Field(default_factory=list)
+    outro_narration: list[str] = Field(default_factory=list)
+    intro_narration_tts: list[str] = Field(default_factory=list)
+    outro_narration_tts: list[str] = Field(default_factory=list)
+
+
+class BundleTimelineVideo(_BundleModel):
+    """타임라인 씬 대본 (계약 — timeline.video)."""
+
+    narration: list[str] = Field(default_factory=list)
+    narration_tts: list[str] = Field(default_factory=list)
+
+
 class BundleReport(_BundleModel):
     report_id: str
     headline: str
@@ -963,6 +993,7 @@ class BundleReport(_BundleModel):
     closing: str = ""
     html_url: str = ""
     theme: Optional[BundleTheme] = None
+    video: Optional[BundleReportVideo] = None
 
 
 class BundleProvenanceSource(_BundleModel):
@@ -1049,6 +1080,7 @@ class BundleSection(_BundleModel):
     map_ref: Optional[str] = None
     image_refs: list[str] = Field(default_factory=list)
     claim_refs: list[str] = Field(default_factory=list)
+    video: Optional[BundleSectionVideo] = None
 
 
 class BundleEvidence(_BundleModel):
@@ -1109,6 +1141,7 @@ class BundleTimelinePoint(_BundleModel):
 class BundleTimeline(_BundleModel):
     heading: str = ""
     points: list[BundleTimelinePoint] = Field(default_factory=list)
+    video: Optional[BundleTimelineVideo] = None
 
 
 class BundleImage(_BundleModel):
@@ -1228,3 +1261,136 @@ class ReportBundle(VersionedModel):
             if bad:
                 raise ValueError(f"claim {c.claim_id} 의 미해결 chart_refs: {bad}")
         return self
+
+
+# ---------------------------------------------------------------------------
+# 22. Asset Library (쇼츠 콜라주 개편 — SHORTS_COLLAGE_OVERHAUL_PLAN §3)
+# ---------------------------------------------------------------------------
+
+
+class AssetSourceRef(BaseModel):
+    """라이브러리 자산의 원본 출처·권리 기록 (C9/G4-8).
+
+    판화 스타일라이즈를 거쳐도 원본 사진의 권리는 소멸하지 않으므로,
+    모든 파생 variant 는 본 기록을 공유한다.
+    """
+
+    model_config = ConfigDict(extra="forbid", use_enum_values=True)
+
+    url: str = ""
+    license: str = ""                       # 예: "public_domain", "CC BY 4.0"
+    rights_status: RightsStatus = RightsStatus.RIGHTS_UNKNOWN
+    credit: str = ""                        # 출처표시 의무 문구 (있는 경우 필수 표기)
+    note: str = ""                          # nominative_use / self_made 등 메모
+
+
+class LibraryAssetVariant(BaseModel):
+    """자산 1개의 스타일 변형 (원본 → 가공 산출물 1개)."""
+
+    model_config = ConfigDict(extra="forbid", use_enum_values=True)
+
+    style: Literal["source", "cutout", "stipple", "engraving", "crosshatch"]
+    pose: str = "front"                     # front / side / point 등
+    path: str                               # 저장소 상대 경로 (assets/library/...)
+    generator_version: str = ""             # engraving_stylizer 버전 (재현성)
+
+
+class LibraryPerson(BaseModel):
+    """주요 인물 1명 (판화/컷아웃 변형 세트 + 별칭 사전)."""
+
+    model_config = ConfigDict(extra="forbid", use_enum_values=True)
+
+    person_id: str                          # 예: "trump"
+    name_ko: str
+    name_en: str = ""
+    role: str = ""                          # 자막 소개용 직함 (예: "미국 대통령")
+    aliases: list[str] = Field(default_factory=list)   # 엔티티 매칭용 표기 변형
+    source: AssetSourceRef
+    variants: list[LibraryAssetVariant] = Field(default_factory=list)
+
+
+class LibraryLogo(BaseModel):
+    """기업/기관 CI 1종. 상표권 유의 — 보도·논평 인용 목적(nominative use) 기록."""
+
+    model_config = ConfigDict(extra="forbid", use_enum_values=True)
+
+    logo_id: str                            # 예: "sk_hynix"
+    name_ko: str
+    name_en: str = ""
+    aliases: list[str] = Field(default_factory=list)
+    source: AssetSourceRef
+    path: str                               # SVG 경로
+
+
+class LibraryFlag(BaseModel):
+    """국기 1종 (hyperframes flags 승격)."""
+
+    model_config = ConfigDict(extra="forbid", use_enum_values=True)
+
+    country_code: str                       # ISO 3166-1 alpha-2 소문자 (예: "kr")
+    name_ko: str
+    aliases: list[str] = Field(default_factory=list)
+    source: AssetSourceRef
+    path: str
+
+
+class AssetLibraryManifest(VersionedModel):
+    """assets/library/library_manifest.json — 사전 구축 자산 전체 인덱스.
+
+    엔티티 매칭(bundle_to_shorts)의 단일 조회처. 매칭 실패 시 씬 스킵 + 로그,
+    핵심 인물 부재 시 needs_user_upload (SHORTS_COLLAGE_OVERHAUL_PLAN §3.4).
+    """
+
+    generated_at: datetime = Field(default_factory=utc_now)
+    people: list[LibraryPerson] = Field(default_factory=list)
+    logos: list[LibraryLogo] = Field(default_factory=list)
+    flags: list[LibraryFlag] = Field(default_factory=list)
+
+    @model_validator(mode="after")
+    def _check_unique_ids(self) -> "AssetLibraryManifest":
+        for label, ids in (
+            ("person_id", [p.person_id for p in self.people]),
+            ("logo_id", [l.logo_id for l in self.logos]),
+            ("country_code", [f.country_code for f in self.flags]),
+        ):
+            dup = {i for i in ids if ids.count(i) > 1}
+            if dup:
+                raise ValueError(f"asset library 중복 {label}: {sorted(dup)}")
+        return self
+
+
+# ---------------------------------------------------------------------------
+# 23. Design Sheet (쇼츠 콜라주 개편 — SHORTS_COLLAGE_OVERHAUL_PLAN §6)
+# ---------------------------------------------------------------------------
+
+
+class SafeArea(BaseModel):
+    """플랫폼 UI 침범 금지 마진 (px). 쇼츠+릴스+틱톡 합집합이 기본값의 근거
+    (docs/17_COLLAGE_DESIGN_SHEET.md §1)."""
+
+    model_config = ConfigDict(extra="forbid")
+
+    top: int = 220
+    bottom: int = 350
+    left: int = 60
+    right: int = 140
+
+
+class DesignSheet(VersionedModel):
+    """디자인 시트 L1 토큰의 직렬화 형식 — 씬 조립기가 하드코딩 대신 본 시트를 읽는다.
+
+    값의 SSOT 는 docs/17_COLLAGE_DESIGN_SHEET.md 이며 본 모델은 그 운반 형식.
+    palette/typography/motion 은 open key-value (BundleTheme.tokens 전례) —
+    키 목록·의미는 17 문서가 정의한다.
+    """
+
+    sheet_id: str                           # 예: "shorts_collage_v1"
+    format: Literal["shorts", "briefing"] = "shorts"
+    width: int = 1080
+    height: int = 1920
+    fps: int = 30
+    safe_area: SafeArea = Field(default_factory=SafeArea)
+    palette: dict[str, str] = Field(default_factory=dict)
+    typography: dict[str, str] = Field(default_factory=dict)
+    motion: dict[str, float] = Field(default_factory=dict)
+    texture_refs: list[str] = Field(default_factory=list)   # assets/library/textures/*

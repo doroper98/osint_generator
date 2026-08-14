@@ -1,6 +1,6 @@
 <!--
 tier: 2
-last_synced_with: v0.43.8
+last_synced_with: v0.44.0
 ssot_for: [shorts-collage-overhaul-plan, collage-design-direction, asset-library-plan]
 depends_on: [CLAUDE.md, GOAL.md, docs/07_VIDEO_STYLE_GUIDE.md, docs/08_AUDIO_AND_TTS_SPEC.md, docs/10_RENDERING_PIPELINE_SPEC.md, docs/VIDEO_BUNDLE_CONTRACT.md, docs/PROFESSIONAL_REBUILD_PLAN.md]
 last_review: 2026-08-14
@@ -374,7 +374,7 @@ agents_reviewer 번들 ─┤ import-bundle (현행)
 
 | Phase | 버전 | 산출물 | 검수 게이트 |
 |---|---|---|---|
-| **0. 스펙 확정** | v0.44.0 | 07 v2 개정(쇼츠·콜라주) + `17_COLLAGE_DESIGN_SHEET.md` + DesignSheet/Library Pydantic 스키마 + config 프로파일 구조 | 문서 리뷰 (사용자) |
+| **0. 스펙 확정** | v0.44.0 | **완료 (2026-08-14)** — 07 v2 개정 + `17_COLLAGE_DESIGN_SHEET.md` + Bundle video 블록·AssetLibrary·DesignSheet Pydantic 스키마 + config 프로파일 + 테스트 5건·실번들 회귀 | 문서 리뷰 (사용자) — **대기 중** |
 | **1. 판화 PoC** | v0.45.0 | `engraving_stylizer` — 트럼프 1인 stipple + engraving SVG, 스페시먼 페이지에서 비교 | **사용자 눈 검수** (스타일 방향 확정 — 이후 전체 생산의 기준) |
 | **2. 라이브러리 구축** | v0.46.0 | 인물 7인 × 스타일 변형, CI 로고 ~20종, 국기 확장, 텍스처·소품, 전 자산 RIGHTS 기록 + manifest 검증기 | rights 검증기 통과 + 샘플 검수 |
 | **3. 쇼츠 씬킷** | v0.47.0 | 1080×1920 컴포지션 + L2 컴포넌트 전체 + L3 씬 템플릿 + 스페시먼 mp4 | **스타일 데모 mp4 사용자 검수 — 합격선 = §1.0 최소 기준(원카AI 샘플 0:35~1:16) 동급** |
@@ -425,6 +425,8 @@ agents_reviewer 번들 ─┤ import-bundle (현행)
   기구현 확인, 권장 세팅 시작점, 오디션 절차. 부수 발견 — 해당 번들 차트 5종 중
   stakeholder_map/diverging_bar/donut 은 현행 변환기 미지원(Phase 4 에서 donut 매핑 +
   diverging_bar→bar 정규화 필요).
+- 2026-08-14 v0.44.0: **Phase 0 구현 완료** — 07 v2 / 17 디자인 시트 / 스키마(BundleVideo·
+  AssetLibrary·DesignSheet) / config 프로파일 / 테스트. 사용자 문서 리뷰 대기.
 - 2026-08-14 v0.43.8: 사용자 제시 레퍼런스 2건 스토리보드 프레임 분석 → §1.0 벤치마크 신설
   (최소 기준 = 원카AI SK하이닉스 샘플: 결정론 도달 가능 / 상위 기준 = Seedance 메시: 생성형
   필요 → §2.2 하이브리드 옵션 보류 조건 명문화). 시각 어휘 3종 추가(선버스트·무대 디오라마·

@@ -23,18 +23,40 @@ paths:
   python_bin: python   # Windows의 경우 python, Linux는 python3 권장
 
 render:
-  default_resolution: [1920, 1080]
+  default_resolution: [1920, 1080]   # legacy — profiles 미지정 시 폴백
   default_fps: 30
   threads: 4
   crf:
     debug: 28
     preview: 23
     final: 18
+  # v0.44.0 — 컴포지션별 프로파일 (SHORTS_COLLAGE_OVERHAUL_PLAN §5.1).
+  # briefing(롱폼)은 동결, shorts 가 신규 기본. 쇼츠 마스터는 유튜브 쇼츠·
+  # 인스타 릴스·틱톡 3사 공용 (H.264/AAC), 목표 길이 90~120초.
+  profiles:
+    briefing:
+      resolution: [1920, 1080]
+      fps: 30
+    shorts:
+      resolution: [1080, 1920]
+      fps: 30
+      target_duration_sec: [90, 120]
+      design_sheet: shorts_collage_v1   # docs/17_COLLAGE_DESIGN_SHEET.md §1
 
 tts:
   pronunciation_dict: config/pronunciation_ko.yaml   # Phase 8에서 생성
   asr_qa_enabled: true
   retry_failed_segments: 2
+  # v0.44.0 — 포맷별 voice profile (계획 §7). voice id 는 .env 로만 주입 (C9).
+  # 톤: 정확한 인토네이션·딕션 (07 §1 / 08 §1). 값은 오디션 후 조정.
+  profiles:
+    briefing:
+      voice_env: ELEVENLABS_VOICE_ID
+    shorts:
+      voice_env: ELEVENLABS_VOICE_ID_SHORTS   # 미설정 시 ELEVENLABS_VOICE_ID 폴백
+      stability: 0.65
+      similarity_boost: 0.8
+      style: 0.1
 
 review_gates:
   # 사용자 승인 없이 진행하지 않음. 본 값이 false면 진행 불가.

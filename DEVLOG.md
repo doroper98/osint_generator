@@ -25,6 +25,21 @@ last_review: 2026-06-06
 
 ---
 
+## 2026-08-14 v0.44.0 — 쇼츠 콜라주 Phase 0 완료 (스펙·스키마 확정)
+
+- **무엇을**: 07 v2 개정, 17_COLLAGE_DESIGN_SHEET 신설, 스키마 3묶음(Bundle video 블록 /
+  AssetLibrary / DesignSheet) additive 추가, config 프로파일(render/tts), 테스트 5건.
+- **왜**: 사용자 "이제 어떻게 실제 진행을 하면 되지?" — 결정 완료 항목(2분·톤·배포 3사·
+  벤치마크)만으로 착수 가능한 Phase 0 을 즉시 개발.
+- **어떻게**: video 블록은 계약(VIDEO_BUNDLE_CONTRACT)이 정의한 필드를 Pydantic 으로 정식
+  모델링 — 라이브 변환기의 raw dict 우회(스키마 부채)를 쇼츠 변환기부터 해소할 토대.
+  실번들(analysis_20260814_150031) 파싱 회귀로 검증(섹션 11개 video 전부 인식).
+  기존 테스트 실패 2건은 fresh 컨테이너 의존성 누락(textual/fastapi)이었고 설치 후 전부
+  통과 — 코드 회귀 아님.
+- **결과**: Phase 0 산출물 완비, 사용자 문서 리뷰 대기. 다음: Phase 1 판화 스타일라이저
+  PoC (트럼프 1인, stipple vs engraving 실물 비교).
+- **연관**: docs/SHORTS_COLLAGE_OVERHAUL_PLAN.md §9, docs/17, docs/07 v2, C7 동기화(05).
+
 ## 2026-08-14 v0.43.8 — 레퍼런스 영상 2건 프레임 분석 + 벤치마크·배포 대상 확정
 
 - **무엇을**: 사용자 제시 유튜브 2건을 yt-dlp 스토리보드(sb0)로 받아 프레임 분석 (본편

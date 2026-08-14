@@ -28,6 +28,30 @@ released 항목은 **append-only**입니다.
 
 ---
 
+## [v0.44.0] — 2026-08-14
+
+### Added
+- **쇼츠 콜라주 Phase 0 (스펙 확정) 완료** — SHORTS_COLLAGE_OVERHAUL_PLAN §9 로드맵의 첫 Phase.
+  - `docs/17_COLLAGE_DESIGN_SHEET.md` 신설: L1 토큰(종이 팔레트·타이포·모션 상수·safe area
+    3사 합집합) / L2 컴포넌트 10종 계약 / L3 씬 템플릿 6종(120초 기준) / 스페시먼 계획.
+  - `schemas/models.py`: `BundleSectionVideo`/`BundleReportVideo`/`BundleTimelineVideo`
+    (VIDEO_BUNDLE_CONTRACT 의 video 블록 정식 모델링 — raw dict 우회 해소, G4-5),
+    `AssetSourceRef`/`LibraryAssetVariant`/`LibraryPerson`/`LibraryLogo`/`LibraryFlag`/
+    `AssetLibraryManifest`(id 유일성 검증), `SafeArea`/`DesignSheet`. 전부 additive —
+    schema_version 1 유지.
+  - `config.yaml`: `render.profiles`(briefing 동결 / shorts 1080×1920·90~120초) +
+    `tts.profiles`(포맷별 voice — 쇼츠 딕션 톤 세팅 시작점). legacy 키 유지(비파괴).
+  - `tests/test_collage_models.py` 5건 + 실번들(analysis_20260814_150031, 섹션 11개
+    video 블록 전부) 파싱 회귀 확인. 기존 test_bundle_flow 26건 통과.
+
+### Changed
+- `docs/07_VIDEO_STYLE_GUIDE.md` **v2 전면 개정** — 쇼츠 콜라주("수사 파일 콜라주")를 기본
+  프로파일로, v1 롱폼 규범은 §7 briefing 동결 프로파일로 승계. 대형 자막·스탬프 라벨·
+  이원 모션 체계·검열바 사용 경계 명문화.
+- `docs/05_DATA_SCHEMA_SPEC.md` §6 추가 (신규 모델 인덱스, C7 동기화).
+
+---
+
 ## [v0.43.8] — 2026-08-14
 
 ### Changed
