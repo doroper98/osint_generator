@@ -1,0 +1,366 @@
+<!--
+tier: 2
+last_synced_with: v0.43.5
+ssot_for: [shorts-collage-overhaul-plan, collage-design-direction, asset-library-plan]
+depends_on: [CLAUDE.md, GOAL.md, docs/07_VIDEO_STYLE_GUIDE.md, docs/08_AUDIO_AND_TTS_SPEC.md, docs/10_RENDERING_PIPELINE_SPEC.md, docs/VIDEO_BUNDLE_CONTRACT.md, docs/PROFESSIONAL_REBUILD_PLAN.md]
+last_review: 2026-08-14
+-->
+
+# SHORTS_COLLAGE_OVERHAUL_PLAN — 쇼츠 × VOX 콜라주 전면 개편 계획
+
+본 문서는 **v0.44.x ~ v0.50.x** 사이클에 진행할 영상 풍·디자인·컨셉 전면 개편의 단일 진실원(SSOT)이다.
+사용자 결정(2026-08-14): **전반 흐름은 유지**(agents_reviewer 가 소스를 만들고, 우리는 그것을 수정·보완·
+최적화해 영상을 만든다)하되, 다음을 대대적으로 바꾼다.
+
+1. **영상 타입**: 롱폼(1920×1080) 기준 → **쇼츠(1080×1920, 9:16) 기준**.
+2. **영상 풍**: VOX 스타일 **콜라주 애니메이션 + 컷아웃 애니메이션 + 포토 몽타주 + 랜섬노트 타이포그라피**.
+3. **인물 표현**: 흑백 중심 **line engraving / intaglio / stipple** 판화 기법 초상.
+4. **자산 라이브러리 사전 구축**: 주요 인물·기업 CI·국기.
+5. **음성**: voice key 교체.
+6. **BGM**: 체계화하여 상시 삽입.
+
+상위 규칙은 CLAUDE.md(특히 C0 영상미·C9 권리)와 GOAL.md(G0/G4)다. **정확성을 깨는 영상미는 영상미가
+아니다** — 본 개편의 모든 화려함은 검증 라벨·권리 기록·TTS QA 위에서 구현한다.
+
+---
+
+## 0. 현재 상태 진단 (무엇 위에 짓는가)
+
+v0.43.4 기준, 재사용 가능한 토대가 이미 상당하다. **갈아엎는 것이 아니라 위에 얹는다.**
+
+| 토대 | 위치 | 개편에서의 역할 |
+|---|---|---|
+| HyperFrames 렌더 체인 (HTML+GSAP→mp4) | `hyperframes/` | **유지** — 콜라주도 2D 레이어 합성이므로 최적 |
+| 번들→영상 결정론 변환기 (1703 LOC, LLM 무호출) | `hyperframes/scripts/bundle_to_video.py` | 롱폼용 유지, 쇼츠용 `bundle_to_shorts.py` 신설 |
+| 테마 시스템 (CSS 변수 프리셋 5종 — `paper_oxblood` 라이트 종이 톤 포함) | `hyperframes/briefing/assets/themes.js` | 콜라주 토큰 계층(L1)의 수용처. `paper_oxblood` 가 가장 가까운 출발점 |
+| 씬 렌더러 29종 + SVG 빌더 21종 (프로페셔널 재빌드 산출) | `hyperframes/briefing/assets/auto_builder.js`, `scene_kit.js` | 콜라주 스킨(종이 플레이트·스탬프 라벨)만 입혀 재사용. `LabelField` 충돌 회피 엔진 승계 |
+| 사진 권리 게이트 (rights=cleared + credit 필수, fail-closed) | `bundle_to_video.py:fetch_photos`, `docs/IMAGE_BUNDLE_CONTRACT.md` | 포토 몽타주의 사진 공급원 — 그대로 승계 |
+| 인물 초상 계약의 씨앗 | `hyperframes/briefing/assets/flags/RIGHTS.md` 에 `assets/portraits/<id>.jpg` + 권리 기록 계약이 이미 문서화됨 (`buildProfileCards` 가 img 지원) | §3 라이브러리로 정식 승격 |
+| 음성 체인 (ElevenLabs/Voicebox + 발음사전 + cuesync) | `orchestrator/audio_service.py`, `workers/tts_backends.py`, `hyperframes/scripts/build_narration.py` | 유지 — voice key 만 교체 |
+| BGM (절차 합성 + CC BY 라이브러리 + 더킹) | `hyperframes/scripts/make_bgm.py`, `assets/audio/bgm/` | 확장 — 쇼츠 무드 베드 + manifest 체계화 |
+| 국기 SVG 9종 + RIGHTS.md | `hyperframes/briefing/assets/flags/` | 라이브러리 체계의 씨앗 |
+| VIDEO_BUNDLE_CONTRACT (narration/highlights/emphasis) | `docs/VIDEO_BUNDLE_CONTRACT.md` | 쇼츠 대본·랜섬노트 강조어의 데이터 원천 |
+| 검증 라벨 4종 (`<확인>`/`<추론>`/`<미검증>`/`<반박됨>`) | `docs/07_VIDEO_STYLE_GUIDE.md` §6 | **유지 의무** — 고무 스탬프 미학으로 재디자인 |
+
+또한 HANDOFF 의 기존 우선순위 "③ 인물 카드 + 엔티티 연결선"은 본 개편의 인물 라이브러리로 흡수된다.
+
+**구조적 제약 2가지 (계획의 전제)**:
+
+1. **1920×1080 은 변수가 아니라 리터럴이다** — `scene_kit.js` 의 `W=1920 H=1080`, CSS `html,body`
+   고정폭, 전 SVG viewBox·좌표에 하드코딩되어 있다. 따라서 **briefing 컴포지션을 세로로 개조하지
+   않는다** — `hyperframes/shorts/` 를 신규 컴포지션으로 세우고, 처음부터 W/H·safe area 를 토큰으로
+   파라미터화한다. SceneKit 의 프리미티브(LabelField·plate·leader)는 좌표 독립 부분만 이식.
+2. **docs/00~16 상당수는 폐기된 Remotion 파이프라인 기준**(`last_synced_with: v0.3.3`)이다. 07 v2
+   개정은 라이브 HyperFrames 체인 기준으로 작성하며, 죽은 스펙(10 렌더링 등)의 전면 재작성은 본
+   사이클 범위 밖 (혼선 방지 주석만 추가).
+
+---
+
+## 1. 컨셉 정의 — "OSINT 증거 콜라주" (VOX 문법의 우리화)
+
+VOX 콜라주의 시각 문법을 그대로 베끼는 게 아니라, **OSINT 브리핑의 신뢰성 미학**으로 번역한다.
+콘셉트 명: **"수사 파일(dossier) 콜라주"** — 조사관의 책상 위 증거판 위에서 사건이 조립되는 영상.
+
+### 1.1 시각 어휘 (Visual Vocabulary)
+
+| 요소 | 정의 | 우리식 규칙 |
+|---|---|---|
+| **컷아웃 인물** | 배경 제거된 실사진 조각 + 판화 스타일라이즈 | 흑백 engraving/stipple 이 기본. 등장 시 살짝 기울어진 채 "탁" 놓이는 스텝 모션 |
+| **종이/텍스처 배경** | 크라프트지·모눈종이·서류 파일 질감 | 순색 배경 금지. 그레인+비네트, 테마별 종이 톤 |
+| **포토 몽타주** | 실제 증거 사진(기사 캡처·위성사진·현장)의 그리드/스택 | 원본 출처 라벨 유지(07 §2), slow zoom 대신 순차 "찍기" 등장 |
+| **랜섬노트 타이포** | 서로 다른 활자를 오려 붙인 헤드라인 | **헤드라인·강조어 한정** (자막 본문 금지 — 가독성·G4). `emphasis` 필드가 데이터 원천 |
+| **스탬프 라벨** | 검증 라벨 4종을 고무도장 미학으로 | `<확인>` 검정 스탬프 / `<추론>` 노랑 / `<미검증>` 빨강 / `<반박됨>` 회색+빨강. 의미·색 체계는 07 §6 그대로, 표면 처리만 교체 |
+| **소품(props)** | 테이프 조각, 클립, 핀, 붉은 실(인물 관계선), 형광펜 | 붉은 실은 기존 "엔티티 연결선" 요구의 콜라주식 구현 |
+| **판화 초상** | line engraving / intaglio / stipple 흑백 초상 (WSJ hedcut 계열) | §3 라이브러리 파이프라인으로 사전 제작. SVG 벡터 → 선이 "그려지는" draw-on 애니메이션 가능 (영상미 C0) |
+
+### 1.2 모션 언어
+
+콜라주의 생명은 **불완전한 물성**이다. 매끈한 디지털 트윈 대신:
+
+- **스텝 이징**: 컷아웃 이동·회전은 `SteppedEase`(8~12 스텝/초)로 스톱모션 질감. 결정론 유지.
+- **놓기(place) 모션**: 요소 등장 = 위에서 살짝 크게 → 축소되며 "탁" 착지 + 그림자 수축 (150~250ms).
+- **미세 지터**: 정지 중인 컷아웃에 ±0.3° 회전 노이즈 (시드 고정 결정론 — `Math.random` 금지, 인덱스 기반).
+- **draw-on**: 판화 선·붉은 실·형광펜 밑줄은 stroke draw-on (`getTotalLength` 패턴 — v0.34.2 학습 준수).
+- **카메라**: 증거판 위를 훑는 팬/줌 (컨테이너 transform). 쇼츠 특성상 컷 빠르게(씬당 3~6초).
+- 기존 Material 이징 체계(PROFESSIONAL_REBUILD_PLAN §1.1)는 차트·라벨 등 "정보 요소"에 계속 적용.
+  → **이원 체계**: 물성 요소 = 스텝/바운스, 정보 요소 = Material decelerate. 섞지 않는다.
+
+### 1.3 07_VIDEO_STYLE_GUIDE 와의 충돌 → v2 개정 대상
+
+| 07 현행 | 쇼츠·콜라주에서 | 처리 |
+|---|---|---|
+| "지도 중심" | 지도는 씬 타입 중 하나 (종이 지도 콜라주풍) | 07 v2 개정 |
+| "작은 한글 자막" | 쇼츠는 **대형 자막** (모바일 가독) | 07 v2 개정 |
+| "정지 이미지 slow zoom" | 몽타주 순차 등장 문법으로 대체 | 07 v2 개정 |
+| 검증 라벨 4종 색 체계 | 스탬프 표면 처리만 교체, 의미·색 유지 | 유지 |
+| "AI 생성 이미지 사용 금지" | §2 정책 결정 참조 | **유지** (권고) |
+
+---
+
+## 2. 정책 충돌 분석 — 생성형 AI 와 G4-10 (가장 먼저 결정할 것)
+
+**G4-10 "AI 생성 이미지를 기본 영상 자산으로 사용하면 안 된다"** 와 힉스필드(Higgsfield)류 생성형
+비디오 사용은 정면 충돌한다. G4 변경은 MAJOR 버전 증분(C5.4)이자 시스템의 신뢰성 정체성 문제다.
+
+**권고: G4-10 을 유지한 채 목표를 전부 달성할 수 있다.**
+
+1. **판화 초상 = 절차적 스타일라이즈, AI 생성 아님.** 실존 사진(퍼블릭 도메인/공식 사진)을 입력으로
+   결정론 알고리즘(스티플 샘플링·해칭 라인 추출)이 SVG 를 뽑는다. "실제 인물의 실제 사진"이라는
+   OSINT 신뢰성이 보존되고, 동일 입력 → 동일 출력(재현성 G5)이며, 벡터라 draw-on 영상미까지 얻는다.
+2. **컷아웃·몽타주 = 실사진 가공.** 배경 제거(rembg, 로컬·결정론)는 생성이 아니라 편집이다.
+3. **종이 텍스처·소품 = 자체 제작 벡터/절차 텍스처.** 생성형 불필요.
+4. **힉스필드 직접 영상 생성은 채택하지 않는다** (§4 비교 참조). 텍스트 정확성·검증 라벨·재현성이
+   모두 불가하고 G4-10 위반. 훗날 "추상 배경 루프" 같은 비사실 자산에 한해 risk_flag 명시 예외
+   (C9)로 실험할 수는 있으나 본 사이클 범위 밖.
+
+→ **본 계획은 G4 무변경(MAJOR 불필요)을 전제로 한다.** 사용자가 생성형 자산을 기본으로 쓰길
+원한다면 그때 G4-10 개정 + MAJOR 증분을 별도 논의한다.
+
+### 2.1 권리 소싱 원칙 (C9)
+
+| 자산 | 소싱 | rights_status |
+|---|---|---|
+| 미국 정치인 (트럼프 등) | 미 연방정부 공식 초상 — **퍼블릭 도메인** | `public_domain` 기록 |
+| 푸틴 | kremlin.ru 공식 사진 — CC BY 4.0 | 출처표시 의무 기록 |
+| 시진핑 등 | Wikimedia Commons CC 라이선스 개별 확인 | 개별 기록 |
+| 기업인 (머스크·베이조스·최태원·이재용) | Wikimedia/공식 프레스킷 개별 확인 | 개별 기록, 불명확 시 `needs_user_upload` |
+| 기업 CI 로고 | Wikimedia SVG + 보도·논평 인용 목적 사용 | 상표권 유의 — `nominative_use` 메모 |
+| 국기 | 현행 `flags/` 방식 확장 (PD) | 기존 RIGHTS.md 방식 |
+| 종이 텍스처·소품 | 자체 제작 (절차 생성 SVG/캔버스) | `self_made` |
+
+판화 스타일라이즈를 거쳐도 **원본 사진의 권리는 소멸하지 않는다** — 라이브러리 manifest 에 원본
+출처·라이선스·가공 이력을 필수 기록한다.
+
+---
+
+## 3. 자산 라이브러리 (사전 구축 계층)
+
+### 3.1 디렉토리 구조
+
+```
+assets/library/
+  library_manifest.json      # 전체 인덱스 (Pydantic 검증)
+  people/
+    trump/
+      source/  raw.jpg + SOURCE.md (원본, 출처·라이선스)
+      cutout/  pose_front.png …   (배경 제거)
+      engraved/ pose_front.stipple.svg, pose_front.engraving.svg
+    musk/ …
+  logos/    {회사}/ logo.svg + rights
+  flags/    (현행 hyperframes flags 승격·확장)
+  textures/ paper_kraft.svg, grid_paper.svg, grain.png …
+  props/    tape.svg, pin.svg, string.svg, stamp_frame.svg …
+  bgm/      (현행 bgm 승격) + bgm_manifest.json
+```
+
+### 3.2 인물 파이프라인 (핵심 신규 기술)
+
+```
+공식/PD 사진 수집 → rembg 배경 제거 → 판화 스타일라이저 (신규, 결정론 Python)
+  ├─ stipple: 톤 맵 → 가중 포아송/보로노이 점 배치 → <circle> SVG
+  ├─ line engraving: 톤 맵 + 곡률 흐름 → 등고 해칭 곡선 → <path> SVG
+  └─ (교차 해칭 = intaglio 질감: 2겹 해칭 각도 교차)
+→ 품질 검수 게이트 (사람 눈) → 라이브러리 등록 (manifest + rights)
+```
+
+- 구현: `workers/engraving_stylizer.py` (BaseWorker 상속, C4 준수). numpy + Pillow + svgwrite 계열.
+- **SVG 벡터 산출이 핵심** — 런타임에 선/점이 그려지는 draw-on, 부분 확대에도 해상도 무손실 (쇼츠 세로 크롭 대응).
+- 초기 인물 세트(사용자 예시): 트럼프, 일론 머스크, 시진핑, 푸틴, 제프 베이조스, 최태원, 이재용.
+  (권고 추가 후보: 파월, 젠슨 황 — 경제/산업 카테고리 빈도 높음. 사용자 확정 필요.)
+- **운영 제약**: 과거 빌드 환경에서 Wikimedia 다운로드가 네트워크 차단으로 실패한 이력 있음
+  (`flags/RIGHTS.md` 기록). 원본 사진 수집은 네트워크 가용 세션 또는 **사용자 Windows 머신**에서
+  수행 → 저장소 커밋 → 스타일라이즈는 어디서든. 수집 실패 시 `needs_user_upload` 로 폴백.
+
+### 3.3 manifest 스키마 (신규 Pydantic — `schemas/models.py` 추가)
+
+```python
+class LibraryAssetVariant(BaseModel):
+    style: Literal["cutout", "stipple", "engraving", "crosshatch"]
+    pose: str                     # front / side / point …
+    path: str
+class LibraryPerson(BaseModel):
+    person_id: str                # "trump"
+    name_ko: str; name_en: str
+    role: str                     # "미국 대통령" 등 — 자막 소개용
+    source: SourceRef             # 원본 url, license, rights_status (기존 RightsStatus 재사용)
+    variants: list[LibraryAssetVariant]
+class AssetLibraryManifest(VersionedModel): ...
+```
+
+### 3.4 엔티티 매칭 (번들 → 라이브러리)
+
+`bundle_to_shorts.py` 가 번들의 인물·기업·국가 언급을 별칭 사전(`aliases: ["트럼프", "Trump",
+"도널드 트럼프"]`)으로 매칭 → 있으면 컷아웃/판화 씬 투입, **없으면 스킵 + 로그** (결정론 원칙 —
+"데이터에 있는 씬만 만든다" 유지). 라이브러리 부재 인물이 핵심 인물일 땐 `needs_user_upload` 로
+사용자에게 사진 요청 (G3-34 패턴 재사용).
+
+---
+
+## 4. 제작 프로세스 결정 — 무엇으로 영상을 만드나
+
+사용자 질문: "claude 에서 hyperframe 으로? 힉스필드에서 바로? 기본 컷아웃 이미지들을 만들고 영상을
+만든다든지?" → 3안 비교:
+
+| | A. HyperFrames 확장 (현행 유지) | B. 힉스필드 직접 생성 | C. **사전 자산 + HyperFrames 합성 (권고)** |
+|---|---|---|---|
+| 텍스트·수치 정확성 | 완전 제어 | 불가 (환각·글자 깨짐) | 완전 제어 |
+| 검증 라벨·자막 싱크 | 가능 (기존 체인) | 불가 | 가능 |
+| 재현성·결정론 | 100% | 없음 | 100% |
+| G4-10 (AI 생성 금지) | 준수 | **위반** | 준수 |
+| 콜라주 표현력 | CSS/SVG/GSAP 로 충분 (VOX 도 AE 2D 합성) | 높지만 통제 불가 | 충분 + 판화 자산으로 상향 |
+| 편당 한계비용 | 0 (전기값) | 크레딧 과금 | 0 (라이브러리는 1회 비용) |
+
+**결정: C안.** 사용자 직감("기본 컷아웃 이미지들을 만들고 영상을 만든다")과 일치한다.
+무거운 것(판화·배경제거)은 **라이브러리 구축 시점에 1회** 하고, 영상 렌더는 지금처럼 결정론
+HTML+GSAP 합성으로 무한 재생산한다. 힉스필드는 채택하지 않는다(§2).
+
+### 4.1 전체 흐름 (개편 후)
+
+```
+[사전, 1회] 자산 라이브러리 구축 (인물·CI·국기·텍스처·소품·BGM) + RIGHTS 기록
+                     │
+agents_reviewer 번들 ─┤ import-bundle (현행)
+                     ▼
+        bundle_to_shorts.py (신규 결정론 변환기)
+          쇼츠 컷다운(§5.3) + 엔티티 매칭(§3.4) + 씬 플랜 + cue
+                     ▼
+        HyperFrames shorts 컴포지션 (1080×1920 씬킷 + 콜라주 토큰)
+                     ▼
+        build_narration (새 voice key) → cuesync → BGM 더킹 (make_bgm 확장)
+                     ▼
+        render → mp4 → TTS QA·검수 게이트 (현행 유지)
+```
+
+---
+
+## 5. 쇼츠 포맷 전환
+
+### 5.1 캔버스·시간 예산
+
+- **1080×1920 @ 30fps**. `config.yaml` 의 `render.default_resolution` 을 컴포지션별 프로파일로
+  재구성 (`profiles: {briefing: [1920,1080], shorts: [1080,1920]}` — 롱폼 체인 파괴 금지).
+- **길이: 45~60초 권고** (쇼츠 피드 최적·완주율). 번들 전체를 욱여넣지 않는다 — §5.3 컷다운.
+- **Safe area**: 상단 ~200px(제목·검색 UI)·하단 ~340px(액션 버튼·캡션 UI)·좌우 60px 는 핵심
+  텍스트 금지 구역. 디자인 시트 L1 토큰으로 고정.
+
+### 5.2 쇼츠 씬 타입 (L3 템플릿, §6)
+
+| 씬 | 시간 | 내용 |
+|---|---|---|
+| HOOK | 0–3s | 랜섬노트 헤드라인 1줄 + 핵심 컷아웃 "탁" 등장. 첫 문장 = 질문/충격 수치 |
+| CONTEXT | 3–10s | 종이 지도/몽타주로 무대 설정 |
+| ACTORS | ~10s | 판화 초상 등장 + 이름·직함 태그 + 붉은 실 관계선 |
+| EVIDENCE | 중반 | 기사 캡처·차트(콜라주 스킨)·타임라인 — 스탬프 라벨 동반 |
+| TURN | 후반 | 반전/핵심 판단 — `<추론>`/`<미검증>` 라벨 구분 필수 |
+| CLOSING | 마지막 3–5s | 결론 1문장 + 채널 스탬프 + BGM 크레딧 소형 표기 |
+
+### 5.3 번들 → 쇼츠 컷다운 (결정론 규칙)
+
+번들은 롱폼 분량이므로 쇼츠는 **1 스토리 추출**이 핵심이다. LLM 무호출 원칙 유지:
+
+1. `report.video.intro_narration` → HOOK 후보.
+2. 섹션 우선순위: `video.highlights` 보유 + emphasis 밀도 + 번들 섹션 순서로 상위 1~2 섹션만.
+3. `timeline.video.narration` 은 3~4문장 → 1~2문장으로 절단 (완결 문장 단위 — TTS-AP-058 학습 준수).
+4. 총 문장 수 상한: **12문장** (60s ÷ 문장당 4~6s). 초과분 폐기 로그.
+5. 문장·수치 검증기는 VIDEO_BUNDLE_CONTRACT 의 기존 규칙 그대로.
+6. (후속) agents_reviewer 계약에 `report.video.shorts` 필드(쇼츠 전용 대본) 추가 제안 —
+   additive/optional 이라 schema_version 유지. 그전까지는 위 컷다운 규칙으로 동작.
+7. **스키마 부채 동시 해소**: 현행 `ReportBundle`(Pydantic) 은 VIDEO_BUNDLE_CONTRACT 의 `video`
+   블록을 모델링하지 않아 (`extra="ignore"` 로 통과) 라이브 변환기가 raw dict 를 읽는다. Phase 0
+   에서 `BundleSectionVideo` 등을 additive 로 추가해 쇼츠 변환기는 **Pydantic 검증 경유**로 만든다
+   (G4-5). schema_version 1 유지.
+
+---
+
+## 6. 디자인 시트 체계 (기본 골격)
+
+**3계층 + 스페시먼**으로 구성한다. SSOT 문서는 신규 `docs/17_COLLAGE_DESIGN_SHEET.md` (Phase 0 산출).
+
+- **L1 — 토큰 (JSON + themes.js 프리셋)**: 종이 팔레트(크라프트/아이보리/차콜 파일), 잉크색,
+  스탬프색(=07 §6 라벨색 승계), 타이포 스케일(쇼츠 대형 자막 기준), 그레인·그림자·테이프 스타일,
+  safe area, 스텝 이징 상수. 카테고리(지정학/전쟁/경제/재난/정보전)→액센트 매핑은 07 §4 승계.
+- **L2 — 컴포넌트 시트**: `CutoutActor`, `EngravedPortrait`, `RansomHeadline`, `StampLabel`,
+  `PaperPanel`, `TapeStrip`, `PhotoMontageGrid`, `StringConnector`, `PaperMap`, `ChartPlate`
+  (기존 차트 family 를 종이 플레이트에 얹는 래퍼). 각 컴포넌트마다 상태·모션·금지사항 명세.
+- **L3 — 씬 템플릿**: §5.2 의 6 씬 타입별 레이아웃·시간 예산·데이터 바인딩(번들 필드 매핑).
+- **스페시먼(specimen) 페이지**: 전 컴포넌트·전 토큰을 한 화면에 렌더하는 `hyperframes/shorts/specimen.html`
+  — 디자인 검수를 mp4 이전에 브라우저에서 반복한다 (렌더 왕복 비용 절감).
+- **디자인 시트 JSON 스키마**: `DesignSheet` Pydantic 모델 (schema_version, tokens, components 버전)
+  — 씬 조립기가 하드코딩 대신 시트를 읽게 하여 "시트가 곧 골격"을 강제.
+
+---
+
+## 7. 음성 개편
+
+- **voice key 교체**: `ELEVENLABS_VOICE_ID` 는 `.env` 로만 주입(C9 — 커밋 금지)이므로 코드 변경
+  없이 교체 가능. 단 **어떤 보이스로 바꿀지는 사용자만 결정 가능** (ElevenLabs 계정에서 선정 →
+  `.env` 갱신). 선정 기준 권고: 쇼츠에서도 **브리핑체 정체성 유지**(08 §1 낮고 차분), 단 템포는
+  현행보다 소폭 빠르게 — 과장된 쇼츠 하이텐션 톤은 채널 정체성·G4 신뢰성과 충돌하므로 배제 권고.
+- **voice profile 개념 도입**: `config.yaml` 에 `tts.profiles: {briefing: {...}, shorts: {voice_env:
+  ELEVENLABS_VOICE_ID_SHORTS, speed: …}}` — 롱폼/쇼츠 보이스 분리 운용 가능하게. 기존 opt-in
+  오버라이드(`ELEVENLABS_STABILITY/SIMILARITY_BOOST/STYLE`)와 문맥 스티칭(v0.38.3)은 그대로.
+- 발음 사전·TTS QA·cuesync 체인(TTS-AP-054~063 학습 포함)은 그대로 승계.
+
+## 8. BGM 체계화
+
+- **현행 자산**: 이미 2모드 구현 완료 — ① 외부 라이선스 트랙(`make_bgm_external`: 루프/트림 +
+  페이드) ② 절차 합성 앰비언트(`generate_bed`: Cm9, 권리 100% 자체). CC BY 트랙 3종 RIGHTS.md
+  기록, 사이드체인 더킹 `duck_mix` 작동 중, v0.43.4 부터 재합성 표준 절차에 상시 포함(TTS-AP-063).
+- **개편**:
+  1. `bgm_manifest.json` 신설 — 트랙별 mood 태그(긴장/차분/상승/비장), 카테고리 매핑(07 §4 색
+     체계와 동일 축), 라이선스·크레딧 문자열(설명란 자동 삽입용). Pydantic 검증.
+  2. **쇼츠용 절차 베드 확장**: 현행 Cm9 앰비언트에 저음 펄스(60~70 BPM 킥/하트비트)를 더한
+     `generate_bed(style="pulse")` — 쇼츠의 전진감. 결정론·자체 권리 유지.
+  3. 크레딧 의무 자동화: CC BY 트랙 선택 시 CLOSING 씬 소형 표기 + `youtube_metadata.json`
+     설명란에 크레딧 자동 주입 — 사람이 까먹는 구조 제거 (RIGHTS-AP 예방).
+
+---
+
+## 9. 실행 로드맵 (Phase 0–6, Phase 완료 = MINOR 증분 C5.4)
+
+| Phase | 버전 | 산출물 | 검수 게이트 |
+|---|---|---|---|
+| **0. 스펙 확정** | v0.44.0 | 07 v2 개정(쇼츠·콜라주) + `17_COLLAGE_DESIGN_SHEET.md` + DesignSheet/Library Pydantic 스키마 + config 프로파일 구조 | 문서 리뷰 (사용자) |
+| **1. 판화 PoC** | v0.45.0 | `engraving_stylizer` — 트럼프 1인 stipple + engraving SVG, 스페시먼 페이지에서 비교 | **사용자 눈 검수** (스타일 방향 확정 — 이후 전체 생산의 기준) |
+| **2. 라이브러리 구축** | v0.46.0 | 인물 7인 × 스타일 변형, CI 로고 ~20종, 국기 확장, 텍스처·소품, 전 자산 RIGHTS 기록 + manifest 검증기 | rights 검증기 통과 + 샘플 검수 |
+| **3. 쇼츠 씬킷** | v0.47.0 | 1080×1920 컴포지션 + L2 컴포넌트 전체 + L3 씬 템플릿 + 스페시먼 mp4 | **스타일 데모 mp4 사용자 검수** |
+| **4. 변환기** | v0.48.0 | `bundle_to_shorts.py` (컷다운 + 엔티티 매칭 + 씬 플랜) + 검증기 | 실번들 1건 무음 렌더 검수 |
+| **5. 오디오 개편** | v0.49.0 | voice profile + (사용자) 새 voice key + BGM manifest + pulse 베드 + 크레딧 자동화 | Windows 실음성 렌더 (사용자) |
+| **6. 엔드투엔드** | v0.50.0 | 실제 번들 → 쇼츠 1편 완주 + Shorts Collage Bar 체크 | **최종 사용자 검수** |
+
+병행 원칙: 롱폼 briefing 컴포지션은 **삭제하지 않는다** — 쇼츠가 채널 기준이 되어도 롱폼 체인은
+동결 유지(회귀 없음). 전면 폐기는 별도 사용자 결정.
+
+### 9.1 Shorts Collage Bar (합격 기준 초안, Phase 6 에서 확정)
+
+1. 세로 1080×1920, safe area 침범 0건.
+2. 전 인물이 라이브러리 판화/컷아웃 자산 (즉석 생성 0건).
+3. 랜섬노트는 헤드라인·강조어에만, 자막 본문 가독성 유지.
+4. 검증 라벨 4종이 스탬프 미학으로 정확히 구분 표시 (G4).
+5. 전 자산 rights_status 기록 100% (C9), CC BY 크레딧 자동 표기.
+6. 스텝 모션·놓기 모션·draw-on 이 씬마다 최소 1회 (정적 프레임 금지 — C0).
+7. TTS QA 통과 + 자막·음성 cuesync 일치.
+8. 동일 입력 재렌더 시 동일 출력 (결정론).
+9. 45~60초, 12문장 이내.
+10. BGM 더킹으로 내레이션 명료도 유지.
+
+---
+
+## 10. 사용자 결정 필요 목록 (다음 세션에서 확정)
+
+| # | 결정 | 권고 |
+|---|---|---|
+| 1 | 쇼츠 길이 타깃 | **45~60초** (3분형은 후속) |
+| 2 | 롱폼 파이프라인 처리 | **동결 유지** (삭제 아님) |
+| 3 | 생성형 AI(힉스필드) 사용 여부 | **미채택 — G4-10 유지**, 판화는 절차적 스타일라이즈 |
+| 4 | 판화 기본 스타일 | Phase 1 PoC 에서 stipple vs engraving 실물 비교 후 선택 |
+| 5 | 인물 초기 라인업 | 예시 7인 + 파월·젠슨 황 추가 여부 |
+| 6 | 새 voice | 사용자가 ElevenLabs 에서 선정 (§7 기준 권고) → `.env` 교체 |
+| 7 | 랜섬노트 적용 강도 | **헤드라인·강조어 한정** (본문 자막 제외) |
+| 8 | agents_reviewer 계약에 `video.shorts` 필드 추가 제안 | 추가 권고 (additive, 상대 저장소 작업 필요) |
+
+---
+
+## 이력
+
+- 2026-08-14 v0.43.5: 최초 작성 (사용자 개편 지시 → 계획 수립).

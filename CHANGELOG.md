@@ -28,6 +28,19 @@ released 항목은 **append-only**입니다.
 
 ---
 
+## [v0.43.5] — 2026-08-14
+
+### Added
+- **쇼츠 × VOX 콜라주 전면 개편 계획 수립** — `docs/SHORTS_COLLAGE_OVERHAUL_PLAN.md` 신설
+  (v0.44~v0.50 사이클 SSOT). 사용자 지시: 전반 흐름(agents_reviewer 번들 → 수정·보완·최적화 →
+  영상)은 유지하되 ① 쇼츠(1080×1920) 기준 전환 ② VOX 풍 콜라주·컷아웃·포토 몽타주·랜섬노트
+  타이포 ③ 흑백 line engraving/stipple 판화 인물 ④ 인물·CI·국기 자산 라이브러리 사전 구축
+  ⑤ voice key 교체 ⑥ BGM 체계화. 핵심 결정: 힉스필드류 생성형 영상 미채택(G4-10 유지),
+  판화 초상은 실사진의 절차적 스타일라이즈(결정론 SVG), 제작 방식은 "사전 자산 라이브러리 +
+  HyperFrames 합성"(C안), briefing 컴포지션 개조 대신 `hyperframes/shorts/` 신규 컴포지션.
+
+---
+
 ## [v0.43.3] — 2026-07-12
 
 ### Changed

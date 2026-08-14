@@ -25,6 +25,24 @@ last_review: 2026-06-06
 
 ---
 
+## 2026-08-14 v0.43.5 — 쇼츠 × VOX 콜라주 전면 개편 계획 수립
+
+- **무엇을**: `docs/SHORTS_COLLAGE_OVERHAUL_PLAN.md` 신설 — v0.44~v0.50 사이클(Phase 0~6)의
+  SSOT. 07 스타일 가이드 v2 개정 방향, 디자인 시트 3계층(L1 토큰 / L2 컴포넌트 / L3 씬 템플릿)
+  + 스페시먼 체계, 판화 스타일라이저(`workers/engraving_stylizer.py`) 신설, 인물·CI·국기 자산
+  라이브러리(`assets/library/`) 스키마, `bundle_to_shorts.py` 컷다운 규칙, voice profile,
+  BGM manifest 계획 포함.
+- **왜**: 사용자 지시(2026-08-14) — 흐름 유지, 영상 풍·디자인·컨셉 대대적 변경(쇼츠 기준 +
+  VOX 콜라주/컷아웃/포토 몽타주/랜섬노트 + 흑백 판화 인물 + voice key 교체 + BGM).
+- **어떻게**: 저장소 전수 탐색(라이브 파이프라인 = bundle_to_video → HyperFrames, 1920×1080
+  하드코딩 확인) 후 PROFESSIONAL_REBUILD_PLAN 전례 형식으로 작성. 핵심 결정 3: ① 힉스필드류
+  생성형 미채택 — G4-10 유지, 판화 초상은 실사진 절차적 스타일라이즈(결정론 SVG) ② 제작 방식
+  C안 = 사전 자산 라이브러리 + HyperFrames 결정론 합성 ③ briefing 개조 금지, `hyperframes/
+  shorts/` 신규 컴포지션(W/H 토큰 파라미터화).
+- **결과**: 계획 문서 1건 + 사용자 결정 필요 8건 목록화(§10). 코드 무변경.
+- **연관**: docs/PROFESSIONAL_REBUILD_PLAN.md, docs/VIDEO_BUNDLE_CONTRACT.md, HANDOFF ③(인물
+  카드 — 본 계획으로 흡수 예정).
+
 ## 2026-06-06 v0.34.2 — 라인/자막 안 보이던 사고 2 픽스 + 30초 확장 (영상미 C0)
 
 - **무엇을**: v0.34.1 영상 사용자 검수 후 스크린샷 진단 — 차트 라인 0:10 시점에서도
