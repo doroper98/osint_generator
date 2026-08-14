@@ -1289,7 +1289,11 @@ class LibraryAssetVariant(BaseModel):
 
     model_config = ConfigDict(extra="forbid", use_enum_values=True)
 
-    style: Literal["source", "cutout", "stipple", "engraving", "crosshatch"]
+    # mono = 고대비 모노톤 컷아웃 (기본, 17 §1.7 v2). halftone/linescreen = 스크리닝
+    # 변주 옵션. stipple/engraving 은 v0.45.0 반려로 신규 생산 금지 (기존 값 호환용 유지).
+    style: Literal[
+        "source", "cutout", "mono", "halftone", "linescreen", "stipple", "engraving", "crosshatch"
+    ]
     pose: str = "front"                     # front / side / point 등
     path: str                               # 저장소 상대 경로 (assets/library/...)
     generator_version: str = ""             # engraving_stylizer 버전 (재현성)

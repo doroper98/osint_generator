@@ -1,6 +1,6 @@
 <!--
 tier: 2
-last_synced_with: v0.44.2
+last_synced_with: v0.45.1
 ssot_for: [collage-design-sheet, shorts-design-tokens, collage-components, shorts-scene-templates]
 depends_on: [07_VIDEO_STYLE_GUIDE.md, SHORTS_COLLAGE_OVERHAUL_PLAN.md, ../schemas/models.py]
 last_review: 2026-08-14
@@ -108,19 +108,23 @@ last_review: 2026-08-14
 콘텐츠 조건(인물 수·차트 유무)으로 압축 → 동일 문법 연속 2씬 금지 → 최근 N편 HOOK 이력
 (`projects/style_history.json`)과 중복 회피.
 
-### 1.7 인물 표현 스케일 규칙 (사용자 확정 2026-08-14 — NYT 콜라주 에딧 레퍼런스)
+### 1.7 인물 표현 규칙 (사용자 확정 2026-08-14 v2 — NYT 콜라주 에딧 레퍼런스)
 
-인물을 어떤 기법으로 그릴지는 **샷 스케일이 결정**한다:
+**기본 표현은 전 샷 스케일 공통 하나로 통일한다** (v0.45.0 판화 PoC 사용자 반려 → 단순화):
 
-| 샷 스케일 | 표현 | 등장 트랜지션 |
-|---|---|---|
-| **클로즈업** (얼굴 위주, 화면 높이 ≥40%) | **판화** (stipple/engraving SVG) | 선 draw-on 1.2s |
-| **상반신** (bust) | **모노톤 컷아웃 + 한쪽 컬러 오프셋 섀도** | **하단에서 등장** (bottom-in, place 이징) |
-| **단체** (2인 이상) | 인물별 모노톤 + 오프셋 섀도 동일 | 하단에서 **순차 등장** (stagger 120ms) |
+> **배경 제거 컷아웃 + 고대비 모노톤 + 한쪽 컬러 오프셋 섀도**
 
-컬러 오프셋 섀도 구현: 컷아웃 실루엣 복제 레이어를 **카테고리 액센트 색**으로 채워 한쪽으로
-6~10px 오프셋 (기본 우하단 — 좌/우는 V1 시드로 변주). 사전 자산은 흑백 cutout 하나면 되고
-섀도는 런타임 처리이므로 **라이브러리 스키마 변경 불요** — 액센트가 영상마다 달라도 대응된다.
+- 모노톤: 강한 S-커브 고대비 흑백 + 하이라이트 클리핑 (회색 안개 금지 — 흑/백이 명확한
+  인쇄 사진 질감). 사진 디테일은 보존한다 (획 재구성 금지).
+- 섀도: 컷아웃 실루엣 복제 레이어를 **카테고리 액센트 색**으로 채워 우하단 기본
+  12~18px 오프셋 (좌/우는 V1 시드로 변주). 실루엣을 정확히 따라야 하며 사각형 그림자 금지.
+- 등장: **하단에서 등장** (bottom-in, place 이징). 단체(2인+)는 stagger 120ms 순차.
+- 컷아웃 가장자리는 침식 1~2px + 페더링으로 깨끗하게 (배경 잔재·후광 금지).
+- 섀도는 런타임 처리 — 사전 자산은 mono cutout 1장이면 되고, 액센트가 영상마다 달라도 대응.
+
+인쇄 스크리닝(규칙 격자 halftone / 45° linescreen)은 **변주 옵션**(V2/V3 선택지)으로만 보유
+— 기본값 아님, 사용자 검수 통과본에 한함. v1 규칙의 "클로즈업 판화(합성 stipple/engraving)"는
+**폐기** (v0.45.0 반려 — DEVLOG 참조).
 
 ## 2. L2 — 컴포넌트 시트 (11종)
 
@@ -131,8 +135,8 @@ last_review: 2026-08-14
 
 | # | 컴포넌트 | 입력 | 모션 | 금지사항 |
 |---|---|---|---|---|
-| 1 | `CutoutActor` | LibraryPerson variant, 샷 스케일, 위치 | **§1.7 스케일 규칙** — 상반신·단체는 모노톤+오프셋 섀도 + 하단 등장(단체 stagger 120ms), 이후 jitter | 즉석 생성 이미지 금지 — 라이브러리 자산만. 스케일 규칙 위반 금지 |
-| 2 | `EngravedPortrait` | stipple/engraving SVG | 선 draw-on 1.2s → 정지 | 컬러 필터 금지 (흑백 정체성) |
+| 1 | `CutoutActor` | LibraryPerson mono variant, 위치, 액센트 | **§1.7** — 모노톤+컬러 오프셋 섀도 + 하단 등장(단체 stagger 120ms), 이후 jitter | 즉석 생성 이미지 금지 — 라이브러리 자산만. 사각형 섀도 금지 |
+| 2 | `ScreenedPortrait` (변주 옵션) | halftone/linescreen SVG | 점 성장/선 draw-on | 기본값 사용 금지 — V2/V3 가 명시 선택한 씬만. 컬러 필터 금지 |
 | 3 | `RansomHeadline` | 문자열, emphasis 어절 | 글자 단위 stagger place (40ms) | 본문 자막에 사용 금지, 씬당 1줄 |
 | 4 | `StampLabel` | 라벨 enum (확인/추론/미검증/반박됨) | 도장 "쾅" (1.3→1.0 + 5° 기울기) | 색·문구 변형 금지 (G4 — 07 §6) |
 | 5 | `PaperPanel` | 자식 콘텐츠, 종이 톤 | place + paper_breath | AI-dashboard 글로우 금지 |
@@ -149,7 +153,7 @@ last_review: 2026-08-14
 |---|---|---|---|
 | HOOK | 0–3s | RansomHeadline + CutoutActor 1 | `report.video.intro_narration[0]` + headline |
 | CONTEXT | 3–15s | SunburstStage 또는 PaperMap + 자막 | intro 잔여 + 최상위 섹션 도입 |
-| ACTORS | 15–30s | EngravedPortrait + name_tag + StringConnector | 엔티티 매칭 결과 (§3.4) |
+| ACTORS | 15–30s | CutoutActor(모노+섀도) + name_tag + StringConnector | 엔티티 매칭 결과 (§3.4) |
 | EVIDENCE | 30–85s | ChartPlate / PhotoMontageGrid / StampLabel | 상위 2개 섹션 `video.narration` + charts |
 | TURN | 85–110s | StampLabel(추론/미검증) + RansomHeadline | 반전 섹션 + `emphasis` |
 | CLOSING | 110–120s | 채널 스탬프 + credit | `report.video.outro_narration` + BGM 크레딧 |
@@ -167,3 +171,6 @@ last_review: 2026-08-14
 - 2026-08-14 v0.44.2: §1.7 인물 표현 샷 스케일 규칙(클로즈업=판화 / 상반신·단체=모노톤+
   컬러 오프셋 섀도+하단 등장) + `ArticleCollageCard` 컴포넌트 #11 (사용자 레퍼런스 —
   NYT 콜라주 에딧).
+- 2026-08-14 v0.45.1: §1.7 v2 — 판화 PoC 사용자 반려로 **기본 인물 표현을 "모노톤+컬러
+  오프셋 섀도" 하나로 통일** (전 샷 스케일). 합성 판화 폐기, 스크리닝(halftone/linescreen)은
+  변주 옵션으로 강등. #2 EngravedPortrait → ScreenedPortrait(옵션).

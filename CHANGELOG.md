@@ -28,6 +28,20 @@ released 항목은 **append-only**입니다.
 
 ---
 
+## [v0.45.1] — 2026-08-14
+
+### Changed
+- **인물 기본 표현 통일 (사용자 결정)** — v0.45.0 판화 샘플 2종 **전면 반려**("완전히 가비지")
+  에 따라 §1.7 을 v2 로 개정: 전 샷 스케일 공통 **"배경 제거 컷아웃 + 고대비 모노톤 + 카테고리
+  액센트 컬러 오프셋 섀도 + 하단 등장"** (NYT 콜라주 에딧 레퍼런스 그대로). 합성 판화
+  (stipple/engraving)는 폐기 — 실패 원인: 확률적 점 = 노이즈로 읽힘, 합성 획은 얼굴 곡률
+  미추종, 레퍼런스의 실체는 판화가 아니라 고대비 사진+인쇄 스크리닝. 규칙 격자 스크리닝
+  (halftone/linescreen)은 변주 옵션으로만 보유.
+- `LibraryAssetVariant.style` 에 mono/halftone/linescreen 추가 (additive), stipple/engraving
+  은 신규 생산 금지 주석. L2 #2 EngravedPortrait → ScreenedPortrait(옵션) 교체.
+
+---
+
 ## [v0.45.0] — 2026-08-14
 
 ### Added

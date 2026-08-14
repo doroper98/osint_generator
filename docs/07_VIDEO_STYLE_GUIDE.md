@@ -1,6 +1,6 @@
 <!--
 tier: 2
-last_synced_with: v0.44.2
+last_synced_with: v0.45.1
 ssot_for: [video-style-guide]
 depends_on: [17_COLLAGE_DESIGN_SHEET.md, SHORTS_COLLAGE_OVERHAUL_PLAN.md, 08_AUDIO_AND_TTS_SPEC.md, 12_QA_AND_REVIEW_SPEC.md]
 last_review: 2026-08-14
@@ -25,10 +25,9 @@ last_review: 2026-08-14
 
 - **종이 질감 위의 콜라주**가 화면의 기본 문법: 컷아웃 인물·소품·증거 사진이 종이 배경
   위에 물성 있게 놓인다. 순색 배경 금지, 정지 프레임 금지 (씬마다 최소 1개 모션 — C0).
-- **인물은 흑백 기조** — 실사진의 절차적 스타일라이즈만 사용 (AI 생성 금지 G4-10),
-  라이브러리 자산(`assets/library/`)만 투입. **샷 스케일 규칙** (17 §1.7): 클로즈업 =
-  판화(stipple/engraving) draw-on / 상반신·단체 = 모노톤 컷아웃 + 카테고리 액센트
-  오프셋 섀도 + 하단 등장.
+- **인물 = 배경 제거 컷아웃 + 고대비 모노톤 + 컬러 오프셋 섀도** (17 §1.7, 전 샷 스케일
+  공통) — 실사진의 절차적 가공만 사용 (AI 생성 금지 G4-10), 라이브러리 자산
+  (`assets/library/`)만 투입, 하단 등장. 섀도 색 = 카테고리 액센트.
 - **실제 증거 우선**: 기사 캡처·사진(cleared+credit)·차트를 콜라주 프레임에 얹는다.
   사진 크레딧 `사진 · {credit}` 우하단 필수 (IMAGE_BUNDLE_CONTRACT §3.1-a).
 - 강조: 붉은 실·형광펜·펜 동그라미·스탬프. 출처는 우하단 소형 표기.
