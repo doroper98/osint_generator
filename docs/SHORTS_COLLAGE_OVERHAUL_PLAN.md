@@ -1,6 +1,6 @@
 <!--
 tier: 2
-last_synced_with: v0.44.1
+last_synced_with: v0.44.2
 ssot_for: [shorts-collage-overhaul-plan, collage-design-direction, asset-library-plan]
 depends_on: [CLAUDE.md, GOAL.md, docs/07_VIDEO_STYLE_GUIDE.md, docs/08_AUDIO_AND_TTS_SPEC.md, docs/10_RENDERING_PIPELINE_SPEC.md, docs/VIDEO_BUNDLE_CONTRACT.md, docs/PROFESSIONAL_REBUILD_PLAN.md]
 last_review: 2026-08-14
@@ -78,7 +78,7 @@ VOX 콜라주의 시각 문법을 그대로 베끼는 게 아니라, **OSINT 브
 
 | 요소 | 정의 | 우리식 규칙 |
 |---|---|---|
-| **컷아웃 인물** | 배경 제거된 실사진 조각 + 판화 스타일라이즈 | 흑백 engraving/stipple 이 기본. 등장 시 살짝 기울어진 채 "탁" 놓이는 스텝 모션 |
+| **컷아웃 인물** | 배경 제거된 실사진 조각 + 판화 스타일라이즈 | **샷 스케일이 기법을 결정** (17 §1.7, 사용자 확정): 클로즈업 = 판화 draw-on / 상반신·단체 = 모노톤 + 카테고리 액센트 오프셋 섀도 + 하단 등장(단체는 stagger) |
 | **종이/텍스처 배경** | 크라프트지·모눈종이·서류 파일 질감 | 순색 배경 금지. 그레인+비네트, 테마별 종이 톤 |
 | **포토 몽타주** | 실제 증거 사진(기사 캡처·위성사진·현장)의 그리드/스택 | 원본 출처 라벨 유지(07 §2), slow zoom 대신 순차 "찍기" 등장 |
 | **랜섬노트 타이포** | 서로 다른 활자를 오려 붙인 헤드라인 | **헤드라인·강조어 한정** (자막 본문 금지 — 가독성·G4). `emphasis` 필드가 데이터 원천 |
@@ -448,6 +448,9 @@ V3 없이도 V1+V2 만으로 파이프라인은 완주 가능(폴백) — V3 는
   기구현 확인, 권장 세팅 시작점, 오디션 절차. 부수 발견 — 해당 번들 차트 5종 중
   stakeholder_map/diverging_bar/donut 은 현행 변환기 미지원(Phase 4 에서 donut 매핑 +
   diverging_bar→bar 정규화 필요).
+- 2026-08-14 v0.44.2: 인물 표현 **샷 스케일 규칙** 사용자 확정(NYT 콜라주 에딧 레퍼런스) —
+  클로즈업=판화 / 상반신·단체=모노톤+컬러 오프셋 섀도+하단 등장. 17 §1.7 신설 +
+  `ArticleCollageCard`(기사 캡처+형광펜+날짜 칩+화살표+인물 걸침) 컴포넌트 #11 추가.
 - 2026-08-14 v0.44.1: **변주 체계 신설 (§6.0)** — 사용자 지시 "모든 영상이 똑같은 엘레먼트면
   누구도 안 본다". V1 시드 / V2 콘텐츠 규칙+로테이션 / V3 아트 디렉터(LLM, 계획 시점,
   시트 어휘 내 enum 강제) 3층. 로드맵에 Phase 5(ArtDirectorWorker) 삽입, Phase 6~7 재번호

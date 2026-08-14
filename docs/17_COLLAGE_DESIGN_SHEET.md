@@ -1,6 +1,6 @@
 <!--
 tier: 2
-last_synced_with: v0.44.1
+last_synced_with: v0.44.2
 ssot_for: [collage-design-sheet, shorts-design-tokens, collage-components, shorts-scene-templates]
 depends_on: [07_VIDEO_STYLE_GUIDE.md, SHORTS_COLLAGE_OVERHAUL_PLAN.md, ../schemas/models.py]
 last_review: 2026-08-14
@@ -108,7 +108,21 @@ last_review: 2026-08-14
 콘텐츠 조건(인물 수·차트 유무)으로 압축 → 동일 문법 연속 2씬 금지 → 최근 N편 HOOK 이력
 (`projects/style_history.json`)과 중복 회피.
 
-## 2. L2 — 컴포넌트 시트 (10종)
+### 1.7 인물 표현 스케일 규칙 (사용자 확정 2026-08-14 — NYT 콜라주 에딧 레퍼런스)
+
+인물을 어떤 기법으로 그릴지는 **샷 스케일이 결정**한다:
+
+| 샷 스케일 | 표현 | 등장 트랜지션 |
+|---|---|---|
+| **클로즈업** (얼굴 위주, 화면 높이 ≥40%) | **판화** (stipple/engraving SVG) | 선 draw-on 1.2s |
+| **상반신** (bust) | **모노톤 컷아웃 + 한쪽 컬러 오프셋 섀도** | **하단에서 등장** (bottom-in, place 이징) |
+| **단체** (2인 이상) | 인물별 모노톤 + 오프셋 섀도 동일 | 하단에서 **순차 등장** (stagger 120ms) |
+
+컬러 오프셋 섀도 구현: 컷아웃 실루엣 복제 레이어를 **카테고리 액센트 색**으로 채워 한쪽으로
+6~10px 오프셋 (기본 우하단 — 좌/우는 V1 시드로 변주). 사전 자산은 흑백 cutout 하나면 되고
+섀도는 런타임 처리이므로 **라이브러리 스키마 변경 불요** — 액센트가 영상마다 달라도 대응된다.
+
+## 2. L2 — 컴포넌트 시트 (11종)
 
 각 컴포넌트는 `hyperframes/shorts/assets/collage_kit.js` 에 구현될 예정(Phase 3). 여기서는
 계약(입력·상태·모션·금지사항)만 확정한다. **각 컴포넌트는 표현 변형(variant) 2~4종을
@@ -117,7 +131,7 @@ last_review: 2026-08-14
 
 | # | 컴포넌트 | 입력 | 모션 | 금지사항 |
 |---|---|---|---|---|
-| 1 | `CutoutActor` | LibraryPerson variant, 위치, 스케일 | place → jitter, 퇴장은 슬라이드+페이드 | 즉석 생성 이미지 금지 — 라이브러리 자산만 |
+| 1 | `CutoutActor` | LibraryPerson variant, 샷 스케일, 위치 | **§1.7 스케일 규칙** — 상반신·단체는 모노톤+오프셋 섀도 + 하단 등장(단체 stagger 120ms), 이후 jitter | 즉석 생성 이미지 금지 — 라이브러리 자산만. 스케일 규칙 위반 금지 |
 | 2 | `EngravedPortrait` | stipple/engraving SVG | 선 draw-on 1.2s → 정지 | 컬러 필터 금지 (흑백 정체성) |
 | 3 | `RansomHeadline` | 문자열, emphasis 어절 | 글자 단위 stagger place (40ms) | 본문 자막에 사용 금지, 씬당 1줄 |
 | 4 | `StampLabel` | 라벨 enum (확인/추론/미검증/반박됨) | 도장 "쾅" (1.3→1.0 + 5° 기울기) | 색·문구 변형 금지 (G4 — 07 §6) |
@@ -127,6 +141,7 @@ last_review: 2026-08-14
 | 8 | `StringConnector` | 노드 2개, 라벨 | 붉은 실 draw-on | 관계 근거 없는 연결 금지 (G4) |
 | 9 | `SunburstStage` / 커튼 무대 | 액센트 색, 중앙 슬롯 | 방사 슬로 회전 / 커튼 스웨이 + 스포트라이트 | — |
 | 10 | `ChartPlate` | 기존 SceneKit 차트 빌더 산출 | 종이 플레이트 위 얹기 | 차트 내부 문법 변경 금지 (기존 재사용) |
+| 11 | `ArticleCollageCard` | 기사 캡처(발행처·제목·날짜·핵심 문장), 하이라이트 대상, 인물(선택) | 카드 place → 형광펜 draw-on(노랑, emphasis/근거 문장만) → 날짜 칩 스탬프 → 손그림 화살표 draw-on → 인물 컷아웃 하단 등장(카드 모서리에 걸침) | **기사 원문 변조 금지** (제목·문장 그대로 — G4), 발행처·날짜 표기 필수, 형광펜은 근거 문장에만 |
 
 ## 3. L3 — 씬 템플릿 (120초 기준)
 
@@ -149,3 +164,6 @@ last_review: 2026-08-14
 - 2026-08-14 v0.44.0: 최초 작성 (Phase 0 산출).
 - 2026-08-14 v0.44.1: 대원칙 "시트는 문법이지 조판이 아니다" + §1.5 시드 변주 + §1.6 배경
   문법 후보군 + 컴포넌트 변형 2~4종 요구 (사용자 지시 — 기계적 반복 금지).
+- 2026-08-14 v0.44.2: §1.7 인물 표현 샷 스케일 규칙(클로즈업=판화 / 상반신·단체=모노톤+
+  컬러 오프셋 섀도+하단 등장) + `ArticleCollageCard` 컴포넌트 #11 (사용자 레퍼런스 —
+  NYT 콜라주 에딧).
