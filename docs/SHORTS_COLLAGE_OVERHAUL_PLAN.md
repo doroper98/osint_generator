@@ -1,6 +1,6 @@
 <!--
 tier: 2
-last_synced_with: v0.43.6
+last_synced_with: v0.43.7
 ssot_for: [shorts-collage-overhaul-plan, collage-design-direction, asset-library-plan]
 depends_on: [CLAUDE.md, GOAL.md, docs/07_VIDEO_STYLE_GUIDE.md, docs/08_AUDIO_AND_TTS_SPEC.md, docs/10_RENDERING_PIPELINE_SPEC.md, docs/VIDEO_BUNDLE_CONTRACT.md, docs/PROFESSIONAL_REBUILD_PLAN.md]
 last_review: 2026-08-14
@@ -295,10 +295,25 @@ agents_reviewer 번들 ─┤ import-bundle (현행)
 
 ## 7. 음성 개편
 
-- **voice key 교체**: `ELEVENLABS_VOICE_ID` 는 `.env` 로만 주입(C9 — 커밋 금지)이므로 코드 변경
-  없이 교체 가능. 단 **어떤 보이스로 바꿀지는 사용자만 결정 가능** (ElevenLabs 계정에서 선정 →
-  `.env` 갱신). 선정 기준 권고: 쇼츠에서도 **브리핑체 정체성 유지**(08 §1 낮고 차분), 단 템포는
-  현행보다 소폭 빠르게 — 과장된 쇼츠 하이텐션 톤은 채널 정체성·G4 신뢰성과 충돌하므로 배제 권고.
+- **톤 방향 (사용자 확정 2026-08-14)**: 기존 08 §1 "낮고 굵은 남성·차분" → **정확한 인토네이션과
+  딕션, 귀에 딱딱 꽂히는 전달**로 개정. 브리핑체(존댓말·단문·과장 금지)는 유지하되 전달 방식을
+  또렷한 아나운서/내레이터 계열로 바꾼다. 과장된 예고편 톤 금지(G4 신뢰성)는 그대로.
+  → Phase 0 에서 08 §1 정식 개정.
+- **실무 검토 결과 (analysis_20260814_150031 번들 기준)**: 기계적으로 가능 — 레버 배분은
+  **보이스 선택 ~80% / 합성 설정 ~15% / 대본 텍스트 ~5%**.
+  1. voice = `.env` 의 `ELEVENLABS_VOICE_ID` 교체 (코드 무변경). **보이스 자체가 또박 딕션
+     계열이어야** 함 — 설정으로 차분한 보이스를 또렷하게 만들 수 없다.
+  2. 설정 레버는 이미 구현됨(v0.34.9 opt-in): 시작점 권고 `ELEVENLABS_STABILITY=0.6~0.75`
+     (높을수록 억양 일관·또박), `SIMILARITY_BOOST=0.8`, `STYLE=0.0~0.2` (높이면 드라마틱해지나
+     딕션 흔들림), `USE_SPEAKER_BOOST=true`. 문맥 스티칭(previous/next_text, v0.38.3)이
+     평서문 끝 상승 억양을 이미 잡아줌 — "정확한 인토네이션" 요구에 직결.
+  3. 대본 측 조건은 이미 충족: 계약상 문장 ≤75자 단문 선언체 + narration_tts 숫자 한글화
+     ("스물두 달") + polish_tail 숨소리 제거 — 딱딱 꽂히는 단절감에 기여.
+  4. **한계**: ElevenLabs 는 문장 내 억양 컨투어(SSML pitch) 직접 제어 불가 — 인토네이션
+     정밀도는 보이스+stability+스티칭+구두점으로 확보. 부족하면 eleven_v3(오디오 태그) 실험은
+     후속 옵션.
+  5. **오디션은 사용자 Windows 에서** (클라우드는 stub): 후보 보이스별로 위 번들의 intro 2문장
+     + s1 3문장을 합성해 비교 청취 → `.env` 확정.
 - **voice profile 개념 도입**: `config.yaml` 에 `tts.profiles: {briefing: {...}, shorts: {voice_env:
   ELEVENLABS_VOICE_ID_SHORTS, speed: …}}` — 롱폼/쇼츠 보이스 분리 운용 가능하게. 기존 opt-in
   오버라이드(`ELEVENLABS_STABILITY/SIMILARITY_BOOST/STYLE`)와 문맥 스티칭(v0.38.3)은 그대로.
@@ -327,7 +342,7 @@ agents_reviewer 번들 ─┤ import-bundle (현행)
 | **1. 판화 PoC** | v0.45.0 | `engraving_stylizer` — 트럼프 1인 stipple + engraving SVG, 스페시먼 페이지에서 비교 | **사용자 눈 검수** (스타일 방향 확정 — 이후 전체 생산의 기준) |
 | **2. 라이브러리 구축** | v0.46.0 | 인물 7인 × 스타일 변형, CI 로고 ~20종, 국기 확장, 텍스처·소품, 전 자산 RIGHTS 기록 + manifest 검증기 | rights 검증기 통과 + 샘플 검수 |
 | **3. 쇼츠 씬킷** | v0.47.0 | 1080×1920 컴포지션 + L2 컴포넌트 전체 + L3 씬 템플릿 + 스페시먼 mp4 | **스타일 데모 mp4 사용자 검수** |
-| **4. 변환기** | v0.48.0 | `bundle_to_shorts.py` (컷다운 + 엔티티 매칭 + 씬 플랜) + 검증기 | 실번들 1건 무음 렌더 검수 |
+| **4. 변환기** | v0.48.0 | `bundle_to_shorts.py` (컷다운 + 엔티티 매칭 + 씬 플랜) + 검증기 + 차트 타입 커버 확장(donut 매핑, diverging_bar→bar 정규화 — v0.43.7 검토에서 발견된 공백) | 실번들 1건 무음 렌더 검수 |
 | **5. 오디오 개편** | v0.49.0 | voice profile + (사용자) 새 voice key + BGM manifest + pulse 베드 + 크레딧 자동화 | Windows 실음성 렌더 (사용자) |
 | **6. 엔드투엔드** | v0.50.0 | 실제 번들 → 쇼츠 1편 완주 + Shorts Collage Bar 체크 | **최종 사용자 검수** |
 
@@ -358,7 +373,7 @@ agents_reviewer 번들 ─┤ import-bundle (현행)
 | 3 | 생성형 AI(힉스필드) 사용 여부 | **미채택 — G4-10 유지**, 판화는 절차적 스타일라이즈 |
 | 4 | 판화 기본 스타일 | Phase 1 PoC 에서 stipple vs engraving 실물 비교 후 선택 |
 | 5 | 인물 초기 라인업 | 예시 7인 + 파월·젠슨 황 추가 여부 |
-| 6 | 새 voice | 사용자가 ElevenLabs 에서 선정 (§7 기준 권고) → `.env` 교체 |
+| 6 | 새 voice | **톤 방향 확정 (2026-08-14): 정확한 인토네이션·딕션, 귀에 꽂히는 전달** — 구체 보이스는 사용자가 ElevenLabs 오디션(§7 절차)으로 선정 → `.env` 교체 |
 | 7 | 랜섬노트 적용 강도 | **헤드라인·강조어 한정** (본문 자막 제외) |
 | 8 | agents_reviewer 계약에 `video.shorts` 필드 추가 제안 | 추가 권고 (additive, 상대 저장소 작업 필요) |
 
@@ -369,3 +384,8 @@ agents_reviewer 번들 ─┤ import-bundle (현행)
 - 2026-08-14 v0.43.5: 최초 작성 (사용자 개편 지시 → 계획 수립).
 - 2026-08-14 v0.43.6: 쇼츠 길이 사용자 확정 — 45~60초안 → **90~120초(2분 상한)**. §5 시간
   예산·문장 상한(12→24)·Bar 9항 개정, 결정 목록 #1 확정 처리.
+- 2026-08-14 v0.43.7: 음성 톤 사용자 확정 — "낮고 차분" → **정확한 인토네이션·딕션, 귀에
+  꽂히는 전달**. 실번들(analysis_20260814_150031) 기준 실무 검토 결과 반영(§7): 설정 레버
+  기구현 확인, 권장 세팅 시작점, 오디션 절차. 부수 발견 — 해당 번들 차트 5종 중
+  stakeholder_map/diverging_bar/donut 은 현행 변환기 미지원(Phase 4 에서 donut 매핑 +
+  diverging_bar→bar 정규화 필요).

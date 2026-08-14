@@ -28,6 +28,19 @@ released 항목은 **append-only**입니다.
 
 ---
 
+## [v0.43.7] — 2026-08-14
+
+### Changed
+- **음성 톤 사용자 확정 + 실무 검토** — "낮고 차분" → **정확한 인토네이션·딕션, 귀에 꽂히는
+  전달** (브리핑체·과장 금지는 유지, 08 §1 은 Phase 0 에서 정식 개정). 실번들
+  analysis_20260814_150031 로 검토: 보이스 선택 ~80% / 설정 ~15% / 텍스트 ~5% 레버 배분,
+  기구현 opt-in 설정(STABILITY 0.6~0.75, SIMILARITY 0.8, STYLE 0~0.2, SPEAKER_BOOST) 시작점,
+  Windows 오디션 절차(intro 2문장 + s1 3문장) 를 SHORTS_COLLAGE_OVERHAUL_PLAN §7 에 명문화.
+- **부수 발견**: 현행 `bundle_to_video.py` 는 stakeholder_map / diverging_bar / donut 차트를
+  미지원(스킵) — Phase 4 변환기 범위에 donut 매핑 + diverging_bar→bar 정규화 추가.
+
+---
+
 ## [v0.43.6] — 2026-08-14
 
 ### Changed
