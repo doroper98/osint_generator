@@ -1,22 +1,27 @@
-"""판화 스타일라이저(workers/engraving_stylizer.py) 단위 테스트.
+"""인쇄 스크리닝 스타일라이저(workers/engraving_stylizer.py) 단위 테스트.
 
 원칙: 실존 인물 사진은 테스트에 넣지 않는다. 모든 입력은 합성 이미지다.
 """
 
 from __future__ import annotations
 
+import math
+import tempfile
 import unittest
 import xml.etree.ElementTree as ET
+from pathlib import Path
 
 import numpy as np
 from PIL import Image
 
 from workers.engraving_stylizer import (
     INK_COLOR,
-    EngravingResult,
-    build_tone_map,
-    stylize_engraving,
-    stylize_stipple,
+    ScreenResult,
+    build_print_tone,
+    compose_mono_shadow,
+    stylize_halftone,
+    stylize_linescreen,
+    stylize_mono,
 )
 
 
@@ -32,116 +37,257 @@ def make_flat(width: int = 120, height: int = 90, value: int = 128) -> Image.Ima
     return Image.fromarray(grid, mode="L").convert("RGB")
 
 
-class ToneMapTest(unittest.TestCase):
-    def test_darkness_follows_luminance(self) -> None:
-        tone = build_tone_map(make_gradient(), remove_background=False)
-        left = float(tone.darkness[:, :40].mean())
-        right = float(tone.darkness[:, -40:].mean())
-        self.assertLess(left, 0.15)
-        self.assertGreater(right, 0.6)
-        self.assertGreaterEqual(float(tone.darkness.min()), 0.0)
-        self.assertLessEqual(float(tone.darkness.max()), 1.0)
+def make_subject(size: int = 160) -> Image.Image:
+    """밝은 배경 + 가운데 어두운 사각형(피사체). 배경 제거·섀도 합성 검증용."""
+    canvas = np.full((size, size, 3), 230, dtype=np.uint8)
+    canvas[40:120, 40:120] = 40
+    return Image.fromarray(canvas, mode="RGB")
 
 
-class StippleTest(unittest.TestCase):
+class PrintToneTest(unittest.TestCase):
+    def test_ink_follows_darkness(self) -> None:
+        tone = build_print_tone(make_gradient(), remove_background=False)
+        left = float(tone.ink[:, :40].mean())
+        right = float(tone.ink[:, -40:].mean())
+        self.assertLess(left, 0.05)
+        self.assertGreater(right, 0.8)
+        self.assertGreaterEqual(float(tone.ink.min()), 0.0)
+        self.assertLessEqual(float(tone.ink.max()), 1.0)
+
+    def test_highlights_are_exactly_zero_ink(self) -> None:
+        """상위 명도(하이라이트)는 잉크 0 — 종이가 깨끗이 비어야 한다."""
+        tone = build_print_tone(
+            make_gradient(), remove_background=False, highlight_percentile=80.0
+        )
+        clean = float((tone.ink <= 0.0).mean())
+        self.assertGreater(clean, 0.12)
+        # 가장 밝은 세로 띠는 전부 잉크 0.
+        self.assertEqual(float(tone.ink[:, :10].max()), 0.0)
+
+    def test_value_is_complement_of_ink(self) -> None:
+        tone = build_print_tone(make_gradient(), remove_background=False)
+        self.assertTrue(np.allclose(tone.value, 1.0 - tone.ink, atol=1e-6))
+
+    def test_midtone_gamma_darkens_without_dirtying_highlights(self) -> None:
+        plain = build_print_tone(
+            make_gradient(), remove_background=False, midtone_gamma=1.0
+        )
+        pushed = build_print_tone(
+            make_gradient(), remove_background=False, midtone_gamma=2.2
+        )
+        self.assertGreater(float(pushed.ink.mean()), float(plain.ink.mean()))
+        self.assertEqual(float(pushed.ink[:, :10].max()), 0.0)
+
+    def test_background_flood_fill_suppresses_border(self) -> None:
+        tone = build_print_tone(make_subject(), remove_background=True)
+        self.assertLess(float(tone.foreground[:10, :10].mean()), 0.2)
+        self.assertGreater(float(tone.foreground[70:90, 70:90].mean()), 0.8)
+        self.assertEqual(float(tone.ink[:10, :10].max()), 0.0)
+
+    def test_disabled_background_removal_keeps_everything(self) -> None:
+        tone = build_print_tone(make_flat(), remove_background=False)
+        self.assertAlmostEqual(float(tone.foreground.mean()), 1.0, places=5)
+
+
+class MonoTest(unittest.TestCase):
     def setUp(self) -> None:
         self.image = make_gradient()
-        self.tone = build_tone_map(self.image, remove_background=False)
+        self.tone = build_print_tone(self.image, remove_background=False)
 
-    def test_dot_density_increases_with_darkness(self) -> None:
-        result = stylize_stipple(self.image, seed=3, tone=self.tone)
-        self.assertGreater(len(result.dots), 100)
+    def test_duotone_raster_size_and_mode(self) -> None:
+        result = stylize_mono(self.image, seed=1, tone=self.tone)
+        self.assertEqual(result.style, "mono")
+        self.assertEqual(result.image.mode, "RGBA")
+        self.assertEqual(result.image.size, (self.tone.width, self.tone.height))
 
+    def test_dark_side_is_darker_than_bright_side(self) -> None:
+        result = stylize_mono(self.image, seed=1, tone=self.tone)
+        gray = np.asarray(result.image.convert("L"), dtype=np.float32)
+        self.assertGreater(float(gray[:, :30].mean()), 240.0)
+        self.assertLess(float(gray[:, -30:].mean()), 60.0)
+
+    def test_background_becomes_transparent(self) -> None:
+        result = stylize_mono(make_subject(), seed=1)
+        alpha = np.asarray(result.image.split()[3], dtype=np.float32)
+        self.assertLess(float(alpha[:10, :10].mean()), 40.0)
+        self.assertGreater(float(alpha[70:90, 70:90].mean()), 220.0)
+
+    def test_seed_determinism_bytewise(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            first = stylize_mono(self.image, seed=11, tone=self.tone).to_png(
+                Path(tmp) / "a.png"
+            )
+            second = stylize_mono(self.image, seed=11, tone=self.tone).to_png(
+                Path(tmp) / "b.png"
+            )
+            self.assertEqual(first.read_bytes(), second.read_bytes())
+
+    def test_png_resize_keeps_aspect(self) -> None:
+        result = stylize_mono(self.image, seed=1, tone=self.tone)
+        with tempfile.TemporaryDirectory() as tmp:
+            path = result.to_png(Path(tmp) / "m.png", out_width=480, background="white")
+            with Image.open(path) as png:
+                self.assertEqual(png.size, (480, 320))
+
+
+class ComposeMonoShadowTest(unittest.TestCase):
+    ACCENT = "#B03A2E"
+    PAPER = "#E8DFC9"
+
+    def test_shadow_follows_silhouette_not_a_rectangle(self) -> None:
+        composed = compose_mono_shadow(
+            make_subject(), accent=self.ACCENT, offset=(12, 12), paper=self.PAPER
+        )
+        pixels = np.asarray(composed.convert("RGB"), dtype=np.int16)
+        # 피사체 사각형(40..120)이 (12,12) 밀린 자리 = 섀도만 보이는 띠.
+        shadow = pixels[124, 60]
+        self.assertLess(abs(int(shadow[0]) - 0xB0), 12)
+        self.assertLess(abs(int(shadow[1]) - 0x3A), 12)
+        # 실루엣 밖(원본에도 섀도에도 안 닿는 구석)은 종이색 그대로.
+        paper = pixels[5, 5]
+        self.assertLess(abs(int(paper[0]) - 0xE8), 6)
+        self.assertLess(abs(int(paper[2]) - 0xC9), 6)
+        # 섀도가 밀려 나간 반대쪽(왼쪽 위)은 종이색이어야 한다 = 사각 그림자 아님.
+        self.assertLess(abs(int(pixels[35, 35][0]) - 0xE8), 8)
+
+    def test_subject_stays_monochrome_on_top(self) -> None:
+        composed = compose_mono_shadow(
+            make_subject(), accent=self.ACCENT, offset=(12, 12), paper=self.PAPER
+        )
+        pixels = np.asarray(composed.convert("RGB"), dtype=np.int16)
+        center = pixels[80, 80]
+        self.assertLess(int(center.max()) - int(center.min()), 12)
+
+    def test_transparent_paper_keeps_alpha(self) -> None:
+        composed = compose_mono_shadow(
+            make_subject(), accent=self.ACCENT, offset=(12, 12), paper=None
+        )
+        self.assertEqual(composed.mode, "RGBA")
+        alpha = np.asarray(composed.split()[3], dtype=np.float32)
+        self.assertLess(float(alpha[5, 5]), 20.0)
+        self.assertGreater(float(alpha[80, 80]), 220.0)
+
+    def test_pad_grows_canvas(self) -> None:
+        composed = compose_mono_shadow(
+            make_subject(160), accent=self.ACCENT, pad=(20, 10, 30, 0)
+        )
+        self.assertEqual(composed.size, (160 + 20 + 30, 160 + 10))
+
+    def test_determinism(self) -> None:
+        first = compose_mono_shadow(make_subject(), accent=self.ACCENT)
+        second = compose_mono_shadow(make_subject(), accent=self.ACCENT)
+        self.assertEqual(first.tobytes(), second.tobytes())
+
+
+class HalftoneTest(unittest.TestCase):
+    def setUp(self) -> None:
+        self.image = make_gradient()
+        self.tone = build_print_tone(self.image, remove_background=False)
+
+    def test_dots_sit_on_a_regular_lattice(self) -> None:
+        result = stylize_halftone(self.image, seed=3, tone=self.tone, cell=5.0)
+        self.assertGreater(len(result.dots), 500)
+        # 45° 격자 → 회전 좌표가 셀 간격의 정수배(+위상)에 딱 떨어져야 한다.
+        ux, uy = math.cos(math.radians(45.0)), math.sin(math.radians(45.0))
+        residual = [
+            abs(((dot.x * ux + dot.y * uy) / 5.0) % 1.0 - 0.5)
+            for dot in result.dots[:200]
+        ]
+        self.assertLess(float(np.std(residual)), 1e-3)
+
+    def test_radius_increases_with_darkness(self) -> None:
+        result = stylize_halftone(self.image, seed=3, tone=self.tone)
         width = result.width
-        bright = [d for d in result.dots if d.x < width * 0.25]
-        dark = [d for d in result.dots if d.x > width * 0.75]
-        self.assertGreater(len(dark), len(bright) * 3)
-
-    def test_dot_radius_increases_with_darkness(self) -> None:
-        result = stylize_stipple(self.image, seed=3, tone=self.tone)
-        width = result.width
-        bright = [d.r for d in result.dots if d.x < width * 0.25]
+        bright = [d.r for d in result.dots if d.x < width * 0.35]
         dark = [d.r for d in result.dots if d.x > width * 0.75]
         self.assertTrue(bright and dark)
-        self.assertGreater(sum(dark) / len(dark), sum(bright) / len(bright))
+        self.assertGreater(sum(dark) / len(dark), sum(bright) / len(bright) * 1.5)
 
-    def test_seed_determinism(self) -> None:
-        first = stylize_stipple(self.image, seed=11, tone=self.tone).to_svg()
-        second = stylize_stipple(self.image, seed=11, tone=self.tone).to_svg()
-        other = stylize_stipple(self.image, seed=12, tone=self.tone).to_svg()
-        self.assertEqual(first, second)
-        self.assertNotEqual(first, other)
+    def test_highlights_carry_no_ink(self) -> None:
+        result = stylize_halftone(self.image, seed=3, tone=self.tone)
+        self.assertEqual([d for d in result.dots if d.x < result.width * 0.1], [])
 
-    def test_threshold_suppresses_highlights(self) -> None:
         white = Image.fromarray(
             np.full((80, 80), 255, dtype=np.uint8), mode="L"
         ).convert("RGB")
-        tone = build_tone_map(white, remove_background=False)
-        result = stylize_stipple(white, seed=5, tone=tone)
-        self.assertEqual(len(result.dots), 0)
+        tone = build_print_tone(white, remove_background=False)
+        self.assertEqual(len(stylize_halftone(white, seed=5, tone=tone).dots), 0)
+
+    def test_seed_determinism(self) -> None:
+        first = stylize_halftone(self.image, seed=11, tone=self.tone).to_svg()
+        second = stylize_halftone(self.image, seed=11, tone=self.tone).to_svg()
+        other = stylize_halftone(self.image, seed=12, tone=self.tone).to_svg()
+        self.assertEqual(first, second)
+        self.assertNotEqual(first, other)
 
 
-class EngravingTest(unittest.TestCase):
+class LinescreenTest(unittest.TestCase):
     def setUp(self) -> None:
         self.image = make_gradient()
-        self.tone = build_tone_map(self.image, remove_background=False)
+        self.tone = build_print_tone(self.image, remove_background=False)
 
-    def test_stroke_width_increases_with_darkness(self) -> None:
-        result = stylize_engraving(self.image, seed=3, tone=self.tone)
-        self.assertGreater(len(result.strokes), 20)
+    def test_strokes_are_straight_lines_at_the_screen_angle(self) -> None:
+        result = stylize_linescreen(self.image, seed=3, tone=self.tone, angle=45.0)
+        self.assertGreater(len(result.strokes), 50)
+        for stroke in result.strokes:
+            self.assertEqual(len(stroke.points), 2)
+            (x0, y0), (x1, y1) = stroke.points
+            length = math.hypot(x1 - x0, y1 - y0)
+            self.assertGreater(length, 0.0)
+            # 45° → dx 와 dy 가 같아야 한다(물결·warp 금지).
+            self.assertLess(abs((x1 - x0) - (y1 - y0)), 1e-6 * max(1.0, length))
 
+    def test_width_increases_with_darkness(self) -> None:
+        result = stylize_linescreen(self.image, seed=3, tone=self.tone)
         width = result.width
         bright: list[float] = []
         dark: list[float] = []
         for stroke in result.strokes:
-            for (x0, _y0), (x1, _y1) in zip(stroke.points, stroke.points[1:]):
-                mid_x = (x0 + x1) / 2.0
-                if mid_x < width * 0.25:
-                    bright.append(stroke.width)
-                elif mid_x > width * 0.75:
-                    dark.append(stroke.width)
+            mid_x = (stroke.points[0][0] + stroke.points[1][0]) / 2.0
+            if mid_x < width * 0.35:
+                bright.append(stroke.width)
+            elif mid_x > width * 0.75:
+                dark.append(stroke.width)
         self.assertTrue(bright and dark)
         self.assertGreater(sum(dark) / len(dark), sum(bright) / len(bright) * 1.5)
 
     def test_dark_side_carries_more_ink(self) -> None:
-        result = stylize_engraving(self.image, seed=3, tone=self.tone)
+        result = stylize_linescreen(self.image, seed=3, tone=self.tone)
         width = result.width
         bright_ink = 0.0
         dark_ink = 0.0
-        # 획은 그림 전체를 가로지르므로 획 단위가 아니라 **선분 단위**로
-        # 잉크량(길이 x 두께)을 좌/우 밴드에 나눠 담는다.
         for stroke in result.strokes:
-            for (x0, y0), (x1, y1) in zip(stroke.points, stroke.points[1:]):
-                ink = float(np.hypot(x1 - x0, y1 - y0)) * stroke.width
-                mid_x = (x0 + x1) / 2.0
-                if mid_x < width * 0.25:
-                    bright_ink += ink
-                elif mid_x > width * 0.75:
-                    dark_ink += ink
+            (x0, y0), (x1, y1) = stroke.points
+            ink = math.hypot(x1 - x0, y1 - y0) * stroke.width
+            mid_x = (x0 + x1) / 2.0
+            if mid_x < width * 0.35:
+                bright_ink += ink
+            elif mid_x > width * 0.75:
+                dark_ink += ink
         self.assertGreater(dark_ink, bright_ink * 2)
 
-    def test_cross_hatch_adds_strokes(self) -> None:
-        with_cross = stylize_engraving(self.image, seed=3, tone=self.tone)
-        without_cross = stylize_engraving(
-            self.image, seed=3, tone=self.tone, cross_hatch=False
-        )
-        self.assertGreater(len(with_cross.strokes), len(without_cross.strokes))
+    def test_highlights_carry_no_ink(self) -> None:
+        white = Image.fromarray(
+            np.full((80, 80), 255, dtype=np.uint8), mode="L"
+        ).convert("RGB")
+        tone = build_print_tone(white, remove_background=False)
+        self.assertEqual(len(stylize_linescreen(white, seed=5, tone=tone).strokes), 0)
 
     def test_seed_determinism(self) -> None:
-        first = stylize_engraving(self.image, seed=21, tone=self.tone).to_svg()
-        second = stylize_engraving(self.image, seed=21, tone=self.tone).to_svg()
-        other = stylize_engraving(self.image, seed=22, tone=self.tone).to_svg()
+        first = stylize_linescreen(self.image, seed=21, tone=self.tone).to_svg()
+        second = stylize_linescreen(self.image, seed=21, tone=self.tone).to_svg()
+        other = stylize_linescreen(self.image, seed=22, tone=self.tone).to_svg()
         self.assertEqual(first, second)
         self.assertNotEqual(first, other)
 
 
 class SvgContractTest(unittest.TestCase):
-    def _results(self) -> list[EngravingResult]:
+    def _results(self) -> list[ScreenResult]:
         image = make_gradient(200, 130)
-        tone = build_tone_map(image, remove_background=False)
+        tone = build_print_tone(image, remove_background=False)
         return [
-            stylize_stipple(image, seed=1, tone=tone),
-            stylize_engraving(image, seed=1, tone=tone),
+            stylize_halftone(image, seed=1, tone=tone),
+            stylize_linescreen(image, seed=1, tone=tone),
         ]
 
     def test_svg_is_valid_xml_with_source_viewbox(self) -> None:
@@ -171,8 +317,8 @@ class SvgContractTest(unittest.TestCase):
         for result in self._results():
             with self.subTest(style=result.style):
                 for dot in result.dots:
-                    self.assertTrue(-1.0 <= dot.x <= result.width + 1.0)
-                    self.assertTrue(-1.0 <= dot.y <= result.height + 1.0)
+                    self.assertTrue(-8.0 <= dot.x <= result.width + 8.0)
+                    self.assertTrue(-8.0 <= dot.y <= result.height + 8.0)
                 for stroke in result.strokes:
                     for x, y in stroke.points:
                         self.assertTrue(-8.0 <= x <= result.width + 8.0)
@@ -181,33 +327,22 @@ class SvgContractTest(unittest.TestCase):
 
 class PngPreviewTest(unittest.TestCase):
     def test_png_matches_geometry_aspect_and_reacts_to_tone(self) -> None:
-        import tempfile
-        from pathlib import Path
-
         image = make_gradient(200, 130)
-        tone = build_tone_map(image, remove_background=False)
-        result = stylize_stipple(image, seed=9, tone=tone)
-        with tempfile.TemporaryDirectory() as tmp:
-            path = result.to_png(Path(tmp) / "preview.png", out_width=400)
-            with Image.open(path) as png:
-                self.assertEqual(png.size, (400, 260))
-                gray = np.asarray(png.convert("L"), dtype=np.float32)
-        # 어두운 쪽(오른쪽)이 실제로 잉크가 더 많아야 한다.
-        self.assertLess(float(gray[:, -80:].mean()), float(gray[:, :80].mean()))
-
-
-class BackgroundMaskTest(unittest.TestCase):
-    def test_flat_border_is_suppressed(self) -> None:
-        canvas = np.full((160, 160, 3), 230, dtype=np.uint8)
-        canvas[40:120, 40:120] = 40  # 가운데 어두운 사각형 = 피사체
-        image = Image.fromarray(canvas, mode="RGB")
-        tone = build_tone_map(image, remove_background=True)
-        self.assertLess(float(tone.foreground[:10, :10].mean()), 0.2)
-        self.assertGreater(float(tone.foreground[70:90, 70:90].mean()), 0.8)
-
-    def test_disabled_background_removal_keeps_everything(self) -> None:
-        tone = build_tone_map(make_flat(), remove_background=False)
-        self.assertAlmostEqual(float(tone.foreground.mean()), 1.0, places=5)
+        tone = build_print_tone(image, remove_background=False)
+        for result in (
+            stylize_halftone(image, seed=9, tone=tone),
+            stylize_linescreen(image, seed=9, tone=tone),
+        ):
+            with self.subTest(style=result.style):
+                with tempfile.TemporaryDirectory() as tmp:
+                    path = result.to_png(Path(tmp) / "preview.png", out_width=400)
+                    with Image.open(path) as png:
+                        self.assertEqual(png.size, (400, 260))
+                        gray = np.asarray(png.convert("L"), dtype=np.float32)
+                # 어두운 쪽(오른쪽)이 실제로 잉크가 더 많아야 한다.
+                self.assertLess(float(gray[:, -80:].mean()), float(gray[:, :80].mean()))
+                # 밝은 쪽(왼쪽 끝)은 종이 그대로 — 잉크가 거의 없어야 한다.
+                self.assertGreater(float(gray[:, :20].mean()), 250.0)
 
 
 if __name__ == "__main__":  # pragma: no cover

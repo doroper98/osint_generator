@@ -28,6 +28,25 @@ released 항목은 **append-only**입니다.
 
 ---
 
+## [v0.45.2] — 2026-08-14
+
+### Changed
+- **인물 스타일라이저 재작업 완료** (Opus 5 위임, 오케스트레이터 육안 검증 통과) —
+  `workers/engraving_stylizer.py` 전면 개정:
+  - `stylize_mono`: 고대비 듀오톤 (백분위 하이라이트 클리핑 — 전경 14% 잉크 0, midtone
+    감마, S-커브). **디프린지** 신기법: 실루엣 밖을 내부 톤으로 인페인트 후 언샤프 →
+    검은 테두리·회색 후광 제거.
+  - `compose_mono_shadow`: 컷아웃 알파 실루엣을 액센트 색으로 오프셋 합성 (+pad 옵션) —
+    17 §1.7 v2 의 "모노톤+컬러 섀도" 런타임 처리 그대로.
+  - `stylize_halftone`(45° 규칙 격자 망점) / `stylize_linescreen`(45° 직선 스크린, 굵기
+    14단계 양자화·구간 병합) — 변주 옵션. seed 는 격자 위상만 흔듦 (노이즈 아님).
+  - 구 stipple/engraving 및 전용 헬퍼 제거. 테스트 29건 재작성 (격자 규칙성·직선성·
+    하이라이트 잉크 0·섀도 실루엣 추종·PNG/SVG 결정론). CLI 3회 SHA256 동일 확인.
+- 샘플 4종(mono/mono_shadow/halftone/linescreen) 오케스트레이터 검수 — "프로 인쇄물"
+  기준 통과, 사용자 검수 대기.
+
+---
+
 ## [v0.45.1] — 2026-08-14
 
 ### Changed
