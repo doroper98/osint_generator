@@ -33,6 +33,11 @@ fastapi>=0.110
 uvicorn>=0.27
 python-multipart>=0.0.9
 
+# v0.45.0: engraving stylizer (workers/engraving_stylizer.py) — deterministic
+# stipple / line-engraving portrait SVG from real photos (no AI generation).
+numpy>=1.26
+Pillow>=10.0
+
 # Dev / test
 pytest>=8.0
 pytest-asyncio>=0.23

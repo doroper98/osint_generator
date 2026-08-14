@@ -1,6 +1,6 @@
 <!--
 tier: 2
-last_synced_with: v0.44.2
+last_synced_with: v0.45.0
 ssot_for: [shorts-collage-overhaul-plan, collage-design-direction, asset-library-plan]
 depends_on: [CLAUDE.md, GOAL.md, docs/07_VIDEO_STYLE_GUIDE.md, docs/08_AUDIO_AND_TTS_SPEC.md, docs/10_RENDERING_PIPELINE_SPEC.md, docs/VIDEO_BUNDLE_CONTRACT.md, docs/PROFESSIONAL_REBUILD_PLAN.md]
 last_review: 2026-08-14
@@ -395,7 +395,7 @@ V3 없이도 V1+V2 만으로 파이프라인은 완주 가능(폴백) — V3 는
 | Phase | 버전 | 산출물 | 검수 게이트 |
 |---|---|---|---|
 | **0. 스펙 확정** | v0.44.0 | **완료 (2026-08-14)** — 07 v2 개정 + `17_COLLAGE_DESIGN_SHEET.md` + Bundle video 블록·AssetLibrary·DesignSheet Pydantic 스키마 + config 프로파일 + 테스트 5건·실번들 회귀 | 문서 리뷰 (사용자) — **대기 중** |
-| **1. 판화 PoC** | v0.45.0 | `engraving_stylizer` — 트럼프 1인 stipple + engraving SVG, 스페시먼 페이지에서 비교 | **사용자 눈 검수** (스타일 방향 확정 — 이후 전체 생산의 기준) |
+| **1. 판화 PoC** | v0.45.0 | **완료 (2026-08-14, Opus 5 위임 구현)** — `workers/engraving_stylizer.py` (결정론 stipple/engraving → SVG+PNG 동일 지오메트리, 테스트 15건) + 트럼프 2025 공식 초상(PD) 샘플 2종 | **사용자 눈 검수 대기** (stipple vs engraving 선택 — 이후 전체 생산의 기준) |
 | **2. 라이브러리 구축** | v0.46.0 | 인물 7인 × 스타일 변형, CI 로고 ~20종, 국기 확장, 텍스처·소품, 전 자산 RIGHTS 기록 + manifest 검증기 | rights 검증기 통과 + 샘플 검수 |
 | **3. 쇼츠 씬킷** | v0.47.0 | 1080×1920 컴포지션 + L2 컴포넌트 전체(**컴포넌트당 표현 변형 2~4종** — §6.0 V2 의 재료) + L3 씬 템플릿 + 스페시먼 mp4 | **스타일 데모 mp4 사용자 검수 — 합격선 = §1.0 최소 기준(원카AI 샘플 0:35~1:16) 동급** |
 | **4. 변환기** | v0.48.0 | `bundle_to_shorts.py` (컷다운 + 엔티티 매칭 + 씬 플랜 + **V1 시드·V2 규칙 변주 + style_history 로테이션**) + 검증기 + 차트 타입 커버 확장(donut 매핑, diverging_bar→bar 정규화) | 실번들 1건 무음 렌더 검수 — **같은 시트, 다른 번들 2건이 뚜렷이 다른 화면인지 비교** |

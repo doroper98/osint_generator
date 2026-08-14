@@ -28,6 +28,26 @@ released 항목은 **append-only**입니다.
 
 ---
 
+## [v0.45.0] — 2026-08-14
+
+### Added
+- **Phase 1 완료: 판화 초상 스타일라이저 PoC** (Opus 5 서브에이전트 위임 구현, 오케스트레이터
+  검증) — `workers/engraving_stylizer.py` (983줄, numpy+Pillow만):
+  - `stylize_stipple`: 지터드 그리드 + 명도 가중 채택 + 반경 비례 — `<circle>` SVG.
+  - `stylize_engraving`: 12° 평행 물결 스캔라인(두께·진폭 명도 변조, 6단계 양자화) + 저주파
+    flow warp + 암부 크로스해치 — 획별 `stroke-width` `<path>` SVG (draw-on 대응).
+  - 공통: 언샤프 국소대비 + 판화용 계조 압축 + 가장자리 플러드필 배경 억제. **seed 결정론**
+    (같은 입력+시드 = 바이트 동일 SVG). SVG/PNG 동일 지오메트리 이중 출력 (외부 래스터라이저
+    불요). CLI 제공.
+  - `tests/test_engraving_stylizer.py` 15건 (계조 반응·결정론·SVG 유효성·단색 잉크·배경 억제).
+  - 샘플: 트럼프 2025 공식 초상(퍼블릭 도메인, 위키미디어) → stipple(58k점)/engraving(9.8k획)
+    SVG+PNG — 사용자 스타일 선택 대기.
+  - requirements.txt 에 numpy/Pillow 추가.
+- 알려진 한계 (Phase 2 과제): 배경 제거가 사진 의존적(파라미터 재튜닝 필요), stipple SVG
+  2.3MB 는 런타임용 밀도 하향 프리셋 필요, 윤곽 추종 해칭은 후속.
+
+---
+
 ## [v0.44.2] — 2026-08-14
 
 ### Changed
