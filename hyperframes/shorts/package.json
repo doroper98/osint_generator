@@ -1,0 +1,9 @@
+﻿{
+  "name": "osint-shorts-collage",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "check": "npx --yes hyperframes@0.6.76 lint && npx --yes hyperframes@0.6.76 validate",
+    "render": "npx --yes hyperframes@0.6.76 render"
+  }
+}
