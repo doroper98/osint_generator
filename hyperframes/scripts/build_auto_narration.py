@@ -74,9 +74,18 @@ def extract_data(html_path: Path) -> dict:
     return json.loads(m.group(1))
 
 
+#: 길이 추정 상수 — **실측 재교정값** (2026-08-15, `calibrate_pace.py`).
+#: 표본 8문장(14~51자)을 현행 voice 로 합성해 최소제곱 적합: 평균 오차 0.32s.
+#: 구값 (1.2, 0.115) 은 이전 voice 기준 가정치였다 — 오버헤드를 크게 잡고 발화를
+#: 빠르게 잡아, 짧은 문장은 과대·긴 문장은 과소 추정했다.
+#: 재교정 근거는 `hyperframes/scripts/pace_calibration.json`.
+PACE_OVERHEAD_SEC = 0.225
+PACE_PER_CHAR_SEC = 0.1298      # 초당 약 7.7자
+
+
 def estimate_duration(text: str) -> float:
-    """한국어 TTS 추정 — 약 7.5자/초 + 문장 호흡."""
-    return max(1.5, min(9.0, 1.2 + 0.115 * len(text)))
+    """한국어 TTS 길이 추정 (실측 적합식). 정밀 싱크는 cuesync 실측이 대체한다."""
+    return max(1.5, min(9.0, PACE_OVERHEAD_SEC + PACE_PER_CHAR_SEC * len(text)))
 
 
 def main(argv: list[str] | None = None) -> int:
