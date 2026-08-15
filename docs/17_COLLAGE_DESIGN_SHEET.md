@@ -1,6 +1,6 @@
 <!--
 tier: 2
-last_synced_with: v0.45.3
+last_synced_with: v0.45.4
 ssot_for: [collage-design-sheet, shorts-design-tokens, collage-components, shorts-scene-templates]
 depends_on: [07_VIDEO_STYLE_GUIDE.md, SHORTS_COLLAGE_OVERHAUL_PLAN.md, ../schemas/models.py]
 last_review: 2026-08-14
@@ -46,6 +46,7 @@ last_review: 2026-08-14
 | `paper_base` | `#E8DFC9` | 기본 크라프트지 배경 |
 | `paper_aged` | `#D9CBAA` | 낡은 종이 (과거 씬·아카이브) |
 | `paper_file` | `#C9BC9C` | 서류 파일/폴더 표면 |
+| `paper_crumpled` | `#DDD3BD` 기조 + 절차 텍스처 | **꾸겼다 편 갱지** (사용자 확정 — 기본 배경 질감). `make_crumpled_paper` 결정론 생성: 다중 스케일 노이즈 + 각진 크리즈 능선 + 섬유 그레인, 명도 변동 ±6% 이내 |
 | `ink` | `#1C1A17` | 본문 잉크·판화 선 |
 | `ink_soft` | `#4A443B` | 보조 텍스트 |
 | `sunburst_a` / `sunburst_b` | `#E4B33C` / `#3E6E8E` | 선버스트 방사 (노랑/청) — 카테고리 액센트로 교체 가능 |

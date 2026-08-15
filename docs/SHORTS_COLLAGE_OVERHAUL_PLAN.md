@@ -1,6 +1,6 @@
 <!--
 tier: 2
-last_synced_with: v0.45.3
+last_synced_with: v0.45.4
 ssot_for: [shorts-collage-overhaul-plan, collage-design-direction, asset-library-plan]
 depends_on: [CLAUDE.md, GOAL.md, docs/07_VIDEO_STYLE_GUIDE.md, docs/08_AUDIO_AND_TTS_SPEC.md, docs/10_RENDERING_PIPELINE_SPEC.md, docs/VIDEO_BUNDLE_CONTRACT.md, docs/PROFESSIONAL_REBUILD_PLAN.md]
 last_review: 2026-08-14
@@ -103,6 +103,22 @@ VOX 콜라주의 시각 문법을 그대로 베끼는 게 아니라, **OSINT 브
 - **그레인 루프**: 절차 생성 노이즈 프레임 3~4장 순환 — 필름 질감. 자체 제작(권리 self_made).
 - 기존 Material 이징 체계(PROFESSIONAL_REBUILD_PLAN §1.1)는 차트·라벨 등 "정보 요소"에 계속 적용.
   → **이원 체계**: 물성 요소 = 스텝/바운스, 정보 요소 = Material decelerate. 섞지 않는다.
+
+### 1.2.5 하이브리드 표현 경제 (사용자 결정 2026-08-14 — "모든 걸 콜라주로 하면 비용 과다")
+
+콜라주는 **정체성 레이어**이지 전 씬의 의무가 아니다. 씬별 표현을 3계층으로 나눠 비용을
+집중한다:
+
+| 계층 | 표현 | 비용 | 적용 씬 |
+|---|---|---|---|
+| **① 콜라주 정체성 레이어** | 인물 컷아웃+섀도, 랜섬 헤드라인, 스탬프, 갱지 배경, 소품 | 높음 — 여기에 집중 | HOOK · ACTORS · TURN (편당 풀 콜라주 씬 2~3개) |
+| **② 실사 직접 등장** | 기사 캡처·현장 사진·영상 프레임을 재가공 없이 그대로 — 종이 프레임/테이프/크레딧만 얹는 최소 처리 | 낮음 | EVIDENCE 의 사진·기사 씬 (IMAGE_BUNDLE_CONTRACT 경로·권리 게이트 그대로) |
+| **③ HyperFrames 정보 표현** | 차트 family·지도·타이포 씬 — briefing 재빌드 산출물 재사용 + ChartPlate 종이 스킨만 | 낮음 (기구현) | EVIDENCE 의 데이터 씬 |
+
+**전환 문법(톤 통일 장치)**: ②·③ 요소도 화면에 "놓일" 때는 콜라주 물성(place 모션·테이프·
+살짝 기울기)으로 등장한다 — 내용물은 실사/차트 그대로, 등장하는 방식만 콜라주. 이로써 전
+씬이 한 세계로 읽히면서 콜라주 제작비는 씬 2~3개에만 든다. 07 v1 의 "실제 영상·기사 캡처
+삽입" 전통과도 연속적이다.
 
 ### 1.3 07_VIDEO_STYLE_GUIDE 와의 충돌 → v2 개정 대상
 
