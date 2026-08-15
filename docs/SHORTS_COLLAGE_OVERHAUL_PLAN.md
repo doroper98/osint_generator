@@ -1,6 +1,6 @@
 <!--
 tier: 2
-last_synced_with: v1.0.8
+last_synced_with: v1.0.9
 ssot_for: [shorts-collage-overhaul-plan, collage-design-direction, asset-library-plan]
 depends_on: [CLAUDE.md, GOAL.md, docs/07_VIDEO_STYLE_GUIDE.md, docs/08_AUDIO_AND_TTS_SPEC.md, docs/10_RENDERING_PIPELINE_SPEC.md, docs/VIDEO_BUNDLE_CONTRACT.md, docs/PROFESSIONAL_REBUILD_PLAN.md]
 last_review: 2026-08-14
@@ -50,7 +50,7 @@ v0.43.4 기준, 재사용 가능한 토대가 이미 상당하다. **갈아엎�
    고정폭, 전 SVG viewBox·좌표에 하드코딩되어 있다. 따라서 **briefing 컴포지션을 세로로 개조하지
    않는다** — `hyperframes/shorts/` 를 신규 컴포지션으로 세우고, 처음부터 W/H·safe area 를 토큰으로
    파라미터화한다. SceneKit 의 프리미티브(LabelField·plate·leader)는 좌표 독립 부분만 이식.
-2. **docs/00~16 상당수는 폐기된 Remotion 파이프라인 기준**(`last_synced_with: v1.0.8`)이다. 07 v2
+2. **docs/00~16 상당수는 폐기된 Remotion 파이프라인 기준**(`last_synced_with: v1.0.9`)이다. 07 v2
    개정은 라이브 HyperFrames 체인 기준으로 작성하며, 죽은 스펙(10 렌더링 등)의 전면 재작성은 본
    사이클 범위 밖 (혼선 방지 주석만 추가).
 
@@ -440,13 +440,51 @@ agents_reviewer 번들 ─┤ import-bundle (현행)
 
 ### 5.3 번들 → 쇼츠 컷다운 (결정론 규칙)
 
-번들은 롱폼 분량이므로 쇼츠는 **1 스토리 추출**이 핵심이다. LLM 무호출 원칙 유지:
+번들은 롱폼 분량이므로 쇼츠는 **1 스토리 추출**이 핵심이다. LLM 무호출 원칙 유지.
 
-1. `report.video.intro_narration` → HOOK 후보.
-2. 섹션 우선순위: `video.highlights` 보유 + emphasis 밀도 + 번들 섹션 순서로 상위 **2 섹션**만.
-3. `timeline.video.narration` 은 3~4문장 → 2문장으로 절단 (완결 문장 단위 — TTS-AP-058 학습 준수).
-4. 총 문장 수 상한: **24문장** (120s ÷ 문장당 4~6s, 실측 cuesync 로 재시계). 초과분 폐기 로그.
-5. 문장·수치 검증기는 VIDEO_BUNDLE_CONTRACT 의 기존 규칙 그대로.
+#### 5.3.0 대원칙 — 슬롯 예산제 (사용자 지적 2026-08-15로 개정)
+
+**"중요한 순서로 N문장 채우기"는 금지한다.** 그 방식은 기·승만 담고 전·결이 잘려 이야기가
+중간에 끝나는 사고를 낸다 (사용자 지적: "기, 승까지만 담아지고 내용이 짤리는 거 아니야?").
+
+다행히 **번들은 기·전·결을 섹션 배열 바깥에 따로 담고 있다** (실번들 확인 2026-08-15):
+
+| 서사 | 원천 | 섹션 선정의 영향 |
+|---|---|---|
+| **기** | `report.video.intro_narration` | 없음 — 항상 확보 |
+| **승** | `sections[].video.narration` | **여기만 잘린다** |
+| **전** | `contradictions[].video` | 없음 — 항상 확보 |
+| **결** | `report.video.outro_narration` | 없음 — 항상 확보 |
+
+따라서 **씬 슬롯마다 예산을 먼저 떼어놓고, 남은 자리를 EVIDENCE 가 나눠 갖는다.** 영상이
+짧아지면 근거 개수가 줄 뿐 결말은 사라지지 않는다.
+
+| 씬 | 원천 | 예산 | 절단 대상 |
+|---|---|---|---|
+| HOOK | `report.video.intro_narration[0]` | 1문장 | 보장 |
+| CONTEXT | `intro_narration` 잔여 (+ `timeline.video`) | 1~2문장 | 보장 |
+| EVIDENCE | 선정된 섹션들의 `video.narration` | **잔여 전부 (~12문장)** | **← 여기만** |
+| TURN | `contradictions[0].video.narration` | 3문장 | 보장 |
+| CLOSING | `report.video.outro_narration` | 2문장 | 보장 |
+| | | **합계 ~19문장 ≈ 95초** | |
+
+#### 5.3.1 규칙
+
+1. **슬롯 예산 (§5.3.0)을 먼저 확정**한다. 총 문장 상한 **24** (120s ÷ 문장당 4~6s).
+   보장 슬롯(HOOK/CONTEXT/TURN/CLOSING)이 ~7문장이므로 EVIDENCE 예산 = 상한 − 보장분.
+2. **EVIDENCE 섹션 선정**: `video.highlights` 보유 + `emphasis` 밀도로 점수화해 예산이 찰
+   때까지 상위 섹션을 담는다 (v1.0.5 까지의 "상위 **2** 섹션 고정"은 폐기 — 실번들에서 총
+   10문장·40~60초로 90~120초 타깃에 미달했다).
+3. **선정 후 반드시 번들 원래 순서로 재정렬**한다. 중요도 순으로 화면에 놓으면 s7 → s2 처럼
+   논지 흐름이 뒤엉킨다. 선정은 중요도로, 배치는 서사 순서로.
+4. `contradictions` 가 2건 이상이면 **1건만** TURN 에 쓴다 (`resolution` 이 있는 것 우선).
+   0건이면 TURN 예산을 EVIDENCE 마지막 섹션에 반납하고 `<추론>` 스탬프로 대체.
+5. 문장 절단은 **완결 문장 단위** (TTS-AP-058 학습 준수). 문장 중간 절단 금지.
+6. 문장·수치 검증기는 VIDEO_BUNDLE_CONTRACT 의 기존 규칙 그대로.
+
+> **TURN 씬은 번들이 화면 설계까지 넘겨준다**: `contradictions[].video` 는
+> `label_a`/`label_b`(진영 이름) + `line_a`/`line_b`(각 진영 한 줄) + `narration` 을 갖는다 —
+> 좌우 대립 구도를 그대로 조판할 수 있다. 별도 가공 불필요.
 6. (후속) agents_reviewer 계약에 `report.video.shorts` 필드(쇼츠 전용 대본) 추가 제안 —
    additive/optional 이라 schema_version 유지. 그전까지는 위 컷다운 규칙으로 동작.
 7. **스키마 부채 동시 해소**: 현행 `ReportBundle`(Pydantic) 은 VIDEO_BUNDLE_CONTRACT 의 `video`

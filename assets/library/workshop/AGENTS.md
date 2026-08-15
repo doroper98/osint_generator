@@ -37,10 +37,21 @@
 
 ```
 codex -i "references/style_anchor_portrait_v1.png" -i "references/{인물사진}"
-→ prompts/portrait_panel.md 의 템플릿에 인물·섀도 파라미터만 치환해 입력
+→ prompts/portrait_cutout.md 의 템플릿에 인물 파라미터만 치환해 입력
 → 산출 PNG + prompt.txt 를 output/ 에 저장
+→ 배경 제거 → 알파 컷아웃
 → (오케스트레이터/사용자) 검수 → 통과본만 assets/library/people/ 로 승격 등록
 ```
+
+**어느 템플릿을 쓸지** (17 §1.7.0 — 섞으면 라이브러리가 망가진다):
+
+| 목적 | 템플릿 | 산출물 |
+|---|---|---|
+| **라이브러리 등록용 인물 자산** | `prompts/portrait_cutout.md` | 흰 배경 + 인물만 (섀도·종이 없음) |
+| 스타일 검수용 비교 시트 | `prompts/portrait_panel.md` | 종이 배경 + 섀도까지 그린 완성 패널 |
+
+섀도는 **런타임 합성**이다. 자산에 구우면 액센트 색이 영상마다 달라지는 설계가 깨지고
+인물당 카테고리 수만큼 재생성해야 한다.
 
 ## 사전 점검 (세션마다 1회)
 

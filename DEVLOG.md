@@ -1,6 +1,6 @@
 <!--
 tier: 3
-last_synced_with: v1.0.8
+last_synced_with: v1.0.9
 ssot_for: [development-log]
 depends_on: [CHANGELOG.md]
 last_review: 2026-06-06
@@ -22,6 +22,35 @@ last_review: 2026-06-06
 - 결과:  …
 - 연관:  AP-번호, 이슈, PR 번호 등
 ```
+
+---
+
+## 2026-08-15 v1.0.9 — 컷다운 슬롯 예산제 + 인물 자산 방식 B 확정
+
+- **무엇을**: (1) 컷다운을 "중요도 순 N문장"에서 **씬 슬롯별 예산제**로 개정, (2) 인물
+  라이브러리 자산 생성 방식을 **방식 B(인물만 굽고 섀도는 런타임)**로 확정하고 전용
+  프롬프트 템플릿 신설.
+- **왜**:
+  (1) 사용자 지적 — "번들에 기승전결이 있는데 기·승까지만 담기고 내용이 잘리는 거 아니야?"
+      정확한 지적이었다. 중요도 순으로 채우면 결말이 잘린다.
+  (2) 스타일 앵커 시트가 섀도까지 구운 완성 패널이라, 그대로 19인을 뽑으면 액센트 색이
+      파일에 굳어져 "영상마다 카테고리 액센트가 달라진다"는 설계가 깨진다.
+- **어떻게**: 실번들의 서사 구조를 실측했더니 **기·전·결이 섹션 배열 바깥에 따로 있었다** —
+  기=`report.video.intro_narration`, 전=`contradictions[].video`, 결=`outro_narration`.
+  그래서 이 셋에 예산을 먼저 배정하면 섹션을 아무리 잘라도 이야기가 끝까지 간다.
+  잘리는 건 승(EVIDENCE)뿐.
+- **결과**:
+  - 예산: HOOK 1 + CONTEXT 1~2 + EVIDENCE 잔여(~12) + TURN 3 + CLOSING 2 ≈ 19문장 ≈ 95초.
+    v1.0.8 에서 발견한 "상위 2섹션 = 40~60초 미달" 문제도 함께 해소.
+  - "선정은 중요도로, 배치는 번들 원래 순서로" 재정렬 규칙 추가 (안 하면 논지가 뒤엉킴).
+  - 부수 발견: `contradictions[].video` 가 `label_a`/`label_b`/`line_a`/`line_b` 를 갖고
+    있다 — **좌우 대립 구도 화면을 번들이 이미 설계해 넘겨준다.** TURN 씬 조판에 그대로 사용.
+  - 인물 자산: 19인 × 5카테고리 = 95장 → **19장**으로 축소. `portrait_cutout.md` 신설,
+    `portrait_panel.md` 는 검수 전용으로 강등(오용 경고 최상단 배치).
+  - 남은 위험: 생성물 배경 제거 시 머리카락 경계 품질 미지수 — 첫 인물에서 실측 판정.
+  - 431 중 429 통과 (잔여 2건은 기존 `.env` 환경 의존 실패, 본 변경과 무관).
+- **연관**: docs/SHORTS_COLLAGE_OVERHAUL_PLAN.md §5.3.0·§5.3.1,
+  docs/17_COLLAGE_DESIGN_SHEET.md §1.7.0, workshop/prompts/portrait_cutout.md, v1.0.8.
 
 ---
 
@@ -1840,7 +1869,7 @@ last_review: 2026-06-06
     6. 관련 문서
     프롬프트는 영문 고정 — codex 의 reasoning 일관성 + Windows 한글 코드페이지 이슈 회피.
   - **HANDOFF.md 전면 갱신**:
-    - `last_synced_with: v1.0.8 → v0.2.6`, `depends_on` 에 `docs/REVIEW_PROMPT.md` 추가.
+    - `last_synced_with: v1.0.9 → v0.2.6`, `depends_on` 에 `docs/REVIEW_PROMPT.md` 추가.
     - "1. 지금 어디까지 와 있나" 표에 v0.2.3 / v0.2.4 / v0.2.5 / v0.2.6 4 행 추가.
     - 알려진 antipattern 카탈로그 갱신 (LLM-AP-001/002/003 상태 명시).
     - "2. 다음 작업" 절을 v0.2.3/Phase 3 양자택일 → **Phase 3 (v0.3.0) IntakePlannerWorker 단독** 으로 교체. 도메인 모델 4 종, Worker 명세, 웹 페이지, CLI 확장, DoD 7 항목, 알려진 risk 4 종, Phase 4 예고 포함. 대안 절 (LLM-AP-003 후속 보안 강화 먼저) 도 명시.
@@ -2540,7 +2569,7 @@ last_review: 2026-06-06
     cross input_item_id / intra source_id / project_id / schema_version) +
     counter 3 + 충돌 검출 순서 1 + 보조 케이스 2.
   - VERSION 0.5.2 → 0.5.3. `__version__` 은 SSOT (VERSION) 에서 자동 갱신.
-  - CHANGELOG / DEVLOG `last_synced_with: v1.0.8`.
+  - CHANGELOG / DEVLOG `last_synced_with: v1.0.9`.
 - **결과**:
   - py_compile 통과.
   - 전체 unittest = **167/167 통과** (직전 148 + 신규 19).

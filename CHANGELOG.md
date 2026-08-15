@@ -1,6 +1,6 @@
 <!--
 tier: 3
-last_synced_with: v1.0.8
+last_synced_with: v1.0.9
 ssot_for: [release-notes]
 depends_on: [README.md, GOAL.md]
 last_review: 2026-06-11
@@ -25,6 +25,35 @@ released 항목은 **append-only**입니다.
 
 ### Fixed
 -
+
+---
+
+## [v1.0.9] — 2026-08-15
+
+### Changed
+- **컷다운을 슬롯 예산제로 개정 (계획 §5.3.0 신설)** — 사용자 지적: "번들에 기승전결이
+  있는데 기·승까지만 담기고 잘리는 것 아니냐". 맞는 지적이라 "중요한 순서로 N문장 채우기"를
+  **금지**하고, 씬 슬롯마다 예산을 먼저 떼어놓는 방식으로 바꿨다.
+  - 실번들 확인 결과 **기·전·결은 섹션 배열 바깥에 따로 있다** — 기=`report.video.
+    intro_narration`, 전=`contradictions[].video`, 결=`report.video.outro_narration`.
+    따라서 섹션을 잘라도 이 셋은 안 잘리고, **승(EVIDENCE)만 잘린다**.
+  - 예산: HOOK 1 + CONTEXT 1~2 + EVIDENCE 잔여(~12) + TURN 3 + CLOSING 2 ≈ 19문장 ≈ 95초.
+  - "상위 2섹션 고정" 폐기 (v1.0.8 에서 발견한 40~60초 미달 문제 해소).
+  - **선정은 중요도로, 배치는 번들 원래 순서로** 재정렬 규칙 추가 — 안 하면 s7→s2 처럼
+    논지 흐름이 뒤엉킨다.
+- **인물 자산 생성 방식 확정 = 방식 B (17 §1.7.0 신설)** — 사용자 확정. 굽는 것은 **배경
+  제거된 모노톤 인물 1장뿐**이고 섀도·종이 배경은 런타임 합성. 스타일 앵커 시트처럼 섀도까지
+  구우면 액센트 색이 파일에 굳어져 §1.7.1(액센트는 카테고리·아트 디렉터가 런타임 선택)이
+  깨지고 인물당 카테고리 수만큼 재생성해야 한다 (19인 × 5 = 95장 → **19장**).
+
+### Added
+- **`prompts/portrait_cutout.md`** — 라이브러리 등록용 인물 프롬프트 신설. 흰 배경 지정 +
+  섀도·종이·컬러·텍스트 금지 + 오려낼 수 있는 경계 요구 + 검수 기준 4항.
+
+### Fixed
+- `prompts/portrait_panel.md` 를 **검수용 전용**으로 명시 강등 — 종이·섀도를 그리므로
+  라이브러리 자산에 쓰면 안 된다는 경고를 문서 최상단에 배치. `AGENTS.md` 표준 작업 흐름도
+  `portrait_cutout.md` 기준으로 교체.
 
 ---
 
@@ -2490,8 +2519,8 @@ PATCH).
 ### Changed
 
 - **`VERSION`** 0.5.3 → 0.5.4.
-- **`CHANGELOG.md`** `last_synced_with: v1.0.8`.
-- **`DEVLOG.md`** `last_synced_with: v1.0.8`.
+- **`CHANGELOG.md`** `last_synced_with: v1.0.9`.
+- **`DEVLOG.md`** `last_synced_with: v1.0.9`.
 
 ---
 
@@ -2552,7 +2581,7 @@ Phase 5 의 두 번째 PATCH. SourceCollectionPartial[] 을 정식 SourceRegistr
 ### Changed
 
 - **`VERSION`** 0.5.2 → 0.5.3.
-- **`CHANGELOG.md`** `last_synced_with: v1.0.8`, `last_review: 2026-05-23`.
+- **`CHANGELOG.md`** `last_synced_with: v1.0.9`, `last_review: 2026-05-23`.
 
 ### Test baseline
 
@@ -3168,7 +3197,7 @@ C5.4 의 MINOR 트리거 두 가지 (Phase 완료 + 새 Worker 추가) 가 동�
   `agents/dynamic_intake_planner.py` → `workers/intake_planner_worker.py (BaseLLMWorker)` 로 갱신.
   Worker 카탈로그 §3 에 Intake Planner 행 추가 (Phase 3, slot 1개, LLM 호출이므로 parallelizable
   ❌ 표기 — Worker Slot Manager 가 별도 slot 으로 격리할지는 Phase 4 결정 사항).
-- 모든 Tier 1·2·3 마크다운/HTML `last_synced_with: v1.0.8* → v0.3.0` 일괄 갱신 (36 파일).
+- 모든 Tier 1·2·3 마크다운/HTML `last_synced_with: v1.0.9* → v0.3.0` 일괄 갱신 (36 파일).
 
 ### Notes
 - `schemas/models.py` 의 IntakePlan / IntakePlanItem / UserDecision / SourceIntake 는 Phase 0 부터
@@ -3248,7 +3277,7 @@ Codex 2차 리뷰 (3-way 통합 검수) 의 High 2건 중 코드 측 H2 반영. 
 ### Changed
 - **`orchestrator/project_manager.py:_write_manifest`** atomic write 화. `path.write_text` 직접 호출 → tmp 파일에 쓴 뒤 `Path.replace` 로 교체. 외부 reader (TUI 라이브 reload) 가 half-written 상태를 보는 race 차단. POSIX rename / Windows `os.replace` 모두 atomic.
 - `docs/ANTIPATTERNS/README.md` SCHEMA-AP 줄을 "Phase 2부터" → "Phase 2 v0.2.7 신설, SCHEMA-AP-001~" 로 갱신.
-- 모든 Tier 1·2·3 마크다운 `last_synced_with: v1.0.8 → v0.2.7` 일괄 갱신.
+- 모든 Tier 1·2·3 마크다운 `last_synced_with: v1.0.9 → v0.2.7` 일괄 갱신.
 
 ### Fixed
 - TUI 가 외부 `transition` CLI 호출 후에도 stale state 를 표시하던 문제.
@@ -3459,7 +3488,7 @@ Codex 2차 리뷰 (3-way 통합 검수) 의 High 2건 중 코드 측 H2 반영. 
 ### Changed
 - GitHub default branch 가 `main` 으로 통합됨에 따라 로컬 브랜치도 `main` 으로 rename, `branches.html:BRANCH_DESCRIPTIONS` 도 갱신.
 - `branches.html:loadVersion` 이 raw.githubusercontent.com 대신 `/contents/VERSION` API 를 사용하도록 변경 (Private 저장소에서도 Bearer 인증으로 동작).
-- 모든 Tier 1·2·3 마크다운/HTML 의 `last_synced_with: v1.0.8 → v0.1.1` 동기화.
+- 모든 Tier 1·2·3 마크다운/HTML 의 `last_synced_with: v1.0.9 → v0.1.1` 동기화.
 
 ### Fixed
 - 없음 (Phase 1 PIPELINE-AP-006 은 v0.1.0 안에서 fix 됨).
