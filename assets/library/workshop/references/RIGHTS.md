@@ -33,6 +33,40 @@
 > **내부 설계 참조로만 쓰고, 영상·문서·외부 산출물에 싣지 않는다.** 이들에서 배운 것은
 > 어휘·구조로 추상화해 17 문서에 기록하며, 픽셀을 재사용하지 않는다.
 
-참고 — 기수집 인물 원본 (scratchpad 검증분, 라이브러리 승격 시 재기록):
-trump 2025 공식 초상 = PD(미 연방) / powell 연준 공식 = PD / putin kremlin.ru = CC BY 4.0
-(크레딧 필수) / musk Royal Society = CC BY-SA 3.0 (크레딧 + SA 검토).
+## 인물 원본 사진 (`photo_{person_id}.jpg`)
+
+**기계 기록은 `photo_manifest.json` 이 정본**이다 (출처 URL·저작자·라이선스·Commons 파일명).
+수집기는 `collect_portraits.py`, 육안 검수 시트는 `make_contact_sheet.py` 로 재생성한다.
+
+- 허용 라이선스: PD / CC0 / CC BY (1.0~4.0) / CC BY-SA (1.0~4.0) / **KOGL Type 1**
+  (공공누리 제1유형 — 출처표시 조건의 상업적 이용·변형 허용, CC BY 동등).
+- **`restrictions` 태그가 있으면 자동 차단**한다 (`personality` 초상권 / `communist` /
+  `trademarked` / `insignia`). 저작권과 별개의 법익이라 사람 판단으로만 통과시킨다.
+- CC BY / CC BY-SA 자산은 **영상 CLOSING 크레딧에 저작자 표기 의무**. SA 항목은 파생물
+  라이선스 검토 필요 (musk, macron, netanyahu, chey_tae_won, rhee_chang_yong, kim_jong_un).
+
+### 수집 상태 (2026-08-15)
+
+| | 수 | 비고 |
+|---|---|---|
+| 수집 완료 | **19인** | 전원 육안 검수 통과 (인물 동일성·구도 확인) |
+| 보류 | 1인 (`kim_jong_un`) | 아래 참조 |
+
+**`kim_jong_un` 보류 사유** — Commons 검색 1순위가 **2018 싱가포르 회담 당시의 분장
+배우(임퍼서네이터) 사진**이었다 (라이선스는 정상 통과). 실제 인물로 pin 한
+`File:Kim Jong-un April 2019 (cropped).jpg` 는 CC BY 4.0·1028×1429 로 조건은 맞으나
+`restrictions='personality|communist'` 라 자동 차단됐다. **사용자 판단 필요.**
+
+> **교훈 (검수 절차에 고정)**: 라이선스·해상도 필터는 *"그 사람이 맞는가"* 를 못 잡는다.
+> 오히려 해상도 하한을 올리자 개인 초상이 밀려나고 단체·행사 컷이 올라오는 회귀가 났다
+> (`rhee_chang_yong` 회의실 전경, `zuckerberg` 풍자 삽화). **컨택트 시트 육안 검수는
+> 생략 가능한 단계가 아니다.**
+
+### 저해상도 수용분 (pin 으로 명시 채택)
+
+| 인물 | 크기 | 사유 |
+|---|---|---|
+| `lee_jae_yong` | 342×493 | Commons 에 자유 라이선스 개인 초상이 이것뿐 (나머지는 촛불집회·행사 단체컷) |
+| `rhee_chang_yong` | 510×800 | KOGL 대안은 전부 회의실 전경이라 얼굴 식별 불가 |
+
+가공 결과가 뭉개지면 사용자 제공 사진으로 교체한다.

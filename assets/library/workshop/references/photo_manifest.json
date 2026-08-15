@@ -1,0 +1,331 @@
+{
+  "schema_note": "workshop 수집 원본 권리 기록 (C9/G4-10)",
+  "people": {
+    "trump": {
+      "person_id": "trump",
+      "name_ko": "도널드 트럼프",
+      "name_en": "Donald Trump",
+      "commons_title": "File:Donald Trump official portrait.jpg",
+      "license": "Public domain",
+      "usage_terms": "Public domain",
+      "artist": "Shealeah Craighead",
+      "credit": "This image is available from the United States Library of Congress's Prints and Photographs division under the digital ID ppbd.00608.This tag does not indicate the copyright status of the attached work. A normal copyright tag is still required. See Commons:Licensing.",
+      "source_page": "https://commons.wikimedia.org/wiki/File:Donald_Trump_official_portrait.jpg",
+      "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/56/Donald_Trump_official_portrait.jpg/1280px-Donald_Trump_official_portrait.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "original_size": [
+        2250,
+        2850
+      ],
+      "local_file": "photo_trump.jpg"
+    },
+    "xi_jinping": {
+      "person_id": "xi_jinping",
+      "name_ko": "시진핑",
+      "name_en": "Xi Jinping",
+      "commons_title": "File:Xi Jinping in July 2024.jpg",
+      "license": "CC BY 4.0",
+      "usage_terms": "Creative Commons Attribution 4.0",
+      "artist": "Press Service of the President of the Republic of Azerbaijan",
+      "credit": "Astanada İlham Əliyevin Çin Xalq Respublikasının Sədri Si Cinpin ilə görüşü keçirilib",
+      "source_page": "https://commons.wikimedia.org/wiki/File:Xi_Jinping_in_July_2024.jpg",
+      "image_url": "https://upload.wikimedia.org/wikipedia/commons/5/52/Xi_Jinping_in_July_2024.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+      "original_size": [
+        794,
+        1089
+      ],
+      "local_file": "photo_xi_jinping.jpg"
+    },
+    "putin": {
+      "person_id": "putin",
+      "name_ko": "블라디미르 푸틴",
+      "name_en": "Vladimir Putin",
+      "commons_title": "File:Vladimir Putin portrait (2024-02-23).png",
+      "license": "CC BY 4.0",
+      "usage_terms": "Creative Commons Attribution 4.0",
+      "artist": "This file comes from the website of the President of the Russian Federation and is licensed under the Creative Commons Attribution 4.0 License. In short: you are free to distribute and modify the file as long as you attribute www.kremlin.ru. Note: Works published on site before April 8, 2015 are also licensed under Creative Commons Attribution 3.0 License. The permission letter from the Press Secretary for the President of the Russian Federation is available here.",
+      "credit": "http://en.kremlin.ru/events/president/news/73529/photos",
+      "source_page": "https://commons.wikimedia.org/wiki/File:Vladimir_Putin_portrait_(2024-02-23).png",
+      "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a3/Vladimir_Putin_portrait_%282024-02-23%29.png/1280px-Vladimir_Putin_portrait_%282024-02-23%29.png?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "original_size": [
+        2000,
+        2812
+      ],
+      "local_file": "photo_putin.jpg"
+    },
+    "powell": {
+      "person_id": "powell",
+      "name_ko": "제롬 파월",
+      "name_en": "Jerome Powell",
+      "commons_title": "File:Jerome H. Powell, Federal Reserve Chair (cropped).jpg",
+      "license": "Public domain",
+      "usage_terms": "Public domain",
+      "artist": "Federalreserve",
+      "credit": "Official portrait of Jerome H. Powell, Chair: Powell_Jerome_Aug_16_22-674_8x10",
+      "source_page": "https://commons.wikimedia.org/wiki/File:Jerome_H._Powell,_Federal_Reserve_Chair_(cropped).jpg",
+      "image_url": "https://upload.wikimedia.org/wikipedia/commons/f/f0/Jerome_H._Powell%2C_Federal_Reserve_Chair_%28cropped%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+      "original_size": [
+        864,
+        1191
+      ],
+      "local_file": "photo_powell.jpg"
+    },
+    "warsh": {
+      "person_id": "warsh",
+      "name_ko": "케빈 워시",
+      "name_en": "Kevin Warsh",
+      "commons_title": "File:Official portrait of Kevin M. Warsh (cropped).jpg",
+      "license": "Public domain",
+      "usage_terms": "Public domain",
+      "artist": "Federalreserve",
+      "credit": "https://www.flickr.com/photos/federalreserve/55341882470/",
+      "source_page": "https://commons.wikimedia.org/wiki/File:Official_portrait_of_Kevin_M._Warsh_(cropped).jpg",
+      "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/77/Official_portrait_of_Kevin_M._Warsh_%28cropped%29.jpg/1280px-Official_portrait_of_Kevin_M._Warsh_%28cropped%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "original_size": [
+        1776,
+        2298
+      ],
+      "local_file": "photo_warsh.jpg"
+    },
+    "jensen_huang": {
+      "person_id": "jensen_huang",
+      "name_ko": "젠슨 황",
+      "name_en": "Jensen Huang",
+      "commons_title": "File:Jensen Huang (cropped) (2024).jpg",
+      "license": "CC BY 4.0",
+      "usage_terms": "Creative Commons Attribution 4.0",
+      "artist": "Photographer: Peter Dasilva",
+      "credit": "Visit of Josep Borrell Fontelles, Vice-President of the European Commission, to the United States",
+      "source_page": "https://commons.wikimedia.org/wiki/File:Jensen_Huang_(cropped)_(2024).jpg",
+      "image_url": "https://upload.wikimedia.org/wikipedia/commons/5/59/Jensen_Huang_%28cropped%29_%282024%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+      "original_size": [
+        1129,
+        1678
+      ],
+      "local_file": "photo_jensen_huang.jpg"
+    },
+    "chey_tae_won": {
+      "person_id": "chey_tae_won",
+      "name_ko": "최태원",
+      "name_en": "Chey Tae-won",
+      "commons_title": "File:Korea Portuguese Business Forum 01 (cropped).jpg",
+      "license": "CC BY-SA 2.0",
+      "usage_terms": "Creative Commons Attribution-Share Alike 2.0",
+      "artist": "Republic of Korea",
+      "credit": "https://www.flickr.com/photos/koreanet/52811274709/",
+      "source_page": "https://commons.wikimedia.org/wiki/File:Korea_Portuguese_Business_Forum_01_(cropped).jpg",
+      "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a0/Korea_Portuguese_Business_Forum_01_%28cropped%29.jpg/1280px-Korea_Portuguese_Business_Forum_01_%28cropped%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "original_size": [
+        1306,
+        1630
+      ],
+      "local_file": "photo_chey_tae_won.jpg"
+    },
+    "zelensky": {
+      "person_id": "zelensky",
+      "name_ko": "볼로디미르 젤렌스키",
+      "name_en": "Volodymyr Zelenskyy",
+      "commons_title": "File:Volodymyr Zelensky Official portrait.jpg",
+      "license": "CC BY 4.0",
+      "usage_terms": "Creative Commons Attribution 4.0",
+      "artist": "http://www.president.gov.ua/",
+      "credit": "https://www.president.gov.ua/en/president/biografiya",
+      "source_page": "https://commons.wikimedia.org/wiki/File:Volodymyr_Zelensky_Official_portrait.jpg",
+      "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9c/Volodymyr_Zelensky_Official_portrait.jpg/1280px-Volodymyr_Zelensky_Official_portrait.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "original_size": [
+        3488,
+        4724
+      ],
+      "local_file": "photo_zelensky.jpg"
+    },
+    "netanyahu": {
+      "person_id": "netanyahu",
+      "name_ko": "베냐민 네타냐후",
+      "name_en": "Benjamin Netanyahu",
+      "commons_title": "File:Benjamin Netanyahu, February 2023.jpg",
+      "license": "CC BY-SA 3.0",
+      "usage_terms": "Creative Commons Attribution-Share Alike 3.0",
+      "artist": "Avi Ohayon",
+      "credit": "Government Press Office of Israel",
+      "source_page": "https://commons.wikimedia.org/wiki/File:Benjamin_Netanyahu,_February_2023.jpg",
+      "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/74/Benjamin_Netanyahu%2C_February_2023.jpg/1280px-Benjamin_Netanyahu%2C_February_2023.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "original_size": [
+        2024,
+        2947
+      ],
+      "local_file": "photo_netanyahu.jpg"
+    },
+    "khamenei": {
+      "person_id": "khamenei",
+      "name_ko": "알리 하메네이",
+      "name_en": "Ali Khamenei",
+      "commons_title": "File:Ali Khamenei Nowruz message official portrait 1397 02 (cropped).jpg",
+      "license": "CC BY 4.0",
+      "usage_terms": "Creative Commons Attribution 4.0",
+      "artist": "khamenei.ir",
+      "credit": "http://farsi.khamenei.ir/photo-album?id=36022#i",
+      "source_page": "https://commons.wikimedia.org/wiki/File:Ali_Khamenei_Nowruz_message_official_portrait_1397_02_(cropped).jpg",
+      "image_url": "https://upload.wikimedia.org/wikipedia/commons/8/87/Ali_Khamenei_Nowruz_message_official_portrait_1397_02_%28cropped%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+      "original_size": [
+        1183,
+        1577
+      ],
+      "local_file": "photo_khamenei.jpg"
+    },
+    "macron": {
+      "person_id": "macron",
+      "name_ko": "에마뉘엘 마크롱",
+      "name_en": "Emmanuel Macron",
+      "commons_title": "File:Emmanuel Macron par Claude Truong-Ngoc avril 2015.jpg",
+      "license": "CC BY-SA 3.0",
+      "usage_terms": "Creative Commons Attribution-Share Alike 3.0",
+      "artist": "Photo Claude TRUONG-NGOC",
+      "credit": "Own work",
+      "source_page": "https://commons.wikimedia.org/wiki/File:Emmanuel_Macron_par_Claude_Truong-Ngoc_avril_2015.jpg",
+      "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f4/Emmanuel_Macron_par_Claude_Truong-Ngoc_avril_2015.jpg/1280px-Emmanuel_Macron_par_Claude_Truong-Ngoc_avril_2015.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "original_size": [
+        3663,
+        5494
+      ],
+      "local_file": "photo_macron.jpg"
+    },
+    "rhee_chang_yong": {
+      "person_id": "rhee_chang_yong",
+      "name_ko": "이창용",
+      "name_en": "Rhee Chang-yong",
+      "commons_title": "File:이창용교수.jpg",
+      "license": "CC BY-SA 4.0",
+      "usage_terms": "Creative Commons Attribution-Share Alike 4.0",
+      "artist": "Sock7458",
+      "credit": "Own work",
+      "source_page": "https://commons.wikimedia.org/wiki/File:%EC%9D%B4%EC%B0%BD%EC%9A%A9%EA%B5%90%EC%88%98.jpg",
+      "image_url": "https://upload.wikimedia.org/wikipedia/commons/a/af/%EC%9D%B4%EC%B0%BD%EC%9A%A9%EA%B5%90%EC%88%98.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+      "original_size": [
+        510,
+        800
+      ],
+      "local_file": "photo_rhee_chang_yong.jpg"
+    },
+    "lee_jae_yong": {
+      "person_id": "lee_jae_yong",
+      "name_ko": "이재용",
+      "name_en": "Lee Jae-yong",
+      "commons_title": "File:Lee Jae-yong in 2016.jpg",
+      "license": "CC BY 3.0",
+      "usage_terms": "Creative Commons Attribution 3.0",
+      "artist": "KBS",
+      "credit": "YouTube: https://www.youtube.com/watch?v=qdpz2-KdVMo – View/save archived versions on archive.org",
+      "source_page": "https://commons.wikimedia.org/wiki/File:Lee_Jae-yong_in_2016.jpg",
+      "image_url": "https://upload.wikimedia.org/wikipedia/commons/d/de/Lee_Jae-yong_in_2016.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+      "original_size": [
+        342,
+        493
+      ],
+      "local_file": "photo_lee_jae_yong.jpg"
+    },
+    "altman": {
+      "person_id": "altman",
+      "name_ko": "샘 올트먼",
+      "name_en": "Sam Altman",
+      "commons_title": "File:Sam Altman CropEdit James Tamim.jpg",
+      "license": "CC BY 2.0",
+      "usage_terms": "Creative Commons Attribution 2.0",
+      "artist": "TechCrunch",
+      "credit": "TechCrunch Disrupt San Francisco 2019 - Day 2",
+      "source_page": "https://commons.wikimedia.org/wiki/File:Sam_Altman_CropEdit_James_Tamim.jpg",
+      "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8d/Sam_Altman_CropEdit_James_Tamim.jpg/1280px-Sam_Altman_CropEdit_James_Tamim.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "original_size": [
+        1998,
+        1999
+      ],
+      "local_file": "photo_altman.jpg"
+    },
+    "zuckerberg": {
+      "person_id": "zuckerberg",
+      "name_ko": "마크 저커버그",
+      "name_en": "Mark Zuckerberg",
+      "commons_title": "File:Mark Zuckerberg F8 2018 Keynote (cropped).jpg",
+      "license": "CC BY 2.0",
+      "usage_terms": "Creative Commons Attribution 2.0",
+      "artist": "Anthony Quintano from Honolulu, HI, United States",
+      "credit": "Mark Zuckerberg F8 2018 Keynote",
+      "source_page": "https://commons.wikimedia.org/wiki/File:Mark_Zuckerberg_F8_2018_Keynote_(cropped).jpg",
+      "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c4/Mark_Zuckerberg_F8_2018_Keynote_%28cropped%29.jpg/1280px-Mark_Zuckerberg_F8_2018_Keynote_%28cropped%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "original_size": [
+        2024,
+        2025
+      ],
+      "local_file": "photo_zuckerberg.jpg"
+    },
+    "musk": {
+      "person_id": "musk",
+      "name_ko": "일론 머스크",
+      "name_en": "Elon Musk",
+      "commons_title": "File:Elon Musk Royal Society (crop2).jpg",
+      "license": "CC BY-SA 3.0",
+      "usage_terms": "Creative Commons Attribution-Share Alike 3.0",
+      "artist": "Debbie Rowe",
+      "credit": "Own work",
+      "source_page": "https://commons.wikimedia.org/wiki/File:Elon_Musk_Royal_Society_(crop2).jpg",
+      "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/34/Elon_Musk_Royal_Society_%28crop2%29.jpg/1280px-Elon_Musk_Royal_Society_%28crop2%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "original_size": [
+        1337,
+        1771
+      ],
+      "local_file": "photo_musk.jpg"
+    },
+    "lagarde": {
+      "person_id": "lagarde",
+      "name_ko": "크리스틴 라가르드",
+      "name_en": "Christine Lagarde",
+      "commons_title": "File:Lagarde, Christine (official portrait 2011).jpg",
+      "license": "Public domain",
+      "usage_terms": "Public domain",
+      "artist": "Français : Fonds monétaire international (identité du photographe non mentionnée)",
+      "credit": "http://www.imf.org/external/np/adm/pictures/caption2.htm",
+      "source_page": "https://commons.wikimedia.org/wiki/File:Lagarde,_Christine_(official_portrait_2011).jpg",
+      "image_url": "https://upload.wikimedia.org/wikipedia/commons/6/63/Lagarde%2C_Christine_%28official_portrait_2011%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+      "original_size": [
+        1200,
+        1541
+      ],
+      "local_file": "photo_lagarde.jpg"
+    },
+    "tim_cook": {
+      "person_id": "tim_cook",
+      "name_ko": "팀 쿡",
+      "name_en": "Tim Cook",
+      "commons_title": "File:Visit of Tim Cook to the European Commission - P061904-946789.jpg",
+      "license": "CC BY 4.0",
+      "usage_terms": "Creative Commons Attribution 4.0",
+      "artist": "European Commission - Photographer: Christophe Licoppe",
+      "credit": "https://audiovisual.ec.europa.eu/en/reportage/P-061904 (archive, archive)",
+      "source_page": "https://commons.wikimedia.org/wiki/File:Visit_of_Tim_Cook_to_the_European_Commission_-_P061904-946789.jpg",
+      "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8e/Visit_of_Tim_Cook_to_the_European_Commission_-_P061904-946789.jpg/1280px-Visit_of_Tim_Cook_to_the_European_Commission_-_P061904-946789.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "original_size": [
+        2667,
+        4000
+      ],
+      "local_file": "photo_tim_cook.jpg"
+    },
+    "bezos": {
+      "person_id": "bezos",
+      "name_ko": "제프 베이조스",
+      "name_en": "Jeff Bezos",
+      "commons_title": "File:Jeff Bezos' iconic laugh crop.jpg",
+      "license": "CC BY 2.0",
+      "usage_terms": "Creative Commons Attribution 2.0",
+      "artist": "Jeff_Bezos'_iconic_laugh.jpg: Steve Jurvetson derivative work: King of Hearts",
+      "credit": "This file was derived from: Jeff Bezos' iconic laugh.jpg:",
+      "source_page": "https://commons.wikimedia.org/wiki/File:Jeff_Bezos%27_iconic_laugh_crop.jpg",
+      "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/91/Jeff_Bezos%27_iconic_laugh_crop.jpg/1280px-Jeff_Bezos%27_iconic_laugh_crop.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "original_size": [
+        1500,
+        1800
+      ],
+      "local_file": "photo_bezos.jpg"
+    }
+  },
+  "pending_manual": {
+    "kim_jong_un": "Commons 후보가 (a) 분장 배우(임퍼서네이터) 사진이거나 (b) restrictions='personality|communist' 로 차단됨. 사용자 판단 필요."
+  }
+}

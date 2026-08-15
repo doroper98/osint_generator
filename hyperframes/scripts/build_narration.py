@@ -182,6 +182,17 @@ def synth_one(text: str, api_key: str, voice_id: str, model_id: str,
         overrides["style"] = float(v)
     if (v := os.environ.get("ELEVENLABS_USE_SPEAKER_BOOST")):
         overrides["use_speaker_boost"] = v.strip().lower() in ("1", "true", "yes")
+    # v1.0.10 — 나레이션 밀도 규칙(계획 §5.4)의 보조 레버. 1.0 = 목소리 기본 속도.
+    # 상한 1.10 을 권고한다: 과속하면 "또박또박한 딕션"(§7 확정 톤)을 스스로 깎는다.
+    # 주 레버는 속도가 아니라 긴 문장의 결정론적 분할(§5.4.2-1)이다.
+    if (v := os.environ.get("ELEVENLABS_SPEED")):
+        speed = float(v)
+        if not 0.7 <= speed <= 1.2:
+            raise ValueError(
+                f"ELEVENLABS_SPEED={speed} 는 허용 범위(0.7~1.2) 밖입니다. "
+                f"계획 §5.4.2 는 1.10 이하를 권고합니다."
+            )
+        overrides["speed"] = speed
     if overrides:
         payload["voice_settings"] = overrides
 
