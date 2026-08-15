@@ -13,6 +13,7 @@
 
 from __future__ import annotations
 
+import re
 from datetime import datetime, timezone
 from enum import Enum
 from typing import Any, Literal, Optional
@@ -1387,12 +1388,37 @@ class SafeArea(BaseModel):
     right: int = 140
 
 
+# --- 명명 규약 (17 §0) — 문서와 코드가 갈라지지 않도록 기계가 집행한다 ------------
+
+#: §0.1 시트 ID 문법 — {format}_{concept}_v{gen}
+SHEET_ID_RE = re.compile(r"^(?P<format>shorts|briefing)_[a-z][a-z0-9]*(?:_[a-z0-9]+)*_v\d+$")
+
+#: §0.2 토큰 키 문법 — {group}_{name}[_{unit}]
+TOKEN_KEY_RE = re.compile(r"^(?P<group>[a-z]+)_[a-z0-9]+(?:_[a-z0-9]+)*$")
+
+#: §0.2 색 토큰 그룹 (palette 전용)
+PALETTE_GROUPS: frozenset[str] = frozenset(
+    {"paper", "ink", "accent", "stamp", "mark", "prop", "bg"}
+)
+
+#: §0.2 motion 수치 토큰의 단위 접미어. 값이 단일 스칼라임을 이름으로 보증한다.
+MOTION_UNIT_SUFFIXES: tuple[str, ...] = (
+    "_ms", "_px", "_deg", "_fps", "_pct", "_scale", "_count",
+)
+
+
+def css_var_name(token_key: str) -> str:
+    """§0.3 토큰 키 → CSS 변수명 (기계적 1:1, 예외 없음)."""
+    return "--" + token_key.replace("_", "-")
+
+
 class DesignSheet(VersionedModel):
     """디자인 시트 L1 토큰의 직렬화 형식 — 씬 조립기가 하드코딩 대신 본 시트를 읽는다.
 
     값의 SSOT 는 docs/17_COLLAGE_DESIGN_SHEET.md 이며 본 모델은 그 운반 형식.
-    palette/typography/motion 은 open key-value (BundleTheme.tokens 전례) —
-    키 목록·의미는 17 문서가 정의한다.
+    palette/typography/motion 은 open key-value 지만 **키 이름은 17 §0 명명 규약을
+    validator 가 강제**한다 (v1.0.6) — 시트가 재사용되는 어휘집이므로 이름이 규칙 없이
+    늘어나면 재활용 시점에 전수 개명이 필요해지기 때문.
     """
 
     sheet_id: str                           # 예: "shorts_collage_v1"
@@ -1405,3 +1431,72 @@ class DesignSheet(VersionedModel):
     typography: dict[str, str] = Field(default_factory=dict)
     motion: dict[str, float] = Field(default_factory=dict)
     texture_refs: list[str] = Field(default_factory=list)   # assets/library/textures/*
+
+    @model_validator(mode="after")
+    def _check_naming(self) -> "DesignSheet":
+        """17 §0 명명 규약 집행."""
+        # §0.1 — sheet_id 문법 + format 필드와의 접두어 일치.
+        m = SHEET_ID_RE.match(self.sheet_id)
+        if not m:
+            raise ValueError(
+                f"sheet_id 명명 규약 위반 (17 §0.1 '{{format}}_{{concept}}_v{{gen}}'): "
+                f"{self.sheet_id!r}"
+            )
+        if m.group("format") != self.format:
+            raise ValueError(
+                f"sheet_id 의 format 접두어({m.group('format')!r}) 가 format 필드"
+                f"({self.format!r}) 와 불일치 (17 §0.1)"
+            )
+
+        # §0.2 — 그룹별 키 문법.
+        for group_label, keys, allowed in (
+            ("palette", self.palette.keys(), PALETTE_GROUPS),
+            ("typography", self.typography.keys(), frozenset({"type"})),
+            ("motion", self.motion.keys(), frozenset({"motion"})),
+        ):
+            for key in keys:
+                km = TOKEN_KEY_RE.match(key)
+                if not km:
+                    raise ValueError(
+                        f"{group_label} 토큰 키 문법 위반 (17 §0.2 "
+                        f"'{{group}}_{{name}}', lowercase snake): {key!r}"
+                    )
+                if km.group("group") not in allowed:
+                    raise ValueError(
+                        f"{group_label} 토큰 {key!r} 의 그룹 접두어 "
+                        f"{km.group('group')!r} 은 허용 목록 {sorted(allowed)} 밖 (17 §0.2)"
+                    )
+
+        # §0.2 — motion 수치 토큰은 단위 접미어 필수 (단일 스칼라 보증).
+        for key in self.motion:
+            if not key.endswith(MOTION_UNIT_SUFFIXES):
+                raise ValueError(
+                    f"motion 토큰 {key!r} 에 단위 접미어가 없음 (17 §0.2, 허용: "
+                    f"{', '.join(MOTION_UNIT_SUFFIXES)}). 범위·복수값은 토큰을 쪼갤 것"
+                )
+        return self
+
+    def to_css_vars(self) -> dict[str, str]:
+        """§0.3 — 컴포지션에 주입할 CSS 변수 사전.
+
+        "CSS 에만 있고 시트에 없는 변수" 를 원천 차단하기 위해, 컴포지션은 하드코딩된
+        `:root` 대신 본 산출을 주입받는다.
+        """
+        out: dict[str, str] = {}
+        for key, value in self.palette.items():
+            out[css_var_name(key)] = value
+        for key, value in self.typography.items():
+            out[css_var_name(key)] = value
+        for key, value in self.motion.items():
+            # float 는 정수값이면 정수로 (CSS 에 "220.0" 대신 "220").
+            out[css_var_name(key)] = (
+                str(int(value)) if float(value).is_integer() else str(value)
+            )
+        for name, value in (
+            ("safe_top", self.safe_area.top),
+            ("safe_bottom", self.safe_area.bottom),
+            ("safe_left", self.safe_area.left),
+            ("safe_right", self.safe_area.right),
+        ):
+            out[css_var_name(name)] = f"{value}px"
+        return out

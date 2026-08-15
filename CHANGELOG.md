@@ -1,6 +1,6 @@
 <!--
 tier: 3
-last_synced_with: v0.43.3
+last_synced_with: v1.0.6
 ssot_for: [release-notes]
 depends_on: [README.md, GOAL.md]
 last_review: 2026-06-11
@@ -25,6 +25,35 @@ released 항목은 **append-only**입니다.
 
 ### Fixed
 -
+
+---
+
+## [v1.0.6] — 2026-08-15
+
+### Added
+- **디자인 시트 명명 규약 (17 §0 신설)** — 사용자 지시("시트 자체와 시트 안 항목들의 명명법을
+  정규화해야 재활용할 수 있다"). 시트 ID 문법(§0.1), 토큰 키 그룹 접두어 9종 + 단위 접미어
+  (§0.2), CSS 변수 기계 매핑(§0.3), 컴포넌트·변형·씬·enum·자산 파일명 규약(§0.4~0.8).
+- `design_sheets/shorts_collage_v1.json` — 규약을 실제로 만족하는 첫 정식 시트.
+- `DesignSheet` validator + `to_css_vars()` — 규약을 문서가 아니라 **코드가 집행**.
+- `tests/test_design_sheet_naming.py` — 25 케이스. 스페시먼이 시트와 갈라지는지도 검사.
+
+### Fixed
+- **시트에 담기지 않던 모션 토큰 4개** — `push_in_scale`(1.0→1.08) / `paper_breath`(scale 3,
+  8s) / `grain_loop`(4장 12fps) / `draw_on`(기법)은 값이 복수이거나 비수치라
+  `motion: dict[str, float]` 에 직렬화되지 못했다. 단위 접미어를 붙인 스칼라로 분해
+  (`motion_push_in_from_scale` / `..._to_scale` 등 12개).
+- **코드에만 있던 토큰 2개를 정규 흡수** — `--paper-card`, `--hl-yellow` 는 17 §1.2 팔레트에
+  없었다 → `paper_card`, `mark_highlighter`. `--hl-yellow` 는 그나마 `var()` 로 한 번도
+  쓰이지 않고 실제 색은 SVG data URI 5곳에 하드코딩돼 있었다 → 회귀 테스트로 고정.
+- **문서 기술 오류** — 17 §1.2 는 `string_red` 가 "붉은 실·형광펜"을 겸한다고 적었으나 실제
+  형광펜은 노란색이었다. `prop_string` / `mark_pen` / `mark_highlighter` 로 분리.
+
+### Changed
+- `specimen_typo.html` CSS 변수를 §0.3 매핑으로 개명 (`--ink`→`--ink-base`,
+  `--tape`→`--prop-tape`, `--string-red`→`--mark-pen`/`--prop-date-chip`). 렌더 결과 동일.
+- `workshop/AGENTS.md` 산출 규격을 §0.8 과 정합화 — 라이브러리 승격본 파일명에서 섀도를
+  제거(섀도는 런타임 합성이라 파일명에 박으면 액센트 가변 설계와 모순).
 
 ---
 
@@ -2408,8 +2437,8 @@ PATCH).
 ### Changed
 
 - **`VERSION`** 0.5.3 → 0.5.4.
-- **`CHANGELOG.md`** `last_synced_with: v0.5.4`.
-- **`DEVLOG.md`** `last_synced_with: v0.5.4`.
+- **`CHANGELOG.md`** `last_synced_with: v1.0.6`.
+- **`DEVLOG.md`** `last_synced_with: v1.0.6`.
 
 ---
 
@@ -2470,7 +2499,7 @@ Phase 5 의 두 번째 PATCH. SourceCollectionPartial[] 을 정식 SourceRegistr
 ### Changed
 
 - **`VERSION`** 0.5.2 → 0.5.3.
-- **`CHANGELOG.md`** `last_synced_with: v0.5.3`, `last_review: 2026-05-23`.
+- **`CHANGELOG.md`** `last_synced_with: v1.0.6`, `last_review: 2026-05-23`.
 
 ### Test baseline
 
@@ -3086,7 +3115,7 @@ C5.4 의 MINOR 트리거 두 가지 (Phase 완료 + 새 Worker 추가) 가 동�
   `agents/dynamic_intake_planner.py` → `workers/intake_planner_worker.py (BaseLLMWorker)` 로 갱신.
   Worker 카탈로그 §3 에 Intake Planner 행 추가 (Phase 3, slot 1개, LLM 호출이므로 parallelizable
   ❌ 표기 — Worker Slot Manager 가 별도 slot 으로 격리할지는 Phase 4 결정 사항).
-- 모든 Tier 1·2·3 마크다운/HTML `last_synced_with: v0.2.* → v0.3.0` 일괄 갱신 (36 파일).
+- 모든 Tier 1·2·3 마크다운/HTML `last_synced_with: v1.0.6* → v0.3.0` 일괄 갱신 (36 파일).
 
 ### Notes
 - `schemas/models.py` 의 IntakePlan / IntakePlanItem / UserDecision / SourceIntake 는 Phase 0 부터
@@ -3166,7 +3195,7 @@ Codex 2차 리뷰 (3-way 통합 검수) 의 High 2건 중 코드 측 H2 반영. 
 ### Changed
 - **`orchestrator/project_manager.py:_write_manifest`** atomic write 화. `path.write_text` 직접 호출 → tmp 파일에 쓴 뒤 `Path.replace` 로 교체. 외부 reader (TUI 라이브 reload) 가 half-written 상태를 보는 race 차단. POSIX rename / Windows `os.replace` 모두 atomic.
 - `docs/ANTIPATTERNS/README.md` SCHEMA-AP 줄을 "Phase 2부터" → "Phase 2 v0.2.7 신설, SCHEMA-AP-001~" 로 갱신.
-- 모든 Tier 1·2·3 마크다운 `last_synced_with: v0.3.0 → v0.2.7` 일괄 갱신.
+- 모든 Tier 1·2·3 마크다운 `last_synced_with: v1.0.6 → v0.2.7` 일괄 갱신.
 
 ### Fixed
 - TUI 가 외부 `transition` CLI 호출 후에도 stale state 를 표시하던 문제.
@@ -3377,7 +3406,7 @@ Codex 2차 리뷰 (3-way 통합 검수) 의 High 2건 중 코드 측 H2 반영. 
 ### Changed
 - GitHub default branch 가 `main` 으로 통합됨에 따라 로컬 브랜치도 `main` 으로 rename, `branches.html:BRANCH_DESCRIPTIONS` 도 갱신.
 - `branches.html:loadVersion` 이 raw.githubusercontent.com 대신 `/contents/VERSION` API 를 사용하도록 변경 (Private 저장소에서도 Bearer 인증으로 동작).
-- 모든 Tier 1·2·3 마크다운/HTML 의 `last_synced_with: v0.1.0 → v0.1.1` 동기화.
+- 모든 Tier 1·2·3 마크다운/HTML 의 `last_synced_with: v1.0.6 → v0.1.1` 동기화.
 
 ### Fixed
 - 없음 (Phase 1 PIPELINE-AP-006 은 v0.1.0 안에서 fix 됨).

@@ -20,15 +20,21 @@
   }
 
   /* ---------------------------------------------------------------- L1 토큰 */
+  /* 변수명은 17 §0.3 매핑(token_key ↔ --token-key)을 따른다. 값의 SSOT 는
+     design_sheets/shorts_collage_v1.json — 여기 사본이 갈라지면 회귀 테스트가 잡는다.
+     (v1.0.6 개명: --ink→--ink-base, --tape→--prop-tape,
+      --string-red→--mark-pen/--prop-date-chip, --hl-yellow→--mark-highlighter) */
   :root {
-    --paper-crumpled: #DDD3BD;
-    --paper-card:     #F4EFE3;   /* 카드 흰 종이 */
-    --ink:            #1C1A17;
-    --ink-soft:       #4A443B;
-    --tape:           #D8D2BFcc;
-    --string-red:     #B03A2E;
-    --hl-yellow:      #F2D24B;
-    --stamp-confirm:  #1C1A17;   /* 07 §6 <확인> = 검정 스탬프 + 흰 글씨 */
+    --paper-crumpled:   #DDD3BD;
+    --paper-card:       #F4EFE3;   /* 카드 흰 종이 */
+    --ink-base:         #1C1A17;
+    --ink-soft:         #4A443B;
+    --prop-tape:        #D8D2BFcc;
+    --prop-date-chip:   #B03A2E;
+    --mark-pen:         #B03A2E;   /* 펜 밑줄·동그라미·화살표 */
+    --mark-highlighter: #F2D24B;   /* 형광펜 — .hl-v0~v3 의 data URI 안에도 같은 값이
+                                      복제돼 있다 (SVG data URI 는 var() 불가) */
+    --stamp-confirm:    #1C1A17;   /* 07 §6 <확인> = 검정 스탬프 + 흰 글씨 */
     --safe-top:    220px;
     --safe-bottom: 350px;
     --safe-left:    60px;
@@ -46,7 +52,7 @@
   body {
     position: relative;
     font-family: "Pretendard Variable", Pretendard, sans-serif;
-    color: var(--ink);
+    color: var(--ink-base);
     -webkit-font-smoothing: antialiased;
     text-rendering: geometricPrecision;
   }
@@ -89,7 +95,7 @@
   /* 테이프 1조각 (17 §2 #6 TapeStrip — 씬당 ≤3) */
   .tape {
     position: absolute;
-    background: var(--tape);
+    background: var(--prop-tape);
     box-shadow: 0 1px 2px rgba(28,26,23,0.22);
     /* 찢긴 가장자리 근사 */
     -webkit-mask-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='64' preserveAspectRatio='none' viewBox='0 0 160 64'><path d='M0 3 L14 0 L30 5 L48 1 L66 6 L84 1 L102 5 L120 0 L138 5 L160 2 L160 61 L142 64 L124 59 L106 63 L88 58 L70 63 L52 58 L34 63 L16 59 L0 62 Z' fill='%23fff'/></svg>");
@@ -118,7 +124,7 @@
     position: absolute;
     overflow: visible;
     pointer-events: none;
-    fill: var(--string-red);
+    fill: var(--mark-pen);
     mix-blend-mode: multiply;
   }
   .pen-ul > svg {                    /* 수치에 긋는 손그림 물결 밑줄 */
@@ -141,7 +147,7 @@
     width: 130px; height: 316px;
     overflow: visible;
     z-index: 6;
-    fill: var(--string-red);
+    fill: var(--mark-pen);
     mix-blend-mode: multiply;
   }
 
@@ -155,17 +161,17 @@
   }
   .masthead {
     display: flex; align-items: center; justify-content: space-between;
-    border-bottom: 3px solid var(--ink);
+    border-bottom: 3px solid var(--ink-base);
     padding-bottom: 12px;
   }
   .publisher {
     font-size: 24px; font-weight: 800;
     letter-spacing: 0.11em; white-space: nowrap;
-    color: var(--ink);
+    color: var(--ink-base);
   }
   /* 날짜 칩 — 모서리 살짝 둥근 빨간 사각 + 흰 글씨 */
   .date-chip {
-    background: var(--string-red);
+    background: var(--prop-date-chip);
     color: #FBF7EE;
     font-size: 25px; font-weight: 700;
     letter-spacing: 0.05em;
@@ -215,7 +221,7 @@
   }
   .year-chip {
     font-size: 21px; font-weight: 700; letter-spacing: 0.06em;
-    color: #FBF7EE; background: var(--ink);
+    color: #FBF7EE; background: var(--ink-base);
     padding: 4px 11px 5px; border-radius: 4px;
     transform: rotate(-1.1deg);
   }

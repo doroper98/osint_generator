@@ -19,10 +19,17 @@
    editorial portrait(halftone/engraving 인쇄 질감), 인물 뒤 단일 accent color 의
    silhouette(offset) 또는 outline(감싸는 키라인), 채움은 solid/hatch/dots 중 하나.
    FT·Bloomberg Businessweek·Economist 계열의 정제된 에디토리얼 무드. 패널당 액센트 1색.
-5. **산출 규격**: 라이브러리용 단일 인물 = 세로 4:5, 고해상도. 파일명
-   `output/{person_id}_{shadow_mode}_{fill}_v{NN}.png`. 사용한 프롬프트 전문을
-   `output/{같은이름}.prompt.txt` 로 함께 저장한다 (G4-10 기록 의무 — 등록 시
-   manifest 의 `tool="codex_imagegen"`, `prompt_ref` 로 연결됨).
+5. **산출 규격**: 라이브러리용 단일 인물 = 세로 4:5, 고해상도. 명명은
+   `docs/17_COLLAGE_DESIGN_SHEET.md §0.8` 규약을 따른다.
+
+   | 단계 | 경로 | 비고 |
+   |---|---|---|
+   | 공방 산출 (검수 대기 후보) | `output/{person_id}_{shadow_shape}_{fill}_v{NN}.png` | 검수용이라 섀도가 구워져 있어도 된다 |
+   | 라이브러리 승격본 | `assets/library/people/{person_id}_{style}_v{NN}.png` | **섀도를 파일명에 넣지 않는다** — 17 §1.7 상 섀도는 런타임 합성이고, 파일명에 박으면 액센트가 영상마다 달라지는 설계와 모순된다 |
+
+   `person_id` 는 로마자 lowercase snake (§0.8) — 예: `xi_jinping`, `jensen_huang`.
+   사용한 프롬프트 전문은 산출물과 같은 경로에 `{같은이름}.prompt.txt` 로 저장한다
+   (G4-10 기록 의무 — 등록 시 manifest 의 `tool="codex_imagegen"`, `prompt_ref` 로 연결됨).
 6. **권리**: 입력 사진의 출처·라이선스가 `references/RIGHTS.md` 에 없으면 작업을 멈추고
    보고한다. 산출물은 입력 사진의 권리를 승계한다.
 

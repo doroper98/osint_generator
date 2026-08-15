@@ -1,6 +1,6 @@
 <!--
 tier: 3
-last_synced_with: v0.43.4
+last_synced_with: v1.0.6
 ssot_for: [development-log]
 depends_on: [CHANGELOG.md]
 last_review: 2026-06-06
@@ -22,6 +22,30 @@ last_review: 2026-06-06
 - 결과:  …
 - 연관:  AP-번호, 이슈, PR 번호 등
 ```
+
+---
+
+## 2026-08-15 v1.0.6 — 디자인 시트 명명 규약 정규화 (17 §0)
+
+- **무엇을**: 시트 자체의 ID 문법과 시트에 들어가는 전 항목(토큰·컴포넌트·변형·씬·enum·
+  자산 파일명)의 명명 규약을 17 §0 으로 신설하고, `DesignSheet` validator 로 집행.
+  정식 시트 `design_sheets/shorts_collage_v1.json` + 회귀 25건 신설.
+- **왜**: 사용자 지적 — "스타일 시트 자체의 명명법과 각 항목의 명명법을 정규화해야 나중에
+  재활용할 수 있다." 실제로 규약 부재로 인한 드리프트가 이미 3건 누적돼 있었다.
+- **어떻게**: 그룹 접두어 9종(`paper_`/`ink_`/`accent_`/`stamp_`/`mark_`/`prop_`/`bg_`/
+  `type_`/`motion_`) + motion 단위 접미어 필수(단일 스칼라 보증) + CSS 변수 기계 매핑
+  (`token_key` ↔ `--token-key`, 예외 없음) + `to_css_vars()` 로 주입.
+- **결과**: 발견·해소한 드리프트 3건 —
+  ① 모션 토큰 7개 중 4개(`push_in_scale`·`paper_breath`·`grain_loop`·`draw_on`)가 복수값·
+     비수치라 `dict[str, float]` 직렬화에서 **유실**되던 것을 스칼라 12개로 분해.
+  ② 코드에만 있던 `--paper-card`·`--hl-yellow` 를 정규 토큰으로 흡수.
+  ③ 문서가 `string_red` 를 "붉은 실·형광펜" 겸용으로 기술했으나 실제 형광펜은 노란색 —
+     `prop_string`/`mark_pen`/`mark_highlighter` 로 분리.
+  스페시먼 개명 후 재렌더 결과는 개명 전과 동일(순수 리네임 확인). 420 중 418 통과 —
+  잔여 2건은 본 변경과 무관한 기존 환경 의존 실패(`test_audio_flow` 가 사용자 `.env` 의
+  실제 ElevenLabs 키·voice ID 를 읽어 "키 없음" 가정이 깨짐).
+- **연관**: docs/17_COLLAGE_DESIGN_SHEET.md §0, schemas/models.py `DesignSheet`,
+  tests/test_design_sheet_naming.py, v1.0.5.
 
 ---
 
@@ -1767,7 +1791,7 @@ last_review: 2026-06-06
     6. 관련 문서
     프롬프트는 영문 고정 — codex 의 reasoning 일관성 + Windows 한글 코드페이지 이슈 회피.
   - **HANDOFF.md 전면 갱신**:
-    - `last_synced_with: v0.3.0 → v0.2.6`, `depends_on` 에 `docs/REVIEW_PROMPT.md` 추가.
+    - `last_synced_with: v1.0.6 → v0.2.6`, `depends_on` 에 `docs/REVIEW_PROMPT.md` 추가.
     - "1. 지금 어디까지 와 있나" 표에 v0.2.3 / v0.2.4 / v0.2.5 / v0.2.6 4 행 추가.
     - 알려진 antipattern 카탈로그 갱신 (LLM-AP-001/002/003 상태 명시).
     - "2. 다음 작업" 절을 v0.2.3/Phase 3 양자택일 → **Phase 3 (v0.3.0) IntakePlannerWorker 단독** 으로 교체. 도메인 모델 4 종, Worker 명세, 웹 페이지, CLI 확장, DoD 7 항목, 알려진 risk 4 종, Phase 4 예고 포함. 대안 절 (LLM-AP-003 후속 보안 강화 먼저) 도 명시.
@@ -2467,7 +2491,7 @@ last_review: 2026-06-06
     cross input_item_id / intra source_id / project_id / schema_version) +
     counter 3 + 충돌 검출 순서 1 + 보조 케이스 2.
   - VERSION 0.5.2 → 0.5.3. `__version__` 은 SSOT (VERSION) 에서 자동 갱신.
-  - CHANGELOG / DEVLOG `last_synced_with: v0.5.3`.
+  - CHANGELOG / DEVLOG `last_synced_with: v1.0.6`.
 - **결과**:
   - py_compile 통과.
   - 전체 unittest = **167/167 통과** (직전 148 + 신규 19).
