@@ -269,11 +269,100 @@ def download(url: str, dest: pathlib.Path) -> int:
     raise RuntimeError("unreachable")
 
 
+def adopt(args) -> int:
+    """사용자가 직접 준 사진을 권리 기록과 함께 등록한다.
+
+    Commons 에 쓸 만한 자유 라이선스 사진이 없거나(이재용), restrictions 로 자동
+    차단된 인물(김정은)을 사람 판단으로 통과시키는 경로. **출처·라이선스 없이는
+    등록하지 않는다** (C9) — 파일만 받고 권리를 비워두면 나중에 추적이 불가능해진다.
+    """
+    src = pathlib.Path(args.file).expanduser()
+    if not src.is_file():
+        print(f"error: 파일 없음 — {src}")
+        return 1
+
+    known = {p["id"] for p in PEOPLE}
+    if args.adopt not in known:
+        print(f"error: 알 수 없는 person_id {args.adopt!r}. 가능: {sorted(known)}")
+        return 1
+
+    try:
+        from PIL import Image
+
+        with Image.open(src) as im:
+            w, h = im.size
+            fmt = im.format
+    except Exception as e:  # noqa: BLE001
+        print(f"error: 이미지로 열 수 없음 — {type(e).__name__}: {e}")
+        return 1
+
+    if min(w, h) < MIN_DIMENSION:
+        print(f"  ! 경고: {w}x{h} — 권장 최소 변 {MIN_DIMENSION}px 미만. "
+              f"고대비 모노톤 가공 시 얼굴이 뭉개질 수 있습니다.")
+
+    person = next(p for p in PEOPLE if p["id"] == args.adopt)
+    REFS.mkdir(parents=True, exist_ok=True)
+    dest = REFS / f"photo_{args.adopt}.jpg"
+    dest.write_bytes(src.read_bytes())
+
+    records: dict[str, dict] = {}
+    extra: dict = {}
+    if MANIFEST.exists():
+        loaded = json.loads(MANIFEST.read_text(encoding="utf-8"))
+        records = loaded.get("people", {})
+        extra = {k: v for k, v in loaded.items() if k != "people"}
+
+    records[args.adopt] = {
+        "person_id": args.adopt,
+        "name_ko": person["ko"],
+        "name_en": person["en"],
+        "commons_title": "",
+        "license": args.license,
+        "usage_terms": args.license,
+        "artist": args.artist,
+        "credit": args.credit or args.artist,
+        "source_page": args.source,
+        "image_url": "",
+        "original_size": [w, h],
+        "local_file": dest.name,
+        "adopted_by_user": True,
+        "adopt_note": args.note,
+    }
+    extra.get("pending_manual", {}).pop(args.adopt, None)
+
+    MANIFEST.write_text(
+        json.dumps({**extra, "people": records}, ensure_ascii=False, indent=2) + "\n",
+        encoding="utf-8",
+    )
+    print(f"[adopt] {dest.name}  {w}x{h} {fmt}  |  {args.license}")
+    print(f"        출처: {args.source}")
+    print(f"        저작자: {args.artist}")
+    print(f"[manifest] {MANIFEST}  ({len(records)}인)")
+    print("\n다음: python assets/library/workshop/make_contact_sheet.py 로 육안 재검수")
+    return 0
+
+
 def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument("--dry-run", action="store_true", help="조회만 하고 내려받지 않음")
     ap.add_argument("--only", nargs="*", help="특정 person_id 만")
+    ap.add_argument("--adopt", metavar="PERSON_ID",
+                    help="사용자 제공 사진을 등록 (Commons 검색 대신)")
+    ap.add_argument("--file", help="--adopt 용 이미지 경로")
+    ap.add_argument("--source", default="", help="--adopt 용 출처 URL 또는 설명 (필수)")
+    ap.add_argument("--license", default="", help="--adopt 용 라이선스 표기 (필수)")
+    ap.add_argument("--artist", default="", help="--adopt 용 저작자/촬영자")
+    ap.add_argument("--credit", default="", help="--adopt 용 크레딧 표기 (생략 시 artist)")
+    ap.add_argument("--note", default="", help="--adopt 용 사용자 판단 메모 (초상권 등)")
     args = ap.parse_args()
+
+    if args.adopt:
+        missing = [n for n in ("file", "source", "license") if not getattr(args, n)]
+        if missing:
+            print(f"error: --adopt 에는 {', '.join('--' + m for m in missing)} 가 필요합니다.\n"
+                  f"       권리 기록 없는 사진은 등록하지 않습니다 (C9).")
+            return 1
+        return adopt(args)
 
     targets = PEOPLE
     if args.only:
