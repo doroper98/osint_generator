@@ -1297,6 +1297,9 @@ class LibraryAssetVariant(BaseModel):
     pose: str = "front"                     # front / side / point 등
     path: str                               # 저장소 상대 경로 (assets/library/...)
     generator_version: str = ""             # engraving_stylizer 버전 (재현성)
+    # v1.0.0 (G4-10 개정): 가공 도구·프롬프트 기록 의무 — ChatGPT 가공 자산 추적 (계획 §2.0)
+    tool: str = "procedural"                # "procedural" | "chatgpt_image" 등
+    prompt_ref: str = ""                    # 프롬프트 사본 파일 경로 (ChatGPT 가공 시 필수)
 
 
 class LibraryPerson(BaseModel):
