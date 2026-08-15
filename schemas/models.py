@@ -1309,8 +1309,10 @@ class LibraryPerson(BaseModel):
     name_en: str = ""
     role: str = ""                          # 자막 소개용 직함 (예: "미국 대통령")
     aliases: list[str] = Field(default_factory=list)   # 엔티티 매칭용 표기 변형
+    accent_hint: str = ""                   # 섀도 시그니처 색 hex (선택 — 17 §1.7.1)
     source: AssetSourceRef
     variants: list[LibraryAssetVariant] = Field(default_factory=list)
+    usage_count: int = 0                    # 온디맨드→코어 승격 판단용 (계획 §3.0)
 
 
 class LibraryLogo(BaseModel):
@@ -1322,8 +1324,10 @@ class LibraryLogo(BaseModel):
     name_ko: str
     name_en: str = ""
     aliases: list[str] = Field(default_factory=list)
+    accent_hint: str = ""                   # 브랜드 컬러 hex (선택 — 섀도/무대 액센트)
     source: AssetSourceRef
     path: str                               # SVG 경로
+    usage_count: int = 0                    # 온디맨드→코어 승격 판단용 (계획 §3.0)
 
 
 class LibraryFlag(BaseModel):

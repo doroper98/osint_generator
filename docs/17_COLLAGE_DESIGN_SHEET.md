@@ -1,6 +1,6 @@
 <!--
 tier: 2
-last_synced_with: v0.45.1
+last_synced_with: v0.45.3
 ssot_for: [collage-design-sheet, shorts-design-tokens, collage-components, shorts-scene-templates]
 depends_on: [07_VIDEO_STYLE_GUIDE.md, SHORTS_COLLAGE_OVERHAUL_PLAN.md, ../schemas/models.py]
 last_review: 2026-08-14
@@ -125,6 +125,17 @@ last_review: 2026-08-14
 인쇄 스크리닝(규칙 격자 halftone / 45° linescreen)은 **변주 옵션**(V2/V3 선택지)으로만 보유
 — 기본값 아님, 사용자 검수 통과본에 한함. v1 규칙의 "클로즈업 판화(합성 stipple/engraving)"는
 **폐기** (v0.45.0 반려 — DEVLOG 참조).
+
+#### 1.7.1 섀도 문법 (사용자 확장 지시 2026-08-14 — 색·형태·채움 3축 변주)
+
+| 축 | 값 | 규칙 |
+|---|---|---|
+| **색** | 액센트 hex | 기본 = 카테고리 액센트(07 §4) → 엔티티 시그니처 색(`accent_hint` — 기업 브랜드 컬러·국가 상징색 등, manifest 에 기록) 이 있으면 우선 가능 → 최종 선택은 V2 규칙/V3 아트 디렉터. **한 씬에 섀도 색 최대 2종** (혼잡 방지) |
+| **형태** | `offset` (한쪽 치우침, 기본) / `outline` (실루엣 팽창 — 인물을 감싸는 키라인) | 두 형태 모두 **경계 명확(하드 에지) — 블러 금지**. offset 방향·outline 두께는 V1 시드 변주 |
+| **채움** | `solid` (기본) / `hatch` (45° 평행선) / `dots` (규칙 격자 도트) | 패턴은 섀도 실루엣에 정확히 클리핑. 스크리닝 변주(§1.7)와 같은 계열 질감 — 같은 씬에서 인물 스크리닝과 패턴 섀도 동시 사용 금지 (과밀) |
+
+선택 주체: V1 시드(방향·위상) / V2 규칙(카테고리·엔티티) / V3 아트 디렉터(씬 연출) —
+컴포넌트는 파라미터로 받기만 한다 (§2 CutoutActor).
 
 ## 2. L2 — 컴포넌트 시트 (11종)
 
