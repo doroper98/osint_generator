@@ -38,6 +38,10 @@ python-multipart>=0.0.9
 numpy>=1.26
 Pillow>=10.0
 
+# v1.0.1: shorts specimen / style-preview renderer (hyperframes/shorts/render_specimen.py)
+# headless chromium screenshot of HTML compositions.
+playwright>=1.40
+
 # Dev / test
 pytest>=8.0
 pytest-asyncio>=0.23

@@ -28,6 +28,21 @@ released 항목은 **append-only**입니다.
 
 ---
 
+## [v1.0.1] — 2026-08-14
+
+### Added
+- **기사·논문 타이포 스페시먼** (Phase 3 첫 슬라이스, Opus 5 위임·검증 통과) —
+  `hyperframes/shorts/` 신설: `specimen_typo.html`(1080×1920, 갱지 배경 + 기사 카드
+  [실번들 원문·발행처 자체 표기·날짜 칩·마커풍 형광펜·손그림 밑줄/동그라미/화살표] +
+  논문 카드[JPE 2019 실인용 + `<확인>` 고무도장]) + `render_specimen.py`(Playwright
+  헤드리스 렌더러 — 스타일 프리뷰 시트의 기술 기반) + 갱지 1080×1920 자산.
+  검증: 폰트 실로드 확인, 연속 2회 렌더 SHA 동일(결정론), safe area 준수, 카드 overflow 0.
+- requirements: playwright 추가.
+- 알려진 한계: 형광펜 줄 분할 JS 는 컴포넌트化 시 폰트 로드 훅 필요, 스탬프가 발췌
+  마지막 단어에 일부 겹침(배치 규칙 Phase 3 과제).
+
+---
+
 ## [v1.0.0] — 2026-08-14
 
 ### Changed (BREAKING — GOAL G4 개정, C5.4 MAJOR)
