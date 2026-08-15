@@ -28,6 +28,18 @@ released 항목은 **append-only**입니다.
 
 ---
 
+## [v1.0.2] — 2026-08-14
+
+### Changed
+- **텔레그램 → 이미지 생성 자동화 경로 확정 (계획 §2.0.1)** — 가능 판정. 텔레그램 명령
+  (+사진 첨부 = 실사 입력) → art_direction → 라이브러리 미보유 자산만 `AiImageWorker`(신규
+  예정)가 **OpenAI Images API**(`images.edit`: 실사진+프롬프트+스타일 앵커) 호출, 프리뷰
+  low 품질 → §6.0.1 게이트 승인 → 고품질 재생성·라이브러리 고정(tool/prompt_ref/rights
+  기록). 유의: API 는 ChatGPT 구독과 별개 과금, 무입력 사실 생성 금지 유지, 비결정론은
+  승인 후 고정으로 흡수. AiImageWorker 는 Phase 2(v1.1.0) 도구.
+
+---
+
 ## [v1.0.1] — 2026-08-14
 
 ### Added

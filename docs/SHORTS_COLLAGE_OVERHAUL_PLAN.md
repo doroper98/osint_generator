@@ -1,6 +1,6 @@
 <!--
 tier: 2
-last_synced_with: v1.0.0
+last_synced_with: v1.0.2
 ssot_for: [shorts-collage-overhaul-plan, collage-design-direction, asset-library-plan]
 depends_on: [CLAUDE.md, GOAL.md, docs/07_VIDEO_STYLE_GUIDE.md, docs/08_AUDIO_AND_TTS_SPEC.md, docs/10_RENDERING_PIPELINE_SPEC.md, docs/VIDEO_BUNDLE_CONTRACT.md, docs/PROFESSIONAL_REBUILD_PLAN.md]
 last_review: 2026-08-14
@@ -155,6 +155,32 @@ VOX 콜라주의 시각 문법을 그대로 베끼는 게 아니라, **OSINT 브
 | 텍스트 | 자막·수치·검증 라벨은 항상 코드 렌더 — AI 이미지 안에 사실 텍스트 금지 |
 | 운용 | ChatGPT 앱 수동 공방(사용자/오케스트레이터) 또는 OpenAI Images API 자동화(키는 .env) — Phase 2 에서 표준 프롬프트 템플릿 확립 |
 | 폴백 | ChatGPT 결과 검수 반려·불가 시 절차식 엔진 (기존 mono/섀도 체계) |
+
+### 2.0.1 자동화 경로 — 텔레그램 → 이미지 생성 통합 (사용자 질문 2026-08-14: "가능해?")
+
+**가능하다.** 단 프로그램이 부를 수 있는 것은 ChatGPT 소비자 앱이 아니라 **OpenAI Images
+API**(gpt-image 계열 — `images.edit`: 실사진 입력 + 프롬프트 + 스타일 앵커 이미지 동시
+전달 가능)다. 흐름:
+
+```
+[텔레그램] 스타일시트 생성 명령 (+ 필요 시 인물 사진 첨부 = 실사 입력)
+   → Orchestrator: art_direction 생성 → 자산 조회
+      ├─ 라이브러리에 있음 → 그대로 사용 (무비용·즉시)
+      └─ 없음 → AiImageWorker (신규, BaseWorker):
+           OpenAI Images API 호출 — 입력: 실사진(수집분 or 텔레그램 첨부)
+           + 표준 프롬프트 + 스타일 앵커 시트  [프리뷰 품질 low 로 비용 절감]
+   → 스타일 프리뷰 시트에 합성 → 텔레그램 검수 (§6.0.1 게이트)
+   → 승인 → 승인 자산만 고품질 재생성(필요 시) → 라이브러리 고정 등록
+             (tool="openai_images", prompt_ref, rights 기록 — G4-10)
+   → 풀 렌더
+```
+
+전제·유의: ① `OPENAI_API_KEY` 는 `.env` (C9) — **API 는 ChatGPT 구독과 별개 과금**(이미지당
+소액, 프리뷰 low 품질로 억제) ② codex CLI 는 이 경로와 무관(코딩 에이전트 — §2.1.6)
+③ 사진이 없는 신규 인물은 API 가 만들어 주지 않는다(무입력 사실 생성 금지) — 수집 워커나
+텔레그램 사진 첨부로 실사 입력을 확보해야 하며, 실패 시 needs_user_upload ④ 비결정론은
+"승인 후 라이브러리 고정"으로 흡수(§2.0). 구현 시점: AiImageWorker 는 Phase 2(v1.1.0)
+도구로 구축, 텔레그램 배선은 봇 슬라이스에서.
 
 유의(기록): 실존 인물의 AI 가공 묘사는 플랫폼별 AI 콘텐츠 공개 정책 대상일 수 있음 —
 업로드 단계 체크리스트에 편입 (G4-12 사용자 최종 승인 게이트에서 확인).
