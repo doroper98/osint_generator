@@ -152,6 +152,7 @@ def main() -> int:
   const stage = document.getElementById("stage");
   const strings = document.getElementById("strings");
   const SEED = "{ad.seed}";
+  const TOTAL = {total};
   const STARTS = {json.dumps(starts)};
   const CAST = {cast_js};
   const CHART = {chart_js};
@@ -165,7 +166,7 @@ def main() -> int:
 
   // ============================================================ S01 HOOK
   const rh = K.RansomHeadline(stage, {json.dumps(headline, ensure_ascii=False)}, {{
-    seed: {ad.ransom_seed}, start: 0, duration: 6, track: 6,
+    seed: {ad.ransom_seed}, start: 0, duration: TOTAL, track: 6,
   }});
   rh.root.style.left = "var(--safe-left)";
   rh.root.style.top = "300px";
@@ -173,7 +174,7 @@ def main() -> int:
   K.ransomIn(tl, rh, STARTS[0]);
 
   const stamp = K.StampLabel(stage, "confirm", {{
-    x: 620, y: 700, rot: -7, start: 0, duration: 6, track: 7,
+    x: 620, y: 700, rot: -7, start: 0, duration: TOTAL, track: 7,
   }});
   K.stampIn(tl, stamp, STARTS[0] + 1.1);
   // 헤드라인은 CONTEXT 시작 전에 위로 물린다 — 안 그러면 다음 씬을 덮는다
@@ -182,7 +183,7 @@ def main() -> int:
   // ============================================================ S02 CONTEXT
   const panel = K.PaperPanel(stage, {{
     x: 90, y: 560, w: 800, rot: -1.2, tone: "paper_card",
-    start: 0, duration: 8, track: 3,
+    start: 0, duration: TOTAL, track: 3,
   }});
   panel.innerHTML = '<div class="deck">'
     + {json.dumps((plan['scenes'][1].get('deck') or plan.get('headline', ''))[:120] if len(plan['scenes']) > 1 else '', ensure_ascii=False)}
@@ -206,7 +207,7 @@ def main() -> int:
       src: "assets/cast/" + c.id + ".png",
       x: x, bottom: bottom, w: w, tilt: c.tilt,
       tag: c.name, role: c.role,
-      start: 0, duration: 10, track: 5 + i,
+      start: 0, duration: TOTAL, track: 5 + i,
     }});
     nodes.push(n);
     pts.push({{ x: x + w / 2, y: {H} - bottom - 120 }});
@@ -225,7 +226,7 @@ def main() -> int:
   if (CHART) {{
     const cp = K.PaperPanel(stage, {{
       x: 80, y: 1180, w: 800, rot: 0.8, tone: "paper_card",
-      start: 0, duration: 8, track: 4,
+      start: 0, duration: TOTAL, track: 4,
     }});
     let rows = '<div class="chart-title">' + CHART.title + "</div>";
     const max = Math.max.apply(null, CHART.data.map(function (d) {{ return d.value; }}));

@@ -35,6 +35,7 @@ AD_JSON = HERE / "art_direction.json"
 LIB_MANIFEST = REPO_ROOT / "assets" / "library" / "library_manifest.json"
 OUT_HTML = HERE / "preview_sheet.html"
 OUT_PNG = HERE / "preview_sheet.png"
+THUMBS = HERE / "thumbs"
 
 WIDTH = 1240
 CHROMIUM_FALLBACK = "/opt/pw-browsers/chromium"
@@ -128,11 +129,19 @@ def build_html(sheet, plan: dict, cast: dict, ad) -> str:
                      f'<span class="vs">vs</span>'
                      f'<span class="tag">{esc(s.get("label_b"))}</span>')
         lines = "".join(f"<li>{esc(t)}</li>" for t in s["lines"])
+        # 씬킷이 실제로 조판한 썸네일 (build_scene_thumbs.py). 없으면 자리표시.
+        thumb_path = THUMBS / f"{s['id']}.png"
+        thumb = (
+            f'<img class="th" src="thumbs/{esc(s["id"])}.png" alt="">'
+            if thumb_path.is_file()
+            else '<div class="th th-none">조판<br>미생성</div>'
+        )
         cards.append(
-            f'<div class="sc"><div class="sh"><span class="id">S {i:02d}</span>'
+            f'<div class="sc">{thumb}<div class="sc-body">'
+            f'<div class="sh"><span class="id">S {i:02d}</span>'
             f'<b>{esc(SCENE_KO.get(s["scene"], s["scene"]))}</b>'
             f'<span class="sid">{esc(s["id"])}</span>{badge}</div>'
-            f'<ul>{lines}</ul></div>'
+            f'<ul>{lines}</ul></div></div>'
         )
 
     return f"""<!DOCTYPE html>
@@ -196,7 +205,15 @@ def build_html(sheet, plan: dict, cast: dict, ad) -> str:
     padding:9px 12px; margin-bottom:11px; line-height:1.5; }}
   .ok {{ font-size:12px; color:var(--ink-soft); }}
   .sc {{ background:var(--paper-card); padding:11px 13px; margin-bottom:9px;
-    box-shadow:5px 6px 0 rgba(28,26,23,.12); }}
+    box-shadow:5px 6px 0 rgba(28,26,23,.12);
+    display:flex; gap:14px; align-items:flex-start; }}
+  .sc-body {{ flex:1 1 auto; min-width:0; }}
+  .th {{ flex:0 0 auto; width:104px; height:185px; object-fit:cover;
+    border:1px solid rgba(28,26,23,.28); background:var(--paper-base); }}
+  .th-none {{ flex:0 0 auto; width:104px; height:185px;
+    border:1px dashed rgba(28,26,23,.32); color:var(--ink-soft);
+    font-size:11px; display:flex; align-items:center; justify-content:center;
+    text-align:center; line-height:1.5; }}
   .sh {{ display:flex; align-items:center; gap:9px; margin-bottom:5px; }}
   .sh .id {{ background:var(--ink-base); color:var(--paper-card); font-size:10px;
     padding:2px 6px; }}

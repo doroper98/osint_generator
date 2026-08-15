@@ -1,6 +1,6 @@
 <!--
 tier: 1
-last_synced_with: v1.1.0
+last_synced_with: v1.2.1
 ssot_for: [session-handoff]
 depends_on: [CLAUDE.md, GOAL.md, VERSION, docs/13_IMPLEMENTATION_ROADMAP.md, docs/PROFESSIONAL_REBUILD_PLAN.md]
 last_review: 2026-06-05
@@ -17,7 +17,7 @@ last_review: 2026-06-05
 
 > ## 🔥 [v1.0.5 — 2026-08-15] 쇼츠 × 콜라주 전면 개편 핸드오프 (현행 최우선 작업)
 >
-> **작업 브랜치: `claude/video-design-process-overhaul-7082jy` (main 미병합 — 이 브랜치에서
+> **작업 브랜치: `collage` (main 미병합 — 이 브랜치에서
 > 계속 작업하고 이 브랜치로 푸시할 것).** 개편 전체의 SSOT 는
 > `docs/SHORTS_COLLAGE_OVERHAUL_PLAN.md` — §9 로드맵과 §10 결정 목록을 먼저 읽어라.
 > 상세 이력은 CHANGELOG/DEVLOG 의 v0.43.5~v1.0.4 (하루에 결정·구현이 압축된 세션이었음).
@@ -60,8 +60,8 @@ last_review: 2026-06-05
 >    이 세션이 로컬(Windows)에서 열렸다면 다른 무엇보다 먼저:
 >    ```
 >    git fetch origin
->    git checkout claude/video-design-process-overhaul-7082jy
->    git pull origin claude/video-design-process-overhaul-7082jy
+>    git checkout collage
+>    git pull origin collage
 >    git log --oneline -1   ← 최소 v1.0.5 커밋이어야 함
 >    ```
 >    checkout 이 로컬 변경으로 막히면 에러를 사용자에게 보여주고 stash 여부를 확인할 것.

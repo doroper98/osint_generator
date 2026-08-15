@@ -52,6 +52,25 @@
     return n;
   }
 
+  /**
+   * HyperFrames `clip` 가시 구간 지정.
+   *
+   * **`data-duration` 은 "GSAP 로 등장해 있는 시간" 이 아니라 "이 DOM 이 존재해도
+   * 되는 창" 이다.** 렌더러는 이 창 밖에서 요소를 숨긴다 — 씬 등장 시각에 맞춰
+   * 좁게 잡으면 mp4 에서 통째로 사라진다 (실측 2026-08-15: 컷아웃·카드가 전부
+   * 누락됐는데 Playwright 프리뷰는 clip 규약을 안 봐서 정상으로 보였다).
+   *
+   * 따라서 **기본은 컴포지션 전체 구간**이고, 실제 등장·퇴장은 GSAP opacity 가
+   * 담당한다. 좁히는 건 자산을 늦게 로드시키고 싶을 때만.
+   */
+  function clipWindow(node, opt) {
+    const total = (opt && opt.total) || window.__COMPOSITION_TOTAL__ || 0;
+    node.dataset.start = (opt && opt.start) ?? 0;
+    node.dataset.duration = (opt && opt.duration) ?? total;
+    node.dataset.trackIndex = (opt && opt.track) ?? 1;
+    return node;
+  }
+
   // ---------------------------------------------------------------- 모션 상수
   const M = {
     get placeMs() { return num("--motion-place-ms", 220); },
@@ -371,7 +390,7 @@
 
   global.CollageKit = {
     fnv1a: fnv1a, rnd: rnd, rndRange: rndRange, tok: tok, num: num, el: el,
-    M: M, stepEase: stepEase, MATERIAL: MATERIAL,
+    M: M, stepEase: stepEase, MATERIAL: MATERIAL, clipWindow: clipWindow,
     CutoutActor: CutoutActor, actorsIn: actorsIn, sceneOut: sceneOut,
     RansomHeadline: RansomHeadline, ransomIn: ransomIn,
     StampLabel: StampLabel, stampIn: stampIn, STAMPS: STAMPS,
