@@ -1,6 +1,6 @@
 <!--
 tier: 1
-last_synced_with: v1.0.8
+last_synced_with: v1.1.0
 ssot_for: [session-handoff]
 depends_on: [CLAUDE.md, GOAL.md, VERSION, docs/13_IMPLEMENTATION_ROADMAP.md, docs/PROFESSIONAL_REBUILD_PLAN.md]
 last_review: 2026-06-05

@@ -1,0 +1,450 @@
+{
+  "schema_version": 1,
+  "generated_at": "2026-08-15T08:29:30.585784Z",
+  "people": [
+    {
+      "person_id": "altman",
+      "name_ko": "샘 올트먼",
+      "name_en": "Sam Altman",
+      "role": "",
+      "aliases": [],
+      "accent_hint": "",
+      "source": {
+        "url": "https://commons.wikimedia.org/wiki/File:Sam_Altman_CropEdit_James_Tamim.jpg",
+        "license": "CC BY 2.0",
+        "rights_status": "rights_clear",
+        "credit": "TechCrunch Disrupt San Francisco 2019 - Day 2",
+        "note": "원본 photo_altman.jpg / CLOSING 크레딧 표기 대상"
+      },
+      "variants": [
+        {
+          "style": "mono",
+          "pose": "front",
+          "path": "assets/library/people/altman_mono_v01.png",
+          "generator_version": "",
+          "tool": "codex_imagegen",
+          "prompt_ref": "assets/library/workshop/output/altman_mono_v01.prompt.txt"
+        }
+      ],
+      "usage_count": 0
+    },
+    {
+      "person_id": "bezos",
+      "name_ko": "제프 베이조스",
+      "name_en": "Jeff Bezos",
+      "role": "",
+      "aliases": [],
+      "accent_hint": "",
+      "source": {
+        "url": "https://commons.wikimedia.org/wiki/File:Jeff_Bezos%27_iconic_laugh_crop.jpg",
+        "license": "CC BY 2.0",
+        "rights_status": "rights_clear",
+        "credit": "This file was derived from: Jeff Bezos' iconic laugh.jpg:",
+        "note": "원본 photo_bezos.jpg / CLOSING 크레딧 표기 대상"
+      },
+      "variants": [
+        {
+          "style": "mono",
+          "pose": "front",
+          "path": "assets/library/people/bezos_mono_v01.png",
+          "generator_version": "",
+          "tool": "codex_imagegen",
+          "prompt_ref": "assets/library/workshop/output/bezos_mono_v01.prompt.txt"
+        }
+      ],
+      "usage_count": 0
+    },
+    {
+      "person_id": "chey_tae_won",
+      "name_ko": "최태원",
+      "name_en": "Chey Tae-won",
+      "role": "",
+      "aliases": [],
+      "accent_hint": "",
+      "source": {
+        "url": "https://commons.wikimedia.org/wiki/File:Korea_Portuguese_Business_Forum_01_(cropped).jpg",
+        "license": "CC BY-SA 2.0",
+        "rights_status": "rights_clear",
+        "credit": "https://www.flickr.com/photos/koreanet/52811274709/",
+        "note": "원본 photo_chey_tae_won.jpg / CC BY-SA — 파생물 SA 검토 필요"
+      },
+      "variants": [
+        {
+          "style": "mono",
+          "pose": "front",
+          "path": "assets/library/people/chey_tae_won_mono_v01.png",
+          "generator_version": "",
+          "tool": "codex_imagegen",
+          "prompt_ref": "assets/library/workshop/output/chey_tae_won_mono_v01.prompt.txt"
+        }
+      ],
+      "usage_count": 0
+    },
+    {
+      "person_id": "jensen_huang",
+      "name_ko": "젠슨 황",
+      "name_en": "Jensen Huang",
+      "role": "",
+      "aliases": [],
+      "accent_hint": "",
+      "source": {
+        "url": "https://commons.wikimedia.org/wiki/File:Jensen_Huang_(cropped)_(2024).jpg",
+        "license": "CC BY 4.0",
+        "rights_status": "rights_clear",
+        "credit": "Visit of Josep Borrell Fontelles, Vice-President of the European Commission, to the United States",
+        "note": "원본 photo_jensen_huang.jpg / CLOSING 크레딧 표기 대상"
+      },
+      "variants": [
+        {
+          "style": "mono",
+          "pose": "front",
+          "path": "assets/library/people/jensen_huang_mono_v01.png",
+          "generator_version": "",
+          "tool": "codex_imagegen",
+          "prompt_ref": "assets/library/workshop/output/jensen_huang_mono_v01.prompt.txt"
+        }
+      ],
+      "usage_count": 0
+    },
+    {
+      "person_id": "khamenei",
+      "name_ko": "알리 하메네이",
+      "name_en": "Ali Khamenei",
+      "role": "",
+      "aliases": [],
+      "accent_hint": "",
+      "source": {
+        "url": "https://commons.wikimedia.org/wiki/File:Ali_Khamenei_Nowruz_message_official_portrait_1397_02_(cropped).jpg",
+        "license": "CC BY 4.0",
+        "rights_status": "rights_clear",
+        "credit": "http://farsi.khamenei.ir/photo-album?id=36022#i",
+        "note": "원본 photo_khamenei.jpg / CLOSING 크레딧 표기 대상"
+      },
+      "variants": [
+        {
+          "style": "mono",
+          "pose": "front",
+          "path": "assets/library/people/khamenei_mono_v01.png",
+          "generator_version": "",
+          "tool": "codex_imagegen",
+          "prompt_ref": "assets/library/workshop/output/khamenei_mono_v01.prompt.txt"
+        }
+      ],
+      "usage_count": 0
+    },
+    {
+      "person_id": "lagarde",
+      "name_ko": "크리스틴 라가르드",
+      "name_en": "Christine Lagarde",
+      "role": "",
+      "aliases": [],
+      "accent_hint": "",
+      "source": {
+        "url": "https://commons.wikimedia.org/wiki/File:Lagarde,_Christine_(official_portrait_2011).jpg",
+        "license": "Public domain",
+        "rights_status": "rights_clear",
+        "credit": "http://www.imf.org/external/np/adm/pictures/caption2.htm",
+        "note": "원본 photo_lagarde.jpg / 크레딧 의무 없음(PD/CC0)"
+      },
+      "variants": [
+        {
+          "style": "mono",
+          "pose": "front",
+          "path": "assets/library/people/lagarde_mono_v01.png",
+          "generator_version": "",
+          "tool": "codex_imagegen",
+          "prompt_ref": "assets/library/workshop/output/lagarde_mono_v01.prompt.txt"
+        }
+      ],
+      "usage_count": 0
+    },
+    {
+      "person_id": "macron",
+      "name_ko": "에마뉘엘 마크롱",
+      "name_en": "Emmanuel Macron",
+      "role": "",
+      "aliases": [],
+      "accent_hint": "",
+      "source": {
+        "url": "https://commons.wikimedia.org/wiki/File:Emmanuel_Macron_par_Claude_Truong-Ngoc_avril_2015.jpg",
+        "license": "CC BY-SA 3.0",
+        "rights_status": "rights_clear",
+        "credit": "Own work",
+        "note": "원본 photo_macron.jpg / CC BY-SA — 파생물 SA 검토 필요"
+      },
+      "variants": [
+        {
+          "style": "mono",
+          "pose": "front",
+          "path": "assets/library/people/macron_mono_v01.png",
+          "generator_version": "",
+          "tool": "codex_imagegen",
+          "prompt_ref": "assets/library/workshop/output/macron_mono_v01.prompt.txt"
+        }
+      ],
+      "usage_count": 0
+    },
+    {
+      "person_id": "musk",
+      "name_ko": "일론 머스크",
+      "name_en": "Elon Musk",
+      "role": "",
+      "aliases": [],
+      "accent_hint": "",
+      "source": {
+        "url": "https://commons.wikimedia.org/wiki/File:Elon_Musk_Royal_Society_(crop2).jpg",
+        "license": "CC BY-SA 3.0",
+        "rights_status": "rights_clear",
+        "credit": "Own work",
+        "note": "원본 photo_musk.jpg / CC BY-SA — 파생물 SA 검토 필요"
+      },
+      "variants": [
+        {
+          "style": "mono",
+          "pose": "front",
+          "path": "assets/library/people/musk_mono_v01.png",
+          "generator_version": "",
+          "tool": "codex_imagegen",
+          "prompt_ref": "assets/library/workshop/output/musk_mono_v01.prompt.txt"
+        }
+      ],
+      "usage_count": 0
+    },
+    {
+      "person_id": "netanyahu",
+      "name_ko": "베냐민 네타냐후",
+      "name_en": "Benjamin Netanyahu",
+      "role": "",
+      "aliases": [],
+      "accent_hint": "",
+      "source": {
+        "url": "https://commons.wikimedia.org/wiki/File:Benjamin_Netanyahu,_February_2023.jpg",
+        "license": "CC BY-SA 3.0",
+        "rights_status": "rights_clear",
+        "credit": "Government Press Office of Israel",
+        "note": "원본 photo_netanyahu.jpg / CC BY-SA — 파생물 SA 검토 필요"
+      },
+      "variants": [
+        {
+          "style": "mono",
+          "pose": "front",
+          "path": "assets/library/people/netanyahu_mono_v01.png",
+          "generator_version": "",
+          "tool": "codex_imagegen",
+          "prompt_ref": "assets/library/workshop/output/netanyahu_mono_v01.prompt.txt"
+        }
+      ],
+      "usage_count": 0
+    },
+    {
+      "person_id": "powell",
+      "name_ko": "제롬 파월",
+      "name_en": "Jerome Powell",
+      "role": "",
+      "aliases": [],
+      "accent_hint": "",
+      "source": {
+        "url": "https://commons.wikimedia.org/wiki/File:Jerome_H._Powell,_Federal_Reserve_Chair_(cropped).jpg",
+        "license": "Public domain",
+        "rights_status": "rights_clear",
+        "credit": "Official portrait of Jerome H. Powell, Chair: Powell_Jerome_Aug_16_22-674_8x10",
+        "note": "원본 photo_powell.jpg / 크레딧 의무 없음(PD/CC0)"
+      },
+      "variants": [
+        {
+          "style": "mono",
+          "pose": "front",
+          "path": "assets/library/people/powell_mono_v01.png",
+          "generator_version": "",
+          "tool": "codex_imagegen",
+          "prompt_ref": "assets/library/workshop/output/powell_mono_v01.prompt.txt"
+        }
+      ],
+      "usage_count": 0
+    },
+    {
+      "person_id": "putin",
+      "name_ko": "블라디미르 푸틴",
+      "name_en": "Vladimir Putin",
+      "role": "",
+      "aliases": [],
+      "accent_hint": "",
+      "source": {
+        "url": "https://commons.wikimedia.org/wiki/File:Vladimir_Putin_portrait_(2024-02-23).png",
+        "license": "CC BY 4.0",
+        "rights_status": "rights_clear",
+        "credit": "http://en.kremlin.ru/events/president/news/73529/photos",
+        "note": "원본 photo_putin.jpg / CLOSING 크레딧 표기 대상"
+      },
+      "variants": [
+        {
+          "style": "mono",
+          "pose": "front",
+          "path": "assets/library/people/putin_mono_v01.png",
+          "generator_version": "",
+          "tool": "codex_imagegen",
+          "prompt_ref": "assets/library/workshop/output/putin_mono_v01.prompt.txt"
+        }
+      ],
+      "usage_count": 0
+    },
+    {
+      "person_id": "tim_cook",
+      "name_ko": "팀 쿡",
+      "name_en": "Tim Cook",
+      "role": "",
+      "aliases": [],
+      "accent_hint": "",
+      "source": {
+        "url": "https://commons.wikimedia.org/wiki/File:Visit_of_Tim_Cook_to_the_European_Commission_-_P061904-946789.jpg",
+        "license": "CC BY 4.0",
+        "rights_status": "rights_clear",
+        "credit": "https://audiovisual.ec.europa.eu/en/reportage/P-061904 (archive, archive)",
+        "note": "원본 photo_tim_cook.jpg / CLOSING 크레딧 표기 대상"
+      },
+      "variants": [
+        {
+          "style": "mono",
+          "pose": "front",
+          "path": "assets/library/people/tim_cook_mono_v01.png",
+          "generator_version": "",
+          "tool": "codex_imagegen",
+          "prompt_ref": "assets/library/workshop/output/tim_cook_mono_v01.prompt.txt"
+        }
+      ],
+      "usage_count": 0
+    },
+    {
+      "person_id": "trump",
+      "name_ko": "도널드 트럼프",
+      "name_en": "Donald Trump",
+      "role": "",
+      "aliases": [],
+      "accent_hint": "",
+      "source": {
+        "url": "https://commons.wikimedia.org/wiki/File:Donald_Trump_official_portrait.jpg",
+        "license": "Public domain",
+        "rights_status": "rights_clear",
+        "credit": "This image is available from the United States Library of Congress's Prints and Photographs division under the digital ID ppbd.00608.This tag does not indicate the copyright status of the attached work. A normal copyright tag is still required. See Commons:Licensing.",
+        "note": "원본 photo_trump.jpg / 크레딧 의무 없음(PD/CC0)"
+      },
+      "variants": [
+        {
+          "style": "mono",
+          "pose": "front",
+          "path": "assets/library/people/trump_mono_v01.png",
+          "generator_version": "",
+          "tool": "codex_imagegen",
+          "prompt_ref": "assets/library/workshop/output/trump_mono_v01.prompt.txt"
+        }
+      ],
+      "usage_count": 0
+    },
+    {
+      "person_id": "warsh",
+      "name_ko": "케빈 워시",
+      "name_en": "Kevin Warsh",
+      "role": "",
+      "aliases": [],
+      "accent_hint": "",
+      "source": {
+        "url": "https://commons.wikimedia.org/wiki/File:Official_portrait_of_Kevin_M._Warsh_(cropped).jpg",
+        "license": "Public domain",
+        "rights_status": "rights_clear",
+        "credit": "https://www.flickr.com/photos/federalreserve/55341882470/",
+        "note": "원본 photo_warsh.jpg / 크레딧 의무 없음(PD/CC0)"
+      },
+      "variants": [
+        {
+          "style": "mono",
+          "pose": "front",
+          "path": "assets/library/people/warsh_mono_v01.png",
+          "generator_version": "",
+          "tool": "codex_imagegen",
+          "prompt_ref": "assets/library/workshop/output/warsh_mono_v01.prompt.txt"
+        }
+      ],
+      "usage_count": 0
+    },
+    {
+      "person_id": "xi_jinping",
+      "name_ko": "시진핑",
+      "name_en": "Xi Jinping",
+      "role": "",
+      "aliases": [],
+      "accent_hint": "",
+      "source": {
+        "url": "https://commons.wikimedia.org/wiki/File:Xi_Jinping_in_July_2024.jpg",
+        "license": "CC BY 4.0",
+        "rights_status": "rights_clear",
+        "credit": "Astanada İlham Əliyevin Çin Xalq Respublikasının Sədri Si Cinpin ilə görüşü keçirilib",
+        "note": "원본 photo_xi_jinping.jpg / CLOSING 크레딧 표기 대상"
+      },
+      "variants": [
+        {
+          "style": "mono",
+          "pose": "front",
+          "path": "assets/library/people/xi_jinping_mono_v01.png",
+          "generator_version": "",
+          "tool": "codex_imagegen",
+          "prompt_ref": "assets/library/workshop/output/xi_jinping_mono_v01.prompt.txt"
+        }
+      ],
+      "usage_count": 0
+    },
+    {
+      "person_id": "zelensky",
+      "name_ko": "볼로디미르 젤렌스키",
+      "name_en": "Volodymyr Zelenskyy",
+      "role": "",
+      "aliases": [],
+      "accent_hint": "",
+      "source": {
+        "url": "https://commons.wikimedia.org/wiki/File:Volodymyr_Zelensky_Official_portrait.jpg",
+        "license": "CC BY 4.0",
+        "rights_status": "rights_clear",
+        "credit": "https://www.president.gov.ua/en/president/biografiya",
+        "note": "원본 photo_zelensky.jpg / CLOSING 크레딧 표기 대상"
+      },
+      "variants": [
+        {
+          "style": "mono",
+          "pose": "front",
+          "path": "assets/library/people/zelensky_mono_v01.png",
+          "generator_version": "",
+          "tool": "codex_imagegen",
+          "prompt_ref": "assets/library/workshop/output/zelensky_mono_v01.prompt.txt"
+        }
+      ],
+      "usage_count": 0
+    },
+    {
+      "person_id": "zuckerberg",
+      "name_ko": "마크 저커버그",
+      "name_en": "Mark Zuckerberg",
+      "role": "",
+      "aliases": [],
+      "accent_hint": "",
+      "source": {
+        "url": "https://commons.wikimedia.org/wiki/File:Mark_Zuckerberg_F8_2018_Keynote_(cropped).jpg",
+        "license": "CC BY 2.0",
+        "rights_status": "rights_clear",
+        "credit": "Mark Zuckerberg F8 2018 Keynote",
+        "note": "원본 photo_zuckerberg.jpg / CLOSING 크레딧 표기 대상"
+      },
+      "variants": [
+        {
+          "style": "mono",
+          "pose": "front",
+          "path": "assets/library/people/zuckerberg_mono_v01.png",
+          "generator_version": "",
+          "tool": "codex_imagegen",
+          "prompt_ref": "assets/library/workshop/output/zuckerberg_mono_v01.prompt.txt"
+        }
+      ],
+      "usage_count": 0
+    }
+  ],
+  "logos": [],
+  "flags": []
+}

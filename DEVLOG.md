@@ -1,6 +1,6 @@
 <!--
 tier: 3
-last_synced_with: v1.0.9
+last_synced_with: v1.1.0
 ssot_for: [development-log]
 depends_on: [CHANGELOG.md]
 last_review: 2026-06-06
@@ -22,6 +22,35 @@ last_review: 2026-06-06
 - 결과:  …
 - 연관:  AP-번호, 이슈, PR 번호 등
 ```
+
+---
+
+## 2026-08-15 v1.1.0 — Phase 2 완료: 인물 컷아웃 라이브러리 17인
+
+- **무엇을**: 코어 인물 사진 수집 → codex `$imagegen` 가공 → 육안 검수 → 배경 제거 →
+  라이브러리 등록까지 Phase 2 전 구간을 완주. 컷아웃 17장 + manifest.
+- **어떻게**: 공방 도구 5종 신설. codex 는 **이미지 생성만** 맡고 수집·프롬프트·배치·검수·
+  알파 추출·등록은 오케스트레이터가 수행.
+- **결과**:
+  - 사진 수집 19인(1인 보류) → 가공 17인 → 컷아웃 17장, 전경 비율 54~67% 균일.
+  - manifest 는 `AssetLibraryManifest` 검증 통과. rights/tool/prompt_ref 전량 기록(G4-10).
+- **막혔던 것 3건**:
+  ① `codex exec` 배치 16/16 실패 — `-i` 가 가변 인자라 프롬프트를 삼킴. `--` 로 해결.
+  ② 한글 프롬프트가 파이프에서 mojibake → codex 가 스스로 영어로 재작성. 템플릿을
+     영어로 전환(모델 지시 정확도도 상승).
+  ③ 배경 제거가 어두운 정장을 먹어 4인이 얼굴만 남음(전경 30%대). `background_mask`
+     기본 tolerance 45 는 복잡한 사진 배경용 — 순백 배경 생성물엔 12 가 맞다.
+- **육안 검수의 값어치 (자동 필터가 못 잡는 것)**:
+  - `kim_jong_un` 후보가 **분장 배우 사진**이었다. 라이선스는 정상 통과 — 대조 없이는
+    가짜 얼굴이 라이브러리에 등록됐을 것이다.
+  - 해상도 하한을 올리자 개인 초상이 밀려나고 단체컷이 올라오는 **역효과** 발생.
+  - **AI 오판 1건**: `bezos` 생성물을 딴사람으로 보고 반려했으나 사용자가 정상이라 정정.
+    이미 `--force` 로 덮어써 원본 복구 불가(생성은 비결정론) → 재생성본 채택.
+    교훈: 인물 동일성 판정은 **원본 대조 시트**로만 하고, 되돌릴 수 없는 덮어쓰기 전에
+    사용자 확인을 받는다.
+- **미결**: codex 투명배경 직접생성은 배경 제거 단계를 없애지만 **인쇄 질감이 약해진다**
+  (실측 비교 `texture_compare.png`). 현재는 질감 우선으로 흰 배경 + 알파 추출 유지.
+- **연관**: assets/library/workshop/*, docs/17 §1.7.0, 계획 §9 Phase 2, v1.0.13.
 
 ---
 
@@ -1869,7 +1898,7 @@ last_review: 2026-06-06
     6. 관련 문서
     프롬프트는 영문 고정 — codex 의 reasoning 일관성 + Windows 한글 코드페이지 이슈 회피.
   - **HANDOFF.md 전면 갱신**:
-    - `last_synced_with: v1.0.9 → v0.2.6`, `depends_on` 에 `docs/REVIEW_PROMPT.md` 추가.
+    - `last_synced_with: v1.1.0 → v0.2.6`, `depends_on` 에 `docs/REVIEW_PROMPT.md` 추가.
     - "1. 지금 어디까지 와 있나" 표에 v0.2.3 / v0.2.4 / v0.2.5 / v0.2.6 4 행 추가.
     - 알려진 antipattern 카탈로그 갱신 (LLM-AP-001/002/003 상태 명시).
     - "2. 다음 작업" 절을 v0.2.3/Phase 3 양자택일 → **Phase 3 (v0.3.0) IntakePlannerWorker 단독** 으로 교체. 도메인 모델 4 종, Worker 명세, 웹 페이지, CLI 확장, DoD 7 항목, 알려진 risk 4 종, Phase 4 예고 포함. 대안 절 (LLM-AP-003 후속 보안 강화 먼저) 도 명시.
@@ -2569,7 +2598,7 @@ last_review: 2026-06-06
     cross input_item_id / intra source_id / project_id / schema_version) +
     counter 3 + 충돌 검출 순서 1 + 보조 케이스 2.
   - VERSION 0.5.2 → 0.5.3. `__version__` 은 SSOT (VERSION) 에서 자동 갱신.
-  - CHANGELOG / DEVLOG `last_synced_with: v1.0.9`.
+  - CHANGELOG / DEVLOG `last_synced_with: v1.1.0`.
 - **결과**:
   - py_compile 통과.
   - 전체 unittest = **167/167 통과** (직전 148 + 신규 19).

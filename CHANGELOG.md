@@ -1,6 +1,6 @@
 <!--
 tier: 3
-last_synced_with: v1.0.9
+last_synced_with: v1.1.0
 ssot_for: [release-notes]
 depends_on: [README.md, GOAL.md]
 last_review: 2026-06-11
@@ -25,6 +25,45 @@ released 항목은 **append-only**입니다.
 
 ### Fixed
 -
+
+---
+
+## [v1.1.0] — 2026-08-15 — **Phase 2 완료: 인물 컷아웃 라이브러리**
+
+### Added
+- **코어 인물 컷아웃 17인** (`assets/library/people/*_mono_v01.png`) — 배경 제거된 고대비
+  모노톤 알파 컷아웃. 섀도·종이 배경은 굽지 않는다 (17 §1.7.0 방식 B).
+- **`assets/library/library_manifest.json`** — `AssetLibraryManifest` Pydantic 검증 통과.
+  인물별 `rights_status` / `license` / `credit` / `tool="codex_imagegen"` / `prompt_ref` 기록.
+- 공방 도구 5종:
+  - `collect_portraits.py` — Wikimedia Commons 라이선스 선조회 + 통과분만 수집.
+    `--adopt` 로 사용자 제공 사진 등록(출처·라이선스 필수), `pin` 으로 파일 직접 지정.
+  - `make_prompts.py` — `portrait_cutout.md` 를 SSOT 로 읽어 인물별 프롬프트 생성.
+  - `run_codex_batch.py` — codex `$imagegen` 배치 실행.
+  - `make_contact_sheet.py --generated` / `make_identity_sheet.py` — 육안 검수 시트.
+  - `promote_to_library.py` — 배경 제거 → 알파 컷아웃 → manifest 등록.
+
+### Fixed
+- **`codex exec` 배치 전멸 (16/16 exit 1)** — `-i/--image` 가 가변 인자라 프롬프트 문자열까지
+  이미지 목록으로 삼켰다. `--` 구분자로 해결.
+- **한글 프롬프트가 셸 파이프에서 mojibake** — codex 가 이를 감지해 스스로 영어로 재작성했다.
+  프롬프트 본문을 영어로 전환(이미지 모델 지시 정확도도 상승). 사람이 읽는 부분은 한국어 유지.
+- **배경 제거가 정장을 먹음** — `background_mask` 기본 tolerance(45)는 복잡한 사진 배경용이라
+  순백 배경 생성물에 과하게 번졌다. 4인이 얼굴만 남고 전경 30%대로 붕괴 → tolerance=12 로
+  전원 복구(54~67%), 멀쩡하던 인물은 변동 없음. 전경 비율 하한 가드도 0.15→0.45 로 상향.
+
+### Notes — 육안 검수가 잡은 것 (자동 필터가 못 잡는 것들)
+- **`kim_jong_un` 후보가 실제 인물이 아니라 2018 싱가포르 회담 분장 배우 사진**이었다.
+  라이선스는 CC BY-SA 4.0 로 정상 통과 → G4 위반 자산이 등록될 뻔했다.
+- 해상도 하한을 올리자 오히려 개인 초상이 밀려나고 단체·행사 컷이 올라오는 회귀 발생.
+- **`bezos` 는 AI(본 세션)의 오판** — 생성물이 딴사람이라 반려했으나 사용자가 정상이라 정정.
+  재생성본으로 대체됨. **인물 동일성은 원본 대조 없이는 판정 불가**(`make_identity_sheet.py`).
+
+### Deferred
+- 3인 제외 — `kim_jong_un`(사진 미확보) / `lee_jae_yong`(342×493) / `rhee_chang_yong`(510×800).
+  사진 확보 후 `--adopt` → `make_prompts.py` 재실행이면 합류한다.
+- 파이프라인 선택 미결: codex 투명배경 직접생성은 **인쇄 질감이 약해진다**(실측). 현재는
+  흰 배경 생성 + 알파 추출로 질감 우선. 사용자 최종 판단 대기.
 
 ---
 
@@ -2519,8 +2558,8 @@ PATCH).
 ### Changed
 
 - **`VERSION`** 0.5.3 → 0.5.4.
-- **`CHANGELOG.md`** `last_synced_with: v1.0.9`.
-- **`DEVLOG.md`** `last_synced_with: v1.0.9`.
+- **`CHANGELOG.md`** `last_synced_with: v1.1.0`.
+- **`DEVLOG.md`** `last_synced_with: v1.1.0`.
 
 ---
 
@@ -2581,7 +2620,7 @@ Phase 5 의 두 번째 PATCH. SourceCollectionPartial[] 을 정식 SourceRegistr
 ### Changed
 
 - **`VERSION`** 0.5.2 → 0.5.3.
-- **`CHANGELOG.md`** `last_synced_with: v1.0.9`, `last_review: 2026-05-23`.
+- **`CHANGELOG.md`** `last_synced_with: v1.1.0`, `last_review: 2026-05-23`.
 
 ### Test baseline
 
@@ -3197,7 +3236,7 @@ C5.4 의 MINOR 트리거 두 가지 (Phase 완료 + 새 Worker 추가) 가 동�
   `agents/dynamic_intake_planner.py` → `workers/intake_planner_worker.py (BaseLLMWorker)` 로 갱신.
   Worker 카탈로그 §3 에 Intake Planner 행 추가 (Phase 3, slot 1개, LLM 호출이므로 parallelizable
   ❌ 표기 — Worker Slot Manager 가 별도 slot 으로 격리할지는 Phase 4 결정 사항).
-- 모든 Tier 1·2·3 마크다운/HTML `last_synced_with: v1.0.9* → v0.3.0` 일괄 갱신 (36 파일).
+- 모든 Tier 1·2·3 마크다운/HTML `last_synced_with: v1.1.0* → v0.3.0` 일괄 갱신 (36 파일).
 
 ### Notes
 - `schemas/models.py` 의 IntakePlan / IntakePlanItem / UserDecision / SourceIntake 는 Phase 0 부터
@@ -3277,7 +3316,7 @@ Codex 2차 리뷰 (3-way 통합 검수) 의 High 2건 중 코드 측 H2 반영. 
 ### Changed
 - **`orchestrator/project_manager.py:_write_manifest`** atomic write 화. `path.write_text` 직접 호출 → tmp 파일에 쓴 뒤 `Path.replace` 로 교체. 외부 reader (TUI 라이브 reload) 가 half-written 상태를 보는 race 차단. POSIX rename / Windows `os.replace` 모두 atomic.
 - `docs/ANTIPATTERNS/README.md` SCHEMA-AP 줄을 "Phase 2부터" → "Phase 2 v0.2.7 신설, SCHEMA-AP-001~" 로 갱신.
-- 모든 Tier 1·2·3 마크다운 `last_synced_with: v1.0.9 → v0.2.7` 일괄 갱신.
+- 모든 Tier 1·2·3 마크다운 `last_synced_with: v1.1.0 → v0.2.7` 일괄 갱신.
 
 ### Fixed
 - TUI 가 외부 `transition` CLI 호출 후에도 stale state 를 표시하던 문제.
@@ -3488,7 +3527,7 @@ Codex 2차 리뷰 (3-way 통합 검수) 의 High 2건 중 코드 측 H2 반영. 
 ### Changed
 - GitHub default branch 가 `main` 으로 통합됨에 따라 로컬 브랜치도 `main` 으로 rename, `branches.html:BRANCH_DESCRIPTIONS` 도 갱신.
 - `branches.html:loadVersion` 이 raw.githubusercontent.com 대신 `/contents/VERSION` API 를 사용하도록 변경 (Private 저장소에서도 Bearer 인증으로 동작).
-- 모든 Tier 1·2·3 마크다운/HTML 의 `last_synced_with: v1.0.9 → v0.1.1` 동기화.
+- 모든 Tier 1·2·3 마크다운/HTML 의 `last_synced_with: v1.1.0 → v0.1.1` 동기화.
 
 ### Fixed
 - 없음 (Phase 1 PIPELINE-AP-006 은 v0.1.0 안에서 fix 됨).

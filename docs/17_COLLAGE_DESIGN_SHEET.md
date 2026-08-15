@@ -1,6 +1,6 @@
 <!--
 tier: 2
-last_synced_with: v1.0.9
+last_synced_with: v1.1.0
 ssot_for: [collage-design-sheet, shorts-design-tokens, collage-components, shorts-scene-templates]
 depends_on: [07_VIDEO_STYLE_GUIDE.md, SHORTS_COLLAGE_OVERHAUL_PLAN.md, ../schemas/models.py]
 last_review: 2026-08-14
@@ -405,6 +405,24 @@ manifest 기록).
 선택 주체: V1 시드(방향·위상) / V2 규칙(카테고리·엔티티) / V3 아트 디렉터(씬 연출) —
 컴포넌트는 파라미터로 받기만 한다 (§2 CutoutActor).
 
+#### 1.7.2 "사각형 섀도 금지"의 범위 (사용자 확정 2026-08-15)
+
+금지 대상은 **실루엣을 무시하고 인물 뒤에 직사각형 판을 까는 것**이다. 인물이 가슴에서
+잘린 크롭이라 **섀도 하단이 직선으로 나오는 것은 허용**한다 — 컷아웃 자체가 잘린 종이
+조각이라는 뜻이고, 콜라주 문법에서 자연스러운 물성이다 (사용자 판단).
+
+```
+❌ 금지: 실루엣 무시한 직사각형 판
+✅ 허용: 실루엣을 따르되 크롭 경계(하단)가 직선인 것 — 잘린 종이 조각
+```
+
+따라서 **하단도 그대로 섀도를 만든다.** 크롭 경계를 가리려고 씬 배치를 제약하거나
+컷아웃 하단을 페더링할 필요 없다.
+
+> 실측 주의 (2026-08-15): 생성물은 인물이 프레임을 꽉 채우므로 `offset` 섀도가 캔버스
+> 밖으로 나가 잘린다. `compose_mono_shadow(pad=(70,70,70,70))` 처럼 **여백을 주고
+> 합성**할 것. `outline` 모드는 여백 없이도 보인다.
+
 ## 2. L2 — 컴포넌트 시트 (11종) — `C 01`~`C 11`
 
 각 컴포넌트는 `hyperframes/shorts/assets/collage_kit.js` 에 구현될 예정(Phase 3). 여기서는
@@ -414,7 +432,7 @@ manifest 기록).
 
 | # | 컴포넌트 | 입력 | 모션 | 금지사항 |
 |---|---|---|---|---|
-| 1 | `CutoutActor` | LibraryPerson mono variant, 위치, 액센트 | **§1.7** — 모노톤+컬러 오프셋 섀도 + 하단 등장(단체 stagger 120ms), 이후 jitter | 즉석 생성 이미지 금지 — 라이브러리 자산만. 사각형 섀도 금지 |
+| 1 | `CutoutActor` | LibraryPerson mono variant, 위치, 액센트 | **§1.7** — 모노톤+컬러 오프셋 섀도 + 하단 등장(단체 stagger 120ms), 이후 jitter | 즉석 생성 이미지 금지 — 라이브러리 자산만. 실루엣 무시한 직사각형 판 금지 (크롭 하단 직선은 허용 — §1.7.2) |
 | 2 | `ScreenedPortrait` (변주 옵션) | halftone/linescreen SVG | 점 성장/선 draw-on | 기본값 사용 금지 — V2/V3 가 명시 선택한 씬만. 컬러 필터 금지 |
 | 3 | `RansomHeadline` | 문자열, emphasis 어절 | 글자 단위 stagger place (40ms) | 본문 자막에 사용 금지, 씬당 1줄 |
 | 4 | `StampLabel` | 라벨 enum (확인/추론/미검증/반박됨) | 도장 "쾅" (1.3→1.0 + 5° 기울기) | 색·문구 변형 금지 (G4 — 07 §6) |

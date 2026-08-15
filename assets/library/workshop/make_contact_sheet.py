@@ -10,6 +10,7 @@
 
 from __future__ import annotations
 
+import argparse
 import json
 import pathlib
 
@@ -17,8 +18,10 @@ from PIL import Image, ImageDraw, ImageFont
 
 HERE = pathlib.Path(__file__).resolve().parent
 REFS = HERE / "references"
+GENERATED = HERE / "output"
 MANIFEST = REFS / "photo_manifest.json"
 OUT = HERE / "contact_sheet_portraits.png"
+OUT_GEN = HERE / "contact_sheet_generated.png"
 
 COLS = 5
 CELL_W, CELL_H = 380, 460
@@ -39,7 +42,19 @@ def _font(size: int) -> ImageFont.FreeTypeFont:
 
 
 def main() -> int:
+    ap = argparse.ArgumentParser(description=__doc__)
+    ap.add_argument("--generated", action="store_true",
+                    help="원본 사진 대신 codex 생성물(output/*.png)을 검수한다")
+    args = ap.parse_args()
+
     people = json.loads(MANIFEST.read_text(encoding="utf-8"))["people"]
+    if args.generated:
+        # 생성물이 있는 인물만. 파일은 output/, 라벨은 photo_manifest 에서.
+        people = {
+            pid: {**rec, "local_file": f"{pid}_mono_v01.png"}
+            for pid, rec in people.items()
+            if (GENERATED / f"{pid}_mono_v01.png").is_file()
+        }
     items = sorted(people.items())
     rows = (len(items) + COLS - 1) // COLS
 
@@ -52,14 +67,15 @@ def main() -> int:
     f_name = _font(22)
     f_meta = _font(16)
 
-    draw.text((PAD, 16), f"코어 인물 원본 검수 시트 — {len(items)}인", font=f_title, fill=FG)
+    title = ("codex 생성물 검수 시트" if args.generated else "코어 인물 원본 검수 시트")
+    draw.text((PAD, 16), f"{title} — {len(items)}인", font=f_title, fill=FG)
 
     for i, (pid, rec) in enumerate(items):
         r, c = divmod(i, COLS)
         x = PAD + c * (CELL_W + PAD)
         y = 56 + PAD + r * (CELL_H + LABEL_H + PAD)
 
-        path = REFS / rec["local_file"]
+        path = (GENERATED if args.generated else REFS) / rec["local_file"]
         try:
             img = Image.open(path).convert("RGB")
             w, h = img.size
@@ -82,8 +98,9 @@ def main() -> int:
             fill=WARN if small else (150, 143, 128),
         )
 
-    sheet.save(OUT, optimize=True)
-    print(f"[contact-sheet] {OUT}  ({sheet.width}x{sheet.height})")
+    out_path = OUT_GEN if args.generated else OUT
+    sheet.save(out_path, optimize=True)
+    print(f"[contact-sheet] {out_path}  ({sheet.width}x{sheet.height})")
     return 0
 
 

@@ -13,6 +13,11 @@
 
 ---
 
+> **프롬프트 본문은 영어다** (v1.0.13 전환). 이유 두 가지 — ① 한글 프롬프트를 셸
+> 파이프로 codex 에 넘기면 인코딩이 깨진다(실측 2026-08-15: codex 가 mojibake 를
+> 감지하고 스스로 영어로 재작성했다). ② 이미지 생성 모델이 영어 지시를 더 정확히
+> 따른다. 설명·검수 기준 등 사람이 읽는 부분은 한국어를 유지한다 (C1 상 혼용 허용).
+
 ```
 $imagegen
 
@@ -22,34 +27,35 @@ or other programmatic drawing methods.
 Use the native image generation tool.
 The final deliverable must be a generated raster image.
 
-첨부 이미지 1 (style_anchor_portrait_v1.png)은 **질감과 톤의 기준**이다.
-그 시트의 인물 처리 방식(고대비 모노톤 인쇄 질감)만 따르고,
-**시트에 보이는 종이 배경과 컬러 섀도는 따라 그리지 마라.**
+Input image 1 (style_anchor_portrait_v1.png) is the reference for TEXTURE AND TONE ONLY.
+Follow only the portrait treatment from that sheet: high-contrast monochrome print texture.
+Do NOT copy the paper background, the colored offset shadow, the colored outline,
+the panel layout, or any labels from that sheet.
 
-첨부 이미지 2 ({person_photo})는 {person_name}의 실제 사진이다.
-이 인물의 얼굴 특징을 정확히 유지한 채 아래 스타일로 가공하라.
-얼굴을 새로 지어내지 마라.
+Input image 2 ({person_photo}) is the real photograph of {person_name}.
+Preserve {person_name}'s real facial identity, proportions, expression, hair shape,
+and recognizable facial details. Do NOT invent a new face.
 
-만들 것:
-- {person_name} 한 사람만. 상반신 (가슴 위), 세로 4:5
-- high-contrast monochrome editorial portrait
-  — 신문 인쇄물 / halftone / engraving 질감
-  — 강한 흑백 대비, 하이라이트는 깨끗한 흰 면, 회색 안개 금지
-  — 얼굴 디테일은 보존한다 (획으로 재구성하지 마라)
+Create:
+- {person_name} only, upper body from the chest upward, vertical 4:5 aspect ratio.
+- High-contrast monochrome editorial portrait.
+- Newspaper print / halftone / engraving texture.
+- Strong black-and-white contrast, clean white highlights, no gray haze.
+- Preserve facial detail; do not rebuild the face as loose line art.
 
-배경 (중요):
-- 배경은 **순백(pure white #FFFFFF) 단색**으로 한다
-- 배경에 종이 질감, 그레인, 그림자, 비네트, 그라데이션을 넣지 마라
-- 인물 뒤에 어떤 색 실루엣도, 어떤 외곽선도 넣지 마라
-- 인물 윤곽이 배경과 명확히 분리되어야 한다 (인물 가장자리가 흰색으로
-  흐려지면 안 된다 — 오려낼 수 있게 경계가 뚜렷할 것)
+Background (critical):
+- Pure white #FFFFFF solid background.
+- No paper texture, grain, shadow, vignette, or gradient.
+- No colored silhouette and no outline behind the subject.
+- The subject edge must be crisp and clearly separated from the white background
+  so the figure can be cut out later.
 
-금지:
-- 이미지 안에 어떤 텍스트도 넣지 않는다 (이름·라벨·숫자·워터마크 금지)
-- 컬러 액센트 금지 — 순수 흑백만
-- 프레임, 테두리, 모서리 장식 금지
+Forbidden:
+- No text, names, labels, numbers, or watermark anywhere in the image.
+- No color accents; pure black and white only.
+- No frame, border, or corner decoration.
 
-Aspect ratio 4:5. 고해상도. 완성된 단일 인물 이미지로 생성한다.
+High resolution. Final output is a single generated raster portrait image.
 ```
 
 ## 슬롯
