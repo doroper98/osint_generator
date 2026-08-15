@@ -28,6 +28,17 @@ released 항목은 **append-only**입니다.
 
 ---
 
+## [v1.0.4] — 2026-08-15
+
+### Changed
+- **codex `$imagegen` 경로 정식 채택 확정** — 사용자 Windows codex 스모크 테스트 통과
+  (`/skills` imagegen 노출 + 에디토리얼 포스터 PNG 정상 생성, 품질 우수). §2.0.1 의
+  알려진 이슈 케이스 비해당 확인. Phase 2 인물 양산의 기술 전제 충족 — 남은 선행:
+  스타일 앵커 원본을 사용자 머신 `workshop/references/` 에 배치(원본은 사용자 보유,
+  codex 실행 위치에 있으면 됨) + 코어 인물 라인업 확정.
+
+---
+
 ## [v1.0.3] — 2026-08-15
 
 ### Changed

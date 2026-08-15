@@ -1,6 +1,6 @@
 <!--
 tier: 2
-last_synced_with: v1.0.3
+last_synced_with: v1.0.4
 ssot_for: [shorts-collage-overhaul-plan, collage-design-direction, asset-library-plan]
 depends_on: [CLAUDE.md, GOAL.md, docs/07_VIDEO_STYLE_GUIDE.md, docs/08_AUDIO_AND_TTS_SPEC.md, docs/10_RENDERING_PIPELINE_SPEC.md, docs/VIDEO_BUNDLE_CONTRACT.md, docs/PROFESSIONAL_REBUILD_PLAN.md]
 last_review: 2026-08-14
@@ -196,6 +196,8 @@ deliverable must be a generated raster image." 를 박는다 (표준 템플릿�
 노출되지 않는 사례가 공식 GitHub 에 보고됨 → **사용자 액션**: Windows codex 에서 `/skills`
 로 imagegen 확인 + `$imagegen Create a simple editorial poster image.` 스모크 테스트 후
 채택 확정. 실패 시 2순위로.
+→ **[2026-08-15 검증 완료]** 사용자 Windows codex 에서 `/skills` imagegen 확인 + 스모크
+테스트 통과 (에디토리얼 포스터 PNG 정상 생성, 품질 우수) — **본 경로 정식 채택 확정.**
 
 공방 구조: `assets/library/workshop/` — `AGENTS.md`(codex 작업 규칙) + `prompts/`(표준
 템플릿) + `references/`(스타일 앵커 — 사용자 검수 통과 시트 원본) + `output/`. 기타 전제
