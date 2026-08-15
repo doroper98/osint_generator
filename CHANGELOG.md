@@ -28,6 +28,18 @@ released 항목은 **append-only**입니다.
 
 ---
 
+## [v0.45.7] — 2026-08-14
+
+### Changed
+- **OpenAI 진영 통합 지도 (계획 §2.1.6)** — 신규 아키텍처 불요: ADDENDUM_04 브리지가 이미
+  `backend ∈ {claude, codex}` 이중 지원 + LLMCallRecord 추적. 통합 지점 4 — ① V3 아트
+  디렉션 백엔드/A-B(Phase 5 옵션) ② **이종 모델 교차 검증**(G4 강화, 최고 가치 지점 —
+  불일치 시 needs_user_confirmation) ③ 비사실 소품 이미지 생성(G4-10 예외 선행, 보류)
+  ④ 코드 작성 주체(파이프라인 밖). 불변 경계: 렌더 체인 LLM 무호출, C10 리뷰 절차 부활
+  금지, codex CLI 는 사용자 머신 구독 로그인 전제.
+
+---
+
 ## [v0.45.6] — 2026-08-14
 
 ### Changed

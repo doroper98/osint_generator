@@ -1,6 +1,6 @@
 <!--
 tier: 2
-last_synced_with: v0.45.6
+last_synced_with: v0.45.7
 ssot_for: [shorts-collage-overhaul-plan, collage-design-direction, asset-library-plan]
 depends_on: [CLAUDE.md, GOAL.md, docs/07_VIDEO_STYLE_GUIDE.md, docs/08_AUDIO_AND_TTS_SPEC.md, docs/10_RENDERING_PIPELINE_SPEC.md, docs/VIDEO_BUNDLE_CONTRACT.md, docs/PROFESSIONAL_REBUILD_PLAN.md]
 last_review: 2026-08-14
@@ -168,6 +168,24 @@ OpenAI 강점이라서." **판단: 지점을 나눠야 한다.**
    옵션과 동일 경계이며, 채택하려면 G4-10 예외 문구(MAJOR) + risk_flag + "사실 묘사 금지"
    가 선행돼야 한다. 현재 절차 생성 품질(갱지 등)이 검수를 통과하고 있어 당장 필요성은
    낮음 — **Phase 3 스타일 데모 후 부족한 소품에 한해 재상정.**
+
+### 2.1.6 OpenAI 진영 통합 지도 (사용자 질문 2026-08-14 — "어떻게 통합하나")
+
+**새 아키텍처가 필요 없다** — ADDENDUM_04 구독 LLM 브리지가 이미 이중 백엔드다:
+`BaseLLMWorker.llm_backend ∈ {"claude", "codex"}` (인스턴스 단위 override, CLI `--backend`),
+모든 호출은 `LLMCallRecord`(backend 필드 포함)로 영속 추적. 통합은 설정 문제다.
+
+| # | 지점 | 역할 | 메커니즘 | 상태 |
+|---|---|---|---|---|
+| ① | **아트 디렉션(V3) 백엔드** | `art_direction.json` 생성 — claude 기본, codex 를 대안 생성/A-B 비교(프리뷰 시트에 두 안 나란히) | BaseLLMWorker backend 파라미터 + config `llm.profiles` | Phase 5 옵션 |
+| ② | **이종 모델 교차 검증 (G4 강화)** | 검증 라벨·수치 대조를 다른 진영 모델로 2차 확인 — 모델 고유 오류 상쇄. 불일치 시 `needs_user_confirmation` | 기존 검증기 + codex 2nd opinion | 후속 옵션 (가장 가치 높은 지점) |
+| ③ | **비사실 소품 이미지 생성** | ChatGPT/gpt-image 로 커튼·오브제 일러스트 | §2.1.5-3 — **G4-10 예외 선행** + 라이브러리 등록 시 risk_flag·rights 기록 | 보류 |
+| ④ | **코드 작성 주체** | 워커/컴포넌트 구현을 codex CLI 세션에서 | 개발 프로세스 차원 — 파이프라인 밖 | 임의 (사용자 선택) |
+
+**불변 경계**: ⓐ 렌더 체인(HyperFrames 합성)은 LLM 무호출 유지 — LLM 은 계획 시점만.
+ⓑ C10 으로 폐지된 "codex 외부 코드 리뷰 절차"는 부활하지 않는다 (위 ①②④ 는 리뷰 절차가
+아니라 워커 백엔드/개발 도구). ⓒ 운영 전제: codex CLI 는 사용자 머신에 구독 로그인 필요
+(클라우드 세션엔 없을 수 있음 — 백엔드 폴백은 claude).
 
 ### 2.2 하이브리드 확장 옵션 (상위 기준 접근용 — 보류, Phase 3 결과 보고 결정)
 
