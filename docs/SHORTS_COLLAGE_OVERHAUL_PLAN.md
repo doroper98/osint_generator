@@ -1,6 +1,6 @@
 <!--
 tier: 2
-last_synced_with: v1.0.4
+last_synced_with: v1.0.8
 ssot_for: [shorts-collage-overhaul-plan, collage-design-direction, asset-library-plan]
 depends_on: [CLAUDE.md, GOAL.md, docs/07_VIDEO_STYLE_GUIDE.md, docs/08_AUDIO_AND_TTS_SPEC.md, docs/10_RENDERING_PIPELINE_SPEC.md, docs/VIDEO_BUNDLE_CONTRACT.md, docs/PROFESSIONAL_REBUILD_PLAN.md]
 last_review: 2026-08-14
@@ -50,7 +50,7 @@ v0.43.4 기준, 재사용 가능한 토대가 이미 상당하다. **갈아엎�
    고정폭, 전 SVG viewBox·좌표에 하드코딩되어 있다. 따라서 **briefing 컴포지션을 세로로 개조하지
    않는다** — `hyperframes/shorts/` 를 신규 컴포지션으로 세우고, 처음부터 W/H·safe area 를 토큰으로
    파라미터화한다. SceneKit 의 프리미티브(LabelField·plate·leader)는 좌표 독립 부분만 이식.
-2. **docs/00~16 상당수는 폐기된 Remotion 파이프라인 기준**(`last_synced_with: v0.3.3`)이다. 07 v2
+2. **docs/00~16 상당수는 폐기된 Remotion 파이프라인 기준**(`last_synced_with: v1.0.8`)이다. 07 v2
    개정은 라이브 HyperFrames 체인 기준으로 작성하며, 죽은 스펙(10 렌더링 등)의 전면 재작성은 본
    사이클 범위 밖 (혼선 방지 주석만 추가).
 
@@ -490,6 +490,57 @@ V3 없이도 V1+V2 만으로 파이프라인은 완주 가능(폴백) — V3 는
         → 사용자 검수 (승인 / 리롤(시드 재추첨) / 항목 조정)   ← 새 Review Gate
         → 승인된 art_direction.json 으로만 풀 렌더 (TTS+mp4)
 ```
+
+#### 6.0.2 트리거 = 사용자의 번들 URL 투입 (사용자 확정 2026-08-15)
+
+**감시 워처를 만들지 않는다.** agents_reviewer 가 새 번들을 낼 때마다 자동으로 감지·알람하는
+경로는 **폐기**한다. 대신 사용자가 **영상으로 만들 가치가 있다고 고른 번들의 URL 을 봇에
+붙여넣는 순간**이 파이프라인의 시작점이다.
+
+```
+agents_reviewer 가 번들 생성 → (자동 알람 없음)
+   → 사용자가 번들을 보고 "이건 영상감이다" 판단
+   → osint_generator 봇에 번들 URL 붙여넣기       ← 유일한 트리거
+      예: https://analysis-reports.pages.dev/analysis_20260814_150031_252a4a5e85.bundle.json
+   → 번들 fetch·검증 → art_direction 생성 → 프리뷰 시트 렌더
+   → 텔레그램으로 프리뷰 전송 → 승인/리롤 (§6.0.1)
+   → 풀 렌더
+```
+
+근거(사용자): "모든 json 을 영상으로 만들 건 아니고 영상으로 만들법한 녀석들만 선택할 것."
+선별이 사람의 판단이므로 자동 감지는 **알람 소음만 만들고 결정을 대신해 주지 못한다**.
+
+이 결정의 파급:
+
+1. **미뤄둔 항목 "③ 자동 캐치 트리거"(워처 CLI + push 알림)는 폐기** — 상시 데몬·실행 위치
+   결정도 함께 소멸. 설계 부채 하나가 사라진 것이라 순이득이다.
+2. **번들 유입이 URL 기반이 되어야 한다.** 현행 `import_report_bundle(project_id,
+   bundle_path: Path)` 은 로컬 파일만 받는다 (`orchestrator/bundle_service.py`). URL fetch
+   경로(`import-bundle --url`) 신설이 봇 슬라이스의 선결 작업.
+3. **URL fetch 는 신뢰 경계다** — 번들은 외부 입력이므로 기존 검증(`ReportBundle` Pydantic +
+   VIDEO_BUNDLE_CONTRACT 규칙)을 그대로 통과시키고, 호스트 allowlist·크기 상한·타임아웃을
+   둔다. 본문은 `<untrusted_source>` 취급 원칙(LLM-AP-003) 을 승계.
+4. **Cloudflare Pages 는 기본 urllib User-Agent 를 403 으로 막는다** (2026-08-15 실측).
+   브라우저 UA 헤더를 명시해야 200 을 받는다 — `import-bundle --url` 구현 시 필수.
+
+**실번들 검증 (2026-08-15, `analysis_20260814_150031_252a4a5e85`, 74.8 KB)**: 위 URL 을 실제로
+받아 현행 파서에 통과시킨 결과 —
+
+| 확인 항목 | 결과 |
+|---|---|
+| `ReportBundle` 파싱 | **통과**. 최상위 15키 전부 모델링돼 있음 (`map` 포함 — 본 번들은 값이 `null`) |
+| `model_config.extra` | `"ignore"` — `bundle_service.import_report_bundle` docstring 의 `extra="forbid"` 기술은 **오류** |
+| `report.video` | `intro_narration` 2문장 + `outro_narration` 2문장 (+ 각 `_tts`) — HOOK·CLOSING 원천 존재 |
+| 섹션 `video` | 11개 섹션 **전부** 보유. 각 `narration` 3문장 + `highlights` 1 + `emphasis` |
+| 문장 총량 | 섹션 33 + intro 2 + outro 2 = **37문장** |
+| 차트 | 5종 — `bar` `diverging_bar` `donut` `sankey` `stakeholder_map` |
+| 이미지 | 0장 (본 번들은 사진 경로·권리 게이트를 타지 않음) |
+| `contradictions` | 2건, 각각 `video` 블록 보유 → **TURN 씬의 유력한 데이터 원천** |
+
+**§5.3 컷다운 규칙의 수치가 안 맞는다 (미해결)**: 현행 규칙 2번은 "상위 **2섹션**만"인데,
+본 번들에 적용하면 2×3 + intro 2 + outro 2 = **10문장**이다. 문장당 4~6초면 40~60초라
+**90~120초 타깃에 크게 못 미친다**. 상한 24문장과도 멀다. 상위 섹션 수를 2 → **4~5** 로
+올리거나 섹션당 문장 절단 규칙을 재조정해야 한다 — Phase 4 변환기 착수 전에 확정할 것.
 
 근거(사용자): "영상이 만들어진 뒤에 세부 사항을 지적해서 다시 만들면 불필요한 비용이 크다."
 프리뷰 시트는 정적이라 초 단위·무비용이고, 승인된 `art_direction.json` 이 곧 렌더 입력이라

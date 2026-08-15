@@ -1,6 +1,6 @@
 <!--
 tier: 3
-last_synced_with: v1.0.7
+last_synced_with: v1.0.8
 ssot_for: [development-log]
 depends_on: [CHANGELOG.md]
 last_review: 2026-06-06
@@ -22,6 +22,29 @@ last_review: 2026-06-06
 - 결과:  …
 - 연관:  AP-번호, 이슈, PR 번호 등
 ```
+
+---
+
+## 2026-08-15 v1.0.8 — 파이프라인 트리거 확정 (URL 투입) + 실번들 검증
+
+- **무엇을**: 번들 → 영상 파이프라인의 트리거를 "사용자의 번들 URL 투입"으로 확정하고
+  (계획 §6.0.2 신설), 미뤄둔 "③ 자동 캐치 트리거"를 폐기. 사용자 제공 실번들 URL 로
+  현행 파서를 실측 검증.
+- **왜**: 사용자 확정 — "모든 json 을 영상으로 만들 건 아니고 영상으로 만들법한 녀석들만
+  선택할 것." 선별이 사람의 판단이므로 자동 감지는 알람 소음만 만든다.
+- **결과**:
+  - 워처 CLI + push 알림 + 상시 데몬/실행 위치 결정이 통째로 소멸 (설계 부채 -1).
+  - 대신 `import-bundle --url` 이 봇 슬라이스의 선결 작업으로 승격 — 현행
+    `import_report_bundle(project_id, bundle_path: Path)` 는 로컬 파일만 받는다.
+  - **Cloudflare Pages 가 기본 urllib UA 를 403 으로 차단** (실측). 브라우저 UA 필수.
+  - 실번들 파싱 **통과**. 최상위 15키 전부 모델링, 섹션 11개 전부 video 블록 보유.
+  - **§5.3 컷다운 수치가 안 맞는다 (미해결)**: "상위 2섹션" 규칙이면 10문장 → 40~60초로
+    90~120초 타깃 미달. Phase 4 착수 전 상위 섹션 수 재확정 필요.
+  - `bundle_service` docstring 의 `extra="forbid"` 는 오류였다 (실제 `extra="ignore"`) —
+    미지 필드가 조용히 버려지므로 계약 확장 감지를 이 파서에 기대면 안 된다. 정정.
+  - `contradictions` 2건이 각각 video 블록 보유 → TURN 씬 데이터 원천 후보 발견.
+- **연관**: docs/SHORTS_COLLAGE_OVERHAUL_PLAN.md §6.0.2, HANDOFF 미뤄둔 목록 2번,
+  orchestrator/bundle_service.py, v1.0.7.
 
 ---
 
@@ -1817,7 +1840,7 @@ last_review: 2026-06-06
     6. 관련 문서
     프롬프트는 영문 고정 — codex 의 reasoning 일관성 + Windows 한글 코드페이지 이슈 회피.
   - **HANDOFF.md 전면 갱신**:
-    - `last_synced_with: v1.0.7 → v0.2.6`, `depends_on` 에 `docs/REVIEW_PROMPT.md` 추가.
+    - `last_synced_with: v1.0.8 → v0.2.6`, `depends_on` 에 `docs/REVIEW_PROMPT.md` 추가.
     - "1. 지금 어디까지 와 있나" 표에 v0.2.3 / v0.2.4 / v0.2.5 / v0.2.6 4 행 추가.
     - 알려진 antipattern 카탈로그 갱신 (LLM-AP-001/002/003 상태 명시).
     - "2. 다음 작업" 절을 v0.2.3/Phase 3 양자택일 → **Phase 3 (v0.3.0) IntakePlannerWorker 단독** 으로 교체. 도메인 모델 4 종, Worker 명세, 웹 페이지, CLI 확장, DoD 7 항목, 알려진 risk 4 종, Phase 4 예고 포함. 대안 절 (LLM-AP-003 후속 보안 강화 먼저) 도 명시.
@@ -2517,7 +2540,7 @@ last_review: 2026-06-06
     cross input_item_id / intra source_id / project_id / schema_version) +
     counter 3 + 충돌 검출 순서 1 + 보조 케이스 2.
   - VERSION 0.5.2 → 0.5.3. `__version__` 은 SSOT (VERSION) 에서 자동 갱신.
-  - CHANGELOG / DEVLOG `last_synced_with: v1.0.7`.
+  - CHANGELOG / DEVLOG `last_synced_with: v1.0.8`.
 - **결과**:
   - py_compile 통과.
   - 전체 unittest = **167/167 통과** (직전 148 + 신규 19).

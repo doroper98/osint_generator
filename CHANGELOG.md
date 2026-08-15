@@ -1,6 +1,6 @@
 <!--
 tier: 3
-last_synced_with: v1.0.7
+last_synced_with: v1.0.8
 ssot_for: [release-notes]
 depends_on: [README.md, GOAL.md]
 last_review: 2026-06-11
@@ -25,6 +25,36 @@ released 항목은 **append-only**입니다.
 
 ### Fixed
 -
+
+---
+
+## [v1.0.8] — 2026-08-15
+
+### Changed
+- **파이프라인 트리거 확정 (계획 §6.0.2 신설)** — 사용자 확정: 감시 워처를 만들지 않는다.
+  사용자가 "영상으로 만들 법한" 번들을 골라 **URL 을 봇에 붙여넣는 순간**이 유일한 트리거.
+  근거: "모든 json 을 영상으로 만들 건 아니고 영상으로 만들법한 녀석들만 선택할 것" —
+  선별이 사람의 판단이라 자동 감지는 알람 소음만 만들고 결정을 대신해 주지 못한다.
+
+### Removed
+- **미뤄둔 항목 "③ 자동 캐치 트리거" 폐기** — 워처 CLI + push 알림 + 상시 데몬/실행 위치
+  결정이 통째로 소멸. 설계 부채 하나가 사라진 순이득. 대신 `import-bundle --url` 신설이
+  봇 슬라이스의 선결 작업이 됐다 (현행 `import_report_bundle` 은 로컬 `Path` 만 받음).
+
+### Fixed
+- `bundle_service.import_report_bundle` docstring 의 `extra="forbid"` 기술 오류 정정 —
+  실제 `ReportBundle.model_config` 는 `extra="ignore"` 다. 미지 필드가 예외를 내지 않고
+  조용히 버려지므로 계약 확장 감지를 이 파서에 기대면 안 된다.
+
+### Notes (실번들 검증, `analysis_20260814_150031_252a4a5e85` 74.8 KB)
+- 사용자 제공 URL 을 실제로 받아 현행 파서에 통과시킴 — **파싱 통과**, 최상위 15키 전부
+  모델링돼 있음. 섹션 11개 전부 `video` 블록 보유(narration 3 + highlights + emphasis).
+- **Cloudflare Pages 가 기본 urllib UA 를 403 으로 차단** — 브라우저 UA 필수 (구현 요건).
+- **§5.3 컷다운 수치 불일치 발견 (미해결)**: "상위 2섹션" 규칙 적용 시 10문장 → 40~60초로
+  90~120초 타깃 미달. 상위 섹션 수를 4~5 로 올릴지 Phase 4 착수 전 확정 필요.
+- 차트 5종(`bar` `diverging_bar` `donut` `sankey` `stakeholder_map`) 중 현행 변환기 커버는
+  `bar` 뿐 — 기존에 알려진 미지원 항목이 실번들에서 재확인됨.
+- `contradictions` 2건이 각각 `video` 블록 보유 → TURN 씬의 유력한 데이터 원천.
 
 ---
 
@@ -2460,8 +2490,8 @@ PATCH).
 ### Changed
 
 - **`VERSION`** 0.5.3 → 0.5.4.
-- **`CHANGELOG.md`** `last_synced_with: v1.0.7`.
-- **`DEVLOG.md`** `last_synced_with: v1.0.7`.
+- **`CHANGELOG.md`** `last_synced_with: v1.0.8`.
+- **`DEVLOG.md`** `last_synced_with: v1.0.8`.
 
 ---
 
@@ -2522,7 +2552,7 @@ Phase 5 의 두 번째 PATCH. SourceCollectionPartial[] 을 정식 SourceRegistr
 ### Changed
 
 - **`VERSION`** 0.5.2 → 0.5.3.
-- **`CHANGELOG.md`** `last_synced_with: v1.0.7`, `last_review: 2026-05-23`.
+- **`CHANGELOG.md`** `last_synced_with: v1.0.8`, `last_review: 2026-05-23`.
 
 ### Test baseline
 
@@ -3138,7 +3168,7 @@ C5.4 의 MINOR 트리거 두 가지 (Phase 완료 + 새 Worker 추가) 가 동�
   `agents/dynamic_intake_planner.py` → `workers/intake_planner_worker.py (BaseLLMWorker)` 로 갱신.
   Worker 카탈로그 §3 에 Intake Planner 행 추가 (Phase 3, slot 1개, LLM 호출이므로 parallelizable
   ❌ 표기 — Worker Slot Manager 가 별도 slot 으로 격리할지는 Phase 4 결정 사항).
-- 모든 Tier 1·2·3 마크다운/HTML `last_synced_with: v1.0.7* → v0.3.0` 일괄 갱신 (36 파일).
+- 모든 Tier 1·2·3 마크다운/HTML `last_synced_with: v1.0.8* → v0.3.0` 일괄 갱신 (36 파일).
 
 ### Notes
 - `schemas/models.py` 의 IntakePlan / IntakePlanItem / UserDecision / SourceIntake 는 Phase 0 부터
@@ -3218,7 +3248,7 @@ Codex 2차 리뷰 (3-way 통합 검수) 의 High 2건 중 코드 측 H2 반영. 
 ### Changed
 - **`orchestrator/project_manager.py:_write_manifest`** atomic write 화. `path.write_text` 직접 호출 → tmp 파일에 쓴 뒤 `Path.replace` 로 교체. 외부 reader (TUI 라이브 reload) 가 half-written 상태를 보는 race 차단. POSIX rename / Windows `os.replace` 모두 atomic.
 - `docs/ANTIPATTERNS/README.md` SCHEMA-AP 줄을 "Phase 2부터" → "Phase 2 v0.2.7 신설, SCHEMA-AP-001~" 로 갱신.
-- 모든 Tier 1·2·3 마크다운 `last_synced_with: v1.0.7 → v0.2.7` 일괄 갱신.
+- 모든 Tier 1·2·3 마크다운 `last_synced_with: v1.0.8 → v0.2.7` 일괄 갱신.
 
 ### Fixed
 - TUI 가 외부 `transition` CLI 호출 후에도 stale state 를 표시하던 문제.
@@ -3429,7 +3459,7 @@ Codex 2차 리뷰 (3-way 통합 검수) 의 High 2건 중 코드 측 H2 반영. 
 ### Changed
 - GitHub default branch 가 `main` 으로 통합됨에 따라 로컬 브랜치도 `main` 으로 rename, `branches.html:BRANCH_DESCRIPTIONS` 도 갱신.
 - `branches.html:loadVersion` 이 raw.githubusercontent.com 대신 `/contents/VERSION` API 를 사용하도록 변경 (Private 저장소에서도 Bearer 인증으로 동작).
-- 모든 Tier 1·2·3 마크다운/HTML 의 `last_synced_with: v1.0.7 → v0.1.1` 동기화.
+- 모든 Tier 1·2·3 마크다운/HTML 의 `last_synced_with: v1.0.8 → v0.1.1` 동기화.
 
 ### Fixed
 - 없음 (Phase 1 PIPELINE-AP-006 은 v0.1.0 안에서 fix 됨).

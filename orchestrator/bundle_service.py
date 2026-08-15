@@ -57,7 +57,8 @@ def import_report_bundle(
     """import-bundle 전체 흐름.
 
     1. precondition: source_completeness_review.
-    2. report_bundle 로드·검증 (ReportBundle, extra="forbid").
+    2. report_bundle 로드·검증 (ReportBundle — `extra="ignore"`. 미지 필드는 예외가 아니라
+       조용히 버려지므로, 계약 확장 감지는 본 파서가 아니라 별도 검증기의 몫이다).
     3. research_dossier 로 변환·영속화.
     4. 디스크 dossier 검증 (전이 게이트).
     5. source_completeness_review → research_in_progress 전이.

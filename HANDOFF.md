@@ -1,6 +1,6 @@
 <!--
 tier: 1
-last_synced_with: v1.0.6
+last_synced_with: v1.0.8
 ssot_for: [session-handoff]
 depends_on: [CLAUDE.md, GOAL.md, VERSION, docs/13_IMPLEMENTATION_ROADMAP.md, docs/PROFESSIONAL_REBUILD_PLAN.md]
 last_review: 2026-06-05
@@ -94,9 +94,11 @@ last_review: 2026-06-05
    (`render_io.split_subtitle_cues`). 정밀 싱크는 교체형 백엔드(TTS 패턴, `OSINT_ALIGN_*`)
    + 비례 폴백으로. **실제 음성 + 정렬 모델은 사용자 Windows 머신에서만**(이 클라우드는
    음성=stub + huggingface 차단). → 사용자가 "나중에(1)".
-2. **③ 자동 캐치 트리거** — 지금은 수동(`import-bundle --file`). agents_reviewer 가
-   `--bundle` 로 Pages 에 올린 새 번들을 감시→자동 import 하는 워처 CLI + push 알림 설계.
-   상시 데몬/실행 위치 결정 필요. → 사용자가 "나중에(2)".
+2. ~~**③ 자동 캐치 트리거**~~ — **폐기 (사용자 확정 2026-08-15, v1.0.8)**. 감시 워처를
+   만들지 않는다. 사용자가 "영상으로 만들 법한" 번들을 골라 **URL 을 봇에 붙여넣는 순간**이
+   유일한 트리거 (계획 §6.0.2). 선별이 사람의 판단이라 자동 감지는 알람 소음만 만든다.
+   → 대신 **`import-bundle --url` 신설**이 봇 슬라이스의 선결 작업이 됐다 (현행은 로컬
+   `Path` 만 받음). Cloudflare Pages 가 기본 urllib UA 를 403 으로 막으므로 브라우저 UA 필수.
 3. **차트·자막·타이포 프로페셔널 재빌드** (v0.30.0 ~ v0.36.0 사이클 — **진행 중**).
    사용자 평가 "전반적으로 너무 구려"에 대한 구조적 대응. 비주얼 기준은 **날리지식**
    (YouTube `FaOqn3-YdkI`, `ucl9RED4Ye4` — **YTN 세계는 날리지가 아님**).
