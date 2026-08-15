@@ -323,9 +323,131 @@
         1800
       ],
       "local_file": "photo_bezos.jpg"
+    },
+    "peter_thiel": {
+      "person_id": "peter_thiel",
+      "name_ko": "피터 틸",
+      "name_en": "Peter Thiel",
+      "commons_title": "File:Peter Thiel by Gage Skidmore.jpg",
+      "license": "CC BY-SA 3.0",
+      "usage_terms": "Creative Commons Attribution-Share Alike 3.0",
+      "artist": "Gage Skidmore",
+      "credit": "Own work",
+      "source_page": "https://commons.wikimedia.org/wiki/File:Peter_Thiel_by_Gage_Skidmore.jpg",
+      "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3e/Peter_Thiel_by_Gage_Skidmore.jpg/1280px-Peter_Thiel_by_Gage_Skidmore.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "original_size": [
+        2642,
+        3477
+      ],
+      "local_file": "photo_peter_thiel.jpg"
+    },
+    "dario_amodei": {
+      "person_id": "dario_amodei",
+      "name_ko": "다리오 아모데이",
+      "name_en": "Dario Amodei",
+      "commons_title": "File:Dario Amodei in 2023.jpg",
+      "license": "CC BY 2.0",
+      "usage_terms": "Creative Commons Attribution 2.0",
+      "artist": "UK Prime Minister",
+      "credit": "https://www.flickr.com/photos/49707497@N06/52922227897/",
+      "source_page": "https://commons.wikimedia.org/wiki/File:Dario_Amodei_in_2023.jpg",
+      "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9e/Dario_Amodei_in_2023.jpg/1280px-Dario_Amodei_in_2023.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "original_size": [
+        1400,
+        2240
+      ],
+      "local_file": "photo_dario_amodei.jpg"
+    },
+    "audrey_tang": {
+      "person_id": "audrey_tang",
+      "name_ko": "오드리 탕",
+      "name_en": "Audrey Tang",
+      "commons_title": "File:Audrey tang 089 (25378300354) (cropped).jpg",
+      "license": "CC0",
+      "usage_terms": "Creative Commons Zero, Public Domain Dedication",
+      "artist": "Audrey Tang",
+      "credit": "audrey tang:089",
+      "source_page": "https://commons.wikimedia.org/wiki/File:Audrey_tang_089_(25378300354)_(cropped).jpg",
+      "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/fe/Audrey_tang_089_%2825378300354%29_%28cropped%29.jpg/1280px-Audrey_tang_089_%2825378300354%29_%28cropped%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "original_size": [
+        2232,
+        2976
+      ],
+      "local_file": "photo_audrey_tang.jpg"
+    },
+    "curtis_yarvin": {
+      "person_id": "curtis_yarvin",
+      "name_ko": "커티스 야빈",
+      "name_en": "Curtis Yarvin",
+      "commons_title": "File:Curtis Yarvin (3x4 cropped).jpg",
+      "license": "CC0",
+      "usage_terms": "Creative Commons Zero, Public Domain Dedication",
+      "artist": "Davidmerfield",
+      "credit": "Own work",
+      "source_page": "https://commons.wikimedia.org/wiki/File:Curtis_Yarvin_(3x4_cropped).jpg",
+      "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/bc/Curtis_Yarvin_%283x4_cropped%29.jpg/1280px-Curtis_Yarvin_%283x4_cropped%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "original_size": [
+        2046,
+        2726
+      ],
+      "local_file": "photo_curtis_yarvin.jpg"
+    },
+    "daron_acemoglu": {
+      "person_id": "daron_acemoglu",
+      "name_ko": "대런 애쓰모글루",
+      "name_en": "Daron Acemoglu",
+      "commons_title": "",
+      "license": "출처 미확인 · 공인의 보도·논평 목적 인용",
+      "usage_terms": "출처 미확인 · 공인의 보도·논평 목적 인용",
+      "artist": "미상",
+      "credit": "미상",
+      "source_page": "사용자 제공 (출처 미확인 — 웹 수집)",
+      "image_url": "",
+      "original_size": [
+        619,
+        783
+      ],
+      "local_file": "photo_daron_acemoglu.jpg",
+      "adopted_by_user": true,
+      "adopt_note": "사용자 판단으로 진행 (2026-08-15). 출처가 확인되는 자유 라이선스 사진으로 교체 권장."
+    },
+    "michael_sandel": {
+      "person_id": "michael_sandel",
+      "name_ko": "마이클 샌델",
+      "name_en": "Michael Sandel",
+      "commons_title": "",
+      "license": "출처 미확인 · 공인의 보도·논평 목적 인용",
+      "usage_terms": "출처 미확인 · 공인의 보도·논평 목적 인용",
+      "artist": "미상",
+      "credit": "미상",
+      "source_page": "사용자 제공 (출처 미확인 — 웹 수집)",
+      "image_url": "",
+      "original_size": [
+        453,
+        485
+      ],
+      "local_file": "photo_michael_sandel.jpg",
+      "adopted_by_user": true,
+      "adopt_note": "사용자 판단으로 진행 (2026-08-15). 453x485 저해상도. 출처 확인되는 고해상도 사진으로 교체 권장."
+    },
+    "helene_landemore": {
+      "person_id": "helene_landemore",
+      "name_ko": "Hélène Landemore",
+      "name_en": "Helene Landemore",
+      "commons_title": "",
+      "license": "출처 미확인 · 공인의 보도·논평 목적 인용",
+      "usage_terms": "출처 미확인 · 공인의 보도·논평 목적 인용",
+      "artist": "미상",
+      "credit": "미상",
+      "source_page": "사용자 제공 (출처 미확인 — 웹 수집)",
+      "image_url": "",
+      "original_size": [
+        458,
+        449
+      ],
+      "local_file": "photo_helene_landemore.jpg",
+      "adopted_by_user": true,
+      "adopt_note": "사용자 판단으로 진행 (2026-08-15). 458x449 저해상도. 출처 확인되는 고해상도 사진으로 교체 권장."
     }
-  },
-  "pending_manual": {
-    "kim_jong_un": "Commons 후보가 (a) 분장 배우(임퍼서네이터) 사진이거나 (b) restrictions='personality|communist' 로 차단됨. 사용자 판단 필요."
   }
 }

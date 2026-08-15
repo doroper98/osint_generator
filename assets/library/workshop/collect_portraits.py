@@ -82,6 +82,15 @@ PEOPLE: list[dict[str, str]] = [
     {"id": "altman",       "ko": "샘 올트먼",      "en": "Sam Altman",        "search": "Sam Altman"},
     {"id": "zuckerberg",   "ko": "마크 저커버그",  "en": "Mark Zuckerberg",   "search": "Mark Zuckerberg", "pin": "File:Mark Zuckerberg F8 2018 Keynote (cropped).jpg"},
     {"id": "tim_cook",     "ko": "팀 쿡",          "en": "Tim Cook",          "search": "Tim Cook"},
+    # --- 온디맨드 (실번들 analysis_20260814_150031 이 지목한 7인, §3.0.1) ---
+    # 코어 20인의 적중률이 0% 였던 번들. 학자·이론가 계열이라 사전 구축 대상이 아니었다.
+    {"id": "daron_acemoglu",   "ko": "대런 애쓰모글루", "en": "Daron Acemoglu",   "search": "Daron Acemoglu"},
+    {"id": "michael_sandel",   "ko": "마이클 샌델",    "en": "Michael Sandel",   "search": "Michael Sandel"},
+    {"id": "peter_thiel",      "ko": "피터 틸",       "en": "Peter Thiel",      "search": "Peter Thiel"},
+    {"id": "dario_amodei",     "ko": "다리오 아모데이", "en": "Dario Amodei",     "search": "Dario Amodei"},
+    {"id": "audrey_tang",      "ko": "오드리 탕",     "en": "Audrey Tang",      "search": "Audrey Tang"},
+    {"id": "curtis_yarvin",    "ko": "커티스 야빈",    "en": "Curtis Yarvin",    "search": "Curtis Yarvin"},
+    {"id": "helene_landemore", "ko": "Hélène Landemore", "en": "Helene Landemore", "search": "Helene Landemore"},
 ]
 
 
@@ -338,12 +347,73 @@ def adopt(args) -> int:
     print(f"        출처: {args.source}")
     print(f"        저작자: {args.artist}")
     print(f"[manifest] {MANIFEST}  ({len(records)}인)")
+    sync_rights_md()   # codex 가 읽는 RIGHTS.md 와 즉시 동기화 (갈라짐 방지)
     print("\n다음: python assets/library/workshop/make_contact_sheet.py 로 육안 재검수")
+    return 0
+
+
+RIGHTS_MD = REFS / "RIGHTS.md"
+RIGHTS_BEGIN = "<!-- BEGIN photo_manifest 자동 생성 — 직접 수정 금지 -->"
+RIGHTS_END = "<!-- END photo_manifest 자동 생성 -->"
+
+
+def sync_rights_md() -> int:
+    """`photo_manifest.json` 을 `RIGHTS.md` 의 표로 렌더한다.
+
+    권리 기록이 두 곳에 따로 있으면 갈라진다 — 실제로 codex 가
+    "photo_helene_landemore.jpg 는 있는데 RIGHTS.md 에 항목이 없다"며 작업을
+    거부했다 (2026-08-15). 공방 규칙(AGENTS.md §6)과 codex 는 RIGHTS.md 를 보고,
+    우리 도구는 manifest 에 쓴다.
+
+    → **manifest 가 정본**, RIGHTS.md 의 해당 구간은 그 렌더 결과로 둔다.
+    """
+    if not MANIFEST.exists():
+        print(f"error: {MANIFEST} 없음")
+        return 1
+    people = json.loads(MANIFEST.read_text(encoding="utf-8"))["people"]
+
+    rows = [
+        "| 파일 | 인물 | 출처 | 라이선스 | 저작자 | 비고 |",
+        "|---|---|---|---|---|---|",
+    ]
+    for pid, r in sorted(people.items()):
+        note = "사용자 제공" if r.get("adopted_by_user") else "자동 수집"
+        if r.get("adopt_note"):
+            note += f" — {r['adopt_note']}"
+        src = r.get("source_page") or r.get("commons_title") or "-"
+        rows.append(
+            f"| `{r.get('local_file','')}` | {r.get('name_ko','')} | {src} | "
+            f"{r.get('license','')} | {r.get('artist') or '-'} | {note} |"
+        )
+
+    block = "\n".join([
+        RIGHTS_BEGIN,
+        "",
+        f"**{len(people)}인** — 정본은 `photo_manifest.json` 이며 본 표는 그 렌더 결과다.",
+        "갱신: `python collect_portraits.py --sync-rights`",
+        "",
+        *rows,
+        "",
+        RIGHTS_END,
+    ])
+
+    text = RIGHTS_MD.read_text(encoding="utf-8") if RIGHTS_MD.exists() else ""
+    if RIGHTS_BEGIN in text and RIGHTS_END in text:
+        head, rest = text.split(RIGHTS_BEGIN, 1)
+        _, tail = rest.split(RIGHTS_END, 1)
+        text = head + block + tail
+    else:
+        text = text.rstrip() + "\n\n## 인물 원본 사진 — 자동 생성 표\n\n" + block + "\n"
+
+    RIGHTS_MD.write_text(text, encoding="utf-8")
+    print(f"[sync] {RIGHTS_MD}  ({len(people)}인)")
     return 0
 
 
 def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__)
+    ap.add_argument("--sync-rights", action="store_true",
+                    help="photo_manifest.json 을 RIGHTS.md 표로 렌더 (codex 가 읽는 파일)")
     ap.add_argument("--dry-run", action="store_true", help="조회만 하고 내려받지 않음")
     ap.add_argument("--only", nargs="*", help="특정 person_id 만")
     ap.add_argument("--adopt", metavar="PERSON_ID",
@@ -355,6 +425,9 @@ def main() -> int:
     ap.add_argument("--credit", default="", help="--adopt 용 크레딧 표기 (생략 시 artist)")
     ap.add_argument("--note", default="", help="--adopt 용 사용자 판단 메모 (초상권 등)")
     args = ap.parse_args()
+
+    if args.sync_rights:
+        return sync_rights_md()
 
     if args.adopt:
         missing = [n for n in ("file", "source", "license") if not getattr(args, n)]
@@ -430,6 +503,7 @@ def main() -> int:
             encoding="utf-8",
         )
         print(f"\n[manifest] {MANIFEST}")
+        sync_rights_md()   # 자동 수집 후에도 RIGHTS.md 동기화
 
     print(f"\n성공 {ok} / 실패 {len(failed)}")
     if failed:

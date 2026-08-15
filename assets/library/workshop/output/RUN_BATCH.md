@@ -1,6 +1,6 @@
 # codex 이미지 배치 실행 절차 (Phase 2 — 인물 컷아웃)
 
-대상 **17인**. 산출물은 배경·섀도 없는 고대비 모노톤 인물이다
+대상 **24인**. 산출물은 배경·섀도 없는 고대비 모노톤 인물이다
 (17 §1.7.0 방식 B — 섀도는 런타임 합성이라 굽지 않는다).
 
 ## 사전 점검 (세션 1회)
@@ -25,6 +25,15 @@ codex -i "references/style_anchor_portrait_v1.png" \
 → 프롬프트: `output/altman_mono_v01.prompt.txt` 의 내용을 붙여넣는다.
 → 산출물을 `output/altman_mono_v01.png` 로 저장.
 
+### 오드리 탕 (audrey_tang)
+
+```bash
+codex -i "references/style_anchor_portrait_v1.png" \
+      -i "references/photo_audrey_tang.jpg"
+```
+→ 프롬프트: `output/audrey_tang_mono_v01.prompt.txt` 의 내용을 붙여넣는다.
+→ 산출물을 `output/audrey_tang_mono_v01.png` 로 저장.
+
 ### 제프 베이조스 (bezos)
 
 ```bash
@@ -42,6 +51,42 @@ codex -i "references/style_anchor_portrait_v1.png" \
 ```
 → 프롬프트: `output/chey_tae_won_mono_v01.prompt.txt` 의 내용을 붙여넣는다.
 → 산출물을 `output/chey_tae_won_mono_v01.png` 로 저장.
+
+### 커티스 야빈 (curtis_yarvin)
+
+```bash
+codex -i "references/style_anchor_portrait_v1.png" \
+      -i "references/photo_curtis_yarvin.jpg"
+```
+→ 프롬프트: `output/curtis_yarvin_mono_v01.prompt.txt` 의 내용을 붙여넣는다.
+→ 산출물을 `output/curtis_yarvin_mono_v01.png` 로 저장.
+
+### 다리오 아모데이 (dario_amodei)
+
+```bash
+codex -i "references/style_anchor_portrait_v1.png" \
+      -i "references/photo_dario_amodei.jpg"
+```
+→ 프롬프트: `output/dario_amodei_mono_v01.prompt.txt` 의 내용을 붙여넣는다.
+→ 산출물을 `output/dario_amodei_mono_v01.png` 로 저장.
+
+### 대런 애쓰모글루 (daron_acemoglu)
+
+```bash
+codex -i "references/style_anchor_portrait_v1.png" \
+      -i "references/photo_daron_acemoglu.jpg"
+```
+→ 프롬프트: `output/daron_acemoglu_mono_v01.prompt.txt` 의 내용을 붙여넣는다.
+→ 산출물을 `output/daron_acemoglu_mono_v01.png` 로 저장.
+
+### Hélène Landemore (helene_landemore)
+
+```bash
+codex -i "references/style_anchor_portrait_v1.png" \
+      -i "references/photo_helene_landemore.jpg"
+```
+→ 프롬프트: `output/helene_landemore_mono_v01.prompt.txt` 의 내용을 붙여넣는다.
+→ 산출물을 `output/helene_landemore_mono_v01.png` 로 저장.
 
 ### 젠슨 황 (jensen_huang)
 
@@ -79,6 +124,15 @@ codex -i "references/style_anchor_portrait_v1.png" \
 → 프롬프트: `output/macron_mono_v01.prompt.txt` 의 내용을 붙여넣는다.
 → 산출물을 `output/macron_mono_v01.png` 로 저장.
 
+### 마이클 샌델 (michael_sandel)
+
+```bash
+codex -i "references/style_anchor_portrait_v1.png" \
+      -i "references/photo_michael_sandel.jpg"
+```
+→ 프롬프트: `output/michael_sandel_mono_v01.prompt.txt` 의 내용을 붙여넣는다.
+→ 산출물을 `output/michael_sandel_mono_v01.png` 로 저장.
+
 ### 일론 머스크 (musk)
 
 ```bash
@@ -96,6 +150,15 @@ codex -i "references/style_anchor_portrait_v1.png" \
 ```
 → 프롬프트: `output/netanyahu_mono_v01.prompt.txt` 의 내용을 붙여넣는다.
 → 산출물을 `output/netanyahu_mono_v01.png` 로 저장.
+
+### 피터 틸 (peter_thiel)
+
+```bash
+codex -i "references/style_anchor_portrait_v1.png" \
+      -i "references/photo_peter_thiel.jpg"
+```
+→ 프롬프트: `output/peter_thiel_mono_v01.prompt.txt` 의 내용을 붙여넣는다.
+→ 산출물을 `output/peter_thiel_mono_v01.png` 로 저장.
 
 ### 제롬 파월 (powell)
 

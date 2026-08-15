@@ -98,3 +98,41 @@ python assets/library/workshop/collect_portraits.py \
 | `rhee_chang_yong` | 510×800 | KOGL 대안은 전부 회의실 전경이라 얼굴 식별 불가 |
 
 가공 결과가 뭉개지면 사용자 제공 사진으로 교체한다.
+
+## 인물 원본 사진 — 자동 생성 표
+
+<!-- BEGIN photo_manifest 자동 생성 — 직접 수정 금지 -->
+
+**26인** — 정본은 `photo_manifest.json` 이며 본 표는 그 렌더 결과다.
+갱신: `python collect_portraits.py --sync-rights`
+
+| 파일 | 인물 | 출처 | 라이선스 | 저작자 | 비고 |
+|---|---|---|---|---|---|
+| `photo_altman.jpg` | 샘 올트먼 | https://commons.wikimedia.org/wiki/File:Sam_Altman_CropEdit_James_Tamim.jpg | CC BY 2.0 | TechCrunch | 자동 수집 |
+| `photo_audrey_tang.jpg` | 오드리 탕 | https://commons.wikimedia.org/wiki/File:Audrey_tang_089_(25378300354)_(cropped).jpg | CC0 | Audrey Tang | 자동 수집 |
+| `photo_bezos.jpg` | 제프 베이조스 | https://commons.wikimedia.org/wiki/File:Jeff_Bezos%27_iconic_laugh_crop.jpg | CC BY 2.0 | Jeff_Bezos'_iconic_laugh.jpg: Steve Jurvetson derivative work: King of Hearts | 자동 수집 |
+| `photo_chey_tae_won.jpg` | 최태원 | https://commons.wikimedia.org/wiki/File:Korea_Portuguese_Business_Forum_01_(cropped).jpg | CC BY-SA 2.0 | Republic of Korea | 자동 수집 |
+| `photo_curtis_yarvin.jpg` | 커티스 야빈 | https://commons.wikimedia.org/wiki/File:Curtis_Yarvin_(3x4_cropped).jpg | CC0 | Davidmerfield | 자동 수집 |
+| `photo_dario_amodei.jpg` | 다리오 아모데이 | https://commons.wikimedia.org/wiki/File:Dario_Amodei_in_2023.jpg | CC BY 2.0 | UK Prime Minister | 자동 수집 |
+| `photo_daron_acemoglu.jpg` | 대런 애쓰모글루 | 사용자 제공 (출처 미확인 — 웹 수집) | 출처 미확인 · 공인의 보도·논평 목적 인용 | 미상 | 사용자 제공 — 사용자 판단으로 진행 (2026-08-15). 출처가 확인되는 자유 라이선스 사진으로 교체 권장. |
+| `photo_helene_landemore.jpg` | Hélène Landemore | 사용자 제공 (출처 미확인 — 웹 수집) | 출처 미확인 · 공인의 보도·논평 목적 인용 | 미상 | 사용자 제공 — 사용자 판단으로 진행 (2026-08-15). 458x449 저해상도. 출처 확인되는 고해상도 사진으로 교체 권장. |
+| `photo_jensen_huang.jpg` | 젠슨 황 | https://commons.wikimedia.org/wiki/File:Jensen_Huang_(cropped)_(2024).jpg | CC BY 4.0 | Photographer: Peter Dasilva | 자동 수집 |
+| `photo_khamenei.jpg` | 알리 하메네이 | https://commons.wikimedia.org/wiki/File:Ali_Khamenei_Nowruz_message_official_portrait_1397_02_(cropped).jpg | CC BY 4.0 | khamenei.ir | 자동 수집 |
+| `photo_lagarde.jpg` | 크리스틴 라가르드 | https://commons.wikimedia.org/wiki/File:Lagarde,_Christine_(official_portrait_2011).jpg | Public domain | Français : Fonds monétaire international (identité du photographe non mentionnée) | 자동 수집 |
+| `photo_lee_jae_yong.jpg` | 이재용 | https://commons.wikimedia.org/wiki/File:Lee_Jae-yong_in_2016.jpg | CC BY 3.0 | KBS | 자동 수집 |
+| `photo_macron.jpg` | 에마뉘엘 마크롱 | https://commons.wikimedia.org/wiki/File:Emmanuel_Macron_par_Claude_Truong-Ngoc_avril_2015.jpg | CC BY-SA 3.0 | Photo Claude TRUONG-NGOC | 자동 수집 |
+| `photo_michael_sandel.jpg` | 마이클 샌델 | 사용자 제공 (출처 미확인 — 웹 수집) | 출처 미확인 · 공인의 보도·논평 목적 인용 | 미상 | 사용자 제공 — 사용자 판단으로 진행 (2026-08-15). 453x485 저해상도. 출처 확인되는 고해상도 사진으로 교체 권장. |
+| `photo_musk.jpg` | 일론 머스크 | https://commons.wikimedia.org/wiki/File:Elon_Musk_Royal_Society_(crop2).jpg | CC BY-SA 3.0 | Debbie Rowe | 자동 수집 |
+| `photo_netanyahu.jpg` | 베냐민 네타냐후 | https://commons.wikimedia.org/wiki/File:Benjamin_Netanyahu,_February_2023.jpg | CC BY-SA 3.0 | Avi Ohayon | 자동 수집 |
+| `photo_peter_thiel.jpg` | 피터 틸 | https://commons.wikimedia.org/wiki/File:Peter_Thiel_by_Gage_Skidmore.jpg | CC BY-SA 3.0 | Gage Skidmore | 자동 수집 |
+| `photo_powell.jpg` | 제롬 파월 | https://commons.wikimedia.org/wiki/File:Jerome_H._Powell,_Federal_Reserve_Chair_(cropped).jpg | Public domain | Federalreserve | 자동 수집 |
+| `photo_putin.jpg` | 블라디미르 푸틴 | https://commons.wikimedia.org/wiki/File:Vladimir_Putin_portrait_(2024-02-23).png | CC BY 4.0 | This file comes from the website of the President of the Russian Federation and is licensed under the Creative Commons Attribution 4.0 License. In short: you are free to distribute and modify the file as long as you attribute www.kremlin.ru. Note: Works published on site before April 8, 2015 are also licensed under Creative Commons Attribution 3.0 License. The permission letter from the Press Secretary for the President of the Russian Federation is available here. | 자동 수집 |
+| `photo_rhee_chang_yong.jpg` | 이창용 | https://commons.wikimedia.org/wiki/File:%EC%9D%B4%EC%B0%BD%EC%9A%A9%EA%B5%90%EC%88%98.jpg | CC BY-SA 4.0 | Sock7458 | 자동 수집 |
+| `photo_tim_cook.jpg` | 팀 쿡 | https://commons.wikimedia.org/wiki/File:Visit_of_Tim_Cook_to_the_European_Commission_-_P061904-946789.jpg | CC BY 4.0 | European Commission - Photographer: Christophe Licoppe | 자동 수집 |
+| `photo_trump.jpg` | 도널드 트럼프 | https://commons.wikimedia.org/wiki/File:Donald_Trump_official_portrait.jpg | Public domain | Shealeah Craighead | 자동 수집 |
+| `photo_warsh.jpg` | 케빈 워시 | https://commons.wikimedia.org/wiki/File:Official_portrait_of_Kevin_M._Warsh_(cropped).jpg | Public domain | Federalreserve | 자동 수집 |
+| `photo_xi_jinping.jpg` | 시진핑 | https://commons.wikimedia.org/wiki/File:Xi_Jinping_in_July_2024.jpg | CC BY 4.0 | Press Service of the President of the Republic of Azerbaijan | 자동 수집 |
+| `photo_zelensky.jpg` | 볼로디미르 젤렌스키 | https://commons.wikimedia.org/wiki/File:Volodymyr_Zelensky_Official_portrait.jpg | CC BY 4.0 | http://www.president.gov.ua/ | 자동 수집 |
+| `photo_zuckerberg.jpg` | 마크 저커버그 | https://commons.wikimedia.org/wiki/File:Mark_Zuckerberg_F8_2018_Keynote_(cropped).jpg | CC BY 2.0 | Anthony Quintano from Honolulu, HI, United States | 자동 수집 |
+
+<!-- END photo_manifest 자동 생성 -->

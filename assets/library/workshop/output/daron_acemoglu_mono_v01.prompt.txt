@@ -1,0 +1,44 @@
+# 대런 애쓰모글루 (Daron Acemoglu) — daron_acemoglu
+# 생성: make_prompts.py / 템플릿 SSOT: prompts/portrait_cutout.md
+# 입력 사진: references/photo_daron_acemoglu.jpg  (출처 미확인 · 공인의 보도·논평 목적 인용)
+# 출처: 사용자 제공 (출처 미확인 — 웹 수집)
+# 저작자: 미상
+# 산출 예정: output/daron_acemoglu_mono_v01.png
+
+$imagegen
+
+IMPORTANT:
+Do not create this using HTML, CSS, SVG, Canvas, Pillow, matplotlib,
+or other programmatic drawing methods.
+Use the native image generation tool.
+The final deliverable must be a generated raster image.
+
+Input image 1 (style_anchor_portrait_v1.png) is the reference for TEXTURE AND TONE ONLY.
+Follow only the portrait treatment from that sheet: high-contrast monochrome print texture.
+Do NOT copy the paper background, the colored offset shadow, the colored outline,
+the panel layout, or any labels from that sheet.
+
+Input image 2 (photo_daron_acemoglu.jpg) is the real photograph of Daron Acemoglu.
+Preserve Daron Acemoglu's real facial identity, proportions, expression, hair shape,
+and recognizable facial details. Do NOT invent a new face.
+
+Create:
+- Daron Acemoglu only, upper body from the chest upward, vertical 4:5 aspect ratio.
+- High-contrast monochrome editorial portrait.
+- Newspaper print / halftone / engraving texture.
+- Strong black-and-white contrast, clean white highlights, no gray haze.
+- Preserve facial detail; do not rebuild the face as loose line art.
+
+Background (critical):
+- Pure white #FFFFFF solid background.
+- No paper texture, grain, shadow, vignette, or gradient.
+- No colored silhouette and no outline behind the subject.
+- The subject edge must be crisp and clearly separated from the white background
+  so the figure can be cut out later.
+
+Forbidden:
+- No text, names, labels, numbers, or watermark anywhere in the image.
+- No color accents; pure black and white only.
+- No frame, border, or corner decoration.
+
+High resolution. Final output is a single generated raster portrait image.
