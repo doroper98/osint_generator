@@ -20,7 +20,14 @@
 그리고 콜라주 합성용:
 
 * ``compose_mono_shadow`` — NYT 기사 콜라주 에딧처럼, mono 컷아웃 뒤에 **같은
-  실루엣**을 강조색으로 채워 밀어 깐 오프셋 섀도 합성.
+  실루엣**을 강조색으로 채운 섀도를 깔아 합성. 섀도 문법은 두 축으로 고른다.
+
+  - ``shadow_mode``: ``"offset"`` (실루엣을 dx,dy 만큼 밀어 깐 오프셋 섀도) /
+    ``"outline"`` (실루엣을 원형으로 팽창시켜 인물을 균일하게 두르는 스티커
+    키라인). 둘은 상호 배타다.
+  - ``shadow_fill``: ``"solid"`` (먹면) / ``"hatch"`` (45° 평행선) /
+    ``"dots"`` (45° 격자 도트). 패턴은 섀도 영역에서 정확히 클리핑되고,
+    선·점 사이로는 종이색이 비친다.
 
 난수는 ``seed`` 로 시작한 :class:`numpy.random.Generator` 에서만 뽑고, 스크린의
 **격자 위상(phase)** 에만 쓴다(격자 자체는 항상 규칙적이다). 같은 입력 + 같은
@@ -45,7 +52,7 @@ import sys
 from collections import deque
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import Sequence
+from typing import Literal, Sequence
 
 import numpy as np
 from PIL import Image, ImageDraw, ImageFilter
@@ -383,6 +390,366 @@ def _screen_axes(angle_deg: float) -> tuple[float, float, float, float]:
     return ux, uy, -uy, ux
 
 
+def _screen_coords(width: int, height: int, angle_deg: float) -> tuple[np.ndarray, np.ndarray]:
+    """캔버스 전 픽셀의 (u, v) 회전 좌표 맵. 스크린 계열과 같은 축 정의를 쓴다."""
+    ux, uy, vx, vy = _screen_axes(angle_deg)
+    xs = np.arange(int(width), dtype=np.float32)[np.newaxis, :]
+    ys = np.arange(int(height), dtype=np.float32)[:, np.newaxis]
+    return (xs * ux + ys * uy, xs * vx + ys * vy)
+
+
+# --------------------------------------------------------------------------
+# 섀도 지오메트리 — 원형 팽창(거리변환) + 패턴 채움
+# --------------------------------------------------------------------------
+
+
+def _distance_outside(mask: np.ndarray, max_dist: float) -> np.ndarray:
+    """``mask``(bool) 바깥 픽셀의 **정확한 유클리드 거리**. scipy 없이 numpy 만.
+
+    2-패스 분리형 거리변환이다.
+
+    1. 세로 패스 — 각 열에서 가장 가까운 True 까지의 세로 거리를 전/후 스캔
+       두 번으로 구한다(이진 입력이라 1차원 EDT = 단순 누적 최소값).
+    2. 가로 패스 — ``sqrt(dx² + col[y, x+dx]²)`` 의 최소값을 ``|dx| ≤ R`` 창에서
+       취한다. 창 밖 후보는 이미 거리가 ``R`` 을 넘으므로, ``max_dist`` 이하
+       구간에서 결과는 **정확한** 유클리드 거리다.
+
+    맨해튼/체스보드 반복 팽창과 달리 등거리면이 마름모·사각으로 각지지 않아,
+    팽창 경계가 원형으로 매끈하게 나온다.
+    """
+    height, width = mask.shape
+    reach = max(0.0, float(max_dist))
+    far = reach + 2.0
+
+    col = np.where(mask, 0.0, far).astype(np.float32)
+    for y in range(1, height):
+        np.minimum(col[y], col[y - 1] + 1.0, out=col[y])
+    for y in range(height - 2, -1, -1):
+        np.minimum(col[y], col[y + 1] + 1.0, out=col[y])
+    np.minimum(col, far, out=col)
+
+    base = np.square(col)
+    best = base.copy()
+    span = int(math.ceil(reach))
+    for dx in range(1, span + 1):
+        cost = float(dx * dx)
+        # 오른쪽 dx 칸 떨어진 열을 후보로
+        np.minimum(best[:, : width - dx], base[:, dx:] + cost, out=best[:, : width - dx])
+        # 왼쪽 dx 칸 떨어진 열을 후보로
+        np.minimum(best[:, dx:], base[:, : width - dx] + cost, out=best[:, dx:])
+
+    return np.minimum(np.sqrt(best), far).astype(np.float32)
+
+
+def _dilate_alpha(alpha: np.ndarray, radius: float) -> np.ndarray:
+    """0~1 알파를 반지름 ``radius`` px **원형 구조요소**로 팽창시킨다.
+
+    거리변환을 ``radius`` 에서 자르는 방식이라 경계는 **하드 에지**다(블러 아님).
+    다만 1px 폭의 커버리지 램프(``radius + 0.5 - dist``)를 남겨 계단 자국만
+    없앤다 — 벡터 도형을 래스터화할 때와 같은 안티에일리어싱이다.
+    """
+    reach = float(radius)
+    clean = np.clip(alpha, 0.0, 1.0).astype(np.float32)
+    if reach <= 0.0:
+        return clean
+    core = clean >= 0.5
+    if not bool(core.any()):
+        return np.zeros_like(clean)
+    dist = _distance_outside(core, reach + 1.0)
+    grown = np.clip(reach + 0.5 - dist, 0.0, 1.0)
+    return np.maximum(grown, clean).astype(np.float32)
+
+
+def _hatch_alpha(
+    width: int,
+    height: int,
+    *,
+    spacing: float,
+    thickness: float,
+    angle: float,
+    phase: float,
+) -> np.ndarray:
+    """45°(기본) 평행선 패턴의 0~1 커버리지 맵. 선 위 1, 선 사이 0."""
+    _, v = _screen_coords(width, height, angle)
+    gap = max(1.0, float(spacing))
+    frac = np.mod(v / gap + float(phase), 1.0)
+    dist = np.minimum(frac, 1.0 - frac) * gap
+    return np.clip(max(0.0, float(thickness)) * 0.5 + 0.5 - dist, 0.0, 1.0).astype(
+        np.float32
+    )
+
+
+def _dot_alpha(
+    width: int,
+    height: int,
+    *,
+    spacing: float,
+    radius: float,
+    angle: float,
+    phase_u: float,
+    phase_v: float,
+) -> np.ndarray:
+    """45°(기본) 회전 정격자 도트 패턴의 0~1 커버리지 맵."""
+    u, v = _screen_coords(width, height, angle)
+    step = max(1.0, float(spacing))
+    du = (np.mod(u / step + float(phase_u), 1.0) - 0.5) * step
+    dv = (np.mod(v / step + float(phase_v), 1.0) - 0.5) * step
+    dist = np.hypot(du, dv)
+    return np.clip(max(0.0, float(radius)) + 0.5 - dist, 0.0, 1.0).astype(np.float32)
+
+
+def _fill_alpha(
+    width: int,
+    height: int,
+    fill: str,
+    *,
+    seed: int,
+    angle: float,
+    hatch_spacing: float,
+    hatch_width: float,
+    dot_spacing: float,
+    dot_radius: float,
+) -> np.ndarray | None:
+    """``shadow_fill`` → 커버리지 맵. ``"solid"`` 면 ``None``(전면 채움).
+
+    격자 **위상만** ``seed`` 로 정한다(격자 자체는 항상 규칙적). 전역 난수는
+    쓰지 않으므로 같은 인자 → 같은 출력이다.
+    """
+    if fill == "solid":
+        return None
+    rng = np.random.default_rng(int(seed))
+    phase_u, phase_v = (float(value) for value in rng.uniform(0.0, 1.0, size=2))
+    if fill == "hatch":
+        return _hatch_alpha(
+            width,
+            height,
+            spacing=hatch_spacing,
+            thickness=hatch_width,
+            angle=angle,
+            phase=phase_v,
+        )
+    if fill == "dots":
+        return _dot_alpha(
+            width,
+            height,
+            spacing=dot_spacing,
+            radius=dot_radius,
+            angle=angle,
+            phase_u=phase_u,
+            phase_v=phase_v,
+        )
+    raise ValueError(f"알 수 없는 shadow_fill: {fill!r}")
+
+
+# --------------------------------------------------------------------------
+# 절차 생성 배경 — 꾸겼다 편 갱지
+# --------------------------------------------------------------------------
+
+
+def _smoothstep(t: np.ndarray) -> np.ndarray:
+    """0~1 구간을 부드럽게 이어 주는 에르미트 보간 (밸류 노이즈 격자 자국 제거)."""
+    return (t * t * (3.0 - 2.0 * t)).astype(np.float32)
+
+
+def _value_noise(
+    width: int, height: int, cells_x: int, cells_y: int, rng: np.random.Generator
+) -> np.ndarray:
+    """저해상 난수 격자를 스무스스텝 보간해 키운 0~1 밸류 노이즈."""
+    cx = max(1, int(cells_x))
+    cy = max(1, int(cells_y))
+    grid = rng.random((cy + 1, cx + 1)).astype(np.float32)
+
+    xs = np.linspace(0.0, float(cx), int(width), endpoint=False, dtype=np.float32)
+    ys = np.linspace(0.0, float(cy), int(height), endpoint=False, dtype=np.float32)
+    x0 = np.floor(xs).astype(np.int64)
+    y0 = np.floor(ys).astype(np.int64)
+    fx = _smoothstep(xs - x0)
+    fy = _smoothstep(ys - y0)
+    x1 = np.minimum(x0 + 1, cx)
+    y1 = np.minimum(y0 + 1, cy)
+
+    rows = grid[:, x0] * (1.0 - fx) + grid[:, x1] * fx
+    return (rows[y0] * (1.0 - fy)[:, None] + rows[y1] * fy[:, None]).astype(np.float32)
+
+
+def _crumple_shading(
+    width: int,
+    height: int,
+    rng: np.random.Generator,
+    *,
+    folds: int,
+    softness: float,
+    light_deg: float = 128.0,
+) -> np.ndarray:
+    """꾸김 음영 — **접힘면(fold plane)** 을 여러 장 겹친 종이의 기울기 조명.
+
+    종이를 꾸기면 표면은 직선 크리즈로 나뉜 **평평한 조각(facet)** 들의 집합이
+    된다. 그래서 높이장을 ``h = Σ aᵢ·|dᵢ|`` (dᵢ = i 번째 접힘선까지의 부호 거리)
+    로 세우면 조각 안은 평면, 크리즈에서만 기울기가 꺾인다. 여기서는 조명에
+    필요한 **기울기만** 해석적으로 누적한다.
+
+    ``∂|d|/∂x = d/√(d²+ε²)·nₓ`` — ``ε`` 이 크리즈의 둥근 정도(px)다. 조각 안은
+    기울기가 상수라 평평하게, 크리즈 위에서는 부호가 뒤집혀 **밝은 능선 +
+    어두운 골** 한 쌍이 각지게 생긴다(가우시안 블러와 달리 방향성이 남는다).
+    거기에 접힘선 위 폭 몇 px 짜리 **크리즈 하이라이트**를 따로 더한다 — 실제
+    사진에서 꾸긴 자국이 가장 먼저 읽히는 요소다.
+
+    각 접힘면에는 타원 가우시안 포락을 곱해 화면을 가로지르는 무한 직선이 아니라
+    **국소 구김**이 되게 하고, 접힘면 절반은 크게(큰 조각) 절반은 작게(잔구김)
+    잡아 크기 위계를 만든다.
+    """
+    w, h = int(width), int(height)
+    xs = np.arange(w, dtype=np.float32)[np.newaxis, :]
+    ys = np.arange(h, dtype=np.float32)[:, np.newaxis]
+    grad_x = np.zeros((h, w), dtype=np.float32)
+    grad_y = np.zeros((h, w), dtype=np.float32)
+    ridge = np.zeros((h, w), dtype=np.float32)
+    diag = math.hypot(float(w), float(h))
+    total = max(0, int(folds))
+
+    for index in range(total):
+        local = index >= total // 2
+        theta = float(rng.uniform(0.0, math.pi))
+        nx, ny = math.cos(theta), math.sin(theta)
+        px = float(rng.uniform(-0.1, 1.1)) * w
+        py = float(rng.uniform(-0.1, 1.1)) * h
+        eps = float(rng.uniform(0.6, 2.0)) * float(softness) * (0.7 if local else 1.0)
+        reach = float(
+            rng.uniform(0.05, 0.13) if local else rng.uniform(0.13, 0.30)
+        ) * diag
+        amp = float(rng.uniform(0.35, 1.0)) * (1.0 if rng.random() < 0.5 else -1.0)
+        if local:
+            amp *= 0.8
+        wobble = float(rng.uniform(1.1, 2.4))
+        phase = float(rng.uniform(0.0, 2.0 * math.pi))
+
+        dx = xs - px
+        dy = ys - py
+        # 접힘선은 **직선**이다 — 휘게 하면 종이가 아니라 천처럼 보인다.
+        along = dx * -ny + dy * nx
+        across = dx * nx + dy * ny
+        env = np.exp(-(np.square(along / reach) + np.square(across / (reach * 0.8))))
+        # 능선 세기가 선을 따라 출렁여야 "레이저 선"이 아니라 접힌 자국으로 읽힌다.
+        env = env * (0.55 + 0.45 * np.cos(along / reach * wobble * math.pi + phase))
+
+        slope = across / np.sqrt(across * across + eps * eps)
+        weight = (amp * env * slope).astype(np.float32)
+        grad_x += weight * nx
+        grad_y += weight * ny
+
+        line = across / (eps * 1.7)
+        ridge += (amp * env * np.exp(-0.5 * line * line)).astype(np.float32)
+
+    light = math.radians(float(light_deg))
+    facets = grad_x * math.cos(light) + grad_y * math.sin(light)
+    facets /= max(1e-6, float(np.percentile(np.abs(facets), 99.0)))
+    ridge /= max(1e-6, float(np.percentile(np.abs(ridge), 99.5)))
+    return (facets + 0.85 * ridge).astype(np.float32)
+
+
+def make_crumpled_paper(
+    width: int,
+    height: int,
+    *,
+    seed: int,
+    base: str = "#DDD3BD",
+    amplitude: float = 0.06,
+    creases: int = 44,
+    fleck_density: float = 0.00035,
+) -> Image.Image:
+    """**꾸겼다가 편 갱지**(재생지) 배경을 결정론 절차 생성한다.
+
+    합성 순서는 (1) 저주파 굴곡 → (2) 접힘면 꾸김 음영(각진 크리즈 + 평평한
+    조각) → (3) 잔주름 리지드 노이즈 → (4) 미세 섬유 그레인 + 티끌 →
+    (5) 가장자리 감광 이다. ``amplitude`` 는 최종 명도 변동폭(±비율)이라
+    기본값 0.06 이면 ±6% 안에서만 흔들린다 — 종이는 질감이고 주인공은
+    인물이라는 원칙(C0) 때문이다.
+
+    Parameters
+    ----------
+    width, height:
+        캔버스 픽셀. 쇼츠 배경이면 1080×1920.
+    seed:
+        결정론 시드. 같은 (크기, seed, 파라미터) → 바이트 단위로 같은 이미지.
+    base:
+        갱지 바탕색(HEX).
+    amplitude:
+        명도 변동 폭(±비율). 0.06 = ±6%.
+    creases:
+        접힘면 개수. 많을수록 조각이 잘게 갈린다.
+    fleck_density:
+        재생지 티끌(어두운 섬유 조각) 밀도 — 픽셀당 확률.
+
+    Returns
+    -------
+    PIL.Image.Image
+        RGB 텍스처.
+    """
+    w, h = max(1, int(width)), max(1, int(height))
+    rng = np.random.default_rng(int(seed))
+    short = float(min(w, h))
+
+    # (1) 저주파 굴곡 — 종이 전체가 완전히 평평하지 않다.
+    swell = _value_noise(w, h, max(2, round(w / short * 3)), 3, rng) - 0.5
+
+    # (2) 접힘면 꾸김 음영 — 이 텍스처의 주역.
+    crumple = _crumple_shading(
+        w, h, rng, folds=creases, softness=max(1.0, short / 620.0)
+    )
+
+    # (3) 잔주름 — 크리즈 사이 조각에 남는 미세 굴곡.
+    fine = _value_noise(w, h, max(4, round(w / short * 22)), 22, rng)
+    fine_ridged = 1.0 - np.abs(2.0 * fine - 1.0)
+    fine_ridged = fine_ridged - float(fine_ridged.mean())
+
+    # (4) 섬유 그레인 + 재생지 티끌.
+    grain = rng.normal(0.0, 1.0, size=(h, w)).astype(np.float32)
+    spread = max(1e-6, float(grain.max() - grain.min()))
+    grain = _blur_array((grain - float(grain.min())) / spread, 0.45) - 0.5
+
+    shade = (
+        0.30 * swell
+        + 1.00 * (crumple / max(1e-6, float(np.percentile(np.abs(crumple), 99.0))))
+        + 0.22 * fine_ridged
+        + 0.40 * grain
+    ).astype(np.float32)
+
+    # 정규화 — 꼬리를 뺀 실효 진폭을 ``amplitude`` 에 맞춘다.
+    shade -= float(shade.mean())
+    scale = float(np.percentile(np.abs(shade), 99.0))
+    shade = shade / max(scale, 1e-6) * float(amplitude)
+
+    # (5) 가장자리 감광.
+    gx = np.linspace(-1.0, 1.0, w, dtype=np.float32)[np.newaxis, :]
+    gy = np.linspace(-1.0, 1.0, h, dtype=np.float32)[:, np.newaxis]
+    vignette = 1.0 - 0.055 * np.clip(gx * gx * 0.85 + gy * gy * 0.85, 0.0, 1.6)
+
+    tint = np.asarray(_hex_to_rgb(base), dtype=np.float32)
+    rgb = tint[np.newaxis, np.newaxis, :] * ((1.0 + shade) * vignette)[..., np.newaxis]
+
+    flecks = rng.random((h, w)) < max(0.0, float(fleck_density))
+    if bool(flecks.any()):
+        depth = 1.0 - 0.16 * rng.random((h, w)).astype(np.float32)
+        rgb = np.where(flecks[..., np.newaxis], rgb * depth[..., np.newaxis], rgb)
+
+    return Image.fromarray(np.rint(np.clip(rgb, 0.0, 255.0)).astype(np.uint8), "RGB")
+
+
+def _paste_slices(
+    canvas: tuple[int, int], patch: tuple[int, int], x: int, y: int
+) -> tuple[tuple[slice, slice], tuple[slice, slice]] | None:
+    """(캔버스 슬라이스, 패치 슬라이스) — 캔버스를 벗어나는 부분은 잘라 낸다."""
+    ch, cw = canvas
+    ph, pw = patch
+    x0, y0 = max(0, int(x)), max(0, int(y))
+    x1, y1 = min(cw, int(x) + pw), min(ch, int(y) + ph)
+    if x0 >= x1 or y0 >= y1:
+        return None
+    dst = (slice(y0, y1), slice(x0, x1))
+    src = (slice(y0 - int(y), y1 - int(y)), slice(x0 - int(x), x1 - int(x)))
+    return dst, src
+
+
 # --------------------------------------------------------------------------
 # 배경 마스크 (가장자리 플러드필)
 # --------------------------------------------------------------------------
@@ -574,9 +941,11 @@ def build_print_tone(
     pivot: float = 0.52,
     remove_background: bool = True,
     bg_tolerance: float = 45.0,
+    bg_edge_stop: float = 26.0,
     bg_seed_edges: str = "top,left,right",
     bg_side_fraction: float = 0.62,
     bg_work_dim: int = 560,
+    bg_opening: int = 3,
     bg_smooth: float = 0.0,
     bg_erode: float = 2.0,
     bg_feather: float = 1.0,
@@ -617,9 +986,11 @@ def build_print_tone(
         foreground = background_mask(
             rgb_img,
             tolerance=bg_tolerance,
+            edge_stop=bg_edge_stop,
             seed_edges=bg_seed_edges,
             side_fraction=bg_side_fraction,
             work_dim=int(bg_work_dim),
+            opening=int(bg_opening),
             smooth=bg_smooth,
             erode=bg_erode,
             feather=bg_feather,
@@ -737,28 +1108,54 @@ def compose_mono_shadow(
     *,
     accent: str = "#B03A2E",
     offset: tuple[int, int] = (14, 18),
-    paper: str | None = "#E8DFC9",
+    shadow_mode: Literal["offset", "outline"] = "offset",
+    outline_px: int = 22,
+    shadow_fill: Literal["solid", "hatch", "dots"] = "solid",
+    fill_angle: float = 45.0,
+    hatch_spacing: float = 7.0,
+    hatch_width: float = 2.6,
+    dot_spacing: float = 8.0,
+    dot_radius: float = 2.2,
+    paper: str | Image.Image | None = "#E8DFC9",
     pad: tuple[int, int, int, int] = (0, 0, 0, 0),
     seed: int = 0,
     mono: MonoResult | None = None,
     tone: PrintTone | None = None,
     **tone_kwargs: float | bool | str,
 ) -> Image.Image:
-    """mono 컷아웃 + **같은 실루엣**의 컬러 오프셋 섀도 합성 (NYT 콜라주 에딧).
+    """mono 컷아웃 + **같은 실루엣**의 컬러 섀도 합성 (NYT 콜라주 에딧).
 
     인물 컷아웃 뒤에, 같은 배경 마스크 알파를 ``accent`` 색으로 채운 실루엣을
-    ``offset`` 만큼 밀어 깐다. 그림자는 사각형이 아니라 **인물 윤곽 그대로**다.
+    깐다. 그림자는 사각형이 아니라 **인물 윤곽 그대로**다. 섀도 문법은 서로
+    독립인 두 축으로 고른다 — **어디에 놓는가**(``shadow_mode``) 와 **무엇으로
+    채우는가**(``shadow_fill``).
 
     Parameters
     ----------
     accent:
         섀도 색(HEX). 레퍼런스는 빨강 계열.
     offset:
-        (dx, dy) 픽셀. 양수면 오른쪽/아래로 밀린다.
+        (dx, dy) 픽셀. 양수면 오른쪽/아래로 밀린다. ``shadow_mode="offset"``
+        에서만 쓰인다.
+    shadow_mode:
+        ``"offset"`` — 실루엣을 ``offset`` 만큼 밀어 깐 오프셋 섀도(기본).
+        ``"outline"`` — 실루엣을 ``outline_px`` 만큼 **원형 팽창**시켜 인물을
+        균일하게 두르는 스티커/키라인 섀도. 이때 ``offset`` 은 무시된다
+        (두 모드는 상호 배타 — 조합은 후속 과제).
+    outline_px:
+        ``"outline"`` 모드의 팽창 반경(px). 경계는 하드 에지다(블러 없음).
+    shadow_fill:
+        ``"solid"`` — 먹면(기본). ``"hatch"`` — 45° 평행선.
+        ``"dots"`` — 45° 회전 정격자 도트. 패턴은 섀도 영역에서 정확히
+        클리핑되고, 선·점 사이로는 종이(``paper``)가 비친다.
+    fill_angle, hatch_spacing, hatch_width, dot_spacing, dot_radius:
+        패턴 지오메트리. 격자 **위상**만 ``seed`` 로 정한다.
     paper:
-        배경 종이색(HEX). ``None`` 이면 배경 투명(RGBA)으로 남긴다.
+        배경. HEX 문자열이면 단색, :class:`PIL.Image.Image` 면 그 **텍스처 위에**
+        합성한다(크기가 다르면 캔버스 크기로 리샘플). ``make_crumpled_paper`` 로
+        만든 갱지가 대표 사례다. ``None`` 이면 배경 투명(RGBA)으로 남긴다.
     pad:
-        (좌, 상, 우, 하) 여백 픽셀. 인물이 원본 프레임을 꽉 채우면 밀어 깐 섀도가
+        (좌, 상, 우, 하) 여백 픽셀. 인물이 원본 프레임을 꽉 채우면 섀도가
         캔버스 밖으로 잘려 안 보이므로, 여백을 줘서 실루엣이 종이 위에 놓인
         콜라주 조각처럼 보이게 한다. 기본값은 여백 없음(원본 해상도 유지).
 
@@ -767,6 +1164,11 @@ def compose_mono_shadow(
     PIL.Image.Image
         RGBA 합성 결과. 캔버스를 벗어나는 섀도는 그대로 클리핑된다.
     """
+    if shadow_mode not in ("offset", "outline"):
+        raise ValueError(f"알 수 없는 shadow_mode: {shadow_mode!r}")
+    if shadow_fill not in ("solid", "hatch", "dots"):
+        raise ValueError(f"알 수 없는 shadow_fill: {shadow_fill!r}")
+
     result = (
         mono
         if mono is not None
@@ -777,22 +1179,78 @@ def compose_mono_shadow(
     width = result.width + left + right
     height = result.height + top + bottom
 
-    silhouette = Image.new("RGBA", cutout.size, (*_hex_to_rgb(accent), 255))
-    silhouette.putalpha(cutout.split()[3])
+    cut_alpha = np.asarray(cutout.split()[3], dtype=np.float32) / 255.0
+    cut_rgb = np.asarray(cutout.convert("RGB"), dtype=np.float32) / 255.0
 
-    dx, dy = int(offset[0]), int(offset[1])
-    canvas = Image.new("RGBA", (width, height), (0, 0, 0, 0))
-    shadow_layer = Image.new("RGBA", (width, height), (0, 0, 0, 0))
-    shadow_layer.paste(silhouette, (left + dx, top + dy), silhouette)
-    subject_layer = Image.new("RGBA", (width, height), (0, 0, 0, 0))
-    subject_layer.paste(cutout, (left, top), cutout)
-    canvas = Image.alpha_composite(canvas, shadow_layer)
-    canvas = Image.alpha_composite(canvas, subject_layer)
+    subject_alpha = np.zeros((height, width), dtype=np.float32)
+    subject_rgb = np.zeros((height, width, 3), dtype=np.float32)
+    placed = _paste_slices((height, width), cut_alpha.shape, left, top)
+    if placed is not None:
+        dst, src = placed
+        subject_alpha[dst] = cut_alpha[src]
+        subject_rgb[dst] = cut_rgb[src]
 
+    shadow_alpha = np.zeros((height, width), dtype=np.float32)
+    if shadow_mode == "offset":
+        dx, dy = int(offset[0]), int(offset[1])
+        shifted = _paste_slices((height, width), cut_alpha.shape, left + dx, top + dy)
+        if shifted is not None:
+            dst, src = shifted
+            shadow_alpha[dst] = cut_alpha[src]
+    else:
+        shadow_alpha = _dilate_alpha(subject_alpha, float(outline_px))
+
+    pattern = _fill_alpha(
+        width,
+        height,
+        shadow_fill,
+        seed=seed,
+        angle=fill_angle,
+        hatch_spacing=hatch_spacing,
+        hatch_width=hatch_width,
+        dot_spacing=dot_spacing,
+        dot_radius=dot_radius,
+    )
+    if pattern is not None:
+        shadow_alpha = shadow_alpha * pattern
+
+    accent_rgb = np.asarray(_hex_to_rgb(accent), dtype=np.float32) / 255.0
+    shadow_rgb = np.broadcast_to(accent_rgb, (height, width, 3))
+
+    # 뒤 → 앞 순서로 premultiplied over 합성.
     if paper is None:
-        return canvas
-    sheet = Image.new("RGBA", (width, height), (*_hex_to_rgb(paper), 255))
-    return Image.alpha_composite(sheet, canvas)
+        out_rgb = np.zeros((height, width, 3), dtype=np.float32)
+        out_alpha = np.zeros((height, width), dtype=np.float32)
+    else:
+        if isinstance(paper, Image.Image):
+            sheet = paper.convert("RGB")
+            if sheet.size != (width, height):
+                sheet = sheet.resize((width, height), Image.LANCZOS)
+            out_rgb = np.asarray(sheet, dtype=np.float32) / 255.0
+        else:
+            paper_rgb = np.asarray(_hex_to_rgb(paper), dtype=np.float32) / 255.0
+            out_rgb = np.broadcast_to(paper_rgb, (height, width, 3)).astype(np.float32)
+        out_alpha = np.ones((height, width), dtype=np.float32)
+
+    for layer_rgb, layer_alpha in (
+        (shadow_rgb, shadow_alpha),
+        (subject_rgb, subject_alpha),
+    ):
+        a = np.clip(layer_alpha, 0.0, 1.0)[..., np.newaxis]
+        out_rgb = layer_rgb * a + out_rgb * (1.0 - a)
+        out_alpha = np.clip(layer_alpha, 0.0, 1.0) + out_alpha * (
+            1.0 - np.clip(layer_alpha, 0.0, 1.0)
+        )
+
+    straight = out_rgb / np.maximum(out_alpha, 1e-6)[..., np.newaxis]
+    rgba = np.concatenate(
+        (
+            np.clip(straight, 0.0, 1.0) * 255.0,
+            np.clip(out_alpha, 0.0, 1.0)[..., np.newaxis] * 255.0,
+        ),
+        axis=2,
+    )
+    return Image.fromarray(np.rint(rgba).astype(np.uint8), mode="RGBA")
 
 
 # --------------------------------------------------------------------------
@@ -1057,6 +1515,21 @@ def build_arg_parser() -> argparse.ArgumentParser:
     shadow.add_argument("--shadow-dx", type=int, default=14)
     shadow.add_argument("--shadow-dy", type=int, default=18)
     shadow.add_argument(
+        "--shadow-mode",
+        choices=("offset", "outline"),
+        default="offset",
+        help="섀도 배치 — offset(밀어 깔기) / outline(원형 팽창 키라인)",
+    )
+    shadow.add_argument(
+        "--outline-px", type=int, default=22, help="outline 모드 팽창 반경(px)"
+    )
+    shadow.add_argument(
+        "--shadow-fill",
+        choices=("solid", "hatch", "dots"),
+        default="solid",
+        help="섀도 채움 — solid(먹면) / hatch(45° 평행선) / dots(45° 격자 도트)",
+    )
+    shadow.add_argument(
         "--paper", default="#E8DFC9", help="배경 종이색 ('none' 이면 투명)"
     )
     shadow.add_argument(
@@ -1129,6 +1602,9 @@ def main(argv: Sequence[str] | None = None) -> int:
                     image,
                     accent=args.accent,
                     offset=(args.shadow_dx, args.shadow_dy),
+                    shadow_mode=args.shadow_mode,
+                    outline_px=args.outline_px,
+                    shadow_fill=args.shadow_fill,
                     paper=paper,
                     pad=(pad_values[0], pad_values[1], pad_values[2], pad_values[3]),
                     seed=args.seed,

@@ -19,6 +19,7 @@ from workers.engraving_stylizer import (
     ScreenResult,
     build_print_tone,
     compose_mono_shadow,
+    make_crumpled_paper,
     stylize_halftone,
     stylize_linescreen,
     stylize_mono,
@@ -177,6 +178,136 @@ class ComposeMonoShadowTest(unittest.TestCase):
         first = compose_mono_shadow(make_subject(), accent=self.ACCENT)
         second = compose_mono_shadow(make_subject(), accent=self.ACCENT)
         self.assertEqual(first.tobytes(), second.tobytes())
+
+
+class ShadowGrammarTest(unittest.TestCase):
+    """v0.45.3 섀도 문법 확장 — shadow_mode × shadow_fill."""
+
+    ACCENT = "#B03A2E"
+    PAPER = "#E8DFC9"
+    RADIUS = 14
+
+    def _compose(self, **kwargs: object) -> Image.Image:
+        params: dict[str, object] = {
+            "accent": self.ACCENT,
+            "paper": self.PAPER,
+            "offset": (12, 12),
+            "outline_px": self.RADIUS,
+            "seed": 5,
+        }
+        params.update(kwargs)
+        return compose_mono_shadow(make_subject(), **params)  # type: ignore[arg-type]
+
+    @staticmethod
+    def _split(composed: Image.Image) -> tuple[np.ndarray, np.ndarray]:
+        """(액센트 섀도 마스크, 인물 잉크 마스크). 종이·경계 혼합 픽셀은 어디에도 없다."""
+        rgb = np.asarray(composed.convert("RGB"), dtype=np.int16)
+        accent = np.abs(rgb - np.array([0xB0, 0x3A, 0x2E], dtype=np.int16)).sum(2) < 40
+        paper = np.abs(rgb - np.array([0xE8, 0xDF, 0xC9], dtype=np.int16)).sum(2) < 40
+        gray = np.abs(rgb[..., 0] - rgb[..., 1]) + np.abs(rgb[..., 1] - rgb[..., 2])
+        ink = (~accent) & (~paper) & (gray < 24)
+        return accent, ink
+
+    def test_outline_mode_dilates_the_silhouette(self) -> None:
+        accent, ink = self._split(self._compose(shadow_mode="outline"))
+        # outline 섀도는 실루엣을 덮으므로 총 섀도 = 보이는 링 + 인물 면적.
+        self.assertGreater(int(accent.sum()) + int(ink.sum()), int(ink.sum()) * 1.4)
+        self.assertGreater(int(accent.sum()), 0)
+
+        ink_ys, ink_xs = np.nonzero(ink)
+        sh_ys, sh_xs = np.nonzero(accent | ink)
+        for grown, base, sign in (
+            (int(sh_xs.min()), int(ink_xs.min()), -1),
+            (int(sh_ys.min()), int(ink_ys.min()), -1),
+            (int(sh_xs.max()), int(ink_xs.max()), +1),
+            (int(sh_ys.max()), int(ink_ys.max()), +1),
+        ):
+            self.assertAlmostEqual(grown, base + sign * self.RADIUS, delta=3)
+
+    def test_outline_shadow_stays_inside_the_dilation_reach(self) -> None:
+        """섀도는 실루엣에서 outline_px 안쪽에만 존재한다(사각 피사체 = 볼록)."""
+        accent, ink = self._split(self._compose(shadow_mode="outline"))
+        ink_ys, ink_xs = np.nonzero(ink)
+        x0, x1 = int(ink_xs.min()), int(ink_xs.max())
+        y0, y1 = int(ink_ys.min()), int(ink_ys.max())
+
+        ys, xs = np.nonzero(accent)
+        near_x = np.clip(xs, x0, x1)
+        near_y = np.clip(ys, y0, y1)
+        distance = np.hypot(xs - near_x, ys - near_y)
+        self.assertLessEqual(float(distance.max()), self.RADIUS + 2.0)
+
+    def test_outline_ignores_the_offset_vector(self) -> None:
+        """두 모드는 상호 배타 — outline 에서 offset 은 결과를 바꾸지 않는다."""
+        first = self._compose(shadow_mode="outline", offset=(0, 0))
+        second = self._compose(shadow_mode="outline", offset=(40, -25))
+        self.assertEqual(first.tobytes(), second.tobytes())
+
+    def test_pattern_fills_are_deterministic(self) -> None:
+        for fill in ("hatch", "dots"):
+            with self.subTest(fill=fill):
+                first = self._compose(shadow_mode="outline", shadow_fill=fill, seed=5)
+                second = self._compose(shadow_mode="outline", shadow_fill=fill, seed=5)
+                other = self._compose(shadow_mode="outline", shadow_fill=fill, seed=6)
+                self.assertEqual(first.tobytes(), second.tobytes())
+                self.assertNotEqual(first.tobytes(), other.tobytes())
+
+    def test_pattern_never_leaks_outside_the_shadow(self) -> None:
+        """패턴은 섀도 영역에서 정확히 클리핑된다 — 밖에는 한 픽셀도 없다."""
+        for mode in ("offset", "outline"):
+            solid_accent, solid_ink = self._split(
+                self._compose(shadow_mode=mode, shadow_fill="solid")
+            )
+            region = solid_accent | solid_ink
+            for fill in ("hatch", "dots"):
+                with self.subTest(mode=mode, fill=fill):
+                    accent, _ = self._split(
+                        self._compose(shadow_mode=mode, shadow_fill=fill)
+                    )
+                    self.assertEqual(int((accent & ~region).sum()), 0)
+                    # 선·점 사이로 종이가 비쳐야 한다 = 먹면보다 잉크가 적다.
+                    self.assertLess(int(accent.sum()), int(solid_accent.sum()) * 0.8)
+                    self.assertGreater(int(accent.sum()), 0)
+
+    def test_unknown_grammar_is_rejected(self) -> None:
+        with self.assertRaises(ValueError):
+            self._compose(shadow_mode="glow")
+        with self.assertRaises(ValueError):
+            self._compose(shadow_fill="scribble")
+
+    def test_image_paper_is_used_as_background(self) -> None:
+        texture = make_crumpled_paper(240, 240, seed=2)
+        composed = compose_mono_shadow(
+            make_subject(), accent=self.ACCENT, paper=texture, offset=(12, 12)
+        )
+        self.assertEqual(composed.size, (160, 160))
+        sheet = np.asarray(texture.resize((160, 160), Image.LANCZOS), dtype=np.int16)
+        pixels = np.asarray(composed.convert("RGB"), dtype=np.int16)
+        # 인물·섀도가 닿지 않는 왼쪽 위 구석은 종이 텍스처 그대로여야 한다.
+        self.assertLess(int(np.abs(pixels[:20, :20] - sheet[:20, :20]).max()), 3)
+
+
+class CrumpledPaperTest(unittest.TestCase):
+    def test_seed_determinism(self) -> None:
+        first = make_crumpled_paper(180, 240, seed=4)
+        second = make_crumpled_paper(180, 240, seed=4)
+        other = make_crumpled_paper(180, 240, seed=5)
+        self.assertEqual(first.size, (180, 240))
+        self.assertEqual(first.mode, "RGB")
+        self.assertEqual(first.tobytes(), second.tobytes())
+        self.assertNotEqual(first.tobytes(), other.tobytes())
+
+    def test_brightness_stays_close_to_the_base_tone(self) -> None:
+        """종이는 질감이지 주인공이 아니다 — 명도 변동이 ±amplitude 언저리."""
+        paper = make_crumpled_paper(320, 320, seed=9, base="#DDD3BD", amplitude=0.06)
+        gray = np.asarray(paper.convert("L"), dtype=np.float32)
+        mean = float(gray.mean())
+        self.assertGreater(mean, 180.0)
+        self.assertLess(mean, 225.0)
+        low, high = np.percentile(gray, (1.0, 99.0))
+        self.assertLess(float(high - low) / mean, 0.16)
+        # 완전 단색이 아니어야 질감이다.
+        self.assertGreater(float(gray.std()), 1.0)
 
 
 class HalftoneTest(unittest.TestCase):
