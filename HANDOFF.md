@@ -1,6 +1,6 @@
 <!--
 tier: 1
-last_synced_with: v0.34.12
+last_synced_with: v1.0.5
 ssot_for: [session-handoff]
 depends_on: [CLAUDE.md, GOAL.md, VERSION, docs/13_IMPLEMENTATION_ROADMAP.md, docs/PROFESSIONAL_REBUILD_PLAN.md]
 last_review: 2026-06-05
@@ -15,12 +15,80 @@ last_review: 2026-06-05
 
 ## ⏳ 다음 할 일 (사용자가 명시적으로 보류 — 까먹지 말고 먼저 상기시킬 것)
 
-> **[v0.44.0 최신 방향]** 쇼츠 × VOX 콜라주 전면 개편 진행 중 — 현행 SSOT 는
-> `docs/SHORTS_COLLAGE_OVERHAUL_PLAN.md` (Phase 0 완료, 다음: Phase 1 판화 PoC).
-> 세션 재개 시 그 문서의 §9 로드맵과 §10 결정 목록부터 확인하라.
+> ## 🔥 [v1.0.5 — 2026-08-15] 쇼츠 × 콜라주 전면 개편 핸드오프 (현행 최우선 작업)
+>
+> **작업 브랜치: `claude/video-design-process-overhaul-7082jy` (main 미병합 — 이 브랜치에서
+> 계속 작업하고 이 브랜치로 푸시할 것).** 개편 전체의 SSOT 는
+> `docs/SHORTS_COLLAGE_OVERHAUL_PLAN.md` — §9 로드맵과 §10 결정 목록을 먼저 읽어라.
+> 상세 이력은 CHANGELOG/DEVLOG 의 v0.43.5~v1.0.4 (하루에 결정·구현이 압축된 세션이었음).
+>
+> ### 확정된 핵심 결정 (전부 사용자 확정 — 재논의 금지)
+> 1. **쇼츠 기준 전환**: 1080×1920, 90~120초(2분 상한), 유튜브 쇼츠+릴스+틱톡 3사 공용
+>    마스터, safe area 상220/하350/좌60/우140. 롱폼 briefing 은 동결 유지 (v0.43.6).
+> 2. **음성 톤**: "정확한 인토네이션·딕션, 귀에 딱딱 꽂히는 전달" (v0.43.7). voice 오디션은
+>    미완 — ElevenLabs 에서 사용자가 선정 예정 (STABILITY 0.65 / SIMILARITY 0.8 / STYLE 0.1
+>    시작점).
+> 3. **인물 표현**: 배경 제거 + 고대비 모노톤 + 컬러 오프셋 섀도(전 스케일 공통, 하단 등장).
+>    합성 판화(stipple/engraving)는 사용자 반려로 폐기 (v0.45.0→0.45.1). 섀도 3축:
+>    offset/outline × solid/hatch/dots × 액센트색 (17 §1.7.1).
+> 4. **변주 체계**: "시트는 문법이지 조판이 아니다" — V1 시드 / V2 콘텐츠 규칙+로테이션 /
+>    V3 아트디렉터 3층. 매 영상이 달라야 함 (계획 §6.0).
+> 5. **하이브리드 표현 경제**: 풀 콜라주는 편당 2~3씬(HOOK·ACTORS·TURN)만, 실사·차트는
+>    기존 체계 재사용 + "놓이는 방식"만 콜라주 물성 (계획 §1.2.5).
+> 6. **스타일 프리뷰 게이트**: 제작 명령 → 프리뷰 시트 승인 → 렌더. 바로 렌더 금지
+>    (계획 §6.0.1). 텔레그램 봇은 이 게이트의 표면 (봇 슬라이스는 Phase 7 이후).
+> 7. **G4-10 전면 개정 (v1.0.0 MAJOR)**: AI 이미지 가공 허용 — 실사 입력 의무, 무입력 사실
+>    생성 금지, 라이브러리 고정+도구·프롬프트 기록, 사실 텍스트는 코드 렌더.
+>    **가공 1순위 엔진 = codex CLI `$imagegen`** (구독 커버, 사용자 스모크 테스트 통과
+>    v1.0.4). 폴백: OpenAI Images API → 절차식 engraving_stylizer.
+> 8. **수집 전략**: 코어 사전 구축(~20인+로고+국기) + 온디맨드 수집→검수→라이브러리 영구
+>    등록 (누적 캐시, 계획 §3.0).
+>
+> ### 완료된 구현물 (전부 테스트 통과 상태)
+> - 스키마: Bundle video 블록 정식 모델링, AssetLibrary(tool/prompt_ref/accent_hint/
+>   usage_count), DesignSheet (`tests/test_collage_models.py`).
+> - `workers/engraving_stylizer.py` (폴백 엔진): mono/compose_mono_shadow(섀도 3축)/
+>   halftone/linescreen/make_crumpled_paper(갱지) — 테스트 38건.
+> - `hyperframes/shorts/`: specimen_typo.html(기사·논문 타이포 검수 통과) +
+>   render_specimen.py(Playwright — 스타일 프리뷰 시트의 기술 기반) + 갱지 1080×1920.
+> - `assets/library/workshop/`: codex 이미지 공방 — AGENTS.md(규칙) +
+>   prompts/portrait_panel.md(표준 템플릿) + references/RIGHTS.md.
+> - docs: 07 v2(쇼츠 콜라주), 17 디자인 시트(토큰·컴포넌트 11종·씬 템플릿), 계획 SSOT.
+>
+> ### 지금 해야 할 일 (Phase 2 — v1.1.0 라이브러리 구축)
+> 0. **⚠️ 최우선 — 로컬 저장소는 아직 `git pull` 을 안 한 상태다 (사용자 확인, 2026-08-15).**
+>    이 세션이 로컬(Windows)에서 열렸다면 다른 무엇보다 먼저:
+>    ```
+>    git fetch origin
+>    git checkout claude/video-design-process-overhaul-7082jy
+>    git pull origin claude/video-design-process-overhaul-7082jy
+>    git log --oneline -1   ← 최소 v1.0.5 커밋이어야 함
+>    ```
+>    checkout 이 로컬 변경으로 막히면 에러를 사용자에게 보여주고 stash 여부를 확인할 것.
+>    이 브랜치가 없으면 workshop/ 폴더도, 본 핸드오프의 산출물도 로컬에 없다.
+> 1. **(사용자, 대기 중)** ① pull 후 4인물 시트 원본을
+>    `assets/library/workshop/references/style-reference.png` 로 배치 ② 코어 인물 라인업
+>    O/X 확정 (직전 대화의 19인 표 — 확정 제안: 트럼프·시진핑·푸틴·파월·워시·머스크·
+>    젠슨 황·최태원 / 후보: 젤렌스키·김정은·네타냐후·하메네이·마크롱·라가르드·이창용·
+>    베이조스·이재용·올트먼·저커버그·팀 쿡).
+> 2. 라인업 확정 즉시: 인물별 공식/자유 라이선스 원본 사진 수집 + `references/RIGHTS.md`
+>    기록 (수집 검증 예: Wikimedia API 는 표준 썸네일 폭만 허용 — 960px 등) → 인물별
+>    `portrait_panel.md` 치환 프롬프트 세트 생성 → 사용자가 codex 로 배치 실행 →
+>    검수 → `assets/library/library_manifest.json` 등록 (AssetLibraryManifest 스키마).
+> 3. 병행 가능: Phase 3 쇼츠 씬킷 첫 슬라이스 — specimen 기술 위에 GSAP 모션 얹은
+>    10~15초 스타일 데모 mp4 (합격선: 계획 §1.0 최소 기준 동급).
+>
+> ### 주의 (이 세션에서 확립된 규칙)
+> - 커밋은 vX.Y.Z prefix + VERSION 파일 일치 (현재 **1.0.5**). 한 커밋 = 한 의도 (C5).
+> - PR 생성 금지 (C8.5). Opus 서브에이전트 위임 시에도 커밋은 오케스트레이터가 검증 후 직접.
+> - 서브에이전트 산출물은 반드시 육안 검수 — 기준은 "프로 인쇄물로 보이는가"
+>   (v0.45.0 반려 교훈: "이목구비 식별 가능" 수준의 낮은 기준 금지).
+> - 이미지 프롬프트에는 `$imagegen` + 프로그램 드로잉 금지 가드 문구 필수 (workshop/AGENTS.md).
+>
+> ---
 >
 > agents_reviewer 외부 연동 슬라이스 진행 중(v0.18~0.23). 아래는 **사용자가 순서를 미룬**
-> 작업이다. 세션 재개 시 **사용자에게 이 목록을 먼저 상기**시켜라.
+> 작업이다 (개편보다 후순위). 세션 재개 시 사용자에게 이 목록도 상기시켜라.
 
 1. **forced-alignment (자막 정밀 싱크)** — 현재 자막 큐 타이밍은 글자수 비례 추정
    (`render_io.split_subtitle_cues`). 정밀 싱크는 교체형 백엔드(TTS 패턴, `OSINT_ALIGN_*`)
