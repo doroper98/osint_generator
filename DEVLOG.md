@@ -1,6 +1,6 @@
 <!--
 tier: 3
-last_synced_with: v1.0.6
+last_synced_with: v1.0.7
 ssot_for: [development-log]
 depends_on: [CHANGELOG.md]
 last_review: 2026-06-06
@@ -22,6 +22,32 @@ last_review: 2026-06-06
 - 결과:  …
 - 연관:  AP-번호, 이슈, PR 번호 등
 ```
+
+---
+
+## 2026-08-15 v1.0.7 — 참조 자료 정리 + 시트 샘플이 드러낸 축 보강
+
+- **무엇을**: 사용자가 `workshop/references/` 에 배치한 자료 8종을 식별·명명·권리 기록하고,
+  그 중 시트 샘플 3종이 드러낸 구조적 격차를 규약에 반영 (여백 축 / 플레이트 ID /
+  display_name).
+- **왜**: 사용자가 "내가 생각하는 바람직한 스타일 시트"로 샘플을 제시. 우리 시트와 비교하니
+  실제 구멍이 나왔다.
+- **어떻게**: 자료를 kind 3종(`style_anchor_` / `sheet_sample_` / `collage_sample_`)으로
+  분류. 파일명이 196자 base64 라 Windows MAX_PATH 때문에 git 이 색인조차 못 하던 것을
+  long-path API 로 개명.
+- **결과**: 샘플에서 배운 것 3건 —
+  ① `sheet_sample_editorial_vs_swiss` 의 Shared Rules 4축(Layout/Palette/Type/**Whitespace**)
+     → 우리에게 여백 축이 없었다. `space_` 그룹 + `DesignSheet.spacing` 신설, 토큰 5종.
+  ② `sheet_sample_meridian_linen` 의 플레이트 ID(`PL 01/24`, `P 01`, `S 05`)
+     → 블록 단위 지시 수단. 프리뷰 게이트가 전체 승인/전체 리롤로 퇴화하지 않으려면 필수.
+  ③ 같은 샘플의 `MERIDIAN · LINEN` 표기 → `display_name` 신설 (기계 키와 사람 이름 분리).
+  콜라주 샘플 4종도 어휘로 매핑 — `collage_sample_paper_stopmotion_desk` = 놓기 모션의 원형,
+  `collage_sample_string_connector` = §2 #8 StringConnector 의 시각 원형.
+  테스트 25 → 33 통과.
+- **주의**: `sheet_sample_*` / `collage_sample_*` 은 출처 미상 수집 이미지라 **내부 설계
+  참조 전용**. 배운 것은 어휘로 추상화해 17 에 기록하고 픽셀은 재사용하지 않는다 (C9).
+- **연관**: docs/17_COLLAGE_DESIGN_SHEET.md §0.2·§0.9·§0.10·§1.35,
+  assets/library/workshop/references/RIGHTS.md, v1.0.6.
 
 ---
 
@@ -1791,7 +1817,7 @@ last_review: 2026-06-06
     6. 관련 문서
     프롬프트는 영문 고정 — codex 의 reasoning 일관성 + Windows 한글 코드페이지 이슈 회피.
   - **HANDOFF.md 전면 갱신**:
-    - `last_synced_with: v1.0.6 → v0.2.6`, `depends_on` 에 `docs/REVIEW_PROMPT.md` 추가.
+    - `last_synced_with: v1.0.7 → v0.2.6`, `depends_on` 에 `docs/REVIEW_PROMPT.md` 추가.
     - "1. 지금 어디까지 와 있나" 표에 v0.2.3 / v0.2.4 / v0.2.5 / v0.2.6 4 행 추가.
     - 알려진 antipattern 카탈로그 갱신 (LLM-AP-001/002/003 상태 명시).
     - "2. 다음 작업" 절을 v0.2.3/Phase 3 양자택일 → **Phase 3 (v0.3.0) IntakePlannerWorker 단독** 으로 교체. 도메인 모델 4 종, Worker 명세, 웹 페이지, CLI 확장, DoD 7 항목, 알려진 risk 4 종, Phase 4 예고 포함. 대안 절 (LLM-AP-003 후속 보안 강화 먼저) 도 명시.
@@ -2491,7 +2517,7 @@ last_review: 2026-06-06
     cross input_item_id / intra source_id / project_id / schema_version) +
     counter 3 + 충돌 검출 순서 1 + 보조 케이스 2.
   - VERSION 0.5.2 → 0.5.3. `__version__` 은 SSOT (VERSION) 에서 자동 갱신.
-  - CHANGELOG / DEVLOG `last_synced_with: v1.0.6`.
+  - CHANGELOG / DEVLOG `last_synced_with: v1.0.7`.
 - **결과**:
   - py_compile 통과.
   - 전체 unittest = **167/167 통과** (직전 148 + 신규 19).

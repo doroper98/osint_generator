@@ -103,6 +103,39 @@ class TestTokenGroups(unittest.TestCase):
                     DesignSheet(**_sheet(palette={bad: "#000000"}))
 
 
+class TestSpacingAxis(unittest.TestCase):
+    """§0.2 `space_` 그룹 — v1.0.7 신설. 사용자 제시 시트 샘플 3종이 여백을 색·타이포와
+    동급 축으로 다루는데 v1.0.6 까지 본 시트에는 축 자체가 없었다."""
+
+    def test_accepts_space_group(self) -> None:
+        sheet = DesignSheet(**_sheet(spacing={"space_gutter_px": 40}))
+        self.assertEqual(sheet.spacing["space_gutter_px"], 40)
+
+    def test_rejects_foreign_group(self) -> None:
+        with self.assertRaisesRegex(ValidationError, "그룹 접두어"):
+            DesignSheet(**_sheet(spacing={"motion_gutter_px": 40}))
+
+    def test_requires_unit_suffix(self) -> None:
+        with self.assertRaisesRegex(ValidationError, "단위 접미어가 없음"):
+            DesignSheet(**_sheet(spacing={"space_gutter": 40}))
+
+    def test_reaches_css_vars(self) -> None:
+        sheet = DesignSheet(**_sheet(spacing={"space_gutter_px": 40}))
+        self.assertEqual(sheet.to_css_vars()["--space-gutter-px"], "40")
+
+
+class TestDisplayName(unittest.TestCase):
+    """§0.10 — 기계 조회 키와 사람이 부르는 이름의 분리."""
+
+    def test_optional_and_independent_of_sheet_id(self) -> None:
+        sheet = DesignSheet(**_sheet(display_name="DOSSIER · KRAFT"))
+        self.assertEqual(sheet.sheet_id, "shorts_collage_v1")
+        self.assertEqual(sheet.display_name, "DOSSIER · KRAFT")
+
+    def test_defaults_empty(self) -> None:
+        self.assertEqual(DesignSheet(**_sheet()).display_name, "")
+
+
 class TestMotionUnits(unittest.TestCase):
     """§0.2 — motion 토큰은 단위 접미어로 '단일 스칼라' 를 이름으로 보증한다."""
 
@@ -179,6 +212,14 @@ class TestShippedSheet(unittest.TestCase):
         self.assertEqual(m["motion_grain_count"], 4)
         self.assertEqual(m["motion_grain_fps"], 12)
         self.assertEqual(m["motion_draw_on_ms"], 400)
+
+    def test_spacing_axis_populated(self) -> None:
+        """v1.0.7 신설 축이 실제로 채워졌는지 (빈 dict 로 두면 축 신설의 의미가 없다)."""
+        self.assertGreaterEqual(len(self.sheet.spacing), 4)
+        self.assertEqual(self.sheet.spacing["space_gutter_px"], 40)
+
+    def test_has_display_name(self) -> None:
+        self.assertEqual(self.sheet.display_name, "DOSSIER · KRAFT")
 
     def test_all_four_verification_stamps_present(self) -> None:
         """G4 — 검증 라벨 4종은 시트에서 빠질 수 없다."""

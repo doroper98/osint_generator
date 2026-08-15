@@ -1,6 +1,7 @@
 {
   "schema_version": 1,
   "sheet_id": "shorts_collage_v1",
+  "display_name": "DOSSIER · KRAFT",
   "format": "shorts",
   "width": 1080,
   "height": 1920,
@@ -32,6 +33,13 @@
     "type_name_tag": "700 44px/1.2 \"Noto Serif KR\", serif",
     "type_kicker": "600 36px/1.3 \"Pretendard Variable\", Pretendard, sans-serif",
     "type_credit": "400 26px/1.35 \"Pretendard Variable\", Pretendard, sans-serif"
+  },
+  "spacing": {
+    "space_gutter_px": 40,
+    "space_card_padding_px": 56,
+    "space_stack_gap_px": 54,
+    "space_subtitle_side_px": 72,
+    "space_card_edge_offset_px": 24
   },
   "motion": {
     "motion_place_ms": 220,

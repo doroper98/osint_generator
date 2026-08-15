@@ -1401,10 +1401,13 @@ PALETTE_GROUPS: frozenset[str] = frozenset(
     {"paper", "ink", "accent", "stamp", "mark", "prop", "bg"}
 )
 
-#: §0.2 motion 수치 토큰의 단위 접미어. 값이 단일 스칼라임을 이름으로 보증한다.
-MOTION_UNIT_SUFFIXES: tuple[str, ...] = (
+#: §0.2 수치 토큰(motion·spacing)의 단위 접미어. 값이 단일 스칼라임을 이름으로 보증한다.
+NUMERIC_UNIT_SUFFIXES: tuple[str, ...] = (
     "_ms", "_px", "_deg", "_fps", "_pct", "_scale", "_count",
 )
+
+#: 하위 호환 별칭 (v1.0.6 에서 motion 전용으로 도입 → v1.0.7 에 spacing 까지 확장).
+MOTION_UNIT_SUFFIXES: tuple[str, ...] = NUMERIC_UNIT_SUFFIXES
 
 
 def css_var_name(token_key: str) -> str:
@@ -1421,7 +1424,8 @@ class DesignSheet(VersionedModel):
     늘어나면 재활용 시점에 전수 개명이 필요해지기 때문.
     """
 
-    sheet_id: str                           # 예: "shorts_collage_v1"
+    sheet_id: str                           # 예: "shorts_collage_v1" (기계 조회 키)
+    display_name: str = ""                  # 예: "DOSSIER · KRAFT" (사람이 부르는 이름, §0.10)
     format: Literal["shorts", "briefing"] = "shorts"
     width: int = 1080
     height: int = 1920
@@ -1429,6 +1433,7 @@ class DesignSheet(VersionedModel):
     safe_area: SafeArea = Field(default_factory=SafeArea)
     palette: dict[str, str] = Field(default_factory=dict)
     typography: dict[str, str] = Field(default_factory=dict)
+    spacing: dict[str, float] = Field(default_factory=dict)   # §0.2 `space_` 그룹
     motion: dict[str, float] = Field(default_factory=dict)
     texture_refs: list[str] = Field(default_factory=list)   # assets/library/textures/*
 
@@ -1452,6 +1457,7 @@ class DesignSheet(VersionedModel):
         for group_label, keys, allowed in (
             ("palette", self.palette.keys(), PALETTE_GROUPS),
             ("typography", self.typography.keys(), frozenset({"type"})),
+            ("spacing", self.spacing.keys(), frozenset({"space"})),
             ("motion", self.motion.keys(), frozenset({"motion"})),
         ):
             for key in keys:
@@ -1467,13 +1473,14 @@ class DesignSheet(VersionedModel):
                         f"{km.group('group')!r} 은 허용 목록 {sorted(allowed)} 밖 (17 §0.2)"
                     )
 
-        # §0.2 — motion 수치 토큰은 단위 접미어 필수 (단일 스칼라 보증).
-        for key in self.motion:
-            if not key.endswith(MOTION_UNIT_SUFFIXES):
-                raise ValueError(
-                    f"motion 토큰 {key!r} 에 단위 접미어가 없음 (17 §0.2, 허용: "
-                    f"{', '.join(MOTION_UNIT_SUFFIXES)}). 범위·복수값은 토큰을 쪼갤 것"
-                )
+        # §0.2 — 수치 토큰은 단위 접미어 필수 (단일 스칼라 보증).
+        for group_label, keys in (("motion", self.motion), ("spacing", self.spacing)):
+            for key in keys:
+                if not key.endswith(NUMERIC_UNIT_SUFFIXES):
+                    raise ValueError(
+                        f"{group_label} 토큰 {key!r} 에 단위 접미어가 없음 (17 §0.2, 허용: "
+                        f"{', '.join(NUMERIC_UNIT_SUFFIXES)}). 범위·복수값은 토큰을 쪼갤 것"
+                    )
         return self
 
     def to_css_vars(self) -> dict[str, str]:
@@ -1487,11 +1494,12 @@ class DesignSheet(VersionedModel):
             out[css_var_name(key)] = value
         for key, value in self.typography.items():
             out[css_var_name(key)] = value
-        for key, value in self.motion.items():
-            # float 는 정수값이면 정수로 (CSS 에 "220.0" 대신 "220").
-            out[css_var_name(key)] = (
-                str(int(value)) if float(value).is_integer() else str(value)
-            )
+        for numeric in (self.spacing, self.motion):
+            for key, value in numeric.items():
+                # float 는 정수값이면 정수로 (CSS 에 "220.0" 대신 "220").
+                out[css_var_name(key)] = (
+                    str(int(value)) if float(value).is_integer() else str(value)
+                )
         for name, value in (
             ("safe_top", self.safe_area.top),
             ("safe_bottom", self.safe_area.bottom),

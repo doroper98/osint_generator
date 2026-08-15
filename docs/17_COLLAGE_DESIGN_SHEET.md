@@ -1,6 +1,6 @@
 <!--
 tier: 2
-last_synced_with: v1.0.6
+last_synced_with: v1.0.7
 ssot_for: [collage-design-sheet, shorts-design-tokens, collage-components, shorts-scene-templates]
 depends_on: [07_VIDEO_STYLE_GUIDE.md, SHORTS_COLLAGE_OVERHAUL_PLAN.md, ../schemas/models.py]
 last_review: 2026-08-14
@@ -57,7 +57,7 @@ last_review: 2026-08-14
 {group}_{name}[_{unit}]
 ```
 
-lowercase snake, ASCII 만. **그룹 접두어는 아래 9종 고정** (신설은 본 문서 개정으로만):
+lowercase snake, ASCII 만. **그룹 접두어는 아래 10종 고정** (신설은 본 문서 개정으로만):
 
 | 접두어 | 대상 | 예 |
 |---|---|---|
@@ -69,12 +69,13 @@ lowercase snake, ASCII 만. **그룹 접두어는 아래 9종 고정** (신설�
 | `prop_` | 소품색 (테이프·실·클립) | `prop_tape` |
 | `bg_` | 배경 문법 전용색 | `bg_sunburst_a` |
 | `type_` | 타이포 | `type_subtitle` |
+| `space_` | 여백·간격 | `space_gutter_px` |
 | `motion_` | 모션 | `motion_place_ms` |
 
 safe area 는 토큰 dict 가 아니라 `DesignSheet.safe_area` 구조 필드다 (`SafeArea` 모델) — 값이
 4개로 고정이고 전 시트 공통이라 open key-value 로 둘 이유가 없다.
 
-**단위 접미어 — `motion_` 수치 토큰은 필수**:
+**단위 접미어 — `motion_` · `space_` 수치 토큰은 필수**:
 
 `_ms` · `_px` · `_deg` · `_fps` · `_pct` · (무차원) `_scale` · `_count`
 
@@ -169,6 +170,46 @@ assets/library/{kind}/{id}_{style}_v{NN}.{ext}
   1장이면 되기 때문. 파일명에 박으면 액센트 색이 영상마다 다른 설계와 모순된다.
 - 프롬프트 사본은 같은 경로 + `.prompt.txt` (G4-10 기록 의무).
 
+`references/`(공방 참조 자료)는 배포 자산이 아니라 별도 규약을 쓴다 —
+`assets/library/workshop/references/RIGHTS.md` 참조 (`style_anchor_` / `sheet_sample_` /
+`collage_sample_` 3종 kind).
+
+### 0.9 플레이트 ID (시트 안 각 블록의 이름)
+
+사용자 제시 시트 샘플(`sheet_sample_meridian_linen`)의 핵심 장치. 시트 위의 **모든 블록에
+짧고 안정적인 ID** 를 붙여, 사람이 "S 05 다시 뽑아줘"처럼 **블록 단위로 지시**할 수 있게 한다.
+프리뷰 승인 게이트(계획 §6.0.1)에서 "어디를 리롤할지"를 말로 가리킬 수단이 없으면 게이트가
+"전체 승인/전체 리롤"로 퇴화하기 때문에, 이건 장식이 아니라 게이트의 작동 조건이다.
+
+```
+{TYPE} {NN}
+```
+
+| `TYPE` | 블록 | 예 |
+|---|---|---|
+| `P` | 팔레트 (palette) | `P 01` |
+| `T` | 타이포 (typography) | `T 01` |
+| `M` | 모션 (motion) | `M 01` |
+| `W` | 여백 (spacing) | `W 01` |
+| `C` | 컴포넌트 견본 (§2) | `C 04` = StampLabel |
+| `S` | 씬 템플릿 (§3) | `S 05` = TURN |
+| `B` | 배경 문법 (§1.6) | `B 02` |
+
+`NN` 은 **본 문서에서의 등장 순서로 고정**하며 재사용하지 않는다 — 항목이 삭제돼도 번호를
+비우고 다음 번호를 이어 쓴다(참조가 조용히 다른 것을 가리키는 사고 방지). 프리뷰 시트
+렌더러(Phase 5)는 각 블록 우상단에 이 ID 를 찍는다.
+
+### 0.10 사람이 읽는 이름 (`display_name`)
+
+`sheet_id` 는 기계용 조회 키다. 시트 표지·프리뷰 헤더에는 **사람이 부르는 이름**을 쓴다
+(`sheet_sample_meridian_linen` 의 `MERIDIAN · LINEN` 에 해당). `DesignSheet.display_name`
+필드에 담고, 대화에서 시트를 가리킬 때 이 이름을 쓴다.
+
+```
+sheet_id     = "shorts_collage_v1"      (기계)
+display_name = "DOSSIER · KRAFT"        (사람)
+```
+
 ---
 
 ## 1. L1 — 토큰 (sheet_id: `shorts_collage_v1`)
@@ -184,7 +225,7 @@ assets/library/{kind}/{id}_{style}_v{NN}.{ext}
 | safe_left | 60px | 여백 균형 |
 | content_zone | x:60~940, y:220~1570 | 핵심 텍스트·라벨은 반드시 이 안 |
 
-### 1.2 종이 팔레트 (palette)
+### 1.2 종이 팔레트 (palette) — `P 01`
 
 콜라주는 **라이트 종이 기조**가 기본이다 (다크 잉크는 롱폼 briefing 의 정체성으로 동결).
 
@@ -225,7 +266,7 @@ assets/library/{kind}/{id}_{style}_v{NN}.{ext}
 검증 라벨 4종의 **의미·색 구분은 07 §6 을 승계** — 표면 처리(고무도장 질감)만 콜라주화.
 카테고리 액센트(지정학/전쟁/경제/재난/정보전)는 07 §4 색 체계를 선버스트·스탬프 보조색에 매핑.
 
-### 1.3 타이포 (typography)
+### 1.3 타이포 (typography) — `T 01`
 
 | 키 | 값 | 용도 |
 |---|---|---|
@@ -238,7 +279,25 @@ assets/library/{kind}/{id}_{style}_v{NN}.{ext}
 랜섬노트 활자 소스: 시스템 내 폰트 4~6종(Pretendard 웨이트 변형 + Noto Serif KR + 자체 스탬프체)
 을 글자 단위로 랜덤 조합하되 **시드 = 문자열 해시** (결정론 — `Math.random` 금지).
 
-### 1.4 모션 (motion) — 이원 체계
+### 1.35 여백 (spacing) — `W 01`
+
+사용자 제시 시트 샘플 3종이 공통으로 **여백을 색·타이포와 동급의 축**으로 다룬다
+(`sheet_sample_editorial_vs_swiss` 는 Shared Rules 4축 중 하나로 Whitespace 를 명시). v1.0.6
+까지 본 시트에는 이 축이 아예 없어 `safe_area`(바깥 마진)만 있고 **안쪽 간격은 컴포넌트마다
+하드코딩**되고 있었다 — v1.0.7 에서 `space_` 그룹으로 신설.
+
+| 키 | 값 | 용도 |
+|---|---|---|
+| `space_gutter_px` | 40 | 요소 사이 기본 간격 |
+| `space_card_padding_px` | 56 | 종이 카드 안쪽 여백 (PaperPanel) |
+| `space_stack_gap_px` | 54 | 카드끼리 세로 간격 |
+| `space_subtitle_side_px` | 72 | 대형 자막 좌우 여백 (safe area 안쪽 추가 여백) |
+| `space_card_edge_offset_px` | 24 | 카드가 화면 밖으로 걸치는 오프셋 (콜라주 물성) |
+
+`safe_area` 는 **플랫폼 UI 침범 금지선**(바깥), `space_` 는 **조판 리듬**(안쪽)으로 역할이
+다르다 — 섞지 않는다.
+
+### 1.4 모션 (motion) — 이원 체계 · `M 01`
 
 전 토큰이 **단일 스칼라 + 단위 접미어**다 (§0.2) — 그래야 `DesignSheet.motion: dict[str, float]`
 에 손실 없이 담긴다. v1.0.5 까지는 4개 토큰이 복수값·비수치라 직렬화에서 유실됐다.
@@ -281,7 +340,7 @@ assets/library/{kind}/{id}_{style}_v{NN}.{ext}
 | `tape_layout` | 4 변형 | 테이프·핀 배치 패턴 |
 | `ransom_seed` | 문자열 해시 | 랜섬 글자별 활자 조합 |
 
-### 1.6 배경 문법 후보군 (V2 규칙 변주의 재료)
+### 1.6 배경 문법 후보군 (V2 규칙 변주의 재료) — `B 01`~`B 06`
 
 `sunburst` / `stage_curtain`(무대) / `file_desk`(서류 책상) / `paper_map` / `montage_wall`
 (사진 벽) / `plain_grain`(정적 종이 — 절제 씬용). 선택 규칙: 카테고리별 후보 2~4종 중
@@ -322,7 +381,7 @@ manifest 기록).
 선택 주체: V1 시드(방향·위상) / V2 규칙(카테고리·엔티티) / V3 아트 디렉터(씬 연출) —
 컴포넌트는 파라미터로 받기만 한다 (§2 CutoutActor).
 
-## 2. L2 — 컴포넌트 시트 (11종)
+## 2. L2 — 컴포넌트 시트 (11종) — `C 01`~`C 11`
 
 각 컴포넌트는 `hyperframes/shorts/assets/collage_kit.js` 에 구현될 예정(Phase 3). 여기서는
 계약(입력·상태·모션·금지사항)만 확정한다. **각 컴포넌트는 표현 변형(variant) 2~4종을
@@ -343,7 +402,7 @@ manifest 기록).
 | 10 | `ChartPlate` | 기존 SceneKit 차트 빌더 산출 | 종이 플레이트 위 얹기 | 차트 내부 문법 변경 금지 (기존 재사용) |
 | 11 | `ArticleCollageCard` | 기사 캡처(발행처·제목·날짜·핵심 문장), 하이라이트 대상, 인물(선택) | 카드 place → 형광펜 draw-on(노랑, emphasis/근거 문장만) → 날짜 칩 스탬프 → 손그림 화살표 draw-on → 인물 컷아웃 하단 등장(카드 모서리에 걸침) | **기사 원문 변조 금지** (제목·문장 그대로 — G4), 발행처·날짜 표기 필수, 형광펜은 근거 문장에만 |
 
-## 3. L3 — 씬 템플릿 (120초 기준)
+## 3. L3 — 씬 템플릿 (120초 기준) — `S 01`~`S 06`
 
 | 씬 | 시간 | 필수 컴포넌트 | 데이터 바인딩 (번들) |
 |---|---|---|---|

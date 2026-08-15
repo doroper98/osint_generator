@@ -14,7 +14,7 @@
    `references/` 에 있다.
 3. **이미지 안에 텍스트(이름·수치·라벨)를 넣지 않는다.** 자막·이름표·검증 라벨은 영상
    렌더러가 코드로 얹는다. (검수용 비교 시트의 패널 라벨만 예외.)
-4. **스타일 앵커 준수**: `references/style-reference.png` (사용자 검수 통과본)와 같은
+4. **스타일 앵커 준수**: `references/style_anchor_portrait_v1.png` (사용자 검수 통과본)와 같은
    시각 시스템 — warm ivory/beige crumpled newsprint 배경, high-contrast monochrome
    editorial portrait(halftone/engraving 인쇄 질감), 인물 뒤 단일 accent color 의
    silhouette(offset) 또는 outline(감싸는 키라인), 채움은 solid/hatch/dots 중 하나.
@@ -36,7 +36,7 @@
 ## 표준 작업 흐름
 
 ```
-codex -i "references/style-reference.png" -i "references/{인물사진}"
+codex -i "references/style_anchor_portrait_v1.png" -i "references/{인물사진}"
 → prompts/portrait_panel.md 의 템플릿에 인물·섀도 파라미터만 치환해 입력
 → 산출 PNG + prompt.txt 를 output/ 에 저장
 → (오케스트레이터/사용자) 검수 → 통과본만 assets/library/people/ 로 승격 등록

@@ -1,6 +1,6 @@
 <!--
 tier: 3
-last_synced_with: v1.0.6
+last_synced_with: v1.0.7
 ssot_for: [release-notes]
 depends_on: [README.md, GOAL.md]
 last_review: 2026-06-11
@@ -25,6 +25,29 @@ released 항목은 **append-only**입니다.
 
 ### Fixed
 -
+
+---
+
+## [v1.0.7] — 2026-08-15
+
+### Added
+- **공방 참조 자료 8종 정리** — 사용자가 배치한 스타일 앵커 + 시트 샘플 3종 + 콜라주 샘플
+  4종. `{kind}_{slug}` 명명(`style_anchor_` / `sheet_sample_` / `collage_sample_`)과 전 항목
+  권리 기록(`references/RIGHTS.md`). **`style_anchor_` 만 가공 프롬프트에 첨부**한다는 규칙
+  명시 — 나머지를 섞으면 앵커가 무의미해진다.
+- **여백 축 (`space_` 그룹 + `DesignSheet.spacing`)** — 사용자 제시 시트 샘플 3종이 공통으로
+  여백을 색·타이포와 동급 축으로 다루는데, v1.0.6 까지 본 시트엔 축 자체가 없어
+  `safe_area`(바깥)만 있고 안쪽 간격은 컴포넌트마다 하드코딩되고 있었다. 토큰 5종 신설.
+- **플레이트 ID (17 §0.9)** — 시트 위 모든 블록에 `P 01` `C 04` `S 05` 식 안정 ID. 프리뷰
+  승인 게이트에서 "어디를 리롤할지" 가리킬 수단이 없으면 게이트가 전체 승인/전체 리롤로
+  퇴화하므로, 장식이 아니라 게이트의 작동 조건.
+- **`DesignSheet.display_name` (17 §0.10)** — 기계 조회 키(`shorts_collage_v1`)와 사람이
+  부르는 이름(`DOSSIER · KRAFT`)의 분리.
+
+### Changed
+- 스타일 앵커 파일명을 규약에 맞춰 `style-reference.png` → `style_anchor_portrait_v1.png`.
+  `workshop/AGENTS.md`, `prompts/portrait_panel.md` 의 참조도 동시 갱신.
+- `MOTION_UNIT_SUFFIXES` → `NUMERIC_UNIT_SUFFIXES` (spacing 까지 적용). 구 이름은 별칭 유지.
 
 ---
 
@@ -2437,8 +2460,8 @@ PATCH).
 ### Changed
 
 - **`VERSION`** 0.5.3 → 0.5.4.
-- **`CHANGELOG.md`** `last_synced_with: v1.0.6`.
-- **`DEVLOG.md`** `last_synced_with: v1.0.6`.
+- **`CHANGELOG.md`** `last_synced_with: v1.0.7`.
+- **`DEVLOG.md`** `last_synced_with: v1.0.7`.
 
 ---
 
@@ -2499,7 +2522,7 @@ Phase 5 의 두 번째 PATCH. SourceCollectionPartial[] 을 정식 SourceRegistr
 ### Changed
 
 - **`VERSION`** 0.5.2 → 0.5.3.
-- **`CHANGELOG.md`** `last_synced_with: v1.0.6`, `last_review: 2026-05-23`.
+- **`CHANGELOG.md`** `last_synced_with: v1.0.7`, `last_review: 2026-05-23`.
 
 ### Test baseline
 
@@ -3115,7 +3138,7 @@ C5.4 의 MINOR 트리거 두 가지 (Phase 완료 + 새 Worker 추가) 가 동�
   `agents/dynamic_intake_planner.py` → `workers/intake_planner_worker.py (BaseLLMWorker)` 로 갱신.
   Worker 카탈로그 §3 에 Intake Planner 행 추가 (Phase 3, slot 1개, LLM 호출이므로 parallelizable
   ❌ 표기 — Worker Slot Manager 가 별도 slot 으로 격리할지는 Phase 4 결정 사항).
-- 모든 Tier 1·2·3 마크다운/HTML `last_synced_with: v1.0.6* → v0.3.0` 일괄 갱신 (36 파일).
+- 모든 Tier 1·2·3 마크다운/HTML `last_synced_with: v1.0.7* → v0.3.0` 일괄 갱신 (36 파일).
 
 ### Notes
 - `schemas/models.py` 의 IntakePlan / IntakePlanItem / UserDecision / SourceIntake 는 Phase 0 부터
@@ -3195,7 +3218,7 @@ Codex 2차 리뷰 (3-way 통합 검수) 의 High 2건 중 코드 측 H2 반영. 
 ### Changed
 - **`orchestrator/project_manager.py:_write_manifest`** atomic write 화. `path.write_text` 직접 호출 → tmp 파일에 쓴 뒤 `Path.replace` 로 교체. 외부 reader (TUI 라이브 reload) 가 half-written 상태를 보는 race 차단. POSIX rename / Windows `os.replace` 모두 atomic.
 - `docs/ANTIPATTERNS/README.md` SCHEMA-AP 줄을 "Phase 2부터" → "Phase 2 v0.2.7 신설, SCHEMA-AP-001~" 로 갱신.
-- 모든 Tier 1·2·3 마크다운 `last_synced_with: v1.0.6 → v0.2.7` 일괄 갱신.
+- 모든 Tier 1·2·3 마크다운 `last_synced_with: v1.0.7 → v0.2.7` 일괄 갱신.
 
 ### Fixed
 - TUI 가 외부 `transition` CLI 호출 후에도 stale state 를 표시하던 문제.
@@ -3406,7 +3429,7 @@ Codex 2차 리뷰 (3-way 통합 검수) 의 High 2건 중 코드 측 H2 반영. 
 ### Changed
 - GitHub default branch 가 `main` 으로 통합됨에 따라 로컬 브랜치도 `main` 으로 rename, `branches.html:BRANCH_DESCRIPTIONS` 도 갱신.
 - `branches.html:loadVersion` 이 raw.githubusercontent.com 대신 `/contents/VERSION` API 를 사용하도록 변경 (Private 저장소에서도 Bearer 인증으로 동작).
-- 모든 Tier 1·2·3 마크다운/HTML 의 `last_synced_with: v1.0.6 → v0.1.1` 동기화.
+- 모든 Tier 1·2·3 마크다운/HTML 의 `last_synced_with: v1.0.7 → v0.1.1` 동기화.
 
 ### Fixed
 - 없음 (Phase 1 PIPELINE-AP-006 은 v0.1.0 안에서 fix 됨).

@@ -14,7 +14,7 @@ or other programmatic drawing methods.
 Use the native image generation tool.
 The final deliverable must be a generated raster image.
 
-첨부 이미지 1 (style-reference.png)은 스타일·레이아웃 참고용이다.
+첨부 이미지 1 (style_anchor_portrait_v1.png)은 스타일·레이아웃 참고용이다.
 첨부 이미지 2 ({person_photo})는 인물의 실제 사진이다 — 이 인물의 얼굴 특징을
 정확히 유지한 채 아래 스타일로 가공하라. 얼굴을 새로 지어내지 마라.
 
