@@ -28,6 +28,21 @@ released 항목은 **append-only**입니다.
 
 ---
 
+## [v1.0.3] — 2026-08-15
+
+### Changed
+- **자동화 1순위를 codex CLI `$imagegen` 으로 확정** (사용자 제공 ChatGPT 확인 — Codex 에
+  GPT Image 2 기반 생성 스킬 내장, `codex -i` 참고 이미지 첨부). **ChatGPT 구독으로 커버
+  → API 별도 과금 불요**, ADDENDUM_04 subprocess 패턴 그대로. 폴백: Images API → 절차식.
+  가드 문구 의무화(코딩 에이전트가 HTML/SVG 로 "그리는" 오작동 방지), 알려진 Windows
+  스킬 미노출 이슈 → 사용자 `/skills` 스모크 테스트 액션.
+- **자산 공방 스캐폴드 신설** `assets/library/workshop/` — codex 용 `AGENTS.md`(절대 규칙:
+  $imagegen 강제·실사 입력 의무·이미지 내 텍스트 금지·프롬프트 사본 저장·권리 게이트) +
+  `prompts/portrait_panel.md`(사용자 4인물 시트 프롬프트를 정식 템플릿화 — 섀도 3축 슬롯)
+  + `references/RIGHTS.md`. 인물명만 바꿔 동일 디자인 시스템 재생산하는 반복 파이프라인.
+
+---
+
 ## [v1.0.2] — 2026-08-14
 
 ### Changed

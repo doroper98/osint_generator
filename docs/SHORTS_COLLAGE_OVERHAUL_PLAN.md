@@ -1,6 +1,6 @@
 <!--
 tier: 2
-last_synced_with: v1.0.2
+last_synced_with: v1.0.3
 ssot_for: [shorts-collage-overhaul-plan, collage-design-direction, asset-library-plan]
 depends_on: [CLAUDE.md, GOAL.md, docs/07_VIDEO_STYLE_GUIDE.md, docs/08_AUDIO_AND_TTS_SPEC.md, docs/10_RENDERING_PIPELINE_SPEC.md, docs/VIDEO_BUNDLE_CONTRACT.md, docs/PROFESSIONAL_REBUILD_PLAN.md]
 last_review: 2026-08-14
@@ -175,12 +175,32 @@ API**(gpt-image 계열 — `images.edit`: 실사진 입력 + 프롬프트 + 스�
    → 풀 렌더
 ```
 
-전제·유의: ① `OPENAI_API_KEY` 는 `.env` (C9) — **API 는 ChatGPT 구독과 별개 과금**(이미지당
-소액, 프리뷰 low 품질로 억제) ② codex CLI 는 이 경로와 무관(코딩 에이전트 — §2.1.6)
-③ 사진이 없는 신규 인물은 API 가 만들어 주지 않는다(무입력 사실 생성 금지) — 수집 워커나
-텔레그램 사진 첨부로 실사 입력을 확보해야 하며, 실패 시 needs_user_upload ④ 비결정론은
-"승인 후 라이브러리 고정"으로 흡수(§2.0). 구현 시점: AiImageWorker 는 Phase 2(v1.1.0)
-도구로 구축, 텔레그램 배선은 봇 슬라이스에서.
+**[v1.0.3 갱신 — codex CLI `$imagegen` 이 1순위 자동화 경로]** (사용자 제공 ChatGPT 확인,
+2026-08-15): 현행 Codex CLI 는 GPT Image 2 기반 이미지 생성 스킬을 내장한다 —
+`codex -i <참고이미지>` 로 스타일 앵커/실사진 첨부, 프롬프트에 `$imagegen` 명시 호출.
+따라서 자동화 우선순위를 다음과 같이 확정한다:
+
+1. **1순위: codex CLI subprocess** — **ChatGPT 구독으로 커버**(별도 API 과금 없음),
+   ADDENDUM_04 브리지와 동일한 subprocess 패턴이라 AiImageWorker 가 기존 인프라에 그대로
+   얹힌다. 반복 제작 파이프라인(AGENTS.md + prompt.md + references/ 폴더 구조 — 인물명만
+   바꿔 동일 디자인 시스템 재생산)에 유리.
+2. **2순위(폴백): OpenAI Images API** — codex 스킬 미노출 시. 별도 과금.
+3. **3순위(폴백): 절차식 엔진** (§2.0).
+
+**가드 문구 의무**: codex 는 코딩 에이전트라 이미지 생성 의도가 애매하면 HTML/SVG/Pillow
+로 "그리려" 한다 — 모든 이미지 프롬프트 최상단에 `$imagegen` + "Do not create this using
+HTML, CSS, SVG, Canvas, Pillow... Use the native image generation tool. The final
+deliverable must be a generated raster image." 를 박는다 (표준 템플릿에 포함).
+
+**알려진 이슈**: 일부 Windows/CLI 세션에서 `$imagegen` 스킬은 보이나 `image_gen` 도구가
+노출되지 않는 사례가 공식 GitHub 에 보고됨 → **사용자 액션**: Windows codex 에서 `/skills`
+로 imagegen 확인 + `$imagegen Create a simple editorial poster image.` 스모크 테스트 후
+채택 확정. 실패 시 2순위로.
+
+공방 구조: `assets/library/workshop/` — `AGENTS.md`(codex 작업 규칙) + `prompts/`(표준
+템플릿) + `references/`(스타일 앵커 — 사용자 검수 통과 시트 원본) + `output/`. 기타 전제
+(실사 입력 의무·needs_user_upload 폴백·승인 후 라이브러리 고정)는 상동. AiImageWorker 는
+Phase 2(v1.1.0), 텔레그램 배선은 봇 슬라이스.
 
 유의(기록): 실존 인물의 AI 가공 묘사는 플랫폼별 AI 콘텐츠 공개 정책 대상일 수 있음 —
 업로드 단계 체크리스트에 편입 (G4-12 사용자 최종 승인 게이트에서 확인).

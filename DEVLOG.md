@@ -25,6 +25,20 @@ last_review: 2026-06-06
 
 ---
 
+## 2026-08-15 v1.0.3 — codex $imagegen 1순위 확정 + 자산 공방 스캐폴드
+
+- **무엇을**: §2.0.1 개정(자동화 1순위 = codex CLI `$imagegen`, 구독 커버) + workshop
+  스캐폴드(AGENTS.md·portrait_panel.md 템플릿·RIGHTS).
+- **왜**: 사용자가 ChatGPT 확인 내용을 공유 — Codex CLI 에 GPT Image 2 스킬 내장
+  (`codex -i` 첨부 + `$imagegen` 명시). v1.0.2 의 "codex 는 이미지 생성 무관" 판단은
+  지식 컷오프 이후 기능으로 **정정**.
+- **어떻게**: 사용자 4인물 시트의 실제 프롬프트를 표준 템플릿로 정식화(스타일 앵커 첨부
+  + 가드 문구 + 섀도 3축 슬롯 + 이미지 내 텍스트 금지 + 4:5). AGENTS.md 로 공방 규칙을
+  codex 가 자동 준수하게 함. 프롬프트 사본 저장 → manifest tool/prompt_ref 연결 (G4-10).
+- **결과**: Phase 2 착수 준비 완료. 사용자 액션 — Windows codex `/skills` 확인 + 스모크,
+  스타일 앵커 원본 PNG 를 references/ 에 배치, 인물 라인업 확정.
+- **연관**: 계획 §2.0.1, GOAL G4-10, ADDENDUM_04, v1.0.2(정정 대상).
+
 ## 2026-08-14 v1.0.2 — 텔레그램→OpenAI 이미지 자동화 경로 설계
 
 - **무엇을**: 계획 §2.0.1 — 스타일시트 생성 명령에서 이미지 생성까지 자동 연결되는 경로.
