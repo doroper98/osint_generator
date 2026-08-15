@@ -1,0 +1,99 @@
+{
+  "schema_version": 1,
+  "report_id": "analysis_20260814_150031_252a4a5e85",
+  "sheet_id": "shorts_collage_v1",
+  "seed": 938543205,
+  "reroll_count": 0,
+  "paper_tone": "paper_aged",
+  "bg_grammar": "stage_curtain",
+  "sunburst_rotation_deg": 288.0,
+  "tape_layout": 2,
+  "ransom_seed": 1025282960,
+  "cast": [
+    {
+      "label": "커티스 야빈",
+      "role": "반민주주의 이론가",
+      "person_id": "",
+      "approved": false,
+      "accent": "#4A6B4E",
+      "shadow_mode": "offset",
+      "shadow_fill": "dots",
+      "tilt_deg": 1.5
+    },
+    {
+      "label": "피터 틸",
+      "role": "테크노 우파 투자자",
+      "person_id": "",
+      "approved": false,
+      "accent": "#B03A2E",
+      "shadow_mode": "outline",
+      "shadow_fill": "solid",
+      "tilt_deg": 3.5
+    },
+    {
+      "label": "다리오 아모데이",
+      "role": "민주주의 승리 + 감시국가 금지",
+      "person_id": "",
+      "approved": false,
+      "accent": "#3E6E8E",
+      "shadow_mode": "offset",
+      "shadow_fill": "solid",
+      "tilt_deg": -2.5
+    },
+    {
+      "label": "대런 애쓰모글루",
+      "role": "기술 방향은 선택",
+      "person_id": "",
+      "approved": false,
+      "accent": "#C9862B",
+      "shadow_mode": "outline",
+      "shadow_fill": "hatch",
+      "tilt_deg": -0.5
+    },
+    {
+      "label": "마이클 샌델",
+      "role": "시장 아닌 민주적 통제",
+      "person_id": "",
+      "approved": false,
+      "accent": "#6E2C2C",
+      "shadow_mode": "offset",
+      "shadow_fill": "hatch",
+      "tilt_deg": 1.0
+    },
+    {
+      "label": "Hélène Landemore",
+      "role": "추첨 시민의회",
+      "person_id": "",
+      "approved": false,
+      "accent": "#4A6B4E",
+      "shadow_mode": "outline",
+      "shadow_fill": "dots",
+      "tilt_deg": 3.0
+    },
+    {
+      "label": "오드리 탕",
+      "role": "Plurality 협력 기술",
+      "person_id": "",
+      "approved": false,
+      "accent": "#B03A2E",
+      "shadow_mode": "offset",
+      "shadow_fill": "dots",
+      "tilt_deg": -3.0
+    }
+  ],
+  "scene_ids": [
+    "HOOK_01",
+    "CONTEXT_01",
+    "EVIDENCE_01",
+    "EVIDENCE_02",
+    "EVIDENCE_03",
+    "EVIDENCE_04",
+    "EVIDENCE_05",
+    "TURN_01",
+    "CLOSING_01"
+  ],
+  "sentence_count": 22,
+  "estimated_sec": 109.8,
+  "approved": false,
+  "approved_note": ""
+}

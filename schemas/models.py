@@ -1483,6 +1483,10 @@ class DesignSheet(VersionedModel):
                     )
         return self
 
+    def resolve_paper_tone(self, key: str) -> str:
+        """`paper_tone` 선택값(`paper_aged` 등)을 실제 hex 로 해소한다."""
+        return self.palette.get(key, self.palette.get("paper_base", "#E8DFC9"))
+
     def to_css_vars(self) -> dict[str, str]:
         """§0.3 — 컴포지션에 주입할 CSS 변수 사전.
 
@@ -1508,3 +1512,92 @@ class DesignSheet(VersionedModel):
         ):
             out[css_var_name(name)] = f"{value}px"
         return out
+
+
+# ---------------------------------------------------------------------------
+# 23.1 Art Direction (계획 §6.0 변주 3층 / §6.0.1 승인 게이트)
+# ---------------------------------------------------------------------------
+
+#: §1.6 배경 문법 후보군 (B 01~B 06)
+BG_GRAMMARS: tuple[str, ...] = (
+    "sunburst", "stage_curtain", "file_desk", "paper_map", "montage_wall", "plain_grain",
+)
+
+#: §1.5 종이 톤 후보
+PAPER_TONES: tuple[str, ...] = ("paper_base", "paper_aged", "paper_file")
+
+
+def fnv1a(text: str) -> int:
+    """FNV-1a 32bit — 같은 문자열이면 항상 같은 시드 (결정론, §1.5)."""
+    h = 0x811C9DC5
+    for byte in text.encode("utf-8"):
+        h = ((h ^ byte) * 0x01000193) & 0xFFFFFFFF
+    return h
+
+
+class CastEntry(BaseModel):
+    """씬에 투입될 인물 1명. 라이브러리 미보유면 `person_id` 가 비고 승인 대상이 된다."""
+
+    model_config = ConfigDict(extra="forbid", use_enum_values=True)
+
+    label: str                              # 번들 표기 (예: "대런 애쓰모글루")
+    role: str = ""
+    person_id: str = ""                     # 라이브러리 매칭 결과. 빈 값 = 미보유
+    approved: bool = False                  # 사용자가 프리뷰 게이트에서 승인했는가
+    accent: str = ""                        # 섀도 액센트 hex (V2/V3 결정)
+    shadow_mode: Literal["offset", "outline"] = "offset"
+    shadow_fill: Literal["solid", "hatch", "dots"] = "solid"
+    tilt_deg: float = 0.0
+
+
+class ArtDirection(VersionedModel):
+    """이 영상 **한 편의 조판 선택**. 스타일 프리뷰 시트가 렌더하는 대상이자,
+    승인 후 풀 렌더의 입력이다 — 검수한 것과 렌더되는 것이 정의상 일치한다
+    (계획 §6.0.1).
+
+    디자인 시트(`DesignSheet`)가 어휘집이라면 본 모델은 그 어휘로 쓴 **한 문장**이다.
+    """
+
+    model_config = ConfigDict(extra="forbid", use_enum_values=True)
+
+    report_id: str
+    sheet_id: str = "shorts_collage_v1"
+    seed: int = 0                           # fnv1a(report_id) ^ reroll_salt
+    reroll_count: int = 0                   # 리롤 횟수 (시드 재추첨 이력)
+
+    # --- V1 시드 변주 (§1.5) ---
+    paper_tone: str = "paper_base"
+    bg_grammar: str = "file_desk"
+    sunburst_rotation_deg: float = 0.0
+    tape_layout: int = 0                    # 0~3
+    ransom_seed: int = 0
+
+    # --- 콘텐츠 결정 ---
+    cast: list[CastEntry] = Field(default_factory=list)
+    scene_ids: list[str] = Field(default_factory=list)
+    sentence_count: int = 0
+    estimated_sec: float = 0.0
+
+    # --- 게이트 상태 ---
+    approved: bool = False
+    approved_note: str = ""
+
+    @model_validator(mode="after")
+    def _check_enums(self) -> "ArtDirection":
+        if self.bg_grammar not in BG_GRAMMARS:
+            raise ValueError(
+                f"bg_grammar {self.bg_grammar!r} 는 17 §0.7 고정 enum 밖 "
+                f"(허용: {list(BG_GRAMMARS)})"
+            )
+        if self.paper_tone not in PAPER_TONES:
+            raise ValueError(
+                f"paper_tone {self.paper_tone!r} 는 §1.5 후보 밖 (허용: {list(PAPER_TONES)})"
+            )
+        if not 0 <= self.tape_layout <= 3:
+            raise ValueError(f"tape_layout {self.tape_layout} 은 0~3 범위 밖 (§1.5 4변형)")
+        return self
+
+    @property
+    def missing_cast(self) -> list[CastEntry]:
+        """라이브러리 미보유 인물 — 프리뷰 게이트에서 사용자 승인이 필요한 대상."""
+        return [c for c in self.cast if not c.person_id]
