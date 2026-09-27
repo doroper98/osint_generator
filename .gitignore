@@ -77,3 +77,7 @@ assets/audio/bgm/*.m4a
 
 # v2 overhaul — 골든 레퍼런스 영상은 커밋하지 않음 (docs/handoff/golden/README.md)
 docs/handoff/golden/*.mp4
+
+# v2.0.1 — Phase 1 골든 재현 산출물(데이터·타일·TTS·렌더) — 커밋 금지
+projects/hormuz_korea_legacy/
+assets/fonts/.cache/
