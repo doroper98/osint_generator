@@ -1,0 +1,290 @@
+{
+ "schema_version": 1,
+ "threshold": 2.0,
+ "total_now": 292.43764172335597,
+ "total_golden": 292.4369387755102,
+ "mean_mad": 1.825,
+ "over_threshold": [
+  "timeline_4",
+  "past_1",
+  "now_3"
+ ],
+ "frames": [
+  {
+   "n": 1,
+   "anchor": "open_1",
+   "offset": 2,
+   "t_golden": 7.82,
+   "t_now": 7.824,
+   "dt": 0.004,
+   "mad": 1.735,
+   "over": false,
+   "frame": "frames/01_open_1.png"
+  },
+  {
+   "n": 2,
+   "anchor": "TITLE",
+   "offset": 2,
+   "t_golden": 22.27,
+   "t_now": 22.274,
+   "dt": 0.004,
+   "mad": 1.183,
+   "over": false,
+   "frame": "frames/02_TITLE.png"
+  },
+  {
+   "n": 3,
+   "anchor": "route_0",
+   "offset": 2.5,
+   "t_golden": 28.77,
+   "t_now": 28.774,
+   "dt": 0.004,
+   "mad": 1.476,
+   "over": false,
+   "frame": "frames/03_route_0.png"
+  },
+  {
+   "n": 4,
+   "anchor": "route_2",
+   "offset": 2,
+   "t_golden": 38.45,
+   "t_now": 38.445,
+   "dt": -0.005,
+   "mad": 1.849,
+   "over": false,
+   "frame": "frames/04_route_2.png"
+  },
+  {
+   "n": 5,
+   "anchor": "route_3",
+   "offset": 3.5,
+   "t_golden": 45.03,
+   "t_now": 45.03,
+   "dt": 0.0,
+   "mad": 1.852,
+   "over": false,
+   "frame": "frames/05_route_3.png"
+  },
+  {
+   "n": 6,
+   "anchor": "war_1",
+   "offset": 2,
+   "t_golden": 56.21,
+   "t_now": 56.213,
+   "dt": 0.003,
+   "mad": 1.817,
+   "over": false,
+   "frame": "frames/06_war_1.png"
+  },
+  {
+   "n": 7,
+   "anchor": "war_2",
+   "offset": 2.5,
+   "t_golden": 61.25,
+   "t_now": 61.247,
+   "dt": -0.003,
+   "mad": 1.724,
+   "over": false,
+   "frame": "frames/07_war_2.png"
+  },
+  {
+   "n": 8,
+   "anchor": "war_3",
+   "offset": 3,
+   "t_golden": 65.13,
+   "t_now": 65.133,
+   "dt": 0.003,
+   "mad": 1.842,
+   "over": false,
+   "frame": "frames/08_war_3.png"
+  },
+  {
+   "n": 9,
+   "anchor": "ask_1",
+   "offset": 4,
+   "t_golden": 80.7,
+   "t_now": 80.702,
+   "dt": 0.002,
+   "mad": 1.694,
+   "over": false,
+   "frame": "frames/09_ask_1.png"
+  },
+  {
+   "n": 10,
+   "anchor": "ask_2",
+   "offset": 2,
+   "t_golden": 87.06,
+   "t_now": 87.058,
+   "dt": -0.002,
+   "mad": 1.681,
+   "over": false,
+   "frame": "frames/10_ask_2.png"
+  },
+  {
+   "n": 11,
+   "anchor": "ask_5",
+   "offset": 1.5,
+   "t_golden": 105.28,
+   "t_now": 105.281,
+   "dt": 0.001,
+   "mad": 1.589,
+   "over": false,
+   "frame": "frames/11_ask_5.png"
+  },
+  {
+   "n": 12,
+   "anchor": "timeline_2",
+   "offset": 2,
+   "t_golden": 124.25,
+   "t_now": 124.253,
+   "dt": 0.003,
+   "mad": 1.445,
+   "over": false,
+   "frame": "frames/12_timeline_2.png"
+  },
+  {
+   "n": 13,
+   "anchor": "timeline_4",
+   "offset": 2.8,
+   "t_golden": 136.97,
+   "t_now": 136.971,
+   "dt": 0.001,
+   "mad": 3.101,
+   "over": true,
+   "frame": "frames/13_timeline_4.png"
+  },
+  {
+   "n": 14,
+   "anchor": "cost_1",
+   "offset": 1,
+   "t_golden": 157.38,
+   "t_now": 157.374,
+   "dt": -0.006,
+   "mad": 1.577,
+   "over": false,
+   "frame": "frames/14_cost_1.png"
+  },
+  {
+   "n": 15,
+   "anchor": "review_0",
+   "offset": 2.8,
+   "t_golden": 164.59,
+   "t_now": 164.588,
+   "dt": -0.002,
+   "mad": 1.918,
+   "over": false,
+   "frame": "frames/15_review_0.png"
+  },
+  {
+   "n": 16,
+   "anchor": "review_1",
+   "offset": 2.5,
+   "t_golden": 170.52,
+   "t_now": 170.513,
+   "dt": -0.007,
+   "mad": 1.847,
+   "over": false,
+   "frame": "frames/16_review_1.png"
+  },
+  {
+   "n": 17,
+   "anchor": "past_1",
+   "offset": 2.5,
+   "t_golden": 193.22,
+   "t_now": 193.211,
+   "dt": -0.009,
+   "mad": 2.969,
+   "over": true,
+   "frame": "frames/17_past_1.png"
+  },
+  {
+   "n": 18,
+   "anchor": "past_3",
+   "offset": 5,
+   "t_golden": 207.4,
+   "t_now": 207.404,
+   "dt": 0.004,
+   "mad": 1.624,
+   "over": false,
+   "frame": "frames/18_past_3.png"
+  },
+  {
+   "n": 19,
+   "anchor": "debate_0",
+   "offset": 3,
+   "t_golden": 214.45,
+   "t_now": 214.453,
+   "dt": 0.003,
+   "mad": 1.562,
+   "over": false,
+   "frame": "frames/19_debate_0.png"
+  },
+  {
+   "n": 20,
+   "anchor": "debate_1",
+   "offset": 2.5,
+   "t_golden": 220.96,
+   "t_now": 220.959,
+   "dt": -0.001,
+   "mad": 1.555,
+   "over": false,
+   "frame": "frames/20_debate_1.png"
+  },
+  {
+   "n": 21,
+   "anchor": "debate_4",
+   "offset": 2,
+   "t_golden": 238.0,
+   "t_now": 238.001,
+   "dt": 0.001,
+   "mad": 1.604,
+   "over": false,
+   "frame": "frames/21_debate_4.png"
+  },
+  {
+   "n": 22,
+   "anchor": "decision_0",
+   "offset": 3,
+   "t_golden": 245.55,
+   "t_now": 245.551,
+   "dt": 0.001,
+   "mad": 1.715,
+   "over": false,
+   "frame": "frames/22_decision_0.png"
+  },
+  {
+   "n": 23,
+   "anchor": "now_0",
+   "offset": 3.5,
+   "t_golden": 258.61,
+   "t_now": 258.608,
+   "dt": -0.002,
+   "mad": 1.845,
+   "over": false,
+   "frame": "frames/23_now_0.png"
+  },
+  {
+   "n": 24,
+   "anchor": "now_3",
+   "offset": 4,
+   "t_golden": 276.44,
+   "t_now": 276.438,
+   "dt": -0.002,
+   "mad": 2.935,
+   "over": true,
+   "frame": "frames/24_now_3.png"
+  },
+  {
+   "n": 25,
+   "anchor": "END",
+   "offset": -4,
+   "t_golden": 288.44,
+   "t_now": 288.438,
+   "dt": -0.002,
+   "mad": 1.488,
+   "over": false,
+   "frame": "frames/25_END.png"
+  }
+ ],
+ "note": "Phase 1 MAD 는 참고값(TTS 재합성 편차). 판정 임계 2/255 는 Phase 2 (DECISIONS D21)"
+}
