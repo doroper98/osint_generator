@@ -134,3 +134,16 @@ def direct(tb: Timebase) -> Director:  # noqa: PLR0915 — 연출 한 편은 긴
     ev("cutout", S("review_1", 0.1), E("review_2", 0.4), img="p8_cut.png", lon=112.0, lat=12.5, w=150, mid="p8",
        label="해상초계기 P-8A", sub="자료사진 · U.S. Navy")
     return d
+
+
+def sound(tb: Timebase) -> dict:
+    """사운드 연출 — v3 mix3 의 장면별 음악 강도 키프레임·BGM·하르그섬 폭발음(10 §3)."""
+    C = tb.scene_start  # noqa: N806
+    TOT = tb.total + 0.5  # noqa: N806 — mix 길이(plan.total + 0.5)
+    return dict(
+        bgm="The Life and Death of a Certain K. Zabriskie, Patriarch - Chris Zabriskie.mp3",
+        intensity=[(0, 0.6), (C["route"], 0.62), (C["war"], 0.74), (C["ask"], 0.6), (C["timeline"], 0.66), (C["cost"], 0.7),
+                   (C["review"], 0.6), (C["past"], 0.55), (C["debate"], 0.66), (C["decision"], 0.72), (C["now"], 0.66),
+                   (TOT - 7, 0.62), (TOT, 0.0)],
+        cues=[dict(kind="boom", t=tb.S("war_0", 1.2), v=0.5)],
+    )
