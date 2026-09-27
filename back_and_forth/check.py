@@ -6,6 +6,7 @@
     python back_and_forth/check.py --me opus     # 미처리 D 파일 (Opus 용)
     python back_and_forth/check.py --me fable    # 미처리 R 파일 (Fable 용)
     python back_and_forth/check.py --me opus --next-id   # 내가 쓸 다음 파일 번호
+    python back_and_forth/check.py --me opus --next-name phase1-prep   # 다음 파일 전체 이름
 
 종료 코드: 0 = 새 파일 없음, 10 = 새 파일 있음, 2 = 규칙 위반 파일 발견(머리말·이름 오류).
 """
@@ -19,10 +20,14 @@ from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
 NAME_RE = re.compile(
-    r"^(?P<kind>[RD])-(?P<num>\d{4})_(?P<ts>\d{8}-\d{4})_(?P<slug>[a-z0-9]+(?:-[a-z0-9]+)*?)"
-    r"(?:_(?P<author>fable5_1|opus5_5|user))?\.md$"
-)  # 작성자 태그(README §2)는 선택 — 규칙 이전 파일 호환
+    r"^(?P<kind>[RD])-(?P<num>\d{4})_(?P<ts>\d{8}-\d{4})_(?P<slug>[a-z0-9]+(?:-[a-z0-9]+)*)"
+    r"(?:_(?P<tag>opus5_5|fable5_1|user))?\.md$"
+)
 MINE = {"opus": "R", "fable": "D"}
+# README §2 — 작성자 표기(파일명 끝). R 은 Opus, D 는 Fable 또는 사용자.
+ALLOWED_TAGS = {"R": {"opus5_5"}, "D": {"fable5_1", "user"}}
+# 표기 규칙 도입(2026-09-27) 전에 만든 파일은 표기 없이 허용한다(append-only, 이름 변경 금지).
+LEGACY_MAX = {"R": 2, "D": 0}  # Fable 은 D-0001~0003 에 표기를 붙여 이름을 바꿨다(b06cbbe)
 
 
 def front_matter(path: Path) -> dict[str, str]:
@@ -56,6 +61,13 @@ def scan() -> tuple[dict[str, tuple[Path, dict[str, str]]], list[str]]:
             continue
         fm = front_matter(p)
         fid = f"{m['kind']}-{m['num']}"
+        tag = m["tag"]
+        if tag is None and int(m["num"]) > LEGACY_MAX[m["kind"]]:
+            errors.append(f"작성자 표기 없음: {p.name} (끝에 _{sorted(ALLOWED_TAGS[m['kind']])[0]} 필요)")
+            continue
+        if tag is not None and tag not in ALLOWED_TAGS[m["kind"]]:
+            errors.append(f"작성자 표기 불일치: {p.name} ({m['kind']} 에 _{tag} 불가)")
+            continue
         if fm.get("id") != fid:
             errors.append(f"머리말 id 불일치: {p.name} (id={fm.get('id')!r})")
             continue
@@ -67,11 +79,22 @@ def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--me", choices=sorted(MINE), required=True)
     ap.add_argument("--next-id", action="store_true", help="내가 쓸 다음 파일 id 출력")
+    ap.add_argument("--next-name", metavar="SLUG", help="내가 쓸 다음 파일 전체 이름 출력 (UTC 현재 시각)")
     args = ap.parse_args()
 
     files, errors = scan()
     mine_kind = MINE[args.me]
     theirs_kind = "D" if mine_kind == "R" else "R"
+
+    if args.next_name:
+        from datetime import datetime, timezone
+
+        nums = [int(fid[2:]) for fid in files if fid.startswith(mine_kind)]
+        num = (max(nums) + 1) if nums else 1
+        ts = datetime.now(timezone.utc).strftime("%Y%m%d-%H%M")
+        tag = "opus5_5" if args.me == "opus" else "fable5_1"
+        print(f"{mine_kind}-{num:04d}_{ts}_{args.next_name}_{tag}.md")
+        return 0
 
     if args.next_id:
         nums = [int(fid[2:]) for fid in files if fid.startswith(mine_kind)]

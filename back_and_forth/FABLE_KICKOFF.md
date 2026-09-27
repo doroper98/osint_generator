@@ -41,7 +41,8 @@ Opus 가 back_and_forth/ 폴더에 남기는 보고(R 파일)를 저장소 실�
 2. D 파일을 하나 쓴다. kind 는 directive / decision / answer / review 중 하나.
    kind: decision_request 인 R 은 다른 R 보다 먼저 처리한다(Opus 작업이 그 결정을 기다린다).
    - 번호: python back_and_forth/check.py --me fable --next-id
-   - 이름: D-000N_{UTC YYYYMMDD-HHMM}_{영문-slug}.md
+   - 이름: D-000N_{UTC YYYYMMDD-HHMM}_{영문-slug}_fable5_1.md  (작성자 표기 필수, README §2)
+     python back_and_forth/check.py --me fable --next-name {slug} 로 만들면 틀리지 않는다.
    - 머리말: README §3 (id, from: fable, to: opus, kind, responds_to: [R-000N], phase, version, status: open, priority, supersedes)
    - phase_report 에는 할 말이 없어도 반드시 답한다.
 3. 커밋·푸시: 첫 줄 "v{VERSION 파일 값}: back_and_forth D-000N — 요지". 푸시 거부 시 pull --rebase 후 재시도.
