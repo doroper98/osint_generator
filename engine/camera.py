@@ -1,0 +1,96 @@
+"""카메라 키프레임 (v2.1.0, 19 부록 D `CAM, cam, dip, build_camera`).
+
+장면당 이동 1회, 먼 거리는 암전 컷(05 §2). v3 의 `CUT_TARGET` 큐 방식은 순서 실수 위험이 있어
+`dip(t, lon, lat, w)` 인자형으로 바꿨다(19 §3.10). 보간: 위치 선형, 폭 로그, ease_io. 도착 후 드리프트.
+"""
+
+from __future__ import annotations
+
+import math
+from typing import Literal
+
+import numpy as np
+from pydantic import BaseModel, ConfigDict
+
+from engine.projection import ym
+from engine.timebase import ease_io
+from rules import load_rules
+
+_DRIFT = load_rules().shot_grammar.drift  # amount 0.03, tau 9.0 (v3 값, rules SSOT)
+
+
+class CamKey(BaseModel):
+    """카메라 키. 내부 상태는 (x, y, w) — x = 경도, y = ym(위도)(Mercator 도 단위, 변환은 projection 에만), w = 화면 폭(도).
+
+    20번(장르 확장) 대비로 이름을 지도 전용(lon/v)이 아닌 평면 좌표로 둔다(D-0010 §1-3, D10 경계).
+    """
+
+    model_config = ConfigDict(extra="forbid")
+
+    t: float
+    x: float
+    y: float
+    w: float
+    dur: float = 3.0
+    mode: Literal["move", "cut"] = "move"
+
+
+def cam(t: float, lon: float, lat: float, w: float, dur: float = 3.0, mode: Literal["move", "cut"] = "move") -> CamKey:
+    return CamKey(t=t, x=lon, y=ym(lat), w=w, dur=dur, mode=mode)
+
+
+def build_camera(keys: list[CamKey], n_frames: int, fps: int) -> "np.ndarray":
+    """프레임별 (x, y, w) 배열."""
+    cams = sorted(keys, key=lambda c: c.t)
+    out = np.zeros((n_frames, 3))
+    cur = np.array([cams[0].x, cams[0].y, cams[0].w], float)
+    frm = cur.copy()
+    k = 0
+    act: CamKey | None = None
+    for i in range(n_frames):
+        t = i / fps
+        while k < len(cams) and cams[k].t <= t:
+            act = cams[k]
+            k += 1
+            frm = out[i - 1].copy() if i > 0 and act.mode != "cut" else np.array([act.x, act.y, act.w], float)
+        if act is None:
+            v = cur.copy()
+            da = t
+        else:
+            e = ease_io((t - act.t) / act.dur) if act.dur > 0 else 1.0
+            v = np.array([frm[0] + (act.x - frm[0]) * e, frm[1] + (act.y - frm[1]) * e,
+                          math.exp(math.log(frm[2]) + (math.log(act.w) - math.log(frm[2])) * e)])
+            da = t - (act.t + act.dur)
+        if da > 0:
+            v[2] *= 1 - _DRIFT.amount * (1 - math.exp(-da / _DRIFT.tau_sec))
+        out[i] = v
+    return out
+
+
+class Director:
+    """연출층 도우미 — v3 상단의 `cam()`·`ev()`·`dip()` 호출을 한 객체로 모은다.
+
+    `dip(t, lon, lat, w)`: 1초 암전(t±0.5) + 그 한가운데 카메라 cut. 컷 목적지를 인자로 받는다(19 §3.10).
+    이벤트는 dict 로 모으고, 렌더 전에 `engine.registry.validate_events`가 전부 검증한다.
+    """
+
+    def __init__(self) -> None:
+        self.keys: list[CamKey] = []
+        self.events: list[dict] = []
+
+    def cam(self, t: float, lon: float, lat: float, w: float, dur: float = 3.0,
+            mode: Literal["move", "cut"] = "move") -> None:
+        self.keys.append(cam(t, lon, lat, w, dur, mode))
+
+    def ev(self, typ: str, t0: float, t1: float, **kw: object) -> dict:
+        d: dict = dict(type=typ, t0=t0, t1=t1)
+        d.update(kw)
+        self.events.append(d)
+        return d
+
+    def dip(self, t: float, lon: float, lat: float, w: float, under: bool = False) -> None:
+        if under:
+            self.ev("dip", t - 0.5, t + 0.5, under=True)
+        else:
+            self.ev("dip", t - 0.5, t + 0.5)
+        self.cam(t, lon, lat, w, 0, "cut")

@@ -222,6 +222,8 @@ class Colors(_Strict):
     muted: str
     amber: str
     sea_label: str
+    water: str
+    badge_bg: str
     panel_cover: Color4
     card_bg: Color4
     panel_card_bg: Color4

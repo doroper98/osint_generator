@@ -119,6 +119,8 @@ colors:                    # 09 §7
   muted: "#a9b0bd"
   amber: "#ffb347"
   sea_label: "#9cc8e6"
+  water: "#7fc4ff"            # v3 render3 C["water"] (v2.1.0 추가 — 코드 상수에서 이관)
+  badge_bg: "#1b2a3a"         # v3 badge_at 원판 바탕 (v2.1.0 추가)
   panel_cover: [0.025, 0.03, 0.045, 0.8]
   card_bg: [0.05, 0.06, 0.09, 0.86]
   panel_card_bg: [0.07, 0.08, 0.12, 0.92]
