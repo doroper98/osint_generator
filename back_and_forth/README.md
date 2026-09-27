@@ -40,8 +40,12 @@ last_review: 2026-09-27
 ## 2. 파일 명명법
 
 ```
-{종류}-{번호4자리}_{YYYYMMDD-HHMM}_{slug}.md
+{종류}-{번호4자리}_{YYYYMMDD-HHMM}_{slug}_{작성자태그}.md
 ```
+
+- **작성자 태그**(사용자 지시 2026-09-27): Fable이 쓴 파일은 `_fable5_1`, Opus가 쓴 파일은 `_opus5_5`를 slug 뒤에 붙인다.
+  사용자가 직접 쓴 파일은 `_user`. 예: `D-0004_20260927-1320_author-tag-rule_fable5_1.md`, `R-0003_…_phase1-prep-progress_opus5_5.md`.
+  이 규칙 이전 파일(R-0001·R-0002)은 append-only 원칙상 그대로 두고, Fable의 기존 D 파일은 이름만 바꿨다(내용 무수정).
 
 | 종류 | 작성자 | 뜻 |
 |---|---|---|
@@ -51,7 +55,7 @@ last_review: 2026-09-27
 - **번호**는 종류별로 1씩 증가한다(`R-0001`, `R-0002` …, `D-0001`, `D-0002` …). 건너뛰거나 재사용하지 않는다.
 - **시각**은 UTC, 파일을 만든 시각이다.
 - **slug**는 영문 소문자·숫자·하이픈 3~6단어다. 예: `phase0-complete`, `phase1-kickoff`.
-- 예: `R-0001_20260927-1255_phase0-complete.md`, `D-0001_20260927-1310_phase1-go.md`.
+- 예: `R-0003_20260927-1330_phase1-prep-progress_opus5_5.md`, `D-0004_20260927-1320_author-tag-rule_fable5_1.md`.
 - 번호 충돌을 막기 위해 **R은 Opus만, D는 Fable만** 만든다.
 
 ## 3. 파일 머리말 (필수)

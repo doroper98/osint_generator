@@ -18,7 +18,10 @@ import sys
 from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
-NAME_RE = re.compile(r"^(?P<kind>[RD])-(?P<num>\d{4})_(?P<ts>\d{8}-\d{4})_(?P<slug>[a-z0-9]+(?:-[a-z0-9]+)*)\.md$")
+NAME_RE = re.compile(
+    r"^(?P<kind>[RD])-(?P<num>\d{4})_(?P<ts>\d{8}-\d{4})_(?P<slug>[a-z0-9]+(?:-[a-z0-9]+)*?)"
+    r"(?:_(?P<author>fable5_1|opus5_5|user))?\.md$"
+)  # 작성자 태그(README §2)는 선택 — 규칙 이전 파일 호환
 MINE = {"opus": "R", "fable": "D"}
 
 
