@@ -28,10 +28,24 @@ released 항목은 **append-only**입니다.
 
 ---
 
-## [v2.1.0] — 2026-09-27 — Phase 2: 모듈 분해와 계약 (진행 중)
+## [v2.1.0] — 2026-09-27 — Phase 2: 모듈 분해와 계약 (back_and_forth D-0010)
 
 ### Added
-- (진행 중) `engine/`, `script/`, `audio/`, `projects/hormuz_korea/`.
+- `engine/` — render3 를 19 부록 D 대로 분해: style·timebase·projection·camera(`Director`, `dip(t,lon,lat,w)`)·
+  typography·assets·context·credits·layers/*·cards·panels/*·hud·subtitles·fullcards·events(타입별 Pydantic)·
+  registry(REGISTRY·resolve·RegistryError)·project(렌더 전 검증·권리 점검)·render(CLI)·mux(CLI)·provenance.
+- `script/` — lint·tts/{edge,elevenlabs,cache,trim}·timeline·plan(CLI). `audio/mix.py`(CLI).
+- `schemas/engine_models.py` — Tier·RightsRegistry·MediaRegistry·StageResult + 엔진 모델 재수출.
+- `projects/hormuz_korea/` — script.yaml(45문장)·direction.py·labels.yaml·credits.yaml·description.yaml.
+- `tests/test_engine_phase2.py`(16), `tests/fixtures/preview/*.yaml`(20).
+- `tools/golden_compare.py --engine new`, `tools/contact_sheet.py transitions --engine new`.
+
+### Changed
+- rules: colors 에 `water`·`badge_bg`, `post` → `event_types_planned`(D26).
+- `test_registry_complete`·`test_no_silent_fallback(a)` xfail 해제(계획 항목 미등록·예제 모델 통과 검사 추가).
+
+### Verified
+- 새 엔진 전편 = Phase 1: video_noaudio·final.mp4 md5 동일, mix 샘플 동일, SRT·설명문 바이트 동일, 25컷 MAD 0.
 
 ---
 

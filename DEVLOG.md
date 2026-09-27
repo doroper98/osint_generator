@@ -25,6 +25,14 @@ last_review: 2026-06-06
 
 ---
 
+## 2026-09-27 v2.1.0 — Phase 2 완료: render3·plan3·mix3 분해, 새 엔진 전편이 Phase 1 과 바이트 동일
+
+- **무엇을**: `engine/`·`script/`·`audio/` 패키지와 `projects/hormuz_korea/`(원고·연출·라벨·크레딧·설명문)로 v3 를 분해. CLI 4종(script.plan·engine.render·audio.mix·engine.mux).
+- **왜**: back_and_forth D-0010. 이후 Phase(레이아웃 데이터화·장르 확장)가 한 파일 997줄이 아니라 모듈·레지스트리·스키마 위에서 움직이게.
+- **어떻게**: 수치·로직은 한 글자도 바꾸지 않고 모듈 전역을 RenderCtx 로 모음. 이벤트는 렌더 전 Pydantic·레지스트리·권리 점검. 패널 문구는 이벤트 필드(D25). post 는 planned 로(D26).
+- **결과**: video_noaudio·final.mp4 md5 가 Phase 1 과 같음, mix 샘플 동일, 25컷 MAD 0. pytest 420 passed / 6 xfailed.
+- **연관**: D23~D26, R-0010~R-0012, artifacts/phase2-v2.1.0.
+
 ## 2026-09-27 v2.0.0 — Phase 0 완료: 레거시 삭제·버그 테스트 전환·WSL2 절차
 
 - **무엇을**: 사용자 허용으로 커밋 ② 실행(준비분 선커밋 → archive 원격 확인 → git rm). 버그 테스트 2건을 올바른
