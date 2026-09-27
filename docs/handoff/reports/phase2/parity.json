@@ -1,0 +1,41 @@
+{
+ "schema_version": 1,
+ "reference": "Phase 1 legacy_v3 산출물(artifacts/phase1-v2.0.1, docs/handoff/reports/phase1)",
+ "files": {
+  "plan.json (경로 제외 필드 전부)": {
+   "equal": true,
+   "note": "identical"
+  },
+  "video_noaudio.mp4": {
+   "legacy": "31159ccbe56d9f22bfd2ff729ab5f763",
+   "new": "31159ccbe56d9f22bfd2ff729ab5f763",
+   "equal": true
+  },
+  "final.mp4": {
+   "legacy": "cc8e30d1b5c0015026e6b0c52ed66656",
+   "new": "cc8e30d1b5c0015026e6b0c52ed66656",
+   "equal": true
+  },
+  "mix.f32": {
+   "legacy": "5d14ca88999519579c6f5feb258f0f7f",
+   "new": "5d14ca88999519579c6f5feb258f0f7f",
+   "equal": true
+  },
+  "mix.flac": {
+   "legacy": "fa4641144c2c536635b509b8a538d3ef",
+   "new": "fa4641144c2c536635b509b8a538d3ef",
+   "equal": true
+  },
+  "final.srt": {
+   "legacy": "d43d6f4c7313d41d8ece16f01782216f",
+   "new": "d43d6f4c7313d41d8ece16f01782216f",
+   "equal": true
+  },
+  "description.txt": {
+   "legacy": "d4e72b2e4648e4bb5eac43e813464c01",
+   "new": "d4e72b2e4648e4bb5eac43e813464c01",
+   "equal": true
+  }
+ },
+ "all_equal": true
+}

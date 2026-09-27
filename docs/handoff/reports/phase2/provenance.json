@@ -1,0 +1,71 @@
+{
+ "schema_version": 1,
+ "engine": "engine",
+ "repo_version": "2.1.0",
+ "rules_version": "2.0.0",
+ "rules_hash": "b0e1d24782c4d38112bf19404262db3ed3ee4f6e",
+ "prompts": {},
+ "voice": "edge-tts ko-KR-InJoonNeural",
+ "total_sec": 292.438,
+ "sentences": 45,
+ "stages": {
+  "plan": true,
+  "render": true,
+  "mix": true,
+  "mux": true,
+  "ai_direction": false,
+  "visual_qa": false
+ },
+ "features_used": {
+  "camera_keys": 10,
+  "camera_moves": 5,
+  "camera_cuts": 5,
+  "dips": 4,
+  "dips_under": 1,
+  "badges": 8,
+  "badge_kinds": {
+   "person": 3,
+   "flag": 4,
+   "emblem": 1
+  },
+  "panels": [
+   "refusal",
+   "statement",
+   "timeline",
+   "precedent",
+   "versus"
+  ],
+  "cards": 7,
+  "media": {
+   "clip": 2,
+   "photo": 2,
+   "cutout": 1,
+   "article": 2
+  },
+  "event_types": {
+   "article": 2,
+   "badge": 8,
+   "barrier": 1,
+   "boom": 1,
+   "card": 7,
+   "clip": 2,
+   "country": 1,
+   "cutout": 1,
+   "dip": 4,
+   "marker": 8,
+   "panel": 5,
+   "photo": 2,
+   "route": 4,
+   "ships": 1,
+   "tanker_loop": 1
+  },
+  "label_lod": true,
+  "vignette": false
+ },
+ "qa": {
+  "auto_iterations": 0,
+  "user_approved": false,
+  "reviewer": "fable (back_and_forth)"
+ },
+ "drops": []
+}

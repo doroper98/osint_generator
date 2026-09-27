@@ -3,7 +3,7 @@
 모드:
     python tools/contact_sheet.py sheet [--dir D]         # D/frames/*.png → D/sheet.jpg (4열 427×240, 앵커·시각 라벨)
     python tools/contact_sheet.py pairs [--dir D]         # 골든 | 렌더 쌍 2쌍/행 → D/sheet_vs_golden.jpg
-    python tools/contact_sheet.py transitions [--dir D]   # 타이틀·dip 마다 0.3초 간격 8컷 → D/transitions.jpg
+    python tools/contact_sheet.py transitions [--dir D] [--engine new --proj P]   # 타이틀·dip 마다 0.3초 간격 8컷
 
 라벨은 D/golden_compare.json(golden_compare.py 출력)에서 읽는다. transitions 는 legacy_v3/render3.py 를
 모듈로 불러 연출층의 dip 이벤트와 타이틀 카드 시각을 그대로 쓴다(시각을 따로 적지 않는다).
@@ -19,6 +19,7 @@ import sys
 from pathlib import Path
 
 REPO = Path(__file__).resolve().parent.parent
+sys.path.insert(0, str(REPO))
 GOLDEN_DIR = REPO / "docs" / "handoff" / "golden"
 DEFAULT_DIR = REPO / "docs" / "handoff" / "reports" / "phase1"
 CELL = (427, 240)
@@ -89,10 +90,37 @@ def _import_render3() -> "object":
     return mod
 
 
-def cmd_transitions(d: Path) -> Path:
+def _new_engine_frames(proj: Path) -> tuple[list[tuple[str, float]], "object"]:
+    """새 엔진: 타이틀·dip 중심 시각과 프레임 렌더 함수."""
     import numpy as np
     from PIL import Image
 
+    from engine.project import load_project
+    from engine.render import render_frame
+    from engine.style import FPS, H_OUT, W_OUT
+
+    P = load_project(proj)  # noqa: N806
+    title = next(c for c in P.plan.cards if c.kind == "title")
+    events: list[tuple[str, float]] = [("title", float(title.t0))]
+    for k, e in enumerate(ev for ev in P.events if ev["type"] == "dip"):
+        events.append((f"dip{k + 1}{'(under)' if e.get('under') else ''}", (e["t0"] + e["t1"]) / 2))
+
+    def frame(t: float) -> "object":
+        _, buf = render_frame(P, min(P.n_frames - 1, int(t * FPS)))
+        return Image.fromarray(np.frombuffer(bytes(buf), np.uint8).reshape(H_OUT, W_OUT, 4)[..., [2, 1, 0]])
+
+    return events, frame
+
+
+def cmd_transitions(d: Path, engine: str = "legacy", proj: Path | None = None) -> Path:
+    import numpy as np
+    from PIL import Image
+
+    if engine == "new":
+        events, frame = _new_engine_frames(proj or REPO / "projects" / "hormuz_korea")
+        cells = [(frame(t), f"{name} t={t:.2f}") for name, center in events for t in transition_times(center)]
+        grid(cells, TRANSITION_COUNT, d / "transitions.jpg", cell=(214, 120))
+        return d / "transitions.jpg"
     r3 = _import_render3()
     events: list[tuple[str, float]] = []
     title = next(c for c in r3.P["cards"] if c["kind"] == "title")
@@ -113,9 +141,14 @@ def main(argv: list[str] | None = None) -> int:
     ap = argparse.ArgumentParser(description="프리뷰 컨택트 시트")
     ap.add_argument("mode", choices=["sheet", "pairs", "transitions"])
     ap.add_argument("--dir", type=Path, default=DEFAULT_DIR)
+    ap.add_argument("--engine", choices=["legacy", "new"], default="legacy", help="transitions: 렌더 엔진")
+    ap.add_argument("--proj", type=Path, default=None, help="--engine new 프로젝트")
     args = ap.parse_args(argv)
     os.environ.setdefault("V3_ROOT", "projects/hormuz_korea_legacy")
-    out = {"sheet": cmd_sheet, "pairs": cmd_pairs, "transitions": cmd_transitions}[args.mode](args.dir)
+    if args.mode == "transitions":
+        out = cmd_transitions(args.dir, args.engine, args.proj)
+    else:
+        out = {"sheet": cmd_sheet, "pairs": cmd_pairs}[args.mode](args.dir)
     print(out)
     return 0
 

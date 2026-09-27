@@ -1,0 +1,27 @@
+{
+ "schema_version": 1,
+ "target": {
+  "I": -14,
+  "I_tol": 1,
+  "music_below_narration_db": [
+   14,
+   18
+  ]
+ },
+ "final_loudnorm": {
+  "I": -14.23,
+  "TP": -1.43,
+  "LRA": 3.6
+ },
+ "final_duration_sec": 292.438,
+ "mix_peak": 0.8807,
+ "mix_duration_sec": 292.938,
+ "narration_rms_db": -16.65,
+ "music_rms_in_narration_db": -29.33,
+ "music_below_narration_db": 12.69,
+ "music_rms_in_gaps_db": -25.25,
+ "narration_seconds": 240.8,
+ "method": "내레이션 스템 = plan npy 재배치(mix3 규칙) × 최소제곱 스케일, 음악 = mix − 내레이션",
+ "music_level_ok": false,
+ "loudness_ok": true
+}
