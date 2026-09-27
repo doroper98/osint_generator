@@ -8,6 +8,8 @@ last_review: 2026-05-19
 
 # 10 — Rendering Pipeline Spec
 
+> [deprecated v2.0.0] 본 문서의 영상 기준은 폐기됐다. 정본: docs/handoff/11. Phase 11에서 재작성.
+
 ## 1. 렌더 엔진
 
 - **Remotion** (Node 20 LTS). React 기반 코드형 영상 합성.

@@ -34,21 +34,11 @@ desktop.ini
 credentials.json
 *.pem
 
-# Remotion / Node
-remotion/node_modules/
-remotion/.cache/
-remotion/out/
+# Node
 node_modules/
+# (v2.0.0 삭제) remotion/ — archive/hyperframes-briefing 브랜치에 보존
 
-# HyperFrames (v0.34.0+)
-hyperframes/node_modules/
-hyperframes/*/node_modules/
-hyperframes/*/renders/
-hyperframes/*/.hyperframes-cache/
-
-# v0.34.8 — build_narration / render_demo 산출물 (1회용, sync drift 회피 패턴).
-hyperframes/demo/index.synced.html
-hyperframes/demo/cuesync.json
+# (v2.0.0 삭제) hyperframes/ — archive/hyperframes-briefing 브랜치에 보존
 
 # 운영 데이터 (재현 가능한 JSON manifest는 commit, 무거운 미디어는 ignore)
 projects/*/02_sources/uploaded/
@@ -79,13 +69,11 @@ logs/
 review-prompt.txt
 review-out.jsonl
 
-# BGM 음악 파일 — 라이선스 음원은 커밋 금지 (RIGHTS.md 만 추적)
-hyperframes/briefing/assets/audio/bgm/*.mp3
-hyperframes/briefing/assets/audio/bgm/*.wav
-hyperframes/briefing/assets/audio/bgm/*.m4a
-
-# 보도 사진 로컬 자산 (IMAGE_BUNDLE_CONTRACT — 빌드 시 다운로드, 커밋 금지)
-hyperframes/briefing/assets/photos/
+# BGM 음악 파일 — 라이선스 음원은 커밋 금지 (RIGHTS.md 만 추적). v2.0.0 에서 assets/audio/bgm/ 로 이동.
+# 이미 추적 중인 Zabriskie Patriarch 1곡은 RIGHTS.md 기록대로 임시 커밋본이라 추적 유지 (DECISIONS D17).
+assets/audio/bgm/*.mp3
+assets/audio/bgm/*.wav
+assets/audio/bgm/*.m4a
 
 # v2 overhaul — 골든 레퍼런스 영상은 커밋하지 않음 (docs/handoff/golden/README.md)
 docs/handoff/golden/*.mp4

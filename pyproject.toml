@@ -12,7 +12,7 @@ authors = [
   { name = "doroper98" }
 ]
 license = { text = "Proprietary" }
-keywords = ["osint", "video", "remotion", "tts", "orchestrator"]
+keywords = ["osint", "video", "map", "documentary", "tts", "orchestrator"]
 
 dependencies = [
   "pydantic>=2.6,<3.0",

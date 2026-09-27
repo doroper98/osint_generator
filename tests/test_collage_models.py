@@ -2,7 +2,7 @@
 
 - 번들 video 블록(BundleSectionVideo 등)이 additive 로 파싱되는지
 - AssetLibraryManifest id 유일성 검증
-- DesignSheet 기본값 (safe area 합집합)
+- (DesignSheet 테스트는 v2.0.0 에서 쇼츠 트랙 보관과 함께 삭제)
 """
 
 from __future__ import annotations
@@ -14,7 +14,6 @@ from pydantic import ValidationError
 from schemas.models import (
     AssetLibraryManifest,
     AssetSourceRef,
-    DesignSheet,
     LibraryAssetVariant,
     LibraryPerson,
     ReportBundle,
@@ -94,18 +93,6 @@ class TestAssetLibrary(unittest.TestCase):
     def test_duplicate_person_id_rejected(self) -> None:
         with self.assertRaises(ValidationError):
             AssetLibraryManifest(people=[self._person("x"), self._person("x")])
-
-
-class TestDesignSheet(unittest.TestCase):
-    def test_shorts_defaults(self) -> None:
-        s = DesignSheet(sheet_id="shorts_collage_v1")
-        self.assertEqual((s.width, s.height, s.fps), (1080, 1920, 30))
-        # safe area 3 플랫폼 합집합 (docs/17 §1.1)
-        self.assertEqual(
-            (s.safe_area.top, s.safe_area.bottom, s.safe_area.left, s.safe_area.right),
-            (220, 350, 60, 140),
-        )
-
 
 if __name__ == "__main__":
     unittest.main()

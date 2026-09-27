@@ -8,6 +8,8 @@ last_review: 2026-08-14
 
 # 07 — Video Style Guide (v2 — 쇼츠 콜라주 기본)
 
+> [deprecated v2.0.0] 본 문서의 영상 기준은 폐기됐다. 정본: docs/handoff/05, 08, 09. Phase 11에서 재작성.
+
 > v2 개정 (2026-08-14, 사용자 결정): 기본 포맷을 **쇼츠(1080×1920) 콜라주**로 전환.
 > v1(지도 중심·작은 자막·롱폼)은 §7 의 briefing 동결 프로파일로 승계. 구체 토큰 값의
 > SSOT 는 [17_COLLAGE_DESIGN_SHEET.md](17_COLLAGE_DESIGN_SHEET.md), 개편 배경·벤치마크는

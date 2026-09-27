@@ -19,7 +19,6 @@ logging:
 
 paths:
   projects_root: projects
-  remotion_root: remotion
   python_bin: python   # Windows의 경우 python, Linux는 python3 권장
 
 engine:

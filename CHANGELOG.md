@@ -49,6 +49,16 @@ released 항목은 **append-only**입니다.
 - **관성 방지 테스트 8종 `tests/anti_inertia/`**(19 부록 B, docs/handoff/15 §5): 통과 3종(`test_prompts_from_files`, `test_constitution`, `test_single_config`) + strict xfail — `test_no_legacy_imports`·`test_no_silent_fallback`(d)는 커밋 ② 보류(D13·D16), 나머지는 Phase 2/4/6.5/6.8/6.9.
 - 발음 사전 `assets/pronounce/pronounce_ko.json`(`tts_pronounce.DEFAULT_DICT_PATH`), 국기 SVG `assets/flags/legacy_svg/`로 이동.
 
+
+### Removed
+- **레거시 영상 경로 삭제**(원본은 `archive/hyperframes-briefing` 브랜치, collage tip `9dcda27`):
+  `hyperframes/`, `remotion/`, `design_sheets/`, `docs/{17_COLLAGE_DESIGN_SHEET,SHORTS_COLLAGE_OVERHAUL_PLAN,PROFESSIONAL_REBUILD_PLAN}.md`,
+  `orchestrator/{scene_builder,scene_io,render_io,subtitle_align,audio_service,audio_io,audio_demo}.py`와 해당 테스트 6종.
+- `build-scene`·`render-debug`·`build-audio`·`build-audio-demo`는 `LegacyRemovedError`(exit 3)로 시끄럽게 실패.
+- `schemas/models.py`: RenderProps·AudioManifest·SceneManifest·RemotionJob 계열 14종, `RenderMode`, DesignSheet·ArtDirection
+  계열(쇼츠). 삭제 전 참조 0 확인. `paths.remotion_root` 설정 제거.
+- BGM(`assets/audio/bgm/`) 이동. docs 07·08·09·10·ADDENDUM_02에 `[deprecated v2.0.0]` 배너(내용 유지).
+
 ---
 
 ## [v1.2.2] — 2026-09-27

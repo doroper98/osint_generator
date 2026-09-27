@@ -8,6 +8,8 @@ last_review: 2026-05-19
 
 # 08 — Audio & TTS Spec
 
+> [deprecated v2.0.0] 본 문서의 영상 기준은 폐기됐다. 정본: docs/handoff/03, 10. Phase 11에서 재작성.
+
 ## 1. 음성 톤
 
 - 낮고 굵은 남성.

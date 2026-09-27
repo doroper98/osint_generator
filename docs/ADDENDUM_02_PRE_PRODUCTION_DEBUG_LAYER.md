@@ -8,6 +8,8 @@ last_review: 2026-05-19
 
 # ADDENDUM 02 — Pre-production Debug Layer
 
+> [deprecated v2.0.0] 본 문서의 영상 기준은 폐기됐다. 정본: docs/handoff/11, 17 (프리뷰 컨택트 시트·결정적 검사). Phase 11에서 재작성.
+
 ## 1. 목적
 
 초기 운영 기간 동안 Worker별 품질을 튜닝하기 위해, 각 scene이 어떤 Worker / 어떤 source / 어떤 asset에서 만들어졌는지를 영상 안에 **눈으로 확인 가능한 형태**로 띄운다.

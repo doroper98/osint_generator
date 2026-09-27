@@ -11,7 +11,6 @@ import ast
 import re
 import unittest
 
-import pytest
 
 from tests.anti_inertia._ast_util import REPO, code_strings, iter_py, parse
 
@@ -48,10 +47,6 @@ def find_violations() -> list[str]:
 
 
 class NoLegacyImportsTest(unittest.TestCase):
-    @pytest.mark.xfail(
-        strict=True,
-        reason="커밋 ②(레거시 삭제) 보류 — DECISIONS D13. 삭제 후 XPASS 가 실패로 잡히면 이 마커를 제거한다",
-    )
     def test_no_legacy_references(self) -> None:
         violations = find_violations()
         self.assertEqual(violations, [], "옛 영상 경로 참조:\n" + "\n".join(violations))

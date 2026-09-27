@@ -8,6 +8,8 @@ last_review: 2026-05-19
 
 # 09 — Map & Geo Spec
 
+> [deprecated v2.0.0] 본 문서의 영상 기준은 폐기됐다. 정본: docs/handoff/04. Phase 11에서 재작성.
+
 ## 1. 지도 우선순위
 
 1. Google Maps Tiles — 시각 품질 최상. **약관 검토 필수**.

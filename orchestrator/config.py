@@ -40,7 +40,6 @@ class PathsConfig(BaseModel):
     model_config = ConfigDict(extra="ignore")
 
     projects_root: str = "projects"
-    remotion_root: str = "remotion"
     python_bin: str = "python"
 
 
