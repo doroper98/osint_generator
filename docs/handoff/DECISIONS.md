@@ -37,3 +37,6 @@ last_review: 2026-09-27
 | 2026-09-27 | D21 | Phase 1 실행·판정 위치 = **Opus 클라우드 컨테이너**. 판정 근거는 커밋된 산출물(`docs/handoff/reports/phase1/`), WSL2 문서는 사용자 재현용. [supersedes D9, D19의 "WSL2 산출물로만 판정"] (Fable은 D20으로 지정했으나 D20이 이미 사용돼 D21로 기록) | 사용자 위임("이것도 니가 결정해서 진행해") + 사용자 지시 D20 | Fable (back_and_forth D-0005) | 이 행 superseded 처리 |
 | 2026-09-27 | D4 | GOAL G3 v2 개정안 = 19 부록 C 16개 + 17. 장르 확장(20번) 영상도 1~16 충족 + 무대 연속성 검사 통과. 반영은 Phase 11(v3.0.0), 지금은 G3 배너만 다음 헌법 수정 커밋에 편승 | ② 13 Phase 11 절차 ① 문서 변경 | 사용자 위임 → Fable (D-0005) | 이 행 superseded 처리 |
 | 2026-09-27 | D22 | BGM mp3 추적 해제(`git rm --cached`), `tools/fetch_data.py bgm`이 git 객체 `bd37b58`에서 복원·sha1 대조. 이력 정리·LFS 없음. [supersedes D17(c)] (Fable 지정 번호 D21 → D22) | ① 되돌리기 `git add -f` 한 줄 ③ RIGHTS.md·.gitignore의 커밋 금지 규칙 | 사용자 위임 → Fable (D-0005) | `git add -f` |
+| 2026-09-27 | D23 | provenance `badges` 기대값 = badge 이벤트 수(8). 패널 내부 뱃지는 `panels`가 증명. 19 부록 B 기대값 9 → 8 정정은 Phase 6.8 `test_provenance_e2e` 구현 시 | ③ 실측 우선 ① 숫자 하나 | Fable (back_and_forth D-0009) | 부록 B 값 복원 |
+| 2026-09-27 | D24 | artifacts 브랜치 오디오는 `mix.flac`(24bit 무손실)으로 통일. `mix.f32`(103MB)는 GitHub 100MB 한도 초과 | ① 무손실·되돌리기 쉬움 | Fable (back_and_forth D-0009) | f32 로 재추출 |
+| 2026-09-27 | D25 | 패널 문구(텍스트)는 이벤트 필드로 뺀다. 좌표·크기·타이밍·색은 Phase 6 전까지 `engine/panels/*.py` 안에 그대로 | ① 되돌리기 쉬움, P8 문구=데이터 | Fable (back_and_forth D-0011) | 문구를 패널 모듈로 복귀 |
