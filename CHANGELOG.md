@@ -1,6 +1,6 @@
 <!--
 tier: 3
-last_synced_with: v1.1.0
+last_synced_with: v1.2.2
 ssot_for: [release-notes]
 depends_on: [README.md, GOAL.md]
 last_review: 2026-06-11
@@ -25,6 +25,23 @@ released 항목은 **append-only**입니다.
 
 ### Fixed
 -
+
+---
+
+## [v1.2.2] — 2026-09-27
+
+### Added
+- **v2 전면 개편 착수 — 브랜치 `overhaul/v2-map-engine`(collage 분기, 사용자 승인).**
+  `docs/handoff/`: 채팅 세션 인계 문서 00~18 + KICKOFF(원문 무수정, 거버넌스 헤더 부착), 골든
+  프레임 25장(사용자 mp4와 픽셀 동일 검증), reference_code v1~v3. Fable 분석·Opus 실행 계획
+  `19_*`, v3 코드 인벤토리 `19a_*`, Opus 착수 프롬프트 `OPUS_KICKOFF_PROMPT.md`. 골든 mp4는
+  gitignore. 다음 커밋은 Phase 0(v2.0.0).
+
+### Changed
+- **구독 LLM 브리지 모델 고정 — `claude -p --model claude-opus-5-5`.** 지금까지 `--model` 없이
+  호출해 사용자 머신 CLI 기본 모델이 쓰였고 저장소에 기록되지 않았다. 이제 `config.yaml`
+  `llm.model` 한 곳(SSOT)에서 오고 `LLMCallRecord.model`(optional)에 실제 전달값이 남는다.
+  codex 무변경. 회귀 테스트 `tests/test_llm_model_pin.py`.
 
 ---
 

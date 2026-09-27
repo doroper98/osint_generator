@@ -1,0 +1,44 @@
+{
+ "trump": {
+  "src": "repo_library",
+  "license": "Public domain",
+  "credit": "This image is available from the United States Library of Congress's Prints and Photographs division under the digital ID ppbd.00608.This tag does not indicate the copyright status of the attached work. A normal copyright tag is still required. See Commons:Licensing.",
+  "url": "https://commons.wikimedia.org/wiki/File:Donald_Trump_official_portrait.jpg",
+  "tool": "codex_imagegen"
+ },
+ "putin": {
+  "src": "repo_library",
+  "license": "CC BY 4.0",
+  "credit": "http://en.kremlin.ru/events/president/news/73529/photos",
+  "url": "https://commons.wikimedia.org/wiki/File:Vladimir_Putin_portrait_(2024-02-23).png",
+  "tool": "codex_imagegen"
+ },
+ "zelensky": {
+  "src": "repo_library",
+  "license": "CC BY 4.0",
+  "credit": "https://www.president.gov.ua/en/president/biografiya",
+  "url": "https://commons.wikimedia.org/wiki/File:Volodymyr_Zelensky_Official_portrait.jpg",
+  "tool": "codex_imagegen"
+ },
+ "ratcliffe": {
+  "src": "wikimedia_commons",
+  "license": "Public domain",
+  "credit": "CIA, Central Intelligence Agency",
+  "url": "https://commons.wikimedia.org/wiki/File:Official_Portrait_of_CIA_Director_John_Ratcliffe.webp",
+  "tool": "rembg+mono(prep.py)"
+ },
+ "naryshkin": {
+  "src": "wikimedia_commons",
+  "license": "CC BY 4.0",
+  "credit": "Пресс-служба Президента России",
+  "url": "https://commons.wikimedia.org/wiki/File:Sergey_Naryshkin_(2016-07-14).jpg",
+  "tool": "rembg+mono(prep.py)"
+ },
+ "bortnikov": {
+  "src": "wikimedia_commons",
+  "license": "CC BY 4.0",
+  "credit": "Администрация Президента России",
+  "url": "https://commons.wikimedia.org/wiki/File:Bortnikov_2019_crop.jpg",
+  "tool": "rembg+mono(prep.py)"
+ }
+}

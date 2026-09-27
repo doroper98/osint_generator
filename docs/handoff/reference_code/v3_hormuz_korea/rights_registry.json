@@ -1,0 +1,38 @@
+{
+ "people": {
+  "trump": {
+   "src": "repo_library",
+   "license": "Public domain",
+   "artist": "Shealeah Craighead",
+   "url": "https://commons.wikimedia.org/wiki/File:Donald_Trump_official_portrait.jpg"
+  },
+  "khamenei": {
+   "src": "repo_library",
+   "license": "CC BY 4.0",
+   "artist": "khamenei.ir",
+   "url": "https://commons.wikimedia.org/wiki/File:Ali_Khamenei_Nowruz_message_official_portrait_1397_02_(cropped).jpg"
+  },
+  "lee_jae_myung": {
+   "src": "wikimedia_commons",
+   "license": "Public domain",
+   "artist": "The White House",
+   "url": "https://commons.wikimedia.org/wiki/File:Lee_Jae_Myung_portrait.jpg",
+   "title": "File:Lee Jae Myung portrait.jpg"
+  },
+  "roh_moo_hyun": {
+   "src": "wikimedia_commons",
+   "license": "KOGL Type 1",
+   "artist": "대한민국 국가기록원",
+   "url": "https://commons.wikimedia.org/wiki/File:Roh_Moo-hyun_presidential_portrait.jpg",
+   "title": "File:Roh Moo-hyun presidential portrait.jpg"
+  }
+ },
+ "emblems": {
+  "navcent": {
+   "license": "Public domain",
+   "url": "https://commons.wikimedia.org/wiki/File:United_States_Naval_Forces_Central_Command_patch_2014.png",
+   "title": "File:United States Naval Forces Central Command patch 2014.png",
+   "restrictions": ""
+  }
+ }
+}

@@ -1,6 +1,6 @@
 <!--
 tier: 3
-last_synced_with: v1.1.0
+last_synced_with: v1.2.2
 ssot_for: [development-log]
 depends_on: [CHANGELOG.md]
 last_review: 2026-06-06
@@ -22,6 +22,24 @@ last_review: 2026-06-06
 - 결과:  …
 - 연관:  AP-번호, 이슈, PR 번호 등
 ```
+
+---
+
+## 2026-09-27 v1.2.2 — v2 전면 개편 착수: overhaul/v2-map-engine 분기 + 핸드오프 반영 + LLM 모델 고정
+
+- **무엇을**: (1) 사용자 승인으로 `origin/collage`에서 `overhaul/v2-map-engine` 분기.
+  (2) claude.ai 채팅 세션의 지도 중심 다큐 파이프라인 인계 문서 묶음을 `docs/handoff/`로 커밋.
+  (3) Fable 분석 세션의 저장소 실측·불일치 판정·Phase 0 커밋 단위 명세(`19`), v3 코드
+  인벤토리(`19a`), Opus 착수 프롬프트(`OPUS_KICKOFF_PROMPT.md`). (4) `claude -p --model` 고정.
+- **왜**: 사용자 지시 — 분석·계획은 Fable, 개발은 Opus 5.5. 개편은 "주입 대신 교체"(handoff 15)
+  원칙이며 첫 조건은 실행 세션이 추측할 여지를 없애는 것. 모델은 저장소에 고정된 적이 없었다.
+- **어떻게**: collage ⊇ main 확인(35 commits, 역방향 0) → collage 분기. 골든 mp4와 PNG 25장
+  픽셀 대조(MAD 0.00) → mp4 미커밋. TTS-AP 번호 충돌(058~063 기존) → 신규는 064~066. 소수점
+  발음 정책 충돌(쩜 vs 점) → 사용자 결정 D6. `{model}` placeholder + `resolve_model()` +
+  `LLMCallRecord.model`. 같은 내용을 main 기준 `claude/laughing-rubin-rujpp2`(v0.43.5)에도 남김.
+- **결과**: 테스트 438건 통과(신규 7건 포함). Phase 0(v2.0.0) 착수는 D2·D8 답 후 Opus 세션.
+  main 머지는 Phase 승인마다 fast-forward 권고(19 §4.1).
+- **연관**: docs/handoff/15 P3·P5, docs/handoff/19 §3·§4·§5.
 
 ---
 
