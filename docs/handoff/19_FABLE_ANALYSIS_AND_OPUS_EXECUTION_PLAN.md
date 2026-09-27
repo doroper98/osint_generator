@@ -143,18 +143,18 @@ Opus는 "프로 다큐로 보이는가" 판정 시 아래를 기준으로 삼는
 | ID | 결정 | Fable 권고 | 필요 시점 |
 |---|---|---|---|
 | **D1 ✅ 확정** | 기준 브랜치 — `overhaul/v2-map-engine`을 `origin/collage`에서 분기했다(본 세션). 개발 완료 후 main 머지(§4.1) | **`origin/collage`에서 `overhaul/v2-map-engine` 분기.** collage ⊇ main이라 손실 0, 인물 라이브러리·공방·engraving_stylizer·AssetLibrary 스키마가 곧바로 있다. 대안(main 분기 + 체리픽)은 `assets/library` 125 파일과 스키마 373줄을 옮겨야 해 위험만 크다. Fable 세션의 문서 묶음 커밋(`claude/laughing-rubin-rujpp2`)은 `SKIP_VERSION_CHECK=1 git cherry-pick`으로 가져온다(허용 규정 C5.3). | Phase 0 착수 전 |
-| **D2** | 골든 mp4 보관 | git에 넣지 않는다(30MB, BGM RIGHTS.md의 대용량 커밋 교훈). 사용자가 `docs/handoff/golden/`에 로컬 복사. 프레임 비교는 PNG로 충분. | Phase 1 |
-| **D3** | GmarketSans 폰트 파일 커밋 | 커밋하지 않고 `geo.prep fonts`가 다운로드·변환·캐시(`assets/fonts/.cache`, gitignore). 지마켓 무료 폰트 약관(재배포 조건) 확인 후 커밋 여부 재결정. IBM Plex·Noto(OFL)는 커밋 가능하나 용량상 동일하게 캐시 권장. | Phase 1 |
+| **D2 ✅ 확정(Fable 위임)** | 골든 mp4 보관 — 미커밋·로컬 복사(DECISIONS.md) | git에 넣지 않는다(30MB, BGM RIGHTS.md의 대용량 커밋 교훈). 사용자가 `docs/handoff/golden/`에 로컬 복사. 프레임 비교는 PNG로 충분. | Phase 1 |
+| **D3 ✅ 확정(Fable 위임)** | 폰트 미커밋, fetch 스크립트 캐시(DECISIONS.md) | 커밋하지 않고 `geo.prep fonts`가 다운로드·변환·캐시(`assets/fonts/.cache`, gitignore). 지마켓 무료 폰트 약관(재배포 조건) 확인 후 커밋 여부 재결정. IBM Plex·Noto(OFL)는 커밋 가능하나 용량상 동일하게 캐시 권장. | Phase 1 |
 | **D4** | GOAL G3 개정안(부록 C) 승인 | 부록 C 초안 승인 → Phase 11 반영. 승인 전 G3는 `[legacy]` 배너. | Phase 0 보고 시 |
 | **D5** | 사용 제한 휘장(CIA·대통령 문장·IRGC 등) | `assets/emblems/registry.json`의 `decision` 필드에 사용자가 직접 `use`/`flag_fallback`을 기입. 기본값 `user_decision`이면 렌더 전 오류(P6). | Phase 5 |
-| **D6** | 소수점 발음 표기(§3.4) | 저장소 실청취 결과(v0.43.4)가 "쩜 무공백"이므로 **저장소 결정 유지 권고**. 단 자막은 "83.9달러" 원문. 핸드오프 TTS-AP-066은 "표준 표기 강제"가 아니라 "자막≠발음 분리 유지"로 문안 조정. | Phase 4 |
+| **D6 ✅ 확정(사용자)** | 소수점 발음 — 저장소 정책(쩜) 유지, ElevenLabs 연결 후 사용자 청취로 최종 확정 | 저장소 실청취 결과(v0.43.4)가 "쩜 무공백"이므로 **저장소 결정 유지 권고**. 단 자막은 "83.9달러" 원문. 핸드오프 TTS-AP-066은 "표준 표기 강제"가 아니라 "자막≠발음 분리 유지"로 문안 조정. | Phase 4 |
 | **D7** | agents_reviewer 번들 스키마 개선안(`12` §6) 제출 | Phase 9에서 문서로 제출, 사용자가 agents_reviewer에 반영. | Phase 9 |
-| **D8** | archive 브랜치 이름 | `archive/pre-v2-legacy-1.2.1` **하나**(hyperframes·remotion·쇼츠·scene_builder 전부 포함, 분기점 = collage tip). 여러 개로 나누면 복원이 번거롭다. | Phase 0 |
+| **D8 ✅ 확정(Fable 위임)** | archive 브랜치 = `archive/hyperframes-briefing` 하나(02 §4.3 이름, 모든 레거시 포함) | `archive/hyperframes-briefing` **하나**(hyperframes·remotion·쇼츠·scene_builder 전부 포함, 분기점 = collage tip). 여러 개로 나누면 복원이 번거롭다. | Phase 0 |
 | **D9** | Opus 세션 실행 위치 | 코드 작업(Phase 0)은 클라우드 가능. **Phase 1부터는 렌더·폰트·ffmpeg가 필요**하므로 사용자 로컬(WSL2 권장) 또는 apt 가능한 클라우드 환경. Windows 네이티브 cairo는 §8 R1 위험. | Phase 1 |
 
 ### 4.1 main 머지 전략 (사용자 제안 "개발 완료 후 main 머지" — Fable 의견)
 - 방향은 맞다. `overhaul/v2-map-engine` ⊇ collage ⊇ main 이므로 main 머지는 **fast-forward**로 끝나고 충돌이 없다. 쇼츠 트랙 35커밋도 함께 main에 들어가지만, Phase 0에서 archive 브랜치 보존 후 삭제되므로 main에는 이력만 남는다.
-- 권고: "전부 끝난 뒤 한 번"이 아니라 **사용자가 Phase 보고를 승인할 때마다 main으로 fast-forward**한다. 이유 ① main이 7월(v0.43.4)에 멈춘 채 collage가 8월까지 독주한 일이 다시 생기지 않는다 ② `docs/branches.html`이 main 기준 VERSION을 보여 준다 ③ 되돌릴 일이 생겨도 Phase 단위 태그(`v2.0.0`, `v2.1.0` …)로 돌아갈 수 있다.
+- **확정(사용자 지시)**: main 첫 머지는 **Phase 1(골든 재현) 통과 후**. 그다음부터는 **사용자가 Phase 보고를 승인할 때마다 main으로 fast-forward**한다(Fable 권고, DECISIONS M1). 이유 ① main이 7월(v0.43.4)에 멈춘 채 collage가 8월까지 독주한 일이 다시 생기지 않는다 ② `docs/branches.html`이 main 기준 VERSION을 보여 준다 ③ 되돌릴 일이 생겨도 Phase 단위 태그(`v2.0.0`, `v2.1.0` …)로 돌아갈 수 있다.
 - 절차(사용자 또는 Opus, 승인 직후): `git checkout main && git merge --ff-only overhaul/v2-map-engine && git tag vX.Y.Z && git push origin main --tags`. ff-only가 실패하면 main에 다른 커밋이 들어온 것이므로 멈추고 보고한다.
 - 최종 완료(Phase 11, v3.0.0) 후에도 `overhaul/v2-map-engine`은 삭제하지 말고 태그로 남긴다(이력 추적).
 
@@ -206,8 +206,8 @@ python tools/check_env.py                                        # 5.1에서 만
 ### 5.2 커밋 ② `v2.0.0: 레거시 archive 브랜치 보존 후 삭제 (hyperframes·remotion·scene_builder·render_io·audio_service)`
 **순서가 중요하다.**
 ```bash
-git branch archive/pre-v2-legacy-1.2.1 origin/collage      # D8
-git push -u origin archive/pre-v2-legacy-1.2.1
+git branch archive/hyperframes-briefing origin/collage      # D8
+git push -u origin archive/hyperframes-briefing
 ```
 그다음 삭제/이동:
 | 조치 | 대상 |
@@ -217,7 +217,7 @@ git push -u origin archive/pre-v2-legacy-1.2.1
 | `git rm -r` | `hyperframes/`, `remotion/`, `design_sheets/`, `docs/17_COLLAGE_DESIGN_SHEET.md`, `docs/SHORTS_COLLAGE_OVERHAUL_PLAN.md`, `docs/PROFESSIONAL_REBUILD_PLAN.md` |
 | `git rm` | `orchestrator/scene_builder.py`, `scene_io.py`, `render_io.py`, `subtitle_align.py`, `audio_service.py`, `audio_io.py`, `audio_demo.py` |
 | `git rm` | `tests/test_scene_flow.py`, `test_render_flow.py`, `test_audio_flow.py`, `test_audio_demo.py`, `test_subtitle_align.py`, `tests/test_collage_models.py`, `tests/test_design_sheet_naming.py` (collage 스키마 삭제 시) |
-| `orchestrator/main.py` | `build-scene`, `build-audio`, `build-audio-demo`, `render-debug` 서브커맨드 핸들러 본문을 `raise LegacyRemovedError("<cmd>는 v2.0.0에서 삭제됨 — 대체 경로는 docs/handoff/16 §4 engine_service (Phase 6.8). archive/pre-v2-legacy-1.2.1 참조")`로 교체. `LegacyRemovedError`는 `orchestrator/errors.py` 신설. 서브커맨드 자체는 남겨 **시끄럽게** 실패하게 한다(P6). import 문(`:838, :900, :1003`) 제거. |
+| `orchestrator/main.py` | `build-scene`, `build-audio`, `build-audio-demo`, `render-debug` 서브커맨드 핸들러 본문을 `raise LegacyRemovedError("<cmd>는 v2.0.0에서 삭제됨 — 대체 경로는 docs/handoff/16 §4 engine_service (Phase 6.8). archive/hyperframes-briefing 참조")`로 교체. `LegacyRemovedError`는 `orchestrator/errors.py` 신설. 서브커맨드 자체는 남겨 **시끄럽게** 실패하게 한다(P6). import 문(`:838, :900, :1003`) 제거. |
 | `orchestrator/config.py`, `config.yaml` | `paths.remotion_root` 삭제, `render.default_resolution/default_fps/profiles.briefing/shorts` 삭제(커밋 ④에서 `engine:`로 대체) |
 | `schemas/models.py` | §1.3의 렌더/장면/오디오 모델 13종 + collage `DesignSheet`, `SafeArea`, `CastEntry`, `ArtDirection`, `RenderMode`(다른 참조 없으면) 삭제. **삭제 전 `grep -rn <ClassName> --include=*.py`로 참조 0 확인. 참조가 남으면 삭제하지 말고 목록을 보고서에 적는다.** `AssetLibrary*`, `Bundle*`는 유지. |
 | `pyproject.toml` | `keywords`의 "remotion" 제거 |
@@ -252,14 +252,14 @@ git push -u origin archive/pre-v2-legacy-1.2.1
 `tests/anti_inertia/` 8파일 — **부록 B** 명세대로. Phase 0 통과 4종: `test_no_legacy_imports`, `test_prompts_from_files`, `test_constitution`, `test_single_config`. 나머지 4종은 `@pytest.mark.xfail(strict=True, reason="Phase N — …")`로 둔다. strict라 구현이 끝나면 XPASS가 **실패**로 잡혀 마커 제거를 강제한다.
 
 ### 5.7 커밋 ⑦ `v2.0.0: Phase 0 보고서`
-`docs/handoff/reports/PHASE0_REPORT.md`: 변경 요약 / 테스트 결과(기준선 대비) / 프리뷰(해당 없음 — Phase 0은 영상 영향 없음, 명시) / provenance(해당 없음, 명시) / 다음 Phase 계획 / 결정 대기 목록(D2~D9). DEVLOG 한 줄. 여기서 **멈추고 사용자에게 보고**한다.
+`docs/handoff/reports/PHASE0_REPORT.md`: 변경 요약 / **이번 Phase의 결정 요약(DECISIONS.md 새 행)** / 테스트 결과(기준선 대비) / 프리뷰(해당 없음 — Phase 0은 영상 영향 없음, 명시) / provenance(해당 없음, 명시) / 다음 Phase 계획 / 결정 대기 목록(D2~D9). DEVLOG 한 줄. 여기서 **멈추고 사용자에게 보고**한다.
 
 ### 5.8 Phase 0 합격 기준(자동 검증)
 ```bash
 pytest -q tests/anti_inertia -k "no_legacy_imports or prompts_from_files or constitution or single_config"   # 4 passed
 pytest -q                                                             # 나머지 전부 passed, xfail 4
 python -m orchestrator.main version                                   # 2.0.0
-git ls-remote --heads origin archive/pre-v2-legacy-1.2.1              # 존재
+git ls-remote --heads origin archive/hyperframes-briefing              # 존재
 test ! -d hyperframes && test ! -d remotion                           # 삭제 확인
 ```
 
