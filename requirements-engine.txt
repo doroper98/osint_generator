@@ -1,0 +1,17 @@
+# v2.0.1 map documentary engine (legacy_v3 golden reproduction, later engine/).
+# Keep ASCII-only (see requirements.txt note). Install: pip install -r requirements-engine.txt
+# System packages (Ubuntu/WSL2): libcairo2-dev pkg-config python3-dev ffmpeg fontconfig fonts-noto-cjk
+# See docs/handoff/reports/PHASE1_ENV_SETUP_WSL2.md
+pycairo>=1.25
+numpy>=1.26
+Pillow>=10.0
+shapely>=2.0
+scipy>=1.11
+PyYAML>=6.0
+pydantic>=2.6,<3.0
+edge-tts>=6.1
+requests>=2.31
+cairosvg>=2.7
+fonttools>=4.47
+rembg>=2.0.50
+onnxruntime>=1.17

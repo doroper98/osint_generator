@@ -33,14 +33,13 @@ fastapi>=0.110
 uvicorn>=0.27
 python-multipart>=0.0.9
 
-# v0.45.0: engraving stylizer (workers/engraving_stylizer.py) — deterministic
+# v0.45.0: engraving stylizer (workers/engraving_stylizer.py) - deterministic
 # stipple / line-engraving portrait SVG from real photos (no AI generation).
 numpy>=1.26
 Pillow>=10.0
 
-# v1.0.1: shorts specimen / style-preview renderer (hyperframes/shorts/render_specimen.py)
-# headless chromium screenshot of HTML compositions.
-playwright>=1.40
+# v2.0.1: playwright removed (shorts renderer archived in v2.0.0).
+# Map-engine dependencies live in requirements-engine.txt.
 
 # Dev / test
 pytest>=8.0
