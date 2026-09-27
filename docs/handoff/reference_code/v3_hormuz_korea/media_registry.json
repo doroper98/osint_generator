@@ -1,0 +1,64 @@
+{
+ "hormuz_transit": {
+  "kind": "photo",
+  "title": "File:Strait Of Hormuz Transit 230508-N-NH257-1076.jpg",
+  "license": "Public domain",
+  "author": "U.S. Navy photo by Mass Communication Specialist 2nd Class Elliot Schaudt",
+  "date": "2023-05-08 10:40:08",
+  "url": "https://commons.wikimedia.org/wiki/File:Strait_Of_Hormuz_Transit_230508-N-NH257-1076.jpg",
+  "caption": "호르무즈 해협을 통과하는 미 해군 함정",
+  "file_note": "자료사진 · 2023년 5월"
+ },
+ "p8": {
+  "kind": "cutout",
+  "title": "File:P-8A Poseidon Executes Training Flight (9341123).jpg",
+  "license": "Public domain",
+  "author": "U.S. Navy photo by Lt. Sara Wedemeyer",
+  "date": "Taken on 25 Septembe",
+  "url": "https://commons.wikimedia.org/wiki/File:P-8A_Poseidon_Executes_Training_Flight_(9341123).jpg",
+  "caption": "해상초계기 P-8A",
+  "file_note": "자료사진 · 미 해군"
+ },
+ "strikes": {
+  "kind": "video",
+  "title": "File:U S Forces Complete New Round of Retaliatory Strikes Against Iran (1013909).webm",
+  "license": "Public domain",
+  "author": "[null Courtesy]",
+  "date": "Taken on 7 July 2026",
+  "url": "https://commons.wikimedia.org/wiki/File:U_S_Forces_Complete_New_Round_of_Retaliatory_Strikes_Against_Iran_(1013909).webm",
+  "caption": "미 중부사령부 공개 영상",
+  "file_note": "2026년 7월 7일",
+  "duration": 24.6
+ },
+ "rok_iraq": {
+  "kind": "photo",
+  "title": "File:Southkoreansoldiersiraq.jpg",
+  "license": "Public domain",
+  "author": "U.S. Government (PD-USGov)",
+  "date": "2003",
+  "url": "https://commons.wikimedia.org/wiki/File:Southkoreansoldiersiraq.jpg",
+  "caption": "이라크에 파병된 한국군 장병",
+  "file_note": "자료사진 · 2003"
+ },
+ "tanker": {
+  "kind": "photo",
+  "title": "File:Oil Tanker in North Sea 3928.jpg",
+  "license": "CC BY 4.0",
+  "author": "ImagePerson",
+  "date": "2022-08-09 02:01:32",
+  "url": "https://commons.wikimedia.org/wiki/File:Oil_Tanker_in_North_Sea_3928.jpg",
+  "caption": "원유 운반선",
+  "file_note": "자료사진"
+ },
+ "niovi": {
+  "kind": "video",
+  "title": "File:Oil tanker Niovi seized by Iran's Islamic Revolutionary Guard Corps Navy.webm",
+  "license": "Public domain",
+  "author": "NAVCENT Public Affairs",
+  "date": "2023-05-03",
+  "url": "https://commons.wikimedia.org/wiki/File:Oil_tanker_Niovi_seized_by_Iran%27s_Islamic_Revolutionary_Guard_Corps_Navy.webm",
+  "caption": "이란 혁명수비대의 유조선 나포",
+  "file_note": "자료 영상 · 2023. 05",
+  "duration": 59.421
+ }
+}

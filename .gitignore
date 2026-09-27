@@ -86,3 +86,6 @@ hyperframes/briefing/assets/audio/bgm/*.m4a
 
 # 보도 사진 로컬 자산 (IMAGE_BUNDLE_CONTRACT — 빌드 시 다운로드, 커밋 금지)
 hyperframes/briefing/assets/photos/
+
+# v2 overhaul — 골든 레퍼런스 영상은 커밋하지 않음 (docs/handoff/golden/README.md)
+docs/handoff/golden/*.mp4

@@ -1,0 +1,156 @@
+{
+ "video": "hormuz_korea_480p.mp4",
+ "total": 292.4369387755102,
+ "frames": [
+  {
+   "anchor": "open_1",
+   "offset": 2,
+   "t": 7.82,
+   "file": "frame_0007.82.png"
+  },
+  {
+   "anchor": "TITLE",
+   "offset": 2,
+   "t": 22.27,
+   "file": "frame_0022.27.png"
+  },
+  {
+   "anchor": "route_0",
+   "offset": 2.5,
+   "t": 28.77,
+   "file": "frame_0028.77.png"
+  },
+  {
+   "anchor": "route_2",
+   "offset": 2,
+   "t": 38.45,
+   "file": "frame_0038.45.png"
+  },
+  {
+   "anchor": "route_3",
+   "offset": 3.5,
+   "t": 45.03,
+   "file": "frame_0045.03.png"
+  },
+  {
+   "anchor": "war_1",
+   "offset": 2,
+   "t": 56.21,
+   "file": "frame_0056.21.png"
+  },
+  {
+   "anchor": "war_2",
+   "offset": 2.5,
+   "t": 61.25,
+   "file": "frame_0061.25.png"
+  },
+  {
+   "anchor": "war_3",
+   "offset": 3,
+   "t": 65.13,
+   "file": "frame_0065.13.png"
+  },
+  {
+   "anchor": "ask_1",
+   "offset": 4,
+   "t": 80.7,
+   "file": "frame_0080.70.png"
+  },
+  {
+   "anchor": "ask_2",
+   "offset": 2,
+   "t": 87.06,
+   "file": "frame_0087.06.png"
+  },
+  {
+   "anchor": "ask_5",
+   "offset": 1.5,
+   "t": 105.28,
+   "file": "frame_0105.28.png"
+  },
+  {
+   "anchor": "timeline_2",
+   "offset": 2,
+   "t": 124.25,
+   "file": "frame_0124.25.png"
+  },
+  {
+   "anchor": "timeline_4",
+   "offset": 2.8,
+   "t": 136.97,
+   "file": "frame_0136.97.png"
+  },
+  {
+   "anchor": "cost_1",
+   "offset": 1,
+   "t": 157.38,
+   "file": "frame_0157.38.png"
+  },
+  {
+   "anchor": "review_0",
+   "offset": 2.8,
+   "t": 164.59,
+   "file": "frame_0164.59.png"
+  },
+  {
+   "anchor": "review_1",
+   "offset": 2.5,
+   "t": 170.52,
+   "file": "frame_0170.52.png"
+  },
+  {
+   "anchor": "past_1",
+   "offset": 2.5,
+   "t": 193.22,
+   "file": "frame_0193.22.png"
+  },
+  {
+   "anchor": "past_3",
+   "offset": 5,
+   "t": 207.4,
+   "file": "frame_0207.40.png"
+  },
+  {
+   "anchor": "debate_0",
+   "offset": 3,
+   "t": 214.45,
+   "file": "frame_0214.45.png"
+  },
+  {
+   "anchor": "debate_1",
+   "offset": 2.5,
+   "t": 220.96,
+   "file": "frame_0220.96.png"
+  },
+  {
+   "anchor": "debate_4",
+   "offset": 2,
+   "t": 238.0,
+   "file": "frame_0238.00.png"
+  },
+  {
+   "anchor": "decision_0",
+   "offset": 3,
+   "t": 245.55,
+   "file": "frame_0245.55.png"
+  },
+  {
+   "anchor": "now_0",
+   "offset": 3.5,
+   "t": 258.61,
+   "file": "frame_0258.61.png"
+  },
+  {
+   "anchor": "now_3",
+   "offset": 4,
+   "t": 276.44,
+   "file": "frame_0276.44.png"
+  },
+  {
+   "anchor": "END",
+   "offset": -4,
+   "t": 288.44,
+   "file": "frame_0288.44.png"
+  }
+ ]
+}
