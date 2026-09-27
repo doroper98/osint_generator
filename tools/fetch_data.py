@@ -12,7 +12,8 @@
 - flags   : flag-icons SVG 13개국(1x1·4x3) → V3_ROOT/assets/flags_svg (PNG 변환은 prep3 flags)
 - commons : Commons 메타데이터 → V3_ROOT/data/commons_v3.json, media_candidates.json (인물 2·휘장 1·미디어 5)
 - media   : legacy_v3/media3.py 실행(1차) → 2차 처리(rok_iraq 사진, niovi·strikes 5초 클립 npy) → media_registry 병합
-- all     : fonts ne tiles flags commons (media 는 prep3 people 뒤에 따로 — 런북 순서)
+- bgm     : 배경음악 mp3 를 git 객체(bd37b58)에서 복원 + sha1 대조 (네트워크 불필요, DECISIONS D22)
+- all     : fonts ne tiles flags commons bgm (media 는 prep3 people 뒤에 따로 — 런북 순서)
 
 실패는 조용히 넘기지 않는다: 받지 못한 파일이 있으면 목록을 출력하고 exit 1 (docs/handoff/15 P6).
 """
@@ -77,6 +78,10 @@ CLIP_SEGMENTS: dict[str, tuple[str, float, float]] = {
     "strikes": ("strikes.webm", 1.5, 5.0),
     "niovi": ("niovi.webm", 28.0, 5.0),
 }
+# D22 — BGM 은 추적 해제됐고 git 객체에서 복원한다. sha1 은 assets/audio/bgm/RIGHTS.md 에 기록.
+BGM_NAME = "The Life and Death of a Certain K. Zabriskie, Patriarch - Chris Zabriskie.mp3"
+BGM_COMMIT = "bd37b58"
+BGM_SHA1 = "c0ddb7b38ee7866c32d2510a84125cf611a54e93"
 CLIP_SIZE = (480, 270)
 CLIP_FPS = 24
 
@@ -331,9 +336,25 @@ def cmd_media(root: Path, dry: bool) -> list[str]:
     return []
 
 
+def cmd_bgm(root: Path, dry: bool) -> list[str]:
+    import hashlib
+
+    dest = REPO / "assets" / "audio" / "bgm" / BGM_NAME
+    if dry:
+        return [f"bgm → {dest} (git {BGM_COMMIT}, sha1 {BGM_SHA1[:10]})"]
+    if not dest.exists():
+        data = subprocess.run(["git", "show", f"{BGM_COMMIT}:assets/audio/bgm/{BGM_NAME}"],
+                              capture_output=True, check=True, cwd=REPO).stdout
+        dest.write_bytes(data)
+    got = hashlib.sha1(dest.read_bytes()).hexdigest()
+    if got != BGM_SHA1:
+        return [f"bgm sha1 불일치: {got} != {BGM_SHA1}"]
+    return []
+
+
 COMMANDS = {"fonts": cmd_fonts, "ne": cmd_ne, "tiles": cmd_tiles, "flags": cmd_flags,
-            "commons": cmd_commons, "media": cmd_media}
-ALL = ("fonts", "ne", "tiles", "flags", "commons")
+            "commons": cmd_commons, "media": cmd_media, "bgm": cmd_bgm}
+ALL = ("fonts", "ne", "tiles", "flags", "commons", "bgm")
 
 
 def main(argv: list[str] | None = None) -> int:

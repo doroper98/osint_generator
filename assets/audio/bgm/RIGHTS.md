@@ -17,3 +17,8 @@
 ## 저장소 보관 주의
 - 음악 파일(31~51MB)은 .gitignore 대상이나 본 건은 전달 위해 임시 커밋됨.
 - 운영 안정 후 git history 정리(BFG/filter-repo) 또는 LFS 전환 권장 — repo 비대화.
+
+## v2.0.1 — 추적 해제 (DECISIONS D22, back_and_forth D-0005)
+- 사용중 곡 mp3 는 git 추적에서 뺐다(작업 트리 파일은 유지). 이력 정리·LFS 는 하지 않는다.
+- 복원: `python tools/fetch_data.py bgm` — git 객체 `bd37b58`에서 꺼내 sha1 대조.
+- sha1 `c0ddb7b38ee7866c32d2510a84125cf611a54e93`, 길이 931.8초(ffprobe).
