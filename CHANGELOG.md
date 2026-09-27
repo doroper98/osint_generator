@@ -31,8 +31,17 @@ released 항목은 **append-only**입니다.
 ## [v2.0.1] — 2026-09-27 — Phase 1 준비: 골든 재현 도구 (back_and_forth D-0002)
 
 ### Added
-- (진행 중) `legacy_v3/`, `tools/fetch_data.py`, `tools/golden_compare.py`, `tools/contact_sheet.py`,
-  `requirements-engine.txt`, `docs/handoff/reports/PHASE1_RUNBOOK_WSL2.md`.
+- `legacy_v3/` — v3 참조 코드 실행본(경로 줄만 환경변수화).
+- `tools/fetch_data.py`(fonts·ne·tiles·flags·commons·media·bgm), `tools/legacy_v3_run.py`(단계 실행기),
+  `tools/golden_compare.py`, `tools/contact_sheet.py`, `tools/audio_report.py`, `tools/legacy_provenance.py`.
+- `requirements-engine.txt`, `docs/handoff/reports/PHASE1_RUNBOOK_WSL2.md`(사용자 재현용).
+- **Phase 1 골든 재현 산출물** `docs/handoff/reports/phase1/` — 25컷 대조(평균 MAD 1.825/255), 시트 3종,
+  audio_report, provenance, final.srt, description.txt, run_log.md. 영상 본체는 orphan 브랜치 `artifacts/phase1-v2.0.1`.
+  결과: 292.438초, 854×480@24, 45문장, 린트 0, land-miss=['MV'], −14.23 LUFS.
+
+### Changed
+- BGM mp3 git 추적 해제(D22). **pull 후 BGM이 없으면 `python tools/fetch_data.py bgm`.**
+- `requirements.txt`: playwright 제거, 비ASCII 1자 정리.
 
 ---
 
