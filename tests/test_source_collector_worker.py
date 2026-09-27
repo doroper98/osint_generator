@@ -135,7 +135,8 @@ def _write_source_intake(
 
 class TestSystemPromptStructure(unittest.TestCase):
     def setUp(self) -> None:
-        self.prompt = SourceCollectorWorker.system_prompt
+        # v2.0.0: 프롬프트는 prompts/source_collector.md 에서 로드 (docs/handoff/15 P3)
+        self.prompt = SourceCollectorWorker().system_prompt()
 
     def test_mentions_partial_schema_keys(self) -> None:
         for key in [

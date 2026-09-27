@@ -14,7 +14,7 @@ docs/ADDENDUM_04_SUBSCRIPTION_LLM_BRIDGE.md 의 정식 코드 구현입니다.
 - worker_name, task_type (BaseWorker 와 동일)
 - llm_backend ∈ {"claude", "codex"}
 - llm_mode    ∈ {"response", "agent"}
-- system_prompt: str (한국어/영어 가능. `.replace()` 만 사용. `.format()` 금지)
+- prompt_name: str → `prompts/{prompt_name}.md` (v2.0.0, 코드 상수 금지. `.replace()` 만 사용)
 - response_model: VersionedModel 의 하위 클래스. raw stdout 을 검증할 Pydantic 모델
 - build_user_prompt(args, task) -> str
 - output_path(args, task) -> Path  (parse_response 결과를 저장할 위치)
@@ -51,9 +51,13 @@ from schemas.models import (
     TaskResult,
     TaskStatus,
     VersionedModel,
+    WorkerProvenance,
 )
 from orchestrator.config import load_config
+from rules import load_rules, rules_hash
+from schemas.rules_models import VideoRules
 from workers.base_worker import BaseWorker, emit, utc_now
+from workers.prompt_loader import load_prompt, prompt_sha1
 
 
 # ---------------------------------------------------------------------------
@@ -215,7 +219,10 @@ class BaseLLMWorker(BaseWorker):
     # 테스트·일회성 실험용. 모듈/클래스 상수로 다른 모델명을 박지 않는다 (SSOT).
     llm_model: Optional[str] = None
     llm_mode: ClassVar[Literal["response", "agent"]] = "response"
-    system_prompt: ClassVar[str] = ""
+    # v2.0.0: 프롬프트는 코드 상수가 아니라 `prompts/{prompt_name}.md` 파일에서 온다
+    # (docs/handoff/15 P3, tests/anti_inertia/test_prompts_from_files). 빈 문자열이면 system
+    # prompt 없음(테스트 픽스처 전용).
+    prompt_name: ClassVar[str] = ""
     response_model: ClassVar[Type[VersionedModel]]
     # v2.0.0: 타임아웃 값은 config.yaml `llm.<키>` 한 곳에서 온다 (docs/handoff/15 P3).
     # 하위 클래스는 키 이름만 바꾼다 (예: ScriptWorker → "script_timeout_sec").
@@ -378,6 +385,7 @@ class BaseLLMWorker(BaseWorker):
                 completed_at=completed,
                 outputs=outputs,
                 qa_status=QAStatus.PASS,
+                worker_provenance=self.worker_provenance(),
             )
 
         return TaskResult(
@@ -390,11 +398,37 @@ class BaseLLMWorker(BaseWorker):
             outputs=outputs,
             errors=[error_message or "unknown LLM failure"],
             qa_status=QAStatus.FAIL,
+            worker_provenance=self.worker_provenance(),
         )
 
     # -----------------------------------------------------------------
     # CLI subprocess
     # -----------------------------------------------------------------
+
+    @property
+    def rules(self) -> VideoRules:
+        """영상 규칙 SSOT (`rules/video_rules.yaml`). 인스턴스당 1회 로드."""
+        cached = self.__dict__.get("_rules_cache")
+        if cached is None:
+            cached = load_rules()
+            self.__dict__["_rules_cache"] = cached
+        return cached
+
+    def system_prompt(self) -> str:
+        """`prompts/{prompt_name}.md` + 규칙 치환 결과. prompt_name 이 비면 빈 문자열."""
+        if not self.prompt_name:
+            return ""
+        return load_prompt(self.prompt_name, self.rules)
+
+    def worker_provenance(self) -> Optional[WorkerProvenance]:
+        """task_result.json 에 남길 프롬프트·규칙 증명 (15 P5). 프롬프트가 없으면 None."""
+        if not self.prompt_name:
+            return None
+        return WorkerProvenance(
+            prompt_name=self.prompt_name,
+            prompt_sha1=prompt_sha1(self.system_prompt()),
+            rules_hash=rules_hash(),
+        )
 
     def invoke_timeout_sec(self) -> int:
         """CLI 호출 타임아웃(초) — config.yaml `llm.{invoke_timeout_key}` (v2.0.0 SSOT)."""
@@ -620,8 +654,9 @@ class BaseLLMWorker(BaseWorker):
 
     def _compose_full_prompt(self, user_prompt: str) -> str:
         """system + user prompt 결합. .replace() 만 사용 (CLAUDE.md C2)."""
-        if self.system_prompt:
-            return f"{self.system_prompt}\n\n---\n\n{user_prompt}"
+        system = self.system_prompt()
+        if system:
+            return f"{system}\n\n---\n\n{user_prompt}"
         return user_prompt
 
     def _dump_prompt(self, args: argparse.Namespace, call_id: str, prompt: str) -> Path:

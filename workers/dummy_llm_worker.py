@@ -35,10 +35,7 @@ class DummyLLMWorker(BaseLLMWorker):
 
     llm_backend: str = "claude"
     llm_mode: ClassVar[str] = "response"
-    system_prompt: ClassVar[str] = (
-        "You are a stub. Echo back the user input as JSON: "
-        '{"schema_version":1,"echo":"...","note":"...","items":[...]}'
-    )
+    prompt_name: ClassVar[str] = "dummy"  # prompts/dummy.md
     response_model: ClassVar[Type[VersionedModel]] = DummyLLMResponse
 
     def build_user_prompt(self, args: argparse.Namespace, task: TaskQueueItem) -> str:

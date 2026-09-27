@@ -45,6 +45,7 @@ released 항목은 **append-only**입니다.
 - **`bundle/` 패키지** — `bundle_to_video.py`의 HTML·I/O 없는 텍스트 함수(`bundle/text.py`)와 차트 정규화 함수(`bundle/charts.py`)를 본문 무변경 이관. `norm_map` 계열은 제외(DECISIONS D11). 현재 출력 고정 테스트 `tests/test_bundle_text.py`(알려진 버그 `18개월`·`낮춘습니다` 포함 — Phase 4 수정).
 - **`rules/video_rules.yaml` — 영상 규칙 SSOT**(19 부록 A) + `rules.load_rules()`(Pydantic `VideoRules`, extra=forbid) + `rules_hash()`. `schemas/rules_models.py`.
 - `config.yaml` `engine:`(trial 854×480@24 / final 1920×1080@24), `llm.invoke_timeout_sec/script_timeout_sec`, `tts:`(ElevenLabs 모델·voice_settings·edge 음성). `EngineConfig`·`TTSConfig`·`LLMConfig` extra=forbid. 워커 타임아웃·ElevenLabs 모델 기본값을 config에서 읽음. 모든 서브커맨드 진입 시 stderr 에 `effective_config` 1줄.
+- **워커 프롬프트 파일 분리** — `prompts/*.md`(system·user 템플릿 9종) + `prompts/intake_planner_category_guidance.yaml`. `workers/prompt_loader.py`(`load_prompt`, `{{RULES.*}}` 치환, 미치환 시 `PromptTemplateError`). `BaseLLMWorker.system_prompt` 코드 상수 → `prompt_name` + `system_prompt()`. `TaskResult.worker_provenance`(prompt_sha1·rules_hash, optional). `prompts/script.md`에서 "영상 길이 4~6분 제한" 문단 삭제(G4-13).
 - 발음 사전 `assets/pronounce/pronounce_ko.json`(`tts_pronounce.DEFAULT_DICT_PATH`), 국기 SVG `assets/flags/legacy_svg/`로 이동.
 
 ---

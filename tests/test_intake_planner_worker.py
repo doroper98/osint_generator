@@ -97,7 +97,8 @@ class TestSystemPromptStructure(unittest.TestCase):
     """system_prompt 가 LLM 에 IntakePlan 스키마를 정확히 안내하는지."""
 
     def setUp(self) -> None:
-        self.prompt = IntakePlannerWorker.system_prompt
+        # v2.0.0: 프롬프트는 prompts/intake_planner.md 에서 로드 (docs/handoff/15 P3)
+        self.prompt = IntakePlannerWorker().system_prompt()
 
     def test_mentions_intake_plan_schema(self) -> None:
         for key in [

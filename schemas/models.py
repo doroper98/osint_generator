@@ -306,6 +306,19 @@ class WorkerSlotsSnapshot(VersionedModel):
 # ---------------------------------------------------------------------------
 
 
+class WorkerProvenance(BaseModel):
+    """LLM 워커가 실제로 쓴 프롬프트·규칙의 증명 (v2.0.0, docs/handoff/15 P5).
+
+    prompt_sha1 은 `prompts/{prompt_name}.md` 를 규칙으로 렌더한 system prompt 의 sha1.
+    """
+
+    model_config = ConfigDict(extra="forbid")
+
+    prompt_name: str
+    prompt_sha1: str
+    rules_hash: str
+
+
 class TaskResult(VersionedModel):
     project_id: str
     task_id: str
@@ -321,6 +334,7 @@ class TaskResult(VersionedModel):
     asset_refs: list[str] = Field(default_factory=list)
     qa_status: QAStatus = QAStatus.PENDING
     risk_flags: list[str] = Field(default_factory=list)
+    worker_provenance: Optional[WorkerProvenance] = None  # v2.0.0 — LLM 워커만 기록
 
 
 # ---------------------------------------------------------------------------

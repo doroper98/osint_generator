@@ -121,6 +121,7 @@ last_review: 2026-05-23
 | asset_refs | list[str] | 생성한 asset_id |
 | qa_status | enum | pass / warn / fail / pending |
 | risk_flags | list[str] | `graphic_content`, `youtube_age_restriction_risk` 등 |
+| worker_provenance | `WorkerProvenance` \| None | v2.0.0 — LLM 워커만. `{prompt_name, prompt_sha1, rules_hash}` (docs/handoff/15 P5). prompt_sha1 = `prompts/{prompt_name}.md` 렌더 결과의 sha1 |
 
 ### 3.4b `SourceCompletenessReport` (Review Gate 2 입력)
 

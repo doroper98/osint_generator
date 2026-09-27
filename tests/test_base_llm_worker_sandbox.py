@@ -44,7 +44,6 @@ class _ResponseClaudeWorker(BaseLLMWorker):
     task_type = "_resp"
     llm_backend: ClassVar[str] = "claude"
     llm_mode: ClassVar[str] = "response"
-    system_prompt: ClassVar[str] = ""
     response_model: ClassVar[Type[VersionedModel]] = _NullResponse
 
     def build_user_prompt(self, args, task):

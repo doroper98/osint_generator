@@ -44,8 +44,10 @@ class FixtureLLMWorker(BaseLLMWorker):
     task_type = "fixture_llm"
     llm_backend: ClassVar[str] = "claude"
     llm_mode: ClassVar[str] = "response"
-    system_prompt: ClassVar[str] = "fixture system prompt"
     response_model: ClassVar[Type[VersionedModel]] = FixtureResponse
+
+    def system_prompt(self) -> str:  # 테스트 픽스처 — 실제 워커는 prompts/*.md (v2.0.0)
+        return "fixture system prompt"
 
     def build_user_prompt(self, args, task):
         return f"fixture prompt for {task.task_id}"
