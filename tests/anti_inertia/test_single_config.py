@@ -13,7 +13,7 @@ from orchestrator.config import load_config
 from rules import load_rules
 from tests.anti_inertia._ast_util import REPO, code_strings, iter_py, parse
 
-SCANNED_ROOTS: tuple[str, ...] = ("workers", "orchestrator", "engine", "script", "audio")
+SCANNED_ROOTS: tuple[str, ...] = ("workers", "orchestrator", "engine", "script", "audio", "geo")
 ALLOWED: frozenset[str] = frozenset({"orchestrator/config.py", "engine/style.py"})
 RESOLUTION_TUPLES: frozenset[tuple[int, int]] = frozenset({(854, 480), (1920, 1080), (1080, 1920)})
 NUMERIC_NAMES: frozenset[str] = frozenset({"fps", "invoke_timeout_sec", "script_timeout_sec"})

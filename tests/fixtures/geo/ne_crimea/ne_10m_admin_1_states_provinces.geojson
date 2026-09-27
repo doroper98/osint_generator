@@ -1,0 +1,1 @@
+{"type": "FeatureCollection", "features": [{"type": "Feature", "properties": {"iso_a2": "RU", "name": "Autonomous Republic of Crimea", "name_en": "Autonomous Republic of Crimea", "name_ko": "\ud06c\ub9bc", "longitude": 34.5, "latitude": 45.2}, "geometry": {"type": "Polygon", "coordinates": [[[36.0, 44.4], [36.0, 46.0], [33.0, 46.0], [33.0, 44.4], [36.0, 44.4]]]}}]}
