@@ -44,6 +44,10 @@ class AssetError(RuntimeError):
     pass
 
 
+def _read_json(p: Path, empty: dict) -> dict:
+    return json.loads(p.read_text(encoding="utf-8")) if p.exists() else empty
+
+
 def surf_from_pil(im: Image.Image) -> tuple[cairo.ImageSurface, bytearray]:
     im = im.convert("RGBA")
     a = np.asarray(im).astype(np.float32)
@@ -63,8 +67,10 @@ class Assets:
         self.tiers = pickle.load(open(a / "tiers.pkl", "rb"))
         self.base = {(n, lv): Image.open(a / f"base_{n}_{lv}.png").convert("RGB")
                      for n, T in self.tiers.items() for lv in T["levels"]}
-        self.geo = pickle.load(open(a / "geo3.pkl", "rb"))
-        self.rights = json.loads((a / "rights_registry.json").read_text(encoding="utf-8"))
+        self.geo = pickle.load(open(a / "geo.pkl", "rb"))
+        # 권리·미디어 레지스트리: 파일이 없으면 빈 레지스트리 — 그 상태에서 인물·휘장·미디어를 쓰면
+        # engine.project.preflight 가 렌더 전 오류로 막는다(C9). 조용히 통과시키는 경로가 아니다.
+        self.rights = _read_json(a / "rights_registry.json", {"people": {}, "emblems": {}})
         self.bord = {lod: {k: to_uv(v) for k, v in self.geo[lod].items()} for lod in ("coarse", "fine")}
         self.adm = {k: [dict(name=x["name"], lx=x["lx"], ly=x["ly"], rings=to_uv(x["rings"])) for x in v]
                     for k, v in self.geo["admin1"].items()}
@@ -75,7 +81,7 @@ class Assets:
         self.plc_rank = np.array([p["rank"] for p in plc])
         self.plc_pop = np.array([p["pop"] for p in plc])
         self.plc_cap = np.array([bool(p["cap"]) for p in plc])
-        self.media = json.loads((root / "media" / "media_registry.json").read_text(encoding="utf-8"))
+        self.media = _read_json(root / "media" / "media_registry.json", {})
         # 자산 계약 검증(02 §2.5) — 틀리면 렌더 전 오류
         from schemas.engine_models import MediaRegistry, RightsRegistry, Tier  # noqa: PLC0415 — 순환 import 회피
 

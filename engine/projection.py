@@ -42,6 +42,8 @@ class View:
         lon, v, w = cam
         self.tiers = tiers
         self.base_img = base
+        if "W" not in tiers:
+            raise KeyError("티어 W(광역, 카메라 경계)가 없다 — geo.yaml tiers 에 name: W 를 둔다")
         tw_ = tiers["W"]
         umin, umax = tw_["lon0"], tw_["lon1"]
         vmin, vmax = ym(tw_["lat0"]), ym(tw_["lat1"])
@@ -68,7 +70,9 @@ class View:
     def base(self) -> Image.Image:
         need = W_OUT / self.w
         im = self._tier("W", need)
-        for n in ("G", "K"):
+        for n in self.tiers:  # 상세 티어: W 를 뺀 전부, 정의 순서대로(v3 는 G→K). 블렌딩 규칙은 v3 그대로
+            if n == "W":
+                continue
             if self.inside(self.tiers[n]):
                 a = smooth((need - 26) / 18)
                 if a > 0.01:
