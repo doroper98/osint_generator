@@ -28,6 +28,13 @@ released 항목은 **append-only**입니다.
 
 ---
 
+## [v2.1.0] — 2026-09-27 — Phase 2: 모듈 분해와 계약 (진행 중)
+
+### Added
+- (진행 중) `engine/`, `script/`, `audio/`, `projects/hormuz_korea/`.
+
+---
+
 ## [v2.0.1] — 2026-09-27 — Phase 1 준비: 골든 재현 도구 (back_and_forth D-0002)
 
 ### Added
