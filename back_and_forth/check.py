@@ -88,7 +88,10 @@ def main() -> int:
             continue
         if theirs_kind == "D" and fm.get("status", "open") != "open":
             continue
-        pending.append((fid, path.name, fm.get("kind", "?"), fm.get("priority", "normal")))
+        prio = fm.get("priority", "normal")
+        if fm.get("kind") == "decision_request":
+            prio = "urgent"  # README §6.2 — 결정 요청은 먼저 처리
+        pending.append((fid, path.name, fm.get("kind", "?"), prio))
 
     for e in errors:
         print(f"ERROR {e}")
