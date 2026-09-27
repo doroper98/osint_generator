@@ -161,7 +161,7 @@ Opus는 "프로 다큐로 보이는가" 판정 시 아래를 기준으로 삼는
 ```bash
 git fetch origin
 git checkout -b overhaul/v2-map-engine origin/collage          # D1 승인 후
-SKIP_VERSION_CHECK=1 git cherry-pick <Fable 문서 묶음 커밋 sha>   # docs/handoff/** + .gitignore 1줄
+SKIP_VERSION_CHECK=1 git cherry-pick 2d2e1e6 2c4c642 [+ 이후 sha]   # 2d2e1e6 = docs/handoff/** + .gitignore, 2c4c642 = llm.model 고정(config·base_llm_worker·schemas·tests·CHANGELOG·DEVLOG). CHANGELOG/DEVLOG 충돌 시 양쪽 항목을 모두 살린다
 git config core.hooksPath .githooks
 pip install -r requirements.txt && pytest -q 2>&1 | tail -3      # 기준선 기록(통과 개수)
 python tools/check_env.py                                        # 5.1에서 만든 뒤 실행
