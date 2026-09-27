@@ -1,0 +1,10 @@
+# 대만해협 예시 지도 라벨 (v2.2.0). ko: 국가 한글 관용명, seas: 해역 라벨(보이는 화면 폭 wmin~wmax, 경도 도).
+schema_version: 1
+ko: {TW: 대만, CN: 중국, PH: 필리핀, JP: 일본, KR: 대한민국, VN: 베트남}
+seas:
+  - {name: 대만해협, lon: 119.6, lat: 24.0, wmin: 0, wmax: 30}
+  - {name: 남중국해, lon: 115.5, lat: 19.5, wmin: 6, wmax: 60}
+  - {name: 동중국해, lon: 124.5, lat: 28.5, wmin: 6, wmax: 60}
+  - {name: 필리핀해, lon: 126.0, lat: 21.0, wmin: 6, wmax: 60}
+province_countries: [TW]
+hide_country_label_below_w: {}

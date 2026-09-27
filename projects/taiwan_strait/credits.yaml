@@ -1,0 +1,13 @@
+# 대만해협 예시 크레딧 (v2.2.0).
+schema_version: 1
+sections:
+  - title: 지도
+    column: 0
+    items:
+      - main: 지도 · 지형
+        license: Natural Earth · AWS Terrain Tiles
+  - title: 음성
+    column: 1
+    items:
+      - main: 내레이션
+        license: AI 음성 합성
