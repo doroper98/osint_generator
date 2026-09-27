@@ -7,12 +7,12 @@
 
 원칙:
 - 자동 한자어 숫자 변환(1~9999): "102" → "백 이", "120" → "백 이십".
-- JSON 사전(`assets/pronounce.json`) 의 단어 → 음차 매핑이 숫자 변환보다 우선.
+- JSON 사전(`assets/pronounce/pronounce_ko.json`, `DEFAULT_DICT_PATH`) 의 단어 → 음차 매핑이 숫자 변환보다 우선.
 - 변환은 narration only — caption / subtitle 은 원본.
 
 사용:
     from orchestrator.tts_pronounce import apply_pronunciation, load_dict
-    d = load_dict(Path("hyperframes/demo/assets/pronounce.json"))
+    d = load_dict(DEFAULT_DICT_PATH)
     spoken = apply_pronunciation("102달러 까지 반등", d)
     # → "백 이 딸러 까지 반등" (사전: "달러"→"딸러", 자동: "102"→"백 이")
 """
@@ -22,6 +22,10 @@ from __future__ import annotations
 import json
 import re
 from pathlib import Path
+
+
+# 발음 사전 기본 경로 (v2.0.0: hyperframes/demo/assets/pronounce.json 에서 이동)
+DEFAULT_DICT_PATH: Path = Path(__file__).resolve().parent.parent / "assets" / "pronounce" / "pronounce_ko.json"
 
 
 _ONES = ["", "일", "이", "삼", "사", "오", "육", "칠", "팔", "구"]

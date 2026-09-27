@@ -40,6 +40,9 @@ released 항목은 **append-only**입니다.
 
 ### Added
 - `tools/check_env.py` — v2 엔진 실행 환경 점검(파이썬·ffmpeg·fc-list·모듈 12종·폰트 4종·디스크).
+- `docs/handoff/20_GENRE_EXTENSION_FREE_PRODUCTION.md` — 지정학이 아닌 주제의 자유 제작 규약(사용자 제공). 구현은 Phase 6.9 이후.
+- **`bundle/` 패키지** — `bundle_to_video.py`의 HTML·I/O 없는 텍스트 함수(`bundle/text.py`)와 차트 정규화 함수(`bundle/charts.py`)를 본문 무변경 이관. `norm_map` 계열은 제외(DECISIONS D11). 현재 출력 고정 테스트 `tests/test_bundle_text.py`(알려진 버그 `18개월`·`낮춘습니다` 포함 — Phase 4 수정).
+- 발음 사전 `assets/pronounce/pronounce_ko.json`(`tts_pronounce.DEFAULT_DICT_PATH`), 국기 SVG `assets/flags/legacy_svg/`로 이동.
 
 ---
 
