@@ -58,6 +58,12 @@ tts:
       similarity_boost: 0.8
       style: 0.1
 
+llm:
+  # v1.2.2 — 구독 LLM 브리지(`claude -p`)가 쓰는 모델의 단일 출처 (SSOT).
+  # 이전에는 --model 을 주지 않아 사용자 머신 claude CLI 의 기본 모델이 쓰였다(저장소에 미고정).
+  # 값은 CLI 가 받는 전체 이름 또는 별칭. 모듈 상수로 override 금지 (docs/handoff/15 P3).
+  model: claude-opus-5-5
+
 review_gates:
   # 사용자 승인 없이 진행하지 않음. 본 값이 false면 진행 불가.
   require_human_approval:

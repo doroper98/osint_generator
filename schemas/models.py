@@ -906,6 +906,8 @@ class LLMCallRecord(VersionedModel):
     task_id: str
     worker: str
     backend: Literal["claude", "codex"]
+    # v0.43.5: claude 백엔드에 실제 전달된 --model 값 (재현성). codex 는 None.
+    model: Optional[str] = None
     mode: Literal["response", "agent"]
     system_prompt_hash: str
     user_prompt_path: str
