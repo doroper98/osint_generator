@@ -21,9 +21,11 @@ last_review: 2026-09-27
 > - 착수 문서: `docs/handoff/KICKOFF_PROMPT.md` (사용자 원문) → `docs/handoff/OPUS_KICKOFF_PROMPT.md`
 > - 실행 계획·판정: `docs/handoff/19_FABLE_ANALYSIS_AND_OPUS_EXECUTION_PLAN.md`, 결정 기록 `docs/handoff/DECISIONS.md`
 > - 필독: `docs/handoff/15_ANTI_INERTIA_PRINCIPLES.md` (CLAUDE.md C11)
-> - **현재 Phase: 0 (관성 차단, v2.0.0)**. 각 Phase 끝에 멈추고 보고 → 사용자 승인 후 다음 Phase.
-> - 결정 대기: D4(GOAL G3 개정안), D5(제한 휘장), D7(agents_reviewer 스키마), D9(Phase 1 실행 위치).
->   확정: D1·D2·D3·D6·D8·M1 (`docs/handoff/DECISIONS.md`).
+> - **현재 Phase: 0 완료 (v2.0.0) → Phase 1 대기.** 보고서 `docs/handoff/reports/PHASE0_REPORT.md`.
+>   각 Phase 끝에 멈추고 보고 → 사용자 승인 후 다음 Phase.
+> - Phase 1 선행 조건: 사용자 WSL2에서 `docs/handoff/reports/PHASE1_ENV_SETUP_WSL2.md` 절차 → `check_env` 결과 회신.
+> - 결정 대기: D4(GOAL G3 개정안, 사용자 검토 중), D5(제한 휘장, Phase 5), D7(agents_reviewer 스키마, Phase 9).
+>   확정: D1·D2·D3·D6·D8·D9·M1 (`docs/handoff/DECISIONS.md`).
 
 ---
 

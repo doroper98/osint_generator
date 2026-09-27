@@ -25,6 +25,14 @@ last_review: 2026-06-06
 
 ---
 
+## 2026-09-27 v2.0.0 — Phase 0 완료: 레거시 삭제·버그 테스트 전환·WSL2 절차
+
+- **무엇을**: 사용자 허용으로 커밋 ② 실행(준비분 선커밋 → archive 원격 확인 → git rm). 버그 테스트 2건을 올바른
+  기대값 + strict xfail로 전환(D18). WSL2 설치 절차 문서(D9).
+- **결과**: pytest 388 passed / 8 xfailed, §5.8 5/5 충족. strict xfail 2건(② 의존)이 설계대로 XPASS → 마커 제거.
+  클라우드 Ubuntu 24.04에서 설치 절차 검증: check_env 11 누락 → 20 ok.
+- **연관**: DECISIONS D9·D17·D18, docs/handoff/reports/PHASE0_REPORT.md
+
 ## 2026-09-27 v2.0.0 — Phase 0 중간 보고: 커밋 ② 보류 (권한 거부)
 
 - **무엇을**: Phase 0 커밋 ①③④⑤⑥ 완료, 보고서 `docs/handoff/reports/PHASE0_REPORT.md`. 커밋 ②(레거시 삭제)는
