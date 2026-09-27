@@ -107,9 +107,10 @@ def compare_new(args: argparse.Namespace) -> int:
     out = PHASE2_OUT if args.out == DEFAULT_OUT else args.out
     (out / "frames").mkdir(parents=True, exist_ok=True)
     rows, pairs = [], []
+    golden_ref = args.reference == "golden"
     for i, (f, t, png) in enumerate(zip(frames, times, pngs), 1):
         name = f"{i:02d}_{f['anchor']}.png"
-        ref = Image.open(args.ref / name).convert("RGB")
+        ref = Image.open((GOLDEN_DIR / f["file"]) if golden_ref else (args.ref / name)).convert("RGB")
         r = Image.open(png).convert("RGB")
         m = mad(ref, r)
         shutil.copy2(png, out / "frames" / name)
@@ -120,7 +121,13 @@ def compare_new(args: argparse.Namespace) -> int:
     mean = sum(r["mad"] for r in rows) / len(rows)
     mx = max(r["mad"] for r in rows)
     ok = mean < NEW_MEAN_MAX and mx < NEW_FRAME_MAX
-    result = dict(schema_version=1, engine="new", reference="Phase 1 legacy_v3 무손실 프리뷰(docs/handoff/reports/phase1/frames)",
+    if golden_ref:  # 골든은 H.264 추출본 — 코덱 차가 섞인 참고값(D-0009 §1). 판정 임계는 Phase 1 과 같은 2/255 참고선
+        ok = mean < MAD_THRESHOLD
+        for r in rows:
+            r["over"] = r["mad"] > MAD_THRESHOLD
+    ref_desc = ("골든 PNG(docs/handoff/golden, H.264 추출본) — 참고값" if golden_ref
+                else f"무손실 프리뷰({args.ref.relative_to(REPO) if args.ref.is_relative_to(REPO) else args.ref})")
+    result = dict(schema_version=1, engine="new", reference=ref_desc,
                   mean_max=NEW_MEAN_MAX, frame_max=NEW_FRAME_MAX, mean_mad=round(mean, 4), max_mad=round(mx, 4),
                   passed=ok, over_threshold=[r["anchor"] for r in rows if r["over"]], frames=rows)
     (out / "golden_compare.json").write_text(json.dumps(result, ensure_ascii=False, indent=1), encoding="utf-8")
@@ -138,6 +145,8 @@ def main(argv: list[str] | None = None) -> int:
                     help="new = 새 엔진(engine.render)을 Phase 1 무손실 프레임과 비교(D-0010 §1-15)")
     ap.add_argument("--proj", type=Path, default=REPO / "projects" / "hormuz_korea", help="--engine new 프로젝트")
     ap.add_argument("--ref", type=Path, default=PHASE1_FRAMES, help="--engine new 기준 프레임 폴더")
+    ap.add_argument("--reference", choices=["frames", "golden"], default="frames",
+                    help="--engine new: frames = --ref 무손실 프레임(판정), golden = 골든 PNG(H.264 추출본, 참고값) — legacy_v3 없이 비교")
     args = ap.parse_args(argv)
     if args.engine == "new":
         return compare_new(args)
