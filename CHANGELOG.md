@@ -1,6 +1,6 @@
 <!--
 tier: 3
-last_synced_with: v2.0.0
+last_synced_with: v2.0.1
 ssot_for: [release-notes]
 depends_on: [README.md, GOAL.md]
 last_review: 2026-06-11
@@ -25,6 +25,14 @@ released 항목은 **append-only**입니다.
 
 ### Fixed
 -
+
+---
+
+## [v2.0.1] — 2026-09-27 — Phase 1 준비: 골든 재현 도구 (back_and_forth D-0002)
+
+### Added
+- (진행 중) `legacy_v3/`, `tools/fetch_data.py`, `tools/golden_compare.py`, `tools/contact_sheet.py`,
+  `requirements-engine.txt`, `docs/handoff/reports/PHASE1_RUNBOOK_WSL2.md`.
 
 ---
 
