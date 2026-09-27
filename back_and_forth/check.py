@@ -6,7 +6,7 @@
     python back_and_forth/check.py --me opus     # 미처리 D 파일 (Opus 용)
     python back_and_forth/check.py --me fable    # 미처리 R 파일 (Fable 용)
     python back_and_forth/check.py --me opus --next-id   # 내가 쓸 다음 파일 번호
-    python back_and_forth/check.py --me opus --next-name phase1-prep   # 다음 파일 전체 이름
+    python back_and_forth/check.py --me opus --next-name phase1-prep   # 다음 파일 전체 이름 (R0016_opus_yymmdd_hhmmss_phase1-prep.md)
 
 종료 코드: 0 = 새 파일 없음, 10 = 새 파일 있음, 2 = 규칙 위반 파일 발견(머리말·이름 오류).
 """
@@ -20,14 +20,11 @@ from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
 NAME_RE = re.compile(
-    r"^(?P<kind>[RD])-(?P<num>\d{4})_(?P<ts>\d{8}-\d{4})_(?P<slug>[a-z0-9]+(?:-[a-z0-9]+)*)"
-    r"(?:_(?P<tag>opus5_5|fable5_1|user))?\.md$"
+    r"^(?P<kind>[RD])(?P<num>\d{4})_(?P<author>opus|fable|user)_(?P<ts>\d{6}_\d{6})_(?P<slug>[a-z0-9]+(?:-[a-z0-9]+)*)\.md$"
 )
 MINE = {"opus": "R", "fable": "D"}
-# README §2 — 작성자 표기(파일명 끝). R 은 Opus, D 는 Fable 또는 사용자.
-ALLOWED_TAGS = {"R": {"opus5_5"}, "D": {"fable5_1", "user"}}
-# 표기 규칙 도입(2026-09-27) 전에 만든 파일은 표기 없이 허용한다(append-only, 이름 변경 금지).
-LEGACY_MAX = {"R": 2, "D": 0}  # Fable 은 D-0001~0003 에 표기를 붙여 이름을 바꿨다(b06cbbe)
+# README §2 — 작성자는 종류 바로 뒤. R 은 opus, D 는 fable 또는 user.
+ALLOWED_AUTHORS = {"R": {"opus"}, "D": {"fable", "user"}}
 
 
 def front_matter(path: Path) -> dict[str, str]:
@@ -54,19 +51,15 @@ def id_list(raw: str) -> list[str]:
 def scan() -> tuple[dict[str, tuple[Path, dict[str, str]]], list[str]]:
     files: dict[str, tuple[Path, dict[str, str]]] = {}
     errors: list[str] = []
-    for p in sorted(HERE.glob("[RD]-*.md")):
+    for p in sorted(HERE.glob("[RD][0-9][0-9][0-9][0-9]_*.md")):
         m = NAME_RE.match(p.name)
         if not m:
             errors.append(f"이름 규칙 위반: {p.name}")
             continue
         fm = front_matter(p)
         fid = f"{m['kind']}-{m['num']}"
-        tag = m["tag"]
-        if tag is None and int(m["num"]) > LEGACY_MAX[m["kind"]]:
-            errors.append(f"작성자 표기 없음: {p.name} (끝에 _{sorted(ALLOWED_TAGS[m['kind']])[0]} 필요)")
-            continue
-        if tag is not None and tag not in ALLOWED_TAGS[m["kind"]]:
-            errors.append(f"작성자 표기 불일치: {p.name} ({m['kind']} 에 _{tag} 불가)")
+        if m["author"] not in ALLOWED_AUTHORS[m["kind"]]:
+            errors.append(f"작성자 불일치: {p.name} ({m['kind']} 에 {m['author']} 불가)")
             continue
         if fm.get("id") != fid:
             errors.append(f"머리말 id 불일치: {p.name} (id={fm.get('id')!r})")
@@ -91,9 +84,8 @@ def main() -> int:
 
         nums = [int(fid[2:]) for fid in files if fid.startswith(mine_kind)]
         num = (max(nums) + 1) if nums else 1
-        ts = datetime.now(timezone.utc).strftime("%Y%m%d-%H%M")
-        tag = "opus5_5" if args.me == "opus" else "fable5_1"
-        print(f"{mine_kind}-{num:04d}_{ts}_{args.next_name}_{tag}.md")
+        ts = datetime.now(timezone.utc).strftime("%y%m%d_%H%M%S")
+        print(f"{mine_kind}{num:04d}_{args.me}_{ts}_{args.next_name}.md")
         return 0
 
     if args.next_id:
