@@ -1,0 +1,17 @@
+# 레지스트리 프리뷰 예제 (v2.1.0, 15 P10) — 모델 검증 테스트가 읽는다.
+schema_version: 1
+key: badge
+source: projects/hormuz_korea/direction.py (첫 사용 예)
+event:
+  type: badge
+  t0: 1.8
+  t1: 25.92
+  lon: 125.05
+  lat: 37.25
+  kind: person
+  pid: lee_jae_myung
+  flag: kr
+  R: 34.0
+  label: 이재명
+  role: 대한민국 대통령
+  accent: gold

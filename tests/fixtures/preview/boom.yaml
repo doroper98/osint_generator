@@ -1,0 +1,10 @@
+# 레지스트리 프리뷰 예제 (v2.1.0, 15 P10) — 모델 검증 테스트가 읽는다.
+schema_version: 1
+key: boom
+source: projects/hormuz_korea/direction.py (첫 사용 예)
+event:
+  type: boom
+  t0: 50.4
+  t1: 52.6
+  lon: 50.32
+  lat: 29.24

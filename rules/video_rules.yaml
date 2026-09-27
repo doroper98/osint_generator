@@ -142,8 +142,8 @@ labels:                    # 04 §6·§7
   city_rank_thr: {60: 1, 25: 2, 12: 4, 5: 6, 0: 8}
 
 registries:                # 15 §3 P10 — 여기 없는 타입을 연출이 쓰면 오류, 있는데 렌더러가 없으면 오류
-  event_types: [marker, route, tanker_loop, barrier, ships, boom, country, badge, card, panel, dip, photo, clip, cutout, article, post]
-  event_types_planned: [occupied, arc, channel, shield, tl, particles, flash, dots, movers, line, arrow]   # v1/v2 이식 후보(미구현 = 사용 불가)
+  event_types: [marker, route, tanker_loop, barrier, ships, boom, country, badge, card, panel, dip, photo, clip, cutout, article]
+  event_types_planned: [occupied, arc, channel, shield, tl, particles, flash, dots, movers, line, arrow, post]   # v1/v2 이식 후보(미구현 = 사용 불가). post 는 Phase 6.95 에서 복귀(D26)
   panel_kinds: [refusal, statement, timeline, precedent, versus]
   panel_kinds_planned: [dots, gantt, dual_line, fork, checklist, network]
   badge_kinds: [person, flag, emblem]

@@ -1,0 +1,27 @@
+# 레지스트리 프리뷰 예제 (v2.1.0, 15 P10) — 모델 검증 테스트가 읽는다.
+schema_version: 1
+key: panel:versus
+source: projects/hormuz_korea/direction.py (첫 사용 예)
+event:
+  type: panel
+  t0: 224.24
+  t1: 242.2
+  title: 파병을 둘러싼 두 입장
+  kind: versus
+  sides:
+  - title: 지지하는 쪽
+    items:
+    - text: 호르무즈는 곧 한국의 경제 안보
+      t: 224.84
+    - text: 원유 61% · 나프타 54%가 이 해협 경유
+      t: 226.14
+    src: UPI 기고 · 9월 8일
+  - title: 반대하는 쪽
+    items:
+    - text: 비전투 부대도 표적이 될 수 있다
+      t: 229.95
+    - text: 미국 방공 미사일 재고 감소
+      t: 236.3
+    - text: 2004년 파병 당시의 국내 갈등
+      t: 237.8
+    src: Foreign Policy · 9월 10일

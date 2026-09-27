@@ -1,0 +1,14 @@
+# 레지스트리 프리뷰 예제 (v2.1.0, 15 P10) — 모델 검증 테스트가 읽는다.
+schema_version: 1
+key: article
+source: projects/hormuz_korea/direction.py (첫 사용 예)
+event:
+  type: article
+  t0: 211.75
+  t1: 218.96
+  pub: The Korea Herald
+  date: 2026. 09. 07
+  headline: 정부, 전투 격화·반대 여론 확산에 호르무즈 파병 계획 재조정
+  hl: 재조정
+  sub: 국방부 “항행의 자유 회복에 실질적으로 기여할 방안을 국제사회와 협의 중”
+  note: 헤드라인 번역 · 원문 영어

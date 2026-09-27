@@ -40,3 +40,4 @@ last_review: 2026-09-27
 | 2026-09-27 | D23 | provenance `badges` 기대값 = badge 이벤트 수(8). 패널 내부 뱃지는 `panels`가 증명. 19 부록 B 기대값 9 → 8 정정은 Phase 6.8 `test_provenance_e2e` 구현 시 | ③ 실측 우선 ① 숫자 하나 | Fable (back_and_forth D-0009) | 부록 B 값 복원 |
 | 2026-09-27 | D24 | artifacts 브랜치 오디오는 `mix.flac`(24bit 무손실)으로 통일. `mix.f32`(103MB)는 GitHub 100MB 한도 초과 | ① 무손실·되돌리기 쉬움 | Fable (back_and_forth D-0009) | f32 로 재추출 |
 | 2026-09-27 | D25 | 패널 문구(텍스트)는 이벤트 필드로 뺀다. 좌표·크기·타이밍·색은 Phase 6 전까지 `engine/panels/*.py` 안에 그대로 | ① 되돌리기 쉬움, P8 문구=데이터 | Fable (back_and_forth D-0011) | 문구를 패널 모듈로 복귀 |
+| 2026-09-27 | D26 | `post` → `event_types_planned` (19 부록 A 정정), Phase 6.95에서 렌더러·스키마·예제와 한 커밋으로 복귀. `media_beats.kinds`의 post 는 유지(린트 어휘) | ① YAML 한 줄 ② 19 §6 표(6.95) ③ P10 등재 = 렌더러 존재 | Fable (back_and_forth D-0012) | 6.95 착수 지침에서 복귀 |

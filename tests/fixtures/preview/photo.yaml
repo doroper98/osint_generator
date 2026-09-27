@@ -1,0 +1,15 @@
+# 레지스트리 프리뷰 예제 (v2.1.0, 15 P10) — 모델 검증 테스트가 읽는다.
+schema_version: 1
+key: photo
+source: projects/hormuz_korea/direction.py (첫 사용 예)
+event:
+  type: photo
+  t0: 191.31
+  t1: 202.1
+  img: rok_iraq_720.jpg
+  x: 292.0
+  y: 138.0
+  w: 280.0
+  caption: 이라크에 파병된 한국군 장병
+  credit: 자료사진 · 2003 · U.S. Government · Public domain
+  mid: rok_iraq
