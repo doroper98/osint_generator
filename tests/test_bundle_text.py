@@ -1,13 +1,15 @@
 """bundle/ 이관 회귀 테스트 (v2.0.0).
 
-`hyperframes/scripts/bundle_to_video.py` 에서 본문 무변경으로 옮긴 순수 함수의 **현재 출력을
-있는 그대로** 고정한다 (docs/handoff/19 §5.3). 알려진 버그(`18개월` → "열여덟 개월")도 그대로
-고정 — 수정은 Phase 4 에서 이 테스트를 바꾸며 함께 한다 (TTS-AP-064 예정).
+`bundle_to_video.py`(archive/hyperframes-briefing) 에서 본문 무변경으로 옮긴 순수 함수의 출력을
+고정한다 (docs/handoff/19 §5.3). 알려진 버그 2건은 **올바른 기대값**으로 쓰고 strict xfail 로 둔다
+(사용자 지시 2026-09-27) — Phase 4 에서 고치면 XPASS 가 실패로 잡혀 마커 제거가 강제된다.
 """
 
 from __future__ import annotations
 
 import unittest
+
+import pytest
 
 from bundle.charts import build_versus, norm_network, split_unit
 from bundle.text import (
@@ -22,9 +24,9 @@ from bundle.text import (
 
 
 class TtsOfFrozenTest(unittest.TestCase):
-    def test_months_count_known_bug_frozen(self) -> None:
-        # 버그: 개월은 한자어 수사("십팔 개월")여야 한다 — Phase 4 에서 수정 (docs/handoff/03 §5.4)
-        self.assertEqual(tts_of("18개월"), "열여덟 개월")
+    @pytest.mark.xfail(strict=True, reason="Phase 4 — 개월은 한자어 수사(TTS-AP-064 예정, docs/handoff/03 §5.4). 현재 '열여덟 개월'")
+    def test_months_count_sino(self) -> None:
+        self.assertEqual(tts_of("18개월"), "십팔 개월")
 
     def test_decimal_policy_d6(self) -> None:
         # 저장소 정책 유지 (DECISIONS D6, TTS-AP-059): 쩜, 무공백
@@ -70,10 +72,10 @@ class ChartsTest(unittest.TestCase):
         assert out is not None
         self.assertEqual(out["nodes"][0]["img"], "assets/flags/kr.svg")
 
+    @pytest.mark.xfail(strict=True, reason="Phase 4 — to_polite 가 '-ㄴ다' 종결을 일반 폴백으로 처리. 현재 '낮춘습니다.'")
     def test_versus_polite(self) -> None:
         v = build_versus({"resolution": "다수설", "side_a": "한국은행은 금리를 낮춘다", "side_b": "b"}, {})
-        # 알려진 버그 고정: '-ㄴ다' 종결을 일반 폴백이 "낮춘습니다" 로 만든다 → Phase 4 수정 대상
-        self.assertEqual(v["cards"][0]["line"], "금리를 낮춘습니다.")
+        self.assertEqual(v["cards"][0]["line"], "금리를 낮춥니다.")
 
 
 if __name__ == "__main__":
