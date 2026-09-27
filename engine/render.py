@@ -27,7 +27,7 @@ from engine.layers.labels import draw_labels
 from engine.project import Project, ProjectError, load_project
 from engine.projection import View
 from engine.registry import MAP_LAYER_ORDER, RegistryError, resolve
-from engine.style import CRF, FADE, FPS, H_OUT, W_OUT
+from engine.style import CRF, FADE, FPS, H_OUT, PANEL, W_OUT
 from engine.subtitles import draw_subtitle
 from engine.timebase import smooth, window
 from schemas.engine_models import StageResult
@@ -49,7 +49,7 @@ def render_frame(P: Project, i: int) -> tuple[cairo.ImageSurface, bytearray]:  #
     surf = cairo.ImageSurface.create_for_data(buf, cairo.FORMAT_RGB24, W_OUT, H_OUT, W_OUT * 4)
     ctx = cairo.Context(surf)
     act = [e for e in P.events if e["t0"] - 0.05 <= t <= e["t1"] + 0.05]
-    panel_a = max([window(t, e["t0"], e["t1"], 0.6, 0.6) for e in act if e["type"] == "panel"] + [0])
+    panel_a = max([window(t, e["t0"], e["t1"], PANEL.fade_sec, PANEL.fade_sec) for e in act if e["type"] == "panel"] + [0])
     draw_borders(ctx, R, view)
     for L in MAP_LAYER_ORDER:  # noqa: N806
         for e in act:

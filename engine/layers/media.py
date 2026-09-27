@@ -14,7 +14,7 @@ from PIL import Image
 from engine.assets import surf_from_pil
 from engine.context import RenderCtx
 from engine.projection import View
-from engine.style import C, FPS, W_OUT
+from engine.style import ARTICLE, CARD, C, FPS, W_OUT
 from engine.timebase import clamp01, ease_io, ease_out, smooth, window
 from engine.typography import rrect, text, tw, wrap
 
@@ -96,9 +96,9 @@ def draw_article(ctx: cairo.Context, R: RenderCtx, t: float, e: dict) -> None:  
     if a <= 0.01:
         return
     lt = t - e["t0"]
-    w = 300
-    x = W_OUT - w - 24 + (1 - ease_out(lt / 0.55)) * 30
-    y = 68
+    w = ARTICLE.w
+    x = W_OUT - w - CARD.x_right_margin + (1 - ease_out(lt / 0.55)) * CARD.slide_px
+    y = ARTICLE.y
     hl_lines = wrap(ctx, e["headline"], w - 32, 13.5, "serifb")
     sub_lines = wrap(ctx, e["sub"], w - 32, 9.5, "sans")
     h = 44 + len(hl_lines) * 20 + 6 + len(sub_lines) * 14 + 24

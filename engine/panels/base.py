@@ -8,7 +8,7 @@ import cairo
 import numpy as np
 
 from engine.context import RenderCtx
-from engine.style import C, W_OUT
+from engine.style import PANEL, C, W_OUT
 from engine.timebase import window
 from engine.typography import text
 
@@ -16,9 +16,9 @@ PanelFn = Callable[[cairo.Context, RenderCtx, float, dict, float], None]
 
 
 def panel_title(ctx: cairo.Context, a: float, s: str, sub: str | None = None) -> None:
-    text(ctx, s, W_OUT / 2, 74, 19, "serifb", (1, 1, 1), a, 0, "c")
+    text(ctx, s, W_OUT / 2, PANEL.title_y, PANEL.title_size, "serifb", (1, 1, 1), a, 0, "c")
     if sub:
-        text(ctx, sub, W_OUT / 2, 96, 11, "sansm", C["muted"], a, 0, "c")
+        text(ctx, sub, W_OUT / 2, PANEL.subtitle_y, PANEL.subtitle_size, "sansm", C["muted"], a, 0, "c")
 
 
 def edge_curve(x0: float, y0: float, x1: float, y1: float, prog: float, n: int = 36) -> np.ndarray:
@@ -31,11 +31,11 @@ def edge_curve(x0: float, y0: float, x1: float, y1: float, prog: float, n: int =
 
 
 def panel_alpha(t: float, e: dict) -> float:
-    return window(t, e["t0"], e["t1"], 0.6, 0.6)
+    return window(t, e["t0"], e["t1"], PANEL.fade_sec, PANEL.fade_sec)
 
 
 def draw_panel_cover(ctx: cairo.Context, a: float) -> None:
-    ctx.set_source_rgba(0.025, 0.03, 0.045, 0.8 * a)
+    ctx.set_source_rgba(0.025, 0.03, 0.045, PANEL.cover_alpha * a)
     ctx.paint()
 
 

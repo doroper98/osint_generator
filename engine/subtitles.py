@@ -5,7 +5,7 @@ from __future__ import annotations
 import cairo
 
 from engine.context import RenderCtx
-from engine.style import C, W_OUT
+from engine.style import C, SUBTITLE, W_OUT
 from engine.timebase import smooth
 from engine.typography import font, text, wrap
 
@@ -38,10 +38,10 @@ def draw_subtitle(ctx: cairo.Context, R: RenderCtx, t: float) -> None:  # noqa: 
         x = tb.sent[sid]
         if x.t0 - 0.05 <= t <= x.t1 + 0.25:
             a = min(smooth((t - x.t0 + 0.05) / 0.18), smooth((x.t1 + 0.25 - t) / 0.2))
-            size = 19
+            size = SUBTITLE.size
             txt, flags = emphasis_flags(x.segments)
             lines = wrap(ctx, txt, 700, size, "sansm")
-            base_y = 452 - (len(lines) - 1) * 26
+            base_y = SUBTITLE.last_line_y - (len(lines) - 1) * SUBTITLE.line_gap
             pos = 0
             for li, ln in enumerate(lines):
                 j = txt.find(ln, pos)
@@ -50,8 +50,8 @@ def draw_subtitle(ctx: cairo.Context, R: RenderCtx, t: float) -> None:  # noqa: 
                 lw = ctx.text_extents(ln).x_advance
                 xx = W_OUT / 2 - lw / 2
                 for run, f in split_runs(ln, j, flags):
-                    text(ctx, run, xx, base_y + li * 26, size, "sansb" if f else "sansm", C["gold"] if f else (1, 1, 1), a,
-                         5.0, "l", halo_a=0.92)
+                    text(ctx, run, xx, base_y + li * SUBTITLE.line_gap, size, "sansb" if f else "sansm",
+                         C[SUBTITLE.emphasis_color] if f else (1, 1, 1), a, SUBTITLE.halo, "l", halo_a=SUBTITLE.halo_alpha)
                     font(ctx, "sansm", size)
                     xx += ctx.text_extents(run).x_advance
             return

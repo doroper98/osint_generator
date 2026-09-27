@@ -6,7 +6,7 @@ import cairo
 
 from engine.context import RenderCtx
 from engine.credits import credit_sections
-from engine.style import C, H_OUT, W_OUT
+from engine.style import END_CARD, TITLE_CARD, C, H_OUT, W_OUT
 from engine.timebase import ease_io, ease_out, smooth, window
 from engine.typography import text
 
@@ -45,9 +45,9 @@ def draw_endcard(ctx: cairo.Context, R: RenderCtx, t: float, c: object, a: float
         for m, lic in items:
             ia = a * smooth((lt - 0.6 - si * 0.18 - n * 0.03) / 0.6)
             n += 1
-            text(ctx, m, x, y, 9.2, "sans", (0.86, 0.87, 0.9), ia, 0, "l")
+            text(ctx, m, x, y, END_CARD.item_size, "sans", (0.86, 0.87, 0.9), ia, 0, "l")
             if lic:
-                text(ctx, lic, x, y + 11, 7.8, "monom", C["muted"], ia * 0.9, 0, "l")
+                text(ctx, lic, x, y + 11, END_CARD.license_size, "monom", C["muted"], ia * 0.9, 0, "l")
                 y += 23
             else:
                 y += 14
@@ -74,12 +74,14 @@ def draw_fullcards(ctx: cairo.Context, R: RenderCtx, t: float) -> None:  # noqa:
             ctx.set_source(g)
             ctx.paint()
             k = ease_out(lt / 1.0)
-            text(ctx, plan.title, W_OUT / 2, 232 - (1 - k) * 10, 46, "disp", (1, 1, 1), a * smooth((lt - 0.1) / 0.6), 0, "c")
+            text(ctx, plan.title, W_OUT / 2, 232 - (1 - k) * 10, TITLE_CARD.title_size, "disp", (1, 1, 1),
+                 a * smooth((lt - 0.1) / 0.6), 0, "c")
             ctx.set_source_rgba(*C["gold"], 0.95 * a)
-            lw = 220 * ease_io((lt - 0.5) / 0.9)
+            lw = TITLE_CARD.rule_w * ease_io((lt - 0.5) / 0.9)
             ctx.rectangle(W_OUT / 2 - lw / 2, 254, lw, 1.6)
             ctx.fill()
-            text(ctx, plan.subtitle, W_OUT / 2, 290, 18, "serifb", (0.92, 0.9, 0.88), a * smooth((lt - 0.8) / 0.6), 0, "c")
+            text(ctx, plan.subtitle, W_OUT / 2, 290, TITLE_CARD.subtitle_size, "serifb", (0.92, 0.9, 0.88),
+                 a * smooth((lt - 0.8) / 0.6), 0, "c")
             text(ctx, plan.date.replace(".", ". "), W_OUT / 2, 322, 12, "mono", C["gold"], a * smooth((lt - 1.1) / 0.6), 0, "c")
         else:
             draw_endcard(ctx, R, t, c, a)

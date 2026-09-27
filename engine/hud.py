@@ -5,7 +5,7 @@ from __future__ import annotations
 import cairo
 
 from engine.context import RenderCtx
-from engine.style import C, W_OUT
+from engine.style import C, DATE_BADGE, W_OUT
 from engine.timebase import smooth
 from engine.typography import text
 
@@ -24,10 +24,11 @@ def draw_date(ctx: cairo.Context, R: RenderCtx, t: float) -> None:  # noqa: N803
         if tb.sent[s_].date != prev:
             prev = tb.sent[s_].date
             t_ch = tb.sent[s_].t0 - 0.3
-    k = smooth((t - t_ch) / 0.45)
+    B = DATE_BADGE  # noqa: N806
+    k = smooth((t - t_ch) / B.slide_sec)
     a = 0.95 * k
     txt = d.replace(".", ". ") if len(d) > 4 else d
-    w = text(ctx, txt, W_OUT - 26, 40 - (1 - k) * 6, 15, "mono", (1, 1, 1), a, 3, "r")
+    w = text(ctx, txt, W_OUT - B.x_right, B.y - (1 - k) * B.slide_px, B.size, B.font, (1, 1, 1), a, 3, "r")
     ctx.set_source_rgba(*C["gold"], 0.9 * a)
-    ctx.rectangle(W_OUT - 26 - w * k, 48, w * k, 1.4)
+    ctx.rectangle(W_OUT - B.x_right - w * k, B.underline_y, w * k, B.underline_w)
     ctx.fill()

@@ -11,7 +11,7 @@ import cairo
 
 from engine.context import RenderCtx
 from engine.projection import View
-from engine.style import BADGE_BG, C
+from engine.style import BADGE, BADGE_BG, C
 from engine.timebase import ease_back, smooth, window
 from engine.typography import rrect, text, tw
 
@@ -45,7 +45,7 @@ def image_keys(e: dict) -> list[str]:
 def badge_at(ctx: cairo.Context, R: RenderCtx, x: float, y: float, e: dict, t: float, a: float) -> None:  # noqa: N803
     Rr = e.get("R") or 30  # noqa: N806
     lt = t - e["t0"]
-    k = ease_back(lt / 0.55)
+    k = ease_back(lt / BADGE.popin_sec)
     if k <= 0.01:
         return
     acc = C.get(e.get("accent") or "gold", C["gold"])
@@ -108,7 +108,7 @@ def badge_at(ctx: cairo.Context, R: RenderCtx, x: float, y: float, e: dict, t: f
             text(ctx, e["label"], x, y + Rr * k + 19.5, 12, "sansb", (1, 1, 1), la, 0, "c")
             if e.get("role"):
                 text(ctx, e["role"], x, y + Rr * k + 38, 10, "sansm", acc, la, 2.6, "c")
-    R.reserved.append((x - Rr - 10, y - Rr * 2.2, x + Rr + 10, y + Rr + 44))
+    R.reserved.append((x - Rr - 10, y - Rr * BADGE.reserve_top_factor, x + Rr + 10, y + Rr + BADGE.reserve_bottom_px))
 
 
 def draw_badge(ctx: cairo.Context, R: RenderCtx, view: View, t: float, e: dict) -> None:  # noqa: N803
