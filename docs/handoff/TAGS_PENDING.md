@@ -1,0 +1,18 @@
+<!--
+tier: 3
+last_synced_with: v2.1.0
+ssot_for: [pending-release-tags]
+depends_on: [back_and_forth/README.md]
+last_review: 2026-09-27
+-->
+
+# 원격에 올릴 태그 목록 (append-only)
+
+두 세션(Fable·Opus) 컨테이너는 태그 푸시가 403으로 막혀 있다. Phase pass마다 여기에 한 줄을 남긴다.
+사용자가 PC에서 원할 때: `git fetch origin && git tag -a <tag> <commit> -m "<tag>: <요지>" && git push origin <tag>`.
+올리지 않아도 진행에는 영향이 없다(버전은 VERSION 파일과 커밋 prefix로 추적된다).
+
+| 태그 | 커밋 | 요지 | 원격 상태 |
+|---|---|---|---|
+| v2.0.1 | 5afbdc6 | Phase 1 골든 재현 합격 | 미푸시 |
+| v2.1.0 | 5728df3 | Phase 2 모듈 분해·계약 합격 | 푸시됨(사용자 릴리스) |

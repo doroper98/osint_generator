@@ -176,27 +176,38 @@ python back_and_forth/check.py --me opus --next-id         # 내가 쓸 다음 �
 2. 선택지가 부족하면 새 선택지를 제시해 결정해도 된다. 정보가 부족하면 `answer`로 추가 조사를 요청한다.
 3. **§7 항목은 Fable이 결정하지 않는다.** 사용자에게 직접 묻고, 답을 받으면 원문을 인용해 `decision` D(`from: user`)로 남긴다.
 
-### 6.5 Phase 전환
-- Phase가 끝나면 Opus는 `phase_report`를 쓰고 **다음 Phase 착수 `directive`를 기다린다.** 스스로 넘어가지 않는다.
-- 다음 Phase 착수 지시는 Fable이 내린다(사용자 위임, 2026-09-27). `main` 머지·태그는 여전히 사용자 몫(§7).
+### 6.5 Phase 전환과 main 머지 (사용자 지시 2026-09-27 — 개입 없이 끝까지)
+
+- Phase가 끝나면 Opus는 `phase_report`를 쓰고 Fable의 `review`를 기다린다. 스스로 넘어가지 않는다.
+- **Fable의 `review` verdict `pass`가 곧 Phase 승인이다.** 사용자 승인은 따로 받지 않는다.
+- pass 직후 **Fable이 main을 fast-forward한다**: `git push origin overhaul/v2-map-engine:main` (ff만, 실패하면 멈추고 원인을 D에 기록). 그다음 다음 Phase 착수 `directive`를 낸다.
+- **태그는 두 세션 모두 원격 푸시가 막혀 있다(403).** 대신 `docs/handoff/TAGS_PENDING.md`에 `버전 → 커밋`을 한 줄씩 append한다. 사용자가 원할 때 PC에서 한꺼번에 올리면 되고, 올리지 않아도 진행에 영향이 없다.
 - 사용자가 대화나 `from: user` D로 Phase를 멈추거나 되돌리면 그 지시가 우선한다.
 
-## 7. 권한 경계 — 지침으로도 넘을 수 없는 것
+## 7. 금지 항목과 Fable 전결 (사용자 지시 2026-09-27)
 
-Fable의 지침은 사용자의 위임으로 효력을 갖는다. 다만 아래는 **사용자 본인의 명시 승인**이 필요하다.
-D 파일에 `from: user`와 사용자 원문 인용이 있거나, 사용자가 대화로 직접 지시한 경우에만 실행한다.
-그 외에는 Opus가 `decision_request`(§7 해당 명시)를 올리고 해당 항목만 멈춘다(나머지는 계속).
-Fable은 이 항목을 결정하지 않고 사용자에게 전달한다(§6.4).
+사용자 원문: "내 결정 없이 끝까지 너(fable)랑 구현자(opus)가 의논해 가며 진행하라는게 내 의도였어."
+따라서 **사용자에게 묻는 항목은 없다.** 아래 두 표만 남는다.
+
+**7.1 누구도 하지 않는 것 (지침으로도 금지)**
 
 | 항목 | 근거 |
 |---|---|
-| 제한 휘장 사용(D5), GOAL 합격 기준 개정(D4), agents_reviewer 스키마 변경(D7) | KICKOFF §7, DECISIONS |
-| `main` 머지·태그(M1: Phase 승인 후 ff-only) | DECISIONS M1 |
 | PR 생성 | CLAUDE.md C8.5 |
-| 푸시된 이력 재작성, force push, `archive/*` 브랜치 삭제 | 되돌릴 수 없음 |
+| 푸시된 이력 재작성, force push, `archive/*`·`artifacts/*` 브랜치 삭제 | 되돌릴 수 없음 |
 | 비밀 값(.env, API 키) 커밋 | C9 |
 | 사실·권리·검증 원칙(GOAL G4, C9) 완화 | C0 경계 |
-| v3 합격 수치 변경(근거 없는) | C0, KICKOFF §5 |
+| 사용자 외부 계정·서비스 조작(agents_reviewer 저장소 수정, 유튜브·텔레그램) | 범위 밖(KICKOFF §3) |
+
+**7.2 Fable이 전결하는 것 (옛 "사용자 고유 결정")**
+
+| 항목 | 기본 원칙 |
+|---|---|
+| D5 제한 휘장 | 위키미디어 `Restrictions`(insignia·trademarked·personality)가 있으면 **쓰지 않고 국기로 대체**, 레지스트리에 사유 기록. 예외 없음 |
+| D7 agents_reviewer 스키마 | 저장소 밖이라 **제안 문서만** 작성(`docs/handoff/reports/`), 반영은 하지 않음 |
+| D4 GOAL G3 개정 | 결정 완료(D-0005), Phase 11 반영 |
+| v3 합격 수치 변경 | **유지가 기본.** 바꾸려면 골든 25컷 회귀 + 근거 + 되돌리는 방법을 `decision_request`로, Fable이 결정·기록 |
+| main 머지·태그 | §6.5 |
 
 새 결정은 §6.4대로 Fable이 내린다. Opus는 판정 기준 ①②③으로 **권고**만 하고, 결정이 오면 `DECISIONS.md`에 기록한다.
 
@@ -227,7 +238,7 @@ Fable은 이 항목을 결정하지 않고 사용자에게 전달한다(§6.4).
 | 11 | v3.0.0 | 문서·정리 (D4) |
 | G1~G4 | Phase 6.9 이후 | 장르 확장(`docs/handoff/20` §12) |
 
-**종료**: 위 표의 마지막 Phase가 사용자 승인을 받으면 Opus가 `phase_report`에 `final: true`를 적고, Fable이 `stop`으로 닫는다.
+**종료**: 위 표의 마지막 Phase가 Fable `review` pass를 받으면 Opus가 `phase_report`에 `final: true`를 적고, Fable이 `stop`으로 닫은 뒤 사용자에게 최종 보고한다.
 그 전까지는 둘 중 누구도 감시를 멈추지 않는다. 사용자는 언제든 대화로 멈출 수 있다.
 
 ## 9. 사용자 개입
