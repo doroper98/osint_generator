@@ -81,3 +81,13 @@ docs/handoff/golden/*.mp4
 # v2.0.1 — Phase 1 골든 재현 산출물(데이터·타일·TTS·렌더) — 커밋 금지
 projects/hormuz_korea_legacy/
 assets/fonts/.cache/
+
+# v2.1.0 — 새 엔진 프로젝트 생성물(입력 script.yaml·direction.py·labels.yaml·credits.yaml 만 추적)
+projects/hormuz_korea/plan.json
+projects/hormuz_korea/tts/
+projects/hormuz_korea/assets/
+projects/hormuz_korea/media/
+projects/hormuz_korea/prev/
+projects/hormuz_korea/out/
+projects/hormuz_korea/*.log
+projects/hormuz_korea/__pycache__/

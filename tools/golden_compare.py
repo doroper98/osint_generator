@@ -26,6 +26,9 @@ from pathlib import Path
 REPO = Path(__file__).resolve().parent.parent
 GOLDEN_DIR = REPO / "docs" / "handoff" / "golden"
 DEFAULT_OUT = REPO / "docs" / "handoff" / "reports" / "phase1"
+PHASE1_FRAMES = REPO / "docs" / "handoff" / "reports" / "phase1" / "frames"
+PHASE2_OUT = REPO / "docs" / "handoff" / "reports" / "phase2"
+NEW_MEAN_MAX, NEW_FRAME_MAX = 1.0, 2.0  # D-0010 §2: 무손실끼리 평균 < 1.0, 최대 < 2.0
 MAD_THRESHOLD = 2.0  # /255 — Phase 2 판정 임계. Phase 1 은 참고값(D-0005 결정 1)
 
 
@@ -60,15 +63,19 @@ def mad(a: "object", b: "object") -> float:
     return float(np.abs(x - y).mean())
 
 
-def render_previews(times: list[float], root: Path) -> list[Path]:
+def render_previews(times: list[float], root: Path, engine: str = "legacy") -> list[Path]:
     arg = ",".join(f"{t:.2f}" for t in times)
-    env = {**os.environ, "V3_ROOT": str(root)}
-    subprocess.run([sys.executable, str(REPO / "legacy_v3" / "render3.py"), "--preview", arg], check=True, env=env, cwd=REPO)
+    if engine == "new":
+        subprocess.run([sys.executable, "-m", "engine.render", str(root), "--preview", arg], check=True, cwd=REPO)
+    else:
+        env = {**os.environ, "V3_ROOT": str(root)}
+        subprocess.run([sys.executable, str(REPO / "legacy_v3" / "render3.py"), "--preview", arg], check=True, env=env,
+                       cwd=REPO)
     return [root / "prev" / f"p_{float(f'{t:.2f}'):07.2f}.png" for t in times]
 
 
 def diff_sheet(pairs: list[tuple[str, "object", "object", float]], dest: Path) -> None:
-    """골든 | 렌더 | 차이 히트맵 3열, 컷마다 한 줄 (427×240 축소)."""
+    """기준 | 렌더 | 차이 히트맵 3열, 컷마다 한 줄 (427×240 축소)."""
     import numpy as np
     from PIL import Image, ImageDraw
 
@@ -87,12 +94,53 @@ def diff_sheet(pairs: list[tuple[str, "object", "object", float]], dest: Path) -
     sheet.save(dest, quality=88)
 
 
+def compare_new(args: argparse.Namespace) -> int:
+    """새 엔진 프리뷰 ↔ Phase 1 legacy 무손실 프레임(같은 앵커). 판정: 평균 < 1.0, 최대 < 2.0."""
+    from PIL import Image
+
+    golden = load_golden()
+    frames = golden["frames"]
+    proj = args.proj.resolve()
+    plan = json.loads((proj / "plan.json").read_text(encoding="utf-8"))
+    times = [anchor_time(f["anchor"], float(f["offset"]), plan) for f in frames]
+    pngs = render_previews(times, proj, "new")
+    out = PHASE2_OUT if args.out == DEFAULT_OUT else args.out
+    (out / "frames").mkdir(parents=True, exist_ok=True)
+    rows, pairs = [], []
+    for i, (f, t, png) in enumerate(zip(frames, times, pngs), 1):
+        name = f"{i:02d}_{f['anchor']}.png"
+        ref = Image.open(args.ref / name).convert("RGB")
+        r = Image.open(png).convert("RGB")
+        m = mad(ref, r)
+        shutil.copy2(png, out / "frames" / name)
+        rows.append(dict(n=i, anchor=f["anchor"], offset=f["offset"], t_now=round(t, 3), mad=round(m, 4),
+                         over=m >= NEW_FRAME_MAX, frame=f"frames/{name}"))
+        pairs.append((f"{i:02d} {f['anchor']}{f['offset']:+.1f}  t={t:.2f}", ref, r, m))
+        print(f"{i:02d} {f['anchor']:<12} t={t:7.2f}  MAD {m:7.4f}", flush=True)
+    mean = sum(r["mad"] for r in rows) / len(rows)
+    mx = max(r["mad"] for r in rows)
+    ok = mean < NEW_MEAN_MAX and mx < NEW_FRAME_MAX
+    result = dict(schema_version=1, engine="new", reference="Phase 1 legacy_v3 무손실 프리뷰(docs/handoff/reports/phase1/frames)",
+                  mean_max=NEW_MEAN_MAX, frame_max=NEW_FRAME_MAX, mean_mad=round(mean, 4), max_mad=round(mx, 4),
+                  passed=ok, over_threshold=[r["anchor"] for r in rows if r["over"]], frames=rows)
+    (out / "golden_compare.json").write_text(json.dumps(result, ensure_ascii=False, indent=1), encoding="utf-8")
+    diff_sheet(pairs, out / "golden_compare_diff.jpg")
+    print(f"mean MAD {mean:.4f}/255, max {mx:.4f} -> {'PASS' if ok else 'FAIL'}")
+    return 0 if ok else 1
+
+
 def main(argv: list[str] | None = None) -> int:
     ap = argparse.ArgumentParser(description="골든 25컷 앵커 대조")
     ap.add_argument("--plan", type=Path, default=None, help="plan.json (기본 V3_ROOT/plan.json)")
     ap.add_argument("--out", type=Path, default=DEFAULT_OUT)
     ap.add_argument("--dry-run", action="store_true", help="plan 없이 골든 절대 시각만 출력")
+    ap.add_argument("--engine", choices=["legacy", "new"], default="legacy",
+                    help="new = 새 엔진(engine.render)을 Phase 1 무손실 프레임과 비교(D-0010 §1-15)")
+    ap.add_argument("--proj", type=Path, default=REPO / "projects" / "hormuz_korea", help="--engine new 프로젝트")
+    ap.add_argument("--ref", type=Path, default=PHASE1_FRAMES, help="--engine new 기준 프레임 폴더")
     args = ap.parse_args(argv)
+    if args.engine == "new":
+        return compare_new(args)
     golden = load_golden()
     frames = golden["frames"]
 
