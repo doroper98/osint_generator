@@ -3,7 +3,7 @@
 (a) 미등재 이벤트 타입 → RegistryError   (Phase 2)
 (b) 권리 필드 없는 미디어 → RightsError   (Phase 6.5)
 (c) 손상 manifest → 오류, created 폴백 아님 (Phase 6.8)
-(d) `main.py build-scene` → LegacyRemovedError (커밋 ② — D13 으로 보류 중)
+(d) `main.py build-scene` → LegacyRemovedError (v2.0.0 통과)
 """
 
 from __future__ import annotations
@@ -46,12 +46,8 @@ class NoSilentFallbackTest(unittest.TestCase):
             with self.assertRaises(ManifestCorruptError):
                 loader("broken", cfg)
 
-    @pytest.mark.xfail(
-        strict=True,
-        reason="커밋 ②(레거시 삭제·LegacyRemovedError) 보류 — DECISIONS D13. 적용 후 XPASS → 마커 제거",
-    )
     def test_d_build_scene_raises(self) -> None:
-        from orchestrator.errors import LegacyRemovedError  # type: ignore[import-not-found]
+        from orchestrator.errors import LegacyRemovedError
         from orchestrator.main import main
 
         with self.assertRaises(LegacyRemovedError):

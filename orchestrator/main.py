@@ -18,12 +18,8 @@
                                               전이 (외부 연동, build-research-dossier 대체)
 - build-script {pid} [--backend]            : ScriptWorker 호출 → full_script.json
                                               + script_writing 전이 (Phase 6 Script)
-- build-scene {pid}                         : full_script → scene_manifest.json (결정론적)
-                                              + scene_planning 전이 (수직 슬라이스 V2)
-- render-debug {pid}                         : scene_manifest+full_script → render_props.json
-                                              → Remotion 으로 draft_debug.mp4 (수직 슬라이스 V3)
-- build-audio {pid} [--backend]              : full_script → 나레이션 wav + audio_manifest.json
-                                              (TTS 백엔드 교체 가능, 수직 슬라이스 V4)
+- build-scene / render-debug / build-audio / build-audio-demo
+                                            : v2.0.0 에서 삭제 — LegacyRemovedError (docs/handoff/16 §4)
 - approve --project {pid} --gate ...        : Review Gate 승인 기록 (Phase 11)
 - version                                   : 현재 버전 출력
 """
@@ -37,6 +33,7 @@ from pathlib import Path
 
 from orchestrator import __version__
 from orchestrator.command_center import run_command_center
+from orchestrator.errors import LegacyRemovedError
 from orchestrator.project_manager import (
     new_project,
     resume_project,
@@ -48,13 +45,6 @@ from schemas.models import (
     ProjectState,
     SourceIntake,
 )
-
-
-def _tts_backend_choices() -> tuple[str, ...]:
-    """TTS 백엔드 선택지 (지연 import — worker 의존성 격리)."""
-    from workers.tts_backends import BACKEND_CHOICES
-
-    return BACKEND_CHOICES
 
 
 def build_parser() -> argparse.ArgumentParser:
@@ -205,78 +195,16 @@ def build_parser() -> argparse.ArgumentParser:
         help="유효한 full_script.json 이 있어도 worker 재실행 (기본은 idempotent skip).",
     )
 
-    bsn = sub.add_parser(
-        "build-scene",
-        help=(
-            "full_script → scene_manifest.json (결정론적, 텍스트 슬라이드) 생성 후 "
-            "scene_planning 전이 (수직 슬라이스 V2)"
-        ),
-    )
-    bsn.add_argument("project_id", help="project_id")
-
-    rdg = sub.add_parser(
-        "render-debug",
-        help=(
-            "render_props.json 생성 후 Remotion 으로 draft_debug.mp4 렌더 "
-            "(수직 슬라이스 V3, 미리보기 — state 전이 없음)"
-        ),
-    )
-    rdg.add_argument("project_id", help="project_id")
-    rdg.add_argument(
-        "--props-only",
-        action="store_true",
-        help="render_props.json 만 생성하고 Remotion 렌더는 건너뜀 (node 미설치 환경용).",
-    )
-    rdg.add_argument(
-        "--browser-executable",
-        default=None,
-        help=(
-            "Remotion 이 쓸 chrome-headless-shell 바이너리 경로. 미지정 시 "
-            "OSINT_HEADLESS_SHELL 환경변수 또는 자동탐지 (RENDER-AP-001 — chromium "
-            "자동 다운로드가 막힌 환경 대응)."
-        ),
-    )
-
-    bad = sub.add_parser(
-        "build-audio",
-        help=(
-            "full_script → 나레이션 wav + audio_manifest.json (TTS 백엔드 교체 가능: "
-            "local/elevenlabs/stub, 수직 슬라이스 V4 — state 전이 없음)"
-        ),
-    )
-    bad.add_argument("project_id", help="project_id")
-    bad.add_argument(
-        "--backend",
-        choices=list(_tts_backend_choices()),
-        default="local",
-        help=(
-            "TTS 백엔드. local(기본·프라이버시·OSINT_TTS_CMD) / elevenlabs(외부 API·"
-            "ELEVENLABS_API_KEY) / stub(무음, 테스트)."
-        ),
-    )
-    bad.add_argument("--voice", default=None, help="백엔드별 보이스 식별자(선택).")
-
-    bdm = sub.add_parser(
-        "build-audio-demo",
-        help=(
-            "데모 props (remotion/demo_props.json 등) 에 음성 입히고 "
-            "scene durationSec 을 실 음성 길이로 갱신 후 <props>_with_audio.json 저장. "
-            "project state 머신 거치지 않는 1회용 헬퍼 (v0.32.2)."
-        ),
-    )
-    bdm.add_argument("props_path", help="원본 props JSON 경로 (예: remotion/demo_props.json)")
-    bdm.add_argument(
-        "--backend",
-        choices=list(_tts_backend_choices()),
-        default="elevenlabs",
-        help="TTS 백엔드 (기본: elevenlabs).",
-    )
-    bdm.add_argument("--voice", default=None, help="백엔드별 voice id 오버라이드(선택).")
-    bdm.add_argument(
-        "--audio-subdir",
-        default="demo_audio",
-        help="props 와 같은 디렉토리 아래 만들 wav 폴더(기본 demo_audio).",
-    )
+    # v2.0.0 삭제된 옛 영상 경로 — 서브커맨드는 남겨 시끄럽게 실패시킨다 (docs/handoff/15 P6).
+    for legacy_cmd, arg_name in (
+        ("build-scene", "project_id"),
+        ("render-debug", "project_id"),
+        ("build-audio", "project_id"),
+        ("build-audio-demo", "props_path"),
+    ):
+        lp = sub.add_parser(legacy_cmd, help="[삭제됨 v2.0.0] LegacyRemovedError — docs/handoff/16 §4")
+        lp.add_argument(arg_name)
+        lp.add_argument("legacy_args", nargs=argparse.REMAINDER, help=argparse.SUPPRESS)
 
     lsc = sub.add_parser(
         "lint-script",
@@ -414,17 +342,8 @@ def main(argv: list[str] | None = None) -> int:
     if args.cmd == "build-script":
         return _cmd_build_script(args)
 
-    if args.cmd == "build-scene":
-        return _cmd_build_scene(args)
-
-    if args.cmd == "render-debug":
-        return _cmd_render_debug(args)
-
-    if args.cmd == "build-audio":
-        return _cmd_build_audio(args)
-
-    if args.cmd == "build-audio-demo":
-        return _cmd_build_audio_demo(args)
+    if args.cmd in ("build-scene", "render-debug", "build-audio", "build-audio-demo"):
+        raise LegacyRemovedError(args.cmd)
 
     if args.cmd == "lint-script":
         return _cmd_lint_script(args)
@@ -838,279 +757,6 @@ def _cmd_lint_script(args: argparse.Namespace) -> int:
     return 1 if args.strict else 0
 
 
-def _cmd_build_scene(args: argparse.Namespace) -> int:
-    """build-scene: full_script → scene_manifest.json (결정론적) + 상태 전이 (V2).
-
-    scene_builder 는 순수 함수, scene_io 가 I/O. LLM 미사용. precondition 은
-    script_writing 이며, 수직 슬라이스라 script_review(Gate 4)를 통과만 하고
-    scene_planning 에 안착한다. 영속화 성공 후에만 전이.
-    """
-    from orchestrator.project_manager import validate_project_id
-    from orchestrator.scene_io import build_and_persist_scene_manifest
-
-    try:
-        validate_project_id(args.project_id)
-    except ValueError as e:
-        print(f"error: {e}", file=sys.stderr)
-        return 1
-
-    try:
-        manifest = resume_project(args.project_id)
-    except FileNotFoundError as e:
-        print(f"error: {e}", file=sys.stderr)
-        return 1
-
-    current_str = (
-        manifest.current_state.value
-        if hasattr(manifest.current_state, "value")
-        else manifest.current_state
-    )
-    if current_str != ProjectState.SCRIPT_WRITING.value:
-        print(
-            f"error: 현재 상태 '{current_str}' 에서는 build-scene 을 실행할 수 없습니다. "
-            f"(허용: script_writing)",
-            file=sys.stderr,
-        )
-        return 2
-
-    try:
-        scene_manifest = build_and_persist_scene_manifest(args.project_id)
-    except FileNotFoundError as e:
-        print(f"error: {e}", file=sys.stderr)
-        return 1
-    except (json.JSONDecodeError, ValueError, OSError) as e:
-        print(f"error: scene_manifest 빌드/영속화 실패 — {e}", file=sys.stderr)
-        return 1
-
-    # script_review(Gate 4)를 통과만 하고 scene_planning 안착 (수직 슬라이스: gate 흡수).
-    try:
-        manifest = transition_state(
-            manifest, ProjectState.SCRIPT_REVIEW, reason="script_review 흡수 (수직 슬라이스)",
-        )
-        manifest = transition_state(
-            manifest, ProjectState.SCENE_PLANNING, reason="scene_manifest 생성",
-        )
-    except ValueError as e:
-        print(f"warning: 상태 전이 실패 — {e}", file=sys.stderr)
-        return 2
-
-    print(f"build-scene 완료: {args.project_id}")
-    print(f"saved   : {manifest_scene_path(args.project_id) / 'scene_manifest.json'}")
-    print(f"scenes  : {len(scene_manifest.scenes)}")
-    _print_manifest_summary(manifest)
-    return 0
-
-
-def _cmd_build_audio(args: argparse.Namespace) -> int:
-    """build-audio: full_script → 나레이션 wav + audio_manifest.json (V4).
-
-    TTS 백엔드 교체 가능(local/elevenlabs/stub). state 전이 없는 산출물 생성(재생성 가능).
-    full_script 가 있어야 한다.
-    """
-    from orchestrator.audio_io import audio_manifest_path
-    from orchestrator.audio_service import build_audio
-    from orchestrator.project_manager import validate_project_id
-    from workers.tts_backends import TTSError
-
-    try:
-        validate_project_id(args.project_id)
-    except ValueError as e:
-        print(f"error: {e}", file=sys.stderr)
-        return 1
-
-    try:
-        manifest = build_audio(
-            args.project_id, backend=args.backend, voice=args.voice
-        )
-    except FileNotFoundError as e:
-        print(f"error: {e} (먼저 build-script 로 full_script 를 만드십시오)", file=sys.stderr)
-        return 1
-    except TTSError as e:
-        print(f"error: TTS 실패 — {e}", file=sys.stderr)
-        return 1
-    except (ValueError, OSError) as e:
-        print(f"error: audio 빌드/영속화 실패 — {e}", file=sys.stderr)
-        return 1
-
-    print(f"build-audio 완료: {args.project_id} (backend={args.backend})")
-    print(f"saved   : {audio_manifest_path(args.project_id)}")
-    print(
-        f"segments: {len(manifest.segments)}  "
-        f"total   : {manifest.total_duration_sec:.1f}s "
-        f"({manifest.total_duration_sec / 60:.2f} min)"
-    )
-    return 0
-
-
-def _detect_headless_shell() -> str | None:
-    """chrome-headless-shell 바이너리 자동탐지 (RENDER-AP-001).
-
-    Remotion 이 자체 다운로드를 못 하는 환경(네트워크 allowlist)에서, 머신에 이미
-    있는 headless-shell 을 찾아 `--browser-executable` 로 넘기기 위함. full chrome 가
-    아니라 headless_shell 만 채택한다 (full chrome 는 Remotion 의 old-headless 요구를
-    충족 못 해 launch 실패). 못 찾으면 None — 호출자가 다운로드/안내로 폴백.
-    """
-    import glob
-
-    patterns = [
-        # Playwright 가 설치한 chromium headless shell.
-        "/opt/pw-browsers/chromium_headless_shell-*/chrome-linux/headless_shell",
-        str(Path.home() / ".cache/ms-playwright/chromium_headless_shell-*/chrome-linux/headless_shell"),
-        # Puppeteer chrome-headless-shell.
-        str(Path.home() / ".cache/puppeteer/chrome-headless-shell/*/*/chrome-headless-shell"),
-    ]
-    for pat in patterns:
-        matches = sorted(glob.glob(pat))
-        if matches:
-            return matches[-1]  # 최신(정렬 마지막) 채택.
-    return None
-
-
-def _cmd_build_audio_demo(args: argparse.Namespace) -> int:
-    """build-audio-demo: props 한 파일 → 음성 + 동기화된 props (state 머신 없음).
-
-    v0.32.2. project state / full_script / project_dir 없이 동작. 사용자가 데모만
-    빠르게 보고 싶을 때.
-    """
-    from orchestrator.audio_demo import build_audio_demo
-    from workers.tts_backends import TTSError
-
-    props_path = Path(args.props_path).resolve()
-    try:
-        build_audio_demo(
-            props_path,
-            backend=args.backend,
-            voice=args.voice,
-            audio_subdir=args.audio_subdir,
-        )
-    except FileNotFoundError as e:
-        print(f"error: {e}", file=sys.stderr)
-        return 1
-    except TTSError as e:
-        print(f"error: TTS 실패 — {e}", file=sys.stderr)
-        return 1
-    except (ValueError, OSError, json.JSONDecodeError) as e:
-        print(f"error: demo audio 빌드 실패 — {e}", file=sys.stderr)
-        return 1
-    return 0
-
-
-def _cmd_render_debug(args: argparse.Namespace) -> int:
-    """render-debug: scene_manifest+full_script → render_props.json → Remotion mp4 (V3).
-
-    수직 슬라이스의 최소 렌더(미리보기). precondition 은 scene_planning 이상이면
-    충분하나(scene_manifest 존재), 단순히 scene_manifest/full_script 존재로 판정한다.
-    상태 전이는 하지 않는다 — 현재 scene_manifest 로부터 언제든 다시 뽑는 미리보기.
-
-    1. render_props.json 생성 (build_and_persist_render_props).
-    2. --props-only 면 종료. 아니면 remotion/ 에서 `npx remotion render` 호출.
-    """
-    import os
-    import shutil
-    import subprocess
-
-    from orchestrator.config import REPO_ROOT
-    from orchestrator.project_manager import validate_project_id
-    from orchestrator.render_io import (
-        build_and_persist_render_props,
-        draft_debug_path,
-        render_props_path,
-    )
-
-    try:
-        validate_project_id(args.project_id)
-    except ValueError as e:
-        print(f"error: {e}", file=sys.stderr)
-        return 1
-
-    try:
-        props, props_path = build_and_persist_render_props(args.project_id)
-    except FileNotFoundError as e:
-        print(f"error: {e} (먼저 build-scene 으로 scene_manifest 를 만드십시오)", file=sys.stderr)
-        return 1
-    except (json.JSONDecodeError, ValueError, OSError) as e:
-        print(f"error: render_props 빌드/영속화 실패 — {e}", file=sys.stderr)
-        return 1
-
-    print(f"render_props 생성: {props_path} (scenes={len(props.scenes)})")
-
-    if args.props_only:
-        print("--props-only: Remotion 렌더 건너뜀.")
-        return 0
-
-    remotion_dir = REPO_ROOT / "remotion"
-    if not (remotion_dir / "node_modules").exists():
-        print(
-            f"error: remotion 의존성 미설치. 먼저:\n"
-            f"  cd {remotion_dir} && npm install\n"
-            f"그 뒤 render-debug 를 다시 실행하거나, render_props.json 으로 로컬에서 렌더하십시오.",
-            file=sys.stderr,
-        )
-        return 1
-
-    out_path = draft_debug_path(args.project_id)
-    out_path.parent.mkdir(parents=True, exist_ok=True)
-    # --public-dir 를 project_dir 로 두어 Briefing 의 staticFile(audioPath) 가 나레이션
-    # wav(08_audio/narration/*.wav)를 참조할 수 있게 한다 (V4b 오디오 트랙).
-    from orchestrator.config import project_dir as _pdir
-
-    public_dir = _pdir(args.project_id)
-
-    # Windows 에서 npx 는 npx.cmd(배치)라 subprocess 가 bare "npx" 를 못 찾는다
-    # (PATHEXT 미적용 → FileNotFoundError). shutil.which 로 실제 경로(npx.cmd 포함)를
-    # 해석하고, 배치(.cmd/.bat)면 cmd.exe 를 거쳐 실행한다.
-    npx = shutil.which("npx")
-    if npx is None:
-        print(
-            "error: npx 를 찾을 수 없습니다. Node.js(LTS) 설치 후 새 터미널에서 다시 시도.",
-            file=sys.stderr,
-        )
-        return 1
-
-    render_args = [
-        "remotion", "render", "src/index.ts", "Briefing",
-        str(out_path.resolve()),
-        f"--props={props_path.resolve()}",
-        f"--public-dir={public_dir.resolve()}",
-    ]
-    # RENDER-AP-001: Remotion 의 chromium headless-shell 자동 다운로드가 막힌 환경
-    # (네트워크 allowlist) 을 위해, 기존 chrome-headless-shell 바이너리를 가리킨다.
-    # 우선순위: --browser-executable 플래그 > OSINT_HEADLESS_SHELL 환경변수 > 자동탐지.
-    # full chrome 가 아니라 headless_shell(old headless 구현)이어야 한다 (full chrome 는
-    # old headless 미지원으로 launch 실패).
-    shell = args.browser_executable or os.environ.get("OSINT_HEADLESS_SHELL") or _detect_headless_shell()
-    if shell:
-        render_args.append(f"--browser-executable={shell}")
-
-    # 배치파일은 CreateProcess 로 직접 실행 불가 → cmd.exe /c 경유 (Windows).
-    if os.name == "nt" and npx.lower().endswith((".cmd", ".bat")):
-        cmd = ["cmd", "/c", npx, *render_args]
-    else:
-        cmd = [npx, *render_args]
-    print(f"렌더 시작: {' '.join(cmd)} (cwd={remotion_dir})")
-    try:
-        proc = subprocess.run(cmd, cwd=str(remotion_dir), timeout=1800)
-    except FileNotFoundError:
-        print("error: npx/node 를 찾을 수 없습니다. Node.js 설치 필요.", file=sys.stderr)
-        return 1
-    except subprocess.TimeoutExpired:
-        print("error: Remotion 렌더 타임아웃 (30분).", file=sys.stderr)
-        return 1
-    if proc.returncode != 0:
-        print(f"error: Remotion 렌더 실패 (exit {proc.returncode}).", file=sys.stderr)
-        return 1
-
-    print(f"render-debug 완료: {out_path}")
-    return 0
-
-
-def manifest_scene_path(project_id: str) -> Path:
-    """`projects/{pid}/06_scene/` 디렉토리."""
-    from orchestrator.config import project_dir as _pdir
-
-    return _pdir(project_id) / "06_scene"
-
-
 def manifest_sources_path(project_id: str) -> Path:
     """`projects/{pid}/02_sources/` 디렉토리."""
     from orchestrator.config import project_dir as _pdir
@@ -1126,4 +772,8 @@ def manifest_intake_path(project_id: str) -> Path:
 
 
 if __name__ == "__main__":
-    sys.exit(main())
+    try:
+        sys.exit(main())
+    except LegacyRemovedError as e:
+        print(f"error: {e}", file=sys.stderr)
+        sys.exit(3)
