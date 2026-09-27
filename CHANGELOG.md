@@ -28,6 +28,13 @@ released 항목은 **append-only**입니다.
 
 ---
 
+## [v2.2.0] — 2026-09-27 — Phase 3: 지오 일반화 (back_and_forth D-0015, 진행 중)
+
+### Added
+- (진행 중) `geo/` — prep_geometry·prep_tiers·prep CLI, 프로젝트 `geo.yaml`, `projects/taiwan_strait/`.
+
+---
+
 ## [v2.1.0] — 2026-09-27 — Phase 2: 모듈 분해와 계약 (back_and_forth D-0010)
 
 ### Added
