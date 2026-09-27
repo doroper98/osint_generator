@@ -1,9 +1,9 @@
 <!--
 tier: 1
-last_synced_with: v0.3.3
+last_synced_with: v2.0.0
 ssot_for: [project-entry-point]
 depends_on: [GOAL.md, CLAUDE.md, DOCS_GOVERNANCE.md, docs/02_SYSTEM_ARCHITECTURE.md]
-last_review: 2026-05-19
+last_review: 2026-09-27
 -->
 
 # longform-briefing-pipeline
@@ -11,7 +11,7 @@ last_review: 2026-05-19
 OSINT 기반 세계 이슈 롱폼 브리핑 영상 제작 시스템.
 
 본 저장소는 단순 영상 생성기가 아닙니다. 사용자의 주제 지시 한 줄을 받아
-**리서치 → 대본 → scene 설계 → 자산 수집 → TTS·BGM → Remotion 렌더 → 썸네일 → 업로드 메타데이터**
+**리서치 → 원고 → 음성 타임라인 → 자산 → AI 연출 → 시각 검수 → 지도 중심 다큐 엔진(engine/) 렌더 → 오디오 → 전달**
 까지 자동화하는 **반복 가능·추적 가능·검수 가능** 한 파이프라인입니다.
 
 ## 핵심 원칙
@@ -20,7 +20,7 @@ OSINT 기반 세계 이슈 롱폼 브리핑 영상 제작 시스템.
 2. **JSON 계약 중심.** 모든 산출물은 Pydantic 모델로 검증된 JSON으로 흐릅니다.
 3. **Dynamic Intake.** 주제별로 필요한 자료가 달라지므로 입력 폼을 동적으로 생성합니다.
 4. **방식 B Command Center.** 단일 Textual TUI 안에 Orch CLI, Job Dashboard, Worker Slot이 모두 모입니다.
-5. **Pre-production Debug Layer.** `draft_debug.mp4`에만 표시되는 디버그 오버레이로 scene 품질을 추적합니다.
+5. **Pre-production Debug Layer.** `draft_debug.mp4`에만 표시되는 디버그 오버레이로 scene 품질을 추적합니다. **[deprecated v2.0.0 — 프리뷰 컨택트 시트·결정적 검사로 대체, docs/handoff/17]**
 6. **승인 게이트.** Intake / Source / Blueprint / Script / Scene / Draft / Thumbnail / Final 9개 Review Gate를 통과해야 합니다.
 
 ## Quick Start
@@ -46,6 +46,7 @@ run_pipeline.bat                # Windows
 
 | 목적 | 문서 |
 |---|---|
+| **v2 개편 인계 문서 (영상 기준 정본)** | [docs/handoff/00_INDEX.md](docs/handoff/00_INDEX.md) |
 | 무엇을 만드는지 | [GOAL.md](GOAL.md) |
 | 어떤 규칙으로 만드는지 | [CLAUDE.md](CLAUDE.md) |
 | 문서 거버넌스 | [DOCS_GOVERNANCE.md](DOCS_GOVERNANCE.md) |
@@ -100,7 +101,7 @@ Private 저장소이므로 페이지가 GitHub API 를 호출하려면 사용자
 | 6. Research / Script / Scene | ⬜ |
 | 7. Media Workers | ⬜ |
 | 8. TTS / Music | ⬜ |
-| 9. Remotion Rendering | ⬜ |
+| 9. Remotion Rendering **[deprecated v2.0.0 — docs/handoff/13·19의 Phase 표가 정본]** | ⬜ |
 | 10. Thumbnail System | ⬜ |
 | 11. Review Dashboard / Publish | ⬜ |
 

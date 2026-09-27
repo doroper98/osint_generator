@@ -1,9 +1,9 @@
 <!--
 tier: 1
-last_synced_with: v1.2.1
+last_synced_with: v2.0.0
 ssot_for: [session-handoff]
-depends_on: [CLAUDE.md, GOAL.md, VERSION, docs/13_IMPLEMENTATION_ROADMAP.md, docs/PROFESSIONAL_REBUILD_PLAN.md]
-last_review: 2026-06-05
+depends_on: [CLAUDE.md, GOAL.md, VERSION, docs/13_IMPLEMENTATION_ROADMAP.md, docs/handoff/KICKOFF_PROMPT.md, docs/handoff/19_FABLE_ANALYSIS_AND_OPUS_EXECUTION_PLAN.md]
+last_review: 2026-09-27
 -->
 
 # HANDOFF — 다음 세션 AI 인계 문서
@@ -13,7 +13,25 @@ last_review: 2026-06-05
 
 ---
 
-## ⏳ 다음 할 일 (사용자가 명시적으로 보류 — 까먹지 말고 먼저 상기시킬 것)
+## ⏳ 다음 할 일 — v2 전면 개편 진행 중 (v2.0.0~)
+
+> **작업 브랜치: `overhaul/v2-map-engine`** (collage 분기, 사용자 승인 D1). main 머지는 Phase 1 통과 후
+> ff-only (DECISIONS M1). PR 생성 금지(C8.5).
+>
+> - 착수 문서: `docs/handoff/KICKOFF_PROMPT.md` (사용자 원문) → `docs/handoff/OPUS_KICKOFF_PROMPT.md`
+> - 실행 계획·판정: `docs/handoff/19_FABLE_ANALYSIS_AND_OPUS_EXECUTION_PLAN.md`, 결정 기록 `docs/handoff/DECISIONS.md`
+> - 필독: `docs/handoff/15_ANTI_INERTIA_PRINCIPLES.md` (CLAUDE.md C11)
+> - **현재 Phase: 0 (관성 차단, v2.0.0)**. 각 Phase 끝에 멈추고 보고 → 사용자 승인 후 다음 Phase.
+> - 결정 대기: D4(GOAL G3 개정안), D5(제한 휘장), D7(agents_reviewer 스키마), D9(Phase 1 실행 위치).
+>   확정: D1·D2·D3·D6·D8·M1 (`docs/handoff/DECISIONS.md`).
+
+---
+
+## [보관] 쇼츠 콜라주 핸드오프 (v1.0.5~1.2.1, archive 브랜치)
+
+> v2.0.0에서 쇼츠 트랙은 보관으로 전환됐다(GOAL G5). 코드는 `archive/hyperframes-briefing` 브랜치에
+> 남아 있다. 아래는 이력 보존용 원문이며 현행 작업 지시가 아니다.
+
 
 > ## 🔥 [v1.0.5 — 2026-08-15] 쇼츠 × 콜라주 전면 개편 핸드오프 (현행 최우선 작업)
 >

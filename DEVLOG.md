@@ -1,6 +1,6 @@
 <!--
 tier: 3
-last_synced_with: v1.2.2
+last_synced_with: v2.0.0
 ssot_for: [development-log]
 depends_on: [CHANGELOG.md]
 last_review: 2026-06-06
@@ -24,6 +24,18 @@ last_review: 2026-06-06
 ```
 
 ---
+
+## 2026-09-27 v2.0.0 — Phase 0 착수: 헌법 개정(영상 기준 → docs/handoff, 관성 방지 C11)
+
+- **무엇을**: CLAUDE.md C0/C0.1/C11, GOAL.md G0/G1/G3 배너/G4-13~20/G5/G7, HANDOFF 다음 할 일, README
+  진입점, `tools/check_env.py` 신설.
+- **왜**: `docs/handoff/15` P7 — 헌법에 옛 영상 기준이 남아 있으면 새 기능이 "규칙 위반"으로 되돌려진다.
+  개편 첫 커밋은 헌법부터 바꾼다.
+- **어떻게**: `docs/handoff/19` §5.1 명세 그대로. GOAL은 삭제 금지 규정(DOCS_GOVERNANCE)에 따라 옛 항목을
+  `[deprecated v2.0.0]`으로 마킹만 했다. G3 개정안(19 부록 C)은 D4 사용자 승인 대기.
+- **결과**: 기준선 pytest 438 passed(87 subtests). check_env: 이 클라우드 컨테이너는 pycairo·shapely·
+  scipy·edge-tts·cairosvg·fonttools·rembg·폰트 4종 누락(exit 1) — Phase 1 전에 해결 필요(D9).
+- **연관**: docs/handoff/15, docs/handoff/19 §5.1
 
 ## 2026-09-27 v1.2.2 — v2 전면 개편 착수: overhaul/v2-map-engine 분기 + 핸드오프 반영 + LLM 모델 고정
 

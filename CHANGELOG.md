@@ -1,6 +1,6 @@
 <!--
 tier: 3
-last_synced_with: v1.2.2
+last_synced_with: v2.0.0
 ssot_for: [release-notes]
 depends_on: [README.md, GOAL.md]
 last_review: 2026-06-11
@@ -25,6 +25,21 @@ released 항목은 **append-only**입니다.
 
 ### Fixed
 -
+
+---
+
+## [v2.0.0] — 2026-09-27 — **Phase 0: 관성 차단 (v2 전면 개편, MAJOR)**
+
+### Changed
+- **영상 기준 전면 교체 — 헌법 개정.** `CLAUDE.md` C0 영상 기준을 `docs/handoff/` 참조로 교체하고
+  되돌리면 안 되는 목록을 명시. C0.1 "byte-equal 비적용", C11 "관성 방지 규칙(P1~P12)" 신설.
+  `GOAL.md` G0 교체, G1 산출물 표 v2로 교체(옛 항목 deprecated), G3에 legacy 배너(개정안은 사용자
+  승인 대기), G4-13~20 신설(고정 막·모서리 HUD·도장·비네팅·줌 범프·동시 관계선·상투 문구·발음 기호·
+  옛 스타일 폴백 금지), G5 비목표에 쇼츠·텔레그램·자동 업로드, G7 "영상 기준 정본" 신설.
+- `HANDOFF.md` 다음 할 일을 v2 개편 블록으로 교체, 쇼츠 핸드오프는 [보관] 절로 이동.
+
+### Added
+- `tools/check_env.py` — v2 엔진 실행 환경 점검(파이썬·ffmpeg·fc-list·모듈 12종·폰트 4종·디스크).
 
 ---
 
