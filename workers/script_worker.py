@@ -22,7 +22,7 @@ from __future__ import annotations
 import argparse
 import json
 from pathlib import Path
-from typing import ClassVar, Type
+from typing import ClassVar, Literal, Type
 
 from orchestrator.script_io import full_script_path
 from schemas.models import (
@@ -143,9 +143,9 @@ class ScriptWorker(BaseLLMWorker):
     llm_mode: ClassVar[str] = "response"
     system_prompt: ClassVar[str] = _SYSTEM_PROMPT_TEMPLATE
     response_model: ClassVar[Type[VersionedModel]] = FullScript
-    # 5분 대본(다세그먼트) 1-shot 생성은 claude 의 think 시간이 길어 기본 600초를 넘기는
-    # 경우가 관측됨(실측 526초 성공 / 600초 타임아웃). 긴 생성 전용으로 한도를 올린다.
-    invoke_timeout_sec: ClassVar[int] = 1200
+    # 긴 원고 1-shot 생성은 기본 타임아웃을 넘기는 경우가 관측됨(실측 526초 성공 / 600초
+    # 타임아웃). 값은 config.yaml `llm.script_timeout_sec` (v2.0.0 SSOT).
+    invoke_timeout_key: ClassVar[Literal["invoke_timeout_sec", "script_timeout_sec"]] = "script_timeout_sec"
 
     def build_user_prompt(self, args: argparse.Namespace, task: TaskQueueItem) -> str:
         """ProjectManifest + research_dossier.json 을 읽어 user prompt 를 구성.

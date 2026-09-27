@@ -28,6 +28,8 @@ from abc import ABC, abstractmethod
 from pathlib import Path
 from typing import Optional
 
+from orchestrator.config import load_config
+
 
 # 한국어 나레이션 대략 분당 320자 (script_worker 프롬프트 가정과 동일) → 초당 ≈ 5.33자.
 CHARS_PER_SEC: float = 320.0 / 60.0
@@ -149,7 +151,6 @@ class LocalTTSBackend(TTSBackend):
     """
 
     name = "local"
-    invoke_timeout_sec = 600
 
     def synthesize(self, text: str, out_path: Path, voice: Optional[str]) -> float:
         template = os.environ.get("OSINT_TTS_CMD")
@@ -172,7 +173,7 @@ class LocalTTSBackend(TTSBackend):
         try:
             proc = subprocess.run(
                 cmd, capture_output=True, text=True,
-                timeout=self.invoke_timeout_sec, check=False,
+                timeout=load_config().tts.local_invoke_timeout_sec, check=False,
             )
         except FileNotFoundError as e:
             raise TTSError(f"local TTS 명령 실행 불가: {e}") from e
@@ -239,7 +240,8 @@ class ElevenLabsTTSBackend(TTSBackend):
 
         base = self._base_url()
         voice_id = self._resolve_voice(voice)
-        model_id = (os.environ.get("ELEVENLABS_MODEL_ID") or "eleven_multilingual_v2").strip()
+        tts_cfg = load_config().tts
+        model_id = (os.environ.get(tts_cfg.eleven_model_env) or tts_cfg.eleven_model_default).strip()
 
         fmt = self._output_format()
         url = f"{base}/v1/text-to-speech/{voice_id}"

@@ -1,0 +1,173 @@
+# rules/video_rules.yaml — 영상 규칙 SSOT (docs/handoff/15 §3 P3). 코드·프롬프트·린트·검증기가 모두 이 파일을 읽는다.
+# 수치의 출처는 docs/handoff/{03,05,08,09,14}. 사용자 합격 값이므로 근거 없이 바꾸지 않는다.
+schema_version: 1
+rules_version: "2.0.0"
+
+banned_phrases:            # 03 §2 — 정규식, 자막 텍스트에 적용. 하나라도 맞으면 린트 실패
+  patterns:
+    - '가지.{0,8}(화살|문제|흐름).{0,12}모인다'
+    - '한\s?번에 흔들'
+    - '세\s?겹'
+    - '방향을 정한다'
+    - '같은 자리로 돌아'
+    - '로 읽으면'
+    - '승부는'
+    - '진짜 뉴스'
+    - '계약서에'
+    - '서 있는 자리'
+    - '만 보면'
+    - '로 읽힌다'
+    - '말하지 않는 것'
+    - '이것이 바로'
+    - '핵심은 .{0,10}(이다|입니다)$'
+  candidates:              # 03 §2.1 추가 후보 — 사람 승인 후 patterns로 승격
+    - '결국 .{0,12}의 문제다'
+    - '의 시대가 열렸다'
+    - '판이 바뀌었다'
+    - '게임 체인저'
+    - '라는 질문이 남는다'
+    - '시장은 .{0,12}(을|를) 주목하고 있다'   # 20 §7 경제 해설 상투어 후보
+    - '의 향방이 관건'
+    - '촉각을 곤두세우'
+  defect_classes:          # 새 문구 판단 기준(프롬프트 머리말에 삽입)
+    - 수렴 은유
+    - 과장된 동시성
+    - 숫자 겹 은유
+    - 예언형 결론
+    - 회귀 수사
+    - 해석 강요
+    - 가짜 대구
+    - 진짜 이유류 메타 발언
+
+balance_principles:        # 03 §3 — 프롬프트 공통 머리말
+  - 모든 수치에 출처(매체·날짜). 화면 카드에는 src 줄.
+  - 주장은 귀속한다(밝혔습니다/보도했습니다).
+  - 논쟁 사안은 양쪽을 같은 무게로, 출처와 함께.
+  - 추정은 "추정"으로 표시. 출처 없는 차트는 "추정 · 출처 미기재" 태그.
+  - 마무리는 예언 대신 미정 사실.
+
+script_schema:             # 02 §2.1 요약 — 프롬프트 예시는 tests/anti_inertia/test_prompt_schema_parity 로 검증
+  sentence_fields: [date, text, tts, emphasis, sources, media]
+  date_formats: ["YYYY", "YYYY.MM", "YYYY.MM.DD"]
+  subtitle_max_lines: 2
+  subtitle_wrap_px_480p: 700
+  scene_count: free        # 고정 막 금지(G4-13)
+  duration_limit_sec: null # 길이 제한 없음
+
+tts_rules:                 # 03 §4·§5
+  forbidden_chars_regex: '[0-9%~/:→()\[\]]'
+  sino_numbers_no_inner_space: true       # TTS-AP-058
+  native_count_units: [개, 명, 번, 살, 회]  # 고유어 수사
+  sino_count_units: [개월, 건, 년, 원, 달러, 배럴, 척, 퍼센트]
+  month_readings: {"6월": "유월", "10월": "시월"}
+  abbreviation_policy: korean_expansion   # CENTCOM → 미군 중부사령부
+  decimal_policy: repo_jjeom_no_space     # D6 확정(DECISIONS.md): 저장소 정책 "십삼쩜일"(TTS-AP-059) 유지, ElevenLabs 청취 후 최종 확정
+  emphasis_must_be_substring: true
+
+shot_grammar:              # 05 §2
+  camera_moves_per_scene_max: 1
+  shot_min_hold_sec: 6.0
+  move_dur_sec: [2.6, 3.4]
+  move_lead_sec: [0.6, 1.2]
+  dip_total_sec: 1.0
+  dip_max_per_sec: 90      # 90초당 1회 이하
+  dip_alpha_peak: 0.93
+  zoom_bump: false
+  drift: {amount: 0.03, tau_sec: 9.0}
+  ending_pullback: {w_from: 88, w_to: 96, dur_sec: 9.0}
+  auto_transition: {dip_if_dist_over_w: 2.5, dip_if_w_ratio_over: 6.0}
+  w_guide: {continental_route: [88, 96], ocean: [60, 72], region: [20, 30], strait: [12, 16], country: [6, 8], metro: [3, 5], city: 2.5}
+
+media_beats:               # 14 §10
+  per_runtime_sec: [40, 60]
+  per_scene_max: 1
+  article_card_exempt: true
+  no_consecutive_same_kind: true
+  kinds: [photo, clip, cutout, article, post]
+  photo_show_sec: [4, 8]
+  clip_show_sec: [3, 6]
+  file_photo_label_required: true         # "자료사진 · 연월"
+  caption_credit_required: true
+  ai_generated_forbidden: true            # G4-10, 14 §2.2
+  casualty_identifiable_forbidden: true
+
+hud:                       # 09 §5 — 모서리에는 날짜만
+  allowed_corner_elements: [date_badge]
+  forbidden_components: [brand_mark, section_number, section_title, stamp, vignette, scrubber, chapter_number]
+  date_badge: {font: mono, size: 15, x_right: 26, y: 40, underline_y: 48, underline_w: 1.4, slide_px: 6, slide_sec: 0.45}
+
+layout_480p:               # 09 §2·§4, 08 §10 — 기준 해상도 854×480. 다른 해상도는 k = H/480
+  base: {w: 854, h: 480, fps: 24}
+  subtitle: {size: 19, last_line_y: 452, line_gap: 26, halo: 5.0, halo_alpha: 0.92, emphasis_color: gold}
+  min_font_px: 9.5         # 화면 높이 2% 규칙(엔딩 카드 예외)
+  title_card: {dur_sec: 5.6, title_size: 46, subtitle_size: 18, rule_w: 220}
+  end_card: {dur_sec: 11.0, item_size: 9.2, license_size: 7.8}
+  card: {x_right_margin: 24, y: 70, min_w: 230, slide_px: 30, fade_sec: 0.45, big_size: 30, line_size: 13, tag_size: 10.5, src_size: 9.5}
+  article_card: {w: 300, y: 68}
+  panel: {cover_alpha: 0.8, fade_sec: 0.6, title_size: 19, title_y: 74, subtitle_size: 11, subtitle_y: 96, min_screen_use: 0.7}
+  badge: {R_person_map: [30, 34], R_person_panel: 36, R_flag: [17, 24], reserve_top_factor: 2.2, reserve_bottom_px: 44, popin_sec: 0.55}
+  timeline_gaps: {gap_sec: 0.5, scene_gap_sec: 1.0, lead_sec: 1.2, title_after_cold_open: true}
+  fade: {in_sec: 1.2, out_sec: 1.6}
+  reserved_zones: {card: {x_from_right: 260, y: [70, 200]}, subtitle: {y_from: 410}}
+
+colors:                    # 09 §7
+  ru: "#ff5566"
+  us: "#5aa9ff"
+  gold: "#e8b860"
+  teal: "#5cc8da"
+  green: "#8fd08a"
+  muted: "#a9b0bd"
+  amber: "#ffb347"
+  sea_label: "#9cc8e6"
+  panel_cover: [0.025, 0.03, 0.045, 0.8]
+  card_bg: [0.05, 0.06, 0.09, 0.86]
+  panel_card_bg: [0.07, 0.08, 0.12, 0.92]
+
+fonts:                     # 09 §1
+  sans: "IBM Plex Sans KR"
+  serif: "Noto Serif CJK KR"
+  display: "GmarketSans"
+  mono: "IBM Plex Mono"
+  mono_hangul_fallback: sans
+  display_space_advance: 0.3
+
+labels:                    # 04 §6·§7
+  border_lod_w: 22
+  admin1_fade_w: [24, 14]
+  province_w_max: 8.5
+  city_max_per_frame: 18
+  country_rank_thr: {60: 2, 30: 4, 12: 6, 0: 9}
+  city_rank_thr: {60: 1, 25: 2, 12: 4, 5: 6, 0: 8}
+
+registries:                # 15 §3 P10 — 여기 없는 타입을 연출이 쓰면 오류, 있는데 렌더러가 없으면 오류
+  event_types: [marker, route, tanker_loop, barrier, ships, boom, country, badge, card, panel, dip, photo, clip, cutout, article, post]
+  event_types_planned: [occupied, arc, channel, shield, tl, particles, flash, dots, movers, line, arrow]   # v1/v2 이식 후보(미구현 = 사용 불가)
+  panel_kinds: [refusal, statement, timeline, precedent, versus]
+  panel_kinds_planned: [dots, gantt, dual_line, fork, checklist, network]
+  badge_kinds: [person, flag, emblem]
+  accents: [gold, us, ru, teal, muted, green, amber]
+
+audio:                     # 10
+  bed_gain: 0.47
+  duck_depth: 0.5
+  duck_pre_sec: 0.25
+  duck_post_sec: 0.3
+  duck_smooth_sec: 0.35
+  narration_peak: 0.8
+  master_peak: 0.97
+  loudnorm: {I: -14, TP: -1.5, LRA: 11}
+  sfx_policy: events_and_scene_starts_only
+
+qa_checks:                 # 17 §3 — 결정적 사전 검사 임계
+  overlap_core_elements: 0
+  offscreen_clip: 0
+  missing_glyphs: 0
+  labels_per_frame_max: 18
+  subtitle_lines_max: 2
+  rights_missing: 0
+  forbidden_components: 0
+  visual_qa_loop_max: 2
+
+provenance:                # 15 §3 P5
+  required_keys: [engine, rules_hash, prompts, features_used, qa, drops]
+  fail_if_drops: true

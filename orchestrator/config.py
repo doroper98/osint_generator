@@ -45,11 +45,58 @@ class PathsConfig(BaseModel):
 
 
 class LLMConfig(BaseModel):
-    """구독 LLM 브리지 설정 (v0.43.5). model 은 `claude -p --model` 에 그대로 전달."""
+    """구독 LLM 브리지 설정 (v0.43.5, v2.0.0 확장). model 은 `claude -p --model` 에 그대로 전달.
 
-    model_config = ConfigDict(extra="ignore")
+    extra="forbid" — config.yaml 오타·미지 키를 조용히 무시하지 않는다 (docs/handoff/15 P6).
+    """
+
+    model_config = ConfigDict(extra="forbid")
 
     model: str = "claude-opus-5-5"
+    invoke_timeout_sec: int = 600
+    script_timeout_sec: int = 1200
+
+
+class EngineResolution(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+
+    width: int
+    height: int
+    fps: int
+
+
+class EngineConfig(BaseModel):
+    """새 엔진 렌더 설정 (v2.0.0, docs/handoff/19 §5.4)."""
+
+    model_config = ConfigDict(extra="forbid")
+
+    trial: EngineResolution = Field(default_factory=lambda: EngineResolution(width=854, height=480, fps=24))
+    final: EngineResolution = Field(default_factory=lambda: EngineResolution(width=1920, height=1080, fps=24))
+    jobs: int = 4
+    crf: int = 19
+
+
+class VoiceSettings(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+
+    stability: float = 0.65
+    similarity_boost: float = 0.8
+    style: float = 0.1
+
+
+class TTSConfig(BaseModel):
+    """TTS 설정 (v2.0.0). voice id·API 키는 .env 로만 (C9)."""
+
+    model_config = ConfigDict(extra="forbid")
+
+    backend_default: str = "elevenlabs"
+    edge_voice: str = "ko-KR-InJoonNeural"
+    edge_rate: str = "-3%"
+    edge_pitch: str = "-2Hz"
+    eleven_model_env: str = "ELEVENLABS_MODEL_ID"
+    eleven_model_default: str = "eleven_multilingual_v2"
+    voice_settings: VoiceSettings = Field(default_factory=VoiceSettings)
+    local_invoke_timeout_sec: int = 600
 
 
 class AppConfig(BaseModel):
@@ -59,8 +106,8 @@ class AppConfig(BaseModel):
     command_center: CommandCenterConfig = Field(default_factory=CommandCenterConfig)
     logging: LoggingConfig = Field(default_factory=LoggingConfig)
     paths: PathsConfig = Field(default_factory=PathsConfig)
-    render: dict[str, Any] = Field(default_factory=dict)
-    tts: dict[str, Any] = Field(default_factory=dict)
+    engine: EngineConfig = Field(default_factory=EngineConfig)
+    tts: TTSConfig = Field(default_factory=TTSConfig)
     llm: LLMConfig = Field(default_factory=LLMConfig)
     review_gates: dict[str, Any] = Field(default_factory=dict)
 

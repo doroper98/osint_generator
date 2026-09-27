@@ -217,7 +217,9 @@ class BaseLLMWorker(BaseWorker):
     llm_mode: ClassVar[Literal["response", "agent"]] = "response"
     system_prompt: ClassVar[str] = ""
     response_model: ClassVar[Type[VersionedModel]]
-    invoke_timeout_sec: ClassVar[int] = 600
+    # v2.0.0: 타임아웃 값은 config.yaml `llm.<키>` 한 곳에서 온다 (docs/handoff/15 P3).
+    # 하위 클래스는 키 이름만 바꾼다 (예: ScriptWorker → "script_timeout_sec").
+    invoke_timeout_key: ClassVar[Literal["invoke_timeout_sec", "script_timeout_sec"]] = "invoke_timeout_sec"
 
     # LLM-AP-003: agent 모드는 prompt injection 면적이 넓어 명시적 opt-in 강제.
     # 하위 클래스가 `llm_mode = "agent"` 를 쓰려면 동시에 `allow_agent_mode = True` 도 명시해야 함.
@@ -394,6 +396,10 @@ class BaseLLMWorker(BaseWorker):
     # CLI subprocess
     # -----------------------------------------------------------------
 
+    def invoke_timeout_sec(self) -> int:
+        """CLI 호출 타임아웃(초) — config.yaml `llm.{invoke_timeout_key}` (v2.0.0 SSOT)."""
+        return int(getattr(load_config().llm, self.invoke_timeout_key))
+
     def resolve_model(self) -> str:
         """이번 호출이 쓸 모델명. 인스턴스 override → config.yaml `llm.model` (v0.43.5)."""
         if self.llm_model:
@@ -496,12 +502,13 @@ class BaseLLMWorker(BaseWorker):
         neutral_cwd = Path(tempfile.gettempdir()) / "osint_llm_neutral_cwd"
         neutral_cwd.mkdir(parents=True, exist_ok=True)
 
+        timeout_sec = self.invoke_timeout_sec()
         try:
             proc = subprocess.run(
                 cmd,
                 capture_output=True,
                 text=True,
-                timeout=self.invoke_timeout_sec,
+                timeout=timeout_sec,
                 check=False,
                 cwd=str(neutral_cwd),
             )
@@ -520,7 +527,7 @@ class BaseLLMWorker(BaseWorker):
                 e.stderr.decode("utf-8", errors="replace") if e.stderr else ""
             )
             raise LLMSubprocessError(
-                f"{self.llm_backend} CLI timeout after {self.invoke_timeout_sec}s",
+                f"{self.llm_backend} CLI timeout after {timeout_sec}s",
                 stdout=partial_stdout,
                 stderr=partial_stderr,
                 exit_code=None,

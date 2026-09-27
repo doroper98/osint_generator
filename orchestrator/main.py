@@ -330,10 +330,21 @@ def _load_env_file() -> None:
     load_dotenv(env_path, override=False)
 
 
+def _dump_effective_config(cmd: str) -> None:
+    """서브커맨드 진입 시 유효 설정 1줄 덤프 (stderr, docs/handoff/19 §5.4 — agents_reviewer
+    V5_ACTIVATION §4 교훈: 설정이 실제로 무엇으로 로드됐는지 매 실행 증명)."""
+    from orchestrator.config import load_config
+    from rules import rules_hash
+
+    payload = {"cmd": cmd, "config": load_config().model_dump(mode="json"), "rules_hash": rules_hash()}
+    print("effective_config " + json.dumps(payload, ensure_ascii=False), file=sys.stderr)
+
+
 def main(argv: list[str] | None = None) -> int:
     _load_env_file()
     parser = build_parser()
     args = parser.parse_args(argv)
+    _dump_effective_config(args.cmd)
 
     if args.cmd == "version":
         print(f"orchestrator v{__version__}")

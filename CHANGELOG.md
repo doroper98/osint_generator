@@ -31,6 +31,7 @@ released 항목은 **append-only**입니다.
 ## [v2.0.0] — 2026-09-27 — **Phase 0: 관성 차단 (v2 전면 개편, MAJOR)**
 
 ### Changed
+- `config.yaml` 옛 `render:`(briefing/shorts profiles)·`tts.profiles`·미사용 tts 키 3종 제거(DECISIONS D14).
 - **영상 기준 전면 교체 — 헌법 개정.** `CLAUDE.md` C0 영상 기준을 `docs/handoff/` 참조로 교체하고
   되돌리면 안 되는 목록을 명시. C0.1 "byte-equal 비적용", C11 "관성 방지 규칙(P1~P12)" 신설.
   `GOAL.md` G0 교체, G1 산출물 표 v2로 교체(옛 항목 deprecated), G3에 legacy 배너(개정안은 사용자
@@ -42,6 +43,8 @@ released 항목은 **append-only**입니다.
 - `tools/check_env.py` — v2 엔진 실행 환경 점검(파이썬·ffmpeg·fc-list·모듈 12종·폰트 4종·디스크).
 - `docs/handoff/20_GENRE_EXTENSION_FREE_PRODUCTION.md` — 지정학이 아닌 주제의 자유 제작 규약(사용자 제공). 구현은 Phase 6.9 이후.
 - **`bundle/` 패키지** — `bundle_to_video.py`의 HTML·I/O 없는 텍스트 함수(`bundle/text.py`)와 차트 정규화 함수(`bundle/charts.py`)를 본문 무변경 이관. `norm_map` 계열은 제외(DECISIONS D11). 현재 출력 고정 테스트 `tests/test_bundle_text.py`(알려진 버그 `18개월`·`낮춘습니다` 포함 — Phase 4 수정).
+- **`rules/video_rules.yaml` — 영상 규칙 SSOT**(19 부록 A) + `rules.load_rules()`(Pydantic `VideoRules`, extra=forbid) + `rules_hash()`. `schemas/rules_models.py`.
+- `config.yaml` `engine:`(trial 854×480@24 / final 1920×1080@24), `llm.invoke_timeout_sec/script_timeout_sec`, `tts:`(ElevenLabs 모델·voice_settings·edge 음성). `EngineConfig`·`TTSConfig`·`LLMConfig` extra=forbid. 워커 타임아웃·ElevenLabs 모델 기본값을 config에서 읽음. 모든 서브커맨드 진입 시 stderr 에 `effective_config` 1줄.
 - 발음 사전 `assets/pronounce/pronounce_ko.json`(`tts_pronounce.DEFAULT_DICT_PATH`), 국기 SVG `assets/flags/legacy_svg/`로 이동.
 
 ---
