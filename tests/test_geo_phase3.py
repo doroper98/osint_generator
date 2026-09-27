@@ -13,7 +13,8 @@ from pathlib import Path
 
 from shapely.geometry import GeometryCollection, MultiPolygon, Point, box, shape
 
-from geo.prep import GeoConf
+from geo.prep import GeoConf, classify_miss
+from rules import load_rules
 from geo.prep_geometry import build_geo, parse_bbox, polys, rings
 from geo.prep_tiers import MERC_LAT_MAX, TierSpec, lonlat_to_tile, rasterize_land, tile_range
 
@@ -81,6 +82,11 @@ class CoverageTest(unittest.TestCase):
         H = int(round((ym(T.lat1) - ym(T.lat0)) * T.ppd))  # noqa: N806
         _, miss = rasterize_land(G, T, W, H)
         self.assertEqual(miss, ["MV"])
+        cls = classify_miss(miss, G, T.ppd)  # 임계는 rules geo.land_miss_allow_px2 (D29)
+        self.assertEqual((cls["small"], cls["drops"]), (["MV"], []))
+        self.assertLess(cls["px2"]["MV"], load_rules().geo.land_miss_allow_px2)
+        big = classify_miss(["LK"], G, T.ppd)  # 스리랑카 크기가 누락되면 허용되지 않는다
+        self.assertEqual(big["drops"], ["LK"])
 
 
 class CrimeaTest(unittest.TestCase):

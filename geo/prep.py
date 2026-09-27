@@ -4,7 +4,8 @@
 
 프로젝트 `geo.yaml`(권역·admin1 대상국·크림 재분류·티어)을 읽어 Natural Earth·지형 타일을 캐시(`data/geo/`)에
 받고(`tools/fetch_data.py`의 다운로드 재사용), 지오메트리와 티어를 만든다. 마지막 줄 StageResult JSON.
-land-miss(대표점이 육지로 칠해지지 않은 국가)는 `geo_report.json`에 남기고 drops 로 올린다.
+land-miss(대표점이 육지로 칠해지지 않은 국가)는 `geo_report.json`에 남긴다. 티어 픽셀 면적이
+`rules geo.land_miss_allow_px2` 미만이면 small(허용), 이상이면 drops 로 올려 ok=false(D29, P6).
 """
 
 from __future__ import annotations
@@ -21,6 +22,7 @@ from pydantic import BaseModel, ConfigDict, Field, field_validator
 
 from geo.prep_geometry import build_geo
 from geo.prep_tiers import TierSpec, build_tier, tier_record, tile_path, tile_range
+from rules import load_rules
 
 REPO = Path(__file__).resolve().parent.parent
 CACHE = REPO / "data" / "geo"
@@ -97,6 +99,14 @@ def ensure_tiles(tiles_dir: Path, T: TierSpec) -> int:  # noqa: N803
     return len(jobs)
 
 
+def classify_miss(miss: list[str], G: dict, ppd: int) -> dict:  # noqa: N803
+    """land-miss 를 small(허용)·drops 로 가른다 — 면적(deg²) × ppd² < rules geo.land_miss_allow_px2 (D29)."""
+    thr = load_rules().geo.land_miss_allow_px2
+    px2 = {k: round(float(G[k].area) * ppd * ppd, 2) for k in miss}
+    return dict(small=[k for k in miss if px2[k] < thr], drops=[k for k in miss if px2[k] >= thr], px2=px2,
+                allow_px2=thr)
+
+
 def prep(proj: Path, cache: Path = CACHE) -> dict:
     conf = load_conf(proj)
     ne_dir, tiles_dir, out = cache / "ne", cache / "tiles", proj / "assets"
@@ -110,7 +120,7 @@ def prep(proj: Path, cache: Path = CACHE) -> dict:
         n = ensure_tiles(tiles_dir, T)
         lv, miss = build_tier(T, G, tiles_dir, out)
         tiers[T.name] = tier_record(T, tiles_dir, lv)
-        report[T.name] = dict(tiles=n, levels=lv, land_miss=miss)
+        report[T.name] = dict(tiles=n, levels=lv, land_miss=classify_miss(miss, G, T.ppd))
     pickle.dump(tiers, open(out / "tiers.pkl", "wb"))
     rep = dict(schema_version=1, bbox=list(conf.bbox), countries=len(geo["coarse"]),
                admin1={k: len(v) for k, v in geo["admin1"].items()}, places=len(geo["places"]),
@@ -128,7 +138,8 @@ def main(argv: list[str] | None = None) -> int:
     proj = args.proj.resolve()
     try:
         rep = prep(proj)
-        drops = [dict(stage="geo", tier=n, land_miss=r["land_miss"]) for n, r in rep["tiers"].items() if r["land_miss"]]
+        drops = [dict(stage="geo", tier=n, land_miss=r["land_miss"]["drops"], px2=r["land_miss"]["px2"])
+                 for n, r in rep["tiers"].items() if r["land_miss"]["drops"]]
         res = StageResult(ok=not drops, stage="geo", artifacts={"assets": str(proj / "assets"),
                                                                 "report": str(proj / "assets" / "geo_report.json")},
                           drops=drops)

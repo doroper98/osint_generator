@@ -247,6 +247,10 @@ class LabelRules(_Strict):
     city_rank_thr: dict[int, int]
 
 
+class GeoRules(_Strict):
+    land_miss_allow_px2: float
+
+
 class Registries(_Strict):
     event_types: list[str]
     event_types_planned: list[str]
@@ -306,6 +310,7 @@ class VideoRules(_Strict):
     colors: Colors
     fonts: Fonts
     labels: LabelRules
+    geo: GeoRules
     registries: Registries
     audio: AudioRules
     qa_checks: QAChecks
