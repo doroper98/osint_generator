@@ -17,11 +17,15 @@ import pytest
 
 
 class NoSilentFallbackTest(unittest.TestCase):
-    @pytest.mark.xfail(strict=True, reason="Phase 2 — engine.registry.RegistryError 미구현")
     def test_a_unregistered_event_type(self) -> None:
         registry = importlib.import_module("engine.registry")
         with self.assertRaises(registry.RegistryError):  # type: ignore[attr-defined]
             registry.resolve("stamp")  # type: ignore[attr-defined]
+        with self.assertRaises(registry.RegistryError):  # type: ignore[attr-defined]
+            registry.validate_events([{"type": "stamp", "t0": 0.0, "t1": 1.0}])  # type: ignore[attr-defined]
+        # 계획(planned) 타입도 사용 불가(D26)
+        with self.assertRaises(registry.RegistryError):  # type: ignore[attr-defined]
+            registry.resolve("post")  # type: ignore[attr-defined]
 
     @pytest.mark.xfail(strict=True, reason="Phase 6.5 — engine.layers.media.RightsError 미구현")
     def test_b_media_without_rights(self) -> None:

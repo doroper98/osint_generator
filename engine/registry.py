@@ -85,8 +85,9 @@ def key_of(e: dict) -> str:
     return typ
 
 
-def resolve(e: dict) -> Entry:
-    key = key_of(e)
+def resolve(e: dict | str) -> Entry:
+    """이벤트(dict) 또는 레지스트리 키(str, 예: "marker", "panel:timeline") → 항목. 없으면 RegistryError."""
+    key = e if isinstance(e, str) else key_of(e)
     if key not in REGISTRY:
         rules = load_rules().registries
         planned = set(rules.event_types_planned) | {f"panel:{k}" for k in rules.panel_kinds_planned}
