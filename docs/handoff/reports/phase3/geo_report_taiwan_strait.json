@@ -1,0 +1,45 @@
+{
+ "schema_version": 1,
+ "bbox": [
+  105.0,
+  10.0,
+  135.0,
+  40.0
+ ],
+ "countries": 14,
+ "admin1": {
+  "TW": 21
+ },
+ "places": 400,
+ "crimea_to_ua": false,
+ "tiers": {
+  "W": {
+   "tiles": 12,
+   "levels": [
+    48,
+    24,
+    12
+   ],
+   "land_miss": {
+    "small": [],
+    "drops": [],
+    "px2": {},
+    "allow_px2": 16.0
+   }
+  },
+  "G": {
+   "tiles": 20,
+   "levels": [
+    96,
+    48,
+    24
+   ],
+   "land_miss": {
+    "small": [],
+    "drops": [],
+    "px2": {},
+    "allow_px2": 16.0
+   }
+  }
+ }
+}

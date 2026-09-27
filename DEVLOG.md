@@ -25,6 +25,14 @@ last_review: 2026-06-06
 
 ---
 
+## 2026-09-27 v2.2.0 — Phase 3 완료: 지오 일반화, 새 권역 한 줄 준비
+
+- **무엇을**: prep3 지오·티어 코드를 권역 인자 `geo/` 패키지로. hormuz 자산 재생성, 대만해협 예시 권역.
+- **왜**: back_and_forth D-0015. 새 영상마다 코드 수정 없이 `geo.yaml` 한 장으로 지도를 준비하려고.
+- **어떻게**: 수치 v3 그대로, 타일은 티어 범위만 모자이크(누락 = 오류), land-miss 는 픽셀 면적 임계(D29)로 small/drop.
+- **결과**: base 9장 md5 동일, 25컷 MAD 0, 전편 md5 동일. 대만해협 8초 준비. pytest 428 passed / 6 xfailed.
+- **연관**: D29, R0015, D0017(M2), D0018(이름 체계).
+
 ## 2026-09-27 v2.1.0 — Phase 2 완료: render3·plan3·mix3 분해, 새 엔진 전편이 Phase 1 과 바이트 동일
 
 - **무엇을**: `engine/`·`script/`·`audio/` 패키지와 `projects/hormuz_korea/`(원고·연출·라벨·크레딧·설명문)로 v3 를 분해. CLI 4종(script.plan·engine.render·audio.mix·engine.mux).

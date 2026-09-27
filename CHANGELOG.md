@@ -28,10 +28,19 @@ released 항목은 **append-only**입니다.
 
 ---
 
-## [v2.2.0] — 2026-09-27 — Phase 3: 지오 일반화 (back_and_forth D-0015, 진행 중)
+## [v2.2.0] — 2026-09-27 — Phase 3: 지오 일반화 (back_and_forth D-0015)
 
 ### Added
-- (진행 중) `geo/` — prep_geometry·prep_tiers·prep CLI, 프로젝트 `geo.yaml`, `projects/taiwan_strait/`.
+- `geo/` — prep_geometry(재귀 평탄화·크림 재분류 옵션)·prep_tiers(범위 모자이크·박스 클램프·커버리지)·prep CLI(`python -m geo.prep <proj>`).
+- 프로젝트 `geo.yaml`(hormuz_korea = v3 값), `projects/taiwan_strait/`(예시 권역), `data/geo/` 캐시(gitignore).
+- rules `geo.land_miss_allow_px2`(D29), `schemas/rules_models.GeoRules`.
+- `tests/test_geo_phase3.py`(8), `tests/fixtures/geo/`. `tools/golden_compare.py --reference golden`.
+
+### Changed
+- engine: `assets/geo.pkl` 읽기, 상세 티어 일반화, 레지스트리 파일 없음 = 빈 레지스트리.
+
+### Verified
+- hormuz 자산 재생성: base 9장 md5 = Phase 1, 지오메트리 동일, 25컷 MAD 0, 전편 md5 동일.
 
 ---
 

@@ -1,0 +1,74 @@
+{
+ "schema_version": 1,
+ "bbox": [
+  20.0,
+  -20.0,
+  150.0,
+  60.0
+ ],
+ "countries": 116,
+ "admin1": {
+  "KR": 17,
+  "KP": 11,
+  "AE": 9,
+  "OM": 11,
+  "IQ": 18,
+  "IR": 31,
+  "QA": 7,
+  "SA": 13,
+  "KW": 6,
+  "YE": 21,
+  "JP": 47,
+  "BH": 5
+ },
+ "places": 3013,
+ "crimea_to_ua": false,
+ "tiers": {
+  "W": {
+   "tiles": 77,
+   "levels": [
+    24,
+    12,
+    6
+   ],
+   "land_miss": {
+    "small": [
+     "MV"
+    ],
+    "drops": [],
+    "px2": {
+     "MV": 5.1
+    },
+    "allow_px2": 16.0
+   }
+  },
+  "G": {
+   "tiles": 42,
+   "levels": [
+    96,
+    48,
+    24
+   ],
+   "land_miss": {
+    "small": [],
+    "drops": [],
+    "px2": {},
+    "allow_px2": 16.0
+   }
+  },
+  "K": {
+   "tiles": 16,
+   "levels": [
+    96,
+    48,
+    24
+   ],
+   "land_miss": {
+    "small": [],
+    "drops": [],
+    "px2": {},
+    "allow_px2": 16.0
+   }
+  }
+ }
+}

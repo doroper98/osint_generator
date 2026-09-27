@@ -1,0 +1,59 @@
+{
+ "schema_version": 1,
+ "note": "Phase 1 prep3 산출 vs geo.prep 재생성 (projects/hormuz_korea/assets)",
+ "files": {
+  "base_G_24.png": {
+   "phase1": "5147a4e4d5ceb985b75fa902d5430520",
+   "geo_prep": "5147a4e4d5ceb985b75fa902d5430520",
+   "equal": true
+  },
+  "base_G_48.png": {
+   "phase1": "430107c2e7f944e02b0e80a0e841332c",
+   "geo_prep": "430107c2e7f944e02b0e80a0e841332c",
+   "equal": true
+  },
+  "base_G_96.png": {
+   "phase1": "2be1f3e98eed8d095bff20bd2cbf2707",
+   "geo_prep": "2be1f3e98eed8d095bff20bd2cbf2707",
+   "equal": true
+  },
+  "base_K_24.png": {
+   "phase1": "3c478f19a0e4ad23abff8fb512f7d3c8",
+   "geo_prep": "3c478f19a0e4ad23abff8fb512f7d3c8",
+   "equal": true
+  },
+  "base_K_48.png": {
+   "phase1": "23c54c4fe29be281935963486f058b75",
+   "geo_prep": "23c54c4fe29be281935963486f058b75",
+   "equal": true
+  },
+  "base_K_96.png": {
+   "phase1": "e8a190f57f2a99b614f9e587aa9177d4",
+   "geo_prep": "e8a190f57f2a99b614f9e587aa9177d4",
+   "equal": true
+  },
+  "base_W_12.png": {
+   "phase1": "4ef6d90d89731b24ca1e65ebba350143",
+   "geo_prep": "4ef6d90d89731b24ca1e65ebba350143",
+   "equal": true
+  },
+  "base_W_24.png": {
+   "phase1": "144032850f2fc9c580c966e11e2b2f45",
+   "geo_prep": "144032850f2fc9c580c966e11e2b2f45",
+   "equal": true
+  },
+  "base_W_6.png": {
+   "phase1": "2fdf8637e40d6f8703e2d03c06281669",
+   "geo_prep": "2fdf8637e40d6f8703e2d03c06281669",
+   "equal": true
+  }
+ },
+ "geometry_equal": {
+  "coarse": true,
+  "fine": true,
+  "meta": true,
+  "admin1": true,
+  "places": true
+ },
+ "all_equal": true
+}

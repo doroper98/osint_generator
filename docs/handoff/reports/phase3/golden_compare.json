@@ -1,0 +1,238 @@
+{
+ "schema_version": 1,
+ "engine": "new",
+ "reference": "무손실 프리뷰(docs/handoff/reports/phase2/frames)",
+ "mean_max": 1.0,
+ "frame_max": 2.0,
+ "mean_mad": 0.0,
+ "max_mad": 0.0,
+ "passed": true,
+ "over_threshold": [],
+ "frames": [
+  {
+   "n": 1,
+   "anchor": "open_1",
+   "offset": 2,
+   "t_now": 7.824,
+   "mad": 0.0,
+   "over": false,
+   "frame": "frames/01_open_1.png"
+  },
+  {
+   "n": 2,
+   "anchor": "TITLE",
+   "offset": 2,
+   "t_now": 22.274,
+   "mad": 0.0,
+   "over": false,
+   "frame": "frames/02_TITLE.png"
+  },
+  {
+   "n": 3,
+   "anchor": "route_0",
+   "offset": 2.5,
+   "t_now": 28.774,
+   "mad": 0.0,
+   "over": false,
+   "frame": "frames/03_route_0.png"
+  },
+  {
+   "n": 4,
+   "anchor": "route_2",
+   "offset": 2,
+   "t_now": 38.445,
+   "mad": 0.0,
+   "over": false,
+   "frame": "frames/04_route_2.png"
+  },
+  {
+   "n": 5,
+   "anchor": "route_3",
+   "offset": 3.5,
+   "t_now": 45.03,
+   "mad": 0.0,
+   "over": false,
+   "frame": "frames/05_route_3.png"
+  },
+  {
+   "n": 6,
+   "anchor": "war_1",
+   "offset": 2,
+   "t_now": 56.213,
+   "mad": 0.0,
+   "over": false,
+   "frame": "frames/06_war_1.png"
+  },
+  {
+   "n": 7,
+   "anchor": "war_2",
+   "offset": 2.5,
+   "t_now": 61.247,
+   "mad": 0.0,
+   "over": false,
+   "frame": "frames/07_war_2.png"
+  },
+  {
+   "n": 8,
+   "anchor": "war_3",
+   "offset": 3,
+   "t_now": 65.133,
+   "mad": 0.0,
+   "over": false,
+   "frame": "frames/08_war_3.png"
+  },
+  {
+   "n": 9,
+   "anchor": "ask_1",
+   "offset": 4,
+   "t_now": 80.702,
+   "mad": 0.0,
+   "over": false,
+   "frame": "frames/09_ask_1.png"
+  },
+  {
+   "n": 10,
+   "anchor": "ask_2",
+   "offset": 2,
+   "t_now": 87.058,
+   "mad": 0.0,
+   "over": false,
+   "frame": "frames/10_ask_2.png"
+  },
+  {
+   "n": 11,
+   "anchor": "ask_5",
+   "offset": 1.5,
+   "t_now": 105.281,
+   "mad": 0.0,
+   "over": false,
+   "frame": "frames/11_ask_5.png"
+  },
+  {
+   "n": 12,
+   "anchor": "timeline_2",
+   "offset": 2,
+   "t_now": 124.253,
+   "mad": 0.0,
+   "over": false,
+   "frame": "frames/12_timeline_2.png"
+  },
+  {
+   "n": 13,
+   "anchor": "timeline_4",
+   "offset": 2.8,
+   "t_now": 136.971,
+   "mad": 0.0,
+   "over": false,
+   "frame": "frames/13_timeline_4.png"
+  },
+  {
+   "n": 14,
+   "anchor": "cost_1",
+   "offset": 1,
+   "t_now": 157.374,
+   "mad": 0.0,
+   "over": false,
+   "frame": "frames/14_cost_1.png"
+  },
+  {
+   "n": 15,
+   "anchor": "review_0",
+   "offset": 2.8,
+   "t_now": 164.588,
+   "mad": 0.0,
+   "over": false,
+   "frame": "frames/15_review_0.png"
+  },
+  {
+   "n": 16,
+   "anchor": "review_1",
+   "offset": 2.5,
+   "t_now": 170.513,
+   "mad": 0.0,
+   "over": false,
+   "frame": "frames/16_review_1.png"
+  },
+  {
+   "n": 17,
+   "anchor": "past_1",
+   "offset": 2.5,
+   "t_now": 193.211,
+   "mad": 0.0,
+   "over": false,
+   "frame": "frames/17_past_1.png"
+  },
+  {
+   "n": 18,
+   "anchor": "past_3",
+   "offset": 5,
+   "t_now": 207.404,
+   "mad": 0.0,
+   "over": false,
+   "frame": "frames/18_past_3.png"
+  },
+  {
+   "n": 19,
+   "anchor": "debate_0",
+   "offset": 3,
+   "t_now": 214.453,
+   "mad": 0.0,
+   "over": false,
+   "frame": "frames/19_debate_0.png"
+  },
+  {
+   "n": 20,
+   "anchor": "debate_1",
+   "offset": 2.5,
+   "t_now": 220.959,
+   "mad": 0.0,
+   "over": false,
+   "frame": "frames/20_debate_1.png"
+  },
+  {
+   "n": 21,
+   "anchor": "debate_4",
+   "offset": 2,
+   "t_now": 238.001,
+   "mad": 0.0,
+   "over": false,
+   "frame": "frames/21_debate_4.png"
+  },
+  {
+   "n": 22,
+   "anchor": "decision_0",
+   "offset": 3,
+   "t_now": 245.551,
+   "mad": 0.0,
+   "over": false,
+   "frame": "frames/22_decision_0.png"
+  },
+  {
+   "n": 23,
+   "anchor": "now_0",
+   "offset": 3.5,
+   "t_now": 258.608,
+   "mad": 0.0,
+   "over": false,
+   "frame": "frames/23_now_0.png"
+  },
+  {
+   "n": 24,
+   "anchor": "now_3",
+   "offset": 4,
+   "t_now": 276.438,
+   "mad": 0.0,
+   "over": false,
+   "frame": "frames/24_now_3.png"
+  },
+  {
+   "n": 25,
+   "anchor": "END",
+   "offset": -4,
+   "t_now": 288.438,
+   "mad": 0.0,
+   "over": false,
+   "frame": "frames/25_END.png"
+  }
+ ]
+}
