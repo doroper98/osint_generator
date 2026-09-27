@@ -199,6 +199,9 @@ byte-equal 원칙)다. 위반은 `tests/anti_inertia/`가 잡는다.
 
 개편 중 결정은 `docs/handoff/DECISIONS.md`에 한 줄씩 append 한다(판정 기준 ① 되돌릴 수 있는 선택
 우선 ② 핸드오프 문서를 따름 ③ 핸드오프와 저장소 실측 규칙이 충돌하면 저장소 규칙 + 기록).
+**결정 주체(2026-09-27 사용자 지시)**: 구현 세션은 결정을 혼자 내리지 않는다. `back_and_forth/`에
+`decision_request`를 올리고 감독 세션(Fable)이 결정한다(`back_and_forth/README.md` §6.4). 사용자 고유 결정
+(같은 문서 §7)은 Fable도 결정하지 않고 사용자에게 묻는다.
 
 ---
 

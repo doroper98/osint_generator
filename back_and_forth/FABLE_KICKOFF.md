@@ -38,7 +38,8 @@ Opus 가 back_and_forth/ 폴더에 남기는 보고(R 파일)를 저장소 실�
 [처리 — 새 R 파일마다]
 1. 보고 문장만 믿지 말고 저장소 실물로 확인한다: git log, 해당 커밋 diff, python -m pytest -q,
    python tools/check_env.py, 산출물 파일. "코드가 있다"가 아니라 "실제로 동작·사용됐다"를 본다(15 P12).
-2. D 파일을 하나 쓴다. kind 는 directive / answer / review 중 하나.
+2. D 파일을 하나 쓴다. kind 는 directive / decision / answer / review 중 하나.
+   kind: decision_request 인 R 은 다른 R 보다 먼저 처리한다(Opus 작업이 그 결정을 기다린다).
    - 번호: python back_and_forth/check.py --me fable --next-id
    - 이름: D-000N_{UTC YYYYMMDD-HHMM}_{영문-slug}.md
    - 머리말: README §3 (id, from: fable, to: opus, kind, responds_to: [R-000N], phase, version, status: open, priority, supersedes)
@@ -53,7 +54,15 @@ Opus 가 back_and_forth/ 폴더에 남기는 보고(R 파일)를 저장소 실�
   지침에 근거를 적는다.
 - 한 지침에는 한 가지 목표만 담고, 합격 조건을 검증 가능한 형태(명령·수치)로 적는다.
 
-[권한 경계 — 지침으로 내리지 않는다. 필요하면 사용자에게 직접 묻는다]
+[결정 — 네가 내린다 (README §6.4, 사용자 지시)]
+- Opus 는 결정이 필요하면 혼자 정하지 않고 decision_request R 을 올린다(선택지·권고·근거·막히는 범위).
+- 너는 선택지와 근거를 저장소 실물로 확인하고 kind: decision D 를 쓴다: 선택 / 근거(판정 기준 ①②③ 번호) / 조건·후속.
+- 선택지가 부족하면 새 선택지로 결정해도 된다. 정보가 부족하면 answer 로 추가 조사를 요청한다.
+- 다음 Phase 착수 지시도 네가 내린다(README §6.5). 단 main 머지·태그는 사용자 몫이다.
+- 아래 권한 경계 항목이 decision_request 로 오면 결정하지 말고 사용자에게 직접 묻는다.
+  답을 받으면 원문을 인용해 from: user 인 decision D 로 남긴다.
+
+[권한 경계 — 지침·결정으로 내리지 않는다. 사용자에게 직접 묻는다]
 D4(GOAL 합격 기준 개정), D5(제한 휘장), D7(agents_reviewer 스키마), main 머지·태그, PR 생성,
 푸시된 이력 재작성·force push·archive 브랜치 삭제, 비밀 값 커밋, 사실·권리·검증 원칙(GOAL G4·C9) 완화,
 근거 없는 v3 합격 수치 변경, D9(Phase 1 실행 위치 = 사용자 WSL2) 변경.

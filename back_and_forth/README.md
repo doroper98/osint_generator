@@ -68,7 +68,7 @@ responds_to: [D-0001]      # 이 파일이 답하는 상대 파일 id. 없으면
 phase: "1"                 # 관련 Phase (docs/handoff/19 §6 번호). 없으면 "-"
 version: v2.0.1            # 작성 시점 VERSION
 commit: 1a2b3c4            # 보고 대상 작업의 마지막 커밋(R 전용, D는 생략 가능)
-status: done               # R: done | in_progress | blocked | question  /  D: open | superseded
+status: done               # R: done | in_progress | blocked | question | awaiting_decision  /  D: open | superseded
 priority: normal           # D 전용: urgent | normal | low
 supersedes: []             # D 전용: 이 지침이 대체하는 이전 D id
 ---
@@ -84,9 +84,11 @@ supersedes: []             # D 전용: 이 지침이 대체하는 이전 D id
 | `phase_report` | Opus | Phase가 끝났을 때. KICKOFF §7 다섯 항목 필수(§6) |
 | `progress` | Opus | 지침 하나를 끝냈을 때, 또는 긴 작업의 중간 보고 |
 | `ack` | Opus | 지침을 읽고 착수했음을 알릴 때(착수 후 5분 안) |
-| `question` | Opus | 판정 기준 ①②③으로 정할 수 없는 결정이 생겼을 때 |
+| `decision_request` | Opus | **결정이 필요할 때 항상**(§6.4). Opus는 혼자 결정하지 않는다 |
+| `question` | Opus | 지침의 뜻이 불분명하거나 규칙과 충돌할 때 |
 | `blocked` | Opus | 권한·환경·외부 요인으로 진행이 불가능할 때 |
 | `directive` | Fable | 다음 작업 지시, 수정 요청 |
+| `decision` | Fable 또는 user | `decision_request`에 대한 결정(§6.4) |
 | `answer` | Fable | Opus의 `question`에 대한 답 |
 | `review` | Fable | 보고서 검토 의견(지시 없음) |
 | `stop` | Fable 또는 user | 즉시 멈춤. 현재 커밋 단위만 마무리하고 대기 |
@@ -126,17 +128,55 @@ python back_and_forth/check.py --me opus --next-id         # 내가 쓸 다음 �
 
 ### 6.2 Fable이 R을 받으면
 1. 보고 내용을 저장소 실물(커밋·테스트·산출물)로 확인한다. 보고서 문장만 믿지 않는다(15 P12).
-2. `directive`, `answer`, `review` 중 하나를 푸시한다. 할 말이 없어도 `phase_report`에는 반드시 답한다.
+2. `directive`, `decision`, `answer`, `review` 중 하나를 푸시한다. 할 말이 없어도 `phase_report`에는 반드시 답한다.
+3. `decision_request`는 다른 R보다 먼저 처리한다. Opus의 일부 작업이 그 결정을 기다리고 있기 때문이다.
 
 ### 6.3 phase_report 필수 항목 (KICKOFF §7)
 1. 변경 요약(커밋 목록) 2. 테스트 결과(기준선 대비) 3. 프리뷰 컨택트 시트 경로(영상 영향 Phase)
 4. provenance 요약 5. 다음 Phase 계획 — 그리고 **이번 Phase의 DECISIONS 새 행 요약**.
 
+### 6.4 결정 위임 — 결정은 Fable이 내린다 (사용자 지시 2026-09-27)
+
+**결정의 범위**: `docs/handoff/DECISIONS.md`에 한 줄로 남을 만한 것 전부다.
+- 핸드오프 문서와 저장소 실측이 충돌할 때, 문서 간 불일치, 명세에 없는 설계 선택
+- 명세에서 벗어나는 구현(범위 축소·확대, 순서 변경, 대체 방법)
+- 수치·임계값·기본값 선택, 도구·라이브러리 선택, 테스트 합격 기준 해석
+
+**결정이 아닌 것**(Opus가 그대로 진행): 명세가 이미 정한 것을 그대로 옮기는 구현 세부(변수명, 파일 내부 구성,
+명세 범위 안의 리팩터링), 저장소 규칙이 이미 답을 정한 것(커밋 형식, 테스트 실행 등).
+
+**Opus 절차**
+1. 결정이 필요해지면 그 자리에서 혼자 정하지 않고 `decision_request` R을 푸시한다.
+2. 본문 필수 항목:
+   - **쟁점** — 무엇을 정해야 하나(한두 문장)
+   - **선택지** — 최소 2개. 각 선택지의 결과·위험·되돌리는 방법
+   - **Opus 권고** — 판정 기준 ①되돌릴 수 있는 선택 우선 ②핸드오프 문서를 따름 ③저장소 실측 규칙 우선+기록 에 따른 권고와 근거
+   - **근거 자료** — 문서 절·파일 경로·커밋·실측 결과
+   - **막히는 범위** — 이 결정을 기다리는 작업과, 기다리지 않고 계속할 수 있는 작업
+   - **§7 해당 여부** — 사용자 고유 결정이면 명시
+3. 결정을 기다리는 동안 **막히지 않는 작업은 계속**한다. 결정이 필요한 부분은 구현하지 않는다
+   (권고안으로 먼저 만들어 두는 것도 금지 — 되돌리기 비용이 결정을 기울인다).
+4. `decision` D를 받으면 그대로 따르고, `DECISIONS.md`에 한 줄 추가한다.
+   결정자 칸은 `Fable (back_and_forth D-000N)` 또는 `사용자 (D-000N)`.
+5. 모든 막힌 작업이 결정을 기다리면 R의 `status: awaiting_decision`으로 알린다.
+
+**Fable 절차**
+1. 선택지·근거를 저장소 실물로 확인한 뒤 `decision` D를 쓴다. 필수 항목: **선택**, **근거**(판정 기준 번호),
+   **조건·후속**(검증 방법, 되돌릴 조건).
+2. 선택지가 부족하면 새 선택지를 제시해 결정해도 된다. 정보가 부족하면 `answer`로 추가 조사를 요청한다.
+3. **§7 항목은 Fable이 결정하지 않는다.** 사용자에게 직접 묻고, 답을 받으면 원문을 인용해 `decision` D(`from: user`)로 남긴다.
+
+### 6.5 Phase 전환
+- Phase가 끝나면 Opus는 `phase_report`를 쓰고 **다음 Phase 착수 `directive`를 기다린다.** 스스로 넘어가지 않는다.
+- 다음 Phase 착수 지시는 Fable이 내린다(사용자 위임, 2026-09-27). `main` 머지·태그는 여전히 사용자 몫(§7).
+- 사용자가 대화나 `from: user` D로 Phase를 멈추거나 되돌리면 그 지시가 우선한다.
+
 ## 7. 권한 경계 — 지침으로도 넘을 수 없는 것
 
 Fable의 지침은 사용자의 위임으로 효력을 갖는다. 다만 아래는 **사용자 본인의 명시 승인**이 필요하다.
 D 파일에 `from: user`와 사용자 원문 인용이 있거나, 사용자가 대화로 직접 지시한 경우에만 실행한다.
-그 외에는 Opus가 `question`으로 사용자 확인을 요청하고 해당 항목만 멈춘다(나머지는 계속).
+그 외에는 Opus가 `decision_request`(§7 해당 명시)를 올리고 해당 항목만 멈춘다(나머지는 계속).
+Fable은 이 항목을 결정하지 않고 사용자에게 전달한다(§6.4).
 
 | 항목 | 근거 |
 |---|---|
@@ -148,8 +188,7 @@ D 파일에 `from: user`와 사용자 원문 인용이 있거나, 사용자가 �
 | 사실·권리·검증 원칙(GOAL G4, C9) 완화 | C0 경계 |
 | v3 합격 수치 변경(근거 없는) | C0, KICKOFF §5 |
 
-새 결정이 생기면 판정 기준 ①되돌릴 수 있는 선택 우선 ②핸드오프 문서를 따름 ③저장소 실측 규칙 우선 +
-기록으로 정하고 `docs/handoff/DECISIONS.md`에 한 줄 추가한다.
+새 결정은 §6.4대로 Fable이 내린다. Opus는 판정 기준 ①②③으로 **권고**만 하고, 결정이 오면 `DECISIONS.md`에 기록한다.
 
 ## 8. 목표와 종료 조건
 
