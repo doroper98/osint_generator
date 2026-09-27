@@ -73,6 +73,19 @@ MEDIA_TITLES: dict[str, str] = {
     "zaytun": "File:Southkoreansoldiersiraq.jpg",
     "niovi": "File:Oil tanker Niovi seized by Iran's Islamic Revolutionary Guard Corps Navy.webm",
 }
+# 미리 받기: legacy 코드는 파일이 없을 때만 Commons API 를 다시 부른다(prep3 commons_get, media3 thumb_url —
+# 후자는 재시도 없음). 메타데이터 조회 1회로 legacy 코드가 요청할 것과 **같은 폭**의 파일을 같은 경로에 둔다.
+# key → (폭 또는 None=원본, V3_ROOT 기준 경로). 폭 근거: prep3 commons_get 960/500, media3 thumb 1280/960, round2 1600
+PREFETCH: dict[str, tuple[int | None, str]] = {
+    "lee_jae_myung": (960, "assets/photo_lee_jae_myung.jpg"),
+    "roh_moo_hyun": (960, "assets/photo_roh_moo_hyun.jpg"),
+    "centcom": (500, "assets/emblems/navcent.png"),
+    "hormuz_navy": (1280, "media/hormuz_transit.jpg"),
+    "p8": (960, "media/p8.jpg"),
+    "hormuz_video": (None, "media/strikes.webm"),
+    "zaytun": (1600, "media/rok_iraq.jpg"),
+    "niovi": (None, "media/niovi.webm"),
+}
 # media3b_round2.md — 클립 구간 (사람 식별 없음 확인된 구간)
 CLIP_SEGMENTS: dict[str, tuple[str, float, float]] = {
     "strikes": ("strikes.webm", 1.5, 5.0),
@@ -123,7 +136,7 @@ def strip_html(s: str) -> str:
 
 
 # ------------------------------------------------------------------ 네트워크
-def http_get(url: str, timeout: float = 120.0, tries: int = 4) -> bytes:
+def http_get(url: str, timeout: float = 120.0, tries: int = 6) -> bytes:
     last: Exception | None = None
     for a in range(tries):
         try:
@@ -132,6 +145,11 @@ def http_get(url: str, timeout: float = 120.0, tries: int = 4) -> bytes:
             last = e
             if e.code == 404:
                 break
+            if e.code == 429:  # upload.wikimedia.org 도 요청 제한을 건다 — API 와 같은 대기
+                w = COMMONS_429_WAIT[0] + (COMMONS_429_WAIT[1] - COMMONS_429_WAIT[0]) * (a / max(1, tries - 1))
+                print(f"429 {url[:60]} — {w:.0f}s 대기", flush=True)
+                time.sleep(w)
+                continue
             time.sleep(2 ** (a + 1))
         except Exception as e:  # noqa: BLE001 — 재시도 후 FetchError 로 올린다
             last = e
@@ -262,24 +280,45 @@ def cmd_flags(root: Path, dry: bool) -> list[str]:
     return []
 
 
+def _cached_info(root: Path, key: str, title: str) -> dict:
+    """항목별 캐시(data/commons_cache/{key}.json) — 429 로 중단돼도 받은 것은 다시 묻지 않는다."""
+    cache = root / "data" / "commons_cache" / f"{key}.json"
+    if cache.exists():
+        return json.loads(cache.read_text(encoding="utf-8"))
+    width = PREFETCH[key][0]
+    info = commons_info(title, width=width)
+    cache.parent.mkdir(parents=True, exist_ok=True)
+    cache.write_text(json.dumps(info, ensure_ascii=False, indent=1), encoding="utf-8")
+    print(f"commons {key}: {info['lic']}", flush=True)
+    return info
+
+
 def cmd_commons(root: Path, dry: bool) -> list[str]:
     if dry:
-        return [f"commons → commons_v3.json {list(COMMONS_PEOPLE) + list(COMMONS_EMBLEMS)}, media_candidates.json {list(MEDIA_TITLES)}"]
-    cv = root / "data" / "commons_v3.json"
-    if not cv.exists():
-        data: dict[str, list[dict]] = {}
-        for key, title in {**COMMONS_PEOPLE, **COMMONS_EMBLEMS}.items():
-            data[key] = [commons_info(title)]
-            print(f"commons {key}: {data[key][0]['lic']}", flush=True)
-        cv.write_text(json.dumps(data, ensure_ascii=False, indent=1), encoding="utf-8")
-    mc = root / "data" / "media_candidates.json"
-    if not mc.exists():
-        media: dict[str, list[dict]] = {}
-        for key, title in MEDIA_TITLES.items():
-            media[key] = [commons_info(title)]
-            print(f"media {key}: {media[key][0]['lic']}", flush=True)
-        mc.write_text(json.dumps(media, ensure_ascii=False, indent=1), encoding="utf-8")
-    return []
+        return [f"commons → commons_v3.json {list(COMMONS_PEOPLE) + list(COMMONS_EMBLEMS)}, "
+                f"media_candidates.json {list(MEDIA_TITLES)}, 미리 받기 {len(PREFETCH)}건"]
+    failures: list[str] = []
+    infos: dict[str, dict] = {}
+    for key, title in {**COMMONS_PEOPLE, **COMMONS_EMBLEMS, **MEDIA_TITLES}.items():
+        try:
+            infos[key] = _cached_info(root, key, title)
+        except FetchError as e:
+            failures.append(f"commons {key}: {e}")
+            continue
+        width, rel = PREFETCH[key]
+        src = (infos[key]["thumburl"] if width else "") or infos[key]["url"]
+        try:
+            if download(src, root / rel):
+                print(f"prefetch {rel}", flush=True)
+        except FetchError as e:
+            failures.append(f"prefetch {rel}: {e}")
+    if set(COMMONS_PEOPLE) | set(COMMONS_EMBLEMS) <= set(infos):
+        (root / "data" / "commons_v3.json").write_text(json.dumps(
+            {k: [infos[k]] for k in (*COMMONS_PEOPLE, *COMMONS_EMBLEMS)}, ensure_ascii=False, indent=1), encoding="utf-8")
+    if set(MEDIA_TITLES) <= set(infos):
+        (root / "data" / "media_candidates.json").write_text(json.dumps(
+            {k: [infos[k]] for k in MEDIA_TITLES}, ensure_ascii=False, indent=1), encoding="utf-8")
+    return failures
 
 
 def _clip_to_npy(src: Path, start: float, dur: float, dest: Path) -> None:
@@ -308,8 +347,7 @@ def cmd_media(root: Path, dry: bool) -> list[str]:
     # 2차 ① rok_iraq 사진: 1600 썸네일 → 720×450 커버 크롭 → 채도 0.82·대비 1.06 → q92
     src = media / "rok_iraq.jpg"
     if not src.exists():
-        info = commons_info(cand["zaytun"][0]["title"], width=1600)
-        src.write_bytes(http_get(info["thumburl"] or info["url"]))
+        download(cand["zaytun"][0]["thumburl"] or cand["zaytun"][0]["url"], src)
     im = Image.open(src).convert("RGB")
     w, h = im.size
     tw, th = 720, 450
@@ -322,7 +360,7 @@ def cmd_media(root: Path, dry: bool) -> list[str]:
     # 2차 ② niovi 원본 영상
     niovi = media / "niovi.webm"
     if not niovi.exists():
-        niovi.write_bytes(http_get(cand["niovi"][0]["url"], timeout=300))
+        download(cand["niovi"][0]["url"], niovi)
     # 2차 ③ 5초 클립 → 480×270@24 rgb24 npy
     for key, (fname, start, dur) in CLIP_SEGMENTS.items():
         _clip_to_npy(media / fname, start, dur, media / f"{key}_480.npy")
