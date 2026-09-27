@@ -52,6 +52,7 @@ from schemas.models import (
     TaskStatus,
     VersionedModel,
 )
+from orchestrator.config import load_config
 from workers.base_worker import BaseWorker, emit, utc_now
 
 
@@ -59,7 +60,10 @@ from workers.base_worker import BaseWorker, emit, utc_now
 # CLI 호출 매핑 (ADDENDUM_04 §5)
 # ---------------------------------------------------------------------------
 # 사용자 머신 CLI 갱신 시 본 dict 만 수정하면 됩니다.
-# placeholder: {prompt}, {project_dir}, {scratch_dir}
+# placeholder: {prompt}, {project_dir}, {scratch_dir}, {model}
+#
+# v0.43.5 — claude 백엔드에 `--model {model}` 고정. 값은 config.yaml `llm.model` (SSOT).
+#   이전에는 --model 이 없어 사용자 머신 claude CLI 기본 모델이 쓰였다(저장소 비고정).
 #
 # v0.4.0 변경 — LLM-AP-003 본격 mitigation:
 #   - codex agent: `--sandbox workspace-write` 추가. codex 가 `--cd` 디렉토리 안에서만
@@ -77,10 +81,13 @@ CLI_INVOCATION: dict[tuple[str, str], list[str]] = {
     # 추가로 _invoke_llm 이 subprocess 를 **repo 밖 중립 cwd** 에서 실행해 CLAUDE.md
     # 자동 탐색을 차단한다 (도구만 꺼도 cwd 가 repo 면 CLAUDE.md 가 컨텍스트를 오염시킴).
     ("claude", "response"): [
-        "claude", "-p", "{prompt}", "--output-format", "json",
+        "claude", "-p", "{prompt}", "--output-format", "json", "--model", "{model}",
         "--tools", "", "--no-session-persistence",
     ],
-    ("claude", "agent"): ["claude", "--print", "--add-dir", "{project_dir}", "-p", "{prompt}"],
+    ("claude", "agent"): [
+        "claude", "--print", "--model", "{model}", "--add-dir", "{project_dir}",
+        "-p", "{prompt}",
+    ],
     # codex 옵션 설명 (codex-cli 0.130.0 기준):
     #   --json: JSONL 이벤트 스트림 (마지막 agent_message 가 도메인 응답)
     #   --skip-git-repo-check: project_dir 이 git repo 아니어도 실행 허용
@@ -204,6 +211,9 @@ class BaseLLMWorker(BaseWorker):
     # --backend 선택) ClassVar 가 아닌 일반 속성으로 둔다. 값 검증은 입력 경계
     # (argparse choices / web 400) 와 CLI_INVOCATION 키 조회에서 수행.
     llm_backend: str = "claude"
+    # v0.43.5: None 이면 config.yaml `llm.model` 을 쓴다. 인스턴스 단위 override 는
+    # 테스트·일회성 실험용. 모듈/클래스 상수로 다른 모델명을 박지 않는다 (SSOT).
+    llm_model: Optional[str] = None
     llm_mode: ClassVar[Literal["response", "agent"]] = "response"
     system_prompt: ClassVar[str] = ""
     response_model: ClassVar[Type[VersionedModel]]
@@ -334,6 +344,7 @@ class BaseLLMWorker(BaseWorker):
                 task_id=args.task_id,
                 worker=self.worker_name,
                 backend=self.llm_backend,
+                model=self.resolve_model() if self.llm_backend == "claude" else None,
                 mode=self.llm_mode,
                 system_prompt_hash=prompt_hash,
                 user_prompt_path=self._as_relative(args, prompt_path),
@@ -383,6 +394,15 @@ class BaseLLMWorker(BaseWorker):
     # CLI subprocess
     # -----------------------------------------------------------------
 
+    def resolve_model(self) -> str:
+        """이번 호출이 쓸 모델명. 인스턴스 override → config.yaml `llm.model` (v0.43.5)."""
+        if self.llm_model:
+            return self.llm_model
+        model = load_config().llm.model.strip()
+        if not model:
+            raise LLMSubprocessError("config.yaml llm.model 이 비어 있습니다 (SSOT).")
+        return model
+
     def _build_invocation_cmd(
         self, args: argparse.Namespace, full_prompt: str
     ) -> list[str]:
@@ -417,10 +437,15 @@ class BaseLLMWorker(BaseWorker):
         if template_uses_scratch:
             scratch_value = str(self._scratch_dir_for_task(args))
 
+        model_value = ""
+        if any("{model}" in seg for seg in template):
+            model_value = self.resolve_model()
+
         cmd = [
             seg.replace("{prompt}", full_prompt)
                .replace("{project_dir}", str(self.project_dir(args)))
                .replace("{scratch_dir}", scratch_value)
+               .replace("{model}", model_value)
             for seg in template
         ]
 

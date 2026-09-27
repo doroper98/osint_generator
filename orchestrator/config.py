@@ -44,6 +44,14 @@ class PathsConfig(BaseModel):
     python_bin: str = "python"
 
 
+class LLMConfig(BaseModel):
+    """구독 LLM 브리지 설정 (v0.43.5). model 은 `claude -p --model` 에 그대로 전달."""
+
+    model_config = ConfigDict(extra="ignore")
+
+    model: str = "claude-opus-5-5"
+
+
 class AppConfig(BaseModel):
     model_config = ConfigDict(extra="allow")
 
@@ -53,6 +61,7 @@ class AppConfig(BaseModel):
     paths: PathsConfig = Field(default_factory=PathsConfig)
     render: dict[str, Any] = Field(default_factory=dict)
     tts: dict[str, Any] = Field(default_factory=dict)
+    llm: LLMConfig = Field(default_factory=LLMConfig)
     review_gates: dict[str, Any] = Field(default_factory=dict)
 
 

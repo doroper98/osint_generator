@@ -99,7 +99,7 @@ class BaseLLMWorker(BaseWorker):
 
 | 모드 | 의미 | 호출 형태 (가정) | 적용 Worker |
 |---|---|---|---|
-| `response` | 단순 LLM 응답. 도구·파일 IO 없음. JSON one-shot. | `claude -p "<prompt>" --output-format json --tools "" --no-session-persistence` (repo 밖 중립 cwd 에서 실행) | Phase 3 `dynamic_intake_planner`, Phase 6 `research_agent`, Phase 11 `youtube_metadata_agent` 등 |
+| `response` | 단순 LLM 응답. 도구·파일 IO 없음. JSON one-shot. | `claude -p "<prompt>" --output-format json --model <config llm.model> --tools "" --no-session-persistence` (repo 밖 중립 cwd 에서 실행) | Phase 3 `dynamic_intake_planner`, Phase 6 `research_agent`, Phase 11 `youtube_metadata_agent` 등 |
 | `agent` | CLI 가 도구·파일 IO 를 사용해 task 를 직접 처리. `task_result.json` 까지 CLI 가 작성. | `claude --print --add-dir <project_dir> -p "<task_spec>"` (또는 그에 상응하는 codex 호출) | Phase 7 `source_collector_worker` 처럼 외부 자료 수집·정리가 복잡한 경우 |
 
 **구분 기준**: 산출물이 **단일 JSON 문서로 표현 가능**하면 `response`, **파일 시스템 위에서 다단계 작업**이 필요하면 `agent`.
@@ -126,7 +126,10 @@ class BaseLLMWorker(BaseWorker):
 
 ### 5.1 `claude` CLI (Claude Code 류 · Claude.ai 구독)
 
-- 진입: `claude -p "<prompt>"` (response mode) / `claude --print --add-dir <dir> -p "<spec>"` (agent mode)
+- 진입: `claude -p "<prompt>" --model <M>` (response mode) / `claude --print --model <M> --add-dir <dir> -p "<spec>"` (agent mode)
+- **모델 고정 (v0.43.5)**: `<M>` 은 `config.yaml` `llm.model` 한 곳에서만 온다 (현재 `claude-opus-5-5`).
+  v0.43.4 까지는 `--model` 을 주지 않아 사용자 머신 CLI 의 기본 모델이 쓰였고 저장소에 기록되지 않았다.
+  실제 전달값은 `llm_calls/{call_id}.json` 의 `model` 필드에 남는다.
 - 인증: 사용자 머신의 Claude.ai 로그인 세션을 자동 사용 (별도 키 주입 X)
 - 출력: stdout 으로 응답 텍스트, optionally `--output-format json`
 - 에러: 종료 코드 비-0, stderr 에 사유

@@ -1,6 +1,6 @@
 <!--
 tier: 3
-last_synced_with: v0.43.4
+last_synced_with: v0.43.5
 ssot_for: [development-log]
 depends_on: [CHANGELOG.md]
 last_review: 2026-06-06
@@ -24,6 +24,23 @@ last_review: 2026-06-06
 ```
 
 ---
+
+## 2026-09-27 v0.43.5 — v2 전면 개편 착수 준비: 핸드오프 문서 반영 + LLM 브리지 모델 고정
+
+- **무엇을**: (1) claude.ai 채팅 세션이 만든 지도 중심 다큐 파이프라인 인계 문서 묶음을
+  `docs/handoff/` 로 커밋(19개 md + golden 25 프레임 + reference_code v1~v3, 거버넌스 헤더 부착).
+  (2) Fable 분석 세션의 저장소 실측·불일치 판정·Phase 0 커밋 단위 명세를 `docs/handoff/19`,
+  v3 코드 인벤토리를 `19a`, Opus 착수 프롬프트를 `OPUS_KICKOFF_PROMPT.md` 로 작성.
+  (3) `claude -p` 호출에 `--model` 고정(`config.yaml llm.model = claude-opus-5-5`).
+- **왜**: 사용자 지시 — 분석·계획은 Fable, 개발은 Opus 5.5 가 맡는다. 개편은 "주입 대신
+  교체"(docs/handoff/15) 원칙을 따르며, 그 첫 조건은 실행 세션이 추측할 여지를 없애는 것.
+  모델은 저장소에 고정된 적이 없어 "영상 제작에 도는 claude 버전"을 답할 수 없었다.
+- **어떻게**: collage ⊇ main 확인(35 commits, 역방향 0) → 기준 브랜치 권고 D1. 골든 mp4 와
+  PNG 25장 픽셀 대조(MAD 0.00) → mp4 미커밋. TTS-AP 번호 충돌(058~063 기존) 발견 → 064~066
+  으로 재배정. 소수점 발음 정책 충돌(쩜 vs 점) → 사용자 결정 D6. `{model}` placeholder +
+  `resolve_model()` + `LLMCallRecord.model`.
+- **결과**: 기존 테스트 전부 통과 + 신규 7건. Phase 0 착수는 사용자 결정(D1·D2·D8) 대기.
+- **연관**: docs/handoff/15 P3(SSOT), P5(provenance), docs/handoff/19 §3·§4·§5.
 
 ## 2026-06-06 v0.34.2 — 라인/자막 안 보이던 사고 2 픽스 + 30초 확장 (영상미 C0)
 

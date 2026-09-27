@@ -1,6 +1,6 @@
 <!--
 tier: 3
-last_synced_with: v0.43.3
+last_synced_with: v0.43.5
 ssot_for: [release-notes]
 depends_on: [README.md, GOAL.md]
 last_review: 2026-06-11
@@ -27,6 +27,20 @@ released 항목은 **append-only**입니다.
 -
 
 ---
+
+## [v0.43.5] — 2026-09-27
+
+### Changed
+- **구독 LLM 브리지 모델 고정 — `claude -p --model claude-opus-5-5`.** v0.43.4 까지는
+  `claude -p` 에 `--model` 을 주지 않아 사용자 머신 claude CLI 의 기본 모델이 쓰였고
+  저장소 어디에도 기록되지 않았다. 이제 모델명은 `config.yaml` `llm.model` 한 곳(SSOT)에서
+  오고, `LLMCallRecord.model` 에 실제 전달값이 남는다(optional 필드, 기존 기록 호환).
+  codex 백엔드는 변경 없음. 회귀 테스트 `tests/test_llm_model_pin.py`.
+
+### Added
+- **v2 전면 개편 핸드오프 문서 묶음 `docs/handoff/`** (00~18, KICKOFF, golden 프레임 25장,
+  reference_code v1~v3) + Fable 분석·Opus 실행 계획 `docs/handoff/19_*`, v3 코드
+  인벤토리 `19a_*`, Opus 착수 프롬프트 `OPUS_KICKOFF_PROMPT.md`. 골든 mp4 는 gitignore.
 
 ## [v0.43.3] — 2026-07-12
 
