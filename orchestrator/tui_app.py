@@ -14,10 +14,8 @@ from __future__ import annotations
 
 import asyncio
 from datetime import datetime
-from json import JSONDecodeError
 from pathlib import Path
 
-from pydantic import ValidationError
 from textual.app import App, ComposeResult
 from textual.binding import Binding
 from textual.containers import Container, Horizontal, Vertical
@@ -27,6 +25,7 @@ from textual.widgets import Footer, Header, RichLog, Static
 from orchestrator import __version__
 from orchestrator.config import AppConfig
 from orchestrator.dashboard import DashboardSnapshot
+from orchestrator.errors import ManifestError
 from orchestrator.project_manager import load_manifest
 from orchestrator.worker_slot_manager import WorkerSlotManager
 from schemas.models import ProjectState, WorkerSlot, WorkerSlotsSnapshot
@@ -284,8 +283,8 @@ class CommandCenterApp(App[None]):
 
         실패 모드별:
         - 매니페스트 자체가 사라짐 (`FileNotFoundError`) → `unknown` 표시.
-        - JSON 파싱 실패 / Pydantic 검증 실패 (외부 도구가 손상시켰거나
-          atomic write 도중의 극단적 race) → `invalid` 표시.
+        - 손상·옛 버전 manifest (`ManifestError`, v3.0.0) → `invalid` 표시와 오류 로그.
+          created 로 폴백하지 않는다(15 P6).
         - 상태 안정될 때까지 stderr noise 를 줄이기 위해 새 진입 시 1회만 로그.
         - 본 메서드는 모든 예외를 swallow 하므로 tick loop 를 죽이지 않는다.
         """
@@ -299,7 +298,7 @@ class CommandCenterApp(App[None]):
                 )
             self.current_state = "unknown"
             return
-        except (JSONDecodeError, ValidationError) as e:
+        except ManifestError as e:
             if self.current_state != "invalid":
                 self._orch_emit(
                     "stderr",

@@ -20,9 +20,13 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Optional
 
+from pydantic import ValidationError
+
 from orchestrator.config import AppConfig, load_config, project_dir
+from orchestrator.errors import ManifestCorruptError, ManifestVersionError
 from orchestrator.state_machine import validate_transition
 from schemas.models import (
+    MANIFEST_SCHEMA_VERSION,
     Category,
     ProjectManifest,
     ProjectState,
@@ -149,13 +153,27 @@ def _write_manifest(manifest: ProjectManifest, cfg: AppConfig) -> Path:
 
 
 def load_manifest(project_id: str, cfg: Optional[AppConfig] = None) -> ProjectManifest:
-    """디스크의 project_manifest.json 을 읽어 ProjectManifest 로 검증."""
+    """디스크의 project_manifest.json 을 읽어 ProjectManifest 로 검증.
+
+    손상 → ManifestCorruptError, schema_version ≠ 2 → ManifestVersionError (v3.0.0, 15 P6 — 폴백 없음).
+    """
     cfg = cfg or load_config()
     path = manifest_path(project_id, cfg)
     if not path.exists():
         raise FileNotFoundError(f"project_manifest.json 이 없습니다: {path}")
-    raw = json.loads(path.read_text(encoding="utf-8"))
-    return ProjectManifest.model_validate(raw)
+    try:
+        raw = json.loads(path.read_text(encoding="utf-8"))
+    except (json.JSONDecodeError, UnicodeDecodeError) as e:
+        raise ManifestCorruptError(path, f"JSON 아님 ({e})") from e
+    if not isinstance(raw, dict):
+        raise ManifestCorruptError(path, "최상위가 객체가 아님")
+    found = raw.get("schema_version")
+    if found != MANIFEST_SCHEMA_VERSION:
+        raise ManifestVersionError(path, found, MANIFEST_SCHEMA_VERSION)
+    try:
+        return ProjectManifest.model_validate(raw)
+    except ValidationError as e:
+        raise ManifestCorruptError(path, f"스키마 불일치 ({e.error_count()}건: {e.errors()[0]['loc']})") from e
 
 
 # ---------------------------------------------------------------------------

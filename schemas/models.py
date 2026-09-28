@@ -38,32 +38,27 @@ class Category(str, Enum):
 
 
 class ProjectState(str, Enum):
-    """프로젝트 상태 머신. docs/02_SYSTEM_ARCHITECTURE.md §4 와 동기화."""
+    """프로젝트 상태 머신 (v3.0.0, docs/handoff/16 §2). 전이표는 orchestrator/state_machine.py.
+
+    옛 24개 상태(v2 이전)는 삭제했다(15 P2). 옛 값을 담은 manifest 는 schema_version 1 이라
+    로드 시 ManifestVersionError — 변환하지 않는다(19 §3.6).
+    """
 
     CREATED = "created"
-    INTAKE_PLANNING = "intake_planning"
-    INTAKE_PENDING_USER = "intake_pending_user"
-    SOURCE_COLLECTING = "source_collecting"
-    SOURCE_COMPLETENESS_REVIEW = "source_completeness_review"
-    RESEARCH_IN_PROGRESS = "research_in_progress"
-    BLUEPRINT_REVIEW = "blueprint_review"
-    SCRIPT_WRITING = "script_writing"
-    SCRIPT_REVIEW = "script_review"
-    SCENE_PLANNING = "scene_planning"
-    ASSET_PRODUCTION = "asset_production"
-    SCENE_REVIEW = "scene_review"
-    AUDIO_PRODUCTION = "audio_production"
-    RENDER_DEBUG = "render_debug"
-    DEBUG_REVIEW = "debug_review"
-    RENDER_PREVIEW = "render_preview"
-    PREVIEW_REVIEW = "preview_review"
-    THUMBNAIL_PRODUCTION = "thumbnail_production"
-    THUMBNAIL_REVIEW = "thumbnail_review"
-    RENDER_FINAL = "render_final"
-    FINAL_REVIEW = "final_review"
-    PUBLISH_READY = "publish_ready"
-    PUBLISHED = "published"
-    ARCHIVED = "archived"
+    INTAKE = "intake"                      # 소스 접수 + 요청 정리 [18]
+    SOURCE_VERIFY = "source_verify"        # 출처 검증·주장 추출·교차 확인 [18]
+    RESEARCH = "research"                  # 보강 리서치, 사실 목록 확정
+    SCRIPT_DRAFT = "script_draft"          # 원고 YAML
+    SCRIPT_APPROVAL = "script_approval"    # ★ 사용자 승인 게이트 ①
+    VOICE_TIMELINE = "voice_timeline"      # 린트 → TTS → plan.json
+    ASSETS = "assets"                      # 지오·인물·휘장·국기·미디어
+    DIRECTION = "direction"                # 연출
+    PREVIEW_QA = "preview_qa"              # 결정적 검사·시각 검수·프리뷰 시트
+    PREVIEW_APPROVAL = "preview_approval"  # ★ 사용자 승인 게이트 ②
+    RENDER = "render"                      # 전체 렌더
+    AUDIO_MIX = "audio_mix"                # 내레이션·음악·효과음
+    DELIVER = "deliver"                    # 먹싱·SRT·설명문·provenance
+    DONE = "done"
 
 
 class TaskStatus(str, Enum):
@@ -165,7 +160,11 @@ class StateTransition(BaseModel):
     reason: str = ""
 
 
+MANIFEST_SCHEMA_VERSION: int = 2   # v3.0.0 — 상태 머신 교체(16 §2), 옛 manifest 는 재생성(19 §3.6)
+
+
 class ProjectManifest(VersionedModel):
+    schema_version: Literal[2] = MANIFEST_SCHEMA_VERSION  # type: ignore[assignment]
     project_id: str
     title: str
     category: Category

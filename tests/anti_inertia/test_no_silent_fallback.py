@@ -2,7 +2,7 @@
 
 (a) 미등재 이벤트 타입 → RegistryError   (Phase 2)
 (b) 권리 필드 없는 미디어 → RightsError   (Phase 6.5)
-(c) 손상 manifest → 오류, created 폴백 아님 (Phase 6.8)
+(c) 손상 manifest → 오류, created 폴백 아님 (v3.0.0 통과)
 (d) `main.py build-scene` → LegacyRemovedError (v2.0.0 통과)
 """
 
@@ -13,7 +13,6 @@ import tempfile
 import unittest
 from pathlib import Path
 
-import pytest
 
 
 class NoSilentFallbackTest(unittest.TestCase):
@@ -32,10 +31,9 @@ class NoSilentFallbackTest(unittest.TestCase):
         with self.assertRaises(media.RightsError):  # type: ignore[attr-defined]
             media.validate_media({"kind": "photo", "img": "x.jpg"})  # type: ignore[attr-defined]
 
-    @pytest.mark.xfail(strict=True, reason="Phase 6.8 — command_center 가 손상 manifest 를 created 로 폴백")
-    def test_c_corrupt_manifest_is_error(self) -> None:
-        # Phase 6.8 계약: command_center.load_project_state 가 손상 manifest 에서
-        # orchestrator.errors.ManifestCorruptError 를 던진다 (지금은 created 로 폴백).
+    def test_c_corrupt_manifest_is_error(self) -> None:   # v3.0.0 해제(D-0040 작업 2)
+        # command_center.load_project_state 가 손상 manifest 에서
+        # orchestrator.errors.ManifestCorruptError 를 던진다 (created 폴백 없음).
         from orchestrator import command_center
         from orchestrator.config import AppConfig, PathsConfig
         from orchestrator.errors import ManifestCorruptError  # type: ignore[attr-defined]
