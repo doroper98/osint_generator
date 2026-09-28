@@ -1,96 +1,114 @@
 <!--
 tier: 2
-last_synced_with: v0.45.1
-ssot_for: [video-style-guide]
-depends_on: [17_COLLAGE_DESIGN_SHEET.md, SHORTS_COLLAGE_OVERHAUL_PLAN.md, 08_AUDIO_AND_TTS_SPEC.md, 12_QA_AND_REVIEW_SPEC.md]
-last_review: 2026-08-14
+last_synced_with: v4.0.0
+ssot_for: [video-style-guide-index]
+depends_on: [docs/handoff/05_CAMERA_SHOTS_TRANSITIONS.md, docs/handoff/06_OVERLAYS_AND_DATA_LAYERS.md, docs/handoff/08_PANELS_AND_CARDS.md, docs/handoff/09_TYPOGRAPHY_HUD_SUBTITLES.md, docs/handoff/14_MEDIA_PHOTO_VIDEO.md, docs/handoff/17_AI_DIRECTOR_VISUAL_QA_PROMPTS.md, rules/video_rules.yaml, CLAUDE.md]
+last_review: 2026-09-29
 -->
 
-# 07 — Video Style Guide (v2 — 쇼츠 콜라주 기본)
+# 07 — 영상 스타일 가이드 (v4.0.0 재작성)
 
-> [deprecated v2.0.0] 본 문서의 영상 기준은 폐기됐다. 정본: docs/handoff/05, 08, 09. Phase 11에서 재작성.
+이 문서는 **영상 문법의 안내도**다. 무엇을 어디서 정하는지만 적는다.
+구체 기준의 정본은 `docs/handoff/`(05·06·08·09·14·17)이고, 수치의 정본은 `rules/video_rules.yaml`이다.
+이 문서는 수치를 복사하지 않는다. 값이 필요하면 아래 `rules:키`를 연다(15 P3, DOCS_GOVERNANCE §3).
 
-> v2 개정 (2026-08-14, 사용자 결정): 기본 포맷을 **쇼츠(1080×1920) 콜라주**로 전환.
-> v1(지도 중심·작은 자막·롱폼)은 §7 의 briefing 동결 프로파일로 승계. 구체 토큰 값의
-> SSOT 는 [17_COLLAGE_DESIGN_SHEET.md](17_COLLAGE_DESIGN_SHEET.md), 개편 배경·벤치마크는
-> [SHORTS_COLLAGE_OVERHAUL_PLAN.md](SHORTS_COLLAGE_OVERHAUL_PLAN.md).
+기준 작품은 v3『호르무즈와 한국』이다. 골든 프레임 25장은 `docs/handoff/golden/`, 동작 원본은 `docs/handoff/reference_code/v3_hormuz_korea/`.
+옛 판(쇼츠 콜라주·HyperFrames·Remotion 문법, v0.45.1)은 v2.0.0에서 폐기됐다. 보존본은 `archive/hyperframes-briefing` 브랜치다.
 
-## 1. 내레이션
+---
 
-- 인사말 없음. 바로 본론 — 첫 문장은 질문 또는 충격 수치 (HOOK 3초 법칙).
-- 존댓말 **브리핑체** 유지. 짧은 문장 (한 문장 한 메시지).
-- 톤: **정확한 인토네이션과 딕션, 귀에 딱딱 꽂히는 전달** (v0.43.7 사용자 확정 —
-  상세는 [08_AUDIO_AND_TTS_SPEC.md](08_AUDIO_AND_TTS_SPEC.md) §1).
-- 과장된 예고편 톤 금지. 확인 / 추론 / 미검증 라벨 분리 (§6).
+## 1. 화면 구성 원칙
 
-## 2. 화면 — "수사 파일(dossier) 콜라주"
+| 원칙 | 규칙 키 | 정본 |
+|---|---|---|
+| 장면 수·길이는 원고가 정한다. 고정 막·섹션=장면 1:1 금지(G4-13) | `rules:script_schema.scene_count`, `rules:script_schema.duration_limit_sec` | handoff 02 §2.1, 03 §1.1 |
+| 모서리에는 **날짜 배지만** 둔다 | `rules:hud.allowed_corner_elements`, `rules:hud.date_badge` | handoff 09 §5 |
+| 도장·비네팅·브랜드·섹션 번호·섹션 제목·스크러버 금지 | `rules:hud.forbidden_components` | handoff 09 §5·§8 |
+| 설계 좌표는 한 벌(854×480). 다른 해상도는 렌더 진입 장치 변환 한 곳에서 키운다(D60) | `rules:layout_480p.base`, `config:engine.output` | [10 렌더 파이프라인](10_RENDERING_PIPELINE_SPEC.md) §4 |
+| 장면 구성·연출은 LLM+사용자, 렌더 수치·검증·권리는 코드(15 P8) | `rules:registries` | handoff 17 §2 |
 
-- **종이 질감 위의 콜라주**가 화면의 기본 문법: 컷아웃 인물·소품·증거 사진이 종이 배경
-  위에 물성 있게 놓인다. 순색 배경 금지, 정지 프레임 금지 (씬마다 최소 1개 모션 — C0).
-- **인물 = 배경 제거 컷아웃 + 고대비 모노톤 + 컬러 오프셋 섀도** (17 §1.7, 전 샷 스케일
-  공통) — **실사진 입력 가공만** 사용 (가공 엔진은 ChatGPT 이미지 가공 1순위 + 절차식 폴백,
-  무입력 사실 생성 금지 — G4-10 v1.0.0), 라이브러리 자산(`assets/library/`)만 투입,
-  하단 등장. 섀도 색 = 카테고리 액센트.
-- **실제 증거 우선**: 기사 캡처·사진(cleared+credit)·차트를 콜라주 프레임에 얹는다.
-  사진 크레딧 `사진 · {credit}` 우하단 필수 (IMAGE_BUNDLE_CONTRACT §3.1-a).
-- 강조: 붉은 실·형광펜·펜 동그라미·스탬프. 출처는 우하단 소형 표기.
-- 배경 문법: 선버스트 방사, 무대 디오라마(커튼+스포트라이트), 서류 파일.
-- 검열바(눈가 검정 바)는 `<추론>`/`<미검증>` 맥락 한정 — 확인된 사실 인물에 남용 금지.
+## 2. 카메라 문법
 
-## 3. 자막·타이포
+카메라는 문장마다 움직이지 않는다. 장면당 이동 수와 숏 최소 유지 시간이 정해져 있다.
+줌 범프(튀어 오르는 줌)는 쓰지 않는다. 멀리 이동할 때만 암전 컷(dip)을 쓴다.
 
-- **대형 자막** (Pretendard ExtraBold 68px, 흰색+검정 외곽선) — 모바일 3사(쇼츠·릴스·틱톡)
-  가독 기준. v1 의 "작은 자막" 정책은 briefing 프로파일에만 잔존.
-- **랜섬노트 타이포는 헤드라인·강조어 한정** (씬당 1줄, 6어절 이내). 자막 본문 금지 —
-  가독성과 G4 신뢰성이 우선. 강조어 원천은 번들 `emphasis` 필드.
-- Safe area (상 220 / 하 350 / 우 140 / 좌 60px) 밖에 핵심 텍스트 금지.
-- 텍스트 도배 금지 — key takeaway + 비주얼 (C0).
+| 항목 | 규칙 키 | 정본 |
+|---|---|---|
+| 장면당 이동 상한·숏 최소 유지 | `rules:shot_grammar.camera_moves_per_scene_max`, `rules:shot_grammar.shot_min_hold_sec` | handoff 05 §2 |
+| 이동 길이·선행 시간 | `rules:shot_grammar.move_dur_sec`, `rules:shot_grammar.move_lead_sec` | handoff 05 §1.1 |
+| 줌 범프 금지 | `rules:shot_grammar.zoom_bump` | handoff 05 §1.2 |
+| 드리프트·엔딩 풀백 | `rules:shot_grammar.drift`, `rules:shot_grammar.ending_pullback` | handoff 05 §1.1 |
+| 암전 길이·빈도·최대 불투명도 | `rules:shot_grammar.dip_total_sec`, `rules:shot_grammar.dip_max_per_sec`, `rules:shot_grammar.dip_alpha_peak` | handoff 05 §3 |
+| 이동 대신 암전으로 넘어가는 거리·배율 | `rules:shot_grammar.auto_transition` | handoff 05 §7-2 |
+| 용도별 화면 폭(w) 안내 | `rules:shot_grammar.w_guide` | handoff 05 §2.2 |
+| 자동 프레이밍(frame_points)·맥락 폭 하한(D54) | `rules:camera.framing`, `rules:camera.framing.context_w_min` | handoff 05 §7 |
 
-## 4. 색상 시스템
+카메라 제안(`engine/camera_suggest.py`)은 **보조**다. 연출가가 쓴 숏을 코드가 옛 모양으로 되돌리지 않는다(15 P8).
 
-- 기조: **라이트 종이 팔레트** (크라프트 `#E8DFC9` 계열 + 잉크 `#1C1A17`) — 17 §1.2.
-- 카테고리 액센트 (v1 승계 — 선버스트·스탬프 보조색에 매핑):
+## 3. 지도 위 요소
 
-| 카테고리 | 주 색상 |
-|---|---|
-| 전쟁/군사 | 붉은색 |
-| 지정학 (대치 구도) | 붉은색 + 청색 |
-| 지정학 (3자 이상) | 빨강 + 파랑 + 녹색 + 노랑 |
-| 경제/산업 | 노랑 / 주황 |
-| 지진/재난 | 주황 / 적갈색 |
-| 정보전/음모론 | 암청색 / 보라빛 적색 |
+마커·경로·호·봉쇄선·선박 입자·국가 강조는 handoff 06이 정본이다. 관계선은 **하나씩, 정돈되게** 등장한다(G4-17).
+라벨 밀도와 LOD는 [09 지도·지오](09_MAP_AND_GEO_SPEC.md) §4를 본다.
 
-## 5. 모션 — 이원 체계
+## 4. 패널·카드·뱃지·미디어
 
-- **물성 요소** (컷아웃·소품·종이): 스텝 이징(10 스텝/초)·"탁" 놓기(0.22s)·미세 지터 —
-  스톱모션 질감. 시드 고정 결정론 (`Math.random` 금지).
-- **정보 요소** (차트·라벨·자막): Material decelerate — PROFESSIONAL_REBUILD_PLAN §1.1 승계.
-- draw-on (판화 선·붉은 실·형광펜): `getTotalLength` 명시 시작 상태 (v0.34.2 학습).
-- 씬 길이 3~6초, 컷 빠르게. 상세 상수는 17 §1.4.
+| 요소 | 규칙 키 | 정본 |
+|---|---|---|
+| 패널 종류 레지스트리(없는 종류 = 오류, P10) | `rules:registries.panel_kinds` | handoff 08 §1~§8 |
+| 패널 공통 기하(가림막·제목·부제·화면 사용률) | `rules:layout_480p.panel`, `rules:panels` | handoff 08 §2 |
+| 관계 패널·연표·차트 | `rules:panels.relation`, `rules:panels.timeline`, `rules:panels.charts` | handoff 08 §3·§5·§8 |
+| 추정 태그 위치(제목 아래, D37) | `rules:panels.prov_tag` | handoff 08 §9 |
+| 카드(우측 슬라이드)·예약 영역 | `rules:layout_480p.card`, `rules:layout_480p.reserved_zones`, `rules:panels.reserved` | handoff 08 §10 |
+| 기사 카드·게시물(post) 카드 | `rules:layout_480p.article_card`, `rules:layout_480p.post_card` | handoff 14 §9, 18 §5 |
+| 뱃지(인물·국기·휘장) 크기·등장 | `rules:layout_480p.badge`, `rules:registries.badge_kinds` | handoff 07 |
+| 사진·영상·컷아웃 비트 | `rules:media_beats`, `rules:media.density` | handoff 14 §4·§10 |
+| 미디어 배치 슬롯(좌표는 코드, LLM 은 슬롯 이름만) | `rules:placement.slots`, `rules:placement.auto_media` | handoff 17 §2 |
+| 이벤트 타입 레지스트리 | `rules:registries.event_types` | handoff 17 §2 |
 
-## 6. 라벨링 시스템 — 고무 스탬프
+미디어는 권리 레지스트리에 있어야 그려진다. 자료사진·자료 영상 표기와 출처 줄은 빠지면 오류다(`rules:media_beats.file_photo_label_required`, `rules:media_beats.caption_credit_required`).
+사실 장면을 AI로 생성하지 않는다(`rules:media_beats.ai_generated_forbidden`). 사상자를 식별할 수 있는 장면은 쓰지 않는다(`rules:media_beats.casualty_identifiable_forbidden`).
 
-의미·색 구분은 v1 그대로 (G4 — 변경 금지), 표면 처리만 고무도장 미학으로.
+## 5. 타이포·자막·색
 
-| 라벨 | 시각 |
-|---|---|
-| `<확인>` | 검정 스탬프, 흰 글씨 |
-| `<추론>` | 노랑 스탬프 (#C9A227), 검정 글씨 |
-| `<미검증>` | 빨강 스탬프 (#A63428), 흰 글씨 |
-| `<반박됨>` | 회색 스탬프 + 빨강 사선 |
+| 항목 | 규칙 키 | 정본 |
+|---|---|---|
+| 글꼴 스택 | `rules:fonts` | handoff 09 §1 |
+| 자막 크기·위치·강조색 | `rules:layout_480p.subtitle` | handoff 09 §4 |
+| 자막 줄 수·줄바꿈 폭 | `rules:script_schema.subtitle_max_lines`, `rules:script_schema.subtitle_wrap_px_480p` | handoff 09 §4 |
+| 최소 글자(설계 px) · 예외 역할(D62) | `rules:layout_480p.min_font_px`, `rules:qa_checks.glyph_size_exempt` | handoff 09 §2 |
+| 타이틀 카드·엔딩 카드 | `rules:layout_480p.title_card`, `rules:layout_480p.end_card` | handoff 09 §6 |
+| 페이드 | `rules:layout_480p.fade` | handoff 09 §8 |
+| 색 토큰 | `rules:colors` | handoff 09 §7 |
 
-등장 모션: 도장 "쾅" (1.3→1.0 스케일 + 5° 기울기). 자세한 라벨 정책은
-[12_QA_AND_REVIEW_SPEC.md](12_QA_AND_REVIEW_SPEC.md).
+## 6. 검증 라벨
 
-## 7. briefing 동결 프로파일 (v1 승계 — 롱폼 16:9)
+자막 앞의 검증 라벨은 코드가 `intake/claims.json` status로 계산한다(15 P8). 문구는 `rules:script_schema.labels`다.
+`<미검증>`은 확인되지 않은 주장, `<논쟁>`은 양측 주장이 맞서는 사안이다. 논쟁 사안은 양측을 같은 무게로 다룬다(C0 경계).
+한 문장이 여러 claim을 인용하면 `rules:script_schema.label_strength_order` 앞쪽(가장 약한 것)이 라벨이 된다.
+라벨 모양은 `rules:layout_480p.subtitle.label_style`, 미검증 주장을 인용하는 문장의 귀속 표현은 `rules:script_schema.attribution_markers`.
 
-`hyperframes/briefing/` 컴포지션은 **동결 유지** (삭제 아님, 회귀 없음). v1 규범 요지:
-지도 중심 화면, ink&brass 다크 팔레트, 작은 하단 자막, 0.2s cross fade, slow zoom 5~10초.
-세부는 briefing/index.html `<style>` + themes.js 가 사실상의 SSOT. 신규 개발은 쇼츠
-프로파일에만 투입한다.
+## 7. 되돌리면 안 되는 것
 
-## 이력
+사용자 합격 판정이 끝난 목록이다. 정본은 [CLAUDE.md](../CLAUDE.md) C0과 `docs/handoff/KICKOFF_PROMPT.md` §5다.
+고정 막 구성, 모서리의 브랜드·섹션 표기, 도장, 비네팅, 문장마다 카메라 이동, 줌 범프, 한꺼번에 튀어나오는 관계선,
+AI 상투 문구(`rules:banned_phrases`), 발음 텍스트 안의 숫자·기호(`rules:tts_rules.forbidden_chars_regex`).
 
-- v1 (v0.3.3): 지도 중심 롱폼 스타일.
-- v2 (v0.44.0): 쇼츠 콜라주 기본 전환 — 사용자 결정 (SHORTS_COLLAGE_OVERHAUL_PLAN).
-- v2.1 (v0.44.2): 인물 표현 샷 스케일 규칙 반영 (17 §1.7).
+## 8. 프리뷰 결정적 검사 (12항목)
+
+프리뷰(`python -m engine.render <proj> --preview …`)는 `prev/checks.json`을 만든다. hard가 하나라도 있으면 시각 검수 LLM을 부르지 않는다.
+구현은 `engine/checks.py`(`HARD`·`WARN`), 임계는 `rules:qa_checks`. 판정 흐름은 [12 QA·검수](12_QA_AND_REVIEW_SPEC.md) §2.
+
+| id | 등급 | 무엇을 보나 | 규칙 키 |
+|---|---|---|---|
+| overlap | hard | 사진·영상 상자 × 카드·자막·날짜 예약 영역, 카드 × 날짜·자막, 카드에 가린 마커 라벨(D61) | `rules:layout_480p.reserved_zones`, `rules:qa_checks.label_hidden_max_ratio` |
+| offscreen | hard | 뱃지 상자(머리·이름표 포함)가 화면 밖 | `rules:qa_checks.offscreen_clip` |
+| glyphs | hard | 그릴 글자가 프로젝트 글꼴에 있음 | `rules:qa_checks.missing_glyphs` |
+| glyph_size | hard | 그린 글자 크기 ≥ 최소 글자(예외 역할 제외, D62) | `rules:layout_480p.min_font_px`, `rules:qa_checks.glyph_size_exempt` |
+| labels | hard | 프레임당 도시 라벨 수 | `rules:qa_checks.labels_per_frame_max` |
+| date | hard | 문장 날짜 형식 | `rules:script_schema.date_formats` |
+| subtitles | hard | 자막 줄 수 | `rules:qa_checks.subtitle_lines_max` |
+| rights | hard | 권리 점검 통과 | `rules:qa_checks.rights_missing`, `rules:credits` |
+| forbidden | hard | 레지스트리 밖 이벤트·비네팅·모서리 요소 | `rules:qa_checks.forbidden_components`, `rules:hud.forbidden_components` |
+| shots | warning | 숏 유지·장면당 이동·암전 빈도 | `rules:shot_grammar` |
+| media_beats | warning | 미디어 밀도 | `rules:media.density` |
+| media_upscaled | warning | 원본 폭 < 장치 폭(추측 보간 금지, 알리기만) | `config:engine.output` |
