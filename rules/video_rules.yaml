@@ -129,7 +129,7 @@ panels:                    # D-0032 — 패널 기하·타이밍. 코드에 리�
       demand: {color: gold, alpha: 0.8, dash: []}
       refuse: {color: ru, alpha: 0.55, dash: [4, 4]}
     state_label: {dx: 78, dy: 5, size: 12, halo: 2.4}
-    edge_label: {x: 400, y: 150, size: 11, delay_sec: 3.2, fade_sec: 0.5, halo: 2.4}   # 규칙 4
+    edge_label: {x: 400, y: 150, size: 11, delay_sec: 3.2, fade_sec: 0.5, halo: 2.4}   # 규칙 4 — 첫 선이 자라기 시작한 뒤(08 §3 v2.5.5 정정, D-0035 NB6). 앞서면 lint 경고
     quote_bottom: {y: 414, size: 13, fade_sec: 0.4, halo: 3}
     quote_source: {dy: 92, size: 12.5, fade_sec: 0.4, halo: 3}
   timeline:                # 08 §5 v3 P_timeline 합격 값(수치 무변경) + 자동 층 배치(08 §11-3)

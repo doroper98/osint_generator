@@ -28,6 +28,13 @@ released 항목은 **append-only**입니다.
 
 ---
 
+## [v2.5.5] — 2026-09-28 — Phase 6.5: 사진·영상·컷아웃·기사 (back_and_forth D-0036, 진행 중)
+
+### Changed
+- 관계 패널 규칙 4를 "라벨은 첫 선이 자라기 시작한 뒤"로 정정(08 §3, D-0035 NB6). 앞서면 lint 경고 `relation-label-before-edge`. v3 hormuz 는 경고 0.
+
+---
+
 ## [v2.5.0] — 2026-09-28 — Phase 6: 패널·카드 데이터화 (back_and_forth D-0032~D-0034)
 
 ### Added

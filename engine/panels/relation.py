@@ -6,7 +6,7 @@ v3 `P_refusal`(요구와 거절)은 이 모델의 한 인스턴스다(hormuz 25�
 08 §3 정돈된 관계선 규칙 6개가 코드에 박힌 곳:
   1. 노드가 모두 뜬 뒤 선 — `edge_start()`   2. 선 지속·간격 — 규칙 값(범위는 규칙 모델이 검증)
   3. 같은 형태의 선 — `edge_curve()`(수평 접선 3차 베지어), 요구자 한쪽·대상 세로 열
-  4. 라벨은 선 뒤 — `edge_label.delay_sec`   5. 상태 변화는 단어 앵커 — `state_changes[].at`
+  4. 라벨은 첫 선 시작 뒤 — `edge_label.delay_sec`, 앞서면 lint 경고(08 §3 v2.5.5 정정)   5. 상태 변화는 단어 앵커 — `state_changes[].at`
   6. 선 7개 초과 → `lint()` 경고 + `split_suggestion()`(제안만, 자동 분할 안 함 — P8)
 """
 
@@ -125,11 +125,15 @@ def draw(ctx: cairo.Context, R: RenderCtx, t: float, e: dict, a: float) -> None:
 
 def lint(e: dict) -> list[str]:
     """관계 패널 경고(오류 아님). 선이 max_edges 를 넘으면 1건 — 08 §3 규칙 6."""
+    out: list[str] = []
     n = len(e["edges"])
     if n > REL.max_edges:
-        return [f"[relation-too-many-edges] '{e['title']}' 선 {n}개 > {REL.max_edges} — 패널을 둘로 나누는 것을 권한다"
-                f" (split_suggestion, 08 §3 규칙 6)"]
-    return []
+        out.append(f"[relation-too-many-edges] '{e['title']}' 선 {n}개 > {REL.max_edges} — 패널을 둘로 나누는 것을 권한다"
+                   f" (split_suggestion, 08 §3 규칙 6)")
+    if e.get("edge_label") and REL.edge_label.delay_sec < edge_start(e):
+        out.append(f"[relation-label-before-edge] '{e['title']}' 선 라벨 {REL.edge_label.delay_sec}초 < 첫 선 시작 "
+                   f"{edge_start(e):.2f}초 (08 §3 규칙 4)")
+    return out
 
 
 def split_suggestion(e: dict) -> dict | None:

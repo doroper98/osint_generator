@@ -274,7 +274,7 @@ class RelationPanelRules(_Strict):
     target: RelationNodeCol
     styles: dict[str, RelationEdgeStyle]
     state_label: RelationStateLabel
-    edge_label: RelationEdgeLabel   # 규칙 4 — 라벨은 선이 자라기 시작한 뒤(v3 값 3.2초)
+    edge_label: RelationEdgeLabel   # 규칙 4 — 라벨은 첫 선이 자라기 시작한 뒤(08 §3 v2.5.5 정정, D-0035 NB6)
     quote_bottom: RelationQuoteBottom
     quote_source: RelationQuoteSource
 

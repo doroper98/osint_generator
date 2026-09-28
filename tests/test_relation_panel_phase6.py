@@ -38,6 +38,18 @@ class RelationLintTest(unittest.TestCase):
         self.assertIsNone(relation.split_suggestion(e))
 
 
+class RelationLabelRuleTest(unittest.TestCase):
+    """08 §3 규칙 4(v2.5.5 정정, D-0035 NB6) — 라벨은 첫 선 시작 뒤. hormuz(v3) 는 경고 0."""
+
+    def test_v3_no_warning_and_early_label_warns(self) -> None:
+        e = PanelRelation.model_validate(_event("preview/panel_relation.yaml")).model_dump()
+        self.assertEqual(relation.lint(e), [])
+        many = copy.deepcopy(e)   # 대상 노드가 늘면 첫 선 시작이 늦어진다 → 라벨(3.2초)이 앞선다
+        many["nodes"] += [dict(n, id=f"x{i}") for i, n in enumerate([e["nodes"][1]] * 6)]
+        many["edges"] = many["edges"][:4] + [dict(src="trump", dst=f"x{i}", style="demand") for i in range(3)]
+        self.assertTrue(any("relation-label-before-edge" in w for w in relation.lint(many)))
+
+
 class RelationModelTest(unittest.TestCase):
     def setUp(self) -> None:
         self.ev = _event("preview/panel_relation.yaml")
