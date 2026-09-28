@@ -60,10 +60,10 @@ script_schema:             # 02 §2.1 요약 — 프롬프트 예시는 tests/an
     verified: null
     corroborated: null
     unverified: "<미검증>"
-    disputed: "<반박됨>"
+    disputed: "<논쟁>"          # v3.2.0 D-0054 — 양측 주장 대립(한쪽이 논파된 것처럼 읽히는 "<반박됨>" 정정)
   label_strength_order: [disputed, unverified, corroborated, verified]
   # v3.2.0 D-0051 작업 8 — unverified claim 을 인용하는 문장은 누가 말했는지 귀속한다(18 §3-3). 자막에 이 중 하나가 없으면 린트 경고
-  attribution_markers: ["주장했", "주장합니다", "주장이", "올렸", "밝혔", "따르면", "전했", "말했", "발표했", "주장하", "라고 했"]
+  attribution_markers: ["주장했", "주장합니다", "주장이", "올렸", "밝혔", "따르면", "전했", "말했", "발표했", "주장하", "라고 했", "확인되지 않", "claimed", "claims", "said", "says", "called", "alleged", "according to"]   # "확인되지 않" = 미확인임을 스스로 밝히는 문장(e2e 실측). 영어 = 검증 인용의 귀속 판정(D-0054 B, 대소문자 무시)
 
 verification:              # v3.2.0 back_and_forth D-0052(D50) — 교차 확인 = 인용 대조. LLM 은 claim 후보·인용·stance, 판정은 코드(orchestrator/source_verify.py)
   quote_max_chars: 160     # 인용 상한(저작권상 짧게). 인용은 소스 본문의 연속 부분 문자열(공백 정규화 후) — 불일치 = 근거 폐기 + drops[]

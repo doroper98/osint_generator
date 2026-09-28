@@ -155,6 +155,7 @@ class Claim(_Strict):
     sides: Optional[list[ClaimSide]] = None
     event_date: Optional[date] = None                 # 사건일(날짜 배지) — 게시일과 다를 수 있다(18 §3-2)
     checks: list[str] = Field(default_factory=list)   # 코드 판정 근거(quote_match:<src>·official:<src>·independent_origins:N …)
+    attributed_only: bool = False                     # 근거가 전부 "~라고 주장/said" 인용 — 사실이 아니라 주장의 존재만 확인(D-0054 B)
     notes: str = ""
 
     @model_validator(mode="after")

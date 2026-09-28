@@ -7,7 +7,10 @@
 1. 인용은 `rules verification.quote_max_chars` 이하, 그 소스 본문의 **연속 부분 문자열**(공백 정규화 후). 아니면 근거 폐기 + drop.
 2. origin 정규화: x_post = handle, article = publisher, document = issuer. 재인용(기사 note 의 `reprint_markers`, 또는
    기사 요지가 다른 소스의 인용을 그대로 담음)은 독립 origin 에서 뺀다. 삭제된 게시물(18 §3-4)도 세지 않는다.
-3. status 순서: 독립 origin 의 contradicts 근거 → **disputed** / 공식 1차 출처(official_* 계정·document)가 supports
+0. (D-0054) 인용이 귀속 표현(`script_schema.attribution_markers` — "~라고 주장했다"·said·called…)을 담으면 그 근거는
+   "주장이 있었다"만 뒷받침한다 — 사실의 supports 에서 뺀다. 그런 근거만 있으면 contested 로 승격(`attributed_only`).
+   contested 면 **sides ≥ 2 → disputed, 아니면 unverified** — corroborated·verified 금지.
+3. (contested 아닐 때) status 순서: 독립 origin 의 contradicts 근거 → **disputed** / 공식 1차 출처(official_* 계정·document)가 supports
    + 그 소스 사용자 확인 → **verified** / supports 독립 origin ≥ `independent_min` → **corroborated** / 나머지 **unverified**.
 4. contested 인데 sides < 2 → unverified(스키마). 사용자 확인 안 된 소스가 있으면 단계 자체를 시작하지 않는다(18 §7).
 """
@@ -56,6 +59,11 @@ def is_official(rec: Source) -> bool:
     return isinstance(rec, DocumentSource) or (isinstance(rec, XPostSource) and rec.account_class.startswith("official"))
 
 
+def _attributed(quote: str, markers: list[str]) -> bool:
+    q = quote.lower()
+    return any(m in q for m in markers)
+
+
 def _reprint(rec: Source, other_quotes: list[str], markers: list[str]) -> bool:
     if not isinstance(rec, ArticleSource):
         return False
@@ -67,7 +75,9 @@ def _reprint(rec: Source, other_quotes: list[str], markers: list[str]) -> bool:
 
 def judge(draft: VerifyDraft, sources: SourcesFile, bodies: dict[str, str]) -> tuple[ClaimsFile, list[str]]:
     """LLM 후보 → 코드 판정 claims + drops(버린 근거·후보 기록). 결정적이다(같은 입력 = 같은 출력)."""
-    V = load_rules().verification  # noqa: N806
+    R_ = load_rules()
+    V = R_.verification  # noqa: N806
+    markers = [m.lower() for m in R_.script_schema.attribution_markers]
     recs = sources.by_id()
     norm_body = {k: _norm(v) for k, v in bodies.items()}
     drops: list[str] = []
@@ -85,11 +95,13 @@ def judge(draft: VerifyDraft, sources: SourcesFile, bodies: dict[str, str]) -> t
                 drops.append(f"{cid}: {ev.source_id} 인용이 본문에 없음({ev.quote[:40]!r}) — 근거 폐기")
             else:
                 good.append(ev)
-        sup = [e for e in good if e.stance == "supports"]
+        sup_all = [e for e in good if e.stance == "supports"]
         con = [e for e in good if e.stance == "contradicts"]
-        if not sup:
+        if not sup_all:
             drops.append(f"{cid}: 본문과 맞는 supports 근거 없음 — 후보 버림({cand.text[:40]!r})")
             continue
+        sup = [e for e in sup_all if not _attributed(e.quote, markers)]   # D-0054 B — 귀속 인용은 사실의 근거가 아니다
+        attributed_only = not sup
         quotes_by_src = {e.source_id: _norm(e.quote) for e in good}
 
         def counted(e) -> bool:  # noqa: ANN001
@@ -97,12 +109,19 @@ def judge(draft: VerifyDraft, sources: SourcesFile, bodies: dict[str, str]) -> t
             others = [q for s, q in quotes_by_src.items() if s != e.source_id]
             return not (isinstance(r, XPostSource) and r.deleted) and not _reprint(r, others, V.reprint_markers)
 
+        contested = cand.contested or attributed_only          # 귀속 인용만 있으면 코드가 분쟁으로 승격(LLM 누락 보완)
         sup_orig = {origin(recs[e.source_id]) for e in sup if counted(e)}
-        con_orig = {origin(recs[e.source_id]) for e in con if counted(e)} - sup_orig
+        con_orig = {origin(recs[e.source_id]) for e in con if counted(e)}
+        if not contested:
+            con_orig -= sup_orig                               # 반박 origin 제거는 분쟁이 아닐 때만(D-0054 A)
         checks = [f"quote_match:{e.source_id}" for e in good] + [f"independent_origins:{len(sup_orig)}"]
+        checks += [f"attributed:{e.source_id}" for e in sup_all if e not in sup]
         official = [e.source_id for e in sup if is_official(recs[e.source_id]) and recs[e.source_id].confirmed and counted(e)]
         checks += [f"official:{s}" for s in official]
-        if con_orig:
+        sides = cand.sides if contested else None
+        if contested:                                          # 판정 ⓪ — 분쟁은 corroborated·verified 가 될 수 없다
+            status = "disputed" if len(sides or []) >= 2 else "unverified"
+        elif con_orig:
             status = "disputed"
         elif official:
             status = "verified"
@@ -110,13 +129,9 @@ def judge(draft: VerifyDraft, sources: SourcesFile, bodies: dict[str, str]) -> t
             status = "corroborated"
         else:
             status = "unverified"
-        sides = cand.sides if cand.contested else None
-        if cand.contested and len(sides or []) < 2:
-            status = "unverified"
-            drops.append(f"{cid}: 분쟁 사안인데 양측 입장 < 2 — unverified(18 §3-5)")
-        ids = list(dict.fromkeys(e.source_id for e in sup + con))
-        claims.append(Claim(claim_id=cid, text=cand.text, source_ids=ids, status=status, contested=cand.contested,  # type: ignore[arg-type]
-                            sides=sides, event_date=cand.event_date, checks=checks, notes=""))
+        ids = list(dict.fromkeys(e.source_id for e in sup_all + con))
+        claims.append(Claim(claim_id=cid, text=cand.text, source_ids=ids, status=status, contested=contested,  # type: ignore[arg-type]
+                            sides=sides, event_date=cand.event_date, checks=checks, attributed_only=attributed_only, notes=""))
     out = ClaimsFile(claims=claims)
     errs = check_claim_sources(out, sources)
     if errs:   # sides 가 없는 소스를 가리킴 등 — 조용히 넘기지 않는다

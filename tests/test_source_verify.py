@@ -89,6 +89,31 @@ class JudgeTest(_Proj):
             "sides": [{"party": "이란", "text": "영해 침범", "source_ids": [self.x_anon]}]}))
         self.assertEqual(c.claims[0].status, "unverified")
 
+    def test_attributed_quotes_only_promote_to_contested(self) -> None:
+        """D-0054 B — '~라고 주장' 인용만 있으면 사실이 아니라 주장의 존재: contested 승격, sides 없으면 unverified."""
+        c, _ = self._judge(_draft({"text": "호위가 영해를 침범했다", "evidence": [
+            _ev(self.a1, "이란은 영해 침범이라고 주장했다"), _ev(self.x_anon, "Iran says the escort violated its waters")]}))
+        cl = c.claims[0]
+        self.assertEqual((cl.status, cl.contested, cl.attributed_only), ("unverified", True, True))
+        self.assertIn(f"attributed:{self.a1}", cl.checks)
+
+    def test_contested_with_two_sides_is_disputed_even_if_same_outlets(self) -> None:
+        """D-0054 A — 분쟁이면 corroborated 금지. 같은 두 매체가 양측을 보도해도 반박이 지워지지 않는다(e2e clm_0004 모양)."""
+        sides = [{"party": "이란", "text": "침범", "source_ids": [self.a1]}, {"party": "미국", "text": "국제 수역", "source_ids": [self.a2]}]
+        c, _ = self._judge(_draft({"text": "영해 침범", "contested": True, "sides": sides, "evidence": [
+            _ev(self.a1, "이란은 영해 침범이라고 주장했다"), _ev(self.a2, "유조선 두 척이 호위 속에")]}))
+        self.assertEqual(c.claims[0].status, "disputed")
+
+    def test_plain_cross_check_still_corroborated(self) -> None:
+        c, _ = self._judge(_draft({"text": "두 척 통과", "evidence": [
+            _ev(self.a1, "유조선 두 척이 해군 호위를 받으며 해협을 지났다"), _ev(self.a2, "유조선 두 척이 호위 속에 해협을 통과했다")]}))
+        self.assertEqual((c.claims[0].status, c.claims[0].attributed_only), ("corroborated", False))
+
+    def test_disputed_label_is_debate(self) -> None:
+        from script.labels import status_label  # noqa: PLC0415
+
+        self.assertEqual(status_label("disputed"), "<논쟁>")
+
     def test_source_verification_rollup(self) -> None:
         c, _ = self._judge(_draft({"text": "호위", "evidence": [_ev(self.a1, "유조선 두 척이"), _ev(self.a2, "유조선 두 척이 호위")]}))
         s = sv.source_verification(si.load_sources(self.pdir), c)
