@@ -208,7 +208,8 @@ hud:                       # 09 §5 — 모서리에는 날짜만
 
 layout_480p:               # 09 §2·§4, 08 §10 — 기준 해상도 854×480. 다른 해상도는 k = H/480
   base: {w: 854, h: 480, fps: 24}
-  subtitle: {size: 19, last_line_y: 452, line_gap: 26, halo: 5.0, halo_alpha: 0.92, emphasis_color: gold}
+  subtitle: {size: 19, last_line_y: 452, line_gap: 26, halo: 5.0, halo_alpha: 0.92, emphasis_color: gold,
+             label_style: {size_ratio: 0.72, color: amber, gap_px: 6}}   # v3.3.0 NB12 — 검증 라벨 접두(script_schema.labels 문구, C9)
   min_font_px: 9.5         # 화면 높이 2% 규칙(엔딩 카드 예외)
   title_card: {dur_sec: 5.6, title_size: 46, subtitle_size: 18, rule_w: 220}
   end_card: {dur_sec: 11.0, item_size: 9.2, license_size: 7.8}
@@ -532,6 +533,9 @@ audio:                     # 10
   master_peak: 0.97
   loudnorm: {I: -14, TP: -1.5, LRA: 11}
   sfx_policy: events_and_scene_starts_only
+
+preview:                   # v3.3.0 D-0056 F6 — `--preview auto` 샘플. 짧은 영상에서 전면 카드만 뽑히지 않게 본편(문장 읽는 중) 컷 최소 수. golden 모드 무관
+  min_body_cuts: 4
 
 qa_checks:                 # 17 §3 — 결정적 사전 검사 임계
   overlap_core_elements: 0

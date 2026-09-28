@@ -30,6 +30,7 @@ from engine.reserved import card_zones
 from engine.registry import MAP_LAYER_ORDER, RegistryError, resolve
 from engine.style import CRF, FADE, FPS, H_OUT, PANEL, W_OUT
 from engine.subtitles import draw_subtitle
+from rules import load_rules
 from engine.timebase import smooth, window
 from schemas.engine_models import StageResult
 
@@ -95,7 +96,19 @@ def auto_preview_times(P: Project) -> list[float]:  # noqa: N803
         ts += [round(a + (b - a) * 0.3, 2), round(a + (b - a) * 0.7, 2)]
     for c in P.plan.cards:
         ts.append(round((c.t0 + c.t1) / 2, 2))
-    return sorted(ts)
+    # v3.3.0 F6 — 본편(문장을 읽는 중, 전면 카드 밖) 컷이 rules preview.min_body_cuts 보다 적으면 문장 가운데 시각을 고르게 보탠다
+    need = load_rules().preview.min_body_cuts
+
+    def body(t: float) -> bool:
+        return not tb.in_fullcard(t) and any(s.t0 <= t <= s.t1 for s in tb.sent.values())
+
+    have = sum(body(t) for t in ts)
+    if have < need:
+        mids = sorted({round(s.t0 + (s.t1 - s.t0) * f, 2) for s in tb.sent.values() for f in (0.25, 0.5, 0.75)})
+        mids = [m for m in mids if m not in ts and body(m)]
+        k = min(need - have, len(mids))
+        ts += [mids[round(i * (len(mids) - 1) / max(1, k - 1))] for i in range(k)] if k > 1 else mids[:k]
+    return sorted(set(ts))
 
 
 PREVIEW_STAGES = {"plan": True, "geo": True, "preview": True, "render": False, "mix": False, "mux": False,

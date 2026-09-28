@@ -198,6 +198,14 @@ class LayoutBase(_Strict):
     fps: int
 
 
+class SubtitleLabelStyle(_Strict):
+    """v3.3.0 NB12 — 자막 앞 검증 라벨(<미검증>·<논쟁>)."""
+
+    size_ratio: float = Field(gt=0, le=1)
+    color: str
+    gap_px: float = Field(ge=0)
+
+
 class SubtitleLayout(_Strict):
     size: float
     last_line_y: float
@@ -205,6 +213,7 @@ class SubtitleLayout(_Strict):
     halo: float
     halo_alpha: float
     emphasis_color: str
+    label_style: SubtitleLabelStyle
 
 
 class TitleCardLayout(_Strict):
@@ -758,6 +767,12 @@ class VerificationRules(_Strict):
     body_max_chars: int = Field(gt=0)
 
 
+class PreviewRules(_Strict):
+    """v3.3.0 F6 — auto 프리뷰 샘플."""
+
+    min_body_cuts: int = Field(ge=1)
+
+
 class VideoRules(_Strict):
     """`rules/video_rules.yaml` 최상위 모델."""
 
@@ -784,5 +799,6 @@ class VideoRules(_Strict):
     credits: CreditRules
     registries: Registries
     audio: AudioRules
+    preview: PreviewRules          # v3.3.0 — D-0056 F6
     qa_checks: QAChecks
     provenance: ProvenanceRules

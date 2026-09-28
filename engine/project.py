@@ -136,6 +136,23 @@ def _media_extent(e: dict, w: float, media_assets: dict) -> tuple[float, float]:
     return media_box(dict(e, x=0, y=0, w=w), media_assets)[3], max(w, caption_width(ctx, m.caption, credit_line(m)))
 
 
+def sentence_labels(proj: Path) -> dict[str, str]:
+    """문장 id → 화면 검증 라벨 문구(claims.json status → 규칙 표). 라벨 없는 문장은 빠진다. claims 가 없으면 {}."""
+    import yaml  # noqa: PLC0415
+
+    from script.labels import LabelError, check_project_labels  # noqa: PLC0415
+    from script.schema import Script  # noqa: PLC0415
+
+    sp = proj / "script.yaml"
+    if not sp.exists():
+        return {}
+    try:
+        labels = check_project_labels(proj, Script.model_validate(yaml.safe_load(sp.read_text(encoding="utf-8"))))
+    except LabelError as ex:
+        raise ProjectError(f"검증 라벨 계산 실패: {ex}") from ex
+    return {} if labels is None else {sid: sl.label for sid, sl in labels.labels.items() if sl.label}
+
+
 def cited_sources(proj: Path, events: list[dict]) -> list:
     """이번 영상이 인용한 소스 레코드(원고 문장 claim 의 소스 + post 카드), sources.json 순서. 소스 파일이 없으면 [](v3 전 프로젝트)."""
     import yaml  # noqa: PLC0415
@@ -210,6 +227,7 @@ def load_project(proj: Path, direction: Optional[Direction] = None) -> Project:
         raise ProjectError("렌더 전 점검 실패:\n" + "\n".join(errs))
     A = R.assets  # noqa: N806
     req = required_refs(events, A.rights, A.emblem_flag, set(A.img), uses_music=sound is not None)
+    R.cache["sentence_labels"] = sentence_labels(proj)       # v3.3.0 NB12 — 자막 검증 라벨(C9)
     R.cache["cited_sources"] = cited_sources(proj, events)   # v3.2.0 18 §6 — 엔딩 카드 '보도 · 자료'·설명란 원문 링크
     check_credits(R.credits, A.rights, A.media, req,          # D-0029 작업 7 — 누락·미확인·미표기 자산은 RightsError
                   cited_ids={s.id for s in R.cache["cited_sources"]})

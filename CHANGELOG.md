@@ -28,7 +28,15 @@ released 항목은 **append-only**입니다.
 
 ---
 
-## [v3.2.0] — 2026-09-28 — Phase 6.95: 소스 인테이크 (back_and_forth D-0050·D-0051) — 진행 중
+## [v3.3.0] — 2026-09-28 — Phase 7: 카메라 자동화 보조 (back_and_forth D-0055·D-0056) — 진행 중
+
+### Added
+- 자막 검증 라벨 — claims.json status 가 unverified·disputed 인 문장은 첫 줄 앞에 `<미검증>`·`<논쟁>`(규칙 `script_schema.labels`, 모양 `layout_480p.subtitle.label_style`). 라벨 없는 문장은 무변경 (D-0055 NB12, C9).
+- `--preview auto` 본편 컷 최소 수 `rules preview.min_body_cuts` — 짧은 영상에서 전면 카드만 뽑히지 않게 문장 구간 시각을 보탠다. golden 모드 무관 (F6).
+
+---
+
+## [v3.2.0] — 2026-09-28 — Phase 6.95: 소스 인테이크 (back_and_forth D-0050~D-0055)
 
 ### Added
 - 배치 슬롯 `clip_panel_side`(`placement.slots.*.beside_panel`) — 패널 위 사진·영상이 그 순간 패널이 차지한 상자(`engine.placement.OCCUPIED`, 연표 `timeline.occupied`)·자막·날짜와 캡션 글자 폭까지 피하는 첫 후보 자리. 자리가 없거나 차지 상자 함수가 없는 패널 종류면 오류 (D-0050 NB9).
