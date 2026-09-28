@@ -1,0 +1,72 @@
+{
+ "schema_version": 1,
+ "directive": "D-0072 작업 11 NB28, 결정 D-0074(A, 1024×576)",
+ "command": "python tools/media_fetch.py projects/hormuz_korea --res 1080p --no-sheets",
+ "clip_size": "config engine.output.profiles.1080p.clip [1024, 576] (16:9 정확)",
+ "clips": {
+  "strikes": {
+   "source": "media/strikes.webm",
+   "source_md5": "64db28093fae9a1b77165bfbfd435966",
+   "registry_source_hash": "64db28093fae9a1b77165bfbfd435966",
+   "segment": [
+    1.5,
+    6.5
+   ],
+   "npy_1080p": "media/res_1080p/strikes.npy",
+   "npy_1080p_md5": "3414e0e32a68debf08f9264189e2fbb2",
+   "shape_1080p": [
+    120,
+    576,
+    1024,
+    3
+   ],
+   "npy_480p_md5": "61f7b89f05a1e178e4265c3b515a892b",
+   "shape_480p": [
+    120,
+    270,
+    480,
+    3
+   ]
+  },
+  "niovi": {
+   "source": "media/niovi.webm",
+   "source_md5": "2c2ec4cab0ef171002c9680a8bea37b2",
+   "registry_source_hash": "2c2ec4cab0ef171002c9680a8bea37b2",
+   "segment": [
+    28.0,
+    33.0
+   ],
+   "npy_1080p": "media/res_1080p/niovi.npy",
+   "npy_1080p_md5": "e7c0e12f1c577ca98670e3c288133b58",
+   "shape_1080p": [
+    120,
+    576,
+    1024,
+    3
+   ],
+   "npy_480p_md5": "704f8a93b1980f4a9c7d6018c4718119",
+   "shape_480p": [
+    120,
+    270,
+    480,
+    3
+   ]
+  }
+ },
+ "checks": {
+  "480p 재추출(같은 원본·같은 코드) = 기존 _480.npy": "두 클립 바이트 동일",
+  "1080p 재실행 md5": "동일(결정적)",
+  "hormuz --preview golden --res 1080p": {
+   "hard": 0,
+   "warnings": 0,
+   "media_upscaled": 0
+  },
+  "phase10 기준": "media_upscaled 2(원본 _480.npy 480px < 675·990px)"
+ },
+ "proof_cuts": {
+  "nb28_1080p_cut1.jpg": "p_0061.25.png",
+  "nb28_1080p_cut2.jpg": "p_0136.97.png",
+  "nb28_1080p_cut3.jpg": "p_0214.46.png"
+ },
+ "artifacts": "npy(212MB×2)는 artifacts 에 넣지 않는다 — webm 은 artifacts/phase7-v3.3.0 shared/media_src 에 있고 위 명령으로 md5 재현(D-0074 요건 3)"
+}

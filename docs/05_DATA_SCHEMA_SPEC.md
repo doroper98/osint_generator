@@ -219,6 +219,7 @@ last_review: 2026-09-29
 | 위치 | 모델 | 규칙 |
 |---|---|---|
 | `config.yaml engine.output` | `orchestrator/config.py` `OutputConfig`·`OutputProfile` | 프로파일 표(폭·높이·fps·crf·preset·청크당 메모리)와 기본값. fps는 설계 fps와 같아야 한다. 모르는 프로파일 이름 = 오류 |
+| `config.yaml engine.output.profiles.<이름>.clip` | `OutputProfile.clip` | (v4.0.0 D-0074) 그 프로파일의 영상 클립 npy 크기 [폭, 높이], 16:9 검증. 기본 프로파일은 없음(레지스트리 scale). 파일 `media/res_<이름>/{file}.npy`, 없으면 렌더 오류 |
 | `config.yaml engine.trial`·`engine.final` | `EngineConfig` | 별칭(트라이얼 480p·최종 1080p). CLI `--res` 가 이름·별칭을 받는다 |
 | `config.yaml engine.render.jobs` | `RenderConfig` | 청크 병렬 수(null = CPU 수), 메모리 ÷ 프로파일 상한으로 줄임 |
 | provenance `render.resolution`, `out/render.json` | 렌더 기록(sv 1) | 프로파일·폭·높이·fps·k·pad_x·crf·preset(+전편은 jobs·프레임·시간·청크 피크 RSS) |

@@ -76,6 +76,7 @@ class Assets:
         없으면 오류: 480p 티어를 늘려 쓰지 않는다(업스케일 흐림 금지, D-0067 요건 3). 티어 경계(도)는 두 벌이 같아야 한다."""
         self.root = root
         self.labels = labels
+        self.res = res
         a = root / "assets"
         td = a if res is None else a / f"res_{res}"
         if not (td / "tiers.pkl").exists():
@@ -146,9 +147,11 @@ class Assets:
     def load_clip(self, name: str) -> None:
         if name in self.clips:
             return
-        p = self.root / "media" / f"{name}_480.npy"
+        # v4.0.0 D-0074(NB28): 기본이 아닌 프로파일은 media/res_<프로파일>/{name}.npy — 없으면 오류(480p 클립을 늘려 쓰지 않는다, P6)
+        p = self.root / "media" / (f"{name}_480.npy" if self.res is None else f"res_{self.res}/{name}.npy")
         if not p.exists():
-            raise AssetError(f"클립 없음: {p}")
+            fix = "" if self.res is None else f" — `python tools/media_fetch.py {self.root} --res {self.res}` 먼저"
+            raise AssetError(f"클립 없음: {p}{fix}")
         self.clips[name] = np.load(p, mmap_mode="r")
 
     def raster(self, key: str, w: float, k: float) -> tuple[cairo.ImageSurface, float, float]:

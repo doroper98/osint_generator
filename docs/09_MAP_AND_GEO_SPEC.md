@@ -52,7 +52,7 @@ python -m geo.prep projects/<pid> --res 1080p     # → assets/res_1080p/ (480p 
 지도·지형·인물·국기·사진·클립 같은 래스터만 장치 해상도로 준비한다. 그래서 `geo.prep --res`가 ppd에 k를 곱한 티어를 따로 만든다.
 k = 출력 높이 ÷ 480이고, 타일 줌은 round(log2 k)만큼 올린다. 블러 반경도 k배다.
 옛 문구 "모든 픽셀 상수를 `style.px()`로 감싼다"(handoff 09 §2 초안)는 철회됐다. 리터럴을 감싸면 k=1에서 반올림 차이가 생겨 480p MAD 0이 깨졌다.
-원본 해상도가 장치 폭보다 작으면 업스케일하지 않고 checks `media_upscaled`(warning)로 알린다.
+원본 해상도가 장치 폭보다 작으면 업스케일하지 않고 checks `media_upscaled`(warning)로 알린다. 영상 클립은 원본에서 프로파일별 npy를 따로 뽑는다([10](10_RENDERING_PIPELINE_SPEC.md) §4, D-0074).
 
 ## 4. 라벨 LOD
 

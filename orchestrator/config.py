@@ -66,6 +66,15 @@ class OutputProfile(BaseModel):
     crf: int = Field(ge=0, le=51)
     preset: str
     mem_per_job_mb: int = Field(gt=0)
+    # v4.0.0 D-0074(NB28) — 이 프로파일용 영상 클립 npy 크기 [폭, 높이](16:9 정확). 기본 프로파일은 None = 레지스트리 tool.params.scale.
+    # tools/media_fetch --res 가 media/res_<프로파일>/{file}.npy 로 뽑는다. 엔진은 없으면 오류(폴백 없음, P6).
+    clip: tuple[int, int] | None = None
+
+    @model_validator(mode="after")
+    def _clip_16_9(self) -> "OutputProfile":
+        if self.clip is not None and self.clip[0] * 9 != self.clip[1] * 16:
+            raise ValueError(f"clip {self.clip} 는 16:9 가 아니다 — 480p 클립(480×270)과 가로세로비가 달라 레이아웃이 바뀐다")
+        return self
 
 
 class OutputConfig(BaseModel):

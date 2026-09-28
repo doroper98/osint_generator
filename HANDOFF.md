@@ -45,6 +45,7 @@ last_review: 2026-09-29
 - edge-tts가 프록시 CA를 쓰도록 certifi 번들에 `/root/.ccr/ca-bundle.crt`를 덧붙인다.
 - 자산 복원: `artifacts/phase7-v3.3.0`의 `shared/` → hormuz `tts/`·`plan.json`·`media/`(`fetch_data media`는 돌리지 않는다 — Commons 429).
 - `python tools/fetch_data.py fonts ne tiles flags bgm` → `commons people` → legacy 자산 복사 → `python -m geo.prep projects/hormuz_korea [--res 1080p]`.
+- 1080p 를 렌더하면 클립도: `python tools/media_fetch.py projects/hormuz_korea --res 1080p --no-sheets`(복원한 webm 에서, md5 는 `reports/phase11/nb28_media.json`).
 - 기준선: `pytest`(failed 0·xfail 0), `python -m engine.render projects/hormuz_korea --preview golden`(25컷).
 
 ## 5. 자주 까먹는 규칙

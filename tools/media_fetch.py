@@ -104,10 +104,11 @@ def process_cutout(src: Path, out: Path, prm: dict) -> None:
     cut.save(out)
 
 
-def process_clip(src: Path, out: Path, a: MediaAsset, offset_sec: float = 0.0) -> None:
-    """정본 segment 를 쓴다. 대체 원본(source_variants)은 offset_sec 만큼 옮긴 시각에서 자른다(D-0045)."""
+def process_clip(src: Path, out: Path, a: MediaAsset, offset_sec: float = 0.0, scale: tuple[int, int] | None = None) -> None:
+    """정본 segment 를 쓴다. 대체 원본(source_variants)은 offset_sec 만큼 옮긴 시각에서 자른다(D-0045).
+    scale = 기본이 아닌 출력 프로파일의 클립 크기(config engine.output.profiles.<이름>.clip, v4.0.0 D-0074) — None 이면 레지스트리 scale."""
     prm = a.tool.params
-    w, h = prm["scale"]
+    w, h = scale or prm["scale"]
     t0, t1 = (x + offset_sec for x in a.segment)
     raw = subprocess.run(
         ["ffmpeg", "-v", "error", "-ss", f"{t0}", "-t", f"{t1 - t0}", "-i", str(src),
@@ -166,17 +167,31 @@ def fetch_variant(v: SourceVariant, media: Path, restore_from: Path | None = Non
 
 
 def run(proj: Path, only: list[str] | None = None, sheets: bool = True, registry: dict | None = None,
-        restore_from: Path | None = None, tries: int | None = None, variant: str | None = None) -> dict:
+        restore_from: Path | None = None, tries: int | None = None, variant: str | None = None, res: str | None = None) -> dict:
+    """res = 기본이 아닌 출력 프로파일(v4.0.0 D-0074, NB28): 영상만 같은 segment·fps·pix_fmt 로 그 프로파일의 clip 크기로
+    media/res_<이름>/{file}.npy 에 뽑는다(사진·컷아웃은 원본에서 장치 해상도로 렌더 때 리샘플하므로 대상 아님). 480p npy 는 건드리지 않는다."""
     reg = registry if registry is not None else load_media_registry()
     media = proj / "media"
     media.mkdir(parents=True, exist_ok=True)
-    report: dict = {"schema_version": 1, "assets": {}}
+    clip_scale: tuple[int, int] | None = None
+    if res is not None:
+        from orchestrator.config import load_config  # noqa: PLC0415
+        cfg = load_config().engine
+        name, prof = cfg.profile(res)
+        if name == cfg.output.default:
+            raise MediaFetchError(f"--res {res} 는 기본 프로파일이다 — 기본 클립은 --res 없이(레지스트리 scale)")
+        if prof.clip is None:
+            raise MediaFetchError(f"config engine.output.profiles.{name}.clip 이 없다 — 클립 크기를 정하지 않은 프로파일")
+        res, clip_scale = name, prof.clip
+        (media / f"res_{res}").mkdir(exist_ok=True)
+    report: dict = {"schema_version": 1, "assets": {}, "res": res, "clip_scale": list(clip_scale) if clip_scale else None}
     failed: list[tuple[str, str]] = []
     for mid, a in reg.items():
         if only and mid not in only:
             continue
-        if a.kind == "article":
-            report["assets"][mid] = {"kind": "article", "files": []}
+        if a.kind == "article" or (res is not None and a.kind != "video"):
+            if a.kind == "article":
+                report["assets"][mid] = {"kind": "article", "files": []}
             continue
         try:
             var = next((v for v in a.source_variants if v.source == variant), None) if variant else None
@@ -204,9 +219,10 @@ def run(proj: Path, only: list[str] | None = None, sheets: bool = True, registry
                 want = var.duration if var is not None else a.duration
                 if want is not None and abs(dur - want) > 0.05:
                     raise MediaFetchError(f"영상 길이 {dur} ≠ 레지스트리 {want}")
-                process_clip(src, media / f"{a.file}_480.npy", a, var.offset_sec if var is not None else 0.0)
-                files = [f"{a.file}_480.npy"]
-                if sheets:
+                name_ = f"{a.file}_480.npy" if res is None else f"res_{res}/{a.file}.npy"
+                process_clip(src, media / name_, a, var.offset_sec if var is not None else 0.0, clip_scale)
+                files = [name_]
+                if sheets and res is None:
                     thumbsheet(src, media / f"thumbsheet_{mid}.jpg", mid, a.segment)
                     files.append(f"thumbsheet_{mid}.jpg")
             report["assets"][mid] = {"kind": a.kind, "source": var.file if var is not None else prm["source"], "source_md5": h,
@@ -244,11 +260,12 @@ def main(argv: list[str] | None = None) -> int:
                     help="원본 보존본 폴더(artifacts hormuz/media_src) — 있으면 Commons 에 요청하지 않는다(D-0044 B)")
     ap.add_argument("--variant", choices=["dvids"], default=None,
                     help="정본(Commons) 대신 레지스트리 source_variants 의 1차 출처 원본으로 가공(D-0045, 영상만)")
+    ap.add_argument("--res", default=None, help="기본이 아닌 출력 프로파일(1080p·final) — 영상 클립만 media/res_<프로파일>/ 로(D-0074)")
     ap.add_argument("--tries", type=int, default=None, help="원본 요청 시도 횟수(기본 config commons.tries). 차단 중 30분 간격 1회 시도용")
     args = ap.parse_args(argv)
     try:
         rep = run(args.proj, [x for x in args.only.split(",") if x] or None, not args.no_sheets,
-                  restore_from=args.restore_from, tries=args.tries, variant=args.variant)
+                  restore_from=args.restore_from, tries=args.tries, variant=args.variant, res=args.res)
     except MediaFetchError as ex:
         print(str(ex), file=sys.stderr)
         return 1

@@ -63,6 +63,7 @@ last_review: 2026-09-29
 - 해상도 변환은 렌더 진입 장치 변환 한 곳이다(`translate(pad_x)·scale(k)`, k = 출력 높이 ÷ 480, D60). k = 1이면 변환을 걸지 않는다.
 - 장치 크기를 읽는 모듈은 허용 목록으로 제한된다(`tests/anti_inertia/test_device_space.py`).
 - 글자 폭 측정은 설계 480p 측정 컨텍스트에서 한다. 해상도에 따라 줄바꿈·카드 폭·라벨 충돌이 바뀌지 않게 하기 위해서다.
+- 영상 클립도 래스터다. 기본이 아닌 프로파일은 `media/res_<프로파일>/{file}.npy`(크기 `config:engine.output.profiles.1080p.clip`, 16:9)를 읽고, 없으면 오류다(480p 클립을 늘려 쓰지 않는다, D-0074). 준비: `python tools/media_fetch.py <proj> --res 1080p`.
 - 1080p는 480p와 같은 비율이어야 한다. `tools/res_compare.py`가 1080p를 축소해 컷별 MAD를 재고 상한은 `rules:golden.res_compare_mad_max`다.
 
 ## 5. 청크 병렬과 성능
