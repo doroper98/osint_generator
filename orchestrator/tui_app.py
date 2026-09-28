@@ -20,13 +20,16 @@ from textual.app import App, ComposeResult
 from textual.binding import Binding
 from textual.containers import Container, Horizontal, Vertical
 from textual.reactive import reactive
-from textual.widgets import Footer, Header, RichLog, Static
+from textual.widgets import Footer, Header, Input, RichLog, Static
 
 from orchestrator import __version__
 from orchestrator.config import AppConfig
 from orchestrator.dashboard import DashboardSnapshot
 from orchestrator.errors import ManifestError
-from orchestrator.project_manager import load_manifest
+from orchestrator.gate_view import gate_view
+from orchestrator.pipeline import advance, next_action
+from orchestrator.project_manager import approve_gate, load_manifest, reject_gate
+from orchestrator.state_machine import GATES
 from orchestrator.worker_slot_manager import WorkerSlotManager
 from schemas.models import ProjectState, WorkerSlot, WorkerSlotsSnapshot
 
@@ -100,6 +103,27 @@ class DashboardPanel(Static):
         self.update(text)
 
 
+class GatePanel(RichLog):
+    """승인 게이트 화면 (v3.0.0, 16 §5) — orchestrator.gate_view 텍스트. 게이트가 아니면 다음 행동만."""
+
+    DEFAULT_CSS = """
+    GatePanel {
+        border: round $warning;
+        height: 2fr;
+    }
+    """
+
+    def __init__(self) -> None:
+        super().__init__(highlight=False, markup=False, wrap=True, max_lines=2000)
+        self.border_title = "Gate"
+
+    def show(self, title: str, text: str) -> None:
+        self.border_title = title
+        self.clear()
+        for line in text.splitlines():
+            self.write(line)
+
+
 class WorkerSlotPanel(RichLog):
     """오른쪽 Worker Slot Panel 한 개."""
 
@@ -163,6 +187,9 @@ class CommandCenterApp(App[None]):
         Binding("r", "reload_queue", "reload queue"),
         Binding("s", "save_snapshot", "save snapshot"),
         Binding("f5", "force_refresh", "refresh"),
+        Binding("g", "advance", "advance(engine)"),
+        Binding("a", "approve_gate", "approve"),
+        Binding("x", "reject_gate", "reject"),
     ]
 
     def __init__(
@@ -183,6 +210,11 @@ class CommandCenterApp(App[None]):
         self.slot_panels: dict[int, WorkerSlotPanel] = {}
         self.manager: WorkerSlotManager | None = None
         self._tick_task: asyncio.Task[None] | None = None
+        self.gate_panel: GatePanel | None = None
+        self.reject_input: Input | None = None
+        self._gate_shown: dict[str, str] = {}
+        self._gate_state: str = ""
+        self._busy: bool = False
 
     # -----------------------------------------------------------------
     # 레이아웃
@@ -198,6 +230,11 @@ class CommandCenterApp(App[None]):
                     yield self.orch_log
                     self.dashboard = DashboardPanel()
                     yield self.dashboard
+                    self.gate_panel = GatePanel()
+                    yield self.gate_panel
+                    self.reject_input = Input(placeholder="반려: <script_draft|direction|assets> <사유> — Enter", id="reject")
+                    self.reject_input.display = False
+                    yield self.reject_input
 
                 with Vertical(id="right"):
                     yield from self._compose_slot_grid()
@@ -348,13 +385,40 @@ class CommandCenterApp(App[None]):
     def _refresh_dashboard(self) -> None:
         if self.manager is None or self.dashboard is None:
             return
+        gate = self.current_state if self.current_state in {g.value for g in GATES} else None
+        try:
+            action = next_action(self.current_state)
+        except ValueError:
+            action = None
         snap = DashboardSnapshot.from_queue(
             project_id=self.project_id,
             current_state=self.current_state,
             queue=self.manager.task_queue,
             version=__version__,
+            current_gate=gate,
+            next_action=action,
         )
         self.dashboard.snapshot = snap
+        self._refresh_gate_panel()
+
+    def _refresh_gate_panel(self) -> None:
+        """상태가 바뀌었을 때만 게이트 화면을 다시 만든다(린트 CLI 호출 비용)."""
+        if self.gate_panel is None or self._gate_state == self.current_state:
+            return
+        self._gate_state = self.current_state
+        if self.current_state in {g.value for g in GATES}:
+            try:
+                text, self._gate_shown = gate_view(self.project_dir, self.current_state)
+            except Exception as e:  # noqa: BLE001 — 화면 오류는 표시하고 죽지 않는다
+                text, self._gate_shown = f"게이트 화면 오류: {type(e).__name__}: {e}", {}
+            self.gate_panel.show(f"Gate · {self.current_state} · a 승인 / x 반려", text)
+        else:
+            self._gate_shown = {}
+            try:
+                action = next_action(self.current_state)
+            except ValueError:
+                action = "-"
+            self.gate_panel.show(f"State · {self.current_state}", f"다음: {action}\n(g = 엔진 단계 실행)")
 
     def _refresh_all_slot_status(self) -> None:
         if self.manager is None:
@@ -385,6 +449,58 @@ class CommandCenterApp(App[None]):
         self.manager.save_snapshot()
         self.manager.save_queue()
         self._orch_emit("system", "worker_slots.json / task_queue.json saved")
+
+    def action_advance(self) -> None:
+        if self._busy:
+            self._orch_emit("system", "advance 진행 중")
+            return
+        self._busy = True
+        self._orch_emit("system", f"advance: {self.current_state}")
+        self.run_worker(self._advance_thread, thread=True, exclusive=True)
+
+    def _advance_thread(self) -> None:
+        def emit(res: object) -> None:
+            r = res  # StageResult
+            line = f"StageResult {r.stage} ok={r.ok} drops={len(r.drops)} errors={r.errors[:2]}"  # type: ignore[attr-defined]
+            self.call_from_thread(self._orch_emit, "system" if r.ok else "stderr", line)  # type: ignore[attr-defined]
+        try:
+            m, _ = advance(self.project_id, self.cfg, on_result=emit)
+            self.call_from_thread(self._orch_emit, "system", f"state → {m.current_state}")
+        except Exception as e:  # noqa: BLE001
+            self.call_from_thread(self._orch_emit, "stderr", f"advance: {type(e).__name__}: {e}")
+        finally:
+            self._busy = False
+
+    def action_approve_gate(self) -> None:
+        if self.current_state not in {g.value for g in GATES}:
+            self._orch_emit("stderr", f"'{self.current_state}' 는 승인 게이트가 아니다")
+            return
+        try:
+            m = approve_gate(load_manifest(self.project_id, self.cfg), self.current_state,
+                             by="command-center", shown=self._gate_shown, cfg=self.cfg)
+            self._orch_emit("system", f"승인: {self.current_state} → {m.current_state}")
+        except Exception as e:  # noqa: BLE001
+            self._orch_emit("stderr", f"approve: {e}")
+
+    def action_reject_gate(self) -> None:
+        if self.current_state not in {g.value for g in GATES} or self.reject_input is None:
+            self._orch_emit("stderr", f"'{self.current_state}' 는 승인 게이트가 아니다")
+            return
+        self.reject_input.display = True
+        self.reject_input.focus()
+
+    def on_input_submitted(self, event: Input.Submitted) -> None:
+        if event.input.id != "reject" or self.reject_input is None:
+            return
+        self.reject_input.display = False
+        to, _, comment = event.value.strip().partition(" ")
+        event.input.value = ""
+        try:
+            m = reject_gate(load_manifest(self.project_id, self.cfg), self.current_state, to,
+                            by="command-center", comment=comment, shown=self._gate_shown, cfg=self.cfg)
+            self._orch_emit("system", f"반려: {self.current_state} → {m.current_state} ({comment})")
+        except Exception as e:  # noqa: BLE001
+            self._orch_emit("stderr", f"reject: {e}")
 
     def action_force_refresh(self) -> None:
         self._refresh_dashboard()

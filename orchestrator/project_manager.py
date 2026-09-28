@@ -24,10 +24,12 @@ from pydantic import ValidationError
 
 from orchestrator.config import AppConfig, load_config, project_dir
 from orchestrator.errors import ManifestCorruptError, ManifestVersionError
-from orchestrator.state_machine import validate_transition
+from orchestrator.state_machine import GATES, ROLLBACKS, coerce, is_rollback, next_state, validate_transition
 from schemas.models import (
     MANIFEST_SCHEMA_VERSION,
     Category,
+    GateDecision,
+    StageRecord,
     ProjectManifest,
     ProjectState,
     StateTransition,
@@ -279,22 +281,81 @@ def transition_state(
     """current_state 를 next_state 로 전이.
 
     잘못된 전이는 ValueError. state_history 에 append-only 로 기록 후 디스크 저장.
+    승인 게이트(16 §5)에서 나가는 전이는 `approve_gate`·`reject_gate` 로만 한다 — 여기서는 ValueError.
     """
-    cfg = cfg or load_config()
-    target = next_state if isinstance(next_state, ProjectState) else ProjectState(next_state)
+    cur = coerce(manifest.current_state)
+    if cur in GATES:
+        raise ValueError(
+            f"'{cur.value}' 는 사용자 승인 게이트다 — approve / reject 로만 나간다(16 §5)"
+        )
+    return _apply_transition(manifest, next_state, reason, cfg or load_config())
 
+
+def _apply_transition(
+    manifest: ProjectManifest, next_state: ProjectState | str, reason: str, cfg: AppConfig
+) -> ProjectManifest:
+    target = coerce(next_state)
     validate_transition(manifest.current_state, target)
-
-    transition = StateTransition(
-        from_state=manifest.current_state if isinstance(manifest.current_state, ProjectState)
-        else ProjectState(manifest.current_state),
-        to_state=target,
-        transitioned_at=utc_now(),
-        reason=reason,
-    )
-
-    manifest.state_history.append(transition)
+    manifest.state_history.append(StateTransition(
+        from_state=coerce(manifest.current_state), to_state=target, transitioned_at=utc_now(), reason=reason,
+    ))
     manifest.current_state = target
-
     _write_manifest(manifest, cfg)
     return manifest
+
+
+def record_stage(manifest: ProjectManifest, record: StageRecord, cfg: Optional[AppConfig] = None) -> ProjectManifest:
+    """엔진 단계 실행 요약을 append 하고 저장한다(상태는 바꾸지 않는다)."""
+    manifest.stage_records.append(record)
+    _write_manifest(manifest, cfg or load_config())
+    return manifest
+
+
+def _require_gate(manifest: ProjectManifest, gate: ProjectState | str) -> ProjectState:
+    cur = coerce(manifest.current_state)
+    g = coerce(gate)
+    if g not in GATES:
+        raise ValueError(f"'{g.value}' 는 승인 게이트가 아니다 — 게이트: {', '.join(sorted(x.value for x in GATES))}")
+    if cur != g:
+        raise ValueError(f"현재 상태 '{cur.value}' — '{g.value}' 게이트에 있지 않다")
+    return g
+
+
+def approve_gate(
+    manifest: ProjectManifest,
+    gate: ProjectState | str,
+    by: str,
+    comment: str = "",
+    shown: Optional[dict[str, str]] = None,
+    cfg: Optional[AppConfig] = None,
+) -> ProjectManifest:
+    """게이트 승인 → 기록(누가·언제·코멘트·본 것) → 다음 상태."""
+    cfg = cfg or load_config()
+    g = _require_gate(manifest, gate)
+    nxt = next_state(g)
+    assert nxt is not None
+    manifest.gate_decisions.append(GateDecision(gate=g, decision="approved", by=by, comment=comment, shown=shown or {}))
+    return _apply_transition(manifest, nxt, f"{g.value} 승인 — {by}", cfg)
+
+
+def reject_gate(
+    manifest: ProjectManifest,
+    gate: ProjectState | str,
+    to: ProjectState | str,
+    by: str,
+    comment: str,
+    shown: Optional[dict[str, str]] = None,
+    cfg: Optional[AppConfig] = None,
+) -> ProjectManifest:
+    """게이트 반려 → 16 §2 역전이. 코멘트는 이 프로젝트의 수정 지시로만 남긴다(규칙·프롬프트 자동 반영 금지, 15 P11)."""
+    cfg = cfg or load_config()
+    g = _require_gate(manifest, gate)
+    tgt = coerce(to)
+    if not is_rollback(g, tgt):
+        allowed = ", ".join(sorted(x.value for x in ROLLBACKS[g]))
+        raise ValueError(f"'{g.value}' 반려는 {allowed} 로만 되돌린다(16 §2): {tgt.value}")
+    if not comment.strip():
+        raise ValueError("반려 사유(comment)가 비었다 — 16 §2 '반려 사유 첨부'")
+    manifest.gate_decisions.append(GateDecision(gate=g, decision="rejected", by=by, comment=comment,
+                                                rollback_to=tgt, shown=shown or {}))
+    return _apply_transition(manifest, tgt, f"{g.value} 반려 → {tgt.value} — {by}: {comment}", cfg)

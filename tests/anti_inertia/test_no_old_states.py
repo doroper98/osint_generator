@@ -2,7 +2,7 @@
 
 16 §2 로 상태 머신을 교체했다. 옛 24개 상태 중 새 상태와 이름이 겹치지 않는 값이
 코드(.py)에 문자열로 남아 있으면 실패한다. 테스트 파일과 핸드오프 참고 코드는 뺀다.
-config.yaml 의 옛 게이트 키는 작업 6(게이트 2개)에서 이 검사에 넣는다.
+config.yaml(옛 게이트 키 9개 → 2개, 작업 6)도 검사한다.
 """
 
 from __future__ import annotations
@@ -32,6 +32,9 @@ class NoOldStatesTest(unittest.TestCase):
             for n, line in enumerate(p.read_text(encoding="utf-8").splitlines(), 1):
                 if PATTERN.search(line):
                     hits.append(f"{rel}:{n}: {line.strip()[:100]}")
+        for n, line in enumerate((REPO / "config.yaml").read_text(encoding="utf-8").splitlines(), 1):
+            if PATTERN.search(line):
+                hits.append(f"config.yaml:{n}: {line.strip()[:100]}")
         self.assertEqual(hits, [], "옛 상태 값이 남았다:\n" + "\n".join(hits))
 
 

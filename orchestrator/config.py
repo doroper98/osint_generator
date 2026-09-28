@@ -7,10 +7,9 @@
 from __future__ import annotations
 
 from pathlib import Path
-from typing import Any
 
 import yaml
-from pydantic import BaseModel, ConfigDict, Field
+from pydantic import BaseModel, ConfigDict, Field, model_validator
 
 
 REPO_ROOT: Path = Path(__file__).resolve().parent.parent
@@ -111,6 +110,24 @@ class CommonsConfig(BaseModel):
     standard_widths: list[int] = Field(default_factory=lambda: [500, 960, 1280, 1600])
 
 
+class ReviewGatesConfig(BaseModel):
+    """사용자 승인 게이트 (v3.0.0, 16 §5). 키 = 게이트 상태 값, 값은 true 만(끌 수 없다)."""
+
+    model_config = ConfigDict(extra="forbid")
+
+    require_human_approval: dict[str, bool] = Field(
+        default_factory=lambda: {"script_approval": True, "preview_approval": True})
+
+    @model_validator(mode="after")
+    def _two_gates(self) -> "ReviewGatesConfig":
+        keys = set(self.require_human_approval)
+        if keys != {"script_approval", "preview_approval"}:
+            raise ValueError(f"review_gates.require_human_approval 키는 script_approval·preview_approval 두 개(16 §5): {sorted(keys)}")
+        if not all(self.require_human_approval.values()):
+            raise ValueError("review_gates.require_human_approval 은 끌 수 없다(true 만, 16 §5)")
+        return self
+
+
 class AppConfig(BaseModel):
     model_config = ConfigDict(extra="allow")
 
@@ -122,7 +139,7 @@ class AppConfig(BaseModel):
     tts: TTSConfig = Field(default_factory=TTSConfig)
     llm: LLMConfig = Field(default_factory=LLMConfig)
     commons: CommonsConfig = Field(default_factory=CommonsConfig)
-    review_gates: dict[str, Any] = Field(default_factory=dict)
+    review_gates: ReviewGatesConfig = Field(default_factory=ReviewGatesConfig)
 
 
 def load_config(path: Path | None = None) -> AppConfig:

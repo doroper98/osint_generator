@@ -160,6 +160,41 @@ class StateTransition(BaseModel):
     reason: str = ""
 
 
+class GateDecision(BaseModel):
+    """승인 게이트 기록 (v3.0.0, 16 §5). append-only. 반려 코멘트는 이 프로젝트의 수정 지시로만 쓴다(15 P11)."""
+
+    model_config = ConfigDict(extra="forbid", use_enum_values=True)
+
+    gate: ProjectState
+    decision: Literal["approved", "rejected"]
+    by: str = Field(min_length=1)
+    at: datetime = Field(default_factory=utc_now)
+    comment: str = ""
+    rollback_to: Optional[ProjectState] = None   # 반려일 때 되돌아간 상태
+    shown: dict[str, str] = Field(default_factory=dict)   # 게이트 화면에 보인 근거(시트 경로·provenance 요약 등)
+
+    @model_validator(mode="after")
+    def _rollback_iff_rejected(self) -> "GateDecision":
+        if (self.decision == "rejected") != (self.rollback_to is not None):
+            raise ValueError("rollback_to 는 반려(rejected)일 때만, 반려면 반드시")
+        return self
+
+
+class StageRecord(BaseModel):
+    """엔진 단계 실행 기록 요약 (v3.0.0, 16 §4). 전체 StageResult 는 logs/stages/ 에."""
+
+    model_config = ConfigDict(extra="forbid", use_enum_values=True)
+
+    state: ProjectState
+    stage: str
+    ok: bool
+    at: datetime = Field(default_factory=utc_now)
+    artifacts: dict[str, str] = Field(default_factory=dict)
+    errors: list[str] = Field(default_factory=list)
+    drops: int = 0
+    log: str = ""
+
+
 MANIFEST_SCHEMA_VERSION: int = 2   # v3.0.0 — 상태 머신 교체(16 §2), 옛 manifest 는 재생성(19 §3.6)
 
 
@@ -179,7 +214,8 @@ class ProjectManifest(VersionedModel):
     initial_links: list[str] = Field(default_factory=list)
     paths: dict[str, str] = Field(default_factory=dict)
     render_mode_status: dict[str, str] = Field(default_factory=dict)
-    approval_status: dict[str, str] = Field(default_factory=dict)
+    gate_decisions: list[GateDecision] = Field(default_factory=list)   # v3.0.0 — 옛 approval_status 대체(16 §5)
+    stage_records: list[StageRecord] = Field(default_factory=list)     # v3.0.0 — engine_service 실행 기록
     final_outputs: dict[str, str] = Field(default_factory=dict)
     state_history: list[StateTransition] = Field(default_factory=list)
 

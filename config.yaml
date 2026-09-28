@@ -59,14 +59,8 @@ commons:
   standard_widths: [500, 960, 1280, 1600]
 
 review_gates:
-  # 사용자 승인 없이 진행하지 않음. 본 값이 false면 진행 불가.
+  # v3.0.0 — 사용자 승인 게이트 2개(docs/handoff/16 §5). 승인 없이 게이트 다음 상태로 가지 않는다.
+  # 값은 true 만 허용(끌 수 없다). 옛 9개 게이트 키는 상태 머신 교체로 삭제(D-0040 작업 6).
   require_human_approval:
-    intake_review: true
-    source_completeness_review: true
-    blueprint_review: true
-    script_review: true
-    scene_review: true
-    draft_debug_review: true
-    draft_preview_review: true
-    thumbnail_review: true
-    final_review: true
+    script_approval: true
+    preview_approval: true

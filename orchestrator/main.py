@@ -20,7 +20,10 @@
                                               + script_draft 전이 (Phase 6 Script)
 - build-scene / render-debug / build-audio / build-audio-demo
                                             : v2.0.0 에서 삭제 — LegacyRemovedError (docs/handoff/16 §4)
-- approve --project {pid} --gate ...        : Review Gate 승인 기록 (Phase 11)
+- advance --project {pid} [--jobs N]         : 현재 엔진 상태 단계 실행(engine_service) → ok 면 다음 상태 (v3.0.0)
+- gate-view --project {pid}                  : 승인 게이트 화면 텍스트 (16 §5)
+- approve --project {pid} --gate G [--comment]: 게이트 승인 → 다음 상태
+- reject --project {pid} --gate G --to S --comment C : 게이트 반려 → 16 §2 역전이
 - version                                   : 현재 버전 출력
 """
 
@@ -216,10 +219,25 @@ def build_parser() -> argparse.ArgumentParser:
         help="위험 표기가 하나라도 있으면 exit 1 (CI 게이트용).",
     )
 
-    apv = sub.add_parser("approve", help="Review Gate 승인 기록 (Phase 11)")
+    adv = sub.add_parser("advance", help="현재 엔진 상태의 단계를 돌리고 ok 면 다음 상태로 (v3.0.0, 16 §4)")
+    adv.add_argument("--project", required=True)
+    adv.add_argument("--jobs", type=int, default=None)
+
+    gv = sub.add_parser("gate-view", help="승인 게이트 화면 텍스트 (16 §5)")
+    gv.add_argument("--project", required=True)
+
+    apv = sub.add_parser("approve", help="승인 게이트 승인 → 다음 상태 (16 §5)")
     apv.add_argument("--project", required=True)
-    apv.add_argument("--gate", required=True)
+    apv.add_argument("--gate", required=True, choices=["script_approval", "preview_approval"])
     apv.add_argument("--comment", default="")
+    apv.add_argument("--by", default="user")
+
+    rjt = sub.add_parser("reject", help="승인 게이트 반려 → 16 §2 역전이 (코멘트 필수)")
+    rjt.add_argument("--project", required=True)
+    rjt.add_argument("--gate", required=True, choices=["script_approval", "preview_approval"])
+    rjt.add_argument("--to", required=True, choices=["script_draft", "direction", "assets"])
+    rjt.add_argument("--comment", required=True)
+    rjt.add_argument("--by", default="user")
 
     sub.add_parser("version", help="버전 출력")
 
@@ -348,12 +366,51 @@ def main(argv: list[str] | None = None) -> int:
     if args.cmd == "lint-script":
         return _cmd_lint_script(args)
 
-    if args.cmd == "approve":
-        print("approve: Phase 11 에서 구현 예정입니다.")
-        return 0
+    if args.cmd in ("advance", "gate-view", "approve", "reject"):
+        return _cmd_pipeline(args)
 
     parser.error("unknown command")
     return 2
+
+
+def _cmd_pipeline(args: argparse.Namespace) -> int:
+    """advance / gate-view / approve / reject — Command Center 와 같은 함수(orchestrator.pipeline, v3.0.0)."""
+    from orchestrator.config import project_dir
+    from orchestrator.errors import ManifestError
+    from orchestrator.gate_view import gate_view
+    from orchestrator.pipeline import PipelineError, advance, next_action
+    from orchestrator.project_manager import approve_gate, load_manifest, reject_gate
+
+    try:
+        manifest = load_manifest(args.project)
+        pdir = project_dir(args.project)
+        if args.cmd == "advance":
+            def show(res: object) -> None:
+                print(json.dumps(res.model_dump(), ensure_ascii=False))  # type: ignore[attr-defined]
+            before = manifest.current_state
+            manifest, results = advance(args.project, jobs=args.jobs, on_result=show)
+            ok = all(r.ok for r in results)
+            print(f"advance: {before} → {manifest.current_state} ({'ok' if ok else '실패 — 머묾'})")
+            print(f"next   : {next_action(manifest.current_state)}")
+            return 0 if ok else 1
+        if args.cmd == "gate-view":
+            text, _ = gate_view(pdir, manifest.current_state)
+            print(text)
+            return 0
+        _, shown = gate_view(pdir, args.gate)
+        if args.cmd == "approve":
+            manifest = approve_gate(manifest, args.gate, by=args.by, comment=args.comment, shown=shown)
+        else:
+            manifest = reject_gate(manifest, args.gate, args.to, by=args.by, comment=args.comment, shown=shown)
+    except (FileNotFoundError, ManifestError) as e:
+        print(f"error: {e}", file=sys.stderr)
+        return 1
+    except (PipelineError, ValueError) as e:
+        print(f"error: {e}", file=sys.stderr)
+        return 2
+    print(f"{args.cmd}: {args.gate} → {manifest.current_state}")
+    print(f"next   : {next_action(manifest.current_state)}")
+    return 0
 
 
 def _cmd_plan_intake(args: argparse.Namespace) -> int:
