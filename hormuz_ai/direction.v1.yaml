@@ -1,0 +1,1161 @@
+# direction.yaml — AI 연출(DirectorWorker, v3.1.0, 17 §5.3). 사람 검토 전 초안 — 승인 게이트 ②에서 판정.
+version: 1
+places:
+  seoul:
+  - 126.98
+  - 37.57
+  busan:
+  - 129.04
+  - 35.1
+  hormuz:
+  - 56.35
+  - 26.55
+  malacca:
+  - 100.9
+  - 3.1
+  embassy:
+  - 126.978
+  - 37.573
+paths:
+  oil:
+  - - 56.4
+    - 26.4
+  - - 57.9
+    - 25.1
+  - - 60.8
+    - 23.0
+  - - 65.5
+    - 19.5
+  - - 71.5
+    - 12.5
+  - - 77.8
+    - 6.6
+  - - 81.0
+    - 5.3
+  - - 88.5
+    - 5.8
+  - - 94.8
+    - 6.2
+  - - 98.2
+    - 5.0
+  - - 100.9
+    - 3.0
+  - - 103.8
+    - 1.18
+  - - 104.9
+    - 1.8
+  - - 106.6
+    - 4.2
+  - - 108.4
+    - 7.0
+  - - 112.5
+    - 12.8
+  - - 117.5
+    - 18.6
+  - - 121.9
+    - 21.8
+  - - 122.6
+    - 24.2
+  - - 123.4
+    - 27.5
+  - - 125.2
+    - 30.8
+  - - 127.6
+    - 33.4
+  - - 129.0
+    - 34.8
+  - - 129.45
+    - 35.42
+  dispatch:
+  - - 129.1
+    - 35.0
+  - - 127.6
+    - 33.4
+  - - 125.2
+    - 30.8
+  - - 123.4
+    - 27.5
+  - - 122.6
+    - 24.2
+  - - 121.9
+    - 21.8
+  - - 117.5
+    - 18.6
+  - - 112.5
+    - 12.8
+  - - 108.4
+    - 7.0
+  - - 106.6
+    - 4.2
+  - - 104.9
+    - 1.8
+  - - 103.8
+    - 1.18
+  - - 100.9
+    - 3.0
+  - - 98.2
+    - 5.0
+  - - 94.8
+    - 6.2
+  - - 88.5
+    - 5.8
+  - - 81.0
+    - 5.3
+  - - 77.8
+    - 6.6
+  - - 71.5
+    - 12.5
+  - - 65.5
+    - 19.5
+  - - 60.8
+    - 23.0
+  - - 57.9
+    - 25.1
+  - - 56.6
+    - 26.2
+  passage:
+  - - 56.7
+    - 26.1
+  - - 57.7
+    - 25.2
+  - - 59.0
+    - 24.8
+  - - 60.6
+    - 24.5
+shots:
+- at: 0.0
+  mode: cut
+  dur: 0.0
+  camera:
+    lon: 127.6
+    lat: 36.3
+    place: null
+    w: 6.8
+  under: false
+  scene: null
+- at:
+    card: title
+    'off': 2.9
+  mode: dip
+  dur: 3.0
+  camera:
+    lon: 56.5
+    lat: 26.4
+    place: null
+    w: 22.0
+  under: true
+  scene: null
+- at:
+    sid: route_3
+    'off': -1.2
+  mode: move
+  dur: 3.2
+  camera:
+    lon: 92.5
+    lat: 19.5
+    place: null
+    w: 90.0
+  under: false
+  scene: null
+- at:
+    scene_start: war
+    'off': -0.55
+  mode: dip
+  dur: 3.0
+  camera:
+    lon: 55.0
+    lat: 26.4
+    place: null
+    w: 15.0
+  under: false
+  scene: null
+- at:
+    scene_start: cost
+    'off': -0.9
+  mode: move
+  dur: 3.0
+  camera:
+    lon: 52.0
+    lat: 27.0
+    place: null
+    w: 13.0
+  under: false
+  scene: null
+- at:
+    scene_start: review
+    'off': -0.55
+  mode: dip
+  dur: 3.0
+  camera:
+    lon: 92.0
+    lat: 21.0
+    place: null
+    w: 92.0
+  under: false
+  scene: null
+- at:
+    scene_start: debate
+    'off': -0.55
+  mode: dip
+  dur: 3.0
+  camera:
+    lon: 126.98
+    lat: 37.52
+    place: null
+    w: 3.6
+  under: false
+  scene: null
+- at:
+    scene_start: decision
+    'off': -0.9
+  mode: move
+  dur: 3.0
+  camera:
+    lon: 127.6
+    lat: 36.3
+    place: null
+    w: 6.8
+  under: false
+  scene: null
+- at:
+    scene_start: now
+    'off': -0.55
+  mode: dip
+  dur: 3.0
+  camera:
+    lon: 91.0
+    lat: 19.5
+    place: null
+    w: 90.0
+  under: false
+  scene: null
+- at:
+    sid: now_3
+    'off': -0.6
+  mode: move
+  dur: 9.0
+  camera:
+    lon: 91.0
+    lat: 20.0
+    place: null
+    w: 96.0
+  under: false
+  scene: null
+events:
+- type: marker
+  start:
+    sid: open_0
+    'off': 0.2
+  end:
+    scene_end: open
+  at_place: seoul
+  label: 서울
+  sub: 대통령 기자회견
+  side: right
+  hl: true
+- type: badge
+  start:
+    sid: open_0
+    'off': 0.7
+  end:
+    scene_end: open
+  place: map_lower_left
+  kind: person
+  pid: lee_jae_myung
+  flag: kr
+  R: 34
+  label: 이재명
+  role: 대한민국 대통령
+  accent: gold
+- type: card
+  start:
+    sid: open_1
+    'off': 0.1
+  end:
+    sid: open_1
+    edge: end
+    'off': 0.4
+  tag: 기자회견 · 9월 18일
+  lines:
+  - 전쟁에 개입하는 파병은 하지 않겠다
+  accent: gold
+- type: card
+  start:
+    sid: open_2
+    'off': 0.1
+  end:
+    sid: open_2
+    edge: end
+    'off': 0.6
+  tag: 기자회견 · 9월 18일
+  lines:
+  - 한국 선박·국민 보호
+  - 최소한의 활동만 이어간다
+  accent: gold
+- type: marker
+  start:
+    sid: route_0
+    'off': 0.2
+  end:
+    scene_end: route
+  at_place: hormuz
+  label: 호르무즈 해협
+  sub: 페르시아만에서 먼바다로 나가는 유일한 바닷길
+  side: right
+  hl: true
+- type: card
+  start:
+    sid: route_1
+    'off': 0.4
+  end:
+    sid: route_1
+    edge: end
+    'off': 0.3
+  tag: 지난해 한국 수입 · 이 해협 경유
+  bigs:
+  - - 61%
+    - 원유
+  accent: gold
+- type: card
+  start:
+    sid: route_2
+    'off': 0.4
+  end:
+    sid: route_2
+    edge: end
+    'off': 0.3
+  tag: 지난해 한국 수입 · 같은 길
+  bigs:
+  - - 54%
+    - 나프타 · 플라스틱 원료
+  accent: gold
+- type: route
+  start:
+    sid: route_3
+    'off': 1.2
+  end:
+    scene_end: route
+  pts:
+    path: oil
+  grow:
+    span:
+    - sid: route_3
+      'off': 1.2
+    - sid: route_3
+      edge: end
+      'off': -0.3
+  col: gold
+  ship: true
+- type: marker
+  start:
+    word:
+      sid: route_3
+      text: 믈라카
+  end:
+    scene_end: route
+  at_place: malacca
+  label: 믈라카 해협
+  side: top
+  hl: false
+- type: badge
+  start:
+    word:
+      sid: route_3
+      text: 남해안
+  end:
+    scene_end: route
+  lon: 127.4
+  lat: 31.6
+  kind: flag
+  flag: kr
+  R: 18
+  label: 한국 남해안
+  accent: gold
+- type: country
+  start:
+    sid: war_0
+    'off': 0.1
+  end:
+    scene_end: war
+  codes:
+  - IR
+  col: ru
+  a: 0.08
+- type: card
+  start:
+    word:
+      sid: war_0
+      text: 공습
+  end:
+    sid: war_0
+    edge: end
+    'off': 0.5
+  tag: 2월 28일
+  lines:
+  - 미국·이스라엘, 이란 공습
+  accent: ru
+- type: badge
+  start:
+    sid: war_1
+    'off': 0.2
+  end:
+    sid: war_1
+    edge: end
+    'off': 0.6
+  place: map_upper_left
+  kind: person
+  pid: khamenei
+  flag: ir
+  R: 32
+  label: 알리 하메네이
+  role: 이란 최고지도자 · 공습으로 사망
+  accent: ru
+- type: marker
+  start:
+    sid: war_2
+  end:
+    scene_end: war
+  at_place: hormuz
+  label: 호르무즈 해협
+  sub: 이란, 해협을 닫다
+  side: right
+  hl: true
+- type: barrier
+  start:
+    sid: war_2
+    'off': 0.4
+  end:
+    scene_end: war
+  p0:
+  - 56.3
+  - 26.9
+  p1:
+  - 56.45
+  - 26.33
+  label: 봉쇄
+- type: clip
+  start:
+    sid: war_2
+    'off': 0.2
+  end:
+    sid: war_2
+    'off':
+    - 0.2
+    - 5.0
+  mid: niovi
+  place: map_left
+- type: route
+  start:
+    sid: war_3
+    'off': 0.3
+  end:
+    scene_end: war
+  pts:
+    path: passage
+  grow: 1.8
+  col: teal
+  ship: false
+  dashed: true
+  label: 이란이 허가한 배만 통과
+- type: badge
+  start:
+    word:
+      sid: war_3
+      text: 중국
+  end:
+    scene_end: war
+  place: map_lower_right
+  kind: flag
+  flag: cn
+  R: 17
+  label: 중국행
+  accent: teal
+- type: badge
+  start:
+    word:
+      sid: war_3
+      text: 인도
+  end:
+    scene_end: war
+  place: map_upper_right
+  kind: flag
+  flag: in
+  R: 17
+  label: 인도행
+  accent: teal
+- type: panel
+  start:
+    scene_start: ask
+    'off': -0.2
+  end:
+    sid: ask_3
+    edge: end
+    'off': 0.5
+  kind: relation
+  data:
+    title: 3월 15일, 해협을 직접 지키라는 요구
+    nodes:
+    - id: trump
+      group: source
+      kind: person
+      pid: trump
+      flag: us
+      label: 도널드 트럼프
+      role: 미국 대통령
+      accent: us
+    - id: de
+      group: target
+      kind: flag
+      flag: de
+      label: 독일
+      accent: muted
+    - id: gb
+      group: target
+      kind: flag
+      flag: gb
+      label: 영국
+      accent: muted
+    - id: jp
+      group: target
+      kind: flag
+      flag: jp
+      label: 일본
+      accent: muted
+    - id: au
+      group: target
+      kind: flag
+      flag: au
+      label: 호주
+      accent: muted
+    - id: kr
+      group: target
+      kind: flag
+      flag: kr
+      label: 한국
+      accent: gold
+    edges:
+    - src: trump
+      dst: de
+      style: demand
+    - src: trump
+      dst: gb
+      style: demand
+    - src: trump
+      dst: jp
+      style: demand
+    - src: trump
+      dst: au
+      style: demand
+    - src: trump
+      dst: kr
+      style: demand
+    state_changes:
+    - src: trump
+      dst: de
+      at:
+        word:
+          sid: ask_1
+          text: 독일
+      style: refuse
+      label: 거절
+    - src: trump
+      dst: gb
+      at:
+        word:
+          sid: ask_1
+          text: 영국
+      style: refuse
+      label: 거절
+    - src: trump
+      dst: jp
+      at:
+        word:
+          sid: ask_1
+          text: 일본
+      style: refuse
+      label: 거절
+    - src: trump
+      dst: au
+      at:
+        word:
+          sid: ask_1
+          text: 호주
+      style: refuse
+      label: 거절
+    - src: trump
+      dst: kr
+      at:
+        word:
+          sid: ask_1
+          text: 한국
+      style: refuse
+      label: 거절
+    edge_label: 해협 방어 요구
+    quotes:
+    - text: “우리가 시작한 전쟁이 아니다” — 독일 국방장관
+      t0:
+        sid: ask_2
+        'off': 0.3
+      t1:
+        sid: ask_2
+        edge: end
+        'off': 0.8
+      at: bottom
+    - text: “매우 어리석은 실수” — 트럼프 대통령
+      t0:
+        sid: ask_3
+        'off': 0.3
+      t1:
+        sid: ask_3
+        edge: end
+        'off': 0.5
+      at: source
+- type: panel
+  start:
+    sid: ask_4
+    'off': -0.3
+  end:
+    scene_end: ask
+  kind: statement
+  data:
+    title: 3월 21일 공동성명
+    subtitle: 영국·프랑스·일본 등 일곱 나라 · 이란의 공격 규탄 · 항행의 자유
+    signers:
+    - flag: gb
+      label: 영국
+    - flag: fr
+      label: 프랑스
+    - flag: jp
+      label: 일본
+    joiner:
+      flag: kr
+      label: 대한민국
+      role: 성명에 이름을 올림
+      t_join:
+        word:
+          sid: ask_4
+          text: 한국
+- type: panel
+  start:
+    scene_start: timeline
+    'off': -0.2
+  end:
+    scene_end: timeline
+  kind: timeline
+  data:
+    title: 전쟁과 협상의 여섯 달
+    subtitle: 2026년 2월 – 9월
+    start: '2026-02-01'
+    end: '2026-09-30'
+    band:
+      start: '2026-06-17'
+      end: '2026-07-08'
+      label: 휴전 6.17 – 7.8
+      col: green
+      t_show:
+        sid: timeline_3
+        'off': 1.2
+    events:
+    - date: '2026-02-28'
+      label: 미국·이스라엘, 이란 공습
+      col: us
+      side: -1
+      t:
+        sid: timeline_0
+        'off': 0.4
+    - date: '2026-03-02'
+      label: 이란, 해협 봉쇄
+      col: ru
+      side: 1
+      t:
+        sid: timeline_0
+        'off': 1.0
+    - date: '2026-03-15'
+      label: 트럼프, 해협 방어 요구
+      col: us
+      side: -2
+      t:
+        sid: timeline_0
+        'off': 1.6
+    - date: '2026-04-07'
+      label: 무력 사용 결의안 거부권
+      col: ru
+      side: 2
+      t:
+        sid: timeline_1
+        'off': 0.1
+    - date: '2026-04-13'
+      label: 미국 해상 봉쇄
+      col: us
+      side: -1
+      t:
+        sid: timeline_2
+        'off': 0.1
+    - date: '2026-06-17'
+      label: 미·이란 양해각서 서명
+      col: green
+      side: 1
+      t:
+        sid: timeline_3
+        'off': 0.1
+    - date: '2026-07-08'
+      label: 휴전 붕괴
+      col: ru
+      side: -1
+      t:
+        sid: timeline_4
+        'off': 0.1
+    - date: '2026-08-25'
+      label: 기뢰 제거 발표
+      col: us
+      side: 1
+      t:
+        sid: timeline_5
+        'off': 0.1
+    - date: '2026-09-18'
+      label: 한국, 파병 않기로
+      col: gold
+      side: -2
+      t:
+        scene_end: timeline
+        'off': -2.5
+      dim: true
+- type: clip
+  start:
+    sid: timeline_4
+    'off': 0.3
+  end:
+    sid: timeline_4
+    'off':
+    - 0.3
+    - 5.0
+  mid: strikes
+  place: panel_gap
+- type: card
+  start:
+    sid: cost_0
+    'off': 0.4
+  end:
+    sid: cost_0
+    edge: end
+    'off': 0.3
+  tag: 국제해사기구 · 6월 11일까지
+  bigs:
+  - - 46건
+    - 선박 공격
+  - - 14명
+    - 숨진 선원
+  accent: ru
+- type: ships
+  start:
+    sid: cost_1
+    'off': 0.2
+  end:
+    scene_end: cost
+  box:
+  - 48.5
+  - 56.0
+  - 24.5
+  - 29.8
+  n: 140
+  seed: 7
+- type: card
+  start:
+    sid: cost_1
+    'off': 0.3
+  end:
+    scene_end: cost
+    'off': -0.2
+  tag: 걸프 안쪽에 발이 묶였다
+  bigs:
+  - - 천여 척
+    - 배
+  - - 2만 명
+    - 선원
+  accent: ru
+- type: card
+  start:
+    sid: review_0
+    'off': 0.4
+  end:
+    sid: review_0
+    edge: end
+    'off': 0.3
+  tag: 9월 초 · 국내 방송 보도
+  lines:
+  - 정부, 연내 파병 준비
+  accent: teal
+- type: card
+  start:
+    sid: review_1
+    'off': 0.1
+  end:
+    sid: review_1
+    edge: end
+    'off': 0.3
+  tag: 거론된 선택지
+  lines:
+  - 해상초계기
+  - 군수지원함
+  accent: teal
+- type: cutout
+  start:
+    sid: review_1
+    'off': 0.3
+  end:
+    sid: review_1
+    edge: end
+    'off': 0.3
+  mid: p8
+  place: map_center
+  w: 150
+- type: card
+  start:
+    sid: review_2
+    'off': 0.1
+  end:
+    sid: review_2
+    edge: end
+    'off': 0.5
+  tag: 대통령실 · 9월 4일
+  lines:
+  - 군사적 방안 포함해 검토
+  - 결정된 것은 없다
+  accent: gold
+- type: badge
+  start:
+    word:
+      sid: review_3
+      text: 청해부대
+  end:
+    scene_end: review
+  at_place: busan
+  kind: emblem
+  img: cheonghae
+  R: 26
+  label: 청해부대
+  role: 2009년
+  accent: gold
+- type: route
+  start:
+    sid: review_3
+    'off': 0.4
+  end:
+    scene_end: review
+  pts:
+    path: dispatch
+  grow:
+    span:
+    - sid: review_3
+      'off': 0.4
+    - sid: review_3
+      edge: end
+      'off': -0.4
+  col: teal
+  ship: true
+  dashed: true
+  label: 첫 해상 파견이 될 수 있었던 길
+- type: marker
+  start:
+    sid: review_3
+    edge: end
+    'off': -0.5
+  end:
+    scene_end: review
+  at_place: hormuz
+  label: 호르무즈 해협
+  side: left
+  hl: true
+- type: panel
+  start:
+    scene_start: past
+    'off': -0.2
+  end:
+    scene_end: past
+  kind: precedent
+  data:
+    title: 처음이 아닌 결정
+    subtitle: 한국의 해외 파견 전례
+    cards:
+    - year: '2004'
+      title: 이라크 자이툰 부대
+      lines:
+      - 아르빌 파견
+      - 6자회담 속 미국의 지지
+      - 싸늘했던 국내 여론
+      t0:
+        sid: past_1
+      person:
+        pid: roh_moo_hyun
+        flag: kr
+        caption: 노무현 정부
+    - year: '2009'
+      title: 청해부대
+      lines:
+      - 한반도 밖 해상 파견
+      t0:
+        word:
+          sid: past_3
+          text: 청해부대
+    - year: '2020'
+      title: 작전 구역 확대
+      lines:
+      - 호르무즈까지 넓힘
+      - 지휘권은 한국군
+      t0:
+        word:
+          sid: past_3
+          text: 호르무즈
+    - year: '2026'
+      title: 이번 결정
+      lines:
+      - 전쟁 개입 파병 없음
+      - 최소한의 활동만
+      t0:
+        sid: past_3
+        edge: end
+        'off': -0.5
+      hl: true
+- type: photo
+  start:
+    sid: past_1
+    'off': 0.6
+  end:
+    sid: past_2
+    edge: end
+    'off': 0.2
+  mid: rok_iraq
+  place: panel_gap
+- type: article
+  start:
+    sid: debate_0
+    'off': 0.3
+  end:
+    sid: debate_0
+    edge: end
+    'off': 0.5
+  mid: herald_0907
+- type: marker
+  start:
+    sid: debate_1
+    'off': 0.2
+  end:
+    scene_end: debate
+  at_place: embassy
+  label: 주한 미국대사관 근처
+  sub: 9월 8일 · 대학생 파병 반대 집회
+  side: right
+  hl: true
+- type: panel
+  start:
+    sid: debate_2
+    'off': -0.3
+  end:
+    scene_end: debate
+  kind: versus
+  data:
+    title: 파병을 둘러싼 두 입장
+    sides:
+    - title: 지지하는 쪽
+      src: 9월 8일
+      items:
+      - text: 호르무즈는 곧 한국의 경제 안보
+        t:
+          sid: debate_2
+          'off': 0.4
+    - title: 반대하는 쪽
+      src: 9월 10일
+      items:
+      - text: 비전투 부대라도 표적이 될 수 있다
+        t:
+          sid: debate_3
+          'off': 0.4
+      - text: 줄어드는 미국 방공 미사일 재고
+        t:
+          sid: debate_4
+          'off': 0.4
+- type: marker
+  start:
+    scene_start: decision
+    'off': 0.3
+  end:
+    scene_end: decision
+  at_place: seoul
+  label: 서울
+  sub: 9월 18일 발표
+  side: right
+  hl: true
+- type: badge
+  start:
+    sid: decision_0
+    'off': 0.5
+  end:
+    scene_end: decision
+  place: map_lower_left
+  kind: person
+  pid: lee_jae_myung
+  flag: kr
+  R: 34
+  label: 이재명
+  role: 대한민국 대통령
+  accent: gold
+- type: card
+  start:
+    sid: decision_0
+    'off': 0.9
+  end:
+    sid: decision_0
+    edge: end
+    'off': 0.4
+  tag: 이재명 대통령 · 9월 18일
+  lines:
+  - “전쟁에 들어가는 파병은 없다”
+  accent: gold
+  quote: true
+- type: card
+  start:
+    sid: decision_1
+    'off': 0.1
+  end:
+    scene_end: decision
+    'off': -0.1
+  tag: 열어 둔 여지
+  lines:
+  - 분쟁의 주변부에서 한국군이 맡을 역할
+  accent: teal
+- type: route
+  start:
+    scene_start: now
+    'off': -0.2
+  end:
+    total: true
+  pts:
+    path: oil
+  grow: 0.01
+  col: gold
+  ship: false
+  glow_only: true
+- type: tanker_loop
+  start:
+    scene_start: now
+  end:
+    total: true
+  pts:
+    path: oil
+- type: badge
+  start:
+    sid: now_0
+    'off': 0.2
+  end:
+    sid: now_1
+    edge: end
+    'off': 0.3
+  lon: 62.0
+  lat: 17.5
+  kind: emblem
+  img: navcent
+  R: 28
+  label: 미 해군 중부사령부
+  role: 호위 작전
+  accent: us
+- type: card
+  start:
+    sid: now_0
+    'off': 0.5
+  end:
+    sid: now_0
+    edge: end
+    'off': 0.4
+  tag: 미군 발표
+  bigs:
+  - - 10억 배럴
+    - 호위 작전으로 해협 밖으로 나간 원유
+  accent: us
+- type: photo
+  start:
+    sid: now_0
+    'off': 1.0
+  end:
+    sid: now_1
+    edge: end
+    'off': 0.3
+  mid: hormuz_transit
+  place: map_right_low
+- type: marker
+  start:
+    sid: now_1
+    'off': 0.3
+  end:
+    total: true
+  at_place: hormuz
+  label: 호르무즈 해협
+  sub: 통행 아직 정상 아님
+  side: right
+  hl: true
+- type: card
+  start:
+    sid: now_2
+    'off': 0.1
+  end:
+    sid: now_2
+    edge: end
+    'off': 0.6
+  tag: 지난해 기준
+  bigs:
+  - - 61%
+    - 이 해협에 기댄 원유 수입
+  accent: gold
+- type: badge
+  start:
+    word:
+      sid: now_3
+      text: 청해부대
+  end:
+    total: true
+  place: map_lower_left
+  kind: emblem
+  img: cheonghae
+  R: 26
+  label: 청해부대
+  role: 어디까지 움직일지 미정
+  accent: gold
+sound:
+  bgm: The Life and Death of a Certain K. Zabriskie, Patriarch - Chris Zabriskie.mp3
+  intensity:
+  - - 0.0
+    - 0.6
+  - - scene_start: route
+    - 0.62
+  - - scene_start: war
+    - 0.75
+  - - scene_start: ask
+    - 0.62
+  - - scene_start: timeline
+    - 0.67
+  - - scene_start: cost
+    - 0.7
+  - - scene_start: review
+    - 0.6
+  - - scene_start: past
+    - 0.55
+  - - scene_start: debate
+    - 0.65
+  - - scene_start: decision
+    - 0.72
+  - - scene_start: now
+    - 0.66
+  - - total: true
+      'off':
+      - 0.5
+      - -7.0
+    - 0.62
+  - - total: true
+      'off': 0.5
+    - 0.0
+  cues:
+  - kind: boom
+    t:
+      word:
+        sid: war_0
+        text: 공습
+    v: 0.45
