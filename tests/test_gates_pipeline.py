@@ -232,6 +232,41 @@ class CommandCenterKeysTest(_Proj):
         self.assertEqual(m.gate_decisions[-1].shown.get("lint_errors"), "0")
 
 
+class CommandCenterSourceConfirmTest(_Proj):
+    """v3.2.0 18 §7 — intake 상태 소스 확인 화면과 'c' 확인 키."""
+
+    def test_source_view_and_confirm_key(self) -> None:
+        from datetime import datetime  # noqa: PLC0415
+
+        from orchestrator import source_intake as si  # noqa: PLC0415
+        from orchestrator.gate_view import source_view  # noqa: PLC0415
+        from orchestrator.tui_app import CommandCenterApp  # noqa: PLC0415
+
+        pdir = self.root / "p"
+        shutil.rmtree(pdir / "intake")
+        self.to(ProjectState.INTAKE)
+        rec = si.add_x_text(pdir, account_name="A", handle="@abc_def", text="t", lang="en", posted_at=datetime(2026, 9, 1))
+        self.assertIn("미확인 — c 로 확인", source_view(pdir))
+
+        async def go() -> str:
+            app = CommandCenterApp(project_id="p", project_dir=pdir, cfg=self.cfg, current_state="intake")
+            async with app.run_test() as pilot:
+                await pilot.pause()
+                title = str(app.gate_panel.border_title)   # type: ignore[union-attr]
+                await pilot.press("c")
+                await pilot.pause()
+                for ch in rec.id:
+                    await pilot.press(ch)
+                await pilot.press("enter")
+                await pilot.pause()
+            return title
+
+        title = asyncio.run(go())
+        self.assertIn("Sources · intake", title)
+        self.assertEqual(si.load_sources(pdir).sources[0].confirmed_by, "command-center")
+        self.assertIn("확인 command-center", source_view(pdir))
+
+
 if __name__ == "__main__":
     unittest.main()
 

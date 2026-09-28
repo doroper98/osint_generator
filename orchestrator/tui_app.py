@@ -26,7 +26,7 @@ from orchestrator import __version__
 from orchestrator.config import AppConfig
 from orchestrator.dashboard import DashboardSnapshot
 from orchestrator.errors import ManifestError
-from orchestrator.gate_view import gate_view
+from orchestrator.gate_view import gate_view, source_view
 from orchestrator.pipeline import advance, next_action
 from orchestrator.project_manager import approve_gate, load_manifest, reject_gate
 from orchestrator.state_machine import GATES
@@ -190,6 +190,7 @@ class CommandCenterApp(App[None]):
         Binding("g", "advance", "advance(engine)"),
         Binding("a", "approve_gate", "approve"),
         Binding("x", "reject_gate", "reject"),
+        Binding("c", "confirm_source", "confirm source"),   # v3.2.0 18 §7 — intake 소스 사용자 확인
     ]
 
     def __init__(
@@ -212,6 +213,7 @@ class CommandCenterApp(App[None]):
         self._tick_task: asyncio.Task[None] | None = None
         self.gate_panel: GatePanel | None = None
         self.reject_input: Input | None = None
+        self.confirm_input: Input | None = None
         self._gate_shown: dict[str, str] = {}
         self._gate_state: str = ""
         self._busy: bool = False
@@ -235,6 +237,9 @@ class CommandCenterApp(App[None]):
                     self.reject_input = Input(placeholder="반려: <script_draft|direction|assets> <사유> — Enter", id="reject")
                     self.reject_input.display = False
                     yield self.reject_input
+                    self.confirm_input = Input(placeholder="소스 확인: <src_id> [게시 시각 ISO] — Enter", id="confirm")
+                    self.confirm_input.display = False
+                    yield self.confirm_input
 
                 with Vertical(id="right"):
                     yield from self._compose_slot_grid()
@@ -412,6 +417,13 @@ class CommandCenterApp(App[None]):
             except Exception as e:  # noqa: BLE001 — 화면 오류는 표시하고 죽지 않는다
                 text, self._gate_shown = f"게이트 화면 오류: {type(e).__name__}: {e}", {}
             self.gate_panel.show(f"Gate · {self.current_state} · a 승인 / x 반려", text)
+        elif self.current_state in (ProjectState.INTAKE.value, ProjectState.SOURCE_VERIFY.value):   # v3.2.0 18 §7
+            self._gate_shown = {}
+            try:
+                text = source_view(self.project_dir)
+            except Exception as e:  # noqa: BLE001 — 화면 오류는 표시하고 죽지 않는다
+                text = f"소스 화면 오류: {type(e).__name__}: {e}"
+            self.gate_panel.show(f"Sources · {self.current_state} · c 확인 · 다음: {next_action(self.current_state)}", text)
         else:
             self._gate_shown = {}
             try:
@@ -489,7 +501,34 @@ class CommandCenterApp(App[None]):
         self.reject_input.display = True
         self.reject_input.focus()
 
+    def action_confirm_source(self) -> None:
+        if self.current_state != ProjectState.INTAKE.value or self.confirm_input is None:
+            self._orch_emit("stderr", f"소스 확인은 intake 상태에서만 — 지금 '{self.current_state}'")
+            return
+        self.confirm_input.display = True
+        self.confirm_input.focus()
+
+    def _confirm_submitted(self, value: str) -> None:
+        from datetime import datetime  # noqa: PLC0415
+
+        from orchestrator.source_intake import confirm  # noqa: PLC0415
+
+        sid, _, when = value.strip().partition(" ")
+        try:
+            rec = confirm(self.project_dir, sid, "command-center",
+                          posted_at=datetime.fromisoformat(when.strip()) if when.strip() else None)
+            self._orch_emit("system", f"소스 확인: {rec.id} ({rec.type})")
+        except Exception as e:  # noqa: BLE001
+            self._orch_emit("stderr", f"confirm: {e}")
+        self._gate_state = ""          # 화면 다시 그리기
+        self._refresh_gate_panel()
+
     def on_input_submitted(self, event: Input.Submitted) -> None:
+        if event.input.id == "confirm" and self.confirm_input is not None:
+            self.confirm_input.display = False
+            value, event.input.value = event.value, ""
+            self._confirm_submitted(value)
+            return
         if event.input.id != "reject" or self.reject_input is None:
             return
         self.reject_input.display = False

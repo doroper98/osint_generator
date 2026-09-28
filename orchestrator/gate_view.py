@@ -3,6 +3,7 @@
 Command Center 게이트 패널과 `orchestrator.main gate-view` 가 같은 텍스트를 쓴다(읽기 전용).
 - ① SCRIPT_APPROVAL: 장면 목록(장면명·문장 수·예상 길이), 원고 전문(자막 텍스트), 출처 표, 린트 결과, 미디어 후보 요약.
 - ② PREVIEW_APPROVAL: 프리뷰 컨택트 시트 경로, 프리뷰 컷 목록, provenance 요약, 예상 러닝타임.
+- (v3.2.0) INTAKE·SOURCE_VERIFY 소스 확인 화면(`source_view`, 18 §7): 소스별 계정·시각·확인 여부·검증 status, claims 요약.
 린트는 엔진 CLI(`script.lint`)를 engine_service 로 불러 얻는다(15 P1). 파일은 읽기만 한다.
 """
 
@@ -150,3 +151,32 @@ def gate_view(pdir: Path, state: ProjectState | str, runner: Callable = subproce
 
 
 __all__ = ["gate_view", "preview_gate_view", "script_gate_view"]
+
+
+def source_view(pdir: Path) -> str:
+    """소스 확인 화면(v3.2.0, 18 §7) — 사용자 확인 필드가 빈 소스를 앞에. Command Center 'c' 로 확인한다."""
+    from orchestrator.source_intake import load_sources  # noqa: PLC0415
+    from orchestrator.source_verify import load_claims  # noqa: PLC0415
+
+    f = load_sources(pdir)
+    if not f.sources:
+        return "소스 없음 — CLI add-source 또는 웹 /intake/{pid} 에서 넣는다(기사 URL·본문·X 텍스트·X 캡처·파일)"
+    rows = []
+    for s in sorted(f.sources, key=lambda x: (x.confirmed, x.id)):
+        if s.type == "x_post":
+            who = f"{s.account_name} {s.handle} [{s.account_class}] · {s.posted_at or '시각 미상'}"
+            body = (s.text_ko or s.text_original)[:60]
+        elif s.type == "article":
+            who, body = f"{s.publisher} · {s.published_at}", s.headline_ko or s.headline_original
+        else:
+            who, body = f"{s.issuer} · {s.published_at or '-'}", s.title
+        conf = f"확인 {s.confirmed_by}" if s.confirmed else "미확인 — c 로 확인"
+        ver = s.verification.status if s.verification else "-"
+        rows.append(f"{s.id:14} {conf:16} 검증 {ver:12} {who}\n{'':14} {body}")
+    out = [f"소스 {len(f.sources)}건 · 미확인 {sum(not s.confirmed for s in f.sources)}건", *rows]
+    claims = load_claims(pdir)
+    if claims is not None:
+        st = {k: sum(c.status == k for c in claims.claims) for k in ("verified", "corroborated", "unverified", "disputed")}
+        out.append(f"claims {len(claims.claims)}개 · {st}")
+    return "\n".join(out)
+
