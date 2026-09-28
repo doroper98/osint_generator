@@ -34,6 +34,7 @@ last_review: 2026-09-28
 - 통합 브랜치: {MAIN_BRANCH}          (예: main. Fable만 fast-forward 푸시)
 - 교신 폴더: back_and_forth/           (공백 없는 이름. 셸 따옴표 실수 방지)
 - 감독 작성자 태그: fable, 구현 작성자 태그: opus, 사용자 태그: user
+- 시각대 {TZ}: 파일명·보고의 모든 시각은 사용자 현지 시각(기본 Asia/Seoul, KST). UTC 표기 금지
 - 커밋 첫 줄 형식: {COMMIT_PREFIX_RULE} (예: "vX.Y.Z: 요지" — VERSION 파일과 일치. 규칙이 없으면 "bf: 요지")
 - 계획 문서: {PLAN_DOC}               (Phase 목록·합격 기준을 담은 문서. 없으면 Fable이 Phase 0에서 작성)
 - 결정 기록: docs/DECISIONS.md          (한 줄 한 결정. 날짜|ID|내용|근거|결정자|되돌리는 방법)
@@ -59,7 +60,7 @@ last_review: 2026-09-28
 
 ## 2. 파일 명명법 — 시각 우선(ls 정렬 = 대화 순서)
 {yymmdd}_{hhmmss}_{종류}{번호4자리}_{작성자}_{slug}.md
-- **시각이 맨 앞**. UTC yymmdd_hhmmss(파일 생성 시각). 그래서 ls 한 번에 R과 D가 주고받은 순서로 섞여 보인다.
+- **시각이 맨 앞**. 사용자 현지 시각({TZ}, 예: KST=UTC+9) yymmdd_hhmmss(파일 생성 시각). UTC로 쓰지 않는다 — 사람이 읽는 이름이다. 그래서 ls 한 번에 R과 D가 주고받은 순서로 섞여 보인다.
   (종류를 앞에 두면 D 전부 → R 전부로 묶여 대화 순서가 끊긴다. osint_generator 에서 겪고 재개정했다.)
 - 종류 R = 보고(Report, Opus만 작성), D = 지침·결정·답변·검토(Directive, Fable 또는 user만 작성).
 - 종류 뒤 번호, 그 뒤 작성자. 모델 버전은 쓰지 않는다(opus / fable / user).
@@ -249,8 +250,8 @@ def main() -> int:
     nums = [int(fid[2:]) for fid in files if fid.startswith(mine_kind)]
     nxt = (max(nums) + 1) if nums else 1
     if args.next_name:
-        from datetime import datetime, timezone
-        ts = datetime.now(timezone.utc).strftime("%y%m%d_%H%M%S")
+        from datetime import datetime, timedelta, timezone
+        ts = datetime.now(timezone(timedelta(hours=9))).strftime("%y%m%d_%H%M%S")  # {TZ} 오프셋으로 바꾼다
         print(f"{ts}_{mine_kind}{nxt:04d}_{args.me}_{args.next_name}.md"); return 0
     if args.next_id:
         print(f"{mine_kind}-{nxt:04d}"); return 0

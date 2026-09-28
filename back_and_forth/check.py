@@ -19,7 +19,7 @@ import sys
 from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
-# README §2 (2026-09-28 개정) — 시각이 맨 앞. ls 정렬 = 대화 순서.
+# README §2 (2026-09-28 개정) — 시각(KST)이 맨 앞. ls 정렬 = 대화 순서.
 NAME_RE = re.compile(
     r"^(?P<ts>\d{6}_\d{6})_(?P<kind>[RD])(?P<num>\d{4})_(?P<author>opus|fable|user)_(?P<slug>[a-z0-9]+(?:-[a-z0-9]+)*)\.md$"
 )
@@ -73,7 +73,7 @@ def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--me", choices=sorted(MINE), required=True)
     ap.add_argument("--next-id", action="store_true", help="내가 쓸 다음 파일 id 출력")
-    ap.add_argument("--next-name", metavar="SLUG", help="내가 쓸 다음 파일 전체 이름 출력 (UTC 현재 시각)")
+    ap.add_argument("--next-name", metavar="SLUG", help="내가 쓸 다음 파일 전체 이름 출력 (KST 현재 시각)")
     args = ap.parse_args()
 
     files, errors = scan()
@@ -81,11 +81,12 @@ def main() -> int:
     theirs_kind = "D" if mine_kind == "R" else "R"
 
     if args.next_name:
-        from datetime import datetime, timezone
+        from datetime import datetime, timedelta, timezone
 
         nums = [int(fid[2:]) for fid in files if fid.startswith(mine_kind)]
         num = (max(nums) + 1) if nums else 1
-        ts = datetime.now(timezone.utc).strftime("%y%m%d_%H%M%S")
+        # README §2 — 시각은 KST(UTC+9). 사용자 지시 2026-09-28.
+        ts = datetime.now(timezone(timedelta(hours=9))).strftime("%y%m%d_%H%M%S")
         print(f"{ts}_{mine_kind}{num:04d}_{args.me}_{args.next_name}.md")
         return 0
 
