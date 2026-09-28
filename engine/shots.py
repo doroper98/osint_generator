@@ -36,7 +36,7 @@ def choose_transition(a: tuple[float, float, float], b: tuple[float, float, floa
 def scene_at(sentences: list, t: float) -> str:  # noqa: ANN001 — Plan.sentences(scene·t0)
     sc = sentences[0].scene
     for s in sentences:
-        if s.t0 - 1.5 <= t:
+        if s.t0 - SG.scene_attach_lead_sec <= t:
             sc = s.scene
     return sc
 

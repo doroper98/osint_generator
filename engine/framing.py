@@ -12,6 +12,7 @@
 from __future__ import annotations
 
 import math
+import sys
 from dataclasses import dataclass, field
 from typing import Optional
 
@@ -24,11 +25,12 @@ _R = load_rules()
 FR = _R.camera.framing
 _L = _R.layout_480p
 BASE_H = _L.base.h
+_EPS = sys.float_info.epsilon
 
 
 @dataclass(frozen=True)
 class FramePoint:
-    """장소 하나 — 경위도 + 480p 기준 화면 여유(px)."""
+    """장소 하나 — 경위도 + 점 기준 480p 화면 상자 여유(px): 왼쪽·위·오른쪽·아래. right/down 이 None 이면 대칭."""
 
     lon: float
     lat: float
@@ -36,6 +38,22 @@ class FramePoint:
     down: float
     side: float
     ref: str = ""
+    right: Optional[float] = None
+    avoid_reserve: bool = True        # 경로 꼭짓점처럼 카드·자막 밑을 지나가도 되는 선의 점은 False(예약 영역은 뱃지·마커 몫, D-0033)
+
+    @property
+    def left(self) -> float:
+        return self.side
+
+    @property
+    def rside(self) -> float:
+        return self.side if self.right is None else self.right
+
+
+def box_point(lon: float, lat: float, box: Box, ref: str = "") -> FramePoint:
+    """렌더러 상자 함수(marker_box·badge_box 를 점 (0, 0) 에서 부른 값)로 만든 장소 — 비대칭 라벨까지 정확히."""
+    x0, y0, x1, y1 = box
+    return FramePoint(lon, lat, up=-y0, down=y1, side=-x0, ref=ref, right=x1)
 
 
 @dataclass
@@ -58,9 +76,9 @@ def badge_point(lon: float, lat: float, r_px: float, ref: str = "") -> FramePoin
     return FramePoint(lon, lat, r_px * b.up_factor, b.down_px, r_px * b.side_factor, ref)
 
 
-def plain_point(lon: float, lat: float, ref: str = "") -> FramePoint:
+def plain_point(lon: float, lat: float, ref: str = "", avoid_reserve: bool = True) -> FramePoint:
     p = FR.point_px
-    return FramePoint(lon, lat, p.up, p.down, p.side, ref)
+    return FramePoint(lon, lat, p.up, p.down, p.side, ref, avoid_reserve=avoid_reserve)
 
 
 def default_reserve(width: float = W_OUT, height: float = H_OUT, card: bool = False) -> list[Box]:
@@ -69,7 +87,7 @@ def default_reserve(width: float = W_OUT, height: float = H_OUT, card: bool = Fa
     k = height / BASE_H
     cz = _L.reserved_zones.card
     date = _R.hud.date_badge
-    out: list[Box] = [(width - (date.x_right + date.size * 8) * k, 0, width, (date.underline_y + 2) * k)]
+    out: list[Box] = [(width - (date.x_right + date.size * FR.date_reserve_chars) * k, 0, width, (date.underline_y + 2) * k)]
     if card:
         out.append((width - cz.x_from_right * k, cz.y[0] * k, width, cz.y[1] * k))
     return out
@@ -91,22 +109,30 @@ def _clamp(lon: float, v: float, w: float, h: float, bounds: Optional[Box]) -> t
 
 
 def place(points: list[FramePoint], lon: float, lat: float, w: float, *, width: float = W_OUT, height: float = H_OUT,
-          reserve: Optional[list[Box]] = None, bounds: Optional[Box] = None) -> tuple[bool, dict[str, Box], str]:
-    """이 카메라(lon, lat, w)에서 장소 상자들이 안전 영역 안·예약 영역 밖인가. 상자는 출력 px."""
+          reserve: Optional[list[Box]] = None, bounds: Optional[Box] = None,
+          lenient: bool = False) -> tuple[bool, dict[str, Box], str]:
+    """이 카메라(lon, lat, w)에서 장소 상자들이 안전 영역 안·예약 영역 밖인가. 상자는 출력 px.
+    lenient=True 는 '화면 안(자막 위)'만 본다 — 현재 연출 평가용(렌더의 RESERVED 밀어내기가 카드 겹침을 따로 처리한다).
+    lenient 에서 선의 점(avoid_reserve=False)은 자막 밑도 화면 안으로 본다(v3 경로는 자막 밑을 지나간다)."""
     k = height / BASE_H
     h = w * height / width
     s = width / w
     u0, v1, _ = _clamp(lon, ym(lat), w, h, bounds)
-    safe = (FR.margin_px * k, FR.top_px * k, width - FR.margin_px * k, _L.reserved_zones.subtitle.y_from * k - FR.margin_px * k)
-    res = default_reserve(width, height) if reserve is None else reserve
+    if lenient:
+        safe = (0.0, 0.0, float(width), _L.reserved_zones.subtitle.y_from * k)
+        res: list[Box] = []
+    else:
+        safe = (FR.margin_px * k, FR.top_px * k, width - FR.margin_px * k, _L.reserved_zones.subtitle.y_from * k - FR.margin_px * k)
+        res = default_reserve(width, height) if reserve is None else reserve
     boxes: dict[str, Box] = {}
     for i, p in enumerate(points):
         x, y = (p.lon - u0) * s, (v1 - ym(p.lat)) * s
-        b = (x - p.side * k, y - p.up * k, x + p.side * k, y + p.down * k)
+        b = (x - p.left * k, y - p.up * k, x + p.rside * k, y + p.down * k)
         boxes[p.ref or f"p{i}"] = b
-        if b[0] < safe[0] or b[1] < safe[1] or b[2] > safe[2] or b[3] > safe[3]:
+        bottom = float(height) if lenient and not p.avoid_reserve else safe[3]
+        if b[0] < safe[0] or b[1] < safe[1] or b[2] > safe[2] or b[3] > bottom:
             return False, boxes, f"{p.ref or i} 화면 밖(안전 영역)"
-        if any(_hit(b, r) for r in res):
+        if p.avoid_reserve and any(_hit(b, r) for r in res):
             return False, boxes, f"{p.ref or i} 예약 영역과 겹침"
     return True, boxes, ""
 
@@ -127,8 +153,8 @@ def frame_points(points: list[FramePoint], reserve: Optional[list[Box]] = None, 
         s = width / w
         h = w * height / width
         # 중심 lon 구간: 각 점 x = (lon_p - (c - w/2)) * s 가 [safe_x0 + side, safe_x1 - side]
-        cx_lo = max(p.lon + w / 2 - (safe_x1 - p.side * k) / s for p in points)
-        cx_hi = min(p.lon + w / 2 - (safe_x0 + p.side * k) / s for p in points)
+        cx_lo = max(p.lon + w / 2 - (safe_x1 - p.rside * k) / s for p in points)
+        cx_hi = min(p.lon + w / 2 - (safe_x0 + p.left * k) / s for p in points)
         # 중심 v 구간: y = (c_v + h/2 - v_p) * s 가 [safe_y0 + up, safe_y1 - down]
         cv_lo = max(ym(p.lat) - h / 2 + (safe_y0 + p.up * k) / s for p in points)
         cv_hi = min(ym(p.lat) - h / 2 + (safe_y1 - p.down * k) / s for p in points)
@@ -138,8 +164,8 @@ def frame_points(points: list[FramePoint], reserve: Optional[list[Box]] = None, 
         n = FR.center_grid
         grid = sorted(((cx_lo + (cx_hi - cx_lo) * i / max(1, n - 1), cv_lo + (cv_hi - cv_lo) * j / max(1, n - 1))
                        for i in range(n) for j in range(n)),
-                      key=lambda c: (abs(c[0] - (cx_lo + cx_hi) / 2) / max(1e-9, cx_hi - cx_lo + 1e-9)
-                                     + abs(c[1] - (cv_lo + cv_hi) / 2) / max(1e-9, cv_hi - cv_lo + 1e-9), c))
+                      key=lambda c: (abs(c[0] - (cx_lo + cx_hi) / 2) / (cx_hi - cx_lo + _EPS)
+                                     + abs(c[1] - (cv_lo + cv_hi) / 2) / (cv_hi - cv_lo + _EPS), c))
         for cx, cv in grid:
             ok, boxes, why = place(points, cx, lat_of(cv), w, width=width, height=height, reserve=reserve, bounds=bounds)
             if ok:
@@ -155,4 +181,4 @@ def _to480(boxes: dict[str, Box], k: float) -> dict[str, Box]:
     return {r: tuple(round(v / k, 1) for v in b) for r, b in boxes.items()}  # type: ignore[misc]
 
 
-__all__ = ["FramePoint", "FrameResult", "badge_point", "default_reserve", "frame_points", "marker_point", "place", "plain_point"]
+__all__ = ["FramePoint", "FrameResult", "badge_point", "box_point", "default_reserve", "frame_points", "marker_point", "place", "plain_point"]

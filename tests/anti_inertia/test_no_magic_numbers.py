@@ -22,6 +22,9 @@ DATA_DRIVEN_MODULES: dict[str, frozenset[float]] = {   # 모듈 → 추가 허�
     "engine/panels/fork.py": frozenset(),
     "engine/panels/checklist.py": frozenset(),
     "engine/panels/network.py": frozenset(),
+    "engine/framing.py": frozenset({4}),            # round(·, 4) 보고 자릿수
+    "engine/shots.py": frozenset(),
+    "engine/camera_suggest.py": frozenset({4}),     # round(·, 4) 보고 자릿수
 }
 ALLOWED_NUMBERS: frozenset[float] = frozenset({0, 1, 2, 3})
 

@@ -145,16 +145,19 @@ shot_grammar:              # 05 §2
   drift: {amount: 0.03, tau_sec: 9.0}
   ending_pullback: {w_from: 88, w_to: 96, dur_sec: 9.0}
   auto_transition: {dip_if_dist_over_w: 2.5, dip_if_w_ratio_over: 6.0}
+  scene_attach_lead_sec: 1.5   # 문장 시작 1.5초 전 카메라 키까지 그 문장의 장면 숏(이동 선행, 6.9 checks 값)
   w_guide: {continental_route: [88, 96], ocean: [60, 72], region: [20, 30], strait: [12, 16], country: [6, 8], metro: [3, 5], city: 2.5}
 
 camera:                    # v3.3.0 D-0056 — 카메라 자동화 보조(05 §7). 전환 임계는 shot_grammar.auto_transition(05 §7-2, 한 곳)
   framing:                 # frame_points — 장면 장소가 전부 보이는 최소 w 와 중심(05 §2.1·§7-1). px 는 480p 기준(09 §2 스케일 k = H/480)
-    margin_px: 24          # 화면 가장자리 여백(좌우·아래 자막 위)
-    top_px: 60             # 위 여백(날짜 배지 줄 아래)
+    margin_px: 12          # 화면 가장자리 여백(좌우·아래 자막 위)
+    top_px: 8              # 위 여백(날짜 배지는 예약 영역 상자로 따로 피한다)
     w_min: 2.5             # 05 §2.2 시가지
     w_max: 96              # 05 §2.2 대륙 간 항로
     w_steps: 64            # w_min~w_max 로그 등간격 후보 수
     center_grid: 9         # 가능한 중심 구간 안 격자(예약 영역 회피 탐색)
+    date_reserve_chars: 8  # 날짜 배지 예약 폭 = 글자 크기 × 8(“2026.03.02” 모노 폭 상한)
+    cover_samples: 5       # 숏이 전면 카드·패널에 덮였는지 볼 시각 수
     marker_px: {up: 14, down: 26, side: 60}      # 마커 점 + 라벨(한 줄) 여유
     badge_px: {up_factor: 2.2, down_px: 44, side_factor: 1.4}   # 뱃지: 위 = R×2.2(머리), 아래 = 이름표 44px(05 §2.1, layout badge 값과 같은 뜻)
     point_px: {up: 10, down: 10, side: 10}       # 그 밖(컷아웃 기준점·경로 꼭짓점)

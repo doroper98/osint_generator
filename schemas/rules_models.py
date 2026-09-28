@@ -142,6 +142,7 @@ class ShotGrammar(_Strict):
     drift: Drift
     ending_pullback: EndingPullback
     auto_transition: AutoTransition
+    scene_attach_lead_sec: float = Field(ge=0)
     w_guide: dict[str, float | Range2]
 
 
@@ -786,6 +787,8 @@ class FramingRules(_Strict):
     w_max: float = Field(gt=0)
     w_steps: int = Field(ge=2)
     center_grid: int = Field(ge=1)
+    date_reserve_chars: float = Field(gt=0)
+    cover_samples: int = Field(ge=2)
     marker_px: PxBox
     badge_px: BadgePx
     point_px: PxBox
