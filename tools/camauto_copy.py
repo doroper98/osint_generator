@@ -17,7 +17,7 @@ from pathlib import Path
 REPO = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(REPO))
 
-from engine.camera_suggest import load_suggest  # noqa: E402
+from engine.camera_suggest import SUGGEST_FILE, load_suggest  # noqa: E402
 from engine.direction import load_direction_doc  # noqa: E402
 from rules import load_rules  # noqa: E402
 from workers.direction_io import dump_direction_yaml  # noqa: E402
@@ -55,6 +55,8 @@ def main(argv: list[str] | None = None) -> int:
         changes.append({"t": sug.t, "scene": sug.scene, "before": before,
                         "after": {"mode": shot.mode, **shot.camera.model_dump()}, "fits": sug.fits, "note": sug.note})
     (dst / "direction.yaml").write_text(dump_direction_yaml(doc, HEADER), encoding="utf-8")
+    (dst / "prev").mkdir(exist_ok=True)   # 받아들인 제안 파일 그대로 — provenance camera.used 가 이것과 맞춰 센다
+    shutil.copyfile(src / "prev" / SUGGEST_FILE, dst / "prev" / SUGGEST_FILE)
     (dst / "camauto_map.json").write_text(json.dumps({"schema_version": 1, "source": src.name,
                                                       "suggest_direction_sha1": cs.direction_sha1, "changes": changes},
                                                      ensure_ascii=False, indent=1), encoding="utf-8")
