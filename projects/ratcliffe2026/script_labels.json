@@ -1,0 +1,273 @@
+{
+  "schema_version": 1,
+  "labels": {
+    "open_0": {
+      "status": "corroborated",
+      "label": null,
+      "claim_ids": [
+        "clm_0003",
+        "clm_0004"
+      ]
+    },
+    "open_1": {
+      "status": "corroborated",
+      "label": null,
+      "claim_ids": [
+        "clm_0001"
+      ]
+    },
+    "open_2": {
+      "status": "corroborated",
+      "label": null,
+      "claim_ids": [
+        "clm_0002"
+      ]
+    },
+    "open_3": {
+      "status": "disputed",
+      "label": "<논쟁>",
+      "claim_ids": [
+        "clm_0008",
+        "clm_0009"
+      ]
+    },
+    "open_4": {
+      "status": null,
+      "label": null,
+      "claim_ids": []
+    },
+    "flight_0": {
+      "status": "corroborated",
+      "label": null,
+      "claim_ids": [
+        "clm_0003"
+      ]
+    },
+    "flight_1": {
+      "status": "corroborated",
+      "label": null,
+      "claim_ids": [
+        "clm_0003",
+        "clm_0004"
+      ]
+    },
+    "flight_2": {
+      "status": "corroborated",
+      "label": null,
+      "claim_ids": [
+        "clm_0004"
+      ]
+    },
+    "before_visit_0": {
+      "status": "corroborated",
+      "label": null,
+      "claim_ids": [
+        "clm_0005"
+      ]
+    },
+    "before_visit_1": {
+      "status": "corroborated",
+      "label": null,
+      "claim_ids": [
+        "clm_0005"
+      ]
+    },
+    "before_visit_2": {
+      "status": "unverified",
+      "label": "<미검증>",
+      "claim_ids": [
+        "clm_0016"
+      ]
+    },
+    "before_visit_3": {
+      "status": "unverified",
+      "label": "<미검증>",
+      "claim_ids": [
+        "clm_0016"
+      ]
+    },
+    "backdrop_0": {
+      "status": "corroborated",
+      "label": null,
+      "claim_ids": [
+        "clm_0014"
+      ]
+    },
+    "backdrop_1": {
+      "status": "unverified",
+      "label": "<미검증>",
+      "claim_ids": [
+        "clm_0017"
+      ]
+    },
+    "backdrop_2": {
+      "status": "unverified",
+      "label": "<미검증>",
+      "claim_ids": [
+        "clm_0015"
+      ]
+    },
+    "backdrop_3": {
+      "status": "unverified",
+      "label": "<미검증>",
+      "claim_ids": [
+        "clm_0015"
+      ]
+    },
+    "backdrop_4": {
+      "status": null,
+      "label": null,
+      "claim_ids": []
+    },
+    "nato_dispute_0": {
+      "status": "disputed",
+      "label": "<논쟁>",
+      "claim_ids": [
+        "clm_0008"
+      ]
+    },
+    "nato_dispute_1": {
+      "status": "disputed",
+      "label": "<논쟁>",
+      "claim_ids": [
+        "clm_0008"
+      ]
+    },
+    "nato_dispute_2": {
+      "status": "disputed",
+      "label": "<논쟁>",
+      "claim_ids": [
+        "clm_0008"
+      ]
+    },
+    "nato_dispute_3": {
+      "status": "disputed",
+      "label": "<논쟁>",
+      "claim_ids": [
+        "clm_0008"
+      ]
+    },
+    "nato_dispute_4": {
+      "status": "disputed",
+      "label": "<논쟁>",
+      "claim_ids": [
+        "clm_0008"
+      ]
+    },
+    "iran_dispute_0": {
+      "status": "disputed",
+      "label": "<논쟁>",
+      "claim_ids": [
+        "clm_0009"
+      ]
+    },
+    "iran_dispute_1": {
+      "status": "disputed",
+      "label": "<논쟁>",
+      "claim_ids": [
+        "clm_0009"
+      ]
+    },
+    "iran_dispute_2": {
+      "status": "disputed",
+      "label": "<논쟁>",
+      "claim_ids": [
+        "clm_0010"
+      ]
+    },
+    "iran_dispute_3": {
+      "status": "disputed",
+      "label": "<논쟁>",
+      "claim_ids": [
+        "clm_0009",
+        "clm_0010"
+      ]
+    },
+    "iran_dispute_4": {
+      "status": "disputed",
+      "label": "<논쟁>",
+      "claim_ids": [
+        "clm_0009",
+        "clm_0010"
+      ]
+    },
+    "intel_dispute_0": {
+      "status": "disputed",
+      "label": "<논쟁>",
+      "claim_ids": [
+        "clm_0013"
+      ]
+    },
+    "intel_dispute_1": {
+      "status": "disputed",
+      "label": "<논쟁>",
+      "claim_ids": [
+        "clm_0013"
+      ]
+    },
+    "intel_dispute_2": {
+      "status": "disputed",
+      "label": "<논쟁>",
+      "claim_ids": [
+        "clm_0013"
+      ]
+    },
+    "intel_dispute_3": {
+      "status": "disputed",
+      "label": "<논쟁>",
+      "claim_ids": [
+        "clm_0013"
+      ]
+    },
+    "confirmed_0": {
+      "status": "corroborated",
+      "label": null,
+      "claim_ids": [
+        "clm_0001",
+        "clm_0003"
+      ]
+    },
+    "confirmed_1": {
+      "status": "corroborated",
+      "label": null,
+      "claim_ids": [
+        "clm_0001"
+      ]
+    },
+    "confirmed_2": {
+      "status": "corroborated",
+      "label": null,
+      "claim_ids": [
+        "clm_0003",
+        "clm_0004"
+      ]
+    },
+    "confirmed_3": {
+      "status": "corroborated",
+      "label": null,
+      "claim_ids": [
+        "clm_0005"
+      ]
+    },
+    "open_questions_0": {
+      "status": "disputed",
+      "label": "<논쟁>",
+      "claim_ids": [
+        "clm_0008"
+      ]
+    },
+    "open_questions_1": {
+      "status": "disputed",
+      "label": "<논쟁>",
+      "claim_ids": [
+        "clm_0009",
+        "clm_0010"
+      ]
+    },
+    "open_questions_2": {
+      "status": null,
+      "label": null,
+      "claim_ids": []
+    }
+  }
+}

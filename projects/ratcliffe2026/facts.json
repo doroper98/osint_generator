@@ -1,0 +1,191 @@
+{
+  "schema_version": 1,
+  "facts": [
+    {
+      "id": "f_visit_0825",
+      "text": "존 랫클리프 CIA 국장이 8월 25일 모스크바를 방문했으며, 이는 2021년 이후 CIA 국장의 첫 러시아 방문이라고 여러 매체가 보도했다.",
+      "date": "2026.08.25",
+      "place": "모스크바",
+      "actors": [
+        "존 랫클리프",
+        "CIA"
+      ],
+      "numbers": [
+        "2021년"
+      ],
+      "source_ids": [
+        "clm_0001",
+        "clm_0002"
+      ],
+      "confidence": "high",
+      "contested": false,
+      "sides": null
+    },
+    {
+      "id": "f_c17_landing",
+      "text": "미 공군 C-17 수송기가 라트비아 리가를 거쳐 8월 25일 모스크바 브누코보 공항에 착륙했다고 보도됐다.",
+      "date": "2026.08.25",
+      "place": "모스크바 브누코보 공항",
+      "actors": [
+        "미 공군"
+      ],
+      "numbers": [
+        "C-17"
+      ],
+      "source_ids": [
+        "clm_0003",
+        "clm_0004"
+      ],
+      "confidence": "high",
+      "contested": false,
+      "sides": null
+    },
+    {
+      "id": "f_strike_pause_request",
+      "text": "미국은 방문을 앞두고 우크라이나에 모스크바 등지에 대한 공격을 중단해 달라고 요청했다고 보도됐다.",
+      "date": "2026.08",
+      "place": "우크라이나",
+      "actors": [
+        "미국 정부",
+        "우크라이나 정부"
+      ],
+      "numbers": [],
+      "source_ids": [
+        "clm_0005"
+      ],
+      "confidence": "high",
+      "contested": false,
+      "sides": null
+    },
+    {
+      "id": "f_nato_warning_dispute",
+      "text": "익명 소식통들은 랫클리프가 러시아에 나토 회원국을 공격하지 말라고 경고했다고 전했지만, 트럼프 대통령은 준일상적 방문이며 그런 메시지는 없었다고 했고 크렘린은 현실과 무관한 공포 조장이라고 일축했다.",
+      "date": "2026.08.25",
+      "place": "모스크바",
+      "actors": [
+        "존 랫클리프",
+        "트럼프 대통령",
+        "페스코프 크렘린 대변인"
+      ],
+      "numbers": [],
+      "source_ids": [
+        "clm_0008"
+      ],
+      "confidence": "medium",
+      "contested": true,
+      "sides": [
+        "익명 소식통(WSJ 첫 보도, CNN·CBS 보도): 나토 회원국 공격 말라는 경고 전달",
+        "트럼프 대통령: 준일상적 방문, 나토 관련 경고·메시지 없었음",
+        "크렘린(페스코프 대변인): 현실과 무관한 공포 조장"
+      ]
+    },
+    {
+      "id": "f_iran_dispute",
+      "text": "CNN·CBS는 익명 소식통을 인용해 랫클리프가 러시아에 이란 지원을 끊으라고 촉구하고 호르무즈 해협이 재개방되지 않으면 추가 제재가 있다고 경고했다고 보도했지만, 트럼프 대통령은 방문이 이란과 관련이 없다고 밝혔다.",
+      "date": "2026.08.25",
+      "place": "모스크바",
+      "actors": [
+        "존 랫클리프",
+        "트럼프 대통령"
+      ],
+      "numbers": [],
+      "source_ids": [
+        "clm_0009",
+        "clm_0010"
+      ],
+      "confidence": "medium",
+      "contested": true,
+      "sides": [
+        "익명 소식통(CNN·CBS 보도): 이란 지원 차단 촉구, 호르무즈 미개방 시 추가 제재 경고",
+        "트럼프 대통령: 방문은 이란과 관련 없음"
+      ]
+    },
+    {
+      "id": "f_intel_assessment_dispute",
+      "text": "CNN·CBS가 보도한 미국 정보당국 평가는 푸틴이 나토 결속을 시험하는 도발에 나설 수 있다고 봤지만, 트럼프 대통령은 푸틴이 나토 영토를 공격하지 않을 것이라고 했고 크렘린은 러시아의 의도를 반영하지 않는다고 반박했다.",
+      "date": "2026.08",
+      "place": "나토 동부",
+      "actors": [
+        "미국 정보당국",
+        "트럼프 대통령",
+        "페스코프 크렘린 대변인"
+      ],
+      "numbers": [],
+      "source_ids": [
+        "clm_0013"
+      ],
+      "confidence": "medium",
+      "contested": true,
+      "sides": [
+        "미국 정보당국 평가(CNN·CBS 보도): 푸틴이 나토 결속 시험용 제한적 공격·도발 가능",
+        "트럼프 대통령: 푸틴은 나토 영토를 공격하지 않을 것",
+        "크렘린(페스코프 대변인): 현실과 무관, 러시아 의도 반영 안 함"
+      ]
+    },
+    {
+      "id": "f_poland_missile_0729",
+      "text": "7월 29일 순항미사일이 폴란드 영토에 떨어졌다고 보도됐다.",
+      "date": "2026.07.29",
+      "place": "폴란드",
+      "actors": [],
+      "numbers": [],
+      "source_ids": [
+        "clm_0014"
+      ],
+      "confidence": "high",
+      "contested": false,
+      "sides": null
+    },
+    {
+      "id": "f_bessent_0824",
+      "text": "CNN은 방문 하루 전 베선트 재무장관이 '경제적 추방자 작전'을 발표했다고 보도했다.",
+      "date": "2026.08.24",
+      "place": "워싱턴",
+      "actors": [
+        "베선트 재무장관"
+      ],
+      "numbers": [],
+      "source_ids": [
+        "clm_0015"
+      ],
+      "confidence": "low",
+      "contested": false,
+      "sides": null
+    },
+    {
+      "id": "f_ukraine_briefed",
+      "text": "키이우포스트에 따르면 젤렌스키 대통령은 우크라이나가 랫클리프와 러시아 정보당국자들의 회동에 관해 미국으로부터 정보를 받았다고 밝혔다.",
+      "date": "2026.08",
+      "place": "키이우",
+      "actors": [
+        "젤렌스키 대통령",
+        "미국 정부"
+      ],
+      "numbers": [],
+      "source_ids": [
+        "clm_0016"
+      ],
+      "confidence": "low",
+      "contested": false,
+      "sides": null
+    },
+    {
+      "id": "f_brent_0812",
+      "text": "알자지라는 8월 12일 브렌트유 10월물이 배럴당 89.53달러였다고 보도했다.",
+      "date": "2026.08.12",
+      "place": "",
+      "actors": [
+        "알자지라"
+      ],
+      "numbers": [
+        "89.53달러"
+      ],
+      "source_ids": [
+        "clm_0017"
+      ],
+      "confidence": "low",
+      "contested": false,
+      "sides": null
+    }
+  ]
+}

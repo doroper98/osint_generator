@@ -1,0 +1,31 @@
+# 『모스크바에 내린 수송기 한 대』 엔딩 크레딧 (v3.5.0, Phase 9 번들 실증). 보도 출처 = intake/sources.json(번들 이관 11건).
+schema_version: 1
+sections:
+  - title: 보도 · 자료
+    column: 0
+    items:
+      - main: CNN (8.7 · 8.25 · 8.27 · 5.27)  ·  CBS News (8.27)
+        sources: [src_art_0001, src_art_0002, src_art_0007, src_art_0009, src_art_0003]
+      - main: The Moscow Times (8.26 · 8.27)  ·  Kyiv Post (8.28)
+        sources: [src_art_0004, src_art_0005, src_art_0006, src_art_0011]
+      - main: Euronews (8.12)  ·  Al Jazeera (8.12)
+        sources: [src_art_0008, src_art_0010]
+      - main: 분석 번들 agents_reviewer (8.29, 2차 자료)
+  - title: 인물 · 국기 · 지도
+    column: 1
+    items:
+      - main: 도널드 트럼프 · 블라디미르 푸틴 · 볼로디미르 젤렌스키
+        license: osint_generator 라이브러리 가공본
+        rights: [people.trump, people.putin, people.zelensky]
+      - main: 국기
+        license: flag-icons · MIT
+        rights: [flags.flag_icons]
+      - main: 지도 · 지형
+        license: Natural Earth · AWS Terrain Tiles
+        rights: [map.natural_earth, map.aws_terrain_tiles]
+  - title: 음성
+    column: 1
+    items:
+      - main: 내레이션
+        license: AI 음성 합성
+        rights: [narration.tts]

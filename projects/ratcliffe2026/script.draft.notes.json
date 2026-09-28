@@ -1,0 +1,548 @@
+{
+  "schema_version": 1,
+  "bundle_id": "analysis_20260829_115457_ec53e620b2",
+  "sections": 12,
+  "scenes": 7,
+  "boundaries": [
+    {
+      "scene": "sc01",
+      "sections": [
+        "intro",
+        "s1"
+      ],
+      "space": [
+        "moscow"
+      ],
+      "charts": [],
+      "reason": "첫 장면"
+    },
+    {
+      "scene": "sc02",
+      "sections": [
+        "s2"
+      ],
+      "space": [
+        "hormuz"
+      ],
+      "charts": [],
+      "reason": "공간 바뀜 → hormuz"
+    },
+    {
+      "scene": "sc03",
+      "sections": [
+        "s3"
+      ],
+      "space": [],
+      "charts": [
+        "stakeholder_map"
+      ],
+      "reason": "차트 종류 바뀜 → stakeholder_map"
+    },
+    {
+      "scene": "sc04",
+      "sections": [
+        "s4"
+      ],
+      "space": [
+        "moscow"
+      ],
+      "charts": [],
+      "reason": "공간 바뀜 → moscow"
+    },
+    {
+      "scene": "sc05",
+      "sections": [
+        "s5",
+        "s6",
+        "s7"
+      ],
+      "space": [],
+      "charts": [
+        "dot_matrix"
+      ],
+      "reason": "차트 종류 바뀜 → dot_matrix · 합친 섹션 3개(같은 공간·차트 없음)"
+    },
+    {
+      "scene": "sc06",
+      "sections": [
+        "s8"
+      ],
+      "space": [],
+      "charts": [
+        "gantt"
+      ],
+      "reason": "차트 종류 바뀜 → gantt"
+    },
+    {
+      "scene": "sc07",
+      "sections": [
+        "s9",
+        "s10",
+        "s11",
+        "s12",
+        "outro"
+      ],
+      "space": [],
+      "charts": [
+        "dual_line"
+      ],
+      "reason": "차트 종류 바뀜 → dual_line · 합친 섹션 5개(같은 공간·차트 없음)"
+    }
+  ],
+  "chapters": [
+    {
+      "scene": "sc01",
+      "title": "활주로를 떠난 한 대"
+    },
+    {
+      "scene": "sc02",
+      "title": "세 개의 문제가 한 점에서 만난다"
+    },
+    {
+      "scene": "sc03",
+      "title": "책상 양편에 앉은 사람들"
+    },
+    {
+      "scene": "sc04",
+      "title": "그 방에 없던 이름들"
+    },
+    {
+      "scene": "sc05",
+      "title": "미국이 들고 간 계산서"
+    },
+    {
+      "scene": "sc05",
+      "title": "러시아가 이 문을 열어 두는 이유"
+    },
+    {
+      "scene": "sc05",
+      "title": "나토를 친다는 이야기의 실체"
+    },
+    {
+      "scene": "sc06",
+      "title": "여덟 달을 한 장에 펼치면"
+    },
+    {
+      "scene": "sc07",
+      "title": "두 번째 계산서, 호르무즈"
+    },
+    {
+      "scene": "sc07",
+      "title": "말들이 어긋나는 자리"
+    },
+    {
+      "scene": "sc07",
+      "title": "여기서 갈라지는 길들"
+    },
+    {
+      "scene": "sc07",
+      "title": "남는 것"
+    }
+  ],
+  "rewrite_required": [],
+  "tts": [
+    {
+      "sid": "sc01_0",
+      "source": "rule",
+      "issue": null
+    },
+    {
+      "sid": "sc01_1",
+      "source": "rule",
+      "issue": null
+    },
+    {
+      "sid": "sc01_2",
+      "source": "bundle",
+      "issue": null
+    },
+    {
+      "sid": "sc01_3",
+      "source": "bundle",
+      "issue": null
+    },
+    {
+      "sid": "sc01_4",
+      "source": "bundle",
+      "issue": null
+    },
+    {
+      "sid": "sc01_5",
+      "source": "bundle",
+      "issue": null
+    },
+    {
+      "sid": "sc02_0",
+      "source": "bundle",
+      "issue": null
+    },
+    {
+      "sid": "sc02_1",
+      "source": "bundle",
+      "issue": null
+    },
+    {
+      "sid": "sc02_2",
+      "source": "bundle",
+      "issue": null
+    },
+    {
+      "sid": "sc02_3",
+      "source": "bundle",
+      "issue": null
+    },
+    {
+      "sid": "sc03_0",
+      "source": "rule",
+      "issue": null
+    },
+    {
+      "sid": "sc03_1",
+      "source": "rule",
+      "issue": null
+    },
+    {
+      "sid": "sc03_2",
+      "source": "rule",
+      "issue": null
+    },
+    {
+      "sid": "sc03_3",
+      "source": "rule",
+      "issue": null
+    },
+    {
+      "sid": "sc04_0",
+      "source": "rule",
+      "issue": null
+    },
+    {
+      "sid": "sc04_1",
+      "source": "rule",
+      "issue": null
+    },
+    {
+      "sid": "sc04_2",
+      "source": "rule",
+      "issue": null
+    },
+    {
+      "sid": "sc04_3",
+      "source": "rule",
+      "issue": null
+    },
+    {
+      "sid": "sc05_0",
+      "source": "bundle",
+      "issue": null
+    },
+    {
+      "sid": "sc05_1",
+      "source": "bundle",
+      "issue": null
+    },
+    {
+      "sid": "sc05_2",
+      "source": "bundle",
+      "issue": null
+    },
+    {
+      "sid": "sc05_3",
+      "source": "bundle",
+      "issue": null
+    },
+    {
+      "sid": "sc05_4",
+      "source": "rule",
+      "issue": null
+    },
+    {
+      "sid": "sc05_5",
+      "source": "rule",
+      "issue": null
+    },
+    {
+      "sid": "sc05_6",
+      "source": "rule",
+      "issue": null
+    },
+    {
+      "sid": "sc05_7",
+      "source": "rule",
+      "issue": null
+    },
+    {
+      "sid": "sc05_8",
+      "source": "bundle",
+      "issue": null
+    },
+    {
+      "sid": "sc05_9",
+      "source": "bundle",
+      "issue": null
+    },
+    {
+      "sid": "sc05_10",
+      "source": "bundle",
+      "issue": null
+    },
+    {
+      "sid": "sc05_11",
+      "source": "bundle",
+      "issue": null
+    },
+    {
+      "sid": "sc06_0",
+      "source": "bundle",
+      "issue": null
+    },
+    {
+      "sid": "sc06_1",
+      "source": "bundle",
+      "issue": null
+    },
+    {
+      "sid": "sc06_2",
+      "source": "bundle",
+      "issue": null
+    },
+    {
+      "sid": "sc06_3",
+      "source": "bundle",
+      "issue": null
+    },
+    {
+      "sid": "sc07_0",
+      "source": "bundle",
+      "issue": null
+    },
+    {
+      "sid": "sc07_1",
+      "source": "bundle",
+      "issue": null
+    },
+    {
+      "sid": "sc07_2",
+      "source": "bundle",
+      "issue": null
+    },
+    {
+      "sid": "sc07_3",
+      "source": "bundle",
+      "issue": null
+    },
+    {
+      "sid": "sc07_4",
+      "source": "rule",
+      "issue": null
+    },
+    {
+      "sid": "sc07_5",
+      "source": "rule",
+      "issue": null
+    },
+    {
+      "sid": "sc07_6",
+      "source": "rule",
+      "issue": null
+    },
+    {
+      "sid": "sc07_7",
+      "source": "rule",
+      "issue": null
+    },
+    {
+      "sid": "sc07_8",
+      "source": "rule",
+      "issue": null
+    },
+    {
+      "sid": "sc07_9",
+      "source": "rule",
+      "issue": null
+    },
+    {
+      "sid": "sc07_10",
+      "source": "rule",
+      "issue": null
+    },
+    {
+      "sid": "sc07_11",
+      "source": "rule",
+      "issue": null
+    },
+    {
+      "sid": "sc07_12",
+      "source": "rule",
+      "issue": null
+    },
+    {
+      "sid": "sc07_13",
+      "source": "rule",
+      "issue": null
+    },
+    {
+      "sid": "sc07_14",
+      "source": "rule",
+      "issue": null
+    },
+    {
+      "sid": "sc07_15",
+      "source": "rule",
+      "issue": null
+    },
+    {
+      "sid": "sc07_16",
+      "source": "rule",
+      "issue": null
+    },
+    {
+      "sid": "sc07_17",
+      "source": "rule",
+      "issue": null
+    }
+  ],
+  "emphasis_dropped": [
+    "전면전 이후 첫 방러",
+    "방첩기관 수장까지 배석",
+    "사흘간 북부 타격 중단 요청",
+    "회담은 인정하고 무게만 낮췄다",
+    "영국 공격 계획은 미확인",
+    "봉쇄 이익에는 시한이 있다",
+    "백악관은 낮추고, 취재원은 키운다",
+    "시간을 사려는 시도였을 수 있다",
+    "확인된 것은 계획이 아니라 신호들"
+  ],
+  "date_sources": {
+    "sc01_0": "report",
+    "sc01_1": "report",
+    "sc01_2": "timeline",
+    "sc01_3": "report",
+    "sc01_4": "report",
+    "sc01_5": "report",
+    "sc02_0": "report",
+    "sc02_1": "report",
+    "sc02_2": "report",
+    "sc02_3": "report",
+    "sc03_0": "report",
+    "sc03_1": "report",
+    "sc03_2": "report",
+    "sc03_3": "report",
+    "sc04_0": "report",
+    "sc04_1": "report",
+    "sc04_2": "report",
+    "sc04_3": "report",
+    "sc05_0": "report",
+    "sc05_1": "report",
+    "sc05_2": "report",
+    "sc05_3": "report",
+    "sc05_4": "report",
+    "sc05_5": "report",
+    "sc05_6": "report",
+    "sc05_7": "report",
+    "sc05_8": "report",
+    "sc05_9": "report",
+    "sc05_10": "report",
+    "sc05_11": "report",
+    "sc06_0": "report",
+    "sc06_1": "report",
+    "sc06_2": "report",
+    "sc06_3": "report",
+    "sc07_0": "report",
+    "sc07_1": "report",
+    "sc07_2": "report",
+    "sc07_3": "timeline",
+    "sc07_4": "report",
+    "sc07_5": "report",
+    "sc07_6": "report",
+    "sc07_7": "report",
+    "sc07_8": "report",
+    "sc07_9": "report",
+    "sc07_10": "report",
+    "sc07_11": "report",
+    "sc07_12": "report",
+    "sc07_13": "report",
+    "sc07_14": "report",
+    "sc07_15": "report",
+    "sc07_16": "report",
+    "sc07_17": "report"
+  },
+  "mentions": {
+    "sc01_0": [
+      "moscow"
+    ],
+    "sc01_3": [
+      "moscow"
+    ],
+    "sc01_4": [
+      "cia",
+      "ratcliffe"
+    ],
+    "sc01_5": [
+      "cia"
+    ],
+    "sc02_2": [
+      "hormuz"
+    ],
+    "sc02_3": [
+      "nato"
+    ],
+    "sc03_1": [
+      "naryshkin"
+    ],
+    "sc03_2": [
+      "bortnikov"
+    ],
+    "sc04_0": [
+      "putin",
+      "ratcliffe"
+    ],
+    "sc04_3": [
+      "moscow"
+    ],
+    "sc05_0": [
+      "ratcliffe"
+    ],
+    "sc05_8": [
+      "nato"
+    ],
+    "sc06_2": [
+      "nato"
+    ],
+    "sc07_0": [
+      "iran"
+    ],
+    "sc07_1": [
+      "iran"
+    ],
+    "sc07_2": [
+      "iran"
+    ],
+    "sc07_4": [
+      "trump"
+    ],
+    "sc07_5": [
+      "nato"
+    ],
+    "sc07_10": [
+      "nato"
+    ]
+  },
+  "unmatched": [
+    "whitehouse",
+    "ratcliffe",
+    "nato",
+    "naryshkin",
+    "bortnikov",
+    "iran",
+    "andrews",
+    "riga",
+    "moscow",
+    "lublin",
+    "leipzig",
+    "tulcea",
+    "kyiv",
+    "hormuz"
+  ],
+  "skipped_sections": []
+}

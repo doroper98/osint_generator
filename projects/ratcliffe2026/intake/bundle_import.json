@@ -1,0 +1,138 @@
+{
+  "schema_version": 1,
+  "bundle_id": "analysis_20260829_115457_ec53e620b2",
+  "bundle_file": "/home/user/osint_generator/projects/ratcliffe2026/intake/files/analysis_20260829_115457_ec53e620b2.bundle.json",
+  "generated_at": "2026-08-29T11:55:08.817094+09:00",
+  "producer": "agents_reviewer v8.5.9",
+  "fetch": true,
+  "imported_sources": [
+    {
+      "bundle_source_id": "src-2",
+      "source_id": "src_art_0001",
+      "filled_by": [
+        "citation",
+        "fetch"
+      ]
+    },
+    {
+      "bundle_source_id": "src-3",
+      "source_id": "src_art_0002",
+      "filled_by": [
+        "citation",
+        "fetch"
+      ]
+    },
+    {
+      "bundle_source_id": "src-4",
+      "source_id": "src_art_0003",
+      "filled_by": [
+        "citation",
+        "fetch"
+      ]
+    },
+    {
+      "bundle_source_id": "src-5",
+      "source_id": "src_art_0004",
+      "filled_by": [
+        "citation",
+        "fetch"
+      ]
+    },
+    {
+      "bundle_source_id": "src-6",
+      "source_id": "src_art_0005",
+      "filled_by": [
+        "citation",
+        "fetch"
+      ]
+    },
+    {
+      "bundle_source_id": "src-7",
+      "source_id": "src_art_0006",
+      "filled_by": [
+        "citation",
+        "fetch"
+      ]
+    },
+    {
+      "bundle_source_id": "src-10",
+      "source_id": "src_art_0007",
+      "filled_by": [
+        "citation",
+        "fetch"
+      ]
+    },
+    {
+      "bundle_source_id": "src-11",
+      "source_id": "src_art_0008",
+      "filled_by": [
+        "citation",
+        "fetch"
+      ]
+    },
+    {
+      "bundle_source_id": "src-12",
+      "source_id": "src_art_0009",
+      "filled_by": [
+        "citation",
+        "fetch"
+      ]
+    },
+    {
+      "bundle_source_id": "src-15",
+      "source_id": "src_art_0010",
+      "filled_by": [
+        "citation",
+        "fetch"
+      ]
+    },
+    {
+      "bundle_source_id": "src-16",
+      "source_id": "src_art_0011",
+      "filled_by": [
+        "citation",
+        "fetch"
+      ]
+    }
+  ],
+  "skipped_existing": [],
+  "unresolved_sources": [
+    {
+      "bundle_source_id": "src-1",
+      "raw": "The Washington Post, 'CIA director makes rare, unannounced visit to Moscow', 2026-08-25 (https://www.washingtonpost.com/national-security/2026/08/25/cia-director-moscow-rare-unannounced-trip/)",
+      "reason": "fetch_failed:TimeoutError: The read operation timed out"
+    },
+    {
+      "bundle_source_id": "src-8",
+      "raw": "Ukrainska Pravda, 'CIA chief did not threaten Russia with consequences over war during Moscow visit – NYT', 2026-08-28 (https://www.pravda.com.ua/eng/news/2026/08/28/8050678/)",
+      "reason": "fetch_failed:HTTPError: HTTP Error 403: Forbidden"
+    },
+    {
+      "bundle_source_id": "src-9",
+      "raw": "UNITED24 Media, 'CIA Director in Moscow Amid Intel on Russian Draft Plans, NATO Escalation Risks', 2026-08 (https://united24media.com/world/cia-director-in-moscow-amid-intel-on-russian-draft-plans-nato-escalation-risks-21955)",
+      "reason": "missing:published_at"
+    },
+    {
+      "bundle_source_id": "src-13",
+      "raw": "House of Commons Library, 'Israel/US-Iran conflict 2026: Reopening the Strait of Hormuz' (https://commonslibrary.parliament.uk/research-briefings/cbp-10636/)",
+      "reason": "fetch_failed:HTTPError: HTTP Error 403: Forbidden"
+    },
+    {
+      "bundle_source_id": "src-14",
+      "raw": "The Washington Times, 'Iran says the Strait of Hormuz stays closed until the U.S. meets its terms', 2026-08-26 (https://www.washingtontimes.com/news/2026/aug/26/irgc-strait-hormuz-closed-us-accepts-mou/)",
+      "reason": "fetch_failed:HTTPError: HTTP Error 403: Forbidden"
+    }
+  ],
+  "claim_hints": 2,
+  "draft": {
+    "sections": 12,
+    "scenes": 7,
+    "rewrite_required": 0,
+    "unmatched": 14,
+    "date_timeline": 2,
+    "date_report": 50,
+    "panels": 4,
+    "unsupported_charts": 0,
+    "direction_draft": "direction.draft.yaml"
+  }
+}

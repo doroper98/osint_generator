@@ -1,0 +1,251 @@
+schema_version: 1
+title: 모스크바에 내린 수송기 한 대
+subtitle: CIA 국장의 모스크바 방문, 확인된 것과 엇갈리는 것
+date: 2026.08.29
+scenes:
+- id: open
+  sentences:
+  - date: 2026.08.25
+    text: 8월 25일, 미국 공군 수송기 한 대가 모스크바에 내렸습니다.
+    tts: 팔월 이십오일, 미국 공군 수송기 한 대가 모스크바에 내렸습니다.
+    emphasis:
+    - 모스크바
+    sources:
+    - clm_0003
+    - clm_0004
+  - date: 2026.08.25
+    text: 같은 날 존 랫클리프 CIA 국장이 모스크바를 방문했습니다.
+    tts: 같은 날 존 랫클리프 미국 중앙정보국 국장이 모스크바를 방문했습니다.
+    emphasis:
+    - 존 랫클리프
+    sources:
+    - clm_0001
+  - date: 2026.08.25
+    text: 여러 매체는 2021년 이후 CIA 국장의 첫 러시아 방문이라고 보도했습니다.
+    tts: 여러 매체는 이천이십일년 이후 미국 중앙정보국 국장의 첫 러시아 방문이라고 보도했습니다.
+    emphasis:
+    - 첫 러시아 방문
+    sources:
+    - clm_0002
+  - date: 2026.08.25
+    text: 그 방에서 무슨 말이 오갔는지는 전하는 쪽마다 설명이 다릅니다.
+    emphasis: []
+    sources:
+    - clm_0008
+    - clm_0009
+  - date: 2026.08.25
+    text: 보도로 확인된 것과 서로 엇갈리는 주장을 나눠 살펴봅니다.
+    emphasis: []
+    sources: []
+- id: flight
+  sentences:
+  - date: 2026.08.25
+    text: 보도에 따르면 이 수송기는 미 공군 C-17이었습니다.
+    tts: 보도에 따르면 이 수송기는 미 공군 씨 십칠이었습니다.
+    emphasis:
+    - C-17
+    sources:
+    - clm_0003
+  - date: 2026.08.25
+    text: 수송기는 라트비아 리가를 거쳐 갔다고 보도됐습니다.
+    emphasis:
+    - 라트비아 리가
+    sources:
+    - clm_0003
+    - clm_0004
+  - date: 2026.08.25
+    text: 도착한 곳은 모스크바 브누코보 공항이었습니다.
+    emphasis:
+    - 브누코보 공항
+    sources:
+    - clm_0004
+- id: before_visit
+  sentences:
+  - date: '2026.08'
+    text: 방문을 앞두고 미국이 우크라이나에 요청한 것이 있었다고 보도됐습니다.
+    emphasis: []
+    sources:
+    - clm_0005
+  - date: '2026.08'
+    text: 모스크바 등지에 대한 공격을 멈춰 달라는 요청이었습니다.
+    emphasis:
+    - 공격을 멈춰
+    sources:
+    - clm_0005
+  - date: '2026.08'
+    text: 키이우포스트에 따르면 젤렌스키 대통령은 이 회동에 관해 미국에서 정보를 받았다고 밝혔습니다.
+    emphasis:
+    - 정보를 받았다고
+    sources:
+    - clm_0016
+  - date: '2026.08'
+    text: 젤렌스키 대통령은 회동 상대가 러시아 정보당국자들이었다고 전했습니다.
+    emphasis: []
+    sources:
+    - clm_0016
+- id: backdrop
+  sentences:
+  - date: 2026.07.29
+    text: 한 달 앞선 7월 29일, 순항미사일이 폴란드 영토에 떨어졌다고 보도됐습니다.
+    tts: 한 달 앞선 칠월 이십구일, 순항미사일이 폴란드 영토에 떨어졌다고 보도됐습니다.
+    emphasis:
+    - 폴란드 영토
+    sources:
+    - clm_0014
+  - date: 2026.08.12
+    text: 알자지라는 8월 12일 브렌트유 10월물이 배럴당 89.53달러였다고 보도했습니다.
+    tts: 알자지라는 팔월 십이일 브렌트유 시월물이 배럴당 팔십구점오삼 달러였다고 보도했습니다.
+    emphasis:
+    - 89.53달러
+    sources:
+    - clm_0017
+  - date: 2026.08.24
+    text: CNN에 따르면 방문 하루 전인 8월 24일 베선트 재무장관이 새 작전을 발표했습니다.
+    tts: 씨엔엔에 따르면 방문 하루 전인 팔월 이십사일 베선트 재무장관이 새 작전을 발표했습니다.
+    emphasis: []
+    sources:
+    - clm_0015
+  - date: 2026.08.24
+    text: CNN이 전한 작전 이름은 '경제적 추방자 작전'입니다.
+    tts: 씨엔엔이 전한 작전 이름은 경제적 추방자 작전입니다.
+    emphasis:
+    - 경제적 추방자 작전
+    sources:
+    - clm_0015
+  - date: 2026.08.24
+    text: 이 발표와 모스크바 방문이 어떻게 이어지는지는 확인된 자료가 없습니다.
+    emphasis: []
+    sources: []
+- id: nato_dispute
+  sentences:
+  - date: 2026.08.25
+    text: 가장 크게 엇갈리는 대목은 나토입니다.
+    emphasis:
+    - 나토
+    sources:
+    - clm_0008
+  - date: 2026.08.25
+    text: 익명 소식통들은 랫클리프가 러시아에 나토 회원국을 공격하지 말라고 경고했다고 전했습니다.
+    emphasis:
+    - 경고했다고
+    sources:
+    - clm_0008
+  - date: 2026.08.25
+    text: 이 내용은 WSJ가 처음 보도했고 CNN과 CBS도 전했습니다.
+    tts: 이 내용은 월스트리트저널이 처음 보도했고 씨엔엔과 씨비에스도 전했습니다.
+    emphasis: []
+    sources:
+    - clm_0008
+  - date: 2026.08.25
+    text: 트럼프 대통령은 준일상적 방문이었고 그런 메시지는 없었다고 말했습니다.
+    emphasis:
+    - 준일상적 방문
+    sources:
+    - clm_0008
+  - date: 2026.08.25
+    text: 크렘린은 현실과 무관한 공포 조장이라고 일축했습니다.
+    emphasis:
+    - 공포 조장
+    sources:
+    - clm_0008
+- id: iran_dispute
+  sentences:
+  - date: 2026.08.25
+    text: 이란을 두고도 설명이 갈립니다.
+    emphasis: []
+    sources:
+    - clm_0009
+  - date: 2026.08.25
+    text: CNN·CBS가 인용한 익명 소식통들은 랫클리프가 이란 지원을 끊으라고 촉구했다고 전했습니다.
+    tts: 씨엔엔과 씨비에스가 인용한 익명 소식통들은 랫클리프가 이란 지원을 끊으라고 촉구했다고 전했습니다.
+    emphasis:
+    - 이란 지원
+    sources:
+    - clm_0009
+  - date: 2026.08.25
+    text: 소식통들은 호르무즈 해협이 다시 열리지 않으면 추가 제재가 있다는 경고도 있었다고 말했습니다.
+    emphasis:
+    - 추가 제재
+    sources:
+    - clm_0010
+  - date: 2026.08.25
+    text: 트럼프 대통령은 이번 방문이 이란과 관련이 없다고 밝혔습니다.
+    emphasis:
+    - 관련이 없다
+    sources:
+    - clm_0009
+    - clm_0010
+  - date: 2026.08.25
+    text: 트럼프 대통령의 설명에는 이란이나 호르무즈에 관한 요구가 들어 있지 않습니다.
+    emphasis: []
+    sources:
+    - clm_0009
+    - clm_0010
+- id: intel_dispute
+  sentences:
+  - date: '2026.08'
+    text: 방문의 배경으로 미국 정보당국의 평가도 보도됐습니다.
+    emphasis: []
+    sources:
+    - clm_0013
+  - date: '2026.08'
+    text: CNN·CBS에 따르면 정보당국은 푸틴이 나토 결속을 시험하는 도발에 나설 수 있다고 봤습니다.
+    tts: 씨엔엔과 씨비에스에 따르면 정보당국은 푸틴이 나토 결속을 시험하는 도발에 나설 수 있다고 봤습니다.
+    emphasis:
+    - 나토 결속
+    sources:
+    - clm_0013
+  - date: '2026.08'
+    text: 트럼프 대통령은 푸틴이 나토 영토를 공격하지 않을 것이라고 말했습니다.
+    emphasis:
+    - 공격하지 않을 것
+    sources:
+    - clm_0013
+  - date: '2026.08'
+    text: 크렘린 페스코프 대변인은 이 평가가 러시아의 의도를 반영하지 않는다고 반박했습니다.
+    emphasis:
+    - 반영하지 않는다
+    sources:
+    - clm_0013
+- id: confirmed
+  sentences:
+  - date: 2026.08.25
+    text: 여러 매체가 함께 확인한 사실은 몇 가지로 추려집니다.
+    emphasis: []
+    sources:
+    - clm_0001
+    - clm_0003
+  - date: 2026.08.25
+    text: CIA 국장이 8월 25일 모스크바를 찾았습니다.
+    tts: 미국 중앙정보국 국장이 팔월 이십오일 모스크바를 찾았습니다.
+    emphasis: []
+    sources:
+    - clm_0001
+  - date: 2026.08.25
+    text: 미 공군 수송기가 리가를 거쳐 브누코보 공항에 내렸습니다.
+    emphasis: []
+    sources:
+    - clm_0003
+    - clm_0004
+  - date: '2026.08'
+    text: 미국은 그에 앞서 우크라이나에 공격 중단을 요청했습니다.
+    emphasis: []
+    sources:
+    - clm_0005
+- id: open_questions
+  sentences:
+  - date: 2026.08.25
+    text: 나토에 대한 경고가 실제로 전달됐는지는 아직 어느 쪽으로도 확정되지 않았습니다.
+    emphasis: []
+    sources:
+    - clm_0008
+  - date: 2026.08.25
+    text: 이란과 호르무즈가 회담 의제였는지도 여전히 엇갈린 채 남아 있습니다.
+    emphasis: []
+    sources:
+    - clm_0009
+    - clm_0010
+  - date: '2026.08'
+    text: 그날 모스크바에서 오간 말의 목록은 아직 공개되지 않았습니다.
+    emphasis: []
+    sources: []

@@ -1,0 +1,137 @@
+{
+  "schema_version": 1,
+  "bundle_id": "analysis_20260627_213911_00d58d87d6",
+  "bundle_file": "/home/user/osint_generator/projects/bundle_rw_demo/intake/files/analysis_20260627_213911_00d58d87d6.bundle.json",
+  "generated_at": "2026-06-29T13:17:31.653488+09:00",
+  "producer": "agents_reviewer v8.2.15",
+  "fetch": true,
+  "imported_sources": [
+    {
+      "bundle_source_id": "src-3",
+      "source_id": "src_art_0001",
+      "filled_by": [
+        "citation",
+        "fetch"
+      ]
+    },
+    {
+      "bundle_source_id": "src-6",
+      "source_id": "src_art_0002",
+      "filled_by": [
+        "citation",
+        "fetch"
+      ]
+    },
+    {
+      "bundle_source_id": "src-7",
+      "source_id": "src_art_0003",
+      "filled_by": [
+        "citation",
+        "fetch"
+      ]
+    },
+    {
+      "bundle_source_id": "src-9",
+      "source_id": "src_art_0004",
+      "filled_by": [
+        "citation",
+        "fetch"
+      ]
+    },
+    {
+      "bundle_source_id": "src-10",
+      "source_id": "src_art_0005",
+      "filled_by": [
+        "citation",
+        "fetch"
+      ]
+    },
+    {
+      "bundle_source_id": "src-11",
+      "source_id": "src_art_0006",
+      "filled_by": [
+        "citation",
+        "fetch"
+      ]
+    },
+    {
+      "bundle_source_id": "src-13",
+      "source_id": "src_art_0007",
+      "filled_by": [
+        "citation",
+        "fetch"
+      ]
+    },
+    {
+      "bundle_source_id": "src-16",
+      "source_id": "src_art_0008",
+      "filled_by": [
+        "citation",
+        "fetch"
+      ]
+    },
+    {
+      "bundle_source_id": "src-17",
+      "source_id": "src_art_0009",
+      "filled_by": [
+        "citation",
+        "fetch"
+      ]
+    }
+  ],
+  "skipped_existing": [],
+  "unresolved_sources": [
+    {
+      "bundle_source_id": "src-1",
+      "raw": "https://www.criticalthreats.org/analysis/russian-offensive-campaign-assessment-june-25-2026",
+      "reason": "missing:published_at"
+    },
+    {
+      "bundle_source_id": "src-2",
+      "raw": "https://www.aljazeera.com/news/2026/6/25/as-ukraine-seizes-first-chance-to-win-war-horrors-come-home-to-russia",
+      "reason": "missing:published_at"
+    },
+    {
+      "bundle_source_id": "src-4",
+      "raw": "https://en.wikipedia.org/wiki/Operation_Spiderweb",
+      "reason": "missing:published_at"
+    },
+    {
+      "bundle_source_id": "src-5",
+      "raw": "https://www.csis.org/analysis/russia-ukraine-drone-war-innovation-frontlines-and-beyond",
+      "reason": "missing:published_at"
+    },
+    {
+      "bundle_source_id": "src-8",
+      "raw": "https://en.defence-ua.com/events/ugvs_in_ukrainian_service_how_they_overcome_kill_zone_and_change_rules_of_war-17932.html",
+      "reason": "missing:published_at"
+    },
+    {
+      "bundle_source_id": "src-12",
+      "raw": "https://www.aljazeera.com/news/2026/5/29/russian-rate-of-losses-in-ukraine-almost-triples-in-one-year",
+      "reason": "missing:published_at"
+    },
+    {
+      "bundle_source_id": "src-14",
+      "raw": "https://en.wikipedia.org/wiki/Pokrovsk_offensive",
+      "reason": "missing:published_at"
+    },
+    {
+      "bundle_source_id": "src-15",
+      "raw": "https://en.wikipedia.org/wiki/Timeline_of_the_Russo-Ukrainian_war_(1_January_2026_%E2%80%93_present)",
+      "reason": "fetch_failed:HTTPError: HTTP Error 404: Not Found"
+    }
+  ],
+  "claim_hints": 2,
+  "draft": {
+    "sections": 10,
+    "scenes": 3,
+    "rewrite_required": 1,
+    "unmatched": 9,
+    "date_timeline": 0,
+    "date_report": 37,
+    "panels": 1,
+    "unsupported_charts": 3,
+    "direction_draft": "direction.draft.yaml"
+  }
+}

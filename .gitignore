@@ -169,3 +169,22 @@ projects/taiwan_f1_*/tts/
 projects/taiwan_f1_*/out/
 projects/taiwan_f1_*/logs/
 projects/taiwan_f1_*/direction.meta.json
+
+# v3.5.0 — Phase 9 번들 실증 프로젝트(D-0063 작업 6). 입력·초안·원고·AI 연출만 추적, 실행 생성물은 제외(보고서 사본은 docs/handoff/reports/phase9/)
+projects/ratcliffe2026/01_intake/
+projects/ratcliffe2026/03_tasks/
+projects/ratcliffe2026/assets/
+projects/ratcliffe2026/llm_calls/
+projects/ratcliffe2026/logs/
+projects/ratcliffe2026/tts/
+projects/ratcliffe2026/prev/
+projects/ratcliffe2026/out/
+projects/ratcliffe2026/plan.json
+projects/ratcliffe2026/project_manifest.json
+projects/ratcliffe2026/intake/verify_draft.json
+projects/bundle_rw_demo/01_intake/
+projects/bundle_rw_demo/03_tasks/
+projects/bundle_rw_demo/llm_calls/
+projects/bundle_rw_demo/logs/
+projects/bundle_rw_demo/project_manifest.json
+projects/bundle_rw_demo/intake/verify_draft.json

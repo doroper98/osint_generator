@@ -1,0 +1,475 @@
+{
+  "schema_version": 1,
+  "claims": [
+    {
+      "claim_id": "clm_0001",
+      "text": "존 랫클리프 CIA 국장이 8월 25일(화) 모스크바를 방문했다",
+      "source_ids": [
+        "src_art_0001",
+        "src_art_0002",
+        "src_art_0003",
+        "src_art_0004",
+        "src_art_0011"
+      ],
+      "status": "corroborated",
+      "contested": false,
+      "event_date": "2026-08-25",
+      "checks": [
+        "quote_match:src_art_0001",
+        "quote_match:src_art_0002",
+        "quote_match:src_art_0003",
+        "quote_match:src_art_0004",
+        "quote_match:src_art_0011",
+        "independent_origins:4"
+      ],
+      "attributed_only": false,
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0002",
+      "text": "이번 방문은 2021년 이후 CIA 국장의 첫 러시아 방문이다",
+      "source_ids": [
+        "src_art_0006",
+        "src_art_0002",
+        "src_art_0004",
+        "src_art_0005"
+      ],
+      "status": "corroborated",
+      "contested": false,
+      "event_date": "2026-08-25",
+      "checks": [
+        "quote_match:src_art_0006",
+        "quote_match:src_art_0002",
+        "quote_match:src_art_0004",
+        "quote_match:src_art_0005",
+        "independent_origins:3"
+      ],
+      "attributed_only": false,
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0003",
+      "text": "미 공군 C-17 수송기가 8월 25일 모스크바 브누코보 공항에 착륙했다",
+      "source_ids": [
+        "src_art_0001",
+        "src_art_0011",
+        "src_art_0003"
+      ],
+      "status": "corroborated",
+      "contested": false,
+      "event_date": "2026-08-25",
+      "checks": [
+        "quote_match:src_art_0001",
+        "quote_match:src_art_0011",
+        "quote_match:src_art_0003",
+        "independent_origins:3"
+      ],
+      "attributed_only": false,
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0004",
+      "text": "해당 수송기는 라트비아 리가를 거쳐 모스크바로 향했다",
+      "source_ids": [
+        "src_art_0002",
+        "src_art_0001",
+        "src_art_0011"
+      ],
+      "status": "corroborated",
+      "contested": false,
+      "event_date": "2026-08-25",
+      "checks": [
+        "quote_match:src_art_0002",
+        "quote_match:src_art_0001",
+        "quote_match:src_art_0011",
+        "independent_origins:2"
+      ],
+      "attributed_only": false,
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0005",
+      "text": "미국은 방문을 앞두고 우크라이나에 모스크바 등지에 대한 공격 중단을 요청했다",
+      "source_ids": [
+        "src_art_0001",
+        "src_art_0002",
+        "src_art_0003",
+        "src_art_0011"
+      ],
+      "status": "corroborated",
+      "contested": false,
+      "checks": [
+        "quote_match:src_art_0001",
+        "quote_match:src_art_0002",
+        "quote_match:src_art_0003",
+        "quote_match:src_art_0011",
+        "independent_origins:3"
+      ],
+      "attributed_only": false,
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0006",
+      "text": "랫클리프는 방문 중 푸틴 대통령을 만나지 않았다",
+      "source_ids": [
+        "src_art_0001",
+        "src_art_0003",
+        "src_art_0005",
+        "src_art_0006"
+      ],
+      "status": "unverified",
+      "contested": true,
+      "sides": [
+        {
+          "party": "크렘린(페스코프 대변인)",
+          "text": "랫클리프는 푸틴을 만나지 않았고 정보기관 차원의 접촉이었다",
+          "source_ids": [
+            "src_art_0001",
+            "src_art_0003",
+            "src_art_0005",
+            "src_art_0006"
+          ]
+        }
+      ],
+      "event_date": "2026-08-25",
+      "checks": [
+        "quote_match:src_art_0001",
+        "quote_match:src_art_0003",
+        "quote_match:src_art_0005",
+        "quote_match:src_art_0006",
+        "independent_origins:3",
+        "attributed:src_art_0001"
+      ],
+      "attributed_only": false,
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0007",
+      "text": "랫클리프는 모스크바에서 나리시킨 러시아 대외정보국(SVR) 국장을 만났다",
+      "source_ids": [
+        "src_art_0004",
+        "src_art_0006",
+        "src_art_0011"
+      ],
+      "status": "unverified",
+      "contested": true,
+      "sides": [
+        {
+          "party": "세르게이 나리시킨 SVR 국장",
+          "text": "만남은 있었으나 표준적 실무 형식으로 특별할 것이 없었다",
+          "source_ids": [
+            "src_art_0004",
+            "src_art_0006",
+            "src_art_0011"
+          ]
+        }
+      ],
+      "event_date": "2026-08-25",
+      "checks": [
+        "quote_match:src_art_0004",
+        "quote_match:src_art_0006",
+        "quote_match:src_art_0011",
+        "independent_origins:2"
+      ],
+      "attributed_only": false,
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0008",
+      "text": "랫클리프가 러시아에 나토 회원국을 공격하지 말라고 경고했다",
+      "source_ids": [
+        "src_art_0002",
+        "src_art_0003",
+        "src_art_0004",
+        "src_art_0005",
+        "src_art_0011",
+        "src_art_0001"
+      ],
+      "status": "disputed",
+      "contested": true,
+      "sides": [
+        {
+          "party": "익명 소식통(WSJ 첫 보도, CNN·CBS 보도)",
+          "text": "랫클리프가 나토 회원국을 공격하지 말라는 경고를 전달했다",
+          "source_ids": [
+            "src_art_0002",
+            "src_art_0003",
+            "src_art_0004",
+            "src_art_0005",
+            "src_art_0011"
+          ]
+        },
+        {
+          "party": "트럼프 대통령",
+          "text": "준일상적 방문이며 나토 관련 경고 목적이 아니었고 메시지도 없었다",
+          "source_ids": [
+            "src_art_0001",
+            "src_art_0003",
+            "src_art_0011"
+          ]
+        },
+        {
+          "party": "크렘린(페스코프 대변인)",
+          "text": "그런 보도는 현실과 무관한 공포 조장이다",
+          "source_ids": [
+            "src_art_0003",
+            "src_art_0004"
+          ]
+        }
+      ],
+      "event_date": "2026-08-25",
+      "checks": [
+        "quote_match:src_art_0002",
+        "quote_match:src_art_0003",
+        "quote_match:src_art_0004",
+        "quote_match:src_art_0005",
+        "quote_match:src_art_0011",
+        "quote_match:src_art_0001",
+        "quote_match:src_art_0003",
+        "quote_match:src_art_0011",
+        "quote_match:src_art_0004",
+        "independent_origins:4"
+      ],
+      "attributed_only": false,
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0009",
+      "text": "랫클리프가 러시아에 이란에 대한 경제·군사 지원을 끊으라고 촉구했다",
+      "source_ids": [
+        "src_art_0002",
+        "src_art_0003"
+      ],
+      "status": "disputed",
+      "contested": true,
+      "sides": [
+        {
+          "party": "익명 소식통(CNN 보도)",
+          "text": "랫클리프가 이란 지원 차단을 촉구했다",
+          "source_ids": [
+            "src_art_0002"
+          ]
+        },
+        {
+          "party": "트럼프 대통령",
+          "text": "방문은 이란과 관련이 없다",
+          "source_ids": [
+            "src_art_0003"
+          ]
+        }
+      ],
+      "event_date": "2026-08-25",
+      "checks": [
+        "quote_match:src_art_0002",
+        "quote_match:src_art_0003",
+        "independent_origins:1"
+      ],
+      "attributed_only": false,
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0010",
+      "text": "랫클리프가 호르무즈 해협이 재개방되지 않으면 추가 제재가 있다고 경고했다",
+      "source_ids": [
+        "src_art_0003"
+      ],
+      "status": "disputed",
+      "contested": true,
+      "sides": [
+        {
+          "party": "익명 소식통(CBS 보도)",
+          "text": "호르무즈 해협 미개방 시 추가 제재를 경고했다",
+          "source_ids": [
+            "src_art_0003"
+          ]
+        },
+        {
+          "party": "트럼프 대통령",
+          "text": "방문은 이란과 관련이 없다",
+          "source_ids": [
+            "src_art_0003"
+          ]
+        }
+      ],
+      "event_date": "2026-08-25",
+      "checks": [
+        "quote_match:src_art_0003",
+        "quote_match:src_art_0003",
+        "independent_origins:1"
+      ],
+      "attributed_only": false,
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0011",
+      "text": "랫클리프가 러시아 측에 평화협상을 거부하면 군사·경제 상황이 더 나빠질 것이라고 경고했다",
+      "source_ids": [
+        "src_art_0006",
+        "src_art_0011"
+      ],
+      "status": "unverified",
+      "contested": true,
+      "sides": [
+        {
+          "party": "미 전·현직 관리(뉴욕타임스 보도, 키이우포스트 인용)",
+          "text": "전황과 경제가 악화될 것이라는 평가를 전달했다",
+          "source_ids": [
+            "src_art_0006",
+            "src_art_0011"
+          ]
+        }
+      ],
+      "event_date": "2026-08-25",
+      "checks": [
+        "quote_match:src_art_0006",
+        "quote_match:src_art_0011",
+        "independent_origins:1"
+      ],
+      "attributed_only": false,
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0012",
+      "text": "랫클리프는 해당 경고를 보르트니코프 연방보안국(FSB) 국장에게 직접 전달했다",
+      "source_ids": [
+        "src_art_0006",
+        "src_art_0011"
+      ],
+      "status": "unverified",
+      "contested": true,
+      "sides": [
+        {
+          "party": "미 전·현직 관리(뉴욕타임스 보도, 키이우포스트 인용)",
+          "text": "보르트니코프 FSB 국장에게 직접 전달했다",
+          "source_ids": [
+            "src_art_0006",
+            "src_art_0011"
+          ]
+        }
+      ],
+      "event_date": "2026-08-25",
+      "checks": [
+        "quote_match:src_art_0006",
+        "quote_match:src_art_0011",
+        "independent_origins:1"
+      ],
+      "attributed_only": false,
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0013",
+      "text": "최근 미국 정보 평가는 푸틴이 나토 동맹국을 상대로 결속을 시험하는 도발에 나설 수 있다고 봤다",
+      "source_ids": [
+        "src_art_0007",
+        "src_art_0002",
+        "src_art_0001",
+        "src_art_0003",
+        "src_art_0004"
+      ],
+      "status": "disputed",
+      "contested": true,
+      "sides": [
+        {
+          "party": "미국 정보당국 평가(CNN·CBS 보도)",
+          "text": "푸틴이 나토 결속을 시험하려 제한적 공격이나 도발에 나설 수 있다",
+          "source_ids": [
+            "src_art_0001",
+            "src_art_0002",
+            "src_art_0003",
+            "src_art_0007"
+          ]
+        },
+        {
+          "party": "트럼프 대통령",
+          "text": "푸틴은 나토 영토를 공격하지 않을 것이다",
+          "source_ids": [
+            "src_art_0002"
+          ]
+        },
+        {
+          "party": "크렘린(페스코프 대변인)",
+          "text": "현실과 무관하며 러시아의 의도를 반영하지 않는다",
+          "source_ids": [
+            "src_art_0004"
+          ]
+        }
+      ],
+      "checks": [
+        "quote_match:src_art_0007",
+        "quote_match:src_art_0002",
+        "quote_match:src_art_0001",
+        "quote_match:src_art_0003",
+        "quote_match:src_art_0002",
+        "quote_match:src_art_0004",
+        "independent_origins:2"
+      ],
+      "attributed_only": false,
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0014",
+      "text": "7월 29일 순항미사일이 폴란드 영토에 떨어졌다",
+      "source_ids": [
+        "src_art_0008",
+        "src_art_0003"
+      ],
+      "status": "corroborated",
+      "contested": false,
+      "event_date": "2026-07-29",
+      "checks": [
+        "quote_match:src_art_0008",
+        "quote_match:src_art_0003",
+        "independent_origins:2"
+      ],
+      "attributed_only": false,
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0015",
+      "text": "방문 하루 전 베선트 재무장관이 '경제적 추방자 작전'을 발표했다",
+      "source_ids": [
+        "src_art_0001"
+      ],
+      "status": "unverified",
+      "contested": false,
+      "event_date": "2026-08-24",
+      "checks": [
+        "quote_match:src_art_0001",
+        "independent_origins:1"
+      ],
+      "attributed_only": false,
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0016",
+      "text": "우크라이나는 랫클리프와 러시아 정보당국자들의 회동에 관해 미국으로부터 정보를 받았다",
+      "source_ids": [
+        "src_art_0011"
+      ],
+      "status": "unverified",
+      "contested": false,
+      "checks": [
+        "quote_match:src_art_0011",
+        "independent_origins:1"
+      ],
+      "attributed_only": false,
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0017",
+      "text": "8월 12일 브렌트유 10월물은 배럴당 89.53달러였다",
+      "source_ids": [
+        "src_art_0010"
+      ],
+      "status": "unverified",
+      "contested": false,
+      "event_date": "2026-08-12",
+      "checks": [
+        "quote_match:src_art_0010",
+        "independent_origins:1"
+      ],
+      "attributed_only": false,
+      "notes": ""
+    }
+  ]
+}

@@ -1,0 +1,291 @@
+# 번들 초안 — analysis_20260829_115457_ec53e620b2 (bundle.to_script, 12 §5). 초안이다: 장면 구성·문장은 ScriptWorker·사람이 다듬는다.
+# 섹션 12개 → 장면 7개. sources 는 검증(claims.json) 뒤 채운다.
+# 문장 날짜: 번들 timeline 과 대응 2문장, 나머지 50문장은 date_source: report(번들 generated_at — 사건일 아님, facts 날짜로 바로잡을 것)
+# rewrite_required 0문장 · 엔티티 unmatched 14 (whitehouse, ratcliffe, nato, naryshkin, bortnikov, iran, andrews, riga, moscow, lublin, leipzig, tulcea, kyiv, hormuz)
+schema_version: 1
+title: 모스크바에 내린 수송기 한 대, 그 안에서 무엇이 오갔나
+subtitle: 미국 CIA 국장이 8월 25일 모스크바에 다녀왔다. 오간 말의 목록은 양쪽 모두 공개하지 않았다.
+date: 2026.08.29
+scenes:
+# ── sc01 ← 섹션 intro, s1 · 첫 장면
+#    챕터명 후보(화면 문장 아님): 활주로를 떠난 한 대
+- id: sc01
+  sentences:
+  # 언급(폴백 탐지): moscow
+  - date: 2026.08.29
+    text: 나흘 전, 미국 정보기관의 수장이 모스크바에 내렸습니다.
+    emphasis: []
+    sources: []
+  - date: 2026.08.29
+    text: 무슨 말이 오갔는지는 아직 어느 쪽도 밝히지 않았습니다.
+    emphasis: []
+    sources: []
+  # date_source: timeline
+  - date: 2026.08.23
+    text: 8월 23일, 워싱턴 인근 기지에서 수송기 한 대가 조용히 떠납니다.
+    tts: 팔월 이십삼일, 워싱턴 인근 기지에서 수송기 한 대가 조용히 떠납니다.
+    emphasis: []
+    sources: []
+  # 언급(폴백 탐지): moscow
+  - date: 2026.08.29
+    text: 라트비아를 거쳐 이틀 뒤 모스크바에 내립니다.
+    emphasis: []
+    sources: []
+  # 언급(폴백 탐지): cia, ratcliffe
+  - date: 2026.08.29
+    text: 안에는 미국 CIA 국장 존 랫클리프가 타고 있었습니다.
+    tts: 안에는 미국 씨아이에이 국장 존 랫클리프가 타고 있었습니다.
+    emphasis:
+    - 존 랫클리프
+    sources: []
+  # 언급(폴백 탐지): cia
+  - date: 2026.08.29
+    text: 전면전이 시작된 뒤 CIA 수장이 러시아를 찾은 첫 사례입니다.
+    tts: 전면전이 시작된 뒤 씨아이에이 수장이 러시아를 찾은 첫 사례입니다.
+    emphasis: []
+    sources: []
+# ── sc02 ← 섹션 s2 · 공간 바뀜 → hormuz
+#    챕터명 후보(화면 문장 아님): 세 개의 문제가 한 점에서 만난다
+- id: sc02
+  sentences:
+  - date: 2026.08.29
+    text: 이 비행이 왜 지금 떠났는지는 8월의 달력을 보면 짐작이 됩니다.
+    tts: 이 비행이 왜 지금 떠났는지는 팔월의 달력을 보면 짐작이 됩니다.
+    emphasis: []
+    sources: []
+  - date: 2026.08.29
+    text: 우크라이나 협상은 영토와 안전보장에서 멈춰 있습니다.
+    emphasis: []
+    sources: []
+  # 언급(폴백 탐지): hormuz
+  - date: 2026.08.29
+    text: 호르무즈 해협은 2월 말부터 막혀 있습니다.
+    tts: 호르무즈 해협은 이월 말부터 막혀 있습니다.
+    emphasis:
+    - 호르무즈 해협
+    sources: []
+  # 언급(폴백 탐지): nato
+  - date: 2026.08.29
+    text: 여기에 나토 동쪽 국경의 영공 침범이 쌓입니다.
+    emphasis:
+    - 나토 동쪽 국경
+    sources: []
+# ── sc03 ← 섹션 s3 · 차트 종류 바뀜 → stakeholder_map
+#    챕터명 후보(화면 문장 아님): 책상 양편에 앉은 사람들
+- id: sc03
+  sentences:
+  - date: 2026.08.29
+    text: 회담장에 앉은 러시아 쪽은 두 사람이었습니다.
+    emphasis: []
+    sources: []
+  # 언급(폴백 탐지): naryshkin
+  - date: 2026.08.29
+    text: 국외 정보를 다루는 나리시킨은 오래된 연락 창구입니다.
+    emphasis:
+    - 오래된 연락 창구
+    sources: []
+  # 언급(폴백 탐지): bortnikov
+  - date: 2026.08.29
+    text: 방첩기관을 이끄는 보르트니코프와는 이번이 새로운 대면입니다.
+    emphasis: []
+    sources: []
+  - date: 2026.08.29
+    text: 누구를 앉혔는지가 이미 메시지였다는 해석이 나옵니다.
+    emphasis: []
+    sources: []
+# ── sc04 ← 섹션 s4 · 공간 바뀜 → moscow
+#    챕터명 후보(화면 문장 아님): 그 방에 없던 이름들
+- id: sc04
+  sentences:
+  # 언급(폴백 탐지): putin, ratcliffe
+  - date: 2026.08.29
+    text: 푸틴 대통령은 이번에 랫클리프를 만나지 않았습니다.
+    emphasis:
+    - 만나지 않았습니다
+    sources: []
+  - date: 2026.08.29
+    text: 정상급 대화 재개로 읽힐 문턱을 넘지 않은 선택으로 보입니다.
+    emphasis: []
+    sources: []
+  - date: 2026.08.29
+    text: 우크라이나는 사전에 통보를 받았습니다.
+    emphasis: []
+    sources: []
+  # 언급(폴백 탐지): moscow
+  - date: 2026.08.29
+    text: 미국은 월요일부터 수요일까지 모스크바 타격을 멈춰 달라고 요청했습니다.
+    emphasis: []
+    sources: []
+# ── sc05 ← 섹션 s5, s6, s7 · 차트 종류 바뀜 → dot_matrix · 합친 섹션 3개(같은 공간·차트 없음)
+#    챕터명 후보(화면 문장 아님): 미국이 들고 간 계산서 / 러시아가 이 문을 열어 두는 이유 / 나토를 친다는 이야기의 실체
+- id: sc05
+  sentences:
+  # 언급(폴백 탐지): ratcliffe
+  - date: 2026.08.29
+    text: 랫클리프가 들고 간 것은 위협이 아니라 진단서에 가까웠습니다.
+    emphasis:
+    - 진단서에 가까웠습니다
+    sources: []
+  - date: 2026.08.29
+    text: 18개월 동안 러시아가 새로 얻은 땅은 약 1퍼센트였습니다.
+    tts: 십팔 개월 동안 러시아가 새로 얻은 땅은 약 일 퍼센트였습니다.
+    emphasis:
+    - 약 1퍼센트
+    sources: []
+  - date: 2026.08.29
+    text: 인명 손실 규모를 함께 놓으면 셈이 맞지 않는다는 판단입니다.
+    emphasis: []
+    sources: []
+  - date: 2026.08.29
+    text: 미국은 이 평가를 숨기지 않고 상대 앞에서 그대로 읽었습니다.
+    emphasis: []
+    sources: []
+  - date: 2026.08.29
+    text: 정보 수장끼리의 접촉은 냉전기부터 이어진 오래된 형식입니다.
+    emphasis:
+    - 오래된 형식
+    sources: []
+  - date: 2026.08.29
+    text: 외교가 막혀도 이 통로만은 열려 있는 경우가 많았습니다.
+    emphasis: []
+    sources: []
+  - date: 2026.08.29
+    text: 러시아는 회담 사실은 인정하면서 무게만 낮췄습니다.
+    emphasis: []
+    sources: []
+  - date: 2026.08.29
+    text: 통상적인 실무 협의였다는 설명이 그대로 나왔습니다.
+    emphasis: []
+    sources: []
+  # 언급(폴백 탐지): nato
+  - date: 2026.08.29
+    text: 가장 많이 도는 이야기가 러시아의 나토 공격 가능성입니다.
+    emphasis: []
+    sources: []
+  - date: 2026.08.29
+    text: 미국 정보당국은 올가을부터 2029년 사이를 시험 시점으로 봅니다.
+    tts: 미국 정보당국은 올가을부터 이천이십구년 사이를 시험 시점으로 봅니다.
+    emphasis:
+    - 올가을부터 2029년 사이
+    sources: []
+  - date: 2026.08.29
+    text: 폴란드 인근 미사일 낙하와 루마니아 영공 드론이 그 근거입니다.
+    emphasis: []
+    sources: []
+  - date: 2026.08.29
+    text: 다만 영국을 공격하려는 계획은 아직 확인되지 않았습니다.
+    emphasis: []
+    sources: []
+# ── sc06 ← 섹션 s8 · 차트 종류 바뀜 → gantt
+#    챕터명 후보(화면 문장 아님): 여덟 달을 한 장에 펼치면
+- id: sc06
+  sentences:
+  - date: 2026.08.29
+    text: 개별 사건을 시간 위에 늘어놓으면 다른 것이 보입니다.
+    emphasis: []
+    sources: []
+  - date: 2026.08.29
+    text: 가장 오래 이어진 것은 여섯 달째인 호르무즈 봉쇄입니다.
+    emphasis:
+    - 여섯 달째
+    sources: []
+  # 언급(폴백 탐지): nato
+  - date: 2026.08.29
+    text: 그 위로 2029년까지 이어지는 나토 시험 시간대가 얹힙니다.
+    tts: 그 위로 이천이십구년까지 이어지는 나토 시험 시간대가 얹힙니다.
+    emphasis: []
+    sources: []
+  - date: 2026.08.29
+    text: 중동 생산 정상화 전망은 2027년 초로 잡혀 있습니다.
+    tts: 중동 생산 정상화 전망은 이천이십칠년 초로 잡혀 있습니다.
+    emphasis: []
+    sources: []
+# ── sc07 ← 섹션 s9, s10, s11, s12, outro · 차트 종류 바뀜 → dual_line · 합친 섹션 5개(같은 공간·차트 없음)
+#    챕터명 후보(화면 문장 아님): 두 번째 계산서, 호르무즈 / 말들이 어긋나는 자리 / 여기서 갈라지는 길들 / 남는 것
+- id: sc07
+  sentences:
+  # 언급(폴백 탐지): iran
+  - date: 2026.08.29
+    text: 두 번째 의제는 이란이었습니다.
+    emphasis: []
+    sources: []
+  # 언급(폴백 탐지): iran
+  - date: 2026.08.29
+    text: 러시아가 이란 지원을 끊고 해협 재개방에 협조하라는 압박입니다.
+    emphasis: []
+    sources: []
+  # 언급(폴백 탐지): iran
+  - date: 2026.08.29
+    text: 이란 혁명수비대는 다음 날 봉쇄를 유지하겠다고 발표했습니다.
+    emphasis:
+    - 봉쇄를 유지하겠다고 발표했습니다
+    sources: []
+  # date_source: timeline
+  - date: 2026.08.25
+    text: 8월 25일 서부텍사스유 종가는 83.90달러였습니다.
+    tts: 팔월 이십오일 서부텍사스유 종가는 팔십삼 점 구 달러였습니다.
+    emphasis:
+    - 83.90달러
+    sources: []
+  # 언급(폴백 탐지): trump
+  - date: 2026.08.29
+    text: 트럼프 대통령은 준일상적인 방문이었다고 말했습니다.
+    emphasis:
+    - 준일상적인 방문
+    sources: []
+  # 언급(폴백 탐지): nato
+  - date: 2026.08.29
+    text: 나토 경고는 아니었다는 설명입니다.
+    emphasis: []
+    sources: []
+  - date: 2026.08.29
+    text: 여러 매체가 전한 내용과는 정면으로 어긋납니다.
+    emphasis: []
+    sources: []
+  - date: 2026.08.29
+    text: 다만 회담이 있었다는 사실 자체는 누구도 부인하지 않았습니다.
+    emphasis: []
+    sources: []
+  - date: 2026.08.29
+    text: 앞으로의 길은 몇 갈래로 열려 있습니다.
+    emphasis:
+    - 몇 갈래로 열려 있습니다
+    sources: []
+  - date: 2026.08.29
+    text: 실무 접촉이 재개될 수도 있고, 아무 일도 이어지지 않을 수도 있습니다.
+    emphasis: []
+    sources: []
+  # 언급(폴백 탐지): nato
+  - date: 2026.08.29
+    text: 나토 동쪽에서 다음 사건이 벌어지는 길도 남아 있습니다.
+    emphasis: []
+    sources: []
+  - date: 2026.08.29
+    text: 미국이 사려 한 것은 어쩌면 시간이었을지도 모릅니다.
+    emphasis: []
+    sources: []
+  - date: 2026.08.29
+    text: 확인된 사실만 추리면 목록은 짧습니다.
+    emphasis:
+    - 목록은 짧습니다
+    sources: []
+  - date: 2026.08.29
+    text: 갔고, 만났고, 하루 만에 돌아왔습니다.
+    emphasis: []
+    sources: []
+  - date: 2026.08.29
+    text: 나머지는 아직 전부 해석의 영역입니다.
+    emphasis: []
+    sources: []
+  - date: 2026.08.29
+    text: 다만 워싱턴이 시간을 촉박하게 봤다는 것만은 분명합니다.
+    emphasis: []
+    sources: []
+  - date: 2026.08.29
+    text: 확인된 것은 갔고, 만났고, 하루 만에 돌아왔다는 사실뿐입니다.
+    emphasis: []
+    sources: []
+  - date: 2026.08.29
+    text: 그 하루가 무엇을 바꿨는지는 올가을이 답할 것입니다.
+    emphasis: []
+    sources: []

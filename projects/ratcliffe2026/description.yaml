@@ -1,0 +1,9 @@
+# 『모스크바에 내린 수송기 한 대』 설명문 (v3.5.0, Phase 9 번들 실증). 음악 크레딧 없음 = 무음악(bgm null).
+schema_version: 1
+headline: 모스크바에 내린 수송기 한 대
+summary: 2026년 8월 25일 CIA 국장의 모스크바 방문 — 보도로 확인된 것과 엇갈리는 주장을 나눠 봅니다.
+chapters:
+- at: open
+  label: 수송기 한 대
+footer:
+- '내레이션: AI 음성 합성'

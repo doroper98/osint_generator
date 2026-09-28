@@ -1,0 +1,258 @@
+{
+  "schema_version": 1,
+  "sources": [
+    {
+      "id": "src_art_0001",
+      "url": "https://www.cnn.com/2026/08/25/politics/cia-director-visits-moscow",
+      "retrieved_at": "2026-09-28",
+      "lang": "en",
+      "verification": {
+        "status": "corroborated",
+        "checks": [
+          "claims:8"
+        ],
+        "notes": ""
+      },
+      "confirmed_by": "opus-e2e(Phase9 실증 대행 — 매체·제목·게시일을 가져온 본문과 대조)",
+      "confirmed_at": "2026-09-28T17:50:11.021054Z",
+      "note": "번들 이관 analysis_20260829_115457_ec53e620b2 src-2",
+      "type": "article",
+      "publisher": "CNN Politics",
+      "headline_original": "CIA Director John Ratcliffe makes unannounced visit to Moscow",
+      "published_at": "2026-08-25",
+      "key_facts": [
+        "CIA Director John Ratcliffe makes unannounced visit to Moscow"
+      ]
+    },
+    {
+      "id": "src_art_0002",
+      "url": "https://www.cnn.com/2026/08/27/politics/john-ratcliffe-cia-moscow-visit",
+      "retrieved_at": "2026-09-28",
+      "lang": "en",
+      "verification": {
+        "status": "corroborated",
+        "checks": [
+          "claims:7"
+        ],
+        "notes": ""
+      },
+      "confirmed_by": "opus-e2e(Phase9 실증 대행 — 매체·제목·게시일을 가져온 본문과 대조)",
+      "confirmed_at": "2026-09-28T17:50:11.408905Z",
+      "note": "번들 이관 analysis_20260829_115457_ec53e620b2 src-3",
+      "type": "article",
+      "publisher": "CNN Politics",
+      "headline_original": "Ratcliffe was in Moscow to warn Russia against attacking NATO and encourage cutting off Iran",
+      "published_at": "2026-08-27",
+      "key_facts": [
+        "Ratcliffe was in Moscow to warn Russia against attacking NATO and encourage cutting off Iran"
+      ]
+    },
+    {
+      "id": "src_art_0003",
+      "url": "https://www.cbsnews.com/news/cia-john-ratcliffe-warned-russia-not-to-attack-nato-moscow-trip/",
+      "retrieved_at": "2026-09-28",
+      "lang": "en",
+      "verification": {
+        "status": "corroborated",
+        "checks": [
+          "claims:9"
+        ],
+        "notes": ""
+      },
+      "confirmed_by": "opus-e2e(Phase9 실증 대행 — 매체·제목·게시일을 가져온 본문과 대조)",
+      "confirmed_at": "2026-09-28T17:50:11.773399Z",
+      "note": "번들 이관 analysis_20260829_115457_ec53e620b2 src-4",
+      "type": "article",
+      "publisher": "CBS News",
+      "headline_original": "CIA Director John Ratcliffe, during secretive trip, warned Russia not to attack NATO",
+      "published_at": "2026-08-27",
+      "key_facts": [
+        "CIA Director John Ratcliffe, during secretive trip, warned Russia not to attack NATO"
+      ]
+    },
+    {
+      "id": "src_art_0004",
+      "url": "https://www.themoscowtimes.com/2026/08/27/russian-spy-chief-says-meeting-with-cia-director-was-nothing-special-a93585",
+      "retrieved_at": "2026-09-28",
+      "lang": "en",
+      "verification": {
+        "status": "corroborated",
+        "checks": [
+          "claims:5"
+        ],
+        "notes": ""
+      },
+      "confirmed_by": "opus-e2e(Phase9 실증 대행 — 매체·제목·게시일을 가져온 본문과 대조)",
+      "confirmed_at": "2026-09-28T17:50:12.133051Z",
+      "note": "번들 이관 analysis_20260829_115457_ec53e620b2 src-5",
+      "type": "article",
+      "publisher": "The Moscow Times",
+      "headline_original": "Russian Spy Chief Says Meeting With CIA Director Was Nothing Special",
+      "published_at": "2026-08-27",
+      "key_facts": [
+        "Russian Spy Chief Says Meeting With CIA Director Was Nothing Special"
+      ]
+    },
+    {
+      "id": "src_art_0005",
+      "url": "https://www.themoscowtimes.com/2026/08/26/trump-confirms-cia-directors-moscow-trip-calling-it-semi-routine-a93582",
+      "retrieved_at": "2026-09-28",
+      "lang": "en",
+      "verification": {
+        "status": "corroborated",
+        "checks": [
+          "claims:3"
+        ],
+        "notes": ""
+      },
+      "confirmed_by": "opus-e2e(Phase9 실증 대행 — 매체·제목·게시일을 가져온 본문과 대조)",
+      "confirmed_at": "2026-09-28T17:50:12.511918Z",
+      "note": "번들 이관 analysis_20260829_115457_ec53e620b2 src-6",
+      "type": "article",
+      "publisher": "The Moscow Times",
+      "headline_original": "Trump Confirms CIA Director's Moscow Trip, Calling It Semi-Routine",
+      "published_at": "2026-08-26",
+      "key_facts": [
+        "Trump Confirms CIA Director's Moscow Trip, Calling It Semi-Routine"
+      ]
+    },
+    {
+      "id": "src_art_0006",
+      "url": "https://www.kyivpost.com/post/83245",
+      "retrieved_at": "2026-09-28",
+      "lang": "ko",
+      "verification": {
+        "status": "corroborated",
+        "checks": [
+          "claims:5"
+        ],
+        "notes": ""
+      },
+      "confirmed_by": "opus-e2e(Phase9 실증 대행 — 매체·제목·게시일을 가져온 본문과 대조)",
+      "confirmed_at": "2026-09-28T17:50:12.863752Z",
+      "note": "번들 이관 analysis_20260829_115457_ec53e620b2 src-7",
+      "type": "article",
+      "publisher": "Kyiv Post",
+      "headline_original": "CIA Chief Ratcliffe Warned Kremlin of Worsening War Position – NYT",
+      "published_at": "2026-08-28",
+      "key_facts": [
+        "CIA Chief Ratcliffe Warned Kremlin of Worsening War Position – NYT"
+      ]
+    },
+    {
+      "id": "src_art_0007",
+      "url": "https://www.cnn.com/2026/08/07/politics/us-intelligence-russia-putin-nato-attack",
+      "retrieved_at": "2026-09-28",
+      "lang": "en",
+      "verification": {
+        "status": "disputed",
+        "checks": [
+          "claims:1"
+        ],
+        "notes": ""
+      },
+      "confirmed_by": "opus-e2e(Phase9 실증 대행 — 매체·제목·게시일을 가져온 본문과 대조)",
+      "confirmed_at": "2026-09-28T17:50:13.208757Z",
+      "note": "번들 이관 analysis_20260829_115457_ec53e620b2 src-10",
+      "type": "article",
+      "publisher": "CNN Politics",
+      "headline_original": "US intel assesses Putin could launch attack aimed at testing NATO unity",
+      "published_at": "2026-08-07",
+      "key_facts": [
+        "US intel assesses Putin could launch attack aimed at testing NATO unity"
+      ]
+    },
+    {
+      "id": "src_art_0008",
+      "url": "https://www.euronews.com/my-europe/2026/08/12/nato-stands-with-poland-and-romania-amid-russian-airspace-violations",
+      "retrieved_at": "2026-09-28",
+      "lang": "en",
+      "verification": {
+        "status": "corroborated",
+        "checks": [
+          "claims:1"
+        ],
+        "notes": ""
+      },
+      "confirmed_by": "opus-e2e(Phase9 실증 대행 — 매체·제목·게시일을 가져온 본문과 대조)",
+      "confirmed_at": "2026-09-28T17:50:13.590026Z",
+      "note": "번들 이관 analysis_20260829_115457_ec53e620b2 src-11",
+      "type": "article",
+      "publisher": "Euronews",
+      "headline_original": "NATO stands with Poland and Romania amid Russian airspace violations",
+      "published_at": "2026-08-12",
+      "key_facts": [
+        "NATO stands with Poland and Romania amid Russian airspace violations"
+      ]
+    },
+    {
+      "id": "src_art_0009",
+      "url": "https://www.cnn.com/2026/05/27/europe/gchq-russia-relentlessly-targeting-uk-intl",
+      "retrieved_at": "2026-09-28",
+      "lang": "en",
+      "verification": {
+        "status": "unverified",
+        "checks": [
+          "claims:0"
+        ],
+        "notes": ""
+      },
+      "confirmed_by": "opus-e2e(Phase9 실증 대행 — 매체·제목·게시일을 가져온 본문과 대조)",
+      "confirmed_at": "2026-09-28T17:50:13.976645Z",
+      "note": "번들 이관 analysis_20260829_115457_ec53e620b2 src-12",
+      "type": "article",
+      "publisher": "CNN",
+      "headline_original": "UK cyberspying chief says the West is between peace and war as Russia ramps up hybrid attacks",
+      "published_at": "2026-05-27",
+      "key_facts": [
+        "UK cyberspying chief says the West is between peace and war as Russia ramps up hybrid attacks"
+      ]
+    },
+    {
+      "id": "src_art_0010",
+      "url": "https://www.aljazeera.com/economy/2026/8/12/oil-prices-rise-as-attacks-dent-hopes-for-strait-of-hormuz-reopening",
+      "retrieved_at": "2026-09-28",
+      "lang": "en",
+      "verification": {
+        "status": "unverified",
+        "checks": [
+          "claims:1"
+        ],
+        "notes": ""
+      },
+      "confirmed_by": "opus-e2e(Phase9 실증 대행 — 매체·제목·게시일을 가져온 본문과 대조)",
+      "confirmed_at": "2026-09-28T17:50:14.349725Z",
+      "note": "번들 이관 analysis_20260829_115457_ec53e620b2 src-15",
+      "type": "article",
+      "publisher": "Al Jazeera",
+      "headline_original": "Oil prices rise as attacks dent hopes for Strait of Hormuz reopening",
+      "published_at": "2026-08-12",
+      "key_facts": [
+        "Oil prices rise as attacks dent hopes for Strait of Hormuz reopening"
+      ]
+    },
+    {
+      "id": "src_art_0011",
+      "url": "https://www.kyivpost.com/post/83293",
+      "retrieved_at": "2026-09-28",
+      "lang": "en",
+      "verification": {
+        "status": "corroborated",
+        "checks": [
+          "claims:9"
+        ],
+        "notes": ""
+      },
+      "confirmed_by": "opus-e2e(Phase9 실증 대행 — 매체·제목·게시일을 가져온 본문과 대조)",
+      "confirmed_at": "2026-09-28T17:50:14.725917Z",
+      "note": "번들 이관 analysis_20260829_115457_ec53e620b2 src-16",
+      "type": "article",
+      "publisher": "Kyiv Post",
+      "headline_original": "Zelensky Says US Briefed Ukraine on CIA-Moscow Meetings",
+      "published_at": "2026-08-28",
+      "key_facts": [
+        "Zelensky Says US Briefed Ukraine on CIA-Moscow Meetings"
+      ]
+    }
+  ]
+}

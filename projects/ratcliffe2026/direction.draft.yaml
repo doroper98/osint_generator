@@ -1,0 +1,272 @@
+# 연출 초안 — analysis_20260829_115457_ec53e620b2 (bundle.to_direction). 제안·재료일 뿐이다: 최종 direction.yaml 은 DirectorWorker 가 쓴다(15 P8).
+# 장소 8 · 경로 6 · 패널 4 · 패널 없는 차트 0 · 숏 = 장면별 frame_points 제안
+version: 1
+places:
+  andrews:
+  - -76.87
+  - 38.81
+  riga:
+  - 24.11
+  - 56.95
+  moscow:
+  - 37.62
+  - 55.75
+  lublin:
+  - 22.57
+  - 51.25
+  leipzig:
+  - 12.37
+  - 51.34
+  tulcea:
+  - 28.8
+  - 45.18
+  kyiv:
+  - 30.52
+  - 50.45
+  hormuz:
+  - 56.4
+  - 26.6
+paths:
+  andrews__riga:
+  - - -76.87
+    - 38.81
+  - - 24.11
+    - 56.95
+  riga__moscow:
+  - - 24.11
+    - 56.95
+  - - 37.62
+    - 55.75
+  moscow__lublin:
+  - - 37.62
+    - 55.75
+  - - 22.57
+    - 51.25
+  moscow__tulcea:
+  - - 37.62
+    - 55.75
+  - - 28.8
+    - 45.18
+  moscow__kyiv:
+  - - 37.62
+    - 55.75
+  - - 30.52
+    - 50.45
+  moscow__hormuz:
+  - - 37.62
+    - 55.75
+  - - 56.4
+    - 26.6
+shots:
+- at:
+    scene_start: sc01
+  mode: cut
+  dur: 3.0
+  camera:
+    lon: 37.62
+    lat: 55.6791
+    w: 2.5
+  under: false
+  scene: sc01
+- at:
+    scene_start: sc02
+  mode: move
+  dur: 3.0
+  camera:
+    lon: 56.4
+    lat: 26.4874
+    w: 2.5
+  under: false
+  scene: sc02
+- at:
+    scene_start: sc04
+  mode: move
+  dur: 3.0
+  camera:
+    lon: 37.62
+    lat: 55.6791
+    w: 2.5
+  under: false
+  scene: sc04
+events:
+- type: panel
+  start:
+    scene_start: sc03
+  end:
+    scene_end: sc03
+  data:
+    kind: network
+    title: 모스크바 회담을 둘러싼 사람들
+    provenance:
+      verification: estimated
+      sources: []
+    nodes:
+    - id: trump
+      label: 도널드 트럼프
+      role: 방문 성격 축소
+      kind: person
+      pid: trump
+      flag: us
+      col: left
+      accent: muted
+      big: false
+    - id: cia
+      label: CIA
+      role: 뒷문 통로 관리
+      kind: emblem
+      img: cia
+      col: left
+      accent: muted
+      big: false
+    - id: ratcliffe
+      label: 존 랫클리프
+      role: 메시지 전달자
+      kind: flag
+      flag: us
+      col: center
+      accent: gold
+      big: true
+    - id: zelensky
+      label: 볼로디미르 젤렌스키
+      role: 사전 통보 받음
+      kind: person
+      pid: zelensky
+      flag: ua
+      col: center
+      accent: muted
+      big: false
+    - id: naryshkin
+      label: 세르게이 나리시킨
+      role: 대외정보국 국장
+      kind: flag
+      flag: ru
+      col: right
+      accent: muted
+      big: false
+    - id: bortnikov
+      label: 보르트니코프
+      role: 연방보안국 국장
+      kind: flag
+      flag: ru
+      col: right
+      accent: muted
+      big: false
+    - id: putin
+      label: 블라디미르 푸틴
+      role: 이번엔 만나지 않음
+      kind: person
+      pid: putin
+      flag: ru
+      col: right
+      accent: muted
+      big: false
+    - id: iran
+      label: 이란
+      role: 해협 봉쇄 유지
+      kind: flag
+      flag: ir
+      col: right
+      accent: muted
+      big: false
+    edges:
+    - src: cia
+      dst: ratcliffe
+      type: related
+      label: 채널
+    - src: trump
+      dst: ratcliffe
+      type: influence
+      label: 축소
+    - src: ratcliffe
+      dst: naryshkin
+      type: related
+      label: 회담
+    - src: ratcliffe
+      dst: bortnikov
+      type: related
+      label: 회담
+- type: panel
+  start:
+    scene_start: sc05
+  end:
+    scene_end: sc05
+  data:
+    kind: dots
+    title: 18개월, 전선이 움직인 폭
+    provenance:
+      verification: estimated
+      sources: []
+    highlight: 1
+    big: '1'
+    unit: '%'
+    caption: 추가로 점령한 몫
+    detail: 99% — 움직이지 않은 나머지
+- type: panel
+  start:
+    scene_start: sc06
+  end:
+    scene_end: sc06
+  data:
+    kind: gantt
+    title: 겹쳐 놓고 봐야 하는 구간들
+    provenance:
+      verification: estimated
+      sources: []
+    axis_start: '2025-01-01'
+    axis_end: '2030-01-01'
+    tasks:
+    - label: 호르무즈 해협 봉쇄
+      note: 발행일 기준 진행 중
+      start: '2026-02-28'
+      end: '2026-08-29'
+      col: ru
+    - label: 전선이 멈춘 18개월
+      note: 2025년 1월 취임 이후 약 18개월
+      start: '2025-01-20'
+      end: '2026-08-25'
+      col: muted
+    - label: 나토 시험 가능 시간대
+      note: 미국 정보당국 평가
+      start: '2026-09-01'
+      end: '2029-12-31'
+      col: teal
+    - label: 중동 생산 정상화 전망
+      note: 미 에너지정보청 전망
+      start: '2027-01-01'
+      end: '2027-06-30'
+      col: green
+    today:
+      date: '2026-08-29'
+      label: 발행일 8.29
+- type: panel
+  start:
+    scene_start: sc07
+  end:
+    scene_end: sc07
+  data:
+    kind: dual_line
+    title: 8월의 유가, 오르내린 자리
+    provenance:
+      verification: estimated
+      sources: []
+    y_min: 80.0
+    y_max: 95.0
+    y_step: 5.0
+    x_labels:
+    - 8월 초
+    - 8월 중순
+    - 8월 하순
+    series:
+    - label: 브렌트유
+      col: gold
+      values:
+      - 87.72
+      - 94.39
+      - 88.0
+    - label: 서부텍사스유
+      col: us
+      values:
+      - 82.13
+      - 87.06
+      - 83.9
+    subtitle: 달러/배럴

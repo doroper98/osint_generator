@@ -1,0 +1,618 @@
+{
+  "schema_version": 1,
+  "bundle_id": "analysis_20260829_115457_ec53e620b2",
+  "places": [
+    {
+      "id": "andrews",
+      "name": "앤드루스 합동기지",
+      "lon": -76.87,
+      "lat": 38.81,
+      "highlight": false,
+      "kind": "military",
+      "value": "8월 23일 출발",
+      "label_side": "left",
+      "scenes": []
+    },
+    {
+      "id": "riga",
+      "name": "리가",
+      "lon": 24.11,
+      "lat": 56.95,
+      "highlight": false,
+      "kind": "",
+      "value": "경유지",
+      "label_side": "top",
+      "scenes": []
+    },
+    {
+      "id": "moscow",
+      "name": "모스크바",
+      "lon": 37.62,
+      "lat": 55.75,
+      "highlight": true,
+      "kind": "",
+      "value": "8월 25일 회담",
+      "label_side": "right",
+      "scenes": [
+        "sc01",
+        "sc04"
+      ]
+    },
+    {
+      "id": "lublin",
+      "name": "루블린",
+      "lon": 22.57,
+      "lat": 51.25,
+      "highlight": false,
+      "kind": "",
+      "value": "약 50km 지점 미사일 낙하",
+      "label_side": "left",
+      "scenes": []
+    },
+    {
+      "id": "leipzig",
+      "name": "라이프치히",
+      "lon": 12.37,
+      "lat": 51.34,
+      "highlight": false,
+      "kind": "",
+      "value": "나토 수송 거점 드론 폐쇄",
+      "label_side": "left",
+      "scenes": []
+    },
+    {
+      "id": "tulcea",
+      "name": "툴체아",
+      "lon": 28.8,
+      "lat": 45.18,
+      "highlight": false,
+      "kind": "",
+      "value": "드론 1대 영공 진입",
+      "label_side": "bottom",
+      "scenes": []
+    },
+    {
+      "id": "kyiv",
+      "name": "키이우",
+      "lon": 30.52,
+      "lat": 50.45,
+      "highlight": false,
+      "kind": "",
+      "value": "사전 통보 대상",
+      "label_side": "bottom",
+      "scenes": []
+    },
+    {
+      "id": "hormuz",
+      "name": "호르무즈 해협",
+      "lon": 56.4,
+      "lat": 26.6,
+      "highlight": false,
+      "kind": "chokepoint",
+      "value": "세계 석유 수송 약 20%",
+      "label_side": "right",
+      "scenes": [
+        "sc02"
+      ]
+    }
+  ],
+  "paths": [
+    {
+      "id": "andrews__riga",
+      "from_id": "andrews",
+      "to_id": "riga",
+      "label": "8월 23일",
+      "kind": "flow",
+      "weight": 2.0,
+      "label_t": 0.55,
+      "points": [
+        [
+          -76.87,
+          38.81
+        ],
+        [
+          24.11,
+          56.95
+        ]
+      ]
+    },
+    {
+      "id": "riga__moscow",
+      "from_id": "riga",
+      "to_id": "moscow",
+      "label": "8월 25일 도착",
+      "kind": "flow",
+      "weight": 3.0,
+      "label_t": 0.5,
+      "points": [
+        [
+          24.11,
+          56.95
+        ],
+        [
+          37.62,
+          55.75
+        ]
+      ]
+    },
+    {
+      "id": "moscow__lublin",
+      "from_id": "moscow",
+      "to_id": "lublin",
+      "label": "7월 29일 미사일",
+      "kind": "tension",
+      "weight": 2.0,
+      "label_t": 0.6,
+      "points": [
+        [
+          37.62,
+          55.75
+        ],
+        [
+          22.57,
+          51.25
+        ]
+      ]
+    },
+    {
+      "id": "moscow__tulcea",
+      "from_id": "moscow",
+      "to_id": "tulcea",
+      "label": "8월 드론",
+      "kind": "tension",
+      "weight": 2.0,
+      "label_t": 0.65,
+      "points": [
+        [
+          37.62,
+          55.75
+        ],
+        [
+          28.8,
+          45.18
+        ]
+      ]
+    },
+    {
+      "id": "moscow__kyiv",
+      "from_id": "moscow",
+      "to_id": "kyiv",
+      "label": "전선",
+      "kind": "tension",
+      "weight": 3.0,
+      "label_t": 0.45,
+      "points": [
+        [
+          37.62,
+          55.75
+        ],
+        [
+          30.52,
+          50.45
+        ]
+      ]
+    },
+    {
+      "id": "moscow__hormuz",
+      "from_id": "moscow",
+      "to_id": "hormuz",
+      "label": "이란 뒷받침",
+      "kind": "flow",
+      "weight": 2.0,
+      "label_t": 0.6,
+      "points": [
+        [
+          37.62,
+          55.75
+        ],
+        [
+          56.4,
+          26.6
+        ]
+      ]
+    }
+  ],
+  "panels": [
+    {
+      "chart_id": "ch-1",
+      "chart_type": "stakeholder_map",
+      "kind": "network",
+      "scene": "sc03",
+      "data": {
+        "kind": "network",
+        "title": "모스크바 회담을 둘러싼 사람들",
+        "provenance": {
+          "verification": "estimated",
+          "sources": []
+        },
+        "nodes": [
+          {
+            "id": "trump",
+            "label": "도널드 트럼프",
+            "role": "방문 성격 축소",
+            "kind": "person",
+            "pid": "trump",
+            "flag": "us",
+            "col": "left",
+            "accent": "muted",
+            "big": false
+          },
+          {
+            "id": "cia",
+            "label": "CIA",
+            "role": "뒷문 통로 관리",
+            "kind": "emblem",
+            "img": "cia",
+            "col": "left",
+            "accent": "muted",
+            "big": false
+          },
+          {
+            "id": "ratcliffe",
+            "label": "존 랫클리프",
+            "role": "메시지 전달자",
+            "kind": "flag",
+            "flag": "us",
+            "col": "center",
+            "accent": "gold",
+            "big": true
+          },
+          {
+            "id": "zelensky",
+            "label": "볼로디미르 젤렌스키",
+            "role": "사전 통보 받음",
+            "kind": "person",
+            "pid": "zelensky",
+            "flag": "ua",
+            "col": "center",
+            "accent": "muted",
+            "big": false
+          },
+          {
+            "id": "naryshkin",
+            "label": "세르게이 나리시킨",
+            "role": "대외정보국 국장",
+            "kind": "flag",
+            "flag": "ru",
+            "col": "right",
+            "accent": "muted",
+            "big": false
+          },
+          {
+            "id": "bortnikov",
+            "label": "보르트니코프",
+            "role": "연방보안국 국장",
+            "kind": "flag",
+            "flag": "ru",
+            "col": "right",
+            "accent": "muted",
+            "big": false
+          },
+          {
+            "id": "putin",
+            "label": "블라디미르 푸틴",
+            "role": "이번엔 만나지 않음",
+            "kind": "person",
+            "pid": "putin",
+            "flag": "ru",
+            "col": "right",
+            "accent": "muted",
+            "big": false
+          },
+          {
+            "id": "iran",
+            "label": "이란",
+            "role": "해협 봉쇄 유지",
+            "kind": "flag",
+            "flag": "ir",
+            "col": "right",
+            "accent": "muted",
+            "big": false
+          }
+        ],
+        "edges": [
+          {
+            "src": "cia",
+            "dst": "ratcliffe",
+            "type": "related",
+            "label": "채널"
+          },
+          {
+            "src": "trump",
+            "dst": "ratcliffe",
+            "type": "influence",
+            "label": "축소"
+          },
+          {
+            "src": "ratcliffe",
+            "dst": "naryshkin",
+            "type": "related",
+            "label": "회담"
+          },
+          {
+            "src": "ratcliffe",
+            "dst": "bortnikov",
+            "type": "related",
+            "label": "회담"
+          }
+        ]
+      },
+      "prov_tag": "추정 · 출처 미기재",
+      "notes": [
+        "노드 whitehouse(미국 행정부): 레지스트리 뱃지·국기 없음 — 뺌(문자 원 금지, 08 §3.1)",
+        "노드 nato(나토): 레지스트리 뱃지·국기 없음 — 뺌(문자 원 금지, 08 §3.1)",
+        "선 whitehouse→ratcliffe: 끝 노드가 빠져 뺌",
+        "선 ratcliffe→zelensky: 같은 열(center)끼리는 잇지 않는다(08 §3 규칙 3) — 뺌",
+        "선 naryshkin→putin: 같은 열(right)끼리는 잇지 않는다(08 §3 규칙 3) — 뺌",
+        "선 bortnikov→putin: 같은 열(right)끼리는 잇지 않는다(08 §3 규칙 3) — 뺌",
+        "선 putin→nato: 끝 노드가 빠져 뺌",
+        "선 putin→iran: 같은 열(right)끼리는 잇지 않는다(08 §3 규칙 3) — 뺌",
+        "선 iran→whitehouse: 끝 노드가 빠져 뺌",
+        "선 whitehouse→putin: 끝 노드가 빠져 뺌"
+      ]
+    },
+    {
+      "chart_id": "ch-2",
+      "chart_type": "dot_matrix",
+      "kind": "dots",
+      "scene": "sc05",
+      "data": {
+        "kind": "dots",
+        "title": "18개월, 전선이 움직인 폭",
+        "provenance": {
+          "verification": "estimated",
+          "sources": []
+        },
+        "highlight": 1,
+        "big": "1",
+        "unit": "%",
+        "caption": "추가로 점령한 몫",
+        "detail": "99% — 움직이지 않은 나머지"
+      },
+      "prov_tag": "추정 · 출처 미기재",
+      "notes": []
+    },
+    {
+      "chart_id": "ch-3",
+      "chart_type": "gantt",
+      "kind": "gantt",
+      "scene": "sc06",
+      "data": {
+        "kind": "gantt",
+        "title": "겹쳐 놓고 봐야 하는 구간들",
+        "provenance": {
+          "verification": "estimated",
+          "sources": []
+        },
+        "axis_start": "2025-01-01",
+        "axis_end": "2030-01-01",
+        "tasks": [
+          {
+            "label": "호르무즈 해협 봉쇄",
+            "note": "발행일 기준 진행 중",
+            "start": "2026-02-28",
+            "end": "2026-08-29",
+            "col": "ru"
+          },
+          {
+            "label": "전선이 멈춘 18개월",
+            "note": "2025년 1월 취임 이후 약 18개월",
+            "start": "2025-01-20",
+            "end": "2026-08-25",
+            "col": "muted"
+          },
+          {
+            "label": "나토 시험 가능 시간대",
+            "note": "미국 정보당국 평가",
+            "start": "2026-09-01",
+            "end": "2029-12-31",
+            "col": "teal"
+          },
+          {
+            "label": "중동 생산 정상화 전망",
+            "note": "미 에너지정보청 전망",
+            "start": "2027-01-01",
+            "end": "2027-06-30",
+            "col": "green"
+          }
+        ],
+        "today": {
+          "date": "2026-08-29",
+          "label": "발행일 8.29"
+        }
+      },
+      "prov_tag": "추정 · 출처 미기재",
+      "notes": []
+    },
+    {
+      "chart_id": "ch-4",
+      "chart_type": "dual_line",
+      "kind": "dual_line",
+      "scene": "sc07",
+      "data": {
+        "kind": "dual_line",
+        "title": "8월의 유가, 오르내린 자리",
+        "provenance": {
+          "verification": "estimated",
+          "sources": []
+        },
+        "y_min": 80.0,
+        "y_max": 95.0,
+        "y_step": 5.0,
+        "x_labels": [
+          "8월 초",
+          "8월 중순",
+          "8월 하순"
+        ],
+        "series": [
+          {
+            "label": "브렌트유",
+            "col": "gold",
+            "values": [
+              87.72,
+              94.39,
+              88.0
+            ]
+          },
+          {
+            "label": "서부텍사스유",
+            "col": "us",
+            "values": [
+              82.13,
+              87.06,
+              83.9
+            ]
+          }
+        ],
+        "subtitle": "달러/배럴"
+      },
+      "prov_tag": "추정 · 출처 미기재",
+      "notes": []
+    }
+  ],
+  "unsupported": [],
+  "media": [],
+  "badges": [
+    {
+      "id": "trump",
+      "entity_id": "trump",
+      "label": "도널드 트럼프",
+      "scenes": [
+        "sc07"
+      ]
+    },
+    {
+      "id": "cia",
+      "entity_id": "cia",
+      "label": "CIA",
+      "scenes": [
+        "sc01"
+      ]
+    },
+    {
+      "id": "zelensky",
+      "entity_id": "zelensky",
+      "label": "볼로디미르 젤렌스키",
+      "scenes": []
+    },
+    {
+      "id": "putin",
+      "entity_id": "putin",
+      "label": "블라디미르 푸틴",
+      "scenes": [
+        "sc04"
+      ]
+    }
+  ],
+  "unmatched": [
+    "whitehouse",
+    "ratcliffe",
+    "nato",
+    "naryshkin",
+    "bortnikov",
+    "iran",
+    "andrews",
+    "riga",
+    "moscow",
+    "lublin",
+    "leipzig",
+    "tulcea",
+    "kyiv",
+    "hormuz"
+  ],
+  "quotes": [
+    {
+      "scene": "sc01",
+      "section": "s1",
+      "text": "전면전 이후 첫 방러"
+    },
+    {
+      "scene": "sc01",
+      "section": "s1",
+      "text": "체류는 하루를 넘기지 않았다"
+    },
+    {
+      "scene": "sc02",
+      "section": "s2",
+      "text": "멈춘 협상, 막힌 해협, 흔들리는 국경"
+    },
+    {
+      "scene": "sc03",
+      "section": "s3",
+      "text": "방첩기관 수장까지 배석"
+    },
+    {
+      "scene": "sc03",
+      "section": "s3",
+      "text": "푸틴은 자리에 없었다"
+    },
+    {
+      "scene": "sc04",
+      "section": "s4",
+      "text": "사흘간 북부 타격 중단 요청"
+    },
+    {
+      "scene": "sc05",
+      "section": "s5",
+      "text": "18개월에 얻은 땅 약 1퍼센트"
+    },
+    {
+      "scene": "sc05",
+      "section": "s6",
+      "text": "회담은 인정하고 무게만 낮췄다"
+    },
+    {
+      "scene": "sc05",
+      "section": "s7",
+      "text": "시험 시점은 올가을에서 2029년 사이"
+    },
+    {
+      "scene": "sc05",
+      "section": "s7",
+      "text": "영국 공격 계획은 미확인"
+    },
+    {
+      "scene": "sc06",
+      "section": "s8",
+      "text": "봉쇄 이익에는 시한이 있다"
+    },
+    {
+      "scene": "sc07",
+      "section": "s9",
+      "text": "세계 석유 수송의 약 20퍼센트가 지나던 길목"
+    },
+    {
+      "scene": "sc07",
+      "section": "s10",
+      "text": "백악관은 낮추고, 취재원은 키운다"
+    },
+    {
+      "scene": "sc07",
+      "section": "s11",
+      "text": "시간을 사려는 시도였을 수 있다"
+    },
+    {
+      "scene": "sc07",
+      "section": "s12",
+      "text": "확인된 것은 계획이 아니라 신호들"
+    }
+  ],
+  "versus": [
+    {
+      "label_a": "경고론",
+      "label_b": "축소론",
+      "line_a": "나토를 건드리지 말라는 경고가 전달됐습니다.",
+      "line_b": "준일상적인 실무 방문이었을 뿐입니다.",
+      "side_a": "CNN과 CBS 보도를 따르면 이번 방문의 핵심은 경고였다. 나토 회원국을 공격하거나 도발하지 말라는 메시지가 전달됐고, 이란 지원을 끊지 않으면 추가 제재가 뒤따른다는 압박이 함께 놓였다.",
+      "side_b": "트럼프 대통령은 사흘 전 인터뷰에서 준일상적인 방문이며 나토와 관련된 경고가 아니었다고 말했다. 크렘린 역시 겁주는 이야기들은 사실과 무관하다며 같은 방향으로 무게를 낮췄다."
+    },
+    {
+      "label_a": "압박론",
+      "label_b": "설득론",
+      "line_a": "전황이 더 나빠질 것이라는 평가를 내밀었습니다.",
+      "line_b": "구체적인 보복은 언급되지 않았습니다.",
+      "side_a": "뉴욕타임스는 랫클리프가 러시아의 전황과 경제가 더 나빠질 것이라는 비관적 평가를 전달했다고 보도했다. 상대의 셈을 흔들어 협상 테이블로 끌어내려는 접근으로 읽힌다.",
+      "side_b": "같은 보도를 인용한 우크라인스카 프라우다는 랫클리프가 구체적인 보복 조치를 위협하지는 않았다고 전했다. 압박의 실체가 생각보다 얇았다는 뜻이 된다."
+    }
+  ]
+}

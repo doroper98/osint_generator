@@ -1,0 +1,215 @@
+{
+  "schema_version": 1,
+  "facts": [
+    {
+      "id": "f_recapture_2026",
+      "text": "시르스키 우크라이나군 총사령관과 젤렌스키 대통령은 2026년 들어 약 600km² 이상을 탈환했다고 밝혔지만, 로이터는 이 주장을 독자적으로 검증하지 못했다고 보도했다.",
+      "date": "2026",
+      "place": "우크라이나 전선",
+      "actors": [
+        "시르스키 우크라이나군 총사령관",
+        "젤렌스키 대통령",
+        "로이터"
+      ],
+      "numbers": [
+        "600km²"
+      ],
+      "source_ids": [
+        "clm_0001"
+      ],
+      "confidence": "medium",
+      "contested": true,
+      "sides": [
+        "시르스키·젤렌스키: 2026년 들어 600km² 이상(젤렌스키는 약 600km²) 탈환",
+        "로이터: 해당 주장을 독자적으로 검증하지 못함"
+      ]
+    },
+    {
+      "id": "f_may_net_gain",
+      "text": "시르스키 총사령관은 텔레그램에서 우크라이나가 5월 한 달간 잃은 땅보다 약 100km² 더 되찾았다고 밝혔고, 로이터는 이를 독자적으로 검증하지 못했다고 보도했다.",
+      "date": "2026.05",
+      "place": "우크라이나 전선",
+      "actors": [
+        "시르스키 우크라이나군 총사령관",
+        "로이터"
+      ],
+      "numbers": [
+        "100km²"
+      ],
+      "source_ids": [
+        "clm_0002"
+      ],
+      "confidence": "medium",
+      "contested": true,
+      "sides": [
+        "시르스키: 5월에 잃은 땅보다 100km² 더 탈환",
+        "로이터: 해당 주장을 독자적으로 검증하지 못함"
+      ]
+    },
+    {
+      "id": "f_pokrovsk_control",
+      "text": "러시아는 지난해 12월 포크로우스크를 점령했다고 주장했고, 우크라이나 독립 전장 지도 DeepState도 수주째 포크로우스크를 러시아가 완전히 장악한 것으로 표시하고 있다.",
+      "date": "2025.12",
+      "place": "포크로우스크",
+      "actors": [
+        "러시아",
+        "DeepState"
+      ],
+      "numbers": [],
+      "source_ids": [
+        "clm_0004"
+      ],
+      "confidence": "medium",
+      "contested": true,
+      "sides": [
+        "러시아: 2025년 12월 포크로우스크 점령 주장",
+        "DeepState: 수주째 러시아의 완전 장악으로 표시"
+      ]
+    },
+    {
+      "id": "f_frontline_length",
+      "text": "우크라이나 전선의 길이는 약 1,200km다.",
+      "date": "2026.06",
+      "place": "우크라이나 전선",
+      "actors": [],
+      "numbers": [
+        "1,200km"
+      ],
+      "source_ids": [
+        "clm_0005"
+      ],
+      "confidence": "high",
+      "contested": false,
+      "sides": null
+    },
+    {
+      "id": "f_huliaipole_fighting",
+      "text": "가장 격렬한 전투는 훌랴이폴레 일대에서 벌어지고 있다.",
+      "date": "2026.06",
+      "place": "훌랴이폴레",
+      "actors": [],
+      "numbers": [],
+      "source_ids": [
+        "clm_0006"
+      ],
+      "confidence": "high",
+      "contested": false,
+      "sides": null
+    },
+    {
+      "id": "f_starlink_restriction",
+      "text": "카네기 기고문은 우크라이나가 2026년 2월 러시아 장거리 무인기의 스타링크 사용을 제한했다고 썼다.",
+      "date": "2026.02",
+      "place": null,
+      "actors": [
+        "우크라이나",
+        "카네기국제평화재단"
+      ],
+      "numbers": [],
+      "source_ids": [
+        "clm_0008"
+      ],
+      "confidence": "low",
+      "contested": false,
+      "sides": null
+    },
+    {
+      "id": "f_fiber_cable_length",
+      "text": "드론XL은 일부 광섬유 유선 드론의 케이블 길이가 최대 40km에 이른다고 보도했다.",
+      "date": "",
+      "place": null,
+      "actors": [
+        "드론XL"
+      ],
+      "numbers": [
+        "40km"
+      ],
+      "source_ids": [
+        "clm_0009"
+      ],
+      "confidence": "low",
+      "contested": false,
+      "sides": null
+    },
+    {
+      "id": "f_orikhiv_165days",
+      "text": "드론XL은 우크라이나 보병 2명이 교대 없이 오리히우 인근 진지를 165일간 지켰다고 보도했다.",
+      "date": "",
+      "place": "오리히우",
+      "actors": [
+        "우크라이나 보병",
+        "드론XL"
+      ],
+      "numbers": [
+        "2명",
+        "165일"
+      ],
+      "source_ids": [
+        "clm_0011"
+      ],
+      "confidence": "low",
+      "contested": false,
+      "sides": null
+    },
+    {
+      "id": "f_ugv_infantry_debate",
+      "text": "잘루즈니 전 총사령관 등은 현재 무인 체계가 보병을 대규모로 대체하지 못한다고 봤고, 자고로드뉴크는 무인 체계가 기존 무기 체계를 대체하며 군 조직과 교리를 바꾸고 있다고 주장했다.",
+      "date": "2026",
+      "place": null,
+      "actors": [
+        "잘루즈니 전 총사령관",
+        "키리첸코",
+        "자고로드뉴크"
+      ],
+      "numbers": [],
+      "source_ids": [
+        "clm_0017"
+      ],
+      "confidence": "medium",
+      "contested": true,
+      "sides": [
+        "잘루즈니·키리첸코(애틀랜틱카운슬): 로봇은 병력을 줄여 주지만 사람을 대규모로 대체할 수 없고 지형 확보엔 보병 필요",
+        "자고로드뉴크(카네기): 무인 체계가 기존 무기 체계를 대체하며 군 조직과 교리를 바꾸는 중"
+      ]
+    },
+    {
+      "id": "f_40day_operation",
+      "text": "한국경제는 젤렌스키 대통령이 우크라이나 보안국(SBU) 주도의 '40일 작전'을 승인했다고 보도했다.",
+      "date": "2026.06",
+      "place": null,
+      "actors": [
+        "젤렌스키 대통령",
+        "우크라이나 보안국(SBU)",
+        "한국경제"
+      ],
+      "numbers": [
+        "40일"
+      ],
+      "source_ids": [
+        "clm_0018"
+      ],
+      "confidence": "low",
+      "contested": false,
+      "sides": null
+    },
+    {
+      "id": "f_660_drones",
+      "text": "한국경제는 '40일 작전' 선포 직후 우크라이나 드론 660기가 러시아를 공격했다고 보도했다.",
+      "date": "2026.06",
+      "place": "러시아",
+      "actors": [
+        "우크라이나",
+        "한국경제"
+      ],
+      "numbers": [
+        "660기"
+      ],
+      "source_ids": [
+        "clm_0019"
+      ],
+      "confidence": "low",
+      "contested": false,
+      "sides": null
+    }
+  ]
+}

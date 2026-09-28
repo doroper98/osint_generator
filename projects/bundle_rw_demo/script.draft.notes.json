@@ -1,0 +1,348 @@
+{
+  "schema_version": 1,
+  "bundle_id": "analysis_20260627_213911_00d58d87d6",
+  "sections": 10,
+  "scenes": 3,
+  "boundaries": [
+    {
+      "scene": "sc01",
+      "sections": [
+        "intro",
+        "s1",
+        "s2"
+      ],
+      "space": [],
+      "charts": [],
+      "reason": "첫 장면"
+    },
+    {
+      "scene": "sc02",
+      "sections": [
+        "s3",
+        "s4"
+      ],
+      "space": [],
+      "charts": [
+        "stakeholder_map"
+      ],
+      "reason": "차트 종류 바뀜 → stakeholder_map · 합친 섹션 2개(같은 공간·차트 없음)"
+    },
+    {
+      "scene": "sc03",
+      "sections": [
+        "s5",
+        "s6",
+        "s7",
+        "s8",
+        "s9",
+        "s10",
+        "outro"
+      ],
+      "space": [],
+      "charts": [
+        "bar"
+      ],
+      "reason": "차트 종류 바뀜 → bar · 합친 섹션 7개(같은 공간·차트 없음)"
+    }
+  ],
+  "chapters": [
+    {
+      "scene": "sc01",
+      "title": "되찾기 시작한 전선, 그 출발은 패배의 한복판이었다"
+    },
+    {
+      "scene": "sc01",
+      "title": "포탄이 모자란 3년, 우크라이나는 어떻게 몰렸나"
+    },
+    {
+      "scene": "sc02",
+      "title": "이 전환을 밀어붙인 사람들, 그리고 맞은편"
+    },
+    {
+      "scene": "sc02",
+      "title": "스타링크와 종전 압박, 전장 밖의 두 변수"
+    },
+    {
+      "scene": "sc03",
+      "title": "포탄 한 발 값으로 전차를 잡는 셈법"
+    },
+    {
+      "scene": "sc03",
+      "title": "전선 40km를 삼킨 보이지 않는 화력망"
+    },
+    {
+      "scene": "sc03",
+      "title": "전선 너머를 때리다, 스파이더웹에서 40일 작전까지"
+    },
+    {
+      "scene": "sc03",
+      "title": "이제 땅 위에서도 사람을 빼낸다"
+    },
+    {
+      "scene": "sc03",
+      "title": "되찾기인가 버티기인가, 그리고 로봇이 채울 수 없는 자리"
+    },
+    {
+      "scene": "sc03",
+      "title": "전선은 멈추지 않고, 협상의 시계만 빨라진다"
+    }
+  ],
+  "rewrite_required": [
+    {
+      "sid": "sc02_3",
+      "patterns": [
+        "승부는"
+      ]
+    }
+  ],
+  "tts": [
+    {
+      "sid": "sc01_0",
+      "source": "bundle",
+      "issue": null
+    },
+    {
+      "sid": "sc01_1",
+      "source": "bundle",
+      "issue": null
+    },
+    {
+      "sid": "sc01_2",
+      "source": "bundle",
+      "issue": null
+    },
+    {
+      "sid": "sc01_3",
+      "source": "bundle",
+      "issue": null
+    },
+    {
+      "sid": "sc01_4",
+      "source": "bundle",
+      "issue": null
+    },
+    {
+      "sid": "sc01_5",
+      "source": "bundle",
+      "issue": null
+    },
+    {
+      "sid": "sc01_6",
+      "source": "bundle",
+      "issue": null
+    },
+    {
+      "sid": "sc01_7",
+      "source": "bundle",
+      "issue": null
+    },
+    {
+      "sid": "sc02_0",
+      "source": "bundle",
+      "issue": null
+    },
+    {
+      "sid": "sc02_1",
+      "source": "bundle",
+      "issue": null
+    },
+    {
+      "sid": "sc02_2",
+      "source": "bundle",
+      "issue": null
+    },
+    {
+      "sid": "sc02_3",
+      "source": "bundle",
+      "issue": null
+    },
+    {
+      "sid": "sc02_4",
+      "source": "bundle",
+      "issue": null
+    },
+    {
+      "sid": "sc02_5",
+      "source": "bundle",
+      "issue": null
+    },
+    {
+      "sid": "sc03_0",
+      "source": "bundle",
+      "issue": null
+    },
+    {
+      "sid": "sc03_1",
+      "source": "bundle",
+      "issue": null
+    },
+    {
+      "sid": "sc03_2",
+      "source": "bundle",
+      "issue": null
+    },
+    {
+      "sid": "sc03_3",
+      "source": "bundle",
+      "issue": null
+    },
+    {
+      "sid": "sc03_4",
+      "source": "bundle",
+      "issue": null
+    },
+    {
+      "sid": "sc03_5",
+      "source": "bundle",
+      "issue": null
+    },
+    {
+      "sid": "sc03_6",
+      "source": "bundle",
+      "issue": null
+    },
+    {
+      "sid": "sc03_7",
+      "source": "bundle",
+      "issue": null
+    },
+    {
+      "sid": "sc03_8",
+      "source": "bundle",
+      "issue": null
+    },
+    {
+      "sid": "sc03_9",
+      "source": "bundle",
+      "issue": null
+    },
+    {
+      "sid": "sc03_10",
+      "source": "bundle",
+      "issue": null
+    },
+    {
+      "sid": "sc03_11",
+      "source": "bundle",
+      "issue": null
+    },
+    {
+      "sid": "sc03_12",
+      "source": "bundle",
+      "issue": null
+    },
+    {
+      "sid": "sc03_13",
+      "source": "bundle",
+      "issue": null
+    },
+    {
+      "sid": "sc03_14",
+      "source": "bundle",
+      "issue": null
+    },
+    {
+      "sid": "sc03_15",
+      "source": "bundle",
+      "issue": null
+    },
+    {
+      "sid": "sc03_16",
+      "source": "bundle",
+      "issue": null
+    },
+    {
+      "sid": "sc03_17",
+      "source": "bundle",
+      "issue": null
+    },
+    {
+      "sid": "sc03_18",
+      "source": "bundle",
+      "issue": null
+    },
+    {
+      "sid": "sc03_19",
+      "source": "bundle",
+      "issue": null
+    },
+    {
+      "sid": "sc03_20",
+      "source": "bundle",
+      "issue": null
+    },
+    {
+      "sid": "sc03_21",
+      "source": "rule",
+      "issue": null
+    },
+    {
+      "sid": "sc03_22",
+      "source": "rule",
+      "issue": null
+    }
+  ],
+  "emphasis_dropped": [],
+  "date_sources": {
+    "sc01_0": "report",
+    "sc01_1": "report",
+    "sc01_2": "report",
+    "sc01_3": "report",
+    "sc01_4": "report",
+    "sc01_5": "report",
+    "sc01_6": "report",
+    "sc01_7": "report",
+    "sc02_0": "report",
+    "sc02_1": "report",
+    "sc02_2": "report",
+    "sc02_3": "report",
+    "sc02_4": "report",
+    "sc02_5": "report",
+    "sc03_0": "report",
+    "sc03_1": "report",
+    "sc03_2": "report",
+    "sc03_3": "report",
+    "sc03_4": "report",
+    "sc03_5": "report",
+    "sc03_6": "report",
+    "sc03_7": "report",
+    "sc03_8": "report",
+    "sc03_9": "report",
+    "sc03_10": "report",
+    "sc03_11": "report",
+    "sc03_12": "report",
+    "sc03_13": "report",
+    "sc03_14": "report",
+    "sc03_15": "report",
+    "sc03_16": "report",
+    "sc03_17": "report",
+    "sc03_18": "report",
+    "sc03_19": "report",
+    "sc03_20": "report",
+    "sc03_21": "report",
+    "sc03_22": "report"
+  },
+  "mentions": {
+    "sc01_7": [
+      "ru_army"
+    ],
+    "sc02_1": [
+      "zelensky"
+    ],
+    "sc03_6": [
+      "ru_army"
+    ]
+  },
+  "unmatched": [
+    "syrskyi",
+    "sbu",
+    "ukr_drone",
+    "ru_army",
+    "west",
+    "pokrovsk",
+    "kupiansk",
+    "tula",
+    "kyiv"
+  ],
+  "skipped_sections": []
+}

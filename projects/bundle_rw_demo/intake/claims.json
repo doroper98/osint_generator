@@ -1,0 +1,474 @@
+{
+  "schema_version": 1,
+  "claims": [
+    {
+      "claim_id": "clm_0001",
+      "text": "우크라이나군이 2026년 들어 600km² 이상의 영토를 탈환했다",
+      "source_ids": [
+        "src_art_0007",
+        "src_art_0001"
+      ],
+      "status": "disputed",
+      "contested": true,
+      "sides": [
+        {
+          "party": "우크라이나군 총사령관 시르스키·젤렌스키 대통령",
+          "text": "2026년 들어 600km² 이상(젤렌스키는 약 600km²)을 탈환했다고 밝혔다",
+          "source_ids": [
+            "src_art_0007",
+            "src_art_0001"
+          ]
+        },
+        {
+          "party": "로이터",
+          "text": "해당 주장을 독자적으로 검증하지 못했다고 보도했다",
+          "source_ids": [
+            "src_art_0007"
+          ]
+        }
+      ],
+      "checks": [
+        "quote_match:src_art_0007",
+        "quote_match:src_art_0007",
+        "quote_match:src_art_0001",
+        "independent_origins:1",
+        "attributed:src_art_0007",
+        "attributed:src_art_0007"
+      ],
+      "attributed_only": false,
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0002",
+      "text": "우크라이나가 5월 한 달간 잃은 땅보다 약 100km² 더 많은 땅을 되찾았다",
+      "source_ids": [
+        "src_art_0007",
+        "src_art_0001"
+      ],
+      "status": "disputed",
+      "contested": true,
+      "sides": [
+        {
+          "party": "우크라이나군 총사령관 시르스키",
+          "text": "5월에 잃은 땅보다 100km² 더 탈환했다고 텔레그램에서 밝혔다",
+          "source_ids": [
+            "src_art_0007"
+          ]
+        },
+        {
+          "party": "로이터",
+          "text": "해당 주장을 독자적으로 검증하지 못했다고 보도했다",
+          "source_ids": [
+            "src_art_0007"
+          ]
+        }
+      ],
+      "checks": [
+        "quote_match:src_art_0007",
+        "quote_match:src_art_0001",
+        "independent_origins:1",
+        "attributed:src_art_0007"
+      ],
+      "attributed_only": false,
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0003",
+      "text": "최근 몇 달 러시아의 전체 진격이 둔화되거나 역전됐으며, 이는 2023년 우크라이나 반격 실패 이후 처음이다",
+      "source_ids": [
+        "src_art_0007",
+        "src_art_0001"
+      ],
+      "status": "unverified",
+      "contested": true,
+      "sides": [
+        {
+          "party": "독립 전장 지도 그룹·독립 분석가",
+          "text": "러시아의 영토 확보가 둔화·역전됐다고 보고했다",
+          "source_ids": [
+            "src_art_0007",
+            "src_art_0001"
+          ]
+        }
+      ],
+      "checks": [
+        "quote_match:src_art_0007",
+        "quote_match:src_art_0001",
+        "independent_origins:2"
+      ],
+      "attributed_only": false,
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0004",
+      "text": "러시아가 포크로우스크 전체를 장악하고 있다",
+      "source_ids": [
+        "src_art_0007"
+      ],
+      "status": "disputed",
+      "contested": true,
+      "sides": [
+        {
+          "party": "러시아",
+          "text": "지난해 12월 포크로우스크를 점령했다고 주장했다",
+          "source_ids": [
+            "src_art_0007"
+          ]
+        },
+        {
+          "party": "DeepState(우크라이나 독립 전장 지도)",
+          "text": "수주째 포크로우스크를 러시아가 완전히 장악한 것으로 표시하고 있다",
+          "source_ids": [
+            "src_art_0007"
+          ]
+        }
+      ],
+      "checks": [
+        "quote_match:src_art_0007",
+        "quote_match:src_art_0007",
+        "independent_origins:1",
+        "attributed:src_art_0007"
+      ],
+      "attributed_only": false,
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0005",
+      "text": "우크라이나 전선의 길이는 약 1,200km다",
+      "source_ids": [
+        "src_art_0007",
+        "src_art_0001"
+      ],
+      "status": "corroborated",
+      "contested": false,
+      "checks": [
+        "quote_match:src_art_0007",
+        "quote_match:src_art_0001",
+        "independent_origins:2"
+      ],
+      "attributed_only": false,
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0006",
+      "text": "훌랴이폴레 일대에서 가장 격렬한 전투가 벌어지고 있다",
+      "source_ids": [
+        "src_art_0007",
+        "src_art_0001"
+      ],
+      "status": "corroborated",
+      "contested": false,
+      "checks": [
+        "quote_match:src_art_0007",
+        "quote_match:src_art_0001",
+        "independent_origins:2"
+      ],
+      "attributed_only": false,
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0007",
+      "text": "하루 전투 교전 횟수가 크게 늘었다",
+      "source_ids": [
+        "src_art_0007"
+      ],
+      "status": "unverified",
+      "contested": true,
+      "sides": [
+        {
+          "party": "우크라이나군 총사령관 시르스키",
+          "text": "일일 교전 횟수가 크게 늘었고 전선 상황이 '어렵고 유동적'이라고 밝혔다",
+          "source_ids": [
+            "src_art_0007"
+          ]
+        }
+      ],
+      "checks": [
+        "quote_match:src_art_0007",
+        "independent_origins:1"
+      ],
+      "attributed_only": false,
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0008",
+      "text": "우크라이나가 2026년 2월 러시아 장거리 무인기의 스타링크 사용을 제한했다",
+      "source_ids": [
+        "src_art_0002"
+      ],
+      "status": "unverified",
+      "contested": false,
+      "checks": [
+        "quote_match:src_art_0002",
+        "independent_origins:1"
+      ],
+      "attributed_only": false,
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0009",
+      "text": "일부 광섬유 유선 드론의 케이블 길이가 최대 40km에 이른다",
+      "source_ids": [
+        "src_art_0004"
+      ],
+      "status": "unverified",
+      "contested": false,
+      "checks": [
+        "quote_match:src_art_0004",
+        "independent_origins:1"
+      ],
+      "attributed_only": false,
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0010",
+      "text": "우크라이나에서 20종 이상의 신규 인증 광섬유 드론 모델을 11개 기업이 생산하고 있다",
+      "source_ids": [
+        "src_art_0004"
+      ],
+      "status": "unverified",
+      "contested": true,
+      "sides": [
+        {
+          "party": "젤렌스키 대통령",
+          "text": "20종 이상의 신규 인증 광섬유 드론 모델이 나왔고 11개 기업이 생산한다고 발표했다",
+          "source_ids": [
+            "src_art_0004"
+          ]
+        }
+      ],
+      "checks": [
+        "quote_match:src_art_0004",
+        "independent_origins:1"
+      ],
+      "attributed_only": false,
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0011",
+      "text": "우크라이나 보병 2명이 교대 없이 오리히우 인근 진지를 165일간 지켰다",
+      "source_ids": [
+        "src_art_0004"
+      ],
+      "status": "unverified",
+      "contested": false,
+      "checks": [
+        "quote_match:src_art_0004",
+        "independent_origins:1"
+      ],
+      "attributed_only": false,
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0012",
+      "text": "헤르손으로 날아오는 드론의 약 95%가 요격되고 있다",
+      "source_ids": [
+        "src_art_0004"
+      ],
+      "status": "unverified",
+      "contested": true,
+      "sides": [
+        {
+          "party": "헤르손주 주지사 프로쿠딘",
+          "text": "유입 드론의 약 95%가 요격된다고 FT에 밝혔다",
+          "source_ids": [
+            "src_art_0004"
+          ]
+        }
+      ],
+      "checks": [
+        "quote_match:src_art_0004",
+        "independent_origins:0",
+        "attributed:src_art_0004"
+      ],
+      "attributed_only": true,
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0013",
+      "text": "기관총을 단 무인 지상 차량(UGV) 한 대가 2025년 말 우크라이나 동부에서 45일간 전투 임무를 수행했다",
+      "source_ids": [
+        "src_art_0005"
+      ],
+      "status": "unverified",
+      "contested": true,
+      "sides": [
+        {
+          "party": "우크라이나군 관계자(제3군단 진케비치 등)",
+          "text": "UGV 한 대만으로 진지를 약 6주간 지켰다고 주장했다",
+          "source_ids": [
+            "src_art_0005"
+          ]
+        }
+      ],
+      "checks": [
+        "quote_match:src_art_0005",
+        "independent_origins:1"
+      ],
+      "attributed_only": false,
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0014",
+      "text": "2025년 11월 기준 포크로우스크 일대 우크라이나 전방 진지 보급의 최대 90%를 UGV가 맡았다",
+      "source_ids": [
+        "src_art_0005"
+      ],
+      "status": "unverified",
+      "contested": true,
+      "sides": [
+        {
+          "party": "BBC",
+          "text": "포크로우스크 일대 전방 보급의 최대 90%가 UGV로 이뤄진다고 보도했다",
+          "source_ids": [
+            "src_art_0005"
+          ]
+        }
+      ],
+      "checks": [
+        "quote_match:src_art_0005",
+        "independent_origins:1"
+      ],
+      "attributed_only": false,
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0015",
+      "text": "우크라이나 국방부가 2025년 UGV 공급 목표를 모두 초과 달성했다",
+      "source_ids": [
+        "src_art_0005"
+      ],
+      "status": "unverified",
+      "contested": true,
+      "sides": [
+        {
+          "party": "우크라이나 국방부",
+          "text": "2025년 UGV 공급 목표를 모두 넘어섰다고 밝혔다",
+          "source_ids": [
+            "src_art_0005"
+          ]
+        }
+      ],
+      "checks": [
+        "quote_match:src_art_0005",
+        "independent_origins:1"
+      ],
+      "attributed_only": false,
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0016",
+      "text": "2026년 3월 우크라이나에서 무인 체계의 전투·보급 임무가 9,000회를 넘었다",
+      "source_ids": [
+        "src_art_0006"
+      ],
+      "status": "unverified",
+      "contested": true,
+      "sides": [
+        {
+          "party": "DELTA 집계(메타디펜스 인용)",
+          "text": "3월 9,000회 이상, 1~3월 약 24,500회 임무가 수행됐다",
+          "source_ids": [
+            "src_art_0006"
+          ]
+        }
+      ],
+      "checks": [
+        "quote_match:src_art_0006",
+        "independent_origins:0",
+        "attributed:src_art_0006"
+      ],
+      "attributed_only": true,
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0017",
+      "text": "현재의 무인 체계는 보병을 대규모로 대체하지 못한다",
+      "source_ids": [
+        "src_art_0005",
+        "src_art_0002"
+      ],
+      "status": "disputed",
+      "contested": true,
+      "sides": [
+        {
+          "party": "잘루즈니 전 총사령관·키리첸코(애틀랜틱카운슬 기고)",
+          "text": "로봇 체계가 병력을 줄여 주지만 현 기술로는 사람을 대규모로 대체할 수 없고 지형 확보에는 보병이 필요하다",
+          "source_ids": [
+            "src_art_0005"
+          ]
+        },
+        {
+          "party": "자고로드뉴크(카네기 기고)",
+          "text": "무인 체계가 기존 무기 체계를 대체하며 군 조직과 교리를 바꾸고 있다",
+          "source_ids": [
+            "src_art_0002"
+          ]
+        }
+      ],
+      "checks": [
+        "quote_match:src_art_0005",
+        "quote_match:src_art_0005",
+        "quote_match:src_art_0002",
+        "independent_origins:2"
+      ],
+      "attributed_only": false,
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0018",
+      "text": "젤렌스키 대통령이 우크라이나 보안국(SBU) 주도의 '40일 작전'을 승인했다",
+      "source_ids": [
+        "src_art_0008"
+      ],
+      "status": "unverified",
+      "contested": false,
+      "checks": [
+        "quote_match:src_art_0008",
+        "independent_origins:1"
+      ],
+      "attributed_only": false,
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0019",
+      "text": "'40일 작전' 선포 직후 우크라이나 드론 660기가 러시아를 공격했다",
+      "source_ids": [
+        "src_art_0008"
+      ],
+      "status": "unverified",
+      "contested": false,
+      "checks": [
+        "quote_match:src_art_0008",
+        "independent_origins:1"
+      ],
+      "attributed_only": false,
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0020",
+      "text": "러시아군이 2026년 6월 24일 하루 병력 1,270명을 잃었다",
+      "source_ids": [
+        "src_art_0009"
+      ],
+      "status": "unverified",
+      "contested": true,
+      "sides": [
+        {
+          "party": "우크라이나 국방부·총참모부",
+          "text": "6월 24일 러시아군 손실을 병력 1,270명, 무인기 1,994기, 포 67문으로 추산했다",
+          "source_ids": [
+            "src_art_0009"
+          ]
+        }
+      ],
+      "event_date": "2026-06-24",
+      "checks": [
+        "quote_match:src_art_0009",
+        "independent_origins:1"
+      ],
+      "attributed_only": false,
+      "notes": ""
+    }
+  ]
+}

@@ -1,0 +1,12 @@
+# 『모스크바에 내린 수송기 한 대』 지도 라벨 (v3.5.0, Phase 9 번들 실증). ko: 국가 한글 관용명.
+schema_version: 1
+ko: {US: 미국, RU: 러시아, UA: 우크라이나, PL: 폴란드, LV: 라트비아, LT: 리투아니아, EE: 에스토니아, BY: 벨라루스,
+     DE: 독일, RO: 루마니아, MD: 몰도바, FI: 핀란드, IR: 이란, TR: 튀르키예, GB: 영국, FR: 프랑스, SA: 사우디아라비아,
+     CA: 캐나다, IQ: 이라크, OM: 오만, AE: 아랍에미리트}
+seas:
+  - {name: 대서양, lon: -40.0, lat: 45.0, wmin: 30, wmax: 200}
+  - {name: 발트해, lon: 19.5, lat: 57.5, wmin: 4, wmax: 40}
+  - {name: 흑해, lon: 34.0, lat: 43.3, wmin: 4, wmax: 50}
+  - {name: 호르무즈 해협, lon: 56.4, lat: 26.3, wmin: 0, wmax: 12}
+province_countries: []
+hide_country_label_below_w: {}

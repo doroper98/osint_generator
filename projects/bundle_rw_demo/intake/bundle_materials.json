@@ -1,0 +1,334 @@
+{
+  "schema_version": 1,
+  "bundle_id": "analysis_20260627_213911_00d58d87d6",
+  "places": [
+    {
+      "id": "pokrovsk",
+      "name": "포크로우스크",
+      "lon": 37.18,
+      "lat": 48.28,
+      "highlight": true,
+      "kind": "military",
+      "value": "러 점령, 진격은 정지",
+      "label_side": "bottom",
+      "scenes": []
+    },
+    {
+      "id": "kupiansk",
+      "name": "쿠피얀스크",
+      "lon": 37.62,
+      "lat": 49.71,
+      "highlight": true,
+      "kind": "military",
+      "value": "5월 우크라 탈환",
+      "label_side": "top",
+      "scenes": []
+    },
+    {
+      "id": "tula",
+      "name": "툴라",
+      "lon": 37.62,
+      "lat": 54.2,
+      "highlight": false,
+      "kind": "chokepoint",
+      "value": "화학공장 반복 타격",
+      "label_side": "right",
+      "scenes": []
+    },
+    {
+      "id": "kyiv",
+      "name": "키이우",
+      "lon": 30.52,
+      "lat": 50.45,
+      "highlight": false,
+      "kind": "",
+      "value": "",
+      "label_side": "left",
+      "scenes": []
+    }
+  ],
+  "paths": [
+    {
+      "id": "kupiansk__tula",
+      "from_id": "kupiansk",
+      "to_id": "tula",
+      "label": "종심 드론 타격",
+      "kind": "tension",
+      "weight": 3.0,
+      "label_t": 0.55,
+      "points": [
+        [
+          37.62,
+          49.71
+        ],
+        [
+          37.62,
+          54.2
+        ]
+      ]
+    }
+  ],
+  "panels": [
+    {
+      "chart_id": "ch-1",
+      "chart_type": "stakeholder_map",
+      "kind": "network",
+      "scene": "sc02",
+      "data": {
+        "kind": "network",
+        "title": "전환을 밀어붙인 사람들, 그리고 맞은편",
+        "provenance": {
+          "verification": "estimated",
+          "sources": []
+        },
+        "nodes": [
+          {
+            "id": "zelensky",
+            "label": "젤렌스키",
+            "role": "드론을 전쟁의 척추로",
+            "kind": "person",
+            "pid": "zelensky",
+            "flag": "ua",
+            "col": "left",
+            "accent": "muted",
+            "big": false
+          },
+          {
+            "id": "syrskyi",
+            "label": "시르스키",
+            "role": "총사령관·전선 지휘",
+            "kind": "flag",
+            "flag": "ua",
+            "col": "left",
+            "accent": "muted",
+            "big": false
+          },
+          {
+            "id": "sbu",
+            "label": "SBU 보안국",
+            "role": "러 심장부 타격 설계",
+            "kind": "flag",
+            "flag": "ua",
+            "col": "left",
+            "accent": "muted",
+            "big": false
+          },
+          {
+            "id": "ukr_drone",
+            "label": "우크라 드론 산업",
+            "role": "SBU 작전의 동력",
+            "kind": "flag",
+            "flag": "ua",
+            "col": "left",
+            "accent": "muted",
+            "big": false
+          },
+          {
+            "id": "putin",
+            "label": "푸틴",
+            "role": "대통령",
+            "kind": "person",
+            "pid": "putin",
+            "flag": "ru",
+            "col": "right",
+            "accent": "muted",
+            "big": false
+          },
+          {
+            "id": "ru_army",
+            "label": "러시아군",
+            "role": "포크로우스크 점령",
+            "kind": "flag",
+            "flag": "ru",
+            "col": "right",
+            "accent": "muted",
+            "big": false
+          }
+        ],
+        "edges": [
+          {
+            "src": "syrskyi",
+            "dst": "ru_army",
+            "type": "opposed",
+            "label": "전선 교전"
+          }
+        ]
+      },
+      "prov_tag": "추정 · 출처 미기재",
+      "notes": [
+        "노드 west(서방 지원국): 레지스트리 뱃지·국기 없음 — 뺌(문자 원 금지, 08 §3.1)",
+        "선 zelensky→syrskyi: 같은 열(left)끼리는 잇지 않는다(08 §3 규칙 3) — 뺌",
+        "선 zelensky→sbu: 같은 열(left)끼리는 잇지 않는다(08 §3 규칙 3) — 뺌",
+        "선 ukr_drone→sbu: 같은 열(left)끼리는 잇지 않는다(08 §3 규칙 3) — 뺌",
+        "선 putin→ru_army: 같은 열(right)끼리는 잇지 않는다(08 §3 규칙 3) — 뺌",
+        "선 west→zelensky: 끝 노드가 빠져 뺌",
+        "선 west→putin: 끝 노드가 빠져 뺌"
+      ]
+    }
+  ],
+  "unsupported": [
+    {
+      "chart_id": "ch-2",
+      "chart_type": "bar",
+      "reason": "차트 종류 'bar' 는 rules bundle.chart_panels 에 없다(패널 렌더러 없음)"
+    },
+    {
+      "chart_id": "ch-3",
+      "chart_type": "bar",
+      "reason": "차트 종류 'bar' 는 rules bundle.chart_panels 에 없다(패널 렌더러 없음)"
+    },
+    {
+      "chart_id": "ch-4",
+      "chart_type": "bar",
+      "reason": "차트 종류 'bar' 는 rules bundle.chart_panels 에 없다(패널 렌더러 없음)"
+    }
+  ],
+  "media": [],
+  "badges": [
+    {
+      "id": "zelensky",
+      "entity_id": "zelensky",
+      "label": "젤렌스키",
+      "scenes": [
+        "sc02"
+      ]
+    },
+    {
+      "id": "putin",
+      "entity_id": "putin",
+      "label": "푸틴",
+      "scenes": []
+    }
+  ],
+  "unmatched": [
+    "syrskyi",
+    "sbu",
+    "ukr_drone",
+    "ru_army",
+    "west",
+    "pokrovsk",
+    "kupiansk",
+    "tula",
+    "kyiv"
+  ],
+  "quotes": [
+    {
+      "scene": "sc01",
+      "section": "s1",
+      "text": "드론 660대 동시 타격"
+    },
+    {
+      "scene": "sc01",
+      "section": "s1",
+      "text": "올해 600제곱킬로미터 탈환"
+    },
+    {
+      "scene": "sc01",
+      "section": "s2",
+      "text": "포탄이 모자랐던 3년"
+    },
+    {
+      "scene": "sc01",
+      "section": "s2",
+      "text": "드론으로 향한 전환"
+    },
+    {
+      "scene": "sc02",
+      "section": "s3",
+      "text": "드론을 전쟁의 척추로"
+    },
+    {
+      "scene": "sc02",
+      "section": "s3",
+      "text": "SBU의 종심 작전"
+    },
+    {
+      "scene": "sc02",
+      "section": "s4",
+      "text": "러시아 Starlink 차단"
+    },
+    {
+      "scene": "sc02",
+      "section": "s4",
+      "text": "겹쳐 오는 종전 압박"
+    },
+    {
+      "scene": "sc03",
+      "section": "s5",
+      "text": "드론 한 대로 전차를 멈춘다"
+    },
+    {
+      "scene": "sc03",
+      "section": "s5",
+      "text": "연 700만 대 양산 목표"
+    },
+    {
+      "scene": "sc03",
+      "section": "s6",
+      "text": "전선 앞 40킬로미터 킬존"
+    },
+    {
+      "scene": "sc03",
+      "section": "s6",
+      "text": "진격 하루 70미터로 둔화"
+    },
+    {
+      "scene": "sc03",
+      "section": "s7",
+      "text": "드론 117대로 폭격기 파괴"
+    },
+    {
+      "scene": "sc03",
+      "section": "s7",
+      "text": "70억 달러 자산 손실"
+    },
+    {
+      "scene": "sc03",
+      "section": "s8",
+      "text": "로봇이 보급과 구난을"
+    },
+    {
+      "scene": "sc03",
+      "section": "s8",
+      "text": "부대 67개에서 167개로"
+    },
+    {
+      "scene": "sc03",
+      "section": "s9",
+      "text": "러 손실 속도 3배로"
+    },
+    {
+      "scene": "sc03",
+      "section": "s9",
+      "text": "사망 추정 22만에서 50만"
+    },
+    {
+      "scene": "sc03",
+      "section": "s10",
+      "text": "쌓이는 러시아의 피로"
+    },
+    {
+      "scene": "sc03",
+      "section": "s10",
+      "text": "바뀐 전쟁의 문법"
+    }
+  ],
+  "versus": [
+    {
+      "label_a": "전환론",
+      "label_b": "둔화론",
+      "line_a": "되찾기 흐름이 개전 후 처음 나타났습니다.",
+      "line_b": "땅의 총량은 아직 순손실입니다.",
+      "side_a": "올해 600km² 탈환과 진격 속도 둔화, 개전 후 처음으로 월간 되찾은 땅이 잃은 땅을 앞선 점은 우크라이나가 공세로 돌아섰음을 보여준다.",
+      "side_b": "되찾은 땅은 지난 2년 손실분의 일부에 그치고 포크로우스크와 미르노흐라드는 끝내 함락됐으며, 땅의 총량으로는 여전히 순손실이다."
+    },
+    {
+      "label_a": "무인 주력론",
+      "label_b": "보병 불가결론",
+      "line_a": "무인 전투 체계가 전선의 주력이 되고 있습니다.",
+      "line_b": "땅을 지키는 건 끝내 보병의 몫입니다.",
+      "side_a": "FPV와 광섬유 드론, UGV를 묶은 다영역 무인 전투 체계가 표준으로 자리 잡으며 전선의 주력이 무인으로 옮겨가고 있다.",
+      "side_b": "드론은 적을 묶고 소모시킬 뿐, 땅을 끝내 점령하고 지키는 일은 보병의 몫이라 무인 체계가 사람을 대체하지는 못한다."
+    }
+  ]
+}

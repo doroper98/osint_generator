@@ -1,0 +1,212 @@
+{
+  "schema_version": 1,
+  "sources": [
+    {
+      "id": "src_art_0001",
+      "url": "https://www.lvivherald.com/post/the-ukrainian-front-line-in-june-2026",
+      "retrieved_at": "2026-09-28",
+      "lang": "en",
+      "verification": {
+        "status": "corroborated",
+        "checks": [
+          "claims:5"
+        ],
+        "notes": ""
+      },
+      "confirmed_by": "opus-e2e(Phase9 실증 대행 — 매체·제목·게시일을 가져온 본문과 대조)",
+      "confirmed_at": "2026-09-28T17:59:38.164030Z",
+      "note": "번들 이관 analysis_20260627_213911_00d58d87d6 src-3",
+      "type": "article",
+      "publisher": "lvivherald.com",
+      "headline_original": "The Ukrainian front line in June 2026",
+      "published_at": "2026-06-09",
+      "key_facts": [
+        "The Ukrainian front line in June 2026"
+      ]
+    },
+    {
+      "id": "src_art_0002",
+      "url": "https://carnegieendowment.org/research/2026/04/ukraine-russia-war-changing-warfare-practice-military-strategy",
+      "retrieved_at": "2026-09-28",
+      "lang": "en",
+      "verification": {
+        "status": "unverified",
+        "checks": [
+          "claims:2"
+        ],
+        "notes": ""
+      },
+      "confirmed_by": "opus-e2e(Phase9 실증 대행 — 매체·제목·게시일을 가져온 본문과 대조)",
+      "confirmed_at": "2026-09-28T17:59:38.593568Z",
+      "note": "번들 이관 analysis_20260627_213911_00d58d87d6 src-6",
+      "type": "article",
+      "publisher": "carnegieendowment.org",
+      "headline_original": "The New Revolution in Military Affairs",
+      "published_at": "2026-04-20",
+      "key_facts": [
+        "The New Revolution in Military Affairs"
+      ]
+    },
+    {
+      "id": "src_art_0003",
+      "url": "https://brusselsmorning.com/ukraine-drone-warfare-2026/98374/",
+      "retrieved_at": "2026-09-28",
+      "lang": "en",
+      "verification": {
+        "status": "unverified",
+        "checks": [
+          "claims:0"
+        ],
+        "notes": ""
+      },
+      "confirmed_by": "opus-e2e(Phase9 실증 대행 — 매체·제목·게시일을 가져온 본문과 대조)",
+      "confirmed_at": "2026-09-28T17:59:39.009410Z",
+      "note": "번들 이관 analysis_20260627_213911_00d58d87d6 src-7",
+      "type": "article",
+      "publisher": "brusselsmorning.com",
+      "headline_original": "Ukraine Drone Warfare: 7 Dangerous Combat Shifts 2026",
+      "published_at": "2026-05-23",
+      "key_facts": [
+        "Ukraine Drone Warfare: 7 Dangerous Combat Shifts 2026"
+      ]
+    },
+    {
+      "id": "src_art_0004",
+      "url": "https://dronexl.co/2026/02/23/kill-zone-ukraine-frontline-drone/",
+      "retrieved_at": "2026-09-28",
+      "lang": "ko",
+      "verification": {
+        "status": "unverified",
+        "checks": [
+          "claims:4"
+        ],
+        "notes": ""
+      },
+      "confirmed_by": "opus-e2e(Phase9 실증 대행 — 매체·제목·게시일을 가져온 본문과 대조)",
+      "confirmed_at": "2026-09-28T17:59:39.400883Z",
+      "note": "번들 이관 analysis_20260627_213911_00d58d87d6 src-9",
+      "type": "article",
+      "publisher": "dronexl.co",
+      "headline_original": "FT’s ‘kill zone’ report confirms what Ukraine’s frontline has become: a drone-dominated no-man’s-land",
+      "published_at": "2026-02-23",
+      "key_facts": [
+        "FT’s ‘kill zone’ report confirms what Ukraine’s frontline has become: a drone-dominated no-man’s-land"
+      ]
+    },
+    {
+      "id": "src_art_0005",
+      "url": "https://www.atlanticcouncil.org/blogs/ukrainealert/ukraines-robot-army-will-be-crucial-in-2026-but-drones-cant-replace-infantry/",
+      "retrieved_at": "2026-09-28",
+      "lang": "ko",
+      "verification": {
+        "status": "unverified",
+        "checks": [
+          "claims:4"
+        ],
+        "notes": ""
+      },
+      "confirmed_by": "opus-e2e(Phase9 실증 대행 — 매체·제목·게시일을 가져온 본문과 대조)",
+      "confirmed_at": "2026-09-28T17:59:39.910413Z",
+      "note": "번들 이관 analysis_20260627_213911_00d58d87d6 src-10",
+      "type": "article",
+      "publisher": "atlanticcouncil.org",
+      "headline_original": "Ukraine’s robot army will be crucial in 2026 but drones can't replace infantry",
+      "published_at": "2026-01-08",
+      "key_facts": [
+        "Ukraine’s robot army will be crucial in 2026 but drones can't replace infantry"
+      ]
+    },
+    {
+      "id": "src_art_0006",
+      "url": "https://meta-defense.fr/en/2026/04/16/ukraine-robots-terrestres-ugv-2026/",
+      "retrieved_at": "2026-09-28",
+      "lang": "en",
+      "verification": {
+        "status": "unverified",
+        "checks": [
+          "claims:1"
+        ],
+        "notes": ""
+      },
+      "confirmed_by": "opus-e2e(Phase9 실증 대행 — 매체·제목·게시일을 가져온 본문과 대조)",
+      "confirmed_at": "2026-09-28T17:59:40.309331Z",
+      "note": "번들 이관 analysis_20260627_213911_00d58d87d6 src-11",
+      "type": "article",
+      "publisher": "meta-defense.fr",
+      "headline_original": "Ukraine has become the testing ground for UGVs, military ground robots.",
+      "published_at": "2026-04-16",
+      "key_facts": [
+        "Ukraine has become the testing ground for UGVs, military ground robots."
+      ]
+    },
+    {
+      "id": "src_art_0007",
+      "url": "https://www.globalbankingandfinance.com/ukraine-recaptures-600-square-km-territory-2026-military/",
+      "retrieved_at": "2026-09-28",
+      "lang": "en",
+      "verification": {
+        "status": "corroborated",
+        "checks": [
+          "claims:7"
+        ],
+        "notes": ""
+      },
+      "confirmed_by": "opus-e2e(Phase9 실증 대행 — 매체·제목·게시일을 가져온 본문과 대조)",
+      "confirmed_at": "2026-09-28T17:59:40.735408Z",
+      "note": "번들 이관 analysis_20260627_213911_00d58d87d6 src-13",
+      "type": "article",
+      "publisher": "globalbankingandfinance.com",
+      "headline_original": "Ukraine Recaptures 600+ Square Km of Territory in 2026, Says Chief",
+      "published_at": "2026-06-08",
+      "key_facts": [
+        "Ukraine Recaptures 600+ Square Km of Territory in 2026, Says Chief"
+      ]
+    },
+    {
+      "id": "src_art_0008",
+      "url": "https://www.hankyung.com/article/2026062609957",
+      "retrieved_at": "2026-09-28",
+      "lang": "ko",
+      "verification": {
+        "status": "unverified",
+        "checks": [
+          "claims:2"
+        ],
+        "notes": ""
+      },
+      "confirmed_by": "opus-e2e(Phase9 실증 대행 — 매체·제목·게시일을 가져온 본문과 대조)",
+      "confirmed_at": "2026-09-28T17:59:41.100575Z",
+      "note": "번들 이관 analysis_20260627_213911_00d58d87d6 src-16",
+      "type": "article",
+      "publisher": "hankyung.com",
+      "headline_original": "우크라이나 '40일 작전' 선포 직후 드론 660기 러시아 강타",
+      "published_at": "2026-06-26",
+      "key_facts": [
+        "우크라이나 '40일 작전' 선포 직후 드론 660기 러시아 강타"
+      ]
+    },
+    {
+      "id": "src_art_0009",
+      "url": "https://mod.gov.ua/en/news/total-russian-combat-losses-in-ukraine-as-of-june-25-2026",
+      "retrieved_at": "2026-09-28",
+      "lang": "en",
+      "verification": {
+        "status": "unverified",
+        "checks": [
+          "claims:1"
+        ],
+        "notes": ""
+      },
+      "confirmed_by": "opus-e2e(Phase9 실증 대행 — 매체·제목·게시일을 가져온 본문과 대조)",
+      "confirmed_at": "2026-09-28T17:59:41.481560Z",
+      "note": "번들 이관 analysis_20260627_213911_00d58d87d6 src-17",
+      "type": "article",
+      "publisher": "mod.gov.ua",
+      "headline_original": "Total russian combat losses in Ukraine as of June 25, 2026",
+      "published_at": "2026-06-25",
+      "key_facts": [
+        "Total russian combat losses in Ukraine as of June 25, 2026"
+      ]
+    }
+  ]
+}

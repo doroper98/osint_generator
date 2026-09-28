@@ -1,0 +1,101 @@
+# 연출 초안 — analysis_20260627_213911_00d58d87d6 (bundle.to_direction). 제안·재료일 뿐이다: 최종 direction.yaml 은 DirectorWorker 가 쓴다(15 P8).
+# 장소 4 · 경로 1 · 패널 1 · 패널 없는 차트 3 · 숏 = 장면별 frame_points 제안
+version: 1
+places:
+  pokrovsk:
+  - 37.18
+  - 48.28
+  kupiansk:
+  - 37.62
+  - 49.71
+  tula:
+  - 37.62
+  - 54.2
+  kyiv:
+  - 30.52
+  - 50.45
+paths:
+  kupiansk__tula:
+  - - 37.62
+    - 49.71
+  - - 37.62
+    - 54.2
+shots:
+- at:
+    scene_start: sc01
+  mode: cut
+  dur: 3.0
+  camera:
+    lon: 34.07
+    lat: 50.5769
+    w: 23.9175
+  under: false
+  scene: sc01
+events:
+- type: panel
+  start:
+    scene_start: sc02
+  end:
+    scene_end: sc02
+  data:
+    kind: network
+    title: 전환을 밀어붙인 사람들, 그리고 맞은편
+    provenance:
+      verification: estimated
+      sources: []
+    nodes:
+    - id: zelensky
+      label: 젤렌스키
+      role: 드론을 전쟁의 척추로
+      kind: person
+      pid: zelensky
+      flag: ua
+      col: left
+      accent: muted
+      big: false
+    - id: syrskyi
+      label: 시르스키
+      role: 총사령관·전선 지휘
+      kind: flag
+      flag: ua
+      col: left
+      accent: muted
+      big: false
+    - id: sbu
+      label: SBU 보안국
+      role: 러 심장부 타격 설계
+      kind: flag
+      flag: ua
+      col: left
+      accent: muted
+      big: false
+    - id: ukr_drone
+      label: 우크라 드론 산업
+      role: SBU 작전의 동력
+      kind: flag
+      flag: ua
+      col: left
+      accent: muted
+      big: false
+    - id: putin
+      label: 푸틴
+      role: 대통령
+      kind: person
+      pid: putin
+      flag: ru
+      col: right
+      accent: muted
+      big: false
+    - id: ru_army
+      label: 러시아군
+      role: 포크로우스크 점령
+      kind: flag
+      flag: ru
+      col: right
+      accent: muted
+      big: false
+    edges:
+    - src: syrskyi
+      dst: ru_army
+      type: opposed
+      label: 전선 교전
