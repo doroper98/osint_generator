@@ -76,6 +76,8 @@ events:
 - 좌표 대신 `place: map_left | map_right_low | panel_center | card_slot` 같은 **배치 슬롯**을 허용하고, 엔진이 예약 영역을 피해 실제 좌표를 계산한다(연출 LLM이 픽셀을 다루지 않게).
 - 모든 타입은 이벤트 레지스트리(15 §P10)에 있어야 한다.
 
+> [D-0047: sound 블록 추가] direction.yaml 은 `sound: {bgm, intensity: [[앵커, 값], …], cues: [{kind, t: 앵커, v}]}` 도 담는다(렌더·믹서 입력이 한 파일). 저장소 확장 문법(v3.1.0 `engine/direction.py`): `off` 목록(차례로 더함), `{span: [A, B]}`(길이), `{card: title, edge}`·`{total: true}` 앵커, `places:`/`paths:` + `at_place`·`{path: 이름}`, 패널 내용은 `data:` 아래. 정본 예시 `prompts/examples/hormuz_direction.yaml`.
+
 ---
 
 ## 3. 결정적 사전 검사 (`checks.json`) — LLM 검수 전에 코드가 잡는 것
