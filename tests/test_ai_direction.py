@@ -103,7 +103,7 @@ class LoopTest(unittest.TestCase):
         self.ai()
         ok, s = self.loop([3, 0], ["pass"])
         self.assertTrue(ok)
-        self.assertEqual(self.calls, ["preview", "revise_direction", "direction_validate", "preview", "visual_qa"])
+        self.assertEqual(self.calls, ["preview", "revise_direction", "validate", "preview", "visual_qa"])
         self.assertEqual(s["iterations"], 1)
 
     def test_loop_cap(self) -> None:

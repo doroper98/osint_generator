@@ -41,10 +41,11 @@ class CommandTest(unittest.TestCase):
         self.assertEqual(es.build_command(p, "render", jobs=4)[2:], ["engine.render", "/p", "--jobs", "4"])
         self.assertEqual(es.build_command(p, "mix")[2:], ["audio.mix", "/p"])
         self.assertEqual(es.build_command(p, "deliver")[2:], ["engine.mux", "/p"])
+        self.assertEqual(es.build_command(p, "validate")[2:], ["engine.validate", "/p"])   # v3.1.0 17 §1
 
     def test_unknown_stage_is_error(self) -> None:
         with self.assertRaises(ValueError):
-            es.build_command(Path("/p"), "validate")
+            es.build_command(Path("/p"), "lint")
 
     def test_state_stages_cover_engine_states(self) -> None:
         self.assertEqual(set(es.STATE_STAGES), {

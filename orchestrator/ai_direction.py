@@ -104,7 +104,7 @@ def qa_loop(pdir: Path, run_engine: Callable[[str], StageResult], record: Callab
         if not rev.ok:
             return False, summary
         summary["iterations"] += 1
-        val = run_engine("direction_validate")
+        val = run_engine("validate")                    # 수정본을 렌더 입력 경로로 점검(17 §1 engine.validate)
         record(val)
         if not val.ok:
             return False, summary

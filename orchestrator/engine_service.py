@@ -12,7 +12,8 @@
 | stage              | 명령                                   | 비고 |
 | plan               | python -m script.plan <proj>           | plan.json, tts/ |
 | assets             | python -m geo.prep <proj>              | 인물·국기·미디어는 tools/fetch_data(사람 준비) |
-| direction_validate | python -m script.lint <proj>           | `engine.validate` 는 6.9(17 §2). 그 전까지 원고 Script 로드 + 린트. 연출·레지스트리·예약영역 검사는 preview 의 load_project |
+| direction_validate | python -m script.lint <proj>           | 원고 Script 로드 + 린트(게이트 ① 에서도 씀 — 연출 파일 불필요) |
+| validate           | python -m engine.validate <proj>       | v3.1.0 연출 점검(17 §1): 렌더 입력과 같은 load_project — 스키마·앵커·레지스트리·엔티티·슬롯·예약영역 |
 | preview            | python -m engine.render <proj> --preview auto |
 | render             | python -m engine.render <proj> --jobs N |
 | mix                | python -m audio.mix <proj>             |
@@ -35,13 +36,14 @@ from schemas.models import ProjectState
 
 REPO = Path(__file__).resolve().parent.parent
 
-Stage = Literal["plan", "assets", "direction_validate", "preview", "render", "mix", "deliver"]
+Stage = Literal["plan", "assets", "direction_validate", "validate", "preview", "render", "mix", "deliver"]
 
 # 단계 → (모듈, CLI 가 StageResult.stage 에 적는 이름)
 STAGE_COMMANDS: dict[str, tuple[str, str]] = {
     "plan": ("script.plan", "plan"),
     "assets": ("geo.prep", "geo"),
     "direction_validate": ("script.lint", "lint"),
+    "validate": ("engine.validate", "validate"),
     "preview": ("engine.render", "preview"),
     "render": ("engine.render", "render"),
     "mix": ("audio.mix", "mix"),
@@ -52,7 +54,7 @@ STAGE_COMMANDS: dict[str, tuple[str, str]] = {
 STATE_STAGES: dict[ProjectState, tuple[str, ...]] = {
     ProjectState.VOICE_TIMELINE: ("plan",),
     ProjectState.ASSETS: ("assets",),
-    ProjectState.DIRECTION: ("direction_validate",),
+    ProjectState.DIRECTION: ("direction_validate", "validate"),
     ProjectState.PREVIEW_QA: ("preview",),
     ProjectState.RENDER: ("render",),
     ProjectState.AUDIO_MIX: ("mix",),
