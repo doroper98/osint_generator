@@ -3274,3 +3274,9 @@ last_review: 2026-06-06
 - 왜:    D-0040(16 전체). xfail 2 → 0.
 - 교훈:  Commons 원본(webm) 요청이 환경 egress 단위로 429 차단 — 한 번 받은 원본은 artifacts 에 보존하고(D-0044 B) 1차 출처 대체 경로를 레지스트리에 둔다(D43, source_variants). tts 캐시도 artifacts 에 보존해야 새 컨테이너에서 바이트 동일 대조가 된다(D-0042).
 
+## 2026-09-28 v3.1.0 — Phase 6.9 선언형 연출·결정적 검사·AI 연출 루프
+
+- 무엇을: direction.py → direction.yaml(코드 실행 0), 배치 슬롯, checks.json 10항목(hard → preview 실패), 연출가·시각 검수·연출 수정 워커와 루프(최선 판 선택·게이트 ② 판 목록), provenance ai_direction. hormuz_ai 원고만으로 AI 연출 실증 2회.
+- 왜:    D-0047(17 전체)·D-0048·D-0049.
+- 교훈:  LLM 단계를 실제로 돌려야 계약 버그가 보인다 — 스텁 테스트 전부 통과 상태에서 실측 버그 5건(PIPELINE-AP-007·008, LLM-AP-007, RENDER-AP-003, latest() 번호). 검사용 상자를 렌더 예약 영역과 공유하면 골든이 바뀐다 — 렌더 공용 함수 변경 뒤엔 golden_compare.
+

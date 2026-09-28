@@ -28,12 +28,25 @@ released 항목은 **append-only**입니다.
 
 ---
 
-## [v3.1.0] — 2026-09-28 — Phase 6.9: AI 연출가·시각 검수·프롬프트 (back_and_forth D-0047, 진행 중)
+## [v3.1.0] — 2026-09-28 — Phase 6.9: 선언형 연출·결정적 검사·AI 연출가·시각 검수 (back_and_forth D-0047~D-0049)
+
+### Added
+- `direction.yaml`(17 §2) 선언형 연출 — `engine/direction.py:Direction` 스키마·안전 로더(코드 실행 0, YAML 1.1 `off` 함정 차단). 앵커 `sid·off·edge·scene_start/end·word·card·total·span`, `places:`·`paths:`, `sound:` 블록.
+- 배치 슬롯 `rules placement.slots`(`place:` → 좌표는 코드, `engine/placement.py`).
+- 결정적 검사 `prev/checks.json`(17 §3 10항목, `engine/checks.py`) + `prev/frames.json`. hard → preview 단계 실패. 화면 밖 검사는 뱃지 + 지점 마커 라벨(D-0049).
+- `engine.validate` 연출 점검 CLI(엔진 서비스 단계 `validate`).
+- 워커 3종 DirectorWorker·VisualQAWorker(vision 모드, 시트 이미지)·ReviseDirectionWorker, `orchestrator/ai_direction.py` 루프(상한 `rules qa_checks.visual_qa_loop_max`, 회차 기록 `prev/qa_loop.json`, 상한 시 `loop_pick_order` 최선 판 선택), 게이트 ② 판 목록·`approve --version`(`GateDecision.chosen_version`, optional).
+- 프롬프트 director·visual_qa·revise_direction 신설, script·research 개정(파리티 5종 ACTIVE). `script.schema:Facts` 최소 모델(6.95 전환 예정).
+- provenance `ai_direction`(origin·used_version·selected·rounds)·stages `ai_direction`/`visual_qa` — 워커 산출 파일로 증명될 때만 true.
+- 도구 `tools/ai_direction_run.py`, `tools/ai_vs_golden_sheet.py`.
 
 ### Changed
-- `docs/handoff/golden/expected_deltas.json` 에 클립 컷 2(07 war_2 niovi, 13 timeline_4 strikes)를 DVIDS 원본 대체 차이로 등재(D-0046 NB8). golden_compare 가 `old_media`·`new_media` 쌍도 받는다. 제거 조건: Commons 원본 복구.
+- v3 뱃지(중국·인도) 위도 23.35 → 25.2(화면 밖 잘림 수정, D-0048, expected_deltas 08 war_3).
+- `LLMCallRecord.mode` 에 `vision`(하위 호환).
+- Commons 원본 영상 복구 — expected_deltas DVIDS 2항목(07 war_2·13 timeline_4) 제거(D-0045 §4).
 
----
+### Removed
+- 옛 `direction.py` 연출 파일·실행 로더(P2), 변환기(1회용, 이력 `551d48a`).
 
 ## [v3.0.0] — 2026-09-28 — Phase 6.8: 오케스트레이터 통합 (back_and_forth D-0040~D-0045)
 
