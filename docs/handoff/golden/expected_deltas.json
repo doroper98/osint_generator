@@ -90,34 +90,6 @@
    },
    "new_frame": "docs/handoff/reports/phase6/golden_delta/16_review_1.png"
   },
-  "07_war_2": {
-   "reason": "media source variant dvids (D-0045/D-0046) — niovi 클립을 Commons 원본 webm 대신 DVIDS 881959 원본(같은 영상, offset 0)에서 가공. 인코딩 차이로 클립 영역만 다르다. 제거 조건: Commons 원본 복구 시",
-   "decision": "D-0046",
-   "old_media": {
-    "mid": "niovi",
-    "source": "commons",
-    "file": "niovi.webm"
-   },
-   "new_media": {
-    "mid": "niovi",
-    "source": "dvids",
-    "id": "881959"
-   }
-  },
-  "13_timeline_4": {
-   "reason": "media source variant dvids (D-0045/D-0046) — strikes 클립을 Commons 원본 webm 대신 DVIDS 1013909 원본(같은 영상, offset 0)에서 가공. 인코딩 차이로 클립 영역만 다르다. 제거 조건: Commons 원본 복구 시",
-   "decision": "D-0046",
-   "old_media": {
-    "mid": "strikes",
-    "source": "commons",
-    "file": "strikes.webm"
-   },
-   "new_media": {
-    "mid": "strikes",
-    "source": "dvids",
-    "id": "1013909"
-   }
-  },
   "08_war_3": {
    "reason": "v3 뱃지(중국·인도) 화면 밖 잘림 수정 — checks offscreen hard(17 §3). 두 뱃지 위도만 23.35 → 25.2(상자 전체가 자막 영역 y<410 위에 들어오는 실측 최소치, 0.05 단위). 경도·R·라벨 무변경. 이 뱃지가 보이는 25컷은 08 하나",
    "decision": "D-0048",
