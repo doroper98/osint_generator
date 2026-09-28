@@ -17,7 +17,7 @@ ALLOWED: dict[str, str] = {
     "engine/context.py": "RenderCtx.out 필드",
     "engine/project.py": "load_project(out=) — 프로파일을 RenderCtx 에 싣기만",
     "engine/render.py": "렌더 진입 변환·표면 크기·인코딩·prev_<프로파일>/",
-    "engine/projection.py": "지도 베이스 장치 해상도(View.base)",
+    "engine/stage.py": "지도 베이스 장치 해상도(MercatorStage.base_image·render_base — v4.1.0 D-0076, 옛 View.base)",
     "engine/assets.py": "래스터 장치 해상도 준비(raster·set_raster)",
     "engine/layers/badges.py": "인물·국기·휘장 래스터",
     "engine/layers/media.py": "사진·영상·컷아웃 래스터",

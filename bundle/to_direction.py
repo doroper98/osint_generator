@@ -25,6 +25,7 @@ from engine.direction import Direction
 from engine.events import PanelGantt
 from engine.entities import EntityRegistry
 from engine.framing import frame_points, marker_point
+from engine.stage import DEFAULT_STAGE, make_stage
 from engine.registry import RegistryError, resolve
 from rules import load_rules
 from schemas.models import BundleChart, ReportBundle
@@ -310,18 +311,22 @@ def build_materials(b: ReportBundle, join: EntityJoin, reg: EntityRegistry, scen
 def build_direction_draft(mat: BundleMaterials, scenes: list[str]) -> Direction:
     """places·paths·패널만 담은 연출 초안. 숏 = 장면별 장소를 frame_points 로 담은 컷(제안). 장소 없는 장면은 숏 없음."""
     places = {p.id: (p.lon, p.lat) for p in mat.places}
+    st = make_stage(DEFAULT_STAGE)   # 번들 지도 마커 = 지도 무대 앵커(lon·lat) — 좌표 변환만(v4.1.0 D-0076)
+
+    def cam_of(pts: list) -> dict[str, float]:
+        fr = frame_points(pts, stage=st)
+        a = st.from_world(fr.x, fr.y)
+        return {"lon": round(a["lon"], 4), "lat": round(a["lat"], 4), "w": fr.w}
+
     shots: list[dict[str, Any]] = []
     for sc in scenes:
-        pts = [marker_point(p.lon, p.lat, p.id) for p in mat.places if sc in p.scenes]
+        pts = [marker_point(*st.to_world(lon=p.lon, lat=p.lat), p.id) for p in mat.places if sc in p.scenes]
         if not pts:
             continue
-        fr = frame_points(pts)
-        shots.append({"at": {"scene_start": sc}, "mode": "cut" if not shots else "move", "scene": sc,
-                      "camera": {"lon": fr.lon, "lat": fr.lat, "w": fr.w}})
+        shots.append({"at": {"scene_start": sc}, "mode": "cut" if not shots else "move", "scene": sc, "camera": cam_of(pts)})
     if not shots and mat.places:
-        fr = frame_points([marker_point(p.lon, p.lat, p.id) for p in mat.places])
         shots.append({"at": {"scene_start": scenes[0]}, "mode": "cut", "scene": scenes[0],
-                      "camera": {"lon": fr.lon, "lat": fr.lat, "w": fr.w}})
+                      "camera": cam_of([marker_point(*st.to_world(lon=p.lon, lat=p.lat), p.id) for p in mat.places])})
     if not shots:
         raise ValueError(f"번들 {mat.bundle_id}: 지도 마커가 없어 숏 제안을 만들 수 없다 — 연출은 DirectorWorker 가 처음부터 짠다")
     events = [{"type": "panel", "start": {"scene_start": p.scene}, "end": {"scene_end": p.scene},

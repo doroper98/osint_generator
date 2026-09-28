@@ -7,7 +7,7 @@ from pathlib import Path
 from types import SimpleNamespace as NS
 
 from engine.camera import CamKey
-from engine.projection import ym
+from engine.stage import ym
 from engine.shots import choose_transition, shot_issues
 from rules import load_rules
 

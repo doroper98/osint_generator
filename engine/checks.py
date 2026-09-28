@@ -125,8 +125,8 @@ def place_over(P, ctx: cairo.Context, e: dict, t: float) -> tuple[float, tuple] 
 
     if _covered(P, t):
         return None
-    v = View(P.cams[min(P.n_frames - 1, int(t * FPS))], P.R.assets.tiers, P.R.assets.base)
-    x, y = v.xy(e["lon"], e["lat"])
+    v = View(P.R.stage, P.cams[min(P.n_frames - 1, int(t * FPS))])
+    x, y = v.to_screen(*e["world"])
     if e["type"] == "marker":
         if x < -80 or x > W_OUT + 80 or y < -40 or y > H_OUT + 40:   # draw_marker 가 그리지 않는 위치
             return None
@@ -151,8 +151,8 @@ def label_hidden_ratio(P, e: dict) -> tuple[float, list[str]]:  # noqa: ANN001, 
     t = e["t0"] + LABEL_STEP_SEC / 2
     while t < e["t1"]:
         if not _covered(P, t):
-            v = View(P.cams[min(P.n_frames - 1, int(t * FPS))], P.R.assets.tiers, P.R.assets.base)
-            x, y = v.xy(e["lon"], e["lat"])
+            v = View(P.R.stage, P.cams[min(P.n_frames - 1, int(t * FPS))])
+            x, y = v.to_screen(*e["world"])
             if -80 <= x <= W_OUT + 80 and -40 <= y <= H_OUT + 40:   # draw_marker 가 그리는 위치
                 shown += 1
                 box = marker_box(ctx, e, x, y)
@@ -197,7 +197,7 @@ def check_labels(P, times: list[float]) -> list[str]:  # noqa: ANN001, N803
         L.text = counting
         try:
             P.R.reserved.clear()
-            L.draw_labels(cairo.Context(surf), P.R, View(P.cams[min(P.n_frames - 1, int(t * FPS))], P.R.assets.tiers, P.R.assets.base), t, 1.0)
+            P.R.stage.draw_labels(cairo.Context(surf), View(P.R.stage, P.cams[min(P.n_frames - 1, int(t * FPS))]), P.R.reserved, 1.0)
         finally:
             L.text = orig
         if cnt[0] > QA.labels_per_frame_max:

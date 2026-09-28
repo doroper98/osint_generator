@@ -7,22 +7,23 @@
 from __future__ import annotations
 
 import math
-from typing import Literal
+from typing import TYPE_CHECKING, Literal
 
 import numpy as np
 from pydantic import BaseModel, ConfigDict
 
-from engine.projection import ym
 from engine.timebase import ease_io
 from rules import load_rules
+
+if TYPE_CHECKING:
+    from engine.stage import Stage
 
 _DRIFT = load_rules().shot_grammar.drift  # amount 0.03, tau 9.0 (v3 값, rules SSOT)
 
 
 class CamKey(BaseModel):
-    """카메라 키. 내부 상태는 (x, y, w) — x = 경도, y = ym(위도)(Mercator 도 단위, 변환은 projection 에만), w = 화면 폭(도).
-
-    20번(장르 확장) 대비로 이름을 지도 전용(lon/v)이 아닌 평면 좌표로 둔다(D-0010 §1-3, D10 경계).
+    """카메라 키. (x, y, w) 는 무대의 월드 좌표(v4.1.0 D-0076 — 지도 무대면 x = 경도, y = Mercator 도 단위, 변환은
+    engine.stage 에만). w = 화면 가로가 덮는 월드 폭.
     """
 
     model_config = ConfigDict(extra="forbid")
@@ -35,8 +36,9 @@ class CamKey(BaseModel):
     mode: Literal["move", "cut"] = "move"
 
 
-def cam(t: float, lon: float, lat: float, w: float, dur: float = 3.0, mode: Literal["move", "cut"] = "move") -> CamKey:
-    return CamKey(t=t, x=lon, y=ym(lat), w=w, dur=dur, mode=mode)
+def cam(t: float, x: float, y: float, w: float, dur: float = 3.0, mode: Literal["move", "cut"] = "move") -> CamKey:
+    """월드 좌표 카메라 키. 앵커(경위도 등)는 호출하는 쪽이 stage.to_world 로 바꿔 넘긴다."""
+    return CamKey(t=t, x=x, y=y, w=w, dur=dur, mode=mode)
 
 
 def build_camera(keys: list[CamKey], n_frames: int, fps: int) -> "np.ndarray":
@@ -74,13 +76,14 @@ class Director:
     이벤트는 dict 로 모으고, 렌더 전에 `engine.registry.validate_events`가 전부 검증한다.
     """
 
-    def __init__(self) -> None:
+    def __init__(self, stage: "Stage") -> None:
+        self.stage = stage   # 앵커(lon·lat) → 월드 좌표(v4.1.0)
         self.keys: list[CamKey] = []
         self.events: list[dict] = []
 
     def cam(self, t: float, lon: float, lat: float, w: float, dur: float = 3.0,
             mode: Literal["move", "cut"] = "move") -> None:
-        self.keys.append(cam(t, lon, lat, w, dur, mode))
+        self.keys.append(cam(t, *self.stage.to_world(lon=lon, lat=lat), w, dur, mode))
 
     def ev(self, typ: str, t0: float, t1: float, **kw: object) -> dict:
         d: dict = dict(type=typ, t0=t0, t1=t1)

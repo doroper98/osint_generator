@@ -12,6 +12,7 @@ import unittest
 from pathlib import Path
 
 from engine.direction import build, load_direction_doc
+from engine.stage import MercatorStage
 from engine.timebase import Timebase
 from tests.direction_snapshot import snapshot, synthetic_plan
 
@@ -29,7 +30,7 @@ class ConvertFidelityTest(unittest.TestCase):
             with self.subTest(project=name):
                 proj = REPO / "projects" / name
                 tb = Timebase(synthetic_plan(proj))
-                keys, events, sound = build(load_direction_doc(proj / "direction.yaml"), tb)
+                keys, events, sound = build(load_direction_doc(proj / "direction.yaml"), tb, MercatorStage())
                 got = snapshot(keys, events, sound, tb)
                 want = json.loads((REPO / "tests" / "fixtures" / "direction" / f"{name}_old_synthetic.json").read_text(encoding="utf-8"))
                 for (pj, typ, label), upd in INTENDED.items():

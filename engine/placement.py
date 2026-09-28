@@ -17,7 +17,6 @@ from collections.abc import Callable
 import cairo
 
 from engine.panels import timeline
-from engine.projection import lat_of
 from engine.reserved import _hits
 from engine.hud import date_box
 from engine.style import H_OUT, W_OUT
@@ -67,7 +66,7 @@ def resolve_places(events: list[dict], view_at: Callable[[float], object],
                    media_h: Callable[[dict, float], tuple[float, float]] | None = None) -> dict[str, str]:
     """`place` 가 있는 이벤트를 좌표로 바꾸고(제자리) 기록을 돌려준다.
     기록: 미디어는 {mid: explicit | auto:<슬롯> | slot:<슬롯>}(provenance media.placement), 그 밖은 {타입:라벨: slot:<슬롯>}.
-    view_at(t) → engine.projection.View(그 시각 카메라). point 슬롯에만 쓴다.
+    view_at(t) → engine.projection.View(그 시각 카메라, 무대 포함). point 슬롯에만 쓴다.
     media_h(e, w) → 폭 w 일 때 (미디어 상자 높이(캡션 바 포함), 캡션 글자까지의 폭). beside_panel 슬롯에만 쓴다."""
     rec: dict[str, str] = {}
     errs: list[str] = []
@@ -100,9 +99,7 @@ def resolve_places(events: list[dict], view_at: Callable[[float], object],
             e["x"], e["y"], e["w"] = slot.box
         elif slot.point is not None:
             v = view_at(e["t0"])
-            px, py = slot.point
-            e["lon"] = v.u0 + px / v.s          # type: ignore[attr-defined] — View.xy 의 역
-            e["lat"] = lat_of(v.v1 - py / v.s)  # type: ignore[attr-defined]
+            e.update(v.stage.from_world(*v.to_world(*slot.point)))   # type: ignore[attr-defined] — 화면 점 → 월드 → 앵커(lon·lat)
         else:
             if slot.card is not None:
                 e["y"] = slot.card

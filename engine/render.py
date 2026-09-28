@@ -5,7 +5,7 @@
     python -m engine.render <proj> --chunk START END OUT   → (내부용) 프레임 구간 한 조각
     --res 480p|1080p|trial|final  → 출력 프로파일(v3.6.0, config engine.output). 기본 프로파일이 아니면 프리뷰는 prev_<이름>/
 
-레이어 순서는 v3 와 같다(02 §1): 베이스 → 국경 → 지도 레이어(MAP_LAYER_ORDER) → 라벨 → 하부 암전 → 패널
+레이어 순서는 v3 와 같다(02 §1): 무대 배경(베이스 → 국경, engine.stage) → 지도 레이어(MAP_LAYER_ORDER) → 라벨 → 하부 암전 → 패널
 → 사진·영상 → 카드·기사 → 날짜 → 전면 카드 → 자막 → 상부 암전 → 전체 페이드. 비네트 없음(라운드 6).
 마지막 줄에 StageResult JSON 을 표준 출력으로 낸다. 진행 로그는 표준 오류.
 """
@@ -24,8 +24,6 @@ import cairo
 
 from engine.fullcards import draw_fullcards
 from engine.hud import draw_date
-from engine.layers.borders import draw_borders
-from engine.layers.labels import draw_labels
 from engine.project import Project, ProjectError, load_project
 from engine.projection import View
 from engine.reserved import card_zones
@@ -49,10 +47,9 @@ def render_frame(P: Project, i: int) -> tuple[cairo.ImageSurface, bytearray]:  #
     R = P.R  # noqa: N806
     OP = R.out  # noqa: N806
     t = i / FPS
-    view = View(P.cams[i], R.assets.tiers, R.assets.base)
+    view = View(R.stage, P.cams[i])
     R.reserved.clear()
-    im = view.base(OP)
-    buf = bytearray(im.tobytes("raw", "BGRX"))
+    buf = bytearray(OP.width * OP.height * 4)   # 배경은 무대가 채운다(render_base — 지형 래스터를 이 버퍼에 그대로 복사)
     surf = cairo.ImageSurface.create_for_data(buf, cairo.FORMAT_RGB24, OP.width, OP.height, OP.width * 4)
     ctx = cairo.Context(surf)
     if OP.k != 1:
@@ -60,14 +57,14 @@ def render_frame(P: Project, i: int) -> tuple[cairo.ImageSurface, bytearray]:  #
         ctx.scale(OP.k, OP.k)
     act = [e for e in P.events if e["t0"] - 0.05 <= t <= e["t1"] + 0.05]
     panel_a = max([window(t, e["t0"], e["t1"], PANEL.fade_sec, PANEL.fade_sec) for e in act if e["type"] == "panel"] + [0])
-    R.zones = card_zones(ctx, P.events, t)   # 카드 RESERVED — 지도 레이어가 먼저 그려지므로 미리(D-0033). 앞뒤 lead 포함
-    draw_borders(ctx, R, view)
+    R.zones = card_zones(ctx, P.events, t)   # 카드 RESERVED — 지도 레이어가 먼저 그려지므로 미리(D-0033). 앞뒤 lead 포함(글자 측정만, 그리지 않음)
+    R.stage.render_base(ctx, view)           # 무대 배경: 지형 래스터 + 국경(v4.1.0 D-0076 — MercatorStage = v3 순서 그대로)
     for L in MAP_LAYER_ORDER:  # noqa: N806
         for e in act:
             if e["type"] == L:
                 resolve(e).render(ctx, R, view, t, e)
     if panel_a < 0.99:
-        draw_labels(ctx, R, view, t, 1 - panel_a)
+        R.stage.draw_labels(ctx, view, R.reserved, 1 - panel_a)
     for e in act:
         if e["type"] == "dip" and e.get("under"):
             resolve(e).render(ctx, R, t, e)

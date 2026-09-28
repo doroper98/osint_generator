@@ -15,7 +15,7 @@ from pydantic import ValidationError
 from engine.camera import Director, build_camera, cam
 from engine.events import BadgeEvent, CardEvent, PanelVersus
 from engine.mux import Chapter, Description, build_description, build_srt, srt_time
-from engine.projection import lat_of, ym, ymv
+from engine.stage import MercatorStage, lat_of, ym, ymv
 from engine.registry import RegistryError, validate_events
 from engine.subtitles import emphasis_flags, split_runs
 from engine.timebase import Timebase, clamp01, ease_io, smooth, window
@@ -89,13 +89,13 @@ class CameraTest(unittest.TestCase):
         self.assertLess(c[49][2], 40.0)
 
     def test_cut_is_instant(self) -> None:
-        keys = [cam(0, 0.0, 0.0, 10.0, 0, "cut"), cam(1.0, 50.0, 20.0, 5.0, 0, "cut")]
+        keys = [cam(0, 0.0, 0.0, 10.0, 0, "cut"), cam(1.0, *MercatorStage().to_world(lon=50.0, lat=20.0), 5.0, 0, "cut")]
         c = build_camera(keys, 20, 10)
         self.assertAlmostEqual(c[10][0], 50.0)
         self.assertAlmostEqual(c[10][1], ym(20.0))
 
     def test_dip_argument_form(self) -> None:
-        d = Director()
+        d = Director(MercatorStage())
         d.dip(10.0, 88.5, 21.5, 92)
         self.assertEqual(d.events, [{"type": "dip", "t0": 9.5, "t1": 10.5}])
         k = d.keys[0]

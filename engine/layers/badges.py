@@ -147,6 +147,6 @@ def draw_badge(ctx: cairo.Context, R: RenderCtx, view: View, t: float, e: dict) 
     a = window(t, e["t0"], e["t1"], 0.01, 0.45)
     if a <= 0.01:
         return
-    x, y = view.xy(e["lon"], e["lat"])
+    x, y = view.to_screen(*e["world"])
     dx, dy, ka, _ = avoid_badge(badge_box(ctx, e, x, y), R.zones)   # 카드가 떠 있는 동안만(D-0033)
     badge_at(ctx, R, x + dx, y + dy, e, t, a * ka)

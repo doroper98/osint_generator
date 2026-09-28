@@ -549,6 +549,7 @@ registries:                # 15 §3 P10 — 여기 없는 타입을 연출이 �
   panel_kinds_planned: []
   badge_kinds: [person, flag, emblem]
   accents: [gold, us, ru, teal, muted, green, amber]
+  stages: [mercator]      # v4.1.0 D-0076 — 무대(engine.stage). 없는 무대 = 오류, 있는데 구현(STAGE_CLASSES)이 없음 = 오류(P10). G3 에서 timeline 추가 예정
 
 audio:                     # 10
   bed_gain: 0.47

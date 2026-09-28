@@ -195,7 +195,7 @@ def draw_cutout(ctx: cairo.Context, R: RenderCtx, view: View, t: float, e: dict)
     if a <= 0.01:
         return
     lt = t - e["t0"]
-    x, y = view.xy(e["lon"], e["lat"])
+    x, y = view.to_screen(*e["world"])
     x -= (1 - ease_out(lt / 1.2)) * 40
     y += math.sin(t * 1.3) * 2.2
     m = R.assets.media_assets[e["mid"]]

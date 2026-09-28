@@ -32,13 +32,16 @@ from __future__ import annotations
 
 import re
 from pathlib import Path
-from typing import Any, Literal, Optional, Union
+from typing import TYPE_CHECKING, Any, Literal, Optional, Union
 
 import yaml
 from pydantic import BaseModel, ConfigDict, Field, field_validator, model_validator
 
 from engine.camera import CamKey, cam
 from engine.timebase import Timebase
+
+if TYPE_CHECKING:
+    from engine.stage import Stage
 
 ANCHOR_BASES: tuple[str, ...] = ("sid", "scene_start", "scene_end", "word", "card", "total", "span")
 ANCHOR_KEYS: frozenset[str] = frozenset(ANCHOR_BASES) | {"off", "edge"}
@@ -235,8 +238,10 @@ def _where(c: Camera, doc: Direction) -> tuple[float, float]:
     return c.lon, c.lat
 
 
-def build(doc: Direction, tb: Timebase) -> tuple[list[CamKey], list[dict], Optional[dict]]:
-    """Direction → (카메라 키, 이벤트 dict, sound dict). 옛 Director 와 같은 모양."""
+def build(doc: Direction, tb: Timebase, stage: "Stage") -> tuple[list[CamKey], list[dict], Optional[dict]]:
+    """Direction → (카메라 키, 이벤트 dict, sound dict). 옛 Director 와 같은 모양.
+    카메라 앵커(lon·lat)는 stage.to_world 로만 월드 좌표가 된다(v4.1.0 D-0076 작업 3). 이벤트의 앵커는 그대로 두고
+    load_project 가 검증 뒤 engine.stage.attach_world 로 월드 좌표를 붙인다."""
     keys: list[CamKey] = []
     dips: list[dict] = []
     for s in doc.shots:
@@ -244,9 +249,9 @@ def build(doc: Direction, tb: Timebase) -> tuple[list[CamKey], list[dict], Optio
         lon, lat = _where(s.camera, doc)
         if s.mode == "dip":
             dips.append(dict(type="dip", t0=t - DIP_HALF_SEC, t1=t + DIP_HALF_SEC, **({"under": True} if s.under else {})))
-            keys.append(cam(t, lon, lat, s.camera.w, 0, "cut"))
+            keys.append(cam(t, *stage.to_world(lon=lon, lat=lat), s.camera.w, 0, "cut"))
         else:
-            keys.append(cam(t, lon, lat, s.camera.w, s.dur, s.mode))
+            keys.append(cam(t, *stage.to_world(lon=lon, lat=lat), s.camera.w, s.dur, s.mode))
     events: list[dict] = []
     for e in doc.events:
         d: dict = {"type": e["type"], "t0": resolve_anchor(e["start"], tb), "t1": resolve_anchor(e["end"], tb)}

@@ -56,7 +56,7 @@ def draw_marker(ctx: cairo.Context, R: RenderCtx, view: View, t: float, e: dict)
     a = window(t, e["t0"], e["t1"], 0.35, 0.5)
     if a <= 0.01:
         return
-    x, y = view.xy(e["lon"], e["lat"])
+    x, y = view.to_screen(*e["world"])
     lt = t - e["t0"]
     if x < -80 or x > W_OUT + 80 or y < -40 or y > H_OUT + 40:
         return

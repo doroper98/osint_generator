@@ -20,7 +20,6 @@ from typing import Literal, Optional
 from pydantic import BaseModel, ConfigDict, Field
 
 from engine.framing import FR, FramePoint, box_point, context_floor, default_reserve, frame_points, plain_point
-from engine.projection import lat_of, ym
 from engine.shots import SG, choose_transition, shot_issues
 
 SUGGEST_FILE = "camera_suggest.json"
@@ -75,14 +74,14 @@ def _points(events: list[dict], t0: float, t1: float, lead: float = 0.0) -> list
             continue
         ref = f"{e['type']}:{e.get('label') or e.get('mid') or e.get('name') or ''}"
         if e["type"] == "marker":
-            out.append(box_point(e["lon"], e["lat"], marker_box(ctx, e, 0.0, 0.0, with_sub=True), ref))
+            out.append(box_point(*e["world"], marker_box(ctx, e, 0.0, 0.0, with_sub=True), ref))
         elif e["type"] == "badge":
-            out.append(box_point(e["lon"], e["lat"], badge_box(ctx, e, 0.0, 0.0), ref))
+            out.append(box_point(*e["world"], badge_box(ctx, e, 0.0, 0.0), ref))
         elif e["type"] == "cutout":
-            out.append(plain_point(e["lon"], e["lat"], ref))
+            out.append(plain_point(*e["world"], ref))
         elif e["type"] in ("route", "tanker_loop") and e.get("pts"):
             for i in (0, -1):
-                p = e["pts"][i]
+                p = e["world_pts"][i]
                 out.append(plain_point(p[0], p[1], f"{ref}#{i}", avoid_reserve=False))
     return out
 
@@ -94,12 +93,12 @@ def _covered(P, t0: float, t1: float) -> bool:  # noqa: ANN001, N803
     return all(P.R.tb.in_fullcard(t) or any(e["type"] == "panel" and e["t0"] <= t <= e["t1"] for e in P.events) for t in ts)
 
 
-def _frame(pts: list[FramePoint], card: bool, bounds: tuple, w_min: Optional[float]) -> tuple:  # noqa: ANN401
+def _frame(pts: list[FramePoint], card: bool, bounds: tuple, w_min: Optional[float], stage: object = None) -> tuple:  # noqa: ANN401
     """카드 자리까지 피하는 틀 → 안 되면 날짜만 피하는 틀(카드 겹침은 렌더 RESERVED 가 뱃지를 비킨다 — 적어 둔다)."""
-    r = frame_points(pts, reserve=default_reserve(card=card), bounds=bounds, w_min=w_min)
+    r = frame_points(pts, reserve=default_reserve(card=card), bounds=bounds, w_min=w_min, stage=stage)
     if r.ok or not card:
         return r, r.reason
-    r2 = frame_points(pts, reserve=default_reserve(card=False), bounds=bounds, w_min=w_min)
+    r2 = frame_points(pts, reserve=default_reserve(card=False), bounds=bounds, w_min=w_min, stage=stage)
     if r2.ok:
         return _not_ok(r2), f"카드 자리 회피 불가({r.reason}) — 날짜만 피한 틀, 카드 겹침은 렌더 RESERVED 가 비킴"
     return r, r.reason
@@ -133,6 +132,17 @@ def _keys_for(P, sugs: list[Optional[tuple[float, float, float]]], trans: list[O
     return keys, others + dips
 
 
+def _anchor(stage, x: float, y: float, w: float) -> CamValue:  # noqa: ANN001
+    """월드 → 연출 앵커(lon·lat) 4자리 반올림 — 제안·현재 카메라를 direction.yaml 과 같은 단위로(v3.3.0 과 같은 반올림)."""
+    a = stage.from_world(x, y)
+    return CamValue(lon=round(a["lon"], 4), lat=round(a["lat"], 4), w=round(w, 4))
+
+
+def _world(stage, c: CamValue) -> tuple[float, float, float]:  # noqa: ANN001
+    """반올림한 앵커 → 월드 (x, y, w) — 제안을 받아들였을 때 실제로 쓰일 카메라 값."""
+    return (*stage.to_world(lon=c.lon, lat=c.lat), c.w)
+
+
 def suggest(P) -> CameraSuggest:  # noqa: ANN001, N803 — engine.project.Project
     """숏별 제안 → **실제 카메라 경로로 검증**(이동 중 등장·드리프트까지, engine.checks.offscreen_hits — 검사기 하나).
     화면 밖이 나온 숏은 w 를 camera.framing.path_w_step 배씩 키워 다시 틀을 잡는다(최대 verify_rounds 번)."""
@@ -145,8 +155,8 @@ def suggest(P) -> CameraSuggest:  # noqa: ANN001, N803 — engine.project.Projec
     from engine.style import FPS  # noqa: PLC0415
 
     keys = sorted(P.keys, key=lambda k: k.t)
-    tiers = P.R.assets.tiers["W"]
-    bounds = (tiers["lon0"], tiers["lat0"], tiers["lon1"], tiers["lat1"])
+    stage = P.R.stage
+    bounds = stage.bounds                      # 월드 경계(v4.1.0 — 지도 무대 = 티어 W)
     ends = [keys[i + 1].t if i + 1 < len(keys) else P.plan.total for i in range(len(keys))]
     info: list[Optional[tuple[list[FramePoint], bool]]] = []
     floors: list[tuple[Optional[str], Optional[float]]] = []
@@ -154,7 +164,7 @@ def suggest(P) -> CameraSuggest:  # noqa: ANN001, N803 — engine.project.Projec
     notes: list[str] = []
     for k, t1 in zip(keys, ends):
         t0 = k.t + k.dur                       # 도착한 뒤부터 다음 키까지
-        cur = CamValue(lon=round(k.x, 4), lat=round(lat_of(k.y), 4), w=round(k.w, 4))
+        cur = _anchor(stage, k.x, k.y, k.w)
         base.append(dict(t=round(k.t, 3), t_end=round(t1, 3), scene=scene_at(P.plan.sentences, max(k.t, 0.0)), current=cur,
                          current_mode=k.mode))
         pts = _points(P.events, k.t, t1)
@@ -174,11 +184,11 @@ def suggest(P) -> CameraSuggest:  # noqa: ANN001, N803 — engine.project.Projec
             info.append((pts, card))
             notes.append("")
     w_min: list[Optional[float]] = [f[1] for f in floors]   # 맥락 폭 하한 위에서 검증 라운드(D-0058 §3)
-    before = [(_frame(inf[0], inf[1], bounds, None)[0].w if inf else None) for inf in info]
+    before = [(_frame(inf[0], inf[1], bounds, None, stage)[0].w if inf else None) for inf in info]
     left: list[str] = []
     for _ in range(FR.verify_rounds):
-        res = [(_frame(inf[0], inf[1], bounds, w_min[i]) if inf else None) for i, inf in enumerate(info)]
-        sugs = [(r.lon, ym(r.lat), r.w) if r else None for r, _ in (x if x else (None, "") for x in res)]
+        res = [(_frame(inf[0], inf[1], bounds, w_min[i], stage) if inf else None) for i, inf in enumerate(info)]
+        sugs = [_world(stage, _anchor(stage, r.x, r.y, r.w)) if r else None for r, _ in (x if x else (None, "") for x in res)]
         trans: list[Optional[str]] = []
         prev: Optional[tuple[float, float, float]] = None
         for k, sg in zip(keys, sugs):
@@ -208,11 +218,11 @@ def suggest(P) -> CameraSuggest:  # noqa: ANN001, N803 — engine.project.Projec
             continue
         r, why = res[i]
         pts = info[i][0]
-        cur_ok, _, _ = place(pts, b["current"].lon, b["current"].lat, b["current"].w, bounds=bounds, lenient=True)
+        cur_ok, _, _ = place(pts, *_world(stage, b["current"]), bounds=bounds, lenient=True)
         mine = [x for x in left if keys[i].t <= float(x.split(" t=")[1].split(" ")[0]) < ends[i]]
         unknown = "scale unknown — 맥락 폭 하한 없음" if floors[i][0] is None else ""
         note = "; ".join([n for n in (why, *mine, unknown) if n])
-        shots.append(ShotSuggest(**b, suggested=CamValue(lon=r.lon, lat=r.lat, w=r.w), suggested_transition=trans[i],
+        shots.append(ShotSuggest(**b, suggested=_anchor(stage, r.x, r.y, r.w), suggested_transition=trans[i],
                                  fits=r.ok and not mine, current_fits=cur_ok, points=[p.ref for p in pts],
                                  scale_class=floors[i][0], context_w_min=floors[i][1], w_before_context=before[i], note=note))
     dp = P.root / "direction.yaml"

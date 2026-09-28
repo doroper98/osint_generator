@@ -1,6 +1,7 @@
 """라벨 LOD — 해역·국가·도(道)·도시 + 충돌 회피 (v2.1.0, render3 `draw_labels`, 04 §6·§7).
 
-확대하면 정보가 늘어난다(00 §4-4). 마커·뱃지·컷아웃이 이번 프레임에 차지한 영역(R.reserved)은 피한다.
+확대하면 정보가 늘어난다(00 §4-4). 마커·뱃지·컷아웃이 이번 프레임에 차지한 영역(reserved)은 피한다.
+v4.1.0: MercatorStage.draw_labels 가 부른다. 라벨 기준점은 무대가 미리 월드 좌표로 바꿔 둔 값, LOD 문턱은 `MERCATOR_LOD`(D-0076 작업 2).
 """
 
 from __future__ import annotations
@@ -10,16 +11,22 @@ import math
 import cairo
 import numpy as np
 
-from engine.context import RenderCtx
+from typing import TYPE_CHECKING
+
 from engine.projection import View
+from engine.stage import MERCATOR_LOD as LOD
+from engine.stage import by_w
 from engine.style import H_OUT, SEA_LABEL, W_OUT
 from engine.typography import text, tw
 
+if TYPE_CHECKING:
+    from engine.stage import MercatorStage
 
-def draw_labels(ctx: cairo.Context, R: RenderCtx, view: View, t: float, la: float) -> None:  # noqa: N803
-    A = R.assets  # noqa: N806
+
+def draw_labels(ctx: cairo.Context, stage: "MercatorStage", view: View, reserved: list, la: float) -> None:
+    A = stage.assets  # noqa: N806
     lab = A.labels
-    placed = list(R.reserved)
+    placed = list(reserved)
 
     def free(x: float, y: float, w: float, h: float) -> bool:
         for (a, b, c, d) in placed:
@@ -28,20 +35,20 @@ def draw_labels(ctx: cairo.Context, R: RenderCtx, view: View, t: float, la: floa
         return True
 
     # seas
-    for s in lab.seas:
+    for s, sw in stage.seas:
         if not (s.wmin <= view.w <= s.wmax):
             continue
-        x, y = view.xy(s.lon, s.lat)
+        x, y = view.to_screen(*sw)
         if -40 < x < W_OUT + 40 and 0 < y < H_OUT:
             text(ctx, s.name, x, y, 11 if view.w > 30 else 12, "serif", SEA_LABEL, 0.62 * la, 0, "c", spacing=2.2)
     # countries
-    thr = 2 if view.w > 60 else 4 if view.w > 30 else 6 if view.w > 12 else 9
-    for k, m in A.geo["meta"].items():
-        if m["lx"] is None or (m.get("rank") or 9) > thr:
+    thr = by_w(view.w, LOD["country_rank_max"])
+    for k, m, mw in stage.countries:
+        if mw is None or (m.get("rank") or 9) > thr:
             continue
         if k in lab.hide_country_label_below_w and view.w < lab.hide_country_label_below_w[k]:
             continue
-        x, y = view.xy(m["lx"], m["ly"])
+        x, y = view.to_screen(*mw)
         if not (30 < x < W_OUT - 30 and 60 < y < H_OUT - 70):
             continue
         nm = lab.ko.get(k, m["ko"])
@@ -52,21 +59,21 @@ def draw_labels(ctx: cairo.Context, R: RenderCtx, view: View, t: float, la: floa
         text(ctx, nm, x, y, size, "sansm", (0.9, 0.92, 0.96), 0.55 * la, 2.2, "c", spacing=1.8)
         placed.append((x - w / 2, y - 12, x + w / 2, y + 4))
     # admin-1 names (close zoom)
-    if view.w < 8.5:
+    if view.w < LOD["admin_names_below_w"]:
         for k in lab.province_countries:
-            for ad in A.adm.get(k, []):
-                if ad["lx"] is None:
+            for ad in stage.adm.get(k, []):
+                if ad["xy"] is None:
                     continue
-                x, y = view.xy(ad["lx"], ad["ly"])
+                x, y = view.to_screen(*ad["xy"])
                 if 20 < x < W_OUT - 20 and 60 < y < H_OUT - 70:
                     w = tw(ctx, ad["name"], 9.5, "sans")
                     if free(x - w / 2, y - 9, w, 12):
                         text(ctx, ad["name"], x, y, 9.5, "sans", (0.78, 0.82, 0.88), 0.42 * la, 1.8, "c")
                         placed.append((x - w / 2, y - 9, x + w / 2, y + 3))
     # cities
-    rk = 1 if view.w > 60 else 2 if view.w > 25 else 4 if view.w > 12 else 6 if view.w > 5 else 8
-    xs = (A.plc_lon - view.u0) * view.s
-    ys = (view.v1 - A.plc_v) * view.s
+    rk = by_w(view.w, LOD["city_rank_max"])
+    xs = (stage.plc_x - view.x0) * view.s
+    ys = (view.y1 - stage.plc_y) * view.s
     m = (xs > 12) & (xs < W_OUT - 12) & (ys > 58) & (ys < H_OUT - 72) & ((A.plc_rank <= rk) | (A.plc_cap & (A.plc_rank <= rk + 2)))
     idx = np.where(m)[0]
     idx = idx[np.lexsort((-A.plc_pop[idx], A.plc_rank[idx]))][:40]
@@ -88,5 +95,5 @@ def draw_labels(ctx: cairo.Context, R: RenderCtx, view: View, t: float, la: floa
         text(ctx, nm, x + 5, y + 4, size, "sansb" if cap else "sansm", (0.93, 0.94, 0.97), 0.82 * la, 2.6, "l")
         placed.append((x - 3, y - 8, x + w + 7, y + 5))
         n += 1
-        if n >= 18:
+        if n >= LOD["city_labels_max"]:
             break

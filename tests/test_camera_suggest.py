@@ -86,21 +86,21 @@ class CameraSuggestHormuzTest(unittest.TestCase):
         from engine.camera import build_camera  # noqa: PLC0415
         from engine.camera_suggest import _keys_for  # noqa: PLC0415
         from engine.checks import offscreen_hits  # noqa: PLC0415
-        from engine.projection import ym  # noqa: PLC0415
         from engine.style import FPS  # noqa: PLC0415
 
-        sugs = [(s.suggested.lon, ym(s.suggested.lat), s.suggested.w) if s.suggested else None for s in self.cs.shots]
+        st = self.P.R.stage
+        sugs = [(*st.to_world(lon=s.suggested.lon, lat=s.suggested.lat), s.suggested.w) if s.suggested else None for s in self.cs.shots]
         keys, ev = _keys_for(self.P, sugs, [s.suggested_transition for s in self.cs.shots])
         P2 = dataclasses.replace(self.P, keys=keys, events=ev, cams=build_camera(keys, self.P.n_frames, FPS))  # noqa: N806
         self.assertEqual(offscreen_hits(P2), [])
 
     def test_resolution_independent(self) -> None:
-        """같은 장소·카메라 → 854×480 과 1280×720 에서 같은 (lon, lat, w)·같은 프레임 안 판정(px 여백만 k 배)."""
+        """같은 장소·카메라 → 854×480 과 1280×720 에서 같은 (x, y, w)·같은 프레임 안 판정(px 여백만 k 배)."""
         from engine.camera_suggest import _points  # noqa: PLC0415
         from engine.framing import frame_points  # noqa: PLC0415
 
-        t = self.P.R.assets.tiers["W"]
-        bounds = (t["lon0"], t["lat0"], t["lon1"], t["lat1"])
+        st = self.P.R.stage
+        bounds = st.bounds
         keys = sorted(self.P.keys, key=lambda k: k.t)
         for i, s in enumerate(self.cs.shots):
             if s.suggested is None:
@@ -110,11 +110,12 @@ class CameraSuggestHormuzTest(unittest.TestCase):
             b = frame_points(pts, width=1280, height=720, bounds=bounds)
             self.assertEqual(a.ok, b.ok, s.t)
             # 854/480(1.7792)과 1280/720(1.7778)은 화면비가 0.08% 다르다 — 그만큼(w 의 0.1%)만 허용
-            for x, y in ((a.lon, b.lon), (a.lat, b.lat), (a.w, b.w)):
+            for x, y in ((a.x, b.x), (a.y, b.y), (a.w, b.w)):
                 self.assertLessEqual(abs(x - y), a.w * 1e-3, str(s.t))
             c = s.current
-            self.assertEqual(place(pts, c.lon, c.lat, c.w, width=854, height=480, bounds=bounds, lenient=True)[0],
-                             place(pts, c.lon, c.lat, c.w, width=1280, height=720, bounds=bounds, lenient=True)[0], s.t)
+            cw = st.to_world(lon=c.lon, lat=c.lat)
+            self.assertEqual(place(pts, *cw, c.w, width=854, height=480, bounds=bounds, lenient=True)[0],
+                             place(pts, *cw, c.w, width=1280, height=720, bounds=bounds, lenient=True)[0], s.t)
 
 
 @unittest.skipUnless((HORMUZ / "plan.json").exists(), _NO_PLAN)
@@ -147,9 +148,9 @@ class SuggestWiringTest(unittest.TestCase):
         from engine.provenance import camera_summary  # noqa: PLC0415
 
         P = load_project(self.proj)  # noqa: N806
-        self.assertEqual(camera_summary(self.proj, P.keys)["suggest_ran"], False)
+        self.assertEqual(camera_summary(self.proj, P.keys, P.R.stage)["suggest_ran"], False)
         self.assertEqual(main([str(self.proj)]), 0)
-        cam = camera_summary(self.proj, P.keys)
+        cam = camera_summary(self.proj, P.keys, P.R.stage)
         self.assertTrue(cam["suggest_ran"])
         self.assertGreater(cam["suggested"], 0)
         self.assertEqual(cam["used"], 0)              # 사람 연출은 제안을 받아들이지 않았다

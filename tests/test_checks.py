@@ -9,7 +9,7 @@ import numpy as np
 
 from engine import checks
 from engine.camera import CamKey
-from engine.projection import ym
+from engine.stage import MercatorStage, attach_world, ym
 from rules import load_rules
 
 SG = load_rules().shot_grammar
@@ -26,9 +26,11 @@ def _P(events: list[dict] | None = None, keys: list[CamKey] | None = None, sente
     n = 24 * 60
     cams = np.tile(np.array([56.0, ym(26.0), 14.0]), (n, 1))
     tb = NS(total=60.0, in_fullcard=lambda t: False)
+    stage = MercatorStage(tiers=TIERS)
+    attach_world(events or [], stage)
     return NS(events=events or [], keys=keys or [], n_frames=n, cams=cams,
               plan=NS(sentences=sents, title="제목", subtitle="부제", date="2026.09", total=60.0),
-              R=NS(tb=tb, assets=NS(tiers=TIERS, base={})))
+              R=NS(tb=tb, assets=NS(tiers=TIERS, base={}), stage=stage))
 
 
 class ChecksTest(unittest.TestCase):

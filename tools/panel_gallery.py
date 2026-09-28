@@ -30,8 +30,7 @@ EXAMPLES = Path(__file__).resolve().parent.parent / "prompts" / "examples" / "pa
 
 
 def render_panel(P, ev: dict, t: float) -> Image.Image:  # noqa: ANN001
-    A = P.R.assets  # noqa: N806
-    im = View(P.cams[0], A.tiers, A.base).base()
+    im = P.R.stage.base_image(View(P.R.stage, P.cams[0]))
     buf = bytearray(im.tobytes("raw", "BGRX"))
     surf = cairo.ImageSurface.create_for_data(buf, cairo.FORMAT_RGB24, W_OUT, H_OUT, W_OUT * 4)
     ctx = cairo.Context(surf)

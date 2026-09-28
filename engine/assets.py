@@ -17,8 +17,6 @@ import yaml
 from PIL import Image
 from pydantic import BaseModel, ConfigDict, Field
 
-from engine.projection import to_uv, ymv
-
 
 class SeaLabel(BaseModel):
     model_config = ConfigDict(extra="forbid")
@@ -95,13 +93,9 @@ class Assets:
         self.rights = _read_json(a / "rights_registry.json", {"people": {}, "emblems": {}})
         from audio.registry import rights_music  # noqa: PLC0415 — v3.4.0 D-0060 작업 1: 음악 권리 SSOT = BGM 레지스트리
         self.rights["music"] = rights_music()
-        self.bord = {lod: {k: to_uv(v) for k, v in self.geo[lod].items()} for lod in ("coarse", "fine")}
-        self.adm = {k: [dict(name=x["name"], lx=x["lx"], ly=x["ly"], rings=to_uv(x["rings"])) for x in v]
-                    for k, v in self.geo["admin1"].items()}
+        # 국경·행정구역 고리와 도시 기준점의 월드 좌표는 무대가 만든다(engine.stage.MercatorStage, v4.1.0 D-0076)
         plc = self.geo["places"]
         self.plc = plc
-        self.plc_lon = np.array([p["lon"] for p in plc])
-        self.plc_v = ymv(np.array([p["lat"] for p in plc]))
         self.plc_rank = np.array([p["rank"] for p in plc])
         self.plc_pop = np.array([p["pop"] for p in plc])
         self.plc_cap = np.array([bool(p["cap"]) for p in plc])

@@ -146,7 +146,6 @@ def avoidance_report(P) -> list[dict]:  # noqa: ANN001 — engine.project.Projec
     from engine.style import FPS  # noqa: PLC0415
 
     ctx = cairo.Context(cairo.ImageSurface(cairo.FORMAT_ARGB32, 1, 1))
-    A = P.R.assets  # noqa: N806
     out: list[dict] = []
     for e in P.events:
         if e["type"] != "badge":
@@ -157,7 +156,7 @@ def avoidance_report(P) -> list[dict]:  # noqa: ANN001 — engine.project.Projec
             zones = card_zones(ctx, P.events, t)
             if not zones:
                 continue
-            x, y = View(P.cams[i], A.tiers, A.base).xy(e["lon"], e["lat"])
+            x, y = View(P.R.stage, P.cams[i]).to_screen(*e["world"])
             dx, dy, ka, info = avoid_badge(badge_box(ctx, e, x, y), zones)
             if info is None:
                 continue

@@ -7,6 +7,7 @@ import unittest
 from pathlib import Path
 
 from engine.direction import Direction, DirectionError, build, is_anchor, load_direction_doc, resolve_anchor, yaml_load
+from engine.stage import MercatorStage
 from engine.timebase import Timebase
 from script.schema import Plan
 
@@ -67,7 +68,7 @@ class AnchorTest(unittest.TestCase):
 class DocTest(unittest.TestCase):
     def test_minimal_builds(self) -> None:
         doc = load_direction_doc(MINIMAL)
-        keys, events, sound = build(doc, Timebase(_plan()))
+        keys, events, sound = build(doc, Timebase(_plan()), MercatorStage())
         self.assertEqual([k.mode for k in keys], ["cut", "move", "cut"])      # dip = 한가운데 cut
         self.assertEqual([e["type"] for e in events], ["marker", "route", "card", "dip"])
         self.assertEqual((events[0]["lon"], events[0]["lat"]), (56.35, 26.55))  # at_place

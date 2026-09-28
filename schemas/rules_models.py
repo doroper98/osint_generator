@@ -724,6 +724,7 @@ class Registries(_Strict):
     panel_kinds_planned: list[str]
     badge_kinds: list[str]
     accents: list[str]
+    stages: list[str] = Field(min_length=1)   # v4.1.0 D-0076 — 무대 레지스트리(engine.stage.STAGE_CLASSES 와 일치)
 
 
 class Loudnorm(_Strict):

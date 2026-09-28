@@ -30,7 +30,7 @@ DATA_DRIVEN_MODULES: dict[str, frozenset[float]] = {   # 모듈 → 추가 허�
     "audio/registry.py": frozenset(),
     "bundle/entities.py": frozenset({4}),           # round(·, 4) 보고 자릿수
     "bundle/to_script.py": frozenset({1000}),       # YAML 줄 폭(줄바꿈 안 함 — orchestrator/script_io 와 같음)
-    "bundle/to_direction.py": frozenset({10, 1000}),  # 10진 자릿수(10^floor(log10), 눈금 가수는 rules bundle.nice_mantissas) · YAML 줄 폭
+    "bundle/to_direction.py": frozenset({4, 10, 1000}),  # round(·, 4) 앵커 자릿수(v4.1.0 — framing 이 하던 반올림) · 10진 자릿수(10^floor(log10), 눈금 가수는 rules bundle.nice_mantissas) · YAML 줄 폭
     "bundle/to_sources.py": frozenset({10, 120}),   # ISO 날짜 길이(YYYY-MM-DD) · 오류 문구 자르기 길이(표시용)
 }
 ALLOWED_NUMBERS: frozenset[float] = frozenset({0, 1, 2, 3})

@@ -1,4 +1,4 @@
-"""항로·유조선·봉쇄선 (v2.1.0, render3 `catmull, route_uv, glow_line, tanker, draw_route, draw_tanker_loop, draw_barrier`)."""
+"""항로·유조선·봉쇄선 (v2.1.0, render3 `catmull, route_uv(→ engine.stage.attach_world), glow_line, tanker, draw_route, draw_tanker_loop, draw_barrier`)."""
 
 from __future__ import annotations
 
@@ -8,7 +8,7 @@ import cairo
 import numpy as np
 
 from engine.context import RenderCtx
-from engine.projection import View, ym
+from engine.projection import View
 from engine.style import C
 from engine.timebase import ease_io, ease_out, smooth, window
 from engine.typography import text
@@ -24,11 +24,6 @@ def catmull(pts: list, n: int = 10) -> np.ndarray:
                               + (-p0 + 3 * p1 - 3 * p2 + p3) * s ** 3))
     out.append(np.array(P_[-2]))
     return np.array(out)
-
-
-def route_uv(pts: list) -> np.ndarray:
-    uv = [(lo, ym(la)) for lo, la in pts]
-    return catmull(uv, 12)
 
 
 def glow_line(ctx: cairo.Context, S_: np.ndarray, col: tuple, a: float, w: float, dash: list | None = None) -> None:  # noqa: N803
@@ -81,9 +76,9 @@ def draw_route(ctx: cairo.Context, R: RenderCtx, view: View, t: float, e: dict) 
     a = window(t, e["t0"], e["t1"], 0.35, 0.6)
     if a <= 0.01:
         return
-    if "uv" not in e:
-        e["uv"] = route_uv(e["pts"])
-    S_ = view.uvs(e["uv"])  # noqa: N806
+    if "curve" not in e:
+        e["curve"] = catmull(e["world_pts"], 12)   # 경로 꼭짓점의 월드 좌표(engine.stage.attach_world) → 곡선
+    S_ = view.to_screen_arr(e["curve"])  # noqa: N806
     prog = ease_io((t - e["t0"]) / e["grow"]) if e["grow"] > 0.05 else 1
     n = max(2, int(len(S_) * prog))
     sub = S_[:n]
@@ -109,9 +104,9 @@ def draw_route(ctx: cairo.Context, R: RenderCtx, view: View, t: float, e: dict) 
 
 def draw_tanker_loop(ctx: cairo.Context, R: RenderCtx, view: View, t: float, e: dict) -> None:  # noqa: N803
     a = window(t, e["t0"], e["t1"], 0.6, 0.6)
-    if "uv" not in e:
-        e["uv"] = route_uv(e["pts"])
-    S_ = view.uvs(e["uv"])  # noqa: N806
+    if "curve" not in e:
+        e["curve"] = catmull(e["world_pts"], 12)   # 경로 꼭짓점의 월드 좌표(engine.stage.attach_world) → 곡선
+    S_ = view.to_screen_arr(e["curve"])  # noqa: N806
     for k in range(3):
         f = ((t - e["t0"]) / 26.0 + k / 3) % 1.0
         i = int(f * (len(S_) - 2))
@@ -122,8 +117,8 @@ def draw_tanker_loop(ctx: cairo.Context, R: RenderCtx, view: View, t: float, e: 
 def draw_barrier(ctx: cairo.Context, R: RenderCtx, view: View, t: float, e: dict) -> None:  # noqa: N803
     a = window(t, e["t0"], e["t1"], 0.4, 0.5)
     k = ease_out((t - e["t0"]) / 0.8)
-    x0, y0 = view.xy(*e["p0"])
-    x1, y1 = view.xy(*e["p1"])
+    x0, y0 = view.to_screen(*e["world_p0"])
+    x1, y1 = view.to_screen(*e["world_p1"])
     xe, ye = x0 + (x1 - x0) * k, y0 + (y1 - y0) * k
     glow_line(ctx, np.array([[x0, y0], [xe, ye]]), C["ru"], a, 3.2)
     if k > 0.95:

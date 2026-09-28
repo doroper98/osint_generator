@@ -38,7 +38,7 @@ def measure(P, e: dict, i: int, on: bool) -> dict:  # noqa: ANN001
     ctx = cairo.Context(cairo.ImageSurface(cairo.FORMAT_ARGB32, 1, 1))
     t = i / FPS
     zones = card_zones(ctx, P.events, t)
-    x, y = View(P.cams[i], P.R.assets.tiers, P.R.assets.base).xy(e["lon"], e["lat"])
+    x, y = View(P.R.stage, P.cams[i]).to_screen(*e["world"])
     box = badge_box(ctx, e, x, y)
     dx, dy, ka, info = avoid_badge(box, zones) if on else (0.0, 0.0, 1.0, None)
     moved = (box[0] + dx, box[1] + dy, box[2] + dx, box[3] + dy)

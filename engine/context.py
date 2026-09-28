@@ -20,3 +20,4 @@ class RenderCtx:
     cache: dict[str, Any] = field(default_factory=dict)
     zones: list[Any] = field(default_factory=list)   # 카드 RESERVED(engine/reserved.Zone) — 프레임마다 다시 계산(D-0033)
     out: Output = field(default_factory=output_profile)   # v3.6.0 출력 프로파일(장치) — 래스터 준비·렌더 진입만 읽는다(D-0067)
+    stage: Any = None   # v4.1.0 무대(engine.stage.Stage) — load_project 가 영상마다 한 번 만든다(D-0076)

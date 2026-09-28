@@ -7,6 +7,7 @@ import cairo
 from engine.context import RenderCtx
 from engine.layers.borders import path_rings
 from engine.projection import View
+from engine.stage import MERCATOR_LOD as LOD
 from engine.style import C
 from engine.timebase import window
 
@@ -16,10 +17,10 @@ def draw_country(ctx: cairo.Context, R: RenderCtx, view: View, t: float, e: dict
     col = C[e["col"]]
     if a <= 0.01:
         return
-    lod = "fine" if view.w < 22 else "coarse"
+    lod = "fine" if view.w < LOD["borders_fine_below_w"] else "coarse"
     for code in e["codes"]:
         ctx.new_path()
-        if not path_rings(ctx, view, R.assets.bord[lod].get(code, [])):
+        if not path_rings(ctx, view, view.stage.bord[lod].get(code, [])):
             continue
         ctx.set_fill_rule(cairo.FILL_RULE_EVEN_ODD)
         ctx.set_source_rgba(*col, e["a"] * a)

@@ -7,7 +7,8 @@ import unittest
 import numpy as np
 
 from engine.placement import PlacementError, resolve_places
-from engine.projection import View, ym
+from engine.projection import View
+from engine.stage import MercatorStage, ym
 from rules import load_rules
 
 PL = load_rules().placement
@@ -15,7 +16,7 @@ TIERS = {"W": {"lon0": 20.0, "lon1": 150.0, "lat0": -10.0, "lat1": 60.0, "levels
 
 
 def view(_t: float) -> View:
-    return View(np.array([56.0, ym(26.0), 14.0]), TIERS, {})
+    return View(MercatorStage(tiers=TIERS), np.array([56.0, ym(26.0), 14.0]))
 
 
 class SlotTest(unittest.TestCase):
@@ -29,7 +30,8 @@ class SlotTest(unittest.TestCase):
     def test_point_slot_inverse_projects(self) -> None:
         ev = [{"type": "badge", "t0": 3, "t1": 8, "label": "서울", "place": "map_upper_right"}]
         resolve_places(ev, view)
-        x, y = view(3).xy(ev[0]["lon"], ev[0]["lat"])
+        v = view(3)
+        x, y = v.to_screen(*v.stage.to_world(lon=ev[0]["lon"], lat=ev[0]["lat"]))
         self.assertAlmostEqual(x, PL.slots["map_upper_right"].point[0], places=6)
         self.assertAlmostEqual(y, PL.slots["map_upper_right"].point[1], places=6)
 

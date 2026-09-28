@@ -30,6 +30,7 @@ from engine.media_registry import credit_line
 from engine.media_plan import density_report, media_box, placement_warnings
 from engine.placement import PlacementError, resolve_places
 from engine.projection import View
+from engine.stage import DEFAULT_STAGE, attach_world, make_stage
 from engine.refs import emblem_ids
 from engine.registry import RegistryError, validate_events
 from engine.style import FPS, Output, output_profile
@@ -41,14 +42,16 @@ class ProjectError(RuntimeError):
     pass
 
 
-def load_direction(proj: Path, tb: Timebase, doc: Optional[Direction] = None) -> tuple[list[CamKey], list[dict], Optional[dict]]:
+def load_direction(proj: Path, tb: Timebase, stage: object = None, doc: Optional[Direction] = None) -> tuple[list[CamKey], list[dict], Optional[dict]]:
     """`direction.yaml`(17 §2) → (카메라 키, 이벤트, sound). 코드를 실행하지 않는다(v3.1.0, D-0047 §0-1 — 옛 direction.py 삭제).
     doc 을 주면 파일 대신 그 연출(아직 저장 전인 LLM 출력)을 같은 경로로 읽는다."""
     p = proj / "direction.yaml"
     if doc is None and not p.exists():
         raise ProjectError(f"연출 파일 없음: {p}")
     try:
-        return build_direction(doc if doc is not None else load_direction_doc(p), tb)
+        # stage 없이 부르는 곳(오디오 믹스·도구 — 시각·sound 만 읽는다)은 좌표 변환만 하는 무대(자산 없음)로 카메라 키를 만든다
+        return build_direction(doc if doc is not None else load_direction_doc(p), tb,
+                               stage if stage is not None else make_stage(DEFAULT_STAGE))  # type: ignore[arg-type]
     except DirectionError as ex:
         raise ProjectError(str(ex)) from ex
 
@@ -214,20 +217,22 @@ def load_project(proj: Path, direction: Optional[Direction] = None, out: Optiona
     out = out or output_profile()
     assets = Assets(proj, load_labels(proj / "labels.yaml"), None if out == output_profile() else out.name)
     R = RenderCtx(assets=assets, tb=tb, credits=load_credits(proj / "credits.yaml"), out=out)  # noqa: N806
-    keys, raw_events, sound = load_direction(proj, tb, direction)
+    R.stage = make_stage(DEFAULT_STAGE, assets, out)   # v4.1.0 D-0076 — 영상 하나에 무대 인스턴스 하나
+    keys, raw_events, sound = load_direction(proj, tb, R.stage, direction)
     n = int(plan.total * FPS)
     cams = build_camera(keys, n, FPS) if keys else None
     A0 = assets  # noqa: N806
 
     def view_at(t: float) -> View:
         assert cams is not None
-        return View(cams[min(n - 1, max(0, int(t * FPS)))], A0.tiers, A0.base)
+        return View(R.stage, cams[min(n - 1, max(0, int(t * FPS)))])
 
     try:   # 17 §2 배치 슬롯 + 14 §10.3-5 기본 배치(D-0047 작업 5) — 좌표는 코드가 계산
         placement = resolve_places(raw_events, view_at, lambda e, w: _media_extent(e, w, A0.media_assets))
     except PlacementError as ex:
         raise ProjectError(str(ex)) from ex
     events = validate_events(raw_events)
+    attach_world(events, R.stage)   # 앵커(lon·lat) → 월드 좌표. 레이어·검사기는 이 값과 View 만 쓴다(D-0076 작업 3)
     _attach_posts(proj, R, events)   # v3.2.0 18 §5 — post 카드 문구·상자는 intake/sources.json 에서(없으면 오류)
     ent_errs = check_event_refs(events, load_entities())  # 07 §6 — 미등재 인물·국기·휘장은 렌더 전 오류(P10)
     if ent_errs:
