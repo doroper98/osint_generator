@@ -6,7 +6,7 @@
 - 합성은 지정한 문장만(과금 — 전편 재합성 금지, D31). 앞뒤 문장을 previous_text/next_text 로 보낸다.
 - 음성은 `<proj>/tts_el/`(gitignore). 픽스처에는 **alignment 와 문장 메타(텍스트·길이·trim_offset)만** 쓴다.
   audio·요청 헤더·voice_id 는 어떤 파일에도 쓰지 않는다(D-0022, C9).
-- 비교 단어는 연출(direction.py)이 at_word 로 부르는 (문장, 단어) 쌍을 그대로 쓴다.
+- 비교 단어는 연출(direction.yaml)이 at_word 로 부르는 (문장, 단어) 쌍을 그대로 쓴다.
 """
 
 from __future__ import annotations
@@ -34,7 +34,7 @@ def direction_words(proj: Path) -> list[tuple[str, str]]:
 
     plan = Plan.model_validate(json.loads((proj / "plan.json").read_text(encoding="utf-8")))
     tb = Timebase(plan)
-    load_direction(proj).direct(tb)
+    load_direction(proj, tb)   # direction.yaml(v3.1.0)
     return [(a["sid"], a["word"]) for a in tb.word_anchors]
 
 

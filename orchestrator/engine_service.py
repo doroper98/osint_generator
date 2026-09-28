@@ -5,7 +5,7 @@
   1. 단계 → CLI 명령을 고르고(`STAGE_COMMANDS`),
   2. 실행해 마지막 줄 JSON 을 `StageResult` 로 검증하고,
   3. 종료 코드·단계 이름·JSON 이 서로 맞지 않으면 ok=False 로 돌려준다(15 P6 — 조용한 성공 없음).
-**엔진 입력 파일(script.yaml·direction.py·plan.json·자산)을 만들거나 고치지 않는다**(15 P1,
+**엔진 입력 파일(script.yaml·direction.yaml·plan.json·자산)을 만들거나 고치지 않는다**(15 P1,
 `tests/test_engine_service.py` 가 AST 로 검사). 입력은 LLM 단계·사용자가 쓴 파일뿐이다.
 
 16 §4 CLI 대응 (실측, v3.0.0):

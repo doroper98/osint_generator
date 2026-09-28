@@ -1,18 +1,17 @@
 """프로젝트 로드 — plan·라벨·크레딧·자산·연출을 읽고 렌더 전 검사를 끝낸다 (v2.1.0).
 
 프로젝트 폴더 구성(16 §4):
-- 입력(추적): `script.yaml`, `direction.py`, `labels.yaml`, `credits.yaml`
+- 입력(추적): `script.yaml`, `direction.yaml`(v3.1.0 — 선언형, 코드 실행 없음), `labels.yaml`, `credits.yaml`
 - 생성물(gitignore): `plan.json`, `tts/`, `assets/`, `media/`, `prev/`, `out/`
 검사 실패(레지스트리·스키마·권리·자산)는 렌더 시작 전 오류다(15 P6·P10, C9).
 """
 
 from __future__ import annotations
 
-import importlib.util
 import json
 from dataclasses import dataclass, field
 from pathlib import Path
-from types import ModuleType
+from typing import Optional
 
 import numpy as np
 
@@ -20,6 +19,8 @@ from engine.assets import Assets, load_labels
 from engine.camera import CamKey, build_camera
 from engine.context import RenderCtx
 from engine.credits import check_credits, load_credits, required_refs
+from engine.direction import DirectionError, load_direction_doc
+from engine.direction import build as build_direction
 from engine.entities import check_event_refs, load_entities
 from engine.panels import network, relation, timeline
 from engine.credits import RightsError
@@ -36,18 +37,15 @@ class ProjectError(RuntimeError):
     pass
 
 
-def load_direction(proj: Path) -> ModuleType:
-    p = proj / "direction.py"
+def load_direction(proj: Path, tb: Timebase) -> tuple[list[CamKey], list[dict], Optional[dict]]:
+    """`direction.yaml`(17 §2) → (카메라 키, 이벤트, sound). 코드를 실행하지 않는다(v3.1.0, D-0047 §0-1 — 옛 direction.py 삭제)."""
+    p = proj / "direction.yaml"
     if not p.exists():
         raise ProjectError(f"연출 파일 없음: {p}")
-    spec = importlib.util.spec_from_file_location(f"direction_{proj.name}", p)
-    if spec is None or spec.loader is None:
-        raise ProjectError(f"연출 파일을 불러올 수 없음: {p}")
-    mod = importlib.util.module_from_spec(spec)
-    spec.loader.exec_module(mod)
-    if not hasattr(mod, "direct"):
-        raise ProjectError(f"{p}: direct(tb) 함수가 없다")
-    return mod
+    try:
+        return build_direction(load_direction_doc(p), tb)
+    except DirectionError as ex:
+        raise ProjectError(str(ex)) from ex
 
 
 def load_plan(proj: Path) -> Plan:
@@ -132,9 +130,8 @@ def load_project(proj: Path) -> Project:
     tb = Timebase(plan)
     assets = Assets(proj, load_labels(proj / "labels.yaml"))
     R = RenderCtx(assets=assets, tb=tb, credits=load_credits(proj / "credits.yaml"))  # noqa: N806
-    dmod = load_direction(proj)
-    d = dmod.direct(tb)
-    events = validate_events(d.events)
+    keys, raw_events, sound = load_direction(proj, tb)
+    events = validate_events(raw_events)
     placement = fill_placement(events)   # 14 §10.3-5 — 연출이 x·y·w 를 안 준 사진·영상만 기본 배치(D-0036 작업 6)
     ent_errs = check_event_refs(events, load_entities())  # 07 §6 — 미등재 인물·국기·휘장은 렌더 전 오류(P10)
     if ent_errs:
@@ -143,16 +140,16 @@ def load_project(proj: Path) -> Project:
     if errs:
         raise ProjectError("렌더 전 점검 실패:\n" + "\n".join(errs))
     A = R.assets  # noqa: N806
-    req = required_refs(events, A.rights, A.emblem_flag, set(A.img), uses_music=hasattr(dmod, "sound"))
+    req = required_refs(events, A.rights, A.emblem_flag, set(A.img), uses_music=sound is not None)
     check_credits(R.credits, A.rights, A.media, req)   # D-0029 작업 7 — 누락·미확인·미표기 자산은 RightsError
     R.cache["credit_refs"] = req
     R.cache["media_placement"] = placement
-    if not d.keys:
+    if not keys:
         raise ProjectError("카메라 키가 없다")
     n = int(plan.total * FPS)
     warns = lint_events(events) + placement_warnings(events, A.media_assets) \
         + density_report(events, tb, plan.total)["warnings"]
-    return Project(proj, plan, R, d.keys, events, build_camera(d.keys, n, FPS), n, warns)
+    return Project(proj, plan, R, keys, events, build_camera(keys, n, FPS), n, warns)
 
 
 def lint_events(events: list[dict]) -> list[str]:

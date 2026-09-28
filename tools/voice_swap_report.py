@@ -3,11 +3,11 @@
     python tools/voice_swap_report.py --a projects/hormuz_korea --b projects/hormuz_korea_sunhi \
         --eleven tests/fixtures/tts --out docs/handoff/reports/phase4/voice_swap
 
-두 프로젝트(같은 원고·같은 direction.py, 목소리만 다름)의 plan 으로 각각 연출을 평가해
+두 프로젝트(같은 원고·같은 direction.yaml, 목소리만 다름)의 plan 으로 각각 연출을 평가해
 1. 단어 앵커: 연출 이벤트가 실제로 받은 전환 시각 − 정렬 파일에서 직접 계산한 단어 경계 시각(= 0 이어야 한다)
 2. 목소리 교체 이동량: (B 전환 − A 전환) = (B 경계 − A 경계)
 3. 골든 25 앵커의 절대 시각(A·B) — 같은 구성, 다른 절대 시각
-4. direction.py 동일성(sha1)
+4. direction.yaml 동일성(sha1)
 을 JSON·Markdown 으로 쓴다. ElevenLabs 열은 실합성 3문장 픽스처(문장 기준 상대 시각)로 같은 계산을 한다.
 """
 
@@ -44,7 +44,7 @@ def boundary(plan_sent: object, word: str) -> float | None:
 def evaluate(proj: Path) -> dict:
     plan = load_plan(proj)
     tb = Timebase(plan)
-    d = load_direction(proj).direct(tb)
+    _, d_events, _ = load_direction(proj, tb)   # direction.yaml(v3.1.0)
     sent = {s.sid: s for s in plan.sentences}
     rows = []
     for a in tb.word_anchors:
@@ -54,7 +54,7 @@ def evaluate(proj: Path) -> dict:
                          diff=None if b is None else round(a["t"] - b, 4)))
     # 연출 이벤트가 실제로 받은 값 — relation 패널 state_changes[].at, statement joiner.t_join, 연표 t0
     used = []
-    for e in d.events:
+    for e in d_events:
         for r in e.get("state_changes", []) or []:
             if "at" in r:
                 used.append(round(r["at"], 3))
@@ -69,7 +69,7 @@ def evaluate(proj: Path) -> dict:
     anchors = [dict(n=i, anchor=f["anchor"], offset=f["offset"], t=round(anchor_time(f["anchor"], float(f["offset"]), pj), 3))
                for i, f in enumerate(golden["frames"], 1)]
     return dict(voice=plan.voice, total=round(plan.total, 3), words=rows, event_times=sorted(set(used)), anchors=anchors,
-                direction_sha1=hashlib.sha1((proj / "direction.py").read_bytes()).hexdigest())
+                direction_sha1=hashlib.sha1((proj / "direction.yaml").read_bytes()).hexdigest())
 
 
 def eleven(fixtures: Path, pairs: list[tuple[str, str]]) -> list[dict]:
@@ -112,7 +112,7 @@ def main(argv: list[str] | None = None) -> int:
     args.out.mkdir(parents=True, exist_ok=True)
     (args.out / "voice_swap.json").write_text(json.dumps(res, ensure_ascii=False, indent=1), encoding="utf-8")
     md = [f"# 목소리 교체 증명표 — {A['voice']} → {B['voice']}", "",
-          f"direction.py sha1 A `{A['direction_sha1'][:12]}` / B `{B['direction_sha1'][:12]}` → 동일 {res['direction_identical']}",
+          f"direction.yaml sha1 A `{A['direction_sha1'][:12]}` / B `{B['direction_sha1'][:12]}` → 동일 {res['direction_identical']}",
           f"총 길이 A {A['total']}초 / B {B['total']}초", "",
           "## 1. 전환 시각 − 단어 경계 시각 (초, 0 이어야 함 — 기록 반올림 허용 1 ms)", "",
           "| 문장 | 단어 | InJoon | SunHi | ElevenLabs(3문장) |", "|---|---|---|---|---|"]

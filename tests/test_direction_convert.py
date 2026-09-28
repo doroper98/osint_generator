@@ -2,7 +2,7 @@
 
 옛 direction.py 를 합성 plan 으로 푼 스냅샷(`tests/fixtures/direction/*_old_synthetic.json`, 삭제 전 생성)과
 direction.yaml 을 같은 합성 plan 으로 푼 결과가 dict 단위로 같아야 한다. 자산·음성 없이 돈다.
-실제 plan 에서의 동일성(`tools/direction_to_yaml.py --check`)과 25컷 MAD 0 은 reports/phase6_9/hormuz_v3/ 에 기록.
+실제 plan 에서의 동일성(변환기 `--check`, 551d48a — 변환 뒤 삭제)과 25컷 MAD 0 은 reports/phase6_9/hormuz_v3/ 에 기록.
 """
 
 from __future__ import annotations

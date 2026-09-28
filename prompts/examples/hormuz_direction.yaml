@@ -1,5 +1,5 @@
 # direction.yaml — hormuz_korea 연출 (v3.1.0, docs/handoff/17 §2 문법, back_and_forth D-0047).
-# 옛 direction.py 를 tools/direction_to_yaml.py 로 옮겼다(앵커 식·더한 순서 보존 → 옛 연출과 dict 단위 동일).
+# 옛 direction.py 를 변환기(tools/direction_to_yaml.py, 551d48a — 변환 뒤 삭제)로 옮겼다(앵커 식·더한 순서 보존 → 옛 연출과 dict 단위 동일).
 # 시각은 앵커로만 쓴다. `off` 가 목록이면 앞에서부터 차례로 더한다. `{span: [A, B]}` = B − A(초).
 version: 1
 places:

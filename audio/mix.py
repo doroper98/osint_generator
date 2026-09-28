@@ -3,7 +3,7 @@
     python -m audio.mix <proj>   → <proj>/out/mix.f32 (44.1kHz 스테레오 float32)
 
 베드 이득·덕킹·피크는 `rules/video_rules.yaml audio`(15 P3). 장면별 음악 강도·BGM 파일·추가 효과음 큐는
-프로젝트 연출(`direction.py`의 `sound(tb)`)이 준다. 기본 효과음 규칙(sfx_policy): 타이틀 카드 휙+쿵, 장면 시작 휙.
+프로젝트 연출(`direction.yaml` 의 `sound:` 블록, v3.1.0)이 준다. 기본 효과음 규칙(sfx_policy): 타이틀 카드 휙+쿵, 장면 시작 휙.
 난수 시드 3, 효과음 생성 순서도 v3 와 같다(결정성).
 """
 
@@ -43,7 +43,7 @@ class Cue(BaseModel):
 
 
 class Sound(BaseModel):
-    """프로젝트 사운드 연출 — direction.py `sound(tb)`가 만든다."""
+    """프로젝트 사운드 연출 — direction.yaml `sound:` 블록(앵커 해석 뒤, v3.1.0 D-0047 §0-2)."""
 
     model_config = ConfigDict(extra="forbid")
 
@@ -163,7 +163,7 @@ def mix(plan: Plan, sound: Sound, bg_raw: np.ndarray) -> tuple[np.ndarray, float
 
 
 def main(argv: list[str] | None = None) -> int:
-    from engine.project import ProjectError, load_direction, load_plan  # noqa: PLC0415
+    from engine.project import ProjectError, load_direction, load_plan  # noqa: PLC0415 — direction.yaml
     from engine.timebase import Timebase  # noqa: PLC0415
     from schemas.engine_models import StageResult  # noqa: PLC0415
 
@@ -173,10 +173,10 @@ def main(argv: list[str] | None = None) -> int:
     proj = args.proj.resolve()
     try:
         plan = load_plan(proj)
-        mod = load_direction(proj)
-        if not hasattr(mod, "sound"):
-            raise ProjectError(f"{proj / 'direction.py'}: sound(tb) 함수가 없다")
-        sound = Sound.model_validate(mod.sound(Timebase(plan)))
+        _, _, snd = load_direction(proj, Timebase(plan))
+        if snd is None:
+            raise ProjectError(f"{proj / 'direction.yaml'}: sound 블록이 없다")
+        sound = Sound.model_validate(snd)
         y, pk = mix(plan, sound, decode_bgm(BGM_DIR / sound.bgm))
         (proj / "out").mkdir(exist_ok=True)
         out = proj / "out" / "mix.f32"

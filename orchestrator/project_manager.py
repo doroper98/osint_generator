@@ -79,7 +79,7 @@ def manifest_path(project_id: str, cfg: Optional[AppConfig] = None) -> Path:
 
 
 # 16 §6 산출물 지도(프로젝트 기준 상대 경로). 오케스트레이터는 경로를 관리·표시할 뿐 엔진 입력을 쓰지 않는다(15 P1).
-# direction 은 6.9 전까지 사람이 쓴 direction.py(17 §2 direction.yaml 은 6.9).
+# direction 은 선언형 direction.yaml(17 §2, v3.1.0 — 옛 direction.py 삭제).
 PROJECT_PATHS: dict[str, str] = {
     "script": "script.yaml",
     "script_labels": "script_labels.json",
@@ -87,7 +87,7 @@ PROJECT_PATHS: dict[str, str] = {
     "tts": "tts",
     "assets": "assets",
     "media": "media",
-    "direction": "direction.py",
+    "direction": "direction.yaml",
     "prev": "prev",
     "prev_sheet": "prev/sheet.jpg",
     "prev_provenance": "prev/provenance.json",
