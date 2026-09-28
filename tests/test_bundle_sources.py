@@ -38,6 +38,12 @@ class CitationTest(unittest.TestCase):
         self.assertEqual((c.publisher, c.title, c.published_at), ("CNN Politics", "Ratcliffe was in Moscow to warn Russia", date(2026, 8, 27)))
         self.assertEqual(c.url, "https://www.cnn.com/2026/08/27/politics/x")
 
+    def test_apostrophe_in_title_kept(self) -> None:
+        c = parse_citation(BundleSource(source_id="s", url="The Moscow Times, 'Trump Confirms CIA Director's Moscow Trip', 2026-08-26 (https://m.example/a)"))
+        self.assertEqual((c.publisher, c.title, c.published_at), ("The Moscow Times", "Trump Confirms CIA Director's Moscow Trip", date(2026, 8, 26)))
+        c = parse_citation(BundleSource(source_id="s", url="Korea Herald 'Chip boom drives exports' (2026-07-01) https://k.example/1"))
+        self.assertEqual((c.publisher, c.title, c.published_at), ("Korea Herald", "Chip boom drives exports", date(2026, 7, 1)))
+
     def test_month_only_date_not_guessed(self) -> None:
         c = parse_citation(BundleSource(source_id="s", url="UNITED24 Media, 'T', 2026-08 (https://u.example/a)"))
         self.assertIsNone(c.published_at)                   # 일자 없는 날짜를 1일로 채우지 않는다

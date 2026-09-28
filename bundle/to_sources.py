@@ -72,9 +72,13 @@ def parse_citation(s: BundleSource) -> Citation:
     url = m.group(0).rstrip(".,") if m else ""
     head = raw[: m.start()] if m else raw
     q = _QUOTED.search(head)
-    title = next((g for g in q.groups() if g), "") if q else ""
-    pub = head[: q.start()].strip(" ,(") if q else ""
-    d = _DATE.search(head[q.end():] if q else head)
+    title, pub, rest = "", "", head
+    if q:                                  # 제목 = 첫 여는 따옴표 ~ 같은 종류의 마지막 닫는 따옴표(제목 속 아포스트로피 보존)
+        close = {"'": "'", '"': '"', "‘": "’"}[head[q.start()]]
+        end = head.rfind(close)
+        title = head[q.start() + 1: end].strip()
+        pub, rest = head[: q.start()].strip(" ,("), head[end + 1:]
+    d = _DATE.search(rest)
     day, dtext = None, ""
     if d:
         dtext = d.group(0)
