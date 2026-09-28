@@ -1,9 +1,9 @@
 <!--
 tier: 1
-last_synced_with: v2.0.0
+last_synced_with: v4.0.0
 ssot_for: [project-goals, acceptance-criteria, prohibitions]
 depends_on: [README.md, docs/handoff/00_INDEX.md, docs/handoff/15_ANTI_INERTIA_PRINCIPLES.md]
-last_review: 2026-09-27
+last_review: 2026-09-29
 -->
 
 # GOAL
@@ -68,9 +68,40 @@ v1 산출물 표 (이력 보존):
 | 정보전/해외 음모론 | 해외 이슈 한정. 국내 정치/인물 음모론은 범위 외 |
 | 자연재해/지진 | 일본·대만·중국·한반도, 류큐 해구, 난카이 해곡 |
 
-## G3. MVP Acceptance Criteria (v2 §17)
+## G3. 합격 기준 v2 (v4.0.0 — 19 부록 C + D4 17번, 결정 D-0005·D64)
 
-> [legacy — v1 MVP 기준. v2 개정안: docs/handoff/19 부록 C, 사용자 승인 대기(D4). 승인 전까지 합격 판정에 쓰지 않는다.]
+본 목록은 변경 시 v{X+1}로 **메이저 버전**이 올라갑니다(CLAUDE.md C5.4).
+
+아래 17개가 모두 충족되어야 v2 파이프라인 합격입니다. 수치는 규칙 키로만 가리킵니다(값의 정본은 `rules/video_rules.yaml`·`config.yaml`, 15 P3).
+"검증 방법" 열은 `tests/…::test_…`(자동 테스트), `checks:항목`(프리뷰 결정적 검사 `prev/checks.json`, `engine/checks.py`),
+`gate:…`(사람 판정 — 승인 게이트), `pending:…`(검사가 아직 없음 — 예정 Phase) 중 하나 이상입니다. `tests/test_goal_g3.py`가 이 열이 가리키는 것이 실제로 있는지 대조합니다.
+
+| # | 기준 | 검증 방법 |
+|---|---|---|
+| 1 | `python -m orchestrator.main command-center`가 새 상태 머신(`docs/handoff/16` §2)으로 프로젝트를 CREATED→DONE까지 진행한다. | `tests/test_state_machine.py::test_sequence_matches_16_s2` · `tests/test_gates_pipeline.py::test_engine_states_to_gate2_then_done` |
+| 2 | SCRIPT_APPROVAL·PREVIEW_APPROVAL 두 게이트에서 승인·반려(되돌림)가 동작하고 `approval_log.json`에 남는다. | `tests/test_gates_pipeline.py::test_approve_records_and_advances` · `tests/test_gates_pipeline.py::test_reject_script_rolls_back_with_comment` · `tests/test_gates_pipeline.py::test_reject_preview_three_targets` · `tests/test_gates_pipeline.py::test_config_two_gates_only` |
+| 3 | `script.yaml`이 `Script` 스키마를 통과하고 린트(금지 문구·발음 기호·강조어·출처)를 통과한다. 장면 수·길이는 고정되지 않는다. | `tests/test_engine_phase2.py::test_schema_rejects_missing_emphasis` · `tests/test_script_lint.py::test_banned_samples_all_detected` · `tests/test_script_lint.py::test_tts_symbols_detected` · `tests/test_script_lint.py::test_numeric_sentence_without_sources_is_error` · `tests/test_script_lint.py::test_v3_script_passes` |
+| 4 | `plan.json`이 실제 음성 길이로 계산되고, 목소리(edge/ElevenLabs)를 바꿔도 `direction`을 수정하지 않는다(문장·단어 앵커). | `tests/test_timebase_align.py::test_aligned_uses_pronunciation_start_minus_trim` · `tests/test_timebase_align.py::test_edge_alignment_drives_at_word` · `tests/test_script_tts.py::test_cache_key_salted_by_voice` · `tests/test_direction_schema.py::test_word_anchor_uses_at_word` |
+| 5 | `direction.yaml`이 레지스트리·스키마·예약 영역 검사를 통과한다. | `tests/test_direction_schema.py::test_schema_errors` · `tests/anti_inertia/test_registry_complete.py::test_bidirectional` · `tests/test_reserved_phase6.py::test_multiple_zones_cleared` · `checks:overlap` |
+| 6 | 프리뷰가 `prev/sheet.jpg`와 `prev/checks.json`(hard 0)을 만들고, AI 연출의 시각 검수 루프는 2회 이내에 끝난다. 상한에 닿고도 남은 판정은 게이트 ② 사람 판정으로 넘긴다(D49). | `tests/test_checks.py::test_hard_fails_stage` · `tests/test_ai_direction.py::test_loop_cap` · `tests/test_ai_direction.py::test_loop_cap_with_hard_left_stays` · `gate:PREVIEW_APPROVAL` |
+| 7 | 출력 프로파일(`config:engine.output` — 트라이얼 480p·최종 1080p, D-0067 장치 변환)로 `out/final.mp4`, `final.srt`, `description.txt`(챕터·출처·크레딧)가 생성된다. 1080p 는 480p 와 같은 비율이다(`rules:golden.res_compare_mad_max`). | `tests/test_phase10_profile.py::test_aliases` · `tests/test_phase10_profile.py::test_k_1080` · `tests/test_engine_phase2.py::test_srt_and_description` · `checks:media_upscaled` |
+| 8 | `out/provenance.json`의 `features_used`가 실제 사용 기능과 일치하고 `drops`가 비어 있다. | `tests/anti_inertia/test_provenance_e2e.py::test_hormuz_preview_provenance` · `tests/test_engine_service.py::test_drops_propagate_as_failure` |
+| 9 | 화면 모서리에는 날짜 배지만 있고 도장·비네팅·브랜드·섹션 표기가 없다(결정적 검사). | `checks:forbidden` · `checks:date` · `tests/test_checks.py::test_forbidden` |
+| 10 | 확대 장면에 행정구역·도시 라벨이 표시되고 라벨 겹침·카드에 가린 라벨이 없다. | `checks:labels` · `checks:overlap` · `tests/test_phase10_label_hidden.py::test_boundary` · `tests/test_checks.py::test_offscreen_marker_label` |
+| 11 | 모든 사용 자산(인물·휘장·국기·지도·지형·미디어·음악)이 권리 레지스트리에 있고 엔딩 카드·설명문에 크레딧이 나온다(`rules:credits`). | `checks:rights` · `tests/test_credits_phase5.py::test_complete_credits_pass` · `tests/test_credits_phase5.py::test_missing_registry_entry_is_error` · `tests/test_media_gate_phase65.py::test_every_media_in_card_and_articles_required` |
+| 12 | 미디어 비트 밀도가 규칙 `rules:media.density` 안이고(D-0037·D38), 자료사진 표기·출처 줄이 검사에서 통과한다. | `checks:media_beats` · `tests/test_media_plan_phase65.py::test_b_three_in_40s_warns` · `tests/test_media_registry_phase65.py::test_file_photo_label_required` · `tests/test_media_registry_phase65.py::test_credit_line_from_fields` |
+| 13 | 오디오 최종 음량이 `rules:audio.loudnorm` ± `rules:audio.qa.i_tol_lu`, 내레이션 중 음악이 `rules:audio.qa.music_under_narration_db`(v3 사용자 합격본 기준, D57) 안이다. | `tests/test_audio_qa.py::test_rules_follow_user_approved_v3` · `tests/test_audio_qa.py::test_music_level_inside_and_outside` · `tests/test_audio_qa.py::test_loudness_and_true_peak_issues` |
+| 14 | 모든 JSON/YAML 산출물이 `schema_version`을 갖고 Pydantic으로 검증된다. | `tests/test_state_machine.py::test_new_manifest_is_v2_and_round_trips` · `tests/test_rules_ssot.py::test_loads_and_validates` · `tests/anti_inertia/test_prompt_schema_parity.py::test_examples_validate` |
+| 15 | 관성 방지 테스트(`tests/anti_inertia/`)가 전부 통과한다(xfail 0). | `tests/anti_inertia/` |
+| 16 | 실패 시 옛 스타일로 폴백하지 않고 해당 상태에 멈춰 사용자에게 보고한다. | `tests/anti_inertia/test_no_silent_fallback.py::test_a_unregistered_event_type` · `tests/test_gates_pipeline.py::test_failure_and_drops_stay` · `tests/test_engine_service.py::test_drops_propagate_as_failure` |
+| 17 | 장르 확장(`docs/handoff/20`) 영상도 1~16을 만족하고 무대 연속성 검사(20 §12)를 통과한다. | `pending:G1~G4` (무대 연속성 검사는 장르 확장 검증 Phase 에서 구현) · `gate:PREVIEW_APPROVAL` |
+
+### G3-legacy. v1 MVP 기준 34개 [legacy v1 — deprecated v4.0.0]
+
+> [legacy v1 — deprecated v4.0.0] v1(Command Center·Remotion·scene_manifest) 기준이다. 합격 판정에 쓰지 않는다. 삭제하지 않고 보존한다(DOCS_GOVERNANCE §6.4).
+
+<details>
+<summary>v1 34개 (펼치기)</summary>
 
 다음 34개 항목이 모두 충족되어야 v2 MVP로 인정합니다. 본 목록은 변경 시 v{X+1}로 메이저 버전이 올라갑니다.
 
@@ -108,6 +139,8 @@ v1 산출물 표 (이력 보존):
 32. 모든 JSON은 `schema_version`을 가진다.
 33. 모든 주요 산출물은 Pydantic 모델로 검증 가능하다.
 34. 실패 시 시스템은 중단 대신 `needs_user_upload` 또는 `needs_user_confirmation` 상태로 전환할 수 있다.
+
+</details>
 
 ## G4. 금지사항 (Prohibitions)
 

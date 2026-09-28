@@ -1,9 +1,9 @@
 <!--
 tier: 1
-last_synced_with: v2.0.0
+last_synced_with: v4.0.0
 ssot_for: [ai-assistant-rules, code-style, commit-conventions]
 depends_on: [GOAL.md, DOCS_GOVERNANCE.md, docs/handoff/15_ANTI_INERTIA_PRINCIPLES.md]
-last_review: 2026-09-27
+last_review: 2026-09-29
 -->
 
 # CLAUDE.md — AI Assistant Operating Rules
@@ -20,7 +20,8 @@ last_review: 2026-09-27
 
 **영상 기준의 정본은 `docs/handoff/`(01·02·04~11·14)이다.** 기준 작품은 v3『호르무즈와 한국』
 (`docs/handoff/golden/`, 문장 앵커 기준 프레임 25장). 이전 영상 기준(섹션=장면, 고정 막,
-HyperFrames/Remotion 문법, `docs/07/08/09` 구판)은 **v2.0.0에서 폐기**됐다.
+HyperFrames/Remotion 문법, `docs/07/08/09` 구판)은 **v2.0.0에서 폐기**됐고, `docs/07·08·09·10`은 **v4.0.0에서 handoff·규칙 파일을
+가리키는 요약본으로 재작성**됐다(수치는 규칙 키로만 인용, 값 복사 금지).
 구체 수치(두께·알파·타이밍·색·글자 크기)는 `rules/video_rules.yaml`과
 `docs/handoff/reference_code/v3_hormuz_korea/`가 정본이며 사용자 합격 값이다. 근거 없이 바꾸지 않는다.
 
@@ -111,7 +112,7 @@ HyperFrames/Remotion 문법, `docs/07/08/09` 구판)은 **v2.0.0에서 폐기**�
 
 | 종류 | 트리거 |
 |---|---|
-| **MAJOR** | `GOAL.md` G1·G2·G4 변경, 또는 JSON `schema_version` 증분 |
+| **MAJOR** | `GOAL.md` G1·G2·G3·G4 변경(G3 는 v4.0.0 D64 추가 — GOAL §G3 머리말), 또는 JSON `schema_version` 증분 |
 | **MINOR** | Phase 완료, 새 Worker 추가, 새 Review Gate 추가 |
 | **PATCH** | 버그 수정, 문서 보강, 비기능 개선 |
 
