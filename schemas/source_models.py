@@ -57,7 +57,7 @@ class XPostSource(_SourceBase):
     account_name: str = Field(min_length=1)
     handle: str = Field(pattern=HANDLE)
     account_class: AccountClass = "unknown"           # 공식 계정 목록(rules/official_accounts.yaml)으로 코드가 정한다
-    posted_at: datetime                               # 게시 시각(사건 시각과 구분, 18 §3-2)
+    posted_at: Optional[datetime] = None              # 게시 시각(사건 시각과 구분, 18 §3-2). 캡처에 절대 시각이 없으면 사용자가 확인 때 채운다
     text_original: str = Field(min_length=1)
     text_ko: Optional[str] = None
     capture: Optional[str] = None                     # intake/screenshots/<id>.png (비공개 보관)
@@ -69,7 +69,28 @@ class XPostSource(_SourceBase):
     def _capture(self) -> "XPostSource":
         if self.input == "capture" and not self.capture:
             raise ValueError(f"{self.id}: 캡처 입력인데 capture 경로가 없다")
+        if self.confirmed_by and self.posted_at is None:
+            raise ValueError(f"{self.id}: 사용자 확인에는 게시 시각(posted_at)이 필요하다(18 §7)")
         return self
+
+
+class CaptureDraft(_Strict):
+    """캡처 판독 워커(vision) 출력 — X 게시물 화면 캡처 1장에서 읽은 것만(18 §1·§7).
+
+    id·캡처 경로·account_class(공식 계정 목록)·사용자 확인 필드는 코드가 채운다. 화면에 없는 것은 null 로 두고
+    `unreadable` 에 필드 이름을 적는다(추측 금지). 이 초안은 사용자 확인 전에는 검증 단계로 가지 않는다."""
+
+    schema_version: Literal[1] = 1
+    account_name: str = Field(min_length=1)
+    handle: str = Field(pattern=HANDLE)
+    posted_at: Optional[datetime] = None             # 화면의 절대 시각(예: "2:05 PM · Sep 20, 2026") → ISO. 상대 시각("3시간")이면 null
+    posted_at_text: str = ""                         # 화면에 보이는 시각 문구 그대로
+    text_original: str = Field(min_length=1)
+    lang: str = Field(min_length=2)
+    text_ko: Optional[str] = None                    # 원문이 한국어가 아니면 번역(과장·요약 왜곡 금지, 18 §5)
+    attached_media: AttachedMedia = "none"
+    deleted_notice: bool = False                     # 화면에 삭제·제한 안내가 보이면 true(18 §3-4)
+    unreadable: list[str] = Field(default_factory=list)
 
 
 class ArticleSource(_SourceBase):
@@ -203,5 +224,5 @@ def check_claim_sources(claims: ClaimsFile, sources: SourcesFile) -> list[str]:
     return out
 
 
-__all__ = ["AccountClass", "OfficialAccount", "OfficialAccountsFile", "ArticleSource", "Claim", "ClaimSide", "ClaimsFile", "DocumentSource", "SourceRecord",
+__all__ = ["AccountClass", "CaptureDraft", "OfficialAccount", "OfficialAccountsFile", "ArticleSource", "Claim", "ClaimSide", "ClaimsFile", "DocumentSource", "SourceRecord",
            "SourceVerification", "SourcesFile", "VerificationStatus", "XPostSource", "check_claim_sources"]

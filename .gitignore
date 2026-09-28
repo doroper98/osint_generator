@@ -125,3 +125,9 @@ projects/taiwan_strait/out/
 projects/taiwan_strait/__pycache__/
 projects/*/tts_el/
 projects/hormuz_korea_sunhi/
+
+# v3.2.0 소스 인테이크(18 §2·16 §6) — 캡처·기사 본문·판독 초안은 비공개 보관(커밋 금지)
+projects/*/intake/screenshots/
+projects/*/intake/bodies/
+projects/*/intake/drafts/
+projects/*/intake/files/

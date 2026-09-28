@@ -28,6 +28,8 @@ ACTIVE: dict[str, str] = {
     "revise_direction": "engine.qa:Revision",
     # D-0048(R-0054 A): research = 현 워커가 실제로 검증하는 ResearchDossier. Facts 는 6.95 에서 워커 전환
     "research": "schemas.models:ResearchDossier",
+    # v3.2.0 소스 인테이크(D-0051 작업 5·6)
+    "capture_read": "schemas.source_models:CaptureDraft",
 }
 # 예시 YAML 파일 → 모델 (프롬프트 밖 예시. v3.1.0 D-0047 작업 2 — director 모델이 생겼다)
 EXAMPLE_FILES: dict[str, str] = {
