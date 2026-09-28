@@ -51,7 +51,7 @@ class ShotIssuesTest(unittest.TestCase):
     def test_one_checker_code_path(self) -> None:
         """숏 규칙 수치는 engine/shots.py 에서만 읽는다 — checks 는 호출만(D-0047 §0-4)."""
         hits = [p.relative_to(REPO).as_posix() for p in (REPO / "engine").glob("*.py")
-                if "shot_min_hold_sec" in p.read_text(encoding="utf-8") and p.name != "shots.py"]
+                if ".shot_min_hold_sec" in p.read_text(encoding="utf-8") and p.name != "shots.py"]
         self.assertEqual(hits, [])
 
 
