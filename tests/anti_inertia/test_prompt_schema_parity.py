@@ -24,8 +24,12 @@ ACTIVE: dict[str, str] = {
     # v3.0.0 ScriptWorker→Script 전환 완료(D33 예고, D-0040 작업 5)
     "script": "script.schema:Script",
 }
+# 예시 YAML 파일 → 모델 (프롬프트 밖 예시. v3.1.0 D-0047 작업 2 — director 모델이 생겼다)
+EXAMPLE_FILES: dict[str, str] = {
+    "tests/fixtures/direction/minimal.yaml": "engine.direction:Direction",
+}
 PENDING_6_9: dict[str, str] = {
-    "director": "engine.direction:Direction",
+    "director": "engine.direction:Direction",   # 프롬프트 prompts/director.md 는 작업 7 — 그때 ACTIVE 로
     "visual_qa": "engine.qa:QAVerdict",
     "research": "script.schema:Facts",
 }
@@ -62,8 +66,15 @@ class PromptSchemaParityTest(unittest.TestCase):
         for data in examples("script"):
             self.assertEqual([i.line() for i in lint(Script.model_validate(data)).errors], [])
 
+    def test_example_files_validate(self) -> None:
+        for rel, ref in EXAMPLE_FILES.items():
+            from engine.direction import yaml_load  # noqa: PLC0415 — off 키 보존 로더(17 §2)
+            _model(ref).model_validate(yaml_load((REPO / rel).read_text(encoding="utf-8")))  # type: ignore[attr-defined]
+
     def test_pending_models_not_yet_defined(self) -> None:
         for name, ref in PENDING_6_9.items():
+            if name == "director":   # 모델은 v3.1.0 작업 2 에 생겼다 — 프롬프트가 생기면 ACTIVE 로
+                continue
             with self.assertRaises((ImportError, AttributeError), msg=f"{ref} 가 생겼다 → {name} 을 ACTIVE 로 옮긴다"):
                 _model(ref)
 

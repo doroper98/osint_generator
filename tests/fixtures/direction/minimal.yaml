@@ -1,0 +1,18 @@
+# direction.yaml 최소 예시(v3.1.0, 17 §2) — 스키마 테스트용. 앵커·span·path·at_place·dip·sound 를 모두 쓴다.
+version: 1
+places:
+  hormuz: [56.35, 26.55]
+paths:
+  lane: [[56.2, 26.45], [57.8, 24.9], [60.5, 22.6]]
+shots:
+  - {at: 0, mode: cut, dur: 0, camera: {place: hormuz, w: 14}}
+  - {at: {sid: s_1, off: -0.6}, mode: move, dur: 3.4, camera: {lon: 88.5, lat: 19.5, w: 90}}
+  - {at: {scene_start: b, off: -0.55}, mode: dip, camera: {lon: 127.0, lat: 37.45, w: 3.4}}
+events:
+  - {type: marker, start: {sid: s_0, off: 0.2}, end: {scene_end: a}, at_place: hormuz, label: 호르무즈 해협, sub: 가장 좁은 곳, side: right, hl: true}
+  - {type: route, start: {sid: s_1, off: 0.6}, end: {scene_end: a}, pts: {path: lane}, grow: {span: [{sid: s_1, off: 0.6}, {sid: s_1, off: -0.4, edge: end}]}, col: gold, ship: true}
+  - {type: card, start: {sid: s_2, off: 0.1}, end: {sid: s_2, off: 0.6, edge: end}, tag: 테스트, lines: [한 줄], accent: gold}
+sound:
+  bgm: bed.mp3
+  intensity: [[0, 0.6], [{scene_start: b}, 0.7], [{total: true, off: 0.5}, 0.0]]
+  cues: [{kind: boom, t: {sid: s_0, off: 1.2}, v: 0.5}]
