@@ -5,6 +5,7 @@
     python tools/commons_fetch.py search "Lee Jae Myung portrait" [--limit 7]
     python tools/commons_fetch.py get "File:X.jpg" DEST [--width 960] [--allow-restricted]
     python tools/commons_fetch.py emblems <project> [--only irgc,cia] [--refresh]
+    python tools/commons_fetch.py bundles <project>               # assets/rights_bundles.yaml → 프로젝트 rights_registry
 
 - 요청 간격 15초. 429 는 지수 대기(60·120·240·480·600·600초, `Retry-After` 우선) — Phase 4 run_log 에서 25분 막힌 사례.
 - 폭은 표준 썸네일 폭(960·500·1280·1600) 또는 원본. 비표준 폭은 썸네일 생성 요청이 되어 429 가 반복된다(07 §3.2).
@@ -216,6 +217,24 @@ def record_rights(registry: Path, section: str, key: str, entry: dict) -> None:
     registry.write_text(json.dumps(reg, ensure_ascii=False, indent=1), encoding="utf-8")
 
 
+BUNDLES = REPO / "assets" / "rights_bundles.yaml"
+
+
+def record_bundles(registry: Path, bundles: Path = BUNDLES) -> int:
+    """묶음 자산 권리(국기·음악·폰트·지도·내레이션)를 프로젝트 권리 레지스트리에 병합. 병합한 항목 수."""
+    import yaml  # noqa: PLC0415
+
+    data = yaml.safe_load(bundles.read_text(encoding="utf-8"))
+    n = 0
+    for sec, entries in data.items():
+        if sec == "schema_version":
+            continue
+        for k, v in entries.items():
+            record_rights(registry, sec, k, v)
+            n += 1
+    return n
+
+
 # ------------------------------------------------------------------ 휘장
 def emblem_entry(eid: str, title: str | None, flag: str, ii: dict | None) -> EmblemEntry:
     if title is None or ii is None:
@@ -272,6 +291,8 @@ def main(argv: list[str] | None = None) -> int:
     e.add_argument("proj", type=Path, nargs="?")
     e.add_argument("--only", default="")
     e.add_argument("--refresh", action="store_true")
+    b = sub.add_parser("bundles")
+    b.add_argument("proj", type=Path)
     a = ap.parse_args(argv)
     try:
         if a.cmd == "search":
@@ -279,6 +300,8 @@ def main(argv: list[str] | None = None) -> int:
                 print(json.dumps({k: c[k] for k in ("title", "lic", "restrictions", "allowed", "artist")}, ensure_ascii=False))
         elif a.cmd == "get":
             print(json.dumps(rights_entry(fetch(a.title, a.dest, a.width or None, a.allow_restricted)), ensure_ascii=False))
+        elif a.cmd == "bundles":
+            print(f"bundles {record_bundles(a.proj / 'assets' / 'rights_registry.json')}")
         else:
             fetch_emblems(a.proj, [x for x in a.only.split(",") if x] or None, a.refresh)
     except CommonsError as ex:

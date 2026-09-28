@@ -1,4 +1,4 @@
-# 대만해협 예시 크레딧 (v2.2.0).
+# 대만해협 예시 크레딧 (v2.2.0, v2.4.0 rights 참조 — 권리 레지스트리는 `python tools/commons_fetch.py bundles projects/taiwan_strait`).
 schema_version: 1
 sections:
   - title: 지도
@@ -6,8 +6,10 @@ sections:
     items:
       - main: 지도 · 지형
         license: Natural Earth · AWS Terrain Tiles
+        rights: [map.natural_earth, map.aws_terrain_tiles]
   - title: 음성
     column: 1
     items:
       - main: 내레이션
         license: AI 음성 합성
+        rights: [narration.tts]

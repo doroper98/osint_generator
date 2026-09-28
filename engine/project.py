@@ -122,7 +122,8 @@ def load_project(proj: Path) -> Project:
     tb = Timebase(plan)
     assets = Assets(proj, load_labels(proj / "labels.yaml"))
     R = RenderCtx(assets=assets, tb=tb, credits=load_credits(proj / "credits.yaml"))  # noqa: N806
-    d = load_direction(proj).direct(tb)
+    dmod = load_direction(proj)
+    d = dmod.direct(tb)
     events = validate_events(d.events)
     ent_errs = check_event_refs(events, load_entities())  # 07 §6 — 미등재 인물·국기·휘장은 렌더 전 오류(P10)
     if ent_errs:
@@ -131,7 +132,7 @@ def load_project(proj: Path) -> Project:
     if errs:
         raise ProjectError("렌더 전 점검 실패:\n" + "\n".join(errs))
     A = R.assets  # noqa: N806
-    req = required_refs(events, A.rights, A.emblem_flag, set(A.img))
+    req = required_refs(events, A.rights, A.emblem_flag, set(A.img), uses_music=hasattr(dmod, "sound"))
     check_credits(R.credits, A.rights, A.media, req)   # D-0029 작업 7 — 누락·미확인·미표기 자산은 RightsError
     R.cache["credit_refs"] = req
     if not d.keys:

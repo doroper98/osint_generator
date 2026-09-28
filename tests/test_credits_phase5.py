@@ -92,6 +92,10 @@ class CreditsCheckTest(unittest.TestCase):
         with self.assertRaisesRegex(RightsError, "권리 미확인"):
             check_credits(_credits(), r, MEDIA, required_refs(EVENTS, r, _flag, KEYS))
 
+    def test_music_only_when_sound_used(self) -> None:
+        self.assertNotIn("music.zabriskie_patriarch", required_refs(EVENTS, _rights(), _flag, KEYS, uses_music=False))
+        self.assertIn("music.zabriskie_patriarch", required_refs(EVENTS, _rights(), _flag, KEYS, uses_music=True))
+
     def test_fallback_emblem_needs_no_emblem_rights(self) -> None:
         evs = [dict(type="badge", t0=0.0, kind="emblem", img="irgc")]
         self.assertNotIn("emblems.irgc", required_refs(evs, _rights(), lambda _: "ir", {"flag11:ir"}))

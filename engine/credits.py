@@ -24,7 +24,7 @@ from schemas.rules_models import CreditRules
 
 RightsSection = Literal["people", "emblems", "media", "flags", "music", "fonts", "map", "narration"]
 # 렌더가 항상 쓰는 묶음 자산 — 레지스트리 절의 항목 전부가 크레딧 대상이다
-ALWAYS_USED: tuple[RightsSection, ...] = ("music", "fonts", "map", "narration")
+ALWAYS_USED: tuple[RightsSection, ...] = ("fonts", "map", "narration")   # 음악은 연출에 sound() 가 있을 때만
 
 
 class RightsError(RuntimeError):
@@ -124,8 +124,9 @@ def credit_lines(cr: Credits, rights: dict, media: Optional[dict] = None, used: 
 
 
 def required_refs(events: list[dict], rights: dict, emblem_flag: Callable[[str], Optional[str]],
-                  image_keys: set[str]) -> set[str]:
-    """이번 렌더가 쓰는 자산의 권리 참조. 이벤트(인물·휘장·미디어) + 불러온 이미지(국기) + 항상 쓰는 묶음 자산."""
+                  image_keys: set[str], uses_music: bool = True) -> set[str]:
+    """이번 렌더가 쓰는 자산의 권리 참조. 이벤트(인물·휘장·미디어) + 불러온 이미지(국기) + 항상 쓰는 묶음 자산
+    (+ 연출에 `sound()` 가 있으면 음악)."""
     need: set[str] = set()
 
     def walk(o: object):  # noqa: ANN202
@@ -147,7 +148,7 @@ def required_refs(events: list[dict], rights: dict, emblem_flag: Callable[[str],
             need.add(f"media.{e['mid']}")
     if any(k.startswith(("flag11:", "flag43:")) for k in image_keys):
         need |= {f"flags.{k}" for k in rights.get("flags", {})} or {"flags.?"}
-    for sec in ALWAYS_USED:
+    for sec in (*ALWAYS_USED, *(("music",) if uses_music else ())):
         need |= {f"{sec}.{k}" for k in rights.get(sec, {})} or {f"{sec}.?"}
     return need
 

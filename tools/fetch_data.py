@@ -366,9 +366,7 @@ def cmd_people(root: Path, dry: bool) -> list[str]:
     if dry:
         return [f"people → portraits {list(LIBRARY_PEOPLE) + list(COMMONS_PEOPLE)}, emblems {list(COMMONS_EMBLEMS)}, "
                 "flags PNG, rights_registry (+ assets/rights_bundles.yaml)"]
-    import yaml  # noqa: PLC0415
-
-    from tools.commons_fetch import now_iso, record_rights  # noqa: PLC0415
+    from tools.commons_fetch import now_iso, record_bundles, record_rights  # noqa: PLC0415
     from tools.portrait_fallback import library_portrait, process  # noqa: PLC0415
 
     regp = root / "assets" / "rights_registry.json"
@@ -397,12 +395,7 @@ def cmd_people(root: Path, dry: bool) -> list[str]:
         record_rights(regp, "emblems", "navcent", dict(license=c["lic"], url=c["page"], title=title, restrictions=c["restr"],
                                                       rights_status="rights_clear", retrieved_at=now_iso()))
     print(f"flags {build_flag_pngs(root)}", flush=True)
-    bundles = yaml.safe_load((REPO / "assets" / "rights_bundles.yaml").read_text(encoding="utf-8"))
-    for sec, entries in bundles.items():
-        if sec == "schema_version":
-            continue
-        for k, v in entries.items():
-            record_rights(regp, sec, k, v)
+    record_bundles(regp)   # 국기·음악·폰트·지도·내레이션 (assets/rights_bundles.yaml)
     return []
 
 
