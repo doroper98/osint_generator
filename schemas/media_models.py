@@ -38,6 +38,24 @@ class MediaTool(_Strict):
     params: dict[str, object] = Field(default_factory=dict)
 
 
+class SourceVariant(_Strict):
+    """정본(Commons) 대신 쓴 1차 출처 원본(v3.0.0, back_and_forth D-0045, D43). 정본 url·source_hash 는 고치지 않는다.
+    가공은 이 원본에서 하되 정본 segment 를 쓰고, 두 원본의 시각 차이는 offset_sec 로만 적는다."""
+
+    source: Literal["dvids"]
+    url: str = Field(min_length=1)                  # 1차 출처 페이지
+    id: str = Field(min_length=1)
+    file_url: str = Field(min_length=1)             # 받은 원본 파일 URL
+    file: str = Field(min_length=1)                 # project media/ 안 원본 파일 이름
+    md5: str = Field(min_length=32, max_length=32)
+    license: str = Field(min_length=1)
+    duration: float = Field(gt=0)
+    offset_sec: float = 0.0                         # 정본 시각 t ↔ 이 원본 시각 t + offset_sec
+    retrieved_at: str = Field(min_length=1)
+    match: str = Field(min_length=1)                # 같은 영상 확인 근거(프레임 대응표 경로)
+    note: str = Field(min_length=1)
+
+
 class MediaAsset(_Strict):
     kind: MediaKind
     title: str = Field(min_length=1)               # 원본 파일 제목(Commons File:…) 또는 기사 원제
@@ -60,6 +78,7 @@ class MediaAsset(_Strict):
     file: Optional[str] = None                     # 렌더가 읽는 가공 파일(project media/ 기준) — 영상은 클립 키
     duration: Optional[float] = None
     segment: Optional[tuple[float, float]] = None  # 영상 사용 구간(초)
+    source_variants: list[SourceVariant] = Field(default_factory=list)   # v3.0.0 optional(C3) — D-0045
     # 기사 클리핑(14 §9) — 우리 타이포로 매체명·날짜·헤드라인 번역만 조판(화면 캡처 금지)
     headline: Optional[str] = None
     hl: Optional[str] = None

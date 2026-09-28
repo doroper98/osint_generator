@@ -32,7 +32,7 @@ if str(REPO) not in sys.path:
     sys.path.insert(0, str(REPO))
 
 from engine.media_registry import load_media_registry  # noqa: E402
-from schemas.media_models import MediaAsset  # noqa: E402
+from schemas.media_models import MediaAsset, SourceVariant  # noqa: E402
 from tools import commons_fetch  # noqa: E402
 
 SHEET_N = 12                     # 14 §10.3-3
@@ -104,10 +104,11 @@ def process_cutout(src: Path, out: Path, prm: dict) -> None:
     cut.save(out)
 
 
-def process_clip(src: Path, out: Path, a: MediaAsset) -> None:
+def process_clip(src: Path, out: Path, a: MediaAsset, offset_sec: float = 0.0) -> None:
+    """정본 segment 를 쓴다. 대체 원본(source_variants)은 offset_sec 만큼 옮긴 시각에서 자른다(D-0045)."""
     prm = a.tool.params
     w, h = prm["scale"]
-    t0, t1 = a.segment
+    t0, t1 = (x + offset_sec for x in a.segment)
     raw = subprocess.run(
         ["ffmpeg", "-v", "error", "-ss", f"{t0}", "-t", f"{t1 - t0}", "-i", str(src),
          "-vf", f"scale={w}:{h},fps={prm['fps']}", "-f", "rawvideo", "-pix_fmt", prm["pix_fmt"], "-"],
@@ -145,8 +146,27 @@ def thumbsheet(src: Path, out: Path, mid: str, segment: tuple[float, float] | No
     return times
 
 
+def fetch_variant(v: SourceVariant, media: Path, restore_from: Path | None = None) -> Path:
+    """1차 출처 원본(source_variants) — Commons 가 아니다(D-0045). 이미 있음 → 보존본 → 직접 받기, md5 대조."""
+    dest = media / v.file
+    if not (dest.exists() and dest.stat().st_size > 100):
+        dest.parent.mkdir(parents=True, exist_ok=True)
+        if restore_from is not None and (restore_from / v.file).exists():
+            dest.write_bytes((restore_from / v.file).read_bytes())
+            print(f"restore {v.source}:{v.id} ← {restore_from}", flush=True)
+        else:
+            import urllib.request  # noqa: PLC0415
+            req = urllib.request.Request(v.file_url, headers=commons_fetch.UA)
+            with urllib.request.urlopen(req, timeout=300) as r:   # noqa: S310 — 레지스트리에 적힌 1차 출처 URL
+                dest.write_bytes(r.read())
+    h = md5(dest)
+    if h != v.md5:
+        raise MediaFetchError(f"{v.source}:{v.id} 원본 md5 {h} ≠ 레지스트리 source_variants md5 {v.md5}")
+    return dest
+
+
 def run(proj: Path, only: list[str] | None = None, sheets: bool = True, registry: dict | None = None,
-        restore_from: Path | None = None, tries: int | None = None) -> dict:
+        restore_from: Path | None = None, tries: int | None = None, variant: str | None = None) -> dict:
     reg = registry if registry is not None else load_media_registry()
     media = proj / "media"
     media.mkdir(parents=True, exist_ok=True)
@@ -159,10 +179,15 @@ def run(proj: Path, only: list[str] | None = None, sheets: bool = True, registry
             report["assets"][mid] = {"kind": "article", "files": []}
             continue
         try:
-            src = fetch_source(a, media, restore_from, tries)
-            h = md5(src)
-            if h != a.source_hash:
-                raise MediaFetchError(f"원본 md5 {h} ≠ 레지스트리 source_hash {a.source_hash} — 원본이 바뀌었다(사람 확인)")
+            var = next((v for v in a.source_variants if v.source == variant), None) if variant else None
+            if var is not None:   # 정본 대신 1차 출처 원본(D-0045) — 정본 source_hash 는 건드리지 않는다
+                src = fetch_variant(var, media, restore_from)
+                h = var.md5
+            else:
+                src = fetch_source(a, media, restore_from, tries)
+                h = md5(src)
+                if h != a.source_hash:
+                    raise MediaFetchError(f"원본 md5 {h} ≠ 레지스트리 source_hash {a.source_hash} — 원본이 바뀌었다(사람 확인)")
             prm = a.tool.params
             if a.kind == "photo":
                 if a.file is None:
@@ -176,14 +201,16 @@ def run(proj: Path, only: list[str] | None = None, sheets: bool = True, registry
                 files = [str(a.file)]
             else:
                 dur = probe_duration(src)
-                if a.duration is not None and abs(dur - a.duration) > 0.05:
-                    raise MediaFetchError(f"영상 길이 {dur} ≠ 레지스트리 {a.duration}")
-                process_clip(src, media / f"{a.file}_480.npy", a)
+                want = var.duration if var is not None else a.duration
+                if want is not None and abs(dur - want) > 0.05:
+                    raise MediaFetchError(f"영상 길이 {dur} ≠ 레지스트리 {want}")
+                process_clip(src, media / f"{a.file}_480.npy", a, var.offset_sec if var is not None else 0.0)
                 files = [f"{a.file}_480.npy"]
                 if sheets:
                     thumbsheet(src, media / f"thumbsheet_{mid}.jpg", mid, a.segment)
                     files.append(f"thumbsheet_{mid}.jpg")
-            report["assets"][mid] = {"kind": a.kind, "source": prm["source"], "source_md5": h,
+            report["assets"][mid] = {"kind": a.kind, "source": var.file if var is not None else prm["source"], "source_md5": h,
+                                     "variant": var.source if var is not None else None,
                                      "files": {f: md5(media / f) for f in files}}
             print(f"ok {mid}: {', '.join(files)}", flush=True)
         except Exception as ex:  # noqa: BLE001 — 모아서 마지막에 한 번에(남은 항목 + 재실행 명령)
@@ -215,11 +242,13 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("--report", type=Path)
     ap.add_argument("--restore-from", type=Path, default=None,
                     help="원본 보존본 폴더(artifacts hormuz/media_src) — 있으면 Commons 에 요청하지 않는다(D-0044 B)")
+    ap.add_argument("--variant", choices=["dvids"], default=None,
+                    help="정본(Commons) 대신 레지스트리 source_variants 의 1차 출처 원본으로 가공(D-0045, 영상만)")
     ap.add_argument("--tries", type=int, default=None, help="원본 요청 시도 횟수(기본 config commons.tries). 차단 중 30분 간격 1회 시도용")
     args = ap.parse_args(argv)
     try:
         rep = run(args.proj, [x for x in args.only.split(",") if x] or None, not args.no_sheets,
-                  restore_from=args.restore_from, tries=args.tries)
+                  restore_from=args.restore_from, tries=args.tries, variant=args.variant)
     except MediaFetchError as ex:
         print(str(ex), file=sys.stderr)
         return 1

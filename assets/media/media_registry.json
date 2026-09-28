@@ -164,6 +164,22 @@
    "segment": [
     1.5,
     6.5
+   ],
+   "source_variants": [
+    {
+     "source": "dvids",
+     "url": "https://www.dvidshub.net/video/1013909",
+     "id": "1013909",
+     "file_url": "https://d34w7g4gy10iej.cloudfront.net/video/2607/DOD_111826477/DOD_111826477.mp4",
+     "file": "strikes.dvids.mp4",
+     "md5": "9933fefd8c174f7bb8a3f4f48d713726",
+     "license": "Public domain",
+     "duration": 24.6,
+     "offset_sec": 0.0,
+     "retrieved_at": "2026-09-28",
+     "match": "docs/handoff/reports/phase6_8/dvids_match.md",
+     "note": "Commons egress 차단 대체(D-0045). VIRIN 260707-D-D0477-3001, h264 1920x1080 60fps"
+    }
    ]
   },
   "niovi": {
@@ -213,6 +229,22 @@
    "segment": [
     28.0,
     33.0
+   ],
+   "source_variants": [
+    {
+     "source": "dvids",
+     "url": "https://www.dvidshub.net/video/881959",
+     "id": "881959",
+     "file_url": "https://d34w7g4gy10iej.cloudfront.net/video/2305/DOD_109612827/DOD_109612827.mp4",
+     "file": "niovi.dvids.mp4",
+     "md5": "48e9ef6cc3aef00d43f50bc99b1cd4f6",
+     "license": "Public domain",
+     "duration": 59.4,
+     "offset_sec": 0.0,
+     "retrieved_at": "2026-09-28",
+     "match": "docs/handoff/reports/phase6_8/dvids_match.md",
+     "note": "Commons egress 차단 대체(D-0045). VIRIN 230503-N-NO146-2001, h264 1280x720 30fps"
+    }
    ]
   },
   "reuters_0904": {

@@ -90,6 +90,40 @@ class RestoreFromArtifactsTest(unittest.TestCase):
             self.assertEqual(hg.call_args.kwargs["tries"], 1)
 
 
+class SourceVariantTest(unittest.TestCase):
+    """D-0045 — 1차 출처 대체 원본: 정본 source_hash 는 그대로, 대체본 md5 로 대조, Commons 호출 없음."""
+
+    def test_registry_variants_keep_canonical(self) -> None:
+        reg = load_media_registry()
+        for mid in ("strikes", "niovi"):
+            v = reg[mid].source_variants[0]
+            self.assertEqual(v.source, "dvids")
+            self.assertEqual(v.offset_sec, 0.0)
+            self.assertTrue(reg[mid].source_hash)            # 정본 해시 무수정
+            self.assertNotEqual(v.md5, reg[mid].source_hash)
+
+    def test_variant_md5_mismatch_is_loud(self) -> None:
+        from unittest import mock  # noqa: PLC0415
+        a = load_media_registry()["strikes"]
+        with tempfile.TemporaryDirectory() as d:
+            keep = Path(d) / "keep"
+            keep.mkdir()
+            (keep / a.source_variants[0].file).write_bytes(b"x" * 200)   # 다른 바이트
+            with mock.patch.object(commons_fetch, "info", side_effect=AssertionError("Commons 호출")):
+                with self.assertRaises(media_fetch.MediaFetchError) as cm:
+                    media_fetch.run(Path(d) / "p", registry={"strikes": a}, sheets=False, restore_from=keep, variant="dvids")
+            self.assertIn("source_variants md5", str(cm.exception))
+
+    def test_offset_shifts_cut(self) -> None:
+        from unittest import mock  # noqa: PLC0415
+        a = load_media_registry()["strikes"]
+        with mock.patch.object(media_fetch.subprocess, "run", side_effect=RuntimeError("stop")) as run:
+            with self.assertRaises(RuntimeError):
+                media_fetch.process_clip(Path("x"), Path("y"), a, offset_sec=0.5)
+            cmd = run.call_args.args[0]
+            self.assertEqual(cmd[cmd.index("-ss") + 1], "2.0")   # 정본 segment 1.5 + 0.5
+
+
 class CommonsConfigTest(unittest.TestCase):
     def test_nb4_values_from_config(self) -> None:
         c = load_config().commons
