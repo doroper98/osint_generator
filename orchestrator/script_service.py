@@ -85,7 +85,7 @@ def run_script_worker(
             assigned_worker="script",
             description="ScriptWorker 1회 실행",
             input_refs=["facts.json", "intake/claims.json", "project_manifest.json"],
-            output_refs=["script.yaml", "script_labels.json"],
+            output_refs=["script.yaml", "script_labels.json", "script.meta.json"],
         )
         worker = ScriptWorker()
         worker.llm_backend = backend

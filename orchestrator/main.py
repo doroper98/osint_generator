@@ -14,7 +14,7 @@
 - submit-intake {pid}                       : 확인된 소스로 source_verify 전이(미확인이 있으면 거부)
 - verify-sources {pid} [--backend]          : 소스 검증(인용 대조) → intake/claims.json (source_verify 에 머문다, v3.2.0)
 - build-research {pid} [--backend] [--force]: ResearchWorker → facts.json + research 전이 (v3.2.0, 17 §5.1)
-- import-bundle {pid} --file <path>          : v3.2.0 명시 오류 — 번들 → sources·claims 변환은 Phase 9 에서 복귀
+- import-bundle {pid} --file <path> [--no-fetch] : v3.5.0 번들 어댑터 — 출처·claim 후보·원고/연출 초안(D-0063 작업 5)
 - build-script {pid} [--backend]            : ScriptWorker 호출 → script.yaml + script_labels.json
                                               + script_draft 전이 (Phase 6 Script)
 - build-scene / render-debug / build-audio / build-audio-demo
@@ -165,9 +165,10 @@ def build_parser() -> argparse.ArgumentParser:
     brs.add_argument("--backend", choices=["claude", "codex"], default="claude", help="LLM backend (기본: claude)")
     brs.add_argument("--force", action="store_true", help="유효한 facts.json 이 있어도 재실행(기본은 재사용)")
 
-    imb = sub.add_parser("import-bundle", help="[v3.2.0 비활성] 번들 → sources·claims 변환은 Phase 9 에서 복귀(명시 오류)")
+    imb = sub.add_parser("import-bundle", help="번들 → sources.json(확인 전)·bundle_claims·script.draft.yaml·bundle_materials (v3.5.0)")
     imb.add_argument("project_id", help="project_id")
     imb.add_argument("--file", required=True, help="report_bundle.json 경로")
+    imb.add_argument("--no-fetch", action="store_true", help="번들 출처 기사를 가져오지 않는다(본문 없는 출처는 unresolved)")
 
     # v3.2.0 삭제(D52) — 옛 도시어 명령은 시끄럽게 실패
     lrd = sub.add_parser("build-research-dossier", help="[삭제됨 v3.2.0] build-research 사용")
@@ -364,9 +365,7 @@ def main(argv: list[str] | None = None) -> int:
         raise LegacyRemovedError("build-research-dossier(v3.2.0 삭제 → build-research)")
 
     if args.cmd == "import-bundle":
-        print("error: import-bundle 은 v3.2.0 에서 비활성 — 번들 → sources.json·claims.json 변환은 Phase 9 번들 어댑터에서 "
-              "복귀한다(back_and_forth D-0052 D52). 지금은 소스를 직접 넣는다(add-source).", file=sys.stderr)
-        return 2
+        return _cmd_import_bundle(args)
 
     if args.cmd == "build-script":
         return _cmd_build_script(args)
@@ -477,6 +476,20 @@ def _source_pdir(project_id: str) -> Path:
     validate_project_id(project_id)
     resume_project(project_id)          # 없으면 FileNotFoundError
     return project_dir(project_id)
+
+
+def _cmd_import_bundle(args: argparse.Namespace) -> int:
+    """import-bundle: 번들 어댑터(v3.5.0, D-0063 작업 5). 다음 단계: confirm-source → verify-sources → build-research → build-script."""
+    from orchestrator import bundle_service as bs
+
+    try:
+        pdir = _source_pdir(args.project_id)
+        r = bs.import_bundle(pdir, Path(args.file), fetch=not args.no_fetch)
+    except (ValueError, FileNotFoundError, OSError) as e:
+        print(f"error: {e}", file=sys.stderr)
+        return 1
+    print(bs.dump(r))
+    return 0
 
 
 def _cmd_add_source(args: argparse.Namespace) -> int:

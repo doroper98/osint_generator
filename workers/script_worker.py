@@ -18,6 +18,7 @@
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 from pathlib import Path
 from typing import ClassVar, Literal, Type
@@ -34,6 +35,7 @@ from workers.base_worker import run_worker
 from workers.prompt_loader import load_prompt
 
 DRAFT_FILE = "script.draft.yaml"   # bundle.to_script 초안(v3.5.0) — 있으면 {draft_block}
+META_FILE = "script.meta.json"     # 초안 사용 기록(provenance bundle.draft_used)
 
 
 # `.replace()` 만 사용. `.format()` 금지 (C2). script/schema.py 의 Script 와 동기화(parity 테스트).
@@ -118,6 +120,13 @@ class ScriptWorker(BaseLLMWorker):
         outp = labels_path(args.project_id)
         self._validate_output_path(args, task, outp)
         outp.write_text(compute_labels(parsed, self._statuses(args)).model_dump_json(indent=2), encoding="utf-8")
+        # v3.5.0 — 초안 블록을 받았는지 기록(provenance bundle.draft_used, D-0064 쟁점 4). 초안 없으면 draft_sha1 null
+        meta = self.project_dir(args) / META_FILE
+        self._validate_output_path(args, task, meta)
+        dp = self.project_dir(args) / DRAFT_FILE
+        meta.write_text(json.dumps({"schema_version": 1, "worker": self.worker_name,
+                                    "draft_sha1": hashlib.sha1(dp.read_bytes()).hexdigest() if dp.exists() else None},
+                                   indent=1), encoding="utf-8")
 
     @staticmethod
     def _format_facts(facts: Facts, claims: ClaimsFile) -> str:

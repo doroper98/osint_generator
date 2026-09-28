@@ -81,13 +81,64 @@ def import_sources(pdir: Path, bundle_file: Path, *, fetch: bool = True) -> Bund
     return rec_
 
 
+def write_drafts(pdir: Path, bundle_file: Path) -> dict[str, Any]:
+    """작업 3·4 — `script.draft.yaml`·`script.draft.notes.json`·`intake/bundle_materials.json`·`direction.draft.yaml`.
+    최종 `script.yaml`·`direction.yaml` 은 쓰지 않는다(원고는 ScriptWorker, 연출은 DirectorWorker — 15 P8)."""
+    from bundle.entities import join_entities  # noqa: PLC0415
+    from bundle.to_direction import MATERIALS_FILE, build_direction_draft, build_materials, dump_direction_draft  # noqa: PLC0415
+    from bundle.to_script import build_draft, dump_draft_yaml  # noqa: PLC0415
+    from engine.entities import load_entities  # noqa: PLC0415
+
+    b = load_report_bundle(bundle_file)
+    reg = load_entities()
+    join = join_entities(b, reg)
+    script, notes = build_draft(b, join, reg)
+    (pdir / "script.draft.yaml").write_text(dump_draft_yaml(script, notes), encoding="utf-8")
+    (pdir / "script.draft.notes.json").write_text(notes.model_dump_json(indent=2), encoding="utf-8")
+    scene_of = {sec: bd.scene for bd in notes.boundaries for sec in bd.sections}
+    by_scene: dict[str, list[str]] = {}
+    for sid, ids in notes.mentions.items():
+        seen = by_scene.setdefault(sid.rsplit("_", 1)[0], [])
+        seen += [i for i in ids if i not in seen]
+    mat = build_materials(b, join, reg, scene_of, by_scene)
+    (pdir / "intake").mkdir(parents=True, exist_ok=True)
+    (pdir / "intake" / MATERIALS_FILE).write_text(mat.model_dump_json(indent=2), encoding="utf-8")
+    try:
+        d = build_direction_draft(mat, [sc.id for sc in script.scenes])
+        (pdir / "direction.draft.yaml").write_text(dump_direction_draft(d, mat), encoding="utf-8")
+        ddraft = "direction.draft.yaml"
+    except ValueError as ex:          # 지도 마커 없음 — 초안 없이 기록(연출가가 처음부터)
+        ddraft = f"없음: {ex}"
+    return {"sections": notes.sections, "scenes": notes.scenes, "rewrite_required": len(notes.rewrite_required),
+            "unmatched": len(notes.unmatched), "date_timeline": sum(v == "timeline" for v in notes.date_sources.values()),
+            "date_report": sum(v == "report" for v in notes.date_sources.values()), "panels": len(mat.panels),
+            "unsupported_charts": len(mat.unsupported), "direction_draft": ddraft}
+
+
+def import_bundle(pdir: Path, bundle_file: Path, *, fetch: bool = True) -> BundleImport:
+    """import-bundle 전체(작업 1~4): 번들을 프로젝트에 보관 → 출처·claim 후보 → 원고·연출 초안. 게이트 ① 진입 조건
+    (claims.json)은 사용자 확인 → verify_sources 뒤에 충족된다(18 §7 — 확인 없이 검증하지 않는다)."""
+    kept = pdir / "intake" / "files" / bundle_file.name
+    kept.parent.mkdir(parents=True, exist_ok=True)
+    if kept.resolve() != bundle_file.resolve():
+        kept.write_bytes(bundle_file.read_bytes())
+    r = import_sources(pdir, kept, fetch=fetch)
+    r = r.model_copy(update={"draft": write_drafts(pdir, kept)})
+    import_path(pdir).write_text(r.model_dump_json(indent=2), encoding="utf-8")
+    return r
+
+
 def import_view_lines(pdir: Path) -> list[str]:
     """게이트 ①·소스 확인 화면의 번들 출처 줄 — 이관 수·못 만든 출처 사유(사용자가 add-source 로 채우는 입구, D-0064 쟁점 2)."""
     r = load_import(pdir)
     if r is None:
         return []
+    d = r.draft
     out = [f"번들 {r.bundle_id} ({r.producer}) — 출처 이관 {len(r.imported_sources)}건 · 못 만든 출처 {len(r.unresolved_sources)}건"
            f" · claim 후보 {r.claim_hints}건 (fetch {'켬' if r.fetch else '끔'})"]
+    if d:
+        out.append(f"  초안 섹션 {d.get('sections')} → 장면 {d.get('scenes')} · rewrite_required {d.get('rewrite_required')}"
+                   f" · 엔티티 unmatched {d.get('unmatched')} · 패널 {d.get('panels')} · 패널 없는 차트 {d.get('unsupported_charts')}")
     out += [f"  이관 {i.source_id} ← {i.bundle_source_id} ({'+'.join(i.filled_by)})" for i in r.imported_sources]
     out += [f"  미해결 {u.bundle_source_id}: {u.reason} — {u.raw[:80]}  → add-source 로 직접 넣을 수 있다" for u in r.unresolved_sources]
     return out
@@ -95,7 +146,8 @@ def import_view_lines(pdir: Path) -> list[str]:
 
 def dump(r: BundleImport) -> str:
     return json.dumps({"bundle": r.bundle_id, "imported": len(r.imported_sources), "unresolved": len(r.unresolved_sources),
-                       "claim_hints": r.claim_hints}, ensure_ascii=False)
+                       "claim_hints": r.claim_hints, **r.draft}, ensure_ascii=False)
 
 
-__all__ = ["BundleImport", "IMPORT_FILE", "import_path", "import_sources", "import_view_lines", "load_import"]
+__all__ = ["BundleImport", "IMPORT_FILE", "import_bundle", "import_path", "import_sources", "import_view_lines", "load_import",
+           "write_drafts"]

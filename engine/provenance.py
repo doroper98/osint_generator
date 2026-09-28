@@ -75,6 +75,25 @@ def ai_direction_summary(root: Path) -> dict | None:
             "revisions": revs, "visual_qa": qa}
 
 
+def bundle_summary(root: Path) -> dict | None:
+    """provenance `bundle`(v3.5.0 D-0063 작업 5): import-bundle 기록(intake/bundle_import.json)과 ScriptWorker 기록
+    (script.meta.json draft_sha1)만 읽는다(엔진은 오케스트레이터·워커를 import 하지 않음, 15 P1). 번들 프로젝트가 아니면 None
+    — 돌지 않은 단계를 기록하지 않는다(P5). draft_used = 지금 원고를 만든 ScriptWorker 가 초안 블록을 받았나."""
+    p = root / "intake" / "bundle_import.json"
+    if not p.exists():
+        return None
+    r = json.loads(p.read_text(encoding="utf-8"))
+    d = r.get("draft", {})
+    meta_p = root / "script.meta.json"
+    meta = json.loads(meta_p.read_text(encoding="utf-8")) if meta_p.exists() else {}
+    return {"bundle_id": r.get("bundle_id"), "generated_at": r.get("generated_at"), "producer": r.get("producer"),
+            "sources_imported": len(r.get("imported_sources", [])), "sources_unresolved": len(r.get("unresolved_sources", [])),
+            "claim_hints": r.get("claim_hints", 0), "sections": d.get("sections"), "scenes": d.get("scenes"),
+            "rewrite_required": d.get("rewrite_required"), "unmatched": d.get("unmatched"),
+            "panels": d.get("panels"), "unsupported_charts": d.get("unsupported_charts"),
+            "draft_used": bool(meta.get("draft_sha1"))}
+
+
 def camera_summary(root: Path, keys: list[CamKey]) -> dict:
     """provenance `camera` (v3.3.0 D-0056 작업 5·9): 제안(suggested)과 사용(used)을 가른다 — 제안은 옵션(P8).
     suggested = prev/camera_suggest.json 이 있고 제안이 나온 숏 수(없으면 0, 파일 없음 = 돌지 않음 → 기록 false).

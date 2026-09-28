@@ -88,7 +88,7 @@ class TestBuildResearchCLI(_ResearchHarness):
         self.assertEqual(cli_main(["build-research", "../etc"]), 1)
         with self.assertRaises(LegacyRemovedError):
             cli_main(["build-research-dossier", "demo3"])
-        self.assertEqual(cli_main(["import-bundle", "demo3", "--file", "x.json"]), 2)   # Phase 9 까지 명시 오류(D52)
+        self.assertEqual(cli_main(["import-bundle", "demo3", "--file", "x.json"]), 1)   # v3.5.0 복귀 — 없는 파일·프로젝트 = 명시 오류
 
     def test_idempotent_skip_when_valid_facts_exist(self) -> None:
         import os  # noqa: PLC0415

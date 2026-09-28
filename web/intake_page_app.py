@@ -284,7 +284,8 @@ async def _upload_to_tmp(upload, suffixes: tuple[str, ...]) -> Path:  # noqa: AN
 
 @app.post("/intake/{project_id}/source")
 async def add_source(project_id: str, request: Request):
-    """소스 한 건 넣기(18 §1). kind = article_url | article_text | x_text | x_capture | file. 성공하면 페이지로 303."""
+    """소스 한 건 넣기(18 §1). kind = article_url | article_text | x_text | x_capture | file | bundle. 성공하면 페이지로 303.
+    bundle(v3.5.0 D-0063 작업 5) = import-bundle 과 같은 서비스 — 출처(확인 전)·claim 후보·원고/연출 초안."""
     from datetime import date, datetime  # noqa: PLC0415
 
     project_id = _validated_pid(project_id)
@@ -340,6 +341,16 @@ async def add_source(project_id: str, request: Request):
             si.add_document(pdir, issuer=_field(form, "issuer"), title=_field(form, "title"), body=body or "\n".join(facts),
                             key_facts=facts or None, published_at=date.fromisoformat(day) if day else None,
                             url=_field(form, "url") or None, file=tmp, lang=_field(form, "lang") or "ko", note=note)
+        elif kind == "bundle":
+            from orchestrator import bundle_service  # noqa: PLC0415
+
+            up = form.get("file")
+            if up is None or isinstance(up, str):
+                raise ValueError("번들 파일(.json)이 없다")
+            tmp = await _upload_to_tmp(up, (".json",))
+            named = tmp.with_name(Path(getattr(up, "filename", "") or "upload.bundle.json").name)
+            tmp.rename(named)
+            bundle_service.import_bundle(pdir, named, fetch=_field(form, "no_fetch") != "on")
         else:
             raise ValueError("알 수 없는 소스 유형")
     except (si.SourceIntakeError, ValueError, OSError) as e:
@@ -533,7 +544,8 @@ def _render_add_form(pid: str) -> str:
         "<option value=\"article_text\">기사 본문 붙여넣기</option>"
         "<option value=\"x_text\">X 게시물 텍스트</option>"
         "<option value=\"x_capture\">X 게시물 캡처</option>"
-        "<option value=\"file\">공문·자료 파일</option></select></label>\n"
+        "<option value=\"file\">공문·자료 파일</option>"
+        "<option value=\"bundle\">분석 번들 업로드 (report_bundle .json — 자료 파일 칸)</option></select></label>\n"
         "<div class=\"grid\">"
         "<label>URL<input name=\"url\" placeholder=\"https://… (X 링크는 열지 않는다 — 텍스트·캡처로)\"></label>"
         "<label>매체<input name=\"publisher\"></label>"
@@ -554,6 +566,7 @@ def _render_add_form(pid: str) -> str:
         "<div class=\"grid\"><label>X 캡처 이미지<input type=\"file\" name=\"image\" accept=\".png,.jpg,.jpeg\"></label>"
         "<label>자료 파일<input type=\"file\" name=\"file\"></label></div>\n"
         "<label>메모<input name=\"note\"></label>\n"
+        "<label><input type=\"checkbox\" name=\"no_fetch\"> 번들 출처 기사를 가져오지 않음</label>\n"
         "<button type=\"submit\">소스 추가</button>\n</form>"
     )
 
