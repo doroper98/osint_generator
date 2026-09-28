@@ -38,6 +38,7 @@ MAJOR: GOAL G3 개정은 GOAL §G3 머리말("변경 시 메이저")대로 메�
 - **docs/07 영상 스타일 재작성**(작업 3): 쇼츠 콜라주 구판(v0.45.1) → handoff 05·06·08·09·14·17 과 `rules/video_rules.yaml` 을 가리키는 안내도. 수치는 `rules:키` 로만(값 복사 0). 화면 구성·카메라·패널·카드·뱃지·미디어·타이포·검증 라벨(`<미검증>`·`<논쟁>`)·되돌리면 안 되는 것(C0)·checks 12항목 표. 폐기 배너 제거.
 - **docs/08 오디오·TTS 재작성**(작업 4): handoff 03·10, `rules audio`·`tts_rules`·`tts_risk`, `config tts`, BGM 레지스트리, 2패스 loudnorm, 오디오 QA(D57), 발음 규칙·TTS-AP, edge/ElevenLabs 정렬·캐시·트림. handoff 13 §Phase 8 음악 수치 문구에 D57 동기화 주석(D-0061).
 - **docs/09 지도·지오 재작성**(작업 5): handoff 04·05·06, 투영, `geo.prep`(`--res`), 티어·ppd·land-miss(D29), 해상도 = 렌더 진입 장치 변환 한 곳(D60), 라벨 LOD(`rules labels`)·가린 라벨(D61), 프레이밍 `context_w_min`(D54). handoff 09 §2 'px() 로 감싸기' 문구에 D60 정정 주석.
+- **docs/10 렌더 파이프라인 재작성**(작업 6): Remotion 3모드 구판 → 엔진 CLI 단계표(StageResult), 레이어 순서, 두 게이트, 출력 프로파일·장치 변환, 청크 병렬·실측 위치(perf.json), provenance, 인코딩.
 
 ### Fixed
 - **NB27 글꼴 없는 환경의 CLI 서브프로세스 테스트**: `conftest` 의 NB16 훅은 같은 프로세스의 `FontMissingError` 만 skip 으로 바꾼다. 엔진 CLI 를 띄우는 두 테스트(`test_real_cli_direction_validate`·`test_script_gate_view_sections`)는 `tests/_fonts.fonts_ready()` 로 사유 있는 skip. 게이트 ① 뷰는 렌더가 아니라 린트(`script/lint.py` 자막 줄 수 = 글자 폭)에 글꼴이 필요하다 — 검사 경로 분리 대상 아님 (D-0071 §2, D-0072 §0).
