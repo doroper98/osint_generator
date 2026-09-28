@@ -42,6 +42,10 @@ class CameraSuggestHormuzTest(unittest.TestCase):
         bad = [s.t for s in self.cs.shots if s.current_fits is False]
         self.assertEqual(bad, [])
 
+    def test_ending_pullback_not_suggested(self) -> None:
+        self.assertIsNone(self.cs.shots[-1].suggested)
+        self.assertIn("엔딩 풀백", self.cs.shots[-1].note)
+
     def test_shot_rules_clean_on_v3(self) -> None:
         self.assertEqual(self.cs.shot_issues_current, [])
 

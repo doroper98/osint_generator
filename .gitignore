@@ -148,3 +148,14 @@ projects/hormuz_camauto/media/
 projects/hormuz_camauto/prev/
 projects/hormuz_camauto/out/
 projects/hormuz_camauto/cache/
+# v3.3.0 Phase 7 작업 7 — hormuz_ai(6.9 v2 초안) 제안값 입력 AI 연출 재실증 사본
+projects/hormuz_ai_cam/plan.json
+projects/hormuz_ai_cam/tts/
+projects/hormuz_ai_cam/assets/
+projects/hormuz_ai_cam/media/
+projects/hormuz_ai_cam/prev/
+projects/hormuz_ai_cam/out/
+projects/hormuz_ai_cam/logs/
+projects/hormuz_ai_cam/03_tasks/
+projects/hormuz_ai_cam/llm_calls/
+projects/hormuz_ai_cam/direction.meta.json

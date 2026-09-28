@@ -237,7 +237,7 @@
    "fits": false,
    "current_fits": null,
    "points": [],
-   "note": "장소 이벤트 없음 — 제안 없음"
+   "note": "엔딩 풀백(shot_grammar.ending_pullback) — 문법 고정, 제안 없음"
   }
  ],
  "shot_issues_current": []

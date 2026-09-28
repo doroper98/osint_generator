@@ -154,7 +154,11 @@ def suggest(P) -> CameraSuggest:  # noqa: ANN001, N803 — engine.project.Projec
         base.append(dict(t=round(k.t, 3), t_end=round(t1, 3), scene=scene_at(P.plan.sentences, max(k.t, 0.0)), current=cur,
                          current_mode=k.mode))
         pts = _points(P.events, k.t, t1)
-        if t1 <= t0 or _covered(P, t0, t1):
+        ep = SG.ending_pullback
+        if k is keys[-1] and k.mode == "move" and ep.w_from <= k.w <= ep.w_to:
+            info.append(None)
+            notes.append("엔딩 풀백(shot_grammar.ending_pullback) — 문법 고정, 제안 없음")
+        elif t1 <= t0 or _covered(P, t0, t1):
             info.append(None)
             notes.append("화면이 전면 카드·패널로 덮임 — 제안 없음")
         elif not pts:
