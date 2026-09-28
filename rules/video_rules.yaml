@@ -91,6 +91,11 @@ media_beats:               # 14 §10
   caption_credit_required: true
   ai_generated_forbidden: true            # G4-10, 14 §2.2
   casualty_identifiable_forbidden: true
+  credit_formats:                         # D-0036 — 화면 출처 줄은 레지스트리 필드로만 조립(연출이 문자열을 주면 모델 오류)
+    photo: "{file_note} · {credit_author} · {license}"
+    video: "{file_note} · {credit_author} · {license}"
+    cutout: "{file_note} · {credit_author}"
+  registry: assets/media/media_registry.json
 
 hud:                       # 09 §5 — 모서리에는 날짜만
   allowed_corner_elements: [date_badge]

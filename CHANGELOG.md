@@ -30,6 +30,9 @@ released 항목은 **append-only**입니다.
 
 ## [v2.5.5] — 2026-09-28 — Phase 6.5: 사진·영상·컷아웃·기사 (back_and_forth D-0036, 진행 중)
 
+### Added
+- 미디어 레지스트리 `assets/media/media_registry.json` + 스키마 `schemas/media_models.MediaAsset`(권리·검수·가공 기록·화면 문구). v3 7종(사진 2·영상 2·컷아웃 1·기사 2). 필드 누락·자료사진 표기 없음·사상자 체크 구간 불일치는 로드 오류(RightsError). 화면 출처 줄 형식은 `media_beats.credit_formats`.
+
 ### Changed
 - 관계 패널 규칙 4를 "라벨은 첫 선이 자라기 시작한 뒤"로 정정(08 §3, D-0035 NB6). 앞서면 lint 경고 `relation-label-before-edge`. v3 hormuz 는 경고 0.
 

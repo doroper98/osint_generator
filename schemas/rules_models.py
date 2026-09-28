@@ -90,6 +90,8 @@ class MediaBeats(_Strict):
     caption_credit_required: bool
     ai_generated_forbidden: bool
     casualty_identifiable_forbidden: bool
+    credit_formats: dict[str, str]           # v2.5.5 — 화면 출처 줄(레지스트리 필드로만 조립, D-0036 작업 3)
+    registry: str                            # v2.5.5 — 미디어 레지스트리 경로(저장소 기준)
 
 
 class DateBadge(_Strict):

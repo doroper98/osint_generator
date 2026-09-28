@@ -2,7 +2,7 @@
 
 정의 위치는 각 패키지다 — 원고·타임라인은 `script/schema.py`, 카메라 키는 `engine/camera.py`,
 이벤트는 `engine/events.py`. 여기서는 그것들을 한곳에서 import 할 수 있게 다시 내보내고,
-자산 계약(Tier·RightsRegistry·MediaRegistry)과 CLI 출력(StageResult, 16 §4)을 정의한다.
+자산 계약(Tier·RightsRegistry — 미디어는 schemas/media_models, v2.5.5)과 CLI 출력(StageResult, 16 §4)을 정의한다.
 """
 
 from __future__ import annotations
@@ -19,7 +19,7 @@ from script.schema import Card, Plan, PlanSentence, Scene, Script, Sentence
 
 __all__ = [
     "ArticleEvent", "BadgeEvent", "BarrierEvent", "BoomEvent", "CamKey", "Card", "CardEvent", "ClipEvent",
-    "CountryEvent", "CutoutEvent", "DipEvent", "MarkerEvent", "MediaEntry", "MediaRegistry", "PanelPrecedent",
+    "CountryEvent", "CutoutEvent", "DipEvent", "MarkerEvent", "PanelPrecedent",
     "PanelRelation", "PanelStatement", "PanelTimeline", "PanelVersus", "PhotoEvent", "Plan", "PlanSentence",
     "RightsRegistry", "RightsStatus", "AssetRights", "RouteEvent", "Scene", "Script", "Sentence", "ShipsEvent", "StageResult", "TankerLoopEvent",
     "Tier",
@@ -90,22 +90,6 @@ class RightsRegistry(_Strict):
     fonts: dict[str, AssetRights] = Field(default_factory=dict)
     map: dict[str, AssetRights] = Field(default_factory=dict)
     narration: dict[str, AssetRights] = Field(default_factory=dict)
-
-
-class MediaEntry(_Strict):
-    kind: Literal["photo", "video", "cutout", "article"]  # 레지스트리 어휘(video = clip 이벤트)
-    title: str
-    license: str = Field(min_length=1)
-    author: str
-    date: str
-    url: str
-    caption: str
-    file_note: str
-    duration: Optional[float] = None
-
-
-class MediaRegistry(RootModel[dict[str, MediaEntry]]):
-    """미디어 레지스트리 (14 §6). 키 = 이벤트의 `mid`."""
 
 
 class StageResult(_Strict):

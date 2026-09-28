@@ -81,14 +81,16 @@ class Assets:
         self.plc_rank = np.array([p["rank"] for p in plc])
         self.plc_pop = np.array([p["pop"] for p in plc])
         self.plc_cap = np.array([bool(p["cap"]) for p in plc])
-        self.media = _read_json(root / "media" / "media_registry.json", {})
+        from engine.media_registry import load_media_registry  # noqa: PLC0415 — 순환 import 회피
+
+        self.media_assets = load_media_registry()   # v2.5.5 — 저장소 레지스트리(D-0036), 권리·화면 문구의 유일한 출처
+        self.media = {k: v.model_dump() for k, v in self.media_assets.items()}
         # 자산 계약 검증(02 §2.5) — 틀리면 렌더 전 오류
-        from schemas.engine_models import MediaRegistry, RightsRegistry, Tier  # noqa: PLC0415 — 순환 import 회피
+        from schemas.engine_models import RightsRegistry, Tier  # noqa: PLC0415 — 순환 import 회피
 
         for T in self.tiers.values():  # noqa: N806
             Tier.model_validate(T)
         RightsRegistry.model_validate(self.rights)
-        MediaRegistry.model_validate(self.media)
         from engine.entities import load_emblem_registry  # noqa: PLC0415
 
         self.emblems = load_emblem_registry()   # D-0029 작업 3 — decision 은 코드가 정한다(D5)
