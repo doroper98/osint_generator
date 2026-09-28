@@ -29,6 +29,18 @@ entities:
     flag: us
     role_default: 미국 대통령
     accent: us
+  # v3.5.0 — Phase 9 랫클리프 실증: 라이브러리 인물 국기 보강(인물 뱃지는 국기 필수 — 비어 있으면 연출가가 뱃지를 못 만든다)
+  putin:
+    kind: person
+    names: [푸틴, 푸틴 대통령, 블라디미르 푸틴]
+    flag: ru
+    role_default: 러시아 대통령
+    accent: ru
+  zelensky:
+    kind: person
+    names: [젤렌스키, 젤렌스키 대통령, 볼로디미르 젤렌스키]
+    flag: ua
+    role_default: 우크라이나 대통령
   khamenei:
     kind: person
     names: [하메네이, 알리 하메네이]
