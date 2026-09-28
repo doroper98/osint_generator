@@ -13,19 +13,15 @@ import unittest
 from pathlib import Path
 
 from tests._doc_keys import missing_keys
-from tests.anti_inertia.test_no_legacy_imports import LEGACY_NAMES
+from tests.anti_inertia.test_no_legacy_imports import DELETED_DOC_PATHS, LEGACY_NAMES
 
 REPO = Path(__file__).resolve().parent.parent
 VERSION = "v" + (REPO / "VERSION").read_text(encoding="utf-8").strip()
 HEADER = re.compile(r"^<!--\s*\n(.*?)\n-->", re.S)
 LINK = re.compile(r"\]\(([^)#\s]+)(?:#[^)]*)?\)")
 TICK = re.compile(r"`([^`]+)`")
-# 삭제된 경로(19 §1.3·D32·D-0072 작업 9·D-0073). 레거시 모듈 이름은 test_no_legacy_imports 와 한 목록.
-DELETED_PATHS: tuple[str, ...] = (
-    "docs/ADDENDUM_02_PRE_PRODUCTION_DEBUG_LAYER.md", "docs/RUN_LOCAL.md", "docs/11_THUMBNAIL_SYSTEM_SPEC.md",
-    "docs/PROFESSIONAL_REBUILD_PLAN.md", "docs/SHORTS_COLLAGE_OVERHAUL_PLAN.md", "docs/17_COLLAGE_DESIGN_SHEET.md",
-    "tools/bootstrap_assets/", "workers/tts_backends.py", "agents/",
-)
+# 삭제된 경로·레거시 모듈 이름은 tests/anti_inertia/test_no_legacy_imports 가 정본(목록 한 곳, 검사기 자신은 레거시 검사 제외).
+DELETED_PATHS = DELETED_DOC_PATHS
 DELETED_RE = re.compile("|".join(r"(?<![A-Za-z0-9_])" + re.escape(d.split("/")[-1] or d) for d in DELETED_PATHS))
 LEGACY_TOKEN = re.compile(r"(?<![A-Za-z0-9_])(" + "|".join(LEGACY_NAMES) + r")(?![A-Za-z0-9_])")
 HISTORY_MARKERS = ("삭제", "폐기", "archive/", "이력", "legacy", "없다", "대체", "v1")   # 이 줄은 옛 경로를 '없다'고 말하는 줄

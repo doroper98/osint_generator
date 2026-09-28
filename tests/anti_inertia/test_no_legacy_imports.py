@@ -26,6 +26,12 @@ LEGACY_NAMES: tuple[str, ...] = (
     "tts_lint", "tts_pronounce",   # v3.0.0 — script/lint.py 로 병합 후 삭제(16 §3, D-0040 작업 8)
     "tts_backends", "ApprovalLog", "ThumbnailManifest",   # v4.0.0 — 사용처 0 v1 잔재 삭제(back_and_forth D-0073)
 )
+# v4.0.0 — 삭제된 문서·폴더 경로(19 §1.3·D32·D-0072 작업 9·D-0073). tests/test_docs_sync ④ 가 문서 링크 검사에 쓴다(목록 한 곳).
+DELETED_DOC_PATHS: tuple[str, ...] = (
+    "docs/ADDENDUM_02_PRE_PRODUCTION_DEBUG_LAYER.md", "docs/RUN_LOCAL.md", "docs/11_THUMBNAIL_SYSTEM_SPEC.md",
+    "docs/PROFESSIONAL_REBUILD_PLAN.md", "docs/SHORTS_COLLAGE_OVERHAUL_PLAN.md", "docs/17_COLLAGE_DESIGN_SHEET.md",
+    "tools/bootstrap_assets/", "workers/tts_backends.py", "agents/",
+)
 ALLOWED_MENTION = "archive/hyperframes-briefing"
 _TOKEN = re.compile(r"(?<![A-Za-z0-9])(" + "|".join(LEGACY_NAMES) + r")(?![A-Za-z0-9])")
 
