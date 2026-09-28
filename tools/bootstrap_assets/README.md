@@ -8,7 +8,7 @@ last_review: 2026-09-28
 
 # tools/bootstrap_assets — 자산 부트스트랩 (임시, D32)
 
-v3 참조 코드(`docs/handoff/reference_code/v3_hormuz_korea/`) **실행본**이다. v2.3.0 에서 `legacy_v3/`를 지울 때
+v3 참조 코드(`docs/handoff/reference_code/v3_hormuz_korea/`) **실행본**이다. v2.3.0 에서 옛 v3 실행본 폴더를 지울 때
 영상 통로(render·plan·mix)는 삭제하고, 새 엔진에 아직 없는 **자산 생성 두 단계만** 여기로 옮겼다(back_and_forth D-0024).
 
 | 파일 | 원래 이름 | 하는 일 |

@@ -1,7 +1,7 @@
 """Phase 3 지오 테스트 (v2.2.0, D-0015 §1-7).
 
 재귀 평탄화(프랑스 회귀), 타일 범위(19a §H 값), 커버리지 검출, 박스 클램프, 크림 재분류 on/off,
-geo/ 의 legacy_v3 비의존. 네트워크·지형 타일 없이 도는 픽스처만 쓴다.
+geo/ 의 옛 v3 실행본 비의존. 네트워크·지형 타일 없이 도는 픽스처만 쓴다.
 """
 
 from __future__ import annotations
@@ -17,6 +17,7 @@ from geo.prep import GeoConf, classify_miss
 from rules import load_rules
 from geo.prep_geometry import build_geo, parse_bbox, polys, rings
 from geo.prep_tiers import MERC_LAT_MAX, TierSpec, lonlat_to_tile, rasterize_land, tile_range
+from tests.anti_inertia.test_no_legacy_imports import LEGACY_NAMES
 
 REPO = Path(__file__).resolve().parent.parent
 FIX = REPO / "tests" / "fixtures" / "geo"
@@ -122,8 +123,8 @@ class NoLegacyTest(unittest.TestCase):
                     mods = [a.name for a in node.names]
                 elif isinstance(node, ast.ImportFrom):
                     mods = [node.module or ""]
-                for m in mods:
-                    self.assertFalse(m.startswith("legacy_v3"), f"{p.name}: import {m}")
+                for m in mods:  # 금지 이름 목록은 test_no_legacy_imports 한 곳(v2.3.0, D32)
+                    self.assertFalse(set(m.split(".")) & set(LEGACY_NAMES), f"{p.name}: import {m}")
 
 
 if __name__ == "__main__":

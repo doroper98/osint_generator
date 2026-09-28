@@ -19,7 +19,7 @@ from tests.anti_inertia._ast_util import REPO, code_strings, iter_py, parse
 
 LEGACY_NAMES: tuple[str, ...] = (
     "hyperframes", "remotion", "scene_builder", "scene_io", "render_io",
-    "audio_service", "audio_io", "audio_demo", "subtitle_align",
+    "audio_service", "audio_io", "audio_demo", "subtitle_align", "legacy_v3",
 )
 ALLOWED_MENTION = "archive/hyperframes-briefing"
 _TOKEN = re.compile(r"(?<![A-Za-z0-9])(" + "|".join(LEGACY_NAMES) + r")(?![A-Za-z0-9])")

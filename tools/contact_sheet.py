@@ -3,18 +3,17 @@
 모드:
     python tools/contact_sheet.py sheet [--dir D]         # D/frames/*.png → D/sheet.jpg (4열 427×240, 앵커·시각 라벨)
     python tools/contact_sheet.py pairs [--dir D]         # 골든 | 렌더 쌍 2쌍/행 → D/sheet_vs_golden.jpg
-    python tools/contact_sheet.py transitions [--dir D] [--engine new --proj P]   # 타이틀·dip 마다 0.3초 간격 8컷
+    python tools/contact_sheet.py transitions [--dir D] [--proj P]   # 타이틀·dip 마다 0.3초 간격 8컷
 
-라벨은 D/golden_compare.json(golden_compare.py 출력)에서 읽는다. transitions 는 legacy_v3/render3.py 를
-모듈로 불러 연출층의 dip 이벤트와 타이틀 카드 시각을 그대로 쓴다(시각을 따로 적지 않는다).
+라벨은 D/golden_compare.json(golden_compare.py 출력)에서 읽는다. transitions 는 새 엔진 프로젝트(engine.project)를
+불러 연출층의 dip 이벤트와 타이틀 카드 시각을 그대로 쓴다(시각을 따로 적지 않는다).
+v2.3.0: 옛 v3 렌더러 경로는 삭제했다(D32). `--engine` 은 호환용으로 `new` 만 받는다.
 """
 
 from __future__ import annotations
 
 import argparse
-import importlib.util
 import json
-import os
 import sys
 from pathlib import Path
 
@@ -81,15 +80,6 @@ def cmd_pairs(d: Path) -> Path:
     return d / "sheet_vs_golden.jpg"
 
 
-def _import_render3() -> "object":
-    sys.argv = [sys.argv[0]]
-    spec = importlib.util.spec_from_file_location("render3", REPO / "legacy_v3" / "render3.py")
-    mod = importlib.util.module_from_spec(spec)
-    assert spec.loader is not None
-    spec.loader.exec_module(mod)
-    return mod
-
-
 def _new_engine_frames(proj: Path) -> tuple[list[tuple[str, float]], "object"]:
     """새 엔진: 타이틀·dip 중심 시각과 프레임 렌더 함수."""
     import numpy as np
@@ -112,27 +102,9 @@ def _new_engine_frames(proj: Path) -> tuple[list[tuple[str, float]], "object"]:
     return events, frame
 
 
-def cmd_transitions(d: Path, engine: str = "legacy", proj: Path | None = None) -> Path:
-    import numpy as np
-    from PIL import Image
-
-    if engine == "new":
-        events, frame = _new_engine_frames(proj or REPO / "projects" / "hormuz_korea")
-        cells = [(frame(t), f"{name} t={t:.2f}") for name, center in events for t in transition_times(center)]
-        grid(cells, TRANSITION_COUNT, d / "transitions.jpg", cell=(214, 120))
-        return d / "transitions.jpg"
-    r3 = _import_render3()
-    events: list[tuple[str, float]] = []
-    title = next(c for c in r3.P["cards"] if c["kind"] == "title")
-    events.append(("title", float(title["t0"])))
-    for k, e in enumerate(ev for ev in r3.EV if ev["type"] == "dip"):
-        events.append((f"dip{k + 1}{'(under)' if e.get('under') else ''}", (e["t0"] + e["t1"]) / 2))
-    cells = []
-    for name, center in events:
-        for t in transition_times(center):
-            surf, buf = r3.render_frame(min(r3.N - 1, int(t * r3.FPS)))
-            arr = np.frombuffer(bytes(buf), np.uint8).reshape(r3.H_OUT, r3.W_OUT, 4)[..., [2, 1, 0]]
-            cells.append((Image.fromarray(arr), f"{name} t={t:.2f}"))
+def cmd_transitions(d: Path, proj: Path | None = None) -> Path:
+    events, frame = _new_engine_frames(proj or REPO / "projects" / "hormuz_korea")
+    cells = [(frame(t), f"{name} t={t:.2f}") for name, center in events for t in transition_times(center)]
     grid(cells, TRANSITION_COUNT, d / "transitions.jpg", cell=(214, 120))
     return d / "transitions.jpg"
 
@@ -141,12 +113,11 @@ def main(argv: list[str] | None = None) -> int:
     ap = argparse.ArgumentParser(description="프리뷰 컨택트 시트")
     ap.add_argument("mode", choices=["sheet", "pairs", "transitions"])
     ap.add_argument("--dir", type=Path, default=DEFAULT_DIR)
-    ap.add_argument("--engine", choices=["legacy", "new"], default="legacy", help="transitions: 렌더 엔진")
-    ap.add_argument("--proj", type=Path, default=None, help="--engine new 프로젝트")
+    ap.add_argument("--engine", choices=["new"], default="new", help="새 엔진만(v2.3.0, D32)")
+    ap.add_argument("--proj", type=Path, default=None, help="transitions 프로젝트(기본 projects/hormuz_korea)")
     args = ap.parse_args(argv)
-    os.environ.setdefault("V3_ROOT", "projects/hormuz_korea_legacy")
     if args.mode == "transitions":
-        out = cmd_transitions(args.dir, args.engine, args.proj)
+        out = cmd_transitions(args.dir, args.proj)
     else:
         out = {"sheet": cmd_sheet, "pairs": cmd_pairs}[args.mode](args.dir)
     print(out)

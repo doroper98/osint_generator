@@ -1,4 +1,4 @@
-# v2.0.1 map documentary engine (legacy_v3 golden reproduction, later engine/).
+# v2.0.1 map documentary engine (v3 golden reproduction, now engine/ + tools/bootstrap_assets).
 # Keep ASCII-only (see requirements.txt note). Install: pip install -r requirements-engine.txt
 # System packages (Ubuntu/WSL2): libcairo2-dev pkg-config python3-dev ffmpeg fontconfig fonts-noto-cjk
 # See docs/handoff/reports/PHASE1_ENV_SETUP_WSL2.md

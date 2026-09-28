@@ -3,6 +3,9 @@
 - 타일 범위: 19a §H 값(W z5 x18–28/y11–17 등, 합계 135장 — 19 §6)
 - 앵커 재계산: reference plan.json 으로 골든 25 시각 재현(±0.006초, 골든 파일은 소수 둘째 자리)
 - MAD 계산, 렌더 조각 분할, SRT·설명문 생성(골든과 동일), 전환 시트 시각
+
+v2.3.0(D32): 옛 실행기(tools 의 v3 러너) 삭제에 따라 조각 분할·SRT·설명문 테스트 대상을 새 엔진 동명 함수
+(`engine.render.chunk_ranges`, `engine.mux.{srt_time, build_srt, build_description}`)로 바꿨다. 테스트는 삭제하지 않았다.
 """
 
 from __future__ import annotations
@@ -19,9 +22,12 @@ sys.path.insert(0, str(REPO / "tools"))
 from contact_sheet import transition_times  # noqa: E402
 from fetch_data import TIERS, tile_range  # noqa: E402
 from golden_compare import anchor_time, load_golden, mad  # noqa: E402
-from legacy_v3_run import build_description, build_srt, chunk_ranges, srt_time  # noqa: E402
+from engine.mux import build_description, build_srt, load_description, srt_time  # noqa: E402
+from engine.render import chunk_ranges  # noqa: E402
+from script.schema import Plan  # noqa: E402
 
 REF_PLAN = json.loads((REPO / "docs/handoff/reference_code/v3_hormuz_korea/plan.json").read_text(encoding="utf-8"))
+REF_PLAN_MODEL = Plan.model_validate(REF_PLAN)
 GOLDEN = REPO / "docs/handoff/golden"
 
 
@@ -86,7 +92,7 @@ class RunnerTest(unittest.TestCase):
                     for h, m, s, ms in re.findall(r"(\d\d):(\d\d):(\d\d),(\d{3,4})", text)]
 
         golden = (GOLDEN / "hormuz_korea_ko.srt").read_text(encoding="utf-8")
-        ours = build_srt(REF_PLAN)
+        ours = build_srt(REF_PLAN_MODEL)
         self.assertEqual(len(times(ours)), 90)
         for a, b in zip(times(ours), times(golden)):
             self.assertAlmostEqual(a, b, delta=0.0015)
@@ -94,7 +100,8 @@ class RunnerTest(unittest.TestCase):
 
     def test_description_equals_golden(self) -> None:
         golden = (GOLDEN / "youtube_description.txt").read_text(encoding="utf-8")
-        self.assertEqual(build_description(REF_PLAN, golden), golden)
+        ours = build_description(REF_PLAN_MODEL, load_description(REPO / "projects/hormuz_korea"))
+        self.assertEqual(ours.rstrip("\n"), golden.rstrip("\n"))
 
     def test_transition_times_centered(self) -> None:
         ts = transition_times(100.0)
