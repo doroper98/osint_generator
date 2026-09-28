@@ -465,7 +465,7 @@ class _BundleModel(BaseModel):
     `extra="ignore"`: agents_reviewer 보고서 양식은 계속 진화하므로(새 top-level 블록,
     새 섹션 필드 등), 모르는 필드는 **무시**해 추가 변경에 깨지지 않는다. 우리가 선언한
     필드는 여전히 타입·enum·필수 검증되어 소비 데이터의 건전성은 유지된다. 미지 필드의
-    "인지"는 로더(bundle_io.load_report_bundle)가 로그로 surface 한다. 계약 §1 의
+    "인지"는 로더(bundle.load.load_report_bundle)가 모든 깊이에서 로그로 surface 한다. 계약 §1 의
     "additive 변경은 schema_version 무증분" 원칙과 정합 — 추가 필드에 consumer 가 깨지면
     안 된다.
     """

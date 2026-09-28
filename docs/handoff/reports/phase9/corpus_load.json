@@ -1,0 +1,1346 @@
+{
+  "schema_version": 1,
+  "files": 68,
+  "passed": 68,
+  "failed": 0,
+  "unknown_fields_by_bundles": {
+    "$.charts[].display": 66,
+    "$.contradictions[].video": 61,
+    "$.map.arcs[].kind": 30,
+    "$.map.arcs[].label_t": 28,
+    "$.map.arcs[].weight": 30,
+    "$.map.markers[].kind": 30,
+    "$.map.markers[].label_side": 31,
+    "$.map.markers[].value": 32
+  },
+  "rows": [
+    {
+      "file": "json/analysis_20260619_193529_2aa830c0a1.bundle.json",
+      "ok": true,
+      "producer": "agents_reviewer v8.0.0",
+      "sections": 5,
+      "charts": 13,
+      "markers": 6,
+      "arcs": 4,
+      "claims": 0,
+      "contradictions": 1,
+      "sources": 12,
+      "images": 0,
+      "unknown_fields": {
+        "$.charts[].display": 13,
+        "$.contradictions[].video": 1,
+        "$.map.arcs[].kind": 4,
+        "$.map.arcs[].label_t": 4,
+        "$.map.arcs[].weight": 4,
+        "$.map.markers[].kind": 6,
+        "$.map.markers[].label_side": 6,
+        "$.map.markers[].value": 3
+      }
+    },
+    {
+      "file": "json/analysis_20260619_200057_f06d43e45e.bundle.json",
+      "ok": true,
+      "producer": "agents_reviewer v8.0.0",
+      "sections": 5,
+      "charts": 9,
+      "markers": 5,
+      "arcs": 5,
+      "claims": 0,
+      "contradictions": 2,
+      "sources": 15,
+      "images": 0,
+      "unknown_fields": {
+        "$.charts[].display": 9,
+        "$.contradictions[].video": 2,
+        "$.map.arcs[].kind": 5,
+        "$.map.arcs[].label_t": 4,
+        "$.map.arcs[].weight": 5,
+        "$.map.markers[].kind": 5,
+        "$.map.markers[].label_side": 5,
+        "$.map.markers[].value": 5
+      }
+    },
+    {
+      "file": "json/analysis_20260620_061556_70bd734048.bundle.json",
+      "ok": true,
+      "producer": "agents_reviewer v8.0.0",
+      "sections": 6,
+      "charts": 7,
+      "markers": 4,
+      "arcs": 2,
+      "claims": 0,
+      "contradictions": 1,
+      "sources": 11,
+      "images": 0,
+      "unknown_fields": {
+        "$.charts[].display": 7,
+        "$.contradictions[].video": 1,
+        "$.map.arcs[].kind": 2,
+        "$.map.arcs[].label_t": 2,
+        "$.map.arcs[].weight": 2,
+        "$.map.markers[].kind": 4,
+        "$.map.markers[].label_side": 4,
+        "$.map.markers[].value": 2
+      }
+    },
+    {
+      "file": "json/analysis_20260620_102101_30d780948b.bundle.json",
+      "ok": true,
+      "producer": "agents_reviewer v8.0.0",
+      "sections": 6,
+      "charts": 6,
+      "markers": 5,
+      "arcs": 0,
+      "claims": 0,
+      "contradictions": 1,
+      "sources": 13,
+      "images": 0,
+      "unknown_fields": {
+        "$.charts[].display": 6,
+        "$.contradictions[].video": 1,
+        "$.map.markers[].kind": 3,
+        "$.map.markers[].label_side": 5,
+        "$.map.markers[].value": 3
+      }
+    },
+    {
+      "file": "json/analysis_20260620_145602_5a080baffd.bundle.json",
+      "ok": true,
+      "producer": "agents_reviewer v8.0.0",
+      "sections": 5,
+      "charts": 1,
+      "markers": 2,
+      "arcs": 2,
+      "claims": 0,
+      "contradictions": 1,
+      "sources": 15,
+      "images": 0,
+      "unknown_fields": {
+        "$.charts[].display": 1,
+        "$.contradictions[].video": 1,
+        "$.map.arcs[].kind": 2,
+        "$.map.arcs[].label_t": 2,
+        "$.map.arcs[].weight": 2,
+        "$.map.markers[].kind": 2,
+        "$.map.markers[].label_side": 2,
+        "$.map.markers[].value": 2
+      }
+    },
+    {
+      "file": "json/analysis_20260620_163050_7a9a92a238.bundle.json",
+      "ok": true,
+      "producer": "agents_reviewer v8.0.0",
+      "sections": 5,
+      "charts": 3,
+      "markers": 4,
+      "arcs": 4,
+      "claims": 0,
+      "contradictions": 1,
+      "sources": 11,
+      "images": 0,
+      "unknown_fields": {
+        "$.charts[].display": 3,
+        "$.contradictions[].video": 1,
+        "$.map.arcs[].kind": 4,
+        "$.map.arcs[].label_t": 4,
+        "$.map.arcs[].weight": 4,
+        "$.map.markers[].kind": 4,
+        "$.map.markers[].label_side": 3,
+        "$.map.markers[].value": 4
+      }
+    },
+    {
+      "file": "json/analysis_20260620_224648_5e789ff642.bundle.json",
+      "ok": true,
+      "producer": "agents_reviewer v8.0.0",
+      "sections": 5,
+      "charts": 2,
+      "markers": 3,
+      "arcs": 3,
+      "claims": 0,
+      "contradictions": 1,
+      "sources": 5,
+      "images": 0,
+      "unknown_fields": {
+        "$.charts[].display": 2,
+        "$.contradictions[].video": 1,
+        "$.map.arcs[].kind": 3,
+        "$.map.arcs[].label_t": 3,
+        "$.map.arcs[].weight": 3,
+        "$.map.markers[].kind": 1,
+        "$.map.markers[].label_side": 3,
+        "$.map.markers[].value": 3
+      }
+    },
+    {
+      "file": "json/analysis_20260623_062611_bb0a71dcf9.bundle.json",
+      "ok": true,
+      "producer": "agents_reviewer v8.0.0",
+      "sections": 1,
+      "charts": 8,
+      "markers": 0,
+      "arcs": 0,
+      "claims": 0,
+      "contradictions": 0,
+      "sources": 11,
+      "images": 0,
+      "unknown_fields": {
+        "$.charts[].display": 8
+      }
+    },
+    {
+      "file": "json/analysis_20260623_112718_bc8f8b580a.bundle.json",
+      "ok": true,
+      "producer": "agents_reviewer v8.0.0",
+      "sections": 6,
+      "charts": 6,
+      "markers": 6,
+      "arcs": 4,
+      "claims": 0,
+      "contradictions": 1,
+      "sources": 8,
+      "images": 0,
+      "unknown_fields": {
+        "$.charts[].display": 6,
+        "$.contradictions[].video": 1,
+        "$.map.arcs[].kind": 4,
+        "$.map.arcs[].label_t": 2,
+        "$.map.arcs[].weight": 4,
+        "$.map.markers[].kind": 6,
+        "$.map.markers[].label_side": 6,
+        "$.map.markers[].value": 3
+      }
+    },
+    {
+      "file": "json/analysis_20260623_132713_3179fd449f.bundle.json",
+      "ok": true,
+      "producer": "agents_reviewer v8.0.0",
+      "sections": 6,
+      "charts": 0,
+      "markers": 0,
+      "arcs": 0,
+      "claims": 0,
+      "contradictions": 1,
+      "sources": 13,
+      "images": 0,
+      "unknown_fields": {
+        "$.contradictions[].video": 1
+      }
+    },
+    {
+      "file": "json/analysis_20260623_184604_7904f1f8c9.bundle.json",
+      "ok": true,
+      "producer": "agents_reviewer v8.1.0",
+      "sections": 6,
+      "charts": 18,
+      "markers": 0,
+      "arcs": 0,
+      "claims": 0,
+      "contradictions": 1,
+      "sources": 11,
+      "images": 0,
+      "unknown_fields": {
+        "$.charts[].display": 18,
+        "$.contradictions[].video": 1
+      }
+    },
+    {
+      "file": "json/analysis_20260624_061659_291186f4fd.bundle.json",
+      "ok": true,
+      "producer": "agents_reviewer v8.1.0",
+      "sections": 6,
+      "charts": 10,
+      "markers": 4,
+      "arcs": 3,
+      "claims": 0,
+      "contradictions": 2,
+      "sources": 11,
+      "images": 0,
+      "unknown_fields": {
+        "$.charts[].display": 10,
+        "$.contradictions[].video": 2,
+        "$.map.arcs[].kind": 3,
+        "$.map.arcs[].label_t": 3,
+        "$.map.arcs[].weight": 3,
+        "$.map.markers[].kind": 4,
+        "$.map.markers[].label_side": 4,
+        "$.map.markers[].value": 1
+      }
+    },
+    {
+      "file": "json/analysis_20260624_184413_b9cc41bbfa.bundle.json",
+      "ok": true,
+      "producer": "agents_reviewer v8.1.0",
+      "sections": 6,
+      "charts": 18,
+      "markers": 0,
+      "arcs": 0,
+      "claims": 0,
+      "contradictions": 1,
+      "sources": 12,
+      "images": 0,
+      "unknown_fields": {
+        "$.charts[].display": 18,
+        "$.contradictions[].video": 1
+      }
+    },
+    {
+      "file": "json/analysis_20260624_233727_6023aca8d7.bundle.json",
+      "ok": true,
+      "producer": "agents_reviewer v8.2.0",
+      "sections": 8,
+      "charts": 0,
+      "markers": 0,
+      "arcs": 0,
+      "claims": 0,
+      "contradictions": 1,
+      "sources": 12,
+      "images": 0,
+      "unknown_fields": {
+        "$.contradictions[].video": 1
+      }
+    },
+    {
+      "file": "json/analysis_20260625_002353_07cd15215f.bundle.json",
+      "ok": true,
+      "producer": "agents_reviewer v8.2.2",
+      "sections": 5,
+      "charts": 1,
+      "markers": 4,
+      "arcs": 0,
+      "claims": 0,
+      "contradictions": 2,
+      "sources": 11,
+      "images": 0,
+      "unknown_fields": {
+        "$.charts[].display": 1,
+        "$.contradictions[].video": 2,
+        "$.map.markers[].kind": 4,
+        "$.map.markers[].label_side": 4,
+        "$.map.markers[].value": 2
+      }
+    },
+    {
+      "file": "json/analysis_20260625_061718_ad4b066be3.bundle.json",
+      "ok": true,
+      "producer": "agents_reviewer v8.2.3",
+      "sections": 6,
+      "charts": 9,
+      "markers": 4,
+      "arcs": 2,
+      "claims": 0,
+      "contradictions": 2,
+      "sources": 10,
+      "images": 0,
+      "unknown_fields": {
+        "$.charts[].display": 9,
+        "$.contradictions[].video": 2,
+        "$.map.arcs[].kind": 2,
+        "$.map.arcs[].label_t": 1,
+        "$.map.arcs[].weight": 2,
+        "$.map.markers[].kind": 4,
+        "$.map.markers[].label_side": 3,
+        "$.map.markers[].value": 2
+      }
+    },
+    {
+      "file": "json/analysis_20260625_061939_785032bd35.bundle.json",
+      "ok": true,
+      "producer": "agents_reviewer v8.2.3",
+      "sections": 1,
+      "charts": 5,
+      "markers": 0,
+      "arcs": 0,
+      "claims": 0,
+      "contradictions": 0,
+      "sources": 8,
+      "images": 0,
+      "unknown_fields": {
+        "$.charts[].display": 5
+      }
+    },
+    {
+      "file": "json/analysis_20260625_081213_ca0695cb82.bundle.json",
+      "ok": true,
+      "producer": "agents_reviewer v8.2.3",
+      "sections": 1,
+      "charts": 5,
+      "markers": 0,
+      "arcs": 0,
+      "claims": 0,
+      "contradictions": 0,
+      "sources": 6,
+      "images": 0,
+      "unknown_fields": {
+        "$.charts[].display": 5
+      }
+    },
+    {
+      "file": "json/analysis_20260625_083329_321fdfdbff.bundle.json",
+      "ok": true,
+      "producer": "agents_reviewer v8.2.3",
+      "sections": 5,
+      "charts": 4,
+      "markers": 0,
+      "arcs": 0,
+      "claims": 0,
+      "contradictions": 1,
+      "sources": 8,
+      "images": 0,
+      "unknown_fields": {
+        "$.charts[].display": 4,
+        "$.contradictions[].video": 1
+      }
+    },
+    {
+      "file": "json/analysis_20260625_185638_8667a161f6.bundle.json",
+      "ok": true,
+      "producer": "agents_reviewer v8.2.4",
+      "sections": 6,
+      "charts": 17,
+      "markers": 0,
+      "arcs": 0,
+      "claims": 0,
+      "contradictions": 1,
+      "sources": 10,
+      "images": 0,
+      "unknown_fields": {
+        "$.charts[].display": 17,
+        "$.contradictions[].video": 1
+      }
+    },
+    {
+      "file": "json/analysis_20260626_061448_e4653cc1de.bundle.json",
+      "ok": true,
+      "producer": "agents_reviewer v8.2.4",
+      "sections": 6,
+      "charts": 6,
+      "markers": 6,
+      "arcs": 3,
+      "claims": 0,
+      "contradictions": 2,
+      "sources": 9,
+      "images": 0,
+      "unknown_fields": {
+        "$.charts[].display": 6,
+        "$.contradictions[].video": 2,
+        "$.map.arcs[].kind": 3,
+        "$.map.arcs[].label_t": 3,
+        "$.map.arcs[].weight": 3,
+        "$.map.markers[].kind": 6,
+        "$.map.markers[].label_side": 6,
+        "$.map.markers[].value": 3
+      }
+    },
+    {
+      "file": "json/analysis_20260626_134720_7736619c5b.bundle.json",
+      "ok": true,
+      "producer": "agents_reviewer v8.2.4",
+      "sections": 5,
+      "charts": 3,
+      "markers": 0,
+      "arcs": 0,
+      "claims": 0,
+      "contradictions": 1,
+      "sources": 12,
+      "images": 0,
+      "unknown_fields": {
+        "$.charts[].display": 3,
+        "$.contradictions[].video": 1
+      }
+    },
+    {
+      "file": "json/analysis_20260626_185320_1d7ee4e823.bundle.json",
+      "ok": true,
+      "producer": "agents_reviewer v8.2.4",
+      "sections": 7,
+      "charts": 16,
+      "markers": 0,
+      "arcs": 0,
+      "claims": 0,
+      "contradictions": 1,
+      "sources": 9,
+      "images": 0,
+      "unknown_fields": {
+        "$.charts[].display": 16,
+        "$.contradictions[].video": 1
+      }
+    },
+    {
+      "file": "json/analysis_20260627_061808_c7ca9efdc6.bundle.json",
+      "ok": true,
+      "producer": "agents_reviewer v8.2.4",
+      "sections": 7,
+      "charts": 12,
+      "markers": 6,
+      "arcs": 3,
+      "claims": 0,
+      "contradictions": 2,
+      "sources": 11,
+      "images": 0,
+      "unknown_fields": {
+        "$.charts[].display": 12,
+        "$.contradictions[].video": 2,
+        "$.map.arcs[].kind": 3,
+        "$.map.arcs[].label_t": 1,
+        "$.map.arcs[].weight": 3,
+        "$.map.markers[].kind": 3,
+        "$.map.markers[].label_side": 6,
+        "$.map.markers[].value": 3
+      }
+    },
+    {
+      "file": "json/analysis_20260627_151401_8961043eec.bundle.json",
+      "ok": true,
+      "producer": "agents_reviewer v8.2.8",
+      "sections": 10,
+      "charts": 3,
+      "markers": 4,
+      "arcs": 3,
+      "claims": 0,
+      "contradictions": 1,
+      "sources": 19,
+      "images": 0,
+      "unknown_fields": {
+        "$.charts[].display": 3,
+        "$.contradictions[].video": 1,
+        "$.map.arcs[].kind": 3,
+        "$.map.arcs[].weight": 3
+      }
+    },
+    {
+      "file": "json/analysis_20260627_175615_a3800f4c49.bundle.json",
+      "ok": true,
+      "producer": "agents_reviewer v8.2.9",
+      "sections": 10,
+      "charts": 3,
+      "markers": 0,
+      "arcs": 0,
+      "claims": 0,
+      "contradictions": 1,
+      "sources": 15,
+      "images": 0,
+      "unknown_fields": {
+        "$.charts[].display": 3,
+        "$.contradictions[].video": 1
+      }
+    },
+    {
+      "file": "json/analysis_20260627_213911_00d58d87d6.bundle.json",
+      "ok": true,
+      "producer": "agents_reviewer v8.2.15",
+      "sections": 10,
+      "charts": 4,
+      "markers": 4,
+      "arcs": 1,
+      "claims": 0,
+      "contradictions": 2,
+      "sources": 17,
+      "images": 0,
+      "unknown_fields": {
+        "$.charts[].display": 4,
+        "$.contradictions[].video": 2,
+        "$.map.arcs[].kind": 1,
+        "$.map.arcs[].label_t": 1,
+        "$.map.arcs[].weight": 1,
+        "$.map.markers[].kind": 3,
+        "$.map.markers[].label_side": 4,
+        "$.map.markers[].value": 3
+      }
+    },
+    {
+      "file": "json/analysis_20260628_061716_7d7074eb2d.bundle.json",
+      "ok": true,
+      "producer": "agents_reviewer v8.2.12",
+      "sections": 6,
+      "charts": 9,
+      "markers": 4,
+      "arcs": 2,
+      "claims": 0,
+      "contradictions": 1,
+      "sources": 9,
+      "images": 0,
+      "unknown_fields": {
+        "$.charts[].display": 9,
+        "$.contradictions[].video": 1,
+        "$.map.arcs[].kind": 2,
+        "$.map.arcs[].label_t": 1,
+        "$.map.arcs[].weight": 2,
+        "$.map.markers[].kind": 3,
+        "$.map.markers[].label_side": 4,
+        "$.map.markers[].value": 1
+      }
+    },
+    {
+      "file": "json/analysis_20260629_002147_e465bc4378.bundle.json",
+      "ok": true,
+      "producer": "agents_reviewer v8.2.15",
+      "sections": 10,
+      "charts": 4,
+      "markers": 4,
+      "arcs": 3,
+      "claims": 0,
+      "contradictions": 1,
+      "sources": 14,
+      "images": 0,
+      "unknown_fields": {
+        "$.charts[].display": 4,
+        "$.contradictions[].video": 1,
+        "$.map.arcs[].kind": 3,
+        "$.map.arcs[].label_t": 3,
+        "$.map.arcs[].weight": 3,
+        "$.map.markers[].kind": 3,
+        "$.map.markers[].label_side": 4,
+        "$.map.markers[].value": 2
+      }
+    },
+    {
+      "file": "json/analysis_20260629_061538_a841974eed.bundle.json",
+      "ok": true,
+      "producer": "agents_reviewer v8.2.13",
+      "sections": 6,
+      "charts": 12,
+      "markers": 5,
+      "arcs": 3,
+      "claims": 0,
+      "contradictions": 2,
+      "sources": 11,
+      "images": 0,
+      "unknown_fields": {
+        "$.charts[].display": 12,
+        "$.contradictions[].video": 2,
+        "$.map.arcs[].kind": 3,
+        "$.map.arcs[].label_t": 3,
+        "$.map.arcs[].weight": 3,
+        "$.map.markers[].kind": 4,
+        "$.map.markers[].label_side": 5,
+        "$.map.markers[].value": 3
+      }
+    },
+    {
+      "file": "json/analysis_20260629_081801_fb91b3b6d8.bundle.json",
+      "ok": true,
+      "producer": "agents_reviewer v8.2.15",
+      "sections": 11,
+      "charts": 3,
+      "markers": 3,
+      "arcs": 2,
+      "claims": 0,
+      "contradictions": 1,
+      "sources": 10,
+      "images": 0,
+      "unknown_fields": {
+        "$.charts[].display": 3,
+        "$.contradictions[].video": 1,
+        "$.map.arcs[].kind": 2,
+        "$.map.arcs[].label_t": 2,
+        "$.map.arcs[].weight": 2,
+        "$.map.markers[].value": 3
+      }
+    },
+    {
+      "file": "json/analysis_20260629_161043_c73fb16864.bundle.json",
+      "ok": true,
+      "producer": "agents_reviewer v8.2.15",
+      "sections": 10,
+      "charts": 6,
+      "markers": 0,
+      "arcs": 0,
+      "claims": 0,
+      "contradictions": 1,
+      "sources": 13,
+      "images": 0,
+      "unknown_fields": {
+        "$.charts[].display": 6,
+        "$.contradictions[].video": 1
+      }
+    },
+    {
+      "file": "json/analysis_20260629_184644_0796423c4f.bundle.json",
+      "ok": true,
+      "producer": "agents_reviewer v8.2.15",
+      "sections": 7,
+      "charts": 14,
+      "markers": 0,
+      "arcs": 0,
+      "claims": 0,
+      "contradictions": 1,
+      "sources": 12,
+      "images": 0,
+      "unknown_fields": {
+        "$.charts[].display": 14,
+        "$.contradictions[].video": 1
+      }
+    },
+    {
+      "file": "json/analysis_20260630_062806_3714872cd6.bundle.json",
+      "ok": true,
+      "producer": "agents_reviewer v8.2.15",
+      "sections": 6,
+      "charts": 8,
+      "markers": 0,
+      "arcs": 0,
+      "claims": 0,
+      "contradictions": 2,
+      "sources": 9,
+      "images": 0,
+      "unknown_fields": {
+        "$.charts[].display": 8,
+        "$.contradictions[].video": 2
+      }
+    },
+    {
+      "file": "json/analysis_20260630_101607_cd7294b4d4.bundle.json",
+      "ok": true,
+      "producer": "agents_reviewer v8.2.15",
+      "sections": 6,
+      "charts": 8,
+      "markers": 0,
+      "arcs": 0,
+      "claims": 0,
+      "contradictions": 1,
+      "sources": 9,
+      "images": 0,
+      "unknown_fields": {
+        "$.charts[].display": 8,
+        "$.contradictions[].video": 1
+      }
+    },
+    {
+      "file": "json/analysis_20260630_184811_bb90c66256.bundle.json",
+      "ok": true,
+      "producer": "agents_reviewer v8.2.15",
+      "sections": 7,
+      "charts": 16,
+      "markers": 0,
+      "arcs": 0,
+      "claims": 0,
+      "contradictions": 1,
+      "sources": 11,
+      "images": 0,
+      "unknown_fields": {
+        "$.charts[].display": 16,
+        "$.contradictions[].video": 1
+      }
+    },
+    {
+      "file": "json/analysis_20260630_205251_bc0b097ed7.bundle.json",
+      "ok": true,
+      "producer": "agents_reviewer v8.3.3",
+      "sections": 10,
+      "charts": 4,
+      "markers": 0,
+      "arcs": 0,
+      "claims": 0,
+      "contradictions": 1,
+      "sources": 12,
+      "images": 0,
+      "unknown_fields": {
+        "$.charts[].display": 4,
+        "$.contradictions[].video": 1
+      }
+    },
+    {
+      "file": "json/analysis_20260701_061437_f11a4b1a42.bundle.json",
+      "ok": true,
+      "producer": "agents_reviewer v8.2.17",
+      "sections": 6,
+      "charts": 7,
+      "markers": 4,
+      "arcs": 2,
+      "claims": 0,
+      "contradictions": 1,
+      "sources": 12,
+      "images": 0,
+      "unknown_fields": {
+        "$.charts[].display": 7,
+        "$.contradictions[].video": 1,
+        "$.map.arcs[].kind": 2,
+        "$.map.arcs[].label_t": 2,
+        "$.map.arcs[].weight": 2,
+        "$.map.markers[].kind": 4,
+        "$.map.markers[].label_side": 4,
+        "$.map.markers[].value": 2
+      }
+    },
+    {
+      "file": "json/analysis_20260701_184545_7877d0e3ec.bundle.json",
+      "ok": true,
+      "producer": "agents_reviewer v8.2.17",
+      "sections": 6,
+      "charts": 16,
+      "markers": 0,
+      "arcs": 0,
+      "claims": 0,
+      "contradictions": 1,
+      "sources": 10,
+      "images": 0,
+      "unknown_fields": {
+        "$.charts[].display": 16,
+        "$.contradictions[].video": 1
+      }
+    },
+    {
+      "file": "json/analysis_20260701_201757_35f5c10c68.bundle.json",
+      "ok": true,
+      "producer": "agents_reviewer v8.3.0",
+      "sections": 10,
+      "charts": 3,
+      "markers": 0,
+      "arcs": 0,
+      "claims": 0,
+      "contradictions": 2,
+      "sources": 10,
+      "images": 0,
+      "unknown_fields": {
+        "$.charts[].display": 3,
+        "$.contradictions[].video": 2
+      }
+    },
+    {
+      "file": "json/analysis_20260702_061755_150023878b.bundle.json",
+      "ok": true,
+      "producer": "agents_reviewer v8.2.17",
+      "sections": 6,
+      "charts": 11,
+      "markers": 0,
+      "arcs": 0,
+      "claims": 0,
+      "contradictions": 1,
+      "sources": 12,
+      "images": 0,
+      "unknown_fields": {
+        "$.charts[].display": 11,
+        "$.contradictions[].video": 1
+      }
+    },
+    {
+      "file": "json/analysis_20260702_184542_0deef9d58e.bundle.json",
+      "ok": true,
+      "producer": "agents_reviewer v8.2.17",
+      "sections": 6,
+      "charts": 16,
+      "markers": 0,
+      "arcs": 0,
+      "claims": 0,
+      "contradictions": 1,
+      "sources": 9,
+      "images": 0,
+      "unknown_fields": {
+        "$.charts[].display": 16,
+        "$.contradictions[].video": 1
+      }
+    },
+    {
+      "file": "json/analysis_20260703_061544_3c22417103.bundle.json",
+      "ok": true,
+      "producer": "agents_reviewer v8.3.3",
+      "sections": 6,
+      "charts": 11,
+      "markers": 4,
+      "arcs": 2,
+      "claims": 0,
+      "contradictions": 2,
+      "sources": 10,
+      "images": 0,
+      "unknown_fields": {
+        "$.charts[].display": 11,
+        "$.contradictions[].video": 2,
+        "$.map.arcs[].kind": 2,
+        "$.map.arcs[].label_t": 2,
+        "$.map.arcs[].weight": 2,
+        "$.map.markers[].kind": 4,
+        "$.map.markers[].label_side": 4,
+        "$.map.markers[].value": 2
+      }
+    },
+    {
+      "file": "json/analysis_20260703_083823_fe6775f4b6.bundle.json",
+      "ok": true,
+      "producer": "agents_reviewer v8.3.3",
+      "sections": 9,
+      "charts": 4,
+      "markers": 5,
+      "arcs": 3,
+      "claims": 0,
+      "contradictions": 1,
+      "sources": 16,
+      "images": 0,
+      "unknown_fields": {
+        "$.charts[].display": 4,
+        "$.contradictions[].video": 1,
+        "$.map.arcs[].kind": 3,
+        "$.map.arcs[].label_t": 3,
+        "$.map.arcs[].weight": 3,
+        "$.map.markers[].kind": 3,
+        "$.map.markers[].label_side": 5,
+        "$.map.markers[].value": 4
+      }
+    },
+    {
+      "file": "json/analysis_20260703_185614_b28a18c6b9.bundle.json",
+      "ok": true,
+      "producer": "agents_reviewer v8.3.3",
+      "sections": 6,
+      "charts": 16,
+      "markers": 0,
+      "arcs": 0,
+      "claims": 0,
+      "contradictions": 1,
+      "sources": 14,
+      "images": 0,
+      "unknown_fields": {
+        "$.charts[].display": 16,
+        "$.contradictions[].video": 1
+      }
+    },
+    {
+      "file": "json/analysis_20260703_222522_c9229895d9.bundle.json",
+      "ok": true,
+      "producer": "agents_reviewer v8.3.3",
+      "sections": 9,
+      "charts": 4,
+      "markers": 3,
+      "arcs": 0,
+      "claims": 0,
+      "contradictions": 1,
+      "sources": 11,
+      "images": 0,
+      "unknown_fields": {
+        "$.charts[].display": 4,
+        "$.contradictions[].video": 1,
+        "$.map.markers[].kind": 3,
+        "$.map.markers[].label_side": 3,
+        "$.map.markers[].value": 3
+      }
+    },
+    {
+      "file": "json/analysis_20260704_061741_01e69725e4.bundle.json",
+      "ok": true,
+      "producer": "agents_reviewer v8.3.3",
+      "sections": 6,
+      "charts": 10,
+      "markers": 0,
+      "arcs": 0,
+      "claims": 0,
+      "contradictions": 2,
+      "sources": 12,
+      "images": 0,
+      "unknown_fields": {
+        "$.charts[].display": 10,
+        "$.contradictions[].video": 2
+      }
+    },
+    {
+      "file": "json/analysis_20260704_132535_0f8bce5130.bundle.json",
+      "ok": true,
+      "producer": "agents_reviewer v8.3.3",
+      "sections": 10,
+      "charts": 5,
+      "markers": 4,
+      "arcs": 3,
+      "claims": 0,
+      "contradictions": 1,
+      "sources": 10,
+      "images": 0,
+      "unknown_fields": {
+        "$.charts[].display": 5,
+        "$.contradictions[].video": 1,
+        "$.map.arcs[].kind": 3,
+        "$.map.arcs[].label_t": 3,
+        "$.map.arcs[].weight": 2,
+        "$.map.markers[].kind": 1,
+        "$.map.markers[].label_side": 4,
+        "$.map.markers[].value": 1
+      }
+    },
+    {
+      "file": "json/analysis_20260705_062633_40905a2eb1.bundle.json",
+      "ok": true,
+      "producer": "agents_reviewer v8.3.3",
+      "sections": 7,
+      "charts": 9,
+      "markers": 6,
+      "arcs": 3,
+      "claims": 0,
+      "contradictions": 1,
+      "sources": 11,
+      "images": 0,
+      "unknown_fields": {
+        "$.charts[].display": 9,
+        "$.contradictions[].video": 1,
+        "$.map.arcs[].kind": 3,
+        "$.map.arcs[].weight": 3,
+        "$.map.markers[].kind": 6,
+        "$.map.markers[].label_side": 6,
+        "$.map.markers[].value": 2
+      }
+    },
+    {
+      "file": "json/analysis_20260705_163642_c6d4131146.bundle.json",
+      "ok": true,
+      "producer": "agents_reviewer v8.3.3",
+      "sections": 9,
+      "charts": 4,
+      "markers": 0,
+      "arcs": 0,
+      "claims": 0,
+      "contradictions": 1,
+      "sources": 12,
+      "images": 0,
+      "unknown_fields": {
+        "$.charts[].display": 4,
+        "$.contradictions[].video": 1
+      }
+    },
+    {
+      "file": "json/analysis_20260706_062821_6c5b86a33f.bundle.json",
+      "ok": true,
+      "producer": "agents_reviewer v8.3.3",
+      "sections": 6,
+      "charts": 14,
+      "markers": 8,
+      "arcs": 6,
+      "claims": 0,
+      "contradictions": 2,
+      "sources": 15,
+      "images": 0,
+      "unknown_fields": {
+        "$.charts[].display": 14,
+        "$.contradictions[].video": 2,
+        "$.map.arcs[].kind": 6,
+        "$.map.arcs[].label_t": 3,
+        "$.map.arcs[].weight": 6,
+        "$.map.markers[].kind": 8,
+        "$.map.markers[].label_side": 2,
+        "$.map.markers[].value": 7
+      }
+    },
+    {
+      "file": "json/analysis_20260706_185309_dde69a3b77.bundle.json",
+      "ok": true,
+      "producer": "agents_reviewer v8.3.3",
+      "sections": 6,
+      "charts": 16,
+      "markers": 0,
+      "arcs": 0,
+      "claims": 0,
+      "contradictions": 1,
+      "sources": 5,
+      "images": 0,
+      "unknown_fields": {
+        "$.charts[].display": 16,
+        "$.contradictions[].video": 1
+      }
+    },
+    {
+      "file": "json/analysis_20260707_061715_535dea6fb7.bundle.json",
+      "ok": true,
+      "producer": "agents_reviewer v8.3.3",
+      "sections": 6,
+      "charts": 11,
+      "markers": 5,
+      "arcs": 2,
+      "claims": 0,
+      "contradictions": 1,
+      "sources": 13,
+      "images": 0,
+      "unknown_fields": {
+        "$.charts[].display": 11,
+        "$.contradictions[].video": 1,
+        "$.map.arcs[].kind": 2,
+        "$.map.arcs[].label_t": 2,
+        "$.map.arcs[].weight": 2,
+        "$.map.markers[].kind": 3,
+        "$.map.markers[].label_side": 5,
+        "$.map.markers[].value": 2
+      }
+    },
+    {
+      "file": "json/analysis_20260707_184802_ec6eddd39c.bundle.json",
+      "ok": true,
+      "producer": "agents_reviewer v8.3.3",
+      "sections": 6,
+      "charts": 18,
+      "markers": 0,
+      "arcs": 0,
+      "claims": 0,
+      "contradictions": 1,
+      "sources": 12,
+      "images": 0,
+      "unknown_fields": {
+        "$.charts[].display": 18,
+        "$.contradictions[].video": 1
+      }
+    },
+    {
+      "file": "json/analysis_20260708_062900_470e7e63d4.bundle.json",
+      "ok": true,
+      "producer": "agents_reviewer v8.3.3",
+      "sections": 6,
+      "charts": 7,
+      "markers": 5,
+      "arcs": 3,
+      "claims": 0,
+      "contradictions": 2,
+      "sources": 11,
+      "images": 0,
+      "unknown_fields": {
+        "$.charts[].display": 7,
+        "$.contradictions[].video": 2,
+        "$.map.arcs[].kind": 3,
+        "$.map.arcs[].label_t": 3,
+        "$.map.arcs[].weight": 3,
+        "$.map.markers[].kind": 5,
+        "$.map.markers[].label_side": 5,
+        "$.map.markers[].value": 1
+      }
+    },
+    {
+      "file": "json/analysis_20260708_185133_9514566312.bundle.json",
+      "ok": true,
+      "producer": "agents_reviewer v8.3.3",
+      "sections": 7,
+      "charts": 18,
+      "markers": 0,
+      "arcs": 0,
+      "claims": 0,
+      "contradictions": 2,
+      "sources": 10,
+      "images": 0,
+      "unknown_fields": {
+        "$.charts[].display": 18,
+        "$.contradictions[].video": 2
+      }
+    },
+    {
+      "file": "json/analysis_20260709_061800_800c304409.bundle.json",
+      "ok": true,
+      "producer": "agents_reviewer v8.3.5",
+      "sections": 7,
+      "charts": 12,
+      "markers": 7,
+      "arcs": 4,
+      "claims": 0,
+      "contradictions": 1,
+      "sources": 12,
+      "images": 2,
+      "unknown_fields": {
+        "$.charts[].display": 12,
+        "$.contradictions[].video": 1,
+        "$.map.arcs[].kind": 4,
+        "$.map.arcs[].label_t": 4,
+        "$.map.arcs[].weight": 4,
+        "$.map.markers[].kind": 7,
+        "$.map.markers[].label_side": 7,
+        "$.map.markers[].value": 5
+      }
+    },
+    {
+      "file": "json/analysis_20260709_184905_edfd10da4d.bundle.json",
+      "ok": true,
+      "producer": "agents_reviewer v8.3.6",
+      "sections": 6,
+      "charts": 16,
+      "markers": 0,
+      "arcs": 0,
+      "claims": 0,
+      "contradictions": 1,
+      "sources": 4,
+      "images": 2,
+      "unknown_fields": {
+        "$.charts[].display": 16,
+        "$.contradictions[].video": 1
+      }
+    },
+    {
+      "file": "json/analysis_20260710_062549_b1f9600fde.bundle.json",
+      "ok": true,
+      "producer": "agents_reviewer v8.3.6",
+      "sections": 7,
+      "charts": 10,
+      "markers": 5,
+      "arcs": 3,
+      "claims": 0,
+      "contradictions": 1,
+      "sources": 10,
+      "images": 0,
+      "unknown_fields": {
+        "$.charts[].display": 10,
+        "$.contradictions[].video": 1,
+        "$.map.arcs[].kind": 3,
+        "$.map.arcs[].label_t": 3,
+        "$.map.arcs[].weight": 3,
+        "$.map.markers[].kind": 5,
+        "$.map.markers[].label_side": 5,
+        "$.map.markers[].value": 1
+      }
+    },
+    {
+      "file": "json/analysis_20260711_062923_cdb78a0c8a.bundle.json",
+      "ok": true,
+      "producer": "agents_reviewer v8.3.6",
+      "sections": 6,
+      "charts": 11,
+      "markers": 4,
+      "arcs": 4,
+      "claims": 0,
+      "contradictions": 1,
+      "sources": 15,
+      "images": 1,
+      "unknown_fields": {
+        "$.charts[].display": 11,
+        "$.contradictions[].video": 1,
+        "$.map.arcs[].kind": 4,
+        "$.map.arcs[].label_t": 3,
+        "$.map.arcs[].weight": 3,
+        "$.map.markers[].kind": 4,
+        "$.map.markers[].label_side": 3,
+        "$.map.markers[].value": 1
+      }
+    },
+    {
+      "file": "json/analysis_20260711_104906_18248c8b25.bundle.json",
+      "ok": true,
+      "producer": "agents_reviewer v8.3.6",
+      "sections": 9,
+      "charts": 4,
+      "markers": 0,
+      "arcs": 0,
+      "claims": 0,
+      "contradictions": 1,
+      "sources": 8,
+      "images": 2,
+      "unknown_fields": {
+        "$.charts[].display": 4,
+        "$.contradictions[].video": 1
+      }
+    },
+    {
+      "file": "json/analysis_20260712_061758_35c3a838db.bundle.json",
+      "ok": true,
+      "producer": "agents_reviewer v8.3.6",
+      "sections": 6,
+      "charts": 11,
+      "markers": 5,
+      "arcs": 3,
+      "claims": 0,
+      "contradictions": 2,
+      "sources": 12,
+      "images": 3,
+      "unknown_fields": {
+        "$.charts[].display": 11,
+        "$.contradictions[].video": 2,
+        "$.map.arcs[].kind": 3,
+        "$.map.arcs[].label_t": 3,
+        "$.map.arcs[].weight": 2,
+        "$.map.markers[].kind": 3,
+        "$.map.markers[].label_side": 5,
+        "$.map.markers[].value": 1
+      }
+    },
+    {
+      "file": "json/analysis_20260712_092833_9180259a6f.bundle.json",
+      "ok": true,
+      "producer": "agents_reviewer v8.3.6",
+      "sections": 6,
+      "charts": 8,
+      "markers": 0,
+      "arcs": 0,
+      "claims": 0,
+      "contradictions": 2,
+      "sources": 11,
+      "images": 0,
+      "unknown_fields": {
+        "$.charts[].display": 8,
+        "$.contradictions[].video": 2
+      }
+    },
+    {
+      "file": "samples/bom_rnd/bom_rnd_master.bundle.json",
+      "ok": true,
+      "producer": "claude-handcraft bom-v0.1",
+      "sections": 5,
+      "charts": 3,
+      "markers": 0,
+      "arcs": 0,
+      "claims": 0,
+      "contradictions": 1,
+      "sources": 3,
+      "images": 0,
+      "unknown_fields": {
+        "$.charts[].display": 3
+      }
+    },
+    {
+      "file": "samples/neasia2026/analysis_20260613_010946_8c4560f8b4.bundle.json",
+      "ok": true,
+      "producer": "agents_reviewer v7.6.0",
+      "sections": 6,
+      "charts": 2,
+      "markers": 4,
+      "arcs": 1,
+      "claims": 0,
+      "contradictions": 2,
+      "sources": 20,
+      "images": 0,
+      "unknown_fields": {
+        "$.charts[].display": 2,
+        "$.map.arcs[].kind": 1,
+        "$.map.arcs[].label_t": 1,
+        "$.map.arcs[].weight": 1,
+        "$.map.markers[].label_side": 4,
+        "$.map.markers[].value": 3
+      }
+    },
+    {
+      "file": "samples/semicon2026/analysis_20260611_130642_9f7fbb749d.bundle.json",
+      "ok": true,
+      "producer": "agents_reviewer v7.1.0",
+      "sections": 6,
+      "charts": 10,
+      "markers": 0,
+      "arcs": 0,
+      "claims": 0,
+      "contradictions": 2,
+      "sources": 16,
+      "images": 0,
+      "unknown_fields": {
+        "$.charts[].display": 10
+      }
+    },
+    {
+      "file": "samples/skt_aidc/skt_aidc_photo_demo.bundle.json",
+      "ok": true,
+      "producer": "agents_reviewer v8.3.3",
+      "sections": 9,
+      "charts": 4,
+      "markers": 0,
+      "arcs": 0,
+      "claims": 0,
+      "contradictions": 1,
+      "sources": 12,
+      "images": 3,
+      "unknown_fields": {
+        "$.charts[].display": 4,
+        "$.contradictions[].video": 1
+      }
+    },
+    {
+      "file": "samples/spacex2026/analysis_20260606_114653_9f09d4daf2.bundle.json",
+      "ok": true,
+      "producer": "agents_reviewer v7.4.1",
+      "sections": 7,
+      "charts": 11,
+      "markers": 0,
+      "arcs": 0,
+      "claims": 0,
+      "contradictions": 1,
+      "sources": 15,
+      "images": 0,
+      "unknown_fields": {
+        "$.charts[].display": 11
+      }
+    }
+  ]
+}

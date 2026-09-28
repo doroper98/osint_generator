@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import shutil
 import tempfile
 import unittest
 from pathlib import Path
@@ -61,6 +62,7 @@ class AudioQATest(unittest.TestCase):
             self.assertEqual(q.issues(), [])                    # hard 아님
             self.assertEqual(len(q.warnings()), 1)
 
+    @unittest.skipUnless(shutil.which("ffmpeg"), "ffmpeg 없음 — loudnorm 2패스는 ffmpeg 가 측정한다(환경 의존, D-0062 NB22)")
     def test_two_pass_record(self) -> None:
         with tempfile.TemporaryDirectory() as d:
             _fixture(Path(d), -13.0)
