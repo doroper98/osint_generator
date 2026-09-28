@@ -72,6 +72,7 @@ class PlanSentence(_Strict):
     dur: float
     t0: float
     t1: float
+    trim_offset: Optional[float] = None  # v2.3.0 optional(C3 호환) — 원본 mp3 앞에서 잘라낸 초. 정렬 시각 보정용
 
 
 class Card(_Strict):

@@ -53,11 +53,11 @@ def build(proj: Path, tts: str, warnings: list[str] | None = None) -> Plan:
             jobs.append((x["tts"], p))
     edge.synth_all(jobs)
     for x in rows:
-        npy, dur = trim_to_npy(Path(x["mp3"]))
-        x["npy"], x["dur"] = str(npy), dur
+        npy, dur, off = trim_to_npy(Path(x["mp3"]))
+        x["npy"], x["dur"], x["trim_offset"] = str(npy), dur, round(off, 6)
     cards, scene_start, total = layout(rows)
     return Plan(sentences=rows, cards=cards, scene_start=scene_start, total=total,
-                voice="elevenlabs" if use_eleven else edge.voice_label(),
+                voice=elevenlabs.voice_label() if use_eleven else edge.voice_label(),
                 title=script.title, subtitle=script.subtitle, date=script.date)
 
 
