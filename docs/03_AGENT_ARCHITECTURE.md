@@ -100,7 +100,7 @@ LLM 호출이 필요한 Worker 는 `workers/base_llm_worker.py:BaseLLMWorker` �
 ```python
 class BaseLLMWorker(BaseWorker):
     llm_backend: Literal["claude", "codex"]   # 구독 인증된 CLI
-    llm_mode: Literal["response", "agent"]    # one-shot JSON / 도구 사용 모드
+    llm_mode: Literal["response", "agent", "vision"]    # one-shot JSON / 도구 사용 모드 / 이미지 첨부 읽기(v3.1.0 시각 검수)
     system_prompt: str
 
     def build_user_prompt(self, task) -> str: ...

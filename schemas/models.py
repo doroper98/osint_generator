@@ -680,7 +680,7 @@ class LLMCallRecord(VersionedModel):
     backend: Literal["claude", "codex"]
     # v0.43.5: claude 백엔드에 실제 전달된 --model 값 (재현성). codex 는 None.
     model: Optional[str] = None
-    mode: Literal["response", "agent"]
+    mode: Literal["response", "agent", "vision"]   # v3.1.0 vision = 이미지 첨부 읽기(시각 검수, D-0047 작업 8)
     system_prompt_hash: str
     user_prompt_path: str
     raw_response_path: str

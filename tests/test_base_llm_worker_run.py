@@ -246,3 +246,18 @@ class TestOutputPathValidation(_BaseRunTest):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class VisionModeWorker(FixtureLLMWorker):
+    """v3.1.0 시각 검수 — vision 모드 호출 기록이 LLMCallRecord 를 통과해야 한다(hormuz_ai 실측 버그)."""
+
+    worker_name = "vision_mode_worker"
+    llm_mode: ClassVar[str] = "vision"
+
+
+class TestVisionModeRecord(_BaseRunTest):
+    def test_vision_record_persists(self) -> None:
+        self._stub('{"schema_version":1,"echo":"v"}')
+        result = VisionModeWorker().run(self.args, self.task)
+        self.assertEqual(result.status, TaskStatus.COMPLETED)
+        self.assertEqual(self._read_record().mode, "vision")
