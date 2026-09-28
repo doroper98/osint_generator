@@ -29,7 +29,9 @@ import sys
 from pathlib import Path
 
 REPO = Path(__file__).resolve().parent.parent
-GOLDEN_DIR = REPO / "docs" / "handoff" / "golden"
+if str(REPO) not in sys.path:
+    sys.path.insert(0, str(REPO))
+from engine.golden import GOLDEN_DIR, anchor_time, load_golden  # noqa: E402  (v3.0.0 — preview golden 과 공유)
 DEFAULT_OUT = REPO / "docs" / "handoff" / "reports" / "phase1"
 PHASE1_FRAMES = REPO / "docs" / "handoff" / "reports" / "phase1" / "frames"
 PHASE2_OUT = REPO / "docs" / "handoff" / "reports" / "phase2"
@@ -50,22 +52,6 @@ def load_expected_deltas() -> dict[str, dict]:
         if missing:
             raise ValueError(f"expected_deltas.json {k}: 필드 누락 {sorted(missing)}")
     return d.get("deltas", {})
-
-
-def load_golden() -> dict:
-    return json.loads((GOLDEN_DIR / "golden_frames.json").read_text(encoding="utf-8"))
-
-
-def anchor_time(anchor: str, offset: float, plan: dict) -> float:
-    """앵커 → 절대 시각(초)."""
-    if anchor == "TITLE":
-        return next(c["t0"] for c in plan["cards"] if c["kind"] == "title") + offset
-    if anchor == "END":
-        return float(plan["total"]) + offset
-    for s in plan["sentences"]:
-        if s["sid"] == anchor:
-            return float(s["t0"]) + offset
-    raise KeyError(f"plan.json 에 앵커 없음: {anchor}")
 
 
 def mad(a: "object", b: "object") -> float:

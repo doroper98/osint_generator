@@ -78,6 +78,36 @@ def manifest_path(project_id: str, cfg: Optional[AppConfig] = None) -> Path:
     return project_dir(project_id, cfg) / MANIFEST_FILENAME
 
 
+# 16 §6 산출물 지도(프로젝트 기준 상대 경로). 오케스트레이터는 경로를 관리·표시할 뿐 엔진 입력을 쓰지 않는다(15 P1).
+# direction 은 6.9 전까지 사람이 쓴 direction.py(17 §2 direction.yaml 은 6.9).
+PROJECT_PATHS: dict[str, str] = {
+    "script": "script.yaml",
+    "script_labels": "script_labels.json",
+    "plan": "plan.json",
+    "tts": "tts",
+    "assets": "assets",
+    "media": "media",
+    "direction": "direction.py",
+    "prev": "prev",
+    "prev_sheet": "prev/sheet.jpg",
+    "prev_provenance": "prev/provenance.json",
+    "out": "out",
+    "final": "out/final.mp4",
+    "provenance": "out/provenance.json",
+}
+
+
+def project_paths(project_id: str, cfg: Optional[AppConfig] = None) -> dict[str, Path]:
+    """16 §6 산출물 절대 경로."""
+    pdir = project_dir(project_id, cfg or load_config())
+    return {k: pdir / v for k, v in PROJECT_PATHS.items()}
+
+
+def artifact_status(project_id: str, cfg: Optional[AppConfig] = None) -> dict[str, bool]:
+    """산출물 존재 여부(게이트·대시보드 표시용, 읽기만)."""
+    return {k: p.exists() for k, p in project_paths(project_id, cfg).items()}
+
+
 def _ensure_project_layout(project_id: str, cfg: AppConfig) -> Path:
     """프로젝트 디렉토리 골격을 만듭니다. 이미 존재하면 그대로 둡니다."""
     pdir = project_dir(project_id, cfg)
@@ -250,6 +280,7 @@ def new_project(
         initial_links=_normalize_initial_links(initial_links),
         current_state=ProjectState.CREATED,
         state_history=[],
+        paths=dict(PROJECT_PATHS),   # v3.0.0 — 16 §6
     )
 
     _ensure_project_layout(project_id, cfg)

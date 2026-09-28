@@ -182,6 +182,17 @@ class GateViewTest(_Proj):
         self.assertEqual(shown["drops"], "0")
 
 
+class ProjectPathsTest(_Proj):
+    def test_16_s6_paths(self) -> None:
+        from orchestrator.project_manager import PROJECT_PATHS, artifact_status  # noqa: PLC0415
+        self.assertEqual(load_manifest("p", self.cfg).paths, PROJECT_PATHS)
+        for k in ("script", "plan", "direction", "prev_sheet", "prev_provenance", "final", "provenance"):
+            self.assertIn(k, PROJECT_PATHS)
+        st = artifact_status("p", self.cfg)
+        self.assertTrue(st["script"])
+        self.assertFalse(st["plan"])
+
+
 class CliTest(_Proj):
     def test_cli_approve_reject(self) -> None:
         self.to_gate1()

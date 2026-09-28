@@ -1,6 +1,6 @@
 """프레임 렌더 CLI (v2.1.0, render3 `render_frame, __main__`, 16 §4).
 
-    python -m engine.render <proj> --preview auto|t1,t2,…   → prev/p_TTTT.TT.png
+    python -m engine.render <proj> --preview auto|golden|t1,t2,…   → prev/p_TTTT.TT.png, sheet.jpg, provenance.json
     python -m engine.render <proj> --jobs N                → out/video_noaudio.mp4 (N 조각 병렬 → concat)
     python -m engine.render <proj> --chunk START END OUT   → (내부용) 프레임 구간 한 조각
 
@@ -98,15 +98,46 @@ def auto_preview_times(P: Project) -> list[float]:  # noqa: N803
     return sorted(ts)
 
 
-def preview(P: Project, times: list[float]) -> list[str]:  # noqa: N803
+PREVIEW_STAGES = {"plan": True, "geo": True, "preview": True, "render": False, "mix": False, "mux": False,
+                  "ai_direction": False, "visual_qa": False}   # 돌지 않은 단계는 false 로 명시(D-0041 §1, 15 P5)
+
+
+def preview_times(P: Project, spec: str) -> list[tuple[str, float]]:  # noqa: N803
+    """`auto` · `golden`(골든 25 앵커, D-0041) · 쉼표로 구분한 초 → [(라벨, 시각)]."""
+    if spec == "auto":
+        return [(f"t={t:.2f}", t) for t in auto_preview_times(P)]
+    if spec == "golden":
+        from engine.golden import golden_times  # noqa: PLC0415
+
+        return golden_times(P.plan.model_dump())
+    return [(f"t={float(x):.2f}", float(x)) for x in spec.split(",")]
+
+
+def preview(P: Project, times: list[float], labels: list[str] | None = None) -> list[str]:  # noqa: N803
+    """prev/p_TTTT.TT.png + prev/sheet.jpg + prev/provenance.json (16 §4, D-0041)."""
+    import json  # noqa: PLC0415
+
+    from PIL import Image  # noqa: PLC0415
+
+    from engine.mux import project_provenance  # noqa: PLC0415
+    from engine.sheet import COLS, grid  # noqa: PLC0415
+
     out = P.root / "prev"
     out.mkdir(exist_ok=True)
+    for old in out.glob("p_*.png"):   # 이전 프리뷰 컷이 섞이지 않게
+        old.unlink()
     paths = []
     for tt in times:
         s, _ = render_frame(P, min(P.n_frames - 1, int(tt * FPS)))
         p = out / f"p_{tt:07.2f}.png"
         s.write_to_png(str(p))
         paths.append(str(p))
+    names = labels or [f"t={t:.2f}" for t in times]
+    grid([(Image.open(p), f"{i + 1:02d} {n}  t={t:.2f}") for i, (p, n, t) in enumerate(zip(paths, names, times))],
+         COLS, out / "sheet.jpg")
+    prov = project_provenance(P, PREVIEW_STAGES)
+    prov["preview"] = {"frames": len(paths), "times": [round(t, 3) for t in times]}
+    (out / "provenance.json").write_text(json.dumps(prov, ensure_ascii=False, indent=1), encoding="utf-8")
     return paths
 
 
@@ -162,7 +193,7 @@ def render_full(P: Project, jobs: int) -> Path:  # noqa: N803
 def main(argv: list[str] | None = None) -> int:
     ap = argparse.ArgumentParser(description="engine.render")
     ap.add_argument("proj", type=Path)
-    ap.add_argument("--preview", help="auto 또는 쉼표로 구분한 초")
+    ap.add_argument("--preview", help="auto · golden(골든 25 앵커) · 쉼표로 구분한 초")
     ap.add_argument("--jobs", type=int, default=None)
     ap.add_argument("--chunk", nargs=3, metavar=("START", "END", "OUT"))
     args = ap.parse_args(argv)
@@ -173,15 +204,17 @@ def main(argv: list[str] | None = None) -> int:
             render_chunk(P, int(args.chunk[0]), int(args.chunk[1]), Path(args.chunk[2]))
             return 0
         if args.preview:
-            times = auto_preview_times(P) if args.preview == "auto" else [float(x) for x in args.preview.split(",")]
-            arts = {f"prev/{Path(p).name}": p for p in preview(P, times)}
+            lt = preview_times(P, args.preview)
+            arts = {f"prev/{Path(p).name}": p for p in preview(P, [t for _, t in lt], [n for n, _ in lt])}
+            arts["sheet"] = str(P.root / "prev" / "sheet.jpg")
+            arts["provenance"] = str(P.root / "prev" / "provenance.json")
         else:
             from orchestrator.config import load_config  # noqa: PLC0415
 
             jobs = args.jobs if args.jobs is not None else load_config().engine.jobs
             arts = {"video_noaudio": str(render_full(P, jobs))}
         res = StageResult(ok=True, stage=stage, artifacts=arts, warnings=P.warnings)
-    except (ProjectError, RegistryError, RuntimeError, OSError) as ex:
+    except (ProjectError, RegistryError, RuntimeError, OSError, ValueError) as ex:
         res = StageResult(ok=False, stage=stage, errors=[str(ex)])
     print(json.dumps(res.model_dump(), ensure_ascii=False))
     return 0 if res.ok else 1

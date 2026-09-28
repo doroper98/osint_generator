@@ -76,6 +76,7 @@ origin: claude.ai chat handoff bundle (2026-09-26 ~ 09-27), imported verbatim
                    "media": {"clip": 2, "photo": 2, "cutout": 1, "article": 2}, "label_lod": true, "voice": "elevenlabs:<id>"},
  "qa": {"auto_iterations": 2, "user_approved": true}, "drops": []}
 ```
+> [정정 D-0041: 실물 8, relation] 위 예시의 `"badges": 9` 는 실물(골든 연출 badge 이벤트) **8**, `"refusal"` 은 **`relation`**(v2.5.0 관계 패널)이다. 기대값 정본은 `tests/anti_inertia/test_provenance_e2e.py`.
 - 합격 판정은 "기능 코드가 있다"가 아니라 **"이번 영상에 쓰였다"**. e2e 테스트가 provenance의 `features_used`를 검사한다.
 - 실제로 돌지 않은 단계는 기록하지 않는다(AP-V6-10).
 

@@ -100,7 +100,8 @@ python -m engine.mux          <proj>               → out/final.mp4, .srt, desc
 > `python -m engine.validate` 는 6.9(17 §2)까지 없다 — `direction_validate` 단계는 `python -m script.lint <proj>`
 > (원고 Script 로드 + 린트)로 대신하고, 연출·레지스트리·예약영역 검사는 preview 의 `load_project` 가 한다.
 > `assets` 단계는 `geo.prep` 만 부른다(인물·국기·미디어 받기는 `tools/fetch_data` — 사람 준비 단계).
-> `StageResult` 는 16 §4 다섯 필드 + `stage`(Phase 2)·`warnings`(v2.3.0).
+> `StageResult` 는 16 §4 다섯 필드 + `stage`(Phase 2)·`warnings`(v2.3.0). [저장소 실측: stage·warnings 추가, D-0042]
+> preview 는 `prev/sheet.jpg`·`prev/provenance.json` 도 쓴다(`--preview golden` = 골든 25 앵커, D-0041).
 
 ---
 

@@ -107,14 +107,34 @@ def asset_usage(P) -> dict:  # noqa: ANN001, N803 — engine.project.Project (�
             "badges": badge_usage(P.plan, P.events)}
 
 
-def main(argv: list[str] | None = None) -> int:
-    from engine.credits import RightsError, credit_lines, credit_summary, description_credits  # noqa: PLC0415
-    from engine.project import ProjectError, load_project  # noqa: PLC0415
-    from engine.provenance import build as build_prov  # noqa: PLC0415
+def project_provenance(P, stages: dict[str, bool]) -> dict:  # noqa: ANN001, N803 — engine.project.Project
+    """이 프로젝트의 provenance 한 벌(15 P5). mux(out/)와 preview(prev/)가 같은 함수를 쓴다(D-0041 §2).
+    `stages` 는 이번 산출물에 실제로 돈 단계 — 돌지 않은 단계는 false 로 명시한다."""
+    from engine.credits import credit_summary  # noqa: PLC0415
     from engine.media_plan import density_report  # noqa: PLC0415
+    from engine.provenance import build as build_prov  # noqa: PLC0415
     from engine.reserved import avoidance_report  # noqa: PLC0415
-    from script.media_suggest import media_usage  # noqa: PLC0415
     from orchestrator import __version__  # noqa: PLC0415
+    from script.labels import check_project_labels  # noqa: PLC0415
+    from script.media_suggest import media_usage  # noqa: PLC0415
+    from script.plan import load_script  # noqa: PLC0415
+
+    req = P.R.cache.get("credit_refs") or set()
+    prov = build_prov(P.plan, P.keys, P.events, __version__, stages, P.R.tb.word_anchors, asset_usage(P))
+    prov["credits"] = credit_summary(req)   # D-0030 §3 — 표기 위치별 종류 개수
+    prov["reserved"] = {"avoidance": avoidance_report(P)}   # D-0033 §2 — 카드 영역 때문에 비킨·흐린 뱃지
+    prov["lint_warnings"] = P.warnings                       # 연출 경고(관계선 과다·연표 겹침·미디어 배치/밀도) — 오류 아님
+    prov["media"] = {**media_usage(P.plan, P.events),        # v2.5.5 — 14 §10 제안·사용·밀도·배치(D-0036)
+                     "density": density_report(P.events, P.R.tb, P.plan.total),
+                     "placement": P.R.cache.get("media_placement", {})}
+    labels = check_project_labels(P.root, load_script(P.root))   # v3.0.0 — 검증 라벨 집계(D-0043 §4), 도시어 없으면 None
+    prov["script"] = {"labels": labels.counts() if labels is not None else None}
+    return prov
+
+
+def main(argv: list[str] | None = None) -> int:
+    from engine.credits import RightsError, credit_lines, description_credits  # noqa: PLC0415
+    from engine.project import ProjectError, load_project  # noqa: PLC0415
     from schemas.engine_models import StageResult  # noqa: PLC0415
 
     ap = argparse.ArgumentParser(description="engine.mux")
@@ -137,15 +157,8 @@ def main(argv: list[str] | None = None) -> int:
         if dcred:
             desc += "\n\n" + DESCRIPTION_CREDITS_HEADING + "\n" + "\n".join(dcred)
         (outd / "description.txt").write_text(desc, encoding="utf-8")
-        prov = build_prov(P.plan, P.keys, P.events, __version__,
-                          {"plan": True, "render": True, "mix": True, "mux": True, "ai_direction": False, "visual_qa": False},
-                          P.R.tb.word_anchors, asset_usage(P))
-        prov["credits"] = credit_summary(req)   # D-0030 §3 — 표기 위치별 종류 개수
-        prov["reserved"] = {"avoidance": avoidance_report(P)}   # D-0033 §2 — 카드 영역 때문에 비킨·흐린 뱃지
-        prov["lint_warnings"] = P.warnings                       # 연출 경고(관계선 과다·연표 겹침·미디어 배치/밀도) — 오류 아님
-        prov["media"] = {**media_usage(P.plan, P.events),        # v2.5.5 — 14 §10 제안·사용·밀도·배치(D-0036)
-                         "density": density_report(P.events, P.R.tb, P.plan.total),
-                         "placement": P.R.cache.get("media_placement", {})}
+        prov = project_provenance(P, {"plan": True, "geo": True, "preview": (proj / "prev" / "provenance.json").exists(),
+                                      "render": True, "mix": True, "mux": True, "ai_direction": False, "visual_qa": False})
         (outd / "provenance.json").write_text(json.dumps(prov, ensure_ascii=False, indent=1), encoding="utf-8")
         res = StageResult(ok=True, stage="mux", provenance=prov,
                           artifacts={"final": str(final), "srt": str(outd / "final.srt"),

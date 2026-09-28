@@ -502,6 +502,8 @@ provenance:                # 15 §3 P5
 | `test_provenance_e2e.py` | `projects/hormuz_korea`를 `--preview` 모드(전편 렌더 없이 25 앵커 프레임)로 돌려 `out/provenance.json`의 `features_used`가 기대값(카메라 이동 5, dip 4, 뱃지 9, 패널 5종, 미디어 clip2/photo2/cutout1/article2, label_lod true)과 일치하고 `drops == []` | 일치 | xfail(strict, Phase 6.8) |
 | `test_no_silent_fallback.py` | (a) 미등재 이벤트 타입 → `RegistryError` (b) 권리 필드 없는 미디어 → `RightsError` (c) 손상 manifest → 오류(created 폴백 아님) (d) `main.py build-scene` → `LegacyRemovedError` | 예외 발생, 산출물 없음 | (d)만 Phase 0 통과 가능 → 파일은 하나로 두고 (a)(b)(c)는 xfail(strict, Phase 2/6.5/6.8) |
 
+> [정정 D-0041: 실물 8, relation] `test_provenance_e2e` 행의 "뱃지 9"는 실물 **8**, 경로는 `--preview golden` → `prev/provenance.json`(stages 의 render·mix·mux = false 명시)이다. 정본은 테스트 파일.
+
 ## 부록 C. GOAL G3 개정안 초안 (D4 — 사용자 승인 대기, Phase 11 반영)
 
 v2 MVP 합격 기준(초안 16개):

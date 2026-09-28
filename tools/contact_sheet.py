@@ -22,27 +22,10 @@ REPO = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(REPO))
 GOLDEN_DIR = REPO / "docs" / "handoff" / "golden"
 DEFAULT_DIR = REPO / "docs" / "handoff" / "reports" / "phase1"
-CELL = (427, 240)
-LABEL_H = 22
-COLS = 4
+from engine.sheet import CELL, COLS, LABEL_H, grid  # noqa: E402,F401  (v3.0.0 — preview sheet 와 공유)
+
 TRANSITION_STEP = 0.3
 TRANSITION_COUNT = 8
-
-
-def grid(cells: list[tuple["object", str]], cols: int, dest: Path, cell: tuple[int, int] = CELL) -> None:
-    """(이미지, 라벨) 목록 → cols 열 격자 JPEG."""
-    from PIL import Image, ImageDraw
-
-    cw, ch = cell
-    rows = (len(cells) + cols - 1) // cols
-    sheet = Image.new("RGB", (cw * cols, (ch + LABEL_H) * rows), (24, 24, 30))
-    d = ImageDraw.Draw(sheet)
-    for i, (im, label) in enumerate(cells):
-        x, y = (i % cols) * cw, (i // cols) * (ch + LABEL_H)
-        sheet.paste(im.convert("RGB").resize((cw, ch)), (x, y + LABEL_H))
-        d.text((x + 6, y + 5), label, fill=(255, 220, 90))
-    dest.parent.mkdir(parents=True, exist_ok=True)
-    sheet.save(dest, quality=88)
 
 
 def transition_times(center: float) -> list[float]:
