@@ -6,7 +6,7 @@
     python back_and_forth/check.py --me opus     # 미처리 D 파일 (Opus 용)
     python back_and_forth/check.py --me fable    # 미처리 R 파일 (Fable 용)
     python back_and_forth/check.py --me opus --next-id   # 내가 쓸 다음 파일 번호
-    python back_and_forth/check.py --me opus --next-name phase1-prep   # 다음 파일 전체 이름 (R0016_opus_yymmdd_hhmmss_phase1-prep.md)
+    python back_and_forth/check.py --me opus --next-name phase1-prep   # 다음 파일 전체 이름 (yymmdd_hhmmss_R0016_opus_phase1-prep.md)
 
 종료 코드: 0 = 새 파일 없음, 10 = 새 파일 있음, 2 = 규칙 위반 파일 발견(머리말·이름 오류).
 """
@@ -19,8 +19,9 @@ import sys
 from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
+# README §2 (2026-09-28 개정) — 시각이 맨 앞. ls 정렬 = 대화 순서.
 NAME_RE = re.compile(
-    r"^(?P<kind>[RD])(?P<num>\d{4})_(?P<author>opus|fable|user)_(?P<ts>\d{6}_\d{6})_(?P<slug>[a-z0-9]+(?:-[a-z0-9]+)*)\.md$"
+    r"^(?P<ts>\d{6}_\d{6})_(?P<kind>[RD])(?P<num>\d{4})_(?P<author>opus|fable|user)_(?P<slug>[a-z0-9]+(?:-[a-z0-9]+)*)\.md$"
 )
 MINE = {"opus": "R", "fable": "D"}
 # README §2 — 작성자는 종류 바로 뒤. R 은 opus, D 는 fable 또는 user.
@@ -51,7 +52,7 @@ def id_list(raw: str) -> list[str]:
 def scan() -> tuple[dict[str, tuple[Path, dict[str, str]]], list[str]]:
     files: dict[str, tuple[Path, dict[str, str]]] = {}
     errors: list[str] = []
-    for p in sorted(HERE.glob("[RD][0-9][0-9][0-9][0-9]_*.md")):
+    for p in sorted(HERE.glob("[0-9]*_[RD][0-9][0-9][0-9][0-9]_*.md")):
         m = NAME_RE.match(p.name)
         if not m:
             errors.append(f"이름 규칙 위반: {p.name}")
@@ -85,7 +86,7 @@ def main() -> int:
         nums = [int(fid[2:]) for fid in files if fid.startswith(mine_kind)]
         num = (max(nums) + 1) if nums else 1
         ts = datetime.now(timezone.utc).strftime("%y%m%d_%H%M%S")
-        print(f"{mine_kind}{num:04d}_{args.me}_{ts}_{args.next_name}.md")
+        print(f"{ts}_{mine_kind}{num:04d}_{args.me}_{args.next_name}.md")
         return 0
 
     if args.next_id:

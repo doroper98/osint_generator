@@ -57,15 +57,17 @@ last_review: 2026-09-28
 - 파일을 쓰면 커밋·푸시해야 상대가 본다. 로컬에만 있는 파일은 없는 것과 같다. 읽기 전에는 pull --rebase.
 - 커밋 첫 줄은 저장소 규칙({COMMIT_PREFIX_RULE})을 따른다. 예: "v1.2.0: back_and_forth D-0003 — Phase 1 착수 지침".
 
-## 2. 파일 명명법
-{종류}{번호4자리}_{작성자}_{yymmdd}_{hhmmss}_{slug}.md
+## 2. 파일 명명법 — 시각 우선(ls 정렬 = 대화 순서)
+{yymmdd}_{hhmmss}_{종류}{번호4자리}_{작성자}_{slug}.md
+- **시각이 맨 앞**. UTC yymmdd_hhmmss(파일 생성 시각). 그래서 ls 한 번에 R과 D가 주고받은 순서로 섞여 보인다.
+  (종류를 앞에 두면 D 전부 → R 전부로 묶여 대화 순서가 끊긴다. osint_generator 에서 겪고 재개정했다.)
 - 종류 R = 보고(Report, Opus만 작성), D = 지침·결정·답변·검토(Directive, Fable 또는 user만 작성).
-- 작성자는 종류 바로 뒤. 모델 버전은 쓰지 않는다(opus / fable / user).
+- 종류 뒤 번호, 그 뒤 작성자. 모델 버전은 쓰지 않는다(opus / fable / user).
 - 번호는 종류별로 1씩 증가. 건너뛰거나 재사용하지 않는다. 머리말 id 는 "R-0001" 형식.
-- 시각은 UTC yymmdd_hhmmss(파일 생성 시각). slug 는 영문 소문자·숫자·하이픈 3~6단어.
+- slug 는 영문 소문자·숫자·하이픈 3~6단어.
 - 다음 파일 이름은 반드시 `python back_and_forth/check.py --me {me} --next-name {slug}` 출력을 쓴다.
   출력은 파일 이름만이다. **back_and_forth/ 아래에** 만든다(저장소 루트에 만드는 실수 주의).
-- 예: R0016_opus_260927_235910_phase3-progress.md, D0018_fable_260927_235500_naming-scheme.md
+- 예: 260928_012218_R0020_opus_word-anchor-edge-boundary.md, 260928_012815_D0026_fable_edge-word-boundary-align.md
 
 ## 3. 파일 머리말(필수) — check.py 는 이 값만 읽는다
 ---
@@ -190,7 +192,7 @@ Fable 절차:
     python back_and_forth/check.py --me opus                 # 미처리 D (Opus 용)
     python back_and_forth/check.py --me fable                # 미처리 R (Fable 용)
     python back_and_forth/check.py --me opus --next-id       # 내가 쓸 다음 id
-    python back_and_forth/check.py --me opus --next-name phase1-prep   # 다음 파일 전체 이름
+    python back_and_forth/check.py --me opus --next-name phase1-prep   # 다음 파일 전체 이름 (yymmdd_hhmmss_R0016_opus_phase1-prep.md)
 종료 코드: 0 = 새 파일 없음, 10 = 새 파일 있음, 2 = 규칙 위반 파일 발견.
 """
 from __future__ import annotations
@@ -198,7 +200,7 @@ import argparse, re, sys
 from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
-NAME_RE = re.compile(r"^(?P<kind>[RD])(?P<num>\d{4})_(?P<author>opus|fable|user)_(?P<ts>\d{6}_\d{6})_(?P<slug>[a-z0-9]+(?:-[a-z0-9]+)*)\.md$")
+NAME_RE = re.compile(r"^(?P<ts>\d{6}_\d{6})_(?P<kind>[RD])(?P<num>\d{4})_(?P<author>opus|fable|user)_(?P<slug>[a-z0-9]+(?:-[a-z0-9]+)*)\.md$")  # 시각 우선
 MINE = {"opus": "R", "fable": "D"}
 ALLOWED_AUTHORS = {"R": {"opus"}, "D": {"fable", "user"}}
 
@@ -222,7 +224,7 @@ def id_list(raw: str) -> list[str]:
 
 def scan():
     files, errors = {}, []
-    for p in sorted(HERE.glob("[RD][0-9][0-9][0-9][0-9]_*.md")):
+    for p in sorted(HERE.glob("[0-9]*_[RD][0-9][0-9][0-9][0-9]_*.md")):
         m = NAME_RE.match(p.name)
         if not m:
             errors.append(f"이름 규칙 위반: {p.name}"); continue
@@ -249,7 +251,7 @@ def main() -> int:
     if args.next_name:
         from datetime import datetime, timezone
         ts = datetime.now(timezone.utc).strftime("%y%m%d_%H%M%S")
-        print(f"{mine_kind}{nxt:04d}_{args.me}_{ts}_{args.next_name}.md"); return 0
+        print(f"{ts}_{mine_kind}{nxt:04d}_{args.me}_{args.next_name}.md"); return 0
     if args.next_id:
         print(f"{mine_kind}-{nxt:04d}"); return 0
     answered, superseded = set(), set()
@@ -383,7 +385,7 @@ PR 생성·force push·비밀 값 커밋·외부 서비스 조작 금지.
 | 5 | 사용자가 Phase마다 태그·릴리즈를 대신해야 했음 | Fable review pass = 승인, Fable이 main ff, 태그는 대장에만 기록(README §6.5) |
 | 6 | 옛 코드 삭제 지침이 자산 생성 코드까지 지워 재현 불가 위험 | Opus의 decision_request 가 잡음. 결정 요청 필수 항목(막히는 범위·되돌리기)이 유효했음(§6.4) |
 | 7 | 두 컨테이너 모두 태그 푸시 403 | TAGS_PENDING.md 대장(README §6.5) |
-| 8 | 파일명에 모델 버전(`_fable5_1`)을 넣자 정렬·모니터링이 불편 | 작성자 태그만, 종류 바로 뒤(README §2) |
+| 8 | 파일명에 모델 버전(`_fable5_1`)을 넣자 불편했고, 종류를 앞에 두자 `ls`에서 D·R이 따로 묶여 대화 순서가 끊김 | 시각을 맨 앞에, 작성자 태그만(README §2). ls 정렬 = 대화 순서 |
 | 9 | Fable이 보고서 문장만 믿으면 "코드는 있는데 결과물에 없음"을 놓침 | 실물 검증 의무(README §6.2), review 는 산출물 직접 확인 |
 | 10 | 결정 요청이 다른 보고 뒤에 밀려 Opus가 대기 | decision_request 는 check.py 가 자동 urgent(코드 반영) |
 
