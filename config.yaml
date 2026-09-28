@@ -47,7 +47,6 @@ tts:
   eleven_model_env: ELEVENLABS_MODEL_ID
   eleven_model_default: eleven_multilingual_v2
   voice_settings: {stability: 0.65, similarity_boost: 0.8, style: 0.1}   # Phase 4 with-timestamps 경로가 전송
-  local_invoke_timeout_sec: 600        # workers/tts_backends.py LocalTTSBackend
 
 llm:
   # v1.2.2 — 구독 LLM 브리지(`claude -p`)가 쓰는 모델의 단일 출처 (SSOT).

@@ -24,6 +24,7 @@ LEGACY_NAMES: tuple[str, ...] = (
     "hyperframes", "remotion", "scene_builder", "scene_io", "render_io",
     "audio_service", "audio_io", "audio_demo", "subtitle_align", "legacy_v3",
     "tts_lint", "tts_pronounce",   # v3.0.0 — script/lint.py 로 병합 후 삭제(16 §3, D-0040 작업 8)
+    "tts_backends", "ApprovalLog", "ThumbnailManifest",   # v4.0.0 — 사용처 0 v1 잔재 삭제(back_and_forth D-0073)
 )
 ALLOWED_MENTION = "archive/hyperframes-briefing"
 _TOKEN = re.compile(r"(?<![A-Za-z0-9])(" + "|".join(LEGACY_NAMES) + r")(?![A-Za-z0-9])")

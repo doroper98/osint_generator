@@ -82,11 +82,11 @@ git commit -m "v0.2.0: Phase 2 — project manager and state machine"
 # Review Dashboard에서 승인하거나 CLI로 직접 기록
 python -m orchestrator.main approve \
   --project {project_id} \
-  --gate script_review \
-  --comment "OK. scene_0034만 출처 표기 보강 요청"
+  --gate script_approval \
+  --comment "OK. 두 번째 장면 출처 표기 보강 요청"
 ```
 
-기록 위치: `projects/{project_id}/logs/approvals/approval_log.json`
+게이트는 `script_approval`·`preview_approval` 두 개다(반려는 `reject`). 기록 위치: `projects/{project_id}/project_manifest.json` 의 `gate_decisions`(v3.0.0).
 
 ## W7. Phase 완료 체크리스트
 

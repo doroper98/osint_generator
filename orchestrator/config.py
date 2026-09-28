@@ -135,7 +135,6 @@ class TTSConfig(BaseModel):
     eleven_model_env: str = "ELEVENLABS_MODEL_ID"
     eleven_model_default: str = "eleven_multilingual_v2"
     voice_settings: VoiceSettings = Field(default_factory=VoiceSettings)
-    local_invoke_timeout_sec: int = 600
 
 
 class CommonsConfig(BaseModel):

@@ -30,7 +30,7 @@ last_review: 2026-09-29
 
 ### Tier 2 (필수)
 
-- `docs/00_PROJECT_BRIEF.md` ~ `docs/16_TEST_PLAN.md` (v2 스펙 16종 — 07·08·09·10 은 v4.0.0 에서 handoff·규칙 키 안내도로 재작성)
+- `docs/00_PROJECT_BRIEF.md` ~ `docs/16_TEST_PLAN.md` (v2 스펙 — 07·08·09·10 은 v4.0.0 에서 handoff·규칙 키 안내도로 재작성, 11 썸네일 명세는 v4.0.0 삭제(D-0073, archive 보존))
 - `docs/ADDENDUM_01_ORCHESTRATOR_COMMAND_CENTER_LAYOUT.md`
 - `docs/ADDENDUM_03_TERMINOLOGY.md`
 - `docs/ADDENDUM_04_SUBSCRIPTION_LLM_BRIDGE.md`
@@ -86,7 +86,7 @@ last_review: YYYY-MM-DD
 - `DEVLOG.md`
 - `CHANGELOG.md` (released 항목)
 - `docs/ANTIPATTERNS/*_ANTIPATTERNS.md`
-- `projects/*/logs/approvals/approval_log.json`
+- `projects/*/project_manifest.json` 의 `gate_decisions`(v3.0.0 — 옛 `approval_log.json` 대체)
 
 수정이 필요한 항목은 **새 항목을 추가**하고, 과거 항목에는 `[superseded by ...]` 마킹만 남깁니다.
 

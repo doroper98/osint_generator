@@ -45,7 +45,7 @@ last_review: 2026-09-29
 | 엔진 CLI 마지막 줄 | `schemas.engine_models.StageResult` | 엔진 CLI 전부 | — |
 
 번들 가져오기(`import-bundle`) 산출물은 §10, 저장소 공용 레지스트리(엔티티·휘장·미디어·BGM)는 §7·§9.
-`approval_log.json`(`ApprovalLog`)은 v3.0.0부터 쓰지 않는다. 게이트 기록은 manifest `gate_decisions`다.
+`approval_log.json`(`ApprovalLog`)·`thumbnail_manifest.json`(`ThumbnailManifest`)은 **삭제됨**(v4.0.0, back_and_forth D-0073, 보존 `archive/hyperframes-briefing`). 게이트 기록은 manifest `gate_decisions`다.
 
 ## 3. 핵심 모델 요약 (필드 SSOT는 코드)
 

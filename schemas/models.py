@@ -366,49 +366,9 @@ class ResearchClaimStatus(str, Enum):
 
 
 # ---------------------------------------------------------------------------
-# 10. ApprovalLog
+# 10·11 (v4.0.0 삭제, back_and_forth D-0073) ApprovalLog·ApprovalEntry·ThumbnailManifest·ThumbnailEntry — 사용처 0.
+#   게이트 기록은 ProjectManifest.gate_decisions(GateDecision). 썸네일 시스템은 v2 파이프라인에 없다. 보존 archive/hyperframes-briefing.
 # ---------------------------------------------------------------------------
-
-
-class ApprovalEntry(BaseModel):
-    model_config = ConfigDict(extra="forbid", use_enum_values=True)
-
-    gate_id: str
-    artifact_refs: list[str] = Field(default_factory=list)
-    status: Literal["approved", "revision_requested", "rejected"]
-    user_comment: str = ""
-    approved_at: datetime = Field(default_factory=utc_now)
-    revision_requested: bool = False
-    revision_notes: str = ""
-
-
-class ApprovalLog(VersionedModel):
-    project_id: str
-    entries: list[ApprovalEntry] = Field(default_factory=list)
-
-
-# ---------------------------------------------------------------------------
-# 11. ThumbnailManifest (Phase 10 골격)
-# ---------------------------------------------------------------------------
-
-
-class ThumbnailEntry(BaseModel):
-    model_config = ConfigDict(extra="forbid", use_enum_values=True)
-
-    thumbnail_id: str
-    layout_type: Literal["L1", "L2", "L3"]
-    text: str
-    image_assets: list[str] = Field(default_factory=list)
-    map_assets: list[str] = Field(default_factory=list)
-    output_path: Optional[str] = None
-    category_color: Optional[str] = None
-    qa_status: QAStatus = QAStatus.PENDING
-
-
-class ThumbnailManifest(VersionedModel):
-    project_id: str
-    candidates: list[ThumbnailEntry] = Field(default_factory=list)
-    chosen_thumbnail_id: Optional[str] = None
 
 
 # 11.5 (v3.2.0 삭제) SourceCollectionPartial — 소스 수집 워커 삭제(D52)

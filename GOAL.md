@@ -32,7 +32,7 @@ osint_generator 의 **최우선 가치는 영상미**다: "정적 보고서를 �
 | `out/final.mp4` | 최종 영상 (트라이얼 480p / 최종 1080p) |
 | `out/final.srt` | 자막 |
 | `out/description.txt` | 설명문 (챕터·출처·크레딧) |
-| `out/thumbnail_candidates/` | 썸네일 후보 |
+| `out/thumbnail_candidates/` | 썸네일 후보 — (v4.0.0) v2 파이프라인에 없다. 필요하면 별도 계획(back_and_forth D-0073) |
 | `out/provenance.json` | 이번 영상에 실제로 쓰인 기능·규칙 해시·프롬프트 해시·drops (`docs/handoff/15` P5) |
 | `script.yaml` | 원고 (승인본에 `approved_at`) |
 | `plan.json` | 문장 타임라인·음성·정렬 |

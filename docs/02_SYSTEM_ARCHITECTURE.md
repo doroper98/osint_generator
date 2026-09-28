@@ -42,6 +42,8 @@ last_review: 2026-09-29
     +----------------------------+
 ```
 
+썸네일 시스템은 v2 파이프라인에 없다(v4.0.0 삭제 — v1 명세 docs/11·`ThumbnailManifest`, 보존 `archive/hyperframes-briefing`). 필요하면 텔레그램·업로드처럼 별도 계획으로 다룬다(handoff 13 범위 밖 절).
+
 v4.0.0: LLM 역할(소스 판독·검증 초안·리서치·원고·연출·시각 검수)은 모두 `workers/*_worker.py`(BaseLLMWorker, 구독 CLI 서브프로세스)다.
 영상 제작은 엔진 CLI(`orchestrator/engine_service.py` 가 서브프로세스로 호출, [10](10_RENDERING_PIPELINE_SPEC.md) §1)다. in-process Agent 층은 없다.
 

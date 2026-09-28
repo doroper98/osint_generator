@@ -34,7 +34,7 @@ last_review: 2026-09-29
 | **Video Source Frame** | X/TG 원본 영상 클립을 액자처럼 배치하는 컴포넌트. |
 | **Annotation Layer** | 빨간 형광펜·밑줄·동그라미·화살표 강조 레이어. |
 | **발음 린트 / 오디오 QA** | 발음 텍스트 규칙 검사(`script/lint.py`)와 최종 음량·음악 레벨 측정(`audio/qa.py`). |
-| **Thumbnail System** | 썸네일 기획/생성/QA/승인을 다루는 하위 시스템. |
+| **Thumbnail System** | (v4.0.0 삭제) v1 썸네일 하위 시스템. v2 파이프라인에 없다 — 필요하면 별도 계획. |
 
 ## 동의어 / 금지 동의어
 
