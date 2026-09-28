@@ -176,14 +176,15 @@ Fable 절차:
 - 사용자는 from: user D 를 직접 쓸 수 있다(번호는 Fable D 번호를 이어서).
 - 대화로 준 지시는 파일보다 우선한다. Opus는 그 지시를 다음 progress 에 인용해 Fable도 알게 한다.
 
-## 10. 세션 깨우기와 승격(Fable 전용)
-- Fable은 Opus 세션을 깨우는 트리거(create_trigger, persistent_session_id = Opus 세션)를 하나 갖는다.
-  D를 푸시할 때마다 fire_trigger(text="새 D 파일: <id>. pull 후 처리하고 현재 Phase 를 계속. 커밋마다 푸시").
+## 10. 세션 깨우기와 재기동(Fable 전용)
+- **fire_trigger(persistent_session_id) 는 IDLE·disconnected 세션을 깨우지 못했다**(osint_generator 실측: 세션 2개, 세 번 연속 무반응).
+  깨우기 트리거에 기대지 않는다. 깨울 수 있는 유일한 확실한 방법은 **새 세션 생성**이다(첫 푸시까지 약 2분).
 - 유휴 판정: {WORK_BRANCH} 마지막 푸시가 15분 넘게 없고 진행 중 Phase가 있으면 get_session 으로 상태 확인.
-  idle 이면 fire_trigger. 사용자에게 한 줄 보고.
-- 승격: 두 번 깨워도 15분 안에 푸시가 없으면 트리거가 통하지 않는 것이다. create_session 으로 새 Opus 세션을
-  만들고(source {WORK_BRANCH}, 첫 프롬프트 = §C 재기동 문안) 옛 세션은 archive_session. 새 트리거를 새 세션에
-  묶고 옛 트리거는 삭제. 사용자에게 새 세션 ID 를 알린다.
+  IDLE + disconnected 면 곧바로 create_session(model {OPUS_MODEL}, source {WORK_BRANCH}, prompt = §C 재기동 문안)
+  → 옛 세션 archive_session → 감시 크론 문안의 세션 ID 갱신 → 사용자에게 한 줄 보고. RUNNING 이면 기다린다.
+- D를 푸시했는데 Opus 세션이 IDLE·disconnected 면 기다리지 않고 같은 절차로 새 세션을 만든다. 새 세션은 첫 행동에서 D를 읽는다.
+- Fable 자신의 크론도 세션 재시작 때 죽는다. 매시(플랫폼 최소 간격) 외부 트리거(create_trigger, persistent_session_id = Fable 세션,
+  프롬프트 "CronList 확인, 없으면 재등록 후 즉시 한 회차")를 걸어 둔다. 공백 최대 1시간.
 - check.py 의 responds_to 기반 상태 복원 덕에, 세션이 바뀌어도 미처리 파일은 그대로 보인다.
 
 [감시 도구 — back_and_forth/check.py]
@@ -379,9 +380,9 @@ PR 생성·force push·비밀 값 커밋·외부 서비스 조작 금지.
 
 | # | 겪은 일 | 대응(문안 반영 위치) |
 |---|---|---|
-| 1 | Opus의 5분 크론이 세션 재시작 때 사라져 45분 이상 무반응 | 세션 시작 시 CronList → 재등록을 "첫 행동"으로(§B·§C). 크론은 세션 메모리에만 산다 |
+| 1 | Opus의 5분 크론이 세션 재시작 때 사라져 45분 이상 무반응. **Fable 크론도 같은 이유로 죽어 25분간 검수 요청을 못 봄** | 세션 시작 시 CronList → 재등록을 "첫 행동"으로(§B·§C). Fable 세션에는 매시 외부 트리거로 크론 생존 점검(§10) |
 | 2 | Opus가 "보고했다, 지침을 기다린다"로 턴을 끝내고 멈춤 | 턴 종료 금지 조건(README §5, §C) |
-| 3 | 트리거를 발사해도 옛 세션이 10분간 무반응 | 15분 유휴 → 트리거 2회 → 새 세션 승격 + 옛 세션 archive(README §10, §B) |
+| 3 | fire_trigger 를 세 번 발사해도 IDLE·disconnected 세션은 무반응(세션 2개에서 재현) | 트리거 깨우기 폐기. 15분 유휴 → 곧바로 새 세션 + 옛 세션 archive(README §10, §B) |
 | 4 | `--next-name` 출력이 파일 이름만이라 저장소 루트에 파일이 생김 | "back_and_forth/ 아래에 만든다" 명시(README §2) |
 | 5 | 사용자가 Phase마다 태그·릴리즈를 대신해야 했음 | Fable review pass = 승인, Fable이 main ff, 태그는 대장에만 기록(README §6.5) |
 | 6 | 옛 코드 삭제 지침이 자산 생성 코드까지 지워 재현 불가 위험 | Opus의 decision_request 가 잡음. 결정 요청 필수 항목(막히는 범위·되돌리기)이 유효했음(§6.4) |
