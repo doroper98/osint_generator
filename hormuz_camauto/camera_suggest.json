@@ -13,9 +13,9 @@
    },
    "current_mode": "cut",
    "suggested": {
-    "lon": 126.1186,
-    "lat": 37.5048,
-    "w": 3.3395
+    "lon": 126.5703,
+    "lat": 37.0394,
+    "w": 6.0
    },
    "suggested_transition": null,
    "fits": true,
@@ -24,6 +24,9 @@
     "marker:서울",
     "badge:이재명"
    ],
+   "scale_class": "country",
+   "context_w_min": 6.0,
+   "w_before_context": 3.3395,
    "note": ""
   },
   {
@@ -37,9 +40,9 @@
    },
    "current_mode": "cut",
    "suggested": {
-    "lon": 56.4891,
-    "lat": 26.44,
-    "w": 2.5
+    "lon": 57.4624,
+    "lat": 25.6668,
+    "w": 20.0
    },
    "suggested_transition": "dip",
    "fits": true,
@@ -47,6 +50,9 @@
    "points": [
     "marker:호르무즈 해협"
    ],
+   "scale_class": "region",
+   "context_w_min": 20.0,
+   "w_before_context": 2.5,
    "note": ""
   },
   {
@@ -61,18 +67,21 @@
    "current_mode": "move",
    "suggested": {
     "lon": 92.775,
-    "lat": 30.6785,
-    "w": 80.6913
+    "lat": 27.7353,
+    "w": 88.0
    },
-   "suggested_transition": "dip",
-   "fits": true,
+   "suggested_transition": "move",
+   "fits": false,
    "current_fits": true,
    "points": [
     "route:#0",
     "route:#-1",
     "badge:울산"
    ],
-   "note": ""
+   "scale_class": "continental_route",
+   "context_w_min": 88.0,
+   "w_before_context": 80.6913,
+   "note": "카드 자리 회피 불가(w 96.0: badge:울산 예약 영역과 겹침) — 날짜만 피한 틀, 카드 겹침은 렌더 RESERVED 가 비킴"
   },
   {
    "t": 48.003,
@@ -85,9 +94,9 @@
    },
    "current_mode": "move",
    "suggested": {
-    "lon": 54.9191,
-    "lat": 26.7398,
-    "w": 15.947
+    "lon": 54.933,
+    "lat": 26.7421,
+    "w": 15.6264
    },
    "suggested_transition": "move",
    "fits": true,
@@ -101,6 +110,9 @@
     "badge:중국",
     "badge:인도"
    ],
+   "scale_class": "strait",
+   "context_w_min": 12.0,
+   "w_before_context": 15.947,
    "note": ""
   },
   {
@@ -118,6 +130,9 @@
    "fits": false,
    "current_fits": null,
    "points": [],
+   "scale_class": null,
+   "context_w_min": null,
+   "w_before_context": null,
    "note": "장소 이벤트 없음 — 제안 없음"
   },
   {
@@ -131,9 +146,9 @@
    },
    "current_mode": "cut",
    "suggested": {
-    "lon": 89.5219,
-    "lat": 20.3548,
-    "w": 96.0
+    "lon": 89.4358,
+    "lat": 20.5671,
+    "w": 90.8403
    },
    "suggested_transition": "dip",
    "fits": false,
@@ -145,6 +160,9 @@
     "badge:부산에서 출항",
     "cutout:p8"
    ],
+   "scale_class": "continental_route",
+   "context_w_min": 88.0,
+   "w_before_context": 96.0,
    "note": "카드 자리 회피 불가(w 96.0: badge:부산에서 출항 예약 영역과 겹침) — 날짜만 피한 틀, 카드 겹침은 렌더 RESERVED 가 비킴"
   },
   {
@@ -158,9 +176,9 @@
    },
    "current_mode": "cut",
    "suggested": {
-    "lon": 127.1209,
-    "lat": 37.475,
-    "w": 2.5
+    "lon": 127.1496,
+    "lat": 37.4555,
+    "w": 3.0
    },
    "suggested_transition": "dip",
    "fits": true,
@@ -168,6 +186,9 @@
    "points": [
     "marker:주한 미국대사관"
    ],
+   "scale_class": "metro",
+   "context_w_min": 3.0,
+   "w_before_context": 2.5,
    "note": ""
   },
   {
@@ -181,9 +202,9 @@
    },
    "current_mode": "move",
    "suggested": {
-    "lon": 126.4344,
-    "lat": 37.082,
-    "w": 5.2547
+    "lon": 126.5281,
+    "lat": 37.0394,
+    "w": 6.0
    },
    "suggested_transition": "move",
    "fits": true,
@@ -192,6 +213,9 @@
     "marker:서울",
     "badge:이재명"
    ],
+   "scale_class": "country",
+   "context_w_min": 6.0,
+   "w_before_context": 3.3395,
    "note": ""
   },
   {
@@ -205,9 +229,9 @@
    },
    "current_mode": "cut",
    "suggested": {
-    "lon": 92.661,
-    "lat": 22.3721,
-    "w": 80.6913
+    "lon": 92.6439,
+    "lat": 21.8408,
+    "w": 88.0
    },
    "suggested_transition": "dip",
    "fits": true,
@@ -220,6 +244,9 @@
     "badge:미 해군 중부사령부",
     "marker:호르무즈 해협"
    ],
+   "scale_class": "continental_route",
+   "context_w_min": 88.0,
+   "w_before_context": 80.6913,
    "note": ""
   },
   {
@@ -237,6 +264,9 @@
    "fits": false,
    "current_fits": null,
    "points": [],
+   "scale_class": null,
+   "context_w_min": null,
+   "w_before_context": null,
    "note": "엔딩 풀백(shot_grammar.ending_pullback) — 문법 고정, 제안 없음"
   }
  ],

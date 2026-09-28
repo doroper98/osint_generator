@@ -109,10 +109,10 @@ shots:
   mode: cut
   dur: 0.0
   camera:
-    lon: 126.1186
-    lat: 37.5048
+    lon: 126.5703
+    lat: 37.0394
     place: null
-    w: 3.3395
+    w: 6.0
   under: false
   scene: null
 - at:
@@ -121,22 +121,22 @@ shots:
   mode: dip
   dur: 3.0
   camera:
-    lon: 56.4891
-    lat: 26.44
+    lon: 57.4624
+    lat: 25.6668
     place: null
-    w: 2.5
+    w: 20.0
   under: true
   scene: null
 - at:
     sid: route_1
     'off': -0.6
-  mode: dip
+  mode: move
   dur: 3.4
   camera:
     lon: 92.775
-    lat: 30.6785
+    lat: 27.7353
     place: null
-    w: 80.6913
+    w: 88.0
   under: false
   scene: null
 - at:
@@ -145,10 +145,10 @@ shots:
   mode: move
   dur: 3.4
   camera:
-    lon: 54.9191
-    lat: 26.7398
+    lon: 54.933
+    lat: 26.7421
     place: null
-    w: 15.947
+    w: 15.6264
   under: false
   scene: null
 - at:
@@ -169,10 +169,10 @@ shots:
   mode: dip
   dur: 3.0
   camera:
-    lon: 89.5219
-    lat: 20.3548
+    lon: 89.4358
+    lat: 20.5671
     place: null
-    w: 96.0
+    w: 90.8403
   under: false
   scene: null
 - at:
@@ -181,10 +181,10 @@ shots:
   mode: dip
   dur: 3.0
   camera:
-    lon: 127.1209
-    lat: 37.475
+    lon: 127.1496
+    lat: 37.4555
     place: null
-    w: 2.5
+    w: 3.0
   under: false
   scene: null
 - at:
@@ -193,10 +193,10 @@ shots:
   mode: move
   dur: 3.2
   camera:
-    lon: 126.4344
-    lat: 37.082
+    lon: 126.5281
+    lat: 37.0394
     place: null
-    w: 5.2547
+    w: 6.0
   under: false
   scene: null
 - at:
@@ -205,10 +205,10 @@ shots:
   mode: dip
   dur: 3.0
   camera:
-    lon: 92.661
-    lat: 22.3721
+    lon: 92.6439
+    lat: 21.8408
     place: null
-    w: 80.6913
+    w: 88.0
   under: false
   scene: null
 - at:

@@ -3,7 +3,7 @@
  "engine": "engine",
  "repo_version": "3.3.0",
  "rules_version": "2.0.0",
- "rules_hash": "816286183c769d0f5d5832be1aebcac23aa2c033",
+ "rules_hash": "2a8b6fa501a4564cc6f000b0a1a3e7a292d55fdf",
  "prompts": {},
  "voice": "edge-tts ko-KR-InJoonNeural",
  "word_anchor": "aligned",
@@ -75,9 +75,9 @@
  },
  "features_used": {
   "camera_keys": 10,
-  "camera_moves": 4,
-  "camera_cuts": 6,
-  "dips": 5,
+  "camera_moves": 5,
+  "camera_cuts": 5,
+  "dips": 4,
   "dips_under": 1,
   "badges": 8,
   "badge_kinds": {
@@ -108,7 +108,7 @@
    "clip": 2,
    "country": 1,
    "cutout": 1,
-   "dip": 5,
+   "dip": 4,
    "marker": 8,
    "panel": 5,
    "photo": 2,
@@ -260,7 +260,7 @@
     "direction": [
      "down"
     ],
-    "max_px": 140.2,
+    "max_px": 146.6,
     "zones": [
      "article:Reuters",
      "card:거론된 선택지"
@@ -275,7 +275,7 @@
      "hide"
     ],
     "direction": [],
-    "max_px": 179.2,
+    "max_px": 169.6,
     "zones": [
      "card:이재명 대통령 · 발언 요지"
     ],
@@ -289,7 +289,7 @@
   "used": 8,
   "given_to_director": false,
   "from_current_direction": false,
-  "fits": 7,
+  "fits": 6,
   "current_fits_false": 0
  },
  "lint_warnings": [],
