@@ -3291,3 +3291,10 @@ last_review: 2026-06-06
 - **무엇을**: `load_countries` 같은 ISO 키 피처 합집합, 면적 커버리지 검사(`rules geo.land_fill_min_ratio`), 지오 자산·골든 25장 재생성.
 - **왜**: 사용자 보고 — 랫클리프 모스크바 컷에서 카자흐스탄이 바다로 그려짐. hormuz 골든에도 같은 결함(KZ·AU 조각).
 - **결과**: KZ 329 deg²(hormuz)·면적 비율 1.0, 옛 덮어쓰기 재현에서 KZ 0.012·AU 0.0 → drops. PIPELINE-AP-011.
+
+## 2026-09-29 v4.1.0 — Phase G1 무대 추상화
+
+- **무엇을**: `engine/stage.py`(Stage 프로토콜·MercatorStage·StageSet), `View(stage, cam)` 월드 좌표, direction `stage`·`shots[].stage`, 결정적 검사 `stage_continuity`(13항목), 무대 격리 AST 테스트.
+- **왜**: handoff 20 §2.3·§12 — 지도가 아닌 무대(G3 시간축 등)를 같은 카메라 문법으로 쓰기 위한 추상화. 합격 = v3 골든 픽셀 동일.
+- **결과**: 옛 자산으로 25컷 25/25·전편 692f228e·1080p 25/25·랫클리프 20/20·camera_suggest 동일, 렌더 +0.5%. pytest 838 passed(새 46). 도중 D-0078 국가 키 충돌 수정(PIPELINE-AP-011).
+
