@@ -14,6 +14,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import os
 import subprocess
 import sys
 import time
@@ -195,6 +196,30 @@ def chunk_ranges(n_frames: int, jobs: int) -> list[tuple[int, int]]:
     return [(s, min(n_frames, s + step)) for s in range(0, n_frames, step)]
 
 
+def mem_available_mb() -> int | None:
+    try:
+        for ln in Path("/proc/meminfo").read_text().splitlines():
+            if ln.startswith("MemAvailable:"):
+                return int(ln.split()[1]) // 1024
+    except OSError:
+        return None
+    return None
+
+
+def plan_jobs(requested: int | None, out: "object", cpu: int | None = None, mem_mb: int | None = None) -> tuple[int, str]:
+    """청크 병렬 수(v3.6.0 D-0066 작업 6) — 요청(CLI --jobs) → config engine.render.jobs → os.cpu_count() 순,
+    그 뒤 사용 가능 메모리 ÷ 프로파일 mem_per_job_mb 로 줄인다(최소 1). (수, 사유)."""
+    from orchestrator.config import load_config  # noqa: PLC0415
+
+    cfg = load_config().engine.render.jobs
+    j, why = (requested, "--jobs") if requested is not None else (cfg, "config") if cfg is not None else (cpu or os.cpu_count() or 1, "cpu")
+    mem = mem_available_mb() if mem_mb is None else mem_mb
+    per = out.mem_per_job_mb  # type: ignore[attr-defined]
+    if mem is not None and j * per > mem:
+        j, why = max(1, mem // per), f"{why}→mem({mem}MB/{per}MB)"
+    return j, why
+
+
 def render_full(P: Project, jobs: int) -> Path:  # noqa: N803
     outdir = P.root / "out"
     outdir.mkdir(exist_ok=True)
@@ -221,8 +246,12 @@ def render_full(P: Project, jobs: int) -> Path:  # noqa: N803
                    check=True)
     log(f"render: {P.n_frames} frames, {len(parts)} chunks, {time.time() - t0:.0f}s")
     # mux 가 provenance render.resolution 에 옮겨 적는다(영상을 만든 프로파일 = 이 파일, 15 P5)
+    import resource  # noqa: PLC0415
+
+    peak = resource.getrusage(resource.RUSAGE_CHILDREN).ru_maxrss // 1024   # 가장 큰 청크 프로세스(또는 그 ffmpeg) 피크, MB
     (outdir / "render.json").write_text(json.dumps({"schema_version": 1, "resolution": P.R.out.record(), "jobs": len(parts),
-                                                    "frames": P.n_frames, "sec": round(time.time() - t0, 1)},
+                                                    "frames": P.n_frames, "sec": round(time.time() - t0, 1),
+                                                    "peak_child_rss_mb": peak},
                                                    ensure_ascii=False, indent=1), encoding="utf-8")
     return final
 
@@ -256,9 +285,8 @@ def main(argv: list[str] | None = None) -> int:
                 print(json.dumps(res.model_dump(), ensure_ascii=False))
                 return 1
         else:
-            from orchestrator.config import load_config  # noqa: PLC0415
-
-            jobs = args.jobs if args.jobs is not None else load_config().engine.jobs
+            jobs, why = plan_jobs(args.jobs, P.R.out)
+            log(f"jobs {jobs} ({why})")
             arts = {"video_noaudio": str(render_full(P, jobs))}
         res = StageResult(ok=True, stage=stage, artifacts=arts, warnings=P.warnings)
     except (ProjectError, RegistryError, RuntimeError, OSError, ValueError) as ex:

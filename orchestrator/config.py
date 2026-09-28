@@ -65,6 +65,7 @@ class OutputProfile(BaseModel):
     fps: int = Field(gt=0)
     crf: int = Field(ge=0, le=51)
     preset: str
+    mem_per_job_mb: int = Field(gt=0)
 
 
 class OutputConfig(BaseModel):
@@ -72,14 +73,20 @@ class OutputConfig(BaseModel):
 
     default: str = "480p"
     profiles: dict[str, OutputProfile] = Field(default_factory=lambda: {
-        "480p": OutputProfile(width=854, height=480, fps=24, crf=19, preset="faster"),
-        "1080p": OutputProfile(width=1920, height=1080, fps=24, crf=19, preset="faster")})
+        "480p": OutputProfile(width=854, height=480, fps=24, crf=19, preset="faster", mem_per_job_mb=600),
+        "1080p": OutputProfile(width=1920, height=1080, fps=24, crf=19, preset="faster", mem_per_job_mb=1500)})
 
     @model_validator(mode="after")
     def _known_default(self) -> "OutputConfig":
         if self.default not in self.profiles:
             raise ValueError(f"engine.output.default {self.default!r} 가 profiles {sorted(self.profiles)} 에 없다")
         return self
+
+
+class RenderConfig(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+
+    jobs: int | None = Field(default=None, gt=0)   # None = os.cpu_count()
 
 
 class EngineConfig(BaseModel):
@@ -90,7 +97,7 @@ class EngineConfig(BaseModel):
     output: OutputConfig = Field(default_factory=OutputConfig)
     trial: str = "480p"     # 프로파일 별칭
     final: str = "1080p"
-    jobs: int = 4
+    render: RenderConfig = Field(default_factory=RenderConfig)
 
     @model_validator(mode="after")
     def _aliases(self) -> "EngineConfig":

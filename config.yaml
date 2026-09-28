@@ -29,11 +29,13 @@ engine:
   output:
     default: 480p
     profiles:
-      480p: {width: 854, height: 480, fps: 24, crf: 19, preset: faster}
-      1080p: {width: 1920, height: 1080, fps: 24, crf: 19, preset: faster}
+      # mem_per_job_mb = 청크 렌더 프로세스 1개의 피크 메모리 상한(실측 480p 140MB · 1080p 432MB + ffmpeg·여유, v3.6.0 D-0066 작업 6)
+      480p: {width: 854, height: 480, fps: 24, crf: 19, preset: faster, mem_per_job_mb: 600}
+      1080p: {width: 1920, height: 1080, fps: 24, crf: 19, preset: faster, mem_per_job_mb: 1500}
   trial: 480p                          # 별칭 — 트라이얼(프리뷰·검수) 프로파일
   final: 1080p                         # 별칭 — 최종 프로파일
-  jobs: 4
+  render:
+    jobs: null                         # 청크 병렬 수. null = os.cpu_count(). 사용 가능 메모리 ÷ 프로파일 mem_per_job_mb 로 줄인다
 
 tts:
   # v2.0.0 — TTS 설정 단일 출처. 모듈 상수로 override 금지 (docs/handoff/15 P3).

@@ -35,8 +35,8 @@ class ProfileConfigTest(unittest.TestCase):
         self.assertEqual((o.crf, o.preset), (19, "faster"))
 
     def test_fps_must_match_design(self) -> None:
-        eng = EngineConfig(output=OutputConfig(profiles={"480p": OutputProfile(width=854, height=480, fps=30, crf=19, preset="faster"),
-                                                           "1080p": OutputProfile(width=1920, height=1080, fps=24, crf=19, preset="faster")}))
+        eng = EngineConfig(output=OutputConfig(profiles={"480p": OutputProfile(width=854, height=480, fps=30, crf=19, preset="faster", mem_per_job_mb=600),
+                                                           "1080p": OutputProfile(width=1920, height=1080, fps=24, crf=19, preset="faster", mem_per_job_mb=1500)}))
         from unittest import mock  # noqa: PLC0415
 
         from engine import style  # noqa: PLC0415
@@ -73,6 +73,30 @@ class OutputTest(unittest.TestCase):
         self.assertIsInstance(output_profile(), Output)
         with self.assertRaises(Exception):
             output_profile().width = 1  # type: ignore[misc]
+
+
+class JobsTest(unittest.TestCase):
+    """청크 병렬 수(D-0066 작업 6): --jobs → config engine.render.jobs → cpu, 메모리 상한."""
+
+    def test_order_and_mem(self) -> None:
+        from unittest import mock  # noqa: PLC0415
+
+        from engine.render import plan_jobs  # noqa: PLC0415
+
+        o = output_profile("1080p")
+        self.assertEqual(plan_jobs(3, o, cpu=8, mem_mb=100000), (3, "--jobs"))
+        with mock.patch("orchestrator.config.load_config") as lc:
+            lc.return_value.engine.render.jobs = None
+            self.assertEqual(plan_jobs(None, o, cpu=8, mem_mb=100000), (8, "cpu"))
+            lc.return_value.engine.render.jobs = 2
+            self.assertEqual(plan_jobs(None, o, cpu=8, mem_mb=100000), (2, "config"))
+        j, why = plan_jobs(8, o, cpu=8, mem_mb=o.mem_per_job_mb * 3 + 10)
+        self.assertEqual(j, 3)
+        self.assertIn("mem", why)
+        self.assertEqual(plan_jobs(8, o, cpu=8, mem_mb=10)[0], 1)
+
+    def test_config_default_cpu(self) -> None:
+        self.assertIsNone(load_config().engine.render.jobs)
 
 
 class CliTest(unittest.TestCase):

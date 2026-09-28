@@ -88,7 +88,7 @@ def advance(project_id: str, cfg: Optional[AppConfig] = None, *, jobs: Optional[
             on_result(res)
 
     def run_engine(stage: str) -> StageResult:
-        res = engine_service.run_stage(pdir, stage, jobs=jobs if jobs is not None else cfg.engine.jobs, runner=runner)  # type: ignore[arg-type]
+        res = engine_service.run_stage(pdir, stage, jobs=jobs, runner=runner)   # None = 엔진이 정한다(config engine.render.jobs → cpu, 메모리 상한)  # type: ignore[arg-type]
         return res.model_copy(update={"stage": stage})   # 기록 단계명 = 엔진 서비스 단계명
 
     if st == ProjectState.DIRECTION and not (pdir / "direction.yaml").exists():

@@ -34,6 +34,7 @@ class Output:
     fps: int
     crf: int
     preset: str
+    mem_per_job_mb: int
 
     @property
     def k(self) -> float:
@@ -62,7 +63,7 @@ def output_profile(name: str | None = None) -> Output:
     n, p = _CFG.engine.profile(name)
     if p.fps != FPS:
         raise ValueError(f"출력 프로파일 {n} fps {p.fps} ≠ 설계 fps {FPS} — 타이밍이 프레임 단위라 바꿀 수 없다")
-    return Output(n, p.width, p.height, p.fps, p.crf, p.preset)
+    return Output(n, p.width, p.height, p.fps, p.crf, p.preset, p.mem_per_job_mb)
 
 Color = tuple[float, float, float]
 
