@@ -131,3 +131,12 @@ projects/*/intake/screenshots/
 projects/*/intake/bodies/
 projects/*/intake/drafts/
 projects/*/intake/files/
+
+# v3.2.0 — 실행 생성물(보고서에 필요한 사본은 docs/handoff/reports/phase6_95/ 에 커밋)
+projects/taiwan_ai/03_tasks/
+projects/taiwan_ai/assets/
+projects/taiwan_ai/llm_calls/
+projects/taiwan_ai/plan.json
+projects/taiwan_ai/prev/
+projects/taiwan_ai/tts/
+projects/e2e_gaon/
