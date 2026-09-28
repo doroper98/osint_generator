@@ -1,0 +1,42 @@
+# 공식 계정 목록 (v3.2.0, docs/handoff/18 §3-1, back_and_forth D-0051 작업 4)
+# X 게시물 소스의 account_class 는 이 목록으로 코드가 정한다(schemas/source_models.py, orchestrator/source_verify.py).
+# 목록에 없는 핸들 = unknown — 사칭 계정이 흔하다. 코드에 핸들을 리터럴로 적지 않는다.
+# 확인 방법(2026-09-28): 기관 공식 사이트(centcom.mil 등)는 이 실행 환경에서 403 이라 직접 열지 못했다.
+#   대신 Wikidata 의 X username 속성(P2002)을 SPARQL 로 조회했다(query.wikidata.org). source_url = 해당 Wikidata 항목.
+#   공식 사이트로 다시 확인하면 source_url·check_method 를 바꾼다. x.com 은 열지 않는다(18 §1).
+schema_version: 1
+accounts:
+  - {handle: "@CENTCOM", name: U.S. Central Command, name_ko: 미 중부사령부, account_class: official_gov, country: US,
+     source_url: "https://www.wikidata.org/wiki/Q1476046", check_method: wikidata_P2002, checked_on: 2026-09-28}
+  - {handle: "@CENTCOMFarsi", name: U.S. Central Command (Farsi), name_ko: 미 중부사령부(페르시아어), account_class: official_gov, country: US,
+     source_url: "https://www.wikidata.org/wiki/Q1476046", check_method: wikidata_P2002, checked_on: 2026-09-28}
+  - {handle: "@DeptofWar", name: U.S. Department of Defense, name_ko: 미 국방부, account_class: official_gov, country: US,
+     source_url: "https://www.wikidata.org/wiki/Q11209", check_method: wikidata_P2002, checked_on: 2026-09-28}
+  - {handle: "@StateDept", name: U.S. Department of State, name_ko: 미 국무부, account_class: official_gov, country: US,
+     source_url: "https://www.wikidata.org/wiki/Q789915", check_method: wikidata_P2002, checked_on: 2026-09-28}
+  - {handle: "@WhiteHouse", name: The White House, name_ko: 백악관, account_class: official_gov, country: US,
+     source_url: "https://www.wikidata.org/wiki/Q35525", check_method: wikidata_P2002, checked_on: 2026-09-28}
+  - {handle: "@USNavy", name: U.S. Navy, name_ko: 미 해군, account_class: official_gov, country: US,
+     source_url: "https://www.wikidata.org/wiki/Q11220", check_method: wikidata_P2002, checked_on: 2026-09-28}
+  - {handle: "@ROK_MND", name: Ministry of National Defense (ROK), name_ko: 대한민국 국방부, account_class: official_gov, country: KR,
+     source_url: "https://www.wikidata.org/wiki/Q488542", check_method: wikidata_P2002, checked_on: 2026-09-28}
+  - {handle: "@mofa_kr", name: Ministry of Foreign Affairs (ROK), name_ko: 대한민국 외교부, account_class: official_gov, country: KR,
+     source_url: "https://www.wikidata.org/wiki/Q9405654", check_method: wikidata_P2002, checked_on: 2026-09-28}
+  - {handle: "@MofaJapan_en", name: Ministry of Foreign Affairs of Japan, name_ko: 일본 외무성, account_class: official_gov, country: JP,
+     source_url: "https://www.wikidata.org/wiki/Q222241", check_method: wikidata_P2002, checked_on: 2026-09-28}
+  - {handle: "@MofaJapan_jp", name: Ministry of Foreign Affairs of Japan, name_ko: 일본 외무성, account_class: official_gov, country: JP,
+     source_url: "https://www.wikidata.org/wiki/Q222241", check_method: wikidata_P2002, checked_on: 2026-09-28}
+  - {handle: "@MOFA_Taiwan", name: Ministry of Foreign Affairs (ROC Taiwan), name_ko: 대만 외교부, account_class: official_gov, country: TW,
+     source_url: "https://www.wikidata.org/wiki/Q697158", check_method: wikidata_P2002, checked_on: 2026-09-28}
+  - {handle: "@MoNDefense", name: Ministry of National Defense (ROC Taiwan), name_ko: 대만 국방부, account_class: official_gov, country: TW,
+     source_url: "https://www.wikidata.org/wiki/Q697444", check_method: wikidata_P2002, checked_on: 2026-09-28}
+  - {handle: "@idfonline", name: Israel Defense Forces, name_ko: 이스라엘군, account_class: official_gov, country: IL,
+     source_url: "https://www.wikidata.org/wiki/Q58967", check_method: wikidata_P2002, checked_on: 2026-09-28}
+  - {handle: "@UK_MTO", name: United Kingdom Maritime Trade Operations, name_ko: 영국 해사무역기구(UKMTO), account_class: official_gov, country: GB,
+     source_url: "https://www.wikidata.org/wiki/Q138529754", check_method: wikidata_P2002, checked_on: 2026-09-28}
+  - {handle: "@UN", name: United Nations, name_ko: 유엔, account_class: official_org, country: null,
+     source_url: "https://www.wikidata.org/wiki/Q1065", check_method: wikidata_P2002, checked_on: 2026-09-28}
+  - {handle: "@NATO", name: NATO, name_ko: 북대서양조약기구, account_class: official_org, country: null,
+     source_url: "https://www.wikidata.org/wiki/Q7184", check_method: wikidata_P2002, checked_on: 2026-09-28}
+  - {handle: "@imohq", name: International Maritime Organization, name_ko: 국제해사기구, account_class: official_org, country: null,
+     source_url: "https://www.wikidata.org/wiki/Q201054", check_method: wikidata_P2002, checked_on: 2026-09-28}

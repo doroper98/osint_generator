@@ -159,6 +159,38 @@ class ClaimsFile(_Strict):
         return {c.claim_id: c for c in self.claims}
 
 
+class OfficialAccount(_Strict):
+    """공식 계정 한 줄(`rules/official_accounts.yaml`, 18 §3-1). 출처 URL·확인 방법·확인일이 없으면 등재할 수 없다."""
+
+    handle: str = Field(pattern=HANDLE)
+    name: str = Field(min_length=1)
+    name_ko: str = Field(min_length=1)
+    account_class: Literal["official_gov", "official_org"]
+    country: Optional[str] = None
+    source_url: str = Field(pattern=r"^https://")
+    check_method: Literal["official_site", "wikidata_P2002"]
+    checked_on: date
+
+
+class OfficialAccountsFile(_Strict):
+    schema_version: Literal[1] = 1
+    accounts: list[OfficialAccount] = Field(min_length=1)
+
+    @model_validator(mode="after")
+    def _unique(self) -> "OfficialAccountsFile":
+        keys = [a.handle.lower() for a in self.accounts]
+        dup = sorted({k for k in keys if keys.count(k) > 1})
+        if dup:
+            raise ValueError(f"공식 계정 핸들 중복: {dup}")
+        return self
+
+    def lookup(self, handle: str) -> Optional[OfficialAccount]:
+        """핸들(대소문자 무시, X 핸들 규칙)로 찾기. 없으면 None — 호출자는 unknown 으로 둔다."""
+        h = handle.strip().lower()
+        h = h if h.startswith("@") else "@" + h
+        return next((a for a in self.accounts if a.handle.lower() == h), None)
+
+
 def check_claim_sources(claims: ClaimsFile, sources: SourcesFile) -> list[str]:
     """claims 가 가리키는 소스 id 가 sources.json 에 있는가(sides 포함). 없으면 오류 문구."""
     have = set(sources.by_id())
@@ -171,5 +203,5 @@ def check_claim_sources(claims: ClaimsFile, sources: SourcesFile) -> list[str]:
     return out
 
 
-__all__ = ["AccountClass", "ArticleSource", "Claim", "ClaimSide", "ClaimsFile", "DocumentSource", "SourceRecord",
+__all__ = ["AccountClass", "OfficialAccount", "OfficialAccountsFile", "ArticleSource", "Claim", "ClaimSide", "ClaimsFile", "DocumentSource", "SourceRecord",
            "SourceVerification", "SourcesFile", "VerificationStatus", "XPostSource", "check_claim_sources"]
