@@ -1,6 +1,6 @@
 <!--
 tier: 2
-last_synced_with: v3.2.0
+last_synced_with: v3.5.0
 ssot_for: [prompt-script_user]
 depends_on: [rules/video_rules.yaml, docs/handoff/15_ANTI_INERTIA_PRINCIPLES.md]
 last_review: 2026-09-27
@@ -17,6 +17,7 @@ target_duration_min: {duration}
 -------------------------------------------------------------------------------------------
 {facts}
 
+{draft_block}
 지시
 ----
 위 사실 목록으로 Script JSON 을 생성하십시오.

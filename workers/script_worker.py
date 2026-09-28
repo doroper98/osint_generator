@@ -33,6 +33,8 @@ from workers.base_llm_worker import BaseLLMWorker
 from workers.base_worker import run_worker
 from workers.prompt_loader import load_prompt
 
+DRAFT_FILE = "script.draft.yaml"   # bundle.to_script 초안(v3.5.0) — 있으면 {draft_block}
+
 
 # `.replace()` 만 사용. `.format()` 금지 (C2). script/schema.py 의 Script 와 동기화(parity 테스트).
 # system prompt: prompts/script.md / user template: prompts/script_user.md (v2.0.0, 15 P3)
@@ -71,8 +73,17 @@ class ScriptWorker(BaseLLMWorker):
             .replace("{title}", manifest.title)
             .replace("{topic}", manifest.topic_summary or manifest.title)
             .replace("{duration}", str(manifest.target_duration_min))
+            .replace("{draft_block}", self._draft_block(args))
             .replace("{facts}", self._format_facts(facts, self._claims(args)))
         )
+
+    def _draft_block(self, args: argparse.Namespace) -> str:
+        """`script.draft.yaml`(번들 어댑터 초안)이 있을 때만 다듬기 블록(v3.5.0 D-0064 쟁점 4). 없으면 빈 자리 — 기존 프로젝트 무영향.
+        초안은 이 프로젝트의 입력 재료다(15 P9 의 이전 영상·옛 템플릿이 아님)."""
+        p = self.project_dir(args) / DRAFT_FILE
+        if not p.exists():
+            return ""
+        return load_prompt("script_draft", self.rules).replace("{draft}", p.read_text(encoding="utf-8").rstrip()) + "\n"
 
     def output_path(self, args: argparse.Namespace, task: TaskQueueItem) -> Path:
         return script_path(args.project_id)
