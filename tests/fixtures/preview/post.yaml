@@ -1,0 +1,11 @@
+# 레지스트리 프리뷰 예제 (v3.2.0, 15 P10) — 모델 검증 테스트가 읽는다. 문구는 프로젝트 intake/sources.json 에서(18 §5)
+schema_version: 1
+key: post
+source: tests/fixtures/intake/post_sources.json (tools/post_preview.py 로 그린다)
+event:
+  type: post
+  t0: 10.0
+  t1: 16.0
+  src: src_x_0001
+  hl: 해군 호위
+  quote: true

@@ -190,6 +190,17 @@ class ArticleEvent(_Event):
     mid: str
 
 
+class PostEvent(_Event):
+    """X 게시물 카드(v3.2.0, 18 §5) — 계정명·핸들·시각·번역·검증 라벨은 프로젝트 `intake/sources.json` 에서만(D25와 같은 원칙).
+    연출은 소스 id·형광펜 구절·원문 한 줄 여부·자리만 정한다."""
+
+    type: Literal["post"]
+    src: str = Field(pattern=r"^src_x_[a-z0-9_]+$")
+    hl: Optional[str] = None             # 번역문 안 핵심 구절(부분 문자열)
+    quote: bool = False                  # 원문 한 줄(15단어 미만일 때만)
+    at: Literal["card", "panel"] = "card"
+
+
 # ------------------------------------------------------------------ 패널 (문구 = 데이터, D25)
 class _Strict(BaseModel):
     model_config = ConfigDict(extra="forbid")

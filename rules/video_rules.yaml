@@ -214,6 +214,29 @@ layout_480p:               # 09 §2·§4, 08 §10 — 기준 해상도 854×480.
   end_card: {dur_sec: 11.0, item_size: 9.2, license_size: 7.8}
   card: {x_right_margin: 24, y: 70, min_w: 230, slide_px: 30, fade_sec: 0.45, big_size: 30, line_size: 13, tag_size: 10.5, src_size: 9.5}
   article_card: {w: 300, y: 68}
+  # v3.2.0 18 §5 — X 게시물 카드(post). 캡처 이미지·X 로고 없이 자체 조판. 수치는 18 §5 명세 그대로
+  post_card:
+    w: 300
+    y: 68
+    panel_y: 150              # at: panel — 패널 위 가운데(슬롯 panel_center 자리)
+    radius: 6
+    bg: [0.07, 0.08, 0.11, 0.94]
+    border_alpha: 0.12
+    pad: 14
+    icon_r: 14
+    name_size: 11.5
+    handle_size: 8.5
+    chip_size: 7.5
+    body_size: 12
+    body_line: 18
+    body_max_lines: 5
+    orig_size: 8
+    orig_max_words: 15
+    foot_size: 7.8
+    slide_px: 30
+    fade_sec: 0.45
+    hl_delay_sec: 0.8
+    hl_sec: 0.7
   panel: {cover_alpha: 0.8, fade_sec: 0.6, title_size: 19, title_y: 74, subtitle_size: 11, subtitle_y: 96, min_screen_use: 0.7}
   badge: {R_person_map: [30, 34], R_person_panel: 36, R_flag: [17, 24], reserve_top_factor: 2.2, reserve_bottom_px: 44, popin_sec: 0.55}
   timeline_gaps: {gap_sec: 0.5, scene_gap_sec: 1.0, lead_sec: 1.2, title_after_cold_open: true}
@@ -492,8 +515,8 @@ credits:                   # D-0030(D35) — 권리 레지스트리 종류별 �
   description_only_kinds: [fonts]                                      # 07 §7.3 영상 내 표기 의무 없음 → 설명문 자동 크레딧 블록만
 
 registries:                # 15 §3 P10 — 여기 없는 타입을 연출이 쓰면 오류, 있는데 렌더러가 없으면 오류
-  event_types: [marker, route, tanker_loop, barrier, ships, boom, country, badge, card, panel, dip, photo, clip, cutout, article]
-  event_types_planned: [occupied, arc, channel, shield, tl, particles, flash, dots, movers, line, arrow, post]   # v1/v2 이식 후보(미구현 = 사용 불가). post 는 Phase 6.95 에서 복귀(D26)
+  event_types: [marker, route, tanker_loop, barrier, ships, boom, country, badge, card, panel, dip, photo, clip, cutout, article, post]   # post = v3.2.0 복귀(D26, 18 §5)
+  event_types_planned: [occupied, arc, channel, shield, tl, particles, flash, dots, movers, line, arrow]   # v1/v2 이식 후보(미구현 = 사용 불가)
   panel_kinds: [relation, statement, timeline, precedent, versus, dots, gantt, dual_line, fork, checklist, network]   # relation = v3 refusal 일반화, 뒤 6종 = v2 차트 이식(D-0032)
   panel_kinds_planned: []
   badge_kinds: [person, flag, emblem]

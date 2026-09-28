@@ -1,0 +1,76 @@
+{
+  "schema_version": 1,
+  "sources": [
+    {
+      "id": "src_x_0001",
+      "retrieved_at": "2026-09-20",
+      "lang": "en",
+      "verification": {
+        "status": "verified",
+        "checks": [
+          "official_account"
+        ],
+        "notes": ""
+      },
+      "confirmed_by": "fixture",
+      "confirmed_at": "2026-09-20T15:00:00Z",
+      "note": "예시 픽스처 — 가상의 문구",
+      "type": "x_post",
+      "input": "text",
+      "account_name": "U.S. Central Command",
+      "handle": "@CENTCOM",
+      "account_class": "official_gov",
+      "posted_at": "2026-09-20T14:05:00",
+      "text_original": "U.S. naval forces escorted two tankers today.",
+      "text_ko": "미 해군이 오늘 유조선 두 척을 해군 호위로 해협 밖까지 안내했다.",
+      "attached_media": "none",
+      "deleted": false
+    },
+    {
+      "id": "src_x_0002",
+      "retrieved_at": "2026-09-20",
+      "lang": "en",
+      "verification": {
+        "status": "unverified",
+        "checks": [],
+        "notes": ""
+      },
+      "confirmed_by": "fixture",
+      "confirmed_at": "2026-09-20T17:00:00Z",
+      "note": "예시 픽스처 — 가상의 계정·문구",
+      "type": "x_post",
+      "input": "capture",
+      "account_name": "Gulf Watch",
+      "handle": "@gulf_watch_x",
+      "account_class": "unknown",
+      "posted_at": "2026-09-20T16:40:00",
+      "text_original": "Reports say a third tanker was turned back near Larak island.",
+      "text_ko": "세 번째 유조선이 라라크 섬 인근에서 되돌아갔다는 보도가 있다.",
+      "capture": "intake/screenshots/src_x_0002.png",
+      "attached_media": "none",
+      "deleted": false
+    },
+    {
+      "id": "src_x_0003",
+      "retrieved_at": "2026-09-21",
+      "lang": "ko",
+      "verification": {
+        "status": "unverified",
+        "checks": [],
+        "notes": ""
+      },
+      "confirmed_by": "fixture",
+      "confirmed_at": "2026-09-21T02:00:00Z",
+      "note": "예시 픽스처 — 가상의 개인 계정",
+      "type": "x_post",
+      "input": "text",
+      "account_name": "홍길동",
+      "handle": "@private_person",
+      "account_class": "private",
+      "posted_at": "2026-09-21T01:10:00",
+      "text_original": "항구에서 배 두 척이 나가는 걸 봤다.",
+      "attached_media": "none",
+      "deleted": true
+    }
+  ]
+}

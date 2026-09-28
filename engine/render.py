@@ -69,7 +69,7 @@ def render_frame(P: Project, i: int) -> tuple[cairo.ImageSurface, bytearray]:  #
         if e["type"] in ("photo", "clip"):
             resolve(e).render(ctx, R, t, e)
     for e in act:
-        if e["type"] in ("card", "article"):
+        if e["type"] in ("card", "article", "post"):
             resolve(e).render(ctx, R, t, e)
     draw_date(ctx, R, t)
     draw_fullcards(ctx, R, t)

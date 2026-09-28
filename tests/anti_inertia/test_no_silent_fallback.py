@@ -24,7 +24,7 @@ class NoSilentFallbackTest(unittest.TestCase):
             registry.validate_events([{"type": "stamp", "t0": 0.0, "t1": 1.0}])  # type: ignore[attr-defined]
         # 계획(planned) 타입도 사용 불가(D26)
         with self.assertRaises(registry.RegistryError):  # type: ignore[attr-defined]
-            registry.resolve("post")  # type: ignore[attr-defined]
+            registry.resolve("arrow")  # type: ignore[attr-defined] — post 는 v3.2.0 등재(18 §5)
 
     def test_b_media_without_rights(self) -> None:   # v2.5.5 해제 — 레지스트리 참조 없는 미디어는 RightsError(D-0036)
         media = importlib.import_module("engine.layers.media")

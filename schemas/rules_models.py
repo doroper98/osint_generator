@@ -237,6 +237,32 @@ class ArticleCardLayout(_Strict):
     y: float
 
 
+class PostCardLayout(_Strict):
+    """v3.2.0 18 §5 — X 게시물 카드."""
+
+    w: float
+    y: float
+    panel_y: float
+    radius: float
+    bg: tuple[float, float, float, float]
+    border_alpha: float
+    pad: float
+    icon_r: float
+    name_size: float
+    handle_size: float
+    chip_size: float
+    body_size: float
+    body_line: float
+    body_max_lines: int
+    orig_size: float
+    orig_max_words: int
+    foot_size: float
+    slide_px: float
+    fade_sec: float
+    hl_delay_sec: float
+    hl_sec: float
+
+
 class PanelLayout(_Strict):
     cover_alpha: float
     fade_sec: float
@@ -290,6 +316,7 @@ class Layout480p(_Strict):
     end_card: EndCardLayout
     card: CardLayout
     article_card: ArticleCardLayout
+    post_card: PostCardLayout    # v3.2.0
     panel: PanelLayout
     badge: BadgeLayout
     timeline_gaps: TimelineGaps

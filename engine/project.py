@@ -136,6 +136,28 @@ def _media_extent(e: dict, w: float, media_assets: dict) -> tuple[float, float]:
     return media_box(dict(e, x=0, y=0, w=w), media_assets)[3], max(w, caption_width(ctx, m.caption, credit_line(m)))
 
 
+def _attach_posts(proj: Path, R: RenderCtx, events: list[dict]) -> None:  # noqa: N803
+    posts = [e for e in events if e["type"] == "post"]
+    if not posts:
+        return
+    from engine.layers.post import PostSourceError, post_geom  # noqa: PLC0415
+    from schemas.source_models import SourcesFile  # noqa: PLC0415
+
+    sp = proj / "intake" / "sources.json"
+    if not sp.exists():
+        raise ProjectError("post 이벤트가 있는데 intake/sources.json 이 없다(18 §5)")
+    R.cache["sources"] = SourcesFile.model_validate_json(sp.read_text(encoding="utf-8")).by_id()
+    ctx = cairo.Context(cairo.ImageSurface(cairo.FORMAT_ARGB32, 1, 1))
+    errs: list[str] = []
+    for e in posts:
+        try:
+            e["post_box"] = post_geom(ctx, e, R.cache["sources"])[:4]
+        except PostSourceError as ex:
+            errs.append(str(ex))
+    if errs:
+        raise ProjectError("post 카드 점검 실패:\n" + "\n".join(errs))
+
+
 def load_project(proj: Path, direction: Optional[Direction] = None) -> Project:
     """렌더 입력 한 벌. direction 을 주면 direction.yaml 대신 그것으로(연출 워커의 저장 전 점검 — 렌더와 같은 경로, 15 P8)."""
     proj = proj.resolve()
@@ -157,6 +179,7 @@ def load_project(proj: Path, direction: Optional[Direction] = None) -> Project:
     except PlacementError as ex:
         raise ProjectError(str(ex)) from ex
     events = validate_events(raw_events)
+    _attach_posts(proj, R, events)   # v3.2.0 18 §5 — post 카드 문구·상자는 intake/sources.json 에서(없으면 오류)
     ent_errs = check_event_refs(events, load_entities())  # 07 §6 — 미등재 인물·국기·휘장은 렌더 전 오류(P10)
     if ent_errs:
         raise RegistryError("엔티티 레지스트리 점검 실패:\n" + "\n".join(ent_errs))

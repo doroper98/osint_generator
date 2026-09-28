@@ -20,6 +20,7 @@ from engine.layers.dip import draw_dip
 from engine.layers.effects import draw_boom, draw_ships
 from engine.layers.markers import draw_marker
 from engine.layers.media import draw_article, draw_clip, draw_cutout, draw_photo
+from engine.layers.post import draw_post
 from engine.layers.routes import draw_barrier, draw_route, draw_tanker_loop
 from engine.panels import checklist, dots, dual_line, fork, gantt, network, precedent, relation, statement, timeline, versus
 from engine.panels.base import make_panel_renderer
@@ -56,6 +57,7 @@ REGISTRY: dict[str, Entry] = {
     "clip": Entry(ev.ClipEvent, draw_clip, "media"),
     "card": Entry(ev.CardEvent, draw_card, "card"),
     "article": Entry(ev.ArticleEvent, draw_article, "card"),
+    "post": Entry(ev.PostEvent, draw_post, "card"),          # v3.2.0 18 §5
     "panel": Entry(ev._Panel, lambda ctx, R, t, e: dispatch_panel(ctx, R, t, e), "panel"),  # kind 별 항목으로 위임
     "panel:relation": Entry(ev.PanelRelation, make_panel_renderer(relation.draw), "panel"),
     "panel:statement": Entry(ev.PanelStatement, make_panel_renderer(statement.draw), "panel"),

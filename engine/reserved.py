@@ -43,12 +43,15 @@ def presence(t: float, e: dict, fade_out: float) -> float:
 def card_zones(ctx: cairo.Context, events: list[dict], t: float) -> list[Zone]:
     out: list[Zone] = []
     for e in events:
-        if e["type"] not in ("card", "article"):
+        if e["type"] not in ("card", "article", "post"):
             continue
-        a = presence(t, e, CARD.fade_sec)   # 기사 카드도 같은 0.45초 페이드(media.article_alpha)
+        a = presence(t, e, CARD.fade_sec)   # 기사·게시물 카드도 같은 0.45초 페이드(media.article_alpha, post.post_alpha)
         if a <= RES.min_zone_alpha:
             continue
-        if e["type"] == "card":
+        if e["type"] == "post":            # v3.2.0 — 상자는 load_project 가 소스 레코드로 미리 계산(post_box)
+            x, y, w, h = e["post_box"]
+            out.append(Zone((x, y, x + w, y + h), a, f"post:{e['src']}"))
+        elif e["type"] == "card":
             x, y, w, h, _ = card_geom(ctx, e)
             out.append(Zone((x, y, x + w, y + h), a, f"card:{e['tag']}"))
         else:
