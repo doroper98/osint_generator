@@ -1,0 +1,17 @@
+{
+ "schema_version": 1,
+ "resolution": {
+  "profile": "1080p",
+  "width": 1920,
+  "height": 1080,
+  "fps": 24,
+  "k": 2.25,
+  "pad_x": -0.75,
+  "crf": 19,
+  "preset": "faster"
+ },
+ "jobs": 4,
+ "frames": 7018,
+ "sec": 328.1,
+ "peak_child_rss_mb": 446
+}
