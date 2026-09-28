@@ -1,0 +1,18 @@
+{
+ "schema_version": 1,
+ "note": "Phase 9 (v3.5.0). ratcliffe2026 final = artifacts/phase9-v3.5.0. hormuz 무영향은 hormuz_regression.json(25컷 MAD 0, Phase 8 커밋 대비)",
+ "files": {
+  "ratcliffe2026/out/final.mp4": "8145bf2cc74c5a57a6e49543b222d583",
+  "ratcliffe2026/out/video_noaudio.mp4": "7c4071856be955286f3bcd7d138226d5",
+  "ratcliffe2026/out/mix.f32": "f3a5c88013aa8266677dc012d8513572",
+  "ratcliffe2026/direction.yaml": "a575867d70dc331ad916048a3d63a6a0",
+  "ratcliffe2026/script.yaml": "f7cc82c4a07b545d0f42ecca0c339a99",
+  "ratcliffe2026/script.draft.yaml": "644c19f3f96dae82ffb4d084dbc14fa1",
+  "ratcliffe2026/credits.yaml": "f0b27bd33701a8434942cccedcdd8275",
+  "ratcliffe2026/intake/claims.json": "930c98ab30e3b8ea6fa2490a20fb277a",
+  "ratcliffe2026/intake/sources.json": "a7845533df01f427c668c5ab4d1d486b",
+  "samples/ratcliffe2026/analysis_20260829_115457_ec53e620b2.bundle.json": "3441fbc7e3e5daea68f7748507ae0d32",
+  "bundle_rw_demo/script.yaml": "96d0ca7b9724710934fdad228dbe67ed",
+  "bundle_rw_demo/script.draft.yaml": "585aa1f2998e914e14be3a3f5437e15c"
+ }
+}
