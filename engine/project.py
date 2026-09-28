@@ -19,7 +19,7 @@ from engine.assets import Assets, load_labels
 from engine.camera import CamKey, build_camera
 from engine.context import RenderCtx
 from engine.credits import check_credits, load_credits, required_refs
-from engine.direction import DirectionError, load_direction_doc
+from engine.direction import Direction, DirectionError, load_direction_doc
 from engine.direction import build as build_direction
 from engine.entities import check_event_refs, load_entities
 from engine.panels import network, relation, timeline
@@ -39,13 +39,14 @@ class ProjectError(RuntimeError):
     pass
 
 
-def load_direction(proj: Path, tb: Timebase) -> tuple[list[CamKey], list[dict], Optional[dict]]:
-    """`direction.yaml`(17 §2) → (카메라 키, 이벤트, sound). 코드를 실행하지 않는다(v3.1.0, D-0047 §0-1 — 옛 direction.py 삭제)."""
+def load_direction(proj: Path, tb: Timebase, doc: Optional[Direction] = None) -> tuple[list[CamKey], list[dict], Optional[dict]]:
+    """`direction.yaml`(17 §2) → (카메라 키, 이벤트, sound). 코드를 실행하지 않는다(v3.1.0, D-0047 §0-1 — 옛 direction.py 삭제).
+    doc 을 주면 파일 대신 그 연출(아직 저장 전인 LLM 출력)을 같은 경로로 읽는다."""
     p = proj / "direction.yaml"
-    if not p.exists():
+    if doc is None and not p.exists():
         raise ProjectError(f"연출 파일 없음: {p}")
     try:
-        return build_direction(load_direction_doc(p), tb)
+        return build_direction(doc if doc is not None else load_direction_doc(p), tb)
     except DirectionError as ex:
         raise ProjectError(str(ex)) from ex
 
@@ -126,13 +127,14 @@ class Project:
     warnings: list[str] = field(default_factory=list)   # 연출 lint 경고(오류 아님) — StageResult.warnings 로 나간다
 
 
-def load_project(proj: Path) -> Project:
+def load_project(proj: Path, direction: Optional[Direction] = None) -> Project:
+    """렌더 입력 한 벌. direction 을 주면 direction.yaml 대신 그것으로(연출 워커의 저장 전 점검 — 렌더와 같은 경로, 15 P8)."""
     proj = proj.resolve()
     plan = load_plan(proj)
     tb = Timebase(plan)
     assets = Assets(proj, load_labels(proj / "labels.yaml"))
     R = RenderCtx(assets=assets, tb=tb, credits=load_credits(proj / "credits.yaml"))  # noqa: N806
-    keys, raw_events, sound = load_direction(proj, tb)
+    keys, raw_events, sound = load_direction(proj, tb, direction)
     n = int(plan.total * FPS)
     cams = build_camera(keys, n, FPS) if keys else None
     A0 = assets  # noqa: N806

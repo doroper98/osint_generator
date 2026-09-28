@@ -51,3 +51,31 @@ class SlotTest(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+REPO_HZ = __import__("pathlib").Path(__file__).resolve().parent.parent / "projects" / "hormuz_korea"
+
+
+@unittest.skipUnless((REPO_HZ / "plan.json").exists(), "hormuz_korea plan.json(로컬 생성물) 없음")
+class CheckDirectionPlaceTest(unittest.TestCase):
+    """연출 워커의 저장 전 점검은 렌더와 같은 경로 — place 로 둔 뱃지는 좌표 없이도 통과해야 한다(v3.1.0 hormuz_ai 실측 버그)."""
+
+    def test_badge_place_passes(self) -> None:
+        from engine.direction import load_direction_doc  # noqa: PLC0415
+        from workers.direction_io import check_direction  # noqa: PLC0415
+
+        doc = load_direction_doc(REPO_HZ / "direction.yaml")
+        badge = next(e for e in doc.events if e.get("type") == "badge")
+        placed = {k: v for k, v in badge.items() if k not in ("lon", "lat", "at_place")} | {"place": "map_upper_right"}
+        doc = doc.model_copy(update={"events": [*doc.events, placed]})
+        check_direction(doc, REPO_HZ)
+
+    def test_bad_slot_is_value_error(self) -> None:
+        from engine.direction import load_direction_doc  # noqa: PLC0415
+        from workers.direction_io import check_direction  # noqa: PLC0415
+
+        doc = load_direction_doc(REPO_HZ / "direction.yaml")
+        badge = next(e for e in doc.events if e.get("type") == "badge")
+        bad = {k: v for k, v in badge.items() if k not in ("lon", "lat", "at_place")} | {"place": "nowhere"}
+        with self.assertRaises(ValueError):
+            check_direction(doc.model_copy(update={"events": [*doc.events, bad]}), REPO_HZ)

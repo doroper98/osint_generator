@@ -13,10 +13,9 @@ from pathlib import Path
 import yaml
 from pydantic import BaseModel
 
-from engine.direction import Direction, DirectionError, build
-from engine.entities import check_event_refs, load_entities
-from engine.registry import REGISTRY, RegistryError, validate_events
-from engine.timebase import Timebase
+from engine.direction import Direction, DirectionError
+from engine.entities import load_entities
+from engine.registry import REGISTRY, RegistryError
 from script.schema import Plan
 
 SKIP_FIELDS = {"type", "t0", "t1"}
@@ -100,18 +99,16 @@ def load_plan(pdir: Path) -> Plan:
 
 
 def check_direction(doc: Direction, pdir: Path) -> None:
-    """앵커·레지스트리·엔티티 점검(렌더 전 점검의 앞부분). 위반은 ValueError(워커가 1회 재요청 — 16 §3)."""
+    """렌더 전 점검 — 렌더와 **같은 경로**(engine.project.load_project, 배치 슬롯 해석·레지스트리·엔티티·예약영역·권리).
+    위반은 ValueError(워커가 오류를 붙여 1회 재요청 — 16 §3)."""
+    from engine.credits import RightsError  # noqa: PLC0415
+    from engine.project import ProjectError, load_project  # noqa: PLC0415
+
     try:
-        keys, events, _ = build(doc, Timebase(load_plan(pdir)))
-        for e in events:
-            e.pop("place", None)   # 슬롯은 load_project 가 좌표로 바꾼다 — 여기서는 모델 검증만
-        validate_events(events)
-    except (DirectionError, RegistryError) as ex:
+        P = load_project(pdir, doc)  # noqa: N806
+    except (ProjectError, RegistryError, RightsError, DirectionError) as ex:
         raise ValueError(str(ex)) from ex
-    errs = check_event_refs(events, load_entities())
-    if errs:
-        raise ValueError("엔티티 레지스트리 점검 실패:\n" + "\n".join(errs))
-    if not keys or keys[0].t != 0 or keys[0].mode != "cut":
+    if P.keys[0].t != 0 or P.keys[0].mode != "cut":
         raise ValueError("첫 shot 은 at 0, mode cut 이어야 한다")
 
 
