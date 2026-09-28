@@ -58,6 +58,7 @@ MINOR: 새 기능(무대 추상화·무대 연속성 검사). 렌더 수치 변�
 
 ### Fixed
 - **국가 지오메트리 키 충돌(D-0078, PIPELINE-AP-011)**: `geo/prep_geometry.load_countries` 가 같은 `ISO_A2_EH` 키 피처를 덮어써 카자흐스탄이 바이코누르 조각만 남고 바다로 그려졌다(hormuz 는 AU 도). 같은 키 = 합집합(META 는 면적 큰 피처), 커버리지에 면적 검사 추가(`rules geo.land_fill_min_ratio` 0.5, 원본 합집합 영역 안 육지 화소 비율). hormuz 25컷 중 KZ 가 보이는 9컷만 변경(영역 밖 ±1 번짐 9px), 새 기준선 `hormuz_baseline.json`(옛 = `_prefix`). `tests/test_geo_key_collision.py` 8.
+- **골든(D-0079)**: 골든 PNG 25장 무변경(`tests/test_golden_frozen.py` md5 고정). KZ 9컷은 `expected_deltas.json` `geo_kz_d0078`(묶음 항목 `cuts`, golden_compare 가 펼침), 정답 프레임 `reports/phaseG1/golden_delta/`, golden README 주석.
 
 ### Changed
 - **§0**: `WORKFLOWS.md`(Tier 3, v0.3.3 판)를 현재 명령으로 다시 씀(NB29). Tier 1·2 `last_synced_with` v4.1.0. hormuz 25컷 md5 기준선 `docs/handoff/reports/phaseG1/hormuz_baseline.json`.

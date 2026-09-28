@@ -6,7 +6,7 @@
 v2.3.0: 옛 v3 렌더러 경로(`--engine legacy`)는 삭제했다(D32). 골든 대조 기준은 `--reference golden`(R-0016 §6, 1.825).
 
 의도된 차이(D34, back_and_forth D-0026): `docs/handoff/golden/expected_deltas.json`
-`{"NN_anchor": {reason, decision, old_t, new_t | old_lonlat, new_lonlat}}`에 등재된 컷만 MAD 기준에서 빼고 결과에 `intended_delta: true`로 적는다.
+`{"NN_anchor": {reason, decision, old_t, new_t | old_lonlat, new_lonlat}}`(또는 `cuts: [NN_anchor…]` 를 가진 묶음 항목, v4.1.0)에 등재된 컷만 MAD 기준에서 빼고 결과에 `intended_delta: true`로 적는다.
 등재 없이 기준을 넘으면 종전대로 불합격이다. 골든 PNG 는 바꾸지 않는다.
 
 앵커 규칙: 문장 id → `sentence.t0 + offset`, `TITLE` → `cards[title].t0 + offset`, `END` → `total + offset`.
@@ -44,14 +44,19 @@ def load_expected_deltas() -> dict[str, dict]:
     if not p.exists():
         return {}
     d = json.loads(p.read_text(encoding="utf-8"))
+    out: dict[str, dict] = {}
     for k, v in d.get("deltas", {}).items():
         missing = {"reason", "decision"} - set(v)
-        # 무엇이 바뀌었나 — 시각(D34)·좌표(D36)·미디어 원본(D-0046 DVIDS 대체) 중 한 쌍
-        if not any({f"old_{k}", f"new_{k}"} <= set(v) for k in ("t", "lonlat", "media")):
-            missing |= {"old_t|old_lonlat|old_media", "new_t|new_lonlat|new_media"}
+        # 무엇이 바뀌었나 — 시각(D34)·좌표(D36)·미디어 원본(D-0046 DVIDS 대체)·지오메트리(D-0078) 중 한 쌍
+        if not any({f"old_{k}", f"new_{k}"} <= set(v) for k in ("t", "lonlat", "media", "geometry")):
+            missing |= {"old_t|old_lonlat|old_media|old_geometry", "new_t|new_lonlat|new_media|new_geometry"}
         if missing:
             raise ValueError(f"expected_deltas.json {k}: 필드 누락 {sorted(missing)}")
-    return d.get("deltas", {})
+        out[k] = v
+        # 여러 컷에 걸친 한 가지 사유(v4.1.0 D-0079 geo_kz_d0078) — cuts 의 "NN_anchor" 마다 같은 항목으로 편다
+        for c in v.get("cuts", []):
+            out.setdefault(c, v)
+    return out
 
 
 def mad(a: "object", b: "object") -> float:

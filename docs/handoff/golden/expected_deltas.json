@@ -113,6 +113,126 @@
      25.2
     ]
    }
+  },
+  "geo_kz_d0078": {
+   "reason": "v3 원본(골든 PNG 포함)에 국가 지오메트리 키 충돌 결함(PIPELINE-AP-011) — KZ 는 바이코누르 조각, AU 는 애시모어·카르티에 조각만 남아 카스피해 북쪽 육지가 바다로 그려졌다. 수정 후 기준 프레임은 docs/handoff/reports/phaseG1/golden_delta/(무손실 엔진 렌더). 골든 PNG 는 사료라 고치지 않는다(D-0079)",
+   "decision": "D-0078·D-0079",
+   "commit": "f8e507a",
+   "old_geometry": "load_countries: G[ISO_A2_EH] 덮어쓰기(뒤 피처가 이김)",
+   "new_geometry": "같은 키 피처 합집합(unary_union), META 는 면적 큰 피처",
+   "cuts": [
+    "04_route_2",
+    "05_route_3",
+    "15_review_0",
+    "16_review_1",
+    "17_past_1",
+    "18_past_3",
+    "23_now_0",
+    "24_now_3",
+    "25_END"
+   ],
+   "cut_detail": {
+    "04_route_2": {
+     "render": "p_0038.45.png",
+     "changed_px": 35,
+     "bbox": [
+      229,
+      0,
+      237,
+      4
+     ],
+     "md5": "af48bc232d42193b81e69a2d6017decf"
+    },
+    "05_route_3": {
+     "render": "p_0045.03.png",
+     "changed_px": 15,
+     "bbox": [
+      228,
+      0,
+      235,
+      3
+     ],
+     "md5": "e3a121d6a185f77d6e3503e1917de830"
+    },
+    "15_review_0": {
+     "render": "p_0164.59.png",
+     "changed_px": 1949,
+     "bbox": [
+      76,
+      0,
+      354,
+      31
+     ],
+     "md5": "1c9b9e82e8884a31a640f45f9af3ef5e"
+    },
+    "16_review_1": {
+     "render": "p_0170.52.png",
+     "changed_px": 1557,
+     "bbox": [
+      79,
+      0,
+      351,
+      28
+     ],
+     "md5": "30dbba10411108f7d9a8466cd5839002"
+    },
+    "17_past_1": {
+     "render": "p_0193.22.png",
+     "changed_px": 1136,
+     "bbox": [
+      80,
+      0,
+      348,
+      25
+     ],
+     "md5": "ea69e761aaa7752cad4cf3df7995317b"
+    },
+    "18_past_3": {
+     "render": "p_0207.41.png",
+     "changed_px": 1119,
+     "bbox": [
+      80,
+      0,
+      349,
+      25
+     ],
+     "md5": "13b6c54e8c0aa4c53a10e9d4ecc76d23"
+    },
+    "23_now_0": {
+     "render": "p_0258.61.png",
+     "changed_px": 34,
+     "bbox": [
+      229,
+      0,
+      237,
+      5
+     ],
+     "md5": "6eb7ae5182d26536051fd6d5f3175a6d"
+    },
+    "24_now_3": {
+     "render": "p_0276.44.png",
+     "changed_px": 324,
+     "bbox": [
+      83,
+      0,
+      246,
+      14
+     ],
+     "md5": "3e969c3541c1f25a845fdeefec16d1a9"
+    },
+    "25_END": {
+     "render": "p_0288.44.png",
+     "changed_px": 842,
+     "bbox": [
+      85,
+      0,
+      339,
+      22
+     ],
+     "md5": "42d94cea05dc2c3d6f0862cb305b6b4b"
+    }
+   },
+   "diff_report": "docs/handoff/reports/phaseG1/geo_fix_diff.json"
   }
  }
 }

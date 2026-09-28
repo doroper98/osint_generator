@@ -12,3 +12,10 @@ Phase 1(골든 재현)·Phase 2(모듈 분해)의 비교 기준.
 - 검증 결과: 이 mp4에서 `golden_frames.json`의 7개 시각을 추출해 `frame_*.png`와 비교했을 때
   평균 절대 차이 0.00/255 — PNG 25장은 mp4와 픽셀 단위로 동일하다. 따라서 Phase 1·2 프레임 비교는
   mp4 없이 PNG만으로 충분하다. mp4는 오디오(믹스·더킹·효과음)와 전환 연속성 검수에만 필요하다.
+
+## v4.1.0 주석 — 골든 v3 원본의 국가 키 충돌 결함 (back_and_forth D-0078·D-0079, DECISIONS D69·D70)
+골든 v3 원본은 KZ(및 AU 조각) 육지가 바다로 그려진 결함을 포함한다(D-0078·D69, PIPELINE-AP-011 — 같은 ISO 키 피처 덮어쓰기).
+골든 PNG 는 바꾸지 않는다(사용자 합격본의 사료, `tests/test_golden_frozen.py` 가 25장 md5 를 고정한다).
+그 9컷(04·05·15·16·17·18·23·24·25)의 정답 프레임은 `expected_deltas.json` 의 `geo_kz_d0078` 이 가리킨다
+(`docs/handoff/reports/phaseG1/golden_delta/`, 무손실 엔진 렌더, 기준 커밋 f8e507a). `tools/golden_compare.py` 는 이 컷들을 의도된 차이로 뺀다.
+
