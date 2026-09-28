@@ -68,7 +68,9 @@ class ReviseDirectionWorker(BaseLLMWorker):
         v = self._verdict(pdir)
         if v is not None:
             touched |= {i.fix.event_ref for i in v.issues if i.fix} | {i.frame for i in v.issues}
-        bad = unchanged_violations(load_direction_doc(pdir / "direction.yaml"), parsed.direction, touched)
+        frames, checks = (json.loads(q.read_text(encoding="utf-8")) if q.exists() else None
+                          for q in (pdir / "prev" / "frames.json", pdir / "prev" / "checks.json"))
+        bad = unchanged_violations(load_direction_doc(pdir / "direction.yaml"), parsed.direction, touched, frames, checks)
         if bad:
             raise ValueError("지적받지 않은 부분을 바꿨다(17 §5.5):\n" + "\n".join(bad[:20]))
 

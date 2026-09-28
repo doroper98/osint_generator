@@ -46,6 +46,31 @@ class RevisionTest(unittest.TestCase):
         self.assertEqual(len(v), 1)
         self.assertIn("서울", v[0])
 
+    def _moved(self) -> tuple:  # noqa: ANN001
+        before = load_direction_doc(HORMUZ)
+        raw = copy.deepcopy(before.model_dump())
+        busan = next(e for e in raw["events"] if e.get("label") == "부산에서 출항")
+        busan["start"] = {"sid": busan["start"]["sid"], "off": 9.9} if isinstance(busan.get("start"), dict) else 9.9   # 앵커 변경 = 키 변경
+        return before, Revision.model_validate({"direction": raw, "changelog": [{"issue_ref": "x", "change": "옮김"}]}).direction
+
+    def test_event_ref_type_name(self) -> None:
+        """검수 event_ref "타입:이름" 은 종류(kind)·앵커가 든 키와 형식이 다르다 — 그래도 같은 이벤트로 본다(hormuz_ai 실측 버그)."""
+        before, after = self._moved()
+        self.assertEqual(len(unchanged_violations(before, after, {"clip:없는것"})), 1)
+        self.assertEqual(unchanged_violations(before, after, {"badge:부산에서 출항"}), [])
+
+    def test_frame_ref_uses_frames_json(self) -> None:
+        before, after = self._moved()
+        frames = {"frames": [{"file": "p_0012.00.png", "events": [{"type": "badge", "kind": "flag", "label": "부산에서 출항"}]}]}
+        self.assertEqual(len(unchanged_violations(before, after, {"p_0012.00"})), 1)
+        self.assertEqual(unchanged_violations(before, after, {"p_0012.00"}, frames=frames), [])
+
+    def test_checks_id_uses_details(self) -> None:
+        before, after = self._moved()
+        checks = {"items": [{"id": "offscreen", "details": ["뱃지 '부산에서 출항' 12.0s 화면 밖"]}]}
+        self.assertEqual(unchanged_violations(before, after, {"offscreen"}, checks=checks), [])
+        self.assertEqual(len(unchanged_violations(before, after, {"overlap"}, checks=checks)), 1)
+
 
 if __name__ == "__main__":
     unittest.main()
