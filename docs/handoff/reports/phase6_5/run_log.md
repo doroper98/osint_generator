@@ -36,5 +36,5 @@ Phase 5·6 컨테이너(재기동 4)를 그대로 썼다. 자산·plan 은 Phase
 | 단계 | 명령 | 결과 |
 |---|---|---|
 | 렌더·믹스·먹스 | `python -m engine.render projects/hormuz_korea --jobs 4 && python -m audio.mix … && python -m engine.mux …` | 292.439초, −14.2 LUFS / peak −1.4 dBFS, **final md5 `94d39281…` = Phase 6 과 바이트 동일** |
-| provenance | `provenance_hormuz.json` | `media.suggested` 15문장, `used` 7, `suggested_and_used` 6장면(now·past·review×2·timeline·war — debate 기사만 트리거 밖), `density.warnings []`, `placement` explicit 4, `lint_warnings []`, rules_hash `2f8be8c7…` |
-| 영상 본체 | orphan `artifacts/phase6.5-v2.5.5` (`120ae9c`) | hormuz/out 전편 |
+| provenance | `provenance_hormuz.json` | `media.suggested` 15문장, `used` 7, `suggested_and_used` 6장면(now·past·review×2·timeline·war — debate 기사만 트리거 밖), `density.warnings []`(40초 창 최대 2 — strikes·p8), `placement` explicit 4, `lint_warnings []`, rules_hash `45e152ac…`(D-0037 반영 뒤 mux 재실행, final md5 불변) |
+| 영상 본체 | orphan `artifacts/phase6.5-v2.5.5` (`120ae9c` → provenance 갱신 `7c8dd60`) | hormuz/out 전편 |
