@@ -909,6 +909,17 @@ class GoldenRules(_Strict):
     res_compare_mad_max: float = Field(gt=0, lt=1)
 
 
+class StageContinuityRules(_Strict):
+    max_switches: int = Field(ge=0)
+
+
+class StageRules(_Strict):
+    """v4.1.0 D-0076 작업 5·D-0077 — 무대 연속성 검사(checks stage_continuity)."""
+
+    max_secondary: int = Field(ge=0)
+    continuity: StageContinuityRules
+
+
 class VideoRules(_Strict):
     """`rules/video_rules.yaml` 최상위 모델."""
 
@@ -938,6 +949,7 @@ class VideoRules(_Strict):
     preview: PreviewRules          # v3.3.0 — D-0056 F6
     golden: GoldenRules            # v3.6.0 — D-0066 작업 4
     camera: CameraRules            # v3.3.0 — D-0056 작업 2
+    stage: StageRules              # v4.1.0 — D-0076 작업 5
     qa_checks: QAChecks
     bundle: BundleRules            # v3.5.0 — D-0063 작업 4
     provenance: ProvenanceRules

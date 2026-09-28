@@ -75,4 +75,30 @@ def shot_issues(keys: list[_Key], sentences: list, events: list[dict], total: fl
     return out
 
 
-__all__ = ["ShotStage", "choose_transition", "scene_at", "shot_issues"]
+def stage_continuity(shots: list[ShotStage]) -> list[tuple[str, str]]:
+    """무대 연속성(v4.1.0 D-0076 작업 5·D-0077, docs/handoff/20 §2.2·§12) → [(규칙 키, 설명)]. 임계는 rules stage.
+    max_secondary: 주 무대 1 + 보조 무대 ≤ stage.max_secondary
+    switch_without_dip: 무대가 바뀌는 숏의 전환이 dip(암전 컷)이 아님
+    teleport: 같은 무대의 연속한 두 숏에서 뒤 숏이 cut(t>0)인데 choose_transition 이 dip 을 요구하는 거리·배율(shot_grammar.auto_transition)
+    max_switches: 무대가 바뀌는 지점 수 > stage.continuity.max_switches(장면마다 새 캔버스 = 슬라이드)
+    다른 무대 사이의 좌표 거리는 비교하지 않는다(switch_without_dip 이 잡는다)."""
+    st = load_rules().stage
+    ks = sorted(shots, key=lambda s: s.t)
+    out: list[tuple[str, str]] = []
+    names = list(dict.fromkeys(s.stage for s in ks))
+    if len(names) - 1 > st.max_secondary:
+        out.append(("max_secondary", f"무대 {names} — 주 무대 1 + 보조 {len(names) - 1} > {st.max_secondary}"))
+    switches = 0
+    for a, b in zip(ks, ks[1:]):
+        if a.stage != b.stage:
+            switches += 1
+            if b.mode != "dip":
+                out.append(("switch_without_dip", f"t={b.t:.2f} 무대 {a.stage} → {b.stage} 전환이 {b.mode} — 암전 컷(dip)만 허용"))
+        elif b.mode == "cut" and b.t > 0 and choose_transition((a.x, a.y, a.w), (b.x, b.y, b.w)) == "dip":
+            out.append(("teleport", f"t={b.t:.2f} 무대 {b.stage} 안 먼 cut(암전 없음) — shot_grammar.auto_transition 이 dip 을 요구하는 이동"))
+    if switches > st.continuity.max_switches:
+        out.append(("max_switches", f"무대 전환 {switches}회 > {st.continuity.max_switches} — 장면마다 새 캔버스(슬라이드 구성)"))
+    return out
+
+
+__all__ = ["ShotStage", "choose_transition", "scene_at", "shot_issues", "stage_continuity"]

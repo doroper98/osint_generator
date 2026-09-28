@@ -18,7 +18,7 @@ GOAL = (REPO / "GOAL.md").read_text(encoding="utf-8")
 TOKEN = re.compile(r"`([^`]+)`")
 KINDS = ("tests/", "checks:", "gate:", "pending:")
 GATE_COUNT = 2          # 6번(루프 상한 뒤 게이트 ②), 17번(장르 확장 사람 판정)
-PENDING_COUNT = 1       # 17번 무대 연속성 검사(G1~G4 Phase)
+PENDING_COUNT = 1       # 17번 비지정학 영상 판정(G4). 무대 연속성 검사는 v4.1.0 G1 에서 checks:stage_continuity
 
 
 def g3_section() -> str:

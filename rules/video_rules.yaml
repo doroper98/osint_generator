@@ -148,6 +148,11 @@ shot_grammar:              # 05 §2
   scene_attach_lead_sec: 1.5   # 문장 시작 1.5초 전 카메라 키까지 그 문장의 장면 숏(이동 선행, 6.9 checks 값)
   w_guide: {continental_route: [88, 96], ocean: [60, 72], region: [20, 30], strait: [12, 16], country: [6, 8], metro: [3, 5], city: 2.5}
 
+stage:                     # v4.1.0 D-0076 작업 5·D-0077 — 무대 연속성(docs/handoff/20 §2.2·§12 관성 체크, GOAL G3-17). checks stage_continuity(hard)
+  max_secondary: 1         # 영상의 주 무대 1 + 보조 무대 이 수 이하(20 §2.2-1)
+  continuity:
+    max_switches: 2        # 무대가 바뀌는 지점 수 상한 — 보조 무대에 한 번 들어갔다 나오기(20 §2.2 "짧은 삽입"). 넘으면 장면마다 새 캔버스(슬라이드)
+
 camera:                    # v3.3.0 D-0056 — 카메라 자동화 보조(05 §7). 전환 임계는 shot_grammar.auto_transition(05 §7-2, 한 곳)
   framing:                 # frame_points — 장면 장소가 전부 보이는 최소 w 와 중심(05 §2.1·§7-1). px 는 480p 기준(09 §2 스케일 k = H/480)
     margin_px: 12          # 화면 가장자리 여백(좌우·아래 자막 위)

@@ -17,6 +17,7 @@ hard 실패가 하나라도 있으면 시각 검수 LLM 을 부르지 않고 연
 | subtitles | hard | 자막 줄 수 ≤ subtitle_lines_max(렌더러와 같은 wrap) |
 | rights | hard | 권리 점검(load_project 의 check_credits·validate_media)이 통과했으면 0 |
 | forbidden | hard | 도장·비네팅·모서리 브랜드: 레지스트리 밖 이벤트 타입 0, vignette 끔, 모서리 요소 = 날짜뿐 |
+| stage_continuity | hard | 무대 연속성(v4.1.0 D-0076·D-0077, GOAL G3-17): 보조 무대 ≤ stage.max_secondary, 무대 전환은 dip 만, 같은 무대 안 먼 cut 금지, 전환 ≤ stage.continuity.max_switches (`engine.shots.stage_continuity`) |
 """
 
 from __future__ import annotations
@@ -38,7 +39,7 @@ QA = R_.qa_checks
 SG = R_.shot_grammar
 SAMPLE_SEC = 1.0          # 뱃지·라벨 샘플 간격
 SHADOW_PX = 7             # badge_box 가 원 둘레에 더하는 그림자 여백 — 이만큼 잘리는 것은 허용
-HARD = ("overlap", "offscreen", "glyphs", "glyph_size", "labels", "date", "subtitles", "rights", "forbidden")
+HARD = ("overlap", "offscreen", "glyphs", "glyph_size", "labels", "date", "subtitles", "rights", "forbidden", "stage_continuity")
 WARN = ("shots", "media_beats", "media_upscaled")
 
 
@@ -212,6 +213,13 @@ def check_shots(P) -> list[str]:  # noqa: ANN001, N803
     return shot_issues(P.keys, P.plan.sentences, P.events, P.R.tb.total)
 
 
+def check_stage_continuity(P) -> list[str]:  # noqa: ANN001, N803
+    """무대 연속성 — engine.shots.stage_continuity 한 곳. 상세는 "[규칙 키] 설명"(D-0077: 영문 키)."""
+    from engine.shots import stage_continuity  # noqa: PLC0415
+
+    return [f"[{k}] {msg}" for k, msg in stage_continuity(P.shots)]
+
+
 def check_subtitles(P) -> list[str]:  # noqa: ANN001, N803
     from script.lint import subtitle_lines  # noqa: PLC0415
 
@@ -288,6 +296,7 @@ def run_checks(P, times: list[float], provenance: dict, drawn: list[tuple[str, f
         "subtitles": check_subtitles(P),
         "rights": [],   # load_project 가 권리 점검(check_credits·validate_media)에서 실패하면 여기까지 오지 않는다
         "forbidden": check_forbidden(P, provenance),
+        "stage_continuity": check_stage_continuity(P),
     }
     items = [{"id": k, "severity": "hard" if k in HARD else "warning", "count": len(v), "details": v[:20]} for k, v in res.items()]
     hard = sum(i["count"] for i in items if i["severity"] == "hard")

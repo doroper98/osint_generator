@@ -1,0 +1,184 @@
+{
+ "schema_version": 1,
+ "source": "tests/test_stage_continuity.py 와 같은 합성 숏(가짜 무대 이름은 입력일 뿐 — 레지스트리 밖)",
+ "cases": {
+  "pass_round_trip": {
+   "shots": [
+    {
+     "t": 0,
+     "mode": "cut",
+     "stage": "mercator",
+     "x": 56.0,
+     "y": 26.94120249831273,
+     "w": 14.0
+    },
+    {
+     "t": 10,
+     "mode": "move",
+     "stage": "mercator",
+     "x": 58.0,
+     "y": 26.94120249831273,
+     "w": 14.0
+    },
+    {
+     "t": 30,
+     "mode": "dip",
+     "stage": "timeline",
+     "x": 2020.0,
+     "y": -6.3611093629270335e-15,
+     "w": 14.0
+    },
+    {
+     "t": 45,
+     "mode": "move",
+     "stage": "timeline",
+     "x": 2021.0,
+     "y": -6.3611093629270335e-15,
+     "w": 14.0
+    },
+    {
+     "t": 60,
+     "mode": "dip",
+     "stage": "mercator",
+     "x": 56.0,
+     "y": 26.94120249831273,
+     "w": 14.0
+    }
+   ],
+   "hard": 0,
+   "violations": []
+  },
+  "max_secondary": {
+   "shots": [
+    {
+     "t": 0,
+     "mode": "cut",
+     "stage": "mercator",
+     "x": 56.0,
+     "y": 26.94120249831273,
+     "w": 14.0
+    },
+    {
+     "t": 20,
+     "mode": "dip",
+     "stage": "timeline",
+     "x": 56.0,
+     "y": 26.94120249831273,
+     "w": 14.0
+    },
+    {
+     "t": 40,
+     "mode": "dip",
+     "stage": "chart_wall",
+     "x": 56.0,
+     "y": 26.94120249831273,
+     "w": 14.0
+    }
+   ],
+   "hard": 1,
+   "violations": [
+    {
+     "rule": "max_secondary",
+     "detail": "무대 ['mercator', 'timeline', 'chart_wall'] — 주 무대 1 + 보조 2 > 1"
+    }
+   ]
+  },
+  "switch_without_dip": {
+   "shots": [
+    {
+     "t": 0,
+     "mode": "cut",
+     "stage": "mercator",
+     "x": 56.0,
+     "y": 26.94120249831273,
+     "w": 14.0
+    },
+    {
+     "t": 20,
+     "mode": "move",
+     "stage": "timeline",
+     "x": 56.0,
+     "y": 26.94120249831273,
+     "w": 14.0
+    }
+   ],
+   "hard": 1,
+   "violations": [
+    {
+     "rule": "switch_without_dip",
+     "detail": "t=20.00 무대 mercator → timeline 전환이 move — 암전 컷(dip)만 허용"
+    }
+   ]
+  },
+  "teleport": {
+   "shots": [
+    {
+     "t": 0,
+     "mode": "cut",
+     "stage": "mercator",
+     "x": 56.0,
+     "y": 26.94120249831273,
+     "w": 14.0
+    },
+    {
+     "t": 20,
+     "mode": "cut",
+     "stage": "mercator",
+     "x": 127.0,
+     "y": 40.50531816975495,
+     "w": 8.0
+    }
+   ],
+   "hard": 1,
+   "violations": [
+    {
+     "rule": "teleport",
+     "detail": "t=20.00 무대 mercator 안 먼 cut(암전 없음) — shot_grammar.auto_transition 이 dip 을 요구하는 이동"
+    }
+   ]
+  },
+  "max_switches": {
+   "shots": [
+    {
+     "t": 0,
+     "mode": "cut",
+     "stage": "mercator",
+     "x": 56.0,
+     "y": 26.94120249831273,
+     "w": 14.0
+    },
+    {
+     "t": 20,
+     "mode": "dip",
+     "stage": "timeline",
+     "x": 56.0,
+     "y": 26.94120249831273,
+     "w": 14.0
+    },
+    {
+     "t": 40,
+     "mode": "dip",
+     "stage": "mercator",
+     "x": 56.0,
+     "y": 26.94120249831273,
+     "w": 14.0
+    },
+    {
+     "t": 60,
+     "mode": "dip",
+     "stage": "timeline",
+     "x": 56.0,
+     "y": 26.94120249831273,
+     "w": 14.0
+    }
+   ],
+   "hard": 1,
+   "violations": [
+    {
+     "rule": "max_switches",
+     "detail": "무대 전환 3회 > 2 — 장면마다 새 캔버스(슬라이드 구성)"
+    }
+   ]
+  }
+ }
+}

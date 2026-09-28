@@ -1,0 +1,84 @@
+{
+ "schema_version": 1,
+ "project": "projects/ratcliffe2026",
+ "rules": "rules:stage + shot_grammar.auto_transition",
+ "shots": [
+  {
+   "t": 0.0,
+   "mode": "cut",
+   "stage": "mercator",
+   "x": 38.3,
+   "y": 67.00998080589858,
+   "w": 7.0
+  },
+  {
+   "t": 33.20539682539682,
+   "mode": "move",
+   "stage": "mercator",
+   "x": 31.0,
+   "y": 68.25699080359527,
+   "w": 20.0
+  },
+  {
+   "t": 46.748571428571424,
+   "mode": "move",
+   "stage": "mercator",
+   "x": 33.0,
+   "y": 62.397776255563684,
+   "w": 22.0
+  },
+  {
+   "t": 69.67321995464853,
+   "mode": "move",
+   "stage": "mercator",
+   "x": 27.0,
+   "y": 61.73919953008824,
+   "w": 28.0
+  },
+  {
+   "t": 126.56736961451249,
+   "mode": "dip",
+   "stage": "mercator",
+   "x": 54.5,
+   "y": 30.32394426945476,
+   "w": 24.0
+  },
+  {
+   "t": 154.23548752834466,
+   "mode": "dip",
+   "stage": "mercator",
+   "x": 42.0,
+   "y": 63.229571871772336,
+   "w": 28.0
+  },
+  {
+   "t": 196.78165532879822,
+   "mode": "move",
+   "stage": "mercator",
+   "x": 26.0,
+   "y": 46.36186715616591,
+   "w": 88.0
+  },
+  {
+   "t": 208.57528344671204,
+   "mode": "move",
+   "stage": "mercator",
+   "x": 22.0,
+   "y": 46.36186715616591,
+   "w": 96.0
+  }
+ ],
+ "stages": [
+  "mercator"
+ ],
+ "hard": 0,
+ "violations": [],
+ "stage": {
+  "name": "mercator",
+  "declared": false,
+  "shots_declared": 0,
+  "instances": {
+   "mercator": 1
+  }
+ }
+}
