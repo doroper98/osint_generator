@@ -372,3 +372,166 @@ class VersusSide(_Strict):
 class PanelVersus(_Panel):
     kind: Literal["versus"]
     sides: list[VersusSide] = Field(min_length=2, max_length=2)  # 양측 같은 무게(G4)
+
+
+# ------------------------------------------------------------------ v2 번들 차트 (v2.5.0, D-0032 작업 5, 08 §8·§9)
+class ChartProvenance(_Strict):
+    """08 §9 — verified + 출처가 있으면 태그 없음. 아니면 '추정'(출처 있음) / '추정 · 출처 미기재'."""
+
+    verification: Literal["verified", "estimated"]
+    sources: list[str] = Field(default_factory=list)
+
+
+class _Chart(_Panel):
+    subtitle: Optional[str] = None
+    provenance: ChartProvenance
+
+
+class PanelDots(_Chart):
+    """도트 매트릭스 — 100 칸 중 highlight 칸을 강조(비율·규모)."""
+
+    kind: Literal["dots"]
+    highlight: int = Field(ge=1, le=100)
+    big: str                       # 큰 숫자(예: "1")
+    unit: str = ""                 # 큰 숫자 옆 단위(예: "%")
+    caption: str
+    detail: str = ""
+    note_label: str = ""
+    note_value: str = ""
+    note_caption: str = ""
+
+
+class GanttTask(_Strict):
+    label: str
+    note: str = ""
+    start: str
+    end: str
+    col: ColorName
+
+
+class GanttToday(_Strict):
+    date: str
+    label: str
+
+
+class PanelGantt(_Chart):
+    kind: Literal["gantt"]
+    axis_start: str                # YYYY-01-01
+    axis_end: str
+    tasks: list[GanttTask] = Field(min_length=1, max_length=4)
+    today: Optional[GanttToday] = None
+
+
+class DualSeries(_Strict):
+    label: str
+    col: ColorName
+    values: list[float] = Field(min_length=2)
+    decimals: int = Field(default=2, ge=0, le=3)
+
+
+class PanelDualLine(_Chart):
+    kind: Literal["dual_line"]
+    y_min: float
+    y_max: float
+    y_step: float = Field(gt=0)
+    y_prefix: str = ""
+    x_labels: list[str] = Field(min_length=2)
+    series: list[DualSeries] = Field(min_length=1, max_length=2)
+
+    @model_validator(mode="after")
+    def _lengths(self) -> "PanelDualLine":
+        for s in self.series:
+            if len(s.values) != len(self.x_labels):
+                raise ValueError(f"dual_line 계열 {s.label!r} 값 {len(s.values)}개 ≠ x 라벨 {len(self.x_labels)}개")
+            if not all(self.y_min <= v <= self.y_max for v in s.values):
+                raise ValueError(f"dual_line 계열 {s.label!r} 값이 y 범위 [{self.y_min}, {self.y_max}] 밖")
+        return self
+
+
+class ForkBranch(_Strict):
+    head: str
+    body: str = ""
+    col: ColorName
+
+
+class PanelFork(_Panel):
+    kind: Literal["fork"]
+    subtitle: Optional[str] = None
+    origin: str
+    branches: list[ForkBranch] = Field(min_length=2, max_length=3)
+    provenance: Optional[ChartProvenance] = None
+
+
+class PanelChecklist(_Panel):
+    kind: Literal["checklist"]
+    subtitle: Optional[str] = None
+    items: list[str] = Field(min_length=1, max_length=4)
+    footer: str = ""
+    provenance: Optional[ChartProvenance] = None
+
+
+class NetworkNode(_Strict):
+    """엔티티 레지스트리 뱃지만 — 문자 원(휘장 없는 기관을 글자로 그린 v2 방식)은 쓰지 않는다(08 §3.1, 지적 1)."""
+
+    id: str
+    col: Literal["left", "center", "right"]
+    kind: Literal["person", "flag", "emblem"]
+    pid: Optional[str] = None
+    flag: Optional[str] = None
+    img: Optional[str] = None
+    label: str
+    role: Optional[str] = None
+    accent: Accent = "muted"
+    big: bool = False              # 중심 인물(뱃지 크게)
+
+    @model_validator(mode="after")
+    def _kind_fields(self) -> "NetworkNode":
+        need = {"person": ("pid", "flag"), "flag": ("flag",), "emblem": ("img",)}[self.kind]
+        missing = [f for f in need if getattr(self, f) is None]
+        if missing:
+            raise ValueError(f"network node kind={self.kind} 에 필요한 필드 없음: {missing}")
+        return self
+
+
+def _network_style(v: str) -> str:
+    styles = load_rules().panels.charts.network.styles
+    if v not in styles:
+        raise ValueError(f"network 선 종류 {v!r} 는 rules panels.charts.network.styles 에 없다: {sorted(styles)}")
+    return v
+
+
+class NetworkEdge(_Strict):
+    src: str
+    dst: str
+    type: Annotated[str, AfterValidator(_network_style)]
+    label: str = ""
+
+
+class NetworkMention(_Strict):
+    """내레이션이 노드 이름을 부를 때(at_word) 금색 펄스 — 08 §3 규칙 5."""
+
+    node: str
+    at: float
+
+
+class PanelNetwork(_Chart):
+    kind: Literal["network"]
+    nodes: list[NetworkNode] = Field(min_length=2)
+    edges: list[NetworkEdge] = Field(min_length=1)
+    mentions: list[NetworkMention] = Field(default_factory=list)
+
+    @model_validator(mode="after")
+    def _refs(self) -> "PanelNetwork":
+        col = {n.id: n.col for n in self.nodes}
+        if len(col) != len(self.nodes):
+            raise ValueError("network 노드 id 중복")
+        for e in self.edges:
+            for end in (e.src, e.dst):
+                if end not in col:
+                    raise ValueError(f"network 선 끝 {end!r} 가 노드에 없다")
+            if col[e.src] == col[e.dst]:
+                raise ValueError(f"network 선 {e.src}→{e.dst}: 같은 열끼리는 잇지 않는다(수평 접선 곡선, 08 §3 규칙 3)")
+        for m in self.mentions:
+            if m.node not in col:
+                raise ValueError(f"network mention {m.node!r} 가 노드에 없다")
+        return self

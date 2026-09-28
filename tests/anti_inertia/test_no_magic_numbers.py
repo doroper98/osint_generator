@@ -16,6 +16,12 @@ DATA_DRIVEN_MODULES: dict[str, frozenset[float]] = {   # 모듈 → 추가 허�
     "engine/panels/relation.py": frozenset(),
     "engine/panels/timeline.py": frozenset({12}),   # 12월 → 다음 해 1월
     "engine/reserved.py": frozenset({0.5}),         # 대각 방향 단위벡터 √0.5
+    "engine/panels/dots.py": frozenset(),
+    "engine/panels/gantt.py": frozenset(),
+    "engine/panels/dual_line.py": frozenset(),
+    "engine/panels/fork.py": frozenset(),
+    "engine/panels/checklist.py": frozenset(),
+    "engine/panels/network.py": frozenset(),
 }
 ALLOWED_NUMBERS: frozenset[float] = frozenset({0, 1, 2, 3})
 

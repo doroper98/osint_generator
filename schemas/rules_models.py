@@ -339,10 +339,210 @@ class ReservedRules(_Strict):
     lead_sec: float               # 영역 존재도: 카드 구간 [t0, t1] 은 1, 앞뒤 lead_sec 동안 오르내림 — 카드가 겹쳐 바뀌어도 뱃지가 튀지 않는다
 
 
+# ------------------------------------------------------------------ v2 번들 차트 이식 (D-0032 작업 5, 08 §8·§9)
+XY = tuple[float, float]
+
+
+class TextAt(_Strict):
+    x: float = 0.0
+    y: float
+    size: float
+    halo: float = 0.0
+    spacing: float = 0.0
+
+
+class ProvTagRules(_Strict):
+    """08 §9 추정 태그 — 좌표는 R-0031 결정 대기(08 §9 명세값)."""
+
+    x_right: float
+    y: float
+    size: float
+    pad_x: float
+    h: float
+    box_dy: float                  # 상자 위 끝 = y + box_dy
+    text_dy: float
+    r: float
+    line_width: float
+    alpha: float
+    color: str
+
+
+class DotsRules(_Strict):
+    origin: XY
+    spacing: float
+    radius: float
+    grid: tuple[int, int]          # 행 × 열
+    fill_start_sec: float
+    fill_step_sec: float
+    fill_sec: float
+    base_rgb: tuple[float, float, float]
+    pulse_rate: float              # sin(t × rate)
+    pulse_r: float
+    pulse_base: float
+    pulse_amp: float
+    pulse_alpha: float
+    big: TextAt
+    unit_dx: float
+    unit_size: float
+    caption: TextAt
+    detail: TextAt
+    label_sec: float
+    label_fade_sec: float
+    rule: tuple[float, float, float, float]   # x, y, w, 알파
+    note_sec: float
+    note_label: TextAt
+    note_value: TextAt
+    note_caption: TextAt
+
+
+class GanttRules(_Strict):
+    x: Range2
+    axis_y: float
+    axis_alpha: float
+    tick_h: float
+    year_dy: float
+    year_size: float
+    row_y0: float
+    row_dy: float
+    bar_h: float
+    bar_r: float
+    bar_alpha: float
+    bar_min_w: float
+    grow_start_sec: float
+    grow_step_sec: float
+    grow_sec: float
+    label_dx: float                # 막대 왼쪽 라벨 오른쪽 끝(축 x0 기준 음수)
+    label_dy: float
+    label_size: float
+    note_dy: float
+    note_size: float
+    today_sec: float
+    today_fade_sec: float
+    today_top: float
+    today_dash: list[float]
+    today_width: float
+    today_alpha: float
+    today_label_dy: float
+    today_label_size: float
+    today_label_halo: float
+
+
+class DualLineRules(_Strict):
+    x: Range2
+    y: Range2                      # 위 y, 아래 y
+    grid_alpha: float
+    tick_dx: float
+    tick_dy: float
+    tick_size: float
+    x_pad: float
+    x_label_dy: float
+    x_label_size: float
+    draw_start_sec: float
+    draw_step_sec: float           # 두 번째 선 지연
+    draw_sec: float
+    samples: int                   # 점 사이 보간 수
+    line_width: float
+    point_r: float
+    value_dy_above: float
+    value_dy_below: float
+    value_size: float
+    value_halo: float
+    name_dx: float
+    name_dy: float
+    name_size: float
+
+
+class ForkRules(_Strict):
+    origin: XY
+    origin_r: float
+    origin_label_dy: float
+    origin_label_size: float
+    origin_label_halo: float
+    card_rgb: tuple[float, float, float]
+    branch_x: float
+    card_x: float
+    card_w: float
+    card_h: float
+    card_r: float
+    card_y0: float
+    card_dy: float
+    card_alpha: float
+    card_bar_w: float
+    grow_start_sec: float
+    grow_step_sec: float
+    grow_sec: float
+    card_start_sec: float
+    card_fade_sec: float
+    samples: int
+    line_width: float
+    head: TextAt
+    body: TextAt
+
+
+class ChecklistRules(_Strict):
+    box_x: float
+    box: float                     # 체크박스 한 변
+    box_top_dy: float              # 상자 위 끝 = 글자 기준선 + box_top_dy
+    check_points: list[XY] = Field(min_length=3, max_length=3)   # 체크 두 획의 세 점(상자 왼쪽 위 기준 px)
+    box_r: float
+    box_alpha: float
+    y0: float
+    dy: float
+    appear_start_sec: float
+    appear_step_sec: float
+    appear_sec: float
+    check_delay_sec: float
+    check_sec: float
+    check_width: float
+    text_x: float
+    text_size: float
+    footer_y: float
+    footer_size: float
+    footer_sec: float
+    footer_fade_sec: float
+    max_items: int
+
+
+class NetworkRules(_Strict):
+    """08 §3.1 — v2 P_network 를 정돈된 관계선 규칙(panels.relation 의 선 타이밍·곡선)으로 고쳐 이식."""
+
+    columns: dict[str, float]      # left·center·right x
+    cy: float
+    dy: float
+    R_person: float
+    R_big: float
+    R_other: float
+    node_start_sec: float
+    node_step_sec: float
+    col_step_sec: float
+    styles: dict[str, "RelationEdgeStyle"]   # 영향·연관·대립·동맹
+    label: TextAt
+    label_sec: float
+    mention_pulse_rate: float
+    mention_alpha: float
+    mention_width: float
+    mention_ring: float
+    mention_grow: float
+    mention_hold_sec: float
+    mention_lead_sec: float
+    max_edges: int
+
+
+class ChartRules(_Strict):
+    prov_tag: ProvTagRules
+    dots: DotsRules
+    gantt: GanttRules
+    dual_line: DualLineRules
+    fork: ForkRules
+    checklist: ChecklistRules
+    network: NetworkRules
+
+
 class PanelRules(_Strict):
     relation: RelationPanelRules
     timeline: TimelinePanelRules
     reserved: ReservedRules
+    charts: ChartRules
 
 
 class Colors(_Strict):

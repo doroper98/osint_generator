@@ -21,7 +21,7 @@ from engine.layers.effects import draw_boom, draw_ships
 from engine.layers.markers import draw_marker
 from engine.layers.media import draw_article, draw_clip, draw_cutout, draw_photo
 from engine.layers.routes import draw_barrier, draw_route, draw_tanker_loop
-from engine.panels import precedent, relation, statement, timeline, versus
+from engine.panels import checklist, dots, dual_line, fork, gantt, network, precedent, relation, statement, timeline, versus
 from engine.panels.base import make_panel_renderer
 from rules import load_rules
 
@@ -62,6 +62,13 @@ REGISTRY: dict[str, Entry] = {
     "panel:timeline": Entry(ev.PanelTimeline, make_panel_renderer(timeline.draw), "panel"),
     "panel:precedent": Entry(ev.PanelPrecedent, make_panel_renderer(precedent.draw), "panel"),
     "panel:versus": Entry(ev.PanelVersus, make_panel_renderer(versus.draw), "panel"),
+    # v2 번들 차트 이식(D-0032 작업 5, 08 §8)
+    "panel:dots": Entry(ev.PanelDots, make_panel_renderer(dots.draw), "panel"),
+    "panel:gantt": Entry(ev.PanelGantt, make_panel_renderer(gantt.draw), "panel"),
+    "panel:dual_line": Entry(ev.PanelDualLine, make_panel_renderer(dual_line.draw), "panel"),
+    "panel:fork": Entry(ev.PanelFork, make_panel_renderer(fork.draw), "panel"),
+    "panel:checklist": Entry(ev.PanelChecklist, make_panel_renderer(checklist.draw), "panel"),
+    "panel:network": Entry(ev.PanelNetwork, make_panel_renderer(network.draw), "panel"),
 }
 
 # v3 LAYER 순서(render3 L950) — 지도 레이어는 타입 순서대로, 같은 타입 안에서는 이벤트 순서대로 그린다.

@@ -73,4 +73,12 @@ def build(plan: Plan, keys: list[CamKey], events: list[dict], repo_version: str,
         "qa": {"auto_iterations": 0, "user_approved": False, "reviewer": "fable (back_and_forth)"},
         "drops": [],
         **({"assets": assets} if assets is not None else {}),   # v2.4.0 — 이미지 키·휘장 처리·뱃지 제안/사용
+        "panels": {"used": panels_used(events)},                 # v2.5.0 — 패널마다 종류·제목·추정 태그(08 §9)
     }
+
+
+def panels_used(events: list[dict]) -> list[dict]:
+    from engine.panels.base import prov_tag_text  # noqa: PLC0415
+
+    return [{"kind": e["kind"], "title": e["title"], "t0": round(e["t0"], 2), "prov_tag": prov_tag_text(e.get("provenance"))}
+            for e in events if e["type"] == "panel"]

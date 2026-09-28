@@ -1,0 +1,21 @@
+# 레지스트리 프리뷰 예제 — prompts/examples/panels 와 같은 내용(test_panel_examples_parity) (v2.5.0, D-0032 작업 5) — 레지스트리 모델을 그대로 통과한다(15 P4). 수치·문구는 예시다.
+schema_version: 1
+key: panel:fork
+source: v2 render2 P_fork 이식 예시
+event:
+  type: panel
+  t0: 10.0
+  t1: 24.0
+  kind: fork
+  title: 여기서 갈라지는 길들
+  origin: 8월 25일
+  branches:
+  - head: 실무 접촉 재개
+    body: 다음 만남의 비용은 이미 낮아졌다
+    col: green
+  - head: 아무 일도 없음
+    body: 메시지는 갔지만 계산은 그대로
+    col: muted
+  - head: 나토 동쪽 다음 사건
+    body: 올가을 시험 시간대의 시작
+    col: ru

@@ -1,0 +1,68 @@
+# 레지스트리 프리뷰 예제 — prompts/examples/panels 와 같은 내용(test_panel_examples_parity) (v2.5.0, D-0032 작업 5) — 레지스트리 모델을 그대로 통과한다(15 P4). 수치·문구는 예시다.
+schema_version: 1
+key: panel:network
+source: v2 render2 P_network 이식 예시
+event:
+  type: panel
+  t0: 10.0
+  t1: 30.0
+  kind: network
+  title: 3월 15일, 요구를 둘러싼 관계
+  provenance:
+    verification: verified
+    sources:
+    - Reuters 2026-03-15
+    - The Korea Herald 2026-03-16
+  nodes:
+  - id: trump
+    col: center
+    kind: person
+    pid: trump
+    flag: us
+    label: 도널드 트럼프
+    role: 미국 대통령
+    accent: us
+    big: true
+  - id: kr
+    col: left
+    kind: flag
+    flag: kr
+    label: 한국
+    accent: gold
+  - id: jp
+    col: left
+    kind: flag
+    flag: jp
+    label: 일본
+  - id: ir
+    col: right
+    kind: flag
+    flag: ir
+    label: 이란
+    accent: ru
+  - id: navcent
+    col: right
+    kind: emblem
+    img: navcent
+    label: 미 해군 중부사령부
+    accent: us
+  edges:
+  - src: trump
+    dst: kr
+    type: influence
+    label: 참여 요구
+  - src: trump
+    dst: jp
+    type: influence
+    label: 참여 요구
+  - src: trump
+    dst: ir
+    type: opposed
+    label: 대립
+  - src: trump
+    dst: navcent
+    type: allied
+    label: 지휘
+  mentions:
+  - node: kr
+    at: 18.5

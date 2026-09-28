@@ -1,0 +1,36 @@
+# 패널 예시 (v2.5.0, D-0032 작업 5) — 레지스트리 모델을 그대로 통과한다(15 P4). 수치·문구는 예시다.
+schema_version: 1
+key: panel:dual_line
+source: v2 render2 P_dual 이식 예시
+event:
+  type: panel
+  t0: 10.0
+  t1: 24.0
+  kind: dual_line
+  title: 8월의 유가
+  subtitle: 배럴당 달러 · 주간 종가
+  provenance:
+    verification: estimated
+    sources:
+    - EIA 주간 가격
+  y_min: 80
+  y_max: 96
+  y_step: 4
+  y_prefix: $
+  x_labels:
+  - 8월 1주
+  - 8월 3주
+  - 8월 5주
+  series:
+  - label: 브렌트
+    col: gold
+    values:
+    - 88.4
+    - 91.2
+    - 89.7
+  - label: WTI
+    col: us
+    values:
+    - 84.1
+    - 86.9
+    - 85.3

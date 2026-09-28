@@ -1,0 +1,40 @@
+# 패널 예시 (v2.5.0, D-0032 작업 5) — 레지스트리 모델을 그대로 통과한다(15 P4). 수치·문구는 예시다.
+schema_version: 1
+key: panel:gantt
+source: v2 render2 P_gantt 이식 예시
+event:
+  type: panel
+  t0: 10.0
+  t1: 24.0
+  kind: gantt
+  title: 겹쳐 흐르는 네 개의 시간표
+  subtitle: 2025 – 2030
+  provenance:
+    verification: estimated
+    sources: []
+  axis_start: '2025-01-01'
+  axis_end: '2030-01-01'
+  tasks:
+  - label: 전선 고착
+    note: 현재 전선 유지 추정
+    start: '2025-01-01'
+    end: '2027-06-30'
+    col: ru
+  - label: 협상 창
+    note: 양측 발언 기준
+    start: '2026-03-01'
+    end: '2026-12-31'
+    col: muted
+  - label: 재무장 주기
+    note: 유럽 방위 예산
+    start: '2025-06-01'
+    end: '2029-12-31'
+    col: teal
+  - label: 재건 계획
+    note: 국제 공여 일정
+    start: '2027-01-01'
+    end: '2030-01-01'
+    col: green
+  today:
+    date: '2026-08-29'
+    label: 발행일 8.29
