@@ -75,7 +75,7 @@ back_and_forth D-0038 §2. 착수 지침 전 조사 기록이다. 코드는 바�
 | subtitle_align·audio_service·render_io | 대체 | v2.0.0 에서 삭제됨. `main.py` 4개 서브커맨드는 LegacyRemovedError |
 | bundle_service·io | 개조 | Phase 9 범위 |
 | workers/base_llm_worker | 유지·확장 | 프롬프트 파일 로드(prompt_loader) 있음. 이미지 입력·재요청 1회는 6.9 |
-| workers/tts_backends | 개조 | Phase 4 에서 with-timestamps·정렬 저장 끝남(확인 필요) |
+| workers/tts_backends (376줄) | 개조 | with-timestamps·정렬 저장은 Phase 4 에서 `script/tts/{elevenlabs,edge,align}.py` 로 새로 만들었다. `workers/tts_backends.py` 는 저장소 코드 어디서도 import 하지 않는다(참고 코드 주석 1곳만) → P2 삭제 후보 |
 
 ## 5. xfail 2건
 
