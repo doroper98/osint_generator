@@ -706,6 +706,7 @@ class LabelRules(_Strict):
 
 class GeoRules(_Strict):
     land_miss_allow_px2: float
+    land_fill_min_ratio: float = Field(gt=0, le=1)   # v4.1.0 D-0078
 
 
 class CreditRules(_Strict):

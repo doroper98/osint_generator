@@ -80,6 +80,7 @@ G['RU'] = G['RU'].difference(crimea.buffer(0.001))
 엔딩 크레딧에 "크림반도는 국제적으로 인정된 우크라이나 영토로 표시" 명시.
 
 ### 3.3 재귀 평탄화 — 프랑스 버그의 원인과 수정 (지적 5)
+> **주석(v4.1.0, back_and_forth D-0078)**: 또 다른 원인 — 같은 ISO 키 피처 덮어쓰기(FR = 프랑스 → 클리퍼턴, KZ = 카자흐스탄 → 바이코누르). 지금은 합집합 + 면적 커버리지 검사(PIPELINE-AP-011). 아래 과거 서술은 그대로 둔다.
 **증상(v2)**: 프랑스가 바다(대륙붕) 색으로 칠해져 사라져 보임.
 **원인**: `g.intersection(bb)`나 `simplify()` 결과가 `GeometryCollection` 안에 `MultiPolygon`을 담는 형태가 될 수 있다. v2의 `rings()`는 `getattr(g, 'geoms', [g])`로 **1단계만** 펼쳐 `Polygon`만 수집했기 때문에, 중첩된 `MultiPolygon`(프랑스 본토)이 통째로 빠졌다.
 **수정(v3)**:

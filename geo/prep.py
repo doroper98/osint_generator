@@ -23,8 +23,9 @@ from pathlib import Path
 
 import yaml
 from pydantic import BaseModel, ConfigDict, Field, field_validator
+from shapely.geometry import box
 
-from geo.prep_geometry import build_geo
+from geo.prep_geometry import build_geo, coverage_reference
 from geo.prep_tiers import TierSpec, build_tier, tier_record, tile_path, tile_range
 from rules import load_rules
 
@@ -103,10 +104,12 @@ def ensure_tiles(tiles_dir: Path, T: TierSpec) -> int:  # noqa: N803
     return len(jobs)
 
 
-def classify_miss(miss: list[str], G: dict, ppd: int) -> dict:  # noqa: N803
-    """land-miss 를 small(허용)·drops 로 가른다 — 면적(deg²) × ppd² < rules geo.land_miss_allow_px2 (D29)."""
+def classify_miss(miss: list[str], G: dict, ppd: int, ref: dict | None = None) -> dict:  # noqa: N803
+    """land-miss 를 small(허용)·drops 로 가른다 — 면적(deg²) × ppd² < rules geo.land_miss_allow_px2 (D29).
+    ref(원본 피처 합집합)가 있으면 그 면적으로 잰다 — G 가 국가 일부를 잃은 경우 잃은 면적까지 센다(v4.1.0 D-0078)."""
     thr = load_rules().geo.land_miss_allow_px2
-    px2 = {k: round(float(G[k].area) * ppd * ppd, 2) for k in miss}
+    area = {k: (ref[k] if ref is not None and k in ref else G[k]).area for k in miss}
+    px2 = {k: round(float(area[k]) * ppd * ppd, 2) for k in miss}
     return dict(small=[k for k in miss if px2[k] < thr], drops=[k for k in miss if px2[k] >= thr], px2=px2,
                 allow_px2=thr)
 
@@ -129,6 +132,7 @@ def prep(proj: Path, cache: Path = CACHE, res: str | None = None, k: float = 1.0
     ne_dir, tiles_dir, out = cache / "ne", cache / "tiles", assets_dir(proj, res)
     ensure_ne(ne_dir)
     geo, G = build_geo(ne_dir, conf.bbox, set(conf.admin1), conf.crimea_to_ua)  # noqa: N806
+    ref = coverage_reference(ne_dir, box(*conf.bbox))   # 면적 커버리지 기준(G 조립과 따로, D-0078)
     out.mkdir(parents=True, exist_ok=True)
     if res is None:
         pickle.dump(geo, open(out / "geo.pkl", "wb"))   # 지오메트리는 설계 좌표(도) — 해상도와 무관, 한 벌
@@ -138,15 +142,19 @@ def prep(proj: Path, cache: Path = CACHE, res: str | None = None, k: float = 1.0
         t0 = time.time()
         n = ensure_tiles(tiles_dir, T)
         t1 = time.time()
-        lv, miss = build_tier(T, G, tiles_dir, out, k)
+        ratios: dict[str, float] = {}
+        lv, miss = build_tier(T, G, tiles_dir, out, k, ref, ratios)
         tiers[T.name] = tier_record(T, tiles_dir, lv)
-        report[T.name] = dict(tiles=n, levels=lv, land_miss=classify_miss(miss, G, tc.ppd), ppd=T.ppd, z=T.z,
+        low = {k_: r for k_, r in sorted(ratios.items(), key=lambda kv: kv[1])[:5]}
+        report[T.name] = dict(tiles=n, levels=lv, land_miss=classify_miss(miss, G, tc.ppd, ref), ppd=T.ppd, z=T.z,
+                              fill_ratio=dict(checked=len(ratios), min_allowed=load_rules().geo.land_fill_min_ratio, lowest=low),
                               fetch_sec=round(t1 - t0, 1), build_sec=round(time.time() - t1, 1),
                               bytes=sum((out / f"base_{T.name}_{v}.png").stat().st_size for v in lv))
     pickle.dump(tiers, open(out / "tiers.pkl", "wb"))
     rep = dict(schema_version=1, bbox=list(conf.bbox), countries=len(geo["coarse"]),
                admin1={k_: len(v) for k_, v in geo["admin1"].items()}, places=len(geo["places"]),
-               crimea_to_ua=conf.crimea_to_ua, res=res or "480p", k=k, tiers=report)
+               crimea_to_ua=conf.crimea_to_ua, res=res or "480p", k=k, tiers=report,
+               country_area_deg2={k_: round(float(g.area), 3) for k_, g in G.items()})
     (out / "geo_report.json").write_text(json.dumps(rep, ensure_ascii=False, indent=1), encoding="utf-8")
     return rep
 

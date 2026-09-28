@@ -62,19 +62,41 @@ def _read(ne_dir: Path, name: str) -> dict:
     return json.loads(p.read_text(encoding="utf-8"))
 
 
-def load_countries(ne_dir: Path, bb: BaseGeometry) -> tuple[dict, dict]:
+def country_key(p: dict) -> str:
+    """국가 키 — ISO_A2_EH, 없거나 −99 면 ADMIN(v3 prep3 규칙 그대로)."""
+    return p["ISO_A2_EH"] if p.get("ISO_A2_EH") not in (None, "-99") else p["ADMIN"]
+
+
+def country_parts(ne_dir: Path, bb: BaseGeometry) -> dict[str, list[tuple[dict, BaseGeometry]]]:
+    """키 → [(속성, 전체 지오메트리)] — 권역과 겹치는 피처만, 처음 나온 키 순서. 같은 키 피처가 여럿일 수 있다
+    (KZ = 카자흐스탄 + 바이코누르, FR = 프랑스 + 클리퍼턴, BR·AU 부속 영토 — v4.1.0 D-0078)."""
     ctry = _read(ne_dir, "ne_10m_admin_0_countries")
-    G, META = {}, {}  # noqa: N806
+    out: dict[str, list[tuple[dict, BaseGeometry]]] = {}
     for f in ctry["features"]:
         p = f["properties"]
         g = shape(f["geometry"]).buffer(0)
         if not g.intersects(bb):
             continue
-        k = p["ISO_A2_EH"] if p.get("ISO_A2_EH") not in (None, "-99") else p["ADMIN"]
-        G[k] = g.intersection(bb)
+        out.setdefault(country_key(p), []).append((p, g))
+    return out
+
+
+def load_countries(ne_dir: Path, bb: BaseGeometry) -> tuple[dict, dict]:
+    """(G, META). 같은 키 피처는 **합집합**(v4.1.0 D-0078 — 뒤 피처가 앞 피처를 덮어써 카자흐스탄이 바이코누르 조각만 남던 결함,
+    PIPELINE-AP-011). META 는 면적이 가장 큰 피처의 것. 피처가 하나인 키는 v3 와 같은 계산(g ∩ 권역) 그대로."""
+    G, META = {}, {}  # noqa: N806
+    for k, parts in country_parts(ne_dir, bb).items():
+        G[k] = parts[0][1].intersection(bb) if len(parts) == 1 else unary_union([g.intersection(bb) for _, g in parts])
+        p = max(parts, key=lambda pg: pg[1].area)[0]
         META[k] = dict(name=p["ADMIN"], ko=p.get("NAME_KO") or p["ADMIN"], lx=p.get("LABEL_X"), ly=p.get("LABEL_Y"),
                        minlab=p.get("MIN_LABEL", 5), rank=p.get("LABELRANK", 5))
     return G, META
+
+
+def coverage_reference(ne_dir: Path, bb: BaseGeometry) -> dict[str, BaseGeometry]:
+    """커버리지 검사 기준 — 키별 원본 피처 전부의 합집합 ∩ 권역. G 조립(load_countries·크림 재분류)과 따로 만든다:
+    G 가 어떤 이유로 국가 일부를 잃으면 기준 영역 안 육지 화소 비율이 떨어져 잡힌다(geo.prep_tiers.fill_ratios)."""
+    return {k: unary_union([g.intersection(bb) for _, g in parts]) for k, parts in country_parts(ne_dir, bb).items()}
 
 
 def crimea_geometry(ne_dir: Path) -> BaseGeometry:

@@ -21,6 +21,7 @@ import numpy as np
 from PIL import Image, ImageDraw, ImageFilter
 
 from geo.prep_geometry import rings
+from rules import load_rules
 
 MERC_LAT_MAX = 85.0511287798
 TILE = 256
@@ -115,8 +116,11 @@ SEA_STOPS = [(0, "#1c4a66"), (60, "#18415c"), (400, "#11304a"), (2000, "#0c2236"
 COAST_GLOW = "#3a9cb8"
 
 
-def rasterize_land(G: dict, T: TierSpec, W: int, H: int, dppd: float | None = None) -> tuple[Image.Image, list[str]]:  # noqa: N803
-    """육지 마스크(L) + 커버리지 누락 국가 목록. dppd = 설계 ppd(단순화 허용 오차 구간, 기본 T.ppd)."""
+def rasterize_land(G: dict, T: TierSpec, W: int, H: int, dppd: float | None = None,  # noqa: N803
+                   ref: dict | None = None, ratios: dict | None = None) -> tuple[Image.Image, list[str]]:
+    """육지 마스크(L) + 커버리지 누락 국가 목록. dppd = 설계 ppd(단순화 허용 오차 구간, 기본 T.ppd).
+    ref(키 → 원본 피처 합집합, geo.prep_geometry.coverage_reference)를 주면 대표점 검사에 더해 **면적 검사**도 한다:
+    기준 영역 안 육지 화소 ÷ 기준 영역 화소 < rules geo.land_fill_min_ratio 이면 누락(v4.1.0 D-0078). ratios 에 비율을 적는다."""
     tol = 0.02 if (T.ppd if dppd is None else dppd) < 64 else 0.003
     mimg = Image.new("L", (W, H), 0)
     dr = ImageDraw.Draw(mimg)
@@ -135,10 +139,48 @@ def rasterize_land(G: dict, T: TierSpec, W: int, H: int, dppd: float | None = No
         y = (top - ym(rp.y)) * T.ppd
         if 0 <= x < W and 0 <= y < H and mimg.getpixel((int(x), int(y))) < 128:
             miss.append(k)
+    if ref is not None:
+        fr = fill_ratios(mimg, ref, T, tol)
+        if ratios is not None:
+            ratios.update(fr)
+        lo = load_rules().geo.land_fill_min_ratio
+        miss += [k for k, r in fr.items() if r < lo and k not in miss]
     return mimg, miss
 
 
-def build_tier(T: TierSpec, G: dict, tiles_dir: Path, out_dir: Path, k: float = 1.0) -> tuple[list[int], list[str]]:  # noqa: N803
+def fill_ratios(mimg: Image.Image, ref: dict, T: TierSpec, tol: float) -> dict[str, float]:  # noqa: N803
+    """키 → (기준 영역 안 육지 화소 ÷ 기준 영역 화소). 기준 영역이 티어 안에서 rules geo.land_miss_allow_px2 화소 미만이면 뺀다
+    (그 크기는 대표점 검사·small 규칙 몫). 기준 영역은 국가마다 자기 경계 상자 창에서만 그린다."""
+    W, H = mimg.size  # noqa: N806
+    top = ym(T.lat1)
+    land = np.asarray(mimg) >= 128
+    min_px = load_rules().geo.land_miss_allow_px2
+    out: dict[str, float] = {}
+    for k, g in ref.items():
+        rs = [((r[:, 0] - T.lon0) * T.ppd, (top - ym(r[:, 1])) * T.ppd) for r in rings(g, tol)]
+        rs = [(xs, ys) for xs, ys in rs if not (xs.max() < 0 or xs.min() > W or ys.max() < 0 or ys.min() > H)]
+        if not rs:
+            continue
+        x0 = max(0, int(min(xs.min() for xs, _ in rs)))
+        y0 = max(0, int(min(ys.min() for _, ys in rs)))
+        x1 = min(W, int(max(xs.max() for xs, _ in rs)) + 1)
+        y1 = min(H, int(max(ys.max() for _, ys in rs)) + 1)
+        if x1 <= x0 or y1 <= y0:
+            continue
+        m = Image.new("L", (x1 - x0, y1 - y0), 0)
+        dr = ImageDraw.Draw(m)
+        for xs, ys in rs:   # 육지 마스크(rasterize_land)와 같게 모든 고리를 채운다(구멍 = 내해·월경지도 채움)
+            dr.polygon(list(zip((xs - x0).tolist(), (ys - y0).tolist())), fill=255)
+        a = np.asarray(m) >= 128
+        n = int(a.sum())
+        if n < min_px:
+            continue
+        out[k] = round(float((a & land[y0:y1, x0:x1]).sum()) / n, 4)
+    return out
+
+
+def build_tier(T: TierSpec, G: dict, tiles_dir: Path, out_dir: Path, k: float = 1.0,  # noqa: N803
+               ref: dict | None = None, ratios: dict | None = None) -> tuple[list[int], list[str]]:
     """base_{name}_{ppd}.png + 반·4분의 1 해상도 2단. (levels, land-miss).
 
     k ≠ 1(v3.6.0 D-0066 작업 3, 출력 프로파일 k = H/480): T 는 이미 ppd × k·확대 줌으로 만든 장치 티어다. 설계 ppd(= T.ppd / k)
@@ -156,7 +198,7 @@ def build_tier(T: TierSpec, G: dict, tiles_dir: Path, out_dir: Path, k: float = 
     E = np.asarray(Image.fromarray(M, "F").transform((W, H), Image.EXTENT, ext, Image.BICUBIC), np.float32)  # noqa: N806
     lat_rows = np.degrees(2 * np.arctan(np.exp(np.radians(ym(T.lat1) - (np.arange(H) + 0.5) / ppd))) - np.pi / 2)
     mpp = (111320 * np.cos(np.radians(lat_rows)) / ppd)[:, None]
-    mimg, miss = rasterize_land(G, T, W, H, dppd)
+    mimg, miss = rasterize_land(G, T, W, H, dppd, ref, ratios)
     land = np.asarray(mimg.filter(ImageFilter.GaussianBlur(0.6 * k)), np.float32) / 255
     ex = 2.8 if dppd < 64 else 2.0
     gy, gx = np.gradient(np.maximum(E, 0) * ex)

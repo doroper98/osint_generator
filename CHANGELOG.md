@@ -56,6 +56,9 @@ released 항목은 **append-only**입니다.
 
 MINOR: 새 기능(무대 추상화·무대 연속성 검사). 렌더 수치 변경 없음 — 합격 조건은 v3 골든 25컷 md5 동일.
 
+### Fixed
+- **국가 지오메트리 키 충돌(D-0078, PIPELINE-AP-011)**: `geo/prep_geometry.load_countries` 가 같은 `ISO_A2_EH` 키 피처를 덮어써 카자흐스탄이 바이코누르 조각만 남고 바다로 그려졌다(hormuz 는 AU 도). 같은 키 = 합집합(META 는 면적 큰 피처), 커버리지에 면적 검사 추가(`rules geo.land_fill_min_ratio` 0.5, 원본 합집합 영역 안 육지 화소 비율). hormuz 25컷 중 KZ 가 보이는 9컷만 변경(영역 밖 ±1 번짐 9px), 새 기준선 `hormuz_baseline.json`(옛 = `_prefix`). `tests/test_geo_key_collision.py` 8.
+
 ### Changed
 - **§0**: `WORKFLOWS.md`(Tier 3, v0.3.3 판)를 현재 명령으로 다시 씀(NB29). Tier 1·2 `last_synced_with` v4.1.0. hormuz 25컷 md5 기준선 `docs/handoff/reports/phaseG1/hormuz_baseline.json`.
 - **작업 1~3 무대 추상화**: `engine/stage.py` — `Stage` 프로토콜(20 §2.3 + 역변환 `from_world`), `MercatorStage`(v3 지도 코드 감싸기: `to_world(lon, lat) = (lon, ym(lat))`, `render_base` = 지형 티어 래스터 + 국경, `draw_labels` = 라벨 LOD, `lod_rules` = `MERCATOR_LOD`), 레지스트리 `rules registries.stages: [mercator]`(미등록·미구현 = `StageError`). `View(stage, cam).to_screen(x, y)` — projection.py 는 투영 수식을 모른다. 이벤트 앵커 → `attach_world`(world·world_pts·world_p0/p1), framing·camera_suggest·placement·checks·reserved·layers 는 월드 좌표와 View 만. `tests/anti_inertia/test_stage_isolation`(engine/ 에서 ym·ymv·lat_of·to_uv·옛 View API·위경도 산술·삼각 변환 0, 허용 = engine/stage.py). hormuz 25컷 md5 25/25·ratcliffe 20컷 20/20·camera_suggest JSON 동일.

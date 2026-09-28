@@ -86,6 +86,15 @@ last_review: 2026-05-19
 - **자동 조치**: 없음(운영 규칙). HANDOFF §5·docs/15 §2.3 에 규칙으로 적었다. regression_test: pending
 - **발견 버전**: v3.6.0 (Phase 10 run_log §4) · **상태**: active
 
+## PIPELINE-AP-011 — 같은 ISO 키의 국가 피처를 덮어써 나라가 바다로 그려짐(카자흐스탄)
+- **증상**: 랫클리프 480p(Phase 10 v2) 모스크바 컷에서 서카자흐스탄 전역이 바다 색. hormuz W 티어(골든 25컷 포함)도 같은 결함 — KZ 는 바이코누르 조각, AU 는 애시모어·카르티에 조각만 남았다. 사용자 지적 "프랑스 때와 같은 현상".
+- **원인**: `geo/prep_geometry.load_countries` 가 `G[ISO_A2_EH] = 피처` 로 넣어 **같은 키의 뒤 피처가 앞 피처를 덮어썼다**(KZ = Kazakhstan → Baykonur Cosmodrome, FR = France → Clipperton, BR·AU 부속 영토). v3 `prep3.py` 부터 있던 방식. 커버리지 검사는 G 의 대표점 한 점만 찍어 덮어쓴 작은 조각 위에서 통과했다.
+- **좋은 예**: 같은 키 피처는 합집합(`unary_union`), META 는 면적이 큰 피처. 커버리지는 G 와 따로 만든 원본 합집합 영역 안의 **육지 화소 비율**로 본다(`rules geo.land_fill_min_ratio`) — 대표점 한 점이 아니라 면적.
+- **교훈**: 검사기가 검사 대상(G)에서 표본을 뽑으면 G 가 틀린 경우를 못 잡는다. 기준은 조립 경로와 독립이어야 한다. 04 §3.3 의 "프랑스 버그" 도 평탄화만이 원인이 아니었을 수 있다.
+- **자동 조치**: `geo.prep_tiers.fill_ratios`(면적 커버리지, 미달 = land-miss → drops), `geo_report.json` `country_area_deg2`·`fill_ratio`.
+- **회귀 테스트**: `tests/test_geo_key_collision.py`(픽스처 KZ·바이코누르, 실데이터 충돌 키 전부 합집합)
+- **발견 버전**: v4.1.0 (사용자 보고, back_and_forth D-0078) · **상태**: active
+
 ---
 
 > 새 패턴 발견 시 본 파일 끝에 append. 과거 항목 수정 금지.
