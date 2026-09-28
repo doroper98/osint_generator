@@ -34,12 +34,14 @@ released 항목은 **append-only**입니다.
 - 미디어 레지스트리 `assets/media/media_registry.json` + 스키마 `schemas/media_models.MediaAsset`(권리·검수·가공 기록·화면 문구). v3 7종(사진 2·영상 2·컷아웃 1·기사 2). 필드 누락·자료사진 표기 없음·사상자 체크 구간 불일치는 로드 오류(RightsError). 화면 출처 줄 형식은 `media_beats.credit_formats`.
 - 미디어 권리 게이트 `engine.layers.media.validate_media`: 레지스트리 참조 없음·미등재·종류 불일치·권리 미확인(`rights_status` ≠ rights_clear) → 렌더 전 RightsError. xfail `test_b_media_without_rights` 해제(xfail 3 → 2).
 - `tools/media_fetch.py`: 레지스트리 정본으로 받기(표준 폭·원본)·라이선스/제한 필터·원본 md5 대조·14 §3 가공(크롭·채도·대비 / rembg 컷아웃 / segment → npy)·영상 검수 시트 12장. 실패는 남은 항목과 재실행 명령으로(NB4). `search` 로 후보 검색.
-- 미디어 배치·밀도(`engine/media_plan.py`): x·y·w 를 안 준 사진·영상은 14 §10.3-5 기본 배치(v3 좌표와 같음), 예약 영역(카드·자막·날짜) 겹침 경고, 밀도 경고(전체 40~60초/개·장면당 1개·이웃 장면 같은 형태). 짧은 구간 몰림 기준은 R-0035 결정 대기.
+- 미디어 배치·밀도(`engine/media_plan.py`): x·y·w 를 안 준 사진·영상은 14 §10.3-5 기본 배치(v3 좌표와 같음), 예약 영역(카드·자막·날짜) 겹침 경고, 밀도 경고 4종 — `media-density-total`(40~60초/개)·`media-density-scene`(장면당 1개, 기사 예외)·`media-kind-repeat`(이웃 장면)·`media-burst-window`(40초 안 3개, 기사 예외, D38). 규칙 `media.density`.
 - 문장 → 미디어 형태 제안 `script/media_suggest.py`(제안만, P8), 원고 문장 `media` 필드(optional, 14 §10.3-1). provenance `media{suggested, used, density, placement}`.
 
 ### Changed
 - 미디어 이벤트(photo·clip·cutout·article)는 `mid` 와 배치만 갖는다. 파일·캡션·출처 줄·기사 문구는 레지스트리에서만 — 연출이 문자열을 주면 모델 오류. hormuz direction.py·프리뷰 예제 갱신(25컷 픽셀 동일).
 - 기사 클리핑도 권리 대조 대상(엔딩 카드 '보도 · 자료' 행이 `media.reuters_0904`·`media.herald_0907` 참조).
+- 기사처럼 원본 url 이 아직 없는 미디어는 `source_ref` + `pending_source`(채울 Phase)를 적어야 한다(D-0037).
+- 밀도 규칙을 `media_beats` 에서 `media.density` 로 옮겼다(중복 없음).
 - Commons 요청 간격·429 대기·시도 상한은 `config.yaml commons` 한 곳(NB4). `fetch_data` 의 HTTP 층은 `commons_fetch` 를 쓴다.
 
 ### Removed

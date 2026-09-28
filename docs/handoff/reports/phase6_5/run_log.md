@@ -27,7 +27,7 @@ Phase 5·6 컨테이너(재기동 4)를 그대로 썼다. 자산·plan 은 Phase
 | 항목 | 명령 | 결과 |
 |---|---|---|
 | 미디어 7종 재현 | `python tools/media_report.py projects/hormuz_korea --old-rev 615ddd7 --out docs/handoff/reports/phase6_5` | 7/7 화면 문구 = 레지스트리 조립 = 옛 연출 문자열(글자 단위). `media_reproduction.{md,json}` |
-| 밀도 | `engine.media_plan.density_report` → `media_density_report.json` | 7개 / 292.4초 = 41.8초당 1개, 경고 0. 창 기준은 R-0035 대기 |
+| 밀도 | `engine.media_plan.density_report` → `media_density_report.json` | 7개 / 292.4초 = 41.8초당 1개, 40초 창 최대 2개(strikes·p8), 경고 0종(D38) |
 | 검수 시트 | `tools/media_fetch.py` → `thumbsheet_strikes.jpg`·`thumbsheet_niovi.jpg` | 12장, 사용 구간(strikes 1.5–6.5 / niovi 28–33초) 초록 테두리 |
 | 기본 배치 | 테스트 `test_defaults_reproduce_v3` | x·y·w 를 지우면 기본 배치가 v3 4건 좌표와 같다 |
 

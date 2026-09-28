@@ -45,7 +45,9 @@ class MediaAsset(_Strict):
     author: str = Field(min_length=1)              # 원 저작자 표기(extmetadata Artist 정제)
     credit_author: str = Field(min_length=1)       # 화면 출처 줄의 짧은 이름(예: U.S. Navy)
     date: str = Field(min_length=1)
-    url: str = Field(min_length=1)
+    url: Optional[str] = None                      # 원본 페이지 URL
+    source_ref: Optional[str] = None               # url 이 아직 없을 때 출처가 적힌 곳(예: credits.yaml 행) — D-0037
+    pending_source: Optional[str] = None           # url 이 비어 있는 이유·채울 Phase(예: "6.95") — 채워지면 지운다
     caption: str = Field(min_length=1)             # 화면 캡션(사진·영상) / 라벨(컷아웃) / 매체명(기사)
     file_note: str = Field(min_length=1)           # 화면 날짜 표기(예: 자료사진 · 2023. 05) / 기사 날짜
     depicts: list[str] = Field(min_length=1)       # 사건·장소·인물·장비
@@ -67,6 +69,12 @@ class MediaAsset(_Strict):
     @model_validator(mode="after")
     def _by_kind(self) -> "MediaAsset":
         errs: list[str] = []
+        if not self.url and not self.source_ref:
+            errs.append("url 과 source_ref 중 하나는 있어야 한다(D-0037)")
+        if not self.url and not self.pending_source:
+            errs.append("url 이 비었으면 pending_source(비어 있는 이유·채울 Phase)를 적는다(D-0037)")
+        if self.url and self.pending_source:
+            errs.append("url 이 채워졌으면 pending_source 를 지운다(D-0037)")
         if self.is_file_photo and not self.file_note.startswith(FILE_PHOTO_PREFIXES):
             errs.append(f"file_photo_label_required: 자료사진·자료 영상 표기 없음 (file_note={self.file_note!r}, 14 §2.3)")
         if self.kind == "article":

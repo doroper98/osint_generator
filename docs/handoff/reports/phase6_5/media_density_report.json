@@ -58,6 +58,21 @@
   40.0,
   60.0
  ],
+ "window": {
+  "window_sec": 40.0,
+  "window_max": 2,
+  "exempt": [
+   "article"
+  ],
+  "max": {
+   "t0": 134.48,
+   "count": 2,
+   "mids": [
+    "strikes",
+    "p8"
+   ]
+  }
+ },
  "per_scene": {
   "war": [
    "niovi"
@@ -75,6 +90,5 @@
    "hormuz_transit"
   ]
  },
- "warnings": [],
- "note": "짧은 구간 몰림(창) 기준은 R-0035 결정 대기 — 포함하지 않음"
+ "warnings": []
 }

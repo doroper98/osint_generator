@@ -63,7 +63,7 @@ def main(argv: list[str] | None = None) -> int:
         was = old.get(key, {})
         same = bool(was) and all(now.get(k) == v for k, v in was.items())
         ok_all &= same
-        rows.append({"mid": e["mid"], "type": e["type"], "registry_kind": a.kind, "url": a.url, "license": a.license,
+        rows.append({"mid": e["mid"], "type": e["type"], "registry_kind": a.kind, "url": a.url, "source_ref": a.source_ref, "pending_source": a.pending_source, "license": a.license,
                      "segment": list(a.segment) if a.segment else None, "t0": round(e["t0"], 2), "t1": round(e["t1"], 2),
                      "placement": P.R.cache["media_placement"].get(e["mid"], "-"), "screen": now, "old_direction": was,
                      "equal_to_old": same, "rights_status": a.rights_status, "verified_by": a.verified_by.by})
@@ -75,7 +75,7 @@ def main(argv: list[str] | None = None) -> int:
     for i, r in enumerate(rows, 1):
         scr = " / ".join(str(v) for v in r["screen"].values() if v)
         seg = "–".join(f"{x:g}" for x in r["segment"]) + "초" if r["segment"] else "—"
-        src = f"[{r['license']}]({r['url']})" if r["url"].startswith("http") else f"{r['license']} — {r['url']}"
+        src = f"[{r['license']}]({r['url']})" if r["url"] else f"{r['license']} — {r['source_ref']} (url 대기: {r['pending_source']})"
         md.append(f"| {i} | {r['mid']} | {r['type']} | {src} | {seg} | {r['t0']}–{r['t1']}초 | {scr} | "
                   f"{'예' if r['equal_to_old'] else '**아니오**'} |")
     (args.out / "media_reproduction.md").write_text("# 미디어 7종 재현 표 (Phase 6.5, v2.5.5)\n\n"

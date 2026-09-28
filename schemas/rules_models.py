@@ -79,10 +79,6 @@ class ShotGrammar(_Strict):
 
 
 class MediaBeats(_Strict):
-    per_runtime_sec: Range2
-    per_scene_max: int
-    article_card_exempt: bool
-    no_consecutive_same_kind: bool
     kinds: list[str]
     photo_show_sec: Range2
     clip_show_sec: Range2
@@ -95,6 +91,22 @@ class MediaBeats(_Strict):
     placement: dict[str, tuple[float, float, float]]   # v2.5.5 — 14 §10.3-5 기본 배치 (x, y, 폭)
     caption_bar_px: float                    # 사진·영상 캡션 바 높이(14 §4.1) — 배치 점검용
     registry: str                            # v2.5.5 — 미디어 레지스트리 경로(저장소 기준)
+
+
+class MediaDensity(_Strict):
+    """14 §10.1 밀도 (v2.5.5, D-0037·D38). 모두 경고(오류 아님)."""
+
+    per_item_sec: Range2                  # 전체 러닝타임 ÷ 개수
+    per_scene_max: int
+    scene_exempt_kinds: list[str]         # 장면당 개수에서 뺀다(기사 카드 = 일반 카드 자리 대체)
+    no_same_kind_adjacent_scenes: bool
+    window_sec: float                     # 짧은 구간 몰림 창
+    window_max: int                       # 창 안 최대 개수 — 넘으면 경고
+    window_exempt_kinds: list[str]
+
+
+class MediaRules(_Strict):
+    density: MediaDensity
 
 
 class DateBadge(_Strict):
@@ -654,6 +666,7 @@ class VideoRules(_Strict):
     tts_rules: TTSRules
     shot_grammar: ShotGrammar
     media_beats: MediaBeats
+    media: MediaRules
     hud: HudRules
     layout_480p: Layout480p
     panels: PanelRules

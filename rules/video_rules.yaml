@@ -79,11 +79,17 @@ shot_grammar:              # 05 §2
   auto_transition: {dip_if_dist_over_w: 2.5, dip_if_w_ratio_over: 6.0}
   w_guide: {continental_route: [88, 96], ocean: [60, 72], region: [20, 30], strait: [12, 16], country: [6, 8], metro: [3, 5], city: 2.5}
 
+media:                     # v2.5.5 D-0037(D38) — 14 §10.1 밀도 경고. v3 실측: 292.4초 7개 = 41.8초당 1개, 60초 창 최대 3개(56.8초) → 40초 창 최대 2개
+  density:
+    per_item_sec: [40, 60]
+    per_scene_max: 1
+    scene_exempt_kinds: [article]
+    no_same_kind_adjacent_scenes: true
+    window_sec: 40
+    window_max: 2                         # 40초 안 3개(기사 제외)부터 경고
+    window_exempt_kinds: [article]
+
 media_beats:               # 14 §10
-  per_runtime_sec: [40, 60]
-  per_scene_max: 1
-  article_card_exempt: true
-  no_consecutive_same_kind: true
   kinds: [photo, clip, cutout, article, post]
   photo_show_sec: [4, 8]
   clip_show_sec: [3, 6]

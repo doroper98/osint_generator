@@ -222,7 +222,8 @@
    "author": "Reuters",
    "credit_author": "Reuters",
    "date": "2026-09-04",
-   "url": "credits.yaml 보도 · 자료 — Reuters (9.4)",
+   "source_ref": "credits.yaml 보도 · 자료 — Reuters (9.4)",
+   "pending_source": "6.95 — 원고 sources(소스 인테이크)가 채우면 url 로 옮기고 이 필드를 지운다",
    "caption": "Reuters",
    "file_note": "2026. 09. 04",
    "depicts": [
@@ -256,7 +257,8 @@
    "author": "The Korea Herald",
    "credit_author": "The Korea Herald",
    "date": "2026-09-07",
-   "url": "credits.yaml 보도 · 자료 — The Korea Herald (9.7)",
+   "source_ref": "credits.yaml 보도 · 자료 — The Korea Herald (9.7)",
+   "pending_source": "6.95 — 원고 sources(소스 인테이크)가 채우면 url 로 옮기고 이 필드를 지운다",
    "caption": "The Korea Herald",
    "file_note": "2026. 09. 07",
    "depicts": [

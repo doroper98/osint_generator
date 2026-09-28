@@ -36,33 +36,43 @@ def _ev(typ: str, mid: str, t0: float, dur: float = 5.0) -> dict:
 
 
 class DensityTest(unittest.TestCase):
-    def test_hormuz_v3_clean(self) -> None:
+    """D-0037 구속 조건 3 — 픽스처 (a)~(d) + 전체 밀도·이웃 형태."""
+
+    def _ids(self, r: dict) -> list[str]:
+        return [w.split("]")[0].lstrip("[") for w in r["warnings"]]
+
+    def test_a_hormuz_v3_clean(self) -> None:
         r = density_report([_ev(*m) for m in HORMUZ_MEDIA], _TB(HORMUZ_SCENES), 292.439)
         self.assertEqual(r["warnings"], [])
-        self.assertEqual(r["count"], 7)
-        self.assertEqual(r["sec_per_item"], 41.8)
+        self.assertEqual((r["count"], r["sec_per_item"]), (7, 41.8))
+        self.assertEqual(r["window"]["max"]["count"], 2)     # 40초 창 최대 2개(strikes→p8 33.6초)
 
-    def test_three_in_one_scene_warns(self) -> None:
-        evs = [_ev("photo", "a", 10), _ev("clip", "b", 30), _ev("cutout", "c", 50)]   # 60초 안 3개, 한 장면
-        r = density_report(evs, _TB({"s1": 0.0, "s2": 70.0}), 180.0)
-        self.assertTrue(any("media-per-scene" in w for w in r["warnings"]))
+    def test_b_three_in_40s_warns(self) -> None:
+        tb = _TB({"s1": 0.0, "s2": 20.0, "s3": 40.0, "s4": 60.0})
+        evs = [_ev("clip", "a", 5), _ev("photo", "b", 25), _ev("cutout", "c", 44)]   # 장면 셋, 39초 안 3개
+        r = density_report(evs, tb, 150.0)
+        self.assertEqual(self._ids(r), ["media-burst-window"])
 
-    def test_too_dense_and_too_sparse(self) -> None:
-        tb = _TB({"s1": 0.0, "s2": 30.0, "s3": 60.0})
-        dense = density_report([_ev("photo", "a", 5), _ev("clip", "b", 35), _ev("cutout", "c", 65)], tb, 90.0)
-        self.assertTrue(any("media-density-high" in w for w in dense["warnings"]))
-        sparse = density_report([_ev("photo", "a", 5)], tb, 90.0)
-        self.assertTrue(any("media-density-low" in w for w in sparse["warnings"]))
+    def test_c_article_exempt_from_window(self) -> None:
+        tb = _TB({"s1": 0.0, "s2": 20.0, "s3": 40.0, "s4": 60.0})
+        evs = [_ev("article", "a", 5), _ev("photo", "b", 25), _ev("cutout", "c", 44)]   # 기사 1 + 사진·컷아웃 2
+        r = density_report(evs, tb, 150.0)
+        self.assertNotIn("media-burst-window", self._ids(r))
 
-    def test_article_exempt_per_scene(self) -> None:
-        evs = [_ev("article", "x", 10), _ev("cutout", "c", 20)]
-        r = density_report(evs, _TB({"s1": 0.0}), 90.0)
-        self.assertFalse(any("media-per-scene" in w for w in r["warnings"]))
+    def test_d_two_in_one_scene(self) -> None:
+        r = density_report([_ev("photo", "a", 10), _ev("clip", "b", 55)], _TB({"s1": 0.0, "s2": 70.0}), 100.0)
+        self.assertEqual(self._ids(r), ["media-density-scene"])
 
-    def test_adjacent_same_kind(self) -> None:
-        tb = _TB({"s1": 0.0, "s2": 50.0})
-        r = density_report([_ev("photo", "a", 10), _ev("photo", "b", 60)], tb, 100.0)
-        self.assertTrue(any("media-same-kind-adjacent" in w for w in r["warnings"]))
+    def test_density_total_both_ways(self) -> None:
+        tb = _TB({"s1": 0.0, "s2": 45.0, "s3": 90.0})
+        dense = density_report([_ev("photo", "a", 5), _ev("clip", "b", 50), _ev("cutout", "c", 95)], tb, 100.0)
+        self.assertIn("media-density-total", self._ids(dense))
+        sparse = density_report([_ev("photo", "a", 5)], tb, 100.0)
+        self.assertIn("media-density-total", self._ids(sparse))
+
+    def test_kind_repeat(self) -> None:
+        r = density_report([_ev("photo", "a", 10), _ev("photo", "b", 60)], _TB({"s1": 0.0, "s2": 50.0}), 100.0)
+        self.assertIn("media-kind-repeat", self._ids(r))
 
 
 class PlacementTest(unittest.TestCase):

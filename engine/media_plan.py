@@ -3,8 +3,8 @@
 - `fill_placement()` — 연출이 x·y·w 를 주지 않은 사진·영상에 14 §10.3-5 기본값(rules media_beats.placement)을 넣는다.
   패널이 떠 있으면 패널 자리, 아니면 지도 자리. 연출이 준 값은 그대로(P8).
 - `placement_warnings()` — 예약 영역(카드·기사 카드가 떠 있는 동안, 하단 자막 y ≥ 410, 모서리 날짜)과 겹치면 경고(보고만, P8).
-- `density_report()` — 14 §10.1 밀도: 러닝타임 ÷ 개수가 per_runtime_sec 범위 안, 장면당 ≤ per_scene_max(기사 카드는 예외),
-  이웃 장면 같은 형태 반복 금지. 모두 경고(오류 아님). 짧은 구간 몰림(창) 기준은 결정 대기(R-0035) — 넣지 않았다.
+- `density_report()` — 14 §10.1 밀도(rules media.density, D-0037·D38): 전체 초당 개수, 장면당 개수(기사 예외),
+  이웃 장면 같은 형태, 40초 창 몰림(기사 예외). 모두 경고(오류 아님).
 """
 
 from __future__ import annotations
@@ -86,27 +86,39 @@ def media_items(events: list[dict], tb: Timebase) -> list[dict]:
 
 
 def density_report(events: list[dict], tb: Timebase, total: float) -> dict:
+    """14 §10.1 밀도 경고 4종(D-0037): media-density-total · media-density-scene · media-kind-repeat · media-burst-window."""
+    D = _R.media.density  # noqa: N806
     items = media_items(events, tb)
-    lo, hi = MB.per_runtime_sec
-    counted = [i for i in items if not (MB.article_card_exempt and i["kind"] == "article")]
+    lo, hi = D.per_item_sec
     warns: list[str] = []
     per = total / len(items) if items else math.inf
     if items and per < lo:
-        warns.append(f"[media-density-high] {len(items)}개 / {total:.0f}초 = {per:.1f}초당 1개 < {lo}초 (14 §10.1)")
+        warns.append(f"[media-density-total] 과밀 — {len(items)}개 / {total:.0f}초 = {per:.1f}초당 1개 < {lo:g}초 (14 §10.1)")
     if per > hi:
-        warns.append(f"[media-density-low] {len(items)}개 / {total:.0f}초 = {per:.1f}초당 1개 > {hi}초 (14 §10.1)")
+        warns.append(f"[media-density-total] 과소 — {len(items)}개 / {total:.0f}초 = {per:.1f}초당 1개 > {hi:g}초 (14 §10.1)")
     by_scene: dict[str, list[str]] = {}
-    for i in counted:
-        by_scene.setdefault(i["scene"], []).append(i["mid"])
+    for i in items:
+        if i["kind"] not in D.scene_exempt_kinds:
+            by_scene.setdefault(i["scene"], []).append(i["mid"])
     for sc, mids in by_scene.items():
-        if len(mids) > MB.per_scene_max:
-            warns.append(f"[media-per-scene] 장면 {sc}: {mids} > {MB.per_scene_max} (14 §10.1, 기사 카드 제외)")
-    if MB.no_consecutive_same_kind:
-        kinds = {s: sorted({i["kind"] for i in items if i["scene"] == s}) for s in tb.scenes}
+        if len(mids) > D.per_scene_max:
+            warns.append(f"[media-density-scene] 장면 {sc}: {mids} > {D.per_scene_max} (14 §10.1, {D.scene_exempt_kinds} 제외)")
+    if D.no_same_kind_adjacent_scenes:
+        kinds = {s: {i["kind"] for i in items if i["scene"] == s} for s in tb.scenes}
         for s0, s1 in zip(tb.scenes, tb.scenes[1:]):
-            same = set(kinds[s0]) & set(kinds[s1])
+            same = kinds[s0] & kinds[s1]
             if same:
-                warns.append(f"[media-same-kind-adjacent] 이웃 장면 {s0}→{s1} 같은 형태 {sorted(same)} (14 §10.1)")
+                warns.append(f"[media-kind-repeat] 이웃 장면 {s0}→{s1} 같은 형태 {sorted(same)} (14 §10.1)")
+    win = [i for i in items if i["kind"] not in D.window_exempt_kinds]
+    worst = {"t0": None, "count": 0, "mids": []}
+    for k, a in enumerate(win):
+        inside = [b for b in win[k:] if b["t0"] - a["t0"] < D.window_sec]
+        if len(inside) > worst["count"]:
+            worst = {"t0": a["t0"], "count": len(inside), "mids": [b["mid"] for b in inside]}
+    if worst["count"] > D.window_max:
+        warns.append(f"[media-burst-window] {worst['t0']}초부터 {D.window_sec:g}초 안 {worst['count']}개 {worst['mids']} > "
+                     f"{D.window_max} (14 §10.1 하한, D38)")
     return {"schema_version": 1, "total_sec": round(total, 3), "items": items, "count": len(items),
             "sec_per_item": None if not items else round(per, 1), "target_sec_per_item": [lo, hi],
+            "window": {"window_sec": D.window_sec, "window_max": D.window_max, "exempt": D.window_exempt_kinds, "max": worst},
             "per_scene": by_scene, "warnings": warns}

@@ -61,6 +61,15 @@ class MediaRegistryTest(unittest.TestCase):
     def test_casualty_flag_is_error(self) -> None:
         self._bad(lambda a: a["niovi"]["verified_by"].update(casualty_free=False))
 
+    def test_article_url_pending_rules(self) -> None:
+        """D-0037 — url 이 비면 source_ref·pending_source 필수, url 이 있으면 pending_source 금지."""
+        self._bad(lambda a: a["reuters_0904"].pop("source_ref"))
+        self._bad(lambda a: a["reuters_0904"].pop("pending_source"))
+        self._bad(lambda a: a["herald_0907"].update(url="https://example.org/x"))   # url 채웠는데 pending 남음
+        r = load_media_registry()["reuters_0904"]
+        self.assertIsNone(r.url)
+        self.assertTrue(r.pending_source.startswith("6.95"))
+
     def test_unknown_field_is_error(self) -> None:
         a = copy.deepcopy(_raw()["assets"]["p8"])
         a["screen_caption_override"] = "x"
