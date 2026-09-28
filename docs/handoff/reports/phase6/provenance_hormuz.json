@@ -1,0 +1,285 @@
+{
+ "schema_version": 1,
+ "engine": "engine",
+ "repo_version": "2.5.0",
+ "rules_version": "2.0.0",
+ "rules_hash": "e38ae8d1e0b3edb8825120baaac212ecbb7f4f93",
+ "prompts": {},
+ "voice": "edge-tts ko-KR-InJoonNeural",
+ "word_anchor": "aligned",
+ "word_anchors": [
+  {
+   "sid": "ask_1",
+   "word": "독일",
+   "mode": "aligned",
+   "t": 77.245,
+   "alignment_source": "edge_word_boundary"
+  },
+  {
+   "sid": "ask_1",
+   "word": "영국",
+   "mode": "aligned",
+   "t": 78.095,
+   "alignment_source": "edge_word_boundary"
+  },
+  {
+   "sid": "ask_1",
+   "word": "일본",
+   "mode": "aligned",
+   "t": 79.345,
+   "alignment_source": "edge_word_boundary"
+  },
+  {
+   "sid": "ask_1",
+   "word": "호주",
+   "mode": "aligned",
+   "t": 80.518,
+   "alignment_source": "edge_word_boundary"
+  },
+  {
+   "sid": "ask_1",
+   "word": "한국",
+   "mode": "aligned",
+   "t": 82.348,
+   "alignment_source": "edge_word_boundary"
+  },
+  {
+   "sid": "ask_4",
+   "word": "한국",
+   "mode": "aligned",
+   "t": 96.637,
+   "alignment_source": "edge_word_boundary"
+  },
+  {
+   "sid": "past_3",
+   "word": "호르무즈",
+   "mode": "aligned",
+   "t": 205.052,
+   "alignment_source": "edge_word_boundary"
+  }
+ ],
+ "tts": {
+  "resynthesized": []
+ },
+ "total_sec": 292.439,
+ "sentences": 45,
+ "stages": {
+  "plan": true,
+  "render": true,
+  "mix": true,
+  "mux": true,
+  "ai_direction": false,
+  "visual_qa": false
+ },
+ "features_used": {
+  "camera_keys": 10,
+  "camera_moves": 5,
+  "camera_cuts": 5,
+  "dips": 4,
+  "dips_under": 1,
+  "badges": 8,
+  "badge_kinds": {
+   "person": 3,
+   "flag": 4,
+   "emblem": 1
+  },
+  "panels": [
+   "relation",
+   "statement",
+   "timeline",
+   "precedent",
+   "versus"
+  ],
+  "cards": 7,
+  "media": {
+   "clip": 2,
+   "photo": 2,
+   "cutout": 1,
+   "article": 2
+  },
+  "event_types": {
+   "article": 2,
+   "badge": 8,
+   "barrier": 1,
+   "boom": 1,
+   "card": 7,
+   "clip": 2,
+   "country": 1,
+   "cutout": 1,
+   "dip": 4,
+   "marker": 8,
+   "panel": 5,
+   "photo": 2,
+   "route": 4,
+   "ships": 1,
+   "tanker_loop": 1
+  },
+  "label_lod": true,
+  "vignette": false,
+  "at_word": {
+   "aligned": 7,
+   "ratio": 0
+  }
+ },
+ "qa": {
+  "auto_iterations": 0,
+  "user_approved": false,
+  "reviewer": "fable (back_and_forth)"
+ },
+ "drops": [],
+ "assets": {
+  "images_used": [
+   "emblem:navcent",
+   "flag11:au",
+   "flag11:ca",
+   "flag11:cn",
+   "flag11:de",
+   "flag11:fr",
+   "flag11:gb",
+   "flag11:in",
+   "flag11:it",
+   "flag11:jp",
+   "flag11:kr",
+   "flag11:nl",
+   "flag43:ir",
+   "flag43:kr",
+   "flag43:us",
+   "media:hormuz_transit_720.jpg",
+   "media:p8_cut.png",
+   "media:rok_iraq_720.jpg",
+   "portrait:khamenei",
+   "portrait:lee_jae_myung",
+   "portrait:roh_moo_hyun",
+   "portrait:trump"
+  ],
+  "emblems": {
+   "used": [
+    "navcent"
+   ],
+   "flag_fallback": {}
+  },
+  "badges": {
+   "suggested": [
+    "au",
+    "cheonghae",
+    "cn",
+    "de",
+    "fr",
+    "gb",
+    "il",
+    "imo",
+    "in",
+    "iq",
+    "ir",
+    "jp",
+    "khamenei",
+    "kr",
+    "lee_jae_myung",
+    "roh_moo_hyun",
+    "ru",
+    "trump",
+    "us"
+   ],
+   "used": [
+    "cn",
+    "in",
+    "khamenei",
+    "kr",
+    "lee_jae_myung",
+    "navcent"
+   ],
+   "suggested_and_used": [
+    "cn",
+    "in",
+    "khamenei",
+    "kr",
+    "lee_jae_myung"
+   ],
+   "suggestions": 47
+  }
+ },
+ "panels": {
+  "used": [
+   {
+    "kind": "relation",
+    "title": "3월 15일의 요구, 다음 날의 거절",
+    "t0": 69.36,
+    "prov_tag": null
+   },
+   {
+    "kind": "statement",
+    "title": "3월 21일 공동성명",
+    "t0": 94.89,
+    "prov_tag": null
+   },
+   {
+    "kind": "timeline",
+    "title": "해협의 일곱 달",
+    "t0": 110.69,
+    "prov_tag": null
+   },
+   {
+    "kind": "precedent",
+    "title": "한국의 해외 파견 결정",
+    "t0": 186.44,
+    "prov_tag": null
+   },
+   {
+    "kind": "versus",
+    "title": "파병을 둘러싼 두 입장",
+    "t0": 224.24,
+    "prov_tag": null
+   }
+  ]
+ },
+ "credits": {
+  "card": {
+   "emblems": 1,
+   "flags": 1,
+   "map": 2,
+   "media": 5,
+   "music": 1,
+   "narration": 1,
+   "people": 4
+  },
+  "description_only": {
+   "fonts": 4
+  }
+ },
+ "reserved": {
+  "avoidance": [
+   {
+    "badge": "부산에서 출항",
+    "t0": 162.08,
+    "t1": 178.67,
+    "strategy": [
+     "push"
+    ],
+    "direction": [
+     "down"
+    ],
+    "max_px": 135.2,
+    "zones": [
+     "article:Reuters",
+     "card:거론된 선택지"
+    ],
+    "frames": 399
+   },
+   {
+    "badge": "이재명",
+    "t0": 254.58,
+    "t1": 254.62,
+    "strategy": [
+     "hide"
+    ],
+    "direction": [],
+    "max_px": 189.5,
+    "zones": [
+     "card:이재명 대통령 · 발언 요지"
+    ],
+    "frames": 2
+   }
+  ]
+ },
+ "lint_warnings": []
+}

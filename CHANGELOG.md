@@ -28,7 +28,7 @@ released 항목은 **append-only**입니다.
 
 ---
 
-## [v2.5.0] — 2026-09-28 — Phase 6: 패널·카드 데이터화 (back_and_forth D-0032, 진행 중)
+## [v2.5.0] — 2026-09-28 — Phase 6: 패널·카드 데이터화 (back_and_forth D-0032~D-0034)
 
 ### Added
 - `tools/check_env.py`: 프록시 CA 가 certifi 번들에 붙어 있는지 검사(NB5, D-0031). CA 파일이 없는 환경에서는 검사하지 않는다.

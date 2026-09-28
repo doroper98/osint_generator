@@ -25,6 +25,14 @@ last_review: 2026-06-06
 
 ---
 
+## 2026-09-28 v2.5.0 — Phase 6 완료: 관계·연표 데이터화, 카드 RESERVED, v2 차트 6종
+
+- **무엇을**: 관계 패널 `relation`(v3 refusal 교체), 연표 자동 층, 카드 RESERVED(뱃지 회피·마커 라벨 흐림), v2 차트 dots·gantt·dual_line·fork·checklist·network 이식, 추정 태그·검증 라벨.
+- **왜**: back_and_forth D-0032. 패널을 코드가 아니라 데이터로 만들고, 08 §3 정돈된 관계선 규칙과 08 §10 임시 조치(부산 뱃지)를 기능으로 해소한다.
+- **어떻게**: 수치는 rules `panels.*`(test_no_magic_numbers). 데이터가 준 층·배치는 코드가 바꾸지 않는다(P8). 뱃지 이동 = 카드 존재도 층별 적분 — 카드 교대 때 24 px 점프를 없앴다. 추정 태그는 C0 모서리 규칙 때문에 제목 아래(D37).
+- **결과**: 25컷 판정 23컷 MAD 0, 의도된 차이 3컷(09·15·16), 부산 겹침 4464→0 px², pytest 527 passed / 3 xfailed.
+- **연관**: D36·D37, R0027~R0033, artifacts/phase6-v2.5.0.
+
 ## 2026-09-28 v2.4.0 — Phase 5 완료: 엔티티·휘장 레지스트리, 권리 대조 크레딧
 
 - **무엇을**: `assets/entities.yaml`, `assets/emblems/registry.json`(제한 → 국기 대체 코드 확정), `commons_fetch`·`portrait_fallback`, 이름→뱃지 제안, 엔딩 크레딧 권리 대조(`RightsError`), prep_people_flags 삭제.
