@@ -1,9 +1,9 @@
 <!--
 tier: 2
-last_synced_with: v3.2.0
+last_synced_with: v4.0.0
 ssot_for: [json-contracts-overview]
-depends_on: [../schemas/models.py]
-last_review: 2026-09-28
+depends_on: [../schemas/models.py, ../schemas/source_models.py, ../schemas/engine_models.py, ../script/schema.py, ../engine/direction.py, ../engine/qa.py, ../orchestrator/config.py]
+last_review: 2026-09-29
 -->
 
 # 05 — Data Schema Spec
@@ -14,44 +14,38 @@ last_review: 2026-09-28
 ## 1. 공통 규칙
 
 - 모든 JSON은 최상단에 `schema_version: int` 필드를 갖습니다.
-- 현재 schema_version = **1**.
+- 현재 schema_version = **1**. 예외: `project_manifest.json` = **2**(v3.0.0 상태 머신 교체, MAJOR).
 - 모든 시각은 ISO 8601 UTC (`2026-05-19T13:42:11Z`).
 - 모든 경로는 프로젝트 루트(`projects/{project_id}/`) 기준 상대 경로.
 - `null` 보다 누락을 선호. Optional 필드는 기본값 사용.
 
-## 2. JSON 산출물 인덱스
+## 2. 산출물 인덱스 (v4.0.0 실측 — 프로젝트 `projects/<pid>/` 기준)
 
-| 파일 | Pydantic 모델 | 생성 주체 | 단계 |
+| 파일 | 모델(필드 SSOT) | 만드는 주체 | 상태 |
 |---|---|---|---|
-| `project_manifest.json` | `ProjectManifest` | Orchestrator | 0 → 모든 단계 |
-| `intake_plan.json` | `IntakePlan` | Dynamic Intake Planner | 1 |
-| `intake/sources.json` (v3.2.0, 옛 `source_intake.json`·`SourceIntake` 삭제) | `source_models.SourcesFile` | 인테이크(CLI `add-source`·웹) + 사용자 확인 | 2 |
-| `task_queue.json` | `TaskQueue` | Orchestrator | 3 |
-| `worker_slots.json` | `WorkerSlotsSnapshot` | Worker Slot Manager | 3+ |
-| `task_results/{task_id}_result.json` | `TaskResult` | Worker | 3+ |
-| `intake/claims.json` (v3.2.0, 옛 `source_registry.json`·`source_completeness_report.json`·소스 수집 partial 삭제) | `source_models.ClaimsFile` | source_verify(VerifySourcesWorker 초안 → 코드 판정) | 4 |
-| `facts.json` (v3.2.0, 옛 `research_dossier.json`·`ResearchDossier` 삭제) | `script.schema:Facts` | ResearchWorker | 5 |
-| `report_bundle.json` (수신, 외부 연동) | `ReportBundle` | agents_reviewer (외부) | 외부 → 5 |
-| `argument_map.json` | `ArgumentMap` | Research Agent | 5 |
-| `episode_blueprint.json` | `EpisodeBlueprint` | Script Agent | 5 |
-| `script.yaml` · `script_labels.json` | `script.schema:Script` · `script.labels:ScriptLabels` | Script Agent (v3.0.0) | 5 |
-| `qa_evidence_report.json` | `QAEvidenceReport` | Evidence Guard | 5 |
-| `scene_manifest.json` | `SceneManifest` | Scene Planner | 6 |
-| `asset_manifest.json` | `AssetManifest` | Orchestrator | 7 |
-| `annotation_manifest.json` | `AnnotationManifest` | Annotation Worker | 7 |
-| `narration_segments.json` | `NarrationSegments` | Script Agent | 8 |
-| `audio_manifest.json` | `AudioManifest` | TTS Worker | 8 |
-| `tts_qa_report.json` | `TTSQAReport` | TTS QA Worker | 8 |
-| `music_manifest.json` | `MusicManifest` | Music Worker | 8 |
-| `remotion_job_debug.json` | `RemotionJob` | Remotion Job Builder | 9 |
-| `remotion_job_preview.json` | `RemotionJob` | Remotion Job Builder | 9 |
-| `remotion_job_final.json` | `RemotionJob` | Remotion Job Builder | 9 |
-| `render_report.json` | `RenderReport` | Render Worker | 9 |
-| `thumbnail_brief.json` | `ThumbnailBrief` | Thumbnail Agent | 10 |
-| `thumbnail_manifest.json` | `ThumbnailManifest` | Thumbnail Worker | 10 |
-| `thumbnail_qa.json` | `ThumbnailQA` | Thumbnail Worker | 10 |
-| `youtube_metadata.json` | `YouTubeMetadata` | YouTube Metadata Agent | 11 |
-| `approval_log.json` | `ApprovalLog` | Orchestrator | 모든 단계 |
+| `project_manifest.json` | `schemas.models.ProjectManifest`(sv 2, `gate_decisions`·`stage_records`) | 오케스트레이터 | 전 단계 |
+| `intake_plan.json` | `IntakePlan` | IntakePlannerWorker | INTAKE |
+| `intake/sources.json` | `schemas.source_models.SourcesFile` | 인테이크(CLI·웹) + 사용자 확인 | INTAKE |
+| `intake/drafts/<id>.json` | `CaptureDraft` | CaptureReadWorker | INTAKE |
+| `intake/verify_draft.json` | `VerifyDraft` | VerifySourcesWorker | SOURCE_VERIFY |
+| `intake/claims.json` | `ClaimsFile` | `orchestrator/source_verify`(코드 판정) | SOURCE_VERIFY |
+| `facts.json` | `script.schema.Facts` | ResearchWorker | RESEARCH |
+| `script.yaml`, `script_labels.json` | `script.schema.Script`, `script.labels.ScriptLabels` | ScriptWorker(또는 사람) | SCRIPT_DRAFT |
+| `plan.json`, `tts/*.mp3(.align.json)` | `script.schema.Plan` | `script.plan` | VOICE_TIMELINE |
+| `geo.yaml`, `labels.yaml` | `geo.prep` 설정 모델, 라벨 모델 | 사람 | ASSETS |
+| `assets/{geo.pkl, tiers.pkl, base_*.png, geo_report.json}`, `assets/res_<프로파일>/` | `schemas.engine_models.Tier` | `geo.prep` | ASSETS |
+| `assets/rights_registry.json`, `credits.yaml` | `RightsRegistry`, `engine.credits.Credits` | 사람·`tools/fetch_data` | ASSETS |
+| `direction.yaml`(+`direction.v*.yaml`, `direction.meta.json`) | `engine.direction.Direction` | DirectorWorker(또는 사람) | DIRECTION |
+| `prev/checks.json`, `prev/frames.json`, `prev/provenance.json`, `prev/sheet.jpg` | `engine/checks.py` 출력(sv 1) | `engine.render --preview` | PREVIEW_QA |
+| `prev/qa_verdict.v*.json`, `prev/qa_loop.json` | `engine.qa.QAVerdict`, `engine.qa.QALoopRecord` | VisualQAWorker·`orchestrator/ai_direction` | PREVIEW_QA |
+| `out/video_noaudio.mp4`, `out/render.json` | render 기록(sv 1 — `resolution`·jobs·프레임·시간·RSS) | `engine.render` | RENDER |
+| `out/mix.f32` | — | `audio.mix` | AUDIO_MIX |
+| `out/final.mp4`, `final.srt`, `description.txt`, `provenance.json` | provenance 필수 키 = `rules/video_rules.yaml provenance.required_keys` | `engine.mux` | DELIVER |
+| `task_queue.json`, `worker_slots.json`, `task_results/*.json`, `llm_calls/*.json` | `TaskQueue`, `WorkerSlotsSnapshot`, `TaskResult`, `LLMCallRecord` | 오케스트레이터·워커 | 전 단계 |
+| 엔진 CLI 마지막 줄 | `schemas.engine_models.StageResult` | 엔진 CLI 전부 | — |
+
+번들 가져오기(`import-bundle`) 산출물은 §10, 저장소 공용 레지스트리(엔티티·휘장·미디어·BGM)는 §7·§9.
+`approval_log.json`(`ApprovalLog`)은 v3.0.0부터 쓰지 않는다. 게이트 기록은 manifest `gate_decisions`다.
 
 ## 3. 핵심 모델 요약 (필드 SSOT는 코드)
 
@@ -161,121 +155,22 @@ last_review: 2026-09-28
 미검증/추론/주장/반박 항목 분리. confirmed 만이면 null), `est_duration_sec`. 미검증
 정보의 제목/썸네일 사용 금지(GOAL G4)는 label 로 추적.
 
-### 3.4e `RenderProps` (수직 슬라이스 V3, Remotion 렌더 입력)
+### 3.4e·3.4f (v2.0.0 삭제) `RenderProps`·`AudioManifest` — Remotion 렌더 입력·세그먼트 TTS 기록. 렌더 입력은 `script.yaml`+`plan.json`+`direction.yaml`, 음성은 `plan.json`(§2). 보존본 `archive/hyperframes-briefing`.
 
-`09_render/render_props.json` — scene_manifest(타이밍/라벨 신호) + full_script(나레이션/
-캡션)를 합쳐 만든 Remotion `Briefing` 컴포지션 입력. 텍스트 슬라이드 렌더용 최소 평면
-구조 (정식 `RemotionJob`/render_worker 는 Phase 9 에서). 필드명은 TS 친화 camelCase.
+### 3.4g `ReportBundle` (외부 연동 — agents_reviewer 계약 v1, 수신 전용)
 
-| 필드 | 타입 | 설명 |
-|---|---|---|
-| schema_version | int | 1 (Remotion 측은 무시) |
-| project_id | str | |
-| title | str | 영상 제목 |
-| fps / width / height | int | 기본 30 / 1920 / 1080 |
-| scenes | list[`RenderSceneProps`] | 슬라이드 목록 |
+`report_bundle.json`은 agents_reviewer가 내는 핸드오프 산출물이다. 이 저장소의 모델은 **소비자측 미러**이고 계약 정본은 agents_reviewer의 `docs/CONTRACTS/report_bundle_v1.md`다.
+로더는 `bundle/load.py`(`load_report_bundle`)다(v3.5.0 이동).
 
-`RenderSceneProps`: `sceneId`, `startSec`, `durationSec`, `caption`(중앙 key takeaway),
-`narration`(full_script 에서 해석), `subtitleCues`(narration 을 줄 단위로 쪼갠 자막 큐 —
-하단 자막 바에 **순차** 표시; 글자수 비례 추정 타이밍, scene 시작 기준 상대), `label`
-(`<미검증>` 등 — 우상단 배지), `sourceLinkRequired`, `source`(상단 출처 표기 텍스트,
-배선 전엔 ""), `isQuote`(인용이면 강조색+인용부호 렌더 — 영상 문법 ③), `audioPath`(V4b —
-audio_manifest 가 있으면 나레이션 wav 의 project 상대경로; Remotion 이 `--public-dir`=
-project_dir + `staticFile` 로 참조). audio_manifest 가 있으면 startSec/durationSec 는
-**실측 음성 길이**로 재계산된다 (무음이면 scene 추정 유지).
+- **fail-closed**(v3.5.0 D-0064 쟁점 1 A): 번들 모델 베이스 `_BundleModel`은 `extra="forbid"`다. 선언하지 않은 필드가 있으면 모든 깊이의 경로를 한 번에 나열하는 `UnknownBundleFields` 오류로 멈춘다.
+  옛 관대한 수신자(`extra="ignore"`)는 마커 종류·호 종류·논쟁 영상 문구를 조용히 버렸다(15 P6·P10). agents_reviewer가 필드를 더하면 이 파일 선언을 같이 바꾼다.
+- id 유일성·`chart_refs`/`claim_refs`/`map_ref` 해석은 `model_validator`가 강제한다. 차트 `data`는 다시 검증하지 않는다(이중 SSOT 회피).
+- 번들은 **재료**다(handoff 12 §5). 번들 → 원고·연출 변환은 §10.
 
-영상 문법(v0.19.0): 화면엔 **key takeaway(caption)만 중앙**에 크게, **전체 나레이션은 하단
-자막 바**, 좌상단 브랜드 / 상단 출처 / 우상단 검증 라벨 배지. 인용(`isQuote`)은 테마 강조색 +
-인용부호로 명확히 구분. Remotion `Briefing` 컴포지션이 SSOT.
+### 3.5·§4 (v2.0.0 삭제) `SceneManifest` provenance·Render Mode
 
-`mapData`(`RenderMap`: center/zoom/markers/arcs, v0.23.0 Phase B): scene 의 claim_refs 에
-bundle map id 가 있으면 붙는다. Remotion `MapView`(d3-geo + world-atlas)가 중앙에 지도를
-재렌더(마커·arc·highlight)하고 caption 은 제목으로 축소. `chartData`(`RenderChart`: type/title/data/unit): scene 의 claim_refs 에 지원 차트 id 가
-있으면 붙는다. Remotion `ChartView` family 렌더러가 데이터로 **cinematic 재렌더**(line:
-좌→우 draw-on + event 강조; v0.26.0). 지원 타입(v0.27.0): line/area/stacked_area/small_multiples/dual_line/forecast/bar/
-lollipop/range_bar/stacked(_bar)/waterfall/scatter/bubble/candle/donut/gantt/slope/heatmap/
-network/sankey/choropleth (전 타입). `render_io.SUPPORTED_CHART_TYPES` 가 SSOT. 미지원 타입은 텍스트 폴백(외부 SVG 폴백은 복잡 타입 한정 추후).
-
-### 3.4f `AudioManifest` (Phase 8 TTS, 수직 슬라이스 V4)
-
-`08_audio/audio_manifest.json` — full_script 의 각 세그먼트를 TTS 로 합성한 결과.
-백엔드 교체 가능(local/elevenlabs/stub). wav 는 `08_audio/narration/{segment_id}.wav`
-(gitignore), 본 manifest 만 추적. **실제 음성 길이**를 담아 후속 scene/render 타이밍의
-권위 소스가 된다.
-
-| 필드 | 타입 | 설명 |
-|---|---|---|
-| schema_version | int | 1 |
-| project_id | str | |
-| generated_at | datetime | UTC |
-| backend | str | stub / local / elevenlabs |
-| total_duration_sec | float | 세그먼트 길이 합 |
-| segments | list[`AudioSegment`] | |
-
-`AudioSegment`: `segment_id`(full_script ScriptSegment 대응), `audio_path`(project
-상대경로), `duration_sec`(실측), `text`, `backend`, `voice`. 백엔드 정책은
-`workers/tts_backends.py` (기본 local=프라이버시, elevenlabs=opt-in 외부 API).
-
-### 3.4g `ReportBundle` (외부 연동 — agents_reviewer 인터페이스 계약 v1)
-
-`report_bundle.json` (수신) — agents_reviewer(텔레그램 보고서/분석 producer)가 emit 하는
-핸드오프 산출물의 **소비자측 미러**다. (v3.2.0) `ResearchDossier` 변환은 삭제됐고, 번들 → sources.json·claims.json
-변환이 Phase 9 에서 복귀할 때까지 `import-bundle` 은 명시 오류다(D52). 아래 변환 설명은 이력. 계약 정본은 agents_reviewer repo 의
-`docs/CONTRACTS/report_bundle_v1.md` 이며, 본 모델은 수신 검증(fail-closed)용이다.
-
-| 필드 | 타입 | 설명 |
-|---|---|---|
-| schema_version | int | 이 계약의 버전(현재 1). producer.version 과 분리 |
-| bundle_kind | "report_bundle" | |
-| producer / report | `BundleProducer` / `BundleReport` | 생산 시스템·보고서 메타(headline/deck/theme) |
-| sections | list[`BundleSection`] | prose(나레이션 원천)·chart_refs·claim_refs |
-| charts / map | list[`BundleChart`] / `BundleMap` | 차트 data 모양 SSOT 는 agents_reviewer schemas.py(§9) → `data: Any` |
-| claims | list[`BundleClaim`] | status(=ResearchClaimStatus) 라벨 척추 단일 근거 |
-| signals / contradictions / sources / confidence | list / Optional | 관찰 신호·모순·정규화 출처·신뢰도 |
-| images | list[`BundleImage`] | 보도 사진(additive, v0.42.0). rights_status=cleared 만 영상 삽입(G4-8/C9). 계약: docs/IMAGE_BUNDLE_CONTRACT.md |
-
-핵심 규약: ① **관대한 수신자(tolerant reader, `extra="ignore"`)** — 진화하는 보고서의
-모르는 필드(새 top-level 블록·새 섹션 필드 등)는 무시해 추가 변경에 깨지지 않되, 선언 필드는
-타입·enum·필수 검증(소비 데이터 건전성 유지). 미지 top-level 필드는 로더가 로그로 surface
-(인지). 계약 §1 의 "additive=schema_version 무증분" 과 정합. ② `model_validator` 로 bundle 내
-id unique + chart_refs/claim_refs resolve + `section.map_ref → map.id` resolve 강제,
-③ 차트 `data` 는 재검증하지 않음(이중 SSOT 회피), ④ `provenance.verification` 을 그대로
-신뢰(재검증 floor 없음). 진화 수용 예: v5.5.2 가 추가한 `timeline` 블록(모델에 흡수, 보관).
-
-claims 분기(`orchestrator/bundle_io.py`): v5.5.0 real emit 은 `claims=[]`(라이브 2-call 은
-산문+차트만 생성). 이때 어댑터가 **charts/map provenance + contradictions 에서 claim 을
-합성**해 라벨 척추가 chart/map `verification` 을 타게 한다(measured→`<확인>`, narrative_
-inference→`<추론>`, contradictions→`<반박됨>`). 섹션 prose 는 `summary` 로 실어 ScriptWorker
-가 발화형으로 변환. bundle.claims 가 차 있으면(v5.6+) 그대로 직매핑. 변환 매핑(§9)은
-`orchestrator/bundle_io.py:bundle_to_research_dossier` 참조.
-
-### 3.5 `SceneManifest` Provenance
-
-`SceneEntry.worker_provenance`:
-
-| 필드 | 타입 | 설명 |
-|---|---|---|
-| primary_worker | str | |
-| supporting_workers | list[str] | |
-| generated_files | list[str] | |
-| input_manifests | list[str] | |
-| source_ids | list[str] | |
-| asset_ids | list[str] | |
-| task_ids | list[str] | |
-| qa_status | enum | |
-| risk_flags | list[str] | |
-
-본 정보가 Pre-production Debug Layer의 입력입니다. [ADDENDUM_02](ADDENDUM_02_PRE_PRODUCTION_DEBUG_LAYER.md) 참조.
-
-## 4. Render Mode
-
-`render_mode ∈ {"debug", "preview", "final"}`
-
-- debug → `DebugOverlay`가 활성화 → `draft_debug.mp4`
-- preview → Debug Layer 비활성 → `draft_preview.mp4`
-- final → Debug Layer 비활성 → `final.mp4`
-
-이 값은 `RemotionJob.render_mode`에서만 전달되며, Remotion 컴포넌트는 props로 받습니다.
+`scene_manifest`·`worker_provenance`·`render_mode ∈ {debug, preview, final}`·`RemotionJob`은 v2.0.0에서 삭제됐다(G3-legacy 19·20·26·27).
+"이번 영상에 실제로 쓰인 것"은 `provenance.json`(15 P5)이, 해상도는 출력 프로파일(§9)이 맡는다.
 
 ## 5. 스키마 버전 증분
 
@@ -286,15 +181,13 @@ inference→`<추론>`, contradictions→`<반박됨>`). 섹션 prose 는 `summa
 마이그레이션 함수는 `schemas/migrations/v{from}_to_v{to}.py`로 둡니다. (Phase 후속)
 
 
-## 6. v0.44.0 추가 모델 (쇼츠 콜라주 개편 Phase 0)
+## 6. v0.44.0 추가 모델 (쇼츠 콜라주 — 일부만 남음)
 
-SSOT 는 `schemas/models.py`. 전부 additive — schema_version 1 유지.
-
-| 모델 | 산출물 | 용도 |
+| 모델 | 산출물 | 상태 |
 |---|---|---|
-| `BundleSectionVideo` / `BundleReportVideo` / `BundleTimelineVideo` | (수신) report_bundle | VIDEO_BUNDLE_CONTRACT 의 `video` 블록 정식 모델링 — 쇼츠 변환기는 raw dict 대신 본 모델 경유 (G4-5) |
-| `AssetSourceRef`, `LibraryAssetVariant`, `LibraryPerson`, `LibraryLogo`, `LibraryFlag`, `AssetLibraryManifest` | `assets/library/library_manifest.json` | 인물·CI·국기 사전 구축 라이브러리 인덱스 + 권리 기록 (C9). id 유일성 검증 내장 |
-| `SafeArea`, `DesignSheet` | `hyperframes/shorts/design_sheet.json` (Phase 3) | 디자인 시트 L1 토큰 운반 형식 — 값의 SSOT 는 [17_COLLAGE_DESIGN_SHEET.md](17_COLLAGE_DESIGN_SHEET.md) |
+| `BundleSectionVideo` / `BundleReportVideo` / `BundleTimelineVideo` | (수신) report_bundle `video` 블록 | 유지 — 번들 모델(§3.4g) |
+| `AssetSourceRef`, `LibraryAssetVariant`, `LibraryPerson`, `LibraryLogo`, `LibraryFlag`, `AssetLibraryManifest` | `assets/library/library_manifest.json` | 유지 — 인물·CI·국기 라이브러리 인덱스 + 권리(C9). 엔티티 레지스트리의 1차 소스(§7) |
+| `SafeArea`, `DesignSheet` | (쇼츠 디자인 시트) | v2.0.0 삭제(쇼츠 트랙 보관, G5) |
 
 ## 7. v2.4.0 추가 계약 (Phase 5 — 뱃지·엔티티·권리, back_and_forth D-0029)
 
@@ -320,3 +213,32 @@ SSOT 는 `schemas/models.py`. 전부 additive — schema_version 1 유지.
 | 프로젝트 `intake/verify_draft.json` | `VerifyDraft`·`ClaimCandidate`·`EvidenceQuote` | 검증 워커(`VerifySourcesWorker`) 초안 — 주장 후보와 소스 본문 인용. id·status 는 LLM 이 아니라 `orchestrator/source_verify.judge` 가 인용 대조로 정한다(D-0052 D50) |
 | 프로젝트 `facts.json` | `script/schema.py` `Facts`·`Fact` | ResearchWorker 출력(claims.json → 사실 목록). `source_ids` = claims.json `claim_id`. 원고(ScriptWorker) 입력 = facts.json + claims.json |
 | `rules/official_accounts.yaml` | `OfficialAccountsFile`·`OfficialAccount` | 공식 계정 목록(출처 URL·확인일). 미등재 핸들 = `unknown` |
+
+## 9. v3.6.0 추가 계약 (Phase 10 — 출력 프로파일)
+
+| 위치 | 모델 | 규칙 |
+|---|---|---|
+| `config.yaml engine.output` | `orchestrator/config.py` `OutputConfig`·`OutputProfile` | 프로파일 표(폭·높이·fps·crf·preset·청크당 메모리)와 기본값. fps는 설계 fps와 같아야 한다. 모르는 프로파일 이름 = 오류 |
+| `config.yaml engine.trial`·`engine.final` | `EngineConfig` | 별칭(트라이얼 480p·최종 1080p). CLI `--res` 가 이름·별칭을 받는다 |
+| `config.yaml engine.render.jobs` | `RenderConfig` | 청크 병렬 수(null = CPU 수), 메모리 ÷ 프로파일 상한으로 줄임 |
+| provenance `render.resolution`, `out/render.json` | 렌더 기록(sv 1) | 프로파일·폭·높이·fps·k·pad_x·crf·preset(+전편은 jobs·프레임·시간·청크 피크 RSS) |
+| `assets/media/media_registry.json` | `schemas/media_models.py` `MediaRegistryFile`·`MediaAsset`·`SourceVariant` | 미디어 권리·검증·가공 기록. 장치 해상도 원본은 variant로 기록(업스케일 = checks warning) |
+
+설계 좌표는 한 벌(`rules/video_rules.yaml layout_480p.base`)이다. 해상도 변환은 렌더 진입 장치 변환 한 곳이다(D60, [10](10_RENDERING_PIPELINE_SPEC.md) §4).
+
+## 10. v3.5.0 추가 계약 (Phase 9 — 번들 어댑터, back_and_forth D-0063)
+
+`python -m orchestrator.main import-bundle <pid> --file <bundle.json>`이 만드는 파일이다. 최종 `script.yaml`·`direction.yaml`·`claims.json`은 쓰지 않는다.
+
+| 파일 | 모델 | 규칙 |
+|---|---|---|
+| `intake/files/<번들>` | `ReportBundle`(§3.4g) | 원본 보관 |
+| `intake/sources.json`(기사 레코드 추가) | `ArticleSource` | 인용 문자열 → 기사 가져오기. 본문·제목·매체·게시일이 안 차면 만들지 않는다. 사용자 확인 전 |
+| `intake/bundle_import.json` | `orchestrator/bundle_service` 기록 | 이관·`unresolved_sources[]`(blocked_host·fetch_failed·missing). 게이트 ①·소스 확인 화면·provenance가 읽음 |
+| `intake/bundle_claims.json` | `bundle.to_sources.BundleClaimsFile` | claim 후보(번들 status는 참고). 검증 워커의 `{bundle_hints}` 재료 |
+| `script.draft.yaml`, `script.draft.notes.json` | `script.schema.Script`, `bundle.to_script.DraftNotes` | 장면 묶음 제안·금지 문구 `rewrite_required` 주석. ScriptWorker `{draft_block}` 재료 |
+| `intake/bundle_materials.json`, `direction.draft.yaml` | `bundle.to_direction.BundleMaterials`, `Direction` | 장소·경로·패널·미디어·뱃지·인용 재료. 패널 렌더러 없는 차트는 `unsupported[]`. DirectorWorker `{bundle_materials}` 재료 |
+| provenance `bundle` | — | 번들 id·producer·섹션/장면·rewrite_required·unmatched·패널·출처 이관/미해결·`draft_used` |
+
+어휘 대응(차트 → 패널 종류, 관계 종류, 검증 판정 기준)은 `rules/video_rules.yaml bundle`이다(15 P3).
+

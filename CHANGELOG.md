@@ -40,6 +40,7 @@ MAJOR: GOAL G3 개정은 GOAL §G3 머리말("변경 시 메이저")대로 메�
 - **docs/09 지도·지오 재작성**(작업 5): handoff 04·05·06, 투영, `geo.prep`(`--res`), 티어·ppd·land-miss(D29), 해상도 = 렌더 진입 장치 변환 한 곳(D60), 라벨 LOD(`rules labels`)·가린 라벨(D61), 프레이밍 `context_w_min`(D54). handoff 09 §2 'px() 로 감싸기' 문구에 D60 정정 주석.
 - **docs/10 렌더 파이프라인 재작성**(작업 6): Remotion 3모드 구판 → 엔진 CLI 단계표(StageResult), 레이어 순서, 두 게이트, 출력 프로파일·장치 변환, 청크 병렬·실측 위치(perf.json), provenance, 인코딩.
 - GOAL G3-2·G1 표: 게이트 기록 위치를 실측으로 정정 — `approval_log.json`(부록 C 초안) → `project_manifest.json gate_decisions`(v3.0.0 `GateDecision`). 따로 쓰는 `approval_log.json` 은 없다.
+- **docs/12·03·05 동기화**(작업 7): 12 = 사람 게이트 2개(`gate_decisions`)·checks 12항목·시각 검수 루프·게이트 ② 판정(D49)·Phase 10 검사(card-over·label_hidden·glyph_size·media_upscaled)·QAVerdict/Revision·검증 라벨·오디오 QA 위치. 03 = 역할 경계(P8)·실측 LLM 워커 8종 표(CaptureRead·VerifySources·Research·Script·Director·VisualQA·ReviseDirection·IntakePlanner), v1 계획 워커 표 제거. 05 = 산출물 인덱스 실측, 번들 모델 fail-closed(forbid), 삭제 모델(RenderProps·AudioManifest·SceneManifest·RemotionJob·DesignSheet) 이력 한 줄, §9 출력 프로파일, §10 번들 어댑터 산출물.
 
 ### Fixed
 - **NB27 글꼴 없는 환경의 CLI 서브프로세스 테스트**: `conftest` 의 NB16 훅은 같은 프로세스의 `FontMissingError` 만 skip 으로 바꾼다. 엔진 CLI 를 띄우는 두 테스트(`test_real_cli_direction_validate`·`test_script_gate_view_sections`)는 `tests/_fonts.fonts_ready()` 로 사유 있는 skip. 게이트 ① 뷰는 렌더가 아니라 린트(`script/lint.py` 자막 줄 수 = 글자 폭)에 글꼴이 필요하다 — 검사 경로 분리 대상 아님 (D-0071 §2, D-0072 §0).

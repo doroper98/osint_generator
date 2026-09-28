@@ -1,68 +1,54 @@
 <!--
 tier: 2
-last_synced_with: v3.2.0
+last_synced_with: v4.0.0
 ssot_for: [agent-catalog, worker-catalog]
-depends_on: [02_SYSTEM_ARCHITECTURE.md]
-last_review: 2026-09-28
+depends_on: [02_SYSTEM_ARCHITECTURE.md, docs/handoff/15_ANTI_INERTIA_PRINCIPLES.md, docs/handoff/16_ORCHESTRATOR_INTEGRATION.md, docs/handoff/17_AI_DIRECTOR_VISUAL_QA_PROMPTS.md]
+last_review: 2026-09-29
 -->
 
 # 03 — Agent & Worker Architecture
 
-## 1. Agent vs Worker
+## 1. 역할 경계 (v4.0.0)
 
-| 구분 | Agent | Worker |
-|---|---|---|
-| 실행 형태 | in-process 함수 호출 | subprocess (CLI) |
-| 입력 | dict/Pydantic | argparse → JSON |
-| 출력 | Pydantic 객체 | task_result_{id}.json |
-| 사용자 상호작용 | ❌ (Orchestrator 경유) | ❌ (task_result.status로 신호) |
-| 병렬화 | 보통 직렬 | Worker Slot 단위 병렬 |
-| LLM 사용 | 보통 사용 | 보통 사용 안 함 |
+| 층 | 형태 | 하는 일 | 하지 않는 일 |
+|---|---|---|---|
+| 오케스트레이터(`orchestrator/`) | 상태 머신·게이트·얇은 어댑터 | 상태 전이, 워커·엔진 호출, 게이트 기록 | 엔진 입력 파일 쓰기(15 P1), 연출 판단 |
+| LLM 워커(`workers/*_worker.py`, `BaseLLMWorker`) | 구독 CLI 서브프로세스(ADDENDUM_04) | 소스 판독·claim 후보·사실 목록·원고·연출·시각 검수·연출 수정 | 검증 status 판정, 수치·좌표 계산, 다른 워커 산출물 수정(C4) |
+| 엔진(`engine/`·`script/`·`audio/`·`geo/`, CLI) | 결정적 코드 | 린트·음성·지오·렌더·검사·믹스·먹싱·provenance | LLM 호출, 사용자 질문 |
 
-## 2. Agent 카탈로그
+**P8 경계**: 장면 구성·연출은 LLM+사용자가, 렌더 수치·검증·권리는 코드가 정한다. 코드가 "정규화"로 LLM 구성을 옛 모양으로 되돌리지 않는다.
+검증 status는 LLM이 아니라 코드(`orchestrator/source_verify.py`, D50)가, 문장 라벨은 claims status로 코드가 계산한다.
+루프 상한·종료도 코드가 정한다(`orchestrator/ai_direction.py`). 각 LLM 단계는 자기 몫의 입력만 본다(15 P9).
+프롬프트는 `prompts/{prompt_name}.md` 템플릿 + 규칙 파일에서 온다. 코드 상수 금지(15 P3, `tests/anti_inertia/test_prompts_from_files.py`).
 
-| Agent | 파일 | 입력 | 출력 | LLM | Phase |
+## 2. LLM 워커 카탈로그 (실측 `workers/`)
+
+| 워커 | 파일·클래스 | 프롬프트 | 입력 | 출력 | 상태 |
 |---|---|---|---|---|---|
-| Dynamic Intake Planner | `workers/intake_planner_worker.py` (BaseLLMWorker) | project_manifest.json (title/category/duration/summary) | `01_intake/intake_plan.json` | ✅ | 3 |
-| ~~Source Registry Builder~~ | (v3.2.0 삭제, D52) | — | 옛 `source_registry.json` → `intake/sources.json`·`intake/claims.json` | — | — |
-| Capture Read (v3.2.0) | `workers/capture_read_worker.py` `CaptureReadWorker` (BaseLLMWorker, vision, 프롬프트 `capture_read`) | `intake/screenshots/<id>.png` + 사용자 메모 | `intake/drafts/<id>.json`(`CaptureDraft`) → `orchestrator/source_intake` 가 소스 레코드로 합침(사용자 확인 전 검증 불가) | ✅ | 6.95 |
-| Verify Sources (v3.2.0) | `workers/verify_sources_worker.py` `VerifySourcesWorker` (BaseLLMWorker, 프롬프트 `verify_sources`) | 사용자 확인된 `intake/sources.json` + 소스 본문 | `intake/verify_draft.json`(`VerifyDraft`) → **status 는 코드**(`orchestrator/source_verify.judge`, 인용 대조, D50) → `intake/claims.json` | ✅ | 6.95 |
-| Research Agent | `workers/research_worker.py` (BaseLLMWorker) | manifest + `intake/sources.json` + `intake/claims.json` | `facts.json`(`script.schema:Facts`, source_ids = claim_id) — v3.2.0, 옛 research_dossier 삭제 | ✅ | 6A → 6.95 |
-| Bundle Importer (외부 연동) | `bundle/load.py` (수신 검증만, v3.5.0 이동) | agents_reviewer `report_bundle.json` (계약 v1) | (v3.2.0) 변환·`bundle_service` 삭제 — `import-bundle` 은 Phase 9 번들 어댑터(→ sources·claims) 전까지 명시 오류 | ❌ | 6A → 9 |
-| Evidence Guard | `agents/evidence_guard.py` | research_dossier | `qa_evidence_report.json` | ✅ | 6 |
-| Script Agent | `workers/script_worker.py` (BaseLLMWorker) | `facts.json` + `intake/claims.json` (v3.2.0) | `script.yaml` + `script_labels.json`(v3.0.0). 문장 sources = claim_id, 라벨은 claims status 로 코드 계산 | ✅ | 6 → 6.8 → 6.95 |
-| Scene Planner | `orchestrator/scene_builder.py` (V2 결정론적) / 추후 LLM | full_script | `06_scene/scene_manifest.json` | ❌ (V2 슬라이스, LLM 추후) | 6 (수직 슬라이스 V2) |
-| Thumbnail Agent | `agents/thumbnail_agent.py` | full_script + project_manifest | `thumbnail_brief.json` | ✅ | 10 |
-| YouTube Metadata Agent | `agents/youtube_metadata_agent.py` | full_script + thumbnail | `youtube_metadata.json` | ✅ | 11 |
+| Intake Planner | `intake_planner_worker.py` `IntakePlannerWorker` | `intake_planner` | manifest(제목·분류·길이·요지) | `intake_plan.json` | INTAKE |
+| Capture Read | `capture_read_worker.py` `CaptureReadWorker`(vision) | `capture_read` | `intake/screenshots/<id>.png` + 사용자 메모 | `intake/drafts/<id>.json` → 소스 레코드(사용자 확인 전 검증 불가) | INTAKE |
+| Verify Sources | `verify_sources_worker.py` `VerifySourcesWorker` | `verify_sources`(+`verify_sources_hints` 번들 힌트) | 사용자 확인된 `intake/sources.json` + 본문 | `intake/verify_draft.json` → **코드 판정** → `intake/claims.json` | SOURCE_VERIFY |
+| Research | `research_worker.py` `ResearchWorker` | `research` | manifest + sources + claims | `facts.json` | RESEARCH |
+| Script | `script_worker.py` `ScriptWorker` | `script`(+`script_draft` 번들 초안) | `facts.json` + claims + manifest | `script.yaml`(문장 sources = claim id) | SCRIPT_DRAFT |
+| Director | `director_worker.py` `DirectorWorker` | `director`(+`director_bundle` 번들 재료) | script + plan + 엔티티·미디어 레지스트리 + 지오 역량 + 이벤트 필드 표 | `direction.yaml`(+`direction.meta.json`) | DIRECTION |
+| Visual QA | `visual_qa_worker.py` `VisualQAWorker`(vision) | `visual_qa` | `prev/sheet.jpg` + `frames.json` + checks 요약 | `prev/qa_verdict.v*.json`(`engine.qa.QAVerdict`) | PREVIEW_QA |
+| Revise Direction | `revise_direction_worker.py` `ReviseDirectionWorker` | `revise_direction` | 직전 direction + 판정 + checks + 루프 이력 | 수정 direction + changelog(`engine.qa.Revision`) | PREVIEW_QA |
+| Dummy / Dummy LLM | `dummy_worker.py`, `dummy_llm_worker.py` | `dummy` | — | 스모크 테스트용 | — |
 
-## 3. Worker 카탈로그
+- 새 워커를 추가하면 이 표와 `prompts/` 템플릿을 함께 바꾼다(CLAUDE.md C7).
+- 번들 어댑터(`bundle/`)는 워커가 아니라 결정적 변환이다. 번들은 재료로만 쓴다(handoff 12 §5, [05](05_DATA_SCHEMA_SPEC.md)).
+- 시각 검수 루프·게이트 ② 판정은 [12](12_QA_AND_REVIEW_SPEC.md) §2.
 
-| Worker | 파일 | 입력 | 출력 | parallelizable | Phase |
-|---|---|---|---|---|---|
-| Dummy Worker | `workers/dummy_worker.py` | task spec | `task_result_*.json` | ✅ | 1 |
-| Intake Planner | `workers/intake_planner_worker.py` | project_manifest.json | `01_intake/intake_plan.json` | ❌ (LLM 호출, slot 1개) | 3 |
-| Video Acquisition | `workers/video_acquisition_worker.py` | url + rights flag | mp4 clip + manifest 행 | ✅ | 7 |
-| Article Capture | `workers/article_capture_worker.py` | url | png screenshot + manifest 행 | ✅ | 7 |
-| X Source Card | `workers/x_card_worker.py` | tweet metadata | png card | ✅ | 7 |
-| Telegram Source Card | `workers/telegram_card_worker.py` | tg msg metadata | png card | ✅ | 7 |
-| Translation | `workers/translation_worker.py` | text + lang | translated text | ✅ | 7 |
-| Terminology | `workers/terminology_worker.py` | text | normalized text | ✅ | 7 |
-| Map | `workers/map_worker.py` | map spec | png/mp4 + manifest 행 | ✅ | 7 |
-| Earthquake | `workers/earthquake_worker.py` | epicenter + magnitude | map+chart pair | ✅ | 7 |
-| Chart | `workers/chart_worker.py` | data + chart spec | png + manifest 행 | ✅ | 7 |
-| Annotation | `workers/annotation_worker.py` | source asset + annotation spec | png overlay | ✅ | 7 |
-| TTS | `workers/tts_backends.py` + `orchestrator/audio_service.py` (V4) | full_script segments | wav + `08_audio/audio_manifest.json` | ❌ (engine rate limit) | 8 (V4: backend 교체 local/voicebox/elevenlabs/stub) |
-| TTS QA | `workers/tts_qa_worker.py` | wav + original text | `tts_qa_report.json` | ✅ | 8 |
-| Music | `workers/music_worker.py` | mood + duration | wav loop | ✅ | 8 |
-| Remotion Job Builder | `workers/remotion_job_builder.py` | scene + asset + audio manifests | `remotion_job_*.json` | ❌ | 9 |
-| Render | `workers/render_worker.py` | remotion_job.json | mp4 | ❌ (heavy) | 9 |
-| FFmpeg | `workers/ffmpeg_worker.py` | input(s) | mp4/aac | ✅ | 9 |
+## 3. 엔진 단계 (워커 아님)
+
+원고 린트·음성·지오·연출 점검·프리뷰·렌더·믹스·먹싱은 워커가 아니라 엔진 CLI다. 단계표는 [10](10_RENDERING_PIPELINE_SPEC.md) §1이다.
+v1 계획의 영상·기사·지도·차트·TTS·Remotion·FFmpeg 워커(구 §3 표, v0.3.3)는 만들지 않았거나 v2.0.0에서 삭제됐다. 보존본은 `archive/hyperframes-briefing`.
 
 ## 4. BaseWorker 계약
 
 > **LLM 호출이 필요한 Worker 는 BaseWorker 가 아니라 `BaseLLMWorker` 를 상속해야 합니다.**
 > §4.5 와 [ADDENDUM_04](ADDENDUM_04_SUBSCRIPTION_LLM_BRIDGE.md) 를 참조하십시오.
-> Agent 카탈로그(§2) 의 "LLM ✅" 항목들은 본 시스템에서 **모두 `BaseLLMWorker` 기반 Worker 로 구현**됩니다.
+> §2 의 LLM 워커는 **모두 `BaseLLMWorker` 기반 Worker 로 구현**됩니다.
 > ("Agent" 는 도메인 역할명, "Worker" 는 구현 형태. LLM 활용은 구독 CLI subprocess 만 허용 — ADDENDUM_04 §2.1)
 
 모든 Worker는 `workers/base_worker.py:BaseWorker`를 상속하고 다음을 구현합니다.
@@ -123,7 +109,7 @@ class BaseLLMWorker(BaseWorker):
 
 | 모드 | 의미 | 적용 |
 |---|---|---|
-| `response` | one-shot JSON 응답, 도구 사용 없음 | intake planner, verify_sources, research, script, scene planner, thumbnail brief, youtube metadata |
+| `response` | one-shot JSON 응답, 도구 사용 없음 | intake planner, verify_sources, research, script, director, revise_direction |
 | `agent` | CLI 가 파일 IO·외부 명령 사용, task_result.json 까지 직접 작성 | (v3.2.0 `SourceCollectorWorker` 삭제, D52 — 현재 소스 수집 워커 없음) |
 | `vision` | 이미지 첨부 읽기 | 시각 검수(v3.1.0), 캡처 판독 `capture_read`(v3.2.0) |
 
