@@ -30,3 +30,11 @@ Phase 5·6 컨테이너(재기동 4)를 그대로 썼다. 자산·plan 은 Phase
 | 밀도 | `engine.media_plan.density_report` → `media_density_report.json` | 7개 / 292.4초 = 41.8초당 1개, 경고 0. 창 기준은 R-0035 대기 |
 | 검수 시트 | `tools/media_fetch.py` → `thumbsheet_strikes.jpg`·`thumbsheet_niovi.jpg` | 12장, 사용 구간(strikes 1.5–6.5 / niovi 28–33초) 초록 테두리 |
 | 기본 배치 | 테스트 `test_defaults_reproduce_v3` | x·y·w 를 지우면 기본 배치가 v3 4건 좌표와 같다 |
+
+## 3. 전편
+
+| 단계 | 명령 | 결과 |
+|---|---|---|
+| 렌더·믹스·먹스 | `python -m engine.render projects/hormuz_korea --jobs 4 && python -m audio.mix … && python -m engine.mux …` | 292.439초, −14.2 LUFS / peak −1.4 dBFS, **final md5 `94d39281…` = Phase 6 과 바이트 동일** |
+| provenance | `provenance_hormuz.json` | `media.suggested` 15문장, `used` 7, `suggested_and_used` 6장면(now·past·review×2·timeline·war — debate 기사만 트리거 밖), `density.warnings []`, `placement` explicit 4, `lint_warnings []`, rules_hash `2f8be8c7…` |
+| 영상 본체 | orphan `artifacts/phase6.5-v2.5.5` (`120ae9c`) | hormuz/out 전편 |
