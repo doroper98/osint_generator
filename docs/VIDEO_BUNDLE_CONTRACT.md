@@ -1,9 +1,9 @@
 <!--
 tier: 2
-last_synced_with: v0.38.4
+last_synced_with: v4.0.0
 ssot_for: [video-bundle-contract]
 depends_on: [05_DATA_SCHEMA_SPEC.md]
-last_review: 2026-06-12
+last_review: 2026-09-29
 -->
 
 # VIDEO_BUNDLE_CONTRACT — agents_reviewer ↔ osint_generator 영상 필드 계약
@@ -46,8 +46,7 @@ last_review: 2026-06-12
 ## 작성 규칙 (요약 — 1차 음성 검수 개정 반영, 2026-06-12)
 
 1. **사실 근거**: 모든 수치·날짜·고유명사는 같은 섹션 prose 또는 번들
-   구조 데이터에 존재해야 함. 위반 문장은 영상 쪽 검증기가 폐기 후
-   템플릿 폴백 (G4).
+   구조 데이터에 존재해야 함. (v4.0.0: 영상 쪽은 번들 문장을 최종 원고로 쓰지 않는다 — 아래 소비 규칙)
 2. **풀어쓰기**: 자막용 요약문이 아니라 성우가 읽는 구어체 대본. 명사 나열
    대신 주어-동사 문장. 축약하려고 조사·서술어를 삭제하지 말 것.
 3. **날짜는 조사로 연결**: "{날짜}, {문장}" 나열 금지 → "{날짜}에는 ~했습니다".
@@ -58,14 +57,14 @@ last_review: 2026-06-12
 6. 다큐 브리핑체, 과장 금지, 미검증 주장은 `<미검증>` 표기 (C9/G4).
 7. 한 문장 ≈ 화면 4~6초.
 
-## 영상 쪽 소비 규칙 (osint_generator 구현 의무)
+## 영상 쪽 소비 규칙 (osint_generator v3.5.0 번들 어댑터 — v4.0.0 동기화)
 
-- `video` 존재 시: highlights → 스테이트먼트 씬, narration → 구간 자막.
-  차트 섹션의 narration 은 해당 차트 씬 자막으로 사용 (템플릿 대체).
-- `video` 부재 시: 기존 동작 (하위 호환).
-- **검증기**: narration/highlights 의 수치·날짜·고유명사를 번들과 대조,
-  불일치 시 해당 문장 폐기 + 템플릿 폴백 + 로그. (구현 예정 — 본 계약
-  확정 후 착수)
+- 번들은 **재료**다(handoff 12 §5). `bundle/to_script.py`가 `video.narration`·`narration_tts`를 원고 **초안**(`script.draft.yaml`)으로 옮긴다.
+  `narration_tts`는 그대로, 없으면 발음 규칙(handoff 03 §4)으로 만든다. highlights·섹션 heading은 챕터명·강조 후보로만 쓴다.
+- 최종 원고는 ScriptWorker가 사실 목록(`facts.json`)과 claims로 다시 쓴다. 문장마다 claim id 출처가 필요하다.
+- 금지 문구(`rules/video_rules.yaml banned_phrases`)가 걸린 문장은 초안에 `rewrite_required` 주석만 단다. 코드가 몰래 고치지 않는다.
+- **템플릿 폴백은 없다**(G4-20, 15 P6). 옛 "불일치 시 문장 폐기 + 템플릿 폴백" 규칙은 v2.0.0 에서 폐기됐다.
+- `video` 부재 시: 초안 없이 소스 인테이크 경로(sources·claims → facts → 원고)로 간다.
 
 ## 이력
 

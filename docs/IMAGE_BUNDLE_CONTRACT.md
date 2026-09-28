@@ -1,9 +1,9 @@
 <!--
 tier: 2
-last_synced_with: v0.42.0
+last_synced_with: v4.0.0
 ssot_for: [image-bundle-contract]
 depends_on: [VIDEO_BUNDLE_CONTRACT.md, 05_DATA_SCHEMA_SPEC.md]
-last_review: 2026-07-08
+last_review: 2026-09-29
 -->
 
 # IMAGE_BUNDLE_CONTRACT — agents_reviewer ↔ osint_generator 사진 필드 계약
@@ -80,25 +80,14 @@ last_review: 2026-07-08
 5. 인물 사진은 공인의 공적 활동 장면만. 초상권 우려 장면은 `blocked`.
 6. 한 보고서당 이미지 총 2~6장 권장 (핵심 섹션 위주).
 
-## 영상 쪽 소비 규칙 (osint_generator v0.42.0~2 구현)
+## 영상 쪽 소비 규칙 (osint_generator v3.5.0 번들 어댑터 — v4.0.0 동기화)
 
-- 빌드 시(`bundle_to_video.py`) `images[]` 를 다운로드해 로컬 자산화
-  (`hyperframes/briefing/assets/photos/{report_id}/`). 다운로드 실패·타입 불일치
-  는 해당 이미지 스킵 + 로그 (파이프라인은 계속).
-- **rights gate**: `rights_status == "cleared"` 가 아니면 다운로드 자체를 하지
-  않는다. 소비 결과는 `photos_manifest.json` 에 기록 (C9 권리 추적).
-- **credit gate (§3.1-a 따름, v0.42.2)**: cleared 인데 credit 이 비어 있으면
-  소비측도 거부(스킵 + 사유 기록) — 출처표기 갈음의 전제가 성립하지 않으므로.
-  (producer 는 "credit 없는 cleared 는 없다"고 보증하나, 소비측 fail-closed 이중화)
-- **credit 화면 노출 필수**: photo 씬 우하단에 `사진 · {credit}` 을 항상 표기한다.
-  §3.1-a 의 법적 전제이므로 연출상 생략 불가.
-- `sections[].image_refs` 가 resolve 되는 섹션의 스테이트먼트 씬을 **photo 씬**
-  으로 승격: 풀블리드 사진 + Ken Burns + 스크림 + key takeaway 오버레이 +
-  우하단 캡션·크레딧.
-- `images` 부재 시: 기존 동작 그대로 (하위 호환).
-- 인물 사진 추가 필터: 현재 소비측 별도 필터 없음 — producer 의 blocked 처리에
-  위임. producer 가 추후 composer 신호(예: `person_flag`)를 추가하면 소비측
-  게이트를 확장한다.
+- 번들 이미지는 **연출 재료**다. `bundle/to_direction.py`가 `images[]`를 `intake/bundle_materials.json`의 미디어 재료(`MediaMat`)로 옮긴다. 다운로드·화면 삽입은 하지 않는다.
+- **rights gate**: `rights_status == "cleared"`만 `usable: true`다(G4-8·C9). 그 밖은 재료 목록에만 남고 쓰이지 않는다.
+- 영상에 넣으려면 미디어 레지스트리(`assets/media/media_registry.json`)에 권리·검증·출처 줄과 함께 등록돼야 한다. 등록 안 된 미디어는 렌더 전 오류다(`engine/media_registry.py`).
+- **credit 화면 노출 필수**(§3.1-a 전제): 사진 캡션 바의 출처 줄은 빠지면 오류다(`rules/video_rules.yaml media_beats.caption_credit_required`). 연출상 생략 불가.
+- 사실 장면의 AI 생성 금지·사상자 식별 장면 금지는 `media_beats`의 금지 항목이 코드로 검사한다.
+- (v0.42 이력) 옛 소비 경로(`bundle_to_video.py` → 로컬 photos 폴더, photo 씬 승격)는 v2.0.0 에서 삭제됐다. 보존본 `archive/hyperframes-briefing`.
 
 ## 이력
 

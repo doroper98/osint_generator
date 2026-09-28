@@ -1,9 +1,9 @@
 <!--
 tier: 2
-last_synced_with: v0.3.3
+last_synced_with: v4.0.0
 ssot_for: [test-strategy]
 depends_on: [../GOAL.md, 13_IMPLEMENTATION_ROADMAP.md]
-last_review: 2026-05-19
+last_review: 2026-09-29
 -->
 
 # 16 — Test Plan
@@ -16,27 +16,27 @@ last_review: 2026-05-19
 | 단위 테스트 | `pytest` | Pydantic 모델, agent 출력 파싱, Worker base 동작 |
 | 통합 테스트 | `pytest` (느림) | dummy worker subprocess, log router 동작 |
 | 시스템 테스트 | 시나리오 스크립트 | 샘플 프로젝트로 Phase 0–N 일괄 실행 |
-| 시각 검수 | 사람 | draft_debug / preview / final.mp4 |
+| 결정적 검사 | `engine/checks.py` → `prev/checks.json` | 프리뷰 12항목(hard 0 이 게이트 ② 전제) |
+| 골든 회귀 | `tools/golden_compare.py`, `tools/res_compare.py` | hormuz 25컷 MAD(480p 무변경 = 0), 1080p 축소 비교 |
+| 관성 방지 | `tests/anti_inertia/` | 15 P1~P12(레거시 경로·폴백·코드 연출·매직 넘버·레지스트리·provenance) |
+| 문서 동기화 | `tests/test_goal_g3.py`, `tests/test_docs_sync.py` | G3 검증 방법 실재, 헤더 버전·규칙 키 인용·폐기 배너·삭제 경로 링크 |
+| 시각 검수 | 사람(게이트 ②) + AI 시각 검수 | `prev/sheet.jpg`·프리뷰 컷·전편 mp4 |
 
 ## 2. Phase별 합격 기준
 
-[docs/13_IMPLEMENTATION_ROADMAP.md](13_IMPLEMENTATION_ROADMAP.md)의 각 Phase 완료 기준이 동시에 테스트 합격 기준이다.
+v2 합격 기준은 [GOAL.md](../GOAL.md) G3(17개, 항목별 검증 방법)이다. Phase 합격표는 back_and_forth 지침(D)과 [13](13_IMPLEMENTATION_ROADMAP.md)이다.
+테스트 기준선은 **삭제 조정 기준선**이다(D-0053): passed ≥ (직전 기준 − P2로 삭제한 옛 테스트 수) + 새 테스트 요구치, failed 0·xfail 0.
+글꼴·지형 티어가 없는 환경의 테스트는 사유 있는 skip이다(`tests/conftest.py` NB16, `tests/_fonts.py` NB27).
 
 ## 3. 회귀 테스트 항목
 
-### Phase 1 회귀
+### 영상 회귀 (매 Phase)
 
-- [ ] Command Center 진입에 5초 이내.
-- [ ] dummy worker 4개 subprocess 동시 실행.
-- [ ] 각 Worker 로그가 해당 Slot 패널에 1초 이내 표시.
-- [ ] worker_slots.json이 슬롯 상태와 일치.
-- [ ] `q`로 종료 시 모든 subprocess 종료.
+- [ ] hormuz `--preview golden` 25컷 MAD 0(렌더 코드를 바꾸지 않은 Phase) 또는 근거 있는 차이표.
+- [ ] 480p 전편 `video_noaudio.mp4` md5 무변경(렌더 무변경 Phase).
+- [ ] `prev/checks.json` hard 0, provenance drops 0.
 
-### Phase 9 회귀 (Render)
-
-- [ ] `render_mode=debug` → `draft_debug.mp4`에 DebugOverlay 좌측 상단 표시.
-- [ ] `render_mode=preview` → `draft_preview.mp4`에 DebugOverlay 없음 (OCR 검증).
-- [ ] `render_mode=final` → `final.mp4`에 DebugOverlay 없음 (OCR 검증).
+v1 회귀 항목(Command Center 슬롯·Remotion render_mode·DebugOverlay OCR)은 폐기됐다(G3-legacy).
 
 ## 4. 테스트 데이터
 
@@ -47,7 +47,7 @@ last_review: 2026-05-19
 
 - GitHub Actions 또는 사내 CI.
 - 매 PR에 `py_compile`, `pytest`, 코드 스타일 검사.
-- 본 저장소는 현재 로컬 검증 위주, CI는 Phase 11 후 구축.
+- 본 저장소는 현재 로컬 검증 위주다. CI 구축은 G1~G4 이후 과제로 남는다.
 
 ## 6. 테스트 작성 규칙
 

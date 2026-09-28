@@ -1,9 +1,9 @@
 <!--
 tier: 2
-last_synced_with: v0.3.3
+last_synced_with: v4.0.0
 ssot_for: [operations-runbook]
 depends_on: [../WORKFLOWS.md, 02_SYSTEM_ARCHITECTURE.md]
-last_review: 2026-05-19
+last_review: 2026-09-29
 -->
 
 # 15 — Operations Runbook
@@ -13,9 +13,11 @@ last_review: 2026-05-19
 | 작업 | 명령 |
 |---|---|
 | Command Center 진입 | `run_pipeline.bat` 또는 `python -m orchestrator.main command-center --project {pid}` |
-| 새 프로젝트 | `python -m orchestrator.main new-project --title "..." --category ... --duration-min 18` |
+| 새 프로젝트 | `python -m orchestrator.main new-project {pid} --title "..." --category ... --topic-summary "..."` |
+| 다음 단계 진행 | `python -m orchestrator.main advance --project {pid}` (엔진 상태는 engine_service 로 CLI 실행) |
+| 게이트 화면 | `python -m orchestrator.main gate-view --project {pid}` |
+| 승인·반려 | `python -m orchestrator.main approve --project {pid} --gate script_approval\|preview_approval --comment "..." [--version N]` / `reject …` |
 | 단일 Worker 실행 | `python -m workers.{worker_name} --project-id {pid} --task-id {tid}` |
-| 승인 기록 | `python -m orchestrator.main approve --project {pid} --gate {gate_id} --comment "..."` |
 | 로그 확인 | `logs/orchestrator.log`, `projects/{pid}/logs/workers/{task_id}.log` |
 
 ## 2. 장애 대응
@@ -35,25 +37,24 @@ last_review: 2026-05-19
 3. SCHEMA-AP에 패턴 기록.
 4. 필요 시 schema_version 증분.
 
-### 2.3 Remotion 렌더 실패
+### 2.3 엔진 렌더 실패
 
-1. `render_report.json`의 `stderr_tail` 확인.
-2. Node 버전 (`node -v`) 20 LTS인지 확인.
-3. Remotion 캐시 청소: `npx remotion clean`.
+1. 엔진 CLI 마지막 줄 `StageResult`(ok·errors·drops)와 표준 오류 로그를 본다. 오케스트레이터는 `logs/stages/` 에 전체 결과를 남긴다.
+2. 글꼴 없음(`FontMissingError`) → `python tools/fetch_data.py fonts`. 지형 티어 없음 → `python -m geo.prep <proj> [--res 1080p]`.
+3. 청크 하나만 실패했으면 그 구간만 다시 렌더한다(handoff 11 §3.1). **긴 렌더·AI 연출 중에는 같은 워크트리의 코드·규칙을 바꾸지 않는다**(PIPELINE-AP, Phase 10 운영 기록).
 4. RENDER-AP에 패턴 기록.
 
-### 2.4 TTS QA가 같은 단어에서 반복 실패
+### 2.4 발음이 같은 단어에서 반복해서 틀린다
 
-1. `pronunciation_ko.yaml`에 항목 추가.
-2. 해당 segment 재생성.
+1. 원고의 발음 텍스트(`tts`)를 고친다. 규칙으로 막을 수 있으면 `rules/video_rules.yaml tts_rules`·`tts_risk` 개정(사람 승인, 15 P11).
+2. `python -m script.plan <proj> --tts …` 로 다시 합성(캐시 키가 달라진다).
 3. TTS-AP에 패턴 기록.
 
-### 2.5 `final.mp4`에 Debug Layer가 보인다 (사고)
+### 2.5 모서리 요소·도장·비네팅이 영상에 보인다 (사고)
 
 1. **즉시 영상 격리**. 업로드 중지.
-2. RENDER-AP에 패턴 기록.
-3. Render Worker의 `render_mode=final` 분기 점검.
-4. CI 검사기 추가 (Phase 9 후속).
+2. 프리뷰 `prev/checks.json` 의 `forbidden` 항목 확인(결정적 검사가 놓쳤다면 검사기 구멍 — 15 P6).
+3. RENDER-AP에 패턴 기록하고 검사기를 고친다.
 
 ## 3. 백업
 
@@ -63,7 +64,7 @@ last_review: 2026-05-19
 ## 4. 의존성 업데이트
 
 - Python 패키지: `requirements.txt` 변경 → `pip install -r requirements.txt`.
-- Node 패키지: `remotion/package.json` 변경 → `npm install`.
+- 엔진 패키지: `requirements-engine.txt` 변경 → `pip install -r requirements-engine.txt`. 시스템: ffmpeg·fontconfig·fonts-noto-cjk.
 - 업데이트 후 `python -m py_compile` 전수 검사.
 
 ## 5. 비밀 정보

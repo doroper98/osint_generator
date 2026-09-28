@@ -1,9 +1,9 @@
 <!--
 tier: 2
-last_synced_with: v0.7.0
+last_synced_with: v4.0.0
 ssot_for: [dynamic-intake-page]
 depends_on: [02_SYSTEM_ARCHITECTURE.md, 05_DATA_SCHEMA_SPEC.md]
-last_review: 2026-05-19
+last_review: 2026-09-29
 -->
 
 # 04 — Dynamic Intake Page Spec
@@ -14,7 +14,7 @@ Dynamic Intake Page는 **고정 폼이 아니라**, Orchestrator가 주제를 �
 
 진입은 두 단계다:
 1. **프로젝트 생성 화면 (`GET/POST /new`, v0.7.0)** — 주제/카테고리/길이/**초기 자료 링크**를 입력. 제출하면 `new_project` + `IntakePlanner` 가 실행되고 `/intake/{pid}` 로 리다이렉트.
-2. **동적 인테이크 페이지 (`GET /intake/{pid}`)** — 생성된 `intake_plan.json` 을 항목 카드로 렌더, 항목별 결정을 받아 `source_intake.json` 으로 저장.
+2. **동적 인테이크 페이지 (`GET /intake/{pid}`)** — 생성된 `intake_plan.json` 을 안내 카드로 보여 주고, 소스 넣기 폼(`POST /intake/{pid}/source`)·사용자 확인(`/confirm`)·제출(`/submit`)을 받는다. 저장 위치는 `intake/sources.json`(v3.2.0, handoff 18 §7 — 옛 `source_intake.json` 삭제).
 
 ## 2. 책임
 
@@ -24,7 +24,7 @@ Dynamic Intake Page는 **고정 폼이 아니라**, Orchestrator가 주제를 �
 | Dynamic Intake Planner Agent | 주제(+초기 링크) 분석 → `intake_plan.json` 생성 |
 | Web App (`web/intake_page_app.py`) | `intake_plan.json` 읽어 폼 렌더 |
 | 사용자 | 각 항목 모드 선택 + 자료 업로드 |
-| Web App | 결과를 `source_intake.json`으로 저장 |
+| Web App | 소스 한 건씩 `intake/sources.json`에 기록(`orchestrator.source_intake`), 확인·제출은 `intake_service.submit_sources` 호출만 |
 
 > **공유 오케스트레이션**: `new-project` 후의 planner 실행은 CLI(`plan-intake`)와 Web(`POST /new`)이 `orchestrator/intake_service.py:run_intake_planner` 를 공유한다 (전이 순서·idempotency 단일 출처).
 
@@ -99,13 +99,12 @@ Dynamic Intake Page는 **고정 폼이 아니라**, Orchestrator가 주제를 �
 
 상세 UI 디자인은 Phase 3에서 와이어프레임으로 확정.
 
-## 7. 제출 흐름
+## 7. 제출 흐름 (v3.2.0)
 
-1. 사용자 `영상 생성 착수` 클릭.
-2. 웹 앱은 `source_intake.json` 작성.
-3. Orchestrator에 `state=source_collecting`으로 전이 신호.
-4. Orchestrator가 `task_queue.json`을 생성.
-5. Command Center가 Worker Slot에 task 배정.
+1. 사용자가 소스를 넣는다(기사 URL·기사 본문·X 텍스트·X 캡처·파일). x.com 은 열지 않는다.
+2. 소스마다 계정·시각이 맞는지 사용자가 확인한다(미확인 소스가 있으면 제출 409).
+3. `POST /intake/{pid}/submit` → `intake → source_verify` 전이. 이후 검증 워커 초안 → 코드 판정 → `intake/claims.json`.
+4. (v1 이력) `source_intake.json` 작성 → `source_collecting` 전이 → task_queue 배정 흐름은 v3.2.0 에서 삭제됐다.
 
 ## 8. 예외 처리
 

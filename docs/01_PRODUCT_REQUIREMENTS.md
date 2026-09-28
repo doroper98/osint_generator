@@ -1,9 +1,9 @@
 <!--
 tier: 2
-last_synced_with: v0.3.3
+last_synced_with: v4.0.0
 ssot_for: [product-requirements]
 depends_on: [00_PROJECT_BRIEF.md, ../GOAL.md]
-last_review: 2026-05-19
+last_review: 2026-09-29
 -->
 
 # 01 — Product Requirements
@@ -31,7 +31,7 @@ last_review: 2026-05-19
 
 ### S3. "Worker 품질 튜닝"
 
-`draft_debug.mp4`를 보고 어느 scene이 어떤 Worker에서 만들어졌는지 추적하여 해당 Worker만 개선한다.
+프리뷰 시트·`prev/checks.json`·`provenance.json`을 보고 어느 단계(원고·연출·자산·엔진)가 문제인지 추적해 그 단계만 고친다. 반복 지적은 규칙 파일 개정(사람 승인)으로만 반영한다(15 P11). (v1 `draft_debug.mp4` 방식은 v2.0.0 폐기)
 
 ### S4. "권리 위험 사전 차단"
 
@@ -47,11 +47,11 @@ last_review: 2026-05-19
 |---|---|
 | 운영 OS | Windows 10/11 우선, Linux 호환 |
 | Python | 3.11+ |
-| Node | 20 LTS (Remotion) |
-| 추적성 | 모든 scene에서 source_id, asset_id 역추적 가능 |
+| 렌더 | cairo·numpy·FFmpeg(`requirements-engine.txt`). Node 불필요(v2.0.0 Remotion 삭제) |
+| 추적성 | 모든 문장에서 claim id → 소스, 모든 자산에서 권리 레지스트리 역추적 가능, 영상마다 provenance |
 | 재현성 | 같은 manifest로 다시 렌더 시 결과가 일치 |
-| 검수 | 9개 Review Gate 모두 승인 로그 기록 |
-| 안정성 | 한 Worker 실패가 전체 파이프라인을 중단시키지 않음 |
+| 검수 | 사람 게이트 2개(원고·프리뷰) 기록 — manifest `gate_decisions` |
+| 안정성 | 실패하면 그 상태에 멈추고 보고한다. 옛 스타일로 폴백하지 않는다(G4-20) |
 | 오프라인 | 인터넷 없이도 manifest만으로 재렌더 가능 |
 
 ## 4. 우선순위

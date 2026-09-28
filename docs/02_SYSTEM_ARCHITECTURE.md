@@ -1,9 +1,9 @@
 <!--
 tier: 2
-last_synced_with: v3.2.0
+last_synced_with: v4.0.0
 ssot_for: [system-architecture, component-boundaries]
 depends_on: [03_AGENT_ARCHITECTURE.md, 05_DATA_SCHEMA_SPEC.md, ADDENDUM_01_ORCHESTRATOR_COMMAND_CENTER_LAYOUT.md]
-last_review: 2026-09-28
+last_review: 2026-09-29
 -->
 
 # 02 — System Architecture
@@ -37,17 +37,21 @@ last_review: 2026-09-28
                 ^
                 |
     +----------------------------+
-    |   Agents (in-process)      |
-    |   리서치·대본·scene·썸네일 |
+    |   엔진 CLI (결정적 코드)    |
+    |   script·geo·engine·audio  |
     +----------------------------+
 ```
+
+v4.0.0: LLM 역할(소스 판독·검증 초안·리서치·원고·연출·시각 검수)은 모두 `workers/*_worker.py`(BaseLLMWorker, 구독 CLI 서브프로세스)다.
+영상 제작은 엔진 CLI(`orchestrator/engine_service.py` 가 서브프로세스로 호출, [10](10_RENDERING_PIPELINE_SPEC.md) §1)다. in-process Agent 층은 없다.
 
 ## 2. 책임 분리
 
 | 컴포넌트 | 책임 | 금지사항 |
 |---|---|---|
-| Orchestrator | 상태 전이, task 배정, 사용자 입력 수집, Review Gate 처리, 파일 시스템 쓰기 권한 보유 | 도메인 자산 직접 생성 금지 |
-| Agent | 주제 분석·논증 구조화·대본·scene 설계 (인지형, 단발 실행) | 사용자와 직접 대화 금지 |
+| Orchestrator | 상태 전이, task 배정, 사용자 입력 수집, 승인 게이트 2개 처리, 파일 시스템 쓰기 권한 보유(엔진 입력 파일 제외, P1) | 도메인 자산 직접 생성 금지 |
+| LLM 워커 | 소스 판독·claim 후보·사실 목록·원고·연출·시각 검수·연출 수정([03](03_AGENT_ARCHITECTURE.md) §2) | 사용자와 직접 대화 금지, 검증 status·수치·좌표 결정 금지(P8) |
+| 엔진 CLI | 린트·음성·지오·렌더·검사·믹스·먹싱·provenance([10](10_RENDERING_PIPELINE_SPEC.md)) | LLM 호출 금지, 엔진 입력 파일을 오케스트레이터가 쓰지 않음(P1) |
 | Worker | 단일 산출물 생성 (subprocess 실행) | 다른 Worker 산출물 수정 금지, 사용자 질문 금지 |
 | TUI | 표시·입력 캡처만 | 비즈니스 로직 금지 |
 | Schemas | Pydantic 모델 SSOT | I/O 금지 |
@@ -63,19 +67,14 @@ user command
                           사용자 확인 confirm-source 후 submit-intake: intake → source_verify)
   → intake/verify_draft.json (VerifySourcesWorker) → intake/claims.json (코드 판정 source_verify.judge)
   → facts.json (ResearchWorker, verify-sources → build-research: source_verify → research)
-  → task_queue.json · Worker subprocesses · task_result_{id}.json (per task)
-  → episode_blueprint.json           ─── Review Gate 3
-  → full_script.json                 ─── Review Gate 4
-  → scene_manifest.json (with worker_provenance)
-  → asset_manifest.json              ─── Review Gate 5
-  → narration_segments.json + audio_manifest.json
-  → tts_qa_report.json
-  → music_manifest.json
-  → remotion_job_debug.json  → draft_debug.mp4   ─── Review Gate 6
-  → remotion_job_preview.json → draft_preview.mp4 ─── Review Gate 7
-  → thumbnail_manifest.json  → thumbnail.png      ─── Review Gate 8
-  → remotion_job_final.json  → final.mp4          ─── Review Gate 9
-  → youtube_metadata.json
+  → script.yaml (ScriptWorker)                        ─── ★ 게이트 ① SCRIPT_APPROVAL
+  → plan.json + tts/ (script.plan)
+  → assets/ (geo.prep, 권리 레지스트리·크레딧)
+  → direction.yaml (DirectorWorker 또는 사람)
+  → prev/{sheet.jpg, checks.json, frames.json, qa_verdict.v*.json, qa_loop.json} (engine.render --preview, 시각 검수 루프)
+                                                        ─── ★ 게이트 ② PREVIEW_APPROVAL
+  → out/video_noaudio.mp4 (engine.render) → out/mix.f32 (audio.mix)
+  → out/{final.mp4, final.srt, description.txt, provenance.json} (engine.mux)
 ```
 
 ## 4. 상태 머신 (project_manifest.current_state)
@@ -106,15 +105,16 @@ created → intake → source_verify → research → script_draft
 
 ## 6. 외부 의존
 
-| 외부 시스템 | 용도 | 대안 |
+| 외부 시스템 | 용도 | 비고 |
 |---|---|---|
-| Remotion (Node 20) | 영상 렌더링 | `npm run build` 호출, JSON manifest 전달 |
-| FFmpeg | 영상 합치기·트랜스코딩 | `workers/ffmpeg_worker.py` |
-| Anthropic / OpenAI API | Agent LLM 호출 | `agents/*.py`에서 사용. 키는 .env |
-| yt-dlp | X / TG 영상 다운로드 | `workers/video_acquisition_worker.py` |
-| Playwright | 기사 캡처 | `workers/article_capture_worker.py` |
-| Google Maps Tiles | 지도 (약관 검토 필요) | 대체로 OpenStreetMap |
-| TTS Engine | 음성 합성 | 별도 결정 (Phase 8) |
+| cairo(pycairo) · numpy · Pillow | 프레임 렌더 | `requirements-engine.txt` |
+| FFmpeg | 인코딩·먹싱·2패스 loudnorm·클립 추출 | 시스템 바이너리 |
+| fontconfig + 프로젝트 글꼴 | 글자 렌더(대체 글꼴 금지) | `tools/fetch_data.py fonts` |
+| Natural Earth · terrarium 타일 | 국경·라벨·지형 | `tools/fetch_data.py ne tiles`, 캐시 `data/geo/` |
+| 위키미디어 Commons | 인물·휘장·국기·미디어 원본 | `tools/commons_fetch.py`, `tools/media_fetch.py`(429 대책) |
+| edge-tts · ElevenLabs | 음성 합성·정렬 | `config.yaml tts`, 키는 `.env` |
+| `claude` / `codex` CLI(구독) | LLM 워커 | ADDENDUM_04. API SDK 금지 |
+| Google Maps | 쓰지 않음 | 약관 검토 전 상업 고정 사용 금지(G4-11) |
 
 ## 7. 파일 시스템 SSOT
 

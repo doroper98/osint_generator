@@ -1,9 +1,9 @@
 <!--
 tier: 2
-last_synced_with: v0.3.3
+last_synced_with: v4.0.0
 ssot_for: [orchestrator-command-center-layout, method-b]
 depends_on: [02_SYSTEM_ARCHITECTURE.md]
-last_review: 2026-05-19
+last_review: 2026-09-29
 -->
 
 # ADDENDUM 01 — Orchestrator Command Center Layout
@@ -66,7 +66,7 @@ return TaskResult(
 )
 ```
 
-Orch CLI가 이 결과를 보고 Review Gate를 연다.
+Orch CLI가 이 결과를 보고 다음 상태로 가거나 승인 게이트(①②)를 연다.
 
 ## 5. 구현 라이브러리
 

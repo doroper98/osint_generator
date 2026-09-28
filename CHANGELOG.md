@@ -45,6 +45,9 @@ MAJOR: GOAL G3 개정은 GOAL §G3 머리말("변경 시 메이저")대로 메�
 ### Removed
 - **폐기 확인**(작업 9, P2): 참조 실측(`reports/phase11/legacy_refs.json`) 뒤 참조 0 인 `docs/ADDENDUM_02_PRE_PRODUCTION_DEBUG_LAYER.md`(v1 Debug Layer, 폐기 배너)·`docs/RUN_LOCAL.md`(Remotion 로컬 실행) 삭제. 보존본 `archive/hyperframes-briefing`(9dcda27). `PROFESSIONAL_REBUILD_PLAN`·`SHORTS_COLLAGE_OVERHAUL_PLAN`·`17_COLLAGE_DESIGN_SHEET`(v2.0.0)·`legacy_v3/`(v2.3.0)는 이미 삭제 — 남은 참조 목록 기록. DOCS_GOVERNANCE Tier 2·3 표와 CLAUDE.md C7 표를 실측으로 정정(만들어진 적 없는 `ARCHITECTURE`·`DATA_MODELS`·`CATALOGS`·`TESTING` 제거). 코드 쪽 사용처 0 후보(`workers/tts_backends.py`·v1 모델·빈 `agents/`)는 범위 밖이라 결정 요청.
 
+### Changed (문서 동기화 — 나머지 Tier 2)
+- docs/00·01·02·04·06·11·13·14·15·16·ADDENDUM_01·03·04·IMAGE/VIDEO_BUNDLE_CONTRACT 를 v4.0.0 실측으로 동기화: 9 Review Gate → 게이트 2개, Remotion·Debug Layer·scene_manifest·source_registry·source_intake.json·`agents/*.py` 서술 → 엔진 CLI·LLM 워커·sources/claims·provenance. 06 권리 정책을 G4-10(사상자 식별 금지·AI 이미지 실자료 가공만)·handoff 18(X 스크래핑 금지·기사 요지만)과 일치시킴. 13 로드맵 = v2 Phase 표. 11 썸네일 = 미구현 명시(G1 `thumbnail_candidates/` 는 목표 산출물). 번들 계약 두 문서의 소비 규칙 = 번들 어댑터(재료, 템플릿 폴백 없음).
+
 ### Fixed
 - **NB27 글꼴 없는 환경의 CLI 서브프로세스 테스트**: `conftest` 의 NB16 훅은 같은 프로세스의 `FontMissingError` 만 skip 으로 바꾼다. 엔진 CLI 를 띄우는 두 테스트(`test_real_cli_direction_validate`·`test_script_gate_view_sections`)는 `tests/_fonts.fonts_ready()` 로 사유 있는 skip. 게이트 ① 뷰는 렌더가 아니라 린트(`script/lint.py` 자막 줄 수 = 글자 폭)에 글꼴이 필요하다 — 검사 경로 분리 대상 아님 (D-0071 §2, D-0072 §0).
 

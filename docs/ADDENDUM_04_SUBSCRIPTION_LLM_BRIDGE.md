@@ -1,9 +1,9 @@
 <!--
 tier: 2
-last_synced_with: v0.4.2
+last_synced_with: v4.0.0
 ssot_for: [subscription-llm-bridge, base-llm-worker-contract, llm-call-traceability]
 depends_on: [03_AGENT_ARCHITECTURE.md, ../GOAL.md, ../CLAUDE.md]
-last_review: 2026-05-22
+last_review: 2026-09-29
 -->
 
 # ADDENDUM 04 — Subscription LLM Bridge Pattern
@@ -110,7 +110,7 @@ class BaseLLMWorker(BaseWorker):
 
 | 작업 성격 | 추천 백엔드 | 이유 |
 |---|---|---|
-| 한국어 자연어 생성 (intake_plan, full_script) | `claude` | 한국어 표현 자연스러움, 톤 일관성 |
+| 한국어 자연어 생성 (intake_plan, script.yaml) | `claude` | 한국어 표현 자연스러움, 톤 일관성 |
 | 구조화 JSON one-shot | `claude` | 스키마 준수도가 안정적 |
 | 코드/셸 명령 생성 | `codex` | OpenAI 측 강점 |
 | 다국어 번역·교차 검증 | 둘 다 (A/B) | 신뢰도 cross-check |
@@ -253,7 +253,7 @@ projects/{project_id}/
 | stdout JSON 파싱 실패 | system prompt 에 스키마 재명시 후 **1회 재시도**. 그래도 실패면 FAILED + LLM-AP 카탈로그 등록. | `FAILED` |
 | Pydantic 검증 실패 (필드 누락) | retry 1회 (스키마 다시 강조). 그래도 실패면 FAILED. | `FAILED` |
 | LLM 이 `<미검증>` 라벨을 누락 | Evidence Guard 가 catch (Phase 6). 단순 FAILED 가 아니라 `qa_status=fail`. | `COMPLETED` + `qa_status=FAIL` |
-| LLM 환각 / 사실 오류 | `qa_evidence_report.json` 에 기록, Review Gate 단계에서 사용자가 차단. | 별도 흐름 |
+| LLM 환각 / 사실 오류 | 검증 status 는 코드가 인용 대조로 정한다(D50), 원고 문장은 claim id 필수, 게이트 ① 에서 사용자가 차단. | 별도 흐름 |
 
 ---
 

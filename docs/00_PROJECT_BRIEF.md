@@ -1,9 +1,9 @@
 <!--
 tier: 2
-last_synced_with: v0.3.3
+last_synced_with: v4.0.0
 ssot_for: [project-brief]
 depends_on: [../README.md, ../GOAL.md]
-last_review: 2026-05-19
+last_review: 2026-09-29
 -->
 
 # 00 — Project Brief
@@ -32,7 +32,7 @@ OSINT 자료를 받아 15~20분 분량의 세계 이슈 브리핑 영상을 **�
 2. Orchestrator가 주제를 분석해 `intake_plan.json` 생성.
 3. 사용자는 Dynamic Intake Page에서 자기가 가진 자료만 넣고, 나머지는 AI Delegation.
 4. 4개 Worker Slot에서 자료 수집·검증·자산 생성이 병렬 진행.
-5. 9개 Review Gate를 거쳐 사용자 승인 누적.
+5. 사람 승인 게이트 2개(원고·프리뷰)를 거친다. 코드 검사·AI 시각 검수가 그 사이를 채운다(v3.0.0).
 6. `final.mp4` + `thumbnail.png` + `youtube_metadata.json` 산출.
 
 ## 최소 산출물
