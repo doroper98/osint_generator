@@ -35,15 +35,22 @@ def post_text(e: dict, sources: dict) -> dict:
     if not s.confirmed or s.verification is None:
         raise PostSourceError(f"post {e['src']}: 사용자 확인·검증을 거치지 않은 소스는 카드로 쓰지 않는다(18 §7)")
     private = s.account_class == "private"
-    body = s.text_ko or s.text_original
+    body = " ".join((s.text_ko or s.text_original).split())   # 캡처 판독 원문의 줄바꿈은 글리프가 아니다 — 공백으로(e2e 실측 ▯)
     if e.get("hl") and e["hl"] not in body:
         raise PostSourceError(f"post {e['src']}: 형광펜 {e['hl']!r} 가 번역문에 없다")
     orig = None
     if e.get("quote"):   # 원문 한 줄 — 번역이 있고 15단어 미만일 때만. 못 쓰면 조용히 빼지 않고 오류(P6)
         if not s.text_ko or len(s.text_original.split()) >= PC.orig_max_words:
             raise PostSourceError(f"post {e['src']}: quote 는 번역이 있고 원문이 {PC.orig_max_words}단어 미만일 때만(18 §5)")
-        orig = s.text_original
-    when = s.posted_at.strftime("%Y. %m. %d %H:%M (UTC)") if s.posted_at else "게시 시각 미상"
+        orig = " ".join(s.text_original.split())
+    if s.posted_at is None:
+        when = "게시 시각 미상"
+    elif s.posted_at.tzinfo is None:      # 캡처 화면 시각 — 시간대를 모르면 UTC 라고 적지 않는다(사실 정확성)
+        when = s.posted_at.strftime("%Y. %m. %d %H:%M") + " (게시 화면 시각)"
+    else:
+        from datetime import timezone  # noqa: PLC0415
+
+        when = s.posted_at.astimezone(timezone.utc).strftime("%Y. %m. %d %H:%M (UTC)")
     return dict(name="개인 계정" if private else s.account_name, handle="" if private else s.handle,
                 initial="" if private else s.account_name.strip()[:1].upper(), private=private,
                 official=s.account_class.startswith("official"), body=body, hl=e.get("hl"), orig=orig, when=when,

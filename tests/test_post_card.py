@@ -49,6 +49,18 @@ class PostCardTest(unittest.TestCase):
         self.assertEqual((d["name"], d["handle"], d["initial"]), ("개인 계정", "", ""))
         self.assertIn("삭제된 게시물", d["deleted"])
 
+    def test_time_label_utc_only_when_timezone_known(self) -> None:
+        self.assertIn("게시 화면 시각", post_text(_ev(), _src())["when"])          # 픽스처 = 시간대 없음
+
+        def tz(ss: list) -> None:
+            ss[0]["posted_at"] = "2026-09-20T23:05:00+09:00"
+        self.assertEqual(post_text(_ev(), _src(tz))["when"], "2026. 09. 20 14:05 (UTC)")
+
+    def test_newlines_become_spaces(self) -> None:
+        def nl(ss: list) -> None:
+            ss[0]["text_ko"] = "첫 줄\n둘째 줄"
+        self.assertEqual(post_text(_ev(), _src(nl))["body"], "첫 줄 둘째 줄")
+
     def test_unusable_sources_are_errors(self) -> None:
         with self.assertRaises(PostSourceError):
             post_text(_ev(src="src_x_0009"), _src())                       # 없음
