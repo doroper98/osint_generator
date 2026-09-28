@@ -1,0 +1,41 @@
+{
+  "schema_version": 1,
+  "counts": {
+    "bundles": 1,
+    "bundles_with_map": 1,
+    "bundles_with_timeline": 1,
+    "charts": 4,
+    "charts_inferred": 4,
+    "charts_no_source": 4,
+    "charts_panel_renderer": 4,
+    "claims_bundles_nonempty": 0,
+    "contradictions": 2,
+    "dates_timeline": 2,
+    "draft_scenes": 7,
+    "draft_scenes_ne_sections": 1,
+    "drafts": 1,
+    "markers": 8,
+    "nodes": 10,
+    "nodes_joined": 4,
+    "nodes_no_flag_no_join": 2,
+    "rewrite_required": 0,
+    "sections": 12,
+    "sections_map_ref": 0,
+    "sentences": 52,
+    "sentences_with_mention": 19,
+    "sources": 16,
+    "sources_pubdate": 13,
+    "sources_publisher": 16,
+    "sources_title": 16,
+    "sources_url": 16,
+    "tts_from_bundle": 24,
+    "tts_rule_issue": 0
+  },
+  "chart_types": {
+    "stakeholder_map": 1,
+    "dot_matrix": 1,
+    "gantt": 1,
+    "dual_line": 1
+  },
+  "rewrite_patterns": {}
+}
