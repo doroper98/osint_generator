@@ -144,8 +144,8 @@ HyperFrames/Remotion 문법, `docs/07/08/09` 구판)은 **v2.0.0에서 폐기**�
 
 | 코드 변경 | 동기화 대상 |
 |---|---|
-| `schemas/models.py` | `docs/05_DATA_SCHEMA_SPEC.md`, `docs/ARCHITECTURE.md` |
-| 새 Worker 클래스 | `docs/03_AGENT_ARCHITECTURE.md`, `docs/CATALOGS.md` |
+| `schemas/models.py` | `docs/05_DATA_SCHEMA_SPEC.md`, `docs/02_SYSTEM_ARCHITECTURE.md` |
+| 새 Worker 클래스 | `docs/03_AGENT_ARCHITECTURE.md` |
 | 새 Review Gate | `docs/12_QA_AND_REVIEW_SPEC.md`, `GOAL.md` G3 |
 | `__version__` 증분 | `CHANGELOG.md`, 모든 Tier 1·2 YAML 헤더 |
 | 새 카테고리 | `GOAL.md` G2, `docs/04_DYNAMIC_INTAKE_PAGE_SPEC.md` |

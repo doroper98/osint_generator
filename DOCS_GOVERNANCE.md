@@ -1,9 +1,9 @@
 <!--
 tier: 1
-last_synced_with: v0.3.3
+last_synced_with: v4.0.0
 ssot_for: [doc-governance, tier-system, change-propagation]
 depends_on: [README.md, GOAL.md, CLAUDE.md]
-last_review: 2026-05-19
+last_review: 2026-09-29
 -->
 
 # DOCS_GOVERNANCE.md
@@ -30,11 +30,14 @@ last_review: 2026-05-19
 
 ### Tier 2 (필수)
 
-- `docs/00_PROJECT_BRIEF.md` ~ `docs/16_TEST_PLAN.md` (v2 스펙 16종)
+- `docs/00_PROJECT_BRIEF.md` ~ `docs/16_TEST_PLAN.md` (v2 스펙 16종 — 07·08·09·10 은 v4.0.0 에서 handoff·규칙 키 안내도로 재작성)
 - `docs/ADDENDUM_01_ORCHESTRATOR_COMMAND_CENTER_LAYOUT.md`
-- `docs/ADDENDUM_02_PRE_PRODUCTION_DEBUG_LAYER.md`
 - `docs/ADDENDUM_03_TERMINOLOGY.md`
-- `docs/ARCHITECTURE.md`, `docs/DATA_MODELS.md`, `docs/CATALOGS.md`, `docs/TESTING.md` (agents_reviewer 호환)
+- `docs/ADDENDUM_04_SUBSCRIPTION_LLM_BRIDGE.md`
+- `docs/IMAGE_BUNDLE_CONTRACT.md`, `docs/VIDEO_BUNDLE_CONTRACT.md` (agents_reviewer 번들 계약 미러)
+- (v4.0.0 삭제) `docs/ADDENDUM_02_PRE_PRODUCTION_DEBUG_LAYER.md` — v1 Debug Layer. 보존본 `archive/hyperframes-briefing`.
+- (v4.0.0 정정) agents_reviewer 호환 문서 `docs/ARCHITECTURE.md`·`DATA_MODELS.md`·`CATALOGS.md`·`TESTING.md` 는 이 저장소에 만들어진 적이 없다. 같은 역할은 `docs/02`·`docs/05`·`docs/03`·`docs/16` 이 한다.
+- 영상 기준 정본 `docs/handoff/` 는 핸드오프 묶음(원문 보존, 각 문서 머리말의 `origin`)이다. 개정은 `docs/handoff/DECISIONS.md` 한 줄과 본문 안 `[vX.Y.Z 동기화 …]` 주석으로 한다.
 
 ### Tier 3 (필수)
 
@@ -42,6 +45,7 @@ last_review: 2026-05-19
 - `DEVLOG.md`: 개발 로그, **append-only**
 - `WORKFLOWS.md`: 실행 절차
 - `docs/ANTIPATTERNS/*_ANTIPATTERNS.md`: 카테고리별 안티패턴, **append-only**
+- (v4.0.0 삭제) `docs/RUN_LOCAL.md` — Remotion 로컬 실행(v1). 보존본 `archive/hyperframes-briefing`.
 
 ---
 
@@ -92,9 +96,9 @@ last_review: YYYY-MM-DD
 
 | 트리거 | 동기화 대상 | 책임 |
 |---|---|---|
-| `orchestrator.__version__` 증분 | `README.md` 현재 상태표, 모든 Tier 1/2 YAML 헤더 `last_synced_with`, `CHANGELOG.md` | PR 작성자 |
-| `schemas/models.py` 변경 | `docs/05_DATA_SCHEMA_SPEC.md`, `docs/DATA_MODELS.md` | PR 작성자 |
-| 새 Worker 추가 | `docs/03_AGENT_ARCHITECTURE.md`, `docs/CATALOGS.md` | PR 작성자 |
+| `orchestrator.__version__` 증분 | `README.md` 현재 상태표, 모든 Tier 1/2 YAML 헤더 `last_synced_with`, `CHANGELOG.md` (v4.0.0부터 `tests/test_docs_sync.py` 가 검사) | PR 작성자 |
+| `schemas/models.py` 변경 | `docs/05_DATA_SCHEMA_SPEC.md` | PR 작성자 |
+| 새 Worker 추가 | `docs/03_AGENT_ARCHITECTURE.md` | PR 작성자 |
 | 새 Review Gate 추가 | `docs/12_QA_AND_REVIEW_SPEC.md`, `GOAL.md` G3 | PR 작성자 |
 | 새 Antipattern 발견 | `docs/ANTIPATTERNS/{CAT}_ANTIPATTERNS.md`, `DEVLOG.md` 한 줄 | 발견자 |
 | Phase 완료 | `README.md` 상태표, `CHANGELOG.md`, MINOR 버전 증분 | 리드 |

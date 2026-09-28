@@ -1,0 +1,108 @@
+{
+ "schema_version": 1,
+ "phase": "11",
+ "directive": "D-0072 작업 9",
+ "method": "git grep -nE <이름> (docs/handoff/reports·back_and_forth·CHANGELOG·DEVLOG 제외 — 이력 기록)",
+ "items": [
+  {
+   "target": "docs/ADDENDUM_02_PRE_PRODUCTION_DEBUG_LAYER.md",
+   "kind": "Tier 2 문서([deprecated v2.0.0] 배너 — v1 Debug Layer)",
+   "refs": [
+    "DOCS_GOVERNANCE.md:35:- `docs/ADDENDUM_02_PRE_PRODUCTION_DEBUG_LAYER.md`",
+    "docs/handoff/19_FABLE_ANALYSIS_AND_OPUS_EXECUTION_PLAN.md:224:| `docs/07_VIDEO_STYLE_GUIDE.md`, `08_AUDIO_AND_TTS_SPEC.md`, `09_MAP_AND_GEO_SPEC.md`, `10_RENDERING_PIPELINE_SPEC.md`, `ADDENDUM_02_PRE_PRODUCTION_DEBUG_LAY"
+   ],
+   "archive": "archive/hyperframes-briefing 9dcda27 에 원문 있음(현 HEAD 판과 차이 = 폐기 배너만)",
+   "action": "삭제 — 남은 참조는 DOCS_GOVERNANCE 표(같은 커밋에서 정정)와 handoff 19(이력 문서, 원문 보존)뿐"
+  },
+  {
+   "target": "docs/RUN_LOCAL.md",
+   "kind": "Tier 3 운영 문서(Remotion·draft_debug.mp4 로컬 실행 — v1)",
+   "refs": [],
+   "archive": "archive/hyperframes-briefing 9dcda27 에 같은 blob(cd47e0e2)",
+   "action": "삭제 — 참조 0. 현재 실행 절차는 WORKFLOWS.md·docs/10"
+  },
+  {
+   "target": "docs/PROFESSIONAL_REBUILD_PLAN.md",
+   "kind": "deprecated 문서",
+   "refs": [
+    "HANDOFF.md:125:   SSOT: `docs/PROFESSIONAL_REBUILD_PLAN.md` (Phase 0–5+E, MVP Professional Bar 20).",
+    "docs/handoff/02_ARCHITECTURE_AND_MIGRATION.md:173:| `docs/17_COLLAGE_DESIGN_SHEET.md`, `docs/SHORTS_COLLAGE_OVERHAUL_PLAN.md`, `docs/PROFESSIONAL_REBUILD_PLAN.md` | 쇼츠/이전 재빌드 계획. 이력으로만 보존 |",
+    "docs/handoff/19_FABLE_ANALYSIS_AND_OPUS_EXECUTION_PLAN.md:71:| `docs/PROFESSIONAL_REBUILD_PLAN.md`, `docs/07/08/09` 영상 기준 | 옛 문법 | Phase 0에서 폐기 배너, Phase 11에서 재작성 |",
+    "docs/handoff/19_FABLE_ANALYSIS_AND_OPUS_EXECUTION_PLAN.md:217:| `git rm -r` | `hyperframes/`, `remotion/`, `design_sheets/`, `docs/17_COLLAGE_DESIGN_SHEET.md`, `docs/SHORTS_COLLAGE_OVERHAUL_PLAN.md`, `docs/PROFESSIONAL_R"
+   ],
+   "archive": "archive/hyperframes-briefing 에 원문",
+   "action": "이미 삭제(v2.0.0 bd37b58). 남은 참조: HANDOFF.md(작업 10 에서 정리)·handoff 02/19(이력 원문)"
+  },
+  {
+   "target": "docs/SHORTS_COLLAGE_OVERHAUL_PLAN.md · docs/17_COLLAGE_DESIGN_SHEET.md",
+   "kind": "쇼츠 콜라주 문서",
+   "refs": [
+    "HANDOFF.md:42:> `docs/SHORTS_COLLAGE_OVERHAUL_PLAN.md` — §9 로드맵과 §10 결정 목록을 먼저 읽어라.",
+    "assets/library/workshop/AGENTS.md:5:(v1.0.0) 및 `docs/SHORTS_COLLAGE_OVERHAUL_PLAN.md` §2.0.",
+    "assets/library/workshop/AGENTS.md:23:   `docs/17_COLLAGE_DESIGN_SHEET.md §0.8` 규약을 따른다.",
+    "docs/handoff/02_ARCHITECTURE_AND_MIGRATION.md:173:| `docs/17_COLLAGE_DESIGN_SHEET.md`, `docs/SHORTS_COLLAGE_OVERHAUL_PLAN.md`, `docs/PROFESSIONAL_REBUILD_PLAN.md` | 쇼츠/이전 재빌드 계획. 이력으로만 보존 |",
+    "docs/handoff/19_FABLE_ANALYSIS_AND_OPUS_EXECUTION_PLAN.md:56:- 쇼츠 트랙: `hyperframes/shorts/`, `docs/17_COLLAGE_DESIGN_SHEET.md`, `docs/SHORTS_COLLAGE_OVERHAUL_PLAN.md`, `design_sheets/` → **보관 대상**.",
+    "docs/handoff/19_FABLE_ANALYSIS_AND_OPUS_EXECUTION_PLAN.md:217:| `git rm -r` | `hyperframes/`, `remotion/`, `design_sheets/`, `docs/17_COLLAGE_DESIGN_SHEET.md`, `docs/SHORTS_COLLAGE_OVERHAUL_PLAN.md`, `docs/PROFESSIONAL_R",
+    "schemas/models.py:501:    추가될 경우를 위한 예약(additive 제안, SHORTS_COLLAGE_OVERHAUL_PLAN §5.3-6).\"\"\"",
+    "schemas/models.py:812:# 22. Asset Library (쇼츠 콜라주 개편 — SHORTS_COLLAGE_OVERHAUL_PLAN §3)",
+    "schemas/models.py:897:    핵심 인물 부재 시 needs_user_upload (SHORTS_COLLAGE_OVERHAUL_PLAN §3.4)."
+   ],
+   "archive": "archive/hyperframes-briefing 에 원문",
+   "action": "이미 삭제(v2.0.0). 남은 참조: HANDOFF.md(작업 10)·schemas/models.py 주석·assets/library/workshop/AGENTS.md(인물 공방 이력 설명)·handoff 02/19 — 코드 주석·공방 문서는 이 Phase 범위 밖(코드 무변경), 목록만 남긴다"
+  },
+  {
+   "target": "legacy_v3/",
+   "kind": "패키지",
+   "refs": [
+    "docs/handoff/13_IMPLEMENTATION_PLAN_FOR_CLAUDE_CODE.md:41:2. `reference_code/v3_hormuz_korea/*.py`를 `legacy_v3/`로 복사해 **경로만 저장소 기준으로 수정**하고 그대로 실행한다.",
+    "docs/handoff/13_IMPLEMENTATION_PLAN_FOR_CLAUDE_CODE.md:43:4. `python legacy_v3/plan3.py` → `prep3.py` → `render3.py --preview` → 전체 렌더 → `mix3.py` → 먹싱.",
+    "docs/handoff/19_FABLE_ANALYSIS_AND_OPUS_EXECUTION_PLAN.md:131:| 3.9 | reference_code는 `/home/claude/v3`, `/home/claude/og` 절대 경로 하드코딩. | Phase 1 `legacy_v3/`는 `V3_ROOT`(기본 `projects/hormuz_korea_legacy`)와 `OG_ROOT`(저장소 루",
+    "docs/handoff/19_FABLE_ANALYSIS_AND_OPUS_EXECUTION_PLAN.md:274:| **1 골든 재현** (v2.0.1+) | `legacy_v3/`(reference_code 복사, 경로만 환경변수화), `tools/fetch_data.py`(Natural Earth 3종, terrarium 타일 135장, flag-icons, 폰트 4종, Commons 인물",
+    "docs/handoff/19_FABLE_ANALYSIS_AND_OPUS_EXECUTION_PLAN.md:294:1. `python -m engine.render <proj> --preview auto` → `prev/sheet.jpg`(4열, 427×240, 컷마다 앵커·시각 라벨). Phase 1은 `legacy_v3/render3.py --preview` + `tools/contact_s",
+    "docs/handoff/DECISIONS.md:48:| 2026-09-28 | D30 | legacy_v3 삭제: `legacy_v3/`·`tools/legacy_v3_run.py`·`tools/legacy_provenance.py`, `test_no_legacy_imports` 금지 목록에 legacy_v3 추가, PHASE1_RUNBOOK_WSL2 상단 배너 | ① 이력·reference",
+    "docs/handoff/DECISIONS.md:50:| 2026-09-28 | D32 | D30 범위 보정(B): 영상 통로 레거시(render3·plan3·mix3·legacy_v3_run·legacy_provenance)는 삭제, 자산 부트스트랩(prep3 people·flags, media3)은 본문 무수정으로 `tools/bootstrap_assets/`에 격리. Phase 5(peo",
+    "tests/anti_inertia/test_no_legacy_imports.py:25:    \"audio_service\", \"audio_io\", \"audio_demo\", \"subtitle_align\", \"legacy_v3\","
+   ],
+   "archive": "원본은 docs/handoff/reference_code/v3_hormuz_korea/, 삭제 이력 4933bd5·88e60c8(v2.3.0 D30·D32)",
+   "action": "이미 삭제(v2.3.0). 남은 참조: test_no_legacy_imports 금지 목록·handoff 13/19·DECISIONS(이력). 재생성 시 테스트 실패"
+  },
+  {
+   "target": "workers/tts_backends.py",
+   "kind": "v1 세그먼트 TTS 백엔드(코드)",
+   "refs": [
+    "config.yaml:50:  local_invoke_timeout_sec: 600        # workers/tts_backends.py LocalTTSBackend",
+    "docs/13_IMPLEMENTATION_ROADMAP.md:85:  elevenlabs/stub, `workers/tts_backends.py`)로 `full_script → audio_manifest`(V4a) →",
+    "docs/handoff/02_ARCHITECTURE_AND_MIGRATION.md:150:| `workers/tts_backends.py` | 백엔드 추상화 구조 | ElevenLabs를 with-timestamps로 업그레이드(`03` §6) |",
+    "docs/handoff/16_ORCHESTRATOR_INTEGRATION.md:69:| `workers/tts_backends.py` | 개조 | ElevenLabs with-timestamps, 정렬 저장 |",
+    "docs/handoff/19_FABLE_ANALYSIS_AND_OPUS_EXECUTION_PLAN.md:83:| 모델명 상수 | **없음** — 백엔드는 `claude`/`codex` 이름뿐(`base_llm_worker.py:71-100` CLI_INVOCATION). v0.43.4까지 `claude -p`에 `--model`이 없어 **사용자 머신 CLI 기본 모델이 쓰였고 저장소에 기록",
+    "docs/handoff/19_FABLE_ANALYSIS_AND_OPUS_EXECUTION_PLAN.md:88:- `orchestrator/tts_lint.py`(순수 함수, 12 테스트), `tts_pronounce.py`(사전+한자어 숫자), `workers/tts_backends.py`(ElevenLabs·stub·local·voicebox).",
+    "docs/handoff/19_FABLE_ANALYSIS_AND_OPUS_EXECUTION_PLAN.md:241:- `workers/tts_backends.py:242`의 `\"eleven_multilingual_v2\"` 기본값과 `script_worker.py:148`의 `1200`은 config에서 읽도록 교체(모듈 상수 override 금지, P3).",
+    "docs/handoff/reference_code/v2_bundle_ratcliffe/plan.py:5:  (grounding QA), norm_gantt (chart normaliser). Voice backend mirrors workers/tts_backends.py:"
+   ],
+   "archive": "—",
+   "action": "import 0(코드·테스트). 참조는 config.yaml 주석·docs/13(v1 로드맵)·handoff 이력뿐 → 코드 삭제는 D-0072 범위 밖이라 decision_request"
+  },
+  {
+   "target": "schemas/models.py ApprovalLog·ApprovalEntry·ThumbnailManifest·ThumbnailEntry, agents/ 빈 패키지",
+   "kind": "v1 모델·빈 패키지(코드)",
+   "refs": [
+    "docs/02_SYSTEM_ARCHITECTURE.md:113:| Anthropic / OpenAI API | Agent LLM 호출 | `agents/*.py`에서 사용. 키는 .env |",
+    "docs/05_DATA_SCHEMA_SPEC.md:48:`approval_log.json`(`ApprovalLog`)은 v3.0.0부터 쓰지 않는다. 게이트 기록은 manifest `gate_decisions`다.",
+    "docs/11_THUMBNAIL_SYSTEM_SPEC.md:71:상세 데이터 모델: `schemas/models.py:ThumbnailManifest`.",
+    "docs/14_AGENT_DEVELOPMENT_PROMPT.md:11:본 문서는 Agent (`agents/*.py`)의 LLM 시스템 프롬프트 작성 규칙입니다.",
+    "docs/14_AGENT_DEVELOPMENT_PROMPT.md:18:- **로그**: 호출/응답을 `logs/agents/{agent_name}_{ts}.jsonl`로 남긴다.",
+    "docs/14_AGENT_DEVELOPMENT_PROMPT.md:50:- `agents/{agent_name}.py` 안에 `SYSTEM_PROMPT = \"\"\"...\"\"\"` 상수.",
+    "schemas/models.py:369:# 10. ApprovalLog",
+    "schemas/models.py:373:class ApprovalEntry(BaseModel):",
+    "schemas/models.py:385:class ApprovalLog(VersionedModel):",
+    "schemas/models.py:387:    entries: list[ApprovalEntry] = Field(default_factory=list)",
+    "schemas/models.py:391:# 11. ThumbnailManifest (Phase 10 골격)",
+    "schemas/models.py:395:class ThumbnailEntry(BaseModel):",
+    "schemas/models.py:408:class ThumbnailManifest(VersionedModel):",
+    "schemas/models.py:410:    candidates: list[ThumbnailEntry] = Field(default_factory=list)"
+   ],
+   "archive": "—",
+   "action": "사용처 0(정의만). 코드 삭제는 범위 밖 → decision_request"
+  }
+ ]
+}

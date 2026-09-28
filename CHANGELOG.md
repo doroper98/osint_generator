@@ -42,6 +42,9 @@ MAJOR: GOAL G3 개정은 GOAL §G3 머리말("변경 시 메이저")대로 메�
 - GOAL G3-2·G1 표: 게이트 기록 위치를 실측으로 정정 — `approval_log.json`(부록 C 초안) → `project_manifest.json gate_decisions`(v3.0.0 `GateDecision`). 따로 쓰는 `approval_log.json` 은 없다.
 - **docs/12·03·05 동기화**(작업 7): 12 = 사람 게이트 2개(`gate_decisions`)·checks 12항목·시각 검수 루프·게이트 ② 판정(D49)·Phase 10 검사(card-over·label_hidden·glyph_size·media_upscaled)·QAVerdict/Revision·검증 라벨·오디오 QA 위치. 03 = 역할 경계(P8)·실측 LLM 워커 8종 표(CaptureRead·VerifySources·Research·Script·Director·VisualQA·ReviseDirection·IntakePlanner), v1 계획 워커 표 제거. 05 = 산출물 인덱스 실측, 번들 모델 fail-closed(forbid), 삭제 모델(RenderProps·AudioManifest·SceneManifest·RemotionJob·DesignSheet) 이력 한 줄, §9 출력 프로파일, §10 번들 어댑터 산출물.
 
+### Removed
+- **폐기 확인**(작업 9, P2): 참조 실측(`reports/phase11/legacy_refs.json`) 뒤 참조 0 인 `docs/ADDENDUM_02_PRE_PRODUCTION_DEBUG_LAYER.md`(v1 Debug Layer, 폐기 배너)·`docs/RUN_LOCAL.md`(Remotion 로컬 실행) 삭제. 보존본 `archive/hyperframes-briefing`(9dcda27). `PROFESSIONAL_REBUILD_PLAN`·`SHORTS_COLLAGE_OVERHAUL_PLAN`·`17_COLLAGE_DESIGN_SHEET`(v2.0.0)·`legacy_v3/`(v2.3.0)는 이미 삭제 — 남은 참조 목록 기록. DOCS_GOVERNANCE Tier 2·3 표와 CLAUDE.md C7 표를 실측으로 정정(만들어진 적 없는 `ARCHITECTURE`·`DATA_MODELS`·`CATALOGS`·`TESTING` 제거). 코드 쪽 사용처 0 후보(`workers/tts_backends.py`·v1 모델·빈 `agents/`)는 범위 밖이라 결정 요청.
+
 ### Fixed
 - **NB27 글꼴 없는 환경의 CLI 서브프로세스 테스트**: `conftest` 의 NB16 훅은 같은 프로세스의 `FontMissingError` 만 skip 으로 바꾼다. 엔진 CLI 를 띄우는 두 테스트(`test_real_cli_direction_validate`·`test_script_gate_view_sections`)는 `tests/_fonts.fonts_ready()` 로 사유 있는 skip. 게이트 ① 뷰는 렌더가 아니라 린트(`script/lint.py` 자막 줄 수 = 글자 폭)에 글꼴이 필요하다 — 검사 경로 분리 대상 아님 (D-0071 §2, D-0072 §0).
 
