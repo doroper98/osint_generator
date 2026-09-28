@@ -1,6 +1,6 @@
 <!--
 tier: 2
-last_synced_with: v0.3.3
+last_synced_with: v3.0.0
 ssot_for: [system-architecture, component-boundaries]
 depends_on: [03_AGENT_ARCHITECTURE.md, 05_DATA_SCHEMA_SPEC.md, ADDENDUM_01_ORCHESTRATOR_COMMAND_CENTER_LAYOUT.md]
 last_review: 2026-05-19
@@ -82,34 +82,21 @@ user command
 
 ## 4. 상태 머신 (project_manifest.current_state)
 
+v3.0.0 (docs/handoff/16 §2, back_and_forth D-0040) — 옛 24개 상태는 삭제했다. manifest `schema_version` 2,
+옛(v1) manifest 는 변환하지 않고 "재생성 필요" 오류다.
+
 ```
-created
-  → intake_planning
-  → intake_pending_user
-  → source_collecting
-  → source_completeness_review
-  → research_in_progress
-  → blueprint_review
-  → script_writing
-  → script_review
-  → scene_planning
-  → asset_production
-  → scene_review
-  → audio_production
-  → render_debug
-  → debug_review
-  → render_preview
-  → preview_review
-  → thumbnail_production
-  → thumbnail_review
-  → render_final
-  → final_review
-  → publish_ready
-  → published
-  → archived
+created → intake → source_verify → research → script_draft
+  → script_approval ★ 승인 게이트 ①
+  → voice_timeline → assets → direction → preview_qa
+  → preview_approval ★ 승인 게이트 ②
+  → render → audio_mix → deliver → done
 ```
 
-각 상태 전이는 `orchestrator/state_machine.py`가 강제합니다. 임의 점프 금지.
+역전이(반려, 사유 필수): script_approval → script_draft / preview_approval → direction · script_draft · assets.
+게이트에서 나가는 전이는 `approve` / `reject` 로만 한다. 엔진 상태(voice_timeline~deliver)는 `advance` 가
+`orchestrator/engine_service.py`(엔진 CLI 어댑터)로 단계를 돌리고, 실패·drops 면 그 상태에 머문다.
+전이 규칙은 `orchestrator/state_machine.py`, 진행은 `orchestrator/pipeline.py` 가 강제한다. 임의 점프 금지.
 
 ## 5. 동시성 모델
 

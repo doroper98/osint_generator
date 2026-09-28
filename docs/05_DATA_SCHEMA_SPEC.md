@@ -35,7 +35,7 @@ last_review: 2026-05-23
 | `report_bundle.json` (수신, 외부 연동) | `ReportBundle` | agents_reviewer (외부) | 외부 → 5 |
 | `argument_map.json` | `ArgumentMap` | Research Agent | 5 |
 | `episode_blueprint.json` | `EpisodeBlueprint` | Script Agent | 5 |
-| `full_script.json` | `FullScript` | Script Agent | 5 |
+| `script.yaml` · `script_labels.json` | `script.schema:Script` · `script.labels:ScriptLabels` | Script Agent (v3.0.0) | 5 |
 | `qa_evidence_report.json` | `QAEvidenceReport` | Evidence Guard | 5 |
 | `scene_manifest.json` | `SceneManifest` | Scene Planner | 6 |
 | `asset_manifest.json` | `AssetManifest` | Orchestrator | 7 |
@@ -60,7 +60,7 @@ last_review: 2026-05-23
 
 | 필드 | 타입 | 설명 |
 |---|---|---|
-| schema_version | int | 1 |
+| schema_version | int | **2** (v3.0.0 — 상태 머신 교체. 1 이면 ManifestVersionError "재생성 필요") |
 | project_id | str | UUID 또는 `proj_{YYYYMMDD}_{slug}` |
 | title | str | 사용자가 의도한 제목 |
 | category | enum | geopolitics / war_military / economy / disinformation / earthquake |
@@ -70,9 +70,10 @@ last_review: 2026-05-23
 | target_duration_min | int | 3–20 (ge=3, le=20) |
 | topic_summary | str | |
 | initial_links | list[str] | 생성 시 사용자 사전 제공 자료 링크. IntakePlanner 가 참고, 후속 단계의 manual_user_provided 후보 |
-| paths | dict[str, str] | 주요 산출물 상대경로 인덱스 |
+| paths | dict[str, str] | 주요 산출물 상대경로 인덱스(v3.0.0 — 16 §6 `project_manager.PROJECT_PATHS`) |
 | render_mode_status | dict[str, str] | debug/preview/final 별 상태 |
-| approval_status | dict[str, str] | gate_id → status |
+| gate_decisions | list[`GateDecision`] | v3.0.0 — 승인 게이트 기록(gate·decision·by·at·comment·rollback_to·shown). 옛 approval_status 대체 |
+| stage_records | list[`StageRecord`] | v3.0.0 — 엔진 단계 실행 요약(전체 StageResult 는 logs/stages/) |
 | final_outputs | dict[str, str] | 최종 산출물 경로 |
 
 ### 3.2 `TaskQueue` / `TaskQueueItem`
@@ -183,7 +184,10 @@ status 가 SSOT 이며 라벨은 직렬화되지 않음.
 하나 이상, `quote`, `locator`, `stance` (supports/refutes/contextual). registry
 source_id 존재 여부의 cross-check 는 6B Evidence Guard 책임 (본 스키마엔 validator 없음).
 
-### 3.4d `FullScript` (Phase 6 Script, Script Agent 산출)
+### 3.4d (v3.0.0 삭제) `FullScript` — 원고 정본은 `projects/<pid>/script.yaml`(`script/schema.py:Script`, docs/handoff/02 §2.1).
+검증 라벨은 `script_labels.json`(`script/labels.py:ScriptLabels`, 도시어 status 로 코드 계산, D-0043). 아래 표는 이력.
+
+### (이력) `FullScript` (Phase 6 Script, Script Agent 산출)
 
 `full_script.json` — `ScriptWorker` 가 `research_dossier.json` 으로부터 영상 나레이션
 대본을 생성. docs/12 §1 의 `script_review` (Review Gate 4) 입력이며 Scene Planner 입력.

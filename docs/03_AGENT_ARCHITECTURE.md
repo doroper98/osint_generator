@@ -28,7 +28,7 @@ last_review: 2026-05-23
 | Research Agent | `workers/research_worker.py` (BaseLLMWorker) | source_registry + manifest.initial_links | `04_research/research_dossier.json` | ✅ | 6A |
 | Bundle Importer (외부 연동) | `orchestrator/bundle_io.py` + `bundle_service.py` (`import-bundle`) | agents_reviewer `report_bundle.json` (계약 v1) | `04_research/research_dossier.json` + `02_sources/source_registry.json` | ❌ (외부 분석 흡수, Research Agent 드롭인 대체) | 6A |
 | Evidence Guard | `agents/evidence_guard.py` | research_dossier | `qa_evidence_report.json` | ✅ | 6 |
-| Script Agent | `workers/script_worker.py` (BaseLLMWorker) | research_dossier | `05_script/full_script.json` | ✅ | 6 (수직 슬라이스: blueprint 흡수) |
+| Script Agent | `workers/script_worker.py` (BaseLLMWorker) | research_dossier | `script.yaml` + `script_labels.json`(v3.0.0) | ✅ | 6 → 6.8 (Script 스키마, 라벨은 코드) |
 | Scene Planner | `orchestrator/scene_builder.py` (V2 결정론적) / 추후 LLM | full_script | `06_scene/scene_manifest.json` | ❌ (V2 슬라이스, LLM 추후) | 6 (수직 슬라이스 V2) |
 | Thumbnail Agent | `agents/thumbnail_agent.py` | full_script + project_manifest | `thumbnail_brief.json` | ✅ | 10 |
 | YouTube Metadata Agent | `agents/youtube_metadata_agent.py` | full_script + thumbnail | `youtube_metadata.json` | ✅ | 11 |
