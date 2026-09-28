@@ -1,0 +1,45 @@
+# BGM 레지스트리 (v3.4.0, back_and_forth D-0060 작업 1, 10 §7-1) — 음악 권리·표기의 **SSOT**.
+# 키 = 권리 id(credits `music: <id>`·direction `sound.bgm` 이 가리키는 값). RIGHTS.md 는 사람용 설명 문서로 둔다.
+# attribution = RIGHTS.md "작가 표준 표기" 그대로. 엔딩 카드·설명란 음악 문구는 여기서 만든다(engine.credits·engine.mux).
+# 추측 금지: 실측하지 않은 BPM·분위기는 비워 둔다(null·[]). 파일이 없어 sha1·길이를 잴 수 없는 곡은 available: false.
+schema_version: 1
+tracks:
+  music.zabriskie_patriarch:
+    file: "The Life and Death of a Certain K. Zabriskie, Patriarch - Chris Zabriskie.mp3"
+    sha1: c0ddb7b38ee7866c32d2510a84125cf611a54e93     # RIGHTS.md·fetch_data bgm(git 객체 bd37b58)
+    duration_sec: 931.814                              # ffprobe 실측
+    name: "The Life and Death of a Certain K. Zabriskie, Patriarch"
+    author: Chris Zabriskie
+    license: CC BY 4.0
+    url: "https://chriszabriskie.com"
+    attribution: "The Life and Death of a Certain K. Zabriskie, Patriarch by Chris Zabriskie — Licensed under CC BY 4.0 — https://chriszabriskie.com"
+    source: YouTube 오디오 보관함
+    mood: []                                           # 실측·출처 기록 없음(추측 금지)
+    bpm: null                                          # 실측 도구 없음(librosa 미설치) — 추측 금지
+    available: true
+  music.zabriskie_take_off:
+    file: "Take Off and Shoot a Zero - Chris Zabriskie.mp3"
+    sha1: null                                         # 저장소 이력에 파일이 없다(git log --all) — 복원 불가
+    duration_sec: null
+    name: "Take Off and Shoot a Zero"
+    author: Chris Zabriskie
+    license: CC BY 4.0
+    url: "https://chriszabriskie.com"
+    attribution: "Take Off and Shoot a Zero by Chris Zabriskie — Licensed under CC BY 4.0 — https://chriszabriskie.com"
+    source: YouTube 오디오 보관함
+    mood: []
+    bpm: null
+    available: false
+  music.macleod_drone_in_d:
+    file: "Drone in D - Kevin MacLeod.mp3"
+    sha1: null                                         # 저장소 이력에 파일이 없다 — 복원 불가
+    duration_sec: null
+    name: "Drone in D"
+    author: Kevin MacLeod
+    license: CC BY 4.0
+    url: "https://incompetech.com"
+    attribution: "Drone in D by Kevin MacLeod — Licensed under CC BY 4.0 — https://incompetech.com"
+    source: YouTube 오디오 보관함
+    mood: []
+    bpm: null
+    available: false
