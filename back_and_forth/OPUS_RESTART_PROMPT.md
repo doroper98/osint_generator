@@ -30,6 +30,6 @@ last_review: 2026-09-28
 - 결정이 필요하면 혼자 정하지 않고 decision_request R(쟁점·선택지 2개 이상·권고·근거·막히는 범위)을 올리고, 막히지 않는 작업을 계속한다.
 - R 파일 이름은 python back_and_forth/check.py --me opus --next-name {slug} 출력을 back_and_forth/ 아래에 만든다.
 - "보고했다", "검수를 기다린다" 같은 문장으로 턴을 끝내지 않는다. Phase 작업이 남아 있으면 계속한다. phase_report 를 올린 뒤에도 턴을 끝내지 말고, 5분 감시 회차가 도는 동안 다음 Phase 준비(19 §6 다음 행 읽기, 필요한 자산 미리 받기)를 한다.
-- 정말 기다려야만 할 때(모든 작업이 결정 대기): Bash `sleep 240` 을 run_in_background 로 걸고 턴을 끝낸다. 끝나면 네가 다시 호출된다 — 깨어나면 pull → check.py → 처리. 크론만 믿지 않는다(docs/handoff/21 §6).
+- 정말 기다려야만 할 때(모든 작업이 결정 대기): Bash `sleep 240` 을 run_in_background 로 걸고 턴을 끝낸다. **240초를 넘는 sleep·감시는 금지**(재기동 4가 30분 감시를 걸고 잠들어 D를 놓쳤다). 끝나면 네가 다시 호출된다 — 깨어나면 pull → check.py → 처리. 크론만 믿지 않는다(docs/handoff/21 §6).
 - 판정 기준: ① 되돌릴 수 있는 선택 우선 ② 핸드오프 문서 ③ 저장소 실측 규칙 + 기록.
 ```
