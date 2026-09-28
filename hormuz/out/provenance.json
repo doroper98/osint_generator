@@ -3,7 +3,7 @@
  "engine": "engine",
  "repo_version": "2.5.5",
  "rules_version": "2.0.0",
- "rules_hash": "2f8be8c7ad5051c43ffb3fbc4247291b7a845a86",
+ "rules_hash": "45e152ac97d5021dfcffedb9c5580c00fef9d149",
  "prompts": {},
  "voice": "edge-tts ko-KR-InJoonNeural",
  "word_anchor": "aligned",
@@ -525,6 +525,21 @@
     40.0,
     60.0
    ],
+   "window": {
+    "window_sec": 40.0,
+    "window_max": 2,
+    "exempt": [
+     "article"
+    ],
+    "max": {
+     "t0": 134.48,
+     "count": 2,
+     "mids": [
+      "strikes",
+      "p8"
+     ]
+    }
+   },
    "per_scene": {
     "war": [
      "niovi"
