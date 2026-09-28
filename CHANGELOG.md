@@ -28,6 +28,16 @@ released 항목은 **append-only**입니다.
 
 ---
 
+## [v2.4.0] — 2026-09-28 — Phase 5: 뱃지·엔티티·권리 (back_and_forth D-0029, 진행 중)
+
+### Added
+- (진행 중) 엔티티 레지스트리, 휘장 레지스트리(Restrictions→국기 대체), commons_fetch, portrait_fallback, 뱃지 제안, 엔딩 크레딧 자동 나열.
+
+### Fixed
+- NB1: `fetch_data bgm` 이 얕은 클론에서 git 객체(bd37b58)가 없으면 `git fetch --unshallow` 안내와 함께 명확히 실패(P6).
+
+---
+
 ## [v2.3.0] — 2026-09-28 — Phase 4: 원고·음성 (back_and_forth D-0021·D-0024~D-0027)
 
 ### Added

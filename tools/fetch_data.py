@@ -393,6 +393,10 @@ def cmd_bgm(root: Path, dry: bool) -> list[str]:
     if dry:
         return [f"bgm → {dest} (git {BGM_COMMIT}, sha1 {BGM_SHA1[:10]})"]
     if not dest.exists():
+        has = subprocess.run(["git", "cat-file", "-e", f"{BGM_COMMIT}^{{commit}}"], capture_output=True, cwd=REPO)
+        if has.returncode != 0:  # NB1: 얕은 클론이면 객체가 없다 — 조용히 넘기지 않는다(P6)
+            raise FetchError(f"git 객체 {BGM_COMMIT} 없음(얕은 클론?). "
+                             "`git fetch --unshallow origin overhaul/v2-map-engine` 후 다시 실행하십시오.")
         data = subprocess.run(["git", "show", f"{BGM_COMMIT}:assets/audio/bgm/{BGM_NAME}"],
                               capture_output=True, check=True, cwd=REPO).stdout
         dest.write_bytes(data)
