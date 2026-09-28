@@ -28,6 +28,7 @@
    "tool": {
     "name": "media_fetch.photo",
     "params": {
+     "source": "hormuz_transit.jpg",
      "thumb_w": 1280,
      "crop": [
       720,
@@ -67,6 +68,7 @@
    "tool": {
     "name": "media_fetch.photo",
     "params": {
+     "source": "rok_iraq.jpg",
      "thumb_w": 1600,
      "crop": [
       720,
@@ -105,6 +107,7 @@
    "tool": {
     "name": "media_fetch.cutout",
     "params": {
+     "source": "p8.jpg",
      "thumb_w": 960,
      "rembg": "isnet-general-use",
      "alpha_threshold": 40,
@@ -144,6 +147,8 @@
    "tool": {
     "name": "media_fetch.clip",
     "params": {
+     "source": "strikes.webm",
+     "thumb_w": null,
      "scale": [
       480,
       270
@@ -191,6 +196,8 @@
    "tool": {
     "name": "media_fetch.clip",
     "params": {
+     "source": "niovi.webm",
+     "thumb_w": null,
      "scale": [
       480,
       270

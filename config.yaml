@@ -49,6 +49,15 @@ llm:
   invoke_timeout_sec: 600      # BaseLLMWorker 기본 CLI 타임아웃
   script_timeout_sec: 1200     # ScriptWorker — 긴 원고 1-shot 생성 (실측 526초 성공 / 600초 타임아웃)
 
+commons:
+  # v2.5.5 — 위키미디어 공용 요청(tools/commons_fetch·media_fetch·fetch_data 공유, back_and_forth D-0031 NB4).
+  # 14 §10.4 운영 교훈. 상한을 다 쓰면 남은 항목과 재실행 명령을 오류로 낸다(조용히 넘기지 않는다, 15 P6).
+  gap_sec: 15
+  backoff_base_sec: 60
+  backoff_max_sec: 600
+  tries: 6
+  standard_widths: [500, 960, 1280, 1600]
+
 review_gates:
   # 사용자 승인 없이 진행하지 않음. 본 값이 false면 진행 불가.
   require_human_approval:

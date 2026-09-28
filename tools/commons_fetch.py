@@ -7,7 +7,7 @@
     python tools/commons_fetch.py emblems <project> [--only irgc,cia] [--refresh]
     python tools/commons_fetch.py bundles <project>               # assets/rights_bundles.yaml → 프로젝트 rights_registry
 
-- 요청 간격 15초. 429 는 지수 대기(60·120·240·480·600·600초, `Retry-After` 우선) — Phase 4 run_log 에서 25분 막힌 사례.
+- 요청 간격·429 지수 대기·시도 상한은 `config.yaml commons`(기본 15초, 60·120·240·480·600·600초, `Retry-After` 우선) — Phase 4 run_log 25분·Phase 5 30분 사례(NB4).
 - 폭은 표준 썸네일 폭(960·500·1280·1600) 또는 원본. 비표준 폭은 썸네일 생성 요청이 되어 429 가 반복된다(07 §3.2).
 - 받은 바이트는 `PIL.Image.open().verify()` 로 검증한다(429 HTML 이 jpg 로 저장되는 사고 방지).
 - 허용 라이선스·제한 판정은 `schemas/emblem_models.py`(`license_allowed`, `decide_emblem`). 제한 있는 파일은
@@ -34,15 +34,17 @@ REPO = Path(__file__).resolve().parent.parent
 if str(REPO) not in sys.path:
     sys.path.insert(0, str(REPO))
 
+from orchestrator.config import load_config  # noqa: E402
 from schemas.emblem_models import EmblemEntry, EmblemRegistry, decide_emblem, license_allowed  # noqa: E402
 
 UA = {"User-Agent": "osint-video-trial/0.4 (research; https://github.com/doroper98/osint_generator)"}
 COMMONS_API = "https://commons.wikimedia.org/w/api.php"
-COMMONS_GAP_SEC = 15.0                     # 14 §10.4 — 요청 간격
-BACKOFF_BASE_SEC = 60.0                    # 429 지수 대기 시작값
-BACKOFF_MAX_SEC = 600.0
-TRIES = 6
-STANDARD_WIDTHS: tuple[int, ...] = (500, 960, 1280, 1600)
+_CFG = load_config().commons              # config.yaml commons — 간격·지수 대기·시도 상한(NB4, 15 P3)
+COMMONS_GAP_SEC = _CFG.gap_sec
+BACKOFF_BASE_SEC = _CFG.backoff_base_sec
+BACKOFF_MAX_SEC = _CFG.backoff_max_sec
+TRIES = _CFG.tries
+STANDARD_WIDTHS: tuple[int, ...] = tuple(_CFG.standard_widths)
 EMBLEM_REGISTRY = REPO / "assets" / "emblems" / "registry.json"
 EMBLEM_WIDTH = 500                         # prep3 portraits_emblems: commons_get(title, dest, 500)
 

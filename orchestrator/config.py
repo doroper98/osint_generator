@@ -98,6 +98,19 @@ class TTSConfig(BaseModel):
     local_invoke_timeout_sec: int = 600
 
 
+class CommonsConfig(BaseModel):
+    """위키미디어 공용 요청 설정 (v2.5.5, D-0031 NB4) — tools/commons_fetch·media_fetch·fetch_data 가 공유.
+    14 §10.4: 요청 간격 15초, 429 는 60초부터 지수 대기(최대 600초, Retry-After 우선), 시도 상한."""
+
+    model_config = ConfigDict(extra="forbid")
+
+    gap_sec: float = 15.0
+    backoff_base_sec: float = 60.0
+    backoff_max_sec: float = 600.0
+    tries: int = 6
+    standard_widths: list[int] = Field(default_factory=lambda: [500, 960, 1280, 1600])
+
+
 class AppConfig(BaseModel):
     model_config = ConfigDict(extra="allow")
 
@@ -108,6 +121,7 @@ class AppConfig(BaseModel):
     engine: EngineConfig = Field(default_factory=EngineConfig)
     tts: TTSConfig = Field(default_factory=TTSConfig)
     llm: LLMConfig = Field(default_factory=LLMConfig)
+    commons: CommonsConfig = Field(default_factory=CommonsConfig)
     review_gates: dict[str, Any] = Field(default_factory=dict)
 
 
