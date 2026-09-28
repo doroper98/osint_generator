@@ -146,6 +146,10 @@ def project_provenance(P, stages: dict[str, bool]) -> dict:  # noqa: ANN001, N80
     segs = P.R.cache.get("bgm_segments", 1 if mus else 0)
     prov["audio"] = {"bgm": mus or None, "bed_gain": load_rules().audio.bed_gain,    # v3.4.0 — bgm null = 음악 없음(명시 상태, F1)
                      "crossfades": max(0, segs - 1)}
+    # v3.6.0 D-0066 작업 1 — 이 산출물의 출력 프로파일. 전편은 render 가 남긴 out/render.json(영상을 만든 프로파일), 프리뷰는 P.R.out
+    rj = P.root / "out" / "render.json"
+    prov["render"] = {"resolution": (json.loads(rj.read_text(encoding="utf-8"))["resolution"]
+                                     if stages.get("render") and rj.exists() else P.R.out.record())}
     prov["camera"] = camera_summary(P.root, P.keys)          # v3.3.0 — 카메라 제안 suggested/used(D-0056, 제안은 옵션)
     prov["lint_warnings"] = P.warnings                       # 연출 경고(관계선 과다·연표 겹침·미디어 배치/밀도) — 오류 아님
     prov["media"] = {**media_usage(P.plan, P.events),        # v2.5.5 — 14 §10 제안·사용·밀도·배치(D-0036)

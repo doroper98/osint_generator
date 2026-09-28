@@ -139,7 +139,9 @@ class PreviewHardFailTest(unittest.TestCase):
         with tempfile.TemporaryDirectory() as d:
             root = Path(d)
             (root / "prev").mkdir()
-            fake = NS(root=root, warnings=[])
+            from engine.style import output_profile  # noqa: PLC0415
+
+            fake = NS(root=root, warnings=[], R=NS(out=output_profile()))   # v3.6.0 — prev_dir 가 출력 프로파일을 본다
 
             def fake_preview(P, times, labels=None):  # noqa: ANN001, ANN202, N803
                 (root / "prev" / "checks.json").write_text(json.dumps({"passed": False, "items": [

@@ -24,10 +24,16 @@ paths:
 engine:
   # v2.0.0 — 새 엔진 해상도·렌더 설정의 단일 출처 (docs/handoff/19 §5.4). 옛 render.profiles(briefing/
   # shorts)는 폐기. 소비자: engine/render.py (Phase 1~2), 1080p 는 Phase 10.
-  trial: {width: 854, height: 480, fps: 24}
-  final: {width: 1920, height: 1080, fps: 24}
+  # v3.6.0 출력 프로파일(D-0066 작업 1). 설계 좌표는 rules layout_480p.base(854×480) 고정 — 프로파일은 장치 크기·인코딩만 바꾼다.
+  # 렌더 진입에서 k = height/480 로 한 번 확대(D-0067 A). fps 는 설계 fps 와 같아야 한다(타이밍이 프레임 단위).
+  output:
+    default: 480p
+    profiles:
+      480p: {width: 854, height: 480, fps: 24, crf: 19, preset: faster}
+      1080p: {width: 1920, height: 1080, fps: 24, crf: 19, preset: faster}
+  trial: 480p                          # 별칭 — 트라이얼(프리뷰·검수) 프로파일
+  final: 1080p                         # 별칭 — 최종 프로파일
   jobs: 4
-  crf: 19
 
 tts:
   # v2.0.0 — TTS 설정 단일 출처. 모듈 상수로 override 금지 (docs/handoff/15 P3).

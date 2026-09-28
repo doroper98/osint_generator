@@ -3,6 +3,7 @@
     python -m engine.render <proj> --preview auto|golden|t1,t2,…   → prev/p_TTTT.TT.png, sheet.jpg, provenance.json
     python -m engine.render <proj> --jobs N                → out/video_noaudio.mp4 (N 조각 병렬 → concat)
     python -m engine.render <proj> --chunk START END OUT   → (내부용) 프레임 구간 한 조각
+    --res 480p|1080p|trial|final  → 출력 프로파일(v3.6.0, config engine.output). 기본 프로파일이 아니면 프리뷰는 prev_<이름>/
 
 레이어 순서는 v3 와 같다(02 §1): 베이스 → 국경 → 지도 레이어(MAP_LAYER_ORDER) → 라벨 → 하부 암전 → 패널
 → 사진·영상 → 카드·기사 → 날짜 → 전면 카드 → 자막 → 상부 암전 → 전체 페이드. 비네트 없음(라운드 6).
@@ -28,7 +29,7 @@ from engine.project import Project, ProjectError, load_project
 from engine.projection import View
 from engine.reserved import card_zones
 from engine.registry import MAP_LAYER_ORDER, RegistryError, resolve
-from engine.style import CRF, FADE, FPS, H_OUT, PANEL, W_OUT
+from engine.style import FADE, FPS, H_OUT, PANEL, W_OUT, output_profile
 from engine.subtitles import draw_subtitle
 from rules import load_rules
 from engine.timebase import smooth, window
@@ -43,6 +44,8 @@ def log(msg: str) -> None:
 
 def render_frame(P: Project, i: int) -> tuple[cairo.ImageSurface, bytearray]:  # noqa: N803
     R = P.R  # noqa: N806
+    if R.out.k != 1:
+        raise ValueError(f"출력 프로파일 {R.out.name}: 장치 변환 렌더는 D-0066 작업 2 에서 연결한다")
     t = i / FPS
     view = View(P.cams[i], R.assets.tiers, R.assets.base)
     R.reserved.clear()
@@ -136,7 +139,7 @@ def preview(P: Project, times: list[float], labels: list[str] | None = None) -> 
     from engine.mux import project_provenance  # noqa: PLC0415
     from engine.sheet import COLS, grid  # noqa: PLC0415
 
-    out = P.root / "prev"
+    out = prev_dir(P)
     out.mkdir(exist_ok=True)
     for old in out.glob("p_*.png"):   # 이전 프리뷰 컷이 섞이지 않게
         old.unlink()
@@ -151,7 +154,7 @@ def preview(P: Project, times: list[float], labels: list[str] | None = None) -> 
           for i, (p, n, t) in enumerate(zip(paths, names, times))],
          COLS, out / "sheet.jpg")
     prov = project_provenance(P, PREVIEW_STAGES)
-    prov["preview"] = {"frames": len(paths), "times": [round(t, 3) for t in times]}
+    prov["preview"] = {"frames": len(paths), "times": [round(t, 3) for t in times], "dir": out.name}
     checks = run_checks(P, times, prov)   # 17 §3 결정적 사전 검사(D-0047 작업 6)
     prov["checks"] = {"hard": checks["hard"], "warnings": checks["warnings"], "passed": checks["passed"]}
     (out / "provenance.json").write_text(json.dumps(prov, ensure_ascii=False, indent=1), encoding="utf-8")
@@ -160,9 +163,15 @@ def preview(P: Project, times: list[float], labels: list[str] | None = None) -> 
     return paths
 
 
+def prev_dir(P: Project) -> Path:  # noqa: N803
+    """프리뷰 폴더 — 기본 프로파일은 prev/(검수 루프·게이트가 읽는 자리), 그 밖은 prev_<프로파일>/(480p 결과를 덮지 않는다)."""
+    return P.root / ("prev" if P.R.out == output_profile() else f"prev_{P.R.out.name}")
+
+
 def render_chunk(P: Project, st: int, en: int, out: Path) -> None:  # noqa: N803
-    ff = subprocess.Popen(["ffmpeg", "-y", "-v", "error", "-f", "rawvideo", "-pix_fmt", "bgr0", "-s", f"{W_OUT}x{H_OUT}",
-                           "-r", str(FPS), "-i", "-", "-c:v", "libx264", "-preset", "faster", "-crf", str(CRF),
+    O = P.R.out  # noqa: N806
+    ff = subprocess.Popen(["ffmpeg", "-y", "-v", "error", "-f", "rawvideo", "-pix_fmt", "bgr0", "-s", f"{O.width}x{O.height}",
+                           "-r", str(FPS), "-i", "-", "-c:v", "libx264", "-preset", O.preset, "-crf", str(O.crf),
                            "-pix_fmt", "yuv420p", "-g", "48", str(out)], stdin=subprocess.PIPE)
     assert ff.stdin is not None
     t0 = time.time()
@@ -191,7 +200,8 @@ def render_full(P: Project, jobs: int) -> Path:  # noqa: N803
         part = outdir / f"part{k:02d}.mp4"
         parts.append(part)
         logf = open(outdir / f"part{k:02d}.log", "w", encoding="utf-8")
-        procs.append((subprocess.Popen([sys.executable, "-m", "engine.render", str(P.root), "--chunk", str(s), str(e), str(part)],
+        procs.append((subprocess.Popen([sys.executable, "-m", "engine.render", str(P.root), "--res", P.R.out.name,
+                                        "--chunk", str(s), str(e), str(part)],
                                        cwd=REPO, stdout=logf, stderr=subprocess.STDOUT), logf))
     fails = []
     for k, (p, logf) in enumerate(procs):
@@ -206,6 +216,10 @@ def render_full(P: Project, jobs: int) -> Path:  # noqa: N803
     subprocess.run(["ffmpeg", "-y", "-v", "error", "-f", "concat", "-safe", "0", "-i", str(lst), "-c", "copy", str(final)],
                    check=True)
     log(f"render: {P.n_frames} frames, {len(parts)} chunks, {time.time() - t0:.0f}s")
+    # mux 가 provenance render.resolution 에 옮겨 적는다(영상을 만든 프로파일 = 이 파일, 15 P5)
+    (outdir / "render.json").write_text(json.dumps({"schema_version": 1, "resolution": P.R.out.record(), "jobs": len(parts),
+                                                    "frames": P.n_frames, "sec": round(time.time() - t0, 1)},
+                                                   ensure_ascii=False, indent=1), encoding="utf-8")
     return final
 
 
@@ -215,21 +229,23 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("--preview", help="auto · golden(골든 25 앵커) · 쉼표로 구분한 초")
     ap.add_argument("--jobs", type=int, default=None)
     ap.add_argument("--chunk", nargs=3, metavar=("START", "END", "OUT"))
+    ap.add_argument("--res", default=None, help="출력 프로파일(config engine.output.profiles 이름 또는 trial·final)")
     args = ap.parse_args(argv)
     stage = "preview" if args.preview else "render"
     try:
-        P = load_project(args.proj)  # noqa: N806
+        P = load_project(args.proj, out=output_profile(args.res))  # noqa: N806
         if args.chunk:
             render_chunk(P, int(args.chunk[0]), int(args.chunk[1]), Path(args.chunk[2]))
             return 0
         if args.preview:
             lt = preview_times(P, args.preview)
-            arts = {f"prev/{Path(p).name}": p for p in preview(P, [t for _, t in lt], [n for n, _ in lt])}
-            arts["sheet"] = str(P.root / "prev" / "sheet.jpg")
-            arts["provenance"] = str(P.root / "prev" / "provenance.json")
-            arts["checks"] = str(P.root / "prev" / "checks.json")
-            arts["frames"] = str(P.root / "prev" / "frames.json")
-            chk = json.loads((P.root / "prev" / "checks.json").read_text(encoding="utf-8"))
+            arts = {f"{prev_dir(P).name}/{Path(p).name}": p for p in preview(P, [t for _, t in lt], [n for n, _ in lt])}
+            pd = prev_dir(P)
+            arts["sheet"] = str(pd / "sheet.jpg")
+            arts["provenance"] = str(pd / "provenance.json")
+            arts["checks"] = str(pd / "checks.json")
+            arts["frames"] = str(pd / "frames.json")
+            chk = json.loads((pd / "checks.json").read_text(encoding="utf-8"))
             if not chk["passed"]:   # hard 실패 = 이 단계 실패 — 시각 검수로 가지 않고 연출에 오류를 돌려준다(17 §3, D-0048)
                 errs = [f"checks hard {i['id']}: {d}" for i in chk["items"] if i["severity"] == "hard" for d in i["details"]]
                 res = StageResult(ok=False, stage=stage, artifacts=arts, warnings=P.warnings, errors=errs[:50])

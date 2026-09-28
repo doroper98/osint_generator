@@ -1,11 +1,15 @@
 """스타일 토큰 — 색·폰트·출력 규격 (v2.1.0, 19 부록 D `hexc, C, FONT`).
 
-색·폰트 이름은 `rules/video_rules.yaml`, 해상도·fps 는 `config.yaml engine.trial` 에서 온다(15 P3).
+색·폰트 이름은 `rules/video_rules.yaml`, 출력 프로파일(장치 크기·인코딩)은 `config.yaml engine.output` 에서 온다(15 P3).
 이 모듈이 엔진 안에서 규칙 값을 푸는 유일한 곳이다(test_single_config 허용 목록).
-요소별 기하 수치(글자 크기·여백·두께)는 v3 합격 값 그대로 각 레이어 모듈에 있다. 해상도 스케일(`px()`)은 Phase 10.
+
+v3.6.0 해상도(D-0066 작업 1·2, D-0067 A): **설계 좌표는 854×480 고정**(`W_OUT`·`H_OUT` = rules `layout_480p.base`).
+레이어·패널·자막·배치·검사는 설계 좌표만 본다. 장치 크기는 `Output`(렌더 진입의 `ctx.scale(k)` 한 곳, 래스터 준비, 인코딩)만 안다.
 """
 
 from __future__ import annotations
+
+from dataclasses import dataclass
 
 from orchestrator.config import load_config
 from rules import load_rules
@@ -13,10 +17,52 @@ from rules import load_rules
 _RULES = load_rules()
 _CFG = load_config()
 
-W_OUT: int = _CFG.engine.trial.width
-H_OUT: int = _CFG.engine.trial.height
-FPS: int = _CFG.engine.trial.fps
-CRF: int = _CFG.engine.crf
+_BASE = _RULES.layout_480p.base
+W_OUT: int = _BASE.w          # 설계 좌표 폭(854) — 해상도와 무관
+H_OUT: int = _BASE.h          # 설계 좌표 높이(480)
+FPS: int = _BASE.fps
+
+
+@dataclass(frozen=True)
+class Output:
+    """출력 프로파일(장치). k = height / 480. 설계 폭 × k 와 장치 폭의 차는 좌우 균등(pad_x, 음수 = 양옆을 그만큼 잘라냄 —
+    1080p 는 854 × 2.25 = 1921.5 > 1920 이라 −0.75px)."""
+
+    name: str
+    width: int
+    height: int
+    fps: int
+    crf: int
+    preset: str
+
+    @property
+    def k(self) -> float:
+        return self.height / H_OUT
+
+    @property
+    def pad_x(self) -> float:
+        return (self.width - W_OUT * self.k) / 2
+
+    def px(self, n: float) -> float:
+        """설계 px → 장치 px(실수). 반올림하지 않는다 — 비율을 깨지 않게(D-0067 요건 2)."""
+        return n * self.k
+
+    def px_i(self, n: float) -> int:
+        """정수가 필요한 곳(표면·래스터·타일 폭)만."""
+        return max(1, round(n * self.k))
+
+    def record(self) -> dict:
+        """provenance `render.resolution`."""
+        return {"profile": self.name, "width": self.width, "height": self.height, "fps": self.fps, "k": self.k,
+                "pad_x": self.pad_x, "crf": self.crf, "preset": self.preset}
+
+
+def output_profile(name: str | None = None) -> Output:
+    """config engine.output 의 프로파일(이름·별칭 trial/final, None = default). 설계 fps 와 다르면 오류."""
+    n, p = _CFG.engine.profile(name)
+    if p.fps != FPS:
+        raise ValueError(f"출력 프로파일 {n} fps {p.fps} ≠ 설계 fps {FPS} — 타이밍이 프레임 단위라 바꿀 수 없다")
+    return Output(n, p.width, p.height, p.fps, p.crf, p.preset)
 
 Color = tuple[float, float, float]
 

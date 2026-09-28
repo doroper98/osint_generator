@@ -55,23 +55,57 @@ class LLMConfig(BaseModel):
     script_timeout_sec: int = 1200
 
 
-class EngineResolution(BaseModel):
+class OutputProfile(BaseModel):
+    """출력 프로파일 한 벌(v3.6.0 D-0066 작업 1) — 장치 크기·fps·인코딩."""
+
     model_config = ConfigDict(extra="forbid")
 
-    width: int
-    height: int
-    fps: int
+    width: int = Field(gt=0)
+    height: int = Field(gt=0)
+    fps: int = Field(gt=0)
+    crf: int = Field(ge=0, le=51)
+    preset: str
+
+
+class OutputConfig(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+
+    default: str = "480p"
+    profiles: dict[str, OutputProfile] = Field(default_factory=lambda: {
+        "480p": OutputProfile(width=854, height=480, fps=24, crf=19, preset="faster"),
+        "1080p": OutputProfile(width=1920, height=1080, fps=24, crf=19, preset="faster")})
+
+    @model_validator(mode="after")
+    def _known_default(self) -> "OutputConfig":
+        if self.default not in self.profiles:
+            raise ValueError(f"engine.output.default {self.default!r} 가 profiles {sorted(self.profiles)} 에 없다")
+        return self
 
 
 class EngineConfig(BaseModel):
-    """새 엔진 렌더 설정 (v2.0.0, docs/handoff/19 §5.4)."""
+    """새 엔진 렌더 설정 (v2.0.0, docs/handoff/19 §5.4; v3.6.0 출력 프로파일)."""
 
     model_config = ConfigDict(extra="forbid")
 
-    trial: EngineResolution = Field(default_factory=lambda: EngineResolution(width=854, height=480, fps=24))
-    final: EngineResolution = Field(default_factory=lambda: EngineResolution(width=1920, height=1080, fps=24))
+    output: OutputConfig = Field(default_factory=OutputConfig)
+    trial: str = "480p"     # 프로파일 별칭
+    final: str = "1080p"
     jobs: int = 4
-    crf: int = 19
+
+    @model_validator(mode="after")
+    def _aliases(self) -> "EngineConfig":
+        for k in ("trial", "final"):
+            if getattr(self, k) not in self.output.profiles:
+                raise ValueError(f"engine.{k} {getattr(self, k)!r} 가 engine.output.profiles {sorted(self.output.profiles)} 에 없다")
+        return self
+
+    def profile(self, name: str | None = None) -> tuple[str, OutputProfile]:
+        """이름(또는 별칭 trial·final, None = default) → (프로파일 이름, 프로파일). 없는 이름 = 오류(P6)."""
+        n = name or self.output.default
+        n = getattr(self, n) if n in ("trial", "final") else n
+        if n not in self.output.profiles:
+            raise ValueError(f"출력 프로파일 {name!r} 없음 — config engine.output.profiles: {sorted(self.output.profiles)}")
+        return n, self.output.profiles[n]
 
 
 class VoiceSettings(BaseModel):

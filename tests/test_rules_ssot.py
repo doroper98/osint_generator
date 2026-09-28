@@ -44,7 +44,8 @@ class RulesLoaderTest(unittest.TestCase):
 class ConfigSingleSourceTest(unittest.TestCase):
     def test_engine_llm_tts_sections(self) -> None:
         cfg = load_config(Path(CONFIG_PATH))
-        self.assertEqual((cfg.engine.trial.width, cfg.engine.trial.height, cfg.engine.trial.fps), (854, 480, 24))
+        _, trial = cfg.engine.profile("trial")
+        self.assertEqual((trial.width, trial.height, trial.fps), (854, 480, 24))
         self.assertEqual(cfg.llm.script_timeout_sec, 1200)
         self.assertEqual(cfg.tts.eleven_model_default, "eleven_multilingual_v2")
 

@@ -32,7 +32,7 @@ from engine.placement import PlacementError, resolve_places
 from engine.projection import View
 from engine.refs import emblem_ids
 from engine.registry import RegistryError, validate_events
-from engine.style import FPS
+from engine.style import FPS, Output, output_profile
 from engine.timebase import Timebase
 from script.schema import Plan
 
@@ -205,13 +205,14 @@ def music_ids(sound: Optional[dict]) -> set[str]:
     return {b} if isinstance(b, str) else {g["id"] for g in b}
 
 
-def load_project(proj: Path, direction: Optional[Direction] = None) -> Project:
-    """렌더 입력 한 벌. direction 을 주면 direction.yaml 대신 그것으로(연출 워커의 저장 전 점검 — 렌더와 같은 경로, 15 P8)."""
+def load_project(proj: Path, direction: Optional[Direction] = None, out: Optional[Output] = None) -> Project:
+    """렌더 입력 한 벌. direction 을 주면 direction.yaml 대신 그것으로(연출 워커의 저장 전 점검 — 렌더와 같은 경로, 15 P8).
+    out = 출력 프로파일(v3.6.0, None = config engine.output.default). 설계 좌표·연출·검사는 프로파일과 무관하다."""
     proj = proj.resolve()
     plan = load_plan(proj)
     tb = Timebase(plan)
     assets = Assets(proj, load_labels(proj / "labels.yaml"))
-    R = RenderCtx(assets=assets, tb=tb, credits=load_credits(proj / "credits.yaml"))  # noqa: N806
+    R = RenderCtx(assets=assets, tb=tb, credits=load_credits(proj / "credits.yaml"), out=out or output_profile())  # noqa: N806
     keys, raw_events, sound = load_direction(proj, tb, direction)
     n = int(plan.total * FPS)
     cams = build_camera(keys, n, FPS) if keys else None
