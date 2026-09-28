@@ -3,7 +3,7 @@
 - `/v1/text-to-speech/{voice_id}/with-timestamps` 로 음성과 글자별 정렬을 함께 받는다.
 - 앞뒤 문장을 `previous_text`/`next_text`로 보내 문장 사이 억양을 잇는다.
 - `voice_settings`·모델은 config.yaml `tts`(15 P3). 캐시 키는 `sha1(tts + '|el|' + voice_id)`(script/tts/cache).
-- 정렬은 `{mp3}.align.json`에 **alignment 만** 저장한다 — audio_base64·요청 헤더·voice_id 는 쓰지 않는다(D-0022, C9).
+- 정렬은 `{mp3}.align.json`(script/tts/align 공통 형식, 출처 elevenlabs_timestamps)에 **alignment 만** 저장한다 — audio_base64·요청 헤더·voice_id 는 쓰지 않는다(D-0022, C9).
 
 API 키·voice id 는 환경 변수로만 받는다(C9). 어떤 파일에도 쓰지 않는다.
 """
@@ -11,11 +11,11 @@ API 키·voice id 는 환경 변수로만 받는다(C9). 어떤 파일에도 쓰
 from __future__ import annotations
 
 import base64
-import json
 import os
 from pathlib import Path
 
 from orchestrator.config import load_config
+from script.tts import align
 
 API = "https://api.elevenlabs.io/v1/text-to-speech/{voice}/with-timestamps"
 
@@ -31,10 +31,6 @@ def voice_id() -> str:
 def voice_label() -> str:
     """plan.voice·provenance 용. voice_id 는 앞 4자만(D-0022)."""
     return f"elevenlabs:{voice_id()[:4]}…"
-
-
-def align_path(mp3: Path) -> Path:
-    return Path(str(mp3) + ".align.json")
 
 
 def request_body(text: str, prev_text: str | None, next_text: str | None) -> dict:
@@ -60,4 +56,4 @@ def eleven_one(text: str, path: Path, prev_text: str | None, next_text: str | No
     if not alignment or not alignment.get("characters"):
         raise RuntimeError("ElevenLabs 응답에 alignment 가 없다(with-timestamps)")
     path.write_bytes(base64.b64decode(d["audio_base64"]))
-    align_path(path).write_text(json.dumps(alignment, ensure_ascii=False), encoding="utf-8")
+    align.write(path, align.from_elevenlabs(alignment))

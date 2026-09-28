@@ -63,6 +63,7 @@ tts_rules:                 # 03 §4·§5
   abbreviation_policy: korean_expansion   # CENTCOM → 미군 중부사령부
   decimal_policy: repo_jjeom_no_space     # D6 확정(DECISIONS.md): 저장소 정책 "십삼쩜일"(TTS-AP-059) 유지, ElevenLabs 청취 후 최종 확정
   emphasis_must_be_substring: true
+  alignment_sources: [edge_word_boundary, elevenlabs_timestamps]   # D34 — 단어 정렬 출처(at_word 정렬 경로). 등재 외 = 오류
 
 shot_grammar:              # 05 §2
   camera_moves_per_scene_max: 1

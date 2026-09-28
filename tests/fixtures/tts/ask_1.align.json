@@ -4,6 +4,7 @@
  "dur": 6.60263,
  "trim_offset": 0.032494,
  "alignment": {
+  "alignment_source": "elevenlabs_timestamps",
   "characters": [
    "다",
    "음",

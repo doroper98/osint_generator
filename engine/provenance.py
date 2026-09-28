@@ -36,6 +36,9 @@ def build(plan: Plan, keys: list[CamKey], events: list[dict], repo_version: str,
           word_anchors: list[dict] | None = None) -> dict:
     anchors = word_anchors or []
     modes = sorted({a["mode"] for a in anchors})
+    feats = features(keys, events)
+    feats["at_word"] = {"aligned": sum(1 for a in anchors if a["mode"] == "aligned"),
+                        "ratio": sum(1 for a in anchors if a["mode"] == "ratio")}
     return {
         "schema_version": 1,
         "engine": "engine",
@@ -46,10 +49,11 @@ def build(plan: Plan, keys: list[CamKey], events: list[dict], repo_version: str,
         "voice": plan.voice,
         "word_anchor": modes[0] if len(modes) == 1 else ("mixed" if modes else "none"),  # v2.3.0 aligned|ratio (03 §6.3)
         "word_anchors": anchors,
+        "tts": {"resynthesized": list(plan.tts_resynthesized)},   # 정렬 없어 재합성한 문장(D34)
         "total_sec": round(float(plan.total), 3),
         "sentences": len(plan.sentences),
         "stages": stages,       # 이번 산출물에 실제로 쓰인 단계
-        "features_used": features(keys, events),
+        "features_used": feats,
         "qa": {"auto_iterations": 0, "user_approved": False, "reviewer": "fable (back_and_forth)"},
         "drops": [],
     }

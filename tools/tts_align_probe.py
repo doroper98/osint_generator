@@ -22,7 +22,7 @@ sys.path.insert(0, str(REPO))
 from script.plan import load_script  # noqa: E402
 from script.schema import Plan  # noqa: E402
 from script.timeline import sentence_rows  # noqa: E402
-from script.tts import elevenlabs  # noqa: E402
+from script.tts import align, elevenlabs  # noqa: E402
 from script.tts.cache import cache_key, cached, mp3_path  # noqa: E402
 from script.tts.trim import trim_to_npy  # noqa: E402
 
@@ -60,11 +60,11 @@ def main(argv: list[str] | None = None) -> int:
         k = idx[sid]
         x = rows[k]
         p = mp3_path(d, sid, cache_key(x["tts"], vid))
-        if not (cached(p) and elevenlabs.align_path(p).exists()):
+        if not (cached(p) and align.align_path(p).exists()):
             elevenlabs.eleven_one(x["tts"], p, rows[k - 1]["tts"] if k else None,
                                   rows[k + 1]["tts"] if k + 1 < len(rows) else None)
         _, dur, off = trim_to_npy(p)
-        al = json.loads(elevenlabs.align_path(p).read_text(encoding="utf-8"))
+        al = json.loads(align.align_path(p).read_text(encoding="utf-8"))
         sents[sid] = dict(text=x["text"], tts=x["tts"], dur=round(dur, 6), trim_offset=round(off, 6), alignment=al)
         if args.fixtures:
             args.fixtures.mkdir(parents=True, exist_ok=True)

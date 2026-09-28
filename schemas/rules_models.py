@@ -44,6 +44,7 @@ class TTSRules(_Strict):
     abbreviation_policy: str
     decimal_policy: str
     emphasis_must_be_substring: bool
+    alignment_sources: list[str]   # v2.3.0 D34 — `{mp3}.align.json` alignment_source 등재값(P10). 등재 외 = 오류
 
 
 class Drift(_Strict):

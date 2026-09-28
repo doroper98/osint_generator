@@ -19,6 +19,7 @@ from script.lint import lint
 from script.schema import Plan, Script
 from script.timeline import layout, sentence_rows
 from script.tts import edge, elevenlabs
+from script.tts.align import align_path
 from script.tts.cache import cache_key, cached, mp3_path
 from script.tts.trim import trim_to_npy
 
@@ -44,11 +45,14 @@ def build(proj: Path, tts: str, warnings: list[str] | None = None, edge_voice: s
     if edge_voice == load_config().tts.edge_voice:
         edge_voice = None           # 기본 목소리 = v3 캐시 키 그대로
     jobs: list[tuple[str, Path]] = []
+    resynth: list[str] = []
     for k, x in enumerate(rows):
         p = mp3_path(tts_dir, x["sid"], cache_key(x["tts"], vid, None if use_eleven else edge_voice))
         x["mp3"] = str(p)
         if cached(p):
-            continue
+            if align_path(p).exists():
+                continue
+            resynth.append(x["sid"])   # 정렬 없는 캐시 mp3 = 재합성(D34, 조용히 비율로 떨어지지 않는다)
         if use_eleven:
             elevenlabs.eleven_one(x["tts"], p, rows[k - 1]["tts"] if k else None,
                                   rows[k + 1]["tts"] if k + 1 < len(rows) else None)
@@ -61,7 +65,7 @@ def build(proj: Path, tts: str, warnings: list[str] | None = None, edge_voice: s
     cards, scene_start, total = layout(rows)
     return Plan(sentences=rows, cards=cards, scene_start=scene_start, total=total,
                 voice=elevenlabs.voice_label() if use_eleven else edge.voice_label(edge_voice),
-                title=script.title, subtitle=script.subtitle, date=script.date)
+                title=script.title, subtitle=script.subtitle, date=script.date, tts_resynthesized=resynth)
 
 
 def main(argv: list[str] | None = None) -> int:
@@ -78,7 +82,8 @@ def main(argv: list[str] | None = None) -> int:
         plan = build(proj, args.tts, warnings, args.edge_voice)
         out = proj / "plan.json"
         out.write_text(json.dumps(plan.model_dump(), ensure_ascii=False, indent=1), encoding="utf-8")
-        print(f"plan: {len(plan.sentences)} sentences, total {plan.total:.2f}s, voice {plan.voice}", file=sys.stderr)
+        print(f"plan: {len(plan.sentences)} sentences, total {plan.total:.2f}s, voice {plan.voice}, "
+              f"resynthesized(no align) {len(plan.tts_resynthesized)}", file=sys.stderr)
         res = StageResult(ok=True, stage="plan", artifacts={"plan": str(out), "tts": str(proj / "tts")},
                           warnings=warnings)
     except (ValueError, RuntimeError, OSError) as ex:

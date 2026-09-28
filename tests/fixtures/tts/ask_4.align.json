@@ -4,6 +4,7 @@
  "dur": 7.279478,
  "trim_offset": 0.0,
  "alignment": {
+  "alignment_source": "elevenlabs_timestamps",
   "characters": [
    "삼",
    "월",

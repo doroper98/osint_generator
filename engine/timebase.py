@@ -5,11 +5,11 @@
 
 from __future__ import annotations
 
-import json
 from pathlib import Path
 from typing import Literal, Optional
 
 from script.schema import Plan, PlanSentence
+from script.tts import align as tts_align
 
 WordAnchorMode = Literal["aligned", "ratio"]
 
@@ -72,10 +72,9 @@ class Timebase:
         return self.scene_start[self.scenes[i + 1]] - 0.35 if i + 1 < len(self.scenes) else self.total
 
     def alignment(self, sid: str) -> Optional[dict]:
-        """`{mp3}.align.json`(ElevenLabs with-timestamps 의 alignment). 없으면 None."""
+        """`{mp3}.align.json`(script/tts/align 공통 형식 — edge WordBoundary·ElevenLabs). 없으면 None."""
         if sid not in self._align:
-            p = Path(self.sent[sid].mp3 + ".align.json")
-            self._align[sid] = json.loads(p.read_text(encoding="utf-8")) if p.exists() else None
+            self._align[sid] = tts_align.read(Path(self.sent[sid].mp3))
         return self._align[sid]
 
     def at_word(self, sid: str, word: str) -> float:
@@ -90,13 +89,16 @@ class Timebase:
             i = x.text.find(word)
             t = x.t0 + max(0, i) / len(x.text) * x.dur
             mode = "ratio"
-        self.word_anchors.append(dict(sid=sid, word=word, mode=mode, t=round(t, 3), **({"note": note} if note else {})))
+        al = self.alignment(sid)
+        self.word_anchors.append(dict(sid=sid, word=word, mode=mode, t=round(t, 3),
+                                      alignment_source=al["alignment_source"] if al else None,
+                                      **({"note": note} if note else {})))
         return t
 
     def _aligned(self, x: PlanSentence, word: str) -> tuple[WordAnchorMode, Optional[float], str]:
         al = self.alignment(x.sid)
         if al is None:
-            return "ratio", None, ""
+            return "ratio", None, "정렬 파일 없음"   # plan 단계가 정렬을 보장한다(D34) — 여기 오면 provenance 에 드러난다
         chars = "".join(al["characters"])
         i = chars.find(word)
         if i < 0:

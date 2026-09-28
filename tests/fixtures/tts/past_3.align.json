@@ -4,6 +4,7 @@
  "dur": 7.987846,
  "trim_offset": 0.0,
  "alignment": {
+  "alignment_source": "elevenlabs_timestamps",
   "characters": [
    "이",
    "천",

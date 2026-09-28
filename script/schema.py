@@ -90,3 +90,4 @@ class Plan(_Strict):
     title: str
     subtitle: str
     date: str
+    tts_resynthesized: list[str] = Field(default_factory=list)  # v2.3.0 optional — 정렬이 없어 다시 합성한 문장 id(D34)
