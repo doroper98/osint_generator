@@ -99,7 +99,7 @@ def check_offscreen(P) -> list[str]:  # noqa: ANN001, N803
                     if x < -80 or x > W_OUT + 80 or y < -40 or y > H_OUT + 40:   # draw_marker 가 그리지 않는 위치
                         t += SAMPLE_SEC
                         continue
-                    b = marker_box(ctx, e, x, y)
+                    b = marker_box(ctx, e, x, y, with_sub=True)
                 else:
                     b = badge_box(ctx, e, x, y)
                 over = max(-b[0], -b[1], b[2] - W_OUT, b[3] - H_OUT)

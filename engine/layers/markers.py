@@ -42,11 +42,12 @@ def icon(ctx: cairo.Context, kind: str, x: float, y: float, col: tuple, a: float
 _SIDE = {"right": (12, 4, "l"), "left": (-12, 4, "r"), "top": (0, -14, "c"), "bottom": (0, 22, "c")}
 
 
-def marker_box(ctx: cairo.Context, e: dict, x: float, y: float) -> tuple[float, float, float, float]:
-    """점·라벨이 차지하는 상자(예약 영역·화면 밖 검사 공용). 폭은 라벨과 부제 중 긴 쪽(D-0049 쟁점 4)."""
+def marker_box(ctx: cairo.Context, e: dict, x: float, y: float, with_sub: bool = False) -> tuple[float, float, float, float]:
+    """점·라벨이 차지하는 상자. 예약 영역(R.reserved)은 v3 그대로 라벨 폭만(골든 불변).
+    with_sub=True 는 화면 밖 검사용 — 부제가 라벨보다 길면 그 폭까지(D-0049 쟁점 4)."""
     anc = _SIDE[e.get("side") or "right"][2]
     w = tw(ctx, e["label"], 13, "sansb") + 20
-    if e.get("sub"):
+    if with_sub and e.get("sub"):
         w = max(w, tw(ctx, e["sub"], 10.5, "sansm") + 20)
     return (x - 14 if anc != "r" else x - w, y - 16, x + w if anc != "r" else x + 14, y + 26)
 

@@ -76,3 +76,10 @@ last_review: 2026-05-23
 - **알려진 한계**:
   - cmd.exe /c 경유 시 인자는 `subprocess.list2cmdline` 규칙으로 인용된다. 산출물 경로에
     특수문자가 많으면 별도 검증 필요(현재 경로엔 공백 정도만 가정).
+
+## RENDER-AP-003 — 검사용 상자를 렌더 예약 영역과 공유하다 골든을 바꿈
+- **증상**: v3.1.0 마커 잘림 검사(D-0049)를 넣으며 `marker_box` 를 부제 폭까지 넓혔더니, 같은 함수를 쓰는 `draw_marker` 의 예약 영역(R.reserved)도 넓어져 도시 라벨 회피가 바뀌었다. 골든 route_2·route_3 컷 MAD 0 → 0.09.
+- **원인**: "검사가 보는 상자"와 "렌더가 비키는 상자"는 다른 계약인데 한 함수의 기본값을 바꿨다. pytest 에 골든 25컷 렌더 대조가 없어 전체 통과였다.
+- **좋은 예**: 기본값은 렌더 계약(v3 그대로), 검사는 명시 인자(`with_sub=True`). 렌더 공용 함수를 바꾸면 golden_compare 를 돌린다.
+- **자동 조치**: `tests/test_checks.py::test_marker_reserved_box_label_only`.
+- **발견 버전**: v3.1.0 (Phase 6.9 작업 10 골든 대조) · **상태**: active

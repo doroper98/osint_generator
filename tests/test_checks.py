@@ -75,6 +75,17 @@ class ChecksTest(unittest.TestCase):
         self.assertEqual(len(out), 1)
         self.assertIn("마커 호르무즈 해협", out[0])
 
+    def test_marker_reserved_box_label_only(self) -> None:
+        """예약 영역 상자는 v3 그대로 라벨 폭만 — 부제 폭은 화면 밖 검사에만(골든 route 컷 불변, v3.1.0 실측 회귀)."""
+        import cairo  # noqa: PLC0415
+
+        from engine.layers.markers import marker_box  # noqa: PLC0415
+
+        ctx = cairo.Context(cairo.ImageSurface(cairo.FORMAT_ARGB32, 1, 1))
+        e = {"label": "해협", "sub": "페르시아만에서 먼바다로 나가는 유일한 바닷길", "side": "right"}
+        self.assertEqual(marker_box(ctx, e, 100, 100), marker_box(ctx, {**e, "sub": None}, 100, 100))
+        self.assertGreater(marker_box(ctx, e, 100, 100, with_sub=True)[2], marker_box(ctx, e, 100, 100)[2])
+
     def test_offscreen_ignored_when_covered(self) -> None:
         low = {"type": "badge", "t0": 0.0, "t1": 5.0, "lon": 56.0, "lat": 21.5, "kind": "flag", "flag": "cn", "R": 17, "label": "중국"}
         panel = {"type": "panel", "t0": 0.0, "t1": 5.0}
