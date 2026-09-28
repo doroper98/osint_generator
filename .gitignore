@@ -91,6 +91,10 @@ projects/hormuz_korea/prev/
 projects/hormuz_korea/out/
 projects/hormuz_korea/*.log
 projects/hormuz_korea/__pycache__/
+# v3.0.0 — Command Center e2e 실행물(manifest·단계 로그·태스크 큐, D-0040 작업 10)
+projects/hormuz_korea/project_manifest.json
+projects/hormuz_korea/logs/
+projects/hormuz_korea/03_tasks/
 
 # v2.2.0 — 지오 입력 캐시(Natural Earth·지형 타일, geo.prep 이 받는다)
 /data/geo/
