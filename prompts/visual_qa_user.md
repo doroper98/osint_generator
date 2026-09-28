@@ -10,7 +10,7 @@ note: VisualQAWorker user prompt 템플릿 — 자리표시는 워커가 .replac
 -----------
 {images}
 
-컷별 정보 (prev/frames.json — 번호·파일·시각·문장·떠 있는 요소)
+컷별 정보 (prev/frames.json — 번호·파일·시각·문장·떠 있는 요소). `sid`·`text` 는 그 순간 **읽는 중인** 문장이다. 비어 있으면 문장 사이이거나 전면 카드(`card`: title·end)이고, `after_sid` 는 직전에 끝난 문장이다
 -------------------------------------------------------------
 {frames}
 

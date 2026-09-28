@@ -222,10 +222,14 @@ def frames_info(P, times: list[float], names: list[str]) -> dict:  # noqa: ANN00
     tb = P.R.tb
     rows = []
     for i, (t, n) in enumerate(zip(times, names), 1):
-        sid = tb.cur_sentence(t)
+        last = tb.cur_sentence(t)
+        # 읽는 중인 문장만 sid 로 — 문장이 끝난 뒤(엔딩 카드 등)에 직전 문장을 "진행 중"으로 적으면 검수가 거짓 hard 를 낸다
+        # (v3.2.0 taiwan_ai 실측: 엔딩 카드 컷을 open_1 진행 중으로 읽고 order hard 2건)
+        sid = last if last and tb.sent[last].t0 - 0.3 <= t <= tb.sent[last].t1 + 0.3 else None
+        card = next((c.kind for c in P.plan.cards if c.t0 <= t <= c.t1), None)
         act = [e for e in P.events if e["t0"] <= t <= e["t1"]]
         rows.append({"n": i, "file": f"p_{t:07.2f}.png", "label": n, "t": round(t, 3), "sid": sid,
-                     "text": tb.sent[sid].text if sid else None,
+                     "text": tb.sent[sid].text if sid else None, "after_sid": None if sid else last, "card": card,
                      "events": [{"type": e["type"], **{k: e[k] for k in ("kind", "label", "mid", "title", "tag") if k in e}} for e in act]})
     return {"schema_version": 1, "frames": rows}
 

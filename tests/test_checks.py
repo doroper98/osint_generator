@@ -48,6 +48,16 @@ class ChecksTest(unittest.TestCase):
         self.assertEqual(len(miss), 1)
         self.assertIn("U+13000", miss[0])
 
+    def test_frames_sid_only_while_speaking(self) -> None:
+        """문장이 끝난 뒤(엔딩 카드)에는 sid 를 비우고 after_sid·card 로 적는다(v3.2.0 taiwan_ai 거짓 hard)."""
+        sent = NS(t0=1.0, t1=4.0, text="문장입니다")
+        tb = NS(cur_sentence=lambda t: "a_0" if t >= 0.7 else None, sent={"a_0": sent})
+        P = NS(R=NS(tb=tb), events=[], plan=NS(cards=[NS(kind="end", t0=10.0, t1=20.0)]))  # noqa: N806
+        rows = checks.frames_info(P, [2.0, 7.0, 12.0], ["a", "b", "c"])["frames"]
+        self.assertEqual([r["sid"] for r in rows], ["a_0", None, None])
+        self.assertEqual([r["after_sid"] for r in rows], [None, "a_0", "a_0"])
+        self.assertEqual([r["card"] for r in rows], [None, None, "end"])
+
     def test_missing_font_is_loud(self) -> None:
         """대체 글꼴로 조용히 검사하지 않는다 — 없는 패밀리는 FontMissingError(P6, NB10)."""
         with self.assertRaises(checks.FontMissingError):
