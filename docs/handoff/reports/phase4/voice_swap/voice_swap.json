@@ -1,0 +1,569 @@
+{
+ "schema_version": 1,
+ "a": {
+  "voice": "edge-tts ko-KR-InJoonNeural",
+  "total": 292.439,
+  "words": [
+   {
+    "sid": "ask_1",
+    "word": "독일",
+    "mode": "aligned",
+    "source": "edge_word_boundary",
+    "transition": 77.245,
+    "boundary": 77.245,
+    "diff": 0.0005
+   },
+   {
+    "sid": "ask_1",
+    "word": "영국",
+    "mode": "aligned",
+    "source": "edge_word_boundary",
+    "transition": 78.095,
+    "boundary": 78.095,
+    "diff": -0.0
+   },
+   {
+    "sid": "ask_1",
+    "word": "일본",
+    "mode": "aligned",
+    "source": "edge_word_boundary",
+    "transition": 79.345,
+    "boundary": 79.345,
+    "diff": 0.0001
+   },
+   {
+    "sid": "ask_1",
+    "word": "호주",
+    "mode": "aligned",
+    "source": "edge_word_boundary",
+    "transition": 80.518,
+    "boundary": 80.518,
+    "diff": 0.0003
+   },
+   {
+    "sid": "ask_1",
+    "word": "한국",
+    "mode": "aligned",
+    "source": "edge_word_boundary",
+    "transition": 82.348,
+    "boundary": 82.348,
+    "diff": 0.0005
+   },
+   {
+    "sid": "ask_4",
+    "word": "한국",
+    "mode": "aligned",
+    "source": "edge_word_boundary",
+    "transition": 96.637,
+    "boundary": 96.637,
+    "diff": 0.0005
+   },
+   {
+    "sid": "past_3",
+    "word": "호르무즈",
+    "mode": "aligned",
+    "source": "edge_word_boundary",
+    "transition": 205.052,
+    "boundary": 205.052,
+    "diff": -0.0001
+   }
+  ],
+  "event_times": [
+   77.245,
+   78.095,
+   79.345,
+   80.518,
+   82.348,
+   96.637
+  ],
+  "anchors": [
+   {
+    "n": 1,
+    "anchor": "open_1",
+    "offset": 2,
+    "t": 7.824
+   },
+   {
+    "n": 2,
+    "anchor": "TITLE",
+    "offset": 2,
+    "t": 22.274
+   },
+   {
+    "n": 3,
+    "anchor": "route_0",
+    "offset": 2.5,
+    "t": 28.774
+   },
+   {
+    "n": 4,
+    "anchor": "route_2",
+    "offset": 2,
+    "t": 38.445
+   },
+   {
+    "n": 5,
+    "anchor": "route_3",
+    "offset": 3.5,
+    "t": 45.03
+   },
+   {
+    "n": 6,
+    "anchor": "war_1",
+    "offset": 2,
+    "t": 56.213
+   },
+   {
+    "n": 7,
+    "anchor": "war_2",
+    "offset": 2.5,
+    "t": 61.247
+   },
+   {
+    "n": 8,
+    "anchor": "war_3",
+    "offset": 3,
+    "t": 65.133
+   },
+   {
+    "n": 9,
+    "anchor": "ask_1",
+    "offset": 4,
+    "t": 80.702
+   },
+   {
+    "n": 10,
+    "anchor": "ask_2",
+    "offset": 2,
+    "t": 87.058
+   },
+   {
+    "n": 11,
+    "anchor": "ask_5",
+    "offset": 1.5,
+    "t": 105.281
+   },
+   {
+    "n": 12,
+    "anchor": "timeline_2",
+    "offset": 2,
+    "t": 124.254
+   },
+   {
+    "n": 13,
+    "anchor": "timeline_4",
+    "offset": 2.8,
+    "t": 136.973
+   },
+   {
+    "n": 14,
+    "anchor": "cost_1",
+    "offset": 1,
+    "t": 157.376
+   },
+   {
+    "n": 15,
+    "anchor": "review_0",
+    "offset": 2.8,
+    "t": 164.59
+   },
+   {
+    "n": 16,
+    "anchor": "review_1",
+    "offset": 2.5,
+    "t": 170.515
+   },
+   {
+    "n": 17,
+    "anchor": "past_1",
+    "offset": 2.5,
+    "t": 193.212
+   },
+   {
+    "n": 18,
+    "anchor": "past_3",
+    "offset": 5,
+    "t": 207.406
+   },
+   {
+    "n": 19,
+    "anchor": "debate_0",
+    "offset": 3,
+    "t": 214.454
+   },
+   {
+    "n": 20,
+    "anchor": "debate_1",
+    "offset": 2.5,
+    "t": 220.96
+   },
+   {
+    "n": 21,
+    "anchor": "debate_4",
+    "offset": 2,
+    "t": 238.002
+   },
+   {
+    "n": 22,
+    "anchor": "decision_0",
+    "offset": 3,
+    "t": 245.553
+   },
+   {
+    "n": 23,
+    "anchor": "now_0",
+    "offset": 3.5,
+    "t": 258.609
+   },
+   {
+    "n": 24,
+    "anchor": "now_3",
+    "offset": 4,
+    "t": 276.44
+   },
+   {
+    "n": 25,
+    "anchor": "END",
+    "offset": -4,
+    "t": 288.439
+   }
+  ],
+  "direction_sha1": "3411936a3cec72e05b1598cc279d32f9e6f0bdd8"
+ },
+ "b": {
+  "voice": "edge-tts ko-KR-SunHiNeural",
+  "total": 293.925,
+  "words": [
+   {
+    "sid": "ask_1",
+    "word": "독일",
+    "mode": "aligned",
+    "source": "edge_word_boundary",
+    "transition": 77.479,
+    "boundary": 77.479,
+    "diff": -0.0002
+   },
+   {
+    "sid": "ask_1",
+    "word": "영국",
+    "mode": "aligned",
+    "source": "edge_word_boundary",
+    "transition": 78.214,
+    "boundary": 78.214,
+    "diff": 0.0002
+   },
+   {
+    "sid": "ask_1",
+    "word": "일본",
+    "mode": "aligned",
+    "source": "edge_word_boundary",
+    "transition": 78.974,
+    "boundary": 78.974,
+    "diff": -0.0
+   },
+   {
+    "sid": "ask_1",
+    "word": "호주",
+    "mode": "aligned",
+    "source": "edge_word_boundary",
+    "transition": 79.786,
+    "boundary": 79.786,
+    "diff": 0.0001
+   },
+   {
+    "sid": "ask_1",
+    "word": "한국",
+    "mode": "aligned",
+    "source": "edge_word_boundary",
+    "transition": 81.036,
+    "boundary": 81.036,
+    "diff": 0.0001
+   },
+   {
+    "sid": "ask_4",
+    "word": "한국",
+    "mode": "aligned",
+    "source": "edge_word_boundary",
+    "transition": 95.513,
+    "boundary": 95.513,
+    "diff": 0.0003
+   },
+   {
+    "sid": "past_3",
+    "word": "호르무즈",
+    "mode": "aligned",
+    "source": "edge_word_boundary",
+    "transition": 204.912,
+    "boundary": 204.912,
+    "diff": -0.0001
+   }
+  ],
+  "event_times": [
+   77.479,
+   78.214,
+   78.974,
+   79.786,
+   81.036,
+   95.513
+  ],
+  "anchors": [
+   {
+    "n": 1,
+    "anchor": "open_1",
+    "offset": 2,
+    "t": 7.772
+   },
+   {
+    "n": 2,
+    "anchor": "TITLE",
+    "offset": 2,
+    "t": 22.528
+   },
+   {
+    "n": 3,
+    "anchor": "route_0",
+    "offset": 2.5,
+    "t": 29.028
+   },
+   {
+    "n": 4,
+    "anchor": "route_2",
+    "offset": 2,
+    "t": 38.892
+   },
+   {
+    "n": 5,
+    "anchor": "route_3",
+    "offset": 3.5,
+    "t": 45.719
+   },
+   {
+    "n": 6,
+    "anchor": "war_1",
+    "offset": 2,
+    "t": 56.766
+   },
+   {
+    "n": 7,
+    "anchor": "war_2",
+    "offset": 2.5,
+    "t": 61.899
+   },
+   {
+    "n": 8,
+    "anchor": "war_3",
+    "offset": 3,
+    "t": 65.741
+   },
+   {
+    "n": 9,
+    "anchor": "ask_1",
+    "offset": 4,
+    "t": 80.97
+   },
+   {
+    "n": 10,
+    "anchor": "ask_2",
+    "offset": 2,
+    "t": 85.869
+   },
+   {
+    "n": 11,
+    "anchor": "ask_5",
+    "offset": 1.5,
+    "t": 103.377
+   },
+   {
+    "n": 12,
+    "anchor": "timeline_2",
+    "offset": 2,
+    "t": 122.595
+   },
+   {
+    "n": 13,
+    "anchor": "timeline_4",
+    "offset": 2.8,
+    "t": 135.47
+   },
+   {
+    "n": 14,
+    "anchor": "cost_1",
+    "offset": 1,
+    "t": 155.414
+   },
+   {
+    "n": 15,
+    "anchor": "review_0",
+    "offset": 2.8,
+    "t": 162.785
+   },
+   {
+    "n": 16,
+    "anchor": "review_1",
+    "offset": 2.5,
+    "t": 168.828
+   },
+   {
+    "n": 17,
+    "anchor": "past_1",
+    "offset": 2.5,
+    "t": 192.819
+   },
+   {
+    "n": 18,
+    "anchor": "past_3",
+    "offset": 5,
+    "t": 207.308
+   },
+   {
+    "n": 19,
+    "anchor": "debate_0",
+    "offset": 3,
+    "t": 214.285
+   },
+   {
+    "n": 20,
+    "anchor": "debate_1",
+    "offset": 2.5,
+    "t": 221.01
+   },
+   {
+    "n": 21,
+    "anchor": "debate_4",
+    "offset": 2,
+    "t": 239.072
+   },
+   {
+    "n": 22,
+    "anchor": "decision_0",
+    "offset": 3,
+    "t": 246.853
+   },
+   {
+    "n": 23,
+    "anchor": "now_0",
+    "offset": 3.5,
+    "t": 259.928
+   },
+   {
+    "n": 24,
+    "anchor": "now_3",
+    "offset": 4,
+    "t": 278.184
+   },
+   {
+    "n": 25,
+    "anchor": "END",
+    "offset": -4,
+    "t": 289.925
+   }
+  ],
+  "direction_sha1": "3411936a3cec72e05b1598cc279d32f9e6f0bdd8"
+ },
+ "shift": [
+  {
+   "sid": "ask_1",
+   "word": "독일",
+   "d_transition": 0.234,
+   "d_boundary": 0.234,
+   "equal": true
+  },
+  {
+   "sid": "ask_1",
+   "word": "영국",
+   "d_transition": 0.119,
+   "d_boundary": 0.119,
+   "equal": true
+  },
+  {
+   "sid": "ask_1",
+   "word": "일본",
+   "d_transition": -0.371,
+   "d_boundary": -0.371,
+   "equal": true
+  },
+  {
+   "sid": "ask_1",
+   "word": "호주",
+   "d_transition": -0.732,
+   "d_boundary": -0.732,
+   "equal": true
+  },
+  {
+   "sid": "ask_1",
+   "word": "한국",
+   "d_transition": -1.312,
+   "d_boundary": -1.312,
+   "equal": true
+  },
+  {
+   "sid": "ask_4",
+   "word": "한국",
+   "d_transition": -1.124,
+   "d_boundary": -1.124,
+   "equal": true
+  },
+  {
+   "sid": "past_3",
+   "word": "호르무즈",
+   "d_transition": -0.14,
+   "d_boundary": -0.14,
+   "equal": true
+  }
+ ],
+ "elevenlabs": [
+  {
+   "sid": "ask_1",
+   "word": "독일",
+   "transition_rel": 0.757,
+   "boundary_rel": 0.757,
+   "diff": 0.0
+  },
+  {
+   "sid": "ask_1",
+   "word": "영국",
+   "transition_rel": 1.501,
+   "boundary_rel": 1.501,
+   "diff": 0.0
+  },
+  {
+   "sid": "ask_1",
+   "word": "일본",
+   "transition_rel": 2.209,
+   "boundary_rel": 2.209,
+   "diff": 0.0
+  },
+  {
+   "sid": "ask_1",
+   "word": "호주",
+   "transition_rel": 2.987,
+   "boundary_rel": 2.987,
+   "diff": 0.0
+  },
+  {
+   "sid": "ask_1",
+   "word": "한국",
+   "transition_rel": 4.299,
+   "boundary_rel": 4.299,
+   "diff": 0.0
+  },
+  {
+   "sid": "ask_4",
+   "word": "한국",
+   "transition_rel": 1.265,
+   "boundary_rel": 1.265,
+   "diff": 0.0
+  },
+  {
+   "sid": "past_3",
+   "word": "호르무즈",
+   "transition_rel": 3.216,
+   "boundary_rel": 3.216,
+   "diff": 0.0
+  }
+ ],
+ "direction_identical": true,
+ "tolerance_sec": 0.001,
+ "all_zero": true,
+ "all_shift_equal": true
+}

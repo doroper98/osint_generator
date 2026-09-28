@@ -1,0 +1,270 @@
+{
+ "schema_version": 1,
+ "engine": "new",
+ "reference": "골든 PNG(docs/handoff/golden, H.264 추출본) — 참고값",
+ "mean_max": 1.0,
+ "frame_max": 2.0,
+ "mean_mad": 1.8327,
+ "max_mad": 3.1007,
+ "passed": true,
+ "over_threshold": [
+  "timeline_4",
+  "past_1",
+  "now_3"
+ ],
+ "intended_deltas": [
+  "ask_1"
+ ],
+ "frames": [
+  {
+   "n": 1,
+   "anchor": "open_1",
+   "offset": 2,
+   "t_now": 7.824,
+   "mad": 1.7352,
+   "over": false,
+   "frame": "frames/01_open_1.png",
+   "intended_delta": false
+  },
+  {
+   "n": 2,
+   "anchor": "TITLE",
+   "offset": 2,
+   "t_now": 22.274,
+   "mad": 1.1834,
+   "over": false,
+   "frame": "frames/02_TITLE.png",
+   "intended_delta": false
+  },
+  {
+   "n": 3,
+   "anchor": "route_0",
+   "offset": 2.5,
+   "t_now": 28.774,
+   "mad": 1.4757,
+   "over": false,
+   "frame": "frames/03_route_0.png",
+   "intended_delta": false
+  },
+  {
+   "n": 4,
+   "anchor": "route_2",
+   "offset": 2,
+   "t_now": 38.445,
+   "mad": 1.8488,
+   "over": false,
+   "frame": "frames/04_route_2.png",
+   "intended_delta": false
+  },
+  {
+   "n": 5,
+   "anchor": "route_3",
+   "offset": 3.5,
+   "t_now": 45.03,
+   "mad": 1.8517,
+   "over": false,
+   "frame": "frames/05_route_3.png",
+   "intended_delta": false
+  },
+  {
+   "n": 6,
+   "anchor": "war_1",
+   "offset": 2,
+   "t_now": 56.213,
+   "mad": 1.8174,
+   "over": false,
+   "frame": "frames/06_war_1.png",
+   "intended_delta": false
+  },
+  {
+   "n": 7,
+   "anchor": "war_2",
+   "offset": 2.5,
+   "t_now": 61.247,
+   "mad": 1.7237,
+   "over": false,
+   "frame": "frames/07_war_2.png",
+   "intended_delta": false
+  },
+  {
+   "n": 8,
+   "anchor": "war_3",
+   "offset": 3,
+   "t_now": 65.133,
+   "mad": 1.8419,
+   "over": false,
+   "frame": "frames/08_war_3.png",
+   "intended_delta": false
+  },
+  {
+   "n": 9,
+   "anchor": "ask_1",
+   "offset": 4,
+   "t_now": 80.702,
+   "mad": 1.7735,
+   "over": false,
+   "frame": "frames/09_ask_1.png",
+   "intended_delta": true
+  },
+  {
+   "n": 10,
+   "anchor": "ask_2",
+   "offset": 2,
+   "t_now": 87.058,
+   "mad": 1.6812,
+   "over": false,
+   "frame": "frames/10_ask_2.png",
+   "intended_delta": false
+  },
+  {
+   "n": 11,
+   "anchor": "ask_5",
+   "offset": 1.5,
+   "t_now": 105.281,
+   "mad": 1.5889,
+   "over": false,
+   "frame": "frames/11_ask_5.png",
+   "intended_delta": false
+  },
+  {
+   "n": 12,
+   "anchor": "timeline_2",
+   "offset": 2,
+   "t_now": 124.254,
+   "mad": 1.4446,
+   "over": false,
+   "frame": "frames/12_timeline_2.png",
+   "intended_delta": false
+  },
+  {
+   "n": 13,
+   "anchor": "timeline_4",
+   "offset": 2.8,
+   "t_now": 136.973,
+   "mad": 3.1007,
+   "over": true,
+   "frame": "frames/13_timeline_4.png",
+   "intended_delta": false
+  },
+  {
+   "n": 14,
+   "anchor": "cost_1",
+   "offset": 1,
+   "t_now": 157.376,
+   "mad": 1.5746,
+   "over": false,
+   "frame": "frames/14_cost_1.png",
+   "intended_delta": false
+  },
+  {
+   "n": 15,
+   "anchor": "review_0",
+   "offset": 2.8,
+   "t_now": 164.59,
+   "mad": 1.9183,
+   "over": false,
+   "frame": "frames/15_review_0.png",
+   "intended_delta": false
+  },
+  {
+   "n": 16,
+   "anchor": "review_1",
+   "offset": 2.5,
+   "t_now": 170.515,
+   "mad": 1.8474,
+   "over": false,
+   "frame": "frames/16_review_1.png",
+   "intended_delta": false
+  },
+  {
+   "n": 17,
+   "anchor": "past_1",
+   "offset": 2.5,
+   "t_now": 193.212,
+   "mad": 2.9693,
+   "over": true,
+   "frame": "frames/17_past_1.png",
+   "intended_delta": false
+  },
+  {
+   "n": 18,
+   "anchor": "past_3",
+   "offset": 5,
+   "t_now": 207.406,
+   "mad": 1.6237,
+   "over": false,
+   "frame": "frames/18_past_3.png",
+   "intended_delta": false
+  },
+  {
+   "n": 19,
+   "anchor": "debate_0",
+   "offset": 3,
+   "t_now": 214.454,
+   "mad": 1.5622,
+   "over": false,
+   "frame": "frames/19_debate_0.png",
+   "intended_delta": false
+  },
+  {
+   "n": 20,
+   "anchor": "debate_1",
+   "offset": 2.5,
+   "t_now": 220.96,
+   "mad": 1.5557,
+   "over": false,
+   "frame": "frames/20_debate_1.png",
+   "intended_delta": false
+  },
+  {
+   "n": 21,
+   "anchor": "debate_4",
+   "offset": 2,
+   "t_now": 238.002,
+   "mad": 1.6044,
+   "over": false,
+   "frame": "frames/21_debate_4.png",
+   "intended_delta": false
+  },
+  {
+   "n": 22,
+   "anchor": "decision_0",
+   "offset": 3,
+   "t_now": 245.553,
+   "mad": 1.7155,
+   "over": false,
+   "frame": "frames/22_decision_0.png",
+   "intended_delta": false
+  },
+  {
+   "n": 23,
+   "anchor": "now_0",
+   "offset": 3.5,
+   "t_now": 258.609,
+   "mad": 1.8597,
+   "over": false,
+   "frame": "frames/23_now_0.png",
+   "intended_delta": false
+  },
+  {
+   "n": 24,
+   "anchor": "now_3",
+   "offset": 4,
+   "t_now": 276.44,
+   "mad": 2.973,
+   "over": true,
+   "frame": "frames/24_now_3.png",
+   "intended_delta": false
+  },
+  {
+   "n": 25,
+   "anchor": "END",
+   "offset": -4,
+   "t_now": 288.439,
+   "mad": 1.4877,
+   "over": false,
+   "frame": "frames/25_END.png",
+   "intended_delta": false
+  }
+ ]
+}

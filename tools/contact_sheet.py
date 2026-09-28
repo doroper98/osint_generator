@@ -4,6 +4,7 @@
     python tools/contact_sheet.py sheet [--dir D]         # D/frames/*.png → D/sheet.jpg (4열 427×240, 앵커·시각 라벨)
     python tools/contact_sheet.py pairs [--dir D]         # 골든 | 렌더 쌍 2쌍/행 → D/sheet_vs_golden.jpg
     python tools/contact_sheet.py transitions [--dir D] [--proj P]   # 타이틀·dip 마다 0.3초 간격 8컷
+    python tools/contact_sheet.py versus --dir A --dir2 B --out F.jpg  # A | B 같은 앵커 쌍 2쌍/행 (목소리 교체 시트, D31)
 
 라벨은 D/golden_compare.json(golden_compare.py 출력)에서 읽는다. transitions 는 새 엔진 프로젝트(engine.project)를
 불러 연출층의 dip 이벤트와 타이틀 카드 시각을 그대로 쓴다(시각을 따로 적지 않는다).
@@ -80,6 +81,21 @@ def cmd_pairs(d: Path) -> Path:
     return d / "sheet_vs_golden.jpg"
 
 
+def cmd_versus(a: Path, b: Path, dest: Path) -> Path:
+    """두 golden_compare 출력 폴더의 같은 앵커 프레임을 나란히(A | B). 라벨에 각자의 절대 시각."""
+    from PIL import Image
+
+    ca, cb = _load_compare(a), _load_compare(b)
+    cells = []
+    for ra, rb in zip(ca["frames"], cb["frames"]):
+        if (ra["anchor"], ra["offset"]) != (rb["anchor"], rb["offset"]):
+            raise SystemExit(f"앵커 불일치: {ra['anchor']} / {rb['anchor']}")
+        cells.append((Image.open(a / ra["frame"]), f"{ra['n']:02d} A {ra['anchor']}{ra['offset']:+g} t={ra['t_now']:.2f}"))
+        cells.append((Image.open(b / rb["frame"]), f"{rb['n']:02d} B t={rb['t_now']:.2f}"))
+    grid(cells, COLS, dest)
+    return dest
+
+
 def _new_engine_frames(proj: Path) -> tuple[list[tuple[str, float]], "object"]:
     """새 엔진: 타이틀·dip 중심 시각과 프레임 렌더 함수."""
     import numpy as np
@@ -111,13 +127,19 @@ def cmd_transitions(d: Path, proj: Path | None = None) -> Path:
 
 def main(argv: list[str] | None = None) -> int:
     ap = argparse.ArgumentParser(description="프리뷰 컨택트 시트")
-    ap.add_argument("mode", choices=["sheet", "pairs", "transitions"])
+    ap.add_argument("mode", choices=["sheet", "pairs", "transitions", "versus"])
     ap.add_argument("--dir", type=Path, default=DEFAULT_DIR)
+    ap.add_argument("--dir2", type=Path, default=None, help="versus: B 폴더")
+    ap.add_argument("--out", type=Path, default=None, help="versus: 출력 JPEG")
     ap.add_argument("--engine", choices=["new"], default="new", help="새 엔진만(v2.3.0, D32)")
     ap.add_argument("--proj", type=Path, default=None, help="transitions 프로젝트(기본 projects/hormuz_korea)")
     args = ap.parse_args(argv)
     if args.mode == "transitions":
         out = cmd_transitions(args.dir, args.proj)
+    elif args.mode == "versus":
+        if args.dir2 is None or args.out is None:
+            raise SystemExit("versus 는 --dir2 와 --out 이 필요하다")
+        out = cmd_versus(args.dir, args.dir2, args.out)
     else:
         out = {"sheet": cmd_sheet, "pairs": cmd_pairs}[args.mode](args.dir)
     print(out)
