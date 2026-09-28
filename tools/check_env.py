@@ -36,6 +36,26 @@ FONT_FAMILIES: tuple[str, ...] = (
     "IBM Plex Mono",
 )
 MIN_FREE_GB: float = 5.0
+# 프록시 CA 번들(클라우드 컨테이너). 있으면 certifi 번들에 붙어 있어야 edge-tts TLS 가 통과한다(Phase 5 run_log §0, NB5).
+PROXY_CA_BUNDLES: tuple[str, ...] = ("/root/.ccr/ca-bundle.crt",)
+
+
+def _proxy_ca_row() -> tuple[str, str, bool, str] | None:
+    """프록시 CA 가 있는 환경에서만 검사한다. 마지막 인증서 블록이 certifi 번들에 있으면 통과."""
+    import os  # noqa: PLC0415
+
+    paths = [os.environ["EXTRA_CA_BUNDLE"]] if os.environ.get("EXTRA_CA_BUNDLE") else list(PROXY_CA_BUNDLES)
+    src = next((Path(p) for p in paths if Path(p).is_file()), None)
+    if src is None:
+        return None
+    if importlib.util.find_spec("certifi") is None:
+        return ("tls", "proxy CA in certifi", False, "certifi 없음")
+    import certifi  # noqa: PLC0415
+
+    blocks = src.read_text(encoding="utf-8", errors="replace").split("-----BEGIN CERTIFICATE-----")
+    last = blocks[-1].strip() if len(blocks) > 1 else ""
+    ok = bool(last) and last in Path(certifi.where()).read_text(encoding="utf-8", errors="replace")
+    return ("tls", "proxy CA in certifi", ok, "ok" if ok else f"missing — cat {src} >> {certifi.where()}")
 
 
 def _ffmpeg_path() -> str | None:
@@ -87,6 +107,10 @@ def collect() -> list[tuple[str, str, bool, str]]:
         else:
             ok = any(f.startswith(fam) for f in fams)
             rows.append(("font", fam, ok, "ok" if ok else "missing (tools/fetch_data.py fonts — Phase 1)"))
+
+    ca = _proxy_ca_row()
+    if ca is not None:
+        rows.append(ca)
 
     free_gb = shutil.disk_usage(Path(__file__).resolve().parent.parent).free / 1e9
     rows.append(("disk", f"free >= {MIN_FREE_GB:.0f} GB", free_gb >= MIN_FREE_GB, f"{free_gb:.1f} GB"))
