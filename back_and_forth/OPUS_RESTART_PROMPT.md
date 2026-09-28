@@ -19,7 +19,7 @@ last_review: 2026-09-28
 [첫 행동 — 순서대로, 질문 없이]
 1. cd /home/user/osint_generator && git config core.hooksPath .githooks && git fetch origin && git checkout overhaul/v2-map-engine && git pull --rebase origin overhaul/v2-map-engine
    (얕은 클론이면 git fetch --unshallow origin overhaul/v2-map-engine — fetch_data bgm 이 bd37b58 객체를 필요로 한다.)
-   **tts 복원(D-0042)**: 직전 Phase의 artifacts 브랜치에 `hormuz/tts/`·`plan.json` 이 있으면 `git show` 로 `projects/hormuz_korea/` 에 복원한다 — 재합성 없이 바이트 동일 대조가 가능해진다.
+   **tts·미디어 원본 복원(D-0042·D-0044)**: 직전 Phase의 artifacts 브랜치에 `hormuz/tts/`·`plan.json`·`hormuz/media_src/` 가 있으면 `git show` 로 `projects/hormuz_korea/` 에 복원한다 — 재합성·Commons 재요청 없이 바이트 동일 대조가 가능해진다. 미디어는 레지스트리 source_hash 로 대조한다.
 2. CronCreate "*/5 * * * *" recurring 로 감시를 건다. 프롬프트: "cd /home/user/osint_generator && git pull --rebase -q origin overhaul/v2-map-engine && python back_and_forth/check.py --me opus. 새 D가 있으면 README §6.1대로 처리하고 현재 Phase 작업을 계속한다. 없으면 진행 중 작업을 계속한다. 커밋 단위마다 푸시. 작업이 남아 있으면 턴을 끝내지 않는다. CronList로 이 작업이 살아 있는지 확인하고 없으면 다시 건다."
 3. 읽기: back_and_forth/README.md 전체(파일명은 {yymmdd}_{hhmmss}_{R|D}NNNN_{작성자}_{slug}.md, 시각 KST), CLAUDE.md, docs/handoff/15, 19 §6, docs/handoff/DECISIONS.md, back_and_forth/ 최신 D 5개·R 3개, {직전 Phase run_log} §0(컨테이너 준비 절차 — 그대로 반복: pip 설치, apt ffmpeg·fonts-noto-cjk, edge-tts CA, fetch_data all, fetch_data bgm people media, 프로젝트 복사, geo.prep).
 4. python back_and_forth/check.py --me opus → 미처리 D({미처리 D})를 처리한다.
