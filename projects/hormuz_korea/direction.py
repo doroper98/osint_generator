@@ -54,13 +54,15 @@ def direct(tb: Timebase) -> Director:  # noqa: PLR0915 — 연출 한 편은 긴
     ev("badge", S("war_3", 1.6), SC_END("war"), lon=59.4, lat=23.35, kind="flag", flag="cn", R=17, label="중국", accent="teal")
     ev("badge", S("war_3", 2.0), SC_END("war"), lon=60.9, lat=23.35, kind="flag", flag="in", R=17, label="인도", accent="teal")
     # ask panels
-    ev("panel", SC("ask") - 0.2, E("ask_3", 0.5), kind="refusal", title="3월 15일의 요구, 다음 날의 거절",
-       actor=dict(pid="trump", flag="us", label="도널드 트럼프", role="미국 대통령", accent="us"),
-       rows=[dict(flag=c, label=nm, t_refuse=at_word("ask_1", nm), hl=(c == "kr"))
-             for c, nm in (("de", "독일"), ("gb", "영국"), ("jp", "일본"), ("au", "호주"), ("kr", "한국"))],
-       demand_label="해협 방어 참여 요구", refuse_label="거절",
-       quote_bottom=dict(text="“우리가 시작한 전쟁이 아니다” — 보리스 피스토리우스 독일 국방장관", t0=S("ask_2", 0.3), t1=E("ask_2", 0.9)),
-       quote_actor=dict(text="“매우 어리석은 실수” — 트럼프 대통령", t0=S("ask_3", 0.2), t1=E("ask_3", 1.2)))
+    ask_rows = (("de", "독일"), ("gb", "영국"), ("jp", "일본"), ("au", "호주"), ("kr", "한국"))
+    ev("panel", SC("ask") - 0.2, E("ask_3", 0.5), kind="relation", title="3월 15일의 요구, 다음 날의 거절",
+       nodes=[dict(id="trump", group="source", kind="person", pid="trump", flag="us", label="도널드 트럼프", role="미국 대통령", accent="us")]
+       + [dict(id=c, group="target", kind="flag", flag=c, label=nm, accent="gold" if c == "kr" else "muted") for c, nm in ask_rows],
+       edges=[dict(src="trump", dst=c, style="demand") for c, _ in ask_rows],
+       state_changes=[dict(src="trump", dst=c, at=at_word("ask_1", nm), style="refuse", label="거절") for c, nm in ask_rows],
+       edge_label="해협 방어 참여 요구",
+       quotes=[dict(text="“우리가 시작한 전쟁이 아니다” — 보리스 피스토리우스 독일 국방장관", t0=S("ask_2", 0.3), t1=E("ask_2", 0.9), at="bottom"),
+               dict(text="“매우 어리석은 실수” — 트럼프 대통령", t0=S("ask_3", 0.2), t1=E("ask_3", 1.2), at="source")])
     ev("panel", S("ask_4", -0.3), SC_END("ask"), kind="statement", title="3월 21일 공동성명", subtitle="이란의 공격 규탄 · 항행의 자유 보장 촉구",
        signers=[dict(flag=c, label=nm) for c, nm in (("gb", "영국"), ("fr", "프랑스"), ("de", "독일"), ("it", "이탈리아"),
                                                      ("jp", "일본"), ("nl", "네덜란드"), ("ca", "캐나다"))],

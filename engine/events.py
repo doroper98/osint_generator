@@ -203,34 +203,93 @@ class TimedText(_Strict):
     t1: float
 
 
-class PanelActor(_Strict):
-    pid: str
-    flag: str
-    label: str
-    role: str
-    accent: Accent
-
-
-class RefusalRow(_Strict):
-    flag: str
-    label: str
-    t_refuse: float
-    hl: bool = False
-
-
 class _Panel(_Event):
     type: Literal["panel"]
     title: str
 
 
-class PanelRefusal(_Panel):
-    kind: Literal["refusal"]
-    actor: PanelActor
-    rows: list[RefusalRow] = Field(min_length=1)
-    demand_label: str
-    refuse_label: str
-    quote_bottom: TimedText
-    quote_actor: TimedText
+class RelationNode(_Strict):
+    """관계 패널 노드 = 뱃지 하나. group 이 배치 열을 정한다(요구자 한쪽, 대상 세로 열 — 08 §3 규칙 3)."""
+
+    id: str
+    group: Literal["source", "target"]
+    kind: Literal["person", "flag", "emblem"]
+    pid: Optional[str] = None
+    flag: Optional[str] = None
+    img: Optional[str] = None
+    label: str
+    role: Optional[str] = None
+    accent: Accent = "muted"
+
+    @model_validator(mode="after")
+    def _kind_fields(self) -> "RelationNode":
+        need = {"person": ("pid", "flag"), "flag": ("flag",), "emblem": ("img",)}[self.kind]
+        missing = [f for f in need if getattr(self, f) is None]
+        if missing:
+            raise ValueError(f"relation node kind={self.kind} 에 필요한 필드 없음: {missing}")
+        return self
+
+
+def _edge_style(v: str) -> str:
+    styles = load_rules().panels.relation.styles
+    if v not in styles:
+        raise ValueError(f"관계선 스타일 {v!r} 는 rules panels.relation.styles 에 없다: {sorted(styles)}")
+    return v
+
+
+EdgeStyle = Annotated[str, AfterValidator(_edge_style)]
+
+
+class RelationEdge(_Strict):
+    src: str
+    dst: str
+    style: EdgeStyle
+
+
+class RelationStateChange(_Strict):
+    """선 하나의 상태 변화 — at 은 단어 앵커 시각(at_word, 08 §3 규칙 5)."""
+
+    src: str
+    dst: str
+    at: float
+    style: EdgeStyle
+    label: str = ""
+
+
+class RelationQuote(_Strict):
+    text: str
+    t0: float
+    t1: float
+    at: Literal["bottom", "source"]
+
+
+class PanelRelation(_Panel):
+    """관계 패널(08 §3·§11-2). v3 P_refusal 은 이 모델의 한 인스턴스다."""
+
+    kind: Literal["relation"]
+    subtitle: Optional[str] = None
+    nodes: list[RelationNode] = Field(min_length=2)
+    edges: list[RelationEdge] = Field(min_length=1)
+    state_changes: list[RelationStateChange] = Field(default_factory=list)
+    edge_label: Optional[str] = None
+    quotes: list[RelationQuote] = Field(default_factory=list)
+
+    @model_validator(mode="after")
+    def _refs(self) -> "PanelRelation":
+        ids = [n.id for n in self.nodes]
+        if len(set(ids)) != len(ids):
+            raise ValueError(f"relation 노드 id 중복: {ids}")
+        pairs = {(e.src, e.dst) for e in self.edges}
+        for e in self.edges:
+            for end in (e.src, e.dst):
+                if end not in ids:
+                    raise ValueError(f"relation 선 끝 {end!r} 가 노드에 없다")
+        for c in self.state_changes:
+            if (c.src, c.dst) not in pairs:
+                raise ValueError(f"상태 변화 {c.src}→{c.dst} 에 해당하는 선이 없다")
+        if any(q.at == "source" for q in self.quotes) and not any(n.group == "source" for n in self.nodes):
+            raise ValueError("quote at=source 인데 source 노드가 없다")
+        return self
 
 
 class FlagLabel(_Strict):

@@ -10,7 +10,7 @@ from __future__ import annotations
 
 import importlib.util
 import json
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from pathlib import Path
 from types import ModuleType
 
@@ -21,6 +21,8 @@ from engine.camera import CamKey, build_camera
 from engine.context import RenderCtx
 from engine.credits import check_credits, load_credits, required_refs
 from engine.entities import check_event_refs, load_entities
+from engine.panels import relation
+from engine.refs import emblem_ids
 from engine.registry import RegistryError, validate_events
 from engine.style import FPS
 from engine.timebase import Timebase
@@ -75,18 +77,18 @@ def preflight(R: RenderCtx, events: list[dict]) -> list[str]:  # noqa: N803
                     errs.append(f"권리 레지스트리에 인물 없음: {d['pid']} ({e['type']} t0={e['t0']:.2f})")
             elif "flag" in d and d["flag"] is not None:
                 keys.add(f"flag11:{d['flag']}")
-        if e["type"] == "badge" and e["kind"] == "emblem":
+        for img in emblem_ids(e):   # 뱃지·패널 노드 모두(engine/refs.py)
             try:
-                fb = A.emblem_flag(e["img"])   # D5 — 제한 휘장은 국기로(코드 결정)
+                fb = A.emblem_flag(img)   # D5 — 제한 휘장은 국기로(코드 결정)
             except Exception as ex:  # noqa: BLE001 — 모아서 한 번에 보고
                 errs.append(str(ex))
                 continue
             if fb is not None:
                 keys.add(f"flag11:{fb}")
             else:
-                keys.add(f"emblem:{e['img']}")
-                if e["img"] not in A.rights.get("emblems", {}):
-                    errs.append(f"권리 레지스트리에 휘장 없음: {e['img']}")
+                keys.add(f"emblem:{img}")
+                if img not in A.rights.get("emblems", {}):
+                    errs.append(f"권리 레지스트리에 휘장 없음: {img}")
         if e["type"] in ("photo", "cutout"):
             keys.add(f"media:{e['img']}")
         if e["type"] in ("photo", "clip", "cutout") and e["mid"] not in A.media:
@@ -114,6 +116,7 @@ class Project:
     events: list[dict]
     cams: np.ndarray
     n_frames: int
+    warnings: list[str] = field(default_factory=list)   # 연출 lint 경고(오류 아님) — StageResult.warnings 로 나간다
 
 
 def load_project(proj: Path) -> Project:
@@ -138,4 +141,13 @@ def load_project(proj: Path) -> Project:
     if not d.keys:
         raise ProjectError("카메라 키가 없다")
     n = int(plan.total * FPS)
-    return Project(proj, plan, R, d.keys, events, build_camera(d.keys, n, FPS), n)
+    return Project(proj, plan, R, d.keys, events, build_camera(d.keys, n, FPS), n, lint_events(events))
+
+
+def lint_events(events: list[dict]) -> list[str]:
+    """연출 경고 — 관계선 과다(08 §3 규칙 6) 등. 분할 제안은 `engine.panels.relation.split_suggestion`(실행 안 함, P8)."""
+    out: list[str] = []
+    for e in events:
+        if e["type"] == "panel" and e["kind"] == "relation":
+            out += relation.lint(e)
+    return out

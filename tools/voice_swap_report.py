@@ -52,12 +52,12 @@ def evaluate(proj: Path) -> dict:
         rows.append(dict(sid=a["sid"], word=a["word"], mode=a["mode"], source=a["alignment_source"],
                          transition=round(a["t"], 3), boundary=None if b is None else round(b, 3),
                          diff=None if b is None else round(a["t"] - b, 4)))
-    # 연출 이벤트가 실제로 받은 값 — refusal 패널 rows[].t_refuse, statement joiner.t_join, 연표 t0
+    # 연출 이벤트가 실제로 받은 값 — relation 패널 state_changes[].at, statement joiner.t_join, 연표 t0
     used = []
     for e in d.events:
-        for r in e.get("rows", []) or []:
-            if "t_refuse" in r:
-                used.append(round(r["t_refuse"], 3))
+        for r in e.get("state_changes", []) or []:
+            if "at" in r:
+                used.append(round(r["at"], 3))
         j = e.get("joiner")
         if isinstance(j, dict) and "t_join" in j:
             used.append(round(j["t_join"], 3))

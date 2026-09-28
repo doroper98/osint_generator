@@ -32,6 +32,14 @@ released 항목은 **append-only**입니다.
 
 ### Added
 - `tools/check_env.py`: 프록시 CA 가 certifi 번들에 붙어 있는지 검사(NB5, D-0031). CA 파일이 없는 환경에서는 검사하지 않는다.
+- 관계 패널 `kind: relation`(nodes·edges·state_changes). 08 §3 정돈된 관계선 규칙 6개의 수치는 `rules/video_rules.yaml panels.relation`. 선이 7개를 넘으면 경고와 2분할 제안(`python -m engine.panels.relation <yaml>`, 자동 분할 안 함). 렌더 경고는 StageResult `warnings`.
+
+### Changed
+- v3 `refusal` 패널은 `relation` 의 한 인스턴스가 됐다(hormuz direction.py 데이터만 바뀜, 25컷 픽셀 동일). `panel_kinds` 의 `refusal` → `relation`.
+- 휘장 참조는 뱃지 이벤트만이 아니라 패널 노드 안까지 권리·자산·provenance 점검이 본다(`engine/refs.py`).
+
+### Removed
+- `engine/panels/refusal.py`(P2 — relation 으로 교체).
 
 ---
 

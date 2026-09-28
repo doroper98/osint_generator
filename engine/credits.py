@@ -19,6 +19,7 @@ from typing import Callable, Literal, Optional
 import yaml
 from pydantic import BaseModel, ConfigDict, Field, model_validator
 
+from engine.refs import emblem_ids
 from rules import load_rules
 from schemas.rules_models import CreditRules
 
@@ -142,8 +143,9 @@ def required_refs(events: list[dict], rights: dict, emblem_flag: Callable[[str],
         for d in walk(e):
             if d.get("pid") is not None:
                 need.add(f"people.{d['pid']}")
-        if e["type"] == "badge" and e.get("kind") == "emblem" and emblem_flag(e["img"]) is None:
-            need.add(f"emblems.{e['img']}")
+        for img in emblem_ids(e):   # 뱃지·패널 노드 모두(engine/refs.py)
+            if emblem_flag(img) is None:
+                need.add(f"emblems.{img}")
         if e["type"] in ("photo", "clip", "cutout") and e.get("mid"):
             need.add(f"media.{e['mid']}")
     if any(k.startswith(("flag11:", "flag43:")) for k in image_keys):

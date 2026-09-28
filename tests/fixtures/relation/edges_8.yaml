@@ -1,12 +1,9 @@
-# 레지스트리 프리뷰 예제 (v2.1.0, 15 P10) — 모델 검증 테스트가 읽는다.
-schema_version: 1
-key: panel
-source: panel 타입은 kind 로 panel:<kind> 항목에 위임한다 — 예는 relation
+# 08 §3 규칙 6 lint 예시 — 선 8개 (D-0032 합격 조건)
 event:
   type: panel
   t0: 69.36
   t1: 95.19
-  title: 3월 15일의 요구, 다음 날의 거절
+  title: 관계선 8개 예시
   kind: relation
   nodes:
   - id: trump
@@ -46,7 +43,25 @@ event:
     kind: flag
     flag: kr
     label: 한국
-    accent: gold
+    accent: muted
+  - id: fr
+    group: target
+    kind: flag
+    flag: fr
+    label: 프랑스
+    accent: muted
+  - id: it
+    group: target
+    kind: flag
+    flag: it
+    label: 이탈리아
+    accent: muted
+  - id: nl
+    group: target
+    kind: flag
+    flag: nl
+    label: 네덜란드
+    accent: muted
   edges:
   - src: trump
     dst: de
@@ -63,39 +78,15 @@ event:
   - src: trump
     dst: kr
     style: demand
-  state_changes:
   - src: trump
-    dst: de
-    at: 77.64
-    style: refuse
-    label: 거절
+    dst: fr
+    style: demand
   - src: trump
-    dst: gb
-    at: 78.39
-    style: refuse
-    label: 거절
+    dst: it
+    style: demand
   - src: trump
-    dst: jp
-    at: 79.13
-    style: refuse
-    label: 거절
-  - src: trump
-    dst: au
-    at: 79.88
-    style: refuse
-    label: 거절
-  - src: trump
-    dst: kr
-    at: 81.38
-    style: refuse
-    label: 거절
+    dst: nl
+    style: demand
+  state_changes: []
   edge_label: 해협 방어 참여 요구
-  quotes:
-  - text: “우리가 시작한 전쟁이 아니다” — 보리스 피스토리우스 독일 국방장관
-    t0: 85.36
-    t1: 90.12
-    at: bottom
-  - text: “매우 어리석은 실수” — 트럼프 대통령
-    t0: 89.92
-    t1: 95.89
-    at: source
+  quotes: []

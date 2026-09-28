@@ -21,7 +21,7 @@ EXPECTED_FEATURES: dict[str, object] = {
     "camera_moves": 5,
     "dips": 4,
     "badges": 9,
-    "panels": ["refusal", "statement", "timeline", "precedent", "versus"],
+    "panels": ["relation", "statement", "timeline", "precedent", "versus"],
     "media": {"clip": 2, "photo": 2, "cutout": 1, "article": 2},
     "label_lod": True,
 }

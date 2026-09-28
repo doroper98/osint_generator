@@ -13,14 +13,14 @@ from pydantic import BaseModel, ConfigDict, Field, RootModel, model_validator
 
 from engine.camera import CamKey
 from engine.events import (ArticleEvent, BadgeEvent, BarrierEvent, BoomEvent, CardEvent, ClipEvent, CountryEvent,
-                           CutoutEvent, DipEvent, MarkerEvent, PanelPrecedent, PanelRefusal, PanelStatement,
+                           CutoutEvent, DipEvent, MarkerEvent, PanelPrecedent, PanelRelation, PanelStatement,
                            PanelTimeline, PanelVersus, PhotoEvent, RouteEvent, ShipsEvent, TankerLoopEvent)
 from script.schema import Card, Plan, PlanSentence, Scene, Script, Sentence
 
 __all__ = [
     "ArticleEvent", "BadgeEvent", "BarrierEvent", "BoomEvent", "CamKey", "Card", "CardEvent", "ClipEvent",
     "CountryEvent", "CutoutEvent", "DipEvent", "MarkerEvent", "MediaEntry", "MediaRegistry", "PanelPrecedent",
-    "PanelRefusal", "PanelStatement", "PanelTimeline", "PanelVersus", "PhotoEvent", "Plan", "PlanSentence",
+    "PanelRelation", "PanelStatement", "PanelTimeline", "PanelVersus", "PhotoEvent", "Plan", "PlanSentence",
     "RightsRegistry", "RightsStatus", "AssetRights", "RouteEvent", "Scene", "Script", "Sentence", "ShipsEvent", "StageResult", "TankerLoopEvent",
     "Tier",
 ]

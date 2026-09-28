@@ -178,7 +178,7 @@ def main(argv: list[str] | None = None) -> int:
 
             jobs = args.jobs if args.jobs is not None else load_config().engine.jobs
             arts = {"video_noaudio": str(render_full(P, jobs))}
-        res = StageResult(ok=True, stage=stage, artifacts=arts)
+        res = StageResult(ok=True, stage=stage, artifacts=arts, warnings=P.warnings)
     except (ProjectError, RegistryError, RuntimeError, OSError) as ex:
         res = StageResult(ok=False, stage=stage, errors=[str(ex)])
     print(json.dumps(res.model_dump(), ensure_ascii=False))

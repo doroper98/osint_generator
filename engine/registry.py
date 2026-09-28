@@ -21,7 +21,7 @@ from engine.layers.effects import draw_boom, draw_ships
 from engine.layers.markers import draw_marker
 from engine.layers.media import draw_article, draw_clip, draw_cutout, draw_photo
 from engine.layers.routes import draw_barrier, draw_route, draw_tanker_loop
-from engine.panels import precedent, refusal, statement, timeline, versus
+from engine.panels import precedent, relation, statement, timeline, versus
 from engine.panels.base import make_panel_renderer
 from rules import load_rules
 
@@ -57,7 +57,7 @@ REGISTRY: dict[str, Entry] = {
     "card": Entry(ev.CardEvent, draw_card, "card"),
     "article": Entry(ev.ArticleEvent, draw_article, "card"),
     "panel": Entry(ev._Panel, lambda ctx, R, t, e: dispatch_panel(ctx, R, t, e), "panel"),  # kind 별 항목으로 위임
-    "panel:refusal": Entry(ev.PanelRefusal, make_panel_renderer(refusal.draw), "panel"),
+    "panel:relation": Entry(ev.PanelRelation, make_panel_renderer(relation.draw), "panel"),
     "panel:statement": Entry(ev.PanelStatement, make_panel_renderer(statement.draw), "panel"),
     "panel:timeline": Entry(ev.PanelTimeline, make_panel_renderer(timeline.draw), "panel"),
     "panel:precedent": Entry(ev.PanelPrecedent, make_panel_renderer(precedent.draw), "panel"),

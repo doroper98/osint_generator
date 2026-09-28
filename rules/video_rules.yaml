@@ -111,6 +111,28 @@ layout_480p:               # 09 §2·§4, 08 §10 — 기준 해상도 854×480.
   fade: {in_sec: 1.2, out_sec: 1.6}
   reserved_zones: {card: {x_from_right: 260, y: [70, 200]}, subtitle: {y_from: 410}}
 
+panels:                    # D-0032 — 패널 기하·타이밍. 코드에 리터럴로 다시 적지 않는다(tests/anti_inertia/test_no_magic_numbers)
+  relation:                # 08 §3 정돈된 관계선 규칙 6개 + v3 P_refusal 합격 값(수치 무변경)
+    edge_dur_sec: 1.3
+    edge_dur_range: [1.0, 1.3]      # 규칙 2 — 선 하나 1.0~1.3초
+    edge_gap_sec: 0.75
+    edge_gap_range: [0.6, 0.75]     # 규칙 2 — 선 간격 0.6~0.75초
+    edges_after_nodes_sec: 0.4      # 규칙 1 — 노드가 모두 뜬 뒤(마지막 노드 등장 + 0.4초)에 첫 선. v3: 1.0+0.2×4+0.4 = 2.2
+    max_edges: 7                    # 규칙 6 — 초과 = lint 경고 + 2분할 제안(자동 분할은 하지 않음, P8)
+    curve_samples: 36               # 규칙 3 — 모든 선은 수평 접선 3차 베지어(곡률 통일)
+    line_width: 1.5
+    state_fade_sec: 0.5             # 규칙 5 — 상태 변화(요구→거절)는 내레이션이 이름을 부를 때(at_word)부터
+    dash_after: 0.5
+    source: {x: 235, cy: 262, dy: 62, R: 36, t0: 0.4, step: 0.2, pad: 4}     # 요구자 한쪽
+    target: {x: 590, cy: 262, dy: 62, R: 19, t0: 1.0, step: 0.2, pad: 7}     # 대상 세로 열(이름 오른쪽)
+    styles:
+      demand: {color: gold, alpha: 0.8, dash: []}
+      refuse: {color: ru, alpha: 0.55, dash: [4, 4]}
+    state_label: {dx: 78, dy: 5, size: 12, halo: 2.4}
+    edge_label: {x: 400, y: 150, size: 11, delay_sec: 3.2, fade_sec: 0.5, halo: 2.4}   # 규칙 4
+    quote_bottom: {y: 414, size: 13, fade_sec: 0.4, halo: 3}
+    quote_source: {dy: 92, size: 12.5, fade_sec: 0.4, halo: 3}
+
 colors:                    # 09 §7
   ru: "#ff5566"
   us: "#5aa9ff"
@@ -152,7 +174,7 @@ credits:                   # D-0030(D35) — 권리 레지스트리 종류별 �
 registries:                # 15 §3 P10 — 여기 없는 타입을 연출이 쓰면 오류, 있는데 렌더러가 없으면 오류
   event_types: [marker, route, tanker_loop, barrier, ships, boom, country, badge, card, panel, dip, photo, clip, cutout, article]
   event_types_planned: [occupied, arc, channel, shield, tl, particles, flash, dots, movers, line, arrow, post]   # v1/v2 이식 후보(미구현 = 사용 불가). post 는 Phase 6.95 에서 복귀(D26)
-  panel_kinds: [refusal, statement, timeline, precedent, versus]
+  panel_kinds: [relation, statement, timeline, precedent, versus]   # relation = v3 refusal 일반화(D-0032)
   panel_kinds_planned: [dots, gantt, dual_line, fork, checklist, network]
   badge_kinds: [person, flag, emblem]
   accents: [gold, us, ru, teal, muted, green, amber]

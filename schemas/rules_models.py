@@ -9,7 +9,7 @@ from __future__ import annotations
 
 from typing import Literal, Optional
 
-from pydantic import BaseModel, ConfigDict, Field
+from pydantic import BaseModel, ConfigDict, Field, model_validator
 
 
 class _Strict(BaseModel):
@@ -214,6 +214,85 @@ class Layout480p(_Strict):
     reserved_zones: ReservedZones
 
 
+
+# ------------------------------------------------------------------ 패널 기하·타이밍 (D-0032, 08 §3·§8)
+class RelationNodeCol(_Strict):
+    x: float
+    cy: float           # 열 세로 중심 — y_i = cy − (n−1)/2·dy + i·dy
+    dy: float
+    R: float
+    t0: float           # 패널 시작 뒤 첫 노드 등장(초)
+    step: float         # 노드 사이 등장 간격(초)
+    pad: float          # 선 끝과 뱃지 원 사이 여백(px). 선 끝 = 원 반지름 + pad
+
+
+class RelationEdgeStyle(_Strict):
+    color: str          # colors 키
+    alpha: float
+    dash: list[float]
+
+
+class PanelText(_Strict):
+    size: float
+    halo: float
+    fade_sec: float = 0.0
+
+
+class RelationStateLabel(PanelText):
+    dx: float
+    dy: float
+
+
+class RelationEdgeLabel(PanelText):
+    x: float
+    y: float
+    delay_sec: float
+
+
+class RelationQuoteBottom(PanelText):
+    y: float
+
+
+class RelationQuoteSource(PanelText):
+    dy: float
+
+
+class RelationPanelRules(_Strict):
+    """08 §3 정돈된 관계선 규칙 6개(코드 내장 대상) + v3 P_refusal 합격 값."""
+
+    edge_dur_sec: float
+    edge_dur_range: Range2          # 규칙 2 — 선 하나 1.0~1.3초
+    edge_gap_sec: float
+    edge_gap_range: Range2          # 규칙 2 — 간격 0.6~0.75초
+    edges_after_nodes_sec: float    # 규칙 1 — 마지막 노드 등장 뒤에 첫 선
+    max_edges: int                  # 규칙 6 — 초과 = lint 경고 + 분할 제안(실행하지 않음, P8)
+    curve_samples: int              # 규칙 3 — 수평 접선 3차 베지어 표본 수
+    line_width: float
+    state_fade_sec: float           # 규칙 5 — 상태 변화는 단어 앵커 시각부터 이 시간 동안
+    dash_after: float               # 상태 전환 진행률이 이 값을 넘으면 새 스타일의 점선
+    source: RelationNodeCol
+    target: RelationNodeCol
+    styles: dict[str, RelationEdgeStyle]
+    state_label: RelationStateLabel
+    edge_label: RelationEdgeLabel   # 규칙 4 — 라벨은 선이 자라기 시작한 뒤(v3 값 3.2초)
+    quote_bottom: RelationQuoteBottom
+    quote_source: RelationQuoteSource
+
+    @model_validator(mode="after")
+    def _within_rules(self) -> "RelationPanelRules":
+        lo, hi = self.edge_dur_range
+        if not lo <= self.edge_dur_sec <= hi:
+            raise ValueError(f"edge_dur_sec {self.edge_dur_sec} 가 규칙 범위 {self.edge_dur_range} 밖 (08 §3 규칙 2)")
+        lo, hi = self.edge_gap_range
+        if not lo <= self.edge_gap_sec <= hi:
+            raise ValueError(f"edge_gap_sec {self.edge_gap_sec} 가 규칙 범위 {self.edge_gap_range} 밖 (08 §3 규칙 2)")
+        return self
+
+
+class PanelRules(_Strict):
+    relation: RelationPanelRules
+
+
 class Colors(_Strict):
     ru: str
     us: str
@@ -315,6 +394,7 @@ class VideoRules(_Strict):
     media_beats: MediaBeats
     hud: HudRules
     layout_480p: Layout480p
+    panels: PanelRules
     colors: Colors
     fonts: Fonts
     labels: LabelRules

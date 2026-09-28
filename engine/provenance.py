@@ -9,6 +9,7 @@ import collections
 from typing import Callable
 
 from engine.camera import CamKey
+from engine.refs import emblem_ids
 from rules import load_rules, rules_hash
 from script.schema import Plan
 
@@ -38,12 +39,12 @@ def emblem_usage(events: list[dict], emblem_flag: Callable[[str], str | None]) -
     used: set[str] = set()
     fallback: dict[str, str] = {}
     for e in events:
-        if e["type"] == "badge" and e.get("kind") == "emblem":
-            fb = emblem_flag(e["img"])
+        for img in emblem_ids(e):   # 뱃지·패널 노드 모두
+            fb = emblem_flag(img)
             if fb is None:
-                used.add(e["img"])
+                used.add(img)
             else:
-                fallback[e["img"]] = fb
+                fallback[img] = fb
     return {"used": sorted(used), "flag_fallback": dict(sorted(fallback.items()))}
 
 

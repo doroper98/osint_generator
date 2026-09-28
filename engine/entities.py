@@ -14,6 +14,7 @@ from pathlib import Path
 
 import yaml
 
+from engine.refs import emblem_ids
 from engine.registry import RegistryError
 from schemas.emblem_models import EmblemRegistry
 from schemas.entity_models import EntitiesFile, Entity
@@ -120,9 +121,9 @@ def check_event_refs(events: list[dict], reg: EntityRegistry) -> list[str]:
                 errs.append(f"인물 {d['pid']} 미등재 ({where})")
             if isinstance(d.get("flag"), str) and d["flag"] not in reg.flags:
                 errs.append(f"국기 {d['flag']} 미등재 국가 ({where})")
-        if e["type"] == "badge" and e.get("kind") == "emblem":
+        for img in emblem_ids(e):   # 뱃지·패널 노드 모두
             try:
-                reg.emblem_owner(e["img"])
+                reg.emblem_owner(img)
             except RegistryError as ex:
                 errs.append(f"{ex} ({where})")
     return errs
