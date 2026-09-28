@@ -28,6 +28,13 @@ released 항목은 **append-only**입니다.
 
 ---
 
+## [v3.2.0] — 2026-09-28 — Phase 6.95: 소스 인테이크 (back_and_forth D-0050·D-0051) — 진행 중
+
+### Fixed
+- 글리프 검사가 프로젝트 글꼴 없는 환경에서 대체 글꼴 cmap 으로 조용히 검사하던 문제 — `engine.checks.FontMissingError`(명시 오류), `test_glyphs` 는 글꼴 없으면 사유 있는 skip (D-0050 NB10).
+
+---
+
 ## [v3.1.0] — 2026-09-28 — Phase 6.9: 선언형 연출·결정적 검사·AI 연출가·시각 검수 (back_and_forth D-0047~D-0049)
 
 ### Added

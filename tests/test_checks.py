@@ -13,6 +13,7 @@ from engine.projection import ym
 from rules import load_rules
 
 SG = load_rules().shot_grammar
+_MISSING_FONTS = checks.missing_fonts()
 TIERS = {"W": {"lon0": 20.0, "lon1": 150.0, "lat0": -10.0, "lat1": 60.0, "levels": []}}
 
 
@@ -40,11 +41,17 @@ class ChecksTest(unittest.TestCase):
         self.assertEqual(len(checks.check_subtitles(P)), 1)
         self.assertEqual(checks.check_subtitles(_P()), [])
 
+    @unittest.skipIf(bool(_MISSING_FONTS), f"프로젝트 글꼴 없음 {_MISSING_FONTS} — `python tools/fetch_data.py fonts` 필요(D-0050 NB10)")
     def test_glyphs(self) -> None:
         self.assertEqual(checks.check_glyphs(_P(events=[{"type": "card", "tag": "정상 문자열 123"}])), [])
         miss = checks.check_glyphs(_P(events=[{"type": "card", "tag": "쐐기 𓀀"}]))   # 이집트 상형문자 — 프로젝트 글꼴에 없음
         self.assertEqual(len(miss), 1)
         self.assertIn("U+13000", miss[0])
+
+    def test_missing_font_is_loud(self) -> None:
+        """대체 글꼴로 조용히 검사하지 않는다 — 없는 패밀리는 FontMissingError(P6, NB10)."""
+        with self.assertRaises(checks.FontMissingError):
+            checks._cmap("NoSuchFamily Zz9")  # noqa: SLF001
 
     def test_shots(self) -> None:
         keys = [CamKey(t=0, x=0, y=0, w=10, dur=0, mode="cut"), CamKey(t=5, x=1, y=1, w=10, dur=3, mode="move"),

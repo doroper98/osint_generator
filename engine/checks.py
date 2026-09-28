@@ -38,11 +38,28 @@ HARD = ("overlap", "offscreen", "glyphs", "labels", "date", "subtitles", "rights
 WARN = ("shots", "media_beats")
 
 
+class FontMissingError(RuntimeError):
+    """프로젝트 글꼴이 설치되지 않아 fontconfig 가 다른 글꼴로 대체했다 — 글리프 검사를 할 수 없다(D-0050 NB10)."""
+
+
+def _fc_match(family: str) -> tuple[str, str]:
+    out = subprocess.run(["fc-match", "-f", "%{family}\t%{file}", family], capture_output=True, text=True, check=True).stdout
+    fams, _, path = out.partition("\t")
+    return fams, path.strip()
+
+
+def missing_fonts() -> list[str]:
+    """`FONT` 표의 패밀리 중 fontconfig 가 그 이름으로 찾지 못하는(대체 글꼴로 넘어가는) 것. 없으면 `fetch_data fonts`."""
+    return [fam for fam, _ in FONT.values() if fam not in (f.strip() for f in _fc_match(fam)[0].split(","))]
+
+
 @lru_cache(maxsize=None)
 def _cmap(family: str) -> frozenset[int]:
     from fontTools.ttLib import TTFont  # noqa: PLC0415
 
-    path = subprocess.run(["fc-match", "-f", "%{file}", family], capture_output=True, text=True, check=True).stdout.strip()
+    fams, path = _fc_match(family)
+    if family not in (f.strip() for f in fams.split(",")):   # 조용한 대체 금지(P6) — 대체 글꼴 cmap 으로 검사하면 전부 '글리프 없음'
+        raise FontMissingError(f"글꼴 {family!r} 없음(fontconfig 대체: {fams.split(',')[0]!r}) — `python tools/fetch_data.py fonts` 먼저")
     f = TTFont(path, fontNumber=0, lazy=True)
     return frozenset(f.getBestCmap() or {})
 
