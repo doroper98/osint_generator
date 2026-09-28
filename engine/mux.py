@@ -25,6 +25,7 @@ from script.schema import Plan
 SR = 44100
 SRT_TAIL_SEC = 0.15
 AAC_BITRATE = "192k"
+DESCRIPTION_CREDITS_HEADING = "크레딧 (영상 밖 표기 — 폰트 등)"
 
 
 class Chapter(BaseModel):
@@ -107,7 +108,7 @@ def asset_usage(P) -> dict:  # noqa: ANN001, N803 — engine.project.Project (�
 
 
 def main(argv: list[str] | None = None) -> int:
-    from engine.credits import RightsError, credit_lines  # noqa: PLC0415
+    from engine.credits import RightsError, credit_lines, credit_summary, description_credits  # noqa: PLC0415
     from engine.project import ProjectError, load_project  # noqa: PLC0415
     from engine.provenance import build as build_prov  # noqa: PLC0415
     from orchestrator import __version__  # noqa: PLC0415
@@ -127,10 +128,16 @@ def main(argv: list[str] | None = None) -> int:
         (outd / "final.srt").write_text(build_srt(P.plan), encoding="utf-8")
         (outd / "credits.txt").write_text("\n".join(credit_lines(P.R.credits, P.R.assets.rights, P.R.assets.media,
                                                                   P.R.cache.get("credit_refs"))) + "\n", encoding="utf-8")
-        (outd / "description.txt").write_text(build_description(P.plan, load_description(proj)), encoding="utf-8")
+        req = P.R.cache.get("credit_refs") or set()
+        desc = build_description(P.plan, load_description(proj))
+        dcred = description_credits(P.R.assets.rights, req)   # D-0030 — 카드에 안 넣는 종류(폰트)는 설명문에
+        if dcred:
+            desc += "\n\n" + DESCRIPTION_CREDITS_HEADING + "\n" + "\n".join(dcred)
+        (outd / "description.txt").write_text(desc, encoding="utf-8")
         prov = build_prov(P.plan, P.keys, P.events, __version__,
                           {"plan": True, "render": True, "mix": True, "mux": True, "ai_direction": False, "visual_qa": False},
                           P.R.tb.word_anchors, asset_usage(P))
+        prov["credits"] = credit_summary(req)   # D-0030 §3 — 표기 위치별 종류 개수
         (outd / "provenance.json").write_text(json.dumps(prov, ensure_ascii=False, indent=1), encoding="utf-8")
         res = StageResult(ok=True, stage="mux", provenance=prov,
                           artifacts={"final": str(final), "srt": str(outd / "final.srt"),

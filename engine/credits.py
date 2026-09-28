@@ -1,11 +1,14 @@
 """엔딩 크레딧 데이터와 권리 대조 (v2.4.0, render3 `credit_sections, credits`, 07 §7, back_and_forth D-0029 작업 7).
 
 크레딧 문구는 프로젝트 `credits.yaml` 에 있다. 각 항목은 `rights:` 로 권리 레지스트리 항목을 가리킨다
-(`people.<pid>`, `emblems.<id>`, `media.<mid>`, `flags.<id>`, `music.<id>`, `fonts.<id>`, `map_data.<id>`, `narration.<id>`).
+(`people.<pid>`, `emblems.<id>`, `media.<mid>`, `flags.<id>`, `music.<id>`, `fonts.<id>`, `map.<id>`, `narration.<id>`).
 절(section)에 `auto: <절 이름>` 을 쓰면 그 절의 레지스트리 항목 중 이번 렌더가 쓰는 것을 자동으로 나열한다.
 
 렌더 전 검사(`check_credits`, C9·15 P6): 이번 렌더가 쓰는 자산(`required_refs`)은 전부
-① 권리 레지스트리에 있고 ② 권리 상태가 확인됐고(rights_clear) ③ 크레딧 항목이 가리켜야 한다. 하나라도 어기면 `RightsError`.
+① 권리 레지스트리에 있고 ② 권리 상태가 확인됐고(rights_clear) ③ 표기 위치가 정해져 있어야 한다.
+표기 위치는 규칙 `credits:` 절(D-0030, D35): `card_kinds` = 엔딩 카드 항목이 가리켜야 함,
+`description_only_kinds` = 설명문 자동 크레딧 블록(`description_credits`)에 나열. 두 목록 밖 종류 = 오류.
+하나라도 어기면 `RightsError`.
 """
 
 from __future__ import annotations
@@ -16,9 +19,12 @@ from typing import Callable, Literal, Optional
 import yaml
 from pydantic import BaseModel, ConfigDict, Field, model_validator
 
-RightsSection = Literal["people", "emblems", "media", "flags", "music", "fonts", "map_data", "narration"]
+from rules import load_rules
+from schemas.rules_models import CreditRules
+
+RightsSection = Literal["people", "emblems", "media", "flags", "music", "fonts", "map", "narration"]
 # 렌더가 항상 쓰는 묶음 자산 — 레지스트리 절의 항목 전부가 크레딧 대상이다
-ALWAYS_USED: tuple[RightsSection, ...] = ("music", "fonts", "map_data", "narration")
+ALWAYS_USED: tuple[RightsSection, ...] = ("music", "fonts", "map", "narration")
 
 
 class RightsError(RuntimeError):
@@ -146,10 +152,38 @@ def required_refs(events: list[dict], rights: dict, emblem_flag: Callable[[str],
     return need
 
 
-def check_credits(cr: Credits, rights: dict, media: dict, required: set[str]) -> None:
+def description_credits(rights: dict, required: set[str], rules: Optional[CreditRules] = None) -> list[str]:
+    """설명문 자동 크레딧 블록 — description_only_kinds 자산의 이름·라이선스·출처 URL (D-0030 §3)."""
+    rules = rules or load_rules().credits
+    view = registry_view(rights, {})
+    lines: list[str] = []
+    for kind in rules.description_only_kinds:
+        for r in sorted(x for x in required if x.startswith(kind + ".") and x in view):
+            v = view[r]
+            lines.append(" · ".join(x for x in (v.get("name") or r, v.get("author", ""), v["license"], v.get("url", "")) if x))
+    return lines
+
+
+def credit_summary(required: set[str], rules: Optional[CreditRules] = None) -> dict[str, dict[str, int]]:
+    """provenance `credits`: 표기 위치별 종류 → 개수."""
+    rules = rules or load_rules().credits
+    out: dict[str, dict[str, int]] = {"card": {}, "description_only": {}}
+    for r in required:
+        kind = r.split(".", 1)[0]
+        where = "card" if kind in rules.card_kinds else "description_only" if kind in rules.description_only_kinds else None
+        if where:
+            out[where][kind] = out[where].get(kind, 0) + 1
+    return {k: dict(sorted(v.items())) for k, v in out.items()}
+
+
+def check_credits(cr: Credits, rights: dict, media: dict, required: set[str], rules: Optional[CreditRules] = None,
+                  description: Optional[list[str]] = None) -> None:
     """누락·미확인·미표기 자산이 있으면 RightsError(C9, 15 P6). 통과하면 None."""
+    rules = rules or load_rules().credits
     view = registry_view(rights, media)
     errs: list[str] = []
+    for kind in sorted({r.split(".", 1)[0] for r in view} - set(rules.card_kinds) - set(rules.description_only_kinds)):
+        errs.append(f"권리 종류 {kind} 의 표기 위치가 규칙(credits.card_kinds/description_only_kinds)에 없다")
     covered: set[str] = set()
     for sec in cr.sections:
         if sec.auto is not None:
@@ -159,7 +193,9 @@ def check_credits(cr: Credits, rights: dict, media: dict, required: set[str]) ->
                 if r not in view:
                     errs.append(f"크레딧 {it.main!r} 이 가리키는 권리 항목 없음: {r}")
                 covered.add(r)
+    desc = description if description is not None else description_credits(rights, required, rules)
     for r in sorted(required):
+        kind = r.split(".", 1)[0]
         if r.endswith(".?"):
             errs.append(f"권리 레지스트리 {r[:-2]} 절이 비었다 — 렌더가 쓰는 자산의 권리 기록 없음")
             continue
@@ -169,7 +205,10 @@ def check_credits(cr: Credits, rights: dict, media: dict, required: set[str]) ->
         status = view[r].get("rights_status", "rights_clear")
         if status != "rights_clear":
             errs.append(f"권리 미확인 자산({status}): {r} — <미검증> 라벨 외 사용 금지(C9)")
-        if r not in covered:
+        if kind in rules.card_kinds and r not in covered:
             errs.append(f"엔딩 크레딧 누락: {r}")
+        name = view[r].get("name") or r
+        if kind in rules.description_only_kinds and not any(line.startswith(name) for line in desc):
+            errs.append(f"설명문 크레딧 누락: {r}")
     if errs:
         raise RightsError("크레딧·권리 점검 실패:\n" + "\n".join(errs))

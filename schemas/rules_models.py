@@ -9,7 +9,7 @@ from __future__ import annotations
 
 from typing import Literal, Optional
 
-from pydantic import BaseModel, ConfigDict
+from pydantic import BaseModel, ConfigDict, Field
 
 
 class _Strict(BaseModel):
@@ -252,6 +252,13 @@ class GeoRules(_Strict):
     land_miss_allow_px2: float
 
 
+class CreditRules(_Strict):
+    """D-0030(D35) — 권리 종류별 표기 위치(엔딩 카드 / 설명문만)."""
+
+    card_kinds: list[str] = Field(min_length=1)
+    description_only_kinds: list[str] = Field(default_factory=list)
+
+
 class Registries(_Strict):
     event_types: list[str]
     event_types_planned: list[str]
@@ -312,6 +319,7 @@ class VideoRules(_Strict):
     fonts: Fonts
     labels: LabelRules
     geo: GeoRules
+    credits: CreditRules
     registries: Registries
     audio: AudioRules
     qa_checks: QAChecks

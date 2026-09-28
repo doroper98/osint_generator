@@ -16,7 +16,7 @@ fonts:
   ibm_plex_mono: {name: IBM Plex Mono, license: SIL OFL 1.1, author: IBM, url: "https://github.com/google/fonts/tree/main/ofl/ibmplexmono"}
   gmarket_sans: {name: GmarketSans, license: G마켓 무료 폰트, author: Gmarket, url: "https://corp.gmarket.com/fonts/"}
   noto_serif_cjk: {name: Noto Serif CJK KR, license: SIL OFL 1.1, author: Google · Adobe, url: "https://github.com/notofonts/noto-cjk"}
-map_data:
+map:
   natural_earth: {name: Natural Earth, license: Public domain, author: Natural Earth, url: "https://www.naturalearthdata.com"}
   aws_terrain_tiles: {name: AWS Terrain Tiles, license: 구성 데이터별 조건(Mapzen terrarium), author: Mapzen · AWS Open Data, url: "https://registry.opendata.aws/terrain-tiles/"}
 narration:

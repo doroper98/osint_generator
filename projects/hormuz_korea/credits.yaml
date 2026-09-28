@@ -51,7 +51,7 @@ sections:
         rights: [flags.flag_icons]
       - main: 지도 · 지형
         license: Natural Earth · AWS Terrain Tiles
-        rights: [map_data.natural_earth, map_data.aws_terrain_tiles]
+        rights: [map.natural_earth, map.aws_terrain_tiles]
   - title: 음악 · 음성
     column: 1
     items:

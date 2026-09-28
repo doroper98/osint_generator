@@ -79,7 +79,7 @@ class AssetRights(_Strict):
 class RightsRegistry(_Strict):
     """권리 레지스트리 (02 §2.5, C9). 뱃지가 쓰는 인물·휘장은 전부 여기에 있어야 한다.
 
-    v2.4.0: 엔딩 크레딧 자동 나열(07 §7.2)을 위해 flags·music·fonts·map_data·narration 절 추가(선택 — C3 호환).
+    v2.4.0: 엔딩 크레딧 자동 나열(07 §7.2)을 위해 flags·music·fonts·map·narration 절 추가(선택 — C3 호환).
     미디어(사진·영상)는 `media/media_registry.json` 이 권리 기록이다(14 §6).
     """
 
@@ -88,7 +88,7 @@ class RightsRegistry(_Strict):
     flags: dict[str, AssetRights] = Field(default_factory=dict)
     music: dict[str, AssetRights] = Field(default_factory=dict)
     fonts: dict[str, AssetRights] = Field(default_factory=dict)
-    map_data: dict[str, AssetRights] = Field(default_factory=dict)
+    map: dict[str, AssetRights] = Field(default_factory=dict)
     narration: dict[str, AssetRights] = Field(default_factory=dict)
 
 

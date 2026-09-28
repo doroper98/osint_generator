@@ -145,6 +145,10 @@ labels:                    # 04 §6·§7
 geo:                       # D29(back_and_forth D-0019) — 지오 자산 단계(geo.prep)
   land_miss_allow_px2: 16  # 국가 면적(deg²) × 티어 ppd² 가 이 값 미만이면 land-miss 를 small 로 허용(4×4 px). 이상 = drop
 
+credits:                   # D-0030(D35) — 권리 레지스트리 종류별 표기 위치. 카드 ∪ 설명문 = 전 자산. 두 목록 밖 종류 = RightsError
+  card_kinds: [people, emblems, flags, map, media, music, narration]   # 엔딩 카드(C0 유지, v3 골든 END 컷 무변경)
+  description_only_kinds: [fonts]                                      # 07 §7.3 영상 내 표기 의무 없음 → 설명문 자동 크레딧 블록만
+
 registries:                # 15 §3 P10 — 여기 없는 타입을 연출이 쓰면 오류, 있는데 렌더러가 없으면 오류
   event_types: [marker, route, tanker_loop, barrier, ships, boom, country, badge, card, panel, dip, photo, clip, cutout, article]
   event_types_planned: [occupied, arc, channel, shield, tl, particles, flash, dots, movers, line, arrow, post]   # v1/v2 이식 후보(미구현 = 사용 불가). post 는 Phase 6.95 에서 복귀(D26)
