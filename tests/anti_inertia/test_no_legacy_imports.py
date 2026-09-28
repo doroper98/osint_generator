@@ -5,6 +5,8 @@
 
 v2.3.0(D32): 자산 부트스트랩 `tools/bootstrap_assets/`(v3 prep3·media3 실행본, Phase 5·6.5 에서 삭제)는
 `tools/fetch_data.py`와 그 폴더 안에서만 이름이 나올 수 있다. 그 밖의 import·문자열 = 위반.
+v2.4.0(D-0029 작업 4): people·flags 부트스트랩(`prep_people_flags`)은 `tools/commons_fetch.py`·`tools/portrait_fallback.py`로
+옮겨 삭제했다. 파일이 다시 생기거나 어디서든 그 이름을 부르면 위반(D32 sunset). media 부트스트랩은 6.5까지 허용.
 주석은 검사하지 않는다 — 이관 출처 표시(`# moved from ...`, 19 §5.3)는 코드 참조가 아니다(D12).
 """
 
@@ -27,6 +29,7 @@ _TOKEN = re.compile(r"(?<![A-Za-z0-9])(" + "|".join(LEGACY_NAMES) + r")(?![A-Za-
 
 BOOTSTRAP = "bootstrap_assets"
 BOOTSTRAP_ALLOWED: tuple[str, ...] = ("tools/fetch_data.py", "tools/bootstrap_assets/")
+SUNSET: tuple[str, ...] = ("prep_people_flags",)   # D-0029 작업 4 — people·flags 부트스트랩 삭제 완료
 _BOOT = re.compile(r"(?<![A-Za-z0-9])" + BOOTSTRAP + r"(?![A-Za-z0-9])")
 
 
@@ -84,6 +87,18 @@ class NoLegacyImportsTest(unittest.TestCase):
     def test_bootstrap_assets_only_from_fetch_data(self) -> None:
         violations = find_bootstrap_violations()
         self.assertEqual(violations, [], "bootstrap_assets 는 tools/fetch_data.py 만 호출한다(D32):\n" + "\n".join(violations))
+
+    def test_people_bootstrap_sunset(self) -> None:
+        self.assertFalse((REPO / "tools" / "bootstrap_assets" / "prep_people_flags.py").exists())
+        hits = []
+        for path in iter_py():
+            rel = path.relative_to(REPO).as_posix()
+            if rel.startswith("tests/anti_inertia/"):
+                continue
+            for const in code_strings(parse(path)):
+                if any(n in const.value for n in SUNSET):
+                    hits.append(f"{rel}:{const.lineno}")
+        self.assertEqual(hits, [], "삭제된 people 부트스트랩 참조(D-0029):\n" + "\n".join(hits))
 
     def test_legacy_dirs_absent_is_tracked(self) -> None:
         # 디렉터리 존재 자체는 19 §5.8 셸 검사가 본다. 여기서는 검사기 자체가 동작하는지만 확인.

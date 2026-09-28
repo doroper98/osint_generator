@@ -6,6 +6,7 @@
 from __future__ import annotations
 
 import collections
+from typing import Callable
 
 from engine.camera import CamKey
 from rules import load_rules, rules_hash
@@ -32,8 +33,22 @@ def features(keys: list[CamKey], events: list[dict]) -> dict:
     }
 
 
+def emblem_usage(events: list[dict], emblem_flag: Callable[[str], str | None]) -> dict:
+    """휘장 뱃지의 실제 처리(D-0029 작업 3): 휘장 그대로 쓴 id 와 국기로 대체한 id."""
+    used: set[str] = set()
+    fallback: dict[str, str] = {}
+    for e in events:
+        if e["type"] == "badge" and e.get("kind") == "emblem":
+            fb = emblem_flag(e["img"])
+            if fb is None:
+                used.add(e["img"])
+            else:
+                fallback[e["img"]] = fb
+    return {"used": sorted(used), "flag_fallback": dict(sorted(fallback.items()))}
+
+
 def build(plan: Plan, keys: list[CamKey], events: list[dict], repo_version: str, stages: dict[str, bool],
-          word_anchors: list[dict] | None = None) -> dict:
+          word_anchors: list[dict] | None = None, assets: dict | None = None) -> dict:
     anchors = word_anchors or []
     modes = sorted({a["mode"] for a in anchors})
     feats = features(keys, events)
@@ -56,4 +71,5 @@ def build(plan: Plan, keys: list[CamKey], events: list[dict], repo_version: str,
         "features_used": feats,
         "qa": {"auto_iterations": 0, "user_approved": False, "reviewer": "fable (back_and_forth)"},
         "drops": [],
+        **({"assets": assets} if assets is not None else {}),   # v2.4.0 — 이미지 키·휘장 처리·뱃지 제안/사용
     }

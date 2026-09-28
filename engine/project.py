@@ -19,7 +19,7 @@ import numpy as np
 from engine.assets import Assets, load_labels
 from engine.camera import CamKey, build_camera
 from engine.context import RenderCtx
-from engine.credits import load_credits
+from engine.credits import check_credits, load_credits, required_refs
 from engine.entities import check_event_refs, load_entities
 from engine.registry import RegistryError, validate_events
 from engine.style import FPS
@@ -76,9 +76,17 @@ def preflight(R: RenderCtx, events: list[dict]) -> list[str]:  # noqa: N803
             elif "flag" in d and d["flag"] is not None:
                 keys.add(f"flag11:{d['flag']}")
         if e["type"] == "badge" and e["kind"] == "emblem":
-            keys.add(f"emblem:{e['img']}")
-            if e["img"] not in A.rights.get("emblems", {}):
-                errs.append(f"권리 레지스트리에 휘장 없음: {e['img']}")
+            try:
+                fb = A.emblem_flag(e["img"])   # D5 — 제한 휘장은 국기로(코드 결정)
+            except Exception as ex:  # noqa: BLE001 — 모아서 한 번에 보고
+                errs.append(str(ex))
+                continue
+            if fb is not None:
+                keys.add(f"flag11:{fb}")
+            else:
+                keys.add(f"emblem:{e['img']}")
+                if e["img"] not in A.rights.get("emblems", {}):
+                    errs.append(f"권리 레지스트리에 휘장 없음: {e['img']}")
         if e["type"] in ("photo", "cutout"):
             keys.add(f"media:{e['img']}")
         if e["type"] in ("photo", "clip", "cutout") and e["mid"] not in A.media:
@@ -122,6 +130,10 @@ def load_project(proj: Path) -> Project:
     errs = preflight(R, events)
     if errs:
         raise ProjectError("렌더 전 점검 실패:\n" + "\n".join(errs))
+    A = R.assets  # noqa: N806
+    req = required_refs(events, A.rights, A.emblem_flag, set(A.img))
+    check_credits(R.credits, A.rights, A.media, req)   # D-0029 작업 7 — 누락·미확인·미표기 자산은 RightsError
+    R.cache["credit_refs"] = req
     if not d.keys:
         raise ProjectError("카메라 키가 없다")
     n = int(plan.total * FPS)

@@ -1,6 +1,6 @@
 <!--
 tier: 2
-last_synced_with: v0.44.0
+last_synced_with: v2.4.0
 ssot_for: [json-contracts-overview]
 depends_on: [../schemas/models.py]
 last_review: 2026-05-23
@@ -338,3 +338,16 @@ SSOT 는 `schemas/models.py`. 전부 additive — schema_version 1 유지.
 | `BundleSectionVideo` / `BundleReportVideo` / `BundleTimelineVideo` | (수신) report_bundle | VIDEO_BUNDLE_CONTRACT 의 `video` 블록 정식 모델링 — 쇼츠 변환기는 raw dict 대신 본 모델 경유 (G4-5) |
 | `AssetSourceRef`, `LibraryAssetVariant`, `LibraryPerson`, `LibraryLogo`, `LibraryFlag`, `AssetLibraryManifest` | `assets/library/library_manifest.json` | 인물·CI·국기 사전 구축 라이브러리 인덱스 + 권리 기록 (C9). id 유일성 검증 내장 |
 | `SafeArea`, `DesignSheet` | `hyperframes/shorts/design_sheet.json` (Phase 3) | 디자인 시트 L1 토큰 운반 형식 — 값의 SSOT 는 [17_COLLAGE_DESIGN_SHEET.md](17_COLLAGE_DESIGN_SHEET.md) |
+
+## 7. v2.4.0 추가 계약 (Phase 5 — 뱃지·엔티티·권리, back_and_forth D-0029)
+
+필드 SSOT 는 코드다. 여기서는 위치와 규칙만 적는다.
+
+| 파일 | 모델 | 규칙 |
+|---|---|---|
+| `assets/entities.yaml` | `schemas/entity_models.py` `EntitiesFile`·`Entity` | 인물·기관·국가. 라이브러리 24인(`library_manifest.json`) 자동 조인. 별칭 중복·미등재 참조 = `RegistryError`(15 P10) |
+| `assets/emblems/registry.json` | `schemas/emblem_models.py` `EmblemRegistry`·`EmblemEntry` | `decision ∈ {use, flag_fallback}` 은 코드 규칙(`decide_emblem`)과 같아야 로드된다. Restrictions 하나라도 → `flag_fallback`(D5) |
+| 프로젝트 `assets/rights_registry.json` | `schemas/engine_models.py` `RightsRegistry` | people·emblems + (선택) flags·music·fonts·map_data·narration(`AssetRights`). `rights_status`·`retrieved_at`·`processing` 선택 필드 추가(C3 호환) |
+| `assets/rights_bundles.yaml` | `AssetRights` | 묶음 자산 권리 원본. `fetch_data people` 이 프로젝트 레지스트리에 병합 |
+| 프로젝트 `credits.yaml` | `engine/credits.py` `Credits` | 항목 `rights: [절.키]`, 절 `auto: <절>`. 렌더가 쓰는 자산이 레지스트리에 없거나·미확인이거나·크레딧에 없으면 `RightsError` |
+| provenance `assets` | `engine/mux.py asset_usage` | `images_used`, `emblems.{used, flag_fallback}`, `badges.{suggested, used, suggested_and_used}` |

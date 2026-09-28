@@ -97,7 +97,17 @@ def mux(proj: Path, total: float) -> Path:
     return out
 
 
+def asset_usage(P) -> dict:  # noqa: ANN001, N803 — engine.project.Project (순환 import 회피)
+    """provenance `assets`: 렌더 전 점검이 불러온 이미지 키(= 렌더가 쓰는 이미지 전부)와 휘장 처리(D-0029 §2)."""
+    from engine.provenance import emblem_usage  # noqa: PLC0415
+    from script.badges import badge_usage  # noqa: PLC0415
+
+    return {"images_used": sorted(P.R.assets.img), "emblems": emblem_usage(P.events, P.R.assets.emblem_flag),
+            "badges": badge_usage(P.plan, P.events)}
+
+
 def main(argv: list[str] | None = None) -> int:
+    from engine.credits import RightsError, credit_lines  # noqa: PLC0415
     from engine.project import ProjectError, load_project  # noqa: PLC0415
     from engine.provenance import build as build_prov  # noqa: PLC0415
     from orchestrator import __version__  # noqa: PLC0415
@@ -115,15 +125,17 @@ def main(argv: list[str] | None = None) -> int:
                 raise ProjectError(f"out/{need} 없음 — engine.render / audio.mix 먼저")
         final = mux(proj, P.plan.total)
         (outd / "final.srt").write_text(build_srt(P.plan), encoding="utf-8")
+        (outd / "credits.txt").write_text("\n".join(credit_lines(P.R.credits, P.R.assets.rights, P.R.assets.media,
+                                                                  P.R.cache.get("credit_refs"))) + "\n", encoding="utf-8")
         (outd / "description.txt").write_text(build_description(P.plan, load_description(proj)), encoding="utf-8")
         prov = build_prov(P.plan, P.keys, P.events, __version__,
                           {"plan": True, "render": True, "mix": True, "mux": True, "ai_direction": False, "visual_qa": False},
-                          P.R.tb.word_anchors)
+                          P.R.tb.word_anchors, asset_usage(P))
         (outd / "provenance.json").write_text(json.dumps(prov, ensure_ascii=False, indent=1), encoding="utf-8")
         res = StageResult(ok=True, stage="mux", provenance=prov,
                           artifacts={"final": str(final), "srt": str(outd / "final.srt"),
-                                     "description": str(outd / "description.txt"), "provenance": str(outd / "provenance.json")})
-    except (ProjectError, KeyError, ValueError, OSError, subprocess.CalledProcessError) as ex:
+                                     "description": str(outd / "description.txt"), "credits": str(outd / "credits.txt"), "provenance": str(outd / "provenance.json")})
+    except (ProjectError, RightsError, KeyError, ValueError, OSError, subprocess.CalledProcessError) as ex:
         res = StageResult(ok=False, stage="mux", errors=[str(ex)])
     print(json.dumps(res.model_dump(), ensure_ascii=False))
     return 0 if res.ok else 1
