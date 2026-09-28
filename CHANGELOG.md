@@ -36,6 +36,7 @@ MAJOR: GOAL G3 개정은 GOAL §G3 머리말("변경 시 메이저")대로 메�
 - **GOAL G3 v2**(작업 1, D4·D-0005): 19 부록 C 16개 + 17번(장르 확장·무대 연속성)을 본문 표로. Phase 6.8~10 실측으로 정정 — 6(checks hard 0 + 시각 검수 루프 ≤2, 상한 뒤 게이트 ② 사람 판정 D49), 7(출력 프로파일 480p/1080p, D-0067), 12(미디어 밀도 = `rules media.density`, D38), 13(음악 = `rules audio.qa.music_under_narration_db` v3 합격본 기준, D57). 항목마다 "검증 방법" 열(테스트 id·checks 항목·게이트·예정). 옛 34개는 `G3-legacy [legacy v1 — deprecated v4.0.0]` 절로 접어 보존(DOCS_GOVERNANCE §6.4). CLAUDE.md C0(07·08·09·10 재작성 문구)·C5.4(MAJOR 트리거에 G3).
 - `tests/test_goal_g3.py`(작업 2): G3 표 17행, 검증 방법 열의 테스트 id(`def` 존재)·checks 항목(`engine.checks.HARD ∪ WARN`)·게이트(ProjectState, 2개)·예정(1개) 대조, legacy 34개 보존, `rules:`/`config:` 인용 키 존재(`tests/_doc_keys.py`).
 - **docs/07 영상 스타일 재작성**(작업 3): 쇼츠 콜라주 구판(v0.45.1) → handoff 05·06·08·09·14·17 과 `rules/video_rules.yaml` 을 가리키는 안내도. 수치는 `rules:키` 로만(값 복사 0). 화면 구성·카메라·패널·카드·뱃지·미디어·타이포·검증 라벨(`<미검증>`·`<논쟁>`)·되돌리면 안 되는 것(C0)·checks 12항목 표. 폐기 배너 제거.
+- **docs/08 오디오·TTS 재작성**(작업 4): handoff 03·10, `rules audio`·`tts_rules`·`tts_risk`, `config tts`, BGM 레지스트리, 2패스 loudnorm, 오디오 QA(D57), 발음 규칙·TTS-AP, edge/ElevenLabs 정렬·캐시·트림. handoff 13 §Phase 8 음악 수치 문구에 D57 동기화 주석(D-0061).
 
 ### Fixed
 - **NB27 글꼴 없는 환경의 CLI 서브프로세스 테스트**: `conftest` 의 NB16 훅은 같은 프로세스의 `FontMissingError` 만 skip 으로 바꾼다. 엔진 CLI 를 띄우는 두 테스트(`test_real_cli_direction_validate`·`test_script_gate_view_sections`)는 `tests/_fonts.fonts_ready()` 로 사유 있는 skip. 게이트 ① 뷰는 렌더가 아니라 린트(`script/lint.py` 자막 줄 수 = 글자 폭)에 글꼴이 필요하다 — 검사 경로 분리 대상 아님 (D-0071 §2, D-0072 §0).

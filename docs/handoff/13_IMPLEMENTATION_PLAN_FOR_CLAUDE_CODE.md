@@ -133,7 +133,7 @@ origin: claude.ai chat handoff bundle (2026-09-26 ~ 09-27), imported verbatim
 **합격 기준**: v3 direction을 자동 제안값으로 바꿔도 프리뷰가 동등하거나 나음(사용자 검수).
 
 ## Phase 8 — 오디오 (v2.7.0)
-BGM 레지스트리, 장면별 `music_intensity`, 곡 교체 교차 페이드, 오디오 QA(내레이션 대비 음악 −14~−18dB, 최종 −14 LUFS).
+BGM 레지스트리, 장면별 `music_intensity`, 곡 교체 교차 페이드, 오디오 QA(내레이션 대비 음악 −14~−18dB, 최종 −14 LUFS). **[v4.0.0 동기화 — D57(back_and_forth D-0061): 내레이션 대비 음악은 `rules/video_rules.yaml audio.qa.music_under_narration_db`(v3 사용자 합격본 기준 hard). 위 −14~−18dB 는 v2 거절값 쪽이라 채택하지 않았다(10 §3.3). 현재 명세는 `docs/08_AUDIO_AND_TTS_SPEC.md` §7.]**
 
 ## Phase 9 — 번들 어댑터 (v2.8.0)
 `bundle/` 패키지(`12` §7). 번들 → `script.yaml` 초안(장면 묶음 제안, 린트 결과 주석) + `direction.py` 초안. 테스트 코퍼스: `samples/*.bundle.json`, 백필 63건. agents_reviewer 스키마 개선안 문서(`12` §6)를 사용자에게 제출.
