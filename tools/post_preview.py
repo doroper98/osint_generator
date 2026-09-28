@@ -35,12 +35,21 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("--proj", type=Path, required=True)
     ap.add_argument("--out", type=Path, required=True)
     ap.add_argument("--t", type=float, default=61.0, help="배경 프레임 시각(초)")
+    ap.add_argument("--sources", type=Path, default=FIX, help="소스 파일(기본: 픽스처). 예: projects/e2e_gaon/intake/sources.json")
+    ap.add_argument("--case", action="append", default=[], help="이름=src_id[,hl=구절][,at=panel] — 주면 기본 3종 대신")
     args = ap.parse_args(argv)
     P = load_project(args.proj)  # noqa: N806
-    P.R.cache["sources"] = SourcesFile.model_validate_json(FIX.read_text(encoding="utf-8")).by_id()
+    P.R.cache["sources"] = SourcesFile.model_validate_json(args.sources.read_text(encoding="utf-8")).by_id()
     args.out.mkdir(parents=True, exist_ok=True)
     shots = []
-    for name, extra in CASES:
+    cases = CASES
+    if args.case:
+        cases = []
+        for c in args.case:
+            name, _, spec = c.partition("=")
+            sid, *opts = spec.split(",")
+            cases.append((name, {"src": sid, **dict(o.split("=", 1) for o in opts)}))
+    for name, extra in cases:
         ev = validate_events([{"type": "post", "t0": args.t - 3.0, "t1": args.t + 5.0, **extra}])[0]
         surf, buf = render_frame(P, int(args.t * FPS))
         ctx = cairo.Context(surf)
