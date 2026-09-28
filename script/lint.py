@@ -9,6 +9,8 @@
 - emphasis-missing: 강조어가 자막에 없음(tts_rules.emphasis_must_be_substring)
 
 경고(plan 은 진행, StageResult.warnings 로 보고):
+- tts-risk: 발음 텍스트의 TTS-위험 표기(URL·파일명·버전·시각 콜론·날짜 점·화살표·범위·천단위 콤마·붙은 단위·
+  슬래시·기호·로마자). 패턴은 `rules tts_risk`(v3.0.0, 옛 orchestrator/tts_lint 병합 — 16 §3, D-0040 작업 8)
 - source-missing: `sources` 가 빈 문장(03 §3 "모든 수치에 출처")
 - subtitle-lines: 자막이 script_schema.subtitle_max_lines 줄을 넘음(렌더러와 같은 글꼴·폭으로 실측 wrap)
 
@@ -72,6 +74,128 @@ def subtitle_lines(text: str) -> int:
     return len(wrap(cairo.Context(surf), text, SUBTITLE_WRAP_PX, SUBTITLE.size, "sansm"))
 
 
+# ------------------------------------------------------------------ TTS-위험 표기 (옛 orchestrator/tts_lint)
+def _risk_patterns() -> list[tuple[str, "re.Pattern[str]", str]]:
+    return [(p.kind, re.compile(p.regex, re.IGNORECASE if p.ignore_case else 0), p.hint)
+            for p in load_rules().tts_risk.patterns]
+
+
+def tts_risks(text: str) -> list[tuple[str, str, str]]:
+    """발음 텍스트에서 TTS-위험 표기 [(종류, 조각, 힌트)]. 같은 (종류, 조각)은 한 번,
+    로마자는 더 구체적인 종류(covered_before_roman)가 덮은 구간이면 생략한다."""
+    if not text:
+        return []
+    covered_kinds = set(load_rules().tts_risk.covered_before_roman)
+    out: list[tuple[str, str, str]] = []
+    seen: set[tuple[str, str]] = set()
+    covered: list[tuple[int, int]] = []
+    for kind, pattern, hint in _risk_patterns():
+        for m in pattern.finditer(text):
+            if kind == "roman_letters" and any(cs <= m.start() and m.end() <= ce for cs, ce in covered):
+                continue
+            key = (kind, m.group(0))
+            if key in seen:
+                continue
+            seen.add(key)
+            out.append((kind, m.group(0)[:60], hint))
+            if kind in covered_kinds:
+                covered.append(m.span())
+    return out
+
+
+# ------------------------------------------------------------------ 발음 변환 (옛 orchestrator/tts_pronounce, v0.34.10)
+# 한자어 숫자 자동 변환 + JSON 음차 사전(경로 = rules pronounce.dict_path). 번들 어댑터(bundle/text)가 쓴다.
+# 한 숫자의 음절은 붙여 쓴다(TTS-AP-058). 자막은 원본 유지 — 변환은 발음 텍스트만.
+_ONES = ["", "일", "이", "삼", "사", "오", "육", "칠", "팔", "구"]
+
+
+def _num_to_sino_under_1000(n: int) -> str:
+    """1 ≤ n ≤ 999 를 한자어로. 단위는 '백십사' 처럼 단위어 우선 (자릿수 1 일 때
+    `일백`/`일십` 생략).
+
+    **한 숫자 안에서는 음절을 절대 띄우지 않는다** (TTS-AP-058) — 예전에는 prosody
+    힌트라며 "백 육 십 팔" 로 띄웠으나, ElevenLabs 는 공백을 만나면 국어의 연음(자음
+    동화)을 끊어 "백육십"[뱅뉵씹] 을 [배·규·씹] 으로 또박또박 읽고, 소수점 앞에서도
+    반박자 쉰다. 붙여 써야 모델이 연음/운율을 자연히 적용한다."""
+    if n == 0:
+        return ""
+    hundred, rest = divmod(n, 100)
+    ten, one = divmod(rest, 10)
+    parts: list[str] = []
+    if hundred:
+        parts.append("백" if hundred == 1 else f"{_ONES[hundred]}백")
+    if ten:
+        parts.append("십" if ten == 1 else f"{_ONES[ten]}십")
+    if one:
+        parts.append(_ONES[one])
+    return "".join(parts)
+
+
+def num_to_sino_kr(n: int) -> str:
+    """0 ≤ n ≤ 99,999,999 를 한자어로. 99,999,999 이상은 그대로 반환(드물고
+    OSINT 영상에선 만 단위 이상 거의 안 씀, 안전 폴백).
+
+    한 숫자의 음절은 붙여서 반환 (TTS-AP-058) — 연음/운율 보존."""
+    if n == 0:
+        return "영"
+    if n < 1000:
+        return _num_to_sino_under_1000(n)
+    if n < 10000:
+        thousand, rest = divmod(n, 1000)
+        head = "천" if thousand == 1 else f"{_ONES[thousand]}천"
+        return f"{head}{_num_to_sino_under_1000(rest)}" if rest else head
+    if n < 100_000_000:
+        man, rest = divmod(n, 10000)
+        head = f"{num_to_sino_kr(man)}만"
+        return f"{head}{num_to_sino_kr(rest)}" if rest else head
+    return str(n)
+
+
+# 숫자 + 한글 (단위어가 바로 붙는 경우 = "80달러", "19일") 패턴. num_to_sino_kr 의 결과
+# 뒤에 단위 한글이 붙으면 자연스럽게 공백 1 칸 삽입해 prosody 보정.
+_NUM_THEN_HANGUL_RE = re.compile(r"(?<!\d)(\d{1,8})(?=[가-힣])")
+_NUM_RE = re.compile(r"(?<!\d)(\d{1,8})(?!\d)")
+
+
+def apply_pronunciation(text: str, mapping: dict[str, str] | None = None) -> str:
+    """텍스트를 narration 용 음차로 변환.
+
+    1) `mapping` (사용자 사전) 의 key 가 text 에 있으면 value 로 치환 — 가장 우선.
+    2) 남은 숫자(연속 1~8자리) 는 한자어로 자동 변환.
+       2-1) 숫자 바로 뒤에 한글 단위어가 붙어있으면 (예: "80달러", "19일") 사이에
+            공백 한 칸 삽입 — TTS 가 단위어 발음을 분리 적용하도록.
+
+    단어 경계: mapping key 가 한국어이므로 `\b` 가 작동 안 함. 단순 substring 치환을
+    긴 key 부터 적용해 부분 매칭 충돌 회피.
+    """
+    out = text
+    if mapping:
+        for key in sorted(mapping.keys(), key=len, reverse=True):
+            if key.startswith("_"):
+                continue
+            if key in out:
+                out = out.replace(key, mapping[key])
+    # 숫자 + 단위어 사이 공백 보정 → "팔십 달러", "십 구 일".
+    out = _NUM_THEN_HANGUL_RE.sub(
+        lambda m: num_to_sino_kr(int(m.group(1))) + " ", out
+    )
+    out = _NUM_RE.sub(lambda m: num_to_sino_kr(int(m.group(1))), out)
+    return out
+
+
+def pronounce_dict_path() -> Path:
+    return Path(__file__).resolve().parent.parent / load_rules().pronounce.dict_path
+
+
+def load_pronounce_dict(path: Path | None = None) -> dict[str, str]:
+    """JSON 음차 사전. 없거나 깨지면 오류(v3.0.0 — 옛 빈 dict 조용한 폴백 제거, 15 P6). `_` 로 시작하는 키는 메타."""
+    p = path or pronounce_dict_path()
+    raw = json.loads(p.read_text(encoding="utf-8"))
+    if not isinstance(raw, dict):
+        raise ValueError(f"{p}: 발음 사전은 JSON 객체여야 한다")
+    return {str(k): str(v) for k, v in raw.items() if isinstance(k, str) and not k.startswith("_")}
+
+
 def lint(script: Script) -> LintReport:
     r = load_rules()
     banned = [re.compile(p) for p in r.banned_phrases.patterns]
@@ -96,6 +220,8 @@ def lint(script: Script) -> LintReport:
                 for e in s.emphasis:
                     if e not in s.text:
                         add("emphasis-missing", "error", e)
+            for kind, snippet, hint in tts_risks(say):
+                add(f"tts-risk:{kind}", "warning", f"{snippet!r} → {hint}", say)
             if not s.sources:   # D-0029 §3 경고 유지(6.95 에서 오류 격상). 수치 문장은 표시(D-0043 §5)
                 add("source-missing", "warning", "sources 비어 있음" + (" (수치 문장)" if NUMERIC.search(s.text) else ""))
             n = subtitle_lines(s.text)

@@ -10,9 +10,9 @@ from __future__ import annotations
 import json
 import re
 
-from orchestrator.tts_pronounce import DEFAULT_DICT_PATH, apply_pronunciation, load_dict, num_to_sino_kr
+from script.lint import apply_pronunciation, load_pronounce_dict, num_to_sino_kr   # v3.0.0 — 옛 orchestrator/tts_pronounce 병합(D-0040 작업 8)
 
-_PRONOUNCE = load_dict(DEFAULT_DICT_PATH)
+_PRONOUNCE = load_pronounce_dict()
 
 def char_units(ch: str) -> float:
     # moved from hyperframes/scripts/bundle_to_video.py (v2.0.0)

@@ -1,4 +1,4 @@
-"""나레이션 TTS-위험 표기 린터 테스트 (v0.16.0).
+"""나레이션 TTS-위험 표기 린터 테스트 (v0.16.0 → v3.0.0 script.lint.tts_risks, 패턴은 rules tts_risk).
 
 순수 함수라 디스크/네트워크 불필요. 깨끗한 한국어는 통과, 위험 표기는 카테고리별로 탐지.
 
@@ -9,7 +9,17 @@ from __future__ import annotations
 
 import unittest
 
-from orchestrator.tts_lint import lint_narration
+from script.lint import tts_risks
+
+
+class _Issue:
+    def __init__(self, kind: str, snippet: str, hint: str) -> None:
+        self.category, self.snippet, self.hint = kind, snippet, hint
+
+
+def lint_narration(text: str) -> list[_Issue]:
+    """v3.0.0 — 옛 orchestrator.tts_lint.lint_narration 을 script.lint.tts_risks 로 병합(D-0040 작업 8). 같은 기대값."""
+    return [_Issue(*t) for t in tts_risks(text)]
 
 
 class TestLintNarration(unittest.TestCase):

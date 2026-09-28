@@ -1,4 +1,4 @@
-"""orchestrator.tts_pronounce 단위 테스트 (TTS-AP-054 ~ 057, v0.34.10).
+"""발음 변환(v3.0.0 script.lint 병합, 옛 orchestrator.tts_pronounce) 단위 테스트 (TTS-AP-054 ~ 057, v0.34.10).
 
 목적: ElevenLabs misread (한자어 숫자, 외래어 경음화, 기호 %) 의 회귀 잠금.
 """
@@ -10,11 +10,8 @@ import tempfile
 import unittest
 from pathlib import Path
 
-from orchestrator.tts_pronounce import (
-    apply_pronunciation,
-    load_dict,
-    num_to_sino_kr,
-)
+from script.lint import apply_pronunciation, num_to_sino_kr
+from script.lint import load_pronounce_dict as load_dict   # v3.0.0 — 옛 orchestrator.tts_pronounce 병합(D-0040 작업 8)
 
 
 class TestNumToSinoKr(unittest.TestCase):
@@ -100,8 +97,13 @@ class TestApplyPronunciation(unittest.TestCase):
             self.assertIn("달러", d)
             self.assertNotIn("_comment", d)
 
-    def test_load_dict_missing_returns_empty(self) -> None:
-        self.assertEqual(load_dict(Path("/no/such/file.json")), {})
+    def test_load_dict_missing_is_error(self) -> None:
+        # v3.0.0 — 옛 빈 dict 조용한 폴백 제거(15 P6)
+        with self.assertRaises(FileNotFoundError):
+            load_dict(Path("/no/such/file.json"))
+
+    def test_repo_dict_path_from_rules(self) -> None:
+        self.assertTrue(load_dict())   # rules pronounce.dict_path 의 저장소 사전
 
 
 if __name__ == "__main__":

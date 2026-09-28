@@ -55,6 +55,26 @@ class TTSRules(_Strict):
     alignment_sources: list[str]   # v2.3.0 D34 — `{mp3}.align.json` alignment_source 등재값(P10). 등재 외 = 오류
 
 
+class TTSRiskPattern(_Strict):
+    kind: str
+    regex: str
+    hint: str
+    ignore_case: bool = False
+
+
+class TTSRisk(_Strict):
+    """v3.0.0 — 옛 orchestrator/tts_lint 패턴(D-0040 작업 8). 발음 텍스트 경고."""
+
+    covered_before_roman: list[str]
+    patterns: list[TTSRiskPattern]
+
+
+class PronounceRules(_Strict):
+    """v3.0.0 — 옛 orchestrator/tts_pronounce 사전 경로(저장소 기준)."""
+
+    dict_path: str
+
+
 class Drift(_Strict):
     amount: float
     tau_sec: float
@@ -672,6 +692,8 @@ class VideoRules(_Strict):
     balance_principles: list[str]
     script_schema: ScriptSchemaRules
     tts_rules: TTSRules
+    tts_risk: TTSRisk             # v3.0.0 — D-0040 작업 8
+    pronounce: PronounceRules     # v3.0.0 — D-0040 작업 8
     shot_grammar: ShotGrammar
     media_beats: MediaBeats
     media: MediaRules
