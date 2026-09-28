@@ -289,8 +289,47 @@ class RelationPanelRules(_Strict):
         return self
 
 
+class TimelinePanelRules(_Strict):
+    """08 §5 v3 P_timeline 합격 값 + 자동 층 배치(08 §11-3, D-0032 작업 3)."""
+
+    x: Range2                   # 축 x0→x1
+    y: float                    # 축 y
+    axis_draw_sec: float
+    axis_alpha: float
+    axis_width: float
+    tick_h: float
+    tick_w: float
+    month: PanelText            # 월 라벨(IBM Plex Sans KR — Mono 에는 한글이 없다)
+    month_dx: float
+    month_dy: float
+    month_alpha: float
+    band_h: float
+    band_alpha: float
+    band_fade_sec: float
+    band_label: PanelText
+    band_label_dy: float
+    event_fade_sec: float
+    dim_alpha: float
+    stem_alpha: float
+    stem_width: float
+    dot_r: float
+    layer_px: list[float] = Field(min_length=1)   # 층 1·2·3… 의 축에서 거리(위·아래 같은 값)
+    date: PanelText
+    date_dy_above: float
+    date_dy_below: float
+    label: PanelText
+    label_dy_above: float
+    label_dy_below: float
+    label_gap_px: float         # 같은 층 라벨 상자 사이 최소 간격(자동 층 배치)
+    cursor_alpha: float
+    cursor_width: float
+    cursor_dash: list[float]
+    cursor_y: Range2
+
+
 class PanelRules(_Strict):
     relation: RelationPanelRules
+    timeline: TimelinePanelRules
 
 
 class Colors(_Strict):

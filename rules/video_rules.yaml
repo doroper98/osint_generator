@@ -132,6 +132,40 @@ panels:                    # D-0032 — 패널 기하·타이밍. 코드에 리�
     edge_label: {x: 400, y: 150, size: 11, delay_sec: 3.2, fade_sec: 0.5, halo: 2.4}   # 규칙 4
     quote_bottom: {y: 414, size: 13, fade_sec: 0.4, halo: 3}
     quote_source: {dy: 92, size: 12.5, fade_sec: 0.4, halo: 3}
+  timeline:                # 08 §5 v3 P_timeline 합격 값(수치 무변경) + 자동 층 배치(08 §11-3)
+    x: [80, 774]
+    y: 262
+    axis_draw_sec: 1.2
+    axis_alpha: 0.35
+    axis_width: 1.4
+    tick_h: 8
+    tick_w: 1
+    month: {size: 10.5, halo: 0}
+    month_dx: 3
+    month_dy: 22
+    month_alpha: 0.9
+    band_h: 14
+    band_alpha: 0.18
+    band_fade_sec: 0.6
+    band_label: {size: 10.5, halo: 2}
+    band_label_dy: 40
+    event_fade_sec: 0.5
+    dim_alpha: 0.55
+    stem_alpha: 0.8
+    stem_width: 1.2
+    dot_r: 4.5
+    layer_px: [44, 96, 148]         # 층 ±1·±2(v3) · ±3(자동 배치 여유)
+    date: {size: 11, halo: 2.4}
+    date_dy_above: -18
+    date_dy_below: 14
+    label: {size: 11.5, halo: 2.4}
+    label_dy_above: 14
+    label_dy_below: 15
+    label_gap_px: 8
+    cursor_alpha: 0.35
+    cursor_width: 1
+    cursor_dash: [2, 3]
+    cursor_y: [118, 400]
 
 colors:                    # 09 §7
   ru: "#ff5566"

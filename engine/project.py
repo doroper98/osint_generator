@@ -21,7 +21,7 @@ from engine.camera import CamKey, build_camera
 from engine.context import RenderCtx
 from engine.credits import check_credits, load_credits, required_refs
 from engine.entities import check_event_refs, load_entities
-from engine.panels import relation
+from engine.panels import relation, timeline
 from engine.refs import emblem_ids
 from engine.registry import RegistryError, validate_events
 from engine.style import FPS
@@ -150,4 +150,6 @@ def lint_events(events: list[dict]) -> list[str]:
     for e in events:
         if e["type"] == "panel" and e["kind"] == "relation":
             out += relation.lint(e)
+        if e["type"] == "panel" and e["kind"] == "timeline":
+            out += timeline.lint(e)
     return out

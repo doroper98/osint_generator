@@ -323,7 +323,7 @@ class TimelineItem(_Strict):
     date: str
     label: str
     col: ColorName
-    side: Literal[-2, -1, 1, 2]
+    side: Optional[Literal[-3, -2, -1, 1, 2, 3]] = None   # 없으면 자동 층 배치(D-0032 작업 3)
     t: float
     dim: bool = False
 

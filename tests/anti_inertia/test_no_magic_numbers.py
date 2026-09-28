@@ -12,17 +12,20 @@ import unittest
 
 from tests.anti_inertia._ast_util import REPO, parse
 
-DATA_DRIVEN_MODULES: tuple[str, ...] = ("engine/panels/relation.py",)
+DATA_DRIVEN_MODULES: dict[str, frozenset[float]] = {   # 모듈 → 추가 허용(달력 상수 등)
+    "engine/panels/relation.py": frozenset(),
+    "engine/panels/timeline.py": frozenset({12}),   # 12월 → 다음 해 1월
+}
 ALLOWED_NUMBERS: frozenset[float] = frozenset({0, 1, 2, 3})
 
 
 class NoMagicNumbersTest(unittest.TestCase):
     def test_no_numeric_literals(self) -> None:
         violations: list[str] = []
-        for rel in DATA_DRIVEN_MODULES:
+        for rel, extra in DATA_DRIVEN_MODULES.items():
             for node in ast.walk(parse(REPO / rel)):
                 if isinstance(node, ast.Constant) and isinstance(node.value, (int, float)) \
-                        and not isinstance(node.value, bool) and node.value not in ALLOWED_NUMBERS:
+                        and not isinstance(node.value, bool) and node.value not in ALLOWED_NUMBERS | extra:
                     violations.append(f"{rel}:{node.lineno} {node.value!r}")
         self.assertEqual(violations, [], "규칙 값은 rules/video_rules.yaml panels.* 에:\n" + "\n".join(violations))
 
