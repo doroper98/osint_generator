@@ -211,7 +211,7 @@ python back_and_forth/check.py --me opus --next-id         # 내가 쓸 다음 �
 **목표**: `docs/handoff/KICKOFF_PROMPT.md` §2의 완료 정의 6개 — 골든 재현, 명령→오케스트레이터→워커→엔진 e2e,
 레거시 통로 0 + 관성 방지 테스트 8종 전부 통과(xfail 0), 목소리 교체 시 무수정 싱크, 해상도 독립, provenance 증명.
 
-**계획된 Phase** (버전은 `docs/handoff/19` §6 보정표):
+**계획된 Phase** (버전은 `docs/handoff/19` §6 보정표 → **D39(2026-09-28)로 6.8부터 재보정**: manifest schema_version 2 = MAJOR, C5.4):
 
 | Phase | 버전 | 내용 |
 |---|---|---|
