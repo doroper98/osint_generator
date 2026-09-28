@@ -397,3 +397,30 @@ PR 생성·force push·비밀 값 커밋·외부 서비스 조작 금지.
 **운용 수치(참고)**: 감시 5분, 유휴 판정 15분(Fable 회차)·20분(watchdog), 트리거 깨우기 없음 → 즉시 새 세션, 새 세션 첫 푸시까지 약 2분, watchdog 매시.
 
 **근본 원인 한 줄**: 세션 안 크론은 컨테이너가 회수되면 소리 없이 죽고, 세션은 "크론이 깨워 줄 것"이라 믿고 턴을 끝내므로 영원히 멈춘다. 그래서 (1) 턴을 끝내지 않고 (2) 세션 밖(서버 Routine)에서 감시하고 (3) 죽은 세션은 깨우지 않고 새로 만든다.
+
+---
+
+## §E. watchdog Routine 문안 (Fable이 create_trigger 로 설치 — create_new_session_on_fire=true, 매시)
+
+플랫폼 Routine 최소 간격은 1시간이다. 세션 안 크론과 달리 서버 쪽에서 살기 때문에 컨테이너 회수와 무관하다.
+설치: `create_trigger(name "{REPO} 세션 생존 감시견", cron "{분} * * * *", create_new_session_on_fire true, notifications {push:true}, prompt = 아래)`.
+
+````
+너는 {OWNER}/{REPO} 의 세션 생존 감시견(watchdog)이다. 매시 새 세션으로 뜬다. 질문하지 않는다. 시각 표기는 {TZ}.
+목적: 감독 세션(Fable)과 구현 세션(Opus)이 살아서 일하는지 확인하고, 죽어 있으면 되살린다. 세션 안 크론은 컨테이너 회수 때 죽는다. 너만 그 밖에서 산다.
+1. 저장소가 없으면 git clone {REPO_URL} 후 checkout {WORK_BRANCH}; 있으면 git pull --rebase origin {WORK_BRANCH}.
+2. python back_and_forth/check.py --me fable(미처리 R), --me opus(미처리 D), git log -1 origin/{WORK_BRANCH}(마지막 푸시). 최신 D가 kind: stop 이거나 최신 R에 final: true 면 "종료 상태"만 보고하고 끝낸다.
+3. list_sessions(tags ["{TAG}"])로 최신 비보관 Opus·Fable 세션을 찾고 get_session 으로 session_status·connection_status 를 본다.
+4. Opus: (미처리 D 있음 또는 마지막 푸시 20분 초과) 그리고 (세션 없음 또는 IDLE/disconnected) → create_session(model {OPUS_MODEL}, source {REPO_URL}@{WORK_BRANCH}, tags ["{TAG}"], prompt = back_and_forth/OPUS_RESTART_PROMPT.md 코드 블록, 자리표시자는 실측 값) → 옛 Opus 세션 archive_session. RUNNING 이면 손대지 않는다.
+5. Fable: 미처리 R이 30분 넘게 답이 없고 세션이 없거나 IDLE/disconnected → create_session(model {FABLE_MODEL}, prompt = back_and_forth/FABLE_KICKOFF.md 코드 블록). 옛 Fable 세션은 archive 하지 않는다(사용자가 대화 중일 수 있다).
+6. 기록: back_and_forth/ 에 파일을 만들지 않는다. docs/reports/WATCHDOG_LOG.md 에 한 줄 append 후 커밋·푸시({COMMIT_PREFIX_RULE}). 조치 없으면 커밋하지 않는다.
+7. 보고: 조치가 있었으면 한 줄(무엇을 되살렸는지, 새 세션 ID). 없으면 "둘 다 정상".
+금지: {MAIN_BRANCH} 푸시, PR, 비밀 값 커밋, R/D 생성·수정, archive 외 세션 삭제.
+````
+
+**주의**: 이 Routine으로 뜨는 세션에 세션 생성 도구(claude-code-remote MCP)가 실리는지는 계정·환경에 따라 다르다. 첫 회차 결과로 확인하고, 안 되면 사용자가 Routine UI에서 만든다.
+
+## §F. 다른 프로젝트에 줄 것 — 이 파일 하나
+- 이 문서 한 파일이 전부다. §A(설치 프롬프트)에 규칙 정본·check.py·kickoff 문안이 들어 있고, §B·§C·§E가 세 역할의 문안, §D가 교훈이다.
+- 새 프로젝트 첫 세션에 §A를 붙여 넣으면 폴더·도구·문서를 만든다. 그다음 Fable 세션에 §B, Opus 세션은 Fable이 §C로 만든다. watchdog은 Fable이 §E로 건다.
+- 프로젝트 고유 값은 `{중괄호}` 자리표시자뿐이다: OWNER/REPO, WORK_BRANCH, MAIN_BRANCH, COMMIT_PREFIX_RULE, PLAN_DOC, CORE_PRINCIPLES_DOC, TZ, TAG, 모델명.
