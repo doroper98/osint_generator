@@ -240,6 +240,8 @@ def load_project(proj: Path, direction: Optional[Direction] = None) -> Project:
     check_credits(R.credits, A.rights, A.media, req,          # D-0029 작업 7 — 누락·미확인·미표기 자산은 RightsError
                   cited_ids={s.id for s in R.cache["cited_sources"]})
     R.cache["credit_refs"] = req
+    b = (sound or {}).get("bgm")
+    R.cache["bgm_segments"] = 0 if not b else (1 if isinstance(b, str) else len(b))   # provenance audio.crossfades
     R.cache["media_placement"] = placement
     if not keys or cams is None:
         raise ProjectError("카메라 키가 없다")

@@ -787,6 +787,12 @@ class SfxRules(_Strict):
     scene_start: SceneStartSfx
 
 
+class AudioQARules(_Strict):
+    i_tol_lu: float = Field(gt=0)
+    music_under_narration_db: tuple[float, float]
+    severity: Literal["hard", "warning"]
+
+
 class AudioRules(_Strict):
     bed_gain: float
     duck_depth: float
@@ -805,6 +811,7 @@ class AudioRules(_Strict):
     fade_out_sec: float
     fx_duck: float
     crossfade_sec: float = Field(gt=0)
+    qa: AudioQARules
     norm_eps: float
     sfx: SfxRules
 

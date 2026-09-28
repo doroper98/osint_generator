@@ -568,6 +568,10 @@ audio:                     # 10
   fade_in_sec: 1.2
   fade_out_sec: 4.0
   fx_duck: 0.25             # 효과음 덕킹 깊이
+  qa:                       # v3.4.0 D-0060 작업 6 — 오디오 QA(audio/qa.py, 검사기 하나). 13 Phase 8·10 §7-5
+    i_tol_lu: 1.0                          # 최종 통합 음량 = loudnorm.I ± 이 값
+    music_under_narration_db: [-18, -14]   # 내레이션 구간 음악(+효과음) RMS − 내레이션 RMS
+    severity: warning                      # R-0071 결정 전 임시 — v3 합격본이 13 수치 둘(음악 −12.7dB·TP −1.38)을 벗어난다. 결정 뒤 hard/값 확정
   crossfade_sec: 4.0        # v3.4.0 D-0060 작업 5 — 곡 교체 교차 페이드(경계 가운데 정렬, 선형 합 1). BGM 반복 교차 페이드(loop_xfade_sec)와 같은 값
   norm_eps: 1.0e-6          # 피크 정규화 분모 여유
   sfx:                      # 효과음 합성(v3 mix3) — 필터 계수·시상수·이득

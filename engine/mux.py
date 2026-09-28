@@ -138,7 +138,9 @@ def project_provenance(P, stages: dict[str, bool]) -> dict:  # noqa: ANN001, N80
     prov["credits"] = credit_summary(req)   # D-0030 §3 — 표기 위치별 종류 개수
     prov["reserved"] = {"avoidance": avoidance_report(P)}   # D-0033 §2 — 카드 영역 때문에 비킨·흐린 뱃지
     mus = sorted(r for r in (P.R.cache.get("credit_refs") or set()) if r.startswith("music."))
-    prov["audio"] = {"bgm": mus or None, "bed_gain": load_rules().audio.bed_gain}   # v3.4.0 — bgm null = 음악 없음(명시 상태, F1)
+    segs = P.R.cache.get("bgm_segments", 1 if mus else 0)
+    prov["audio"] = {"bgm": mus or None, "bed_gain": load_rules().audio.bed_gain,    # v3.4.0 — bgm null = 음악 없음(명시 상태, F1)
+                     "crossfades": max(0, segs - 1)}
     prov["camera"] = camera_summary(P.root, P.keys)          # v3.3.0 — 카메라 제안 suggested/used(D-0056, 제안은 옵션)
     prov["lint_warnings"] = P.warnings                       # 연출 경고(관계선 과다·연표 겹침·미디어 배치/밀도) — 오류 아님
     prov["media"] = {**media_usage(P.plan, P.events),        # v2.5.5 — 14 §10 제안·사용·밀도·배치(D-0036)
@@ -185,8 +187,17 @@ def main(argv: list[str] | None = None) -> int:
         (outd / "description.txt").write_text(desc, encoding="utf-8")
         prov = project_provenance(P, {"plan": True, "geo": True, "preview": (proj / "prev" / "provenance.json").exists(),
                                       "render": True, "mix": True, "mux": True, "ai_direction": False, "visual_qa": False})
+        from engine.checks import check_audio  # noqa: PLC0415 — v3.4.0 오디오 QA(검사기 하나)
+
+        sev, issues, qa = check_audio(P)
+        (outd / "audio_qa.json").write_text(json.dumps({**qa, "severity": sev, "issues": issues}, ensure_ascii=False, indent=1),
+                                            encoding="utf-8")
+        prov["audio"] = {**prov["audio"], "qa": {"severity": sev, "issues": issues,
+                                                 **{k: qa[k] for k in ("final_loudness", "music_under_narration_db", "mix_peak")}}}
         (outd / "provenance.json").write_text(json.dumps(prov, ensure_ascii=False, indent=1), encoding="utf-8")
-        res = StageResult(ok=True, stage="mux", provenance=prov,
+        if sev == "hard" and issues:
+            raise ProjectError("오디오 QA hard 실패:\n" + "\n".join(issues))
+        res = StageResult(ok=True, stage="mux", provenance=prov, warnings=issues,
                           artifacts={"final": str(final), "srt": str(outd / "final.srt"),
                                      "description": str(outd / "description.txt"), "credits": str(outd / "credits.txt"), "provenance": str(outd / "provenance.json")})
     except (ProjectError, RightsError, KeyError, ValueError, OSError, subprocess.CalledProcessError) as ex:
