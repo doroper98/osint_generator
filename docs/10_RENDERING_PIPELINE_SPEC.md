@@ -35,9 +35,16 @@ last_review: 2026-09-29
 
 ## 2. 프레임 루프와 레이어 순서
 
-레이어 순서는 v3와 같다. 베이스 → 국경 → 지도 레이어 → 라벨 → 하부 암전 → 패널 → 사진·영상 → 카드·기사 → 날짜 → 전면 카드 → 자막 → 상부 암전 → 전체 페이드.
+레이어 순서는 v3와 같다. 무대 배경(베이스 → 국경) → 지도 레이어 → 라벨 → 하부 암전 → 패널 → 사진·영상 → 카드·기사 → 날짜 → 전면 카드 → 자막 → 상부 암전 → 전체 페이드.
 비네팅은 없다(G4-15). 연출(`direction.yaml`)은 선언형 YAML이고 코드로 실행하지 않는다(`tests/anti_inertia/test_no_code_direction.py`).
 이벤트 타입·패널 종류·미디어 형태는 레지스트리(`rules:registries`)에 있어야 하고, 레지스트리에 있으면 렌더러가 있어야 한다(15 P10).
+
+### 2.1 무대(Stage) — v4.1.0
+
+카메라와 `View` 는 무대의 월드 좌표 (x, y, w)만 안다. 연출의 앵커(지도 = 경위도)는 `stage.to_world` 로만 월드 좌표가 된다.
+무대 목록은 `rules:registries.stages`, 구현은 `engine/stage.py`(`Stage` 프로토콜·`MercatorStage`). 배경(`render_base`)과 라벨 LOD(`draw_labels`)는 무대가 그린다.
+direction 의 최상위 `stage`·숏 단위 `shots[].stage` 로 고르고, 없으면 mercator 이며 provenance `stage.declared` 가 false 다. 무대 연속성은 결정적 검사 `stage_continuity`(`rules:stage`)가 본다.
+투영 수식이 `engine/stage.py` 밖에 없음은 `tests/anti_inertia/test_stage_isolation.py` 가 고정한다. 정본은 handoff 20 §2.3.
 
 ## 3. 프리뷰와 두 게이트
 
@@ -47,7 +54,7 @@ last_review: 2026-09-29
 | ② 프리뷰 승인 | `PREVIEW_APPROVAL` | `prev/sheet.jpg`·`checks.json`·시각 검수 판정·provenance |
 
 프리뷰 샘플 규칙은 `rules:preview.min_body_cuts`(auto 모드), 골든 모드는 문장 앵커 25컷이다.
-결정적 검사 12항목은 [07](07_VIDEO_STYLE_GUIDE.md) §8, 판정 흐름(시각 검수 루프·게이트 ② 사람 판정)은 [12](12_QA_AND_REVIEW_SPEC.md) §2다.
+결정적 검사 13항목은 [07](07_VIDEO_STYLE_GUIDE.md) §8, 판정 흐름(시각 검수 루프·게이트 ② 사람 판정)은 [12](12_QA_AND_REVIEW_SPEC.md) §2다.
 반려는 되돌림 규칙(handoff 16 §2)으로 앞 상태로 간다.
 
 ## 4. 출력 프로파일과 해상도
@@ -76,7 +83,7 @@ N 조각을 병렬로 렌더한 뒤 이어 붙인다(handoff 11 §3). 부분 재
 ## 6. provenance — 이번 영상에 실제로 쓰인 것 (15 P5)
 
 프리뷰와 전편은 `provenance.json`을 남긴다. 필수 키는 `rules:provenance.required_keys`, drops가 있으면 실패다(`rules:provenance.fail_if_drops`).
-돌지 않은 단계는 기록하지 않는다. 주요 절은 규칙·프롬프트 해시, `features_used`, `stages`, `render.resolution`(프로파일·k·pad_x·crf·preset), 오디오 QA·loudnorm 기록, 번들 이관 기록이다.
+돌지 않은 단계는 기록하지 않는다. 주요 절은 규칙·프롬프트 해시, `features_used`, `stages`, `stage`(무대 이름·declared·인스턴스, v4.1.0), `render.resolution`(프로파일·k·pad_x·crf·preset), 오디오 QA·loudnorm 기록, 번들 이관 기록이다.
 `tests/anti_inertia/test_provenance_e2e.py`가 hormuz 프리뷰로 검증한다.
 
 ## 7. 인코딩과 먹싱

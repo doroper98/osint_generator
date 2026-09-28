@@ -93,7 +93,7 @@ last_review: 2026-09-29
 고정 막 구성, 모서리의 브랜드·섹션 표기, 도장, 비네팅, 문장마다 카메라 이동, 줌 범프, 한꺼번에 튀어나오는 관계선,
 AI 상투 문구(`rules:banned_phrases`), 발음 텍스트 안의 숫자·기호(`rules:tts_rules.forbidden_chars_regex`).
 
-## 8. 프리뷰 결정적 검사 (12항목)
+## 8. 프리뷰 결정적 검사 (13항목)
 
 프리뷰(`python -m engine.render <proj> --preview …`)는 `prev/checks.json`을 만든다. hard가 하나라도 있으면 시각 검수 LLM을 부르지 않는다.
 구현은 `engine/checks.py`(`HARD`·`WARN`), 임계는 `rules:qa_checks`. 판정 흐름은 [12 QA·검수](12_QA_AND_REVIEW_SPEC.md) §2.
@@ -109,6 +109,7 @@ AI 상투 문구(`rules:banned_phrases`), 발음 텍스트 안의 숫자·기호
 | subtitles | hard | 자막 줄 수 | `rules:qa_checks.subtitle_lines_max` |
 | rights | hard | 권리 점검 통과 | `rules:qa_checks.rights_missing`, `rules:credits` |
 | forbidden | hard | 레지스트리 밖 이벤트·비네팅·모서리 요소 | `rules:qa_checks.forbidden_components`, `rules:hud.forbidden_components` |
+| stage_continuity | hard | 무대 연속성(v4.1.0) — 보조 무대 수, 무대 전환은 암전 컷만, 같은 무대 안 먼 cut 금지, 전환 횟수 | `rules:stage`, `rules:shot_grammar.auto_transition` |
 | shots | warning | 숏 유지·장면당 이동·암전 빈도 | `rules:shot_grammar` |
 | media_beats | warning | 미디어 밀도 | `rules:media.density` |
 | media_upscaled | warning | 원본 폭 < 장치 폭(추측 보간 금지, 알리기만) | `config:engine.output` |

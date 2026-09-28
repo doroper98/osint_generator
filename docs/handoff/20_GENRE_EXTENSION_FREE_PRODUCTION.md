@@ -101,6 +101,8 @@ class Stage(Protocol):
 camera: (x, y, w)  — w는 화면 가로가 덮는 월드 폭. 로그 줌·드리프트·암전은 그대로(05)
 View(stage, cam) → to_screen(x, y)
 ```
+> **구현됨(v4.1.0, back_and_forth D-0076)**: `engine/stage.py` — `Stage` 프로토콜(+ 역변환 `from_world`), `MercatorStage`, `rules registries.stages`, direction `stage`·`shots[].stage`, 결정적 검사 `stage_continuity`(§12 관성 체크). v3 골든 25컷 md5 동일로 확인. 아래 원문은 그대로 둔다.
+
 - `MercatorStage`는 현재 코드를 그대로 감싼다. **이 리팩터 후에도 v3 골든 프레임이 동일해야 한다**(회귀 테스트, `15` §5 `test_provenance_e2e`).
 - `TimelineStage`의 x축 척도: 선형(기본), 필요 시 구간별 압축(예: 2008~2019 압축, 2020~ 확대). 압축 구간은 화면에 물결 표시로 명시한다(정직성, §5.3).
 

@@ -17,7 +17,9 @@ last_review: 2026-09-29
 ## 1. 좌표계와 투영
 
 메르카토르 "도 단위"를 쓴다. u = 경도, v = 메르카토르 위도를 도로 환산한 값이다. 두 축이 모두 도라서 ppd(도당 픽셀) 하나로 축척이 정해진다.
-카메라는 (경도, 위도, w)로 쓴다. w는 화면 가로가 덮는 경도 폭이다. 구현은 `engine/projection.py`(`ym`, `View`), 정본은 handoff 04 §1.
+카메라는 (경도, 위도, w)로 쓴다. w는 화면 가로가 덮는 경도 폭이다. 정본은 handoff 04 §1.
+
+지도는 무대(Stage)의 하나다(v4.1.0). `MercatorStage`(`engine/stage.py`)가 경위도 → 월드 좌표(`to_world`), 지형 래스터·국경(`render_base`), 라벨 LOD(`draw_labels`·`lod_rules`)를 맡는다. `engine/projection.py` 의 `View` 는 월드 좌표만 화면으로 옮긴다. 투영 수식은 `engine/stage.py` 밖에 두지 않는다(`tests/anti_inertia/test_stage_isolation.py`). 같은 ISO 키 국가 피처는 합집합이고 커버리지는 면적으로 본다(`rules:geo.land_fill_min_ratio`, PIPELINE-AP-011).
 
 ## 2. 지오 자산 단계 — `geo.prep`
 

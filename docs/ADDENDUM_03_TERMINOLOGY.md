@@ -27,7 +27,7 @@ last_review: 2026-09-29
 | **provenance** | 이번 영상에 실제로 쓰인 기능·규칙·프롬프트 해시·drops 기록 `provenance.json`(15 P5). 옛 Scene Provenance 대체. |
 | **승인 게이트** | 사람이 승인·반려하는 지점. 2개 — ① `SCRIPT_APPROVAL` ② `PREVIEW_APPROVAL`(v3.0.0). |
 | **출력 프로파일** | 렌더 해상도·인코딩 한 벌(`config.yaml engine.output`, 트라이얼 480p·최종 1080p). 옛 Render Mode 대체. |
-| **프리뷰 / 결정적 검사** | `engine.render --preview` 컷·시트와 `prev/checks.json`(12항목). |
+| **프리뷰 / 결정적 검사** | `engine.render --preview` 컷·시트와 `prev/checks.json`(13항목). |
 | **시각 검수 루프** | AI 연출 판을 시각 검수 워커가 보고 수정 워커가 고치는 반복(상한은 규칙). |
 | **장치 변환** | 설계 854×480 좌표를 출력 해상도로 옮기는 렌더 진입 변환 한 곳(D60). |
 | **게시물(post) 카드·기사 카드** | X 게시물·기사를 영상 안에 자체 조판한 카드(캡처 이미지 아님, handoff 18 §5·14 §9). |

@@ -29,7 +29,7 @@ v1의 9개 Review Gate·`qa_evidence_report.json`·Remotion 라벨 배지는 v3.
 ## 2. 프리뷰 판정 흐름
 
 ```
-preview → prev/checks.json(결정적 검사 12항목)
+preview → prev/checks.json(결정적 검사 13항목)
    hard > 0  → (AI 연출) 수정 워커가 검사 오류만 받아 고친다 → 재검증·재프리뷰
    hard = 0  → (AI 연출) 시각 검수 워커(시트 이미지) → revise 면 수정 워커 → 재프리뷰 → 재검수
    루프 상한 = rules qa_checks.visual_qa_loop_max → 상한 도달 시 loop_pick_order 최선 판
@@ -38,7 +38,7 @@ preview → prev/checks.json(결정적 검사 12항목)
 
 | 항목 | 키·위치 |
 |---|---|
-| 검사 12항목(hard 9·warning 3) | [07](07_VIDEO_STYLE_GUIDE.md) §8, `engine/checks.py`, `rules:qa_checks` |
+| 검사 13항목(hard 10·warning 3) | [07](07_VIDEO_STYLE_GUIDE.md) §8, `engine/checks.py`, `rules:qa_checks` |
 | 루프 상한 | `rules:qa_checks.visual_qa_loop_max` |
 | 상한 도달 시 판 선택 순서(D-0049 쟁점 3) | `rules:qa_checks.loop_pick_order` |
 | 루프 기록 | `prev/qa_loop.json`, `prev/sheet.v{n}.jpg`(`engine.qa.QALoopRecord`) |

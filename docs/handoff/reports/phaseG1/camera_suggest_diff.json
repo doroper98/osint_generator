@@ -1,0 +1,22 @@
+{
+ "schema_version": 1,
+ "role": "D-0076 작업 6 — camera_suggest 결과 JSON 이 리팩터 전(같은 컨테이너, 2233392 코드)·Phase 7 artifacts 와 같은가",
+ "command": "python -m engine.camera_suggest projects/<p>",
+ "phase7_artifact": "artifacts/phase7-v3.3.0 hormuz_camauto/camera_suggest.json (direction 3e7801d — 지금과 sound 만 다름)",
+ "note": "지오메트리(KZ 수정)는 제안 입력이 아니다 — 수정 뒤에도 동일",
+ "projects": {
+  "hormuz_korea": {
+   "shots": 10,
+   "identical_to_pre_refactor": true,
+   "shot_diffs": [],
+   "suggested": 8,
+   "shots_identical_to_phase7_artifact": true
+  },
+  "ratcliffe2026": {
+   "shots": 8,
+   "identical_to_pre_refactor": true,
+   "shot_diffs": [],
+   "suggested": 7
+  }
+ }
+}
