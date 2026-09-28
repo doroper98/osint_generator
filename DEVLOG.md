@@ -25,6 +25,14 @@ last_review: 2026-06-06
 
 ---
 
+## 2026-09-28 v2.3.0 — Phase 4 완료: 원고 린트·단어 정렬, 목소리를 바꿔도 연출 무수정 싱크
+
+- **무엇을**: 원고 린트(오류/경고), ElevenLabs with-timestamps·edge WordBoundary 정렬 공통 형식, trim_offset, at_word 정렬 경로, TTS-AP-064~066, legacy_v3 삭제(자산 부트스트랩만 tools/bootstrap_assets 로 격리).
+- **왜**: back_and_forth D-0021. 목소리 교체 시 연출 파일을 고치지 않고 전환이 발음에 붙어야 한다(03 §6.3).
+- **어떻게**: edge 단어 경계를 실측해 보니 글자 비율 추정은 최대 0.97초 어긋났다 → edge 도 정렬을 저장(D34). 정렬 없는 캐시 = 재합성. 골든은 PNG 를 두고 의도된 차이 1컷만 등재.
+- **결과**: InJoon→SunHi 전편, direction.py 동일, 전환−경계 ≤1 ms, Δ전환=Δ경계 7/7, 25컷 동일 구성. pytest 457 passed / 3 xfailed.
+- **연관**: D30~D34, TTS-AP-064~066, LLM-AP-006, R0018~R0021, artifacts/phase4-v2.3.0.
+
 ## 2026-09-27 v2.2.0 — Phase 3 완료: 지오 일반화, 새 권역 한 줄 준비
 
 - **무엇을**: prep3 지오·티어 코드를 권역 인자 `geo/` 패키지로. hormuz 자산 재생성, 대만해협 예시 권역.

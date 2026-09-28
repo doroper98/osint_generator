@@ -1,0 +1,176 @@
+{
+ "schema_version": 1,
+ "engine": "engine",
+ "repo_version": "2.3.0",
+ "rules_version": "2.0.0",
+ "rules_hash": "9b55a2046ee7284dd0692ec9ddb3dad6b84a5d7b",
+ "prompts": {},
+ "voice": "edge-tts ko-KR-SunHiNeural",
+ "word_anchor": "aligned",
+ "word_anchors": [
+  {
+   "sid": "ask_1",
+   "word": "독일",
+   "mode": "aligned",
+   "t": 77.479,
+   "alignment_source": "edge_word_boundary"
+  },
+  {
+   "sid": "ask_1",
+   "word": "영국",
+   "mode": "aligned",
+   "t": 78.214,
+   "alignment_source": "edge_word_boundary"
+  },
+  {
+   "sid": "ask_1",
+   "word": "일본",
+   "mode": "aligned",
+   "t": 78.974,
+   "alignment_source": "edge_word_boundary"
+  },
+  {
+   "sid": "ask_1",
+   "word": "호주",
+   "mode": "aligned",
+   "t": 79.786,
+   "alignment_source": "edge_word_boundary"
+  },
+  {
+   "sid": "ask_1",
+   "word": "한국",
+   "mode": "aligned",
+   "t": 81.036,
+   "alignment_source": "edge_word_boundary"
+  },
+  {
+   "sid": "ask_4",
+   "word": "한국",
+   "mode": "aligned",
+   "t": 95.513,
+   "alignment_source": "edge_word_boundary"
+  },
+  {
+   "sid": "past_3",
+   "word": "호르무즈",
+   "mode": "aligned",
+   "t": 204.912,
+   "alignment_source": "edge_word_boundary"
+  }
+ ],
+ "tts": {
+  "resynthesized": [
+   "open_0",
+   "open_1",
+   "open_2",
+   "open_3",
+   "route_0",
+   "route_1",
+   "route_2",
+   "route_3",
+   "war_0",
+   "war_1",
+   "war_2",
+   "war_3",
+   "ask_0",
+   "ask_1",
+   "ask_2",
+   "ask_3",
+   "ask_4",
+   "ask_5",
+   "timeline_0",
+   "timeline_1",
+   "timeline_2",
+   "timeline_3",
+   "timeline_4",
+   "timeline_5",
+   "cost_0",
+   "cost_1",
+   "review_0",
+   "review_1",
+   "review_2",
+   "review_3",
+   "past_0",
+   "past_1",
+   "past_2",
+   "past_3",
+   "debate_0",
+   "debate_1",
+   "debate_2",
+   "debate_3",
+   "debate_4",
+   "decision_0",
+   "decision_1",
+   "now_0",
+   "now_1",
+   "now_2",
+   "now_3"
+  ]
+ },
+ "total_sec": 293.925,
+ "sentences": 45,
+ "stages": {
+  "plan": true,
+  "render": true,
+  "mix": true,
+  "mux": true,
+  "ai_direction": false,
+  "visual_qa": false
+ },
+ "features_used": {
+  "camera_keys": 10,
+  "camera_moves": 5,
+  "camera_cuts": 5,
+  "dips": 4,
+  "dips_under": 1,
+  "badges": 8,
+  "badge_kinds": {
+   "person": 3,
+   "flag": 4,
+   "emblem": 1
+  },
+  "panels": [
+   "refusal",
+   "statement",
+   "timeline",
+   "precedent",
+   "versus"
+  ],
+  "cards": 7,
+  "media": {
+   "clip": 2,
+   "photo": 2,
+   "cutout": 1,
+   "article": 2
+  },
+  "event_types": {
+   "article": 2,
+   "badge": 8,
+   "barrier": 1,
+   "boom": 1,
+   "card": 7,
+   "clip": 2,
+   "country": 1,
+   "cutout": 1,
+   "dip": 4,
+   "marker": 8,
+   "panel": 5,
+   "photo": 2,
+   "route": 4,
+   "ships": 1,
+   "tanker_loop": 1
+  },
+  "label_lod": true,
+  "vignette": false,
+  "at_word": {
+   "aligned": 7,
+   "ratio": 0
+  }
+ },
+ "qa": {
+  "auto_iterations": 0,
+  "user_approved": false,
+  "reviewer": "fable (back_and_forth)"
+ },
+ "drops": []
+}

@@ -28,10 +28,29 @@ released 항목은 **append-only**입니다.
 
 ---
 
-## [v2.3.0] — 2026-09-28 — Phase 4: 원고·음성 (back_and_forth D-0021, 진행 중)
+## [v2.3.0] — 2026-09-28 — Phase 4: 원고·음성 (back_and_forth D-0021·D-0024~D-0027)
 
 ### Added
-- (진행 중) 원고 린트 확장, ElevenLabs with-timestamps·trim_offset, `at_word` 정렬 경로, 목소리 교체 검증.
+- `script/lint.py` 오류/경고 분리(slop·tts-symbol·emphasis / source-missing·자막 줄 수 실측), `StageResult.warnings`(optional).
+- `script/tts/align.py` 정렬 공통 형식(`alignment_source`: edge_word_boundary | elevenlabs_timestamps, rules 등재 — D34).
+  edge-tts `WordBoundary` 정렬 저장, ElevenLabs with-timestamps(alignment 만 저장, voice 라벨 앞 4자).
+- `trim_offset`(plan `sentences[]`, optional), `plan.tts_resynthesized`(정렬 없는 캐시 = 재합성), `script.plan --edge-voice`.
+- `engine/timebase.at_word` 정렬 경로(t0 + 시작 − trim_offset), provenance `word_anchor`·`word_anchors[]`·`tts.resynthesized`·`features_used.at_word`.
+- `tools/bootstrap_assets/`(prep3·media3 실행본, Phase 5·6.5 에서 삭제 — D32), `fetch_data people`.
+- `tools/tts_align_probe.py`·`edge_word_probe.py`·`voice_swap_report.py`, `contact_sheet versus`, `golden_compare` 의도된 차이(`docs/handoff/golden/expected_deltas.json`).
+- TTS-AP-064·065·066, LLM-AP-006. 테스트: test_script_lint·test_script_tts·test_timebase_align, fixtures/tts(ElevenLabs 실측 3문장).
+
+### Changed
+- 금지 문구 패턴 3개 띄어쓰기 변형 허용. 자막 wrap 폭을 rules 값으로(렌더 무변경).
+- edge 캐시 키: 기본이 아닌 목소리는 `|edge|{voice}`(옛 목소리 재사용 버그).
+- 프롬프트·스키마 파리티 script 대상 = FullScript(D33), `prompts/script.md` 예시 추가.
+- 골든 25컷 중 09_ask_1 한 컷이 의도된 차이(국가별 "거절" 전환이 발음 시각으로 — D34).
+
+### Fixed
+- `tts_of("18개월")` → "십팔 개월", `to_polite("낮춘다")` → "낮춥니다."(xfail 2건 해제).
+
+### Removed
+- `legacy_v3/`(render3·plan3·mix3), `tools/legacy_v3_run.py`·`legacy_provenance.py`, golden_compare·contact_sheet 의 v3 렌더러 경로(D30·D32).
 
 ---
 
