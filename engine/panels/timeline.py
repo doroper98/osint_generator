@@ -50,6 +50,18 @@ def _box(ctx: cairo.Context, ev: dict, x: float) -> tuple[float, float]:
     return x - w / 2, x + w / 2
 
 
+def _band_obstacle(e: dict, ctx: cairo.Context) -> list[tuple[float, tuple[float, float], float]]:
+    """기간 띠 라벨(축 아래 band_label_dy)은 아래쪽 1층보다 안쪽 — 아래로 가는 줄기가 뚫지 않게 장애물로 둔다.
+    층 값 1/2 는 '아래쪽, 1층보다 안쪽' 이라는 뜻이다(같은 층 비교에는 걸리지 않는다)."""
+    band = e.get("band")
+    if not band:
+        return []
+    fx = _fx(e)
+    cx = (fx(band["start"]) + fx(band["end"])) / 2
+    w = tw(ctx, band["label"], TL.band_label.size, "sansm")
+    return [(1 / 2, (cx - w / 2, cx + w / 2), cx)]
+
+
 def _layer_pairs(e: dict, ctx: cairo.Context, sides: list[int]) -> list[tuple[int, tuple[float, float], float]]:
     fx = _fx(e)
     return [(s, _box(ctx, ev, fx(ev["date"])), fx(ev["date"])) for ev, s in zip(e["events"], sides)]
@@ -71,7 +83,8 @@ def assign_sides(e: dict, ctx: cairo.Context) -> tuple[list[int], list[str]]:
     fx = _fx(e)
     order = sorted(range(len(e["events"])), key=lambda i: (e["events"][i]["date"], i))
     sides: list[int | None] = [ev.get("side") for ev in e["events"]]
-    placed = [(s, _box(ctx, ev, fx(ev["date"])), fx(ev["date"])) for ev, s in zip(e["events"], sides) if s is not None]
+    placed = _band_obstacle(e, ctx) + [(s, _box(ctx, ev, fx(ev["date"])), fx(ev["date"]))
+                                       for ev, s in zip(e["events"], sides) if s is not None]
     warns: list[str] = []
     prev = 1   # 첫 사건은 위(−)부터 — v3 연표와 같은 시작
     for i in order:
@@ -98,8 +111,9 @@ def lint(e: dict) -> list[str]:
     ctx = cairo.Context(cairo.ImageSurface(cairo.FORMAT_ARGB32, 1, 1))
     sides, warns = assign_sides(e, ctx)
     pairs = _layer_pairs(e, ctx, sides)
+    band = _band_obstacle(e, ctx)
     for j, (s, box, x) in enumerate(pairs):
-        if not _free(pairs[:j], s, box, x):
+        if not _free(band + pairs[:j], s, box, x):
             ev = e["events"][j]
             warns.append(f"[timeline-overlap] '{e['title']}' {ev['date']} {ev['label']} 층 {s} 라벨이 앞 사건과 겹친다")
     return warns

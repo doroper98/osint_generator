@@ -71,3 +71,16 @@ class TimelineLayerTest(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class TimelineBandObstacleTest(unittest.TestCase):
+    def test_stem_avoids_band_label(self) -> None:
+        """기간 띠 라벨 바로 위(가운데 날짜)의 사건은 아래쪽 층으로 줄기를 내리지 않는다."""
+        raw = yaml.safe_load(FIX.read_text(encoding="utf-8"))["event"]
+        e = PanelTimeline.model_validate(raw).model_dump()
+        e["events"] = [dict(e["events"][0], date="2026-02-10", label="앞 사건", side=None),
+                       dict(e["events"][0], date="2026-05-23", label="띠 가운데 사건", side=None)]   # 띠 4.8~7.8 가운데
+        sides, warns = timeline.assign_sides(e, _ctx())
+        self.assertEqual(sides[0], -1)
+        self.assertLess(sides[1], 0)   # 직전이 위(−)라 아래(+)가 먼저지만, 띠 라벨 때문에 위로
+        self.assertEqual(warns, [])
