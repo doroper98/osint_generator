@@ -21,7 +21,7 @@ __all__ = [
     "ArticleEvent", "BadgeEvent", "BarrierEvent", "BoomEvent", "CamKey", "Card", "CardEvent", "ClipEvent",
     "CountryEvent", "CutoutEvent", "DipEvent", "MarkerEvent", "MediaEntry", "MediaRegistry", "PanelPrecedent",
     "PanelRefusal", "PanelStatement", "PanelTimeline", "PanelVersus", "PhotoEvent", "Plan", "PlanSentence",
-    "RightsRegistry", "RouteEvent", "Scene", "Script", "Sentence", "ShipsEvent", "StageResult", "TankerLoopEvent",
+    "RightsRegistry", "RightsStatus", "AssetRights", "RouteEvent", "Scene", "Script", "Sentence", "ShipsEvent", "StageResult", "TankerLoopEvent",
     "Tier",
 ]
 
@@ -43,12 +43,18 @@ class Tier(_Strict):
     levels: list[int] = Field(min_length=1)
 
 
+RightsStatus = Literal["rights_clear", "restricted", "unverified"]
+
+
 class PersonRights(_Strict):
     src: str
     license: str = Field(min_length=1)
-    artist: str
-    url: str
+    artist: str                                   # = author (07 §7.1 v3 이름 유지)
+    url: str                                      # = source_url
     title: Optional[str] = None
+    rights_status: Optional[RightsStatus] = None  # v2.4.0 — commons_fetch·portrait_fallback 이 기록
+    retrieved_at: Optional[str] = None
+    processing: Optional[dict[str, object]] = None  # 가공 도구·파라미터·원본(C9, G4-10)
 
 
 class EmblemRights(_Strict):
@@ -56,13 +62,34 @@ class EmblemRights(_Strict):
     url: str
     title: str
     restrictions: str = ""
+    rights_status: Optional[RightsStatus] = None
+    retrieved_at: Optional[str] = None
+
+
+class AssetRights(_Strict):
+    """국기·음악·폰트·지도 데이터·내레이션 등 묶음 자산 권리(v2.4.0, 07 §7.2)."""
+
+    name: str = Field(min_length=1)
+    license: str = Field(min_length=1)
+    author: str = ""
+    url: str = ""
+    rights_status: RightsStatus = "rights_clear"
 
 
 class RightsRegistry(_Strict):
-    """권리 레지스트리 (02 §2.5, C9). 뱃지가 쓰는 인물·휘장은 전부 여기에 있어야 한다."""
+    """권리 레지스트리 (02 §2.5, C9). 뱃지가 쓰는 인물·휘장은 전부 여기에 있어야 한다.
+
+    v2.4.0: 엔딩 크레딧 자동 나열(07 §7.2)을 위해 flags·music·fonts·map_data·narration 절 추가(선택 — C3 호환).
+    미디어(사진·영상)는 `media/media_registry.json` 이 권리 기록이다(14 §6).
+    """
 
     people: dict[str, PersonRights] = Field(default_factory=dict)
     emblems: dict[str, EmblemRights] = Field(default_factory=dict)
+    flags: dict[str, AssetRights] = Field(default_factory=dict)
+    music: dict[str, AssetRights] = Field(default_factory=dict)
+    fonts: dict[str, AssetRights] = Field(default_factory=dict)
+    map_data: dict[str, AssetRights] = Field(default_factory=dict)
+    narration: dict[str, AssetRights] = Field(default_factory=dict)
 
 
 class MediaEntry(_Strict):
