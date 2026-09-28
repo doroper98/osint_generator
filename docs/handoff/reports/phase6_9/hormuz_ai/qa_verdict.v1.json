@@ -1,0 +1,102 @@
+{
+  "schema_version": 1,
+  "verdict": "revise",
+  "issues": [
+    {
+      "frame": "p_0136.97",
+      "severity": "hard",
+      "category": "occlusion",
+      "evidence": "The strike clip card sits in the middle of the timeline and hides the 4월–7월 section. The label for the 4.13 point is cut off at '미국 해…', and the 7월 8일 point this sentence is about (the ceasefire collapsing) cannot be seen. Only 8월 and 9월 are visible to the right of the card.",
+      "fix": {
+        "event_ref": "clip:strikes",
+        "suggest": "Move the clip above or below the timeline axis so it does not cover it, or bring it in only after the 7.8 point and its label have appeared and moved aside."
+      }
+    },
+    {
+      "frame": "p_0061.25",
+      "severity": "soft",
+      "category": "media",
+      "evidence": "The niovi clip thumbnail has solid black rectangles at its left edge and bottom-right corner. They look like unhandled letterboxing or redaction marks, and the clip looks broken.",
+      "fix": {
+        "event_ref": "clip:niovi",
+        "suggest": "Crop the clip to the frame with no black areas, or fill the frame by adjusting the crop or zoom."
+      }
+    },
+    {
+      "frame": "p_0022.27",
+      "severity": "soft",
+      "category": "occlusion",
+      "evidence": "Behind the title card, the Lee Jae-myung badge and the '이재명' label are still faintly visible at the lower left, and the Seoul marker shows faintly at the top. It looks like leftover elements from the previous scene overlapping the title.",
+      "fix": {
+        "event_ref": "badge:이재명",
+        "suggest": "Remove the badge and marker completely before the title appears."
+      }
+    },
+    {
+      "frame": "p_0258.61",
+      "severity": "soft",
+      "category": "density",
+      "evidence": "The CENTCOM badge, the '10억 배럴' card, the photo and the route all appear at once. The photo covers the Bay of Bengal–Andaman section of the route, which breaks up the route line.",
+      "fix": {
+        "event_ref": "photo:hormuz_transit",
+        "suggest": "Stagger the entrance of the photo and the card, and move the photo to the lower right, clear of the route."
+      }
+    },
+    {
+      "frame": "p_0164.59",
+      "severity": "soft",
+      "category": "media",
+      "evidence": "The sentence is about domestic broadcast reports, but the background is a wide map covering India through Southeast Asia, and the only element on screen is the upper-right card. Nothing on screen matches what the sentence refers to.",
+      "fix": {
+        "event_ref": "card:9월 초 · 국내 방송 보도",
+        "suggest": "Add a screenshot of the report or an article card, or zoom the camera to Korea."
+      }
+    },
+    {
+      "frame": "p_0220.96",
+      "severity": "soft",
+      "category": "empty",
+      "evidence": "The protest scene is only one small marker, '주한 미국대사관 근처', on a zoomed-out view of the central Korean peninsula. There is no photo or card, so the screen looks empty.",
+      "fix": {
+        "event_ref": "marker:주한 미국대사관 근처",
+        "suggest": "Zoom in closer on Seoul and add a protest article or photo card (with a stock-photo label and source line)."
+      }
+    },
+    {
+      "frame": "p_0238.00",
+      "severity": "soft",
+      "category": "empty",
+      "evidence": "The support column has one bullet and the opposition column has two. The bottom half or more of both columns is empty panel.",
+      "fix": {
+        "event_ref": "panel:파병을 둘러싼 두 입장",
+        "suggest": "Make the columns shorter to fit the content, or add supporting figures or quotes."
+      }
+    },
+    {
+      "frame": "p_0124.25",
+      "severity": "soft",
+      "category": "legibility",
+      "evidence": "The timeline's date and event labels (2.28, 3.15, 4.13, 7.8) are very small compared with the panel size. The timeline occupies only the middle band, leaving the top and bottom empty.",
+      "fix": {
+        "event_ref": "panel:전쟁과 협상의 여섯 달",
+        "suggest": "Make the timeline labels larger and increase the panel's vertical use."
+      }
+    },
+    {
+      "frame": "p_0080.70",
+      "severity": "soft",
+      "category": "order",
+      "evidence": "The sentence is about all five countries refusing, but 호주's '거절' is faint and 한국 has no '거절' label yet at this point.",
+      "fix": {
+        "event_ref": "panel:3월 15일, 해협을 직접 지키라는 요구",
+        "suggest": "Speed up the reveal of each '거절' label to match the country names being spoken."
+      }
+    }
+  ],
+  "praise": [
+    "All dates are consistently in the top-right corner, and there are no stamps or vignettes.",
+    "Photos and clips (Zaytun unit, CENTCOM) have a caption and source line.",
+    "The subtitle highlights (파병은 하지 않겠다, 54%, 10억 배럴) emphasize the key words well.",
+    "The closing route (frame 24) connects Hormuz, Malacca and Korea in one continuous line, and the ending is clear."
+  ]
+}

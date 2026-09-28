@@ -1,0 +1,11 @@
+{"t": 4.5, "ok": true, "stage": "validate", "errors": [], "warnings": ["[timeline-overlap] '전쟁과 협상의 여섯 달' 2026-03-15 트럼프, 해협 방어 요구 층 -2 라벨이 앞 사건과 겹친다", "[timeline-overlap] '전쟁과 협상의 여섯 달' 2026-06-17 미·이란 양해각서 서명 층 1 라벨이 앞 사건과 겹친다"]}
+{"t": 16.0, "ok": true, "stage": "preview", "errors": [], "warnings": ["[timeline-overlap] '전쟁과 협상의 여섯 달' 2026-03-15 트럼프, 해협 방어 요구 층 -2 라벨이 앞 사건과 겹친다", "[timeline-overlap] '전쟁과 협상의 여섯 달' 2026-06-17 미·이란 양해각서 서명 층 1 라벨이 앞 사건과 겹친다"]}
+{"t": 55.1, "ok": true, "stage": "visual_qa", "errors": [], "warnings": []}
+{"t": 279.9, "ok": true, "stage": "revise_direction", "errors": [], "warnings": []}
+{"t": 283.3, "ok": true, "stage": "validate", "errors": [], "warnings": ["[timeline-overlap] '전쟁과 협상의 여섯 달' 2026-03-15 트럼프, 해협 방어 요구 층 -2 라벨이 앞 사건과 겹친다", "[timeline-overlap] '전쟁과 협상의 여섯 달' 2026-06-17 미·이란 양해각서 서명 층 1 라벨이 앞 사건과 겹친다"]}
+{"t": 292.8, "ok": true, "stage": "preview", "errors": [], "warnings": ["[timeline-overlap] '전쟁과 협상의 여섯 달' 2026-03-15 트럼프, 해협 방어 요구 층 -2 라벨이 앞 사건과 겹친다", "[timeline-overlap] '전쟁과 협상의 여섯 달' 2026-06-17 미·이란 양해각서 서명 층 1 라벨이 앞 사건과 겹친다"]}
+{"t": 370.1, "ok": true, "stage": "visual_qa", "errors": [], "warnings": []}
+{"t": 469.9, "ok": true, "stage": "revise_direction", "errors": [], "warnings": []}
+{"t": 473.4, "ok": true, "stage": "validate", "errors": [], "warnings": ["[timeline-overlap] '전쟁과 협상의 여섯 달' 2026-03-15 트럼프, 해협 방어 요구 층 -2 라벨이 앞 사건과 겹친다", "[timeline-overlap] '전쟁과 협상의 여섯 달' 2026-06-17 미·이란 양해각서 서명 층 1 라벨이 앞 사건과 겹친다"]}
+{"t": 485.4, "ok": true, "stage": "preview", "errors": [], "warnings": ["[timeline-overlap] '전쟁과 협상의 여섯 달' 2026-03-15 트럼프, 해협 방어 요구 층 -2 라벨이 앞 사건과 겹친다", "[timeline-overlap] '전쟁과 협상의 여섯 달' 2026-06-17 미·이란 양해각서 서명 층 1 라벨이 앞 사건과 겹친다"]}
+{"t": 555.7, "ok": true, "stage": "visual_qa", "errors": [], "warnings": []}

@@ -110,6 +110,7 @@ projects/hormuz_ai/03_tasks/
 projects/hormuz_ai/project_manifest.json
 projects/hormuz_ai/__pycache__/
 projects/hormuz_ai/llm_calls/
+projects/hormuz_ai/direction.meta.json
 projects/taiwan_strait/prev/
 projects/taiwan_strait/out/
 

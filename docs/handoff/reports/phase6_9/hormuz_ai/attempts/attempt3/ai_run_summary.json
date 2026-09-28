@@ -1,0 +1,12 @@
+{
+ "ok": false,
+ "iterations": 0,
+ "verdicts": [
+  {
+   "verdict": "revise",
+   "hard": 1,
+   "issues": 8
+  }
+ ],
+ "loop_max": 2
+}

@@ -1,0 +1,4 @@
+{"t": 223.6, "ok": true, "stage": "director", "errors": [], "warnings": []}
+{"t": 227.1, "ok": true, "stage": "validate", "errors": [], "warnings": ["[timeline-overlap] '전쟁과 협상의 여섯 달' 2026-03-15 트럼프, 해협 방어 요구 층 -2 라벨이 앞 사건과 겹친다", "[timeline-overlap] '전쟁과 협상의 여섯 달' 2026-06-17 미·이란 양해각서 서명 층 1 라벨이 앞 사건과 겹친다"]}
+{"t": 238.5, "ok": true, "stage": "preview", "errors": [], "warnings": ["[timeline-overlap] '전쟁과 협상의 여섯 달' 2026-03-15 트럼프, 해협 방어 요구 층 -2 라벨이 앞 사건과 겹친다", "[timeline-overlap] '전쟁과 협상의 여섯 달' 2026-06-17 미·이란 양해각서 서명 층 1 라벨이 앞 사건과 겹친다"]}
+{"t": 303.1, "ok": false, "stage": "visual_qa", "errors": ["visual_qa 입력 오류: ValidationError: 1 validation error for LLMCallRecord\nmode\n  Input should be 'response' or 'agent' [type=literal_error, input_value='vision', input_type=str]\n    For further information visit https://errors.pydantic.dev/2.13/v/literal_error"], "warnings": []}

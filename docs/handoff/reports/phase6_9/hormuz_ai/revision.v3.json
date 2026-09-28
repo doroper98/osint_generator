@@ -1,0 +1,26 @@
+{
+ "schema_version": 1,
+ "direction_version": 3,
+ "changelog": [
+  {
+   "issue_ref": "badge:이재명",
+   "change": "p_0022.27: open 장면의 서울 마커와 이재명 인물 뱃지 퇴장 시점을 scene_end open 기준 -0.6초에서 -1.6초로 앞당겨 타이틀 카드가 뜨기 전에 완전히 사라지게 함"
+  },
+  {
+   "issue_ref": "marker:호르무즈 해협",
+   "change": "p_0045.03: route 장면 호르무즈 마커의 라벨 방향을 right에서 left로 바꿈. 동쪽으로 뻗는 oil 경로 시작점 표지와 라벨이 겹치지 않게 함"
+  },
+  {
+   "issue_ref": "marker:호르무즈 해협",
+   "change": "p_0028.77, p_0038.45: route 장면 호르무즈 마커에서 작은 보조 문구 sub를 뺌. 같은 문구 '페르시아만에서 먼바다로 나가는 유일한 바닷길'은 route_0 구간 카드(card_right 기본 위치)로 옮겨 크게 보여 줌. 원고 문구만 사용함"
+  },
+  {
+   "issue_ref": "clip:strikes",
+   "change": "p_0136.97: 공습 클립 배치 슬롯을 map_right_low에서 panel_gap으로 옮겨 '7.8 휴전 붕괴' 라벨 옆을 비움. 타임라인 라벨 글자 크기는 이벤트 필드로 조정할 수 없어 바꾸지 않음"
+  },
+  {
+   "issue_ref": "panel:파병을 둘러싼 두 입장",
+   "change": "변경 없음(p_0238.00): versus 패널에는 높이 필드가 없음. 원고에 없는 근거·출처를 새로 넣을 수 없어 그대로 둠. 렌더러에서 카드 높이를 내용에 맞추는 조정이 필요함"
+  }
+ ]
+}
