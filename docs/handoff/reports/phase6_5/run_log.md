@@ -38,3 +38,14 @@ Phase 5·6 컨테이너(재기동 4)를 그대로 썼다. 자산·plan 은 Phase
 | 렌더·믹스·먹스 | `python -m engine.render projects/hormuz_korea --jobs 4 && python -m audio.mix … && python -m engine.mux …` | 292.439초, −14.2 LUFS / peak −1.4 dBFS, **final md5 `94d39281…` = Phase 6 과 바이트 동일** |
 | provenance | `provenance_hormuz.json` | `media.suggested` 15문장, `used` 7, `suggested_and_used` 6장면(now·past·review×2·timeline·war — debate 기사만 트리거 밖), `density.warnings []`(40초 창 최대 2 — strikes·p8), `placement` explicit 4, `lint_warnings []`, rules_hash `45e152ac…`(D-0037 반영 뒤 mux 재실행, final md5 불변) |
 | 영상 본체 | orphan `artifacts/phase6.5-v2.5.5` (`120ae9c` → provenance 갱신 `7c8dd60`) | hormuz/out 전편 |
+
+## 4. 재기동 5 (2026-09-28 14:43 KST~, 새 컨테이너)
+
+| 단계 | 명령 | 결과 |
+|---|---|---|
+| 클론 | `git fetch --unshallow origin overhaul/v2-map-engine` | 얕은 클론 해제(bgm `bd37b58` 대비) |
+| 의존성 | `pip install -r requirements.txt -r requirements-engine.txt` | OK |
+| 바이너리·폰트 | `apt-get update && apt-get install -y ffmpeg fontconfig fonts-noto-cjk` | ffmpeg 6.1.1. **update 없이 install 하면 archive 404 로 실패**. ffmpeg 가 없으면 `ThumbSheetTest::test_twelve_frames` 가 FileNotFoundError |
+| pytest | `python -m pytest -q` | **564 passed / 2 xfailed** (재기동 4 값과 같음) |
+| phase_report | R-0038 (`8fb525f`) | 새 다운로드 md5 = pending |
+| 새 다운로드 md5 | `python tools/media_fetch.py <빈 폴더> --report <빈 폴더>/../fresh_report.json` | 14:47:55 시작. hormuz_transit ok, rok_iraq 원본에서 upload.wikimedia 429 — 600초 대기(1/6). 끝나면 가공 파일 md5 를 `asset_md5.json media_files` 와 대조 → `fresh_media_md5.json` + progress(responds_to D-0038) |
