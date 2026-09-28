@@ -98,35 +98,49 @@ def _covered(P, t: float) -> bool:  # noqa: ANN001, N803
 def check_offscreen(P) -> list[str]:  # noqa: ANN001, N803
     """뱃지 상자(`badges.badge_box` — 원·그림자·인물 머리·이름표)와 지점 마커 상자(`markers.marker_box` — 점·라벨·부제,
     D-0049 쟁점 4)가 보이는 순간마다 화면 안. 그림자 여백만큼은 허용. 마커는 렌더러가 그리는 범위(화면 ±80·40px)만 본다."""
-    from engine.layers.badges import badge_box  # noqa: PLC0415
-    from engine.layers.markers import marker_box  # noqa: PLC0415
-
     out: list[str] = []
-    A = P.R.assets  # noqa: N806
+    for e, t, over, b in offscreen_hits(P):
+        what = "마커" if e["type"] == "marker" else "뱃지"
+        out.append(f"{what} {e.get('label') or e.get('pid') or e.get('flag')} t={t:.1f} 화면 밖 {over:.0f}px "
+                   f"(상자 {[round(z) for z in b]})")
+    return out
+
+
+def offscreen_hits(P) -> list[tuple[dict, float, float, tuple]]:  # noqa: ANN001, N803
+    """check_offscreen 의 판정 본체(이벤트, 시각, 넘친 px, 상자) — 카메라 제안 검증(engine.camera_suggest)도 이 함수를 쓴다
+    (검사기 하나, D-0056 §2). P.cams·P.events 를 바꾼 사본을 넘기면 그 카메라 경로(이동·드리프트 포함)로 본다."""
+    out: list[tuple[dict, float, float, tuple]] = []
     ctx = cairo.Context(cairo.ImageSurface(cairo.FORMAT_ARGB32, 1, 1))
     for e in P.events:
         if e["type"] not in ("badge", "marker"):
             continue
         t = e["t0"] + 0.5
         while t < e["t1"] - 0.5:
-            if not _covered(P, t):
-                v = View(P.cams[min(P.n_frames - 1, int(t * FPS))], A.tiers, A.base)
-                x, y = v.xy(e["lon"], e["lat"])
-                if e["type"] == "marker":
-                    if x < -80 or x > W_OUT + 80 or y < -40 or y > H_OUT + 40:   # draw_marker 가 그리지 않는 위치
-                        t += SAMPLE_SEC
-                        continue
-                    b = marker_box(ctx, e, x, y, with_sub=True)
-                else:
-                    b = badge_box(ctx, e, x, y)
-                over = max(-b[0], -b[1], b[2] - W_OUT, b[3] - H_OUT)
-                if over > SHADOW_PX:
-                    what = "마커" if e["type"] == "marker" else "뱃지"
-                    out.append(f"{what} {e.get('label') or e.get('pid') or e.get('flag')} t={t:.1f} 화면 밖 {over:.0f}px "
-                               f"(상자 {[round(z) for z in b]})")
-                    break
+            r = place_over(P, ctx, e, t)
+            if r is not None and r[0] > SHADOW_PX:
+                out.append((e, t, r[0], r[1]))
+                break
             t += SAMPLE_SEC
     return out
+
+
+def place_over(P, ctx: cairo.Context, e: dict, t: float) -> tuple[float, tuple] | None:  # noqa: ANN001, N803
+    """시각 t 에 뱃지·마커 상자가 화면 밖으로 넘친 px(음수 = 안쪽 여유)와 상자. 지도가 가려졌거나 렌더러가 그리지 않는
+    위치(마커 화면 ±80·40px 밖)면 None. offscreen 검사와 컷별 '장소 전부 프레임 안' 보고가 같이 쓴다."""
+    from engine.layers.badges import badge_box  # noqa: PLC0415
+    from engine.layers.markers import marker_box  # noqa: PLC0415
+
+    if _covered(P, t):
+        return None
+    v = View(P.cams[min(P.n_frames - 1, int(t * FPS))], P.R.assets.tiers, P.R.assets.base)
+    x, y = v.xy(e["lon"], e["lat"])
+    if e["type"] == "marker":
+        if x < -80 or x > W_OUT + 80 or y < -40 or y > H_OUT + 40:   # draw_marker 가 그리지 않는 위치
+            return None
+        b = marker_box(ctx, e, x, y, with_sub=True)
+    else:
+        b = badge_box(ctx, e, x, y)
+    return max(-b[0], -b[1], b[2] - W_OUT, b[3] - H_OUT), tuple(b)
 
 
 def check_labels(P, times: list[float]) -> list[str]:  # noqa: ANN001, N803

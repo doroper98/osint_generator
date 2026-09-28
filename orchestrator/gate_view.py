@@ -115,8 +115,32 @@ def preview_gate_view(pdir: Path) -> tuple[str, dict[str, str]]:
         shown.update({"provenance": str(pp), "drops": str(len(prov.get("drops", [])))})
     else:
         lines += ["", "provenance 요약 (없음 — preview 단계가 prev/provenance.json 을 쓴다)"]
-    lines += ["", *_qa_rounds(pdir, shown)]
+    lines += ["", *_camera_table(pdir, shown), "", *_qa_rounds(pdir, shown)]
     return "\n".join(lines), shown
+
+
+def _camera_table(pdir: Path, shown: dict[str, str]) -> list[str]:
+    """카메라 "제안 vs 현재" 표(v3.3.0 D-0056 작업 5) — 제안은 옵션, 자동 적용하지 않는다(P8). 판단은 사람·연출가."""
+    from engine.camera_suggest import load_suggest  # noqa: PLC0415
+
+    cs = load_suggest(pdir)
+    if cs is None:
+        return ["카메라 제안 — 없음(engine camera_suggest 단계가 prev/camera_suggest.json 을 쓴다)"]
+    out = ["카메라 제안 vs 현재 (prev/camera_suggest.json — 참고용, 자동 적용 없음)",
+           "  시각     장면        현재 lon/lat/w (전환)        제안 lon/lat/w (전환)        현재 담김 제안 담김"]
+    for s in cs.shots:
+        c = s.current
+        cur = f"{c.lon:7.2f} {c.lat:6.2f} {c.w:5.1f} ({s.current_mode})"
+        if s.suggested is None:
+            out.append(f"  {s.t:7.1f}  {s.scene:<10}  {cur:<28}  — {s.note}")
+            continue
+        g = s.suggested
+        sug = f"{g.lon:7.2f} {g.lat:6.2f} {g.w:5.1f} ({s.suggested_transition or '-'})"
+        cf = "-" if s.current_fits is None else ("예" if s.current_fits else "아니오")
+        out.append(f"  {s.t:7.1f}  {s.scene:<10}  {cur:<28}  {sug:<28}  {cf:<8} {'예' if s.fits else '아니오 ' + s.note}")
+    out.append(f"  숏 규칙(현재) 경고 {len(cs.shot_issues_current)}건" + "".join(f"\n    {i}" for i in cs.shot_issues_current))
+    shown.update({"camera_suggest": str(sum(s.suggested is not None for s in cs.shots))})
+    return out
 
 
 def _qa_rounds(pdir: Path, shown: dict[str, str]) -> list[str]:

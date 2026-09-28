@@ -11,6 +11,7 @@ direction.yaml 의 숏(카메라 키)마다 그 숏이 떠 있는 동안 보이�
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 import sys
 from pathlib import Path
@@ -20,7 +21,7 @@ from pydantic import BaseModel, ConfigDict, Field
 
 from engine.framing import FR, FramePoint, box_point, default_reserve, frame_points, plain_point
 from engine.projection import lat_of, ym
-from engine.shots import choose_transition, shot_issues
+from engine.shots import SG, choose_transition, shot_issues
 
 SUGGEST_FILE = "camera_suggest.json"
 
@@ -51,6 +52,7 @@ class ShotSuggest(_Strict):
 
 class CameraSuggest(_Strict):
     schema_version: Literal[1] = 1
+    direction_sha1: str = ""                   # 제안을 계산한 direction.yaml — provenance 가 '지금 연출에서 나온 제안인가'를 가린다
     shots: list[ShotSuggest]
     shot_issues_current: list[str] = Field(default_factory=list)   # engine.shots 검사(현재 연출)
 
@@ -89,40 +91,126 @@ def _covered(P, t0: float, t1: float) -> bool:  # noqa: ANN001, N803
     return all(P.R.tb.in_fullcard(t) or any(e["type"] == "panel" and e["t0"] <= t <= e["t1"] for e in P.events) for t in ts)
 
 
+def _frame(pts: list[FramePoint], card: bool, bounds: tuple, w_min: Optional[float]) -> tuple:  # noqa: ANN401
+    """카드 자리까지 피하는 틀 → 안 되면 날짜만 피하는 틀(카드 겹침은 렌더 RESERVED 가 뱃지를 비킨다 — 적어 둔다)."""
+    r = frame_points(pts, reserve=default_reserve(card=card), bounds=bounds, w_min=w_min)
+    if r.ok or not card:
+        return r, r.reason
+    r2 = frame_points(pts, reserve=default_reserve(card=False), bounds=bounds, w_min=w_min)
+    if r2.ok:
+        return _not_ok(r2), f"카드 자리 회피 불가({r.reason}) — 날짜만 피한 틀, 카드 겹침은 렌더 RESERVED 가 비킴"
+    return r, r.reason
+
+
+def _not_ok(r):  # noqa: ANN001, ANN202
+    r.ok = False
+    return r
+
+
+def _keys_for(P, sugs: list[Optional[tuple[float, float, float]]], trans: list[Optional[str]]) -> tuple[list, list[dict]]:  # noqa: ANN001, N803
+    """제안값을 받아들였을 때의 카메라 키·암전 이벤트(engine.direction.build 와 같은 모양 — dip = 그 시각 cut + 1초 암전)."""
+    from engine.camera import CamKey  # noqa: PLC0415
+    from engine.direction import DIP_HALF_SEC  # noqa: PLC0415
+
+    lo, hi = SG.move_dur_sec
+    keys, dips = [], [e for e in P.events if e["type"] == "dip" and e.get("under")]
+    others = [e for e in P.events if e["type"] != "dip"]
+    old_dips = [e for e in P.events if e["type"] == "dip" and not e.get("under")]
+    for k, sg, tr in zip(sorted(P.keys, key=lambda c: c.t), sugs, trans):
+        x, y, w = sg if sg is not None else (k.x, k.y, k.w)
+        if sg is None:
+            keys.append(k)
+            dips += [e for e in old_dips if abs((e["t0"] + e["t1"]) / 2 - k.t) < DIP_HALF_SEC]
+        elif tr == "dip" or (tr is None and k.mode == "cut"):
+            keys.append(CamKey(t=k.t, x=x, y=y, w=w, dur=0, mode="cut"))
+            if tr == "dip" and not any(abs((e["t0"] + e["t1"]) / 2 - k.t) < DIP_HALF_SEC for e in dips):
+                dips.append(dict(type="dip", t0=k.t - DIP_HALF_SEC, t1=k.t + DIP_HALF_SEC))
+        else:
+            keys.append(CamKey(t=k.t, x=x, y=y, w=w, dur=k.dur if k.mode == "move" else round((lo + hi) / 2, 2), mode="move"))
+    return keys, others + dips
+
+
 def suggest(P) -> CameraSuggest:  # noqa: ANN001, N803 — engine.project.Project
+    """숏별 제안 → **실제 카메라 경로로 검증**(이동 중 등장·드리프트까지, engine.checks.offscreen_hits — 검사기 하나).
+    화면 밖이 나온 숏은 w 를 camera.framing.path_w_step 배씩 키워 다시 틀을 잡는다(최대 verify_rounds 번)."""
+    import dataclasses  # noqa: PLC0415
+
+    from engine.camera import build_camera  # noqa: PLC0415
+    from engine.checks import offscreen_hits  # noqa: PLC0415
     from engine.framing import place  # noqa: PLC0415
     from engine.shots import scene_at  # noqa: PLC0415
+    from engine.style import FPS  # noqa: PLC0415
 
     keys = sorted(P.keys, key=lambda k: k.t)
     tiers = P.R.assets.tiers["W"]
     bounds = (tiers["lon0"], tiers["lat0"], tiers["lon1"], tiers["lat1"])
-    shots: list[ShotSuggest] = []
-    prev: Optional[tuple[float, float, float]] = None
-    for i, k in enumerate(keys):
+    ends = [keys[i + 1].t if i + 1 < len(keys) else P.plan.total for i in range(len(keys))]
+    info: list[Optional[tuple[list[FramePoint], bool]]] = []
+    base: list[dict] = []
+    notes: list[str] = []
+    for k, t1 in zip(keys, ends):
         t0 = k.t + k.dur                       # 도착한 뒤부터 다음 키까지
-        t1 = keys[i + 1].t if i + 1 < len(keys) else P.plan.total
         cur = CamValue(lon=round(k.x, 4), lat=round(lat_of(k.y), 4), w=round(k.w, 4))
-        base = dict(t=round(k.t, 3), t_end=round(t1, 3), scene=scene_at(P.plan.sentences, max(k.t, 0.0)), current=cur,
-                    current_mode=k.mode)
-        if t1 <= t0 or _covered(P, t0, t1):
-            shots.append(ShotSuggest(**base, note="화면이 전면 카드·패널로 덮임 — 제안 없음"))
-            prev = (k.x, k.y, k.w)
-            continue
+        base.append(dict(t=round(k.t, 3), t_end=round(t1, 3), scene=scene_at(P.plan.sentences, max(k.t, 0.0)), current=cur,
+                         current_mode=k.mode))
         pts = _points(P.events, k.t, t1)
-        if not pts:
-            shots.append(ShotSuggest(**base, note="장소 이벤트 없음 — 제안 없음"))
-            prev = (k.x, k.y, k.w)
+        if t1 <= t0 or _covered(P, t0, t1):
+            info.append(None)
+            notes.append("화면이 전면 카드·패널로 덮임 — 제안 없음")
+        elif not pts:
+            info.append(None)
+            notes.append("장소 이벤트 없음 — 제안 없음")
+        else:
+            card = any(e["type"] in ("card", "article", "post") and e["t0"] <= t1 and e["t1"] >= t0 for e in P.events)
+            info.append((pts, card))
+            notes.append("")
+    w_min: list[Optional[float]] = [None] * len(keys)
+    left: list[str] = []
+    for _ in range(FR.verify_rounds):
+        res = [(_frame(inf[0], inf[1], bounds, w_min[i]) if inf else None) for i, inf in enumerate(info)]
+        sugs = [(r.lon, ym(r.lat), r.w) if r else None for r, _ in (x if x else (None, "") for x in res)]
+        trans: list[Optional[str]] = []
+        prev: Optional[tuple[float, float, float]] = None
+        for k, sg in zip(keys, sugs):
+            here = sg if sg is not None else (k.x, k.y, k.w)
+            trans.append(choose_transition(prev, sg) if sg is not None and prev is not None and k.t > 0 else None)
+            prev = here
+        nk, ev = _keys_for(P, sugs, trans)
+        P2 = dataclasses.replace(P, keys=nk, events=ev, cams=build_camera(nk, P.n_frames, FPS))  # noqa: N806
+        hits = offscreen_hits(P2)
+        left = []
+        grow = set()
+        for e, t, over, _b in hits:
+            i = max(j for j, k in enumerate(keys) if k.t <= t)
+            if sugs[i] is None:
+                continue                        # 제안 없는 숏(사람 카메라 그대로)의 문제는 제안 몫이 아니다
+            left.append(f"{e['type']}:{e.get('label') or e.get('pid')} t={t:.1f} 화면 밖 {over:.0f}px")
+            grow.add(i)
+        grow = {i for i in grow if sugs[i][2] < FR.w_max}
+        if not grow:
+            break
+        for i in grow:
+            w_min[i] = min(FR.w_max, sugs[i][2] * FR.path_w_step)
+    shots: list[ShotSuggest] = []
+    for i, (k, b) in enumerate(zip(keys, base)):
+        if res[i] is None:
+            shots.append(ShotSuggest(**b, note=notes[i]))
             continue
-        card = any(e["type"] in ("card", "article", "post") and e["t0"] <= t1 and e["t1"] >= t0 for e in P.events)
-        res = default_reserve(card=card)
-        r = frame_points(pts, reserve=res, bounds=bounds)
-        cur_ok, _, _ = place(pts, cur.lon, cur.lat, cur.w, bounds=bounds, lenient=True)
-        sug = (r.lon, ym(r.lat), r.w)
-        trans = choose_transition(prev, sug) if prev is not None and k.t > 0 else None
-        shots.append(ShotSuggest(**base, suggested=CamValue(lon=r.lon, lat=r.lat, w=r.w), suggested_transition=trans,
-                                 fits=r.ok, current_fits=cur_ok, points=[p.ref for p in pts], note=r.reason))
-        prev = sug
-    return CameraSuggest(shots=shots, shot_issues_current=shot_issues(P.keys, P.plan.sentences, P.events, P.plan.total))
+        r, why = res[i]
+        pts = info[i][0]
+        cur_ok, _, _ = place(pts, b["current"].lon, b["current"].lat, b["current"].w, bounds=bounds, lenient=True)
+        mine = [x for x in left if keys[i].t <= float(x.split(" t=")[1].split(" ")[0]) < ends[i]]
+        note = "; ".join([n for n in (why, *mine) if n])
+        shots.append(ShotSuggest(**b, suggested=CamValue(lon=r.lon, lat=r.lat, w=r.w), suggested_transition=trans[i],
+                                 fits=r.ok and not mine, current_fits=cur_ok, points=[p.ref for p in pts], note=note))
+    dp = P.root / "direction.yaml"
+    sha = hashlib.sha1(dp.read_bytes()).hexdigest() if dp.exists() else ""
+    return CameraSuggest(direction_sha1=sha, shots=shots, shot_issues_current=shot_issues(P.keys, P.plan.sentences, P.events, P.plan.total))
+
+
+def load_suggest(root: Path) -> Optional[CameraSuggest]:
+    p = root / "prev" / SUGGEST_FILE
+    return CameraSuggest.model_validate_json(p.read_text(encoding="utf-8")) if p.exists() else None
 
 
 def main(argv: list[str] | None = None) -> int:

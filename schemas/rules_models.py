@@ -789,6 +789,8 @@ class FramingRules(_Strict):
     center_grid: int = Field(ge=1)
     date_reserve_chars: float = Field(gt=0)
     cover_samples: int = Field(ge=2)
+    verify_rounds: int = Field(ge=1)
+    path_w_step: float = Field(gt=1)
     marker_px: PxBox
     badge_px: BadgePx
     point_px: PxBox

@@ -1,6 +1,6 @@
 <!--
 tier: 2
-last_synced_with: v3.1.0
+last_synced_with: v3.3.0
 ssot_for: [prompt-director_user]
 depends_on: [prompts/director.md, workers/director_worker.py]
 last_review: 2026-09-28
@@ -30,6 +30,11 @@ note: DirectorWorker user prompt 템플릿 — 자리표시는 워커가 .replac
 ------------------------------
 {event_fields}
 
+카메라 제안값 (engine.camera_suggest — 참고용, 강제 아님)
+----------------------------------------------------
+{camera_suggest}
+
 지시
 ----
 위 원고 전체를 연출하는 direction JSON 을 출력하십시오. 모든 장면(scene)을 다룬다.
+카메라 제안값은 장소가 전부 화면에 들어오는 최소 폭과 전환(move/dip) 계산 결과다. 따를지·고칠지는 연출 의도로 정한다.

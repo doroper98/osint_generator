@@ -6,6 +6,7 @@
 from __future__ import annotations
 
 import collections
+import hashlib
 import json
 import re
 from pathlib import Path
@@ -72,6 +73,29 @@ def ai_direction_summary(root: Path) -> dict | None:
             "direction_versions": len(vers), "used_version": used, "selected": loop.get("selected"),
             "rounds": [{k: r.get(k) for k in ("version", "checks_hard", "qa_hard", "qa_soft")} for r in loop.get("rounds", [])],
             "revisions": revs, "visual_qa": qa}
+
+
+def camera_summary(root: Path, keys: list[CamKey]) -> dict:
+    """provenance `camera` (v3.3.0 D-0056 작업 5·9): 제안(suggested)과 사용(used)을 가른다 — 제안은 옵션(P8).
+    suggested = prev/camera_suggest.json 이 있고 제안이 나온 숏 수(없으면 0, 파일 없음 = 돌지 않음 → 기록 false).
+    used = 지금 카메라 키 가운데 제안값과 같은(소수 셋째 자리) 키 수. given_to_director = 연출가가 제안 파일을 입력으로 받았나."""
+    from engine.camera_suggest import load_suggest  # noqa: PLC0415
+    from engine.projection import lat_of  # noqa: PLC0415
+
+    cs = load_suggest(root)
+    meta_p = root / "direction.meta.json"
+    meta = json.loads(meta_p.read_text(encoding="utf-8")) if meta_p.exists() else {}
+    given = bool(meta.get("camera_suggest_sha1"))
+    if cs is None:
+        return {"suggest_ran": False, "suggested": 0, "used": 0, "given_to_director": given}
+    dp = root / "direction.yaml"
+    cur_sha = hashlib.sha1(dp.read_bytes()).hexdigest() if dp.exists() else ""
+    sug = [s.suggested for s in cs.shots if s.suggested is not None]
+    used = sum(1 for k in keys if any(round(g.lon, 3) == round(k.x, 3) and round(g.lat, 3) == round(lat_of(k.y), 3)
+                                      and round(g.w, 3) == round(k.w, 3) for g in sug))
+    return {"suggest_ran": True, "suggested": len(sug), "used": used, "given_to_director": given,
+            "from_current_direction": cs.direction_sha1 == cur_sha,
+            "fits": sum(1 for s in cs.shots if s.fits), "current_fits_false": sum(1 for s in cs.shots if s.current_fits is False)}
 
 
 def emblem_usage(events: list[dict], emblem_flag: Callable[[str], str | None]) -> dict:

@@ -1,6 +1,7 @@
 """DirectorWorker — AI 연출가 (v3.1.0, docs/handoff/17 §2·§5.3, back_and_forth D-0047 작업 8).
 
-입력: `script.yaml` + `plan.json` + 엔티티·미디어 레지스트리 + 지오 역량 + 이벤트 필드 표(15 P9 — 자기 몫만).
+입력: `script.yaml` + `plan.json` + 엔티티·미디어 레지스트리 + 지오 역량 + 이벤트 필드 표(15 P9 — 자기 몫만)
++ (있으면) 카메라 제안값 `prev/camera_suggest.json`(v3.3.0, 옵션 — 따를지는 연출가가 정한다, P8).
 출력: `projects/{pid}/direction.yaml`(Direction, YAML) + `direction.v{n}.yaml` 보관(16 §6) + `direction.meta.json`
 (origin=ai, 모델·프롬프트 sha1 — provenance `ai_direction`).
 검증: 스키마 → 앵커·레지스트리·엔티티(check_parsed) 위반이면 오류를 붙여 1회 재요청 후 중단(16 §3).
@@ -22,6 +23,7 @@ from schemas.models import TaskQueueItem
 from workers.base_llm_worker import BaseLLMWorker
 from workers.base_worker import run_worker
 from workers.direction_io import (
+    camera_suggest_text,
     check_direction,
     dump_direction_yaml,
     entities_text,
@@ -56,7 +58,8 @@ class DirectorWorker(BaseLLMWorker):
                 .replace("{entities}", entities_text(pdir))
                 .replace("{media}", media_text(pdir))
                 .replace("{geo}", geo_text(pdir))
-                .replace("{event_fields}", event_fields_table()))
+                .replace("{event_fields}", event_fields_table())
+                .replace("{camera_suggest}", camera_suggest_text(pdir)[0]))
 
     def output_path(self, args: argparse.Namespace, task: TaskQueueItem) -> Path:
         return self.project_dir(args) / "direction.yaml"
@@ -78,7 +81,8 @@ class DirectorWorker(BaseLLMWorker):
         (pdir / "direction.meta.json").write_text(json.dumps({
             "schema_version": 1, "origin": "ai", "worker": self.worker_name, "version": n,
             "model": self.resolve_model() if self.llm_backend == "claude" else self.llm_backend,
-            "prompt_sha1": prompt_sha1(self.system_prompt())}, ensure_ascii=False, indent=1), encoding="utf-8")
+            "prompt_sha1": prompt_sha1(self.system_prompt()),
+            "camera_suggest_sha1": camera_suggest_text(pdir)[1]}, ensure_ascii=False, indent=1), encoding="utf-8")
 
 
 if __name__ == "__main__":

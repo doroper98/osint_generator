@@ -158,6 +158,8 @@ camera:                    # v3.3.0 D-0056 — 카메라 자동화 보조(05 §7
     center_grid: 9         # 가능한 중심 구간 안 격자(예약 영역 회피 탐색)
     date_reserve_chars: 8  # 날짜 배지 예약 폭 = 글자 크기 × 8(“2026.03.02” 모노 폭 상한)
     cover_samples: 5       # 숏이 전면 카드·패널에 덮였는지 볼 시각 수
+    verify_rounds: 8       # 제안 → 실제 카메라 경로(이동·드리프트) 검증 → 화면 밖 숏 w 키우기 반복 상한
+    path_w_step: 1.12      # 검증에서 화면 밖이 나온 숏의 w 배율
     marker_px: {up: 14, down: 26, side: 60}      # 마커 점 + 라벨(한 줄) 여유
     badge_px: {up_factor: 2.2, down_px: 44, side_factor: 1.4}   # 뱃지: 위 = R×2.2(머리), 아래 = 이름표 44px(05 §2.1, layout badge 값과 같은 뜻)
     point_px: {up: 10, down: 10, side: 10}       # 그 밖(컷아웃 기준점·경로 꼭짓점)

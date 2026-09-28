@@ -36,7 +36,7 @@ from schemas.models import ProjectState
 
 REPO = Path(__file__).resolve().parent.parent
 
-Stage = Literal["plan", "assets", "direction_validate", "validate", "preview", "render", "mix", "deliver"]
+Stage = Literal["plan", "assets", "direction_validate", "validate", "preview", "render", "mix", "deliver", "camera_suggest"]
 
 # 단계 → (모듈, CLI 가 StageResult.stage 에 적는 이름)
 STAGE_COMMANDS: dict[str, tuple[str, str]] = {
@@ -48,13 +48,14 @@ STAGE_COMMANDS: dict[str, tuple[str, str]] = {
     "render": ("engine.render", "render"),
     "mix": ("audio.mix", "mix"),
     "deliver": ("engine.mux", "mux"),
+    "camera_suggest": ("engine.camera_suggest", "camera_suggest"),   # v3.3.0 — 제안 파일만 쓴다(자동 적용 없음, P8)
 }
 
 # 상태 → 그 상태에서 돌리는 엔진 단계(16 §2). 목록에 없는 상태는 LLM·사람 단계다.
 STATE_STAGES: dict[ProjectState, tuple[str, ...]] = {
     ProjectState.VOICE_TIMELINE: ("plan",),
     ProjectState.ASSETS: ("assets",),
-    ProjectState.DIRECTION: ("direction_validate", "validate"),
+    ProjectState.DIRECTION: ("direction_validate", "validate", "camera_suggest"),
     ProjectState.PREVIEW_QA: ("preview",),
     ProjectState.RENDER: ("render",),
     ProjectState.AUDIO_MIX: ("mix",),

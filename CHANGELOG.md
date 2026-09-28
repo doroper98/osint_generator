@@ -33,6 +33,9 @@ released 항목은 **append-only**입니다.
 ### Added
 - 자막 검증 라벨 — claims.json status 가 unverified·disputed 인 문장은 첫 줄 앞에 `<미검증>`·`<논쟁>`(규칙 `script_schema.labels`, 모양 `layout_480p.subtitle.label_style`). 라벨 없는 문장은 무변경 (D-0055 NB12, C9).
 - `--preview auto` 본편 컷 최소 수 `rules preview.min_body_cuts` — 짧은 영상에서 전면 카드만 뽑히지 않게 문장 구간 시각을 보탠다. golden 모드 무관 (F6).
+- `engine/framing.frame_points(points, reserve)` — 장면 장소를 전부 담는 최소 w·중심(규칙 `camera.framing`, 480p px × k 해상도 독립) (05 §7-1).
+- 전환 자동 선택 `engine.shots.choose_transition`(규칙 `shot_grammar.auto_transition`)·숏 규칙 검사기 하나 `engine.shots.shot_issues`(checks shots 가 호출) (05 §7-2·§7-3).
+- 카메라 제안 `python -m engine.camera_suggest <proj>` → `prev/camera_suggest.json`. **자동 적용 없음** — 연출가 입력 `{camera_suggest}`(제안값만, P9), 게이트 ② "카메라 제안 vs 현재" 표, provenance `camera`(suggest_ran·suggested·used·given_to_director). 제안은 실제 카메라 경로(이동·드리프트)로 offscreen 검사기(`engine.checks.offscreen_hits`)를 돌려 검증하고 화면 밖이면 w 를 키운다. 엔진 단계 `camera_suggest`(DIRECTION 상태) (D-0056 작업 5).
 
 ---
 

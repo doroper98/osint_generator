@@ -6,6 +6,7 @@
 
 from __future__ import annotations
 
+import hashlib
 import json
 import typing
 from pathlib import Path
@@ -153,6 +154,27 @@ def geo_text(pdir: Path) -> str:
     g = yaml.safe_load((pdir / "geo.yaml").read_text(encoding="utf-8"))
     tiers = "; ".join(f"{t['name']} bbox {t['bbox']}" for t in g.get("tiers", []))
     return f"국가 지오메트리 권역 bbox {g.get('bbox')}. 지형 티어(카메라 경계 = W): {tiers}. 카메라 w(화면 폭, 경도 도)는 2.5~96."
+
+
+def camera_suggest_text(pdir: Path) -> tuple[str, str | None]:
+    """카메라 제안값(engine.camera_suggest, v3.3.0 D-0056 작업 5) → 연출가 입력 텍스트와 제안 파일 sha1.
+    **옵션이지 강제 아님(P8)**. 제안값만 보인다 — 이전 연출의 카메라 값은 넣지 않는다(15 P9). 파일이 없으면 (없음, None)."""
+    from engine.camera_suggest import SUGGEST_FILE, load_suggest  # noqa: PLC0415
+
+    cs = load_suggest(pdir)
+    if cs is None:
+        return "(없음 — 제안은 기존 direction 이 있을 때 engine.camera_suggest 가 만든다)", None
+    rows = []
+    for s in cs.shots:
+        if s.suggested is None:
+            continue
+        g = s.suggested
+        tr = f" · 들어오는 전환 {s.suggested_transition}" if s.suggested_transition else ""
+        fit = "" if s.fits else f" · 다 담기지 않음({s.note})"
+        rows.append(f"- 장면 {s.scene} {s.t:.1f}~{s.t_end:.1f}초 · 장소 {', '.join(s.points)} → "
+                    f"cam lon {g.lon} lat {g.lat} w {g.w}{tr}{fit}")
+    sha = hashlib.sha1((pdir / "prev" / SUGGEST_FILE).read_bytes()).hexdigest()
+    return ("\n".join(rows) if rows else "(제안할 숏 없음)"), sha
 
 
 def load_plan(pdir: Path) -> Plan:

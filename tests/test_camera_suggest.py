@@ -61,6 +61,93 @@ class CameraSuggestHormuzTest(unittest.TestCase):
             CameraSuggest.model_validate(data)
 
 
+    def test_suggested_path_passes_offscreen_checker(self) -> None:
+        """제안을 받아들인 카메라 경로(이동·드리프트 포함)를 offscreen 검사기(하나의 검사기)로 돌리면 0건."""
+        import dataclasses  # noqa: PLC0415
+
+        from engine.camera import build_camera  # noqa: PLC0415
+        from engine.camera_suggest import _keys_for  # noqa: PLC0415
+        from engine.checks import offscreen_hits  # noqa: PLC0415
+        from engine.projection import ym  # noqa: PLC0415
+        from engine.style import FPS  # noqa: PLC0415
+
+        sugs = [(s.suggested.lon, ym(s.suggested.lat), s.suggested.w) if s.suggested else None for s in self.cs.shots]
+        keys, ev = _keys_for(self.P, sugs, [s.suggested_transition for s in self.cs.shots])
+        P2 = dataclasses.replace(self.P, keys=keys, events=ev, cams=build_camera(keys, self.P.n_frames, FPS))  # noqa: N806
+        self.assertEqual(offscreen_hits(P2), [])
+
+    def test_resolution_independent(self) -> None:
+        """같은 장소·카메라 → 854×480 과 1280×720 에서 같은 (lon, lat, w)·같은 프레임 안 판정(px 여백만 k 배)."""
+        from engine.camera_suggest import _points  # noqa: PLC0415
+        from engine.framing import frame_points  # noqa: PLC0415
+
+        t = self.P.R.assets.tiers["W"]
+        bounds = (t["lon0"], t["lat0"], t["lon1"], t["lat1"])
+        keys = sorted(self.P.keys, key=lambda k: k.t)
+        for i, s in enumerate(self.cs.shots):
+            if s.suggested is None:
+                continue
+            pts = _points(self.P.events, keys[i].t, s.t_end)
+            a = frame_points(pts, width=854, height=480, bounds=bounds)
+            b = frame_points(pts, width=1280, height=720, bounds=bounds)
+            self.assertEqual(a.ok, b.ok, s.t)
+            # 854/480(1.7792)과 1280/720(1.7778)은 화면비가 0.08% 다르다 — 그만큼(w 의 0.1%)만 허용
+            for x, y in ((a.lon, b.lon), (a.lat, b.lat), (a.w, b.w)):
+                self.assertLessEqual(abs(x - y), a.w * 1e-3, str(s.t))
+            c = s.current
+            self.assertEqual(place(pts, c.lon, c.lat, c.w, width=854, height=480, bounds=bounds, lenient=True)[0],
+                             place(pts, c.lon, c.lat, c.w, width=1280, height=720, bounds=bounds, lenient=True)[0], s.t)
+
+
+@unittest.skipUnless((HORMUZ / "direction.yaml").exists(), "hormuz 프로젝트 없음")
+class SuggestWiringTest(unittest.TestCase):
+    """제안은 옵션(P8): 연출가 입력에 '제안값'으로만, 사람 연출 무변경, provenance 는 suggested/used 를 가른다."""
+
+    def setUp(self) -> None:
+        self._tmp = tempfile.TemporaryDirectory()
+        self.proj = Path(self._tmp.name) / "hz"
+        shutil.copytree(HORMUZ, self.proj, ignore=shutil.ignore_patterns("prev", "out", "tts", "cache"))
+
+    def tearDown(self) -> None:
+        self._tmp.cleanup()
+
+    def test_director_prompt_placeholder(self) -> None:
+        from workers.direction_io import camera_suggest_text  # noqa: PLC0415
+
+        self.assertIn("{camera_suggest}", (ROOT / "prompts" / "director_user.md").read_text(encoding="utf-8"))
+        txt, sha = camera_suggest_text(self.proj)
+        self.assertIsNone(sha)
+        self.assertIn("없음", txt)
+        self.assertEqual(main([str(self.proj)]), 0)
+        txt, sha = camera_suggest_text(self.proj)
+        self.assertIsNotNone(sha)
+        self.assertIn("cam lon", txt)
+        self.assertNotIn("127.35", txt)      # 이전 연출(현재) 카메라 값은 넣지 않는다(15 P9)
+
+    def test_provenance_suggested_vs_used(self) -> None:
+        from engine.project import load_project  # noqa: PLC0415
+        from engine.provenance import camera_summary  # noqa: PLC0415
+
+        P = load_project(self.proj)  # noqa: N806
+        self.assertEqual(camera_summary(self.proj, P.keys)["suggest_ran"], False)
+        self.assertEqual(main([str(self.proj)]), 0)
+        cam = camera_summary(self.proj, P.keys)
+        self.assertTrue(cam["suggest_ran"])
+        self.assertGreater(cam["suggested"], 0)
+        self.assertEqual(cam["used"], 0)              # 사람 연출은 제안을 받아들이지 않았다
+        self.assertTrue(cam["from_current_direction"])
+        self.assertFalse(cam["given_to_director"])
+
+    def test_gate2_table(self) -> None:
+        from orchestrator.gate_view import preview_gate_view  # noqa: PLC0415
+
+        self.assertIn("카메라 제안 — 없음", preview_gate_view(self.proj)[0])
+        self.assertEqual(main([str(self.proj)]), 0)
+        text, shown = preview_gate_view(self.proj)
+        self.assertIn("카메라 제안 vs 현재", text)
+        self.assertIn("camera_suggest", shown)
+
+
 class LenientLineTest(unittest.TestCase):
     def test_line_point_may_pass_under_subtitle_only_in_lenient(self) -> None:
         low = plain_point(0.0, -7.0, "route#end", avoid_reserve=False)

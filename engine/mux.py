@@ -115,6 +115,7 @@ def project_provenance(P, stages: dict[str, bool]) -> dict:  # noqa: ANN001, N80
     from engine.media_plan import density_report  # noqa: PLC0415
     from engine.provenance import ai_direction_summary  # noqa: PLC0415
     from engine.provenance import build as build_prov  # noqa: PLC0415
+    from engine.provenance import camera_summary  # noqa: PLC0415
     from engine.reserved import avoidance_report  # noqa: PLC0415
     from orchestrator import __version__  # noqa: PLC0415
     from script.labels import check_project_labels  # noqa: PLC0415
@@ -127,6 +128,7 @@ def project_provenance(P, stages: dict[str, bool]) -> dict:  # noqa: ANN001, N80
     prov = build_prov(P.plan, P.keys, P.events, __version__, stages, P.R.tb.word_anchors, asset_usage(P))
     prov["credits"] = credit_summary(req)   # D-0030 §3 — 표기 위치별 종류 개수
     prov["reserved"] = {"avoidance": avoidance_report(P)}   # D-0033 §2 — 카드 영역 때문에 비킨·흐린 뱃지
+    prov["camera"] = camera_summary(P.root, P.keys)          # v3.3.0 — 카메라 제안 suggested/used(D-0056, 제안은 옵션)
     prov["lint_warnings"] = P.warnings                       # 연출 경고(관계선 과다·연표 겹침·미디어 배치/밀도) — 오류 아님
     prov["media"] = {**media_usage(P.plan, P.events),        # v2.5.5 — 14 §10 제안·사용·밀도·배치(D-0036)
                      "density": density_report(P.events, P.R.tb, P.plan.total),
