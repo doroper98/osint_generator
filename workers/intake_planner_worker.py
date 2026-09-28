@@ -61,7 +61,7 @@ class IntakePlannerWorker(BaseLLMWorker):
     """
 
     worker_name = "intake_planner"
-    task_type = "intake_planning"
+    task_type = "intake"
 
     llm_backend: str = "claude"
     llm_mode: ClassVar[str] = "response"

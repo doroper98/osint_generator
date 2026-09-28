@@ -2,7 +2,7 @@
 
 `source_registry.json` 을 받아 부족·위험 항목을 식별하여
 `source_completeness_report.json` (`SourceCompletenessReport`) 을 생성합니다.
-docs/12_QA_AND_REVIEW_SPEC.md §1 의 Review Gate 2 (`source_completeness_review`)
+docs/12_QA_AND_REVIEW_SPEC.md §1 의 Review Gate 2 (`source_verify`)
 의 입력입니다.
 
 본 모듈은 **순수 함수만** 제공합니다 (디스크 I/O 없음 — 영속화는

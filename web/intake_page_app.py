@@ -7,7 +7,7 @@ docs/04_DYNAMIC_INTAKE_PAGE_SPEC.md 의 정식 구현 첫 단계 (Phase 3, v0.3.
 - GET  /healthz                : 헬스체크 (배포 검증용, JSON 응답)
 - GET  /intake/{pid}           : intake_plan.json 을 카드 형태 HTML 로 렌더
 - POST /intake/{pid}/submit    : 사용자 결정 (모드/메모/링크) 을 SourceIntake 로
-                                 영속화하고 `intake_pending_user → source_collecting`
+                                 영속화하고 `intake → source_verify`
                                  상태 전이
 
 설계 원칙
@@ -279,12 +279,12 @@ async def submit_intake(project_id: str, request: Request) -> JSONResponse:
     # v0.3.1 M1: write 전에 state precondition 검증. transition_state 와 동일한 게이트를
     # 두 번 사용하지만, 첫 번째 호출은 "쓰기 허용 여부" 만 가늠 (실제 전이는 아래에서).
     current_str = _state_str(manifest.current_state)
-    if current_str != ProjectState.INTAKE_PENDING_USER.value:
+    if current_str != ProjectState.INTAKE.value:   # v3.0.0: plan 은 위에서 확인(없으면 404)
         return JSONResponse(
             status_code=409,
             content={
                 "error": "state precondition failed",
-                "expected_state": ProjectState.INTAKE_PENDING_USER.value,
+                "expected_state": ProjectState.INTAKE.value,
                 "current_state": current_str,
             },
         )
@@ -297,7 +297,7 @@ async def submit_intake(project_id: str, request: Request) -> JSONResponse:
     try:
         manifest = transition_state(
             manifest,
-            ProjectState.SOURCE_COLLECTING,
+            ProjectState.SOURCE_VERIFY,
             reason="Dynamic Intake Page 제출",
         )
     except ValueError as e:

@@ -81,7 +81,7 @@ def _write_manifest_file(project_root: Path, project_id: str, category: Category
         category=category,
         target_duration_min=18,
         topic_summary="유가·해운 운임 충격",
-        current_state=ProjectState.INTAKE_PLANNING,
+        current_state=ProjectState.INTAKE,
     )
     (pdir / "project_manifest.json").write_text(
         manifest.model_dump_json(indent=2), encoding="utf-8"
@@ -170,7 +170,7 @@ class TestBuildUserPrompt(unittest.TestCase):
     def _task(self) -> TaskQueueItem:
         return TaskQueueItem(
             task_id="intake-1",
-            task_type="intake_planning",
+            task_type="intake",
             assigned_worker="intake_planner",
             description="test",
             output_refs=["01_intake/intake_plan.json"],
@@ -212,7 +212,7 @@ class TestOutputPath(unittest.TestCase):
         )
         task = TaskQueueItem(
             task_id="intake-1",
-            task_type="intake_planning",
+            task_type="intake",
             assigned_worker="intake_planner",
             description="test",
         )
@@ -261,7 +261,7 @@ class _IntegrationBase(unittest.TestCase):
     def _task(self) -> TaskQueueItem:
         return TaskQueueItem(
             task_id="intake-1",
-            task_type="intake_planning",
+            task_type="intake",
             assigned_worker="intake_planner",
             description="test",
             output_refs=["01_intake/intake_plan.json"],

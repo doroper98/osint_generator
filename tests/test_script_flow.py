@@ -1,7 +1,7 @@
 """Phase 6 Script 흐름 테스트 — build-script CLI + ScriptWorker.
 
-research_in_progress 까지 진행한 뒤 build-script(LLM stub)가 full_script.json 을
-생성하고 state 를 research_in_progress → blueprint_review → script_writing 으로
+research 까지 진행한 뒤 build-script(LLM stub)가 full_script.json 을
+생성하고 state 를 research → blueprint_review → script_draft 으로
 전이하는지 검증. LLM stub(OSINT_LLM_STUB=1)로 실 호출 우회.
 
 실행: python -m unittest tests.test_script_flow
@@ -61,7 +61,7 @@ class _ScriptHarness(_ResearchHarness):
         self.assertEqual(cli_main(["build-research-dossier", "demo3"]), 0)
         self.assertEqual(
             self._load_manifest("demo3").current_state,
-            ProjectState.RESEARCH_IN_PROGRESS.value,
+            ProjectState.RESEARCH.value,
         )
 
 
@@ -81,10 +81,10 @@ class TestBuildScriptCLI(_ScriptHarness):
         self.assertEqual(script.segments[2].label, "<주장>")
         self.assertEqual(script.segments[2].claim_refs, ["claim_02"])
 
-        # blueprint_review 를 거쳐 script_writing 안착.
+        # v3.0.0: research → script_draft 한 번(16 §2).
         self.assertEqual(
             self._load_manifest("demo3").current_state,
-            ProjectState.SCRIPT_WRITING.value,
+            ProjectState.SCRIPT_DRAFT.value,
         )
         transitions = [
             (t.from_state if isinstance(t.from_state, str) else t.from_state.value,
@@ -92,11 +92,7 @@ class TestBuildScriptCLI(_ScriptHarness):
             for t in self._load_manifest("demo3").state_history
         ]
         self.assertIn(
-            (ProjectState.RESEARCH_IN_PROGRESS.value, ProjectState.BLUEPRINT_REVIEW.value),
-            transitions,
-        )
-        self.assertIn(
-            (ProjectState.BLUEPRINT_REVIEW.value, ProjectState.SCRIPT_WRITING.value),
+            (ProjectState.RESEARCH.value, ProjectState.SCRIPT_DRAFT.value),
             transitions,
         )
 
@@ -105,10 +101,10 @@ class TestBuildScriptCLI(_ScriptHarness):
         self._stub(json.dumps({"schema_version": 1}))  # project_id 누락
         rc = cli_main(["build-script", "demo3"])
         self.assertEqual(rc, 1)
-        # research_in_progress 로 멈춤.
+        # research 로 멈춤.
         self.assertEqual(
             self._load_manifest("demo3").current_state,
-            ProjectState.RESEARCH_IN_PROGRESS.value,
+            ProjectState.RESEARCH.value,
         )
 
     def test_rejected_outside_research_in_progress(self) -> None:

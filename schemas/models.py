@@ -408,7 +408,7 @@ class CompletenessIssue(BaseModel):
 class SourceCompletenessReport(VersionedModel):
     """source_registry 의 '부족 자료 식별' 결과 (Phase 5).
 
-    docs/12_QA_AND_REVIEW_SPEC.md §1 의 `source_completeness_review` (Review Gate 2)
+    docs/12_QA_AND_REVIEW_SPEC.md §1 의 `source_verify` (Review Gate 2)
     가 본 보고서를 검수하여 '부족 자료 보완' 또는 '계속 진행' 을 결정합니다.
     Orchestrator 가 생성하며, 자료 자체의 SSOT 는 `source_registry.json` 입니다.
 
@@ -578,7 +578,7 @@ class ScriptSegment(BaseModel):
 class FullScript(VersionedModel):
     """Script Agent (ScriptWorker) 산출. research_dossier → 영상 대본.
 
-    docs/12 §1 의 `script_review` (Review Gate 4) 입력이며, Scene Planner(다음
+    승인 게이트 `script_approval`(16 §5) 입력이며, Scene Planner(다음
     단계)의 입력이 된다. 스키마 추가는 optional 모델 추가에 해당해 schema_version
     1 유지 (C3).
     """

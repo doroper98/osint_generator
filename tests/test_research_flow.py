@@ -2,11 +2,11 @@
 
 검증 흐름
 --------
-1. 프로젝트를 source_completeness_review 상태까지 진행
+1. 프로젝트를 source_verify 상태까지 진행
    (create → plan-intake → submit-intake → build-source-registry).
 2. `build-research-dossier demo3` 가 ResearchWorker(LLM stub)를 호출해
    `04_research/research_dossier.json` 을 생성하고 state 를
-   `source_completeness_review → research_in_progress` 로 전이.
+   `source_verify → research` 로 전이.
 3. stub 검증 실패 / state precondition / 영속화 / 워커 프롬프트 회귀.
 
 본 테스트는 LLM stub (`OSINT_LLM_STUB=1`) 모드로 실 CLI 호출을 우회한다.
@@ -138,7 +138,7 @@ class _ResearchHarness(_IsolatedProjectsRoot):
         self.assertEqual(cli_main(["build-source-registry", "demo3"]), 0)
         self.assertEqual(
             self._load_manifest("demo3").current_state,
-            ProjectState.SOURCE_COMPLETENESS_REVIEW.value,
+            ProjectState.SOURCE_VERIFY.value,
         )
 
 
@@ -166,7 +166,7 @@ class TestBuildResearchDossierCLI(_ResearchHarness):
 
         self.assertEqual(
             self._load_manifest("demo3").current_state,
-            ProjectState.RESEARCH_IN_PROGRESS.value,
+            ProjectState.RESEARCH.value,
         )
 
     def test_fails_when_llm_validation_fails(self) -> None:
@@ -175,10 +175,10 @@ class TestBuildResearchDossierCLI(_ResearchHarness):
         self._stub(json.dumps({"schema_version": 1}))
         rc = cli_main(["build-research-dossier", "demo3"])
         self.assertEqual(rc, 1)
-        # state 는 source_completeness_review 로 멈춤 (research_in_progress 까지 못 감).
+        # state 는 source_verify 로 멈춤 (research 까지 못 감).
         self.assertEqual(
             self._load_manifest("demo3").current_state,
-            ProjectState.SOURCE_COMPLETENESS_REVIEW.value,
+            ProjectState.SOURCE_VERIFY.value,
         )
 
     def test_rejected_outside_completeness_review(self) -> None:
@@ -216,7 +216,7 @@ class TestBuildResearchDossierCLI(_ResearchHarness):
         self.assertTrue(skipped)
         self.assertEqual(
             self._load_manifest("demo3").current_state,
-            ProjectState.RESEARCH_IN_PROGRESS.value,
+            ProjectState.RESEARCH.value,
         )
         # worker 가 안 돌았으면 llm_calls/ 에 새 record 가 생기지 않음.
         after = set(p.name for p in llm_dir.iterdir()) if llm_dir.exists() else set()

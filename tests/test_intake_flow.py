@@ -3,9 +3,9 @@
 검증 흐름
 --------
 1. `plan-intake demo3` 가 IntakePlannerWorker 를 호출하고 `intake_plan.json` 을
-   생성하며 state 를 `created → intake_planning → intake_pending_user` 로 진행.
+   생성하며 state 를 `created → intake → intake` 로 진행.
 2. `submit-intake demo3 --file <path>` 가 SourceIntake 파일을 영속화하고 state 를
-   `intake_pending_user → source_collecting` 으로 전이.
+   `intake → source_verify` 으로 전이.
 3. FastAPI `POST /intake/{pid}/submit` 가 form 데이터를 받아 동일 결과를 만든다.
 
 본 테스트는 LLM stub (`OSINT_LLM_STUB=1`) 모드로 실 CLI 호출을 우회한다.
@@ -171,9 +171,9 @@ class TestPlanIntakeCLI(_IsolatedProjectsRoot):
 
         manifest = self._load_manifest("demo3")
         self.assertEqual(
-            manifest.current_state, ProjectState.INTAKE_PENDING_USER.value
+            manifest.current_state, ProjectState.INTAKE.value
         )
-        # state_history 에 두 전이가 모두 기록됐는지
+        # v3.0.0: plan-intake 는 created → intake 한 번만 전이한다(16 §2)
         transitions = [
             (
                 t.from_state if isinstance(t.from_state, str) else t.from_state.value,
@@ -181,12 +181,8 @@ class TestPlanIntakeCLI(_IsolatedProjectsRoot):
             )
             for t in manifest.state_history
         ]
-        self.assertIn(
-            (ProjectState.CREATED.value, ProjectState.INTAKE_PLANNING.value),
-            transitions,
-        )
-        self.assertIn(
-            (ProjectState.INTAKE_PLANNING.value, ProjectState.INTAKE_PENDING_USER.value),
+        self.assertEqual(
+            [(ProjectState.CREATED.value, ProjectState.INTAKE.value)],
             transitions,
         )
 
@@ -196,10 +192,10 @@ class TestPlanIntakeCLI(_IsolatedProjectsRoot):
         self._stub(json.dumps({"schema_version": 1}))
         exit_code = cli_main(["plan-intake", "demo3"])
         self.assertEqual(exit_code, 1)
-        # state 는 INTAKE_PLANNING 으로 멈춤 (PENDING_USER 까지 못 감)
+        # state 는 INTAKE 으로 멈춤 (PENDING_USER 까지 못 감)
         manifest = self._load_manifest("demo3")
         self.assertEqual(
-            manifest.current_state, ProjectState.INTAKE_PLANNING.value
+            manifest.current_state, ProjectState.INTAKE.value
         )
 
 
@@ -227,7 +223,7 @@ class TestSubmitIntakeCLI(_IsolatedProjectsRoot):
         self.assertTrue(out.exists())
         self.assertEqual(
             self._load_manifest("demo3").current_state,
-            ProjectState.SOURCE_COLLECTING.value,
+            ProjectState.SOURCE_VERIFY.value,
         )
 
     def test_submit_intake_rejects_mismatched_project_id(self) -> None:
@@ -263,7 +259,7 @@ class TestWebSubmit(_IsolatedProjectsRoot):
         self.assertEqual(resp.status_code, 200, resp.text)
         payload = resp.json()
         self.assertEqual(payload["decisions"], 2)
-        self.assertEqual(payload["current_state"], ProjectState.SOURCE_COLLECTING.value)
+        self.assertEqual(payload["current_state"], ProjectState.SOURCE_VERIFY.value)
 
         out = self.projects_root / "demo3" / "01_intake" / "source_intake.json"
         self.assertTrue(out.exists())
@@ -364,7 +360,7 @@ class TestWebSecurityAndNegativePaths(_IsolatedProjectsRoot):
         self._stub(VALID_PLAN_JSON)
         cli_main(["plan-intake", "demo3"])
 
-        # 1차 제출 — 정상 (intake_pending_user → source_collecting)
+        # 1차 제출 — 정상 (intake → source_verify)
         resp1 = self._client().post(
             "/intake/demo3/submit",
             data={"mode__core_event": "skip", "mode__context_sources": "skip"},
@@ -374,7 +370,7 @@ class TestWebSecurityAndNegativePaths(_IsolatedProjectsRoot):
         out_path = self.projects_root / "demo3" / "01_intake" / "source_intake.json"
         first_bytes = out_path.read_bytes()
 
-        # 2차 제출 — state 가 이미 source_collecting → 409 + 파일 unchanged
+        # 2차 제출 — state 가 이미 source_verify → 409 + 파일 unchanged
         resp2 = self._client().post(
             "/intake/demo3/submit",
             data={"mode__core_event": "link_provide", "mode__context_sources": "link_provide"},
@@ -400,15 +396,15 @@ class TestWebSecurityAndNegativePaths(_IsolatedProjectsRoot):
     # ---- H3: plan-intake idempotency ----
 
     def test_plan_intake_skips_worker_when_valid_plan_exists(self) -> None:
-        """`intake_planning` 상태에서 유효한 intake_plan.json 이 이미 있으면 worker
-        를 재실행하지 않고 intake_pending_user 로 전이만 진행."""
+        """`intake` 상태에서 유효한 intake_plan.json 이 이미 있으면 worker
+        를 재실행하지 않고 intake 로 전이만 진행."""
         from orchestrator.project_manager import resume_project, transition_state
         from schemas.models import IntakePlan, ProjectState
 
         self._create_demo3()
-        # state 를 intake_planning 까지 이동 (worker 호출 없이 transition 만).
+        # state 를 intake 까지 이동 (worker 호출 없이 transition 만).
         manifest = resume_project("demo3")
-        transition_state(manifest, ProjectState.INTAKE_PLANNING, reason="setup for H3")
+        transition_state(manifest, ProjectState.INTAKE, reason="setup for H3")
 
         # intake_plan.json 을 미리 디스크에 만들어둠 (이전 plan-intake 의 산출물 시뮬레이션).
         plan = IntakePlan.model_validate_json(VALID_PLAN_JSON)
@@ -424,7 +420,7 @@ class TestWebSecurityAndNegativePaths(_IsolatedProjectsRoot):
         self.assertEqual(rc, 0)
         self.assertEqual(
             self._load_manifest("demo3").current_state,
-            ProjectState.INTAKE_PENDING_USER.value,
+            ProjectState.INTAKE.value,
         )
         # worker 가 안 돌았으면 llm_calls/ 디렉토리에 record 가 생기지 않음.
         llm_dir = self.projects_root / "demo3" / "llm_calls"
@@ -434,11 +430,12 @@ class TestWebSecurityAndNegativePaths(_IsolatedProjectsRoot):
         )
 
     def test_plan_intake_rejected_when_state_past_planning(self) -> None:
-        """plan-intake 가 허용 상태 (created/intake_planning) 밖에서는 거부."""
+        """plan-intake 가 허용 상태 (created/intake) 밖에서는 거부."""
         self._create_demo3()
         self._stub(VALID_PLAN_JSON)
         cli_main(["plan-intake", "demo3"])
-        # 이제 state=intake_pending_user → plan-intake 재호출 시 exit=2
+        # v3.0.0: intake 에서는 재호출 허용(idempotent). source_verify 로 넘어간 뒤에는 exit=2
+        self.assertEqual(cli_main(["transition", "demo3", "--to", "source_verify"]), 0)
         rc = cli_main(["plan-intake", "demo3"])
         self.assertEqual(rc, 2)
 
@@ -458,7 +455,7 @@ class TestBuildSourceRegistryCLI(_IsolatedProjectsRoot):
         )
         self.assertEqual(
             self._load_manifest("demo3").current_state,
-            ProjectState.SOURCE_COLLECTING.value,
+            ProjectState.SOURCE_VERIFY.value,
         )
 
     def _write_partial(self, partial: SourceCollectionPartial) -> None:
@@ -499,7 +496,7 @@ class TestBuildSourceRegistryCLI(_IsolatedProjectsRoot):
         self.assertTrue(report_path.exists())
         self.assertEqual(
             self._load_manifest("demo3").current_state,
-            ProjectState.SOURCE_COMPLETENESS_REVIEW.value,
+            ProjectState.SOURCE_VERIFY.value,
         )
 
     def test_no_partials_yields_empty_registry(self) -> None:
@@ -520,7 +517,7 @@ class TestBuildSourceRegistryCLI(_IsolatedProjectsRoot):
         self.assertEqual(report.blocker_count, 1)
         self.assertEqual(
             self._load_manifest("demo3").current_state,
-            ProjectState.SOURCE_COMPLETENESS_REVIEW.value,
+            ProjectState.SOURCE_VERIFY.value,
         )
 
     def test_rejected_outside_source_collecting(self) -> None:
@@ -613,7 +610,7 @@ class TestInitialLinks(_IsolatedProjectsRoot):
         worker = IntakePlannerWorker()
         args = argparse.Namespace(project_id="demo3", task_id="t", projects_root="projects")
         task = TaskQueueItem(
-            task_id="t", task_type="intake_planning",
+            task_id="t", task_type="intake",
             assigned_worker="intake_planner", description="d",
         )
         prompt = worker.build_user_prompt(args, task)
@@ -659,7 +656,7 @@ class TestNewProjectWeb(_IsolatedProjectsRoot):
         m = self._load_manifest("demo3")
         self.assertEqual(m.initial_links, ["https://a.example/r1", "https://a.example/r2"])
         self.assertEqual(m.target_duration_min, 20)
-        self.assertEqual(m.current_state, ProjectState.INTAKE_PENDING_USER.value)
+        self.assertEqual(m.current_state, ProjectState.INTAKE.value)
         self.assertTrue(
             (self.projects_root / "demo3" / "01_intake" / "intake_plan.json").exists()
         )

@@ -1,7 +1,7 @@
 """plan-intake 오케스트레이션 — CLI 와 Web 진입점이 공유하는 단일 출처 (v0.7.0).
 
-`IntakePlannerWorker` 1회 호출 + 상태 전이 (`created`/`intake_planning` →
-`intake_pending_user`) 를 한 함수로 묶는다. CLI (`orchestrator.main._cmd_plan_intake`)
+`IntakePlannerWorker` 1회 호출 + 상태 전이 (`created` → `intake`, v3.0.0 16 §2)
+를 한 함수로 묶는다. CLI (`orchestrator.main._cmd_plan_intake`)
 와 Web (`web.intake_page_app` 의 프로젝트 생성 라우트) 가 동일 로직을 쓰도록 하여
 전이 순서·idempotency 가 두 곳에서 어긋나지 않게 한다.
 
@@ -24,7 +24,7 @@ class IntakePlanningError(RuntimeError):
     """plan-intake 흐름 실패.
 
     kind:
-    - "state"  : state precondition 위반 (created/intake_planning 이 아님).
+    - "state"  : state precondition 위반 (created/intake 이 아님).
     - "worker" : IntakePlannerWorker 가 completed 가 아닌 상태로 종료.
     """
 
@@ -38,6 +38,18 @@ def _state_str(state) -> str:
     return state.value if hasattr(state, "value") else str(state)
 
 
+def intake_plan_ready(project_id: str, cfg: Optional[AppConfig] = None) -> bool:
+    """INTAKE 안에서 "사용자 입력 대기"인지 — 유효한 intake_plan.json 이 있으면 True (v3.0.0)."""
+    plan_path = project_dir(project_id, cfg or load_config()) / "01_intake" / "intake_plan.json"
+    if not plan_path.exists():
+        return False
+    try:
+        IntakePlan.model_validate_json(plan_path.read_text(encoding="utf-8"))
+    except (json.JSONDecodeError, ValueError):
+        return False
+    return True
+
+
 def run_intake_planner(
     project_id: str,
     *,
@@ -48,10 +60,10 @@ def run_intake_planner(
     """plan-intake 전체 흐름 실행.
 
     1. manifest 로딩 + state precondition.
-    2. created → intake_planning 전이 (이미 planning 이면 skip).
+    2. created → intake 전이 (이미 intake 면 그대로).
     3. 유효한 기존 `intake_plan.json` 이 있고 force 미지정이면 worker skip.
     4. 합성 TaskQueueItem + worker.run() + write_result.
-    5. intake_planning → intake_pending_user 전이.
+    5. 전이 없음 — intake 에 머문다(v3.0.0, 16 §2). 사용자 입력 대기 = intake + 유효한 plan.
 
     parameters
     ----------
@@ -83,12 +95,12 @@ def run_intake_planner(
     current = _state_str(manifest.current_state)
     if current == ProjectState.CREATED.value:
         manifest = transition_state(
-            manifest, ProjectState.INTAKE_PLANNING, reason="plan-intake 시작", cfg=cfg
+            manifest, ProjectState.INTAKE, reason="plan-intake 시작", cfg=cfg
         )
-    elif current != ProjectState.INTAKE_PLANNING.value:
+    elif current != ProjectState.INTAKE.value:
         raise IntakePlanningError(
             f"현재 상태 '{current}' 에서는 plan-intake 를 실행할 수 없습니다. "
-            f"(허용: created 또는 intake_planning)",
+            f"(허용: created 또는 intake)",
             kind="state",
         )
 
@@ -109,7 +121,7 @@ def run_intake_planner(
         task_id = f"intake-plan-{project_id}"
         task = TaskQueueItem(
             task_id=task_id,
-            task_type="intake_planning",
+            task_type="intake",
             assigned_worker="intake_planner",
             description="IntakePlannerWorker 1회 실행",
             input_refs=["project_manifest.json"],
@@ -139,14 +151,8 @@ def run_intake_planner(
             )
         outputs = list(result.outputs)
 
-    # in-memory manifest 를 그대로 전이 (planner worker 는 manifest 를 건드리지 않으므로
-    # 디스크 상태와 동일). resume_project 재호출을 피해 그 사이 race window 를 제거.
-    manifest = transition_state(
-        manifest,
-        ProjectState.INTAKE_PENDING_USER,
-        reason="IntakePlannerWorker 성공" if not skipped else "기존 intake_plan.json 재사용",
-        cfg=cfg,
-    )
+    # v3.0.0(16 §2): 계획·사용자 입력 대기는 한 상태(INTAKE)다. 성공해도 전이하지 않고,
+    # "사용자 입력 대기"는 유효한 intake_plan.json 이 있는 INTAKE 로 판정한다(submit-intake).
     return manifest, outputs, skipped
 
 

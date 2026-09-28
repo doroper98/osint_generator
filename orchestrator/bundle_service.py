@@ -1,8 +1,8 @@
 """import-bundle 오케스트레이션 (외부 연동, 계약 v1).
 
 agents_reviewer report_bundle → research_dossier 로 변환·영속화하고 상태를
-`research_in_progress` 로 전이한다. `build-research-dossier`(LLM ResearchWorker)의
-드롭인 대체 — 둘 다 `source_completeness_review → research_in_progress` 이고
+`research` 로 전이한다. `build-research-dossier`(LLM ResearchWorker)의
+드롭인 대체 — 둘 다 `source_verify → research` 이고
 `research_dossier.json` 을 산출하므로, 이후 build-script → build-scene → build-audio →
 render-debug 가 그대로 동작한다. research_service 와 동형의 thin orchestration.
 """
@@ -26,7 +26,7 @@ from orchestrator.research_io import (
     persist_research_dossier,
     research_dossier_path,
 )
-from orchestrator.source_registry_io import persist_source_registry
+from orchestrator.source_registry_io import persist_source_registry, source_completeness_report_path
 from schemas.models import ProjectManifest, ProjectState
 
 
@@ -34,7 +34,7 @@ class BundleImportError(RuntimeError):
     """import-bundle 흐름 실패.
 
     kind:
-    - "state"  : state precondition 위반 (source_completeness_review 가 아님).
+    - "state"  : state precondition 위반 (source_verify 가 아님).
     - "bundle" : report_bundle 로드/검증 실패 (JSON 손상·스키마 위반).
     - "persist": 변환은 됐으나 디스크 dossier 검증/로딩 실패.
     """
@@ -56,12 +56,12 @@ def import_report_bundle(
 ) -> tuple[ProjectManifest, list[str]]:
     """import-bundle 전체 흐름.
 
-    1. precondition: source_completeness_review.
+    1. precondition: source_verify.
     2. report_bundle 로드·검증 (ReportBundle — `extra="ignore"`. 미지 필드는 예외가 아니라
        조용히 버려지므로, 계약 확장 감지는 본 파서가 아니라 별도 검증기의 몫이다).
     3. research_dossier 로 변환·영속화.
     4. 디스크 dossier 검증 (전이 게이트).
-    5. source_completeness_review → research_in_progress 전이.
+    5. source_verify → research 전이.
 
     returns: (manifest, outputs). raises: FileNotFoundError / BundleImportError / ValueError.
     """
@@ -69,10 +69,11 @@ def import_report_bundle(
 
     manifest = resume_project(project_id, cfg)
     current = _state_str(manifest.current_state)
-    if current != ProjectState.SOURCE_COMPLETENESS_REVIEW.value:
+    # v3.0.0(16 §2): source_verify 안에서 completeness report 가 있어야 "검증 끝".
+    if current != ProjectState.SOURCE_VERIFY.value or not source_completeness_report_path(project_id, cfg).exists():
         raise BundleImportError(
             f"현재 상태 '{current}' 에서는 import-bundle 를 실행할 수 없습니다. "
-            f"(허용: source_completeness_review)",
+            f"(허용: source_verify + source_completeness_report.json — build-source-registry 먼저)",
             kind="state",
         )
 
@@ -111,7 +112,7 @@ def import_report_bundle(
 
     manifest = transition_state(
         manifest,
-        ProjectState.RESEARCH_IN_PROGRESS,
+        ProjectState.RESEARCH,
         reason=(
             f"report_bundle 흡수 (producer={bundle.producer.system} "
             f"{bundle.producer.version})"

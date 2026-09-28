@@ -8,16 +8,16 @@
 - transition {pid} --to {state} [--reason]  : 상태 전이
 - plan-intake {pid} [--backend claude|codex]: IntakePlannerWorker 호출 + 인테이크 상태 전이
 - submit-intake {pid} --file path/to/source_intake.json
-                                            : SourceIntake 영속화 + source_collecting 전이
+                                            : SourceIntake 영속화 + source_verify 전이
 - build-source-registry {pid}               : partials → source_registry.json +
-                                              source_completeness_report.json + 전이 (Phase 5)
+                                              source_completeness_report.json (Phase 5)
 - build-research-dossier {pid} [--backend]  : ResearchWorker 호출 → research_dossier.json
-                                              + research_in_progress 전이 (Phase 6A)
+                                              + research 전이 (Phase 6A)
 - import-bundle {pid} --file <path>          : agents_reviewer report_bundle.json →
-                                              research_dossier.json + research_in_progress
+                                              research_dossier.json + research
                                               전이 (외부 연동, build-research-dossier 대체)
 - build-script {pid} [--backend]            : ScriptWorker 호출 → full_script.json
-                                              + script_writing 전이 (Phase 6 Script)
+                                              + script_draft 전이 (Phase 6 Script)
 - build-scene / render-debug / build-audio / build-audio-demo
                                             : v2.0.0 에서 삭제 — LegacyRemovedError (docs/handoff/16 §4)
 - approve --project {pid} --gate ...        : Review Gate 승인 기록 (Phase 11)
@@ -91,7 +91,7 @@ def build_parser() -> argparse.ArgumentParser:
 
     pin = sub.add_parser(
         "plan-intake",
-        help="IntakePlannerWorker 호출 + intake_planning → intake_pending_user 전이",
+        help="IntakePlannerWorker 호출 + created → intake 전이",
     )
     pin.add_argument("project_id", help="project_id")
     pin.add_argument(
@@ -105,14 +105,14 @@ def build_parser() -> argparse.ArgumentParser:
         action="store_true",
         help=(
             "이미 유효한 intake_plan.json 이 있어도 worker 를 재실행. "
-            "기본 동작은 idempotent — intake_planning 상태에서 유효한 plan 이 있으면 "
-            "재실행을 건너뛰고 intake_pending_user 로 전이만 진행 (v0.3.1 H3)."
+            "기본 동작은 idempotent — intake 상태에서 유효한 plan 이 있으면 "
+            "재실행을 건너뛴다 (v0.3.1 H3)."
         ),
     )
 
     sin = sub.add_parser(
         "submit-intake",
-        help="SourceIntake JSON 파일을 영속화 + source_collecting 전이",
+        help="SourceIntake JSON 파일을 영속화 + source_verify 전이",
     )
     sin.add_argument("project_id", help="project_id")
     sin.add_argument(
@@ -126,7 +126,7 @@ def build_parser() -> argparse.ArgumentParser:
         "build-source-registry",
         help=(
             "partials 합쳐 source_registry.json + source_completeness_report.json "
-            "생성 후 source_completeness_review 전이 (Phase 5)"
+            "생성 (source_verify 에 머문다, v3.0.0)"
         ),
     )
     bsr.add_argument("project_id", help="project_id")
@@ -144,7 +144,7 @@ def build_parser() -> argparse.ArgumentParser:
         "build-research-dossier",
         help=(
             "ResearchWorker 호출 → research_dossier.json 생성 후 "
-            "research_in_progress 전이 (Phase 6A)"
+            "research 전이 (Phase 6A)"
         ),
     )
     brd.add_argument("project_id", help="project_id")
@@ -160,7 +160,7 @@ def build_parser() -> argparse.ArgumentParser:
         help=(
             "이미 유효한 research_dossier.json 이 있어도 worker 를 재실행. "
             "기본 동작은 idempotent — 유효한 dossier 가 있으면 재실행을 건너뛰고 "
-            "research_in_progress 로 전이만 진행."
+            "research 로 전이만 진행."
         ),
     )
 
@@ -168,7 +168,7 @@ def build_parser() -> argparse.ArgumentParser:
         "import-bundle",
         help=(
             "agents_reviewer report_bundle.json → research_dossier.json 변환 후 "
-            "research_in_progress 전이 (외부 연동, build-research-dossier 드롭인 대체)"
+            "research 전이 (외부 연동, build-research-dossier 드롭인 대체)"
         ),
     )
     imb.add_argument("project_id", help="project_id")
@@ -181,7 +181,7 @@ def build_parser() -> argparse.ArgumentParser:
     bsc = sub.add_parser(
         "build-script",
         help=(
-            "ScriptWorker 호출 → full_script.json 생성 후 script_writing 전이 "
+            "ScriptWorker 호출 → full_script.json 생성 후 script_draft 전이 "
             "(Phase 6 Script, blueprint 흡수)"
         ),
     )
@@ -364,8 +364,8 @@ def _cmd_plan_intake(args: argparse.Namespace) -> int:
     사용자 출력/exit code 매핑만 담당한다.
 
     - idempotency: 유효한 기존 `intake_plan.json` 이 있고 `--force` 미지정이면 worker
-      재실행을 건너뛰고 전이만 진행 (재실행은 LLM 호출 비용).
-    - worker 실패 시 intake_planning 에서 멈춤 (pending_user 까지 전진하지 않음).
+      재실행을 건너뛴다 (재실행은 LLM 호출 비용).
+    - worker 실패 시 intake 에 머물고 plan 이 없으므로 submit-intake 가 막힌다.
     """
     from orchestrator.intake_service import IntakePlanningError, run_intake_planner
     from orchestrator.project_manager import validate_project_id
@@ -426,10 +426,12 @@ def _cmd_submit_intake(args: argparse.Namespace) -> int:
 
     # v0.3.1 M1: state precondition 을 파일 쓰기 전에 확인.
     current_str = manifest.current_state.value if hasattr(manifest.current_state, "value") else manifest.current_state
-    if current_str != ProjectState.INTAKE_PENDING_USER.value:
+    from orchestrator.intake_service import intake_plan_ready
+
+    if current_str != ProjectState.INTAKE.value or not intake_plan_ready(args.project_id):
         print(
             f"error: 현재 상태 '{current_str}' 에서는 submit-intake 를 수행할 수 없습니다. "
-            f"(허용: intake_pending_user)",
+            f"(허용: intake + 유효한 intake_plan.json — plan-intake 먼저)",
             file=sys.stderr,
         )
         return 2
@@ -464,7 +466,7 @@ def _cmd_submit_intake(args: argparse.Namespace) -> int:
     try:
         manifest = transition_state(
             manifest,
-            ProjectState.SOURCE_COLLECTING,
+            ProjectState.SOURCE_VERIFY,
             reason=args.reason,
         )
     except ValueError as e:
@@ -488,13 +490,13 @@ def _cmd_submit_intake(args: argparse.Namespace) -> int:
 def _cmd_build_source_registry(args: argparse.Namespace) -> int:
     """build-source-registry: partials → source_registry.json + completeness report + 전이.
 
-    Phase 5 완료 게이트 (Review Gate 2, `source_completeness_review`) 의 두 입력을
+    Phase 5 완료 게이트 (Review Gate 2, `source_verify`) 의 두 입력을
     한 번에 만든다:
     1. project_id 정책 검증 (C1 path traversal 가드).
-    2. manifest 로딩 + state precondition (source_collecting 에서만 허용).
+    2. manifest 로딩 + state precondition (source_verify 에서만 허용).
     3. build_and_persist_source_registry — partials 로딩 → builder → 영속화.
     4. check_source_completeness — 부족 자료 식별 → source_completeness_report.json.
-    5. source_collecting → source_completeness_review 전이.
+    5. 전이 없음 — source_verify 에 머문다(v3.0.0, 16 §2). report 가 있으면 research 로 갈 수 있다.
 
     builder / checker 는 순수 함수 (디스크 I/O 없음). 로딩·쓰기는 source_registry_io
     가 담당하며 본 CLI 는 thin orchestration. registry/report 영속화 실패 시 전이
@@ -524,10 +526,10 @@ def _cmd_build_source_registry(args: argparse.Namespace) -> int:
         if hasattr(manifest.current_state, "value")
         else manifest.current_state
     )
-    if current_str != ProjectState.SOURCE_COLLECTING.value:
+    if current_str != ProjectState.SOURCE_VERIFY.value:
         print(
             f"error: 현재 상태 '{current_str}' 에서는 build-source-registry 를 실행할 수 "
-            f"없습니다. (허용: source_collecting)",
+            f"없습니다. (허용: source_verify)",
             file=sys.stderr,
         )
         return 2
@@ -551,15 +553,7 @@ def _cmd_build_source_registry(args: argparse.Namespace) -> int:
         print(f"error: source_completeness_report 영속화 실패 — {e}", file=sys.stderr)
         return 1
 
-    try:
-        manifest = transition_state(
-            resume_project(args.project_id),
-            ProjectState.SOURCE_COMPLETENESS_REVIEW,
-            reason="source_registry + completeness report 생성",
-        )
-    except ValueError as e:
-        print(f"warning: 상태 전이 실패 — {e}", file=sys.stderr)
-        return 2
+    manifest = resume_project(args.project_id)
 
     sources_dir = manifest_sources_path(args.project_id)
     print(f"build-source-registry 완료: {args.project_id}")
@@ -584,10 +578,10 @@ def _cmd_build_research_dossier(args: argparse.Namespace) -> int:
     오케스트레이션 로직은 `orchestrator.research_service.run_research_worker` 에 있으며,
     본 핸들러는 thin wrapper — 입력 검증과 사용자 출력/exit code 매핑만 담당한다.
 
-    - precondition: source_completeness_review 상태에서만 실행 (Review Gate 2 통과 후).
+    - precondition: source_verify 상태에서만 실행 (Review Gate 2 통과 후).
     - idempotency: 유효한 기존 research_dossier.json 이 있고 `--force` 미지정이면 worker
       재실행을 건너뛰고 전이만 진행 (재실행은 LLM 호출 비용).
-    - worker 실패 / 영속화 검증 실패 시 source_completeness_review 에서 멈춤.
+    - worker 실패 / 영속화 검증 실패 시 source_verify 에서 멈춤.
     """
     from orchestrator.project_manager import validate_project_id
     from orchestrator.research_service import ResearchError, run_research_worker

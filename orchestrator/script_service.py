@@ -1,9 +1,7 @@
 """build-script 오케스트레이션 (Phase 6 Script, v0.9.0).
 
 `ScriptWorker` 1회 호출 + 상태 전이를 묶는 thin orchestration (research_service 와
-동형). 수직 슬라이스에서 별도 Blueprint 단계를 만들지 않으므로, 상태는
-`research_in_progress → blueprint_review → script_writing` 으로 **blueprint_review 를
-통과만** 하고 script_writing 에 안착한다 (대본 산출 완료, script_review 게이트 직전).
+동형). 상태는 `research → script_draft` (v3.0.0, 16 §2 — 다음은 script_approval 게이트).
 """
 
 from __future__ import annotations
@@ -42,11 +40,11 @@ def run_script_worker(
 ) -> tuple[ProjectManifest, list[str], bool]:
     """build-script 전체 흐름.
 
-    1. precondition: research_in_progress.
+    1. precondition: research.
     2. 유효한 기존 full_script.json + force 미지정이면 worker skip.
     3. 합성 TaskQueueItem + worker.run() + write_result.
     4. worker 성공 시 디스크 full_script 검증(전이 게이트).
-    5. research_in_progress → blueprint_review → script_writing 전이 (blueprint 흡수).
+    5. research → script_draft 전이.
 
     returns: (manifest, outputs, skipped). raises: FileNotFoundError / ScriptError / ValueError.
     """
@@ -56,10 +54,10 @@ def run_script_worker(
 
     manifest = resume_project(project_id, cfg)
     current = _state_str(manifest.current_state)
-    if current != ProjectState.RESEARCH_IN_PROGRESS.value:
+    if current != ProjectState.RESEARCH.value:
         raise ScriptError(
             f"현재 상태 '{current}' 에서는 build-script 를 실행할 수 없습니다. "
-            f"(허용: research_in_progress)",
+            f"(허용: research)",
             kind="state",
         )
 
@@ -112,16 +110,9 @@ def run_script_worker(
                 f"full_script.json 영속화 검증 실패: {e}", kind="persist"
             ) from e
 
-    # blueprint_review 를 통과만 하고 script_writing 에 안착 (수직 슬라이스: blueprint 흡수).
     manifest = transition_state(
         manifest,
-        ProjectState.BLUEPRINT_REVIEW,
-        reason="blueprint 단계 흡수 (수직 슬라이스, v0.9.0)",
-        cfg=cfg,
-    )
-    manifest = transition_state(
-        manifest,
-        ProjectState.SCRIPT_WRITING,
+        ProjectState.SCRIPT_DRAFT,
         reason="ScriptWorker 성공" if not skipped else "기존 full_script.json 재사용",
         cfg=cfg,
     )

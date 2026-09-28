@@ -1,7 +1,7 @@
 """build-research-dossier 오케스트레이션 (Phase 6A, v0.8.0).
 
-`ResearchWorker` 1회 호출 + 상태 전이(`source_completeness_review` →
-`research_in_progress`)를 한 함수로 묶는다. `intake_service.run_intake_planner` 와
+`ResearchWorker` 1회 호출 + 상태 전이(`source_verify` →
+`research`)를 한 함수로 묶는다. `intake_service.run_intake_planner` 와
 동일한 형태의 thin orchestration — 사용자 입출력(print)은 호출자(CLI)가 담당하고,
 본 모듈은 결과/예외로만 소통한다. 디스크 영속화는 ResearchWorker(output_path) 와
 research_io 가 담당하며, 본 모듈은 precondition·worker 실행·전이 게이트만 책임진다.
@@ -16,6 +16,7 @@ from typing import Optional
 from orchestrator.config import AppConfig, load_config
 from orchestrator.project_manager import resume_project, transition_state
 from orchestrator.research_io import load_research_dossier, research_dossier_path
+from orchestrator.source_registry_io import source_completeness_report_path
 from schemas.models import ProjectManifest, ProjectState, ResearchDossier, TaskQueueItem
 
 
@@ -23,7 +24,7 @@ class ResearchError(RuntimeError):
     """build-research-dossier 흐름 실패.
 
     kind:
-    - "state"  : state precondition 위반 (source_completeness_review 가 아님).
+    - "state"  : state precondition 위반 (source_verify 가 아님).
     - "worker" : ResearchWorker 가 completed 가 아닌 상태로 종료.
     - "persist": worker 는 성공했으나 디스크 dossier 검증/로딩 실패.
     """
@@ -49,11 +50,11 @@ def run_research_worker(
 ) -> tuple[ProjectManifest, list[str], bool]:
     """build-research-dossier 전체 흐름 실행.
 
-    1. manifest 로딩 + state precondition (source_completeness_review 에서만).
+    1. manifest 로딩 + state precondition (source_verify 에서만).
     2. 유효한 기존 research_dossier.json 이 있고 force 미지정이면 worker skip.
     3. 합성 TaskQueueItem + worker.run() + write_result.
     4. worker 성공 시 디스크 dossier 를 load 로 검증 (전이 게이트).
-    5. source_completeness_review → research_in_progress 전이.
+    5. source_verify → research 전이.
 
     returns
     -------
@@ -76,10 +77,11 @@ def run_research_worker(
 
     manifest = resume_project(project_id, cfg)
     current = _state_str(manifest.current_state)
-    if current != ProjectState.SOURCE_COMPLETENESS_REVIEW.value:
+    # v3.0.0(16 §2): source_verify 안에서 completeness report 가 있어야 "검증 끝".
+    if current != ProjectState.SOURCE_VERIFY.value or not source_completeness_report_path(project_id, cfg).exists():
         raise ResearchError(
             f"현재 상태 '{current}' 에서는 build-research-dossier 를 실행할 수 없습니다. "
-            f"(허용: source_completeness_review)",
+            f"(허용: source_verify + source_completeness_report.json — build-source-registry 먼저)",
             kind="state",
         )
 
@@ -145,7 +147,7 @@ def run_research_worker(
     # in-memory manifest 를 그대로 전이 (resume 재호출의 race window 제거).
     manifest = transition_state(
         manifest,
-        ProjectState.RESEARCH_IN_PROGRESS,
+        ProjectState.RESEARCH,
         reason="ResearchWorker 성공" if not skipped else "기존 research_dossier.json 재사용",
         cfg=cfg,
     )
