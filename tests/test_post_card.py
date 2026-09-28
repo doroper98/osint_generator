@@ -85,6 +85,25 @@ class PostCardTest(unittest.TestCase):
             validate_events([{"type": "post", "t0": 0, "t1": 1, "src": "src_art_0001"}])
 
 
+class DirectorInputTest(unittest.TestCase):
+    def test_media_text_lists_confirmed_verified_posts_only(self) -> None:
+        import shutil  # noqa: PLC0415
+        import tempfile  # noqa: PLC0415
+
+        from workers.direction_io import media_text  # noqa: PLC0415
+
+        with tempfile.TemporaryDirectory() as td:
+            p = Path(td)
+            (p / "intake").mkdir()
+            shutil.copy(FIX, p / "intake" / "sources.json")
+            txt = media_text(p)
+            self.assertIn("type: post", txt)
+            self.assertIn("- src_x_0001:", txt)
+            self.assertIn("- src_x_0003: 개인 계정", txt)     # 개인 계정은 이름을 연출가에게도 보이지 않는다
+            self.assertNotIn("홍길동", txt)
+            self.assertNotIn("type: post", media_text(None))
+
+
 class PostProjectTest(unittest.TestCase):
     def test_post_without_sources_file_is_project_error(self) -> None:
         from engine.project import ProjectError, _attach_posts  # noqa: PLC0415

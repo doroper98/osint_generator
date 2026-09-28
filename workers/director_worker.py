@@ -54,7 +54,7 @@ class DirectorWorker(BaseLLMWorker):
                 .replace("{script_yaml}", (pdir / "script.yaml").read_text(encoding="utf-8"))
                 .replace("{plan_table}", plan_table(load_plan(pdir)))
                 .replace("{entities}", entities_text(pdir))
-                .replace("{media}", media_text())
+                .replace("{media}", media_text(pdir))
                 .replace("{geo}", geo_text(pdir))
                 .replace("{event_fields}", event_fields_table()))
 

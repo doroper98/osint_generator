@@ -129,11 +129,24 @@ def entities_text(pdir: Path) -> str:
     return "\n".join(rows) + f"\n- 국기(flag) 코드: {', '.join(flags) or '(프로젝트 국기 없음)'}"
 
 
-def media_text() -> str:
+def media_text(pdir: Path | None = None) -> str:
+    """미디어 레지스트리 + (v3.2.0) 이 프로젝트에서 post 카드로 쓸 수 있는 X 게시물(사용자 확인·검증된 것만, 18 §5)."""
     from engine.media_registry import load_media_registry  # noqa: PLC0415
 
-    return "\n".join(f"- {mid}: {a.kind} · {a.caption} · {a.file_note}" + (f" · 구간 {a.segment}" if a.segment else "")
-                     for mid, a in load_media_registry().items())
+    rows = [f"- {mid}: {a.kind} · {a.caption} · {a.file_note}" + (f" · 구간 {a.segment}" if a.segment else "")
+            for mid, a in load_media_registry().items()]
+    sp = pdir / "intake" / "sources.json" if pdir is not None else None
+    if sp is not None and sp.exists():
+        from schemas.source_models import SourcesFile  # noqa: PLC0415
+
+        posts = [s for s in SourcesFile.model_validate_json(sp.read_text(encoding="utf-8")).sources
+                 if s.type == "x_post" and s.confirmed and s.verification is not None]
+        if posts:
+            rows.append("X 게시물 카드 — 이벤트 {type: post, src: <id>, hl?: 번역문 안 구절, quote?: bool, at?: card|panel}"
+                        " (게시물 자체가 뉴스일 때만. 문구는 엔진이 소스에서 가져온다)")
+            rows += [f"- {s.id}: {'개인 계정' if s.account_class == 'private' else s.account_name + ' ' + s.handle}"
+                     f" · {s.account_class} · 검증 {s.verification.status} · {(s.text_ko or s.text_original)[:60]}" for s in posts]
+    return "\n".join(rows)
 
 
 def geo_text(pdir: Path) -> str:
