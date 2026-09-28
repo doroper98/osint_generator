@@ -114,8 +114,30 @@ def preview_gate_view(pdir: Path) -> tuple[str, dict[str, str]]:
         shown.update({"provenance": str(pp), "drops": str(len(prov.get("drops", [])))})
     else:
         lines += ["", "provenance 요약 (없음 — preview 단계가 prev/provenance.json 을 쓴다)"]
-    lines += ["", "AI 검수 잔여 이슈  (6.9 — 시각 검수 워커 전)"]
+    lines += ["", *_qa_rounds(pdir, shown)]
     return "\n".join(lines), shown
+
+
+def _qa_rounds(pdir: Path, shown: dict[str, str]) -> list[str]:
+    """AI 연출 판 목록(D-0049 쟁점 3) — 사람은 다른 판을 골라 승인할 수 있다(approve --version N → chosen_version)."""
+    from engine.qa import QALoopRecord, QAVerdict  # noqa: PLC0415
+
+    p = pdir / "prev" / "qa_loop.json"
+    if not p.exists():
+        return ["AI 검수 — 기록 없음(사람 연출이면 검수 루프를 돌지 않는다)"]
+    rec = QALoopRecord.model_validate_json(p.read_text(encoding="utf-8"))
+    sel = rec.selected.version if rec.selected else None
+    out = [f"AI 연출 판 목록 — {len(rec.rounds)}판" + (f", 선택 v{sel} ({rec.selected.by}: {rec.selected.reason})" if rec.selected else "")]
+    for r in rec.rounds:
+        qa = f"검수 hard {r.qa_hard} soft {r.qa_soft}" if r.qa else "검수 없음(검사 hard 잔존)"
+        out.append(f"  {'*' if r.version == sel else ' '} v{r.version}  checks hard {r.checks_hard} · {qa} · 시트 prev/{r.sheet}")
+    pick = next((r for r in rec.rounds if r.version == sel), None)
+    if pick is not None and pick.qa and (pdir / "prev" / pick.qa).exists():
+        v = QAVerdict.model_validate_json((pdir / "prev" / pick.qa).read_text(encoding="utf-8"))
+        out.append(f"  선택 판 잔여 이슈 {len(v.issues)}건")
+        out += [f"    {i.severity:<4} {i.frame} {i.fix.event_ref if i.fix else i.category} — {i.evidence[:80]}" for i in v.issues]
+    shown.update({"qa_rounds": str(len(rec.rounds)), "qa_selected": str(sel)})
+    return out
 
 
 def gate_view(pdir: Path, state: ProjectState | str, runner: Callable = subprocess.run) -> tuple[str, dict[str, str]]:

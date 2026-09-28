@@ -72,7 +72,7 @@ last_review: 2026-05-23
 | initial_links | list[str] | 생성 시 사용자 사전 제공 자료 링크. IntakePlanner 가 참고, 후속 단계의 manual_user_provided 후보 |
 | paths | dict[str, str] | 주요 산출물 상대경로 인덱스(v3.0.0 — 16 §6 `project_manager.PROJECT_PATHS`) |
 | render_mode_status | dict[str, str] | debug/preview/final 별 상태 |
-| gate_decisions | list[`GateDecision`] | v3.0.0 — 승인 게이트 기록(gate·decision·by·at·comment·rollback_to·shown). 옛 approval_status 대체 |
+| gate_decisions | list[`GateDecision`] | v3.0.0 — 승인 게이트 기록(gate·decision·by·at·comment·rollback_to·shown, v3.1.0 optional `chosen_version` = 게이트 ② 에서 고른 AI 연출 판). 옛 approval_status 대체 |
 | stage_records | list[`StageRecord`] | v3.0.0 — 엔진 단계 실행 요약(전체 StageResult 는 logs/stages/) |
 | final_outputs | dict[str, str] | 최종 산출물 경로 |
 

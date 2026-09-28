@@ -70,6 +70,54 @@ def plan_table(plan: Plan) -> str:
     return "\n".join(f"{s.sid:<12} {s.scene:<10} {s.t0:7.2f}~{s.t1:7.2f}  {s.text}" for s in plan.sentences)
 
 
+def cards_table(plan: Plan) -> str:
+    """전면 카드 시각 — 카드는 장면 **안**에 들 수 있다(예: 타이틀 카드는 open 장면 안). 앵커는 {card: 종류, edge: start|end}."""
+    return "\n".join(f"card:{c.kind:<6} {c.t0:7.2f}~{c.t1:7.2f}  (앵커 {{card: {c.kind}}} — 이 구간엔 지도 요소가 카드 밑에 비친다)"
+                     for c in plan.cards)
+
+
+def current_version(pdir: Path) -> int | None:
+    """direction.yaml 과 바이트가 같은 가장 늦은 보관본 번호. 없으면 None(사람이 고쳤거나 보관본 없음)."""
+    cur = (pdir / "direction.yaml").read_bytes() if (pdir / "direction.yaml").exists() else None
+    n = next_version(pdir, "direction", ".yaml") - 1
+    while n >= 1:
+        if (pdir / f"direction.v{n}.yaml").read_bytes() == cur:
+            return n
+        n -= 1
+    return None
+
+
+def restore_version(pdir: Path, n: int) -> None:
+    """보관본 direction.v{n}.yaml 을 direction.yaml 로(판 선택 — 보관본은 그대로, D-0049 쟁점 3). 새 판을 만들지 않는다."""
+    src = pdir / f"direction.v{n}.yaml"
+    if not src.exists():
+        raise FileNotFoundError(f"보관본 없음: {src}")
+    (pdir / "direction.yaml").write_bytes(src.read_bytes())
+
+
+def loop_history(pdir: Path) -> str:
+    """같은 루프의 회차별 (판 → 검사·검수 → 지적 → 바꾼 것) 요약(D-0049 쟁점 2). 이전 영상·옛 템플릿이 아니라 이 루프의 자기 이력."""
+    from engine.qa import QALoopRecord, QAVerdict  # noqa: PLC0415
+
+    p = pdir / "prev" / "qa_loop.json"
+    if not p.exists():
+        return "(첫 수정 — 앞 회차 없음)"
+    rec = QALoopRecord.model_validate_json(p.read_text(encoding="utf-8"))
+    out: list[str] = []
+    for r in rec.rounds:
+        head = f"- direction.v{r.version}: checks hard {r.checks_hard}"
+        if r.qa:
+            head += f" · 검수 hard {r.qa_hard} soft {r.qa_soft}"
+        out.append(head)
+        if r.qa and (pdir / "prev" / r.qa).exists():
+            v = QAVerdict.model_validate_json((pdir / "prev" / r.qa).read_text(encoding="utf-8"))
+            out += [f"    지적 {i.severity} {i.frame} {i.fix.event_ref if i.fix else i.category}: {i.evidence[:90]}" for i in v.issues]
+        if r.revision and (pdir / "prev" / r.revision).exists():
+            rv = json.loads((pdir / "prev" / r.revision).read_text(encoding="utf-8"))
+            out += [f"    → 바꾼 것 {c['issue_ref']}: {c['change'][:140]}" for c in rv.get("changelog", [])]
+    return "\n".join(out) if out else "(첫 수정 — 앞 회차 없음)"
+
+
 def entities_text(pdir: Path) -> str:
     reg = load_entities()
     flags = sorted({p.name.split("_")[0] for p in (pdir / "assets" / "flags").glob("*_1x1.png")}) if (pdir / "assets" / "flags").exists() else []
@@ -124,5 +172,5 @@ def next_version(pdir: Path, stem: str, suffix: str) -> int:
     return n
 
 
-__all__ = ["check_direction", "dump_direction_yaml", "entities_text", "event_fields_table", "geo_text", "load_plan",
+__all__ = ["cards_table", "check_direction", "current_version", "loop_history", "restore_version", "dump_direction_yaml", "entities_text", "event_fields_table", "geo_text", "load_plan",
            "media_text", "next_version", "plan_table"]

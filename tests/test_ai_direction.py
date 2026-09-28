@@ -20,9 +20,13 @@ LOOP_MAX = load_rules().qa_checks.visual_qa_loop_max
 
 
 def _verdict(verdict: str) -> dict:
-    issues = [] if verdict == "pass" else [{"frame": "p_0010.00", "severity": "soft", "category": "density",
-                                            "evidence": "왼쪽 위 사진과 뱃지 세 개가 한 화면에 겹쳐 읽히지 않음"}]
-    return {"schema_version": 1, "verdict": verdict, "issues": issues, "praise": []}
+    """"revise" = soft 1건, "revise:H:S" = hard H·soft S."""
+    if verdict == "pass":
+        return {"schema_version": 1, "verdict": "pass", "issues": [], "praise": []}
+    h, sft = (int(x) for x in verdict.split(":")[1:]) if ":" in verdict else (0, 1)
+    one = {"frame": "p_0010.00", "category": "density", "evidence": "왼쪽 위 사진과 뱃지 세 개가 한 화면에 겹쳐 읽히지 않음"}
+    issues = [dict(one, severity="hard")] * h + [dict(one, severity="soft")] * sft
+    return {"schema_version": 1, "verdict": "revise", "issues": issues, "praise": []}
 
 
 class _Stub:
@@ -36,6 +40,15 @@ class _Stub:
         self.calls.append(self.name)
         if self.raise_:
             raise FileNotFoundError("plan.json")
+        if self.name == "revise_direction":          # 새 판 + 수정 기록(실제 워커 after_output 과 같은 파일)
+            n = 1
+            while (self.pdir / f"direction.v{n}.yaml").exists():
+                n += 1
+            body = f"v: {n}\n"
+            (self.pdir / "direction.yaml").write_text(body, encoding="utf-8")
+            (self.pdir / f"direction.v{n}.yaml").write_text(body, encoding="utf-8")
+            (self.pdir / "prev" / f"revision.v{n}.json").write_text(json.dumps({"direction_version": n, "changelog": [{}]}),
+                                                                   encoding="utf-8")
         if self.name == "visual_qa":
             prev = self.pdir / "prev"
             n = 1
@@ -63,6 +76,8 @@ class LoopTest(unittest.TestCase):
 
     def ai(self) -> None:
         (self.pdir / "direction.meta.json").write_text(json.dumps({"origin": "ai"}), encoding="utf-8")
+        for f in ("direction.yaml", "direction.v1.yaml"):
+            (self.pdir / f).write_text("v: 1\n", encoding="utf-8")
 
     def workers(self, verdicts: list[str] | None = None, **kw: object) -> dict:
         return {n: (lambda n=n: _Stub(n, self.pdir, self.calls, verdicts, **kw))  # type: ignore[misc]
@@ -127,6 +142,32 @@ class LoopTest(unittest.TestCase):
         ok, _ = self.loop([0], fail=True)
         self.assertFalse(ok)
         self.assertEqual(self.records, ["preview", "visual_qa"])
+
+    def test_record_and_best_pick(self) -> None:
+        """D-0049 쟁점 3 — 상한에서 (checks hard, 검수 hard, soft) 최소 판(v2)을 되돌리고 다시 프리뷰."""
+        from engine.qa import QALoopRecord  # noqa: PLC0415
+
+        self.ai()
+        verdicts = ["revise:1:8", "revise:0:5", "revise:2:6"][: LOOP_MAX + 1]
+        ok, s = self.loop([], verdicts)
+        self.assertTrue(ok)
+        rec = QALoopRecord.model_validate_json((self.pdir / "prev" / "qa_loop.json").read_text(encoding="utf-8"))
+        self.assertEqual([r.version for r in rec.rounds], list(range(1, LOOP_MAX + 2)))
+        self.assertEqual([r.qa_hard for r in rec.rounds], [1, 0, 2][: LOOP_MAX + 1])
+        self.assertEqual(rec.rounds[0].revision, "revision.v2.json")
+        assert rec.selected is not None
+        self.assertEqual((rec.selected.version, rec.selected.by), (2, "code"))
+        self.assertEqual((self.pdir / "direction.yaml").read_text(encoding="utf-8"), "v: 2\n")   # 고른 판으로 되돌림
+        self.assertEqual(self.calls[-1], "preview")                                          # 고른 판 다시 프리뷰
+        self.assertTrue((self.pdir / "prev" / "checks.v1.json").exists())                   # 판별 checks 보관
+
+    def test_pick_tie_earlier(self) -> None:
+        from engine.qa import QALoopRound, pick_best  # noqa: PLC0415
+
+        r = [QALoopRound(version=v, checks_hard=0, checks_file="", sheet="", qa_hard=0, qa_soft=3) for v in (1, 2)]
+        self.assertEqual(pick_best(r, ["checks_hard", "qa_hard", "qa_soft"]).version, 1)
+        r.append(QALoopRound(version=3, checks_hard=1, checks_file="", sheet=""))
+        self.assertEqual(pick_best(list(reversed(r)), ["checks_hard", "qa_hard", "qa_soft"]).version, 1)
 
     def test_worker_exception_recorded(self) -> None:
         res = ai_direction.run_worker("director", self.pdir, workers=self.workers(raise_=True))

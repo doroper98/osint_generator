@@ -130,4 +130,42 @@ def unchanged_violations(before: Direction, after: Direction, touched: set[str],
     return out
 
 
-__all__ = ["Change", "QAIssue", "QAVerdict", "Revision", "event_name", "resolve_refs", "unchanged_violations"]
+class QALoopRound(_Strict):
+    """검수 루프 한 회차 = 연출 한 판(D-0049 쟁점 3). 파일 이름은 prev/ 기준(direction 은 프로젝트 루트)."""
+    version: int                          # direction.v{version}.yaml
+    checks_hard: int
+    checks_file: str                      # prev/checks.v{n}.json
+    sheet: str                            # prev/sheet.v{n}.jpg
+    qa: Optional[str] = None              # prev/qa_verdict.v{k}.json (hard 검사가 남으면 검수 없음)
+    qa_hard: Optional[int] = None
+    qa_soft: Optional[int] = None
+    revision: Optional[str] = None        # 이 판을 고친 prev/revision.v{m}.json
+
+
+class QALoopPick(_Strict):
+    version: int
+    by: Literal["code", "human"]
+    reason: str
+
+
+class QALoopRecord(_Strict):
+    """prev/qa_loop.json — 루프 이력(수정 워커 입력·게이트 ② 판 목록·provenance 의 공용 기록)."""
+    schema_version: int = 1
+    rounds: list[QALoopRound] = Field(default_factory=list)
+    selected: Optional[QALoopPick] = None
+
+
+def pick_best(rounds: list[QALoopRound], order: list[str]) -> QALoopRound:
+    """rules qa_checks.loop_pick_order 사전식 최소. 검수 없는 판(hard 검사 잔존)은 검수 값 무한대. 동점이면 이른 회차(D-0049 구속 1)."""
+    big = 10 ** 6
+
+    def score(r: QALoopRound) -> tuple:
+        vals = {"checks_hard": r.checks_hard, "qa_hard": big if r.qa_hard is None else r.qa_hard,
+                "qa_soft": big if r.qa_soft is None else r.qa_soft}
+        return tuple(vals[k] for k in order) + (r.version,)
+
+    return min(rounds, key=score)
+
+
+__all__ = ["Change", "QAIssue", "QALoopPick", "QALoopRecord", "QALoopRound", "QAVerdict", "Revision", "event_name",
+           "pick_best", "resolve_refs", "unchanged_violations"]

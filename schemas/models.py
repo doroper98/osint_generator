@@ -172,6 +172,7 @@ class GateDecision(BaseModel):
     comment: str = ""
     rollback_to: Optional[ProjectState] = None   # 반려일 때 되돌아간 상태
     shown: dict[str, str] = Field(default_factory=dict)   # 게이트 화면에 보인 근거(시트 경로·provenance 요약 등)
+    chosen_version: Optional[int] = None   # v3.1.0 게이트 ② 에서 사람이 고른 AI 연출 판(D-0049 쟁점 3). 없으면 코드 선택 그대로
 
     @model_validator(mode="after")
     def _rollback_iff_rejected(self) -> "GateDecision":

@@ -162,6 +162,7 @@ Hard 실패가 있으면 LLM 검수를 부르지 않고 연출 LLM에 오류만 
 - 입력: 직전 `direction.yaml`, `qa_verdict`, `checks.json`
 - 출력: 수정된 `direction.yaml` 전체 + `changelog: [{issue_ref, change}]`
 - 규칙: 지적받지 않은 부분은 바꾸지 않는다(회귀 방지).
+> [D-0049: 입력 추가] 입력에 연출가와 같은 문장 시각표(`plan_table`)·전면 카드 시각, 같은 루프의 회차 이력(판 → 지적 → 바꾼 것)을 더한다. 규칙: 앞 회차에서 옮긴 것을 되돌리지 않는다. 상한 도달 시 `rules qa_checks.loop_pick_order` 사전식 최소 판을 코드가 고르고(동점은 이른 회차) 게이트 ② 에 판 목록을 보여 사람이 `chosen_version` 으로 바꿀 수 있다. 출력 키 순서 changelog → direction(스키마 불변).
 
 ---
 

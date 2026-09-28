@@ -56,7 +56,7 @@ def ai_direction_summary(root: Path) -> dict | None:
         return None
     vers = _versions(root, "direction", ".yaml")
     cur = (root / "direction.yaml").read_bytes() if (root / "direction.yaml").exists() else b""
-    edited = not vers or vers[-1].read_bytes() != cur
+    edited = not any(v.read_bytes() == cur for v in vers)   # 판 선택(D-0049)으로 앞 판이 쓰일 수 있다
     qa = []
     for p in _versions(root / "prev", "qa_verdict", ".json"):
         v = json.loads(p.read_text(encoding="utf-8"))
@@ -65,8 +65,13 @@ def ai_direction_summary(root: Path) -> dict | None:
                    "soft": sum(1 for i in iss if i.get("severity") == "soft")})
     revs = [{"direction_version": r.get("direction_version"), "changes": len(r.get("changelog", []))}
             for r in (json.loads(p.read_text(encoding="utf-8")) for p in _versions(root / "prev", "revision", ".json"))]
+    used = next((int(v.stem.rsplit(".v", 1)[1]) for v in reversed(vers) if v.read_bytes() == cur), None)
+    loop_p = root / "prev" / "qa_loop.json"
+    loop = json.loads(loop_p.read_text(encoding="utf-8")) if loop_p.exists() else {}
     return {"origin": "ai+human_edit" if edited else "ai", "model": meta.get("model"), "prompt_sha1": meta.get("prompt_sha1"),
-            "direction_versions": len(vers), "revisions": revs, "visual_qa": qa}
+            "direction_versions": len(vers), "used_version": used, "selected": loop.get("selected"),
+            "rounds": [{k: r.get(k) for k in ("version", "checks_hard", "qa_hard", "qa_soft")} for r in loop.get("rounds", [])],
+            "revisions": revs, "visual_qa": qa}
 
 
 def emblem_usage(events: list[dict], emblem_flag: Callable[[str], str | None]) -> dict:

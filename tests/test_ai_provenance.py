@@ -43,6 +43,17 @@ class AIProvenanceTest(unittest.TestCase):
         self.assertEqual(s["visual_qa"][0]["hard"], 1)
         self.assertEqual(s["revisions"], [{"direction_version": 2, "changes": 2}])   # 수정 기록은 v2 부터(v1 = 연출가 초안)
 
+    def test_earlier_version_selected(self) -> None:
+        """D-0049 쟁점 3 — 최선 판 선택으로 v1 이 쓰여도 AI 연출(사람 수정 아님)."""
+        self._ai()
+        (self.root / "direction.yaml").write_text("a: 1\n", encoding="utf-8")
+        (self.root / "prev" / "qa_loop.json").write_text(json.dumps({"rounds": [{"version": 1, "checks_hard": 0}],
+                                                                       "selected": {"version": 1, "by": "code", "reason": "r"}}),
+                                                           encoding="utf-8")
+        s = ai_direction_summary(self.root)
+        assert s is not None
+        self.assertEqual((s["origin"], s["used_version"], s["selected"]["version"]), ("ai", 1, 1))
+
     def test_human_edit_marked(self) -> None:
         self._ai()
         (self.root / "direction.yaml").write_text("a: 3\n", encoding="utf-8")

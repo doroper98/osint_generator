@@ -359,14 +359,36 @@ def approve_gate(
     comment: str = "",
     shown: Optional[dict[str, str]] = None,
     cfg: Optional[AppConfig] = None,
+    chosen_version: Optional[int] = None,
 ) -> ProjectManifest:
-    """게이트 승인 → 기록(누가·언제·코멘트·본 것) → 다음 상태."""
+    """게이트 승인 → 기록(누가·언제·코멘트·본 것) → 다음 상태.
+    chosen_version(게이트 ② 전용, D-0049 쟁점 3): 사람이 고른 AI 연출 판을 direction.yaml 로 되돌리고 qa_loop.json 선택을 사람으로 기록."""
     cfg = cfg or load_config()
     g = _require_gate(manifest, gate)
     nxt = next_state(g)
     assert nxt is not None
-    manifest.gate_decisions.append(GateDecision(gate=g, decision="approved", by=by, comment=comment, shown=shown or {}))
+    if chosen_version is not None:
+        if g != ProjectState.PREVIEW_APPROVAL:
+            raise ValueError("chosen_version 은 게이트 ②(preview_approval)에서만 쓴다")
+        _choose_version(project_dir(manifest.project_id, cfg), chosen_version, by)
+    manifest.gate_decisions.append(GateDecision(gate=g, decision="approved", by=by, comment=comment, shown=shown or {},
+                                                chosen_version=chosen_version))
     return _apply_transition(manifest, nxt, f"{g.value} 승인 — {by}", cfg)
+
+
+def _choose_version(pdir: Path, version: int, by: str) -> None:
+    from engine.qa import QALoopPick, QALoopRecord  # noqa: PLC0415
+    from workers.direction_io import restore_version  # noqa: PLC0415
+
+    p = pdir / "prev" / "qa_loop.json"
+    if not p.exists():
+        raise ValueError("AI 검수 기록(prev/qa_loop.json)이 없다 — 고를 판이 없음")
+    rec = QALoopRecord.model_validate_json(p.read_text(encoding="utf-8"))
+    if version not in {r.version for r in rec.rounds}:
+        raise ValueError(f"v{version} 은 판 목록에 없다: {[r.version for r in rec.rounds]}")
+    restore_version(pdir, version)
+    rec.selected = QALoopPick(version=version, by="human", reason=f"게이트 ② {by} 선택")
+    p.write_text(rec.model_dump_json(indent=1), encoding="utf-8")
 
 
 def reject_gate(

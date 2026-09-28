@@ -231,6 +231,8 @@ def build_parser() -> argparse.ArgumentParser:
     apv.add_argument("--gate", required=True, choices=["script_approval", "preview_approval"])
     apv.add_argument("--comment", default="")
     apv.add_argument("--by", default="user")
+    apv.add_argument("--version", type=int, default=None, dest="chosen_version",
+                     help="게이트 ② 에서 고를 AI 연출 판 번호(gate-view 판 목록, D-0049). 없으면 코드 선택 그대로")
 
     rjt = sub.add_parser("reject", help="승인 게이트 반려 → 16 §2 역전이 (코멘트 필수)")
     rjt.add_argument("--project", required=True)
@@ -399,7 +401,8 @@ def _cmd_pipeline(args: argparse.Namespace) -> int:
             return 0
         _, shown = gate_view(pdir, args.gate)
         if args.cmd == "approve":
-            manifest = approve_gate(manifest, args.gate, by=args.by, comment=args.comment, shown=shown)
+            manifest = approve_gate(manifest, args.gate, by=args.by, comment=args.comment, shown=shown,
+                                    chosen_version=args.chosen_version)
         else:
             manifest = reject_gate(manifest, args.gate, args.to, by=args.by, comment=args.comment, shown=shown)
     except (FileNotFoundError, ManifestError) as e:

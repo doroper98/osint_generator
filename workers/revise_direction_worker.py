@@ -9,6 +9,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import re
 import shutil
 from pathlib import Path
 from typing import ClassVar, Literal, Type
@@ -20,7 +21,16 @@ from engine.qa import QAVerdict, Revision, unchanged_violations
 from schemas.models import TaskQueueItem
 from workers.base_llm_worker import BaseLLMWorker
 from workers.base_worker import run_worker
-from workers.direction_io import check_direction, dump_direction_yaml, event_fields_table, next_version
+from workers.direction_io import (
+    cards_table,
+    check_direction,
+    dump_direction_yaml,
+    event_fields_table,
+    load_plan,
+    loop_history,
+    next_version,
+    plan_table,
+)
 from workers.prompt_loader import load_prompt
 from workers.visual_qa_worker import checks_summary
 
@@ -28,8 +38,10 @@ HEADER = "# direction.yaml — AI 연출 수정본(ReviseDirectionWorker, v3.1.0
 
 
 def latest(pdir: Path, stem: str, suffix: str) -> Path | None:
-    n = next_version(pdir, stem, suffix) - 1
-    return pdir / f"{stem}.v{n}{suffix}" if n >= 1 else None
+    """{stem}.v{n}{suffix} 중 번호가 가장 큰 것. 번호는 v1 부터 이어지지 않을 수 있다(수정 기록은 v2 부터)."""
+    pat = re.compile(rf"^{re.escape(stem)}\.v(\d+){re.escape(suffix)}$")
+    hits = [(int(m.group(1)), p) for p in pdir.glob(f"{stem}.v*{suffix}") if (m := pat.match(p.name))] if pdir.exists() else []
+    return max(hits)[1] if hits else None
 
 
 class ReviseDirectionWorker(BaseLLMWorker):
@@ -55,6 +67,9 @@ class ReviseDirectionWorker(BaseLLMWorker):
                 .replace("{direction}", doc.model_dump_json())
                 .replace("{qa_verdict}", v.model_dump_json() if v else "(검수 판정 없음 — checks 오류만 고친다)")
                 .replace("{checks}", checks_summary(pdir))
+                .replace("{plan_table}", plan_table(load_plan(pdir)))       # D-0049 쟁점 1 — 연출가와 같은 시각표
+                .replace("{cards}", cards_table(load_plan(pdir)))
+                .replace("{history}", loop_history(pdir))                   # D-0049 쟁점 2 — 같은 루프의 자기 이력
                 .replace("{event_fields}", event_fields_table()))
 
     def output_path(self, args: argparse.Namespace, task: TaskQueueItem) -> Path:

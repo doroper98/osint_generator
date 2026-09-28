@@ -233,3 +233,32 @@ class CommandCenterKeysTest(_Proj):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class ChosenVersionTest(_Proj):
+    """D-0049 쟁점 3 — 게이트 ② 에서 사람이 다른 AI 판을 고르면 direction.yaml 복원 + 기록."""
+
+    def test_choose_version(self) -> None:
+        from engine.qa import QALoopRecord, QALoopRound  # noqa: PLC0415
+        from orchestrator.gate_view import preview_gate_view  # noqa: PLC0415
+
+        pdir = self.root / "p"
+        (pdir / "prev").mkdir()
+        for n in (1, 2):
+            (pdir / f"direction.v{n}.yaml").write_text(f"v: {n}\n", encoding="utf-8")
+        (pdir / "direction.yaml").write_text("v: 2\n", encoding="utf-8")
+        rec = QALoopRecord(rounds=[QALoopRound(version=n, checks_hard=0, checks_file="", sheet=f"sheet.v{n}.jpg") for n in (1, 2)])
+        (pdir / "prev" / "qa_loop.json").write_text(rec.model_dump_json(), encoding="utf-8")
+        text, shown = preview_gate_view(pdir)
+        self.assertIn("v1  checks hard 0", text)
+        self.assertEqual(shown["qa_rounds"], "2")
+        self.to(*PRE_GATE)
+        self.m = approve_gate(self.m, "script_approval", by="t", cfg=self.cfg)
+        with self.assertRaises(ValueError):
+            approve_gate(self.m, "script_approval", by="t", cfg=self.cfg, chosen_version=1)
+        self.to(S.ASSETS, S.DIRECTION, S.PREVIEW_QA, S.PREVIEW_APPROVAL)
+        self.m = approve_gate(self.m, "preview_approval", by="t", cfg=self.cfg, chosen_version=1)
+        self.assertEqual((pdir / "direction.yaml").read_text(encoding="utf-8"), "v: 1\n")
+        self.assertEqual(self.m.gate_decisions[-1].chosen_version, 1)
+        rec2 = QALoopRecord.model_validate_json((pdir / "prev" / "qa_loop.json").read_text(encoding="utf-8"))
+        self.assertEqual((rec2.selected.version, rec2.selected.by), (1, "human"))  # type: ignore[union-attr]

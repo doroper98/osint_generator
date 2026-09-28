@@ -703,6 +703,7 @@ class QAChecks(_Strict):
     rights_missing: int
     forbidden_components: int
     visual_qa_loop_max: int
+    loop_pick_order: list[Literal["checks_hard", "qa_hard", "qa_soft"]]
 
 
 class ProvenanceRules(_Strict):
