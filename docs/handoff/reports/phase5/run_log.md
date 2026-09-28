@@ -18,7 +18,8 @@ last_review: 2026-09-28
 | 단계 | 명령 | 결과·주의 |
 |---|---|---|
 | 얕은 클론 | `git fetch --unshallow origin overhaul/v2-map-engine` | `bd37b58` 객체 확인 |
-| 의존성 | `pip install -r requirements.txt -r requirements-engine.txt` | 진행 중 |
-| 바이너리·폰트 | `apt-get install -y ffmpeg fontconfig fonts-noto-cjk` | 진행 중 |
-| edge-tts CA | certifi 번들에 `/root/.ccr/ca-bundle.crt` 덧붙임 | 진행 중 |
-| 입력 데이터 | `python tools/fetch_data.py all` → `bgm people media` | 진행 중 |
+| 의존성 | `pip install -r requirements.txt -r requirements-engine.txt` | ok |
+| 바이너리·폰트 | `apt-get update && apt-get install -y ffmpeg fontconfig fonts-noto-cjk` | ffmpeg 6.1.1. 첫 시도는 패키지 404 → `apt-get update` 뒤 ok |
+| edge-tts CA | certifi 번들에 `/root/.ccr/ca-bundle.crt` 덧붙임 | ok(저장소 무변경) |
+| 입력 데이터 | `python tools/fetch_data.py all` → `bgm people media` | fonts·ne·tiles ok. commons 는 429 연속(60~90초 대기 반복), 12:55 KST 기준 hormuz_transit 까지 |
+| pytest(자산 없이) | `python -m pytest -q` | **489 passed / 3 xfailed / 0 failed** (Phase 4: 457) |
