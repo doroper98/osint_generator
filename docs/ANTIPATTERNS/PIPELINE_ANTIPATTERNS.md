@@ -70,6 +70,14 @@ last_review: 2026-05-19
 - **회귀 테스트**: `tests/test_qa_models.py` (event_ref·frame·checks id 3건)
 - **발견 버전**: v3.1.0 (Phase 6.9 작업 10 실측) · **상태**: active
 
+## PIPELINE-AP-009 — 검수 입력(frames.json)이 끝난 문장을 "진행 중"으로 적어 거짓 hard
+- **증상**: taiwan_ai AI 연출(NB11)에서 엔딩 카드 컷(t=16.2)을 시각 검수가 "문장이 진행 중인데 크레딧으로 바뀌었다" order hard 2건으로 판정. 실제 문장은 9.4초에 끝났다.
+- **원인**: `frames_info` 가 `cur_sentence(t)`(마지막으로 **시작한** 문장)를 sid 로 적었다. 문장이 끝난 뒤에도 sid·text 가 남는다.
+- **좋은 예**: sid = 그 순간 읽는 중인 문장만. 끝난 뒤는 `after_sid`, 전면 카드는 `card`. 프롬프트에 필드 뜻을 적는다.
+- **교훈**: LLM 검수의 hard 는 입력 메타데이터가 틀려도 나온다 — 판정이 흔들릴 때 입력부터 본다.
+- **회귀 테스트**: `tests/test_checks.py::ChecksTest::test_frames_sid_only_while_speaking`
+- **발견 버전**: v3.2.0 (Phase 6.95 NB11 실측) · **상태**: active
+
 ---
 
 > 새 패턴 발견 시 본 파일 끝에 append. 과거 항목 수정 금지.
