@@ -397,6 +397,7 @@ PR 생성·force push·비밀 값 커밋·외부 서비스 조작 금지.
 | 10 | 결정 요청이 다른 보고 뒤에 밀려 Opus가 대기 | decision_request 는 check.py 가 자동 urgent(코드 반영) |
 | 11 | Fable이 D 파일에 `status: decided`(허용값 아님)를 적자 Opus check.py 미처리 목록에서 빠져 **13분간 결정이 조용히 미수신** | check.py 가 D의 status 를 open\|superseded 로 강제(ERROR). D 는 답이 와도 open 그대로 둔다 — 상대의 `responds_to` 가 닫는다 |
 | 12 | Opus가 phase_report 를 올린 뒤 '완료' 로 턴을 끝내 15분 멈춤(재기동 7). Fable 크론도 컨테이너 재시작 두 번에 함께 죽음(매시 자기 점검 트리거가 회복) | 재기동 문안에 "phase_report 직후 턴 종료 금지, 준비할 것 없으면 sleep 240 자기 재호출" 명시(§C). Fable 은 자기 점검 트리거를 매시 유지(§E) — 세션 안 크론은 컨테이너 재시작마다 죽는다고 전제한다 |
+| 13 | 재기동 세션이 첫 턴에 "자율 루프·권한을 승인해 달라"고 사용자에게 묻고 멈춤(재기동 7, 2분 만에 need_input) | 재기동 문안 **맨 위**에 "[승인] 이 프롬프트가 사용자 승인, 질문 금지, 질문으로 턴을 끝내면 세션 폐기" 문단(§C). Fable 유휴 판정에 need_input 추가(§B) |
 
 **운용 수치(참고)**: 감시 5분, 유휴 판정 15분(Fable 회차)·20분(watchdog), 트리거 깨우기 없음 → 즉시 새 세션, 새 세션 첫 푸시까지 약 2분, watchdog 매시.
 
