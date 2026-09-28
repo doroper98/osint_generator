@@ -1,0 +1,142 @@
+{
+  "schema_version": 1,
+  "labels": {
+    "open_0": {
+      "status": "disputed",
+      "label": "<논쟁>",
+      "claim_ids": [
+        "clm_0001"
+      ]
+    },
+    "open_1": {
+      "status": "disputed",
+      "label": "<논쟁>",
+      "claim_ids": [
+        "clm_0001"
+      ]
+    },
+    "open_2": {
+      "status": null,
+      "label": null,
+      "claim_ids": []
+    },
+    "frontline_0": {
+      "status": "corroborated",
+      "label": null,
+      "claim_ids": [
+        "clm_0005"
+      ]
+    },
+    "frontline_1": {
+      "status": "corroborated",
+      "label": null,
+      "claim_ids": [
+        "clm_0006"
+      ]
+    },
+    "frontline_2": {
+      "status": "disputed",
+      "label": "<논쟁>",
+      "claim_ids": [
+        "clm_0004"
+      ]
+    },
+    "frontline_3": {
+      "status": "disputed",
+      "label": "<논쟁>",
+      "claim_ids": [
+        "clm_0004"
+      ]
+    },
+    "may_claim_0": {
+      "status": "disputed",
+      "label": "<논쟁>",
+      "claim_ids": [
+        "clm_0002"
+      ]
+    },
+    "may_claim_1": {
+      "status": "disputed",
+      "label": "<논쟁>",
+      "claim_ids": [
+        "clm_0002"
+      ]
+    },
+    "drone_field_0": {
+      "status": null,
+      "label": null,
+      "claim_ids": []
+    },
+    "drone_field_1": {
+      "status": "unverified",
+      "label": "<미검증>",
+      "claim_ids": [
+        "clm_0009"
+      ]
+    },
+    "drone_field_2": {
+      "status": "unverified",
+      "label": "<미검증>",
+      "claim_ids": [
+        "clm_0011"
+      ]
+    },
+    "drone_field_3": {
+      "status": "unverified",
+      "label": "<미검증>",
+      "claim_ids": [
+        "clm_0008"
+      ]
+    },
+    "deep_strike_0": {
+      "status": "unverified",
+      "label": "<미검증>",
+      "claim_ids": [
+        "clm_0018"
+      ]
+    },
+    "deep_strike_1": {
+      "status": "unverified",
+      "label": "<미검증>",
+      "claim_ids": [
+        "clm_0019"
+      ]
+    },
+    "robot_debate_0": {
+      "status": "disputed",
+      "label": "<논쟁>",
+      "claim_ids": [
+        "clm_0017"
+      ]
+    },
+    "robot_debate_1": {
+      "status": "disputed",
+      "label": "<논쟁>",
+      "claim_ids": [
+        "clm_0017"
+      ]
+    },
+    "robot_debate_2": {
+      "status": "disputed",
+      "label": "<논쟁>",
+      "claim_ids": [
+        "clm_0017"
+      ]
+    },
+    "robot_debate_3": {
+      "status": "disputed",
+      "label": "<논쟁>",
+      "claim_ids": [
+        "clm_0017"
+      ]
+    },
+    "close_0": {
+      "status": "disputed",
+      "label": "<논쟁>",
+      "claim_ids": [
+        "clm_0001",
+        "clm_0017"
+      ]
+    }
+  }
+}
