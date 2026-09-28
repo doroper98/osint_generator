@@ -1,0 +1,359 @@
+{
+ "schema_version": 2,
+ "current_state": "done",
+ "gate_decisions": [
+  {
+   "gate": "script_approval",
+   "decision": "rejected",
+   "by": "command-center",
+   "at": "2026-09-28T08:51:00.055914Z",
+   "comment": "e2e 반려 시연 — script_approval 에서 script_draft 로 되돌림",
+   "rollback_to": "script_draft",
+   "shown": {
+    "script": "/home/user/osint_generator/projects/hormuz_korea/script.yaml",
+    "lint_errors": "0",
+    "lint_warnings": "45",
+    "est_sec": "240.8"
+   }
+  },
+  {
+   "gate": "script_approval",
+   "decision": "approved",
+   "by": "command-center",
+   "at": "2026-09-28T08:51:15.870203Z",
+   "comment": "",
+   "rollback_to": null,
+   "shown": {
+    "script": "/home/user/osint_generator/projects/hormuz_korea/script.yaml",
+    "lint_errors": "0",
+    "lint_warnings": "45",
+    "est_sec": "240.8"
+   }
+  },
+  {
+   "gate": "preview_approval",
+   "decision": "rejected",
+   "by": "command-center",
+   "at": "2026-09-28T08:52:08.732976Z",
+   "comment": "e2e 반려 시연 — preview_approval 에서 direction 로 되돌림",
+   "rollback_to": "direction",
+   "shown": {
+    "sheet": "/home/user/osint_generator/projects/hormuz_korea/prev/sheet.jpg",
+    "cuts": "24",
+    "provenance": "/home/user/osint_generator/projects/hormuz_korea/prev/provenance.json",
+    "drops": "0"
+   }
+  },
+  {
+   "gate": "preview_approval",
+   "decision": "approved",
+   "by": "command-center",
+   "at": "2026-09-28T08:52:30.560179Z",
+   "comment": "",
+   "rollback_to": null,
+   "shown": {
+    "sheet": "/home/user/osint_generator/projects/hormuz_korea/prev/sheet.jpg",
+    "cuts": "24",
+    "provenance": "/home/user/osint_generator/projects/hormuz_korea/prev/provenance.json",
+    "drops": "0"
+   }
+  }
+ ],
+ "stage_records": [
+  {
+   "state": "voice_timeline",
+   "stage": "plan",
+   "ok": true,
+   "at": "2026-09-28T08:51:28.145836Z",
+   "artifacts": {
+    "plan": "/home/user/osint_generator/projects/hormuz_korea/plan.json",
+    "tts": "/home/user/osint_generator/projects/hormuz_korea/tts"
+   },
+   "errors": [],
+   "drops": 0,
+   "log": "logs/stages/01_plan.json"
+  },
+  {
+   "state": "assets",
+   "stage": "assets",
+   "ok": true,
+   "at": "2026-09-28T08:51:49.011058Z",
+   "artifacts": {
+    "assets": "/home/user/osint_generator/projects/hormuz_korea/assets",
+    "report": "/home/user/osint_generator/projects/hormuz_korea/assets/geo_report.json"
+   },
+   "errors": [],
+   "drops": 0,
+   "log": "logs/stages/02_assets.json"
+  },
+  {
+   "state": "direction",
+   "stage": "direction_validate",
+   "ok": true,
+   "at": "2026-09-28T08:51:56.573254Z",
+   "artifacts": {
+    "script": "/home/user/osint_generator/projects/hormuz_korea/script.yaml"
+   },
+   "errors": [],
+   "drops": 0,
+   "log": "logs/stages/03_direction_validate.json"
+  },
+  {
+   "state": "preview_qa",
+   "stage": "preview",
+   "ok": true,
+   "at": "2026-09-28T08:52:07.429755Z",
+   "artifacts": {
+    "prev/p_0008.62.png": "/home/user/osint_generator/projects/hormuz_korea/prev/p_0008.62.png",
+    "prev/p_0018.51.png": "/home/user/osint_generator/projects/hormuz_korea/prev/p_0018.51.png",
+    "prev/p_0023.07.png": "/home/user/osint_generator/projects/hormuz_korea/prev/p_0023.07.png",
+    "prev/p_0033.05.png": "/home/user/osint_generator/projects/hormuz_korea/prev/p_0033.05.png",
+    "prev/p_0042.08.png": "/home/user/osint_generator/projects/hormuz_korea/prev/p_0042.08.png",
+    "prev/p_0055.21.png": "/home/user/osint_generator/projects/hormuz_korea/prev/p_0055.21.png",
+    "prev/p_0063.21.png": "/home/user/osint_generator/projects/hormuz_korea/prev/p_0063.21.png",
+    "prev/p_0081.85.png": "/home/user/osint_generator/projects/hormuz_korea/prev/p_0081.85.png",
+    "prev/p_0098.25.png": "/home/user/osint_generator/projects/hormuz_korea/prev/p_0098.25.png",
+    "prev/p_0122.31.png": "/home/user/osint_generator/projects/hormuz_korea/prev/p_0122.31.png",
+    "prev/p_0137.54.png": "/home/user/osint_generator/projects/hormuz_korea/prev/p_0137.54.png",
+    "prev/p_0152.95.png": "/home/user/osint_generator/projects/hormuz_korea/prev/p_0152.95.png",
+    "prev/p_0157.80.png": "/home/user/osint_generator/projects/hormuz_korea/prev/p_0157.80.png",
+    "prev/p_0169.14.png": "/home/user/osint_generator/projects/hormuz_korea/prev/p_0169.14.png",
+    "prev/p_0178.94.png": "/home/user/osint_generator/projects/hormuz_korea/prev/p_0178.94.png",
+    "prev/p_0193.98.png": "/home/user/osint_generator/projects/hormuz_korea/prev/p_0193.98.png",
+    "prev/p_0203.77.png": "/home/user/osint_generator/projects/hormuz_korea/prev/p_0203.77.png",
+    "prev/p_0220.68.png": "/home/user/osint_generator/projects/hormuz_korea/prev/p_0220.68.png",
+    "prev/p_0232.98.png": "/home/user/osint_generator/projects/hormuz_korea/prev/p_0232.98.png",
+    "prev/p_0246.22.png": "/home/user/osint_generator/projects/hormuz_korea/prev/p_0246.22.png",
+    "prev/p_0251.10.png": "/home/user/osint_generator/projects/hormuz_korea/prev/p_0251.10.png",
+    "prev/p_0266.31.png": "/home/user/osint_generator/projects/hormuz_korea/prev/p_0266.31.png",
+    "prev/p_0281.24.png": "/home/user/osint_generator/projects/hormuz_korea/prev/p_0281.24.png",
+    "prev/p_0286.44.png": "/home/user/osint_generator/projects/hormuz_korea/prev/p_0286.44.png",
+    "sheet": "/home/user/osint_generator/projects/hormuz_korea/prev/sheet.jpg",
+    "provenance": "/home/user/osint_generator/projects/hormuz_korea/prev/provenance.json"
+   },
+   "errors": [],
+   "drops": 0,
+   "log": "logs/stages/04_preview.json"
+  },
+  {
+   "state": "direction",
+   "stage": "direction_validate",
+   "ok": true,
+   "at": "2026-09-28T08:52:16.765516Z",
+   "artifacts": {
+    "script": "/home/user/osint_generator/projects/hormuz_korea/script.yaml"
+   },
+   "errors": [],
+   "drops": 0,
+   "log": "logs/stages/05_direction_validate.json"
+  },
+  {
+   "state": "preview_qa",
+   "stage": "preview",
+   "ok": true,
+   "at": "2026-09-28T08:52:28.814524Z",
+   "artifacts": {
+    "prev/p_0008.62.png": "/home/user/osint_generator/projects/hormuz_korea/prev/p_0008.62.png",
+    "prev/p_0018.51.png": "/home/user/osint_generator/projects/hormuz_korea/prev/p_0018.51.png",
+    "prev/p_0023.07.png": "/home/user/osint_generator/projects/hormuz_korea/prev/p_0023.07.png",
+    "prev/p_0033.05.png": "/home/user/osint_generator/projects/hormuz_korea/prev/p_0033.05.png",
+    "prev/p_0042.08.png": "/home/user/osint_generator/projects/hormuz_korea/prev/p_0042.08.png",
+    "prev/p_0055.21.png": "/home/user/osint_generator/projects/hormuz_korea/prev/p_0055.21.png",
+    "prev/p_0063.21.png": "/home/user/osint_generator/projects/hormuz_korea/prev/p_0063.21.png",
+    "prev/p_0081.85.png": "/home/user/osint_generator/projects/hormuz_korea/prev/p_0081.85.png",
+    "prev/p_0098.25.png": "/home/user/osint_generator/projects/hormuz_korea/prev/p_0098.25.png",
+    "prev/p_0122.31.png": "/home/user/osint_generator/projects/hormuz_korea/prev/p_0122.31.png",
+    "prev/p_0137.54.png": "/home/user/osint_generator/projects/hormuz_korea/prev/p_0137.54.png",
+    "prev/p_0152.95.png": "/home/user/osint_generator/projects/hormuz_korea/prev/p_0152.95.png",
+    "prev/p_0157.80.png": "/home/user/osint_generator/projects/hormuz_korea/prev/p_0157.80.png",
+    "prev/p_0169.14.png": "/home/user/osint_generator/projects/hormuz_korea/prev/p_0169.14.png",
+    "prev/p_0178.94.png": "/home/user/osint_generator/projects/hormuz_korea/prev/p_0178.94.png",
+    "prev/p_0193.98.png": "/home/user/osint_generator/projects/hormuz_korea/prev/p_0193.98.png",
+    "prev/p_0203.77.png": "/home/user/osint_generator/projects/hormuz_korea/prev/p_0203.77.png",
+    "prev/p_0220.68.png": "/home/user/osint_generator/projects/hormuz_korea/prev/p_0220.68.png",
+    "prev/p_0232.98.png": "/home/user/osint_generator/projects/hormuz_korea/prev/p_0232.98.png",
+    "prev/p_0246.22.png": "/home/user/osint_generator/projects/hormuz_korea/prev/p_0246.22.png",
+    "prev/p_0251.10.png": "/home/user/osint_generator/projects/hormuz_korea/prev/p_0251.10.png",
+    "prev/p_0266.31.png": "/home/user/osint_generator/projects/hormuz_korea/prev/p_0266.31.png",
+    "prev/p_0281.24.png": "/home/user/osint_generator/projects/hormuz_korea/prev/p_0281.24.png",
+    "prev/p_0286.44.png": "/home/user/osint_generator/projects/hormuz_korea/prev/p_0286.44.png",
+    "sheet": "/home/user/osint_generator/projects/hormuz_korea/prev/sheet.jpg",
+    "provenance": "/home/user/osint_generator/projects/hormuz_korea/prev/provenance.json"
+   },
+   "errors": [],
+   "drops": 0,
+   "log": "logs/stages/06_preview.json"
+  },
+  {
+   "state": "render",
+   "stage": "render",
+   "ok": true,
+   "at": "2026-09-28T08:55:36.057566Z",
+   "artifacts": {
+    "video_noaudio": "/home/user/osint_generator/projects/hormuz_korea/out/video_noaudio.mp4"
+   },
+   "errors": [],
+   "drops": 0,
+   "log": "logs/stages/07_render.json"
+  },
+  {
+   "state": "audio_mix",
+   "stage": "mix",
+   "ok": true,
+   "at": "2026-09-28T08:56:21.239760Z",
+   "artifacts": {
+    "mix": "/home/user/osint_generator/projects/hormuz_korea/out/mix.f32"
+   },
+   "errors": [],
+   "drops": 0,
+   "log": "logs/stages/08_mix.json"
+  },
+  {
+   "state": "deliver",
+   "stage": "deliver",
+   "ok": true,
+   "at": "2026-09-28T08:56:57.856042Z",
+   "artifacts": {
+    "final": "/home/user/osint_generator/projects/hormuz_korea/out/final.mp4",
+    "srt": "/home/user/osint_generator/projects/hormuz_korea/out/final.srt",
+    "description": "/home/user/osint_generator/projects/hormuz_korea/out/description.txt",
+    "credits": "/home/user/osint_generator/projects/hormuz_korea/out/credits.txt",
+    "provenance": "/home/user/osint_generator/projects/hormuz_korea/out/provenance.json"
+   },
+   "errors": [],
+   "drops": 0,
+   "log": "logs/stages/09_deliver.json"
+  }
+ ],
+ "state_history": [
+  {
+   "from_state": "created",
+   "to_state": "intake",
+   "transitioned_at": "2026-09-28T08:50:43.033947Z",
+   "reason": "v3 수동 원고·연출 사용 — LLM 단계(intake·source·research·script) 해당 없음(e2e, D-0040 작업 10)"
+  },
+  {
+   "from_state": "intake",
+   "to_state": "source_verify",
+   "transitioned_at": "2026-09-28T08:50:43.066065Z",
+   "reason": "v3 수동 원고·연출 사용 — LLM 단계(intake·source·research·script) 해당 없음(e2e, D-0040 작업 10)"
+  },
+  {
+   "from_state": "source_verify",
+   "to_state": "research",
+   "transitioned_at": "2026-09-28T08:50:43.105569Z",
+   "reason": "v3 수동 원고·연출 사용 — LLM 단계(intake·source·research·script) 해당 없음(e2e, D-0040 작업 10)"
+  },
+  {
+   "from_state": "research",
+   "to_state": "script_draft",
+   "transitioned_at": "2026-09-28T08:50:43.150877Z",
+   "reason": "v3 수동 원고·연출 사용 — LLM 단계(intake·source·research·script) 해당 없음(e2e, D-0040 작업 10)"
+  },
+  {
+   "from_state": "script_draft",
+   "to_state": "script_approval",
+   "transitioned_at": "2026-09-28T08:50:43.182754Z",
+   "reason": "v3 수동 원고·연출 사용 — LLM 단계(intake·source·research·script) 해당 없음(e2e, D-0040 작업 10)"
+  },
+  {
+   "from_state": "script_approval",
+   "to_state": "script_draft",
+   "transitioned_at": "2026-09-28T08:51:00.055946Z",
+   "reason": "script_approval 반려 → script_draft — command-center: e2e 반려 시연 — script_approval 에서 script_draft 로 되돌림"
+  },
+  {
+   "from_state": "script_draft",
+   "to_state": "script_approval",
+   "transitioned_at": "2026-09-28T08:51:01.509413Z",
+   "reason": "반려 사유 확인 — 원고 유지(e2e)"
+  },
+  {
+   "from_state": "script_approval",
+   "to_state": "voice_timeline",
+   "transitioned_at": "2026-09-28T08:51:15.870238Z",
+   "reason": "script_approval 승인 — command-center"
+  },
+  {
+   "from_state": "voice_timeline",
+   "to_state": "assets",
+   "transitioned_at": "2026-09-28T08:51:28.193461Z",
+   "reason": "engine plan ok"
+  },
+  {
+   "from_state": "assets",
+   "to_state": "direction",
+   "transitioned_at": "2026-09-28T08:51:49.023664Z",
+   "reason": "engine assets ok"
+  },
+  {
+   "from_state": "direction",
+   "to_state": "preview_qa",
+   "transitioned_at": "2026-09-28T08:51:56.582212Z",
+   "reason": "engine direction_validate ok"
+  },
+  {
+   "from_state": "preview_qa",
+   "to_state": "preview_approval",
+   "transitioned_at": "2026-09-28T08:52:07.439378Z",
+   "reason": "engine preview ok"
+  },
+  {
+   "from_state": "preview_approval",
+   "to_state": "direction",
+   "transitioned_at": "2026-09-28T08:52:08.733000Z",
+   "reason": "preview_approval 반려 → direction — command-center: e2e 반려 시연 — preview_approval 에서 direction 로 되돌림"
+  },
+  {
+   "from_state": "direction",
+   "to_state": "preview_qa",
+   "transitioned_at": "2026-09-28T08:52:16.774481Z",
+   "reason": "engine direction_validate ok"
+  },
+  {
+   "from_state": "preview_qa",
+   "to_state": "preview_approval",
+   "transitioned_at": "2026-09-28T08:52:28.846608Z",
+   "reason": "engine preview ok"
+  },
+  {
+   "from_state": "preview_approval",
+   "to_state": "render",
+   "transitioned_at": "2026-09-28T08:52:30.560204Z",
+   "reason": "preview_approval 승인 — command-center"
+  },
+  {
+   "from_state": "render",
+   "to_state": "audio_mix",
+   "transitioned_at": "2026-09-28T08:55:36.069350Z",
+   "reason": "engine render ok"
+  },
+  {
+   "from_state": "audio_mix",
+   "to_state": "deliver",
+   "transitioned_at": "2026-09-28T08:56:21.272646Z",
+   "reason": "engine mix ok"
+  },
+  {
+   "from_state": "deliver",
+   "to_state": "done",
+   "transitioned_at": "2026-09-28T08:56:57.866747Z",
+   "reason": "engine deliver ok"
+  }
+ ],
+ "paths": {
+  "script": "script.yaml",
+  "script_labels": "script_labels.json",
+  "plan": "plan.json",
+  "tts": "tts",
+  "assets": "assets",
+  "media": "media",
+  "direction": "direction.py",
+  "prev": "prev",
+  "prev_sheet": "prev/sheet.jpg",
+  "prev_provenance": "prev/provenance.json",
+  "out": "out",
+  "final": "out/final.mp4",
+  "provenance": "out/provenance.json"
+ }
+}

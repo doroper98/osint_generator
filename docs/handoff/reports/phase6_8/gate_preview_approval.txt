@@ -1,0 +1,15 @@
+[게이트 ② 프리뷰 승인]
+
+컨택트 시트  /home/user/osint_generator/projects/hormuz_korea/prev/sheet.jpg
+프리뷰 컷    24장  p_0008.62.png … p_0286.44.png
+예상 러닝타임 4분 52.4초 (292.441초, 목소리 edge-tts ko-KR-InJoonNeural)
+
+provenance 요약 (prev/provenance.json)
+  stages      {"plan": true, "geo": true, "preview": true, "render": false, "mix": false, "mux": false, "ai_direction": false, "visual_qa": false}
+  카메라 이동 5 · dip 4 · 뱃지 8 · 카드 7
+  패널        relation, statement, timeline, precedent, versus
+  미디어      {"clip": 2, "photo": 2, "cutout": 1, "article": 2}
+  drops       0건 · 연출 경고 0건
+  rules_hash  235a35346030
+
+AI 검수 잔여 이슈  (6.9 — 시각 검수 워커 전)

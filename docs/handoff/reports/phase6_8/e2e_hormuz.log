@@ -1,0 +1,441 @@
+17:50:42 new-project hormuz_korea
+effective_config {"cmd": "new-project", "config": {"schema_version": 1, "command_center": {"worker_slot_count": 4, "heartbeat_timeout_sec": 60, "log_panel_max_lines": 500, "log_router_read_chunk": 1024, "tui_refresh_interval_sec": 0.5}, "logging": {"level": "INFO", "file": "logs/orchestrator.log", "rotate_daily": true, "retention_days": 30}, "paths": {"projects_root": "projects", "python_bin": "python"}, "engine": {"trial": {"width": 854, "height": 480, "fps": 24}, "final": {"width": 1920, "height": 1080, "fps": 24}, "jobs": 4, "crf": 19}, "tts": {"backend_default": "elevenlabs", "edge_voice": "ko-KR-InJoonNeural", "edge_rate": "-3%", "edge_pitch": "-2Hz", "eleven_model_env": "ELEVENLABS_MODEL_ID", "eleven_model_default": "eleven_multilingual_v2", "voice_settings": {"stability": 0.65, "similarity_boost": 0.8, "style": 0.1}, "local_invoke_timeout_sec": 600}, "llm": {"model": "claude-opus-5-5", "invoke_timeout_sec": 600, "script_timeout_sec": 1200}, "commons": {"gap_sec": 15.0, "backoff_base_sec": 60.0, "backoff_max_sec": 600.0, "tries": 6, "standard_widths": [500, 960, 1280, 1600]}, "review_gates": {"require_human_approval": {"script_approval": true, "preview_approval": true}}}, "rules_hash": "235a35346030727ff49b8ff7a6fd5b0187125eaa"}
+새 프로젝트 생성 완료: hormuz_korea
+project_id     : hormuz_korea
+title          : 호르무즈와 한국
+category       : geopolitics
+current_state  : created
+duration_min   : 18
+created_at     : 2026-09-28 08:50:43.001248+00:00
+updated_at     : 2026-09-28 08:50:43.001630+00:00
+state_history  : 0 entries
+effective_config {"cmd": "transition", "config": {"schema_version": 1, "command_center": {"worker_slot_count": 4, "heartbeat_timeout_sec": 60, "log_panel_max_lines": 500, "log_router_read_chunk": 1024, "tui_refresh_interval_sec": 0.5}, "logging": {"level": "INFO", "file": "logs/orchestrator.log", "rotate_daily": true, "retention_days": 30}, "paths": {"projects_root": "projects", "python_bin": "python"}, "engine": {"trial": {"width": 854, "height": 480, "fps": 24}, "final": {"width": 1920, "height": 1080, "fps": 24}, "jobs": 4, "crf": 19}, "tts": {"backend_default": "elevenlabs", "edge_voice": "ko-KR-InJoonNeural", "edge_rate": "-3%", "edge_pitch": "-2Hz", "eleven_model_env": "ELEVENLABS_MODEL_ID", "eleven_model_default": "eleven_multilingual_v2", "voice_settings": {"stability": 0.65, "similarity_boost": 0.8, "style": 0.1}, "local_invoke_timeout_sec": 600}, "llm": {"model": "claude-opus-5-5", "invoke_timeout_sec": 600, "script_timeout_sec": 1200}, "commons": {"gap_sec": 15.0, "backoff_base_sec": 60.0, "backoff_max_sec": 600.0, "tries": 6, "standard_widths": [500, 960, 1280, 1600]}, "review_gates": {"require_human_approval": {"script_approval": true, "preview_approval": true}}}, "rules_hash": "235a35346030727ff49b8ff7a6fd5b0187125eaa"}
+상태 전이 완료: hormuz_korea → intake
+project_id     : hormuz_korea
+title          : 호르무즈와 한국
+category       : geopolitics
+current_state  : intake
+duration_min   : 18
+created_at     : 2026-09-28 08:50:43.001248+00:00
+updated_at     : 2026-09-28 08:50:43.034066+00:00
+state_history  : 1 entries
+effective_config {"cmd": "transition", "config": {"schema_version": 1, "command_center": {"worker_slot_count": 4, "heartbeat_timeout_sec": 60, "log_panel_max_lines": 500, "log_router_read_chunk": 1024, "tui_refresh_interval_sec": 0.5}, "logging": {"level": "INFO", "file": "logs/orchestrator.log", "rotate_daily": true, "retention_days": 30}, "paths": {"projects_root": "projects", "python_bin": "python"}, "engine": {"trial": {"width": 854, "height": 480, "fps": 24}, "final": {"width": 1920, "height": 1080, "fps": 24}, "jobs": 4, "crf": 19}, "tts": {"backend_default": "elevenlabs", "edge_voice": "ko-KR-InJoonNeural", "edge_rate": "-3%", "edge_pitch": "-2Hz", "eleven_model_env": "ELEVENLABS_MODEL_ID", "eleven_model_default": "eleven_multilingual_v2", "voice_settings": {"stability": 0.65, "similarity_boost": 0.8, "style": 0.1}, "local_invoke_timeout_sec": 600}, "llm": {"model": "claude-opus-5-5", "invoke_timeout_sec": 600, "script_timeout_sec": 1200}, "commons": {"gap_sec": 15.0, "backoff_base_sec": 60.0, "backoff_max_sec": 600.0, "tries": 6, "standard_widths": [500, 960, 1280, 1600]}, "review_gates": {"require_human_approval": {"script_approval": true, "preview_approval": true}}}, "rules_hash": "235a35346030727ff49b8ff7a6fd5b0187125eaa"}
+상태 전이 완료: hormuz_korea → source_verify
+project_id     : hormuz_korea
+title          : 호르무즈와 한국
+category       : geopolitics
+current_state  : source_verify
+duration_min   : 18
+created_at     : 2026-09-28 08:50:43.001248+00:00
+updated_at     : 2026-09-28 08:50:43.066143+00:00
+state_history  : 2 entries
+effective_config {"cmd": "transition", "config": {"schema_version": 1, "command_center": {"worker_slot_count": 4, "heartbeat_timeout_sec": 60, "log_panel_max_lines": 500, "log_router_read_chunk": 1024, "tui_refresh_interval_sec": 0.5}, "logging": {"level": "INFO", "file": "logs/orchestrator.log", "rotate_daily": true, "retention_days": 30}, "paths": {"projects_root": "projects", "python_bin": "python"}, "engine": {"trial": {"width": 854, "height": 480, "fps": 24}, "final": {"width": 1920, "height": 1080, "fps": 24}, "jobs": 4, "crf": 19}, "tts": {"backend_default": "elevenlabs", "edge_voice": "ko-KR-InJoonNeural", "edge_rate": "-3%", "edge_pitch": "-2Hz", "eleven_model_env": "ELEVENLABS_MODEL_ID", "eleven_model_default": "eleven_multilingual_v2", "voice_settings": {"stability": 0.65, "similarity_boost": 0.8, "style": 0.1}, "local_invoke_timeout_sec": 600}, "llm": {"model": "claude-opus-5-5", "invoke_timeout_sec": 600, "script_timeout_sec": 1200}, "commons": {"gap_sec": 15.0, "backoff_base_sec": 60.0, "backoff_max_sec": 600.0, "tries": 6, "standard_widths": [500, 960, 1280, 1600]}, "review_gates": {"require_human_approval": {"script_approval": true, "preview_approval": true}}}, "rules_hash": "235a35346030727ff49b8ff7a6fd5b0187125eaa"}
+상태 전이 완료: hormuz_korea → research
+project_id     : hormuz_korea
+title          : 호르무즈와 한국
+category       : geopolitics
+current_state  : research
+duration_min   : 18
+created_at     : 2026-09-28 08:50:43.001248+00:00
+updated_at     : 2026-09-28 08:50:43.105623+00:00
+state_history  : 3 entries
+effective_config {"cmd": "transition", "config": {"schema_version": 1, "command_center": {"worker_slot_count": 4, "heartbeat_timeout_sec": 60, "log_panel_max_lines": 500, "log_router_read_chunk": 1024, "tui_refresh_interval_sec": 0.5}, "logging": {"level": "INFO", "file": "logs/orchestrator.log", "rotate_daily": true, "retention_days": 30}, "paths": {"projects_root": "projects", "python_bin": "python"}, "engine": {"trial": {"width": 854, "height": 480, "fps": 24}, "final": {"width": 1920, "height": 1080, "fps": 24}, "jobs": 4, "crf": 19}, "tts": {"backend_default": "elevenlabs", "edge_voice": "ko-KR-InJoonNeural", "edge_rate": "-3%", "edge_pitch": "-2Hz", "eleven_model_env": "ELEVENLABS_MODEL_ID", "eleven_model_default": "eleven_multilingual_v2", "voice_settings": {"stability": 0.65, "similarity_boost": 0.8, "style": 0.1}, "local_invoke_timeout_sec": 600}, "llm": {"model": "claude-opus-5-5", "invoke_timeout_sec": 600, "script_timeout_sec": 1200}, "commons": {"gap_sec": 15.0, "backoff_base_sec": 60.0, "backoff_max_sec": 600.0, "tries": 6, "standard_widths": [500, 960, 1280, 1600]}, "review_gates": {"require_human_approval": {"script_approval": true, "preview_approval": true}}}, "rules_hash": "235a35346030727ff49b8ff7a6fd5b0187125eaa"}
+상태 전이 완료: hormuz_korea → script_draft
+project_id     : hormuz_korea
+title          : 호르무즈와 한국
+category       : geopolitics
+current_state  : script_draft
+duration_min   : 18
+created_at     : 2026-09-28 08:50:43.001248+00:00
+updated_at     : 2026-09-28 08:50:43.150930+00:00
+state_history  : 4 entries
+effective_config {"cmd": "transition", "config": {"schema_version": 1, "command_center": {"worker_slot_count": 4, "heartbeat_timeout_sec": 60, "log_panel_max_lines": 500, "log_router_read_chunk": 1024, "tui_refresh_interval_sec": 0.5}, "logging": {"level": "INFO", "file": "logs/orchestrator.log", "rotate_daily": true, "retention_days": 30}, "paths": {"projects_root": "projects", "python_bin": "python"}, "engine": {"trial": {"width": 854, "height": 480, "fps": 24}, "final": {"width": 1920, "height": 1080, "fps": 24}, "jobs": 4, "crf": 19}, "tts": {"backend_default": "elevenlabs", "edge_voice": "ko-KR-InJoonNeural", "edge_rate": "-3%", "edge_pitch": "-2Hz", "eleven_model_env": "ELEVENLABS_MODEL_ID", "eleven_model_default": "eleven_multilingual_v2", "voice_settings": {"stability": 0.65, "similarity_boost": 0.8, "style": 0.1}, "local_invoke_timeout_sec": 600}, "llm": {"model": "claude-opus-5-5", "invoke_timeout_sec": 600, "script_timeout_sec": 1200}, "commons": {"gap_sec": 15.0, "backoff_base_sec": 60.0, "backoff_max_sec": 600.0, "tries": 6, "standard_widths": [500, 960, 1280, 1600]}, "review_gates": {"require_human_approval": {"script_approval": true, "preview_approval": true}}}, "rules_hash": "235a35346030727ff49b8ff7a6fd5b0187125eaa"}
+상태 전이 완료: hormuz_korea → script_approval
+project_id     : hormuz_korea
+title          : 호르무즈와 한국
+category       : geopolitics
+current_state  : script_approval
+duration_min   : 18
+created_at     : 2026-09-28 08:50:43.001248+00:00
+updated_at     : 2026-09-28 08:50:43.182783+00:00
+state_history  : 5 entries
+17:50:43 [tui:system] Command Center started · v3.0.0
+17:50:43 [tui:system] project dir: /home/user/osint_generator/projects/hormuz_korea
+17:50:43 [tui:system] worker slots: 4
+17:50:59 === 게이트 화면 script_approval ===
+[게이트 ① 원고 승인] 호르무즈와 한국 — 한국은 왜 파병하지 않았나 (2026.09.26)
+
+장면 목록
+  open       문장  4  예상   16.9초
+  route      문장  4  예상   19.9초
+  war        문장  4  예상   17.4초
+  ask        문장  6  예상   37.3초
+  timeline   문장  6  예상   34.4초
+  cost       문장  2  예상   10.5초
+  review     문장  4  예상   21.8초
+  past       문장  4  예상   21.8초
+  debate     문장  5  예상   27.6초
+  decision   문장  2  예상   10.6초
+  now        문장  4  예상   22.6초
+  합계 45문장 · 예상 240.8초 (plan.json 실측)
+
+원고 전문(자막) · [검증 라벨] (도시어 없음 — 라벨 계산 안 함)
+  open_0       9월 18일, 이재명 대통령이 기자회견을 열었습니다.
+  open_1       전쟁에 개입하는 파병은 하지 않겠다는 발표였습니다.
+  open_2       한국 선박과 국민을 보호하는 최소한의 활동만 이어가겠다고 했습니다.
+  open_3       미국이 동맹국들에 해협 방어를 요구한 지 여섯 달 만에 나온 결론입니다.
+  route_0      호르무즈 해협은 페르시아만에서 먼바다로 나가는 유일한 바닷길입니다.
+  route_1      지난해 한국이 수입한 원유의 61%가 이 해협을 지났습니다.
+  route_2      플라스틱의 원료인 나프타도 54%가 같은 길로 들어왔습니다.
+  route_3      유조선은 해협을 나와 인도양을 건너고, 믈라카 해협을 거쳐 한국 남해안에 닿습니다.
+  war_0        올해 2월 28일, 미국과 이스라엘이 이란을 공습했습니다.
+  war_1        이 공격으로 이란의 최고지도자 알리 하메네이가 숨졌습니다.
+  war_2        이란은 곧바로 호르무즈 해협을 닫았습니다.
+  war_3        이란이 허가한 배만 지나갈 수 있었고, 대부분 중국과 인도로 가는 유조선이었습니다.
+  ask_0        3월 15일, 트럼프 대통령은 이 해협으로 석유를 받는 나라들이 직접 지키라고 요구했습니다.
+  ask_1        다음 날 독일, 영국, 일본, 호주, 그리고 한국이 이 요구를 거절했습니다.
+  ask_2        독일 국방장관은 우리가 시작한 전쟁이 아니라고 말했습니다.
+  ask_3        트럼프 대통령은 동맹들의 결정을 매우 어리석은 실수라고 비판했습니다.
+  ask_4        3월 21일, 한국은 영국, 프랑스, 일본 등 일곱 나라의 공동성명에 이름을 올렸습니다.
+  ask_5        이란의 공격을 규탄하고, 항행의 자유를 지키는 노력에 함께한다는 내용이었습니다.
+  timeline_0   그 뒤 여섯 달 동안 전쟁과 협상이 번갈아 이어졌습니다.
+  timeline_1   4월 7일, 해협을 열기 위한 무력 사용 결의안은 러시아와 중국의 거부권에 막혔습니다.
+  timeline_2   4월 13일, 미국은 이란 항구를 드나드는 배를 막는 해상 봉쇄에 들어갔습니다.
+  timeline_3   6월 17일에는 미국과 이란이 전쟁을 끝내는 양해각서에 서명했습니다.
+  timeline_4   하지만 7월 8일, 해협에서 상선들이 공격받고 미국이 다시 이란을 공습하면서 휴전은 무너졌습니다.
+  timeline_5   8월 25일, 미국은 해협 통항로의 기뢰를 모두 제거했다고 밝혔습니다.
+  cost_0       국제해사기구는 6월 11일까지 선박 공격 46건과 선원 14명의 죽음을 확인했습니다.
+  cost_1       배 천여 척과 선원 2만 명이 걸프 안쪽에 발이 묶였습니다.
+  review_0     9월 초, 국내 방송사들은 정부가 연내 파병을 준비하고 있다고 보도했습니다.
+  review_1     해상초계기와 군수지원함 같은 선택지가 거론됐습니다.
+  review_2     대통령실은 군사적 방안을 포함해 검토하고 있지만, 결정된 것은 없다고 밝혔습니다.
+  review_3     실제로 보낸다면 2009년 청해부대 이후 한반도 밖으로 나가는 첫 해상 파견이 될 수 있었습니다.
+  past_0       한국이 이런 결정을 내려야 했던 것은 처음이 아닙니다.
+  past_1       2004년 노무현 정부는 이라크 아르빌에 자이툰 부대를 보냈습니다.
+  past_2       북핵 6자회담에서 미국의 지지를 지키려는 판단이었지만, 국내 여론은 싸늘했습니다.
+  past_3       2020년에는 청해부대의 작전 구역을 호르무즈까지 넓히되, 지휘권은 한국군이 갖는 방식을 택했습니다.
+  debate_0     9월 7일, 정부는 전투가 격해지고 반대 여론이 커지자 계획을 다시 조정하기 시작했습니다.
+  debate_1     다음 날 서울 미국대사관 근처에서는 대학생들이 파병 반대 집회를 열었습니다.
+  debate_2     파병을 지지하는 쪽은 호르무즈가 곧 한국의 경제 안보라고 말합니다.
+  debate_3     반대하는 쪽은 비전투 부대라도 미사일과 드론이 오가는 곳에서는 표적이 될 수 있다고 봅니다.
+  debate_4     미국의 방공 미사일 재고가 줄고 있다는 점도 반대 논리의 근거가 됐습니다.
+  decision_0   그리고 9월 18일, 이재명 대통령은 전쟁에 들어가는 파병은 없다고 분명히 했습니다.
+  decision_1   대신 분쟁의 주변부에서 한국군이 맡을 역할은 열어 두었습니다.
+  now_0        미군은 호위 작전으로 원유 10억 배럴을 해협 밖으로 내보냈다고 밝혔습니다.
+  now_1        전쟁은 아직 끝나지 않았고, 해협의 통행도 정상으로 돌아오지 않았습니다.
+  now_2        지난해 기준 원유 수입의 61%가 이 해협에 기대고 있다는 사실도 그대로입니다.
+  now_3        청해부대가 어디까지 움직일지, 국회가 이 문제를 어떻게 다룰지는 아직 정해지지 않았습니다.
+
+출처 표
+  open_0       (출처 없음)
+  open_1       (출처 없음)
+  open_2       (출처 없음)
+  open_3       (출처 없음)
+  route_0      (출처 없음)
+  route_1      (출처 없음)
+  route_2      (출처 없음)
+  route_3      (출처 없음)
+  war_0        (출처 없음)
+  war_1        (출처 없음)
+  war_2        (출처 없음)
+  war_3        (출처 없음)
+  ask_0        (출처 없음)
+  ask_1        (출처 없음)
+  ask_2        (출처 없음)
+  ask_3        (출처 없음)
+  ask_4        (출처 없음)
+  ask_5        (출처 없음)
+  timeline_0   (출처 없음)
+  timeline_1   (출처 없음)
+  timeline_2   (출처 없음)
+  timeline_3   (출처 없음)
+  timeline_4   (출처 없음)
+  timeline_5   (출처 없음)
+  cost_0       (출처 없음)
+  cost_1       (출처 없음)
+  review_0     (출처 없음)
+  review_1     (출처 없음)
+  review_2     (출처 없음)
+  review_3     (출처 없음)
+  past_0       (출처 없음)
+  past_1       (출처 없음)
+  past_2       (출처 없음)
+  past_3       (출처 없음)
+  debate_0     (출처 없음)
+  debate_1     (출처 없음)
+  debate_2     (출처 없음)
+  debate_3     (출처 없음)
+  debate_4     (출처 없음)
+  decision_0   (출처 없음)
+  decision_1   (출처 없음)
+  now_0        (출처 없음)
+  now_1        (출처 없음)
+  now_2        (출처 없음)
+  now_3        (출처 없음)
+
+린트 — 오류 0 · 경고 45
+  경고 [source-missing] open_0: sources 비어 있음 (수치 문장) — 9월 18일, 이재명 대통령이 기자회견을 열었습니다.
+  경고 [source-missing] open_1: sources 비어 있음 — 전쟁에 개입하는 파병은 하지 않겠다는 발표였습니다.
+  경고 [source-missing] open_2: sources 비어 있음 — 한국 선박과 국민을 보호하는 최소한의 활동만 이어가겠다고 했습니다.
+  경고 [source-missing] open_3: sources 비어 있음 — 미국이 동맹국들에 해협 방어를 요구한 지 여섯 달 만에 나온 결론입니다.
+  경고 [source-missing] route_0: sources 비어 있음 — 호르무즈 해협은 페르시아만에서 먼바다로 나가는 유일한 바닷길입니다.
+  경고 [source-missing] route_1: sources 비어 있음 (수치 문장) — 지난해 한국이 수입한 원유의 61%가 이 해협을 지났습니다.
+  경고 [source-missing] route_2: sources 비어 있음 (수치 문장) — 플라스틱의 원료인 나프타도 54%가 같은 길로 들어왔습니다.
+  경고 [source-missing] route_3: sources 비어 있음 — 유조선은 해협을 나와 인도양을 건너고, 믈라카 해협을 거쳐 한국 남해안에 닿습니다.
+  경고 [source-missing] war_0: sources 비어 있음 (수치 문장) — 올해 2월 28일, 미국과 이스라엘이 이란을 공습했습니다.
+  경고 [source-missing] war_1: sources 비어 있음 — 이 공격으로 이란의 최고지도자 알리 하메네이가 숨졌습니다.
+  경고 [source-missing] war_2: sources 비어 있음 — 이란은 곧바로 호르무즈 해협을 닫았습니다.
+  경고 [source-missing] war_3: sources 비어 있음 — 이란이 허가한 배만 지나갈 수 있었고, 대부분 중국과 인도로 가는 유조선이었습니다.
+  경고 [source-missing] ask_0: sources 비어 있음 (수치 문장) — 3월 15일, 트럼프 대통령은 이 해협으로 석유를 받는 나라들이 직접 지키라고 요구했습니다.
+  경고 [source-missing] ask_1: sources 비어 있음 — 다음 날 독일, 영국, 일본, 호주, 그리고 한국이 이 요구를 거절했습니다.
+  경고 [source-missing] ask_2: sources 비어 있음 — 독일 국방장관은 우리가 시작한 전쟁이 아니라고 말했습니다.
+  경고 [source-missing] ask_3: sources 비어 있음 — 트럼프 대통령은 동맹들의 결정을 매우 어리석은 실수라고 비판했습니다.
+  경고 [source-missing] ask_4: sources 비어 있음 (수치 문장) — 3월 21일, 한국은 영국, 프랑스, 일본 등 일곱 나라의 공동성명에 이름을 올렸습니다.
+  경고 [source-missing] ask_5: sources 비어 있음 — 이란의 공격을 규탄하고, 항행의 자유를 지키는 노력에 함께한다는 내용이었습니다.
+  경고 [source-missing] timeline_0: sources 비어 있음 — 그 뒤 여섯 달 동안 전쟁과 협상이 번갈아 이어졌습니다.
+  경고 [source-missing] timeline_1: sources 비어 있음 (수치 문장) — 4월 7일, 해협을 열기 위한 무력 사용 결의안은 러시아와 중국의 거부권에 막혔습니다.
+  … 경고 25건 더
+
+미디어 후보 — 원고 media 필드 0건
+  트리거 제안 15건: open_1(photo·발표), war_0(clip·공습), timeline_4(clip·공습), review_0(article·보도했습니다), review_1(cutout·초계기), review_3(photo·부대), past_1(photo·부대), past_2(photo·회담), past_3(photo·부대), debate_1(photo·파병), debate_2(photo·파병), debate_3(cutout·미사일) …
+17:50:59 === 끝 ===
+17:51:00 [tui:system] 반려: script_approval → script_draft (e2e 반려 시연 — script_approval 에서 script_draft 로 되돌림)
+17:51:00 [tui:system] state changed: script_approval → script_draft
+17:51:01 reject: script_approval → script_draft
+effective_config {"cmd": "transition", "config": {"schema_version": 1, "command_center": {"worker_slot_count": 4, "heartbeat_timeout_sec": 60, "log_panel_max_lines": 500, "log_router_read_chunk": 1024, "tui_refresh_interval_sec": 0.5}, "logging": {"level": "INFO", "file": "logs/orchestrator.log", "rotate_daily": true, "retention_days": 30}, "paths": {"projects_root": "projects", "python_bin": "python"}, "engine": {"trial": {"width": 854, "height": 480, "fps": 24}, "final": {"width": 1920, "height": 1080, "fps": 24}, "jobs": 4, "crf": 19}, "tts": {"backend_default": "elevenlabs", "edge_voice": "ko-KR-InJoonNeural", "edge_rate": "-3%", "edge_pitch": "-2Hz", "eleven_model_env": "ELEVENLABS_MODEL_ID", "eleven_model_default": "eleven_multilingual_v2", "voice_settings": {"stability": 0.65, "similarity_boost": 0.8, "style": 0.1}, "local_invoke_timeout_sec": 600}, "llm": {"model": "claude-opus-5-5", "invoke_timeout_sec": 600, "script_timeout_sec": 1200}, "commons": {"gap_sec": 15.0, "backoff_base_sec": 60.0, "backoff_max_sec": 600.0, "tries": 6, "standard_widths": [500, 960, 1280, 1600]}, "review_gates": {"require_human_approval": {"script_approval": true, "preview_approval": true}}}, "rules_hash": "235a35346030727ff49b8ff7a6fd5b0187125eaa"}
+상태 전이 완료: hormuz_korea → script_approval
+project_id     : hormuz_korea
+title          : 호르무즈와 한국
+category       : geopolitics
+current_state  : script_approval
+duration_min   : 18
+created_at     : 2026-09-28 08:50:43.001248+00:00
+updated_at     : 2026-09-28 08:51:01.509452+00:00
+state_history  : 7 entries
+17:51:08 === 게이트 화면 script_approval ===
+[게이트 ① 원고 승인] 호르무즈와 한국 — 한국은 왜 파병하지 않았나 (2026.09.26)
+
+장면 목록
+  open       문장  4  예상   16.9초
+  route      문장  4  예상   19.9초
+  war        문장  4  예상   17.4초
+  ask        문장  6  예상   37.3초
+  timeline   문장  6  예상   34.4초
+  cost       문장  2  예상   10.5초
+  review     문장  4  예상   21.8초
+  past       문장  4  예상   21.8초
+  debate     문장  5  예상   27.6초
+  decision   문장  2  예상   10.6초
+  now        문장  4  예상   22.6초
+  합계 45문장 · 예상 240.8초 (plan.json 실측)
+
+원고 전문(자막) · [검증 라벨] (도시어 없음 — 라벨 계산 안 함)
+  open_0       9월 18일, 이재명 대통령이 기자회견을 열었습니다.
+  open_1       전쟁에 개입하는 파병은 하지 않겠다는 발표였습니다.
+  open_2       한국 선박과 국민을 보호하는 최소한의 활동만 이어가겠다고 했습니다.
+  open_3       미국이 동맹국들에 해협 방어를 요구한 지 여섯 달 만에 나온 결론입니다.
+  route_0      호르무즈 해협은 페르시아만에서 먼바다로 나가는 유일한 바닷길입니다.
+  route_1      지난해 한국이 수입한 원유의 61%가 이 해협을 지났습니다.
+  route_2      플라스틱의 원료인 나프타도 54%가 같은 길로 들어왔습니다.
+  route_3      유조선은 해협을 나와 인도양을 건너고, 믈라카 해협을 거쳐 한국 남해안에 닿습니다.
+  war_0        올해 2월 28일, 미국과 이스라엘이 이란을 공습했습니다.
+  war_1        이 공격으로 이란의 최고지도자 알리 하메네이가 숨졌습니다.
+  war_2        이란은 곧바로 호르무즈 해협을 닫았습니다.
+  war_3        이란이 허가한 배만 지나갈 수 있었고, 대부분 중국과 인도로 가는 유조선이었습니다.
+  ask_0        3월 15일, 트럼프 대통령은 이 해협으로 석유를 받는 나라들이 직접 지키라고 요구했습니다.
+  ask_1        다음 날 독일, 영국, 일본, 호주, 그리고 한국이 이 요구를 거절했습니다.
+  ask_2        독일 국방장관은 우리가 시작한 전쟁이 아니라고 말했습니다.
+  ask_3        트럼프 대통령은 동맹들의 결정을 매우 어리석은 실수라고 비판했습니다.
+  ask_4        3월 21일, 한국은 영국, 프랑스, 일본 등 일곱 나라의 공동성명에 이름을 올렸습니다.
+  ask_5        이란의 공격을 규탄하고, 항행의 자유를 지키는 노력에 함께한다는 내용이었습니다.
+  timeline_0   그 뒤 여섯 달 동안 전쟁과 협상이 번갈아 이어졌습니다.
+  timeline_1   4월 7일, 해협을 열기 위한 무력 사용 결의안은 러시아와 중국의 거부권에 막혔습니다.
+  timeline_2   4월 13일, 미국은 이란 항구를 드나드는 배를 막는 해상 봉쇄에 들어갔습니다.
+  timeline_3   6월 17일에는 미국과 이란이 전쟁을 끝내는 양해각서에 서명했습니다.
+  timeline_4   하지만 7월 8일, 해협에서 상선들이 공격받고 미국이 다시 이란을 공습하면서 휴전은 무너졌습니다.
+  timeline_5   8월 25일, 미국은 해협 통항로의 기뢰를 모두 제거했다고 밝혔습니다.
+  cost_0       국제해사기구는 6월 11일까지 선박 공격 46건과 선원 14명의 죽음을 확인했습니다.
+  cost_1       배 천여 척과 선원 2만 명이 걸프 안쪽에 발이 묶였습니다.
+  review_0     9월 초, 국내 방송사들은 정부가 연내 파병을 준비하고 있다고 보도했습니다.
+  review_1     해상초계기와 군수지원함 같은 선택지가 거론됐습니다.
+  review_2     대통령실은 군사적 방안을 포함해 검토하고 있지만, 결정된 것은 없다고 밝혔습니다.
+  review_3     실제로 보낸다면 2009년 청해부대 이후 한반도 밖으로 나가는 첫 해상 파견이 될 수 있었습니다.
+  past_0       한국이 이런 결정을 내려야 했던 것은 처음이 아닙니다.
+  past_1       2004년 노무현 정부는 이라크 아르빌에 자이툰 부대를 보냈습니다.
+  past_2       북핵 6자회담에서 미국의 지지를 지키려는 판단이었지만, 국내 여론은 싸늘했습니다.
+  past_3       2020년에는 청해부대의 작전 구역을 호르무즈까지 넓히되, 지휘권은 한국군이 갖는 방식을 택했습니다.
+  debate_0     9월 7일, 정부는 전투가 격해지고 반대 여론이 커지자 계획을 다시 조정하기 시작했습니다.
+  debate_1     다음 날 서울 미국대사관 근처에서는 대학생들이 파병 반대 집회를 열었습니다.
+  debate_2     파병을 지지하는 쪽은 호르무즈가 곧 한국의 경제 안보라고 말합니다.
+  debate_3     반대하는 쪽은 비전투 부대라도 미사일과 드론이 오가는 곳에서는 표적이 될 수 있다고 봅니다.
+  debate_4     미국의 방공 미사일 재고가 줄고 있다는 점도 반대 논리의 근거가 됐습니다.
+  decision_0   그리고 9월 18일, 이재명 대통령은 전쟁에 들어가는 파병은 없다고 분명히 했습니다.
+  decision_1   대신 분쟁의 주변부에서 한국군이 맡을 역할은 열어 두었습니다.
+  now_0        미군은 호위 작전으로 원유 10억 배럴을 해협 밖으로 내보냈다고 밝혔습니다.
+  now_1        전쟁은 아직 끝나지 않았고, 해협의 통행도 정상으로 돌아오지 않았습니다.
+  now_2        지난해 기준 원유 수입의 61%가 이 해협에 기대고 있다는 사실도 그대로입니다.
+  now_3        청해부대가 어디까지 움직일지, 국회가 이 문제를 어떻게 다룰지는 아직 정해지지 않았습니다.
+
+출처 표
+  open_0       (출처 없음)
+  open_1       (출처 없음)
+  open_2       (출처 없음)
+  open_3       (출처 없음)
+  route_0      (출처 없음)
+  route_1      (출처 없음)
+  route_2      (출처 없음)
+  route_3      (출처 없음)
+  war_0        (출처 없음)
+  war_1        (출처 없음)
+  war_2        (출처 없음)
+  war_3        (출처 없음)
+  ask_0        (출처 없음)
+  ask_1        (출처 없음)
+  ask_2        (출처 없음)
+  ask_3        (출처 없음)
+  ask_4        (출처 없음)
+  ask_5        (출처 없음)
+  timeline_0   (출처 없음)
+  timeline_1   (출처 없음)
+  timeline_2   (출처 없음)
+  timeline_3   (출처 없음)
+  timeline_4   (출처 없음)
+  timeline_5   (출처 없음)
+  cost_0       (출처 없음)
+  cost_1       (출처 없음)
+  review_0     (출처 없음)
+  review_1     (출처 없음)
+  review_2     (출처 없음)
+  review_3     (출처 없음)
+  past_0       (출처 없음)
+  past_1       (출처 없음)
+  past_2       (출처 없음)
+  past_3       (출처 없음)
+  debate_0     (출처 없음)
+  debate_1     (출처 없음)
+  debate_2     (출처 없음)
+  debate_3     (출처 없음)
+  debate_4     (출처 없음)
+  decision_0   (출처 없음)
+  decision_1   (출처 없음)
+  now_0        (출처 없음)
+  now_1        (출처 없음)
+  now_2        (출처 없음)
+  now_3        (출처 없음)
+
+린트 — 오류 0 · 경고 45
+  경고 [source-missing] open_0: sources 비어 있음 (수치 문장) — 9월 18일, 이재명 대통령이 기자회견을 열었습니다.
+  경고 [source-missing] open_1: sources 비어 있음 — 전쟁에 개입하는 파병은 하지 않겠다는 발표였습니다.
+  경고 [source-missing] open_2: sources 비어 있음 — 한국 선박과 국민을 보호하는 최소한의 활동만 이어가겠다고 했습니다.
+  경고 [source-missing] open_3: sources 비어 있음 — 미국이 동맹국들에 해협 방어를 요구한 지 여섯 달 만에 나온 결론입니다.
+  경고 [source-missing] route_0: sources 비어 있음 — 호르무즈 해협은 페르시아만에서 먼바다로 나가는 유일한 바닷길입니다.
+  경고 [source-missing] route_1: sources 비어 있음 (수치 문장) — 지난해 한국이 수입한 원유의 61%가 이 해협을 지났습니다.
+  경고 [source-missing] route_2: sources 비어 있음 (수치 문장) — 플라스틱의 원료인 나프타도 54%가 같은 길로 들어왔습니다.
+  경고 [source-missing] route_3: sources 비어 있음 — 유조선은 해협을 나와 인도양을 건너고, 믈라카 해협을 거쳐 한국 남해안에 닿습니다.
+  경고 [source-missing] war_0: sources 비어 있음 (수치 문장) — 올해 2월 28일, 미국과 이스라엘이 이란을 공습했습니다.
+  경고 [source-missing] war_1: sources 비어 있음 — 이 공격으로 이란의 최고지도자 알리 하메네이가 숨졌습니다.
+  경고 [source-missing] war_2: sources 비어 있음 — 이란은 곧바로 호르무즈 해협을 닫았습니다.
+  경고 [source-missing] war_3: sources 비어 있음 — 이란이 허가한 배만 지나갈 수 있었고, 대부분 중국과 인도로 가는 유조선이었습니다.
+  경고 [source-missing] ask_0: sources 비어 있음 (수치 문장) — 3월 15일, 트럼프 대통령은 이 해협으로 석유를 받는 나라들이 직접 지키라고 요구했습니다.
+  경고 [source-missing] ask_1: sources 비어 있음 — 다음 날 독일, 영국, 일본, 호주, 그리고 한국이 이 요구를 거절했습니다.
+  경고 [source-missing] ask_2: sources 비어 있음 — 독일 국방장관은 우리가 시작한 전쟁이 아니라고 말했습니다.
+  경고 [source-missing] ask_3: sources 비어 있음 — 트럼프 대통령은 동맹들의 결정을 매우 어리석은 실수라고 비판했습니다.
+  경고 [source-missing] ask_4: sources 비어 있음 (수치 문장) — 3월 21일, 한국은 영국, 프랑스, 일본 등 일곱 나라의 공동성명에 이름을 올렸습니다.
+  경고 [source-missing] ask_5: sources 비어 있음 — 이란의 공격을 규탄하고, 항행의 자유를 지키는 노력에 함께한다는 내용이었습니다.
+  경고 [source-missing] timeline_0: sources 비어 있음 — 그 뒤 여섯 달 동안 전쟁과 협상이 번갈아 이어졌습니다.
+  경고 [source-missing] timeline_1: sources 비어 있음 (수치 문장) — 4월 7일, 해협을 열기 위한 무력 사용 결의안은 러시아와 중국의 거부권에 막혔습니다.
+  … 경고 25건 더
+
+미디어 후보 — 원고 media 필드 0건
+  트리거 제안 15건: open_1(photo·발표), war_0(clip·공습), timeline_4(clip·공습), review_0(article·보도했습니다), review_1(cutout·초계기), review_3(photo·부대), past_1(photo·부대), past_2(photo·회담), past_3(photo·부대), debate_1(photo·파병), debate_2(photo·파병), debate_3(cutout·미사일) …
+17:51:08 === 끝 ===
+17:51:16 [tui:system] 승인: script_approval → voice_timeline
+17:51:16 [tui:system] state changed: script_approval → voice_timeline
+17:51:17 approve: script_approval → voice_timeline
+17:51:17 [tui:system] advance: voice_timeline
+17:51:28 [tui:system] StageResult plan ok=True drops=0 errors=[]
+17:51:28 [tui:system] state → assets
+17:51:28 [tui:system] state changed: voice_timeline → assets
+17:51:29 advance: voice_timeline → assets
+17:51:29 [tui:system] advance: assets
+17:51:49 [tui:system] StageResult geo ok=True drops=0 errors=[]
+17:51:49 [tui:system] state → direction
+17:51:49 [tui:system] state changed: assets → direction
+17:51:49 advance: assets → direction
+17:51:49 [tui:system] advance: direction
+17:51:56 [tui:system] StageResult lint ok=True drops=0 errors=[]
+17:51:56 [tui:system] state → preview_qa
+17:51:56 [tui:system] state changed: direction → preview_qa
+17:51:57 advance: direction → preview_qa
+17:51:57 [tui:system] advance: preview_qa
+17:52:07 [tui:system] StageResult preview ok=True drops=0 errors=[]
+17:52:07 [tui:system] state → preview_approval
+17:52:07 [tui:system] state changed: preview_qa → preview_approval
+17:52:07 advance: preview_qa → preview_approval
+17:52:07 === 게이트 화면 preview_approval ===
+[게이트 ② 프리뷰 승인]
+
+컨택트 시트  /home/user/osint_generator/projects/hormuz_korea/prev/sheet.jpg
+프리뷰 컷    24장  p_0008.62.png … p_0286.44.png
+예상 러닝타임 4분 52.4초 (292.441초, 목소리 edge-tts ko-KR-InJoonNeural)
+
+provenance 요약 (prev/provenance.json)
+  stages      {"plan": true, "geo": true, "preview": true, "render": false, "mix": false, "mux": false, "ai_direction": false, "visual_qa": false}
+  카메라 이동 5 · dip 4 · 뱃지 8 · 카드 7
+  패널        relation, statement, timeline, precedent, versus
+  미디어      {"clip": 2, "photo": 2, "cutout": 1, "article": 2}
+  drops       0건 · 연출 경고 0건
+  rules_hash  235a35346030
+
+AI 검수 잔여 이슈  (6.9 — 시각 검수 워커 전)
+17:52:07 === 끝 ===
+17:52:08 [tui:system] 반려: preview_approval → direction (e2e 반려 시연 — preview_approval 에서 direction 로 되돌림)
+17:52:08 [tui:system] state changed: preview_approval → direction
+17:52:10 reject: preview_approval → direction
+17:52:10 [tui:system] advance: direction
+17:52:16 [tui:system] StageResult lint ok=True drops=0 errors=[]
+17:52:16 [tui:system] state → preview_qa
+17:52:17 [tui:system] state changed: direction → preview_qa
+17:52:18 advance: direction → preview_qa
+17:52:18 [tui:system] advance: preview_qa
+17:52:28 [tui:system] StageResult preview ok=True drops=0 errors=[]
+17:52:28 [tui:system] state → preview_approval
+17:52:29 [tui:system] state changed: preview_qa → preview_approval
+17:52:30 advance: preview_qa → preview_approval
+17:52:30 === 게이트 화면 preview_approval ===
+[게이트 ② 프리뷰 승인]
+
+컨택트 시트  /home/user/osint_generator/projects/hormuz_korea/prev/sheet.jpg
+프리뷰 컷    24장  p_0008.62.png … p_0286.44.png
+예상 러닝타임 4분 52.4초 (292.441초, 목소리 edge-tts ko-KR-InJoonNeural)
+
+provenance 요약 (prev/provenance.json)
+  stages      {"plan": true, "geo": true, "preview": true, "render": false, "mix": false, "mux": false, "ai_direction": false, "visual_qa": false}
+  카메라 이동 5 · dip 4 · 뱃지 8 · 카드 7
+  패널        relation, statement, timeline, precedent, versus
+  미디어      {"clip": 2, "photo": 2, "cutout": 1, "article": 2}
+  drops       0건 · 연출 경고 0건
+  rules_hash  235a35346030
+
+AI 검수 잔여 이슈  (6.9 — 시각 검수 워커 전)
+17:52:30 === 끝 ===
+17:52:30 [tui:system] 승인: preview_approval → render
+17:52:30 [tui:system] state changed: preview_approval → render
+17:52:31 approve: preview_approval → render
+17:52:31 [tui:system] advance: render
+17:55:36 [tui:system] StageResult render ok=True drops=0 errors=[]
+17:55:36 [tui:system] state → audio_mix
+17:55:36 [tui:system] state changed: render → audio_mix
+17:55:36 advance: render → audio_mix
+17:55:36 [tui:system] advance: audio_mix
+17:56:21 [tui:system] StageResult mix ok=True drops=0 errors=[]
+17:56:21 [tui:system] state → deliver
+17:56:21 [tui:system] state changed: audio_mix → deliver
+17:56:23 advance: audio_mix → deliver
+17:56:23 [tui:system] advance: deliver
+17:56:57 [tui:system] StageResult mux ok=True drops=0 errors=[]
+17:56:57 [tui:system] state → done
+17:56:58 [tui:system] state changed: deliver → done
+17:56:59 advance: deliver → done
+17:56:59 e2e: done
+EXIT 0

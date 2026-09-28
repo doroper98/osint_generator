@@ -1,0 +1,8 @@
+Mon Sep 28 08:46:14 UTC 2026
+{"ok": true, "stage": "render", "artifacts": {"video_noaudio": "/home/user/osint_generator/projects/hormuz_korea/out/video_noaudio.mp4"}, "provenance": null, "drops": [], "errors": [], "warnings": []}
+{"ok": true, "stage": "mix", "artifacts": {"mix": "/home/user/osint_generator/projects/hormuz_korea/out/mix.f32"}, "provenance": null, "drops": [], "errors": [], "warnings": []}
+{"ok": true, "stage": "mux", "artifacts": {"final": "/home/user/osint_generator/projects/hormuz_korea/out/final.mp4", "srt": "/home/user/osint_generator/projects/hormuz_korea/out/final.srt", "descript
+003df086a1d6627cbdcfd3c773ffb0b2  projects/hormuz_korea/out/final.mp4
+036c61208c5b1c609da9caeec75e3d3f  projects/hormuz_korea/out/video_noaudio.mp4
+c1314fb98d086dc116d7475562ca2c07  projects/hormuz_korea/out/mix.f32
+Mon Sep 28 08:50:26 UTC 2026
