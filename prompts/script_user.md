@@ -1,6 +1,6 @@
 <!--
 tier: 2
-last_synced_with: v2.0.0
+last_synced_with: v3.0.0
 ssot_for: [prompt-script_user]
 depends_on: [rules/video_rules.yaml, docs/handoff/15_ANTI_INERTIA_PRINCIPLES.md]
 last_review: 2026-09-27
@@ -17,16 +17,15 @@ target_duration_min: {duration}
 ------------------
 {summary}
 
-주장 목록 (claim_id 로 인용 — status/label 을 대본 라벨에 반영)
---------------------------------------------------------------
+주장 목록 (문장 sources 에 claim_id 로 인용)
+-------------------------------------------
 {claims}
 
 지시
 ----
-위 도시어를 바탕으로 FullScript JSON 을 생성하십시오.
-- project_id, target_duration_min 은 위 값 그대로 사용.
-- chapters 3~6개, 챕터당 segments 2~6개.
-- 각 segment 의 claim_refs 는 위 주장 목록의 claim_id 만 인용.
-- confirmed 가 아닌 claim 을 말하는 segment 는 label 에 해당 라벨을 박고
-  단정적 표현을 피한다 (<미검증>/<추론>/<주장>/<반박됨>).
+위 도시어를 바탕으로 Script JSON 을 생성하십시오.
+- 장면 수·길이는 자유. 목표 길이(target_duration_min)는 참고만 합니다.
+- 각 문장의 sources 는 위 주장 목록의 claim_id 만 인용합니다. 목록에 없는 id 는 거부됩니다.
+- 검증 라벨(<미검증> 등)은 쓰지 않습니다 — 시스템이 status 로 계산합니다.
+  confirmed 가 아닌 claim 을 말하는 문장은 단정적 표현을 피합니다.
 - 출력은 JSON 한 객체. 자연어/설명/markdown fence 일체 금지.

@@ -19,7 +19,6 @@ from __future__ import annotations
 import re
 from typing import NamedTuple
 
-from schemas.models import FullScript
 
 
 class LintIssue(NamedTuple):
@@ -92,13 +91,4 @@ def lint_narration(text: str) -> list[LintIssue]:
     return issues
 
 
-def lint_full_script(script: FullScript) -> list[tuple[str, LintIssue]]:
-    """FullScript 의 모든 segment.narration 을 검사. [(segment_id, issue), ...]."""
-    out: list[tuple[str, LintIssue]] = []
-    for seg in script.segments:
-        for issue in lint_narration(seg.narration):
-            out.append((seg.segment_id, issue))
-    return out
-
-
-__all__ = ["LintIssue", "lint_narration", "lint_full_script"]
+__all__ = ["LintIssue", "lint_narration"]

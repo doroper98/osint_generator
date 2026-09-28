@@ -51,7 +51,9 @@ class WorkerPromptFilesTest(unittest.TestCase):
         # G4-13: 고정 길이(4~6분) 제한 문단 삭제 (docs/handoff/19 §5.5)
         text = ScriptWorker().system_prompt()
         self.assertNotIn("4~6분", text)
-        self.assertIn("FullScript JSON 스키마", text)
+        self.assertIn("Script JSON 스키마", text)
+        self.assertNotIn("FullScript", text)
+        self.assertNotIn("{{", text)   # 규칙 자리표시 전부 치환(P3)
 
     def test_category_guidance_from_yaml(self) -> None:
         self.assertIn("geopolitics", CATEGORY_GUIDANCE)

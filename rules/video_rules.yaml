@@ -53,6 +53,16 @@ script_schema:             # 02 §2.1 요약 — 프롬프트 예시는 tests/an
   subtitle_wrap_px_480p: 700
   scene_count: free        # 고정 막 금지(G4-13)
   duration_limit_sec: null # 길이 제한 없음
+  # v3.0.0(back_and_forth D-0043, D42) — 문장 검증 라벨은 코드가 도시어 claim status 로 계산한다(15 P8).
+  # 문장 sources = 도시어 claim_id. 한 문장이 여러 claim 을 인용하면 가장 약한 status(strength_order 앞쪽)가 라벨.
+  # 키는 도시어 ResearchClaimStatus 값(confirmed 는 라벨 없음). 영상 렌더 표기는 6.95(18).
+  labels:
+    confirmed: null
+    inferred: "<추론>"
+    claim: "<주장>"
+    unverified: "<미검증>"
+    disputed: "<반박됨>"
+  label_strength_order: [disputed, unverified, claim, inferred, confirmed]
 
 tts_rules:                 # 03 §4·§5
   forbidden_chars_regex: '[0-9%~/:→()\[\]]'

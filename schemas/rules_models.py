@@ -33,6 +33,14 @@ class ScriptSchemaRules(_Strict):
     subtitle_wrap_px_480p: int
     scene_count: Literal["free"]
     duration_limit_sec: Optional[float]
+    labels: dict[str, Optional[str]]          # v3.0.0 — 도시어 claim status → 라벨 문구(D-0043)
+    label_strength_order: list[str]           # 약한 것부터(한 문장에 여러 claim 이면 가장 약한 것)
+
+    @model_validator(mode="after")
+    def _label_keys(self) -> "ScriptSchemaRules":
+        if set(self.labels) != set(self.label_strength_order) or len(self.label_strength_order) != len(set(self.label_strength_order)):
+            raise ValueError("script_schema.labels 키와 label_strength_order 가 같은 집합이어야 한다")
+        return self
 
 
 class TTSRules(_Strict):

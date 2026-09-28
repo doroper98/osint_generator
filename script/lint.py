@@ -13,7 +13,8 @@
 - subtitle-lines: 자막이 script_schema.subtitle_max_lines 줄을 넘음(렌더러와 같은 글꼴·폭으로 실측 wrap)
 
 CLI (v3.0.0, 16 §4 `direction_validate` 의 6.9 전 대체 — D-0040 작업 4):
-    python -m script.lint <proj>   → script.yaml 을 Script 로 로드 + 린트, 마지막 줄 StageResult JSON
+    python -m script.lint <proj>   → script.yaml 을 Script 로 로드 + 린트 + 검증 라벨 재계산·대조(D-0043),
+                                     마지막 줄 StageResult JSON
 """
 
 from __future__ import annotations
@@ -32,6 +33,7 @@ from rules import load_rules
 from script.schema import Script
 
 Severity = Literal["error", "warning"]
+NUMERIC = re.compile(r"\d")   # 숫자·날짜가 있는 자막 문장
 
 
 class LintIssue(BaseModel):
@@ -94,8 +96,8 @@ def lint(script: Script) -> LintReport:
                 for e in s.emphasis:
                     if e not in s.text:
                         add("emphasis-missing", "error", e)
-            if not s.sources:
-                add("source-missing", "warning", "sources 비어 있음")
+            if not s.sources:   # D-0029 §3 경고 유지(6.95 에서 오류 격상). 수치 문장은 표시(D-0043 §5)
+                add("source-missing", "warning", "sources 비어 있음" + (" (수치 문장)" if NUMERIC.search(s.text) else ""))
             n = subtitle_lines(s.text)
             if n > max_lines:
                 add("subtitle-lines", "warning", f"{n}줄 > {max_lines}")
@@ -112,9 +114,16 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("proj", type=Path)
     args = ap.parse_args(argv)
     path = args.proj.resolve() / "script.yaml"
+    from script.labels import check_project_labels  # noqa: PLC0415
+
     try:
-        rep = lint(Script.model_validate(yaml.safe_load(path.read_text(encoding="utf-8"))))
-        res = StageResult(ok=not rep.errors, stage="lint", artifacts={"script": str(path)},
+        script = Script.model_validate(yaml.safe_load(path.read_text(encoding="utf-8")))
+        rep = lint(script)
+        labels = check_project_labels(path.parent, script)   # 도시어가 있으면 라벨 재계산·대조(D-0043 §3)
+        arts = {"script": str(path)}
+        if labels is not None:
+            arts["label_counts"] = json.dumps(labels.counts(), ensure_ascii=False)
+        res = StageResult(ok=not rep.errors, stage="lint", artifacts=arts,
                           errors=[i.line() for i in rep.errors], warnings=[i.line() for i in rep.warnings])
     except (OSError, ValueError, ValidationError, yaml.YAMLError) as ex:
         res = StageResult(ok=False, stage="lint", errors=[f"{path}: {ex}"])

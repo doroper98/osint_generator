@@ -9,8 +9,7 @@ from __future__ import annotations
 
 import unittest
 
-from orchestrator.tts_lint import lint_full_script, lint_narration
-from schemas.models import FullScript, ScriptSegment
+from orchestrator.tts_lint import lint_narration
 
 
 class TestLintNarration(unittest.TestCase):
@@ -53,20 +52,6 @@ class TestLintNarration(unittest.TestCase):
     def test_symbols_flagged(self) -> None:
         self.assertIn("symbols", {i.category for i in lint_narration("※ 참고: 중요합니다.")})
 
-    def test_lint_full_script(self) -> None:
-        script = FullScript(
-            project_id="p",
-            segments=[
-                ScriptSegment(segment_id="seg_01", chapter_id="c1",
-                              narration="규모 7.4 지진이 확인됐습니다."),
-                ScriptSegment(segment_id="seg_02", chapter_id="c1",
-                              narration="USGS가 09:30에 발표."),
-            ],
-        )
-        hits = lint_full_script(script)
-        seg_ids = {sid for sid, _ in hits}
-        self.assertIn("seg_02", seg_ids)
-        self.assertNotIn("seg_01", seg_ids)  # 깨끗한 세그먼트는 안 잡힘
 
 
 if __name__ == "__main__":

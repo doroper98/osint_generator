@@ -3,7 +3,7 @@
 agents_reviewer CHART-AP-44(프롬프트가 가르친 모양을 검증기가 100% 무경고 드롭) 재발 방지.
 `prompts/*.md` 의 ```yaml / ```json 예시 블록을 추출해 **그 프롬프트를 쓰는 워커가 실제로 검증하는 모델**로 파싱한다.
 
-v2.3.0(back_and_forth D-0025, DECISIONS D33): script 는 ScriptWorker 의 `response_model`인 FullScript 로 검사한다.
+v2.3.0(D33) → v3.0.0(D-0040 작업 5): script 는 ScriptWorker 의 `response_model`인 `script.schema:Script` 로 검사한다.
 research·director·visual_qa 는 모델과 예시가 Phase 6.9 에 생긴다 — 그때까지 `PENDING_6_9`에 두고, 모델이 아직
 없음을 확인하는 테스트로 "생기면 옮기라"를 강제한다(생기는 순간 실패).
 """
@@ -21,8 +21,8 @@ from tests.anti_inertia._ast_util import REPO
 
 # 프롬프트 이름 → "모듈:모델" (docs/handoff/17 §5 프롬프트 5종)
 ACTIVE: dict[str, str] = {
-    # Phase 6.8 ScriptWorker→Script 전환 시 `script.schema:Script`로 바꾼다
-    "script": "schemas.models:FullScript",
+    # v3.0.0 ScriptWorker→Script 전환 완료(D33 예고, D-0040 작업 5)
+    "script": "script.schema:Script",
 }
 PENDING_6_9: dict[str, str] = {
     "director": "engine.direction:Direction",
@@ -60,11 +60,7 @@ class PromptSchemaParityTest(unittest.TestCase):
         from script.schema import Script  # noqa: PLC0415
 
         for data in examples("script"):
-            assert isinstance(data, dict)
-            sents = [{"date": "2026.09.18", "text": s["narration"], "sources": ["예시"]} for s in data["segments"]]
-            script = Script.model_validate({"title": data["title"], "subtitle": data["topic"], "date": "2026.09.18",
-                                            "scenes": [{"id": "example", "sentences": sents}]})
-            self.assertEqual([i.line() for i in lint(script).errors], [])
+            self.assertEqual([i.line() for i in lint(Script.model_validate(data)).errors], [])
 
     def test_pending_models_not_yet_defined(self) -> None:
         for name, ref in PENDING_6_9.items():

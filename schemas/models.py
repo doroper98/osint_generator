@@ -577,58 +577,8 @@ class ResearchDossier(VersionedModel):
     open_questions: list[str] = Field(default_factory=list)
 
 
-# ---------------------------------------------------------------------------
-# 7.7 FullScript (Phase 6 Script, Script Agent 산출)
-# ---------------------------------------------------------------------------
-
-
-class ScriptChapter(BaseModel):
-    """대본 챕터(서사 단위). full_script 의 segments 를 그룹핑한다."""
-
-    model_config = ConfigDict(extra="forbid", use_enum_values=True)
-
-    chapter_id: str
-    title: str
-    summary: str = ""
-
-
-class ScriptSegment(BaseModel):
-    """나레이션 1세그먼트. TTS 가 읽는 최소 단위이자 scene 매핑의 기준.
-
-    label 은 ResearchClaim.display_label 에서 유래하는 영상 표기 라벨
-    (`<미검증>` 등). 미검증/추론/주장/반박 항목을 화면에서 분리하기 위함
-    (docs/06 §6, GOAL G4 — 미검증 정보는 라벨로만, 제목/썸네일 금지).
-    """
-
-    model_config = ConfigDict(extra="forbid", use_enum_values=True)
-
-    segment_id: str
-    chapter_id: str
-    narration: str
-    on_screen_caption: str = ""
-    claim_refs: list[str] = Field(default_factory=list)
-    label: Optional[str] = None
-    est_duration_sec: float = 0.0
-
-
-class FullScript(VersionedModel):
-    """Script Agent (ScriptWorker) 산출. research_dossier → 영상 대본.
-
-    승인 게이트 `script_approval`(16 §5) 입력이며, Scene Planner(다음
-    단계)의 입력이 된다. 스키마 추가는 optional 모델 추가에 해당해 schema_version
-    1 유지 (C3).
-    """
-
-    project_id: str
-    generated_at: datetime = Field(default_factory=utc_now)
-    title: str = ""
-    topic: str = ""
-    target_duration_min: int = Field(default=8, ge=3, le=20)
-    chapters: list[ScriptChapter] = Field(default_factory=list)
-    segments: list[ScriptSegment] = Field(default_factory=list)
-    total_est_duration_sec: float = 0.0
-
-
+# (v3.0.0 삭제) 7.7 FullScript·ScriptChapter·ScriptSegment — 원고 정본은 script/schema.py:Script(script.yaml,
+# docs/handoff/02 §2.1). 검증 라벨은 script/labels.py 가 도시어 status 로 계산(D-0040 작업 5, D-0043).
 # (v2.0.0 삭제) 7.8 RenderProps · 7.9 AudioManifest · 8. SceneManifest · 9. RemotionJob — 옛 장면 1:1·Remotion
 # 렌더 경로 모델. 원본은 archive/hyperframes-briefing. 대체 계약은 docs/handoff/02 §2, 16 §4 (Phase 2·6.8).
 

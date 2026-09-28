@@ -16,7 +16,7 @@
 - import-bundle {pid} --file <path>          : agents_reviewer report_bundle.json →
                                               research_dossier.json + research
                                               전이 (외부 연동, build-research-dossier 대체)
-- build-script {pid} [--backend]            : ScriptWorker 호출 → full_script.json
+- build-script {pid} [--backend]            : ScriptWorker 호출 → script.yaml + script_labels.json
                                               + script_draft 전이 (Phase 6 Script)
 - build-scene / render-debug / build-audio / build-audio-demo
                                             : v2.0.0 에서 삭제 — LegacyRemovedError (docs/handoff/16 §4)
@@ -184,7 +184,7 @@ def build_parser() -> argparse.ArgumentParser:
     bsc = sub.add_parser(
         "build-script",
         help=(
-            "ScriptWorker 호출 → full_script.json 생성 후 script_draft 전이 "
+            "ScriptWorker 호출 → script.yaml·script_labels.json 생성 후 script_draft 전이 "
             "(Phase 6 Script, blueprint 흡수)"
         ),
     )
@@ -195,7 +195,7 @@ def build_parser() -> argparse.ArgumentParser:
     )
     bsc.add_argument(
         "--force", action="store_true",
-        help="유효한 full_script.json 이 있어도 worker 재실행 (기본은 idempotent skip).",
+        help="유효한 script.yaml 이 있어도 worker 재실행 (기본은 idempotent skip).",
     )
 
     # v2.0.0 삭제된 옛 영상 경로 — 서브커맨드는 남겨 시끄럽게 실패시킨다 (docs/handoff/15 P6).
@@ -211,12 +211,12 @@ def build_parser() -> argparse.ArgumentParser:
 
     lsc = sub.add_parser(
         "lint-script",
-        help="full_script narration 의 TTS-위험 표기(약어/기호/단위/URL 등) 검사",
+        help="script.yaml 원고 린트(script.lint — 금지 문구·발음 기호·강조어·출처·검증 라벨)",
     )
     lsc.add_argument("project_id", help="project_id")
     lsc.add_argument(
         "--strict", action="store_true",
-        help="위험 표기가 하나라도 있으면 exit 1 (CI 게이트용).",
+        help="경고가 하나라도 있으면 exit 1 (CI 게이트용). 오류는 항상 exit 1.",
     )
 
     adv = sub.add_parser("advance", help="현재 엔진 상태의 단계를 돌리고 ok 면 다음 상태로 (v3.0.0, 16 §4)")
@@ -750,62 +750,50 @@ def _cmd_build_script(args: argparse.Namespace) -> int:
         return 2
 
     if skipped:
-        print("build-script: 기존 full_script.json 재사용 — worker 건너뜀 (재실행 원하면 --force).")
+        print("build-script: 기존 script.yaml 재사용 — worker 건너뜀 (재실행 원하면 --force).")
     print(f"build-script 완료: {args.project_id} (backend={args.backend}, skipped={skipped})")
     print(f"outputs : {outputs_summary}")
-    _print_tts_lint_summary(args.project_id)
+    _print_script_lint_summary(args.project_id)
     _print_manifest_summary(manifest)
     return 0
 
 
-def _print_tts_lint_summary(project_id: str) -> None:
-    """생성된 full_script narration 의 TTS-위험 표기를 검사해 경고 출력 (재발 방지)."""
-    from orchestrator.script_io import load_full_script
-    from orchestrator.tts_lint import lint_full_script
+def _script_lint(project_id: str):  # noqa: ANN202 — StageResult
+    """원고 린트는 엔진 CLI `script.lint`(engine_service direction_validate, v3.0.0). 금지 문구·발음 기호·강조어·출처·라벨."""
+    from orchestrator.config import project_dir
+    from orchestrator.engine_service import run_stage
 
-    try:
-        script = load_full_script(project_id)
-    except (FileNotFoundError, json.JSONDecodeError, ValueError):
-        return
-    issues = lint_full_script(script)
-    if not issues:
-        print("TTS-lint : narration 깨끗 (위험 표기 없음)")
-        return
-    print(f"TTS-lint : 경고 {len(issues)}건 — narration 에 TTS 가 어색하게 읽을 표기:")
-    for seg_id, issue in issues[:20]:
-        print(f"  - [{seg_id}] {issue.category}: {issue.snippet!r} → {issue.hint}")
-    if len(issues) > 20:
-        print(f"  ... 외 {len(issues) - 20}건. `lint-script {project_id}` 로 전체 확인.")
+    return run_stage(project_dir(project_id), "direction_validate")
+
+
+def _print_script_lint_summary(project_id: str) -> None:
+    """생성된 원고를 script.lint 로 검사해 요약 출력 (재발 방지)."""
+    res = _script_lint(project_id)
+    print(f"script-lint : 오류 {len(res.errors)} · 경고 {len(res.warnings)}")
+    for line in (res.errors + res.warnings)[:20]:
+        print(f"  - {line}")
+    if len(res.errors) + len(res.warnings) > 20:
+        print(f"  ... `lint-script {project_id}` 로 전체 확인.")
 
 
 def _cmd_lint_script(args: argparse.Namespace) -> int:
-    """lint-script: full_script narration 의 TTS-위험 표기 리포트. --strict 면 issue 시 exit 1."""
+    """lint-script: script.yaml 린트 리포트(script.lint CLI). 오류면 exit 1, --strict 면 경고도 exit 1."""
     from orchestrator.project_manager import validate_project_id
-    from orchestrator.script_io import load_full_script
-    from orchestrator.tts_lint import lint_full_script
 
     try:
         validate_project_id(args.project_id)
     except ValueError as e:
         print(f"error: {e}", file=sys.stderr)
         return 1
-    try:
-        script = load_full_script(args.project_id)
-    except FileNotFoundError as e:
-        print(f"error: {e}", file=sys.stderr)
+    res = _script_lint(args.project_id)
+    print(f"lint-script: {args.project_id} — 오류 {len(res.errors)} · 경고 {len(res.warnings)}")
+    for line in res.errors:
+        print(f"  오류 {line}")
+    for line in res.warnings:
+        print(f"  경고 {line}")
+    if not res.ok:
         return 1
-    except (json.JSONDecodeError, ValueError) as e:
-        print(f"error: full_script 파싱 실패 — {e}", file=sys.stderr)
-        return 1
-
-    issues = lint_full_script(script)
-    if not issues:
-        print(f"lint-script: {args.project_id} narration 깨끗 (위험 표기 0건).")
-        return 0
-    print(f"lint-script: {args.project_id} — TTS-위험 표기 {len(issues)}건")
-    for seg_id, issue in issues:
-        print(f"  [{seg_id}] {issue.category}: {issue.snippet!r}\n      → {issue.hint}")
-    return 1 if args.strict else 0
+    return 1 if (args.strict and res.warnings) else 0
 
 
 def manifest_sources_path(project_id: str) -> Path:

@@ -10,10 +10,14 @@ import argparse
 import json
 from typing import Optional
 
+import yaml
+
 from orchestrator.config import AppConfig, load_config
 from orchestrator.project_manager import resume_project, transition_state
-from orchestrator.script_io import full_script_path, load_full_script
-from schemas.models import FullScript, ProjectManifest, ProjectState, TaskQueueItem
+from orchestrator.config import project_dir
+from orchestrator.script_io import load_script, script_path
+from schemas.models import ProjectManifest, ProjectState, TaskQueueItem
+from script.labels import check_project_labels
 
 
 class ScriptError(RuntimeError):
@@ -41,9 +45,9 @@ def run_script_worker(
     """build-script 전체 흐름.
 
     1. precondition: research.
-    2. 유효한 기존 full_script.json + force 미지정이면 worker skip.
+    2. 유효한 기존 script.yaml(+ 라벨 일치) + force 미지정이면 worker skip.
     3. 합성 TaskQueueItem + worker.run() + write_result.
-    4. worker 성공 시 디스크 full_script 검증(전이 게이트).
+    4. worker 성공 시 디스크 script.yaml·script_labels.json 검증(전이 게이트).
     5. research → script_draft 전이.
 
     returns: (manifest, outputs, skipped). raises: FileNotFoundError / ScriptError / ValueError.
@@ -61,18 +65,18 @@ def run_script_worker(
             kind="state",
         )
 
-    script_path = full_script_path(project_id, cfg)
+    spath = script_path(project_id, cfg)
 
     skipped = False
-    if script_path.exists() and not force:
-        try:
-            FullScript.model_validate_json(script_path.read_text(encoding="utf-8"))
+    if spath.exists() and not force:
+        try:   # 유효한 원고 + 라벨이 도시어와 일치할 때만 재사용(D-0043 §3)
+            check_project_labels(project_dir(project_id, cfg), load_script(project_id, cfg))
             skipped = True
-        except (json.JSONDecodeError, ValueError):
+        except (json.JSONDecodeError, ValueError, yaml.YAMLError):
             skipped = False
 
     if skipped:
-        outputs = [str(script_path)]
+        outputs = [str(spath)]
     else:
         task_id = f"script-{project_id}"
         task = TaskQueueItem(
@@ -81,7 +85,7 @@ def run_script_worker(
             assigned_worker="script",
             description="ScriptWorker 1회 실행",
             input_refs=["04_research/research_dossier.json", "project_manifest.json"],
-            output_refs=["05_script/full_script.json"],
+            output_refs=["script.yaml", "script_labels.json"],
         )
         worker = ScriptWorker()
         worker.llm_backend = backend
@@ -104,16 +108,16 @@ def run_script_worker(
         outputs = list(result.outputs)
 
         try:
-            load_full_script(project_id, cfg)
-        except (FileNotFoundError, json.JSONDecodeError, ValueError) as e:
+            check_project_labels(project_dir(project_id, cfg), load_script(project_id, cfg))
+        except (FileNotFoundError, json.JSONDecodeError, ValueError, yaml.YAMLError) as e:
             raise ScriptError(
-                f"full_script.json 영속화 검증 실패: {e}", kind="persist"
+                f"script.yaml·script_labels.json 영속화 검증 실패: {e}", kind="persist"
             ) from e
 
     manifest = transition_state(
         manifest,
         ProjectState.SCRIPT_DRAFT,
-        reason="ScriptWorker 성공" if not skipped else "기존 full_script.json 재사용",
+        reason="ScriptWorker 성공" if not skipped else "기존 script.yaml 재사용",
         cfg=cfg,
     )
     return manifest, outputs, skipped

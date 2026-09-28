@@ -17,6 +17,7 @@ import yaml
 
 from orchestrator import engine_service
 from schemas.models import ProjectState
+from script.labels import check_project_labels
 from script.media_suggest import suggest_media
 from script.schema import Plan, Script
 
@@ -49,13 +50,19 @@ def script_gate_view(pdir: Path, runner: Callable = subprocess.run) -> tuple[str
         lines.append(f"  {scene.id:<10} 문장 {len(scene.sentences):>2}  예상 {est:6.1f}초")
     lines.append(f"  합계 {sum(len(s.sentences) for s in sc.scenes)}문장 · 예상 {total:.1f}초"
                  + (" (plan.json 실측)" if plan else f" (글자 수 추정 {CHARS_PER_MIN}자/분)"))
-    lines += ["", "원고 전문(자막)"]
+    try:   # 검증 라벨 — 코드가 도시어 status 로 계산(D-0043). 불일치는 화면에 오류로
+        labels = check_project_labels(pdir, sc)
+        label_note = "" if labels is not None else " (도시어 없음 — 라벨 계산 안 함)"
+    except ValueError as e:
+        labels, label_note = None, f" — 라벨 오류: {e}"
+    lines += ["", "원고 전문(자막) · [검증 라벨]" + label_note]
     src_rows: list[str] = []
     media_rows: list[str] = []
     for scene in sc.scenes:
         for k, s in enumerate(scene.sentences):
             sid = f"{scene.id}_{k}"
-            lines.append(f"  {sid:<12} {s.text}")
+            lab = labels.labels[sid].label if labels is not None else None
+            lines.append(f"  {sid:<12} {s.text}" + (f"  [{lab}]" if lab else ""))
             src_rows.append(f"  {sid:<12} {', '.join(s.sources) if s.sources else '(출처 없음)'}")
             if s.media is not None:
                 ref = s.media.asset_id or f"검색어 {s.media.query!r}"
@@ -73,6 +80,8 @@ def script_gate_view(pdir: Path, runner: Callable = subprocess.run) -> tuple[str
                      + (" …" if len(sug) > 12 else ""))
     else:
         lines.append("  트리거 제안 — plan.json 이 생기면(voice_timeline 뒤) 표시")
+    if labels is not None:
+        lines += ["", "검증 라벨 집계 " + json.dumps(labels.counts(), ensure_ascii=False)]
     shown = {"script": str(pdir / "script.yaml"), "lint_errors": str(len(lint.errors)),
              "lint_warnings": str(len(lint.warnings)), "est_sec": f"{total:.1f}"}
     return "\n".join(lines), shown

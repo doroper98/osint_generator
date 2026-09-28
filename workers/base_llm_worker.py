@@ -42,7 +42,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import ClassVar, Literal, Optional, Type
 
-from pydantic import ValidationError
+from pydantic import BaseModel, ValidationError
 
 from schemas.models import (
     LLMCallRecord,
@@ -223,7 +223,7 @@ class BaseLLMWorker(BaseWorker):
     # (docs/handoff/15 P3, tests/anti_inertia/test_prompts_from_files). 빈 문자열이면 system
     # prompt 없음(테스트 픽스처 전용).
     prompt_name: ClassVar[str] = ""
-    response_model: ClassVar[Type[VersionedModel]]
+    response_model: ClassVar[Type[BaseModel]]   # v3.0.0 — schema_version 을 가진 모델(VersionedModel 또는 script.schema:Script)
     # v2.0.0: 타임아웃 값은 config.yaml `llm.<키>` 한 곳에서 온다 (docs/handoff/15 P3).
     # 하위 클래스는 키 이름만 바꾼다 (예: ScriptWorker → "script_timeout_sec").
     invoke_timeout_key: ClassVar[Literal["invoke_timeout_sec", "script_timeout_sec"]] = "invoke_timeout_sec"
@@ -245,6 +245,16 @@ class BaseLLMWorker(BaseWorker):
     @abstractmethod
     def build_user_prompt(self, args: argparse.Namespace, task: TaskQueueItem) -> str:
         """task 와 입력 데이터로 user prompt 를 구성합니다."""
+
+    def check_parsed(self, args: argparse.Namespace, task: TaskQueueItem, parsed: BaseModel) -> None:
+        """스키마 검증 뒤 추가 계약 검사(v3.0.0). 위반은 ValueError — validation_failed 로 기록, 출력 없음(15 P6)."""
+
+    def serialize(self, parsed: BaseModel) -> str:
+        """출력 파일 직렬화(v3.0.0). 기본 JSON. 사람이 고치는 원고는 YAML(ScriptWorker)."""
+        return parsed.model_dump_json(indent=2)
+
+    def after_output(self, args: argparse.Namespace, task: TaskQueueItem, parsed: BaseModel) -> None:
+        """출력 저장 직후 파생 산출물 저장(v3.0.0, 자기 output_refs 안에서만 — C4.3)."""
 
     @abstractmethod
     def output_path(self, args: argparse.Namespace, task: TaskQueueItem) -> Path:
@@ -285,7 +295,7 @@ class BaseLLMWorker(BaseWorker):
             "ok", "parse_failed", "validation_failed", "subprocess_error"
         ] = "ok"
         error_message: Optional[str] = None
-        parsed: Optional[VersionedModel] = None
+        parsed: Optional[BaseModel] = None
         output_rel_path: Optional[str] = None
         record_path = self._llm_calls_dir(args) / f"{call_id}.json"
 
@@ -325,6 +335,14 @@ class BaseLLMWorker(BaseWorker):
                     parsed_status = "validation_failed"
                     error_message = f"Pydantic validation: {e}"
                     emit("stderr", error_message)
+                else:
+                    try:
+                        self.check_parsed(args, task, parsed)   # v3.0.0 — 스키마 밖 계약(예: 원고 sources ⊂ 도시어)
+                    except ValueError as e:
+                        parsed = None
+                        parsed_status = "validation_failed"
+                        error_message = f"check_parsed: {e}"
+                        emit("stderr", error_message)
 
             # H5: output 저장 (성공 + path 검증 통과 시만)
             if parsed is not None:
@@ -332,9 +350,8 @@ class BaseLLMWorker(BaseWorker):
                     outp = self.output_path(args, task)
                     self._validate_output_path(args, task, outp)
                     outp.parent.mkdir(parents=True, exist_ok=True)
-                    outp.write_text(
-                        parsed.model_dump_json(indent=2), encoding="utf-8"
-                    )
+                    outp.write_text(self.serialize(parsed), encoding="utf-8")
+                    self.after_output(args, task, parsed)
                     output_rel_path = self._as_relative(args, outp)
                     emit("system", f"output written: {output_rel_path}")
                 except Exception as e:

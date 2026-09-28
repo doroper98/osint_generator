@@ -1,20 +1,18 @@
-"""ScriptWorker — Phase 6 Script Agent (수직 슬라이스에서 Blueprint 단계 흡수).
+"""ScriptWorker — 원고 작성 (v3.0.0, 16 §3 개조, back_and_forth D-0040 작업 5·D-0043).
 
 `research_dossier.json` (주장-근거) + `ProjectManifest` (제목/주제/목표 길이) 를 읽어
-`FullScript` (챕터 + 나레이션 세그먼트) 를 생성하고
-`projects/{pid}/05_script/full_script.json` 으로 저장합니다.
-
-수직 슬라이스 결정 (v0.9.0): 별도 6C Blueprint(argument_map/episode_blueprint) 산출물을
-만들지 않고, ScriptWorker 가 dossier 에서 곧장 챕터 구조 + 대본을 뽑는다. 깊은
-blueprint 모델링은 실물 영상으로 구조를 검증한 뒤로 미룬다.
+`script.schema:Script`(장면 자유 구성, 자막 text / 발음 tts 분리, sources) 를 생성하고
+`projects/{pid}/script.yaml` 로 저장합니다. 옛 FullScript(챕터·세그먼트)는 삭제(15 P2).
 
 원칙
 ----
 - `BaseLLMWorker` 상속, `llm_mode="response"` (외부 자료 미접근 → allow_agent_mode 불필요).
-- `response_model = FullScript`.
+- `response_model = Script`. 저장은 YAML(사람이 고친다).
 - build_user_prompt 는 `.replace()` 로만 합성 (C2: `.format()` 금지).
-- 사용자 질문 금지 (C4). 라벨링: 미검증/추론/주장/반박 주장을 인용하는 세그먼트는
-  segment.label 에 해당 라벨(<미검증> 등)을 박는다 (docs/06 §6, GOAL G4).
+- 사용자 질문 금지 (C4).
+- **검증 라벨은 LLM 이 쓰지 않는다**(D-0043, 15 P8). 문장 `sources` = 도시어 claim_id 만 —
+  도시어 밖 id 는 check_parsed 오류. 라벨은 코드(script/labels)가 도시어 status 로 계산해
+  `script_labels.json` 에 저장한다.
 """
 
 from __future__ import annotations
@@ -24,28 +22,29 @@ import json
 from pathlib import Path
 from typing import ClassVar, Literal, Type
 
-from orchestrator.script_io import full_script_path
+from pydantic import BaseModel
+
+from orchestrator.script_io import dump_script_yaml, labels_path, script_path
 from schemas.models import (
-    CLAIM_STATUS_LABELS,
-    FullScript,
     ProjectManifest,
     ResearchDossier,
     TaskQueueItem,
-    VersionedModel,
 )
+from script.labels import compute_labels
+from script.schema import Script
 from workers.base_llm_worker import BaseLLMWorker
 from workers.base_worker import run_worker
 from workers.prompt_loader import load_prompt
 
 
-# `.replace()` 만 사용. `.format()` 금지 (C2). schemas/models.py 의 FullScript 와 동기화.
+# `.replace()` 만 사용. `.format()` 금지 (C2). script/schema.py 의 Script 와 동기화(parity 테스트).
 # system prompt: prompts/script.md / user template: prompts/script_user.md (v2.0.0, 15 P3)
 
 
 class ScriptWorker(BaseLLMWorker):
-    """Script Agent — `FullScript` 산출.
+    """Script Agent — `Script` 산출.
 
-    출력: `projects/{pid}/05_script/full_script.json`
+    출력: `projects/{pid}/script.yaml` + 파생 `script_labels.json`
     """
 
     worker_name = "script"
@@ -54,7 +53,7 @@ class ScriptWorker(BaseLLMWorker):
     llm_backend: str = "claude"
     llm_mode: ClassVar[str] = "response"
     prompt_name: ClassVar[str] = "script"
-    response_model: ClassVar[Type[VersionedModel]] = FullScript
+    response_model: ClassVar[Type[BaseModel]] = Script
     # 긴 원고 1-shot 생성은 기본 타임아웃을 넘기는 경우가 관측됨(실측 526초 성공 / 600초
     # 타임아웃). 값은 config.yaml `llm.script_timeout_sec` (v2.0.0 SSOT).
     invoke_timeout_key: ClassVar[Literal["invoke_timeout_sec", "script_timeout_sec"]] = "script_timeout_sec"
@@ -77,9 +76,7 @@ class ScriptWorker(BaseLLMWorker):
         dossier_path = pdir / "04_research" / "research_dossier.json"
         if not dossier_path.exists():
             raise FileNotFoundError(f"research_dossier.json 이 없습니다: {dossier_path}")
-        dossier = ResearchDossier.model_validate(
-            json.loads(dossier_path.read_text(encoding="utf-8"))
-        )
+        dossier = self._dossier(args)
 
         claims_block = self._format_claims(dossier)
         topic = dossier.topic or manifest.title
@@ -96,7 +93,31 @@ class ScriptWorker(BaseLLMWorker):
         )
 
     def output_path(self, args: argparse.Namespace, task: TaskQueueItem) -> Path:
-        return full_script_path(args.project_id)
+        return script_path(args.project_id)
+
+    def _dossier(self, args: argparse.Namespace) -> ResearchDossier:
+        p = self.project_dir(args) / "04_research" / "research_dossier.json"
+        return ResearchDossier.model_validate(json.loads(p.read_text(encoding="utf-8")))
+
+    def _statuses(self, args: argparse.Namespace) -> dict[str, str]:
+        return {c.claim_id: (c.status if isinstance(c.status, str) else c.status.value)
+                for c in self._dossier(args).claims}
+
+    def check_parsed(self, args: argparse.Namespace, task: TaskQueueItem, parsed: BaseModel) -> None:
+        """sources ⊂ 도시어 claim_id (D-0043 §1). 위반은 LabelError(ValueError) — 출력 없음."""
+        assert isinstance(parsed, Script)
+        compute_labels(parsed, self._statuses(args))
+
+    def serialize(self, parsed: BaseModel) -> str:
+        assert isinstance(parsed, Script)
+        return dump_script_yaml(parsed)
+
+    def after_output(self, args: argparse.Namespace, task: TaskQueueItem, parsed: BaseModel) -> None:
+        """라벨은 코드가 계산해 script_labels.json 으로(D-0043 §2·§3). task.output_refs 에 있어야 한다."""
+        assert isinstance(parsed, Script)
+        outp = labels_path(args.project_id)
+        self._validate_output_path(args, task, outp)
+        outp.write_text(compute_labels(parsed, self._statuses(args)).model_dump_json(indent=2), encoding="utf-8")
 
     @staticmethod
     def _format_claims(dossier: ResearchDossier) -> str:
@@ -106,12 +127,11 @@ class ScriptWorker(BaseLLMWorker):
         lines: list[str] = []
         for c in dossier.claims:
             status = c.status if isinstance(c.status, str) else c.status.value
-            label = CLAIM_STATUS_LABELS.get(status, "<미검증>")
             src = ",".join(
                 e.source_id or (e.seed_id or "?") for e in c.evidence
             ) or "(근거 없음)"
             lines.append(
-                f"  - claim_id={c.claim_id} | status={status} label={label} "
+                f"  - claim_id={c.claim_id} | status={status} "
                 f"| confidence={c.confidence} | 근거={src}\n"
                 f"      statement: {c.statement}"
             )
