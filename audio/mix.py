@@ -19,6 +19,7 @@ import numpy as np
 from pydantic import BaseModel, ConfigDict, Field
 from scipy.signal import lfilter
 
+from audio.registry import BgmError, bgm_path
 from rules import load_rules
 from script.schema import Plan
 
@@ -26,7 +27,6 @@ SR = 44100               # 코덱 상수(ffmpeg -ar) — rules audio.sample_rate
 AU = load_rules().audio  # 수치 SSOT(D-0060 §0, 15 P3) — 값은 v3 그대로
 FX = AU.sfx
 REPO = Path(__file__).resolve().parent.parent
-BGM_DIR = REPO / "assets" / "audio" / "bgm"
 
 
 class Cue(BaseModel):
@@ -43,7 +43,7 @@ class Sound(BaseModel):
 
     model_config = ConfigDict(extra="forbid")
 
-    bgm: str                                   # assets/audio/bgm/ 안 파일명
+    bgm: str                                   # BGM 레지스트리 id(v3.4.0) — 파일은 audio.registry.bgm_path 가 푼다
     intensity: list[tuple[float, float]] = Field(min_length=2)   # (초, 강도) 키프레임
     cues: list[Cue] = Field(default_factory=list)
 
@@ -178,13 +178,13 @@ def main(argv: list[str] | None = None) -> int:
         if snd is None:
             raise ProjectError(f"{proj / 'direction.yaml'}: sound 블록이 없다")
         sound = Sound.model_validate(snd)
-        y, pk = mix(plan, sound, decode_bgm(BGM_DIR / sound.bgm))
+        y, pk = mix(plan, sound, decode_bgm(bgm_path(sound.bgm)))
         (proj / "out").mkdir(exist_ok=True)
         out = proj / "out" / "mix.f32"
         y.tofile(out)
         print(f"mix ok {len(y) / SR:.1f}s peak {pk:.3f}", file=sys.stderr)
         res = StageResult(ok=True, stage="mix", artifacts={"mix": str(out)})
-    except (ProjectError, ValueError, OSError, subprocess.CalledProcessError) as ex:
+    except (ProjectError, BgmError, ValueError, OSError, subprocess.CalledProcessError) as ex:
         res = StageResult(ok=False, stage="mix", errors=[str(ex)])
     print(json.dumps(res.model_dump(), ensure_ascii=False))
     return 0 if res.ok else 1

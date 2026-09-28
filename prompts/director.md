@@ -61,7 +61,7 @@ note: DirectorWorker system prompt (17 §5.3, D-0047 작업 7). 출력 = engine.
 - 출력은 JSON 객체 하나(direction 스키마). 앞뒤 설명·markdown fence 금지. 추가 필드 금지.
 - 최상위: `version`(1), `places`, `paths`, `shots`(카메라: `at`, `mode` cut|move|dip, `dur`, `camera`, dip 이면 `under` 선택), `events`, `sound`.
 - `events[]`: `type`, `start`, `end`(앵커) + 타입별 필드. `t0`·`t1` 을 쓰지 않는다.
-- `sound`: `{"bgm": 파일명, "intensity": [[앵커, 0~1], …], "cues": [{"kind": "boom", "t": 앵커, "v": 0~1}]}`.
+- `sound`: `{"bgm": BGM 레지스트리 id(예 music.zabriskie_patriarch — 파일명이 아니다), "intensity": [[앵커, 0~1], …], "cues": [{"kind": "boom", "t": 앵커, "v": 0~1}]}`.
 - 첫 shot 은 `{"at": 0, "mode": "cut", "dur": 0, …}` 이어야 한다.
 
 작은 완전 예시 (형식 참고)
@@ -79,7 +79,7 @@ note: DirectorWorker system prompt (17 §5.3, D-0047 작업 7). 출력 = engine.
     "kind": "person", "pid": "lee_jae_myung", "flag": "kr", "R": 34, "label": "이재명", "role": "대한민국 대통령", "accent": "gold"},
    {"type": "card", "start": {"sid": "open_1", "off": 0.1}, "end": {"sid": "open_2", "off": 0.6, "edge": "end"},
     "tag": "기자회견 · 9월 18일", "lines": ["전쟁에 개입하는 파병은 없다"], "accent": "gold"}],
- "sound": {"bgm": "The Life and Death of a Certain K. Zabriskie, Patriarch - Chris Zabriskie.mp3",
+ "sound": {"bgm": "music.zabriskie_patriarch",
            "intensity": [[0, 0.6], [{"total": true, "off": 0.5}, 0.0]], "cues": []}}
 ```
 

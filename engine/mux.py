@@ -76,11 +76,20 @@ def chapter_time(plan: Plan, at: str, first: bool) -> float:
     return plan.scene_start[at]
 
 
-def build_description(plan: Plan, d: Description) -> str:
+def build_description(plan: Plan, d: Description, music: list[str] | None = None) -> str:
+    """footer 의 `{music}` 자리는 이번 영상이 쓰는 BGM 의 레지스트리 문구(v3.4.0, 규칙 credits.music_description).
+    음악을 쓰지 않는데 {music} 가 있으면 오류 — 빈칸으로 조용히 지우지 않는다(P6)."""
+    from audio.registry import description_line  # noqa: PLC0415
+
     ch = [f"{mmss(chapter_time(plan, c.at, i == 0))} {c.label}" for i, c in enumerate(d.chapters)]
     parts = [d.headline, "", d.summary, "", "챕터", *ch]
     if d.footer:
-        parts += ["", *d.footer]
+        fmt = load_rules().credits.music_description
+        mus = " · ".join(description_line(m, fmt) for m in music or [])
+        for line in d.footer:
+            if "{music}" in line and not mus:
+                raise ValueError("description.yaml footer 에 {music} 가 있는데 이번 영상은 BGM 을 쓰지 않는다")
+        parts += ["", *(line.replace("{music}", mus) for line in d.footer)]
     return "\n".join(parts)
 
 
@@ -164,7 +173,7 @@ def main(argv: list[str] | None = None) -> int:
                                                                   P.R.cache.get("credit_refs"), P.R.cache.get("cited_sources"))) + "\n",
                                           encoding="utf-8")
         req = P.R.cache.get("credit_refs") or set()
-        desc = build_description(P.plan, load_description(proj))
+        desc = build_description(P.plan, load_description(proj), sorted(r for r in req if r.startswith("music.")))
         dcred = description_credits(P.R.assets.rights, req)   # D-0030 — 카드에 안 넣는 종류(폰트)는 설명문에
         if dcred:
             desc += "\n\n" + DESCRIPTION_CREDITS_HEADING + "\n" + "\n".join(dcred)

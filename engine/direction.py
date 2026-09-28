@@ -93,9 +93,20 @@ class SoundCue(_Strict):
 
 
 class Sound(_Strict):
-    bgm: str
+    bgm: str                      # v3.4.0 — BGM 레지스트리 id(assets/audio/bgm/registry.yaml, 예 music.zabriskie_patriarch). 없는 id = 오류(P10)
     intensity: list[tuple[Union[float, dict[str, Any]], float]]
     cues: list[SoundCue] = Field(default_factory=list)
+
+    @field_validator("bgm")
+    @classmethod
+    def _registered(cls, v: str) -> str:
+        from audio.registry import track  # noqa: PLC0415
+
+        track(v)   # 없는 id·파일명 = BgmError(ValueError) → 스키마 오류
+        return v
+
+    def music_ids(self) -> set[str]:
+        return {self.bgm}
 
 
 class Direction(_Strict):

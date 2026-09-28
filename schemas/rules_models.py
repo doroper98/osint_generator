@@ -713,6 +713,8 @@ class CreditRules(_Strict):
 
     card_kinds: list[str] = Field(min_length=1)
     description_only_kinds: list[str] = Field(default_factory=list)
+    music_card_license: str        # v3.4.0 D-0060 작업 1 — 엔딩 카드 음악 라이선스 줄(.replace 자리표시 {author}·{license})
+    music_description: str         # 설명란 음악 문구({name}·{author}·{license}) — description.yaml footer 의 {music} 자리
 
 
 class Registries(_Strict):

@@ -13,6 +13,6 @@ events:
   - {type: route, start: {sid: s_1, off: 0.6}, end: {scene_end: a}, pts: {path: lane}, grow: {span: [{sid: s_1, off: 0.6}, {sid: s_1, off: -0.4, edge: end}]}, col: gold, ship: true}
   - {type: card, start: {sid: s_2, off: 0.1}, end: {sid: s_2, off: 0.6, edge: end}, tag: 테스트, lines: [한 줄], accent: gold}
 sound:
-  bgm: bed.mp3
+  bgm: music.zabriskie_patriarch
   intensity: [[0, 0.6], [{scene_start: b}, 0.7], [{total: true, off: 0.5}, 0.0]]
   cues: [{kind: boom, t: {sid: s_0, off: 1.2}, v: 0.5}]

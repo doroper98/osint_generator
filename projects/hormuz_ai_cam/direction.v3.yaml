@@ -974,7 +974,7 @@ events:
     - 원유 수입의 호르무즈 경유 비중
   accent: gold
 sound:
-  bgm: The Life and Death of a Certain K. Zabriskie, Patriarch - Chris Zabriskie.mp3
+  bgm: music.zabriskie_patriarch
   intensity:
   - - 0.0
     - 0.58

@@ -197,6 +197,11 @@ def _attach_posts(proj: Path, R: RenderCtx, events: list[dict]) -> None:  # noqa
         raise ProjectError("post 카드 점검 실패:\n" + "\n".join(errs))
 
 
+def music_ids(sound: Optional[dict]) -> set[str]:
+    """연출 sound.bgm 이 쓰는 BGM 레지스트리 id(v3.4.0 D-0060 작업 2). sound 가 없으면 빈 집합."""
+    return {sound["bgm"]} if sound and sound.get("bgm") else set()
+
+
 def load_project(proj: Path, direction: Optional[Direction] = None) -> Project:
     """렌더 입력 한 벌. direction 을 주면 direction.yaml 대신 그것으로(연출 워커의 저장 전 점검 — 렌더와 같은 경로, 15 P8)."""
     proj = proj.resolve()
@@ -226,7 +231,7 @@ def load_project(proj: Path, direction: Optional[Direction] = None) -> Project:
     if errs:
         raise ProjectError("렌더 전 점검 실패:\n" + "\n".join(errs))
     A = R.assets  # noqa: N806
-    req = required_refs(events, A.rights, A.emblem_flag, set(A.img), uses_music=sound is not None)
+    req = required_refs(events, A.rights, A.emblem_flag, set(A.img), music_ids=music_ids(sound))
     R.cache["sentence_labels"] = sentence_labels(proj)       # v3.3.0 NB12 — 자막 검증 라벨(C9)
     R.cache["cited_sources"] = cited_sources(proj, events)   # v3.2.0 18 §6 — 엔딩 카드 '보도 · 자료'·설명란 원문 링크
     check_credits(R.credits, A.rights, A.media, req,          # D-0029 작업 7 — 누락·미확인·미표기 자산은 RightsError

@@ -11,9 +11,7 @@ sections:
   - title: 음성
     column: 1
     items:
-      - main: The Life and Death of a Certain K. Zabriskie, Patriarch
-        license: Chris Zabriskie · CC BY 4.0
-        rights: [music.zabriskie_patriarch]
+      - music: music.zabriskie_patriarch   # v3.4.0 — 제목·라이선스 줄은 BGM 레지스트리(assets/audio/bgm/registry.yaml)
       - main: 내레이션
         license: AI 음성 합성
         rights: [narration.tts]

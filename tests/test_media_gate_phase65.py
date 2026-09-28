@@ -57,7 +57,7 @@ class MediaCreditLinkTest(unittest.TestCase):
         for mid in load_media_registry():
             self.assertIn(f"media.{mid}", refs, mid)
         evs = [{"type": "article", "mid": "reuters_0904"}]
-        self.assertEqual(required_refs(evs, {}, lambda _: None, set(), uses_music=False) & {"media.reuters_0904"},
+        self.assertEqual(required_refs(evs, {}, lambda _: None, set(), music_ids=set()) & {"media.reuters_0904"},
                          {"media.reuters_0904"})
 
 

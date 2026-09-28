@@ -5,12 +5,7 @@
 schema_version: 1
 flags:
   flag_icons: {name: flag-icons, license: MIT, author: Panayiotis Lipiridis, url: "https://github.com/lipis/flag-icons"}
-music:
-  zabriskie_patriarch:
-    name: "The Life and Death of a Certain K. Zabriskie, Patriarch"
-    license: CC BY 4.0
-    author: Chris Zabriskie
-    url: "https://chriszabriskie.com"
+# music: v3.4.0 D-0060 — 음악 권리는 assets/audio/bgm/registry.yaml(SSOT)에서 엔진이 직접 읽는다(engine.assets). 여기 두지 않는다.
 fonts:
   ibm_plex_sans_kr: {name: IBM Plex Sans KR, license: SIL OFL 1.1, author: IBM, url: "https://github.com/google/fonts/tree/main/ofl/ibmplexsanskr"}
   ibm_plex_mono: {name: IBM Plex Mono, license: SIL OFL 1.1, author: IBM, url: "https://github.com/google/fonts/tree/main/ofl/ibmplexmono"}

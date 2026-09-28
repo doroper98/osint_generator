@@ -533,7 +533,7 @@ events:
   lat: 12.5
   w: 150
 sound:
-  bgm: The Life and Death of a Certain K. Zabriskie, Patriarch - Chris Zabriskie.mp3
+  bgm: music.zabriskie_patriarch
   intensity: [[0, 0.6], [{scene_start: route}, 0.62], [{scene_start: war}, 0.74], [{scene_start: ask}, 0.6], [{scene_start: timeline}, 0.66], [{scene_start: cost},
       0.7], [{scene_start: review}, 0.6], [{scene_start: past}, 0.55], [{scene_start: debate}, 0.66], [{scene_start: decision}, 0.72], [{scene_start: now}, 0.66],
     [{total: true, off: [0.5, -7.0]}, 0.62], [{total: true, off: 0.5}, 0.0]]

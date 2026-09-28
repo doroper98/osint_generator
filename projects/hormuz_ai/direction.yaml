@@ -1120,7 +1120,7 @@ events:
   role: 어디까지 움직일지 미정
   accent: gold
 sound:
-  bgm: The Life and Death of a Certain K. Zabriskie, Patriarch - Chris Zabriskie.mp3
+  bgm: music.zabriskie_patriarch
   intensity:
   - - 0.0
     - 0.6

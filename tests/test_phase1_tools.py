@@ -101,7 +101,7 @@ class RunnerTest(unittest.TestCase):
 
     def test_description_equals_golden(self) -> None:
         golden = (GOLDEN / "youtube_description.txt").read_text(encoding="utf-8")
-        ours = build_description(REF_PLAN_MODEL, load_description(REPO / "projects/hormuz_korea"))
+        ours = build_description(REF_PLAN_MODEL, load_description(REPO / "projects/hormuz_korea"), ["music.zabriskie_patriarch"])
         self.assertEqual(ours.rstrip("\n"), golden.rstrip("\n"))
 
     def test_transition_times_centered(self) -> None:

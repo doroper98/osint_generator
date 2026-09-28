@@ -73,10 +73,17 @@ PREFETCH: dict[str, tuple[int | None, str]] = {
     "roh_moo_hyun": (960, "assets/photo_roh_moo_hyun.jpg"),
     "centcom": (500, "assets/emblems/navcent.png"),
 }
-# D22 — BGM 은 추적 해제됐고 git 객체에서 복원한다. sha1 은 assets/audio/bgm/RIGHTS.md 에 기록.
-BGM_NAME = "The Life and Death of a Certain K. Zabriskie, Patriarch - Chris Zabriskie.mp3"
+# D22 — BGM 은 추적 해제됐고 git 객체에서 복원한다. 파일명·sha1 은 BGM 레지스트리(v3.4.0 SSOT)에서 읽는다.
+BGM_ID = "music.zabriskie_patriarch"
 BGM_COMMIT = "bd37b58"
-BGM_SHA1 = "c0ddb7b38ee7866c32d2510a84125cf611a54e93"
+
+
+def _bgm_entry() -> tuple[str, str]:
+    from audio.registry import track  # noqa: PLC0415
+
+    t = track(BGM_ID)
+    assert t.sha1 is not None
+    return t.file, t.sha1
 
 
 class FetchError(RuntimeError):
@@ -344,6 +351,7 @@ def cmd_media(root: Path, dry: bool) -> list[str]:
 def cmd_bgm(root: Path, dry: bool) -> list[str]:
     import hashlib
 
+    BGM_NAME, BGM_SHA1 = _bgm_entry()  # noqa: N806
     dest = REPO / "assets" / "audio" / "bgm" / BGM_NAME
     if dry:
         return [f"bgm → {dest} (git {BGM_COMMIT}, sha1 {BGM_SHA1[:10]})"]

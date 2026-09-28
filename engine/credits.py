@@ -40,7 +40,8 @@ class _Strict(BaseModel):
 
 
 class CreditItem(_Strict):
-    main: str
+    main: Optional[str] = None
+    music: Optional[str] = None        # v3.4.0 — BGM 레지스트리 id. 제목·라이선스 줄은 레지스트리에서(D-0060 작업 1, SSOT)
     license: Optional[str] = None
     license_ref: Optional[str] = None  # rights_registry.people 의 pid — 라이선스 문구를 레지스트리에서 읽는다
     license_suffix: str = ""
@@ -51,10 +52,18 @@ class CreditItem(_Strict):
     def _one_source(self) -> "CreditItem":
         if self.license is not None and self.license_ref is not None:
             raise ValueError(f"license 와 license_ref 는 함께 쓸 수 없다: {self.main!r}")
+        if (self.music is None) == (self.main is None):
+            raise ValueError(f"크레딧 행은 main 과 music 중 정확히 하나: {self.main or self.music!r}")
+        if self.music is not None and (self.license is not None or self.license_ref is not None or self.rights):
+            raise ValueError(f"music 행은 문구·권리를 레지스트리에서 읽는다 — license·license_ref·rights 금지: {self.music}")
         return self
 
     def refs(self) -> list[str]:
-        return [*self.rights, *([f"people.{self.license_ref}"] if self.license_ref else [])]
+        return [*self.rights, *([f"people.{self.license_ref}"] if self.license_ref else []), *([self.music] if self.music else [])]
+
+    @property
+    def label(self) -> str:
+        return self.main or self.music or ""
 
 
 class CreditSection(_Strict):
@@ -139,6 +148,11 @@ def credit_sections(cr: Credits, rights: dict, media: Optional[dict] = None,
             continue
         items = []
         for it in sec.items:
+            if it.music is not None:
+                from audio.registry import card_line  # noqa: PLC0415
+
+                items.append(card_line(it.music, load_rules().credits.music_card_license))
+                continue
             if it.license_ref is not None:
                 people = rights.get("people", {})
                 if it.license_ref not in people:
@@ -158,9 +172,9 @@ def credit_lines(cr: Credits, rights: dict, media: Optional[dict] = None, used: 
 
 
 def required_refs(events: list[dict], rights: dict, emblem_flag: Callable[[str], Optional[str]],
-                  image_keys: set[str], uses_music: bool = True) -> set[str]:
+                  image_keys: set[str], music_ids: Optional[set[str]] = None) -> set[str]:
     """이번 렌더가 쓰는 자산의 권리 참조. 이벤트(인물·휘장·미디어) + 불러온 이미지(국기) + 항상 쓰는 묶음 자산
-    (+ 연출에 `sound()` 가 있으면 음악)."""
+    + 연출 `sound.bgm` 이 가리키는 음악 id(v3.4.0 — 레지스트리의 다른 곡은 요구하지 않는다)."""
     need: set[str] = set()
 
     def walk(o: object):  # noqa: ANN202
@@ -183,9 +197,9 @@ def required_refs(events: list[dict], rights: dict, emblem_flag: Callable[[str],
             need.add(f"media.{e['mid']}")
     if any(k.startswith(("flag11:", "flag43:")) for k in image_keys):
         need |= {f"flags.{k}" for k in rights.get("flags", {})} or {"flags.?"}
-    for sec in (*ALWAYS_USED, *(("music",) if uses_music else ())):
+    for sec in ALWAYS_USED:
         need |= {f"{sec}.{k}" for k in rights.get(sec, {})} or {f"{sec}.?"}
-    return need
+    return need | set(music_ids or ())
 
 
 def description_credits(rights: dict, required: set[str], rules: Optional[CreditRules] = None) -> list[str]:
@@ -231,7 +245,9 @@ def check_credits(cr: Credits, rights: dict, media: dict, required: set[str], ru
         for it in sec.items:
             for r in it.refs():
                 if r not in view:
-                    errs.append(f"크레딧 {it.main!r} 이 가리키는 권리 항목 없음: {r}")
+                    errs.append(f"크레딧 {it.label!r} 이 가리키는 권리 항목 없음: {r}")
+                if r.startswith("music.") and r not in required:   # v3.4.0 — 크레딧 음악 ≠ sound.bgm = 권리 오류(D-0060 작업 2)
+                    errs.append(f"크레딧 음악 {r} 을 연출 sound.bgm 이 쓰지 않는다(표기와 사용 불일치)")
                 covered.add(r)
             src_covered |= set(it.sources)
     for sid in sorted(set(cited_ids or ()) - src_covered):   # v3.2.0 18 §6 — 인용 소스는 엔딩 카드 '보도 · 자료'에

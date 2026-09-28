@@ -32,6 +32,7 @@ released 항목은 **append-only**입니다.
 
 ### Changed
 - `audio/mix.py` 모듈 상수(시드·여백·페이드·루프 교차 페이드·효과음 덕킹·효과음 합성 계수) → `rules audio`(값 그대로 — hormuz mix.f32 md5 `c1314fb9` 동일). 샘플레이트는 코덱 상수로 두고 `audio.sample_rate` 와 테스트로 일치 확인 (D-0060 §0).
+- BGM 레지스트리 `assets/audio/bgm/registry.yaml`(SSOT, 3곡 — 미사용 2곡 available false). direction `sound.bgm` = 레지스트리 id, credits `- music: <id>` 행·description footer `{music}` 는 레지스트리 문구로 생성(v3 결과 동일). 음악 권리 절은 엔진이 레지스트리에서 읽는다(rights_bundles.yaml 에서 뺌). 요구 음악 = sound.bgm id 뿐 (D-0060 작업 1·2).
 
 ---
 

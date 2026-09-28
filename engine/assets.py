@@ -71,6 +71,8 @@ class Assets:
         # 권리·미디어 레지스트리: 파일이 없으면 빈 레지스트리 — 그 상태에서 인물·휘장·미디어를 쓰면
         # engine.project.preflight 가 렌더 전 오류로 막는다(C9). 조용히 통과시키는 경로가 아니다.
         self.rights = _read_json(a / "rights_registry.json", {"people": {}, "emblems": {}})
+        from audio.registry import rights_music  # noqa: PLC0415 — v3.4.0 D-0060 작업 1: 음악 권리 SSOT = BGM 레지스트리
+        self.rights["music"] = rights_music()
         self.bord = {lod: {k: to_uv(v) for k, v in self.geo[lod].items()} for lod in ("coarse", "fine")}
         self.adm = {k: [dict(name=x["name"], lx=x["lx"], ly=x["ly"], rings=to_uv(x["rings"])) for x in v]
                     for k, v in self.geo["admin1"].items()}
