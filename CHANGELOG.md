@@ -28,7 +28,14 @@ released 항목은 **append-only**입니다.
 
 ---
 
-## [v3.3.0] — 2026-09-28 — Phase 7: 카메라 자동화 보조 (back_and_forth D-0055·D-0056) — 진행 중
+## [v3.4.0] — 2026-09-29 — Phase 8: 오디오 (back_and_forth D-0059·D-0060) — 진행 중
+
+### Changed
+- `audio/mix.py` 모듈 상수(시드·여백·페이드·루프 교차 페이드·효과음 덕킹·효과음 합성 계수) → `rules audio`(값 그대로 — hormuz mix.f32 md5 `c1314fb9` 동일). 샘플레이트는 코덱 상수로 두고 `audio.sample_rate` 와 테스트로 일치 확인 (D-0060 §0).
+
+---
+
+## [v3.3.0] — 2026-09-28 — Phase 7: 카메라 자동화 보조 (back_and_forth D-0055~D-0059) — Fable review pass(D-0059)
 
 ### Added
 - 자막 검증 라벨 — claims.json status 가 unverified·disputed 인 문장은 첫 줄 앞에 `<미검증>`·`<논쟁>`(규칙 `script_schema.labels`, 모양 `layout_480p.subtitle.label_style`). 라벨 없는 문장은 무변경 (D-0055 NB12, C9).

@@ -558,6 +558,23 @@ audio:                     # 10
   master_peak: 0.97
   loudnorm: {I: -14, TP: -1.5, LRA: 11}
   sfx_policy: events_and_scene_starts_only
+  # v3.4.0 D-0060 §0 — audio/mix.py 모듈 상수 이관(값 그대로 = 사용자 합격 v3 mix, md5 c1314fb9 로 증명)
+  sample_rate: 44100        # 코덱 상수(audio.mix.SR·engine.mux.SR 와 테스트로 일치 확인)
+  seed: 3                   # 효과음 잡음 난수 시드(v3 결정성)
+  tail_sec: 0.5             # plan.total 뒤 여백(v3 TOT)
+  loop_xfade_sec: 4.0       # BGM 반복 교차 페이드
+  fade_in_sec: 1.2
+  fade_out_sec: 4.0
+  fx_duck: 0.25             # 효과음 덕킹 깊이
+  norm_eps: 1.0e-6          # 피크 정규화 분모 여유
+  sfx:                      # 효과음 합성(v3 mix3) — 필터 계수·시상수·이득
+    whoosh: {dur_sec: 1.2, shape_pow: 2.2, low_b: 0.08, low_a: -0.92, low_gain: 0.6, high_b: 0.3, high_a: -0.7, high_gain: 0.25,
+             release_sec: 0.08, release_tau_sec: 0.05, gain: 0.2}
+    boom: {dur_sec: 2.6, f0_hz: 34, sweep_hz: 44, sweep_tau_sec: 0.25, tone_tau_sec: 0.8, tone_gain: 0.55, noise_b: 0.02, noise_a: -0.98,
+           noise_tau_sec: 0.3, noise_gain: 0.6}
+    tick: {dur_sec: 0.12, freq_hz: 1800, tau_sec: 0.015, gain: 0.18}
+    title_card: {offset_sec: 0.2, whoosh_dur_sec: 1.4, whoosh_v: 1.0, boom_v: 0.6}      # sfx_policy: 타이틀 카드 휙+쿵
+    scene_start: {lead_sec: 0.05, whoosh_dur_sec: 0.9, whoosh_v: 0.55}                  # sfx_policy: 장면 시작 휙(첫 장면 제외)
 
 preview:                   # v3.3.0 D-0056 F6 — `--preview auto` 샘플. 짧은 영상에서 전면 카드만 뽑히지 않게 본편(문장 읽는 중) 컷 최소 수. golden 모드 무관
   min_body_cuts: 4

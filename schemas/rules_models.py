@@ -730,6 +730,61 @@ class Loudnorm(_Strict):
     LRA: float
 
 
+class WhooshSfx(_Strict):
+    dur_sec: float
+    shape_pow: float
+    low_b: float
+    low_a: float
+    low_gain: float
+    high_b: float
+    high_a: float
+    high_gain: float
+    release_sec: float
+    release_tau_sec: float
+    gain: float
+
+
+class BoomSfx(_Strict):
+    dur_sec: float
+    f0_hz: float
+    sweep_hz: float
+    sweep_tau_sec: float
+    tone_tau_sec: float
+    tone_gain: float
+    noise_b: float
+    noise_a: float
+    noise_tau_sec: float
+    noise_gain: float
+
+
+class TickSfx(_Strict):
+    dur_sec: float
+    freq_hz: float
+    tau_sec: float
+    gain: float
+
+
+class TitleCardSfx(_Strict):
+    offset_sec: float
+    whoosh_dur_sec: float
+    whoosh_v: float
+    boom_v: float
+
+
+class SceneStartSfx(_Strict):
+    lead_sec: float
+    whoosh_dur_sec: float
+    whoosh_v: float
+
+
+class SfxRules(_Strict):
+    whoosh: WhooshSfx
+    boom: BoomSfx
+    tick: TickSfx
+    title_card: TitleCardSfx
+    scene_start: SceneStartSfx
+
+
 class AudioRules(_Strict):
     bed_gain: float
     duck_depth: float
@@ -740,6 +795,15 @@ class AudioRules(_Strict):
     master_peak: float
     loudnorm: Loudnorm
     sfx_policy: str
+    sample_rate: int              # v3.4.0 D-0060 §0 — 코덱 상수 확인용(코드 SR 과 테스트로 일치)
+    seed: int
+    tail_sec: float
+    loop_xfade_sec: float
+    fade_in_sec: float
+    fade_out_sec: float
+    fx_duck: float
+    norm_eps: float
+    sfx: SfxRules
 
 
 class QAChecks(_Strict):

@@ -25,6 +25,7 @@ DATA_DRIVEN_MODULES: dict[str, frozenset[float]] = {   # 모듈 → 추가 허�
     "engine/framing.py": frozenset({4}),            # round(·, 4) 보고 자릿수
     "engine/shots.py": frozenset(),
     "engine/camera_suggest.py": frozenset({4}),     # round(·, 4) 보고 자릿수
+    "audio/mix.py": frozenset({44100}),             # SR 코덱 상수 — rules audio.sample_rate 와 일치 테스트(test_audio_rules)
 }
 ALLOWED_NUMBERS: frozenset[float] = frozenset({0, 1, 2, 3})
 
