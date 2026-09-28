@@ -1,0 +1,257 @@
+{
+ "schema_version": 1,
+ "version": "v4.0.0",
+ "test": "tests/test_docs_sync.py",
+ "governance_listed": [
+  "README.md",
+  "GOAL.md",
+  "CLAUDE.md",
+  "DOCS_GOVERNANCE.md",
+  "docs/00_PROJECT_BRIEF.md",
+  "docs/01_PRODUCT_REQUIREMENTS.md",
+  "docs/02_SYSTEM_ARCHITECTURE.md",
+  "docs/03_AGENT_ARCHITECTURE.md",
+  "docs/04_DYNAMIC_INTAKE_PAGE_SPEC.md",
+  "docs/05_DATA_SCHEMA_SPEC.md",
+  "docs/06_SOURCE_AND_RIGHTS_POLICY.md",
+  "docs/07_VIDEO_STYLE_GUIDE.md",
+  "docs/08_AUDIO_AND_TTS_SPEC.md",
+  "docs/09_MAP_AND_GEO_SPEC.md",
+  "docs/10_RENDERING_PIPELINE_SPEC.md",
+  "docs/12_QA_AND_REVIEW_SPEC.md",
+  "docs/13_IMPLEMENTATION_ROADMAP.md",
+  "docs/14_AGENT_DEVELOPMENT_PROMPT.md",
+  "docs/15_OPERATIONS_RUNBOOK.md",
+  "docs/16_TEST_PLAN.md",
+  "docs/ADDENDUM_01_ORCHESTRATOR_COMMAND_CENTER_LAYOUT.md",
+  "docs/ADDENDUM_03_TERMINOLOGY.md",
+  "docs/ADDENDUM_04_SUBSCRIPTION_LLM_BRIDGE.md",
+  "docs/IMAGE_BUNDLE_CONTRACT.md",
+  "docs/VIDEO_BUNDLE_CONTRACT.md"
+ ],
+ "docs": [
+  {
+   "doc": "CLAUDE.md",
+   "tier": 1,
+   "last_synced_with": "v4.0.0",
+   "cited_keys": 0,
+   "missing_keys": [],
+   "deprecated_banner": false
+  },
+  {
+   "doc": "DOCS_GOVERNANCE.md",
+   "tier": 1,
+   "last_synced_with": "v4.0.0",
+   "cited_keys": 0,
+   "missing_keys": [],
+   "deprecated_banner": false
+  },
+  {
+   "doc": "GOAL.md",
+   "tier": 1,
+   "last_synced_with": "v4.0.0",
+   "cited_keys": 7,
+   "missing_keys": [],
+   "deprecated_banner": true
+  },
+  {
+   "doc": "HANDOFF.md",
+   "tier": 1,
+   "last_synced_with": "v4.0.0",
+   "cited_keys": 0,
+   "missing_keys": [],
+   "deprecated_banner": false
+  },
+  {
+   "doc": "README.md",
+   "tier": 1,
+   "last_synced_with": "v4.0.0",
+   "cited_keys": 0,
+   "missing_keys": [],
+   "deprecated_banner": false
+  },
+  {
+   "doc": "docs/00_PROJECT_BRIEF.md",
+   "tier": 2,
+   "last_synced_with": "v4.0.0",
+   "cited_keys": 0,
+   "missing_keys": [],
+   "deprecated_banner": false
+  },
+  {
+   "doc": "docs/01_PRODUCT_REQUIREMENTS.md",
+   "tier": 2,
+   "last_synced_with": "v4.0.0",
+   "cited_keys": 0,
+   "missing_keys": [],
+   "deprecated_banner": false
+  },
+  {
+   "doc": "docs/02_SYSTEM_ARCHITECTURE.md",
+   "tier": 2,
+   "last_synced_with": "v4.0.0",
+   "cited_keys": 0,
+   "missing_keys": [],
+   "deprecated_banner": false
+  },
+  {
+   "doc": "docs/03_AGENT_ARCHITECTURE.md",
+   "tier": 2,
+   "last_synced_with": "v4.0.0",
+   "cited_keys": 0,
+   "missing_keys": [],
+   "deprecated_banner": false
+  },
+  {
+   "doc": "docs/04_DYNAMIC_INTAKE_PAGE_SPEC.md",
+   "tier": 2,
+   "last_synced_with": "v4.0.0",
+   "cited_keys": 0,
+   "missing_keys": [],
+   "deprecated_banner": false
+  },
+  {
+   "doc": "docs/05_DATA_SCHEMA_SPEC.md",
+   "tier": 2,
+   "last_synced_with": "v4.0.0",
+   "cited_keys": 0,
+   "missing_keys": [],
+   "deprecated_banner": false
+  },
+  {
+   "doc": "docs/06_SOURCE_AND_RIGHTS_POLICY.md",
+   "tier": 2,
+   "last_synced_with": "v4.0.0",
+   "cited_keys": 0,
+   "missing_keys": [],
+   "deprecated_banner": false
+  },
+  {
+   "doc": "docs/07_VIDEO_STYLE_GUIDE.md",
+   "tier": 2,
+   "last_synced_with": "v4.0.0",
+   "cited_keys": 78,
+   "missing_keys": [],
+   "deprecated_banner": false
+  },
+  {
+   "doc": "docs/08_AUDIO_AND_TTS_SPEC.md",
+   "tier": 2,
+   "last_synced_with": "v4.0.0",
+   "cited_keys": 51,
+   "missing_keys": [],
+   "deprecated_banner": false
+  },
+  {
+   "doc": "docs/09_MAP_AND_GEO_SPEC.md",
+   "tier": 2,
+   "last_synced_with": "v4.0.0",
+   "cited_keys": 24,
+   "missing_keys": [],
+   "deprecated_banner": false
+  },
+  {
+   "doc": "docs/10_RENDERING_PIPELINE_SPEC.md",
+   "tier": 2,
+   "last_synced_with": "v4.0.0",
+   "cited_keys": 11,
+   "missing_keys": [],
+   "deprecated_banner": false
+  },
+  {
+   "doc": "docs/12_QA_AND_REVIEW_SPEC.md",
+   "tier": 2,
+   "last_synced_with": "v4.0.0",
+   "cited_keys": 17,
+   "missing_keys": [],
+   "deprecated_banner": false
+  },
+  {
+   "doc": "docs/13_IMPLEMENTATION_ROADMAP.md",
+   "tier": 2,
+   "last_synced_with": "v4.0.0",
+   "cited_keys": 0,
+   "missing_keys": [],
+   "deprecated_banner": false
+  },
+  {
+   "doc": "docs/14_AGENT_DEVELOPMENT_PROMPT.md",
+   "tier": 2,
+   "last_synced_with": "v4.0.0",
+   "cited_keys": 0,
+   "missing_keys": [],
+   "deprecated_banner": false
+  },
+  {
+   "doc": "docs/15_OPERATIONS_RUNBOOK.md",
+   "tier": 2,
+   "last_synced_with": "v4.0.0",
+   "cited_keys": 0,
+   "missing_keys": [],
+   "deprecated_banner": false
+  },
+  {
+   "doc": "docs/16_TEST_PLAN.md",
+   "tier": 2,
+   "last_synced_with": "v4.0.0",
+   "cited_keys": 0,
+   "missing_keys": [],
+   "deprecated_banner": false
+  },
+  {
+   "doc": "docs/ADDENDUM_01_ORCHESTRATOR_COMMAND_CENTER_LAYOUT.md",
+   "tier": 2,
+   "last_synced_with": "v4.0.0",
+   "cited_keys": 0,
+   "missing_keys": [],
+   "deprecated_banner": false
+  },
+  {
+   "doc": "docs/ADDENDUM_03_TERMINOLOGY.md",
+   "tier": 2,
+   "last_synced_with": "v4.0.0",
+   "cited_keys": 0,
+   "missing_keys": [],
+   "deprecated_banner": false
+  },
+  {
+   "doc": "docs/ADDENDUM_04_SUBSCRIPTION_LLM_BRIDGE.md",
+   "tier": 2,
+   "last_synced_with": "v4.0.0",
+   "cited_keys": 0,
+   "missing_keys": [],
+   "deprecated_banner": false
+  },
+  {
+   "doc": "docs/IMAGE_BUNDLE_CONTRACT.md",
+   "tier": 2,
+   "last_synced_with": "v4.0.0",
+   "cited_keys": 0,
+   "missing_keys": [],
+   "deprecated_banner": false
+  },
+  {
+   "doc": "docs/VIDEO_BUNDLE_CONTRACT.md",
+   "tier": 2,
+   "last_synced_with": "v4.0.0",
+   "cited_keys": 0,
+   "missing_keys": [],
+   "deprecated_banner": false
+  }
+ ],
+ "deleted_this_phase": [
+  "docs/ADDENDUM_02_PRE_PRODUCTION_DEBUG_LAYER.md",
+  "docs/RUN_LOCAL.md",
+  "docs/11_THUMBNAIL_SYSTEM_SPEC.md"
+ ],
+ "rewritten": [
+  "docs/07_VIDEO_STYLE_GUIDE.md",
+  "docs/08_AUDIO_AND_TTS_SPEC.md",
+  "docs/09_MAP_AND_GEO_SPEC.md",
+  "docs/10_RENDERING_PIPELINE_SPEC.md"
+ ],
+ "handoff_annotated": [
+  "docs/handoff/13 §Phase 8 (D57)",
+  "docs/handoff/09 §2 (D60)"
+ ]
+}
