@@ -24,3 +24,13 @@ last_review: 2026-09-28
 | 미디어 | `python tools/media_fetch.py <빈 폴더>` (D-0038 새 다운로드 대조 겸) | 5건 중 3건 ok. strikes·niovi 원본 upload.wikimedia 429 대기 중 |
 
 tts 캐시는 artifacts 브랜치에 없었다(D-0042). 이번 artifacts 에 `hormuz/tts/`·`plan.json` 을 넣어 다음 컨테이너부터 복원한다.
+
+## 5. Commons 원본 영상 차단 기록 (D-0044 §1 — 한 번에 파일 하나, 30분 간격, 1회 시도)
+
+| 시각(KST) | 파일 | 결과 |
+|---|---|---|
+| 15:41~16:32 | strikes 원본 webm | 429 × 7(600초 대기 6회, 옛 재시도 정책) → FAIL. 서버 문구 "instead use thumbnail images" — 원본 요청 IP 단위 차단으로 판단 |
+| 16:32 | niovi 원본 webm | API 429 48초 1회 뒤 upload 429 → D-0044 정책으로 전환하며 중지 |
+
+이후 시도는 `media_fetch.py <빈 폴더> --only <mid> --tries 1` 을 30분 간격으로 한다(아래 행 추가). 받는 즉시 원본·npy 를
+`artifacts/phase6.8-v3.0.0/hormuz/media_src/` 에 보존한다(D-0044 B, 복원 = `--restore-from`).
