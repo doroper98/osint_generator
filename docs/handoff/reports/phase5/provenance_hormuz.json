@@ -1,0 +1,215 @@
+{
+ "schema_version": 1,
+ "engine": "engine",
+ "repo_version": "2.4.0",
+ "rules_version": "2.0.0",
+ "rules_hash": "8f475f8ee948c3ec674437f0b641d5c796b0ff84",
+ "prompts": {},
+ "voice": "edge-tts ko-KR-InJoonNeural",
+ "word_anchor": "aligned",
+ "word_anchors": [
+  {
+   "sid": "ask_1",
+   "word": "독일",
+   "mode": "aligned",
+   "t": 77.245,
+   "alignment_source": "edge_word_boundary"
+  },
+  {
+   "sid": "ask_1",
+   "word": "영국",
+   "mode": "aligned",
+   "t": 78.095,
+   "alignment_source": "edge_word_boundary"
+  },
+  {
+   "sid": "ask_1",
+   "word": "일본",
+   "mode": "aligned",
+   "t": 79.345,
+   "alignment_source": "edge_word_boundary"
+  },
+  {
+   "sid": "ask_1",
+   "word": "호주",
+   "mode": "aligned",
+   "t": 80.518,
+   "alignment_source": "edge_word_boundary"
+  },
+  {
+   "sid": "ask_1",
+   "word": "한국",
+   "mode": "aligned",
+   "t": 82.348,
+   "alignment_source": "edge_word_boundary"
+  },
+  {
+   "sid": "ask_4",
+   "word": "한국",
+   "mode": "aligned",
+   "t": 96.637,
+   "alignment_source": "edge_word_boundary"
+  },
+  {
+   "sid": "past_3",
+   "word": "호르무즈",
+   "mode": "aligned",
+   "t": 205.052,
+   "alignment_source": "edge_word_boundary"
+  }
+ ],
+ "tts": {
+  "resynthesized": []
+ },
+ "total_sec": 292.439,
+ "sentences": 45,
+ "stages": {
+  "plan": true,
+  "render": true,
+  "mix": true,
+  "mux": true,
+  "ai_direction": false,
+  "visual_qa": false
+ },
+ "features_used": {
+  "camera_keys": 10,
+  "camera_moves": 5,
+  "camera_cuts": 5,
+  "dips": 4,
+  "dips_under": 1,
+  "badges": 8,
+  "badge_kinds": {
+   "person": 3,
+   "flag": 4,
+   "emblem": 1
+  },
+  "panels": [
+   "refusal",
+   "statement",
+   "timeline",
+   "precedent",
+   "versus"
+  ],
+  "cards": 7,
+  "media": {
+   "clip": 2,
+   "photo": 2,
+   "cutout": 1,
+   "article": 2
+  },
+  "event_types": {
+   "article": 2,
+   "badge": 8,
+   "barrier": 1,
+   "boom": 1,
+   "card": 7,
+   "clip": 2,
+   "country": 1,
+   "cutout": 1,
+   "dip": 4,
+   "marker": 8,
+   "panel": 5,
+   "photo": 2,
+   "route": 4,
+   "ships": 1,
+   "tanker_loop": 1
+  },
+  "label_lod": true,
+  "vignette": false,
+  "at_word": {
+   "aligned": 7,
+   "ratio": 0
+  }
+ },
+ "qa": {
+  "auto_iterations": 0,
+  "user_approved": false,
+  "reviewer": "fable (back_and_forth)"
+ },
+ "drops": [],
+ "assets": {
+  "images_used": [
+   "emblem:navcent",
+   "flag11:au",
+   "flag11:ca",
+   "flag11:cn",
+   "flag11:de",
+   "flag11:fr",
+   "flag11:gb",
+   "flag11:in",
+   "flag11:it",
+   "flag11:jp",
+   "flag11:kr",
+   "flag11:nl",
+   "flag43:ir",
+   "flag43:kr",
+   "flag43:us",
+   "media:hormuz_transit_720.jpg",
+   "media:p8_cut.png",
+   "media:rok_iraq_720.jpg",
+   "portrait:khamenei",
+   "portrait:lee_jae_myung",
+   "portrait:roh_moo_hyun",
+   "portrait:trump"
+  ],
+  "emblems": {
+   "used": [
+    "navcent"
+   ],
+   "flag_fallback": {}
+  },
+  "badges": {
+   "suggested": [
+    "au",
+    "cheonghae",
+    "cn",
+    "de",
+    "fr",
+    "gb",
+    "il",
+    "imo",
+    "in",
+    "iq",
+    "ir",
+    "jp",
+    "khamenei",
+    "kr",
+    "lee_jae_myung",
+    "roh_moo_hyun",
+    "ru",
+    "trump",
+    "us"
+   ],
+   "used": [
+    "cn",
+    "in",
+    "khamenei",
+    "kr",
+    "lee_jae_myung",
+    "navcent"
+   ],
+   "suggested_and_used": [
+    "cn",
+    "in",
+    "khamenei",
+    "kr",
+    "lee_jae_myung"
+   ],
+   "suggestions": 47
+  }
+ },
+ "credits": {
+  "card": {
+   "emblems": 1,
+   "flags": 1,
+   "map": 2,
+   "media": 5,
+   "music": 1,
+   "narration": 1,
+   "people": 4
+  },
+  "description_only": {
+   "fonts": 4
+  }
+ }
+}
