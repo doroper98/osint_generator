@@ -35,6 +35,7 @@ released 항목은 **append-only**입니다.
 - BGM 레지스트리 `assets/audio/bgm/registry.yaml`(SSOT, 3곡 — 미사용 2곡 available false). direction `sound.bgm` = 레지스트리 id, credits `- music: <id>` 행·description footer `{music}` 는 레지스트리 문구로 생성(v3 결과 동일). 음악 권리 절은 엔진이 레지스트리에서 읽는다(rights_bundles.yaml 에서 뺌). 요구 음악 = sound.bgm id 뿐 (D-0060 작업 1·2).
 - F1: `sound.bgm: null` = 음악 없음(명시 상태 — 믹서는 베드 없이 내레이션+효과음, provenance `audio.bgm: null`). 연출가 입력 `{music_list}` = 프로젝트 credits 의 `music:` id(+분위기), 비면 null 안내 (D-0060 작업 3, NB11 F1).
 - 원고 장면 `music_intensity`(0~1, 선택) — 연출가가 sound.intensity 를 만들 때 읽는 힌트. 코드는 direction 에 주입하지 않는다(P8). hormuz v3 원고는 힌트 없음 (D-0060 작업 4).
+- 곡 교체: `sound.bgm` 을 `[{id, from: 앵커}]` 목록으로도 받는다(문자열 = 목록 1곡). 경계 가운데 `audio.crossfade_sec` 선형 교차 페이드, 간격 < 교차 페이드 = 오류. 1곡은 옛 경로 그대로(mix md5 동일) (D-0060 작업 5, 10 §7-3).
 
 ---
 

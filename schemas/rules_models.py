@@ -804,6 +804,7 @@ class AudioRules(_Strict):
     fade_in_sec: float
     fade_out_sec: float
     fx_duck: float
+    crossfade_sec: float = Field(gt=0)
     norm_eps: float
     sfx: SfxRules
 

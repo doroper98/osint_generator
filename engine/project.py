@@ -198,8 +198,11 @@ def _attach_posts(proj: Path, R: RenderCtx, events: list[dict]) -> None:  # noqa
 
 
 def music_ids(sound: Optional[dict]) -> set[str]:
-    """연출 sound.bgm 이 쓰는 BGM 레지스트리 id(v3.4.0 D-0060 작업 2). sound 가 없으면 빈 집합."""
-    return {sound["bgm"]} if sound and sound.get("bgm") else set()
+    """연출 sound.bgm 이 쓰는 BGM 레지스트리 id(v3.4.0 D-0060 작업 2·5 — 문자열 또는 곡 교체 목록). sound 가 없으면 빈 집합."""
+    b = (sound or {}).get("bgm")
+    if not b:
+        return set()
+    return {b} if isinstance(b, str) else {g["id"] for g in b}
 
 
 def load_project(proj: Path, direction: Optional[Direction] = None) -> Project:

@@ -92,22 +92,51 @@ class SoundCue(_Strict):
     v: float
 
 
+class BgmSegment(_Strict):
+    """곡 교체(v3.4.0 D-0060 작업 5, 10 §7-3): `from` 앵커부터 이 곡. 경계에서 rules audio.crossfade_sec 교차 페이드."""
+
+    model_config = ConfigDict(extra="forbid", populate_by_name=True)
+
+    id: str
+    from_: Union[float, dict[str, Any]] = Field(default=0, alias="from")
+
+    @field_validator("id")
+    @classmethod
+    def _registered(cls, v: str) -> str:
+        from audio.registry import track  # noqa: PLC0415
+
+        track(v)   # 없는 id·파일명 = BgmError(ValueError) → 스키마 오류
+        return v
+
+
 class Sound(_Strict):
-    bgm: Optional[str]            # v3.4.0 — BGM 레지스트리 id(assets/audio/bgm/registry.yaml). 없는 id = 오류(P10). null = 음악 없음(명시 상태, F1)
+    # v3.4.0 — BGM 레지스트리 id(assets/audio/bgm/registry.yaml) 하나 또는 [{id, from: 앵커}] 목록(곡 교체).
+    # 문자열 하나 = 목록 하나(from 0)와 같다. 없는 id = 오류(P10). null = 음악 없음(명시 상태, F1)
+    bgm: Union[str, list[BgmSegment], None]
     intensity: list[tuple[Union[float, dict[str, Any]], float]]
     cues: list[SoundCue] = Field(default_factory=list)
 
     @field_validator("bgm")
     @classmethod
-    def _registered(cls, v: Optional[str]) -> Optional[str]:
+    def _registered(cls, v: Union[str, list[BgmSegment], None]) -> Union[str, list[BgmSegment], None]:
         from audio.registry import track  # noqa: PLC0415
 
-        if v is not None:
+        if isinstance(v, str):
             track(v)   # 없는 id·파일명 = BgmError(ValueError) → 스키마 오류
+        elif isinstance(v, list):
+            if not v:
+                raise ValueError("sound.bgm 목록이 비었다 — 음악이 없으면 null")
+            if v[0].from_ != 0:
+                raise ValueError("sound.bgm 목록의 첫 곡은 from 0(영상 시작)")
         return v
 
+    def segments(self) -> list[BgmSegment]:
+        if self.bgm is None:
+            return []
+        return [BgmSegment(id=self.bgm)] if isinstance(self.bgm, str) else list(self.bgm)
+
     def music_ids(self) -> set[str]:
-        return {self.bgm} if self.bgm else set()
+        return {s.id for s in self.segments()}
 
 
 class Direction(_Strict):
@@ -235,7 +264,8 @@ def build(doc: Direction, tb: Timebase) -> tuple[list[CamKey], list[dict], Optio
     sound = None
     if doc.sound is not None:
         sd = doc.sound
-        sound = dict(bgm=sd.bgm, intensity=[(resolve_anchor(t, tb), v) for t, v in sd.intensity],
+        bgm = sd.bgm if not isinstance(sd.bgm, list) else [dict(id=g.id, t=resolve_anchor(g.from_, tb)) for g in sd.bgm]
+        sound = dict(bgm=bgm, intensity=[(resolve_anchor(t, tb), v) for t, v in sd.intensity],
                      cues=[dict(kind=c.kind, t=resolve_anchor(c.t, tb), v=c.v) for c in sd.cues])
     return keys, events + dips, sound
 

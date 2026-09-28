@@ -38,12 +38,19 @@ class Cue(BaseModel):
     dur: float | None = None   # whoosh 길이
 
 
+class BgmSeg(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+
+    id: str
+    t: float                                   # 이 곡이 시작하는 시각(앵커 해석 뒤)
+
+
 class Sound(BaseModel):
     """프로젝트 사운드 연출 — direction.yaml `sound:` 블록(앵커 해석 뒤, v3.1.0 D-0047 §0-2)."""
 
     model_config = ConfigDict(extra="forbid")
 
-    bgm: str | None                            # BGM 레지스트리 id(v3.4.0) — 파일은 audio.registry.bgm_path. None = 음악 없음(F1, 명시 상태)
+    bgm: str | list[BgmSeg] | None             # BGM 레지스트리 id(v3.4.0) 또는 곡 교체 목록. None = 음악 없음(F1, 명시 상태)
     intensity: list[tuple[float, float]] = Field(min_length=2)   # (초, 강도) 키프레임
     cues: list[Cue] = Field(default_factory=list)
 
@@ -116,13 +123,44 @@ def bed(bg: np.ndarray, n: int) -> np.ndarray:
     return bg / (np.abs(bg).max() + AU.norm_eps)
 
 
-def mix(plan: Plan, sound: Sound, bg_raw: np.ndarray | None) -> tuple[np.ndarray, float]:
+def crossfade_weights(starts: list[float], n: int) -> np.ndarray:
+    """곡 k 의 가중치(곡 수 × n). 경계 t 를 가운데로 crossfade_sec 동안 앞 곡 1→0, 뒤 곡 0→1(선형, 매 샘플 합 1)."""
+    w = np.zeros((len(starts), n), np.float32)
+    half = AU.crossfade_sec / 2
+    tt = np.arange(n) / SR
+    for k in range(len(starts)):
+        up = np.ones(n, np.float32) if k == 0 else np.clip((tt - (starts[k] - half)) / AU.crossfade_sec, 0, 1)
+        down = np.ones(n, np.float32) if k == len(starts) - 1 else 1 - np.clip((tt - (starts[k + 1] - half)) / AU.crossfade_sec, 0, 1)
+        w[k] = np.minimum(up, down)
+    return w
+
+
+def segment_bed(segs: list[tuple[float, np.ndarray]], n: int) -> np.ndarray:
+    """곡 교체 베드: 곡마다 자기 시작 − crossfade_sec/2 에서 곡 처음부터 재생(루프 포함), 교차 페이드 가중합."""
+    starts = [t for t, _ in segs]
+    for a, b in zip(starts, starts[1:]):
+        if b - a < AU.crossfade_sec:
+            raise ValueError(f"곡 교체 간격 {b - a:.2f}s < crossfade_sec {AU.crossfade_sec}s")
+    w = crossfade_weights(starts, n)
+    out = np.zeros((n, 2), np.float32)
+    for k, (t, raw) in enumerate(segs):
+        s0 = 0 if k == 0 else max(0, int((t - AU.crossfade_sec / 2) * SR))
+        out[s0:] += bed(raw, n - s0) * w[k, s0:, None]
+    return out
+
+
+def mix(plan: Plan, sound: Sound, bg_raw: np.ndarray | list[tuple[float, np.ndarray]] | None) -> tuple[np.ndarray, float]:
     """(N×2 float32, 정규화 전 피크). bg_raw None = 베드 없음(sound.bgm null) — 내레이션+효과음만(폴백이 아니라 명시 상태)."""
     A = AU  # noqa: N806
     tot = plan.total + A.tail_sec
     n = int(tot * SR)
     rng = np.random.default_rng(A.seed)
-    bg = bed(bg_raw, n) if bg_raw is not None else np.zeros((n, 2), np.float32)
+    if bg_raw is None:
+        bg = np.zeros((n, 2), np.float32)
+    elif isinstance(bg_raw, list):          # 곡 교체(작업 5) — 문자열 1곡은 아래 옛 경로 그대로(md5 동일)
+        bg = segment_bed(bg_raw, n)
+    else:
+        bg = bed(bg_raw, n)
     tt = np.arange(n) / SR
     K = sound.intensity  # noqa: N806
     inten = np.interp(tt, [k[0] for k in K], [k[1] for k in K]).astype(np.float32)
@@ -178,7 +216,13 @@ def main(argv: list[str] | None = None) -> int:
         if snd is None:
             raise ProjectError(f"{proj / 'direction.yaml'}: sound 블록이 없다")
         sound = Sound.model_validate(snd)
-        y, pk = mix(plan, sound, decode_bgm(bgm_path(sound.bgm)) if sound.bgm is not None else None)
+        if sound.bgm is None:
+            src = None
+        elif isinstance(sound.bgm, str):
+            src = decode_bgm(bgm_path(sound.bgm))
+        else:
+            src = [(g.t, decode_bgm(bgm_path(g.id))) for g in sound.bgm]
+        y, pk = mix(plan, sound, src)
         (proj / "out").mkdir(exist_ok=True)
         out = proj / "out" / "mix.f32"
         y.tofile(out)
