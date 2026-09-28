@@ -1,0 +1,12 @@
+"""Phase 5 휘장 대체 시연 (scratch, 미추적) — taiwan 연출 + 휘장 뱃지 3개: navcent(use), irgc·cia(flag_fallback)."""
+from engine.camera import Director
+
+
+def direct(tb):
+    S, SC_END = tb.S, tb.SC_END
+    d = Director()
+    d.cam(0, 120.3, 24.2, 9.0, 0, "cut")
+    d.ev("badge", S("open_0", 0.2), SC_END("open"), lon=119.2, lat=25.2, kind="emblem", img="navcent", R=28, label="미 해군 중부사령부", role="use", accent="us")
+    d.ev("badge", S("open_0", 0.2), SC_END("open"), lon=120.6, lat=23.2, kind="emblem", img="irgc", R=28, label="혁명수비대", role="flag_fallback", accent="ru")
+    d.ev("badge", S("open_0", 0.2), SC_END("open"), lon=122.0, lat=25.2, kind="emblem", img="cia", R=28, label="CIA", role="flag_fallback", accent="us")
+    return d

@@ -1,0 +1,18 @@
+{
+ "schema_version": 1,
+ "note": "taiwan_strait 사본 + 휘장 뱃지 3개(scratch). 렌더 전 점검이 불러온 이미지 키 = 렌더가 쓰는 이미지 전부. irgc·cia 휘장 키 0회",
+ "images_used": [
+  "emblem:navcent",
+  "flag11:ir",
+  "flag11:us"
+ ],
+ "emblems": {
+  "used": [
+   "navcent"
+  ],
+  "flag_fallback": {
+   "cia": "us",
+   "irgc": "ir"
+  }
+ }
+}
