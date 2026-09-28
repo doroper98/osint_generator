@@ -1,0 +1,199 @@
+06:52:16 new-project taiwan_strait
+effective_config {"cmd": "new-project", "config": {"schema_version": 1, "command_center": {"worker_slot_count": 4, "heartbeat_timeout_sec": 60, "log_panel_max_lines": 500, "log_router_read_chunk": 1024, "tui_refresh_interval_sec": 0.5}, "logging": {"level": "INFO", "file": "logs/orchestrator.log", "rotate_daily": true, "retention_days": 30}, "paths": {"projects_root": "projects", "python_bin": "python"}, "engine": {"trial": {"width": 854, "height": 480, "fps": 24}, "final": {"width": 1920, "height": 1080, "fps": 24}, "jobs": 4, "crf": 19}, "tts": {"backend_default": "elevenlabs", "edge_voice": "ko-KR-InJoonNeural", "edge_rate": "-3%", "edge_pitch": "-2Hz", "eleven_model_env": "ELEVENLABS_MODEL_ID", "eleven_model_default": "eleven_multilingual_v2", "voice_settings": {"stability": 0.65, "similarity_boost": 0.8, "style": 0.1}, "local_invoke_timeout_sec": 600}, "llm": {"model": "claude-opus-5-5", "invoke_timeout_sec": 600, "script_timeout_sec": 1200}, "commons": {"gap_sec": 15.0, "backoff_base_sec": 60.0, "backoff_max_sec": 600.0, "tries": 6, "standard_widths": [500, 960, 1280, 1600]}, "review_gates": {"require_human_approval": {"script_approval": true, "preview_approval": true}}}, "rules_hash": "235a35346030727ff49b8ff7a6fd5b0187125eaa"}
+새 프로젝트 생성 완료: taiwan_strait
+project_id     : taiwan_strait
+title          : 호르무즈와 한국
+category       : geopolitics
+current_state  : created
+duration_min   : 18
+created_at     : 2026-09-28 06:52:16.851797+00:00
+updated_at     : 2026-09-28 06:52:16.852989+00:00
+state_history  : 0 entries
+effective_config {"cmd": "transition", "config": {"schema_version": 1, "command_center": {"worker_slot_count": 4, "heartbeat_timeout_sec": 60, "log_panel_max_lines": 500, "log_router_read_chunk": 1024, "tui_refresh_interval_sec": 0.5}, "logging": {"level": "INFO", "file": "logs/orchestrator.log", "rotate_daily": true, "retention_days": 30}, "paths": {"projects_root": "projects", "python_bin": "python"}, "engine": {"trial": {"width": 854, "height": 480, "fps": 24}, "final": {"width": 1920, "height": 1080, "fps": 24}, "jobs": 4, "crf": 19}, "tts": {"backend_default": "elevenlabs", "edge_voice": "ko-KR-InJoonNeural", "edge_rate": "-3%", "edge_pitch": "-2Hz", "eleven_model_env": "ELEVENLABS_MODEL_ID", "eleven_model_default": "eleven_multilingual_v2", "voice_settings": {"stability": 0.65, "similarity_boost": 0.8, "style": 0.1}, "local_invoke_timeout_sec": 600}, "llm": {"model": "claude-opus-5-5", "invoke_timeout_sec": 600, "script_timeout_sec": 1200}, "commons": {"gap_sec": 15.0, "backoff_base_sec": 60.0, "backoff_max_sec": 600.0, "tries": 6, "standard_widths": [500, 960, 1280, 1600]}, "review_gates": {"require_human_approval": {"script_approval": true, "preview_approval": true}}}, "rules_hash": "235a35346030727ff49b8ff7a6fd5b0187125eaa"}
+상태 전이 완료: taiwan_strait → intake
+project_id     : taiwan_strait
+title          : 호르무즈와 한국
+category       : geopolitics
+current_state  : intake
+duration_min   : 18
+created_at     : 2026-09-28 06:52:16.851797+00:00
+updated_at     : 2026-09-28 06:52:16.870264+00:00
+state_history  : 1 entries
+effective_config {"cmd": "transition", "config": {"schema_version": 1, "command_center": {"worker_slot_count": 4, "heartbeat_timeout_sec": 60, "log_panel_max_lines": 500, "log_router_read_chunk": 1024, "tui_refresh_interval_sec": 0.5}, "logging": {"level": "INFO", "file": "logs/orchestrator.log", "rotate_daily": true, "retention_days": 30}, "paths": {"projects_root": "projects", "python_bin": "python"}, "engine": {"trial": {"width": 854, "height": 480, "fps": 24}, "final": {"width": 1920, "height": 1080, "fps": 24}, "jobs": 4, "crf": 19}, "tts": {"backend_default": "elevenlabs", "edge_voice": "ko-KR-InJoonNeural", "edge_rate": "-3%", "edge_pitch": "-2Hz", "eleven_model_env": "ELEVENLABS_MODEL_ID", "eleven_model_default": "eleven_multilingual_v2", "voice_settings": {"stability": 0.65, "similarity_boost": 0.8, "style": 0.1}, "local_invoke_timeout_sec": 600}, "llm": {"model": "claude-opus-5-5", "invoke_timeout_sec": 600, "script_timeout_sec": 1200}, "commons": {"gap_sec": 15.0, "backoff_base_sec": 60.0, "backoff_max_sec": 600.0, "tries": 6, "standard_widths": [500, 960, 1280, 1600]}, "review_gates": {"require_human_approval": {"script_approval": true, "preview_approval": true}}}, "rules_hash": "235a35346030727ff49b8ff7a6fd5b0187125eaa"}
+상태 전이 완료: taiwan_strait → source_verify
+project_id     : taiwan_strait
+title          : 호르무즈와 한국
+category       : geopolitics
+current_state  : source_verify
+duration_min   : 18
+created_at     : 2026-09-28 06:52:16.851797+00:00
+updated_at     : 2026-09-28 06:52:16.890346+00:00
+state_history  : 2 entries
+effective_config {"cmd": "transition", "config": {"schema_version": 1, "command_center": {"worker_slot_count": 4, "heartbeat_timeout_sec": 60, "log_panel_max_lines": 500, "log_router_read_chunk": 1024, "tui_refresh_interval_sec": 0.5}, "logging": {"level": "INFO", "file": "logs/orchestrator.log", "rotate_daily": true, "retention_days": 30}, "paths": {"projects_root": "projects", "python_bin": "python"}, "engine": {"trial": {"width": 854, "height": 480, "fps": 24}, "final": {"width": 1920, "height": 1080, "fps": 24}, "jobs": 4, "crf": 19}, "tts": {"backend_default": "elevenlabs", "edge_voice": "ko-KR-InJoonNeural", "edge_rate": "-3%", "edge_pitch": "-2Hz", "eleven_model_env": "ELEVENLABS_MODEL_ID", "eleven_model_default": "eleven_multilingual_v2", "voice_settings": {"stability": 0.65, "similarity_boost": 0.8, "style": 0.1}, "local_invoke_timeout_sec": 600}, "llm": {"model": "claude-opus-5-5", "invoke_timeout_sec": 600, "script_timeout_sec": 1200}, "commons": {"gap_sec": 15.0, "backoff_base_sec": 60.0, "backoff_max_sec": 600.0, "tries": 6, "standard_widths": [500, 960, 1280, 1600]}, "review_gates": {"require_human_approval": {"script_approval": true, "preview_approval": true}}}, "rules_hash": "235a35346030727ff49b8ff7a6fd5b0187125eaa"}
+상태 전이 완료: taiwan_strait → research
+project_id     : taiwan_strait
+title          : 호르무즈와 한국
+category       : geopolitics
+current_state  : research
+duration_min   : 18
+created_at     : 2026-09-28 06:52:16.851797+00:00
+updated_at     : 2026-09-28 06:52:16.909178+00:00
+state_history  : 3 entries
+effective_config {"cmd": "transition", "config": {"schema_version": 1, "command_center": {"worker_slot_count": 4, "heartbeat_timeout_sec": 60, "log_panel_max_lines": 500, "log_router_read_chunk": 1024, "tui_refresh_interval_sec": 0.5}, "logging": {"level": "INFO", "file": "logs/orchestrator.log", "rotate_daily": true, "retention_days": 30}, "paths": {"projects_root": "projects", "python_bin": "python"}, "engine": {"trial": {"width": 854, "height": 480, "fps": 24}, "final": {"width": 1920, "height": 1080, "fps": 24}, "jobs": 4, "crf": 19}, "tts": {"backend_default": "elevenlabs", "edge_voice": "ko-KR-InJoonNeural", "edge_rate": "-3%", "edge_pitch": "-2Hz", "eleven_model_env": "ELEVENLABS_MODEL_ID", "eleven_model_default": "eleven_multilingual_v2", "voice_settings": {"stability": 0.65, "similarity_boost": 0.8, "style": 0.1}, "local_invoke_timeout_sec": 600}, "llm": {"model": "claude-opus-5-5", "invoke_timeout_sec": 600, "script_timeout_sec": 1200}, "commons": {"gap_sec": 15.0, "backoff_base_sec": 60.0, "backoff_max_sec": 600.0, "tries": 6, "standard_widths": [500, 960, 1280, 1600]}, "review_gates": {"require_human_approval": {"script_approval": true, "preview_approval": true}}}, "rules_hash": "235a35346030727ff49b8ff7a6fd5b0187125eaa"}
+상태 전이 완료: taiwan_strait → script_draft
+project_id     : taiwan_strait
+title          : 호르무즈와 한국
+category       : geopolitics
+current_state  : script_draft
+duration_min   : 18
+created_at     : 2026-09-28 06:52:16.851797+00:00
+updated_at     : 2026-09-28 06:52:16.926059+00:00
+state_history  : 4 entries
+effective_config {"cmd": "transition", "config": {"schema_version": 1, "command_center": {"worker_slot_count": 4, "heartbeat_timeout_sec": 60, "log_panel_max_lines": 500, "log_router_read_chunk": 1024, "tui_refresh_interval_sec": 0.5}, "logging": {"level": "INFO", "file": "logs/orchestrator.log", "rotate_daily": true, "retention_days": 30}, "paths": {"projects_root": "projects", "python_bin": "python"}, "engine": {"trial": {"width": 854, "height": 480, "fps": 24}, "final": {"width": 1920, "height": 1080, "fps": 24}, "jobs": 4, "crf": 19}, "tts": {"backend_default": "elevenlabs", "edge_voice": "ko-KR-InJoonNeural", "edge_rate": "-3%", "edge_pitch": "-2Hz", "eleven_model_env": "ELEVENLABS_MODEL_ID", "eleven_model_default": "eleven_multilingual_v2", "voice_settings": {"stability": 0.65, "similarity_boost": 0.8, "style": 0.1}, "local_invoke_timeout_sec": 600}, "llm": {"model": "claude-opus-5-5", "invoke_timeout_sec": 600, "script_timeout_sec": 1200}, "commons": {"gap_sec": 15.0, "backoff_base_sec": 60.0, "backoff_max_sec": 600.0, "tries": 6, "standard_widths": [500, 960, 1280, 1600]}, "review_gates": {"require_human_approval": {"script_approval": true, "preview_approval": true}}}, "rules_hash": "235a35346030727ff49b8ff7a6fd5b0187125eaa"}
+상태 전이 완료: taiwan_strait → script_approval
+project_id     : taiwan_strait
+title          : 호르무즈와 한국
+category       : geopolitics
+current_state  : script_approval
+duration_min   : 18
+created_at     : 2026-09-28 06:52:16.851797+00:00
+updated_at     : 2026-09-28 06:52:16.943826+00:00
+state_history  : 5 entries
+06:52:16 [tui:system] Command Center started · v3.0.0
+06:52:16 [tui:system] project dir: /home/user/osint_generator/projects/taiwan_strait
+06:52:16 [tui:system] worker slots: 4
+06:52:19 === 게이트 화면 script_approval ===
+[게이트 ① 원고 승인] 대만해협 — 권역 준비 확인 (2026.09.27)
+
+장면 목록
+  open       문장  2  예상    7.7초
+  합계 2문장 · 예상 7.7초 (plan.json 실측)
+
+원고 전문(자막) · [검증 라벨] (도시어 없음 — 라벨 계산 안 함)
+  open_0       대만해협은 대만과 중국 대륙 사이의 바다입니다.
+  open_1       해협 서쪽은 중국 푸젠성, 동쪽은 대만 섬입니다.
+
+출처 표
+  open_0       Natural Earth
+  open_1       Natural Earth admin-1
+
+린트 — 오류 0 · 경고 0
+
+미디어 후보 — 원고 media 필드 0건
+  트리거 제안 0건: 
+06:52:19 === 끝 ===
+06:52:20 [tui:system] 반려: script_approval → ProjectState.SCRIPT_DRAFT (e2e 반려 시연 — script_approval 에서 script_draft 로 되돌림)
+06:52:20 [tui:system] state changed: script_approval → script_draft
+06:52:21 reject: script_approval → script_draft
+effective_config {"cmd": "transition", "config": {"schema_version": 1, "command_center": {"worker_slot_count": 4, "heartbeat_timeout_sec": 60, "log_panel_max_lines": 500, "log_router_read_chunk": 1024, "tui_refresh_interval_sec": 0.5}, "logging": {"level": "INFO", "file": "logs/orchestrator.log", "rotate_daily": true, "retention_days": 30}, "paths": {"projects_root": "projects", "python_bin": "python"}, "engine": {"trial": {"width": 854, "height": 480, "fps": 24}, "final": {"width": 1920, "height": 1080, "fps": 24}, "jobs": 4, "crf": 19}, "tts": {"backend_default": "elevenlabs", "edge_voice": "ko-KR-InJoonNeural", "edge_rate": "-3%", "edge_pitch": "-2Hz", "eleven_model_env": "ELEVENLABS_MODEL_ID", "eleven_model_default": "eleven_multilingual_v2", "voice_settings": {"stability": 0.65, "similarity_boost": 0.8, "style": 0.1}, "local_invoke_timeout_sec": 600}, "llm": {"model": "claude-opus-5-5", "invoke_timeout_sec": 600, "script_timeout_sec": 1200}, "commons": {"gap_sec": 15.0, "backoff_base_sec": 60.0, "backoff_max_sec": 600.0, "tries": 6, "standard_widths": [500, 960, 1280, 1600]}, "review_gates": {"require_human_approval": {"script_approval": true, "preview_approval": true}}}, "rules_hash": "235a35346030727ff49b8ff7a6fd5b0187125eaa"}
+상태 전이 완료: taiwan_strait → script_approval
+project_id     : taiwan_strait
+title          : 호르무즈와 한국
+category       : geopolitics
+current_state  : script_approval
+duration_min   : 18
+created_at     : 2026-09-28 06:52:16.851797+00:00
+updated_at     : 2026-09-28 06:52:21.822544+00:00
+state_history  : 7 entries
+06:52:22 === 게이트 화면 script_approval ===
+[게이트 ① 원고 승인] 대만해협 — 권역 준비 확인 (2026.09.27)
+
+장면 목록
+  open       문장  2  예상    7.7초
+  합계 2문장 · 예상 7.7초 (plan.json 실측)
+
+원고 전문(자막) · [검증 라벨] (도시어 없음 — 라벨 계산 안 함)
+  open_0       대만해협은 대만과 중국 대륙 사이의 바다입니다.
+  open_1       해협 서쪽은 중국 푸젠성, 동쪽은 대만 섬입니다.
+
+출처 표
+  open_0       Natural Earth
+  open_1       Natural Earth admin-1
+
+린트 — 오류 0 · 경고 0
+
+미디어 후보 — 원고 media 필드 0건
+  트리거 제안 0건: 
+06:52:22 === 끝 ===
+06:52:23 [tui:system] 승인: script_approval → ProjectState.VOICE_TIMELINE
+06:52:24 [tui:system] state changed: script_approval → voice_timeline
+06:52:24 approve: script_approval → voice_timeline
+06:52:24 [tui:system] advance: voice_timeline
+06:52:26 [tui:system] StageResult plan ok=True drops=0 errors=[]
+06:52:26 [tui:system] state → ProjectState.ASSETS
+06:52:26 [tui:system] state changed: voice_timeline → assets
+06:52:27 advance: voice_timeline → assets
+06:52:27 [tui:system] advance: assets
+06:52:33 [tui:system] StageResult geo ok=True drops=0 errors=[]
+06:52:33 [tui:system] state → ProjectState.DIRECTION
+06:52:33 [tui:system] state changed: assets → direction
+06:52:35 advance: assets → direction
+06:52:35 [tui:system] advance: direction
+06:52:35 [tui:system] StageResult lint ok=True drops=0 errors=[]
+06:52:35 [tui:system] state → ProjectState.PREVIEW_QA
+06:52:36 [tui:system] state changed: direction → preview_qa
+06:52:37 advance: direction → preview_qa
+06:52:37 [tui:system] advance: preview_qa
+06:52:39 [tui:system] StageResult preview ok=True drops=0 errors=[]
+06:52:39 [tui:system] state → ProjectState.PREVIEW_APPROVAL
+06:52:39 [tui:system] state changed: preview_qa → preview_approval
+06:52:39 advance: preview_qa → preview_approval
+06:52:39 === 게이트 화면 preview_approval ===
+[게이트 ② 프리뷰 승인]
+
+컨택트 시트  /home/user/osint_generator/projects/taiwan_strait/prev/sheet.jpg
+프리뷰 컷    3장  p_0007.63.png … p_0016.64.png
+예상 러닝타임 0분 22.6초 (22.639초, 목소리 edge-tts ko-KR-InJoonNeural)
+
+provenance 요약 (prev/provenance.json)
+  stages      {"plan": true, "geo": true, "preview": true, "render": false, "mix": false, "mux": false, "ai_direction": false, "visual_qa": false}
+  카메라 이동 0 · dip 0 · 뱃지 0 · 카드 0
+  패널        
+  미디어      {"clip": 0, "photo": 0, "cutout": 0, "article": 0}
+  drops       0건 · 연출 경고 1건
+  rules_hash  235a35346030
+
+AI 검수 잔여 이슈  (6.9 — 시각 검수 워커 전)
+06:52:39 === 끝 ===
+06:52:40 [tui:system] 반려: preview_approval → ProjectState.DIRECTION (e2e 반려 시연 — preview_approval 에서 direction 로 되돌림)
+06:52:40 [tui:system] state changed: preview_approval → direction
+06:52:41 reject: preview_approval → direction
+06:52:41 [tui:system] advance: direction
+06:52:42 [tui:system] StageResult lint ok=True drops=0 errors=[]
+06:52:42 [tui:system] state → ProjectState.PREVIEW_QA
+06:52:43 [tui:system] state changed: direction → preview_qa
+06:52:43 advance: direction → preview_qa
+06:52:43 [tui:system] advance: preview_qa
+06:52:45 [tui:system] StageResult preview ok=True drops=0 errors=[]
+06:52:45 [tui:system] state → ProjectState.PREVIEW_APPROVAL
+06:52:45 advance: preview_qa → preview_approval
+06:52:45 === 게이트 화면 preview_approval ===
+[게이트 ② 프리뷰 승인]
+
+컨택트 시트  /home/user/osint_generator/projects/taiwan_strait/prev/sheet.jpg
+프리뷰 컷    3장  p_0007.63.png … p_0016.64.png
+예상 러닝타임 0분 22.6초 (22.639초, 목소리 edge-tts ko-KR-InJoonNeural)
+
+provenance 요약 (prev/provenance.json)
+  stages      {"plan": true, "geo": true, "preview": true, "render": false, "mix": false, "mux": false, "ai_direction": false, "visual_qa": false}
+  카메라 이동 0 · dip 0 · 뱃지 0 · 카드 0
+  패널        
+  미디어      {"clip": 0, "photo": 0, "cutout": 0, "article": 0}
+  drops       0건 · 연출 경고 1건
+  rules_hash  235a35346030
+
+AI 검수 잔여 이슈  (6.9 — 시각 검수 워커 전)
+06:52:45 === 끝 ===
+06:52:45 [tui:system] 승인: preview_approval → ProjectState.RENDER
+06:52:46 [tui:system] state changed: preview_approval → render
+06:52:47 approve: preview_approval → render
+06:52:47 [tui:system] advance: render
+06:52:56 [tui:system] StageResult render ok=True drops=0 errors=[]
+06:52:56 [tui:system] state → ProjectState.AUDIO_MIX
+06:52:56 [tui:system] state changed: render → audio_mix
+06:52:57 advance: render → audio_mix
+06:52:57 [tui:system] advance: audio_mix
+06:52:59 [tui:stderr] StageResult mix ok=False drops=0 errors=['/home/user/osint_generator/projects/taiwan_strait/direction.py: sound(tb) 함수가 없다']
+06:52:59 [tui:system] state → audio_mix
+06:53:01 advance: audio_mix → audio_mix
+06:53:01 e2e: 단계 실패 — 상태에 머묾(15 P6). 중단

@@ -95,6 +95,11 @@ projects/hormuz_korea/__pycache__/
 projects/hormuz_korea/project_manifest.json
 projects/hormuz_korea/logs/
 projects/hormuz_korea/03_tasks/
+projects/taiwan_strait/project_manifest.json
+projects/taiwan_strait/logs/
+projects/taiwan_strait/03_tasks/
+projects/taiwan_strait/prev/
+projects/taiwan_strait/out/
 
 # v2.2.0 — 지오 입력 캐시(Natural Earth·지형 타일, geo.prep 이 받는다)
 /data/geo/

@@ -330,7 +330,7 @@ def _apply_transition(
     manifest.state_history.append(StateTransition(
         from_state=coerce(manifest.current_state), to_state=target, transitioned_at=utc_now(), reason=reason,
     ))
-    manifest.current_state = target
+    manifest.current_state = target.value   # type: ignore[assignment] — 로드한 manifest 와 같은 모양(use_enum_values)
     _write_manifest(manifest, cfg)
     return manifest
 

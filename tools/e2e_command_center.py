@@ -15,6 +15,7 @@ import argparse
 import asyncio
 import sys
 import time
+from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
 REPO = Path(__file__).resolve().parent.parent
@@ -31,8 +32,11 @@ PRE_GATE = ["intake", "source_verify", "research", "script_draft", "script_appro
 LLM_NOTE = "v3 수동 원고·연출 사용 — LLM 단계(intake·source·research·script) 해당 없음(e2e, D-0040 작업 10)"
 
 
+KST = timezone(timedelta(hours=9))
+
+
 def say(line: str) -> None:
-    print(f"{time.strftime('%H:%M:%S')} {line}", flush=True)
+    print(f"{datetime.now(KST).strftime('%H:%M:%S')} {line}", flush=True)
 
 
 class LoggedApp(CommandCenterApp):
