@@ -54,6 +54,22 @@ last_review: 2026-05-19
 - **발견 버전**: v0.1.0 (Phase 1 smoke test 중)
 - **상태**: active
 
+## PIPELINE-AP-007 — LLM 출력 저장 전 점검이 렌더 경로와 달라 정상 연출을 거부
+- **증상**: hormuz_ai 첫 AI 연출에서 `place:` 슬롯으로 둔 뱃지가 "lon/lat 필수" 오류로 거부되고, 연출가에게 틀린 재요청이 갔다.
+- **원인**: `workers/direction_io.check_direction` 이 `place` 를 버리고 모델 검증만 했다. 렌더 입력(`engine.project.load_project`)은 슬롯을 좌표로 푼 뒤 검증한다.
+- **좋은 예**: 저장 전 점검 = 렌더와 **같은 함수**. `load_project(proj, direction=doc)` 로 슬롯·레지스트리·엔티티·예약영역·권리를 한 번에.
+- **자동 조치**: check_direction 이 load_project 를 호출(v3.1.0).
+- **회귀 테스트**: `tests/test_placement_slots.py::CheckDirectionPlaceTest`
+- **발견 버전**: v3.1.0 (Phase 6.9 작업 10 실측) · **상태**: active
+
+## PIPELINE-AP-008 — 불변 검사의 지적 표지 형식 불일치로 정당한 수정을 거부
+- **증상**: 검수가 지적한 `clip:strikes`·`badge:이재명` 을 고친 연출 수정본이 "지적 없이 변경"으로 두 번 거부, 검수 루프가 0회 수정으로 멈춤.
+- **원인**: 표지 `badge:이재명` 과 키 `badge|person|이재명|{앵커}` 를 부분 문자열로 비교했다. 컷 표지 `p_0136.97` 는 어떤 이벤트에도 닿지 않았다.
+- **좋은 예**: 표지를 이벤트로 **해석**한다 — 타입:이름, 컷 → frames.json 활성 이벤트, 검사 id → 상세 문장 속 이름(`engine.qa.resolve_refs`).
+- **교훈**: 계약 검사는 LLM 이 실제로 받는 표지 형식(프롬프트 예시)으로 단위 테스트한다. 스텁 워커 테스트만으로는 못 잡는다.
+- **회귀 테스트**: `tests/test_qa_models.py` (event_ref·frame·checks id 3건)
+- **발견 버전**: v3.1.0 (Phase 6.9 작업 10 실측) · **상태**: active
+
 ---
 
 > 새 패턴 발견 시 본 파일 끝에 append. 과거 항목 수정 금지.

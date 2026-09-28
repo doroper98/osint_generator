@@ -296,3 +296,10 @@ last_review: 2026-05-22
 - **회귀 테스트 (regression_test)**: `tests/test_script_lint.py` — 사용자 지정 12문구 전부 검출,
   v3 원고 45문장 통과. 띄어쓰기 변형("같은자리로", "않는것")도 잡도록 v2.3.0 에 패턴 3개를 `\s?`로 넓혔다.
 - **연관**: 03 §2·§2.1, back_and_forth D-0021 작업 2.
+
+## LLM-AP-007 — 새 호출 모드를 추가하고 호출 기록 스키마에 넣지 않음
+- **증상 (symptom)**: 시각 검수(vision 모드)가 판정 파일을 쓰고 나서 `LLMCallRecord.mode` 검증 실패로 단계 실패.
+- **원인 (root cause)**: `BaseLLMWorker.llm_mode` 에 `vision` 을 더하고 `schemas/models.py LLMCallRecord.mode` Literal 은 그대로 뒀다. 스텁 워커 테스트는 기록 경로를 타지 않았다.
+- **구조적 조치 (structural fix, v3.1.0)**: Literal 에 `vision` 추가(하위 호환). 모드마다 실제 기록 경로를 타는 테스트.
+- **회귀 테스트 (regression_test)**: `tests/test_base_llm_worker_run.py::TestVisionModeRecord` — 수정 전 실패 확인.
+- **연관**: back_and_forth D-0047 작업 8·10, hormuz_ai 실측.
