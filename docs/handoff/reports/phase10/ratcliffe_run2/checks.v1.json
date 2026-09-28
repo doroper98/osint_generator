@@ -1,0 +1,98 @@
+{
+ "schema_version": 1,
+ "hard": 2,
+ "warnings": 2,
+ "passed": false,
+ "thresholds": {
+  "overlap_core_elements": 0,
+  "offscreen_clip": 0,
+  "missing_glyphs": 0,
+  "labels_per_frame_max": 18,
+  "subtitle_lines_max": 2,
+  "rights_missing": 0,
+  "forbidden_components": 0,
+  "label_hidden_max_ratio": 0.5,
+  "visual_qa_loop_max": 2,
+  "loop_pick_order": [
+   "checks_hard",
+   "qa_hard",
+   "qa_soft"
+  ]
+ },
+ "items": [
+  {
+   "id": "overlap",
+   "severity": "hard",
+   "count": 1,
+   "details": [
+    "[label-hidden-by-card] 마커 '모스크바' t0=155.09 라벨이 카드 ['card:CNN·CBS · 미국 정보당국 평가', 'card:크렘린 · 페스코프 대변인', 'card:트럼프 대통령'] 뒤에서 표시 시간의 78% 흐려짐 > 50% — 마커나 카드 자리를 옮겨라(카메라 구도·카드 y·place)"
+   ]
+  },
+  {
+   "id": "offscreen",
+   "severity": "hard",
+   "count": 1,
+   "details": [
+    "마커 키이우 t=48.4 화면 밖 22px (상자 [341, 460, 420, 502])"
+   ]
+  },
+  {
+   "id": "glyphs",
+   "severity": "hard",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "shots",
+   "severity": "warning",
+   "count": 1,
+   "details": [
+    "장면 open_questions 카메라 이동 2 > 1"
+   ]
+  },
+  {
+   "id": "media_beats",
+   "severity": "warning",
+   "count": 1,
+   "details": [
+    "[media-density-total] 과소 — 0개 / 226초 = inf초당 1개 > 60초 (14 §10.1)"
+   ]
+  },
+  {
+   "id": "media_upscaled",
+   "severity": "warning",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "labels",
+   "severity": "hard",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "date",
+   "severity": "hard",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "subtitles",
+   "severity": "hard",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "rights",
+   "severity": "hard",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "forbidden",
+   "severity": "hard",
+   "count": 0,
+   "details": []
+  }
+ ]
+}

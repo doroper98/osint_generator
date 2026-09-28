@@ -14,8 +14,8 @@ places:
   - 30.52
   - 50.45
   poland:
-  - 22.9
-  - 51.2
+  - 19.2
+  - 52.1
   hormuz:
   - 56.4
   - 26.6
@@ -23,8 +23,12 @@ paths:
   flight:
   - - 24.11
     - 56.95
-  - - 30.5
-    - 56.6
+  - - 28.4
+    - 57.2
+  - - 32.6
+    - 56.8
+  - - 35.6
+    - 56.1
   - - 37.29
     - 55.6
 shots:
@@ -32,22 +36,10 @@ shots:
   mode: cut
   dur: 0.0
   camera:
-    lon: 37.5
-    lat: 55.7
-    place: null
-    w: 16.0
-  under: false
-  scene: null
-- at:
-    sid: open_3
-    'off': -0.6
-  mode: move
-  dur: 3.4
-  camera:
-    lon: 34.5
+    lon: 38.3
     lat: 55.5
     place: null
-    w: 17.0
+    w: 7.0
   under: false
   scene: null
 - at:
@@ -66,10 +58,22 @@ shots:
     scene_start: before_visit
     'off': -0.8
   mode: move
-  dur: 2.6
+  dur: 3.0
   camera:
-    lon: 33.5
+    lon: 33.0
     lat: 52.8
+    place: null
+    w: 22.0
+  under: false
+  scene: null
+- at:
+    scene_start: backdrop
+    'off': -0.8
+  mode: move
+  dur: 3.0
+  camera:
+    lon: 27.0
+    lat: 52.4
     place: null
     w: 28.0
   under: false
@@ -81,9 +85,9 @@ shots:
   dur: 3.0
   camera:
     lon: 54.5
-    lat: 30.0
+    lat: 29.0
     place: null
-    w: 26.0
+    w: 24.0
   under: false
   scene: null
 - at:
@@ -92,32 +96,32 @@ shots:
   mode: dip
   dur: 3.0
   camera:
-    lon: 40.0
-    lat: 54.0
+    lon: 42.0
+    lat: 53.3
     place: null
-    w: 24.0
-  under: false
-  scene: null
-- at:
-    scene_start: confirmed
-    'off': -0.8
-  mode: move
-  dur: 3.4
-  camera:
-    lon: 31.5
-    lat: 53.8
-    place: null
-    w: 30.0
+    w: 28.0
   under: false
   scene: null
 - at:
     scene_start: open_questions
-    'off': -0.6
+    'off': -1.0
   mode: move
   dur: 3.4
   camera:
-    lon: 47.0
-    lat: 42.5
+    lon: 26.0
+    lat: 42.0
+    place: null
+    w: 88.0
+  under: false
+  scene: null
+- at:
+    sid: open_questions_2
+    'off': -0.5
+  mode: move
+  dur: 9.0
+  camera:
+    lon: 22.0
+    lat: 42.0
     place: null
     w: 96.0
   under: false
@@ -129,7 +133,7 @@ events:
       sid: open_0
       text: 모스크바
   end:
-    card: title
+    scene_end: open
   at_place: moscow
   label: 모스크바
   sub: 8월 25일 미 공군 수송기 도착
@@ -137,14 +141,14 @@ events:
   hl: true
 - type: badge
   start:
-    word:
-      sid: open_1
-      text: 존 랫클리프
+    sid: open_1
+    'off': 0.4
   end:
-    card: title
-  place: map_lower_left
+    scene_end: open
+  place: map_upper_left
   kind: emblem
   img: cia
+  flag: us
   R: 30
   label: 존 랫클리프
   role: CIA 국장
@@ -168,24 +172,12 @@ events:
   end:
     sid: flight_0
     edge: end
-    'off': 0.5
-  place: card_right
-  tag: 보도 · 기종
+    'off': 0.4
+  tag: 보도 · 수송기 기종
   bigs:
   - - C-17
     - 미 공군 수송기
   accent: us
-- type: country
-  start:
-    word:
-      sid: flight_1
-      text: 리가
-  end:
-    scene_end: flight
-  codes:
-  - LV
-  col: us
-  a: 0.03
 - type: marker
   start:
     word:
@@ -195,29 +187,27 @@ events:
     scene_end: flight
   at_place: riga
   label: 리가
-  sub: 경유
+  sub: 라트비아 · 경유
   side: top
   hl: false
 - type: route
   start:
-    word:
-      sid: flight_1
-      text: 리가
-    'off': 0.2
+    sid: flight_1
+    'off': 1.2
   end:
     scene_end: flight
   pts:
     path: flight
   grow:
     span:
-    - word:
-        sid: flight_1
-        text: 리가
-      'off': 0.2
+    - sid: flight_1
+      'off': 1.2
     - sid: flight_2
-      'off': 0.0
-  col: us
+      edge: end
+      'off': -0.6
+  col: gold
   ship: false
+  label: ''
 - type: marker
   start:
     word:
@@ -227,30 +217,18 @@ events:
     scene_end: flight
   at_place: vnukovo
   label: 브누코보 공항
-  sub: 8월 25일 도착
-  side: right
+  sub: 모스크바 · 도착
+  side: bottom
   hl: true
-- type: country
-  start:
-    word:
-      sid: before_visit_0
-      text: 우크라이나
-  end:
-    scene_end: before_visit
-  codes:
-  - UA
-  col: teal
-  a: 0.07
 - type: marker
   start:
-    word:
-      sid: before_visit_0
-      text: 우크라이나
+    sid: before_visit_0
+    'off': 2.6
   end:
     scene_end: before_visit
   at_place: kyiv
   label: 키이우
-  sub: 미국의 요청
+  sub: 우크라이나
   side: top
   hl: false
 - type: marker
@@ -262,20 +240,21 @@ events:
     scene_end: before_visit
   at_place: moscow
   label: 모스크바
-  sub: 공격 중단 요청 대상
+  sub: 공격 중단 요청 지역
   side: right
   hl: true
 - type: card
   start:
     sid: before_visit_1
-    'off': 0.3
+    'off': 0.2
   end:
     sid: before_visit_1
     edge: end
-    'off': 0.4
-  tag: 방문 앞둔 미국의 요청 · 보도
+    'off': 0.3
+  tag: 방문 앞두고 · 보도
   lines:
-  - 모스크바 등지에 대한 공격을 멈춰 달라
+  - 미국, 우크라이나에 요청
+  - 모스크바 등지 공격을 멈춰 달라
   accent: us
 - type: badge
   start:
@@ -283,7 +262,8 @@ events:
     'off': 0.3
   end:
     scene_end: before_visit
-  place: map_lower_left
+  lon: 26.6
+  lat: 51.5
   kind: person
   pid: zelensky
   flag: ua
@@ -294,14 +274,14 @@ events:
 - type: card
   start:
     sid: before_visit_2
-    'off': 0.6
+    'off': 0.5
   end:
     sid: before_visit_2
     edge: end
     'off': 0.3
-  tag: 키이우포스트 · 젤렌스키 대통령
+  tag: 키이우포스트 인용
   lines:
-  - 회동에 관해 미국에서 정보를 받았다
+  - 이 회동에 관해 미국에서 정보를 받았다
   accent: teal
 - type: card
   start:
@@ -309,68 +289,48 @@ events:
     'off': 0.2
   end:
     scene_end: before_visit
+    'off': 0.3
   tag: 젤렌스키 대통령
   lines:
   - 회동 상대는 러시아 정보당국자들
   accent: teal
 - type: country
   start:
-    word:
-      sid: backdrop_0
-      text: 폴란드
-  end:
     sid: backdrop_0
-    edge: end
-    'off': 0.8
+    'off': 0.3
+  end:
+    sid: backdrop_1
+    'off': -0.3
   codes:
   - PL
   col: ru
-  a: 0.07
-- type: boom
-  start:
-    word:
-      sid: backdrop_0
-      text: 폴란드
-  end:
-    sid: backdrop_0
-    edge: end
-    'off': 0.3
-  at_place: poland
+  a: 0.08
 - type: marker
   start:
     word:
       sid: backdrop_0
       text: 폴란드
   end:
-    sid: backdrop_0
-    edge: end
-    'off': 0.8
+    sid: backdrop_1
+    'off': -0.3
   at_place: poland
   label: 폴란드
   sub: 7월 29일 순항미사일 낙하 보도
-  side: right
+  side: left
   hl: true
-  icon: boom
 - type: panel
   start:
     sid: backdrop_1
     'off': -0.3
   end:
     scene_end: backdrop
+    'off': 0.4
   kind: timeline
   data:
     title: 방문 앞의 한 달
     subtitle: 2026년 7월 – 8월
-    start: '2026-07-27'
-    end: '2026-08-27'
-    band:
-      start: '2026-07-29'
-      end: '2026-08-25'
-      label: 7월 29일 → 8월 25일
-      col: gold
-      t_show:
-        sid: backdrop_1
-        'off': 0.0
+    start: '2026-07-20'
+    end: '2026-08-31'
     events:
     - date: '2026-07-29'
       label: 폴란드 영토에 순항미사일 낙하 보도
@@ -378,80 +338,85 @@ events:
       side: -1
       t:
         sid: backdrop_1
-        'off': 0.0
+        'off': -0.3
     - date: '2026-08-12'
-      label: 브렌트유 10월물 배럴당 89.53달러
+      label: 브렌트유 10월물 89.53달러 · 알자지라
       col: gold
       side: 1
       t:
-        word:
-          sid: backdrop_1
-          text: 브렌트유
+        sid: backdrop_1
+        'off': 0.6
     - date: '2026-08-24'
-      label: 베선트 재무장관, 새 작전 발표
+      label: 베선트, ‘경제적 추방자 작전’ 발표 · CNN
       col: us
       side: -2
       t:
-        word:
-          sid: backdrop_2
-          text: 베선트
-    - date: '2026-08-24'
-      label: 작전명 ‘경제적 추방자 작전’ (CNN)
-      col: us
-      side: 2
-      t:
-        sid: backdrop_3
-        'off': 0.3
+        sid: backdrop_2
+        'off': 0.4
     - date: '2026-08-25'
       label: CIA 국장 모스크바 방문
       col: gold
-      side: -1
+      side: 2
       t:
-        word:
-          sid: backdrop_4
-          text: 모스크바
+        sid: backdrop_4
+        'off': 0.2
       dim: true
 - type: panel
   start:
     scene_start: nato_dispute
-    'off': -0.2
+    'off': -0.3
   end:
     scene_end: nato_dispute
+    'off': 0.4
   kind: versus
   data:
     title: 나토 경고, 엇갈리는 설명
     sides:
-    - title: 익명 소식통 보도
-      src: WSJ 첫 보도 · CNN·CBS
+    - title: 익명 소식통
+      src: WSJ 첫 보도 · CNN · CBS
       items:
       - text: 랫클리프, 러시아에 나토 회원국 공격 말라 경고
         t:
           sid: nato_dispute_1
-          'off': 0.3
+          'off': 0.4
       - text: WSJ가 처음 보도, CNN·CBS도 전함
         t:
           sid: nato_dispute_2
           'off': 0.3
-    - title: 부인하는 쪽
+    - title: 트럼프 대통령 · 크렘린
       src: 트럼프 대통령 · 크렘린
       items:
-      - text: '트럼프: 준일상적 방문, 그런 메시지 없었다'
+      - text: 준일상적 방문, 그런 메시지는 없었다
         t:
           sid: nato_dispute_3
           'off': 0.3
-      - text: '크렘린: 현실과 무관한 공포 조장'
+      - text: 현실과 무관한 공포 조장
         t:
           sid: nato_dispute_4
           'off': 0.3
 - type: country
   start:
     scene_start: iran_dispute
+    'off': 0.1
   end:
     scene_end: iran_dispute
   codes:
   - IR
   col: ru
-  a: 0.025
+  a: 0.07
+- type: badge
+  start:
+    sid: iran_dispute_0
+    'off': 0.4
+  end:
+    scene_end: iran_dispute
+  lon: 53.5
+  lat: 32.5
+  kind: flag
+  flag: ir
+  R: 18
+  label: 이란
+  accent: ru
 - type: card
   start:
     sid: iran_dispute_1
@@ -459,8 +424,7 @@ events:
   end:
     sid: iran_dispute_1
     edge: end
-    'off': 0.4
-  place: card_right
+    'off': 0.3
   tag: CNN·CBS 인용 익명 소식통
   lines:
   - 랫클리프, 이란 지원을 끊으라고 촉구
@@ -484,7 +448,7 @@ events:
   end:
     sid: iran_dispute_2
     edge: end
-    'off': 0.4
+    'off': 0.3
   tag: 익명 소식통
   lines:
   - 해협이 다시 열리지 않으면 추가 제재 경고
@@ -492,10 +456,10 @@ events:
 - type: badge
   start:
     sid: iran_dispute_3
-    'off': 0.2
+    'off': 0.1
   end:
     scene_end: iran_dispute
-  place: map_lower_left
+  place: map_upper_left
   kind: person
   pid: trump
   flag: us
@@ -506,28 +470,17 @@ events:
 - type: card
   start:
     sid: iran_dispute_3
-    'off': 0.4
-  end:
-    sid: iran_dispute_3
-    edge: end
     'off': 0.3
+  end:
+    scene_end: iran_dispute
+    'off': 0.2
   tag: 트럼프 대통령
   lines:
   - 이번 방문은 이란과 관련이 없다
   accent: us
-- type: card
-  start:
-    sid: iran_dispute_4
-    'off': 0.2
-  end:
-    scene_end: iran_dispute
-  tag: 트럼프 대통령의 설명
-  lines:
-  - 이란·호르무즈에 관한 요구는 들어 있지 않다
-  accent: us
 - type: marker
   start:
-    scene_start: intel_dispute
+    sid: intel_dispute_0
     'off': 0.3
   end:
     scene_end: intel_dispute
@@ -536,14 +489,26 @@ events:
   sub: ''
   side: left
   hl: true
+- type: card
+  start:
+    sid: intel_dispute_1
+    'off': 0.3
+  end:
+    sid: intel_dispute_1
+    edge: end
+    'off': 0.3
+  tag: CNN·CBS · 미국 정보당국 평가
+  lines:
+  - 푸틴, 나토 결속을 시험하는 도발에 나설 수 있다
+  accent: teal
 - type: badge
   start:
-    word:
-      sid: intel_dispute_1
-      text: 푸틴
+    sid: intel_dispute_1
+    'off': 0.6
   end:
     scene_end: intel_dispute
-  place: map_center
+  lon: 41.2
+  lat: 55.0
   kind: person
   pid: putin
   flag: ru
@@ -551,28 +516,15 @@ events:
   label: 블라디미르 푸틴
   role: 러시아 대통령
   accent: ru
-- type: card
-  start:
-    sid: intel_dispute_1
-    'off': 0.4
-  end:
-    sid: intel_dispute_1
-    edge: end
-    'off': 0.4
-  place: card_right
-  tag: CNN·CBS · 미국 정보당국 평가
-  lines:
-  - 푸틴이 나토 결속을 시험하는 도발에 나설 수 있다
-  accent: teal
 - type: badge
   start:
     sid: intel_dispute_2
-    'off': 0.2
+    'off': 0.1
   end:
     sid: intel_dispute_2
     edge: end
-    'off': 0.4
-  place: map_lower_right
+    'off': 0.3
+  place: map_upper_left
   kind: person
   pid: trump
   flag: us
@@ -583,62 +535,51 @@ events:
 - type: card
   start:
     sid: intel_dispute_2
-    'off': 0.4
+    'off': 0.3
   end:
     sid: intel_dispute_2
     edge: end
-    'off': 0.4
+    'off': 0.3
   tag: 트럼프 대통령
   lines:
   - 푸틴은 나토 영토를 공격하지 않을 것
   accent: us
-- type: badge
-  start:
-    sid: intel_dispute_3
-    'off': 0.2
-  end:
-    scene_end: intel_dispute
-  place: map_lower_right
-  kind: flag
-  flag: ru
-  R: 30
-  label: 크렘린
-  role: 페스코프 대변인
-  accent: ru
 - type: card
   start:
     sid: intel_dispute_3
     'off': 0.3
   end:
     scene_end: intel_dispute
+    'off': 0.2
   tag: 크렘린 · 페스코프 대변인
   lines:
-  - 평가는 러시아의 의도를 반영하지 않는다
+  - 평가가 러시아의 의도를 반영하지 않는다
   accent: ru
-- type: marker
+- type: badge
   start:
     sid: confirmed_1
     'off': 0.2
   end:
     scene_end: confirmed
-  at_place: moscow
-  label: 모스크바
-  sub: 8월 25일 CIA 국장 방문
-  side: right
-  hl: true
-- type: badge
-  start:
-    sid: confirmed_1
-    'off': 0.6
-  end:
-    scene_end: confirmed
-  place: map_lower_left
+  place: map_upper_left
   kind: emblem
   img: cia
+  flag: us
   R: 28
   label: CIA 국장
-  role: 8월 25일 방문
+  role: 8월 25일 모스크바 방문
   accent: us
+- type: marker
+  start:
+    sid: confirmed_1
+    'off': 0.4
+  end:
+    scene_end: confirmed
+  at_place: moscow
+  label: 모스크바
+  sub: 브누코보 공항 도착
+  side: right
+  hl: true
 - type: marker
   start:
     word:
@@ -653,40 +594,39 @@ events:
   hl: false
 - type: route
   start:
-    word:
-      sid: confirmed_2
-      text: 리가
+    sid: confirmed_2
+    'off': 0.6
   end:
     scene_end: confirmed
   pts:
     path: flight
   grow:
     span:
-    - word:
-        sid: confirmed_2
-        text: 리가
-    - word:
-        sid: confirmed_2
-        text: 브누코보
-  col: us
+    - sid: confirmed_2
+      'off': 0.6
+    - sid: confirmed_2
+      edge: end
+      'off': -0.4
+  col: gold
   ship: false
+  label: ''
 - type: marker
   start:
-    word:
-      sid: confirmed_3
-      text: 우크라이나
+    sid: confirmed_3
+    'off': 0.3
   end:
     scene_end: confirmed
   at_place: kyiv
   label: 키이우
-  sub: 공격 중단 요청 받음
-  side: top
+  sub: 공격 중단 요청
+  side: bottom
   hl: false
 - type: marker
   start:
     scene_start: open_questions
+    'off': 0.4
   end:
-    card: end
+    total: true
   at_place: moscow
   label: 모스크바
   sub: ''
@@ -695,26 +635,26 @@ events:
 - type: card
   start:
     sid: open_questions_0
-    'off': 0.3
+    'off': 0.4
   end:
     sid: open_questions_0
     edge: end
-    'off': 0.4
-  tag: 아직 확정되지 않음
+    'off': 0.3
+  tag: 아직 확정되지 않은 것
   lines:
-  - 나토 경고가 실제로 전달됐는지
-  accent: teal
+  - 나토에 대한 경고가 실제로 전달됐는지
+  accent: muted
 - type: marker
   start:
     word:
       sid: open_questions_1
       text: 호르무즈
   end:
-    card: end
+    total: true
   at_place: hormuz
   label: 호르무즈 해협
   sub: ''
-  side: top
+  side: right
   hl: false
 - type: card
   start:
@@ -723,38 +663,38 @@ events:
   end:
     sid: open_questions_1
     edge: end
-    'off': 0.4
-  tag: 여전히 엇갈림
+    'off': 0.3
+  tag: 여전히 엇갈리는 것
   lines:
   - 이란·호르무즈가 회담 의제였는지
-  accent: teal
+  accent: muted
 - type: card
   start:
     sid: open_questions_2
     'off': 0.3
   end:
-    card: end
-  tag: 아직 공개되지 않음
+    total: true
+  tag: 공개되지 않은 것
   lines:
   - 그날 모스크바에서 오간 말의 목록
-  accent: gold
+  accent: muted
 sound:
   bgm: null
   intensity:
   - - 0.0
     - 0.55
   - - scene_start: flight
-    - 0.6
+    - 0.58
   - - scene_start: before_visit
-    - 0.62
+    - 0.6
   - - scene_start: backdrop
-    - 0.66
+    - 0.64
   - - scene_start: nato_dispute
-    - 0.7
+    - 0.68
   - - scene_start: iran_dispute
     - 0.68
   - - scene_start: intel_dispute
-    - 0.7
+    - 0.66
   - - scene_start: confirmed
     - 0.58
   - - scene_start: open_questions
@@ -767,10 +707,4 @@ sound:
   - - total: true
       'off': 0.5
     - 0.0
-  cues:
-  - kind: boom
-    t:
-      word:
-        sid: backdrop_0
-        text: 폴란드
-    v: 0.35
+  cues: []

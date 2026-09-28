@@ -1,0 +1,14 @@
+{
+ "schema_version": 1,
+ "direction_version": 2,
+ "changelog": [
+  {
+   "issue_ref": "offscreen:마커 키이우 t=48.4",
+   "change": "before_visit 장면의 키이우 마커가 카메라 이동 중(46.75~49.75초) 화면 아래 가장자리에 걸려 라벨이 22px 잘렸음. 시작을 before_visit_0 off 0.4 → off 2.6(이동 끝난 뒤)으로 늦추고, 라벨 방향을 bottom → top 으로 바꿔 화면 안쪽으로 들임"
+  },
+  {
+   "issue_ref": "overlap:label-hidden-by-card 마커 '모스크바' t0=155.09",
+   "change": "intel_dispute 카메라 구도를 lon 30.5 → 42.0 으로 옮김(lat 53.3·w 28 유지). 모스크바가 화면 오른쪽 위에서 왼쪽 중앙으로 가, 카드 3장(CNN·CBS 평가·트럼프·크렘린)이 뜨는 오른쪽 자리에서 벗어남. 라벨 방향 left 는 그대로 두어 카드 반대쪽으로 뻗게 함"
+  }
+ ]
+}

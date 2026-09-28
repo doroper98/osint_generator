@@ -1,0 +1,94 @@
+{
+ "schema_version": 1,
+ "hard": 1,
+ "warnings": 1,
+ "passed": false,
+ "thresholds": {
+  "overlap_core_elements": 0,
+  "offscreen_clip": 0,
+  "missing_glyphs": 0,
+  "labels_per_frame_max": 18,
+  "subtitle_lines_max": 2,
+  "rights_missing": 0,
+  "forbidden_components": 0,
+  "label_hidden_max_ratio": 0.5,
+  "visual_qa_loop_max": 2,
+  "loop_pick_order": [
+   "checks_hard",
+   "qa_hard",
+   "qa_soft"
+  ]
+ },
+ "items": [
+  {
+   "id": "overlap",
+   "severity": "hard",
+   "count": 1,
+   "details": [
+    "[label-hidden-by-card] 마커 '모스크바' t0=198.18 라벨이 카드 ['card:공개되지 않은 것', 'card:아직 확정되지 않은 것', 'card:여전히 엇갈리는 것'] 뒤에서 표시 시간의 88% 흐려짐 > 50% — 마커나 카드 자리를 옮겨라(카메라 구도·카드 y·place)"
+   ]
+  },
+  {
+   "id": "offscreen",
+   "severity": "hard",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "glyphs",
+   "severity": "hard",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "shots",
+   "severity": "warning",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "media_beats",
+   "severity": "warning",
+   "count": 1,
+   "details": [
+    "[media-density-total] 과소 — 0개 / 226초 = inf초당 1개 > 60초 (14 §10.1)"
+   ]
+  },
+  {
+   "id": "media_upscaled",
+   "severity": "warning",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "labels",
+   "severity": "hard",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "date",
+   "severity": "hard",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "subtitles",
+   "severity": "hard",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "rights",
+   "severity": "hard",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "forbidden",
+   "severity": "hard",
+   "count": 0,
+   "details": []
+  }
+ ]
+}

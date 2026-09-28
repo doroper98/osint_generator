@@ -1,0 +1,11 @@
+{"t": 197.4, "ok": true, "stage": "director", "errors": [], "warnings": []}
+{"t": 201.0, "ok": true, "stage": "validate", "errors": [], "warnings": ["[media-density-total] 과소 — 0개 / 226초 = inf초당 1개 > 60초 (14 §10.1)"]}
+{"t": 208.4, "ok": false, "stage": "preview", "errors": ["checks hard overlap: [label-hidden-by-card] 마커 '모스크바' t0=155.09 라벨이 카드 ['card:CNN·CBS · 미국 정보당국 평가', 'card:크렘린 · 페스코프 대변인', 'card:트럼프 대통령'] 뒤에서 표시 시간의 78% 흐려짐 > 50% — 마커나 카드 자리를 옮겨라(카메라 구도·카드 y·place)", "checks hard offscreen: 마커 키이우 t=48.4 화면 밖 22px (상자 [341, 460, 420, 502])"], "warnings": ["[media-density-total] 과소 — 0개 / 226초 = inf초당 1개 > 60초 (14 §10.1)"]}
+{"t": 278.6, "ok": true, "stage": "revise_direction", "errors": [], "warnings": []}
+{"t": 282.0, "ok": true, "stage": "validate", "errors": [], "warnings": ["[media-density-total] 과소 — 0개 / 226초 = inf초당 1개 > 60초 (14 §10.1)"]}
+{"t": 288.9, "ok": true, "stage": "preview", "errors": [], "warnings": ["[media-density-total] 과소 — 0개 / 226초 = inf초당 1개 > 60초 (14 §10.1)"]}
+{"t": 397.7, "ok": true, "stage": "visual_qa", "errors": [], "warnings": []}
+{"t": 516.8, "ok": true, "stage": "revise_direction", "errors": [], "warnings": []}
+{"t": 520.3, "ok": true, "stage": "validate", "errors": [], "warnings": ["[media-density-total] 과소 — 0개 / 226초 = inf초당 1개 > 60초 (14 §10.1)"]}
+{"t": 527.3, "ok": false, "stage": "preview", "errors": ["checks hard overlap: [label-hidden-by-card] 마커 '모스크바' t0=198.18 라벨이 카드 ['card:공개되지 않은 것', 'card:아직 확정되지 않은 것', 'card:여전히 엇갈리는 것'] 뒤에서 표시 시간의 88% 흐려짐 > 50% — 마커나 카드 자리를 옮겨라(카메라 구도·카드 y·place)"], "warnings": ["[media-density-total] 과소 — 0개 / 226초 = inf초당 1개 > 60초 (14 §10.1)"]}
+{"t": 534.2, "ok": true, "stage": "preview", "errors": [], "warnings": ["[media-density-total] 과소 — 0개 / 226초 = inf초당 1개 > 60초 (14 §10.1)"]}

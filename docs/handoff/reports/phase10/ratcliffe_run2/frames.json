@@ -1,0 +1,450 @@
+{
+ "schema_version": 1,
+ "frames": [
+  {
+   "n": 1,
+   "file": "p_0011.00.png",
+   "label": "t=11.00",
+   "t": 11.0,
+   "sid": "open_1",
+   "text": "같은 날 존 랫클리프 CIA 국장이 모스크바를 방문했습니다.",
+   "after_sid": null,
+   "card": null,
+   "events": [
+    {
+     "type": "marker",
+     "label": "모스크바"
+    },
+    {
+     "type": "badge",
+     "kind": "emblem",
+     "label": "존 랫클리프"
+    }
+   ]
+  },
+  {
+   "n": 2,
+   "file": "p_0024.06.png",
+   "label": "t=24.06",
+   "t": 24.06,
+   "sid": "open_4",
+   "text": "보도로 확인된 것과 서로 엇갈리는 주장을 나눠 살펴봅니다.",
+   "after_sid": null,
+   "card": null,
+   "events": [
+    {
+     "type": "marker",
+     "label": "모스크바"
+    },
+    {
+     "type": "badge",
+     "kind": "emblem",
+     "label": "존 랫클리프"
+    }
+   ]
+  },
+  {
+   "n": 3,
+   "file": "p_0031.01.png",
+   "label": "t=31.01",
+   "t": 31.01,
+   "sid": null,
+   "text": null,
+   "after_sid": "open_4",
+   "card": "title",
+   "events": [
+    {
+     "type": "marker",
+     "label": "모스크바"
+    },
+    {
+     "type": "badge",
+     "kind": "emblem",
+     "label": "존 랫클리프"
+    }
+   ]
+  },
+  {
+   "n": 4,
+   "file": "p_0038.10.png",
+   "label": "t=38.10",
+   "t": 38.1,
+   "sid": "flight_0",
+   "text": "보도에 따르면 이 수송기는 미 공군 C-17이었습니다.",
+   "after_sid": null,
+   "card": null,
+   "events": [
+    {
+     "type": "card",
+     "tag": "보도 · 수송기 기종"
+    }
+   ]
+  },
+  {
+   "n": 5,
+   "file": "p_0043.30.png",
+   "label": "t=43.30",
+   "t": 43.3,
+   "sid": "flight_2",
+   "text": "도착한 곳은 모스크바 브누코보 공항이었습니다.",
+   "after_sid": null,
+   "card": null,
+   "events": [
+    {
+     "type": "marker",
+     "label": "리가"
+    },
+    {
+     "type": "route",
+     "label": ""
+    }
+   ]
+  },
+  {
+   "n": 6,
+   "file": "p_0054.32.png",
+   "label": "t=54.32",
+   "t": 54.32,
+   "sid": "before_visit_1",
+   "text": "모스크바 등지에 대한 공격을 멈춰 달라는 요청이었습니다.",
+   "after_sid": null,
+   "card": null,
+   "events": [
+    {
+     "type": "marker",
+     "label": "키이우"
+    },
+    {
+     "type": "marker",
+     "label": "모스크바"
+    },
+    {
+     "type": "card",
+     "tag": "방문 앞두고 · 보도"
+    }
+   ]
+  },
+  {
+   "n": 7,
+   "file": "p_0063.35.png",
+   "label": "t=63.35",
+   "t": 63.35,
+   "sid": "before_visit_2",
+   "text": "키이우포스트에 따르면 젤렌스키 대통령은 이 회동에 관해 미국에서 정보를 받았다고 밝혔습니다.",
+   "after_sid": null,
+   "card": null,
+   "events": [
+    {
+     "type": "marker",
+     "label": "키이우"
+    },
+    {
+     "type": "marker",
+     "label": "모스크바"
+    },
+    {
+     "type": "badge",
+     "kind": "person",
+     "label": "볼로디미르 젤렌스키"
+    },
+    {
+     "type": "card",
+     "tag": "키이우포스트 인용"
+    }
+   ]
+  },
+  {
+   "n": 8,
+   "file": "p_0079.31.png",
+   "label": "t=79.31",
+   "t": 79.31,
+   "sid": "backdrop_1",
+   "text": "알자지라는 8월 12일 브렌트유 10월물이 배럴당 89.53달러였다고 보도했습니다.",
+   "after_sid": null,
+   "card": null,
+   "events": [
+    {
+     "type": "panel",
+     "kind": "timeline",
+     "title": "방문 앞의 한 달"
+    }
+   ]
+  },
+  {
+   "n": 9,
+   "file": "p_0091.10.png",
+   "label": "t=91.10",
+   "t": 91.1,
+   "sid": "backdrop_3",
+   "text": "CNN이 전한 작전 이름은 '경제적 추방자 작전'입니다.",
+   "after_sid": null,
+   "card": null,
+   "events": [
+    {
+     "type": "panel",
+     "kind": "timeline",
+     "title": "방문 앞의 한 달"
+    }
+   ]
+  },
+  {
+   "n": 10,
+   "file": "p_0108.23.png",
+   "label": "t=108.23",
+   "t": 108.23,
+   "sid": "nato_dispute_1",
+   "text": "익명 소식통들은 랫클리프가 러시아에 나토 회원국을 공격하지 말라고 경고했다고 전했습니다.",
+   "after_sid": null,
+   "card": null,
+   "events": [
+    {
+     "type": "panel",
+     "kind": "versus",
+     "title": "나토 경고, 엇갈리는 설명"
+    }
+   ]
+  },
+  {
+   "n": 11,
+   "file": "p_0118.82.png",
+   "label": "t=118.82",
+   "t": 118.82,
+   "sid": "nato_dispute_3",
+   "text": "트럼프 대통령은 준일상적 방문이었고 그런 메시지는 없었다고 말했습니다.",
+   "after_sid": null,
+   "card": null,
+   "events": [
+    {
+     "type": "panel",
+     "kind": "versus",
+     "title": "나토 경고, 엇갈리는 설명"
+    }
+   ]
+  },
+  {
+   "n": 12,
+   "file": "p_0135.31.png",
+   "label": "t=135.31",
+   "t": 135.31,
+   "sid": "iran_dispute_1",
+   "text": "CNN·CBS가 인용한 익명 소식통들은 랫클리프가 이란 지원을 끊으라고 촉구했다고 전했습니다.",
+   "after_sid": null,
+   "card": null,
+   "events": [
+    {
+     "type": "country"
+    },
+    {
+     "type": "badge",
+     "kind": "flag",
+     "label": "이란"
+    },
+    {
+     "type": "card",
+     "tag": "CNN·CBS 인용 익명 소식통"
+    }
+   ]
+  },
+  {
+   "n": 13,
+   "file": "p_0146.24.png",
+   "label": "t=146.24",
+   "t": 146.24,
+   "sid": "iran_dispute_3",
+   "text": "트럼프 대통령은 이번 방문이 이란과 관련이 없다고 밝혔습니다.",
+   "after_sid": null,
+   "card": null,
+   "events": [
+    {
+     "type": "country"
+    },
+    {
+     "type": "badge",
+     "kind": "flag",
+     "label": "이란"
+    },
+    {
+     "type": "marker",
+     "label": "호르무즈 해협"
+    },
+    {
+     "type": "badge",
+     "kind": "person",
+     "label": "도널드 트럼프"
+    },
+    {
+     "type": "card",
+     "tag": "트럼프 대통령"
+    }
+   ]
+  },
+  {
+   "n": 14,
+   "file": "p_0161.90.png",
+   "label": "t=161.90",
+   "t": 161.9,
+   "sid": "intel_dispute_1",
+   "text": "CNN·CBS에 따르면 정보당국은 푸틴이 나토 결속을 시험하는 도발에 나설 수 있다고 봤습니다.",
+   "after_sid": null,
+   "card": null,
+   "events": [
+    {
+     "type": "marker",
+     "label": "모스크바"
+    },
+    {
+     "type": "card",
+     "tag": "CNN·CBS · 미국 정보당국 평가"
+    },
+    {
+     "type": "badge",
+     "kind": "person",
+     "label": "블라디미르 푸틴"
+    }
+   ]
+  },
+  {
+   "n": 15,
+   "file": "p_0171.39.png",
+   "label": "t=171.39",
+   "t": 171.39,
+   "sid": "intel_dispute_3",
+   "text": "크렘린 페스코프 대변인은 이 평가가 러시아의 의도를 반영하지 않는다고 반박했습니다.",
+   "after_sid": null,
+   "card": null,
+   "events": [
+    {
+     "type": "marker",
+     "label": "모스크바"
+    },
+    {
+     "type": "badge",
+     "kind": "person",
+     "label": "블라디미르 푸틴"
+    }
+   ]
+  },
+  {
+   "n": 16,
+   "file": "p_0184.42.png",
+   "label": "t=184.42",
+   "t": 184.42,
+   "sid": "confirmed_1",
+   "text": "CIA 국장이 8월 25일 모스크바를 찾았습니다.",
+   "after_sid": null,
+   "card": null,
+   "events": [
+    {
+     "type": "badge",
+     "kind": "emblem",
+     "label": "CIA 국장"
+    },
+    {
+     "type": "marker",
+     "label": "모스크바"
+    }
+   ]
+  },
+  {
+   "n": 17,
+   "file": "p_0191.86.png",
+   "label": "t=191.86",
+   "t": 191.86,
+   "sid": "confirmed_2",
+   "text": "미 공군 수송기가 리가를 거쳐 브누코보 공항에 내렸습니다.",
+   "after_sid": null,
+   "card": null,
+   "events": [
+    {
+     "type": "badge",
+     "kind": "emblem",
+     "label": "CIA 국장"
+    },
+    {
+     "type": "marker",
+     "label": "모스크바"
+    },
+    {
+     "type": "marker",
+     "label": "리가"
+    },
+    {
+     "type": "route",
+     "label": ""
+    }
+   ]
+  },
+  {
+   "n": 18,
+   "file": "p_0206.38.png",
+   "label": "t=206.38",
+   "t": 206.38,
+   "sid": "open_questions_1",
+   "text": "이란과 호르무즈가 회담 의제였는지도 여전히 엇갈린 채 남아 있습니다.",
+   "after_sid": null,
+   "card": null,
+   "events": [
+    {
+     "type": "marker",
+     "label": "모스크바"
+    },
+    {
+     "type": "marker",
+     "label": "호르무즈 해협"
+    },
+    {
+     "type": "card",
+     "tag": "여전히 엇갈리는 것"
+    }
+   ]
+  },
+  {
+   "n": 19,
+   "file": "p_0217.84.png",
+   "label": "t=217.84",
+   "t": 217.84,
+   "sid": null,
+   "text": null,
+   "after_sid": "open_questions_2",
+   "card": "end",
+   "events": [
+    {
+     "type": "marker",
+     "label": "모스크바"
+    },
+    {
+     "type": "marker",
+     "label": "호르무즈 해협"
+    },
+    {
+     "type": "card",
+     "tag": "공개되지 않은 것"
+    }
+   ]
+  },
+  {
+   "n": 20,
+   "file": "p_0220.44.png",
+   "label": "t=220.44",
+   "t": 220.44,
+   "sid": null,
+   "text": null,
+   "after_sid": "open_questions_2",
+   "card": "end",
+   "events": [
+    {
+     "type": "marker",
+     "label": "모스크바"
+    },
+    {
+     "type": "marker",
+     "label": "호르무즈 해협"
+    },
+    {
+     "type": "card",
+     "tag": "공개되지 않은 것"
+    }
+   ]
+  }
+ ]
+}

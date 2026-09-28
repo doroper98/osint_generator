@@ -1,0 +1,11 @@
+[system] llm call_id=llm_20260928_193340_11c3 backend=claude mode=response
+[stderr] check_parsed: 1 validation error for VideoRules
+golden
+  Extra inputs are not permitted [type=extra_forbidden, input_value={'res_compare_mad_max': 0.02}, input_type=dict]
+    For further information visit https://errors.pydantic.dev/2.13/v/extra_forbidden
+[system] 계약 위반 출력 — 재요청 1/1 (16 §3): check_parsed: 1 validation error for VideoRules
+golden
+  Extra inputs are not permitted [type=extra_forbidden, input_value={'res_compare_mad_max': 0.02}, input_type=dict]
+    For further information v
+[system] llm call_id=llm_20260928_193724_7d68 backend=claude mode=response
+{"t": 225.4, "stage": "director", "ok": false, "errors": ["director 입력 오류: ValidationError: 1 validation error for VideoRules\ngolden\n  Extra inputs are not permitted [type=extra_forbidden, input_value={'res_compare_mad_max': 0.02}, input_type=dict]\n    For further information visit https://errors.pydantic.dev/2.13/v/extra_forbidden"]}
