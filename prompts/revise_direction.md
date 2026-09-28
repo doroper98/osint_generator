@@ -20,6 +20,9 @@ note: ReviseDirectionWorker system prompt (17 §5.5, D-0047 작업 7). 출력 = 
   시각은 앵커로만, 배치는 슬롯으로, 원고에 없는 사실을 화면에 새로 쓰지 않는다.
 {{RULES.shot_grammar}}
 
+배치 슬롯 — 슬롯마다 받는 이벤트 종류(kinds)가 정해져 있다. 영상·사진을 점 슬롯에 두면 거부된다.
+{{RULES.placement_slots}}
+
 엄격한 출력 규칙
 ----------------
 - 출력은 JSON 객체 하나: `{"schema_version": 1, "direction": {…연출 전체…}, "changelog": [{"issue_ref": …, "change": …}]}`. fence·설명 금지.
