@@ -1,9 +1,9 @@
 {
  "schema_version": 1,
  "final_loudness": {
-  "I": -13.78,
-  "TP": -1.5,
-  "LRA": 3.4
+  "I": -14.01,
+  "TP": -2.27,
+  "LRA": 2.7
  },
  "mix_peak": 0.8,
  "narration_rms_db": -16.46,
@@ -14,7 +14,12 @@
  "true_peak_ok": true,
  "music_level_ok": null,
  "peak_ok": true,
+ "sentence_rms_db": {
+  "open_0": -16.09,
+  "open_1": -15.51
+ },
+ "sentence_rms_outliers": [],
  "method": "내레이션 스템 = plan npy 재배치(믹서 규칙) × 최소제곱 스케일, 음악 = mix − 내레이션(모노 평균)",
- "severity": "warning",
- "issues": []
+ "hard": [],
+ "warnings": []
 }

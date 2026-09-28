@@ -790,7 +790,10 @@ class SfxRules(_Strict):
 class AudioQARules(_Strict):
     i_tol_lu: float = Field(gt=0)
     music_under_narration_db: tuple[float, float]
-    severity: Literal["hard", "warning"]
+    tp_codec_margin_db: float = Field(ge=0)
+    sentence_rms_dev_db: float = Field(gt=0)
+    sentence_rms_window_sec: float = Field(gt=0)
+    sentence_rms_floor_db: float = Field(lt=0)
 
 
 class AudioRules(_Strict):

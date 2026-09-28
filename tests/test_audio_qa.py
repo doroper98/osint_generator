@@ -9,7 +9,7 @@ from types import SimpleNamespace as NS
 
 import numpy as np
 
-from audio.qa import SR, AudioQA, Loudness, audio_qa
+from audio.qa import SR, AudioQA, Loudness, audio_qa, loudnorm_two_pass
 from rules import load_rules
 
 AU = load_rules().audio
@@ -33,6 +33,42 @@ def _fixture(d: Path, music_db: float) -> list:
 
 
 class AudioQATest(unittest.TestCase):
+    def test_rules_follow_user_approved_v3(self) -> None:
+        """D-0061: 음악 레벨 범위는 사용자 합격본 기준 — v3 −12.7 안, 사용자 거절 v2 −17.8 밖."""
+        lo, hi = AU.qa.music_under_narration_db
+        self.assertTrue(lo <= -12.7 <= hi)
+        self.assertFalse(lo <= -17.8 <= hi)
+
+    def test_sentence_rms_outlier_is_warning_only(self) -> None:
+        """D-0061 쟁점 2 A: 문장 RMS 편차는 warning 만(정규화 없음)."""
+        from audio.qa import rms_outliers, sentence_rms  # noqa: PLC0415
+
+        with tempfile.TemporaryDirectory() as d:
+            p = Path(d)
+            t = np.arange(2 * SR) / SR
+            tone = np.sin(2 * np.pi * 400 * t).astype(np.float32)
+            normal = [f"n{i}" for i in range(10)]              # 평균이 정상 문장 쪽에 있도록 충분히
+            for k in normal:
+                np.save(p / f"{k}.npy", tone)
+            spiky = tone * 0.05
+            spiky[:200] = 1.0                                   # 피크 하나 → 피크 정규화 뒤 RMS 가 크게 낮아진다
+            np.save(p / "c.npy", spiky.astype(np.float32))
+            srms = sentence_rms([NS(npy=str(p / f"{k}.npy"), sid=k) for k in [*normal, "c"]])
+            self.assertEqual(rms_outliers(srms), ["c"])
+            base = dict(mix_peak=0.5, narration_rms_db=-16, music_rms_in_narration_db=-29, music_under_narration_db=-13,
+                        narration_seconds=1, music_level_ok=True, peak_ok=True, sentence_rms_db=srms, sentence_rms_outliers=["c"])
+            q = AudioQA(**base)
+            self.assertEqual(q.issues(), [])                    # hard 아님
+            self.assertEqual(len(q.warnings()), 1)
+
+    def test_two_pass_record(self) -> None:
+        with tempfile.TemporaryDirectory() as d:
+            _fixture(Path(d), -13.0)
+            af, rec = loudnorm_two_pass(Path(d) / "mix.f32", 6.0)
+            self.assertIn("linear=true", af)
+            self.assertIn("measured_I=", af)
+            self.assertIn(rec["pass2"]["normalization_type"], ("linear", "dynamic"))   # 어느 쪽이든 기록한다(숨기지 않음)
+
     def test_music_level_inside_and_outside(self) -> None:
         lo, hi = AU.qa.music_under_narration_db
         for db, ok in (((lo + hi) / 2, True), (hi + 3, False), (lo - 3, False)):
@@ -54,6 +90,7 @@ class AudioQATest(unittest.TestCase):
         base = dict(mix_peak=0.5, narration_rms_db=-16, music_rms_in_narration_db=-32, music_under_narration_db=-16,
                     narration_seconds=1, music_level_ok=True, peak_ok=True)
         good = AudioQA(**base, final_loudness=Loudness(I=ln.I, TP=ln.TP - 1, LRA=5), loudness_ok=True, true_peak_ok=True)
+        self.assertEqual(good.warnings(), [])
         self.assertEqual(good.issues(), [])
         bad = AudioQA(**base, final_loudness=Loudness(I=ln.I - 3, TP=ln.TP + 1, LRA=5), loudness_ok=False, true_peak_ok=False)
         self.assertEqual(len(bad.issues()), 2)

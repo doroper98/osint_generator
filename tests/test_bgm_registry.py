@@ -106,9 +106,10 @@ class SoundIdTest(unittest.TestCase):
             if "legacy" in str(p):
                 continue
             snd = (yaml_load(p.read_text(encoding="utf-8")) or {}).get("sound")
-            if snd:
-                with self.subTest(p=p.name):
-                    track(snd["bgm"])
+            if snd and snd.get("bgm") is not None:          # null = 음악 없음(F1 명시 상태)
+                with self.subTest(p=f"{p.parent.name}/{p.name}"):
+                    for b in [snd["bgm"]] if isinstance(snd["bgm"], str) else [g["id"] for g in snd["bgm"]]:
+                        track(b)
 
     def test_description_placeholder_without_music_is_error(self) -> None:
         from engine.mux import Description, build_description  # noqa: PLC0415

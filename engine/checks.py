@@ -193,14 +193,14 @@ def check_forbidden(P, provenance: dict) -> list[str]:  # noqa: ANN001, N803
     return out
 
 
-def check_audio(P) -> tuple[str, list[str], dict]:  # noqa: ANN001, N803
-    """오디오 QA(v3.4.0 D-0060 작업 6) — audio/qa.py 한 경로. mux 단계(out/mix.f32·final.mp4 뒤)에서 부른다.
-    (등급 rules audio.qa.severity, 지적 목록, AudioQA dict)."""
+def check_audio(P) -> tuple[list[str], list[str], dict]:  # noqa: ANN001, N803
+    """오디오 QA(v3.4.0 D-0060 작업 6·D-0061) — audio/qa.py 한 경로. mux 단계(out/mix.f32·final.mp4 뒤)에서 부른다.
+    (hard 지적: 통합 음량·트루 피크·음악 레벨·mix 피크, warning: 문장 RMS 편차, AudioQA dict)."""
     from audio.qa import audio_qa  # noqa: PLC0415
 
     has_music = any(r.startswith("music.") for r in (P.R.cache.get("credit_refs") or ()))
     q = audio_qa(P.root / "out", P.plan.sentences, has_music=has_music)
-    return R_.audio.qa.severity, q.issues(), q.model_dump()
+    return q.issues(), q.warnings(), q.model_dump()
 
 
 def run_checks(P, times: list[float], provenance: dict) -> dict:  # noqa: ANN001, N803

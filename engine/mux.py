@@ -97,15 +97,18 @@ def load_description(proj: Path) -> Description:
     return Description.model_validate(yaml.safe_load((proj / "description.yaml").read_text(encoding="utf-8")))
 
 
-def mux(proj: Path, total: float) -> Path:
-    ln = load_rules().audio.loudnorm
+def mux(proj: Path, total: float) -> tuple[Path, dict]:
+    """영상 + mix → final.mp4. 음량은 2패스 loudnorm(v3.4.0 D-0061 — 측정은 audio/qa.py 한 경로). (경로, loudnorm 기록)."""
+    from audio.qa import loudnorm_two_pass, mix_inputs  # noqa: PLC0415
+
     out = proj / "out" / "final.mp4"
+    af, rec = loudnorm_two_pass(proj / "out" / "mix.f32", total)
     subprocess.run(["ffmpeg", "-y", "-v", "error", "-i", str(proj / "out" / "video_noaudio.mp4"),
-                    "-f", "f32le", "-ar", str(SR), "-ac", "2", "-i", str(proj / "out" / "mix.f32"),
-                    "-map", "0:v", "-map", "1:a", "-c:v", "copy", "-af", f"loudnorm=I={ln.I:g}:TP={ln.TP:g}:LRA={ln.LRA:g}",
+                    *mix_inputs(proj / "out" / "mix.f32", total),
+                    "-map", "0:v", "-map", "1:a", "-c:v", "copy", "-af", af,
                     "-ar", str(SR), "-c:a", "aac", "-b:a", AAC_BITRATE, "-t", f"{total:.3f}", "-movflags", "+faststart",
                     str(out)], check=True)
-    return out
+    return out, rec
 
 
 def asset_usage(P) -> dict:  # noqa: ANN001, N803 — engine.project.Project (순환 import 회피)
@@ -171,7 +174,7 @@ def main(argv: list[str] | None = None) -> int:
         for need in ("video_noaudio.mp4", "mix.f32"):
             if not (outd / need).exists():
                 raise ProjectError(f"out/{need} 없음 — engine.render / audio.mix 먼저")
-        final = mux(proj, P.plan.total)
+        final, loud = mux(proj, P.plan.total)
         (outd / "final.srt").write_text(build_srt(P.plan), encoding="utf-8")
         (outd / "credits.txt").write_text("\n".join(credit_lines(P.R.credits, P.R.assets.rights, P.R.assets.media,
                                                                   P.R.cache.get("credit_refs"), P.R.cache.get("cited_sources"))) + "\n",
@@ -189,15 +192,15 @@ def main(argv: list[str] | None = None) -> int:
                                       "render": True, "mix": True, "mux": True, "ai_direction": False, "visual_qa": False})
         from engine.checks import check_audio  # noqa: PLC0415 — v3.4.0 오디오 QA(검사기 하나)
 
-        sev, issues, qa = check_audio(P)
-        (outd / "audio_qa.json").write_text(json.dumps({**qa, "severity": sev, "issues": issues}, ensure_ascii=False, indent=1),
+        issues, warns, qa = check_audio(P)
+        (outd / "audio_qa.json").write_text(json.dumps({**qa, "hard": issues, "warnings": warns}, ensure_ascii=False, indent=1),
                                             encoding="utf-8")
-        prov["audio"] = {**prov["audio"], "qa": {"severity": sev, "issues": issues,
+        prov["audio"] = {**prov["audio"], "loudnorm": {"passes": 2, **loud}, "qa": {"hard": issues, "warnings": warns,
                                                  **{k: qa[k] for k in ("final_loudness", "music_under_narration_db", "mix_peak")}}}
         (outd / "provenance.json").write_text(json.dumps(prov, ensure_ascii=False, indent=1), encoding="utf-8")
-        if sev == "hard" and issues:
+        if issues:
             raise ProjectError("오디오 QA hard 실패:\n" + "\n".join(issues))
-        res = StageResult(ok=True, stage="mux", provenance=prov, warnings=issues,
+        res = StageResult(ok=True, stage="mux", provenance=prov, warnings=warns,
                           artifacts={"final": str(final), "srt": str(outd / "final.srt"),
                                      "description": str(outd / "description.txt"), "credits": str(outd / "credits.txt"), "provenance": str(outd / "provenance.json")})
     except (ProjectError, RightsError, KeyError, ValueError, OSError, subprocess.CalledProcessError) as ex:

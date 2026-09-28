@@ -37,6 +37,7 @@ released 항목은 **append-only**입니다.
 - 원고 장면 `music_intensity`(0~1, 선택) — 연출가가 sound.intensity 를 만들 때 읽는 힌트. 코드는 direction 에 주입하지 않는다(P8). hormuz v3 원고는 힌트 없음 (D-0060 작업 4).
 - 곡 교체: `sound.bgm` 을 `[{id, from: 앵커}]` 목록으로도 받는다(문자열 = 목록 1곡). 경계 가운데 `audio.crossfade_sec` 선형 교차 페이드, 간격 < 교차 페이드 = 오류. 1곡은 옛 경로 그대로(mix md5 동일) (D-0060 작업 5, 10 §7-3).
 - 오디오 QA 검사기 하나 `audio/qa.py`(최종 I·TP, 내레이션 구간 음악 dB, mix 피크) — engine.checks.check_audio·engine.mux(`out/audio_qa.json`, provenance `audio.qa`)·tools/audio_report.py(얇은 CLI)가 호출. 등급 `audio.qa.severity` 는 R-0071 결정 전 warning(v3 합격본이 13 수치 둘 밖). provenance `audio`: bgm·bed_gain·crossfades·qa (D-0060 작업 6).
+- D-0061: 오디오 QA hard(통합 음량·트루 피크·음악 레벨·mix 피크), 음악 레벨 = 사용자 합격본 기준 `[-15, -11]`(v2 −17.8 거절·v3 −12.7 합격), 문장 RMS 편차 > 3dB 는 warning(정규화 없음). **mux loudnorm 2패스**(측정 → measured_* + linear=true, linear 불가면 ffmpeg dynamic — normalization_type 을 provenance 에 기록). 남는 AAC 트루 피크 오차만 `tp_codec_margin_db` 0.15(실측). hormuz final I −14.23→−14.03·TP −1.38→−1.47, taiwan 음악판 I −16.98→−14.89. hormuz mix.f32 무변경.
 
 ---
 

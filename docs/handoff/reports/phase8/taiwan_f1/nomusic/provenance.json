@@ -3,7 +3,7 @@
  "engine": "engine",
  "repo_version": "3.4.0",
  "rules_version": "2.0.0",
- "rules_hash": "daccd17e1e065584a61e94100d864efd83f66a13",
+ "rules_hash": "8a4c18e667da18299a3b94e41fd470921c81da6e",
  "prompts": {
   "director": "0a0aa49d2493ab59f016ea755e252ae013560c7b"
  },
@@ -118,13 +118,28 @@
   "bgm": null,
   "bed_gain": 0.47,
   "crossfades": 0,
+  "loudnorm": {
+   "passes": 2,
+   "pass1": {
+    "input_i": -13.66,
+    "input_tp": -1.92,
+    "input_lra": 2.8,
+    "input_thresh": -24.26,
+    "target_offset": -0.24
+   },
+   "pass2": {
+    "output_i": -13.96,
+    "output_tp": -2.28,
+    "normalization_type": "linear"
+   }
+  },
   "qa": {
-   "severity": "warning",
-   "issues": [],
+   "hard": [],
+   "warnings": [],
    "final_loudness": {
-    "I": -13.78,
-    "TP": -1.5,
-    "LRA": 3.4
+    "I": -14.01,
+    "TP": -2.27,
+    "LRA": 2.7
    },
    "music_under_narration_db": -223.54,
    "mix_peak": 0.8
