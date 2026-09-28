@@ -1,0 +1,184 @@
+{
+ "schema_version": 1,
+ "old_rev": "615ddd7",
+ "count": 7,
+ "all_equal": true,
+ "rows": [
+  {
+   "mid": "niovi",
+   "type": "clip",
+   "registry_kind": "video",
+   "url": "https://commons.wikimedia.org/wiki/File:Oil_tanker_Niovi_seized_by_Iran%27s_Islamic_Revolutionary_Guard_Corps_Navy.webm",
+   "license": "Public domain",
+   "segment": [
+    28.0,
+    33.0
+   ],
+   "t0": 58.95,
+   "t1": 63.95,
+   "placement": "explicit",
+   "screen": {
+    "caption": "이란 혁명수비대 고속정의 유조선 나포",
+    "credit": "자료 영상 · 2023. 05. 03 · U.S. Navy · Public domain"
+   },
+   "old_direction": {
+    "caption": "이란 혁명수비대 고속정의 유조선 나포",
+    "credit": "자료 영상 · 2023. 05. 03 · U.S. Navy · Public domain"
+   },
+   "equal_to_old": true,
+   "rights_status": "rights_clear",
+   "verified_by": "사용자 라운드 7 — 구간 선택(media3b_round2.md)"
+  },
+  {
+   "mid": "strikes",
+   "type": "clip",
+   "registry_kind": "video",
+   "url": "https://commons.wikimedia.org/wiki/File:U_S_Forces_Complete_New_Round_of_Retaliatory_Strikes_Against_Iran_(1013909).webm",
+   "license": "Public domain",
+   "segment": [
+    1.5,
+    6.5
+   ],
+   "t0": 134.48,
+   "t1": 139.48,
+   "placement": "explicit",
+   "screen": {
+    "caption": "미 중부사령부 공개 영상 · 이란 군사 목표 타격",
+    "credit": "2026. 07. 07 · U.S. Central Command · Public domain"
+   },
+   "old_direction": {
+    "caption": "미 중부사령부 공개 영상 · 이란 군사 목표 타격",
+    "credit": "2026. 07. 07 · U.S. Central Command · Public domain"
+   },
+   "equal_to_old": true,
+   "rights_status": "rights_clear",
+   "verified_by": "사용자 라운드 7 — 12장 썸네일 시트로 구간 선택(media3b_round2.md), 13초 이후 소형 선박 타격 구간 제외"
+  },
+  {
+   "mid": "reuters_0904",
+   "type": "article",
+   "registry_kind": "article",
+   "url": "credits.yaml 보도 · 자료 — Reuters (9.4)",
+   "license": "헤드라인 번역·요지 자체 조판(원문 인용 15단어 미만, 기사 화면 캡처·로고 없음, 14 §9)",
+   "segment": null,
+   "t0": 162.09,
+   "t1": 168.42,
+   "placement": "-",
+   "screen": {
+    "pub": "Reuters",
+    "date": "2026. 09. 04",
+    "headline": "한국, 호르무즈 군사 선택지 검토… 대통령실 “결정된 것은 없다”",
+    "hl": "결정된 것은 없다",
+    "sub": "JTBC·MBC의 ‘연내 파병 준비’ 보도 이후 나온 대통령실 설명",
+    "note": "헤드라인 번역 · 원문 영어"
+   },
+   "old_direction": {
+    "pub": "Reuters",
+    "date": "2026. 09. 04",
+    "headline": "한국, 호르무즈 군사 선택지 검토… 대통령실 “결정된 것은 없다”",
+    "hl": "결정된 것은 없다",
+    "sub": "JTBC·MBC의 ‘연내 파병 준비’ 보도 이후 나온 대통령실 설명",
+    "note": "헤드라인 번역 · 원문 영어"
+   },
+   "equal_to_old": true,
+   "rights_status": "rights_clear",
+   "verified_by": "사용자 라운드 7 — v3 최종본 합격 판정(docs/handoff/KICKOFF_PROMPT.md §5)"
+  },
+  {
+   "mid": "p8",
+   "type": "cutout",
+   "registry_kind": "cutout",
+   "url": "https://commons.wikimedia.org/wiki/File:P-8A_Poseidon_Executes_Training_Flight_(9341123).jpg",
+   "license": "Public domain",
+   "segment": null,
+   "t0": 168.12,
+   "t1": 178.52,
+   "placement": "-",
+   "screen": {
+    "label": "해상초계기 P-8A",
+    "sub": "자료사진 · U.S. Navy"
+   },
+   "old_direction": {
+    "label": "해상초계기 P-8A",
+    "sub": "자료사진 · U.S. Navy"
+   },
+   "equal_to_old": true,
+   "rights_status": "rights_clear",
+   "verified_by": "사용자 라운드 7 — v3 최종본 합격 판정(docs/handoff/KICKOFF_PROMPT.md §5)"
+  },
+  {
+   "mid": "rok_iraq",
+   "type": "photo",
+   "registry_kind": "photo",
+   "url": "https://commons.wikimedia.org/wiki/File:Southkoreansoldiersiraq.jpg",
+   "license": "Public domain",
+   "segment": null,
+   "t0": 191.32,
+   "t1": 202.11,
+   "placement": "explicit",
+   "screen": {
+    "caption": "이라크에 파병된 한국군 장병",
+    "credit": "자료사진 · 2003 · U.S. Government · Public domain"
+   },
+   "old_direction": {
+    "caption": "이라크에 파병된 한국군 장병",
+    "credit": "자료사진 · 2003 · U.S. Government · Public domain"
+   },
+   "equal_to_old": true,
+   "rights_status": "rights_clear",
+   "verified_by": "사용자 라운드 7 — v3 최종본 합격 판정(docs/handoff/KICKOFF_PROMPT.md §5)"
+  },
+  {
+   "mid": "herald_0907",
+   "type": "article",
+   "registry_kind": "article",
+   "url": "credits.yaml 보도 · 자료 — The Korea Herald (9.7)",
+   "license": "헤드라인 번역·요지 자체 조판(원문 인용 15단어 미만, 기사 화면 캡처·로고 없음, 14 §9)",
+   "segment": null,
+   "t0": 211.75,
+   "t1": 218.96,
+   "placement": "-",
+   "screen": {
+    "pub": "The Korea Herald",
+    "date": "2026. 09. 07",
+    "headline": "정부, 전투 격화·반대 여론 확산에 호르무즈 파병 계획 재조정",
+    "hl": "재조정",
+    "sub": "국방부 “항행의 자유 회복에 실질적으로 기여할 방안을 국제사회와 협의 중”",
+    "note": "헤드라인 번역 · 원문 영어"
+   },
+   "old_direction": {
+    "pub": "The Korea Herald",
+    "date": "2026. 09. 07",
+    "headline": "정부, 전투 격화·반대 여론 확산에 호르무즈 파병 계획 재조정",
+    "hl": "재조정",
+    "sub": "국방부 “항행의 자유 회복에 실질적으로 기여할 방안을 국제사회와 협의 중”",
+    "note": "헤드라인 번역 · 원문 영어"
+   },
+   "equal_to_old": true,
+   "rights_status": "rights_clear",
+   "verified_by": "사용자 라운드 7 — v3 최종본 합격 판정(docs/handoff/KICKOFF_PROMPT.md §5)"
+  },
+  {
+   "mid": "hormuz_transit",
+   "type": "photo",
+   "registry_kind": "photo",
+   "url": "https://commons.wikimedia.org/wiki/File:Strait_Of_Hormuz_Transit_230508-N-NH257-1076.jpg",
+   "license": "Public domain",
+   "segment": null,
+   "t0": 256.11,
+   "t1": 266.08,
+   "placement": "explicit",
+   "screen": {
+    "caption": "호르무즈 해협 통과 중 경계 근무를 서는 미 해군",
+    "credit": "자료사진 · 2023. 05 · U.S. Navy · Public domain"
+   },
+   "old_direction": {
+    "caption": "호르무즈 해협 통과 중 경계 근무를 서는 미 해군",
+    "credit": "자료사진 · 2023. 05 · U.S. Navy · Public domain"
+   },
+   "equal_to_old": true,
+   "rights_status": "rights_clear",
+   "verified_by": "사용자 라운드 7 — v3 최종본 합격 판정(docs/handoff/KICKOFF_PROMPT.md §5)"
+  }
+ ]
+}

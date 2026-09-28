@@ -1,0 +1,80 @@
+{
+ "schema_version": 1,
+ "total_sec": 292.439,
+ "items": [
+  {
+   "mid": "niovi",
+   "kind": "clip",
+   "t0": 58.95,
+   "t1": 63.95,
+   "scene": "war"
+  },
+  {
+   "mid": "strikes",
+   "kind": "clip",
+   "t0": 134.48,
+   "t1": 139.48,
+   "scene": "timeline"
+  },
+  {
+   "mid": "reuters_0904",
+   "kind": "article",
+   "t0": 162.09,
+   "t1": 168.42,
+   "scene": "review"
+  },
+  {
+   "mid": "p8",
+   "kind": "cutout",
+   "t0": 168.12,
+   "t1": 178.52,
+   "scene": "review"
+  },
+  {
+   "mid": "rok_iraq",
+   "kind": "photo",
+   "t0": 191.32,
+   "t1": 202.11,
+   "scene": "past"
+  },
+  {
+   "mid": "herald_0907",
+   "kind": "article",
+   "t0": 211.75,
+   "t1": 218.96,
+   "scene": "debate"
+  },
+  {
+   "mid": "hormuz_transit",
+   "kind": "photo",
+   "t0": 256.11,
+   "t1": 266.08,
+   "scene": "now"
+  }
+ ],
+ "count": 7,
+ "sec_per_item": 41.8,
+ "target_sec_per_item": [
+  40.0,
+  60.0
+ ],
+ "per_scene": {
+  "war": [
+   "niovi"
+  ],
+  "timeline": [
+   "strikes"
+  ],
+  "review": [
+   "p8"
+  ],
+  "past": [
+   "rok_iraq"
+  ],
+  "now": [
+   "hormuz_transit"
+  ]
+ },
+ "warnings": [],
+ "note": "짧은 구간 몰림(창) 기준은 R-0035 결정 대기 — 포함하지 않음"
+}
