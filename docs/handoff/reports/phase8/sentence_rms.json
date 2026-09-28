@@ -1,0 +1,334 @@
+{
+ "schema_version": 1,
+ "project": "hormuz_korea",
+ "method": "문장 npy 를 믹서와 같이 피크 정규화(narration_peak) 뒤, 20ms 창 중 최대의 -40dB 이상인 창만(무음 제외) RMS. 스크립트 inline(reports/phase8/sentence_rms.json 생성) — 정규화 옵션은 실측 뒤 decision_request(D-0060 작업 7)",
+ "voice": "edge-tts ko-KR-InJoonNeural",
+ "summary": {
+  "n": 45,
+  "mean_db": -16.08,
+  "std_db": 0.65,
+  "min_db": -17.65,
+  "max_db": -14.82,
+  "range_db": 2.83,
+  "p10": -16.92,
+  "p90": -15.2,
+  "over_3db_from_mean": 0
+ },
+ "sentences": [
+  {
+   "sid": "open_0",
+   "dur": 4.12,
+   "peak_raw": 0.5436,
+   "rms_after_peaknorm_db": -15.07,
+   "crest_db": 13.13
+  },
+  {
+   "sid": "open_1",
+   "dur": 3.55,
+   "peak_raw": 0.5673,
+   "rms_after_peaknorm_db": -16.13,
+   "crest_db": 14.19
+  },
+  {
+   "sid": "open_2",
+   "dur": 4.42,
+   "peak_raw": 0.5321,
+   "rms_after_peaknorm_db": -15.08,
+   "crest_db": 13.14
+  },
+  {
+   "sid": "open_3",
+   "dur": 4.78,
+   "peak_raw": 0.5669,
+   "rms_after_peaknorm_db": -16.2,
+   "crest_db": 14.26
+  },
+  {
+   "sid": "route_0",
+   "dur": 4.58,
+   "peak_raw": 0.5886,
+   "rms_after_peaknorm_db": -15.99,
+   "crest_db": 14.06
+  },
+  {
+   "sid": "route_1",
+   "dur": 4.59,
+   "peak_raw": 0.5425,
+   "rms_after_peaknorm_db": -15.83,
+   "crest_db": 13.9
+  },
+  {
+   "sid": "route_2",
+   "dur": 4.59,
+   "peak_raw": 0.5563,
+   "rms_after_peaknorm_db": -15.98,
+   "crest_db": 14.04
+  },
+  {
+   "sid": "route_3",
+   "dur": 6.17,
+   "peak_raw": 0.5773,
+   "rms_after_peaknorm_db": -15.94,
+   "crest_db": 14.0
+  },
+  {
+   "sid": "war_0",
+   "dur": 4.51,
+   "peak_raw": 0.6216,
+   "rms_after_peaknorm_db": -15.47,
+   "crest_db": 13.54
+  },
+  {
+   "sid": "war_1",
+   "dur": 4.03,
+   "peak_raw": 0.5461,
+   "rms_after_peaknorm_db": -15.82,
+   "crest_db": 13.88
+  },
+  {
+   "sid": "war_2",
+   "dur": 2.89,
+   "peak_raw": 0.6464,
+   "rms_after_peaknorm_db": -16.11,
+   "crest_db": 14.17
+  },
+  {
+   "sid": "war_3",
+   "dur": 5.93,
+   "peak_raw": 0.6204,
+   "rms_after_peaknorm_db": -16.6,
+   "crest_db": 14.66
+  },
+  {
+   "sid": "ask_0",
+   "dur": 6.64,
+   "peak_raw": 0.6349,
+   "rms_after_peaknorm_db": -16.51,
+   "crest_db": 14.58
+  },
+  {
+   "sid": "ask_1",
+   "dur": 7.86,
+   "peak_raw": 0.72,
+   "rms_after_peaknorm_db": -17.11,
+   "crest_db": 15.18
+  },
+  {
+   "sid": "ask_2",
+   "dur": 4.16,
+   "peak_raw": 0.6291,
+   "rms_after_peaknorm_db": -16.91,
+   "crest_db": 14.98
+  },
+  {
+   "sid": "ask_3",
+   "dur": 4.98,
+   "peak_raw": 0.5804,
+   "rms_after_peaknorm_db": -16.87,
+   "crest_db": 14.93
+  },
+  {
+   "sid": "ask_4",
+   "dur": 8.09,
+   "peak_raw": 0.6667,
+   "rms_after_peaknorm_db": -16.07,
+   "crest_db": 14.14
+  },
+  {
+   "sid": "ask_5",
+   "dur": 5.61,
+   "peak_raw": 0.6638,
+   "rms_after_peaknorm_db": -16.76,
+   "crest_db": 14.82
+  },
+  {
+   "sid": "timeline_0",
+   "dur": 4.19,
+   "peak_raw": 0.5214,
+   "rms_after_peaknorm_db": -16.0,
+   "crest_db": 14.07
+  },
+  {
+   "sid": "timeline_1",
+   "dur": 6.17,
+   "peak_raw": 0.6022,
+   "rms_after_peaknorm_db": -16.23,
+   "crest_db": 14.29
+  },
+  {
+   "sid": "timeline_2",
+   "dur": 5.84,
+   "peak_raw": 0.6201,
+   "rms_after_peaknorm_db": -16.24,
+   "crest_db": 14.3
+  },
+  {
+   "sid": "timeline_3",
+   "dur": 5.08,
+   "peak_raw": 0.537,
+   "rms_after_peaknorm_db": -16.4,
+   "crest_db": 14.46
+  },
+  {
+   "sid": "timeline_4",
+   "dur": 7.74,
+   "peak_raw": 0.5792,
+   "rms_after_peaknorm_db": -15.64,
+   "crest_db": 13.7
+  },
+  {
+   "sid": "timeline_5",
+   "dur": 5.39,
+   "peak_raw": 0.5469,
+   "rms_after_peaknorm_db": -14.84,
+   "crest_db": 12.9
+  },
+  {
+   "sid": "cost_0",
+   "dur": 6.57,
+   "peak_raw": 0.6729,
+   "rms_after_peaknorm_db": -16.92,
+   "crest_db": 14.98
+  },
+  {
+   "sid": "cost_1",
+   "dur": 3.91,
+   "peak_raw": 0.6105,
+   "rms_after_peaknorm_db": -16.35,
+   "crest_db": 14.41
+  },
+  {
+   "sid": "review_0",
+   "dur": 5.72,
+   "peak_raw": 0.6258,
+   "rms_after_peaknorm_db": -16.03,
+   "crest_db": 14.09
+  },
+  {
+   "sid": "review_1",
+   "dur": 3.59,
+   "peak_raw": 0.4968,
+   "rms_after_peaknorm_db": -15.2,
+   "crest_db": 13.26
+  },
+  {
+   "sid": "review_2",
+   "dur": 6.01,
+   "peak_raw": 0.6873,
+   "rms_after_peaknorm_db": -17.42,
+   "crest_db": 15.49
+  },
+  {
+   "sid": "review_3",
+   "dur": 6.51,
+   "peak_raw": 0.6376,
+   "rms_after_peaknorm_db": -17.06,
+   "crest_db": 15.12
+  },
+  {
+   "sid": "past_0",
+   "dur": 3.58,
+   "peak_raw": 0.5884,
+   "rms_after_peaknorm_db": -15.81,
+   "crest_db": 13.87
+  },
+  {
+   "sid": "past_1",
+   "dur": 4.74,
+   "peak_raw": 0.6017,
+   "rms_after_peaknorm_db": -15.8,
+   "crest_db": 13.87
+  },
+  {
+   "sid": "past_2",
+   "dur": 5.96,
+   "peak_raw": 0.61,
+   "rms_after_peaknorm_db": -16.04,
+   "crest_db": 14.1
+  },
+  {
+   "sid": "past_3",
+   "dur": 7.55,
+   "peak_raw": 0.5854,
+   "rms_after_peaknorm_db": -15.7,
+   "crest_db": 13.76
+  },
+  {
+   "sid": "debate_0",
+   "dur": 6.51,
+   "peak_raw": 0.5943,
+   "rms_after_peaknorm_db": -16.88,
+   "crest_db": 14.94
+  },
+  {
+   "sid": "debate_1",
+   "dur": 5.58,
+   "peak_raw": 0.7089,
+   "rms_after_peaknorm_db": -17.65,
+   "crest_db": 15.71
+  },
+  {
+   "sid": "debate_2",
+   "dur": 4.61,
+   "peak_raw": 0.6143,
+   "rms_after_peaknorm_db": -16.26,
+   "crest_db": 14.33
+  },
+  {
+   "sid": "debate_3",
+   "dur": 5.85,
+   "peak_raw": 0.519,
+   "rms_after_peaknorm_db": -15.85,
+   "crest_db": 13.92
+  },
+  {
+   "sid": "debate_4",
+   "dur": 5.05,
+   "peak_raw": 0.5863,
+   "rms_after_peaknorm_db": -16.37,
+   "crest_db": 14.43
+  },
+  {
+   "sid": "decision_0",
+   "dur": 6.13,
+   "peak_raw": 0.6022,
+   "rms_after_peaknorm_db": -15.74,
+   "crest_db": 13.8
+  },
+  {
+   "sid": "decision_1",
+   "dur": 4.43,
+   "peak_raw": 0.5597,
+   "rms_after_peaknorm_db": -15.33,
+   "crest_db": 13.39
+  },
+  {
+   "sid": "now_0",
+   "dur": 4.85,
+   "peak_raw": 0.5272,
+   "rms_after_peaknorm_db": -14.82,
+   "crest_db": 12.88
+  },
+  {
+   "sid": "now_1",
+   "dur": 5.22,
+   "peak_raw": 0.6136,
+   "rms_after_peaknorm_db": -15.63,
+   "crest_db": 13.7
+  },
+  {
+   "sid": "now_2",
+   "dur": 5.76,
+   "peak_raw": 0.553,
+   "rms_after_peaknorm_db": -15.2,
+   "crest_db": 13.26
+  },
+  {
+   "sid": "now_3",
+   "dur": 6.8,
+   "peak_raw": 0.5365,
+   "rms_after_peaknorm_db": -15.7,
+   "crest_db": 13.76
+  }
+ ]
+}
