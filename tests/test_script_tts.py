@@ -53,6 +53,12 @@ class ElevenRequestTest(unittest.TestCase):
         self.assertNotEqual(cache_key("가나다", None), cache_key("가나다", "v1"))
         self.assertNotEqual(cache_key("가나다", "v1"), cache_key("가나다", "v2"))
 
+    def test_cache_key_edge_voice(self) -> None:
+        # 기본 edge 목소리 = v3 키(sha1(tts)), 교체 목소리는 다른 키 — 옛 목소리 mp3 재사용 방지
+        import hashlib  # noqa: PLC0415
+        self.assertEqual(cache_key("가나다", None), hashlib.sha1("가나다".encode()).hexdigest()[:10])
+        self.assertNotEqual(cache_key("가나다", None, "ko-KR-SunHiNeural"), cache_key("가나다", None))
+
 
 if __name__ == "__main__":
     unittest.main()
