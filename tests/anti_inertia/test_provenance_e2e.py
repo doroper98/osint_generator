@@ -11,6 +11,7 @@ Phase 1~6.5 provenance 전부 8), 패널 relation(옛 refusal). 19 부록 B·15 
 
 from __future__ import annotations
 
+import hashlib
 import json
 import subprocess
 import sys
@@ -61,6 +62,10 @@ class ProvenanceE2ETest(unittest.TestCase):
         self.assertEqual(prov["checks"]["hard"], chk["hard"])
         frames = json.loads((proj / "prev" / "frames.json").read_text(encoding="utf-8"))
         self.assertEqual(len(frames["frames"]), 25)
+        # v4.1.0 D-0076 작업 6·8 — 무대 추상화 뒤에도 25컷 픽셀 동일(기준선 = KZ 수정 뒤 hormuz_baseline.json, D-0078)
+        base = json.loads((REPO / "docs" / "handoff" / "reports" / "phaseG1" / "hormuz_baseline.json").read_text(encoding="utf-8"))
+        got = {p.name: hashlib.md5(p.read_bytes()).hexdigest() for p in (proj / "prev").glob("p_*.png")}
+        self.assertEqual(got, {c["png"]: c["md5"] for c in base["cuts"]})
 
 
 if __name__ == "__main__":

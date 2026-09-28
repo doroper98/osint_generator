@@ -1,0 +1,15 @@
+{
+ "schema_version": 1,
+ "role": "D-0076 작업 6 — 480p 전편 렌더 시간(jobs 4, 같은 컨테이너, 같은 프로젝트 hormuz_korea_g1prefix)",
+ "phase11_reference_sec": 156,
+ "old_code_2233392_sec": 130.4,
+ "g1_code_sec": 131.1,
+ "ratio": 1.0054,
+ "allowed": "±10%",
+ "other_runs": {
+  "pre_refactor_first_run_sec": 160.1,
+  "g1_new_assets_sec": 130.3,
+  "g1_old_assets_first_sec": 134.1
+ },
+ "both_md5": "692f228e"
+}

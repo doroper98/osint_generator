@@ -1,0 +1,35 @@
+{
+ "schema_version": 1,
+ "role": "D-0076 작업 6 — 1080p 25컷 축소 비교(tools/res_compare.py)가 Phase 10 과 같은가",
+ "phase10": {
+  "mad_mean": 0.01067,
+  "mad_max": 0.01808
+ },
+ "runs": {
+  "old_assets": {
+   "mad_mean": 0.01067,
+   "mad_max": 0.01808,
+   "threshold": 0.02,
+   "frames_json_equal": true,
+   "passed": true
+  },
+  "new_assets": {
+   "mad_mean": 0.01067,
+   "mad_max": 0.01808,
+   "threshold": 0.02,
+   "frames_json_equal": true,
+   "passed": true
+  },
+  "pre_refactor_same_container": {
+   "mad_mean": 0.01067,
+   "mad_max": 0.01808,
+   "threshold": 0.02,
+   "frames_json_equal": true,
+   "passed": true
+  }
+ },
+ "png_1080_old_assets_vs_pre_refactor": {
+  "same": 25,
+  "of": 25
+ }
+}

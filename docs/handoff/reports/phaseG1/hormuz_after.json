@@ -1,0 +1,278 @@
+{
+ "schema_version": 1,
+ "role": "D-0076 작업 6 합격 — G1 코드(작업 1~5, d6edd90 이후)로 다시 렌더한 hormuz 480p 골든 25컷",
+ "a_new_assets": {
+  "against": "hormuz_baseline.json(KZ 수정 뒤 기준선, f8e507a)",
+  "same": 25,
+  "of": 25,
+  "cuts": [
+   {
+    "png": "p_0007.82.png",
+    "md5": "10c0e064820b2f9946517001cf9d1e5d",
+    "same": true
+   },
+   {
+    "png": "p_0022.27.png",
+    "md5": "01dff54d06fa313e6928cbbdeb78089b",
+    "same": true
+   },
+   {
+    "png": "p_0028.77.png",
+    "md5": "9d5e33fb0f7ce2725397ed8e8af9754b",
+    "same": true
+   },
+   {
+    "png": "p_0038.45.png",
+    "md5": "af48bc232d42193b81e69a2d6017decf",
+    "same": true
+   },
+   {
+    "png": "p_0045.03.png",
+    "md5": "e3a121d6a185f77d6e3503e1917de830",
+    "same": true
+   },
+   {
+    "png": "p_0056.21.png",
+    "md5": "29b82a82a6bd0be90c9dd46d530072f1",
+    "same": true
+   },
+   {
+    "png": "p_0061.25.png",
+    "md5": "30f5a3bcd7bdbfcd376f66ab0f89deca",
+    "same": true
+   },
+   {
+    "png": "p_0065.13.png",
+    "md5": "a4bd6107c8d0bcac956ee2929818be14",
+    "same": true
+   },
+   {
+    "png": "p_0080.70.png",
+    "md5": "dd31a01f5694ddb73db5220c9665b95b",
+    "same": true
+   },
+   {
+    "png": "p_0087.06.png",
+    "md5": "c2181dfc51dbdf25badfcb36d1feb97b",
+    "same": true
+   },
+   {
+    "png": "p_0105.28.png",
+    "md5": "1f5514005055ba43b137adee52f2f672",
+    "same": true
+   },
+   {
+    "png": "p_0124.25.png",
+    "md5": "8b4ef6da462aa20dc29126bc7d34fcca",
+    "same": true
+   },
+   {
+    "png": "p_0136.97.png",
+    "md5": "31bbf0289f422dde5c5f025b5a55a357",
+    "same": true
+   },
+   {
+    "png": "p_0157.38.png",
+    "md5": "1972d7b87e3db9c0093dbbef3edea7b8",
+    "same": true
+   },
+   {
+    "png": "p_0164.59.png",
+    "md5": "1c9b9e82e8884a31a640f45f9af3ef5e",
+    "same": true
+   },
+   {
+    "png": "p_0170.52.png",
+    "md5": "30dbba10411108f7d9a8466cd5839002",
+    "same": true
+   },
+   {
+    "png": "p_0193.22.png",
+    "md5": "ea69e761aaa7752cad4cf3df7995317b",
+    "same": true
+   },
+   {
+    "png": "p_0207.41.png",
+    "md5": "13b6c54e8c0aa4c53a10e9d4ecc76d23",
+    "same": true
+   },
+   {
+    "png": "p_0214.46.png",
+    "md5": "bbd7e6239bd1814cd584bb359067800c",
+    "same": true
+   },
+   {
+    "png": "p_0220.96.png",
+    "md5": "9898c5bc1f1af76e7ad60fc665df8ec9",
+    "same": true
+   },
+   {
+    "png": "p_0238.00.png",
+    "md5": "8429b0f44c02dac6955c6d05d1ea0dd9",
+    "same": true
+   },
+   {
+    "png": "p_0245.56.png",
+    "md5": "a653b2309999dd8f63c6aaa9730b07f6",
+    "same": true
+   },
+   {
+    "png": "p_0258.61.png",
+    "md5": "6eb7ae5182d26536051fd6d5f3175a6d",
+    "same": true
+   },
+   {
+    "png": "p_0276.44.png",
+    "md5": "3e969c3541c1f25a845fdeefec16d1a9",
+    "same": true
+   },
+   {
+    "png": "p_0288.44.png",
+    "md5": "42d94cea05dc2c3d6f0862cb305b6b4b",
+    "same": true
+   }
+  ]
+ },
+ "b_old_assets": {
+  "against": "hormuz_baseline_prefix.json(§0 기준선, 2233392 — 결함 포함 옛 지오 자산을 2233392 워크트리의 geo.prep 으로 복사 프로젝트 hormuz_korea_g1prefix 에 재생성)",
+  "same": 25,
+  "of": 25,
+  "cuts": [
+   {
+    "png": "p_0007.82.png",
+    "md5": "10c0e064820b2f9946517001cf9d1e5d",
+    "same": true
+   },
+   {
+    "png": "p_0022.27.png",
+    "md5": "01dff54d06fa313e6928cbbdeb78089b",
+    "same": true
+   },
+   {
+    "png": "p_0028.77.png",
+    "md5": "9d5e33fb0f7ce2725397ed8e8af9754b",
+    "same": true
+   },
+   {
+    "png": "p_0038.45.png",
+    "md5": "6ec5f304515a34ce5afb18b211dd2be8",
+    "same": true
+   },
+   {
+    "png": "p_0045.03.png",
+    "md5": "03abba42441bfc2ffcd1356828c5bec9",
+    "same": true
+   },
+   {
+    "png": "p_0056.21.png",
+    "md5": "29b82a82a6bd0be90c9dd46d530072f1",
+    "same": true
+   },
+   {
+    "png": "p_0061.25.png",
+    "md5": "30f5a3bcd7bdbfcd376f66ab0f89deca",
+    "same": true
+   },
+   {
+    "png": "p_0065.13.png",
+    "md5": "a4bd6107c8d0bcac956ee2929818be14",
+    "same": true
+   },
+   {
+    "png": "p_0080.70.png",
+    "md5": "dd31a01f5694ddb73db5220c9665b95b",
+    "same": true
+   },
+   {
+    "png": "p_0087.06.png",
+    "md5": "c2181dfc51dbdf25badfcb36d1feb97b",
+    "same": true
+   },
+   {
+    "png": "p_0105.28.png",
+    "md5": "1f5514005055ba43b137adee52f2f672",
+    "same": true
+   },
+   {
+    "png": "p_0124.25.png",
+    "md5": "8b4ef6da462aa20dc29126bc7d34fcca",
+    "same": true
+   },
+   {
+    "png": "p_0136.97.png",
+    "md5": "31bbf0289f422dde5c5f025b5a55a357",
+    "same": true
+   },
+   {
+    "png": "p_0157.38.png",
+    "md5": "1972d7b87e3db9c0093dbbef3edea7b8",
+    "same": true
+   },
+   {
+    "png": "p_0164.59.png",
+    "md5": "427e6b8df0562c2dd67b08b45307327c",
+    "same": true
+   },
+   {
+    "png": "p_0170.52.png",
+    "md5": "786744e7a6246a3d8151f659b3fb0299",
+    "same": true
+   },
+   {
+    "png": "p_0193.22.png",
+    "md5": "ebb2587b3ce51d79cb48760ee338a872",
+    "same": true
+   },
+   {
+    "png": "p_0207.41.png",
+    "md5": "00dba9337c5c613d22441ca17fbdad9b",
+    "same": true
+   },
+   {
+    "png": "p_0214.46.png",
+    "md5": "bbd7e6239bd1814cd584bb359067800c",
+    "same": true
+   },
+   {
+    "png": "p_0220.96.png",
+    "md5": "9898c5bc1f1af76e7ad60fc665df8ec9",
+    "same": true
+   },
+   {
+    "png": "p_0238.00.png",
+    "md5": "8429b0f44c02dac6955c6d05d1ea0dd9",
+    "same": true
+   },
+   {
+    "png": "p_0245.56.png",
+    "md5": "a653b2309999dd8f63c6aaa9730b07f6",
+    "same": true
+   },
+   {
+    "png": "p_0258.61.png",
+    "md5": "2b99c61dc0103059761c1d466c3ef8ab",
+    "same": true
+   },
+   {
+    "png": "p_0276.44.png",
+    "md5": "af429ddb3c4ff949794abbafc4b7e2f5",
+    "same": true
+   },
+   {
+    "png": "p_0288.44.png",
+    "md5": "41b6276244002f5f579cca50d81f38f2",
+    "same": true
+   }
+  ]
+ },
+ "video_noaudio": {
+  "old_assets_md5": "692f228e359a89ab74a38626b4f7396e",
+  "old_assets_expected": "692f228e(Phase 6.9·8·10·11)",
+  "new_assets_md5": "f19d21ad8430ce6181e6f429c8dbf7e2"
+ },
+ "checks": {
+  "hard": 0,
+  "warnings": 0,
+  "items": 13
+ }
+}

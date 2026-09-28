@@ -1,0 +1,117 @@
+{
+ "schema_version": 1,
+ "role": "D-0076 작업 6 — 랫클리프 20컷 auto 프리뷰, Phase 10 v2 대비",
+ "baseline": "같은 컨테이너에서 리팩터 전 코드(2233392)·옛 지오 자산으로 렌더한 20컷(frames.json = Phase 10 ratcliffe_run2 와 동일)",
+ "old_assets": {
+  "md5_same": 20,
+  "of": 20,
+  "mad_max": 0.0,
+  "frames_json_equal_phase10_v2": true
+ },
+ "new_assets": {
+  "note": "KZ 수정(D-0078) 뒤 — KZ 가 보이는 컷만 변경",
+  "changed_cuts": 7,
+  "cuts": [
+   {
+    "png": "p_0011.00.png",
+    "mad": 0.0,
+    "changed_px": 0
+   },
+   {
+    "png": "p_0024.06.png",
+    "mad": 0.0,
+    "changed_px": 0
+   },
+   {
+    "png": "p_0031.01.png",
+    "mad": 0.0,
+    "changed_px": 0
+   },
+   {
+    "png": "p_0038.10.png",
+    "mad": 0.0,
+    "changed_px": 0
+   },
+   {
+    "png": "p_0043.30.png",
+    "mad": 0.0,
+    "changed_px": 0
+   },
+   {
+    "png": "p_0054.32.png",
+    "mad": 0.0,
+    "changed_px": 0
+   },
+   {
+    "png": "p_0063.35.png",
+    "mad": 0.0,
+    "changed_px": 0
+   },
+   {
+    "png": "p_0079.31.png",
+    "mad": 0.0,
+    "changed_px": 0
+   },
+   {
+    "png": "p_0091.10.png",
+    "mad": 0.0,
+    "changed_px": 0
+   },
+   {
+    "png": "p_0108.23.png",
+    "mad": 0.0,
+    "changed_px": 0
+   },
+   {
+    "png": "p_0118.82.png",
+    "mad": 0.0,
+    "changed_px": 0
+   },
+   {
+    "png": "p_0135.31.png",
+    "mad": 0.0,
+    "changed_px": 0
+   },
+   {
+    "png": "p_0146.24.png",
+    "mad": 0.0,
+    "changed_px": 0
+   },
+   {
+    "png": "p_0161.90.png",
+    "mad": 2.96528,
+    "changed_px": 34708
+   },
+   {
+    "png": "p_0171.39.png",
+    "mad": 3.22058,
+    "changed_px": 34845
+   },
+   {
+    "png": "p_0184.42.png",
+    "mad": 3.18042,
+    "changed_px": 34630
+   },
+   {
+    "png": "p_0191.86.png",
+    "mad": 3.1077,
+    "changed_px": 34642
+   },
+   {
+    "png": "p_0206.38.png",
+    "mad": 1.96666,
+    "changed_px": 28179
+   },
+   {
+    "png": "p_0217.84.png",
+    "mad": 0.10108,
+    "changed_px": 23113
+   },
+   {
+    "png": "p_0220.44.png",
+    "mad": 0.09989,
+    "changed_px": 22886
+   }
+  ]
+ }
+}
