@@ -40,6 +40,17 @@ def presence(t: float, e: dict, fade_out: float) -> float:
     return window(t, e["t0"] - RES.lead_sec, e["t1"], RES.lead_sec, fade_out)
 
 
+def card_box(ctx: cairo.Context, e: dict) -> Box:
+    """카드·기사 카드·게시물 카드의 제자리 상자(x0, y0, x1, y1). 예약 영역과 checks overlap(NB23)이 같이 쓴다."""
+    if e["type"] == "post":             # v3.2.0 — 상자는 load_project 가 소스 레코드로 미리 계산(post_box)
+        x, y, w, h = e["post_box"]
+    elif e["type"] == "card":
+        x, y, w, h, _ = card_geom(ctx, e)
+    else:
+        x, y, w, h, _, _ = article_geom(ctx, e)
+    return x, y, x + w, y + h
+
+
 def card_zones(ctx: cairo.Context, events: list[dict], t: float) -> list[Zone]:
     out: list[Zone] = []
     for e in events:
@@ -48,15 +59,9 @@ def card_zones(ctx: cairo.Context, events: list[dict], t: float) -> list[Zone]:
         a = presence(t, e, CARD.fade_sec)   # 기사·게시물 카드도 같은 0.45초 페이드(media.article_alpha, post.post_alpha)
         if a <= RES.min_zone_alpha:
             continue
-        if e["type"] == "post":            # v3.2.0 — 상자는 load_project 가 소스 레코드로 미리 계산(post_box)
-            x, y, w, h = e["post_box"]
-            out.append(Zone((x, y, x + w, y + h), a, f"post:{e['src']}"))
-        elif e["type"] == "card":
-            x, y, w, h, _ = card_geom(ctx, e)
-            out.append(Zone((x, y, x + w, y + h), a, f"card:{e['tag']}"))
-        else:
-            x, y, w, h, _, _ = article_geom(ctx, e)
-            out.append(Zone((x, y, x + w, y + h), a, f"article:{article_text(e)['pub']}"))
+        ref = (f"post:{e['src']}" if e["type"] == "post" else f"card:{e['tag']}" if e["type"] == "card"
+               else f"article:{article_text(e)['pub']}")
+        out.append(Zone(card_box(ctx, e), a, ref))
     return out
 
 

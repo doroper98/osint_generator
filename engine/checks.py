@@ -4,7 +4,7 @@ LLM 시각 검수 전에 코드가 잡는 것. 임계는 `rules qa_checks`(코�
 hard 실패가 하나라도 있으면 시각 검수 LLM 을 부르지 않고 연출 LLM 에 오류만 돌려준다(17 §3, AP-V5-29).
 
 | id | 등급 | 방법 |
-| overlap | hard | 사진·영상 상자가 카드·자막·날짜 예약 영역과 겹침(`media_plan.placement_warnings`). 뱃지·마커는 RESERVED 회피가 이미 처리 |
+| overlap | hard | 사진·영상 상자가 카드·자막·날짜 예약 영역과 겹침, 카드·기사·게시물 카드가 날짜·자막 영역과 겹침(v3.6.0 NB23) (`media_plan.placement_warnings`). 뱃지·마커는 RESERVED 회피가 이미 처리 |
 | offscreen | hard | 뱃지 상자(badge_box — 머리·이름표 포함, 17 §3 R×3.3 의 실측판)가 보이는 순간마다 화면 안(전면 카드·패널·암전 구간 제외) |
 | glyphs | hard | 화면에 그릴 문자열(이벤트·자막·날짜·크레딧)의 모든 글자가 프로젝트 글꼴 중 하나에 있음(fontTools cmap) |
 | shots | warning | 숏 길이 ≥ shot_min_hold_sec, 장면당 이동 ≤ camera_moves_per_scene_max, 암전 ≤ 1/dip_max_per_sec (Phase 7 제안의 바탕) |
@@ -18,7 +18,6 @@ hard 실패가 하나라도 있으면 시각 검수 LLM 을 부르지 않고 연
 
 from __future__ import annotations
 
-import subprocess
 from functools import lru_cache
 
 import cairo
@@ -26,6 +25,7 @@ import cairo
 from engine.media_plan import density_report, placement_warnings
 from engine.projection import View
 from engine.style import FONT, FPS, H_OUT, W_OUT
+from engine.typography import FontMissingError, family_found, fc_match, require_family
 from rules import load_rules
 from script.schema import DATE_RE
 
@@ -38,28 +38,17 @@ HARD = ("overlap", "offscreen", "glyphs", "labels", "date", "subtitles", "rights
 WARN = ("shots", "media_beats")
 
 
-class FontMissingError(RuntimeError):
-    """프로젝트 글꼴이 설치되지 않아 fontconfig 가 다른 글꼴로 대체했다 — 글리프 검사를 할 수 없다(D-0050 NB10)."""
-
-
-def _fc_match(family: str) -> tuple[str, str]:
-    out = subprocess.run(["fc-match", "-f", "%{family}\t%{file}", family], capture_output=True, text=True, check=True).stdout
-    fams, _, path = out.partition("\t")
-    return fams, path.strip()
-
-
 def missing_fonts() -> list[str]:
     """`FONT` 표의 패밀리 중 fontconfig 가 그 이름으로 찾지 못하는(대체 글꼴로 넘어가는) 것. 없으면 `fetch_data fonts`."""
-    return [fam for fam, _ in FONT.values() if fam not in (f.strip() for f in _fc_match(fam)[0].split(","))]
+    return [fam for fam, _ in FONT.values() if not family_found(fam)]
 
 
 @lru_cache(maxsize=None)
 def _cmap(family: str) -> frozenset[int]:
     from fontTools.ttLib import TTFont  # noqa: PLC0415
 
-    fams, path = _fc_match(family)
-    if family not in (f.strip() for f in fams.split(",")):   # 조용한 대체 금지(P6) — 대체 글꼴 cmap 으로 검사하면 전부 '글리프 없음'
-        raise FontMissingError(f"글꼴 {family!r} 없음(fontconfig 대체: {fams.split(',')[0]!r}) — `python tools/fetch_data.py fonts` 먼저")
+    require_family(family)   # 조용한 대체 금지(P6) — 대체 글꼴 cmap 으로 검사하면 전부 '글리프 없음'
+    path = fc_match(family)[1]
     f = TTFont(path, fontNumber=0, lazy=True)
     return frozenset(f.getBestCmap() or {})
 
@@ -240,5 +229,5 @@ def frames_info(P, times: list[float], names: list[str]) -> dict:  # noqa: ANN00
     return {"schema_version": 1, "frames": rows}
 
 
-__all__ = ["HARD", "WARN", "check_audio", "frames_info", "run_checks"]
+__all__ = ["FontMissingError", "HARD", "WARN", "check_audio", "frames_info", "run_checks"]
 

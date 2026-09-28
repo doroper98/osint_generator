@@ -19,7 +19,8 @@ import cairo
 from engine.panels import timeline
 from engine.projection import lat_of
 from engine.reserved import _hits
-from engine.style import DATE_BADGE, H_OUT, W_OUT
+from engine.hud import date_box
+from engine.style import H_OUT, W_OUT
 from rules import load_rules
 
 _R = load_rules()
@@ -47,8 +48,7 @@ def _beside_panel(e: dict, events: list[dict], slot, media_h: Callable[[dict, fl
     if media_h is None:
         return "미디어 높이 계산기 없음(자산 레지스트리 필요)"
     ctx = cairo.Context(cairo.ImageSurface(cairo.FORMAT_ARGB32, 1, 1))
-    obst: list[Box] = [(0, SUB_Y, W_OUT, H_OUT),
-                       (W_OUT - DATE_BADGE.x_right - DATE_BADGE.size * 8, 0, W_OUT, DATE_BADGE.underline_y + 2)]
+    obst: list[Box] = [(0, SUB_Y, W_OUT, H_OUT), date_box()]
     for p in panels:
         fn = OCCUPIED.get(p["kind"])
         if fn is None:

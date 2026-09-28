@@ -9,6 +9,15 @@ from engine.style import C, DATE_BADGE, W_OUT
 from engine.timebase import smooth
 from engine.typography import text
 
+Box = tuple[float, float, float, float]
+
+
+def date_box() -> Box:
+    """날짜 배지가 차지하는 화면 상자(x0, y0, x1, y1) — 가장 긴 날짜('YYYY. MM. DD')를 덮는 폭. 예약 영역 판정의 유일한 정의
+    (미디어 배치 슬롯 후보·checks overlap 이 같이 쓴다, v3.6.0 NB23)."""
+    B = DATE_BADGE  # noqa: N806
+    return (W_OUT - B.x_right - B.size * 8, 0, W_OUT, B.underline_y + 2)
+
 
 def draw_date(ctx: cairo.Context, R: RenderCtx, t: float) -> None:  # noqa: N803
     tb = R.tb

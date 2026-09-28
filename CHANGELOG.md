@@ -28,7 +28,15 @@ released 항목은 **append-only**입니다.
 
 ---
 
-## [v3.5.0] — 2026-09-29 — Phase 9: 번들 어댑터 (back_and_forth D-0063) — 진행 중
+## [v3.6.0] — 2026-09-29 — Phase 10: 해상도·성능 (back_and_forth D-0066) — 진행 중
+
+### Fixed
+- **NB23 카드×날짜 겹침(검사기 구멍, P6)**: 연출이 카드 `y: 0.56`(비율로 쓴 값)을 주면 렌더러가 480p 픽셀 0.56 으로 읽어 카드가 모서리 날짜 자리에 떴다(Phase 9 랫클리프 p_0191.86). `checks overlap`(hard)은 사진·영상만 봐서 hard 0 이었다. 이제 카드·기사 카드·게시물 카드가 날짜 상자·자막 영역과 겹치면 `[card-over-date]`·`[card-over-subtitle]`(hard, "y 는 480p 픽셀" 안내 포함). 날짜 상자 정의는 `engine.hud.date_box()` 하나(배치 슬롯 후보·checks 공유), 카드 상자는 `engine.reserved.card_box()` 하나(RESERVED·checks 공유) (D-0065 §2, D-0066 §0-2).
+- **NB16 렌더 경로 글꼴 검사(P6)**: `engine.typography.font()` 가 fontconfig 대체 글꼴을 `FontMissingError` 로 막는다(글리프 검사와 같은 판정 함수 `require_family`, 패밀리당 fc-match 1회). 글꼴 없는 환경의 테스트는 `tests/conftest.py` 가 사유 있는 skip 으로 보고 (D-0066 §0-3).
+
+---
+
+## [v3.5.0] — 2026-09-29 — Phase 9: 번들 어댑터 (back_and_forth D-0063) — Fable review pass(D-0065)
 
 ### Changed
 - 번들 로더 `orchestrator/bundle_io.py` → `bundle/load.py` 이동(경로 하나, P2 — 오케스트레이터는 얇은 호출만). 모든 깊이의 미지 필드를 나열하는 `unknown_fields()`·코퍼스 로드 표 CLI(`python -m bundle.load json samples --out …`) (D-0063 §0).

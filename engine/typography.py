@@ -2,12 +2,15 @@
 
 IBM Plex Mono 에는 한글이 없어 한글 구간은 IBM Plex Sans KR 로 런 분할한다(01 라운드 6).
 GmarketSans woff→otf 변환본은 공백 글리프가 깨져 공백 폭을 크기 × display_space_advance 로 그린다(19 §3.13).
+v3.6.0 NB16: 렌더 경로의 글꼴 선택(`font`)도 fontconfig 가 이름대로 찾았는지 확인한다 — 대체 글꼴로 조용히 그리지 않는다(15 P6).
 """
 
 from __future__ import annotations
 
 import math
 import re
+import subprocess
+from functools import lru_cache
 
 import cairo
 
@@ -18,8 +21,33 @@ MONO = ("mono", "monom")
 DISP = ("disp", "dispm")
 
 
+class FontMissingError(RuntimeError):
+    """프로젝트 글꼴이 설치되지 않아 fontconfig 가 다른 글꼴로 대체했다(D-0050 NB10 검사기, v3.6.0 NB16 렌더 경로)."""
+
+
+@lru_cache(maxsize=None)
+def fc_match(family: str) -> tuple[str, str]:
+    """fontconfig 가 이 패밀리 이름으로 고른 (패밀리 목록, 파일 경로)."""
+    out = subprocess.run(["fc-match", "-f", "%{family}\t%{file}", family], capture_output=True, text=True, check=True).stdout
+    fams, _, path = out.partition("\t")
+    return fams, path.strip()
+
+
+def family_found(family: str) -> bool:
+    return family in (f.strip() for f in fc_match(family)[0].split(","))
+
+
+@lru_cache(maxsize=None)
+def require_family(family: str) -> None:
+    """이름대로 찾지 못하면 FontMissingError. 패밀리마다 한 번만 fc-match 를 부른다(성공만 캐시 — 실패는 매번 예외)."""
+    if not family_found(family):
+        raise FontMissingError(f"글꼴 {family!r} 없음(fontconfig 대체: {fc_match(family)[0].split(',')[0]!r})"
+                               " — `python tools/fetch_data.py fonts` 먼저")
+
+
 def font(ctx: cairo.Context, name: str, size: float) -> None:
     fam, b = FONT[name]
+    require_family(fam)
     ctx.select_font_face(fam, cairo.FONT_SLANT_NORMAL, cairo.FONT_WEIGHT_BOLD if b else cairo.FONT_WEIGHT_NORMAL)
     ctx.set_font_size(size)
 

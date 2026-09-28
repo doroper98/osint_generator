@@ -3,6 +3,7 @@
 - 기본 배치·슬롯은 v3.1.0 부터 `engine/placement.py`(rules placement — 옛 media_beats.placement 를 옮김, D-0047 작업 5).
   패널이 떠 있으면 패널 자리, 아니면 지도 자리. 연출이 준 값은 그대로(P8).
 - `placement_warnings()` — 예약 영역(카드·기사 카드가 떠 있는 동안, 하단 자막 y ≥ 410, 모서리 날짜)과 겹치면 경고(보고만, P8).
+  v3.6.0 NB23: 카드·기사 카드·게시물 카드 자신도 날짜·자막 영역과 겹치면 같은 목록에 올린다(checks overlap = hard).
 - `density_report()` — 14 §10.1 밀도(rules media.density, D-0037·D38): 전체 초당 개수, 장면당 개수(기사 예외),
   이웃 장면 같은 형태, 40초 창 몰림(기사 예외). 모두 경고(오류 아님).
 """
@@ -13,8 +14,9 @@ import math
 
 import cairo
 
-from engine.reserved import card_zones
-from engine.style import DATE_BADGE, W_OUT
+from engine.hud import date_box as _date_box
+from engine.reserved import card_box, card_zones
+from engine.style import CARD
 from engine.timebase import Timebase
 from rules import load_rules
 
@@ -37,10 +39,28 @@ def _hit(a: tuple, b: tuple) -> bool:
     return a[0] < b[2] and b[0] < a[2] and a[1] < b[3] and b[1] < a[3]
 
 
+def card_zone_warnings(ctx: cairo.Context, events: list[dict]) -> list[str]:
+    """카드 자신이 모서리 날짜·하단 자막 영역과 겹침(v3.6.0 NB23 — Phase 9 랫클리프 p_0191.86 카드 y 0.56 이 픽셀로 읽혀
+    날짜 자리에 뜬 것을 검사기가 못 잡았다). 좌표는 480p 설계 픽셀이다."""
+    date_box = _date_box()
+    out: list[str] = []
+    for e in events:
+        if e["type"] not in ("card", "article", "post") or (e["type"] == "post" and "post_box" not in e):
+            continue
+        box = card_box(ctx, e)
+        where = f"{e['type']} {e.get('tag') or e.get('src') or e.get('mid') or ''} t0={e['t0']:.2f}"
+        if _hit(box, date_box):
+            out.append(f"[card-over-date] {where} 상자 {[round(v) for v in box]} 가 모서리 날짜 {[round(v) for v in date_box]} 와 겹침"
+                       f" — y 는 480p 픽셀(비율 아님), 생략하면 기본 {CARD.y:g}")
+        if box[3] > SUB_Y:
+            out.append(f"[card-over-subtitle] {where} 아래 끝 {box[3]:.0f} > 자막 영역 {SUB_Y}")
+    return out
+
+
 def placement_warnings(events: list[dict], assets: dict, step: float = 0.25) -> list[str]:
     ctx = cairo.Context(cairo.ImageSurface(cairo.FORMAT_ARGB32, 1, 1))
-    date_box = (W_OUT - DATE_BADGE.x_right - DATE_BADGE.size * 8, 0, W_OUT, DATE_BADGE.underline_y + 2)
-    out: list[str] = []
+    date_box = _date_box()
+    out: list[str] = card_zone_warnings(ctx, events)
     for e in events:
         if e["type"] not in ("photo", "clip"):
             continue
