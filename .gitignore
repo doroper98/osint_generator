@@ -98,6 +98,18 @@ projects/hormuz_korea/03_tasks/
 projects/taiwan_strait/project_manifest.json
 projects/taiwan_strait/logs/
 projects/taiwan_strait/03_tasks/
+# v3.1.0 — AI 연출 실증 프로젝트(D-0047 작업 10). 입력·AI 연출(direction*.yaml·meta)만 추적, 판정 기록은 보고서로 복사
+projects/hormuz_ai/plan.json
+projects/hormuz_ai/tts/
+projects/hormuz_ai/assets/
+projects/hormuz_ai/media/
+projects/hormuz_ai/prev/
+projects/hormuz_ai/out/
+projects/hormuz_ai/logs/
+projects/hormuz_ai/03_tasks/
+projects/hormuz_ai/project_manifest.json
+projects/hormuz_ai/__pycache__/
+projects/hormuz_ai/llm_calls/
 projects/taiwan_strait/prev/
 projects/taiwan_strait/out/
 
