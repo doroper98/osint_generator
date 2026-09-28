@@ -158,7 +158,7 @@ class PhotoEvent(_Event):
 
     type: Literal["photo"]
     mid: str
-    x: Optional[float] = None      # 없으면 14 §10.3-5 기본 배치(engine.media_plan.fill_placement)
+    x: Optional[float] = None      # 없으면 배치 슬롯 기본값(engine.placement, rules placement.auto_media — 14 §10.3-5)
     y: Optional[float] = None
     w: Optional[float] = None
 

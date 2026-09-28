@@ -1,6 +1,6 @@
 """미디어 비트 배치·밀도 (v2.5.5, back_and_forth D-0036 작업 6, 14 §5·§10).
 
-- `fill_placement()` — 연출이 x·y·w 를 주지 않은 사진·영상에 14 §10.3-5 기본값(rules media_beats.placement)을 넣는다.
+- 기본 배치·슬롯은 v3.1.0 부터 `engine/placement.py`(rules placement — 옛 media_beats.placement 를 옮김, D-0047 작업 5).
   패널이 떠 있으면 패널 자리, 아니면 지도 자리. 연출이 준 값은 그대로(P8).
 - `placement_warnings()` — 예약 영역(카드·기사 카드가 떠 있는 동안, 하단 자막 y ≥ 410, 모서리 날짜)과 겹치면 경고(보고만, P8).
 - `density_report()` — 14 §10.1 밀도(rules media.density, D-0037·D38): 전체 초당 개수, 장면당 개수(기사 예외),
@@ -23,25 +23,6 @@ MB = _R.media_beats
 SUB_Y = _R.layout_480p.reserved_zones.subtitle.y_from
 MEDIA_TYPES: tuple[str, ...] = ("photo", "clip", "cutout", "article")
 _KIND = {"photo": "photo", "clip": "clip", "cutout": "cutout", "article": "article"}   # 14 §10 형태 이름(규칙 kinds)
-
-
-def _panel_at(events: list[dict], t: float) -> bool:
-    return any(e["type"] == "panel" and e["t0"] <= t <= e["t1"] for e in events)
-
-
-def fill_placement(events: list[dict]) -> dict[str, str]:
-    """x·y·w 가 없는 사진·영상에 기본 배치를 넣는다(제자리 수정). 기록 {mid: explicit|auto:<슬롯>} 를 돌려준다."""
-    rec: dict[str, str] = {}
-    for e in events:
-        if e["type"] not in ("photo", "clip"):
-            continue
-        if e.get("x") is not None:
-            rec[e["mid"]] = "explicit"
-            continue
-        slot = f"{e['type']}_{'panel' if _panel_at(events, e['t0']) else 'map'}"
-        e["x"], e["y"], e["w"] = MB.placement[slot]
-        rec[e["mid"]] = f"auto:{slot}"
-    return rec
 
 
 def media_box(e: dict, assets: dict) -> tuple[float, float, float, float]:

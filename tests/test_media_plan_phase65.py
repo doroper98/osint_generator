@@ -7,10 +7,15 @@ import unittest
 
 from pydantic import ValidationError
 
-from engine.media_plan import density_report, fill_placement, placement_warnings
+from engine.media_plan import density_report, placement_warnings
+from engine.placement import resolve_places
 from engine.media_registry import load_media_registry
 from rules import load_rules
 from script.schema import MediaCue, Sentence
+
+
+def _no_view(t: float) -> object:
+    raise AssertionError("미디어 슬롯은 카메라를 쓰지 않는다")
 
 
 class _TB:
@@ -85,7 +90,7 @@ class PlacementTest(unittest.TestCase):
 
     def test_defaults_reproduce_v3(self) -> None:
         evs = self._events()
-        rec = fill_placement(evs)
+        rec = resolve_places(evs, _no_view)
         for e in evs[2:]:
             self.assertEqual((e["x"], e["y"], e["w"]), self.V3[e["mid"]], e["mid"])
             self.assertTrue(rec[e["mid"]].startswith("auto:"))
@@ -93,13 +98,13 @@ class PlacementTest(unittest.TestCase):
     def test_explicit_kept(self) -> None:
         evs = self._events()
         evs[2].update(x=10.0, y=20.0, w=100.0)
-        self.assertEqual(fill_placement(evs)["niovi"], "explicit")
+        self.assertEqual(resolve_places(evs, _no_view)["niovi"], "explicit")
         self.assertEqual(evs[2]["x"], 10.0)
 
     def test_subtitle_overlap_warns(self) -> None:
         reg = load_media_registry()
         evs = self._events()
-        fill_placement(evs)
+        resolve_places(evs, _no_view)
         self.assertEqual(placement_warnings(evs, reg), [])
         low = copy.deepcopy(evs)
         low[5]["y"] = 300.0   # 사진+캡션이 자막(y ≥ 410)을 덮는다
@@ -108,7 +113,7 @@ class PlacementTest(unittest.TestCase):
     def test_card_overlap_warns(self) -> None:
         reg = load_media_registry()
         evs = self._events()
-        fill_placement(evs)
+        resolve_places(evs, _no_view)
         card = {"type": "card", "t0": 256.0, "t1": 266.0, "tag": "태그", "lines": ["한 줄", "두 줄", "세 줄", "네 줄", "다섯"],
                 "accent": "gold"}
         self.assertTrue(any("media-over-card" in w for w in placement_warnings(evs + [card], reg)))

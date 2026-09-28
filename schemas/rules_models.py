@@ -75,6 +75,34 @@ class PronounceRules(_Strict):
     dict_path: str
 
 
+class PlacementSlot(_Strict):
+    """배치 슬롯(v3.1.0, 17 §2 `place:`). box·point·card 중 정확히 하나."""
+
+    kinds: list[str] = Field(min_length=1)
+    box: Optional[tuple[float, float, float]] = None
+    point: Optional[tuple[float, float]] = None
+    card: Optional[float] = None
+
+    @model_validator(mode="after")
+    def _one(self) -> "PlacementSlot":
+        is_card = "card" in self.model_fields_set
+        if sum([self.box is not None, self.point is not None, is_card]) != 1:
+            raise ValueError("슬롯은 box·point·card 중 하나")
+        return self
+
+
+class PlacementRules(_Strict):
+    auto_media: dict[str, dict[str, str]]    # 종류 → {map|panel → 슬롯}
+    slots: dict[str, PlacementSlot]
+
+    @model_validator(mode="after")
+    def _refs(self) -> "PlacementRules":
+        bad = [s for m in self.auto_media.values() for s in m.values() if s not in self.slots]
+        if bad:
+            raise ValueError(f"auto_media 가 없는 슬롯을 가리킨다: {bad}")
+        return self
+
+
 class Drift(_Strict):
     amount: float
     tau_sec: float
@@ -116,7 +144,6 @@ class MediaBeats(_Strict):
     casualty_identifiable_forbidden: bool
     credit_formats: dict[str, str]           # v2.5.5 — 화면 출처 줄(레지스트리 필드로만 조립, D-0036 작업 3)
     triggers: dict[str, list[str]]           # v2.5.5 — 14 §10.2 트리거 → 형태 제안(제안만, P8)
-    placement: dict[str, tuple[float, float, float]]   # v2.5.5 — 14 §10.3-5 기본 배치 (x, y, 폭)
     caption_bar_px: float                    # 사진·영상 캡션 바 높이(14 §4.1) — 배치 점검용
     registry: str                            # v2.5.5 — 미디어 레지스트리 경로(저장소 기준)
 
@@ -694,6 +721,7 @@ class VideoRules(_Strict):
     tts_rules: TTSRules
     tts_risk: TTSRisk             # v3.0.0 — D-0040 작업 8
     pronounce: PronounceRules     # v3.0.0 — D-0040 작업 8
+    placement: PlacementRules     # v3.1.0 — D-0047 작업 5
     shot_grammar: ShotGrammar
     media_beats: MediaBeats
     media: MediaRules

@@ -168,12 +168,26 @@ media_beats:               # 14 §10
     photo: [회담, 발표, 현장, 부대, 시위, 경계, 파병, 장병]
     cutout: [초계기, 구축함, 미사일, 전투기, 함정, 항공기, 잠수함, 드론]
     article: [보도했습니다, 보도했다, 기고, 사설, 보도에 따르면]
-  placement:                              # 14 §10.3-5 기본값(v3 합격 좌표) — x·y·w 를 연출이 안 주면 이 값
-    clip_map: [40, 150, 300]              # 지도 위 영상 = 좌측
-    clip_panel: [207, 112, 440]           # 패널 위 영상 = 중앙
-    photo_map: [560, 196, 262]            # 사진 = 카드가 없을 때 우하단
-    photo_panel: [292, 138, 280]          # 패널 빈 공간
   caption_bar_px: 38
+
+placement:                 # v3.1.0 D-0047 작업 5 — 배치 슬롯(17 §2 `place:`). 좌표 계산은 코드(engine/placement.py) — 연출 LLM 은 픽셀을 다루지 않는다
+  # 연출이 place·x·y·w 를 안 준 사진·영상의 기본 슬롯(14 §10.3-5, v3 합격 좌표 — 옛 media_beats.placement 를 옮김)
+  auto_media:
+    clip: {map: map_left, panel: panel_center}
+    photo: {map: map_right_low, panel: panel_gap}
+  # box = 화면 상자 [x, y, 폭](854×480 설계 좌표, 사진·영상) / point = 화면 점 [x, y] → 이벤트 시작 순간 카메라로 경위도 역투영(뱃지·컷아웃·마커)
+  # card = 카드 세로 위치(null = 렌더러 기본 panels.cards.y). 패널은 화면 가운데 고정이라 슬롯이 없다
+  slots:
+    map_left:        {kinds: [clip, photo], box: [40, 150, 300]}      # v3 clip_map
+    panel_center:    {kinds: [clip, photo], box: [207, 112, 440]}     # v3 clip_panel
+    map_right_low:   {kinds: [photo, clip], box: [560, 196, 262]}     # v3 photo_map
+    panel_gap:       {kinds: [photo, clip], box: [292, 138, 280]}     # v3 photo_panel
+    map_center:      {kinds: [badge, cutout, marker], point: [427, 240]}
+    map_upper_left:  {kinds: [badge, cutout, marker], point: [190, 150]}
+    map_upper_right: {kinds: [badge, cutout, marker], point: [660, 150]}
+    map_lower_left:  {kinds: [badge, cutout, marker], point: [190, 330]}
+    map_lower_right: {kinds: [badge, cutout, marker], point: [660, 330]}
+    card_right:      {kinds: [card], card: null}
 
 hud:                       # 09 §5 — 모서리에는 날짜만
   allowed_corner_elements: [date_badge]

@@ -25,7 +25,9 @@ from engine.entities import check_event_refs, load_entities
 from engine.panels import network, relation, timeline
 from engine.credits import RightsError
 from engine.layers.media import validate_media
-from engine.media_plan import density_report, fill_placement, placement_warnings
+from engine.media_plan import density_report, placement_warnings
+from engine.placement import PlacementError, resolve_places
+from engine.projection import View
 from engine.refs import emblem_ids
 from engine.registry import RegistryError, validate_events
 from engine.style import FPS
@@ -131,8 +133,19 @@ def load_project(proj: Path) -> Project:
     assets = Assets(proj, load_labels(proj / "labels.yaml"))
     R = RenderCtx(assets=assets, tb=tb, credits=load_credits(proj / "credits.yaml"))  # noqa: N806
     keys, raw_events, sound = load_direction(proj, tb)
+    n = int(plan.total * FPS)
+    cams = build_camera(keys, n, FPS) if keys else None
+    A0 = assets  # noqa: N806
+
+    def view_at(t: float) -> View:
+        assert cams is not None
+        return View(cams[min(n - 1, max(0, int(t * FPS)))], A0.tiers, A0.base)
+
+    try:   # 17 §2 배치 슬롯 + 14 §10.3-5 기본 배치(D-0047 작업 5) — 좌표는 코드가 계산
+        placement = resolve_places(raw_events, view_at)
+    except PlacementError as ex:
+        raise ProjectError(str(ex)) from ex
     events = validate_events(raw_events)
-    placement = fill_placement(events)   # 14 §10.3-5 — 연출이 x·y·w 를 안 준 사진·영상만 기본 배치(D-0036 작업 6)
     ent_errs = check_event_refs(events, load_entities())  # 07 §6 — 미등재 인물·국기·휘장은 렌더 전 오류(P10)
     if ent_errs:
         raise RegistryError("엔티티 레지스트리 점검 실패:\n" + "\n".join(ent_errs))
@@ -144,12 +157,11 @@ def load_project(proj: Path) -> Project:
     check_credits(R.credits, A.rights, A.media, req)   # D-0029 작업 7 — 누락·미확인·미표기 자산은 RightsError
     R.cache["credit_refs"] = req
     R.cache["media_placement"] = placement
-    if not keys:
+    if not keys or cams is None:
         raise ProjectError("카메라 키가 없다")
-    n = int(plan.total * FPS)
     warns = lint_events(events) + placement_warnings(events, A.media_assets) \
         + density_report(events, tb, plan.total)["warnings"]
-    return Project(proj, plan, R, keys, events, build_camera(keys, n, FPS), n, warns)
+    return Project(proj, plan, R, keys, events, cams, n, warns)
 
 
 def lint_events(events: list[dict]) -> list[str]:
