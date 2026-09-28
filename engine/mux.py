@@ -26,6 +26,7 @@ SR = 44100
 SRT_TAIL_SEC = 0.15
 AAC_BITRATE = "192k"
 DESCRIPTION_CREDITS_HEADING = "크레딧 (영상 밖 표기 — 폰트 등)"
+DESCRIPTION_SOURCES_HEADING = "출처 원문 (보도 · 자료 · X 게시물)"
 
 
 class Chapter(BaseModel):
@@ -141,7 +142,7 @@ def project_provenance(P, stages: dict[str, bool]) -> dict:  # noqa: ANN001, N80
 
 
 def main(argv: list[str] | None = None) -> int:
-    from engine.credits import RightsError, credit_lines, description_credits  # noqa: PLC0415
+    from engine.credits import RightsError, credit_lines, description_credits, description_sources  # noqa: PLC0415
     from engine.project import ProjectError, load_project  # noqa: PLC0415
     from schemas.engine_models import StageResult  # noqa: PLC0415
 
@@ -158,12 +159,16 @@ def main(argv: list[str] | None = None) -> int:
         final = mux(proj, P.plan.total)
         (outd / "final.srt").write_text(build_srt(P.plan), encoding="utf-8")
         (outd / "credits.txt").write_text("\n".join(credit_lines(P.R.credits, P.R.assets.rights, P.R.assets.media,
-                                                                  P.R.cache.get("credit_refs"))) + "\n", encoding="utf-8")
+                                                                  P.R.cache.get("credit_refs"), P.R.cache.get("cited_sources"))) + "\n",
+                                          encoding="utf-8")
         req = P.R.cache.get("credit_refs") or set()
         desc = build_description(P.plan, load_description(proj))
         dcred = description_credits(P.R.assets.rights, req)   # D-0030 — 카드에 안 넣는 종류(폰트)는 설명문에
         if dcred:
             desc += "\n\n" + DESCRIPTION_CREDITS_HEADING + "\n" + "\n".join(dcred)
+        dsrc = description_sources(P.R.cache.get("cited_sources"))   # v3.2.0 18 §6 — 원문 링크 전부(없으면 사유)
+        if dsrc:
+            desc += "\n\n" + DESCRIPTION_SOURCES_HEADING + "\n" + "\n".join(dsrc)
         (outd / "description.txt").write_text(desc, encoding="utf-8")
         prov = project_provenance(P, {"plan": True, "geo": True, "preview": (proj / "prev" / "provenance.json").exists(),
                                       "render": True, "mix": True, "mux": True, "ai_direction": False, "visual_qa": False})

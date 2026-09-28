@@ -3,6 +3,9 @@
 크레딧 문구는 프로젝트 `credits.yaml` 에 있다. 각 항목은 `rights:` 로 권리 레지스트리 항목을 가리킨다
 (`people.<pid>`, `emblems.<id>`, `media.<mid>`, `flags.<id>`, `music.<id>`, `fonts.<id>`, `map.<id>`, `narration.<id>`).
 절(section)에 `auto: <절 이름>` 을 쓰면 그 절의 레지스트리 항목 중 이번 렌더가 쓰는 것을 자동으로 나열한다.
+v3.2.0(18 §6): `auto: sources` 는 이번 영상이 인용한 소스 레코드(원고 claim 의 소스 + post 카드)를 '매체 (월.일)' 로 나열한다.
+손으로 쓴 행은 `sources: [src_…]` 로 자기가 표기하는 소스를 밝힌다. 인용 소스가 어느 행에도 없으면 RightsError.
+설명란에는 인용 소스의 원문 링크(없으면 사유)를 전부 적는다(`description_sources`).
 
 렌더 전 검사(`check_credits`, C9·15 P6): 이번 렌더가 쓰는 자산(`required_refs`)은 전부
 ① 권리 레지스트리에 있고 ② 권리 상태가 확인됐고(rights_clear) ③ 표기 위치가 정해져 있어야 한다.
@@ -42,6 +45,7 @@ class CreditItem(_Strict):
     license_ref: Optional[str] = None  # rights_registry.people 의 pid — 라이선스 문구를 레지스트리에서 읽는다
     license_suffix: str = ""
     rights: list[str] = Field(default_factory=list)   # v2.4.0 — 이 행이 표기하는 권리 레지스트리 항목
+    sources: list[str] = Field(default_factory=list)  # v3.2.0 — 이 행이 표기하는 소스 레코드(intake/sources.json id, 18 §6)
 
     @model_validator(mode="after")
     def _one_source(self) -> "CreditItem":
@@ -57,7 +61,7 @@ class CreditSection(_Strict):
     title: str
     column: Literal[0, 1]
     items: list[CreditItem] = Field(default_factory=list)
-    auto: Optional[RightsSection] = None   # v2.4.0 — 레지스트리 절 자동 나열
+    auto: Optional[RightsSection | Literal["sources"]] = None   # v2.4.0 — 레지스트리 절 자동 나열, v3.2.0 sources = 인용 소스
 
     @model_validator(mode="after")
     def _items_or_auto(self) -> "CreditSection":
@@ -97,11 +101,39 @@ def _auto_items(sec: RightsSection, view: dict[str, dict], used: Optional[set[st
     return items
 
 
+def source_label(s) -> str:  # noqa: ANN001 — schemas.source_models 소스 레코드
+    """엔딩 카드·설명란 표기(18 §6): 기사 '매체 (월.일)', X 게시물 '계정 @핸들 (월.일)'(개인 계정은 가림), 자료 '기관 “제목”'."""
+    if s.type == "article":
+        return f"{s.publisher} ({s.published_at.month}.{s.published_at.day})"
+    if s.type == "x_post":
+        who = "개인 계정" if s.account_class == "private" else f"{s.account_name} {s.handle}"
+        return who + (f" ({s.posted_at.month}.{s.posted_at.day})" if s.posted_at else "")
+    return f"{s.issuer} “{s.title}”"
+
+
+def _source_items(cited: Optional[list]) -> list[tuple[str, str]]:
+    """인용 소스를 두 개씩 한 줄로(v3 '보도 · 자료' 모양)."""
+    labels = [source_label(s) for s in cited or []]
+    return [("  ·  ".join(labels[i:i + 2]), "") for i in range(0, len(labels), 2)]
+
+
+def description_sources(cited: Optional[list]) -> list[str]:
+    """설명란 원문 링크 전부(18 §6). url 이 없으면 그 사유(pending_source)를 적는다 — 지어내지 않는다."""
+    out = []
+    for s in cited or []:
+        where = s.url or getattr(s, "pending_source", None) or "원문 URL 미확보"
+        out.append(f"{source_label(s)} — {where}")
+    return out
+
+
 def credit_sections(cr: Credits, rights: dict, media: Optional[dict] = None,
-                    used: Optional[set[str]] = None) -> list[tuple[str, list[tuple[str, str]]]]:
+                    used: Optional[set[str]] = None, cited: Optional[list] = None) -> list[tuple[str, list[tuple[str, str]]]]:
     view = registry_view(rights, media or {})
     out = []
     for sec in cr.sections:
+        if sec.auto == "sources":
+            out.append((sec.title, _source_items(cited)))
+            continue
         if sec.auto is not None:
             out.append((sec.title, _auto_items(sec.auto, view, used)))
             continue
@@ -119,9 +151,10 @@ def credit_sections(cr: Credits, rights: dict, media: Optional[dict] = None,
     return out
 
 
-def credit_lines(cr: Credits, rights: dict, media: Optional[dict] = None, used: Optional[set[str]] = None) -> list[str]:
+def credit_lines(cr: Credits, rights: dict, media: Optional[dict] = None, used: Optional[set[str]] = None,
+                 cited: Optional[list] = None) -> list[str]:
     return [f"{sec}: {' / '.join(m + (' — ' + l if l else '') for m, l in items)}"
-            for sec, items in credit_sections(cr, rights, media, used)]
+            for sec, items in credit_sections(cr, rights, media, used, cited)]
 
 
 def required_refs(events: list[dict], rights: dict, emblem_flag: Callable[[str], Optional[str]],
@@ -180,7 +213,7 @@ def credit_summary(required: set[str], rules: Optional[CreditRules] = None) -> d
 
 
 def check_credits(cr: Credits, rights: dict, media: dict, required: set[str], rules: Optional[CreditRules] = None,
-                  description: Optional[list[str]] = None) -> None:
+                  description: Optional[list[str]] = None, cited_ids: Optional[set[str]] = None) -> None:
     """누락·미확인·미표기 자산이 있으면 RightsError(C9, 15 P6). 통과하면 None."""
     rules = rules or load_rules().credits
     view = registry_view(rights, media)
@@ -188,7 +221,11 @@ def check_credits(cr: Credits, rights: dict, media: dict, required: set[str], ru
     for kind in sorted({r.split(".", 1)[0] for r in view} - set(rules.card_kinds) - set(rules.description_only_kinds)):
         errs.append(f"권리 종류 {kind} 의 표기 위치가 규칙(credits.card_kinds/description_only_kinds)에 없다")
     covered: set[str] = set()
+    src_covered: set[str] = set()
     for sec in cr.sections:
+        if sec.auto == "sources":
+            src_covered |= set(cited_ids or ())
+            continue
         if sec.auto is not None:
             covered |= {r for r in required if r.startswith(sec.auto + ".")}
         for it in sec.items:
@@ -196,6 +233,9 @@ def check_credits(cr: Credits, rights: dict, media: dict, required: set[str], ru
                 if r not in view:
                     errs.append(f"크레딧 {it.main!r} 이 가리키는 권리 항목 없음: {r}")
                 covered.add(r)
+            src_covered |= set(it.sources)
+    for sid in sorted(set(cited_ids or ()) - src_covered):   # v3.2.0 18 §6 — 인용 소스는 엔딩 카드 '보도 · 자료'에
+        errs.append(f"엔딩 크레딧 보도·자료 누락: {sid} — credits.yaml 에 auto: sources 절 또는 행의 sources")
     desc = description if description is not None else description_credits(rights, required, rules)
     for r in sorted(required):
         kind = r.split(".", 1)[0]

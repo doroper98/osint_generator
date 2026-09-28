@@ -7,6 +7,7 @@ sections:
       - main: 지도 · 지형
         license: Natural Earth · AWS Terrain Tiles
         rights: [map.natural_earth, map.aws_terrain_tiles]
+        sources: [src_doc_0001, src_doc_0002]   # v3.2.0 18 §6 — 원고 claim 의 출처(Natural Earth)
   - title: 음성
     column: 1
     items:

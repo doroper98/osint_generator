@@ -136,6 +136,28 @@ def _media_extent(e: dict, w: float, media_assets: dict) -> tuple[float, float]:
     return media_box(dict(e, x=0, y=0, w=w), media_assets)[3], max(w, caption_width(ctx, m.caption, credit_line(m)))
 
 
+def cited_sources(proj: Path, events: list[dict]) -> list:
+    """이번 영상이 인용한 소스 레코드(원고 문장 claim 의 소스 + post 카드), sources.json 순서. 소스 파일이 없으면 [](v3 전 프로젝트)."""
+    import yaml  # noqa: PLC0415
+
+    from schemas.source_models import ClaimsFile, SourcesFile  # noqa: PLC0415
+
+    sp, cp, scp = proj / "intake" / "sources.json", proj / "intake" / "claims.json", proj / "script.yaml"
+    if not sp.exists():
+        return []
+    sources = SourcesFile.model_validate_json(sp.read_text(encoding="utf-8"))
+    ids: set[str] = {e["src"] for e in events if e["type"] == "post"}
+    if cp.exists() and scp.exists():
+        claims = ClaimsFile.model_validate_json(cp.read_text(encoding="utf-8")).by_id()
+        script = yaml.safe_load(scp.read_text(encoding="utf-8"))
+        for sc in script.get("scenes", []):
+            for sent in sc.get("sentences", []):
+                for cid in sent.get("sources") or []:
+                    if cid in claims:
+                        ids |= set(claims[cid].source_ids)
+    return [s for s in sources.sources if s.id in ids]
+
+
 def _attach_posts(proj: Path, R: RenderCtx, events: list[dict]) -> None:  # noqa: N803
     posts = [e for e in events if e["type"] == "post"]
     if not posts:
@@ -188,7 +210,9 @@ def load_project(proj: Path, direction: Optional[Direction] = None) -> Project:
         raise ProjectError("렌더 전 점검 실패:\n" + "\n".join(errs))
     A = R.assets  # noqa: N806
     req = required_refs(events, A.rights, A.emblem_flag, set(A.img), uses_music=sound is not None)
-    check_credits(R.credits, A.rights, A.media, req)   # D-0029 작업 7 — 누락·미확인·미표기 자산은 RightsError
+    R.cache["cited_sources"] = cited_sources(proj, events)   # v3.2.0 18 §6 — 엔딩 카드 '보도 · 자료'·설명란 원문 링크
+    check_credits(R.credits, A.rights, A.media, req,          # D-0029 작업 7 — 누락·미확인·미표기 자산은 RightsError
+                  cited_ids={s.id for s in R.cache["cited_sources"]})
     R.cache["credit_refs"] = req
     R.cache["media_placement"] = placement
     if not keys or cams is None:
