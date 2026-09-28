@@ -1,0 +1,9 @@
+# 대만해협 예시 권역 (v2.2.0, D-0015 §1-6) — 명령 한 줄(`python -m geo.prep projects/taiwan_strait`)로 준비.
+# 렌더러는 W 티어를 카메라 경계로, G 티어를 확대 시 블렌딩한다(04 §1, 티어 이름 규칙은 v3 그대로).
+schema_version: 1
+bbox: [105, 10, 135, 40]
+admin1: [TW]
+crimea_to_ua: false
+tiers:
+  - {name: W, ppd: 48, z: 6, bbox: [112.0, 18.0, 128.0, 30.0]}
+  - {name: G, ppd: 96, z: 7, bbox: [115.0, 20.0, 125.0, 28.0]}

@@ -1,0 +1,13 @@
+{"t": 21.0, "ok": true, "stage": "director", "errors": [], "warnings": []}
+{"t": 22.5, "ok": true, "stage": "validate", "errors": [], "warnings": ["[media-density-total] 과소 — 0개 / 23초 = inf초당 1개 > 60초 (14 §10.1)"]}
+{"t": 25.1, "ok": true, "stage": "preview", "errors": [], "warnings": ["[media-density-total] 과소 — 0개 / 23초 = inf초당 1개 > 60초 (14 §10.1)"]}
+{"t": 77.3, "ok": true, "stage": "visual_qa", "errors": [], "warnings": []}
+{"t": 108.5, "ok": true, "stage": "revise_direction", "errors": [], "warnings": []}
+{"t": 110.0, "ok": true, "stage": "validate", "errors": [], "warnings": ["[media-density-total] 과소 — 0개 / 23초 = inf초당 1개 > 60초 (14 §10.1)"]}
+{"t": 112.3, "ok": true, "stage": "preview", "errors": [], "warnings": ["[media-density-total] 과소 — 0개 / 23초 = inf초당 1개 > 60초 (14 §10.1)"]}
+{"t": 173.4, "ok": true, "stage": "visual_qa", "errors": [], "warnings": []}
+{"t": 202.5, "ok": true, "stage": "revise_direction", "errors": [], "warnings": []}
+{"t": 203.9, "ok": true, "stage": "validate", "errors": [], "warnings": ["[media-density-total] 과소 — 0개 / 23초 = inf초당 1개 > 60초 (14 §10.1)"]}
+{"t": 206.4, "ok": true, "stage": "preview", "errors": [], "warnings": ["[media-density-total] 과소 — 0개 / 23초 = inf초당 1개 > 60초 (14 §10.1)"]}
+{"t": 263.9, "ok": true, "stage": "visual_qa", "errors": [], "warnings": []}
+{"t": 266.2, "ok": true, "stage": "preview", "errors": [], "warnings": ["[media-density-total] 과소 — 0개 / 23초 = inf초당 1개 > 60초 (14 §10.1)"]}

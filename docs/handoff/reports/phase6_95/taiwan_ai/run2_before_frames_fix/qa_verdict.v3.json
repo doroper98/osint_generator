@@ -1,0 +1,51 @@
+{
+  "schema_version": 1,
+  "verdict": "revise",
+  "issues": [
+    {
+      "frame": "p_0016.21",
+      "severity": "hard",
+      "category": "order",
+      "evidence": "open_1 문장('해협 서쪽은 중국 푸젠성, 동쪽은 대만 섬입니다.')이 아직 진행 중인 t=16.21에 화면이 '자료 및 출처' 크레딧 카드로 바뀌었다. 지도와 자막이 사라져서 문장이 설명하는 대상(해협·푸젠성·대만 섬)이 보이지 않는다",
+      "fix": {
+        "event_ref": "sentence:open_1",
+        "suggest": "크레딧 카드는 open_1 문장과 내레이션이 끝난 뒤 별도 엔딩 구간에 넣고, 문장이 끝날 때까지 지도 장면을 유지한다"
+      }
+    },
+    {
+      "frame": "p_0016.64",
+      "severity": "soft",
+      "category": "style",
+      "evidence": "크레딧 카드 배경에 이전 지도(도시 점·라벨 흔적)가 반투명하게 비친다. 카드 본문 아래 빈 공간이 화면의 약 2/3를 차지해 휑하고, 번진 지도 잔상이 겹쳐 지저분해 보인다",
+      "fix": {
+        "event_ref": "sentence:open_1",
+        "suggest": "크레딧 배경을 불투명 단색으로 두거나 지도 잔상을 더 어둡게 흐린다. 항목은 세로 중앙 쪽으로 모아 배치한다"
+      }
+    },
+    {
+      "frame": "p_0016.21",
+      "severity": "soft",
+      "category": "legibility",
+      "evidence": "크레딧 항목(지도 'Natural Earth · AWS Terrain Tiles', 음원 'The Life and Death of a Certain K. Zabriskie, Patriarch · Chris Zabriskie · CC BY 4.0')과 하단 줄('2026. 09. 27 기준' 등)의 글자가 매우 작고 어두운 회색이어서 배경 대비가 낮아 읽기 어렵다",
+      "fix": {
+        "event_ref": "sentence:open_1",
+        "suggest": "본문 글자 크기를 키우고 밝기를 높여 대비를 확보한다"
+      }
+    },
+    {
+      "frame": "p_0007.63",
+      "severity": "soft",
+      "category": "legibility",
+      "evidence": "문장이 '동쪽은 대만 섬'이라고 말하는데, 섬 중앙의 '대만' 라벨이 섬 지형과 거의 같은 톤이라 흐리게 묻혀 보인다. 강조된 푸젠성·대만해협 마커와 비교해 대만 섬 쪽에는 강조가 없다",
+      "fix": {
+        "event_ref": "marker:대만해협",
+        "suggest": "'대만 섬' 구절에 맞춰 대만 라벨이나 마커를 푸젠성과 같은 강조 스타일로 띄운다"
+      }
+    }
+  ],
+  "praise": [
+    "첫 컷 지도에서 해협·푸젠 해안·대만 섬이 한 화면에 들어와 지리 관계가 바로 읽힌다",
+    "날짜는 우상단, 자막은 하단 중앙에 깔끔하게 자리 잡았고 도장·비네트가 없다",
+    "도시 라벨이 겹치지 않고 해안을 따라 고르게 분포한다"
+  ]
+}

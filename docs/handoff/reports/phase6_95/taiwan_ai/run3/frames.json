@@ -1,0 +1,47 @@
+{
+ "schema_version": 1,
+ "frames": [
+  {
+   "n": 1,
+   "file": "p_0007.63.png",
+   "label": "t=7.63",
+   "t": 7.63,
+   "sid": "open_1",
+   "text": "해협 서쪽은 중국 푸젠성, 동쪽은 대만 섬입니다.",
+   "after_sid": null,
+   "card": null,
+   "events": [
+    {
+     "type": "marker",
+     "label": "대만해협"
+    },
+    {
+     "type": "marker",
+     "label": "푸젠성"
+    }
+   ]
+  },
+  {
+   "n": 2,
+   "file": "p_0016.21.png",
+   "label": "t=16.21",
+   "t": 16.21,
+   "sid": null,
+   "text": null,
+   "after_sid": "open_1",
+   "card": "end",
+   "events": []
+  },
+  {
+   "n": 3,
+   "file": "p_0016.64.png",
+   "label": "t=16.64",
+   "t": 16.64,
+   "sid": null,
+   "text": null,
+   "after_sid": "open_1",
+   "card": "end",
+   "events": []
+  }
+ ]
+}

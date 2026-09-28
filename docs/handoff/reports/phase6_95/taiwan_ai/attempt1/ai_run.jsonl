@@ -1,0 +1,1 @@
+{"t": 44.2, "ok": false, "stage": "director", "errors": ["Pydantic validation: 1 validation error for Direction\nsound.bgm\n  Input should be a valid string [type=string_type, input_value=None, input_type=NoneType]\n    For further information visit https://errors.pydantic.dev/2.13/v/string_type"], "warnings": []}

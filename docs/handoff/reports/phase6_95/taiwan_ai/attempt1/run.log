@@ -1,0 +1,11 @@
+[system] llm call_id=llm_20260928_120418_7084 backend=claude mode=response
+[stderr] check_parsed: 크레딧·권리 점검 실패:
+엔딩 크레딧 누락: music.zabriskie_patriarch
+[system] 계약 위반 출력 — 재요청 1/1 (16 §3): check_parsed: 크레딧·권리 점검 실패:
+엔딩 크레딧 누락: music.zabriskie_patriarch
+[system] llm call_id=llm_20260928_120441_d4ec backend=claude mode=response
+[stderr] Pydantic validation: 1 validation error for Direction
+sound.bgm
+  Input should be a valid string [type=string_type, input_value=None, input_type=NoneType]
+    For further information visit https://errors.pydantic.dev/2.13/v/string_type
+{"t": 44.2, "stage": "director", "ok": false, "errors": ["Pydantic validation: 1 validation error for Direction\nsound.bgm\n  Input should be a valid string [type=string_type, input_value=None, input_type=NoneType]\n    For further information visit https://errors.pydantic.dev/2.13/v/string_type"]}

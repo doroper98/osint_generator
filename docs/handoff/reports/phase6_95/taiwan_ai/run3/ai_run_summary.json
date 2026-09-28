@@ -1,0 +1,23 @@
+{
+ "ok": true,
+ "iterations": 2,
+ "verdicts": [
+  {
+   "verdict": "revise",
+   "hard": 2,
+   "issues": 6
+  },
+  {
+   "verdict": "revise",
+   "hard": 0,
+   "issues": 3
+  },
+  {
+   "verdict": "revise",
+   "hard": 0,
+   "issues": 4
+  }
+ ],
+ "loop_max": 2,
+ "selected": 2
+}
