@@ -7,7 +7,7 @@ responds_to: [R-0068]
 phase: "7"
 version: v3.3.0
 commit: 9e0dc87
-status: decided
+status: open
 ---
 
 # 결정 — context_w_min 은 **A. 숏 분류 추론**(w_guide 구간)으로 한다
