@@ -32,6 +32,7 @@ tts 캐시는 artifacts 브랜치에 없었다(D-0042). 이번 artifacts 에 `ho
 | 15:41~16:32 | strikes 원본 webm | 429 × 7(600초 대기 6회, 옛 재시도 정책) → FAIL. 서버 문구 "instead use thumbnail images" — 원본 요청 IP 단위 차단으로 판단 |
 | 16:32 | niovi 원본 webm | API 429 48초 1회 뒤 upload 429 → D-0044 정책으로 전환하며 중지 |
 | 16:38 | strikes (30분 정책 1회차) | API 429 18초 뒤 upload 429(서버 Retry-After 600초) → FAIL. 다음 17:19 |
+| 17:19 | strikes (2회차) | API 통과, upload 429(Retry-After 600초) → FAIL. 다음 ~17:59 |
 
 이후 시도는 `media_fetch.py <빈 폴더> --only <mid> --tries 1` 을 30분 간격으로 한다(아래 행 추가). 받는 즉시 원본·npy 를
 `artifacts/phase6.8-v3.0.0/hormuz/media_src/` 에 보존한다(D-0044 B, 복원 = `--restore-from`).
