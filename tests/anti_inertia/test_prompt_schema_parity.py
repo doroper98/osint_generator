@@ -5,7 +5,6 @@ agents_reviewer CHART-AP-44(프롬프트가 가르친 모양을 검증기가 100
 
 v2.3.0(D33) → v3.0.0(D-0040 작업 5): script 는 ScriptWorker 의 `response_model`인 `script.schema:Script` 로 검사한다.
 v3.1.0: 파리티 대상 5종 전부 ACTIVE(script·director·visual_qa·revise_direction·research). research 는 현 워커의 ResearchDossier(D-0048), Facts 는 픽스처(6.95 에서 워커 전환). PENDING 이 다시 생기면 "모델이 아직 없음" 을 검사한다.
-없음을 확인하는 테스트로 "생기면 옮기라"를 강제한다(생기는 순간 실패).
 """
 
 from __future__ import annotations
