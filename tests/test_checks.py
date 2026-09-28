@@ -66,6 +66,15 @@ class ChecksTest(unittest.TestCase):
         self.assertEqual(len(out), 1)
         self.assertIn("중국", out[0])
 
+    def test_offscreen_marker_label(self) -> None:
+        """D-0049 쟁점 4 — 지점 마커 라벨도 잘림 0(hard). 왼쪽 끝 마커의 left 라벨은 잘린다."""
+        cam_x = 56.0
+        edge = {"type": "marker", "t0": 0.0, "t1": 5.0, "lon": cam_x - 6.6, "lat": 26.0, "label": "호르무즈 해협", "side": "left"}
+        right = dict(edge, side="right", label="오른쪽 라벨")
+        out = checks.check_offscreen(_P(events=[edge, right]))
+        self.assertEqual(len(out), 1)
+        self.assertIn("마커 호르무즈 해협", out[0])
+
     def test_offscreen_ignored_when_covered(self) -> None:
         low = {"type": "badge", "t0": 0.0, "t1": 5.0, "lon": 56.0, "lat": 21.5, "kind": "flag", "flag": "cn", "R": 17, "label": "중국"}
         panel = {"type": "panel", "t0": 0.0, "t1": 5.0}

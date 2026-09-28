@@ -95,6 +95,8 @@ events:
 | 금지 컴포넌트 | 도장, 비네트, 모서리 브랜드/섹션 표기 | 0 |
 Hard 실패가 있으면 LLM 검수를 부르지 않고 연출 LLM에 오류만 돌려준다(agents_reviewer AP-V5-29: 결정적 게이트 통과 후에만 LLM).
 
+> [D-0049: 마커 라벨 포함] 화면 밖 잘림 검사는 지점 마커의 점·라벨·부제 상자(`engine/layers/markers.marker_box`)도 본다. severity hard. 골든·taiwan 잘림 0 실측(v3.1.0).
+
 ---
 
 ## 4. 시각 검수 LLM

@@ -79,23 +79,33 @@ def _covered(P, t: float) -> bool:  # noqa: ANN001, N803
 
 
 def check_offscreen(P) -> list[str]:  # noqa: ANN001, N803
-    """뱃지 상자(`badges.badge_box` — 원·그림자·인물 머리·이름표)가 보이는 순간마다 화면 안. 그림자 여백만큼은 허용."""
+    """뱃지 상자(`badges.badge_box` — 원·그림자·인물 머리·이름표)와 지점 마커 상자(`markers.marker_box` — 점·라벨·부제,
+    D-0049 쟁점 4)가 보이는 순간마다 화면 안. 그림자 여백만큼은 허용. 마커는 렌더러가 그리는 범위(화면 ±80·40px)만 본다."""
     from engine.layers.badges import badge_box  # noqa: PLC0415
+    from engine.layers.markers import marker_box  # noqa: PLC0415
 
     out: list[str] = []
     A = P.R.assets  # noqa: N806
     ctx = cairo.Context(cairo.ImageSurface(cairo.FORMAT_ARGB32, 1, 1))
     for e in P.events:
-        if e["type"] != "badge":
+        if e["type"] not in ("badge", "marker"):
             continue
         t = e["t0"] + 0.5
         while t < e["t1"] - 0.5:
             if not _covered(P, t):
                 v = View(P.cams[min(P.n_frames - 1, int(t * FPS))], A.tiers, A.base)
-                b = badge_box(ctx, e, *v.xy(e["lon"], e["lat"]))
+                x, y = v.xy(e["lon"], e["lat"])
+                if e["type"] == "marker":
+                    if x < -80 or x > W_OUT + 80 or y < -40 or y > H_OUT + 40:   # draw_marker 가 그리지 않는 위치
+                        t += SAMPLE_SEC
+                        continue
+                    b = marker_box(ctx, e, x, y)
+                else:
+                    b = badge_box(ctx, e, x, y)
                 over = max(-b[0], -b[1], b[2] - W_OUT, b[3] - H_OUT)
                 if over > SHADOW_PX:
-                    out.append(f"뱃지 {e.get('label') or e.get('pid') or e.get('flag')} t={t:.1f} 화면 밖 {over:.0f}px "
+                    what = "마커" if e["type"] == "marker" else "뱃지"
+                    out.append(f"{what} {e.get('label') or e.get('pid') or e.get('flag')} t={t:.1f} 화면 밖 {over:.0f}px "
                                f"(상자 {[round(z) for z in b]})")
                     break
             t += SAMPLE_SEC
