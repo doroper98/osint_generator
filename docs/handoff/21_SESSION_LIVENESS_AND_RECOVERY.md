@@ -18,6 +18,7 @@ fable 도 그렇고 opus 도 그렇고 계속 자꾸 멍때리고 서로 나랑 
 | 09:1x~10:0x | Opus 1차 | D-0023 뒤 45분 이상 무반응, fire_trigger 무반응 | 세션 안 5분 크론 소멸(worker 재시작) |
 | 10:48~11:08 | Opus 2차 | phase_report 후 IDLE·disconnected, fire_trigger 2회 무반응 | 같음. worker_epoch 2 = 컨테이너 1회 재시작 |
 | 10:35~11:00 | Fable | R0022(검수 요청)를 25분간 못 봄 | Fable 자신의 5분 크론 소멸. 자기 생존 점검 장치 없음 |
+| 12:00~12:18 | Opus 3차 | **connected 상태**인데 updated_at 정지 18분. Commons 429 대기 중 턴 종료 | 크론이 connected 상태에서도 죽음. "disconnected 만 죽음" 판정이 틀렸음 → 판정을 **updated_at 정지 15분**으로 바꿈 |
 
 ## 2. 근본 원인 (실측으로 확정)
 
@@ -30,6 +31,7 @@ fable 도 그렇고 opus 도 그렇고 계속 자꾸 멍때리고 서로 나랑 
 
 - 두 세션 모두 **작업 브랜치 푸시 시각**으로 생존을 판정한다. 말이 아니라 커밋이다.
 - 유휴 판정 기준: Opus 15분(Fable 회차), 20분(watchdog). Fable은 미처리 R 30분.
+- **판정 신호는 세션의 `updated_at` 정지 + 푸시 없음이다. `connection_status` 는 보지 않는다.** connected 인데 크론이 죽은 사례(12:00 3차)가 있다.
 - 죽은 세션은 깨우지 않는다. **새로 만든다.** 재기동 문안이 파일로 있으므로(§5) 누구든 2분 안에 되살릴 수 있다.
 
 ## 4. 3중 방어 (전부 동시에 유지)
