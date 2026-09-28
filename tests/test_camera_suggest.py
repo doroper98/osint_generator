@@ -14,13 +14,15 @@ from engine.framing import place, plain_point
 
 ROOT = Path(__file__).resolve().parents[1]
 HORMUZ = ROOT / "projects" / "hormuz_korea"
+# plan.json·tts 는 생성물(gitignore) — 새 컨테이너엔 없다. artifacts 브랜치 shared/ 복원 뒤 돈다(D-0057 §2 NB15).
+_NO_PLAN = "projects/hormuz_korea/plan.json 없음(생성물) — artifacts/phase7-v3.3.0 shared/ 복원 필요(D-0057 NB15)"
 
 
 def _md5(p: Path) -> str:
     return hashlib.md5(p.read_bytes()).hexdigest()
 
 
-@unittest.skipUnless((HORMUZ / "direction.yaml").exists(), "hormuz 프로젝트 없음")
+@unittest.skipUnless((HORMUZ / "plan.json").exists(), _NO_PLAN)
 class CameraSuggestHormuzTest(unittest.TestCase):
     @classmethod
     def setUpClass(cls) -> None:
@@ -103,7 +105,7 @@ class CameraSuggestHormuzTest(unittest.TestCase):
                              place(pts, c.lon, c.lat, c.w, width=1280, height=720, bounds=bounds, lenient=True)[0], s.t)
 
 
-@unittest.skipUnless((HORMUZ / "direction.yaml").exists(), "hormuz 프로젝트 없음")
+@unittest.skipUnless((HORMUZ / "plan.json").exists(), _NO_PLAN)
 class SuggestWiringTest(unittest.TestCase):
     """제안은 옵션(P8): 연출가 입력에 '제안값'으로만, 사람 연출 무변경, provenance 는 suggested/used 를 가른다."""
 

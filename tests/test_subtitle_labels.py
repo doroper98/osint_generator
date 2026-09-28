@@ -8,6 +8,7 @@ from types import SimpleNamespace as NS
 import cairo
 import numpy as np
 
+from engine.checks import missing_fonts
 from engine.style import C, H_OUT, SUBTITLE, W_OUT
 from engine.subtitles import draw_subtitle
 from rules import load_rules
@@ -29,7 +30,13 @@ def _amber_px(img: np.ndarray) -> int:
     return int((np.abs(band.astype(float) - col).sum(-1) < 60).sum())
 
 
+_MISSING_FONTS = missing_fonts()
+
+
 class SubtitleLabelTest(unittest.TestCase):
+    # 렌더 경로(engine.typography)는 글꼴이 없으면 fontconfig 대체 글꼴로 그린다 — 라벨 픽셀 수가 달라진다(D-0057 §2 NB14).
+    # 렌더 경로 글꼴 검사(P6)는 Phase 10 후보. 지금은 글리프 검사(test_checks)와 같은 사유 있는 skip.
+    @unittest.skipIf(bool(_MISSING_FONTS), f"프로젝트 글꼴 없음 {_MISSING_FONTS} — `python tools/fetch_data.py fonts` 필요(D-0057 NB14)")
     def test_label_drawn_in_rule_color(self) -> None:
         lab = load_rules().script_schema.labels["unverified"]
         self.assertGreater(_amber_px(_frame(lab)), 20)
