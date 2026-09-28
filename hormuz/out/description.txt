@@ -1,0 +1,30 @@
+호르무즈와 한국 — 한국은 왜 파병하지 않았나
+
+2026년 9월 18일, 정부는 전쟁에 개입하는 호르무즈 파병을 하지 않기로 했습니다. 미국-이란 전쟁과 해협 봉쇄, 동맹의 요구, 국내 논쟁을 지도로 정리했습니다.
+
+챕터
+0:00 9월 18일의 발표
+0:20 타이틀
+0:26 한국과 호르무즈
+0:49 개전과 해협 봉쇄
+1:09 미국의 요구와 동맹의 거절
+1:50 일곱 달의 전쟁
+2:29 발이 묶인 배들
+2:41 정부의 파병 검토
+3:06 2004년과 2020년의 전례
+3:31 찬반 논쟁
+4:02 결정
+4:15 남은 것
+
+자료: 로이터(9.4), 코리아헤럴드(9.7), UPI 기고(9.8), Foreign Policy(9.10), 국제해사기구(6.11 기준), 위키백과 "2026 Strait of Hormuz campaign"
+인물 사진: 이재명(Public domain), 노무현(공공누리 제1유형), 트럼프·하메네이(osint_generator 라이브러리 가공본)
+사진·영상: 이란 혁명수비대의 유조선 나포 영상(2023, U.S. Navy) · 이란 군사 목표 타격 영상(2026.7.7, U.S. Central Command) · 해상초계기 P-8A(U.S. Navy) · 이라크 파병 한국군(2003, 미국 정부 저작물) · 호르무즈 해협 통과 미 해군(2023, U.S. Navy) — 모두 Public domain
+기사 인용: Reuters(2026.9.4), The Korea Herald(2026.9.7) 헤드라인 번역
+휘장: 미 해군 중부사령부(Public domain) · 국기: flag-icons(MIT) · 지도: Natural Earth · 지형: AWS Terrain Tiles
+Music: "The Life and Death of a Certain K. Zabriskie, Patriarch" — Chris Zabriskie (CC BY 4.0) · 내레이션: AI 음성 합성
+
+크레딧 (영상 밖 표기 — 폰트 등)
+GmarketSans · Gmarket · G마켓 무료 폰트 · https://corp.gmarket.com/fonts/
+IBM Plex Mono · IBM · SIL OFL 1.1 · https://github.com/google/fonts/tree/main/ofl/ibmplexmono
+IBM Plex Sans KR · IBM · SIL OFL 1.1 · https://github.com/google/fonts/tree/main/ofl/ibmplexsanskr
+Noto Serif CJK KR · Google · Adobe · SIL OFL 1.1 · https://github.com/notofonts/noto-cjk
