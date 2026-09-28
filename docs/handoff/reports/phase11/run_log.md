@@ -8,7 +8,7 @@ last_review: 2026-09-29
 
 # Phase 11 실행 기록 — 문서·정리·GOAL G3 개정 (v4.0.0)
 
-새 Opus 클라우드 컨테이너. 시각은 KST. 지침 D-0072, 결정 D-0073(v1 잔재 코드 삭제 A)·R-0088(NB28, 결정 대기 — 아래 §4).
+새 Opus 클라우드 컨테이너. 시각은 KST. 지침 D-0072, 결정 D-0073(v1 잔재 코드 삭제 A)·D-0074(NB28 A, 1024×576).
 
 ## 0. 컨테이너 준비
 
@@ -39,7 +39,8 @@ last_review: 2026-09-29
 | 8 test_docs_sync | `2ecaec4` | 8 테스트, 주입 검사 4건 실패 확인 후 원복, `docs_sync.json` |
 | 11 NB24 | `58dd75e` | `nb24_flags.json`(3 등재·17 비움) |
 | 11 NB21 | `a5c2290` | test_phase11_nb21 5, LLM-AP-008 |
-| 11 NB28 | — | R-0088 결정 대기(§4) |
+| 11 NB28 | `47520bb` | `nb28_media.json`, 컷 3장, 1080p media_upscaled 2 → 0, test_phase11_nb28 7 |
+| 레거시 검사 위반 수정 | `7f3e3ae` | test_docs_sync 의 삭제 경로 문자열 → `DELETED_DOC_PATHS` 로 이동(전체 pytest 2 failed → 0) |
 
 작업 순서: D-0072 는 8 → 9 → 10 순이지만, test_docs_sync 가 커밋 시점에 통과하려면 문서 정리(9·10)가 먼저여야 해서 9 → 문서 동기화 → 10 → 8 로 커밋했다.
 
@@ -53,11 +54,21 @@ python -m engine.render projects/hormuz_korea --jobs 4               # 480p vide
 
 ## 3. 측정
 
-(마지막 커밋 뒤 채움 — §5)
+| 항목 | 값 |
+|---|---|
+| pytest | **792 passed** · skip 0 · xfail 0. Phase 10 760 − 삭제 0 + 새 32(nb27 3·goal_g3 9·docs_sync 8·nb21 5·nb28 7) |
+| hormuz 480p 25컷 | 기준선 대비 MAD 최대 **0.0**(`hormuz_480p_mad.json`), md5 25/25 동일 |
+| hormuz 480p 전편 | `video_noaudio.mp4` md5 **692f228e** = Phase 6.9·8·10 (jobs 4, 156초) |
+| 1080p 프리뷰 | checks hard 0 · warning 0(`media_upscaled` 2 → 0) |
+| G3 | 17항목 · 테스트 id 45 · checks 8 · 게이트 2 · 예정 1(`g3_map.json`) |
+| 문서 | Tier 1·2 26개 v4.0.0, 규칙 키 인용 188, 폐기 배너 0(`docs_sync.json`) |
+| 삭제 | 문서 3(ADDENDUM_02·RUN_LOCAL·11), 코드 v1 잔재 5(tts_backends·ApprovalLog/Entry·ThumbnailManifest/Entry·agents/) |
+| NB24 | 24명 중 국기 7(기존 4 + 근거 3), 비움 17 |
 
-## 4. 결정 대기
+## 4. 결정 기록
 
-- R-0088 NB28: 엔진 `Assets.load_clip` 이 `{file}_480.npy` 고정이라 1080 폭 npy 를 만들어도 쓰이지 않는다. 엔진 한 함수 + `media_fetch --res` 가 필요(작업 12 와 충돌).
+- R-0087 → D-0073: 사용처 0 v1 코드 삭제(A).
+- R-0088 → D-0074: NB28 은 엔진 `load_clip` 한 함수 + `media_fetch --res`(A, 1024×576). 1080p 클립 npy(212MB×2)는 artifacts 에 넣지 않고 복원한 webm 에서 `python tools/media_fetch.py projects/hormuz_korea --res 1080p --no-sheets` 로 재현(md5 `nb28_media.json`).
 
 ## 5. 운영 기록
 

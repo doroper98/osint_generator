@@ -1,0 +1,14 @@
+{
+ "schema_version": 1,
+ "note": "Phase 11 (v4.0.0). 영상 산출물 없음(문서 Phase). 480p 전편은 무변경 증명용 재렌더만",
+ "hormuz_korea/out/video_noaudio.mp4 (480p 재렌더)": "692f228e359a89ab74a38626b4f7396e",
+ "hormuz_korea/media/strikes_480.npy": "61f7b89f05a1e178e4265c3b515a892b",
+ "hormuz_korea/media/niovi_480.npy": "704f8a93b1980f4a9c7d6018c4718119",
+ "hormuz_korea/media/res_1080p/strikes.npy": "3414e0e32a68debf08f9264189e2fbb2",
+ "hormuz_korea/media/res_1080p/niovi.npy": "e7c0e12f1c577ca98670e3c288133b58",
+ "hormuz_korea/media/strikes.webm": "64db28093fae9a1b77165bfbfd435966",
+ "hormuz_korea/media/niovi.webm": "2c2ec4cab0ef171002c9680a8bea37b2",
+ "hormuz_korea/prev/p_*.png (25)": "hormuz_mad_baseline.json 과 동일",
+ "assets/entities.yaml": "218d8b2998a485358a5c077c43ee89c6",
+ "prompts/visual_qa.md": "a7e147993d70d82e13090aa56852d613"
+}
