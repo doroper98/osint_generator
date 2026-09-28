@@ -11,11 +11,18 @@
 경고(plan 은 진행, StageResult.warnings 로 보고):
 - source-missing: `sources` 가 빈 문장(03 §3 "모든 수치에 출처")
 - subtitle-lines: 자막이 script_schema.subtitle_max_lines 줄을 넘음(렌더러와 같은 글꼴·폭으로 실측 wrap)
+
+CLI (v3.0.0, 16 §4 `direction_validate` 의 6.9 전 대체 — D-0040 작업 4):
+    python -m script.lint <proj>   → script.yaml 을 Script 로 로드 + 린트, 마지막 줄 StageResult JSON
 """
 
 from __future__ import annotations
 
+import argparse
+import json
 import re
+import sys
+from pathlib import Path
 from typing import Literal
 
 import cairo
@@ -93,3 +100,27 @@ def lint(script: Script) -> LintReport:
             if n > max_lines:
                 add("subtitle-lines", "warning", f"{n}줄 > {max_lines}")
     return LintReport(issues=out)
+
+
+def main(argv: list[str] | None = None) -> int:
+    import yaml  # noqa: PLC0415
+    from pydantic import ValidationError  # noqa: PLC0415
+
+    from schemas.engine_models import StageResult  # noqa: PLC0415
+
+    ap = argparse.ArgumentParser(description="script.lint")
+    ap.add_argument("proj", type=Path)
+    args = ap.parse_args(argv)
+    path = args.proj.resolve() / "script.yaml"
+    try:
+        rep = lint(Script.model_validate(yaml.safe_load(path.read_text(encoding="utf-8"))))
+        res = StageResult(ok=not rep.errors, stage="lint", artifacts={"script": str(path)},
+                          errors=[i.line() for i in rep.errors], warnings=[i.line() for i in rep.warnings])
+    except (OSError, ValueError, ValidationError, yaml.YAMLError) as ex:
+        res = StageResult(ok=False, stage="lint", errors=[f"{path}: {ex}"])
+    print(json.dumps(res.model_dump(), ensure_ascii=False))
+    return 0 if res.ok else 1
+
+
+if __name__ == "__main__":
+    sys.exit(main())
