@@ -1,6 +1,6 @@
 <!--
 tier: 1
-last_synced_with: v4.0.0
+last_synced_with: v4.1.0
 ssot_for: [project-entry-point]
 depends_on: [GOAL.md, CLAUDE.md, DOCS_GOVERNANCE.md, docs/02_SYSTEM_ARCHITECTURE.md]
 last_review: 2026-09-29
@@ -90,13 +90,14 @@ Private 저장소이므로 페이지가 GitHub API 를 호출하려면 사용자
 
 새 브랜치를 만들면 `docs/branches.html` 의 `BRANCH_DESCRIPTIONS` 객체에 한 줄 설명을 추가하십시오.
 
-## 현재 상태 (v4.0.0)
+## 현재 상태 (v4.1.0)
 
 | 구간 | 상태 |
 |---|---|
 | v2 개편 Phase 0~10 (v2.0.0~v3.6.0) | 합격 — 골든 재현·모듈 분해·지오·원고/음성·권리·패널·미디어·오케스트레이터·AI 연출·소스 인테이크·카메라·오디오·번들·1080p |
-| Phase 11 문서·정리·GOAL G3 개정 (v4.0.0) | 진행 중 |
-| G1~G4 골든 최종 검증·장르 확장 (v4.0.x) | 예정 |
+| Phase 11 문서·정리·GOAL G3 개정 (v4.0.0) | 완료(D-0075) |
+| G1 무대 추상화 (v4.1.0) | 진행 중 |
+| G2~G4 장르 프로필·시간축 무대·첫 비지정학 영상 (v4.x) | 예정 |
 | 썸네일 시스템, 텔레그램 인테이크, 유튜브 업로드 | v2 파이프라인에 없음 — 별도 계획 |
 
 Phase 표와 버전은 [docs/13_IMPLEMENTATION_ROADMAP.md](docs/13_IMPLEMENTATION_ROADMAP.md), 변경 내역은 [CHANGELOG.md](CHANGELOG.md), 합격 커밋은 [docs/handoff/TAGS_PENDING.md](docs/handoff/TAGS_PENDING.md).

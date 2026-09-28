@@ -1,6 +1,6 @@
 <!--
 tier: 1
-last_synced_with: v4.0.0
+last_synced_with: v4.1.0
 ssot_for: [session-handoff]
 depends_on: [CLAUDE.md, GOAL.md, VERSION, docs/13_IMPLEMENTATION_ROADMAP.md, docs/handoff/KICKOFF_PROMPT.md, docs/handoff/19_FABLE_ANALYSIS_AND_OPUS_EXECUTION_PLAN.md, back_and_forth/README.md]
 last_review: 2026-09-29
@@ -13,12 +13,12 @@ last_review: 2026-09-29
 
 ---
 
-## 1. 지금 어디인가 (v4.0.0)
+## 1. 지금 어디인가 (v4.1.0)
 
 - **작업 브랜치: `overhaul/v2-map-engine`.** Phase 합격(Fable review pass) 뒤 Fable이 main을 fast-forward한다. PR 생성 금지(C8.5).
-- **완료**: v2 개편 Phase 0~10(v2.0.0~v3.6.0). 합격 커밋은 `docs/handoff/TAGS_PENDING.md`.
-- **진행**: Phase 11 문서·정리·GOAL G3 개정(v4.0.0, back_and_forth D-0072·D-0073).
-- **다음**: G1~G4 골든 최종 검증·장르 확장(v4.0.x). 합격 기준은 `GOAL.md` G3(17개, 항목별 검증 방법).
+- **완료**: v2 개편 Phase 0~11(v2.0.0~v4.0.0). 합격 커밋은 `docs/handoff/TAGS_PENDING.md`.
+- **진행**: Phase G1 무대 추상화(v4.1.0, back_and_forth D-0076) — `Stage` 프로토콜·`MercatorStage`·무대 연속성 검사, 골든 25컷 md5 동일.
+- **다음**: G2 장르 프로필 → G3 시간축 무대·차트 정직성 → G4 첫 비지정학 영상(`docs/handoff/20` §12). 합격 기준은 `GOAL.md` G3(17개, 항목별 검증 방법).
 
 ## 2. 일하는 방식 — back_and_forth
 

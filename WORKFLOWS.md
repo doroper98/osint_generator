@@ -1,99 +1,92 @@
 <!--
 tier: 3
-last_synced_with: v0.3.3
+last_synced_with: v4.1.0
 ssot_for: [execution-procedures]
-depends_on: [README.md, docs/15_OPERATIONS_RUNBOOK.md]
-last_review: 2026-05-19
+depends_on: [README.md, HANDOFF.md, docs/15_OPERATIONS_RUNBOOK.md, docs/handoff/16_ORCHESTRATOR_INTEGRATION.md]
+last_review: 2026-09-29
 -->
 
 # WORKFLOWS
 
-본 문서는 실제 운영 절차를 정리합니다. 새 절차가 정착되면 본 문서로 들어옵니다.
+실제 운영 절차다. 명령 표의 요약본은 `docs/15_OPERATIONS_RUNBOOK.md` §1, 새 컨테이너 준비는 `HANDOFF.md` §4 다.
+(v4.1.0 에서 v0.3.3 판을 현재 명령으로 다시 썼다 — NB29. 옛 `render-debug`·`build-audio` 등은 v2.0.0 에서 삭제됐다.)
 
 ---
 
-## W1. 신규 영상 프로젝트 생성
+## W1. 새 영상 프로젝트
 
 ```bash
-# 1) 프로젝트 생성
-python -m orchestrator.main new-project \
-  --title "러시아 본토 피격 18분 영상" \
-  --category war_military \
-  --duration-min 18
-
-# 2) Command Center 진입
-python -m orchestrator.main command-center --project {project_id}
+python -m orchestrator.main new-project {pid} --title "..." --category geopolitics --topic-summary "..." [--link URL]
+python -m orchestrator.main command-center --project {pid}      # 또는 run_pipeline.bat
 ```
 
-생성 직후 상태는 `state=intake_planning`이며 `intake_plan.json`이 비동기 생성됩니다.
+상태 흐름(`schemas/models.py ProjectState`, docs/handoff/16 §2):
+`created → intake → source_verify → research → script_draft → script_approval★ → voice_timeline → assets → direction → preview_qa → preview_approval★ → render → audio_mix → deliver → done`.
+★ 두 곳이 사용자 승인 게이트다.
 
-## W2. Command Center 진입 (이미 존재하는 프로젝트)
+## W2. 소스 접수와 원고
 
 ```bash
-run_pipeline.bat
-# 또는
-python -m orchestrator.main command-center --project {project_id}
+python -m orchestrator.main add-source {pid} --kind article --url URL --fetch     # x-text·x-capture·document 도 있다(18 §1)
+python -m orchestrator.main confirm-source {pid} --id SRC_ID --by NAME           # 계정·시각 확인(18 §7)
+python -m orchestrator.main submit-intake {pid}                                   # intake → source_verify
+python -m orchestrator.main import-bundle {pid} --file report_bundle.json        # 번들 입력(v3.5.0)
+python -m orchestrator.main lint-script {pid}                                     # 금지 문구·발음 기호·출처·검증 라벨
 ```
 
-화면 구성:
-- 왼쪽 상단: Orch CLI Log Panel
-- 왼쪽 하단: Job Dashboard Panel
-- 오른쪽: Worker Slot 1–4 Panel
-
-키보드 단축키 (Phase 1 기준):
-- `q`: 종료
-- `r`: 새로고침
-- `1~4`: 해당 Worker Slot 포커스
-- `s`: 현재 상태를 `worker_slots.json`에 강제 저장
-
-## W3. Worker 추가
-
-1. `workers/{name}_worker.py` 생성, `BaseWorker` 상속.
-2. `agents_reviewer` 컨벤션에 맞춰 type hint + Pydantic 모델 사용.
-3. `docs/03_AGENT_ARCHITECTURE.md`의 Worker 카탈로그 표에 한 줄 추가.
-4. `docs/CATALOGS.md`에도 같은 줄 동기화 (SSOT 위반 아님: 003은 상세, CATALOGS는 목록).
-5. `tests/workers/test_{name}_worker.py` 작성.
-6. 새 Worker가 만드는 task_type을 `schemas/models.py:TaskType` Literal에 추가.
-7. CHANGELOG `Added` 섹션에 기록.
-
-## W4. Antipattern 기록
-
-1. 사고 / 오류 발생 시 즉시 재현 절차 확보.
-2. 카테고리 결정 (`TTS-AP`, `PIPELINE-AP`, `RIGHTS-AP`, `RENDER-AP`, `SCHEMA-AP`).
-3. `docs/ANTIPATTERNS/{CAT}_ANTIPATTERNS.md` 끝에 새 N번 append.
-4. 같은 클래스의 재발을 막는 구조적 조치 (검증기·테스트·hook) 추가.
-5. `DEVLOG.md`에 한 줄 요약 + AP 번호.
-
-## W5. 커밋
+## W3. 엔진 단계 진행
 
 ```bash
-# 매 변경 후
+python -m orchestrator.main advance --project {pid} [--jobs N]     # 현재 엔진 상태의 단계 → ok 면 다음 상태
+python -m orchestrator.main gate-view --project {pid}              # 게이트 화면 텍스트
+python -m orchestrator.main approve --project {pid} --gate script_approval|preview_approval --comment "..." [--version N]
+python -m orchestrator.main reject  --project {pid} --gate preview_approval --to direction --comment "..."
+```
+
+게이트 기록 위치: `projects/{pid}/project_manifest.json` 의 `gate_decisions`.
+Command Center 단축키: `g` advance · `a` approve · `x` reject · `c` 소스 확인 · `r` 큐 새로고침 · `s` 스냅샷 · `q` 종료.
+
+엔진을 직접 돌릴 때(오케스트레이터는 같은 CLI 를 부른다, 15 P1):
+
+```bash
+python -m script.plan projects/{pid} --tts edge                   # 원고 → TTS → plan.json
+python -m geo.prep projects/{pid} [--res 1080p]                    # 지형 티어(1080p 는 별도 티어)
+python -m engine.camera_suggest projects/{pid}                     # 카메라 제안(옵션, 연출에 자동 적용 안 함)
+python -m engine.render projects/{pid} --preview auto|golden       # 프리뷰 컷·시트·checks·provenance
+python -m engine.render projects/{pid} --jobs 4 [--res 1080p]      # 전편 video_noaudio.mp4
+```
+
+## W4. Worker 추가
+
+1. `workers/{name}_worker.py`, `BaseWorker` 상속(CLAUDE.md C4).
+2. 프롬프트는 `prompts/*.md` 템플릿 + `rules/video_rules.yaml` 에서 만든다. 코드 상수 금지(15 P3).
+3. `docs/03_AGENT_ARCHITECTURE.md` 워커 표에 한 줄.
+4. `tests/` 에 워커 테스트, 프롬프트 예시 출력은 스키마 파리티 테스트(15 P4).
+5. CHANGELOG `Added`.
+
+## W5. Antipattern 기록
+
+1. 재현 절차 확보.
+2. 카테고리: `TTS-AP`·`PIPELINE-AP`·`RIGHTS-AP`·`RENDER-AP`·`SCHEMA-AP`·`LLM-AP`.
+3. `docs/ANTIPATTERNS/{CAT}_ANTIPATTERNS.md` 끝에 새 번호 append(과거 항목 수정 금지).
+4. 재발 방지 검증기·테스트·hook.
+5. `DEVLOG.md` 한 줄 + AP 번호.
+
+## W6. 커밋
+
+```bash
+git config core.hooksPath .githooks                # 첫 한 번
 python -m py_compile $(git diff --cached --name-only | grep '\.py$')
-
-# 버전 prefix 일치 검증 (자동, .githooks/commit-msg)
-git commit -m "v0.2.0: Phase 2 — project manager and state machine"
+git commit -m "v4.1.0: 요지"                         # 첫 줄 prefix = VERSION 파일(.githooks/commit-msg 가 검사)
 ```
 
-`__version__`은 `orchestrator/__init__.py`에서 관리합니다.
-
-## W6. Review Gate 통과 처리
-
-```bash
-# Review Dashboard에서 승인하거나 CLI로 직접 기록
-python -m orchestrator.main approve \
-  --project {project_id} \
-  --gate script_approval \
-  --comment "OK. 두 번째 장면 출처 표기 보강 요청"
-```
-
-게이트는 `script_approval`·`preview_approval` 두 개다(반려는 `reject`). 기록 위치: `projects/{project_id}/project_manifest.json` 의 `gate_decisions`(v3.0.0).
+버전 SSOT 는 `VERSION` 이고 `orchestrator/__init__.py:__version__` 을 같이 올린다(C5.1).
 
 ## W7. Phase 완료 체크리스트
 
-- [ ] Phase별 acceptance criteria 모두 통과
-- [ ] `python -m py_compile` 전수 통과
-- [ ] 새 Antipattern 발견 시 모두 카탈로그에 기록
-- [ ] CHANGELOG `Unreleased` → 신규 버전 섹션으로 승격
-- [ ] MINOR 또는 PATCH 버전 증분
-- [ ] `last_synced_with` 모든 Tier 1·2 헤더 일괄 업데이트
-- [ ] DEVLOG에 Phase 회고 1엔트리 추가
+- [ ] 지침(back_and_forth D)의 합격표 전부 충족, 증거 파일은 `docs/handoff/reports/phase*/`
+- [ ] `pytest` failed 0 · xfail 0(D-0053 삭제 조정 기준선)
+- [ ] 영상 영향이면 프리뷰 시트 + provenance, 무변경이면 hormuz 25컷 md5
+- [ ] 새 Antipattern 기록
+- [ ] CHANGELOG 버전 절, Tier 1·2 `last_synced_with`(`tests/test_docs_sync.py`)
+- [ ] `phase_report` R(README §6.3 다섯 항목)

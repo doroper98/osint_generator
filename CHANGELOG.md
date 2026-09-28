@@ -1,6 +1,6 @@
 <!--
 tier: 3
-last_synced_with: v4.0.0
+last_synced_with: v4.1.0
 ssot_for: [release-notes]
 depends_on: [README.md, GOAL.md]
 last_review: 2026-09-28
@@ -48,11 +48,20 @@ released 항목은 **append-only**입니다.
 | v3.4.0 | 182963f | 8 오디오 | pass(D-0062) |
 | v3.5.0 | d668359 | 9 번들 어댑터 | pass(D-0065) |
 | v3.6.0 | b1298f4 | 10 해상도·성능 | pass(D-0071) |
-| v4.0.0 | (검수 대기) | 11 문서·정리·G3 개정(MAJOR: G3) | Phase 11 review 뒤 Fable 이 한 줄 추가 |
+| v4.0.0 | 3266eaa | 11 문서·정리·G3 개정(MAJOR: G3) | pass(D-0075) |
 
 ---
 
-## [v4.0.0] — 2026-09-29 — Phase 11: 문서·정리·GOAL G3 개정 (back_and_forth D-0072) — 진행 중
+## [v4.1.0] — 2026-09-29 — Phase G1: 무대 추상화 (back_and_forth D-0076) — 진행 중
+
+MINOR: 새 기능(무대 추상화·무대 연속성 검사). 렌더 수치 변경 없음 — 합격 조건은 v3 골든 25컷 md5 동일.
+
+### Changed
+- **§0**: `WORKFLOWS.md`(Tier 3, v0.3.3 판)를 현재 명령으로 다시 씀(NB29). Tier 1·2 `last_synced_with` v4.1.0. hormuz 25컷 md5 기준선 `docs/handoff/reports/phaseG1/hormuz_baseline.json`.
+
+---
+
+## [v4.0.0] — 2026-09-29 — Phase 11: 문서·정리·GOAL G3 개정 (back_and_forth D-0072) — Fable review pass(D-0075)
 
 MAJOR: GOAL G3 개정은 GOAL §G3 머리말("변경 시 메이저")대로 메이저다(D64).
 

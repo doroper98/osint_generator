@@ -1,0 +1,113 @@
+{
+ "schema_version": 1,
+ "role": "Phase G1 시작 기준선(D-0076 §0) — 무대 추상화 리팩터 뒤 같은 컨테이너에서 다시 렌더해 25컷 md5 25/25 동일을 잰다",
+ "commit": "8d29208 (v4.0.0 끝, 렌더·엔진 코드 = Phase 11 합격본)",
+ "command": "python -m engine.render projects/hormuz_korea --preview golden",
+ "checks": {
+  "hard": 0,
+  "warnings": 0
+ },
+ "same_as_phase11_baseline": 25,
+ "cuts": [
+  {
+   "png": "p_0007.82.png",
+   "md5": "10c0e064820b2f9946517001cf9d1e5d"
+  },
+  {
+   "png": "p_0022.27.png",
+   "md5": "01dff54d06fa313e6928cbbdeb78089b"
+  },
+  {
+   "png": "p_0028.77.png",
+   "md5": "9d5e33fb0f7ce2725397ed8e8af9754b"
+  },
+  {
+   "png": "p_0038.45.png",
+   "md5": "6ec5f304515a34ce5afb18b211dd2be8"
+  },
+  {
+   "png": "p_0045.03.png",
+   "md5": "03abba42441bfc2ffcd1356828c5bec9"
+  },
+  {
+   "png": "p_0056.21.png",
+   "md5": "29b82a82a6bd0be90c9dd46d530072f1"
+  },
+  {
+   "png": "p_0061.25.png",
+   "md5": "30f5a3bcd7bdbfcd376f66ab0f89deca"
+  },
+  {
+   "png": "p_0065.13.png",
+   "md5": "a4bd6107c8d0bcac956ee2929818be14"
+  },
+  {
+   "png": "p_0080.70.png",
+   "md5": "dd31a01f5694ddb73db5220c9665b95b"
+  },
+  {
+   "png": "p_0087.06.png",
+   "md5": "c2181dfc51dbdf25badfcb36d1feb97b"
+  },
+  {
+   "png": "p_0105.28.png",
+   "md5": "1f5514005055ba43b137adee52f2f672"
+  },
+  {
+   "png": "p_0124.25.png",
+   "md5": "8b4ef6da462aa20dc29126bc7d34fcca"
+  },
+  {
+   "png": "p_0136.97.png",
+   "md5": "31bbf0289f422dde5c5f025b5a55a357"
+  },
+  {
+   "png": "p_0157.38.png",
+   "md5": "1972d7b87e3db9c0093dbbef3edea7b8"
+  },
+  {
+   "png": "p_0164.59.png",
+   "md5": "427e6b8df0562c2dd67b08b45307327c"
+  },
+  {
+   "png": "p_0170.52.png",
+   "md5": "786744e7a6246a3d8151f659b3fb0299"
+  },
+  {
+   "png": "p_0193.22.png",
+   "md5": "ebb2587b3ce51d79cb48760ee338a872"
+  },
+  {
+   "png": "p_0207.41.png",
+   "md5": "00dba9337c5c613d22441ca17fbdad9b"
+  },
+  {
+   "png": "p_0214.46.png",
+   "md5": "bbd7e6239bd1814cd584bb359067800c"
+  },
+  {
+   "png": "p_0220.96.png",
+   "md5": "9898c5bc1f1af76e7ad60fc665df8ec9"
+  },
+  {
+   "png": "p_0238.00.png",
+   "md5": "8429b0f44c02dac6955c6d05d1ea0dd9"
+  },
+  {
+   "png": "p_0245.56.png",
+   "md5": "a653b2309999dd8f63c6aaa9730b07f6"
+  },
+  {
+   "png": "p_0258.61.png",
+   "md5": "2b99c61dc0103059761c1d466c3ef8ab"
+  },
+  {
+   "png": "p_0276.44.png",
+   "md5": "af429ddb3c4ff949794abbafc4b7e2f5"
+  },
+  {
+   "png": "p_0288.44.png",
+   "md5": "41b6276244002f5f579cca50d81f38f2"
+  }
+ ]
+}
