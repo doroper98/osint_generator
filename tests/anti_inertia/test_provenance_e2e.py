@@ -53,6 +53,11 @@ class ProvenanceE2ETest(unittest.TestCase):
         for not_run in ("render", "mix", "mux"):
             self.assertIs(prov["stages"][not_run], False, not_run)
         self.assertTrue((proj / "prev" / "sheet.jpg").exists())
+        chk = json.loads((proj / "prev" / "checks.json").read_text(encoding="utf-8"))   # v3.1.0 17 §3(D-0047 작업 6)
+        self.assertEqual(len(chk["items"]), 10)
+        self.assertEqual(prov["checks"]["hard"], chk["hard"])
+        frames = json.loads((proj / "prev" / "frames.json").read_text(encoding="utf-8"))
+        self.assertEqual(len(frames["frames"]), 25)
 
 
 if __name__ == "__main__":

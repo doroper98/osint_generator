@@ -1,0 +1,86 @@
+"""engine/checks — 결정적 사전 검사 17 §3 (v3.1.0, back_and_forth D-0047 작업 6·9). 가짜 프로젝트 객체로 항목별 검사."""
+
+from __future__ import annotations
+
+import unittest
+from types import SimpleNamespace as NS
+
+import numpy as np
+
+from engine import checks
+from engine.camera import CamKey
+from engine.projection import ym
+from rules import load_rules
+
+SG = load_rules().shot_grammar
+TIERS = {"W": {"lon0": 20.0, "lon1": 150.0, "lat0": -10.0, "lat1": 60.0, "levels": []}}
+
+
+def _sent(sid: str, scene: str, t0: float, text: str = "문장입니다", date: str = "2026.09.18") -> NS:
+    return NS(sid=sid, scene=scene, t0=t0, t1=t0 + 3, text=text, date=date)
+
+
+def _P(events: list[dict] | None = None, keys: list[CamKey] | None = None, sentences: list[NS] | None = None) -> NS:  # noqa: N802
+    sents = sentences or [_sent("a_0", "a", 1.0)]
+    n = 24 * 60
+    cams = np.tile(np.array([56.0, ym(26.0), 14.0]), (n, 1))
+    tb = NS(total=60.0, in_fullcard=lambda t: False)
+    return NS(events=events or [], keys=keys or [], n_frames=n, cams=cams,
+              plan=NS(sentences=sents, title="제목", subtitle="부제", date="2026.09", total=60.0),
+              R=NS(tb=tb, assets=NS(tiers=TIERS, base={})))
+
+
+class ChecksTest(unittest.TestCase):
+    def test_date_format(self) -> None:
+        P = _P(sentences=[_sent("a_0", "a", 1.0, date="2026/09")])  # noqa: N806
+        self.assertEqual(len([s for s in P.plan.sentences if not checks.DATE_RE.match(s.date)]), 1)
+
+    def test_subtitle_lines(self) -> None:
+        P = _P(sentences=[_sent("a_0", "a", 1.0, text="아주 긴 자막 " * 30)])  # noqa: N806
+        self.assertEqual(len(checks.check_subtitles(P)), 1)
+        self.assertEqual(checks.check_subtitles(_P()), [])
+
+    def test_glyphs(self) -> None:
+        self.assertEqual(checks.check_glyphs(_P(events=[{"type": "card", "tag": "정상 문자열 123"}])), [])
+        miss = checks.check_glyphs(_P(events=[{"type": "card", "tag": "쐐기 𓀀"}]))   # 이집트 상형문자 — 프로젝트 글꼴에 없음
+        self.assertEqual(len(miss), 1)
+        self.assertIn("U+13000", miss[0])
+
+    def test_shots(self) -> None:
+        keys = [CamKey(t=0, x=0, y=0, w=10, dur=0, mode="cut"), CamKey(t=5, x=1, y=1, w=10, dur=3, mode="move"),
+                CamKey(t=9, x=2, y=2, w=10, dur=3, mode="move")]   # 두 번째 이동 전 머무름 1초 + 한 장면 이동 2회
+        P = _P(keys=keys, sentences=[_sent("a_0", "a", 0.0)])  # noqa: N806
+        out = checks.check_shots(P)
+        self.assertTrue(any("머무름" in o for o in out))
+        self.assertTrue(any("카메라 이동 2" in o for o in out))
+
+    def test_dip_frequency(self) -> None:
+        dips = [{"type": "dip", "t0": t, "t1": t + 1} for t in (5, 15, 25)]
+        out = checks.check_shots(_P(events=dips))
+        self.assertTrue(any("암전 3회" in o for o in out))
+
+    def test_offscreen_badge(self) -> None:
+        low = {"type": "badge", "t0": 0.0, "t1": 5.0, "lon": 56.0, "lat": 21.5, "kind": "flag", "flag": "cn", "R": 17, "label": "중국"}
+        ok = dict(low, lat=26.0, label="가운데")
+        out = checks.check_offscreen(_P(events=[low, ok]))
+        self.assertEqual(len(out), 1)
+        self.assertIn("중국", out[0])
+
+    def test_offscreen_ignored_when_covered(self) -> None:
+        low = {"type": "badge", "t0": 0.0, "t1": 5.0, "lon": 56.0, "lat": 21.5, "kind": "flag", "flag": "cn", "R": 17, "label": "중국"}
+        panel = {"type": "panel", "t0": 0.0, "t1": 5.0}
+        self.assertEqual(checks.check_offscreen(_P(events=[low, panel])), [])
+
+    def test_forbidden(self) -> None:
+        self.assertEqual(checks.check_forbidden(_P(), {"features_used": {"vignette": False}}), [])
+        self.assertEqual(len(checks.check_forbidden(_P(), {"features_used": {"vignette": True}})), 1)
+        self.assertEqual(len(checks.check_forbidden(_P(events=[{"type": "stamp"}]), {})), 1)
+
+    def test_severity_table(self) -> None:
+        self.assertEqual(set(checks.HARD) | set(checks.WARN),
+                         {"overlap", "offscreen", "glyphs", "shots", "media_beats", "labels", "date", "subtitles", "rights", "forbidden"})
+        self.assertEqual(set(checks.WARN), {"shots", "media_beats"})   # D-0047 §0-4 숏 규칙 = warning
+
+
+if __name__ == "__main__":
+    unittest.main()

@@ -119,6 +119,7 @@ def preview(P: Project, times: list[float], labels: list[str] | None = None) -> 
 
     from PIL import Image  # noqa: PLC0415
 
+    from engine.checks import frames_info, run_checks  # noqa: PLC0415
     from engine.mux import project_provenance  # noqa: PLC0415
     from engine.sheet import COLS, grid  # noqa: PLC0415
 
@@ -138,7 +139,11 @@ def preview(P: Project, times: list[float], labels: list[str] | None = None) -> 
          COLS, out / "sheet.jpg")
     prov = project_provenance(P, PREVIEW_STAGES)
     prov["preview"] = {"frames": len(paths), "times": [round(t, 3) for t in times]}
+    checks = run_checks(P, times, prov)   # 17 §3 결정적 사전 검사(D-0047 작업 6)
+    prov["checks"] = {"hard": checks["hard"], "warnings": checks["warnings"], "passed": checks["passed"]}
     (out / "provenance.json").write_text(json.dumps(prov, ensure_ascii=False, indent=1), encoding="utf-8")
+    (out / "checks.json").write_text(json.dumps(checks, ensure_ascii=False, indent=1), encoding="utf-8")
+    (out / "frames.json").write_text(json.dumps(frames_info(P, times, names), ensure_ascii=False, indent=1), encoding="utf-8")
     return paths
 
 
@@ -204,17 +209,24 @@ def main(argv: list[str] | None = None) -> int:
         if args.chunk:
             render_chunk(P, int(args.chunk[0]), int(args.chunk[1]), Path(args.chunk[2]))
             return 0
+        hard_msgs: list[str] = []
         if args.preview:
             lt = preview_times(P, args.preview)
             arts = {f"prev/{Path(p).name}": p for p in preview(P, [t for _, t in lt], [n for n, _ in lt])}
             arts["sheet"] = str(P.root / "prev" / "sheet.jpg")
             arts["provenance"] = str(P.root / "prev" / "provenance.json")
+            arts["checks"] = str(P.root / "prev" / "checks.json")
+            arts["frames"] = str(P.root / "prev" / "frames.json")
+            chk = json.loads((P.root / "prev" / "checks.json").read_text(encoding="utf-8"))
+            # hard 실패 → 이 단계 실패(17 §3) 배선은 R-0053 결정 뒤(v3 골든의 뱃지 잘림 2건). 지금은 경고로 보고만 한다
+            hard_msgs = [f"checks hard {i['id']}: {d}" for i in chk["items"] if i["severity"] == "hard" for d in i["details"]]
         else:
             from orchestrator.config import load_config  # noqa: PLC0415
 
             jobs = args.jobs if args.jobs is not None else load_config().engine.jobs
             arts = {"video_noaudio": str(render_full(P, jobs))}
-        res = StageResult(ok=True, stage=stage, artifacts=arts, warnings=P.warnings)
+        res = StageResult(ok=True, stage=stage, artifacts=arts,
+                          warnings=P.warnings + (hard_msgs if args.preview else []))
     except (ProjectError, RegistryError, RuntimeError, OSError, ValueError) as ex:
         res = StageResult(ok=False, stage=stage, errors=[str(ex)])
     print(json.dumps(res.model_dump(), ensure_ascii=False))
