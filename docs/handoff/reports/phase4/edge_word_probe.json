@@ -1,0 +1,137 @@
+{
+ "schema_version": 1,
+ "rate": "-3%",
+ "pitch": "-2Hz",
+ "voices": {
+  "ko-KR-InJoonNeural": [
+   {
+    "sid": "ask_1",
+    "word": "독일",
+    "measured_rel": 0.543,
+    "ratio_rel": 0.935,
+    "diff": 0.392,
+    "dur": 7.856,
+    "trim_offset": 0.3568
+   },
+   {
+    "sid": "ask_1",
+    "word": "영국",
+    "measured_rel": 1.393,
+    "ratio_rel": 1.683,
+    "diff": 0.29,
+    "dur": 7.856,
+    "trim_offset": 0.3568
+   },
+   {
+    "sid": "ask_1",
+    "word": "일본",
+    "measured_rel": 2.643,
+    "ratio_rel": 2.432,
+    "diff": -0.212,
+    "dur": 7.856,
+    "trim_offset": 0.3568
+   },
+   {
+    "sid": "ask_1",
+    "word": "호주",
+    "measured_rel": 3.816,
+    "ratio_rel": 3.18,
+    "diff": -0.636,
+    "dur": 7.856,
+    "trim_offset": 0.3568
+   },
+   {
+    "sid": "ask_1",
+    "word": "한국",
+    "measured_rel": 5.646,
+    "ratio_rel": 4.676,
+    "diff": -0.97,
+    "dur": 7.856,
+    "trim_offset": 0.3568
+   },
+   {
+    "sid": "ask_4",
+    "word": "한국",
+    "measured_rel": 1.443,
+    "ratio_rel": 1.32,
+    "diff": -0.123,
+    "dur": 8.087,
+    "trim_offset": 0.3063
+   },
+   {
+    "sid": "past_3",
+    "word": "호르무즈",
+    "measured_rel": 2.646,
+    "ratio_rel": 2.831,
+    "diff": 0.184,
+    "dur": 7.549,
+    "trim_offset": 0.3402
+   }
+  ],
+  "ko-KR-SunHiNeural": [
+   {
+    "sid": "ask_1",
+    "word": "독일",
+    "measured_rel": 0.51,
+    "ratio_rel": 0.762,
+    "diff": 0.252,
+    "dur": 6.4,
+    "trim_offset": 0.1976
+   },
+   {
+    "sid": "ask_1",
+    "word": "영국",
+    "measured_rel": 1.244,
+    "ratio_rel": 1.371,
+    "diff": 0.127,
+    "dur": 6.4,
+    "trim_offset": 0.1976
+   },
+   {
+    "sid": "ask_1",
+    "word": "일본",
+    "measured_rel": 2.004,
+    "ratio_rel": 1.981,
+    "diff": -0.023,
+    "dur": 6.4,
+    "trim_offset": 0.1976
+   },
+   {
+    "sid": "ask_1",
+    "word": "호주",
+    "measured_rel": 2.816,
+    "ratio_rel": 2.591,
+    "diff": -0.226,
+    "dur": 6.4,
+    "trim_offset": 0.1976
+   },
+   {
+    "sid": "ask_1",
+    "word": "한국",
+    "measured_rel": 4.066,
+    "ratio_rel": 3.81,
+    "diff": -0.257,
+    "dur": 6.4,
+    "trim_offset": 0.1976
+   },
+   {
+    "sid": "ask_4",
+    "word": "한국",
+    "measured_rel": 1.283,
+    "ratio_rel": 1.167,
+    "diff": -0.116,
+    "dur": 7.147,
+    "trim_offset": 0.1977
+   },
+   {
+    "sid": "past_3",
+    "word": "호르무즈",
+    "measured_rel": 2.604,
+    "ratio_rel": 2.804,
+    "diff": 0.2,
+    "dur": 7.477,
+    "trim_offset": 0.2037
+   }
+  ]
+ }
+}

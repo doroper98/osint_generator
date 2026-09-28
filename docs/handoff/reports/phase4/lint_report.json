@@ -1,0 +1,17 @@
+{
+ "schema_version": 1,
+ "hormuz_korea": {
+  "sentences": 45,
+  "errors": [],
+  "warning_counts": {
+   "source-missing": 45
+  },
+  "warnings": []
+ },
+ "taiwan_strait": {
+  "sentences": 2,
+  "errors": [],
+  "warning_counts": {},
+  "warnings": []
+ }
+}

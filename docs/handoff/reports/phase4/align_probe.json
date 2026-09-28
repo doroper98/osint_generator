@@ -1,0 +1,80 @@
+{
+ "schema_version": 1,
+ "voice": "elevenlabs:vdHK…",
+ "sids": [
+  "ask_1",
+  "ask_4",
+  "past_3"
+ ],
+ "sentences": {
+  "ask_1": {
+   "text": "다음 날 독일, 영국, 일본, 호주, 그리고 한국이 이 요구를 거절했습니다.",
+   "tts": "다음 날 독일, 영국, 일본, 호주, 그리고 한국이 이 요구를 거절했습니다.",
+   "dur": 6.60263,
+   "trim_offset": 0.032494
+  },
+  "ask_4": {
+   "text": "3월 21일, 한국은 영국, 프랑스, 일본 등 일곱 나라의 공동성명에 이름을 올렸습니다.",
+   "tts": "삼월 이십일일, 한국은 영국, 프랑스, 일본 등 일곱 나라의 공동성명에 이름을 올렸습니다.",
+   "dur": 7.279478,
+   "trim_offset": 0.0
+  },
+  "past_3": {
+   "text": "2020년에는 청해부대의 작전 구역을 호르무즈까지 넓히되, 지휘권은 한국군이 갖는 방식을 택했습니다.",
+   "tts": "이천이십 년에는 청해부대의 작전 구역을 호르무즈까지 넓히되, 지휘권은 한국군이 갖는 방식을 택했습니다.",
+   "dur": 7.987846,
+   "trim_offset": 0.0
+  }
+ },
+ "words": [
+  {
+   "sid": "ask_1",
+   "word": "독일",
+   "aligned_rel": 0.757,
+   "ratio_rel": 0.786,
+   "diff": 0.03
+  },
+  {
+   "sid": "ask_1",
+   "word": "영국",
+   "aligned_rel": 1.501,
+   "ratio_rel": 1.415,
+   "diff": -0.086
+  },
+  {
+   "sid": "ask_1",
+   "word": "일본",
+   "aligned_rel": 2.209,
+   "ratio_rel": 2.044,
+   "diff": -0.165
+  },
+  {
+   "sid": "ask_1",
+   "word": "호주",
+   "aligned_rel": 2.987,
+   "ratio_rel": 2.672,
+   "diff": -0.314
+  },
+  {
+   "sid": "ask_1",
+   "word": "한국",
+   "aligned_rel": 4.299,
+   "ratio_rel": 3.93,
+   "diff": -0.368
+  },
+  {
+   "sid": "ask_4",
+   "word": "한국",
+   "aligned_rel": 1.265,
+   "ratio_rel": 1.188,
+   "diff": -0.077
+  },
+  {
+   "sid": "past_3",
+   "word": "호르무즈",
+   "aligned_rel": 3.216,
+   "ratio_rel": 2.995,
+   "diff": -0.221
+  }
+ ]
+}
