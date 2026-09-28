@@ -112,6 +112,7 @@ def project_provenance(P, stages: dict[str, bool]) -> dict:  # noqa: ANN001, N80
     `stages` 는 이번 산출물에 실제로 돈 단계 — 돌지 않은 단계는 false 로 명시한다."""
     from engine.credits import credit_summary  # noqa: PLC0415
     from engine.media_plan import density_report  # noqa: PLC0415
+    from engine.provenance import ai_direction_summary  # noqa: PLC0415
     from engine.provenance import build as build_prov  # noqa: PLC0415
     from engine.reserved import avoidance_report  # noqa: PLC0415
     from orchestrator import __version__  # noqa: PLC0415
@@ -119,6 +120,8 @@ def project_provenance(P, stages: dict[str, bool]) -> dict:  # noqa: ANN001, N80
     from script.media_suggest import media_usage  # noqa: PLC0415
     from script.plan import load_script  # noqa: PLC0415
 
+    ai = ai_direction_summary(P.root)   # D-0047 작업 9 — AI 연출·시각 검수가 실제로 돌았을 때만 true
+    stages = {**stages, "ai_direction": ai is not None, "visual_qa": bool(ai and ai["visual_qa"])}
     req = P.R.cache.get("credit_refs") or set()
     prov = build_prov(P.plan, P.keys, P.events, __version__, stages, P.R.tb.word_anchors, asset_usage(P))
     prov["credits"] = credit_summary(req)   # D-0030 §3 — 표기 위치별 종류 개수
@@ -129,6 +132,11 @@ def project_provenance(P, stages: dict[str, bool]) -> dict:  # noqa: ANN001, N80
                      "placement": P.R.cache.get("media_placement", {})}
     labels = check_project_labels(P.root, load_script(P.root))   # v3.0.0 — 검증 라벨 집계(D-0043 §4), 도시어 없으면 None
     prov["script"] = {"labels": labels.counts() if labels is not None else None}
+    if ai is not None:
+        prov["ai_direction"] = ai
+        prov["prompts"] = {"director": ai["prompt_sha1"]}
+        prov["qa"] = {**prov["qa"], "auto_iterations": len(ai["revisions"]),
+                      "visual_qa": [q["verdict"] for q in ai["visual_qa"]]}
     return prov
 
 

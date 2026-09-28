@@ -1,11 +1,14 @@
 """provenance — 이번 영상에 실제로 쓰인 기능의 증명 (v2.1.0, 15 P5, tools/legacy_provenance 의 엔진 내장판).
 
-코드에 있는 기능이 아니라 이 연출로 렌더될 때 호출되는 것만 센다. 돌지 않은 단계(AI 연출·시각 검수)는 기록하지 않는다.
+코드에 있는 기능이 아니라 이 연출로 렌더될 때 호출되는 것만 센다. 돌지 않은 단계(AI 연출·시각 검수)는 false 로 둔다 — ai_direction_summary 가 워커 산출 파일로 증명할 때만 true(v3.1.0).
 """
 
 from __future__ import annotations
 
 import collections
+import json
+import re
+from pathlib import Path
 from typing import Callable
 
 from engine.camera import CamKey
@@ -32,6 +35,38 @@ def features(keys: list[CamKey], events: list[dict]) -> dict:
         "label_lod": True,   # draw_labels 는 패널이 화면을 덮지 않은 모든 프레임에서 w 별 LOD 로 호출된다
         "vignette": False,   # 비네트 없음(라운드 6) — 엔진에 이식하지 않았다(부록 D)
     }
+
+
+def _versions(d: Path, stem: str, suffix: str) -> list[Path]:
+    """{stem}.v{n}{suffix} 를 번호순으로(수정 기록은 v2 부터 — v1 은 연출가 초안)."""
+    pat = re.compile(rf"^{re.escape(stem)}\.v(\d+){re.escape(suffix)}$")
+    hits = [(int(m.group(1)), q) for q in d.glob(f"{stem}.v*{suffix}") if (m := pat.match(q.name))] if d.exists() else []
+    return [q for _, q in sorted(hits)]
+
+
+def ai_direction_summary(root: Path) -> dict | None:
+    """AI 연출·검수 기록(v3.1.0, 17 §1·D-0047 작업 9). 워커 산출 파일만 읽는다(엔진은 워커를 import 하지 않음, 15 P1).
+    direction.meta.json(origin ai)이 없으면 None — 사람 연출. 현재 direction.yaml 이 마지막 AI 보관본과 다르면
+    origin "ai+human_edit"(사람이 고친 AI 연출)로 적는다 — 돌지 않은 단계·바뀐 내용을 AI 산출로 주장하지 않는다(15 P5)."""
+    meta_p = root / "direction.meta.json"
+    if not meta_p.exists():
+        return None
+    meta = json.loads(meta_p.read_text(encoding="utf-8"))
+    if meta.get("origin") != "ai":
+        return None
+    vers = _versions(root, "direction", ".yaml")
+    cur = (root / "direction.yaml").read_bytes() if (root / "direction.yaml").exists() else b""
+    edited = not vers or vers[-1].read_bytes() != cur
+    qa = []
+    for p in _versions(root / "prev", "qa_verdict", ".json"):
+        v = json.loads(p.read_text(encoding="utf-8"))
+        iss = v.get("issues", [])
+        qa.append({"file": p.name, "verdict": v.get("verdict"), "hard": sum(1 for i in iss if i.get("severity") == "hard"),
+                   "soft": sum(1 for i in iss if i.get("severity") == "soft")})
+    revs = [{"direction_version": r.get("direction_version"), "changes": len(r.get("changelog", []))}
+            for r in (json.loads(p.read_text(encoding="utf-8")) for p in _versions(root / "prev", "revision", ".json"))]
+    return {"origin": "ai+human_edit" if edited else "ai", "model": meta.get("model"), "prompt_sha1": meta.get("prompt_sha1"),
+            "direction_versions": len(vers), "revisions": revs, "visual_qa": qa}
 
 
 def emblem_usage(events: list[dict], emblem_flag: Callable[[str], str | None]) -> dict:
@@ -61,7 +96,7 @@ def build(plan: Plan, keys: list[CamKey], events: list[dict], repo_version: str,
         "repo_version": repo_version,
         "rules_version": load_rules().rules_version,
         "rules_hash": rules_hash(),
-        "prompts": {},          # Phase 2 는 LLM 단계 없음 — 사람이 쓴 원고·연출
+        "prompts": {},          # 사람 연출이면 비어 있다 — AI 연출은 engine.mux.project_provenance 가 채운다(v3.1.0)
         "voice": plan.voice,
         "word_anchor": modes[0] if len(modes) == 1 else ("mixed" if modes else "none"),  # v2.3.0 aligned|ratio (03 §6.3)
         "word_anchors": anchors,
