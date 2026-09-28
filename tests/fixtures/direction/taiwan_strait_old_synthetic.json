@@ -1,0 +1,30 @@
+{
+"keys": [
+{
+"t": 0.0,
+"x": 120.3,
+"y": 24.953383880186017,
+"w": 9.0,
+"dur": 0.0,
+"mode": "cut"
+}
+],
+"events_by_type": {
+"marker": [
+{
+"type": "marker",
+"t0": 4.3,
+"t1": 18.060000000000002,
+"lon": 121.56,
+"lat": 25.04,
+"label": "타이베이",
+"sub": "대만 수도",
+"side": "right",
+"hl": true,
+"icon": "dot"
+}
+]
+},
+"sound": null,
+"word_anchors": []
+}

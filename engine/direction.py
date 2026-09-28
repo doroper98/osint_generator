@@ -21,6 +21,8 @@
     paths:  {route: [[56.2, 26.45], …], …}        이름표 경로. 값 자리에 `{path: route}`
     shots:  [{at, mode: cut|move|dip, dur?, camera: {lon, lat, w}, under?}]   (dip = 1초 암전 + 한가운데 cut)
     events: [{type, start, end, …필드}]           필드 값 어디든 앵커를 둘 수 있다(패널 내부 시각 등)
+            패널은 17 §2 예시대로 내용 필드를 `data: {…}` 아래에 둔다(타임라인 패널의 start·end 날짜가 시각 키와 겹치지 않게).
+            로더가 data 를 이벤트 필드로 펼친다. data 안 start·end 는 내용(날짜)이다. 그 밖에 바깥 키와 겹치면 오류.
     sound:  {bgm, intensity: [[앵커, 값], …], cues: [{kind, t: 앵커, v}]}   (D-0047 §0-2 — 17 §2 공백 보완)
 이벤트 필드 검증은 `engine.registry.validate_events`(레지스트리·모델)가 하고, 엔티티·예약 영역·권리 점검은
 `engine.project.load_project` 가 그대로 한다.
@@ -114,6 +116,8 @@ class Direction(_Strict):
                 errs.append(f"events[{i}]: type·start·end 필수")
             if "t0" in e or "t1" in e:
                 errs.append(f"events[{i}]: t0·t1 대신 start·end 앵커를 쓴다")
+            if "data" in e and (not isinstance(e["data"], dict) or set(e["data"]) & (set(e) - {"data", "start", "end"})):
+                errs.append(f"events[{i}]: data 는 dict 이고 바깥 키와 겹치면 안 된다")
             if "at_place" in e and e["at_place"] not in self.places:
                 errs.append(f"events[{i}]: at_place {e['at_place']!r} 가 places 에 없다")
         for i, s in enumerate(self.shots):
@@ -210,6 +214,9 @@ def build(doc: Direction, tb: Timebase) -> tuple[list[CamKey], list[dict], Optio
                 continue
             if k == "at_place":
                 d["lon"], d["lat"] = doc.places[v]
+                continue
+            if k == "data":
+                d.update({dk: _resolve(dv, tb, doc) for dk, dv in v.items()})
                 continue
             d[k] = _resolve(v, tb, doc)
         events.append(d)

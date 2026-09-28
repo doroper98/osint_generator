@@ -1,0 +1,21 @@
+# direction.yaml — taiwan_strait 연출 (v3.1.0, docs/handoff/17 §2 문법, back_and_forth D-0047).
+# 옛 direction.py 를 tools/direction_to_yaml.py 로 옮겼다(앵커 식·더한 순서 보존 → 옛 연출과 dict 단위 동일).
+# 시각은 앵커로만 쓴다. `off` 가 목록이면 앞에서부터 차례로 더한다. `{span: [A, B]}` = B − A(초).
+version: 1
+places: {}
+paths: {}
+shots:
+- at: 0
+  mode: cut
+  dur: 0
+  camera: {lon: 120.3, lat: 24.2, w: 9.0}
+events:
+- type: marker
+  start: {sid: open_0, off: 0.3}
+  end: {scene_end: open}
+  lon: 121.56
+  lat: 25.04
+  label: 타이베이
+  sub: 대만 수도
+  side: right
+  hl: true

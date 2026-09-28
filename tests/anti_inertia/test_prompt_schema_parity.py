@@ -27,6 +27,7 @@ ACTIVE: dict[str, str] = {
 # 예시 YAML 파일 → 모델 (프롬프트 밖 예시. v3.1.0 D-0047 작업 2 — director 모델이 생겼다)
 EXAMPLE_FILES: dict[str, str] = {
     "tests/fixtures/direction/minimal.yaml": "engine.direction:Direction",
+    "prompts/examples/hormuz_direction.yaml": "engine.direction:Direction",   # 17 §5.3 director 예시(변환기 산출)
 }
 PENDING_6_9: dict[str, str] = {
     "director": "engine.direction:Direction",   # 프롬프트 prompts/director.md 는 작업 7 — 그때 ACTIVE 로
