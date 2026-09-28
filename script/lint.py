@@ -11,7 +11,11 @@
 경고(plan 은 진행, StageResult.warnings 로 보고):
 - tts-risk: 발음 텍스트의 TTS-위험 표기(URL·파일명·버전·시각 콜론·날짜 점·화살표·범위·천단위 콤마·붙은 단위·
   슬래시·기호·로마자). 패턴은 `rules tts_risk`(v3.0.0, 옛 orchestrator/tts_lint 병합 — 16 §3, D-0040 작업 8)
-- source-missing: `sources` 가 빈 문장(03 §3 "모든 수치에 출처")
+- source-missing: `sources` 가 빈 문장(03 §3 "모든 수치에 출처"). **숫자·날짜가 있는 문장이면 오류**(v3.2.0 D-0051 작업 8 격상)
+- attribution: unverified claim 을 인용하는데 자막에 귀속 표현(`script_schema.attribution_markers`)이 없음(18 §3-3)
+
+오류(v3.2.0 추가):
+- source-unknown: 문장 sources 가 `intake/claims.json` 밖 id(claims.json 이 없는 프로젝트면 sources 가 있는 문장 전부)
 - subtitle-lines: 자막이 script_schema.subtitle_max_lines 줄을 넘음(렌더러와 같은 글꼴·폭으로 실측 wrap)
 
 CLI (v3.0.0, 16 §4 `direction_validate` 의 6.9 전 대체 — D-0040 작업 4):
@@ -196,8 +200,19 @@ def load_pronounce_dict(path: Path | None = None) -> dict[str, str]:
     return {str(k): str(v) for k, v in raw.items() if isinstance(k, str) and not k.startswith("_")}
 
 
-def lint(script: Script) -> LintReport:
+def load_claims_for(proj: Path) -> "dict | None":
+    """프로젝트의 claims.json → {claim_id: status}. 없으면 None(그때 sources 가 있는 문장은 source-unknown 오류)."""
+    from script.labels import CLAIMS_RELPATH, claim_statuses  # noqa: PLC0415
+
+    p = proj / CLAIMS_RELPATH
+    return claim_statuses(p) if p.exists() else None
+
+
+def lint(script: Script, claims: "dict[str, str] | None" = None, *, check_sources: bool = True) -> LintReport:
+    """claims = {claim_id: status}(claims.json). check_sources=False 는 출처 검사를 끈다 — 프롬프트 예시처럼
+    claims.json 이 없는 원고 조각에만(파리티 테스트)."""
     r = load_rules()
+    attrib = r.script_schema.attribution_markers
     banned = [re.compile(p) for p in r.banned_phrases.patterns]
     forbidden = re.compile(r.tts_rules.forbidden_chars_regex)
     max_lines = r.script_schema.subtitle_max_lines
@@ -222,8 +237,17 @@ def lint(script: Script) -> LintReport:
                         add("emphasis-missing", "error", e)
             for kind, snippet, hint in tts_risks(say):
                 add(f"tts-risk:{kind}", "warning", f"{snippet!r} → {hint}", say)
-            if not s.sources:   # D-0029 §3 경고 유지(6.95 에서 오류 격상). 수치 문장은 표시(D-0043 §5)
-                add("source-missing", "warning", "sources 비어 있음" + (" (수치 문장)" if NUMERIC.search(s.text) else ""))
+            if check_sources:
+                if not s.sources:   # v3.2.0 — 숫자·날짜 문장은 오류(D-0029 §3 예고대로 격상), 그 밖은 경고
+                    num = bool(NUMERIC.search(s.text))
+                    add("source-missing", "error" if num else "warning", "sources 비어 있음" + (" (수치·날짜 문장)" if num else ""))
+                unknown = [c for c in s.sources if claims is None or c not in claims]
+                if unknown:
+                    add("source-unknown", "error", f"claims.json 밖 id {unknown}" if claims is not None else
+                        f"claims.json 이 없다 — sources {unknown} 를 확인할 수 없다(18 §3-6)")
+                if claims is not None and any(claims.get(c) == "unverified" for c in s.sources) \
+                        and not any(m in s.text for m in attrib):
+                    add("attribution", "warning", "unverified claim 인용 — 귀속 표현(~라고 주장했습니다/올렸습니다) 없음")
             n = subtitle_lines(s.text)
             if n > max_lines:
                 add("subtitle-lines", "warning", f"{n}줄 > {max_lines}")
@@ -244,7 +268,7 @@ def main(argv: list[str] | None = None) -> int:
 
     try:
         script = Script.model_validate(yaml.safe_load(path.read_text(encoding="utf-8")))
-        rep = lint(script)
+        rep = lint(script, load_claims_for(path.parent))
         labels = check_project_labels(path.parent, script)   # 도시어가 있으면 라벨 재계산·대조(D-0043 §3)
         arts = {"script": str(path)}
         if labels is not None:

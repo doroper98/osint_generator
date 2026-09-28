@@ -330,6 +330,12 @@ def _apply_transition(
 ) -> ProjectManifest:
     target = coerce(next_state)
     validate_transition(manifest.current_state, target)
+    if target == ProjectState.SCRIPT_APPROVAL:   # v3.2.0 18 §7 — claim id 없는 주장 문장이 있으면 게이트 ① 전에 차단
+        from orchestrator.source_completeness_checker import check_script_sources  # noqa: PLC0415
+
+        blocked = check_script_sources(project_dir(manifest.project_id, cfg))
+        if blocked:
+            raise ValueError("원고 출처 미완결 — script_approval 로 갈 수 없다(18 §7):\n" + "\n".join(blocked[:20]))
     manifest.state_history.append(StateTransition(
         from_state=coerce(manifest.current_state), to_state=target, transitioned_at=utc_now(), reason=reason,
     ))

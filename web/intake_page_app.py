@@ -5,15 +5,16 @@ docs/04_DYNAMIC_INTAKE_PAGE_SPEC.md 의 정식 구현 첫 단계 (Phase 3, v0.3.
 엔드포인트
 ---------
 - GET  /healthz                : 헬스체크 (배포 검증용, JSON 응답)
-- GET  /intake/{pid}           : intake_plan.json 을 카드 형태 HTML 로 렌더
-- POST /intake/{pid}/submit    : 사용자 결정 (모드/메모/링크) 을 SourceIntake 로
-                                 영속화하고 `intake → source_verify`
-                                 상태 전이
+- GET  /intake/{pid}           : 인테이크 계획(안내) + 소스 넣기 폼 + 소스 목록·사용자 확인 (v3.2.0, 18 §7)
+- POST /intake/{pid}/source    : 소스 한 건(기사 URL·기사 본문·X 텍스트·X 캡처·파일) → intake/sources.json
+- POST /intake/{pid}/confirm   : 소스 사용자 확인(계정·시각)
+- POST /intake/{pid}/submit    : 확인된 소스로 `intake → source_verify` 전이(미확인이 있으면 409)
 
 설계 원칙
 --------
-- **Pydantic 모델만 사용**. 도메인 데이터는 `IntakePlan` / `SourceIntake` /
-  `UserDecision` 으로만 다루며 raw dict 사용 금지 (CLAUDE.md C2).
+- **Pydantic 모델만 사용**. 도메인 데이터는 `IntakePlan` / `schemas.source_models` 로만 다룬다 (CLAUDE.md C2).
+  소스 기록·확인·제출은 `orchestrator.source_intake`·`intake_service.submit_sources` 를 호출만 한다.
+  x.com 은 열지 않는다(18 §1) — X 는 텍스트 붙여넣기나 캡처로 받는다.
 - **상태 전이는 project_manager 가 유일한 진입점**. 본 모듈은 직접 manifest 를
   쓰지 않고 `transition_state` 를 호출만 함.
 - **HTML 은 외부 템플릿 엔진 없이 인라인 문자열**. Jinja 등 추가 의존성 회피.
@@ -41,24 +42,22 @@ from typing import Optional
 from fastapi import FastAPI, HTTPException, Request
 from fastapi.responses import HTMLResponse, JSONResponse, RedirectResponse
 
+from orchestrator import source_intake as si
 from orchestrator.config import AppConfig, project_dir
-from orchestrator.intake_service import IntakePlanningError, run_intake_planner
+from orchestrator.intake_service import IntakePlanningError, SubmitSourcesError, run_intake_planner, submit_sources
 from orchestrator.project_manager import (
     load_manifest,
     new_project,
-    transition_state,
     validate_project_id,
 )
 from schemas.models import (
     Category,
-    IntakeMode,
     IntakePlan,
     IntakePlanItem,
     ProjectManifest,
     ProjectState,
-    SourceIntake,
-    UserDecision,
 )
+from schemas.source_models import SourcesFile
 
 
 logger = logging.getLogger(__name__)
@@ -67,6 +66,8 @@ logger = logging.getLogger(__name__)
 # v0.3.1: codex 4차 리뷰 H2 — form body 크기 상한 (DoS 방어).
 # content-length 기준으로 거부. 256 KiB 면 인테이크 제출 (텍스트 메모/링크) 에 충분.
 MAX_FORM_BYTES: int = 256 * 1024
+# v3.2.0: X 캡처·자료 파일 업로드(multipart) 상한 — 소스 넣기 라우트만
+MAX_UPLOAD_BYTES: int = 8 * 1024 * 1024
 # 호출자 (테스트, 운영 튜닝) 가 한도를 갱신할 수 있게 dict 가 아닌 모듈 변수.
 
 
@@ -97,10 +98,6 @@ def _validated_pid(project_id: str) -> str:
 
 def _intake_plan_path(project_id: str, cfg: Optional[AppConfig] = None) -> Path:
     return project_dir(project_id, cfg) / "01_intake" / "intake_plan.json"
-
-
-def _source_intake_path(project_id: str, cfg: Optional[AppConfig] = None) -> Path:
-    return project_dir(project_id, cfg) / "01_intake" / "source_intake.json"
 
 
 def _load_intake_plan(project_id: str, cfg: Optional[AppConfig] = None) -> IntakePlan:
@@ -224,157 +221,171 @@ async def create_project(request: Request):
     return RedirectResponse(url=f"/intake/{project_id}", status_code=303)
 
 
+def _load_page(project_id: str) -> tuple[ProjectManifest, IntakePlan]:
+    try:
+        return load_manifest(project_id), _load_intake_plan(project_id)
+    except FileNotFoundError as e:
+        # v0.3.1 H1: 절대경로가 담긴 원본 메시지는 서버 로그에만 남기고 클라이언트엔 generic 메시지만.
+        logger.warning("intake page 404 — pid=%s detail=%s", project_id, e)
+        raise HTTPException(status_code=404, detail="intake plan not found for the requested project")
+
+
+def _check_length(request: Request, limit: int) -> None:
+    cl = request.headers.get("content-length")
+    if cl is None:
+        return
+    try:
+        n = int(cl)
+    except ValueError:
+        raise HTTPException(status_code=400, detail="invalid Content-Length header")
+    if n > limit:
+        raise HTTPException(status_code=413, detail="request body too large")
+
+
+def _require_intake(manifest: ProjectManifest) -> Optional[JSONResponse]:
+    cur = _state_str(manifest.current_state)
+    if cur != ProjectState.INTAKE.value:
+        return JSONResponse(status_code=409, content={"error": "state precondition failed",
+                                                      "expected_state": ProjectState.INTAKE.value, "current_state": cur})
+    return None
+
+
 @app.get("/intake/{project_id}", response_class=HTMLResponse)
 async def get_intake_page(project_id: str) -> HTMLResponse:
     project_id = _validated_pid(project_id)
+    manifest, plan = _load_page(project_id)
     try:
-        manifest = load_manifest(project_id)
-        plan = _load_intake_plan(project_id)
-    except FileNotFoundError as e:
-        # v0.3.1 H1: 절대경로가 담긴 원본 메시지는 서버 로그에만 남기고
-        # 클라이언트엔 generic 메시지만 노출.
-        logger.warning("intake page 404 — pid=%s detail=%s", project_id, e)
-        raise HTTPException(
-            status_code=404,
-            detail="intake plan not found for the requested project",
-        )
-    return HTMLResponse(_render_intake_html(manifest, plan))
+        sources = si.load_sources(project_dir(project_id))
+    except ValueError:
+        logger.warning("intake page — sources.json 손상 pid=%s", project_id)
+        raise HTTPException(status_code=500, detail="sources.json is corrupt")
+    return HTMLResponse(_render_intake_html(manifest, plan, sources))
+
+
+def _field(form, key: str) -> str:  # noqa: ANN001
+    v = form.get(key)
+    return v.strip() if isinstance(v, str) else ""
+
+
+async def _upload_to_tmp(upload, suffixes: tuple[str, ...]) -> Path:  # noqa: ANN001 — starlette UploadFile
+    import tempfile  # noqa: PLC0415
+
+    name = getattr(upload, "filename", "") or ""
+    suf = Path(name).suffix.lower()
+    if suf not in suffixes:
+        raise ValueError(f"파일 형식은 {', '.join(suffixes)} 만")
+    data = await upload.read()
+    if len(data) > MAX_UPLOAD_BYTES:
+        raise ValueError("파일이 너무 크다")
+    tmp = Path(tempfile.mkdtemp(prefix="intake_")) / f"upload{suf}"
+    tmp.write_bytes(data)
+    return tmp
+
+
+@app.post("/intake/{project_id}/source")
+async def add_source(project_id: str, request: Request):
+    """소스 한 건 넣기(18 §1). kind = article_url | article_text | x_text | x_capture | file. 성공하면 페이지로 303."""
+    from datetime import date, datetime  # noqa: PLC0415
+
+    project_id = _validated_pid(project_id)
+    _check_length(request, MAX_UPLOAD_BYTES)
+    manifest, _plan = _load_page(project_id)
+    bad = _require_intake(manifest)
+    if bad is not None:
+        return bad
+    pdir = project_dir(project_id)
+    form = await request.form()
+    kind = _field(form, "kind")
+    note = _field(form, "note")
+    try:
+        if kind == "x_text":
+            posted = _field(form, "posted_at")
+            si.add_x_text(pdir, account_name=_field(form, "account_name"), handle=_field(form, "handle"),
+                          text=_field(form, "text"), text_ko=_field(form, "text_ko") or None, lang=_field(form, "lang") or "en",
+                          posted_at=datetime.fromisoformat(posted) if posted else None, url=_field(form, "url") or None, note=note)
+        elif kind == "x_capture":
+            img = form.get("image")
+            if img is None or isinstance(img, str):
+                raise ValueError("캡처 이미지가 없다")
+            tmp = await _upload_to_tmp(img, (".png", ".jpg", ".jpeg"))
+            sid = si.stage_capture(pdir, tmp)
+            rec, errs = si.read_capture(pdir, sid, note=note, backend=_field(form, "backend") or "claude")
+            if rec is None:
+                return JSONResponse(status_code=502, content={"error": "capture read failed", "detail": errs[:3]})
+        elif kind in ("article_url", "article_text"):
+            url = _field(form, "url") or None
+            body, head, pub, day = _field(form, "body"), _field(form, "headline"), _field(form, "publisher"), _field(form, "published_at")
+            if kind == "article_url":
+                if not url:
+                    raise ValueError("기사 URL 이 없다")
+                got = si.fetch_article(url)
+                body, head = body or got["body"], head or got["title"]
+                pub, day = pub or got["publisher"], day or got["published_at"]
+            if not (body and head and pub and day):
+                raise ValueError("기사는 본문·제목·매체·게시일이 필요하다(가져오지 못한 칸은 직접 적는다)")
+            facts = _split_lines(form.get("facts"))
+            si.add_article(pdir, publisher=pub, headline=head, headline_ko=_field(form, "headline_ko") or None,
+                           published_at=date.fromisoformat(day), body=body, url=url, key_facts=facts or None,
+                           lang=_field(form, "lang") or "ko", note=note)
+        elif kind == "file":
+            up = form.get("file")
+            if up is None or isinstance(up, str):
+                raise ValueError("파일이 없다")
+            tmp = await _upload_to_tmp(up, (".txt", ".md", ".pdf", ".csv", ".json"))
+            body = tmp.read_text(encoding="utf-8", errors="replace") if tmp.suffix in (".txt", ".md", ".csv", ".json") else ""
+            facts = _split_lines(form.get("facts"))
+            if not body and not facts:
+                raise ValueError("텍스트가 아닌 파일은 요지(한 줄에 하나)를 적는다")
+            day = _field(form, "published_at")
+            si.add_document(pdir, issuer=_field(form, "issuer"), title=_field(form, "title"), body=body or "\n".join(facts),
+                            key_facts=facts or None, published_at=date.fromisoformat(day) if day else None,
+                            url=_field(form, "url") or None, file=tmp, lang=_field(form, "lang") or "ko", note=note)
+        else:
+            raise ValueError("알 수 없는 소스 유형")
+    except (si.SourceIntakeError, ValueError, OSError) as e:
+        return JSONResponse(status_code=400, content={"error": "invalid source", "detail": str(e)[:300]})
+    return RedirectResponse(url=f"/intake/{project_id}", status_code=303)
+
+
+@app.post("/intake/{project_id}/confirm")
+async def confirm_source(project_id: str, request: Request):
+    """사용자 확인(18 §7) — 계정·시각이 맞는지 본 사람. 게시 시각을 고칠 수 있다."""
+    from datetime import datetime  # noqa: PLC0415
+
+    project_id = _validated_pid(project_id)
+    _check_length(request, MAX_FORM_BYTES)
+    manifest, _plan = _load_page(project_id)
+    bad = _require_intake(manifest)
+    if bad is not None:
+        return bad
+    form = await request.form()
+    by = _field(form, "by")
+    if not by:
+        return JSONResponse(status_code=400, content={"error": "confirmer (by) is required"})
+    posted = _field(form, "posted_at")
+    try:
+        si.confirm(project_dir(project_id), _field(form, "source_id"), by,
+                   posted_at=datetime.fromisoformat(posted) if posted else None)
+    except ValueError as e:
+        return JSONResponse(status_code=400, content={"error": "confirm failed", "detail": str(e)[:300]})
+    return RedirectResponse(url=f"/intake/{project_id}", status_code=303)
 
 
 @app.post("/intake/{project_id}/submit")
 async def submit_intake(project_id: str, request: Request) -> JSONResponse:
-    """form-urlencoded 제출을 받아 SourceIntake 로 영속화 + 상태 전이.
-
-    v0.3.1 (codex 4차 리뷰 흡수):
-    - C1: project_id 정책 정규식 검증.
-    - H2: content-length 가 MAX_FORM_BYTES 초과면 즉시 413.
-    - M1: source_intake.json 을 transition 검증을 통과한 뒤에만 영속화 (이전엔 write
-          먼저 한 뒤 transition 검증 → 잘못된 상태에서도 파일 덮어쓰기 가능했음).
-    """
+    """확인된 소스로 intake → source_verify. 소스 없음·미확인은 409(18 §7). 파일을 새로 쓰지 않는다(sources.json 이 SSOT)."""
     project_id = _validated_pid(project_id)
-
-    cl = request.headers.get("content-length")
-    if cl is not None:
-        try:
-            if int(cl) > MAX_FORM_BYTES:
-                raise HTTPException(
-                    status_code=413,
-                    detail="request body too large",
-                )
-        except ValueError:
-            # 위조된 content-length 헤더는 무시하고 진행. 실제 본문 길이 검증은
-            # `request.form()` 의 starlette 내부 한도가 별도로 처리.
-            pass
-
+    _check_length(request, MAX_FORM_BYTES)
+    _load_page(project_id)
     try:
-        manifest = load_manifest(project_id)
-        plan = _load_intake_plan(project_id)
-    except FileNotFoundError as e:
-        logger.warning("intake submit 404 — pid=%s detail=%s", project_id, e)
-        raise HTTPException(
-            status_code=404,
-            detail="intake plan not found for the requested project",
-        )
-
-    # v0.3.1 M1: write 전에 state precondition 검증. transition_state 와 동일한 게이트를
-    # 두 번 사용하지만, 첫 번째 호출은 "쓰기 허용 여부" 만 가늠 (실제 전이는 아래에서).
-    current_str = _state_str(manifest.current_state)
-    if current_str != ProjectState.INTAKE.value:   # v3.0.0: plan 은 위에서 확인(없으면 404)
-        return JSONResponse(
-            status_code=409,
-            content={
-                "error": "state precondition failed",
-                "expected_state": ProjectState.INTAKE.value,
-                "current_state": current_str,
-            },
-        )
-
-    form = await request.form()
-    decisions = _form_to_decisions(plan, form)
-    intake = SourceIntake(project_id=project_id, user_decisions=decisions)
-
-    # 상태 전이를 먼저 시도. 성공해야만 파일을 디스크에 쓴다.
-    try:
-        manifest = transition_state(
-            manifest,
-            ProjectState.SOURCE_VERIFY,
-            reason="Dynamic Intake Page 제출",
-        )
+        manifest = submit_sources(project_id, reason="Dynamic Intake Page 제출")
+    except SubmitSourcesError as e:
+        return JSONResponse(status_code=409, content={"error": str(e), "kind": e.kind, "pending": e.errors})
     except ValueError as e:
-        # 위 precondition 통과 후에도 전이가 실패한 경우 (드물지만 race 가능).
         logger.warning("intake submit transition fail — pid=%s err=%s", project_id, e)
-        return JSONResponse(
-            status_code=409,
-            content={
-                "error": "state transition failed",
-                "current_state": _state_str(manifest.current_state),
-            },
-        )
-
-    out_path = _source_intake_path(project_id)
-    out_path.parent.mkdir(parents=True, exist_ok=True)
-    out_path.write_text(intake.model_dump_json(indent=2), encoding="utf-8")
-
-    return JSONResponse(
-        content={
-            "saved": str(out_path),
-            "current_state": _state_str(manifest.current_state),
-            "decisions": len(decisions),
-        }
-    )
-
-
-# ---------------------------------------------------------------------------
-# Form → UserDecision[] 변환
-# ---------------------------------------------------------------------------
-
-
-def _form_to_decisions(plan: IntakePlan, form) -> list[UserDecision]:
-    """form 데이터를 plan 의 항목 순서에 맞춰 `UserDecision[]` 으로 변환.
-
-    필드 컨벤션 (각 IntakePlanItem 당):
-    - `mode__{item_id}`              : IntakeMode 문자열 (필수)
-    - `user_note__{item_id}`         : 자유 메모
-    - `provided_links__{item_id}`    : 줄바꿈 또는 공백 구분 URL 목록
-    - `google_drive_links__{item_id}`: 동일
-    - `uploaded_files__{item_id}`    : (Phase 3 에선 multipart 미구현, 향후 확장)
-    - `ai_delegate_remaining__{item_id}`: "1" / "true" / "on" 이면 True
-
-    알 수 없는 필드는 무시. mode 가 누락된 항목은 default_mode 로 fallback.
-    """
-    decisions: list[UserDecision] = []
-    for item in plan.required_items:
-        iid = item.item_id
-        mode_str = (form.get(f"mode__{iid}") or "").strip()
-        if mode_str:
-            try:
-                mode = IntakeMode(mode_str)
-            except ValueError:
-                # 알 수 없는 enum 값이면 default_mode 로 fallback
-                mode = _coerce_mode(item.default_mode)
-        else:
-            mode = _coerce_mode(item.default_mode)
-
-        decision = UserDecision(
-            item_id=iid,
-            mode=mode,
-            user_note=(form.get(f"user_note__{iid}") or "").strip(),
-            provided_links=_split_lines(form.get(f"provided_links__{iid}")),
-            google_drive_links=_split_lines(form.get(f"google_drive_links__{iid}")),
-            uploaded_files=_split_lines(form.get(f"uploaded_files__{iid}")),
-            ai_delegate_remaining=_truthy(form.get(f"ai_delegate_remaining__{iid}")),
-        )
-        decisions.append(decision)
-    return decisions
-
-
-def _coerce_mode(value) -> IntakeMode:
-    if isinstance(value, IntakeMode):
-        return value
-    try:
-        return IntakeMode(str(value))
-    except ValueError:
-        return IntakeMode.AI_DELEGATE
+        return JSONResponse(status_code=409, content={"error": "state transition failed"})
+    return JSONResponse(content={"current_state": _state_str(manifest.current_state),
+                                 "sources": si.summary(project_dir(project_id))})
 
 
 def _split_lines(value) -> list[str]:
@@ -386,12 +397,6 @@ def _split_lines(value) -> list[str]:
         if line:
             parts.append(line)
     return parts
-
-
-def _truthy(value) -> bool:
-    if value is None:
-        return False
-    return str(value).strip().lower() in {"1", "true", "on", "yes"}
 
 
 def _parse_duration(value, default: int = 18) -> int:
@@ -471,106 +476,124 @@ def _render_new_project_html() -> str:
     )
 
 
-def _render_intake_html(manifest: ProjectManifest, plan: IntakePlan) -> str:
-    cards = "\n".join(_render_item_card(item) for item in plan.required_items)
+_CSS = (
+    "body{font-family:system-ui,sans-serif;background:#f4f4f7;color:#222;margin:0;padding:16px;}\n"
+    ".wrap{max-width:860px;margin:0 auto;}\n"
+    "h1{margin:0 0 8px 0;font-size:1.3rem;}h2{font-size:1.05rem;margin:18px 0 8px 0;}\n"
+    ".meta{color:#555;font-size:0.85rem;margin-bottom:12px;}\n"
+    ".assessment{background:#fff8e1;border-left:4px solid #f0b400;padding:10px 14px;border-radius:6px;margin-bottom:16px;}\n"
+    ".card{background:#fff;border:1px solid #ddd;border-radius:8px;padding:12px 14px;margin-bottom:10px;}\n"
+    ".card h3{margin:0 0 4px 0;font-size:0.95rem;}\n"
+    ".desc{color:#444;font-size:0.9rem;margin:4px 0;}.why{color:#1565c0;font-size:0.85rem;}.risk{color:#c62828;font-size:0.85rem;}\n"
+    "label{display:block;font-size:0.85rem;font-weight:600;margin:8px 0 2px 0;}\n"
+    "input,select,textarea{width:100%;font-family:inherit;font-size:0.9rem;padding:6px;border:1px solid #ccc;border-radius:4px;box-sizing:border-box;}\n"
+    ".grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px;}\n"
+    "table{width:100%;border-collapse:collapse;background:#fff;font-size:0.85rem;}\n"
+    "td,th{border-bottom:1px solid #eee;padding:6px;text-align:left;vertical-align:top;}\n"
+    ".ok{color:#2e7d32;font-weight:600;}.no{color:#c62828;font-weight:600;}\n"
+    ".official{background:#e0f2f1;border:1px solid #26a69a;border-radius:8px;padding:0 6px;font-size:0.75rem;}\n"
+    "button{background:#1565c0;color:#fff;border:0;border-radius:6px;padding:8px 14px;font-size:0.95rem;cursor:pointer;margin-top:8px;}\n"
+    "button.small{padding:4px 8px;font-size:0.8rem;}\n"
+)
+
+
+def _render_intake_html(manifest: ProjectManifest, plan: IntakePlan, sources: SourcesFile) -> str:
+    """인테이크 계획(무엇을 더 모을지 안내) + 소스 넣기 폼 + 소스 목록·확인 + 제출(v3.2.0, 18 §7)."""
     title = html.escape(manifest.title)
     pid = html.escape(manifest.project_id)
-    cat = html.escape(_state_str(manifest.category))
     state = html.escape(_state_str(manifest.current_state))
     assessment = html.escape(plan.orchestrator_assessment or "(orchestrator 평가 없음)")
-    duration = manifest.target_duration_min
-
+    guide = "\n".join(_render_item_card(item) for item in plan.required_items) or "<div class=\"desc\">(안내 항목 없음)</div>"
+    pending = sum(not s.confirmed for s in sources.sources)
     return (
-        "<!doctype html>\n"
-        "<html lang=\"ko\"><head><meta charset=\"utf-8\">\n"
-        "<title>Intake — " + title + "</title>\n"
-        "<style>\n"
-        "body{font-family:system-ui,sans-serif;background:#f4f4f7;color:#222;margin:0;padding:24px;}\n"
-        "h1{margin:0 0 8px 0;font-size:1.4rem;}\n"
-        ".meta{color:#555;font-size:0.9rem;margin-bottom:16px;}\n"
-        ".assessment{background:#fff8e1;border-left:4px solid #f0b400;padding:12px 16px;border-radius:6px;margin-bottom:24px;}\n"
-        ".card{background:#fff;border:1px solid #ddd;border-radius:8px;padding:16px;margin-bottom:16px;}\n"
-        ".card h2{margin:0 0 4px 0;font-size:1.05rem;}\n"
-        ".badge{display:inline-block;padding:2px 8px;border-radius:10px;font-size:0.75rem;margin-left:8px;vertical-align:middle;}\n"
-        ".badge-must_use{background:#c62828;color:#fff;}\n"
-        ".badge-high{background:#ef6c00;color:#fff;}\n"
-        ".badge-normal{background:#1565c0;color:#fff;}\n"
-        ".badge-low{background:#616161;color:#fff;}\n"
-        ".desc{color:#444;margin:6px 0;}\n"
-        ".why{color:#1565c0;font-size:0.9rem;margin:4px 0;}\n"
-        ".risk{color:#c62828;font-size:0.85rem;margin:4px 0;}\n"
-        ".modes{margin-top:10px;}\n"
-        ".modes label{display:inline-block;margin-right:12px;font-size:0.9rem;}\n"
-        ".extras{margin-top:8px;display:grid;grid-template-columns:repeat(2,1fr);gap:8px;}\n"
-        ".extras textarea,.extras input{width:100%;font-family:inherit;font-size:0.85rem;padding:6px;border:1px solid #ccc;border-radius:4px;box-sizing:border-box;}\n"
-        ".footer{margin-top:24px;text-align:right;}\n"
-        ".footer button{background:#1565c0;color:#fff;border:0;border-radius:6px;padding:10px 18px;font-size:1rem;cursor:pointer;}\n"
-        ".footer button:hover{background:#0d3f78;}\n"
-        "</style></head><body>\n"
-        "<h1>" + title + " <span class=\"badge badge-normal\">" + cat + "</span></h1>\n"
+        "<!doctype html>\n<html lang=\"ko\"><head><meta charset=\"utf-8\">\n"
+        "<meta name=\"viewport\" content=\"width=device-width,initial-scale=1\">\n"
+        "<title>Intake — " + title + "</title>\n<style>\n" + _CSS + "</style></head><body><div class=\"wrap\">\n"
+        "<h1>" + title + "</h1>\n"
         "<div class=\"meta\">project_id=" + pid + " &middot; current_state=" + state
-        + " &middot; target_duration_min=" + str(duration) + "</div>\n"
+        + " &middot; target_duration_min=" + str(manifest.target_duration_min) + "</div>\n"
         "<div class=\"assessment\"><strong>Orchestrator 평가:</strong> " + assessment + "</div>\n"
-        "<form method=\"POST\" action=\"/intake/" + pid + "/submit\">\n"
-        + cards + "\n"
-        "<div class=\"footer\"><button type=\"submit\">영상 생성 착수</button></div>\n"
-        "</form>\n"
-        "</body></html>\n"
+        "<h2>모을 자료 안내</h2>\n" + guide + "\n"
+        "<h2>소스 넣기</h2>\n" + _render_add_form(pid) + "\n"
+        "<h2>소스 목록 (" + str(len(sources.sources)) + "건 · 확인 대기 " + str(pending) + "건)</h2>\n"
+        + _render_sources_table(pid, sources) + "\n"
+        "<form method=\"POST\" action=\"/intake/" + pid + "/submit\">"
+        "<button type=\"submit\">확인된 소스로 검증 단계 시작</button></form>\n"
+        "</div></body></html>\n"
     )
+
+
+def _render_add_form(pid: str) -> str:
+    """소스 유형 선택(기사 URL·기사 본문·X 텍스트·X 캡처·파일) + 메모. X 는 링크만으로 받지 않는다(18 §1)."""
+    return (
+        "<form method=\"POST\" action=\"/intake/" + pid + "/source\" enctype=\"multipart/form-data\" class=\"card\">\n"
+        "<label>소스 유형<select name=\"kind\">"
+        "<option value=\"article_url\">기사 URL (가져오기)</option>"
+        "<option value=\"article_text\">기사 본문 붙여넣기</option>"
+        "<option value=\"x_text\">X 게시물 텍스트</option>"
+        "<option value=\"x_capture\">X 게시물 캡처</option>"
+        "<option value=\"file\">공문·자료 파일</option></select></label>\n"
+        "<div class=\"grid\">"
+        "<label>URL<input name=\"url\" placeholder=\"https://… (X 링크는 열지 않는다 — 텍스트·캡처로)\"></label>"
+        "<label>매체<input name=\"publisher\"></label>"
+        "<label>기사 제목(원문)<input name=\"headline\"></label>"
+        "<label>제목 번역<input name=\"headline_ko\"></label>"
+        "<label>게시일 (YYYY-MM-DD)<input name=\"published_at\"></label>"
+        "<label>X 표시 이름<input name=\"account_name\"></label>"
+        "<label>X 핸들<input name=\"handle\" placeholder=\"@...\"></label>"
+        "<label>X 게시 시각 (ISO)<input name=\"posted_at\" placeholder=\"2026-09-20T14:05\"></label>"
+        "<label>언어 코드<input name=\"lang\" placeholder=\"en / ko\"></label>"
+        "<label>발행 기관(자료)<input name=\"issuer\"></label>"
+        "<label>자료 제목<input name=\"title\"></label>"
+        "</div>\n"
+        "<label>본문 (기사 본문 · X 본문)<textarea name=\"body\" rows=\"4\"></textarea></label>\n"
+        "<label>X 본문 (X 텍스트)<textarea name=\"text\" rows=\"3\"></textarea></label>\n"
+        "<label>X 번역<textarea name=\"text_ko\" rows=\"2\"></textarea></label>\n"
+        "<label>요지 (한 줄에 하나 — 원문 장문 복제 금지)<textarea name=\"facts\" rows=\"3\"></textarea></label>\n"
+        "<div class=\"grid\"><label>X 캡처 이미지<input type=\"file\" name=\"image\" accept=\".png,.jpg,.jpeg\"></label>"
+        "<label>자료 파일<input type=\"file\" name=\"file\"></label></div>\n"
+        "<label>메모<input name=\"note\"></label>\n"
+        "<button type=\"submit\">소스 추가</button>\n</form>"
+    )
+
+
+def _render_sources_table(pid: str, sources: SourcesFile) -> str:
+    if not sources.sources:
+        return "<div class=\"card desc\">아직 소스가 없다.</div>"
+    rows = []
+    for s in sources.sources:
+        sid = html.escape(s.id)
+        if s.type == "x_post":
+            who = html.escape(f"{s.account_name} {s.handle}") + (" <span class=\"official\">공식 계정</span>"
+                                                               if s.account_class.startswith("official") else
+                                                               " <span class=\"desc\">(" + html.escape(s.account_class) + ")</span>")
+            what = html.escape((s.text_ko or s.text_original)[:160])
+            when = html.escape(str(s.posted_at or "시각 미상"))
+        elif s.type == "article":
+            who, what, when = html.escape(s.publisher), html.escape(s.headline_ko or s.headline_original), html.escape(str(s.published_at))
+        else:
+            who, what, when = html.escape(s.issuer), html.escape(s.title), html.escape(str(s.published_at or "-"))
+        if s.confirmed:
+            conf = "<span class=\"ok\">확인 · " + html.escape(s.confirmed_by or "") + "</span>"
+        else:
+            conf = ("<form method=\"POST\" action=\"/intake/" + pid + "/confirm\">"
+                    "<input type=\"hidden\" name=\"source_id\" value=\"" + sid + "\">"
+                    "<input name=\"by\" placeholder=\"확인한 사람\" required>"
+                    + ("<input name=\"posted_at\" placeholder=\"게시 시각 고침(ISO)\">" if s.type == "x_post" else "")
+                    + "<button class=\"small\" type=\"submit\">계정·시각 확인</button></form>"
+                    "<span class=\"no\">미확인</span>")
+        rows.append("<tr><td>" + sid + "<br>" + html.escape(s.type) + "</td><td>" + who + "<br>" + when + "</td><td>" + what
+                    + "</td><td>" + conf + "</td></tr>")
+    return "<table><tr><th>id</th><th>출처·시각</th><th>내용</th><th>사용자 확인</th></tr>" + "".join(rows) + "</table>"
 
 
 def _render_item_card(item: IntakePlanItem) -> str:
-    iid = html.escape(item.item_id)
-    label = html.escape(item.label)
-    desc = html.escape(item.description)
-    why = html.escape(item.why_needed)
-    priority = _state_str(item.priority)
-    badge = "badge-" + priority
-    default_mode = _state_str(item.default_mode)
-
-    risk_html = ""
-    if item.risk_notice:
-        risk_html = (
-            "<div class=\"risk\"><strong>리스크 안내:</strong> "
-            + html.escape(item.risk_notice) + "</div>\n"
-        )
-
-    # user_options 이 비어 있으면 IntakeMode 전체 + default_mode 만 표시.
-    options = item.user_options or [item.default_mode]
-    if item.default_mode not in options:
-        options = [item.default_mode, *options]
-    seen: set[str] = set()
-    radios = []
-    for mode in options:
-        mode_str = _state_str(mode)
-        if mode_str in seen:
-            continue
-        seen.add(mode_str)
-        checked = " checked" if mode_str == default_mode else ""
-        radios.append(
-            "<label><input type=\"radio\" name=\"mode__" + iid
-            + "\" value=\"" + html.escape(mode_str) + "\"" + checked + "> "
-            + html.escape(mode_str) + "</label>"
-        )
-
-    # v0.3.1 L1: parser 가 처리하는 모든 UserDecision 필드 (gdrive, uploaded_files,
-    # ai_delegate_remaining) 를 form 에도 노출. parser ↔ UI contract 일치.
-    return (
-        "<div class=\"card\" id=\"card-" + iid + "\">\n"
-        "<h2>" + label + " <span class=\"badge " + badge + "\">" + priority + "</span></h2>\n"
-        "<div class=\"desc\">" + desc + "</div>\n"
-        "<div class=\"why\"><strong>필요한 이유:</strong> " + why + "</div>\n"
-        + risk_html
-        + "<div class=\"modes\">" + " ".join(radios) + "</div>\n"
-        "<div class=\"extras\">\n"
-        "  <textarea name=\"user_note__" + iid + "\" rows=\"2\" placeholder=\"메모\"></textarea>\n"
-        "  <textarea name=\"provided_links__" + iid + "\" rows=\"2\" placeholder=\"링크 (한 줄에 하나)\"></textarea>\n"
-        "  <textarea name=\"google_drive_links__" + iid + "\" rows=\"2\" placeholder=\"Google Drive 링크 (한 줄에 하나)\"></textarea>\n"
-        "  <textarea name=\"uploaded_files__" + iid + "\" rows=\"2\" placeholder=\"업로드 파일 경로 (한 줄에 하나, 향후 multipart 도입 전 placeholder)\"></textarea>\n"
-        "</div>\n"
-        "<div class=\"modes\"><label><input type=\"checkbox\" name=\"ai_delegate_remaining__" + iid + "\" value=\"1\"> 사용자가 일부 제공하고 나머지는 AI 위임</label></div>\n"
-        "</div>"
-    )
+    """인테이크 계획 항목 — 무엇을 더 모으면 좋은지 안내만(v3.2.0, IntakePlanner 는 안내 역할, D52)."""
+    risk = ("<div class=\"risk\"><strong>리스크 안내:</strong> " + html.escape(item.risk_notice) + "</div>") if item.risk_notice else ""
+    return ("<div class=\"card\" id=\"card-" + html.escape(item.item_id) + "\"><h3>" + html.escape(item.label)
+            + " <span class=\"desc\">(" + html.escape(_state_str(item.priority)) + ")</span></h3>"
+            "<div class=\"desc\">" + html.escape(item.description) + "</div>"
+            "<div class=\"why\"><strong>필요한 이유:</strong> " + html.escape(item.why_needed) + "</div>" + risk + "</div>")
 
 
 # ---------------------------------------------------------------------------

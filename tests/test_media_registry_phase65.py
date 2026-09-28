@@ -68,7 +68,7 @@ class MediaRegistryTest(unittest.TestCase):
         self._bad(lambda a: a["herald_0907"].update(url="https://example.org/x"))   # url 채웠는데 pending 남음
         r = load_media_registry()["reuters_0904"]
         self.assertIsNone(r.url)
-        self.assertTrue(r.pending_source.startswith("6.95"))
+        self.assertTrue(r.pending_source.startswith("원문 URL 미확보"))   # v3.2.0 D-0052 D51 — 매체·날짜만으로 종결
 
     def test_unknown_field_is_error(self) -> None:
         a = copy.deepcopy(_raw()["assets"]["p8"])

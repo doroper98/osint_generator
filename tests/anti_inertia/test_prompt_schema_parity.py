@@ -70,7 +70,9 @@ class PromptSchemaParityTest(unittest.TestCase):
         from script.schema import Script  # noqa: PLC0415
 
         for data in examples("script"):
-            self.assertEqual([i.line() for i in lint(Script.model_validate(data)).errors], [])
+            sc = Script.model_validate(data)
+            claims = {c: "corroborated" for s in (x for scn in sc.scenes for x in scn.sentences) for c in s.sources}
+            self.assertEqual([i.line() for i in lint(sc, claims).errors], [])   # v3.2.0 — 예시 claim id 는 claims 안으로 본다
 
     def test_example_files_validate(self) -> None:
         for rel, ref in EXAMPLE_FILES.items():

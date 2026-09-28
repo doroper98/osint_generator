@@ -15,7 +15,7 @@ from pathlib import Path
 import yaml
 
 from orchestrator.config import load_config
-from script.lint import lint
+from script.lint import lint, load_claims_for
 from script.schema import Plan, Script
 from script.timeline import layout, sentence_rows
 from script.tts import edge, elevenlabs
@@ -30,7 +30,7 @@ def load_script(proj: Path) -> Script:
 
 def build(proj: Path, tts: str, warnings: list[str] | None = None, edge_voice: str | None = None) -> Plan:
     script = load_script(proj)
-    rep = lint(script)
+    rep = lint(script, load_claims_for(proj))   # v3.2.0 — 출처는 claims.json 기준(D-0051 작업 8)
     if rep.errors:
         raise ValueError("원고 린트 위반:\n" + "\n".join(i.line() for i in rep.errors))
     if warnings is not None:

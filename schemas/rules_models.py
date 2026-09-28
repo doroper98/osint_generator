@@ -35,6 +35,7 @@ class ScriptSchemaRules(_Strict):
     duration_limit_sec: Optional[float]
     labels: dict[str, Optional[str]]          # v3.0.0 — 도시어 claim status → 라벨 문구(D-0043)
     label_strength_order: list[str]           # 약한 것부터(한 문장에 여러 claim 이면 가장 약한 것)
+    attribution_markers: list[str] = Field(min_length=1)   # v3.2.0 — unverified 인용 문장의 귀속 표현(린트 경고)
 
     @model_validator(mode="after")
     def _label_keys(self) -> "ScriptSchemaRules":

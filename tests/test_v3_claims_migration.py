@@ -37,7 +37,7 @@ class V3ClaimsMigrationTest(unittest.TestCase):
             assert labels is not None
             self.assertEqual(labels.counts()["corroborated"], 45)
             self.assertTrue(all(sl.label is None for sl in labels.labels.values()))    # 골든 무변경(D51)
-            self.assertEqual([i for i in lint(s).issues if i.kind.startswith("source")], [])
+            self.assertEqual([i for i in lint(s, {cid: "corroborated" for cid in c.ids()}).issues if i.kind.startswith("source")], [])
 
     def test_scene_level_sources_only(self) -> None:
         s, c, _ = self._load(REPO / "projects" / "hormuz_korea")

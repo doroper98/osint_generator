@@ -156,4 +156,36 @@ def run_intake_planner(
     return manifest, outputs, skipped
 
 
-__all__ = ["run_intake_planner", "IntakePlanningError"]
+class SubmitSourcesError(RuntimeError):
+    """submit-intake 거부 — kind: state(상태·계획 없음) / sources(소스 없음·미확인)."""
+
+    def __init__(self, message: str, *, kind: str, errors: Optional[list[str]] = None) -> None:
+        super().__init__(message)
+        self.kind = kind
+        self.errors = errors or []
+
+
+def submit_sources(project_id: str, *, reason: str = "소스 제출", cfg: Optional[AppConfig] = None) -> ProjectManifest:
+    """INTAKE → SOURCE_VERIFY (v3.2.0, 18 §7). 조건: 유효한 intake_plan.json + sources.json 1건 이상 + 전부 사용자 확인.
+    확인 안 된 초안(캡처 판독 등)이 남아 있으면 넘기지 않는다 — 검증은 확인된 소스만 다룬다."""
+    from orchestrator.source_intake import load_sources, unconfirmed  # noqa: PLC0415
+
+    cfg = cfg or load_config()
+    manifest = resume_project(project_id, cfg)
+    cur = manifest.current_state.value if hasattr(manifest.current_state, "value") else str(manifest.current_state)
+    if cur != ProjectState.INTAKE.value or not intake_plan_ready(project_id, cfg):
+        raise SubmitSourcesError(f"현재 상태 '{cur}' 에서는 submit-intake 를 할 수 없습니다(허용: intake + intake_plan.json)", kind="state")
+    pdir = project_dir(project_id, cfg)
+    try:
+        f = load_sources(pdir)
+    except ValueError as ex:
+        raise SubmitSourcesError(f"sources.json 손상: {ex}", kind="sources") from ex
+    if not f.sources:
+        raise SubmitSourcesError("소스가 없다 — add-source 로 기사·X 게시물·자료를 넣는다", kind="sources")
+    pending = unconfirmed(pdir)
+    if pending:
+        raise SubmitSourcesError(f"사용자 확인 안 된 소스 {pending} — confirm-source 먼저(18 §7)", kind="sources", errors=pending)
+    return transition_state(manifest, ProjectState.SOURCE_VERIFY, reason=reason, cfg=cfg)
+
+
+__all__ = ["run_intake_planner", "IntakePlanningError", "SubmitSourcesError", "submit_sources"]

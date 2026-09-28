@@ -13,7 +13,8 @@ from pathlib import Path
 
 import yaml
 
-from script.lint import lint, subtitle_lines
+from script.lint import lint as _lint_full
+from script.lint import subtitle_lines
 from script.schema import Script
 
 REPO = Path(__file__).resolve().parent.parent
@@ -57,6 +58,10 @@ def _script(texts: list[str], tts: list[str | None] | None = None, sources: bool
                                   "scenes": [{"id": "x", "sentences": sents}]})
 
 
+def lint(script: Script):  # noqa: ANN201 — 출처 규칙 밖 검사용: 테스트 출처를 claims 안으로 둔다
+    return _lint_full(script, {"테스트 출처": "verified"})
+
+
 class ScriptLintTest(unittest.TestCase):
     def test_banned_samples_all_detected(self) -> None:
         self.assertEqual(len(BANNED_SAMPLES), 12)
@@ -69,8 +74,11 @@ class ScriptLintTest(unittest.TestCase):
         raw = yaml.safe_load((REPO / "projects/hormuz_korea/script.yaml").read_text(encoding="utf-8"))
         script = Script.model_validate(raw)
         self.assertEqual(sum(len(sc.sentences) for sc in script.scenes), 45)
-        rep = lint(script)
+        from script.lint import load_claims_for  # noqa: PLC0415
+
+        rep = _lint_full(script, load_claims_for(REPO / "projects/hormuz_korea"))   # v3.2.0 — claims 이관본(D51)
         self.assertEqual([i.line() for i in rep.errors], [])
+        self.assertEqual([i.line() for i in rep.warnings if i.kind in ("source-missing", "attribution")], [])
 
     def test_tts_symbols_detected(self) -> None:
         for say in TTS_SYMBOL_SAMPLES:
@@ -94,6 +102,38 @@ class ScriptLintTest(unittest.TestCase):
         self.assertEqual(rep.errors, [])
         self.assertIn("subtitle-lines", [i.kind for i in rep.warnings])
         self.assertEqual(subtitle_lines("짧은 자막입니다."), 1)
+
+
+
+class SourceRulesTest(unittest.TestCase):
+    """v3.2.0 D-0051 작업 8 — claim id 강제·수치 문장 공란 오류·귀속 표현 경고."""
+
+    def _s(self, text: str, sources: list[str]) -> Script:
+        return Script.model_validate({"title": "t", "subtitle": "s", "date": "2026.09.18", "scenes": [
+            {"id": "x", "sentences": [{"date": "2026.09.18", "text": text, "sources": sources}]}]})
+
+    def _kinds(self, rep, sev: str) -> list[str]:  # noqa: ANN001
+        return [i.kind for i in rep.issues if i.severity == sev]
+
+    def test_unknown_claim_id_is_error(self) -> None:
+        rep = _lint_full(self._s("정부가 발표했습니다.", ["clm_0099"]), {"clm_0001": "verified"})
+        self.assertIn("source-unknown", self._kinds(rep, "error"))
+
+    def test_no_claims_file_means_sources_unknown(self) -> None:
+        rep = _lint_full(self._s("정부가 발표했습니다.", ["clm_0001"]), None)
+        self.assertIn("source-unknown", self._kinds(rep, "error"))
+
+    def test_numeric_sentence_without_sources_is_error(self) -> None:
+        self.assertIn("source-missing", self._kinds(_lint_full(self._s("선박 46척이 묶였습니다.", []), {}), "error"))
+        self.assertIn("source-missing", self._kinds(_lint_full(self._s("이 사건이 왜 중요한지 봅니다.", []), {}), "warning"))
+        self.assertNotIn("source-missing", self._kinds(_lint_full(self._s("이 사건이 왜 중요한지 봅니다.", []), {}), "error"))
+
+    def test_attribution_warning(self) -> None:
+        c = {"clm_0001": "unverified", "clm_0002": "verified"}
+        self.assertIn("attribution", self._kinds(_lint_full(self._s("배후가 따로 있습니다.", ["clm_0001"]), c), "warning"))
+        for ok in ("한 매체는 배후가 따로 있다고 주장했습니다.", "이란 측은 배후가 있다고 올렸습니다.", "현지 매체에 따르면 배후가 있습니다."):
+            self.assertNotIn("attribution", self._kinds(_lint_full(self._s(ok, ["clm_0001"]), c), "warning"), ok)
+        self.assertNotIn("attribution", self._kinds(_lint_full(self._s("배후가 따로 있습니다.", ["clm_0002"]), c), "warning"))
 
 
 if __name__ == "__main__":

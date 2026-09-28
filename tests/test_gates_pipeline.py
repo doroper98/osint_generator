@@ -48,6 +48,7 @@ class _Proj(unittest.TestCase):
         self.cfg = AppConfig(paths=PathsConfig(projects_root=str(self.root)))
         self.m = new_project("p", "t", "geopolitics", cfg=self.cfg)
         shutil.copy(REPO / "projects" / "hormuz_korea" / "script.yaml", self.root / "p" / "script.yaml")
+        shutil.copytree(REPO / "projects" / "hormuz_korea" / "intake", self.root / "p" / "intake")   # v3.2.0 — claims.json(18 §7 게이트 ① 전 검사)
 
     def tearDown(self) -> None:
         self._tmp.cleanup()

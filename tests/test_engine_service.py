@@ -103,7 +103,9 @@ class RunStageTest(unittest.TestCase):
         r = es.run_stage(HORMUZ, "direction_validate")
         self.assertTrue(r.ok, r.errors)
         self.assertEqual(r.stage, "lint")
-        self.assertTrue(r.warnings)   # v3 원고 sources 경고(Phase 4 lint_report 와 같음)
+        # v3.2.0 — v3 원고가 claims 로 이관돼(D51) sources 경고가 사라졌다. 라벨 집계는 artifacts 로
+        self.assertEqual([w for w in r.warnings if "source" in w], [])
+        self.assertIn("label_counts", r.artifacts)
 
 
 class NoInputWritesTest(unittest.TestCase):

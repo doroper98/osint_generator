@@ -251,27 +251,7 @@ class IntakePlan(VersionedModel):
     required_items: list[IntakePlanItem] = Field(default_factory=list)
 
 
-# ---------------------------------------------------------------------------
-# 3. SourceIntake (Dynamic Intake Page 제출 결과)
-# ---------------------------------------------------------------------------
-
-
-class UserDecision(BaseModel):
-    model_config = ConfigDict(extra="forbid", use_enum_values=True)
-
-    item_id: str
-    mode: IntakeMode
-    user_note: str = ""
-    uploaded_files: list[str] = Field(default_factory=list)
-    provided_links: list[str] = Field(default_factory=list)
-    google_drive_links: list[str] = Field(default_factory=list)
-    ai_delegate_remaining: bool = False
-
-
-class SourceIntake(VersionedModel):
-    project_id: str
-    submitted_at: datetime = Field(default_factory=utc_now)
-    user_decisions: list[UserDecision] = Field(default_factory=list)
+# 3. (v3.2.0 삭제) SourceIntake·UserDecision — 소스 레코드는 schemas/source_models.py(18 §2, D52)
 
 
 # ---------------------------------------------------------------------------
@@ -366,108 +346,7 @@ class TaskResult(VersionedModel):
     worker_provenance: Optional[WorkerProvenance] = None  # v2.0.0 — LLM 워커만 기록
 
 
-# ---------------------------------------------------------------------------
-# 7. SourceRegistry
-# ---------------------------------------------------------------------------
-
-
-class SourceEntry(BaseModel):
-    model_config = ConfigDict(extra="forbid", use_enum_values=True)
-
-    source_id: str
-    platform: str
-    source_type: str
-    original_url: Optional[str] = None
-    local_path: Optional[str] = None
-    title: Optional[str] = None
-    author: Optional[str] = None
-    published_at: Optional[datetime] = None
-    language: Optional[str] = None
-    original_text: Optional[str] = None
-    translated_text: Optional[str] = None
-    rights_status: RightsStatus = RightsStatus.RIGHTS_UNKNOWN
-    reliability_score: float = Field(default=0.5, ge=0.0, le=1.0)
-    verification_status: Literal["unverified", "cross_checked", "official", "disputed"] = "unverified"
-    risk_flags: list[str] = Field(default_factory=list)
-    usage_plan: list[str] = Field(default_factory=list)
-
-
-class SourceRegistry(VersionedModel):
-    project_id: str
-    sources: list[SourceEntry] = Field(default_factory=list)
-
-
-# ---------------------------------------------------------------------------
-# 7.5 SourceCompletenessReport (Phase 5, Review Gate 2 입력)
-# ---------------------------------------------------------------------------
-
-
-class CompletenessSeverity(str, Enum):
-    """source_completeness_report 이슈 심각도.
-
-    분류 정책 (v0.6.0, 사용자 확정): 사용 가능 자료가 0개일 때만 blocker.
-    권리 미확보 / 신뢰도 낮음 / 위험 플래그는 warning (게이트에서 사용자 판단),
-    rights_unknown 은 info (Review Gate 통과 시 사용 가능).
-    """
-
-    BLOCKER = "blocker"
-    WARNING = "warning"
-    INFO = "info"
-
-
-class CompletenessIssueType(str, Enum):
-    """부족 자료 식별 결과의 이슈 종류. docs/06_SOURCE_AND_RIGHTS_POLICY.md §2 와 동기화."""
-
-    NO_USABLE_SOURCES = "no_usable_sources"
-    RIGHTS_DO_NOT_USE = "rights_do_not_use"
-    RIGHTS_REVIEW_REQUIRED = "rights_review_required"
-    RIGHTS_UNKNOWN = "rights_unknown"
-    SOURCE_UNUSABLE = "source_unusable"
-    LOW_RELIABILITY = "low_reliability"
-    RISK_FLAG_PRESENT = "risk_flag_present"
-    # 정책 §2 에 정의되지 않은 rights_status 값 (스키마 drift). '검토 필요' 와 구분되는
-    # 별도 진단 — known review_required 와 unknown value 를 혼동하지 않기 위함.
-    RIGHTS_STATUS_UNKNOWN_VALUE = "rights_status_unknown_value"
-
-
-class CompletenessIssue(BaseModel):
-    """단일 부족/위험 항목. registry-level 이슈 (NO_USABLE_SOURCES) 는 source_id=None."""
-
-    model_config = ConfigDict(extra="forbid", use_enum_values=True)
-
-    issue_type: CompletenessIssueType
-    severity: CompletenessSeverity
-    source_id: Optional[str] = None
-    detail: str = ""
-    recommendation: str = ""
-
-
-class SourceCompletenessReport(VersionedModel):
-    """source_registry 의 '부족 자료 식별' 결과 (Phase 5).
-
-    docs/12_QA_AND_REVIEW_SPEC.md §1 의 `source_verify` (Review Gate 2)
-    가 본 보고서를 검수하여 '부족 자료 보완' 또는 '계속 진행' 을 결정합니다.
-    Orchestrator 가 생성하며, 자료 자체의 SSOT 는 `source_registry.json` 입니다.
-
-    스키마 추가는 optional 모델 추가에 해당해 schema_version 1 유지 (C3).
-
-    overall_status
-    --------------
-    - `insufficient` : 사용 가능 자료 (rights_clear / manual_user_provided) 0개.
-    - `needs_attention` : 사용 가능 자료는 있으나 warning 이슈 존재.
-    - `ready` : 사용 가능 자료 있고 warning 없음.
-    """
-
-    project_id: str
-    generated_at: datetime = Field(default_factory=utc_now)
-    reliability_threshold: float = Field(default=0.5, ge=0.0, le=1.0)
-    total_sources: int = 0
-    usable_sources: int = 0
-    blocker_count: int = 0
-    warning_count: int = 0
-    info_count: int = 0
-    overall_status: Literal["ready", "needs_attention", "insufficient"] = "ready"
-    issues: list[CompletenessIssue] = Field(default_factory=list)
+# 7. (v3.2.0 삭제) SourceRegistry·SourceEntry·SourceCompletenessReport — 주장-출처 매핑은 claims.json(18 §3-6, D52)
 
 
 # ---------------------------------------------------------------------------
@@ -532,35 +411,7 @@ class ThumbnailManifest(VersionedModel):
     chosen_thumbnail_id: Optional[str] = None
 
 
-# ---------------------------------------------------------------------------
-# 11.5 SourceCollectionPartial (Phase 5 의 source_collector_worker 단일 task 출력)
-# ---------------------------------------------------------------------------
-
-
-class SourceCollectionPartial(VersionedModel):
-    """source_collector_worker 의 단일 task 출력 (Phase 5).
-
-    한 task 는 SourceIntake 의 한 UserDecision (ai_delegate / mixed 의 잔여분) 을 처리.
-    수집된 후보 자료를 SourceEntry 목록으로 영속화하며, Phase 5 의
-    SourceRegistryBuilder 가 모든 partial 을 합쳐 정식 SourceRegistry 를 생성합니다.
-
-    스키마 추가는 optional 모델 추가에 해당해 schema_version 1 유지.
-
-    필드 주의 (v0.4.1, codex 1차 리뷰 L1):
-    - input_item_id 는 Optional[str] 이지만 도메인적으로는 한 partial 이
-      한 UserDecision 에 대응하므로 사실상 필수. C3 의 additive-first 원칙을
-      지키기 위해 schema 는 optional 로 두고, source_collector_worker (Phase 5)
-      에서 task_type 별 필수 검증을 추가한다 (LLM-AP-003 known-limit 항목).
-    """
-
-    project_id: str
-    task_id: str
-    input_item_id: Optional[str] = None
-    collected_sources: list[SourceEntry] = Field(default_factory=list)
-    # v0.4.1 (codex 1차 리뷰 M3): notes → collector_notes 로 rename.
-    # consumer/aggregator 가 출처가 명확하도록. 본 모델은 v0.4.0 도입으로 아직
-    # 영속화된 인스턴스가 없어 호환성 부담 없음.
-    collector_notes: str = ""
+# 11.5 (v3.2.0 삭제) SourceCollectionPartial — 소스 수집 워커 삭제(D52)
 
 
 # ---------------------------------------------------------------------------

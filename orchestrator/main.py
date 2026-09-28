@@ -7,10 +7,11 @@
 - resume {pid}                              : 기존 프로젝트 manifest 확인
 - transition {pid} --to {state} [--reason]  : 상태 전이
 - plan-intake {pid} [--backend claude|codex]: IntakePlannerWorker 호출 + 인테이크 상태 전이
-- submit-intake {pid} --file path/to/source_intake.json
-                                            : SourceIntake 영속화 + source_verify 전이
-- build-source-registry {pid}               : partials → source_registry.json +
-                                              source_completeness_report.json (Phase 5)
+- add-source {pid} --kind x-text|x-capture|article|document ...
+                                            : 소스 레코드 추가 → intake/sources.json (v3.2.0, 18 §1). X 캡처는 판독 워커 초안
+- confirm-source {pid} --id ID --by NAME [--posted-at ISO] : 사용자 확인(18 §7)
+- list-sources {pid}                        : 소스 목록·확인 여부
+- submit-intake {pid}                       : 확인된 소스로 source_verify 전이(미확인이 있으면 거부)
 - verify-sources {pid} [--backend]          : 소스 검증(인용 대조) → intake/claims.json (source_verify 에 머문다, v3.2.0)
 - build-research {pid} [--backend] [--force]: ResearchWorker → facts.json + research 전이 (v3.2.0, 17 §5.1)
 - import-bundle {pid} --file <path>          : v3.2.0 명시 오류 — 번들 → sources·claims 변환은 Phase 9 에서 복귀
@@ -44,7 +45,6 @@ from schemas.models import (
     Category,
     ProjectManifest,
     ProjectState,
-    SourceIntake,
 )
 
 
@@ -111,35 +111,48 @@ def build_parser() -> argparse.ArgumentParser:
         ),
     )
 
-    sin = sub.add_parser(
-        "submit-intake",
-        help="SourceIntake JSON 파일을 영속화 + source_verify 전이",
-    )
+    ads = sub.add_parser("add-source", help="소스 추가 → intake/sources.json (v3.2.0, 18 §1). x.com 은 열지 않는다")
+    ads.add_argument("project_id", help="project_id")
+    ads.add_argument("--kind", required=True, choices=["x-text", "x-capture", "article", "document"])
+    ads.add_argument("--handle", help="X 핸들(@...) — x-text")
+    ads.add_argument("--name", help="X 표시 이름 — x-text")
+    ads.add_argument("--text", help="X 본문(x-text) 또는 기사·자료 본문(article·document, --text-file 대신)")
+    ads.add_argument("--text-file", help="본문 파일(article·document)")
+    ads.add_argument("--text-ko", help="X 본문 번역(x-text)")
+    ads.add_argument("--lang", default=None, help="본문 언어 코드(기본: x-text en, 그 밖 ko)")
+    ads.add_argument("--posted-at", help="X 게시 시각 ISO 8601")
+    ads.add_argument("--image", help="X 캡처 이미지(png·jpg) — x-capture")
+    ads.add_argument("--url", help="원문 URL(기록용 — X 링크는 열지 않는다. article 은 --fetch 로 가져오기)")
+    ads.add_argument("--fetch", action="store_true", help="article: URL 에서 제목·본문 가져오기(X 호스트 거부)")
+    ads.add_argument("--publisher", help="기사 매체")
+    ads.add_argument("--headline", help="기사 제목(원문)")
+    ads.add_argument("--headline-ko", help="기사 제목 번역")
+    ads.add_argument("--pub-date", help="기사·자료 게시일 YYYY-MM-DD")
+    ads.add_argument("--issuer", help="공문·자료 발행 기관")
+    ads.add_argument("--title", help="공문·자료 제목")
+    ads.add_argument("--fact", action="append", default=[], help="요지 한 줄(여러 번). 기사 원문 장문 복제 금지")
+    ads.add_argument("--note", default="", help="사용자 메모")
+    ads.add_argument("--backend", choices=["claude", "codex"], default="claude", help="x-capture 판독 LLM backend")
+
+    cfs = sub.add_parser("confirm-source", help="소스 사용자 확인(계정·시각이 맞는지, 18 §7)")
+    cfs.add_argument("project_id", help="project_id")
+    cfs.add_argument("--id", required=True, help="소스 id(src_...)")
+    cfs.add_argument("--by", required=True, help="확인한 사람")
+    cfs.add_argument("--posted-at", help="게시 시각 고침(ISO 8601)")
+    cfs.add_argument("--handle", help="핸들 고침")
+    cfs.add_argument("--name", help="표시 이름 고침")
+    cfs.add_argument("--text-ko", help="번역 고침")
+
+    lss = sub.add_parser("list-sources", help="소스 목록·확인 여부")
+    lss.add_argument("project_id", help="project_id")
+
+    sin = sub.add_parser("submit-intake", help="확인된 소스로 intake → source_verify 전이(v3.2.0)")
     sin.add_argument("project_id", help="project_id")
-    sin.add_argument(
-        "--file",
-        required=True,
-        help="검증된 source_intake.json 후보 파일 경로 (SourceIntake 스키마)",
-    )
     sin.add_argument("--reason", default="CLI submit-intake", help="전이 사유")
 
-    bsr = sub.add_parser(
-        "build-source-registry",
-        help=(
-            "partials 합쳐 source_registry.json + source_completeness_report.json "
-            "생성 (source_verify 에 머문다, v3.0.0)"
-        ),
-    )
-    bsr.add_argument("project_id", help="project_id")
-    bsr.add_argument(
-        "--lenient-input-item-id",
-        action="store_true",
-        help=(
-            "input_item_id=None 을 허용 (builder 의 strict_input_item_id=False). "
-            "기본은 strict — pipeline production path 에서는 source_collector 가 "
-            "항상 input_item_id 를 set 하므로 None 자체가 drift 신호."
-        ),
-    )
+    # v3.2.0 삭제(D52) — 옛 소스 레지스트리 명령은 시끄럽게 실패
+    lbs = sub.add_parser("build-source-registry", help="[삭제됨 v3.2.0] verify-sources 사용")
+    lbs.add_argument("legacy_args", nargs=argparse.REMAINDER, help=argparse.SUPPRESS)
 
     vsr = sub.add_parser("verify-sources", help="소스 검증(인용 대조) → intake/claims.json (source_verify, v3.2.0)")
     vsr.add_argument("project_id", help="project_id")
@@ -324,11 +337,20 @@ def main(argv: list[str] | None = None) -> int:
     if args.cmd == "plan-intake":
         return _cmd_plan_intake(args)
 
+    if args.cmd == "add-source":
+        return _cmd_add_source(args)
+
+    if args.cmd == "confirm-source":
+        return _cmd_confirm_source(args)
+
+    if args.cmd == "list-sources":
+        return _cmd_list_sources(args)
+
     if args.cmd == "submit-intake":
         return _cmd_submit_intake(args)
 
     if args.cmd == "build-source-registry":
-        return _cmd_build_source_registry(args)
+        raise LegacyRemovedError("build-source-registry(v3.2.0 삭제 → verify-sources)")
 
     if args.cmd == "verify-sources":
         return _cmd_verify_sources(args)
@@ -446,173 +468,132 @@ def _cmd_plan_intake(args: argparse.Namespace) -> int:
     return 0
 
 
-def _cmd_submit_intake(args: argparse.Namespace) -> int:
-    """submit-intake: 검증된 SourceIntake 파일을 받아 영속화 + 상태 전이.
-
-    웹 인테이크 페이지 (`web/intake_page_app.py`) 가 제출하는 흐름과 동일한 검증을
-    CLI 에서도 사용할 수 있게 한 편의 명령. 입력 파일은 SourceIntake 스키마를 통과해야
-    한다 (Pydantic v2 validation).
-
-    v0.3.1: project_id 정책 검증 (C1), state precondition 검증을 write 보다 먼저 수행 (M1).
-    """
+def _source_pdir(project_id: str) -> Path:
+    from orchestrator.config import project_dir
     from orchestrator.project_manager import validate_project_id
 
+    validate_project_id(project_id)
+    resume_project(project_id)          # 없으면 FileNotFoundError
+    return project_dir(project_id)
+
+
+def _cmd_add_source(args: argparse.Namespace) -> int:
+    """add-source: 소스 레코드 한 건 → intake/sources.json (18 §1). 확인은 confirm-source 가 따로 한다."""
+    from datetime import date, datetime
+
+    from orchestrator import source_intake as si
+
     try:
-        validate_project_id(args.project_id)
-    except ValueError as e:
+        pdir = _source_pdir(args.project_id)
+    except (ValueError, FileNotFoundError) as e:
         print(f"error: {e}", file=sys.stderr)
         return 1
 
+    def body() -> str:
+        if args.text_file:
+            return Path(args.text_file).read_text(encoding="utf-8")
+        return args.text or ""
+
     try:
-        manifest = resume_project(args.project_id)
-    except FileNotFoundError as e:
+        if args.kind == "x-text":
+            if not (args.handle and args.name and args.text):
+                print("error: x-text 는 --handle --name --text 가 필요하다", file=sys.stderr)
+                return 1
+            rec = si.add_x_text(pdir, account_name=args.name, handle=args.handle, text=args.text, text_ko=args.text_ko,
+                                lang=args.lang or "en", url=args.url, note=args.note,
+                                posted_at=datetime.fromisoformat(args.posted_at) if args.posted_at else None)
+        elif args.kind == "x-capture":
+            if not args.image:
+                print("error: x-capture 는 --image 가 필요하다", file=sys.stderr)
+                return 1
+            sid = si.stage_capture(pdir, Path(args.image))
+            rec, errs = si.read_capture(pdir, sid, note=args.note, backend=args.backend)
+            if rec is None:
+                print(f"error: 캡처 판독 실패 — 레코드를 만들지 않았다: {errs}", file=sys.stderr)
+                return 1
+        elif args.kind == "article":
+            text, headline, publisher, pub_day = body(), args.headline, args.publisher, args.pub_date
+            if args.fetch:
+                if not args.url:
+                    print("error: --fetch 는 --url 이 필요하다", file=sys.stderr)
+                    return 1
+                got = si.fetch_article(args.url)
+                text, headline = text or got["body"], headline or got["title"]
+                publisher, pub_day = publisher or got["publisher"], pub_day or got["published_at"]
+            if not (text and headline and publisher and pub_day):
+                print("error: article 은 본문(--text/--text-file/--fetch)·--headline·--publisher·--pub-date 가 필요하다",
+                      file=sys.stderr)
+                return 1
+            rec = si.add_article(pdir, publisher=publisher, headline=headline, headline_ko=args.headline_ko,
+                                 published_at=date.fromisoformat(pub_day), body=text, url=args.url,
+                                 key_facts=args.fact or None, lang=args.lang or "ko", note=args.note)
+        else:
+            if not (args.issuer and args.title and body()):
+                print("error: document 는 --issuer --title 과 본문이 필요하다", file=sys.stderr)
+                return 1
+            rec = si.add_document(pdir, issuer=args.issuer, title=args.title, body=body(), key_facts=args.fact or None,
+                                  published_at=date.fromisoformat(args.pub_date) if args.pub_date else None,
+                                  url=args.url, lang=args.lang or "ko", note=args.note)
+    except (si.SourceIntakeError, ValueError, OSError) as e:
         print(f"error: {e}", file=sys.stderr)
         return 1
-
-    # v0.3.1 M1: state precondition 을 파일 쓰기 전에 확인.
-    current_str = manifest.current_state.value if hasattr(manifest.current_state, "value") else manifest.current_state
-    from orchestrator.intake_service import intake_plan_ready
-
-    if current_str != ProjectState.INTAKE.value or not intake_plan_ready(args.project_id):
-        print(
-            f"error: 현재 상태 '{current_str}' 에서는 submit-intake 를 수행할 수 없습니다. "
-            f"(허용: intake + 유효한 intake_plan.json — plan-intake 먼저)",
-            file=sys.stderr,
-        )
-        return 2
-
-    src_path = Path(args.file)
-    if not src_path.exists():
-        print(f"error: 파일이 없습니다: {src_path}", file=sys.stderr)
-        return 1
-
-    try:
-        raw = json.loads(src_path.read_text(encoding="utf-8"))
-        intake = SourceIntake.model_validate(raw)
-    except (json.JSONDecodeError, ValueError) as e:
-        print(f"error: SourceIntake 검증 실패 — {e}", file=sys.stderr)
-        return 1
-
-    # project_id 일치 검증
-    if intake.project_id != args.project_id:
-        print(
-            f"error: project_id 불일치 — file={intake.project_id} cli={args.project_id}",
-            file=sys.stderr,
-        )
-        return 1
-
-    # v0.3.1 M1: tmp write → transition → atomic rename. 잘못된 상태에서 파일이 먼저
-    # 덮어쓰이는 race 차단 + transition 실패 시 leftover 정리. precondition 검증은
-    # 위에서 했지만 race 대비 두번째 게이트가 transition 자체.
-    out_path = manifest_intake_path(args.project_id) / "source_intake.json"
-    out_path.parent.mkdir(parents=True, exist_ok=True)
-    tmp_path = out_path.with_suffix(out_path.suffix + ".tmp")
-    tmp_path.write_text(intake.model_dump_json(indent=2), encoding="utf-8")
-    try:
-        manifest = transition_state(
-            manifest,
-            ProjectState.SOURCE_VERIFY,
-            reason=args.reason,
-        )
-    except ValueError as e:
-        # transition 실패 시 tmp 파일 best-effort cleanup. 원본 source_intake.json 은
-        # 있다면 그대로 유지 (이전 시도의 산출물).
-        try:
-            tmp_path.unlink()
-        except OSError:
-            pass
-        print(f"error: 상태 전이 실패 — {e}", file=sys.stderr)
-        return 2
-    tmp_path.replace(out_path)
-
-    print(f"submit-intake 완료: {args.project_id}")
-    print(f"saved   : {out_path}")
-    print(f"decisions: {len(intake.user_decisions)}")
-    _print_manifest_summary(manifest)
+    print(json.dumps({"id": rec.id, "type": rec.type, "confirmed": rec.confirmed,
+                      **({"account_class": rec.account_class} if rec.type == "x_post" else {})}, ensure_ascii=False))
     return 0
 
 
-def _cmd_build_source_registry(args: argparse.Namespace) -> int:
-    """build-source-registry: partials → source_registry.json + completeness report + 전이.
+def _cmd_confirm_source(args: argparse.Namespace) -> int:
+    from datetime import datetime
 
-    Phase 5 완료 게이트 (Review Gate 2, `source_verify`) 의 두 입력을
-    한 번에 만든다:
-    1. project_id 정책 검증 (C1 path traversal 가드).
-    2. manifest 로딩 + state precondition (source_verify 에서만 허용).
-    3. build_and_persist_source_registry — partials 로딩 → builder → 영속화.
-    4. check_source_completeness — 부족 자료 식별 → source_completeness_report.json.
-    5. 전이 없음 — source_verify 에 머문다(v3.0.0, 16 §2). report 가 있으면 research 로 갈 수 있다.
+    from orchestrator import source_intake as si
 
-    builder / checker 는 순수 함수 (디스크 I/O 없음). 로딩·쓰기는 source_registry_io
-    가 담당하며 본 CLI 는 thin orchestration. registry/report 영속화 실패 시 전이
-    하지 않는다 (게이트 입력이 갖춰진 뒤에만 전진).
-    """
+    try:
+        pdir = _source_pdir(args.project_id)
+        rec = si.confirm(pdir, args.id, args.by, posted_at=datetime.fromisoformat(args.posted_at) if args.posted_at else None,
+                         handle=args.handle, account_name=args.name, text_ko=args.text_ko)
+    except (ValueError, FileNotFoundError) as e:
+        print(f"error: {e}", file=sys.stderr)
+        return 1
+    print(json.dumps({"id": rec.id, "confirmed_by": rec.confirmed_by,
+                      **({"account_class": rec.account_class} if rec.type == "x_post" else {})}, ensure_ascii=False))
+    return 0
+
+
+def _cmd_list_sources(args: argparse.Namespace) -> int:
+    from orchestrator import source_intake as si
+
+    try:
+        pdir = _source_pdir(args.project_id)
+    except (ValueError, FileNotFoundError) as e:
+        print(f"error: {e}", file=sys.stderr)
+        return 1
+    for r in si.load_sources(pdir).sources:
+        who = f"{r.account_name} {r.handle} [{r.account_class}]" if r.type == "x_post" else \
+            (r.publisher if r.type == "article" else r.issuer)
+        st = r.verification.status if r.verification else "-"
+        print(f"{r.id}\t{r.type}\t{who}\t확인={'O' if r.confirmed else 'X'}\t검증={st}")
+    print(si.dump(pdir))
+    return 0
+
+
+def _cmd_submit_intake(args: argparse.Namespace) -> int:
+    """submit-intake(v3.2.0): 확인된 소스로 intake → source_verify. 미확인·소스 없음이면 거부(18 §7)."""
+    from orchestrator.intake_service import SubmitSourcesError, submit_sources
     from orchestrator.project_manager import validate_project_id
-    from orchestrator.source_completeness_checker import check_source_completeness
-    from orchestrator.source_registry_io import (
-        build_and_persist_source_registry,
-        persist_source_completeness_report,
-    )
 
     try:
         validate_project_id(args.project_id)
-    except ValueError as e:
-        print(f"error: {e}", file=sys.stderr)
-        return 1
-
-    try:
-        manifest = resume_project(args.project_id)
+        manifest = submit_sources(args.project_id, reason=args.reason)
     except FileNotFoundError as e:
         print(f"error: {e}", file=sys.stderr)
         return 1
-
-    current_str = (
-        manifest.current_state.value
-        if hasattr(manifest.current_state, "value")
-        else manifest.current_state
-    )
-    if current_str != ProjectState.SOURCE_VERIFY.value:
-        print(
-            f"error: 현재 상태 '{current_str}' 에서는 build-source-registry 를 실행할 수 "
-            f"없습니다. (허용: source_verify)",
-            file=sys.stderr,
-        )
+    except SubmitSourcesError as e:
+        print(f"error: {e}", file=sys.stderr)
         return 2
-
-    try:
-        registry, stats = build_and_persist_source_registry(
-            args.project_id,
-            strict_input_item_id=not args.lenient_input_item_id,
-        )
-    except (json.JSONDecodeError, ValueError, OSError) as e:
-        # JSONDecodeError/ValidationError(=ValueError) : partial 손상·스키마 위반,
-        # ValueError : builder fail-fast invariant, OSError : registry 디스크 영속화 실패.
-        # report persist 의 OSError 처리와 대칭 — 영속화 단계가 어디서 깨지든 전이 금지.
-        print(f"error: source_registry 빌드/영속화 실패 — {e}", file=sys.stderr)
+    except ValueError as e:
+        print(f"error: {e}", file=sys.stderr)
         return 1
-
-    report = check_source_completeness(registry)
-    try:
-        persist_source_completeness_report(args.project_id, report)
-    except OSError as e:
-        print(f"error: source_completeness_report 영속화 실패 — {e}", file=sys.stderr)
-        return 1
-
-    manifest = resume_project(args.project_id)
-
-    sources_dir = manifest_sources_path(args.project_id)
-    print(f"build-source-registry 완료: {args.project_id}")
-    print(f"saved   : {sources_dir / 'source_registry.json'}")
-    print(f"report  : {sources_dir / 'source_completeness_report.json'}")
-    print(
-        f"stats   : partials={stats['partial_count']} "
-        f"(empty={stats['empty_partial_count']}) sources={stats['source_count']}"
-    )
-    print(
-        f"report  : status={report.overall_status} usable={report.usable_sources}/"
-        f"{report.total_sources} blocker={report.blocker_count} "
-        f"warning={report.warning_count} info={report.info_count}"
-    )
+    print(f"submit-intake 완료: {args.project_id}")
     _print_manifest_summary(manifest)
     return 0
 
@@ -747,20 +728,6 @@ def _cmd_lint_script(args: argparse.Namespace) -> int:
     if not res.ok:
         return 1
     return 1 if (args.strict and res.warnings) else 0
-
-
-def manifest_sources_path(project_id: str) -> Path:
-    """`projects/{pid}/02_sources/` 디렉토리."""
-    from orchestrator.config import project_dir as _pdir
-
-    return _pdir(project_id) / "02_sources"
-
-
-def manifest_intake_path(project_id: str) -> Path:
-    """`projects/{pid}/01_intake/` 디렉토리. project_manager 외부에서 쓰기 시 기본 경로."""
-    from orchestrator.config import project_dir as _pdir
-
-    return _pdir(project_id) / "01_intake"
 
 
 if __name__ == "__main__":

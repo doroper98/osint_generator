@@ -4,9 +4,9 @@
 --------
 1. `plan-intake demo3` 가 IntakePlannerWorker 를 호출하고 `intake_plan.json` 을
    생성하며 state 를 `created → intake → intake` 로 진행.
-2. `submit-intake demo3 --file <path>` 가 SourceIntake 파일을 영속화하고 state 를
-   `intake → source_verify` 으로 전이.
-3. FastAPI `POST /intake/{pid}/submit` 가 form 데이터를 받아 동일 결과를 만든다.
+2. v3.2.0: `add-source` → `confirm-source` → `submit-intake demo3` 가 확인된 sources.json 으로
+   `intake → source_verify` 전이(미확인·소스 없음은 거부, 18 §7).
+3. 웹 `/intake/{pid}/source·confirm·submit` 이 같은 결과를 만든다.
 
 본 테스트는 LLM stub (`OSINT_LLM_STUB=1`) 모드로 실 CLI 호출을 우회한다.
 
@@ -33,11 +33,6 @@ from schemas.models import (
     IntakePlan,
     ProjectManifest,
     ProjectState,
-    SourceCollectionPartial,
-    SourceCompletenessReport,
-    SourceEntry,
-    SourceIntake,
-    SourceRegistry,
 )
 
 
@@ -200,91 +195,109 @@ class TestPlanIntakeCLI(_IsolatedProjectsRoot):
 
 
 class TestSubmitIntakeCLI(_IsolatedProjectsRoot):
+    """v3.2.0 — add-source → confirm-source → submit-intake(18 §7). 미확인·소스 없음은 거부."""
+
     def _prepare_pending(self) -> None:
         self._create_demo3()
         self._stub(VALID_PLAN_JSON)
         self.assertEqual(cli_main(["plan-intake", "demo3"]), 0)
 
-    def test_submit_intake_persists_and_advances_state(self) -> None:
+    def _add_x(self) -> None:
+        self.assertEqual(cli_main(["add-source", "demo3", "--kind", "x-text", "--handle", "@someone", "--name", "Some One",
+                                   "--text", "Statement text.", "--posted-at", "2026-09-20T14:05:00"]), 0)
+
+    def test_submit_requires_confirmed_sources(self) -> None:
         self._prepare_pending()
+        self.assertEqual(cli_main(["submit-intake", "demo3"]), 2)            # 소스 없음
+        self._add_x()
+        self.assertEqual(cli_main(["submit-intake", "demo3"]), 2)            # 미확인
+        self.assertEqual(self._load_manifest("demo3").current_state, ProjectState.INTAKE.value)
+        self.assertEqual(cli_main(["confirm-source", "demo3", "--id", "src_x_0001", "--by", "tester"]), 0)
+        self.assertEqual(cli_main(["submit-intake", "demo3"]), 0)
+        self.assertEqual(self._load_manifest("demo3").current_state, ProjectState.SOURCE_VERIFY.value)
+        self.assertEqual(cli_main(["list-sources", "demo3"]), 0)
 
-        intake = SourceIntake(
-            project_id="demo3",
-            user_decisions=[],
-        )
-        intake_file = self.root / "user_decisions.json"
-        intake_file.write_text(intake.model_dump_json(indent=2), encoding="utf-8")
-
-        exit_code = cli_main(
-            ["submit-intake", "demo3", "--file", str(intake_file)]
-        )
-        self.assertEqual(exit_code, 0)
-        out = self.projects_root / "demo3" / "01_intake" / "source_intake.json"
-        self.assertTrue(out.exists())
-        self.assertEqual(
-            self._load_manifest("demo3").current_state,
-            ProjectState.SOURCE_VERIFY.value,
-        )
-
-    def test_submit_intake_rejects_mismatched_project_id(self) -> None:
+    def test_article_and_document_sources(self) -> None:
         self._prepare_pending()
-        intake = SourceIntake(project_id="other", user_decisions=[])
-        intake_file = self.root / "bad.json"
-        intake_file.write_text(intake.model_dump_json(indent=2), encoding="utf-8")
-        exit_code = cli_main(
-            ["submit-intake", "demo3", "--file", str(intake_file)]
-        )
-        self.assertEqual(exit_code, 1)
+        body = self.root / "a.txt"
+        body.write_text("기사 본문입니다. 두 척이 통과했다.", encoding="utf-8")
+        self.assertEqual(cli_main(["add-source", "demo3", "--kind", "article", "--publisher", "테스트일보", "--headline", "통과",
+                                   "--pub-date", "2026-09-21", "--text-file", str(body), "--fact", "두 척 통과"]), 0)
+        self.assertEqual(cli_main(["add-source", "demo3", "--kind", "document", "--issuer", "국방부", "--title", "보도자료",
+                                   "--text", "파견 연장"]), 0)
+        self.assertEqual(cli_main(["add-source", "demo3", "--kind", "article", "--url", "https://x.com/a/status/1", "--fetch"]), 1)
+        from schemas.source_models import SourcesFile  # noqa: PLC0415
+
+        f = SourcesFile.model_validate_json((self.projects_root / "demo3" / "intake" / "sources.json").read_text(encoding="utf-8"))
+        self.assertEqual([x.id for x in f.sources], ["src_art_0001", "src_doc_0001"])
+
+    def test_legacy_registry_command_removed(self) -> None:
+        from orchestrator.errors import LegacyRemovedError  # noqa: PLC0415
+
+        with self.assertRaises(LegacyRemovedError):
+            cli_main(["build-source-registry", "demo3"])
 
 
 class TestWebSubmit(_IsolatedProjectsRoot):
-    def test_post_submit_persists_source_intake_and_transitions(self) -> None:
+    """v3.2.0 웹 인테이크 — 소스 넣기·확인·제출(18 §7)."""
+
+    def _ready(self):  # noqa: ANN202
         self._create_demo3()
         self._stub(VALID_PLAN_JSON)
         self.assertEqual(cli_main(["plan-intake", "demo3"]), 0)
+        from web.intake_page_app import app  # noqa: PLC0415
 
-        from web.intake_page_app import app
+        return TestClient(app)
 
-        client = TestClient(app)
-        # form 제출: core_event 는 link_provide + URL 1개, context_sources 는 skip
-        resp = client.post(
-            "/intake/demo3/submit",
-            data={
-                "mode__core_event": "link_provide",
-                "user_note__core_event": "공식 발표 링크 첨부",
-                "provided_links__core_event": "https://example.org/news\nhttps://example.org/follow",
-                "mode__context_sources": "skip",
-            },
-        )
-        self.assertEqual(resp.status_code, 200, resp.text)
-        payload = resp.json()
-        self.assertEqual(payload["decisions"], 2)
-        self.assertEqual(payload["current_state"], ProjectState.SOURCE_VERIFY.value)
+    def test_add_confirm_submit(self) -> None:
+        client = self._ready()
+        r = client.post("/intake/demo3/source", data={"kind": "x_text", "account_name": "Some One", "handle": "@someone",
+                                                      "text": "Statement.", "posted_at": "2026-09-20T14:05"}, follow_redirects=False)
+        self.assertEqual(r.status_code, 303, r.text)
+        r = client.post("/intake/demo3/source", data={"kind": "article_text", "publisher": "테스트일보", "headline": "통과",
+                                                      "published_at": "2026-09-21", "body": "두 척이 통과했다.",
+                                                      "facts": "두 척 통과"}, follow_redirects=False)
+        self.assertEqual(r.status_code, 303, r.text)
+        page = client.get("/intake/demo3").text
+        self.assertIn("src_x_0001", page)
+        self.assertIn("계정·시각 확인", page)
+        self.assertEqual(client.post("/intake/demo3/submit").status_code, 409)          # 미확인 남음
+        for sid in ("src_x_0001", "src_art_0001"):
+            r = client.post("/intake/demo3/confirm", data={"source_id": sid, "by": "tester"}, follow_redirects=False)
+            self.assertEqual(r.status_code, 303, r.text)
+        r = client.post("/intake/demo3/submit")
+        self.assertEqual(r.status_code, 200, r.text)
+        self.assertEqual(r.json()["current_state"], ProjectState.SOURCE_VERIFY.value)
+        self.assertEqual(client.post("/intake/demo3/source", data={"kind": "x_text"}).status_code, 409)   # 상태 지남
 
-        out = self.projects_root / "demo3" / "01_intake" / "source_intake.json"
-        self.assertTrue(out.exists())
-        intake = SourceIntake.model_validate_json(out.read_text(encoding="utf-8"))
-        self.assertEqual(len(intake.user_decisions), 2)
-        core = next(d for d in intake.user_decisions if d.item_id == "core_event")
-        self.assertEqual(core.mode, IntakeMode.LINK_PROVIDE.value)
-        self.assertEqual(len(core.provided_links), 2)
-        skip = next(d for d in intake.user_decisions if d.item_id == "context_sources")
-        self.assertEqual(skip.mode, IntakeMode.SKIP.value)
+    def test_x_link_article_rejected_and_bad_source_400(self) -> None:
+        client = self._ready()
+        r = client.post("/intake/demo3/source", data={"kind": "article_url", "url": "https://twitter.com/a/status/1"})
+        self.assertEqual(r.status_code, 400)
+        self.assertIn("X", r.json()["detail"])
+        self.assertEqual(client.post("/intake/demo3/source", data={"kind": "x_text", "handle": "bad"}).status_code, 400)
+
+    def test_capture_upload_to_unconfirmed_draft(self) -> None:
+        client = self._ready()
+        fx = Path(__file__).resolve().parent / "fixtures" / "intake" / "capture_min.png"
+        self._stub(json.dumps({"schema_version": 1, "account_name": "Test Maritime Office", "handle": "@TestMaritime",
+                               "posted_at": "2026-09-20T14:05:00", "text_original": "Two vessels transited.", "lang": "en"}))
+        r = client.post("/intake/demo3/source", data={"kind": "x_capture"},
+                        files={"image": ("cap.png", fx.read_bytes(), "image/png")}, follow_redirects=False)
+        self.assertEqual(r.status_code, 303, r.text)
+        page = client.get("/intake/demo3").text
+        self.assertIn("@TestMaritime", page)
+        self.assertIn("미확인", page)
 
     def test_get_intake_page_renders_html(self) -> None:
-        self._create_demo3()
-        self._stub(VALID_PLAN_JSON)
-        cli_main(["plan-intake", "demo3"])
-
-        from web.intake_page_app import app
-
-        client = TestClient(app)
+        client = self._ready()
         resp = client.get("/intake/demo3")
         self.assertEqual(resp.status_code, 200)
         body = resp.text
         self.assertIn("테스트 주제", body)
         self.assertIn("core_event", body)
-        self.assertIn("영상 생성 착수", body)
+        self.assertIn("소스 넣기", body)
+        self.assertIn("X 게시물 캡처", body)
 
 
 # ---------------------------------------------------------------------------
@@ -340,43 +353,26 @@ class TestWebSecurityAndNegativePaths(_IsolatedProjectsRoot):
         original = intake_page_app.MAX_FORM_BYTES
         intake_page_app.MAX_FORM_BYTES = 64  # 매우 작은 한도
         try:
-            big_payload = "x" * 4096
-            resp = self._client().post(
-                "/intake/demo3/submit",
-                data={"mode__core_event": "skip", "user_note__core_event": big_payload},
-            )
+            resp = self._client().post("/intake/demo3/confirm", data={"source_id": "x", "by": "x" * 4096})
             self.assertEqual(resp.status_code, 413)
             self.assertEqual(resp.json()["detail"], "request body too large")
         finally:
             intake_page_app.MAX_FORM_BYTES = original
 
-    # ---- M1: state precondition before write ----
+    # ---- M1: state precondition ----
 
-    def test_submit_rejected_when_state_not_pending_user(self) -> None:
-        # 프로젝트만 만들고 plan-intake 안 함 → state=CREATED → submit 거부.
+    def test_submit_rejected_when_state_not_intake(self) -> None:
         self._create_demo3()
-        # 인테이크 페이지 spec 에 따라 plan 도 없으므로 404 가 먼저 나는 게 정상.
-        # 따라서 plan-intake 까지 진행한 뒤 다시 한 번 submit 두번 흐름으로 검증.
         self._stub(VALID_PLAN_JSON)
         cli_main(["plan-intake", "demo3"])
-
-        # 1차 제출 — 정상 (intake → source_verify)
-        resp1 = self._client().post(
-            "/intake/demo3/submit",
-            data={"mode__core_event": "skip", "mode__context_sources": "skip"},
-        )
-        self.assertEqual(resp1.status_code, 200)
-
-        out_path = self.projects_root / "demo3" / "01_intake" / "source_intake.json"
-        first_bytes = out_path.read_bytes()
-
-        # 2차 제출 — state 가 이미 source_verify → 409 + 파일 unchanged
-        resp2 = self._client().post(
-            "/intake/demo3/submit",
-            data={"mode__core_event": "link_provide", "mode__context_sources": "link_provide"},
-        )
-        self.assertEqual(resp2.status_code, 409)
-        self.assertEqual(out_path.read_bytes(), first_bytes, "M1: source_intake.json 가 잘못된 상태에서 덮어쓰여짐")
+        cli_main(["add-source", "demo3", "--kind", "x-text", "--handle", "@a_b", "--name", "A", "--text", "t",
+                  "--posted-at", "2026-09-01T00:00:00"])
+        cli_main(["confirm-source", "demo3", "--id", "src_x_0001", "--by", "t"])
+        self.assertEqual(self._client().post("/intake/demo3/submit").status_code, 200)
+        sources = self.projects_root / "demo3" / "intake" / "sources.json"
+        first = sources.read_bytes()
+        self.assertEqual(self._client().post("/intake/demo3/submit").status_code, 409)
+        self.assertEqual(sources.read_bytes(), first)
 
     # ---- M2: task_result.json persisted by plan-intake ----
 
@@ -438,111 +434,6 @@ class TestWebSecurityAndNegativePaths(_IsolatedProjectsRoot):
         self.assertEqual(cli_main(["transition", "demo3", "--to", "source_verify"]), 0)
         rc = cli_main(["plan-intake", "demo3"])
         self.assertEqual(rc, 2)
-
-
-class TestBuildSourceRegistryCLI(_IsolatedProjectsRoot):
-    """build-source-registry CLI (Phase 5, v0.5.5)."""
-
-    def _advance_to_source_collecting(self) -> None:
-        self._create_demo3()
-        self._stub(VALID_PLAN_JSON)
-        self.assertEqual(cli_main(["plan-intake", "demo3"]), 0)
-        intake = SourceIntake(project_id="demo3", user_decisions=[])
-        intake_file = self.root / "decisions.json"
-        intake_file.write_text(intake.model_dump_json(indent=2), encoding="utf-8")
-        self.assertEqual(
-            cli_main(["submit-intake", "demo3", "--file", str(intake_file)]), 0
-        )
-        self.assertEqual(
-            self._load_manifest("demo3").current_state,
-            ProjectState.SOURCE_VERIFY.value,
-        )
-
-    def _write_partial(self, partial: SourceCollectionPartial) -> None:
-        pdir = self.projects_root / "demo3" / "02_sources" / "partials"
-        pdir.mkdir(parents=True, exist_ok=True)
-        (pdir / f"{partial.task_id}.json").write_text(
-            partial.model_dump_json(indent=2), encoding="utf-8"
-        )
-
-    def test_builds_and_persists_registry(self) -> None:
-        self._advance_to_source_collecting()
-        self._write_partial(
-            SourceCollectionPartial(
-                project_id="demo3",
-                task_id="src_collect__b",
-                input_item_id="i2",
-                collected_sources=[SourceEntry(source_id="s2", platform="x", source_type="post")],
-            )
-        )
-        self._write_partial(
-            SourceCollectionPartial(
-                project_id="demo3",
-                task_id="src_collect__a",
-                input_item_id="i1",
-                collected_sources=[SourceEntry(source_id="s1", platform="x", source_type="post")],
-            )
-        )
-        rc = cli_main(["build-source-registry", "demo3"])
-        self.assertEqual(rc, 0)
-        sources_dir = self.projects_root / "demo3" / "02_sources"
-        reg_path = sources_dir / "source_registry.json"
-        self.assertTrue(reg_path.exists())
-        reg = SourceRegistry.model_validate_json(reg_path.read_text(encoding="utf-8"))
-        # 결정론적 순서: task_id asc (src_collect__a 먼저).
-        self.assertEqual([s.source_id for s in reg.sources], ["s1", "s2"])
-        # completeness report 도 생성되고 상태가 게이트로 전이.
-        report_path = sources_dir / "source_completeness_report.json"
-        self.assertTrue(report_path.exists())
-        self.assertEqual(
-            self._load_manifest("demo3").current_state,
-            ProjectState.SOURCE_VERIFY.value,
-        )
-
-    def test_no_partials_yields_empty_registry(self) -> None:
-        self._advance_to_source_collecting()
-        rc = cli_main(["build-source-registry", "demo3"])
-        self.assertEqual(rc, 0)
-        sources_dir = self.projects_root / "demo3" / "02_sources"
-        reg_path = sources_dir / "source_registry.json"
-        self.assertTrue(reg_path.exists())
-        reg = SourceRegistry.model_validate_json(reg_path.read_text(encoding="utf-8"))
-        self.assertEqual(reg.sources, [])
-        # 자료 0개 → report.overall_status=insufficient 이지만, 게이트로 전이하여
-        # 사용자가 '보완 또는 진행' 을 판단하게 한다.
-        report = SourceCompletenessReport.model_validate_json(
-            (sources_dir / "source_completeness_report.json").read_text(encoding="utf-8")
-        )
-        self.assertEqual(report.overall_status, "insufficient")
-        self.assertEqual(report.blocker_count, 1)
-        self.assertEqual(
-            self._load_manifest("demo3").current_state,
-            ProjectState.SOURCE_VERIFY.value,
-        )
-
-    def test_rejected_outside_source_collecting(self) -> None:
-        # created 상태에서 바로 호출 → exit 2 (precondition 위반).
-        self._create_demo3()
-        rc = cli_main(["build-source-registry", "demo3"])
-        self.assertEqual(rc, 2)
-
-    def test_builder_collision_returns_error(self) -> None:
-        self._advance_to_source_collecting()
-        for tid, iid in (("src_collect__a", "i1"), ("src_collect__b", "i2")):
-            self._write_partial(
-                SourceCollectionPartial(
-                    project_id="demo3",
-                    task_id=tid,
-                    input_item_id=iid,
-                    collected_sources=[SourceEntry(source_id="dup", platform="x", source_type="post")],
-                )
-            )
-        rc = cli_main(["build-source-registry", "demo3"])
-        self.assertEqual(rc, 1)
-
-    def test_invalid_project_id_rejected(self) -> None:
-        rc = cli_main(["build-source-registry", "../etc"])
-        self.assertEqual(rc, 1)
 
 
 class TestInitialLinks(_IsolatedProjectsRoot):
