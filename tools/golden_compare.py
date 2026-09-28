@@ -46,9 +46,9 @@ def load_expected_deltas() -> dict[str, dict]:
     d = json.loads(p.read_text(encoding="utf-8"))
     for k, v in d.get("deltas", {}).items():
         missing = {"reason", "decision"} - set(v)
-        # 무엇이 바뀌었나 — 시각(D34 단어 정렬) 또는 좌표(D36 부산 뱃지) 한 쌍이 있어야 한다
-        if not ({"old_t", "new_t"} <= set(v) or {"old_lonlat", "new_lonlat"} <= set(v)):
-            missing |= {"old_t|old_lonlat", "new_t|new_lonlat"}
+        # 무엇이 바뀌었나 — 시각(D34)·좌표(D36)·미디어 원본(D-0046 DVIDS 대체) 중 한 쌍
+        if not any({f"old_{k}", f"new_{k}"} <= set(v) for k in ("t", "lonlat", "media")):
+            missing |= {"old_t|old_lonlat|old_media", "new_t|new_lonlat|new_media"}
         if missing:
             raise ValueError(f"expected_deltas.json {k}: 필드 누락 {sorted(missing)}")
     return d.get("deltas", {})

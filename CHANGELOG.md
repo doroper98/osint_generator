@@ -28,6 +28,13 @@ released 항목은 **append-only**입니다.
 
 ---
 
+## [v3.1.0] — 2026-09-28 — Phase 6.9: AI 연출가·시각 검수·프롬프트 (back_and_forth D-0047, 진행 중)
+
+### Changed
+- `docs/handoff/golden/expected_deltas.json` 에 클립 컷 2(07 war_2 niovi, 13 timeline_4 strikes)를 DVIDS 원본 대체 차이로 등재(D-0046 NB8). golden_compare 가 `old_media`·`new_media` 쌍도 받는다. 제거 조건: Commons 원본 복구.
+
+---
+
 ## [v3.0.0] — 2026-09-28 — Phase 6.8: 오케스트레이터 통합 (back_and_forth D-0040~D-0045)
 
 MAJOR 사유: 프로젝트 manifest `schema_version` 1 → 2(상태 머신 교체, 옛 manifest 는 변환 없이 "재생성 필요" 오류). CLAUDE.md C3·C5.4, DECISIONS D39.
