@@ -1,0 +1,354 @@
+{
+ "schema_version": 1,
+ "project": "hormuz_korea",
+ "res": "1080p",
+ "threshold": 0.02,
+ "frames_json_equal": true,
+ "positions": {
+  "compared": 16,
+  "different": []
+ },
+ "mad_mean": 0.01067,
+ "mad_max": 0.01808,
+ "passed": true,
+ "cuts": [
+  {
+   "png": "p_0007.82.png",
+   "label": "open_1+2",
+   "mad": 0.01071,
+   "device": [
+    1920,
+    1080
+   ],
+   "golden_ref": {
+    "480p": 0.0068,
+    "1080p": 0.01474
+   },
+   "pass": true
+  },
+  {
+   "png": "p_0022.27.png",
+   "label": "TITLE+2",
+   "mad": 0.00336,
+   "device": [
+    1920,
+    1080
+   ],
+   "golden_ref": {
+    "480p": 0.00464,
+    "1080p": 0.00701
+   },
+   "pass": true
+  },
+  {
+   "png": "p_0028.77.png",
+   "label": "route_0+2.5",
+   "mad": 0.00721,
+   "device": [
+    1920,
+    1080
+   ],
+   "golden_ref": {
+    "480p": 0.00579,
+    "1080p": 0.01081
+   },
+   "pass": true
+  },
+  {
+   "png": "p_0038.45.png",
+   "label": "route_2+2",
+   "mad": 0.00874,
+   "device": [
+    1920,
+    1080
+   ],
+   "golden_ref": {
+    "480p": 0.00725,
+    "1080p": 0.01348
+   },
+   "pass": true
+  },
+  {
+   "png": "p_0045.03.png",
+   "label": "route_3+3.5",
+   "mad": 0.00881,
+   "device": [
+    1920,
+    1080
+   ],
+   "golden_ref": {
+    "480p": 0.00726,
+    "1080p": 0.01356
+   },
+   "pass": true
+  },
+  {
+   "png": "p_0056.21.png",
+   "label": "war_1+2",
+   "mad": 0.00646,
+   "device": [
+    1920,
+    1080
+   ],
+   "golden_ref": {
+    "480p": 0.00713,
+    "1080p": 0.0114
+   },
+   "pass": true
+  },
+  {
+   "png": "p_0061.25.png",
+   "label": "war_2+2.5",
+   "mad": 0.00747,
+   "device": [
+    1920,
+    1080
+   ],
+   "golden_ref": {
+    "480p": 0.00676,
+    "1080p": 0.01207
+   },
+   "pass": true
+  },
+  {
+   "png": "p_0065.13.png",
+   "label": "war_3+3",
+   "mad": 0.00826,
+   "device": [
+    1920,
+    1080
+   ],
+   "golden_ref": {
+    "480p": 0.0099,
+    "1080p": 0.01567
+   },
+   "pass": true
+  },
+  {
+   "png": "p_0080.70.png",
+   "label": "ask_1+4",
+   "mad": 0.00765,
+   "device": [
+    1920,
+    1080
+   ],
+   "golden_ref": {
+    "480p": 0.00696,
+    "1080p": 0.01324
+   },
+   "pass": true
+  },
+  {
+   "png": "p_0087.06.png",
+   "label": "ask_2+2",
+   "mad": 0.01051,
+   "device": [
+    1920,
+    1080
+   ],
+   "golden_ref": {
+    "480p": 0.00659,
+    "1080p": 0.01566
+   },
+   "pass": true
+  },
+  {
+   "png": "p_0105.28.png",
+   "label": "ask_5+1.5",
+   "mad": 0.00673,
+   "device": [
+    1920,
+    1080
+   ],
+   "golden_ref": {
+    "480p": 0.00623,
+    "1080p": 0.01174
+   },
+   "pass": true
+  },
+  {
+   "png": "p_0124.25.png",
+   "label": "timeline_2+2",
+   "mad": 0.0108,
+   "device": [
+    1920,
+    1080
+   ],
+   "golden_ref": {
+    "480p": 0.00567,
+    "1080p": 0.01547
+   },
+   "pass": true
+  },
+  {
+   "png": "p_0136.97.png",
+   "label": "timeline_4+2.8",
+   "mad": 0.01084,
+   "device": [
+    1920,
+    1080
+   ],
+   "golden_ref": {
+    "480p": 0.01216,
+    "1080p": 0.02174
+   },
+   "pass": true
+  },
+  {
+   "png": "p_0157.38.png",
+   "label": "cost_1+1",
+   "mad": 0.01307,
+   "device": [
+    1920,
+    1080
+   ],
+   "golden_ref": {
+    "480p": 0.00617,
+    "1080p": 0.01655
+   },
+   "pass": true
+  },
+  {
+   "png": "p_0164.59.png",
+   "label": "review_0+2.8",
+   "mad": 0.01287,
+   "device": [
+    1920,
+    1080
+   ],
+   "golden_ref": {
+    "480p": 0.01147,
+    "1080p": 0.02114
+   },
+   "pass": true
+  },
+  {
+   "png": "p_0170.52.png",
+   "label": "review_1+2.5",
+   "mad": 0.01048,
+   "device": [
+    1920,
+    1080
+   ],
+   "golden_ref": {
+    "480p": 0.01136,
+    "1080p": 0.01868
+   },
+   "pass": true
+  },
+  {
+   "png": "p_0193.22.png",
+   "label": "past_1+2.5",
+   "mad": 0.01784,
+   "device": [
+    1920,
+    1080
+   ],
+   "golden_ref": {
+    "480p": 0.01164,
+    "1080p": 0.01959
+   },
+   "pass": true
+  },
+  {
+   "png": "p_0207.41.png",
+   "label": "past_3+5",
+   "mad": 0.01383,
+   "device": [
+    1920,
+    1080
+   ],
+   "pass": true
+  },
+  {
+   "png": "p_0214.46.png",
+   "label": "debate_0+3",
+   "mad": 0.01808,
+   "device": [
+    1920,
+    1080
+   ],
+   "pass": true
+  },
+  {
+   "png": "p_0220.96.png",
+   "label": "debate_1+2.5",
+   "mad": 0.01283,
+   "device": [
+    1920,
+    1080
+   ],
+   "golden_ref": {
+    "480p": 0.00611,
+    "1080p": 0.01555
+   },
+   "pass": true
+  },
+  {
+   "png": "p_0238.00.png",
+   "label": "debate_4+2",
+   "mad": 0.01187,
+   "device": [
+    1920,
+    1080
+   ],
+   "golden_ref": {
+    "480p": 0.0063,
+    "1080p": 0.01656
+   },
+   "pass": true
+  },
+  {
+   "png": "p_0245.56.png",
+   "label": "decision_0+3",
+   "mad": 0.01399,
+   "device": [
+    1920,
+    1080
+   ],
+   "pass": true
+  },
+  {
+   "png": "p_0258.61.png",
+   "label": "now_0+3.5",
+   "mad": 0.01313,
+   "device": [
+    1920,
+    1080
+   ],
+   "golden_ref": {
+    "480p": 0.0073,
+    "1080p": 0.01746
+   },
+   "pass": true
+  },
+  {
+   "png": "p_0276.44.png",
+   "label": "now_3+4",
+   "mad": 0.01016,
+   "device": [
+    1920,
+    1080
+   ],
+   "golden_ref": {
+    "480p": 0.01183,
+    "1080p": 0.01851
+   },
+   "pass": true
+  },
+  {
+   "png": "p_0288.44.png",
+   "label": "END-4",
+   "mad": 0.011,
+   "device": [
+    1920,
+    1080
+   ],
+   "golden_ref": {
+    "480p": 0.00583,
+    "1080p": 0.01562
+   },
+   "pass": true
+  }
+ ]
+}

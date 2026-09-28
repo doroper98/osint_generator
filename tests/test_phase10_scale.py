@@ -118,5 +118,20 @@ class HormuzScaleTest(unittest.TestCase):
         self.assertEqual((s1080.get_width(), s1080.get_height()), (1920, 1080))
 
 
+    def test_downscaled_close(self) -> None:
+        """1080p 한 컷을 854×480 으로 줄이면 480p 와 거의 같다(판정 임계는 rules golden.res_compare_mad_max, 작업 4)."""
+        from PIL import Image  # noqa: PLC0415
+
+        from engine.render import render_frame  # noqa: PLC0415
+        from rules import load_rules  # noqa: PLC0415
+
+        i = int(80.70 * 24)
+        a = np.asarray(Image.frombuffer("RGBX", (854, 480), bytes(render_frame(self.P480, i)[1]), "raw", "BGRX").convert("RGB"),
+                       np.float32)
+        big = Image.frombuffer("RGBX", (1920, 1080), bytes(render_frame(self.P1080, i)[1]), "raw", "BGRX").convert("RGB")
+        b = np.asarray(big.resize((854, 480), Image.LANCZOS), np.float32)
+        self.assertLessEqual(float(np.abs(a - b).mean() / 255), load_rules().golden.res_compare_mad_max)
+
+
 if __name__ == "__main__":
     unittest.main()

@@ -900,6 +900,12 @@ class PreviewRules(_Strict):
     min_body_cuts: int = Field(ge=1)
 
 
+class GoldenRules(_Strict):
+    """v3.6.0 D-0066 작업 4 — 해상도 비교 임계."""
+
+    res_compare_mad_max: float = Field(gt=0, lt=1)
+
+
 class VideoRules(_Strict):
     """`rules/video_rules.yaml` 최상위 모델."""
 
@@ -927,6 +933,7 @@ class VideoRules(_Strict):
     registries: Registries
     audio: AudioRules
     preview: PreviewRules          # v3.3.0 — D-0056 F6
+    golden: GoldenRules            # v3.6.0 — D-0066 작업 4
     camera: CameraRules            # v3.3.0 — D-0056 작업 2
     qa_checks: QAChecks
     bundle: BundleRules            # v3.5.0 — D-0063 작업 4

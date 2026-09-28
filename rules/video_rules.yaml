@@ -590,6 +590,11 @@ audio:                     # 10
     title_card: {offset_sec: 0.2, whoosh_dur_sec: 1.4, whoosh_v: 1.0, boom_v: 0.6}      # sfx_policy: 타이틀 카드 휙+쿵
     scene_start: {lead_sec: 0.05, whoosh_dur_sec: 0.9, whoosh_v: 0.55}                  # sfx_policy: 장면 시작 휙(첫 장면 제외)
 
+golden:                    # v3.6.0 D-0066 작업 4 · D-0067 요건 4 — 1080p 를 854×480 으로 Lanczos 축소해 480p 와 잰 컷별 MAD(/255) 상한.
+  # 실측(hormuz 25컷, 1080p 티어 ppd×2.25): 평균 0.0107 · 최대 0.0181(p_0214.46). 설계 좌표가 같아 위치 차이는 0(frames·place_over 동일)이고,
+  # 남는 차이는 래스터 선명도(지형 ppd 216 vs 96, 사진 원본 해상도)와 글자 힌팅·안티에일리어싱뿐 → 최대 실측 + 여유 약 10%
+  res_compare_mad_max: 0.02
+
 preview:                   # v3.3.0 D-0056 F6 — `--preview auto` 샘플. 짧은 영상에서 전면 카드만 뽑히지 않게 본편(문장 읽는 중) 컷 최소 수. golden 모드 무관
   min_body_cuts: 4
 
