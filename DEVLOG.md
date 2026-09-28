@@ -3267,3 +3267,10 @@ last_review: 2026-06-06
   - `pronounce.json`: SKHY/SKHYV/SKUU/SKDD/ETF/ADR/HBM/TSMC 매핑.
 - 결과: 단위 테스트 355/355 통과. 재합성(--bgm Zabriskie) → 재렌더로 음성 반영.
 - 연관: TTS-AP-058, 059, 060, 061, 062, 063. C0(영상미)·C6(안티패턴)·C9(BGM 권리).
+
+## 2026-09-28 v3.0.0 — Phase 6.8 오케스트레이터 통합
+
+- 무엇을: 상태 머신 16 §2 교체(manifest v2), engine_service 어댑터, 승인 게이트 2개, ScriptWorker→Script(라벨은 코드), preview provenance, tts_lint·tts_pronounce 병합 삭제, Command Center e2e(hormuz CREATED→DONE, final.mp4 = CLI 직접 바이트 동일).
+- 왜:    D-0040(16 전체). xfail 2 → 0.
+- 교훈:  Commons 원본(webm) 요청이 환경 egress 단위로 429 차단 — 한 번 받은 원본은 artifacts 에 보존하고(D-0044 B) 1차 출처 대체 경로를 레지스트리에 둔다(D43, source_variants). tts 캐시도 artifacts 에 보존해야 새 컨테이너에서 바이트 동일 대조가 된다(D-0042).
+

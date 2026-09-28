@@ -28,12 +28,24 @@ released 항목은 **append-only**입니다.
 
 ---
 
-## [v3.0.0] — 2026-09-28 — Phase 6.8: 오케스트레이터 통합 (back_and_forth D-0040, 진행 중)
+## [v3.0.0] — 2026-09-28 — Phase 6.8: 오케스트레이터 통합 (back_and_forth D-0040~D-0045)
 
-MAJOR 사유: 프로젝트 manifest `schema_version` 1 → 2(상태 머신 14개, 옛 manifest 는 변환 없이 "재생성 필요" 오류). CLAUDE.md C3·C5.4, DECISIONS D39.
+MAJOR 사유: 프로젝트 manifest `schema_version` 1 → 2(상태 머신 교체, 옛 manifest 는 변환 없이 "재생성 필요" 오류). CLAUDE.md C3·C5.4, DECISIONS D39.
+
+### Added
+- 상태 머신 16 §2(15개) + 역전이 3종, 승인 게이트 2개(`approve`·`reject`, 사유 필수, 기록 `gate_decisions`), `advance`(엔진 단계 실행, 실패·drops 면 머묾), `gate-view`.
+- `orchestrator/engine_service.py`(16 §4 엔진 CLI 어댑터, StageResult 검증), `orchestrator/pipeline.py`, `orchestrator/gate_view.py`, Command Center 게이트 패널·`g`/`a`/`x` 키, `tools/e2e_command_center.py`.
+- `script.lint` CLI, 검증 라벨 코드 계산 `script/labels.py`(rules `script_schema.labels`, D42), `engine.render --preview golden` + `prev/sheet.jpg`·`prev/provenance.json`(D40).
+- 미디어 `source_variants`(DVIDS 1차 출처 대체, D43), `media_fetch --variant/--restore-from/--tries`.
 
 ### Changed
+- ScriptWorker 출력 = `script.schema:Script`(`script.yaml`) + `script_labels.json`. 프롬프트 Script 예시·규칙 자리표시.
+- `config.yaml review_gates` 9 → 2(끌 수 없음). manifest `approval_status` → `gate_decisions`·`stage_records`.
 - ffmpeg 가 필요한 테스트(`ThumbSheetTest`)는 ffmpeg 가 없으면 사유를 남기고 skip(D-0039 NB7).
+- 발음 사전이 없거나 깨지면 오류(옛 빈 dict 폴백 제거, P6).
+
+### Removed
+- 옛 ProjectState 24개, `FullScript`·`ScriptChapter`·`ScriptSegment`, `05_script/full_script.json`, `orchestrator/tts_lint.py`·`tts_pronounce.py`(→ `script/lint.py`, 패턴은 rules `tts_risk`·`pronounce`), command_center 의 손상 manifest `created` 폴백.
 
 ---
 
