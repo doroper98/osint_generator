@@ -255,7 +255,7 @@
    "credit_author": "Reuters",
    "date": "2026-09-04",
    "source_ref": "credits.yaml 보도 · 자료 — Reuters (9.4)",
-   "pending_source": "6.95 — 원고 sources(소스 인테이크)가 채우면 url 로 옮기고 이 필드를 지운다",
+   "pending_source": "원문 URL 미확보 — 매체·날짜만(D-0052 D51, R-0036 종결). 소스 레코드: projects/hormuz_korea/intake/sources.json",
    "caption": "Reuters",
    "file_note": "2026. 09. 04",
    "depicts": [
@@ -290,7 +290,7 @@
    "credit_author": "The Korea Herald",
    "date": "2026-09-07",
    "source_ref": "credits.yaml 보도 · 자료 — The Korea Herald (9.7)",
-   "pending_source": "6.95 — 원고 sources(소스 인테이크)가 채우면 url 로 옮기고 이 필드를 지운다",
+   "pending_source": "원문 URL 미확보 — 매체·날짜만(D-0052 D51, R-0036 종결). 소스 레코드: projects/hormuz_korea/intake/sources.json",
    "caption": "The Korea Herald",
    "file_note": "2026. 09. 07",
    "depicts": [

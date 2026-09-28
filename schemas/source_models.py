@@ -102,6 +102,7 @@ class ArticleSource(_SourceBase):
     headline_ko: Optional[str] = None
     published_at: date
     key_facts: list[str] = Field(min_length=1)
+    source_ref: Optional[str] = None                 # 원문 대신 가리키는 기록 위치(예: "credits.yaml 보도 · 자료 — Reuters (9.4)")
     pending_source: Optional[str] = None             # 원문 위치를 아직 못 채운 사유(예: v3 이관 "원문 URL 미확보 — 매체·날짜만", D-0052 D51)
 
 
