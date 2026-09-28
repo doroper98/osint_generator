@@ -184,7 +184,10 @@ Fable 절차:
   → 옛 세션 archive_session → 감시 크론 문안의 세션 ID 갱신 → 사용자에게 한 줄 보고. RUNNING 이면 기다린다.
 - D를 푸시했는데 Opus 세션이 IDLE·disconnected 면 기다리지 않고 같은 절차로 새 세션을 만든다. 새 세션은 첫 행동에서 D를 읽는다.
 - Fable 자신의 크론도 세션 재시작 때 죽는다. 매시(플랫폼 최소 간격) 외부 트리거(create_trigger, persistent_session_id = Fable 세션,
-  프롬프트 "CronList 확인, 없으면 재등록 후 즉시 한 회차")를 걸어 둔다. 공백 최대 1시간.
+  프롬프트 "CronList 확인, 없으면 재등록 후 즉시 한 회차")를 걸어 둔다.
+- **L3 watchdog Routine(필수)**: create_trigger(create_new_session_on_fire=true, 매시)로 매번 새 세션을 띄워 두 세션의 마지막 푸시·상태·미처리 R/D를 보고,
+  죽은 쪽을 재기동 문안 파일로 create_session 한다. 세션·컨테이너와 무관하게 산다. 기록은 docs/reports/WATCHDOG_LOG.md. 최악 공백 1시간.
+- 턴 종료 금지의 보강: 정말 기다려야 하면 Bash `sleep 240` 을 run_in_background 로 걸고 끝낸다. 끝나면 세션이 다시 호출된다(크론과 별개의 자기 재호출).
 - check.py 의 responds_to 기반 상태 복원 덕에, 세션이 바뀌어도 미처리 파일은 그대로 보인다.
 
 [감시 도구 — back_and_forth/check.py]
@@ -391,4 +394,6 @@ PR 생성·force push·비밀 값 커밋·외부 서비스 조작 금지.
 | 9 | Fable이 보고서 문장만 믿으면 "코드는 있는데 결과물에 없음"을 놓침 | 실물 검증 의무(README §6.2), review 는 산출물 직접 확인 |
 | 10 | 결정 요청이 다른 보고 뒤에 밀려 Opus가 대기 | decision_request 는 check.py 가 자동 urgent(코드 반영) |
 
-**운용 수치(참고)**: 감시 5분, 유휴 판정 15분, 깨우기 2회 후 승격, 새 세션 첫 푸시까지 약 2분.
+**운용 수치(참고)**: 감시 5분, 유휴 판정 15분(Fable 회차)·20분(watchdog), 트리거 깨우기 없음 → 즉시 새 세션, 새 세션 첫 푸시까지 약 2분, watchdog 매시.
+
+**근본 원인 한 줄**: 세션 안 크론은 컨테이너가 회수되면 소리 없이 죽고, 세션은 "크론이 깨워 줄 것"이라 믿고 턴을 끝내므로 영원히 멈춘다. 그래서 (1) 턴을 끝내지 않고 (2) 세션 밖(서버 Routine)에서 감시하고 (3) 죽은 세션은 깨우지 않고 새로 만든다.

@@ -241,10 +241,8 @@ python back_and_forth/check.py --me opus --next-id         # 내가 쓸 다음 �
 - 사용자는 이 폴더에 `D` 파일을 직접 쓸 수 있다(`from: user`). 번호는 Fable의 D 번호를 이어서 쓴다.
 - 사용자가 대화로 준 지시는 파일보다 우선한다. Opus는 그 지시를 다음 `progress`에 인용해 Fable도 알게 한다.
 
-## 10. 세션 깨우기와 재기동(Fable 전용, 2026-09-28 실측 반영)
-- **fire_trigger 는 IDLE·disconnected 세션을 깨우지 못한다**(세션 2개, 세 번 연속 무반응). 쓰지 않는다.
-- 유휴 판정: 작업 브랜치 마지막 푸시가 15분 넘게 없고 진행 중 Phase가 있으면 get_session. IDLE + disconnected 면
-  **곧바로 create_session**(`back_and_forth/OPUS_RESTART_PROMPT.md` 문안) → 옛 세션 archive_session → 감시 크론의 세션 ID 갱신 → 사용자에게 한 줄 보고.
-- D를 푸시했는데 Opus 세션이 IDLE·disconnected 면 기다리지 않고 같은 절차로 새 세션을 만든다. 새 세션은 첫 행동에서 D를 읽는다.
+## 10. 세션 생존과 재기동 — 정본은 `docs/handoff/21_SESSION_LIVENESS_AND_RECOVERY.md`
+- 세션 안 크론은 컨테이너 회수·worker 재시작 때 소리 없이 죽는다. **fire_trigger 는 disconnected 세션을 깨우지 못한다**(2026-09-28 세 번 연속 실측). 깨우지 않고 **새로 만든다**.
+- 3중 방어: L1 세션 안(크론 재등록이 첫 행동 + 턴 종료 금지 + 백그라운드 `sleep 240` 자기 재호출) / L2 Fable 회차(Opus 15분 유휴·disconnected → 즉시 create_session, `OPUS_RESTART_PROMPT.md`) / L3 서버 watchdog Routine(매시 37분 새 세션, 두 세션 다 검사, `docs/handoff/reports/WATCHDOG_LOG.md`).
+- 생존의 증명은 푸시다. 판정은 `git log -1 origin/overhaul/v2-map-engine` 시각으로 한다.
 - `check.py` 의 responds_to 기반 상태 복원 덕에 세션이 바뀌어도 미처리 파일은 그대로 보인다.
-- Fable 자신의 크론도 세션 재시작 때 죽는다. 매시 7분 외부 트리거(자기 생존 점검)가 이 세션을 깨워 크론을 다시 건다. 공백 최대 1시간.
