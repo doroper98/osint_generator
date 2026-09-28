@@ -1,0 +1,66 @@
+{
+ "schema_version": 1,
+ "container": {
+  "cpu": 4,
+  "mem_gb": 15
+ },
+ "project": "hormuz_korea",
+ "frames": 7018,
+ "render": {
+  "480p": {
+   "sec": 149.9,
+   "jobs": 4,
+   "peak_child_rss_mb": 190
+  },
+  "1080p": {
+   "sec": 328.1,
+   "jobs": 4,
+   "peak_child_rss_mb": 446
+  },
+  "ratio_sec": 2.19,
+  "ratio_rss": 2.35
+ },
+ "chunk_120_frames": {
+  "480p_sec": 9.7,
+  "1080p_sec": 21.0,
+  "1080p_peak_rss_mb": 432,
+  "note": "frames 1200–1320 단독 청크(프로젝트 로드 포함)"
+ },
+ "mix_sec": 43,
+ "mux_sec": 94,
+ "geo_tiers_1080p": {
+  "W": {
+   "ppd": 54,
+   "z": 6,
+   "tiles": 273,
+   "fetch_sec": 12.1,
+   "build_sec": 33.3,
+   "bytes": 17846591
+  },
+  "G": {
+   "ppd": 216,
+   "z": 8,
+   "tiles": 143,
+   "fetch_sec": 6.8,
+   "build_sec": 10.9,
+   "bytes": 9392355
+  },
+  "K": {
+   "ppd": 216,
+   "z": 8,
+   "tiles": 49,
+   "fetch_sec": 2.8,
+   "build_sec": 3.9,
+   "bytes": 2948063
+  }
+ },
+ "geo_bytes": {
+  "480p": 6655207,
+  "1080p": 30187009
+ },
+ "md5": {
+  "480p video_noaudio": "692f228e359a89ab74a38626b4f7396e (= Phase 6.9·8 artifacts)",
+  "mix.f32": "c1314fb98d086dc116d7475562ca2c07 (무변경)"
+ },
+ "note": "480p 는 성능 기준선 측정용으로만 재렌더(바이트 동일 확인), 배포 재렌더 없음(D-0066 작업 7). 2패스 loudnorm·mix 무변경"
+}

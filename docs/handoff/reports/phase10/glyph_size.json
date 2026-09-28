@@ -1,0 +1,87 @@
+{
+ "schema_version": 1,
+ "rule": {
+  "min_font_px": 9.5,
+  "source": "layout_480p.min_font_px (D-0069 A)",
+  "exempt": [
+   "end_card",
+   "media_meta"
+  ]
+ },
+ "projects": {
+  "hormuz_korea": {
+   "cuts": 25,
+   "glyphs": 651,
+   "min_size": 7.5,
+   "below_min": {
+    "7.5": {
+     "count": 6,
+     "roles": [
+      "media_meta"
+     ],
+     "screen_pct": 1.56,
+     "px_1080p": 16.9
+    },
+    "7.8": {
+     "count": 21,
+     "roles": [
+      "end_card",
+      "media_meta"
+     ],
+     "screen_pct": 1.62,
+     "px_1080p": 17.6
+    },
+    "8.5": {
+     "count": 9,
+     "roles": [
+      "end_card",
+      "media_meta"
+     ],
+     "screen_pct": 1.77,
+     "px_1080p": 19.1
+    },
+    "9.2": {
+     "count": 17,
+     "roles": [
+      "end_card"
+     ],
+     "screen_pct": 1.92,
+     "px_1080p": 20.7
+    }
+   },
+   "hard": []
+  },
+  "ratcliffe2026": {
+   "cuts": 20,
+   "glyphs": 429,
+   "min_size": 7.8,
+   "below_min": {
+    "7.8": {
+     "count": 12,
+     "roles": [
+      "end_card"
+     ],
+     "screen_pct": 1.62,
+     "px_1080p": 17.6
+    },
+    "8.5": {
+     "count": 8,
+     "roles": [
+      "end_card"
+     ],
+     "screen_pct": 1.77,
+     "px_1080p": 19.1
+    },
+    "9.2": {
+     "count": 16,
+     "roles": [
+      "end_card"
+     ],
+     "screen_pct": 1.92,
+     "px_1080p": 20.7
+    }
+   },
+   "hard": []
+  }
+ }
+}

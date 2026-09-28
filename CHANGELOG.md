@@ -30,6 +30,15 @@ released 항목은 **append-only**입니다.
 
 ## [v3.6.0] — 2026-09-29 — Phase 10: 해상도·성능 (back_and_forth D-0066) — 진행 중
 
+### Changed
+- **출력 프로파일**(D-0066 작업 1): config `engine.output`(480p·1080p, 별칭 `trial`·`final`, 프로파일별 crf·preset·mem_per_job_mb). 설계 좌표는 rules `layout_480p.base` 854×480 고정. CLI `--res`(render·preview, 비기본 프로파일 프리뷰는 `prev_<이름>/`), provenance `render.resolution`(`out/render.json`).
+- **장치 변환 렌더**(작업 2, D-0067 A): `px()` 는 렌더 진입 `translate(pad_x)·scale(k)` 한 곳(k = H/480, 1080p 2.25, 가로 −0.75px). 래스터(지도·인물·국기·휘장·사진·컷아웃·클립)는 장치 해상도로 준비, 글자 폭 측정은 480p 측정 컨텍스트(줄바꿈·카드 폭·라벨 동일). k=1 은 변환 없음 — hormuz 480p 25컷 MAD 0, 전편 `video_noaudio.mp4` md5 `692f228e` 동일. `test_device_space` 로 장치 크기 읽는 모듈 제한.
+- **지오 티어 해상도**(작업 3): `geo.prep --res 1080p` → `assets/res_1080p/`(ppd × k, 줌 + round(log2 k), 블러 반경 × k). hormuz 70초·30.2MB(480p 6.4MB).
+- **1080p 골든 검증**(작업 4): `tools/res_compare.py`, rules `golden.res_compare_mad_max` 0.02(실측 평균 0.0107·최대 0.0181). 위치 차 0.
+- **최소 글자**(작업 5, D-0069 A): checks `glyph_size`(hard) — 임계 `layout_480p.min_font_px` 9.5 참조, 역할 예외 `qa_checks.glyph_size_exempt [end_card, media_meta]`, 역할 없는 글자는 예외 아님.
+- **성능**(작업 6): `--jobs` 기본 = config `engine.render.jobs`(null = cpu 수), 메모리 ÷ 프로파일 `mem_per_job_mb` 상한. hormuz 1080p 전편 328초(480p 150초, ×2.19), 청크 피크 446MB. mix.f32 md5 `c1314fb9` 무변경.
+- checks `[label-hidden-by-card]`(overlap hard, D-0068): 카드 영역 때문에 흐려진 마커 라벨 시간 비율 > `qa_checks.label_hidden_max_ratio` 0.5. checks `media_upscaled`(warning): 원본 폭 < 장치 폭.
+
 ### Fixed
 - **NB23 카드×날짜 겹침(검사기 구멍, P6)**: 연출이 카드 `y: 0.56`(비율로 쓴 값)을 주면 렌더러가 480p 픽셀 0.56 으로 읽어 카드가 모서리 날짜 자리에 떴다(Phase 9 랫클리프 p_0191.86). `checks overlap`(hard)은 사진·영상만 봐서 hard 0 이었다. 이제 카드·기사 카드·게시물 카드가 날짜 상자·자막 영역과 겹치면 `[card-over-date]`·`[card-over-subtitle]`(hard, "y 는 480p 픽셀" 안내 포함). 날짜 상자 정의는 `engine.hud.date_box()` 하나(배치 슬롯 후보·checks 공유), 카드 상자는 `engine.reserved.card_box()` 하나(RESERVED·checks 공유) (D-0065 §2, D-0066 §0-2).
 - **NB16 렌더 경로 글꼴 검사(P6)**: `engine.typography.font()` 가 fontconfig 대체 글꼴을 `FontMissingError` 로 막는다(글리프 검사와 같은 판정 함수 `require_family`, 패밀리당 fc-match 1회). 글꼴 없는 환경의 테스트는 `tests/conftest.py` 가 사유 있는 skip 으로 보고 (D-0066 §0-3).

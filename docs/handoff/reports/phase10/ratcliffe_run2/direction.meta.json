@@ -3,7 +3,7 @@
  "origin": "ai",
  "worker": "director",
  "version": 1,
- "model": "claude-opus-5-5",
+ "model": "config.yaml llm.model",
  "prompt_sha1": "0a0aa49d2493ab59f016ea755e252ae013560c7b",
  "camera_suggest_sha1": null,
  "bundle_materials_sha1": "70d9315e8a761d8e97fdc4b6724a18d35dceef87"

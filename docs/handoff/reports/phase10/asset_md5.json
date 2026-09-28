@@ -1,0 +1,34 @@
+{
+ "schema_version": 1,
+ "note": "Phase 10 (v3.6.0). 영상 = artifacts/phase10-v3.6.0(e336af1). hormuz 480p 는 배포 재렌더 없음(video_noaudio 바이트 동일 확인)",
+ "hormuz_1080/out/final.mp4": "e194d84a04aff5b1c601b819ea8f202b",
+ "hormuz_1080/out/video_noaudio.mp4": "e050532d2e72caf1e9169b47f4ad29e1",
+ "hormuz_korea/out/mix.f32": "c1314fb98d086dc116d7475562ca2c07",
+ "hormuz_korea/out/video_noaudio.mp4 (480p 재렌더, 성능 기준선)": "692f228e359a89ab74a38626b4f7396e",
+ "ratcliffe2026/out/final.mp4": "75b921923c4d1157f65837519cd06619",
+ "ratcliffe2026/out/video_noaudio.mp4": "5bf2b76828d4ce0f9c01977cc5dd032b",
+ "ratcliffe2026/out/mix.f32": "f3a5c88013aa8266677dc012d8513572",
+ "ratcliffe2026/direction.yaml": "b7d3f6fa0ac477b0d314b5d4a80ec66d",
+ "hormuz_korea/assets/res_1080p/base_*.png": {
+  "base_G_108.png": "1b177aee0dcbd1aee23345e05c6a0d85",
+  "base_G_216.png": "43432a24912dd89a16016d90d064f850",
+  "base_G_54.png": "721fa1aac301ec512a984fd6fe76f321",
+  "base_K_108.png": "b081fec571e4a48d8c78723bd1e5bdad",
+  "base_K_216.png": "3aab700a0e35dc3fcd4bb30c65fe7e93",
+  "base_K_54.png": "a1df9e507b21d3a1539466d0a1b14ca1",
+  "base_W_13.png": "fd73f33f612b042df4ca114cb7c39160",
+  "base_W_27.png": "4c35919745f2cde76d08e55117313b04",
+  "base_W_54.png": "6cbe27f49b5cf9230243559799ac42fd"
+ },
+ "hormuz_korea/assets/base_*.png (480p, 무변경)": {
+  "base_G_24.png": "5147a4e4d5ceb985b75fa902d5430520",
+  "base_G_48.png": "430107c2e7f944e02b0e80a0e841332c",
+  "base_G_96.png": "2be1f3e98eed8d095bff20bd2cbf2707",
+  "base_K_24.png": "3c478f19a0e4ad23abff8fb512f7d3c8",
+  "base_K_48.png": "23c54c4fe29be281935963486f058b75",
+  "base_K_96.png": "e8a190f57f2a99b614f9e587aa9177d4",
+  "base_W_12.png": "4ef6d90d89731b24ca1e65ebba350143",
+  "base_W_24.png": "144032850f2fc9c580c966e11e2b2f45",
+  "base_W_6.png": "2fdf8637e40d6f8703e2d03c06281669"
+ }
+}

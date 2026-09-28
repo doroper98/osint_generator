@@ -532,6 +532,7 @@ v2 MVP 합격 기준(초안 16개):
 | `ym, ymv`(:23-24), `View`(:292-319), `to_uv`(:120) | `engine/projection.py` |
 | `CAM, cam, dip, build_camera`(:176-289) | `engine/camera.py` (+ `dip(t,lon,lat,w)` 인자형) |
 | `hexc, C`(:33-37), `FONT`(:41-43), 크기·두께·알파 상수 전부 | `engine/style.py` (규칙 파일에서 로드) |
+| (v3.6.0 해상도, D-0067) `px()` 스케일 | 렌더 진입 장치 변환 한 곳 `engine/render.py:render_frame`(설계 854×480 × k), 장치 크기는 `engine/style.Output`(config `engine.output`) — 허용 목록 밖 모듈은 장치 크기를 읽지 않는다(`test_device_space`) |
 | `font, mixed_runs, text, tw, rrect, wrap`(:45-110) | `engine/typography.py` |
 | `TIERS, BASE, GEO, BORD, ADM, PLC*, KO, SEAS`(:113-136), `surf_from_pil, scaled, PIL_IMG, _SC`(:142-165) | `engine/assets.py`(로더·캐시) — 프로젝트 `labels.yaml`이 `KO/SEAS` 공급 |
 | `path_rings, draw_borders`(:322-347) | `engine/layers/borders.py` |
