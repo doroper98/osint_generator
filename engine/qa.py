@@ -75,7 +75,7 @@ def resolve_refs(refs: set[str], frames: Optional[dict] = None, checks: Optional
     """지적 표지 → (타입, 이름) 집합. 타입 "*" = 이름 일치 또는 표지 부분 문자열, "~" = 검사 상세 문장에 이름이 나옴.
     - "badge:부산에서 출항"·"badge|flag|부산에서 출항|…" → (badge, 부산에서 출항)
     - "p_0136.97" → frames.json 그 컷에 활성인 이벤트 전부(검수는 컷을 보고 지적한다 — 17 §4.1)
-    - checks 항목 id("offscreen" 등) → 그 항목 상세 문장(hard 검사 수정 루프)"""
+    - checks 항목 id("offscreen" 등) → 그 항목 상세 문장(hard 검사 수정 루프). "id:상세" 꼴도 상세 문장으로"""
     out: set[tuple[str, str]] = set()
     by_file = {Path(f["file"]).stem: f for f in (frames or {}).get("frames", [])}
     by_check = {i["id"]: i.get("details", []) for i in (checks or {}).get("items", [])}
@@ -88,6 +88,8 @@ def resolve_refs(refs: set[str], frames: Optional[dict] = None, checks: Optional
             out |= {(ev["type"], event_name(ev)) for ev in by_file[m.group(0)]["events"]}
         elif r in by_check:
             out |= {("~", d) for d in by_check[r]}
+        elif ":" in r and r.split(":", 1)[0].strip() in by_check:   # "offscreen:마커 호르무즈 해협 t=185.1" — 검사 id + 상세
+            out.add(("~", r.split(":", 1)[1]))
         elif "|" in r:
             parts = r.split("|")
             out.add((parts[0], parts[2] if len(parts) > 2 else parts[-1]))

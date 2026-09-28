@@ -70,6 +70,8 @@ class RevisionTest(unittest.TestCase):
         checks = {"items": [{"id": "offscreen", "details": ["뱃지 '부산에서 출항' 12.0s 화면 밖"]}]}
         self.assertEqual(unchanged_violations(before, after, {"offscreen"}, checks=checks), [])
         self.assertEqual(len(unchanged_violations(before, after, {"overlap"}, checks=checks)), 1)
+        # hormuz_ai 재실행 실측 — 수정 LLM 이 "검사id:상세" 로 적었다
+        self.assertEqual(unchanged_violations(before, after, {"offscreen:뱃지 부산에서 출항 t=12.0"}, checks=checks), [])
 
 
 if __name__ == "__main__":
