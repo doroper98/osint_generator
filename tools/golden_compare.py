@@ -5,6 +5,10 @@
 음성이 재합성되면 절대 시각이 달라지므로 비교는 반드시 앵커 기준이다(골든 README).
 v2.3.0: 옛 v3 렌더러 경로(`--engine legacy`)는 삭제했다(D32). 골든 대조 기준은 `--reference golden`(R-0016 §6, 1.825).
 
+의도된 차이(D34, back_and_forth D-0026): `docs/handoff/golden/expected_deltas.json`
+`{"NN_anchor": {reason, decision, old_t, new_t}}`에 등재된 컷만 MAD 기준에서 빼고 결과에 `intended_delta: true`로 적는다.
+등재 없이 기준을 넘으면 종전대로 불합격이다. 골든 PNG 는 바꾸지 않는다.
+
 앵커 규칙: 문장 id → `sentence.t0 + offset`, `TITLE` → `cards[title].t0 + offset`, `END` → `total + offset`.
 
 사용법:
@@ -31,6 +35,18 @@ PHASE1_FRAMES = REPO / "docs" / "handoff" / "reports" / "phase1" / "frames"
 PHASE2_OUT = REPO / "docs" / "handoff" / "reports" / "phase2"
 NEW_MEAN_MAX, NEW_FRAME_MAX = 1.0, 2.0  # D-0010 §2: 무손실끼리 평균 < 1.0, 최대 < 2.0
 MAD_THRESHOLD = 2.0  # /255 — Phase 2 판정 임계. Phase 1 은 참고값(D-0005 결정 1)
+
+
+def load_expected_deltas() -> dict[str, dict]:
+    p = GOLDEN_DIR / "expected_deltas.json"
+    if not p.exists():
+        return {}
+    d = json.loads(p.read_text(encoding="utf-8"))
+    for k, v in d.get("deltas", {}).items():
+        missing = {"reason", "decision", "old_t", "new_t"} - set(v)
+        if missing:
+            raise ValueError(f"expected_deltas.json {k}: 필드 누락 {sorted(missing)}")
+    return d.get("deltas", {})
 
 
 def load_golden() -> dict:
@@ -100,18 +116,21 @@ def compare_new(args: argparse.Namespace) -> int:
     (out / "frames").mkdir(parents=True, exist_ok=True)
     rows, pairs = [], []
     golden_ref = args.reference == "golden"
+    deltas = load_expected_deltas()
     for i, (f, t, png) in enumerate(zip(frames, times, pngs), 1):
         name = f"{i:02d}_{f['anchor']}.png"
         ref = Image.open((GOLDEN_DIR / f["file"]) if golden_ref else (args.ref / name)).convert("RGB")
         r = Image.open(png).convert("RGB")
         m = mad(ref, r)
         shutil.copy2(png, out / "frames" / name)
+        key = name[:-4]
         rows.append(dict(n=i, anchor=f["anchor"], offset=f["offset"], t_now=round(t, 3), mad=round(m, 4),
-                         over=m >= NEW_FRAME_MAX, frame=f"frames/{name}"))
+                         over=m >= NEW_FRAME_MAX, frame=f"frames/{name}", intended_delta=key in deltas))
         pairs.append((f"{i:02d} {f['anchor']}{f['offset']:+.1f}  t={t:.2f}", ref, r, m))
         print(f"{i:02d} {f['anchor']:<12} t={t:7.2f}  MAD {m:7.4f}", flush=True)
-    mean = sum(r["mad"] for r in rows) / len(rows)
-    mx = max(r["mad"] for r in rows)
+    judged = [r for r in rows if not r["intended_delta"]]   # 의도된 차이(D34)는 판정에서 뺀다
+    mean = sum(r["mad"] for r in judged) / len(judged)
+    mx = max(r["mad"] for r in judged)
     ok = mean < NEW_MEAN_MAX and mx < NEW_FRAME_MAX
     if golden_ref:  # 골든은 H.264 추출본 — 코덱 차가 섞인 참고값(D-0009 §1). 판정 임계는 Phase 1 과 같은 2/255 참고선
         ok = mean < MAD_THRESHOLD
@@ -121,10 +140,11 @@ def compare_new(args: argparse.Namespace) -> int:
                 else f"무손실 프리뷰({args.ref.relative_to(REPO) if args.ref.is_relative_to(REPO) else args.ref})")
     result = dict(schema_version=1, engine="new", reference=ref_desc,
                   mean_max=NEW_MEAN_MAX, frame_max=NEW_FRAME_MAX, mean_mad=round(mean, 4), max_mad=round(mx, 4),
-                  passed=ok, over_threshold=[r["anchor"] for r in rows if r["over"]], frames=rows)
+                  passed=ok, over_threshold=[r["anchor"] for r in judged if r["over"]],
+                  intended_deltas=[r["anchor"] for r in rows if r["intended_delta"]], frames=rows)
     (out / "golden_compare.json").write_text(json.dumps(result, ensure_ascii=False, indent=1), encoding="utf-8")
     diff_sheet(pairs, out / "golden_compare_diff.jpg")
-    print(f"mean MAD {mean:.4f}/255, max {mx:.4f} -> {'PASS' if ok else 'FAIL'}")
+    print(f"mean MAD {mean:.4f}/255, max {mx:.4f} (의도된 차이 {len(rows) - len(judged)}컷 제외) -> {'PASS' if ok else 'FAIL'}")
     return 0 if ok else 1
 
 

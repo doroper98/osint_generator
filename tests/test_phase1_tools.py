@@ -21,7 +21,8 @@ sys.path.insert(0, str(REPO / "tools"))
 
 from contact_sheet import transition_times  # noqa: E402
 from fetch_data import TIERS, tile_range  # noqa: E402
-from golden_compare import anchor_time, load_golden, mad  # noqa: E402
+import golden_compare  # noqa: E402
+from golden_compare import anchor_time, load_expected_deltas, load_golden, mad  # noqa: E402
 from engine.mux import build_description, build_srt, load_description, srt_time  # noqa: E402
 from engine.render import chunk_ranges  # noqa: E402
 from script.schema import Plan  # noqa: E402
@@ -108,6 +109,29 @@ class RunnerTest(unittest.TestCase):
         self.assertEqual(len(ts), 8)
         self.assertAlmostEqual(sum(ts) / 8, 100.0)
         self.assertAlmostEqual(ts[1] - ts[0], 0.3)
+
+
+class ExpectedDeltasTest(unittest.TestCase):
+    """D34 — 골든 의도된 차이 등재 파일(골든 PNG 는 그대로)."""
+
+    def test_missing_file_is_empty(self) -> None:
+        import tempfile  # noqa: PLC0415
+        from unittest import mock  # noqa: PLC0415
+
+        with tempfile.TemporaryDirectory() as d, mock.patch.object(golden_compare, "GOLDEN_DIR", Path(d)):
+            self.assertEqual(load_expected_deltas(), {})
+
+    def test_fields_required(self) -> None:
+        import tempfile  # noqa: PLC0415
+        from unittest import mock  # noqa: PLC0415
+
+        with tempfile.TemporaryDirectory() as d, mock.patch.object(golden_compare, "GOLDEN_DIR", Path(d)):
+            (Path(d) / "expected_deltas.json").write_text(json.dumps({"deltas": {"09_ask_1": {"reason": "x"}}}))
+            with self.assertRaises(ValueError):
+                load_expected_deltas()
+            (Path(d) / "expected_deltas.json").write_text(json.dumps({"deltas": {"09_ask_1": {
+                "reason": "x", "decision": "D-0026", "old_t": 1.0, "new_t": 1.5}}}))
+            self.assertIn("09_ask_1", load_expected_deltas())
 
 
 if __name__ == "__main__":
