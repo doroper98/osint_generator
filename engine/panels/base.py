@@ -69,9 +69,9 @@ def claim_label(pv: dict | None) -> str | None:
     """사실 검증 라벨(<미검증> 등, C9) — 추정 태그와 별개(D-0034 §3)."""
     if pv is None or not pv.get("claim_status"):
         return None
-    from schemas.models import CLAIM_STATUS_LABELS  # noqa: PLC0415
+    from script.labels import status_label  # noqa: PLC0415 — 규칙 표 하나(v3.2.0, 원고 라벨·post 카드와 같은 SSOT)
 
-    return CLAIM_STATUS_LABELS[pv["claim_status"]]
+    return status_label(pv["claim_status"])
 
 
 def tag_row_y(e: dict) -> float:

@@ -1,6 +1,6 @@
-"""ScriptWorker — 원고 작성 (v3.0.0, 16 §3 개조, back_and_forth D-0040 작업 5·D-0043).
+"""ScriptWorker — 원고 작성 (v3.0.0, 16 §3 개조, back_and_forth D-0040 작업 5·D-0043 → v3.2.0 D-0051 작업 7).
 
-`research_dossier.json` (주장-근거) + `ProjectManifest` (제목/주제/목표 길이) 를 읽어
+`facts.json`(사실 목록) + `intake/claims.json`(검증 status) + `ProjectManifest` (제목/주제/목표 길이) 를 읽어
 `script.schema:Script`(장면 자유 구성, 자막 text / 발음 tts 분리, sources) 를 생성하고
 `projects/{pid}/script.yaml` 로 저장합니다. 옛 FullScript(챕터·세그먼트)는 삭제(15 P2).
 
@@ -10,8 +10,8 @@
 - `response_model = Script`. 저장은 YAML(사람이 고친다).
 - build_user_prompt 는 `.replace()` 로만 합성 (C2: `.format()` 금지).
 - 사용자 질문 금지 (C4).
-- **검증 라벨은 LLM 이 쓰지 않는다**(D-0043, 15 P8). 문장 `sources` = 도시어 claim_id 만 —
-  도시어 밖 id 는 check_parsed 오류. 라벨은 코드(script/labels)가 도시어 status 로 계산해
+- **검증 라벨은 LLM 이 쓰지 않는다**(D-0043, 15 P8). 문장 `sources` = claims.json claim_id 만 —
+  밖 id 는 check_parsed 오류. 라벨은 코드(script/labels)가 claims status 로 계산해
   `script_labels.json` 에 저장한다.
 """
 
@@ -25,13 +25,10 @@ from typing import ClassVar, Literal, Type
 from pydantic import BaseModel
 
 from orchestrator.script_io import dump_script_yaml, labels_path, script_path
-from schemas.models import (
-    ProjectManifest,
-    ResearchDossier,
-    TaskQueueItem,
-)
+from schemas.models import ProjectManifest, TaskQueueItem
+from schemas.source_models import ClaimsFile
 from script.labels import compute_labels
-from script.schema import Script
+from script.schema import Facts, Script
 from workers.base_llm_worker import BaseLLMWorker
 from workers.base_worker import run_worker
 from workers.prompt_loader import load_prompt
@@ -54,57 +51,49 @@ class ScriptWorker(BaseLLMWorker):
     llm_mode: ClassVar[str] = "response"
     prompt_name: ClassVar[str] = "script"
     response_model: ClassVar[Type[BaseModel]] = Script
+    retry_on_invalid: ClassVar[int] = 1      # v3.2.0 — claims 밖 id 등 계약 위반은 1회 재요청(16 §3)
     # 긴 원고 1-shot 생성은 기본 타임아웃을 넘기는 경우가 관측됨(실측 526초 성공 / 600초
     # 타임아웃). 값은 config.yaml `llm.script_timeout_sec` (v2.0.0 SSOT).
     invoke_timeout_key: ClassVar[Literal["invoke_timeout_sec", "script_timeout_sec"]] = "script_timeout_sec"
 
     def build_user_prompt(self, args: argparse.Namespace, task: TaskQueueItem) -> str:
-        """ProjectManifest + research_dossier.json 을 읽어 user prompt 를 구성.
-
-        - manifest / research_dossier 가 없으면 FileNotFoundError 전파 (run() 흡수).
-        - 모든 치환은 `.replace()` (C2).
-        """
+        """ProjectManifest + facts.json + claims.json → user prompt. 없으면 FileNotFoundError(run() 흡수). `.replace()` 만(C2)."""
         pdir = self.project_dir(args)
-
         manifest_path = pdir / "project_manifest.json"
         if not manifest_path.exists():
             raise FileNotFoundError(f"project_manifest.json 이 없습니다: {manifest_path}")
-        manifest = ProjectManifest.model_validate(
-            json.loads(manifest_path.read_text(encoding="utf-8"))
-        )
-
-        dossier_path = pdir / "04_research" / "research_dossier.json"
-        if not dossier_path.exists():
-            raise FileNotFoundError(f"research_dossier.json 이 없습니다: {dossier_path}")
-        dossier = self._dossier(args)
-
-        claims_block = self._format_claims(dossier)
-        topic = dossier.topic or manifest.title
-
+        manifest = ProjectManifest.model_validate(json.loads(manifest_path.read_text(encoding="utf-8")))
+        facts = self._facts(args)
         template = load_prompt("script_user", self.rules)
         return (
             template
             .replace("{project_id}", manifest.project_id)
             .replace("{title}", manifest.title)
-            .replace("{topic}", topic)
+            .replace("{topic}", manifest.topic_summary or manifest.title)
             .replace("{duration}", str(manifest.target_duration_min))
-            .replace("{summary}", dossier.summary or "(요약 없음)")
-            .replace("{claims}", claims_block)
+            .replace("{facts}", self._format_facts(facts, self._claims(args)))
         )
 
     def output_path(self, args: argparse.Namespace, task: TaskQueueItem) -> Path:
         return script_path(args.project_id)
 
-    def _dossier(self, args: argparse.Namespace) -> ResearchDossier:
-        p = self.project_dir(args) / "04_research" / "research_dossier.json"
-        return ResearchDossier.model_validate(json.loads(p.read_text(encoding="utf-8")))
+    def _facts(self, args: argparse.Namespace) -> Facts:
+        p = self.project_dir(args) / "facts.json"
+        if not p.exists():
+            raise FileNotFoundError(f"facts.json 이 없습니다: {p} — build-research 먼저")
+        return Facts.model_validate_json(p.read_text(encoding="utf-8"))
+
+    def _claims(self, args: argparse.Namespace) -> ClaimsFile:
+        p = self.project_dir(args) / "intake" / "claims.json"
+        if not p.exists():
+            raise FileNotFoundError(f"claims.json 이 없습니다: {p}")
+        return ClaimsFile.model_validate_json(p.read_text(encoding="utf-8"))
 
     def _statuses(self, args: argparse.Namespace) -> dict[str, str]:
-        return {c.claim_id: (c.status if isinstance(c.status, str) else c.status.value)
-                for c in self._dossier(args).claims}
+        return {c.claim_id: c.status for c in self._claims(args).claims}
 
     def check_parsed(self, args: argparse.Namespace, task: TaskQueueItem, parsed: BaseModel) -> None:
-        """sources ⊂ 도시어 claim_id (D-0043 §1). 위반은 LabelError(ValueError) — 출력 없음."""
+        """sources ⊂ claims.json claim_id (D-0043 §1). 위반은 LabelError(ValueError) — 출력 없음(재요청 대상)."""
         assert isinstance(parsed, Script)
         compute_labels(parsed, self._statuses(args))
 
@@ -120,23 +109,15 @@ class ScriptWorker(BaseLLMWorker):
         outp.write_text(compute_labels(parsed, self._statuses(args)).model_dump_json(indent=2), encoding="utf-8")
 
     @staticmethod
-    def _format_claims(dossier: ResearchDossier) -> str:
-        """도시어 claim 을 한 줄 1주장 블록으로 직렬화 (status/label/근거 포함)."""
-        if not dossier.claims:
-            return "  (주장 없음 — 도입/맥락 위주의 짧은 대본을 신중히 작성)"
-        lines: list[str] = []
-        for c in dossier.claims:
-            status = c.status if isinstance(c.status, str) else c.status.value
-            src = ",".join(
-                e.source_id or (e.seed_id or "?") for e in c.evidence
-            ) or "(근거 없음)"
-            lines.append(
-                f"  - claim_id={c.claim_id} | status={status} "
-                f"| confidence={c.confidence} | 근거={src}\n"
-                f"      statement: {c.statement}"
-            )
-        return "\n".join(lines)
-
+    def _format_facts(facts: Facts, claims: ClaimsFile) -> str:
+        """사실 한 줄 + 인용할 claim_id 와 그 status(귀속 표현 판단용)."""
+        st = {c.claim_id: c.status for c in claims.claims}
+        rows = []
+        for f in facts.facts:
+            cl = ", ".join(f"{c}({st.get(c, '?')})" for c in f.source_ids)
+            side = "" if not f.sides else " | 양측: " + " / ".join(f.sides)
+            rows.append(f"  - {f.id} | 날짜 {f.date or '-'} | 인용 claim: {cl}{side}\n      {f.text}")
+        return "\n".join(rows)
 
 if __name__ == "__main__":
     run_worker(ScriptWorker())

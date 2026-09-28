@@ -4,8 +4,8 @@ Command Center(TUI)와 CLI(`orchestrator.main advance/approve/reject`)가 같은
 - 엔진 상태(VOICE_TIMELINE·ASSETS·DIRECTION·PREVIEW_QA·RENDER·AUDIO_MIX·DELIVER): `engine_service` 로
   단계를 돌리고, 전부 ok 면 다음 상태로 간다. **하나라도 ok 가 아니면(drops·errors) 그 상태에 머문다**(15 P6).
 - 승인 게이트(SCRIPT_APPROVAL·PREVIEW_APPROVAL): 여기서 진행하지 않는다 — approve / reject 만.
-- LLM·사람 상태(CREATED~SCRIPT_DRAFT): 해당 명령(plan-intake·submit-intake·build-source-registry·
-  build-research-dossier·build-script)이 진행한다. `advance` 는 안내 오류를 낸다.
+- LLM·사람 상태(CREATED~SCRIPT_DRAFT): 해당 명령(plan-intake·add-source·confirm-source·submit-intake·
+  verify-sources·build-research·build-script)이 진행한다. `advance` 는 안내 오류를 낸다.
 StageResult 전체는 `logs/stages/NN_<stage>.json`, 요약은 manifest `stage_records`(오케스트레이터 자기 기록 —
 엔진 입력 파일이 아니다, 15 P1).
 """
@@ -27,8 +27,8 @@ from schemas.models import ProjectManifest, ProjectState, StageRecord
 
 LLM_STATE_COMMANDS: dict[ProjectState, str] = {
     ProjectState.CREATED: "plan-intake",
-    ProjectState.INTAKE: "plan-intake → submit-intake",
-    ProjectState.SOURCE_VERIFY: "build-source-registry → build-research-dossier 또는 import-bundle",
+    ProjectState.INTAKE: "add-source → confirm-source → submit-intake",
+    ProjectState.SOURCE_VERIFY: "verify-sources → build-research",
     ProjectState.RESEARCH: "build-script",
     ProjectState.SCRIPT_DRAFT: "원고 확정 후 transition --to script_approval",
 }

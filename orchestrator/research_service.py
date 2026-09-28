@@ -1,156 +1,92 @@
-"""build-research-dossier 오케스트레이션 (Phase 6A, v0.8.0).
+"""build-research 오케스트레이션 (v3.2.0, 17 §5.1, back_and_forth D-0051 작업 7·11).
 
-`ResearchWorker` 1회 호출 + 상태 전이(`source_verify` →
-`research`)를 한 함수로 묶는다. `intake_service.run_intake_planner` 와
-동일한 형태의 thin orchestration — 사용자 입출력(print)은 호출자(CLI)가 담당하고,
-본 모듈은 결과/예외로만 소통한다. 디스크 영속화는 ResearchWorker(output_path) 와
-research_io 가 담당하며, 본 모듈은 precondition·worker 실행·전이 게이트만 책임진다.
+SOURCE_VERIFY 에서 `intake/claims.json`(소스 검증 결과)이 있어야 ResearchWorker 1회 → `facts.json`(Facts) → RESEARCH 전이.
+사용자 입출력은 호출자(CLI·Command Center) 몫, 본 모듈은 결과/예외로만 소통한다.
+옛 ResearchDossier·research_io·source_completeness_report 진입 조건은 삭제(D52, P2).
 """
 
 from __future__ import annotations
 
 import argparse
-import json
 from typing import Optional
 
-from orchestrator.config import AppConfig, load_config
+from orchestrator.config import AppConfig, load_config, project_dir
 from orchestrator.project_manager import resume_project, transition_state
-from orchestrator.research_io import load_research_dossier, research_dossier_path
-from orchestrator.source_registry_io import source_completeness_report_path
-from schemas.models import ProjectManifest, ProjectState, ResearchDossier, TaskQueueItem
+from schemas.models import ProjectManifest, ProjectState, TaskQueueItem
+from schemas.source_models import check_claim_sources
 
 
 class ResearchError(RuntimeError):
-    """build-research-dossier 흐름 실패.
+    """build-research 흐름 실패. kind: state(상태·claims 없음) / worker / persist."""
 
-    kind:
-    - "state"  : state precondition 위반 (source_verify 가 아님).
-    - "worker" : ResearchWorker 가 completed 가 아닌 상태로 종료.
-    - "persist": worker 는 성공했으나 디스크 dossier 검증/로딩 실패.
-    """
-
-    def __init__(
-        self, message: str, *, kind: str, errors: Optional[list[str]] = None
-    ) -> None:
+    def __init__(self, message: str, *, kind: str, errors: Optional[list[str]] = None) -> None:
         super().__init__(message)
         self.kind = kind
         self.errors = errors or []
 
 
-def _state_str(state) -> str:
+def _state_str(state) -> str:  # noqa: ANN001
     return state.value if hasattr(state, "value") else str(state)
 
 
-def run_research_worker(
-    project_id: str,
-    *,
-    backend: str = "claude",
-    force: bool = False,
-    cfg: Optional[AppConfig] = None,
-) -> tuple[ProjectManifest, list[str], bool]:
-    """build-research-dossier 전체 흐름 실행.
-
-    1. manifest 로딩 + state precondition (source_verify 에서만).
-    2. 유효한 기존 research_dossier.json 이 있고 force 미지정이면 worker skip.
-    3. 합성 TaskQueueItem + worker.run() + write_result.
-    4. worker 성공 시 디스크 dossier 를 load 로 검증 (전이 게이트).
-    5. source_verify → research 전이.
-
-    returns
-    -------
-    (ProjectManifest, list[str], bool)
-        전이 완료된 manifest, outputs 요약, worker skip 여부.
-
-    raises
-    ------
-    FileNotFoundError
-        manifest 없음.
-    ResearchError
-        state 위반(kind="state") / worker 실패(kind="worker") / 영속화 검증 실패(kind="persist").
-    ValueError
-        전이 자체 실패 (드묾).
-    """
-    # 지연 import: worker 의존성이 없는 다른 진입점에 영향 주지 않도록.
-    from workers.research_worker import ResearchWorker
+def run_research_worker(project_id: str, *, backend: str = "claude", force: bool = False,
+                        cfg: Optional[AppConfig] = None) -> tuple[ProjectManifest, list[str], bool]:
+    """SOURCE_VERIFY + 유효한 claims.json → Facts → RESEARCH. (manifest, outputs, skipped)."""
+    from orchestrator.source_intake import load_sources  # noqa: PLC0415
+    from orchestrator.source_verify import load_claims  # noqa: PLC0415
+    from script.schema import Facts  # noqa: PLC0415
+    from workers.research_worker import FACTS_FILENAME, ResearchWorker, check_facts  # noqa: PLC0415
 
     cfg = cfg or load_config()
-
     manifest = resume_project(project_id, cfg)
     current = _state_str(manifest.current_state)
-    # v3.0.0(16 §2): source_verify 안에서 completeness report 가 있어야 "검증 끝".
-    if current != ProjectState.SOURCE_VERIFY.value or not source_completeness_report_path(project_id, cfg).exists():
-        raise ResearchError(
-            f"현재 상태 '{current}' 에서는 build-research-dossier 를 실행할 수 없습니다. "
-            f"(허용: source_verify + source_completeness_report.json — build-source-registry 먼저)",
-            kind="state",
-        )
+    pdir = project_dir(project_id, cfg)
+    if current != ProjectState.SOURCE_VERIFY.value:
+        raise ResearchError(f"현재 상태 '{current}' 에서는 build-research 를 실행할 수 없습니다(허용: source_verify)", kind="state")
+    try:
+        claims = load_claims(pdir)
+    except ValueError as ex:
+        raise ResearchError(f"claims.json 손상: {ex}", kind="state") from ex
+    if claims is None or not claims.claims:
+        raise ResearchError("claims.json 이 없다 — verify-sources 먼저(18 §7)", kind="state")
+    ref_errs = check_claim_sources(claims, load_sources(pdir))
+    if ref_errs:
+        raise ResearchError("claims.json 이 sources.json 과 맞지 않는다", kind="state", errors=ref_errs)
 
-    dossier_path = research_dossier_path(project_id, cfg)
-
+    facts_p = pdir / FACTS_FILENAME
     skipped = False
-    if dossier_path.exists() and not force:
+    if facts_p.exists() and not force:
         try:
-            ResearchDossier.model_validate_json(
-                dossier_path.read_text(encoding="utf-8")
-            )
-            skipped = True
-        except (json.JSONDecodeError, ValueError):
-            # 손상된 기존 dossier 는 무시하고 재실행.
+            skipped = not check_facts(Facts.model_validate_json(facts_p.read_text(encoding="utf-8")), claims)
+        except ValueError:
             skipped = False
-
     if skipped:
-        outputs = [str(dossier_path)]
+        outputs = [str(facts_p)]
     else:
-        task_id = f"research-{project_id}"
-        task = TaskQueueItem(
-            task_id=task_id,
-            task_type="research",
-            assigned_worker="research",
-            description="ResearchWorker 1회 실행",
-            input_refs=["02_sources/source_registry.json", "project_manifest.json"],
-            output_refs=["04_research/research_dossier.json"],
-        )
+        task = TaskQueueItem(task_id=f"research-{project_id}", task_type="research", assigned_worker="research",
+                             description="ResearchWorker 1회(claims → facts)",
+                             input_refs=["intake/sources.json", "intake/claims.json", "project_manifest.json"],
+                             output_refs=[FACTS_FILENAME])
         worker = ResearchWorker()
         worker.llm_backend = backend
-
-        worker_args = argparse.Namespace(
-            project_id=project_id,
-            task_id=task_id,
-            projects_root="projects",
-        )
-        result = worker.run(worker_args, task)
+        wargs = argparse.Namespace(project_id=project_id, task_id=task.task_id, projects_root=str(pdir.parent))
+        result = worker.run(wargs, task)
         try:
-            worker.write_result(worker_args, result)
+            worker.write_result(wargs, result)
         except OSError:
-            # task_result.json 영속화 실패는 치명적이지 않음 — 진행.
             pass
-
-        result_status = _state_str(result.status)
-        if result_status != "completed":
-            raise ResearchError(
-                f"ResearchWorker 실패: status={result_status}",
-                kind="worker",
-                errors=list(result.errors),
-            )
+        st = _state_str(result.status)
+        if st != "completed":
+            raise ResearchError(f"ResearchWorker 실패: status={st}", kind="worker", errors=list(result.errors))
         outputs = list(result.outputs)
-
-        # 전이 게이트: dossier 가 디스크에 유효하게 영속화됐는지 확인 후에만 전진.
         try:
-            load_research_dossier(project_id, cfg)
-        except (FileNotFoundError, json.JSONDecodeError, ValueError) as e:
-            raise ResearchError(
-                f"research_dossier.json 영속화 검증 실패: {e}",
-                kind="persist",
-            ) from e
-
-    # planner worker 와 마찬가지로 ResearchWorker 는 manifest 를 건드리지 않으므로
-    # in-memory manifest 를 그대로 전이 (resume 재호출의 race window 제거).
-    manifest = transition_state(
-        manifest,
-        ProjectState.RESEARCH,
-        reason="ResearchWorker 성공" if not skipped else "기존 research_dossier.json 재사용",
-        cfg=cfg,
-    )
+            errs = check_facts(Facts.model_validate_json(facts_p.read_text(encoding="utf-8")), claims)
+        except (OSError, ValueError) as e:
+            raise ResearchError(f"facts.json 영속화 검증 실패: {e}", kind="persist") from e
+        if errs:
+            raise ResearchError("facts.json 계약 위반", kind="persist", errors=errs)
+    manifest = transition_state(manifest, ProjectState.RESEARCH,
+                                reason="ResearchWorker 성공(facts.json)" if not skipped else "기존 facts.json 재사용", cfg=cfg)
     return manifest, outputs, skipped
 
 

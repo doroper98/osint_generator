@@ -37,7 +37,7 @@ def dump_script_yaml(script: Script) -> str:
 
 
 def _atomic_write_text(path: Path, data: str) -> None:
-    """tmp write → fsync → atomic rename. research_io._atomic_write_text 와 동일 정책."""
+    """tmp write → fsync → atomic rename. source_intake.save_sources 와 같은 정책."""
     path.parent.mkdir(parents=True, exist_ok=True)
     tmp = path.with_suffix(path.suffix + ".tmp")
     try:

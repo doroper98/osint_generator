@@ -170,7 +170,7 @@ def fetch_article(url: str, timeout: float = 20.0) -> dict[str, str]:
     body = re.sub(r"(?is)<(script|style|noscript)[^>]*>.*?</\1>", " ", raw)
     paras = [html.unescape(_TAG.sub(" ", p)).strip() for p in re.findall(r"(?is)<p[^>]*>(.*?)</p>", body)]
     text = "\n".join(re.sub(r"\s+", " ", p) for p in paras if len(p) > 30)
-    return {"title": title, "publisher": meta("og:site_name"), "published": meta("article:published_time")[:10], "body": text}
+    return {"title": title, "publisher": meta("og:site_name"), "published_at": meta("article:published_time")[:10], "body": text}
 
 
 def add_article(pdir: Path, *, publisher: str, headline: str, published_at: date, body: str, url: Optional[str] = None,

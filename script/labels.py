@@ -1,9 +1,9 @@
-"""문장 검증 라벨 — 코드가 도시어 claim status 로 계산한다 (v3.0.0, back_and_forth D-0043, D42, 15 P8).
+"""문장 검증 라벨 — 코드가 claims.json status 로 계산한다 (v3.0.0 D42 → v3.2.0 D-0051 작업 7, 15 P8).
 
-원고 문장 `sources` = 도시어(`04_research/research_dossier.json`) claim_id 목록. 라벨 문구와 강약 순서는
-`rules/video_rules.yaml script_schema.labels / label_strength_order` 에서만 읽는다.
+원고 문장 `sources` = `intake/claims.json` claim_id 목록(18 §3-6). 라벨 문구와 강약 순서는
+`rules/video_rules.yaml script_schema.labels / label_strength_order` 에서만 읽는다(`status_label` — 패널·post 카드도 같은 표).
 한 문장이 여러 claim 을 인용하면 **가장 약한 status** 가 그 문장의 라벨이다.
-저장: `projects/<pid>/script_labels.json`(파생값 — SSOT 는 도시어). 영상 렌더 표기는 6.95(18).
+저장: `projects/<pid>/script_labels.json`(파생값 — SSOT 는 claims.json).
 """
 
 from __future__ import annotations
@@ -18,18 +18,25 @@ from rules import load_rules
 from script.schema import Script
 
 LABELS_FILENAME = "script_labels.json"
-DOSSIER_RELPATH = "04_research/research_dossier.json"
+CLAIMS_RELPATH = "intake/claims.json"
 
 
 class LabelError(ValueError):
-    """sources 에 도시어 밖 claim_id, 또는 저장된 라벨이 재계산과 다름."""
+    """sources 에 claims.json 밖 claim_id, 또는 저장된 라벨이 재계산과 다름."""
+
+
+def status_label(status: Optional[str]) -> Optional[str]:
+    """검증 status → 영상 라벨 문구(규칙 표, verified·corroborated = None). 모르는 status = KeyError(P10)."""
+    if status is None:
+        return None
+    return load_rules().script_schema.labels[status]
 
 
 class SentenceLabel(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
     status: Optional[str] = None       # 가장 약한 claim status. sources 가 비면 None
-    label: Optional[str] = None        # 규칙 문구(confirmed 는 None)
+    label: Optional[str] = None        # 규칙 문구(verified·corroborated 는 None)
     claim_ids: list[str] = Field(default_factory=list)
 
 
@@ -48,12 +55,11 @@ class ScriptLabels(BaseModel):
         return out
 
 
-def dossier_statuses(dossier_path: Path) -> dict[str, str]:
-    """research_dossier.json → {claim_id: status}."""
-    from schemas.models import ResearchDossier  # noqa: PLC0415
+def claim_statuses(claims_path: Path) -> dict[str, str]:
+    """intake/claims.json → {claim_id: status}."""
+    from schemas.source_models import ClaimsFile  # noqa: PLC0415
 
-    d = ResearchDossier.model_validate_json(dossier_path.read_text(encoding="utf-8"))
-    return {c.claim_id: (c.status if isinstance(c.status, str) else c.status.value) for c in d.claims}
+    return {c.claim_id: c.status for c in ClaimsFile.model_validate_json(claims_path.read_text(encoding="utf-8")).claims}
 
 
 def compute_labels(script: Script, statuses: dict[str, str]) -> ScriptLabels:
@@ -72,26 +78,26 @@ def compute_labels(script: Script, statuses: dict[str, str]) -> ScriptLabels:
             weakest = min((statuses[c] for c in s.sources), key=lambda st: rank[st])
             out[sid] = SentenceLabel(status=weakest, label=rules.labels[weakest], claim_ids=list(s.sources))
     if unknown:
-        raise LabelError(f"sources 에 도시어 밖 claim_id {len(unknown)}건: {', '.join(unknown[:8])}")
+        raise LabelError(f"sources 에 claims.json 밖 claim_id {len(unknown)}건: {', '.join(unknown[:8])}")
     return ScriptLabels(labels=out)
 
 
 def check_project_labels(proj: Path, script: Script) -> Optional[ScriptLabels]:
-    """도시어가 있으면 재계산하고 저장본과 대조한다. 도시어도 저장본도 없으면 None(라벨 없음)."""
-    dossier = proj / DOSSIER_RELPATH
+    """claims.json 이 있으면 재계산하고 저장본과 대조한다. claims 도 저장본도 없으면 None(라벨 없음)."""
+    claims = proj / CLAIMS_RELPATH
     saved = proj / LABELS_FILENAME
-    if not dossier.exists():
+    if not claims.exists():
         if saved.exists():
-            raise LabelError(f"{saved.name} 은 있는데 도시어({DOSSIER_RELPATH})가 없다 — 라벨 근거 없음")
+            raise LabelError(f"{saved.name} 은 있는데 {CLAIMS_RELPATH} 가 없다 — 라벨 근거 없음")
         return None
-    labels = compute_labels(script, dossier_statuses(dossier))
+    labels = compute_labels(script, claim_statuses(claims))
     if saved.exists():
         stored = ScriptLabels.model_validate(json.loads(saved.read_text(encoding="utf-8")))
         if stored != labels:
             diff = [sid for sid in labels.labels if stored.labels.get(sid) != labels.labels[sid]]
-            raise LabelError(f"{saved.name} 이 도시어 재계산과 다르다({len(diff)}문장: {', '.join(diff[:6])}) — 워커 재실행 필요")
+            raise LabelError(f"{saved.name} 이 claims.json 재계산과 다르다({len(diff)}문장: {', '.join(diff[:6])}) — 워커 재실행 필요")
     return labels
 
 
-__all__ = ["LABELS_FILENAME", "LabelError", "ScriptLabels", "SentenceLabel", "check_project_labels",
-           "compute_labels", "dossier_statuses"]
+__all__ = ["CLAIMS_RELPATH", "LABELS_FILENAME", "LabelError", "ScriptLabels", "SentenceLabel", "check_project_labels",
+           "claim_statuses", "compute_labels", "status_label"]

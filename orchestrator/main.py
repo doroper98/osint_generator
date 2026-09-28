@@ -11,11 +11,9 @@
                                             : SourceIntake 영속화 + source_verify 전이
 - build-source-registry {pid}               : partials → source_registry.json +
                                               source_completeness_report.json (Phase 5)
-- build-research-dossier {pid} [--backend]  : ResearchWorker 호출 → research_dossier.json
-                                              + research 전이 (Phase 6A)
-- import-bundle {pid} --file <path>          : agents_reviewer report_bundle.json →
-                                              research_dossier.json + research
-                                              전이 (외부 연동, build-research-dossier 대체)
+- verify-sources {pid} [--backend]          : 소스 검증(인용 대조) → intake/claims.json (source_verify 에 머문다, v3.2.0)
+- build-research {pid} [--backend] [--force]: ResearchWorker → facts.json + research 전이 (v3.2.0, 17 §5.1)
+- import-bundle {pid} --file <path>          : v3.2.0 명시 오류 — 번들 → sources·claims 변환은 Phase 9 에서 복귀
 - build-script {pid} [--backend]            : ScriptWorker 호출 → script.yaml + script_labels.json
                                               + script_draft 전이 (Phase 6 Script)
 - build-scene / render-debug / build-audio / build-audio-demo
@@ -143,43 +141,22 @@ def build_parser() -> argparse.ArgumentParser:
         ),
     )
 
-    brd = sub.add_parser(
-        "build-research-dossier",
-        help=(
-            "ResearchWorker 호출 → research_dossier.json 생성 후 "
-            "research 전이 (Phase 6A)"
-        ),
-    )
-    brd.add_argument("project_id", help="project_id")
-    brd.add_argument(
-        "--backend",
-        choices=["claude", "codex"],
-        default="claude",
-        help="LLM backend (기본: claude)",
-    )
-    brd.add_argument(
-        "--force",
-        action="store_true",
-        help=(
-            "이미 유효한 research_dossier.json 이 있어도 worker 를 재실행. "
-            "기본 동작은 idempotent — 유효한 dossier 가 있으면 재실행을 건너뛰고 "
-            "research 로 전이만 진행."
-        ),
-    )
+    vsr = sub.add_parser("verify-sources", help="소스 검증(인용 대조) → intake/claims.json (source_verify, v3.2.0)")
+    vsr.add_argument("project_id", help="project_id")
+    vsr.add_argument("--backend", choices=["claude", "codex"], default="claude", help="LLM backend (기본: claude)")
 
-    imb = sub.add_parser(
-        "import-bundle",
-        help=(
-            "agents_reviewer report_bundle.json → research_dossier.json 변환 후 "
-            "research 전이 (외부 연동, build-research-dossier 드롭인 대체)"
-        ),
-    )
+    brs = sub.add_parser("build-research", help="ResearchWorker → facts.json 후 research 전이 (v3.2.0, 17 §5.1)")
+    brs.add_argument("project_id", help="project_id")
+    brs.add_argument("--backend", choices=["claude", "codex"], default="claude", help="LLM backend (기본: claude)")
+    brs.add_argument("--force", action="store_true", help="유효한 facts.json 이 있어도 재실행(기본은 재사용)")
+
+    imb = sub.add_parser("import-bundle", help="[v3.2.0 비활성] 번들 → sources·claims 변환은 Phase 9 에서 복귀(명시 오류)")
     imb.add_argument("project_id", help="project_id")
-    imb.add_argument(
-        "--file",
-        required=True,
-        help="report_bundle.json 경로 (ReportBundle 스키마, extra=forbid 검증)",
-    )
+    imb.add_argument("--file", required=True, help="report_bundle.json 경로")
+
+    # v3.2.0 삭제(D52) — 옛 도시어 명령은 시끄럽게 실패
+    lrd = sub.add_parser("build-research-dossier", help="[삭제됨 v3.2.0] build-research 사용")
+    lrd.add_argument("legacy_args", nargs=argparse.REMAINDER, help=argparse.SUPPRESS)
 
     bsc = sub.add_parser(
         "build-script",
@@ -353,11 +330,19 @@ def main(argv: list[str] | None = None) -> int:
     if args.cmd == "build-source-registry":
         return _cmd_build_source_registry(args)
 
+    if args.cmd == "verify-sources":
+        return _cmd_verify_sources(args)
+
+    if args.cmd == "build-research":
+        return _cmd_build_research(args)
+
     if args.cmd == "build-research-dossier":
-        return _cmd_build_research_dossier(args)
+        raise LegacyRemovedError("build-research-dossier(v3.2.0 삭제 → build-research)")
 
     if args.cmd == "import-bundle":
-        return _cmd_import_bundle(args)
+        print("error: import-bundle 은 v3.2.0 에서 비활성 — 번들 → sources.json·claims.json 변환은 Phase 9 번들 어댑터에서 "
+              "복귀한다(back_and_forth D-0052 D52). 지금은 소스를 직접 넣는다(add-source).", file=sys.stderr)
+        return 2
 
     if args.cmd == "build-script":
         return _cmd_build_script(args)
@@ -632,17 +617,29 @@ def _cmd_build_source_registry(args: argparse.Namespace) -> int:
     return 0
 
 
-def _cmd_build_research_dossier(args: argparse.Namespace) -> int:
-    """build-research-dossier: ResearchWorker 1회 호출 + 상태 전이 (Phase 6A).
+def _cmd_verify_sources(args: argparse.Namespace) -> int:
+    """verify-sources: SOURCE_VERIFY 에서 검증 워커 1회 + 코드 판정 → intake/claims.json. 전이 없음(다음은 build-research)."""
+    from orchestrator.config import project_dir
+    from orchestrator.project_manager import validate_project_id
+    from orchestrator.source_verify import run_verify
 
-    오케스트레이션 로직은 `orchestrator.research_service.run_research_worker` 에 있으며,
-    본 핸들러는 thin wrapper — 입력 검증과 사용자 출력/exit code 매핑만 담당한다.
+    try:
+        validate_project_id(args.project_id)
+        manifest = resume_project(args.project_id)
+    except (ValueError, FileNotFoundError) as e:
+        print(f"error: {e}", file=sys.stderr)
+        return 1
+    cur = manifest.current_state.value if hasattr(manifest.current_state, "value") else manifest.current_state
+    if cur != ProjectState.SOURCE_VERIFY.value:
+        print(f"error: 현재 상태 '{cur}' 에서는 verify-sources 를 실행할 수 없습니다(허용: source_verify)", file=sys.stderr)
+        return 2
+    res = run_verify(project_dir(args.project_id), backend=args.backend)
+    print(json.dumps(res.model_dump(), ensure_ascii=False))
+    return 0 if res.ok else 1
 
-    - precondition: source_verify 상태에서만 실행 (Review Gate 2 통과 후).
-    - idempotency: 유효한 기존 research_dossier.json 이 있고 `--force` 미지정이면 worker
-      재실행을 건너뛰고 전이만 진행 (재실행은 LLM 호출 비용).
-    - worker 실패 / 영속화 검증 실패 시 source_verify 에서 멈춤.
-    """
+
+def _cmd_build_research(args: argparse.Namespace) -> int:
+    """build-research: claims.json → ResearchWorker → facts.json + research 전이(orchestrator.research_service)."""
     from orchestrator.project_manager import validate_project_id
     from orchestrator.research_service import ResearchError, run_research_worker
 
@@ -651,71 +648,24 @@ def _cmd_build_research_dossier(args: argparse.Namespace) -> int:
     except ValueError as e:
         print(f"error: {e}", file=sys.stderr)
         return 1
-
     try:
-        manifest, outputs_summary, skipped = run_research_worker(
-            args.project_id, backend=args.backend, force=args.force
-        )
+        manifest, outputs_summary, skipped = run_research_worker(args.project_id, backend=args.backend, force=args.force)
     except FileNotFoundError as e:
         print(f"error: {e}", file=sys.stderr)
         return 1
     except ResearchError as e:
         if e.kind == "state":
-            print(f"error: {e}", file=sys.stderr)
+            print(f"error: {e} {e.errors or ''}", file=sys.stderr)
             return 2
-        print(f"build-research-dossier 실패: {e} errors={e.errors}", file=sys.stderr)
+        print(f"build-research 실패: {e} errors={e.errors}", file=sys.stderr)
         return 1
     except ValueError as e:
         print(f"warning: 상태 전이 실패 — {e}", file=sys.stderr)
         return 2
-
     if skipped:
-        print(
-            "build-research-dossier: 기존 research_dossier.json 재사용 — "
-            "worker 건너뜀 (재실행 원하면 --force)."
-        )
-    print(
-        f"build-research-dossier 완료: {args.project_id} "
-        f"(backend={args.backend}, skipped={skipped})"
-    )
+        print("build-research: 기존 facts.json 재사용 — worker 건너뜀 (재실행 원하면 --force).")
+    print(f"build-research 완료: {args.project_id} (backend={args.backend}, skipped={skipped})")
     print(f"outputs : {outputs_summary}")
-    _print_manifest_summary(manifest)
-    return 0
-
-
-def _cmd_import_bundle(args: argparse.Namespace) -> int:
-    """import-bundle: report_bundle.json → research_dossier.json + 전이 (외부 연동).
-
-    thin wrapper — 검증·출력·exit code 매핑만. 오케스트레이션은
-    orchestrator.bundle_service.import_report_bundle. build-research-dossier 의
-    드롭인 대체(LLM 대신 외부 bundle 흡수)이므로 이후 단계는 동일하다.
-    """
-    from orchestrator.bundle_service import BundleImportError, import_report_bundle
-    from orchestrator.project_manager import validate_project_id
-
-    try:
-        validate_project_id(args.project_id)
-    except ValueError as e:
-        print(f"error: {e}", file=sys.stderr)
-        return 1
-
-    try:
-        manifest, outputs = import_report_bundle(args.project_id, Path(args.file))
-    except FileNotFoundError as e:
-        print(f"error: {e}", file=sys.stderr)
-        return 1
-    except BundleImportError as e:
-        if e.kind == "state":
-            print(f"error: {e}", file=sys.stderr)
-            return 2
-        print(f"import-bundle 실패: {e}", file=sys.stderr)
-        return 1
-    except ValueError as e:
-        print(f"warning: 상태 전이 실패 — {e}", file=sys.stderr)
-        return 2
-
-    print(f"import-bundle 완료: {args.project_id}")
-    print(f"outputs : {outputs}")
     _print_manifest_summary(manifest)
     return 0
 

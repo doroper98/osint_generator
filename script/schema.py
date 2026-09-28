@@ -135,8 +135,7 @@ class Fact(_Strict):
 
 
 class Facts(_Strict):
-    """사실 목록 — 최소 모델(v3.1.0, D-0048). 6.95(18 소스 인테이크)에서 ResearchWorker 출력을 이 모델로 전환한다.
-    지금은 워커에 연결하지 않는다(파리티는 픽스처로만)."""
+    """사실 목록(17 §5.1) — ResearchWorker 출력 `facts.json`(v3.2.0 D-0051 작업 7). source_ids = claims.json claim_id."""
 
     schema_version: int = 1
     facts: list[Fact] = Field(min_length=1)

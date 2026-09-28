@@ -84,7 +84,7 @@ def run_script_worker(
             task_type="script",
             assigned_worker="script",
             description="ScriptWorker 1회 실행",
-            input_refs=["04_research/research_dossier.json", "project_manifest.json"],
+            input_refs=["facts.json", "intake/claims.json", "project_manifest.json"],
             output_refs=["script.yaml", "script_labels.json"],
         )
         worker = ScriptWorker()

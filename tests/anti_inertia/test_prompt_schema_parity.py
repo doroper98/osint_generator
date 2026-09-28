@@ -26,8 +26,8 @@ ACTIVE: dict[str, str] = {
     "director": "engine.direction:Direction",
     "visual_qa": "engine.qa:QAVerdict",
     "revise_direction": "engine.qa:Revision",
-    # D-0048(R-0054 A): research = 현 워커가 실제로 검증하는 ResearchDossier. Facts 는 6.95 에서 워커 전환
-    "research": "schemas.models:ResearchDossier",
+    # v3.2.0 D-0051 작업 7: ResearchWorker → Facts 전환 완료(D47 예고, ResearchDossier 삭제 D52)
+    "research": "script.schema:Facts",
     # v3.2.0 소스 인테이크(D-0051 작업 5·6)
     "capture_read": "schemas.source_models:CaptureDraft",
     "verify_sources": "schemas.source_models:VerifyDraft",
@@ -36,7 +36,7 @@ ACTIVE: dict[str, str] = {
 EXAMPLE_FILES: dict[str, str] = {
     "tests/fixtures/direction/minimal.yaml": "engine.direction:Direction",
     "prompts/examples/hormuz_direction.yaml": "engine.direction:Direction",   # 17 §5.3 director 예시(변환기 산출)
-    "tests/fixtures/facts_minimal.json": "script.schema:Facts",               # 6.95 전 최소 모델(워커 미연결, D-0048)
+    "tests/fixtures/facts_minimal.json": "script.schema:Facts",
 }
 PENDING_6_9: dict[str, str] = {}
 _FENCE = re.compile(r"```(yaml|json)\n(.*?)```", re.DOTALL)

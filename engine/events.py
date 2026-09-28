@@ -379,7 +379,7 @@ class ChartProvenance(_Strict):
     verification: Literal["verified", "estimated"]
     sources: list[str] = Field(default_factory=list)
     # 사실 검증 라벨(C9, docs/06 §6 — <추론>/<주장>/<미검증>/<반박됨>). 추정 태그와 별개 장치로 같은 줄에 따로 그린다(D-0034 §3)
-    claim_status: Optional[Literal["inferred", "claim", "unverified", "disputed"]] = None
+    claim_status: Optional[Literal["verified", "corroborated", "unverified", "disputed"]] = None   # v3.2.0 — 18 §2 status(라벨은 규칙 표)
 
 
 class _Chart(_Panel):

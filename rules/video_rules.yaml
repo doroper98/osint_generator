@@ -53,16 +53,15 @@ script_schema:             # 02 §2.1 요약 — 프롬프트 예시는 tests/an
   subtitle_wrap_px_480p: 700
   scene_count: free        # 고정 막 금지(G4-13)
   duration_limit_sec: null # 길이 제한 없음
-  # v3.0.0(back_and_forth D-0043, D42) — 문장 검증 라벨은 코드가 도시어 claim status 로 계산한다(15 P8).
-  # 문장 sources = 도시어 claim_id. 한 문장이 여러 claim 을 인용하면 가장 약한 status(strength_order 앞쪽)가 라벨.
-  # 키는 도시어 ResearchClaimStatus 값(confirmed 는 라벨 없음). 영상 렌더 표기는 6.95(18).
+  # v3.0.0(D42) → v3.2.0(D-0051 작업 7): 문장 검증 라벨은 코드가 **claims.json status** 로 계산한다(15 P8, SSOT 이동).
+  # 문장 sources = claims.json claim_id. 한 문장이 여러 claim 을 인용하면 가장 약한 status(strength_order 앞쪽)가 라벨.
+  # 키 = 18 §2 검증 status 4종(D-0052 D50 정의). verified·corroborated 는 라벨 없음. 패널 provenance·post 카드도 같은 표.
   labels:
-    confirmed: null
-    inferred: "<추론>"
-    claim: "<주장>"
+    verified: null
+    corroborated: null
     unverified: "<미검증>"
     disputed: "<반박됨>"
-  label_strength_order: [disputed, unverified, claim, inferred, confirmed]
+  label_strength_order: [disputed, unverified, corroborated, verified]
 
 verification:              # v3.2.0 back_and_forth D-0052(D50) — 교차 확인 = 인용 대조. LLM 은 claim 후보·인용·stance, 판정은 코드(orchestrator/source_verify.py)
   quote_max_chars: 160     # 인용 상한(저작권상 짧게). 인용은 소스 본문의 연속 부분 문자열(공백 정규화 후) — 불일치 = 근거 폐기 + drops[]
