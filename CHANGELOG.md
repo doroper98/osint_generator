@@ -1,9 +1,9 @@
 <!--
 tier: 3
-last_synced_with: v2.0.1
+last_synced_with: v3.2.0
 ssot_for: [release-notes]
 depends_on: [README.md, GOAL.md]
-last_review: 2026-06-11
+last_review: 2026-09-28
 -->
 
 # CHANGELOG
@@ -32,6 +32,24 @@ released 항목은 **append-only**입니다.
 
 ### Added
 - 배치 슬롯 `clip_panel_side`(`placement.slots.*.beside_panel`) — 패널 위 사진·영상이 그 순간 패널이 차지한 상자(`engine.placement.OCCUPIED`, 연표 `timeline.occupied`)·자막·날짜와 캡션 글자 폭까지 피하는 첫 후보 자리. 자리가 없거나 차지 상자 함수가 없는 패널 종류면 오류 (D-0050 NB9).
+- 소스 레코드 스키마 `schemas/source_models.py` — `SourcesFile`(`XPostSource`·`ArticleSource`·`DocumentSource`), `ClaimsFile`·`Claim`·`ClaimSide`(status 4종 verified·corroborated·unverified·disputed, 분쟁 사안 sides<2 → unverified), `CaptureDraft`, `VerifyDraft`·`ClaimCandidate`·`EvidenceQuote`, `OfficialAccountsFile`. 프로젝트 파일 `intake/sources.json`·`intake/claims.json`·`intake/screenshots/`(비공개)·`facts.json` (18 §2, D-0051 작업 3).
+- 공식 계정 목록 `rules/official_accounts.yaml`(출처 URL·확인일, 미등재 = `unknown`), `rules/video_rules.yaml` `verification:` 블록(인용 대조 기준, D50) (작업 4·6).
+- 워커 `CaptureReadWorker`(vision, 프롬프트 `capture_read` → `intake/drafts/<id>.json`)·`VerifySourcesWorker`(프롬프트 `verify_sources` → `intake/verify_draft.json`). 검증 status 는 LLM 이 아니라 코드 `orchestrator/source_verify.judge` 가 인용 대조로 정한다 (작업 5·6, D50).
+- `orchestrator/source_intake.py`(X 텍스트·캡처·기사·공문 → sources.json, 사용자 확인, x.com 접근 차단)·`orchestrator/source_verify.py`.
+- CLI `add-source`·`confirm-source`·`list-sources`·`verify-sources`·`build-research`. 웹 인테이크 페이지 소스 넣기(기사 URL/본문·X 텍스트·X 캡처·파일)·확인·제출. Command Center intake·source_verify 소스 목록 패널, `c` 키 확인 (작업 8·11).
+- 이벤트 타입 `post`(게시물 카드, `engine/layers/post.py`, 규칙 `layout_480p.post_card`) (작업 9, 18 §5).
+- 크레딧 `auto: sources`·항목 `sources:`(인용 소스 누락 = RightsError), 설명란 원문 링크 블록 (작업 10, 18 §6).
+
+### Changed
+- `ResearchWorker` 출력 = `facts.json`(`script.schema:Facts`, claims.json → 사실, source_ids = claim_id). `ScriptWorker` 입력 = facts.json + claims.json (작업 7).
+- 검증 라벨 SSOT = claims.json status — 규칙 `script_schema.labels` 키를 verified·corroborated·unverified·disputed 로 재키, 패널·원고 공통 계산 (작업 7).
+- `submit-intake` 새 의미 — 사용자 확인된 소스만 있을 때 intake → source_verify 전이 (18 §7).
+- `orchestrator/source_completeness_checker.py` 용도 변경 — 원고 문장의 claim id 가 claims.json 밖이거나 수치 문장에 출처가 없으면 SCRIPT_APPROVAL 전 차단 (작업 8).
+- hormuz v3·taiwan 예시 원고를 claims 로 이관 (D51).
+
+### Removed
+- 옛 소스·리서치 흐름 삭제(P2, D52): `ResearchDossier`·`ResearchClaim`·`Evidence`·`ResearchSeed`·`CLAIM_STATUS_LABELS`, `research_io`, `bundle_service`·번들 변환(`import-bundle` 은 Phase 9 까지 명시 오류), `SourceIntake`·`UserDecision`, `SourceEntry`·`SourceRegistry`, `SourceCompletenessReport`·`CompletenessIssue*`, `SourceCollectionPartial`, `source_collection_planner`, `source_registry_builder`/`io`, `SourceCollectorWorker`(프롬프트·테스트 포함).
+- CLI `build-source-registry`·`build-research-dossier` — 호출 시 `LegacyRemovedError`.
 
 ### Fixed
 - 글리프 검사가 프로젝트 글꼴 없는 환경에서 대체 글꼴 cmap 으로 조용히 검사하던 문제 — `engine.checks.FontMissingError`(명시 오류), `test_glyphs` 는 글꼴 없으면 사유 있는 skip (D-0050 NB10).

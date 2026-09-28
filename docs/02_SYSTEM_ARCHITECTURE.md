@@ -1,9 +1,9 @@
 <!--
 tier: 2
-last_synced_with: v3.0.0
+last_synced_with: v3.2.0
 ssot_for: [system-architecture, component-boundaries]
 depends_on: [03_AGENT_ARCHITECTURE.md, 05_DATA_SCHEMA_SPEC.md, ADDENDUM_01_ORCHESTRATOR_COMMAND_CENTER_LAYOUT.md]
-last_review: 2026-05-19
+last_review: 2026-09-28
 -->
 
 # 02 — System Architecture
@@ -59,13 +59,11 @@ user command
   → project_manifest.json (created)
   → intake_plan.json (by Dynamic Intake Planner agent)
   → user opens Dynamic Intake Page (web/intake_page_app.py)
-  → source_intake.json (user submitted)
-  → task_queue.json (by Orchestrator)
-  → Worker subprocesses
-  → task_result_{id}.json (per task)
-  → source_registry.json
-  → source_completeness_report.json  ─── Review Gate 2
-  → research_dossier.json, argument_map.json
+  → intake/sources.json (v3.2.0 — add-source·웹 소스 넣기, X 캡처는 CaptureReadWorker 초안,
+                          사용자 확인 confirm-source 후 submit-intake: intake → source_verify)
+  → intake/verify_draft.json (VerifySourcesWorker) → intake/claims.json (코드 판정 source_verify.judge)
+  → facts.json (ResearchWorker, verify-sources → build-research: source_verify → research)
+  → task_queue.json · Worker subprocesses · task_result_{id}.json (per task)
   → episode_blueprint.json           ─── Review Gate 3
   → full_script.json                 ─── Review Gate 4
   → scene_manifest.json (with worker_provenance)

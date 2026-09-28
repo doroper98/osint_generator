@@ -1,9 +1,9 @@
 <!--
 tier: 2
-last_synced_with: v0.22.0
+last_synced_with: v3.2.0
 ssot_for: [agent-catalog, worker-catalog]
 depends_on: [02_SYSTEM_ARCHITECTURE.md]
-last_review: 2026-05-23
+last_review: 2026-09-28
 -->
 
 # 03 — Agent & Worker Architecture
@@ -24,11 +24,13 @@ last_review: 2026-05-23
 | Agent | 파일 | 입력 | 출력 | LLM | Phase |
 |---|---|---|---|---|---|
 | Dynamic Intake Planner | `workers/intake_planner_worker.py` (BaseLLMWorker) | project_manifest.json (title/category/duration/summary) | `01_intake/intake_plan.json` | ✅ | 3 |
-| Source Registry Builder | `agents/source_registry_builder.py` | source_intake + task results | `source_registry.json` | ❌ | 5 |
-| Research Agent | `workers/research_worker.py` (BaseLLMWorker) | source_registry + manifest.initial_links | `04_research/research_dossier.json` | ✅ | 6A |
-| Bundle Importer (외부 연동) | `orchestrator/bundle_io.py` + `bundle_service.py` (`import-bundle`) | agents_reviewer `report_bundle.json` (계약 v1) | `04_research/research_dossier.json` + `02_sources/source_registry.json` | ❌ (외부 분석 흡수, Research Agent 드롭인 대체) | 6A |
+| ~~Source Registry Builder~~ | (v3.2.0 삭제, D52) | — | 옛 `source_registry.json` → `intake/sources.json`·`intake/claims.json` | — | — |
+| Capture Read (v3.2.0) | `workers/capture_read_worker.py` `CaptureReadWorker` (BaseLLMWorker, vision, 프롬프트 `capture_read`) | `intake/screenshots/<id>.png` + 사용자 메모 | `intake/drafts/<id>.json`(`CaptureDraft`) → `orchestrator/source_intake` 가 소스 레코드로 합침(사용자 확인 전 검증 불가) | ✅ | 6.95 |
+| Verify Sources (v3.2.0) | `workers/verify_sources_worker.py` `VerifySourcesWorker` (BaseLLMWorker, 프롬프트 `verify_sources`) | 사용자 확인된 `intake/sources.json` + 소스 본문 | `intake/verify_draft.json`(`VerifyDraft`) → **status 는 코드**(`orchestrator/source_verify.judge`, 인용 대조, D50) → `intake/claims.json` | ✅ | 6.95 |
+| Research Agent | `workers/research_worker.py` (BaseLLMWorker) | manifest + `intake/sources.json` + `intake/claims.json` | `facts.json`(`script.schema:Facts`, source_ids = claim_id) — v3.2.0, 옛 research_dossier 삭제 | ✅ | 6A → 6.95 |
+| Bundle Importer (외부 연동) | `orchestrator/bundle_io.py` (수신 검증만) | agents_reviewer `report_bundle.json` (계약 v1) | (v3.2.0) 변환·`bundle_service` 삭제 — `import-bundle` 은 Phase 9 번들 어댑터(→ sources·claims) 전까지 명시 오류 | ❌ | 6A → 9 |
 | Evidence Guard | `agents/evidence_guard.py` | research_dossier | `qa_evidence_report.json` | ✅ | 6 |
-| Script Agent | `workers/script_worker.py` (BaseLLMWorker) | research_dossier | `script.yaml` + `script_labels.json`(v3.0.0) | ✅ | 6 → 6.8 (Script 스키마, 라벨은 코드) |
+| Script Agent | `workers/script_worker.py` (BaseLLMWorker) | `facts.json` + `intake/claims.json` (v3.2.0) | `script.yaml` + `script_labels.json`(v3.0.0). 문장 sources = claim_id, 라벨은 claims status 로 코드 계산 | ✅ | 6 → 6.8 → 6.95 |
 | Scene Planner | `orchestrator/scene_builder.py` (V2 결정론적) / 추후 LLM | full_script | `06_scene/scene_manifest.json` | ❌ (V2 슬라이스, LLM 추후) | 6 (수직 슬라이스 V2) |
 | Thumbnail Agent | `agents/thumbnail_agent.py` | full_script + project_manifest | `thumbnail_brief.json` | ✅ | 10 |
 | YouTube Metadata Agent | `agents/youtube_metadata_agent.py` | full_script + thumbnail | `youtube_metadata.json` | ✅ | 11 |
@@ -121,8 +123,9 @@ class BaseLLMWorker(BaseWorker):
 
 | 모드 | 의미 | 적용 |
 |---|---|---|
-| `response` | one-shot JSON 응답, 도구 사용 없음 | intake planner, research, script, scene planner, thumbnail brief, youtube metadata |
-| `agent` | CLI 가 파일 IO·외부 명령 사용, task_result.json 까지 직접 작성 | source collector 류 복합 작업 |
+| `response` | one-shot JSON 응답, 도구 사용 없음 | intake planner, verify_sources, research, script, scene planner, thumbnail brief, youtube metadata |
+| `agent` | CLI 가 파일 IO·외부 명령 사용, task_result.json 까지 직접 작성 | (v3.2.0 `SourceCollectorWorker` 삭제, D52 — 현재 소스 수집 워커 없음) |
+| `vision` | 이미지 첨부 읽기 | 시각 검수(v3.1.0), 캡처 판독 `capture_read`(v3.2.0) |
 
 ### 4.5.2 백엔드 선택 가이드
 

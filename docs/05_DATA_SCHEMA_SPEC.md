@@ -1,9 +1,9 @@
 <!--
 tier: 2
-last_synced_with: v2.4.0
+last_synced_with: v3.2.0
 ssot_for: [json-contracts-overview]
 depends_on: [../schemas/models.py]
-last_review: 2026-05-23
+last_review: 2026-09-28
 -->
 
 # 05 — Data Schema Spec
@@ -25,13 +25,12 @@ last_review: 2026-05-23
 |---|---|---|---|
 | `project_manifest.json` | `ProjectManifest` | Orchestrator | 0 → 모든 단계 |
 | `intake_plan.json` | `IntakePlan` | Dynamic Intake Planner | 1 |
-| `source_intake.json` | `SourceIntake` | Web App | 2 |
+| `intake/sources.json` (v3.2.0, 옛 `source_intake.json`·`SourceIntake` 삭제) | `source_models.SourcesFile` | 인테이크(CLI `add-source`·웹) + 사용자 확인 | 2 |
 | `task_queue.json` | `TaskQueue` | Orchestrator | 3 |
 | `worker_slots.json` | `WorkerSlotsSnapshot` | Worker Slot Manager | 3+ |
 | `task_results/{task_id}_result.json` | `TaskResult` | Worker | 3+ |
-| `source_registry.json` | `SourceRegistry` | Source Registry Builder | 4 |
-| `source_completeness_report.json` | `SourceCompletenessReport` | Orchestrator | 4 |
-| `research_dossier.json` | `ResearchDossier` | Research Agent | 5 |
+| `intake/claims.json` (v3.2.0, 옛 `source_registry.json`·`source_completeness_report.json`·소스 수집 partial 삭제) | `source_models.ClaimsFile` | source_verify(VerifySourcesWorker 초안 → 코드 판정) | 4 |
+| `facts.json` (v3.2.0, 옛 `research_dossier.json`·`ResearchDossier` 삭제) | `script.schema:Facts` | ResearchWorker | 5 |
 | `report_bundle.json` (수신, 외부 연동) | `ReportBundle` | agents_reviewer (외부) | 외부 → 5 |
 | `argument_map.json` | `ArgumentMap` | Research Agent | 5 |
 | `episode_blueprint.json` | `EpisodeBlueprint` | Script Agent | 5 |
@@ -124,65 +123,19 @@ last_review: 2026-05-23
 | risk_flags | list[str] | `graphic_content`, `youtube_age_restriction_risk` 등 |
 | worker_provenance | `WorkerProvenance` \| None | v2.0.0 — LLM 워커만. `{prompt_name, prompt_sha1, rules_hash}` (docs/handoff/15 P5). prompt_sha1 = `prompts/{prompt_name}.md` 렌더 결과의 sha1 |
 
-### 3.4b `SourceCompletenessReport` (Review Gate 2 입력)
+### 3.4b (v3.2.0 삭제) `SourceCompletenessReport` — 소스 부족·출처 확인은 `intake/claims.json` 과 원고 출처 강제로 옮겼다(§8, D-0052 D52).
 
-`source_completeness_report.json` — Orchestrator 가 `source_registry.json` 으로부터
-'부족 자료' 를 식별한 결과. Review Gate 2 (`source_completeness_review`) 입력.
+(이력) `source_completeness_report.json` 은 `source_registry.json` 에서 '부족 자료'(권리·신뢰도·위험 플래그)를
+찾아 Review Gate 2 입력으로 쓰던 보고서였다. `CompletenessIssue*`·`SourceRegistry`·`SourceEntry` 와 함께 삭제(P2).
+같은 이름의 `orchestrator/source_completeness_checker.py` 는 v3.2.0 에서 **원고 출처 검사**로 용도가 바뀌었다
+(원고 문장의 claim id 가 claims.json 에 없거나 수치 문장에 출처가 없으면 SCRIPT_APPROVAL 전 차단).
 
-| 필드 | 타입 | 설명 |
-|---|---|---|
-| schema_version | int | 1 |
-| project_id | str | registry 와 동일 |
-| generated_at | datetime | UTC |
-| reliability_threshold | float | `reliability_score <` 비교 임계 (기본 0.5, 범위 0.0~1.0) |
-| total_sources | int | registry 의 전체 소스 수 |
-| usable_sources | int | `rights_clear` / `manual_user_provided` 수 (정책 §2 ✅) |
-| blocker_count / warning_count / info_count | int | severity 별 이슈 수 |
-| overall_status | enum | `ready` / `needs_attention` / `insufficient` |
-| issues | list[`CompletenessIssue`] | 이슈 목록 |
+### 3.4c (v3.2.0 삭제) `ResearchDossier` — 리서치 산출은 `facts.json`(`script/schema.py:Facts`), 검증 status 는 `intake/claims.json`(§8, D-0052 D52).
 
-`CompletenessIssue`: `issue_type` (no_usable_sources / rights_do_not_use /
-rights_review_required / rights_unknown / source_unusable / low_reliability /
-risk_flag_present / rights_status_unknown_value), `severity` (blocker / warning
-/ info), `source_id` (registry-level 이슈는 null), `detail`, `recommendation`.
-`rights_status_unknown_value` 는 정책 §2 에 정의되지 않은 권리 상태(스키마 drift)
-전용 — known `review_required` 와 구분되는 보수적 `warning` 진단.
-
-**severity 정책**: 사용 가능 자료가 0개일 때만 `blocker` (`no_usable_sources`).
-권리 미확보·신뢰도 낮음·위험 플래그는 `warning`, `rights_unknown` 은 `info`.
-부족 여부의 최종 판단은 Review Gate 2 에서 사용자가 수행 (`docs/06` §2 근거).
-
-### 3.4c `ResearchDossier` (Phase 6A, Research Agent 산출)
-
-`research_dossier.json` — `ResearchWorker` 가 `source_registry.json` (사용 가능 소스)
-와 `ProjectManifest.initial_links` (리서치 시드) 로부터 영상 서사의 주장-근거 페어를
-정리한 결과. docs/12 §3 의 qa_evidence_report (6B) 와 docs/13 의 6C Blueprint 입력.
-
-| 필드 | 타입 | 설명 |
-|---|---|---|
-| schema_version | int | 1 |
-| project_id | str | manifest 와 동일 |
-| generated_at | datetime | UTC |
-| topic | str | 영상 1줄 주제 |
-| summary | str | 리서치 총평 (핵심 발견·미확인 영역) |
-| seeds | list[`ResearchSeed`] | initial_links 유래 = 2차/파생 분석 (사실 앵커 아님) |
-| claims | list[`ResearchClaim`] | 주장-근거 페어 |
-| open_questions | list[str] | 추가 1차 확인 필요 질문 |
-
-`ResearchSeed`: `seed_id`, `url`, `description`, `is_derivative`(기본 True),
-`requires_verification`(기본 True). 사용자 사전 제공 리포트는 파생 분석이므로 1차
-출처로 별도 교차검증 필요.
-
-`ResearchClaim`: `claim_id`, `statement`, `status` (`ResearchClaimStatus`:
-confirmed / inferred / claim / unverified / disputed), `evidence`
-(list[`Evidence`]), `cross_checked`, `confidence` (low/medium/high), `notes`,
-`risk_flags`. `display_label` 은 status 에서 파생되는 읽기 전용 속성
-(`<확인>`/`<추론>`/`<주장>`/`<미검증>`/`<반박됨>`, `CLAIM_STATUS_LABELS` 매핑) —
-status 가 SSOT 이며 라벨은 직렬화되지 않음.
-
-`Evidence`: `source_id` (registry 1차 자료 인용) / `seed_id` (파생 시드 인용) 중
-하나 이상, `quote`, `locator`, `stance` (supports/refutes/contextual). registry
-source_id 존재 여부의 cross-check 는 6B Evidence Guard 책임 (본 스키마엔 validator 없음).
+(이력) `research_dossier.json` 은 `ResearchWorker` 가 `source_registry.json`·`initial_links` 로 만든 주장-근거 페어
+(`ResearchSeed`·`ResearchClaim`·`Evidence`, status 5종 confirmed/inferred/claim/unverified/disputed, `CLAIM_STATUS_LABELS`)였다.
+`research_io`·번들 변환(`bundle_to_research_dossier`)과 함께 삭제(P2). 검증 라벨은 이제 claims.json status 4종에서
+코드가 계산한다(`rules/video_rules.yaml script_schema.labels`). `ResearchClaimStatus` enum 은 report_bundle 계약 어휘로만 남았다.
 
 ### 3.4d (v3.0.0 삭제) `FullScript` — 원고 정본은 `projects/<pid>/script.yaml`(`script/schema.py:Script`, docs/handoff/02 §2.1).
 검증 라벨은 `script_labels.json`(`script/labels.py:ScriptLabels`, 도시어 status 로 코드 계산, D-0043). 아래 표는 이력.
@@ -266,8 +219,8 @@ network/sankey/choropleth (전 타입). `render_io.SUPPORTED_CHART_TYPES` 가 SS
 ### 3.4g `ReportBundle` (외부 연동 — agents_reviewer 인터페이스 계약 v1)
 
 `report_bundle.json` (수신) — agents_reviewer(텔레그램 보고서/분석 producer)가 emit 하는
-핸드오프 산출물의 **소비자측 미러**다. `import-bundle` 이 이를 `ResearchDossier` 로 변환·흡수해
-`build-research-dossier`(LLM)를 대체한다. 계약 정본은 agents_reviewer repo 의
+핸드오프 산출물의 **소비자측 미러**다. (v3.2.0) `ResearchDossier` 변환은 삭제됐고, 번들 → sources.json·claims.json
+변환이 Phase 9 에서 복귀할 때까지 `import-bundle` 은 명시 오류다(D52). 아래 변환 설명은 이력. 계약 정본은 agents_reviewer repo 의
 `docs/CONTRACTS/report_bundle_v1.md` 이며, 본 모델은 수신 검증(fail-closed)용이다.
 
 | 필드 | 타입 | 설명 |
@@ -362,3 +315,8 @@ SSOT 는 `schemas/models.py`. 전부 additive — schema_version 1 유지.
 |---|---|---|
 | 프로젝트 `intake/sources.json` | `schemas/source_models.py` `SourcesFile`·`XPostSource`·`ArticleSource`·`DocumentSource` | type 판별 3종(18 §2). 기사는 요지(`key_facts`)만, 원문 장문 금지. X 캡처는 `capture` 경로 필수. `confirmed_by` 가 비면 검증 단계로 못 간다(18 §7). `account_class` 는 `rules/official_accounts.yaml` 로 코드가 정한다 |
 | 프로젝트 `intake/claims.json` | `ClaimsFile`·`Claim`·`ClaimSide` | `status ∈ {verified, corroborated, unverified, disputed}`. 분쟁 사안(`contested`)은 `sides ≥ 2` 가 없으면 `unverified` 만 허용(18 §3-5). 소스 id 는 sources.json 안(`check_claim_sources`) |
+| 프로젝트 `intake/screenshots/<id>.png`·`intake/bodies/<id>.txt` | — | X 캡처 원본·기사/공문 본문. **비공개 보관**(레코드에는 요지만) |
+| 프로젝트 `intake/drafts/<id>.json` | `CaptureDraft` | 캡처 판독 워커(`CaptureReadWorker`, vision) 초안. 소스 레코드로 합치는 것은 `orchestrator/source_intake` + 사용자 확인 |
+| 프로젝트 `intake/verify_draft.json` | `VerifyDraft`·`ClaimCandidate`·`EvidenceQuote` | 검증 워커(`VerifySourcesWorker`) 초안 — 주장 후보와 소스 본문 인용. id·status 는 LLM 이 아니라 `orchestrator/source_verify.judge` 가 인용 대조로 정한다(D-0052 D50) |
+| 프로젝트 `facts.json` | `script/schema.py` `Facts`·`Fact` | ResearchWorker 출력(claims.json → 사실 목록). `source_ids` = claims.json `claim_id`. 원고(ScriptWorker) 입력 = facts.json + claims.json |
+| `rules/official_accounts.yaml` | `OfficialAccountsFile`·`OfficialAccount` | 공식 계정 목록(출처 URL·확인일). 미등재 핸들 = `unknown` |
