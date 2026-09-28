@@ -117,7 +117,8 @@ def main(argv: list[str] | None = None) -> int:
         (outd / "final.srt").write_text(build_srt(P.plan), encoding="utf-8")
         (outd / "description.txt").write_text(build_description(P.plan, load_description(proj)), encoding="utf-8")
         prov = build_prov(P.plan, P.keys, P.events, __version__,
-                          {"plan": True, "render": True, "mix": True, "mux": True, "ai_direction": False, "visual_qa": False})
+                          {"plan": True, "render": True, "mix": True, "mux": True, "ai_direction": False, "visual_qa": False},
+                          P.R.tb.word_anchors)
         (outd / "provenance.json").write_text(json.dumps(prov, ensure_ascii=False, indent=1), encoding="utf-8")
         res = StageResult(ok=True, stage="mux", provenance=prov,
                           artifacts={"final": str(final), "srt": str(outd / "final.srt"),

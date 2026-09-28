@@ -32,7 +32,10 @@ def features(keys: list[CamKey], events: list[dict]) -> dict:
     }
 
 
-def build(plan: Plan, keys: list[CamKey], events: list[dict], repo_version: str, stages: dict[str, bool]) -> dict:
+def build(plan: Plan, keys: list[CamKey], events: list[dict], repo_version: str, stages: dict[str, bool],
+          word_anchors: list[dict] | None = None) -> dict:
+    anchors = word_anchors or []
+    modes = sorted({a["mode"] for a in anchors})
     return {
         "schema_version": 1,
         "engine": "engine",
@@ -41,6 +44,8 @@ def build(plan: Plan, keys: list[CamKey], events: list[dict], repo_version: str,
         "rules_hash": rules_hash(),
         "prompts": {},          # Phase 2 는 LLM 단계 없음 — 사람이 쓴 원고·연출
         "voice": plan.voice,
+        "word_anchor": modes[0] if len(modes) == 1 else ("mixed" if modes else "none"),  # v2.3.0 aligned|ratio (03 §6.3)
+        "word_anchors": anchors,
         "total_sec": round(float(plan.total), 3),
         "sentences": len(plan.sentences),
         "stages": stages,       # 이번 산출물에 실제로 쓰인 단계

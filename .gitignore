@@ -101,3 +101,4 @@ projects/taiwan_strait/media/
 projects/taiwan_strait/prev/
 projects/taiwan_strait/out/
 projects/taiwan_strait/__pycache__/
+projects/*/tts_el/
