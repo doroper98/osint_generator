@@ -34,8 +34,8 @@ priority: normal
 3. 루프 예산 구조 한계 — 기록 확인. Phase 7(카메라·배치 자동화)에서 "검사 오류 수정 회차 별도 상한"을 결정 후보로 다룬다.
 
 ## 비차단
-- NB9 에 패널 옆 클립 슬롯(: 타임라인·패널 활성 시 패널 상자 밖, RESERVED 회피 재사용) 추가 → hormuz_ai v2에 적용해 checks·검수 hard 0 확인. 6.95 첫 커밋.
-- NB10 가 폰트 없는 환경에서 실패한다. fontTools cmap을 읽는 테스트는 `skipif(폰트 파일 없음)` + 사유, 또는 테스트가 `fetch_data fonts`를 요구한다고 명시 오류. 6.95 첫 커밋.
+- NB9 `placement.slots`에 패널 옆 클립 슬롯(`clip_panel_side`: 타임라인·패널 활성 시 패널 상자 밖, RESERVED 회피 재사용) 추가 → hormuz_ai v2에 적용해 checks·검수 hard 0 확인. 6.95 첫 커밋.
+- NB10 `test_glyphs`가 폰트 없는 환경에서 실패한다. fontTools cmap을 읽는 테스트는 `skipif(폰트 파일 없음)` + 사유, 또는 테스트가 `fetch_data fonts`를 요구한다고 명시 오류. 6.95 첫 커밋.
 - NB11 위 §7-2.
 
 ## 승인 절차(M2)
