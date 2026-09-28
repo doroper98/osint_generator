@@ -88,6 +88,12 @@ CLI_INVOCATION: dict[tuple[str, str], list[str]] = {
         "claude", "-p", "{prompt}", "--output-format", "json", "--model", "{model}",
         "--tools", "", "--no-session-persistence",
     ],
+    # v3.1.0 vision 모드(시각 검수, 17 §4.1, D-0047 §0-3): 도구는 Read 하나만, 첨부 폴더만 읽기 허용.
+    # 실측(2026-09-28): `claude -p` 가 Read 로 프리뷰 시트(jpg)를 열어 25칸·첫 라벨을 정확히 읽었다(2턴).
+    ("claude", "vision"): [
+        "claude", "-p", "{prompt}", "--output-format", "json", "--model", "{model}",
+        "--tools", "Read", "--allowedTools", "Read", "--add-dir", "{attach_dir}", "--no-session-persistence",
+    ],
     ("claude", "agent"): [
         "claude", "--print", "--model", "{model}", "--add-dir", "{project_dir}",
         "-p", "{prompt}",
@@ -218,7 +224,9 @@ class BaseLLMWorker(BaseWorker):
     # v0.43.5: None 이면 config.yaml `llm.model` 을 쓴다. 인스턴스 단위 override 는
     # 테스트·일회성 실험용. 모듈/클래스 상수로 다른 모델명을 박지 않는다 (SSOT).
     llm_model: Optional[str] = None
-    llm_mode: ClassVar[Literal["response", "agent"]] = "response"
+    llm_mode: ClassVar[Literal["response", "agent", "vision"]] = "response"
+    # v3.1.0: 계약(스키마·check_parsed) 위반 출력은 오류를 붙여 이 횟수만큼 다시 요청한 뒤 중단(16 §3). 기본 0(옛 워커 동작 유지)
+    retry_on_invalid: ClassVar[int] = 0
     # v2.0.0: 프롬프트는 코드 상수가 아니라 `prompts/{prompt_name}.md` 파일에서 온다
     # (docs/handoff/15 P3, tests/anti_inertia/test_prompts_from_files). 빈 문자열이면 system
     # prompt 없음(테스트 픽스처 전용).
@@ -264,10 +272,23 @@ class BaseLLMWorker(BaseWorker):
     # run 오버라이드 (BaseWorker)
     # -----------------------------------------------------------------
 
+    def attachments(self, args: argparse.Namespace, task: TaskQueueItem) -> list[Path]:
+        """vision 모드 첨부 이미지(v3.1.0). 프롬프트에 경로로 넣고 Read 도구로 연다(17 §4.1)."""
+        return []
+
     def run(self, args: argparse.Namespace, task: Optional[TaskQueueItem]) -> TaskResult:
         if task is None:
             return self._build_failure_result(args, "task 가 None 입니다", started=utc_now())
+        feedback = ""
+        for attempt in range(self.retry_on_invalid + 1):
+            result, status, err = self._run_once(args, task, feedback)
+            if status not in ("parse_failed", "validation_failed") or attempt == self.retry_on_invalid:
+                return result
+            emit("system", f"계약 위반 출력 — 재요청 {attempt + 1}/{self.retry_on_invalid} (16 §3): {str(err)[:200]}")
+            feedback = (f"\n\n[직전 출력이 계약을 어겼다 — 고쳐서 같은 형식으로 다시 출력하라]\n{str(err)[:4000]}")
+        return result
 
+    def _run_once(self, args: argparse.Namespace, task: TaskQueueItem, feedback: str = "") -> tuple[TaskResult, str, Optional[str]]:
         started = utc_now()
         call_id = self._make_call_id()
         emit(
@@ -282,9 +303,10 @@ class BaseLLMWorker(BaseWorker):
                 f"agent mode requires allow_agent_mode=True opt-in (LLM-AP-003). "
                 f"worker={self.worker_name}",
                 started=started,
-            )
+            ), "subprocess_error", "agent mode opt-in"
 
-        user_prompt = self.build_user_prompt(args, task)
+        self.__dict__["_attachments"] = self.attachments(args, task) if self.llm_mode == "vision" else []
+        user_prompt = self.build_user_prompt(args, task) + feedback
         full_prompt = self._compose_full_prompt(user_prompt)
         prompt_path = self._dump_prompt(args, call_id, full_prompt)
         prompt_hash = self._hash(full_prompt)
@@ -403,7 +425,7 @@ class BaseLLMWorker(BaseWorker):
                 outputs=outputs,
                 qa_status=QAStatus.PASS,
                 worker_provenance=self.worker_provenance(),
-            )
+            ), parsed_status, None
 
         return TaskResult(
             project_id=args.project_id,
@@ -416,7 +438,7 @@ class BaseLLMWorker(BaseWorker):
             errors=[error_message or "unknown LLM failure"],
             qa_status=QAStatus.FAIL,
             worker_provenance=self.worker_provenance(),
-        )
+        ), parsed_status, error_message
 
     # -----------------------------------------------------------------
     # CLI subprocess
@@ -498,11 +520,19 @@ class BaseLLMWorker(BaseWorker):
         if any("{model}" in seg for seg in template):
             model_value = self.resolve_model()
 
+        attach_value = ""
+        if any("{attach_dir}" in seg for seg in template):
+            atts = self.__dict__.get("_attachments") or []
+            if not atts:
+                raise LLMSubprocessError(f"{key}: vision 모드인데 첨부 이미지가 없다 — attachments() 확인")
+            attach_value = str(Path(os.path.commonpath([str(Path(a).resolve().parent) for a in atts])))
+
         cmd = [
             seg.replace("{prompt}", full_prompt)
                .replace("{project_dir}", str(self.project_dir(args)))
                .replace("{scratch_dir}", scratch_value)
                .replace("{model}", model_value)
+               .replace("{attach_dir}", attach_value)
             for seg in template
         ]
 
@@ -562,6 +592,7 @@ class BaseLLMWorker(BaseWorker):
                 timeout=timeout_sec,
                 check=False,
                 cwd=str(neutral_cwd),
+                stdin=subprocess.DEVNULL,   # v3.1.0 — claude 가 stdin 을 3초 기다리지 않게
             )
         except FileNotFoundError as e:
             raise LLMSubprocessError(

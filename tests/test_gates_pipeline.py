@@ -125,6 +125,7 @@ class PipelineTest(_Proj):
 
     def test_engine_states_to_gate2_then_done(self) -> None:
         self._to_voice()
+        shutil.copy(REPO / "projects" / "hormuz_korea" / "direction.yaml", self.root / "p" / "direction.yaml")  # 사람 연출 — 연출가·검수 루프 없음
         log: list[str] = []
         for _ in range(4):   # voice_timeline → assets → direction → preview_qa → preview_approval
             m, res = advance("p", self.cfg, runner=fake_runner(log=log))
