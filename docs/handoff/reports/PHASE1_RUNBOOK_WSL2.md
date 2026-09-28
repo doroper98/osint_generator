@@ -8,6 +8,8 @@ last_review: 2026-09-27
 
 # Phase 1 골든 재현 런북 — 명령 한 줄씩
 
+> **[이력 문서 — v2.3.0]** `legacy_v3`는 v2.3.0에서 삭제됐다(DECISIONS D30·D32). 자산 준비는 `tools/bootstrap_assets`(`python tools/fetch_data.py people`, `python tools/fetch_data.py media`), 지오는 `python -m geo.prep`, 영상은 새 엔진 CLI(`python -m script.plan` → `python -m engine.render` → `python -m audio.mix` → `python -m engine.mux`). 아래 legacy 명령은 기록으로만 남는다.
+
 > **용도**: 사용자가 WSL2(또는 같은 Ubuntu 환경)에서 v3『호르무즈와 한국』을 처음부터 끝까지 재현하는 절차다.
 > Phase 1 **판정**은 Opus 클라우드 산출물로 한다(DECISIONS D21). 이 문서는 사용자 재현용이다.
 > 모든 명령은 저장소 루트에서 실행한다. 산출물은 `projects/hormuz_korea_legacy/`(gitignore)에 쌓인다.

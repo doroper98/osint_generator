@@ -2,6 +2,9 @@
 
 저장소 `*.py`(docs/handoff/ 제외)를 AST로 읽어, import 와 docstring 을 뺀 문자열 리터럴에 옛 경로
 이름이 없는지 본다. 보존 브랜치 이름 `archive/hyperframes-briefing` 은 안내 문구로 허용한다.
+
+v2.3.0(D32): 자산 부트스트랩 `tools/bootstrap_assets/`(v3 prep3·media3 실행본, Phase 5·6.5 에서 삭제)는
+`tools/fetch_data.py`와 그 폴더 안에서만 이름이 나올 수 있다. 그 밖의 import·문자열 = 위반.
 주석은 검사하지 않는다 — 이관 출처 표시(`# moved from ...`, 19 §5.3)는 코드 참조가 아니다(D12).
 """
 
@@ -20,6 +23,33 @@ LEGACY_NAMES: tuple[str, ...] = (
 )
 ALLOWED_MENTION = "archive/hyperframes-briefing"
 _TOKEN = re.compile(r"(?<![A-Za-z0-9])(" + "|".join(LEGACY_NAMES) + r")(?![A-Za-z0-9])")
+
+
+BOOTSTRAP = "bootstrap_assets"
+BOOTSTRAP_ALLOWED: tuple[str, ...] = ("tools/fetch_data.py", "tools/bootstrap_assets/")
+_BOOT = re.compile(r"(?<![A-Za-z0-9])" + BOOTSTRAP + r"(?![A-Za-z0-9])")
+
+
+def find_bootstrap_violations() -> list[str]:
+    out: list[str] = []
+    for path in iter_py():
+        rel = path.relative_to(REPO).as_posix()
+        if rel.startswith(BOOTSTRAP_ALLOWED) or rel.startswith("tests/anti_inertia/"):
+            continue
+        tree = parse(path)
+        for node in ast.walk(tree):
+            mods: list[str] = []
+            if isinstance(node, ast.Import):
+                mods = [a.name for a in node.names]
+            elif isinstance(node, ast.ImportFrom):
+                mods = [node.module or ""] + [a.name for a in node.names]
+            for m in mods:
+                if BOOTSTRAP in m.split("."):
+                    out.append(f"{rel}:{node.lineno} import {m}")
+        for const in code_strings(tree):
+            if _BOOT.search(const.value):
+                out.append(f"{rel}:{const.lineno} 문자열 {BOOTSTRAP!r}")
+    return out
 
 
 def find_violations() -> list[str]:
@@ -50,6 +80,10 @@ class NoLegacyImportsTest(unittest.TestCase):
     def test_no_legacy_references(self) -> None:
         violations = find_violations()
         self.assertEqual(violations, [], "옛 영상 경로 참조:\n" + "\n".join(violations))
+
+    def test_bootstrap_assets_only_from_fetch_data(self) -> None:
+        violations = find_bootstrap_violations()
+        self.assertEqual(violations, [], "bootstrap_assets 는 tools/fetch_data.py 만 호출한다(D32):\n" + "\n".join(violations))
 
     def test_legacy_dirs_absent_is_tracked(self) -> None:
         # 디렉터리 존재 자체는 19 §5.8 셸 검사가 본다. 여기서는 검사기 자체가 동작하는지만 확인.

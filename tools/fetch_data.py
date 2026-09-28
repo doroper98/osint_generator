@@ -1,19 +1,21 @@
 """Phase 1 골든 재현 데이터 수집기 (v2.0.1, back_and_forth D-0002 작업 2).
 
-`legacy_v3/*.py`가 기대하는 입력을 `V3_ROOT`(기본 `projects/hormuz_korea_legacy`, gitignore) 아래에 만든다.
+자산 부트스트랩(`tools/bootstrap_assets/`, v3 참조 코드 실행본)이 기대하는 입력을 `V3_ROOT`(기본 `projects/hormuz_korea_legacy`, gitignore) 아래에 만든다.
+v2.3.0(D32): 인물·국기·미디어 생성은 이 파일만 `tools/bootstrap_assets/`를 호출한다. Phase 5·6.5 에서 정식 모듈로 대체되면 삭제.
 출처·수치는 docs/handoff/19a §B·§H, 07 §3.2, 14 §10.4, reference_code/v3_hormuz_korea/media3b_round2.md 를 따른다.
 
 사용법:
-    python tools/fetch_data.py fonts | ne | tiles | flags | commons | media | all [--dry-run]
+    python tools/fetch_data.py fonts | ne | tiles | flags | commons | people | media | all [--dry-run]
 
 - fonts   : IBM Plex Sans KR 4종·IBM Plex Mono 2종·GmarketSans 2종(woff→otf) → assets/fonts/.cache → 사용자 폰트 폴더 설치 (D3)
 - ne      : Natural Earth 10m admin0·admin1·populated places GeoJSON → V3_ROOT/data
 - tiles   : terrarium 지형 타일 W z5 / G z7 / K z7 → V3_ROOT/data/{t5,tg,tk}/{x}_{y}.png
 - flags   : flag-icons SVG 13개국(1x1·4x3) → V3_ROOT/assets/flags_svg (PNG 변환은 prep3 flags)
 - commons : Commons 메타데이터 → V3_ROOT/data/commons_v3.json, media_candidates.json (인물 2·휘장 1·미디어 5)
-- media   : legacy_v3/media3.py 실행(1차) → 2차 처리(rok_iraq 사진, niovi·strikes 5초 클립 npy) → media_registry 병합
+- people  : bootstrap_assets/prep_people_flags.py people flags — 인물 컷아웃(rembg)·휘장·rights_registry, 국기 PNG
+- media   : bootstrap_assets/media_first_pass.py 실행(1차) → 2차 처리(rok_iraq 사진, niovi·strikes 5초 클립 npy) → media_registry 병합
 - bgm     : 배경음악 mp3 를 git 객체(bd37b58)에서 복원 + sha1 대조 (네트워크 불필요, DECISIONS D22)
-- all     : fonts ne tiles flags commons bgm (media 는 prep3 people 뒤에 따로 — 런북 순서)
+- all     : fonts ne tiles flags commons bgm (people → media 는 따로 — 런북 순서)
 
 실패는 조용히 넘기지 않는다: 받지 못한 파일이 있으면 목록을 출력하고 exit 1 (docs/handoff/15 P6).
 """
@@ -36,6 +38,7 @@ import urllib.request
 from pathlib import Path
 
 REPO = Path(__file__).resolve().parent.parent
+BOOTSTRAP = REPO / "tools" / "bootstrap_assets"   # D32 — 이 파일만 호출한다
 UA = {"User-Agent": "osint-video-trial/0.4 (research; https://github.com/doroper98/osint_generator)"}
 COMMONS_API = "https://commons.wikimedia.org/w/api.php"
 COMMONS_GAP_SEC = 15.0          # 14 §10.4 — 요청 간격
@@ -334,12 +337,21 @@ def _clip_to_npy(src: Path, start: float, dur: float, dest: Path) -> None:
     np.save(dest, arr)
 
 
+def cmd_people(root: Path, dry: bool) -> list[str]:
+    """인물 컷아웃·휘장·rights_registry·국기 PNG (prep3 people flags 그대로, D32)."""
+    if dry:
+        return ["people → bootstrap_assets/prep_people_flags.py people flags"]
+    env = {**os.environ, "V3_ROOT": str(root)}
+    subprocess.run([sys.executable, str(BOOTSTRAP / "prep_people_flags.py"), "people", "flags"], check=True, env=env, cwd=REPO)
+    return []
+
+
 def cmd_media(root: Path, dry: bool) -> list[str]:
     """media3.py(1차) → media3b_round2.md(2차)를 코드로. 레지스트리 값은 reference media_registry.json 을 따른다."""
     if dry:
-        return ["media → legacy_v3/media3.py, rok_iraq_720.jpg, niovi.webm, strikes_480.npy, niovi_480.npy, media_registry 병합"]
+        return ["media → bootstrap_assets/media_first_pass.py, rok_iraq_720.jpg, niovi.webm, strikes_480.npy, niovi_480.npy, media_registry 병합"]
     env = {**os.environ, "V3_ROOT": str(root)}
-    subprocess.run([sys.executable, str(REPO / "legacy_v3" / "media3.py")], check=True, env=env, cwd=REPO)
+    subprocess.run([sys.executable, str(BOOTSTRAP / "media_first_pass.py")], check=True, env=env, cwd=REPO)
     from PIL import Image, ImageEnhance
 
     cand = json.loads((root / "data" / "media_candidates.json").read_text(encoding="utf-8"))
@@ -391,7 +403,7 @@ def cmd_bgm(root: Path, dry: bool) -> list[str]:
 
 
 COMMANDS = {"fonts": cmd_fonts, "ne": cmd_ne, "tiles": cmd_tiles, "flags": cmd_flags,
-            "commons": cmd_commons, "media": cmd_media, "bgm": cmd_bgm}
+            "commons": cmd_commons, "people": cmd_people, "media": cmd_media, "bgm": cmd_bgm}
 ALL = ("fonts", "ne", "tiles", "flags", "commons", "bgm")
 
 
