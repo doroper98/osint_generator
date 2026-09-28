@@ -25,15 +25,16 @@ note: ReviseDirectionWorker system prompt (17 §5.5, D-0047 작업 7). 출력 = 
 
 엄격한 출력 규칙
 ----------------
-- 출력은 JSON 객체 하나: `{"schema_version": 1, "direction": {…연출 전체…}, "changelog": [{"issue_ref": …, "change": …}]}`. fence·설명 금지.
+- 출력은 JSON 객체 하나: `{"schema_version": 1, "changelog": [{"issue_ref": …, "change": …}], "direction": {…연출 전체…}}`. fence·설명 금지.
+- **changelog 를 먼저, direction 을 마지막에** 쓴다. direction 이 끝나면 최상위 객체도 끝난다(괄호 짝 확인).
 
 예시 (형식 참고 — direction 은 실제로는 전체 연출)
 ------------------------------------------------
 ```json
 {"schema_version": 1,
+ "changelog": [{"issue_ref": "badge:부산에서 출항", "change": "카드에 가리지 않게 배치 슬롯 map_upper_left 로 옮김"}],
  "direction": {"version": 1, "places": {}, "paths": {},
                "shots": [{"at": 0, "mode": "cut", "dur": 0, "camera": {"lon": 127.35, "lat": 36.35, "w": 6.4}}],
                "events": [{"type": "badge", "start": {"sid": "review_0", "off": 0.3}, "end": {"scene_end": "review"},
-                           "place": "map_upper_left", "kind": "flag", "flag": "kr", "R": 18, "label": "부산에서 출항", "accent": "gold"}]},
- "changelog": [{"issue_ref": "badge:부산에서 출항", "change": "카드에 가리지 않게 배치 슬롯 map_upper_left 로 옮김"}]}
+                           "place": "map_upper_left", "kind": "flag", "flag": "kr", "R": 18, "label": "부산에서 출항", "accent": "gold"}]}}
 ```
