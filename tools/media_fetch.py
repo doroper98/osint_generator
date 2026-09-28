@@ -55,16 +55,24 @@ def probe_duration(p: Path) -> float:
 
 
 # ------------------------------------------------------------------ 1. 받기
-def fetch_source(a: MediaAsset, media: Path) -> Path:
+def fetch_source(a: MediaAsset, media: Path, restore_from: Path | None = None, tries: int | None = None) -> Path:
+    """원본 확보. 순서: 이미 있음 → `restore_from`(artifacts 보존본, v3.0.0 D-0044 B) → Commons.
+    보존본도 호출자가 레지스트리 source_hash 로 대조한다(바뀐 원본을 조용히 쓰지 않는다)."""
     prm = a.tool.params
     dest = media / str(prm["source"])
     if dest.exists() and dest.stat().st_size > 100:
         return dest
+    if restore_from is not None and (restore_from / str(prm["source"])).exists():
+        dest.parent.mkdir(parents=True, exist_ok=True)
+        dest.write_bytes((restore_from / str(prm["source"])).read_bytes())
+        print(f"restore {a.title} ← {restore_from}", flush=True)
+        return dest
+    kw = {} if tries is None else {"tries": tries}
     ii = commons_fetch.info(a.title, prm.get("thumb_w"))   # 표준 폭만(07 §3.2)
     if not commons_fetch.license_allowed(ii["lic"]) or ii["restrictions"]:
         raise MediaFetchError(f"라이선스·제한 불허 {ii['lic']!r} {ii['restrictions']}: {a.title}")
     if a.kind == "video":
-        data = commons_fetch.http_get(ii["url"], timeout=300)
+        data = commons_fetch.http_get(ii["url"], timeout=300, **kw)
         dest.parent.mkdir(parents=True, exist_ok=True)
         dest.write_bytes(data)
     else:
@@ -137,7 +145,8 @@ def thumbsheet(src: Path, out: Path, mid: str, segment: tuple[float, float] | No
     return times
 
 
-def run(proj: Path, only: list[str] | None = None, sheets: bool = True, registry: dict | None = None) -> dict:
+def run(proj: Path, only: list[str] | None = None, sheets: bool = True, registry: dict | None = None,
+        restore_from: Path | None = None, tries: int | None = None) -> dict:
     reg = registry if registry is not None else load_media_registry()
     media = proj / "media"
     media.mkdir(parents=True, exist_ok=True)
@@ -150,7 +159,7 @@ def run(proj: Path, only: list[str] | None = None, sheets: bool = True, registry
             report["assets"][mid] = {"kind": "article", "files": []}
             continue
         try:
-            src = fetch_source(a, media)
+            src = fetch_source(a, media, restore_from, tries)
             h = md5(src)
             if h != a.source_hash:
                 raise MediaFetchError(f"원본 md5 {h} ≠ 레지스트리 source_hash {a.source_hash} — 원본이 바뀌었다(사람 확인)")
@@ -204,9 +213,13 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("--only", default="")
     ap.add_argument("--no-sheets", action="store_true")
     ap.add_argument("--report", type=Path)
+    ap.add_argument("--restore-from", type=Path, default=None,
+                    help="원본 보존본 폴더(artifacts hormuz/media_src) — 있으면 Commons 에 요청하지 않는다(D-0044 B)")
+    ap.add_argument("--tries", type=int, default=None, help="원본 요청 시도 횟수(기본 config commons.tries). 차단 중 30분 간격 1회 시도용")
     args = ap.parse_args(argv)
     try:
-        rep = run(args.proj, [x for x in args.only.split(",") if x] or None, not args.no_sheets)
+        rep = run(args.proj, [x for x in args.only.split(",") if x] or None, not args.no_sheets,
+                  restore_from=args.restore_from, tries=args.tries)
     except MediaFetchError as ex:
         print(str(ex), file=sys.stderr)
         return 1

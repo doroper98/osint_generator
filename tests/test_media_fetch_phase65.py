@@ -57,6 +57,39 @@ class FailureReportTest(unittest.TestCase):
         self.assertEqual({v["kind"] for v in rep["assets"].values()}, {"article"})
 
 
+class RestoreFromArtifactsTest(unittest.TestCase):
+    """D-0044 B — artifacts 보존본이 있으면 Commons 를 부르지 않고, 레지스트리 source_hash 로 대조한다."""
+
+    def _fake(self, src_name: str):  # noqa: ANN202
+        a = load_media_registry()["hormuz_transit"]
+        return a.model_copy(update={"tool": a.tool.model_copy(update={"params": {**a.tool.params, "source": src_name}})})
+
+    def test_restore_skips_commons_and_checks_hash(self) -> None:
+        from unittest import mock  # noqa: PLC0415
+        with tempfile.TemporaryDirectory() as d:
+            keep = Path(d) / "media_src"
+            keep.mkdir()
+            Image.new("RGB", (64, 40), (1, 2, 3)).save(keep / "y.jpg")
+            with mock.patch.object(commons_fetch, "info", side_effect=AssertionError("Commons 호출")) as info:
+                with self.assertRaises(media_fetch.MediaFetchError) as cm:   # 보존본 바이트 ≠ source_hash → 시끄럽게
+                    media_fetch.run(Path(d) / "p", registry={"hormuz_transit": self._fake("y.jpg")}, sheets=False,
+                                    restore_from=keep)
+                info.assert_not_called()
+            self.assertIn("source_hash", str(cm.exception))
+            self.assertTrue((Path(d) / "p" / "media" / "y.jpg").exists())
+
+    def test_tries_passed_to_video_request(self) -> None:
+        from unittest import mock  # noqa: PLC0415
+        a = load_media_registry()["strikes"]
+        with tempfile.TemporaryDirectory() as d, \
+             mock.patch.object(commons_fetch, "info", return_value={"url": "u", "lic": "Public domain", "restrictions": []}), \
+             mock.patch.object(commons_fetch, "license_allowed", return_value=True), \
+             mock.patch.object(commons_fetch, "http_get", side_effect=RuntimeError("429")) as hg:
+            with self.assertRaises(RuntimeError):
+                media_fetch.fetch_source(a, Path(d), tries=1)
+            self.assertEqual(hg.call_args.kwargs["tries"], 1)
+
+
 class CommonsConfigTest(unittest.TestCase):
     def test_nb4_values_from_config(self) -> None:
         c = load_config().commons
