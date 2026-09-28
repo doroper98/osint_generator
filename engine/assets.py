@@ -59,6 +59,17 @@ def surf_from_pil(im: Image.Image) -> tuple[cairo.ImageSurface, bytearray]:
     return cairo.ImageSurface.create_for_data(buf, cairo.FORMAT_ARGB32, w, h, w * 4), buf
 
 
+def set_raster(ctx: cairo.Context, surf: cairo.ImageSurface, k: float, x: float, y: float) -> None:
+    """장치 해상도 래스터(설계 폭 × k 로 준비한 표면)를 설계 좌표 (x, y) 에 원천으로 건다(v3.6.0 D-0067 요건 3).
+    패턴 행렬만 k 배 — 클립·paint 의미는 set_source_surface 와 같다. k=1 이면 set_source_surface 그대로(480p 항등)."""
+    if k == 1:
+        ctx.set_source_surface(surf, x, y)
+        return
+    pat = cairo.SurfacePattern(surf)
+    pat.set_matrix(cairo.Matrix(xx=k, yy=k, x0=-x * k, y0=-y * k))
+    ctx.set_source(pat)
+
+
 class Assets:
     def __init__(self, root: Path, labels: Labels) -> None:
         self.root = root
@@ -129,6 +140,16 @@ class Assets:
         if not p.exists():
             raise AssetError(f"클립 없음: {p}")
         self.clips[name] = np.load(p, mmap_mode="r")
+
+    def raster(self, key: str, w: float, k: float) -> tuple[cairo.ImageSurface, float, float]:
+        """설계 폭 w 의 이미지를 장치 해상도(w × k)로 → (표면, 설계 폭, 설계 높이). 업스케일 흐림 없이(D-0067 요건 3)."""
+        s = self.scaled(key, w * k)
+        return s, s.get_width() / k, s.get_height() / k
+
+    def source_width(self, key: str) -> int:
+        """원본 이미지 픽셀 폭(업스케일 경고 checks media_upscaled)."""
+        self.load_image(key)
+        return self.img[key].width
 
     def scaled(self, key: str, w: float) -> cairo.ImageSurface:
         wq = max(8, int(round(w / 3.0) * 3))

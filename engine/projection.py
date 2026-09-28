@@ -10,7 +10,7 @@ import math
 import numpy as np
 from PIL import Image
 
-from engine.style import H_OUT, W_OUT
+from engine.style import H_OUT, W_OUT, Output
 from engine.timebase import smooth
 
 
@@ -67,24 +67,34 @@ class View:
         return (self.u0 >= T["lon0"] + m and self.u0 + self.w <= T["lon1"] - m
                 and self.v1 <= ym(T["lat1"]) - m and self.v1 - self.h >= ym(T["lat0"]) + m)
 
-    def base(self) -> Image.Image:
+    def base(self, out: "Output | None" = None) -> Image.Image:
+        """지형 베이스 — 장치 해상도(out, None = 설계 854×480). 티어 레벨은 장치 ppd 로 고르고, 상세 티어 블렌딩은
+        설계 ppd 로 계산한다(해상도가 달라도 같은 순간에 같은 비율로 섞인다, v3.6.0 D-0067)."""
         need = W_OUT / self.w
-        im = self._tier("W", need)
+        dev = out is not None and out.k != 1
+        need_dev = need * out.k if dev else need
+        im = self._tier("W", need_dev, out if dev else None)
         for n in self.tiers:  # 상세 티어: W 를 뺀 전부, 정의 순서대로(v3 는 G→K). 블렌딩 규칙은 v3 그대로
             if n == "W":
                 continue
             if self.inside(self.tiers[n]):
                 a = smooth((need - 26) / 18)
                 if a > 0.01:
-                    im = Image.blend(im, self._tier(n, need), a)
+                    im = Image.blend(im, self._tier(n, need_dev, out if dev else None), a)
         return im
 
-    def _tier(self, n: str, need: float) -> Image.Image:
+    def _tier(self, n: str, need: float, out: "Output | None" = None) -> Image.Image:
         T = self.tiers[n]  # noqa: N806
         lvs = sorted(T["levels"])
         lv = next((lv_ for lv_ in lvs if lv_ >= need * 0.95), lvs[-1])
         im = self.base_img[(n, lv)]
         x0 = (self.u0 - T["lon0"]) * lv
         y0 = (ym(T["lat1"]) - self.v1) * lv
-        return im.resize((W_OUT, H_OUT), Image.BILINEAR,
-                         box=(max(0.0, x0), max(0.0, y0), min(x0 + self.w * lv, im.width), min(y0 + self.h * lv, im.height)))
+        if out is None:
+            return im.resize((W_OUT, H_OUT), Image.BILINEAR,
+                             box=(max(0.0, x0), max(0.0, y0), min(x0 + self.w * lv, im.width), min(y0 + self.h * lv, im.height)))
+        # 장치 화소 X ↔ 설계 x = (X − pad_x) / k ↔ 경도 u0 + x / s. 양옆 pad_x(1080p −0.75px)만큼 설계 화면보다 넓거나 좁다
+        dx = -out.pad_x / out.k / self.s * lv
+        wd = out.width / out.k / self.s * lv
+        return im.resize((out.width, out.height), Image.BILINEAR,
+                         box=(max(0.0, x0 + dx), max(0.0, y0), min(x0 + dx + wd, im.width), min(y0 + self.h * lv, im.height)))

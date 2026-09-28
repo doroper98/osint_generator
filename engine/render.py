@@ -29,7 +29,7 @@ from engine.project import Project, ProjectError, load_project
 from engine.projection import View
 from engine.reserved import card_zones
 from engine.registry import MAP_LAYER_ORDER, RegistryError, resolve
-from engine.style import FADE, FPS, H_OUT, PANEL, W_OUT, output_profile
+from engine.style import FADE, FPS, PANEL, output_profile
 from engine.subtitles import draw_subtitle
 from rules import load_rules
 from engine.timebase import smooth, window
@@ -43,16 +43,20 @@ def log(msg: str) -> None:
 
 
 def render_frame(P: Project, i: int) -> tuple[cairo.ImageSurface, bytearray]:  # noqa: N803
+    """한 프레임. 모든 레이어는 설계 좌표(854×480)로 그리고, 장치 해상도는 여기서 한 번 건 변환(translate pad_x · scale k)이
+    맡는다 — `px()` 의 전역 적용(v3.6.0 D-0067 A). k=1 이면 변환을 걸지 않는다(480p 항등)."""
     R = P.R  # noqa: N806
-    if R.out.k != 1:
-        raise ValueError(f"출력 프로파일 {R.out.name}: 장치 변환 렌더는 D-0066 작업 2 에서 연결한다")
+    OP = R.out  # noqa: N806
     t = i / FPS
     view = View(P.cams[i], R.assets.tiers, R.assets.base)
     R.reserved.clear()
-    im = view.base()
+    im = view.base(OP)
     buf = bytearray(im.tobytes("raw", "BGRX"))
-    surf = cairo.ImageSurface.create_for_data(buf, cairo.FORMAT_RGB24, W_OUT, H_OUT, W_OUT * 4)
+    surf = cairo.ImageSurface.create_for_data(buf, cairo.FORMAT_RGB24, OP.width, OP.height, OP.width * 4)
     ctx = cairo.Context(surf)
+    if OP.k != 1:
+        ctx.translate(OP.pad_x, 0)
+        ctx.scale(OP.k, OP.k)
     act = [e for e in P.events if e["t0"] - 0.05 <= t <= e["t1"] + 0.05]
     panel_a = max([window(t, e["t0"], e["t1"], PANEL.fade_sec, PANEL.fade_sec) for e in act if e["type"] == "panel"] + [0])
     R.zones = card_zones(ctx, P.events, t)   # 카드 RESERVED — 지도 레이어가 먼저 그려지므로 미리(D-0033). 앞뒤 lead 포함
@@ -169,9 +173,9 @@ def prev_dir(P: Project) -> Path:  # noqa: N803
 
 
 def render_chunk(P: Project, st: int, en: int, out: Path) -> None:  # noqa: N803
-    O = P.R.out  # noqa: N806
-    ff = subprocess.Popen(["ffmpeg", "-y", "-v", "error", "-f", "rawvideo", "-pix_fmt", "bgr0", "-s", f"{O.width}x{O.height}",
-                           "-r", str(FPS), "-i", "-", "-c:v", "libx264", "-preset", O.preset, "-crf", str(O.crf),
+    OP = P.R.out  # noqa: N806
+    ff = subprocess.Popen(["ffmpeg", "-y", "-v", "error", "-f", "rawvideo", "-pix_fmt", "bgr0", "-s", f"{OP.width}x{OP.height}",
+                           "-r", str(FPS), "-i", "-", "-c:v", "libx264", "-preset", OP.preset, "-crf", str(OP.crf),
                            "-pix_fmt", "yuv420p", "-g", "48", str(out)], stdin=subprocess.PIPE)
     assert ff.stdin is not None
     t0 = time.time()

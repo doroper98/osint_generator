@@ -7,7 +7,7 @@ import cairo
 from engine.context import RenderCtx
 from engine.style import C, CARD, W_OUT
 from engine.timebase import ease_out, window
-from engine.typography import font, rrect, text, tw
+from engine.typography import rrect, text, tw
 
 
 def card_alpha(t: float, e: dict) -> float:
@@ -19,9 +19,8 @@ def card_geom(ctx: cairo.Context, e: dict) -> tuple[float, float, float, float, 
     K = CARD  # noqa: N806
     lines = e.get("lines") or []
     wdt = K.min_w
-    font(ctx, "sansm", K.line_size)
     for s_ in lines:
-        wdt = max(wdt, ctx.text_extents(s_).x_advance + 44)
+        wdt = max(wdt, tw(ctx, s_, K.line_size, "sansm") + 44)
     wdt = max(wdt, tw(ctx, e["tag"], K.tag_size, "sansb") + 44)
     bh = 0
     if e.get("bigs"):

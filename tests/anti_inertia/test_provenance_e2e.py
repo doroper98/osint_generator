@@ -54,7 +54,8 @@ class ProvenanceE2ETest(unittest.TestCase):
             self.assertIs(prov["stages"][not_run], False, not_run)
         self.assertTrue((proj / "prev" / "sheet.jpg").exists())
         chk = json.loads((proj / "prev" / "checks.json").read_text(encoding="utf-8"))   # v3.1.0 17 §3(D-0047 작업 6)
-        self.assertEqual(len(chk["items"]), 10)
+        self.assertEqual(len(chk["items"]), 11)   # v3.6.0 media_upscaled(warning) 추가
+        self.assertEqual(prov["render"]["resolution"]["profile"], "480p")   # v3.6.0 D-0066 작업 1
         self.assertEqual(prov["checks"]["hard"], chk["hard"])
         frames = json.loads((proj / "prev" / "frames.json").read_text(encoding="utf-8"))
         self.assertEqual(len(frames["frames"]), 25)

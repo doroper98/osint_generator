@@ -9,6 +9,7 @@ hard 실패가 하나라도 있으면 시각 검수 LLM 을 부르지 않고 연
 | glyphs | hard | 화면에 그릴 문자열(이벤트·자막·날짜·크레딧)의 모든 글자가 프로젝트 글꼴 중 하나에 있음(fontTools cmap) |
 | shots | warning | 숏 길이 ≥ shot_min_hold_sec, 장면당 이동 ≤ camera_moves_per_scene_max, 암전 ≤ 1/dip_max_per_sec (Phase 7 제안의 바탕) |
 | media_beats | warning | `media_plan.density_report` 경고(D38) |
+| media_upscaled | warning | 사진·영상·컷아웃 원본 픽셀 폭 < 출력 프로파일의 장치 폭(설계 폭 × k) — 추측 보간 금지, 알리기만(v3.6.0 D-0067 요건 3) |
 | labels | hard | 샘플 시각마다 도시 라벨 수 ≤ labels_per_frame_max |
 | date | hard | 문장 date 형식(YYYY / YYYY.MM / YYYY.MM.DD) — 날짜 배지는 이 값으로만 그린다 |
 | subtitles | hard | 자막 줄 수 ≤ subtitle_lines_max(렌더러와 같은 wrap) |
@@ -22,6 +23,7 @@ from functools import lru_cache
 
 import cairo
 
+from engine.layers.media import KEN_BURNS_MAX
 from engine.media_plan import density_report, placement_warnings
 from engine.projection import View
 from engine.style import FONT, FPS, H_OUT, W_OUT
@@ -35,7 +37,7 @@ SG = R_.shot_grammar
 SAMPLE_SEC = 1.0          # 뱃지·라벨 샘플 간격
 SHADOW_PX = 7             # badge_box 가 원 둘레에 더하는 그림자 여백 — 이만큼 잘리는 것은 허용
 HARD = ("overlap", "offscreen", "glyphs", "labels", "date", "subtitles", "rights", "forbidden")
-WARN = ("shots", "media_beats")
+WARN = ("shots", "media_beats", "media_upscaled")
 
 
 def missing_fonts() -> list[str]:
@@ -182,6 +184,26 @@ def check_forbidden(P, provenance: dict) -> list[str]:  # noqa: ANN001, N803
     return out
 
 
+def check_media_upscaled(P) -> list[str]:  # noqa: ANN001, N803
+    """원본이 장치 해상도보다 작아 늘려 그리는 미디어(경고). 사진은 켄 번스 최대 배율까지 본다."""
+    OP = P.R.out  # noqa: N806
+    A = P.R.assets  # noqa: N806
+    out: list[str] = []
+    for e in P.events:
+        if e["type"] not in ("photo", "clip", "cutout"):
+            continue
+        m = A.media_assets[e["mid"]]
+        if e["type"] == "clip":
+            A.load_clip(m.file)
+            src = int(A.clips[m.file].shape[2])
+        else:
+            src = A.source_width(f"media:{m.file}")
+        need = OP.px_i(e["w"] * (KEN_BURNS_MAX if e["type"] == "photo" else 1))
+        if src < need:
+            out.append(f"[media-upscaled] {e['type']} {e['mid']} 원본 폭 {src}px < {OP.name} 장치 폭 {need}px")
+    return out
+
+
 def check_audio(P) -> tuple[list[str], list[str], dict]:  # noqa: ANN001, N803
     """오디오 QA(v3.4.0 D-0060 작업 6·D-0061) — audio/qa.py 한 경로. mux 단계(out/mix.f32·final.mp4 뒤)에서 부른다.
     (hard 지적: 통합 음량·트루 피크·음악 레벨·mix 피크, warning: 문장 RMS 편차, AudioQA dict)."""
@@ -200,6 +222,7 @@ def run_checks(P, times: list[float], provenance: dict) -> dict:  # noqa: ANN001
         "glyphs": check_glyphs(P),
         "shots": check_shots(P),
         "media_beats": list(density_report(P.events, P.R.tb, P.plan.total)["warnings"]),
+        "media_upscaled": check_media_upscaled(P),
         "labels": check_labels(P, times),
         "date": [f"{s.sid} 날짜 형식 {s.date!r}" for s in P.plan.sentences if not DATE_RE.match(s.date)],
         "subtitles": check_subtitles(P),

@@ -3,6 +3,8 @@
 IBM Plex Mono 에는 한글이 없어 한글 구간은 IBM Plex Sans KR 로 런 분할한다(01 라운드 6).
 GmarketSans woff→otf 변환본은 공백 글리프가 깨져 공백 폭을 크기 × display_space_advance 로 그린다(19 §3.13).
 v3.6.0 NB16: 렌더 경로의 글꼴 선택(`font`)도 fontconfig 가 이름대로 찾았는지 확인한다 — 대체 글꼴로 조용히 그리지 않는다(15 P6).
+v3.6.0 해상도(D-0067 요건 3): 글자 폭 **측정**(tw·wrap·자간 진행)은 늘 설계 480p 측정 컨텍스트(`_M`)에서 한다. 장치 배율(1080p)
+컨텍스트에서 재면 힌팅이 장치 화소로 폭을 반올림해 줄바꿈·카드 폭·라벨 충돌이 480p 와 달라진다. 그리기만 장치 해상도.
 """
 
 from __future__ import annotations
@@ -43,6 +45,15 @@ def require_family(family: str) -> None:
     if not family_found(family):
         raise FontMissingError(f"글꼴 {family!r} 없음(fontconfig 대체: {fc_match(family)[0].split(',')[0]!r})"
                                " — `python tools/fetch_data.py fonts` 먼저")
+
+
+_M = cairo.Context(cairo.ImageSurface(cairo.FORMAT_RGB24, 1, 1))   # 설계 480p 측정 컨텍스트(항등 변환, 렌더 표면과 같은 형식)
+
+
+def adv(s: str, size: float, name: str) -> float:
+    """한 글꼴 구간의 전진 폭(설계 px) — 측정 컨텍스트에서."""
+    font(_M, name, size)
+    return _M.text_extents(s).x_advance
 
 
 def font(ctx: cairo.Context, name: str, size: float) -> None:
@@ -100,7 +111,7 @@ def text(ctx: cairo.Context, s: str, x: float, y: float, size: float, name: str 
                 continue
             ctx.move_to(xx, y)
             ctx.text_path(ch)
-            xx += ctx.text_extents(ch).x_advance + spacing
+            xx += adv(ch, size, name) + spacing
     else:
         ctx.move_to(x, y)
         ctx.text_path(s)
@@ -117,10 +128,9 @@ def text(ctx: cairo.Context, s: str, x: float, y: float, size: float, name: str 
 def tw(ctx: cairo.Context, s: str, size: float, name: str) -> float:
     if name in MONO and HANGUL.search(s):
         return sum(tw(ctx, r, size, f) for r, f in mixed_runs(s, name))
-    font(ctx, name, size)
     if name in DISP and " " in s:
-        return sum(size * DISPLAY_SPACE if ch == " " else ctx.text_extents(ch).x_advance for ch in s)
-    return ctx.text_extents(s).x_advance
+        return sum(size * DISPLAY_SPACE if ch == " " else adv(ch, size, name) for ch in s)
+    return adv(s, size, name)
 
 
 def rrect(ctx: cairo.Context, x: float, y: float, w: float, h: float, r: float) -> None:
@@ -133,13 +143,13 @@ def rrect(ctx: cairo.Context, x: float, y: float, w: float, h: float, r: float) 
 
 
 def wrap(ctx: cairo.Context, s: str, maxw: float, size: float, name: str) -> list[str]:
-    font(ctx, name, size)
+    font(_M, name, size)
     words = s.split(" ")
     lines: list[str] = []
     cur = ""
     for w_ in words:
         t = (cur + " " + w_).strip()
-        if ctx.text_extents(t).x_advance > maxw and cur:
+        if _M.text_extents(t).x_advance > maxw and cur:
             lines.append(cur)
             cur = w_
         else:

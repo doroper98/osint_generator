@@ -13,7 +13,7 @@ import cairo
 import numpy as np
 from PIL import Image
 
-from engine.assets import surf_from_pil
+from engine.assets import set_raster, surf_from_pil
 from engine.context import RenderCtx
 from engine.credits import RightsError
 from engine.media_registry import cached_registry, credit_line, load_media_registry
@@ -65,6 +65,9 @@ def caption_width(ctx: cairo.Context, cap: str, credit: str) -> float:
     return 20 + max(tw(ctx, cap, 10.5, "sansm"), tw(ctx, credit, 7.8, "monom"))
 
 
+KEN_BURNS_MAX = 1.07   # 사진 켄 번스 끝 배율(v3 합격 값) — checks media_upscaled 도 이 값으로 필요한 폭을 잰다
+
+
 def media_tag(ctx: cairo.Context, x: float, y: float, s_: str, a: float) -> None:
     w = tw(ctx, s_, 7.5, "mono") + 12
     rrect(ctx, x + 8, y + 8, w, 14, 2)
@@ -82,13 +85,12 @@ def draw_photo(ctx: cairo.Context, R: RenderCtx, t: float, e: dict) -> None:  # 
     x, y, w = e["x"], e["y"] + (1 - ease_out(lt / 0.6)) * 12, e["w"]
     h = w * 0.625
     media_frame(ctx, x, y, w, h + 38, a)
-    k = 1.0 + 0.07 * clamp01(lt / (e["t1"] - e["t0"]))  # Ken Burns
-    fs = R.assets.scaled(f"media:{m.file}", w * k)
-    fw, fh = fs.get_width(), fs.get_height()
+    k = 1.0 + (KEN_BURNS_MAX - 1.0) * clamp01(lt / (e["t1"] - e["t0"]))  # Ken Burns
+    fs, fw, fh = R.assets.raster(f"media:{m.file}", w * k, R.out.k)
     ctx.save()
     ctx.rectangle(x, y, w, h)
     ctx.clip()
-    ctx.set_source_surface(fs, x - (fw - w) * 0.35, y - (fh - h) * 0.5)
+    set_raster(ctx, fs, R.out.k, x - (fw - w) * 0.35, y - (fh - h) * 0.5)
     ctx.paint_with_alpha(a)
     ctx.restore()
     ctx.rectangle(x + 0.5, y + 0.5, w - 1, h + 37)
@@ -110,11 +112,13 @@ def draw_clip(ctx: cairo.Context, R: RenderCtx, t: float, e: dict) -> None:  # n
     x, y, w = e["x"], e["y"], e["w"]
     h = w * fr.shape[1] / fr.shape[2]
     rgb = np.asarray(fr[i])
-    img = Image.fromarray(rgb).resize((int(w), int(h)), Image.BILINEAR).convert("RGBA")
+    OP = R.out  # noqa: N806 — 장치 해상도로 리샘플(원본이 더 작으면 checks media_upscaled 경고, D-0067 요건 3)
+    size = (int(w), int(h)) if OP.k == 1 else (OP.px_i(w), OP.px_i(h))
+    img = Image.fromarray(rgb).resize(size, Image.BILINEAR).convert("RGBA")
     surf, buf = surf_from_pil(img)
     R.cache["clip_buf"] = buf  # 표면이 칠해질 때까지 버퍼를 붙잡아 둔다
     media_frame(ctx, x, y, w, h + 38, a)
-    ctx.set_source_surface(surf, x, y)
+    set_raster(ctx, surf, OP.k, x, y)
     ctx.paint_with_alpha(a)
     ctx.rectangle(x + 0.5, y + 0.5, w - 1, h + 37)
     ctx.set_source_rgba(1, 1, 1, 0.22 * a)
@@ -195,8 +199,7 @@ def draw_cutout(ctx: cairo.Context, R: RenderCtx, view: View, t: float, e: dict)
     x -= (1 - ease_out(lt / 1.2)) * 40
     y += math.sin(t * 1.3) * 2.2
     m = R.assets.media_assets[e["mid"]]
-    fs = R.assets.scaled(f"media:{m.file}", e["w"])
-    fw, fh = fs.get_width(), fs.get_height()
+    fs, fw, fh = R.assets.raster(f"media:{m.file}", e["w"], R.out.k)
     ctx.save()
     ctx.translate(x, y)
     ctx.rotate(-0.04 + 0.015 * math.sin(t * 0.9))
@@ -207,7 +210,7 @@ def draw_cutout(ctx: cairo.Context, R: RenderCtx, view: View, t: float, e: dict)
     ctx.arc(0, 0, fw * 0.36, 0, 2 * math.pi)
     ctx.restore()
     ctx.fill()
-    ctx.set_source_surface(fs, -fw / 2, -fh / 2)
+    set_raster(ctx, fs, R.out.k, -fw / 2, -fh / 2)
     ctx.paint_with_alpha(a)
     ctx.restore()
     la = a * smooth((lt - 0.5) / 0.4)

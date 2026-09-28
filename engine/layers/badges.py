@@ -9,6 +9,7 @@ import math
 
 import cairo
 
+from engine.assets import set_raster
 from engine.context import RenderCtx
 from engine.projection import View
 from engine.style import BADGE, BADGE_BG, C
@@ -18,15 +19,15 @@ from engine.typography import rrect, text, tw
 
 def flag_wave(ctx: cairo.Context, R: RenderCtx, key: str, cx: float, cy: float, wdt: float, a: float,  # noqa: N803
               t: float) -> None:
-    fs = R.assets.scaled(key, wdt)
-    fh, fw = fs.get_height(), fs.get_width()
+    k_ = R.out.k
+    fs, fw, fh = R.assets.raster(key, wdt, k_)
     n = 14
     for i in range(n):
         dy = math.sin(t * 2.6 + i * 0.5) * wdt * 0.032
         ctx.save()
         ctx.rectangle(cx - fw / 2 + fw * i / n, cy - fh / 2 + dy - 1, fw / n + 1, fh + 2)
         ctx.clip()
-        ctx.set_source_surface(fs, cx - fw / 2, cy - fh / 2 + dy)
+        set_raster(ctx, fs, k_, cx - fw / 2, cy - fh / 2 + dy)
         ctx.paint_with_alpha(a)
         ctx.set_source_rgba(0, 0, 0, 0.16 * (0.5 + 0.5 * math.sin(t * 2.6 + i * 0.5 + 1.2)) * a)
         ctx.paint()
@@ -78,25 +79,24 @@ def badge_at(ctx: cairo.Context, R: RenderCtx, x: float, y: float, e: dict, t: f
     if e["kind"] == "person":
         flag_wave(ctx, R, f"flag43:{e['flag']}", Rr * 0.25, -Rr * 0.05, Rr * 2.3, 0.92 * a, t)
     elif kind == "flag":
-        fs = R.assets.scaled(f"flag11:{flag}", Rr * 2.1)
-        ctx.set_source_surface(fs, -fs.get_width() / 2, -fs.get_height() / 2)
+        fs, fw, fh = R.assets.raster(f"flag11:{flag}", Rr * 2.1, R.out.k)
+        set_raster(ctx, fs, R.out.k, -fw / 2, -fh / 2)
         ctx.paint_with_alpha(a)
     elif kind == "emblem":
         ctx.set_source_rgba(0.96, 0.96, 0.97, a)
         ctx.paint()
-        fs = R.assets.scaled(f"emblem:{e['img']}", Rr * 1.96)
-        ctx.set_source_surface(fs, -fs.get_width() / 2, -fs.get_height() / 2)
+        fs, fw, fh = R.assets.raster(f"emblem:{e['img']}", Rr * 1.96, R.out.k)
+        set_raster(ctx, fs, R.out.k, -fw / 2, -fh / 2)
         ctx.paint_with_alpha(a)
     ctx.restore()
     if e["kind"] == "person":
-        ps = R.assets.scaled(f"portrait:{e['pid']}", Rr * 1.72)
-        pw, ph = ps.get_width(), ps.get_height()
+        ps, pw, ph = R.assets.raster(f"portrait:{e['pid']}", Rr * 1.72, R.out.k)
         ctx.save()
         ctx.arc(0, 0, Rr, 0, 2 * math.pi)
         ctx.rectangle(-Rr * 0.66, -Rr * 2.4, Rr * 1.32, Rr * 2.4)
         ctx.set_fill_rule(cairo.FILL_RULE_WINDING)
         ctx.clip()
-        ctx.set_source_surface(ps, -pw / 2, Rr - ph + Rr * 0.02)
+        set_raster(ctx, ps, R.out.k, -pw / 2, Rr - ph + Rr * 0.02)
         ctx.paint_with_alpha(a)
         ctx.restore()
     ctx.new_path()
