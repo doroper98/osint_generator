@@ -25,6 +25,7 @@ from workers.base_worker import run_worker
 from workers.direction_io import (
     camera_suggest_text,
     check_direction,
+    music_list_text,
     dump_direction_yaml,
     entities_text,
     event_fields_table,
@@ -59,6 +60,7 @@ class DirectorWorker(BaseLLMWorker):
                 .replace("{media}", media_text(pdir))
                 .replace("{geo}", geo_text(pdir))
                 .replace("{event_fields}", event_fields_table())
+                .replace("{music_list}", music_list_text(pdir))
                 .replace("{camera_suggest}", camera_suggest_text(pdir)[0]))
 
     def output_path(self, args: argparse.Namespace, task: TaskQueueItem) -> Path:

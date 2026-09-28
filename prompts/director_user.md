@@ -1,6 +1,6 @@
 <!--
 tier: 2
-last_synced_with: v3.3.0
+last_synced_with: v3.4.0
 ssot_for: [prompt-director_user]
 depends_on: [prompts/director.md, workers/director_worker.py]
 last_review: 2026-09-28
@@ -29,6 +29,10 @@ note: DirectorWorker user prompt 템플릿 — 자리표시는 워커가 .replac
 이벤트 필드 (타입별 — 필수는 *)
 ------------------------------
 {event_fields}
+
+음악 목록 (이 프로젝트 credits 에 등록된 BGM — sound.bgm 은 이 중 하나, 비었으면 null)
+-----------------------------------------------------------------------
+{music_list}
 
 카메라 제안값 (engine.camera_suggest — 참고용, 강제 아님)
 ----------------------------------------------------

@@ -156,6 +156,24 @@ def geo_text(pdir: Path) -> str:
     return f"국가 지오메트리 권역 bbox {g.get('bbox')}. 지형 티어(카메라 경계 = W): {tiers}. 카메라 w(화면 폭, 경도 도)는 2.5~96."
 
 
+def music_list_text(pdir: Path) -> str:
+    """연출가 입력 `{music_list}`(v3.4.0 D-0060 작업 3, F1): 프로젝트 credits.yaml 의 `music:` 행 id + 레지스트리 분위기 태그.
+    비면 null 안내 — 음악 크레딧 없는 프로젝트에 BGM 을 넣어 권리 실패하던 것(NB11 F1)을 입력 단계에서 막는다."""
+    from audio.registry import track  # noqa: PLC0415
+    from engine.credits import load_credits  # noqa: PLC0415
+
+    ids = [it.music for sec in load_credits(pdir / "credits.yaml").sections for it in sec.items if it.music]
+    if not ids:
+        return "(없음 — 이 프로젝트엔 음악 크레딧이 없다. sound.bgm 은 null, intensity·cues 만 쓴다)"
+    rows = []
+    for i in ids:
+        t = track(i)
+        mood = ", ".join(t.mood) if t.mood else "기록 없음"
+        rows.append(f"- {i} · {t.name} — {t.author} · 길이 {t.duration_sec:.0f}초 · 분위기 {mood}" if t.duration_sec
+                    else f"- {i} · {t.name} — {t.author} · 분위기 {mood}")
+    return "\n".join(rows)
+
+
 def camera_suggest_text(pdir: Path) -> tuple[str, str | None]:
     """카메라 제안값(engine.camera_suggest, v3.3.0 D-0056 작업 5) → 연출가 입력 텍스트와 제안 파일 sha1.
     **옵션이지 강제 아님(P8)**. 제안값만 보인다 — 이전 연출의 카메라 값은 넣지 않는다(15 P9). 파일이 없으면 (없음, None)."""

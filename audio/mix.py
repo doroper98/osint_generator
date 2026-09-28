@@ -43,7 +43,7 @@ class Sound(BaseModel):
 
     model_config = ConfigDict(extra="forbid")
 
-    bgm: str                                   # BGM 레지스트리 id(v3.4.0) — 파일은 audio.registry.bgm_path 가 푼다
+    bgm: str | None                            # BGM 레지스트리 id(v3.4.0) — 파일은 audio.registry.bgm_path. None = 음악 없음(F1, 명시 상태)
     intensity: list[tuple[float, float]] = Field(min_length=2)   # (초, 강도) 키프레임
     cues: list[Cue] = Field(default_factory=list)
 
@@ -116,13 +116,13 @@ def bed(bg: np.ndarray, n: int) -> np.ndarray:
     return bg / (np.abs(bg).max() + AU.norm_eps)
 
 
-def mix(plan: Plan, sound: Sound, bg_raw: np.ndarray) -> tuple[np.ndarray, float]:
-    """(N×2 float32, 정규화 전 피크)."""
+def mix(plan: Plan, sound: Sound, bg_raw: np.ndarray | None) -> tuple[np.ndarray, float]:
+    """(N×2 float32, 정규화 전 피크). bg_raw None = 베드 없음(sound.bgm null) — 내레이션+효과음만(폴백이 아니라 명시 상태)."""
     A = AU  # noqa: N806
     tot = plan.total + A.tail_sec
     n = int(tot * SR)
     rng = np.random.default_rng(A.seed)
-    bg = bed(bg_raw, n)
+    bg = bed(bg_raw, n) if bg_raw is not None else np.zeros((n, 2), np.float32)
     tt = np.arange(n) / SR
     K = sound.intensity  # noqa: N806
     inten = np.interp(tt, [k[0] for k in K], [k[1] for k in K]).astype(np.float32)
@@ -178,7 +178,7 @@ def main(argv: list[str] | None = None) -> int:
         if snd is None:
             raise ProjectError(f"{proj / 'direction.yaml'}: sound 블록이 없다")
         sound = Sound.model_validate(snd)
-        y, pk = mix(plan, sound, decode_bgm(bgm_path(sound.bgm)))
+        y, pk = mix(plan, sound, decode_bgm(bgm_path(sound.bgm)) if sound.bgm is not None else None)
         (proj / "out").mkdir(exist_ok=True)
         out = proj / "out" / "mix.f32"
         y.tofile(out)

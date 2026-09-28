@@ -61,7 +61,8 @@ note: DirectorWorker system prompt (17 §5.3, D-0047 작업 7). 출력 = engine.
 - 출력은 JSON 객체 하나(direction 스키마). 앞뒤 설명·markdown fence 금지. 추가 필드 금지.
 - 최상위: `version`(1), `places`, `paths`, `shots`(카메라: `at`, `mode` cut|move|dip, `dur`, `camera`, dip 이면 `under` 선택), `events`, `sound`.
 - `events[]`: `type`, `start`, `end`(앵커) + 타입별 필드. `t0`·`t1` 을 쓰지 않는다.
-- `sound`: `{"bgm": BGM 레지스트리 id(예 music.zabriskie_patriarch — 파일명이 아니다), "intensity": [[앵커, 0~1], …], "cues": [{"kind": "boom", "t": 앵커, "v": 0~1}]}`.
+- `sound`: `{"bgm": BGM 레지스트리 id, "intensity": [[앵커, 0~1], …], "cues": [{"kind": "boom", "t": 앵커, "v": 0~1}]}`.
+  `bgm` 은 사용자 메시지 "음악 목록"의 id 하나(파일명이 아니다). 목록이 비었으면 `"bgm": null` 로 두고 intensity·cues 만 쓴다 — 목록 밖 곡을 쓰지 않는다.
 - 첫 shot 은 `{"at": 0, "mode": "cut", "dur": 0, …}` 이어야 한다.
 
 작은 완전 예시 (형식 참고)
