@@ -4,6 +4,8 @@
 - box 슬롯(사진·영상): x·y·w ← `rules placement.slots.<이름>.box`
 - point 슬롯(뱃지·컷아웃·마커): 이벤트 시작 순간의 카메라 뷰로 화면 점을 경위도로 역투영 → lon·lat
 - card 슬롯: 카드 y(null 이면 렌더러 기본)
+- beside_panel 슬롯(사진·영상, v3.2.0 D-0050 NB9): 그 시각 활성 패널이 차지한 상자(`OCCUPIED[kind]`, 미디어가 떠 있는 동안
+  등장하는 요소까지)·자막·날짜 예약 영역을 피하는 첫 후보 자리. 막히면 오류. 겹침 판정은 RESERVED 와 같은 `reserved._hits`
 - 사진·영상에 place·x 가 둘 다 없으면 `placement.auto_media`(14 §10.3-5, v3 합격 좌표)
 슬롯 이름이 없거나 그 종류에 쓸 수 없는 슬롯이면 오류(15 P6·P10).
 """
@@ -12,10 +14,20 @@ from __future__ import annotations
 
 from collections.abc import Callable
 
+import cairo
+
+from engine.panels import timeline
 from engine.projection import lat_of
+from engine.reserved import _hits
+from engine.style import DATE_BADGE, H_OUT, W_OUT
 from rules import load_rules
 
-PL = load_rules().placement
+_R = load_rules()
+PL = _R.placement
+SUB_Y = _R.layout_480p.reserved_zones.subtitle.y_from
+Box = tuple[float, float, float, float]
+# 패널 종류 → 차지 상자 함수(ctx, 패널 이벤트, t_until). 없는 종류에 beside_panel 슬롯 = 오류(P10)
+OCCUPIED: dict[str, Callable[[cairo.Context, dict, float], list[Box]]] = {"timeline": timeline.occupied}
 
 
 class PlacementError(ValueError):
@@ -26,10 +38,37 @@ def _panel_at(events: list[dict], t: float) -> bool:
     return any(e["type"] == "panel" and e["t0"] <= t <= e["t1"] for e in events)
 
 
-def resolve_places(events: list[dict], view_at: Callable[[float], object]) -> dict[str, str]:
+def _beside_panel(e: dict, events: list[dict], slot, media_h: Callable[[dict, float], tuple[float, float]] | None) -> str | None:  # noqa: ANN001
+    """패널 옆 자리 → e 에 x·y·w. 오류면 문구."""
+    bp = slot.beside_panel
+    panels = [p for p in events if p["type"] == "panel" and p["t0"] < e["t1"] and e["t0"] < p["t1"]]
+    if not panels:
+        return "활성 패널 없음 — 지도 위 미디어는 map_* 슬롯"
+    if media_h is None:
+        return "미디어 높이 계산기 없음(자산 레지스트리 필요)"
+    ctx = cairo.Context(cairo.ImageSurface(cairo.FORMAT_ARGB32, 1, 1))
+    obst: list[Box] = [(0, SUB_Y, W_OUT, H_OUT),
+                       (W_OUT - DATE_BADGE.x_right - DATE_BADGE.size * 8, 0, W_OUT, DATE_BADGE.underline_y + 2)]
+    for p in panels:
+        fn = OCCUPIED.get(p["kind"])
+        if fn is None:
+            return f"패널 {p['kind']!r} 의 차지 상자 함수 없음 — engine.placement.OCCUPIED: {sorted(OCCUPIED)}"
+        obst += fn(ctx, p, e["t1"])
+    h, text_w = media_h(e, bp.w)
+    for x, y in bp.candidates:
+        b = (x, y, x + text_w, y + h)          # 캡션 글자가 바보다 길면 그 끝까지(출처 줄 잘림 금지)
+        if b[0] >= 0 and b[1] >= 0 and b[2] <= W_OUT and not any(_hits(b, o, bp.gap_px) for o in obst):
+            e["x"], e["y"], e["w"] = x, y, bp.w
+            return None
+    return f"후보 {len(bp.candidates)}곳 모두 패널·예약 영역과 겹치거나 화면 밖(폭 {bp.w:g}, 글자 폭 {text_w:.0f}, 높이 {h:.0f})"
+
+
+def resolve_places(events: list[dict], view_at: Callable[[float], object],
+                   media_h: Callable[[dict, float], tuple[float, float]] | None = None) -> dict[str, str]:
     """`place` 가 있는 이벤트를 좌표로 바꾸고(제자리) 기록을 돌려준다.
     기록: 미디어는 {mid: explicit | auto:<슬롯> | slot:<슬롯>}(provenance media.placement), 그 밖은 {타입:라벨: slot:<슬롯>}.
-    view_at(t) → engine.projection.View(그 시각 카메라). point 슬롯에만 쓴다."""
+    view_at(t) → engine.projection.View(그 시각 카메라). point 슬롯에만 쓴다.
+    media_h(e, w) → 폭 w 일 때 (미디어 상자 높이(캡션 바 포함), 캡션 글자까지의 폭). beside_panel 슬롯에만 쓴다."""
     rec: dict[str, str] = {}
     errs: list[str] = []
     for i, e in enumerate(events):
@@ -52,7 +91,12 @@ def resolve_places(events: list[dict], view_at: Callable[[float], object]) -> di
         if e["type"] not in slot.kinds:
             errs.append(f"[{i}] {tag}: 슬롯 {slot_name!r} 는 {slot.kinds} 용")
             continue
-        if slot.box is not None:
+        if slot.beside_panel is not None:
+            err = _beside_panel(e, events, slot, media_h)
+            if err:
+                errs.append(f"[{i}] {tag}: 슬롯 {slot_name!r} — {err}")
+                continue
+        elif slot.box is not None:
             e["x"], e["y"], e["w"] = slot.box
         elif slot.point is not None:
             v = view_at(e["t0"])

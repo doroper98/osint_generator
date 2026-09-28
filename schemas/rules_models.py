@@ -75,19 +75,29 @@ class PronounceRules(_Strict):
     dict_path: str
 
 
+class BesidePanel(_Strict):
+    """패널 옆 미디어 슬롯(v3.2.0, D-0050 NB9). 그 시각 활성 패널이 차지한 상자(`engine.panels.OCCUPIED`)·자막·날짜
+    예약 영역을 피하는 첫 후보 자리 [x, y](폭 w). 모든 후보가 막히면 오류(조용히 겹치지 않는다, P6)."""
+
+    w: float = Field(gt=0)
+    gap_px: float = Field(ge=0)
+    candidates: list[tuple[float, float]] = Field(min_length=1)
+
+
 class PlacementSlot(_Strict):
-    """배치 슬롯(v3.1.0, 17 §2 `place:`). box·point·card 중 정확히 하나."""
+    """배치 슬롯(v3.1.0, 17 §2 `place:`). box·point·card·beside_panel 중 정확히 하나."""
 
     kinds: list[str] = Field(min_length=1)
     box: Optional[tuple[float, float, float]] = None
     point: Optional[tuple[float, float]] = None
     card: Optional[float] = None
+    beside_panel: Optional[BesidePanel] = None
 
     @model_validator(mode="after")
     def _one(self) -> "PlacementSlot":
         is_card = "card" in self.model_fields_set
-        if sum([self.box is not None, self.point is not None, is_card]) != 1:
-            raise ValueError("슬롯은 box·point·card 중 하나")
+        if sum([self.box is not None, self.point is not None, is_card, self.beside_panel is not None]) != 1:
+            raise ValueError("슬롯은 box·point·card·beside_panel 중 하나")
         return self
 
 

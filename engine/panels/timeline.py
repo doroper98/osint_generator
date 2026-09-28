@@ -119,6 +119,36 @@ def lint(e: dict) -> list[str]:
     return warns
 
 
+def occupied(ctx: cairo.Context, e: dict, t_until: float) -> list[tuple[float, float, float, float]]:
+    """화면에서 이 연표가 차지하는 상자들(x0, y0, x1, y1) — `t_until` 까지 등장한 사건만. 패널 옆 미디어 슬롯
+    (`placement.slots.*.beside_panel`, D-0050 NB9)이 이 상자를 피한다. 좌표는 `draw` 와 같은 식(글자 기준선 − 크기 ~ + 헤일로)."""
+    X0, X1 = TL.x  # noqa: N806
+    Y = TL.y  # noqa: N806
+    out = [(X0, Y - TL.tick_h, X1, Y + TL.month_dy + TL.month.size / 3)]          # 축·눈금·월 라벨 띠
+    band = e.get("band")
+    if band:
+        fx = _fx(e)
+        cx = (fx(band["start"]) + fx(band["end"])) / 2
+        w = tw(ctx, band["label"], TL.band_label.size, "sansm")
+        by = Y + TL.band_label_dy
+        out.append((cx - w / 2, by - TL.band_label.size, cx + w / 2, by + TL.band_label.size / 3))
+    fx = _fx(e)
+    sides = assign_sides(e, ctx)[0]
+    for ev, side in zip(e["events"], sides):
+        if ev["t"] > t_until:
+            continue
+        x = fx(ev["date"])
+        x0, x1 = _box(ctx, ev, x)
+        L = TL.layer_px[abs(side) - 1]  # noqa: N806
+        yy = Y - L if side < 0 else Y + L
+        ty = yy + (TL.date_dy_above if side < 0 else TL.date_dy_below)
+        ly = ty + (TL.label_dy_above if side < 0 else TL.label_dy_below)
+        top = min(Y, ty - TL.date.size - TL.date.halo)
+        bot = max(Y, ly + TL.label.size / 3 + TL.label.halo)
+        out.append((x0 - TL.label.halo, top, x1 + TL.label.halo, bot))
+    return out
+
+
 def draw(ctx: cairo.Context, R: RenderCtx, t: float, e: dict, a: float) -> None:  # noqa: N803
     lt = t - e["t0"]
     panel_title(ctx, a, e["title"], e.get("subtitle"))

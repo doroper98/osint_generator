@@ -188,6 +188,11 @@ placement:                 # v3.1.0 D-0047 작업 5 — 배치 슬롯(17 §2 `pl
     map_lower_left:  {kinds: [badge, cutout, marker], point: [190, 330]}
     map_lower_right: {kinds: [badge, cutout, marker], point: [660, 330]}
     card_right:      {kinds: [card], card: null}
+    # v3.2.0 D-0050 NB9 — 패널(타임라인 등) 위 미디어: 그 순간 패널이 차지한 상자(engine.placement.OCCUPIED)·자막·날짜를 피하는 첫 후보.
+    # 후보 [x, y] = 제목·부제(y≤96) 아래 네 귀퉁이. 모두 막히면 오류(조용히 겹치지 않는다, P6)
+    clip_panel_side:
+      kinds: [clip, photo]
+      beside_panel: {w: 190, gap_px: 4, candidates: [[630, 102], [566, 102], [24, 102], [630, 296], [24, 296]]}
 
 hud:                       # 09 §5 — 모서리에는 날짜만
   allowed_corner_elements: [date_badge]

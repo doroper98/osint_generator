@@ -62,10 +62,19 @@ def _rules_placeholders(rules: VideoRules) -> dict[str, str]:
         "{{RULES.event_types}}": _bullets(list(rules.registries.event_types)),
         "{{RULES.panel_kinds}}": _bullets(list(rules.registries.panel_kinds)),
         "{{RULES.placement_slots}}": _bullets([
-            f"{name} — {', '.join(s.kinds)} ({'화면 상자' if s.box is not None else '화면 점 → 경위도' if s.point is not None else '카드 위치'})"
-            for name, s in rules.placement.slots.items()]),
+            f"{name} — {', '.join(s.kinds)} ({_slot_form(s)})" for name, s in rules.placement.slots.items()]),
         "{{RULES.corner_elements}}": ", ".join(rules.hud.allowed_corner_elements),
     }
+
+
+def _slot_form(s) -> str:  # noqa: ANN001 — schemas.rules_models.PlacementSlot
+    if s.box is not None:
+        return "화면 상자"
+    if s.point is not None:
+        return "화면 점 → 경위도"
+    if s.beside_panel is not None:
+        return "패널 위 미디어 — 엔진이 그 순간 패널 글자·자막·날짜를 피하는 빈 귀퉁이를 고른다(자리가 없으면 오류)"
+    return "카드 위치"
 
 
 _EXAMPLE = re.compile(r"\{\{EXAMPLE:([A-Za-z0-9_.\-]+)\}\}")

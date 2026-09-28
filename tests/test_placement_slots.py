@@ -49,6 +49,71 @@ class SlotTest(unittest.TestCase):
         self.assertEqual(PL.slots[PL.auto_media["photo"]["map"]].box, (560, 196, 262))
 
 
+def _timeline(t0: float = 0, t1: float = 20) -> dict:
+    """왼쪽(2~4월)에 사건이 몰린 연표 — hormuz_ai timeline_4 와 같은 모양(D-0050 NB9)."""
+    evs = [("2026-02-28", "미국·이스라엘, 이란 공습", -1), ("2026-03-15", "트럼프, 해협 방어 요구", -2),
+           ("2026-04-13", "미국 해상 봉쇄", -1), ("2026-07-08", "휴전 붕괴", -1)]
+    return {"type": "panel", "kind": "timeline", "t0": t0, "t1": t1, "title": "연표", "start": "2026-02-01", "end": "2026-09-30",
+            "events": [{"date": d, "label": lb, "col": "us", "side": sd, "t": t0 + 1 + i} for i, (d, lb, sd) in enumerate(evs)]}
+
+
+def _ext(h: float = 145, text_w: float = 190):  # noqa: ANN202
+    return lambda e, w: (h, max(w, text_w))
+
+
+class BesidePanelSlotTest(unittest.TestCase):
+    """패널 옆 미디어 슬롯(v3.2.0, D-0050 NB9) — 패널이 차지한 상자·자막·날짜를 피한다. 자리가 없으면 오류(P6)."""
+
+    def _boxes(self, tl: dict, t: float) -> list:
+        import cairo  # noqa: PLC0415
+
+        from engine.panels import timeline  # noqa: PLC0415
+
+        return timeline.occupied(cairo.Context(cairo.ImageSurface(cairo.FORMAT_ARGB32, 1, 1)), tl, t)
+
+    def test_picks_free_corner_outside_timeline(self) -> None:
+        tl = _timeline()
+        clip = {"type": "clip", "t0": 5, "t1": 10, "mid": "strikes", "place": "clip_panel_side"}
+        rec = resolve_places([tl, clip], view, _ext())
+        self.assertEqual(rec["strikes"], "slot:clip_panel_side")
+        b = (clip["x"], clip["y"], clip["x"] + 190, clip["y"] + 145)
+        for o in self._boxes(tl, clip["t1"]):
+            self.assertFalse(b[0] < o[2] and o[0] < b[2] and b[1] < o[3] and o[1] < b[3], (b, o))
+        self.assertEqual(clip["w"], PL.slots["clip_panel_side"].beside_panel.w)
+
+    def test_caption_text_width_counts(self) -> None:
+        """출처 줄이 바보다 길면 그 끝까지 화면 안 — 첫 후보(오른쪽 끝)가 밀려난다."""
+        cands = PL.slots["clip_panel_side"].beside_panel.candidates
+        clip = {"type": "clip", "t0": 5, "t1": 10, "mid": "strikes", "place": "clip_panel_side"}
+        resolve_places([_timeline(), clip], view, _ext(text_w=275))
+        self.assertNotEqual((clip["x"], clip["y"]), tuple(cands[0]))
+        self.assertLessEqual(clip["x"] + 275, 854)
+
+    def test_no_panel_is_error(self) -> None:
+        with self.assertRaises(PlacementError):
+            resolve_places([{"type": "clip", "t0": 0, "t1": 1, "mid": "strikes", "place": "clip_panel_side"}], view, _ext())
+
+    def test_all_blocked_is_error(self) -> None:
+        with self.assertRaises(PlacementError) as cm:
+            resolve_places([_timeline(), {"type": "clip", "t0": 5, "t1": 10, "mid": "strikes", "place": "clip_panel_side"}],
+                           view, _ext(h=400))
+        self.assertIn("후보", str(cm.exception))
+
+    def test_panel_kind_without_occupancy_is_error(self) -> None:
+        panel = {"type": "panel", "kind": "versus", "t0": 0, "t1": 20}
+        with self.assertRaises(PlacementError) as cm:
+            resolve_places([panel, {"type": "photo", "t0": 5, "t1": 10, "mid": "rok_iraq", "place": "clip_panel_side"}],
+                           view, _ext())
+        self.assertIn("OCCUPIED", str(cm.exception))
+
+    def test_prompt_describes_slot_form(self) -> None:
+        from workers.prompt_loader import load_prompt  # noqa: PLC0415
+
+        txt = load_prompt("director", load_rules())
+        line = next(ln for ln in txt.splitlines() if "clip_panel_side" in ln)
+        self.assertIn("패널 위 미디어", line)
+
+
 if __name__ == "__main__":
     unittest.main()
 

@@ -30,6 +30,9 @@ released 항목은 **append-only**입니다.
 
 ## [v3.2.0] — 2026-09-28 — Phase 6.95: 소스 인테이크 (back_and_forth D-0050·D-0051) — 진행 중
 
+### Added
+- 배치 슬롯 `clip_panel_side`(`placement.slots.*.beside_panel`) — 패널 위 사진·영상이 그 순간 패널이 차지한 상자(`engine.placement.OCCUPIED`, 연표 `timeline.occupied`)·자막·날짜와 캡션 글자 폭까지 피하는 첫 후보 자리. 자리가 없거나 차지 상자 함수가 없는 패널 종류면 오류 (D-0050 NB9).
+
 ### Fixed
 - 글리프 검사가 프로젝트 글꼴 없는 환경에서 대체 글꼴 cmap 으로 조용히 검사하던 문제 — `engine.checks.FontMissingError`(명시 오류), `test_glyphs` 는 글꼴 없으면 사유 있는 skip (D-0050 NB10).
 

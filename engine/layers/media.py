@@ -59,6 +59,12 @@ def media_caption(ctx: cairo.Context, x: float, y: float, w: float, cap: str, cr
     text(ctx, credit, x + 10, y + 30, 7.8, "monom", C["muted"], a * 0.95, 0, "l")
 
 
+def caption_width(ctx: cairo.Context, cap: str, credit: str) -> float:
+    """`media_caption` 글자가 실제로 차지하는 폭(왼쪽 여백 10 + 글자 + 오른쪽 여백 10). 바는 미디어 폭이지만 글자는 넘칠 수 있다 —
+    패널 옆 슬롯(D-0050 NB9)이 출처 줄 잘림을 막으려고 이 폭까지 화면 안·장애물 밖을 요구한다."""
+    return 20 + max(tw(ctx, cap, 10.5, "sansm"), tw(ctx, credit, 7.8, "monom"))
+
+
 def media_tag(ctx: cairo.Context, x: float, y: float, s_: str, a: float) -> None:
     w = tw(ctx, s_, 7.5, "mono") + 12
     rrect(ctx, x + 8, y + 8, w, 14, 2)

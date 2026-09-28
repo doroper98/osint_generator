@@ -13,6 +13,7 @@ from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Optional
 
+import cairo
 import numpy as np
 
 from engine.assets import Assets, load_labels
@@ -24,8 +25,9 @@ from engine.direction import build as build_direction
 from engine.entities import check_event_refs, load_entities
 from engine.panels import network, relation, timeline
 from engine.credits import RightsError
-from engine.layers.media import validate_media
-from engine.media_plan import density_report, placement_warnings
+from engine.layers.media import caption_width, validate_media
+from engine.media_registry import credit_line
+from engine.media_plan import density_report, media_box, placement_warnings
 from engine.placement import PlacementError, resolve_places
 from engine.projection import View
 from engine.refs import emblem_ids
@@ -127,6 +129,13 @@ class Project:
     warnings: list[str] = field(default_factory=list)   # 연출 lint 경고(오류 아님) — StageResult.warnings 로 나간다
 
 
+def _media_extent(e: dict, w: float, media_assets: dict) -> tuple[float, float]:
+    """폭 w 일 때 미디어 상자 (높이, 글자까지 포함한 폭) — 패널 옆 슬롯(engine.placement beside_panel)용."""
+    ctx = cairo.Context(cairo.ImageSurface(cairo.FORMAT_ARGB32, 1, 1))
+    m = media_assets[e["mid"]]
+    return media_box(dict(e, x=0, y=0, w=w), media_assets)[3], max(w, caption_width(ctx, m.caption, credit_line(m)))
+
+
 def load_project(proj: Path, direction: Optional[Direction] = None) -> Project:
     """렌더 입력 한 벌. direction 을 주면 direction.yaml 대신 그것으로(연출 워커의 저장 전 점검 — 렌더와 같은 경로, 15 P8)."""
     proj = proj.resolve()
@@ -144,7 +153,7 @@ def load_project(proj: Path, direction: Optional[Direction] = None) -> Project:
         return View(cams[min(n - 1, max(0, int(t * FPS)))], A0.tiers, A0.base)
 
     try:   # 17 §2 배치 슬롯 + 14 §10.3-5 기본 배치(D-0047 작업 5) — 좌표는 코드가 계산
-        placement = resolve_places(raw_events, view_at)
+        placement = resolve_places(raw_events, view_at, lambda e, w: _media_extent(e, w, A0.media_assets))
     except PlacementError as ex:
         raise ProjectError(str(ex)) from ex
     events = validate_events(raw_events)
