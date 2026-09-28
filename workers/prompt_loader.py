@@ -12,6 +12,7 @@
 from __future__ import annotations
 
 import hashlib
+import re
 from pathlib import Path
 from typing import Any
 
@@ -51,7 +52,34 @@ def _rules_placeholders(rules: VideoRules) -> dict[str, str]:
         "{{RULES.tts_rules}}": yaml.safe_dump(
             rules.tts_rules.model_dump(mode="json"), allow_unicode=True, sort_keys=False
         ).rstrip("\n"),
+        # v3.1.0 — 연출·검수 프롬프트(D-0047 작업 7)
+        "{{RULES.shot_grammar}}": yaml.safe_dump(
+            rules.shot_grammar.model_dump(mode="json"), allow_unicode=True, sort_keys=False
+        ).rstrip("\n"),
+        "{{RULES.qa_checks}}": yaml.safe_dump(
+            rules.qa_checks.model_dump(mode="json"), allow_unicode=True, sort_keys=False
+        ).rstrip("\n"),
+        "{{RULES.event_types}}": _bullets(list(rules.registries.event_types)),
+        "{{RULES.panel_kinds}}": _bullets(list(rules.registries.panel_kinds)),
+        "{{RULES.placement_slots}}": _bullets([
+            f"{name} — {', '.join(s.kinds)} ({'화면 상자' if s.box is not None else '화면 점 → 경위도' if s.point is not None else '카드 위치'})"
+            for name, s in rules.placement.slots.items()]),
+        "{{RULES.corner_elements}}": ", ".join(rules.hud.allowed_corner_elements),
     }
+
+
+_EXAMPLE = re.compile(r"\{\{EXAMPLE:([A-Za-z0-9_.\-]+)\}\}")
+
+
+def _examples(text: str) -> str:
+    """`{{EXAMPLE:파일}}` → prompts/examples/파일 내용(펜스 블록). 예시 정본은 한 파일(중복 금지)."""
+    def rep(m: re.Match[str]) -> str:
+        p = PROMPTS_DIR / "examples" / m.group(1)
+        if not p.exists():
+            raise PromptTemplateError(f"예시 파일 없음: {p}")
+        lang = "yaml" if p.suffix in (".yaml", ".yml") else "json"
+        return f"```{lang}\n{p.read_text(encoding='utf-8').rstrip()}\n```"
+    return _EXAMPLE.sub(rep, text)
 
 
 def prompt_path(name: str, suffix: str = ".md") -> Path:
@@ -63,7 +91,7 @@ def load_prompt(name: str, rules: VideoRules) -> str:
     path = prompt_path(name)
     if not path.exists():
         raise PromptTemplateError(f"프롬프트 파일이 없습니다: {path}")
-    text = _strip_header(path.read_text(encoding="utf-8"))
+    text = _examples(_strip_header(path.read_text(encoding="utf-8")))
     for key, value in _rules_placeholders(rules).items():
         text = text.replace(key, value)
     if "{{" in text:
