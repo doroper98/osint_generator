@@ -89,9 +89,19 @@ class Assets:
             Tier.model_validate(T)
         RightsRegistry.model_validate(self.rights)
         MediaRegistry.model_validate(self.media)
+        from engine.entities import load_emblem_registry  # noqa: PLC0415
+
+        self.emblems = load_emblem_registry()   # D-0029 작업 3 — decision 은 코드가 정한다(D5)
         self.img: dict[str, Image.Image] = {}
         self.clips: dict[str, np.ndarray] = {}
         self._sc: dict[tuple[str, int], tuple[cairo.ImageSurface, bytearray]] = {}
+
+    def emblem_flag(self, eid: str) -> str | None:
+        """휘장 결정. `flag_fallback` 이면 대체 국기 코드, `use` 면 None. 미등재 휘장은 오류(15 P10)."""
+        if eid not in self.emblems.emblems:
+            raise AssetError(f"휘장 레지스트리에 없음: {eid} (assets/emblems/registry.json)")
+        ent = self.emblems.emblems[eid]
+        return ent.fallback_flag if ent.decision == "flag_fallback" else None
 
     # --- 이미지 키: portrait:<pid>, emblem:<id>, flag43:<cc>, flag11:<cc>, media:<file>
     def load_image(self, key: str) -> None:

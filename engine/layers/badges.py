@@ -33,8 +33,21 @@ def flag_wave(ctx: cairo.Context, R: RenderCtx, key: str, cx: float, cy: float, 
         ctx.restore()
 
 
-def image_keys(e: dict) -> list[str]:
+def resolve_kind(R: RenderCtx, e: dict) -> tuple[str, str | None]:  # noqa: N803
+    """휘장 뱃지의 권리 결정 적용(D5): flag_fallback 이면 ("flag", 대체 국기). 그 밖에는 (kind, 국기)."""
+    if e["kind"] == "emblem":
+        fb = R.assets.emblem_flag(e["img"])
+        if fb is not None:
+            return "flag", fb
+    return e["kind"], e.get("flag")
+
+
+def image_keys(e: dict, R: RenderCtx | None = None) -> list[str]:  # noqa: N803
     """뱃지 하나가 쓰는 이미지 키(렌더 전 자산 점검용)."""
+    if e["kind"] == "emblem" and R is not None:
+        kind, fb = resolve_kind(R, e)
+        if kind == "flag":
+            return [f"flag11:{fb}"]
     if e["kind"] == "person":
         return [f"portrait:{e['pid']}", f"flag43:{e['flag']}"]
     if e["kind"] == "flag":
@@ -49,6 +62,7 @@ def badge_at(ctx: cairo.Context, R: RenderCtx, x: float, y: float, e: dict, t: f
     if k <= 0.01:
         return
     acc = C.get(e.get("accent") or "gold", C["gold"])
+    kind, flag = resolve_kind(R, e)
     ctx.save()
     ctx.translate(x, y)
     ctx.scale(k, k)
@@ -63,11 +77,11 @@ def badge_at(ctx: cairo.Context, R: RenderCtx, x: float, y: float, e: dict, t: f
     ctx.paint()
     if e["kind"] == "person":
         flag_wave(ctx, R, f"flag43:{e['flag']}", Rr * 0.25, -Rr * 0.05, Rr * 2.3, 0.92 * a, t)
-    elif e["kind"] == "flag":
-        fs = R.assets.scaled(f"flag11:{e['flag']}", Rr * 2.1)
+    elif kind == "flag":
+        fs = R.assets.scaled(f"flag11:{flag}", Rr * 2.1)
         ctx.set_source_surface(fs, -fs.get_width() / 2, -fs.get_height() / 2)
         ctx.paint_with_alpha(a)
-    elif e["kind"] == "emblem":
+    elif kind == "emblem":
         ctx.set_source_rgba(0.96, 0.96, 0.97, a)
         ctx.paint()
         fs = R.assets.scaled(f"emblem:{e['img']}", Rr * 1.96)

@@ -1,0 +1,85 @@
+{
+ "schema_version": 1,
+ "emblems": {
+  "navcent": {
+   "file": "navcent.png",
+   "title": "File:United States Naval Forces Central Command patch 2014.png",
+   "license": "Public domain",
+   "author": "U.S. Navy Illustration/Released",
+   "restrictions": [],
+   "decision": "use",
+   "reason": "no_restrictions",
+   "fallback_flag": "us",
+   "source_url": "https://commons.wikimedia.org/wiki/File:United_States_Naval_Forces_Central_Command_patch_2014.png",
+   "fetched_at": "2026-09-28T02:23:11Z"
+  },
+  "centcom": {
+   "file": "centcom.png",
+   "title": "File:Seal of United States Central Command.svg",
+   "license": "Public domain",
+   "author": "Original: United States Department of Defense Vector: Designism",
+   "restrictions": [],
+   "decision": "use",
+   "reason": "no_restrictions",
+   "fallback_flag": "us",
+   "source_url": "https://commons.wikimedia.org/wiki/File:Seal_of_United_States_Central_Command.svg",
+   "fetched_at": "2026-09-28T02:25:17Z"
+  },
+  "irgc": {
+   "file": null,
+   "title": "File:Seal of the Army of the Guardians of the Islamic Revolution.svg",
+   "license": "Public domain",
+   "author": "MrInfo2012 This W3C-unspecified vector image was created with Inkscape .",
+   "restrictions": [
+    "insignia"
+   ],
+   "decision": "flag_fallback",
+   "reason": "restrictions: insignia",
+   "fallback_flag": "ir",
+   "source_url": "https://commons.wikimedia.org/wiki/File:Seal_of_the_Army_of_the_Guardians_of_the_Islamic_Revolution.svg",
+   "fetched_at": "2026-09-28T02:26:01Z"
+  },
+  "rok_navy": {
+   "file": null,
+   "title": "File:Emblem of the Republic of Korea Navy.svg",
+   "license": "South Korea-Gov",
+   "author": "Republic of Korea Navy (대한민국 해군)",
+   "restrictions": [
+    "insignia",
+    "trademarked"
+   ],
+   "decision": "flag_fallback",
+   "reason": "restrictions: insignia, trademarked",
+   "fallback_flag": "kr",
+   "source_url": "https://commons.wikimedia.org/wiki/File:Emblem_of_the_Republic_of_Korea_Navy.svg",
+   "fetched_at": "2026-09-28T02:27:00Z"
+  },
+  "mnd_korea": {
+   "file": null,
+   "title": "File:Emblem of the Ministry of National Defense (South Korea).svg",
+   "license": "Public domain",
+   "author": "Ministry of National Defense of South Korea",
+   "restrictions": [
+    "insignia",
+    "trademarked"
+   ],
+   "decision": "flag_fallback",
+   "reason": "restrictions: insignia, trademarked",
+   "fallback_flag": "kr",
+   "source_url": "https://commons.wikimedia.org/wiki/File:Emblem_of_the_Ministry_of_National_Defense_(South_Korea).svg",
+   "fetched_at": "2026-09-28T02:28:01Z"
+  },
+  "cheonghae": {
+   "file": null,
+   "title": null,
+   "license": "",
+   "author": "",
+   "restrictions": [],
+   "decision": "flag_fallback",
+   "reason": "no_emblem_file",
+   "fallback_flag": "kr",
+   "source_url": "",
+   "fetched_at": "2026-09-28T02:28:01Z"
+  }
+ }
+}

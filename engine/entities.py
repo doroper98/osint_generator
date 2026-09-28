@@ -15,11 +15,13 @@ from pathlib import Path
 import yaml
 
 from engine.registry import RegistryError
+from schemas.emblem_models import EmblemRegistry
 from schemas.entity_models import EntitiesFile, Entity
 
 REPO = Path(__file__).resolve().parent.parent
 ENTITIES_PATH = REPO / "assets" / "entities.yaml"
 LIBRARY_PATH = REPO / "assets" / "library" / "library_manifest.json"
+EMBLEM_REGISTRY_PATH = REPO / "assets" / "emblems" / "registry.json"
 
 
 @dataclass
@@ -87,6 +89,13 @@ def load_entities(path: Path = ENTITIES_PATH, library: Path = LIBRARY_PATH) -> E
     data = EntitiesFile.model_validate(yaml.safe_load(path.read_text(encoding="utf-8")))
     manifest = json.loads(library.read_text(encoding="utf-8")) if library.exists() else {"people": []}
     return build_registry(data, manifest)
+
+
+def load_emblem_registry(path: Path = EMBLEM_REGISTRY_PATH) -> EmblemRegistry:
+    """휘장 레지스트리(D-0029 작업 3). 파일이 없으면 빈 레지스트리 — 휘장 뱃지를 쓰면 렌더 전 오류가 된다."""
+    if not path.exists():
+        return EmblemRegistry(emblems={})
+    return EmblemRegistry.model_validate_json(path.read_text(encoding="utf-8"))
 
 
 def check_event_refs(events: list[dict], reg: EntityRegistry) -> list[str]:
