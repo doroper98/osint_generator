@@ -5,6 +5,7 @@ hard 실패가 하나라도 있으면 시각 검수 LLM 을 부르지 않고 연
 
 | id | 등급 | 방법 |
 | overlap | hard | 사진·영상 상자가 카드·자막·날짜 예약 영역과 겹침, 카드·기사·게시물 카드가 날짜·자막 영역과 겹침(v3.6.0 NB23) (`media_plan.placement_warnings`). 뱃지·마커는 RESERVED 회피가 이미 처리 |
+| overlap(label) | hard | 마커 라벨이 카드 영역 때문에 흐려진(알파 < 0.5) 시간 ÷ 마커 표시 시간 > label_hidden_max_ratio `[label-hidden-by-card]`(v3.6.0 D-0068 — 설계된 hide(D36)를 연출 LLM 이 오류로 받게) |
 | offscreen | hard | 뱃지 상자(badge_box — 머리·이름표 포함, 17 §3 R×3.3 의 실측판)가 보이는 순간마다 화면 안(전면 카드·패널·암전 구간 제외) |
 | glyphs | hard | 화면에 그릴 문자열(이벤트·자막·날짜·크레딧)의 모든 글자가 프로젝트 글꼴 중 하나에 있음(fontTools cmap) |
 | shots | warning | 숏 길이 ≥ shot_min_hold_sec, 장면당 이동 ≤ camera_moves_per_scene_max, 암전 ≤ 1/dip_max_per_sec (Phase 7 제안의 바탕) |
@@ -134,6 +135,50 @@ def place_over(P, ctx: cairo.Context, e: dict, t: float) -> tuple[float, tuple] 
     return max(-b[0], -b[1], b[2] - W_OUT, b[3] - H_OUT), tuple(b)
 
 
+LABEL_STEP_SEC = 0.1      # label_hidden 표본 간격
+HIDDEN_ALPHA = 0.5        # 이 값 미만으로 흐려진 라벨 = 숨김(D-0068 정의)
+
+
+def label_hidden_ratio(P, e: dict) -> tuple[float, list[str]]:  # noqa: ANN001, N803
+    """마커 e 의 (숨김 시간 ÷ 표시 시간, 숨긴 카드 ref). 표시 = 마커가 그려지는 시각(지도 가려짐·화면 ±80·40 밖 제외)."""
+    from engine.layers.markers import marker_box  # noqa: PLC0415
+    from engine.reserved import card_zones, marker_label_alpha  # noqa: PLC0415
+
+    ctx = cairo.Context(cairo.ImageSurface(cairo.FORMAT_ARGB32, 1, 1))
+    shown = hidden = 0
+    refs: set[str] = set()
+    t = e["t0"] + LABEL_STEP_SEC / 2
+    while t < e["t1"]:
+        if not _covered(P, t):
+            v = View(P.cams[min(P.n_frames - 1, int(t * FPS))], P.R.assets.tiers, P.R.assets.base)
+            x, y = v.xy(e["lon"], e["lat"])
+            if -80 <= x <= W_OUT + 80 and -40 <= y <= H_OUT + 40:   # draw_marker 가 그리는 위치
+                shown += 1
+                box = marker_box(ctx, e, x, y)
+                zones = card_zones(ctx, P.events, t)
+                if marker_label_alpha(box, zones) < HIDDEN_ALPHA:
+                    hidden += 1
+                    refs |= {z.ref for z in zones if _box_hit(box, z.box)}
+        t += LABEL_STEP_SEC
+    return (hidden / shown if shown else 0.0), sorted(refs)
+
+
+def _box_hit(a: tuple, b: tuple) -> bool:
+    return a[0] < b[2] and b[0] < a[2] and a[1] < b[3] and b[1] < a[3]
+
+
+def check_label_hidden(P) -> list[str]:  # noqa: ANN001, N803
+    out: list[str] = []
+    for e in P.events:
+        if e["type"] != "marker":
+            continue
+        r, refs = label_hidden_ratio(P, e)
+        if r > QA.label_hidden_max_ratio:
+            out.append(f"[label-hidden-by-card] 마커 {e['label']!r} t0={e['t0']:.2f} 라벨이 카드 {refs} 뒤에서 표시 시간의 {r:.0%} 흐려짐"
+                       f" > {QA.label_hidden_max_ratio:.0%} — 마커나 카드 자리를 옮겨라(카메라 구도·카드 y·place)")
+    return out
+
+
 def check_labels(P, times: list[float]) -> list[str]:  # noqa: ANN001, N803
     from engine.layers import labels as L  # noqa: N812, PLC0415
 
@@ -217,7 +262,7 @@ def check_audio(P) -> tuple[list[str], list[str], dict]:  # noqa: ANN001, N803
 def run_checks(P, times: list[float], provenance: dict) -> dict:  # noqa: ANN001, N803
     """모든 검사 → checks.json 내용. hard 합계가 0 이어야 시각 검수로 간다."""
     res: dict[str, list[str]] = {
-        "overlap": [w for w in placement_warnings(P.events, P.R.assets.media_assets)],
+        "overlap": [w for w in placement_warnings(P.events, P.R.assets.media_assets)] + check_label_hidden(P),
         "offscreen": check_offscreen(P),
         "glyphs": check_glyphs(P),
         "shots": check_shots(P),

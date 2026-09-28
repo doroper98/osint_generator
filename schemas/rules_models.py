@@ -827,6 +827,7 @@ class QAChecks(_Strict):
     subtitle_lines_max: int
     rights_missing: int
     forbidden_components: int
+    label_hidden_max_ratio: float = Field(gt=0, le=1)   # v3.6.0 D-0068
     visual_qa_loop_max: int
     loop_pick_order: list[Literal["checks_hard", "qa_hard", "qa_soft"]]
 
