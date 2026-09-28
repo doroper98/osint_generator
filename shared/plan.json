@@ -1,0 +1,923 @@
+{
+ "sentences": [
+  {
+   "sid": "open_0",
+   "scene": "open",
+   "date": "2026.08.25",
+   "text": "8월 25일, 미국 공군 수송기 한 대가 모스크바에 내렸습니다.",
+   "tts": "팔월 이십오일, 미국 공군 수송기 한 대가 모스크바에 내렸습니다.",
+   "segments": [
+    [
+     "8월 25일, 미국 공군 수송기 한 대가 ",
+     0
+    ],
+    [
+     "모스크바",
+     1
+    ],
+    [
+     "에 내렸습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/ratcliffe2026/tts/open_0_cdf96b69d1.mp3",
+   "npy": "/home/user/osint_generator/projects/ratcliffe2026/tts/open_0_cdf96b69d1.npy",
+   "dur": 4.810884353741496,
+   "t0": 1.2,
+   "t1": 6.010884353741496,
+   "trim_offset": 0.382268
+  },
+  {
+   "sid": "open_1",
+   "scene": "open",
+   "date": "2026.08.25",
+   "text": "같은 날 존 랫클리프 CIA 국장이 모스크바를 방문했습니다.",
+   "tts": "같은 날 존 랫클리프 미국 중앙정보국 국장이 모스크바를 방문했습니다.",
+   "segments": [
+    [
+     "같은 날 ",
+     0
+    ],
+    [
+     "존 랫클리프",
+     1
+    ],
+    [
+     " CIA 국장이 모스크바를 방문했습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/ratcliffe2026/tts/open_1_cd10c4d317.mp3",
+   "npy": "/home/user/osint_generator/projects/ratcliffe2026/tts/open_1_cd10c4d317.npy",
+   "dur": 4.938571428571429,
+   "t0": 6.510884353741496,
+   "t1": 11.449455782312924,
+   "trim_offset": 0.369138
+  },
+  {
+   "sid": "open_2",
+   "scene": "open",
+   "date": "2026.08.25",
+   "text": "여러 매체는 2021년 이후 CIA 국장의 첫 러시아 방문이라고 보도했습니다.",
+   "tts": "여러 매체는 이천이십일년 이후 미국 중앙정보국 국장의 첫 러시아 방문이라고 보도했습니다.",
+   "segments": [
+    [
+     "여러 매체는 2021년 이후 CIA 국장의 ",
+     0
+    ],
+    [
+     "첫 러시아 방문",
+     1
+    ],
+    [
+     "이라고 보도했습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/ratcliffe2026/tts/open_2_d730fcbcc3.mp3",
+   "npy": "/home/user/osint_generator/projects/ratcliffe2026/tts/open_2_d730fcbcc3.npy",
+   "dur": 6.431882086167801,
+   "t0": 11.949455782312924,
+   "t1": 18.381337868480724,
+   "trim_offset": 0.348957
+  },
+  {
+   "sid": "open_3",
+   "scene": "open",
+   "date": "2026.08.25",
+   "text": "그 방에서 무슨 말이 오갔는지는 전하는 쪽마다 설명이 다릅니다.",
+   "tts": "그 방에서 무슨 말이 오갔는지는 전하는 쪽마다 설명이 다릅니다.",
+   "segments": [
+    [
+     "그 방에서 무슨 말이 오갔는지는 전하는 쪽마다 설명이 다릅니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/ratcliffe2026/tts/open_3_c0e19899a7.mp3",
+   "npy": "/home/user/osint_generator/projects/ratcliffe2026/tts/open_3_c0e19899a7.npy",
+   "dur": 4.1184353741496595,
+   "t0": 18.881337868480724,
+   "t1": 22.999773242630383,
+   "trim_offset": 0.356599
+  },
+  {
+   "sid": "open_4",
+   "scene": "open",
+   "date": "2026.08.25",
+   "text": "보도로 확인된 것과 서로 엇갈리는 주장을 나눠 살펴봅니다.",
+   "tts": "보도로 확인된 것과 서로 엇갈리는 주장을 나눠 살펴봅니다.",
+   "segments": [
+    [
+     "보도로 확인된 것과 서로 엇갈리는 주장을 나눠 살펴봅니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/ratcliffe2026/tts/open_4_f964a8a896.mp3",
+   "npy": "/home/user/osint_generator/projects/ratcliffe2026/tts/open_4_f964a8a896.npy",
+   "dur": 4.0056235827664395,
+   "t0": 23.499773242630383,
+   "t1": 27.505396825396822,
+   "trim_offset": 0.403923
+  },
+  {
+   "sid": "flight_0",
+   "scene": "flight",
+   "date": "2026.08.25",
+   "text": "보도에 따르면 이 수송기는 미 공군 C-17이었습니다.",
+   "tts": "보도에 따르면 이 수송기는 미 공군 씨 십칠이었습니다.",
+   "segments": [
+    [
+     "보도에 따르면 이 수송기는 미 공군 ",
+     0
+    ],
+    [
+     "C-17",
+     1
+    ],
+    [
+     "이었습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/ratcliffe2026/tts/flight_0_09bbc8e979.mp3",
+   "npy": "/home/user/osint_generator/projects/ratcliffe2026/tts/flight_0_09bbc8e979.npy",
+   "dur": 4.062335600907029,
+   "t0": 34.20539682539682,
+   "t1": 38.267732426303844,
+   "trim_offset": 0.377914
+  },
+  {
+   "sid": "flight_1",
+   "scene": "flight",
+   "date": "2026.08.25",
+   "text": "수송기는 라트비아 리가를 거쳐 갔다고 보도됐습니다.",
+   "tts": "수송기는 라트비아 리가를 거쳐 갔다고 보도됐습니다.",
+   "segments": [
+    [
+     "수송기는 ",
+     0
+    ],
+    [
+     "라트비아 리가",
+     1
+    ],
+    [
+     "를 거쳐 갔다고 보도됐습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/ratcliffe2026/tts/flight_1_ef93dbc711.mp3",
+   "npy": "/home/user/osint_generator/projects/ratcliffe2026/tts/flight_1_ef93dbc711.npy",
+   "dur": 3.5568934240362813,
+   "t0": 38.767732426303844,
+   "t1": 42.32462585034013,
+   "trim_offset": 0.379569
+  },
+  {
+   "sid": "flight_2",
+   "scene": "flight",
+   "date": "2026.08.25",
+   "text": "도착한 곳은 모스크바 브누코보 공항이었습니다.",
+   "tts": "도착한 곳은 모스크바 브누코보 공항이었습니다.",
+   "segments": [
+    [
+     "도착한 곳은 모스크바 ",
+     0
+    ],
+    [
+     "브누코보 공항",
+     1
+    ],
+    [
+     "이었습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/ratcliffe2026/tts/flight_2_79b432c9e4.mp3",
+   "npy": "/home/user/osint_generator/projects/ratcliffe2026/tts/flight_2_79b432c9e4.npy",
+   "dur": 3.2239455782312927,
+   "t0": 42.82462585034013,
+   "t1": 46.04857142857142,
+   "trim_offset": 0.378753
+  },
+  {
+   "sid": "before_visit_0",
+   "scene": "before_visit",
+   "date": "2026.08",
+   "text": "방문을 앞두고 미국이 우크라이나에 요청한 것이 있었다고 보도됐습니다.",
+   "tts": "방문을 앞두고 미국이 우크라이나에 요청한 것이 있었다고 보도됐습니다.",
+   "segments": [
+    [
+     "방문을 앞두고 미국이 우크라이나에 요청한 것이 있었다고 보도됐습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/ratcliffe2026/tts/before_visit_0_e499c0f183.mp3",
+   "npy": "/home/user/osint_generator/projects/ratcliffe2026/tts/before_visit_0_e499c0f183.npy",
+   "dur": 4.750544217687075,
+   "t0": 47.54857142857142,
+   "t1": 52.2991156462585,
+   "trim_offset": 0.380726
+  },
+  {
+   "sid": "before_visit_1",
+   "scene": "before_visit",
+   "date": "2026.08",
+   "text": "모스크바 등지에 대한 공격을 멈춰 달라는 요청이었습니다.",
+   "tts": "모스크바 등지에 대한 공격을 멈춰 달라는 요청이었습니다.",
+   "segments": [
+    [
+     "모스크바 등지에 대한 ",
+     0
+    ],
+    [
+     "공격을 멈춰",
+     1
+    ],
+    [
+     " 달라는 요청이었습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/ratcliffe2026/tts/before_visit_1_a2ebd28d72.mp3",
+   "npy": "/home/user/osint_generator/projects/ratcliffe2026/tts/before_visit_1_a2ebd28d72.npy",
+   "dur": 3.637233560090703,
+   "t0": 52.7991156462585,
+   "t1": 56.436349206349206,
+   "trim_offset": 0.361315
+  },
+  {
+   "sid": "before_visit_2",
+   "scene": "before_visit",
+   "date": "2026.08",
+   "text": "키이우포스트에 따르면 젤렌스키 대통령은 이 회동에 관해 미국에서 정보를 받았다고 밝혔습니다.",
+   "tts": "키이우포스트에 따르면 젤렌스키 대통령은 이 회동에 관해 미국에서 정보를 받았다고 밝혔습니다.",
+   "segments": [
+    [
+     "키이우포스트에 따르면 젤렌스키 대통령은 이 회동에 관해 미국에서 ",
+     0
+    ],
+    [
+     "정보를 받았다고",
+     1
+    ],
+    [
+     " 밝혔습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/ratcliffe2026/tts/before_visit_2_7f45b6c416.mp3",
+   "npy": "/home/user/osint_generator/projects/ratcliffe2026/tts/before_visit_2_7f45b6c416.npy",
+   "dur": 6.4032426303854875,
+   "t0": 56.936349206349206,
+   "t1": 63.33959183673469,
+   "trim_offset": 0.263447
+  },
+  {
+   "sid": "before_visit_3",
+   "scene": "before_visit",
+   "date": "2026.08",
+   "text": "젤렌스키 대통령은 회동 상대가 러시아 정보당국자들이었다고 전했습니다.",
+   "tts": "젤렌스키 대통령은 회동 상대가 러시아 정보당국자들이었다고 전했습니다.",
+   "segments": [
+    [
+     "젤렌스키 대통령은 회동 상대가 러시아 정보당국자들이었다고 전했습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/ratcliffe2026/tts/before_visit_3_46762ca781.mp3",
+   "npy": "/home/user/osint_generator/projects/ratcliffe2026/tts/before_visit_3_46762ca781.npy",
+   "dur": 5.133628117913832,
+   "t0": 63.83959183673469,
+   "t1": 68.97321995464853,
+   "trim_offset": 0.35322
+  },
+  {
+   "sid": "backdrop_0",
+   "scene": "backdrop",
+   "date": "2026.07.29",
+   "text": "한 달 앞선 7월 29일, 순항미사일이 폴란드 영토에 떨어졌다고 보도됐습니다.",
+   "tts": "한 달 앞선 칠월 이십구일, 순항미사일이 폴란드 영토에 떨어졌다고 보도됐습니다.",
+   "segments": [
+    [
+     "한 달 앞선 7월 29일, 순항미사일이 ",
+     0
+    ],
+    [
+     "폴란드 영토",
+     1
+    ],
+    [
+     "에 떨어졌다고 보도됐습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/ratcliffe2026/tts/backdrop_0_6e448ef49c.mp3",
+   "npy": "/home/user/osint_generator/projects/ratcliffe2026/tts/backdrop_0_6e448ef49c.npy",
+   "dur": 5.6919274376417235,
+   "t0": 70.47321995464853,
+   "t1": 76.16514739229025,
+   "trim_offset": 0.350567
+  },
+  {
+   "sid": "backdrop_1",
+   "scene": "backdrop",
+   "date": "2026.08.12",
+   "text": "알자지라는 8월 12일 브렌트유 10월물이 배럴당 89.53달러였다고 보도했습니다.",
+   "tts": "알자지라는 팔월 십이일 브렌트유 시월물이 배럴당 팔십구점오삼 달러였다고 보도했습니다.",
+   "segments": [
+    [
+     "알자지라는 8월 12일 브렌트유 10월물이 배럴당 ",
+     0
+    ],
+    [
+     "89.53달러",
+     1
+    ],
+    [
+     "였다고 보도했습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/ratcliffe2026/tts/backdrop_1_ab397cb3a6.mp3",
+   "npy": "/home/user/osint_generator/projects/ratcliffe2026/tts/backdrop_1_ab397cb3a6.npy",
+   "dur": 6.089909297052154,
+   "t0": 76.66514739229025,
+   "t1": 82.75505668934241,
+   "trim_offset": 0.35229
+  },
+  {
+   "sid": "backdrop_2",
+   "scene": "backdrop",
+   "date": "2026.08.24",
+   "text": "CNN에 따르면 방문 하루 전인 8월 24일 베선트 재무장관이 새 작전을 발표했습니다.",
+   "tts": "씨엔엔에 따르면 방문 하루 전인 팔월 이십사일 베선트 재무장관이 새 작전을 발표했습니다.",
+   "segments": [
+    [
+     "CNN에 따르면 방문 하루 전인 8월 24일 베선트 재무장관이 새 작전을 발표했습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/ratcliffe2026/tts/backdrop_2_cb4be0a2f9.mp3",
+   "npy": "/home/user/osint_generator/projects/ratcliffe2026/tts/backdrop_2_cb4be0a2f9.npy",
+   "dur": 5.898707482993197,
+   "t0": 83.25505668934241,
+   "t1": 89.15376417233561,
+   "trim_offset": 0.224172
+  },
+  {
+   "sid": "backdrop_3",
+   "scene": "backdrop",
+   "date": "2026.08.24",
+   "text": "CNN이 전한 작전 이름은 '경제적 추방자 작전'입니다.",
+   "tts": "씨엔엔이 전한 작전 이름은 경제적 추방자 작전입니다.",
+   "segments": [
+    [
+     "CNN이 전한 작전 이름은 '",
+     0
+    ],
+    [
+     "경제적 추방자 작전",
+     1
+    ],
+    [
+     "'입니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/ratcliffe2026/tts/backdrop_3_483a7873f7.mp3",
+   "npy": "/home/user/osint_generator/projects/ratcliffe2026/tts/backdrop_3_483a7873f7.npy",
+   "dur": 3.815578231292517,
+   "t0": 89.65376417233561,
+   "t1": 93.46934240362813,
+   "trim_offset": 0.313333
+  },
+  {
+   "sid": "backdrop_4",
+   "scene": "backdrop",
+   "date": "2026.08.24",
+   "text": "이 발표와 모스크바 방문이 어떻게 이어지는지는 확인된 자료가 없습니다.",
+   "tts": "이 발표와 모스크바 방문이 어떻게 이어지는지는 확인된 자료가 없습니다.",
+   "segments": [
+    [
+     "이 발표와 모스크바 방문이 어떻게 이어지는지는 확인된 자료가 없습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/ratcliffe2026/tts/backdrop_4_739229b541.mp3",
+   "npy": "/home/user/osint_generator/projects/ratcliffe2026/tts/backdrop_4_739229b541.npy",
+   "dur": 4.820385487528345,
+   "t0": 93.96934240362813,
+   "t1": 98.78972789115647,
+   "trim_offset": 0.353787
+  },
+  {
+   "sid": "nato_dispute_0",
+   "scene": "nato_dispute",
+   "date": "2026.08.25",
+   "text": "가장 크게 엇갈리는 대목은 나토입니다.",
+   "tts": "가장 크게 엇갈리는 대목은 나토입니다.",
+   "segments": [
+    [
+     "가장 크게 엇갈리는 대목은 ",
+     0
+    ],
+    [
+     "나토",
+     1
+    ],
+    [
+     "입니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/ratcliffe2026/tts/nato_dispute_0_748e3c51ef.mp3",
+   "npy": "/home/user/osint_generator/projects/ratcliffe2026/tts/nato_dispute_0_748e3c51ef.npy",
+   "dur": 2.7273242630385486,
+   "t0": 100.28972789115647,
+   "t1": 103.01705215419503,
+   "trim_offset": 0.392132
+  },
+  {
+   "sid": "nato_dispute_1",
+   "scene": "nato_dispute",
+   "date": "2026.08.25",
+   "text": "익명 소식통들은 랫클리프가 러시아에 나토 회원국을 공격하지 말라고 경고했다고 전했습니다.",
+   "tts": "익명 소식통들은 랫클리프가 러시아에 나토 회원국을 공격하지 말라고 경고했다고 전했습니다.",
+   "segments": [
+    [
+     "익명 소식통들은 랫클리프가 러시아에 나토 회원국을 공격하지 말라고 ",
+     0
+    ],
+    [
+     "경고했다고",
+     1
+    ],
+    [
+     " 전했습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/ratcliffe2026/tts/nato_dispute_1_13303d00e2.mp3",
+   "npy": "/home/user/osint_generator/projects/ratcliffe2026/tts/nato_dispute_1_13303d00e2.npy",
+   "dur": 6.285918367346939,
+   "t0": 103.51705215419503,
+   "t1": 109.80297052154197,
+   "trim_offset": 0.366599
+  },
+  {
+   "sid": "nato_dispute_2",
+   "scene": "nato_dispute",
+   "date": "2026.08.25",
+   "text": "이 내용은 WSJ가 처음 보도했고 CNN과 CBS도 전했습니다.",
+   "tts": "이 내용은 월스트리트저널이 처음 보도했고 씨엔엔과 씨비에스도 전했습니다.",
+   "segments": [
+    [
+     "이 내용은 WSJ가 처음 보도했고 CNN과 CBS도 전했습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/ratcliffe2026/tts/nato_dispute_2_7074083f79.mp3",
+   "npy": "/home/user/osint_generator/projects/ratcliffe2026/tts/nato_dispute_2_7074083f79.npy",
+   "dur": 4.990430839002268,
+   "t0": 110.30297052154197,
+   "t1": 115.29340136054424,
+   "trim_offset": 0.329773
+  },
+  {
+   "sid": "nato_dispute_3",
+   "scene": "nato_dispute",
+   "date": "2026.08.25",
+   "text": "트럼프 대통령은 준일상적 방문이었고 그런 메시지는 없었다고 말했습니다.",
+   "tts": "트럼프 대통령은 준일상적 방문이었고 그런 메시지는 없었다고 말했습니다.",
+   "segments": [
+    [
+     "트럼프 대통령은 ",
+     0
+    ],
+    [
+     "준일상적 방문",
+     1
+    ],
+    [
+     "이었고 그런 메시지는 없었다고 말했습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/ratcliffe2026/tts/nato_dispute_3_ad493f4689.mp3",
+   "npy": "/home/user/osint_generator/projects/ratcliffe2026/tts/nato_dispute_3_ad493f4689.npy",
+   "dur": 5.5547845804988665,
+   "t0": 115.79340136054424,
+   "t1": 121.3481859410431,
+   "trim_offset": 0.365624
+  },
+  {
+   "sid": "nato_dispute_4",
+   "scene": "nato_dispute",
+   "date": "2026.08.25",
+   "text": "크렘린은 현실과 무관한 공포 조장이라고 일축했습니다.",
+   "tts": "크렘린은 현실과 무관한 공포 조장이라고 일축했습니다.",
+   "segments": [
+    [
+     "크렘린은 현실과 무관한 ",
+     0
+    ],
+    [
+     "공포 조장",
+     1
+    ],
+    [
+     "이라고 일축했습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/ratcliffe2026/tts/nato_dispute_4_b14cfa010e.mp3",
+   "npy": "/home/user/osint_generator/projects/ratcliffe2026/tts/nato_dispute_4_b14cfa010e.npy",
+   "dur": 3.7691836734693878,
+   "t0": 121.8481859410431,
+   "t1": 125.61736961451248,
+   "trim_offset": 0.383447
+  },
+  {
+   "sid": "iran_dispute_0",
+   "scene": "iran_dispute",
+   "date": "2026.08.25",
+   "text": "이란을 두고도 설명이 갈립니다.",
+   "tts": "이란을 두고도 설명이 갈립니다.",
+   "segments": [
+    [
+     "이란을 두고도 설명이 갈립니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/ratcliffe2026/tts/iran_dispute_0_d9ada4fbf3.mp3",
+   "npy": "/home/user/osint_generator/projects/ratcliffe2026/tts/iran_dispute_0_d9ada4fbf3.npy",
+   "dur": 2.196077097505669,
+   "t0": 127.11736961451248,
+   "t1": 129.31344671201816,
+   "trim_offset": 0.341043
+  },
+  {
+   "sid": "iran_dispute_1",
+   "scene": "iran_dispute",
+   "date": "2026.08.25",
+   "text": "CNN·CBS가 인용한 익명 소식통들은 랫클리프가 이란 지원을 끊으라고 촉구했다고 전했습니다.",
+   "tts": "씨엔엔과 씨비에스가 인용한 익명 소식통들은 랫클리프가 이란 지원을 끊으라고 촉구했다고 전했습니다.",
+   "segments": [
+    [
+     "CNN·CBS가 인용한 익명 소식통들은 랫클리프가 ",
+     0
+    ],
+    [
+     "이란 지원",
+     1
+    ],
+    [
+     "을 끊으라고 촉구했다고 전했습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/ratcliffe2026/tts/iran_dispute_1_7e84ff67a6.mp3",
+   "npy": "/home/user/osint_generator/projects/ratcliffe2026/tts/iran_dispute_1_7e84ff67a6.npy",
+   "dur": 6.68108843537415,
+   "t0": 129.81344671201816,
+   "t1": 136.4945351473923,
+   "trim_offset": 0.25839
+  },
+  {
+   "sid": "iran_dispute_2",
+   "scene": "iran_dispute",
+   "date": "2026.08.25",
+   "text": "소식통들은 호르무즈 해협이 다시 열리지 않으면 추가 제재가 있다는 경고도 있었다고 말했습니다.",
+   "tts": "소식통들은 호르무즈 해협이 다시 열리지 않으면 추가 제재가 있다는 경고도 있었다고 말했습니다.",
+   "segments": [
+    [
+     "소식통들은 호르무즈 해협이 다시 열리지 않으면 ",
+     0
+    ],
+    [
+     "추가 제재",
+     1
+    ],
+    [
+     "가 있다는 경고도 있었다고 말했습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/ratcliffe2026/tts/iran_dispute_2_a586b89c8b.mp3",
+   "npy": "/home/user/osint_generator/projects/ratcliffe2026/tts/iran_dispute_2_a586b89c8b.npy",
+   "dur": 6.118662131519274,
+   "t0": 136.9945351473923,
+   "t1": 143.11319727891157,
+   "trim_offset": 0.385646
+  },
+  {
+   "sid": "iran_dispute_3",
+   "scene": "iran_dispute",
+   "date": "2026.08.25",
+   "text": "트럼프 대통령은 이번 방문이 이란과 관련이 없다고 밝혔습니다.",
+   "tts": "트럼프 대통령은 이번 방문이 이란과 관련이 없다고 밝혔습니다.",
+   "segments": [
+    [
+     "트럼프 대통령은 이번 방문이 이란과 ",
+     0
+    ],
+    [
+     "관련이 없다",
+     1
+    ],
+    [
+     "고 밝혔습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/ratcliffe2026/tts/iran_dispute_3_f620409324.mp3",
+   "npy": "/home/user/osint_generator/projects/ratcliffe2026/tts/iran_dispute_3_f620409324.npy",
+   "dur": 4.249160997732426,
+   "t0": 143.61319727891157,
+   "t1": 147.862358276644,
+   "trim_offset": 0.381814
+  },
+  {
+   "sid": "iran_dispute_4",
+   "scene": "iran_dispute",
+   "date": "2026.08.25",
+   "text": "트럼프 대통령의 설명에는 이란이나 호르무즈에 관한 요구가 들어 있지 않습니다.",
+   "tts": "트럼프 대통령의 설명에는 이란이나 호르무즈에 관한 요구가 들어 있지 않습니다.",
+   "segments": [
+    [
+     "트럼프 대통령의 설명에는 이란이나 호르무즈에 관한 요구가 들어 있지 않습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/ratcliffe2026/tts/iran_dispute_4_d058f60480.mp3",
+   "npy": "/home/user/osint_generator/projects/ratcliffe2026/tts/iran_dispute_4_d058f60480.npy",
+   "dur": 4.92312925170068,
+   "t0": 148.362358276644,
+   "t1": 153.28548752834467,
+   "trim_offset": 0.382018
+  },
+  {
+   "sid": "intel_dispute_0",
+   "scene": "intel_dispute",
+   "date": "2026.08",
+   "text": "방문의 배경으로 미국 정보당국의 평가도 보도됐습니다.",
+   "tts": "방문의 배경으로 미국 정보당국의 평가도 보도됐습니다.",
+   "segments": [
+    [
+     "방문의 배경으로 미국 정보당국의 평가도 보도됐습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/ratcliffe2026/tts/intel_dispute_0_b34e77e1f8.mp3",
+   "npy": "/home/user/osint_generator/projects/ratcliffe2026/tts/intel_dispute_0_b34e77e1f8.npy",
+   "dur": 3.8171655328798186,
+   "t0": 154.78548752834467,
+   "t1": 158.6026530612245,
+   "trim_offset": 0.369048
+  },
+  {
+   "sid": "intel_dispute_1",
+   "scene": "intel_dispute",
+   "date": "2026.08",
+   "text": "CNN·CBS에 따르면 정보당국은 푸틴이 나토 결속을 시험하는 도발에 나설 수 있다고 봤습니다.",
+   "tts": "씨엔엔과 씨비에스에 따르면 정보당국은 푸틴이 나토 결속을 시험하는 도발에 나설 수 있다고 봤습니다.",
+   "segments": [
+    [
+     "CNN·CBS에 따르면 정보당국은 푸틴이 ",
+     0
+    ],
+    [
+     "나토 결속",
+     1
+    ],
+    [
+     "을 시험하는 도발에 나설 수 있다고 봤습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/ratcliffe2026/tts/intel_dispute_1_de4f1734bd.mp3",
+   "npy": "/home/user/osint_generator/projects/ratcliffe2026/tts/intel_dispute_1_de4f1734bd.npy",
+   "dur": 6.41297052154195,
+   "t0": 159.1026530612245,
+   "t1": 165.51562358276644,
+   "trim_offset": 0.261043
+  },
+  {
+   "sid": "intel_dispute_2",
+   "scene": "intel_dispute",
+   "date": "2026.08",
+   "text": "트럼프 대통령은 푸틴이 나토 영토를 공격하지 않을 것이라고 말했습니다.",
+   "tts": "트럼프 대통령은 푸틴이 나토 영토를 공격하지 않을 것이라고 말했습니다.",
+   "segments": [
+    [
+     "트럼프 대통령은 푸틴이 나토 영토를 ",
+     0
+    ],
+    [
+     "공격하지 않을 것",
+     1
+    ],
+    [
+     "이라고 말했습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/ratcliffe2026/tts/intel_dispute_2_fdaa5dfd98.mp3",
+   "npy": "/home/user/osint_generator/projects/ratcliffe2026/tts/intel_dispute_2_fdaa5dfd98.npy",
+   "dur": 4.907324263038549,
+   "t0": 166.01562358276644,
+   "t1": 170.922947845805,
+   "trim_offset": 0.383152
+  },
+  {
+   "sid": "intel_dispute_3",
+   "scene": "intel_dispute",
+   "date": "2026.08",
+   "text": "크렘린 페스코프 대변인은 이 평가가 러시아의 의도를 반영하지 않는다고 반박했습니다.",
+   "tts": "크렘린 페스코프 대변인은 이 평가가 러시아의 의도를 반영하지 않는다고 반박했습니다.",
+   "segments": [
+    [
+     "크렘린 페스코프 대변인은 이 평가가 러시아의 의도를 ",
+     0
+    ],
+    [
+     "반영하지 않는다",
+     1
+    ],
+    [
+     "고 반박했습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/ratcliffe2026/tts/intel_dispute_3_4c32534334.mp3",
+   "npy": "/home/user/osint_generator/projects/ratcliffe2026/tts/intel_dispute_3_4c32534334.npy",
+   "dur": 5.926916099773242,
+   "t0": 171.422947845805,
+   "t1": 177.34986394557825,
+   "trim_offset": 0.385533
+  },
+  {
+   "sid": "confirmed_0",
+   "scene": "confirmed",
+   "date": "2026.08.25",
+   "text": "여러 매체가 함께 확인한 사실은 몇 가지로 추려집니다.",
+   "tts": "여러 매체가 함께 확인한 사실은 몇 가지로 추려집니다.",
+   "segments": [
+    [
+     "여러 매체가 함께 확인한 사실은 몇 가지로 추려집니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/ratcliffe2026/tts/confirmed_0_50bceb77d5.mp3",
+   "npy": "/home/user/osint_generator/projects/ratcliffe2026/tts/confirmed_0_50bceb77d5.npy",
+   "dur": 3.5657369614512473,
+   "t0": 178.84986394557825,
+   "t1": 182.4156009070295,
+   "trim_offset": 0.392971
+  },
+  {
+   "sid": "confirmed_1",
+   "scene": "confirmed",
+   "date": "2026.08.25",
+   "text": "CIA 국장이 8월 25일 모스크바를 찾았습니다.",
+   "tts": "미국 중앙정보국 국장이 팔월 이십오일 모스크바를 찾았습니다.",
+   "segments": [
+    [
+     "CIA 국장이 8월 25일 모스크바를 찾았습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/ratcliffe2026/tts/confirmed_1_e298180493.mp3",
+   "npy": "/home/user/osint_generator/projects/ratcliffe2026/tts/confirmed_1_e298180493.npy",
+   "dur": 4.108299319727891,
+   "t0": 182.9156009070295,
+   "t1": 187.0239002267574,
+   "trim_offset": 0.369683
+  },
+  {
+   "sid": "confirmed_2",
+   "scene": "confirmed",
+   "date": "2026.08.25",
+   "text": "미 공군 수송기가 리가를 거쳐 브누코보 공항에 내렸습니다.",
+   "tts": "미 공군 수송기가 리가를 거쳐 브누코보 공항에 내렸습니다.",
+   "segments": [
+    [
+     "미 공군 수송기가 리가를 거쳐 브누코보 공항에 내렸습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/ratcliffe2026/tts/confirmed_2_7d5171472c.mp3",
+   "npy": "/home/user/osint_generator/projects/ratcliffe2026/tts/confirmed_2_7d5171472c.npy",
+   "dur": 4.223922902494331,
+   "t0": 187.5239002267574,
+   "t1": 191.74782312925174,
+   "trim_offset": 0.376417
+  },
+  {
+   "sid": "confirmed_3",
+   "scene": "confirmed",
+   "date": "2026.08",
+   "text": "미국은 그에 앞서 우크라이나에 공격 중단을 요청했습니다.",
+   "tts": "미국은 그에 앞서 우크라이나에 공격 중단을 요청했습니다.",
+   "segments": [
+    [
+     "미국은 그에 앞서 우크라이나에 공격 중단을 요청했습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/ratcliffe2026/tts/confirmed_3_b651814793.mp3",
+   "npy": "/home/user/osint_generator/projects/ratcliffe2026/tts/confirmed_3_b651814793.npy",
+   "dur": 4.033832199546485,
+   "t0": 192.24782312925174,
+   "t1": 196.28165532879822,
+   "trim_offset": 0.381542
+  },
+  {
+   "sid": "open_questions_0",
+   "scene": "open_questions",
+   "date": "2026.08.25",
+   "text": "나토에 대한 경고가 실제로 전달됐는지는 아직 어느 쪽으로도 확정되지 않았습니다.",
+   "tts": "나토에 대한 경고가 실제로 전달됐는지는 아직 어느 쪽으로도 확정되지 않았습니다.",
+   "segments": [
+    [
+     "나토에 대한 경고가 실제로 전달됐는지는 아직 어느 쪽으로도 확정되지 않았습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/ratcliffe2026/tts/open_questions_0_b77dc14221.mp3",
+   "npy": "/home/user/osint_generator/projects/ratcliffe2026/tts/open_questions_0_b77dc14221.npy",
+   "dur": 5.387233560090703,
+   "t0": 197.78165532879822,
+   "t1": 203.16888888888892,
+   "trim_offset": 0.346735
+  },
+  {
+   "sid": "open_questions_1",
+   "scene": "open_questions",
+   "date": "2026.08.25",
+   "text": "이란과 호르무즈가 회담 의제였는지도 여전히 엇갈린 채 남아 있습니다.",
+   "tts": "이란과 호르무즈가 회담 의제였는지도 여전히 엇갈린 채 남아 있습니다.",
+   "segments": [
+    [
+     "이란과 호르무즈가 회담 의제였는지도 여전히 엇갈린 채 남아 있습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/ratcliffe2026/tts/open_questions_1_4f08e7b453.mp3",
+   "npy": "/home/user/osint_generator/projects/ratcliffe2026/tts/open_questions_1_4f08e7b453.npy",
+   "dur": 4.90639455782313,
+   "t0": 203.66888888888892,
+   "t1": 208.57528344671204,
+   "trim_offset": 0.362063
+  },
+  {
+   "sid": "open_questions_2",
+   "scene": "open_questions",
+   "date": "2026.08",
+   "text": "그날 모스크바에서 오간 말의 목록은 아직 공개되지 않았습니다.",
+   "tts": "그날 모스크바에서 오간 말의 목록은 아직 공개되지 않았습니다.",
+   "segments": [
+    [
+     "그날 모스크바에서 오간 말의 목록은 아직 공개되지 않았습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/ratcliffe2026/tts/open_questions_2_7a3962b89f.mp3",
+   "npy": "/home/user/osint_generator/projects/ratcliffe2026/tts/open_questions_2_7a3962b89f.npy",
+   "dur": 4.160566893424036,
+   "t0": 209.07528344671204,
+   "t1": 213.23585034013607,
+   "trim_offset": 0.373084
+  }
+ ],
+ "cards": [
+  {
+   "kind": "title",
+   "t0": 28.20539682539682,
+   "t1": 33.80539682539682
+  },
+  {
+   "kind": "end",
+   "t0": 214.93585034013606,
+   "t1": 225.93585034013606
+  }
+ ],
+ "scene_start": {
+  "open": 1.2,
+  "flight": 34.20539682539682,
+  "before_visit": 47.54857142857142,
+  "backdrop": 70.47321995464853,
+  "nato_dispute": 100.28972789115647,
+  "iran_dispute": 127.11736961451248,
+  "intel_dispute": 154.78548752834467,
+  "confirmed": 178.84986394557825,
+  "open_questions": 197.78165532879822
+ },
+ "total": 226.43585034013606,
+ "voice": "edge-tts ko-KR-InJoonNeural",
+ "title": "모스크바에 내린 수송기 한 대",
+ "subtitle": "CIA 국장의 모스크바 방문, 확인된 것과 엇갈리는 것",
+ "date": "2026.08.29",
+ "tts_resynthesized": []
+}
