@@ -189,3 +189,6 @@ projects/bundle_rw_demo/logs/
 projects/bundle_rw_demo/project_manifest.json
 projects/bundle_rw_demo/intake/verify_draft.json
 projects/ratcliffe2026/direction.meta.json
+
+# v4.1.0 — 기본이 아닌 출력 프로파일의 프리뷰 폴더(engine.render prev_dir: prev_<프로파일>/) — prev/ 와 같은 생성물
+projects/*/prev_*/
