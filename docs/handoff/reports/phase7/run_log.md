@@ -24,7 +24,7 @@ last_review: 2026-09-28
 | 9 증거 | `d3581a9` | camauto provenance suggested 8·used 8, hormuz 25컷 MAD 0 |
 | 7 AI 재실증 | `03bff2a` | `qa_compare.md`, `hormuz_ai_cam/` |
 | D-0057 §2 | `9e0dc87` | 환경 의존 테스트 사유 있는 skip(NB14·NB15) |
-| D-0058 맥락 폭 하한 | (이 커밋 앞) | `context_w_min` 키 = w_guide 검사, route_0 제안 2.5 → 20, camauto 2차판 |
+| D-0058 맥락 폭 하한 | `217d9d3` | `context_w_min` 키 = w_guide 검사, route_0 제안 2.5 → 20, camauto 2차판 |
 
 ## 2. 명령
 
@@ -50,4 +50,4 @@ python tools/ai_direction_run.py projects/hormuz_ai_cam --preview golden   # 743
 | camauto 카드 RESERVED | 부산 뱃지 push(v3 135px·camauto 2차 147px), 이재명 hide 2프레임 — 같은 구조 |
 | 해상도 | 854×480·1280×720 golden preview checks 동일(hard 0), frame_points 결과 동일(화면비 0.08% 차 이내). 렌더러 레이아웃은 480p 좌표 그대로(`res720_route_3.png`) → Phase 10 |
 | hormuz_ai_cam | 선택 판 checks 0·검수 hard 1·soft 6(6.9: 0·1·7), 제안 채택 0/8(근접 2), provenance camera given_to_director true·used 0 |
-| pytest | 639 passed · skip 0 · xfail 0 (Opus 환경, 글꼴·plan.json 있음). Phase 7 새 테스트 37 |
+| pytest | 639 passed · skip 0 · xfail 0 (Opus 환경, 글꼴·plan.json 있음). Phase 7 새 테스트 34 (605 → 639, 삭제 0) |
