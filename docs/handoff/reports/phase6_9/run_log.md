@@ -70,5 +70,14 @@ RENDER-AP-003 은 hormuz_ai 실행 2 가 돈 뒤에 잡았다. 실행 2 의 프�
 - expected_deltas DVIDS 2항목 제거(`294c6cc`). 골든 25컷 `hormuz_v3/golden_compare_commons/`: 판정 21컷 mean **0.0077** · max 0.0828(now_3), 클립 컷 war_2 0.0001 · timeline_4 0.0000.
 - DVIDS 원본·가공본은 artifacts `media_src/dvids/` 에 함께 보존(D-0044 B).
 
-## 5. 최종 렌더
-§6 표(asset_md5.json). 두 프로젝트 모두 Commons 원본 영상, 고친 엔진.
+## 5. 최종 렌더 (`asset_md5.json`)
+두 프로젝트 모두 같은 plan·tts(edge 재합성 292.441초)·Commons 원본 영상, 고친 엔진(`9f87dbb` 이후). 854×480@24.
+
+| 프로젝트 | 연출 | final.mp4 md5 | provenance stages |
+|---|---|---|---|
+| hormuz_korea (v3) | 사람(골든 변환 + D-0048 뱃지) | `fc5dbe0cf64f08ef3004c91b54aacfe0` | ai_direction·visual_qa false |
+| hormuz_ai | AI 실행 2, 코드 선택 v2 (`direction.yaml` = `direction.v2.yaml`) | `a3bd2bacd237ef3051c53989d630e324` | ai_direction·visual_qa true, used_version 2 |
+
+명령: `python -m engine.render P --preview golden` → `python -m engine.render P` → `python -m audio.mix P` → `python -m engine.mux P`.
+v3 영상은 Phase 6.8(`003df086…`)과 다르다 — D-0048 뱃지 위치(08 war_3 구간)와 Commons 원본 복구(클립 2) 때문이다. 골든 25컷은 §4 대로 합격.
+영상 본체는 orphan `artifacts/phase6.9-v3.1.0`.
