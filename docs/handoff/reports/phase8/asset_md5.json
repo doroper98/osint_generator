@@ -1,26 +1,28 @@
 {
  "schema_version": 1,
- "note": "Phase 8 (v3.4.0). hormuz mix.f32 = c1314fb9(Phase 7 artifacts 와 동일, 무변경). taiwan_f1 두 편 = artifacts/phase8-v3.4.0.",
+ "note": "Phase 8 (v3.4.0) D-0061 반영판. hormuz mix.f32 = c1314fb9 무변경, video_noaudio = 6.9 artifacts(692f228e), final 은 2패스 재mux. taiwan_f1 두 편·hormuz = artifacts/phase8-v3.4.0.",
  "files": {
   "hormuz_korea/out/mix.f32": "c1314fb98d086dc116d7475562ca2c07",
-  "hormuz_camauto/out/final.mp4": "72ecea7e79b603b60610768a1b49a40c",
+  "hormuz_camauto/out/final.mp4": "782cb82742cb08de46987e86ff6f9c16",
   "hormuz_korea/direction.yaml": "75499f63a4743781823cf88179506b2a",
   "hormuz_korea/credits.yaml": "13938af5f3082780910404e26f034f51",
   "hormuz_korea/description.yaml": "d1ede53c15f04e4102bb23bb836ffc0c",
-  "taiwan_f1_music/out/final.mp4": "4bb65cd18e2046320dd700bc0bd680c5",
+  "taiwan_f1_music/out/final.mp4": "271be344845ffe3b8014ee1fb099f383",
   "taiwan_f1_music/out/video_noaudio.mp4": "cd7c58643d94be49e71173cd4487b50d",
   "taiwan_f1_music/out/mix.f32": "d2034664124a0ab770f0aa850deae29f",
-  "taiwan_f1_music/out/audio_qa.json": "d836ab44e8069a9f2ba48f4278e5e3d0",
+  "taiwan_f1_music/out/audio_qa.json": "7cc514488921d2617b4a903c95cb9d1a",
   "taiwan_f1_music/direction.yaml": "b53582a93a2012c739bc3380e19a3bc4",
   "taiwan_f1_music/credits.yaml": "db851bf63ca98f4db12e570fd2d495ca",
   "taiwan_f1_music/description.yaml": "7db8c1cf0a13fe792165f7302e35c9c3",
-  "taiwan_f1_nomusic/out/final.mp4": "6c2b682f7e96bcda9aa3260a2f526edb",
+  "taiwan_f1_nomusic/out/final.mp4": "ae09a0cdff8f7dbb7db4abb58e35f64c",
   "taiwan_f1_nomusic/out/video_noaudio.mp4": "1f34a58d2d73a19feadac6dadcbe0331",
   "taiwan_f1_nomusic/out/mix.f32": "10f17ae91b71fec7647fce65b6af1156",
-  "taiwan_f1_nomusic/out/audio_qa.json": "5c3b54c4eb9e010adcd8a2c55e584d49",
+  "taiwan_f1_nomusic/out/audio_qa.json": "02713d01172d4bd58e51136ebc6554ac",
   "taiwan_f1_nomusic/direction.yaml": "846d96134575cda48257c6e73b4fb0b1",
   "taiwan_f1_nomusic/credits.yaml": "d000dd268cb3b8a05decd40594767e72",
   "taiwan_f1_nomusic/description.yaml": "2a619b78378496d68df0b089c0a9d0aa",
-  "assets/audio/bgm/registry.yaml": "c81642ec47c8b48b0e3137925172c3df"
+  "assets/audio/bgm/registry.yaml": "c81642ec47c8b48b0e3137925172c3df",
+  "hormuz_korea/out/final.mp4": "48c1f8f20aad5d163ee37a6d2c09c23b",
+  "hormuz_korea/out/video_noaudio.mp4": "692f228e359a89ab74a38626b4f7396e"
  }
 }

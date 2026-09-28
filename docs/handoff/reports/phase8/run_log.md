@@ -22,6 +22,7 @@ last_review: 2026-09-29
 | 6 오디오 QA | `6836639`·`f9be5ac` | `tests/test_audio_qa.py` 4 — 한 경로, 합성 픽스처 안/밖, 무음악 판정 없음 |
 | 7 문장 RMS | `1edf0da` | `sentence_rms.json` — 결정 요청 R-0071 쟁점 2 |
 | 8 taiwan F1 | `611b2ab` | `taiwan_f1/{nomusic,music}/` |
+| D-0061 임계·2패스 | `8896344` | `tests/test_audio_qa.py` 7, hormuz_audio_qa.json·hormuz_final_provenance.json |
 
 ## 2. 명령
 
@@ -41,7 +42,10 @@ python -m engine.render P --jobs 4 && python -m audio.mix P && python -m engine.
 |---|---|
 | hormuz mix.f32 | md5 `c1314fb98d086dc116d7475562ca2c07` — Phase 7 artifacts 와 같음(bed_gain 0.47·duck 0.5 무변경) |
 | hormuz 25컷 | MAD 0(평균·최대), END 카드 포함 |
-| hormuz 오디오 QA | I −14.23 LUFS · TP −1.38 dBTP · 음악 −12.67 dB(베드만 −12.82) · mix 피크 0.887 → 13 수치 둘 밖(R-0071) |
+| hormuz 오디오 QA(1패스) | I −14.23 LUFS · TP −1.38 dBTP · 음악 −12.67 dB(베드만 −12.82) · mix 피크 0.887 → 13 수치 둘 밖(R-0071) |
+| hormuz 오디오 QA(2패스, D-0061) | 1패스 측정 I −14.14·TP −0.80 → 2패스 dynamic(linear 는 TP 초과라 ffmpeg 가 dynamic) → final I −14.03 · TP −1.47 · 음악 −12.67(mix)/−12.55(final 디코드) — hard 0 |
 | 문장 RMS(45) | 평균 −16.08 dB · 표준편차 0.65 · 범위 2.83 · 3dB 초과 0 |
-| taiwan F1 무음악 | 연출가 첫 시도 bgm null, 권리·스키마 오류 0, I −13.78, provenance audio.bgm null |
-| taiwan F1 음악 | bgm 레지스트리 id, I −16.98(짧은 영상 단일 패스 loudnorm, R-0072) |
+| taiwan F1 무음악 | 연출가 첫 시도 bgm null, 권리·스키마 오류 0, provenance audio.bgm null |
+| taiwan F1 음악 | bgm 레지스트리 id, 1패스 I −16.98 → 2패스 I −14.89 · TP −1.35(AAC 여유 0.15 안) |
+| taiwan F1 무음악(2패스) | linear, I −14.01 · TP −2.27 |
+| pytest | 675 passed · skip 0 · xfail 0 (Opus 환경). Phase 7 639 − 삭제 0 → 새 테스트 36 |
