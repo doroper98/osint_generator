@@ -140,3 +140,11 @@ projects/taiwan_ai/plan.json
 projects/taiwan_ai/prev/
 projects/taiwan_ai/tts/
 projects/e2e_gaon/
+# v3.3.0 Phase 7 — 카메라 제안 대조 사본(tools/camauto_copy.py 가 hormuz_korea 에서 다시 만든다)
+projects/hormuz_camauto/plan.json
+projects/hormuz_camauto/tts/
+projects/hormuz_camauto/assets/
+projects/hormuz_camauto/media/
+projects/hormuz_camauto/prev/
+projects/hormuz_camauto/out/
+projects/hormuz_camauto/cache/

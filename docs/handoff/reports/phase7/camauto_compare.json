@@ -1,0 +1,480 @@
+{
+ "schema_version": 1,
+ "source": "hormuz_korea",
+ "copy": "hormuz_camauto",
+ "shots_replaced": 8,
+ "cuts": [
+  {
+   "label": "open_1+2",
+   "t": 7.82,
+   "mad": 0.07419,
+   "inside_v3": true,
+   "inside_camauto": true,
+   "outside_camauto": [],
+   "outside_v3": []
+  },
+  {
+   "label": "TITLE+2",
+   "t": 22.27,
+   "mad": 0.01527,
+   "inside_v3": true,
+   "inside_camauto": true,
+   "outside_camauto": [],
+   "outside_v3": []
+  },
+  {
+   "label": "route_0+2.5",
+   "t": 28.77,
+   "mad": 0.09014,
+   "inside_v3": true,
+   "inside_camauto": true,
+   "outside_camauto": [],
+   "outside_v3": []
+  },
+  {
+   "label": "route_2+2",
+   "t": 38.45,
+   "mad": 0.06082,
+   "inside_v3": true,
+   "inside_camauto": true,
+   "outside_camauto": [],
+   "outside_v3": []
+  },
+  {
+   "label": "route_3+3.5",
+   "t": 45.03,
+   "mad": 0.06687,
+   "inside_v3": true,
+   "inside_camauto": true,
+   "outside_camauto": [],
+   "outside_v3": []
+  },
+  {
+   "label": "war_1+2",
+   "t": 56.21,
+   "mad": 0.04325,
+   "inside_v3": true,
+   "inside_camauto": true,
+   "outside_camauto": [],
+   "outside_v3": []
+  },
+  {
+   "label": "war_2+2.5",
+   "t": 61.25,
+   "mad": 0.03283,
+   "inside_v3": true,
+   "inside_camauto": true,
+   "outside_camauto": [],
+   "outside_v3": []
+  },
+  {
+   "label": "war_3+3",
+   "t": 65.13,
+   "mad": 0.04471,
+   "inside_v3": true,
+   "inside_camauto": true,
+   "outside_camauto": [],
+   "outside_v3": []
+  },
+  {
+   "label": "ask_1+4",
+   "t": 80.7,
+   "mad": 0.0059,
+   "inside_v3": true,
+   "inside_camauto": true,
+   "outside_camauto": [],
+   "outside_v3": []
+  },
+  {
+   "label": "ask_2+2",
+   "t": 87.06,
+   "mad": 0.00575,
+   "inside_v3": true,
+   "inside_camauto": true,
+   "outside_camauto": [],
+   "outside_v3": []
+  },
+  {
+   "label": "ask_5+1.5",
+   "t": 105.28,
+   "mad": 0.00554,
+   "inside_v3": true,
+   "inside_camauto": true,
+   "outside_camauto": [],
+   "outside_v3": []
+  },
+  {
+   "label": "timeline_2+2",
+   "t": 124.25,
+   "mad": 0.00609,
+   "inside_v3": true,
+   "inside_camauto": true,
+   "outside_camauto": [],
+   "outside_v3": []
+  },
+  {
+   "label": "timeline_4+2.8",
+   "t": 136.97,
+   "mad": 0.00374,
+   "inside_v3": true,
+   "inside_camauto": true,
+   "outside_camauto": [],
+   "outside_v3": []
+  },
+  {
+   "label": "cost_1+1",
+   "t": 157.38,
+   "mad": 0.0,
+   "inside_v3": true,
+   "inside_camauto": true,
+   "outside_camauto": [],
+   "outside_v3": []
+  },
+  {
+   "label": "review_0+2.8",
+   "t": 164.59,
+   "mad": 0.03809,
+   "inside_v3": true,
+   "inside_camauto": true,
+   "outside_camauto": [],
+   "outside_v3": []
+  },
+  {
+   "label": "review_1+2.5",
+   "t": 170.52,
+   "mad": 0.04667,
+   "inside_v3": true,
+   "inside_camauto": true,
+   "outside_camauto": [],
+   "outside_v3": []
+  },
+  {
+   "label": "past_1+2.5",
+   "t": 193.22,
+   "mad": 0.00455,
+   "inside_v3": true,
+   "inside_camauto": true,
+   "outside_camauto": [],
+   "outside_v3": []
+  },
+  {
+   "label": "past_3+5",
+   "t": 207.41,
+   "mad": 0.00422,
+   "inside_v3": true,
+   "inside_camauto": true,
+   "outside_camauto": [],
+   "outside_v3": []
+  },
+  {
+   "label": "debate_0+3",
+   "t": 214.46,
+   "mad": 0.03198,
+   "inside_v3": true,
+   "inside_camauto": true,
+   "outside_camauto": [],
+   "outside_v3": []
+  },
+  {
+   "label": "debate_1+2.5",
+   "t": 220.96,
+   "mad": 0.03603,
+   "inside_v3": true,
+   "inside_camauto": true,
+   "outside_camauto": [],
+   "outside_v3": []
+  },
+  {
+   "label": "debate_4+2",
+   "t": 238.0,
+   "mad": 0.00328,
+   "inside_v3": true,
+   "inside_camauto": true,
+   "outside_camauto": [],
+   "outside_v3": []
+  },
+  {
+   "label": "decision_0+3",
+   "t": 245.56,
+   "mad": 0.05558,
+   "inside_v3": true,
+   "inside_camauto": true,
+   "outside_camauto": [],
+   "outside_v3": []
+  },
+  {
+   "label": "now_0+3.5",
+   "t": 258.61,
+   "mad": 0.04436,
+   "inside_v3": true,
+   "inside_camauto": true,
+   "outside_camauto": [],
+   "outside_v3": []
+  },
+  {
+   "label": "now_3+4",
+   "t": 276.44,
+   "mad": 0.05068,
+   "inside_v3": true,
+   "inside_camauto": true,
+   "outside_camauto": [],
+   "outside_v3": []
+  },
+  {
+   "label": "END-4",
+   "t": 288.44,
+   "mad": 0.0,
+   "inside_v3": true,
+   "inside_camauto": true,
+   "outside_camauto": [],
+   "outside_v3": []
+  }
+ ],
+ "inside_camauto_pct": 100.0,
+ "inside_v3_pct": 100.0,
+ "mad_mean": 0.03082,
+ "checks": {
+  "v3": {
+   "hard": 0,
+   "warnings": 0
+  },
+  "camauto": {
+   "hard": 0,
+   "warnings": 0
+  }
+ },
+ "shot_issues": {
+  "v3": [],
+  "camauto": []
+ },
+ "reserved_avoidance": {
+  "v3": [
+   {
+    "badge": "부산에서 출항",
+    "t0": 162.08,
+    "t1": 178.67,
+    "strategy": [
+     "push"
+    ],
+    "direction": [
+     "down"
+    ],
+    "max_px": 135.2,
+    "zones": [
+     "article:Reuters",
+     "card:거론된 선택지"
+    ],
+    "frames": 399
+   },
+   {
+    "badge": "이재명",
+    "t0": 254.58,
+    "t1": 254.62,
+    "strategy": [
+     "hide"
+    ],
+    "direction": [],
+    "max_px": 189.5,
+    "zones": [
+     "card:이재명 대통령 · 발언 요지"
+    ],
+    "frames": 2
+   }
+  ],
+  "camauto": [
+   {
+    "badge": "부산에서 출항",
+    "t0": 162.08,
+    "t1": 178.67,
+    "strategy": [
+     "push"
+    ],
+    "direction": [
+     "down"
+    ],
+    "max_px": 140.2,
+    "zones": [
+     "article:Reuters",
+     "card:거론된 선택지"
+    ],
+    "frames": 399
+   },
+   {
+    "badge": "이재명",
+    "t0": 254.58,
+    "t1": 254.62,
+    "strategy": [
+     "hide"
+    ],
+    "direction": [],
+    "max_px": 179.2,
+    "zones": [
+     "card:이재명 대통령 · 발언 요지"
+    ],
+    "frames": 2
+   }
+  ]
+ },
+ "changes": [
+  {
+   "t": 0.0,
+   "scene": "open",
+   "before": {
+    "mode": "cut",
+    "lon": 127.35,
+    "lat": 36.35,
+    "place": null,
+    "w": 6.4
+   },
+   "after": {
+    "mode": "cut",
+    "lon": 126.1186,
+    "lat": 37.5048,
+    "place": null,
+    "w": 3.3395
+   },
+   "fits": true,
+   "note": ""
+  },
+  {
+   "t": 23.174,
+   "scene": "open",
+   "before": {
+    "mode": "dip",
+    "lon": 57.6,
+    "lat": 25.3,
+    "place": null,
+    "w": 24.0
+   },
+   "after": {
+    "mode": "dip",
+    "lon": 56.4891,
+    "lat": 26.44,
+    "place": null,
+    "w": 2.5
+   },
+   "fits": true,
+   "note": ""
+  },
+  {
+   "t": 30.756,
+   "scene": "route",
+   "before": {
+    "mode": "move",
+    "lon": 88.5,
+    "lat": 19.5,
+    "place": null,
+    "w": 90.0
+   },
+   "after": {
+    "mode": "dip",
+    "lon": 92.775,
+    "lat": 30.6785,
+    "place": null,
+    "w": 80.6913
+   },
+   "fits": true,
+   "note": ""
+  },
+  {
+   "t": 48.003,
+   "scene": "war",
+   "before": {
+    "mode": "move",
+    "lon": 54.8,
+    "lat": 27.0,
+    "place": null,
+    "w": 14.0
+   },
+   "after": {
+    "mode": "move",
+    "lon": 54.9191,
+    "lat": 26.7398,
+    "place": null,
+    "w": 15.947
+   },
+   "fits": true,
+   "note": ""
+  },
+  {
+   "t": 161.244,
+   "scene": "review",
+   "before": {
+    "mode": "dip",
+    "lon": 88.5,
+    "lat": 21.5,
+    "place": null,
+    "w": 92.0
+   },
+   "after": {
+    "mode": "dip",
+    "lon": 89.5219,
+    "lat": 20.3548,
+    "place": null,
+    "w": 96.0
+   },
+   "fits": false,
+   "note": "카드 자리 회피 불가(w 96.0: badge:부산에서 출항 예약 영역과 겹침) — 날짜만 피한 틀, 카드 겹침은 렌더 RESERVED 가 비킴"
+  },
+  {
+   "t": 210.908,
+   "scene": "debate",
+   "before": {
+    "mode": "dip",
+    "lon": 127.0,
+    "lat": 37.45,
+    "place": null,
+    "w": 3.4
+   },
+   "after": {
+    "mode": "dip",
+    "lon": 127.1209,
+    "lat": 37.475,
+    "place": null,
+    "w": 2.5
+   },
+   "fits": true,
+   "note": ""
+  },
+  {
+   "t": 241.755,
+   "scene": "decision",
+   "before": {
+    "mode": "move",
+    "lon": 127.35,
+    "lat": 36.6,
+    "place": null,
+    "w": 6.4
+   },
+   "after": {
+    "mode": "move",
+    "lon": 126.4344,
+    "lat": 37.082,
+    "place": null,
+    "w": 5.2547
+   },
+   "fits": true,
+   "note": ""
+  },
+  {
+   "t": 254.561,
+   "scene": "now",
+   "before": {
+    "mode": "dip",
+    "lon": 88.5,
+    "lat": 19.5,
+    "place": null,
+    "w": 90.0
+   },
+   "after": {
+    "mode": "dip",
+    "lon": 92.661,
+    "lat": 22.3721,
+    "place": null,
+    "w": 80.6913
+   },
+   "fits": true,
+   "note": ""
+  }
+ ]
+}

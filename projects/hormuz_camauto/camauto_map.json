@@ -1,0 +1,167 @@
+{
+ "schema_version": 1,
+ "source": "hormuz_korea",
+ "suggest_direction_sha1": "c7d272e869aa11d4ccbea402813df2725fc95ff4",
+ "changes": [
+  {
+   "t": 0.0,
+   "scene": "open",
+   "before": {
+    "mode": "cut",
+    "lon": 127.35,
+    "lat": 36.35,
+    "place": null,
+    "w": 6.4
+   },
+   "after": {
+    "mode": "cut",
+    "lon": 126.1186,
+    "lat": 37.5048,
+    "place": null,
+    "w": 3.3395
+   },
+   "fits": true,
+   "note": ""
+  },
+  {
+   "t": 23.174,
+   "scene": "open",
+   "before": {
+    "mode": "dip",
+    "lon": 57.6,
+    "lat": 25.3,
+    "place": null,
+    "w": 24.0
+   },
+   "after": {
+    "mode": "dip",
+    "lon": 56.4891,
+    "lat": 26.44,
+    "place": null,
+    "w": 2.5
+   },
+   "fits": true,
+   "note": ""
+  },
+  {
+   "t": 30.756,
+   "scene": "route",
+   "before": {
+    "mode": "move",
+    "lon": 88.5,
+    "lat": 19.5,
+    "place": null,
+    "w": 90.0
+   },
+   "after": {
+    "mode": "dip",
+    "lon": 92.775,
+    "lat": 30.6785,
+    "place": null,
+    "w": 80.6913
+   },
+   "fits": true,
+   "note": ""
+  },
+  {
+   "t": 48.003,
+   "scene": "war",
+   "before": {
+    "mode": "move",
+    "lon": 54.8,
+    "lat": 27.0,
+    "place": null,
+    "w": 14.0
+   },
+   "after": {
+    "mode": "move",
+    "lon": 54.9191,
+    "lat": 26.7398,
+    "place": null,
+    "w": 15.947
+   },
+   "fits": true,
+   "note": ""
+  },
+  {
+   "t": 161.244,
+   "scene": "review",
+   "before": {
+    "mode": "dip",
+    "lon": 88.5,
+    "lat": 21.5,
+    "place": null,
+    "w": 92.0
+   },
+   "after": {
+    "mode": "dip",
+    "lon": 89.5219,
+    "lat": 20.3548,
+    "place": null,
+    "w": 96.0
+   },
+   "fits": false,
+   "note": "카드 자리 회피 불가(w 96.0: badge:부산에서 출항 예약 영역과 겹침) — 날짜만 피한 틀, 카드 겹침은 렌더 RESERVED 가 비킴"
+  },
+  {
+   "t": 210.908,
+   "scene": "debate",
+   "before": {
+    "mode": "dip",
+    "lon": 127.0,
+    "lat": 37.45,
+    "place": null,
+    "w": 3.4
+   },
+   "after": {
+    "mode": "dip",
+    "lon": 127.1209,
+    "lat": 37.475,
+    "place": null,
+    "w": 2.5
+   },
+   "fits": true,
+   "note": ""
+  },
+  {
+   "t": 241.755,
+   "scene": "decision",
+   "before": {
+    "mode": "move",
+    "lon": 127.35,
+    "lat": 36.6,
+    "place": null,
+    "w": 6.4
+   },
+   "after": {
+    "mode": "move",
+    "lon": 126.4344,
+    "lat": 37.082,
+    "place": null,
+    "w": 5.2547
+   },
+   "fits": true,
+   "note": ""
+  },
+  {
+   "t": 254.561,
+   "scene": "now",
+   "before": {
+    "mode": "dip",
+    "lon": 88.5,
+    "lat": 19.5,
+    "place": null,
+    "w": 90.0
+   },
+   "after": {
+    "mode": "dip",
+    "lon": 92.661,
+    "lat": 22.3721,
+    "place": null,
+    "w": 80.6913
+   },
+   "fits": true,
+   "note": ""
+  }
+ ]
+}

@@ -1,0 +1,244 @@
+{
+ "schema_version": 1,
+ "direction_sha1": "c7d272e869aa11d4ccbea402813df2725fc95ff4",
+ "shots": [
+  {
+   "t": 0.0,
+   "t_end": 23.174,
+   "scene": "open",
+   "current": {
+    "lon": 127.35,
+    "lat": 36.35,
+    "w": 6.4
+   },
+   "current_mode": "cut",
+   "suggested": {
+    "lon": 126.1186,
+    "lat": 37.5048,
+    "w": 3.3395
+   },
+   "suggested_transition": null,
+   "fits": true,
+   "current_fits": true,
+   "points": [
+    "marker:서울",
+    "badge:이재명"
+   ],
+   "note": ""
+  },
+  {
+   "t": 23.174,
+   "t_end": 30.756,
+   "scene": "open",
+   "current": {
+    "lon": 57.6,
+    "lat": 25.3,
+    "w": 24.0
+   },
+   "current_mode": "cut",
+   "suggested": {
+    "lon": 56.4891,
+    "lat": 26.44,
+    "w": 2.5
+   },
+   "suggested_transition": "dip",
+   "fits": true,
+   "current_fits": true,
+   "points": [
+    "marker:호르무즈 해협"
+   ],
+   "note": ""
+  },
+  {
+   "t": 30.756,
+   "t_end": 48.003,
+   "scene": "route",
+   "current": {
+    "lon": 88.5,
+    "lat": 19.5,
+    "w": 90.0
+   },
+   "current_mode": "move",
+   "suggested": {
+    "lon": 92.775,
+    "lat": 30.6785,
+    "w": 80.6913
+   },
+   "suggested_transition": "dip",
+   "fits": true,
+   "current_fits": true,
+   "points": [
+    "route:#0",
+    "route:#-1",
+    "badge:울산"
+   ],
+   "note": ""
+  },
+  {
+   "t": 48.003,
+   "t_end": 148.311,
+   "scene": "war",
+   "current": {
+    "lon": 54.8,
+    "lat": 27.0,
+    "w": 14.0
+   },
+   "current_mode": "move",
+   "suggested": {
+    "lon": 54.9191,
+    "lat": 26.7398,
+    "w": 15.947
+   },
+   "suggested_transition": "move",
+   "fits": true,
+   "current_fits": true,
+   "points": [
+    "marker:하르그섬",
+    "badge:알리 하메네이",
+    "marker:호르무즈 해협",
+    "route:허가받은 배만 통과#0",
+    "route:허가받은 배만 통과#-1",
+    "badge:중국",
+    "badge:인도"
+   ],
+   "note": ""
+  },
+  {
+   "t": 148.311,
+   "t_end": 161.244,
+   "scene": "cost",
+   "current": {
+    "lon": 52.4,
+    "lat": 27.2,
+    "w": 13.5
+   },
+   "current_mode": "move",
+   "suggested": null,
+   "suggested_transition": null,
+   "fits": false,
+   "current_fits": null,
+   "points": [],
+   "note": "장소 이벤트 없음 — 제안 없음"
+  },
+  {
+   "t": 161.244,
+   "t_end": 210.908,
+   "scene": "review",
+   "current": {
+    "lon": 88.5,
+    "lat": 21.5,
+    "w": 92.0
+   },
+   "current_mode": "cut",
+   "suggested": {
+    "lon": 89.5219,
+    "lat": 20.3548,
+    "w": 96.0
+   },
+   "suggested_transition": "dip",
+   "fits": false,
+   "current_fits": true,
+   "points": [
+    "route:#0",
+    "route:#-1",
+    "marker:아덴만",
+    "badge:부산에서 출항",
+    "cutout:p8"
+   ],
+   "note": "카드 자리 회피 불가(w 96.0: badge:부산에서 출항 예약 영역과 겹침) — 날짜만 피한 틀, 카드 겹침은 렌더 RESERVED 가 비킴"
+  },
+  {
+   "t": 210.908,
+   "t_end": 241.755,
+   "scene": "debate",
+   "current": {
+    "lon": 127.0,
+    "lat": 37.45,
+    "w": 3.4
+   },
+   "current_mode": "cut",
+   "suggested": {
+    "lon": 127.1209,
+    "lat": 37.475,
+    "w": 2.5
+   },
+   "suggested_transition": "dip",
+   "fits": true,
+   "current_fits": true,
+   "points": [
+    "marker:주한 미국대사관"
+   ],
+   "note": ""
+  },
+  {
+   "t": 241.755,
+   "t_end": 254.561,
+   "scene": "decision",
+   "current": {
+    "lon": 127.35,
+    "lat": 36.6,
+    "w": 6.4
+   },
+   "current_mode": "move",
+   "suggested": {
+    "lon": 126.4344,
+    "lat": 37.082,
+    "w": 5.2547
+   },
+   "suggested_transition": "move",
+   "fits": true,
+   "current_fits": true,
+   "points": [
+    "marker:서울",
+    "badge:이재명"
+   ],
+   "note": ""
+  },
+  {
+   "t": 254.561,
+   "t_end": 271.941,
+   "scene": "now",
+   "current": {
+    "lon": 88.5,
+    "lat": 19.5,
+    "w": 90.0
+   },
+   "current_mode": "cut",
+   "suggested": {
+    "lon": 92.661,
+    "lat": 22.3721,
+    "w": 80.6913
+   },
+   "suggested_transition": "dip",
+   "fits": true,
+   "current_fits": true,
+   "points": [
+    "route:#0",
+    "route:#-1",
+    "tanker_loop:#0",
+    "tanker_loop:#-1",
+    "badge:미 해군 중부사령부",
+    "marker:호르무즈 해협"
+   ],
+   "note": ""
+  },
+  {
+   "t": 271.941,
+   "t_end": 292.441,
+   "scene": "now",
+   "current": {
+    "lon": 90.0,
+    "lat": 20.0,
+    "w": 96.0
+   },
+   "current_mode": "move",
+   "suggested": null,
+   "suggested_transition": null,
+   "fits": false,
+   "current_fits": null,
+   "points": [],
+   "note": "장소 이벤트 없음 — 제안 없음"
+  }
+ ],
+ "shot_issues_current": []
+}

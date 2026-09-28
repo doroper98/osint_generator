@@ -1,0 +1,107 @@
+{
+  "schema_version": 1,
+  "sources": [
+    {
+      "id": "src_art_0001",
+      "retrieved_at": "2026-09-28",
+      "lang": "ko",
+      "confirmed_by": "v3 사용자 합격본 이관(docs/handoff/KICKOFF_PROMPT.md §5, D-0052 D51)",
+      "confirmed_at": "2026-09-28T00:00:00Z",
+      "note": "v3 이관 — 사용자 합격본. 근거는 크레딧 매체 단위, 문장별 대응 기록 없음",
+      "type": "article",
+      "publisher": "Reuters",
+      "headline_original": "Reuters 2026-09-04 기사(원문 제목 미확보 — 번역 헤드라인만)",
+      "headline_ko": "한국, 호르무즈 군사 선택지 검토… 대통령실 “결정된 것은 없다”",
+      "published_at": "2026-09-04",
+      "key_facts": [
+        "대통령실: 호르무즈 파병은 결정된 것이 없다",
+        "2025년 수입 중 호르무즈 경유 비중 원유 61% · 나프타 54%(대통령실 인용 수치)"
+      ],
+      "source_ref": "credits.yaml 보도 · 자료 — Reuters (9.4)",
+      "pending_source": "원문 URL 미확보 — 매체·날짜만(D-0052 D51, R-0036 종결)"
+    },
+    {
+      "id": "src_art_0002",
+      "retrieved_at": "2026-09-28",
+      "lang": "ko",
+      "confirmed_by": "v3 사용자 합격본 이관(docs/handoff/KICKOFF_PROMPT.md §5, D-0052 D51)",
+      "confirmed_at": "2026-09-28T00:00:00Z",
+      "note": "v3 이관 — 사용자 합격본. 근거는 크레딧 매체 단위, 문장별 대응 기록 없음",
+      "type": "article",
+      "publisher": "The Korea Herald",
+      "headline_original": "The Korea Herald 2026-09-07 기사(원문 제목 미확보 — 번역 헤드라인만)",
+      "headline_ko": "정부, 전투 격화·반대 여론 확산에 호르무즈 파병 계획 재조정",
+      "published_at": "2026-09-07",
+      "key_facts": [
+        "정부가 호르무즈 파병 계획을 재조정했다"
+      ],
+      "source_ref": "credits.yaml 보도 · 자료 — The Korea Herald (9.7)",
+      "pending_source": "원문 URL 미확보 — 매체·날짜만(D-0052 D51, R-0036 종결)"
+    },
+    {
+      "id": "src_art_0003",
+      "retrieved_at": "2026-09-28",
+      "lang": "ko",
+      "confirmed_by": "v3 사용자 합격본 이관(docs/handoff/KICKOFF_PROMPT.md §5, D-0052 D51)",
+      "confirmed_at": "2026-09-28T00:00:00Z",
+      "note": "v3 이관 — 사용자 합격본. 근거는 크레딧 매체 단위, 문장별 대응 기록 없음",
+      "type": "article",
+      "publisher": "UPI(기고)",
+      "headline_original": "UPI 기고 2026-09-08(원문 제목 미확보)",
+      "published_at": "2026-09-08",
+      "key_facts": [
+        "파병 지지론: 호르무즈는 곧 한국의 경제 안보"
+      ],
+      "source_ref": "credits.yaml 보도 · 자료 — UPI 기고 (9.8)",
+      "pending_source": "원문 URL 미확보 — 매체·날짜만(D-0052 D51, R-0036 종결)"
+    },
+    {
+      "id": "src_art_0004",
+      "retrieved_at": "2026-09-28",
+      "lang": "ko",
+      "confirmed_by": "v3 사용자 합격본 이관(docs/handoff/KICKOFF_PROMPT.md §5, D-0052 D51)",
+      "confirmed_at": "2026-09-28T00:00:00Z",
+      "note": "v3 이관 — 사용자 합격본. 근거는 크레딧 매체 단위, 문장별 대응 기록 없음",
+      "type": "article",
+      "publisher": "Foreign Policy",
+      "headline_original": "Foreign Policy 2026-09-10 기사(원문 제목 미확보)",
+      "published_at": "2026-09-10",
+      "key_facts": [
+        "파병 반대론: 비전투 부대도 표적이 될 수 있다"
+      ],
+      "source_ref": "credits.yaml 보도 · 자료 — Foreign Policy (9.10)",
+      "pending_source": "원문 URL 미확보 — 매체·날짜만(D-0052 D51, R-0036 종결)"
+    },
+    {
+      "id": "src_art_0005",
+      "retrieved_at": "2026-09-28",
+      "lang": "ko",
+      "confirmed_by": "v3 사용자 합격본 이관(docs/handoff/KICKOFF_PROMPT.md §5, D-0052 D51)",
+      "confirmed_at": "2026-09-28T00:00:00Z",
+      "note": "v3 이관 — 사용자 합격본. 근거는 크레딧 매체 단위, 문장별 대응 기록 없음",
+      "type": "article",
+      "publisher": "국제해사기구(IMO)",
+      "headline_original": "국제해사기구 집계(6월 11일 기준, 원문 제목 미확보)",
+      "published_at": "2026-06-11",
+      "key_facts": [
+        "6월 11일까지 선박 공격 46건, 선원 사망 14명"
+      ],
+      "source_ref": "credits.yaml 보도 · 자료 — 국제해사기구 (6.11 기준)",
+      "pending_source": "원문 URL 미확보 — 매체·날짜만(D-0052 D51, R-0036 종결)"
+    },
+    {
+      "id": "src_doc_0001",
+      "retrieved_at": "2026-09-28",
+      "lang": "en",
+      "confirmed_by": "v3 사용자 합격본 이관(docs/handoff/KICKOFF_PROMPT.md §5, D-0052 D51)",
+      "confirmed_at": "2026-09-28T00:00:00Z",
+      "note": "v3 이관 — 사용자 합격본. 근거는 크레딧 매체 단위, 문장별 대응 기록 없음 · 게시일 없는 문서라 DocumentSource",
+      "type": "document",
+      "issuer": "위키백과",
+      "title": "2026 Strait of Hormuz campaign",
+      "key_facts": [
+        "2026 호르무즈 해협 전역 개요(영문 위키백과 문서)"
+      ]
+    }
+  ]
+}

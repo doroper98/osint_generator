@@ -1,0 +1,39 @@
+{
+ "schema_version": 1,
+ "project": "hormuz_camauto",
+ "preview": "golden 25",
+ "854x480": {
+  "hard": 0,
+  "warnings": 0,
+  "items": {
+   "overlap": 0,
+   "offscreen": 0,
+   "glyphs": 0,
+   "shots": 0,
+   "media_beats": 0,
+   "labels": 0,
+   "date": 0,
+   "subtitles": 0,
+   "rights": 0,
+   "forbidden": 0
+  }
+ },
+ "1280x720": {
+  "hard": 0,
+  "warnings": 0,
+  "items": {
+   "overlap": 0,
+   "offscreen": 0,
+   "glyphs": 0,
+   "shots": 0,
+   "media_beats": 0,
+   "labels": 0,
+   "date": 0,
+   "subtitles": 0,
+   "rights": 0,
+   "forbidden": 0
+  }
+ },
+ "same_frame_inside_result": true,
+ "note": "프레임 안 판정(framing·offscreen)은 같다. 렌더러 레이아웃(자막·글자 크기)은 아직 480p 좌표 그대로 — 스케일 전면 적용은 Phase 10(D-0056 §3). res720_route_3.png 참고."
+}
