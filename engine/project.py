@@ -20,7 +20,8 @@ from engine.assets import Assets, load_labels
 from engine.camera import CamKey, build_camera
 from engine.context import RenderCtx
 from engine.credits import load_credits
-from engine.registry import validate_events
+from engine.entities import check_event_refs, load_entities
+from engine.registry import RegistryError, validate_events
 from engine.style import FPS
 from engine.timebase import Timebase
 from script.schema import Plan
@@ -115,6 +116,9 @@ def load_project(proj: Path) -> Project:
     R = RenderCtx(assets=assets, tb=tb, credits=load_credits(proj / "credits.yaml"))  # noqa: N806
     d = load_direction(proj).direct(tb)
     events = validate_events(d.events)
+    ent_errs = check_event_refs(events, load_entities())  # 07 §6 — 미등재 인물·국기·휘장은 렌더 전 오류(P10)
+    if ent_errs:
+        raise RegistryError("엔티티 레지스트리 점검 실패:\n" + "\n".join(ent_errs))
     errs = preflight(R, events)
     if errs:
         raise ProjectError("렌더 전 점검 실패:\n" + "\n".join(errs))

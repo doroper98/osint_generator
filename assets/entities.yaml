@@ -1,0 +1,134 @@
+# 엔티티 레지스트리 (v2.4.0, back_and_forth D-0029 작업 2, 07 §6).
+# 인물·기관·국가를 이름으로 찾는 사전. 스키마: schemas/entity_models.py, 로더: engine/entities.py.
+# - 라이브러리 24인(assets/library/library_manifest.json)은 자동 등재된다. 여기 같은 id 로 적으면 보강(국기·직함·별칭).
+# - 라이브러리 밖 인물은 portrait(프로젝트 assets/portraits/<id>.png, tools/portrait_fallback.py 산출)와 rights 를 적는다.
+# - 기관(org)은 flag(휘장 제한·부재 시 대체 국기, D5)와 emblem(assets/emblems/registry.json 키)을 적는다.
+# - 등재 없는 이름·id 를 연출이 참조하면 RegistryError(15 P10). 별칭은 두 엔티티에 겹칠 수 없다.
+schema_version: 1
+entities:
+  # ---------------------------------------------------------------- 인물 (v3 호르무즈 4명)
+  lee_jae_myung:
+    kind: person
+    names: [이재명, 이재명 대통령, Lee Jae-myung]
+    flag: kr
+    portrait: lee_jae_myung
+    role_default: 대한민국 대통령
+    accent: gold
+    rights: people.lee_jae_myung
+  roh_moo_hyun:
+    kind: person
+    names: [노무현, 노무현 대통령, 노무현 전 대통령, Roh Moo-hyun]
+    flag: kr
+    portrait: roh_moo_hyun
+    role_default: 대한민국 제16대 대통령
+    accent: gold
+    rights: people.roh_moo_hyun
+  trump:
+    kind: person
+    names: [트럼프, 트럼프 대통령, 도널드 트럼프]
+    flag: us
+    role_default: 미국 대통령
+    accent: us
+  khamenei:
+    kind: person
+    names: [하메네이, 알리 하메네이]
+    flag: ir
+    role_default: 이란 최고지도자
+    accent: ru
+  # ---------------------------------------------------------------- 기관
+  navcent:
+    kind: org
+    names: [미 해군 중부사령부, 미 해군 5함대, 5함대, NAVCENT]
+    flag: us
+    emblem: navcent
+    accent: us
+    rights: emblems.navcent
+  centcom:
+    kind: org
+    names: [미 중부사령부, 미국 중부사령부, 중부사령부, CENTCOM]
+    flag: us
+    emblem: centcom
+    accent: us
+    rights: emblems.centcom
+  irgc:
+    kind: org
+    names: [혁명수비대, 이란 혁명수비대, 이슬람혁명수비대, IRGC]
+    flag: ir
+    emblem: irgc
+    accent: ru
+    rights: emblems.irgc
+  rok_navy:
+    kind: org
+    names: [한국 해군, 대한민국 해군]
+    flag: kr
+    emblem: rok_navy
+    accent: gold
+    rights: emblems.rok_navy
+  mnd_korea:
+    kind: org
+    names: [국방부, 대한민국 국방부]
+    flag: kr
+    emblem: mnd_korea
+    accent: gold
+    rights: emblems.mnd_korea
+  cheonghae:
+    kind: org
+    names: [청해부대]
+    flag: kr
+    emblem: cheonghae
+    accent: gold
+    rights: emblems.cheonghae
+  cia:
+    kind: org
+    names: [CIA, 미 중앙정보국, 중앙정보국]
+    flag: us
+    emblem: cia
+    accent: us
+    rights: emblems.cia
+  potus:
+    kind: org
+    names: [백악관, 미국 대통령실]
+    flag: us
+    emblem: potus
+    accent: us
+    rights: emblems.potus
+  un_security_council:
+    kind: org
+    names: [안보리, 유엔 안전보장이사회, 안전보장이사회]
+    flag: un
+    accent: teal
+    rights: flags.flag_icons
+  imo:
+    kind: org
+    names: [국제해사기구, IMO]
+    flag: un
+    accent: teal
+    rights: flags.flag_icons
+  # ---------------------------------------------------------------- 국가 (flag-icons 코드, rights = flags.flag_icons)
+  kr: {kind: country, names: [대한민국, 한국], flag: kr, rights: flags.flag_icons}
+  us: {kind: country, names: [미국], flag: us, rights: flags.flag_icons}
+  ir: {kind: country, names: [이란], flag: ir, rights: flags.flag_icons}
+  cn: {kind: country, names: [중국], flag: cn, rights: flags.flag_icons}
+  in: {kind: country, names: [인도], flag: in, rights: flags.flag_icons}
+  jp: {kind: country, names: [일본], flag: jp, rights: flags.flag_icons}
+  de: {kind: country, names: [독일], flag: de, rights: flags.flag_icons}
+  gb: {kind: country, names: [영국], flag: gb, rights: flags.flag_icons}
+  fr: {kind: country, names: [프랑스], flag: fr, rights: flags.flag_icons}
+  it: {kind: country, names: [이탈리아], flag: it, rights: flags.flag_icons}
+  nl: {kind: country, names: [네덜란드], flag: nl, rights: flags.flag_icons}
+  ca: {kind: country, names: [캐나다], flag: ca, rights: flags.flag_icons}
+  au: {kind: country, names: [호주], flag: au, rights: flags.flag_icons}
+  om: {kind: country, names: [오만], flag: om, rights: flags.flag_icons}
+  ae: {kind: country, names: [아랍에미리트, UAE], flag: ae, rights: flags.flag_icons}
+  sa: {kind: country, names: [사우디아라비아, 사우디], flag: sa, rights: flags.flag_icons}
+  qa: {kind: country, names: [카타르], flag: qa, rights: flags.flag_icons}
+  iq: {kind: country, names: [이라크], flag: iq, rights: flags.flag_icons}
+  kw: {kind: country, names: [쿠웨이트], flag: kw, rights: flags.flag_icons}
+  bh: {kind: country, names: [바레인], flag: bh, rights: flags.flag_icons}
+  ye: {kind: country, names: [예멘], flag: ye, rights: flags.flag_icons}
+  kp: {kind: country, names: [북한], flag: kp, rights: flags.flag_icons}
+  ru: {kind: country, names: [러시아], flag: ru, rights: flags.flag_icons}
+  pk: {kind: country, names: [파키스탄], flag: pk, rights: flags.flag_icons}
+  il: {kind: country, names: [이스라엘], flag: il, rights: flags.flag_icons}
+  eu: {kind: country, names: [유럽연합, EU], flag: eu, rights: flags.flag_icons}
+  un: {kind: country, names: [유엔, 국제연합], flag: un, rights: flags.flag_icons}
