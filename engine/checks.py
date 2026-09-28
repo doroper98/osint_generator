@@ -198,7 +198,8 @@ def check_audio(P) -> tuple[str, list[str], dict]:  # noqa: ANN001, N803
     (등급 rules audio.qa.severity, 지적 목록, AudioQA dict)."""
     from audio.qa import audio_qa  # noqa: PLC0415
 
-    q = audio_qa(P.root / "out", P.plan.sentences)
+    has_music = any(r.startswith("music.") for r in (P.R.cache.get("credit_refs") or ()))
+    q = audio_qa(P.root / "out", P.plan.sentences, has_music=has_music)
     return R_.audio.qa.severity, q.issues(), q.model_dump()
 
 

@@ -42,6 +42,13 @@ class AudioQATest(unittest.TestCase):
                 self.assertEqual(q.music_level_ok, ok)
                 self.assertIsNone(q.final_loudness)            # final.mp4 없으면 음량 판정 없음(지어내지 않음)
 
+    def test_no_music_is_not_judged(self) -> None:
+        """bgm null(음악 없음)이면 음악 레벨은 판정 대상이 아니다 — 무음을 '범위 밖'으로 지적하지 않는다."""
+        with tempfile.TemporaryDirectory() as d:
+            q = audio_qa(Path(d), _fixture(Path(d), -60.0), has_music=False)
+            self.assertIsNone(q.music_level_ok)
+            self.assertEqual(q.issues(), [])
+
     def test_loudness_and_true_peak_issues(self) -> None:
         ln = AU.loudnorm
         base = dict(mix_peak=0.5, narration_rms_db=-16, music_rms_in_narration_db=-32, music_under_narration_db=-16,

@@ -46,7 +46,7 @@ class AudioQA(BaseModel):
     narration_seconds: float
     loudness_ok: Optional[bool] = None
     true_peak_ok: Optional[bool] = None
-    music_level_ok: bool
+    music_level_ok: Optional[bool]                   # None = 음악 없음(sound.bgm null) — 판정 대상 아님
     peak_ok: bool
     method: str = "내레이션 스템 = plan npy 재배치(믹서 규칙) × 최소제곱 스케일, 음악 = mix − 내레이션(모노 평균)"
 
@@ -57,7 +57,7 @@ class AudioQA(BaseModel):
             out.append(f"최종 음량 {self.final_loudness.I:.2f} LUFS — 목표 {ln.I:g} ± {q.i_tol_lu:g}")
         if self.final_loudness is not None and not self.true_peak_ok:
             out.append(f"트루 피크 {self.final_loudness.TP:.2f} dBTP > {ln.TP:g}")
-        if not self.music_level_ok:
+        if self.music_level_ok is False:
             lo, hi = q.music_under_narration_db
             out.append(f"내레이션 구간 음악 {self.music_under_narration_db:+.2f} dB — 범위 [{lo:g}, {hi:g}]")
         if not self.peak_ok:
@@ -96,8 +96,8 @@ def stems(mix_f32: Path, sentences: list) -> tuple[np.ndarray, np.ndarray, np.nd
     return mix, vo * scale, mask
 
 
-def audio_qa(out_dir: Path, sentences: list) -> AudioQA:  # noqa: ANN001
-    """out_dir = 프로젝트 out/(mix.f32 필수, final.mp4 있으면 음량 측정)."""
+def audio_qa(out_dir: Path, sentences: list, has_music: bool = True) -> AudioQA:  # noqa: ANN001
+    """out_dir = 프로젝트 out/(mix.f32 필수, final.mp4 있으면 음량 측정). has_music False(bgm null)면 음악 레벨 판정 없음."""
     mix, vo, mask = stems(out_dir / "mix.f32", sentences)
     music = mix - vo
     vo_db = db(float(np.sqrt(np.mean(vo[mask] ** 2))))
@@ -111,7 +111,7 @@ def audio_qa(out_dir: Path, sentences: list) -> AudioQA:  # noqa: ANN001
                    narration_seconds=round(float(mask.sum()) / SR, 1),
                    loudness_ok=None if loud is None else abs(loud.I - AU.loudnorm.I) <= AU.qa.i_tol_lu,
                    true_peak_ok=None if loud is None else loud.TP <= AU.loudnorm.TP,
-                   music_level_ok=lo <= mu_db - vo_db <= hi, peak_ok=peak <= AU.master_peak)
+                   music_level_ok=(lo <= mu_db - vo_db <= hi) if has_music else None, peak_ok=peak <= AU.master_peak)
 
 
 __all__ = ["AudioQA", "Loudness", "audio_qa", "measure_loudnorm", "stems"]
