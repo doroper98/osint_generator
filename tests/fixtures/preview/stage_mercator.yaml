@@ -1,0 +1,15 @@
+# 무대 레지스트리 프리뷰 예제 (v4.1.0, back_and_forth D-0076 작업 4·D-0077) — rules registries.stages 의 무대마다 하나.
+# direction.yaml 의 무대 표기: 최상위 stage(주 무대) + 숏 단위 stage(없으면 주 무대). Direction 모델을 그대로 통과해야 한다(P4).
+schema_version: 1
+key: mercator
+anchor_keys: [lon, lat]
+direction:
+  version: 1
+  stage: mercator
+  places:
+    hormuz: [56.35, 26.55]
+  shots:
+    - {at: 0, mode: cut, dur: 0, camera: {place: hormuz, w: 14}}
+    - {at: 12.0, mode: dip, camera: {lon: 127.0, lat: 37.45, w: 3.4}, stage: mercator}
+  events:
+    - {type: marker, start: 0.2, end: 10.0, at_place: hormuz, label: 호르무즈 해협}

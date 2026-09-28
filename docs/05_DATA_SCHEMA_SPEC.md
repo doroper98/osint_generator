@@ -44,6 +44,8 @@ last_review: 2026-09-29
 | `task_queue.json`, `worker_slots.json`, `task_results/*.json`, `llm_calls/*.json` | `TaskQueue`, `WorkerSlotsSnapshot`, `TaskResult`, `LLMCallRecord` | 오케스트레이터·워커 | 전 단계 |
 | 엔진 CLI 마지막 줄 | `schemas.engine_models.StageResult` | 엔진 CLI 전부 | — |
 
+`direction.yaml` 무대 표기(v4.1.0, back_and_forth D-0076 작업 4·D-0077): 최상위 `stage`(주 무대)와 숏 단위 `shots[].stage`(선택). 없으면 `engine.stage.DEFAULT_STAGE`(mercator)이고 provenance `stage.declared` 가 false 다. 이름은 `rules:registries.stages` 에 있어야 한다(없으면 스키마 오류). 무대마다 프리뷰 예제 `tests/fixtures/preview/stage_{이름}.yaml`.
+
 번들 가져오기(`import-bundle`) 산출물은 §10, 저장소 공용 레지스트리(엔티티·휘장·미디어·BGM)는 §7·§9.
 `approval_log.json`(`ApprovalLog`)·`thumbnail_manifest.json`(`ThumbnailManifest`)은 **삭제됨**(v4.0.0, back_and_forth D-0073, 보존 `archive/hyperframes-briefing`). 게이트 기록은 manifest `gate_decisions`다.
 

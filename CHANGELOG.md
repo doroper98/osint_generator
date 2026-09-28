@@ -62,6 +62,7 @@ MINOR: 새 기능(무대 추상화·무대 연속성 검사). 렌더 수치 변�
 ### Changed
 - **§0**: `WORKFLOWS.md`(Tier 3, v0.3.3 판)를 현재 명령으로 다시 씀(NB29). Tier 1·2 `last_synced_with` v4.1.0. hormuz 25컷 md5 기준선 `docs/handoff/reports/phaseG1/hormuz_baseline.json`.
 - **작업 1~3 무대 추상화**: `engine/stage.py` — `Stage` 프로토콜(20 §2.3 + 역변환 `from_world`), `MercatorStage`(v3 지도 코드 감싸기: `to_world(lon, lat) = (lon, ym(lat))`, `render_base` = 지형 티어 래스터 + 국경, `draw_labels` = 라벨 LOD, `lod_rules` = `MERCATOR_LOD`), 레지스트리 `rules registries.stages: [mercator]`(미등록·미구현 = `StageError`). `View(stage, cam).to_screen(x, y)` — projection.py 는 투영 수식을 모른다. 이벤트 앵커 → `attach_world`(world·world_pts·world_p0/p1), framing·camera_suggest·placement·checks·reserved·layers 는 월드 좌표와 View 만. `tests/anti_inertia/test_stage_isolation`(engine/ 에서 ym·ymv·lat_of·to_uv·옛 View API·위경도 산술·삼각 변환 0, 허용 = engine/stage.py). hormuz 25컷 md5 25/25·ratcliffe 20컷 20/20·camera_suggest JSON 동일.
+- **작업 4 direction 무대 키**: 최상위 `stage`·숏 단위 `shots[].stage`(D-0077, 미등록 = 스키마 오류). 없으면 mercator + provenance `stage: {name, declared: false, shots_declared, instances}`. `StageSet` = 이름마다 인스턴스 하나. 주 무대가 아닌 숏은 렌더 오류(보조 무대 렌더는 G3). 프리뷰 예제 `tests/fixtures/preview/stage_mercator.yaml`, docs/05. `tests/test_stage_direction.py` 6.
 
 ---
 

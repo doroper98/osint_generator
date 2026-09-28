@@ -20,7 +20,7 @@ from engine.assets import Assets, load_labels
 from engine.camera import CamKey, build_camera
 from engine.context import RenderCtx
 from engine.credits import check_credits, load_credits, required_refs
-from engine.direction import Direction, DirectionError, load_direction_doc
+from engine.direction import Direction, DirectionError, load_direction_doc, shot_stages
 from engine.direction import build as build_direction
 from engine.entities import check_event_refs, load_entities
 from engine.panels import network, relation, timeline
@@ -30,7 +30,8 @@ from engine.media_registry import credit_line
 from engine.media_plan import density_report, media_box, placement_warnings
 from engine.placement import PlacementError, resolve_places
 from engine.projection import View
-from engine.stage import DEFAULT_STAGE, attach_world, make_stage
+from engine.shots import ShotStage
+from engine.stage import StageSet, attach_world, make_stage
 from engine.refs import emblem_ids
 from engine.registry import RegistryError, validate_events
 from engine.style import FPS, Output, output_profile
@@ -42,16 +43,26 @@ class ProjectError(RuntimeError):
     pass
 
 
-def load_direction(proj: Path, tb: Timebase, stage: object = None, doc: Optional[Direction] = None) -> tuple[list[CamKey], list[dict], Optional[dict]]:
-    """`direction.yaml`(17 §2) → (카메라 키, 이벤트, sound). 코드를 실행하지 않는다(v3.1.0, D-0047 §0-1 — 옛 direction.py 삭제).
-    doc 을 주면 파일 대신 그 연출(아직 저장 전인 LLM 출력)을 같은 경로로 읽는다."""
+def read_direction(proj: Path, doc: Optional[Direction] = None) -> Direction:
+    """direction.yaml → Direction(doc 을 주면 그대로). 없거나 틀리면 ProjectError."""
+    if doc is not None:
+        return doc
     p = proj / "direction.yaml"
-    if doc is None and not p.exists():
+    if not p.exists():
         raise ProjectError(f"연출 파일 없음: {p}")
     try:
-        # stage 없이 부르는 곳(오디오 믹스·도구 — 시각·sound 만 읽는다)은 좌표 변환만 하는 무대(자산 없음)로 카메라 키를 만든다
-        return build_direction(doc if doc is not None else load_direction_doc(p), tb,
-                               stage if stage is not None else make_stage(DEFAULT_STAGE))  # type: ignore[arg-type]
+        return load_direction_doc(p)
+    except DirectionError as ex:
+        raise ProjectError(str(ex)) from ex
+
+
+def load_direction(proj: Path, tb: Timebase, stage: object = None, doc: Optional[Direction] = None) -> tuple[list[CamKey], list[dict], Optional[dict]]:
+    """`direction.yaml`(17 §2) → (카메라 키, 이벤트, sound). 코드를 실행하지 않는다(v3.1.0, D-0047 §0-1 — 옛 direction.py 삭제).
+    doc 을 주면 파일 대신 그 연출(아직 저장 전인 LLM 출력)을 같은 경로로 읽는다.
+    stage 없이 부르는 곳(오디오 믹스·도구 — 시각·sound 만 읽는다)은 연출의 주 무대를 자산 없이(좌표 변환만) 만든다."""
+    d = read_direction(proj, doc)
+    try:
+        return build_direction(d, tb, stage if stage is not None else make_stage(d.main_stage()))  # type: ignore[arg-type]
     except DirectionError as ex:
         raise ProjectError(str(ex)) from ex
 
@@ -130,6 +141,7 @@ class Project:
     cams: np.ndarray
     n_frames: int
     warnings: list[str] = field(default_factory=list)   # 연출 lint 경고(오류 아님) — StageResult.warnings 로 나간다
+    shots: list[ShotStage] = field(default_factory=list)   # v4.1.0 D-0077 — 숏별 무대·전환·월드 카메라(checks stage_continuity)
 
 
 def _media_extent(e: dict, w: float, media_assets: dict) -> tuple[float, float]:
@@ -217,8 +229,16 @@ def load_project(proj: Path, direction: Optional[Direction] = None, out: Optiona
     out = out or output_profile()
     assets = Assets(proj, load_labels(proj / "labels.yaml"), None if out == output_profile() else out.name)
     R = RenderCtx(assets=assets, tb=tb, credits=load_credits(proj / "credits.yaml"), out=out)  # noqa: N806
-    R.stage = make_stage(DEFAULT_STAGE, assets, out)   # v4.1.0 D-0076 — 영상 하나에 무대 인스턴스 하나
-    keys, raw_events, sound = load_direction(proj, tb, R.stage, direction)
+    doc = read_direction(proj, direction)
+    stages = StageSet(assets, out)   # v4.1.0 D-0076·D-0077 — 무대는 이름마다 한 번만 만든다
+    R.stage = stages.get(doc.main_stage())
+    keys, raw_events, sound = load_direction(proj, tb, R.stage, doc)
+    try:
+        shots = shot_stages(doc, tb, stages.get)
+    except (DirectionError, ValueError) as ex:
+        raise ProjectError(str(ex)) from ex
+    R.cache["stage"] = {"name": R.stage.name, "declared": doc.stage is not None,          # provenance stage(15 P5)
+                        "shots_declared": sum(1 for s in doc.shots if s.stage is not None), "instances": dict(stages.created)}
     n = int(plan.total * FPS)
     cams = build_camera(keys, n, FPS) if keys else None
     A0 = assets  # noqa: N806
@@ -254,7 +274,7 @@ def load_project(proj: Path, direction: Optional[Direction] = None, out: Optiona
         raise ProjectError("카메라 키가 없다")
     warns = lint_events(events) + placement_warnings(events, A.media_assets) \
         + density_report(events, tb, plan.total)["warnings"]
-    return Project(proj, plan, R, keys, events, cams, n, warns)
+    return Project(proj, plan, R, keys, events, cams, n, warns, shots)
 
 
 def lint_events(events: list[dict]) -> list[str]:

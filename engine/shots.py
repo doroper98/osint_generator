@@ -9,11 +9,24 @@
 from __future__ import annotations
 
 import math
+from dataclasses import dataclass
 from typing import Literal, Protocol
 
 from rules import load_rules
 
 SG = load_rules().shot_grammar
+
+
+@dataclass(frozen=True)
+class ShotStage:
+    """숏 하나의 무대·전환·월드 카메라(무대 연속성 검사 입력, v4.1.0 D-0077). mode 는 연출 원문(cut·move·dip)."""
+
+    t: float
+    mode: str
+    stage: str
+    x: float
+    y: float
+    w: float
 
 
 class _Key(Protocol):
@@ -62,4 +75,4 @@ def shot_issues(keys: list[_Key], sentences: list, events: list[dict], total: fl
     return out
 
 
-__all__ = ["choose_transition", "scene_at", "shot_issues"]
+__all__ = ["ShotStage", "choose_transition", "scene_at", "shot_issues"]

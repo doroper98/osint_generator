@@ -19,7 +19,9 @@
     version: 1
     places: {hormuz: [56.35, 26.55], …}           이름표 좌표. 이벤트에서 `at_place: hormuz` → lon·lat
     paths:  {route: [[56.2, 26.45], …], …}        이름표 경로. 값 자리에 `{path: route}`
-    shots:  [{at, mode: cut|move|dip, dur?, camera: {lon, lat, w}, under?}]   (dip = 1초 암전 + 한가운데 cut)
+    stage:  mercator                                v4.1.0(D-0076 작업 4) — 주 무대. 없으면 mercator(provenance stage.declared false)
+    shots:  [{at, mode: cut|move|dip, dur?, camera: {lon, lat, w}, under?, stage?}]   (dip = 1초 암전 + 한가운데 cut)
+            shots[].stage = 이 숏의 무대(없으면 최상위 stage, D-0077). 등록 안 된 무대 이름 = 스키마 오류(P10)
     events: [{type, start, end, …필드}]           필드 값 어디든 앵커를 둘 수 있다(패널 내부 시각 등)
             패널은 17 §2 예시대로 내용 필드를 `data: {…}` 아래에 둔다(타임라인 패널의 start·end 날짜가 시각 키와 겹치지 않게).
             로더가 data 를 이벤트 필드로 펼친다. data 안 start·end 는 내용(날짜)이다. 그 밖에 바깥 키와 겹치면 오류.
@@ -38,9 +40,12 @@ import yaml
 from pydantic import BaseModel, ConfigDict, Field, field_validator, model_validator
 
 from engine.camera import CamKey, cam
+from engine.shots import ShotStage
 from engine.timebase import Timebase
 
 if TYPE_CHECKING:
+    from collections.abc import Callable
+
     from engine.stage import Stage
 
 ANCHOR_BASES: tuple[str, ...] = ("sid", "scene_start", "scene_end", "word", "card", "total", "span")
@@ -73,6 +78,14 @@ class Camera(_Strict):
         return self
 
 
+def _registered_stage(v: Optional[str]) -> Optional[str]:
+    if v is not None:
+        from engine.stage import stage_class  # noqa: PLC0415
+
+        stage_class(v)   # 미등록·미구현 = StageError(ValueError) → 스키마 오류(P10)
+    return v
+
+
 class Shot(_Strict):
     at: Union[float, dict[str, Any]]
     mode: Literal["cut", "move", "dip"]
@@ -80,6 +93,12 @@ class Shot(_Strict):
     camera: Camera
     under: bool = False
     scene: Optional[str] = None   # 읽는 사람용 표시(검증 안 함)
+    stage: Optional[str] = None   # v4.1.0 D-0077 — 이 숏의 무대(없으면 최상위 stage)
+
+    @field_validator("stage")
+    @classmethod
+    def _stage(cls, v: Optional[str]) -> Optional[str]:
+        return _registered_stage(v)
 
     @field_validator("at")
     @classmethod
@@ -146,11 +165,25 @@ class Direction(_Strict):
     """direction.yaml 최상위 모델(17 §2)."""
 
     version: Literal[1] = 1
+    stage: Optional[str] = None   # v4.1.0 D-0076 작업 4 — 주 무대(없으면 engine.stage.DEFAULT_STAGE, declared false)
     places: dict[str, tuple[float, float]] = Field(default_factory=dict)
     paths: dict[str, list[tuple[float, float]]] = Field(default_factory=dict)
     shots: list[Shot] = Field(min_length=1)
     events: list[dict[str, Any]]
     sound: Optional[Sound] = None
+
+    @field_validator("stage")
+    @classmethod
+    def _stage(cls, v: Optional[str]) -> Optional[str]:
+        return _registered_stage(v)
+
+    def main_stage(self) -> str:
+        from engine.stage import DEFAULT_STAGE  # noqa: PLC0415
+
+        return self.stage or DEFAULT_STAGE
+
+    def shot_stage(self, s: "Shot") -> str:
+        return s.stage or self.main_stage()
 
     @model_validator(mode="after")
     def _events(self) -> "Direction":
@@ -245,6 +278,9 @@ def build(doc: Direction, tb: Timebase, stage: "Stage") -> tuple[list[CamKey], l
     keys: list[CamKey] = []
     dips: list[dict] = []
     for s in doc.shots:
+        if doc.shot_stage(s) != stage.name:
+            raise DirectionError(f"숏 {s.at!r} 의 무대 {doc.shot_stage(s)!r} ≠ 주 무대 {stage.name!r} — 보조 무대 렌더는 아직 없다"
+                                 "(G3, docs/handoff/20 §12). 무대 연속성 검사(checks stage_continuity)는 shot_stages 로 따로 본다")
         t = resolve_anchor(s.at, tb)
         lon, lat = _where(s.camera, doc)
         if s.mode == "dip":
@@ -273,6 +309,17 @@ def build(doc: Direction, tb: Timebase, stage: "Stage") -> tuple[list[CamKey], l
         sound = dict(bgm=bgm, intensity=[(resolve_anchor(t, tb), v) for t, v in sd.intensity],
                      cues=[dict(kind=c.kind, t=resolve_anchor(c.t, tb), v=c.v) for c in sd.cues])
     return keys, events + dips, sound
+
+
+def shot_stages(doc: Direction, tb: Timebase, stages: "Callable[[str], Stage]") -> list[ShotStage]:
+    """숏마다 (시각, 전환, 무대, 월드 x·y·w) — 무대 연속성 검사 입력(v4.1.0 D-0077). stages(이름) → 그 무대(StageSet.get)."""
+    out: list[ShotStage] = []
+    for s in doc.shots:
+        name = doc.shot_stage(s)
+        lon, lat = _where(s.camera, doc)
+        x, y = stages(name).to_world(lon=lon, lat=lat)
+        out.append(ShotStage(t=resolve_anchor(s.at, tb), mode=s.mode, stage=name, x=x, y=y, w=s.camera.w))
+    return out
 
 
 class _Loader(yaml.SafeLoader):
@@ -304,5 +351,5 @@ def load_direction_doc(path: Path) -> Direction:
         raise DirectionError(f"{path}: {ex}") from ex
 
 
-__all__ = ["Direction", "DirectionError", "Shot", "Sound", "build", "is_anchor", "load_direction_doc", "resolve_anchor",
+__all__ = ["Direction", "DirectionError", "Shot", "Sound", "build", "is_anchor", "load_direction_doc", "resolve_anchor", "shot_stages",
            "yaml_load"]
