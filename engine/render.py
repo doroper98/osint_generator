@@ -133,7 +133,8 @@ def preview(P: Project, times: list[float], labels: list[str] | None = None) -> 
         s.write_to_png(str(p))
         paths.append(str(p))
     names = labels or [f"t={t:.2f}" for t in times]
-    grid([(Image.open(p), f"{i + 1:02d} {n}  t={t:.2f}") for i, (p, n, t) in enumerate(zip(paths, names, times))],
+    grid([(Image.open(p), f"{i + 1:02d} {n}" + ("" if n.startswith("t=") else f"  t={t:.2f}"))
+          for i, (p, n, t) in enumerate(zip(paths, names, times))],
          COLS, out / "sheet.jpg")
     prov = project_provenance(P, PREVIEW_STAGES)
     prov["preview"] = {"frames": len(paths), "times": [round(t, 3) for t in times]}
