@@ -28,6 +28,13 @@ released 항목은 **append-only**입니다.
 
 ---
 
+## [v2.3.0] — 2026-09-28 — Phase 4: 원고·음성 (back_and_forth D-0021, 진행 중)
+
+### Added
+- (진행 중) 원고 린트 확장, ElevenLabs with-timestamps·trim_offset, `at_word` 정렬 경로, 목소리 교체 검증.
+
+---
+
 ## [v2.2.0] — 2026-09-27 — Phase 3: 지오 일반화 (back_and_forth D-0015)
 
 ### Added
