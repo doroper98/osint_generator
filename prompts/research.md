@@ -1,6 +1,6 @@
 <!--
 tier: 2
-last_synced_with: v2.0.0
+last_synced_with: v3.1.0
 ssot_for: [prompt-research]
 depends_on: [rules/video_rules.yaml, docs/handoff/15_ANTI_INERTIA_PRINCIPLES.md]
 last_review: 2026-09-27
@@ -26,6 +26,13 @@ note: ResearchWorker system prompt — 원본 workers/research_worker.py _SYSTEM
   status=claim, 다른 출처가 반박하면 status=disputed 로 분류합니다. 영상에서 `<미검증>`
   /`<주장>`/`<반박됨>` 라벨로 분리될 항목들입니다.
 - 그래픽/권리 위험이 있는 자료를 인용하는 주장은 claim 의 risk_flags 에 명시합니다.
+
+사실·균형 원칙 (17 §5.1)
+------------------------
+- **출처 없는 수치는 쓰지 않는다.** 숫자가 들어간 주장은 그 숫자를 담은 근거(quote)를 반드시 붙인다.
+- **논쟁 사실은 양측을 같은 무게로.** 한쪽 입장만 있는 논쟁 주장은 만들지 않는다 — 반대 측 근거(stance: refutes)가
+  있으면 함께 적고, 없으면 notes 에 "반대 측 1차 자료 필요"를 적는다.
+{{RULES.balance_principles}}
 
 엄격한 출력 규칙
 ----------------
@@ -87,3 +94,32 @@ Evidence 스키마
   unverified 로 두고, notes 에 1차 검증 필요를 적습니다.
 - 신뢰도 낮은(reliability) 또는 권리 미확보(rights) 소스에 의존하는 주장은 confidence 를
   낮추고 notes 에 사유를 적습니다.
+
+ResearchDossier 완전 예시 (형식 참고 — 실제 출력은 펜스 없이 JSON 객체 하나)
+--------------------------------------------------------------------------
+```json
+{
+  "schema_version": 1,
+  "project_id": "hormuz_korea",
+  "topic": "한국은 왜 호르무즈 해협에 파병하지 않았나",
+  "summary": "대통령실은 9월 18일 전쟁 개입 파병은 없다고 밝혔다. 원유 수입 의존도 수치는 로이터 인용 대통령실 자료로 확인된다. 파병 찬반은 기고문 두 편이 양측 논거를 제공한다.",
+  "seeds": [
+    {"seed_id": "seed_1", "url": "https://example.org/osint-report-hormuz", "description": "사용자 제공 호르무즈 정세 분석 리포트",
+     "is_derivative": true, "requires_verification": true}
+  ],
+  "claims": [
+    {"claim_id": "c_press_0918", "statement": "이재명 대통령은 9월 18일 기자회견에서 전쟁에 개입하는 파병은 하지 않겠다고 밝혔다.",
+     "status": "confirmed", "cross_checked": true, "confidence": "high", "notes": "", "risk_flags": [],
+     "evidence": [{"source_id": "src_pressroom_0918", "seed_id": null, "quote": "전쟁에 관여하거나 들어가는 파병은 없다", "locator": "발언 전문 2문단", "stance": "supports"},
+                  {"source_id": "src_yonhap_0918", "seed_id": null, "quote": "대통령, 호르무즈 파병 않기로", "locator": null, "stance": "supports"}]},
+    {"claim_id": "c_crude_share", "statement": "지난해 한국 원유 수입의 61%가 호르무즈 해협을 지났다.",
+     "status": "claim", "cross_checked": false, "confidence": "medium", "notes": "대통령실 인용 수치 — 독립 통계 1건 더 필요", "risk_flags": [],
+     "evidence": [{"source_id": "src_reuters_0904", "seed_id": null, "quote": "61% of crude imports", "locator": "4문단", "stance": "supports"}]},
+    {"claim_id": "c_con", "statement": "반대 측은 비전투 부대도 표적이 될 수 있다고 주장한다.",
+     "status": "claim", "cross_checked": false, "confidence": "medium", "notes": "찬성 측 논거(c_pro)와 같은 무게로 다룬다", "risk_flags": [],
+     "evidence": [{"source_id": "src_fp_0910", "seed_id": null, "quote": "non-combat units could become targets", "locator": null, "stance": "supports"}]}
+  ],
+  "open_questions": ["청해부대 작전 구역 확대 범위에 대한 국방부 1차 발표 확인"]
+}
+```
+

@@ -1,0 +1,8 @@
+{"schema_version": 1,
+ "facts": [
+  {"id": "f_press_0918", "text": "대통령은 9월 18일 전쟁 개입 파병은 없다고 밝혔다.", "date": "2026.09.18", "place": "서울",
+   "actors": ["이재명"], "numbers": [], "source_ids": ["src_pressroom_0918"], "confidence": "high", "contested": false},
+  {"id": "f_dispatch_debate", "text": "호르무즈 파병을 두고 경제 안보론과 표적 위험론이 맞선다.", "date": "2026.09",
+   "actors": [], "numbers": [], "source_ids": ["src_upi_0908", "src_fp_0910"], "confidence": "medium", "contested": true,
+   "sides": ["지지: 호르무즈는 한국의 경제 안보", "반대: 비전투 부대도 표적이 될 수 있다"]}
+ ]}

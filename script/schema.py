@@ -111,3 +111,33 @@ class Plan(_Strict):
     subtitle: str
     date: str
     tts_resynthesized: list[str] = Field(default_factory=list)  # v2.3.0 optional — 정렬이 없어 다시 합성한 문장 id(D34)
+
+
+class Fact(_Strict):
+    """사실 한 건(17 §5.1). contested 면 양측(sides) 필수 — 논쟁 사실은 양측을 같은 무게로."""
+
+    id: str = Field(min_length=1)
+    text: str = Field(min_length=1)
+    date: Optional[str] = None
+    place: Optional[str] = None
+    actors: list[str] = Field(default_factory=list)
+    numbers: list[str] = Field(default_factory=list)
+    source_ids: list[str] = Field(min_length=1)          # 출처 없는 사실 금지
+    confidence: Literal["low", "medium", "high"]
+    contested: bool = False
+    sides: Optional[list[str]] = None
+
+    @model_validator(mode="after")
+    def _sides(self) -> "Fact":
+        if self.contested and (not self.sides or len(self.sides) < 2):
+            raise ValueError(f"{self.id}: contested 사실은 sides 2개 이상(양측)")
+        return self
+
+
+class Facts(_Strict):
+    """사실 목록 — 최소 모델(v3.1.0, D-0048). 6.95(18 소스 인테이크)에서 ResearchWorker 출력을 이 모델로 전환한다.
+    지금은 워커에 연결하지 않는다(파리티는 픽스처로만)."""
+
+    schema_version: int = 1
+    facts: list[Fact] = Field(min_length=1)
+

@@ -4,7 +4,7 @@ agents_reviewer CHART-AP-44(프롬프트가 가르친 모양을 검증기가 100
 `prompts/*.md` 의 ```yaml / ```json 예시 블록을 추출해 **그 프롬프트를 쓰는 워커가 실제로 검증하는 모델**로 파싱한다.
 
 v2.3.0(D33) → v3.0.0(D-0040 작업 5): script 는 ScriptWorker 의 `response_model`인 `script.schema:Script` 로 검사한다.
-research·director·visual_qa 는 모델과 예시가 Phase 6.9 에 생긴다 — 그때까지 `PENDING_6_9`에 두고, 모델이 아직
+v3.1.0: 파리티 대상 5종 전부 ACTIVE(script·director·visual_qa·revise_direction·research). research 는 현 워커의 ResearchDossier(D-0048), Facts 는 픽스처(6.95 에서 워커 전환). PENDING 이 다시 생기면 "모델이 아직 없음" 을 검사한다.
 없음을 확인하는 테스트로 "생기면 옮기라"를 강제한다(생기는 순간 실패).
 """
 
@@ -27,15 +27,16 @@ ACTIVE: dict[str, str] = {
     "director": "engine.direction:Direction",
     "visual_qa": "engine.qa:QAVerdict",
     "revise_direction": "engine.qa:Revision",
+    # D-0048(R-0054 A): research = 현 워커가 실제로 검증하는 ResearchDossier. Facts 는 6.95 에서 워커 전환
+    "research": "schemas.models:ResearchDossier",
 }
 # 예시 YAML 파일 → 모델 (프롬프트 밖 예시. v3.1.0 D-0047 작업 2 — director 모델이 생겼다)
 EXAMPLE_FILES: dict[str, str] = {
     "tests/fixtures/direction/minimal.yaml": "engine.direction:Direction",
     "prompts/examples/hormuz_direction.yaml": "engine.direction:Direction",   # 17 §5.3 director 예시(변환기 산출)
+    "tests/fixtures/facts_minimal.json": "script.schema:Facts",               # 6.95 전 최소 모델(워커 미연결, D-0048)
 }
-PENDING_6_9: dict[str, str] = {
-    "research": "script.schema:Facts",
-}
+PENDING_6_9: dict[str, str] = {}
 _FENCE = re.compile(r"```(yaml|json)\n(.*?)```", re.DOTALL)
 
 
