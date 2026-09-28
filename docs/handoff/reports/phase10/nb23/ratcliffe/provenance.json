@@ -1,0 +1,553 @@
+{
+ "schema_version": 1,
+ "engine": "engine",
+ "repo_version": "3.6.0",
+ "rules_version": "2.0.0",
+ "rules_hash": "dac9276d5b9b690e0e2e3d2f9ccd99f6d7fdf0b3",
+ "prompts": {
+  "director": "0a0aa49d2493ab59f016ea755e252ae013560c7b"
+ },
+ "voice": "edge-tts ko-KR-InJoonNeural",
+ "word_anchor": "aligned",
+ "word_anchors": [
+  {
+   "sid": "open_0",
+   "word": "모스크바",
+   "mode": "aligned",
+   "t": 4.41,
+   "alignment_source": "edge_word_boundary"
+  },
+  {
+   "sid": "open_1",
+   "word": "존 랫클리프",
+   "mode": "aligned",
+   "t": 6.978,
+   "alignment_source": "edge_word_boundary"
+  },
+  {
+   "sid": "flight_1",
+   "word": "리가",
+   "mode": "aligned",
+   "t": 40.061,
+   "alignment_source": "edge_word_boundary"
+  },
+  {
+   "sid": "flight_1",
+   "word": "리가",
+   "mode": "aligned",
+   "t": 40.061,
+   "alignment_source": "edge_word_boundary"
+  },
+  {
+   "sid": "flight_1",
+   "word": "리가",
+   "mode": "aligned",
+   "t": 40.061,
+   "alignment_source": "edge_word_boundary"
+  },
+  {
+   "sid": "flight_1",
+   "word": "리가",
+   "mode": "aligned",
+   "t": 40.061,
+   "alignment_source": "edge_word_boundary"
+  },
+  {
+   "sid": "flight_2",
+   "word": "브누코보",
+   "mode": "aligned",
+   "t": 44.338,
+   "alignment_source": "edge_word_boundary"
+  },
+  {
+   "sid": "before_visit_0",
+   "word": "우크라이나",
+   "mode": "aligned",
+   "t": 49.331,
+   "alignment_source": "edge_word_boundary"
+  },
+  {
+   "sid": "before_visit_0",
+   "word": "우크라이나",
+   "mode": "aligned",
+   "t": 49.331,
+   "alignment_source": "edge_word_boundary"
+  },
+  {
+   "sid": "before_visit_1",
+   "word": "모스크바",
+   "mode": "aligned",
+   "t": 52.799,
+   "alignment_source": "edge_word_boundary"
+  },
+  {
+   "sid": "backdrop_0",
+   "word": "폴란드",
+   "mode": "aligned",
+   "t": 73.613,
+   "alignment_source": "edge_word_boundary"
+  },
+  {
+   "sid": "backdrop_0",
+   "word": "폴란드",
+   "mode": "aligned",
+   "t": 73.613,
+   "alignment_source": "edge_word_boundary"
+  },
+  {
+   "sid": "backdrop_0",
+   "word": "폴란드",
+   "mode": "aligned",
+   "t": 73.613,
+   "alignment_source": "edge_word_boundary"
+  },
+  {
+   "sid": "backdrop_1",
+   "word": "브렌트유",
+   "mode": "aligned",
+   "t": 78.102,
+   "alignment_source": "edge_word_boundary"
+  },
+  {
+   "sid": "backdrop_2",
+   "word": "베선트",
+   "mode": "aligned",
+   "t": 86.172,
+   "alignment_source": "edge_word_boundary"
+  },
+  {
+   "sid": "backdrop_4",
+   "word": "모스크바",
+   "mode": "aligned",
+   "t": 94.605,
+   "alignment_source": "edge_word_boundary"
+  },
+  {
+   "sid": "iran_dispute_2",
+   "word": "호르무즈",
+   "mode": "aligned",
+   "t": 137.792,
+   "alignment_source": "edge_word_boundary"
+  },
+  {
+   "sid": "intel_dispute_1",
+   "word": "푸틴",
+   "mode": "aligned",
+   "t": 161.751,
+   "alignment_source": "edge_word_boundary"
+  },
+  {
+   "sid": "confirmed_2",
+   "word": "리가",
+   "mode": "aligned",
+   "t": 188.757,
+   "alignment_source": "edge_word_boundary"
+  },
+  {
+   "sid": "confirmed_2",
+   "word": "리가",
+   "mode": "aligned",
+   "t": 188.757,
+   "alignment_source": "edge_word_boundary"
+  },
+  {
+   "sid": "confirmed_2",
+   "word": "브누코보",
+   "mode": "aligned",
+   "t": 189.749,
+   "alignment_source": "edge_word_boundary"
+  },
+  {
+   "sid": "confirmed_2",
+   "word": "리가",
+   "mode": "aligned",
+   "t": 188.757,
+   "alignment_source": "edge_word_boundary"
+  },
+  {
+   "sid": "confirmed_3",
+   "word": "우크라이나",
+   "mode": "aligned",
+   "t": 193.617,
+   "alignment_source": "edge_word_boundary"
+  },
+  {
+   "sid": "open_questions_1",
+   "word": "호르무즈",
+   "mode": "aligned",
+   "t": 204.077,
+   "alignment_source": "edge_word_boundary"
+  },
+  {
+   "sid": "backdrop_0",
+   "word": "폴란드",
+   "mode": "aligned",
+   "t": 73.613,
+   "alignment_source": "edge_word_boundary"
+  }
+ ],
+ "tts": {
+  "resynthesized": []
+ },
+ "total_sec": 226.436,
+ "sentences": 38,
+ "stages": {
+  "plan": true,
+  "geo": true,
+  "preview": true,
+  "render": false,
+  "mix": false,
+  "mux": false,
+  "ai_direction": true,
+  "visual_qa": true,
+  "bundle": true
+ },
+ "features_used": {
+  "camera_keys": 8,
+  "camera_moves": 5,
+  "camera_cuts": 3,
+  "dips": 2,
+  "dips_under": 0,
+  "badges": 7,
+  "badge_kinds": {
+   "emblem": 2,
+   "person": 4,
+   "flag": 1
+  },
+  "panels": [
+   "timeline",
+   "versus"
+  ],
+  "cards": 15,
+  "media": {
+   "clip": 0,
+   "photo": 0,
+   "cutout": 0,
+   "article": 0
+  },
+  "event_types": {
+   "badge": 7,
+   "boom": 1,
+   "card": 15,
+   "country": 4,
+   "dip": 2,
+   "marker": 13,
+   "panel": 2,
+   "route": 2
+  },
+  "label_lod": true,
+  "vignette": false,
+  "at_word": {
+   "aligned": 25,
+   "ratio": 0
+  }
+ },
+ "qa": {
+  "auto_iterations": 2,
+  "user_approved": false,
+  "reviewer": "fable (back_and_forth)",
+  "visual_qa": [
+   "revise",
+   "revise"
+  ]
+ },
+ "drops": [],
+ "assets": {
+  "images_used": [
+   "flag11:ru",
+   "flag11:us",
+   "flag43:ru",
+   "flag43:ua",
+   "flag43:us",
+   "portrait:putin",
+   "portrait:trump",
+   "portrait:zelensky"
+  ],
+  "emblems": {
+   "used": [],
+   "flag_fallback": {
+    "cia": "us"
+   }
+  },
+  "badges": {
+   "suggested": [
+    "cia",
+    "ir",
+    "lv",
+    "pl",
+    "putin",
+    "ru",
+    "trump",
+    "ua",
+    "us",
+    "zelensky"
+   ],
+   "used": [
+    "cia",
+    "putin",
+    "ru",
+    "trump",
+    "zelensky"
+   ],
+   "suggested_and_used": [
+    "cia",
+    "putin",
+    "ru",
+    "trump",
+    "zelensky"
+   ],
+   "suggestions": 29
+  }
+ },
+ "panels": {
+  "used": [
+   {
+    "kind": "timeline",
+    "title": "방문 앞의 한 달",
+    "t0": 76.37,
+    "prov_tag": null
+   },
+   {
+    "kind": "versus",
+    "title": "나토 경고, 엇갈리는 설명",
+    "t0": 100.09,
+    "prov_tag": null
+   }
+  ]
+ },
+ "credits": {
+  "card": {
+   "flags": 1,
+   "map": 2,
+   "narration": 1,
+   "people": 3
+  },
+  "description_only": {
+   "fonts": 4
+  }
+ },
+ "reserved": {
+  "avoidance": []
+ },
+ "audio": {
+  "bgm": null,
+  "bed_gain": 0.47,
+  "crossfades": 0
+ },
+ "camera": {
+  "suggest_ran": false,
+  "suggested": 0,
+  "used": 0,
+  "given_to_director": false
+ },
+ "lint_warnings": [
+  "[timeline-overlap] '방문 앞의 한 달' 2026-08-12 브렌트유 10월물 배럴당 89.53달러 층 1 라벨이 앞 사건과 겹친다",
+  "[media-density-total] 과소 — 0개 / 226초 = inf초당 1개 > 60초 (14 §10.1)"
+ ],
+ "media": {
+  "suggested": [
+   {
+    "sid": "open_2",
+    "scene": "open",
+    "kind": "article",
+    "trigger": "보도했습니다",
+    "at": 11.95,
+    "source": "trigger",
+    "asset_id": null
+   },
+   {
+    "sid": "flight_0",
+    "scene": "flight",
+    "kind": "article",
+    "trigger": "보도에 따르면",
+    "at": 34.21,
+    "source": "trigger",
+    "asset_id": null
+   },
+   {
+    "sid": "backdrop_0",
+    "scene": "backdrop",
+    "kind": "cutout",
+    "trigger": "미사일",
+    "at": 70.47,
+    "source": "trigger",
+    "asset_id": null
+   },
+   {
+    "sid": "backdrop_1",
+    "scene": "backdrop",
+    "kind": "article",
+    "trigger": "보도했습니다",
+    "at": 76.67,
+    "source": "trigger",
+    "asset_id": null
+   },
+   {
+    "sid": "backdrop_2",
+    "scene": "backdrop",
+    "kind": "photo",
+    "trigger": "발표",
+    "at": 83.26,
+    "source": "trigger",
+    "asset_id": null
+   },
+   {
+    "sid": "backdrop_4",
+    "scene": "backdrop",
+    "kind": "photo",
+    "trigger": "발표",
+    "at": 93.97,
+    "source": "trigger",
+    "asset_id": null
+   },
+   {
+    "sid": "open_questions_1",
+    "scene": "open_questions",
+    "kind": "photo",
+    "trigger": "회담",
+    "at": 203.67,
+    "source": "trigger",
+    "asset_id": null
+   }
+  ],
+  "used": [],
+  "suggested_and_used": [],
+  "density": {
+   "schema_version": 1,
+   "total_sec": 226.436,
+   "items": [],
+   "count": 0,
+   "sec_per_item": null,
+   "target_sec_per_item": [
+    40.0,
+    60.0
+   ],
+   "window": {
+    "window_sec": 40.0,
+    "window_max": 2,
+    "exempt": [
+     "article"
+    ],
+    "max": {
+     "t0": null,
+     "count": 0,
+     "mids": []
+    }
+   },
+   "per_scene": {},
+   "warnings": [
+    "[media-density-total] 과소 — 0개 / 226초 = inf초당 1개 > 60초 (14 §10.1)"
+   ]
+  },
+  "placement": {
+   "badge:존 랫클리프": "slot:map_lower_left",
+   "card:3": "slot:card_right",
+   "badge:볼로디미르 젤렌스키": "slot:map_lower_left",
+   "card:21": "slot:card_right",
+   "badge:도널드 트럼프": "slot:map_lower_right",
+   "badge:블라디미르 푸틴": "slot:map_center",
+   "card:29": "slot:card_right",
+   "badge:크렘린": "slot:map_lower_right",
+   "badge:CIA 국장": "slot:map_lower_left"
+  }
+ },
+ "script": {
+  "labels": {
+   "verified": 0,
+   "corroborated": 13,
+   "unverified": 5,
+   "disputed": 17
+  }
+ },
+ "bundle": {
+  "bundle_id": "analysis_20260829_115457_ec53e620b2",
+  "generated_at": "2026-08-29T11:55:08.817094+09:00",
+  "producer": "agents_reviewer v8.5.9",
+  "sources_imported": 11,
+  "sources_unresolved": 5,
+  "claim_hints": 2,
+  "sections": 12,
+  "scenes": 7,
+  "rewrite_required": 0,
+  "unmatched": 14,
+  "panels": 4,
+  "unsupported_charts": 0,
+  "draft_used": true
+ },
+ "ai_direction": {
+  "origin": "ai",
+  "model": "claude-opus-5-5",
+  "prompt_sha1": "0a0aa49d2493ab59f016ea755e252ae013560c7b",
+  "direction_versions": 3,
+  "used_version": 3,
+  "selected": null,
+  "rounds": [
+   {
+    "version": 1,
+    "checks_hard": 0,
+    "qa_hard": 10,
+    "qa_soft": 12
+   },
+   {
+    "version": 2,
+    "checks_hard": 0,
+    "qa_hard": 6,
+    "qa_soft": 6
+   }
+  ],
+  "revisions": [
+   {
+    "direction_version": 2,
+    "changes": 21
+   },
+   {
+    "direction_version": 3,
+    "changes": 14
+   }
+  ],
+  "visual_qa": [
+   {
+    "file": "qa_verdict.v1.json",
+    "verdict": "revise",
+    "hard": 10,
+    "soft": 12
+   },
+   {
+    "file": "qa_verdict.v2.json",
+    "verdict": "revise",
+    "hard": 6,
+    "soft": 6
+   }
+  ]
+ },
+ "preview": {
+  "frames": 20,
+  "times": [
+   11.0,
+   24.06,
+   31.01,
+   38.1,
+   43.3,
+   54.32,
+   63.35,
+   79.31,
+   91.1,
+   108.23,
+   118.82,
+   135.31,
+   146.24,
+   161.9,
+   171.39,
+   184.42,
+   191.86,
+   206.38,
+   217.84,
+   220.44
+  ]
+ },
+ "checks": {
+  "hard": 0,
+  "warnings": 1,
+  "passed": true
+ }
+}

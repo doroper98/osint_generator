@@ -1,0 +1,12 @@
+{"t": 195.6, "ok": true, "stage": "director", "errors": [], "warnings": []}
+{"t": 200.1, "ok": true, "stage": "validate", "errors": [], "warnings": ["[media-density-total] 과소 — 0개 / 226초 = inf초당 1개 > 60초 (14 §10.1)"]}
+{"t": 207.9, "ok": true, "stage": "preview", "errors": [], "warnings": ["[media-density-total] 과소 — 0개 / 226초 = inf초당 1개 > 60초 (14 §10.1)"]}
+{"t": 348.8, "ok": true, "stage": "visual_qa", "errors": [], "warnings": []}
+{"t": 495.0, "ok": true, "stage": "revise_direction", "errors": [], "warnings": []}
+{"t": 498.8, "ok": true, "stage": "validate", "errors": [], "warnings": ["[media-density-total] 과소 — 0개 / 226초 = inf초당 1개 > 60초 (14 §10.1)"]}
+{"t": 506.1, "ok": true, "stage": "preview", "errors": [], "warnings": ["[media-density-total] 과소 — 0개 / 226초 = inf초당 1개 > 60초 (14 §10.1)"]}
+{"t": 589.9, "ok": true, "stage": "visual_qa", "errors": [], "warnings": []}
+{"t": 849.3, "ok": true, "stage": "revise_direction", "errors": [], "warnings": []}
+{"t": 853.6, "ok": true, "stage": "validate", "errors": [], "warnings": ["[timeline-overlap] '방문 앞의 한 달' 2026-08-12 브렌트유 10월물 배럴당 89.53달러 층 1 라벨이 앞 사건과 겹친다", "[media-density-total] 과소 — 0개 / 226초 = inf초당 1개 > 60초 (14 §10.1)"]}
+{"t": 861.7, "ok": true, "stage": "preview", "errors": [], "warnings": ["[timeline-overlap] '방문 앞의 한 달' 2026-08-12 브렌트유 10월물 배럴당 89.53달러 층 1 라벨이 앞 사건과 겹친다", "[media-density-total] 과소 — 0개 / 226초 = inf초당 1개 > 60초 (14 §10.1)"]}
+{"t": 978.7, "ok": true, "stage": "visual_qa", "errors": [], "warnings": []}

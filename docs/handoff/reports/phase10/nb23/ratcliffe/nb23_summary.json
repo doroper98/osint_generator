@@ -1,0 +1,112 @@
+{
+ "schema_version": 1,
+ "note": "NB23 재실행(D-0066 §0-2 ④): tools/ai_direction_run.py projects/ratcliffe2026 --preview auto, 연출가부터 새로. v3.6.0 checks(카드×날짜·카드×자막 hard 포함)",
+ "rounds": [
+  {
+   "version": 1,
+   "checks_hard": 0,
+   "overlap_details": [],
+   "card_over_date": 0,
+   "visual_hard": [
+    [
+     "p_0011.00",
+     "empty"
+    ],
+    [
+     "p_0031.01",
+     "occlusion"
+    ],
+    [
+     "p_0054.32",
+     "occlusion"
+    ],
+    [
+     "p_0135.31",
+     "color"
+    ],
+    [
+     "p_0161.90",
+     "occlusion"
+    ],
+    [
+     "p_0191.86",
+     "occlusion"
+    ],
+    [
+     "p_0206.38",
+     "occlusion"
+    ],
+    [
+     "p_0206.38",
+     "media"
+    ],
+    [
+     "p_0217.84",
+     "legibility"
+    ],
+    [
+     "p_0220.44",
+     "style"
+    ]
+   ],
+   "visual_hard_card_date": [
+    "p_0031.01"
+   ]
+  },
+  {
+   "version": 2,
+   "checks_hard": 0,
+   "overlap_details": [],
+   "card_over_date": 0,
+   "visual_hard": [
+    [
+     "p_0184.42",
+     "occlusion"
+    ],
+    [
+     "p_0191.86",
+     "occlusion"
+    ],
+    [
+     "p_0054.32",
+     "occlusion"
+    ],
+    [
+     "p_0063.35",
+     "occlusion"
+    ],
+    [
+     "p_0161.90",
+     "legibility"
+    ],
+    [
+     "p_0171.39",
+     "legibility"
+    ]
+   ],
+   "visual_hard_card_date": []
+  },
+  {
+   "version": 3,
+   "checks_hard": 0,
+   "overlap_details": [],
+   "card_over_date": 0,
+   "visual_hard": [
+    [
+     "p_0054.32",
+     "occlusion"
+    ],
+    [
+     "p_0063.35",
+     "occlusion"
+    ],
+    [
+     "p_0206.38",
+     "occlusion"
+    ]
+   ],
+   "visual_hard_card_date": []
+  }
+ ],
+ "selected": 3
+}

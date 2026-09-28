@@ -1,0 +1,232 @@
+{
+  "schema_version": 1,
+  "verdict": "revise",
+  "issues": [
+    {
+      "frame": "p_0011.00",
+      "severity": "hard",
+      "category": "empty",
+      "evidence": "화면 대부분이 검은 빈 지도다. 모스크바 마커 하나, 오른쪽 위 도시 라벨 하나, 왼쪽 아래 랫클리프 뱃지만 있다. 국경선과 주변 도시도 거의 보이지 않아 어느 지역인지 알 수 없다",
+      "fix": {
+        "event_ref": "marker:모스크바",
+        "suggest": "모스크바가 속한 서러시아가 보이도록 줌을 조정하고, 국경선과 주변 도시 라벨 5~8개를 표시한다"
+      }
+    },
+    {
+      "frame": "p_0024.06",
+      "severity": "soft",
+      "category": "empty",
+      "evidence": "01 컷과 구도·요소가 똑같아 13초 동안 화면에 변화가 없다. 빈 지도 위에 마커와 뱃지만 떠 있다",
+      "fix": {
+        "event_ref": "badge:존 랫클리프",
+        "suggest": "open_2~4 문장 사이에 천천히 미는 카메라 한 번 또는 '확인/주장' 구분 카드를 한 번 넣는다"
+      }
+    },
+    {
+      "frame": "p_0031.01",
+      "severity": "hard",
+      "category": "occlusion",
+      "evidence": "타이틀 카드의 날짜 줄 바로 아래에 성조기 뱃지와 '존 랫클리프' 이름표가 반투명하게 비친다. 제목 카드가 뒤 장면 요소를 완전히 가리지 못해 겹쳐 보인다",
+      "fix": {
+        "event_ref": "badge:존 랫클리프",
+        "suggest": "title 카드가 들어오기 전에 뱃지를 퇴장시키거나 카드 배경을 불투명하게 한다"
+      }
+    },
+    {
+      "frame": "p_0038.10",
+      "severity": "soft",
+      "category": "occlusion",
+      "evidence": "오른쪽 위 C-17 카드의 오른쪽 가장자리 밖으로 도시 라벨 일부('·블라…')가 잘려 삐져나온다. 카드 윗변도 날짜 표기에 바짝 붙어 있다",
+      "fix": {
+        "event_ref": "card:보도 · 기종",
+        "suggest": "카드를 날짜 아래로 조금 내리고, 카드 영역 안의 도시 라벨은 숨긴다"
+      }
+    },
+    {
+      "frame": "p_0043.30",
+      "severity": "soft",
+      "category": "color",
+      "evidence": "라트비아 전체가 짙은 파란색으로 채워져 경로선보다 눈에 더 띈다. 경유지인 리가를 강조하려는 장면인데 국가 채움이 과하다",
+      "fix": {
+        "event_ref": "country",
+        "suggest": "국가 채움 불투명도를 낮추거나 윤곽선만 강조하고, 리가 마커와 경로를 주인공으로 둔다"
+      }
+    },
+    {
+      "frame": "p_0054.32",
+      "severity": "hard",
+      "category": "occlusion",
+      "evidence": "키이우 마커가 화면 하단 자막 바로 위에 있고, '키이우' 이름표가 자막 글자('공격을 멈춰')와 겹쳐 읽히지 않는다",
+      "fix": {
+        "event_ref": "marker:키이우",
+        "suggest": "카메라를 남쪽으로 내려 키이우를 화면 중앙 가까이 두거나 라벨을 마커 위쪽에 배치한다"
+      }
+    },
+    {
+      "frame": "p_0054.32",
+      "severity": "soft",
+      "category": "style",
+      "evidence": "오른쪽 위 날짜가 '2026. 08'로 일(日)이 빠져 있다. 06·07·14·15 컷도 같고, 나머지 컷은 '2026. 08. 25' 형식이라 표기가 섞여 있다",
+      "fix": {
+        "event_ref": "card:방문 앞둔 미국의 요청 · 보도",
+        "suggest": "날짜 표기 형식을 한 가지로 통일하고, 일자를 특정할 수 없으면 범위 표기(예: 2026. 08. 중순)로 쓴다"
+      }
+    },
+    {
+      "frame": "p_0079.31",
+      "severity": "soft",
+      "category": "empty",
+      "evidence": "타임라인 패널에 점이 2개뿐이고 오른쪽 절반이 비어 있다. 날짜·설명 글자도 작아 넓은 화면에 비해 정보가 적다",
+      "fix": {
+        "event_ref": "panel:방문 앞의 한 달",
+        "suggest": "타임라인 축 길이를 줄여 중앙에 모으고, 항목 글자 크기를 키운다"
+      }
+    },
+    {
+      "frame": "p_0091.10",
+      "severity": "soft",
+      "category": "legibility",
+      "evidence": "타임라인 항목 설명('베선트 재무장관, 새 작전 발표', '작전명 경제적 추방자 작전 (CNN)')이 매우 작아 축소 시트에서 거의 읽히지 않는다. 자막과 비교해도 절반 이하 크기다",
+      "fix": {
+        "event_ref": "panel:방문 앞의 한 달",
+        "suggest": "항목 글자를 자막의 70% 이상으로 키운다"
+      }
+    },
+    {
+      "frame": "p_0135.31",
+      "severity": "hard",
+      "category": "color",
+      "evidence": "이란 전역이 짙은 적갈색으로 채워지고 붉은 테두리까지 둘러져 화면 대부분을 덮는다. 해안의 페르시아만 대륙붕 음영과도 경계가 섞여 보인다",
+      "fix": {
+        "event_ref": "country",
+        "suggest": "채움을 옅은 반투명으로 바꾸고 테두리만 강조한다. 해안선이 육지 채움과 분명히 구분되게 한다"
+      }
+    },
+    {
+      "frame": "p_0135.31",
+      "severity": "soft",
+      "category": "occlusion",
+      "evidence": "오른쪽 위 소식통 카드가 도시 라벨 위에 얹혀 있어, 카드 윗변 근처의 도시명 일부가 카드 테두리와 겹친다",
+      "fix": {
+        "event_ref": "card:CNN·CBS 인용 익명 소식통",
+        "suggest": "카드 영역 안의 도시 라벨은 숨기거나 카드 위치를 조정한다"
+      }
+    },
+    {
+      "frame": "p_0146.24",
+      "severity": "soft",
+      "category": "occlusion",
+      "evidence": "트럼프 뱃지가 이라크·이란 서부 지도 위에 놓여 바그다드 부근 도시 라벨과 국경선을 가린다. 뱃지가 지리적 대상과 관계없는 위치다",
+      "fix": {
+        "event_ref": "badge:도널드 트럼프",
+        "suggest": "place: map_lower_left 등 도시가 없는 해상·여백으로 옮긴다"
+      }
+    },
+    {
+      "frame": "p_0161.90",
+      "severity": "hard",
+      "category": "occlusion",
+      "evidence": "events에는 모스크바 마커가 있지만, 같은 구도인 15·16 컷에서 모스크바가 있던 자리를 오른쪽 위 정보당국 카드가 덮고 있어 마커가 보이지 않는다",
+      "fix": {
+        "event_ref": "card:CNN·CBS · 미국 정보당국 평가",
+        "suggest": "카드를 모스크바와 겹치지 않는 위치로 옮기거나, 카메라를 조정해 모스크바가 카드 밖에 오게 한다"
+      }
+    },
+    {
+      "frame": "p_0161.90",
+      "severity": "soft",
+      "category": "order",
+      "evidence": "푸틴 뱃지가 모스크바가 아니라 화면 오른쪽 아래(러시아 남부 쪽)에 떠 있어 어느 장소와 연결된 것인지 알 수 없다",
+      "fix": {
+        "event_ref": "badge:블라디미르 푸틴",
+        "suggest": "뱃지를 모스크바 마커 근처에 붙이거나 지도와 분리된 인물 패널로 올린다"
+      }
+    },
+    {
+      "frame": "p_0171.39",
+      "severity": "soft",
+      "category": "media",
+      "evidence": "읽는 문장의 주체는 페스코프 대변인인데 화면에는 트럼프와 푸틴 뱃지만 있다. 트럼프 뱃지는 벨라루스·우크라이나 지도 위에 놓여 장소도 맞지 않는다",
+      "fix": {
+        "event_ref": "badge:도널드 트럼프",
+        "suggest": "트럼프 뱃지를 빼고 크렘린(페스코프) 발언 카드나 크렘린 엠블럼 뱃지로 바꾼다"
+      }
+    },
+    {
+      "frame": "p_0184.42",
+      "severity": "soft",
+      "category": "style",
+      "evidence": "모스크바 마커와 라벨이 오른쪽 위 날짜 바로 아래 모서리에 붙어 있다. CIA 국장 뱃지는 반대편 오른쪽 아래에 떨어져 있어 두 요소의 관계가 보이지 않는다",
+      "fix": {
+        "event_ref": "marker:모스크바",
+        "suggest": "모스크바가 화면 중앙 쪽에 오도록 카메라를 옮기고, 뱃지를 마커 근처에 둔다"
+      }
+    },
+    {
+      "frame": "p_0191.86",
+      "severity": "hard",
+      "category": "occlusion",
+      "evidence": "경로 출발점인 리가 마커가 화면 왼쪽 위 가장자리에 걸쳐 일부 잘렸다. '리가' 라벨도 반쯤 잘려 경유지로 읽히지 않는다",
+      "fix": {
+        "event_ref": "marker:리가",
+        "suggest": "줌을 한 단계 빼서 리가와 모스크바가 모두 안쪽 여백에 들어오게 한다"
+      }
+    },
+    {
+      "frame": "p_0206.38",
+      "severity": "hard",
+      "category": "occlusion",
+      "evidence": "모스크바 마커와 라벨이 오른쪽 위 날짜 '2026. 08. 25' 바로 왼쪽에 한 줄로 붙어 모서리에서 날짜와 충돌한다",
+      "fix": {
+        "event_ref": "marker:모스크바",
+        "suggest": "카메라를 조정해 모스크바를 모서리에서 떼어낸다"
+      }
+    },
+    {
+      "frame": "p_0206.38",
+      "severity": "hard",
+      "category": "media",
+      "evidence": "문장은 이란과 호르무즈를 말하는데 화면은 벨라루스·우크라이나 지도다. events에 있는 호르무즈 해협 마커가 화면 어디에도 보이지 않는다",
+      "fix": {
+        "event_ref": "marker:호르무즈 해협",
+        "suggest": "모스크바와 호르무즈가 함께 보이게 줌아웃하거나, 두 지점을 좌우로 나눈 비교 구도로 바꾼다"
+      }
+    },
+    {
+      "frame": "p_0217.84",
+      "severity": "hard",
+      "category": "legibility",
+      "evidence": "자료 및 출처 카드의 본문 글자가 매우 작고 어두운 회색이라 대비가 낮아 거의 읽히지 않는다. 뒤 지도도 비쳐 보여 가독성이 더 떨어진다",
+      "fix": {
+        "event_ref": "card:아직 공개되지 않음",
+        "suggest": "본문 글자 크기와 명도를 키우고, 카드 배경을 불투명하게 한다"
+      }
+    },
+    {
+      "frame": "p_0220.44",
+      "severity": "hard",
+      "category": "style",
+      "evidence": "출처 목록에 'osint_generator', 'agents_reviewer' 같은 내부 파이프라인·파일 이름이 그대로 노출된다",
+      "fix": {
+        "event_ref": "card:아직 공개되지 않음",
+        "suggest": "내부 파일·에이전트 이름을 시청자용 표기(예: 자체 분석)로 바꾸거나 뺀다"
+      }
+    },
+    {
+      "frame": "p_0043.30",
+      "severity": "soft",
+      "category": "media",
+      "evidence": "226초 동안 사진·영상 자료가 하나도 없어 화면이 지도와 카드만 반복된다(checks의 media_beats 경고와 같다). 브누코보 공항·C-17을 말하는 장면에도 실물 이미지가 없다",
+      "fix": {
+        "event_ref": "route",
+        "suggest": "브누코보 공항, C-17, 크렘린 등 문장 대상에 맞는 자료사진이나 영상 소스를 2~3개 넣고, 자료사진 표기와 출처 줄을 붙인다"
+      }
+    }
+  ],
+  "praise": [
+    "나토 경고 versus 패널이 보도와 부인을 좌우 색으로 명확히 구분한다",
+    "자막에 [미검증]·[논쟁] 태그를 붙여 확인 수준을 일관되게 표시한다",
+    "타이틀 카드의 제목 위계와 여백이 깔끔하다",
+    "지도 기본 톤이 차분하고 도시 라벨 헤일로가 잘 정리되어 있다"
+  ]
+}

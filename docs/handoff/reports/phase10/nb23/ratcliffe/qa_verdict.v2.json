@@ -1,0 +1,132 @@
+{
+  "schema_version": 1,
+  "verdict": "revise",
+  "issues": [
+    {
+      "frame": "p_0184.42",
+      "severity": "hard",
+      "category": "occlusion",
+      "evidence": "CIA 국장 성조기 뱃지가 모스크바 마커 위에 겹쳐 '모스크바' 라벨이 '모' 한 글자만 보이고 뱃지 오른쪽의 주석 글자도 뱃지에 가려 잘려 있다",
+      "fix": {
+        "event_ref": "badge:CIA 국장",
+        "suggest": "뱃지를 모스크바 마커의 좌하단이나 남서쪽 빈 영역으로 옮기고 리더선으로 잇는다"
+      }
+    },
+    {
+      "frame": "p_0191.86",
+      "severity": "hard",
+      "category": "occlusion",
+      "evidence": "경로선 끝점에서 CIA 국장 뱃지가 모스크바 마커와 라벨을 덮어 '모' 만 보이고, 도착지인 브누코보·모스크바가 화면에서 읽히지 않는다",
+      "fix": {
+        "event_ref": "badge:CIA 국장",
+        "suggest": "뱃지를 도착 지점에서 떼어 놓거나 경로 애니메이션이 끝난 뒤 도착 마커 라벨을 비켜서 등장시킨다"
+      }
+    },
+    {
+      "frame": "p_0054.32",
+      "severity": "hard",
+      "category": "occlusion",
+      "evidence": "모스크바 마커와 라벨이 우상단 날짜 바로 왼쪽에 붙어 있고 날짜가 '2026. 08' 에서 끊겨 일(日)이 보이지 않는다. 모서리에 날짜 말고도 요소가 있다",
+      "fix": {
+        "event_ref": "marker:모스크바",
+        "suggest": "모스크바가 안쪽에 오도록 프레이밍을 옮기거나 화면 밖 방향 지시로 바꿔 날짜 영역을 비운다"
+      }
+    },
+    {
+      "frame": "p_0063.35",
+      "severity": "hard",
+      "category": "occlusion",
+      "evidence": "p_0054.32 와 같은 상태다. 우상단 모스크바 마커가 날짜와 겹쳐 날짜가 '2026. 08' 로 잘려 있다",
+      "fix": {
+        "event_ref": "marker:모스크바",
+        "suggest": "카메라를 동쪽으로 조금 옮기거나 줌을 줄여 모스크바를 날짜 영역 밖 안쪽에 둔다"
+      }
+    },
+    {
+      "frame": "p_0161.90",
+      "severity": "hard",
+      "category": "legibility",
+      "evidence": "우상단 날짜가 '2026. 08' 로 끊겨 일이 표시되지 않는다. 다른 컷은 '2026. 08. 25' 로 온전히 보인다",
+      "fix": {
+        "event_ref": "card:CNN·CBS · 미국 정보당국 평가",
+        "suggest": "날짜 영역의 폭이 카드나 마커에 밀려 줄지 않게 하고 전체 날짜를 표시한다"
+      }
+    },
+    {
+      "frame": "p_0171.39",
+      "severity": "hard",
+      "category": "legibility",
+      "evidence": "날짜가 '2026. 08' 로 잘려 있다",
+      "fix": {
+        "event_ref": "marker:모스크바",
+        "suggest": "날짜 문자열 전체가 나오도록 날짜 영역을 고정한다"
+      }
+    },
+    {
+      "frame": "p_0206.38",
+      "severity": "soft",
+      "category": "style",
+      "evidence": "모스크바 마커가 화면 위 가장자리에 걸려 있고 호르무즈 해협 마커가 우하단 모서리에 붙어 있다. 두 대상이 모두 화면 끝에 있어 불안정해 보인다",
+      "fix": {
+        "event_ref": "marker:호르무즈 해협",
+        "suggest": "두 지점이 모두 안쪽 여백 안에 들어오게 프레이밍하거나 모스크바 쪽은 화면 밖 방향 지시로 바꾼다"
+      }
+    },
+    {
+      "frame": "p_0043.30",
+      "severity": "soft",
+      "category": "empty",
+      "evidence": "문장은 '브누코보 공항 도착'인데 경로선이 모스크바 앞에서 끊기고 도착지 마커나 브누코보 라벨이 없다. 리가 마커만 좌측 가장자리에 붙어 있다",
+      "fix": {
+        "event_ref": "route:",
+        "suggest": "경로가 모스크바(브누코보)에 닿고 도착 마커와 라벨이 이 문장에 맞춰 보이게 한다"
+      }
+    },
+    {
+      "frame": "p_0038.10",
+      "severity": "soft",
+      "category": "media",
+      "evidence": "C-17 기종을 말하는 문장인데 화면에는 텍스트 카드만 있다. 영상 전체에 사진·영상 미디어가 0개다(checks media_beats 경고)",
+      "fix": {
+        "event_ref": "card:보도 · 기종",
+        "suggest": "C-17 자료사진을 '자료사진' 표기와 출처 줄과 함께 넣는다"
+      }
+    },
+    {
+      "frame": "p_0161.90",
+      "severity": "soft",
+      "category": "occlusion",
+      "evidence": "푸틴 뱃지에 이름표가 없고 모스크바 마커에서 멀리 떨어져 있어, 누구인지 다음 컷(p_0171.39)이 되어서야 알 수 있다",
+      "fix": {
+        "event_ref": "badge:블라디미르 푸틴",
+        "suggest": "등장할 때부터 이름표를 붙이고 모스크바 마커 가까이에 둔다"
+      }
+    },
+    {
+      "frame": "p_0079.31",
+      "severity": "soft",
+      "category": "empty",
+      "evidence": "타임라인 패널에 점이 두 개뿐이고 화면 대부분이 비어 있다. 이벤트 라벨 글자도 작아 읽기 어렵다",
+      "fix": {
+        "event_ref": "panel:방문 앞의 한 달",
+        "suggest": "타임라인 축을 화면 폭에 맞게 키우고 라벨 글자 크기를 올린다"
+      }
+    },
+    {
+      "frame": "p_0217.84",
+      "severity": "soft",
+      "category": "legibility",
+      "evidence": "자료 및 출처 카드의 본문 글자가 매우 작고 대비가 낮아 컨택트 시트에서 거의 읽히지 않는다",
+      "fix": {
+        "event_ref": "card:end",
+        "suggest": "출처 본문 글자 크기와 밝기를 올리고 열 간격을 넓힌다"
+      }
+    }
+  ],
+  "praise": [
+    "타이틀 카드의 위계(제목·부제·날짜)가 깔끔하다",
+    "versus 패널로 두 주장을 색으로 나눠 엇갈리는 설명을 한눈에 보여 준다",
+    "자막 핵심어 강조와 <논쟁>·<미검증> 태그가 일관된다",
+    "지도 톤이 어둡게 통일되어 있고 국가 경계선이 또렷하다"
+  ]
+}
