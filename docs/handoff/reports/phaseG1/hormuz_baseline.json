@@ -19,7 +19,7 @@
   "p_0276.44.png",
   "p_0288.44.png"
  ],
- "video_noaudio_md5": null,
+ "video_noaudio_md5": "f19d21ad8430ce6181e6f429c8dbf7e2",
  "cuts": [
   {
    "png": "p_0007.82.png",
@@ -121,5 +121,7 @@
    "png": "p_0288.44.png",
    "md5": "42d94cea05dc2c3d6f0862cb305b6b4b"
   }
- ]
+ ],
+ "video_command": "python -m engine.render projects/hormuz_korea --jobs 4",
+ "video_sec": 130.3
 }
