@@ -211,8 +211,9 @@ def load_project(proj: Path, direction: Optional[Direction] = None, out: Optiona
     proj = proj.resolve()
     plan = load_plan(proj)
     tb = Timebase(plan)
-    assets = Assets(proj, load_labels(proj / "labels.yaml"))
-    R = RenderCtx(assets=assets, tb=tb, credits=load_credits(proj / "credits.yaml"), out=out or output_profile())  # noqa: N806
+    out = out or output_profile()
+    assets = Assets(proj, load_labels(proj / "labels.yaml"), None if out == output_profile() else out.name)
+    R = RenderCtx(assets=assets, tb=tb, credits=load_credits(proj / "credits.yaml"), out=out)  # noqa: N806
     keys, raw_events, sound = load_direction(proj, tb, direction)
     n = int(plan.total * FPS)
     cams = build_camera(keys, n, FPS) if keys else None

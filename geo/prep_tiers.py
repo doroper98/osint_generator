@@ -115,9 +115,9 @@ SEA_STOPS = [(0, "#1c4a66"), (60, "#18415c"), (400, "#11304a"), (2000, "#0c2236"
 COAST_GLOW = "#3a9cb8"
 
 
-def rasterize_land(G: dict, T: TierSpec, W: int, H: int) -> tuple[Image.Image, list[str]]:  # noqa: N803
-    """육지 마스크(L) + 커버리지 누락 국가 목록."""
-    tol = 0.02 if T.ppd < 64 else 0.003
+def rasterize_land(G: dict, T: TierSpec, W: int, H: int, dppd: float | None = None) -> tuple[Image.Image, list[str]]:  # noqa: N803
+    """육지 마스크(L) + 커버리지 누락 국가 목록. dppd = 설계 ppd(단순화 허용 오차 구간, 기본 T.ppd)."""
+    tol = 0.02 if (T.ppd if dppd is None else dppd) < 64 else 0.003
     mimg = Image.new("L", (W, H), 0)
     dr = ImageDraw.Draw(mimg)
     top = ym(T.lat1)
@@ -138,9 +138,14 @@ def rasterize_land(G: dict, T: TierSpec, W: int, H: int) -> tuple[Image.Image, l
     return mimg, miss
 
 
-def build_tier(T: TierSpec, G: dict, tiles_dir: Path, out_dir: Path) -> tuple[list[int], list[str]]:  # noqa: N803
-    """base_{name}_{ppd}.png + 반·4분의 1 해상도 2단. (levels, land-miss)."""
+def build_tier(T: TierSpec, G: dict, tiles_dir: Path, out_dir: Path, k: float = 1.0) -> tuple[list[int], list[str]]:  # noqa: N803
+    """base_{name}_{ppd}.png + 반·4분의 1 해상도 2단. (levels, land-miss).
+
+    k ≠ 1(v3.6.0 D-0066 작업 3, 출력 프로파일 k = H/480): T 는 이미 ppd × k·확대 줌으로 만든 장치 티어다. 설계 ppd(= T.ppd / k)
+    구간으로 고르는 값(단순화 허용 오차·지형 과장)은 480p 와 같게, 화소 단위 반경(육지 가장자리·해안 광채 블러)은 × k 로 —
+    축소하면 480p 베이스와 같은 모양이 되게 한다. k=1 이면 종전과 같은 계산."""
     t0 = time.time()
+    dppd = T.ppd / k                      # 설계(480p) ppd
     M, x0, y0 = mosaic(tiles_dir, T)  # noqa: N806
     S = TILE * 2 ** T.z  # noqa: N806
     ppd = T.ppd
@@ -151,9 +156,9 @@ def build_tier(T: TierSpec, G: dict, tiles_dir: Path, out_dir: Path) -> tuple[li
     E = np.asarray(Image.fromarray(M, "F").transform((W, H), Image.EXTENT, ext, Image.BICUBIC), np.float32)  # noqa: N806
     lat_rows = np.degrees(2 * np.arctan(np.exp(np.radians(ym(T.lat1) - (np.arange(H) + 0.5) / ppd))) - np.pi / 2)
     mpp = (111320 * np.cos(np.radians(lat_rows)) / ppd)[:, None]
-    mimg, miss = rasterize_land(G, T, W, H)
-    land = np.asarray(mimg.filter(ImageFilter.GaussianBlur(0.6)), np.float32) / 255
-    ex = 2.8 if ppd < 64 else 2.0
+    mimg, miss = rasterize_land(G, T, W, H, dppd)
+    land = np.asarray(mimg.filter(ImageFilter.GaussianBlur(0.6 * k)), np.float32) / 255
+    ex = 2.8 if dppd < 64 else 2.0
     gy, gx = np.gradient(np.maximum(E, 0) * ex)
     gx /= mpp
     gy /= mpp
@@ -164,7 +169,7 @@ def build_tier(T: TierSpec, G: dict, tiles_dir: Path, out_dir: Path) -> tuple[li
     lc = lerp_col([(v, hexc(c)) for v, c in LAND_STOPS], np.clip(E, 0, 4000))
     lc = lc * np.clip((0.58 + 0.95 * (hs - np.sin(alt)))[..., None], 0.5, 1.5)
     sc = lerp_col([(v, hexc(c)) for v, c in SEA_STOPS], np.clip(-E, 0, 6000))
-    glow = np.asarray(mimg.filter(ImageFilter.GaussianBlur(3 if ppd < 64 else 8)), np.float32)[..., None] / 255
+    glow = np.asarray(mimg.filter(ImageFilter.GaussianBlur((3 if dppd < 64 else 8) * k)), np.float32)[..., None] / 255
     sc = sc + np.array(hexc(COAST_GLOW), np.float32) * glow * 0.2
     out = sc * (1 - land[..., None]) + lc * land[..., None]
     img = Image.fromarray(np.clip(out, 0, 255).astype(np.uint8), "RGB")

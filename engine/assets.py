@@ -71,12 +71,22 @@ def set_raster(ctx: cairo.Context, surf: cairo.ImageSurface, k: float, x: float,
 
 
 class Assets:
-    def __init__(self, root: Path, labels: Labels) -> None:
+    def __init__(self, root: Path, labels: Labels, res: str | None = None) -> None:
+        """res = 기본이 아닌 출력 프로파일 이름(v3.6.0 D-0066 작업 3) — 지형 티어를 assets/res_<이름>/(ppd × k)에서 읽는다.
+        없으면 오류: 480p 티어를 늘려 쓰지 않는다(업스케일 흐림 금지, D-0067 요건 3). 티어 경계(도)는 두 벌이 같아야 한다."""
         self.root = root
         self.labels = labels
         a = root / "assets"
-        self.tiers = pickle.load(open(a / "tiers.pkl", "rb"))
-        self.base = {(n, lv): Image.open(a / f"base_{n}_{lv}.png").convert("RGB")
+        td = a if res is None else a / f"res_{res}"
+        if not (td / "tiers.pkl").exists():
+            raise AssetError(f"지형 티어 없음: {td / 'tiers.pkl'} — `python -m geo.prep {root} --res {res}` 먼저")
+        self.tiers = pickle.load(open(td / "tiers.pkl", "rb"))
+        if res is not None:
+            base = pickle.load(open(a / "tiers.pkl", "rb"))
+            key = ("lon0", "lon1", "lat0", "lat1")
+            if {n: [T[k] for k in key] for n, T in base.items()} != {n: [T[k] for k in key] for n, T in self.tiers.items()}:
+                raise AssetError(f"{td} 티어 경계가 assets/tiers.pkl 과 다르다 — geo.yaml 이 바뀐 뒤 --res {res} 를 다시 돌린다")
+        self.base = {(n, lv): Image.open(td / f"base_{n}_{lv}.png").convert("RGB")
                      for n, T in self.tiers.items() for lv in T["levels"]}
         self.geo = pickle.load(open(a / "geo.pkl", "rb"))
         # 권리·미디어 레지스트리: 파일이 없으면 빈 레지스트리 — 그 상태에서 인물·휘장·미디어를 쓰면
