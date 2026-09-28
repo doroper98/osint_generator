@@ -19,8 +19,8 @@ def draw_endcard(ctx: cairo.Context, R: RenderCtx, t: float, c: object, a: float
     ctx.set_source_rgba(0.018, 0.022, 0.032, 0.94 * a)
     ctx.paint()
     k = ease_out((lt - 0.1) / 0.9)
-    text(ctx, "SOURCES  &  CREDITS", 64, 84 - (1 - k) * 6, 8.5, "mono", C["gold"], a * k, 0, "l", spacing=2.4)
-    text(ctx, "자료 및 출처", 64, 110 - (1 - k) * 6, 17, "serif", (0.96, 0.95, 0.93), a * k, 0, "l", spacing=1.0)
+    text(ctx, "SOURCES  &  CREDITS", 64, 84 - (1 - k) * 6, 8.5, "mono", C["gold"], a * k, 0, "l", spacing=2.4, role="end_card")
+    text(ctx, "자료 및 출처", 64, 110 - (1 - k) * 6, 17, "serif", (0.96, 0.95, 0.93), a * k, 0, "l", spacing=1.0, role="end_card")
     ctx.set_source_rgba(*C["gold"], 0.9 * a * k)
     ctx.rectangle(64, 122, 36 * k, 1.1)
     ctx.fill()
@@ -40,14 +40,14 @@ def draw_endcard(ctx: cairo.Context, R: RenderCtx, t: float, c: object, a: float
         x = cols[ci][0]
         y = yy[ci]
         sa = a * smooth((lt - 0.5 - si * 0.18) / 0.6)
-        text(ctx, sec, x, y, 8.5, "sansb", C["gold"], sa * 0.9, 0, "l", spacing=1.4)
+        text(ctx, sec, x, y, 8.5, "sansb", C["gold"], sa * 0.9, 0, "l", spacing=1.4, role="end_card")
         y += 15
         for m, lic in items:
             ia = a * smooth((lt - 0.6 - si * 0.18 - n * 0.03) / 0.6)
             n += 1
-            text(ctx, m, x, y, END_CARD.item_size, "sans", (0.86, 0.87, 0.9), ia, 0, "l")
+            text(ctx, m, x, y, END_CARD.item_size, "sans", (0.86, 0.87, 0.9), ia, 0, "l", role="end_card")
             if lic:
-                text(ctx, lic, x, y + 11, END_CARD.license_size, "monom", C["muted"], ia * 0.9, 0, "l")
+                text(ctx, lic, x, y + 11, END_CARD.license_size, "monom", C["muted"], ia * 0.9, 0, "l", role="end_card")
                 y += 23
             else:
                 y += 14
@@ -56,8 +56,8 @@ def draw_endcard(ctx: cairo.Context, R: RenderCtx, t: float, c: object, a: float
     ctx.set_source_rgba(1, 1, 1, 0.08 * fa)
     ctx.rectangle(64, H_OUT - 44, W_OUT - 128, 0.8)
     ctx.fill()
-    text(ctx, plan.date.replace(".", ". ") + " 기준", 64, H_OUT - 26, 7.8, "monom", C["muted"], fa, 0, "l", spacing=0.6)
-    text(ctx, ENDCARD_NOTE, W_OUT - 64, H_OUT - 26, 7.8, "sans", C["muted"], fa, 0, "r")
+    text(ctx, plan.date.replace(".", ". ") + " 기준", 64, H_OUT - 26, 7.8, "monom", C["muted"], fa, 0, "l", spacing=0.6, role="end_card")
+    text(ctx, ENDCARD_NOTE, W_OUT - 64, H_OUT - 26, 7.8, "sans", C["muted"], fa, 0, "r", role="end_card")
 
 
 def draw_fullcards(ctx: cairo.Context, R: RenderCtx, t: float) -> None:  # noqa: N803

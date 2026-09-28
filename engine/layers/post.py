@@ -112,7 +112,7 @@ def draw_post(ctx: cairo.Context, R: RenderCtx, t: float, e: dict) -> None:  # n
     nx = cx + PC.icon_r + PC.pad / 2
     text(ctx, d["name"], nx, cy - 1, PC.name_size, "sansb", (1, 1, 1), a, 0, "l")
     if d["handle"]:
-        text(ctx, d["handle"], nx, cy + PC.handle_size + 3, PC.handle_size, "monom", C["muted"], a, 0, "l")
+        text(ctx, d["handle"], nx, cy + PC.handle_size + 3, PC.handle_size, "monom", C["muted"], a, 0, "l", role="media_meta")
     if d["official"]:
         chip = "공식 계정"
         cw = tw(ctx, chip, PC.chip_size, "sans") + PC.pad / 2
@@ -120,7 +120,7 @@ def draw_post(ctx: cairo.Context, R: RenderCtx, t: float, e: dict) -> None:  # n
         ctx.set_source_rgba(*C["teal"], a)
         ctx.set_line_width(1)
         ctx.stroke()
-        text(ctx, chip, x + w - PC.pad - cw / 2, cy + PC.chip_size * 0.4, PC.chip_size, "sans", C["teal"], a, 0, "c")
+        text(ctx, chip, x + w - PC.pad - cw / 2, cy + PC.chip_size * 0.4, PC.chip_size, "sans", C["teal"], a, 0, "c", role="media_meta")
     # 본문 — 번역문, 핵심 구절 형광펜(등장 뒤 hl_delay_sec)
     yy = y + _head_h() + PC.body_size
     hk = ease_io((lt - PC.hl_delay_sec) / PC.hl_sec)
@@ -135,13 +135,13 @@ def draw_post(ctx: cairo.Context, R: RenderCtx, t: float, e: dict) -> None:  # n
         text(ctx, ln, x + PC.pad, yy, PC.body_size, "sansm", (1, 1, 1), a, 0, "l")
         yy += PC.body_line
     if d["orig"]:
-        text(ctx, d["orig"], x + PC.pad, yy, PC.orig_size, "monom", C["muted"], a, 0, "l")
+        text(ctx, d["orig"], x + PC.pad, yy, PC.orig_size, "monom", C["muted"], a, 0, "l", role="media_meta")
         yy += PC.body_line
     # 하단 — 게시 시각 / 'X 게시물 · 번역', 검증 라벨·삭제 표기(호박색, 도장 없음)
     fy = y + h - PC.pad
     if d["label"] or d["deleted"]:
         note = " · ".join(x_ for x_ in (d["label"], d["deleted"]) if x_)
-        text(ctx, note, x + PC.pad, fy - PC.foot_size * 2, PC.foot_size, "sansb", C["amber"], a, 0, "l")
+        text(ctx, note, x + PC.pad, fy - PC.foot_size * 2, PC.foot_size, "sansb", C["amber"], a, 0, "l", role="media_meta")
     text(ctx, d["when"], x + PC.pad, fy, PC.foot_size, "monom", C["muted"], a, 0, "l")
     text(ctx, d["foot"], x + w - PC.pad, fy, PC.foot_size, "sans", C["muted"], a, 0, "r")
 

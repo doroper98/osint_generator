@@ -6,6 +6,7 @@ hard 실패가 하나라도 있으면 시각 검수 LLM 을 부르지 않고 연
 | id | 등급 | 방법 |
 | overlap | hard | 사진·영상 상자가 카드·자막·날짜 예약 영역과 겹침, 카드·기사·게시물 카드가 날짜·자막 영역과 겹침(v3.6.0 NB23) (`media_plan.placement_warnings`). 뱃지·마커는 RESERVED 회피가 이미 처리 |
 | overlap(label) | hard | 마커 라벨이 카드 영역 때문에 흐려진(알파 < 0.5) 시간 ÷ 마커 표시 시간 > label_hidden_max_ratio `[label-hidden-by-card]`(v3.6.0 D-0068 — 설계된 hide(D36)를 연출 LLM 이 오류로 받게) |
+| glyph_size | hard | 프리뷰 컷에 그린 글자 크기(설계 px) < layout_480p.min_font_px(9.5), 역할(text role=)이 qa_checks.glyph_size_exempt 밖(v3.6.0 D-0069) |
 | offscreen | hard | 뱃지 상자(badge_box — 머리·이름표 포함, 17 §3 R×3.3 의 실측판)가 보이는 순간마다 화면 안(전면 카드·패널·암전 구간 제외) |
 | glyphs | hard | 화면에 그릴 문자열(이벤트·자막·날짜·크레딧)의 모든 글자가 프로젝트 글꼴 중 하나에 있음(fontTools cmap) |
 | shots | warning | 숏 길이 ≥ shot_min_hold_sec, 장면당 이동 ≤ camera_moves_per_scene_max, 암전 ≤ 1/dip_max_per_sec (Phase 7 제안의 바탕) |
@@ -37,7 +38,7 @@ QA = R_.qa_checks
 SG = R_.shot_grammar
 SAMPLE_SEC = 1.0          # 뱃지·라벨 샘플 간격
 SHADOW_PX = 7             # badge_box 가 원 둘레에 더하는 그림자 여백 — 이만큼 잘리는 것은 허용
-HARD = ("overlap", "offscreen", "glyphs", "labels", "date", "subtitles", "rights", "forbidden")
+HARD = ("overlap", "offscreen", "glyphs", "glyph_size", "labels", "date", "subtitles", "rights", "forbidden")
 WARN = ("shots", "media_beats", "media_upscaled")
 
 
@@ -249,6 +250,19 @@ def check_media_upscaled(P) -> list[str]:  # noqa: ANN001, N803
     return out
 
 
+def check_glyph_size(drawn: list[tuple[str, float, str | None, str]]) -> list[str]:
+    """drawn = [(컷 라벨, 크기, 역할, 문자열)] — 프리뷰가 컷을 그리며 모은 글자(typography.GLYPH_LOG). 같은 (크기·역할·문자열)은 한 번만."""
+    lo = R_.layout_480p.min_font_px
+    ex = set(QA.glyph_size_exempt)
+    seen: set[tuple] = set()
+    out: list[str] = []
+    for lab, size, role, s in drawn:
+        if size < lo and role not in ex and (size, role, s) not in seen:
+            seen.add((size, role, s))
+            out.append(f"[glyph-size] {lab} 글자 {size:g}px < 최소 {lo:g}px(화면 높이 {size / H_OUT:.2%}) 역할 {role or '없음'} — {s[:40]!r}")
+    return out
+
+
 def check_audio(P) -> tuple[list[str], list[str], dict]:  # noqa: ANN001, N803
     """오디오 QA(v3.4.0 D-0060 작업 6·D-0061) — audio/qa.py 한 경로. mux 단계(out/mix.f32·final.mp4 뒤)에서 부른다.
     (hard 지적: 통합 음량·트루 피크·음악 레벨·mix 피크, warning: 문장 RMS 편차, AudioQA dict)."""
@@ -259,12 +273,13 @@ def check_audio(P) -> tuple[list[str], list[str], dict]:  # noqa: ANN001, N803
     return q.issues(), q.warnings(), q.model_dump()
 
 
-def run_checks(P, times: list[float], provenance: dict) -> dict:  # noqa: ANN001, N803
-    """모든 검사 → checks.json 내용. hard 합계가 0 이어야 시각 검수로 간다."""
+def run_checks(P, times: list[float], provenance: dict, drawn: list[tuple[str, float, str | None, str]]) -> dict:  # noqa: ANN001, N803
+    """모든 검사 → checks.json 내용. hard 합계가 0 이어야 시각 검수로 간다. drawn = 프리뷰 컷에 그린 글자(glyph_size)."""
     res: dict[str, list[str]] = {
         "overlap": [w for w in placement_warnings(P.events, P.R.assets.media_assets)] + check_label_hidden(P),
         "offscreen": check_offscreen(P),
         "glyphs": check_glyphs(P),
+        "glyph_size": check_glyph_size(drawn),
         "shots": check_shots(P),
         "media_beats": list(density_report(P.events, P.R.tb, P.plan.total)["warnings"]),
         "media_upscaled": check_media_upscaled(P),

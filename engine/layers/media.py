@@ -56,7 +56,7 @@ def media_caption(ctx: cairo.Context, x: float, y: float, w: float, cap: str, cr
     ctx.set_source_rgba(0.04, 0.05, 0.07, 0.9 * a)
     ctx.fill()
     text(ctx, cap, x + 10, y + 16, 10.5, "sansm", (1, 1, 1), a, 0, "l")
-    text(ctx, credit, x + 10, y + 30, 7.8, "monom", C["muted"], a * 0.95, 0, "l")
+    text(ctx, credit, x + 10, y + 30, 7.8, "monom", C["muted"], a * 0.95, 0, "l", role="media_meta")
 
 
 def caption_width(ctx: cairo.Context, cap: str, credit: str) -> float:
@@ -73,7 +73,7 @@ def media_tag(ctx: cairo.Context, x: float, y: float, s_: str, a: float) -> None
     rrect(ctx, x + 8, y + 8, w, 14, 2)
     ctx.set_source_rgba(0.02, 0.03, 0.05, 0.75 * a)
     ctx.fill()
-    text(ctx, s_, x + 14, y + 18, 7.5, "mono", C["gold"], a, 0, "l", spacing=0.8)
+    text(ctx, s_, x + 14, y + 18, 7.5, "mono", C["gold"], a, 0, "l", spacing=0.8, role="media_meta")
 
 
 def draw_photo(ctx: cairo.Context, R: RenderCtx, t: float, e: dict) -> None:  # noqa: N803
@@ -166,7 +166,7 @@ def draw_article(ctx: cairo.Context, R: RenderCtx, t: float, e: dict) -> None:  
     ink = (0.1, 0.105, 0.12)
     grey = (0.38, 0.39, 0.42)
     text(ctx, e["pub"], x + 16, y + 25, 12.5, "serifb", ink, a, 0, "l")
-    text(ctx, e["date"], x + w - 16, y + 25, 8.5, "monom", grey, a, 0, "r")
+    text(ctx, e["date"], x + w - 16, y + 25, 8.5, "monom", grey, a, 0, "r", role="media_meta")
     ctx.set_source_rgba(*ink, 0.35 * a)
     ctx.rectangle(x + 16, y + 33, w - 32, 0.8)
     ctx.fill()
@@ -186,8 +186,8 @@ def draw_article(ctx: cairo.Context, R: RenderCtx, t: float, e: dict) -> None:  
     for ln in sub_lines:
         text(ctx, ln, x + 16, yy, 9.5, "sans", grey, a, 0, "l")
         yy += 14
-    text(ctx, "ARTICLE", x + 16, y + h - 11, 7.5, "mono", grey, a, 0, "l", spacing=0.8)
-    text(ctx, e["note"], x + w - 16, y + h - 11, 7.8, "sans", grey, a, 0, "r")
+    text(ctx, "ARTICLE", x + 16, y + h - 11, 7.5, "mono", grey, a, 0, "l", spacing=0.8, role="media_meta")
+    text(ctx, e["note"], x + w - 16, y + h - 11, 7.8, "sans", grey, a, 0, "r", role="media_meta")
 
 
 def draw_cutout(ctx: cairo.Context, R: RenderCtx, view: View, t: float, e: dict) -> None:  # noqa: N803
@@ -215,5 +215,5 @@ def draw_cutout(ctx: cairo.Context, R: RenderCtx, view: View, t: float, e: dict)
     ctx.restore()
     la = a * smooth((lt - 0.5) / 0.4)
     text(ctx, m.caption, x, y + fh / 2 + 16, 12, "sansb", (1, 1, 1), la, 3, "c")
-    text(ctx, credit_line(m), x, y + fh / 2 + 30, 8.5, "monom", C["muted"], la, 2.4, "c")
+    text(ctx, credit_line(m), x, y + fh / 2 + 30, 8.5, "monom", C["muted"], la, 2.4, "c", role="media_meta")
     R.reserved.append((x - fw / 2, y - fh / 2, x + fw / 2, y + fh / 2 + 34))

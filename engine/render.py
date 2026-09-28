@@ -148,9 +148,17 @@ def preview(P: Project, times: list[float], labels: list[str] | None = None) -> 
     out.mkdir(exist_ok=True)
     for old in out.glob("p_*.png"):   # 이전 프리뷰 컷이 섞이지 않게
         old.unlink()
+    from engine import typography  # noqa: PLC0415
+
     paths = []
-    for tt in times:
-        s, _ = render_frame(P, min(P.n_frames - 1, int(tt * FPS)))
+    drawn: list[tuple[str, float, str | None, str]] = []   # glyph_size(D-0069) — 컷마다 그린 글자
+    for tt, lab in zip(times, labels or [f"t={t:.2f}" for t in times]):
+        typography.GLYPH_LOG = []
+        try:
+            s, _ = render_frame(P, min(P.n_frames - 1, int(tt * FPS)))
+        finally:
+            glog, typography.GLYPH_LOG = typography.GLYPH_LOG, None
+        drawn += [(lab, size, role, txt) for size, role, txt in glog]
         p = out / f"p_{tt:07.2f}.png"
         s.write_to_png(str(p))
         paths.append(str(p))
@@ -160,7 +168,7 @@ def preview(P: Project, times: list[float], labels: list[str] | None = None) -> 
          COLS, out / "sheet.jpg")
     prov = project_provenance(P, PREVIEW_STAGES)
     prov["preview"] = {"frames": len(paths), "times": [round(t, 3) for t in times], "dir": out.name}
-    checks = run_checks(P, times, prov)   # 17 §3 결정적 사전 검사(D-0047 작업 6)
+    checks = run_checks(P, times, prov, drawn)   # 17 §3 결정적 사전 검사(D-0047 작업 6)
     prov["checks"] = {"hard": checks["hard"], "warnings": checks["warnings"], "passed": checks["passed"]}
     (out / "provenance.json").write_text(json.dumps(prov, ensure_ascii=False, indent=1), encoding="utf-8")
     (out / "checks.json").write_text(json.dumps(checks, ensure_ascii=False, indent=1), encoding="utf-8")

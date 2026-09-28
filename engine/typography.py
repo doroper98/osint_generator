@@ -47,6 +47,7 @@ def require_family(family: str) -> None:
                                " — `python tools/fetch_data.py fonts` 먼저")
 
 
+GLYPH_LOG: list[tuple[float, str | None, str]] | None = None   # 켜면(list) text() 가 (크기, 역할, 문자열) 을 남긴다 — checks glyph_size(v3.6.0 D-0069)
 _M = cairo.Context(cairo.ImageSurface(cairo.FORMAT_RGB24, 1, 1))   # 설계 480p 측정 컨텍스트(항등 변환, 렌더 표면과 같은 형식)
 
 
@@ -79,9 +80,12 @@ def mixed_runs(s: str, name: str) -> list[list[str]]:
 
 def text(ctx: cairo.Context, s: str, x: float, y: float, size: float, name: str = "sansm",
          col: tuple = (1, 1, 1), a: float = 1.0, halo: float = 3.0, anchor: str = "l",
-         spacing: float = 0.0, halo_a: float = 0.8) -> float:
+         spacing: float = 0.0, halo_a: float = 0.8, role: str | None = None) -> float:
+    """role = 글자 역할(규칙 qa_checks.glyph_size_exempt 의 이름). 없으면 최소 글자 검사 예외 대상이 아니다(기본 엄격, D-0069)."""
     if a <= 0.01 or not s:
         return 0
+    if GLYPH_LOG is not None:
+        GLYPH_LOG.append((size, role, s))
     if name in MONO and HANGUL.search(s):
         runs = mixed_runs(s, name)
         w = sum(tw(ctx, r, size, f) for r, f in runs)
@@ -89,8 +93,12 @@ def text(ctx: cairo.Context, s: str, x: float, y: float, size: float, name: str 
             x -= w / 2
         elif anchor == "r":
             x -= w
-        for r, f in runs:
-            x += text(ctx, r, x, y, size, f, col, a, halo, "l", 0.0, halo_a)
+        log, globals()["GLYPH_LOG"] = GLYPH_LOG, None   # 런 분할은 한 문자열로 이미 기록했다
+        try:
+            for r, f in runs:
+                x += text(ctx, r, x, y, size, f, col, a, halo, "l", 0.0, halo_a)
+        finally:
+            globals()["GLYPH_LOG"] = log
         return w
     font(ctx, name, size)
     disp = name in DISP and " " in s
