@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import shutil
 import subprocess
 import sys
 import tempfile
@@ -9,6 +10,7 @@ import unittest
 from pathlib import Path
 
 from PIL import Image
+import pytest
 
 REPO = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(REPO))
@@ -18,6 +20,7 @@ from orchestrator.config import load_config  # noqa: E402
 from tools import commons_fetch, media_fetch  # noqa: E402
 
 
+@pytest.mark.skipif(shutil.which("ffmpeg") is None, reason="ffmpeg 없음 — run_log §0 apt-get install ffmpeg (D-0039 NB7)")
 class ThumbSheetTest(unittest.TestCase):
     def test_twelve_frames(self) -> None:
         with tempfile.TemporaryDirectory() as d:

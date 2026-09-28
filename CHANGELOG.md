@@ -28,7 +28,16 @@ released 항목은 **append-only**입니다.
 
 ---
 
-## [v2.5.5] — 2026-09-28 — Phase 6.5: 사진·영상·컷아웃·기사 (back_and_forth D-0036, 진행 중)
+## [v3.0.0] — 2026-09-28 — Phase 6.8: 오케스트레이터 통합 (back_and_forth D-0040, 진행 중)
+
+MAJOR 사유: 프로젝트 manifest `schema_version` 1 → 2(상태 머신 14개, 옛 manifest 는 변환 없이 "재생성 필요" 오류). CLAUDE.md C3·C5.4, DECISIONS D39.
+
+### Changed
+- ffmpeg 가 필요한 테스트(`ThumbSheetTest`)는 ffmpeg 가 없으면 사유를 남기고 skip(D-0039 NB7).
+
+---
+
+## [v2.5.5] — 2026-09-28 — Phase 6.5: 사진·영상·컷아웃·기사 (back_and_forth D-0036~D-0039, pass)
 
 ### Added
 - 미디어 레지스트리 `assets/media/media_registry.json` + 스키마 `schemas/media_models.MediaAsset`(권리·검수·가공 기록·화면 문구). v3 7종(사진 2·영상 2·컷아웃 1·기사 2). 필드 누락·자료사진 표기 없음·사상자 체크 구간 불일치는 로드 오류(RightsError). 화면 출처 줄 형식은 `media_beats.credit_formats`.
