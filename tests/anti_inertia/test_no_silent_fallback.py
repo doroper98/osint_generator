@@ -27,8 +27,7 @@ class NoSilentFallbackTest(unittest.TestCase):
         with self.assertRaises(registry.RegistryError):  # type: ignore[attr-defined]
             registry.resolve("post")  # type: ignore[attr-defined]
 
-    @pytest.mark.xfail(strict=True, reason="Phase 6.5 — engine.layers.media.RightsError 미구현")
-    def test_b_media_without_rights(self) -> None:
+    def test_b_media_without_rights(self) -> None:   # v2.5.5 해제 — 레지스트리 참조 없는 미디어는 RightsError(D-0036)
         media = importlib.import_module("engine.layers.media")
         with self.assertRaises(media.RightsError):  # type: ignore[attr-defined]
             media.validate_media({"kind": "photo", "img": "x.jpg"})  # type: ignore[attr-defined]

@@ -146,7 +146,7 @@ def required_refs(events: list[dict], rights: dict, emblem_flag: Callable[[str],
         for img in emblem_ids(e):   # 뱃지·패널 노드 모두(engine/refs.py)
             if emblem_flag(img) is None:
                 need.add(f"emblems.{img}")
-        if e["type"] in ("photo", "clip", "cutout") and e.get("mid"):
+        if e["type"] in ("photo", "clip", "cutout", "article") and e.get("mid"):   # v2.5.5 — 기사도 레지스트리 항목
             need.add(f"media.{e['mid']}")
     if any(k.startswith(("flag11:", "flag43:")) for k in image_keys):
         need |= {f"flags.{k}" for k in rights.get("flags", {})} or {"flags.?"}

@@ -99,7 +99,7 @@ def direct(tb: Timebase) -> Director:  # noqa: PLR0915 — 연출 한 편은 긴
     # debate
     dip(SC("debate") - 0.55, 127.0, 37.45, 3.4)
     ev("marker", S("debate_1", 0.2), SC_END("debate"), lon=PL["embassy"][0], lat=PL["embassy"][1], label="주한 미국대사관", sub="9월 8일 파병 반대 집회", side="right", hl=True)
-    ev("article", S("debate_0", 0.3), E("debate_0", 1.0), pub="The Korea Herald", date="2026. 09. 07", headline="정부, 전투 격화·반대 여론 확산에 호르무즈 파병 계획 재조정", hl="재조정", sub="국방부 “항행의 자유 회복에 실질적으로 기여할 방안을 국제사회와 협의 중”", note="헤드라인 번역 · 원문 영어")
+    ev("article", S("debate_0", 0.3), E("debate_0", 1.0), mid="herald_0907")
     ev("panel", S("debate_2", -0.3), SC_END("debate"), kind="versus", title="파병을 둘러싼 두 입장",
        sides=[dict(title="지지하는 쪽", src="UPI 기고 · 9월 8일",
                    items=[dict(text="호르무즈는 곧 한국의 경제 안보", t=S("debate_2", 0.3)),
@@ -123,18 +123,13 @@ def direct(tb: Timebase) -> Director:  # noqa: PLR0915 — 연출 한 편은 긴
     ev("marker", SC("now"), TOTAL, lon=PL["hormuz"][0], lat=PL["hormuz"][1], label="호르무즈 해협", sub="", side="right", hl=True)
     cam(S("now_3", -0.5), 90, 20, 96, 9.0)
 
-    # media events (photo / video / cutout / article clipping)
-    ev("clip", S("war_2", 0.2), S("war_2", 0.2) + 5.0, clip="niovi", x=40, y=150, w=300, mid="niovi",
-       caption="이란 혁명수비대 고속정의 유조선 나포", credit="자료 영상 · 2023. 05. 03 · U.S. Navy · Public domain")
-    ev("photo", S("past_1", 0.6), E("past_2", 0.2), img="rok_iraq_720.jpg", x=292, y=138, w=280, mid="rok_iraq",
-       caption="이라크에 파병된 한국군 장병", credit="자료사진 · 2003 · U.S. Government · Public domain")
-    ev("article", S("review_0", 0.3), E("review_0", 0.9), pub="Reuters", date="2026. 09. 04", headline="한국, 호르무즈 군사 선택지 검토… 대통령실 “결정된 것은 없다”", hl="결정된 것은 없다", sub="JTBC·MBC의 ‘연내 파병 준비’ 보도 이후 나온 대통령실 설명", note="헤드라인 번역 · 원문 영어")
-    ev("photo", S("now_0", 1.0), E("now_1", 0.4), img="hormuz_transit_720.jpg", x=560, y=196, w=262, mid="hormuz_transit",
-       caption="호르무즈 해협 통과 중 경계 근무를 서는 미 해군", credit="자료사진 · 2023. 05 · U.S. Navy · Public domain")
-    ev("clip", S("timeline_4", 0.3), S("timeline_4", 0.3) + 5.0, clip="strikes", x=207, y=112, w=440, mid="strikes",
-       caption="미 중부사령부 공개 영상 · 이란 군사 목표 타격", credit="2026. 07. 07 · U.S. Central Command · Public domain")
-    ev("cutout", S("review_1", 0.1), E("review_2", 0.4), img="p8_cut.png", lon=112.0, lat=12.5, w=150, mid="p8",
-       label="해상초계기 P-8A", sub="자료사진 · U.S. Navy")
+    # media events (photo / video / cutout / article clipping) — 파일·캡션·출처 줄은 assets/media/media_registry.json(D-0036)
+    ev("clip", S("war_2", 0.2), S("war_2", 0.2) + 5.0, mid="niovi", x=40, y=150, w=300)
+    ev("photo", S("past_1", 0.6), E("past_2", 0.2), mid="rok_iraq", x=292, y=138, w=280)
+    ev("article", S("review_0", 0.3), E("review_0", 0.9), mid="reuters_0904")
+    ev("photo", S("now_0", 1.0), E("now_1", 0.4), mid="hormuz_transit", x=560, y=196, w=262)
+    ev("clip", S("timeline_4", 0.3), S("timeline_4", 0.3) + 5.0, mid="strikes", x=207, y=112, w=440)
+    ev("cutout", S("review_1", 0.1), E("review_2", 0.4), mid="p8", lon=112.0, lat=12.5, w=150)
     return d
 
 

@@ -16,7 +16,7 @@ from dataclasses import dataclass
 import cairo
 
 from engine.cards import card_geom
-from engine.layers.media import article_geom
+from engine.layers.media import article_geom, article_text
 from engine.style import CARD
 from engine.timebase import window
 from rules import load_rules
@@ -53,7 +53,7 @@ def card_zones(ctx: cairo.Context, events: list[dict], t: float) -> list[Zone]:
             out.append(Zone((x, y, x + w, y + h), a, f"card:{e['tag']}"))
         else:
             x, y, w, h, _, _ = article_geom(ctx, e)
-            out.append(Zone((x, y, x + w, y + h), a, f"article:{e['pub']}"))
+            out.append(Zone((x, y, x + w, y + h), a, f"article:{article_text(e)['pub']}"))
     return out
 
 

@@ -6,10 +6,7 @@ event:
   type: cutout
   t0: 168.11
   t1: 178.51
-  img: p8_cut.png
+  mid: p8
   lon: 112.0
   lat: 12.5
   w: 150.0
-  label: 해상초계기 P-8A
-  sub: 자료사진 · U.S. Navy
-  mid: p8

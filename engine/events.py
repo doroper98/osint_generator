@@ -127,14 +127,13 @@ class BadgeEvent(_Event):
 
 
 class CutoutEvent(_Event):
+    """지도 컷아웃 — 이미지·라벨·출처 줄은 미디어 레지스트리에서만(D-0036, 15 P3)."""
+
     type: Literal["cutout"]
-    img: str
+    mid: str
     lon: float
     lat: float
     w: float
-    label: str
-    sub: str
-    mid: str
 
 
 # ------------------------------------------------------------------ 화면 레이어
@@ -155,41 +154,28 @@ class CardEvent(_Event):
 
 
 class PhotoEvent(_Event):
+    """사진 카드 — 파일·캡션·출처 줄은 미디어 레지스트리에서만. 연출이 문자열을 주면 모델 오류(extra=forbid, D-0036)."""
+
     type: Literal["photo"]
-    img: str
+    mid: str
     x: float
     y: float
     w: float
-    caption: str
-    credit: str = Field(min_length=1)
-    mid: str
 
 
 class ClipEvent(_Event):
     type: Literal["clip"]
-    clip: str
+    mid: str
     x: float
     y: float
     w: float
-    caption: str
-    credit: str = Field(min_length=1)
-    mid: str
 
 
 class ArticleEvent(_Event):
-    type: Literal["article"]
-    pub: str
-    date: str
-    headline: str
-    hl: Optional[str] = None
-    sub: str
-    note: str
+    """기사 클리핑 — 매체·날짜·헤드라인 번역·형광펜·부제·주석은 레지스트리(kind article)에서만."""
 
-    @model_validator(mode="after")
-    def _hl_in_headline(self) -> "ArticleEvent":
-        if self.hl and self.hl not in self.headline:
-            raise ValueError(f"article hl 이 헤드라인에 없다: {self.hl!r}")
-        return self
+    type: Literal["article"]
+    mid: str
 
 
 # ------------------------------------------------------------------ 패널 (문구 = 데이터, D25)

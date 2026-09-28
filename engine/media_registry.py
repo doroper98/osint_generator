@@ -6,6 +6,7 @@
 from __future__ import annotations
 
 import json
+from functools import lru_cache
 from pathlib import Path
 
 from pydantic import ValidationError
@@ -29,6 +30,12 @@ def load_media_registry(path: Path | None = None) -> dict[str, MediaAsset]:
         return MediaRegistryFile.model_validate(json.loads(p.read_text(encoding="utf-8"))).assets
     except ValidationError as ex:
         raise RightsError(f"미디어 레지스트리 권리·필드 오류({p.name}):\n{ex}") from ex
+
+
+@lru_cache(maxsize=None)
+def cached_registry() -> dict[str, MediaAsset]:
+    """기본 레지스트리 1회 로드 — 카드 영역 계산처럼 자산 객체 없이 문구가 필요한 곳(RESERVED)."""
+    return load_media_registry()
 
 
 def credit_line(asset: MediaAsset) -> str:

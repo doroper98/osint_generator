@@ -8,6 +8,7 @@ sections:
     column: 0
     items:
       - main: Reuters (9.4)  ·  The Korea Herald (9.7)
+        rights: [media.reuters_0904, media.herald_0907]   # v2.5.5 — 기사 클리핑도 미디어 레지스트리 항목(D-0036 작업 7)
       - main: UPI 기고 (9.8)  ·  Foreign Policy (9.10)
       - main: 국제해사기구 (6.11 기준)
       - main: 위키백과 “2026 Strait of Hormuz campaign”

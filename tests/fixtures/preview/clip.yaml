@@ -6,10 +6,7 @@ event:
   type: clip
   t0: 58.95
   t1: 63.95
-  clip: niovi
+  mid: niovi
   x: 40.0
   y: 150.0
   w: 300.0
-  caption: 이란 혁명수비대 고속정의 유조선 나포
-  credit: 자료 영상 · 2023. 05. 03 · U.S. Navy · Public domain
-  mid: niovi

@@ -1,6 +1,8 @@
-"""미디어 비트 — 사진·영상·기사 클리핑·컷아웃 (v2.1.0, render3 `media_frame … draw_cutout`).
+"""미디어 비트 — 사진·영상·기사 클리핑·컷아웃 (v2.5.5, render3 `media_frame … draw_cutout`, 14 §4).
 
-이미지 키는 `media:<파일명>`(engine/assets.py). 출처 줄(credit)은 모델에서 필수다(07 §3, G4).
+권리 게이트(D-0036 작업 3): 이벤트는 `mid` 만 갖고, 파일·캡션·출처 줄·기사 문구는 미디어 레지스트리
+(`assets/media/media_registry.json`)에서만 온다. `validate_media()` 가 렌더 전에 레지스트리 참조·종류·권리 상태를
+확인하고 어기면 RightsError(C9, 15 P6). 이미지 키는 `media:<레지스트리 file>`(engine/assets.py).
 """
 
 from __future__ import annotations
@@ -13,10 +15,33 @@ from PIL import Image
 
 from engine.assets import surf_from_pil
 from engine.context import RenderCtx
+from engine.credits import RightsError
+from engine.media_registry import cached_registry, credit_line, load_media_registry
 from engine.projection import View
 from engine.style import ARTICLE, CARD, C, FPS, W_OUT
 from engine.timebase import clamp01, ease_io, ease_out, smooth, window
 from engine.typography import rrect, text, tw, wrap
+
+
+EVENT_KIND: dict[str, str] = {"photo": "photo", "clip": "video", "cutout": "cutout", "article": "article"}   # 이벤트 → 레지스트리 kind
+
+
+def validate_media(e: dict, assets: dict | None = None):  # noqa: ANN201 — schemas.media_models.MediaAsset
+    """미디어 이벤트 하나의 권리 게이트. 통과하면 레지스트리 항목을 돌려준다. 어기면 RightsError(렌더 전)."""
+    typ = e.get("type") or e.get("kind")
+    where = f"{typ} t0={e.get('t0', '?')}"
+    mid = e.get("mid")
+    if not mid:
+        raise RightsError(f"미디어 이벤트에 레지스트리 참조(mid)가 없다: {where} — 파일을 직접 가리킬 수 없다(C9)")
+    reg = assets if assets is not None else load_media_registry()
+    if mid not in reg:
+        raise RightsError(f"미디어 레지스트리에 없음: mid={mid} ({where})")
+    a = reg[mid]
+    if EVENT_KIND.get(typ) != a.kind:
+        raise RightsError(f"미디어 종류 불일치: 이벤트 {typ} ↔ 레지스트리 {mid}.kind={a.kind}")
+    if a.rights_status != "rights_clear":
+        raise RightsError(f"권리 미확인 미디어({a.rights_status}): {mid} — 렌더 금지(C9, <미검증> 라벨로 대신할 수 없다)")
+    return a
 
 
 def media_frame(ctx: cairo.Context, x: float, y: float, w: float, h: float, a: float) -> None:
@@ -46,12 +71,13 @@ def draw_photo(ctx: cairo.Context, R: RenderCtx, t: float, e: dict) -> None:  # 
     a = window(t, e["t0"], e["t1"], 0.5, 0.5)
     if a <= 0.01:
         return
+    m = R.assets.media_assets[e["mid"]]
     lt = t - e["t0"]
     x, y, w = e["x"], e["y"] + (1 - ease_out(lt / 0.6)) * 12, e["w"]
     h = w * 0.625
     media_frame(ctx, x, y, w, h + 38, a)
     k = 1.0 + 0.07 * clamp01(lt / (e["t1"] - e["t0"]))  # Ken Burns
-    fs = R.assets.scaled(f"media:{e['img']}", w * k)
+    fs = R.assets.scaled(f"media:{m.file}", w * k)
     fw, fh = fs.get_width(), fs.get_height()
     ctx.save()
     ctx.rectangle(x, y, w, h)
@@ -64,15 +90,16 @@ def draw_photo(ctx: cairo.Context, R: RenderCtx, t: float, e: dict) -> None:  # 
     ctx.set_line_width(1)
     ctx.stroke()
     media_tag(ctx, x, y, "PHOTO", a)
-    media_caption(ctx, x, y + h, w, e["caption"], e["credit"], a)
+    media_caption(ctx, x, y + h, w, m.caption, credit_line(m), a)
 
 
 def draw_clip(ctx: cairo.Context, R: RenderCtx, t: float, e: dict) -> None:  # noqa: N803
     a = window(t, e["t0"], e["t1"], 0.35, 0.45)
     if a <= 0.01:
         return
-    R.assets.load_clip(e["clip"])
-    fr = R.assets.clips[e["clip"]]
+    m = R.assets.media_assets[e["mid"]]
+    R.assets.load_clip(m.file)
+    fr = R.assets.clips[m.file]
     i = min(len(fr) - 1, max(0, int((t - e["t0"]) * FPS)))
     x, y, w = e["x"], e["y"], e["w"]
     h = w * fr.shape[1] / fr.shape[2]
@@ -88,15 +115,22 @@ def draw_clip(ctx: cairo.Context, R: RenderCtx, t: float, e: dict) -> None:  # n
     ctx.set_line_width(1)
     ctx.stroke()
     media_tag(ctx, x, y, "VIDEO", a)
-    media_caption(ctx, x, y + h, w, e["caption"], e["credit"], a)
+    media_caption(ctx, x, y + h, w, m.caption, credit_line(m), a)
 
 
 def article_alpha(t: float, e: dict) -> float:
     return window(t, e["t0"], e["t1"], 0.45, 0.45)
 
 
+def article_text(e: dict) -> dict:
+    """기사 이벤트의 문구 — 레지스트리(kind article)에서(D-0036). pub=caption, date=file_note."""
+    m = cached_registry()[e["mid"]]
+    return dict(pub=m.caption, date=m.file_note, headline=m.headline, hl=m.hl, sub=m.sub, note=m.note)
+
+
 def article_geom(ctx: cairo.Context, e: dict) -> tuple[float, float, float, float, list[str], list[str]]:
     """기사 카드 상자 (x, y, 폭, 높이, 헤드라인 줄, 부제 줄) — 슬라이드 전 제자리(RESERVED, D-0033)."""
+    e = {**e, **article_text(e)}
     w = ARTICLE.w
     hl_lines = wrap(ctx, e["headline"], w - 32, 13.5, "serifb")
     sub_lines = wrap(ctx, e["sub"], w - 32, 9.5, "sans")
@@ -108,6 +142,7 @@ def draw_article(ctx: cairo.Context, R: RenderCtx, t: float, e: dict) -> None:  
     a = article_alpha(t, e)
     if a <= 0.01:
         return
+    e = {**e, **article_text(e)}
     lt = t - e["t0"]
     x0, y, w, h, hl_lines, sub_lines = article_geom(ctx, e)
     x = x0 + (1 - ease_out(lt / 0.55)) * CARD.slide_px
@@ -153,7 +188,8 @@ def draw_cutout(ctx: cairo.Context, R: RenderCtx, view: View, t: float, e: dict)
     x, y = view.xy(e["lon"], e["lat"])
     x -= (1 - ease_out(lt / 1.2)) * 40
     y += math.sin(t * 1.3) * 2.2
-    fs = R.assets.scaled(f"media:{e['img']}", e["w"])
+    m = R.assets.media_assets[e["mid"]]
+    fs = R.assets.scaled(f"media:{m.file}", e["w"])
     fw, fh = fs.get_width(), fs.get_height()
     ctx.save()
     ctx.translate(x, y)
@@ -169,6 +205,6 @@ def draw_cutout(ctx: cairo.Context, R: RenderCtx, view: View, t: float, e: dict)
     ctx.paint_with_alpha(a)
     ctx.restore()
     la = a * smooth((lt - 0.5) / 0.4)
-    text(ctx, e["label"], x, y + fh / 2 + 16, 12, "sansb", (1, 1, 1), la, 3, "c")
-    text(ctx, e["sub"], x, y + fh / 2 + 30, 8.5, "monom", C["muted"], la, 2.4, "c")
+    text(ctx, m.caption, x, y + fh / 2 + 16, 12, "sansb", (1, 1, 1), la, 3, "c")
+    text(ctx, credit_line(m), x, y + fh / 2 + 30, 8.5, "monom", C["muted"], la, 2.4, "c")
     R.reserved.append((x - fw / 2, y - fh / 2, x + fw / 2, y + fh / 2 + 34))

@@ -22,6 +22,8 @@ from engine.context import RenderCtx
 from engine.credits import check_credits, load_credits, required_refs
 from engine.entities import check_event_refs, load_entities
 from engine.panels import network, relation, timeline
+from engine.credits import RightsError
+from engine.layers.media import validate_media
 from engine.refs import emblem_ids
 from engine.registry import RegistryError, validate_events
 from engine.style import FPS
@@ -89,19 +91,23 @@ def preflight(R: RenderCtx, events: list[dict]) -> list[str]:  # noqa: N803
                 keys.add(f"emblem:{img}")
                 if img not in A.rights.get("emblems", {}):
                     errs.append(f"권리 레지스트리에 휘장 없음: {img}")
-        if e["type"] in ("photo", "cutout"):
-            keys.add(f"media:{e['img']}")
-        if e["type"] in ("photo", "clip", "cutout") and e["mid"] not in A.media:
-            errs.append(f"미디어 레지스트리에 없음: mid={e['mid']} ({e['type']})")
+        if e["type"] in ("photo", "clip", "cutout", "article"):
+            try:
+                m = validate_media(e, A.media_assets)   # 권리 게이트(D-0036) — 참조·종류·권리 상태
+            except RightsError as ex:
+                errs.append(str(ex))
+                continue
+            if e["type"] in ("photo", "cutout"):
+                keys.add(f"media:{m.file}")
     for k in sorted(keys):
         try:
             A.load_image(k)
         except Exception as ex:  # noqa: BLE001 — 모아서 한 번에 보고
             errs.append(str(ex))
     for e in events:
-        if e["type"] == "clip":
+        if e["type"] == "clip" and e["mid"] in A.media_assets:
             try:
-                A.load_clip(e["clip"])
+                A.load_clip(A.media_assets[e["mid"]].file)
             except Exception as ex:  # noqa: BLE001
                 errs.append(str(ex))
     return errs
