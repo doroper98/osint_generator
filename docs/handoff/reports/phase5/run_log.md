@@ -40,3 +40,21 @@ last_review: 2026-09-28
 뱃지 컷(8개 뱃지가 보이는 컷): open_1·route_3·war_1·war_3 는 MAD **0.0**(픽셀 동일). review_0 0.047·decision_0 0.0011·now_0 0.0005·now_3 0.0083.
 0이 아닌 컷은 전부 앵커 시각이 Phase 4 와 3~5 ms 다른 컷이다(timeline_4~past_3, edge 재합성의 문장 길이 편차). 뱃지 코드 차이가 아니라 시각 차이다.
 review_0 의 큰 차이 80픽셀(>30)은 (485–505, 387–396) 한 곳에 모여 있다 — 항로를 따라 움직이는 배 아이콘의 4 ms 위치 차(육안 확인). "부산에서 출항" 국기 뱃지는 두 프레임이 같다.
+
+## 2. 전편
+
+| 단계 | 명령 | 결과 |
+|---|---|---|
+| 렌더·믹스·먹스 | `python -m engine.render projects/hormuz_korea --jobs 4 && python -m audio.mix … && python -m engine.mux …` | 2분 26초. **292.439초** 854×480@24, **−14.2 LUFS / peak −1.4 dBFS**, final md5 `e5c503aa…` |
+| 크레딧 프레임 | `ffmpeg -ss 290.0 -i out/final.mp4 -frames:v 1 credits_frame.png` | 엔딩 카드 5묶음(보도·인물·휘장국기지도·사진영상·음악음성), 폰트 행 없음(D35) |
+| 사본 | `provenance_hormuz.json`, `credits.txt`, `description.txt`(끝에 폰트 4종 자동 블록) | — |
+| 영상 본체 | orphan `artifacts/phase5-v2.4.0` (`e8e4171`) | hormuz/out: final.mp4·video_noaudio.mp4·mix.flac(44.1 kHz → 24비트)·final.srt·provenance·credits·description |
+
+provenance 요약: `assets.images_used` 22키(휘장 `emblem:navcent` 1, 국기 14, 미디어 3, 인물 4), `emblems {used [navcent], flag_fallback {}}`,
+`badges` suggested 19 / used 6 / 교집합 5(제안 47건), `credits.card {people 4, emblems 1, flags 1, map 2, media 5, music 1, narration 1}`,
+`credits.description_only {fonts 4}`, `features_used.badges 8 (person 3, flag 4, emblem 1)`, `at_word {aligned 7, ratio 0}`, rules_hash `8f475f8e…`.
+제한 휘장 대체 경로의 실사용 증명은 hormuz 에 제한 휘장이 없어 `emblem_fallback_demo.json`(taiwan 사본, irgc·cia → 국기, 휘장 키 0회)으로 한다.
+
+## 알려진 차이
+- 앵커 6개가 Phase 4 와 3~5 ms 다르다(timeline_4~past_3). 새 컨테이너의 edge 재합성 편차다. 25컷 PASS.
+- mix.flac 을 만들 때 표본율을 48 kHz 로 잘못 넣어 길이가 269초로 나온 것을 발견해 44.1 kHz(`audio.mix.SR`)로 다시 만들었다(292.939초). 올린 파일은 고친 쪽이다.

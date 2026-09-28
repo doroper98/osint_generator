@@ -25,6 +25,14 @@ last_review: 2026-06-06
 
 ---
 
+## 2026-09-28 v2.4.0 — Phase 5 완료: 엔티티·휘장 레지스트리, 권리 대조 크레딧
+
+- **무엇을**: `assets/entities.yaml`, `assets/emblems/registry.json`(제한 → 국기 대체 코드 확정), `commons_fetch`·`portrait_fallback`, 이름→뱃지 제안, 엔딩 크레딧 권리 대조(`RightsError`), prep_people_flags 삭제.
+- **왜**: back_and_forth D-0029. 새 영상의 인물·휘장·국기를 코드 수정 없이 레지스트리로 붙이고, 권리 없는 자산이 영상에 들어가지 못하게 한다(C9, P6).
+- **어떻게**: Restrictions 가 있으면 파일의 decision 을 손으로 `use` 로 바꿔도 로드가 실패한다. 크레딧은 렌더가 실제로 쓴 이미지 키와 레지스트리를 대조한다. 폰트는 설명문에만(D35).
+- **결과**: 25컷 Phase 4 대비 mean 0.0033·max 0.047 PASS, 새 컨테이너 자산 md5 42/42 동일, pytest 489 passed / 3 xfailed. 세션이 두 번 끊겨 재기동 4에서 마무리(21 문서).
+- **연관**: D35, M3, R0023~R0026, artifacts/phase5-v2.4.0.
+
 ## 2026-09-28 v2.3.0 — Phase 4 완료: 원고 린트·단어 정렬, 목소리를 바꿔도 연출 무수정 싱크
 
 - **무엇을**: 원고 린트(오류/경고), ElevenLabs with-timestamps·edge WordBoundary 정렬 공통 형식, trim_offset, at_word 정렬 경로, TTS-AP-064~066, legacy_v3 삭제(자산 부트스트랩만 tools/bootstrap_assets 로 격리).

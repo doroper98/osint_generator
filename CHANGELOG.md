@@ -28,7 +28,7 @@ released 항목은 **append-only**입니다.
 
 ---
 
-## [v2.4.0] — 2026-09-28 — Phase 5: 뱃지·엔티티·권리 (back_and_forth D-0029, 진행 중)
+## [v2.4.0] — 2026-09-28 — Phase 5: 뱃지·엔티티·권리 (back_and_forth D-0029·D-0030)
 
 ### Added
 - 엔티티 레지스트리 `assets/entities.yaml`(인물·기관·국가, 라이브러리 24인 조인). 미등재 인물·국기·휘장을 연출이 쓰면 렌더 전 `RegistryError`.
@@ -36,6 +36,13 @@ released 항목은 **append-only**입니다.
 - `tools/commons_fetch.py`(검색·라이선스/제한 필터·표준 폭·429 지수 대기·권리 기록), `tools/portrait_fallback.py`(rembg + v3 흑백화 / 판화 질감).
 - 원고 이름 → 뱃지 제안 `script/badges.py`(제안만). provenance `assets.badges.suggested/used`, `assets.emblems`, `assets.images_used`.
 - 엔딩 크레딧 권리 대조: 렌더가 쓰는 모든 자산(인물·휘장·국기·미디어·음악·폰트·지도·내레이션)이 권리 레지스트리와 크레딧에 있어야 한다. 없으면 `RightsError`. `out/credits.txt` 출력.
+
+### Changed
+- 엔딩 카드에는 폰트를 넣지 않고, 폰트 크레딧은 `description.txt` 끝 자동 블록에만 쓴다(D35).
+- `fetch_data people` 이 새 도구(`commons_fetch`·`portrait_fallback`)를 부른다. 인물·국기·휘장 PNG 는 옛 도구와 md5 가 같다(33/33).
+
+### Removed
+- `tools/bootstrap_assets/prep_people_flags.py`(D32 sunset). `media_first_pass.py` 는 Phase 6.5 까지 남는다.
 
 ### Fixed
 - NB1: `fetch_data bgm` 이 얕은 클론에서 git 객체(bd37b58)가 없으면 `git fetch --unshallow` 안내와 함께 명확히 실패(P6).
