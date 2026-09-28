@@ -3,7 +3,7 @@
  "engine": "engine",
  "repo_version": "3.4.0",
  "rules_version": "2.0.0",
- "rules_hash": "daccd17e1e065584a61e94100d864efd83f66a13",
+ "rules_hash": "8a4c18e667da18299a3b94e41fd470921c81da6e",
  "prompts": {
   "director": "0a0aa49d2493ab59f016ea755e252ae013560c7b"
  },
@@ -114,15 +114,28 @@
   ],
   "bed_gain": 0.47,
   "crossfades": 0,
+  "loudnorm": {
+   "passes": 2,
+   "pass1": {
+    "input_i": -16.57,
+    "input_tp": -1.35,
+    "input_lra": 17.5,
+    "input_thresh": -28.38,
+    "target_offset": 2.74
+   },
+   "pass2": {
+    "output_i": -14.64,
+    "output_tp": -1.5,
+    "normalization_type": "dynamic"
+   }
+  },
   "qa": {
-   "severity": "warning",
-   "issues": [
-    "최종 음량 -16.98 LUFS — 목표 -14 ± 1"
-   ],
+   "hard": [],
+   "warnings": [],
    "final_loudness": {
-    "I": -16.98,
-    "TP": -1.5,
-    "LRA": 11.7
+    "I": -14.89,
+    "TP": -1.35,
+    "LRA": 11.5
    },
    "music_under_narration_db": -14.94,
    "mix_peak": 0.8421
