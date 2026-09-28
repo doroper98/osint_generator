@@ -3280,3 +3280,9 @@ last_review: 2026-06-06
 - 왜:    D-0047(17 전체)·D-0048·D-0049.
 - 교훈:  LLM 단계를 실제로 돌려야 계약 버그가 보인다 — 스텁 테스트 전부 통과 상태에서 실측 버그 5건(PIPELINE-AP-007·008, LLM-AP-007, RENDER-AP-003, latest() 번호). 검사용 상자를 렌더 예약 영역과 공유하면 골든이 바뀐다 — 렌더 공용 함수 변경 뒤엔 golden_compare.
 
+## 2026-09-29 v4.0.0 — Phase 11 문서·정리·GOAL G3 개정
+
+- 무엇을: GOAL G3 v2(17개 + 검증 방법 열, 옛 34개 legacy 절), docs/07·08·09·10 재작성(규칙 키 안내도), 12·03·05 와 나머지 Tier 2 동기화, 폐기 문서·v1 잔재 코드 삭제(ADDENDUM_02·RUN_LOCAL·docs/11·tts_backends·ApprovalLog·ThumbnailManifest·agents/), test_goal_g3·test_docs_sync, PIPELINE-AP-010.
+- 왜:    D-0072·D-0073(D4·D64).
+- 교훈:  문서가 수치를 복사하면 규칙이 바뀔 때 조용히 틀린다 — 문서는 `rules:키` 로만 가리키고 테스트가 키 존재를 대조한다. 긴 실행 중 트리 수정 금지(PIPELINE-AP-010).
+

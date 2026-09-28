@@ -1,9 +1,9 @@
 <!--
 tier: 1
-last_synced_with: v2.0.0
+last_synced_with: v4.0.0
 ssot_for: [project-entry-point]
 depends_on: [GOAL.md, CLAUDE.md, DOCS_GOVERNANCE.md, docs/02_SYSTEM_ARCHITECTURE.md]
-last_review: 2026-09-27
+last_review: 2026-09-29
 -->
 
 # longform-briefing-pipeline
@@ -16,12 +16,12 @@ OSINT 기반 세계 이슈 롱폼 브리핑 영상 제작 시스템.
 
 ## 핵심 원칙
 
-1. **Orchestrator 중심.** 모든 작업은 Orchestrator가 지휘하며 Worker는 task 단위로만 동작합니다.
-2. **JSON 계약 중심.** 모든 산출물은 Pydantic 모델로 검증된 JSON으로 흐릅니다.
-3. **Dynamic Intake.** 주제별로 필요한 자료가 달라지므로 입력 폼을 동적으로 생성합니다.
-4. **방식 B Command Center.** 단일 Textual TUI 안에 Orch CLI, Job Dashboard, Worker Slot이 모두 모입니다.
-5. **Pre-production Debug Layer.** `draft_debug.mp4`에만 표시되는 디버그 오버레이로 scene 품질을 추적합니다. **[deprecated v2.0.0 — 프리뷰 컨택트 시트·결정적 검사로 대체, docs/handoff/17]**
-6. **승인 게이트.** Intake / Source / Blueprint / Script / Scene / Draft / Thumbnail / Final 9개 Review Gate를 통과해야 합니다.
+1. **Orchestrator 중심.** 상태 머신이 프로젝트를 CREATED→DONE 으로 진행하고, LLM 워커와 엔진 CLI 는 서브프로세스로만 부릅니다.
+2. **JSON·YAML 계약 중심.** 모든 산출물은 `schema_version` 을 갖고 Pydantic 모델로 검증됩니다.
+3. **소스 인테이크와 인용 대조.** 기사·X 게시물을 사람이 넣고 확인하면, 주장의 검증 status 는 코드가 인용 대조로 정합니다.
+4. **영상미 우선, 정확성 위에서.** 기준 작품은 v3『호르무즈와 한국』(`docs/handoff/golden/`)이고, 수치는 `rules/video_rules.yaml` 한 곳에 있습니다.
+5. **관성 방지.** 옛 경로는 삭제로 끝내고, 폴백으로 옛 스타일 영상을 내보내지 않습니다(`docs/handoff/15`, `tests/anti_inertia/`).
+6. **승인 게이트 2개.** 원고(SCRIPT_APPROVAL)와 프리뷰(PREVIEW_APPROVAL). 그 사이는 결정적 검사와 AI 시각 검수가 채웁니다.
 
 ## Quick Start
 
@@ -31,8 +31,9 @@ python -m venv .venv
 .venv\Scripts\activate          # Windows
 # source .venv/bin/activate     # Linux/Mac
 
-# 2) 의존성 설치
-pip install -r requirements.txt
+# 2) 의존성 설치 (엔진 포함) + 시스템 ffmpeg·fontconfig
+pip install -r requirements.txt -r requirements-engine.txt
+python tools/fetch_data.py fonts ne tiles flags bgm   # 글꼴·지도·지형·국기·음악
 
 # 3) git hook 활성화 (커밋 메시지 버전 검증)
 git config core.hooksPath .githooks
@@ -54,6 +55,7 @@ run_pipeline.bat                # Windows
 | 데이터 스키마 | [docs/05_DATA_SCHEMA_SPEC.md](docs/05_DATA_SCHEMA_SPEC.md) |
 | 단계별 구현 로드맵 | [docs/13_IMPLEMENTATION_ROADMAP.md](docs/13_IMPLEMENTATION_ROADMAP.md) |
 | 운영 런북 | [docs/15_OPERATIONS_RUNBOOK.md](docs/15_OPERATIONS_RUNBOOK.md) |
+| 영상·오디오·지도·렌더 안내도 | [docs/07](docs/07_VIDEO_STYLE_GUIDE.md) · [08](docs/08_AUDIO_AND_TTS_SPEC.md) · [09](docs/09_MAP_AND_GEO_SPEC.md) · [10](docs/10_RENDERING_PIPELINE_SPEC.md) |
 | Antipattern 카탈로그 | [docs/ANTIPATTERNS/README.md](docs/ANTIPATTERNS/README.md) |
 
 ## 브랜치 / 버전 현황판 (즐겨찾기 권장)
@@ -88,21 +90,13 @@ Private 저장소이므로 페이지가 GitHub API 를 호출하려면 사용자
 
 새 브랜치를 만들면 `docs/branches.html` 의 `BRANCH_DESCRIPTIONS` 객체에 한 줄 설명을 추가하십시오.
 
-## 현재 상태
+## 현재 상태 (v4.0.0)
 
-| Phase | 상태 |
+| 구간 | 상태 |
 |---|---|
-| 0. 프로젝트 초기화 | ✅ |
-| 1. Orchestrator Command Center MVP | 🚧 진행 중 |
-| 2. Project Manager / State Machine | ⬜ |
-| 3. Dynamic Intake Page | ⬜ |
-| 4. Task Queue / AI Delegation | ⬜ |
-| 5. Source Registry / Completeness Check | ⬜ |
-| 6. Research / Script / Scene | ⬜ |
-| 7. Media Workers | ⬜ |
-| 8. TTS / Music | ⬜ |
-| 9. Remotion Rendering **[deprecated v2.0.0 — docs/handoff/13·19의 Phase 표가 정본]** | ⬜ |
-| 10. Thumbnail System | ⬜ |
-| 11. Review Dashboard / Publish | ⬜ |
+| v2 개편 Phase 0~10 (v2.0.0~v3.6.0) | 합격 — 골든 재현·모듈 분해·지오·원고/음성·권리·패널·미디어·오케스트레이터·AI 연출·소스 인테이크·카메라·오디오·번들·1080p |
+| Phase 11 문서·정리·GOAL G3 개정 (v4.0.0) | 진행 중 |
+| G1~G4 골든 최종 검증·장르 확장 (v4.0.x) | 예정 |
+| 썸네일 시스템, 텔레그램 인테이크, 유튜브 업로드 | v2 파이프라인에 없음 — 별도 계획 |
 
-자세한 현황은 [CHANGELOG.md](CHANGELOG.md)와 [DEVLOG.md](DEVLOG.md)를 참고하십시오.
+Phase 표와 버전은 [docs/13_IMPLEMENTATION_ROADMAP.md](docs/13_IMPLEMENTATION_ROADMAP.md), 변경 내역은 [CHANGELOG.md](CHANGELOG.md), 합격 커밋은 [docs/handoff/TAGS_PENDING.md](docs/handoff/TAGS_PENDING.md).

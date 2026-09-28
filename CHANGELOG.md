@@ -1,6 +1,6 @@
 <!--
 tier: 3
-last_synced_with: v3.2.0
+last_synced_with: v4.0.0
 ssot_for: [release-notes]
 depends_on: [README.md, GOAL.md]
 last_review: 2026-09-28
@@ -28,6 +28,30 @@ released 항목은 **append-only**입니다.
 
 ---
 
+## Released 대장 (v2 개편 — append-only, 원본 `docs/handoff/TAGS_PENDING.md`)
+
+아래 행은 Fable review pass 로 released 가 된 버전이다. released 절은 고치지 않는다(DOCS_GOVERNANCE §4). 태그 원격 푸시는 사용자가 원할 때 PC에서 한다.
+
+| 버전 | 합격 커밋 | Phase | 판정 |
+|---|---|---|---|
+| v2.0.1 | 5afbdc6 | 1 골든 재현 | pass |
+| v2.1.0 | 5728df3 | 2 모듈 분해·계약 | pass(태그 푸시됨) |
+| v2.2.0 | c6ea757 | 3 지오 일반화 | pass(D-0020) |
+| v2.3.0 | 706e982 | 4 원고·음성 | pass(D-0028) |
+| v2.4.0 | e7893a8 | 5 뱃지·엔티티·권리 | pass(D-0031) |
+| v2.5.0 | 205df59 | 6 패널·카드 데이터화 | pass(D-0035) |
+| v2.5.5 | d8150e5 | 6.5 사진·영상·컷아웃·기사 | pass(D-0039) |
+| v3.0.0 | 4bd56fd | 6.8 오케스트레이터 통합(MAJOR: manifest sv 2) | pass(D-0046) |
+| v3.1.0 | ba8829e | 6.9 AI 연출가·시각 검수 | pass(D-0050) |
+| v3.2.0 | 19f6c65 | 6.95 소스 인테이크 | pass(D-0055) |
+| v3.3.0 | ee2fa14 | 7 카메라 자동화 보조 | pass(D-0059) |
+| v3.4.0 | 182963f | 8 오디오 | pass(D-0062) |
+| v3.5.0 | d668359 | 9 번들 어댑터 | pass(D-0065) |
+| v3.6.0 | b1298f4 | 10 해상도·성능 | pass(D-0071) |
+| v4.0.0 | (검수 대기) | 11 문서·정리·G3 개정(MAJOR: G3) | Phase 11 review 뒤 Fable 이 한 줄 추가 |
+
+---
+
 ## [v4.0.0] — 2026-09-29 — Phase 11: 문서·정리·GOAL G3 개정 (back_and_forth D-0072) — 진행 중
 
 MAJOR: GOAL G3 개정은 GOAL §G3 머리말("변경 시 메이저")대로 메이저다(D64).
@@ -45,6 +69,9 @@ MAJOR: GOAL G3 개정은 GOAL §G3 머리말("변경 시 메이저")대로 메�
 ### Removed
 - **폐기 확인**(작업 9, P2): 참조 실측(`reports/phase11/legacy_refs.json`) 뒤 참조 0 인 `docs/ADDENDUM_02_PRE_PRODUCTION_DEBUG_LAYER.md`(v1 Debug Layer, 폐기 배너)·`docs/RUN_LOCAL.md`(Remotion 로컬 실행) 삭제. 보존본 `archive/hyperframes-briefing`(9dcda27). `PROFESSIONAL_REBUILD_PLAN`·`SHORTS_COLLAGE_OVERHAUL_PLAN`·`17_COLLAGE_DESIGN_SHEET`(v2.0.0)·`legacy_v3/`(v2.3.0)는 이미 삭제 — 남은 참조 목록 기록. DOCS_GOVERNANCE Tier 2·3 표와 CLAUDE.md C7 표를 실측으로 정정(만들어진 적 없는 `ARCHITECTURE`·`DATA_MODELS`·`CATALOGS`·`TESTING` 제거). 코드 쪽 사용처 0 후보(`workers/tts_backends.py`·v1 모델·빈 `agents/`)는 범위 밖이라 결정 요청.
 - **사용처 0 v1 잔재 삭제**(D-0073 A, P2): `workers/tts_backends.py`, `schemas/models.py` `ApprovalLog`·`ApprovalEntry`·`ThumbnailManifest`·`ThumbnailEntry`, 빈 `agents/` 패키지, `config.yaml tts.local_invoke_timeout_sec`·`TTSConfig` 필드, `docs/11_THUMBNAIL_SYSTEM_SPEC.md`(썸네일 시스템은 v2 파이프라인에 없음). `test_no_legacy_imports` 금지 목록에 `tts_backends`·`ApprovalLog`·`ThumbnailManifest`. 문서(02·05·01·ADDENDUM_03·DOCS_GOVERNANCE·WORKFLOWS·GOAL G1)는 '삭제됨'으로. hormuz 25컷 md5 = 기준선(렌더 경로 무관 증명).
+
+### Changed (Tier 1 현황)
+- README 핵심 원칙·현재 상태표(v2 Phase 0~10 합격·11 진행·G 예정·썸네일 등 범위 밖), HANDOFF.md 를 v4.0.0 현재 상태 거울로 재작성(back_and_forth 교신·먼저 읽을 것·컨테이너 준비·규칙). DEVLOG v4.0.0 한 줄. PIPELINE-AP-010(긴 실행 중 트리 수정, Phase 10 §4). 이 대장(Released) 절 신설.
 
 ### Changed (문서 동기화 — 나머지 Tier 2)
 - docs/00·01·02·04·06·11·13·14·15·16·ADDENDUM_01·03·04·IMAGE/VIDEO_BUNDLE_CONTRACT 를 v4.0.0 실측으로 동기화: 9 Review Gate → 게이트 2개, Remotion·Debug Layer·scene_manifest·source_registry·source_intake.json·`agents/*.py` 서술 → 엔진 CLI·LLM 워커·sources/claims·provenance. 06 권리 정책을 G4-10(사상자 식별 금지·AI 이미지 실자료 가공만)·handoff 18(X 스크래핑 금지·기사 요지만)과 일치시킴. 13 로드맵 = v2 Phase 표. 11 썸네일 = 미구현 명시(G1 `thumbnail_candidates/` 는 목표 산출물). 번들 계약 두 문서의 소비 규칙 = 번들 어댑터(재료, 템플릿 폴백 없음).

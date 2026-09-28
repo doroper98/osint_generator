@@ -1,6 +1,6 @@
 <!--
 tier: 3
-last_synced_with: v0.3.3
+last_synced_with: v4.0.0
 ssot_for: [pipeline-antipatterns]
 depends_on: [../02_SYSTEM_ARCHITECTURE.md, ../ADDENDUM_01_ORCHESTRATOR_COMMAND_CENTER_LAYOUT.md]
 last_review: 2026-05-19
@@ -77,6 +77,14 @@ last_review: 2026-05-19
 - **교훈**: LLM 검수의 hard 는 입력 메타데이터가 틀려도 나온다 — 판정이 흔들릴 때 입력부터 본다.
 - **회귀 테스트**: `tests/test_checks.py::ChecksTest::test_frames_sid_only_while_speaking`
 - **발견 버전**: v3.2.0 (Phase 6.95 NB11 실측) · **상태**: active
+
+## PIPELINE-AP-010 — 긴 실행 중 같은 워크트리의 코드·규칙을 고쳐 실행이 반쯤 바뀐 코드를 읽음
+- **증상**: Phase 10 에서 두 번. ① 480p 전편 렌더 1회차가 청크 실패로 끝났다 — 실행 중 엔진 코드를 고쳤고, 늦게 import 하는 청크 프로세스가 반쯤 바뀐 모듈을 읽었다. ② 랫클리프 AI 연출 재실행이 판 없이 멈췄다 — 실행 중 규칙(`golden`)을 옮겨, 이미 떠 있던 프로세스의 옛 스키마가 새 규칙 파일을 거부했다.
+- **원인**: 청크 병렬 렌더·AI 연출 루프는 수 분~수십 분 동안 **서브프로세스를 새로 띄우며** 저장소 파일(코드·`rules/video_rules.yaml`)을 그때그때 읽는다. 같은 워크트리를 고치면 한 실행 안에서 옛 판과 새 판이 섞인다.
+- **좋은 예**: 긴 실행은 고정된 워크트리에서 돌리고, 개발은 `git worktree add` 로 만든 별도 트리에서 한다. 실행 기록에 시작 커밋을 적는다.
+- **교훈**: 실패가 재현되지 않으면 코드보다 먼저 "실행 중에 트리가 바뀌었나"를 본다(Phase 10 run_log §4, 단독 재실행 정상).
+- **자동 조치**: 없음(운영 규칙). HANDOFF §5·docs/15 §2.3 에 규칙으로 적었다. regression_test: pending
+- **발견 버전**: v3.6.0 (Phase 10 run_log §4) · **상태**: active
 
 ---
 
