@@ -9,7 +9,7 @@ import numpy as np
 
 from engine.context import RenderCtx
 from engine.layers.routes import glow_line
-from engine.panels.base import panel_title, prov_tag
+from engine.panels.base import chart
 from engine.style import C
 from engine.timebase import ease_io, smooth
 from engine.typography import rrect, text
@@ -18,10 +18,9 @@ from rules import load_rules
 F = load_rules().panels.charts.fork
 
 
+@chart
 def draw(ctx: cairo.Context, R: RenderCtx, t: float, e: dict, a: float) -> None:  # noqa: N803
     lt = t - e["t0"]
-    panel_title(ctx, a, e["title"], e.get("subtitle"))
-    prov_tag(ctx, e, a)
     ox, oy = F.origin
     ctx.arc(ox, oy, F.origin_r, 0, 2 * math.pi)
     ctx.set_source_rgba(*C["gold"], a)

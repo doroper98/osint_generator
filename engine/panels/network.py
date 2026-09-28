@@ -15,7 +15,7 @@ import cairo
 
 from engine.context import RenderCtx
 from engine.layers.badges import badge_at
-from engine.panels.base import edge_curve, panel_title, prov_tag
+from engine.panels.base import chart, edge_curve
 from engine.style import C
 from engine.timebase import ease_io, smooth
 from engine.typography import text
@@ -43,10 +43,9 @@ def edge_start(e: dict) -> float:
     return max(p[3] for p in layout(e).values()) + REL.edges_after_nodes_sec
 
 
+@chart
 def draw(ctx: cairo.Context, R: RenderCtx, t: float, e: dict, a: float) -> None:  # noqa: N803
     lt = t - e["t0"]
-    panel_title(ctx, a, e["title"], e.get("subtitle"))
-    prov_tag(ctx, e, a)
     pos = layout(e)
     s0 = edge_start(e)
     for k, ed in enumerate(e["edges"]):

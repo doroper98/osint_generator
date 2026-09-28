@@ -174,8 +174,24 @@ panels:                    # D-0032 — 패널 기하·타이밍. 코드에 리�
     marker_label_strategy: hide                # 마커 점은 사실 위치라 옮기지 않고, 라벨만 카드 뒤에서 흐린다
     min_zone_alpha: 0.01
     lead_sec: 0.45                             # 카드 페이드와 같은 길이 — 카드가 들어오기 전에 비키고, 나간 뒤에 돌아온다
+  prov_tag:                # D-0034(D37) — 추정 태그는 제목 아래(부제 다음 줄, 가운데). 08 §9 우상단(W−40, 52)은 C0 모서리 규칙과 충돌해 쓰지 않는다
+    anchor: below_title
+    y_offset_px: 20                 # 제목(부제가 있으면 부제) 기준선에서 태그 줄 기준선까지
+    align: center
+    font: sansb
+    size: 10
+    color: amber
+    border_px: 1
+    alpha: 0.9
+    pad_x: 14
+    h: 19
+    box_dy: -13                     # 상자 위 끝 = 태그 기준선 + box_dy
+    r: 3
+    gap_px: 8                       # 태그와 <미검증> 등 검증 라벨 사이(같은 줄, 별개 장치 — C9)
+    claim_color: ru
+    body_top_px: 118                # 태그 없는 패널의 본문 기준 위 끝(v3 본문 시작)
+    body_top_px_with_tag: 136       # 태그 줄이 있으면 본문을 여기서 시작 — 이동량 = 둘의 차(모든 차트 같은 값)
   charts:                  # D-0032 작업 5 — v2 render2 P_dots·P_gantt·P_dual·P_fork·P_check·P_network 합격 값(08 §8), 제목은 v3 중앙 상단(08 §2)
-    prov_tag: {x_right: 40, y: 52, size: 10, pad_x: 14, h: 19, box_dy: -13, text_dy: 1, r: 3, line_width: 1, alpha: 0.9, color: amber}   # 08 §9 명세값 — R-0031 결정 대기
     dots:
       origin: [250, 135]
       spacing: 25

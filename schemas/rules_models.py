@@ -352,19 +352,24 @@ class TextAt(_Strict):
 
 
 class ProvTagRules(_Strict):
-    """08 §9 추정 태그 — 좌표는 R-0031 결정 대기(08 §9 명세값)."""
+    """08 §9 추정 태그 — 위치는 D-0034(D37): 제목 아래 가운데. 모서리(HUD) 아님."""
 
-    x_right: float
-    y: float
+    anchor: Literal["below_title"]
+    y_offset_px: float
+    align: Literal["center"]
+    font: str
     size: float
+    color: str
+    border_px: float
+    alpha: float
     pad_x: float
     h: float
-    box_dy: float                  # 상자 위 끝 = y + box_dy
-    text_dy: float
+    box_dy: float
     r: float
-    line_width: float
-    alpha: float
-    color: str
+    gap_px: float
+    claim_color: str
+    body_top_px: float
+    body_top_px_with_tag: float
 
 
 class DotsRules(_Strict):
@@ -529,7 +534,6 @@ class NetworkRules(_Strict):
 
 
 class ChartRules(_Strict):
-    prov_tag: ProvTagRules
     dots: DotsRules
     gantt: GanttRules
     dual_line: DualLineRules
@@ -542,6 +546,7 @@ class PanelRules(_Strict):
     relation: RelationPanelRules
     timeline: TimelinePanelRules
     reserved: ReservedRules
+    prov_tag: ProvTagRules
     charts: ChartRules
 
 

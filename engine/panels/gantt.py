@@ -7,7 +7,7 @@ from datetime import date
 import cairo
 
 from engine.context import RenderCtx
-from engine.panels.base import panel_title, prov_tag
+from engine.panels.base import chart
 from engine.style import C
 from engine.timebase import clamp01, ease_out, smooth
 from engine.typography import rrect, text
@@ -20,10 +20,9 @@ def _d(s: str) -> date:
     return date(*map(int, s.split("-")))
 
 
+@chart
 def draw(ctx: cairo.Context, R: RenderCtx, t: float, e: dict, a: float) -> None:  # noqa: N803
     lt = t - e["t0"]
-    panel_title(ctx, a, e["title"], e.get("subtitle"))
-    prov_tag(ctx, e, a)
     x0, x1 = G.x
     d0, d1 = _d(e["axis_start"]), _d(e["axis_end"])
 

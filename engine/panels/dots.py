@@ -7,7 +7,7 @@ import math
 import cairo
 
 from engine.context import RenderCtx
-from engine.panels.base import panel_title, prov_tag
+from engine.panels.base import chart
 from engine.style import C
 from engine.timebase import smooth
 from engine.typography import text
@@ -16,10 +16,9 @@ from rules import load_rules
 D = load_rules().panels.charts.dots
 
 
+@chart
 def draw(ctx: cairo.Context, R: RenderCtx, t: float, e: dict, a: float) -> None:  # noqa: N803
     lt = t - e["t0"]
-    panel_title(ctx, a, e["title"], e.get("subtitle"))
-    prov_tag(ctx, e, a)
     rows, cols = D.grid
     x0, y0 = D.origin
     for i in range(rows * cols):

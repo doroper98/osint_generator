@@ -5,7 +5,7 @@ from __future__ import annotations
 import cairo
 
 from engine.context import RenderCtx
-from engine.panels.base import panel_title, prov_tag
+from engine.panels.base import chart
 from engine.style import C
 from engine.timebase import ease_out, smooth
 from engine.typography import rrect, text
@@ -14,10 +14,9 @@ from rules import load_rules
 K = load_rules().panels.charts.checklist
 
 
+@chart
 def draw(ctx: cairo.Context, R: RenderCtx, t: float, e: dict, a: float) -> None:  # noqa: N803
     lt = t - e["t0"]
-    panel_title(ctx, a, e["title"], e.get("subtitle"))
-    prov_tag(ctx, e, a)
     b = K.box
     for i, s_ in enumerate(e["items"]):
         y = K.y0 + i * K.dy

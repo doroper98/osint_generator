@@ -9,7 +9,7 @@ import numpy as np
 
 from engine.context import RenderCtx
 from engine.layers.routes import glow_line
-from engine.panels.base import panel_title, prov_tag
+from engine.panels.base import chart
 from engine.style import C
 from engine.timebase import clamp01, ease_io
 from engine.typography import text
@@ -22,10 +22,9 @@ def _fmt(v: float, prefix: str, decimals: int) -> str:
     return f"{prefix}{v:.{decimals}f}"
 
 
+@chart
 def draw(ctx: cairo.Context, R: RenderCtx, t: float, e: dict, a: float) -> None:  # noqa: N803
     lt = t - e["t0"]
-    panel_title(ctx, a, e["title"], e.get("subtitle"))
-    prov_tag(ctx, e, a)
     X0, X1 = L.x  # noqa: N806
     Y0, Y1 = L.y  # noqa: N806
     lo, hi = e["y_min"], e["y_max"]

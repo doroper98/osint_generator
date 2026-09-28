@@ -12,6 +12,7 @@ event:
   provenance:
     verification: estimated
     sources: []
+    claim_status: unverified
   axis_start: '2025-01-01'
   axis_end: '2030-01-01'
   tasks:

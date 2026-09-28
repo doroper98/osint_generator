@@ -13,7 +13,7 @@ from engine.timebase import window
 from engine.typography import text
 from rules import load_rules
 
-_CHARTS = load_rules().panels.charts
+_TAG = load_rules().panels.prov_tag
 
 PanelFn = Callable[[cairo.Context, RenderCtx, float, dict, float], None]
 
@@ -65,20 +65,74 @@ def prov_tag_text(pv: dict | None) -> str | None:
     return "추정" if pv["sources"] else "추정 · 출처 미기재"
 
 
-def prov_tag(ctx: cairo.Context, e: dict, a: float) -> str | None:
-    """추정/출처 태그(v2 `prov_tag` 공통화). 그린 문구를 돌려준다(provenance panels.used[].tag)."""
-    s = prov_tag_text(e.get("provenance"))
-    if s is None or a <= 0.01:
-        return s
-    from engine.typography import rrect, tw  # noqa: PLC0415
+def claim_label(pv: dict | None) -> str | None:
+    """사실 검증 라벨(<미검증> 등, C9) — 추정 태그와 별개(D-0034 §3)."""
+    if pv is None or not pv.get("claim_status"):
+        return None
+    from schemas.models import CLAIM_STATUS_LABELS  # noqa: PLC0415
 
-    T = _CHARTS.prov_tag  # noqa: N806
-    w = tw(ctx, s, T.size, "sansb")
-    x = W_OUT - T.x_right
-    col = C[T.color]
-    rrect(ctx, x - w - T.pad_x, T.y + T.box_dy, w + T.pad_x, T.h, T.r)
-    ctx.set_source_rgba(*col, T.alpha * a)
-    ctx.set_line_width(T.line_width)
-    ctx.stroke()
-    text(ctx, s, x - T.pad_x / 2, T.y + T.text_dy, T.size, "sansb", col, a, 0, "r")
-    return s
+    return CLAIM_STATUS_LABELS[pv["claim_status"]]
+
+
+def tag_row_y(e: dict) -> float:
+    """태그 줄 기준선 — 제목(부제가 있으면 부제) 기준선 + y_offset_px (D-0034 anchor below_title)."""
+    return (PANEL.subtitle_y if e.get("subtitle") else PANEL.title_y) + _TAG.y_offset_px
+
+
+def body_shift(e: dict) -> float:
+    """태그 줄(추정 태그·검증 라벨)이 있는 패널만 본문을 내린다 — 모든 차트 같은 값(D-0034 §2)."""
+    if prov_tag_text(e.get("provenance")) is None and claim_label(e.get("provenance")) is None:
+        return 0.0
+    return _TAG.body_top_px_with_tag - _TAG.body_top_px
+
+
+def tag_boxes(ctx: cairo.Context, e: dict) -> list[tuple[str, str, tuple[float, float, float, float]]]:
+    """(문구, 색 이름, 상자) — 검증 라벨, 추정 태그 순으로 가운데 정렬."""
+    from engine.typography import tw  # noqa: PLC0415
+
+    T = _TAG  # noqa: N806
+    pv = e.get("provenance")
+    items = [(s, c) for s, c in ((claim_label(pv), T.claim_color), (prov_tag_text(pv), T.color)) if s]
+    if not items:
+        return []
+    ws = [tw(ctx, s, T.size, T.font) + T.pad_x for s, _ in items]
+    total = sum(ws) + T.gap_px * (len(ws) - 1)
+    x = W_OUT / 2 - total / 2
+    y = tag_row_y(e)
+    out = []
+    for (s, c), w in zip(items, ws):
+        out.append((s, c, (x, y + T.box_dy, x + w, y + T.box_dy + T.h)))
+        x += w + T.gap_px
+    return out
+
+
+def prov_tag(ctx: cairo.Context, e: dict, a: float) -> str | None:
+    """추정/출처 태그(v2 `prov_tag` 공통화, 08 §9) + 사실 검증 라벨. 위치는 제목 아래 가운데(D-0034).
+    그린 추정 태그 문구를 돌려준다(provenance panels.used[].prov_tag)."""
+    from engine.typography import rrect  # noqa: PLC0415
+
+    T = _TAG  # noqa: N806
+    if a > 0.01:
+        for s, cname, (x0, y0, x1, y1) in tag_boxes(ctx, e):
+            col = C[cname]
+            rrect(ctx, x0, y0, x1 - x0, y1 - y0, T.r)
+            ctx.set_source_rgba(*col, T.alpha * a)
+            ctx.set_line_width(T.border_px)
+            ctx.stroke()
+            text(ctx, s, (x0 + x1) / 2, y0 - T.box_dy, T.size, T.font, col, a, 0, "c")
+    return prov_tag_text(e.get("provenance"))
+
+
+def chart(body: PanelFn) -> PanelFn:
+    """차트 패널 공통 머리 — 제목(중앙 상단) → 태그 줄 → 본문(태그 줄이 있으면 body_shift 만큼 아래로, D-0034 §2)."""
+
+    def draw(ctx: cairo.Context, R: RenderCtx, t: float, e: dict, a: float) -> None:  # noqa: N803
+        panel_title(ctx, a, e["title"], e.get("subtitle"))
+        prov_tag(ctx, e, a)
+        ctx.save()
+        ctx.translate(0, body_shift(e))
+        body(ctx, R, t, e, a)
+        ctx.restore()
+
+    draw.__name__ = body.__name__
+    return draw

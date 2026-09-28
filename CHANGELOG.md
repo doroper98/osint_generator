@@ -36,7 +36,7 @@ released 항목은 **append-only**입니다.
 
 - 연표 자동 층 배치: 사건에 `side` 가 없으면 라벨 폭을 실측해 겹치지 않는 가장 안쪽 층(±1~±3)을 고른다. 데이터가 준 층은 그대로(P8). 빈 층이 없거나 준 층끼리 겹치면 경고. 연표 수치는 `panels.timeline`.
 - 카드 RESERVED: 카드·기사 카드가 떠 있는 동안 그 영역을 지도 뱃지가 최소 이동으로 비키고(없으면 흐림), 마커 라벨은 흐린다. 카드가 사라지면 제자리. 규칙 `panels.reserved`, provenance `reserved.avoidance`, `lint_warnings`. 증명 도구 `tools/reserved_proof.py`.
-- v2 번들 차트 이식: `dots`·`gantt`·`dual_line`·`fork`·`checklist`·`network` 패널(모델·렌더러·`prompts/examples/panels/` 예시·프리뷰 PNG). `network` 는 정돈된 관계선 규칙으로 고쳤고 노드는 엔티티 레지스트리 뱃지만 쓴다(문자 원 금지). 수치는 `panels.charts`. 추정 태그 `prov_tag` 공통(위치는 R-0031 결정 대기). provenance `panels.used[]`. 갤러리 `tools/panel_gallery.py`.
+- v2 번들 차트 이식: `dots`·`gantt`·`dual_line`·`fork`·`checklist`·`network` 패널(모델·렌더러·`prompts/examples/panels/` 예시·프리뷰 PNG). `network` 는 정돈된 관계선 규칙으로 고쳤고 노드는 엔티티 레지스트리 뱃지만 쓴다(문자 원 금지). 수치는 `panels.charts`. 추정 태그 `prov_tag` 공통 — 위치는 제목 아래 가운데(D37, 모서리는 날짜만), `<미검증>` 등 검증 라벨(`provenance.claim_status`)은 같은 줄의 별개 상자. 태그 줄이 있는 패널만 본문을 규칙 값 하나(`panels.prov_tag`)로 내린다. provenance `panels.used[]`. 갤러리 `tools/panel_gallery.py`.
 
 ### Changed
 - hormuz review 장면 "부산에서 출항" 뱃지를 v3 임시 좌표(125.6E 22.3N)에서 실제 부산(129.04E 35.10N)으로 되돌림(D36). 15·16컷은 `expected_deltas.json` 등재.
