@@ -1,6 +1,6 @@
 <!--
 tier: 2
-last_synced_with: v3.4.0
+last_synced_with: v3.5.0
 ssot_for: [prompt-director_user]
 depends_on: [prompts/director.md, workers/director_worker.py]
 last_review: 2026-09-28
@@ -38,6 +38,7 @@ note: DirectorWorker user prompt 템플릿 — 자리표시는 워커가 .replac
 ----------------------------------------------------
 {camera_suggest}
 
+{bundle_materials}
 지시
 ----
 위 원고 전체를 연출하는 direction JSON 을 출력하십시오. 모든 장면(scene)을 다룬다.

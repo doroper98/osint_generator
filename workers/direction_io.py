@@ -195,6 +195,23 @@ def camera_suggest_text(pdir: Path) -> tuple[str, str | None]:
     return ("\n".join(rows) if rows else "(제안할 숏 없음)"), sha
 
 
+def bundle_materials_text(pdir: Path) -> tuple[str, str | None]:
+    """번들 재료 블록(v3.5.0 D-0063 작업 4) — `intake/bundle_materials.json` 이 있을 때만. **재료일 뿐 강제 아님**(P8).
+    이전 영상의 연출은 넣지 않는다(15 P9) — 이 프로젝트 번들에서 뽑은 장소·경로·패널 데이터뿐. 없으면 ("", None)."""
+    from bundle.to_direction import MATERIALS_FILE, BundleMaterials  # noqa: PLC0415
+    from rules import load_rules  # noqa: PLC0415
+    from workers.prompt_loader import load_prompt  # noqa: PLC0415
+
+    p = pdir / "intake" / MATERIALS_FILE
+    if not p.exists():
+        return "", None
+    raw = p.read_bytes()
+    mat = BundleMaterials.model_validate_json(raw)
+    body = mat.model_dump_json(indent=1, exclude={"unmatched"}, exclude_defaults=False)
+    return (load_prompt("director_bundle", load_rules()).replace("{materials}", body) + "\n",
+            hashlib.sha1(raw).hexdigest())
+
+
 def load_plan(pdir: Path) -> Plan:
     return Plan.model_validate(json.loads((pdir / "plan.json").read_text(encoding="utf-8")))
 

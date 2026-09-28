@@ -23,6 +23,7 @@ from schemas.models import TaskQueueItem
 from workers.base_llm_worker import BaseLLMWorker
 from workers.base_worker import run_worker
 from workers.direction_io import (
+    bundle_materials_text,
     camera_suggest_text,
     check_direction,
     music_list_text,
@@ -61,7 +62,8 @@ class DirectorWorker(BaseLLMWorker):
                 .replace("{geo}", geo_text(pdir))
                 .replace("{event_fields}", event_fields_table())
                 .replace("{music_list}", music_list_text(pdir))
-                .replace("{camera_suggest}", camera_suggest_text(pdir)[0]))
+                .replace("{camera_suggest}", camera_suggest_text(pdir)[0])
+                .replace("{bundle_materials}", bundle_materials_text(pdir)[0]))
 
     def output_path(self, args: argparse.Namespace, task: TaskQueueItem) -> Path:
         return self.project_dir(args) / "direction.yaml"
@@ -84,7 +86,8 @@ class DirectorWorker(BaseLLMWorker):
             "schema_version": 1, "origin": "ai", "worker": self.worker_name, "version": n,
             "model": self.resolve_model() if self.llm_backend == "claude" else self.llm_backend,
             "prompt_sha1": prompt_sha1(self.system_prompt()),
-            "camera_suggest_sha1": camera_suggest_text(pdir)[1]}, ensure_ascii=False, indent=1), encoding="utf-8")
+            "camera_suggest_sha1": camera_suggest_text(pdir)[1],
+            "bundle_materials_sha1": bundle_materials_text(pdir)[1]}, ensure_ascii=False, indent=1), encoding="utf-8")
 
 
 if __name__ == "__main__":

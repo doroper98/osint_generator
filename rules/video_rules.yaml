@@ -604,6 +604,16 @@ qa_checks:                 # 17 §3 — 결정적 사전 검사 임계
   visual_qa_loop_max: 2
   loop_pick_order: [checks_hard, qa_hard, qa_soft]   # D-0049 쟁점 3 — 상한 도달 시 사전식 최소 판, 동점은 이른 회차
 
+bundle:                    # v3.5.0 D-0063 작업 4 — 번들 어댑터(bundle/) 어휘 대응. 번들은 재료다(12 §5) — 여기 없는 차트 종류는 패널로 만들지 않고 unsupported 로 기록(P6)
+  chart_panels: {stakeholder_map: network, dot_matrix: dots, gantt: gantt, dual_line: dual_line}   # 번들 차트 종류 → 패널 kind(12 §2)
+  edge_types: {영향: influence, 연관: related, 대립: opposed, 동맹: allied}                         # stakeholder edges.type → panels.charts.network.styles
+  verified_when: confirmed          # 번들 provenance.verification 이 이 값이고 출처 ≥ 1 이면 패널 provenance verified(태그 없음), 아니면 estimated(추정 태그, 08 §9)
+  dual_line_colors: [gold, us]      # v2 render2 P_dual 계열 색(prompts/examples/panels/dual_line.yaml 과 같음)
+  gantt_colors: [ru, muted, teal, green]
+  node_accent: gold                 # stakeholder 노드 accent: true → 이 강조색(아니면 muted)
+  dual_line_ticks: 4                # dual_line y 눈금 칸 수 목표(깔끔한 간격 = 아래 가수 × 10^n 중 span/칸 이상 최소)
+  nice_mantissas: [1, 2, 2.5, 5, 10]
+
 provenance:                # 15 §3 P5
   required_keys: [engine, rules_hash, prompts, features_used, qa, drops]
   fail_if_drops: true

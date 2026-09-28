@@ -831,6 +831,19 @@ class QAChecks(_Strict):
     loop_pick_order: list[Literal["checks_hard", "qa_hard", "qa_soft"]]
 
 
+class BundleRules(_Strict):
+    """v3.5.0 D-0063 작업 4 — 번들 어휘 → 저장소 어휘 대응표(bundle/to_direction.py)."""
+
+    chart_panels: dict[str, str] = Field(min_length=1)
+    edge_types: dict[str, str] = Field(min_length=1)
+    verified_when: str
+    dual_line_colors: list[str] = Field(min_length=2)
+    gantt_colors: list[str] = Field(min_length=1)
+    node_accent: str
+    dual_line_ticks: int = Field(ge=1)
+    nice_mantissas: list[float] = Field(min_length=1)
+
+
 class ProvenanceRules(_Strict):
     required_keys: list[str]
     fail_if_drops: bool
@@ -915,11 +928,18 @@ class VideoRules(_Strict):
     preview: PreviewRules          # v3.3.0 — D-0056 F6
     camera: CameraRules            # v3.3.0 — D-0056 작업 2
     qa_checks: QAChecks
+    bundle: BundleRules            # v3.5.0 — D-0063 작업 4
     provenance: ProvenanceRules
 
     @model_validator(mode="after")
     def _context_keys(self) -> "VideoRules":
         """camera.framing.context_w_min 키 = shot_grammar.w_guide 키(누락·초과 = 규칙 로드 오류, D-0058 §1)."""
+        bad = sorted(set(self.bundle.chart_panels.values()) - set(self.registries.panel_kinds))
+        if bad:
+            raise ValueError(f"bundle.chart_panels 의 패널 kind 가 registries.panel_kinds 에 없다: {bad}")
+        bad = sorted(set(self.bundle.edge_types.values()) - set(self.panels.charts.network.styles))
+        if bad:
+            raise ValueError(f"bundle.edge_types 값이 panels.charts.network.styles 에 없다: {bad}")
         a, b = set(self.camera.framing.context_w_min), set(self.shot_grammar.w_guide)
         if a != b:
             raise ValueError(f"camera.framing.context_w_min 키가 shot_grammar.w_guide 와 다르다 — 누락 {sorted(b - a)} · 초과 {sorted(a - b)}")

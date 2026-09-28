@@ -28,6 +28,10 @@ DATA_DRIVEN_MODULES: dict[str, frozenset[float]] = {   # 모듈 → 추가 허�
     "audio/mix.py": frozenset({44100}),             # SR 코덱 상수 — rules audio.sample_rate 와 일치 테스트(test_audio_rules)
     "audio/qa.py": frozenset({44100, 20, 10, 4}),   # SR 코덱 상수 · dB 정의(20·log10, 10^(dB/20)) · round(·, 4) 보고 자릿수
     "audio/registry.py": frozenset(),
+    "bundle/entities.py": frozenset({4}),           # round(·, 4) 보고 자릿수
+    "bundle/to_script.py": frozenset({1000}),       # YAML 줄 폭(줄바꿈 안 함 — orchestrator/script_io 와 같음)
+    "bundle/to_direction.py": frozenset({10, 1000}),  # 10진 자릿수(10^floor(log10), 눈금 가수는 rules bundle.nice_mantissas) · YAML 줄 폭
+    "bundle/to_sources.py": frozenset({10, 120}),   # ISO 날짜 길이(YYYY-MM-DD) · 오류 문구 자르기 길이(표시용)
 }
 ALLOWED_NUMBERS: frozenset[float] = frozenset({0, 1, 2, 3})
 
