@@ -23,7 +23,8 @@ last_review: 2026-09-28
 | 5 보정 | `61a0eea` | 엔딩 풀백 숏 제안 제외 |
 | 9 증거 | `d3581a9` | camauto provenance suggested 8·used 8, hormuz 25컷 MAD 0 |
 | 7 AI 재실증 | `03bff2a` | `qa_compare.md`, `hormuz_ai_cam/` |
-| D-0057 §2 | `9e0dcbc` → `9e0dc87` | 환경 의존 테스트 사유 있는 skip(NB14·NB15) |
+| D-0057 §2 | `9e0dc87` | 환경 의존 테스트 사유 있는 skip(NB14·NB15) |
+| D-0058 맥락 폭 하한 | (이 커밋 앞) | `context_w_min` 키 = w_guide 검사, route_0 제안 2.5 → 20, camauto 2차판 |
 
 ## 2. 명령
 
@@ -35,7 +36,8 @@ python tools/ai_vs_golden_sheet.py projects/hormuz_korea/prev projects/hormuz_ca
 python tools/camauto_compare.py projects/hormuz_korea projects/hormuz_camauto docs/handoff/reports/phase7/camauto_compare.json
 python -m engine.render projects/hormuz_camauto --jobs 4   # 144초
 python -m audio.mix projects/hormuz_camauto                 # 36초
-python -m engine.mux projects/hormuz_camauto                # 27초 → final.mp4 292.441초
+python -m engine.mux projects/hormuz_camauto                # 27초 → 1차판 final.mp4 292.441초 (md5 9900b251)
+# D-0058 하한 적용 뒤 camauto_copy → preview golden → sheet·compare 재실행 → render 125초 · mix 33초 · mux 25초 → 2차판 md5 72ecea7e
 python tools/ai_direction_run.py projects/hormuz_ai_cam --preview golden   # 743초, 연출가 재요청 1(배치 슬롯)·검수 재요청 1(스키마)
 ```
 
@@ -44,8 +46,8 @@ python tools/ai_direction_run.py projects/hormuz_ai_cam --preview golden   # 743
 | 항목 | 값 |
 |---|---|
 | hormuz 25컷 회귀 | MAD 0(평균·최대), checks hard 0·warn 0, provenance camera suggested 8·used 0 |
-| camauto 25컷 | 프레임 안 100%(v3 100%), checks hard 0·warn 0, 숏 규칙 경고 0, MAD 평균 0.031 |
-| camauto 카드 RESERVED | 부산 뱃지 push(v3 135px·camauto 140px), 이재명 hide 2프레임 — 같은 구조 |
+| camauto 25컷(2차판) | 프레임 안 100%(v3 100%), checks hard 0·warn 0, 숏 규칙 경고 0, MAD 평균 0.027(1차판 0.031) |
+| camauto 카드 RESERVED | 부산 뱃지 push(v3 135px·camauto 2차 147px), 이재명 hide 2프레임 — 같은 구조 |
 | 해상도 | 854×480·1280×720 golden preview checks 동일(hard 0), frame_points 결과 동일(화면비 0.08% 차 이내). 렌더러 레이아웃은 480p 좌표 그대로(`res720_route_3.png`) → Phase 10 |
 | hormuz_ai_cam | 선택 판 checks 0·검수 hard 1·soft 6(6.9: 0·1·7), 제안 채택 0/8(근접 2), provenance camera given_to_director true·used 0 |
-| pytest | 636 passed · skip 0 · xfail 0 (Opus 환경, 글꼴·plan.json 있음). Phase 7 새 테스트 34 |
+| pytest | 639 passed · skip 0 · xfail 0 (Opus 환경, 글꼴·plan.json 있음). Phase 7 새 테스트 37 |

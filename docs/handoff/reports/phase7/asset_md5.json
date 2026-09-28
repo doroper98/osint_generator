@@ -1,24 +1,25 @@
 {
  "schema_version": 1,
- "note": "Phase 7 (v3.3.0). hormuz_camauto 전편(제안값 8/10 숏) = artifacts/phase7-v3.3.0. tts·plan·media 는 hormuz_korea 사본(같은 바이트).",
+ "note": "Phase 7 (v3.3.0). hormuz_camauto 2차판(context_w_min 적용) = artifacts/phase7-v3.3.0 hormuz_camauto/out, 1차판 = hormuz_camauto_pre_context_w/out. tts·plan·media 는 hormuz_korea 사본(같은 바이트).",
  "tts_files": 45,
  "files": {
-  "hormuz_camauto/out/final.mp4": "9900b25102851d509f919146d755b7b5",
-  "hormuz_camauto/out/video_noaudio.mp4": "dcdefa0e750a87c8932f2b918f9bd7b3",
+  "hormuz_camauto/out/final.mp4": "72ecea7e79b603b60610768a1b49a40c",
+  "hormuz_camauto/out/video_noaudio.mp4": "e773e5b99503b014b0ce7aeeaddd0687",
   "hormuz_camauto/out/final.srt": "823c813f0bd37781cfbce90e08161bc6",
   "hormuz_camauto/out/credits.txt": "58d7d5afcf8c7d0462ab817f4eb13bff",
   "hormuz_camauto/out/description.txt": "83a736e1f93e0f60adf2ba408061d9b0",
-  "hormuz_camauto/out/provenance.json": "1f130fb545cf9edd539bdb4917de49b0",
-  "hormuz_camauto/direction.yaml": "a6fa5c4e3581a506af04f187b489f85e",
-  "hormuz_camauto/camauto_map.json": "691675e713dba4bc55a3213f1dc3c587",
-  "hormuz_camauto/prev/camera_suggest.json": "ebcb081b73c126f786e35d3ccd25bafc",
+  "hormuz_camauto/out/provenance.json": "513d599b5f9d4c33bb8fa0a57a60f395",
+  "hormuz_camauto/direction.yaml": "d28d2be9b008cc549a515c9b74a94858",
+  "hormuz_camauto/camauto_map.json": "f214c3ba8f524cc007346fcf856a26f4",
+  "hormuz_camauto/prev/camera_suggest.json": "d458932892e6c0b1a9567195f486da0a",
   "hormuz_korea/direction.yaml": "7e09621ed8bb45731f9aa1a1497614c8",
   "hormuz_korea/plan.json": "200c1e74d1332405b31f95ea7448632e",
-  "hormuz_korea/prev/camera_suggest.json": "ebcb081b73c126f786e35d3ccd25bafc",
+  "hormuz_korea/prev/camera_suggest.json": "d458932892e6c0b1a9567195f486da0a",
   "hormuz_ai_cam/direction.v1.yaml": "9ab9ec5efc331e9549f6347c1918ad05",
   "hormuz_ai_cam/direction.v2.yaml": "f9744dcd5bf8f4f9a3f94d22baa4913c",
   "hormuz_ai_cam/direction.v3.yaml": "0bbae8efe216e55c327a473ff487aae9",
   "hormuz_ai_cam/prev/camera_suggest.json": "4ce150cdb3bfa35881029f27b7bba19d",
-  "hormuz_camauto/tts/*.mp3 (합 md5)": "0f82957564433f9ebd1f5295135c7cf8"
+  "hormuz_camauto/tts/*.mp3 (합 md5)": "0f82957564433f9ebd1f5295135c7cf8",
+  "hormuz_camauto_pre_context_w/out/final.mp4 (artifacts)": "9900b25102851d509f919146d755b7b5"
  }
 }
