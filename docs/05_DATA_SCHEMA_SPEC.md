@@ -355,3 +355,10 @@ SSOT 는 `schemas/models.py`. 전부 additive — schema_version 1 유지.
 | `assets/rights_bundles.yaml` | `AssetRights` | 묶음 자산 권리 원본. `fetch_data people` 이 프로젝트 레지스트리에 병합 |
 | 프로젝트 `credits.yaml` | `engine/credits.py` `Credits` | 항목 `rights: [절.키]`, 절 `auto: <절>`. 렌더가 쓰는 자산이 레지스트리에 없거나·미확인이거나·크레딧에 없으면 `RightsError` |
 | provenance `assets` | `engine/mux.py asset_usage` | `images_used`, `emblems.{used, flag_fallback}`, `badges.{suggested, used, suggested_and_used}` |
+
+## 8. v3.2.0 추가 계약 (Phase 6.95 — 소스 인테이크, back_and_forth D-0051, docs/handoff/18)
+
+| 파일 | 모델 | 규칙 |
+|---|---|---|
+| 프로젝트 `intake/sources.json` | `schemas/source_models.py` `SourcesFile`·`XPostSource`·`ArticleSource`·`DocumentSource` | type 판별 3종(18 §2). 기사는 요지(`key_facts`)만, 원문 장문 금지. X 캡처는 `capture` 경로 필수. `confirmed_by` 가 비면 검증 단계로 못 간다(18 §7). `account_class` 는 `rules/official_accounts.yaml` 로 코드가 정한다 |
+| 프로젝트 `intake/claims.json` | `ClaimsFile`·`Claim`·`ClaimSide` | `status ∈ {verified, corroborated, unverified, disputed}`. 분쟁 사안(`contested`)은 `sides ≥ 2` 가 없으면 `unverified` 만 허용(18 §3-5). 소스 id 는 sources.json 안(`check_claim_sources`) |
