@@ -1,0 +1,12 @@
+{"t": 284.1, "ok": true, "stage": "director", "errors": [], "warnings": []}
+{"t": 286.9, "ok": true, "stage": "validate", "errors": [], "warnings": ["[timeline-overlap] '전쟁과 협상의 여섯 달' 2026-06-17 양해각서 서명 층 2 라벨이 앞 사건과 겹친다"]}
+{"t": 295.2, "ok": false, "stage": "preview", "errors": ["checks hard offscreen: 뱃지 알리 하메네이 t=54.9 화면 밖 13px (상자 [533, -13, 618, 131])", "checks hard offscreen: 마커 호르무즈 해협 t=166.9 화면 밖 16px (상자 [-16, 166, 93, 208])"], "warnings": ["[timeline-overlap] '전쟁과 협상의 여섯 달' 2026-06-17 양해각서 서명 층 2 라벨이 앞 사건과 겹친다"]}
+{"t": 360.2, "ok": true, "stage": "revise_direction", "errors": [], "warnings": []}
+{"t": 363.2, "ok": true, "stage": "validate", "errors": [], "warnings": ["[timeline-overlap] '전쟁과 협상의 여섯 달' 2026-06-17 양해각서 서명 층 2 라벨이 앞 사건과 겹친다"]}
+{"t": 371.3, "ok": true, "stage": "preview", "errors": [], "warnings": ["[timeline-overlap] '전쟁과 협상의 여섯 달' 2026-06-17 양해각서 서명 층 2 라벨이 앞 사건과 겹친다"]}
+{"t": 421.5, "ok": true, "stage": "visual_qa", "errors": [], "warnings": []}
+{"t": 629.2, "ok": true, "stage": "revise_direction", "errors": [], "warnings": []}
+{"t": 632.4, "ok": true, "stage": "validate", "errors": [], "warnings": ["[timeline-overlap] '전쟁과 협상의 여섯 달' 2026-06-17 양해각서 서명 층 2 라벨이 앞 사건과 겹친다", "[media-density-total] 과소 — 4개 / 292초 = 73.1초당 1개 > 60초 (14 §10.1)"]}
+{"t": 641.1, "ok": true, "stage": "preview", "errors": [], "warnings": ["[timeline-overlap] '전쟁과 협상의 여섯 달' 2026-06-17 양해각서 서명 층 2 라벨이 앞 사건과 겹친다", "[media-density-total] 과소 — 4개 / 292초 = 73.1초당 1개 > 60초 (14 §10.1)"]}
+{"t": 734.4, "ok": true, "stage": "visual_qa", "errors": [], "warnings": []}
+{"t": 743.5, "ok": true, "stage": "preview", "errors": [], "warnings": ["[timeline-overlap] '전쟁과 협상의 여섯 달' 2026-06-17 양해각서 서명 층 2 라벨이 앞 사건과 겹친다"]}

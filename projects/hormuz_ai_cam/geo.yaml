@@ -1,0 +1,11 @@
+# 『호르무즈와 한국』 지오 설정 (v2.2.0) — v3 prep3 값 그대로(19a §H).
+# bbox: 국가 지오메트리 권역(lon0, lat0, lon1, lat1). admin1: 1급 행정구역을 준비할 나라.
+# tiers: 지형 티어 — name, ppd(도당 픽셀), z(타일 줌), bbox. 렌더러는 W(광역)를 카메라 경계로 쓴다.
+schema_version: 1
+bbox: [20, -20, 150, 60]
+admin1: [KR, IR, OM, AE, SA, QA, KW, BH, IQ, KP, JP, YE]
+crimea_to_ua: false
+tiers:
+  - {name: W, ppd: 24, z: 5, bbox: [28.0, -12.0, 140.0, 48.0]}
+  - {name: G, ppd: 96, z: 7, bbox: [46.0, 20.5, 62.0, 32.5]}
+  - {name: K, ppd: 96, z: 7, bbox: [122.5, 32.3, 131.8, 39.8]}

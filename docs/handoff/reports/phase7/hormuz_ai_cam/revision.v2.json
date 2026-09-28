@@ -1,0 +1,14 @@
+{
+ "schema_version": 1,
+ "direction_version": 2,
+ "changelog": [
+  {
+   "issue_ref": "offscreen:뱃지 알리 하메네이 t=54.9",
+   "change": "war 장면 카메라(lat 26.8, w 14)에서 lat 29.4 좌표가 화면 위로 13px 넘쳐 잘림 → 고정 경위도(lon 57.8, lat 29.4)를 빼고 배치 슬롯 map_upper_right 로 옮김. 시각·문구·크기는 그대로"
+  },
+  {
+   "issue_ref": "offscreen:마커 호르무즈 해협 t=166.9",
+   "change": "review 장면 광역 카메라(lon 92.5, w 90)에서 호르무즈가 화면 왼쪽 끝 가까이 있어 side:left 라벨이 16px 밖으로 나감 → 라벨 방향을 side:right 로 바꿔 화면 안쪽으로 펼침. 위치·시각은 그대로"
+  }
+ ]
+}
