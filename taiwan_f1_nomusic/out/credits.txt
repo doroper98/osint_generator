@@ -1,0 +1,2 @@
+지도: 지도 · 지형 — Natural Earth · AWS Terrain Tiles
+음성: 내레이션 — AI 음성 합성

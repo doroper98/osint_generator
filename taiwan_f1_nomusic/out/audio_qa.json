@@ -1,0 +1,20 @@
+{
+ "schema_version": 1,
+ "final_loudness": {
+  "I": -13.78,
+  "TP": -1.5,
+  "LRA": 3.4
+ },
+ "mix_peak": 0.8,
+ "narration_rms_db": -16.46,
+ "music_rms_in_narration_db": -240.0,
+ "music_under_narration_db": -223.54,
+ "narration_seconds": 7.7,
+ "loudness_ok": true,
+ "true_peak_ok": true,
+ "music_level_ok": null,
+ "peak_ok": true,
+ "method": "내레이션 스템 = plan npy 재배치(믹서 규칙) × 최소제곱 스케일, 음악 = mix − 내레이션(모노 평균)",
+ "severity": "warning",
+ "issues": []
+}
