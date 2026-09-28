@@ -1,6 +1,6 @@
 <!--
 tier: 3
-last_synced_with: v2.3.0
+last_synced_with: v2.4.0
 ssot_for: [bootstrap-assets]
 depends_on: [tools/fetch_data.py, docs/handoff/DECISIONS.md]
 last_review: 2026-09-28
@@ -13,12 +13,11 @@ v3 참조 코드(`docs/handoff/reference_code/v3_hormuz_korea/`) **실행본**�
 
 | 파일 | 원래 이름 | 하는 일 |
 |---|---|---|
-| `prep_people_flags.py` | `prep3.py` | `people`: 인물 컷아웃(rembg)·휘장·`rights_registry.json` / `flags`: 국기 SVG→PNG |
 | `media_first_pass.py` | `media3.py` | 미디어 1차(사진·영상·컷아웃, Commons) |
 
 - **본문 무수정.** 경로 줄만 환경변수(`V3_ROOT`, 기본 `projects/hormuz_korea_legacy` / `OG_ROOT`, 기본 저장소 루트)로 바뀐 상태 그대로다.
   prep3 의 geo·base 단계는 파일에 남아 있지만 쓰지 않는다(지오는 `python -m geo.prep`).
-- **호출은 `tools/fetch_data.py`만 한다**: `python tools/fetch_data.py people`, `python tools/fetch_data.py media`.
+- **호출은 `tools/fetch_data.py`만 한다**: `python tools/fetch_data.py media`. (`people` 은 v2.4.0 부터 `tools/commons_fetch.py`·`tools/portrait_fallback.py` — 옛 파일 삭제, md5 동일 확인 `docs/handoff/reports/phase5/people_md5.json`)
   새 엔진·워커(`engine/`·`script/`·`audio/`·`workers/`·`orchestrator/`)는 이 패키지를 import 하지 않는다
   (`tests/anti_inertia/test_no_legacy_imports.py`가 검사).
 - **수명**: Phase 5(people·flags → 뱃지·엔티티·권리)와 Phase 6.5(media → 사진·영상·컷아웃)에서 정식 모듈로 대체되면 **삭제**한다

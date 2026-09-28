@@ -1,7 +1,7 @@
 """Phase 1 골든 재현 데이터 수집기 (v2.0.1, back_and_forth D-0002 작업 2).
 
 자산 부트스트랩(`tools/bootstrap_assets/`, v3 참조 코드 실행본)이 기대하는 입력을 `V3_ROOT`(기본 `projects/hormuz_korea_legacy`, gitignore) 아래에 만든다.
-v2.3.0(D32): 인물·국기·미디어 생성은 이 파일만 `tools/bootstrap_assets/`를 호출한다. Phase 5·6.5 에서 정식 모듈로 대체되면 삭제.
+v2.3.0(D32): 미디어 생성은 이 파일만 `tools/bootstrap_assets/`를 호출한다(6.5 에서 삭제). 인물·국기는 v2.4.0 에서 정식 도구로 옮겼다.
 출처·수치는 docs/handoff/19a §B·§H, 07 §3.2, 14 §10.4, reference_code/v3_hormuz_korea/media3b_round2.md 를 따른다.
 
 사용법:
@@ -12,7 +12,7 @@ v2.3.0(D32): 인물·국기·미디어 생성은 이 파일만 `tools/bootstrap_
 - tiles   : terrarium 지형 타일 W z5 / G z7 / K z7 → V3_ROOT/data/{t5,tg,tk}/{x}_{y}.png
 - flags   : flag-icons SVG 13개국(1x1·4x3) → V3_ROOT/assets/flags_svg (PNG 변환은 prep3 flags)
 - commons : Commons 메타데이터 → V3_ROOT/data/commons_v3.json, media_candidates.json (인물 2·휘장 1·미디어 5)
-- people  : bootstrap_assets/prep_people_flags.py people flags — 인물 컷아웃(rembg)·휘장·rights_registry, 국기 PNG
+- people  : tools/portrait_fallback.py(초상)·tools/commons_fetch.py(권리 기록) — 인물 4·휘장·국기 PNG·rights_registry(+ assets/rights_bundles.yaml) (v2.4.0 D-0029)
 - media   : bootstrap_assets/media_first_pass.py 실행(1차) → 2차 처리(rok_iraq 사진, niovi·strikes 5초 클립 npy) → media_registry 병합
 - bgm     : 배경음악 mp3 를 git 객체(bd37b58)에서 복원 + sha1 대조 (네트워크 불필요, DECISIONS D22)
 - all     : fonts ne tiles flags commons bgm (people → media 는 따로 — 런북 순서)
@@ -38,6 +38,8 @@ import urllib.request
 from pathlib import Path
 
 REPO = Path(__file__).resolve().parent.parent
+if str(REPO) not in sys.path:
+    sys.path.insert(0, str(REPO))   # tools.commons_fetch · tools.portrait_fallback
 BOOTSTRAP = REPO / "tools" / "bootstrap_assets"   # D32 — 이 파일만 호출한다
 UA = {"User-Agent": "osint-video-trial/0.4 (research; https://github.com/doroper98/osint_generator)"}
 COMMONS_API = "https://commons.wikimedia.org/w/api.php"
@@ -337,12 +339,70 @@ def _clip_to_npy(src: Path, start: float, dur: float, dest: Path) -> None:
     np.save(dest, arr)
 
 
+LIBRARY_PEOPLE: tuple[str, ...] = ("trump", "khamenei")          # v3 호르무즈 — 라이브러리 가공본
+FLAG_EXTRA: tuple[str, ...] = ("eu",)                            # prep3 flags() extra 중 FLAG_CODES 밖
+
+
+def build_flag_pngs(root: Path) -> int:
+    """flag-icons SVG → PNG(1:1 256², 4:3 480×360, 07 §4). prep3 flags() 와 같은 변환."""
+    import cairosvg  # noqa: PLC0415
+
+    for c in FLAG_EXTRA:
+        download(FLAG_URL.replace("{kind}", "1x1").replace("{c}", c), root / "assets" / "flags_svg" / f"{c}.svg")
+        download(FLAG_URL.replace("{kind}", "4x3").replace("{c}", c), root / "assets" / "flags_svg" / f"{c}_4x3.svg")
+    n = 0
+    for f in sorted((root / "assets" / "flags_svg").glob("*.svg")):
+        name = f.stem
+        if name.endswith("_4x3"):
+            cairosvg.svg2png(url=str(f), write_to=str(root / "assets" / "flags" / f"{name}.png"), output_width=480, output_height=360)
+        else:
+            cairosvg.svg2png(url=str(f), write_to=str(root / "assets" / "flags" / f"{name}_1x1.png"), output_width=256, output_height=256)
+        n += 1
+    return n
+
+
 def cmd_people(root: Path, dry: bool) -> list[str]:
-    """인물 컷아웃·휘장·rights_registry·국기 PNG (prep3 people flags 그대로, D32)."""
+    """인물 초상·휘장·국기 PNG·권리 레지스트리 (v2.4.0 D-0029 작업 4·5 — tools/commons_fetch.py·portrait_fallback.py)."""
     if dry:
-        return ["people → bootstrap_assets/prep_people_flags.py people flags"]
-    env = {**os.environ, "V3_ROOT": str(root)}
-    subprocess.run([sys.executable, str(BOOTSTRAP / "prep_people_flags.py"), "people", "flags"], check=True, env=env, cwd=REPO)
+        return [f"people → portraits {list(LIBRARY_PEOPLE) + list(COMMONS_PEOPLE)}, emblems {list(COMMONS_EMBLEMS)}, "
+                "flags PNG, rights_registry (+ assets/rights_bundles.yaml)"]
+    import yaml  # noqa: PLC0415
+
+    from tools.commons_fetch import now_iso, record_rights  # noqa: PLC0415
+    from tools.portrait_fallback import library_portrait, process  # noqa: PLC0415
+
+    regp = root / "assets" / "rights_registry.json"
+    pm = json.loads((REPO / "assets/library/workshop/references/photo_manifest.json").read_text(encoding="utf-8"))["people"]
+    for pid in LIBRARY_PEOPLE:
+        lib = library_portrait(pid, root / "assets" / "portraits" / f"{pid}.png")
+        record_rights(regp, "people", pid, dict(src="repo_library", license=lib["source"]["license"],
+                                               artist=re.sub("<[^>]+>", "", pm.get(pid, {}).get("artist", "")),
+                                               url=lib["source"]["url"], rights_status="rights_clear",
+                                               processing={"tool": "tools/portrait_fallback.py library",
+                                                           "variant": lib["variant"]["path"]}))
+    cand = json.loads((root / "data" / "commons_v3.json").read_text(encoding="utf-8"))
+    for pid, title in COMMONS_PEOPLE.items():
+        c = next(x for x in cand[pid] if x["title"] == title)
+        photo = root / PREFETCH[pid][1]
+        if not photo.exists():
+            raise FetchError(f"원본 사진 없음: {photo} — 먼저 `fetch_data commons`")
+        proc = process(photo, root / "assets" / "portraits" / f"{pid}.png", style="v3")
+        record_rights(regp, "people", pid, dict(src="wikimedia_commons", license=c["lic"], artist=c["artist"], url=c["page"],
+                                               title=title, rights_status="rights_clear", retrieved_at=now_iso(),
+                                               processing=proc))
+    for key, title in COMMONS_EMBLEMS.items():   # prep3: cand['centcom'] 의 NAVCENT 패치 → emblems/navcent.png
+        c = next(x for x in cand[key] if x["title"] == title)
+        if not (root / PREFETCH[key][1]).exists():
+            raise FetchError(f"휘장 파일 없음: {PREFETCH[key][1]} — 먼저 `fetch_data commons`")
+        record_rights(regp, "emblems", "navcent", dict(license=c["lic"], url=c["page"], title=title, restrictions=c["restr"],
+                                                      rights_status="rights_clear", retrieved_at=now_iso()))
+    print(f"flags {build_flag_pngs(root)}", flush=True)
+    bundles = yaml.safe_load((REPO / "assets" / "rights_bundles.yaml").read_text(encoding="utf-8"))
+    for sec, entries in bundles.items():
+        if sec == "schema_version":
+            continue
+        for k, v in entries.items():
+            record_rights(regp, sec, k, v)
     return []
 
 

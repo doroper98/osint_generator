@@ -1,0 +1,142 @@
+{
+ "schema_version": 1,
+ "note": "D-0029 §2 people 부트스트랩 재현성 — 옛 prep_people_flags.py(삭제 직전 HEAD 사본) vs 새 fetch_data people(commons_fetch·portrait_fallback). 같은 입력(photo_*.jpg 960폭, navcent 500폭, flags_svg).",
+ "old_tool": "tools/bootstrap_assets/prep_people_flags.py people flags",
+ "new_tool": "python tools/fetch_data.py people",
+ "files": {
+  "emblems/navcent.png": {
+   "old": "865d701e176d883bf6777616acf62806",
+   "new": "865d701e176d883bf6777616acf62806"
+  },
+  "flags/au_1x1.png": {
+   "old": "836f9a3fc19300aa1e5b8d91fb8effb9",
+   "new": "836f9a3fc19300aa1e5b8d91fb8effb9"
+  },
+  "flags/au_4x3.png": {
+   "old": "91315e25ed7f3b9d239d32525f9d1206",
+   "new": "91315e25ed7f3b9d239d32525f9d1206"
+  },
+  "flags/ca_1x1.png": {
+   "old": "f17fdf888ed0b6748508ce2630b0fe2c",
+   "new": "f17fdf888ed0b6748508ce2630b0fe2c"
+  },
+  "flags/ca_4x3.png": {
+   "old": "2310c1eef33a60f13c68ee9c28c9f3bb",
+   "new": "2310c1eef33a60f13c68ee9c28c9f3bb"
+  },
+  "flags/cn_1x1.png": {
+   "old": "c8e475c0df7948b16756b8fa7cbeca01",
+   "new": "c8e475c0df7948b16756b8fa7cbeca01"
+  },
+  "flags/cn_4x3.png": {
+   "old": "2d368e949907e64c61c1061e9ea16563",
+   "new": "2d368e949907e64c61c1061e9ea16563"
+  },
+  "flags/de_1x1.png": {
+   "old": "5b20a87cfecbf84d48cae198a9ee8592",
+   "new": "5b20a87cfecbf84d48cae198a9ee8592"
+  },
+  "flags/de_4x3.png": {
+   "old": "9b70abacde2b880a6ae5018de70ec155",
+   "new": "9b70abacde2b880a6ae5018de70ec155"
+  },
+  "flags/eu_1x1.png": {
+   "old": "c87bf2b916e6f72eee00508c19c5e33b",
+   "new": "c87bf2b916e6f72eee00508c19c5e33b"
+  },
+  "flags/eu_4x3.png": {
+   "old": "98d5353de709f380886dc3ec9cdd3b2e",
+   "new": "98d5353de709f380886dc3ec9cdd3b2e"
+  },
+  "flags/fr_1x1.png": {
+   "old": "d02f3df3532adcd5a82a32d7cda4d60b",
+   "new": "d02f3df3532adcd5a82a32d7cda4d60b"
+  },
+  "flags/fr_4x3.png": {
+   "old": "01ade583bf3b087dda858584dead74c0",
+   "new": "01ade583bf3b087dda858584dead74c0"
+  },
+  "flags/gb_1x1.png": {
+   "old": "2790635546f43c45324e497f9ca5c5f9",
+   "new": "2790635546f43c45324e497f9ca5c5f9"
+  },
+  "flags/gb_4x3.png": {
+   "old": "394cffceb13010338ec05c34fb8f1ce3",
+   "new": "394cffceb13010338ec05c34fb8f1ce3"
+  },
+  "flags/in_1x1.png": {
+   "old": "5a3e235696a91bb6a01a642a2ab19790",
+   "new": "5a3e235696a91bb6a01a642a2ab19790"
+  },
+  "flags/in_4x3.png": {
+   "old": "fb5d26cb27d1d56996b33864bb9aed93",
+   "new": "fb5d26cb27d1d56996b33864bb9aed93"
+  },
+  "flags/ir_1x1.png": {
+   "old": "450eb02b0503b1bc4d257f2b49c22d32",
+   "new": "450eb02b0503b1bc4d257f2b49c22d32"
+  },
+  "flags/ir_4x3.png": {
+   "old": "5f30f1b4c07708aa1d2a9d4cd7c3b330",
+   "new": "5f30f1b4c07708aa1d2a9d4cd7c3b330"
+  },
+  "flags/it_1x1.png": {
+   "old": "978745fc7807034b19a82ddb11e1ee91",
+   "new": "978745fc7807034b19a82ddb11e1ee91"
+  },
+  "flags/it_4x3.png": {
+   "old": "f041deddfdfed0ac1d0f3ac69cc75d5d",
+   "new": "f041deddfdfed0ac1d0f3ac69cc75d5d"
+  },
+  "flags/jp_1x1.png": {
+   "old": "6bc3652f5f05d1792011a597b80b6caf",
+   "new": "6bc3652f5f05d1792011a597b80b6caf"
+  },
+  "flags/jp_4x3.png": {
+   "old": "8896776d82e71b1e8856f0c8e8daf561",
+   "new": "8896776d82e71b1e8856f0c8e8daf561"
+  },
+  "flags/kr_1x1.png": {
+   "old": "43cf12a19cc8c705cf9bf8063131f45f",
+   "new": "43cf12a19cc8c705cf9bf8063131f45f"
+  },
+  "flags/kr_4x3.png": {
+   "old": "348f1687f5c181a70d7cded12394326e",
+   "new": "348f1687f5c181a70d7cded12394326e"
+  },
+  "flags/nl_1x1.png": {
+   "old": "11e650aba357763d56af82811e735aa5",
+   "new": "11e650aba357763d56af82811e735aa5"
+  },
+  "flags/nl_4x3.png": {
+   "old": "b69502233b58eb8b823a0f8ed36a87c3",
+   "new": "b69502233b58eb8b823a0f8ed36a87c3"
+  },
+  "flags/us_1x1.png": {
+   "old": "e057af8e7aa765f5b58c53c432ff0fa7",
+   "new": "e057af8e7aa765f5b58c53c432ff0fa7"
+  },
+  "flags/us_4x3.png": {
+   "old": "66d6da8e829c57aabb2e6c873d36defe",
+   "new": "66d6da8e829c57aabb2e6c873d36defe"
+  },
+  "portraits/khamenei.png": {
+   "old": "4b531c7b949e41b5f687895ef0ebf9df",
+   "new": "4b531c7b949e41b5f687895ef0ebf9df"
+  },
+  "portraits/lee_jae_myung.png": {
+   "old": "098445aaebfc8bfd9665bc842056fcc9",
+   "new": "098445aaebfc8bfd9665bc842056fcc9"
+  },
+  "portraits/roh_moo_hyun.png": {
+   "old": "f3a37ba74fb1c2e121b04819cf0b97a4",
+   "new": "f3a37ba74fb1c2e121b04819cf0b97a4"
+  },
+  "portraits/trump.png": {
+   "old": "f2cd16bd229947837c8db5f19c401459",
+   "new": "f2cd16bd229947837c8db5f19c401459"
+  }
+ },
+ "all_equal": true,
+ "count": 33
+}
