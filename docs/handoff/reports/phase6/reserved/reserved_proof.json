@@ -1,0 +1,133 @@
+{
+ "schema_version": 1,
+ "badge": "부산에서 출항",
+ "lonlat": [
+  129.04,
+  35.1
+ ],
+ "frames": [
+  {
+   "t": 164.594,
+   "off": {
+    "t": 164.583,
+    "badge_xy": [
+     806.8,
+     94.7
+    ],
+    "shift": [
+     0.0,
+     0.0
+    ],
+    "alpha_scale": 1.0,
+    "overlap_px2": 4464.3,
+    "card_boxes": [
+     [
+      530.0,
+      68.0,
+      830.0,
+      196.0
+     ]
+    ],
+    "avoidance": null
+   },
+   "on": {
+    "t": 164.583,
+    "badge_xy": [
+     806.8,
+     94.7
+    ],
+    "shift": [
+     0.0,
+     134.3
+    ],
+    "alpha_scale": 1.0,
+    "overlap_px2": 0.0,
+    "card_boxes": [
+     [
+      530.0,
+      68.0,
+      830.0,
+      196.0
+     ]
+    ],
+    "avoidance": {
+     "strategy": "push",
+     "direction": "down",
+     "px": 134.3,
+     "zones": [
+      "article:Reuters"
+     ]
+    }
+   }
+  },
+  {
+   "t": 170.519,
+   "off": {
+    "t": 170.5,
+    "badge_xy": [
+     810.7,
+     93.3
+    ],
+    "shift": [
+     0.0,
+     0.0
+    ],
+    "alpha_scale": 1.0,
+    "overlap_px2": 4093.8,
+    "card_boxes": [
+     [
+      600.0,
+      70.0,
+      830.0,
+      172.0
+     ]
+    ],
+    "avoidance": null
+   },
+   "on": {
+    "t": 170.5,
+    "badge_xy": [
+     810.7,
+     93.3
+    ],
+    "shift": [
+     0.0,
+     111.7
+    ],
+    "alpha_scale": 1.0,
+    "overlap_px2": 0.0,
+    "card_boxes": [
+     [
+      600.0,
+      70.0,
+      830.0,
+      172.0
+     ]
+    ],
+    "avoidance": {
+     "strategy": "push",
+     "direction": "down",
+     "px": 111.7,
+     "zones": [
+      "card:거론된 선택지"
+     ]
+    }
+   }
+  }
+ ],
+ "after": {
+  "t": 181.0,
+  "badge_xy": [
+   813.6,
+   92.1
+  ],
+  "shift": [
+   0.0,
+   0.0
+  ],
+  "alpha_scale": 1.0,
+  "overlap_px2": 0,
+  "card_boxes": [],
+  "avoidance": null
+ }
+}

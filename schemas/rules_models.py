@@ -327,9 +327,22 @@ class TimelinePanelRules(_Strict):
     cursor_y: Range2
 
 
+class ReservedRules(_Strict):
+    """카드·기사 카드 영역 RESERVED — 지도 뱃지·마커 라벨 회피 (D-0033, D36, 08 §10·§11-4)."""
+
+    badge_strategy: Literal["push", "hide"]
+    push_gap_px: float
+    push_directions: list[Literal["left", "down", "left-down"]] = Field(min_length=1)   # 같은 이동량이면 앞 방향 우선
+    max_push_px: float            # 넘으면 hide 로 떨어진다(카드가 떠 있는 동안만) — provenance reserved.avoidance
+    marker_label_strategy: Literal["hide", "none"]
+    min_zone_alpha: float         # 이 값 이하의 영역 존재도는 영역으로 치지 않는다
+    lead_sec: float               # 영역 존재도: 카드 구간 [t0, t1] 은 1, 앞뒤 lead_sec 동안 오르내림 — 카드가 겹쳐 바뀌어도 뱃지가 튀지 않는다
+
+
 class PanelRules(_Strict):
     relation: RelationPanelRules
     timeline: TimelinePanelRules
+    reserved: ReservedRules
 
 
 class Colors(_Strict):

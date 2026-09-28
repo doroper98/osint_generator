@@ -15,6 +15,7 @@ from tests.anti_inertia._ast_util import REPO, parse
 DATA_DRIVEN_MODULES: dict[str, frozenset[float]] = {   # 모듈 → 추가 허용(달력 상수 등)
     "engine/panels/relation.py": frozenset(),
     "engine/panels/timeline.py": frozenset({12}),   # 12월 → 다음 해 1월
+    "engine/reserved.py": frozenset({0.5}),         # 대각 방향 단위벡터 √0.5
 }
 ALLOWED_NUMBERS: frozenset[float] = frozenset({0, 1, 2, 3})
 

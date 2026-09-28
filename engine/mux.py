@@ -111,6 +111,7 @@ def main(argv: list[str] | None = None) -> int:
     from engine.credits import RightsError, credit_lines, credit_summary, description_credits  # noqa: PLC0415
     from engine.project import ProjectError, load_project  # noqa: PLC0415
     from engine.provenance import build as build_prov  # noqa: PLC0415
+    from engine.reserved import avoidance_report  # noqa: PLC0415
     from orchestrator import __version__  # noqa: PLC0415
     from schemas.engine_models import StageResult  # noqa: PLC0415
 
@@ -138,6 +139,8 @@ def main(argv: list[str] | None = None) -> int:
                           {"plan": True, "render": True, "mix": True, "mux": True, "ai_direction": False, "visual_qa": False},
                           P.R.tb.word_anchors, asset_usage(P))
         prov["credits"] = credit_summary(req)   # D-0030 §3 — 표기 위치별 종류 개수
+        prov["reserved"] = {"avoidance": avoidance_report(P)}   # D-0033 §2 — 카드 영역 때문에 비킨·흐린 뱃지
+        prov["lint_warnings"] = P.warnings                       # 연출 경고(관계선 과다·연표 겹침) — 오류 아님
         (outd / "provenance.json").write_text(json.dumps(prov, ensure_ascii=False, indent=1), encoding="utf-8")
         res = StageResult(ok=True, stage="mux", provenance=prov,
                           artifacts={"final": str(final), "srt": str(outd / "final.srt"),

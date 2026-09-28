@@ -87,7 +87,7 @@ def direct(tb: Timebase) -> Director:  # noqa: PLR0915 — 연출 한 편은 긴
     dip(SC("review") - 0.55, 88.5, 21.5, 92)
     ev("route", S("review_0", 0.3), SC_END("review"), pts=CHEONG, grow=4.5, col="teal", ship=True, label="")
     ev("marker", S("review_0", 4.6), SC_END("review"), lon=PL["aden"][0], lat=PL["aden"][1], label="아덴만", sub="청해부대 2009년~", side="bottom", hl=True)
-    ev("badge", S("review_0", 0.3), SC_END("review"), lon=125.6, lat=22.3, kind="flag", flag="kr", R=18, label="부산에서 출항", accent="gold")
+    ev("badge", S("review_0", 0.3), SC_END("review"), lon=PL["busan"][0], lat=PL["busan"][1], kind="flag", flag="kr", R=18, label="부산에서 출항", accent="gold")
     ev("card", S("review_1", 0.0), E("review_2", 0.6), tag="거론된 선택지", lines=["해상초계기", "군수지원함"], accent="teal", src="JTBC·MBC 보도 · 대통령실 “결정된 것 없다”")
     # past panel
     ev("panel", SC("past") - 0.2, SC_END("past"), kind="precedent", title="한국의 해외 파견 결정", subtitle="전례와 이번 결정",

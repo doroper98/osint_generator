@@ -26,6 +26,7 @@ from engine.layers.borders import draw_borders
 from engine.layers.labels import draw_labels
 from engine.project import Project, ProjectError, load_project
 from engine.projection import View
+from engine.reserved import card_zones
 from engine.registry import MAP_LAYER_ORDER, RegistryError, resolve
 from engine.style import CRF, FADE, FPS, H_OUT, PANEL, W_OUT
 from engine.subtitles import draw_subtitle
@@ -50,6 +51,7 @@ def render_frame(P: Project, i: int) -> tuple[cairo.ImageSurface, bytearray]:  #
     ctx = cairo.Context(surf)
     act = [e for e in P.events if e["t0"] - 0.05 <= t <= e["t1"] + 0.05]
     panel_a = max([window(t, e["t0"], e["t1"], PANEL.fade_sec, PANEL.fade_sec) for e in act if e["type"] == "panel"] + [0])
+    R.zones = card_zones(ctx, P.events, t)   # 카드 RESERVED — 지도 레이어가 먼저 그려지므로 미리(D-0033). 앞뒤 lead 포함
     draw_borders(ctx, R, view)
     for L in MAP_LAYER_ORDER:  # noqa: N806
         for e in act:

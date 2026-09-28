@@ -91,17 +91,26 @@ def draw_clip(ctx: cairo.Context, R: RenderCtx, t: float, e: dict) -> None:  # n
     media_caption(ctx, x, y + h, w, e["caption"], e["credit"], a)
 
 
-def draw_article(ctx: cairo.Context, R: RenderCtx, t: float, e: dict) -> None:  # noqa: N803
-    a = window(t, e["t0"], e["t1"], 0.45, 0.45)
-    if a <= 0.01:
-        return
-    lt = t - e["t0"]
+def article_alpha(t: float, e: dict) -> float:
+    return window(t, e["t0"], e["t1"], 0.45, 0.45)
+
+
+def article_geom(ctx: cairo.Context, e: dict) -> tuple[float, float, float, float, list[str], list[str]]:
+    """기사 카드 상자 (x, y, 폭, 높이, 헤드라인 줄, 부제 줄) — 슬라이드 전 제자리(RESERVED, D-0033)."""
     w = ARTICLE.w
-    x = W_OUT - w - CARD.x_right_margin + (1 - ease_out(lt / 0.55)) * CARD.slide_px
-    y = ARTICLE.y
     hl_lines = wrap(ctx, e["headline"], w - 32, 13.5, "serifb")
     sub_lines = wrap(ctx, e["sub"], w - 32, 9.5, "sans")
     h = 44 + len(hl_lines) * 20 + 6 + len(sub_lines) * 14 + 24
+    return W_OUT - w - CARD.x_right_margin, ARTICLE.y, w, h, hl_lines, sub_lines
+
+
+def draw_article(ctx: cairo.Context, R: RenderCtx, t: float, e: dict) -> None:  # noqa: N803
+    a = article_alpha(t, e)
+    if a <= 0.01:
+        return
+    lt = t - e["t0"]
+    x0, y, w, h, hl_lines, sub_lines = article_geom(ctx, e)
+    x = x0 + (1 - ease_out(lt / 0.55)) * CARD.slide_px
     for d_, al in ((6, 0.12), (3, 0.2)):
         rrect(ctx, x - d_ + 2, y - d_ + 4, w + 2 * d_, h + 2 * d_, 3 + d_)
         ctx.set_source_rgba(0, 0, 0, al * a)

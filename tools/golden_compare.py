@@ -6,7 +6,7 @@
 v2.3.0: 옛 v3 렌더러 경로(`--engine legacy`)는 삭제했다(D32). 골든 대조 기준은 `--reference golden`(R-0016 §6, 1.825).
 
 의도된 차이(D34, back_and_forth D-0026): `docs/handoff/golden/expected_deltas.json`
-`{"NN_anchor": {reason, decision, old_t, new_t}}`에 등재된 컷만 MAD 기준에서 빼고 결과에 `intended_delta: true`로 적는다.
+`{"NN_anchor": {reason, decision, old_t, new_t | old_lonlat, new_lonlat}}`에 등재된 컷만 MAD 기준에서 빼고 결과에 `intended_delta: true`로 적는다.
 등재 없이 기준을 넘으면 종전대로 불합격이다. 골든 PNG 는 바꾸지 않는다.
 
 앵커 규칙: 문장 id → `sentence.t0 + offset`, `TITLE` → `cards[title].t0 + offset`, `END` → `total + offset`.
@@ -43,7 +43,10 @@ def load_expected_deltas() -> dict[str, dict]:
         return {}
     d = json.loads(p.read_text(encoding="utf-8"))
     for k, v in d.get("deltas", {}).items():
-        missing = {"reason", "decision", "old_t", "new_t"} - set(v)
+        missing = {"reason", "decision"} - set(v)
+        # 무엇이 바뀌었나 — 시각(D34 단어 정렬) 또는 좌표(D36 부산 뱃지) 한 쌍이 있어야 한다
+        if not ({"old_t", "new_t"} <= set(v) or {"old_lonlat", "new_lonlat"} <= set(v)):
+            missing |= {"old_t|old_lonlat", "new_t|new_lonlat"}
         if missing:
             raise ValueError(f"expected_deltas.json {k}: 필드 누락 {sorted(missing)}")
     return d.get("deltas", {})

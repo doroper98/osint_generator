@@ -10,14 +10,14 @@ from engine.timebase import ease_out, window
 from engine.typography import font, rrect, text, tw
 
 
-def draw_card(ctx: cairo.Context, R: RenderCtx, t: float, e: dict) -> None:  # noqa: N803
+def card_alpha(t: float, e: dict) -> float:
+    return window(t, e["t0"], e["t1"], CARD.fade_sec, CARD.fade_sec)
+
+
+def card_geom(ctx: cairo.Context, e: dict) -> tuple[float, float, float, float, float]:
+    """카드 상자 (x, y, 폭, 높이, 큰 숫자 줄 높이) — 슬라이드 전 제자리. RESERVED 영역(D-0033)과 그리기가 같이 쓴다."""
     K = CARD  # noqa: N806
-    a = window(t, e["t0"], e["t1"], K.fade_sec, K.fade_sec)
-    if a <= 0.01:
-        return
-    slide = (1 - ease_out((t - e["t0"]) / 0.55)) * K.slide_px
     lines = e.get("lines") or []
-    acc = C[e["accent"]]
     wdt = K.min_w
     font(ctx, "sansm", K.line_size)
     for s_ in lines:
@@ -33,8 +33,19 @@ def draw_card(ctx: cairo.Context, R: RenderCtx, t: float, e: dict) -> None:  # n
     if e.get("src"):
         wdt = max(wdt, tw(ctx, e["src"], K.src_size, "sans") + 40)
     h = 42 + bh + 21 * len(lines) + (18 if e.get("src") else 0)
-    x = W_OUT - wdt - K.x_right_margin + slide
-    y = e.get("y") or K.y
+    return W_OUT - wdt - K.x_right_margin, e.get("y") or K.y, wdt, h, bh
+
+
+def draw_card(ctx: cairo.Context, R: RenderCtx, t: float, e: dict) -> None:  # noqa: N803
+    K = CARD  # noqa: N806
+    a = card_alpha(t, e)
+    if a <= 0.01:
+        return
+    slide = (1 - ease_out((t - e["t0"]) / 0.55)) * K.slide_px
+    lines = e.get("lines") or []
+    acc = C[e["accent"]]
+    x0, y, wdt, h, bh = card_geom(ctx, e)
+    x = x0 + slide
     rrect(ctx, x, y, wdt, h, 5)
     ctx.set_source_rgba(0.05, 0.06, 0.09, 0.86 * a)
     ctx.fill()

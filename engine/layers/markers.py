@@ -13,6 +13,12 @@ from engine.timebase import ease_out, smooth, window
 from engine.typography import text, tw
 
 
+def marker_label_alpha(box: tuple[float, float, float, float], zones: list) -> float:
+    from engine.reserved import marker_label_alpha as f  # noqa: PLC0415 — 순환 회피
+
+    return f(box, zones)
+
+
 def icon(ctx: cairo.Context, kind: str, x: float, y: float, col: tuple, a: float) -> None:
     if kind == "boom":
         ctx.new_path()
@@ -56,8 +62,10 @@ def draw_marker(ctx: cairo.Context, R: RenderCtx, view: View, t: float, e: dict)
     side = e.get("side") or "right"
     la = a * smooth((lt - 0.2) / 0.4)
     dx, dy, anc = _SIDE[side]
+    w = tw(ctx, e["label"], 13, "sansb") + 20
+    box = (x - 14 if anc != "r" else x - w, y - 16, x + w if anc != "r" else x + 14, y + 26)
+    la *= marker_label_alpha(box, R.zones)   # 카드 뒤 라벨은 흐린다 — 점은 사실 위치라 그대로(D-0033)
     text(ctx, e["label"], x + dx, y + dy, 13, "sansb", (1, 1, 1), la, 3.2, anc)
     if e.get("sub"):
         text(ctx, e["sub"], x + dx, y + dy + 15, 10.5, "sansm", C["gold"], la, 3, anc)
-    w = tw(ctx, e["label"], 13, "sansb") + 20
-    R.reserved.append((x - 14 if anc != "r" else x - w, y - 16, x + w if anc != "r" else x + 14, y + 26))
+    R.reserved.append(box)

@@ -132,6 +132,9 @@ class ExpectedDeltasTest(unittest.TestCase):
             (Path(d) / "expected_deltas.json").write_text(json.dumps({"deltas": {"09_ask_1": {
                 "reason": "x", "decision": "D-0026", "old_t": 1.0, "new_t": 1.5}}}))
             self.assertIn("09_ask_1", load_expected_deltas())
+            (Path(d) / "expected_deltas.json").write_text(json.dumps({"deltas": {"15_review_0": {
+                "reason": "x", "decision": "D-0033", "old_lonlat": [125.6, 22.3], "new_lonlat": [129.04, 35.1]}}}))
+            self.assertIn("15_review_0", load_expected_deltas())   # 좌표 쌍(D36)도 자격
 
 
 if __name__ == "__main__":

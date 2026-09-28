@@ -1,6 +1,6 @@
 {
  "schema_version": 1,
- "note": "골든 PNG 는 수정하지 않는다. 여기 등재된 컷만 golden_compare 판정에서 '의도된 차이'로 뺀다(DECISIONS D34). 새 기준 프레임은 docs/handoff/reports/phase4/golden_delta/.",
+ "note": "골든 PNG 는 수정하지 않는다. 여기 등재된 컷만 golden_compare 판정에서 '의도된 차이'로 뺀다(DECISIONS D34·D36). 새 기준 프레임은 docs/handoff/reports/phase4/golden_delta/(09), docs/handoff/reports/phase6/golden_delta/(15·16).",
  "deltas": {
   "09_ask_1": {
    "reason": "refusal 패널의 국가별 '거절' 전환(rows[].t_refuse = at_word('ask_1', 국가명))이 글자 비율 추정에서 edge WordBoundary 정렬로 바뀜. 이 컷(ask_1+4, t=80.70)에서 '호주' 행 전환이 79.88초(비율)→80.52초(정렬)로 늦어져 전환 도중 상태가 찍힌다. 같은 plan 으로 정렬·비율 두 번 렌더해 차이가 난 컷은 25개 중 이것 하나(MAD 0.0983/255)",
@@ -37,6 +37,58 @@
     "ask_4:한국": 96.637,
     "past_3:호르무즈": 205.052
    }
+  },
+  "15_review_0": {
+   "reason": "08 §10 임시 조치 해소 — 뱃지 실제 부산 좌표, RESERVED 회피. v3 최종본은 카드에 가려지는 것을 피하려고 '부산에서 출항' 뱃지를 남중국해(125.6E 22.3N)에 두었다. Phase 6 카드 RESERVED(rules panels.reserved)가 생겨 실제 부산으로 되돌리고, 카드가 떠 있는 동안 뱃지가 카드 밖으로 비킨다",
+   "decision": "D-0033",
+   "old_lonlat": [
+    125.6,
+    22.3
+   ],
+   "new_lonlat": [
+    129.04,
+    35.1
+   ],
+   "avoidance": {
+    "strategy": "push",
+    "direction": "down",
+    "shift_px": [
+     0.0,
+     134.3
+    ],
+    "zones": [
+     "article:Reuters"
+    ],
+    "overlap_px2_off": 4464.3,
+    "overlap_px2_on": 0.0
+   },
+   "new_frame": "docs/handoff/reports/phase6/golden_delta/15_review_0.png"
+  },
+  "16_review_1": {
+   "reason": "08 §10 임시 조치 해소 — 뱃지 실제 부산 좌표, RESERVED 회피. v3 최종본은 카드에 가려지는 것을 피하려고 '부산에서 출항' 뱃지를 남중국해(125.6E 22.3N)에 두었다. Phase 6 카드 RESERVED(rules panels.reserved)가 생겨 실제 부산으로 되돌리고, 카드가 떠 있는 동안 뱃지가 카드 밖으로 비킨다",
+   "decision": "D-0033",
+   "old_lonlat": [
+    125.6,
+    22.3
+   ],
+   "new_lonlat": [
+    129.04,
+    35.1
+   ],
+   "avoidance": {
+    "strategy": "push",
+    "direction": "down",
+    "shift_px": [
+     0.0,
+     111.7
+    ],
+    "zones": [
+     "card:거론된 선택지"
+    ],
+    "overlap_px2_off": 4093.8,
+    "overlap_px2_on": 0.0
+   },
+   "new_frame": "docs/handoff/reports/phase6/golden_delta/16_review_1.png"
   }
  }
 }

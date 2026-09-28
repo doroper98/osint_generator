@@ -17,3 +17,4 @@ class RenderCtx:
     credits: Optional[Credits] = None
     reserved: list[tuple[float, float, float, float]] = field(default_factory=list)  # 프레임마다 비운다(라벨 충돌 회피)
     cache: dict[str, Any] = field(default_factory=dict)
+    zones: list[Any] = field(default_factory=list)   # 카드 RESERVED(engine/reserved.Zone) — 프레임마다 다시 계산(D-0033)

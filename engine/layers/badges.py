@@ -125,9 +125,28 @@ def badge_at(ctx: cairo.Context, R: RenderCtx, x: float, y: float, e: dict, t: f
     R.reserved.append((x - Rr - 10, y - Rr * BADGE.reserve_top_factor, x + Rr + 10, y + Rr + BADGE.reserve_bottom_px))
 
 
+def badge_box(ctx: cairo.Context, e: dict, x: float, y: float) -> tuple[float, float, float, float]:
+    """지도 뱃지가 차지하는 상자(원·그림자·인물 머리·이름표·역할) — 카드 RESERVED 회피용(D-0033)."""
+    Rr = e.get("R") or 30  # noqa: N806
+    top = y - Rr * BADGE.reserve_top_factor if e["kind"] == "person" else y - Rr - 7
+    x0, x1, y1 = x - Rr - 7, x + Rr + 7, y + Rr + 7
+    if e.get("label"):
+        if e.get("side") == "right":
+            w = max(tw(ctx, e["label"], 13, "sansb"), tw(ctx, e.get("role") or "", 10, "sansm"))
+            x1 = max(x1, x + Rr + 10 + w)
+        else:
+            w = max(tw(ctx, e["label"], 12, "sansb") + 16, tw(ctx, e.get("role") or "", 10, "sansm"))
+            x0, x1 = min(x0, x - w / 2), max(x1, x + w / 2)
+            y1 = y + Rr + (42 if e.get("role") else 25)
+    return x0, top, x1, y1
+
+
 def draw_badge(ctx: cairo.Context, R: RenderCtx, view: View, t: float, e: dict) -> None:  # noqa: N803
+    from engine.reserved import avoid_badge  # noqa: PLC0415 — reserved 가 cards·media 를 import(순환 회피)
+
     a = window(t, e["t0"], e["t1"], 0.01, 0.45)
     if a <= 0.01:
         return
     x, y = view.xy(e["lon"], e["lat"])
-    badge_at(ctx, R, x, y, e, t, a)
+    dx, dy, ka, _ = avoid_badge(badge_box(ctx, e, x, y), R.zones)   # 카드가 떠 있는 동안만(D-0033)
+    badge_at(ctx, R, x + dx, y + dy, e, t, a * ka)
