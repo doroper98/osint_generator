@@ -41,7 +41,7 @@ osint_generator 의 **최우선 가치는 영상미**다: "정적 보고서를 �
 | `prev/sheet.jpg`, `prev/checks.json`, `prev/qa_verdict.v*.json` | 프리뷰 컨택트 시트·결정적 검사·시각 검수 판정 |
 | `intake/sources.json`, `intake/claims.json` | 소스 레코드·주장-출처 매핑 |
 | `project_manifest.json` | 프로젝트 메타·상태·경로 인덱스 |
-| `approval_log.json` | 승인 게이트 2개(SCRIPT_APPROVAL·PREVIEW_APPROVAL) 기록 |
+| `approval_log.json` | 승인 게이트 2개(SCRIPT_APPROVAL·PREVIEW_APPROVAL) 기록 — v3.0.0부터 `project_manifest.json` `gate_decisions`(`schemas.models.GateDecision`)에 남는다(v4.0.0 실측 정정) |
 
 v1 산출물 표 (이력 보존):
 
@@ -79,7 +79,7 @@ v1 산출물 표 (이력 보존):
 | # | 기준 | 검증 방법 |
 |---|---|---|
 | 1 | `python -m orchestrator.main command-center`가 새 상태 머신(`docs/handoff/16` §2)으로 프로젝트를 CREATED→DONE까지 진행한다. | `tests/test_state_machine.py::test_sequence_matches_16_s2` · `tests/test_gates_pipeline.py::test_engine_states_to_gate2_then_done` |
-| 2 | SCRIPT_APPROVAL·PREVIEW_APPROVAL 두 게이트에서 승인·반려(되돌림)가 동작하고 `approval_log.json`에 남는다. | `tests/test_gates_pipeline.py::test_approve_records_and_advances` · `tests/test_gates_pipeline.py::test_reject_script_rolls_back_with_comment` · `tests/test_gates_pipeline.py::test_reject_preview_three_targets` · `tests/test_gates_pipeline.py::test_config_two_gates_only` |
+| 2 | SCRIPT_APPROVAL·PREVIEW_APPROVAL 두 게이트에서 승인·반려(되돌림)가 동작하고 게이트 기록(`project_manifest.json` `gate_decisions` — 누가·언제·코멘트·본 것·되돌린 상태, append-only)에 남는다. (부록 C 초안의 `approval_log.json` 은 v3.0.0 에서 manifest 로 옮겨졌다 — 실측 정정) | `tests/test_gates_pipeline.py::test_approve_records_and_advances` · `tests/test_gates_pipeline.py::test_reject_script_rolls_back_with_comment` · `tests/test_gates_pipeline.py::test_reject_preview_three_targets` · `tests/test_gates_pipeline.py::test_config_two_gates_only` |
 | 3 | `script.yaml`이 `Script` 스키마를 통과하고 린트(금지 문구·발음 기호·강조어·출처)를 통과한다. 장면 수·길이는 고정되지 않는다. | `tests/test_engine_phase2.py::test_schema_rejects_missing_emphasis` · `tests/test_script_lint.py::test_banned_samples_all_detected` · `tests/test_script_lint.py::test_tts_symbols_detected` · `tests/test_script_lint.py::test_numeric_sentence_without_sources_is_error` · `tests/test_script_lint.py::test_v3_script_passes` |
 | 4 | `plan.json`이 실제 음성 길이로 계산되고, 목소리(edge/ElevenLabs)를 바꿔도 `direction`을 수정하지 않는다(문장·단어 앵커). | `tests/test_timebase_align.py::test_aligned_uses_pronunciation_start_minus_trim` · `tests/test_timebase_align.py::test_edge_alignment_drives_at_word` · `tests/test_script_tts.py::test_cache_key_salted_by_voice` · `tests/test_direction_schema.py::test_word_anchor_uses_at_word` |
 | 5 | `direction.yaml`이 레지스트리·스키마·예약 영역 검사를 통과한다. | `tests/test_direction_schema.py::test_schema_errors` · `tests/anti_inertia/test_registry_complete.py::test_bidirectional` · `tests/test_reserved_phase6.py::test_multiple_zones_cleared` · `checks:overlap` |
