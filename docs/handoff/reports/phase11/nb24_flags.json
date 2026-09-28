@@ -1,0 +1,229 @@
+{
+ "schema_version": 1,
+ "directive": "D-0072 작업 11 NB24",
+ "rule": "국기는 library_manifest source 또는 handoff 07 §3.3 표가 국가 직함·국가 기관을 적은 경우만. 촬영 기관·행사 이름만 있는 경우(예: Government Press Office of Israel, koreanet 기업 포럼, EC 방문, IMF)는 근거로 치지 않음",
+ "counts": {
+  "library_people": 24,
+  "flag_before": 4,
+  "flag_added": 3,
+  "left_empty": 17
+ },
+ "people": [
+  {
+   "person_id": "altman",
+   "name_ko": "샘 올트먼",
+   "flag": null,
+   "status": "비움",
+   "evidence": "source(url·credit)가 행사·촬영자·기관만 적고 국적·국가 직함을 적지 않음(추측 금지)",
+   "source_url": "https://commons.wikimedia.org/wiki/File:Sam_Altman_CropEdit_James_Tamim.jpg",
+   "source_credit": "TechCrunch Disrupt San Francisco 2019 - Day 2"
+  },
+  {
+   "person_id": "audrey_tang",
+   "name_ko": "오드리 탕",
+   "flag": null,
+   "status": "비움",
+   "evidence": "source(url·credit)가 행사·촬영자·기관만 적고 국적·국가 직함을 적지 않음(추측 금지)",
+   "source_url": "https://commons.wikimedia.org/wiki/File:Audrey_tang_089_(25378300354)_(cropped).jpg",
+   "source_credit": "audrey tang:089"
+  },
+  {
+   "person_id": "bezos",
+   "name_ko": "제프 베이조스",
+   "flag": null,
+   "status": "비움",
+   "evidence": "source(url·credit)가 행사·촬영자·기관만 적고 국적·국가 직함을 적지 않음(추측 금지)",
+   "source_url": "https://commons.wikimedia.org/wiki/File:Jeff_Bezos%27_iconic_laugh_crop.jpg",
+   "source_credit": "This file was derived from: Jeff Bezos' iconic laugh.jpg:"
+  },
+  {
+   "person_id": "chey_tae_won",
+   "name_ko": "최태원",
+   "flag": null,
+   "status": "비움",
+   "evidence": "source(url·credit)가 행사·촬영자·기관만 적고 국적·국가 직함을 적지 않음(추측 금지)",
+   "source_url": "https://commons.wikimedia.org/wiki/File:Korea_Portuguese_Business_Forum_01_(cropped).jpg",
+   "source_credit": "https://www.flickr.com/photos/koreanet/52811274709/"
+  },
+  {
+   "person_id": "curtis_yarvin",
+   "name_ko": "커티스 야빈",
+   "flag": null,
+   "status": "비움",
+   "evidence": "source(url·credit)가 행사·촬영자·기관만 적고 국적·국가 직함을 적지 않음(추측 금지)",
+   "source_url": "https://commons.wikimedia.org/wiki/File:Curtis_Yarvin_(3x4_cropped).jpg",
+   "source_credit": "Own work"
+  },
+  {
+   "person_id": "dario_amodei",
+   "name_ko": "다리오 아모데이",
+   "flag": null,
+   "status": "비움",
+   "evidence": "source(url·credit)가 행사·촬영자·기관만 적고 국적·국가 직함을 적지 않음(추측 금지)",
+   "source_url": "https://commons.wikimedia.org/wiki/File:Dario_Amodei_in_2023.jpg",
+   "source_credit": "https://www.flickr.com/photos/49707497@N06/52922227897/"
+  },
+  {
+   "person_id": "daron_acemoglu",
+   "name_ko": "대런 애쓰모글루",
+   "flag": null,
+   "status": "비움",
+   "evidence": "source 가 '사용자 제공(출처 미확인)' — 근거 문구 없음",
+   "source_url": "사용자 제공 (출처 미확인 — 웹 수집)",
+   "source_credit": "미상"
+  },
+  {
+   "person_id": "helene_landemore",
+   "name_ko": "Hélène Landemore",
+   "flag": null,
+   "status": "비움",
+   "evidence": "source 가 '사용자 제공(출처 미확인)' — 근거 문구 없음",
+   "source_url": "사용자 제공 (출처 미확인 — 웹 수집)",
+   "source_credit": "미상"
+  },
+  {
+   "person_id": "jensen_huang",
+   "name_ko": "젠슨 황",
+   "flag": null,
+   "status": "비움",
+   "evidence": "source(url·credit)가 행사·촬영자·기관만 적고 국적·국가 직함을 적지 않음(추측 금지)",
+   "source_url": "https://commons.wikimedia.org/wiki/File:Jensen_Huang_(cropped)_(2024).jpg",
+   "source_credit": "Visit of Josep Borrell Fontelles, Vice-President of the European Commission, to the United States"
+  },
+  {
+   "person_id": "khamenei",
+   "name_ko": "알리 하메네이",
+   "flag": "ir",
+   "status": "기존(v2.x~v3.5.0)",
+   "evidence": "이전 Phase 에서 등재(07 §3.3 표: 트럼프·푸틴·젤렌스키·하메네이)",
+   "source_url": "https://commons.wikimedia.org/wiki/File:Ali_Khamenei_Nowruz_message_official_portrait_1397_02_(cropped).jpg",
+   "source_credit": "http://farsi.khamenei.ir/photo-album?id=36022#i"
+  },
+  {
+   "person_id": "lagarde",
+   "name_ko": "크리스틴 라가르드",
+   "flag": null,
+   "status": "비움",
+   "evidence": "source(url·credit)가 행사·촬영자·기관만 적고 국적·국가 직함을 적지 않음(추측 금지)",
+   "source_url": "https://commons.wikimedia.org/wiki/File:Lagarde,_Christine_(official_portrait_2011).jpg",
+   "source_credit": "http://www.imf.org/external/np/adm/pictures/caption2.htm"
+  },
+  {
+   "person_id": "macron",
+   "name_ko": "에마뉘엘 마크롱",
+   "flag": null,
+   "status": "비움",
+   "evidence": "source(url·credit)가 행사·촬영자·기관만 적고 국적·국가 직함을 적지 않음(추측 금지)",
+   "source_url": "https://commons.wikimedia.org/wiki/File:Emmanuel_Macron_par_Claude_Truong-Ngoc_avril_2015.jpg",
+   "source_credit": "Own work"
+  },
+  {
+   "person_id": "michael_sandel",
+   "name_ko": "마이클 샌델",
+   "flag": null,
+   "status": "비움",
+   "evidence": "source 가 '사용자 제공(출처 미확인)' — 근거 문구 없음",
+   "source_url": "사용자 제공 (출처 미확인 — 웹 수집)",
+   "source_credit": "미상"
+  },
+  {
+   "person_id": "musk",
+   "name_ko": "일론 머스크",
+   "flag": null,
+   "status": "비움",
+   "evidence": "source(url·credit)가 행사·촬영자·기관만 적고 국적·국가 직함을 적지 않음(추측 금지)",
+   "source_url": "https://commons.wikimedia.org/wiki/File:Elon_Musk_Royal_Society_(crop2).jpg",
+   "source_credit": "Own work"
+  },
+  {
+   "person_id": "netanyahu",
+   "name_ko": "베냐민 네타냐후",
+   "flag": null,
+   "status": "비움",
+   "evidence": "source(url·credit)가 행사·촬영자·기관만 적고 국적·국가 직함을 적지 않음(추측 금지)",
+   "source_url": "https://commons.wikimedia.org/wiki/File:Benjamin_Netanyahu,_February_2023.jpg",
+   "source_credit": "Government Press Office of Israel"
+  },
+  {
+   "person_id": "peter_thiel",
+   "name_ko": "피터 틸",
+   "flag": null,
+   "status": "비움",
+   "evidence": "source(url·credit)가 행사·촬영자·기관만 적고 국적·국가 직함을 적지 않음(추측 금지)",
+   "source_url": "https://commons.wikimedia.org/wiki/File:Peter_Thiel_by_Gage_Skidmore.jpg",
+   "source_credit": "Own work"
+  },
+  {
+   "person_id": "powell",
+   "name_ko": "제롬 파월",
+   "flag": "us",
+   "status": "v4.0.0 등재",
+   "evidence": "source.url — 'Federal_Reserve_Chair', credit 'Official portrait … Chair'",
+   "source_url": "https://commons.wikimedia.org/wiki/File:Jerome_H._Powell,_Federal_Reserve_Chair_(cropped).jpg",
+   "source_credit": "Official portrait of Jerome H. Powell, Chair: Powell_Jerome_Aug_16_22-674_8x10"
+  },
+  {
+   "person_id": "putin",
+   "name_ko": "블라디미르 푸틴",
+   "flag": "ru",
+   "status": "기존(v2.x~v3.5.0)",
+   "evidence": "이전 Phase 에서 등재(07 §3.3 표: 트럼프·푸틴·젤렌스키·하메네이)",
+   "source_url": "https://commons.wikimedia.org/wiki/File:Vladimir_Putin_portrait_(2024-02-23).png",
+   "source_credit": "http://en.kremlin.ru/events/president/news/73529/photos"
+  },
+  {
+   "person_id": "tim_cook",
+   "name_ko": "팀 쿡",
+   "flag": null,
+   "status": "비움",
+   "evidence": "source(url·credit)가 행사·촬영자·기관만 적고 국적·국가 직함을 적지 않음(추측 금지)",
+   "source_url": "https://commons.wikimedia.org/wiki/File:Visit_of_Tim_Cook_to_the_European_Commission_-_P061904-946789.jpg",
+   "source_credit": "https://audiovisual.ec.europa.eu/en/reportage/P-061904 (archive, archive)"
+  },
+  {
+   "person_id": "trump",
+   "name_ko": "도널드 트럼프",
+   "flag": "us",
+   "status": "기존(v2.x~v3.5.0)",
+   "evidence": "이전 Phase 에서 등재(07 §3.3 표: 트럼프·푸틴·젤렌스키·하메네이)",
+   "source_url": "https://commons.wikimedia.org/wiki/File:Donald_Trump_official_portrait.jpg",
+   "source_credit": "This image is available from the United States Library of Congress's Prints and Photographs division under the digital ID ppbd.00608.This tag does not indicate the copyright status of the attached work. A normal copyright tag is still required. See Commons:Licensing."
+  },
+  {
+   "person_id": "warsh",
+   "name_ko": "케빈 워시",
+   "flag": "us",
+   "status": "v4.0.0 등재",
+   "evidence": "source.credit — flickr federalreserve 공식 초상",
+   "source_url": "https://commons.wikimedia.org/wiki/File:Official_portrait_of_Kevin_M._Warsh_(cropped).jpg",
+   "source_credit": "https://www.flickr.com/photos/federalreserve/55341882470/"
+  },
+  {
+   "person_id": "xi_jinping",
+   "name_ko": "시진핑",
+   "flag": "cn",
+   "status": "v4.0.0 등재",
+   "evidence": "source.credit — 'Çin Xalq Respublikasının Sədri'(중화인민공화국 주석)",
+   "source_url": "https://commons.wikimedia.org/wiki/File:Xi_Jinping_in_July_2024.jpg",
+   "source_credit": "Astanada İlham Əliyevin Çin Xalq Respublikasının Sədri Si Cinpin ilə görüşü keçirilib"
+  },
+  {
+   "person_id": "zelensky",
+   "name_ko": "볼로디미르 젤렌스키",
+   "flag": "ua",
+   "status": "기존(v2.x~v3.5.0)",
+   "evidence": "이전 Phase 에서 등재(07 §3.3 표: 트럼프·푸틴·젤렌스키·하메네이)",
+   "source_url": "https://commons.wikimedia.org/wiki/File:Volodymyr_Zelensky_Official_portrait.jpg",
+   "source_credit": "https://www.president.gov.ua/en/president/biografiya"
+  },
+  {
+   "person_id": "zuckerberg",
+   "name_ko": "마크 저커버그",
+   "flag": null,
+   "status": "비움",
+   "evidence": "source(url·credit)가 행사·촬영자·기관만 적고 국적·국가 직함을 적지 않음(추측 금지)",
+   "source_url": "https://commons.wikimedia.org/wiki/File:Mark_Zuckerberg_F8_2018_Keynote_(cropped).jpg",
+   "source_credit": "Mark Zuckerberg F8 2018 Keynote"
+  }
+ ]
+}

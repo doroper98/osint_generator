@@ -47,6 +47,19 @@ entities:
     flag: ir
     role_default: 이란 최고지도자
     accent: ru
+  # v4.0.0 — NB24(back_and_forth D-0072 작업 11): 라이브러리 인물 국기는 **library_manifest source 문구가 국가 직함·국가 기관을 적은 경우만**(추측 금지).
+  #   근거 없는 17명은 비워 둔다 — 목록·근거는 docs/handoff/reports/phase11/nb24_flags.json.
+  xi_jinping:
+    kind: person
+    flag: cn          # source.credit "Çin Xalq Respublikasının Sədri Si Cinpin"(중화인민공화국 주석 시진핑)
+    role_default: 중국 국가주석
+  powell:
+    kind: person
+    flag: us          # source.url "Jerome_H._Powell,_Federal_Reserve_Chair" · credit "Official portrait … Chair"(미 연방준비제도 의장 공식 초상)
+    role_default: 미 연준 의장
+  warsh:
+    kind: person
+    flag: us          # source.credit flickr.com/photos/federalreserve · url "Official_portrait_of_Kevin_M._Warsh"(미 연방준비제도 공식 초상). 직함은 source 에 없어 비움
   # ---------------------------------------------------------------- 기관
   navcent:
     kind: org
