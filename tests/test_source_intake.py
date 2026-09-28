@@ -74,6 +74,15 @@ class XTextAndArticleTest(_Proj):
         self.assertEqual(si.unconfirmed(self.pdir), [])
 
 
+class AccountClassConfirmTest(_Proj):
+    def test_user_may_mark_private_but_not_official(self) -> None:
+        rec = si.add_x_text(self.pdir, account_name="김가온", handle="@kim_gaon_2", text="t", lang="ko", posted_at=datetime(2026, 9, 24))
+        self.assertEqual(si.confirm(self.pdir, rec.id, "u", account_class="private").account_class, "private")
+        rec2 = si.add_x_text(self.pdir, account_name="Port", handle="@gaon_port_auth", text="t", lang="en", posted_at=datetime(2026, 9, 24))
+        with self.assertRaises(si.SourceIntakeError):
+            si.confirm(self.pdir, rec2.id, "u", account_class="official_gov")   # 목록에 없는 공식 주장 = 거부
+
+
 class NoScrapingTest(unittest.TestCase):
     """스크래핑 0 — X 계열 호스트는 가져오기·기사 등록 모두 거부(18 §1, D-0051 합격표)."""
 

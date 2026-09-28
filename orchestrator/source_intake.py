@@ -227,7 +227,12 @@ def confirm(pdir: Path, sid: str, by: str, **fix: object) -> Source:
         raise SourceIntakeError(f"소스 없음: {sid}")
     data = recs[sid].model_dump() | {k: v for k, v in fix.items() if v is not None}
     if data["type"] == "x_post":
-        data["account_class"] = classify_handle(str(data["handle"]))
+        listed = classify_handle(str(data["handle"]))
+        asked = fix.get("account_class")
+        if asked is not None and str(asked).startswith("official") and listed != asked:
+            raise SourceIntakeError(f"{sid}: 공식 계정은 rules/official_accounts.yaml 목록으로만 정한다(18 §3-1) — {data['handle']} 미등재")
+        # 목록에 있으면 목록 값, 없으면 사람이 고른 journalist·public_figure·private·unknown(기본 unknown)
+        data["account_class"] = listed if listed != "unknown" else (asked or "unknown")
     data |= {"confirmed_by": by, "confirmed_at": datetime.now(timezone.utc)}
     new = type(recs[sid]).model_validate(data)
     save_sources(pdir, SourcesFile(sources=[new if s.id == sid else s for s in f.sources]))

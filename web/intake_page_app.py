@@ -363,9 +363,10 @@ async def confirm_source(project_id: str, request: Request):
     if not by:
         return JSONResponse(status_code=400, content={"error": "confirmer (by) is required"})
     posted = _field(form, "posted_at")
+    klass = _field(form, "account_class") or None
     try:
         si.confirm(project_dir(project_id), _field(form, "source_id"), by,
-                   posted_at=datetime.fromisoformat(posted) if posted else None)
+                   posted_at=datetime.fromisoformat(posted) if posted else None, account_class=klass)
     except ValueError as e:
         return JSONResponse(status_code=400, content={"error": "confirm failed", "detail": str(e)[:300]})
     return RedirectResponse(url=f"/intake/{project_id}", status_code=303)
@@ -579,7 +580,11 @@ def _render_sources_table(pid: str, sources: SourcesFile) -> str:
             conf = ("<form method=\"POST\" action=\"/intake/" + pid + "/confirm\">"
                     "<input type=\"hidden\" name=\"source_id\" value=\"" + sid + "\">"
                     "<input name=\"by\" placeholder=\"확인한 사람\" required>"
-                    + ("<input name=\"posted_at\" placeholder=\"게시 시각 고침(ISO)\">" if s.type == "x_post" else "")
+                    + ("<input name=\"posted_at\" placeholder=\"게시 시각 고침(ISO)\">"
+                       "<select name=\"account_class\"><option value=\"\">계정 분류(목록 밖)</option>"
+                       "<option value=\"journalist\">기자</option><option value=\"public_figure\">공인</option>"
+                       "<option value=\"private\">개인</option><option value=\"unknown\">모름</option></select>"
+                       if s.type == "x_post" else "")
                     + "<button class=\"small\" type=\"submit\">계정·시각 확인</button></form>"
                     "<span class=\"no\">미확인</span>")
         rows.append("<tr><td>" + sid + "<br>" + html.escape(s.type) + "</td><td>" + who + "<br>" + when + "</td><td>" + what

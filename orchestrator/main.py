@@ -142,6 +142,8 @@ def build_parser() -> argparse.ArgumentParser:
     cfs.add_argument("--handle", help="핸들 고침")
     cfs.add_argument("--name", help="표시 이름 고침")
     cfs.add_argument("--text-ko", help="번역 고침")
+    cfs.add_argument("--account-class", choices=["journalist", "public_figure", "private", "unknown"],
+                     help="미등재 계정 분류(공식 여부는 목록으로만, 18 §3-1)")
 
     lss = sub.add_parser("list-sources", help="소스 목록·확인 여부")
     lss.add_argument("project_id", help="project_id")
@@ -550,7 +552,8 @@ def _cmd_confirm_source(args: argparse.Namespace) -> int:
     try:
         pdir = _source_pdir(args.project_id)
         rec = si.confirm(pdir, args.id, args.by, posted_at=datetime.fromisoformat(args.posted_at) if args.posted_at else None,
-                         handle=args.handle, account_name=args.name, text_ko=args.text_ko)
+                         handle=args.handle, account_name=args.name, text_ko=args.text_ko,
+                         account_class=args.account_class)
     except (ValueError, FileNotFoundError) as e:
         print(f"error: {e}", file=sys.stderr)
         return 1
