@@ -63,6 +63,7 @@ MAJOR: GOAL G3 개정은 GOAL §G3 머리말("변경 시 메이저")대로 메�
 
 ### Data
 - **NB24 라이브러리 인물 국기**(작업 11): `library_manifest` source 문구가 국가 직함·국가 기관을 적은 3명만 `assets/entities.yaml` 에 국기 등재 — 시진핑 cn(중화인민공화국 주석), 파월 us(연준 의장 공식 초상), 워시 us(연준 공식 초상). 근거 없는 17명은 비움(촬영 기관·행사명은 근거로 치지 않음). 목록·근거 `reports/phase11/nb24_flags.json`.
+- **NB21 시각 검수 `fix.event_ref` 누락**(작업 11): `prompts/visual_qa.md` 에 fix 를 쓰면 `event_ref`·`suggest` 둘 다 필수, 대상 불명이면 컷 이름, 제안 없으면 fix 생략을 명시(P11 — 사람 승인 문구 개정만). `tests/test_phase11_nb21.py` 5(스키마 필수 필드 ↔ 프롬프트 파리티). LLM-AP-008.
 - **docs/07 영상 스타일 재작성**(작업 3): 쇼츠 콜라주 구판(v0.45.1) → handoff 05·06·08·09·14·17 과 `rules/video_rules.yaml` 을 가리키는 안내도. 수치는 `rules:키` 로만(값 복사 0). 화면 구성·카메라·패널·카드·뱃지·미디어·타이포·검증 라벨(`<미검증>`·`<논쟁>`)·되돌리면 안 되는 것(C0)·checks 12항목 표. 폐기 배너 제거.
 - **docs/08 오디오·TTS 재작성**(작업 4): handoff 03·10, `rules audio`·`tts_rules`·`tts_risk`, `config tts`, BGM 레지스트리, 2패스 loudnorm, 오디오 QA(D57), 발음 규칙·TTS-AP, edge/ElevenLabs 정렬·캐시·트림. handoff 13 §Phase 8 음악 수치 문구에 D57 동기화 주석(D-0061).
 - **docs/09 지도·지오 재작성**(작업 5): handoff 04·05·06, 투영, `geo.prep`(`--res`), 티어·ppd·land-miss(D29), 해상도 = 렌더 진입 장치 변환 한 곳(D60), 라벨 LOD(`rules labels`)·가린 라벨(D61), 프레이밍 `context_w_min`(D54). handoff 09 §2 'px() 로 감싸기' 문구에 D60 정정 주석.

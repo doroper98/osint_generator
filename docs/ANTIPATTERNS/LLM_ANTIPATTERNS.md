@@ -303,3 +303,11 @@ last_review: 2026-05-22
 - **구조적 조치 (structural fix, v3.1.0)**: Literal 에 `vision` 추가(하위 호환). 모드마다 실제 기록 경로를 타는 테스트.
 - **회귀 테스트 (regression_test)**: `tests/test_base_llm_worker_run.py::TestVisionModeRecord` — 수정 전 실패 확인.
 - **연관**: back_and_forth D-0047 작업 8·10, hormuz_ai 실측.
+
+## LLM-AP-008 — 선택 객체 안의 필수 필드를 프롬프트가 "선택"으로만 적어 LLM 이 빼먹음
+- **증상 (symptom)**: 시각 검수 판정 JSON 에서 `fix` 에 `suggest` 만 쓰고 `event_ref` 를 빠뜨려 스키마 오류 → 재요청이 반복됐다(taiwan 4회·hormuz_ai_cam 1회, back_and_forth D-0062 NB21).
+- **원인 (root cause)**: 프롬프트가 `fix`(선택: `event_ref`, `suggest`) 처럼 **바깥 객체가 선택**이라는 것만 적었다. 안쪽 두 필드가 둘 다 필수(`engine.qa.QAFix`)라는 것과, 대상을 못 집을 때 쓸 값이 없었다.
+- **구조적 조치 (structural fix, v4.0.0)**: `prompts/visual_qa.md` 에 "fix 를 쓰면 event_ref·suggest 둘 다 필수, 대상을 못 집으면 컷 이름, 제안이 없으면 fix 를 쓰지 않는다" 를 명시. 판정·피드백을 자동 편입하지 않고 사람 승인(D-0072) 문구 개정만 했다(15 P11).
+- **회귀 테스트 (regression_test)**: `tests/test_phase11_nb21.py` — 스키마 필수 필드 = 프롬프트 필수 규칙 문구(파리티), 컷 이름 event_ref 가 코드에서 해석됨. 옛 문구에서는 파리티 테스트가 실패한다.
+- **연관**: back_and_forth D-0062 NB21, D-0072 작업 11, PIPELINE-AP-008(표지 해석).
+
