@@ -1,0 +1,16 @@
+{
+ "schema_version": 1,
+ "rounds": [
+  {
+   "version": 1,
+   "checks_hard": 1,
+   "checks_file": "checks.v1.json",
+   "sheet": "sheet.v1.jpg",
+   "qa": null,
+   "qa_hard": null,
+   "qa_soft": null,
+   "revision": null
+  }
+ ],
+ "selected": null
+}

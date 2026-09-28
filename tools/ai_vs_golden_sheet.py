@@ -1,6 +1,8 @@
 """골든(사람 연출) 컷과 AI 연출 컷을 나란히 (v3.1.0, back_and_forth D-0047 작업 10 (c) `v3_vs_ai.jpg`).
 
-    python tools/ai_vs_golden_sheet.py <골든 프레임 폴더> <AI 프로젝트> <출력.jpg>
+    python tools/ai_vs_golden_sheet.py <골든 프레임 폴더> <AI 프로젝트> <출력.jpg> [왼쪽 이름 오른쪽 이름]
+
+왼쪽 폴더는 골든 25 앵커 컷 PNG 를 이름순(=시각순)으로 쓴다 — 다른 판의 prev/ 폴더도 된다(실행 1 vs 2 비교).
 
 두 쪽 모두 `--preview golden`(골든 25 앵커)으로 만든 컷을 시각순으로 짝짓는다. 한 줄 = [골든 | AI] × 2 앵커.
 """
@@ -23,7 +25,11 @@ def main(argv: list[str] | None = None) -> int:
 
     a = argv if argv is not None else sys.argv[1:]
     gold_dir, proj, dest = Path(a[0]), Path(a[1]), Path(a[2])
+    left, right = (a[3], a[4]) if len(a) >= 5 else ("v3", "AI")
     gold = sorted(gold_dir.glob("*.png"))
+    if not gold:
+        print(f"PNG 없음: {gold_dir}", file=sys.stderr)
+        return 1
     plan = json.loads((proj / "plan.json").read_text(encoding="utf-8"))
     anchors = golden_times(plan)
     ai = [proj / "prev" / f"p_{t:07.2f}.png" for _, t in anchors]
@@ -33,7 +39,7 @@ def main(argv: list[str] | None = None) -> int:
         return 1
     cells = []
     for (label, _), g, p in zip(anchors, gold, ai):
-        cells += [(Image.open(g), f"v3  {label}"), (Image.open(p), f"AI  {label}")]
+        cells += [(Image.open(g), f"{left}  {label}"), (Image.open(p), f"{right}  {label}")]
     grid(cells, 4, dest)
     print(dest)
     return 0

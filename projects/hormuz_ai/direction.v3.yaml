@@ -247,7 +247,9 @@ events:
     sid: open_0
     'off': 0.2
   end:
-    scene_end: open
+    sid: open_3
+    edge: end
+    'off': 0.3
   at_place: seoul
   label: 서울
   sub: 대통령 기자회견
@@ -258,7 +260,9 @@ events:
     sid: open_0
     'off': 0.7
   end:
-    scene_end: open
+    sid: open_3
+    edge: end
+    'off': 0.3
   place: map_lower_left
   kind: person
   pid: lee_jae_myung
@@ -553,41 +557,36 @@ events:
     - src: trump
       dst: de
       at:
-        word:
-          sid: ask_1
-          text: 독일
+        sid: ask_1
+        'off': 0.5
       style: refuse
       label: 거절
     - src: trump
       dst: gb
       at:
-        word:
-          sid: ask_1
-          text: 영국
+        sid: ask_1
+        'off': 1.2
       style: refuse
       label: 거절
     - src: trump
       dst: jp
       at:
-        word:
-          sid: ask_1
-          text: 일본
+        sid: ask_1
+        'off': 1.9
       style: refuse
       label: 거절
     - src: trump
       dst: au
       at:
-        word:
-          sid: ask_1
-          text: 호주
+        sid: ask_1
+        'off': 2.6
       style: refuse
       label: 거절
     - src: trump
       dst: kr
       at:
-        word:
-          sid: ask_1
-          text: 한국
+        sid: ask_1
+        'off': 3.3
       style: refuse
       label: 거절
     edge_label: 해협 방어 요구
@@ -635,6 +634,19 @@ events:
         word:
           sid: ask_4
           text: 한국
+- type: card
+  start:
+    sid: ask_5
+    'off': 0.2
+  end:
+    scene_end: ask
+    'off': -0.2
+  place: card_right
+  tag: 공동성명 내용
+  lines:
+  - 이란의 공격 규탄
+  - 항행의 자유를 지키는 노력에 동참
+  accent: gold
 - type: panel
   start:
     scene_start: timeline
@@ -663,6 +675,7 @@ events:
       t:
         sid: timeline_0
         'off': 0.4
+      dim: true
     - date: '2026-03-02'
       label: 이란, 해협 봉쇄
       col: ru
@@ -670,6 +683,7 @@ events:
       t:
         sid: timeline_0
         'off': 1.0
+      dim: true
     - date: '2026-03-15'
       label: 트럼프, 해협 방어 요구
       col: us
@@ -677,6 +691,7 @@ events:
       t:
         sid: timeline_0
         'off': 1.6
+      dim: true
     - date: '2026-04-07'
       label: 무력 사용 결의안 거부권
       col: ru
@@ -723,14 +738,14 @@ events:
 - type: clip
   start:
     sid: timeline_4
-    'off': 0.3
+    'off': 2.0
   end:
     sid: timeline_4
     'off':
-    - 0.3
+    - 2.0
     - 5.0
   mid: strikes
-  place: panel_gap
+  place: map_left
 - type: card
   start:
     sid: cost_0
@@ -785,6 +800,19 @@ events:
   lines:
   - 정부, 연내 파병 준비
   accent: teal
+- type: marker
+  start:
+    sid: review_0
+    'off': 0.2
+  end:
+    sid: review_2
+    edge: end
+    'off': 0.3
+  at_place: seoul
+  label: 서울
+  sub: 9월 초 · 파병 준비 보도
+  side: right
+  hl: true
 - type: card
   start:
     sid: review_1
@@ -970,6 +998,10 @@ events:
         t:
           sid: debate_3
           'off': 0.4
+      - text: 미사일과 드론이 오가는 곳
+        t:
+          sid: debate_3
+          'off': 2.5
       - text: 줄어드는 미국 방공 미사일 재고
         t:
           sid: debate_4
@@ -1073,8 +1105,8 @@ events:
   accent: us
 - type: photo
   start:
-    sid: now_0
-    'off': 1.0
+    sid: now_1
+    'off': 0.2
   end:
     sid: now_1
     edge: end

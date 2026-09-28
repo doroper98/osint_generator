@@ -187,6 +187,18 @@ shots:
   mode: dip
   dur: 3.0
   camera:
+    lon: 127.6
+    lat: 35.8
+    place: null
+    w: 16.0
+  under: false
+  scene: null
+- at:
+    sid: review_3
+    'off': -1.2
+  mode: move
+  dur: 3.2
+  camera:
     lon: 92.0
     lat: 21.0
     place: null
@@ -200,9 +212,9 @@ shots:
   dur: 3.0
   camera:
     lon: 126.98
-    lat: 37.52
+    lat: 37.54
     place: null
-    w: 3.6
+    w: 2.5
   under: false
   scene: null
 - at:
@@ -248,6 +260,7 @@ events:
     'off': 0.2
   end:
     scene_end: open
+    'off': -0.6
   at_place: seoul
   label: 서울
   sub: 대통령 기자회견
@@ -259,6 +272,7 @@ events:
     'off': 0.7
   end:
     scene_end: open
+    'off': -0.6
   place: map_lower_left
   kind: person
   pid: lee_jae_myung
@@ -556,6 +570,7 @@ events:
         word:
           sid: ask_1
           text: 독일
+        'off': -0.3
       style: refuse
       label: 거절
     - src: trump
@@ -564,6 +579,7 @@ events:
         word:
           sid: ask_1
           text: 영국
+        'off': -0.3
       style: refuse
       label: 거절
     - src: trump
@@ -572,6 +588,7 @@ events:
         word:
           sid: ask_1
           text: 일본
+        'off': -0.3
       style: refuse
       label: 거절
     - src: trump
@@ -580,6 +597,7 @@ events:
         word:
           sid: ask_1
           text: 호주
+        'off': -0.3
       style: refuse
       label: 거절
     - src: trump
@@ -588,6 +606,7 @@ events:
         word:
           sid: ask_1
           text: 한국
+        'off': -0.3
       style: refuse
       label: 거절
     edge_label: 해협 방어 요구
@@ -723,14 +742,14 @@ events:
 - type: clip
   start:
     sid: timeline_4
-    'off': 0.3
+    'off': 1.2
   end:
     sid: timeline_4
     'off':
-    - 0.3
+    - 1.2
     - 5.0
   mid: strikes
-  place: panel_gap
+  place: map_right_low
 - type: card
   start:
     sid: cost_0
@@ -864,7 +883,7 @@ events:
     scene_end: review
   at_place: hormuz
   label: 호르무즈 해협
-  side: right
+  side: left
   hl: true
 - type: panel
   start:
@@ -1073,8 +1092,8 @@ events:
   accent: us
 - type: photo
   start:
-    sid: now_0
-    'off': 1.0
+    sid: now_1
+    'off': 0.6
   end:
     sid: now_1
     edge: end

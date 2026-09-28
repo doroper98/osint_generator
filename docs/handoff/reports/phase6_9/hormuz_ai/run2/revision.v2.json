@@ -1,0 +1,10 @@
+{
+ "schema_version": 1,
+ "direction_version": 2,
+ "changelog": [
+  {
+   "issue_ref": "offscreen:마커 호르무즈 해협 t=185.1",
+   "change": "review 장면의 호르무즈 해협 마커(review_3 끝 -0.5 등장)는 카메라(lon 92, w 92) 왼쪽 가장자리에 가까워, 왼쪽에 붙은 라벨이 화면 밖으로 8px 나갔다. 라벨 방향 side 를 left 에서 right 로 바꿔 화면 안쪽으로 펼치게 했다. 등장·퇴장 시각과 문구는 그대로 둔다."
+  }
+ ]
+}

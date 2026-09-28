@@ -1,0 +1,10 @@
+{"t": 3.5, "ok": true, "stage": "validate", "errors": [], "warnings": ["[timeline-overlap] '전쟁과 협상의 여섯 달' 2026-03-15 트럼프, 해협 방어 요구 층 -2 라벨이 앞 사건과 겹친다", "[timeline-overlap] '전쟁과 협상의 여섯 달' 2026-06-17 미·이란 양해각서 서명 층 1 라벨이 앞 사건과 겹친다"]}
+{"t": 16.6, "ok": false, "stage": "preview", "errors": ["checks hard offscreen: 마커 호르무즈 해협 t=185.1 화면 밖 8px (상자 [-8, 166, 101, 208])"], "warnings": ["[timeline-overlap] '전쟁과 협상의 여섯 달' 2026-03-15 트럼프, 해협 방어 요구 층 -2 라벨이 앞 사건과 겹친다", "[timeline-overlap] '전쟁과 협상의 여섯 달' 2026-06-17 미·이란 양해각서 서명 층 1 라벨이 앞 사건과 겹친다"]}
+{"t": 84.2, "ok": true, "stage": "revise_direction", "errors": [], "warnings": []}
+{"t": 88.6, "ok": true, "stage": "validate", "errors": [], "warnings": ["[timeline-overlap] '전쟁과 협상의 여섯 달' 2026-03-15 트럼프, 해협 방어 요구 층 -2 라벨이 앞 사건과 겹친다", "[timeline-overlap] '전쟁과 협상의 여섯 달' 2026-06-17 미·이란 양해각서 서명 층 1 라벨이 앞 사건과 겹친다"]}
+{"t": 100.7, "ok": true, "stage": "preview", "errors": [], "warnings": ["[timeline-overlap] '전쟁과 협상의 여섯 달' 2026-03-15 트럼프, 해협 방어 요구 층 -2 라벨이 앞 사건과 겹친다", "[timeline-overlap] '전쟁과 협상의 여섯 달' 2026-06-17 미·이란 양해각서 서명 층 1 라벨이 앞 사건과 겹친다"]}
+{"t": 147.1, "ok": true, "stage": "visual_qa", "errors": [], "warnings": []}
+{"t": 267.7, "ok": true, "stage": "revise_direction", "errors": [], "warnings": []}
+{"t": 273.4, "ok": true, "stage": "validate", "errors": [], "warnings": ["[timeline-overlap] '전쟁과 협상의 여섯 달' 2026-03-15 트럼프, 해협 방어 요구 층 -2 라벨이 앞 사건과 겹친다", "[timeline-overlap] '전쟁과 협상의 여섯 달' 2026-06-17 미·이란 양해각서 서명 층 1 라벨이 앞 사건과 겹친다"]}
+{"t": 290.1, "ok": false, "stage": "preview", "errors": ["checks hard offscreen: 마커 서울 t=162.5 화면 밖 11px (상자 [739, 46, 865, 88])"], "warnings": ["[timeline-overlap] '전쟁과 협상의 여섯 달' 2026-03-15 트럼프, 해협 방어 요구 층 -2 라벨이 앞 사건과 겹친다", "[timeline-overlap] '전쟁과 협상의 여섯 달' 2026-06-17 미·이란 양해각서 서명 층 1 라벨이 앞 사건과 겹친다"]}
+{"t": 302.7, "ok": true, "stage": "preview", "errors": [], "warnings": ["[timeline-overlap] '전쟁과 협상의 여섯 달' 2026-03-15 트럼프, 해협 방어 요구 층 -2 라벨이 앞 사건과 겹친다", "[timeline-overlap] '전쟁과 협상의 여섯 달' 2026-06-17 미·이란 양해각서 서명 층 1 라벨이 앞 사건과 겹친다"]}
