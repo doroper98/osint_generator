@@ -460,17 +460,15 @@ class LLMCallRecord(VersionedModel):
 
 
 class _BundleModel(BaseModel):
-    """bundle 수신 모델의 공용 베이스 — **관대한 수신자(tolerant reader)**.
+    """bundle 수신 모델의 공용 베이스 — **fail-closed**(v3.5.0 D-0064 쟁점 1 A).
 
-    `extra="ignore"`: agents_reviewer 보고서 양식은 계속 진화하므로(새 top-level 블록,
-    새 섹션 필드 등), 모르는 필드는 **무시**해 추가 변경에 깨지지 않는다. 우리가 선언한
-    필드는 여전히 타입·enum·필수 검증되어 소비 데이터의 건전성은 유지된다. 미지 필드의
-    "인지"는 로더(bundle.load.load_report_bundle)가 모든 깊이에서 로그로 surface 한다. 계약 §1 의
-    "additive 변경은 schema_version 무증분" 원칙과 정합 — 추가 필드에 consumer 가 깨지면
-    안 된다.
+    `extra="forbid"`: 모델이 선언하지 않은 필드는 **로드 오류**다. v3.4.0 까지의 관대한 수신자(`extra="ignore"`)는
+    어댑터가 쓰는 마커 종류·호 종류·논쟁 영상 문구를 조용히 버렸다(코퍼스 68건 실측, 15 P6·P10). agents_reviewer 가
+    필드를 더하면(additive 포함) 이 파일의 번들 모델 선언과 같이 간다 — 그 전까지 import 는 멈춘다(의도된 동작).
+    로더(`bundle.load.load_report_bundle`)는 미지 필드 경로를 **모든 깊이에서 한 번에** 오류 본문에 나열한다.
     """
 
-    model_config = ConfigDict(extra="ignore", use_enum_values=True)
+    model_config = ConfigDict(extra="forbid", use_enum_values=True)
 
 
 class BundleProducer(_BundleModel):
@@ -561,6 +559,7 @@ class BundleChart(_BundleModel):
     note: str = ""
     provenance: BundleProvenance
     prerendered_svg: Optional[str] = None
+    display: str = ""                 # v3.5.0 선언(D-0064) — 보고서 표시 폭(full 등). 영상은 쓰지 않는다
 
 
 class BundleMapMarker(_BundleModel):
@@ -569,6 +568,9 @@ class BundleMapMarker(_BundleModel):
     lng: float
     lat: float
     highlight: bool = False
+    kind: str = ""                    # v3.5.0 선언(D-0064) — military·chokepoint 등(번들 어휘 그대로)
+    value: str = ""                   # 마커 값 표기(예: "8월 25일 회담")
+    label_side: str = ""              # 보고서 지도 라벨 방향(left·right·top·bottom) — 참고용
 
 
 class BundleMapArc(_BundleModel):
@@ -576,6 +578,9 @@ class BundleMapArc(_BundleModel):
     to_id: str = ""
     label: str = ""
     highlight: bool = False
+    kind: str = ""                    # v3.5.0 선언(D-0064) — flow(이동·경로) | tension(긴장선), 12 §2
+    weight: Optional[float] = None    # 선 굵기 등급(번들 표기)
+    label_t: Optional[float] = None   # 호 위 라벨 위치(0~1)
 
 
 class BundleMapLegend(_BundleModel):
@@ -640,11 +645,23 @@ class BundleSignal(_BundleModel):
     verification: ResearchClaimStatus = ResearchClaimStatus.UNVERIFIED
 
 
+class BundleContradictionVideo(_BundleModel):
+    """논쟁 영상 문구(v3.5.0 선언, D-0064) — 양측 라벨·한 줄 요지·내레이션. 어댑터는 versus 재료·contested 후보 sides 라벨로만 쓴다."""
+
+    label_a: str = ""
+    label_b: str = ""
+    line_a: str = ""
+    line_b: str = ""
+    narration: list[str] = Field(default_factory=list)
+    narration_tts: list[str] = Field(default_factory=list)
+
+
 class BundleContradiction(_BundleModel):
     side_a: str = ""
     side_b: str = ""
     evidence: str = ""
     resolution: str = ""
+    video: Optional[BundleContradictionVideo] = None
 
 
 class BundleSource(_BundleModel):
@@ -692,13 +709,12 @@ class BundleImage(_BundleModel):
 class ReportBundle(VersionedModel):
     """agents_reviewer → osint_generator 핸드오프 (인터페이스 계약 v1).
 
-    **관대한 수신자**: `extra="ignore"` 로 미지 필드(진화하는 보고서의 새 블록 등)를
-    무시하되, 선언 필드는 검증하고 model_validator 로 id unique + chart_refs/claim_refs/
-    map_ref resolve 를 강제한다(계약 §8). 미지 top-level 필드는 로더가 로그로 알린다.
+    **fail-closed**(v3.5.0 D-0064): 미지 필드 = 오류(`extra="forbid"`, 모든 깊이). 선언 필드는 검증하고
+    model_validator 로 id unique + chart_refs/claim_refs/map_ref resolve 를 강제한다(계약 §8).
     schema_version 은 이 계약의 버전(현재 1)이며 producer.version 과 분리된다(§1).
     """
 
-    model_config = ConfigDict(extra="ignore", use_enum_values=True)
+    model_config = ConfigDict(extra="forbid", use_enum_values=True)
 
     bundle_kind: Literal["report_bundle"] = "report_bundle"
     generated_at: Optional[datetime] = None

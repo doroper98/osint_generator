@@ -97,7 +97,7 @@ def join_entities(b: ReportBundle, reg: EntityRegistry) -> EntityJoin:
         add(BundleEntity(id=str(n["id"]), label=str(n.get("label") or n["id"]), origin="node", chart_id=cid,
                          kind=n.get("kind"), flag=_flag(n.get("flag")), logo=n.get("logo"), role=str(n.get("role") or "")))
     for m in (b.map.markers if b.map else []):
-        add(BundleEntity(id=m.id, label=m.name or m.id, origin="marker", kind=getattr(m, "kind", None)))
+        add(BundleEntity(id=m.id, label=m.name or m.id, origin="marker", kind=m.kind or None))
     return EntityJoin(entities=ents, unmatched=unm)
 
 

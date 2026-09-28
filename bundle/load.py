@@ -3,9 +3,10 @@
 agents_reviewer 가 emit 한 report_bundle.json 을 `ReportBundle` 로 검증 로드한다.
 v3.5.0 에서 `orchestrator/bundle_io.py` 를 이리로 옮겼다(경로 하나, 15 P2 — 오케스트레이터는 얇은 호출만).
 
-- `load_report_bundle(path)`: 로드 + 검증. 선언 필드의 타입·enum·필수·참조 해석 위반은 오류로 전파한다.
+- `load_report_bundle(path)`: 로드 + 검증(**fail-closed**, D-0064 쟁점 1 A). 미지 필드가 하나라도 있으면
+  `UnknownBundleFields`(ValueError) — 모든 깊이의 경로를 한 번에 나열한다. 선언 필드의 타입·enum·필수·참조 해석 위반도 오류.
 - `unknown_fields(raw)`: 모델이 선언하지 않은 필드를 **모든 깊이**에서 경로로 나열한다(`$.map.markers[].kind` 형식).
-  로더는 이 목록을 로그로 알린다 — 조용히 버리지 않는다(15 P6).
+  agents_reviewer 가 필드를 더하면(additive 포함) `schemas/models.py` 번들 모델 선언과 같이 간다(15 P6·P10).
 - CLI: `python -m bundle.load json samples --out docs/handoff/reports/phase9/corpus_load.json`
   → 건별 pass/fail·오류·미지 필드 표(D-0063 §0).
 """
@@ -14,7 +15,6 @@ from __future__ import annotations
 
 import argparse
 import json
-import logging
 import sys
 import typing
 from collections import Counter
@@ -24,9 +24,6 @@ from typing import Any, Optional
 from pydantic import BaseModel
 
 from schemas.models import ReportBundle
-
-logger = logging.getLogger(__name__)
-
 
 def _submodel(ann: Any) -> Optional[type[BaseModel]]:
     """필드 주석에서 BaseModel 하위 타입 하나를 찾는다(Optional[X]·list[X] 포함). 없으면 None."""
@@ -63,19 +60,32 @@ def unknown_fields(raw: object) -> dict[str, int]:
     return dict(sorted(out.items()))
 
 
+class UnknownBundleFields(ValueError):
+    """번들에 모델 미선언 필드가 있다(fail-closed). `paths` = 경로 → 등장 횟수."""
+
+    def __init__(self, name: str, paths: dict[str, int]) -> None:
+        self.paths = paths
+        super().__init__(f"report_bundle {name}: 모델 미선언 필드 {len(paths)}경로 — schemas/models.py 번들 모델에 선언해야 "
+                         f"읽는다(D-0064): " + ", ".join(f"{k}×{v}" for k, v in paths.items()))
+
+
+def validate_bundle(raw: object, name: str = "bundle") -> ReportBundle:
+    """dict → `ReportBundle`. 미지 필드는 전부 모아 한 번에 오류(pydantic 첫 오류보다 먼저)."""
+    unk = unknown_fields(raw)
+    if unk:
+        raise UnknownBundleFields(name, unk)
+    return ReportBundle.model_validate(raw)
+
+
 def load_report_bundle(path: Path) -> ReportBundle:
     """report_bundle.json 을 로드 → `ReportBundle`.
 
-    raise: FileNotFoundError(파일 없음) / json.JSONDecodeError / pydantic.ValidationError(=ValueError) — 건너뛰지 않고 전파.
+    raise: FileNotFoundError(파일 없음) / json.JSONDecodeError / UnknownBundleFields / pydantic.ValidationError(=ValueError)
+    — 건너뛰지 않고 전파.
     """
     if not path.exists():
         raise FileNotFoundError(f"report_bundle 파일이 없습니다: {path}")
-    raw = json.loads(path.read_text(encoding="utf-8"))
-    unk = unknown_fields(raw)
-    if unk:
-        logger.warning("report_bundle 모델 미선언 필드(%s): %s — 영상에 쓰려면 schemas/models.py 번들 모델에 선언하라",
-                       path.name, sorted(unk))
-    return ReportBundle.model_validate(raw)
+    return validate_bundle(json.loads(path.read_text(encoding="utf-8")), path.name)
 
 
 def corpus_files(roots: list[Path]) -> list[Path]:
@@ -96,7 +106,7 @@ def corpus_report(roots: list[Path]) -> dict[str, Any]:
         try:
             raw = json.loads(p.read_text(encoding="utf-8"))
             unk = unknown_fields(raw)
-            b = ReportBundle.model_validate(raw)
+            b = validate_bundle(raw, p.name)
             row |= {"ok": True, "producer": f"{b.producer.system} {b.producer.version}", "sections": len(b.sections),
                     "charts": len(b.charts), "markers": len(b.map.markers) if b.map else 0,
                     "arcs": len(b.map.arcs) if b.map else 0, "claims": len(b.claims),
@@ -130,4 +140,4 @@ if __name__ == "__main__":
     sys.exit(main())
 
 
-__all__ = ["corpus_files", "corpus_report", "load_report_bundle", "unknown_fields"]
+__all__ = ["UnknownBundleFields", "corpus_files", "corpus_report", "load_report_bundle", "unknown_fields", "validate_bundle"]

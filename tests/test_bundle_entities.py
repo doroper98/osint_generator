@@ -20,7 +20,7 @@ def _bundle() -> ReportBundle:
                         {"id": "ratcliffe", "label": "존 랫클리프", "kind": "person", "flag": "US", "col": "center"},
                         {"id": "iran", "label": "이란", "col": "right"}],
                         "edges": []}}],
-        "map": {"markers": [{"id": "moscow", "name": "모스크바", "lng": 37.62, "lat": 55.75}]},
+        "map": {"markers": [{"id": "moscow", "name": "모스크바", "lng": 37.62, "lat": 55.75, "kind": "capital", "value": "8월 25일 회담"}]},
     })
 
 
@@ -47,6 +47,7 @@ class EntityJoinTest(unittest.TestCase):
 
     def test_markers_listed(self) -> None:
         self.assertEqual(self.join.by_id()["moscow"].origin, "marker")
+        self.assertEqual(self.join.by_id()["moscow"].kind, "capital")   # D-0064 선언 필드가 실제로 읽힌다
 
     def test_mentions_fallback_surname_and_position(self) -> None:
         ms = mentions("푸틴은 랫클리프를 만나지 않았고 트럼프는 말을 아꼈다.", self.join, self.reg)

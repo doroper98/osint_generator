@@ -32,6 +32,7 @@ released 항목은 **append-only**입니다.
 
 ### Changed
 - 번들 로더 `orchestrator/bundle_io.py` → `bundle/load.py` 이동(경로 하나, P2 — 오케스트레이터는 얇은 호출만). 모든 깊이의 미지 필드를 나열하는 `unknown_fields()`·코퍼스 로드 표 CLI(`python -m bundle.load json samples --out …`) (D-0063 §0).
+- 번들 모델 **fail-closed**(`extra="forbid"`, D-0064 쟁점 1 A): 코퍼스 실측 8경로(`charts.display`·`contradictions.video`·`map.markers.kind/value/label_side`·`map.arcs.kind/weight/label_t`) 선언, 미지 필드는 모든 깊이 경로를 한 번에 나열하는 `UnknownBundleFields` 오류. 옛 '미지 필드 무시' 테스트 2개 → 거부 테스트 2개로 교체. 코퍼스 68건 통과·미지 0.
 - `bundle/entities.py`: stakeholder 노드·지도 마커 → 엔티티 레지스트리(+인물 라이브러리) **id 조인**, 없으면 `unmatched[]`(라벨이 별칭과 같으면 `alias_candidate` 만 — 조인·생성 안 함). 문장 언급 탐지(성·레지스트리 이름 별칭)는 폴백 (D-0063 작업 1).
 - `test_audio_qa::test_two_pass_record` 는 ffmpeg 가 없으면 사유 있는 skip (D-0062 NB22).
 

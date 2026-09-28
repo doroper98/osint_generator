@@ -131,21 +131,23 @@ class TestReportBundleModel(unittest.TestCase):
         self.assertEqual(bundle.claims[0].status, "confirmed")
         self.assertEqual(bundle.charts[0].provenance.verification, "confirmed")
 
-    def test_unknown_top_level_field_ignored(self) -> None:
-        # 관대한 수신자(tolerant reader): 모르는 top-level 필드는 무시(거부 안 함) →
-        # 진화하는 보고서(새 블록 추가)에 안 깨진다. extra="ignore".
+    def test_unknown_top_level_field_rejected(self) -> None:
+        # v3.5.0 D-0064 쟁점 1 A — fail-closed: 모르는 top-level 필드 = 로드 오류(조용히 버리지 않는다, 15 P6·P10).
         raw = _valid_bundle()
         raw["some_future_block"] = {"foo": 1}
-        bundle = ReportBundle.model_validate(raw)  # 안 깨짐
-        self.assertEqual(bundle.report.headline, raw["report"]["headline"])
-        self.assertFalse(hasattr(bundle, "some_future_block"))
+        with self.assertRaises(ValueError):
+            ReportBundle.model_validate(raw)
 
-    def test_unknown_section_field_ignored(self) -> None:
-        # 섹션 구조 진화도 수용 — 섹션에 모르는 필드가 있어도 무시.
+    def test_unknown_nested_fields_listed_all_at_once(self) -> None:
+        # 모든 깊이의 미지 필드를 경로로 한 번에 나열(bundle.load.validate_bundle).
+        from bundle.load import UnknownBundleFields, validate_bundle  # noqa: PLC0415
+
         raw = _valid_bundle()
         raw["sections"][0]["new_section_field"] = "x"
-        bundle = ReportBundle.model_validate(raw)
-        self.assertEqual(bundle.sections[0].section_id, "s1")
+        raw["map"]["markers"][0]["glow"] = 1
+        with self.assertRaises(UnknownBundleFields) as cm:
+            validate_bundle(raw)
+        self.assertEqual(set(cm.exception.paths), {"$.sections[].new_section_field", "$.map.markers[].glow"})
 
     def test_timeline_accepted(self) -> None:
         # v5.5.2 가 추가한 timeline 블록 수용(보관).

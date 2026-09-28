@@ -3,16 +3,7 @@
   "files": 68,
   "passed": 68,
   "failed": 0,
-  "unknown_fields_by_bundles": {
-    "$.charts[].display": 66,
-    "$.contradictions[].video": 61,
-    "$.map.arcs[].kind": 30,
-    "$.map.arcs[].label_t": 28,
-    "$.map.arcs[].weight": 30,
-    "$.map.markers[].kind": 30,
-    "$.map.markers[].label_side": 31,
-    "$.map.markers[].value": 32
-  },
+  "unknown_fields_by_bundles": {},
   "rows": [
     {
       "file": "json/analysis_20260619_193529_2aa830c0a1.bundle.json",
@@ -26,16 +17,7 @@
       "contradictions": 1,
       "sources": 12,
       "images": 0,
-      "unknown_fields": {
-        "$.charts[].display": 13,
-        "$.contradictions[].video": 1,
-        "$.map.arcs[].kind": 4,
-        "$.map.arcs[].label_t": 4,
-        "$.map.arcs[].weight": 4,
-        "$.map.markers[].kind": 6,
-        "$.map.markers[].label_side": 6,
-        "$.map.markers[].value": 3
-      }
+      "unknown_fields": {}
     },
     {
       "file": "json/analysis_20260619_200057_f06d43e45e.bundle.json",
@@ -49,16 +31,7 @@
       "contradictions": 2,
       "sources": 15,
       "images": 0,
-      "unknown_fields": {
-        "$.charts[].display": 9,
-        "$.contradictions[].video": 2,
-        "$.map.arcs[].kind": 5,
-        "$.map.arcs[].label_t": 4,
-        "$.map.arcs[].weight": 5,
-        "$.map.markers[].kind": 5,
-        "$.map.markers[].label_side": 5,
-        "$.map.markers[].value": 5
-      }
+      "unknown_fields": {}
     },
     {
       "file": "json/analysis_20260620_061556_70bd734048.bundle.json",
@@ -72,16 +45,7 @@
       "contradictions": 1,
       "sources": 11,
       "images": 0,
-      "unknown_fields": {
-        "$.charts[].display": 7,
-        "$.contradictions[].video": 1,
-        "$.map.arcs[].kind": 2,
-        "$.map.arcs[].label_t": 2,
-        "$.map.arcs[].weight": 2,
-        "$.map.markers[].kind": 4,
-        "$.map.markers[].label_side": 4,
-        "$.map.markers[].value": 2
-      }
+      "unknown_fields": {}
     },
     {
       "file": "json/analysis_20260620_102101_30d780948b.bundle.json",
@@ -95,13 +59,7 @@
       "contradictions": 1,
       "sources": 13,
       "images": 0,
-      "unknown_fields": {
-        "$.charts[].display": 6,
-        "$.contradictions[].video": 1,
-        "$.map.markers[].kind": 3,
-        "$.map.markers[].label_side": 5,
-        "$.map.markers[].value": 3
-      }
+      "unknown_fields": {}
     },
     {
       "file": "json/analysis_20260620_145602_5a080baffd.bundle.json",
@@ -115,16 +73,7 @@
       "contradictions": 1,
       "sources": 15,
       "images": 0,
-      "unknown_fields": {
-        "$.charts[].display": 1,
-        "$.contradictions[].video": 1,
-        "$.map.arcs[].kind": 2,
-        "$.map.arcs[].label_t": 2,
-        "$.map.arcs[].weight": 2,
-        "$.map.markers[].kind": 2,
-        "$.map.markers[].label_side": 2,
-        "$.map.markers[].value": 2
-      }
+      "unknown_fields": {}
     },
     {
       "file": "json/analysis_20260620_163050_7a9a92a238.bundle.json",
@@ -138,16 +87,7 @@
       "contradictions": 1,
       "sources": 11,
       "images": 0,
-      "unknown_fields": {
-        "$.charts[].display": 3,
-        "$.contradictions[].video": 1,
-        "$.map.arcs[].kind": 4,
-        "$.map.arcs[].label_t": 4,
-        "$.map.arcs[].weight": 4,
-        "$.map.markers[].kind": 4,
-        "$.map.markers[].label_side": 3,
-        "$.map.markers[].value": 4
-      }
+      "unknown_fields": {}
     },
     {
       "file": "json/analysis_20260620_224648_5e789ff642.bundle.json",
@@ -161,16 +101,7 @@
       "contradictions": 1,
       "sources": 5,
       "images": 0,
-      "unknown_fields": {
-        "$.charts[].display": 2,
-        "$.contradictions[].video": 1,
-        "$.map.arcs[].kind": 3,
-        "$.map.arcs[].label_t": 3,
-        "$.map.arcs[].weight": 3,
-        "$.map.markers[].kind": 1,
-        "$.map.markers[].label_side": 3,
-        "$.map.markers[].value": 3
-      }
+      "unknown_fields": {}
     },
     {
       "file": "json/analysis_20260623_062611_bb0a71dcf9.bundle.json",
@@ -184,9 +115,7 @@
       "contradictions": 0,
       "sources": 11,
       "images": 0,
-      "unknown_fields": {
-        "$.charts[].display": 8
-      }
+      "unknown_fields": {}
     },
     {
       "file": "json/analysis_20260623_112718_bc8f8b580a.bundle.json",
@@ -200,16 +129,7 @@
       "contradictions": 1,
       "sources": 8,
       "images": 0,
-      "unknown_fields": {
-        "$.charts[].display": 6,
-        "$.contradictions[].video": 1,
-        "$.map.arcs[].kind": 4,
-        "$.map.arcs[].label_t": 2,
-        "$.map.arcs[].weight": 4,
-        "$.map.markers[].kind": 6,
-        "$.map.markers[].label_side": 6,
-        "$.map.markers[].value": 3
-      }
+      "unknown_fields": {}
     },
     {
       "file": "json/analysis_20260623_132713_3179fd449f.bundle.json",
@@ -223,9 +143,7 @@
       "contradictions": 1,
       "sources": 13,
       "images": 0,
-      "unknown_fields": {
-        "$.contradictions[].video": 1
-      }
+      "unknown_fields": {}
     },
     {
       "file": "json/analysis_20260623_184604_7904f1f8c9.bundle.json",
@@ -239,10 +157,7 @@
       "contradictions": 1,
       "sources": 11,
       "images": 0,
-      "unknown_fields": {
-        "$.charts[].display": 18,
-        "$.contradictions[].video": 1
-      }
+      "unknown_fields": {}
     },
     {
       "file": "json/analysis_20260624_061659_291186f4fd.bundle.json",
@@ -256,16 +171,7 @@
       "contradictions": 2,
       "sources": 11,
       "images": 0,
-      "unknown_fields": {
-        "$.charts[].display": 10,
-        "$.contradictions[].video": 2,
-        "$.map.arcs[].kind": 3,
-        "$.map.arcs[].label_t": 3,
-        "$.map.arcs[].weight": 3,
-        "$.map.markers[].kind": 4,
-        "$.map.markers[].label_side": 4,
-        "$.map.markers[].value": 1
-      }
+      "unknown_fields": {}
     },
     {
       "file": "json/analysis_20260624_184413_b9cc41bbfa.bundle.json",
@@ -279,10 +185,7 @@
       "contradictions": 1,
       "sources": 12,
       "images": 0,
-      "unknown_fields": {
-        "$.charts[].display": 18,
-        "$.contradictions[].video": 1
-      }
+      "unknown_fields": {}
     },
     {
       "file": "json/analysis_20260624_233727_6023aca8d7.bundle.json",
@@ -296,9 +199,7 @@
       "contradictions": 1,
       "sources": 12,
       "images": 0,
-      "unknown_fields": {
-        "$.contradictions[].video": 1
-      }
+      "unknown_fields": {}
     },
     {
       "file": "json/analysis_20260625_002353_07cd15215f.bundle.json",
@@ -312,13 +213,7 @@
       "contradictions": 2,
       "sources": 11,
       "images": 0,
-      "unknown_fields": {
-        "$.charts[].display": 1,
-        "$.contradictions[].video": 2,
-        "$.map.markers[].kind": 4,
-        "$.map.markers[].label_side": 4,
-        "$.map.markers[].value": 2
-      }
+      "unknown_fields": {}
     },
     {
       "file": "json/analysis_20260625_061718_ad4b066be3.bundle.json",
@@ -332,16 +227,7 @@
       "contradictions": 2,
       "sources": 10,
       "images": 0,
-      "unknown_fields": {
-        "$.charts[].display": 9,
-        "$.contradictions[].video": 2,
-        "$.map.arcs[].kind": 2,
-        "$.map.arcs[].label_t": 1,
-        "$.map.arcs[].weight": 2,
-        "$.map.markers[].kind": 4,
-        "$.map.markers[].label_side": 3,
-        "$.map.markers[].value": 2
-      }
+      "unknown_fields": {}
     },
     {
       "file": "json/analysis_20260625_061939_785032bd35.bundle.json",
@@ -355,9 +241,7 @@
       "contradictions": 0,
       "sources": 8,
       "images": 0,
-      "unknown_fields": {
-        "$.charts[].display": 5
-      }
+      "unknown_fields": {}
     },
     {
       "file": "json/analysis_20260625_081213_ca0695cb82.bundle.json",
@@ -371,9 +255,7 @@
       "contradictions": 0,
       "sources": 6,
       "images": 0,
-      "unknown_fields": {
-        "$.charts[].display": 5
-      }
+      "unknown_fields": {}
     },
     {
       "file": "json/analysis_20260625_083329_321fdfdbff.bundle.json",
@@ -387,10 +269,7 @@
       "contradictions": 1,
       "sources": 8,
       "images": 0,
-      "unknown_fields": {
-        "$.charts[].display": 4,
-        "$.contradictions[].video": 1
-      }
+      "unknown_fields": {}
     },
     {
       "file": "json/analysis_20260625_185638_8667a161f6.bundle.json",
@@ -404,10 +283,7 @@
       "contradictions": 1,
       "sources": 10,
       "images": 0,
-      "unknown_fields": {
-        "$.charts[].display": 17,
-        "$.contradictions[].video": 1
-      }
+      "unknown_fields": {}
     },
     {
       "file": "json/analysis_20260626_061448_e4653cc1de.bundle.json",
@@ -421,16 +297,7 @@
       "contradictions": 2,
       "sources": 9,
       "images": 0,
-      "unknown_fields": {
-        "$.charts[].display": 6,
-        "$.contradictions[].video": 2,
-        "$.map.arcs[].kind": 3,
-        "$.map.arcs[].label_t": 3,
-        "$.map.arcs[].weight": 3,
-        "$.map.markers[].kind": 6,
-        "$.map.markers[].label_side": 6,
-        "$.map.markers[].value": 3
-      }
+      "unknown_fields": {}
     },
     {
       "file": "json/analysis_20260626_134720_7736619c5b.bundle.json",
@@ -444,10 +311,7 @@
       "contradictions": 1,
       "sources": 12,
       "images": 0,
-      "unknown_fields": {
-        "$.charts[].display": 3,
-        "$.contradictions[].video": 1
-      }
+      "unknown_fields": {}
     },
     {
       "file": "json/analysis_20260626_185320_1d7ee4e823.bundle.json",
@@ -461,10 +325,7 @@
       "contradictions": 1,
       "sources": 9,
       "images": 0,
-      "unknown_fields": {
-        "$.charts[].display": 16,
-        "$.contradictions[].video": 1
-      }
+      "unknown_fields": {}
     },
     {
       "file": "json/analysis_20260627_061808_c7ca9efdc6.bundle.json",
@@ -478,16 +339,7 @@
       "contradictions": 2,
       "sources": 11,
       "images": 0,
-      "unknown_fields": {
-        "$.charts[].display": 12,
-        "$.contradictions[].video": 2,
-        "$.map.arcs[].kind": 3,
-        "$.map.arcs[].label_t": 1,
-        "$.map.arcs[].weight": 3,
-        "$.map.markers[].kind": 3,
-        "$.map.markers[].label_side": 6,
-        "$.map.markers[].value": 3
-      }
+      "unknown_fields": {}
     },
     {
       "file": "json/analysis_20260627_151401_8961043eec.bundle.json",
@@ -501,12 +353,7 @@
       "contradictions": 1,
       "sources": 19,
       "images": 0,
-      "unknown_fields": {
-        "$.charts[].display": 3,
-        "$.contradictions[].video": 1,
-        "$.map.arcs[].kind": 3,
-        "$.map.arcs[].weight": 3
-      }
+      "unknown_fields": {}
     },
     {
       "file": "json/analysis_20260627_175615_a3800f4c49.bundle.json",
@@ -520,10 +367,7 @@
       "contradictions": 1,
       "sources": 15,
       "images": 0,
-      "unknown_fields": {
-        "$.charts[].display": 3,
-        "$.contradictions[].video": 1
-      }
+      "unknown_fields": {}
     },
     {
       "file": "json/analysis_20260627_213911_00d58d87d6.bundle.json",
@@ -537,16 +381,7 @@
       "contradictions": 2,
       "sources": 17,
       "images": 0,
-      "unknown_fields": {
-        "$.charts[].display": 4,
-        "$.contradictions[].video": 2,
-        "$.map.arcs[].kind": 1,
-        "$.map.arcs[].label_t": 1,
-        "$.map.arcs[].weight": 1,
-        "$.map.markers[].kind": 3,
-        "$.map.markers[].label_side": 4,
-        "$.map.markers[].value": 3
-      }
+      "unknown_fields": {}
     },
     {
       "file": "json/analysis_20260628_061716_7d7074eb2d.bundle.json",
@@ -560,16 +395,7 @@
       "contradictions": 1,
       "sources": 9,
       "images": 0,
-      "unknown_fields": {
-        "$.charts[].display": 9,
-        "$.contradictions[].video": 1,
-        "$.map.arcs[].kind": 2,
-        "$.map.arcs[].label_t": 1,
-        "$.map.arcs[].weight": 2,
-        "$.map.markers[].kind": 3,
-        "$.map.markers[].label_side": 4,
-        "$.map.markers[].value": 1
-      }
+      "unknown_fields": {}
     },
     {
       "file": "json/analysis_20260629_002147_e465bc4378.bundle.json",
@@ -583,16 +409,7 @@
       "contradictions": 1,
       "sources": 14,
       "images": 0,
-      "unknown_fields": {
-        "$.charts[].display": 4,
-        "$.contradictions[].video": 1,
-        "$.map.arcs[].kind": 3,
-        "$.map.arcs[].label_t": 3,
-        "$.map.arcs[].weight": 3,
-        "$.map.markers[].kind": 3,
-        "$.map.markers[].label_side": 4,
-        "$.map.markers[].value": 2
-      }
+      "unknown_fields": {}
     },
     {
       "file": "json/analysis_20260629_061538_a841974eed.bundle.json",
@@ -606,16 +423,7 @@
       "contradictions": 2,
       "sources": 11,
       "images": 0,
-      "unknown_fields": {
-        "$.charts[].display": 12,
-        "$.contradictions[].video": 2,
-        "$.map.arcs[].kind": 3,
-        "$.map.arcs[].label_t": 3,
-        "$.map.arcs[].weight": 3,
-        "$.map.markers[].kind": 4,
-        "$.map.markers[].label_side": 5,
-        "$.map.markers[].value": 3
-      }
+      "unknown_fields": {}
     },
     {
       "file": "json/analysis_20260629_081801_fb91b3b6d8.bundle.json",
@@ -629,14 +437,7 @@
       "contradictions": 1,
       "sources": 10,
       "images": 0,
-      "unknown_fields": {
-        "$.charts[].display": 3,
-        "$.contradictions[].video": 1,
-        "$.map.arcs[].kind": 2,
-        "$.map.arcs[].label_t": 2,
-        "$.map.arcs[].weight": 2,
-        "$.map.markers[].value": 3
-      }
+      "unknown_fields": {}
     },
     {
       "file": "json/analysis_20260629_161043_c73fb16864.bundle.json",
@@ -650,10 +451,7 @@
       "contradictions": 1,
       "sources": 13,
       "images": 0,
-      "unknown_fields": {
-        "$.charts[].display": 6,
-        "$.contradictions[].video": 1
-      }
+      "unknown_fields": {}
     },
     {
       "file": "json/analysis_20260629_184644_0796423c4f.bundle.json",
@@ -667,10 +465,7 @@
       "contradictions": 1,
       "sources": 12,
       "images": 0,
-      "unknown_fields": {
-        "$.charts[].display": 14,
-        "$.contradictions[].video": 1
-      }
+      "unknown_fields": {}
     },
     {
       "file": "json/analysis_20260630_062806_3714872cd6.bundle.json",
@@ -684,10 +479,7 @@
       "contradictions": 2,
       "sources": 9,
       "images": 0,
-      "unknown_fields": {
-        "$.charts[].display": 8,
-        "$.contradictions[].video": 2
-      }
+      "unknown_fields": {}
     },
     {
       "file": "json/analysis_20260630_101607_cd7294b4d4.bundle.json",
@@ -701,10 +493,7 @@
       "contradictions": 1,
       "sources": 9,
       "images": 0,
-      "unknown_fields": {
-        "$.charts[].display": 8,
-        "$.contradictions[].video": 1
-      }
+      "unknown_fields": {}
     },
     {
       "file": "json/analysis_20260630_184811_bb90c66256.bundle.json",
@@ -718,10 +507,7 @@
       "contradictions": 1,
       "sources": 11,
       "images": 0,
-      "unknown_fields": {
-        "$.charts[].display": 16,
-        "$.contradictions[].video": 1
-      }
+      "unknown_fields": {}
     },
     {
       "file": "json/analysis_20260630_205251_bc0b097ed7.bundle.json",
@@ -735,10 +521,7 @@
       "contradictions": 1,
       "sources": 12,
       "images": 0,
-      "unknown_fields": {
-        "$.charts[].display": 4,
-        "$.contradictions[].video": 1
-      }
+      "unknown_fields": {}
     },
     {
       "file": "json/analysis_20260701_061437_f11a4b1a42.bundle.json",
@@ -752,16 +535,7 @@
       "contradictions": 1,
       "sources": 12,
       "images": 0,
-      "unknown_fields": {
-        "$.charts[].display": 7,
-        "$.contradictions[].video": 1,
-        "$.map.arcs[].kind": 2,
-        "$.map.arcs[].label_t": 2,
-        "$.map.arcs[].weight": 2,
-        "$.map.markers[].kind": 4,
-        "$.map.markers[].label_side": 4,
-        "$.map.markers[].value": 2
-      }
+      "unknown_fields": {}
     },
     {
       "file": "json/analysis_20260701_184545_7877d0e3ec.bundle.json",
@@ -775,10 +549,7 @@
       "contradictions": 1,
       "sources": 10,
       "images": 0,
-      "unknown_fields": {
-        "$.charts[].display": 16,
-        "$.contradictions[].video": 1
-      }
+      "unknown_fields": {}
     },
     {
       "file": "json/analysis_20260701_201757_35f5c10c68.bundle.json",
@@ -792,10 +563,7 @@
       "contradictions": 2,
       "sources": 10,
       "images": 0,
-      "unknown_fields": {
-        "$.charts[].display": 3,
-        "$.contradictions[].video": 2
-      }
+      "unknown_fields": {}
     },
     {
       "file": "json/analysis_20260702_061755_150023878b.bundle.json",
@@ -809,10 +577,7 @@
       "contradictions": 1,
       "sources": 12,
       "images": 0,
-      "unknown_fields": {
-        "$.charts[].display": 11,
-        "$.contradictions[].video": 1
-      }
+      "unknown_fields": {}
     },
     {
       "file": "json/analysis_20260702_184542_0deef9d58e.bundle.json",
@@ -826,10 +591,7 @@
       "contradictions": 1,
       "sources": 9,
       "images": 0,
-      "unknown_fields": {
-        "$.charts[].display": 16,
-        "$.contradictions[].video": 1
-      }
+      "unknown_fields": {}
     },
     {
       "file": "json/analysis_20260703_061544_3c22417103.bundle.json",
@@ -843,16 +605,7 @@
       "contradictions": 2,
       "sources": 10,
       "images": 0,
-      "unknown_fields": {
-        "$.charts[].display": 11,
-        "$.contradictions[].video": 2,
-        "$.map.arcs[].kind": 2,
-        "$.map.arcs[].label_t": 2,
-        "$.map.arcs[].weight": 2,
-        "$.map.markers[].kind": 4,
-        "$.map.markers[].label_side": 4,
-        "$.map.markers[].value": 2
-      }
+      "unknown_fields": {}
     },
     {
       "file": "json/analysis_20260703_083823_fe6775f4b6.bundle.json",
@@ -866,16 +619,7 @@
       "contradictions": 1,
       "sources": 16,
       "images": 0,
-      "unknown_fields": {
-        "$.charts[].display": 4,
-        "$.contradictions[].video": 1,
-        "$.map.arcs[].kind": 3,
-        "$.map.arcs[].label_t": 3,
-        "$.map.arcs[].weight": 3,
-        "$.map.markers[].kind": 3,
-        "$.map.markers[].label_side": 5,
-        "$.map.markers[].value": 4
-      }
+      "unknown_fields": {}
     },
     {
       "file": "json/analysis_20260703_185614_b28a18c6b9.bundle.json",
@@ -889,10 +633,7 @@
       "contradictions": 1,
       "sources": 14,
       "images": 0,
-      "unknown_fields": {
-        "$.charts[].display": 16,
-        "$.contradictions[].video": 1
-      }
+      "unknown_fields": {}
     },
     {
       "file": "json/analysis_20260703_222522_c9229895d9.bundle.json",
@@ -906,13 +647,7 @@
       "contradictions": 1,
       "sources": 11,
       "images": 0,
-      "unknown_fields": {
-        "$.charts[].display": 4,
-        "$.contradictions[].video": 1,
-        "$.map.markers[].kind": 3,
-        "$.map.markers[].label_side": 3,
-        "$.map.markers[].value": 3
-      }
+      "unknown_fields": {}
     },
     {
       "file": "json/analysis_20260704_061741_01e69725e4.bundle.json",
@@ -926,10 +661,7 @@
       "contradictions": 2,
       "sources": 12,
       "images": 0,
-      "unknown_fields": {
-        "$.charts[].display": 10,
-        "$.contradictions[].video": 2
-      }
+      "unknown_fields": {}
     },
     {
       "file": "json/analysis_20260704_132535_0f8bce5130.bundle.json",
@@ -943,16 +675,7 @@
       "contradictions": 1,
       "sources": 10,
       "images": 0,
-      "unknown_fields": {
-        "$.charts[].display": 5,
-        "$.contradictions[].video": 1,
-        "$.map.arcs[].kind": 3,
-        "$.map.arcs[].label_t": 3,
-        "$.map.arcs[].weight": 2,
-        "$.map.markers[].kind": 1,
-        "$.map.markers[].label_side": 4,
-        "$.map.markers[].value": 1
-      }
+      "unknown_fields": {}
     },
     {
       "file": "json/analysis_20260705_062633_40905a2eb1.bundle.json",
@@ -966,15 +689,7 @@
       "contradictions": 1,
       "sources": 11,
       "images": 0,
-      "unknown_fields": {
-        "$.charts[].display": 9,
-        "$.contradictions[].video": 1,
-        "$.map.arcs[].kind": 3,
-        "$.map.arcs[].weight": 3,
-        "$.map.markers[].kind": 6,
-        "$.map.markers[].label_side": 6,
-        "$.map.markers[].value": 2
-      }
+      "unknown_fields": {}
     },
     {
       "file": "json/analysis_20260705_163642_c6d4131146.bundle.json",
@@ -988,10 +703,7 @@
       "contradictions": 1,
       "sources": 12,
       "images": 0,
-      "unknown_fields": {
-        "$.charts[].display": 4,
-        "$.contradictions[].video": 1
-      }
+      "unknown_fields": {}
     },
     {
       "file": "json/analysis_20260706_062821_6c5b86a33f.bundle.json",
@@ -1005,16 +717,7 @@
       "contradictions": 2,
       "sources": 15,
       "images": 0,
-      "unknown_fields": {
-        "$.charts[].display": 14,
-        "$.contradictions[].video": 2,
-        "$.map.arcs[].kind": 6,
-        "$.map.arcs[].label_t": 3,
-        "$.map.arcs[].weight": 6,
-        "$.map.markers[].kind": 8,
-        "$.map.markers[].label_side": 2,
-        "$.map.markers[].value": 7
-      }
+      "unknown_fields": {}
     },
     {
       "file": "json/analysis_20260706_185309_dde69a3b77.bundle.json",
@@ -1028,10 +731,7 @@
       "contradictions": 1,
       "sources": 5,
       "images": 0,
-      "unknown_fields": {
-        "$.charts[].display": 16,
-        "$.contradictions[].video": 1
-      }
+      "unknown_fields": {}
     },
     {
       "file": "json/analysis_20260707_061715_535dea6fb7.bundle.json",
@@ -1045,16 +745,7 @@
       "contradictions": 1,
       "sources": 13,
       "images": 0,
-      "unknown_fields": {
-        "$.charts[].display": 11,
-        "$.contradictions[].video": 1,
-        "$.map.arcs[].kind": 2,
-        "$.map.arcs[].label_t": 2,
-        "$.map.arcs[].weight": 2,
-        "$.map.markers[].kind": 3,
-        "$.map.markers[].label_side": 5,
-        "$.map.markers[].value": 2
-      }
+      "unknown_fields": {}
     },
     {
       "file": "json/analysis_20260707_184802_ec6eddd39c.bundle.json",
@@ -1068,10 +759,7 @@
       "contradictions": 1,
       "sources": 12,
       "images": 0,
-      "unknown_fields": {
-        "$.charts[].display": 18,
-        "$.contradictions[].video": 1
-      }
+      "unknown_fields": {}
     },
     {
       "file": "json/analysis_20260708_062900_470e7e63d4.bundle.json",
@@ -1085,16 +773,7 @@
       "contradictions": 2,
       "sources": 11,
       "images": 0,
-      "unknown_fields": {
-        "$.charts[].display": 7,
-        "$.contradictions[].video": 2,
-        "$.map.arcs[].kind": 3,
-        "$.map.arcs[].label_t": 3,
-        "$.map.arcs[].weight": 3,
-        "$.map.markers[].kind": 5,
-        "$.map.markers[].label_side": 5,
-        "$.map.markers[].value": 1
-      }
+      "unknown_fields": {}
     },
     {
       "file": "json/analysis_20260708_185133_9514566312.bundle.json",
@@ -1108,10 +787,7 @@
       "contradictions": 2,
       "sources": 10,
       "images": 0,
-      "unknown_fields": {
-        "$.charts[].display": 18,
-        "$.contradictions[].video": 2
-      }
+      "unknown_fields": {}
     },
     {
       "file": "json/analysis_20260709_061800_800c304409.bundle.json",
@@ -1125,16 +801,7 @@
       "contradictions": 1,
       "sources": 12,
       "images": 2,
-      "unknown_fields": {
-        "$.charts[].display": 12,
-        "$.contradictions[].video": 1,
-        "$.map.arcs[].kind": 4,
-        "$.map.arcs[].label_t": 4,
-        "$.map.arcs[].weight": 4,
-        "$.map.markers[].kind": 7,
-        "$.map.markers[].label_side": 7,
-        "$.map.markers[].value": 5
-      }
+      "unknown_fields": {}
     },
     {
       "file": "json/analysis_20260709_184905_edfd10da4d.bundle.json",
@@ -1148,10 +815,7 @@
       "contradictions": 1,
       "sources": 4,
       "images": 2,
-      "unknown_fields": {
-        "$.charts[].display": 16,
-        "$.contradictions[].video": 1
-      }
+      "unknown_fields": {}
     },
     {
       "file": "json/analysis_20260710_062549_b1f9600fde.bundle.json",
@@ -1165,16 +829,7 @@
       "contradictions": 1,
       "sources": 10,
       "images": 0,
-      "unknown_fields": {
-        "$.charts[].display": 10,
-        "$.contradictions[].video": 1,
-        "$.map.arcs[].kind": 3,
-        "$.map.arcs[].label_t": 3,
-        "$.map.arcs[].weight": 3,
-        "$.map.markers[].kind": 5,
-        "$.map.markers[].label_side": 5,
-        "$.map.markers[].value": 1
-      }
+      "unknown_fields": {}
     },
     {
       "file": "json/analysis_20260711_062923_cdb78a0c8a.bundle.json",
@@ -1188,16 +843,7 @@
       "contradictions": 1,
       "sources": 15,
       "images": 1,
-      "unknown_fields": {
-        "$.charts[].display": 11,
-        "$.contradictions[].video": 1,
-        "$.map.arcs[].kind": 4,
-        "$.map.arcs[].label_t": 3,
-        "$.map.arcs[].weight": 3,
-        "$.map.markers[].kind": 4,
-        "$.map.markers[].label_side": 3,
-        "$.map.markers[].value": 1
-      }
+      "unknown_fields": {}
     },
     {
       "file": "json/analysis_20260711_104906_18248c8b25.bundle.json",
@@ -1211,10 +857,7 @@
       "contradictions": 1,
       "sources": 8,
       "images": 2,
-      "unknown_fields": {
-        "$.charts[].display": 4,
-        "$.contradictions[].video": 1
-      }
+      "unknown_fields": {}
     },
     {
       "file": "json/analysis_20260712_061758_35c3a838db.bundle.json",
@@ -1228,16 +871,7 @@
       "contradictions": 2,
       "sources": 12,
       "images": 3,
-      "unknown_fields": {
-        "$.charts[].display": 11,
-        "$.contradictions[].video": 2,
-        "$.map.arcs[].kind": 3,
-        "$.map.arcs[].label_t": 3,
-        "$.map.arcs[].weight": 2,
-        "$.map.markers[].kind": 3,
-        "$.map.markers[].label_side": 5,
-        "$.map.markers[].value": 1
-      }
+      "unknown_fields": {}
     },
     {
       "file": "json/analysis_20260712_092833_9180259a6f.bundle.json",
@@ -1251,10 +885,7 @@
       "contradictions": 2,
       "sources": 11,
       "images": 0,
-      "unknown_fields": {
-        "$.charts[].display": 8,
-        "$.contradictions[].video": 2
-      }
+      "unknown_fields": {}
     },
     {
       "file": "samples/bom_rnd/bom_rnd_master.bundle.json",
@@ -1268,9 +899,7 @@
       "contradictions": 1,
       "sources": 3,
       "images": 0,
-      "unknown_fields": {
-        "$.charts[].display": 3
-      }
+      "unknown_fields": {}
     },
     {
       "file": "samples/neasia2026/analysis_20260613_010946_8c4560f8b4.bundle.json",
@@ -1284,14 +913,7 @@
       "contradictions": 2,
       "sources": 20,
       "images": 0,
-      "unknown_fields": {
-        "$.charts[].display": 2,
-        "$.map.arcs[].kind": 1,
-        "$.map.arcs[].label_t": 1,
-        "$.map.arcs[].weight": 1,
-        "$.map.markers[].label_side": 4,
-        "$.map.markers[].value": 3
-      }
+      "unknown_fields": {}
     },
     {
       "file": "samples/semicon2026/analysis_20260611_130642_9f7fbb749d.bundle.json",
@@ -1305,9 +927,7 @@
       "contradictions": 2,
       "sources": 16,
       "images": 0,
-      "unknown_fields": {
-        "$.charts[].display": 10
-      }
+      "unknown_fields": {}
     },
     {
       "file": "samples/skt_aidc/skt_aidc_photo_demo.bundle.json",
@@ -1321,10 +941,7 @@
       "contradictions": 1,
       "sources": 12,
       "images": 3,
-      "unknown_fields": {
-        "$.charts[].display": 4,
-        "$.contradictions[].video": 1
-      }
+      "unknown_fields": {}
     },
     {
       "file": "samples/spacex2026/analysis_20260606_114653_9f09d4daf2.bundle.json",
@@ -1338,9 +955,7 @@
       "contradictions": 1,
       "sources": 15,
       "images": 0,
-      "unknown_fields": {
-        "$.charts[].display": 11
-      }
+      "unknown_fields": {}
     }
   ]
 }
