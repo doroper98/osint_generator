@@ -239,6 +239,8 @@ def scan():
             errors.append(f"작성자 불일치: {p.name}"); continue
         if fm.get("id") != fid:
             errors.append(f"머리말 id 불일치: {p.name} (id={fm.get('id')!r})"); continue
+        if m["kind"] == "D" and fm.get("status", "open") not in ("open", "superseded"):
+            errors.append(f"D status 위반: {p.name} (status={fm.get('status')!r}, open|superseded 만 허용)")
         files[fid] = (p, fm)
     return files, errors
 
@@ -393,6 +395,7 @@ PR 생성·force push·비밀 값 커밋·외부 서비스 조작 금지.
 | 8 | 파일명에 모델 버전(`_fable5_1`)을 넣자 불편했고, 종류를 앞에 두자 `ls`에서 D·R이 따로 묶여 대화 순서가 끊김 | 시각을 맨 앞에, 작성자 태그만(README §2). ls 정렬 = 대화 순서 |
 | 9 | Fable이 보고서 문장만 믿으면 "코드는 있는데 결과물에 없음"을 놓침 | 실물 검증 의무(README §6.2), review 는 산출물 직접 확인 |
 | 10 | 결정 요청이 다른 보고 뒤에 밀려 Opus가 대기 | decision_request 는 check.py 가 자동 urgent(코드 반영) |
+| 11 | Fable이 D 파일에 `status: decided`(허용값 아님)를 적자 Opus check.py 미처리 목록에서 빠져 **13분간 결정이 조용히 미수신** | check.py 가 D의 status 를 open\|superseded 로 강제(ERROR). D 는 답이 와도 open 그대로 둔다 — 상대의 `responds_to` 가 닫는다 |
 
 **운용 수치(참고)**: 감시 5분, 유휴 판정 15분(Fable 회차)·20분(watchdog), 트리거 깨우기 없음 → 즉시 새 세션, 새 세션 첫 푸시까지 약 2분, watchdog 매시.
 

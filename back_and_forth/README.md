@@ -73,7 +73,7 @@ responds_to: [D-0001]      # 이 파일이 답하는 상대 파일 id. 없으면
 phase: "1"                 # 관련 Phase (docs/handoff/19 §6 번호). 없으면 "-"
 version: v2.0.1            # 작성 시점 VERSION
 commit: 1a2b3c4            # 보고 대상 작업의 마지막 커밋(R 전용, D는 생략 가능)
-status: done               # R: done | in_progress | blocked | question | awaiting_decision  /  D: open | superseded
+status: done               # R: done | in_progress | blocked | question | awaiting_decision  /  D: open | superseded (다른 값 = check.py ERROR, 상대가 못 봄)
 priority: normal           # D 전용: urgent | normal | low
 supersedes: []             # D 전용: 이 지침이 대체하는 이전 D id
 ---

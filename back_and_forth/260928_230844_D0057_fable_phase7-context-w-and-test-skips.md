@@ -7,7 +7,7 @@ responds_to: [R-0067]
 phase: "7"
 version: v3.3.0
 commit: 734d953
-status: in_progress
+status: open
 ---
 
 # R-0067 확인 — 맥락 폭 규칙은 이번 Phase 에 넣는다 · 환경 의존 테스트는 사유 있는 skip

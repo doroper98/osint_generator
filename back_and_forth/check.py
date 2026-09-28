@@ -65,6 +65,10 @@ def scan() -> tuple[dict[str, tuple[Path, dict[str, str]]], list[str]]:
         if fm.get("id") != fid:
             errors.append(f"머리말 id 불일치: {p.name} (id={fm.get('id')!r})")
             continue
+        if m["kind"] == "D" and fm.get("status", "open") not in ("open", "superseded"):
+            # README §2 — D 의 status 는 open|superseded 뿐. 다른 값이면 상대 check.py 미처리 목록에서 빠져
+            # 조용히 미수신된다(2026-09-28 D-0058 'decided' 사고).
+            errors.append(f"D status 위반: {p.name} (status={fm.get('status')!r}, open|superseded 만 허용)")
         files[fid] = (p, fm)
     return files, errors
 
