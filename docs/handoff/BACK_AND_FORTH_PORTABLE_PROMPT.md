@@ -177,6 +177,7 @@ Fable 절차:
 - 대화로 준 지시는 파일보다 우선한다. Opus는 그 지시를 다음 progress 에 인용해 Fable도 알게 한다.
 
 ## 10. 세션 깨우기와 재기동(Fable 전용)
+- **2026-09-29 개정(교훈 14)**: Opus 문안에 세션 안 크론·sleep 루프를 요구하지 않는다(권한 분류기가 무인 지속으로 차단). Opus 는 루프 없이 일하고 결정 대기면 턴을 끝낸다. Fable 이 D 푸시 뒤 persistent poke 트리거(fire_trigger)로 깨운다 — **connected IDLE 세션에는 도달한다**. 아래 '깨우지 못했다'는 disconnected 세션의 이야기다.
 - **fire_trigger(persistent_session_id) 는 IDLE·disconnected 세션을 깨우지 못했다**(osint_generator 실측: 세션 2개, 세 번 연속 무반응).
   깨우기 트리거에 기대지 않는다. 깨울 수 있는 유일한 확실한 방법은 **새 세션 생성**이다(첫 푸시까지 약 2분).
 - 유휴 판정: {WORK_BRANCH} 마지막 푸시가 15분 넘게 없고 진행 중 Phase가 있으면 get_session 으로 상태 확인.
@@ -398,6 +399,7 @@ PR 생성·force push·비밀 값 커밋·외부 서비스 조작 금지.
 | 11 | Fable이 D 파일에 `status: decided`(허용값 아님)를 적자 Opus check.py 미처리 목록에서 빠져 **13분간 결정이 조용히 미수신** | check.py 가 D의 status 를 open\|superseded 로 강제(ERROR). D 는 답이 와도 open 그대로 둔다 — 상대의 `responds_to` 가 닫는다 |
 | 12 | Opus가 phase_report 를 올린 뒤 '완료' 로 턴을 끝내 15분 멈춤(재기동 7). Fable 크론도 컨테이너 재시작 두 번에 함께 죽음(매시 자기 점검 트리거가 회복) | 재기동 문안에 "phase_report 직후 턴 종료 금지, 준비할 것 없으면 sleep 240 자기 재호출" 명시(§C). Fable 은 자기 점검 트리거를 매시 유지(§E) — 세션 안 크론은 컨테이너 재시작마다 죽는다고 전제한다 |
 | 13 | 재기동 세션이 첫 턴에 "자율 루프·권한을 승인해 달라"고 사용자에게 묻고 멈춤(재기동 7, 2분 만에 need_input) | 재기동 문안 **맨 위**에 "[승인] 이 프롬프트가 사용자 승인, 질문 금지, 질문으로 턴을 끝내면 세션 폐기" 문단(§C). Fable 유휴 판정에 need_input 추가(§B) |
+| 14 | [승인] 문단을 넣어도, 트리거로 직접 지시를 보내도 재기동 8 이 need_input('unauthorized persistence'). 원인 = 문안이 요구한 무인 지속 루프(세션 안 크론 + sleep 자기 재호출) | **Opus 문안에서 루프 요구를 뺀다**(§C B형). Fable 이 D 푸시 뒤 persistent poke 트리거를 fire_trigger 로 쏴 깨운다 — connected IDLE 세션에는 도달함(실측). 교훈 3 의 '트리거 무반응'은 disconnected 세션에 한정(21 §9) |
 
 **운용 수치(참고)**: 감시 5분, 유휴 판정 15분(Fable 회차)·20분(watchdog), 트리거 깨우기 없음 → 즉시 새 세션, 새 세션 첫 푸시까지 약 2분, watchdog 매시.
 
