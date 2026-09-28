@@ -10,6 +10,7 @@
  "over_threshold": [],
  "intended_deltas": [
   "war_2",
+  "war_3",
   "ask_1",
   "timeline_4",
   "review_0",
@@ -91,10 +92,10 @@
    "anchor": "war_3",
    "offset": 3,
    "t_now": 65.133,
-   "mad": 0.0,
+   "mad": 0.7271,
    "over": false,
    "frame": "frames/08_war_3.png",
-   "intended_delta": false
+   "intended_delta": true
   },
   {
    "n": 9,

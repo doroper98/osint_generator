@@ -84,3 +84,37 @@ class ChecksTest(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class PreviewHardFailTest(unittest.TestCase):
+    """17 §3·D-0048 — checks hard 가 있으면 preview 단계 StageResult ok=False(시각 검수로 가지 않는다)."""
+
+    def test_hard_fails_stage(self) -> None:
+        import io  # noqa: PLC0415
+        import json  # noqa: PLC0415
+        import tempfile  # noqa: PLC0415
+        from contextlib import redirect_stdout  # noqa: PLC0415
+        from pathlib import Path  # noqa: PLC0415
+        from unittest import mock  # noqa: PLC0415
+
+        from engine import render  # noqa: PLC0415
+
+        with tempfile.TemporaryDirectory() as d:
+            root = Path(d)
+            (root / "prev").mkdir()
+            fake = NS(root=root, warnings=[])
+
+            def fake_preview(P, times, labels=None):  # noqa: ANN001, ANN202, N803
+                (root / "prev" / "checks.json").write_text(json.dumps({"passed": False, "items": [
+                    {"id": "offscreen", "severity": "hard", "details": ["뱃지 x 화면 밖"]}]}), encoding="utf-8")
+                return []
+
+            buf = io.StringIO()
+            with mock.patch.object(render, "load_project", return_value=fake), \
+                 mock.patch.object(render, "preview_times", return_value=[("t=1.00", 1.0)]), \
+                 mock.patch.object(render, "preview", side_effect=fake_preview), redirect_stdout(buf):
+                rc = render.main([str(root), "--preview", "auto"])
+            res = json.loads(buf.getvalue().strip().splitlines()[-1])
+        self.assertEqual(rc, 1)
+        self.assertFalse(res["ok"])
+        self.assertIn("offscreen", res["errors"][0])

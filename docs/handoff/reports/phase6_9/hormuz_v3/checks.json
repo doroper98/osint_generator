@@ -1,8 +1,8 @@
 {
  "schema_version": 1,
- "hard": 2,
+ "hard": 0,
  "warnings": 0,
- "passed": false,
+ "passed": true,
  "thresholds": {
   "overlap_core_elements": 0,
   "offscreen_clip": 0,
@@ -23,11 +23,8 @@
   {
    "id": "offscreen",
    "severity": "hard",
-   "count": 2,
-   "details": [
-    "뱃지 중국 t=64.2 화면 밖 54px (상자 [690, 468, 738, 534])",
-    "뱃지 인도 t=64.6 화면 밖 54px (상자 [784, 468, 832, 534])"
-   ]
+   "count": 0,
+   "details": []
   },
   {
    "id": "glyphs",

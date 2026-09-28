@@ -16,6 +16,11 @@ from engine.timebase import Timebase
 from tests.direction_snapshot import snapshot, synthetic_plan
 
 REPO = Path(__file__).resolve().parent.parent
+# 변환 뒤 결정으로 바꾼 값(스냅샷 = 옛 연출). (프로젝트, 타입, label) → 바뀐 필드. 여기 없는 차이는 전부 실패
+INTENDED: dict[tuple[str, str, str], dict] = {
+    ("hormuz_korea", "badge", "중국"): {"lat": 25.2},   # D-0048 화면 밖 잘림 수정(23.35 → 25.2)
+    ("hormuz_korea", "badge", "인도"): {"lat": 25.2},
+}
 
 
 class ConvertFidelityTest(unittest.TestCase):
@@ -27,6 +32,11 @@ class ConvertFidelityTest(unittest.TestCase):
                 keys, events, sound = build(load_direction_doc(proj / "direction.yaml"), tb)
                 got = snapshot(keys, events, sound, tb)
                 want = json.loads((REPO / "tests" / "fixtures" / "direction" / f"{name}_old_synthetic.json").read_text(encoding="utf-8"))
+                for (pj, typ, label), upd in INTENDED.items():
+                    if pj == name:
+                        hit = [e for e in want["events_by_type"][typ] if e.get("label") == label]
+                        self.assertEqual(len(hit), 1, label)
+                        hit[0].update(upd)
                 self.assertEqual(got["keys"], want["keys"])
                 self.assertEqual(sorted(got["events_by_type"]), sorted(want["events_by_type"]))
                 for typ in want["events_by_type"]:

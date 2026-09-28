@@ -170,7 +170,7 @@ events:
   start: {sid: war_3, off: 1.6}
   end: {scene_end: war}
   lon: 59.4
-  lat: 23.35
+  lat: 25.2    # D-0048: 23.35 → 25.2 — 화면 밖 잘림 수정(상자 y ≤ 410 실측 최소치)
   kind: flag
   flag: cn
   R: 17
@@ -180,7 +180,7 @@ events:
   start: {sid: war_3, off: 2.0}
   end: {scene_end: war}
   lon: 60.9
-  lat: 23.35
+  lat: 25.2    # D-0048: 23.35 → 25.2
   kind: flag
   flag: in
   R: 17

@@ -209,7 +209,6 @@ def main(argv: list[str] | None = None) -> int:
         if args.chunk:
             render_chunk(P, int(args.chunk[0]), int(args.chunk[1]), Path(args.chunk[2]))
             return 0
-        hard_msgs: list[str] = []
         if args.preview:
             lt = preview_times(P, args.preview)
             arts = {f"prev/{Path(p).name}": p for p in preview(P, [t for _, t in lt], [n for n, _ in lt])}
@@ -218,15 +217,17 @@ def main(argv: list[str] | None = None) -> int:
             arts["checks"] = str(P.root / "prev" / "checks.json")
             arts["frames"] = str(P.root / "prev" / "frames.json")
             chk = json.loads((P.root / "prev" / "checks.json").read_text(encoding="utf-8"))
-            # hard 실패 → 이 단계 실패(17 §3) 배선은 R-0053 결정 뒤(v3 골든의 뱃지 잘림 2건). 지금은 경고로 보고만 한다
-            hard_msgs = [f"checks hard {i['id']}: {d}" for i in chk["items"] if i["severity"] == "hard" for d in i["details"]]
+            if not chk["passed"]:   # hard 실패 = 이 단계 실패 — 시각 검수로 가지 않고 연출에 오류를 돌려준다(17 §3, D-0048)
+                errs = [f"checks hard {i['id']}: {d}" for i in chk["items"] if i["severity"] == "hard" for d in i["details"]]
+                res = StageResult(ok=False, stage=stage, artifacts=arts, warnings=P.warnings, errors=errs[:50])
+                print(json.dumps(res.model_dump(), ensure_ascii=False))
+                return 1
         else:
             from orchestrator.config import load_config  # noqa: PLC0415
 
             jobs = args.jobs if args.jobs is not None else load_config().engine.jobs
             arts = {"video_noaudio": str(render_full(P, jobs))}
-        res = StageResult(ok=True, stage=stage, artifacts=arts,
-                          warnings=P.warnings + (hard_msgs if args.preview else []))
+        res = StageResult(ok=True, stage=stage, artifacts=arts, warnings=P.warnings)
     except (ProjectError, RegistryError, RuntimeError, OSError, ValueError) as ex:
         res = StageResult(ok=False, stage=stage, errors=[str(ex)])
     print(json.dumps(res.model_dump(), ensure_ascii=False))
