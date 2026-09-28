@@ -767,6 +767,36 @@ class VerificationRules(_Strict):
     body_max_chars: int = Field(gt=0)
 
 
+class PxBox(_Strict):
+    up: float
+    down: float
+    side: float
+
+
+class BadgePx(_Strict):
+    up_factor: float
+    down_px: float
+    side_factor: float
+
+
+class FramingRules(_Strict):
+    margin_px: float
+    top_px: float
+    w_min: float = Field(gt=0)
+    w_max: float = Field(gt=0)
+    w_steps: int = Field(ge=2)
+    center_grid: int = Field(ge=1)
+    marker_px: PxBox
+    badge_px: BadgePx
+    point_px: PxBox
+
+
+class CameraRules(_Strict):
+    """v3.3.0 D-0056 — 카메라 자동화 보조(05 §7)."""
+
+    framing: FramingRules
+
+
 class PreviewRules(_Strict):
     """v3.3.0 F6 — auto 프리뷰 샘플."""
 
@@ -800,5 +830,6 @@ class VideoRules(_Strict):
     registries: Registries
     audio: AudioRules
     preview: PreviewRules          # v3.3.0 — D-0056 F6
+    camera: CameraRules            # v3.3.0 — D-0056 작업 2
     qa_checks: QAChecks
     provenance: ProvenanceRules
