@@ -1,6 +1,8 @@
 """패널 프리뷰 갤러리 (D-0032 작업 5·7) — 예시 데이터(prompts/examples/panels)를 실제 렌더러로 그려 한 장씩 + 격자.
 
     python tools/panel_gallery.py --proj projects/hormuz_korea --out docs/handoff/reports/phase6/panels
+    python tools/panel_gallery.py --proj projects/ratcliffe2026 --materials projects/ratcliffe2026/intake/bundle_materials.json \
+        --out docs/handoff/reports/phase9/ratcliffe/bundle_panels      # v3.5.0 — 번들 재료 패널(추정 태그 육안 확인, D-0063 §2)
 
 배경은 프로젝트 첫 카메라의 지도(패널 덮개가 그 위에 깔린다). 이미지(국기·인물·휘장)는 프로젝트 자산을 쓴다.
 각 패널은 등장이 다 끝난 시각(t1 − 1초)에 찍는다. 문구·수치는 예시다.
@@ -43,6 +45,7 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("--proj", type=Path, required=True)
     ap.add_argument("--out", type=Path, required=True)
     ap.add_argument("--extra", nargs="*", default=[], help="추가 예시 YAML(label=path)")
+    ap.add_argument("--materials", type=Path, help="번들 재료(intake/bundle_materials.json) — 예시 대신 그 패널 데이터를 그린다")
     args = ap.parse_args(argv)
     P = load_project(args.proj)  # noqa: N806
     args.out.mkdir(parents=True, exist_ok=True)
@@ -50,9 +53,16 @@ def main(argv: list[str] | None = None) -> int:
     for x in args.extra:
         name, _, path = x.partition("=")
         items.append((name, Path(path)))
+    raws: list[tuple[str, dict]] = []
+    if args.materials:
+        from bundle.to_direction import BundleMaterials  # noqa: PLC0415
+
+        mat = BundleMaterials.model_validate_json(args.materials.read_text(encoding="utf-8"))
+        raws = [(f"{p.chart_id}_{p.kind}", {"type": "panel", "t0": 0.0, "t1": 14.0, **p.data}) for p in mat.panels]
+    else:
+        raws = [(name, yaml.safe_load(path.read_text(encoding="utf-8"))["event"]) for name, path in items]
     shots: list[tuple[str, Image.Image]] = []
-    for name, path in items:
-        raw = yaml.safe_load(path.read_text(encoding="utf-8"))["event"]
+    for name, raw in raws:
         ev = validate_events([raw])[0]
         im = render_panel(P, ev, ev["t1"] - 1.0)
         im.save(args.out / f"{name}.png")

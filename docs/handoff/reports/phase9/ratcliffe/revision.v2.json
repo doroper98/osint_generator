@@ -1,0 +1,54 @@
+{
+ "schema_version": 1,
+ "direction_version": 2,
+ "changelog": [
+  {
+   "issue_ref": "p_0184.42",
+   "change": "intel_dispute 진입 dip 카메라를 (30.5,53.4,w28)에서 (36.5,53.4,w32)로 옮겼다. confirmed 장면도 이 카메라를 이어받아 모스크바가 화면 가운데(x≈0.53)에 오고 card_right 카드에서 벗어난다. confirmed 모스크바 마커 라벨은 side top 으로 바꿔 카드 쪽으로 뻗지 않게 했다"
+  },
+  {
+   "issue_ref": "p_0191.86",
+   "change": "같은 카메라 이동으로 리가→브누코보 경로 전체가 화면 왼쪽~가운데(x≈0.11~0.52)에 들어와 오른쪽 '여러 매체가 확인' 카드와 겹치지 않는다"
+  },
+  {
+   "issue_ref": "p_0161.90",
+   "change": "intel 카메라 이동으로 모스크바 마커가 카드 밖으로 나왔다(side top). 푸틴 뱃지는 카드와 겹치던 map_upper_right 에서 map_lower_right(러시아 영토 쪽)로 옮겼다. 등장은 '푸틴' 단어에서 intel_dispute_1 off 0.2 로 앞당겨 카드보다 먼저 이름표가 보이게 했다"
+  },
+  {
+   "issue_ref": "marker:호르무즈 해협",
+   "change": "open_questions dip 카메라를 (26,44,w88)에서 (42,40.5,w88)로, pullback 을 (22,44,w96)에서 (42,40.5,w96)으로 옮겼다. 호르무즈가 자막 위(아래에서 약 17~18%)·가운데 오른쪽에 오고 모스크바는 위쪽 가운데에서 카드 밖에 놓인다. 호르무즈 라벨은 side top, 모스크바 라벨은 side bottom 으로 화면 안쪽을 향하게 했다"
+  },
+  {
+   "issue_ref": "marker:브누코보 공항",
+   "change": "브누코보 마커 등장을 flight_2 off 0.3 에서 off -0.2 로 당겨 문장 시작 때 라벨이 보이게 했다. flight 경로 grow 끝을 flight_2 end -0.4 에서 flight_2 off 0.6 으로 당겨 문장 초반에 경로가 도착점(브누코보 좌표와 같은 path 끝점)에 닿게 했다"
+  },
+  {
+   "issue_ref": "p_0011.00",
+   "change": "첫 컷 카메라를 w7 에서 w20(37.6,54.5)으로 넓혔다. 도시 단위에서 거의 비던 배경에 벨라루스·우크라이나 국경과 주변 지형이 들어온다. 원고에 없는 도시 라벨은 새로 쓰지 않았다"
+  },
+  {
+   "issue_ref": "badge:러시아",
+   "change": "이라크·이란 위에 놓여 위치로 읽히던 러시아 국기 뱃지를 지웠다. 대신 같은 시각 카드 문구를 '랫클리프, 러시아에 이란 지원을 끊으라고 촉구'로 바꿔 카드 안에서 대상을 밝혔다. 이란 채움은 col ru·a 0.07 에서 col muted·a 0.05 로 낮췄다"
+  },
+  {
+   "issue_ref": "badge:도널드 트럼프",
+   "change": "iran_dispute 의 트럼프 인물 뱃지를 지웠다. 이 카메라에서는 모든 뱃지 슬롯이 이라크·이란 위에 놓이고, 발언자는 카드 태그 '트럼프 대통령'이 이미 밝힌다. iran dip 카메라 중심을 lat 31 에서 29 로 내려 호르무즈를 자막 위(아래에서 약 29%)로 올리고, 호르무즈 라벨을 side top 으로 바꿨다"
+  },
+  {
+   "issue_ref": "marker:키이우",
+   "change": "before_visit 시작에 move 샷 하나를 넣었다(scene_start off -0.8, 2.6초, (35.0,53.0,w30)). 키이우는 아래에서 약 25%, 모스크바는 x≈0.59 로 함께 자막 위에 들어온다. 키이우 라벨은 side right, 모스크바 라벨은 카드 반대쪽인 side left 로 바꿨다"
+  },
+  {
+   "issue_ref": "marker:리가",
+   "change": "flight 카메라 lat 를 53.4 에서 54.2 로 올려 리가가 위 가장자리에서 내려오게 했다(위에서 약 19%). 리가 라벨은 경로 반대쪽인 side left 로 옮겼다"
+  },
+  {
+   "issue_ref": "card:title",
+   "change": "open 장면의 CIA 엠블럼 뱃지와 모스크바 마커가 scene_end 대신 open_4 끝 -0.3초에 퇴장한다. 제목 카드 등장 전에 지도 위가 비워진다"
+  },
+  {
+   "issue_ref": "badge:블라디미르 푸틴",
+   "change": "푸틴 뱃지를 intel_dispute_2 끝 +0.3 에 퇴장시켰다. intel_dispute_3 부터 같은 슬롯(map_lower_right)에 러시아 국기 뱃지 '크렘린 · 페스코프 대변인'을 넣어 반박 주체를 보이게 했다"
+  }
+ ]
+}

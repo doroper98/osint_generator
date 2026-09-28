@@ -1,0 +1,124 @@
+[게이트 ① 원고 승인] 모스크바에 내린 수송기 한 대 — CIA 국장의 모스크바 방문, 확인된 것과 엇갈리는 것 (2026.08.29)
+
+장면 목록
+  open       문장  5  예상   35.6초
+  flight     문장  3  예상   15.6초
+  before_visit 문장  4  예상   29.6초
+  backdrop   문장  5  예상   39.0초
+  nato_dispute 문장  5  예상   33.4초
+  iran_dispute 문장  5  예상   37.5초
+  intel_dispute 문장  4  예상   31.7초
+  confirmed  문장  4  예상   23.6초
+  open_questions 문장  3  예상   21.8초
+  합계 38문장 · 예상 267.8초 (글자 수 추정 320자/분)
+
+원고 전문(자막) · [검증 라벨]
+  open_0       8월 25일, 미국 공군 수송기 한 대가 모스크바에 내렸습니다.
+  open_1       같은 날 존 랫클리프 CIA 국장이 모스크바를 방문했습니다.
+  open_2       여러 매체는 2021년 이후 CIA 국장의 첫 러시아 방문이라고 보도했습니다.
+  open_3       그 방에서 무슨 말이 오갔는지는 전하는 쪽마다 설명이 다릅니다.  [<논쟁>]
+  open_4       보도로 확인된 것과 서로 엇갈리는 주장을 나눠 살펴봅니다.
+  flight_0     보도에 따르면 이 수송기는 미 공군 C-17이었습니다.
+  flight_1     수송기는 라트비아 리가를 거쳐 갔다고 보도됐습니다.
+  flight_2     도착한 곳은 모스크바 브누코보 공항이었습니다.
+  before_visit_0 방문을 앞두고 미국이 우크라이나에 요청한 것이 있었다고 보도됐습니다.
+  before_visit_1 모스크바 등지에 대한 공격을 멈춰 달라는 요청이었습니다.
+  before_visit_2 키이우포스트에 따르면 젤렌스키 대통령은 이 회동에 관해 미국에서 정보를 받았다고 밝혔습니다.  [<미검증>]
+  before_visit_3 젤렌스키 대통령은 회동 상대가 러시아 정보당국자들이었다고 전했습니다.  [<미검증>]
+  backdrop_0   한 달 앞선 7월 29일, 순항미사일이 폴란드 영토에 떨어졌다고 보도됐습니다.
+  backdrop_1   알자지라는 8월 12일 브렌트유 10월물이 배럴당 89.53달러였다고 보도했습니다.  [<미검증>]
+  backdrop_2   CNN에 따르면 방문 하루 전인 8월 24일 베선트 재무장관이 새 작전을 발표했습니다.  [<미검증>]
+  backdrop_3   CNN이 전한 작전 이름은 '경제적 추방자 작전'입니다.  [<미검증>]
+  backdrop_4   이 발표와 모스크바 방문이 어떻게 이어지는지는 확인된 자료가 없습니다.
+  nato_dispute_0 가장 크게 엇갈리는 대목은 나토입니다.  [<논쟁>]
+  nato_dispute_1 익명 소식통들은 랫클리프가 러시아에 나토 회원국을 공격하지 말라고 경고했다고 전했습니다.  [<논쟁>]
+  nato_dispute_2 이 내용은 WSJ가 처음 보도했고 CNN과 CBS도 전했습니다.  [<논쟁>]
+  nato_dispute_3 트럼프 대통령은 준일상적 방문이었고 그런 메시지는 없었다고 말했습니다.  [<논쟁>]
+  nato_dispute_4 크렘린은 현실과 무관한 공포 조장이라고 일축했습니다.  [<논쟁>]
+  iran_dispute_0 이란을 두고도 설명이 갈립니다.  [<논쟁>]
+  iran_dispute_1 CNN·CBS가 인용한 익명 소식통들은 랫클리프가 이란 지원을 끊으라고 촉구했다고 전했습니다.  [<논쟁>]
+  iran_dispute_2 소식통들은 호르무즈 해협이 다시 열리지 않으면 추가 제재가 있다는 경고도 있었다고 말했습니다.  [<논쟁>]
+  iran_dispute_3 트럼프 대통령은 이번 방문이 이란과 관련이 없다고 밝혔습니다.  [<논쟁>]
+  iran_dispute_4 트럼프 대통령의 설명에는 이란이나 호르무즈에 관한 요구가 들어 있지 않습니다.  [<논쟁>]
+  intel_dispute_0 방문의 배경으로 미국 정보당국의 평가도 보도됐습니다.  [<논쟁>]
+  intel_dispute_1 CNN·CBS에 따르면 정보당국은 푸틴이 나토 결속을 시험하는 도발에 나설 수 있다고 봤습니다.  [<논쟁>]
+  intel_dispute_2 트럼프 대통령은 푸틴이 나토 영토를 공격하지 않을 것이라고 말했습니다.  [<논쟁>]
+  intel_dispute_3 크렘린 페스코프 대변인은 이 평가가 러시아의 의도를 반영하지 않는다고 반박했습니다.  [<논쟁>]
+  confirmed_0  여러 매체가 함께 확인한 사실은 몇 가지로 추려집니다.
+  confirmed_1  CIA 국장이 8월 25일 모스크바를 찾았습니다.
+  confirmed_2  미 공군 수송기가 리가를 거쳐 브누코보 공항에 내렸습니다.
+  confirmed_3  미국은 그에 앞서 우크라이나에 공격 중단을 요청했습니다.
+  open_questions_0 나토에 대한 경고가 실제로 전달됐는지는 아직 어느 쪽으로도 확정되지 않았습니다.  [<논쟁>]
+  open_questions_1 이란과 호르무즈가 회담 의제였는지도 여전히 엇갈린 채 남아 있습니다.  [<논쟁>]
+  open_questions_2 그날 모스크바에서 오간 말의 목록은 아직 공개되지 않았습니다.
+
+출처 표
+  open_0       clm_0003, clm_0004
+  open_1       clm_0001
+  open_2       clm_0002
+  open_3       clm_0008, clm_0009
+  open_4       (출처 없음)
+  flight_0     clm_0003
+  flight_1     clm_0003, clm_0004
+  flight_2     clm_0004
+  before_visit_0 clm_0005
+  before_visit_1 clm_0005
+  before_visit_2 clm_0016
+  before_visit_3 clm_0016
+  backdrop_0   clm_0014
+  backdrop_1   clm_0017
+  backdrop_2   clm_0015
+  backdrop_3   clm_0015
+  backdrop_4   (출처 없음)
+  nato_dispute_0 clm_0008
+  nato_dispute_1 clm_0008
+  nato_dispute_2 clm_0008
+  nato_dispute_3 clm_0008
+  nato_dispute_4 clm_0008
+  iran_dispute_0 clm_0009
+  iran_dispute_1 clm_0009
+  iran_dispute_2 clm_0010
+  iran_dispute_3 clm_0009, clm_0010
+  iran_dispute_4 clm_0009, clm_0010
+  intel_dispute_0 clm_0013
+  intel_dispute_1 clm_0013
+  intel_dispute_2 clm_0013
+  intel_dispute_3 clm_0013
+  confirmed_0  clm_0001, clm_0003
+  confirmed_1  clm_0001
+  confirmed_2  clm_0003, clm_0004
+  confirmed_3  clm_0005
+  open_questions_0 clm_0008
+  open_questions_1 clm_0009, clm_0010
+  open_questions_2 (출처 없음)
+
+번들 analysis_20260829_115457_ec53e620b2 (agents_reviewer v8.5.9) — 출처 이관 11건 · 못 만든 출처 5건 · claim 후보 2건 (fetch 켬)
+  초안 섹션 12 → 장면 7 · rewrite_required 0 · 엔티티 unmatched 14 · 패널 4 · 패널 없는 차트 0
+  이관 src_art_0001 ← src-2 (citation+fetch)
+  이관 src_art_0002 ← src-3 (citation+fetch)
+  이관 src_art_0003 ← src-4 (citation+fetch)
+  이관 src_art_0004 ← src-5 (citation+fetch)
+  이관 src_art_0005 ← src-6 (citation+fetch)
+  이관 src_art_0006 ← src-7 (citation+fetch)
+  이관 src_art_0007 ← src-10 (citation+fetch)
+  이관 src_art_0008 ← src-11 (citation+fetch)
+  이관 src_art_0009 ← src-12 (citation+fetch)
+  이관 src_art_0010 ← src-15 (citation+fetch)
+  이관 src_art_0011 ← src-16 (citation+fetch)
+  미해결 src-1: fetch_failed:TimeoutError: The read operation timed out — The Washington Post, 'CIA director makes rare, unannounced visit to Moscow', 202  → add-source 로 직접 넣을 수 있다
+  미해결 src-8: fetch_failed:HTTPError: HTTP Error 403: Forbidden — Ukrainska Pravda, 'CIA chief did not threaten Russia with consequences over war   → add-source 로 직접 넣을 수 있다
+  미해결 src-9: missing:published_at — UNITED24 Media, 'CIA Director in Moscow Amid Intel on Russian Draft Plans, NATO   → add-source 로 직접 넣을 수 있다
+  미해결 src-13: fetch_failed:HTTPError: HTTP Error 403: Forbidden — House of Commons Library, 'Israel/US-Iran conflict 2026: Reopening the Strait of  → add-source 로 직접 넣을 수 있다
+  미해결 src-14: fetch_failed:HTTPError: HTTP Error 403: Forbidden — The Washington Times, 'Iran says the Strait of Hormuz stays closed until the U.S  → add-source 로 직접 넣을 수 있다
+
+린트 — 오류 0 · 경고 5
+  경고 [source-missing] open_4: sources 비어 있음 — 보도로 확인된 것과 서로 엇갈리는 주장을 나눠 살펴봅니다.
+  경고 [attribution] backdrop_1: unverified claim 인용 — 귀속 표현(~라고 주장했습니다/올렸습니다) 없음 — 알자지라는 8월 12일 브렌트유 10월물이 배럴당 89.53달러였다고 보도했습니다.
+  경고 [attribution] backdrop_3: unverified claim 인용 — 귀속 표현(~라고 주장했습니다/올렸습니다) 없음 — CNN이 전한 작전 이름은 '경제적 추방자 작전'입니다.
+  경고 [source-missing] backdrop_4: sources 비어 있음 — 이 발표와 모스크바 방문이 어떻게 이어지는지는 확인된 자료가 없습니다.
+  경고 [source-missing] open_questions_2: sources 비어 있음 — 그날 모스크바에서 오간 말의 목록은 아직 공개되지 않았습니다.
+
+미디어 후보 — 원고 media 필드 0건
+  트리거 제안 — plan.json 이 생기면(voice_timeline 뒤) 표시
+
+검증 라벨 집계 {"verified": 0, "corroborated": 13, "unverified": 5, "disputed": 17}

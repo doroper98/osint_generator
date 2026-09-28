@@ -1,0 +1,95 @@
+{
+ "schema_version": 1,
+ "bundle_sections": 12,
+ "draft": {
+  "scenes": 7,
+  "sentences": 52,
+  "boundaries": [
+   {
+    "scene": "sc01",
+    "sections": [
+     "intro",
+     "s1"
+    ],
+    "reason": "첫 장면"
+   },
+   {
+    "scene": "sc02",
+    "sections": [
+     "s2"
+    ],
+    "reason": "공간 바뀜 → hormuz"
+   },
+   {
+    "scene": "sc03",
+    "sections": [
+     "s3"
+    ],
+    "reason": "차트 종류 바뀜 → stakeholder_map"
+   },
+   {
+    "scene": "sc04",
+    "sections": [
+     "s4"
+    ],
+    "reason": "공간 바뀜 → moscow"
+   },
+   {
+    "scene": "sc05",
+    "sections": [
+     "s5",
+     "s6",
+     "s7"
+    ],
+    "reason": "차트 종류 바뀜 → dot_matrix · 합친 섹션 3개(같은 공간·차트 없음)"
+   },
+   {
+    "scene": "sc06",
+    "sections": [
+     "s8"
+    ],
+    "reason": "차트 종류 바뀜 → gantt"
+   },
+   {
+    "scene": "sc07",
+    "sections": [
+     "s9",
+     "s10",
+     "s11",
+     "s12",
+     "outro"
+    ],
+    "reason": "차트 종류 바뀜 → dual_line · 합친 섹션 5개(같은 공간·차트 없음)"
+   }
+  ],
+  "date_timeline": 2,
+  "rewrite_required": 0
+ },
+ "final": {
+  "scenes": 9,
+  "scene_ids": [
+   "open",
+   "flight",
+   "before_visit",
+   "backdrop",
+   "nato_dispute",
+   "iran_dispute",
+   "intel_dispute",
+   "confirmed",
+   "open_questions"
+  ],
+  "sentences": 38,
+  "kept_verbatim_from_draft": 0,
+  "sentences_with_sources": 35,
+  "distinct_dates": [
+   "2026.07.29",
+   "2026.08",
+   "2026.08.12",
+   "2026.08.24",
+   "2026.08.25"
+  ],
+  "headings_on_screen": [],
+  "banned_hits": []
+ },
+ "draft_used_sha1": "1fee56228e9ad8fb02a18398d54494fd4255222b"
+}

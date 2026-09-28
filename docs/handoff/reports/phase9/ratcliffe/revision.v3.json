@@ -1,0 +1,46 @@
+{
+ "schema_version": 1,
+ "direction_version": 3,
+ "changelog": [
+  {
+   "issue_ref": "marker:모스크바",
+   "change": "p_0161.90: intel_dispute 장면 모스크바 마커 라벨 위치를 side top 에서 side left 로 옮겼다. 위쪽에 겹쳐 억제되던 이름표가 뱃지·카드가 없는 왼쪽 빈자리에 뜬다"
+  },
+  {
+   "issue_ref": "badge:블라디미르 푸틴",
+   "change": "푸틴 뱃지를 모스크바 가까이 두었다. v1에서 카드와 겹쳤던 map_upper_right 로는 돌아가지 않고, 배치 슬롯 대신 모스크바 바로 남쪽인 경위도 (38.5, 52.8)에 놓았다. 모스크바 라벨(side left)과 오른쪽 카드 사이의 빈자리다. 미국 정보당국 뱃지는 이미 map_upper_left 에 있어서 그대로 두었다"
+  },
+  {
+   "issue_ref": "sid:intel_dispute_3",
+   "change": "intel_dispute 장면 모스크바 마커에 부제 '크렘린'을 붙였다(원고의 '크렘린 페스코프 대변인'). 크렘린 뱃지·카드가 들어오기 직전 프레임에도 발언 주체가 보인다. 크렘린 국기 뱃지와 '크렘린 · 페스코프 대변인' 카드는 시각·위치 모두 그대로 두었다"
+  },
+  {
+   "issue_ref": "p_0191.86",
+   "change": "confirmed 장면 시작(scene_start off -0.8)에 move 샷을 하나 넣었다(2.6초, (35.5, 53.6, w34)). 리가가 왼쪽 가장자리(x≈0.11)에서 x≈0.16, 위에서 약 20% 위치로 들어온다. 모스크바(x≈0.56)와 키이우는 자막 위에 남는다"
+  },
+  {
+   "issue_ref": "card:여러 매체가 확인",
+   "change": "confirmed_2 카드('미 공군 수송기, 리가 경유 · 브누코보 착륙')에 y 0.56 을 주었다. card_right 안에서 도시 라벨이 몰린 우상단을 피해 우하단 쪽으로 내렸다"
+  },
+  {
+   "issue_ref": "marker:모스크바",
+   "change": "p_0191.86: confirmed 장면 모스크바 마커를 confirmed_1 끝 +0.3초에 퇴장시켰다. confirmed_2 시작 -0.1초부터 장면 끝까지 '브누코보 공항' 마커(부제 '모스크바 · 도착', side top)를 새로 넣었다. p_0043.30 과 같은 도착점 라벨이다"
+  },
+  {
+   "issue_ref": "sid:open_questions_1",
+   "change": "open_questions dip 카메라를 (42, 40.5, w88)에서 (45, 41.5, w88)로, pullback 을 (42, 40.5, w96)에서 (45, 41.5, w96)으로 옮겼다. 모스크바와 호르무즈의 메르카토르 중간쯤이다. 모스크바는 최상단 가장자리에서 조금 내려오고(side bottom 라벨), 호르무즈는 x≈0.62 로 가운데 쪽에 온다. 베이스맵 톤을 정하는 필드는 연출에 없어서 이번에 바꾸지 못했다"
+  },
+  {
+   "issue_ref": "marker:호르무즈 해협",
+   "change": "p_0146.24: iran_dispute 호르무즈 해협 마커 라벨을 side top 에서 side left 로 옮겼다. 반다르아바스 등 북쪽 도시 라벨에서 떨어진 서쪽 페르시아만 바다 쪽이다"
+  },
+  {
+   "issue_ref": "card:보도 · 수송기 기종",
+   "change": "변경 없음. 이번 입력에 쓸 수 있는 미디어 목록(mid)이 없어 C-17 자료사진을 넣지 못했다. media-density-total 경고는 그대로 남는다"
+  },
+  {
+   "issue_ref": "card:end",
+   "change": "변경 없음. 엔딩 출처 카드의 글자 크기·명도·배치를 정하는 필드는 연출에 없다(렌더러 쪽에서 고쳐야 한다)"
+  }
+ ]
+}
