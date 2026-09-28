@@ -28,7 +28,16 @@ released 항목은 **append-only**입니다.
 
 ---
 
-## [v3.6.0] — 2026-09-29 — Phase 10: 해상도·성능 (back_and_forth D-0066) — 진행 중
+## [v4.0.0] — 2026-09-29 — Phase 11: 문서·정리·GOAL G3 개정 (back_and_forth D-0072) — 진행 중
+
+MAJOR: GOAL G3 개정은 GOAL §G3 머리말("변경 시 메이저")대로 메이저다(D64).
+
+### Fixed
+- **NB27 글꼴 없는 환경의 CLI 서브프로세스 테스트**: `conftest` 의 NB16 훅은 같은 프로세스의 `FontMissingError` 만 skip 으로 바꾼다. 엔진 CLI 를 띄우는 두 테스트(`test_real_cli_direction_validate`·`test_script_gate_view_sections`)는 `tests/_fonts.fonts_ready()` 로 사유 있는 skip. 게이트 ① 뷰는 렌더가 아니라 린트(`script/lint.py` 자막 줄 수 = 글자 폭)에 글꼴이 필요하다 — 검사 경로 분리 대상 아님 (D-0071 §2, D-0072 §0).
+
+---
+
+## [v3.6.0] — 2026-09-29 — Phase 10: 해상도·성능 (back_and_forth D-0066) — Fable review pass(D-0071)
 
 ### Changed
 - **출력 프로파일**(D-0066 작업 1): config `engine.output`(480p·1080p, 별칭 `trial`·`final`, 프로파일별 crf·preset·mem_per_job_mb). 설계 좌표는 rules `layout_480p.base` 854×480 고정. CLI `--res`(render·preview, 비기본 프로파일 프리뷰는 `prev_<이름>/`), provenance `render.resolution`(`out/render.json`).

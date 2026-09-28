@@ -21,6 +21,7 @@ from orchestrator.project_manager import (
     transition_state,
 )
 from schemas.models import ProjectState
+from tests._fonts import NO_FONTS_REASON, fonts_ready
 
 S = ProjectState
 REPO = Path(__file__).resolve().parent.parent
@@ -161,6 +162,7 @@ class PipelineTest(_Proj):
 
 
 class GateViewTest(_Proj):
+    @unittest.skipUnless(fonts_ready(), NO_FONTS_REASON)   # 게이트 ① 뷰 = 린트 서브프로세스(자막 줄 수 = 글자 폭) — NB27
     def test_script_gate_view_sections(self) -> None:
         from orchestrator.gate_view import gate_view  # noqa: PLC0415
         text, shown = gate_view(self.root / "p", "script_approval")

@@ -10,6 +10,7 @@ from pathlib import Path
 
 from orchestrator import engine_service as es
 from schemas.models import ProjectState
+from tests._fonts import NO_FONTS_REASON, fonts_ready
 
 REPO = Path(__file__).resolve().parent.parent
 HORMUZ = REPO / "projects" / "hormuz_korea"
@@ -99,6 +100,7 @@ class RunStageTest(unittest.TestCase):
         self.assertTrue(r.ok)
         self.assertEqual(fr.calls[0][2:], ["engine.render", "/p", "--preview", "auto"])
 
+    @unittest.skipUnless(fonts_ready(), NO_FONTS_REASON)   # 린트가 자막 줄 수를 글자 폭으로 잰다(script/lint.py) — NB27
     def test_real_cli_direction_validate(self) -> None:
         r = es.run_stage(HORMUZ, "direction_validate")
         self.assertTrue(r.ok, r.errors)
