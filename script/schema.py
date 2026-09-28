@@ -63,6 +63,9 @@ class Sentence(_Strict):
 class Scene(_Strict):
     id: str
     sentences: list[Sentence] = Field(min_length=1)
+    # v3.4.0 D-0060 작업 4(10 §7-2) — 장면 음악 강도 힌트(0~1, 선택). 연출가(LLM)가 sound.intensity 를 만들 때 읽는 입력일 뿐,
+    # 코드는 direction 에 자동 주입하지 않는다(P8).
+    music_intensity: Optional[float] = Field(default=None, ge=0, le=1)
 
 
 class Script(_Strict):

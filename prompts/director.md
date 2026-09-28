@@ -63,6 +63,7 @@ note: DirectorWorker system prompt (17 §5.3, D-0047 작업 7). 출력 = engine.
 - `events[]`: `type`, `start`, `end`(앵커) + 타입별 필드. `t0`·`t1` 을 쓰지 않는다.
 - `sound`: `{"bgm": BGM 레지스트리 id, "intensity": [[앵커, 0~1], …], "cues": [{"kind": "boom", "t": 앵커, "v": 0~1}]}`.
   `bgm` 은 사용자 메시지 "음악 목록"의 id 하나(파일명이 아니다). 목록이 비었으면 `"bgm": null` 로 두고 intensity·cues 만 쓴다 — 목록 밖 곡을 쓰지 않는다.
+  원고 장면에 `music_intensity`(0~1)가 있으면 그 장면 시작 intensity 키프레임의 기준으로 삼는다(원고 작성자의 힌트, 강제 아님). 없으면 장면 성격으로 정한다.
 - 첫 shot 은 `{"at": 0, "mode": "cut", "dur": 0, …}` 이어야 한다.
 
 작은 완전 예시 (형식 참고)
