@@ -18,12 +18,30 @@ class _Strict(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
 
+class MediaCue(_Strict):
+    """문장의 미디어 비트(14 §10.3-1, v2.5.5 optional). 자산을 정했으면 asset_id(미디어 레지스트리 mid),
+    아직이면 query(수집 검색어). at 은 등장 단어(자막 텍스트 안), dur 는 표시 초."""
+
+    kind: Literal["photo", "clip", "cutout", "article"]
+    asset_id: Optional[str] = None
+    query: Optional[str] = None
+    at: Optional[str] = None
+    dur: Optional[float] = Field(default=None, gt=0)
+
+    @model_validator(mode="after")
+    def _one_ref(self) -> "MediaCue":
+        if (self.asset_id is None) == (self.query is None):
+            raise ValueError("media 는 asset_id 와 query 중 정확히 하나")
+        return self
+
+
 class Sentence(_Strict):
     date: str
     text: str
     tts: Optional[str] = None
     emphasis: list[str] = Field(default_factory=list)
     sources: list[str] = Field(default_factory=list)
+    media: Optional[MediaCue] = None   # v2.5.5 optional(C3 호환) — 14 §10.3-1
 
     @field_validator("date")
     @classmethod
@@ -37,6 +55,8 @@ class Sentence(_Strict):
         for e in self.emphasis:
             if e not in self.text:
                 raise ValueError(f"강조어가 자막 텍스트에 없다: {e!r} ⊄ {self.text!r}")
+        if self.media and self.media.at and self.media.at not in self.text:
+            raise ValueError(f"media.at 단어가 자막 텍스트에 없다: {self.media.at!r}")
         return self
 
 

@@ -1,0 +1,112 @@
+"""미디어 비트 배치·밀도 (v2.5.5, back_and_forth D-0036 작업 6, 14 §5·§10).
+
+- `fill_placement()` — 연출이 x·y·w 를 주지 않은 사진·영상에 14 §10.3-5 기본값(rules media_beats.placement)을 넣는다.
+  패널이 떠 있으면 패널 자리, 아니면 지도 자리. 연출이 준 값은 그대로(P8).
+- `placement_warnings()` — 예약 영역(카드·기사 카드가 떠 있는 동안, 하단 자막 y ≥ 410, 모서리 날짜)과 겹치면 경고(보고만, P8).
+- `density_report()` — 14 §10.1 밀도: 러닝타임 ÷ 개수가 per_runtime_sec 범위 안, 장면당 ≤ per_scene_max(기사 카드는 예외),
+  이웃 장면 같은 형태 반복 금지. 모두 경고(오류 아님). 짧은 구간 몰림(창) 기준은 결정 대기(R-0035) — 넣지 않았다.
+"""
+
+from __future__ import annotations
+
+import math
+
+import cairo
+
+from engine.reserved import card_zones
+from engine.style import DATE_BADGE, W_OUT
+from engine.timebase import Timebase
+from rules import load_rules
+
+_R = load_rules()
+MB = _R.media_beats
+SUB_Y = _R.layout_480p.reserved_zones.subtitle.y_from
+MEDIA_TYPES: tuple[str, ...] = ("photo", "clip", "cutout", "article")
+_KIND = {"photo": "photo", "clip": "clip", "cutout": "cutout", "article": "article"}   # 14 §10 형태 이름(규칙 kinds)
+
+
+def _panel_at(events: list[dict], t: float) -> bool:
+    return any(e["type"] == "panel" and e["t0"] <= t <= e["t1"] for e in events)
+
+
+def fill_placement(events: list[dict]) -> dict[str, str]:
+    """x·y·w 가 없는 사진·영상에 기본 배치를 넣는다(제자리 수정). 기록 {mid: explicit|auto:<슬롯>} 를 돌려준다."""
+    rec: dict[str, str] = {}
+    for e in events:
+        if e["type"] not in ("photo", "clip"):
+            continue
+        if e.get("x") is not None:
+            rec[e["mid"]] = "explicit"
+            continue
+        slot = f"{e['type']}_{'panel' if _panel_at(events, e['t0']) else 'map'}"
+        e["x"], e["y"], e["w"] = MB.placement[slot]
+        rec[e["mid"]] = f"auto:{slot}"
+    return rec
+
+
+def media_box(e: dict, assets: dict) -> tuple[float, float, float, float]:
+    """사진·영상 상자(캡션 바 포함). 높이 비율은 레지스트리 가공 파라미터(크롭·스케일)에서."""
+    prm = assets[e["mid"]].tool.params
+    w_, h_ = prm.get("crop") or prm.get("scale")
+    h = e["w"] * h_ / w_ + MB.caption_bar_px
+    return e["x"], e["y"], e["x"] + e["w"], e["y"] + h
+
+
+def _hit(a: tuple, b: tuple) -> bool:
+    return a[0] < b[2] and b[0] < a[2] and a[1] < b[3] and b[1] < a[3]
+
+
+def placement_warnings(events: list[dict], assets: dict, step: float = 0.25) -> list[str]:
+    ctx = cairo.Context(cairo.ImageSurface(cairo.FORMAT_ARGB32, 1, 1))
+    date_box = (W_OUT - DATE_BADGE.x_right - DATE_BADGE.size * 8, 0, W_OUT, DATE_BADGE.underline_y + 2)
+    out: list[str] = []
+    for e in events:
+        if e["type"] not in ("photo", "clip"):
+            continue
+        box = media_box(e, assets)
+        where = f"{e['type']} {e['mid']} t0={e['t0']:.2f}"
+        if box[3] > SUB_Y:
+            out.append(f"[media-over-subtitle] {where} 아래 끝 {box[3]:.0f} > 자막 영역 {SUB_Y} (14 §5-4)")
+        if _hit(box, date_box):
+            out.append(f"[media-over-date] {where} 모서리 날짜와 겹침 (14 §5-4)")
+        n = max(1, int((e["t1"] - e["t0"]) / step))
+        hits = {z.ref for k in range(n + 1) for z in card_zones(ctx, events, e["t0"] + k * (e["t1"] - e["t0"]) / n)
+                if z.a > 1 / 2 and _hit(box, z.box)}
+        if hits:
+            out.append(f"[media-over-card] {where} 카드와 겹침 {sorted(hits)} (14 §5-4)")
+    return out
+
+
+def media_items(events: list[dict], tb: Timebase) -> list[dict]:
+    out = []
+    for e in sorted((e for e in events if e["type"] in MEDIA_TYPES), key=lambda e: e["t0"]):
+        sc = next((s for s in reversed(tb.scenes) if tb.SC(s) <= e["t0"] + 1e-6), tb.scenes[0])
+        out.append({"mid": e["mid"], "kind": _KIND[e["type"]], "t0": round(e["t0"], 2), "t1": round(e["t1"], 2), "scene": sc})
+    return out
+
+
+def density_report(events: list[dict], tb: Timebase, total: float) -> dict:
+    items = media_items(events, tb)
+    lo, hi = MB.per_runtime_sec
+    counted = [i for i in items if not (MB.article_card_exempt and i["kind"] == "article")]
+    warns: list[str] = []
+    per = total / len(items) if items else math.inf
+    if items and per < lo:
+        warns.append(f"[media-density-high] {len(items)}개 / {total:.0f}초 = {per:.1f}초당 1개 < {lo}초 (14 §10.1)")
+    if per > hi:
+        warns.append(f"[media-density-low] {len(items)}개 / {total:.0f}초 = {per:.1f}초당 1개 > {hi}초 (14 §10.1)")
+    by_scene: dict[str, list[str]] = {}
+    for i in counted:
+        by_scene.setdefault(i["scene"], []).append(i["mid"])
+    for sc, mids in by_scene.items():
+        if len(mids) > MB.per_scene_max:
+            warns.append(f"[media-per-scene] 장면 {sc}: {mids} > {MB.per_scene_max} (14 §10.1, 기사 카드 제외)")
+    if MB.no_consecutive_same_kind:
+        kinds = {s: sorted({i["kind"] for i in items if i["scene"] == s}) for s in tb.scenes}
+        for s0, s1 in zip(tb.scenes, tb.scenes[1:]):
+            same = set(kinds[s0]) & set(kinds[s1])
+            if same:
+                warns.append(f"[media-same-kind-adjacent] 이웃 장면 {s0}→{s1} 같은 형태 {sorted(same)} (14 §10.1)")
+    return {"schema_version": 1, "total_sec": round(total, 3), "items": items, "count": len(items),
+            "sec_per_item": None if not items else round(per, 1), "target_sec_per_item": [lo, hi],
+            "per_scene": by_scene, "warnings": warns}

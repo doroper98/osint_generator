@@ -91,6 +91,9 @@ class MediaBeats(_Strict):
     ai_generated_forbidden: bool
     casualty_identifiable_forbidden: bool
     credit_formats: dict[str, str]           # v2.5.5 — 화면 출처 줄(레지스트리 필드로만 조립, D-0036 작업 3)
+    triggers: dict[str, list[str]]           # v2.5.5 — 14 §10.2 트리거 → 형태 제안(제안만, P8)
+    placement: dict[str, tuple[float, float, float]]   # v2.5.5 — 14 §10.3-5 기본 배치 (x, y, 폭)
+    caption_bar_px: float                    # 사진·영상 캡션 바 높이(14 §4.1) — 배치 점검용
     registry: str                            # v2.5.5 — 미디어 레지스트리 경로(저장소 기준)
 
 

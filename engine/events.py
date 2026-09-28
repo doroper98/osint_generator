@@ -158,17 +158,29 @@ class PhotoEvent(_Event):
 
     type: Literal["photo"]
     mid: str
-    x: float
-    y: float
-    w: float
+    x: Optional[float] = None      # 없으면 14 §10.3-5 기본 배치(engine.media_plan.fill_placement)
+    y: Optional[float] = None
+    w: Optional[float] = None
+
+    @model_validator(mode="after")
+    def _xyw_together(self) -> "PhotoEvent":
+        if len({self.x is None, self.y is None, self.w is None}) != 1:
+            raise ValueError("photo x·y·w 는 모두 주거나 모두 비운다")
+        return self
 
 
 class ClipEvent(_Event):
     type: Literal["clip"]
     mid: str
-    x: float
-    y: float
-    w: float
+    x: Optional[float] = None
+    y: Optional[float] = None
+    w: Optional[float] = None
+
+    @model_validator(mode="after")
+    def _xyw_together(self) -> "ClipEvent":
+        if len({self.x is None, self.y is None, self.w is None}) != 1:
+            raise ValueError("clip x·y·w 는 모두 주거나 모두 비운다")
+        return self
 
 
 class ArticleEvent(_Event):

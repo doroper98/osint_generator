@@ -24,6 +24,7 @@ from engine.entities import check_event_refs, load_entities
 from engine.panels import network, relation, timeline
 from engine.credits import RightsError
 from engine.layers.media import validate_media
+from engine.media_plan import density_report, fill_placement, placement_warnings
 from engine.refs import emblem_ids
 from engine.registry import RegistryError, validate_events
 from engine.style import FPS
@@ -134,6 +135,7 @@ def load_project(proj: Path) -> Project:
     dmod = load_direction(proj)
     d = dmod.direct(tb)
     events = validate_events(d.events)
+    placement = fill_placement(events)   # 14 §10.3-5 — 연출이 x·y·w 를 안 준 사진·영상만 기본 배치(D-0036 작업 6)
     ent_errs = check_event_refs(events, load_entities())  # 07 §6 — 미등재 인물·국기·휘장은 렌더 전 오류(P10)
     if ent_errs:
         raise RegistryError("엔티티 레지스트리 점검 실패:\n" + "\n".join(ent_errs))
@@ -144,14 +146,18 @@ def load_project(proj: Path) -> Project:
     req = required_refs(events, A.rights, A.emblem_flag, set(A.img), uses_music=hasattr(dmod, "sound"))
     check_credits(R.credits, A.rights, A.media, req)   # D-0029 작업 7 — 누락·미확인·미표기 자산은 RightsError
     R.cache["credit_refs"] = req
+    R.cache["media_placement"] = placement
     if not d.keys:
         raise ProjectError("카메라 키가 없다")
     n = int(plan.total * FPS)
-    return Project(proj, plan, R, d.keys, events, build_camera(d.keys, n, FPS), n, lint_events(events))
+    warns = lint_events(events) + placement_warnings(events, A.media_assets) \
+        + density_report(events, tb, plan.total)["warnings"]
+    return Project(proj, plan, R, d.keys, events, build_camera(d.keys, n, FPS), n, warns)
 
 
 def lint_events(events: list[dict]) -> list[str]:
-    """연출 경고 — 관계선 과다(08 §3 규칙 6) 등. 분할 제안은 `engine.panels.relation.split_suggestion`(실행 안 함, P8)."""
+    """연출 경고 — 관계선 과다(08 §3 규칙 6) 등. 분할 제안은 `engine.panels.relation.split_suggestion`(실행 안 함, P8).
+    미디어 배치(예약 영역)·밀도(14 §10.1) 경고는 load_project 가 engine.media_plan 으로 덧붙인다."""
     out: list[str] = []
     for e in events:
         if e["type"] == "panel" and e["kind"] == "relation":

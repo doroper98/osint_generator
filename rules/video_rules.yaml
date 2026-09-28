@@ -96,6 +96,17 @@ media_beats:               # 14 §10
     video: "{file_note} · {credit_author} · {license}"
     cutout: "{file_note} · {credit_author}"
   registry: assets/media/media_registry.json
+  triggers:                               # 14 §10.2 — 문장 내용 → 형태 제안(suggest_media, 제안만 P8)
+    clip: [공습, 타격, 발사, 나포, 충돌, 폭격, 격추]
+    photo: [회담, 발표, 현장, 부대, 시위, 경계, 파병, 장병]
+    cutout: [초계기, 구축함, 미사일, 전투기, 함정, 항공기, 잠수함, 드론]
+    article: [보도했습니다, 보도했다, 기고, 사설, 보도에 따르면]
+  placement:                              # 14 §10.3-5 기본값(v3 합격 좌표) — x·y·w 를 연출이 안 주면 이 값
+    clip_map: [40, 150, 300]              # 지도 위 영상 = 좌측
+    clip_panel: [207, 112, 440]           # 패널 위 영상 = 중앙
+    photo_map: [560, 196, 262]            # 사진 = 카드가 없을 때 우하단
+    photo_panel: [292, 138, 280]          # 패널 빈 공간
+  caption_bar_px: 38
 
 hud:                       # 09 §5 — 모서리에는 날짜만
   allowed_corner_elements: [date_badge]
