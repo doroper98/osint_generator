@@ -80,6 +80,20 @@
    "fallback_flag": "kr",
    "source_url": "",
    "fetched_at": "2026-09-28T02:28:01Z"
+  },
+  "cia": {
+   "file": null,
+   "title": "File:Seal of the U.S. Central Intelligence Agency.svg",
+   "license": "Public domain",
+   "author": "U.S. Government",
+   "restrictions": [
+    "insignia"
+   ],
+   "decision": "flag_fallback",
+   "reason": "restrictions: insignia",
+   "fallback_flag": "us",
+   "source_url": "https://commons.wikimedia.org/wiki/File:Seal_of_the_U.S._Central_Intelligence_Agency.svg",
+   "fetched_at": "2026-09-28T02:29:00Z"
   }
  }
 }
