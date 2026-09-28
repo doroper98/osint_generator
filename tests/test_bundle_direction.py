@@ -39,7 +39,8 @@ def _bundle(**extra: object) -> ReportBundle:
              "data": {"nodes": [{"id": "trump", "label": "도널드 트럼프", "kind": "person", "flag": "US", "col": "left"},
                                 {"id": "ratcliffe", "label": "존 랫클리프", "kind": "person", "flag": "US", "col": "center", "accent": True},
                                 {"id": "nato", "label": "나토", "col": "center", "logo": "nato.int"},
-                                {"id": "putin", "label": "블라디미르 푸틴", "kind": "person", "flag": "RU", "col": "right"}],
+                                {"id": "putin", "label": "블라디미르 푸틴", "kind": "person", "flag": "RU", "col": "right"},
+                                {"id": "atlantis", "label": "아틀란티스", "flag": "QZ", "col": "right"}],
                       "edges": [{"source": "trump", "target": "ratcliffe", "type": "영향", "label": "축소"},
                                 {"source": "ratcliffe", "target": "nato", "type": "대립"},
                                 {"source": "ratcliffe", "target": "putin", "type": "연관", "label": "불발"}]}}],
@@ -74,6 +75,7 @@ class ChartPanelTest(unittest.TestCase):
         kinds = {n["id"]: n["kind"] for n in p.data["nodes"]}
         self.assertEqual(kinds, {"trump": "person", "ratcliffe": "flag", "putin": "person"})   # 미등재 인물 = 국기, 국기 없는 기관 = 뺌
         self.assertTrue(any("nato" in x for x in p.notes))                   # 뺀 노드·선은 notes 에(조용한 드롭 아님)
+        self.assertTrue(any("국기 qz" in x for x in p.notes))                # 레지스트리에 없는 국기는 넘기지 않는다(P10)
         self.assertEqual([e["type"] for e in p.data["edges"]], ["influence", "related"])
 
 

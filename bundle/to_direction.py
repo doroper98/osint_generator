@@ -140,6 +140,8 @@ def _badge(n: dict, e: Optional[BundleEntity], reg: EntityRegistry) -> tuple[Opt
         base["role"] = str(n["role"])
     ent = reg.entities.get(e.entity_id) if e and e.entity_id else None
     flag = (ent.flag if ent is not None else None) or (e.flag if e else None)
+    if flag and flag not in reg.flags:     # 국기 뱃지도 레지스트리 국가만(15 P10) — 미등재 국기를 연출가에게 넘기지 않는다
+        return None, f"노드 {base['id']}({base['label']}): 국기 {flag} 가 엔티티 레지스트리에 없음 — 뺌(assets/entities.yaml 국가 등재 필요)"
     if ent is not None and ent.kind == "person" and (ent.portrait or ent.library) and flag:
         return base | {"kind": "person", "pid": ent.id, "flag": flag}, None
     if ent is not None and ent.kind == "org" and ent.emblem:

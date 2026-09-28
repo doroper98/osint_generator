@@ -128,6 +128,11 @@ entities:
   ye: {kind: country, names: [예멘], flag: ye, rights: flags.flag_icons}
   kp: {kind: country, names: [북한], flag: kp, rights: flags.flag_icons}
   ru: {kind: country, names: [러시아], flag: ru, rights: flags.flag_icons}
+  # v3.5.0 — Phase 9 랫클리프 번들 실증(D-0063 작업 6)에서 부른 나라
+  ua: {kind: country, names: [우크라이나], flag: ua, rights: flags.flag_icons}
+  pl: {kind: country, names: [폴란드], flag: pl, rights: flags.flag_icons}
+  lv: {kind: country, names: [라트비아], flag: lv, rights: flags.flag_icons}
+  ro: {kind: country, names: [루마니아], flag: ro, rights: flags.flag_icons}
   pk: {kind: country, names: [파키스탄], flag: pk, rights: flags.flag_icons}
   il: {kind: country, names: [이스라엘], flag: il, rights: flags.flag_icons}
   eu: {kind: country, names: [유럽연합, EU], flag: eu, rights: flags.flag_icons}
