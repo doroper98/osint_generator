@@ -155,28 +155,10 @@ def check_labels(P, times: list[float]) -> list[str]:  # noqa: ANN001, N803
 
 
 def check_shots(P) -> list[str]:  # noqa: ANN001, N803
-    out: list[str] = []
-    keys = sorted(P.keys, key=lambda k: k.t)
-    for a, b in zip(keys, keys[1:]):
-        hold = b.t - (a.t + a.dur)
-        if hold < SG.shot_min_hold_sec and b.mode == "move":
-            out.append(f"숏 t={a.t:.1f}→{b.t:.1f} 머무름 {hold:.1f}s < {SG.shot_min_hold_sec}s")
-    tb = P.R.tb
-    moves: dict[str, int] = {}
-    for k in keys:
-        if k.mode == "move" and k.t > 0:
-            sc = P.plan.sentences[0].scene
-            for s in P.plan.sentences:
-                if s.t0 - 1.5 <= k.t:
-                    sc = s.scene
-            moves[sc] = moves.get(sc, 0) + 1
-    out += [f"장면 {sc} 카메라 이동 {n} > {SG.camera_moves_per_scene_max}" for sc, n in moves.items()
-            if n > SG.camera_moves_per_scene_max]
-    dips = [e for e in P.events if e["type"] == "dip" and not e.get("under")]
-    limit = max(1, int(tb.total // SG.dip_max_per_sec) + 1)
-    if len(dips) > limit:
-        out.append(f"암전 {len(dips)}회 > {limit}(1/{SG.dip_max_per_sec}s)")
-    return out
+    """숏 규칙 — engine.shots.shot_issues 한 곳(v3.3.0, 7 린트·제안과 같은 함수)."""
+    from engine.shots import shot_issues  # noqa: PLC0415
+
+    return shot_issues(P.keys, P.plan.sentences, P.events, P.R.tb.total)
 
 
 def check_subtitles(P) -> list[str]:  # noqa: ANN001, N803
