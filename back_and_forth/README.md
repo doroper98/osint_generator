@@ -138,6 +138,7 @@ python back_and_forth/check.py --me opus --next-id         # 내가 쓸 다음 �
 
 ### 6.3 phase_report 필수 항목 (KICKOFF §7)
 1. 변경 요약(커밋 목록) 2. 테스트 결과(기준선 대비) 3. 프리뷰 컨택트 시트 경로(영상 영향 Phase)
+   — 테스트 기준선은 **삭제 조정 기준선**이다(D-0053): 합격 = passed ≥ (직전 기준 − P2로 삭제한 옛 테스트 수) + 새 테스트 요구치, failed 0·xfail 0. 삭제 목록을 표로 적는다.
 4. provenance 요약 5. 다음 Phase 계획 — 그리고 **이번 Phase의 DECISIONS 새 행 요약**.
 
 ### 6.4 결정 위임 — 결정은 Fable이 내린다 (사용자 지시 2026-09-27)
