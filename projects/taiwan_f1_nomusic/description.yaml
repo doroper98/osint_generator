@@ -1,0 +1,9 @@
+# taiwan_f1_nomusic 설명문(v3.4.0 D-0060 작업 8 — F1 재실행 사본, 음악 문구는 BGM 레지스트리 {music} 자리)
+schema_version: 1
+headline: 대만해협 — 권역 준비 확인
+summary: 대만해협 권역 지도·지형 준비를 확인하는 짧은 영상입니다.
+chapters:
+- at: open
+  label: 대만해협
+footer:
+- '내레이션: AI 음성 합성'

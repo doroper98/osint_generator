@@ -1,0 +1,31 @@
+{
+  "schema_version": 1,
+  "sources": [
+    {
+      "id": "src_doc_0001",
+      "url": "https://www.naturalearthdata.com/downloads/10m-cultural-vectors/",
+      "retrieved_at": "2026-09-28",
+      "lang": "en",
+      "note": "v3.2.0 이관 — 예시 원고(권역 준비 확인용)의 지도 데이터 출처. 사용자 확인 전이라 unverified",
+      "type": "document",
+      "issuer": "Natural Earth",
+      "title": "Admin 0 – Countries (1:10m)",
+      "key_facts": [
+        "국가 경계·명칭 데이터"
+      ]
+    },
+    {
+      "id": "src_doc_0002",
+      "url": "https://www.naturalearthdata.com/downloads/10m-cultural-vectors/",
+      "retrieved_at": "2026-09-28",
+      "lang": "en",
+      "note": "v3.2.0 이관 — 예시 원고(권역 준비 확인용)의 지도 데이터 출처. 사용자 확인 전이라 unverified",
+      "type": "document",
+      "issuer": "Natural Earth",
+      "title": "Admin 1 – States, Provinces (1:10m)",
+      "key_facts": [
+        "1급 행정구역(성) 경계·명칭 데이터"
+      ]
+    }
+  ]
+}

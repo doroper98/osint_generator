@@ -593,7 +593,7 @@
  },
  "ai_direction": {
   "origin": "ai",
-  "model": "claude-opus-5-5",
+  "model": "(config.yaml llm.model)",
   "prompt_sha1": "45d568da5c1e0b16f7dd121145a9d8a8ac1f5564",
   "direction_versions": 3,
   "used_version": 2,

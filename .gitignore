@@ -159,3 +159,13 @@ projects/hormuz_ai_cam/logs/
 projects/hormuz_ai_cam/03_tasks/
 projects/hormuz_ai_cam/llm_calls/
 projects/hormuz_ai_cam/direction.meta.json
+# v3.4.0 Phase 8 작업 8 — taiwan_ai F1 재실행 사본(음악 크레딧 없음/있음)
+projects/taiwan_f1_*/03_tasks/
+projects/taiwan_f1_*/assets/
+projects/taiwan_f1_*/llm_calls/
+projects/taiwan_f1_*/plan.json
+projects/taiwan_f1_*/prev/
+projects/taiwan_f1_*/tts/
+projects/taiwan_f1_*/out/
+projects/taiwan_f1_*/logs/
+projects/taiwan_f1_*/direction.meta.json

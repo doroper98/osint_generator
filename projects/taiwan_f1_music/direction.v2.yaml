@@ -1,0 +1,71 @@
+# direction.yaml — AI 연출 수정본(ReviseDirectionWorker, v3.1.0, 17 §5.5). changelog 는 prev/revision.v*.json.
+version: 1
+places:
+  strait:
+  - 119.7
+  - 24.4
+  taiwan:
+  - 121.0
+  - 23.75
+  fujian:
+  - 118.2
+  - 26.1
+paths: {}
+shots:
+- at: 0.0
+  mode: cut
+  dur: 0.0
+  camera:
+    lon: 120.0
+    lat: 24.6
+    place: null
+    w: 12.0
+  under: false
+  scene: null
+events:
+- type: marker
+  start:
+    sid: open_0
+    'off': 0.1
+  end:
+    card: end
+  at_place: strait
+  label: 대만해협
+  side: bottom
+  hl: true
+- type: marker
+  start:
+    word:
+      sid: open_0
+      text: 대만과
+  end:
+    card: end
+  at_place: taiwan
+  label: 대만
+  side: right
+  hl: false
+- type: marker
+  start:
+    word:
+      sid: open_1
+      text: 푸젠성
+  end:
+    card: end
+  at_place: fujian
+  label: 푸젠성
+  side: left
+  hl: true
+sound:
+  bgm: music.zabriskie_patriarch
+  intensity:
+  - - 0.0
+    - 0.55
+  - - total: true
+      'off':
+      - 0.5
+      - -3.0
+    - 0.5
+  - - total: true
+      'off': 0.5
+    - 0.0
+  cues: []

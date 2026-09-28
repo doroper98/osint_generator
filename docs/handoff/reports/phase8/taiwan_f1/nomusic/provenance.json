@@ -1,0 +1,245 @@
+{
+ "schema_version": 1,
+ "engine": "engine",
+ "repo_version": "3.4.0",
+ "rules_version": "2.0.0",
+ "rules_hash": "daccd17e1e065584a61e94100d864efd83f66a13",
+ "prompts": {
+  "director": "0a0aa49d2493ab59f016ea755e252ae013560c7b"
+ },
+ "voice": "edge-tts ko-KR-InJoonNeural",
+ "word_anchor": "aligned",
+ "word_anchors": [
+  {
+   "sid": "open_0",
+   "word": "대만해협",
+   "mode": "aligned",
+   "t": 1.2,
+   "alignment_source": "edge_word_boundary"
+  },
+  {
+   "sid": "open_1",
+   "word": "푸젠성",
+   "mode": "aligned",
+   "t": 6.508,
+   "alignment_source": "edge_word_boundary"
+  },
+  {
+   "sid": "open_1",
+   "word": "대만",
+   "mode": "aligned",
+   "t": 8.273,
+   "alignment_source": "edge_word_boundary"
+  }
+ ],
+ "tts": {
+  "resynthesized": []
+ },
+ "total_sec": 22.639,
+ "sentences": 2,
+ "stages": {
+  "plan": true,
+  "geo": true,
+  "preview": true,
+  "render": true,
+  "mix": true,
+  "mux": true,
+  "ai_direction": true,
+  "visual_qa": true
+ },
+ "features_used": {
+  "camera_keys": 1,
+  "camera_moves": 0,
+  "camera_cuts": 1,
+  "dips": 0,
+  "dips_under": 0,
+  "badges": 0,
+  "badge_kinds": {},
+  "panels": [],
+  "cards": 0,
+  "media": {
+   "clip": 0,
+   "photo": 0,
+   "cutout": 0,
+   "article": 0
+  },
+  "event_types": {
+   "marker": 3
+  },
+  "label_lod": true,
+  "vignette": false,
+  "at_word": {
+   "aligned": 3,
+   "ratio": 0
+  }
+ },
+ "qa": {
+  "auto_iterations": 2,
+  "user_approved": false,
+  "reviewer": "fable (back_and_forth)",
+  "visual_qa": [
+   "revise",
+   "revise",
+   "revise"
+  ]
+ },
+ "drops": [],
+ "assets": {
+  "images_used": [],
+  "emblems": {
+   "used": [],
+   "flag_fallback": {}
+  },
+  "badges": {
+   "suggested": [
+    "cn"
+   ],
+   "used": [],
+   "suggested_and_used": [],
+   "suggestions": 2
+  }
+ },
+ "panels": {
+  "used": []
+ },
+ "credits": {
+  "card": {
+   "map": 2,
+   "narration": 1
+  },
+  "description_only": {
+   "fonts": 4
+  }
+ },
+ "reserved": {
+  "avoidance": []
+ },
+ "audio": {
+  "bgm": null,
+  "bed_gain": 0.47,
+  "crossfades": 0,
+  "qa": {
+   "severity": "warning",
+   "issues": [],
+   "final_loudness": {
+    "I": -13.78,
+    "TP": -1.5,
+    "LRA": 3.4
+   },
+   "music_under_narration_db": -223.54,
+   "mix_peak": 0.8
+  }
+ },
+ "camera": {
+  "suggest_ran": false,
+  "suggested": 0,
+  "used": 0,
+  "given_to_director": false
+ },
+ "lint_warnings": [
+  "[media-density-total] 과소 — 0개 / 23초 = inf초당 1개 > 60초 (14 §10.1)"
+ ],
+ "media": {
+  "suggested": [],
+  "used": [],
+  "suggested_and_used": [],
+  "density": {
+   "schema_version": 1,
+   "total_sec": 22.639,
+   "items": [],
+   "count": 0,
+   "sec_per_item": null,
+   "target_sec_per_item": [
+    40.0,
+    60.0
+   ],
+   "window": {
+    "window_sec": 40.0,
+    "window_max": 2,
+    "exempt": [
+     "article"
+    ],
+    "max": {
+     "t0": null,
+     "count": 0,
+     "mids": []
+    }
+   },
+   "per_scene": {},
+   "warnings": [
+    "[media-density-total] 과소 — 0개 / 23초 = inf초당 1개 > 60초 (14 §10.1)"
+   ]
+  },
+  "placement": {}
+ },
+ "script": {
+  "labels": {
+   "verified": 0,
+   "corroborated": 0,
+   "unverified": 2,
+   "disputed": 0
+  }
+ },
+ "ai_direction": {
+  "origin": "ai",
+  "model": "(config.yaml llm.model)",
+  "prompt_sha1": "0a0aa49d2493ab59f016ea755e252ae013560c7b",
+  "direction_versions": 3,
+  "used_version": 1,
+  "selected": {
+   "version": 1,
+   "by": "code",
+   "reason": "상한 2회 도달 — checks_hard·qa_hard·qa_soft 사전식 최소 (checks hard 0, 검수 hard 0, soft 4)"
+  },
+  "rounds": [
+   {
+    "version": 1,
+    "checks_hard": 0,
+    "qa_hard": 0,
+    "qa_soft": 4
+   },
+   {
+    "version": 2,
+    "checks_hard": 0,
+    "qa_hard": 1,
+    "qa_soft": 5
+   },
+   {
+    "version": 3,
+    "checks_hard": 0,
+    "qa_hard": 0,
+    "qa_soft": 6
+   }
+  ],
+  "revisions": [
+   {
+    "direction_version": 2,
+    "changes": 5
+   },
+   {
+    "direction_version": 3,
+    "changes": 6
+   }
+  ],
+  "visual_qa": [
+   {
+    "file": "qa_verdict.v1.json",
+    "verdict": "revise",
+    "hard": 0,
+    "soft": 4
+   },
+   {
+    "file": "qa_verdict.v2.json",
+    "verdict": "revise",
+    "hard": 1,
+    "soft": 5
+   },
+   {
+    "file": "qa_verdict.v3.json",
+    "verdict": "revise",
+    "hard": 0,
+    "soft": 6
+   }
+  ]
+ }
+}
