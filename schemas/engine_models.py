@@ -90,6 +90,7 @@ class StageResult(_Strict):
     provenance: Optional[dict] = None
     drops: list[dict] = Field(default_factory=list)
     errors: list[str] = Field(default_factory=list)
+    warnings: list[str] = Field(default_factory=list)  # v2.3.0 optional — ok 를 막지 않는 알림(원고 린트 경고 등)
 
     @model_validator(mode="after")
     def _drops_fail(self) -> "StageResult":

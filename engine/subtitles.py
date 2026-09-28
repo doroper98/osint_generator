@@ -5,7 +5,7 @@ from __future__ import annotations
 import cairo
 
 from engine.context import RenderCtx
-from engine.style import C, SUBTITLE, W_OUT
+from engine.style import C, SUBTITLE, SUBTITLE_WRAP_PX, W_OUT
 from engine.timebase import smooth
 from engine.typography import font, text, wrap
 
@@ -40,7 +40,7 @@ def draw_subtitle(ctx: cairo.Context, R: RenderCtx, t: float) -> None:  # noqa: 
             a = min(smooth((t - x.t0 + 0.05) / 0.18), smooth((x.t1 + 0.25 - t) / 0.2))
             size = SUBTITLE.size
             txt, flags = emphasis_flags(x.segments)
-            lines = wrap(ctx, txt, 700, size, "sansm")
+            lines = wrap(ctx, txt, SUBTITLE_WRAP_PX, size, "sansm")
             base_y = SUBTITLE.last_line_y - (len(lines) - 1) * SUBTITLE.line_gap
             pos = 0
             for li, ln in enumerate(lines):

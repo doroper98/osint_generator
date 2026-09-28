@@ -46,6 +46,7 @@ DISPLAY_SPACE: float = _f.display_space_advance
 
 _L = _RULES.layout_480p
 SUBTITLE = _L.subtitle
+SUBTITLE_WRAP_PX: int = _RULES.script_schema.subtitle_wrap_px_480p  # 자막 줄바꿈 폭 — 린트(script/lint)와 렌더가 공유
 PANEL = _L.panel
 FADE = _L.fade
 CARD = _L.card

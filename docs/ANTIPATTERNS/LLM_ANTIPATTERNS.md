@@ -280,3 +280,19 @@ last_review: 2026-05-22
   반영이 필요하면 섹션 단위 분할 생성(다중 LLM 호출) 또는 더 긴 영상 포맷이 별도 과제.
 
 - **연관**: LLM-AP-001(claude wrapper), 계약 v1 §6(prose=나레이션 원천), CHANGELOG v0.20.x.
+
+---
+
+## LLM-AP-006 — 원고 LLM 의 AI 상투 문구(수렴 은유·해석 강요·예언형 결론)
+
+- **증상 (symptom)**: 원고에 "n가지 화살이 한곳으로 모인다", "~로 읽으면 이렇다", "~의 방향을 정한다",
+  "말하는 것, 그리고 말하지 않는 것" 같은 문장이 반복된다. 사실 대신 작가의 구도를 강요한다.
+- **원인 (root cause)**: LLM 문체 관성. 결함 8종(수렴 은유·과장된 동시성·숫자 겹 은유·예언형 결론·
+  회귀 수사·해석 강요·가짜 대구·"진짜 이유"류 메타 발언)은 `docs/handoff/03` §2.
+- **구조적 조치 (structural fix, v2.3.0)**: 금지 패턴의 **정본은 `rules/video_rules.yaml`
+  `banned_phrases.patterns` 하나**다(15 P3). 이 문서는 패턴을 따로 두지 않고 참조만 한다.
+  `script/lint.py`가 plan 단계에서 검사해 하나라도 맞으면 음성 합성 전에 실패한다.
+  새 문구는 `banned_phrases.candidates`에 넣고 사람 승인 뒤 patterns 로 승격한다.
+- **회귀 테스트 (regression_test)**: `tests/test_script_lint.py` — 사용자 지정 12문구 전부 검출,
+  v3 원고 45문장 통과. 띄어쓰기 변형("같은자리로", "않는것")도 잡도록 v2.3.0 에 패턴 3개를 `\s?`로 넓혔다.
+- **연관**: 03 §2·§2.1, back_and_forth D-0021 작업 2.
