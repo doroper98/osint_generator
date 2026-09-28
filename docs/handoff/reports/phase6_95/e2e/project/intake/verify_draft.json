@@ -1,0 +1,120 @@
+{
+  "schema_version": 1,
+  "claims": [
+    {
+      "text": "화물선 한울호와 소라호가 9월 24일 오전 6시 해군 호위를 받으며 가온항을 출항했다",
+      "evidence": [
+        {
+          "source_id": "src_x_0001",
+          "quote": "Two cargo vessels, MV Hanul and MV Sora, left Gaon Port",
+          "stance": "supports"
+        },
+        {
+          "source_id": "src_x_0001",
+          "quote": "화물선 두 척, MV 하눌호와 MV 소라호가 오늘 아침 06:00에 해군 호위를 받으며 가온항을 떠났다",
+          "stance": "supports"
+        },
+        {
+          "source_id": "src_x_0003",
+          "quote": "오늘 아침 가온항에서 화물선 두 척이 군함이랑",
+          "stance": "supports"
+        },
+        {
+          "source_id": "src_art_0001",
+          "quote": "가온항만청은 24일 오전 6시 화물선 한울호와 소라호가 해군 호위를 받으며 가온항을 떠났다고 밝혔다",
+          "stance": "supports"
+        },
+        {
+          "source_id": "src_art_0002",
+          "quote": "Two cargo ships departed Gaon Port under naval escort on Thursday morning, port officials said.",
+          "stance": "supports"
+        }
+      ],
+      "event_date": "2026-09-24",
+      "contested": false,
+      "sides": null
+    },
+    {
+      "text": "한울호와 소라호는 별섬 남쪽 항로로 해협을 빠져나갔다",
+      "evidence": [
+        {
+          "source_id": "src_art_0001",
+          "quote": "항만청은 두 선박이 별섬 남쪽 항로로 해협을 빠져나갔다고 설명했다",
+          "stance": "supports"
+        },
+        {
+          "source_id": "src_art_0002",
+          "quote": "The vessels, MV Hanul and MV Sora, sailed south of Byeol Island before leaving the strait.",
+          "stance": "supports"
+        }
+      ],
+      "event_date": "2026-09-24",
+      "contested": false,
+      "sides": null
+    },
+    {
+      "text": "세 번째 선박 MV Dasom이 별섬 인근에서 노라 초계정에 의해 회항 조치됐다",
+      "evidence": [
+        {
+          "source_id": "src_x_0002",
+          "quote": "Unconfirmed: a third ship, MV Dasom, was turned back",
+          "stance": "supports"
+        },
+        {
+          "source_id": "src_x_0002",
+          "quote": "미확인: 세 번째 선박인 MV Dasom이 별섬 인근에서 노라 초계정에 의해 회항 조치되었다.",
+          "stance": "supports"
+        }
+      ],
+      "event_date": null,
+      "contested": false,
+      "sides": null
+    },
+    {
+      "text": "이번 호위 선단이 노라 영해를 침범했다",
+      "evidence": [
+        {
+          "source_id": "src_art_0001",
+          "quote": "노라 정부는 이번 호위가 자국 영해를 침범했다고 주장했고",
+          "stance": "supports"
+        },
+        {
+          "source_id": "src_art_0001",
+          "quote": "가온 외교부는 국제 수역을 지났을 뿐이라고 반박했다",
+          "stance": "contradicts"
+        },
+        {
+          "source_id": "src_art_0002",
+          "quote": "Norra's foreign ministry called the escort a violation of its territorial waters.",
+          "stance": "supports"
+        },
+        {
+          "source_id": "src_art_0002",
+          "quote": "Gaon's foreign ministry rejected the claim, saying the ships stayed in international waters.",
+          "stance": "contradicts"
+        }
+      ],
+      "event_date": "2026-09-24",
+      "contested": true,
+      "sides": [
+        {
+          "party": "노라 정부(외교부)",
+          "text": "호위가 자국 영해를 침범했다",
+          "source_ids": [
+            "src_art_0001",
+            "src_art_0002"
+          ]
+        },
+        {
+          "party": "가온 외교부",
+          "text": "선박들은 국제 수역만 지났다",
+          "source_ids": [
+            "src_art_0001",
+            "src_art_0002"
+          ]
+        }
+      ]
+    }
+  ],
+  "summary": "한울호·소라호의 24일 오전 6시 호위 출항은 가온항만청 계정, 목격자 게시물, 두 기사가 일치하며 별섬 남쪽 항로 이탈도 두 기사가 같게 전한다. 세 번째 선박 MV Dasom의 회항은 스스로 '미확인'이라 밝힌 X 게시물 하나뿐이고 항만청은 확인을 거부했다. 영해 침범 여부는 노라 정부의 주장과 가온 외교부의 반박이 맞서는 사안으로, 두 기사 모두 양측 입장만 전한다."
+}

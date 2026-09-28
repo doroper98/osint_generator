@@ -1,0 +1,1 @@
+{"ok": true, "stage": "lint", "artifacts": {"script": "/home/user/osint_generator/projects/e2e_gaon/script.yaml", "label_counts": "{\"verified\": 0, \"corroborated\": 5, \"unverified\": 3, \"disputed\": 2}"}, "provenance": null, "drops": [], "errors": [], "warnings": ["[source-missing] now_0: sources 비어 있음 — 선단이 어느 수역을 지났는지, 다솜호에 무슨 일이 있었는지는 아직 확인되지 않았습니다."]}

@@ -1,0 +1,43 @@
+[게이트 ① 원고 승인] 가온항 호위 출항 — 화물선 두 척의 출항과 영해 논란 (2026.09.28)
+
+장면 목록
+  open       문장  3  예상   19.3초
+  route      문장  2  예상   14.6초
+  third_ship 문장  3  예상   20.2초
+  dispute    문장  2  예상   12.6초
+  now        문장  1  예상    9.0초
+  합계 11문장 · 예상 75.8초 (글자 수 추정 320자/분)
+
+원고 전문(자막) · [검증 라벨]
+  open_0       9월 24일 오전 6시, 화물선 두 척이 가온항을 떠났습니다.
+  open_1       한울호와 소라호는 해군 호위를 받으며 출항했습니다.
+  open_2       가온항만청과 가온일보, Test Maritime Wire 등이 이를 전했습니다.
+  route_0      가온일보와 Test Maritime Wire는 두 선박이 별섬 남쪽 항로를 택했다고 보도했습니다.
+  route_1      두 선박은 그 항로로 해협을 빠져나갔다고 전해졌습니다.
+  third_ship_0 X 계정 Strait Watcher는 세 번째 선박 MV Dasom이 회항 조치됐다고 주장했습니다.  [<미검증>]
+  third_ship_1 이 계정은 별섬 인근에서 노라 초계정이 선박을 돌려보냈다고 올렸습니다.  [<미검증>]
+  third_ship_2 이 주장은 다른 출처로 확인되지 않았습니다.  [<미검증>]
+  dispute_0    노라 외교부는 호위 선단이 자국 영해를 침범했다고 주장했습니다.  [<논쟁>]
+  dispute_1    가온 외교부는 선박들이 국제 수역만 지났다고 반박했습니다.  [<논쟁>]
+  now_0        선단이 어느 수역을 지났는지, 다솜호에 무슨 일이 있었는지는 아직 확인되지 않았습니다.
+
+출처 표
+  open_0       clm_0001
+  open_1       clm_0001
+  open_2       clm_0001
+  route_0      clm_0002
+  route_1      clm_0002
+  third_ship_0 clm_0003
+  third_ship_1 clm_0003
+  third_ship_2 clm_0003
+  dispute_0    clm_0004
+  dispute_1    clm_0004
+  now_0        (출처 없음)
+
+린트 — 오류 0 · 경고 1
+  경고 [source-missing] now_0: sources 비어 있음 — 선단이 어느 수역을 지났는지, 다솜호에 무슨 일이 있었는지는 아직 확인되지 않았습니다.
+
+미디어 후보 — 원고 media 필드 0건
+  트리거 제안 — plan.json 이 생기면(voice_timeline 뒤) 표시
+
+검증 라벨 집계 {"verified": 0, "corroborated": 5, "unverified": 3, "disputed": 2}

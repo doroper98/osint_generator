@@ -1,0 +1,104 @@
+{
+  "schema_version": 1,
+  "claims": [
+    {
+      "claim_id": "clm_0001",
+      "text": "화물선 한울호와 소라호가 9월 24일 오전 6시 해군 호위를 받으며 가온항을 출항했다",
+      "source_ids": [
+        "src_x_0001",
+        "src_x_0003",
+        "src_art_0001",
+        "src_art_0002"
+      ],
+      "status": "corroborated",
+      "contested": false,
+      "event_date": "2026-09-24",
+      "checks": [
+        "quote_match:src_x_0001",
+        "quote_match:src_x_0001",
+        "quote_match:src_x_0003",
+        "quote_match:src_art_0001",
+        "quote_match:src_art_0002",
+        "independent_origins:2",
+        "attributed:src_art_0001",
+        "attributed:src_art_0002"
+      ],
+      "attributed_only": false,
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0002",
+      "text": "한울호와 소라호는 별섬 남쪽 항로로 해협을 빠져나갔다",
+      "source_ids": [
+        "src_art_0001",
+        "src_art_0002"
+      ],
+      "status": "corroborated",
+      "contested": false,
+      "event_date": "2026-09-24",
+      "checks": [
+        "quote_match:src_art_0001",
+        "quote_match:src_art_0002",
+        "independent_origins:2"
+      ],
+      "attributed_only": false,
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0003",
+      "text": "세 번째 선박 MV Dasom이 별섬 인근에서 노라 초계정에 의해 회항 조치됐다",
+      "source_ids": [
+        "src_x_0002"
+      ],
+      "status": "unverified",
+      "contested": false,
+      "checks": [
+        "quote_match:src_x_0002",
+        "quote_match:src_x_0002",
+        "independent_origins:1"
+      ],
+      "attributed_only": false,
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0004",
+      "text": "이번 호위 선단이 노라 영해를 침범했다",
+      "source_ids": [
+        "src_art_0001",
+        "src_art_0002"
+      ],
+      "status": "disputed",
+      "contested": true,
+      "sides": [
+        {
+          "party": "노라 정부(외교부)",
+          "text": "호위가 자국 영해를 침범했다",
+          "source_ids": [
+            "src_art_0001",
+            "src_art_0002"
+          ]
+        },
+        {
+          "party": "가온 외교부",
+          "text": "선박들은 국제 수역만 지났다",
+          "source_ids": [
+            "src_art_0001",
+            "src_art_0002"
+          ]
+        }
+      ],
+      "event_date": "2026-09-24",
+      "checks": [
+        "quote_match:src_art_0001",
+        "quote_match:src_art_0001",
+        "quote_match:src_art_0002",
+        "quote_match:src_art_0002",
+        "independent_origins:0",
+        "attributed:src_art_0001",
+        "attributed:src_art_0002"
+      ],
+      "attributed_only": true,
+      "notes": ""
+    }
+  ]
+}

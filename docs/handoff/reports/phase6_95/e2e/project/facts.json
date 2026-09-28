@@ -1,0 +1,84 @@
+{
+  "schema_version": 1,
+  "facts": [
+    {
+      "id": "f_escort_departure_0924",
+      "text": "화물선 한울호와 소라호가 9월 24일 오전 6시 해군 호위를 받으며 가온항을 출항했다고 가온항만청과 가온일보, Test Maritime Wire 등이 전했다.",
+      "date": "2026.09.24",
+      "place": "가온항",
+      "actors": [
+        "한울호",
+        "소라호",
+        "가온 해군",
+        "가온항만청"
+      ],
+      "numbers": [
+        "두 척",
+        "오전 6시"
+      ],
+      "source_ids": [
+        "clm_0001"
+      ],
+      "confidence": "high",
+      "contested": false,
+      "sides": null
+    },
+    {
+      "id": "f_route_byeolseom_south",
+      "text": "가온일보와 Test Maritime Wire는 한울호와 소라호가 별섬 남쪽 항로로 해협을 빠져나갔다고 보도했다.",
+      "date": "2026.09.24",
+      "place": "별섬 남쪽 항로",
+      "actors": [
+        "한울호",
+        "소라호"
+      ],
+      "numbers": [],
+      "source_ids": [
+        "clm_0002"
+      ],
+      "confidence": "high",
+      "contested": false,
+      "sides": null
+    },
+    {
+      "id": "f_dasom_turnback_claim",
+      "text": "X 계정 Strait Watcher(@straitwatch_x)는 세 번째 선박 MV Dasom이 별섬 인근에서 노라 초계정에 의해 회항 조치됐다고 주장했으나, 이는 다른 출처로 확인되지 않았다.",
+      "date": null,
+      "place": "별섬 인근",
+      "actors": [
+        "Strait Watcher",
+        "MV Dasom",
+        "노라 초계정"
+      ],
+      "numbers": [
+        "세 번째 선박"
+      ],
+      "source_ids": [
+        "clm_0003"
+      ],
+      "confidence": "low",
+      "contested": false,
+      "sides": null
+    },
+    {
+      "id": "f_territorial_dispute",
+      "text": "노라 외교부는 이번 호위 선단이 자국 영해를 침범했다고 주장했고, 가온 외교부는 선박들이 국제 수역만 지났다고 반박했다.",
+      "date": "2026.09.24",
+      "place": "해협",
+      "actors": [
+        "노라 외교부",
+        "가온 외교부"
+      ],
+      "numbers": [],
+      "source_ids": [
+        "clm_0004"
+      ],
+      "confidence": "medium",
+      "contested": true,
+      "sides": [
+        "노라 정부(외교부): 호위가 자국 영해를 침범했다",
+        "가온 외교부: 선박들은 국제 수역만 지났다"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,129 @@
+{
+  "schema_version": 1,
+  "sources": [
+    {
+      "id": "src_x_0001",
+      "retrieved_at": "2026-09-28",
+      "lang": "en",
+      "verification": {
+        "status": "corroborated",
+        "checks": [
+          "claims:1"
+        ],
+        "notes": ""
+      },
+      "confirmed_by": "e2e 사용자(Opus 대행 — 픽스처 캡처와 대조)",
+      "confirmed_at": "2026-09-28T13:15:58.646430Z",
+      "note": "항만청을 자처하는 계정 — 목록 미등재 [화면 시각: 6:40 AM · Sep 24, 2026]",
+      "type": "x_post",
+      "input": "capture",
+      "account_name": "Gaon Port Authority",
+      "handle": "@gaon_port_auth",
+      "account_class": "unknown",
+      "posted_at": "2026-09-24T06:40:00",
+      "text_original": "Two cargo vessels, MV Hanul and MV Sora, left Gaon Port\nunder naval escort at 06:00 this morning.",
+      "text_ko": "화물선 두 척, MV 하눌호와 MV 소라호가 오늘 아침 06:00에 해군 호위를 받으며 가온항을 떠났다.",
+      "capture": "intake/screenshots/src_x_0001.png",
+      "attached_media": "photo",
+      "deleted": false,
+      "drafted_by": "capture_read"
+    },
+    {
+      "id": "src_x_0002",
+      "retrieved_at": "2026-09-28",
+      "lang": "en",
+      "verification": {
+        "status": "unverified",
+        "checks": [
+          "claims:1"
+        ],
+        "notes": ""
+      },
+      "confirmed_by": "e2e 사용자(Opus 대행 — 픽스처 캡처와 대조)",
+      "confirmed_at": "2026-09-28T13:15:58.670947Z",
+      "note": "관찰 계정의 단독 주장 [화면 시각: 9:12 AM · Sep 24, 2026]",
+      "type": "x_post",
+      "input": "capture",
+      "account_name": "Strait Watcher",
+      "handle": "@straitwatch_x",
+      "account_class": "unknown",
+      "posted_at": "2026-09-24T09:12:00",
+      "text_original": "Unconfirmed: a third ship, MV Dasom, was turned back\nnear Byeol Island by a Norra patrol boat.",
+      "text_ko": "미확인: 세 번째 선박인 MV Dasom이 별섬 인근에서 노라 초계정에 의해 회항 조치되었다.",
+      "capture": "intake/screenshots/src_x_0002.png",
+      "attached_media": "none",
+      "deleted": false,
+      "drafted_by": "capture_read"
+    },
+    {
+      "id": "src_x_0003",
+      "retrieved_at": "2026-09-28",
+      "lang": "ko",
+      "verification": {
+        "status": "corroborated",
+        "checks": [
+          "claims:1"
+        ],
+        "notes": ""
+      },
+      "confirmed_by": "e2e 사용자(Opus 대행 — 픽스처 캡처와 대조)",
+      "confirmed_at": "2026-09-28T13:15:58.694345Z",
+      "note": "주민 목격담(개인 계정) [화면 시각: 오전 7:05 · 2026년 9월 24일]",
+      "type": "x_post",
+      "input": "capture",
+      "account_name": "김가온",
+      "handle": "@kim_gaon_2",
+      "account_class": "private",
+      "posted_at": "2026-09-24T07:05:00",
+      "text_original": "오늘 아침 가온항에서 화물선 두 척이 군함이랑\n같이 나가는 걸 봤어요.",
+      "capture": "intake/screenshots/src_x_0003.png",
+      "attached_media": "none",
+      "deleted": false,
+      "drafted_by": "capture_read"
+    },
+    {
+      "id": "src_art_0001",
+      "retrieved_at": "2026-09-28",
+      "lang": "ko",
+      "verification": {
+        "status": "corroborated",
+        "checks": [
+          "claims:3"
+        ],
+        "notes": ""
+      },
+      "confirmed_by": "command-center",
+      "confirmed_at": "2026-09-28T13:15:58.399493Z",
+      "note": "가상 매체(e2e 픽스처)",
+      "type": "article",
+      "publisher": "가온일보",
+      "headline_original": "가온항서 화물선 2척 호위 출항",
+      "published_at": "2026-09-24",
+      "key_facts": [
+        "가온항서 화물선 2척 호위 출항"
+      ]
+    },
+    {
+      "id": "src_art_0002",
+      "retrieved_at": "2026-09-28",
+      "lang": "en",
+      "verification": {
+        "status": "corroborated",
+        "checks": [
+          "claims:3"
+        ],
+        "notes": ""
+      },
+      "confirmed_by": "e2e 사용자(Opus 대행 — 픽스처 캡처와 대조)",
+      "confirmed_at": "2026-09-28T13:15:58.710132Z",
+      "note": "가상 매체(e2e 픽스처)",
+      "type": "article",
+      "publisher": "Test Maritime Wire",
+      "headline_original": "Cargo ships leave Gaon under escort",
+      "published_at": "2026-09-24",
+      "key_facts": [
+        "Cargo ships leave Gaon under escort"
+      ]
+    }
+  ]
+}

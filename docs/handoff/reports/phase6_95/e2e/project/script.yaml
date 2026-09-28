@@ -1,0 +1,80 @@
+schema_version: 1
+title: 가온항 호위 출항
+subtitle: 화물선 두 척의 출항과 영해 논란
+date: 2026.09.28
+scenes:
+- id: open
+  sentences:
+  - date: 2026.09.24
+    text: 9월 24일 오전 6시, 화물선 두 척이 가온항을 떠났습니다.
+    tts: 구월 이십사일 오전 여섯 시, 화물선 두 척이 가온항을 떠났습니다.
+    emphasis:
+    - 가온항
+    sources:
+    - clm_0001
+  - date: 2026.09.24
+    text: 한울호와 소라호는 해군 호위를 받으며 출항했습니다.
+    emphasis:
+    - 해군 호위
+    sources:
+    - clm_0001
+  - date: 2026.09.24
+    text: 가온항만청과 가온일보, Test Maritime Wire 등이 이를 전했습니다.
+    tts: 가온항만청과 가온일보, 테스트 매리타임 와이어 등이 이를 전했습니다.
+    emphasis: []
+    sources:
+    - clm_0001
+- id: route
+  sentences:
+  - date: 2026.09.24
+    text: 가온일보와 Test Maritime Wire는 두 선박이 별섬 남쪽 항로를 택했다고 보도했습니다.
+    tts: 가온일보와 테스트 매리타임 와이어는 두 선박이 별섬 남쪽 항로를 택했다고 보도했습니다.
+    emphasis:
+    - 별섬 남쪽
+    sources:
+    - clm_0002
+  - date: 2026.09.24
+    text: 두 선박은 그 항로로 해협을 빠져나갔다고 전해졌습니다.
+    emphasis: []
+    sources:
+    - clm_0002
+- id: third_ship
+  sentences:
+  - date: '2026.09'
+    text: X 계정 Strait Watcher는 세 번째 선박 MV Dasom이 회항 조치됐다고 주장했습니다.
+    tts: 엑스 계정 스트레이트 워처는 세 번째 선박 다솜호가 회항 조치됐다고 주장했습니다.
+    emphasis:
+    - 회항
+    sources:
+    - clm_0003
+  - date: '2026.09'
+    text: 이 계정은 별섬 인근에서 노라 초계정이 선박을 돌려보냈다고 올렸습니다.
+    emphasis:
+    - 노라 초계정
+    sources:
+    - clm_0003
+  - date: '2026.09'
+    text: 이 주장은 다른 출처로 확인되지 않았습니다.
+    emphasis: []
+    sources:
+    - clm_0003
+- id: dispute
+  sentences:
+  - date: 2026.09.24
+    text: 노라 외교부는 호위 선단이 자국 영해를 침범했다고 주장했습니다.
+    emphasis:
+    - 영해
+    sources:
+    - clm_0004
+  - date: 2026.09.24
+    text: 가온 외교부는 선박들이 국제 수역만 지났다고 반박했습니다.
+    emphasis:
+    - 국제 수역
+    sources:
+    - clm_0004
+- id: now
+  sentences:
+  - date: '2026.09'
+    text: 선단이 어느 수역을 지났는지, 다솜호에 무슨 일이 있었는지는 아직 확인되지 않았습니다.
+    emphasis: []
+    sources: []

@@ -1,0 +1,66 @@
+{
+  "schema_version": 2,
+  "project_id": "e2e_gaon",
+  "title": "가온항 호위 출항(가상 e2e)",
+  "category": "geopolitics",
+  "created_at": "2026-09-28T13:14:49.040519Z",
+  "updated_at": "2026-09-28T13:17:05.372474Z",
+  "current_state": "script_approval",
+  "target_duration_min": 3,
+  "topic_summary": "가상 시나리오 — 가온항 화물선 호위 출항과 노라의 영해 주장(e2e 픽스처, 실존 아님)",
+  "initial_links": [],
+  "paths": {
+    "sources": "intake/sources.json",
+    "claims": "intake/claims.json",
+    "screenshots": "intake/screenshots",
+    "script": "script.yaml",
+    "script_labels": "script_labels.json",
+    "plan": "plan.json",
+    "tts": "tts",
+    "assets": "assets",
+    "media": "media",
+    "direction": "direction.yaml",
+    "prev": "prev",
+    "prev_sheet": "prev/sheet.jpg",
+    "prev_provenance": "prev/provenance.json",
+    "out": "out",
+    "final": "out/final.mp4",
+    "provenance": "out/provenance.json"
+  },
+  "render_mode_status": {},
+  "gate_decisions": [],
+  "stage_records": [],
+  "final_outputs": {},
+  "state_history": [
+    {
+      "from_state": "created",
+      "to_state": "intake",
+      "transitioned_at": "2026-09-28T13:14:49.057370Z",
+      "reason": "plan-intake 시작"
+    },
+    {
+      "from_state": "intake",
+      "to_state": "source_verify",
+      "transitioned_at": "2026-09-28T13:15:58.723707Z",
+      "reason": "CLI submit-intake"
+    },
+    {
+      "from_state": "source_verify",
+      "to_state": "research",
+      "transitioned_at": "2026-09-28T13:16:42.240051Z",
+      "reason": "ResearchWorker 성공(facts.json)"
+    },
+    {
+      "from_state": "research",
+      "to_state": "script_draft",
+      "transitioned_at": "2026-09-28T13:17:00.404641Z",
+      "reason": "ScriptWorker 성공"
+    },
+    {
+      "from_state": "script_draft",
+      "to_state": "script_approval",
+      "transitioned_at": "2026-09-28T13:17:05.372439Z",
+      "reason": "e2e 원고 확정"
+    }
+  ]
+}
