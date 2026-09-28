@@ -30,6 +30,7 @@ ACTIVE: dict[str, str] = {
     "research": "schemas.models:ResearchDossier",
     # v3.2.0 소스 인테이크(D-0051 작업 5·6)
     "capture_read": "schemas.source_models:CaptureDraft",
+    "verify_sources": "schemas.source_models:VerifyDraft",
 }
 # 예시 YAML 파일 → 모델 (프롬프트 밖 예시. v3.1.0 D-0047 작업 2 — director 모델이 생겼다)
 EXAMPLE_FILES: dict[str, str] = {

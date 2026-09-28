@@ -32,6 +32,8 @@ origin: claude.ai chat handoff bundle (2026-09-26 ~ 09-27), imported verbatim
  "retrieved_at": "2026-09-26", "verification": {"status": "verified|corroborated|unverified|disputed",
  "checks": ["official_account", "matches_reuters_2026-09-20"], "notes": "…"}}
 ```
+> **[D-0052 정의]** status 는 코드가 인용 대조로 정한다(`orchestrator/source_verify.py`, D50). **verified** = 공식 1차 출처(`official_gov`·`official_org` 계정 또는 document)가 직접 밝힌 사실 + 그 소스 사용자 확인(`confirmed_by`). **corroborated** = supports 근거의 독립 origin ≥ `rules verification.independent_min`(재인용·삭제 게시물 제외). **disputed** = 독립 origin 의 contradicts 근거. 나머지 **unverified**.
+
 기사 레코드: `type: article`, `publisher`, `headline_original`, `headline_ko`, `published_at`, `url`, `key_facts[]`(요지, 원문 장문 복제 금지).
 
 ---

@@ -64,6 +64,7 @@ def _rules_placeholders(rules: VideoRules) -> dict[str, str]:
         "{{RULES.placement_slots}}": _bullets([
             f"{name} — {', '.join(s.kinds)} ({_slot_form(s)})" for name, s in rules.placement.slots.items()]),
         "{{RULES.corner_elements}}": ", ".join(rules.hud.allowed_corner_elements),
+        "{{RULES.verification.quote_max_chars}}": str(rules.verification.quote_max_chars),
     }
 
 

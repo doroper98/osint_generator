@@ -64,6 +64,12 @@ script_schema:             # 02 §2.1 요약 — 프롬프트 예시는 tests/an
     disputed: "<반박됨>"
   label_strength_order: [disputed, unverified, claim, inferred, confirmed]
 
+verification:              # v3.2.0 back_and_forth D-0052(D50) — 교차 확인 = 인용 대조. LLM 은 claim 후보·인용·stance, 판정은 코드(orchestrator/source_verify.py)
+  quote_max_chars: 160     # 인용 상한(저작권상 짧게). 인용은 소스 본문의 연속 부분 문자열(공백 정규화 후) — 불일치 = 근거 폐기 + drops[]
+  independent_min: 2       # supports 근거의 독립 origin(x_post=handle, article=publisher, document=issuer) 이 이 수 이상이면 corroborated
+  reprint_markers: ["재인용"]   # 기사 note 에 있으면 독립 origin 에서 뺀다
+  body_max_chars: 12000    # 검증 LLM 입력에 넣는 소스 본문 상한 — 넘으면 자르고 "(잘림)" 표시
+
 tts_rules:                 # 03 §4·§5
   forbidden_chars_regex: '[0-9%~/:→()\[\]]'
   sino_numbers_no_inner_space: true       # TTS-AP-058

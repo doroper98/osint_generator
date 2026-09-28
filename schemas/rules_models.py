@@ -721,6 +721,15 @@ class ProvenanceRules(_Strict):
     fail_if_drops: bool
 
 
+class VerificationRules(_Strict):
+    """v3.2.0 D-0052(D50) — 교차 확인(인용 대조) 수치. 판정 코드는 orchestrator/source_verify.py."""
+
+    quote_max_chars: int = Field(gt=0)
+    independent_min: int = Field(ge=2)
+    reprint_markers: list[str] = Field(min_length=1)
+    body_max_chars: int = Field(gt=0)
+
+
 class VideoRules(_Strict):
     """`rules/video_rules.yaml` 최상위 모델."""
 
@@ -729,6 +738,7 @@ class VideoRules(_Strict):
     banned_phrases: BannedPhrases
     balance_principles: list[str]
     script_schema: ScriptSchemaRules
+    verification: VerificationRules   # v3.2.0 — D-0052(D50)
     tts_rules: TTSRules
     tts_risk: TTSRisk             # v3.0.0 — D-0040 작업 8
     pronounce: PronounceRules     # v3.0.0 — D-0040 작업 8

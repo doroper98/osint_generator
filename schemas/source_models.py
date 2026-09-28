@@ -102,6 +102,7 @@ class ArticleSource(_SourceBase):
     headline_ko: Optional[str] = None
     published_at: date
     key_facts: list[str] = Field(min_length=1)
+    pending_source: Optional[str] = None             # 원문 위치를 아직 못 채운 사유(예: v3 이관 "원문 URL 미확보 — 매체·날짜만", D-0052 D51)
 
 
 class DocumentSource(_SourceBase):
@@ -152,6 +153,7 @@ class Claim(_Strict):
     contested: bool = False
     sides: Optional[list[ClaimSide]] = None
     event_date: Optional[date] = None                 # 사건일(날짜 배지) — 게시일과 다를 수 있다(18 §3-2)
+    checks: list[str] = Field(default_factory=list)   # 코드 판정 근거(quote_match:<src>·official:<src>·independent_origins:N …)
     notes: str = ""
 
     @model_validator(mode="after")
@@ -212,6 +214,32 @@ class OfficialAccountsFile(_Strict):
         return next((a for a in self.accounts if a.handle.lower() == h), None)
 
 
+class EvidenceQuote(_Strict):
+    """검증 LLM 이 댄 근거 하나 — 그 소스 본문의 짧은 연속 인용과 입장(D-0052 D50). 인용 일치는 코드가 확인한다."""
+
+    source_id: str = Field(pattern=SOURCE_ID)
+    quote: str = Field(min_length=1)
+    stance: Literal["supports", "contradicts"]
+
+
+class ClaimCandidate(_Strict):
+    """검증 LLM 의 주장 후보. id·status 는 코드가 매긴다(LLM 이 정하지 않는다)."""
+
+    text: str = Field(min_length=1)
+    evidence: list[EvidenceQuote] = Field(min_length=1)
+    event_date: Optional[date] = None
+    contested: bool = False
+    sides: Optional[list[ClaimSide]] = None
+
+
+class VerifyDraft(_Strict):
+    """검증 워커(verify_sources) 출력 — `intake/verify_draft.json`. 코드 판정 → `claims.json`."""
+
+    schema_version: Literal[1] = 1
+    claims: list[ClaimCandidate] = Field(min_length=1)
+    summary: str = ""                                # 대조 결과 요약(사람이 읽는 메모 — 판정에 쓰지 않는다)
+
+
 def check_claim_sources(claims: ClaimsFile, sources: SourcesFile) -> list[str]:
     """claims 가 가리키는 소스 id 가 sources.json 에 있는가(sides 포함). 없으면 오류 문구."""
     have = set(sources.by_id())
@@ -224,5 +252,5 @@ def check_claim_sources(claims: ClaimsFile, sources: SourcesFile) -> list[str]:
     return out
 
 
-__all__ = ["AccountClass", "CaptureDraft", "OfficialAccount", "OfficialAccountsFile", "ArticleSource", "Claim", "ClaimSide", "ClaimsFile", "DocumentSource", "SourceRecord",
+__all__ = ["AccountClass", "CaptureDraft", "ClaimCandidate", "EvidenceQuote", "VerifyDraft", "OfficialAccount", "OfficialAccountsFile", "ArticleSource", "Claim", "ClaimSide", "ClaimsFile", "DocumentSource", "SourceRecord",
            "SourceVerification", "SourcesFile", "VerificationStatus", "XPostSource", "check_claim_sources"]
