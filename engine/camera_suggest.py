@@ -19,7 +19,7 @@ from typing import Literal, Optional
 
 from pydantic import BaseModel, ConfigDict, Field
 
-from engine.framing import FR, FramePoint, box_point, default_reserve, frame_points, plain_point
+from engine.framing import FR, FramePoint, box_point, context_floor, default_reserve, frame_points, plain_point
 from engine.projection import lat_of, ym
 from engine.shots import SG, choose_transition, shot_issues
 
@@ -47,6 +47,9 @@ class ShotSuggest(_Strict):
     fits: bool = False                         # 제안 카메라에서 장소 전부 안전 영역 안·예약 영역 밖
     current_fits: Optional[bool] = None        # 현재 카메라에서도 그런가
     points: list[str] = Field(default_factory=list)
+    scale_class: Optional[str] = None          # 현재 카메라 w 의 shot_grammar.w_guide 분류(D-0058)
+    context_w_min: Optional[float] = None      # 그 분류의 하한(camera.framing.context_w_min)
+    w_before_context: Optional[float] = None   # 하한 적용 전 frame_points 최소 w(P5 — 하한이 바꾼 폭을 보인다)
     note: str = ""
 
 
@@ -146,6 +149,7 @@ def suggest(P) -> CameraSuggest:  # noqa: ANN001, N803 — engine.project.Projec
     bounds = (tiers["lon0"], tiers["lat0"], tiers["lon1"], tiers["lat1"])
     ends = [keys[i + 1].t if i + 1 < len(keys) else P.plan.total for i in range(len(keys))]
     info: list[Optional[tuple[list[FramePoint], bool]]] = []
+    floors: list[tuple[Optional[str], Optional[float]]] = []
     base: list[dict] = []
     notes: list[str] = []
     for k, t1 in zip(keys, ends):
@@ -154,6 +158,7 @@ def suggest(P) -> CameraSuggest:  # noqa: ANN001, N803 — engine.project.Projec
         base.append(dict(t=round(k.t, 3), t_end=round(t1, 3), scene=scene_at(P.plan.sentences, max(k.t, 0.0)), current=cur,
                          current_mode=k.mode))
         pts = _points(P.events, k.t, t1)
+        floors.append(context_floor(k.w))
         ep = SG.ending_pullback
         if k is keys[-1] and k.mode == "move" and ep.w_from <= k.w <= ep.w_to:
             info.append(None)
@@ -168,7 +173,8 @@ def suggest(P) -> CameraSuggest:  # noqa: ANN001, N803 — engine.project.Projec
             card = any(e["type"] in ("card", "article", "post") and e["t0"] <= t1 and e["t1"] >= t0 for e in P.events)
             info.append((pts, card))
             notes.append("")
-    w_min: list[Optional[float]] = [None] * len(keys)
+    w_min: list[Optional[float]] = [f[1] for f in floors]   # 맥락 폭 하한 위에서 검증 라운드(D-0058 §3)
+    before = [(_frame(inf[0], inf[1], bounds, None)[0].w if inf else None) for inf in info]
     left: list[str] = []
     for _ in range(FR.verify_rounds):
         res = [(_frame(inf[0], inf[1], bounds, w_min[i]) if inf else None) for i, inf in enumerate(info)]
@@ -204,9 +210,11 @@ def suggest(P) -> CameraSuggest:  # noqa: ANN001, N803 — engine.project.Projec
         pts = info[i][0]
         cur_ok, _, _ = place(pts, b["current"].lon, b["current"].lat, b["current"].w, bounds=bounds, lenient=True)
         mine = [x for x in left if keys[i].t <= float(x.split(" t=")[1].split(" ")[0]) < ends[i]]
-        note = "; ".join([n for n in (why, *mine) if n])
+        unknown = "scale unknown — 맥락 폭 하한 없음" if floors[i][0] is None else ""
+        note = "; ".join([n for n in (why, *mine, unknown) if n])
         shots.append(ShotSuggest(**b, suggested=CamValue(lon=r.lon, lat=r.lat, w=r.w), suggested_transition=trans[i],
-                                 fits=r.ok and not mine, current_fits=cur_ok, points=[p.ref for p in pts], note=note))
+                                 fits=r.ok and not mine, current_fits=cur_ok, points=[p.ref for p in pts],
+                                 scale_class=floors[i][0], context_w_min=floors[i][1], w_before_context=before[i], note=note))
     dp = P.root / "direction.yaml"
     sha = hashlib.sha1(dp.read_bytes()).hexdigest() if dp.exists() else ""
     return CameraSuggest(direction_sha1=sha, shots=shots, shot_issues_current=shot_issues(P.keys, P.plan.sentences, P.events, P.plan.total))

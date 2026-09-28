@@ -177,8 +177,28 @@ def frame_points(points: list[FramePoint], reserve: Optional[list[Box]] = None, 
     return FrameResult(round(cx, 4), round(lat_of(cv), 4), FR.w_max, False, _to480(boxes, k), last)
 
 
+def scale_class(w: float) -> Optional[str]:
+    """카메라 w 가 속한 shot_grammar.w_guide 분류(05 §2.2 용도별 스케일). 구간 사이 값은 바로 아래 구간,
+    가장 작은 하한보다 작으면 가장 작은 분류. w 가 양의 유한수가 아니면 None(분류 불명, D-0058 §2)."""
+    if not (isinstance(w, (int, float)) and math.isfinite(w) and w > 0):
+        return None
+    lows = sorted(((v if isinstance(v, (int, float)) else v[0]), k) for k, v in _R.shot_grammar.w_guide.items())
+    pick = lows[0][1]
+    for lo, k in lows:
+        if lo <= w:
+            pick = k
+    return pick
+
+
+def context_floor(w: float) -> tuple[Optional[str], Optional[float]]:
+    """(분류, 제안 w 하한 camera.framing.context_w_min[분류]) — 제안 엔진은 현재 스케일 분류 **틀 안**에서만 최적화한다."""
+    k = scale_class(w)
+    return k, (FR.context_w_min[k] if k is not None else None)
+
+
 def _to480(boxes: dict[str, Box], k: float) -> dict[str, Box]:
     return {r: tuple(round(v / k, 1) for v in b) for r, b in boxes.items()}  # type: ignore[misc]
 
 
-__all__ = ["FramePoint", "FrameResult", "badge_point", "box_point", "default_reserve", "frame_points", "marker_point", "place", "plain_point"]
+__all__ = ["FramePoint", "FrameResult", "badge_point", "box_point", "context_floor", "default_reserve", "frame_points", "marker_point",
+           "place", "plain_point", "scale_class"]

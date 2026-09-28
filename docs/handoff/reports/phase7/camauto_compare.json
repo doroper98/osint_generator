@@ -7,7 +7,7 @@
   {
    "label": "open_1+2",
    "t": 7.82,
-   "mad": 0.07419,
+   "mad": 0.05612,
    "inside_v3": true,
    "inside_camauto": true,
    "outside_camauto": [],
@@ -16,7 +16,7 @@
   {
    "label": "TITLE+2",
    "t": 22.27,
-   "mad": 0.01527,
+   "mad": 0.01187,
    "inside_v3": true,
    "inside_camauto": true,
    "outside_camauto": [],
@@ -25,7 +25,7 @@
   {
    "label": "route_0+2.5",
    "t": 28.77,
-   "mad": 0.09014,
+   "mad": 0.03378,
    "inside_v3": true,
    "inside_camauto": true,
    "outside_camauto": [],
@@ -34,7 +34,7 @@
   {
    "label": "route_2+2",
    "t": 38.45,
-   "mad": 0.06082,
+   "mad": 0.05899,
    "inside_v3": true,
    "inside_camauto": true,
    "outside_camauto": [],
@@ -43,7 +43,7 @@
   {
    "label": "route_3+3.5",
    "t": 45.03,
-   "mad": 0.06687,
+   "mad": 0.06551,
    "inside_v3": true,
    "inside_camauto": true,
    "outside_camauto": [],
@@ -52,7 +52,7 @@
   {
    "label": "war_1+2",
    "t": 56.21,
-   "mad": 0.04325,
+   "mad": 0.04075,
    "inside_v3": true,
    "inside_camauto": true,
    "outside_camauto": [],
@@ -61,7 +61,7 @@
   {
    "label": "war_2+2.5",
    "t": 61.25,
-   "mad": 0.03283,
+   "mad": 0.03127,
    "inside_v3": true,
    "inside_camauto": true,
    "outside_camauto": [],
@@ -70,7 +70,7 @@
   {
    "label": "war_3+3",
    "t": 65.13,
-   "mad": 0.04471,
+   "mad": 0.04266,
    "inside_v3": true,
    "inside_camauto": true,
    "outside_camauto": [],
@@ -79,7 +79,7 @@
   {
    "label": "ask_1+4",
    "t": 80.7,
-   "mad": 0.0059,
+   "mad": 0.00557,
    "inside_v3": true,
    "inside_camauto": true,
    "outside_camauto": [],
@@ -88,7 +88,7 @@
   {
    "label": "ask_2+2",
    "t": 87.06,
-   "mad": 0.00575,
+   "mad": 0.00544,
    "inside_v3": true,
    "inside_camauto": true,
    "outside_camauto": [],
@@ -97,7 +97,7 @@
   {
    "label": "ask_5+1.5",
    "t": 105.28,
-   "mad": 0.00554,
+   "mad": 0.0052,
    "inside_v3": true,
    "inside_camauto": true,
    "outside_camauto": [],
@@ -106,7 +106,7 @@
   {
    "label": "timeline_2+2",
    "t": 124.25,
-   "mad": 0.00609,
+   "mad": 0.00575,
    "inside_v3": true,
    "inside_camauto": true,
    "outside_camauto": [],
@@ -115,7 +115,7 @@
   {
    "label": "timeline_4+2.8",
    "t": 136.97,
-   "mad": 0.00374,
+   "mad": 0.0035,
    "inside_v3": true,
    "inside_camauto": true,
    "outside_camauto": [],
@@ -133,7 +133,7 @@
   {
    "label": "review_0+2.8",
    "t": 164.59,
-   "mad": 0.03809,
+   "mad": 0.03477,
    "inside_v3": true,
    "inside_camauto": true,
    "outside_camauto": [],
@@ -142,7 +142,7 @@
   {
    "label": "review_1+2.5",
    "t": 170.52,
-   "mad": 0.04667,
+   "mad": 0.04292,
    "inside_v3": true,
    "inside_camauto": true,
    "outside_camauto": [],
@@ -151,7 +151,7 @@
   {
    "label": "past_1+2.5",
    "t": 193.22,
-   "mad": 0.00455,
+   "mad": 0.0039,
    "inside_v3": true,
    "inside_camauto": true,
    "outside_camauto": [],
@@ -160,7 +160,7 @@
   {
    "label": "past_3+5",
    "t": 207.41,
-   "mad": 0.00422,
+   "mad": 0.00366,
    "inside_v3": true,
    "inside_camauto": true,
    "outside_camauto": [],
@@ -169,7 +169,7 @@
   {
    "label": "debate_0+3",
    "t": 214.46,
-   "mad": 0.03198,
+   "mad": 0.03006,
    "inside_v3": true,
    "inside_camauto": true,
    "outside_camauto": [],
@@ -178,7 +178,7 @@
   {
    "label": "debate_1+2.5",
    "t": 220.96,
-   "mad": 0.03603,
+   "mad": 0.03414,
    "inside_v3": true,
    "inside_camauto": true,
    "outside_camauto": [],
@@ -187,7 +187,7 @@
   {
    "label": "debate_4+2",
    "t": 238.0,
-   "mad": 0.00328,
+   "mad": 0.00339,
    "inside_v3": true,
    "inside_camauto": true,
    "outside_camauto": [],
@@ -196,7 +196,7 @@
   {
    "label": "decision_0+3",
    "t": 245.56,
-   "mad": 0.05558,
+   "mad": 0.05423,
    "inside_v3": true,
    "inside_camauto": true,
    "outside_camauto": [],
@@ -205,7 +205,7 @@
   {
    "label": "now_0+3.5",
    "t": 258.61,
-   "mad": 0.04436,
+   "mad": 0.04515,
    "inside_v3": true,
    "inside_camauto": true,
    "outside_camauto": [],
@@ -214,7 +214,7 @@
   {
    "label": "now_3+4",
    "t": 276.44,
-   "mad": 0.05068,
+   "mad": 0.05003,
    "inside_v3": true,
    "inside_camauto": true,
    "outside_camauto": [],
@@ -232,7 +232,7 @@
  ],
  "inside_camauto_pct": 100.0,
  "inside_v3_pct": 100.0,
- "mad_mean": 0.03082,
+ "mad_mean": 0.02675,
  "checks": {
   "v3": {
    "hard": 0,
@@ -292,7 +292,7 @@
     "direction": [
      "down"
     ],
-    "max_px": 140.2,
+    "max_px": 146.6,
     "zones": [
      "article:Reuters",
      "card:거론된 선택지"
@@ -307,7 +307,7 @@
      "hide"
     ],
     "direction": [],
-    "max_px": 179.2,
+    "max_px": 169.6,
     "zones": [
      "card:이재명 대통령 · 발언 요지"
     ],
@@ -328,10 +328,10 @@
    },
    "after": {
     "mode": "cut",
-    "lon": 126.1186,
-    "lat": 37.5048,
+    "lon": 126.5703,
+    "lat": 37.0394,
     "place": null,
-    "w": 3.3395
+    "w": 6.0
    },
    "fits": true,
    "note": ""
@@ -348,10 +348,10 @@
    },
    "after": {
     "mode": "dip",
-    "lon": 56.4891,
-    "lat": 26.44,
+    "lon": 57.4624,
+    "lat": 25.6668,
     "place": null,
-    "w": 2.5
+    "w": 20.0
    },
    "fits": true,
    "note": ""
@@ -367,14 +367,14 @@
     "w": 90.0
    },
    "after": {
-    "mode": "dip",
+    "mode": "move",
     "lon": 92.775,
-    "lat": 30.6785,
+    "lat": 27.7353,
     "place": null,
-    "w": 80.6913
+    "w": 88.0
    },
-   "fits": true,
-   "note": ""
+   "fits": false,
+   "note": "카드 자리 회피 불가(w 96.0: badge:울산 예약 영역과 겹침) — 날짜만 피한 틀, 카드 겹침은 렌더 RESERVED 가 비킴"
   },
   {
    "t": 48.003,
@@ -388,10 +388,10 @@
    },
    "after": {
     "mode": "move",
-    "lon": 54.9191,
-    "lat": 26.7398,
+    "lon": 54.933,
+    "lat": 26.7421,
     "place": null,
-    "w": 15.947
+    "w": 15.6264
    },
    "fits": true,
    "note": ""
@@ -408,10 +408,10 @@
    },
    "after": {
     "mode": "dip",
-    "lon": 89.5219,
-    "lat": 20.3548,
+    "lon": 89.4358,
+    "lat": 20.5671,
     "place": null,
-    "w": 96.0
+    "w": 90.8403
    },
    "fits": false,
    "note": "카드 자리 회피 불가(w 96.0: badge:부산에서 출항 예약 영역과 겹침) — 날짜만 피한 틀, 카드 겹침은 렌더 RESERVED 가 비킴"
@@ -428,10 +428,10 @@
    },
    "after": {
     "mode": "dip",
-    "lon": 127.1209,
-    "lat": 37.475,
+    "lon": 127.1496,
+    "lat": 37.4555,
     "place": null,
-    "w": 2.5
+    "w": 3.0
    },
    "fits": true,
    "note": ""
@@ -448,10 +448,10 @@
    },
    "after": {
     "mode": "move",
-    "lon": 126.4344,
-    "lat": 37.082,
+    "lon": 126.5281,
+    "lat": 37.0394,
     "place": null,
-    "w": 5.2547
+    "w": 6.0
    },
    "fits": true,
    "note": ""
@@ -468,10 +468,10 @@
    },
    "after": {
     "mode": "dip",
-    "lon": 92.661,
-    "lat": 22.3721,
+    "lon": 92.6439,
+    "lat": 21.8408,
     "place": null,
-    "w": 80.6913
+    "w": 88.0
    },
    "fits": true,
    "note": ""

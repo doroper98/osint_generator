@@ -36,6 +36,7 @@ released 항목은 **append-only**입니다.
 - `engine/framing.frame_points(points, reserve)` — 장면 장소를 전부 담는 최소 w·중심(규칙 `camera.framing`, 480p px × k 해상도 독립) (05 §7-1).
 - 전환 자동 선택 `engine.shots.choose_transition`(규칙 `shot_grammar.auto_transition`)·숏 규칙 검사기 하나 `engine.shots.shot_issues`(checks shots 가 호출) (05 §7-2·§7-3).
 - 카메라 제안 `python -m engine.camera_suggest <proj>` → `prev/camera_suggest.json`. **자동 적용 없음** — 연출가 입력 `{camera_suggest}`(제안값만, P9), 게이트 ② "카메라 제안 vs 현재" 표, provenance `camera`(suggest_ran·suggested·used·given_to_director). 제안은 실제 카메라 경로(이동·드리프트)로 offscreen 검사기(`engine.checks.offscreen_hits`)를 돌려 검증하고 화면 밖이면 w 를 키운다. 엔진 단계 `camera_suggest`(DIRECTION 상태) (D-0056 작업 5).
+- 맥락 폭 하한 `camera.framing.context_w_min`(키 = `shot_grammar.w_guide`, 규칙 로드 때 검사) — 제안은 현재 카메라 w 의 용도 분류 하한 위에서만 최소 폭을 찾는다(틀 안 최적화). 숏마다 scale_class·context_w_min·w_before_context 기록 (D-0058).
 
 ---
 

@@ -44,6 +44,18 @@ class CameraSuggestHormuzTest(unittest.TestCase):
         bad = [s.t for s in self.cs.shots if s.current_fits is False]
         self.assertEqual(bad, [])
 
+    def test_context_floor_applied_and_recorded(self) -> None:
+        """D-0058: 제안 w ≥ 현재 스케일 분류 하한, 분류·하한·적용 전 w 를 숏마다 기록. route_0(호르무즈 한 점, v3 w 24) → region 하한 20 이상."""
+        for s in self.cs.shots:
+            if s.suggested is None:
+                continue
+            self.assertIsNotNone(s.scale_class)
+            self.assertGreaterEqual(s.suggested.w, s.context_w_min - 1e-6, s.t)
+            self.assertIsNotNone(s.w_before_context)
+        r0 = next(s for s in self.cs.shots if s.scene == "open" and s.t > 0)
+        self.assertEqual(r0.scale_class, "region")
+        self.assertGreaterEqual(r0.suggested.w, 20.0)
+
     def test_ending_pullback_not_suggested(self) -> None:
         self.assertIsNone(self.cs.shots[-1].suggested)
         self.assertIn("엔딩 풀백", self.cs.shots[-1].note)
@@ -152,6 +164,36 @@ class SuggestWiringTest(unittest.TestCase):
         text, shown = preview_gate_view(self.proj)
         self.assertIn("카메라 제안 vs 현재", text)
         self.assertIn("camera_suggest", shown)
+
+
+class ContextFloorTest(unittest.TestCase):
+    def test_scale_class_intervals(self) -> None:
+        from engine.framing import context_floor, scale_class  # noqa: PLC0415
+
+        self.assertEqual(scale_class(24.0), "region")
+        self.assertEqual(scale_class(14.0), "strait")
+        self.assertEqual(scale_class(9.0), "country")          # 구간 사이 = 바로 아래 구간
+        self.assertEqual(scale_class(40.0), "region")
+        self.assertEqual(scale_class(1.0), "city")             # 가장 작은 하한보다 작음
+        self.assertEqual(scale_class(200.0), "continental_route")
+        self.assertIsNone(scale_class(0.0))
+        self.assertEqual(context_floor(float("nan")), (None, None))
+
+    def test_rule_keys_must_match_w_guide(self) -> None:
+        import copy  # noqa: PLC0415
+
+        import yaml  # noqa: PLC0415
+        from pydantic import ValidationError  # noqa: PLC0415
+
+        from schemas.rules_models import VideoRules  # noqa: PLC0415
+
+        raw = yaml.safe_load((ROOT / "rules" / "video_rules.yaml").read_text(encoding="utf-8"))
+        VideoRules.model_validate(raw)
+        for mutate in (lambda d: d.pop("city"), lambda d: d.update(harbor=4.0)):
+            bad = copy.deepcopy(raw)
+            mutate(bad["camera"]["framing"]["context_w_min"])
+            with self.assertRaises(ValidationError):
+                VideoRules.model_validate(bad)
 
 
 class LenientLineTest(unittest.TestCase):

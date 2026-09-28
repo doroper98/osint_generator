@@ -160,6 +160,14 @@ camera:                    # v3.3.0 D-0056 — 카메라 자동화 보조(05 §7
     cover_samples: 5       # 숏이 전면 카드·패널에 덮였는지 볼 시각 수
     verify_rounds: 8       # 제안 → 실제 카메라 경로(이동·드리프트) 검증 → 화면 밖 숏 w 키우기 반복 상한
     path_w_step: 1.12      # 검증에서 화면 밖이 나온 숏의 w 배율
+    context_w_min:         # D-0058 — 숏 분류(현재 카메라 w 가 속한 shot_grammar.w_guide 구간, 사이 값은 바로 아래 구간) → 제안 w 하한. 키 = w_guide
+      continental_route: 88   # v3 route 30.8 w 90 · review 161.2 w 92 · now 254.6 w 90 (w_guide 88~96 하한)
+      ocean: 60               # v3 실측 숏 없음 — w_guide 60~72 하한
+      region: 20              # v3 open 23.2(route_0 호르무즈 한 점) w 24 (w_guide 20~30 하한)
+      strait: 12              # v3 war 48.0 w 14 (w_guide 12~16 하한)
+      country: 6              # v3 open 0.0 w 6.4 · decision 241.8 w 6.4 (w_guide 6~8 하한)
+      metro: 3                # v3 debate 210.9(대사관 한 점) w 3.4 (w_guide 3~5 하한)
+      city: 2.5               # w_guide city 2.5 = camera.framing.w_min
     marker_px: {up: 14, down: 26, side: 60}      # 마커 점 + 라벨(한 줄) 여유
     badge_px: {up_factor: 2.2, down_px: 44, side_factor: 1.4}   # 뱃지: 위 = R×2.2(머리), 아래 = 이름표 44px(05 §2.1, layout badge 값과 같은 뜻)
     point_px: {up: 10, down: 10, side: 10}       # 그 밖(컷아웃 기준점·경로 꼭짓점)

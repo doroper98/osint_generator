@@ -791,6 +791,7 @@ class FramingRules(_Strict):
     cover_samples: int = Field(ge=2)
     verify_rounds: int = Field(ge=1)
     path_w_step: float = Field(gt=1)
+    context_w_min: dict[str, float]   # v3.3.0 D-0058 — shot_grammar.w_guide 분류 → w 하한(키 집합 = w_guide, VideoRules 가 검사)
     marker_px: PxBox
     badge_px: BadgePx
     point_px: PxBox
@@ -838,3 +839,11 @@ class VideoRules(_Strict):
     camera: CameraRules            # v3.3.0 — D-0056 작업 2
     qa_checks: QAChecks
     provenance: ProvenanceRules
+
+    @model_validator(mode="after")
+    def _context_keys(self) -> "VideoRules":
+        """camera.framing.context_w_min 키 = shot_grammar.w_guide 키(누락·초과 = 규칙 로드 오류, D-0058 §1)."""
+        a, b = set(self.camera.framing.context_w_min), set(self.shot_grammar.w_guide)
+        if a != b:
+            raise ValueError(f"camera.framing.context_w_min 키가 shot_grammar.w_guide 와 다르다 — 누락 {sorted(b - a)} · 초과 {sorted(a - b)}")
+        return self
