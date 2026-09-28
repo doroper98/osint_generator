@@ -54,7 +54,20 @@ class VerifySourcesWorker(BaseLLMWorker):
             blocks.append(head + "\n" + wrap_untrusted(body, source_label=s.id))
         return (load_prompt("verify_sources_user", self.rules)
                 .replace("{quote_max}", str(self.rules.verification.quote_max_chars))
+                .replace("{bundle_hints}", self._bundle_hints(args))
                 .replace("{sources}", "\n\n".join(blocks)))
+
+    def _bundle_hints(self, args: argparse.Namespace) -> str:
+        """`intake/bundle_claims.json` 이 있을 때만 후보 블록(D-0064 쟁점 3). 없으면 빈 자리 — 기존 프로젝트 무영향."""
+        from bundle.to_sources import BUNDLE_CLAIMS_FILE, BundleClaimsFile, format_hints  # noqa: PLC0415
+
+        p = self.project_dir(args) / "intake" / BUNDLE_CLAIMS_FILE
+        if not p.exists():
+            return ""
+        f = BundleClaimsFile.model_validate_json(p.read_text(encoding="utf-8"))
+        if not f.hints:
+            return ""
+        return load_prompt("verify_sources_hints", self.rules).replace("{hints}", format_hints(f)) + "\n"
 
     def check_parsed(self, args: argparse.Namespace, task: TaskQueueItem, parsed: BaseModel) -> None:
         """코드 판정을 미리 돌려 버려질 근거가 있으면 계약 위반 — 재요청에 그 목록을 붙인다."""

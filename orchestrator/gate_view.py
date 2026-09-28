@@ -69,6 +69,10 @@ def script_gate_view(pdir: Path, runner: Callable = subprocess.run) -> tuple[str
                 ref = s.media.asset_id or f"검색어 {s.media.query!r}"
                 media_rows.append(f"  {sid:<12} {s.media.kind} · {ref}" + (f" · '{s.media.at}'" if s.media.at else ""))
     lines += ["", "출처 표", *src_rows]
+    from orchestrator.bundle_service import import_view_lines  # noqa: PLC0415 — v3.5.0 번들 출처(D-0064 쟁점 2)
+    bl = import_view_lines(pdir)
+    if bl:
+        lines += ["", *bl]
     lint = engine_service.run_stage(pdir, "direction_validate", runner=runner)
     lines += ["", f"린트 — 오류 {len(lint.errors)} · 경고 {len(lint.warnings)}"]
     lines += [f"  오류 {e}" for e in lint.errors] + [f"  경고 {w}" for w in lint.warnings[:20]]
@@ -197,7 +201,9 @@ def source_view(pdir: Path) -> str:
         conf = f"확인 {s.confirmed_by}" if s.confirmed else "미확인 — c 로 확인"
         ver = s.verification.status if s.verification else "-"
         rows.append(f"{s.id:14} {conf:16} 검증 {ver:12} {who}\n{'':14} {body}")
-    out = [f"소스 {len(f.sources)}건 · 미확인 {sum(not s.confirmed for s in f.sources)}건", *rows]
+    from orchestrator.bundle_service import import_view_lines  # noqa: PLC0415
+
+    out = [f"소스 {len(f.sources)}건 · 미확인 {sum(not s.confirmed for s in f.sources)}건", *rows, *import_view_lines(pdir)]
     claims = load_claims(pdir)
     if claims is not None:
         st = {k: sum(c.status == k for c in claims.claims) for k in ("verified", "corroborated", "unverified", "disputed")}
