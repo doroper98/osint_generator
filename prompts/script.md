@@ -1,6 +1,6 @@
 <!--
 tier: 2
-last_synced_with: v2.0.0
+last_synced_with: v2.3.0
 ssot_for: [prompt-script]
 depends_on: [rules/video_rules.yaml, docs/handoff/15_ANTI_INERTIA_PRINCIPLES.md]
 last_review: 2026-09-27
@@ -71,6 +71,39 @@ FullScript JSON 스키마
   "segments": [ ScriptSegment, ... ],     // 챕터당 2~6개
   "total_est_duration_sec": <number>      // 모든 segment est_duration_sec 합과 근사
 }
+
+FullScript 완전 예시 (형식 참고용 — 실제 출력은 펜스 없이 JSON 객체 하나)
+-----------------------------------------------------------------------
+```json
+{
+  "schema_version": 1,
+  "project_id": "hormuz_korea",
+  "title": "호르무즈와 한국",
+  "topic": "한국은 왜 호르무즈 해협에 파병하지 않았나",
+  "target_duration_min": 5,
+  "chapters": [
+    {"chapter_id": "ch_open", "title": "발표", "summary": "대통령이 파병하지 않겠다고 발표했다."}
+  ],
+  "segments": [
+    {"segment_id": "seg_01", "chapter_id": "ch_open",
+     "narration": "구월 십팔일, 이재명 대통령이 기자회견을 열었습니다.",
+     "on_screen_caption": "9월 18일 기자회견", "claim_refs": ["c_press_0918"], "label": null, "est_duration_sec": 4.0},
+    {"segment_id": "seg_02", "chapter_id": "ch_open",
+     "narration": "전쟁에 개입하는 파병은 하지 않겠다는 발표였습니다.",
+     "on_screen_caption": "파병은 하지 않겠다", "claim_refs": ["c_press_0918"], "label": null, "est_duration_sec": 3.8},
+    {"segment_id": "seg_03", "chapter_id": "ch_open",
+     "narration": "한국 선박과 국민을 보호하는 최소한의 활동만 이어가겠다고 했습니다.",
+     "on_screen_caption": "최소한의 활동", "claim_refs": ["c_press_0918"], "label": null, "est_duration_sec": 4.6},
+    {"segment_id": "seg_04", "chapter_id": "ch_open",
+     "narration": "미국이 동맹국들에 해협 방어를 요구한 지 여섯 달 만에 나온 결론입니다.",
+     "on_screen_caption": "요구 후 여섯 달", "claim_refs": ["c_us_demand"], "label": null, "est_duration_sec": 4.8},
+    {"segment_id": "seg_05", "chapter_id": "ch_open",
+     "narration": "앞으로도 해협 상황과 정부의 결정을 확인해, 새로 밝혀지는 내용을 전해 드리겠습니다.",
+     "on_screen_caption": "", "claim_refs": [], "label": null, "est_duration_sec": 5.0}
+  ],
+  "total_est_duration_sec": 22.2
+}
+```
 
 ScriptChapter 스키마
 --------------------
