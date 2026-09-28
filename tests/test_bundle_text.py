@@ -1,15 +1,13 @@
 """bundle/ 이관 회귀 테스트 (v2.0.0).
 
 `bundle_to_video.py`(archive/hyperframes-briefing) 에서 본문 무변경으로 옮긴 순수 함수의 출력을
-고정한다 (docs/handoff/19 §5.3). 알려진 버그 2건은 **올바른 기대값**으로 쓰고 strict xfail 로 둔다
-(사용자 지시 2026-09-27) — Phase 4 에서 고치면 XPASS 가 실패로 잡혀 마커 제거가 강제된다.
+고정한다 (docs/handoff/19 §5.3). 알려진 버그 2건(개월 수사·'-ㄴ다' 경어체)은 올바른 기대값으로 쓰고
+strict xfail 로 두었다가 v2.3.0 에서 고쳐 마커를 뗐다(TTS-AP-064, D18).
 """
 
 from __future__ import annotations
 
 import unittest
-
-import pytest
 
 from bundle.charts import build_versus, norm_network, split_unit
 from bundle.text import (
@@ -24,7 +22,6 @@ from bundle.text import (
 
 
 class TtsOfFrozenTest(unittest.TestCase):
-    @pytest.mark.xfail(strict=True, reason="Phase 4 — 개월은 한자어 수사(TTS-AP-064 예정, docs/handoff/03 §5.4). 현재 '열여덟 개월'")
     def test_months_count_sino(self) -> None:
         self.assertEqual(tts_of("18개월"), "십팔 개월")
 
@@ -72,7 +69,6 @@ class ChartsTest(unittest.TestCase):
         assert out is not None
         self.assertEqual(out["nodes"][0]["img"], "assets/flags/kr.svg")
 
-    @pytest.mark.xfail(strict=True, reason="Phase 4 — to_polite 가 '-ㄴ다' 종결을 일반 폴백으로 처리. 현재 '낮춘습니다.'")
     def test_versus_polite(self) -> None:
         v = build_versus({"resolution": "다수설", "side_a": "한국은행은 금리를 낮춘다", "side_b": "b"}, {})
         self.assertEqual(v["cards"][0]["line"], "금리를 낮춥니다.")

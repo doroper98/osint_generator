@@ -486,3 +486,38 @@ last_review: 2026-06-06
   하단 출처 라인 + 유튜브 설명란에 CC BY 표기(C9/G4).
 - **자동 조치**: `NEXT_SESSION_PROMPT.md` 재합성 절차에 BGM 플래그 상시 명시.
 - **발견 버전**: v0.43.3 · **조치**: v0.43.4 · **상태**: active
+
+### TTS-AP-064 — "개월" 앞 숫자를 고유어로 읽음
+
+- **증상**: `tts_of("18개월")` → "열여덟 개월". 올바른 형태는 "십팔 개월".
+- **원인**: 고유어 단위 목록(`_NATIVE_UNITS`)의 "개"가 "개월"의 앞 글자와 맞아, 개월이 고유어 수사로 변환됨.
+  "개월"은 한자어 수사 단위다(rules `tts_rules.sino_count_units`).
+- **좋은 예**: "십팔 개월", "삼 개월 동안". "다섯 개 항"(개 단독)은 그대로 고유어.
+- **자동 조치**: `bundle/text.py tts_of` — `(\d+)\s*개월` 을 고유어 규칙보다 **먼저** 한자어로 변환(`_sino_months`).
+  같은 커밋에서 `to_polite` 의 '-ㄴ다' 현재형 종결("낮춘다" → "낮춘습니다" 오류)도 `_n_da_polite`(받침 ㄴ→ㅂ + 니다)로 고침.
+- **회귀 테스트**: `tests/test_bundle_text.py::test_months_count_sino`, `::test_versus_polite` (strict xfail 해제, D18).
+- **출처**: 핸드오프 03 §5.4(원 번호 059 → 19 §3.3 에서 064 로 이동).
+- **발견 버전**: v2.0.0(핸드오프) · **조치**: v2.3.0 · **상태**: active
+
+### TTS-AP-065 — 6월·10월을 "육월·십월"로 읽음
+
+- **증상**: 숫자 월을 한자어 그대로 읽으면 "육월", "십월". 표준 발음은 "유월", "시월".
+- **좋은 예**: "유월 십칠일", "시월 삼일".
+- **자동 조치**: 이미 반영돼 있음 — `bundle/text.py _MONTH_KR`(6→유월, 10→시월), rules `tts_rules.month_readings`.
+  원고(`script.yaml`)의 발음 텍스트는 사람이 쓰므로 `script/lint` 의 tts-symbol 검사(숫자 금지)가 "6월" 잔존을 막는다.
+- **회귀 테스트**: `tests/test_bundle_text.py::test_month_irregular`.
+- **출처**: 핸드오프 03 §5.4(원 번호 060 → 065).
+- **발견 버전**: v2.0.0(핸드오프) · **조치**: 기존 · **상태**: active
+
+### TTS-AP-066 — 자막 표기와 발음 텍스트를 한 문자열로 합치지 않는다
+
+- **증상**: 발음 텍스트 규칙(숫자 한글화·소수 "쩜")을 자막에 그대로 쓰거나, 반대로 자막 원문("83.9달러")을
+  TTS 에 넘겨 엔진이 "팔십삼 점 구" 등 임의로 읽게 둠.
+- **원칙**: 자막은 원문(숫자·기호 유지), 발음은 별도 필드(`script.yaml` `tts`, 번들 `narration_tts`). 둘을 분리 유지한다.
+  소수점 발음은 **저장소 정책 유지**("십삼쩜일", 무공백 — TTS-AP-059, DECISIONS D6, rules `tts_rules.decimal_policy`).
+  핸드오프 03 §5.4 원안("표준 표기 '팔십삼 점 구'로 강제")은 D6 에 따라 채택하지 않는다.
+- **자동 조치**: `script/lint` tts-symbol — 발음 텍스트에 숫자·기호가 남으면 plan 실패(음성 합성 전).
+- **회귀 테스트**: `tests/test_script_lint.py::test_tts_symbols_detected`, `::test_subtitle_digits_allowed_when_tts_clean`,
+  `tests/test_bundle_text.py::test_decimal_policy_d6`.
+- **출처**: 핸드오프 03 §5.4(원 번호 061 → 066, 문안 조정은 D6).
+- **발견 버전**: v2.0.0(핸드오프) · **조치**: v2.3.0 · **상태**: active

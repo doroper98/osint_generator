@@ -135,6 +135,11 @@ def _date_kr_tts(m: re.Match) -> str:
 _NATIVE_UNITS = "가지|개|곳|척|명|번|살|발|건|차례|대"
 
 
+def _sino_months(m: re.Match) -> str:
+    """'18개월' → '십팔 개월'. 개월은 한자어 수사(TTS-AP-064) — 고유어 '개' 규칙보다 먼저."""
+    return f"{num_to_sino_kr(int(m.group(1)))} 개월"
+
+
 def _native_unit(m: re.Match) -> str:
     # moved from hyperframes/scripts/bundle_to_video.py (v2.0.0)
     n = int(m.group(1))
@@ -189,6 +194,8 @@ def tts_of(text: str) -> str:
     s = re.sub(r"(?<!\d)(\d{1,2})/(\d{1,2})(?!\d)(?!\s*분기)", _slash_date_tts, s)
     s = re.sub(r"(\d{1,2})월\s*(\d{1,2})일", _date_kr_tts, s)
     s = re.sub(r"(?<![\d가-힣])(\d{1,2})월", lambda m: _MONTH_KR.get(int(m.group(1)), m.group(0)), s)
+    # 개월은 한자어 수사 (TTS-AP-064) — '개' 가 고유어 단위라 먼저 처리하지 않으면 '열여덟 개월'
+    s = re.sub(r"(\d+)\s*개월", _sino_months, s)
     # 고유어 수사 (사전/한자어 변환 전에)
     s = re.sub(rf"(\d{{1,2}})\s*({_NATIVE_UNITS})", _native_unit, s)
     # 말끝 정리 — 절단 표식 '…'/'...' 은 음성에서 말이 끊긴 것처럼 들리므로 제거 (TTS-AP-060)
@@ -196,6 +203,15 @@ def tts_of(text: str) -> str:
     s = re.sub(r"[\s,]*(?:플러스|및|와|과)\s*$", "", s)  # 절단으로 남은 접속 꼬리 제거
     s = re.sub(r"\s+", " ", s).strip()
     return re.sub(r"\s+", " ", apply_pronunciation(s, _PRONOUNCE)).strip()
+
+
+# 받침 ㄴ 인 한글 음절 전부 — '-ㄴ다' 현재형 종결 판별용
+_N_JONG = "".join(chr(0xAC00 + i * 28 + 4) for i in range(11172 // 28))
+
+
+def _n_da_polite(m: re.Match) -> str:
+    """'낮춘다' → '낮춥니다.' — 받침 ㄴ 을 ㅂ 으로 바꾸고 '니다.'."""
+    return chr(ord(m.group(1)) - 4 + 17) + "니다."
 
 
 # 논설체 → 다큐 경어체 (versus 등 원문 노출 cue/카드 용 — 반말 사고 해소)
@@ -209,6 +225,7 @@ _POLITE_TAIL = [
     (re.compile(r"높다\.?$"), "높습니다."), (re.compile(r"낮다\.?$"), "낮습니다."),
     (re.compile(r"같다\.?$"), "같습니다."), (re.compile(r"든다\.?$"), "듭니다."),
     (re.compile(r"하다\.?$"), "합니다."),  # 우세하다→우세합니다 등 '하다' 류
+    (re.compile(rf"([{_N_JONG}])다\.?$"), _n_da_polite),  # '-ㄴ다' 현재형: 낮춘다→낮춥니다 (TTS-AP-061 후속)
     (re.compile(r"([가-힣])다\.?$"), r"\1습니다."),  # 일반 폴백 — 반드시 마지막
 ]
 
