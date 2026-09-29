@@ -726,6 +726,15 @@ class Registries(_Strict):
     badge_kinds: list[str]
     accents: list[str]
     stages: list[str] = Field(min_length=1)   # v4.1.0 D-0076 — 무대 레지스트리(engine.stage.STAGE_CLASSES 와 일치)
+    stages_planned: list[str] = Field(default_factory=list)   # v4.2.0 D-0081 — 20 §2.1 구현 전 무대(장르 프로필 proposed 만)
+    primitives: list[str] = Field(default_factory=list)       # v4.2.0 D-0081 — engine/primitives/<id>.py (20 §4.2)
+
+    @model_validator(mode="after")
+    def _disjoint(self) -> "Registries":
+        both = set(self.stages) & set(self.stages_planned)
+        if both:
+            raise ValueError(f"registries.stages 와 stages_planned 에 같은 무대: {sorted(both)}")
+        return self
 
 
 class Loudnorm(_Strict):
@@ -831,6 +840,7 @@ class QAChecks(_Strict):
     forbidden_components: int
     glyph_size_exempt: list[Literal["end_card", "media_meta"]]   # v3.6.0 D-0069 — 역할 레지스트리(엔진 text(role=) 와 같은 이름)
     label_hidden_max_ratio: float = Field(gt=0, le=1)   # v3.6.0 D-0068
+    planned: list[str] = Field(default_factory=list)   # v4.2.0 D-0081 — G3 예정 검사 id(장르 프로필 proposed qa_extra 만)
     visual_qa_loop_max: int
     loop_pick_order: list[Literal["checks_hard", "qa_hard", "qa_soft"]]
 

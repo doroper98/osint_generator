@@ -556,6 +556,8 @@ registries:                # 15 §3 P10 — 여기 없는 타입을 연출이 �
   badge_kinds: [person, flag, emblem]
   accents: [gold, us, ru, teal, muted, green, amber]
   stages: [mercator]      # v4.1.0 D-0076 — 무대(engine.stage). 없는 무대 = 오류, 있는데 구현(STAGE_CLASSES)이 없음 = 오류(P10). G3 에서 timeline 추가 예정
+  stages_planned: [timeline, chart_wall, flow, structure, document]   # v4.2.0 D-0081 — 20 §2.1 무대 카탈로그(구현 전). 장르 프로필 proposed 만 참조 가능, 연출에서 쓰면 오류
+  primitives: []          # v4.2.0 D-0081 — 새 시각 요소(engine/primitives/<id>.py, 20 §4.2). 이벤트 type: primitive + id. 없는 id = 오류, 있는데 모듈 없음 = 오류(P10)
 
 audio:                     # 10
   bed_gain: 0.47
@@ -620,6 +622,7 @@ qa_checks:                 # 17 §3 — 결정적 사전 검사 임계
     - media_meta   # 권리·출처 메타(C9): layers/media.media_tag 7.5(PHOTO·VIDEO), media_caption 출처 줄 7.8, draw_article ARTICLE 7.5·날짜 8.5·메모 7.8,
                    # draw_cutout 출처 줄 8.5, layers/post 핸들 8.5·칩 7.5·원문 8·꼬리 7.8(18 §5)
   label_hidden_max_ratio: 0.5   # v3.6.0 D-0068 — 마커 라벨이 카드 영역 때문에 흐려진(알파 < 0.5) 시간 ÷ 그 마커 표시 시간. 초과 = overlap hard
+  planned: [chart_honesty, series_limit_3, units_visible, as_of_visible]   # v4.2.0 D-0081 — G3 예정 검사(20 §5.3). 장르 프로필 proposed 의 qa_extra 만 참조 가능
   visual_qa_loop_max: 2
   loop_pick_order: [checks_hard, qa_hard, qa_soft]   # D-0049 쟁점 3 — 상한 도달 시 사전식 최소 판, 동점은 이른 회차
 
