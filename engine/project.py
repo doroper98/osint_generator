@@ -258,8 +258,14 @@ def load_project(proj: Path, direction: Optional[Direction] = None, out: Optiona
         placement = resolve_places(raw_events, view_at, lambda e, w: _media_extent(e, w, A0.media_assets))
     except PlacementError as ex:
         raise ProjectError(str(ex)) from ex
+    bad = [k for e in raw_events if e.get("type") == "series" for k in ("key", "axis", "slot") if k in e]
+    if bad:
+        raise ProjectError(f"series 이벤트의 {sorted(set(bad))} 는 코드가 채운다 — 연출에 쓰지 않는다(P8)")
     events = validate_events(raw_events)
-    attach_world(events, R.stage)   # 앵커(lon·lat) → 월드 좌표. 레이어·검사기는 이 값과 View 만 쓴다(D-0076 작업 3)
+    try:
+        attach_world(events, R.stage)
+    except ValueError as ex:   # 앵커 키가 무대와 다름(지도 핀을 시간축에, 등) = 오류(P10, D-0085)
+        raise ProjectError(f"앵커 오류: {ex}") from ex   # 앵커(lon·lat) → 월드 좌표. 레이어·검사기는 이 값과 View 만 쓴다(D-0076 작업 3)
     _attach_posts(proj, R, events)   # v3.2.0 18 §5 — post 카드 문구·상자는 intake/sources.json 에서(없으면 오류)
     ent_errs = check_event_refs(events, load_entities())  # 07 §6 — 미등재 인물·국기·휘장은 렌더 전 오류(P10)
     if ent_errs:
@@ -279,9 +285,55 @@ def load_project(proj: Path, direction: Optional[Direction] = None, out: Optiona
     R.cache["media_placement"] = placement
     if not keys or cams is None:
         raise ProjectError("카메라 키가 없다")
+    prepare_series(R, events, cams, n)   # v4.3.0 D-0084 작업 4 — 레코드 로드·레인 범위·grow 앞끝(카메라 경로)
     warns = lint_events(events) + placement_warnings(events, A.media_assets) \
         + density_report(events, tb, plan.total)["warnings"]
     return Project(proj, plan, R, keys, events, cams, n, warns, shots)
+
+
+def prepare_series(R: RenderCtx, events: list[dict], cams: np.ndarray, n: int) -> None:  # noqa: N803
+    """series 이벤트 준비(v4.3.0 D-0084 작업 4). 시간축 무대만 · 레코드 로드 실패 = 오류(P6) · 레인 kind step|line 만.
+    key(이벤트 순번)·axis(레인의 첫 series 만 축 라벨)·slot(레인 안 순번 — 출처 줄 위치), 레인 값 범위, grow 앞끝(프레임별 누적 최대)."""
+    from data.series import SeriesError, load_series  # noqa: PLC0415
+    from engine.layers.series import lane_range  # noqa: PLC0415
+    from engine.style import TIMELINE  # noqa: PLC0415
+    from engine.timebase import ease_out  # noqa: PLC0415
+
+    ser = [e for e in events if e["type"] == "series"]
+    R.cache["series_range"], R.cache["series_front"] = {}, {}
+    if not ser:
+        return
+    st = R.stage
+    if st.name != "timeline":
+        raise ProjectError(f"series 이벤트는 시간축 무대 전용 — 주 무대 {st.name!r}")
+    slots: dict[str, int] = {}
+    for i, e in enumerate(ser):
+        try:
+            load_series(e["series_id"])
+            kind = st.lanes[st.lane_index(e["lane"])].kind  # type: ignore[attr-defined]
+        except (SeriesError, ValueError) as ex:
+            raise ProjectError(f"series {e['series_id']} @ {e['lane']}: {ex}") from ex
+        if kind == "pins":
+            raise ProjectError(f"series {e['series_id']}: 레인 {e['lane']!r} 은 pins(핀 = marker) — step|line 레인에만")
+        e["key"], e["slot"] = i, slots.get(e["lane"], 0)
+        e["axis"] = e["slot"] == 0
+        slots[e["lane"]] = e["slot"] + 1
+    for lane in slots:
+        R.cache["series_range"][lane] = lane_range(events, lane)
+    S = TIMELINE.series  # noqa: N806
+    for e in ser:
+        if not e["grow"]:
+            continue
+        i0, i1 = int(e["t0"] * FPS), min(n, int(e["t1"] * FPS) + 1)
+        front = np.full(n, -np.inf)
+        best = -np.inf
+        for i in range(i0, i1):
+            v = View(st, cams[i])
+            sweep = ease_out((i / FPS - e["t0"]) / S.grow_in_sec)
+            best = max(best, v.x0 + v.w * S.playhead * sweep)
+            front[i] = best
+        front[i1:] = best
+        R.cache["series_front"][e["key"]] = front
 
 
 def lint_events(events: list[dict]) -> list[str]:

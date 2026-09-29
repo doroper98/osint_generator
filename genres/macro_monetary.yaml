@@ -3,8 +3,9 @@
 #   1) reuse 의 timeline_panel → 레지스트리 이름 timeline(panel kind) — D-0082 쟁점 2 A(별칭 없음)
 #   2) new 중 statement_diff 만 등록(registries.primitives), 나머지 4개는 registries.primitives_planned — D-0082 쟁점 1 A
 #   3) color_semantics 에 added·removed(statement_diff 색 의미, 20 §3.1 policy_document) — D-0081 작업 5
+#   4) reuse 에 series(시간축 계열 — rate_step_line 을 대신, D-0084 작업 4)·marker(시간축 핀 = marker, D-0084 작업 4) — v4.3.0
 # status proposed: 사용자 승인 전(20 §3, §12 G4). approved 로 바꾸는 것은 사용자 결정이다.
-# 무대 timeline·chart_wall 은 구현 전(registries.stages_planned, G3).
+# 무대 timeline 은 v4.3.0 에 구현됨, chart_wall 은 구현 전(registries.stages_planned).
 schema_version: 1
 genre: macro_monetary            # 통화정책·거시경제
 status: proposed                 # proposed | approved (사용자 승인 후)
@@ -24,7 +25,7 @@ color_semantics:
   added: green                   # (3) 성명서 문구 추가 — 초록(20 §3.1 policy_document)
   removed: ru                    # (3) 성명서 문구 삭제 — 붉은 취소선(20 §3.1 policy_document)
 primitives:                      # 이 장르에서 쓰는 시각 요소(레지스트리 id)
-  reuse: [card, article, post, badge, versus, timeline, checklist]   # (1) 20 §3 timeline_panel = panel kind timeline
+  reuse: [card, article, post, badge, versus, timeline, checklist, series, marker]   # (1) 20 §3 timeline_panel = panel kind timeline, (4) series·marker
   new:   [rate_step_line, dot_plot, yield_curve_shift, statement_diff, target_band]   # (2) statement_diff 만 등록, 나머지 planned
 badges:
   people: from_library           # 라이브러리 인물(예: 제롬 파월, 케빈 워시 초상이 이미 있음)

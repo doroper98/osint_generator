@@ -43,10 +43,15 @@ def render_event(P, ev: dict, t: float, cam: tuple | None = None) -> tuple[Image
     """(이미지, 그린 글자[(크기, 역할, 문자열)]). cam = (x, y, w) 월드 카메라(없으면 프로젝트 첫 카메라)."""
     R = P.R  # noqa: N806
     view = View(R.stage, cam if cam is not None else P.cams[0])
-    im = R.stage.base_image(view)
-    buf = bytearray(im.tobytes("raw", "BGRX"))
-    surf = cairo.ImageSurface.create_for_data(buf, cairo.FORMAT_RGB24, W_OUT, H_OUT, W_OUT * 4)
-    ctx = cairo.Context(surf)
+    if hasattr(R.stage, "base_image"):   # 지도 — 지형 래스터
+        buf = bytearray(R.stage.base_image(view).tobytes("raw", "BGRX"))
+        surf = cairo.ImageSurface.create_for_data(buf, cairo.FORMAT_RGB24, W_OUT, H_OUT, W_OUT * 4)
+        ctx = cairo.Context(surf)
+    else:                                # v4.3.0 — 벡터 무대(시간축): 렌더 프레임과 같은 render_base
+        buf = bytearray(W_OUT * H_OUT * 4)
+        surf = cairo.ImageSurface.create_for_data(buf, cairo.FORMAT_RGB24, W_OUT, H_OUT, W_OUT * 4)
+        ctx = cairo.Context(surf)
+        R.stage.render_base(ctx, view)
     R.reserved.clear()
     R.zones = card_zones(ctx, [ev], t)
     entry = resolve(ev)

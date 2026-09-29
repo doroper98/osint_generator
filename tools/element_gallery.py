@@ -23,8 +23,11 @@ import yaml
 REPO = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(REPO))
 
+import numpy as np  # noqa: E402
+
 from engine.primitives import module  # noqa: E402
-from engine.project import load_project  # noqa: E402
+from engine.project import load_project, prepare_series  # noqa: E402
+from engine.stage import make_stage  # noqa: E402
 from engine.sheet import grid  # noqa: E402
 from engine.style import FPS  # noqa: E402
 from genres.load import DEFAULT_GENRE, genre_names, load_genre  # noqa: E402
@@ -92,6 +95,14 @@ def genre_for(ev: dict) -> str:
     raise GalleryError(f"{sorted(need)} 를 쓰는 장르 프로필이 없다")
 
 
+def stage_for_example(opts: dict) -> object:
+    """예제 gallery.stage_config(무대 이름 → 설정) + gallery.genre 의 프로필 기본값 → 그 무대(레지스트리 경로 그대로)."""
+    (name, cfg), = opts["stage_config"].items()
+    prof = load_genre(opts["genre"]).stage.settings().get(name)
+    base = prof.model_dump() if prof is not None else {}
+    return make_stage(name, config={**base, **cfg})
+
+
 def shot_time(ev: dict, opts: dict) -> float:
     if "t" in opts:
         return float(opts["t"])
@@ -117,12 +128,22 @@ def main(argv: list[str] | None = None) -> int:
             from schemas.source_models import SourcesFile  # noqa: PLC0415
 
             sources = SourcesFile.model_validate_json((REPO / opts["sources"]).read_text(encoding="utf-8")).by_id()
-        ev = prepare(P, doc["event"], sources)
-        genre = genre_for(ev)
-        set_genre(P, genre)
-        t = shot_time(ev, opts)
-        cam = P.cams[min(P.n_frames - 1, max(0, int(t * FPS)))]
-        im, glyphs = render_event(P, ev, t, cam)
+        stage0 = P.R.stage
+        if "stage_config" in opts:   # v4.3.0 — 지도가 아닌 무대의 요소(series): 예제가 준 무대·카메라로 그린다
+            P.R.stage = stage_for_example(opts)
+        try:
+            ev = prepare(P, doc["event"], sources)
+            genre = opts.get("genre") or genre_for(ev)
+            set_genre(P, genre)
+            t = shot_time(ev, opts)
+            if "stage_config" in opts:
+                cam = np.array([*P.R.stage.to_world(**{k: v for k, v in opts["cam"].items() if k != "w"}), opts["cam"]["w"]], float)
+                prepare_series(P.R, [ev], np.tile(cam, (int(ev["t1"] * FPS) + 1, 1)), int(ev["t1"] * FPS) + 1)
+            else:
+                cam = P.cams[min(P.n_frames - 1, max(0, int(t * FPS)))]
+            im, glyphs = render_event(P, ev, t, cam)
+        finally:
+            P.R.stage = stage0
         png = args.out / f"{label}.png"
         im.save(png)
         cells.append((im, f"{label}  t={t:.2f}  {genre}"))

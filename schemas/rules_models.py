@@ -974,10 +974,12 @@ class TimelineWave(_Strict):
 
 
 class TimelineSeries(_Strict):
-    lane_pad: float = Field(ge=0, lt=0.5)
+    lane_pad_top: float = Field(ge=0, lt=0.5)
+    lane_pad_bottom: float = Field(ge=0, lt=0.5)
     line_w: float
     tip_r: float
     fade_sec: float
+    min_alpha: float
     playhead: float = Field(gt=0, le=1)
     grow_in_sec: float = Field(gt=0)
     clip_below_px: float
@@ -986,6 +988,7 @@ class TimelineSeries(_Strict):
     value_size: float
     value_font: str
     value_halo: float
+    value_min_x: float
     grid_alpha: float
     zero_alpha: float
     grid_w: float
@@ -995,6 +998,7 @@ class TimelineSeries(_Strict):
     axis_label_font: str
     axis_label_halo: float
     source_dy: float
+    source_step: float
     source_size: float
     source_font: str
     source_halo: float

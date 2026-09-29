@@ -82,6 +82,21 @@ class MarkerEvent(_Event):
 
 
 
+class SeriesEvent(_Event):
+    """시리즈 레이어(v4.3.0 D-0084 작업 4) — 값은 데이터 레코드 data/series/<series_id> 에서만(연출은 숫자를 주지 않는다, 20 §5.1).
+    시간축 무대 전용. key·axis·slot 은 load_project 가 채운다(레인 안 순번 — 연출이 쓰면 오류)."""
+
+    type: Literal["series"]
+    lane: str
+    series_id: str
+    style: Literal["step", "line"]
+    grow: bool = True
+    col: ColorName = "gold"
+    key: Optional[int] = None      # 코드가 채움(load_project.prepare_series)
+    axis: Optional[bool] = None
+    slot: Optional[int] = None
+
+
 class RouteEvent(_Event):
     type: Literal["route"]
     pts: list[LonLat] = Field(min_length=2)

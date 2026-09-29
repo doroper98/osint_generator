@@ -549,7 +549,7 @@ credits:                   # D-0030(D35) — 권리 레지스트리 종류별 �
   music_description: 'Music: "{name}" — {author} ({license})'          # 설명란 footer 의 {music} 자리(v3 description.yaml 문구와 같은 결과)
 
 registries:                # 15 §3 P10 — 여기 없는 타입을 연출이 쓰면 오류, 있는데 렌더러가 없으면 오류
-  event_types: [marker, route, tanker_loop, barrier, ships, boom, country, badge, card, panel, dip, photo, clip, cutout, article, post, primitive]   # post = v3.2.0 복귀(D26, 18 §5), primitive = v4.2.0 D-0081(id → registries.primitives)
+  event_types: [marker, route, tanker_loop, barrier, ships, boom, country, badge, card, panel, dip, photo, clip, cutout, article, post, primitive, series]   # post = v3.2.0 복귀(D26, 18 §5), primitive = v4.2.0 D-0081(id → registries.primitives), series = v4.3.0 D-0084(시간축 무대, 데이터 레코드)
   event_types_planned: [occupied, arc, channel, shield, tl, particles, flash, dots, movers, line, arrow]   # v1/v2 이식 후보(미구현 = 사용 불가)
   panel_kinds: [relation, statement, timeline, precedent, versus, dots, gantt, dual_line, fork, checklist, network]   # relation = v3 refusal 일반화, 뒤 6종 = v2 차트 이식(D-0032)
   panel_kinds_planned: []
@@ -559,7 +559,7 @@ registries:                # 15 §3 P10 — 여기 없는 타입을 연출이 �
   stages_planned: [chart_wall, flow, structure, document]   # v4.2.0 D-0081 — 20 §2.1 무대 카탈로그(구현 전). 장르 프로필 proposed 만 참조 가능, 연출에서 쓰면 오류
   primitives: [statement_diff]   # v4.2.0 D-0081 — 새 시각 요소(engine/primitives/<id>.py, 20 §4.2). 이벤트 type: primitive + id. 없는 id = 오류, 있는데 모듈 없음 = 오류(P10)
   primitives_planned:     # v4.2.0 D-0082 쟁점 1 A — 구현 전 프리미티브. 장르 프로필 proposed 의 new 만 참조 가능, 연출에서 쓰면 오류
-    - rate_step_line      # 20 §3 macro_monetary, G4 후보(사용자 승인 뒤 최대 3)
+    - rate_step_line      # 20 §3 macro_monetary — v4.3.0: series 이벤트(style: step)로 대체, G4 에서 정리(사용자 결정 전이라 삭제하지 않음, D-0084 작업 4)
     - dot_plot            # 20 §3 macro_monetary, G4 후보(사용자 승인 뒤 최대 3)
     - yield_curve_shift   # 20 §3 macro_monetary, G4 후보(사용자 승인 뒤 최대 3)
     - target_band         # 20 §3 macro_monetary, G4 후보(사용자 승인 뒤 최대 3)
@@ -644,13 +644,15 @@ stage_timeline:            # v4.3.0 D-0084 작업 3·4·D-0085·D-0086 — 시�
     label_font: sansb
     label_size: 10.5
     label_halo: 2.5
-    label_dy: 14
+    label_dy: -7           # 레인 영역 위 끝 → 라벨 기준선(영역 바로 위 — 레인 이름과 겹치지 않게)
     label_margin_px: 30
   series:                  # series 이벤트(데이터 레코드에서 직접)
-    lane_pad: 0.18         # 레인 띠 안 위아래 여백(레인 높이 비율)
+    lane_pad_top: 0.3      # 레인 띠 위 여백(레인 높이 비율) — 레인 이름 자리
+    lane_pad_bottom: 0.22  # 레인 띠 아래 여백 — 출처·기준 시점 줄 자리
     line_w: 2.2
     tip_r: 3.2
     fade_sec: 0.5
+    min_alpha: 0.01        # 이보다 흐리면 그리지 않는다(다른 레이어의 등장 문턱과 같은 값)
     playhead: 0.62         # grow 앞끝 = 화면 왼쪽 + 화면 폭 × 이 값(누적 최대)
     grow_in_sec: 1.6       # 등장 직후 화면 왼쪽에서 앞끝까지 쓸어 나가는 시간
     clip_below_px: 30
@@ -659,6 +661,7 @@ stage_timeline:            # v4.3.0 D-0084 작업 3·4·D-0085·D-0086 — 시�
     value_size: 12
     value_font: sansb
     value_halo: 3
+    value_min_x: 60        # 끝점이 화면 왼쪽 이 안쪽이면 값 라벨을 그리지 않는다(레인 이름과 겹침 방지 — 점은 그대로)
     grid_alpha: 0.06
     zero_alpha: 0.16
     grid_w: 0.7
@@ -667,7 +670,8 @@ stage_timeline:            # v4.3.0 D-0084 작업 3·4·D-0085·D-0086 — 시�
     axis_label_size: 10
     axis_label_font: mono
     axis_label_halo: 2.5
-    source_dy: 14          # 레인 이름 기준선 → 출처·기준 시점 줄(같은 레인 n 번째 series 는 한 줄씩 아래)
+    source_dy: 7           # 레인 아래 끝 → 출처·기준 시점 줄 기준선(위로). 같은 레인 n 번째 series 는 source_step 씩 위
+    source_step: 12
     source_size: 10
     source_font: sansm
     source_halo: 2.5

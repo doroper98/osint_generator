@@ -287,7 +287,7 @@ class TimelineStage:
             ctx.set_source_rgba(*C[W.color], W.alpha)
             ctx.set_line_width(W.line_w)
             ctx.stroke()
-        cx = min(max((xa + xb) / 2, W.label_margin_px), W_OUT - W.label_margin_px)
+        cx = min(max((max(xa, 0.0) + min(xb, float(W_OUT))) / 2, W.label_margin_px), W_OUT - W.label_margin_px)
         text(ctx, W.label, cx, top + W.label_dy, W.label_size, W.label_font, C[W.color], W.alpha, W.label_halo, "c")
 
     def compress_on_screen(self, view: "View") -> list[Compress]:

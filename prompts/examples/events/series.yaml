@@ -1,0 +1,21 @@
+# 요소 예시 (v4.3.0, back_and_forth D-0084 작업 4) — 레지스트리 모델을 그대로 통과한다(15 P4). tests/fixtures/preview/series.yaml 와 같은 event.
+# 값은 연출이 주지 않는다 — data/series/<series_id> 레코드에서 코드가 그린다(20 §5.1). 시간축 무대 전용.
+# 갤러리(tools/element_gallery.py)는 gallery.stage_config 의 시간축 무대와 gallery.cam 카메라로 그린다(hormuz 프로젝트의 지도 대신).
+schema_version: 1
+key: series
+source: projects/fed_timeline_demo (G3 실증)
+event:
+  type: series
+  t0: 0.5
+  t1: 20.0
+  lane: policy_rate
+  series_id: FEDFUNDS
+  style: step
+  grow: true
+  col: gold
+gallery:
+  t: 12.0
+  stage_config:
+    timeline: {start: "2019-01-01", end: "2026-10-01"}
+  genre: macro_monetary
+  cam: {date: "2022-11-01", w: 2800}
