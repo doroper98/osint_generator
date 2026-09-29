@@ -168,6 +168,7 @@ def project_provenance(P, stages: dict[str, bool]) -> dict:  # noqa: ANN001, N80
     gc = (P.R.cache.get("geo_check") or {}).get("unsourced")
     if gc is not None:   # v4.7.0 D-0107 D2(b) — 지도 무대 좌표 중 근거 대조 안 된 것(checks [geo-unsourced] 와 같은 값). 지도 없으면 기록 없음(P5)
         prov["geo"] = {"unsourced": gc}
+    prov["animatic"] = bool(getattr(P, "animatic", False))   # v4.9.0 D-0108 — 콘티 판 여부(전편 false, 콘티 판 true + animatic_run)
     prov["stage"] = P.R.cache.get("stage")   # v4.1.0 D-0076 작업 7 — 무대(name·declared·shots_declared·instances)
     g = P.R.cache.get("genre") or {}
     prov["genre"] = {"name": g.get("name"), "declared": g.get("declared"), "status": g.get("status")}   # v4.2.0 D-0081 작업 3, v4.3.0 status(proposed 사용 기록)
@@ -202,6 +203,19 @@ def project_provenance(P, stages: dict[str, bool]) -> dict:  # noqa: ANN001, N80
     return prov
 
 
+class AnimaticDeliverError(RuntimeError):
+    """deliver 가 콘티 판을 받았다(v4.9.0 D-0108 — 배포 사고 방지, 15 P6)."""
+
+
+def refuse_animatic(video: Path) -> None:
+    """영상 mp4 메타데이터 comment 가 콘티 판 표식(rules animatic.mp4_comment)이면 오류. 콘티 판을 video_noaudio.mp4 로 복사해도 잡는다."""
+    tag = load_rules().animatic.mp4_comment
+    r = subprocess.run(["ffprobe", "-v", "error", "-show_entries", "format_tags=comment", "-of", "default=nw=1:nk=1", str(video)],
+                       capture_output=True, text=True, check=True)
+    if r.stdout.strip() == tag:
+        raise AnimaticDeliverError(f"{video.name} 은 콘티 판(animatic)이다 — 배포(deliver) 금지. 전편은 `python -m engine.render <proj> --jobs N`")
+
+
 def main(argv: list[str] | None = None) -> int:
     from engine.credits import RightsError, credit_lines, description_credits, description_sources  # noqa: PLC0415
     from engine.project import ProjectError, load_project  # noqa: PLC0415
@@ -212,8 +226,10 @@ def main(argv: list[str] | None = None) -> int:
     args = ap.parse_args(argv)
     proj = args.proj.resolve()
     try:
-        P = load_project(proj)  # noqa: N806 — 연출·권리 점검을 다시 통과해야 provenance 를 쓴다
         outd = proj / "out"
+        if (outd / "video_noaudio.mp4").exists():
+            refuse_animatic(outd / "video_noaudio.mp4")   # v4.9.0 D-0108 — 콘티 판은 deliver 거부(프로젝트 로드 전에)
+        P = load_project(proj)  # noqa: N806 — 연출·권리 점검을 다시 통과해야 provenance 를 쓴다
         for need in ("video_noaudio.mp4", "mix.f32"):
             if not (outd / need).exists():
                 raise ProjectError(f"out/{need} 없음 — engine.render / audio.mix 먼저")
@@ -247,7 +263,7 @@ def main(argv: list[str] | None = None) -> int:
         res = StageResult(ok=True, stage="mux", provenance=prov, warnings=warns,
                           artifacts={"final": str(final), "srt": str(outd / "final.srt"),
                                      "description": str(outd / "description.txt"), "credits": str(outd / "credits.txt"), "provenance": str(outd / "provenance.json")})
-    except (ProjectError, RightsError, KeyError, ValueError, OSError, subprocess.CalledProcessError) as ex:
+    except (ProjectError, RightsError, AnimaticDeliverError, KeyError, ValueError, OSError, subprocess.CalledProcessError) as ex:
         res = StageResult(ok=False, stage="mux", errors=[str(ex)])
     print(json.dumps(res.model_dump(), ensure_ascii=False))
     return 0 if res.ok else 1

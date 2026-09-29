@@ -60,7 +60,8 @@ class PanelBadgeTest(unittest.TestCase):
 
         from engine import render
         src = inspect.getsource(render.render_frame)
-        self.assertLess(src.index('e["type"] == "panel"'), src.index("draw_over_panel"))
+        # v4.9.0 D-0108 — 패널 위 뱃지는 레이어 선택(LayerSet.over_panel: 전편 badges.draw_over_panel)으로 그린다
+        self.assertLess(src.index('e["type"] == "panel"'), src.index("L.over_panel("))
 
     def test_over_panel_badge_screen_and_pool(self) -> None:
         from engine.layers.badges import assign_person_sizes, badge_R, screen_xy
