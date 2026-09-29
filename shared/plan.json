@@ -1,0 +1,1154 @@
+{
+ "sentences": [
+  {
+   "sid": "open_0",
+   "scene": "open",
+   "date": "2026.09.16",
+   "text": "9월 16일, 미국 연준이 금리를 올렸습니다.",
+   "tts": "구월 십육일, 미국 연준이 금리를 올렸습니다.",
+   "segments": [
+    [
+     "9월 16일, 미국 연준이 금리를 ",
+     0
+    ],
+    [
+     "올렸습니다",
+     1
+    ],
+    [
+     ".",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/fed_policy_2026/tts/open_0_d08631a20f.mp3",
+   "npy": "/home/user/osint_generator/projects/fed_policy_2026/tts/open_0_d08631a20f.npy",
+   "dur": 3.7536054421768705,
+   "t0": 1.2,
+   "t1": 4.953605442176871,
+   "trim_offset": 0.37449
+  },
+  {
+   "sid": "open_1",
+   "scene": "open",
+   "date": "2026.09.16",
+   "text": "CNN과 NBC 등은 2023년 이후 첫 금리 인상이라고 보도했습니다.",
+   "tts": "씨엔엔과 엔비씨 등은 이천이십삼년 이후 첫 금리 인상이라고 보도했습니다.",
+   "segments": [
+    [
+     "CNN과 NBC 등은 2023년 이후 ",
+     0
+    ],
+    [
+     "첫 금리 인상",
+     1
+    ],
+    [
+     "이라고 보도했습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/fed_policy_2026/tts/open_1_ccdb8fba26.mp3",
+   "npy": "/home/user/osint_generator/projects/fed_policy_2026/tts/open_1_ccdb8fba26.npy",
+   "dur": 5.407437641723356,
+   "t0": 5.453605442176871,
+   "t1": 10.861043083900228,
+   "trim_offset": 0.297098
+  },
+  {
+   "sid": "open_2",
+   "scene": "open",
+   "date": "2025",
+   "text": "1년 전만 해도 연준은 금리를 내리고 있었습니다.",
+   "tts": "일 년 전만 해도 연준은 금리를 내리고 있었습니다.",
+   "segments": [
+    [
+     "1년 전만 해도 연준은 금리를 내리고 있었습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/fed_policy_2026/tts/open_2_12b19f41fc.mp3",
+   "npy": "/home/user/osint_generator/projects/fed_policy_2026/tts/open_2_12b19f41fc.npy",
+   "dur": 3.3376190476190475,
+   "t0": 11.361043083900228,
+   "t1": 14.698662131519274,
+   "trim_offset": 0.298957
+  },
+  {
+   "sid": "decision_0",
+   "scene": "decision",
+   "date": "2026.09.16",
+   "text": "연방기금금리는 은행끼리 하루짜리 자금을 빌려줄 때 적용되는 미국의 기준금리입니다.",
+   "tts": "연방기금금리는 은행끼리 하루짜리 자금을 빌려줄 때 적용되는 미국의 기준금리입니다.",
+   "segments": [
+    [
+     "연방기금금리",
+     1
+    ],
+    [
+     "는 은행끼리 하루짜리 자금을 빌려줄 때 적용되는 미국의 기준금리입니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/fed_policy_2026/tts/decision_0_b5c76e058f.mp3",
+   "npy": "/home/user/osint_generator/projects/fed_policy_2026/tts/decision_0_b5c76e058f.npy",
+   "dur": 6.06297052154195,
+   "t0": 21.398662131519274,
+   "t1": 27.461632653061223,
+   "trim_offset": 0.363764
+  },
+  {
+   "sid": "decision_1",
+   "scene": "decision",
+   "date": "2026.09.16",
+   "text": "연방공개시장위원회, FOMC는 목표 범위를 0.25%p 올렸다고 발표했습니다.",
+   "tts": "연방공개시장위원회는 목표 범위를 영점이오 퍼센트포인트 올렸다고 발표했습니다.",
+   "segments": [
+    [
+     "연방공개시장위원회, FOMC는 목표 범위를 ",
+     0
+    ],
+    [
+     "0.25%p",
+     1
+    ],
+    [
+     " 올렸다고 발표했습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/fed_policy_2026/tts/decision_1_5f1f0e17e8.mp3",
+   "npy": "/home/user/osint_generator/projects/fed_policy_2026/tts/decision_1_5f1f0e17e8.npy",
+   "dur": 5.643718820861678,
+   "t0": 27.961632653061223,
+   "t1": 33.6053514739229,
+   "trim_offset": 0.363379
+  },
+  {
+   "sid": "decision_2",
+   "scene": "decision",
+   "date": "2026.09.16",
+   "text": "새 목표 범위는 3.75~4%입니다.",
+   "tts": "새 목표 범위는 삼점칠오에서 사 퍼센트입니다.",
+   "segments": [
+    [
+     "새 목표 범위는 ",
+     0
+    ],
+    [
+     "3.75~4%",
+     1
+    ],
+    [
+     "입니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/fed_policy_2026/tts/decision_2_8541d09f09.mp3",
+   "npy": "/home/user/osint_generator/projects/fed_policy_2026/tts/decision_2_8541d09f09.npy",
+   "dur": 3.3971428571428572,
+   "t0": 34.1053514739229,
+   "t1": 37.50249433106576,
+   "trim_offset": 0.334649
+  },
+  {
+   "sid": "decision_3",
+   "scene": "decision",
+   "date": "2026.09",
+   "text": "연준 이사회 자료로 9월 목표 범위 하단은 3.75%입니다.",
+   "tts": "연준 이사회 자료로 구월 목표 범위 하단은 삼점칠오 퍼센트입니다.",
+   "segments": [
+    [
+     "연준 이사회 자료로 9월 목표 범위 하단은 3.75%입니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/fed_policy_2026/tts/decision_3_cb8dae91c7.mp3",
+   "npy": "/home/user/osint_generator/projects/fed_policy_2026/tts/decision_3_cb8dae91c7.npy",
+   "dur": 4.634081632653062,
+   "t0": 38.00249433106576,
+   "t1": 42.636575963718826,
+   "trim_offset": 0.37356
+  },
+  {
+   "sid": "decision_4",
+   "scene": "decision",
+   "date": "2026.09.16",
+   "text": "결정은 12대 0, 만장일치였습니다.",
+   "tts": "결정은 십이 대 영, 만장일치였습니다.",
+   "segments": [
+    [
+     "결정은 12대 0, ",
+     0
+    ],
+    [
+     "만장일치",
+     1
+    ],
+    [
+     "였습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/fed_policy_2026/tts/decision_4_f5daa4c7a2.mp3",
+   "npy": "/home/user/osint_generator/projects/fed_policy_2026/tts/decision_4_f5daa4c7a2.npy",
+   "dur": 3.50702947845805,
+   "t0": 43.136575963718826,
+   "t1": 46.64360544217688,
+   "trim_offset": 0.390249
+  },
+  {
+   "sid": "decision_5",
+   "scene": "decision",
+   "date": "2026.09.16",
+   "text": "FOMC 성명은 인플레이션이 여전히 높다고 밝혔습니다.",
+   "tts": "연방공개시장위원회 성명은 인플레이션이 여전히 높다고 밝혔습니다.",
+   "segments": [
+    [
+     "FOMC 성명은 인플레이션이 ",
+     0
+    ],
+    [
+     "여전히 높다",
+     1
+    ],
+    [
+     "고 밝혔습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/fed_policy_2026/tts/decision_5_e85e5c7abe.mp3",
+   "npy": "/home/user/osint_generator/projects/fed_policy_2026/tts/decision_5_e85e5c7abe.npy",
+   "dur": 4.886326530612245,
+   "t0": 47.14360544217688,
+   "t1": 52.02993197278912,
+   "trim_offset": 0.374921
+  },
+  {
+   "sid": "cuts_2025_0",
+   "scene": "cuts_2025",
+   "date": "2025.09",
+   "text": "폭스비즈니스는 연준이 2025년 9월에도 금리를 내렸다고 보도했습니다.",
+   "tts": "폭스비즈니스는 연준이 이천이십오년 구월에도 금리를 내렸다고 보도했습니다.",
+   "segments": [
+    [
+     "폭스비즈니스는 연준이 2025년 9월에도 금리를 내렸다고 보도했습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/fed_policy_2026/tts/cuts_2025_0_3914341d4c.mp3",
+   "npy": "/home/user/osint_generator/projects/fed_policy_2026/tts/cuts_2025_0_3914341d4c.npy",
+   "dur": 5.27015873015873,
+   "t0": 53.52993197278912,
+   "t1": 58.800090702947855,
+   "trim_offset": 0.37195
+  },
+  {
+   "sid": "cuts_2025_1",
+   "scene": "cuts_2025",
+   "date": "2025.10.29",
+   "text": "2025년 10월 29일, FOMC는 목표 범위를 0.25%p 내렸다고 발표했습니다.",
+   "tts": "이천이십오년 시월 이십구일, 연방공개시장위원회는 목표 범위를 영점이오 퍼센트포인트 내렸다고 발표했습니다.",
+   "segments": [
+    [
+     "2025년 10월 29일, FOMC는 목표 범위를 0.25%p 내렸다고 발표했습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/fed_policy_2026/tts/cuts_2025_1_184eb898fe.mp3",
+   "npy": "/home/user/osint_generator/projects/fed_policy_2026/tts/cuts_2025_1_184eb898fe.npy",
+   "dur": 7.970975056689342,
+   "t0": 59.300090702947855,
+   "t1": 67.2710657596372,
+   "trim_offset": 0.328118
+  },
+  {
+   "sid": "cuts_2025_2",
+   "scene": "cuts_2025",
+   "date": "2025.10.29",
+   "text": "이때 범위는 3.75~4%로, 지금과 같은 수준이었습니다.",
+   "tts": "이때 범위는 삼점칠오에서 사 퍼센트로, 지금과 같은 수준이었습니다.",
+   "segments": [
+    [
+     "이때 범위는 3.75~4%로, ",
+     0
+    ],
+    [
+     "지금과 같은 수준",
+     1
+    ],
+    [
+     "이었습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/fed_policy_2026/tts/cuts_2025_2_6b9ab87066.mp3",
+   "npy": "/home/user/osint_generator/projects/fed_policy_2026/tts/cuts_2025_2_6b9ab87066.npy",
+   "dur": 4.8848526077097505,
+   "t0": 67.7710657596372,
+   "t1": 72.65591836734694,
+   "trim_offset": 0.365465
+  },
+  {
+   "sid": "cuts_2025_3",
+   "scene": "cuts_2025",
+   "date": "2025.12.10",
+   "text": "12월 10일에는 다시 내려 3.5~3.75%가 됐습니다.",
+   "tts": "십이월 십일에는 다시 내려 삼점오에서 삼점칠오 퍼센트가 됐습니다.",
+   "segments": [
+    [
+     "12월 10일에는 다시 내려 ",
+     0
+    ],
+    [
+     "3.5~3.75%",
+     1
+    ],
+    [
+     "가 됐습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/fed_policy_2026/tts/cuts_2025_3_3fbc3433ed.mp3",
+   "npy": "/home/user/osint_generator/projects/fed_policy_2026/tts/cuts_2025_3_3fbc3433ed.npy",
+   "dur": 4.6486167800453515,
+   "t0": 73.15591836734694,
+   "t1": 77.8045351473923,
+   "trim_offset": 0.317642
+  },
+  {
+   "sid": "hold_2026_0",
+   "scene": "hold_2026",
+   "date": "2026",
+   "text": "올해 FOMC는 7월까지 다섯 번의 회의에서 모두 금리를 동결했습니다.",
+   "tts": "올해 연방공개시장위원회는 칠월까지 다섯 번의 회의에서 모두 금리를 동결했습니다.",
+   "segments": [
+    [
+     "올해 FOMC는 7월까지 다섯 번의 회의에서 모두 금리를 ",
+     0
+    ],
+    [
+     "동결",
+     1
+    ],
+    [
+     "했습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/fed_policy_2026/tts/hold_2026_0_b2cd5468f3.mp3",
+   "npy": "/home/user/osint_generator/projects/fed_policy_2026/tts/hold_2026_0_b2cd5468f3.npy",
+   "dur": 6.277573696145125,
+   "t0": 79.3045351473923,
+   "t1": 85.58210884353743,
+   "trim_offset": 0.397415
+  },
+  {
+   "sid": "hold_2026_1",
+   "scene": "hold_2026",
+   "date": "2026.02.28",
+   "text": "NBC와 ABC에 따르면 이란 전쟁은 2월 28일 미국과 이스라엘의 공격으로 시작됐습니다.",
+   "tts": "엔비씨와 에이비씨에 따르면 이란 전쟁은 이월 이십팔일 미국과 이스라엘의 공격으로 시작됐습니다.",
+   "segments": [
+    [
+     "NBC와 ABC에 따르면 ",
+     0
+    ],
+    [
+     "이란 전쟁",
+     1
+    ],
+    [
+     "은 2월 28일 미국과 이스라엘의 공격으로 시작됐습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/fed_policy_2026/tts/hold_2026_1_f7956c8cda.mp3",
+   "npy": "/home/user/osint_generator/projects/fed_policy_2026/tts/hold_2026_1_f7956c8cda.npy",
+   "dur": 6.786780045351474,
+   "t0": 86.08210884353743,
+   "t1": 92.8688888888889,
+   "trim_offset": 0.376712
+  },
+  {
+   "sid": "hold_2026_2",
+   "scene": "hold_2026",
+   "date": "2026",
+   "text": "ABC뉴스는 이란이 호르무즈 해협을 사실상 봉쇄했다고 보도했습니다.",
+   "tts": "에이비씨뉴스는 이란이 호르무즈 해협을 사실상 봉쇄했다고 보도했습니다.",
+   "segments": [
+    [
+     "ABC뉴스는 이란이 호르무즈 해협을 사실상 봉쇄했다고 보도했습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/fed_policy_2026/tts/hold_2026_2_f8b891661f.mp3",
+   "npy": "/home/user/osint_generator/projects/fed_policy_2026/tts/hold_2026_2_f8b891661f.npy",
+   "dur": 4.64015873015873,
+   "t0": 93.3688888888889,
+   "t1": 98.00904761904764,
+   "trim_offset": 0.257642
+  },
+  {
+   "sid": "hold_2026_3",
+   "scene": "hold_2026",
+   "date": "2026.05",
+   "text": "ABC뉴스는 워시가 5월 연준 의장에 취임했다고 보도했습니다.",
+   "tts": "에이비씨뉴스는 워시가 오월 연준 의장에 취임했다고 보도했습니다.",
+   "segments": [
+    [
+     "ABC뉴스는 워시가 5월 연준 의장에 취임했다고 보도했습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/fed_policy_2026/tts/hold_2026_3_4c09b2fa73.mp3",
+   "npy": "/home/user/osint_generator/projects/fed_policy_2026/tts/hold_2026_3_4c09b2fa73.npy",
+   "dur": 4.299002267573696,
+   "t0": 98.50904761904764,
+   "t1": 102.80804988662133,
+   "trim_offset": 0.273719
+  },
+  {
+   "sid": "hold_2026_4",
+   "scene": "hold_2026",
+   "date": "2026.06",
+   "text": "연준 자료에 따르면 워시 의장이 처음 주재한 회의는 6월이었습니다.",
+   "tts": "연준 자료에 따르면 워시 의장이 처음 주재한 회의는 유월이었습니다.",
+   "segments": [
+    [
+     "연준 자료에 따르면 워시 의장이 처음 주재한 회의는 6월이었습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/fed_policy_2026/tts/hold_2026_4_f385c6f6be.mp3",
+   "npy": "/home/user/osint_generator/projects/fed_policy_2026/tts/hold_2026_4_f385c6f6be.npy",
+   "dur": 4.777006802721089,
+   "t0": 103.30804988662133,
+   "t1": 108.08505668934242,
+   "trim_offset": 0.382336
+  },
+  {
+   "sid": "hold_2026_5",
+   "scene": "hold_2026",
+   "date": "2026",
+   "text": "선제 지침은 중앙은행이 앞으로의 금리 방향을 미리 시사하는 문구입니다.",
+   "tts": "선제 지침은 중앙은행이 앞으로의 금리 방향을 미리 시사하는 문구입니다.",
+   "segments": [
+    [
+     "선제 지침",
+     1
+    ],
+    [
+     "은 중앙은행이 앞으로의 금리 방향을 미리 시사하는 문구입니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/fed_policy_2026/tts/hold_2026_5_e34b5a803c.mp3",
+   "npy": "/home/user/osint_generator/projects/fed_policy_2026/tts/hold_2026_5_e34b5a803c.npy",
+   "dur": 4.82297052154195,
+   "t0": 108.58505668934242,
+   "t1": 113.40802721088437,
+   "trim_offset": 0.372812
+  },
+  {
+   "sid": "hold_2026_6",
+   "scene": "hold_2026",
+   "date": "2026",
+   "text": "CNN과 폭스비즈니스는 워시 체제에서 성명의 선제 지침이 빠졌다고 보도했습니다.",
+   "tts": "씨엔엔과 폭스비즈니스는 워시 체제에서 성명의 선제 지침이 빠졌다고 보도했습니다.",
+   "segments": [
+    [
+     "CNN과 폭스비즈니스는 워시 체제에서 성명의 선제 지침이 빠졌다고 보도했습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/fed_policy_2026/tts/hold_2026_6_6b6fb92c83.mp3",
+   "npy": "/home/user/osint_generator/projects/fed_policy_2026/tts/hold_2026_6_6b6fb92c83.npy",
+   "dur": 5.602448979591837,
+   "t0": 113.90802721088437,
+   "t1": 119.51047619047621,
+   "trim_offset": 0.271179
+  },
+  {
+   "sid": "july_dissent_0",
+   "scene": "july_dissent",
+   "date": "2026.07.29",
+   "text": "7월 29일 동결 결정은 9대 3으로 갈렸습니다.",
+   "tts": "칠월 이십구일 동결 결정은 구 대 삼으로 갈렸습니다.",
+   "segments": [
+    [
+     "7월 29일 동결 결정은 ",
+     0
+    ],
+    [
+     "9대 3",
+     1
+    ],
+    [
+     "으로 갈렸습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/fed_policy_2026/tts/july_dissent_0_dea1e64f5f.mp3",
+   "npy": "/home/user/osint_generator/projects/fed_policy_2026/tts/july_dissent_0_dea1e64f5f.npy",
+   "dur": 3.830045351473923,
+   "t0": 121.01047619047621,
+   "t1": 124.84052154195014,
+   "trim_offset": 0.37619
+  },
+  {
+   "sid": "july_dissent_1",
+   "scene": "july_dissent",
+   "date": "2026.07.29",
+   "text": "연준 성명에 따르면 해맥·카시카리·로건은 0.25%p 인상을 원하며 반대했습니다.",
+   "tts": "연준 성명에 따르면 해맥, 카시카리, 로건은 영점이오 퍼센트포인트 인상을 원하며 반대했습니다.",
+   "segments": [
+    [
+     "연준 성명에 따르면 해맥·카시카리·로건은 0.25%p ",
+     0
+    ],
+    [
+     "인상",
+     1
+    ],
+    [
+     "을 원하며 반대했습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/fed_policy_2026/tts/july_dissent_1_a466dd8c84.mp3",
+   "npy": "/home/user/osint_generator/projects/fed_policy_2026/tts/july_dissent_1_a466dd8c84.npy",
+   "dur": 7.89281179138322,
+   "t0": 125.34052154195014,
+   "t1": 133.23333333333335,
+   "trim_offset": 0.368413
+  },
+  {
+   "sid": "july_dissent_2",
+   "scene": "july_dissent",
+   "date": "2026.07.29",
+   "text": "ABC뉴스는 같은 방향 반대표 3표가 10년 만에 가장 많았다고 보도했습니다.",
+   "tts": "에이비씨뉴스는 같은 방향 반대표 세 표가 십 년 만에 가장 많았다고 보도했습니다.",
+   "segments": [
+    [
+     "ABC뉴스는 같은 방향 반대표 3표가 10년 만에 가장 많았다고 보도했습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/fed_policy_2026/tts/july_dissent_2_890478e082.mp3",
+   "npy": "/home/user/osint_generator/projects/fed_policy_2026/tts/july_dissent_2_890478e082.npy",
+   "dur": 5.352358276643991,
+   "t0": 133.73333333333335,
+   "t1": 139.08569160997735,
+   "trim_offset": 0.255397
+  },
+  {
+   "sid": "july_dissent_3",
+   "scene": "july_dissent",
+   "date": "2026.07.29",
+   "text": "CNN은 그날 다우지수가 1,153포인트 떨어졌다고 보도했습니다.",
+   "tts": "씨엔엔은 그날 다우지수가 천백오십삼 포인트 떨어졌다고 보도했습니다.",
+   "segments": [
+    [
+     "CNN은 그날 다우지수가 1,153포인트 떨어졌다고 보도했습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/fed_policy_2026/tts/july_dissent_3_b8270db91b.mp3",
+   "npy": "/home/user/osint_generator/projects/fed_policy_2026/tts/july_dissent_3_b8270db91b.npy",
+   "dur": 5.012448979591837,
+   "t0": 139.58569160997735,
+   "t1": 144.59814058956917,
+   "trim_offset": 0.27678
+  },
+  {
+   "sid": "prices_jobs_0",
+   "scene": "prices_jobs",
+   "date": "2026.09.16",
+   "text": "PCE 물가는 개인이 소비한 상품과 서비스 가격의 변화를 재는 지표입니다.",
+   "tts": "개인소비지출 물가는 개인이 소비한 상품과 서비스 가격의 변화를 재는 지표입니다.",
+   "segments": [
+    [
+     "PCE 물가",
+     1
+    ],
+    [
+     "는 개인이 소비한 상품과 서비스 가격의 변화를 재는 지표입니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/fed_policy_2026/tts/prices_jobs_0_b876429db4.mp3",
+   "npy": "/home/user/osint_generator/projects/fed_policy_2026/tts/prices_jobs_0_b876429db4.npy",
+   "dur": 5.452222222222222,
+   "t0": 146.09814058956917,
+   "t1": 151.5503628117914,
+   "trim_offset": 0.364785
+  },
+  {
+   "sid": "prices_jobs_1",
+   "scene": "prices_jobs",
+   "date": "2026.09.16",
+   "text": "근원 PCE는 변동이 큰 식품과 에너지를 뺀 값입니다.",
+   "tts": "근원 개인소비지출 물가는 변동이 큰 식품과 에너지를 뺀 값입니다.",
+   "segments": [
+    [
+     "근원 PCE",
+     1
+    ],
+    [
+     "는 변동이 큰 식품과 에너지를 뺀 값입니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/fed_policy_2026/tts/prices_jobs_1_f9ed871fc5.mp3",
+   "npy": "/home/user/osint_generator/projects/fed_policy_2026/tts/prices_jobs_1_f9ed871fc5.npy",
+   "dur": 5.071428571428571,
+   "t0": 152.0503628117914,
+   "t1": 157.12179138321997,
+   "trim_offset": 0.375964
+  },
+  {
+   "sid": "prices_jobs_2",
+   "scene": "prices_jobs",
+   "date": "2026.09.16",
+   "text": "워시 의장은 8월 PCE 상승률을 약 3.6%로 추정했습니다.",
+   "tts": "워시 의장은 팔월 개인소비지출 물가 상승률을 약 삼점육 퍼센트로 추정했습니다.",
+   "segments": [
+    [
+     "워시 의장은 8월 PCE 상승률을 약 ",
+     0
+    ],
+    [
+     "3.6%",
+     1
+    ],
+    [
+     "로 추정했습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/fed_policy_2026/tts/prices_jobs_2_1ce9f83f4a.mp3",
+   "npy": "/home/user/osint_generator/projects/fed_policy_2026/tts/prices_jobs_2_1ce9f83f4a.npy",
+   "dur": 5.958095238095238,
+   "t0": 157.62179138321997,
+   "t1": 163.5798866213152,
+   "trim_offset": 0.342948
+  },
+  {
+   "sid": "prices_jobs_3",
+   "scene": "prices_jobs",
+   "date": "2026.09.16",
+   "text": "근원 PCE는 약 3.2% 수준이라고 밝혔습니다.",
+   "tts": "근원 개인소비지출 물가는 약 삼점이 퍼센트 수준이라고 밝혔습니다.",
+   "segments": [
+    [
+     "근원 PCE는 약 ",
+     0
+    ],
+    [
+     "3.2%",
+     1
+    ],
+    [
+     " 수준이라고 밝혔습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/fed_policy_2026/tts/prices_jobs_3_4912a43de3.mp3",
+   "npy": "/home/user/osint_generator/projects/fed_policy_2026/tts/prices_jobs_3_4912a43de3.npy",
+   "dur": 4.862086167800453,
+   "t0": 164.0798866213152,
+   "t1": 168.94197278911565,
+   "trim_offset": 0.364263
+  },
+  {
+   "sid": "prices_jobs_4",
+   "scene": "prices_jobs",
+   "date": "2026.08",
+   "text": "노동통계국 자료로 8월 소비자물가는 전년 같은 달보다 3.35% 올랐습니다.",
+   "tts": "노동통계국 자료로 팔월 소비자물가는 전년 같은 달보다 삼점삼오 퍼센트 올랐습니다.",
+   "segments": [
+    [
+     "노동통계국 자료로 8월 소비자물가는 전년 같은 달보다 ",
+     0
+    ],
+    [
+     "3.35%",
+     1
+    ],
+    [
+     " 올랐습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/fed_policy_2026/tts/prices_jobs_4_a62e9165f2.mp3",
+   "npy": "/home/user/osint_generator/projects/fed_policy_2026/tts/prices_jobs_4_a62e9165f2.npy",
+   "dur": 6.277596371882086,
+   "t0": 169.44197278911565,
+   "t1": 175.71956916099774,
+   "trim_offset": 0.373628
+  },
+  {
+   "sid": "prices_jobs_5",
+   "scene": "prices_jobs",
+   "date": "2026.09.16",
+   "text": "워시 의장은 실업률이 약 4.1%로 낮은 수준이라고 밝혔습니다.",
+   "tts": "워시 의장은 실업률이 약 사점일 퍼센트로 낮은 수준이라고 밝혔습니다.",
+   "segments": [
+    [
+     "워시 의장은 실업률이 약 4.1%로 낮은 수준이라고 밝혔습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/fed_policy_2026/tts/prices_jobs_5_d2546f4227.mp3",
+   "npy": "/home/user/osint_generator/projects/fed_policy_2026/tts/prices_jobs_5_d2546f4227.npy",
+   "dur": 4.92795918367347,
+   "t0": 176.21956916099774,
+   "t1": 181.1475283446712,
+   "trim_offset": 0.386916
+  },
+  {
+   "sid": "prices_jobs_6",
+   "scene": "prices_jobs",
+   "date": "2026.08",
+   "text": "ABC뉴스는 8월 고용이 16만 2천 명 늘었다고 보도했습니다.",
+   "tts": "에이비씨뉴스는 팔월 고용이 십육만이천 명 늘었다고 보도했습니다.",
+   "segments": [
+    [
+     "ABC뉴스는 8월 고용이 16만 2천 명 늘었다고 보도했습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/fed_policy_2026/tts/prices_jobs_6_662e0a94de.mp3",
+   "npy": "/home/user/osint_generator/projects/fed_policy_2026/tts/prices_jobs_6_662e0a94de.npy",
+   "dur": 4.246553287981859,
+   "t0": 181.6475283446712,
+   "t1": 185.89408163265307,
+   "trim_offset": 0.291315
+  },
+  {
+   "sid": "prices_jobs_7",
+   "scene": "prices_jobs",
+   "date": "2026.09.16",
+   "text": "ABC뉴스는 인상 당일 국제 유가가 배럴당 105달러를 웃돌았다고 보도했습니다.",
+   "tts": "에이비씨뉴스는 인상 당일 국제 유가가 배럴당 백오 달러를 웃돌았다고 보도했습니다.",
+   "segments": [
+    [
+     "ABC뉴스는 인상 당일 국제 유가가 배럴당 ",
+     0
+    ],
+    [
+     "105달러",
+     1
+    ],
+    [
+     "를 웃돌았다고 보도했습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/fed_policy_2026/tts/prices_jobs_7_11bb93e61e.mp3",
+   "npy": "/home/user/osint_generator/projects/fed_policy_2026/tts/prices_jobs_7_11bb93e61e.npy",
+   "dur": 5.526780045351474,
+   "t0": 186.39408163265307,
+   "t1": 191.92086167800454,
+   "trim_offset": 0.253401
+  },
+  {
+   "sid": "prices_jobs_8",
+   "scene": "prices_jobs",
+   "date": "2026.09.16",
+   "text": "ABC뉴스는 AAA 자료를 인용해 휘발유 평균 가격이 갤런당 4.36달러라고 전했습니다.",
+   "tts": "에이비씨뉴스는 미국자동차협회 자료를 인용해 휘발유 평균 가격이 갤런당 사점삼육 달러라고 전했습니다.",
+   "segments": [
+    [
+     "ABC뉴스는 AAA 자료를 인용해 휘발유 평균 가격이 갤런당 4.36달러라고 전했습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/fed_policy_2026/tts/prices_jobs_8_5fd09f47bd.mp3",
+   "npy": "/home/user/osint_generator/projects/fed_policy_2026/tts/prices_jobs_8_5fd09f47bd.npy",
+   "dur": 7.094557823129252,
+   "t0": 192.42086167800454,
+   "t1": 199.5154195011338,
+   "trim_offset": 0.252313
+  },
+  {
+   "sid": "markets_0",
+   "scene": "markets",
+   "date": "2026.09.16",
+   "text": "CNN·NBC·ABC는 인상 당일 다우지수가 약 630포인트 내렸다고 보도했습니다.",
+   "tts": "씨엔엔, 엔비씨, 에이비씨는 인상 당일 다우지수가 약 육백삼십 포인트 내렸다고 보도했습니다.",
+   "segments": [
+    [
+     "CNN·NBC·ABC는 인상 당일 다우지수가 약 630포인트 내렸다고 보도했습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/fed_policy_2026/tts/markets_0_472645b4eb.mp3",
+   "npy": "/home/user/osint_generator/projects/fed_policy_2026/tts/markets_0_472645b4eb.npy",
+   "dur": 7.386938775510204,
+   "t0": 201.0154195011338,
+   "t1": 208.402358276644,
+   "trim_offset": 0.241338
+  },
+  {
+   "sid": "markets_1",
+   "scene": "markets",
+   "date": "2026.09.16",
+   "text": "같은 날 S&P500 지수는 약 0.4% 내렸습니다.",
+   "tts": "같은 날 에스앤피 오백 지수는 약 영점사 퍼센트 내렸습니다.",
+   "segments": [
+    [
+     "같은 날 S&P500 지수는 약 0.4% 내렸습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/fed_policy_2026/tts/markets_1_7eb42f60ff.mp3",
+   "npy": "/home/user/osint_generator/projects/fed_policy_2026/tts/markets_1_7eb42f60ff.npy",
+   "dur": 4.471927437641724,
+   "t0": 208.902358276644,
+   "t1": 213.37428571428572,
+   "trim_offset": 0.395624
+  },
+  {
+   "sid": "markets_2",
+   "scene": "markets",
+   "date": "2026.09.16",
+   "text": "CNN과 폭스비즈니스는 미 국채 10년물 금리가 약 5%였다고 보도했습니다.",
+   "tts": "씨엔엔과 폭스비즈니스는 미 국채 십년물 금리가 약 오 퍼센트였다고 보도했습니다.",
+   "segments": [
+    [
+     "CNN과 폭스비즈니스는 미 국채 ",
+     0
+    ],
+    [
+     "10년물",
+     1
+    ],
+    [
+     " 금리가 약 5%였다고 보도했습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/fed_policy_2026/tts/markets_2_bfeda205f8.mp3",
+   "npy": "/home/user/osint_generator/projects/fed_policy_2026/tts/markets_2_bfeda205f8.npy",
+   "dur": 5.855328798185941,
+   "t0": 213.87428571428572,
+   "t1": 219.72961451247167,
+   "trim_offset": 0.250204
+  },
+  {
+   "sid": "projections_0",
+   "scene": "projections",
+   "date": "2026.09.16",
+   "text": "경제전망요약, SEP는 FOMC 참가자들이 각자 내놓은 경제 전망을 모은 자료입니다.",
+   "tts": "경제전망요약은 연방공개시장위원회 참가자들이 각자 내놓은 경제 전망을 모은 자료입니다.",
+   "segments": [
+    [
+     "경제전망요약",
+     1
+    ],
+    [
+     ", SEP는 FOMC 참가자들이 각자 내놓은 경제 전망을 모은 자료입니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/fed_policy_2026/tts/projections_0_a2638d09a5.mp3",
+   "npy": "/home/user/osint_generator/projects/fed_policy_2026/tts/projections_0_a2638d09a5.npy",
+   "dur": 6.166984126984127,
+   "t0": 221.22961451247167,
+   "t1": 227.3965986394558,
+   "trim_offset": 0.352358
+  },
+  {
+   "sid": "projections_1",
+   "scene": "projections",
+   "date": "2026.09.16",
+   "text": "참가자 전망 중앙값은 올해 PCE 물가를 3.7%로 제시했습니다.",
+   "tts": "참가자 전망 중앙값은 올해 개인소비지출 물가를 삼점칠 퍼센트로 제시했습니다.",
+   "segments": [
+    [
+     "참가자 전망 중앙값은 올해 PCE 물가를 ",
+     0
+    ],
+    [
+     "3.7%",
+     1
+    ],
+    [
+     "로 제시했습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/fed_policy_2026/tts/projections_1_5b10e45219.mp3",
+   "npy": "/home/user/osint_generator/projects/fed_policy_2026/tts/projections_1_5b10e45219.npy",
+   "dur": 5.9602947845804986,
+   "t0": 227.8965986394558,
+   "t1": 233.8568934240363,
+   "trim_offset": 0.379388
+  },
+  {
+   "sid": "projections_2",
+   "scene": "projections",
+   "date": "2026.09.16",
+   "text": "내년 PCE 물가 전망 중앙값은 2.3%였습니다.",
+   "tts": "내년 개인소비지출 물가 전망 중앙값은 이점삼 퍼센트였습니다.",
+   "segments": [
+    [
+     "내년 PCE 물가 전망 중앙값은 2.3%였습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/fed_policy_2026/tts/projections_2_96922eb580.mp3",
+   "npy": "/home/user/osint_generator/projects/fed_policy_2026/tts/projections_2_96922eb580.npy",
+   "dur": 5.022426303854875,
+   "t0": 234.3568934240363,
+   "t1": 239.37931972789116,
+   "trim_offset": 0.353719
+  },
+  {
+   "sid": "projections_3",
+   "scene": "projections",
+   "date": "2026.09.16",
+   "text": "올해 실질 GDP 성장률 전망 중앙값은 2.3%입니다.",
+   "tts": "올해 실질 국내총생산 성장률 전망 중앙값은 이점삼 퍼센트입니다.",
+   "segments": [
+    [
+     "올해 실질 GDP 성장률 전망 중앙값은 2.3%입니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/fed_policy_2026/tts/projections_3_c37b62bd1f.mp3",
+   "npy": "/home/user/osint_generator/projects/fed_policy_2026/tts/projections_3_c37b62bd1f.npy",
+   "dur": 5.13766439909297,
+   "t0": 239.87931972789116,
+   "t1": 245.01698412698414,
+   "trim_offset": 0.361882
+  },
+  {
+   "sid": "projections_4",
+   "scene": "projections",
+   "date": "2026.09.16",
+   "text": "점도표는 FOMC 참가자들이 각자 예상하는 금리를 점으로 찍은 표입니다.",
+   "tts": "점도표는 연방공개시장위원회 참가자들이 각자 예상하는 금리를 점으로 찍은 표입니다.",
+   "segments": [
+    [
+     "점도표",
+     1
+    ],
+    [
+     "는 FOMC 참가자들이 각자 예상하는 금리를 점으로 찍은 표입니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/fed_policy_2026/tts/projections_4_04843c3d07.mp3",
+   "npy": "/home/user/osint_generator/projects/fed_policy_2026/tts/projections_4_04843c3d07.npy",
+   "dur": 5.923673469387755,
+   "t0": 245.51698412698414,
+   "t1": 251.4406575963719,
+   "trim_offset": 0.360091
+  },
+  {
+   "sid": "projections_5",
+   "scene": "projections",
+   "date": "2026.09.16",
+   "text": "약속이 아니라 참가자별 전망입니다.",
+   "tts": "약속이 아니라 참가자별 전망입니다.",
+   "segments": [
+    [
+     "약속이 아니라 참가자별 ",
+     0
+    ],
+    [
+     "전망",
+     1
+    ],
+    [
+     "입니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/fed_policy_2026/tts/projections_5_a8394cf9d2.mp3",
+   "npy": "/home/user/osint_generator/projects/fed_policy_2026/tts/projections_5_a8394cf9d2.npy",
+   "dur": 2.548458049886621,
+   "t0": 251.9406575963719,
+   "t1": 254.4891156462585,
+   "trim_offset": 0.36619
+  },
+  {
+   "sid": "projections_6",
+   "scene": "projections",
+   "date": "2026.09.16",
+   "text": "전망 중앙값은 연내 0.25%p 추가 인상 한 번을 가리켰습니다.",
+   "tts": "전망 중앙값은 연내 영점이오 퍼센트포인트 추가 인상 한 번을 가리켰습니다.",
+   "segments": [
+    [
+     "전망 중앙값은 연내 0.25%p ",
+     0
+    ],
+    [
+     "추가 인상",
+     1
+    ],
+    [
+     " 한 번을 가리켰습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/fed_policy_2026/tts/projections_6_27f083929b.mp3",
+   "npy": "/home/user/osint_generator/projects/fed_policy_2026/tts/projections_6_27f083929b.npy",
+   "dur": 5.350476190476191,
+   "t0": 254.9891156462585,
+   "t1": 260.3395918367347,
+   "trim_offset": 0.386803
+  },
+  {
+   "sid": "pressure_0",
+   "scene": "pressure",
+   "date": "2026.09.16",
+   "text": "트럼프 대통령은 소셜미디어에서 금리를 1% 이하로 빨리 내려야 한다고 요구했습니다.",
+   "tts": "트럼프 대통령은 소셜미디어에서 금리를 일 퍼센트 이하로 빨리 내려야 한다고 요구했습니다.",
+   "segments": [
+    [
+     "트럼프 대통령은 소셜미디어에서 금리를 ",
+     0
+    ],
+    [
+     "1% 이하",
+     1
+    ],
+    [
+     "로 빨리 내려야 한다고 요구했습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/fed_policy_2026/tts/pressure_0_c6edbf471c.mp3",
+   "npy": "/home/user/osint_generator/projects/fed_policy_2026/tts/pressure_0_c6edbf471c.npy",
+   "dur": 5.901655328798186,
+   "t0": 261.8395918367347,
+   "t1": 267.7412471655329,
+   "trim_offset": 0.355737
+  },
+  {
+   "sid": "pressure_1",
+   "scene": "pressure",
+   "date": "2026.09.16",
+   "text": "워시 의장은 인플레이션이 너무 오래 높아 가격 안정에 먼저 초점을 둔다고 설명했습니다.",
+   "tts": "워시 의장은 인플레이션이 너무 오래 높아 가격 안정에 먼저 초점을 둔다고 설명했습니다.",
+   "segments": [
+    [
+     "워시 의장은 인플레이션이 너무 오래 높아 ",
+     0
+    ],
+    [
+     "가격 안정",
+     1
+    ],
+    [
+     "에 먼저 초점을 둔다고 설명했습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/fed_policy_2026/tts/pressure_1_d034b4aacb.mp3",
+   "npy": "/home/user/osint_generator/projects/fed_policy_2026/tts/pressure_1_d034b4aacb.npy",
+   "dur": 5.9970748299319725,
+   "t0": 268.2412471655329,
+   "t1": 274.2383219954649,
+   "trim_offset": 0.364467
+  },
+  {
+   "sid": "pressure_2",
+   "scene": "pressure",
+   "date": "2026.09.16",
+   "text": "CNN과 NBC뉴스는 워시 의장이 대통령의 금리 압박에 대한 언급을 거부했다고 보도했습니다.",
+   "tts": "씨엔엔과 엔비씨뉴스는 워시 의장이 대통령의 금리 압박에 대한 언급을 거부했다고 보도했습니다.",
+   "segments": [
+    [
+     "CNN과 NBC뉴스는 워시 의장이 대통령의 금리 압박에 대한 언급을 거부했다고 보도했습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/fed_policy_2026/tts/pressure_2_9a54158c28.mp3",
+   "npy": "/home/user/osint_generator/projects/fed_policy_2026/tts/pressure_2_9a54158c28.npy",
+   "dur": 6.311451247165533,
+   "t0": 274.7383219954649,
+   "t1": 281.0497732426304,
+   "trim_offset": 0.259637
+  },
+  {
+   "sid": "close_0",
+   "scene": "close",
+   "date": "2026.10.27",
+   "text": "폭스비즈니스는 다음 FOMC 회의가 10월 말로 잡혀 있다고 보도했습니다.",
+   "tts": "폭스비즈니스는 다음 연방공개시장위원회 회의가 시월 말로 잡혀 있다고 보도했습니다.",
+   "segments": [
+    [
+     "폭스비즈니스는 다음 FOMC 회의가 10월 말로 잡혀 있다고 보도했습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/fed_policy_2026/tts/close_0_5c19fa3064.mp3",
+   "npy": "/home/user/osint_generator/projects/fed_policy_2026/tts/close_0_5c19fa3064.npy",
+   "dur": 5.851882086167801,
+   "t0": 282.5497732426304,
+   "t1": 288.4016553287982,
+   "trim_offset": 0.367143
+  },
+  {
+   "sid": "close_1",
+   "scene": "close",
+   "date": "2026.09",
+   "text": "점도표가 가리킨 추가 인상이 실제로 이뤄질지는 아직 정해지지 않았습니다.",
+   "tts": "점도표가 가리킨 추가 인상이 실제로 이뤄질지는 아직 정해지지 않았습니다.",
+   "segments": [
+    [
+     "점도표가 가리킨 추가 인상이 실제로 이뤄질지는 ",
+     0
+    ],
+    [
+     "아직 정해지지 않았습니다",
+     1
+    ],
+    [
+     ".",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/fed_policy_2026/tts/close_1_75e3f8a71b.mp3",
+   "npy": "/home/user/osint_generator/projects/fed_policy_2026/tts/close_1_75e3f8a71b.npy",
+   "dur": 5.021360544217687,
+   "t0": 288.9016553287982,
+   "t1": 293.9230158730159,
+   "trim_offset": 0.387098
+  }
+ ],
+ "cards": [
+  {
+   "kind": "title",
+   "t0": 15.398662131519274,
+   "t1": 20.998662131519275
+  },
+  {
+   "kind": "end",
+   "t0": 295.6230158730159,
+   "t1": 306.6230158730159
+  }
+ ],
+ "scene_start": {
+  "open": 1.2,
+  "decision": 21.398662131519274,
+  "cuts_2025": 53.52993197278912,
+  "hold_2026": 79.3045351473923,
+  "july_dissent": 121.01047619047621,
+  "prices_jobs": 146.09814058956917,
+  "markets": 201.0154195011338,
+  "projections": 221.22961451247167,
+  "pressure": 261.8395918367347,
+  "close": 282.5497732426304
+ },
+ "total": 307.1230158730159,
+ "voice": "edge-tts ko-KR-InJoonNeural",
+ "title": "연준, 다시 금리를 올리다",
+ "subtitle": "2023년 이후 첫 인상, 그리고 아직 남은 질문",
+ "date": "2026.09.29",
+ "tts_resynthesized": []
+}

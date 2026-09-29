@@ -1,0 +1,71 @@
+{
+ "flags": {
+  "flag_icons": {
+   "name": "flag-icons",
+   "license": "MIT",
+   "author": "Panayiotis Lipiridis",
+   "url": "https://github.com/lipis/flag-icons"
+  }
+ },
+ "fonts": {
+  "ibm_plex_sans_kr": {
+   "name": "IBM Plex Sans KR",
+   "license": "SIL OFL 1.1",
+   "author": "IBM",
+   "url": "https://github.com/google/fonts/tree/main/ofl/ibmplexsanskr"
+  },
+  "ibm_plex_mono": {
+   "name": "IBM Plex Mono",
+   "license": "SIL OFL 1.1",
+   "author": "IBM",
+   "url": "https://github.com/google/fonts/tree/main/ofl/ibmplexmono"
+  },
+  "gmarket_sans": {
+   "name": "GmarketSans",
+   "license": "G마켓 무료 폰트",
+   "author": "Gmarket",
+   "url": "https://corp.gmarket.com/fonts/"
+  },
+  "noto_serif_cjk": {
+   "name": "Noto Serif CJK KR",
+   "license": "SIL OFL 1.1",
+   "author": "Google · Adobe",
+   "url": "https://github.com/notofonts/noto-cjk"
+  }
+ },
+ "map": {
+  "natural_earth": {
+   "name": "Natural Earth",
+   "license": "Public domain",
+   "author": "Natural Earth",
+   "url": "https://www.naturalearthdata.com"
+  },
+  "aws_terrain_tiles": {
+   "name": "AWS Terrain Tiles",
+   "license": "구성 데이터별 조건(Mapzen terrarium)",
+   "author": "Mapzen · AWS Open Data",
+   "url": "https://registry.opendata.aws/terrain-tiles/"
+  }
+ },
+ "narration": {
+  "tts": {
+   "name": "내레이션",
+   "license": "AI 음성 합성",
+   "author": "",
+   "url": ""
+  }
+ },
+ "people": {
+  "warsh": {
+   "src": "repo_library",
+   "license": "Public domain",
+   "artist": "Federalreserve",
+   "url": "https://commons.wikimedia.org/wiki/File:Official_portrait_of_Kevin_M._Warsh_(cropped).jpg",
+   "rights_status": "rights_clear",
+   "processing": {
+    "tool": "tools/portrait_fallback.py library",
+    "variant": "assets/library/people/warsh_mono_v01.png"
+   }
+  }
+ }
+}

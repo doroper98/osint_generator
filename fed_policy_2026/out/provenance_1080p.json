@@ -1,0 +1,628 @@
+{
+ "schema_version": 1,
+ "engine": "engine",
+ "repo_version": "4.4.0",
+ "rules_version": "2.0.0",
+ "rules_hash": "635bec6635790df1d600d147234ccb3ef665b822",
+ "prompts": {
+  "director": "903e50877c53f08ac39e20c0855a04cf7c54c0c8"
+ },
+ "voice": "edge-tts ko-KR-InJoonNeural",
+ "word_anchor": "none",
+ "word_anchors": [],
+ "tts": {
+  "resynthesized": []
+ },
+ "total_sec": 307.123,
+ "sentences": 48,
+ "stages": {
+  "plan": true,
+  "geo": true,
+  "preview": true,
+  "render": true,
+  "mix": true,
+  "mux": true,
+  "ai_direction": true,
+  "visual_qa": true,
+  "bundle": false
+ },
+ "features_used": {
+  "camera_keys": 10,
+  "camera_moves": 9,
+  "camera_cuts": 1,
+  "dips": 0,
+  "dips_under": 0,
+  "badges": 2,
+  "badge_kinds": {
+   "person": 2
+  },
+  "panels": [
+   "versus"
+  ],
+  "cards": 34,
+  "media": {
+   "clip": 0,
+   "photo": 2,
+   "cutout": 0,
+   "article": 2
+  },
+  "event_types": {
+   "article": 2,
+   "badge": 2,
+   "card": 34,
+   "marker": 12,
+   "panel": 1,
+   "photo": 2,
+   "primitive": 2,
+   "series": 3
+  },
+  "label_lod": true,
+  "vignette": false,
+  "at_word": {
+   "aligned": 0,
+   "ratio": 0
+  }
+ },
+ "qa": {
+  "auto_iterations": 6,
+  "user_approved": false,
+  "reviewer": "fable (back_and_forth)",
+  "visual_qa": [
+   "revise",
+   "revise",
+   "revise"
+  ]
+ },
+ "drops": [],
+ "assets": {
+  "images_used": [
+   "flag43:us",
+   "media:fed_presser_0916_720.jpg",
+   "media:fed_presser_0916_b_720.jpg",
+   "portrait:warsh"
+  ],
+  "emblems": {
+   "used": [],
+   "flag_fallback": {}
+  },
+  "badges": {
+   "suggested": [
+    "il",
+    "ir",
+    "trump",
+    "us"
+   ],
+   "used": [
+    "warsh"
+   ],
+   "suggested_and_used": [],
+   "suggestions": 7
+  }
+ },
+ "panels": {
+  "used": [
+   {
+    "kind": "versus",
+    "title": "금리를 둘러싼 두 목소리 · 9월 16일",
+    "t0": 261.64,
+    "prov_tag": null
+   }
+  ]
+ },
+ "credits": {
+  "card": {
+   "flags": 1,
+   "media": 4,
+   "narration": 1,
+   "people": 1
+  },
+  "description_only": {
+   "fonts": 4
+  }
+ },
+ "reserved": {
+  "avoidance": [
+   {
+    "badge": "케빈 워시",
+    "t0": 102.62,
+    "t1": 108.46,
+    "strategy": [
+     "push"
+    ],
+    "direction": [
+     "down"
+    ],
+    "max_px": 78.6,
+    "zones": [
+     "card:선제 지침",
+     "card:연준 자료"
+    ],
+    "frames": 141
+   }
+  ]
+ },
+ "audio": {
+  "bgm": null,
+  "bed_gain": 0.47,
+  "crossfades": 0,
+  "loudnorm": {
+   "passes": 2,
+   "pass1": {
+    "input_i": -14.23,
+    "input_tp": -1.88,
+    "input_lra": 3.0,
+    "input_thresh": -24.7,
+    "target_offset": 0.17
+   },
+   "pass2": {
+    "output_i": -13.97,
+    "output_tp": -1.71,
+    "normalization_type": "linear"
+   }
+  },
+  "qa": {
+   "hard": [],
+   "warnings": [],
+   "final_loudness": {
+    "I": -14.02,
+    "TP": -1.59,
+    "LRA": 3.0
+   },
+   "music_under_narration_db": -72.57,
+   "mix_peak": 0.8
+  }
+ },
+ "render": {
+  "resolution": {
+   "profile": "1080p",
+   "width": 1920,
+   "height": 1080,
+   "fps": 24,
+   "k": 2.25,
+   "pad_x": -0.75,
+   "crf": 19,
+   "preset": "faster"
+  }
+ },
+ "stage": {
+  "name": "timeline",
+  "declared": true,
+  "shots_declared": 0,
+  "instances": {
+   "timeline": 1
+  },
+  "configs": {
+   "timeline": {
+    "lanes": [
+     {
+      "id": "policy_rate",
+      "label": "연방기금금리 (목표 범위·실효)",
+      "kind": "step",
+      "unit": "%"
+     },
+     {
+      "id": "inflation",
+      "label": "소비자물가 (전년 대비)",
+      "kind": "line",
+      "unit": "%"
+     },
+     {
+      "id": "events",
+      "label": "사건",
+      "kind": "pins"
+     }
+    ],
+    "start": "2019-01-01",
+    "end": "2026-12-31"
+   }
+  }
+ },
+ "genre": {
+  "name": "macro_monetary",
+  "declared": true,
+  "status": "proposed"
+ },
+ "order": {
+  "topic": "연방준비제도의 최근 금리 정책",
+  "genre": "macro_monetary",
+  "decisions": {
+   "topic": {
+    "value": "연방준비제도의 최근 금리 정책",
+    "by": "default",
+    "ref": "D-0090"
+   },
+   "macro_monetary_status": {
+    "value": "proposed",
+    "by": "default",
+    "ref": "D-0090"
+   },
+   "elements_approval": {
+    "value": "pending",
+    "by": "default",
+    "ref": "D-0090"
+   },
+   "video_verdict": {
+    "value": "Fable 1차 판정 → 사용자 최종",
+    "by": "default",
+    "ref": "D-0090"
+   }
+  }
+ },
+ "elements": {
+  "new": [
+   "dot_plot",
+   "statement_diff"
+  ],
+  "approval": "pending",
+  "by": "default"
+ },
+ "series": [
+  {
+   "series_id": "DFEDTARL",
+   "as_of": "2026-09",
+   "license": "us_gov_public_domain",
+   "source_url": "https://fred.stlouisfed.org/graph/fredgraph.csv?id=DFEDTARL&cosd=2019-01-01",
+   "transform": "month_last",
+   "missing": []
+  },
+  {
+   "series_id": "DFEDTARU",
+   "as_of": "2026-09",
+   "license": "us_gov_public_domain",
+   "source_url": "https://fred.stlouisfed.org/graph/fredgraph.csv?id=DFEDTARU&cosd=2019-01-01",
+   "transform": "month_last",
+   "missing": []
+  },
+  {
+   "series_id": "FEDFUNDS",
+   "as_of": "2026-08",
+   "license": "us_gov_public_domain",
+   "source_url": "https://fred.stlouisfed.org/graph/fredgraph.csv?id=FEDFUNDS&cosd=2019-01-01",
+   "transform": "raw",
+   "missing": []
+  },
+  {
+   "series_id": "CPIAUCSL",
+   "as_of": "2026-08",
+   "license": "us_gov_public_domain",
+   "source_url": "https://fred.stlouisfed.org/graph/fredgraph.csv?id=CPIAUCSL&cosd=2018-01-01",
+   "transform": "yoy_pct",
+   "missing": [
+    "2025-10-01"
+   ]
+  }
+ ],
+ "camera": {
+  "suggest_ran": false,
+  "suggested": 0,
+  "used": 0,
+  "given_to_director": false
+ },
+ "lint_warnings": [
+  "[media-density-total] 과소 — 4개 / 307초 = 76.8초당 1개 > 60초 (14 §10.1)",
+  "[media-kind-repeat] 이웃 장면 hold_2026→july_dissent 같은 형태 ['article'] (14 §10.1)"
+ ],
+ "media": {
+  "suggested": [
+   {
+    "sid": "open_1",
+    "scene": "open",
+    "kind": "article",
+    "trigger": "보도했습니다",
+    "at": 5.45,
+    "source": "trigger",
+    "asset_id": null
+   },
+   {
+    "sid": "decision_1",
+    "scene": "decision",
+    "kind": "photo",
+    "trigger": "발표",
+    "at": 27.96,
+    "source": "trigger",
+    "asset_id": null
+   },
+   {
+    "sid": "cuts_2025_0",
+    "scene": "cuts_2025",
+    "kind": "article",
+    "trigger": "보도했습니다",
+    "at": 53.53,
+    "source": "trigger",
+    "asset_id": null
+   },
+   {
+    "sid": "cuts_2025_1",
+    "scene": "cuts_2025",
+    "kind": "photo",
+    "trigger": "발표",
+    "at": 59.3,
+    "source": "trigger",
+    "asset_id": null
+   },
+   {
+    "sid": "hold_2026_2",
+    "scene": "hold_2026",
+    "kind": "article",
+    "trigger": "보도했습니다",
+    "at": 93.37,
+    "source": "trigger",
+    "asset_id": null
+   },
+   {
+    "sid": "hold_2026_3",
+    "scene": "hold_2026",
+    "kind": "article",
+    "trigger": "보도했습니다",
+    "at": 98.51,
+    "source": "trigger",
+    "asset_id": null
+   },
+   {
+    "sid": "hold_2026_6",
+    "scene": "hold_2026",
+    "kind": "article",
+    "trigger": "보도했습니다",
+    "at": 113.91,
+    "source": "trigger",
+    "asset_id": null
+   },
+   {
+    "sid": "july_dissent_2",
+    "scene": "july_dissent",
+    "kind": "article",
+    "trigger": "보도했습니다",
+    "at": 133.73,
+    "source": "trigger",
+    "asset_id": null
+   },
+   {
+    "sid": "july_dissent_3",
+    "scene": "july_dissent",
+    "kind": "article",
+    "trigger": "보도했습니다",
+    "at": 139.59,
+    "source": "trigger",
+    "asset_id": null
+   },
+   {
+    "sid": "prices_jobs_6",
+    "scene": "prices_jobs",
+    "kind": "article",
+    "trigger": "보도했습니다",
+    "at": 181.65,
+    "source": "trigger",
+    "asset_id": null
+   },
+   {
+    "sid": "prices_jobs_7",
+    "scene": "prices_jobs",
+    "kind": "article",
+    "trigger": "보도했습니다",
+    "at": 186.39,
+    "source": "trigger",
+    "asset_id": null
+   },
+   {
+    "sid": "markets_0",
+    "scene": "markets",
+    "kind": "article",
+    "trigger": "보도했습니다",
+    "at": 201.02,
+    "source": "trigger",
+    "asset_id": null
+   },
+   {
+    "sid": "markets_2",
+    "scene": "markets",
+    "kind": "article",
+    "trigger": "보도했습니다",
+    "at": 213.87,
+    "source": "trigger",
+    "asset_id": null
+   },
+   {
+    "sid": "pressure_2",
+    "scene": "pressure",
+    "kind": "article",
+    "trigger": "보도했습니다",
+    "at": 274.74,
+    "source": "trigger",
+    "asset_id": null
+   },
+   {
+    "sid": "close_0",
+    "scene": "close",
+    "kind": "article",
+    "trigger": "보도했습니다",
+    "at": 282.55,
+    "source": "trigger",
+    "asset_id": null
+   }
+  ],
+  "used": [
+   {
+    "mid": "fed_presser_0916",
+    "kind": "photo",
+    "t0": 28.36
+   },
+   {
+    "mid": "fox_0916",
+    "kind": "article",
+    "t0": 114.21
+   },
+   {
+    "mid": "cnn_0729",
+    "kind": "article",
+    "t0": 139.89
+   },
+   {
+    "mid": "fed_presser_0916_b",
+    "kind": "photo",
+    "t0": 157.92
+   }
+  ],
+  "suggested_and_used": [
+   "decision:photo",
+   "hold_2026:article",
+   "july_dissent:article"
+  ],
+  "density": {
+   "schema_version": 1,
+   "total_sec": 307.123,
+   "items": [
+    {
+     "mid": "fed_presser_0916",
+     "kind": "photo",
+     "t0": 28.36,
+     "t1": 37.8,
+     "scene": "decision"
+    },
+    {
+     "mid": "fox_0916",
+     "kind": "article",
+     "t0": 114.21,
+     "t1": 120.31,
+     "scene": "hold_2026"
+    },
+    {
+     "mid": "cnn_0729",
+     "kind": "article",
+     "t0": 139.89,
+     "t1": 145.4,
+     "scene": "july_dissent"
+    },
+    {
+     "mid": "fed_presser_0916_b",
+     "kind": "photo",
+     "t0": 157.92,
+     "t1": 169.24,
+     "scene": "prices_jobs"
+    }
+   ],
+   "count": 4,
+   "sec_per_item": 76.8,
+   "target_sec_per_item": [
+    40.0,
+    60.0
+   ],
+   "window": {
+    "window_sec": 40.0,
+    "window_max": 2,
+    "exempt": [
+     "article"
+    ],
+    "max": {
+     "t0": 28.36,
+     "count": 1,
+     "mids": [
+      "fed_presser_0916"
+     ]
+    }
+   },
+   "per_scene": {
+    "decision": [
+     "fed_presser_0916"
+    ],
+    "prices_jobs": [
+     "fed_presser_0916_b"
+    ]
+   },
+   "warnings": [
+    "[media-density-total] 과소 — 4개 / 307초 = 76.8초당 1개 > 60초 (14 §10.1)",
+    "[media-kind-repeat] 이웃 장면 hold_2026→july_dissent 같은 형태 ['article'] (14 §10.1)"
+   ]
+  },
+  "placement": {
+   "fed_presser_0916": "stage:timeline_photo",
+   "badge:케빈 워시": "stage:timeline_badge",
+   "fed_presser_0916_b": "stage:timeline_photo"
+  }
+ },
+ "script": {
+  "labels": {
+   "verified": 27,
+   "corroborated": 8,
+   "unverified": 9,
+   "disputed": 2
+  }
+ },
+ "ai_direction": {
+  "origin": "ai",
+  "model": "claude-opus-5-5",
+  "prompt_sha1": "903e50877c53f08ac39e20c0855a04cf7c54c0c8",
+  "direction_versions": 7,
+  "used_version": 7,
+  "selected": {
+   "version": 7,
+   "by": "code",
+   "reason": "상한 2회 도달 — checks_hard·qa_hard·qa_soft 사전식 최소 (checks hard 0, 검수 hard 3, soft 5)"
+  },
+  "rounds": [
+   {
+    "version": 4,
+    "checks_hard": 0,
+    "qa_hard": 3,
+    "qa_soft": 7
+   },
+   {
+    "version": 6,
+    "checks_hard": 2,
+    "qa_hard": null,
+    "qa_soft": null
+   },
+   {
+    "version": 7,
+    "checks_hard": 0,
+    "qa_hard": 3,
+    "qa_soft": 5
+   }
+  ],
+  "revisions": [
+   {
+    "direction_version": 2,
+    "changes": 5
+   },
+   {
+    "direction_version": 3,
+    "changes": 1
+   },
+   {
+    "direction_version": 4,
+    "changes": 14
+   },
+   {
+    "direction_version": 5,
+    "changes": 2
+   },
+   {
+    "direction_version": 6,
+    "changes": 11
+   },
+   {
+    "direction_version": 7,
+    "changes": 2
+   }
+  ],
+  "visual_qa": [
+   {
+    "file": "qa_verdict.v1.json",
+    "verdict": "revise",
+    "hard": 3,
+    "soft": 8
+   },
+   {
+    "file": "qa_verdict.v2.json",
+    "verdict": "revise",
+    "hard": 3,
+    "soft": 7
+   },
+   {
+    "file": "qa_verdict.v3.json",
+    "verdict": "revise",
+    "hard": 3,
+    "soft": 5
+   }
+  ]
+ }
+}
