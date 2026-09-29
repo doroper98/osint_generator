@@ -1,0 +1,46 @@
+# 요소 예시 (v4.2.0, back_and_forth D-0081 작업 6) — 레지스트리 모델을 그대로 통과한다(15 P4). tests/fixtures/preview/panel_precedent.yaml 와 같은 event(test_element_examples).
+# 수치·문구는 예시다. 시각(t0·t1)은 hormuz_korea 연출의 실제 시각 — 요소 갤러리(tools/element_gallery.py)가 그 순간의 카메라로 그린다.
+schema_version: 1
+key: panel:precedent
+source: projects/hormuz_korea/direction.py (첫 사용 예)
+event:
+  type: panel
+  t0: 186.43
+  t1: 211.1
+  title: 한국의 해외 파견 결정
+  kind: precedent
+  subtitle: 전례와 이번 결정
+  cards:
+  - year: '2004'
+    title: 이라크 자이툰 부대
+    lines:
+    - 아르빌 파견
+    - 6자회담 속 대미 관계
+    - 국내 반대 여론
+    t0: 190.71
+    hl: false
+    person:
+      pid: roh_moo_hyun
+      flag: kr
+      caption: 노무현 대통령
+  - year: '2009'
+    title: 청해부대
+    lines:
+    - 소말리아 아덴만
+    - 해적 대응 · 상선 보호
+    t0: 202.6
+    hl: false
+  - year: '2020'
+    title: 작전 구역 확대
+    lines:
+    - 호르무즈까지 확대
+    - 지휘권은 한국군
+    t0: 205.23
+    hl: false
+  - year: '2026'
+    title: 이번 결정
+    lines:
+    - 전쟁 개입 파병 없음
+    - 최소한의 활동만
+    t0: 209.35
+    hl: true

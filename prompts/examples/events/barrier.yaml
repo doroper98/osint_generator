@@ -1,0 +1,16 @@
+# 요소 예시 (v4.2.0, back_and_forth D-0081 작업 6) — 레지스트리 모델을 그대로 통과한다(15 P4). tests/fixtures/preview/barrier.yaml 와 같은 event(test_element_examples).
+# 수치·문구는 예시다. 시각(t0·t1)은 hormuz_korea 연출의 실제 시각 — 요소 갤러리(tools/element_gallery.py)가 그 순간의 카메라로 그린다.
+schema_version: 1
+key: barrier
+source: projects/hormuz_korea/direction.py (첫 사용 예)
+event:
+  type: barrier
+  t0: 59.05
+  t1: 69.21
+  p0:
+  - 56.28
+  - 27.05
+  p1:
+  - 56.42
+  - 26.28
+  label: 봉쇄

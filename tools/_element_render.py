@@ -18,16 +18,24 @@ from engine.stage import attach_world
 from engine.style import H_OUT, W_OUT
 
 SCREEN_STAGES = ("dip", "panel", "media", "card")
+_MEASURE = cairo.Context(cairo.ImageSurface(cairo.FORMAT_ARGB32, 1, 1))
 
 
-def prepare(P, raw: dict) -> dict:  # noqa: ANN001 — engine.project.Project
-    """예제 이벤트(dict) → 검증된 렌더 이벤트(월드 좌표 포함). 레지스트리 밖·모델 불일치 = RegistryError(P6)."""
+def prepare(P, raw: dict, sources: dict | None = None) -> dict:  # noqa: ANN001 — engine.project.Project
+    """예제 이벤트(dict) → 검증된 렌더 이벤트(월드 좌표 포함). 레지스트리 밖·모델 불일치 = RegistryError(P6).
+    post 카드는 소스 레코드가 필요하다(18 §5) — sources(id → 레코드)를 주면 그것으로, 없으면 프로젝트 intake/sources.json."""
     ev = validate_events([raw])[0]
     attach_world([ev], P.R.stage)
     if ev["type"] == "post":
-        from engine.project import _attach_posts  # noqa: PLC0415 — post 카드 상자는 소스 레코드로(18 §5)
+        if sources is None:
+            from engine.project import _attach_posts  # noqa: PLC0415
 
-        _attach_posts(P.root, P.R, [ev])
+            _attach_posts(P.root, P.R, [ev])
+        else:
+            from engine.layers.post import post_geom  # noqa: PLC0415
+
+            P.R.cache["sources"] = sources
+            ev["post_box"] = post_geom(_MEASURE, ev, sources)[:4]
     return ev
 
 

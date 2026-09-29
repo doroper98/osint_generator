@@ -1,0 +1,69 @@
+# 요소 예시 (v4.2.0, back_and_forth D-0081 작업 6) — 레지스트리 모델을 그대로 통과한다(15 P4). tests/fixtures/preview/panel_timeline.yaml 와 같은 event(test_element_examples).
+# 수치·문구는 예시다. 시각(t0·t1)은 hormuz_korea 연출의 실제 시각 — 요소 갤러리(tools/element_gallery.py)가 그 순간의 카메라로 그린다.
+schema_version: 1
+key: panel:timeline
+source: projects/hormuz_korea/direction.py (첫 사용 예)
+event:
+  type: panel
+  t0: 110.69
+  t1: 148.95
+  title: 해협의 일곱 달
+  kind: timeline
+  subtitle: 2026년 2월 – 9월
+  start: '2026-02-01'
+  end: '2026-09-30'
+  band:
+    start: '2026-04-08'
+    end: '2026-07-08'
+    label: 휴전 4.8 – 7.8
+    col: green
+    t_show: 128.6
+  events:
+  - date: '2026-02-28'
+    label: 개전 · 해협 봉쇄
+    col: ru
+    side: -1
+    t: 111.49
+    dim: false
+  - date: '2026-03-15'
+    label: 트럼프, 동맹에 요구
+    col: us
+    side: 1
+    t: 111.49
+    dim: false
+  - date: '2026-04-07'
+    label: 안보리 거부권
+    col: ru
+    side: -2
+    t: 115.68
+    dim: false
+  - date: '2026-04-13'
+    label: 미국 해상 봉쇄
+    col: us
+    side: 2
+    t: 122.35
+    dim: false
+  - date: '2026-06-17'
+    label: 양해각서 서명
+    col: green
+    side: -1
+    t: 128.7
+    dim: false
+  - date: '2026-07-08'
+    label: 휴전 붕괴
+    col: ru
+    side: 1
+    t: 134.27
+    dim: false
+  - date: '2026-08-25'
+    label: 기뢰 제거 발표
+    col: us
+    side: -2
+    t: 142.52
+    dim: false
+  - date: '2026-09-18'
+    label: 한국, 파병 않기로
+    col: gold
+    side: 2
+    t: 145.95
+    dim: true

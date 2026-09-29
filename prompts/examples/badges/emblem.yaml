@@ -1,0 +1,17 @@
+# 요소 예시 (v4.2.0, back_and_forth D-0081 작업 6) — 레지스트리 모델을 그대로 통과한다(15 P4). 수치·문구는 예시다.
+# 시각(t0·t1)·좌표는 hormuz_korea 연출의 실제 이벤트 — 요소 갤러리가 그 순간의 카메라로 그린다.
+schema_version: 1
+key: badge:emblem
+source: projects/hormuz_korea/direction.yaml (now 장면 미 해군 중부사령부 휘장)
+event:
+  type: badge
+  t0: 255.31
+  t1: 292.44
+  lon: 61.8
+  lat: 20.2
+  kind: emblem
+  img: navcent
+  R: 28.0
+  label: 미 해군 중부사령부
+  role: 호위 작전
+  accent: us

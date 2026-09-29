@@ -1,0 +1,56 @@
+# 요소 예시 (v4.2.0, back_and_forth D-0081 작업 6) — 레지스트리 모델을 그대로 통과한다(15 P4). tests/fixtures/preview/route.yaml 와 같은 event(test_element_examples).
+# 수치·문구는 예시다. 시각(t0·t1)은 hormuz_korea 연출의 실제 시각 — 요소 갤러리(tools/element_gallery.py)가 그 순간의 카메라로 그린다.
+schema_version: 1
+key: route
+source: projects/hormuz_korea/direction.py (첫 사용 예)
+event:
+  type: route
+  t0: 31.96
+  t1: 48.85
+  pts:
+  - - 56.2
+    - 26.45
+  - - 57.8
+    - 24.9
+  - - 60.5
+    - 22.6
+  - - 65.0
+    - 18.2
+  - - 72.0
+    - 11.0
+  - - 79.5
+    - 5.4
+  - - 88.0
+    - 5.6
+  - - 95.2
+    - 5.9
+  - - 98.8
+    - 4.6
+  - - 101.5
+    - 2.6
+  - - 104.1
+    - 1.25
+  - - 106.5
+    - 3.8
+  - - 110.0
+    - 9.5
+  - - 115.0
+    - 15.5
+  - - 120.2
+    - 20.2
+  - - 122.4
+    - 23.8
+  - - 123.8
+    - 28.2
+  - - 126.2
+    - 32.2
+  - - 128.6
+    - 34.5
+  - - 129.35
+    - 35.45
+  grow: 15.35
+  col: gold
+  ship: true
+  dashed: false
+  glow_only: false
+  label: ''

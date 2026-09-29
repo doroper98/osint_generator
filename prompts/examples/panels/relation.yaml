@@ -1,0 +1,102 @@
+# 요소 예시 (v4.2.0, back_and_forth D-0081 작업 6) — 레지스트리 모델을 그대로 통과한다(15 P4). tests/fixtures/preview/panel_relation.yaml 와 같은 event(test_element_examples).
+# 수치·문구는 예시다. 시각(t0·t1)은 hormuz_korea 연출의 실제 시각 — 요소 갤러리(tools/element_gallery.py)가 그 순간의 카메라로 그린다.
+schema_version: 1
+key: panel:relation
+source: projects/hormuz_korea/direction.py (첫 사용 예)
+event:
+  type: panel
+  t0: 69.36
+  t1: 95.19
+  title: 3월 15일의 요구, 다음 날의 거절
+  kind: relation
+  nodes:
+  - id: trump
+    group: source
+    kind: person
+    pid: trump
+    flag: us
+    label: 도널드 트럼프
+    role: 미국 대통령
+    accent: us
+  - id: de
+    group: target
+    kind: flag
+    flag: de
+    label: 독일
+    accent: muted
+  - id: gb
+    group: target
+    kind: flag
+    flag: gb
+    label: 영국
+    accent: muted
+  - id: jp
+    group: target
+    kind: flag
+    flag: jp
+    label: 일본
+    accent: muted
+  - id: au
+    group: target
+    kind: flag
+    flag: au
+    label: 호주
+    accent: muted
+  - id: kr
+    group: target
+    kind: flag
+    flag: kr
+    label: 한국
+    accent: gold
+  edges:
+  - src: trump
+    dst: de
+    style: demand
+  - src: trump
+    dst: gb
+    style: demand
+  - src: trump
+    dst: jp
+    style: demand
+  - src: trump
+    dst: au
+    style: demand
+  - src: trump
+    dst: kr
+    style: demand
+  state_changes:
+  - src: trump
+    dst: de
+    at: 77.64
+    style: refuse
+    label: 거절
+  - src: trump
+    dst: gb
+    at: 78.39
+    style: refuse
+    label: 거절
+  - src: trump
+    dst: jp
+    at: 79.13
+    style: refuse
+    label: 거절
+  - src: trump
+    dst: au
+    at: 79.88
+    style: refuse
+    label: 거절
+  - src: trump
+    dst: kr
+    at: 81.38
+    style: refuse
+    label: 거절
+  edge_label: 해협 방어 참여 요구
+  quotes:
+  - text: “우리가 시작한 전쟁이 아니다” — 보리스 피스토리우스 독일 국방장관
+    t0: 85.36
+    t1: 90.12
+    at: bottom
+  - text: “매우 어리석은 실수” — 트럼프 대통령
+    t0: 89.92
+    t1: 95.89
+    at: source
