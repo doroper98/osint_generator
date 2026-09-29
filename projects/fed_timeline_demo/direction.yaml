@@ -18,7 +18,7 @@ shots:
   - {at: 0, mode: cut, dur: 0, camera: {date: "2020-08-01", w: 1300}}
   - {at: {scene_start: low, off: -0.2}, mode: move, dur: 3.0, camera: {date: "2021-06-01", w: 1400}}
   - {at: {scene_start: peak, off: -0.3}, mode: move, dur: 2.2, camera: {date: "2022-06-15", w: 40}}      # 핀 확대 — 일 단위 눈금(LOD)
-  - {at: {sid: high_0, off: 1.2}, mode: move, dur: 3.0, camera: {date: "2025-01-01", w: 1200}}         # 2023년 8월 ~ 2025년 10월(빈 달)을 한 화면에
+  - {at: {sid: high_0, off: 1.2}, mode: move, dur: 3.0, camera: {date: "2024-11-01", w: 1300}}         # 2023년 8월 ~ 2025년 10월(빈 달)을 한 화면에
   - {at: {scene_start: now, off: -0.3}, mode: move, dur: 3.4, camera: {date: "2022-11-15", w: 2830},
      reason: "마지막 장면 — 두 시리즈 전체를 한 화면에(끝 물러나기)"}
 events:
