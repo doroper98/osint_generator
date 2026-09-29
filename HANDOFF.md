@@ -1,6 +1,6 @@
 <!--
 tier: 1
-last_synced_with: v4.3.0
+last_synced_with: v4.4.0
 ssot_for: [session-handoff]
 depends_on: [CLAUDE.md, GOAL.md, VERSION, docs/13_IMPLEMENTATION_ROADMAP.md, docs/handoff/KICKOFF_PROMPT.md, docs/handoff/19_FABLE_ANALYSIS_AND_OPUS_EXECUTION_PLAN.md, back_and_forth/README.md]
 last_review: 2026-09-29
@@ -13,12 +13,12 @@ last_review: 2026-09-29
 
 ---
 
-## 1. 지금 어디인가 (v4.3.0)
+## 1. 지금 어디인가 (v4.4.0)
 
 - **작업 브랜치: `overhaul/v2-map-engine`.** Phase 합격(Fable review pass) 뒤 Fable이 main을 fast-forward한다. PR 생성 금지(C8.5).
-- **완료**: v2 개편 Phase 0~11·G1·G2(v2.0.0~v4.2.0). 합격 커밋은 `docs/handoff/TAGS_PENDING.md`.
-- **진행**: Phase G3 시간축 무대·데이터 레코드·차트 정직성 검사(v4.3.0, back_and_forth D-0084) — `TimelineStage`·`SeriesRecord`·`series` 이벤트·정직성 검사 4.
-- **다음**: G4 첫 비지정학 영상(`docs/handoff/20` §12). 합격 기준은 `GOAL.md` G3(17개, 항목별 검증 방법).
+- **완료**: v2 개편 Phase 0~11·G1·G2·G3(v2.0.0~v4.3.0). 합격 커밋은 `docs/handoff/TAGS_PENDING.md`.
+- **진행**: Phase G4 첫 비지정학 영상(v4.4.0, back_and_forth D-0090) — 장르 프롬프트 층·목표 범위 띠·점도표·성명서 단어 비교·`projects/fed_policy_2026`.
+- **다음**: G4 사용자 판정("슬라이드가 아니라 다큐", `docs/handoff/20` §12). 합격 기준은 `GOAL.md` G3(17개, 항목별 검증 방법).
 
 ## 2. 일하는 방식 — back_and_forth
 

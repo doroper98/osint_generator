@@ -16,6 +16,12 @@ event:
 gallery:
   t: 12.0
   stage_config:
-    timeline: {start: "2019-01-01", end: "2026-10-01"}
+    timeline:
+      start: "2019-01-01"
+      end: "2026-10-01"
+      lanes:   # v4.4.0 — 레인 라벨을 레코드에 맞춘다(FEDFUNDS = 실효금리, 목표 범위 아님 — back_and_forth D-0089 지적 ①, C0 정확성)
+        - {id: policy_rate, label: 연방기금 실효금리, kind: step, unit: "%"}
+        - {id: inflation, label: 소비자물가 상승률 · 1년 전 대비, kind: line, unit: "%"}
+        - {id: events, label: 기록, kind: pins}
   genre: macro_monetary
   cam: {date: "2022-11-01", w: 2800}

@@ -1,6 +1,6 @@
 <!--
 tier: 2
-last_synced_with: v4.3.0
+last_synced_with: v4.4.0
 ssot_for: [render-pipeline-index]
 depends_on: [docs/handoff/11_RENDER_QA_PERFORMANCE.md, docs/handoff/16_ORCHESTRATOR_INTEGRATION.md, docs/handoff/17_AI_DIRECTOR_VISUAL_QA_PROMPTS.md, orchestrator/engine_service.py, rules/video_rules.yaml, config.yaml]
 last_review: 2026-09-29

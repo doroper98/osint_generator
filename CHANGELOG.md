@@ -1,6 +1,6 @@
 <!--
 tier: 3
-last_synced_with: v4.3.0
+last_synced_with: v4.4.0
 ssot_for: [release-notes]
 depends_on: [README.md, GOAL.md]
 last_review: 2026-09-28
@@ -51,10 +51,21 @@ released 항목은 **append-only**입니다.
 | v4.0.0 | 3266eaa | 11 문서·정리·G3 개정(MAJOR: G3) | pass(D-0075) |
 | v4.1.0 | 5326b10 | G1 무대 추상화 | pass(D-0080) |
 | v4.2.0 | 89b17ea | G2 장르 프로필·새 요소 파이프라인 | pass(D-0083) |
+| v4.3.0 | 4180dbe | G3 시간축 무대·데이터 레코드·차트 정직성 검사 | pass(D-0089) |
 
 ---
 
-## [v4.3.0] — 2026-09-29 — Phase G3: 시간축 무대·데이터 레코드·차트 정직성 검사 (back_and_forth D-0084) — 진행 중
+## [v4.4.0] — 2026-09-29 — Phase G4: 첫 비지정학 영상 (back_and_forth D-0090) — 진행 중
+
+MINOR: 새 기능(장르 프롬프트 층·series band·점도표·성명서 단어 비교)과 첫 비지정학 영상 `projects/fed_policy_2026`. 렌더 수치 변경 없음 — 지정학·데모 불변(hormuz 25/25·랫클리프 20/20·fed_timeline_demo 12/12).
+
+### Changed
+- **§0**: VERSION 4.4.0, Tier 1·2 `last_synced_with` v4.4.0, `docs/handoff/reports/phaseG4/` 시작.
+- **갤러리 `event_series` 예제**: 레인 라벨을 레코드(FEDFUNDS = 연방기금 실효금리)에 맞춰 덮는다(D-0089 지적 ①, C0 정확성). 기존 골든·프로젝트 예제 무변경.
+
+---
+
+## [v4.3.0] — 2026-09-29 — Phase G3: 시간축 무대·데이터 레코드·차트 정직성 검사 (back_and_forth D-0084) — Fable review pass(D-0089)
 
 MINOR: 새 기능(TimelineStage·SeriesRecord·series 이벤트·차트 정직성 검사). 렌더 수치 변경 없음 — 지정학 불변(hormuz 25컷 md5 = `reports/phaseG1/hormuz_baseline.json`, 랫클리프 20/20).
 
