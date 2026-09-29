@@ -25,8 +25,9 @@ from engine.direction import Direction
 from engine.events import PanelGantt
 from engine.entities import EntityRegistry
 from engine.framing import frame_points, marker_point
-from engine.stage import DEFAULT_STAGE, make_stage
+from engine.stage import make_stage
 from engine.registry import RegistryError, resolve
+from genres.load import DEFAULT_GENRE, load_genre
 from rules import load_rules
 from schemas.models import BundleChart, ReportBundle
 
@@ -311,7 +312,7 @@ def build_materials(b: ReportBundle, join: EntityJoin, reg: EntityRegistry, scen
 def build_direction_draft(mat: BundleMaterials, scenes: list[str]) -> Direction:
     """places·paths·패널만 담은 연출 초안. 숏 = 장면별 장소를 frame_points 로 담은 컷(제안). 장소 없는 장면은 숏 없음."""
     places = {p.id: (p.lon, p.lat) for p in mat.places}
-    st = make_stage(DEFAULT_STAGE)   # 번들 지도 마커 = 지도 무대 앵커(lon·lat) — 좌표 변환만(v4.1.0 D-0076)
+    st = make_stage(load_genre(DEFAULT_GENRE).stage.primary)   # 번들 지도 마커 = 기본 장르(지정학) 주 무대 앵커(lon·lat) — 좌표 변환만(v4.1.0 D-0076, v4.2.0 D-0081)
 
     def cam_of(pts: list) -> dict[str, float]:
         fr = frame_points(pts, stage=st)
