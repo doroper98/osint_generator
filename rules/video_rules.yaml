@@ -604,6 +604,16 @@ audio:                     # 10
     title_card: {offset_sec: 0.2, whoosh_dur_sec: 1.4, whoosh_v: 1.0, boom_v: 0.6}      # sfx_policy: 타이틀 카드 휙+쿵
     scene_start: {lead_sec: 0.05, whoosh_dur_sec: 0.9, whoosh_v: 0.55}                  # sfx_policy: 장면 시작 휙(첫 장면 제외)
 
+data:                      # v4.3.0 D-0084 작업 1 — 데이터 레코드(docs/handoff/20 §5.1, schemas/data_models.py:SeriesRecord). 이 목록 밖 값 = 로드 오류(15 P6)
+  units: ["%", "%p", "bp", "억 달러", "지수", "명", "원"]   # 화면 단위(20 §5.3 "단위를 화면에 표시")
+  licenses_allowed: [us_gov_public_domain, cc_by_4]        # 재배포 가능한 공개 라이선스만(20 §5.1 "시리즈마다 이용 조건 확인")
+  sources_allowed: [fred.stlouisfed.org]                    # source_url 도메인(tools/fetch_series.py 가 받는 곳)
+  frequencies: [monthly]                                    # 값 날짜 간격 — monthly = 매월 1일, 한 달씩
+  transforms:                                               # 코드가 하는 변환(명시된 것만). 레코드 transform.formula 는 이 문구와 같아야 한다
+    raw: "원자료(변형 없음)"
+    yoy_pct: "전년 동월 대비 % = (x_t / x_(t-12) - 1) * 100, 소수 둘째 자리 반올림"
+  series_dir: data/series                                   # <series_id>.yaml(레코드) + <series_id>.csv(값) + raw/<series_id>.csv(받은 그대로)
+
 primitives:                # v4.2.0 D-0081 작업 4 — 프리미티브(engine/primitives/<id>.py) 레이아웃 토큰. registries.primitives 마다 한 블록(20 §4.2 "색·크기는 토큰만")
   statement_diff:          # 작업 5 — 성명서 문구 비교(20 §10). 설계 px(480p). 글자 크기 ≥ layout_480p.min_font_px(glyph_size), 출처 줄 = layout_480p.card.src_size, 문구 상한 = verification.quote_max_chars
     w: 360                 # 상자 폭 — 오른쪽 여백·세로 기본값은 layout_480p.card(같은 슬롯 card_right)

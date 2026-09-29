@@ -925,6 +925,17 @@ class StageContinuityRules(_Strict):
     max_switches: int = Field(ge=0)
 
 
+class DataRules(_Strict):
+    """v4.3.0 D-0084 작업 1 — 데이터 레코드 허용 목록(docs/handoff/20 §5.1, schemas/data_models.py)."""
+
+    units: list[str] = Field(min_length=1)
+    licenses_allowed: list[str] = Field(min_length=1)
+    sources_allowed: list[str] = Field(min_length=1)
+    frequencies: list[Literal["monthly"]] = Field(min_length=1)
+    transforms: dict[str, str] = Field(min_length=1)
+    series_dir: str
+
+
 class StageRules(_Strict):
     """v4.1.0 D-0076 작업 5·D-0077 — 무대 연속성 검사(checks stage_continuity)."""
 
@@ -994,6 +1005,7 @@ class VideoRules(_Strict):
     stage: StageRules              # v4.1.0 — D-0076 작업 5
     qa_checks: QAChecks
     primitives: PrimitivesRules = Field(default_factory=PrimitivesRules)   # v4.2.0 D-0081
+    data: DataRules                # v4.3.0 — D-0084 작업 1
     bundle: BundleRules            # v3.5.0 — D-0063 작업 4
     provenance: ProvenanceRules
 
