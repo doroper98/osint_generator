@@ -28,6 +28,7 @@ if TYPE_CHECKING:
     from engine.stage_timeline import TimelineStage
 
 MONTHS = 12
+AXIS = "value"   # D-0087 — 값 축(정직성 검사 4개 전부, rules qa_checks.chart_targets)
 
 
 def lane_range(events: list[dict], lane: str) -> tuple[float, float]:

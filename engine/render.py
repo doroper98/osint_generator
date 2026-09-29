@@ -167,7 +167,7 @@ def preview(P: Project, times: list[float], labels: list[str] | None = None) -> 
          COLS, out / "sheet.jpg")
     prov = project_provenance(P, PREVIEW_STAGES)
     prov["preview"] = {"frames": len(paths), "times": [round(t, 3) for t in times], "dir": out.name}
-    checks = run_checks(P, times, prov, drawn)   # 17 §3 결정적 사전 검사(D-0047 작업 6)
+    checks = run_checks(P, times, prov, drawn, names)   # 17 §3 결정적 사전 검사(D-0047 작업 6)
     prov["checks"] = {"hard": checks["hard"], "warnings": checks["warnings"], "passed": checks["passed"]}
     (out / "provenance.json").write_text(json.dumps(prov, ensure_ascii=False, indent=1), encoding="utf-8")
     (out / "checks.json").write_text(json.dumps(checks, ensure_ascii=False, indent=1), encoding="utf-8")

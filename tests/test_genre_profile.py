@@ -88,9 +88,18 @@ class GenreProfileSchemaTest(unittest.TestCase):
             GenreProfile.model_validate(prof(qa_extra=["vibes"]))
 
     def test_qa_extra_planned(self) -> None:
-        with self.assertRaisesRegex(ValidationError, "qa_checks.planned"):
-            GenreProfile.model_validate(prof(qa_extra=["chart_honesty"]))
-        GenreProfile.model_validate(prof(status="proposed", qa_extra=["chart_honesty", "overlap"]))
+        """v4.3.0 — 정직성 4개는 실제 검사가 됐다(planned 비움). 계획 검사 규칙은 가짜 planned 로 계속 본다."""
+        GenreProfile.model_validate(prof(qa_extra=["chart_honesty"]))   # 등록 검사 = approved 도 참조 가능
+        from unittest import mock  # noqa: PLC0415
+
+        from rules import load_rules  # noqa: PLC0415
+
+        real = load_rules()
+        fake = real.model_copy(update={"qa_checks": real.qa_checks.model_copy(update={"planned": ["future_check"]})})
+        with mock.patch("rules.load_rules", return_value=fake):
+            with self.assertRaisesRegex(ValidationError, "qa_checks.planned"):
+                GenreProfile.model_validate(prof(qa_extra=["future_check"]))
+            GenreProfile.model_validate(prof(status="proposed", qa_extra=["future_check", "overlap"]))
 
     def test_color_values(self) -> None:
         for bad in ("red", "#ff00", "rgba(300,0,0,0.5)", "rgba(0,0,0,1.5)"):

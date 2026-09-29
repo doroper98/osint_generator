@@ -11,6 +11,7 @@ from engine.style import C, W_OUT
 from engine.timebase import smooth
 
 
+AXIS = "none"   # v4.3.0 D-0087 — 축 종류(값·날짜 축 없음). 정직성 검사 적용 = rules qa_checks.chart_targets
 def draw(ctx: cairo.Context, R: RenderCtx, t: float, e: dict, a: float) -> None:  # noqa: N803
     panel_title(ctx, a, e["title"], e.get("subtitle"))
     for i, s in enumerate(e["signers"]):

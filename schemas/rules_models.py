@@ -842,7 +842,9 @@ class QAChecks(_Strict):
     forbidden_components: int
     glyph_size_exempt: list[Literal["end_card", "media_meta"]]   # v3.6.0 D-0069 — 역할 레지스트리(엔진 text(role=) 와 같은 이름)
     label_hidden_max_ratio: float = Field(gt=0, le=1)   # v3.6.0 D-0068
-    planned: list[str] = Field(default_factory=list)   # v4.2.0 D-0081 — G3 예정 검사 id(장르 프로필 proposed qa_extra 만)
+    planned: list[str] = Field(default_factory=list)   # v4.2.0 D-0081 — 예정 검사 id(장르 프로필 proposed qa_extra 만)
+    chart_targets: dict[Literal["value", "date", "none"], list[Literal["chart_honesty", "series_limit_3", "units_visible", "as_of_visible"]]]   # v4.3.0 D-0087
+    series_max: int = Field(ge=1)   # v4.3.0 — 20 §5.3 계열 수 상한
     visual_qa_loop_max: int
     loop_pick_order: list[Literal["checks_hard", "qa_hard", "qa_soft"]]
 
@@ -1040,6 +1042,7 @@ class DataRules(_Strict):
 
     units: list[str] = Field(min_length=1)
     licenses_allowed: list[str] = Field(min_length=1)
+    unit_prefixes: list[str] = Field(min_length=1)   # v4.3.0 D-0087 보정 1
     sources_allowed: list[str] = Field(min_length=1)
     frequencies: list[Literal["monthly"]] = Field(min_length=1)
     transforms: dict[str, str] = Field(min_length=1)

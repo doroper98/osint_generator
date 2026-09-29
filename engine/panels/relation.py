@@ -22,6 +22,7 @@ from engine.timebase import ease_io, smooth, window
 from engine.typography import text
 from rules import load_rules
 
+AXIS = "none"   # v4.3.0 D-0087 — 축 종류(값·날짜 축 없음). 정직성 검사 적용 = rules qa_checks.chart_targets
 REL = load_rules().panels.relation
 
 

@@ -40,6 +40,17 @@ class RegistryCompleteTest(unittest.TestCase):
             fixture = REPO / "tests" / "fixtures" / "preview" / f"{key.replace(':', '_')}.yaml"
             self.assertTrue(fixture.exists(), f"프리뷰 예제 없음: {fixture}")
 
+    def test_panel_axis_declared(self) -> None:
+        """v4.3.0 D-0087 보정 2 — 패널 모듈마다 AXIS(value|date|none), 값 축이면 정직성 메타 함수(engine.honesty.PANEL_META)."""
+        from engine.honesty import PANEL_META  # noqa: PLC0415
+
+        targets = load_rules().qa_checks.chart_targets
+        for k in load_rules().registries.panel_kinds:
+            axis = getattr(importlib.import_module(f"engine.panels.{k}"), "AXIS", None)
+            self.assertIn(axis, targets, f"engine/panels/{k}.py AXIS")
+            self.assertEqual(axis == "value", k in PANEL_META, f"값 축 패널 {k} 의 정직성 메타")
+        self.assertIn(importlib.import_module("engine.layers.series").AXIS, targets)
+
     def test_planned_not_registered(self) -> None:
         registry = importlib.import_module("engine.registry")
         rules = load_rules()

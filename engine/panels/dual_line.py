@@ -15,6 +15,7 @@ from engine.timebase import clamp01, ease_io
 from engine.typography import text
 from rules import load_rules
 
+AXIS = "value"   # v4.3.0 D-0087 — 축 종류(값 축). 정직성 검사 적용 = rules qa_checks.chart_targets
 L = load_rules().panels.charts.dual_line
 
 

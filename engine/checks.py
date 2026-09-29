@@ -19,6 +19,10 @@ hard 실패가 하나라도 있으면 시각 검수 LLM 을 부르지 않고 연
 | forbidden | hard | 도장·비네팅·모서리 브랜드: 레지스트리 밖 이벤트 타입 0, vignette 끔, 모서리 요소 = 날짜뿐 |
 | stage_continuity | hard | 무대 연속성(v4.1.0 D-0076·D-0077, GOAL G3-17): 보조 무대 ≤ stage.max_secondary, 무대 전환은 dip 만, 같은 무대 안 먼 cut 금지, 전환 ≤ stage.continuity.max_switches (`engine.shots.stage_continuity`) |
 | genre_elements | hard | 장르 요소(v4.2.0 D-0081 작업 3, GOAL G3-17): direction 이 쓴 이벤트·패널·뱃지·프리미티브 종류(genres.elements) ⊆ 장르 프로필 primitives.reuse ∪ new |
+| chart_honesty | hard | 차트 정직성(v4.3.0 D-0084 작업 5·D-0087, 20 §5.3): 막대 0 기준선·압축 구간 ↔ 물결 라벨·%/%p·이중 축 라벨·색·로그 척도 표기 (`engine.honesty`) |
+| series_limit_3 | hard | 한 차트(레인·패널)의 계열 ≤ qa_checks.series_max |
+| units_visible | hard | 화면 단위(레인 이름·패널 unit·y_prefix) ∈ rules data.units·unit_prefixes |
+| as_of_visible | hard | 기준 시점·출처 줄 — 시리즈는 프리뷰 컷에 그린 출처 줄, 패널은 08 §9 출처 체계. 적용 범위 = qa_checks.chart_targets(축 종류) |
 """
 
 from __future__ import annotations
@@ -41,7 +45,7 @@ SG = R_.shot_grammar
 SAMPLE_SEC = 1.0          # 뱃지·라벨 샘플 간격
 SHADOW_PX = 7             # badge_box 가 원 둘레에 더하는 그림자 여백 — 이만큼 잘리는 것은 허용
 HARD = ("overlap", "offscreen", "glyphs", "glyph_size", "labels", "date", "subtitles", "rights", "forbidden", "stage_continuity",
-        "genre_elements")
+        "genre_elements", "chart_honesty", "series_limit_3", "units_visible", "as_of_visible")
 WARN = ("shots", "media_beats", "media_upscaled")
 
 
@@ -294,8 +298,13 @@ def check_audio(P) -> tuple[list[str], list[str], dict]:  # noqa: ANN001, N803
     return q.issues(), q.warnings(), q.model_dump()
 
 
-def run_checks(P, times: list[float], provenance: dict, drawn: list[tuple[str, float, str | None, str]]) -> dict:  # noqa: ANN001, N803
-    """모든 검사 → checks.json 내용. hard 합계가 0 이어야 시각 검수로 간다. drawn = 프리뷰 컷에 그린 글자(glyph_size)."""
+def run_checks(P, times: list[float], provenance: dict, drawn: list[tuple[str, float, str | None, str]],  # noqa: ANN001, N803
+               labels: list[str] | None = None) -> dict:
+    """모든 검사 → checks.json 내용. hard 합계가 0 이어야 시각 검수로 간다. drawn = 프리뷰 컷에 그린 글자(glyph_size·정직성),
+    labels = 컷 라벨(drawn 의 첫 칸, 없으면 preview 기본 "t=…")."""
+    from engine.honesty import judge, project_metas  # noqa: PLC0415
+
+    honesty, notes = judge(project_metas(P, times, labels or [f"t={t:.2f}" for t in times], drawn))
     res: dict[str, list[str]] = {
         "overlap": [w for w in placement_warnings(P.events, P.R.assets.media_assets)] + check_label_hidden(P),
         "offscreen": check_offscreen(P),
@@ -311,8 +320,10 @@ def run_checks(P, times: list[float], provenance: dict, drawn: list[tuple[str, f
         "forbidden": check_forbidden(P, provenance),
         "stage_continuity": check_stage_continuity(P),
         "genre_elements": check_genre_elements(P),
+        **honesty,
     }
-    items = [{"id": k, "severity": "hard" if k in HARD else "warning", "count": len(v), "details": v[:20]} for k, v in res.items()]
+    items = [{"id": k, "severity": "hard" if k in HARD else "warning", "count": len(v), "details": v[:20],
+              **({"notes": notes[k][:20]} if notes.get(k) else {})} for k, v in res.items()]
     hard = sum(i["count"] for i in items if i["severity"] == "hard")
     return {"schema_version": 1, "hard": hard, "warnings": sum(i["count"] for i in items if i["severity"] == "warning"),
             "passed": hard == 0, "thresholds": QA.model_dump(), "items": items}

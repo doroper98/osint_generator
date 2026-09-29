@@ -12,6 +12,7 @@ from engine.style import C
 from engine.timebase import smooth
 from engine.typography import rrect, text
 
+AXIS = "none"   # v4.3.0 D-0087 — 축 종류(값·날짜 축 없음). 정직성 검사 적용 = rules qa_checks.chart_targets
 _COLS = (("teal", 60), ("amber", 450))  # 왼쪽·오른쪽 기둥의 색·x (v3 합격 값)
 
 

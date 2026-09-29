@@ -13,6 +13,7 @@ from engine.timebase import clamp01, ease_out, smooth
 from engine.typography import rrect, text
 from rules import load_rules
 
+AXIS = "date"   # v4.3.0 D-0087 — 축 종류(날짜 축만(값 축 없음)). 정직성 검사 적용 = rules qa_checks.chart_targets
 G = load_rules().panels.charts.gantt
 
 

@@ -1,0 +1,25 @@
+# 차트 정직성 위반 주입 9건(docs/handoff/20 §5.3 표 한 줄에 하나, back_and_forth D-0084 작업 5·9, D-0087).
+# 각 건 = 통과하는 기준 메타(base)에 위반 한 가지를 덮어쓴 메타 → expect 검사가 hard 1건 이상, 나머지 검사는 0건.
+# 테스트(tests/test_chart_honesty.py)와 보고 도구(tools/chart_honesty_report.py --synthetic)가 같이 읽는다.
+schema_version: 1
+base:
+  ref: synthetic value chart
+  axis: value
+  kind: line
+  baseline: 0
+  series_count: 2
+  units: ["%", "%"]
+  unit_label: "% (전년 대비)"
+  series_colors: [gold, ru]
+  as_of: "2026-08"
+  source_shown: true
+cases:
+  - {rule: "막대 그래프는 0에서 시작", expect: chart_honesty, over: {kind: bar, baseline: 2.0}}
+  - {rule: "축 생략·압축 시 물결 표시 + 라벨", expect: chart_honesty, over: {compress_on_screen: 2, compress_marked: 1}}
+  - {rule: "단위를 화면에 표시", expect: units_visible, over: {unit_label: null}}
+  - {rule: "%와 %p 구분", expect: chart_honesty, over: {units: ["%", "%p"]}}
+  - {rule: "한 차트의 계열 수 ≤ 3", expect: series_limit_3, over: {series_count: 4, units: ["%", "%", "%", "%"]}}
+  - {rule: "이중 축은 양쪽 축 라벨·색 대응 명시", expect: chart_honesty, over: {axes: 2, axis_labels: ["금리"], axis_colors: [gold, ru]}}
+  - {rule: "로그 척도는 '로그 척도' 표기", expect: chart_honesty, over: {log_scale: true, log_label: false}}
+  - {rule: "기준 시점(as of) 표시", expect: as_of_visible, over: {as_of: null}}
+  - {rule: "출처 줄", expect: as_of_visible, over: {source_shown: false}}

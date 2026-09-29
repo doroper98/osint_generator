@@ -690,6 +690,7 @@ stage_timeline:            # v4.3.0 D-0084 작업 3·4·D-0085·D-0086 — 시�
 data:                      # v4.3.0 D-0084 작업 1 — 데이터 레코드(docs/handoff/20 §5.1, schemas/data_models.py:SeriesRecord). 이 목록 밖 값 = 로드 오류(15 P6)
   units: ["%", "%p", "bp", "억 달러", "지수", "명", "원"]   # 화면 단위(20 §5.3 "단위를 화면에 표시")
   licenses_allowed: [us_gov_public_domain, cc_by_4]        # 재배포 가능한 공개 라이선스만(20 §5.1 "시리즈마다 이용 조건 확인")
+  unit_prefixes: ["$", "₩", "€", "¥"]                    # v4.3.0 D-0087 보정 1 — 값 앞 통화 기호도 단위 표시로 인정(dual_line y_prefix)
   sources_allowed: [fred.stlouisfed.org]                    # source_url 도메인(tools/fetch_series.py 가 받는 곳)
   frequencies: [monthly]                                    # 값 날짜 간격 — monthly = 매월 1일, 한 달씩
   transforms:                                               # 코드가 하는 변환(명시된 것만). 레코드 transform.formula 는 이 문구와 같아야 한다
@@ -742,7 +743,14 @@ qa_checks:                 # 17 §3 — 결정적 사전 검사 임계
     - media_meta   # 권리·출처 메타(C9): layers/media.media_tag 7.5(PHOTO·VIDEO), media_caption 출처 줄 7.8, draw_article ARTICLE 7.5·날짜 8.5·메모 7.8,
                    # draw_cutout 출처 줄 8.5, layers/post 핸들 8.5·칩 7.5·원문 8·꼬리 7.8(18 §5)
   label_hidden_max_ratio: 0.5   # v3.6.0 D-0068 — 마커 라벨이 카드 영역 때문에 흐려진(알파 < 0.5) 시간 ÷ 그 마커 표시 시간. 초과 = overlap hard
-  planned: [chart_honesty, series_limit_3, units_visible, as_of_visible]   # v4.2.0 D-0081 — G3 예정 검사(20 §5.3). 장르 프로필 proposed 의 qa_extra 만 참조 가능
+  planned: []             # v4.2.0 D-0081 — 예정 검사(장르 프로필 proposed 의 qa_extra 만 참조). v4.3.0: 정직성 4개가 실제 검사로 옮겨 비었다
+  # v4.3.0 D-0084 작업 5·D-0087 — 차트 정직성(engine/honesty.py, 20 §5.3). 요소의 축 종류(렌더러 모듈 AXIS) → 적용 검사.
+  # 적용되지 않는 검사는 checks.json 메모 n/a(<축> 축)로 남는다(조용한 생략 아님)
+  chart_targets:
+    value: [chart_honesty, series_limit_3, units_visible, as_of_visible]   # series 레인·dots·dual_line
+    date: [chart_honesty]                                                   # timeline·gantt 패널·시간축 무대(압축 표시)
+    none: []                                                                # 값·날짜 축이 없는 패널
+  series_max: 3            # 한 차트(레인·패널)의 계열 수 상한(20 §5.3)
   visual_qa_loop_max: 2
   loop_pick_order: [checks_hard, qa_hard, qa_soft]   # D-0049 쟁점 3 — 상한 도달 시 사전식 최소 판, 동점은 이른 회차
 

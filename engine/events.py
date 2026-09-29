@@ -256,9 +256,26 @@ class _Primitive(_Event):
     id: str
 
 
+class ChartAxisMeta(_Strict):
+    """정직성 메타 덮어쓰기(v4.3.0 D-0087 보정 2) — 막대·이중 축·로그 척도처럼 지금 렌더러가 없는 축 성질을 선언한다.
+    값이 있는 필드만 engine.honesty.ChartMeta 를 덮는다. 새 수치 패널은 이 메타로 정직성 검사를 받는다."""
+
+    kind: Optional[str] = None
+    baseline: Optional[float] = None
+    axes: Optional[Literal[1, 2]] = None
+    axis_labels: Optional[list[str]] = None
+    axis_colors: Optional[list[ColorName]] = None
+    log_scale: Optional[bool] = None
+    log_label: Optional[bool] = None
+    unit_label: Optional[str] = None
+
+
 class _Panel(_Event):
+    DROP_NONE: ClassVar[tuple[str, ...]] = ("chart",)   # 없으면 dict 에 남기지 않는다(기존 패널 dict = v4.2.0 과 같음)
+
     type: Literal["panel"]
     title: str
+    chart: Optional[ChartAxisMeta] = None   # v4.3.0 D-0087 — 정직성 메타(선택)
 
 
 class RelationNode(_Strict):
@@ -490,11 +507,14 @@ class PanelDualLine(_Chart):
     y_max: float
     y_step: float = Field(gt=0)
     y_prefix: str = ""
+    unit: Optional[str] = None     # v4.3.0 D-0087 보정 1 — 값 단위(rules data.units). units_visible = unit 또는 y_prefix(data.unit_prefixes)
     x_labels: list[str] = Field(min_length=2)
     series: list[DualSeries] = Field(min_length=1, max_length=2)
 
     @model_validator(mode="after")
     def _lengths(self) -> "PanelDualLine":
+        if self.unit is not None and self.unit not in load_rules().data.units:
+            raise ValueError(f"dual_line unit {self.unit!r} 는 rules data.units 에 없다")
         for s in self.series:
             if len(s.values) != len(self.x_labels):
                 raise ValueError(f"dual_line 계열 {s.label!r} 값 {len(s.values)}개 ≠ x 라벨 {len(self.x_labels)}개")
