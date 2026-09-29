@@ -1108,6 +1108,123 @@
    "hl": "대북 확성기 즉시 재설치",
    "sub": "정점식 원내대표",
    "note": "헤드라인 원문"
+  },
+  "dmz_site_diagram_1": {
+   "kind": "photo",
+   "title": "사건 현장 개념도 1/3 — 위치·새 수색로(자체 코드 조판) — 2015년 보도 그래픽 형식만 참고, 수치는 2026년 합참 발표 보도",
+   "license": "자체 제작 · 코드 조판",
+   "author": "자체 제작",
+   "credit_author": "자체 제작 개념도",
+   "date": "2026-09-29",
+   "source_ref": "projects/dmz_mine_2026/build_site_diagram.py",
+   "pending_source": "자체 제작 — 외부 원본 URL 없음",
+   "caption": "사건 현장 개념도 · 위치·새 수색로",
+   "file_note": "개념도 · 축척 아님",
+   "depicts": [
+    "MDL 남쪽 약 10m 사고 지점, 새 수색로(개념도)"
+   ],
+   "is_file_photo": false,
+   "verified_by": {
+    "by": "claude(사용자 요청 — 2026-09-29 개념도 조판 지시, 수치 claims 대조)",
+    "on": "2026-09-29",
+    "casualty_free": true,
+    "relevance": "operation·open 장면 — 사고 위치 설명"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-09-29",
+   "tool": {
+    "name": "media_fetch.photo",
+    "params": {
+     "source": "site_diagram_1.png",
+     "crop": [
+      720,
+      450
+     ],
+     "color": 1.0,
+     "contrast": 1.0,
+     "jpeg_quality": 95
+    }
+   },
+   "source_hash": "83bdab805461a2ade2694780c5124a88",
+   "file": "site_diagram_1_720.jpg"
+  },
+  "dmz_site_diagram_2": {
+   "kind": "photo",
+   "title": "사건 현장 개념도 2/3 — 두 차례 폭발(자체 코드 조판) — 2015년 보도 그래픽 형식만 참고, 수치는 2026년 합참 발표 보도",
+   "license": "자체 제작 · 코드 조판",
+   "author": "자체 제작",
+   "credit_author": "자체 제작 개념도",
+   "date": "2026-09-29",
+   "source_ref": "projects/dmz_mine_2026/build_site_diagram.py",
+   "pending_source": "자체 제작 — 외부 원본 URL 없음",
+   "caption": "사건 현장 개념도 · 두 차례 폭발",
+   "file_note": "개념도 · 축척 아님",
+   "depicts": [
+    "1차·2차 폭발과 부상자(개념도)"
+   ],
+   "is_file_photo": false,
+   "verified_by": {
+    "by": "claude(사용자 요청 — 2026-09-29 개념도 조판 지시, 수치 claims 대조)",
+    "on": "2026-09-29",
+    "casualty_free": true,
+    "relevance": "two_blasts 장면 — 폭발 경위 설명"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-09-29",
+   "tool": {
+    "name": "media_fetch.photo",
+    "params": {
+     "source": "site_diagram_2.png",
+     "crop": [
+      720,
+      450
+     ],
+     "color": 1.0,
+     "contrast": 1.0,
+     "jpeg_quality": 95
+    }
+   },
+   "source_hash": "2ba69bc8bb8e8ebffa0f8f2b30decbdf",
+   "file": "site_diagram_2_720.jpg"
+  },
+  "dmz_site_diagram_3": {
+   "kind": "photo",
+   "title": "사건 현장 개념도 3/3 — 미폭발 지뢰·추가 발견(자체 코드 조판) — 2015년 보도 그래픽 형식만 참고, 수치는 2026년 합참 발표 보도",
+   "license": "자체 제작 · 코드 조판",
+   "author": "자체 제작",
+   "credit_author": "자체 제작 개념도",
+   "date": "2026-09-29",
+   "source_ref": "projects/dmz_mine_2026/build_site_diagram.py",
+   "pending_source": "자체 제작 — 외부 원본 URL 없음",
+   "caption": "사건 현장 개념도 · 미폭발 지뢰·추가 발견",
+   "file_note": "개념도 · 축척 아님",
+   "depicts": [
+    "1m 미폭발 지뢰 목격, 9.29 추가 발견(개념도)"
+   ],
+   "is_file_photo": false,
+   "verified_by": {
+    "by": "claude(사용자 요청 — 2026-09-29 개념도 조판 지시, 수치 claims 대조)",
+    "on": "2026-09-29",
+    "casualty_free": true,
+    "relevance": "jcs_interim·fourth_mine 장면 — 지뢰 발견 설명"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-09-29",
+   "tool": {
+    "name": "media_fetch.photo",
+    "params": {
+     "source": "site_diagram_3.png",
+     "crop": [
+      720,
+      450
+     ],
+     "color": 1.0,
+     "contrast": 1.0,
+     "jpeg_quality": 95
+    }
+   },
+   "source_hash": "abc733fe1fb5f5a129bee8eacf1fac50",
+   "file": "site_diagram_3_720.jpg"
   }
  }
 }

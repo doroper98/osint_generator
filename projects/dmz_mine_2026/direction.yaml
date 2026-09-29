@@ -4,8 +4,8 @@ stage: null
 stage_config: {}
 places:
   dmz_site:
-  - 126.8
-  - 37.995
+  - 126.79
+  - 38.012
   cheongwadae:
   - 126.975
   - 37.587
@@ -69,14 +69,14 @@ shots:
     scene_start: operation
     'off': -1.0
   mode: move
-  dur: 3.4
+  dur: 5.0
   camera:
-    lon: 126.85
-    lat: 37.93
+    lon: 126.78
+    lat: 37.99
     place: null
     date: null
     lane: null
-    w: 3.2
+    w: 0.8
   under: false
   scene: null
   stage: null
@@ -287,18 +287,6 @@ events:
     'off': 3.4
   lon: 126.8
   lat: 37.99
-- type: card
-  start:
-    sid: two_blasts_1
-    'off': 0.2
-  end:
-    sid: two_blasts_1
-    edge: end
-    'off': 0.4
-  tag: 첫 번째 폭발
-  lines:
-  - 앞장선 공병 중사 부상
-  accent: ru
 - type: boom
   start:
     sid: two_blasts_2
@@ -308,18 +296,6 @@ events:
     'off': 4.2
   lon: 126.801
   lat: 37.988
-- type: card
-  start:
-    sid: two_blasts_2
-    'off': 0.2
-  end:
-    sid: two_blasts_2
-    edge: end
-    'off': 0.3
-  tag: 두 번째 폭발
-  lines:
-  - 안전조치에 나선 수색대대장 부상
-  accent: ru
 - type: card
   start:
     sid: two_blasts_3
@@ -482,30 +458,6 @@ events:
   lines:
   - 북한군 수지반보병지뢰 1발 추가 발견
   accent: ru
-- type: card
-  start:
-    sid: fourth_mine_1
-    'off': 0.2
-  end:
-    sid: fourth_mine_1
-    edge: end
-    'off': 0.3
-  tag: 합참 평가
-  lines:
-  - 장병들이 봤다고 진술한 지뢰와는 다른 것
-  accent: gold
-- type: card
-  start:
-    sid: fourth_mine_3
-    'off': 0.2
-  end:
-    scene_end: fourth_mine
-    'off': 0.4
-  tag: 권대원 합참 차장 · 국회에서 전한 유엔사 판단
-  lines:
-  - 네 번째 지뢰 · 두 폭발 구덩이
-  - 군사분계선 남쪽 — 유엔사 인정
-  accent: teal
 - type: panel
   start:
     scene_start: minister
@@ -562,8 +514,8 @@ events:
   end:
     scene_end: seoul
   at_place: dmz_site
-  label: 사고 지점
-  sub: 서부전선 비무장지대
+  label: 사고 지역
+  sub: 파주 · 정확한 좌표 비공개
   side: right
   hl: false
 - type: card
@@ -995,8 +947,8 @@ events:
   end:
     total: true
   at_place: dmz_site
-  label: 사고 지점
-  sub: 서부전선 비무장지대
+  label: 사고 지역
+  sub: 파주 · 정확한 좌표 비공개
   side: right
   hl: true
 - type: card
@@ -1128,9 +1080,8 @@ events:
     'off': 0.4
   end:
     sid: two_blasts_0
-    'off':
-    - 0.4
-    - 4.5
+    edge: end
+    'off': 0.3
   mid: hk_0923
 - type: article
   start:
@@ -1241,6 +1192,42 @@ events:
     edge: end
     'off': 0.3
   mid: hk_0928
+- type: photo
+  start:
+    sid: operation_1
+    'off': 0.2
+  end:
+    sid: operation_1
+    edge: end
+    'off': 0.6
+  mid: dmz_site_diagram_1
+  x: 187
+  y: 62
+  w: 480
+- type: photo
+  start:
+    sid: two_blasts_1
+    'off': 0.1
+  end:
+    sid: two_blasts_2
+    edge: end
+    'off': 0.0
+  mid: dmz_site_diagram_2
+  x: 187
+  y: 62
+  w: 480
+- type: photo
+  start:
+    sid: fourth_mine_1
+    'off': 0.1
+  end:
+    sid: fourth_mine_3
+    edge: end
+    'off': 0.4
+  mid: dmz_site_diagram_3
+  x: 187
+  y: 62
+  w: 480
 sound:
   bgm: music.zabriskie_patriarch
   intensity:

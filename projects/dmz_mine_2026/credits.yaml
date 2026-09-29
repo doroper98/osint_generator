@@ -7,9 +7,12 @@ sections:
   - title: 인물 사진
     column: 1
     auto: people
-  - title: 자료사진
+  - title: 자료사진 · 개념도
     column: 1
     items:
+      - main: 사건 현장 개념도 (자체 제작 · 합참 발표 보도 종합)
+        license: 코드 조판 · 축척 아님
+        rights: [media.dmz_site_diagram_1, media.dmz_site_diagram_2, media.dmz_site_diagram_3]
       - main: DMZ 인근 지뢰 경고 표지판 (2025.4)
         license: U.S. Navy · Public Domain (Wikimedia Commons)
         rights: [media.dmz_mine_sign]
