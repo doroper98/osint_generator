@@ -29,7 +29,7 @@ v1의 9개 Review Gate·`qa_evidence_report.json`·Remotion 라벨 배지는 v3.
 ## 2. 프리뷰 판정 흐름
 
 ```
-preview → prev/checks.json(결정적 검사 14항목)
+preview → prev/checks.json(결정적 검사 18항목)
    hard > 0  → (AI 연출) 수정 워커가 검사 오류만 받아 고친다 → 재검증·재프리뷰
    hard = 0  → (AI 연출) 시각 검수 워커(시트 이미지) → revise 면 수정 워커 → 재프리뷰 → 재검수
    루프 상한 = rules qa_checks.visual_qa_loop_max → 상한 도달 시 loop_pick_order 최선 판
@@ -38,7 +38,7 @@ preview → prev/checks.json(결정적 검사 14항목)
 
 | 항목 | 키·위치 |
 |---|---|
-| 검사 14항목(hard 11·warning 3) | [07](07_VIDEO_STYLE_GUIDE.md) §8, `engine/checks.py`, `rules:qa_checks` |
+| 검사 18항목(hard 15·warning 3) | [07](07_VIDEO_STYLE_GUIDE.md) §8, `engine/checks.py`, `rules:qa_checks` |
 | 루프 상한 | `rules:qa_checks.visual_qa_loop_max` |
 | 상한 도달 시 판 선택 순서(D-0049 쟁점 3) | `rules:qa_checks.loop_pick_order` |
 | 루프 기록 | `prev/qa_loop.json`, `prev/sheet.v{n}.jpg`(`engine.qa.QALoopRecord`) |
@@ -61,7 +61,13 @@ preview → prev/checks.json(결정적 검사 14항목)
 ### 2.2 장르 요소 검사 — v4.2.0
 
 `genre_elements`(hard)는 연출이 쓴 요소 종류(패널은 kind, 프리미티브는 id, 뱃지는 badge와 kind)가 장르 프로필의 reuse ∪ new 안인지 본다. 프로필 밖 요소는 요소마다 `[genre-element]` 한 줄이다.
-장르 프로필의 `qa_extra` 는 이 표의 검사 id 또는 `rules:qa_checks.planned`(G3 예정 차트 정직성 검사)만 쓸 수 있다. 새 프리미티브는 스케치 프리뷰(`tools/primitive_sketch.py`, 실제 엔진 렌더)와 사람 승인 뒤에만 영상 연출에 쓴다(handoff 20 §4.1).
+장르 프로필의 `qa_extra` 는 이 표의 검사 id 또는 `rules:qa_checks.planned`(예정 검사)만 쓸 수 있다. 새 프리미티브는 스케치 프리뷰(`tools/primitive_sketch.py`, 실제 엔진 렌더)와 사람 승인 뒤에만 영상 연출에 쓴다(handoff 20 §4.1).
+
+### 2.3 차트 정직성 검사 — v4.3.0
+
+handoff 20 §5.3 표의 아홉 규칙을 네 검사(`chart_honesty`·`series_limit_3`·`units_visible`·`as_of_visible`, 모두 hard)로 본다. 구현은 `engine/honesty.py`, 판정은 차트 메타(요소 데이터 + 프리뷰 컷에 실제로 그린 글자)만 쓴다.
+적용 범위는 요소의 축 종류(렌더러 모듈 `AXIS`)로 정한다 — 값 축(시리즈·dots·dual_line)은 넷 다, 날짜 축(timeline·gantt 패널·시간축 무대)은 chart_honesty 만. 적용되지 않는 검사는 checks.json `notes` 에 `n/a` 로 남는다(D-0087). 표는 `rules:qa_checks.chart_targets`.
+위반 주입 아홉 건의 합성 판정은 `tools/chart_honesty_report.py --synthetic`, 테스트는 `tests/test_chart_honesty.py`.
 
 ## 3. 시각 검수 판정 형식
 

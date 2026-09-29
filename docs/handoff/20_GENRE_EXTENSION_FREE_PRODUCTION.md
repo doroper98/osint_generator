@@ -106,6 +106,8 @@ View(stage, cam) → to_screen(x, y)
 - `MercatorStage`는 현재 코드를 그대로 감싼다. **이 리팩터 후에도 v3 골든 프레임이 동일해야 한다**(회귀 테스트, `15` §5 `test_provenance_e2e`).
 - `TimelineStage`의 x축 척도: 선형(기본), 필요 시 구간별 압축(예: 2008~2019 압축, 2020~ 확대). 압축 구간은 화면에 물결 표시로 명시한다(정직성, §5.3).
 
+> **구현됨(v4.3.0, back_and_forth D-0084·D-0085)**: `engine/stage_timeline.py:TimelineStage`(월드 x = 시작일부터 일수·압축 왕복, y = 레인, 세로 척도는 무대 고정 — `View` 분기, 지도 경로 불변), 눈금 LOD(연 → 분기 → 월 → 일), 압축 물결 + "압축" 라벨, 카메라 `{date, lane?, w}`·핀 `marker {date, lane}`, direction `stage_config.timeline`, 되돌아가기 경고 `[timeline_backtrack]`(숏 `reason`). 실증 `projects/fed_timeline_demo`. 위 원문은 그대로 둔다.
+
 ---
 
 ## 3. 장르 프로필 (`genres/<genre>.yaml`)
@@ -211,6 +213,8 @@ revision_note: 잠정치는 이후 수정될 수 있음
 ```
 - 차트는 **데이터에서 직접 그린다.** 다른 매체 차트 이미지를 따라 그리거나 캡처하지 않는다.
 
+> **구현됨(v4.3.0, back_and_forth D-0084·D-0086·D-0088)**: 레코드 `schemas/data_models.py:SeriesRecord`(위 필드 + unit·frequency·license·license_note·source_url·missing·values, 허용 목록 `rules data`), 로더 `data/series.py`(원자료 재적용 대조), 수집 `tools/fetch_series.py`, 커밋 레코드 FEDFUNDS·CPIAUCSL. `series` 이벤트가 레코드에서 직접 그린다(빈 달은 끊고 "자료 없음"). 원고 출처 `series:<id>` + 수치 대조 린트. 엔딩 카드 `auto: series`. 위 원문은 그대로 둔다.
+
 ### 5.2 전망·예측 표기
 - 전망은 누구의 전망인지 귀속한다("FOMC 참가자들의 전망 중앙값").
 - 점도표는 약속이 아니라 참가자별 전망임을 한 번 명시한다.
@@ -228,6 +232,8 @@ revision_note: 잠정치는 이후 수정될 수 있음
 | 로그 척도는 "로그 척도" 표기 | 메타데이터 ↔ 표기 |
 | 기준 시점(as of) 표시 | 표기 존재 |
 | 출처 줄 | 표기 존재 |
+
+> **구현됨(v4.3.0, back_and_forth D-0084 작업 5·D-0087)**: `engine/honesty.py` — 위 아홉 규칙을 결정적 검사 네 개(`chart_honesty`·`series_limit_3`·`units_visible`·`as_of_visible`, hard)로. 적용 범위는 축 종류(`rules qa_checks.chart_targets`, 렌더러 모듈 `AXIS`), 해당 없음은 `n/a` 메모. 위반 주입 아홉 건 전부 hard. 위 원문은 그대로 둔다.
 
 ### 5.4 숫자 발음 (저장소 TTS 규칙 준수)
 - %p·bp·소수점은 저장소 정책을 따른다(D6 확정 전까지 저장소 정책 유지, `19` 계획 참조).

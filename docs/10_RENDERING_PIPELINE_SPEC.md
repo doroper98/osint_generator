@@ -53,6 +53,13 @@ direction 의 `genre`(없으면 geopolitics, provenance `genre.declared` false)�
 새 시각 요소(프리미티브)는 `engine/primitives/<id>.py` 계약(SCHEMA·COLOR_KEYS·draw·PREVIEW_FIXTURE)을 지키고 이벤트 `{type: primitive, id}` 로만 불린다. 카드 층의 무대 무관 오버레이이고, 크기는 `rules:primitives`, 색은 장르 프로필 `color_semantics` 에서 온다.
 등록 요소 전부는 `tools/element_gallery.py` 가 실제 엔진으로 그린다. 정본은 handoff 20 §3·§4.
 
+### 2.3 시간축 무대와 데이터 레코드 — v4.3.0
+
+시간축 무대(`engine/stage_timeline.py:TimelineStage`)의 월드 x 는 무대 시작일로부터의 일수이고, y 는 레인이다. 세로 척도는 무대가 고정한다 — 카메라 폭은 시간 폭만 바꾼다(`rules:stage_timeline.lane_h`, D-0085). 압축 구간은 화면에 물결과 "압축" 라벨이 반드시 보인다.
+카메라 앵커는 `{date, lane?, w}`, 핀은 `marker {date, lane}`(레인 id)이다. 무대 설정은 direction `stage_config.timeline`(레인 기본값 = 장르 프로필)이고 눈금 LOD·물결·레인 토큰은 `rules:stage_timeline` 이다.
+수치 시리즈는 데이터 레코드(`data/series/<id>.yaml`+`.csv`, `schemas/data_models.py:SeriesRecord`, 허용 목록 `rules:data`)에서만 온다. `series` 이벤트가 레코드에서 직접 그리고, 빈 달(`missing`)은 끊고 "자료 없음"을 표시한다. 원고는 `sources: [series:<id>]` 로 레코드를 가리키고 린트가 수치를 대조한다(D-0088).
+지도를 쓰지 않는 영상은 지형 자산을 읽지 않는다. 엔딩 카드는 `auto: series` 절로 레코드의 출처·라이선스 표기·기준 시점을 적는다. 정본은 handoff 20 §2.3·§5·§6.
+
 ## 3. 프리뷰와 두 게이트
 
 | 게이트 | 상태 | 사람이 보는 것 |
@@ -61,7 +68,7 @@ direction 의 `genre`(없으면 geopolitics, provenance `genre.declared` false)�
 | ② 프리뷰 승인 | `PREVIEW_APPROVAL` | `prev/sheet.jpg`·`checks.json`·시각 검수 판정·provenance |
 
 프리뷰 샘플 규칙은 `rules:preview.min_body_cuts`(auto 모드), 골든 모드는 문장 앵커 25컷이다.
-결정적 검사 14항목은 [07](07_VIDEO_STYLE_GUIDE.md) §8, 판정 흐름(시각 검수 루프·게이트 ② 사람 판정)은 [12](12_QA_AND_REVIEW_SPEC.md) §2다.
+결정적 검사 18항목은 [07](07_VIDEO_STYLE_GUIDE.md) §8, 판정 흐름(시각 검수 루프·게이트 ② 사람 판정)은 [12](12_QA_AND_REVIEW_SPEC.md) §2다.
 반려는 되돌림 규칙(handoff 16 §2)으로 앞 상태로 간다.
 
 ## 4. 출력 프로파일과 해상도

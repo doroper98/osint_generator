@@ -16,7 +16,7 @@ last_review: 2026-09-29
 | 단위 테스트 | `pytest` | Pydantic 모델, agent 출력 파싱, Worker base 동작 |
 | 통합 테스트 | `pytest` (느림) | dummy worker subprocess, log router 동작 |
 | 시스템 테스트 | 시나리오 스크립트 | 샘플 프로젝트로 Phase 0–N 일괄 실행 |
-| 결정적 검사 | `engine/checks.py` → `prev/checks.json` | 프리뷰 14항목(hard 0 이 게이트 ② 전제) |
+| 결정적 검사 | `engine/checks.py` → `prev/checks.json` | 프리뷰 18항목(hard 0 이 게이트 ② 전제) |
 | 골든 회귀 | `tools/golden_compare.py`, `tools/res_compare.py` | hormuz 25컷 MAD(480p 무변경 = 0), 1080p 축소 비교 |
 | 관성 방지 | `tests/anti_inertia/` | 15 P1~P12(레거시 경로·폴백·코드 연출·매직 넘버·레지스트리·provenance) |
 | 문서 동기화 | `tests/test_goal_g3.py`, `tests/test_docs_sync.py` | G3 검증 방법 실재, 헤더 버전·규칙 키 인용·폐기 배너·삭제 경로 링크 |

@@ -48,6 +48,8 @@ last_review: 2026-09-29
 
 `direction.yaml` 장르(v4.2.0, back_and_forth D-0081 작업 3): 최상위 `genre`(선택, 없으면 geopolitics — provenance `genre.declared` false). 장르 프로필 `genres/<genre>.yaml` = `schemas.genre_models.GenreProfile`(extra forbid, `rules:registries` 이름만). 프리미티브 이벤트 `{type: primitive, id}` 의 데이터 모델 = `engine/primitives/<id>.py` `SCHEMA`(봉투 `engine.events._Primitive` 와 합쳐 검증).
 
+`direction.yaml` 시간축(v4.3.0, back_and_forth D-0084·D-0085·D-0088): `stage_config.timeline`(`engine/stage_timeline.py:TimelineConfig` — start·end·lanes·compress, 레인 기본값 = 장르 프로필), 카메라 `{date, lane?, w}`, 핀 `marker {date, lane}`, `series` 이벤트(`engine.events.SeriesEvent` — lane·series_id·style·grow·col, 값 필드 없음), 숏 `reason`. 데이터 레코드 `data/series/<id>.yaml`+`.csv`(+`raw/`) = `schemas.data_models.SeriesRecord`(extra forbid, 허용 목록 `rules:data`, 빈 달 `missing`). 원고 `sources` 의 `series:<id>` 는 레코드 참조(claim 아님). 엔딩 크레딧 절 `auto: series`.
+
 번들 가져오기(`import-bundle`) 산출물은 §10, 저장소 공용 레지스트리(엔티티·휘장·미디어·BGM)는 §7·§9.
 `approval_log.json`(`ApprovalLog`)·`thumbnail_manifest.json`(`ThumbnailManifest`)은 **삭제됨**(v4.0.0, back_and_forth D-0073, 보존 `archive/hyperframes-briefing`). 게이트 기록은 manifest `gate_decisions`다.
 

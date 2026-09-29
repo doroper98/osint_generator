@@ -94,7 +94,7 @@ v1 산출물 표 (이력 보존):
 | 14 | 모든 JSON/YAML 산출물이 `schema_version`을 갖고 Pydantic으로 검증된다. | `tests/test_state_machine.py::test_new_manifest_is_v2_and_round_trips` · `tests/test_rules_ssot.py::test_loads_and_validates` · `tests/anti_inertia/test_prompt_schema_parity.py::test_examples_validate` |
 | 15 | 관성 방지 테스트(`tests/anti_inertia/`)가 전부 통과한다(xfail 0). | `tests/anti_inertia/` |
 | 16 | 실패 시 옛 스타일로 폴백하지 않고 해당 상태에 멈춰 사용자에게 보고한다. | `tests/anti_inertia/test_no_silent_fallback.py::test_a_unregistered_event_type` · `tests/test_gates_pipeline.py::test_failure_and_drops_stay` · `tests/test_engine_service.py::test_drops_propagate_as_failure` |
-| 17 | 장르 확장(`docs/handoff/20`) 영상도 1~16을 만족하고 무대 연속성 검사(20 §12)를 통과한다. | `checks:stage_continuity`(v4.1.0 G1, `rules:stage`) · `checks:genre_elements`(v4.2.0 G2) · `tests/test_stage_continuity.py::test_fail_switch_without_dip` · `tests/test_stage_continuity.py::test_pass_main_secondary_round_trip_all_dip` · `gate:PREVIEW_APPROVAL` · `pending:G4` (비지정학 영상 판정) |
+| 17 | 장르 확장(`docs/handoff/20`) 영상도 1~16을 만족하고 무대 연속성 검사(20 §12)를 통과한다. | `checks:stage_continuity`(v4.1.0 G1, `rules:stage`) · `checks:genre_elements`(v4.2.0 G2) · `checks:chart_honesty`(v4.3.0 G3, `rules:qa_checks.chart_targets`) · `tests/test_stage_continuity.py::test_fail_switch_without_dip` · `tests/test_stage_continuity.py::test_pass_main_secondary_round_trip_all_dip` · `gate:PREVIEW_APPROVAL` · `pending:G4` (비지정학 영상 판정) |
 
 ### G3-legacy. v1 MVP 기준 34개 [legacy v1 — deprecated v4.0.0]
 
