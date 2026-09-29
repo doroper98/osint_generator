@@ -3,6 +3,8 @@
 - 규칙 파일 `registries.event_types`·`panel_kinds`와 양방향으로 일치해야 한다(tests/anti_inertia/test_registry_complete).
 - 레지스트리에 없는 타입은 렌더 전에 `RegistryError`다. `event_types_planned`도 등록하지 않는다(쓰면 오류).
 - 패널은 `panel:<kind>` 키로 등록한다.
+- 프리미티브(v4.2.0 D-0081 작업 4, 20 §4.2)는 `primitive:<id>` 키 — `rules registries.primitives` 마다 engine/primitives/<id>.py 를 잇는다.
+  렌더러는 지도 레이어처럼 view 를 받는다: render(ctx, R, view, t, e) → 예약 영역.
 """
 
 from __future__ import annotations
@@ -24,9 +26,10 @@ from engine.layers.post import draw_post
 from engine.layers.routes import draw_barrier, draw_route, draw_tanker_loop
 from engine.panels import checklist, dots, dual_line, fork, gantt, network, precedent, relation, statement, timeline, versus
 from engine.panels.base import make_panel_renderer
+from engine.primitives import event_model, make_renderer, module
 from rules import load_rules
 
-Stage = Literal["map", "dip", "panel", "media", "card"]
+Stage = Literal["map", "dip", "panel", "media", "card", "primitive"]
 
 
 class RegistryError(ValueError):
@@ -71,7 +74,11 @@ REGISTRY: dict[str, Entry] = {
     "panel:fork": Entry(ev.PanelFork, make_panel_renderer(fork.draw), "panel"),
     "panel:checklist": Entry(ev.PanelChecklist, make_panel_renderer(checklist.draw), "panel"),
     "panel:network": Entry(ev.PanelNetwork, make_panel_renderer(network.draw), "panel"),
+    # v4.2.0 D-0081 작업 4 — 프리미티브. id 별 항목은 아래에서 registries.primitives 로 채운다
+    "primitive": Entry(ev._Primitive, lambda ctx, R, view, t, e: dispatch_primitive(ctx, R, view, t, e), "primitive"),
 }
+for _pid in load_rules().registries.primitives:
+    REGISTRY[f"primitive:{_pid}"] = Entry(event_model(_pid, module(_pid).SCHEMA), make_renderer(_pid), "primitive")
 
 # v3 LAYER 순서(render3 L950) — 지도 레이어는 타입 순서대로, 같은 타입 안에서는 이벤트 순서대로 그린다.
 MAP_LAYER_ORDER: tuple[str, ...] = ("country", "ships", "route", "tanker_loop", "barrier", "boom", "cutout", "marker", "badge")
@@ -80,6 +87,11 @@ MAP_LAYER_ORDER: tuple[str, ...] = ("country", "ships", "route", "tanker_loop", 
 def dispatch_panel(ctx: object, R: object, t: float, e: dict) -> None:  # noqa: N803
     """`panel` 타입의 렌더러 — `panel:<kind>` 항목으로 넘긴다(없으면 RegistryError)."""
     resolve(e).render(ctx, R, t, e)
+
+
+def dispatch_primitive(ctx: object, R: object, view: object, t: float, e: dict) -> object:  # noqa: N803
+    """`primitive` 타입의 렌더러 — `primitive:<id>` 항목으로 넘긴다(없으면 RegistryError)."""
+    return resolve(e).render(ctx, R, view, t, e)
 
 
 def key_of(e: dict) -> str:
@@ -91,6 +103,11 @@ def key_of(e: dict) -> str:
         if not isinstance(kind, str):
             raise RegistryError(f"panel 이벤트에 kind 가 없다: {e!r}")
         return f"panel:{kind}"
+    if typ == "primitive":
+        pid = e.get("id")
+        if not isinstance(pid, str):
+            raise RegistryError(f"primitive 이벤트에 id 가 없다: {e!r}")
+        return f"primitive:{pid}"
     return typ
 
 
@@ -99,7 +116,8 @@ def resolve(e: dict | str) -> Entry:
     key = e if isinstance(e, str) else key_of(e)
     if key not in REGISTRY:
         rules = load_rules().registries
-        planned = set(rules.event_types_planned) | {f"panel:{k}" for k in rules.panel_kinds_planned}
+        planned = (set(rules.event_types_planned) | {f"panel:{k}" for k in rules.panel_kinds_planned}
+                   | {f"primitive:{k}" for k in rules.primitives_planned})
         why = "계획만 있고 구현 전(planned)" if key in planned else "레지스트리에 없음"
         raise RegistryError(f"이벤트 타입 {key!r}: {why} — rules/video_rules.yaml registries (15 P10)")
     return REGISTRY[key]

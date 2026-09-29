@@ -212,6 +212,13 @@ class TimedText(_Strict):
     t1: float
 
 
+class _Primitive(_Event):
+    """프리미티브 봉투(v4.2.0, 20 §4.2) — 데이터 필드는 engine/primitives/<id>.py SCHEMA. 모델은 engine.primitives.event_model 이 합친다."""
+
+    type: Literal["primitive"]
+    id: str
+
+
 class _Panel(_Event):
     type: Literal["panel"]
     title: str

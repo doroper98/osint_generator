@@ -46,6 +46,10 @@ def card_box(ctx: cairo.Context, e: dict) -> Box:
         x, y, w, h = e["post_box"]
     elif e["type"] == "card":
         x, y, w, h, _ = card_geom(ctx, e)
+    elif e["type"] == "primitive":      # v4.2.0 D-0081 — 프리미티브 draw 가 돌려주는 제자리 상자
+        from engine.primitives import primitive_box  # noqa: PLC0415 — primitives → events → style 순환 회피
+
+        return primitive_box(e)
     else:
         x, y, w, h, _, _ = article_geom(ctx, e)
     return x, y, x + w, y + h
@@ -54,13 +58,13 @@ def card_box(ctx: cairo.Context, e: dict) -> Box:
 def card_zones(ctx: cairo.Context, events: list[dict], t: float) -> list[Zone]:
     out: list[Zone] = []
     for e in events:
-        if e["type"] not in ("card", "article", "post"):
+        if e["type"] not in ("card", "article", "post", "primitive"):
             continue
         a = presence(t, e, CARD.fade_sec)   # 기사·게시물 카드도 같은 0.45초 페이드(media.article_alpha, post.post_alpha)
         if a <= RES.min_zone_alpha:
             continue
         ref = (f"post:{e['src']}" if e["type"] == "post" else f"card:{e['tag']}" if e["type"] == "card"
-               else f"article:{article_text(e)['pub']}")
+               else f"primitive:{e['id']}" if e["type"] == "primitive" else f"article:{article_text(e)['pub']}")
         out.append(Zone(card_box(ctx, e), a, ref))
     return out
 

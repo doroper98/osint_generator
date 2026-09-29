@@ -224,7 +224,7 @@ placement:                 # v3.1.0 D-0047 작업 5 — 배치 슬롯(17 §2 `pl
     map_upper_right: {kinds: [badge, cutout, marker], point: [660, 150]}
     map_lower_left:  {kinds: [badge, cutout, marker], point: [190, 330]}
     map_lower_right: {kinds: [badge, cutout, marker], point: [660, 330]}
-    card_right:      {kinds: [card], card: null}
+    card_right:      {kinds: [card, primitive], card: null}   # primitive = v4.2.0 D-0081 작업 5(무대 무관 오버레이, 카드와 같은 슬롯)
     # v3.2.0 D-0050 NB9 — 패널(타임라인 등) 위 미디어: 그 순간 패널이 차지한 상자(engine.placement.OCCUPIED)·자막·날짜를 피하는 첫 후보.
     # 후보 [x, y] = 제목·부제(y≤96) 아래 네 귀퉁이. 모두 막히면 오류(조용히 겹치지 않는다, P6)
     clip_panel_side:
@@ -549,7 +549,7 @@ credits:                   # D-0030(D35) — 권리 레지스트리 종류별 �
   music_description: 'Music: "{name}" — {author} ({license})'          # 설명란 footer 의 {music} 자리(v3 description.yaml 문구와 같은 결과)
 
 registries:                # 15 §3 P10 — 여기 없는 타입을 연출이 쓰면 오류, 있는데 렌더러가 없으면 오류
-  event_types: [marker, route, tanker_loop, barrier, ships, boom, country, badge, card, panel, dip, photo, clip, cutout, article, post]   # post = v3.2.0 복귀(D26, 18 §5)
+  event_types: [marker, route, tanker_loop, barrier, ships, boom, country, badge, card, panel, dip, photo, clip, cutout, article, post, primitive]   # post = v3.2.0 복귀(D26, 18 §5), primitive = v4.2.0 D-0081(id → registries.primitives)
   event_types_planned: [occupied, arc, channel, shield, tl, particles, flash, dots, movers, line, arrow]   # v1/v2 이식 후보(미구현 = 사용 불가)
   panel_kinds: [relation, statement, timeline, precedent, versus, dots, gantt, dual_line, fork, checklist, network]   # relation = v3 refusal 일반화, 뒤 6종 = v2 차트 이식(D-0032)
   panel_kinds_planned: []
@@ -603,6 +603,8 @@ audio:                     # 10
     tick: {dur_sec: 0.12, freq_hz: 1800, tau_sec: 0.015, gain: 0.18}
     title_card: {offset_sec: 0.2, whoosh_dur_sec: 1.4, whoosh_v: 1.0, boom_v: 0.6}      # sfx_policy: 타이틀 카드 휙+쿵
     scene_start: {lead_sec: 0.05, whoosh_dur_sec: 0.9, whoosh_v: 0.55}                  # sfx_policy: 장면 시작 휙(첫 장면 제외)
+
+primitives: {}             # v4.2.0 D-0081 작업 4 — 프리미티브(engine/primitives/<id>.py) 레이아웃 토큰. registries.primitives 마다 한 블록(20 §4.2 "색·크기는 토큰만")
 
 golden:                    # v3.6.0 D-0066 작업 4 · D-0067 요건 4 — 1080p 를 854×480 으로 Lanczos 축소해 480p 와 잰 컷별 MAD(/255) 상한.
   # 실측(hormuz 25컷, 1080p 티어 ppd×2.25): 평균 0.0107 · 최대 0.0181(p_0214.46). 설계 좌표가 같아 위치 차이는 0(frames·place_over 동일)이고,

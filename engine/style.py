@@ -102,3 +102,6 @@ TITLE_CARD = _L.title_card
 END_CARD = _L.end_card
 BADGE = _L.badge
 DATE_BADGE = _RULES.hud.date_badge
+CARD_BG: tuple[float, float, float, float] = tuple(_RULES.colors.card_bg)   # type: ignore[assignment] — 카드 바탕(09 §7)
+# v4.2.0 D-0081 작업 4 — 프리미티브 레이아웃 토큰(rules primitives.<id>). 프리미티브 모듈은 이 값과 PrimitiveStyle 만 쓴다(20 §4.2)
+PRIMITIVES: dict[str, object] = {k: v for k, v in _RULES.primitives if v is not None}

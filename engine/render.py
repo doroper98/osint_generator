@@ -77,6 +77,8 @@ def render_frame(P: Project, i: int) -> tuple[cairo.ImageSurface, bytearray]:  #
     for e in act:
         if e["type"] in ("card", "article", "post"):
             resolve(e).render(ctx, R, t, e)
+        elif e["type"] == "primitive":            # v4.2.0 D-0081 — 무대 무관 오버레이(카드 층), 20 §4.2 draw(ctx, view, t, e, style)
+            resolve(e).render(ctx, R, view, t, e)
     draw_date(ctx, R, t)
     draw_fullcards(ctx, R, t)
     draw_subtitle(ctx, R, t)

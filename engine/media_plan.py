@@ -45,7 +45,7 @@ def card_zone_warnings(ctx: cairo.Context, events: list[dict]) -> list[str]:
     date_box = _date_box()
     out: list[str] = []
     for e in events:
-        if e["type"] not in ("card", "article", "post") or (e["type"] == "post" and "post_box" not in e):
+        if e["type"] not in ("card", "article", "post", "primitive") or (e["type"] == "post" and "post_box" not in e):   # primitive = v4.2.0
             continue
         box = card_box(ctx, e)
         where = f"{e['type']} {e.get('tag') or e.get('src') or e.get('mid') or ''} t0={e['t0']:.2f}"

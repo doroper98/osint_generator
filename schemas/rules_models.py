@@ -932,6 +932,10 @@ class StageRules(_Strict):
     continuity: StageContinuityRules
 
 
+class PrimitivesRules(_Strict):
+    """v4.2.0 D-0081 작업 4 — 프리미티브별 레이아웃 토큰(engine.style.PRIMITIVES). 요소가 등록될 때 필드를 더한다."""
+
+
 class VideoRules(_Strict):
     """`rules/video_rules.yaml` 최상위 모델."""
 
@@ -963,6 +967,7 @@ class VideoRules(_Strict):
     camera: CameraRules            # v3.3.0 — D-0056 작업 2
     stage: StageRules              # v4.1.0 — D-0076 작업 5
     qa_checks: QAChecks
+    primitives: PrimitivesRules = Field(default_factory=PrimitivesRules)   # v4.2.0 D-0081
     bundle: BundleRules            # v3.5.0 — D-0063 작업 4
     provenance: ProvenanceRules
 
