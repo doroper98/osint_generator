@@ -1,0 +1,10 @@
+# dot_plot 스케치 셋째 컷 — 열 고르기(2026·2027·장기) (v4.4.0, back_and_forth D-0090 작업 3). 값은 레코드 SEP_20260916(연준 SEP 그림 2).
+schema_version: 1
+event:
+  type: primitive
+  id: dot_plot
+  t0: 0.0
+  t1: 8.0
+  record: SEP_20260916
+  tag: FOMC 참가자 금리 전망 · 올해·내년·장기
+  columns: ["2026", "2027", "Longer run"]

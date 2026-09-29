@@ -51,6 +51,14 @@ class RegistryCompleteTest(unittest.TestCase):
             self.assertEqual(axis == "value", k in PANEL_META, f"값 축 패널 {k} 의 정직성 메타")
         self.assertIn(importlib.import_module("engine.layers.series").AXIS, targets)
 
+    def test_primitive_axis_declared(self) -> None:
+        """v4.4.0 D-0090 작업 3 — 프리미티브 모듈마다 AXIS(value|date|none), 값 축이면 chart_meta(정직성 대상)."""
+        targets = load_rules().qa_checks.chart_targets
+        for k in load_rules().registries.primitives:
+            mod = importlib.import_module(f"engine.primitives.{k}")
+            self.assertIn(getattr(mod, "AXIS", None), targets, f"engine/primitives/{k}.py AXIS")
+            self.assertEqual(mod.AXIS == "value", callable(getattr(mod, "chart_meta", None)), f"값 축 프리미티브 {k} 의 chart_meta")
+
     def test_planned_not_registered(self) -> None:
         registry = importlib.import_module("engine.registry")
         rules = load_rules()

@@ -1,0 +1,28 @@
+{
+ "schema_version": 1,
+ "primitive": "dot_plot",
+ "genre": "macro_monetary",
+ "project": "hormuz_korea",
+ "frames": [
+  {
+   "cut": "fixture-appearing",
+   "t": 0.25,
+   "png": "dot_plot_sketch_1.png",
+   "glyphs": 14
+  },
+  {
+   "cut": "fixture",
+   "t": 7.5,
+   "png": "dot_plot_sketch_2.png",
+   "glyphs": 14
+  },
+  {
+   "cut": "dot_plot_columns",
+   "t": 7.5,
+   "png": "dot_plot_sketch_3.png",
+   "glyphs": 12
+  }
+ ],
+ "glyph_size": [],
+ "min_font_drawn": 9.5
+}

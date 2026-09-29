@@ -76,8 +76,8 @@ class GenreProfileSchemaTest(unittest.TestCase):
 
     def test_new_planned_only_for_proposed(self) -> None:   # D-0082 쟁점 1 A
         with self.assertRaisesRegex(ValidationError, "primitives_planned"):
-            GenreProfile.model_validate(prof(primitives={"reuse": ["card"], "new": ["dot_plot"]}))
-        GenreProfile.model_validate(prof(status="proposed", primitives={"reuse": ["card"], "new": ["dot_plot"]}))
+            GenreProfile.model_validate(prof(primitives={"reuse": ["card"], "new": ["yield_curve_shift"]}))   # v4.4.0 dot_plot 등록 → 남은 planned
+        GenreProfile.model_validate(prof(status="proposed", primitives={"reuse": ["card"], "new": ["yield_curve_shift"]}))
 
     def test_reuse_new_overlap(self) -> None:
         with self.assertRaises(ValidationError):

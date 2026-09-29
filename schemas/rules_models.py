@@ -1101,10 +1101,52 @@ class StatementDiffLayout(_Strict):
     slide_px: float
 
 
+class DotPlotLayout(_Strict):
+    """v4.4.0 D-0090 작업 3 — dot_plot 레이아웃 토큰(설계 px)."""
+
+    w: float = Field(gt=0)
+    plot_h: float = Field(gt=0)
+    pad_x: float
+    pad_top: float
+    head_gap: float
+    plot_gap: float
+    col_label_gap: float
+    src_gap: float
+    pad_bottom: float
+    axis_w: float
+    tick_step: float = Field(gt=0)
+    tick_label_every: int = Field(ge=1)
+    tick_label_dx: float
+    legend_rise: float
+    dot_r: float = Field(gt=0)
+    dot_gap: float = Field(ge=0)
+    dot_color: str
+    dot_alpha: float = Field(gt=0, le=1)
+    median_color: str
+    median_w: float
+    median_half: float
+    median_size: float
+    grid_alpha: float
+    tick_size: float
+    col_size: float
+    tag_size: float
+    tag_spacing: float
+    note_size: float
+    note: str = Field(min_length=1)
+    median_label: str = Field(min_length=1)
+    radius: float
+    bar_w: float
+    bar_inset: float
+    fade_sec: float = Field(ge=0.4, le=0.6)
+    slide_px: float
+    dot_stagger_sec: float = Field(ge=0)
+
+
 class PrimitivesRules(_Strict):
     """v4.2.0 D-0081 작업 4 — 프리미티브별 레이아웃 토큰(engine.style.PRIMITIVES). 요소가 등록될 때 필드를 더한다."""
 
     statement_diff: Optional[StatementDiffLayout] = None
+    dot_plot: Optional[DotPlotLayout] = None   # v4.4.0 D-0090 작업 3
 
 
 class VideoRules(_Strict):

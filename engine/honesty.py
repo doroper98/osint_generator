@@ -147,6 +147,13 @@ def project_metas(P, times: list[float], labels: list[str], drawn: list[tuple[st
         metas.append(ChartMeta(ref="stage timeline", axis="date", kind="timeline", compress_on_screen=on, compress_marked=marked))
         metas += _series_metas(P, st, times, labels, texts)
     for e in P.events:
+        if e["type"] == "primitive":   # v4.4.0 D-0090 작업 3 — 프리미티브 모듈 AXIS·chart_meta(dot_plot = 값 축)
+            axis = PRIMITIVE_AXIS[e["id"]]
+            base = {"ref": f"primitive {e['id']} t0={e['t0']:.2f}", "axis": axis, "kind": e["id"]}
+            if axis == "value":
+                base.update(_primitive_module(e["id"]).chart_meta(e))
+            metas.append(ChartMeta(**base))
+            continue
         if e["type"] != "panel":
             continue
         axis = PANEL_AXIS[e["kind"]]
@@ -210,8 +217,22 @@ def _panel_axes() -> dict[str, Axis]:
 
 
 PANEL_AXIS: dict[str, Axis] = _panel_axes()
+
+
+def _primitive_module(pid: str):  # noqa: ANN202
+    import importlib  # noqa: PLC0415
+
+    return importlib.import_module(f"engine.primitives.{pid}")
+
+
+def _primitive_axes() -> dict[str, Axis]:
+    """v4.4.0 — 등록 프리미티브의 AXIS(없으면 오류: 계약, test_registry_complete)."""
+    return {k: _primitive_module(k).AXIS for k in load_rules().registries.primitives}
+
+
+PRIMITIVE_AXIS: dict[str, Axis] = _primitive_axes()
 PANEL_META = {"dots": _dots_meta, "dual_line": _dual_meta}   # AXIS == "value" 인 패널의 메타(test_registry_complete 가 대조)
 
 
-__all__ = ["CHECK_IDS", "ChartMeta", "PANEL_AXIS", "PANEL_META", "as_of_visible", "chart_honesty", "judge", "project_metas",
+__all__ = ["CHECK_IDS", "ChartMeta", "PANEL_AXIS", "PANEL_META", "PRIMITIVE_AXIS", "as_of_visible", "chart_honesty", "judge", "project_metas",
            "series_limit_3", "units_visible"]

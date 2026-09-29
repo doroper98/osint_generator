@@ -27,7 +27,7 @@ color_semantics:
   removed: ru                    # (3) 성명서 문구 삭제 — 붉은 취소선(20 §3.1 policy_document)
 primitives:                      # 이 장르에서 쓰는 시각 요소(레지스트리 id)
   reuse: [card, article, post, badge, versus, timeline, checklist, series, marker]   # (1) 20 §3 timeline_panel = panel kind timeline, (4) series·marker
-  new:   [rate_step_line, dot_plot, yield_curve_shift, statement_diff, target_band]   # (2) statement_diff 만 등록, 나머지 planned
+  new:   [rate_step_line, dot_plot, yield_curve_shift, statement_diff, target_band]   # (2) statement_diff·dot_plot(v4.4.0) 등록 — rate_step_line = series step, target_band = series band 가 대신(만들지 않음), yield_curve_shift = G4 밖(chart_wall)
 badges:
   people: from_library           # 라이브러리 인물(예: 제롬 파월, 케빈 워시 초상이 이미 있음)
   institutions: rights_check     # 중앙은행 휘장은 권리 확인 후(07 §5)

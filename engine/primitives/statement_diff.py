@@ -2,7 +2,7 @@
 
 목적: 같은 문서의 이전 문구와 새 문구를 나란히 두고, 빠진 말(붉은 취소선)과 들어온 말(초록)을 보여 준다.
 데이터: 두 문구 원문(`before`·`after`) + 출처·날짜. 삭제·추가 표시는 코드가 원문에서 단어 단위로 계산한다
-(difflib, 공백 기준) — 연출이 표시를 손으로 적지 않으므로 원문과 표시가 어긋날 수 없다.
+(공통 접두·접미 + 가운데 difflib, 비교 키는 문장 부호 무시 — v4.4.0) — 연출이 표시를 손으로 적지 않으므로 원문과 표시가 어긋날 수 없다.
 기존 요소로 안 되는 이유: 카드(`card`)는 줄 단위 문자열만 있고 단어별 색·취소선이 없다. 패널 `statement` 는 전면 덮개 패널이다.
 
 불변 층(20 §1.1): 출처·날짜 줄 필수(빈 값 = 오류), 판독 최소 크기(rules layout_480p.min_font_px 이상 — glyph_size 검사 대상,
@@ -26,6 +26,7 @@ from script.schema import DATE_RE
 
 L = PRIMITIVES["statement_diff"]
 COLOR_KEYS: tuple[str, ...] = ("added", "removed")
+AXIS = "none"   # v4.4.0 — 값 축 없음(정직성 검사 해당 없음, engine/honesty.py)
 Op = Literal["same", "removed", "added"]
 
 
@@ -74,18 +75,39 @@ class StatementDiff(BaseModel):
 SCHEMA = StatementDiff
 
 
+PUNCT = ".,;:!?()[]\"'“”‘’"   # 비교 키에서 떼는 문장 부호(표시는 원문 그대로)
+
+
+def _key(w: str) -> str:
+    return w.strip(PUNCT).casefold()
+
+
 def diff_tokens(before: str, after: str) -> tuple[list[tuple[str, Op]], list[tuple[str, Op]]]:
-    """단어 단위 차이 → (이전 줄 [(단어, same|removed)], 새 줄 [(단어, same|added)])."""
+    """단어 단위 차이 → (이전 줄 [(단어, same|removed)], 새 줄 [(단어, same|added)]).
+
+    v4.4.0(D-0090 작업 3): ① 공통 접두·접미 단어를 먼저 떼고 ② 가운데만 토큰 대조(difflib). 비교 키는 문장 부호를 떼고
+    대소문자를 무시한다("elevated." = "elevated") — 문장 끝 마침표 하나 때문에 같은 단어가 삭제·추가로 보이지 않게. 표시는 원문."""
     a, b = before.split(), after.split()
-    left: list[tuple[str, Op]] = []
-    right: list[tuple[str, Op]] = []
-    for tag, i0, i1, j0, j1 in difflib.SequenceMatcher(a=a, b=b, autojunk=False).get_opcodes():
+    ka, kb = [_key(w) for w in a], [_key(w) for w in b]
+    p = 0
+    while p < min(len(a), len(b)) and ka[p] == kb[p]:
+        p += 1
+    q = 0
+    while q < min(len(a), len(b)) - p and ka[len(a) - 1 - q] == kb[len(b) - 1 - q]:
+        q += 1
+    left: list[tuple[str, Op]] = [(w, "same") for w in a[:p]]
+    right: list[tuple[str, Op]] = [(w, "same") for w in b[:p]]
+    ma, mb = a[p:len(a) - q], b[p:len(b) - q]
+    sm = difflib.SequenceMatcher(a=ka[p:len(a) - q], b=kb[p:len(b) - q], autojunk=False)
+    for tag, i0, i1, j0, j1 in sm.get_opcodes():
         if tag == "equal":
-            left += [(w, "same") for w in a[i0:i1]]
-            right += [(w, "same") for w in b[j0:j1]]
+            left += [(w, "same") for w in ma[i0:i1]]
+            right += [(w, "same") for w in mb[j0:j1]]
             continue
-        left += [(w, "removed") for w in a[i0:i1]]
-        right += [(w, "added") for w in b[j0:j1]]
+        left += [(w, "removed") for w in ma[i0:i1]]
+        right += [(w, "added") for w in mb[j0:j1]]
+    left += [(w, "same") for w in a[len(a) - q:]]
+    right += [(w, "same") for w in b[len(b) - q:]]
     return left, right
 
 

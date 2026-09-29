@@ -557,12 +557,11 @@ registries:                # 15 §3 P10 — 여기 없는 타입을 연출이 �
   accents: [gold, us, ru, teal, muted, green, amber]
   stages: [mercator, timeline]   # v4.1.0 D-0076 — 무대(engine.stage). 없는 무대 = 오류, 있는데 구현(STAGE_CLASSES)이 없음 = 오류(P10). timeline = v4.3.0 D-0084 작업 3
   stages_planned: [chart_wall, flow, structure, document]   # v4.2.0 D-0081 — 20 §2.1 무대 카탈로그(구현 전). 장르 프로필 proposed 만 참조 가능, 연출에서 쓰면 오류
-  primitives: [statement_diff]   # v4.2.0 D-0081 — 새 시각 요소(engine/primitives/<id>.py, 20 §4.2). 이벤트 type: primitive + id. 없는 id = 오류, 있는데 모듈 없음 = 오류(P10)
+  primitives: [statement_diff, dot_plot]   # dot_plot = v4.4.0 D-0090 작업 3(사용자 승인 대기 — provenance elements.approval pending). v4.2.0 D-0081 — 새 시각 요소(engine/primitives/<id>.py, 20 §4.2). 이벤트 type: primitive + id. 없는 id = 오류, 있는데 모듈 없음 = 오류(P10)
   primitives_planned:     # v4.2.0 D-0082 쟁점 1 A — 구현 전 프리미티브. 장르 프로필 proposed 의 new 만 참조 가능, 연출에서 쓰면 오류
-    - rate_step_line      # 20 §3 macro_monetary — v4.3.0: series 이벤트(style: step)로 대체, G4 에서 정리(사용자 결정 전이라 삭제하지 않음, D-0084 작업 4)
-    - dot_plot            # 20 §3 macro_monetary, G4 후보(사용자 승인 뒤 최대 3)
-    - yield_curve_shift   # 20 §3 macro_monetary, G4 후보(사용자 승인 뒤 최대 3)
-    - target_band         # 20 §3 macro_monetary, G4 후보(사용자 승인 뒤 최대 3)
+    - rate_step_line      # 20 §3 macro_monetary — v4.3.0: series 이벤트(style: step)가 대신한다. 만들지 않는다(사용자 결정 전이라 목록에서 지우지 않음, D-0084 작업 4·D-0090)
+    - yield_curve_shift   # 20 §3 macro_monetary — chart_wall 무대가 필요해 G4 밖(D-0090 작업 3 ③). 구현 전
+    - target_band         # 20 §3 macro_monetary — v4.4.0: series style band(두 레코드 사이 띠, rules stage_timeline.band)가 대신한다. 만들지 않는다(D-0090 작업 2)
 
 audio:                     # 10
   bed_gain: 0.47
@@ -754,6 +753,43 @@ primitives:                # v4.2.0 D-0081 작업 4 — 프리미티브(engine/p
     strike_rise: 0.32      # 취소선 높이 = 글자 크기 × 이 값(기준선 위)
     fade_sec: 0.5          # 등장·퇴장 페이드(20 §4.2 0.4~0.6초)
     slide_px: 24           # 등장 슬라이드(오른쪽 → 제자리, fade_sec 동안)
+  dot_plot:                # v4.4.0 D-0090 작업 3 — 점도표(참가자별 전망 점, 열 = 연도, 중앙값 표시, 20 §5.2·§10). 설계 px(480p). 값은 scatter 레코드에서만
+    w: 400                 # 상자 폭(같은 슬롯 card_right) — 한 값에 12명이 몰려도 열 폭 안(점 지름 + 간격 × 12)
+    plot_h: 170            # 점 영역 높이
+    pad_x: 18
+    pad_top: 23            # 상자 위 → 머리 글자 기준선
+    head_gap: 16           # 머리 → 고정 문구 기준선
+    plot_gap: 16           # 고정 문구 → 점 영역 위
+    col_label_gap: 15      # 점 영역 아래 → 열 이름 기준선
+    src_gap: 16            # 열 이름 → 출처 줄 기준선
+    pad_bottom: 12
+    axis_w: 38             # 왼쪽 값 눈금 자리
+    tick_step: 0.25        # 값 눈금 간격(%). 눈금 라벨은 tick_label_every 칸마다
+    tick_label_every: 2
+    tick_label_dx: 6       # 눈금 라벨 오른쪽 끝 → 점 영역 왼쪽(범례 선 간격도 같은 값)
+    legend_rise: 0.33      # 가로선·눈금 라벨을 글자 가운데 높이로(글자 크기 × 이 값)
+    dot_r: 2.3
+    dot_gap: 0.5           # 같은 값 점 사이 추가 간격(지름 기준 더함)
+    dot_color: white
+    dot_alpha: 0.88
+    median_color: gold
+    median_w: 2.0
+    median_half: 15        # 중앙값 가로선 반폭
+    median_size: 10        # 중앙값 라벨
+    grid_alpha: 0.10
+    tick_size: 9.5
+    col_size: 10
+    tag_size: 10.5
+    tag_spacing: 0.4
+    note_size: 10
+    note: "참가자별 전망이며 약속이 아님"   # 20 §5.2 — 고정 문구(연출이 바꿀 수 없다)
+    median_label: "중앙값"
+    radius: 5
+    bar_w: 3
+    bar_inset: 10
+    fade_sec: 0.5          # 20 §4.2 0.4~0.6초
+    slide_px: 24
+    dot_stagger_sec: 0.6   # 점이 열마다 차례로(요소는 하나씩 — 05). 열 i 는 fade 뒤 i × (이 값 ÷ 열 수)
 
 golden:                    # v3.6.0 D-0066 작업 4 · D-0067 요건 4 — 1080p 를 854×480 으로 Lanczos 축소해 480p 와 잰 컷별 MAD(/255) 상한.
   # 실측(hormuz 25컷, 1080p 티어 ppd×2.25): 평균 0.0107 · 최대 0.0181(p_0214.46). 설계 좌표가 같아 위치 차이는 0(frames·place_over 동일)이고,
