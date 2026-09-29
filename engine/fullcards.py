@@ -31,7 +31,8 @@ def draw_endcard(ctx: cairo.Context, R: RenderCtx, t: float, c: object, a: float
     cr = R.credits
     if cr is None:
         raise RuntimeError("엔딩 카드에 크레딧 데이터가 없다(projects/<p>/credits.yaml)")
-    secs = credit_sections(cr, R.assets.rights, R.assets.media, R.cache.get("credit_refs"), R.cache.get("cited_sources"))
+    secs = credit_sections(cr, R.assets.rights, R.assets.media, R.cache.get("credit_refs"), R.cache.get("cited_sources"),
+                           R.cache.get("series_records"))
     place = [s.column for s in cr.sections]
     yy = [158, 158]
     n = 0

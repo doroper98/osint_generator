@@ -58,8 +58,10 @@ class ProvenanceE2ETest(unittest.TestCase):
         self.assertEqual(len(chk["items"]), 18)   # v3.6.0 media_upscaled(warning)·glyph_size(hard), v4.1.0 stage_continuity(hard), v4.2.0 genre_elements(hard), v4.3.0 정직성 4(hard)
         self.assertEqual(next(i for i in chk["items"] if i["id"] == "stage_continuity")["count"], 0)
         self.assertEqual(next(i for i in chk["items"] if i["id"] == "genre_elements")["count"], 0)
-        self.assertEqual(prov["genre"], {"name": "geopolitics", "declared": False})   # v4.2.0 D-0081 작업 3
-        self.assertEqual(prov["stage"], {"name": "mercator", "declared": False, "shots_declared": 0, "instances": {"mercator": 1}})   # D-0076 작업 7
+        self.assertEqual(prov["genre"], {"name": "geopolitics", "declared": False, "status": "approved"})   # v4.2.0 D-0081 작업 3, v4.3.0 status
+        self.assertEqual(prov["stage"], {"name": "mercator", "declared": False, "shots_declared": 0, "instances": {"mercator": 1},
+                                         "configs": {}})   # D-0076 작업 7, v4.3.0 configs(무대 설정 — 지도는 없음)
+        self.assertNotIn("series", prov)   # v4.3.0 — 데이터 레코드를 그리지 않은 영상
         self.assertEqual(prov["render"]["resolution"]["profile"], "480p")   # v3.6.0 D-0066 작업 1
         self.assertEqual(prov["checks"]["hard"], chk["hard"])
         frames = json.loads((proj / "prev" / "frames.json").read_text(encoding="utf-8"))

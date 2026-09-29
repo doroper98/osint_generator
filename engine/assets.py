@@ -69,13 +69,23 @@ def set_raster(ctx: cairo.Context, surf: cairo.ImageSurface, k: float, x: float,
 
 
 class Assets:
-    def __init__(self, root: Path, labels: Labels, res: str | None = None) -> None:
+    def __init__(self, root: Path, labels: Labels, res: str | None = None, geo: bool = True) -> None:
         """res = 기본이 아닌 출력 프로파일 이름(v3.6.0 D-0066 작업 3) — 지형 티어를 assets/res_<이름>/(ppd × k)에서 읽는다.
-        없으면 오류: 480p 티어를 늘려 쓰지 않는다(업스케일 흐림 금지, D-0067 요건 3). 티어 경계(도)는 두 벌이 같아야 한다."""
+        없으면 오류: 480p 티어를 늘려 쓰지 않는다(업스케일 흐림 금지, D-0067 요건 3). 티어 경계(도)는 두 벌이 같아야 한다.
+        geo = 지도 무대를 쓰는가(v4.3.0) — False 면 지형 티어·지오메트리를 읽지 않는다(시간축만 쓰는 영상, geo.prep 불필요)."""
         self.root = root
         self.labels = labels
         self.res = res
         a = root / "assets"
+        self.tiers: dict = {}
+        self.base: dict = {}
+        self.geo: dict = {}
+        if geo:
+            self._load_geo(a)
+        self._load_registries(a)
+
+    def _load_geo(self, a: Path) -> None:
+        root, res = self.root, self.res
         td = a if res is None else a / f"res_{res}"
         if not (td / "tiers.pkl").exists():
             raise AssetError(f"지형 티어 없음: {td / 'tiers.pkl'} — `python -m geo.prep {root} --res {res}` 먼저")
@@ -88,17 +98,18 @@ class Assets:
         self.base = {(n, lv): Image.open(td / f"base_{n}_{lv}.png").convert("RGB")
                      for n, T in self.tiers.items() for lv in T["levels"]}
         self.geo = pickle.load(open(a / "geo.pkl", "rb"))
+        plc = self.geo["places"]   # 국경·행정구역 고리와 도시 기준점의 월드 좌표는 무대가 만든다(engine.stage.MercatorStage, v4.1.0 D-0076)
+        self.plc = plc
+        self.plc_rank = np.array([p["rank"] for p in plc])
+        self.plc_pop = np.array([p["pop"] for p in plc])
+        self.plc_cap = np.array([bool(p["cap"]) for p in plc])
+
+    def _load_registries(self, a: Path) -> None:
         # 권리·미디어 레지스트리: 파일이 없으면 빈 레지스트리 — 그 상태에서 인물·휘장·미디어를 쓰면
         # engine.project.preflight 가 렌더 전 오류로 막는다(C9). 조용히 통과시키는 경로가 아니다.
         self.rights = _read_json(a / "rights_registry.json", {"people": {}, "emblems": {}})
         from audio.registry import rights_music  # noqa: PLC0415 — v3.4.0 D-0060 작업 1: 음악 권리 SSOT = BGM 레지스트리
         self.rights["music"] = rights_music()
-        # 국경·행정구역 고리와 도시 기준점의 월드 좌표는 무대가 만든다(engine.stage.MercatorStage, v4.1.0 D-0076)
-        plc = self.geo["places"]
-        self.plc = plc
-        self.plc_rank = np.array([p["rank"] for p in plc])
-        self.plc_pop = np.array([p["pop"] for p in plc])
-        self.plc_cap = np.array([bool(p["cap"]) for p in plc])
         from engine.media_registry import load_media_registry  # noqa: PLC0415 — 순환 import 회피
 
         self.media_assets = load_media_registry()   # v2.5.5 — 저장소 레지스트리(D-0036), 권리·화면 문구의 유일한 출처

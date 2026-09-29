@@ -70,7 +70,8 @@ class CreditSection(_Strict):
     title: str
     column: Literal[0, 1]
     items: list[CreditItem] = Field(default_factory=list)
-    auto: Optional[RightsSection | Literal["sources"]] = None   # v2.4.0 — 레지스트리 절 자동 나열, v3.2.0 sources = 인용 소스
+    auto: Optional[RightsSection | Literal["sources", "series"]] = None   # v2.4.0 — 레지스트리 절 자동 나열, v3.2.0 sources = 인용 소스,
+    # v4.3.0 series = 이번 영상이 그린 데이터 레코드(data/series — 출처·라이선스 표기 원문·기준 시점, D-0084 작업 6)
 
     @model_validator(mode="after")
     def _items_or_auto(self) -> "CreditSection":
@@ -135,13 +136,22 @@ def description_sources(cited: Optional[list]) -> list[str]:
     return out
 
 
+def series_items(series: Optional[list]) -> list[tuple[str, str]]:
+    """데이터 레코드 → 엔딩 카드 행 (출처 줄, 라이선스 표기 원문 · 기준 시점). 레코드가 유일한 출처(20 §5.1)."""
+    return [(r.source, f"{r.license_note} · {r.as_of_label()}") for r in series or []]
+
+
 def credit_sections(cr: Credits, rights: dict, media: Optional[dict] = None,
-                    used: Optional[set[str]] = None, cited: Optional[list] = None) -> list[tuple[str, list[tuple[str, str]]]]:
+                    used: Optional[set[str]] = None, cited: Optional[list] = None,
+                    series: Optional[list] = None) -> list[tuple[str, list[tuple[str, str]]]]:
     view = registry_view(rights, media or {})
     out = []
     for sec in cr.sections:
         if sec.auto == "sources":
             out.append((sec.title, _source_items(cited)))
+            continue
+        if sec.auto == "series":
+            out.append((sec.title, series_items(series)))
             continue
         if sec.auto is not None:
             out.append((sec.title, _auto_items(sec.auto, view, used)))
@@ -166,15 +176,16 @@ def credit_sections(cr: Credits, rights: dict, media: Optional[dict] = None,
 
 
 def credit_lines(cr: Credits, rights: dict, media: Optional[dict] = None, used: Optional[set[str]] = None,
-                 cited: Optional[list] = None) -> list[str]:
+                 cited: Optional[list] = None, series: Optional[list] = None) -> list[str]:
     return [f"{sec}: {' / '.join(m + (' — ' + l if l else '') for m, l in items)}"
-            for sec, items in credit_sections(cr, rights, media, used, cited)]
+            for sec, items in credit_sections(cr, rights, media, used, cited, series)]
 
 
 def required_refs(events: list[dict], rights: dict, emblem_flag: Callable[[str], Optional[str]],
-                  image_keys: set[str], music_ids: Optional[set[str]] = None) -> set[str]:
+                  image_keys: set[str], music_ids: Optional[set[str]] = None, uses_map: bool = True) -> set[str]:
     """이번 렌더가 쓰는 자산의 권리 참조. 이벤트(인물·휘장·미디어) + 불러온 이미지(국기) + 항상 쓰는 묶음 자산
-    + 연출 `sound.bgm` 이 가리키는 음악 id(v3.4.0 — 레지스트리의 다른 곡은 요구하지 않는다)."""
+    + 연출 `sound.bgm` 이 가리키는 음악 id(v3.4.0 — 레지스트리의 다른 곡은 요구하지 않는다).
+    uses_map = 지도 무대를 쓰는가(v4.3.0 — 시간축만 쓰는 영상은 지도·지형 자산을 쓰지 않아 표기 대상이 아니다)."""
     need: set[str] = set()
 
     def walk(o: object):  # noqa: ANN202
@@ -198,6 +209,8 @@ def required_refs(events: list[dict], rights: dict, emblem_flag: Callable[[str],
     if any(k.startswith(("flag11:", "flag43:")) for k in image_keys):
         need |= {f"flags.{k}" for k in rights.get("flags", {})} or {"flags.?"}
     for sec in ALWAYS_USED:
+        if sec == "map" and not uses_map:
+            continue
         need |= {f"{sec}.{k}" for k in rights.get(sec, {})} or {f"{sec}.?"}
     return need | set(music_ids or ())
 
@@ -227,11 +240,15 @@ def credit_summary(required: set[str], rules: Optional[CreditRules] = None) -> d
 
 
 def check_credits(cr: Credits, rights: dict, media: dict, required: set[str], rules: Optional[CreditRules] = None,
-                  description: Optional[list[str]] = None, cited_ids: Optional[set[str]] = None) -> None:
-    """누락·미확인·미표기 자산이 있으면 RightsError(C9, 15 P6). 통과하면 None."""
+                  description: Optional[list[str]] = None, cited_ids: Optional[set[str]] = None,
+                  series_ids: Optional[set[str]] = None) -> None:
+    """누락·미확인·미표기 자산이 있으면 RightsError(C9, 15 P6). 통과하면 None.
+    series_ids = 이번 영상이 그린 데이터 레코드(v4.3.0) — 있으면 credits.yaml 에 auto: series 절이 있어야 한다."""
     rules = rules or load_rules().credits
     view = registry_view(rights, media)
     errs: list[str] = []
+    if series_ids and not any(sec.auto == "series" for sec in cr.sections):
+        errs.append(f"엔딩 크레딧 데이터 출처 누락: {sorted(series_ids)} — credits.yaml 에 auto: series 절(20 §5.1 출처 줄)")
     for kind in sorted({r.split(".", 1)[0] for r in view} - set(rules.card_kinds) - set(rules.description_only_kinds)):
         errs.append(f"권리 종류 {kind} 의 표기 위치가 규칙(credits.card_kinds/description_only_kinds)에 없다")
     covered: set[str] = set()
@@ -239,6 +256,8 @@ def check_credits(cr: Credits, rights: dict, media: dict, required: set[str], ru
     for sec in cr.sections:
         if sec.auto == "sources":
             src_covered |= set(cited_ids or ())
+            continue
+        if sec.auto == "series":
             continue
         if sec.auto is not None:
             covered |= {r for r in required if r.startswith(sec.auto + ".")}

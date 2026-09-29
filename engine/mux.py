@@ -152,7 +152,11 @@ def project_provenance(P, stages: dict[str, bool]) -> dict:  # noqa: ANN001, N80
                                      if stages.get("render") and rj.exists() else P.R.out.record())}
     prov["stage"] = P.R.cache.get("stage")   # v4.1.0 D-0076 작업 7 — 무대(name·declared·shots_declared·instances)
     g = P.R.cache.get("genre") or {}
-    prov["genre"] = {"name": g.get("name"), "declared": g.get("declared")}   # v4.2.0 D-0081 작업 3 — 장르(stage 와 같은 방식)
+    prov["genre"] = {"name": g.get("name"), "declared": g.get("declared"), "status": g.get("status")}   # v4.2.0 D-0081 작업 3, v4.3.0 status(proposed 사용 기록)
+    if P.R.cache.get("series_records"):   # v4.3.0 D-0084 작업 6 — 이번 영상이 그린 데이터 레코드(15 P5)
+        prov["series"] = [{"series_id": r.series_id, "as_of": r.as_of, "license": r.license, "source_url": r.source_url,
+                           "transform": r.transform.op, "missing": [d.isoformat() for d in r.missing_dates()]}
+                          for r in P.R.cache["series_records"]]
     prov["camera"] = camera_summary(P.root, P.keys, P.R.stage)        # v3.3.0 — 카메라 제안 suggested/used(D-0056, 제안은 옵션)
     prov["lint_warnings"] = P.warnings                       # 연출 경고(관계선 과다·연표 겹침·미디어 배치/밀도) — 오류 아님
     prov["media"] = {**media_usage(P.plan, P.events),        # v2.5.5 — 14 §10 제안·사용·밀도·배치(D-0036)
@@ -188,7 +192,8 @@ def main(argv: list[str] | None = None) -> int:
         final, loud = mux(proj, P.plan.total)
         (outd / "final.srt").write_text(build_srt(P.plan), encoding="utf-8")
         (outd / "credits.txt").write_text("\n".join(credit_lines(P.R.credits, P.R.assets.rights, P.R.assets.media,
-                                                                  P.R.cache.get("credit_refs"), P.R.cache.get("cited_sources"))) + "\n",
+                                                                  P.R.cache.get("credit_refs"), P.R.cache.get("cited_sources"),
+                                                                  P.R.cache.get("series_records"))) + "\n",
                                           encoding="utf-8")
         req = P.R.cache.get("credit_refs") or set()
         desc = build_description(P.plan, load_description(proj), sorted(r for r in req if r.startswith("music.")))

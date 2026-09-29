@@ -229,9 +229,10 @@ def load_project(proj: Path, direction: Optional[Direction] = None, out: Optiona
     plan = load_plan(proj)
     tb = Timebase(plan)
     out = out or output_profile()
-    assets = Assets(proj, load_labels(proj / "labels.yaml"), None if out == output_profile() else out.name)
-    R = RenderCtx(assets=assets, tb=tb, credits=load_credits(proj / "credits.yaml"), out=out)  # noqa: N806
     doc = read_direction(proj, direction)
+    uses_map = "mercator" in {doc.main_stage(), *(doc.shot_stage(s) for s in doc.shots)}   # v4.3.0 — 지도 자산은 지도 무대에만
+    assets = Assets(proj, load_labels(proj / "labels.yaml"), None if out == output_profile() else out.name, geo=uses_map)
+    R = RenderCtx(assets=assets, tb=tb, credits=load_credits(proj / "credits.yaml"), out=out)  # noqa: N806
     try:
         stages = StageSet(assets, out, doc.stage_configs())   # v4.1.0 D-0076·D-0077 — 무대는 이름마다 한 번만. 설정 v4.3.0
         R.stage = stages.get(doc.main_stage())
@@ -243,8 +244,10 @@ def load_project(proj: Path, direction: Optional[Direction] = None, out: Optiona
     except (DirectionError, ValueError) as ex:
         raise ProjectError(str(ex)) from ex
     R.cache["stage"] = {"name": R.stage.name, "declared": doc.stage is not None,          # provenance stage(15 P5)
-                        "shots_declared": sum(1 for s in doc.shots if s.stage is not None), "instances": dict(stages.created)}
+                        "shots_declared": sum(1 for s in doc.shots if s.stage is not None), "instances": dict(stages.created),
+                        "configs": {k: json.loads(json.dumps(v, default=str)) for k, v in doc.stage_configs().items()}}   # v4.3.0
     R.cache["genre"] = {"name": doc.genre_name(), "declared": doc.genre is not None,    # v4.2.0 D-0081 작업 3 — provenance genre(15 P5)
+                        "status": doc.genre_profile().status,                          # v4.3.0 D-0084 작업 6 — proposed 프로필 사용 기록(P6)
                         "elements_used": used_elements(doc.events)}                   # checks genre_elements 입력(연출이 쓴 요소)
     n = int(plan.total * FPS)
     cams = build_camera(keys, n, FPS) if keys else None
@@ -274,11 +277,15 @@ def load_project(proj: Path, direction: Optional[Direction] = None, out: Optiona
     if errs:
         raise ProjectError("렌더 전 점검 실패:\n" + "\n".join(errs))
     A = R.assets  # noqa: N806
-    req = required_refs(events, A.rights, A.emblem_flag, set(A.img), music_ids=music_ids(sound))
+    req = required_refs(events, A.rights, A.emblem_flag, set(A.img), music_ids=music_ids(sound), uses_map=uses_map)
+    from data.series import load_series  # noqa: PLC0415
+
+    series_ids = list(dict.fromkeys(e["series_id"] for e in events if e["type"] == "series"))
+    R.cache["series_records"] = [load_series(s) for s in series_ids]   # v4.3.0 — 엔딩 카드 auto: series(레코드 출처·라이선스·기준 시점)
     R.cache["sentence_labels"] = sentence_labels(proj)       # v3.3.0 NB12 — 자막 검증 라벨(C9)
     R.cache["cited_sources"] = cited_sources(proj, events)   # v3.2.0 18 §6 — 엔딩 카드 '보도 · 자료'·설명란 원문 링크
     check_credits(R.credits, A.rights, A.media, req,          # D-0029 작업 7 — 누락·미확인·미표기 자산은 RightsError
-                  cited_ids={s.id for s in R.cache["cited_sources"]})
+                  cited_ids={s.id for s in R.cache["cited_sources"]}, series_ids=set(series_ids))
     R.cache["credit_refs"] = req
     b = (sound or {}).get("bgm")
     R.cache["bgm_segments"] = 0 if not b else (1 if isinstance(b, str) else len(b))   # provenance audio.crossfades
