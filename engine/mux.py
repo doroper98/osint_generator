@@ -173,7 +173,8 @@ def project_provenance(P, stages: dict[str, bool]) -> dict:  # noqa: ANN001, N80
                      "density": density_report(P.events, P.R.tb, P.plan.total),
                      "placement": P.R.cache.get("media_placement", {})}
     labels = check_project_labels(P.root, load_script(P.root))   # v3.0.0 — 검증 라벨 집계(D-0043 §4), 도시어 없으면 None
-    prov["script"] = {"labels": labels.counts() if labels is not None else None}
+    prov["script"] = {"labels": labels.counts() if labels is not None else None,
+                      "labels_hidden": bool(P.R.cache.get("labels_hidden"))}   # 사용자 결정으로 화면 표시만 끔(order.yaml)
     if bun is not None:
         prov["bundle"] = bun
     if ai is not None:

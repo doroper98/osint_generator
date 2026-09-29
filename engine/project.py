@@ -153,6 +153,19 @@ def _media_extent(e: dict, w: float, media_assets: dict) -> tuple[float, float]:
     return media_box(dict(e, x=0, y=0, w=w), media_assets)[3], max(w, caption_width(ctx, m.caption, credit_line(m)))
 
 
+def labels_hidden(proj: Path) -> bool:
+    """사용자가 이 프로젝트의 검증 라벨 화면 표시를 끄기로 결정했는가(order.yaml decisions.verification_labels).
+
+    value hidden·by user 일 때만 true — 지침 기본값(by default)으로는 끌 수 없다. claims.json status 는 그대로이고
+    provenance 에 order 결정·라벨 집계가 함께 남는다(15 P5). 첫 사례 dmz_mine_2026(사용자 결정 2026-09-29, 비공개 개인 프로젝트).
+    """
+    from genres.load import load_order  # noqa: PLC0415
+
+    order = load_order(proj)
+    d = order.decisions.get("verification_labels") if order is not None else None
+    return d is not None and d.value == "hidden" and d.by == "user"
+
+
 def sentence_labels(proj: Path) -> dict[str, str]:
     """문장 id → 화면 검증 라벨 문구(claims.json status → 규칙 표). 라벨 없는 문장은 빠진다. claims 가 없으면 {}."""
     import yaml  # noqa: PLC0415
@@ -301,7 +314,12 @@ def load_project(proj: Path, direction: Optional[Direction] = None, out: Optiona
 
     series_ids = list(dict.fromkeys(sid for e in events if e["type"] == "series" for sid in record_ids(e)))   # band = 두 레코드(v4.4.0)
     R.cache["series_records"] = [load_series(s) for s in series_ids]   # v4.3.0 — 엔딩 카드 auto: series(레코드 출처·라이선스·기준 시점)
-    R.cache["sentence_labels"] = sentence_labels(proj)       # v3.3.0 NB12 — 자막 검증 라벨(C9)
+    R.cache["labels_hidden"] = labels_hidden(proj)          # 사용자 결정으로 검증 라벨 화면 표시 끔(order.yaml)
+    R.cache["sentence_labels"] = {} if R.cache["labels_hidden"] else sentence_labels(proj)   # v3.3.0 NB12 — 자막 검증 라벨(C9)
+    if R.cache["labels_hidden"]:   # 패널 태그 줄의 검증 라벨도 같은 결정을 따른다(추정 태그는 그대로)
+        for e in events:
+            if e.get("provenance") and e["provenance"].get("claim_status"):
+                e["provenance"]["claim_status"] = None
     R.cache["cited_sources"] = cited_sources(proj, events)   # v3.2.0 18 §6 — 엔딩 카드 '보도 · 자료'·설명란 원문 링크
     check_credits(R.credits, A.rights, A.media, req,          # D-0029 작업 7 — 누락·미확인·미표기 자산은 RightsError
                   cited_ids={s.id for s in R.cache["cited_sources"]}, series_ids=set(series_ids))
