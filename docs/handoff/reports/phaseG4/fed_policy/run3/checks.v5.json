@@ -1,0 +1,175 @@
+{
+ "schema_version": 1,
+ "hard": 2,
+ "warnings": 2,
+ "passed": false,
+ "thresholds": {
+  "overlap_core_elements": 0,
+  "offscreen_clip": 0,
+  "missing_glyphs": 0,
+  "labels_per_frame_max": 18,
+  "subtitle_lines_max": 2,
+  "rights_missing": 0,
+  "forbidden_components": 0,
+  "glyph_size_exempt": [
+   "end_card",
+   "media_meta"
+  ],
+  "label_hidden_max_ratio": 0.5,
+  "planned": [],
+  "chart_targets": {
+   "value": [
+    "chart_honesty",
+    "series_limit_3",
+    "units_visible",
+    "as_of_visible"
+   ],
+   "date": [
+    "chart_honesty"
+   ],
+   "none": []
+  },
+  "series_max": 3,
+  "visual_qa_loop_max": 2,
+  "loop_pick_order": [
+   "checks_hard",
+   "qa_hard",
+   "qa_soft"
+  ]
+ },
+ "items": [
+  {
+   "id": "overlap",
+   "severity": "hard",
+   "count": 2,
+   "details": [
+    "[media-over-card] photo fed_presser_0916 t0=28.36 카드와 겹침 ['card:FOMC 발표 · 9월 16일'] (14 §5-4)",
+    "[media-over-card] photo fed_presser_0916_b t0=157.92 카드와 겹침 ['card:워시 의장 추정 · 8월'] (14 §5-4)"
+   ]
+  },
+  {
+   "id": "offscreen",
+   "severity": "hard",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "glyphs",
+   "severity": "hard",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "glyph_size",
+   "severity": "hard",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "shots",
+   "severity": "warning",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "media_beats",
+   "severity": "warning",
+   "count": 2,
+   "details": [
+    "[media-density-total] 과소 — 4개 / 307초 = 76.8초당 1개 > 60초 (14 §10.1)",
+    "[media-kind-repeat] 이웃 장면 hold_2026→july_dissent 같은 형태 ['article'] (14 §10.1)"
+   ]
+  },
+  {
+   "id": "media_upscaled",
+   "severity": "warning",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "labels",
+   "severity": "hard",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "date",
+   "severity": "hard",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "subtitles",
+   "severity": "hard",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "rights",
+   "severity": "hard",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "forbidden",
+   "severity": "hard",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "stage_continuity",
+   "severity": "hard",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "genre_elements",
+   "severity": "hard",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "chart_honesty",
+   "severity": "hard",
+   "count": 0,
+   "details": [],
+   "notes": [
+    "n/a(none 축) primitive statement_diff t0=2.20",
+    "n/a(none 축) panel versus '금리를 둘러싼 두 목소리 · 9월 16일' t0=261.64"
+   ]
+  },
+  {
+   "id": "series_limit_3",
+   "severity": "hard",
+   "count": 0,
+   "details": [],
+   "notes": [
+    "n/a(date 축) stage timeline",
+    "n/a(none 축) primitive statement_diff t0=2.20",
+    "n/a(none 축) panel versus '금리를 둘러싼 두 목소리 · 9월 16일' t0=261.64"
+   ]
+  },
+  {
+   "id": "units_visible",
+   "severity": "hard",
+   "count": 0,
+   "details": [],
+   "notes": [
+    "n/a(date 축) stage timeline",
+    "n/a(none 축) primitive statement_diff t0=2.20",
+    "n/a(none 축) panel versus '금리를 둘러싼 두 목소리 · 9월 16일' t0=261.64"
+   ]
+  },
+  {
+   "id": "as_of_visible",
+   "severity": "hard",
+   "count": 0,
+   "details": [],
+   "notes": [
+    "n/a(date 축) stage timeline",
+    "n/a(none 축) primitive statement_diff t0=2.20",
+    "n/a(none 축) panel versus '금리를 둘러싼 두 목소리 · 9월 16일' t0=261.64"
+   ]
+  }
+ ]
+}

@@ -44,13 +44,13 @@ shots:
     lon: null
     lat: null
     place: null
-    date: '2026-04-25'
+    date: '2026-02-15'
     lane: policy_rate
-    w: 500.0
+    w: 560.0
   under: false
   scene: null
   stage: null
-  reason: 원고가 '1년 전만 해도 금리를 내리고 있었다'로 넘어가므로 과거 인하 국면이 보이도록 폭을 넓히며 왼쪽으로 간다. 중심 이동을 줄여 9월 핀과 뱃지가 이동 중에도 화면 안에 남게 한다
+  reason: 원고가 '1년 전만 해도 금리를 내리고 있었다'로 넘어가므로 과거 인하 국면이 보이도록 폭을 넓히며 왼쪽으로 간다
 - at:
     sid: decision_1
     'off': -0.6
@@ -218,7 +218,7 @@ events:
   lane: events
   label: FOMC 회의
   sub: 9월 16일 · 금리 인상
-  side: left
+  side: right
   hl: true
 - type: badge
   start:

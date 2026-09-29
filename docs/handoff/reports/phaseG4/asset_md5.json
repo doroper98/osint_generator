@@ -1,0 +1,27 @@
+{
+ "schema_version": 1,
+ "fed_policy_2026": {
+  "fed_presser_0729.jpg": "e3fe1a0c521da44ca6e8d748de8d2807",
+  "fed_presser_0729_720.jpg": "1d5d3e94981af4371ba0c2acb7a51c6c",
+  "fed_presser_0916.jpg": "04043b484e3f88e8469e867f08a834f9",
+  "fed_presser_0916_720.jpg": "4c9694d6248f72c65d61fd34cabdacb7",
+  "fed_presser_0916_b.jpg": "74e47e34bbea9238ec5171ac2440a6c4",
+  "fed_presser_0916_b_720.jpg": "5dbf1fb848bb90620017a7cd0f26cfe9"
+ },
+ "fed_policy_2026_portrait": {
+  "warsh.png": "22f439a52480a4815e98ee3f1908ee5c"
+ },
+ "data_series": {
+  "DFEDTARL.csv": "43bcac2f04fd2ae9b17ee7a99e554a82",
+  "DFEDTARL.yaml": "c78a497b6c429557c5465e62e247787a",
+  "DFEDTARU.csv": "0385b297bcc107c761a3062ceeb2753f",
+  "DFEDTARU.yaml": "d17dbab031a54c5a0e3d0e8d4e9a46fb",
+  "SEP_20260916.csv": "a510d229df0735428c1c978dec6a52a4",
+  "SEP_20260916.yaml": "2b9ca16f826c69107e657ec000d9c9ab",
+  "SEP_20260916.htm": "11846b72a948f2110a1826d736b82c97"
+ },
+ "final": {
+  "final_480p.mp4": "16f6e9452616167741e2037a92f07667",
+  "final_1080p.mp4": "9e68c8d7e6f1dda44735d7a780981f03"
+ }
+}

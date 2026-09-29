@@ -1,0 +1,10 @@
+{
+ "hormuz_golden_preview": 10.6,
+ "demo_preview_12": 5.6,
+ "render_480p": 77.3,
+ "mix": 30.3,
+ "mux": 48.7,
+ "render_1080p": 155.7,
+ "mux_1080p": 53.3,
+ "note": "초. fed_policy_2026 307.1초 7370프레임, --jobs 4. 컨테이너 CPU 공유(측정 참고값)"
+}

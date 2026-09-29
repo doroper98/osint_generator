@@ -1,0 +1,14 @@
+{
+ "schema_version": 1,
+ "direction_version": 5,
+ "changelog": [
+  {
+   "issue_ref": "overlap:[media-over-card] photo fed_presser_0916 t0=28.36",
+   "change": "슬롯 위치는 앞 회차 그대로 timeline_photo 에 두고, 사진과 카드가 뜨는 시각을 엇갈리게 했다. 사진 끝은 decision_2 끝+0.3에서 decision_1 off 2.8(30.76초)로 당겼다. 'FOMC 발표 · 9월 16일' 카드 시작은 decision_1 off 0.6에서 off 3.0(30.96초)으로 늦췄다. 이제 사진이 사라진 뒤 카드가 뜨고, '새 목표 범위' 카드(34.21초~)와도 겹치지 않는다"
+  },
+  {
+   "issue_ref": "overlap:[media-over-card] photo fed_presser_0916_b t0=157.92",
+   "change": "슬롯은 timeline_photo 에 그대로 두고 시각을 엇갈리게 했다. 사진 끝은 prices_jobs_3 끝+0.3에서 prices_jobs_2 off 2.6(160.22초)으로 당겼다. '워시 의장 추정 · 8월'(약 3.6%) 카드 시작은 prices_jobs_2 off 0.5에서 off 2.8(160.42초)로 늦췄다. 뒤의 '약 3.2%' 카드(164.28초~)와도 겹치지 않는다"
+  }
+ ]
+}
