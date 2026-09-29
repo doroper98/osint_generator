@@ -1,0 +1,1 @@
+{"note": "v4.7.0 post_limiter 경로(audio.qa.loudnorm_two_pass + alimiter −2.0 dBFS) — hormuz norm_ref 0.7 mix(G6 스윕 판)", "mix": "hormuz norm_ref 0.7", "pass1_tp": -0.6, "type": "dynamic", "final_I": -14.05, "final_TP": -1.72}
