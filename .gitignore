@@ -192,3 +192,11 @@ projects/ratcliffe2026/direction.meta.json
 
 # v4.1.0 — 기본이 아닌 출력 프로파일의 프리뷰 폴더(engine.render prev_dir: prev_<프로파일>/) — prev/ 와 같은 생성물
 projects/*/prev_*/
+
+# v4.3.0 — 시간축 실증(D-0084 작업 6). 입력(script·direction·credits·labels·description)만 추적. tts·plan 은 artifacts/phaseG3-v4.3.0
+projects/fed_timeline_demo/plan.json
+projects/fed_timeline_demo/tts/
+projects/fed_timeline_demo/assets/
+projects/fed_timeline_demo/prev/
+projects/fed_timeline_demo/out/
+projects/fed_timeline_demo/__pycache__/

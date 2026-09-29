@@ -1,0 +1,19 @@
+# 『금리와 물가, 두 줄의 기록』 엔딩 크레딧 (v4.3.0, D-0084 작업 6). 자료 = 이번 영상이 그린 데이터 레코드(auto: series — 출처·라이선스 표기 원문·기준 시점).
+schema_version: 1
+sections:
+  - title: 자료
+    column: 0
+    auto: series
+  - title: 안내
+    column: 0
+    items:
+      - main: 투자 권유가 아닌 정보 제공 목적의 영상입니다
+  - title: 글꼴
+    column: 1
+    auto: fonts
+  - title: 음성
+    column: 1
+    items:
+      - main: 내레이션
+        license: AI 음성 합성
+        rights: [narration.tts]

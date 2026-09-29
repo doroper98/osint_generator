@@ -1,0 +1,69 @@
+# 『금리와 물가, 두 줄의 기록』 시간축 실증 원고 (v4.3.0, back_and_forth D-0084 작업 6).
+# 내레이션은 두 시리즈 레코드(data/series/FEDFUNDS·CPIAUCSL)의 값·날짜·기준 시점만 말한다 — 해석·전망·인과 문장 없음(20 §5.2·§7).
+# 수치는 레코드 값 그대로(반올림 없음). 2025년 10월 CPI 는 레코드 missing(BLS 미발표, D-0086) — 값을 말하지 않는다.
+schema_version: 1
+title: 금리와 물가, 두 줄의 기록
+subtitle: 연방기금 실효금리와 소비자물가 상승률, 2019–2026
+date: 2026.09.29
+scenes:
+- id: open
+  sentences:
+  - date: "2019.01"
+    text: 미국의 연방기금 실효금리와 소비자물가 상승률을 2019년부터 따라갑니다.
+    tts: 미국의 연방기금 실효금리와 소비자물가 상승률을 이천십구년부터 따라갑니다.
+    emphasis: [연방기금 실효금리]
+    sources: ["series:FEDFUNDS", "series:CPIAUCSL"]
+  - date: "2019.01"
+    text: 연방기금 실효금리는 미국 은행들이 서로 하룻밤 빌려주는 돈의 금리입니다.
+    emphasis: [하룻밤]
+    sources: ["series:FEDFUNDS"]
+- id: low
+  sentences:
+  - date: "2020.04"
+    text: 2020년 4월, 이 금리의 월평균은 0.05%였습니다.
+    tts: 이천이십년 사월, 이 금리의 월평균은 영쩜영오 퍼센트였습니다.
+    emphasis: ["0.05%"]
+    sources: ["series:FEDFUNDS"]
+  - date: "2022.03"
+    text: 2022년 3월 월평균은 0.2%였습니다.
+    tts: 이천이십이년 삼월 월평균은 영쩜이 퍼센트였습니다.
+    emphasis: ["0.2%"]
+    sources: ["series:FEDFUNDS"]
+- id: peak
+  sentences:
+  - date: "2022.06"
+    text: 같은 해 6월, 소비자물가는 1년 전보다 8.98% 높았습니다.
+    tts: 같은 해 유월, 소비자물가는 일 년 전보다 팔쩜구팔 퍼센트 높았습니다.
+    emphasis: ["8.98%"]
+    sources: ["series:CPIAUCSL"]
+- id: high
+  sentences:
+  - date: "2023.08"
+    text: 2023년 8월, 금리 월평균은 5.33%였습니다.
+    tts: 이천이십삼년 팔월, 금리 월평균은 오쩜삼삼 퍼센트였습니다.
+    emphasis: ["5.33%"]
+    sources: ["series:FEDFUNDS"]
+- id: gap
+  sentences:
+  - date: "2025.10"
+    text: 2025년 10월 소비자물가 지표는 발표되지 않았습니다.
+    tts: 이천이십오년 시월 소비자물가 지표는 발표되지 않았습니다.
+    emphasis: [발표되지 않았습니다]
+    sources: ["series:CPIAUCSL"]
+- id: now
+  sentences:
+  - date: "2026.08"
+    text: 2026년 8월 기준, 금리 월평균은 3.63%입니다.
+    tts: 이천이십육년 팔월 기준, 금리 월평균은 삼쩜육삼 퍼센트입니다.
+    emphasis: ["3.63%"]
+    sources: ["series:FEDFUNDS"]
+  - date: "2026.08"
+    text: 같은 달 소비자물가 상승률은 3.35%입니다.
+    tts: 같은 달 소비자물가 상승률은 삼쩜삼오 퍼센트입니다.
+    emphasis: ["3.35%"]
+    sources: ["series:CPIAUCSL"]
+  - date: "2026.08"
+    text: 두 값은 FRED에서 받은 공개 자료이며, 이후 수정될 수 있습니다.
+    tts: 두 값은 프레드에서 받은 공개 자료이며, 이후 수정될 수 있습니다.
+    emphasis: [수정될 수 있습니다]
+    sources: ["series:FEDFUNDS", "series:CPIAUCSL"]
