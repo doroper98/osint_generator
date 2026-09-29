@@ -76,6 +76,31 @@ class EndCardRollTest(unittest.TestCase):
         self.assertEqual(fullcards.endcard_roll_note(secs, place), [])
 
 
+class AutoPeopleNamesTest(unittest.TestCase):
+    """D-0106 2-B — auto: people 표기 = entities 이름(직함 없음). 엔티티에 없는 인물 = 오류."""
+
+    def test_names_match_hormuz_manual_rows(self) -> None:
+        import yaml  # noqa: PLC0415
+
+        from engine.credits import person_names  # noqa: PLC0415
+        from tests.anti_inertia._ast_util import REPO  # noqa: PLC0415
+
+        names = person_names()
+        cred = yaml.safe_load((REPO / "projects" / "hormuz_korea" / "credits.yaml").read_text(encoding="utf-8"))
+        rows = {i["license_ref"]: i["main"] for sec in cred["sections"] for i in sec.get("items", []) if "license_ref" in i}
+        for pid in ("lee_jae_myung", "roh_moo_hyun"):   # hormuz 수동 행(한 줄 한 인물)과 auto 표기가 같다
+            self.assertEqual(names[f"people.{pid}"], rows[pid])
+
+    def test_auto_people_uses_entity_name_and_rejects_unknown(self) -> None:
+        from engine.credits import RightsError, _auto_items  # noqa: PLC0415
+
+        lic = {"license": "CC BY 4.0", "author": "A"}
+        items = _auto_items("people", {"people.lee_jae_myung": {**lic, "title": "File:x.jpg"}}, None)
+        self.assertEqual(items, [("이재명", "A · CC BY 4.0")])
+        with self.assertRaises(RightsError):
+            _auto_items("people", {"people.nobody_xyz": lic}, None)
+
+
 if __name__ == "__main__":
     unittest.main()
 

@@ -100,12 +100,25 @@ def registry_view(rights: dict, media: dict) -> dict[str, dict]:
     return out
 
 
+def person_names() -> dict[str, str]:
+    """권리 참조(people.<id>) → 엔티티 표기 이름(names 첫 항목, 직함 없음). v4.7.0 back_and_forth D-0106 2-B."""
+    from engine.entities import load_entities  # noqa: PLC0415 — 순환 import 회피
+
+    return {e.rights: e.names[0] for e in load_entities().of_kind("person").values() if e.rights and e.names}
+
+
 def _auto_items(sec: RightsSection, view: dict[str, dict], used: Optional[set[str]]) -> list[tuple[str, str]]:
     items = []
+    people = person_names() if sec == "people" else {}
     for ref, v in view.items():
         if not ref.startswith(sec + ".") or (used is not None and ref not in used):
             continue
-        name = v.get("name") or v.get("title") or ref.split(".", 1)[1]
+        if sec == "people":   # D-0106 2-B — 파일명·id 가 아니라 엔티티 이름. 엔티티에 없는 인물 = 오류(조용히 id 를 쓰지 않음, P6)
+            if ref not in people:
+                raise RightsError(f"크레딧 auto: people — {ref} 의 표기 이름이 엔티티 레지스트리에 없다(assets/entities.yaml rights: {ref})")
+            name = people[ref]
+        else:
+            name = v.get("name") or v.get("title") or ref.split(".", 1)[1]
         who = v.get("author") or v.get("artist") or ""
         items.append((name, " · ".join(x for x in (who, v["license"]) if x)))
     return items
