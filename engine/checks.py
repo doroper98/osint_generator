@@ -16,7 +16,7 @@ hard 실패가 하나라도 있으면 시각 검수 LLM 을 부르지 않고 연
 | date | hard | 문장 date 형식(YYYY / YYYY.MM / YYYY.MM.DD) — 날짜 배지는 이 값으로만 그린다 |
 | subtitles | hard | 자막 줄 수 ≤ subtitle_lines_max(렌더러와 같은 wrap) |
 | rights | hard | 권리 점검(load_project 의 check_credits·validate_media)이 통과했으면 0 |
-| forbidden | hard | 도장·비네팅·모서리 브랜드: 레지스트리 밖 이벤트 타입 0, vignette 끔, 모서리 요소 = 날짜뿐 |
+| forbidden | hard | 도장·비네팅·모서리 브랜드: 레지스트리 밖 이벤트 타입 0, vignette 끔, 모서리 요소 = 날짜뿐. v4.5.0(D85): 프리뷰 컷에 그린 글자 중 검증 라벨 문구(`script_schema.labels`) 0 `[label-in-body]` |
 | stage_continuity | hard | 무대 연속성(v4.1.0 D-0076·D-0077, GOAL G3-17): 보조 무대 ≤ stage.max_secondary, 무대 전환은 dip 만, 같은 무대 안 먼 cut 금지, 전환 ≤ stage.continuity.max_switches (`engine.shots.stage_continuity`) |
 | genre_elements | hard | 장르 요소(v4.2.0 D-0081 작업 3, GOAL G3-17): direction 이 쓴 이벤트·패널·뱃지·프리미티브 종류(genres.elements) ⊆ 장르 프로필 primitives.reuse ∪ new |
 | chart_honesty | hard | 차트 정직성(v4.3.0 D-0084 작업 5·D-0087, 20 §5.3): 막대 0 기준선·압축 구간 ↔ 물결 라벨·%/%p·이중 축 라벨·색·로그 척도 표기 (`engine.honesty`) |
@@ -261,6 +261,14 @@ def check_forbidden(P, provenance: dict) -> list[str]:  # noqa: ANN001, N803
     return out
 
 
+def check_label_glyphs(drawn: list[tuple[str, float, str | None, str]]) -> list[str]:
+    """v4.5.0 사용자 결정 D85(C9) — 검증 라벨(<미검증> 등)은 영상 본문 어디에도 그리지 않는다. drawn = 프리뷰 컷에 그린 글자.
+    엔딩 카드 안내 줄(end_card.notice_unverified)은 라벨 문구를 쓰지 않으므로 역할 예외가 필요 없다."""
+    labs = [v for v in R_.script_schema.labels.values() if v]
+    hits = sorted({(lab, s) for lab, _, _, s in drawn for v in labs if v in s})
+    return [f"[label-in-body] {lab}: 검증 라벨 {s!r} 를 화면에 그렸다 — 본문 표기 금지(C9), 엔딩 카드 마지막 줄 건수만" for lab, s in hits]
+
+
 def check_media_upscaled(P) -> list[str]:  # noqa: ANN001, N803
     """원본이 장치 해상도보다 작아 늘려 그리는 미디어(경고). 사진은 켄 번스 최대 배율까지 본다."""
     OP = P.R.out  # noqa: N806
@@ -323,7 +331,7 @@ def run_checks(P, times: list[float], provenance: dict, drawn: list[tuple[str, f
         "date": [f"{s.sid} 날짜 형식 {s.date!r}" for s in P.plan.sentences if not DATE_RE.match(s.date)],
         "subtitles": check_subtitles(P),
         "rights": [],   # load_project 가 권리 점검(check_credits·validate_media)에서 실패하면 여기까지 오지 않는다
-        "forbidden": check_forbidden(P, provenance),
+        "forbidden": check_forbidden(P, provenance) + check_label_glyphs(drawn),
         "stage_continuity": check_stage_continuity(P),
         "genre_elements": check_genre_elements(P),
         **honesty,
