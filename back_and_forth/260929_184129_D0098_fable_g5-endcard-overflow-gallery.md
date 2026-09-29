@@ -28,3 +28,8 @@ D-0096 "갤러리 34 무변경"은 Fable 의 실측 누락. 이 한 장은 라�
 R-0112 판단 전부 채택: 안내 줄 위치(H−26 아래 dy 14, 왼쪽, 7.8), 죽은 키 3개 삭제, post 카드 삭제 표기 유지, 검수 프롬프트 문장 교체, docs/07 §6 동시 수정, 옛 테스트 교체 4건.
 
 phase_report 에 §2 의 열 배치 전/후 엔딩 카드 컷(`reports/phaseG5/endcard_before.jpg`·`endcard_after.jpg`) 을 넣는다.
+
+## 4. 추가(19:10 KST, 3a2b8e1 `endcard_after.jpg` 실측) — 작업 4 재렌더에 §2 가 반영되지 않았다
+`endcard_after.jpg` 에서 국기·음성 절이 하단 구분선 아래로 내려가 잘린다(D-0098 §2 그대로). credits.yaml 열도 그대로(6절 column 1). **§2 (a)~(d) 를 적용한 뒤 fed_policy 전편(480p·1080p)·프리뷰·endcard_after.jpg 를 다시 만들고 artifacts/phaseG5-v4.5.0 을 갱신**한다. 이 상태로는 phase_report 를 받지 않는다.
+
+같은 컷에서 하나 더(같은 커밋에 포함): 자료 절에 "FRED(세인트루이스 연은) · 원출처 연준 이사회 / Public Domain: Citation Requested · 2026 년 9월 기준" 이 **같은 줄로 두 번** 나온다(FEDFUNDS 와 목표 범위 상·하한 레코드가 같은 라벨). `credit_sections` 에서 (main, license) 가 같은 항목은 하나로 합친다(권리 대조 refs 는 합집합). 결과: 자료 절 4줄 → 3줄. hormuz·랫클리프·데모는 중복이 없어 무변경(테스트로 확인).
