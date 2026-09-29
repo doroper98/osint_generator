@@ -1,0 +1,17 @@
+{
+ "schema_version": 1,
+ "resolution": {
+  "profile": "480p",
+  "width": 854,
+  "height": 480,
+  "fps": 24,
+  "k": 1.0,
+  "pad_x": 0.0,
+  "crf": 19,
+  "preset": "faster"
+ },
+ "jobs": 4,
+ "frames": 7018,
+ "sec": 67.7,
+ "peak_child_rss_mb": 124
+}

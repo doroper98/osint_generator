@@ -1,0 +1,201 @@
+{
+ "schema_version": 1,
+ "hard": 0,
+ "warnings": 11,
+ "passed": true,
+ "profile": "animatic",
+ "skipped": [
+  "as_of_visible",
+  "chart_honesty",
+  "glyph_size",
+  "glyphs",
+  "labels",
+  "media_upscaled",
+  "rights",
+  "series_limit_3",
+  "units_visible"
+ ],
+ "thresholds": {
+  "overlap_core_elements": 0,
+  "offscreen_clip": 0,
+  "missing_glyphs": 0,
+  "labels_per_frame_max": 18,
+  "subtitle_lines_max": 2,
+  "rights_missing": 0,
+  "forbidden_components": 0,
+  "glyph_size_exempt": [
+   "end_card",
+   "media_meta"
+  ],
+  "label_hidden_max_ratio": 0.5,
+  "planned": [],
+  "chart_targets": {
+   "value": [
+    "chart_honesty",
+    "series_limit_3",
+    "units_visible",
+    "as_of_visible"
+   ],
+   "date": [
+    "chart_honesty"
+   ],
+   "none": []
+  },
+  "series_max": 3,
+  "visual_qa_loop_max": 2,
+  "loop_pick_order": [
+   "checks_hard",
+   "qa_hard",
+   "qa_soft"
+  ]
+ },
+ "items": [
+  {
+   "id": "overlap",
+   "severity": "hard",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "offscreen",
+   "severity": "hard",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "shots",
+   "severity": "warning",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "media_beats",
+   "severity": "warning",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "endcard_roll",
+   "severity": "warning",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "date",
+   "severity": "hard",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "subtitles",
+   "severity": "hard",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "forbidden",
+   "severity": "hard",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "stage_continuity",
+   "severity": "hard",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "genre_elements",
+   "severity": "hard",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "boundary_as_route",
+   "severity": "hard",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "geo_unsourced",
+   "severity": "warning",
+   "count": 11,
+   "details": [
+    "[geo-unsourced] place hormuz [56.35, 26.55] — 지명 사전·claim 위치와 대조 안 됨(사전은 G8)",
+    "[geo-unsourced] place seoul [126.98, 37.57] — 지명 사전·claim 위치와 대조 안 됨(사전은 G8)",
+    "[geo-unsourced] place ulsan [129.31, 35.54] — 지명 사전·claim 위치와 대조 안 됨(사전은 G8)",
+    "[geo-unsourced] place busan [129.04, 35.1] — 지명 사전·claim 위치와 대조 안 됨(사전은 G8)",
+    "[geo-unsourced] place kharg [50.32, 29.24] — 지명 사전·claim 위치와 대조 안 됨(사전은 G8)",
+    "[geo-unsourced] place aden [46.8, 12.4] — 지명 사전·claim 위치와 대조 안 됨(사전은 G8)",
+    "[geo-unsourced] place embassy [126.9775, 37.5725] — 지명 사전·claim 위치와 대조 안 됨(사전은 G8)",
+    "[geo-unsourced] place erbil [44.01, 36.19] — 지명 사전·claim 위치와 대조 안 됨(사전은 G8)",
+    "[geo-unsourced] path route 20점 [56.2, 26.45]→[129.35, 35.45] — 지명 사전·claim 위치와 대조 안 됨(사전은 G8)",
+    "[geo-unsourced] path cheong 18점 [129.04, 35.05]→[47.2, 12.3] — 지명 사전·claim 위치와 대조 안 됨(사전은 G8)",
+    "[geo-unsourced] route events[13] 허가받은 배만 통과 3점 [56.9, 25.9]→[60.4, 24.3] — 지명 사전·claim 위치와 대조 안 됨(사전은 G8)"
+   ]
+  },
+  {
+   "id": "as_of_visible",
+   "severity": "hard",
+   "count": 0,
+   "details": [],
+   "skipped": true
+  },
+  {
+   "id": "chart_honesty",
+   "severity": "hard",
+   "count": 0,
+   "details": [],
+   "skipped": true
+  },
+  {
+   "id": "glyph_size",
+   "severity": "hard",
+   "count": 0,
+   "details": [],
+   "skipped": true
+  },
+  {
+   "id": "glyphs",
+   "severity": "hard",
+   "count": 0,
+   "details": [],
+   "skipped": true
+  },
+  {
+   "id": "labels",
+   "severity": "hard",
+   "count": 0,
+   "details": [],
+   "skipped": true
+  },
+  {
+   "id": "media_upscaled",
+   "severity": "warning",
+   "count": 0,
+   "details": [],
+   "skipped": true
+  },
+  {
+   "id": "rights",
+   "severity": "hard",
+   "count": 0,
+   "details": [],
+   "skipped": true
+  },
+  {
+   "id": "series_limit_3",
+   "severity": "hard",
+   "count": 0,
+   "details": [],
+   "skipped": true
+  },
+  {
+   "id": "units_visible",
+   "severity": "hard",
+   "count": 0,
+   "details": [],
+   "skipped": true
+  }
+ ]
+}
