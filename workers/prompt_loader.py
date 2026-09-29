@@ -7,6 +7,10 @@
 
 파일 머리의 `<!-- ... -->` 거버넌스 헤더(DOCS_GOVERNANCE §2)는 프롬프트 본문이 아니므로 떼어 낸다.
 워커별 단일 중괄호 자리표시(`{project_id}` 등)는 각 워커의 `build_user_prompt` 가 치환한다.
+
+v4.4.0 장르 프롬프트 층(back_and_forth D-0090 작업 1, docs/handoff/20 §6·§7·§9): 템플릿 끝의 `{{GENRE_BLOCK}}` 은
+`prompts/genre_<이름>.md` 를 장르 프로필(`genres/<genre>.yaml`)·`rules genre_prompt` 로 채운 문단으로 바뀐다.
+기본 프롬프트가 이미 전제한 장르(`rules genre_prompt.base_genre`, 지정학)와 장르 미지정은 빈 문자열 — 출력 바이트 동일.
 """
 
 from __future__ import annotations
@@ -18,6 +22,7 @@ from typing import Any
 
 import yaml
 
+from schemas.genre_models import GenreProfile
 from schemas.rules_models import VideoRules
 
 PROMPTS_DIR: Path = Path(__file__).resolve().parent.parent / "prompts"
@@ -92,16 +97,78 @@ def _examples(text: str) -> str:
     return _EXAMPLE.sub(rep, text)
 
 
+GENRE_BLOCK = "{{GENRE_BLOCK}}"
+
+
+def _numbered(items: list[str]) -> str:
+    return "\n".join(f"{i}. {s}" for i, s in enumerate(items, 1))
+
+
+def _genre_placeholders(rules: VideoRules, g: GenreProfile) -> dict[str, str]:
+    """`{{GENRE.<키>}}` → 치환 문자열. 문장은 규칙 파일(rules genre_prompt), 켜고 끄는 것은 장르 프로필(15 P3 — 코드 문장 0)."""
+    gp = rules.genre_prompt
+    primary = g.stage.primary
+    if primary not in gp.stage_grammar:
+        raise PromptTemplateError(f"장르 {g.genre}: 주 무대 {primary!r} 의 문법이 rules genre_prompt.stage_grammar 에 없다")
+    tl = g.stage.timeline
+    lanes = (_bullets([f"{ln.id} — {ln.label} ({ln.kind}{', 단위 ' + ln.unit if ln.unit else ''})" for ln in tl.lanes])
+             if tl is not None else "(없음)")
+    nar = g.narration
+    rows: list[str] = []
+    if nar is not None:
+        for key, text in gp.narration.items():
+            v = getattr(nar, key, None)
+            if v:
+                rows.append(text.replace("{n}", str(v)))
+        extra = sorted(set(type(nar).model_fields) - set(gp.narration) - {"avoid"})
+        if extra:
+            raise PromptTemplateError(f"장르 프로필 narration 키 {extra} 의 문장이 rules genre_prompt.narration 에 없다")
+    return {
+        "{{GENRE.name}}": g.genre,
+        "{{GENRE.status}}": g.status,
+        "{{GENRE.stages}}": primary + (f" (보조: {', '.join(g.stage.secondary)})" if g.stage.secondary else ""),
+        "{{GENRE.stage_grammar}}": _bullets(gp.stage_grammar[primary]),
+        "{{GENRE.lanes}}": lanes,
+        "{{GENRE.colors}}": _bullets([f"{k}: {v}" for k, v in g.color_semantics.items()]),
+        "{{GENRE.elements}}": ", ".join(sorted(g.elements() & set(_registered(rules)))),
+        "{{GENRE.narration}}": _bullets(rows) if rows else "(없음)",
+        "{{GENRE.avoid}}": ", ".join(nar.avoid) if nar is not None and nar.avoid else "(없음)",
+        "{{GENRE.data_sources}}": _bullets(gp.data_sources),
+        "{{GENRE.rubric}}": _numbered(gp.rubric_extra),
+        "{{GENRE.rubric_n}}": str(len(gp.rubric_extra)),
+    }
+
+
+def _registered(rules: VideoRules) -> list[str]:
+    reg = rules.registries
+    return [*reg.event_types, *reg.panel_kinds, *reg.badge_kinds, *reg.primitives]
+
+
+def genre_block(name: str, rules: VideoRules, genre: GenreProfile | None) -> str:
+    """`{{GENRE_BLOCK}}` 의 내용. 기본 장르·미지정 = ""(바이트 동일). 그 밖은 `prompts/genre_<name>.md`(없으면 오류)."""
+    if genre is None or genre.genre == rules.genre_prompt.base_genre:
+        return ""
+    path = prompt_path(f"genre_{name}")
+    if not path.exists():
+        raise PromptTemplateError(f"{name}: 장르 {genre.genre} 문단 템플릿이 없다 — {path}")
+    text = _examples(_strip_header(path.read_text(encoding="utf-8")))
+    for key, value in _genre_placeholders(rules, genre).items():
+        text = text.replace(key, value)
+    return "\n" + text
+
+
 def prompt_path(name: str, suffix: str = ".md") -> Path:
     return PROMPTS_DIR / f"{name}{suffix}"
 
 
-def load_prompt(name: str, rules: VideoRules) -> str:
-    """`prompts/{name}.md` 를 읽어 규칙 자리표시를 치환한 문자열을 반환한다."""
+def load_prompt(name: str, rules: VideoRules, genre: GenreProfile | None = None) -> str:
+    """`prompts/{name}.md` 를 읽어 규칙 자리표시를 치환한 문자열을 반환한다. genre = 장르 프롬프트 층(v4.4.0)."""
     path = prompt_path(name)
     if not path.exists():
         raise PromptTemplateError(f"프롬프트 파일이 없습니다: {path}")
     text = _examples(_strip_header(path.read_text(encoding="utf-8")))
+    if GENRE_BLOCK in text:
+        text = text.replace(GENRE_BLOCK, genre_block(name, rules, genre))
     for key, value in _rules_placeholders(rules).items():
         text = text.replace(key, value)
     if "{{" in text:

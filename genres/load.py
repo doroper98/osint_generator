@@ -8,11 +8,15 @@ from __future__ import annotations
 
 from functools import lru_cache
 from pathlib import Path
+from typing import TYPE_CHECKING
 
 import yaml
 from pydantic import ValidationError
 
 from schemas.genre_models import GenreProfile
+
+if TYPE_CHECKING:
+    from schemas.order_models import Order
 
 GENRES_DIR: Path = Path(__file__).resolve().parent
 DEFAULT_GENRE = "geopolitics"   # direction.yaml 에 genre 가 없을 때(v3 원본 direction 무수정 원칙 D-0056). provenance 에 declared false
@@ -50,8 +54,34 @@ def load_genre(name: str) -> GenreProfile:
     return load_genre_file(p)
 
 
+ORDER_FILE = "order.yaml"   # v4.4.0 — 주문(docs/handoff/20 §11, schemas/order_models.py)
+
+
+def load_order(pdir: Path) -> "Order | None":
+    """프로젝트 주문 파일 → Order. 파일이 없으면 None(지정학 기존 프로젝트). 형식 오류 = GenreError."""
+    from schemas.order_models import Order  # noqa: PLC0415
+
+    p = pdir / ORDER_FILE
+    if not p.exists():
+        return None
+    try:
+        return Order.model_validate(yaml.safe_load(p.read_text(encoding="utf-8")))
+    except (yaml.YAMLError, ValidationError) as ex:
+        raise GenreError(f"{p}: {ex}") from ex
+
+
+def project_genre(pdir: Path) -> tuple[GenreProfile, bool]:
+    """프로젝트 장르(v4.4.0 D-0090 작업 1) — (프로필, 주문에 선언했는가). 주문이 없으면 DEFAULT_GENRE·False.
+    원고·리서치 단계는 direction 이 아직 없으므로 주문이 장르의 단일 출처다."""
+    order = load_order(pdir)
+    if order is None:
+        return load_genre(DEFAULT_GENRE), False
+    return load_genre(order.genre), True
+
+
 def genre_names() -> list[str]:
     return sorted(p.stem for p in GENRES_DIR.glob("*.yaml"))
 
 
-__all__ = ["DEFAULT_GENRE", "GENRES_DIR", "GenreError", "genre_names", "genre_path", "load_genre", "load_genre_file"]
+__all__ = ["DEFAULT_GENRE", "GENRES_DIR", "ORDER_FILE", "GenreError", "genre_names", "genre_path", "load_genre", "load_genre_file",
+           "load_order", "project_genre"]

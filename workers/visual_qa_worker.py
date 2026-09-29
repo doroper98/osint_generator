@@ -51,6 +51,18 @@ class VisualQAWorker(BaseLLMWorker):
                 .replace("{frames}", json.dumps(frames["frames"], ensure_ascii=False))
                 .replace("{checks}", checks_summary(pdir)))
 
+    def check_parsed(self, args: argparse.Namespace, task: TaskQueueItem, parsed: BaseModel) -> None:
+        """장르 루브릭(v4.4.0 D-0090 작업 1, 20 §9): 기본 장르가 아니면 rules genre_prompt.rubric_extra 항목마다 판정 한 번."""
+        assert isinstance(parsed, QAVerdict)
+        g = self.genre
+        if g is None or g.genre == self.rules.genre_prompt.base_genre:
+            if parsed.rubric:
+                raise ValueError("기본 장르 검수에 rubric[] 이 있다 — 장르 루브릭은 장르 영상에서만")
+            return
+        bad = parsed.rubric_missing(len(self.rules.genre_prompt.rubric_extra))
+        if bad:
+            raise ValueError(f"장르 루브릭 항목 {bad} 의 판정이 없거나 중복이다 — 1~{len(self.rules.genre_prompt.rubric_extra)} 각각 한 번")
+
     def output_path(self, args: argparse.Namespace, task: TaskQueueItem) -> Path:
         pdir = self.project_dir(args)
         return pdir / "prev" / f"qa_verdict.v{next_version(pdir / 'prev', 'qa_verdict', '.json')}.json"

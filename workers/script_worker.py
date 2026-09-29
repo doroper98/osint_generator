@@ -76,6 +76,7 @@ class ScriptWorker(BaseLLMWorker):
             .replace("{topic}", manifest.topic_summary or manifest.title)
             .replace("{duration}", str(manifest.target_duration_min))
             .replace("{draft_block}", self._draft_block(args))
+            .replace("{series_block}", self._series_block(args))
             .replace("{facts}", self._format_facts(facts, self._claims(args)))
         )
 
@@ -86,6 +87,15 @@ class ScriptWorker(BaseLLMWorker):
         if not p.exists():
             return ""
         return load_prompt("script_draft", self.rules).replace("{draft}", p.read_text(encoding="utf-8").rstrip()) + "\n"
+
+    def _series_block(self, args: argparse.Namespace) -> str:
+        """주문(order.yaml)에 데이터 레코드가 있을 때만 레코드 블록(v4.4.0 D-0090 작업 1). 없으면 빈 자리 — 기존 프로젝트 무영향."""
+        from workers.direction_io import series_records_text  # noqa: PLC0415
+
+        text = series_records_text(self.project_dir(args))
+        if text == "(없음)":
+            return ""
+        return load_prompt("script_series", self.rules).replace("{records}", text)
 
     def output_path(self, args: argparse.Namespace, task: TaskQueueItem) -> Path:
         return script_path(args.project_id)

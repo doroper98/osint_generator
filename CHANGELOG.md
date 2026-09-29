@@ -63,6 +63,9 @@ MINOR: 새 기능(장르 프롬프트 층·series band·점도표·성명서 단
 - **§0**: VERSION 4.4.0, Tier 1·2 `last_synced_with` v4.4.0, `docs/handoff/reports/phaseG4/` 시작.
 - **갤러리 `event_series` 예제**: 레인 라벨을 레코드(FEDFUNDS = 연방기금 실효금리)에 맞춰 덮는다(D-0089 지적 ①, C0 정확성). 기존 골든·프로젝트 예제 무변경.
 
+### Added
+- **장르 프롬프트 층**(작업 1, 15 P3): research·script·director·revise_direction·visual_qa 템플릿 끝 `{{GENRE_BLOCK}}` ← `prompts/genre_<이름>.md` + 장르 프로필 + `rules genre_prompt`(서술 규칙·데이터 원칙·루브릭 추가 7항목·무대 문법). 기본 장르(지정학)는 추가 문단 0 — 5개 프롬프트 md5 전후 동일(`reports/phaseG4/prompt_md5.json`). 주문 `order.yaml`(`schemas/order_models.py`)이 장르의 단일 출처(`genres.load.project_genre`). 연출 입력 `{geo}` 는 시간축이면 무대 역량(레인·레코드), 원고 입력 `{series_block}`(주문 레코드). 시각 검수 `rubric[]`(장르 영상은 7항목 전부 — 워커 check_parsed), 분류 `honesty`·`wording`. provenance `genre`·`genre_declared`. 파리티 테스트가 장르 예시(시간축 연출·루브릭 판정)까지 검사.
+
 ---
 
 ## [v4.3.0] — 2026-09-29 — Phase G3: 시간축 무대·데이터 레코드·차트 정직성 검사 (back_and_forth D-0084) — Fable review pass(D-0089)

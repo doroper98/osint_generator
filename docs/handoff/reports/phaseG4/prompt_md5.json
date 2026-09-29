@@ -1,0 +1,25 @@
+{
+ "note": "장르 프롬프트 층 커밋 전후 load_prompt 결과 md5(v4.4.0 D-0090 작업 1). geopolitics_after = 장르 geopolitics 로 렌더. script_user 템플릿은 {series_block} 자리가 늘어 템플릿 md5 가 다르다 — 주문 없는 프로젝트의 완성 프롬프트는 빈 자리로 같다(test_genre_prompts)",
+ "before": {
+  "research": "52d4242a3c833c821a63b70139bafc7b",
+  "script": "de5c98961a440fb7f02020dd0a81d395",
+  "director": "9a78fb3993efcd41531ec863c8a0857e",
+  "revise_direction": "06b712aa81ee807b75232ddb85a28bc9",
+  "visual_qa": "111987d6ab23bbce337b015e7926495d"
+ },
+ "geopolitics_after": {
+  "research": "52d4242a3c833c821a63b70139bafc7b",
+  "script": "de5c98961a440fb7f02020dd0a81d395",
+  "director": "9a78fb3993efcd41531ec863c8a0857e",
+  "revise_direction": "06b712aa81ee807b75232ddb85a28bc9",
+  "visual_qa": "111987d6ab23bbce337b015e7926495d"
+ },
+ "macro_monetary": {
+  "research": "7ba61b3dabfdbb183937d1b2496ca71f",
+  "script": "c2db43af63f835b54835ac72fa6bd48d",
+  "director": "226f36536189d16b89a060c836f45e37",
+  "revise_direction": "2a11cefb89e2570743a6794077a22a19",
+  "visual_qa": "09c837950f733e16b7dec1145da835c3"
+ },
+ "identical": true
+}

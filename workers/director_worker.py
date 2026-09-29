@@ -30,7 +30,7 @@ from workers.direction_io import (
     dump_direction_yaml,
     entities_text,
     event_fields_table,
-    geo_text,
+    stage_text,
     load_plan,
     media_text,
     next_version,
@@ -59,7 +59,7 @@ class DirectorWorker(BaseLLMWorker):
                 .replace("{plan_table}", plan_table(load_plan(pdir)))
                 .replace("{entities}", entities_text(pdir))
                 .replace("{media}", media_text(pdir))
-                .replace("{geo}", geo_text(pdir))
+                .replace("{geo}", stage_text(pdir, self.genre))   # v4.4.0 — 시간축이면 무대 역량
                 .replace("{event_fields}", event_fields_table())
                 .replace("{music_list}", music_list_text(pdir))
                 .replace("{camera_suggest}", camera_suggest_text(pdir)[0])

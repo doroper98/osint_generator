@@ -44,3 +44,4 @@ note: ResearchWorker system prompt (17 §5.1, v3.2.0 D-0051 작업 7 — 출력 
    "sides": ["이란: 영해 침범", "미국: 국제 수역 통항"]}
  ]}
 ```
+{{GENRE_BLOCK}}

@@ -10,6 +10,7 @@ import hashlib
 import json
 import typing
 from pathlib import Path
+from typing import TYPE_CHECKING
 
 import yaml
 from pydantic import BaseModel
@@ -18,6 +19,9 @@ from engine.direction import Direction, DirectionError
 from engine.entities import load_entities
 from engine.registry import REGISTRY, RegistryError
 from script.schema import Plan
+
+if TYPE_CHECKING:
+    from schemas.genre_models import GenreProfile
 
 SKIP_FIELDS = {"type", "t0", "t1"}
 
@@ -156,6 +160,36 @@ def geo_text(pdir: Path) -> str:
     return f"국가 지오메트리 권역 bbox {g.get('bbox')}. 지형 티어(카메라 경계 = W): {tiers}. 카메라 w(화면 폭, 경도 도)는 2.5~96."
 
 
+def series_records_text(pdir: Path) -> str:
+    """주문(order.yaml data.series)의 데이터 레코드 요약 — 원고·연출 입력(v4.4.0 D-0090 작업 1). 값 목록은 넣지 않고
+    구간·단위·기준 시점·빈 달·첫/마지막 값만(연출은 값을 쓰지 않는다, 원고는 레코드 대조 린트가 막는다)."""
+    from data.series import load_series  # noqa: PLC0415
+    from genres.load import load_order  # noqa: PLC0415
+
+    order = load_order(pdir)
+    if order is None or not order.data.series:
+        return "(없음)"
+    rows = []
+    for sid in order.data.series:
+        r = load_series(sid)
+        miss = "; ".join(f"{m.date:%Y-%m} {m.note}" for m in r.missing) or "없음"
+        (d0, v0), (d1, v1) = r.values[0], r.values[-1]
+        rows.append(f"- series:{r.series_id} · 단위 {r.unit} · {r.transform.formula} · 구간 {d0:%Y-%m}~{d1:%Y-%m} · "
+                    f"기준 시점 {r.as_of} · 첫 값 {v0:g} · 마지막 값 {v1:g} · 빈 달 {miss} · 출처 {r.source}")
+    return "\n".join(rows)
+
+
+def stage_text(pdir: Path, genre: "GenreProfile | None") -> str:
+    """연출 입력 `{geo}` 자리(v4.4.0) — 주 무대가 지도면 지오 역량(바이트 동일), 시간축이면 무대 역량(레인·레코드)."""
+    if genre is None or genre.stage.primary == "mercator":
+        return geo_text(pdir)
+    lanes = genre.stage.timeline.lanes if genre.stage.timeline is not None else []
+    lane_rows = "; ".join(f"{ln.id}({ln.label}, {ln.kind})" for ln in lanes)
+    return (f"(지도 무대 아님) 주 무대 {genre.stage.primary}. 장르 프로필 기본 레인: {lane_rows}.\n"
+            f"stage_config.timeline 의 start·end(YYYY-MM-DD)는 레코드 구간을 덮게 정한다. 카메라 w = 화면이 덮는 일수.\n"
+            f"데이터 레코드(series 이벤트 series_id 는 이 id 만):\n{series_records_text(pdir)}")
+
+
 def music_list_text(pdir: Path) -> str:
     """연출가 입력 `{music_list}`(v3.4.0 D-0060 작업 3, F1): 프로젝트 credits.yaml 의 `music:` 행 id + 레지스트리 분위기 태그.
     비면 null 안내 — 음악 크레딧 없는 프로젝트에 BGM 을 넣어 권리 실패하던 것(NB11 F1)을 입력 단계에서 막는다."""
@@ -242,5 +276,5 @@ def next_version(pdir: Path, stem: str, suffix: str) -> int:
     return n
 
 
-__all__ = ["cards_table", "check_direction", "current_version", "loop_history", "restore_version", "dump_direction_yaml", "entities_text", "event_fields_table", "geo_text", "load_plan",
+__all__ = ["cards_table", "check_direction", "current_version", "loop_history", "restore_version", "dump_direction_yaml", "entities_text", "event_fields_table", "geo_text", "load_plan", "series_records_text", "stage_text",
            "media_text", "next_version", "plan_table"]

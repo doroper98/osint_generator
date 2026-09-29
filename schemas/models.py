@@ -326,6 +326,8 @@ class WorkerProvenance(BaseModel):
     prompt_name: str
     prompt_sha1: str
     rules_hash: str
+    genre: Optional[str] = None             # v4.4.0 D-0090 작업 1 — 장르 프롬프트 층에 쓴 장르(기본 장르면 None, 추가 문단 0)
+    genre_declared: Optional[bool] = None   # 주문(order.yaml)에 선언했는가
 
 
 class TaskResult(VersionedModel):

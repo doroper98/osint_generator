@@ -3,6 +3,7 @@
 #   1) reuse 의 timeline_panel → 레지스트리 이름 timeline(panel kind) — D-0082 쟁점 2 A(별칭 없음)
 #   2) new 중 statement_diff 만 등록(registries.primitives), 나머지 4개는 registries.primitives_planned — D-0082 쟁점 1 A
 #   3) color_semantics 에 added·removed(statement_diff 색 의미, 20 §3.1 policy_document) — D-0081 작업 5
+#   5) narration 에 attribute_causality·numbers_per_sentence_max·forecast_attribution(장르 프롬프트 층 스위치) — v4.4.0 D-0090 작업 1
 #   4) reuse 에 series(시간축 계열 — rate_step_line 을 대신, D-0084 작업 4)·marker(시간축 핀 = marker, D-0084 작업 4) — v4.3.0
 # status proposed: 사용자 승인 전(20 §3, §12 G4). approved 로 바꾸는 것은 사용자 결정이다.
 # 무대 timeline 은 v4.3.0 에 구현됨, chart_wall 은 구현 전(registries.stages_planned).
@@ -34,6 +35,9 @@ data_sources:                    # §5
   required_fields: [series_id, source, retrieved_at, transform, as_of]
 narration:
   define_terms_once: true        # 점도표·기준금리 등 전문 용어는 첫 등장 때 한 문장으로 정의
+  attribute_causality: true      # (5) v4.4.0 — 인과는 귀속(20 §7). 문장은 rules genre_prompt.narration
+  numbers_per_sentence_max: 2    # (5) v4.4.0 — 문장당 숫자 2개 이하(20 §7)
+  forecast_attribution: true     # (5) v4.4.0 — 전망 귀속·점도표는 약속 아님(20 §5.2)
   avoid: [투자 권유, 가격 예측 단정]
 media:
   preferred: [official_photo, press_video, article, post]

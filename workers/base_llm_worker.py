@@ -55,6 +55,7 @@ from schemas.models import (
 )
 from orchestrator.config import load_config
 from rules import load_rules, rules_hash
+from schemas.genre_models import GenreProfile
 from schemas.rules_models import VideoRules
 from workers.base_worker import BaseWorker, emit, utc_now
 from workers.prompt_loader import load_prompt, prompt_sha1
@@ -279,6 +280,7 @@ class BaseLLMWorker(BaseWorker):
     def run(self, args: argparse.Namespace, task: Optional[TaskQueueItem]) -> TaskResult:
         if task is None:
             return self._build_failure_result(args, "task 가 None 입니다", started=utc_now())
+        self.bind_genre(args)
         feedback = ""
         for attempt in range(self.retry_on_invalid + 1):
             result, status, err = self._run_once(args, task, feedback)
@@ -453,20 +455,37 @@ class BaseLLMWorker(BaseWorker):
             self.__dict__["_rules_cache"] = cached
         return cached
 
+    def bind_genre(self, args: argparse.Namespace) -> None:
+        """프로젝트 장르를 읽어 둔다(v4.4.0 D-0090 작업 1). 주문(order.yaml)이 없으면 기본 장르 — 프롬프트 추가 문단 0.
+        주문이 있는데 장르 프로필이 없거나 형식 오류면 GenreError(조용히 기본 장르로 넘어가지 않는다, 15 P6)."""
+        from genres.load import project_genre  # noqa: PLC0415
+
+        pdir = self.project_dir(args)
+        prof, declared = project_genre(pdir) if pdir.exists() else (None, False)
+        self.__dict__["_genre"] = (prof, declared)
+
+    @property
+    def genre(self) -> "GenreProfile | None":
+        return (self.__dict__.get("_genre") or (None, False))[0]
+
     def system_prompt(self) -> str:
-        """`prompts/{prompt_name}.md` + 규칙 치환 결과. prompt_name 이 비면 빈 문자열."""
+        """`prompts/{prompt_name}.md` + 규칙 치환 결과(+ 장르 문단). prompt_name 이 비면 빈 문자열."""
         if not self.prompt_name:
             return ""
-        return load_prompt(self.prompt_name, self.rules)
+        return load_prompt(self.prompt_name, self.rules, self.genre)
 
     def worker_provenance(self) -> Optional[WorkerProvenance]:
         """task_result.json 에 남길 프롬프트·규칙 증명 (15 P5). 프롬프트가 없으면 None."""
         if not self.prompt_name:
             return None
+        prof, declared = self.__dict__.get("_genre") or (None, False)
+        layered = prof is not None and prof.genre != self.rules.genre_prompt.base_genre
         return WorkerProvenance(
             prompt_name=self.prompt_name,
             prompt_sha1=prompt_sha1(self.system_prompt()),
             rules_hash=rules_hash(),
+            genre=prof.genre if layered else None,
+            genre_declared=declared if layered else None,
         )
 
     def invoke_timeout_sec(self) -> int:

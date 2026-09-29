@@ -49,3 +49,4 @@ note: VisualQAWorker system prompt (17 §4, D-0047 작업 7). 출력 = engine.qa
              "fix": {"event_ref": "badge:부산에서 출항", "suggest": "place: map_upper_left 또는 카드 퇴장 뒤에 등장"}}],
  "praise": ["장면 전환이 dip 으로 부드럽다"]}
 ```
+{{GENRE_BLOCK}}

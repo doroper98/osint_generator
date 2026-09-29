@@ -38,6 +38,12 @@ EXAMPLE_FILES: dict[str, str] = {
     "prompts/examples/hormuz_direction.yaml": "engine.direction:Direction",   # 17 §5.3 director 예시(변환기 산출)
     "tests/fixtures/facts_minimal.json": "script.schema:Facts",
 }
+# v4.4.0 장르 프롬프트 층(D-0090 작업 1): prompts/genre_<이름>.md 의 예시는 장르 자리표시를 채운 뒤(비기본 장르로 렌더) 검사한다
+GENRE_ACTIVE: dict[str, str] = {
+    "director": "engine.direction:Direction",
+    "visual_qa": "engine.qa:QAVerdict",
+}
+GENRE_FOR_PARITY = "macro_monetary"
 PENDING_6_9: dict[str, str] = {}
 _FENCE = re.compile(r"```(yaml|json)\n(.*?)```", re.DOTALL)
 
@@ -63,6 +69,20 @@ class PromptSchemaParityTest(unittest.TestCase):
                 model.model_validate(data)  # type: ignore[attr-defined]
                 checked += 1
         self.assertGreater(checked, 0)
+
+    def test_genre_examples_validate(self) -> None:
+        from genres.load import load_genre  # noqa: PLC0415
+        from rules import load_rules  # noqa: PLC0415
+        from workers.prompt_loader import genre_block  # noqa: PLC0415
+
+        rules, g = load_rules(), load_genre(GENRE_FOR_PARITY)
+        for name, ref in GENRE_ACTIVE.items():
+            blocks = [json.loads(b) if k == "json" else yaml.safe_load(b) for k, b in _FENCE.findall(genre_block(name, rules, g))]
+            self.assertTrue(blocks, f"prompts/genre_{name}.md 에 예시 블록이 없다")
+            for data in blocks:
+                obj = _model(ref).model_validate(data)  # type: ignore[attr-defined]
+                if name == "visual_qa":   # 루브릭 항목 전부(워커 check_parsed 와 같은 규칙)
+                    self.assertEqual(obj.rubric_missing(len(rules.genre_prompt.rubric_extra)), [])
 
     def test_script_example_passes_lint(self) -> None:
         # 예시가 금지 문구·발음 기호를 가르치면 안 된다(D-0025 §3) — 나레이션을 원고 린트에 그대로 통과시킨다

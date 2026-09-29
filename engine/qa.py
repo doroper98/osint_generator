@@ -17,7 +17,8 @@ from pydantic import BaseModel, ConfigDict, Field
 
 from engine.direction import Direction
 
-Category = Literal["occlusion", "empty", "density", "color", "order", "media", "legibility", "camera", "style"]
+# honesty·wording = v4.4.0 장르 루브릭(20 §9 — 차트 정직성·숫자 일치 / 용어 정의·투자 권유 표현, D-0090 작업 1)
+Category = Literal["occlusion", "empty", "density", "color", "order", "media", "legibility", "camera", "style", "honesty", "wording"]
 
 
 class _Strict(BaseModel):
@@ -37,11 +38,25 @@ class QAIssue(_Strict):
     fix: Optional[QAFix] = None
 
 
+class QARubricItem(_Strict):
+    """장르 루브릭 한 항목 판정(v4.4.0 D-0090 작업 1, 20 §9). item = rules genre_prompt.rubric_extra 번호(1부터)."""
+
+    item: int = Field(ge=1)
+    ok: bool
+    evidence: str = Field(min_length=8)   # 근거 필수(AP-V6-8)
+
+
 class QAVerdict(_Strict):
     schema_version: int = 1
     verdict: Literal["pass", "revise"]
     issues: list[QAIssue] = Field(default_factory=list)
     praise: list[str] = Field(default_factory=list)
+    rubric: list[QARubricItem] = Field(default_factory=list)   # v4.4.0 — 기본 장르(지정학)는 비움. 그 밖은 항목 전부(워커 check_parsed)
+
+    def rubric_missing(self, n: int) -> list[int]:
+        """1..n 중 판정이 없거나 두 번 이상인 항목 번호."""
+        seen = [r.item for r in self.rubric]
+        return [i for i in range(1, n + 1) if seen.count(i) != 1] + sorted({i for i in seen if i > n})
 
     def hard_count(self) -> int:
         return sum(1 for i in self.issues if i.severity == "hard")

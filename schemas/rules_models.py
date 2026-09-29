@@ -1038,6 +1038,16 @@ class StageTimelineRules(_Strict):
     missing_mark: TimelineMissingMark
 
 
+class GenrePromptRules(_Strict):
+    """v4.4.0 D-0090 작업 1 — 장르 프롬프트 층(docs/handoff/20 §5·§6·§7·§9). 문장은 여기, 켜고 끄는 것은 장르 프로필."""
+
+    base_genre: str
+    narration: dict[str, str] = Field(min_length=1)
+    data_sources: list[str] = Field(min_length=1)
+    rubric_extra: list[str] = Field(min_length=1)
+    stage_grammar: dict[str, list[str]] = Field(min_length=1)
+
+
 class DataRules(_Strict):
     """v4.3.0 D-0084 작업 1 — 데이터 레코드 허용 목록(docs/handoff/20 §5.1, schemas/data_models.py)."""
 
@@ -1121,6 +1131,7 @@ class VideoRules(_Strict):
     primitives: PrimitivesRules = Field(default_factory=PrimitivesRules)   # v4.2.0 D-0081
     stage_timeline: StageTimelineRules   # v4.3.0 — D-0084 작업 3·D-0085
     data: DataRules                # v4.3.0 — D-0084 작업 1
+    genre_prompt: GenrePromptRules  # v4.4.0 — D-0090 작업 1
     bundle: BundleRules            # v3.5.0 — D-0063 작업 4
     provenance: ProvenanceRules
 
@@ -1133,6 +1144,9 @@ class VideoRules(_Strict):
         bad = sorted(set(self.bundle.edge_types.values()) - set(self.panels.charts.network.styles))
         if bad:
             raise ValueError(f"bundle.edge_types 값이 panels.charts.network.styles 에 없다: {bad}")
+        bad = sorted(set(self.genre_prompt.stage_grammar) - set(self.registries.stages))
+        if bad:
+            raise ValueError(f"genre_prompt.stage_grammar 의 무대가 registries.stages 에 없다: {bad}")
         a, b = set(self.camera.framing.context_w_min), set(self.shot_grammar.w_guide)
         if a != b:
             raise ValueError(f"camera.framing.context_w_min 키가 shot_grammar.w_guide 와 다르다 — 누락 {sorted(b - a)} · 초과 {sorted(a - b)}")

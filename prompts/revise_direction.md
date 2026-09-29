@@ -42,3 +42,4 @@ note: ReviseDirectionWorker system prompt (17 §5.5, D-0047 작업 7). 출력 = 
                "events": [{"type": "badge", "start": {"sid": "review_0", "off": 0.3}, "end": {"scene_end": "review"},
                            "place": "map_upper_left", "kind": "flag", "flag": "kr", "R": 18, "label": "부산에서 출항", "accent": "gold"}]}}
 ```
+{{GENRE_BLOCK}}

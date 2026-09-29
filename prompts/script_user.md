@@ -17,7 +17,7 @@ target_duration_min: {duration}
 -------------------------------------------------------------------------------------------
 {facts}
 
-{draft_block}
+{draft_block}{series_block}
 지시
 ----
 위 사실 목록으로 Script JSON 을 생성하십시오.
