@@ -198,3 +198,19 @@ navcent:
 - 그럼에도 **사용자 결정으로 엔딩 카드를 유지**한다(고급·작은 글씨 디자인, `09` §6.2). 영상 내 캡션(사진·영상 출처 줄) + 엔딩 카드 + 설명란 3중 표기가 기본값.
 - 저장소 BGM RIGHTS.md는 "영상 하단 출처 라인 + 설명란"을 요구 — 엔딩 카드 유지로 충족.
 - 공공누리·지형 타일의 표기 위치 요건은 원문 재확인 권고(법률 자문 아님).
+
+---
+
+## 8. v4.8.0 — 인물 배지 적응 크기·머리 예약 실측·청와대 휘장 (G7, back_and_forth D-0101 §1·D-0104 D2(c)·D-0109·D-0111·D-0112)
+
+사용자 지시(D89): "한 사람만 나오면 크게, 여러 사람이 더 등장하면 작아지는 효과".
+
+- **크기는 코드가 정한다(P8).** 같은 풀(지도·시간축 무대 / 패널 위 뱃지)에서 표시 구간(팝인 완료 ~ 페이드 아웃 시작)인 인물 뱃지 수 n(t):
+  n = 1 → `badge.R_person_solo` 56, n = 2 → `R_person_group[1]` 34, n ≥ 3 → `R_person_group[0]` 30. 바뀌면 `resize_sec` 0.6 동안 smooth 보간.
+  새 뱃지는 자기 자신을 세어 처음부터 그 크기로 뜨고, 사라지는 뱃지는 끝까지 자기 자신을 센다(페이드 아웃 중 커지지 않음). 카메라 화면 안 여부는 세지 않는다(t 만의 함수).
+- **인물 뱃지의 연출 `R:` 는 버린다**(D-0111 A) — provenance `badge.R_ignored[]` + warning `[badge-R-ignored]`. 국기·휘장 R 은 그대로 우선, 없으면 `badge.R_other` 30.
+- 이름표 글자: solo 15/11, group 12/10, side:right 13/10 — R 에 따라 group ↔ solo 보간(`label_sizes`).
+- **머리 예약 = 초상 실측**(D-0112 A): 불러올 때 초상 PNG 알파 윗줄로 `head_top`(R 단위) 계산, 상한 `reserve_top_factor` 2.2. 저장소 초상 35장 1.02~1.13R. `head_reserve: factor` 로 되돌린다. provenance `badge.head_top[]`(초상 md5).
+- **화면 가장자리 보정**(`edge_nudge`): 앵커가 화면 안인데 그 순간 상자가 밖이면 그 px 만큼 안쪽으로 — 카드 회피(D-0033)보다 먼저, provenance `reserved.avoidance` strategy `edge`. 보정 뒤에도 밖이면 offscreen hard.
+- **자리**: 시간축 `timeline_badge` [640, 186](solo 상자가 레인 영역·축 값 자리 밖). 패널 장면(패널이 떠 있는 순간 시작하는 map_* 뱃지)은 `stage_slots.panel → panel_badge` 화면 고정 점 [[96,300],[758,300]], 패널 층 위에 그린다(D2(c), dmz_mine M7).
+- **청와대 휘장**(D-0109, 사용자 결정 D98): `assets/emblems/registry.json cheongwadae` — Commons 대통령 표장(Public domain, restrictions insignia 기록 유지), `user_exception: D98` + `exception_scope`(청와대·대통령실이 발언·행위 주체인 문장의 식별 표시 전용, 무가공, 크레딧). 예외는 `schemas/emblem_models.USER_EXCEPTIONS` 목록만 — 다른 제한 휘장은 §5 그대로 국기 대체. 연출 문법 한 줄(`rules direction_grammar`): 대통령 개인이 주체면 초상, 둘 다면 초상 우선.

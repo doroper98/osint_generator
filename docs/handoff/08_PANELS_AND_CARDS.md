@@ -192,3 +192,14 @@ v3 카드 목록:
 2. 관계 패널을 데이터 주도로: `nodes`, `edges(from, to, type, state_changes=[(anchor, new_type)])`.
 3. 연표 패널 자동 층 배치: 날짜 간격 × 픽셀폭으로 겹침을 계산해 ±1/±2/±3 층 선택.
 4. 카드와 지도 뱃지 충돌 검사(카드 영역 RESERVED 등록 후 뱃지 자동 오프셋).
+
+---
+
+## 12. v4.8.0 — 기사 카드 조판 확대 (G7, back_and_forth D-0101 §2, 사용자 결정 D89)
+
+사용자 지시: "기사가 나올 때는 기사를 조판해서 좀 크게". 옛 카드(w 300, 헤드라인 13.5)는 자막(19)보다 글자가 작았다.
+
+- 수치는 전부 `rules layout_480p.article_card`(draw_article·article_geom 리터럴 0): w 440, 매체 15, 날짜 10, 헤드라인 18(줄 간격 26), 부제 12(17), ARTICLE·메모 9, 안쪽 여백 20.
+- 헤드라인·부제 **최대 3줄** — 넘치면 `ArticleOverflowError`(렌더 전 preflight, 조용한 잘림 금지).
+- 자리: 기본 오른쪽 카드 자리. 연출 `place: center`(슬롯 `center`, `align: center`) = 무대 가운데(세로는 자막 구역 위 공간의 가운데), 그 동안 아래 무대를 `center_dim` 0.93(암전 최대 어둡기)으로 덮는다. fed_policy 기사 2건은 center.
+- 전/후: `docs/handoff/reports/phaseG7/article_before_after.jpg`.
