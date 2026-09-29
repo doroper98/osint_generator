@@ -3,7 +3,7 @@ tier: 2
 last_synced_with: v1.2.2
 ssot_for: [v2-audio-mix]
 depends_on: [docs/handoff/00_INDEX.md, docs/handoff/15_ANTI_INERTIA_PRINCIPLES.md]
-last_review: 2026-09-27
+last_review: 2026-09-29
 origin: claude.ai chat handoff bundle (2026-09-26 ~ 09-27), imported verbatim
 -->
 
@@ -18,7 +18,7 @@ origin: claude.ai chat handoff bundle (2026-09-26 ~ 09-27), imported verbatim
 ```
 내레이션 npy (문장별, 트림됨) ──► 피크 0.8 정규화 ──► t0에 배치 ─────────────┐
                                                                             ├─► 합산 × 전체 페이드 ─► 피크 0.97 리밋 ─► mix.f32
-BGM(CC BY) ─► 정규화 ─► × 강도곡선 × (1 − 0.5·duck) × 0.47 ──────────────────┤
+BGM(CC BY) ─► 저음 보강(§3.4, v4.6.0) ─► 정규화 ─► × 강도곡선 × (1 − 0.5·duck) × 0.47 ──────────────────┤
 효과음(whoosh/boom/tick) ─► × (1 − 0.25·duck) ─────────────────────────────┘
                                                              ffmpeg: loudnorm I=-14 TP=-1.5 LRA=11 → AAC 192k
 ```
@@ -62,6 +62,37 @@ bed_gain = 강도 × (1 − 0.5·duck) × 0.47
 | v3 | 0.47 | 50% 감쇠 | 0.235×강도 | 합격 |
 
 최종 먹싱에서 loudnorm이 전체를 −14 LUFS로 맞추므로, 여기서 조정하는 것은 **음악과 내레이션의 상대 비율**이다.
+
+### 3.4 v4.6.0 저음 보강 (사용자 결정 D86, back_and_forth D-0097·D-0102)
+
+사용자 지시: "배경음악에 베이스를 좀 더 풍부하게 넣어서 좀 웅장한 느낌이 드는 배경음악이 깔리도록 해."
+곡을 따라가는 처리만 한다. 조성을 모르는 곡에 고정 근음 드론을 깔지 않고, 새 곡·절차 합성도 쓰지 않는다. 수치는 전부 `rules audio.bed_bass` 다.
+
+```python
+bg = 디코드 → 루프 → 자르기                         # 곡 교체면 곡마다(자기 시간축)
+pre = max|bg|
+y = low_shelf(bg, 110Hz, +5dB, q 0.7)              # RBJ 쿡북 biquad, lfilter
+m = y 모노합; band = bandpass(m, 55–220Hz)
+sq = 상승 영교차마다 부호 토글(2분주 사각파) → lowpass 110Hz   # 곡 저음의 한 옥타브 아래
+sub = sq × 포락선(band 블록 RMS×√2, attack 0.03s·release 0.25s) × 0.35 × 스웰
+스웰 = 장면 시작(첫 장면 제외)에서 1.35 → 2.5초 동안 선형으로 1
+y += sub(양 채널)
+bg = y / (pre^(1−k) × max|y|^k)                   # k = norm_ref 0.7(D-0102)
+이후 bed_gain 0.47 × 강도 × (1 − 0.5·duck) 는 v3 그대로
+```
+
+**정규화 기준(norm_ref)이 핵심이다.** 처리 뒤 피크로 정규화하면(k = 1) 서브 층이 키운 피크만큼 베드 전체가 내려간다.
+그러면 저역 절대 레벨은 그대로이고 중역만 약 5.7 dB 내려가 "묵직"이 아니라 "어두움"이 된다. 처리 전 피크 기준(k = 0)은 저역이 약 +5.5 dB 오르지만 음악 레벨이 −7.5 dB 가 되어 v3 합격 범위 [−15, −11] 를 벗어난다.
+k 는 두 편(hormuz·fed_policy) 모두 음악 레벨이 범위 안에 0.3 dB 이상 여유를 두는 최소값 0.7 로 정했다(0.1 단위 실측, `reports/phaseG6/norm_ref_sweep.jsonl`). 저역 절대 +1.4 dB, 중역 −3.9 dB 다.
+즉 bed_gain·음악 레벨 범위를 지키는 한 이것이 저역을 올릴 수 있는 한계다. 더 웅장하게 하려면 음악 레벨 범위 자체를 사용자 청감으로 다시 정해야 한다.
+
+**측정 정의(audio/qa.py, `out/bed_stats.json`)**: 베드(내레이션·효과음 제외) 모노의 30–120 Hz 대역 RMS − 200–2000 Hz 대역 RMS(dB, rfft 파워 합).
+믹서가 처리 전·후 두 값을 남기고, 판정은 **상승폭**(후 − 전)이 `audio.qa.bed_bass_rise_db` [4, 8] 안인지다(hard).
+절대 비율은 곡마다 달라 기록만 한다. zabriskie_patriarch 는 60–120 Hz 패드가 강해 처리 전부터 +11.8 dB 다(D-0097 의 절대 범위 [−6, 0] 은 도달 불가로 폐기, D-0102).
+서브 층 잡음성 실측: 서브 에너지의 90% 가 원곡 대역 피크의 절반 주파수 ±2 Hz 에 모인다(평탄도 0.06, 110 Hz 위 누설 −26 dB). 화음 구간에서도 잡음으로 번지지 않았다.
+
+무음악(`sound.bgm: null`) 경로는 처리·측정을 거치지 않는다(`bed_stats.json` 도 쓰지 않는다). 이득을 0 으로 두면(셸프 0 dB·서브 0) hormuz mix 가 v3 합격본 md5 `c1314fb9` 와 바이트 단위로 같다.
+되돌리기: v4.6.0 G6 커밋 revert, 또는 `shelf.gain_db: 0`·`sub.gain: 0`.
 
 ---
 
