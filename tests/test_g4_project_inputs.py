@@ -164,3 +164,47 @@ class OrderFileTest(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class TimelineSlotsTest(unittest.TestCase):
+    """v4.4.0 D-0093 — 시간축 무대에서 뱃지·사진의 지도 슬롯은 시간축 자리로(코드가 정한다, P8). 지도 무대는 그대로."""
+
+    def _view_at(self, stage_name: str):  # noqa: ANN202
+        import numpy as np  # noqa: PLC0415
+
+        from engine.projection import View  # noqa: PLC0415
+        from engine.stage import make_stage  # noqa: PLC0415
+        from tests.test_series_layer import CFG  # noqa: PLC0415
+
+        st = make_stage(stage_name, config=CFG if stage_name == "timeline" else None)
+        cam = np.array([st.bounds[2] / 2, 1.5, 900.0]) if stage_name == "timeline" else np.array([56.0, 30.0, 20.0])
+        return lambda t: View(st, cam)
+
+    def test_timeline_overrides_map_slots(self) -> None:
+        from engine.placement import resolve_places  # noqa: PLC0415
+        from rules import load_rules  # noqa: PLC0415
+
+        ev = [{"type": "badge", "t0": 1.0, "t1": 3.0, "place": "map_upper_left", "kind": "person", "pid": "warsh", "flag": "us", "label": "워시"},
+              {"type": "photo", "t0": 1.0, "t1": 3.0, "place": "map_left", "mid": "fed_presser_0916"},
+              {"type": "photo", "t0": 4.0, "t1": 6.0, "mid": "fed_presser_0729"}]
+        rec = resolve_places(ev, self._view_at("timeline"), stage_name="timeline")
+        self.assertEqual(rec["badge:워시"], "stage:timeline_badge")
+        self.assertEqual(rec["fed_presser_0916"], "stage:timeline_photo")
+        self.assertEqual(rec["fed_presser_0729"], "stage:timeline_photo")   # 자동 슬롯도
+        self.assertIn("date", ev[0])
+        self.assertEqual([ev[1]["x"], ev[1]["y"], ev[1]["w"]], list(load_rules().placement.slots["timeline_photo"].box))
+
+    def test_map_stage_unchanged(self) -> None:
+        from engine.placement import resolve_places  # noqa: PLC0415
+
+        ev = [{"type": "badge", "t0": 1.0, "t1": 3.0, "place": "map_upper_left", "kind": "flag", "flag": "us", "label": "미국"}]
+        st = SimpleNamespace(name="mercator", from_world=lambda x, y: {"lon": x, "lat": y})
+        rec = resolve_places(ev, lambda t: SimpleNamespace(stage=st, to_world=lambda x, y: (x, y)), stage_name="mercator")
+        self.assertEqual(rec["badge:미국"], "slot:map_upper_left")
+        self.assertIn("lon", ev[0])
+
+    def test_visual_qa_prompt_exempts_labels(self) -> None:
+        from rules import load_rules  # noqa: PLC0415
+        from workers.prompt_loader import load_prompt  # noqa: PLC0415
+
+        self.assertIn("검증 라벨(<미검증>, <논쟁>)은 규칙이 정한 의무 표기", load_prompt("visual_qa", load_rules()))

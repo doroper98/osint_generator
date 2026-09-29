@@ -273,7 +273,8 @@ def load_project(proj: Path, direction: Optional[Direction] = None, out: Optiona
         return View(R.stage, cams[min(n - 1, max(0, int(t * FPS)))])
 
     try:   # 17 §2 배치 슬롯 + 14 §10.3-5 기본 배치(D-0047 작업 5) — 좌표는 코드가 계산
-        placement = resolve_places(raw_events, view_at, lambda e, w: _media_extent(e, w, A0.media_assets))
+        placement = resolve_places(raw_events, view_at, lambda e, w: _media_extent(e, w, A0.media_assets),
+                                   stage_name=R.stage.name)   # v4.4.0 D-0093 — 무대 종류별 자리
     except PlacementError as ex:
         raise ProjectError(str(ex)) from ex
     bad = [k for e in raw_events if e.get("type") == "series" for k in ("key", "axis", "slot") if k in e]

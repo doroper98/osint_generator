@@ -70,6 +70,7 @@ def _rules_placeholders(rules: VideoRules) -> dict[str, str]:
             f"{name} — {', '.join(s.kinds)} ({_slot_form(s)})" for name, s in rules.placement.slots.items()]),
         "{{RULES.corner_elements}}": ", ".join(rules.hud.allowed_corner_elements),
         "{{RULES.verification.quote_max_chars}}": str(rules.verification.quote_max_chars),
+        "{{RULES.script_labels}}": ", ".join(v for v in rules.script_schema.labels.values() if v),   # v4.4.0 D-0093
     }
 
 

@@ -104,6 +104,7 @@ class PlacementSlot(_Strict):
 
 class PlacementRules(_Strict):
     auto_media: dict[str, dict[str, str]]    # 종류 → {map|panel → 슬롯}
+    stage_slots: dict[str, dict[str, str]] = Field(default_factory=dict)   # v4.4.0 D-0093 — 무대 → {이벤트 종류 → 슬롯}
     slots: dict[str, PlacementSlot]
 
     @model_validator(mode="after")
@@ -111,6 +112,9 @@ class PlacementRules(_Strict):
         bad = [s for m in self.auto_media.values() for s in m.values() if s not in self.slots]
         if bad:
             raise ValueError(f"auto_media 가 없는 슬롯을 가리킨다: {bad}")
+        bad = [f"{st}.{k}→{s}" for st, m in self.stage_slots.items() for k, s in m.items() if s not in self.slots or k not in self.slots[s].kinds]
+        if bad:
+            raise ValueError(f"stage_slots 가 없는 슬롯이나 그 종류를 받지 않는 슬롯을 가리킨다: {bad}")
         return self
 
 

@@ -7,6 +7,7 @@
 - beside_panel 슬롯(사진·영상, v3.2.0 D-0050 NB9): 그 시각 활성 패널이 차지한 상자(`OCCUPIED[kind]`, 미디어가 떠 있는 동안
   등장하는 요소까지)·자막·날짜 예약 영역을 피하는 첫 후보 자리. 막히면 오류. 겹침 판정은 RESERVED 와 같은 `reserved._hits`
 - 사진·영상에 place·x 가 둘 다 없으면 `placement.auto_media`(14 §10.3-5, v3 합격 좌표)
+- 무대 종류별 자리(v4.4.0 D-0093): 그 무대의 `placement.stage_slots` 에 이벤트 종류가 있으면 지도 슬롯(map_*) 대신 그 슬롯
 슬롯 이름이 없거나 그 종류에 쓸 수 없는 슬롯이면 오류(15 P6·P10).
 """
 
@@ -62,11 +63,20 @@ def _beside_panel(e: dict, events: list[dict], slot, media_h: Callable[[dict, fl
     return f"후보 {len(bp.candidates)}곳 모두 패널·예약 영역과 겹치거나 화면 밖(폭 {bp.w:g}, 글자 폭 {text_w:.0f}, 높이 {h:.0f})"
 
 
+def _stage_slot(e: dict, slot_name: str, stage_name: str | None) -> str | None:
+    """주 무대의 `placement.stage_slots` 자리. 연출이 그 무대 전용 슬롯이나 card·panel 슬롯을 골랐으면 그대로(None).
+    지도 슬롯(map_*)·자동 슬롯만 바꾼다 — 시간축에서 지도 좌표 자리는 레인 이름·출처 줄을 가린다(D-0093)."""
+    if stage_name is None or not slot_name.startswith("map_"):
+        return None
+    return PL.stage_slots.get(stage_name, {}).get(e["type"])
+
+
 def resolve_places(events: list[dict], view_at: Callable[[float], object],
-                   media_h: Callable[[dict, float], tuple[float, float]] | None = None) -> dict[str, str]:
+                   media_h: Callable[[dict, float], tuple[float, float]] | None = None, stage_name: str | None = None) -> dict[str, str]:
     """`place` 가 있는 이벤트를 좌표로 바꾸고(제자리) 기록을 돌려준다.
     기록: 미디어는 {mid: explicit | auto:<슬롯> | slot:<슬롯>}(provenance media.placement), 그 밖은 {타입:라벨: slot:<슬롯>}.
     view_at(t) → engine.projection.View(그 시각 카메라, 무대 포함). point 슬롯에만 쓴다.
+    stage_name = 주 무대 이름(v4.4.0 — `placement.stage_slots` 조회, None 이면 바꾸지 않는다).
     media_h(e, w) → 폭 w 일 때 (미디어 상자 높이(캡션 바 포함), 캡션 글자까지의 폭). beside_panel 슬롯에만 쓴다."""
     rec: dict[str, str] = {}
     errs: list[str] = []
@@ -83,6 +93,9 @@ def resolve_places(events: list[dict], view_at: Callable[[float], object],
                 if media:
                     rec[tag] = "explicit"
                 continue
+        stage_slot = _stage_slot(e, slot_name, stage_name)   # v4.4.0 D-0093 — 무대 종류별 자리(시간축 뱃지·사진)
+        if stage_slot is not None:
+            slot_name, how = stage_slot, "stage"
         slot = PL.slots.get(slot_name)
         if slot is None:
             errs.append(f"[{i}] {tag}: 슬롯 {slot_name!r} 없음 — rules placement.slots: {sorted(PL.slots)}")

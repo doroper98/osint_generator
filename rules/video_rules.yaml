@@ -218,6 +218,9 @@ placement:                 # v3.1.0 D-0047 작업 5 — 배치 슬롯(17 §2 `pl
     photo: {map: map_right_low, panel: panel_gap}
   # box = 화면 상자 [x, y, 폭](854×480 설계 좌표, 사진·영상) / point = 화면 점 [x, y] → 이벤트 시작 순간 카메라로 경위도 역투영(뱃지·컷아웃·마커)
   # card = 카드 세로 위치(null = 렌더러 기본 panels.cards.y). 패널은 화면 가운데 고정이라 슬롯이 없다
+  # v4.4.0 D-0093 — 무대 종류별 자리 바꾸기: 그 무대에서 이 종류의 이벤트는 연출이 준 지도 슬롯(map_*)·자동 슬롯 대신 이 슬롯(코드가 정한다, P8)
+  stage_slots:
+    timeline: {badge: timeline_badge, photo: timeline_photo, clip: timeline_photo}
   slots:
     map_left:        {kinds: [clip, photo], box: [40, 150, 300]}      # v3 clip_map
     panel_center:    {kinds: [clip, photo], box: [207, 112, 440]}     # v3 clip_panel
@@ -229,6 +232,9 @@ placement:                 # v3.1.0 D-0047 작업 5 — 배치 슬롯(17 §2 `pl
     map_lower_left:  {kinds: [badge, cutout, marker], point: [190, 330]}
     map_lower_right: {kinds: [badge, cutout, marker], point: [660, 330]}
     card_right:      {kinds: [card, primitive], card: null}   # primitive = v4.2.0 D-0081 작업 5(무대 무관 오버레이, 카드와 같은 슬롯)
+    # v4.4.0 D-0093 — 시간축 무대 자리. 왼쪽 55%(레인 이름·출처·기준 시점 줄)와 오른쪽 축 값 자리(axis_zone_px)를 피한다
+    timeline_badge:  {kinds: [badge], point: [780, 118]}              # 레인 영역 오른쪽 위, 날짜 배지 아래 — 끝점 값 라벨 자리 왼쪽
+    timeline_photo:  {kinds: [photo, clip], box: [520, 150, 250]}     # 레인 오른쪽(왼쪽 레인 이름 열·오른쪽 축 값 자리 밖)
     # v3.2.0 D-0050 NB9 — 패널(타임라인 등) 위 미디어: 그 순간 패널이 차지한 상자(engine.placement.OCCUPIED)·자막·날짜를 피하는 첫 후보.
     # 후보 [x, y] = 제목·부제(y≤96) 아래 네 귀퉁이. 모두 막히면 오류(조용히 겹치지 않는다, P6)
     clip_panel_side:
