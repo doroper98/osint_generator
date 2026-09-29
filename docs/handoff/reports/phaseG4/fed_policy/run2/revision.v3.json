@@ -1,0 +1,10 @@
+{
+ "schema_version": 1,
+ "direction_version": 3,
+ "changelog": [
+  {
+   "issue_ref": "offscreen:마커 다음 FOMC 회의 t=291.3",
+   "change": "close 장면 '다음 FOMC 회의'(2026-10-27) 마커의 끝을 {total: true}에서 {sid: close_0, edge: end, off: 0.3}으로 당김. 같은 내용을 말하는 폭스비즈니스 카드와 함께 내려가, 끝맺음 풀백(284.55~293.55초) 후반에 핀이 화면 오른쪽 밖으로 밀리기 전에 사라진다. 풀백 숏의 중심·폭은 바꾸지 않았고, close_1 카드가 끝까지 남아 휑한 컷도 생기지 않는다"
+  }
+ ]
+}

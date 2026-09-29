@@ -1,0 +1,129 @@
+[게이트 ① 원고 승인] 연준, 다시 금리를 올리다 — 2023년 이후 첫 인상, 그리고 아직 남은 질문 (2026.09.29)
+
+장면 목록
+  open       문장  3  예상   17.4초
+  decision   문장  6  예상   38.2초
+  cuts_2025  문장  4  예상   32.1초
+  hold_2026  문장  7  예상   54.2초
+  july_dissent 문장  4  예상   30.6초
+  prices_jobs 문장  9  예상   70.7초
+  markets    문장  3  예상   24.0초
+  projections 문장  7  예상   49.1초
+  pressure   문장  3  예상   27.8초
+  close      문장  2  예상   15.9초
+  합계 48문장 · 예상 360.0초 (글자 수 추정 320자/분)
+
+원고 전문(자막) · [검증 라벨]
+  open_0       9월 16일, 미국 연준이 금리를 올렸습니다.
+  open_1       CNN과 NBC 등은 2023년 이후 첫 금리 인상이라고 보도했습니다.
+  open_2       1년 전만 해도 연준은 금리를 내리고 있었습니다.
+  decision_0   연방기금금리는 은행끼리 하루짜리 자금을 빌려줄 때 적용되는 미국의 기준금리입니다.
+  decision_1   연방공개시장위원회, FOMC는 목표 범위를 0.25%p 올렸다고 발표했습니다.
+  decision_2   새 목표 범위는 3.75~4%입니다.
+  decision_3   연준 이사회 자료로 9월 목표 범위 하단은 3.75%입니다.
+  decision_4   결정은 12대 0, 만장일치였습니다.
+  decision_5   FOMC 성명은 인플레이션이 여전히 높다고 밝혔습니다.
+  cuts_2025_0  폭스비즈니스는 연준이 2025년 9월에도 금리를 내렸다고 보도했습니다.  [<미검증>]
+  cuts_2025_1  2025년 10월 29일, FOMC는 목표 범위를 0.25%p 내렸다고 발표했습니다.
+  cuts_2025_2  이때 범위는 3.75~4%로, 지금과 같은 수준이었습니다.
+  cuts_2025_3  12월 10일에는 다시 내려 3.5~3.75%가 됐습니다.
+  hold_2026_0  올해 FOMC는 7월까지 다섯 번의 회의에서 모두 금리를 동결했습니다.
+  hold_2026_1  NBC와 ABC에 따르면 이란 전쟁은 2월 28일 미국과 이스라엘의 공격으로 시작됐습니다.
+  hold_2026_2  ABC뉴스는 이란이 호르무즈 해협을 사실상 봉쇄했다고 보도했습니다.  [<미검증>]
+  hold_2026_3  ABC뉴스는 워시가 5월 연준 의장에 취임했다고 보도했습니다.  [<미검증>]
+  hold_2026_4  연준 자료에 따르면 워시 의장이 처음 주재한 회의는 6월이었습니다.
+  hold_2026_5  선제 지침은 중앙은행이 앞으로의 금리 방향을 미리 시사하는 문구입니다.
+  hold_2026_6  CNN과 폭스비즈니스는 워시 체제에서 성명의 선제 지침이 빠졌다고 보도했습니다.
+  july_dissent_0 7월 29일 동결 결정은 9대 3으로 갈렸습니다.
+  july_dissent_1 연준 성명에 따르면 해맥·카시카리·로건은 0.25%p 인상을 원하며 반대했습니다.
+  july_dissent_2 ABC뉴스는 같은 방향 반대표 3표가 10년 만에 가장 많았다고 보도했습니다.  [<미검증>]
+  july_dissent_3 CNN은 그날 다우지수가 1,153포인트 떨어졌다고 보도했습니다.  [<미검증>]
+  prices_jobs_0 PCE 물가는 개인이 소비한 상품과 서비스 가격의 변화를 재는 지표입니다.
+  prices_jobs_1 근원 PCE는 변동이 큰 식품과 에너지를 뺀 값입니다.
+  prices_jobs_2 워시 의장은 8월 PCE 상승률을 약 3.6%로 추정했습니다.
+  prices_jobs_3 근원 PCE는 약 3.2% 수준이라고 밝혔습니다.
+  prices_jobs_4 노동통계국 자료로 8월 소비자물가는 전년 같은 달보다 3.35% 올랐습니다.
+  prices_jobs_5 워시 의장은 실업률이 약 4.1%로 낮은 수준이라고 밝혔습니다.
+  prices_jobs_6 ABC뉴스는 8월 고용이 16만 2천 명 늘었다고 보도했습니다.  [<미검증>]
+  prices_jobs_7 ABC뉴스는 인상 당일 국제 유가가 배럴당 105달러를 웃돌았다고 보도했습니다.  [<미검증>]
+  prices_jobs_8 ABC뉴스는 AAA 자료를 인용해 휘발유 평균 가격이 갤런당 4.36달러라고 전했습니다.  [<미검증>]
+  markets_0    CNN·NBC·ABC는 인상 당일 다우지수가 약 630포인트 내렸다고 보도했습니다.
+  markets_1    같은 날 S&P500 지수는 약 0.4% 내렸습니다.
+  markets_2    CNN과 폭스비즈니스는 미 국채 10년물 금리가 약 5%였다고 보도했습니다.
+  projections_0 경제전망요약, SEP는 FOMC 참가자들이 각자 내놓은 경제 전망을 모은 자료입니다.
+  projections_1 참가자 전망 중앙값은 올해 PCE 물가를 3.7%로 제시했습니다.
+  projections_2 내년 PCE 물가 전망 중앙값은 2.3%였습니다.
+  projections_3 올해 실질 GDP 성장률 전망 중앙값은 2.3%입니다.
+  projections_4 점도표는 FOMC 참가자들이 각자 예상하는 금리를 점으로 찍은 표입니다.
+  projections_5 약속이 아니라 참가자별 전망입니다.
+  projections_6 전망 중앙값은 연내 0.25%p 추가 인상 한 번을 가리켰습니다.
+  pressure_0   트럼프 대통령은 소셜미디어에서 금리를 1% 이하로 빨리 내려야 한다고 요구했습니다.  [<논쟁>]
+  pressure_1   워시 의장은 인플레이션이 너무 오래 높아 가격 안정에 먼저 초점을 둔다고 설명했습니다.  [<논쟁>]
+  pressure_2   CNN과 NBC뉴스는 워시 의장이 대통령의 금리 압박에 대한 언급을 거부했다고 보도했습니다.
+  close_0      폭스비즈니스는 다음 FOMC 회의가 10월 말로 잡혀 있다고 보도했습니다.  [<미검증>]
+  close_1      점도표가 가리킨 추가 인상이 실제로 이뤄질지는 아직 정해지지 않았습니다.
+
+출처 표
+  open_0       clm_0001
+  open_1       clm_0003
+  open_2       clm_0014, clm_0015
+  decision_0   clm_0001
+  decision_1   clm_0001
+  decision_2   clm_0001
+  decision_3   series:DFEDTARL
+  decision_4   clm_0002
+  decision_5   clm_0004
+  cuts_2025_0  clm_0016
+  cuts_2025_1  clm_0014
+  cuts_2025_2  clm_0014, clm_0001
+  cuts_2025_3  clm_0015
+  hold_2026_0  clm_0010, clm_0011, clm_0012, clm_0013, clm_0005
+  hold_2026_1  clm_0037
+  hold_2026_2  clm_0040
+  hold_2026_3  clm_0018
+  hold_2026_4  clm_0017
+  hold_2026_5  clm_0019
+  hold_2026_6  clm_0019
+  july_dissent_0 clm_0006
+  july_dissent_1 clm_0006, clm_0007
+  july_dissent_2 clm_0008
+  july_dissent_3 clm_0009
+  prices_jobs_0 clm_0020
+  prices_jobs_1 clm_0021
+  prices_jobs_2 clm_0020
+  prices_jobs_3 clm_0021
+  prices_jobs_4 series:CPIAUCSL
+  prices_jobs_5 clm_0023
+  prices_jobs_6 clm_0024
+  prices_jobs_7 clm_0038
+  prices_jobs_8 clm_0039
+  markets_0    clm_0033
+  markets_1    clm_0034
+  markets_2    clm_0035
+  projections_0 clm_0025
+  projections_1 clm_0025, clm_0026
+  projections_2 clm_0025, clm_0026
+  projections_3 clm_0028
+  projections_4 clm_0027
+  projections_5 clm_0027
+  projections_6 clm_0027
+  pressure_0   clm_0030
+  pressure_1   clm_0030
+  pressure_2   clm_0029
+  close_0      clm_0041
+  close_1      clm_0027
+
+린트 — 오류 0 · 경고 8
+  경고 [attribution] cuts_2025_0: unverified claim 인용 — 귀속 표현(~라고 주장했습니다/올렸습니다) 없음 — 폭스비즈니스는 연준이 2025년 9월에도 금리를 내렸다고 보도했습니다.
+  경고 [attribution] hold_2026_2: unverified claim 인용 — 귀속 표현(~라고 주장했습니다/올렸습니다) 없음 — ABC뉴스는 이란이 호르무즈 해협을 사실상 봉쇄했다고 보도했습니다.
+  경고 [attribution] hold_2026_3: unverified claim 인용 — 귀속 표현(~라고 주장했습니다/올렸습니다) 없음 — ABC뉴스는 워시가 5월 연준 의장에 취임했다고 보도했습니다.
+  경고 [attribution] july_dissent_2: unverified claim 인용 — 귀속 표현(~라고 주장했습니다/올렸습니다) 없음 — ABC뉴스는 같은 방향 반대표 3표가 10년 만에 가장 많았다고 보도했습니다.
+  경고 [attribution] july_dissent_3: unverified claim 인용 — 귀속 표현(~라고 주장했습니다/올렸습니다) 없음 — CNN은 그날 다우지수가 1,153포인트 떨어졌다고 보도했습니다.
+  경고 [attribution] prices_jobs_6: unverified claim 인용 — 귀속 표현(~라고 주장했습니다/올렸습니다) 없음 — ABC뉴스는 8월 고용이 16만 2천 명 늘었다고 보도했습니다.
+  경고 [attribution] prices_jobs_7: unverified claim 인용 — 귀속 표현(~라고 주장했습니다/올렸습니다) 없음 — ABC뉴스는 인상 당일 국제 유가가 배럴당 105달러를 웃돌았다고 보도했습니다.
+  경고 [attribution] close_0: unverified claim 인용 — 귀속 표현(~라고 주장했습니다/올렸습니다) 없음 — 폭스비즈니스는 다음 FOMC 회의가 10월 말로 잡혀 있다고 보도했습니다.
+
+미디어 후보 — 원고 media 필드 0건
+  트리거 제안 — plan.json 이 생기면(voice_timeline 뒤) 표시
+
+검증 라벨 집계 {"verified": 27, "corroborated": 8, "unverified": 9, "disputed": 2}

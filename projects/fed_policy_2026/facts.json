@@ -1,0 +1,597 @@
+{
+  "schema_version": 1,
+  "facts": [
+    {
+      "id": "f_hike_0916",
+      "text": "연방공개시장위원회(FOMC)는 9월 16일 연방기금금리 목표 범위를 0.25%p 올려 3.75~4%로 정했다고 발표했다. 연방기금금리는 은행끼리 하루짜리 자금을 빌려줄 때 적용되는 미국의 기준금리다.",
+      "date": "2026.09.16",
+      "place": "워싱턴 D.C.",
+      "actors": [
+        "연방공개시장위원회(FOMC)"
+      ],
+      "numbers": [
+        "0.25%p",
+        "3.75~4%"
+      ],
+      "source_ids": [
+        "clm_0001"
+      ],
+      "confidence": "high",
+      "contested": false,
+      "sides": null
+    },
+    {
+      "id": "f_hike_unanimous",
+      "text": "연준 성명에 따르면 9월 16일 인상 결정은 12대 0 만장일치였다.",
+      "date": "2026.09.16",
+      "place": "워싱턴 D.C.",
+      "actors": [
+        "연방공개시장위원회(FOMC)"
+      ],
+      "numbers": [
+        "12대 0"
+      ],
+      "source_ids": [
+        "clm_0002"
+      ],
+      "confidence": "high",
+      "contested": false,
+      "sides": null
+    },
+    {
+      "id": "f_first_since_2023",
+      "text": "CNN·NBC·ABC·폭스비즈니스는 이번 인상이 2023년 이후 첫 금리 인상이라고 보도했다.",
+      "date": "2026.09.16",
+      "place": null,
+      "actors": [
+        "CNN",
+        "NBC News",
+        "ABC News",
+        "Fox Business"
+      ],
+      "numbers": [
+        "2023년"
+      ],
+      "source_ids": [
+        "clm_0003"
+      ],
+      "confidence": "high",
+      "contested": false,
+      "sides": null
+    },
+    {
+      "id": "f_statement_inflation",
+      "text": "9월 16일 FOMC 성명은 인플레이션이 여전히 높다고 밝혔다.",
+      "date": "2026.09.16",
+      "place": "워싱턴 D.C.",
+      "actors": [
+        "연방공개시장위원회(FOMC)"
+      ],
+      "numbers": [],
+      "source_ids": [
+        "clm_0004"
+      ],
+      "confidence": "high",
+      "contested": false,
+      "sides": null
+    },
+    {
+      "id": "f_cut_1029_2025",
+      "text": "FOMC는 2025년 10월 29일 금리 목표 범위를 0.25%p 내려 3.75~4%로 정했다고 발표했다.",
+      "date": "2025.10.29",
+      "place": "워싱턴 D.C.",
+      "actors": [
+        "연방공개시장위원회(FOMC)"
+      ],
+      "numbers": [
+        "0.25%p",
+        "3.75~4%"
+      ],
+      "source_ids": [
+        "clm_0014"
+      ],
+      "confidence": "high",
+      "contested": false,
+      "sides": null
+    },
+    {
+      "id": "f_cut_1210_2025",
+      "text": "FOMC는 2025년 12월 10일 금리 목표 범위를 다시 0.25%p 내려 3.5~3.75%로 정했다고 발표했다.",
+      "date": "2025.12.10",
+      "place": "워싱턴 D.C.",
+      "actors": [
+        "연방공개시장위원회(FOMC)"
+      ],
+      "numbers": [
+        "0.25%p",
+        "3.5~3.75%"
+      ],
+      "source_ids": [
+        "clm_0015"
+      ],
+      "confidence": "high",
+      "contested": false,
+      "sides": null
+    },
+    {
+      "id": "f_cut_sep2025_report",
+      "text": "폭스비즈니스는 연준이 2025년 9월에도 금리를 0.25%p 인하했다고 보도했다.",
+      "date": "2025.09",
+      "place": null,
+      "actors": [
+        "Fox Business",
+        "연방준비제도"
+      ],
+      "numbers": [
+        "0.25%p"
+      ],
+      "source_ids": [
+        "clm_0016"
+      ],
+      "confidence": "low",
+      "contested": false,
+      "sides": null
+    },
+    {
+      "id": "f_hold_2026",
+      "text": "FOMC는 2026년 1·3·4·6·7월 회의에서 모두 금리 목표 범위를 3.5~3.75%로 동결했다고 발표했다.",
+      "date": "2026",
+      "place": "워싱턴 D.C.",
+      "actors": [
+        "연방공개시장위원회(FOMC)"
+      ],
+      "numbers": [
+        "3.5~3.75%"
+      ],
+      "source_ids": [
+        "clm_0010",
+        "clm_0011",
+        "clm_0012",
+        "clm_0013",
+        "clm_0005"
+      ],
+      "confidence": "high",
+      "contested": false,
+      "sides": null
+    },
+    {
+      "id": "f_july_vote",
+      "text": "7월 29일 동결 결정은 9대 3으로 의결됐다. 해맥·카시카리·로건 3명은 0.25%p 인상을 선호하며 반대표를 던졌다고 연준 성명은 밝혔다.",
+      "date": "2026.07.29",
+      "place": "워싱턴 D.C.",
+      "actors": [
+        "연방공개시장위원회(FOMC)",
+        "베스 해맥",
+        "닐 카시카리",
+        "로리 로건"
+      ],
+      "numbers": [
+        "9대 3",
+        "3명",
+        "0.25%p"
+      ],
+      "source_ids": [
+        "clm_0006",
+        "clm_0007"
+      ],
+      "confidence": "high",
+      "contested": false,
+      "sides": null
+    },
+    {
+      "id": "f_july_dissent_record",
+      "text": "ABC뉴스는 7월 회의에서 나온 같은 방향 반대표 3표가 10년 만에 가장 많은 수였다고 보도했다.",
+      "date": "2026.07.29",
+      "place": null,
+      "actors": [
+        "ABC News"
+      ],
+      "numbers": [
+        "3표",
+        "10년"
+      ],
+      "source_ids": [
+        "clm_0008"
+      ],
+      "confidence": "low",
+      "contested": false,
+      "sides": null
+    },
+    {
+      "id": "f_july_dow",
+      "text": "CNN은 7월 29일 다우지수가 1,153포인트(2.19%) 하락했다고 보도했다.",
+      "date": "2026.07.29",
+      "place": "뉴욕",
+      "actors": [
+        "CNN"
+      ],
+      "numbers": [
+        "1,153포인트",
+        "2.19%"
+      ],
+      "source_ids": [
+        "clm_0009"
+      ],
+      "confidence": "low",
+      "contested": false,
+      "sides": null
+    },
+    {
+      "id": "f_warsh_first_meeting",
+      "text": "연준 기자회견 자료에 따르면 워시 의장이 의장으로서 처음 주재한 FOMC 회의는 2026년 6월이었다.",
+      "date": "2026.06",
+      "place": null,
+      "actors": [
+        "케빈 워시 연준 의장"
+      ],
+      "numbers": [],
+      "source_ids": [
+        "clm_0017"
+      ],
+      "confidence": "high",
+      "contested": false,
+      "sides": null
+    },
+    {
+      "id": "f_warsh_took_office",
+      "text": "ABC뉴스는 워시가 2026년 5월 연준 의장에 취임했다고 보도했다.",
+      "date": "2026.05",
+      "place": null,
+      "actors": [
+        "ABC News",
+        "케빈 워시 연준 의장"
+      ],
+      "numbers": [],
+      "source_ids": [
+        "clm_0018"
+      ],
+      "confidence": "low",
+      "contested": false,
+      "sides": null
+    },
+    {
+      "id": "f_forward_guidance",
+      "text": "CNN과 폭스비즈니스는 워시 의장 체제에서 FOMC 성명의 선제 지침이 빠졌다고 보도했다. 선제 지침은 중앙은행이 앞으로의 금리 방향을 미리 시사하는 문구다.",
+      "date": "2026",
+      "place": null,
+      "actors": [
+        "CNN",
+        "Fox Business",
+        "연방공개시장위원회(FOMC)"
+      ],
+      "numbers": [],
+      "source_ids": [
+        "clm_0019"
+      ],
+      "confidence": "high",
+      "contested": false,
+      "sides": null
+    },
+    {
+      "id": "f_pce_warsh",
+      "text": "PCE 물가는 개인이 소비한 상품·서비스 가격의 변화를 재는 지표이고, 근원 PCE는 변동이 큰 식품·에너지를 뺀 값이다. 워시 의장은 8월 전체 PCE 상승률(12개월)을 약 3.6%로 추정했고, 근원 PCE는 약 3.2% 수준이라고 밝혔다.",
+      "date": "2026.09.16",
+      "place": "워싱턴 D.C.",
+      "actors": [
+        "케빈 워시 연준 의장"
+      ],
+      "numbers": [
+        "약 3.6%",
+        "약 3.2%"
+      ],
+      "source_ids": [
+        "clm_0020",
+        "clm_0021"
+      ],
+      "confidence": "high",
+      "contested": false,
+      "sides": null
+    },
+    {
+      "id": "f_cpi_aug",
+      "text": "ABC뉴스와 NBC뉴스는 8월 소비자물가가 전년 대비 3.4% 올랐다고 보도했다.",
+      "date": "2026.08",
+      "place": null,
+      "actors": [
+        "ABC News",
+        "NBC News"
+      ],
+      "numbers": [
+        "3.4%"
+      ],
+      "source_ids": [
+        "clm_0022"
+      ],
+      "confidence": "high",
+      "contested": false,
+      "sides": null
+    },
+    {
+      "id": "f_unemployment",
+      "text": "워시 의장은 실업률이 약 4.1%로 낮은 수준이라고 밝혔다.",
+      "date": "2026.09.16",
+      "place": "워싱턴 D.C.",
+      "actors": [
+        "케빈 워시 연준 의장"
+      ],
+      "numbers": [
+        "약 4.1%"
+      ],
+      "source_ids": [
+        "clm_0023"
+      ],
+      "confidence": "high",
+      "contested": false,
+      "sides": null
+    },
+    {
+      "id": "f_payrolls_aug",
+      "text": "ABC뉴스는 8월 고용이 16만 2천 명 늘었다고 보도했다.",
+      "date": "2026.08",
+      "place": null,
+      "actors": [
+        "ABC News"
+      ],
+      "numbers": [
+        "16만 2천 명"
+      ],
+      "source_ids": [
+        "clm_0024"
+      ],
+      "confidence": "low",
+      "contested": false,
+      "sides": null
+    },
+    {
+      "id": "f_sep_pce",
+      "text": "경제전망요약(SEP)은 FOMC 참가자들이 각자 내놓은 경제 전망을 모은 자료다. 9월 SEP에서 참가자 전망 중앙값은 전체 PCE 물가를 2026년 3.7%, 2027년 2.3%로 제시했다.",
+      "date": "2026.09.16",
+      "place": "워싱턴 D.C.",
+      "actors": [
+        "FOMC 참가자"
+      ],
+      "numbers": [
+        "3.7%",
+        "2.3%"
+      ],
+      "source_ids": [
+        "clm_0025",
+        "clm_0026"
+      ],
+      "confidence": "high",
+      "contested": false,
+      "sides": null
+    },
+    {
+      "id": "f_sep_rate_path",
+      "text": "점도표는 FOMC 참가자들이 각자 예상하는 금리를 점으로 찍은 표로, 약속이 아니라 참가자별 전망이다. 9월 전망 중앙값은 연내 0.25%p 추가 인상 1회를 가리켰다.",
+      "date": "2026.09.16",
+      "place": "워싱턴 D.C.",
+      "actors": [
+        "FOMC 참가자"
+      ],
+      "numbers": [
+        "0.25%p",
+        "1회"
+      ],
+      "source_ids": [
+        "clm_0027"
+      ],
+      "confidence": "high",
+      "contested": false,
+      "sides": null
+    },
+    {
+      "id": "f_sep_gdp",
+      "text": "9월 SEP에서 FOMC 참가자 전망 중앙값은 2026년 실질 GDP 성장률을 2.3%로 제시했다.",
+      "date": "2026.09.16",
+      "place": "워싱턴 D.C.",
+      "actors": [
+        "FOMC 참가자"
+      ],
+      "numbers": [
+        "2.3%"
+      ],
+      "source_ids": [
+        "clm_0028"
+      ],
+      "confidence": "high",
+      "contested": false,
+      "sides": null
+    },
+    {
+      "id": "f_warsh_no_comment",
+      "text": "CNN과 NBC뉴스는 워시 의장이 9월 16일 기자회견에서 대통령의 금리 압박에 대한 언급을 거부했다고 보도했다.",
+      "date": "2026.09.16",
+      "place": "워싱턴 D.C.",
+      "actors": [
+        "케빈 워시 연준 의장",
+        "CNN",
+        "NBC News"
+      ],
+      "numbers": [],
+      "source_ids": [
+        "clm_0029"
+      ],
+      "confidence": "high",
+      "contested": false,
+      "sides": null
+    },
+    {
+      "id": "f_trump_rate_demand",
+      "text": "트럼프 대통령은 9월 16일 인상 뒤 소셜미디어에서 금리를 1% 이하로 빨리 내려야 한다고 요구했다. 워시 의장은 인플레이션이 너무 높고 너무 오래 지속돼 가격 안정에 우선 초점을 둔다고 설명했다.",
+      "date": "2026.09.16",
+      "place": null,
+      "actors": [
+        "도널드 트럼프 대통령",
+        "케빈 워시 연준 의장"
+      ],
+      "numbers": [
+        "1% 이하"
+      ],
+      "source_ids": [
+        "clm_0030"
+      ],
+      "confidence": "medium",
+      "contested": true,
+      "sides": [
+        "트럼프 대통령: 금리를 1% 이하로, 빨리 내려야 한다",
+        "연준(워시 의장): 인플레이션이 너무 높고 너무 오래 지속돼 가격 안정에 우선 초점을 둔다"
+      ]
+    },
+    {
+      "id": "f_trump_credit_claim",
+      "text": "트럼프 대통령은 미국이 세계 최고의 신용도를 가졌다고 주장했다. NBC뉴스는 팩트체크에서 캐나다·호주·독일 등이 S&P 신용등급에서 미국보다 높다고 지적했다.",
+      "date": "2026.09.16",
+      "place": null,
+      "actors": [
+        "도널드 트럼프 대통령",
+        "NBC News"
+      ],
+      "numbers": [],
+      "source_ids": [
+        "clm_0031"
+      ],
+      "confidence": "medium",
+      "contested": true,
+      "sides": [
+        "트럼프 대통령: 미국은 세계 최고의 신용도를 가졌다",
+        "NBC News(팩트체크): 캐나다·호주·독일 등이 S&P 신용등급에서 미국보다 높다"
+      ]
+    },
+    {
+      "id": "f_markets_0916",
+      "text": "CNN·NBC·ABC는 9월 16일 다우지수가 약 630포인트(1.2%) 하락 마감했다고 보도했다. 같은 날 S&P500 지수는 약 0.4% 내렸다.",
+      "date": "2026.09.16",
+      "place": "뉴욕",
+      "actors": [
+        "CNN",
+        "NBC News",
+        "ABC News",
+        "Fox Business"
+      ],
+      "numbers": [
+        "약 630포인트",
+        "1.2%",
+        "약 0.4%"
+      ],
+      "source_ids": [
+        "clm_0033",
+        "clm_0034"
+      ],
+      "confidence": "high",
+      "contested": false,
+      "sides": null
+    },
+    {
+      "id": "f_10y_yield",
+      "text": "CNN과 폭스비즈니스는 9월 16일 미 국채 10년물 금리가 약 5%였다고 보도했다.",
+      "date": "2026.09.16",
+      "place": null,
+      "actors": [
+        "CNN",
+        "Fox Business"
+      ],
+      "numbers": [
+        "약 5%"
+      ],
+      "source_ids": [
+        "clm_0035"
+      ],
+      "confidence": "high",
+      "contested": false,
+      "sides": null
+    },
+    {
+      "id": "f_iran_war_start",
+      "text": "NBC뉴스와 ABC뉴스는 이란 전쟁이 2026년 2월 28일 미국과 이스라엘의 공격으로 시작됐다고 보도했다.",
+      "date": "2026.02.28",
+      "place": "이란",
+      "actors": [
+        "미국",
+        "이스라엘",
+        "이란"
+      ],
+      "numbers": [],
+      "source_ids": [
+        "clm_0037"
+      ],
+      "confidence": "high",
+      "contested": false,
+      "sides": null
+    },
+    {
+      "id": "f_hormuz_report",
+      "text": "ABC뉴스는 이란이 호르무즈 해협을 사실상 봉쇄했다고 보도했다.",
+      "date": "2026",
+      "place": "호르무즈 해협",
+      "actors": [
+        "ABC News",
+        "이란"
+      ],
+      "numbers": [],
+      "source_ids": [
+        "clm_0040"
+      ],
+      "confidence": "low",
+      "contested": false,
+      "sides": null
+    },
+    {
+      "id": "f_oil_price_report",
+      "text": "ABC뉴스는 9월 16일 국제 원유 가격이 배럴당 105달러를 웃돌았다고 보도했다.",
+      "date": "2026.09.16",
+      "place": null,
+      "actors": [
+        "ABC News"
+      ],
+      "numbers": [
+        "배럴당 105달러"
+      ],
+      "source_ids": [
+        "clm_0038"
+      ],
+      "confidence": "low",
+      "contested": false,
+      "sides": null
+    },
+    {
+      "id": "f_gas_price_report",
+      "text": "ABC뉴스는 미국자동차협회(AAA) 자료를 인용해 미국 휘발유 평균 가격이 갤런당 4.36달러라고 보도했다.",
+      "date": "2026.09.16",
+      "place": "미국",
+      "actors": [
+        "ABC News",
+        "AAA"
+      ],
+      "numbers": [
+        "갤런당 4.36달러"
+      ],
+      "source_ids": [
+        "clm_0039"
+      ],
+      "confidence": "low",
+      "contested": false,
+      "sides": null
+    },
+    {
+      "id": "f_next_meeting",
+      "text": "폭스비즈니스는 다음 FOMC 회의가 10월 27~28일로 예정돼 있다고 보도했다.",
+      "date": "2026.10.27",
+      "place": "워싱턴 D.C.",
+      "actors": [
+        "Fox Business",
+        "연방공개시장위원회(FOMC)"
+      ],
+      "numbers": [
+        "10월 27~28일"
+      ],
+      "source_ids": [
+        "clm_0041"
+      ],
+      "confidence": "low",
+      "contested": false,
+      "sides": null
+    }
+  ]
+}

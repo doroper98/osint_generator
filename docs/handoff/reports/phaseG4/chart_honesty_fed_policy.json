@@ -1,0 +1,62 @@
+{
+ "schema_version": 1,
+ "project": "fed_policy_2026",
+ "source": "prev/checks.json(선택 판 v3, run2)",
+ "items": {
+  "stage_continuity": {
+   "id": "stage_continuity",
+   "severity": "hard",
+   "count": 0,
+   "details": []
+  },
+  "genre_elements": {
+   "id": "genre_elements",
+   "severity": "hard",
+   "count": 0,
+   "details": []
+  },
+  "chart_honesty": {
+   "id": "chart_honesty",
+   "severity": "hard",
+   "count": 0,
+   "details": [],
+   "notes": [
+    "n/a(none 축) primitive statement_diff t0=2.20",
+    "n/a(none 축) panel versus '금리를 둘러싼 두 목소리 · 9월 16일' t0=261.64"
+   ]
+  },
+  "series_limit_3": {
+   "id": "series_limit_3",
+   "severity": "hard",
+   "count": 0,
+   "details": [],
+   "notes": [
+    "n/a(date 축) stage timeline",
+    "n/a(none 축) primitive statement_diff t0=2.20",
+    "n/a(none 축) panel versus '금리를 둘러싼 두 목소리 · 9월 16일' t0=261.64"
+   ]
+  },
+  "units_visible": {
+   "id": "units_visible",
+   "severity": "hard",
+   "count": 0,
+   "details": [],
+   "notes": [
+    "n/a(date 축) stage timeline",
+    "n/a(none 축) primitive statement_diff t0=2.20",
+    "n/a(none 축) panel versus '금리를 둘러싼 두 목소리 · 9월 16일' t0=261.64"
+   ]
+  },
+  "as_of_visible": {
+   "id": "as_of_visible",
+   "severity": "hard",
+   "count": 0,
+   "details": [],
+   "notes": [
+    "n/a(date 축) stage timeline",
+    "n/a(none 축) primitive statement_diff t0=2.20",
+    "n/a(none 축) panel versus '금리를 둘러싼 두 목소리 · 9월 16일' t0=261.64"
+   ]
+  }
+ }
+}

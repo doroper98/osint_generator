@@ -1,0 +1,23 @@
+{
+ "schema_version": 1,
+ "project": "fed_policy_2026",
+ "version": "run2 v3(선택 판)",
+ "by": "opus(자기 평가 — 시각 검수 워커 판정과 따로, 원본 해상도 컷 확인)",
+ "rubric_source": "rules genre_prompt.rubric_extra(docs/handoff/20 §9)",
+ "items": [
+  {"item": 1, "ok": true, "note": "20컷 중 17컷이 같은 시간축 레인 위. 전면 덮개는 타이틀·엔딩 카드와 대비 패널(versus, 267~276초) 하나뿐 — 차트를 한 장씩 넘기지 않는다"},
+  {"item": 2, "ok": true, "note": "2026.9 콜드 오픈 → 2025.10 → 2026.2 → 6 → 7 → 9 로 같은 좌표계 위 이동, 끝에서 한 번 물러나기(2022~2026). 암전은 카드뿐"},
+  {"item": 3, "ok": false, "note": "단위·기준 시점·출처 줄은 모든 레인 컷에 있다(checks chart_honesty·units·as_of hard 0). 그러나 인물 뱃지(p_0007·p_0108)와 사진(p_0030·p_0162)이 레인 이름·출처 줄 앞부분을 가린다 — 잔여 지적 1·2"},
+  {"item": 4, "ok": true, "note": "자막 수치(0.25%p·12대 0·3.75~4%·3.35%·약 3.6%·3.7%·약 630포인트·약 5%)와 카드·레인 값 일치. series 참조 2문장은 린트가 레코드와 대조(오류 0)"},
+  {"item": 5, "ok": true, "note": "목표 범위·정책 계단 color_by change — 2025년 인하 파랑(cut), 2026 동결 회색(hold), 9월 인상 붉은 주황(hike). 프로필 color_semantics 그대로"},
+  {"item": 6, "ok": true, "note": "연방기금금리·FOMC·선제 지침·PCE·근원 PCE·SEP·점도표 모두 첫 등장 때 한 문장 정의(원고). 검수 워커는 PCE 정의 문장이 샘플 컷 밖이라 지적"},
+  {"item": 7, "ok": true, "note": "매수·매도·가격 예측 단정 없음. 시장 반응은 보도 인용, 마무리는 '아직 정해지지 않았다'. 엔딩 카드 '투자 권유가 아닌 정보 제공 목적'"}
+ ],
+ "d0091": {
+  "1_empty": "부분 — 컷 20 중 무대 밖 요소 없는 컷 2(p_0184.30·p_0233.31 은 카드만, 사건 레인 빈 상태)",
+  "2_color": "충족(color_by change)",
+  "4_camera": "부분 — 7월 핀·인상 당일 핀에서 숏 둘씩 머묾(p_0128·p_0138, p_0206·p_0214)",
+  "5_cold_open": "충족 — 9.16 회의 핀 + 워시 뱃지 + statement_diff(7월 → 9월 결정 문장)",
+  "6_media": "부분 — 사진 2·기사 2·statement_diff 1·dot_plot 1. checks media_beats warning(사진·기사 기준 76.8초당 1개)"
+ }
+}

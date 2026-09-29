@@ -1,0 +1,27 @@
+# 『연준, 다시 금리를 올리다』 설명문 (v4.4.0, back_and_forth D-0090 작업 4). 챕터는 원고 장면 id.
+schema_version: 1
+headline: 연준, 다시 금리를 올리다 — 2023년 이후 첫 인상과 점도표가 남긴 질문
+summary: 2026년 9월 16일 미국 연방공개시장위원회(FOMC)가 연방기금금리 목표 범위를 3.75~4%로 올렸습니다. 2025년 가을의 인하, 2026년의 동결과 7월 소수의견, 9월 인상과 참가자 전망(점도표)을 연준 공식 발표·공개 데이터·보도로 따라갑니다. 수치는 공개 데이터의 기준 시점 값이며 이후 수정될 수 있습니다. 투자 권유가 아닌 정보 제공 목적의 영상입니다.
+chapters:
+- at: open
+  label: 9월 16일
+- at: TITLE
+  label: 타이틀
+- at: decision
+  label: 결정
+- at: cuts_2025
+  label: 2025년의 인하
+- at: hold_2026
+  label: 2026년의 동결
+- at: july_dissent
+  label: 7월, 세 명의 반대
+- at: prices_jobs
+  label: 물가와 고용
+- at: markets
+  label: 시장
+- at: projections
+  label: 점도표
+- at: pressure
+  label: 압박과 설명
+- at: close
+  label: 남은 질문

@@ -1,0 +1,346 @@
+{
+  "schema_version": 1,
+  "labels": {
+    "open_0": {
+      "status": "verified",
+      "label": null,
+      "claim_ids": [
+        "clm_0001"
+      ]
+    },
+    "open_1": {
+      "status": "corroborated",
+      "label": null,
+      "claim_ids": [
+        "clm_0003"
+      ]
+    },
+    "open_2": {
+      "status": "verified",
+      "label": null,
+      "claim_ids": [
+        "clm_0014",
+        "clm_0015"
+      ]
+    },
+    "decision_0": {
+      "status": "verified",
+      "label": null,
+      "claim_ids": [
+        "clm_0001"
+      ]
+    },
+    "decision_1": {
+      "status": "verified",
+      "label": null,
+      "claim_ids": [
+        "clm_0001"
+      ]
+    },
+    "decision_2": {
+      "status": "verified",
+      "label": null,
+      "claim_ids": [
+        "clm_0001"
+      ]
+    },
+    "decision_3": {
+      "status": null,
+      "label": null,
+      "claim_ids": []
+    },
+    "decision_4": {
+      "status": "verified",
+      "label": null,
+      "claim_ids": [
+        "clm_0002"
+      ]
+    },
+    "decision_5": {
+      "status": "verified",
+      "label": null,
+      "claim_ids": [
+        "clm_0004"
+      ]
+    },
+    "cuts_2025_0": {
+      "status": "unverified",
+      "label": "<미검증>",
+      "claim_ids": [
+        "clm_0016"
+      ]
+    },
+    "cuts_2025_1": {
+      "status": "verified",
+      "label": null,
+      "claim_ids": [
+        "clm_0014"
+      ]
+    },
+    "cuts_2025_2": {
+      "status": "verified",
+      "label": null,
+      "claim_ids": [
+        "clm_0014",
+        "clm_0001"
+      ]
+    },
+    "cuts_2025_3": {
+      "status": "verified",
+      "label": null,
+      "claim_ids": [
+        "clm_0015"
+      ]
+    },
+    "hold_2026_0": {
+      "status": "verified",
+      "label": null,
+      "claim_ids": [
+        "clm_0010",
+        "clm_0011",
+        "clm_0012",
+        "clm_0013",
+        "clm_0005"
+      ]
+    },
+    "hold_2026_1": {
+      "status": "corroborated",
+      "label": null,
+      "claim_ids": [
+        "clm_0037"
+      ]
+    },
+    "hold_2026_2": {
+      "status": "unverified",
+      "label": "<미검증>",
+      "claim_ids": [
+        "clm_0040"
+      ]
+    },
+    "hold_2026_3": {
+      "status": "unverified",
+      "label": "<미검증>",
+      "claim_ids": [
+        "clm_0018"
+      ]
+    },
+    "hold_2026_4": {
+      "status": "verified",
+      "label": null,
+      "claim_ids": [
+        "clm_0017"
+      ]
+    },
+    "hold_2026_5": {
+      "status": "corroborated",
+      "label": null,
+      "claim_ids": [
+        "clm_0019"
+      ]
+    },
+    "hold_2026_6": {
+      "status": "corroborated",
+      "label": null,
+      "claim_ids": [
+        "clm_0019"
+      ]
+    },
+    "july_dissent_0": {
+      "status": "verified",
+      "label": null,
+      "claim_ids": [
+        "clm_0006"
+      ]
+    },
+    "july_dissent_1": {
+      "status": "verified",
+      "label": null,
+      "claim_ids": [
+        "clm_0006",
+        "clm_0007"
+      ]
+    },
+    "july_dissent_2": {
+      "status": "unverified",
+      "label": "<미검증>",
+      "claim_ids": [
+        "clm_0008"
+      ]
+    },
+    "july_dissent_3": {
+      "status": "unverified",
+      "label": "<미검증>",
+      "claim_ids": [
+        "clm_0009"
+      ]
+    },
+    "prices_jobs_0": {
+      "status": "verified",
+      "label": null,
+      "claim_ids": [
+        "clm_0020"
+      ]
+    },
+    "prices_jobs_1": {
+      "status": "verified",
+      "label": null,
+      "claim_ids": [
+        "clm_0021"
+      ]
+    },
+    "prices_jobs_2": {
+      "status": "verified",
+      "label": null,
+      "claim_ids": [
+        "clm_0020"
+      ]
+    },
+    "prices_jobs_3": {
+      "status": "verified",
+      "label": null,
+      "claim_ids": [
+        "clm_0021"
+      ]
+    },
+    "prices_jobs_4": {
+      "status": null,
+      "label": null,
+      "claim_ids": []
+    },
+    "prices_jobs_5": {
+      "status": "verified",
+      "label": null,
+      "claim_ids": [
+        "clm_0023"
+      ]
+    },
+    "prices_jobs_6": {
+      "status": "unverified",
+      "label": "<미검증>",
+      "claim_ids": [
+        "clm_0024"
+      ]
+    },
+    "prices_jobs_7": {
+      "status": "unverified",
+      "label": "<미검증>",
+      "claim_ids": [
+        "clm_0038"
+      ]
+    },
+    "prices_jobs_8": {
+      "status": "unverified",
+      "label": "<미검증>",
+      "claim_ids": [
+        "clm_0039"
+      ]
+    },
+    "markets_0": {
+      "status": "corroborated",
+      "label": null,
+      "claim_ids": [
+        "clm_0033"
+      ]
+    },
+    "markets_1": {
+      "status": "corroborated",
+      "label": null,
+      "claim_ids": [
+        "clm_0034"
+      ]
+    },
+    "markets_2": {
+      "status": "corroborated",
+      "label": null,
+      "claim_ids": [
+        "clm_0035"
+      ]
+    },
+    "projections_0": {
+      "status": "verified",
+      "label": null,
+      "claim_ids": [
+        "clm_0025"
+      ]
+    },
+    "projections_1": {
+      "status": "verified",
+      "label": null,
+      "claim_ids": [
+        "clm_0025",
+        "clm_0026"
+      ]
+    },
+    "projections_2": {
+      "status": "verified",
+      "label": null,
+      "claim_ids": [
+        "clm_0025",
+        "clm_0026"
+      ]
+    },
+    "projections_3": {
+      "status": "verified",
+      "label": null,
+      "claim_ids": [
+        "clm_0028"
+      ]
+    },
+    "projections_4": {
+      "status": "verified",
+      "label": null,
+      "claim_ids": [
+        "clm_0027"
+      ]
+    },
+    "projections_5": {
+      "status": "verified",
+      "label": null,
+      "claim_ids": [
+        "clm_0027"
+      ]
+    },
+    "projections_6": {
+      "status": "verified",
+      "label": null,
+      "claim_ids": [
+        "clm_0027"
+      ]
+    },
+    "pressure_0": {
+      "status": "disputed",
+      "label": "<논쟁>",
+      "claim_ids": [
+        "clm_0030"
+      ]
+    },
+    "pressure_1": {
+      "status": "disputed",
+      "label": "<논쟁>",
+      "claim_ids": [
+        "clm_0030"
+      ]
+    },
+    "pressure_2": {
+      "status": "corroborated",
+      "label": null,
+      "claim_ids": [
+        "clm_0029"
+      ]
+    },
+    "close_0": {
+      "status": "unverified",
+      "label": "<미검증>",
+      "claim_ids": [
+        "clm_0041"
+      ]
+    },
+    "close_1": {
+      "status": "verified",
+      "label": null,
+      "claim_ids": [
+        "clm_0027"
+      ]
+    }
+  }
+}

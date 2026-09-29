@@ -1,0 +1,176 @@
+{
+ "schema_version": 1,
+ "hard": 5,
+ "warnings": 2,
+ "passed": false,
+ "thresholds": {
+  "overlap_core_elements": 0,
+  "offscreen_clip": 0,
+  "missing_glyphs": 0,
+  "labels_per_frame_max": 18,
+  "subtitle_lines_max": 2,
+  "rights_missing": 0,
+  "forbidden_components": 0,
+  "glyph_size_exempt": [
+   "end_card",
+   "media_meta"
+  ],
+  "label_hidden_max_ratio": 0.5,
+  "planned": [],
+  "chart_targets": {
+   "value": [
+    "chart_honesty",
+    "series_limit_3",
+    "units_visible",
+    "as_of_visible"
+   ],
+   "date": [
+    "chart_honesty"
+   ],
+   "none": []
+  },
+  "series_max": 3,
+  "visual_qa_loop_max": 2,
+  "loop_pick_order": [
+   "checks_hard",
+   "qa_hard",
+   "qa_soft"
+  ]
+ },
+ "items": [
+  {
+   "id": "overlap",
+   "severity": "hard",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "offscreen",
+   "severity": "hard",
+   "count": 4,
+   "details": [
+    "마커 FOMC 금리 인상 t=53.8 화면 밖 88px (상자 [818, 300, 942, 342])",
+    "마커 2025년 9월 인하 t=55.3 화면 밖 138px (상자 [-138, 300, -10, 342])",
+    "마커 FOMC 동결 t=121.6 화면 밖 64px (상자 [811, 300, 918, 342])",
+    "마커 다음 FOMC 회의 t=290.2 화면 밖 193px (상자 [899, 300, 1047, 342])"
+   ]
+  },
+  {
+   "id": "glyphs",
+   "severity": "hard",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "glyph_size",
+   "severity": "hard",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "shots",
+   "severity": "warning",
+   "count": 1,
+   "details": [
+    "[timeline_backtrack] t=20.60 시간축 카메라가 왼쪽(과거)으로 되돌아간다 — 숏 reason 에 이유를 적거나 순서를 바꾼다"
+   ]
+  },
+  {
+   "id": "media_beats",
+   "severity": "warning",
+   "count": 1,
+   "details": [
+    "[media-density-total] 과소 — 2개 / 307초 = 153.6초당 1개 > 60초 (14 §10.1)"
+   ]
+  },
+  {
+   "id": "media_upscaled",
+   "severity": "warning",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "labels",
+   "severity": "hard",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "date",
+   "severity": "hard",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "subtitles",
+   "severity": "hard",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "rights",
+   "severity": "hard",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "forbidden",
+   "severity": "hard",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "stage_continuity",
+   "severity": "hard",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "genre_elements",
+   "severity": "hard",
+   "count": 1,
+   "details": [
+    "[genre-element] 'person' ×3 — 장르 'macro_monetary' 프로필 primitives(reuse ∪ new)에 없다"
+   ]
+  },
+  {
+   "id": "chart_honesty",
+   "severity": "hard",
+   "count": 0,
+   "details": [],
+   "notes": [
+    "n/a(none 축) panel versus '금리를 둘러싼 두 목소리' t0=261.64"
+   ]
+  },
+  {
+   "id": "series_limit_3",
+   "severity": "hard",
+   "count": 0,
+   "details": [],
+   "notes": [
+    "n/a(date 축) stage timeline",
+    "n/a(none 축) panel versus '금리를 둘러싼 두 목소리' t0=261.64"
+   ]
+  },
+  {
+   "id": "units_visible",
+   "severity": "hard",
+   "count": 0,
+   "details": [],
+   "notes": [
+    "n/a(date 축) stage timeline",
+    "n/a(none 축) panel versus '금리를 둘러싼 두 목소리' t0=261.64"
+   ]
+  },
+  {
+   "id": "as_of_visible",
+   "severity": "hard",
+   "count": 0,
+   "details": [],
+   "notes": [
+    "n/a(date 축) stage timeline",
+    "n/a(none 축) panel versus '금리를 둘러싼 두 목소리' t0=261.64"
+   ]
+  }
+ ]
+}

@@ -1,0 +1,828 @@
+{
+  "schema_version": 1,
+  "claims": [
+    {
+      "claim_id": "clm_0001",
+      "text": "FOMC는 2026년 9월 16일 연방기금금리 목표 범위를 0.25%p 올려 3.75~4%로 정했다",
+      "source_ids": [
+        "src_doc_0001",
+        "src_doc_0009",
+        "src_art_0004",
+        "src_art_0005",
+        "src_art_0006"
+      ],
+      "status": "verified",
+      "contested": false,
+      "event_date": "2026-09-16",
+      "checks": [
+        "quote_match:src_doc_0001",
+        "quote_match:src_doc_0009",
+        "quote_match:src_art_0004",
+        "quote_match:src_art_0005",
+        "quote_match:src_art_0006",
+        "independent_origins:5",
+        "official:src_doc_0001",
+        "official:src_doc_0009"
+      ],
+      "attributed_only": false,
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0002",
+      "text": "2026년 9월 16일 FOMC 금리 인상 결정은 12대 0 만장일치였다",
+      "source_ids": [
+        "src_doc_0001",
+        "src_art_0004",
+        "src_art_0003",
+        "src_art_0005",
+        "src_art_0006"
+      ],
+      "status": "verified",
+      "contested": false,
+      "event_date": "2026-09-16",
+      "checks": [
+        "quote_match:src_doc_0001",
+        "quote_match:src_art_0004",
+        "quote_match:src_art_0003",
+        "quote_match:src_art_0005",
+        "quote_match:src_art_0006",
+        "independent_origins:5",
+        "official:src_doc_0001"
+      ],
+      "attributed_only": false,
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0003",
+      "text": "2026년 9월 16일 인상은 2023년 이후 첫 금리 인상이다",
+      "source_ids": [
+        "src_art_0004",
+        "src_art_0006",
+        "src_art_0003",
+        "src_art_0005"
+      ],
+      "status": "corroborated",
+      "contested": false,
+      "event_date": "2026-09-16",
+      "checks": [
+        "quote_match:src_art_0004",
+        "quote_match:src_art_0006",
+        "quote_match:src_art_0003",
+        "quote_match:src_art_0005",
+        "independent_origins:4"
+      ],
+      "attributed_only": false,
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0004",
+      "text": "9월 16일 FOMC 성명은 인플레이션이 여전히 높다고 밝혔다",
+      "source_ids": [
+        "src_doc_0001",
+        "src_art_0004"
+      ],
+      "status": "verified",
+      "contested": false,
+      "event_date": "2026-09-16",
+      "checks": [
+        "quote_match:src_doc_0001",
+        "quote_match:src_art_0004",
+        "independent_origins:2",
+        "official:src_doc_0001"
+      ],
+      "attributed_only": false,
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0005",
+      "text": "FOMC는 2026년 7월 29일 연방기금금리 목표 범위를 3.5~3.75%로 동결했다",
+      "source_ids": [
+        "src_doc_0008",
+        "src_art_0002",
+        "src_art_0001"
+      ],
+      "status": "verified",
+      "contested": false,
+      "event_date": "2026-07-29",
+      "checks": [
+        "quote_match:src_doc_0008",
+        "quote_match:src_art_0002",
+        "quote_match:src_art_0001",
+        "independent_origins:3",
+        "official:src_doc_0008"
+      ],
+      "attributed_only": false,
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0006",
+      "text": "2026년 7월 29일 동결 결정은 9대 3으로 의결됐다",
+      "source_ids": [
+        "src_doc_0008",
+        "src_art_0002"
+      ],
+      "status": "verified",
+      "contested": false,
+      "event_date": "2026-07-29",
+      "checks": [
+        "quote_match:src_doc_0008",
+        "quote_match:src_art_0002",
+        "independent_origins:2",
+        "official:src_doc_0008"
+      ],
+      "attributed_only": false,
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0007",
+      "text": "7월 회의에서 해맥·카시카리·로건 3명이 0.25%p 인상을 선호하며 반대표를 던졌다",
+      "source_ids": [
+        "src_doc_0008",
+        "src_art_0002",
+        "src_art_0001",
+        "src_art_0006"
+      ],
+      "status": "verified",
+      "contested": false,
+      "event_date": "2026-07-29",
+      "checks": [
+        "quote_match:src_doc_0008",
+        "quote_match:src_art_0002",
+        "quote_match:src_art_0001",
+        "quote_match:src_art_0006",
+        "independent_origins:4",
+        "official:src_doc_0008"
+      ],
+      "attributed_only": false,
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0008",
+      "text": "7월 회의의 같은 방향 반대표 3표는 10년 만에 가장 많은 수였다 (ABC 보도)",
+      "source_ids": [
+        "src_art_0006"
+      ],
+      "status": "unverified",
+      "contested": false,
+      "event_date": "2026-07-29",
+      "checks": [
+        "quote_match:src_art_0006",
+        "independent_origins:1"
+      ],
+      "attributed_only": false,
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0009",
+      "text": "7월 29일 다우지수가 1,153포인트(2.19%) 하락했다",
+      "source_ids": [
+        "src_art_0001"
+      ],
+      "status": "unverified",
+      "contested": false,
+      "event_date": "2026-07-29",
+      "checks": [
+        "quote_match:src_art_0001",
+        "independent_origins:1"
+      ],
+      "attributed_only": false,
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0010",
+      "text": "FOMC는 2026년 1월 28일 금리 목표 범위를 3.5~3.75%로 동결했다",
+      "source_ids": [
+        "src_doc_0004",
+        "src_art_0002"
+      ],
+      "status": "verified",
+      "contested": false,
+      "event_date": "2026-01-28",
+      "checks": [
+        "quote_match:src_doc_0004",
+        "quote_match:src_art_0002",
+        "independent_origins:2",
+        "official:src_doc_0004"
+      ],
+      "attributed_only": false,
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0011",
+      "text": "FOMC는 2026년 3월 18일 금리 목표 범위를 3.5~3.75%로 동결했다",
+      "source_ids": [
+        "src_doc_0005",
+        "src_art_0002"
+      ],
+      "status": "verified",
+      "contested": false,
+      "event_date": "2026-03-18",
+      "checks": [
+        "quote_match:src_doc_0005",
+        "quote_match:src_art_0002",
+        "independent_origins:2",
+        "official:src_doc_0005"
+      ],
+      "attributed_only": false,
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0012",
+      "text": "FOMC는 2026년 4월 29일 금리 목표 범위를 3.5~3.75%로 동결했다",
+      "source_ids": [
+        "src_doc_0006",
+        "src_art_0002"
+      ],
+      "status": "verified",
+      "contested": false,
+      "event_date": "2026-04-29",
+      "checks": [
+        "quote_match:src_doc_0006",
+        "quote_match:src_art_0002",
+        "independent_origins:2",
+        "official:src_doc_0006"
+      ],
+      "attributed_only": false,
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0013",
+      "text": "FOMC는 2026년 6월 17일 금리 목표 범위를 3.5~3.75%로 동결했다",
+      "source_ids": [
+        "src_doc_0007",
+        "src_art_0002"
+      ],
+      "status": "verified",
+      "contested": false,
+      "event_date": "2026-06-17",
+      "checks": [
+        "quote_match:src_doc_0007",
+        "quote_match:src_art_0002",
+        "independent_origins:2",
+        "official:src_doc_0007"
+      ],
+      "attributed_only": false,
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0014",
+      "text": "FOMC는 2025년 10월 29일 금리 목표 범위를 0.25%p 내려 3.75~4%로 정했다",
+      "source_ids": [
+        "src_doc_0002",
+        "src_art_0002"
+      ],
+      "status": "verified",
+      "contested": false,
+      "event_date": "2025-10-29",
+      "checks": [
+        "quote_match:src_doc_0002",
+        "quote_match:src_art_0002",
+        "independent_origins:2",
+        "official:src_doc_0002"
+      ],
+      "attributed_only": false,
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0015",
+      "text": "FOMC는 2025년 12월 10일 금리 목표 범위를 0.25%p 내려 3.5~3.75%로 정했다",
+      "source_ids": [
+        "src_doc_0003",
+        "src_art_0002"
+      ],
+      "status": "verified",
+      "contested": false,
+      "event_date": "2025-12-10",
+      "checks": [
+        "quote_match:src_doc_0003",
+        "quote_match:src_art_0002",
+        "independent_origins:2",
+        "official:src_doc_0003"
+      ],
+      "attributed_only": false,
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0016",
+      "text": "연준은 2025년 9월 금리를 0.25%p 인하했다 (폭스비즈니스 보도)",
+      "source_ids": [
+        "src_art_0002"
+      ],
+      "status": "unverified",
+      "contested": false,
+      "checks": [
+        "quote_match:src_art_0002",
+        "independent_origins:1"
+      ],
+      "attributed_only": false,
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0017",
+      "text": "워시 의장이 의장으로서 처음 주재한 FOMC 회의는 2026년 6월이었다",
+      "source_ids": [
+        "src_doc_0009"
+      ],
+      "status": "verified",
+      "contested": false,
+      "checks": [
+        "quote_match:src_doc_0009",
+        "independent_origins:1",
+        "official:src_doc_0009"
+      ],
+      "attributed_only": false,
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0018",
+      "text": "워시는 2026년 5월 연준 의장에 취임했다 (ABC 보도)",
+      "source_ids": [
+        "src_art_0006"
+      ],
+      "status": "unverified",
+      "contested": false,
+      "checks": [
+        "quote_match:src_art_0006",
+        "independent_origins:1"
+      ],
+      "attributed_only": false,
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0019",
+      "text": "워시 의장 체제에서 FOMC 성명의 선제 지침(forward guidance)이 빠졌다",
+      "source_ids": [
+        "src_art_0002",
+        "src_art_0001"
+      ],
+      "status": "corroborated",
+      "contested": false,
+      "checks": [
+        "quote_match:src_art_0002",
+        "quote_match:src_art_0001",
+        "independent_origins:2"
+      ],
+      "attributed_only": false,
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0020",
+      "text": "워시 의장은 8월 전체 PCE 물가 상승률(12개월)이 약 3.6%였을 것으로 추정했다",
+      "source_ids": [
+        "src_doc_0009",
+        "src_art_0004"
+      ],
+      "status": "verified",
+      "contested": false,
+      "event_date": "2026-09-16",
+      "checks": [
+        "quote_match:src_doc_0009",
+        "quote_match:src_art_0004",
+        "independent_origins:2",
+        "official:src_doc_0009"
+      ],
+      "attributed_only": false,
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0021",
+      "text": "워시 의장은 근원 PCE 물가가 약 3.2% 수준이라고 밝혔다",
+      "source_ids": [
+        "src_doc_0009",
+        "src_art_0004"
+      ],
+      "status": "verified",
+      "contested": false,
+      "event_date": "2026-09-16",
+      "checks": [
+        "quote_match:src_doc_0009",
+        "quote_match:src_art_0004",
+        "independent_origins:2",
+        "official:src_doc_0009"
+      ],
+      "attributed_only": false,
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0022",
+      "text": "8월 소비자물가는 전년 대비 3.4% 올랐다",
+      "source_ids": [
+        "src_art_0006",
+        "src_art_0005"
+      ],
+      "status": "corroborated",
+      "contested": false,
+      "checks": [
+        "quote_match:src_art_0006",
+        "quote_match:src_art_0005",
+        "independent_origins:2"
+      ],
+      "attributed_only": false,
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0023",
+      "text": "워시 의장은 실업률이 약 4.1%로 낮은 수준이라고 밝혔다",
+      "source_ids": [
+        "src_doc_0009",
+        "src_art_0004"
+      ],
+      "status": "verified",
+      "contested": false,
+      "event_date": "2026-09-16",
+      "checks": [
+        "quote_match:src_doc_0009",
+        "quote_match:src_art_0004",
+        "independent_origins:2",
+        "official:src_doc_0009"
+      ],
+      "attributed_only": false,
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0024",
+      "text": "8월 고용이 16만 2천 명 늘었다 (ABC 보도)",
+      "source_ids": [
+        "src_art_0006"
+      ],
+      "status": "unverified",
+      "contested": false,
+      "checks": [
+        "quote_match:src_art_0006",
+        "independent_origins:1"
+      ],
+      "attributed_only": false,
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0025",
+      "text": "9월 경제전망(SEP) 중간값은 2026년 전체 PCE 물가를 3.7%로 전망했다",
+      "source_ids": [
+        "src_doc_0009",
+        "src_art_0004"
+      ],
+      "status": "verified",
+      "contested": false,
+      "event_date": "2026-09-16",
+      "checks": [
+        "quote_match:src_doc_0009",
+        "quote_match:src_art_0004",
+        "independent_origins:2",
+        "official:src_doc_0009"
+      ],
+      "attributed_only": false,
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0026",
+      "text": "9월 경제전망(SEP) 중간값은 2027년 전체 PCE 물가를 2.3%로 전망했다",
+      "source_ids": [
+        "src_doc_0009",
+        "src_art_0004"
+      ],
+      "status": "verified",
+      "contested": false,
+      "event_date": "2026-09-16",
+      "checks": [
+        "quote_match:src_doc_0009",
+        "quote_match:src_art_0004",
+        "independent_origins:2",
+        "official:src_doc_0009"
+      ],
+      "attributed_only": false,
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0027",
+      "text": "9월 경제전망(SEP) 중간값은 연내 0.25%p 추가 인상 1회를 전망했다",
+      "source_ids": [
+        "src_doc_0009",
+        "src_art_0004",
+        "src_art_0005"
+      ],
+      "status": "verified",
+      "contested": false,
+      "event_date": "2026-09-16",
+      "checks": [
+        "quote_match:src_doc_0009",
+        "quote_match:src_art_0004",
+        "quote_match:src_art_0005",
+        "independent_origins:3",
+        "official:src_doc_0009"
+      ],
+      "attributed_only": false,
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0028",
+      "text": "9월 경제전망(SEP) 중간값은 2026년 실질 GDP 성장률을 2.3%로 전망했다",
+      "source_ids": [
+        "src_doc_0009"
+      ],
+      "status": "verified",
+      "contested": false,
+      "event_date": "2026-09-16",
+      "checks": [
+        "quote_match:src_doc_0009",
+        "independent_origins:1",
+        "official:src_doc_0009"
+      ],
+      "attributed_only": false,
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0029",
+      "text": "워시 의장은 9월 16일 기자회견에서 대통령의 금리 압박에 대한 언급을 거부했다",
+      "source_ids": [
+        "src_art_0003",
+        "src_art_0005"
+      ],
+      "status": "corroborated",
+      "contested": false,
+      "event_date": "2026-09-16",
+      "checks": [
+        "quote_match:src_art_0003",
+        "quote_match:src_art_0003",
+        "quote_match:src_art_0005",
+        "independent_origins:2"
+      ],
+      "attributed_only": false,
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0030",
+      "text": "트럼프 대통령은 9월 16일 금리 인상 뒤 소셜미디어에서 금리를 빨리 내리라고 요구했다",
+      "source_ids": [
+        "src_art_0003",
+        "src_art_0005",
+        "src_art_0006"
+      ],
+      "status": "disputed",
+      "contested": true,
+      "sides": [
+        {
+          "party": "트럼프 대통령",
+          "text": "금리를 1% 이하로, 빨리 내려야 한다",
+          "source_ids": [
+            "src_art_0003",
+            "src_art_0005",
+            "src_art_0006"
+          ]
+        },
+        {
+          "party": "연준(워시 의장)",
+          "text": "인플레이션이 너무 높고 너무 오래 지속돼 가격 안정에 우선 초점을 둔다",
+          "source_ids": [
+            "src_doc_0009"
+          ]
+        }
+      ],
+      "event_date": "2026-09-16",
+      "checks": [
+        "quote_match:src_art_0003",
+        "quote_match:src_art_0005",
+        "quote_match:src_art_0006",
+        "independent_origins:2",
+        "attributed:src_art_0006"
+      ],
+      "attributed_only": false,
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0031",
+      "text": "트럼프 대통령은 미국이 세계 최고의 신용도를 가졌다고 주장했다",
+      "source_ids": [
+        "src_art_0003",
+        "src_art_0005"
+      ],
+      "status": "disputed",
+      "contested": true,
+      "sides": [
+        {
+          "party": "트럼프 대통령",
+          "text": "미국은 세계 최고의 신용도를 가졌다",
+          "source_ids": [
+            "src_art_0003"
+          ]
+        },
+        {
+          "party": "NBC News(팩트체크)",
+          "text": "캐나다·호주·독일 등이 S&P 신용등급에서 미국보다 높다",
+          "source_ids": [
+            "src_art_0005"
+          ]
+        }
+      ],
+      "event_date": "2026-09-16",
+      "checks": [
+        "quote_match:src_art_0003",
+        "quote_match:src_art_0005",
+        "independent_origins:1"
+      ],
+      "attributed_only": false,
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0032",
+      "text": "트럼프 대통령은 연준이 정치적 이유로 금리를 올렸다고 주장했다",
+      "source_ids": [
+        "src_art_0006"
+      ],
+      "status": "unverified",
+      "contested": true,
+      "sides": [
+        {
+          "party": "트럼프 대통령",
+          "text": "연준이 정치적 이유로, 자신을 해치려고 금리를 올렸다",
+          "source_ids": [
+            "src_art_0006"
+          ]
+        }
+      ],
+      "event_date": "2026-09-16",
+      "checks": [
+        "quote_match:src_art_0006",
+        "independent_origins:1"
+      ],
+      "attributed_only": false,
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0033",
+      "text": "9월 16일 다우지수가 약 630포인트(1.2%) 하락 마감했다",
+      "source_ids": [
+        "src_art_0003",
+        "src_art_0005",
+        "src_art_0006"
+      ],
+      "status": "corroborated",
+      "contested": false,
+      "event_date": "2026-09-16",
+      "checks": [
+        "quote_match:src_art_0003",
+        "quote_match:src_art_0005",
+        "quote_match:src_art_0006",
+        "independent_origins:3"
+      ],
+      "attributed_only": false,
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0034",
+      "text": "9월 16일 S&P500 지수가 약 0.4% 하락했다",
+      "source_ids": [
+        "src_art_0003",
+        "src_art_0005",
+        "src_art_0006",
+        "src_art_0004"
+      ],
+      "status": "corroborated",
+      "contested": false,
+      "event_date": "2026-09-16",
+      "checks": [
+        "quote_match:src_art_0003",
+        "quote_match:src_art_0005",
+        "quote_match:src_art_0006",
+        "quote_match:src_art_0004",
+        "independent_origins:4"
+      ],
+      "attributed_only": false,
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0035",
+      "text": "9월 16일 미 국채 10년물 금리는 약 5%였다",
+      "source_ids": [
+        "src_art_0003",
+        "src_art_0004"
+      ],
+      "status": "corroborated",
+      "contested": false,
+      "event_date": "2026-09-16",
+      "checks": [
+        "quote_match:src_art_0003",
+        "quote_match:src_art_0004",
+        "independent_origins:2"
+      ],
+      "attributed_only": false,
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0036",
+      "text": "9월 16일 미 국채 10년물 금리는 2007년 이후 최고 수준이었다",
+      "source_ids": [
+        "src_art_0003",
+        "src_art_0005",
+        "src_art_0004"
+      ],
+      "status": "disputed",
+      "contested": false,
+      "event_date": "2026-09-16",
+      "checks": [
+        "quote_match:src_art_0003",
+        "quote_match:src_art_0005",
+        "quote_match:src_art_0004",
+        "independent_origins:2"
+      ],
+      "attributed_only": false,
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0037",
+      "text": "이란 전쟁은 2026년 2월 28일 미국과 이스라엘의 공격으로 시작됐다",
+      "source_ids": [
+        "src_art_0005",
+        "src_art_0006"
+      ],
+      "status": "corroborated",
+      "contested": false,
+      "event_date": "2026-02-28",
+      "checks": [
+        "quote_match:src_art_0005",
+        "quote_match:src_art_0006",
+        "quote_match:src_art_0006",
+        "independent_origins:2"
+      ],
+      "attributed_only": false,
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0038",
+      "text": "9월 16일 국제 원유 가격이 배럴당 105달러를 웃돌았다 (ABC 보도)",
+      "source_ids": [
+        "src_art_0006"
+      ],
+      "status": "unverified",
+      "contested": false,
+      "event_date": "2026-09-16",
+      "checks": [
+        "quote_match:src_art_0006",
+        "independent_origins:1"
+      ],
+      "attributed_only": false,
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0039",
+      "text": "미국 휘발유 평균 가격은 갤런당 4.36달러다 (ABC, AAA 자료 인용)",
+      "source_ids": [
+        "src_art_0006"
+      ],
+      "status": "unverified",
+      "contested": false,
+      "event_date": "2026-09-16",
+      "checks": [
+        "quote_match:src_art_0006",
+        "independent_origins:1"
+      ],
+      "attributed_only": false,
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0040",
+      "text": "이란은 호르무즈 해협을 사실상 봉쇄했다 (ABC 보도)",
+      "source_ids": [
+        "src_art_0006"
+      ],
+      "status": "unverified",
+      "contested": false,
+      "checks": [
+        "quote_match:src_art_0006",
+        "independent_origins:1"
+      ],
+      "attributed_only": false,
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0041",
+      "text": "다음 FOMC 회의는 10월 27~28일로 예정돼 있다",
+      "source_ids": [
+        "src_art_0004"
+      ],
+      "status": "unverified",
+      "contested": false,
+      "checks": [
+        "quote_match:src_art_0004",
+        "independent_origins:1"
+      ],
+      "attributed_only": false,
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0042",
+      "text": "9월 16일 기준 CME FedWatch는 10월 0.25%p 인상 확률을 51%로 반영했다 (폭스비즈니스 보도)",
+      "source_ids": [
+        "src_art_0004"
+      ],
+      "status": "unverified",
+      "contested": false,
+      "event_date": "2026-09-16",
+      "checks": [
+        "quote_match:src_art_0004",
+        "independent_origins:1"
+      ],
+      "attributed_only": false,
+      "notes": ""
+    }
+  ]
+}
