@@ -1242,7 +1242,7 @@ events:
     'off': 0.3
   mid: hk_0928
 sound:
-  bgm: null
+  bgm: music.zabriskie_patriarch
   intensity:
   - - 0.0
     - 0.55

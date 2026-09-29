@@ -35,9 +35,10 @@ sections:
       - main: 국기
         license: flag-icons · MIT
         rights: [flags.flag_icons]
-  - title: 음성
+  - title: 음악 · 음성
     column: 1
     items:
+      - music: music.zabriskie_patriarch   # 제목·라이선스 줄은 BGM 레지스트리
       - main: 내레이션
         license: AI 음성 합성
         rights: [narration.tts]
