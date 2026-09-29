@@ -1,6 +1,6 @@
 <!--
 tier: 2
-last_synced_with: v4.9.0
+last_synced_with: v4.10.0
 ssot_for: [review-gates, qa-policy]
 depends_on: [docs/handoff/16_ORCHESTRATOR_INTEGRATION.md, docs/handoff/17_AI_DIRECTOR_VISUAL_QA_PROMPTS.md, docs/handoff/18_SOURCE_INTAKE_ARTICLES_X.md, 07_VIDEO_STYLE_GUIDE.md, 08_AUDIO_AND_TTS_SPEC.md, ../GOAL.md]
 last_review: 2026-09-29
@@ -59,7 +59,7 @@ preview → prev/checks.json(결정적 검사 18항목)
 | 업스케일된 미디어(`media_upscaled`) | warning | `config:engine.output` | D60 |
 | 경계선 이름을 단 경로(`boundary_as_route`, `[boundary-as-route]`) — 경계선은 지도 경계 레이어가 그린다 | hard | `rules:geo.boundary_names` | back_and_forth D-0107(M8) |
 | 지도 좌표 근거 미대조(`geo_unsourced`, `[geo-unsourced]`) — 지명 사전에 없는 이름의 places·인라인 marker, paths·route, provenance `geo.unsourced[]` | warning | `rules:geo.gazetteer` | back_and_forth D-0107, v4.10.0 D-0116 |
-| 지명 사전 좌표 불일치(`geo_mismatch`, `[geo-mismatch]`) — place 키·marker label 이 `data/gazetteer.yaml` 과 맞는데 좌표가 맞은 항목 모두의 tol_km 밖, provenance `geo.mismatch[]`·`geo.matched[]` | hard | `rules:geo.gazetteer`(`engine.gazetteer`, handoff 04 §11) | v4.10.0 back_and_forth D-0116(B-1) |
+| 지명 사전 좌표 불일치(`geo_mismatch`, `[geo-mismatch]`) — place 키·marker label 이 `data/gazetteer.yaml` 과 맞는데 좌표가 맞은 항목 모두의 tol_km 밖, provenance `geo.mismatch[]`·`geo.matched[]` | hard | `rules:geo.gazetteer`(`geo.gazetteer`, handoff 04 §11) | v4.10.0 back_and_forth D-0116(B-1) |
 
 ### 2.2 장르 요소 검사 — v4.2.0
 

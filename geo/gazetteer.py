@@ -1,4 +1,4 @@
-"""지명 사전 대조 (v4.10.0 back_and_forth D-0116 작업 1, B-1 — D-0107 D2(b) 의 후속).
+"""지명 사전 대조 — 렌더 엔진 밖 지오 도구(구면 거리 계산이라 engine 무대 격리 밖에 둔다, anti_inertia test_stage_isolation) (v4.10.0 back_and_forth D-0116 작업 1, B-1 — D-0107 D2(b) 의 후속).
 
 지도 무대의 이름 붙은 좌표를 `data/gazetteer.yaml`(추적 파일, `rules geo.gazetteer.path`)과 대조한다.
 

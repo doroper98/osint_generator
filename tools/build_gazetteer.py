@@ -25,7 +25,7 @@ REPO = Path(__file__).resolve().parent.parent
 if str(REPO) not in sys.path:
     sys.path.insert(0, str(REPO))
 
-from engine.gazetteer import Gazetteer, GazetteerEntry  # noqa: E402
+from geo.gazetteer import Gazetteer, GazetteerEntry  # noqa: E402
 from rules import load_rules  # noqa: E402
 from tools.fetch_data import NE_URL  # noqa: E402
 
@@ -33,7 +33,7 @@ NE_NAME = "ne_10m_populated_places"
 LICENSE = "Natural Earth — public domain (naturalearthdata.com/about/terms-of-use)"
 DIGITS = 4
 HEADER = """\
-# 지명 사전 (v4.10.0 back_and_forth D-0116 작업 1, B-1) — engine.gazetteer 가 checks [geo-mismatch]·[geo-unsourced] 에 쓴다.
+# 지명 사전 (v4.10.0 back_and_forth D-0116 작업 1, B-1) — geo.gazetteer 가 checks [geo-mismatch]·[geo-unsourced] 에 쓴다.
 # manual = 사람이 적은 항목(출처 src·허용 오차 tol_km 필수). ne = tools/build_gazetteer.py 가 생성(손으로 고치지 않는다).
 """
 

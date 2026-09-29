@@ -3362,7 +3362,7 @@ last_review: 2026-06-06
 
 ## 2026-09-30 v4.10.0 — G9 정비: 지명 사전·LLM 브리지 stdin·귀속 표현
 
-- **무엇을**: ① `data/gazetteer.yaml`(NE 10m 3119 + 수기 9) + `tools/build_gazetteer.py` + checks `[geo-mismatch]` hard(`engine.gazetteer`). ② `claude -p`·`codex exec` 프롬프트를 argv 대신 stdin 으로, `{prompt}` 자리 삭제(LLM-AP-009 `[resolved v4.10.0]`). ③ `attribution_markers` 에 "보도했" + 프롬프트 `{{RULES.attribution_markers}}`.
+- **무엇을**: ① `data/gazetteer.yaml`(NE 10m 3119 + 수기 9) + `tools/build_gazetteer.py` + checks `[geo-mismatch]` hard(`geo.gazetteer`). ② `claude -p`·`codex exec` 프롬프트를 argv 대신 stdin 으로, `{prompt}` 자리 삭제(LLM-AP-009 `[resolved v4.10.0]`). ③ `attribution_markers` 에 "보도했" + 프롬프트 `{{RULES.attribution_markers}}`.
 - **왜**: back_and_forth D-0116(B-1·D-0104 S1·D84 보류분).
 - **결과**: 골든 hormuz 8·랫클리프 6 place 전부 사전 오차 안(좌표 무변경), 전 프로젝트 mismatch 0. 140KB 프롬프트 실 subprocess 통과(argv 대조군 OSError). 린트 경고 fed 8 → 0, claims 판정 변화 없음(근거 본문에 "보도했" 없음).
 - **연관**: D-0116, LLM-AP-009, handoff 04 §11·18 §8, ADDENDUM_04 §5.1.

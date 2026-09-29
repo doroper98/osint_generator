@@ -22,7 +22,7 @@ from engine.context import RenderCtx
 from engine.credits import check_credits, load_credits, required_refs
 from engine.direction import Direction, DirectionError, boundary_routes, geo_unsourced, load_direction_doc, shot_stages
 from engine.direction import build as build_direction
-from engine.gazetteer import check_doc as gazetteer_check
+from geo.gazetteer import check_doc as gazetteer_check
 from engine.entities import check_event_refs, load_entities
 from engine.panels import network, relation, timeline
 from engine.credits import RightsError

@@ -12,7 +12,7 @@ import yaml
 
 from engine.checks import HARD, WARN, check_geo_mismatch, check_geo_unsourced
 from engine.direction import Direction, geo_unsourced, load_direction_doc
-from engine.gazetteer import Gazetteer, GazetteerEntry, check_doc, haversine_km, load_gazetteer, norm_name
+from geo.gazetteer import Gazetteer, GazetteerEntry, check_doc, haversine_km, load_gazetteer, norm_name
 from rules import load_rules
 from tools.build_gazetteer import build, dump, ne_entries
 
