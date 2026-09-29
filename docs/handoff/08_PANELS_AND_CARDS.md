@@ -203,3 +203,4 @@ v3 카드 목록:
 - 헤드라인·부제 **최대 3줄** — 넘치면 `ArticleOverflowError`(렌더 전 preflight, 조용한 잘림 금지).
 - 자리: 기본 오른쪽 카드 자리. 연출 `place: center`(슬롯 `center`, `align: center`) = 무대 가운데(세로는 자막 구역 위 공간의 가운데), 그 동안 아래 무대를 `center_dim` 0.93(암전 최대 어둡기)으로 덮는다. fed_policy 기사 2건은 center.
 - 전/후: `docs/handoff/reports/phaseG7/article_before_after.jpg`.
+- 카드·패널 글자(D-0113 A): 오른쪽 카드 line 13 → 15·tag 12·src 11(줄 간격 24·출처 간격 20), 패널 부제 12.5, 관계선 라벨·연표·차트 글자 ≥ 12, 네트워크 라벨 11 — 전체 표는 09 §9, 수치 정본은 `rules/video_rules.yaml`.

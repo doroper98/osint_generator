@@ -172,3 +172,18 @@ text(날짜, W−26, 40, 15, Mono SemiBold, 흰색 0.95, 헤일로 3, 우정렬)
 - 가독성은 헤일로로 확보: 자막 5.0(알파 0.92), 날짜 3.0, 라벨 2.2~3.2.
 - 전체 페이드: 시작 1.2초 인, 끝 1.6초 아웃(유지).
 - v1~v3 초판의 `build_vignette()`는 레퍼런스 코드에 남아 있으나 호출하지 않는다.
+
+---
+
+## 9. v4.8.0 — 화면 글자 크기 전수 표 (G7, back_and_forth D-0101 §3·D-0113 A, 사용자 결정 D89)
+
+사용자 지시: "전체적으로 요소들이 너무 작다". §2 표의 v3 값(자막 19 등)은 사용자 결정으로 바뀌었다. **수치 정본은 `rules/video_rules.yaml`** — 아래는 무엇이 바뀌었는지의 요약이다(값 복사 금지 원칙에 따라 키 이름으로 읽는다).
+
+- 기준: 480p 설계에서 본문성 글자 ≥ 12, 메타(출처·라이선스·PHOTO·VIDEO·ARTICLE) ≥ 9.
+- 1단계(20bc020): 렌더 코드의 글자 리터럴을 규칙 키로 옮김(값 무변경, 골든 25컷 바이트 동일). 2단계(D-0113 A): 값 적용.
+- 바뀐 키(표 1): `layout_480p.subtitle.size`(19 → 21), `layout_480p.card`(line·tag·src·cap + line_gap·src_gap), `layout_480p.panel.subtitle_size`, `layout_480p.media_caption`(caption·credit·tag·cutout_credit + caption_dy·credit_dy·tag_h·tag_dy), `media_beats.caption_bar_px`.
+- 바뀐 키(표 2): `layout_480p.marker.sub_size`·`sub_dy`, `layout_480p.route_label.route_size`, `placement.post_card`(name·handle·chip·body·orig·foot + body_line), `panels.relation.edge_label`, `panels.timeline`(date·label·month·band_label — **시간축 무대 stage_timeline 은 제외**, D-0092 B), `panels.charts`(dual_line x_label·value, fork body, dots note_caption, network label), `panels.precedent`(line·caption, 상자 172×212 고정이라 더 키우지 않음).
+- 바꾸지 않은 것(표 3): 엔딩 카드·타이틀 카드·시간축 무대 글자·모서리 날짜(D-0101 제외), 지도 바탕 글자(`engine/layers/labels.py` LOD — 지도 질감), 이미 메타 기준 이상인 것(prov_tag·gantt·dual_line tick·versus 등), `primitives.site_diagram`(G8 콘티 판에서), `article_card`(G7 작업 2 에서 확정, 08 §12).
+- 자막 21 의 결과: 2줄 문장 hormuz 3 → 15/45, fed_policy 1 → 7/48, 랫클리프 5 → 7/38, 데모 0/10. 3줄 0(wrap 700px, `script.lint` 와 같은 폭). 2줄은 모두 자막 구역(y ≥ 410) 안. `docs/handoff/reports/phaseG7/subtitle_lines.json`.
+- 전/후: `docs/handoff/reports/phaseG7/scale_before_after.jpg`(hormuz 6·fed_policy 6컷), 골든 증명 `reports/phaseG7/golden_delta/`(expected_deltas `g7_scale_d0101`).
+- 사용자가 480p 를 보고 "아직 작다"고 하면 2차 표(자막 22·카드 line 16)를 G8 뒤에 검토한다(D-0113).

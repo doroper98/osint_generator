@@ -75,6 +75,7 @@ last_review: 2026-09-29
 | 글꼴 스택 | `rules:fonts` | handoff 09 §1 |
 | 자막 크기·위치·강조색 | `rules:layout_480p.subtitle` | handoff 09 §4 |
 | 자막 줄 수·줄바꿈 폭 | `rules:script_schema.subtitle_max_lines`, `rules:script_schema.subtitle_wrap_px_480p` | handoff 09 §4 |
+| 화면 글자 크기 전수 표(v4.8.0 D-0113 — 본문 ≥ 12·메타 ≥ 9, 자막 21) | `rules:layout_480p.subtitle`, `rules:layout_480p.card`, `rules:layout_480p.media_caption`, `rules:panels` | handoff 09 §9 |
 | 최소 글자(설계 px) · 예외 역할(D62) | `rules:layout_480p.min_font_px`, `rules:qa_checks.glyph_size_exempt` | handoff 09 §2 |
 | 타이틀 카드·엔딩 카드 | `rules:layout_480p.title_card`, `rules:layout_480p.end_card` | handoff 09 §6 |
 | 페이드 | `rules:layout_480p.fade` | handoff 09 §8 |

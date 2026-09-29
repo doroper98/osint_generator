@@ -65,6 +65,14 @@ MINOR: 사용자 지시 "요소들이 너무 작다"(D89). 인물 배지는 동�
 
 ### Changed
 - **§0**: VERSION 4.8.0, Tier 1·2 `last_synced_with` v4.8.0, v4.7.0 대장 행(4c09701, D-0110 pass).
+- **작업 1 인물 배지 적응 크기(f9549a2)**: 같은 무대에서 보이는 인물 뱃지 수 n(t) — 한 명이면 `badge.R_person_solo` 56, 둘 이상이면 `R_person_group` [30, 34], `resize_sec` 0.6 보간. 이름표 글자 규칙화(solo 15/11·group 12/10), R 기본 리터럴 삭제. 사라지는 뱃지는 페이드 아웃 동안 자기 자신을 센다(47ef349). 실측 3컷 `reports/phaseG7/badge_solo_group.jpg`.
+- **D-0111·D-0112(2dd47d1)**: 연출이 준 인물 R 은 무시(`[badge-R-ignored]` warning, provenance `badge.R_ignored`). 머리 예약 = 초상 실측 head_top(1.03~1.08R), 화면 가장자리 보정, `timeline_badge` [640, 186]. hormuz 골든 프리뷰 offscreen hard 3 → 0.
+- **D2(c) 패널 장면 뱃지 자리(24bcc81)**: `placement.stage_slots.panel` → `panel_badge` 화면 고정 점 2, 패널 층 위에 그림.
+- **작업 2 기사 카드 조판(1d8c4cc)**: `article_card` 수치 전부 규칙(w 440·헤드라인 18·부제 12·매체 15), 헤드라인·부제 최대 3줄 넘침 = 오류. 슬롯 `center`(무대 가운데, 아래 `center_dim`), fed_policy 기사 2건 center. `reports/phaseG7/article_before_after.jpg`.
+- **D6 사진 켄 번스(aec89c5)**: 원본 해상도 표면 하나 + cairo 패턴 행렬(FILTER_GOOD) — 크기 양자화 계단(R-0119 S8) 제거, 프레임 간 차이 최대 14.6 → 0.41.
+- **D-0109 청와대 휘장(91e67f1·5b9f069)**: 사용자 예외 D98(`user_exception`·`exception_scope`), 연출 문법 한 줄, 갤러리 35 → 36.
+- **§3 화면 글자 크기(20bc020 리터럴 → 규칙, D-0113 A 값 적용)**: 본문 ≥ 12·메타 ≥ 9, 자막 19 → 21, 카드·미디어 캡션·패널 부제·마커 부제·경로 라벨·게시물 카드·관계선·연표·차트 글자와 연동 기하. 엔딩 카드·시간축 무대·지도 바탕 글자·모서리 날짜는 무변경. 2줄 자막 hormuz 3 → 15, fed 1 → 7, 랫클리프 5 → 7, 3줄 0. 표 = handoff 09 §9.
+- **회귀**: 골든 `expected_deltas.json` `g7_scale_d0101`(24컷 변경·END 무변경, 요소 영역 안 99.24%, 밖 4컷 사유 기록, `tools/golden_delta_proof.py`, `golden_compare` 에 규칙 값 쌍 `old_rules`/`new_rules`). 랫클리프·fed_policy·데모 기준선 재등록(`reports/phaseG7/regression_baselines.json`), 갤러리 36, 모두 checks hard 0.
 
 ---
 
