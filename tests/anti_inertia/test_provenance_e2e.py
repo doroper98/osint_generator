@@ -55,7 +55,7 @@ class ProvenanceE2ETest(unittest.TestCase):
             self.assertIs(prov["stages"][not_run], False, not_run)
         self.assertTrue((proj / "prev" / "sheet.jpg").exists())
         chk = json.loads((proj / "prev" / "checks.json").read_text(encoding="utf-8"))   # v3.1.0 17 §3(D-0047 작업 6)
-        self.assertEqual(len(chk["items"]), 18)   # v3.6.0 media_upscaled(warning)·glyph_size(hard), v4.1.0 stage_continuity(hard), v4.2.0 genre_elements(hard), v4.3.0 정직성 4(hard)
+        self.assertEqual(len(chk["items"]), 19)   # v4.7.0 D-0106 endcard_roll(warning), v3.6.0 media_upscaled(warning)·glyph_size(hard), v4.1.0 stage_continuity(hard), v4.2.0 genre_elements(hard), v4.3.0 정직성 4(hard)
         self.assertEqual(next(i for i in chk["items"] if i["id"] == "stage_continuity")["count"], 0)
         self.assertEqual(next(i for i in chk["items"] if i["id"] == "genre_elements")["count"], 0)
         self.assertEqual(prov["genre"], {"name": "geopolitics", "declared": False, "status": "approved"})   # v4.2.0 D-0081 작업 3, v4.3.0 status
