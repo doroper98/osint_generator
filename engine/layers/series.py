@@ -50,6 +50,37 @@ def band_pairs(e: dict) -> list[tuple[date, float, float]]:
     return out
 
 
+def regimes(values: list[tuple[date, float]], months: int) -> list[str]:
+    """달마다 색 의미 키(v4.4.0 D-0091 ②) — 마지막 변화(앞 달과 다름)가 months 달 안이면 그 방향(hike 오름·cut 내림), 아니면 hold.
+    첫 달·변화 기록 없음 = hold. 빈 달(끊김)은 앞뒤 값을 비교하지 않는다(보간 금지 — 끊긴 뒤 첫 달은 새로 시작)."""
+    out: list[str] = []
+    last: tuple[int, str] | None = None
+    for i, (d, v) in enumerate(values):
+        k = d.year * MONTHS + d.month
+        if i:
+            pd, pv = values[i - 1]
+            if k - (pd.year * MONTHS + pd.month) == 1 and v != pv:
+                last = (k, "hike" if v > pv else "cut")
+        out.append(last[1] if last is not None and k - last[0] < months else "hold")
+    return out
+
+
+def month_colors(e: dict, R: object) -> dict[date, tuple[float, float, float]] | None:  # noqa: N803
+    """color_by change 면 {달: RGB}(장르 프로필 color_semantics hike·cut·hold — 없으면 오류, P6). fixed 면 None."""
+    if e.get("color_by", "fixed") != "change":
+        return None
+    from engine.primitives import semantic_rgba  # noqa: PLC0415
+    from genres.load import load_genre  # noqa: PLC0415
+
+    sem = load_genre(R.cache["genre"]["name"]).color_semantics  # type: ignore[attr-defined]
+    missing = [k for k in ("hike", "cut", "hold") if k not in sem]
+    if missing:
+        raise ValueError(f"series color_by change: 장르 프로필 color_semantics 에 {missing} 가 없다")
+    rgb = {k: semantic_rgba(sem[k])[:3] for k in ("hike", "cut", "hold")}
+    vals = load_series(e["series_id"]).values
+    return {d: rgb[r] for (d, _), r in zip(vals, regimes(vals, TIMELINE.series.change_regime_months))}
+
+
 def lane_range(events: list[dict], lane: str) -> tuple[float, float]:
     """레인 값 범위 — 그 레인의 모든 series 값의 [min(0, 최소), 최대](0 기준선을 늘 포함, 20 §5.3)."""
     vs = [v for e in events if e["type"] == "series" and e["lane"] == lane for sid in record_ids(e) for _, v in load_series(sid).values]
@@ -106,6 +137,7 @@ def draw_series(ctx: cairo.Context, R: "RenderCtx", view: "View", t: float, e: d
         fr = R.cache["series_front"][e["key"]]   # 프레임별 앞끝(월드 x) — load_project 가 카메라 경로로 미리 계산
         front = float(fr[min(len(fr) - 1, max(0, int(t * FPS)))])
     col = C[e["col"]]
+    mcol = month_colors(e, R)   # v4.4.0 D-0091 ② — None 이면 한 색(기존 그대로)
     fx = view.to_screen(front, 0.0)[0] if front != math.inf else float(W_OUT)
     ctx.save()
     ctx.rectangle(0, 0, max(0.0, fx), TIMELINE.area_bottom + TIMELINE.series.clip_below_px)
@@ -113,8 +145,14 @@ def draw_series(ctx: cairo.Context, R: "RenderCtx", view: "View", t: float, e: d
     last: tuple[float, float, float] | None = None
     last_hi: float | None = None
     if e["style"] == "band":
-        last, last_hi = _draw_band(ctx, view, stage, e, rng, col, a, front)
-    for seg in ([] if e["style"] == "band" else segments(rec.values)):
+        last, last_hi = _draw_band(ctx, view, stage, e, rng, col, a, front, mcol)
+    for seg in ([] if e["style"] == "band" or mcol is None else segments(rec.values)):   # 달마다 색(change)
+        _draw_pieces(ctx, view, stage, e, rng, seg, mcol, a)
+        for d, v in seg:
+            x = stage.x_of(d)
+            if x <= front:
+                last = (x, value_y(stage, e["lane"], rng, v), v)
+    for seg in ([] if e["style"] == "band" or mcol is not None else segments(rec.values)):
         pts = [(stage.x_of(d), value_y(stage, e["lane"], rng, v), v) for d, v in seg]
         if e["style"] == "step":   # 값은 그 달 첫날부터 다음 달 첫날까지 유지(월평균)
             nxt = stage.x_of(_next_month(seg[-1][0]))
@@ -140,21 +178,57 @@ def draw_series(ctx: cairo.Context, R: "RenderCtx", view: "View", t: float, e: d
     if last is not None:
         sx, sy = view.to_screen(last[0], last[1])
         if S.value_min_x <= sx <= W_OUT:
+            tip = col if mcol is None else mcol[_month_of(stage, last[0], rec)]
             ctx.arc(sx, sy, S.tip_r, 0, 2 * math.pi)
-            ctx.set_source_rgba(*col, a)
+            ctx.set_source_rgba(*tip, a)
             ctx.fill()
             s = value_text(e, last[2], rec.unit, last_hi)
             lw = tw(ctx, s, S.value_size, S.value_font)
             x0 = sx + S.value_dx if sx + S.value_dx + lw <= W_OUT - S.axis_zone_px else sx - S.value_dx - lw   # 오른쪽 축 값 자리를 비킨다
             box = (x0, sy + S.value_dy - S.value_size, x0 + lw, sy + S.value_dy)
             if not _hits(box, _lane_name_box(ctx, view, stage, e["lane"])):   # 레인 이름을 덮지 않는다(끝점은 그대로)
-                text(ctx, s, box[0], sy + S.value_dy, S.value_size, S.value_font, col, a, S.value_halo, "l")
+                text(ctx, s, box[0], sy + S.value_dy, S.value_size, S.value_font, tip, a, S.value_halo, "l")
     _draw_axis(ctx, view, stage, e, rng, rec.unit, a)
     _draw_source(ctx, view, stage, e, a)
 
 
+def _month_of(stage: "TimelineStage", x: float, rec: object) -> date:
+    """월드 x(그 달 첫날) → 레코드의 달."""
+    return min((d for d, _ in rec.values), key=lambda d: abs(stage.x_of(d) - x))  # type: ignore[attr-defined]
+
+
+def _draw_pieces(ctx: cairo.Context, view: "View", stage: "TimelineStage", e: dict, rng: tuple[float, float],
+                 seg: list[tuple[date, float]], mcol: dict, a: float) -> None:
+    """color_by change 의 선(v4.4.0 D-0091 ②) — 달마다 조각(step = 앞 달 값에서 오르내리는 세로 + 그 달 가로, line = 앞 점→이 점)."""
+    S = TIMELINE.series  # noqa: N806
+    ctx.set_line_width(S.line_w)
+    ctx.set_line_join(cairo.LINE_JOIN_ROUND)
+    ctx.set_line_cap(cairo.LINE_CAP_ROUND)
+    for i, (d, v) in enumerate(seg):
+        y = value_y(stage, e["lane"], rng, v)
+        x0 = stage.x_of(d)
+        pts: list[tuple[float, float]] = []
+        if e["style"] == "step":
+            if i:
+                pts.append((x0, value_y(stage, e["lane"], rng, seg[i - 1][1])))
+            pts += [(x0, y), (stage.x_of(_next_month(d)), y)]
+        elif i:
+            pd, pv = seg[i - 1]
+            pts = [(stage.x_of(pd), value_y(stage, e["lane"], rng, pv)), (x0, y)]
+        if len(pts) < 2:
+            continue
+        ctx.new_path()
+        for j, (x, yy) in enumerate(pts):
+            sx, sy = view.to_screen(x, yy)
+            (ctx.move_to if j == 0 else ctx.line_to)(sx, sy)
+        ctx.set_source_rgba(*mcol[d], a)
+        ctx.stroke()
+    ctx.set_line_cap(cairo.LINE_CAP_BUTT)
+
+
 def _draw_band(ctx: cairo.Context, view: "View", stage: "TimelineStage", e: dict, rng: tuple[float, float],
-               col: tuple[float, float, float], a: float, front: float) -> tuple[tuple[float, float, float] | None, float | None]:
+               col: tuple[float, float, float], a: float, front: float,
+               mcol: dict | None = None) -> tuple[tuple[float, float, float] | None, float | None]:
     """목표 범위 띠(v4.4.0 D-0090 작업 2) — 달마다 [그 달 첫날, 다음 달 첫날) 계단. 위·아래 끝 선 + 반투명 칠.
     돌려주는 값 = 드러난 마지막 달 (x, 아래 y, 아래 값), 위 값 — 끝점 라벨용. 이 함수가 부르는 쪽의 clip 안에서 그린다."""
     B = TIMELINE.band  # noqa: N806
@@ -172,6 +246,20 @@ def _draw_band(ctx: cairo.Context, view: "View", stage: "TimelineStage", e: dict
             hi_pts += [(x0, yhi), (x1, yhi)]
             if x0 <= front:
                 last, last_hi = (x0, ylo, lo), hi
+            if mcol is not None:   # v4.4.0 D-0091 ② — 달마다 색(아래 끝 레코드의 변화)
+                s0, t0 = view.to_screen(x0, yhi)
+                s1, t1 = view.to_screen(x1, ylo)
+                ctx.rectangle(s0, t0, s1 - s0, t1 - t0)
+                ctx.set_source_rgba(*mcol[d], B.fill_alpha * a)
+                ctx.fill()
+                for yy in (yhi, ylo):
+                    ctx.move_to(s0, view.to_screen(x0, yy)[1])
+                    ctx.line_to(s1, view.to_screen(x1, yy)[1])
+                ctx.set_source_rgba(*mcol[d], B.edge_alpha * a)
+                ctx.set_line_width(B.edge_w)
+                ctx.stroke()
+        if mcol is not None:
+            continue
         ctx.new_path()
         for i, (x, y) in enumerate(hi_pts + lo_pts[::-1]):
             sx, sy = view.to_screen(x, y)
@@ -257,4 +345,4 @@ def _draw_source(ctx: cairo.Context, view: "View", stage: "TimelineStage", e: di
          C["muted"], a, S.source_halo, "l")
 
 
-__all__ = ["band_pairs", "draw_series", "fmt_value", "lane_range", "record_ids", "segments", "source_line", "value_text", "value_y"]
+__all__ = ["band_pairs", "month_colors", "regimes", "draw_series", "fmt_value", "lane_range", "record_ids", "segments", "source_line", "value_text", "value_y"]

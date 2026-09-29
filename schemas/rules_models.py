@@ -1005,6 +1005,7 @@ class TimelineSeries(_Strict):
     source_size: float
     source_font: str
     source_halo: float
+    change_regime_months: int = Field(ge=1)   # v4.4.0 D-0091 ②
 
 
 class TimelineMissingMark(_Strict):

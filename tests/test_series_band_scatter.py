@@ -125,3 +125,40 @@ class ScatterRecordTest(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class ColorByChangeTest(unittest.TestCase):
+    """v4.4.0 D-0091 ② — color_by change: 레코드 값 변화 → hike·cut·hold(코드 계산), 기본 fixed 는 기존 그대로."""
+
+    def test_regimes(self) -> None:
+        from engine.layers.series import regimes  # noqa: PLC0415
+
+        v = [(date(2024, m, 1), x) for m, x in zip(range(1, 13), [5, 5, 5.25, 5.25, 5.25, 5.25, 5.25, 5.25, 5.25, 5, 5, 5])]
+        self.assertEqual(regimes(v, 6), ["hold", "hold"] + ["hike"] * 6 + ["hold", "cut", "cut", "cut"])
+        gap = [(date(2024, 1, 1), 5.0), (date(2024, 3, 1), 4.0)]   # 끊긴 뒤는 비교하지 않는다(보간 금지)
+        self.assertEqual(regimes(gap, 6), ["hold", "hold"])
+
+    def test_default_fixed_and_colors_drawn(self) -> None:
+        from engine.style import C  # noqa: PLC0415
+
+        self.assertEqual(validate_events([BAND])[0]["color_by"], "fixed")
+        st, ev, R, cams = setup([{**BAND, "color_by": "change"}])
+        R.cache["genre"] = {"name": "macro_monetary"}
+        _, img, _ = draw(st, ev, R, cams[0], 10.0)
+        import numpy as np  # noqa: PLC0415
+
+        from engine.primitives import semantic_rgba  # noqa: PLC0415
+        from genres.load import load_genre  # noqa: PLC0415
+
+        sem = load_genre("macro_monetary").color_semantics
+        for k in ("hike", "cut"):
+            rgb = np.array(semantic_rgba(sem[k])[:3]) * 255
+            self.assertGreater((np.abs(img - rgb).sum(axis=2) < 60).sum(), 20, k)
+        self.assertLess(near(img, "amber", 40).sum(), 20)   # 한 색(col)으로 칠하지 않는다
+        self.assertIn("amber", C)
+
+    def test_missing_semantics_is_error(self) -> None:
+        st, ev, R, cams = setup([{**BAND, "color_by": "change"}])
+        R.cache["genre"] = {"name": "geopolitics"}
+        with self.assertRaises(ValueError):
+            draw(st, ev, R, cams[0], 10.0)

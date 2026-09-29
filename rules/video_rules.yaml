@@ -675,6 +675,7 @@ stage_timeline:            # v4.3.0 D-0084 작업 3·4·D-0085·D-0086 — 시�
     source_size: 10
     source_font: sansm
     source_halo: 2.5
+    change_regime_months: 6   # v4.4.0 D-0091 ② color_by change — 마지막 변화가 이 달 수 안이면 그 방향(hike·cut), 넘으면 hold(동결). FOMC 약 4회 회의
   band:                    # v4.4.0 D-0090 작업 2 — series style band(두 레코드 사이 띠 = 목표 범위). 색은 이벤트 col
     fill_alpha: 0.28
     edge_alpha: 0.9
