@@ -89,12 +89,24 @@ class SeriesEvent(_Event):
     type: Literal["series"]
     lane: str
     series_id: str
-    style: Literal["step", "line"]
+    style: Literal["step", "line", "band"]
+    upper_id: Optional[str] = None   # v4.4.0 D-0090 작업 2 — band: series_id = 아래 끝 레코드, upper_id = 위 끝 레코드(목표 범위 띠)
     grow: bool = True
     col: ColorName = "gold"
     key: Optional[int] = None      # 코드가 채움(load_project.prepare_series)
     axis: Optional[bool] = None
     slot: Optional[int] = None
+
+    @model_validator(mode="after")
+    def _band(self) -> "SeriesEvent":
+        if (self.style == "band") != (self.upper_id is not None):
+            raise ValueError("series: style band 는 upper_id(위 끝 레코드)가 필요하고, step·line 은 upper_id 를 쓰지 않는다")
+        if self.upper_id == self.series_id:
+            raise ValueError("series band: upper_id 가 series_id 와 같다")
+        return self
+
+    def record_ids(self) -> list[str]:
+        return [self.series_id] + ([self.upper_id] if self.upper_id else [])
 
 
 class RouteEvent(_Event):

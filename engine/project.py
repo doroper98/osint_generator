@@ -280,7 +280,9 @@ def load_project(proj: Path, direction: Optional[Direction] = None, out: Optiona
     req = required_refs(events, A.rights, A.emblem_flag, set(A.img), music_ids=music_ids(sound), uses_map=uses_map)
     from data.series import load_series  # noqa: PLC0415
 
-    series_ids = list(dict.fromkeys(e["series_id"] for e in events if e["type"] == "series"))
+    from engine.layers.series import record_ids  # noqa: PLC0415
+
+    series_ids = list(dict.fromkeys(sid for e in events if e["type"] == "series" for sid in record_ids(e)))   # band = 두 레코드(v4.4.0)
     R.cache["series_records"] = [load_series(s) for s in series_ids]   # v4.3.0 — 엔딩 카드 auto: series(레코드 출처·라이선스·기준 시점)
     R.cache["sentence_labels"] = sentence_labels(proj)       # v3.3.0 NB12 — 자막 검증 라벨(C9)
     R.cache["cited_sources"] = cited_sources(proj, events)   # v3.2.0 18 §6 — 엔딩 카드 '보도 · 자료'·설명란 원문 링크
@@ -302,7 +304,7 @@ def prepare_series(R: RenderCtx, events: list[dict], cams: np.ndarray, n: int) -
     """series 이벤트 준비(v4.3.0 D-0084 작업 4). 시간축 무대만 · 레코드 로드 실패 = 오류(P6) · 레인 kind step|line 만.
     key(이벤트 순번)·axis(레인의 첫 series 만 축 라벨)·slot(레인 안 순번 — 출처 줄 위치), 레인 값 범위, grow 앞끝(프레임별 누적 최대)."""
     from data.series import SeriesError, load_series  # noqa: PLC0415
-    from engine.layers.series import lane_range  # noqa: PLC0415
+    from engine.layers.series import band_pairs, lane_range, record_ids  # noqa: PLC0415
     from engine.style import TIMELINE  # noqa: PLC0415
     from engine.timebase import ease_out  # noqa: PLC0415
 
@@ -316,7 +318,10 @@ def prepare_series(R: RenderCtx, events: list[dict], cams: np.ndarray, n: int) -
     slots: dict[str, int] = {}
     for i, e in enumerate(ser):
         try:
-            load_series(e["series_id"])
+            for sid in record_ids(e):
+                load_series(sid)
+            if e["style"] == "band":
+                band_pairs(e)   # 두 레코드 날짜 일치·위 ≥ 아래(v4.4.0) — 어긋나면 렌더 전 오류(P6)
             kind = st.lanes[st.lane_index(e["lane"])].kind  # type: ignore[attr-defined]
         except (SeriesError, ValueError) as ex:
             raise ProjectError(f"series {e['series_id']} @ {e['lane']}: {ex}") from ex

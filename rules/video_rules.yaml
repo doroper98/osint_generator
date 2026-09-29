@@ -676,6 +676,11 @@ stage_timeline:            # v4.3.0 D-0084 작업 3·4·D-0085·D-0086 — 시�
     source_size: 10
     source_font: sansm
     source_halo: 2.5
+  band:                    # v4.4.0 D-0090 작업 2 — series style band(두 레코드 사이 띠 = 목표 범위). 색은 이벤트 col
+    fill_alpha: 0.28
+    edge_alpha: 0.9
+    edge_w: 1.4
+    sep: "–"               # 끝점 값 라벨 "아래–위단위"
   missing_mark:            # D-0086 보정 1 — 빈 달(레코드 missing) 자리: 점선 + 라벨. 글자 ≥ layout_480p.min_font_px
     label: 자료 없음
     label_font: sansm
@@ -719,11 +724,13 @@ data:                      # v4.3.0 D-0084 작업 1 — 데이터 레코드(docs
   units: ["%", "%p", "bp", "억 달러", "지수", "명", "원"]   # 화면 단위(20 §5.3 "단위를 화면에 표시")
   licenses_allowed: [us_gov_public_domain, cc_by_4]        # 재배포 가능한 공개 라이선스만(20 §5.1 "시리즈마다 이용 조건 확인")
   unit_prefixes: ["$", "₩", "€", "¥"]                    # v4.3.0 D-0087 보정 1 — 값 앞 통화 기호도 단위 표시로 인정(dual_line y_prefix)
-  sources_allowed: [fred.stlouisfed.org]                    # source_url 도메인(tools/fetch_series.py 가 받는 곳)
-  frequencies: [monthly]                                    # 값 날짜 간격 — monthly = 매월 1일, 한 달씩
+  sources_allowed: [fred.stlouisfed.org, www.federalreserve.gov]   # source_url 도메인(tools/fetch_series.py 가 받는 곳). federalreserve.gov = v4.4.0 SEP 점도표(D-0090 작업 2)
+  frequencies: [monthly, release]                           # 값 날짜 간격 — monthly = 매월 1일, 한 달씩. release = 발표 한 번(scatter, v4.4.0)
   transforms:                                               # 코드가 하는 변환(명시된 것만). 레코드 transform.formula 는 이 문구와 같아야 한다
     raw: "원자료(변형 없음)"
     yoy_pct: "전년 동월 대비 % = (x_t / x_(t-12) - 1) * 100, 소수 둘째 자리 반올림"
+    sep_dots: "SEP 그림 2 표(값별 참가자 수) → 열마다 참가자별 점(값을 인원수만큼 되풀이, 오름차순)"   # v4.4.0 D-0090 작업 2 — scatter(점도표)
+    month_last: "일별 → 그 달의 마지막 관측값(값은 원자료 그대로, 날짜는 그 달 1일)"   # v4.4.0 D-0090 작업 2 — DFEDTARU·DFEDTARL(목표 범위 상·하한)
   series_dir: data/series                                   # <series_id>.yaml(레코드) + <series_id>.csv(값) + raw/<series_id>.csv(받은 그대로)
 
 primitives:                # v4.2.0 D-0081 작업 4 — 프리미티브(engine/primitives/<id>.py) 레이아웃 토큰. registries.primitives 마다 한 블록(20 §4.2 "색·크기는 토큰만")

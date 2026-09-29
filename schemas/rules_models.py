@@ -1020,6 +1020,15 @@ class TimelineMissingMark(_Strict):
     inset_px: float
 
 
+class TimelineBand(_Strict):
+    """v4.4.0 D-0090 작업 2 — series band(목표 범위 띠)."""
+
+    fill_alpha: float = Field(gt=0, le=1)
+    edge_alpha: float = Field(gt=0, le=1)
+    edge_w: float = Field(gt=0)
+    sep: str = Field(min_length=1)
+
+
 class StageTimelineRules(_Strict):
     """v4.3.0 D-0084 작업 3·4·D-0085·D-0086 — 시간축 무대·시리즈 레이어 토큰(engine/stage_timeline.py·engine/layers/series.py)."""
 
@@ -1035,6 +1044,7 @@ class StageTimelineRules(_Strict):
     lane_label: TimelineLaneLabel
     wave: TimelineWave
     series: TimelineSeries
+    band: TimelineBand             # v4.4.0 — D-0090 작업 2
     missing_mark: TimelineMissingMark
 
 
@@ -1055,7 +1065,7 @@ class DataRules(_Strict):
     licenses_allowed: list[str] = Field(min_length=1)
     unit_prefixes: list[str] = Field(min_length=1)   # v4.3.0 D-0087 보정 1
     sources_allowed: list[str] = Field(min_length=1)
-    frequencies: list[Literal["monthly"]] = Field(min_length=1)
+    frequencies: list[Literal["monthly", "release"]] = Field(min_length=1)   # release = v4.4.0 scatter
     transforms: dict[str, str] = Field(min_length=1)
     series_dir: str
 

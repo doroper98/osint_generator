@@ -161,7 +161,7 @@ def project_metas(P, times: list[float], labels: list[str], drawn: list[tuple[st
 
 def _series_metas(P, st, times: list[float], labels: list[str], texts: dict[str, set[str]]) -> list[ChartMeta]:  # noqa: ANN001, N803
     from data.series import load_series  # noqa: PLC0415
-    from engine.layers.series import AXIS, source_line  # noqa: PLC0415
+    from engine.layers.series import AXIS, record_ids, source_line  # noqa: PLC0415
 
     out: list[ChartMeta] = []
     by_lane: dict[str, list[dict]] = {}
@@ -170,7 +170,7 @@ def _series_metas(P, st, times: list[float], labels: list[str], texts: dict[str,
             by_lane.setdefault(e["lane"], []).append(e)
     for lane, evs in by_lane.items():
         ln = st.lanes[st.lane_index(lane)]
-        recs = [load_series(e["series_id"]) for e in evs]
+        recs = [load_series(sid) for e in evs for sid in record_ids(e)]   # band = 계열 하나, 레코드 둘(v4.4.0)
         shown: Optional[bool] = None
         for e in evs:
             cuts = [lab for t, lab in zip(times, labels) if e["t0"] <= t <= e["t1"]]

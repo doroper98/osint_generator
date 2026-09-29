@@ -146,7 +146,8 @@ class CommittedSeriesTest(unittest.TestCase):
             with self.subTest(p.name):
                 r = load_series_file(p)
                 self.assertIn(r.license, load_rules().data.licenses_allowed)
-                self.assertTrue((p.parent / "raw" / f"{r.series_id}.csv").exists(), "raw/ 원자료 필수(재현)")
+                raw = f"{r.series_id}.htm" if r.kind == "scatter" else f"{r.series_id}.csv"   # v4.4.0 scatter 원자료 = SEP HTML
+                self.assertTrue((p.parent / "raw" / raw).exists(), "raw/ 원자료 필수(재현)")
 
 
 if __name__ == "__main__":

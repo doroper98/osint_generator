@@ -1,0 +1,14 @@
+series_id: DFEDTARL
+source: FRED(세인트루이스 연은) · 원출처 연준 이사회
+source_url: https://fred.stlouisfed.org/graph/fredgraph.csv?id=DFEDTARL&cosd=2019-01-01
+retrieved_at: '2026-09-29'
+transform:
+  op: month_last
+  formula: 일별 → 그 달의 마지막 관측값(값은 원자료 그대로, 날짜는 그 달 1일)
+as_of: 2026-09
+revision_note: 연방기금 목표 범위 하한. 일별 자료의 그 달 마지막 관측(진행 중인 달은 받은 날까지)
+unit: '%'
+frequency: monthly
+license: us_gov_public_domain
+license_note: 'Public Domain: Citation Requested'
+missing: []

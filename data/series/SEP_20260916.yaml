@@ -1,0 +1,15 @@
+kind: scatter
+series_id: SEP_20260916
+source: 연준 FOMC 경제 전망 요약(SEP) 그림 2
+source_url: https://www.federalreserve.gov/monetarypolicy/fomcprojtabl20260916.htm
+retrieved_at: '2026-09-29'
+transform:
+  op: sep_dots
+  formula: SEP 그림 2 표(값별 참가자 수) → 열마다 참가자별 점(값을 인원수만큼 되풀이, 오름차순)
+as_of: 2026-09
+revision_note: 중간값은 코드 계산. 각 점은 참가자 한 명의 전망(1/8%p 단위 반올림)이며 약속이 아님
+unit: '%'
+frequency: release
+license: us_gov_public_domain
+license_note: 미국 연방정부 기관(연준 이사회) 공식 발표 — 사이트에 별도 저작권 표기 없음(2026-09-29 확인)
+released: '2026-09-16'

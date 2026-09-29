@@ -6,7 +6,9 @@
   되돌아가도 줄지 않는다. 등장 직후 grow_in_sec 동안 화면 왼쪽에서 앞끝까지 쓸어 나간다(`load_project` 가 프레임별로 미리 계산).
 - 값 라벨은 드러난 마지막 점 하나(단위 포함). 레인 아래쪽에 출처·기준 시점 줄(20 §5.1 "YYYY년 M월 기준").
 - 빈 달(레코드 missing, D-0086): 선을 끊고 그 자리에 "자료 없음" 표시. 보간 선분 없음.
-수치·색은 `rules stage_timeline.series`·`missing_mark`(코드 리터럴 0).
+- band(v4.4.0 D-0090 작업 2): 두 레코드(series_id = 아래 끝, upper_id = 위 끝) 사이를 계단 띠로 칠한다(목표 범위).
+  값 라벨은 "아래–위단위", 두 레코드의 날짜는 같아야 한다(다르면 렌더 전 오류). 토큰 `rules stage_timeline.band`.
+수치·색은 `rules stage_timeline.series`·`band`·`missing_mark`(코드 리터럴 0).
 """
 
 from __future__ import annotations
@@ -31,9 +33,26 @@ MONTHS = 12
 AXIS = "value"   # D-0087 — 값 축(정직성 검사 4개 전부, rules qa_checks.chart_targets)
 
 
+def record_ids(e: dict) -> list[str]:
+    """이벤트가 읽는 레코드 id — band 면 아래 끝·위 끝 두 개(v4.4.0)."""
+    return [e["series_id"]] + ([e["upper_id"]] if e.get("upper_id") else [])
+
+
+def band_pairs(e: dict) -> list[tuple[date, float, float]]:
+    """band 의 (달, 아래, 위). 두 레코드의 날짜가 다르면 ValueError(보간 금지, D-0086), 위 < 아래 도 오류."""
+    lo, hi = load_series(e["series_id"]), load_series(e["upper_id"])
+    if [d for d, _ in lo.values] != [d for d, _ in hi.values]:
+        raise ValueError(f"band {lo.series_id}·{hi.series_id}: 두 레코드의 날짜가 다르다 — 같은 달끼리만 띠를 칠한다")
+    out = [(d, a, b) for (d, a), (_, b) in zip(lo.values, hi.values)]
+    bad = [d for d, a, b in out if b < a]
+    if bad:
+        raise ValueError(f"band {lo.series_id}·{hi.series_id}: 위 끝 < 아래 끝 {bad[:3]}")
+    return out
+
+
 def lane_range(events: list[dict], lane: str) -> tuple[float, float]:
     """레인 값 범위 — 그 레인의 모든 series 값의 [min(0, 최소), 최대](0 기준선을 늘 포함, 20 §5.3)."""
-    vs = [v for e in events if e["type"] == "series" and e["lane"] == lane for _, v in load_series(e["series_id"]).values]
+    vs = [v for e in events if e["type"] == "series" and e["lane"] == lane for sid in record_ids(e) for _, v in load_series(sid).values]
     lo, hi = min(0.0, min(vs)), max(vs)
     if hi <= lo:
         hi = lo + 1
@@ -62,8 +81,16 @@ def fmt_value(v: float, unit: str) -> str:
 
 
 def source_line(e: dict) -> str:
-    r = load_series(e["series_id"])
-    return f"{r.source} · {r.as_of_label()}"
+    recs = [load_series(s) for s in record_ids(e)]
+    srcs = list(dict.fromkeys(f"{r.source} · {r.as_of_label()}" for r in recs))
+    return " / ".join(srcs)
+
+
+def value_text(e: dict, v: float, unit: str, hi: float | None = None) -> str:
+    """끝점 값 라벨 — band 는 "아래–위단위"(rules stage_timeline.band.sep)."""
+    if hi is None:
+        return fmt_value(v, unit)
+    return fmt_value(v, "") + TIMELINE.band.sep + fmt_value(hi, unit)
 
 
 def draw_series(ctx: cairo.Context, R: "RenderCtx", view: "View", t: float, e: dict) -> None:  # noqa: N803
@@ -84,7 +111,10 @@ def draw_series(ctx: cairo.Context, R: "RenderCtx", view: "View", t: float, e: d
     ctx.rectangle(0, 0, max(0.0, fx), TIMELINE.area_bottom + TIMELINE.series.clip_below_px)
     ctx.clip()
     last: tuple[float, float, float] | None = None
-    for seg in segments(rec.values):
+    last_hi: float | None = None
+    if e["style"] == "band":
+        last, last_hi = _draw_band(ctx, view, stage, e, rng, col, a, front)
+    for seg in ([] if e["style"] == "band" else segments(rec.values)):
         pts = [(stage.x_of(d), value_y(stage, e["lane"], rng, v), v) for d, v in seg]
         if e["style"] == "step":   # 값은 그 달 첫날부터 다음 달 첫날까지 유지(월평균)
             nxt = stage.x_of(_next_month(seg[-1][0]))
@@ -113,7 +143,7 @@ def draw_series(ctx: cairo.Context, R: "RenderCtx", view: "View", t: float, e: d
             ctx.arc(sx, sy, S.tip_r, 0, 2 * math.pi)
             ctx.set_source_rgba(*col, a)
             ctx.fill()
-            s = fmt_value(last[2], rec.unit)
+            s = value_text(e, last[2], rec.unit, last_hi)
             lw = tw(ctx, s, S.value_size, S.value_font)
             x0 = sx + S.value_dx if sx + S.value_dx + lw <= W_OUT - S.axis_zone_px else sx - S.value_dx - lw   # 오른쪽 축 값 자리를 비킨다
             box = (x0, sy + S.value_dy - S.value_size, x0 + lw, sy + S.value_dy)
@@ -121,6 +151,43 @@ def draw_series(ctx: cairo.Context, R: "RenderCtx", view: "View", t: float, e: d
                 text(ctx, s, box[0], sy + S.value_dy, S.value_size, S.value_font, col, a, S.value_halo, "l")
     _draw_axis(ctx, view, stage, e, rng, rec.unit, a)
     _draw_source(ctx, view, stage, e, a)
+
+
+def _draw_band(ctx: cairo.Context, view: "View", stage: "TimelineStage", e: dict, rng: tuple[float, float],
+               col: tuple[float, float, float], a: float, front: float) -> tuple[tuple[float, float, float] | None, float | None]:
+    """목표 범위 띠(v4.4.0 D-0090 작업 2) — 달마다 [그 달 첫날, 다음 달 첫날) 계단. 위·아래 끝 선 + 반투명 칠.
+    돌려주는 값 = 드러난 마지막 달 (x, 아래 y, 아래 값), 위 값 — 끝점 라벨용. 이 함수가 부르는 쪽의 clip 안에서 그린다."""
+    B = TIMELINE.band  # noqa: N806
+    rows = band_pairs(e)
+    last: tuple[float, float, float] | None = None
+    last_hi: float | None = None
+    for seg in segments([(d, i) for i, (d, _, _) in enumerate(rows)]):   # 빈 달에서 끊는다(보간 금지)
+        lo_pts: list[tuple[float, float]] = []
+        hi_pts: list[tuple[float, float]] = []
+        for d, i in seg:
+            _, lo, hi = rows[int(i)]
+            x0, x1 = stage.x_of(d), stage.x_of(_next_month(d))
+            ylo, yhi = value_y(stage, e["lane"], rng, lo), value_y(stage, e["lane"], rng, hi)
+            lo_pts += [(x0, ylo), (x1, ylo)]
+            hi_pts += [(x0, yhi), (x1, yhi)]
+            if x0 <= front:
+                last, last_hi = (x0, ylo, lo), hi
+        ctx.new_path()
+        for i, (x, y) in enumerate(hi_pts + lo_pts[::-1]):
+            sx, sy = view.to_screen(x, y)
+            (ctx.move_to if i == 0 else ctx.line_to)(sx, sy)
+        ctx.close_path()
+        ctx.set_source_rgba(*col, B.fill_alpha * a)
+        ctx.fill()
+        for pts in (hi_pts, lo_pts):
+            ctx.new_path()
+            for i, (x, y) in enumerate(pts):
+                sx, sy = view.to_screen(x, y)
+                (ctx.move_to if i == 0 else ctx.line_to)(sx, sy)
+            ctx.set_source_rgba(*col, B.edge_alpha * a)
+            ctx.set_line_width(B.edge_w)
+            ctx.stroke()
+    return last, last_hi
 
 
 def lane_name(ln: object) -> str:
@@ -190,4 +257,4 @@ def _draw_source(ctx: cairo.Context, view: "View", stage: "TimelineStage", e: di
          C["muted"], a, S.source_halo, "l")
 
 
-__all__ = ["draw_series", "fmt_value", "lane_range", "segments", "source_line", "value_y"]
+__all__ = ["band_pairs", "draw_series", "fmt_value", "lane_range", "record_ids", "segments", "source_line", "value_text", "value_y"]

@@ -66,6 +66,7 @@ MINOR: 새 기능(장르 프롬프트 층·series band·점도표·성명서 단
 ### Added
 - **장르 프롬프트 층**(작업 1, 15 P3): research·script·director·revise_direction·visual_qa 템플릿 끝 `{{GENRE_BLOCK}}` ← `prompts/genre_<이름>.md` + 장르 프로필 + `rules genre_prompt`(서술 규칙·데이터 원칙·루브릭 추가 7항목·무대 문법). 기본 장르(지정학)는 추가 문단 0 — 5개 프롬프트 md5 전후 동일(`reports/phaseG4/prompt_md5.json`). 주문 `order.yaml`(`schemas/order_models.py`)이 장르의 단일 출처(`genres.load.project_genre`). 연출 입력 `{geo}` 는 시간축이면 무대 역량(레인·레코드), 원고 입력 `{series_block}`(주문 레코드). 시각 검수 `rubric[]`(장르 영상은 7항목 전부 — 워커 check_parsed), 분류 `honesty`·`wording`. provenance `genre`·`genre_declared`. 파리티 테스트가 장르 예시(시간축 연출·루브릭 판정)까지 검사.
 - **금지 문구 3개 승격**(작업 1, 20 §7 — 사람 승인 = D-0090): `시장은 … 주목하고 있다`·`의 향방이 관건`·`촉각을 곤두세우` 를 `banned_phrases.patterns` 로(candidates 에서 뺌). 모든 장르에 적용되므로 `{{RULES.banned_phrases}}` 를 쓰는 지정학 프롬프트도 이 세 줄만큼 바뀐다(장르 층 자체는 바이트 동일). 기존 원고 3편 해당 0.
+- **데이터**(작업 2): 레코드 `DFEDTARU`·`DFEDTARL`(연방기금 목표 범위 상·하한, FRED ← 연준 이사회, public domain, 2019-01~2026-09, transform `month_last` = 일별 → 그 달 마지막 관측) → series `style: band` + `upper_id`(두 레코드 사이 계단 띠, `rules stage_timeline.band`, 끝점 라벨 "아래–위%", 두 레코드 날짜 불일치 = 렌더 전 오류). scatter 레코드(`kind: scatter`, `columns`, `frequency: release`, `released`) `SEP_20260916`(연준 SEP 그림 2, transform `sep_dots` — 원자료 HTML 재적용 대조, `tools/fetch_sep.py`). `rules data.sources_allowed` 에 www.federalreserve.gov.
 
 ---
 

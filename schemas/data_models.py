@@ -16,7 +16,7 @@ from __future__ import annotations
 
 import re
 from datetime import date
-from typing import Optional
+from typing import Literal, Optional
 from urllib.parse import urlparse
 
 from pydantic import BaseModel, ConfigDict, Field, field_validator, model_validator
@@ -54,8 +54,31 @@ class MissingValue(_Strict):
     note: str = Field(min_length=1)
 
 
+class ScatterColumn(_Strict):
+    """산점 레코드의 열 하나(v4.4.0 D-0090 작업 2) — 예: 점도표의 "2026" 열 = 참가자별 전망값(정렬). 중앙값은 코드가 계산."""
+
+    label: str = Field(min_length=1)
+    values: list[float] = Field(min_length=1)
+
+    @model_validator(mode="after")
+    def _sorted(self) -> "ScatterColumn":
+        if self.values != sorted(self.values):
+            raise ValueError(f"scatter 열 {self.label!r} 값은 오름차순(로더가 정렬해 채운다)")
+        return self
+
+    def median(self) -> float:
+        import statistics  # noqa: PLC0415
+
+        return float(statistics.median(self.values))
+
+
 class SeriesRecord(_Strict):
-    """시리즈 하나의 레코드 + 값. 값은 `<series_id>.csv` 에서 로더(data/series.py)가 채운다."""
+    """시리즈 하나의 레코드 + 값. 값은 `<series_id>.csv` 에서 로더(data/series.py)가 채운다.
+
+    v4.4.0(D-0090 작업 2): `kind: scatter` — 발표 한 번의 열별 값 목록(점도표 = 참가자별 전망). values 대신 columns,
+    frequency = release, as_of = 발표 달(released). CSV 헤더 `column,value`."""
+
+    kind: Literal["series", "scatter"] = "series"
 
     series_id: str
     source: str                                  # 출처 줄(예: "FRED(세인트루이스 연은) · 원출처 연준 이사회 H.15")
@@ -69,7 +92,9 @@ class SeriesRecord(_Strict):
     license: str
     license_note: str                            # 출처 페이지의 라이선스 표기 원문(예: "Public Domain: Citation Requested")
     missing: list[MissingValue] = Field(default_factory=list)   # v4.3.0 D-0086 — 적힌 날짜만 빈 값 허용
-    values: list[tuple[date, float]] = Field(min_length=2)
+    values: list[tuple[date, float]] = Field(default_factory=list)   # series: 2개 이상(_dates)
+    columns: list[ScatterColumn] = Field(default_factory=list)       # v4.4.0 scatter 전용
+    released: Optional[date] = None                                  # v4.4.0 scatter 전용 — 발표일
 
     @field_validator("series_id")
     @classmethod
@@ -120,6 +145,10 @@ class SeriesRecord(_Strict):
 
     @model_validator(mode="after")
     def _dates(self) -> "SeriesRecord":
+        if self.kind == "scatter":
+            return self._scatter()
+        if len(self.values) < 2 or self.columns or self.released is not None:
+            raise ValueError("series 레코드는 values 2개 이상, columns·released 없음(scatter 전용)")
         ds = [d for d, _ in self.values]
         for a, b in zip(ds, ds[1:]):
             if b <= a:
@@ -151,6 +180,26 @@ class SeriesRecord(_Strict):
             raise ValueError(f"as_of {self.as_of} 가 retrieved_at {self.retrieved_at} 보다 늦다")
         return self
 
+    def _scatter(self) -> "SeriesRecord":
+        if not self.columns or self.values or self.missing or self.released is None:
+            raise ValueError("scatter 레코드는 columns·released 필수, values·missing 없음")
+        if self.frequency != "release":
+            raise ValueError(f"scatter 레코드 frequency 는 release: {self.frequency!r}")
+        labels = [c.label for c in self.columns]
+        if len(set(labels)) != len(labels):
+            raise ValueError(f"scatter 열 이름 중복: {labels}")
+        if self.as_of != f"{self.released:%Y-%m}":
+            raise ValueError(f"scatter as_of {self.as_of} ≠ 발표 달 {self.released:%Y-%m}")
+        if self.released > self.retrieved_at:
+            raise ValueError(f"released {self.released} 가 retrieved_at {self.retrieved_at} 보다 늦다")
+        return self
+
+    def column(self, label: str) -> ScatterColumn:
+        for c in self.columns:
+            if c.label == label:
+                return c
+        raise KeyError(f"{self.series_id}: 열 {label!r} 없음 — {[c.label for c in self.columns]}")
+
     # --- 조회
     @property
     def start(self) -> date:
@@ -172,4 +221,4 @@ class SeriesRecord(_Strict):
         return f"{y}년 {m}월 기준"
 
 
-__all__ = ["MissingValue", "SeriesRecord", "SeriesTransform"]
+__all__ = ["MissingValue", "ScatterColumn", "SeriesRecord", "SeriesTransform"]
