@@ -236,10 +236,19 @@ class TitleCardLayout(_Strict):
     rule_w: float
 
 
+class EndCardNotice(_Strict):
+    """v4.5.0 D85 — 엔딩 카드 맨 마지막 줄 검증 안내(가장 작은 글씨 한 줄). template 의 `{n}` = 라벨 문장 수."""
+
+    size: float = Field(gt=0)
+    dy: float = Field(gt=0)
+    template: str = Field(pattern=r"\{n\}")
+
+
 class EndCardLayout(_Strict):
     dur_sec: float
     item_size: float
     license_size: float
+    notice_unverified: EndCardNotice
 
 
 class CardLayout(_Strict):

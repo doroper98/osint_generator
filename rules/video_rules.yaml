@@ -55,7 +55,8 @@ script_schema:             # 02 §2.1 요약 — 프롬프트 예시는 tests/an
   duration_limit_sec: null # 길이 제한 없음
   # v3.0.0(D42) → v3.2.0(D-0051 작업 7): 문장 검증 라벨은 코드가 **claims.json status** 로 계산한다(15 P8, SSOT 이동).
   # 문장 sources = claims.json claim_id. 한 문장이 여러 claim 을 인용하면 가장 약한 status(strength_order 앞쪽)가 라벨.
-  # 키 = 18 §2 검증 status 4종(D-0052 D50 정의). verified·corroborated 는 라벨 없음. 패널 provenance·post 카드도 같은 표.
+  # 키 = 18 §2 검증 status 4종(D-0052 D50 정의). verified·corroborated 는 라벨 없음.
+  # v4.5.0(D85, D-0096): 이 표는 **기록용** — 화면 표기 없음(자막·패널·post 카드에 그리지 않는다). script_labels.json·provenance·린트 대조에만 쓰고, 화면에는 end_card.notice_unverified 한 줄(건수)만.
   labels:
     verified: null
     corroborated: null
@@ -252,7 +253,13 @@ layout_480p:               # 09 §2·§4, 08 §10 — 기준 해상도 854×480.
              label_style: {size_ratio: 0.72, color: amber, gap_px: 6}}   # v3.3.0 NB12 — 검증 라벨 접두(script_schema.labels 문구, C9)
   min_font_px: 9.5         # 화면 높이 2% 규칙(엔딩 카드 예외)
   title_card: {dur_sec: 5.6, title_size: 46, subtitle_size: 18, rule_w: 220}
-  end_card: {dur_sec: 11.0, item_size: 9.2, license_size: 7.8}
+  end_card:
+    dur_sec: 11.0
+    item_size: 9.2
+    license_size: 7.8
+    # v4.5.0 사용자 결정 D85(C9 개정, back_and_forth D-0096) — 검증 라벨은 본문(자막·패널·카드)에 그리지 않고 엔딩 카드 맨 마지막 줄 한 줄로만.
+    # n = 영상에 들어간 문장 중 검증 라벨(script_schema.labels)이 붙은 문장 수. n = 0 이면 줄을 그리지 않는다. 문구는 사실만(`{n}` 자리만 코드가 채운다)
+    notice_unverified: {size: 7.8, dy: 14, template: "확인되지 않은 보도·논평 인용 {n}건 — 출처는 위 목록"}   # size = license_size(가장 작은 글씨), dy = 날짜·안내 줄 기준선 아래
   card: {x_right_margin: 24, y: 70, min_w: 230, slide_px: 30, fade_sec: 0.45, big_size: 30, line_size: 13, tag_size: 10.5, src_size: 9.5}
   article_card: {w: 300, y: 68}
   # v3.2.0 18 §5 — X 게시물 카드(post). 캡처 이미지·X 로고 없이 자체 조판. 수치는 18 §5 명세 그대로

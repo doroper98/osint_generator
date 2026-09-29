@@ -62,6 +62,7 @@ MINOR: 규칙 변경(사용자 결정 D85, CLAUDE.md C9 개정). 사실 검증 �
 
 ### Changed
 - **§0**: VERSION 4.5.0, Tier 1·2 `last_synced_with` v4.5.0, v4.4.0 released 대장 행(08c7245, D-0094).
+- **작업 1 규칙**: `rules layout_480p.end_card` 에 `notice_unverified`(size 7.8 = license_size, dy 14, template "확인되지 않은 보도·논평 인용 {n}건 — 출처는 위 목록") — 스키마 `EndCardNotice`(template 에 `{n}` 필수). `script_schema.labels` 는 기록용(화면 표기 없음) 주석.
 
 ---
 
