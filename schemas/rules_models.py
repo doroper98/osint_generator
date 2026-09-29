@@ -240,6 +240,13 @@ class EndCardLayout(_Strict):
     dur_sec: float
     item_size: float
     license_size: float
+    # v4.4.0 dmz_mine_2026 — 크레딧이 화면보다 길면 롤(위로 흐름), 카드가 사라진 뒤 영상 끝까지 검정 유지
+    scroll_top: float = 140             # 롤 영역 위(머리 가로줄) — 설계 px
+    scroll_bottom: float = 424          # 롤 영역 아래(바닥 가로줄 위)
+    scroll_hold_in_sec: float = 2.5     # 롤 시작 전 멈춤
+    scroll_hold_out_sec: float = 2.0    # 롤 끝 뒤 멈춤
+    scroll_fade_px: float = 18          # 롤 영역 위·아래 가장자리 페이드
+    hold_black_after: bool = True       # 카드 뒤 검정 유지(지도가 다시 드러나지 않게)
 
 
 class CardLayout(_Strict):

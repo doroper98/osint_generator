@@ -16,8 +16,14 @@ ENDCARD_NOTE = "수치와 인용은 제작 시점의 공개 보도에 근거합�
 def draw_endcard(ctx: cairo.Context, R: RenderCtx, t: float, c: object, a: float) -> None:  # noqa: N803
     lt = t - c.t0  # type: ignore[attr-defined]
     plan = R.tb.plan
-    ctx.set_source_rgba(0.018, 0.022, 0.032, 0.94 * a)
+    E = END_CARD  # noqa: N806
+    bg = 0.94 * a
+    if E.hold_black_after and t > c.t1 - 0.7:  # type: ignore[attr-defined]  # 사라질 때 글자만 빠지고 배경은 검정으로(지도가 다시 드러나지 않게)
+        bg = 0.94 + 0.06 * min(1.0, (t - (c.t1 - 0.7)) / 0.7)  # type: ignore[attr-defined]
+    ctx.set_source_rgba(0.018, 0.022, 0.032, bg)
     ctx.paint()
+    if a <= 0.01:
+        return
     k = ease_out((lt - 0.1) / 0.9)
     text(ctx, "SOURCES  &  CREDITS", 64, 84 - (1 - k) * 6, 8.5, "mono", C["gold"], a * k, 0, "l", spacing=2.4, role="end_card")
     text(ctx, "자료 및 출처", 64, 110 - (1 - k) * 6, 17, "serif", (0.96, 0.95, 0.93), a * k, 0, "l", spacing=1.0, role="end_card")
@@ -34,25 +40,49 @@ def draw_endcard(ctx: cairo.Context, R: RenderCtx, t: float, c: object, a: float
     secs = credit_sections(cr, R.assets.rights, R.assets.media, R.cache.get("credit_refs"), R.cache.get("cited_sources"),
                            R.cache.get("series_records"))
     place = [s.column for s in cr.sections]
+    # 1) 자리 계산(그리지 않음) — 넘치는지 보고 롤 오프셋을 정한다(잘림 금지, P6)
+    rows: list[tuple] = []
     yy = [158, 158]
     n = 0
     for si, (sec, items) in enumerate(secs):
         ci = place[si]
         x = cols[ci][0]
         y = yy[ci]
-        sa = a * smooth((lt - 0.5 - si * 0.18) / 0.6)
-        text(ctx, sec, x, y, 8.5, "sansb", C["gold"], sa * 0.9, 0, "l", spacing=1.4, role="end_card")
+        rows.append(("sec", x, y, sec, si, 0))
         y += 15
         for m, lic in items:
-            ia = a * smooth((lt - 0.6 - si * 0.18 - n * 0.03) / 0.6)
+            rows.append(("item", x, y, (m, lic), si, n))
             n += 1
-            text(ctx, m, x, y, END_CARD.item_size, "sans", (0.86, 0.87, 0.9), ia, 0, "l", role="end_card")
-            if lic:
-                text(ctx, lic, x, y + 11, END_CARD.license_size, "monom", C["muted"], ia * 0.9, 0, "l", role="end_card")
-                y += 23
-            else:
-                y += 14
+            y += 23 if lic else 14
         yy[ci] = y + 10
+    over = max(yy) - 10 - E.scroll_bottom
+    off = 0.0
+    if over > 0:
+        span = c.t1 - c.t0 - E.scroll_hold_in_sec - E.scroll_hold_out_sec  # type: ignore[attr-defined]
+        off = over * ease_io((lt - E.scroll_hold_in_sec) / max(span, 0.1))
+        ctx.save()
+        ctx.rectangle(0, E.scroll_top, W_OUT, E.scroll_bottom - E.scroll_top + E.license_size)
+        ctx.clip()
+
+    def edge(y: float) -> float:
+        if over <= 0:
+            return 1.0
+        return max(0.0, min(1.0, (y - E.scroll_top) / E.scroll_fade_px, (E.scroll_bottom + E.license_size - y) / E.scroll_fade_px))
+
+    # 2) 그리기
+    for kind, x, y, v, si, k in rows:
+        y -= off
+        if kind == "sec":
+            sa = a * smooth((lt - 0.5 - si * 0.18) / 0.6) * edge(y)
+            text(ctx, v, x, y, 8.5, "sansb", C["gold"], sa * 0.9, 0, "l", spacing=1.4, role="end_card")
+            continue
+        m, lic = v
+        ia = a * smooth((lt - 0.6 - si * 0.18 - k * 0.03) / 0.6)
+        text(ctx, m, x, y, END_CARD.item_size, "sans", (0.86, 0.87, 0.9), ia * edge(y), 0, "l", role="end_card")
+        if lic:
+            text(ctx, lic, x, y + 11, END_CARD.license_size, "monom", C["muted"], ia * 0.9 * edge(y + 11), 0, "l", role="end_card")
+    if over > 0:
+        ctx.restore()
     fa = a * smooth((lt - 1.6) / 0.8)
     ctx.set_source_rgba(1, 1, 1, 0.08 * fa)
     ctx.rectangle(64, H_OUT - 44, W_OUT - 128, 0.8)
@@ -64,7 +94,8 @@ def draw_endcard(ctx: cairo.Context, R: RenderCtx, t: float, c: object, a: float
 def draw_fullcards(ctx: cairo.Context, R: RenderCtx, t: float) -> None:  # noqa: N803
     plan = R.tb.plan
     for c in plan.cards:
-        if not (c.t0 - 0.1 <= t <= c.t1 + 0.1):
+        hold = c.kind == "end" and END_CARD.hold_black_after
+        if not (c.t0 - 0.1 <= t <= c.t1 + 0.1) and not (hold and t > c.t1):
             continue
         a = window(t, c.t0, c.t1, 0.7, 0.7)
         lt = t - c.t0

@@ -252,7 +252,9 @@ layout_480p:               # 09 §2·§4, 08 §10 — 기준 해상도 854×480.
              label_style: {size_ratio: 0.72, color: amber, gap_px: 6}}   # v3.3.0 NB12 — 검증 라벨 접두(script_schema.labels 문구, C9)
   min_font_px: 9.5         # 화면 높이 2% 규칙(엔딩 카드 예외)
   title_card: {dur_sec: 5.6, title_size: 46, subtitle_size: 18, rule_w: 220}
-  end_card: {dur_sec: 11.0, item_size: 9.2, license_size: 7.8}
+  end_card: {dur_sec: 11.0, item_size: 9.2, license_size: 7.8,
+             # v4.4.0 dmz_mine_2026 — 넘치면 롤(잘림 금지, P6) · 카드 뒤 검정 유지(끝 전환에 지도가 다시 보이던 것)
+             scroll_top: 140, scroll_bottom: 424, scroll_hold_in_sec: 2.5, scroll_hold_out_sec: 2.0, scroll_fade_px: 18, hold_black_after: true}
   card: {x_right_margin: 24, y: 70, min_w: 230, slide_px: 30, fade_sec: 0.45, big_size: 30, line_size: 13, tag_size: 10.5, src_size: 9.5}
   article_card: {w: 300, y: 68}
   # v3.2.0 18 §5 — X 게시물 카드(post). 캡처 이미지·X 로고 없이 자체 조판. 수치는 18 §5 명세 그대로
