@@ -9,13 +9,22 @@
   "static_gain_db": 0.14
  },
  {
-  "clip": "ab_hormuz_after_30s.m4a",
+  "clip": "ab_hormuz_A_30s.m4a",
   "window_sec": [
    40.0,
    70.0
   ],
   "full_mix_I_lufs": -14.13,
   "static_gain_db": 0.13
+ },
+ {
+  "clip": "ab_hormuz_C_30s.m4a",
+  "window_sec": [
+   40.0,
+   70.0
+  ],
+  "full_mix_I_lufs": -14.15,
+  "static_gain_db": 0.15
  },
  {
   "clip": "ab_fed_before_30s.m4a",
@@ -27,12 +36,21 @@
   "static_gain_db": 0.33
  },
  {
-  "clip": "ab_fed_after_30s.m4a",
+  "clip": "ab_fed_A_30s.m4a",
   "window_sec": [
    15.0,
    45.0
   ],
   "full_mix_I_lufs": -14.31,
   "static_gain_db": 0.31
+ },
+ {
+  "clip": "ab_fed_C_30s.m4a",
+  "window_sec": [
+   15.0,
+   45.0
+  ],
+  "full_mix_I_lufs": -14.33,
+  "static_gain_db": 0.33
  }
 ]
