@@ -1,0 +1,39 @@
+# 장르 프로필 — 통화정책·거시경제 (v4.2.0, back_and_forth D-0081 작업 2 · D-0082)
+# docs/handoff/20 §3 예시를 그대로 옮겼다. 차이는 아래 세 곳뿐이다(주석 표시).
+#   1) reuse 의 timeline_panel → 레지스트리 이름 timeline(panel kind) — D-0082 쟁점 2 A(별칭 없음)
+#   2) new 중 statement_diff 만 등록(registries.primitives), 나머지 4개는 registries.primitives_planned — D-0082 쟁점 1 A
+#   3) color_semantics 에 added·removed(statement_diff 색 의미, 20 §3.1 policy_document) — D-0081 작업 5
+# status proposed: 사용자 승인 전(20 §3, §12 G4). approved 로 바꾸는 것은 사용자 결정이다.
+# 무대 timeline·chart_wall 은 구현 전(registries.stages_planned, G3).
+schema_version: 1
+genre: macro_monetary            # 통화정책·거시경제
+status: proposed                 # proposed | approved (사용자 승인 후)
+stage:
+  primary: timeline              # §2.1
+  secondary: [chart_wall]
+  timeline:
+    lanes:
+      - {id: policy_rate, label: 기준금리, kind: step, unit: "%"}
+      - {id: inflation,   label: 물가상승률, kind: line, unit: "% (전년 대비)"}
+      - {id: events,      label: 사건, kind: pins}
+color_semantics:
+  hike: "#ff7a59"                # 인상 — 따뜻한 색
+  cut: "#5aa9ff"                 # 인하 — 차가운 색
+  hold: "#a9b0bd"
+  target_band: "rgba(232,184,96,0.15)"   # 목표 범위 띠(금색 반투명)
+  added: green                   # (3) 성명서 문구 추가 — 초록(20 §3.1 policy_document)
+  removed: ru                    # (3) 성명서 문구 삭제 — 붉은 취소선(20 §3.1 policy_document)
+primitives:                      # 이 장르에서 쓰는 시각 요소(레지스트리 id)
+  reuse: [card, article, post, badge, versus, timeline, checklist]   # (1) 20 §3 timeline_panel = panel kind timeline
+  new:   [rate_step_line, dot_plot, yield_curve_shift, statement_diff, target_band]   # (2) statement_diff 만 등록, 나머지 planned
+badges:
+  people: from_library           # 라이브러리 인물(예: 제롬 파월, 케빈 워시 초상이 이미 있음)
+  institutions: rights_check     # 중앙은행 휘장은 권리 확인 후(07 §5)
+data_sources:                    # §5
+  required_fields: [series_id, source, retrieved_at, transform, as_of]
+narration:
+  define_terms_once: true        # 점도표·기준금리 등 전문 용어는 첫 등장 때 한 문장으로 정의
+  avoid: [투자 권유, 가격 예측 단정]
+media:
+  preferred: [official_photo, press_video, article, post]
+qa_extra: [chart_honesty, series_limit_3, units_visible, as_of_visible]

@@ -26,6 +26,20 @@ class GenreFilesTest(unittest.TestCase):
         self.assertEqual(set(p.primitives.reuse), (set(reg.event_types) - carriers) | set(reg.panel_kinds) | set(reg.badge_kinds))
         self.assertEqual(set(p.color_semantics.values()), set(reg.accents))   # 09 §7 색 토큰 전부에 의미가 있다
 
+    def test_macro_monetary_is_section3_proposed(self) -> None:
+        """20 §3 예시 그대로(D-0081 작업 2) + D-0082 두 대응(timeline_panel → timeline, new 의 planned)."""
+        from engine.primitives import style_for  # noqa: PLC0415
+
+        p = load_genre("macro_monetary")
+        reg = load_rules().registries
+        self.assertEqual(p.status, "proposed")
+        self.assertEqual(p.stage.names(), ["timeline", "chart_wall"])
+        self.assertTrue(set(p.stage.names()) <= set(reg.stages_planned))
+        self.assertEqual(p.primitives.new, ["rate_step_line", "dot_plot", "yield_curve_shift", "statement_diff", "target_band"])
+        self.assertEqual(set(p.primitives.new) - set(reg.primitives), set(reg.primitives_planned))
+        self.assertIn("timeline", p.primitives.reuse)
+        self.assertEqual(set(style_for("statement_diff", p.color_semantics).colors), {"added", "removed"})
+
 
 if __name__ == "__main__":
     unittest.main()
