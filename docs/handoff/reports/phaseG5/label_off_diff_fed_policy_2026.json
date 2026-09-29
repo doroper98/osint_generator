@@ -1,13 +1,14 @@
 {
  "schema_version": 1,
- "role": "D-0096 작업 4 — fed_policy_2026 auto 프리뷰, 검증 라벨 본문 제거 전후",
- "method": "G5 직전 코드(e57bec2)·같은 자산 렌더 vs G5 코드 렌더(같은 auto 시각). 픽셀 차 > 0 마스크를 두 영역과 대조: 자막 띠 y ≥ 402(last_line_y − (max_lines−1)·line_gap − size − halo, 전체 폭) ∪ 엔딩 카드 안내 줄 y 458.2~472 × x 60~427(480p 좌표, 해상도 비례)",
+ "role": "D-0096 작업 4 + D-0098 §2·§4·D-0099 A — fed_policy_2026 auto 프리뷰, 검증 라벨 본문 제거·엔딩 카드 크레딧 열 재배치 전후",
+ "method": "G5 직전 코드(e57bec2)·G5 직전 credits.yaml 렌더 vs 현재 코드·credits.yaml 렌더(같은 auto 시각). 픽셀 차 > 0 마스크를 영역과 대조: 자막 띠 y ≥ 402(전체 폭) ∪ 엔딩 카드 안내 줄 y 458.2~472 × x 60~427 ∪ 엔딩 카드 컷만 크레딧 영역 y 140~436(전체 폭, D-0098 §2 열 재배치·D-0099 A). 480p 좌표, 해상도 비례",
  "changed_cuts": 5,
  "of": 22,
  "all_inside": true,
  "cuts": [
   {
    "cut": "p_0007.15.png",
+   "end_card": false,
    "md5_old": "2b50b33e0da89b2226ecc50c41a5e93a",
    "md5": "2b50b33e0da89b2226ecc50c41a5e93a",
    "changed_px": 0,
@@ -16,6 +17,7 @@
   },
   {
    "cut": "p_0015.09.png",
+   "end_card": false,
    "md5_old": "ccea272a760a6c7a5974184a235d6091",
    "md5": "ccea272a760a6c7a5974184a235d6091",
    "changed_px": 0,
@@ -24,6 +26,7 @@
   },
   {
    "cut": "p_0018.20.png",
+   "end_card": false,
    "md5_old": "a85d9d9a7c07c7334638824795a88a34",
    "md5": "a85d9d9a7c07c7334638824795a88a34",
    "changed_px": 0,
@@ -32,6 +35,7 @@
   },
   {
    "cut": "p_0030.93.png",
+   "end_card": false,
    "md5_old": "53e9e71f73271def116992cbfbc81d70",
    "md5": "53e9e71f73271def116992cbfbc81d70",
    "changed_px": 0,
@@ -40,6 +44,7 @@
   },
   {
    "cut": "p_0043.65.png",
+   "end_card": false,
    "md5_old": "faa157881638a8cd7a8737c773fafd77",
    "md5": "faa157881638a8cd7a8737c773fafd77",
    "changed_px": 0,
@@ -48,6 +53,7 @@
   },
   {
    "cut": "p_0061.16.png",
+   "end_card": false,
    "md5_old": "0be8682946f0aa559debcb7a9788e04c",
    "md5": "0be8682946f0aa559debcb7a9788e04c",
    "changed_px": 0,
@@ -56,6 +62,7 @@
   },
   {
    "cut": "p_0071.33.png",
+   "end_card": false,
    "md5_old": "a06c930ae9ed6d9fdec53e6e97f2f873",
    "md5": "a06c930ae9ed6d9fdec53e6e97f2f873",
    "changed_px": 0,
@@ -64,6 +71,7 @@
   },
   {
    "cut": "p_0091.71.png",
+   "end_card": false,
    "md5_old": "c3c1bf2239b654c4578b97385d2b5dda",
    "md5": "c3c1bf2239b654c4578b97385d2b5dda",
    "changed_px": 0,
@@ -72,6 +80,7 @@
   },
   {
    "cut": "p_0108.25.png",
+   "end_card": false,
    "md5_old": "edefb936579b60439e72fd55f22ceab1",
    "md5": "edefb936579b60439e72fd55f22ceab1",
    "changed_px": 0,
@@ -80,6 +89,7 @@
   },
   {
    "cut": "p_0128.43.png",
+   "end_card": false,
    "md5_old": "a505b241ed4e351bb74a3407cecf805d",
    "md5": "a505b241ed4e351bb74a3407cecf805d",
    "changed_px": 0,
@@ -88,6 +98,7 @@
   },
   {
    "cut": "p_0138.33.png",
+   "end_card": false,
    "md5_old": "5aa04b8a8e4be76a8aca93c992b94250",
    "md5": "3989ab9bb8481b1659e876da54f87442",
    "changed_px": 11220,
@@ -101,6 +112,7 @@
   },
   {
    "cut": "p_0162.47.png",
+   "end_card": false,
    "md5_old": "453a8376521e390c4429537caa012f8b",
    "md5": "453a8376521e390c4429537caa012f8b",
    "changed_px": 0,
@@ -109,6 +121,7 @@
   },
   {
    "cut": "p_0184.30.png",
+   "end_card": false,
    "md5_old": "5d22c94865365643c0218d5fa5a6cf52",
    "md5": "2df27f776a9d3062f6fb666ece7327e3",
    "changed_px": 9122,
@@ -122,6 +135,7 @@
   },
   {
    "cut": "p_0206.97.png",
+   "end_card": false,
    "md5_old": "85308f46991aadd7ae480e64049dc684",
    "md5": "85308f46991aadd7ae480e64049dc684",
    "changed_px": 0,
@@ -130,6 +144,7 @@
   },
   {
    "cut": "p_0214.92.png",
+   "end_card": false,
    "md5_old": "7a616d80444220845c930e5d57c209cc",
    "md5": "7a616d80444220845c930e5d57c209cc",
    "changed_px": 0,
@@ -138,6 +153,7 @@
   },
   {
    "cut": "p_0233.31.png",
+   "end_card": false,
    "md5_old": "f5ce7072b6dd0947e9e617193ea88963",
    "md5": "f5ce7072b6dd0947e9e617193ea88963",
    "changed_px": 0,
@@ -146,6 +162,7 @@
   },
   {
    "cut": "p_0249.41.png",
+   "end_card": false,
    "md5_old": "a9fd78bf567de88058d6ca069b00e6eb",
    "md5": "a9fd78bf567de88058d6ca069b00e6eb",
    "changed_px": 0,
@@ -154,6 +171,7 @@
   },
   {
    "cut": "p_0267.95.png",
+   "end_card": false,
    "md5_old": "747c042138151eda566255655b83f0a4",
    "md5": "1b04d47502b6a9c9bd1794f889d29e75",
    "changed_px": 11551,
@@ -167,6 +185,7 @@
   },
   {
    "cut": "p_0276.09.png",
+   "end_card": false,
    "md5_old": "9957950d33915a011c9f8711a0ee25a9",
    "md5": "9957950d33915a011c9f8711a0ee25a9",
    "changed_px": 0,
@@ -175,6 +194,7 @@
   },
   {
    "cut": "p_0289.92.png",
+   "end_card": false,
    "md5_old": "1a957f199d6c3f332434c562c10cdb5f",
    "md5": "1a957f199d6c3f332434c562c10cdb5f",
    "changed_px": 0,
@@ -183,28 +203,30 @@
   },
   {
    "cut": "p_0299.75.png",
+   "end_card": true,
    "md5_old": "9ce65492866974f29207e37ad57e9dd7",
-   "md5": "1bca2b42183f73325e9ac9da645cb0c8",
-   "changed_px": 701,
+   "md5": "9135c8549b05692f697f9e4b14d107f6",
+   "changed_px": 28995,
    "outside_zones_px": 0,
    "bbox_yx": [
-    461,
-    469,
+    151,
+    479,
     63,
-    231
+    638
    ]
   },
   {
    "cut": "p_0301.12.png",
+   "end_card": true,
    "md5_old": "29a61726a040fb062f0ed7427b121c5b",
-   "md5": "abb74615ad763581bd1aeb235b271675",
-   "changed_px": 701,
+   "md5": "ba996f7d74b2284de913316a4890bec8",
+   "changed_px": 28995,
    "outside_zones_px": 0,
    "bbox_yx": [
-    461,
-    469,
+    151,
+    479,
     63,
-    231
+    638
    ]
   }
  ]
