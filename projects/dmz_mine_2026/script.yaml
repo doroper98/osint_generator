@@ -13,7 +13,7 @@ scenes:
     - clm_0001
   - date: 2026.09.21
     text: 군사분계선에서 남쪽으로 약 10m 떨어진 곳이었습니다.
-    tts: 군사분계선에서 남쪽으로 약 십 미터 떨어진 곳이었습니다.
+    tts: 군사 분계선에서 남쪽으로 약 십 미터 떨어진 곳이었습니다.
     emphasis:
     - 약 10m
     sources:
@@ -46,6 +46,7 @@ scenes:
     - 새 수색로
     sources:
     - clm_0005
+    tts: 유엔사 현장조사를 지원하려고 군사 분계선 쪽으로 새 수색로를 내던 중이었습니다.
 - id: two_blasts
   sentences:
   - date: 2026.09.21
@@ -54,6 +55,11 @@ scenes:
     - 두 차례
     sources:
     - clm_0007
+    media:
+      kind: article
+      asset_id: hk_0923
+      at: 두 차례
+      dur: 5.5
   - date: 2026.09.21
     text: 앞장선 공병 중사가 첫 폭발에 다쳤습니다.
     emphasis: []
@@ -87,6 +93,11 @@ scenes:
     - 알 수 없다
     sources:
     - clm_0011
+    media:
+      kind: article
+      asset_id: asiae_0922
+      at: 알 수 없다고
+      dur: 5.5
   - date: 2026.09.22
     text: 확실한 증거가 필요하다는 것이었습니다.
     emphasis: []
@@ -133,6 +144,11 @@ scenes:
     emphasis: []
     sources:
     - clm_0014
+    media:
+      kind: article
+      asset_id: hk_0928
+      at: 중간 조사 결과
+      dur: 5.5
   - date: 2026.09.28
     text: 합참은 사고 지역에 아군이 지뢰를 묻은 기록이 없다고 밝혔습니다.
     emphasis:
@@ -197,6 +213,11 @@ scenes:
     - 수지반보병지뢰
     sources:
     - clm_0026
+    media:
+      kind: article
+      asset_id: newspim_0929
+      at: 추가로 발견
+      dur: 5.5
   - date: 2026.09.29
     text: 합참은 장병들이 봤다고 진술한 지뢰와는 다른 것으로 평가했습니다.
     emphasis: []
@@ -213,6 +234,7 @@ scenes:
     - 군사분계선 남쪽
     sources:
     - clm_0028
+    tts: 네 번째 지뢰와 두 폭발 구덩이가 군사 분계선 남쪽이라는 점을 유엔사가 인정했다는 설명입니다.
 - id: minister
   sentences:
   - date: 2026.09.29
@@ -232,6 +254,11 @@ scenes:
     - 정전협정 위반
     sources:
     - clm_0031
+    media:
+      kind: article
+      asset_id: sisa_0929
+      at: 정전협정 위반
+      dur: 5.5
   - date: 2026.09.29
     text: 상응 조치는 단계적으로 하되, 작전 사항이라 공개하기 어렵다고 했습니다.
     emphasis: []
@@ -242,6 +269,11 @@ scenes:
     emphasis: []
     sources:
     - clm_0031
+    media:
+      kind: article
+      asset_id: khan_0929
+      at: 진성준
+      dur: 5.5
   - date: 2026.09.29
     text: 방어 목적의 시설이나 무기는 정전협정 위반이 아니라는 것입니다.
     emphasis: []
@@ -269,6 +301,11 @@ scenes:
     emphasis: []
     sources:
     - clm_0034
+    media:
+      kind: article
+      asset_id: newspim_0929b
+      at: 청와대는
+      dur: 5.5
   - date: 2026.09.29
     text: 이재명 대통령은 신속하고 철저한 조사를 주문했습니다.
     emphasis: []
@@ -285,6 +322,11 @@ scenes:
     - 대북 확성기
     sources:
     - clm_0037
+    media:
+      kind: article
+      asset_id: newdaily_0929
+      at: 대북 확성기
+      dur: 5.5
   - date: 2026.09.29
     text: 국방부는 확성기 재개를 최종 판단과 함께 검토하겠다고 밝혔습니다.
     emphasis: []
@@ -301,7 +343,7 @@ scenes:
     - clm_0038
   - date: '2026.09'
     text: 군 당국에 따르면 북한군은 최근 한 달 사이 군사분계선을 20여 차례 넘었습니다.
-    tts: 군 당국에 따르면 북한군은 최근 한 달 사이 군사분계선을 이십여 차례 넘었습니다.
+    tts: 군 당국에 따르면 북한군은 최근 한 달 사이 군사 분계선을 이십여 차례 넘었습니다.
     emphasis:
     - 20여 차례
     sources:

@@ -60,6 +60,35 @@ entities:
   warsh:
     kind: person
     flag: us          # source.credit flickr.com/photos/federalreserve · url "Official_portrait_of_Kevin_M._Warsh"(미 연방준비제도 공식 초상). 직함은 source 에 없어 비움
+  # v4.4.0 — dmz_mine_2026: 원고에 나오는 인물(초상 = 프로젝트 assets/portraits, Commons 자유 라이선스 원본 + tools/portrait_fallback)
+  kang_shin_chul:
+    kind: person
+    names: [강신철, 강신철 장관, 강신철 국방장관, 강 장관]
+    flag: kr
+    portrait: kang_shin_chul
+    role_default: 대한민국 국방부 장관
+    rights: people.kang_shin_chul
+  jin_sung_joon:
+    kind: person
+    names: [진성준, 진성준 의원, 진성준 위원장]
+    flag: kr
+    portrait: jin_sung_joon
+    role_default: 국회 국방위원장(더불어민주당)
+    rights: people.jin_sung_joon
+  kim_jong_un:
+    kind: person
+    names: [김정은, 김정은 위원장, Kim Jong Un]
+    flag: kp
+    portrait: kim_jong_un
+    role_default: 북한 국무위원장
+    rights: people.kim_jong_un
+  shoigu:
+    kind: person
+    names: [쇼이구, 세르게이 쇼이구, 쇼이구 서기]
+    flag: ru
+    portrait: shoigu
+    role_default: 러시아 안보회의 서기
+    rights: people.shoigu
   # ---------------------------------------------------------------- 기관
   navcent:
     kind: org
