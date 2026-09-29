@@ -60,6 +60,14 @@ direction 의 `genre`(없으면 geopolitics, provenance `genre.declared` false)�
 수치 시리즈는 데이터 레코드(`data/series/<id>.yaml`+`.csv`, `schemas/data_models.py:SeriesRecord`, 허용 목록 `rules:data`)에서만 온다. `series` 이벤트가 레코드에서 직접 그리고, 빈 달(`missing`)은 끊고 "자료 없음"을 표시한다. 원고는 `sources: [series:<id>]` 로 레코드를 가리키고 린트가 수치를 대조한다(D-0088).
 지도를 쓰지 않는 영상은 지형 자산을 읽지 않는다. 엔딩 카드는 `auto: series` 절로 레코드의 출처·라이선스 표기·기준 시점을 적는다. 정본은 handoff 20 §2.3·§5·§6.
 
+### 2.4 첫 비지정학 영상의 요소 — v4.4.0
+
+`series` 는 두 레코드 사이를 칠하는 목표 범위 띠(`style: band`, `upper_id`)를 그린다. 두 레코드의 날짜가 다르면 렌더 전 오류다.
+`color_by: change` 를 주면 레코드 값의 변화로 달마다 장르 색 의미(인상·인하·동결)를 코드가 정한다. 연출은 색을 적지 않는다. 토큰은 `rules:stage_timeline.band`·`series`.
+데이터 레코드는 발표 한 번의 열별 값(`kind: scatter` — 점도표)도 담는다. 원자료는 받은 그대로 두고 변환을 다시 적용해 대조한다(`tools/fetch_series.py`·`tools/fetch_sep.py`).
+프리미티브 `dot_plot` 은 scatter 레코드에서 참가자별 점·중앙값·고정 문구·출처 줄을 그리고, 값 축이라 정직성 검사 대상이다. `statement_diff` 의 두 문구는 주문 프로젝트에서 intake 원문의 연속 구절이어야 한다(렌더 전 오류).
+기관 공식 Flickr 사진은 사진 페이지의 라이선스 번호를 코드가 읽어 허용 목록(`rules:media.flickr`) 밖이면 받지 않는다. 정본은 handoff 20 §4·§5·§8.
+
 ## 3. 프리뷰와 두 게이트
 
 | 게이트 | 상태 | 사람이 보는 것 |

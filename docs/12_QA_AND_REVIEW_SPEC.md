@@ -69,6 +69,12 @@ handoff 20 §5.3 표의 아홉 규칙을 네 검사(`chart_honesty`·`series_lim
 적용 범위는 요소의 축 종류(렌더러 모듈 `AXIS`)로 정한다 — 값 축(시리즈·dots·dual_line)은 넷 다, 날짜 축(timeline·gantt 패널·시간축 무대)은 chart_honesty 만. 적용되지 않는 검사는 checks.json `notes` 에 `n/a` 로 남는다(D-0087). 표는 `rules:qa_checks.chart_targets`.
 위반 주입 아홉 건의 합성 판정은 `tools/chart_honesty_report.py --synthetic`, 테스트는 `tests/test_chart_honesty.py`.
 
+### 2.4 장르 영상 검수 보강 — v4.4.0
+
+`glyphs` 는 프리뷰 컷을 그리며 **그 글자를 그린 글꼴**에 글리프가 있는지 본다(`typography.GLYPH_MISS`). 프로젝트 글꼴 중 하나에만 있는 글자는 두부 상자가 되므로 hard 다.
+프리미티브도 모듈 `AXIS` 로 정직성 적용 범위를 정한다(값 축이면 `chart_meta`). 시각 검수는 장르 영상에서 루브릭 추가 항목(handoff 20 §9, `rules:genre_prompt.rubric_extra`)을 항목마다 판정한다.
+자막 앞 검증 라벨은 의무 표기라 검수 지적 대상이 아니다(프롬프트에 규칙 값으로 명시).
+
 ## 3. 시각 검수 판정 형식
 
 시각 검수 워커의 출력은 `engine.qa.QAVerdict`다. 지적(`QAIssue`)은 컷(`frame`)·등급(hard/soft)·분류·근거(evidence)를 가진다.

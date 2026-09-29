@@ -39,6 +39,14 @@ last_review: 2026-09-29
 - 번들 어댑터(`bundle/`)는 워커가 아니라 결정적 변환이다. 번들은 재료로만 쓴다(handoff 12 §5, [05](05_DATA_SCHEMA_SPEC.md)).
 - 시각 검수 루프·게이트 ② 판정은 [12](12_QA_AND_REVIEW_SPEC.md) §2.
 
+### 2.1 장르 프롬프트 층 — v4.4.0
+
+research·script·director·revise_direction·visual_qa 다섯 프롬프트는 템플릿 끝 표지 `{{GENRE_BLOCK}}` 에 장르 문단(`prompts/genre_<이름>.md`)을 받는다.
+문단의 문장은 `rules:genre_prompt`(서술 규칙·데이터 원칙·루브릭 추가 항목·무대별 문법)에서, 켜고 끄는 값은 장르 프로필에서 온다. 코드 문장은 없다(15 P3).
+프로젝트 장르의 단일 출처는 주문 `order.yaml`(`schemas/order_models.py`, handoff 20 §11)이다. 주문이 없으면 기본 장르(지정학)이고, 기본 장르는 추가 문단이 없어 프롬프트가 바이트 그대로다.
+연출 입력의 `{geo}` 자리는 시간축 무대면 무대 역량(레인·데이터 레코드·원문 문서)이 된다. 원고 입력은 주문 레코드 블록(`{series_block}`)을 받는다.
+시각 검수는 장르 영상이면 루브릭 추가 항목을 `rubric[]` 에 항목마다 판정해야 한다(워커가 강제). provenance 는 `genre`·`genre_declared` 를 남긴다.
+
 ## 3. 엔진 단계 (워커 아님)
 
 원고 린트·음성·지오·연출 점검·프리뷰·렌더·믹스·먹싱은 워커가 아니라 엔진 CLI다. 단계표는 [10](10_RENDERING_PIPELINE_SPEC.md) §1이다.

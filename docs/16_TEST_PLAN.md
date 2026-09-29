@@ -35,6 +35,8 @@ v2 합격 기준은 [GOAL.md](../GOAL.md) G3(17개, 항목별 검증 방법)이�
 - [ ] hormuz `--preview golden` 25컷 MAD 0(렌더 코드를 바꾸지 않은 Phase) 또는 근거 있는 차이표.
 - [ ] 480p 전편 `video_noaudio.mp4` md5 무변경(렌더 무변경 Phase).
 - [ ] `prev/checks.json` hard 0, provenance drops 0.
+- [ ] 시간축 데모 12컷 md5 = 최신 등재 기준선(v4.4.0 `reports/phaseG4/demo_frames.json`, 글자 토큰 변경 D-0092).
+- [ ] 장르 프롬프트 층: 기본 장르 프롬프트 바이트 동일, 장르 예시 출력 = 스키마(`tests/test_genre_prompts.py`, 파리티).
 
 v1 회귀 항목(Command Center 슬롯·Remotion render_mode·DebugOverlay OCR)은 폐기됐다(G3-legacy).
 

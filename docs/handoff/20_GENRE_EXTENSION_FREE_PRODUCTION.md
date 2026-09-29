@@ -193,6 +193,8 @@ PREVIEW_FIXTURE = {...}                  # 레지스트리 예제 → 갤러리�
 - **영상 한 편에 새 요소는 최대 3개.** 먼저 재사용을 검토한다. 요소가 무한히 늘면 품질 관리가 불가능해진다.
 - 한 번 등록된 요소는 장르 프로필의 `reuse`로 옮겨 다음 영상부터 기본 목록이 된다.
 
+> **구현됨(v4.4.0, back_and_forth D-0090 작업 3)**: 첫 영상의 새 요소는 둘 — `statement_diff`(단어 비교 개선: 공통 접두·접미 + 가운데 대조, 문구 = intake 원문 연속 구절)와 `dot_plot`(scatter 레코드, 중앙값 코드 계산, 고정 문구 "참가자별 전망이며 약속이 아님", `AXIS value`). 스케치 `reports/phaseG4/dot_plot_sketch.jpg`, 사용자 승인 전(provenance `elements.approval: pending`). `rate_step_line`·`target_band` 는 series step·band 가 대신하고 `yield_curve_shift` 는 chart_wall 무대가 필요해 만들지 않았다. 위 원문은 그대로 둔다.
+
 ---
 
 ## 5. 데이터와 차트 정직성 (지정학이 아닌 주제의 핵심 위험)
@@ -265,6 +267,8 @@ revision_note: 잠정치는 이후 수정될 수 있음
 - **숫자 밀도:** 한 문장에 숫자는 2개 이하. 나머지는 화면(차트·카드)이 말한다.
 - **금지 문구 린트는 동일 적용.** 경제 해설에서 흔한 상투어도 금지 목록 후보로 모은다(예: "시장은 ~를 주목하고 있다", "~의 향방이 관건이다", "~에 촉각을 곤두세우고 있다").
 
+> **구현됨(v4.4.0, back_and_forth D-0090 작업 1)**: 위 세 규칙은 장르 프로필 `narration`(define_terms_once·attribute_causality·numbers_per_sentence_max·forecast_attribution)과 `rules genre_prompt.narration` 문장으로 리서치·원고 프롬프트에 들어간다. 예시 상투어 셋은 `banned_phrases.patterns` 로 승격했다(사람 승인 = D-0090). 위 원문은 그대로 둔다.
+
 ---
 
 ## 8. 미디어
@@ -284,6 +288,8 @@ revision_note: 잠정치는 이후 수정될 수 있음
 5. 색 의미가 장르 프로필과 일치하는가(인상/인하, 상승/하락)
 6. 전문 용어가 정의 없이 쏟아지는가
 7. 투자 권유로 읽히는 표현이 있는가
+
+> **구현됨(v4.4.0, back_and_forth D-0090 작업 1)**: 일곱 항목은 `rules genre_prompt.rubric_extra` 이고 장르 영상의 시각 검수 프롬프트에 들어간다. 출력 `rubric[]` 에 항목마다 판정(워커가 전부 요구). 위 원문은 그대로 둔다.
 
 ---
 
@@ -322,6 +328,8 @@ revision_note: 잠정치는 이후 수정될 수 있음
 - 슬라이드처럼 차트를 한 장씩 넘기는 구성은 금지다. 연속된 무대 위의 카메라 문법을 지킨다.
 길이: 내용이 정한다(고정 막 금지).
 ```
+
+> **구현됨(v4.4.0, back_and_forth D-0090 작업 4)**: 주문은 프로젝트 `order.yaml`(`schemas/order_models.py:Order` — 주제·장르·불변 층·주문 문장·데이터·미디어·사용자 결정 상태)로 남긴다. 장르 프롬프트 층이 여기서 장르를 읽는다. 첫 실증 `projects/fed_policy_2026`. 위 원문은 그대로 둔다.
 
 ---
 
