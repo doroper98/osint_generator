@@ -1,0 +1,166 @@
+{
+ "hormuz": [
+  {
+   "band_hz": [
+    30,
+    45
+   ],
+   "before_db": -23.16,
+   "after_db": -19.0
+  },
+  {
+   "band_hz": [
+    45,
+    60
+   ],
+   "before_db": -33.98,
+   "after_db": -34.24
+  },
+  {
+   "band_hz": [
+    60,
+    90
+   ],
+   "before_db": -14.21,
+   "after_db": -15.79
+  },
+  {
+   "band_hz": [
+    90,
+    120
+   ],
+   "before_db": -34.95,
+   "after_db": -31.15
+  },
+  {
+   "band_hz": [
+    120,
+    160
+   ],
+   "before_db": -29.12,
+   "after_db": -33.46
+  },
+  {
+   "band_hz": [
+    160,
+    200
+   ],
+   "before_db": -35.29,
+   "after_db": -39.95
+  },
+  {
+   "band_hz": [
+    200,
+    300
+   ],
+   "before_db": -28.44,
+   "after_db": -34.03
+  },
+  {
+   "band_hz": [
+    300,
+    500
+   ],
+   "before_db": -31.62,
+   "after_db": -37.43
+  },
+  {
+   "band_hz": [
+    500,
+    1000
+   ],
+   "before_db": -32.31,
+   "after_db": -38.16
+  },
+  {
+   "band_hz": [
+    1000,
+    2000
+   ],
+   "before_db": -37.42,
+   "after_db": -43.27
+  }
+ ],
+ "fed": [
+  {
+   "band_hz": [
+    30,
+    45
+   ],
+   "before_db": -23.13,
+   "after_db": -19.13
+  },
+  {
+   "band_hz": [
+    45,
+    60
+   ],
+   "before_db": -33.98,
+   "after_db": -34.34
+  },
+  {
+   "band_hz": [
+    60,
+    90
+   ],
+   "before_db": -14.2,
+   "after_db": -15.87
+  },
+  {
+   "band_hz": [
+    90,
+    120
+   ],
+   "before_db": -34.88,
+   "after_db": -31.26
+  },
+  {
+   "band_hz": [
+    120,
+    160
+   ],
+   "before_db": -29.14,
+   "after_db": -33.58
+  },
+  {
+   "band_hz": [
+    160,
+    200
+   ],
+   "before_db": -35.37,
+   "after_db": -40.12
+  },
+  {
+   "band_hz": [
+    200,
+    300
+   ],
+   "before_db": -28.52,
+   "after_db": -34.19
+  },
+  {
+   "band_hz": [
+    300,
+    500
+   ],
+   "before_db": -31.71,
+   "after_db": -37.61
+  },
+  {
+   "band_hz": [
+    500,
+    1000
+   ],
+   "before_db": -32.39,
+   "after_db": -38.33
+  },
+  {
+   "band_hz": [
+    1000,
+    2000
+   ],
+   "before_db": -37.45,
+   "after_db": -43.4
+  }
+ ]
+}
