@@ -51,15 +51,28 @@ print(f.endcard_layout(s,[x.column for x in P.R.credits.sections])[1])"         
 git worktree add /tmp/wt_old e57bec2
 python -m engine.render projects/fed_policy_2026 --preview <auto 22 시각>        # 두 트리에서 각각
 python -m engine.render projects/fed_policy_2026 --preview 301.12 --res 1080p   # endcard_after.jpg
-python -m engine.render projects/fed_policy_2026 --jobs 4 && python -m engine.mux projects/fed_policy_2026
+python -m audio.mix projects/fed_policy_2026      # G4 mix.flac 을 f32 로 풀어 쓰지 않는다(§4)
+python -m engine.render projects/fed_policy_2026 --jobs 4 && python -m engine.mux projects/fed_policy_2026   # → final.mp4 를 final_480p.mp4 로 옮긴 뒤
 python -m engine.render projects/fed_policy_2026 --jobs 4 --res 1080p && python -m engine.mux projects/fed_policy_2026
 ```
 
 ## 3. 측정
 
-(재렌더 뒤 채움)
+| 항목 | 값 |
+|---|---|
+| 크레딧 마지막 기준선(한도 428) | fed_policy 415·423(D-0099 A), hormuz 405·347, 랫클리프 215·278, 데모 244·301 — 넘침 0 |
+| 자료 절 | 4줄 → 3줄(FEDFUNDS·목표 범위 레코드가 같은 줄). 다른 세 편 합칠 줄 0 |
+| 프리뷰 22컷 전후(e57bec2 기준) | 변경 5컷(자막 3·엔딩 2), 영역 밖 0 — `label_off_diff_fed_policy_2026.json`. 엔딩 2컷 bbox y 151~479(옛 판이 화면 아래까지 그렸다) |
+| checks | fed_policy hard 0 · warning 2(media_beats, G4 와 같음) |
+| 회귀 | hormuz 골든 25/25(END 컷 포함)·랫클리프 20/20·데모 12/12, 모두 hard 0 — `endcard_regression.json` |
+| 전편 | 480p `3eb4ae2a8eb48886dac23caedb9d1862`, 1080p `a65ac872bae31f6f9ba37e492f7ca9aa`, 307.12초. 오디오 스트림 md5 `06324317…` = G4, I −14.02 LUFS · TP −1.59 |
+| provenance | 첫 판(3a2b8e1)과 차이 = rules_hash 한 칸. final.srt·description.txt 첫 판과 같음, credits.txt 는 자료 줄 합침·절 순서·"사진 · 기사 카드" |
+| 산출물 | `endcard_before.jpg`(첫 판 1080p 엔딩 — 국기·음성 절 잘림)·`endcard_after.jpg`(1080p t=301.12)·`fed_policy_sheet.jpg`·`asset_md5.json`, artifacts/phaseG5-v4.5.0 d437214 |
+| pytest | 1034 passed · failed 0 · xfail 0(G5 작업 3 1028 + 새 6, 삭제 0) |
 
 ## 4. 운영 기록
 
 - 재기동 16 이 R-0113 결정 대기 중 미커밋 코드를 stash 로 두고 멈췄고, 컨테이너 회수로 잃었다. 이번 세션은 자산 복원을 기다리는 동안 코드를 `WIP` 커밋(3a24242)으로 먼저 푸시했다. 이력 재작성 금지라 그 커밋을 고치지 않고, 복원 뒤 전체 pytest 통과를 b558eac 에 적었다.
+- 전편 렌더 명령을 480p·1080p 한 줄로 이어 돌려 1080p mux 가 `out/final.mp4` 를 덮었다(mux 출력 이름은 하나). 480p 를 다시 렌더·mux 했다.
+- 복원한 G4 `mix.flac`(s32)를 f32 로 풀어 mux 하니 오디오 스트림 md5 가 G4 와 달랐다(18a562f4). G5 첫 판과 같이 `python -m audio.mix` 로 다시 계산하자 `06324317…` 로 G4 와 같아졌다. 그 판으로 두 해상도를 다시 만들었다.
 - 프리뷰가 넘치는 엔딩 컷에서 예외로 멈추면 checks.json 이 쓰이지 않아 `[endcard-overflow]` 가 연출 루프에 닿지 않는다. 그래서 프리뷰는 그 컷을 건너뛰고(로그 한 줄) checks offscreen hard 로 남긴다. 전편 렌더는 같은 오류로 멈춘다(D-0098 §2(b) 범위 안의 배선, phase_report 에 보고).

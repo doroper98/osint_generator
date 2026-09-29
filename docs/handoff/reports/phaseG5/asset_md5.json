@@ -1,0 +1,48 @@
+{
+ "schema_version": 1,
+ "role": "G5 재기동 17 컨테이너 — fed_policy 재렌더 입력 자산(G4 asset_md5 대조, SEP htm = data/series/raw)과 산출물",
+ "fed_policy_2026": {
+  "fed_presser_0729.jpg": "e3fe1a0c521da44ca6e8d748de8d2807",
+  "fed_presser_0729_720.jpg": "1d5d3e94981af4371ba0c2acb7a51c6c",
+  "fed_presser_0916.jpg": "04043b484e3f88e8469e867f08a834f9",
+  "fed_presser_0916_720.jpg": "4c9694d6248f72c65d61fd34cabdacb7",
+  "fed_presser_0916_b.jpg": "74e47e34bbea9238ec5171ac2440a6c4",
+  "fed_presser_0916_b_720.jpg": "5dbf1fb848bb90620017a7cd0f26cfe9"
+ },
+ "fed_policy_2026_portrait": {
+  "warsh.png": "22f439a52480a4815e98ee3f1908ee5c"
+ },
+ "data_series": {
+  "DFEDTARL.csv": "911b47eb5cd8ed59416e65b981bf1d50",
+  "DFEDTARL.yaml": "c78a497b6c429557c5465e62e247787a",
+  "DFEDTARU.csv": "0d8164ea65a20c0721075cf068996ae6",
+  "DFEDTARU.yaml": "d17dbab031a54c5a0e3d0e8d4e9a46fb",
+  "SEP_20260916.csv": "a510d229df0735428c1c978dec6a52a4",
+  "SEP_20260916.yaml": "2b9ca16f826c69107e657ec000d9c9ab",
+  "SEP_20260916.htm": "11846b72a948f2110a1826d736b82c97"
+ },
+ "same_as_g4": {
+  "fed_policy_2026": "6/6",
+  "fed_policy_2026_portrait": "1/1",
+  "data_series": "5/7"
+ },
+ "plan.json": "a893fd72b8bdffff0521979d3994907d",
+ "mix.flac_g4": "bf65172792995bc01ba89a8c85739138",
+ "mix.f32_audio_mix": "f3ce33b00cf02abb7142adbe2cecb488",
+ "audio_stream_md5": "06324317d0a258f192d6f826bffccf66 (480p·1080p, = G4)",
+ "final": {
+  "final_480p.mp4": "3eb4ae2a8eb48886dac23caedb9d1862",
+  "final_1080p.mp4": "a65ac872bae31f6f9ba37e492f7ca9aa"
+ },
+ "final_g5_first": {
+  "final_480p.mp4": "5aa5a52731167939d49138311fb2a7f2",
+  "final_1080p.mp4": "6b82cdefe21646c16ebb20fe7d47cf31",
+  "note": "3a2b8e1 — 엔딩 카드 넘침, 대체됨"
+ },
+ "final_g4": {
+  "final_480p.mp4": "16f6e9452616167741e2037a92f07667",
+  "final_1080p.mp4": "9e68c8d7e6f1dda44735d7a780981f03"
+ },
+ "artifact_branch": "artifacts/phaseG5-v4.5.0 d437214",
+ "data_series_note": "DFEDTARL.csv·DFEDTARU.csv 두 개가 G4 asset_md5 와 다르다. 두 파일은 git 추적 파일이고 37ae66b 이후 변경 0(git show 37ae66b:… md5 = 현재 값) — G4 기록 값은 커밋 전 다른 상태를 잰 것으로 본다. 렌더 입력은 커밋된 파일이며 G5 첫 판·G4 판과 같은 파일이다."
+}
