@@ -1,119 +1,135 @@
 {
  "schema_version": 1,
- "role": "Phase G7 기준선(진행 중) — G1 기준선 대비 D-0101 §1 인물 뱃지 적응 크기(D-0111 A 연출 R 무시·D-0112 A 머리 예약 실측·가장자리 보정)·§2 기사 카드 조판·D-0104 D6 켄 번스 연속 변환으로 바뀐 컷. §3 글자 크기(결정 대기) 적용 뒤 다시 만든다. 등재 = docs/handoff/golden/expected_deltas.json g7_scale_d0101(회귀 단계)",
- "commit": "D-0111·D-0112 커밋(렌더 코드)",
+ "role": "Phase G7 기준선(최종) — G1 기준선 대비 D-0101 §1 인물 뱃지 적응 크기(D-0111 A·D-0112 A)·§2 기사 카드 조판·§3 글자 크기 표(D-0113 A, 자막 21)·D-0104 D6 켄 번스 연속 변환으로 바뀐 컷. 등재 = docs/handoff/golden/expected_deltas.json g7_scale_d0101",
+ "commit": "D-0113 적용 커밋(rules layout_480p·panels 글자 크기)",
  "command": "python -m engine.render projects/hormuz_korea --preview golden",
  "checks": {
   "hard": 0,
   "warnings": 11
  },
- "same_as_g1": 17,
+ "same_as_g1": 1,
  "changed_vs_g1": [
   "p_0007.82.png",
   "p_0022.27.png",
+  "p_0028.77.png",
+  "p_0038.45.png",
+  "p_0045.03.png",
   "p_0056.21.png",
+  "p_0061.25.png",
+  "p_0065.13.png",
+  "p_0080.70.png",
+  "p_0087.06.png",
+  "p_0105.28.png",
+  "p_0124.25.png",
+  "p_0136.97.png",
+  "p_0157.38.png",
   "p_0164.59.png",
+  "p_0170.52.png",
   "p_0193.22.png",
+  "p_0207.41.png",
   "p_0214.46.png",
+  "p_0220.96.png",
+  "p_0238.00.png",
   "p_0245.56.png",
-  "p_0258.61.png"
+  "p_0258.61.png",
+  "p_0276.44.png"
  ],
  "cuts": [
   {
    "png": "p_0007.82.png",
-   "md5": "c59e655b381676822a7943f6bc2ac659"
+   "md5": "ffe4aacfbef7d87e275e4becb8890264"
   },
   {
    "png": "p_0022.27.png",
-   "md5": "dfa4a2c8f15b32c423b98c5a04faf787"
+   "md5": "3c2092ab7081d5123f6628324b16684f"
   },
   {
    "png": "p_0028.77.png",
-   "md5": "9d5e33fb0f7ce2725397ed8e8af9754b"
+   "md5": "85632860fb30ab4a4455003f1066f017"
   },
   {
    "png": "p_0038.45.png",
-   "md5": "af48bc232d42193b81e69a2d6017decf"
+   "md5": "2def0710915d18284c1fcd83e3113840"
   },
   {
    "png": "p_0045.03.png",
-   "md5": "e3a121d6a185f77d6e3503e1917de830"
+   "md5": "3c6af866b6d7cf71d53265873c4034db"
   },
   {
    "png": "p_0056.21.png",
-   "md5": "79ce6b0a740e0e035b968762c6c9eeb8"
+   "md5": "af0a4f1c834e7a92d7d7de979213fb9c"
   },
   {
    "png": "p_0061.25.png",
-   "md5": "30f5a3bcd7bdbfcd376f66ab0f89deca"
+   "md5": "14cc1c3545d8f312cdba730a972ad43d"
   },
   {
    "png": "p_0065.13.png",
-   "md5": "a4bd6107c8d0bcac956ee2929818be14"
+   "md5": "94f97316a42f3f4b6abaa02d62da5999"
   },
   {
    "png": "p_0080.70.png",
-   "md5": "dd31a01f5694ddb73db5220c9665b95b"
+   "md5": "c8dc387205b5af046bb39551b09c2d9b"
   },
   {
    "png": "p_0087.06.png",
-   "md5": "c2181dfc51dbdf25badfcb36d1feb97b"
+   "md5": "505e7cb795a081ebec58ff0fe2c3105c"
   },
   {
    "png": "p_0105.28.png",
-   "md5": "1f5514005055ba43b137adee52f2f672"
+   "md5": "62ae18e4944f9a3d8d6a95437bce51c5"
   },
   {
    "png": "p_0124.25.png",
-   "md5": "8b4ef6da462aa20dc29126bc7d34fcca"
+   "md5": "284683709ec1a705c796e9b449129a5d"
   },
   {
    "png": "p_0136.97.png",
-   "md5": "31bbf0289f422dde5c5f025b5a55a357"
+   "md5": "64ba2078b1a6e123832cabe7e437fb09"
   },
   {
    "png": "p_0157.38.png",
-   "md5": "1972d7b87e3db9c0093dbbef3edea7b8"
+   "md5": "b78ccaf96bc760478df5d126afc4a4ec"
   },
   {
    "png": "p_0164.59.png",
-   "md5": "1f2df1b1682e009167d7e1dff7d0438a"
+   "md5": "0236fb38001813e72e54907d43676831"
   },
   {
    "png": "p_0170.52.png",
-   "md5": "30dbba10411108f7d9a8466cd5839002"
+   "md5": "ba49996ae8cbf136c86929b9cbe7ae32"
   },
   {
    "png": "p_0193.22.png",
-   "md5": "80c9611dab0996fcdaddb71b3bc2f978"
+   "md5": "9dc84e283a7730ec2f7fef17cd6bf182"
   },
   {
    "png": "p_0207.41.png",
-   "md5": "13b6c54e8c0aa4c53a10e9d4ecc76d23"
+   "md5": "ade36ca0d8e0b0c463b680020707394b"
   },
   {
    "png": "p_0214.46.png",
-   "md5": "40fee1b042fee34cd655bb3164a1defc"
+   "md5": "7c9830be0ba410c698af1501d9778b4e"
   },
   {
    "png": "p_0220.96.png",
-   "md5": "9898c5bc1f1af76e7ad60fc665df8ec9"
+   "md5": "b5923bcb7a65a804b129dce45c03fe09"
   },
   {
    "png": "p_0238.00.png",
-   "md5": "8429b0f44c02dac6955c6d05d1ea0dd9"
+   "md5": "e8139cc458022f69f28e4db05d8bc61a"
   },
   {
    "png": "p_0245.56.png",
-   "md5": "ed0dfe4fe4b9da10e85afeeea2e9ed6e"
+   "md5": "b7827f4a2f516b41cfe479621c5b4ef4"
   },
   {
    "png": "p_0258.61.png",
-   "md5": "d05bd118b2f07fcc5a34d654ba9ab7c0"
+   "md5": "cd5fe997e38eb6f57a879a18f5fde039"
   },
   {
    "png": "p_0276.44.png",
-   "md5": "3e969c3541c1f25a845fdeefec16d1a9"
+   "md5": "5098eefa28bed425376487a480005982"
   },
   {
    "png": "p_0288.44.png",
