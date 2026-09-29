@@ -26,12 +26,12 @@ def card_geom(ctx: cairo.Context, e: dict) -> tuple[float, float, float, float, 
     if e.get("bigs"):
         bw = 0
         for big, cap in e["bigs"]:
-            bw += max(tw(ctx, big, K.big_size, "disp"), tw(ctx, cap, 11, "sansm")) + 26
+            bw += max(tw(ctx, big, K.big_size, "disp"), tw(ctx, cap, K.cap_size, "sansm")) + 26
         wdt = max(wdt, bw + 20)
         bh = 62
     if e.get("src"):
         wdt = max(wdt, tw(ctx, e["src"], K.src_size, "sans") + 40)
-    h = 42 + bh + 21 * len(lines) + (18 if e.get("src") else 0)
+    h = 42 + bh + K.line_gap * len(lines) + (K.src_gap if e.get("src") else 0)
     return W_OUT - wdt - K.x_right_margin, e.get("y") or K.y, wdt, h, bh
 
 
@@ -57,11 +57,11 @@ def draw_card(ctx: cairo.Context, R: RenderCtx, t: float, e: dict) -> None:  # n
         xx = x + 18
         for big, cap in e["bigs"]:
             text(ctx, big, xx, yy + 32, K.big_size, "disp", (1, 1, 1), a, 0, "l")
-            text(ctx, cap, xx, yy + 50, 11, "sansm", C["muted"], a, 0, "l")
-            xx += max(tw(ctx, big, K.big_size, "disp"), tw(ctx, cap, 11, "sansm")) + 26
+            text(ctx, cap, xx, yy + 50, K.cap_size, "sansm", C["muted"], a, 0, "l")
+            xx += max(tw(ctx, big, K.big_size, "disp"), tw(ctx, cap, K.cap_size, "sansm")) + 26
         yy += bh
     for i, s_ in enumerate(lines):
-        text(ctx, s_, x + 18, yy + 17 + 21 * i, K.line_size, "serifb" if e.get("quote") else "sansm", (0.94, 0.92, 0.9), a,
+        text(ctx, s_, x + 18, yy + 17 + K.line_gap * i, K.line_size, "serifb" if e.get("quote") else "sansm", (0.94, 0.92, 0.9), a,
              0, "l")
     if e.get("src"):
         text(ctx, e["src"], x + 18, y + h - 12, K.src_size, "sans", C["muted"], a * 0.9, 0, "l")

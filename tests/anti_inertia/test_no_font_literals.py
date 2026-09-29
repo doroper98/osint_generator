@@ -15,6 +15,12 @@ from tests.anti_inertia._ast_util import REPO, parse
 SIZE_ARG: dict[str, int] = {"text": 4, "tw": 2, "wrap": 3}
 MODULES: tuple[str, ...] = (
     "engine/layers/badges.py",      # v4.8.0 D-0101 §1 — 이름표 label_solo·label_group·label_side
+    "engine/layers/media.py",       # v4.8.0 D-0101 §2·§3 — article_card·media_caption
+    "engine/layers/markers.py",     # v4.8.0 D-0101 §3 — marker
+    "engine/layers/routes.py",      # v4.8.0 D-0101 §3 — route_label
+    "engine/cards.py",              # v4.8.0 D-0101 §3 — card.cap_size
+    "engine/panels/precedent.py",   # v4.8.0 D-0101 §3 — panels.precedent
+    "engine/panels/versus.py",      # v4.8.0 D-0101 §3 — panels.versus
 )
 
 

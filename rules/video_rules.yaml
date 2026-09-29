@@ -289,7 +289,13 @@ layout_480p:               # 09 §2·§4, 08 §10 — 기준 해상도 854×480.
     scroll_hold_out_sec: 2.0
     scroll_fade_px: 18
     scroll_max_px_per_sec: 60
-  card: {x_right_margin: 24, y: 70, min_w: 230, slide_px: 30, fade_sec: 0.45, big_size: 30, line_size: 13, tag_size: 10.5, src_size: 9.5}
+  card: {x_right_margin: 24, y: 70, min_w: 230, slide_px: 30, fade_sec: 0.45, big_size: 30, line_size: 13, tag_size: 10.5, src_size: 9.5,
+         cap_size: 11, line_gap: 21, src_gap: 18}    # v4.8.0 D-0101 §3 — cap_size·line_gap·src_gap = 옛 engine/cards.py 리터럴
+  # v4.8.0 D-0101 §3 — 옛 리터럴(engine/layers/media.py·markers.py·routes.py)을 값 그대로 옮김. 크기 값은 §3 결정(decision_request)으로
+  media_caption: {pad_x: 10, caption_size: 10.5, caption_dy: 16, credit_size: 7.8, credit_dy: 30, tag_size: 7.5, tag_h: 14, tag_dy: 10,
+                  cutout_caption_size: 12, cutout_credit_size: 8.5}
+  marker: {label_size: 13, sub_size: 10.5, sub_dy: 15}
+  route_label: {route_size: 11.5, barrier_size: 12.5}
   # v4.8.0 back_and_forth D-0101 §2(사용자 결정 D89) — 기사 카드 조판 확대. draw_article·article_geom 수치는 전부 여기(15 P3).
   # 헤드라인·부제 줄 수가 max_lines 를 넘으면 ArticleOverflowError(렌더 전 preflight, 조용한 잘림 금지 P6).
   # 연출 place: center(슬롯 center) = 무대 가운데(가로 가운데, 세로 = 자막 구역 위 공간의 가운데), 그 동안 아래 지도·시간축을 center_dim 으로 어둡게
@@ -445,6 +451,8 @@ panels:                    # D-0032 — 패널 기하·타이밍. 코드에 리�
     marker_label_strategy: hide                # 마커 점은 사실 위치라 옮기지 않고, 라벨만 카드 뒤에서 흐린다
     min_zone_alpha: 0.01
     lead_sec: 0.45                             # 카드 페이드와 같은 길이 — 카드가 들어오기 전에 비키고, 나간 뒤에 돌아온다
+  precedent: {year_size: 28, title_size: 14, line_size: 11.5, caption_size: 10.5}   # v4.8.0 D-0101 §3 — 옛 engine/panels/precedent.py 리터럴
+  versus: {title_size: 16, item_size: 13.5, src_size: 10}                           # v4.8.0 D-0101 §3 — 옛 engine/panels/versus.py 리터럴
   prov_tag:                # D-0034(D37) — 추정 태그는 제목 아래(부제 다음 줄, 가운데). 08 §9 우상단(W−40, 52)은 C0 모서리 규칙과 충돌해 쓰지 않는다
     anchor: below_title
     y_offset_px: 20                 # 제목(부제가 있으면 부제) 기준선에서 태그 줄 기준선까지

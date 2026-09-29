@@ -11,6 +11,9 @@ from engine.projection import View
 from engine.style import C, H_OUT, W_OUT
 from engine.timebase import ease_out, smooth, window
 from engine.typography import text, tw
+from rules import load_rules
+
+MK = load_rules().layout_480p.marker   # v4.8.0 D-0101 §3 — 라벨·부제 글자(옛 리터럴 13·10.5)
 
 
 def marker_label_alpha(box: tuple[float, float, float, float], zones: list) -> float:
@@ -46,9 +49,9 @@ def marker_box(ctx: cairo.Context, e: dict, x: float, y: float, with_sub: bool =
     """점·라벨이 차지하는 상자. 예약 영역(R.reserved)은 v3 그대로 라벨 폭만(골든 불변).
     with_sub=True 는 화면 밖 검사용 — 부제가 라벨보다 길면 그 폭까지(D-0049 쟁점 4)."""
     anc = _SIDE[e.get("side") or "right"][2]
-    w = tw(ctx, e["label"], 13, "sansb") + 20
+    w = tw(ctx, e["label"], MK.label_size, "sansb") + 20
     if with_sub and e.get("sub"):
-        w = max(w, tw(ctx, e["sub"], 10.5, "sansm") + 20)
+        w = max(w, tw(ctx, e["sub"], MK.sub_size, "sansm") + 20)
     return (x - 14 if anc != "r" else x - w, y - 16, x + w if anc != "r" else x + 14, y + 26)
 
 
@@ -74,7 +77,7 @@ def draw_marker(ctx: cairo.Context, R: RenderCtx, view: View, t: float, e: dict)
     dx, dy, anc = _SIDE[side]
     box = marker_box(ctx, e, x, y)
     la *= marker_label_alpha(box, R.zones)   # 카드 뒤 라벨은 흐린다 — 점은 사실 위치라 그대로(D-0033)
-    text(ctx, e["label"], x + dx, y + dy, 13, "sansb", (1, 1, 1), la, 3.2, anc)
+    text(ctx, e["label"], x + dx, y + dy, MK.label_size, "sansb", (1, 1, 1), la, 3.2, anc)
     if e.get("sub"):
-        text(ctx, e["sub"], x + dx, y + dy + 15, 10.5, "sansm", C["gold"], la, 3, anc)
+        text(ctx, e["sub"], x + dx, y + dy + MK.sub_dy, MK.sub_size, "sansm", C["gold"], la, 3, anc)
     R.reserved.append(box)

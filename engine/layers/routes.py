@@ -12,6 +12,9 @@ from engine.projection import View
 from engine.style import C
 from engine.timebase import ease_io, ease_out, smooth, window
 from engine.typography import text
+from rules import load_rules
+
+RL = load_rules().layout_480p.route_label   # v4.8.0 D-0101 §3 — 항로·봉쇄선 라벨 글자(옛 리터럴 11.5·12.5)
 
 
 def catmull(pts: list, n: int = 10) -> np.ndarray:
@@ -99,7 +102,7 @@ def draw_route(ctx: cairo.Context, R: RenderCtx, view: View, t: float, e: dict) 
         ctx.fill()
     if e.get("label") and prog >= 0.99:
         x, y = S_[len(S_) // 2]
-        text(ctx, e["label"], x, y - 11, 11.5, "sansb", col, a * smooth((t - e["t0"] - e["grow"]) / 0.4), 3, "c")
+        text(ctx, e["label"], x, y - 11, RL.route_size, "sansb", col, a * smooth((t - e["t0"] - e["grow"]) / 0.4), 3, "c")
 
 
 def draw_tanker_loop(ctx: cairo.Context, R: RenderCtx, view: View, t: float, e: dict) -> None:  # noqa: N803
@@ -122,4 +125,4 @@ def draw_barrier(ctx: cairo.Context, R: RenderCtx, view: View, t: float, e: dict
     xe, ye = x0 + (x1 - x0) * k, y0 + (y1 - y0) * k
     glow_line(ctx, np.array([[x0, y0], [xe, ye]]), C["ru"], a, 3.2)
     if k > 0.95:
-        text(ctx, e["label"], (x0 + x1) / 2 - 12, (y0 + y1) / 2 + 4, 12.5, "sansb", C["ru"], a, 3, "r")
+        text(ctx, e["label"], (x0 + x1) / 2 - 12, (y0 + y1) / 2 + 4, RL.barrier_size, "sansb", C["ru"], a, 3, "r")

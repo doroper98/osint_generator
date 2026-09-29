@@ -11,6 +11,9 @@ from engine.panels.base import panel_title
 from engine.style import C
 from engine.timebase import smooth
 from engine.typography import rrect, text
+from rules import load_rules
+
+VS = load_rules().panels.versus   # v4.8.0 D-0101 §3 — 글자 크기(옛 리터럴)
 
 AXIS = "none"   # v4.3.0 D-0087 — 축 종류(값·날짜 축 없음). 정직성 검사 적용 = rules qa_checks.chart_targets
 _COLS = (("teal", 60), ("amber", 450))  # 왼쪽·오른쪽 기둥의 색·x (v3 합격 값)
@@ -30,11 +33,11 @@ def draw(ctx: cairo.Context, R: RenderCtx, t: float, e: dict, a: float) -> None:
         ctx.set_source_rgba(*col, fa)
         ctx.rectangle(x, 120, 344, 3)
         ctx.fill()
-        text(ctx, side["title"], x + 22, 156, 16, "sansb", col, fa, 0, "l")
+        text(ctx, side["title"], x + 22, 156, VS.title_size, "sansb", col, fa, 0, "l")
         for i, it in enumerate(items):
             ia = a * smooth((t - it["t"]) / 0.45)
             ctx.arc(x + 26, 196 + i * 50 - 5, 3, 0, 2 * math.pi)
             ctx.set_source_rgba(*col, ia)
             ctx.fill()
-            text(ctx, it["text"], x + 38, 196 + i * 50, 13.5, "serifb", (1, 1, 1), ia, 0, "l")
-        text(ctx, side["src"], x + 22, 366, 10, "sans", C["muted"], fa, 0, "l")
+            text(ctx, it["text"], x + 38, 196 + i * 50, VS.item_size, "serifb", (1, 1, 1), ia, 0, "l")
+        text(ctx, side["src"], x + 22, 366, VS.src_size, "sans", C["muted"], fa, 0, "l")

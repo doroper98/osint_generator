@@ -271,6 +271,35 @@ class CardLayout(_Strict):
     line_size: float
     tag_size: float
     src_size: float
+    cap_size: float       # v4.8.0 D-0101 §3 — 큰 숫자 아래 캡션(옛 리터럴 11)
+    line_gap: float       # 줄 간격(옛 21)
+    src_gap: float        # 출처 줄이 더하는 높이(옛 18)
+
+
+class MediaCaptionLayout(_Strict):
+    """v4.8.0 D-0101 §3 — 사진·영상 캡션 바·PHOTO/VIDEO 태그·컷아웃 캡션(옛 engine/layers/media.py 리터럴). 바 높이 = media_beats.caption_bar_px."""
+
+    pad_x: float
+    caption_size: float
+    caption_dy: float
+    credit_size: float
+    credit_dy: float
+    tag_size: float
+    tag_h: float
+    tag_dy: float
+    cutout_caption_size: float
+    cutout_credit_size: float
+
+
+class MarkerLayout(_Strict):
+    label_size: float
+    sub_size: float
+    sub_dy: float
+
+
+class RouteLabelLayout(_Strict):
+    route_size: float
+    barrier_size: float
 
 
 class ArticleCardLayout(_Strict):
@@ -421,6 +450,9 @@ class Layout480p(_Strict):
     post_card: PostCardLayout    # v3.2.0
     panel: PanelLayout
     badge: BadgeLayout
+    media_caption: MediaCaptionLayout      # v4.8.0 D-0101 §3
+    marker: MarkerLayout
+    route_label: RouteLabelLayout
     timeline_gaps: TimelineGaps
     fade: FadeLayout
     reserved_zones: ReservedZones
@@ -752,12 +784,29 @@ class ChartRules(_Strict):
     network: NetworkRules
 
 
+class PrecedentPanelRules(_Strict):
+    """v4.8.0 D-0101 §3 — 선례 카드 글자(옛 리터럴). 카드 상자 172×212 는 코드(v3 합격 기하)."""
+
+    year_size: float
+    title_size: float
+    line_size: float
+    caption_size: float
+
+
+class VersusPanelRules(_Strict):
+    title_size: float
+    item_size: float
+    src_size: float
+
+
 class PanelRules(_Strict):
     relation: RelationPanelRules
     timeline: TimelinePanelRules
     reserved: ReservedRules
     prov_tag: ProvTagRules
     charts: ChartRules
+    precedent: PrecedentPanelRules    # v4.8.0 D-0101 §3
+    versus: VersusPanelRules
 
 
 class Colors(_Strict):

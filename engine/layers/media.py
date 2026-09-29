@@ -25,6 +25,8 @@ from engine.typography import rrect, text, tw, wrap
 
 
 SUB_Y = load_rules().layout_480p.reserved_zones.subtitle.y_from   # 자막 구역 위 — 기사 카드 가운데 자리의 세로 범위
+MC = load_rules().layout_480p.media_caption   # v4.8.0 D-0101 §3 — 사진·영상 캡션 바·태그·컷아웃 캡션 글자(옛 리터럴)
+BAR = load_rules().media_beats.caption_bar_px   # 캡션 바 높이(media_plan 상자 계산과 같은 값)
 
 EVENT_KIND: dict[str, str] = {"photo": "photo", "clip": "video", "cutout": "cutout", "article": "article"}   # 이벤트 → 레지스트리 kind
 
@@ -55,28 +57,28 @@ def media_frame(ctx: cairo.Context, x: float, y: float, w: float, h: float, a: f
 
 
 def media_caption(ctx: cairo.Context, x: float, y: float, w: float, cap: str, credit: str, a: float) -> None:
-    ctx.rectangle(x, y, w, 38)
+    ctx.rectangle(x, y, w, BAR)
     ctx.set_source_rgba(0.04, 0.05, 0.07, 0.9 * a)
     ctx.fill()
-    text(ctx, cap, x + 10, y + 16, 10.5, "sansm", (1, 1, 1), a, 0, "l")
-    text(ctx, credit, x + 10, y + 30, 7.8, "monom", C["muted"], a * 0.95, 0, "l", role="media_meta")
+    text(ctx, cap, x + MC.pad_x, y + MC.caption_dy, MC.caption_size, "sansm", (1, 1, 1), a, 0, "l")
+    text(ctx, credit, x + MC.pad_x, y + MC.credit_dy, MC.credit_size, "monom", C["muted"], a * 0.95, 0, "l", role="media_meta")
 
 
 def caption_width(ctx: cairo.Context, cap: str, credit: str) -> float:
     """`media_caption` 글자가 실제로 차지하는 폭(왼쪽 여백 10 + 글자 + 오른쪽 여백 10). 바는 미디어 폭이지만 글자는 넘칠 수 있다 —
     패널 옆 슬롯(D-0050 NB9)이 출처 줄 잘림을 막으려고 이 폭까지 화면 안·장애물 밖을 요구한다."""
-    return 20 + max(tw(ctx, cap, 10.5, "sansm"), tw(ctx, credit, 7.8, "monom"))
+    return MC.pad_x * 2 + max(tw(ctx, cap, MC.caption_size, "sansm"), tw(ctx, credit, MC.credit_size, "monom"))
 
 
 KEN_BURNS_MAX = 1.07   # 사진 켄 번스 끝 배율(v3 합격 값) — checks media_upscaled 도 이 값으로 필요한 폭을 잰다
 
 
 def media_tag(ctx: cairo.Context, x: float, y: float, s_: str, a: float) -> None:
-    w = tw(ctx, s_, 7.5, "mono") + 12
-    rrect(ctx, x + 8, y + 8, w, 14, 2)
+    w = tw(ctx, s_, MC.tag_size, "mono") + 12
+    rrect(ctx, x + 8, y + 8, w, MC.tag_h, 2)
     ctx.set_source_rgba(0.02, 0.03, 0.05, 0.75 * a)
     ctx.fill()
-    text(ctx, s_, x + 14, y + 18, 7.5, "mono", C["gold"], a, 0, "l", spacing=0.8, role="media_meta")
+    text(ctx, s_, x + 14, y + 8 + MC.tag_dy, MC.tag_size, "mono", C["gold"], a, 0, "l", spacing=0.8, role="media_meta")
 
 
 def ken_burns_source(ctx: cairo.Context, src: cairo.ImageSurface, x: float, y: float, w: float, h: float, k: float) -> None:
@@ -100,7 +102,7 @@ def draw_photo(ctx: cairo.Context, R: RenderCtx, t: float, e: dict) -> None:  # 
     lt = t - e["t0"]
     x, y, w = e["x"], e["y"] + (1 - ease_out(lt / 0.6)) * 12, e["w"]
     h = w * 0.625
-    media_frame(ctx, x, y, w, h + 38, a)
+    media_frame(ctx, x, y, w, h + BAR, a)
     k = 1.0 + (KEN_BURNS_MAX - 1.0) * clamp01(lt / (e["t1"] - e["t0"]))  # Ken Burns
     ctx.save()
     ctx.rectangle(x, y, w, h)
@@ -108,7 +110,7 @@ def draw_photo(ctx: cairo.Context, R: RenderCtx, t: float, e: dict) -> None:  # 
     ken_burns_source(ctx, R.assets.original(f"media:{m.file}"), x, y, w, h, k)
     ctx.paint_with_alpha(a)
     ctx.restore()
-    ctx.rectangle(x + 0.5, y + 0.5, w - 1, h + 37)
+    ctx.rectangle(x + 0.5, y + 0.5, w - 1, h + BAR - 1)
     ctx.set_source_rgba(1, 1, 1, 0.22 * a)
     ctx.set_line_width(1)
     ctx.stroke()
@@ -132,10 +134,10 @@ def draw_clip(ctx: cairo.Context, R: RenderCtx, t: float, e: dict) -> None:  # n
     img = Image.fromarray(rgb).resize(size, Image.BILINEAR).convert("RGBA")
     surf, buf = surf_from_pil(img)
     R.cache["clip_buf"] = buf  # 표면이 칠해질 때까지 버퍼를 붙잡아 둔다
-    media_frame(ctx, x, y, w, h + 38, a)
+    media_frame(ctx, x, y, w, h + BAR, a)
     set_raster(ctx, surf, OP.k, x, y)
     ctx.paint_with_alpha(a)
-    ctx.rectangle(x + 0.5, y + 0.5, w - 1, h + 37)
+    ctx.rectangle(x + 0.5, y + 0.5, w - 1, h + BAR - 1)
     ctx.set_source_rgba(1, 1, 1, 0.22 * a)
     ctx.set_line_width(1)
     ctx.stroke()
@@ -248,6 +250,6 @@ def draw_cutout(ctx: cairo.Context, R: RenderCtx, view: View, t: float, e: dict)
     ctx.paint_with_alpha(a)
     ctx.restore()
     la = a * smooth((lt - 0.5) / 0.4)
-    text(ctx, m.caption, x, y + fh / 2 + 16, 12, "sansb", (1, 1, 1), la, 3, "c")
-    text(ctx, credit_line(m), x, y + fh / 2 + 30, 8.5, "monom", C["muted"], la, 2.4, "c", role="media_meta")
-    R.reserved.append((x - fw / 2, y - fh / 2, x + fw / 2, y + fh / 2 + 34))
+    text(ctx, m.caption, x, y + fh / 2 + MC.caption_dy, MC.cutout_caption_size, "sansb", (1, 1, 1), la, 3, "c")
+    text(ctx, credit_line(m), x, y + fh / 2 + MC.credit_dy, MC.cutout_credit_size, "monom", C["muted"], la, 2.4, "c", role="media_meta")
+    R.reserved.append((x - fw / 2, y - fh / 2, x + fw / 2, y + fh / 2 + MC.credit_dy + 4))
