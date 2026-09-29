@@ -43,8 +43,15 @@ last_review: 2026-09-29
 
 카메라와 `View` 는 무대의 월드 좌표 (x, y, w)만 안다. 연출의 앵커(지도 = 경위도)는 `stage.to_world` 로만 월드 좌표가 된다.
 무대 목록은 `rules:registries.stages`, 구현은 `engine/stage.py`(`Stage` 프로토콜·`MercatorStage`). 배경(`render_base`)과 라벨 LOD(`draw_labels`)는 무대가 그린다.
-direction 의 최상위 `stage`·숏 단위 `shots[].stage` 로 고르고, 없으면 mercator 이며 provenance `stage.declared` 가 false 다. 무대 연속성은 결정적 검사 `stage_continuity`(`rules:stage`)가 본다.
+direction 의 최상위 `stage`·숏 단위 `shots[].stage` 로 고르고, 없으면 장르 프로필의 주 무대(기본 장르 지정학 = mercator)이며 provenance `stage.declared` 가 false 다. 무대 연속성은 결정적 검사 `stage_continuity`(`rules:stage`)가 본다.
 투영 수식이 `engine/stage.py` 밖에 없음은 `tests/anti_inertia/test_stage_isolation.py` 가 고정한다. 정본은 handoff 20 §2.3.
+
+### 2.2 장르 프로필과 프리미티브 — v4.2.0
+
+장르 층(handoff 20 §1.2)은 `genres/<genre>.yaml`(`schemas/genre_models.py:GenreProfile`, 로더 `genres/load.py`)이 선언한다. 무대·요소·검사 이름은 `rules:registries`(`stages`·`stages_planned`·`primitives`·`primitives_planned`)와 `rules:qa_checks.planned` 안에서만 쓸 수 있고, approved 프로필은 구현된 것만 참조한다.
+direction 의 `genre`(없으면 geopolitics, provenance `genre.declared` false)가 주 무대 기본값과 허용 무대를 정하고, 결정적 검사 `genre_elements` 가 연출이 쓴 요소를 프로필과 대조한다.
+새 시각 요소(프리미티브)는 `engine/primitives/<id>.py` 계약(SCHEMA·COLOR_KEYS·draw·PREVIEW_FIXTURE)을 지키고 이벤트 `{type: primitive, id}` 로만 불린다. 카드 층의 무대 무관 오버레이이고, 크기는 `rules:primitives`, 색은 장르 프로필 `color_semantics` 에서 온다.
+등록 요소 전부는 `tools/element_gallery.py` 가 실제 엔진으로 그린다. 정본은 handoff 20 §3·§4.
 
 ## 3. 프리뷰와 두 게이트
 
@@ -54,7 +61,7 @@ direction 의 최상위 `stage`·숏 단위 `shots[].stage` 로 고르고, 없�
 | ② 프리뷰 승인 | `PREVIEW_APPROVAL` | `prev/sheet.jpg`·`checks.json`·시각 검수 판정·provenance |
 
 프리뷰 샘플 규칙은 `rules:preview.min_body_cuts`(auto 모드), 골든 모드는 문장 앵커 25컷이다.
-결정적 검사 13항목은 [07](07_VIDEO_STYLE_GUIDE.md) §8, 판정 흐름(시각 검수 루프·게이트 ② 사람 판정)은 [12](12_QA_AND_REVIEW_SPEC.md) §2다.
+결정적 검사 14항목은 [07](07_VIDEO_STYLE_GUIDE.md) §8, 판정 흐름(시각 검수 루프·게이트 ② 사람 판정)은 [12](12_QA_AND_REVIEW_SPEC.md) §2다.
 반려는 되돌림 규칙(handoff 16 §2)으로 앞 상태로 간다.
 
 ## 4. 출력 프로파일과 해상도

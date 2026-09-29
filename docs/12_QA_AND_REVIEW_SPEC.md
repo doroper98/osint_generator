@@ -29,7 +29,7 @@ v1의 9개 Review Gate·`qa_evidence_report.json`·Remotion 라벨 배지는 v3.
 ## 2. 프리뷰 판정 흐름
 
 ```
-preview → prev/checks.json(결정적 검사 13항목)
+preview → prev/checks.json(결정적 검사 14항목)
    hard > 0  → (AI 연출) 수정 워커가 검사 오류만 받아 고친다 → 재검증·재프리뷰
    hard = 0  → (AI 연출) 시각 검수 워커(시트 이미지) → revise 면 수정 워커 → 재프리뷰 → 재검수
    루프 상한 = rules qa_checks.visual_qa_loop_max → 상한 도달 시 loop_pick_order 최선 판
@@ -38,7 +38,7 @@ preview → prev/checks.json(결정적 검사 13항목)
 
 | 항목 | 키·위치 |
 |---|---|
-| 검사 13항목(hard 10·warning 3) | [07](07_VIDEO_STYLE_GUIDE.md) §8, `engine/checks.py`, `rules:qa_checks` |
+| 검사 14항목(hard 11·warning 3) | [07](07_VIDEO_STYLE_GUIDE.md) §8, `engine/checks.py`, `rules:qa_checks` |
 | 루프 상한 | `rules:qa_checks.visual_qa_loop_max` |
 | 상한 도달 시 판 선택 순서(D-0049 쟁점 3) | `rules:qa_checks.loop_pick_order` |
 | 루프 기록 | `prev/qa_loop.json`, `prev/sheet.v{n}.jpg`(`engine.qa.QALoopRecord`) |
@@ -57,6 +57,11 @@ preview → prev/checks.json(결정적 검사 13항목)
 | 카드에 가린 마커 라벨(`[label-hidden-by-card]`) | hard(overlap) | `rules:qa_checks.label_hidden_max_ratio` | D61 |
 | 최소 글자(`glyph_size`) — 설계 px 판정, 예외 역할만 제외 | hard | `rules:layout_480p.min_font_px`, `rules:qa_checks.glyph_size_exempt` | D62 |
 | 업스케일된 미디어(`media_upscaled`) | warning | `config:engine.output` | D60 |
+
+### 2.2 장르 요소 검사 — v4.2.0
+
+`genre_elements`(hard)는 연출이 쓴 요소 종류(패널은 kind, 프리미티브는 id, 뱃지는 badge와 kind)가 장르 프로필의 reuse ∪ new 안인지 본다. 프로필 밖 요소는 요소마다 `[genre-element]` 한 줄이다.
+장르 프로필의 `qa_extra` 는 이 표의 검사 id 또는 `rules:qa_checks.planned`(G3 예정 차트 정직성 검사)만 쓸 수 있다. 새 프리미티브는 스케치 프리뷰(`tools/primitive_sketch.py`, 실제 엔진 렌더)와 사람 승인 뒤에만 영상 연출에 쓴다(handoff 20 §4.1).
 
 ## 3. 시각 검수 판정 형식
 

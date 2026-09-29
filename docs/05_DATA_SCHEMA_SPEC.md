@@ -44,7 +44,9 @@ last_review: 2026-09-29
 | `task_queue.json`, `worker_slots.json`, `task_results/*.json`, `llm_calls/*.json` | `TaskQueue`, `WorkerSlotsSnapshot`, `TaskResult`, `LLMCallRecord` | 오케스트레이터·워커 | 전 단계 |
 | 엔진 CLI 마지막 줄 | `schemas.engine_models.StageResult` | 엔진 CLI 전부 | — |
 
-`direction.yaml` 무대 표기(v4.1.0, back_and_forth D-0076 작업 4·D-0077): 최상위 `stage`(주 무대)와 숏 단위 `shots[].stage`(선택). 없으면 `engine.stage.DEFAULT_STAGE`(mercator)이고 provenance `stage.declared` 가 false 다. 이름은 `rules:registries.stages` 에 있어야 한다(없으면 스키마 오류). 무대마다 프리뷰 예제 `tests/fixtures/preview/stage_{이름}.yaml`.
+`direction.yaml` 무대 표기(v4.1.0, back_and_forth D-0076 작업 4·D-0077): 최상위 `stage`(주 무대)와 숏 단위 `shots[].stage`(선택). 없으면 장르 프로필의 `stage.primary`(기본 장르 geopolitics = mercator, v4.2.0)이고 provenance `stage.declared` 가 false 다. 있으면 장르 프로필 주·보조 무대 안이어야 한다. 이름은 `rules:registries.stages` 에 있어야 한다(없으면 스키마 오류). 무대마다 프리뷰 예제 `tests/fixtures/preview/stage_{이름}.yaml`.
+
+`direction.yaml` 장르(v4.2.0, back_and_forth D-0081 작업 3): 최상위 `genre`(선택, 없으면 geopolitics — provenance `genre.declared` false). 장르 프로필 `genres/<genre>.yaml` = `schemas.genre_models.GenreProfile`(extra forbid, `rules:registries` 이름만). 프리미티브 이벤트 `{type: primitive, id}` 의 데이터 모델 = `engine/primitives/<id>.py` `SCHEMA`(봉투 `engine.events._Primitive` 와 합쳐 검증).
 
 번들 가져오기(`import-bundle`) 산출물은 §10, 저장소 공용 레지스트리(엔티티·휘장·미디어·BGM)는 §7·§9.
 `approval_log.json`(`ApprovalLog`)·`thumbnail_manifest.json`(`ThumbnailManifest`)은 **삭제됨**(v4.0.0, back_and_forth D-0073, 보존 `archive/hyperframes-briefing`). 게이트 기록은 manifest `gate_decisions`다.

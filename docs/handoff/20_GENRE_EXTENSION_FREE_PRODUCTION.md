@@ -144,6 +144,8 @@ media:
 qa_extra: [chart_honesty, series_limit_3, units_visible, as_of_visible]
 ```
 
+> **구현됨(v4.2.0, back_and_forth D-0081·D-0082)**: 스키마 `schemas/genre_models.py:GenreProfile`, 로더 `genres/load.py`, 프로필 `genres/geopolitics.yaml`(approved — 현 파이프라인 선언)·`genres/macro_monetary.yaml`(proposed — 위 예시). 위 예시와의 대응 두 가지(D73): `timeline_panel` = 레지스트리 패널 kind `timeline`(별칭 없음), `new` 중 등록 전 요소는 `rules registries.primitives_planned`(proposed 프로필만 참조 가능). statement_diff 색 의미 `added`·`removed` 를 더했다. direction `genre` 키와 결정적 검사 `genre_elements`. 위 원문은 그대로 둔다.
+
 ### 3.1 참고 프로필 초안 (Opus가 첫 영상에서 확정)
 
 | 장르 | 주 무대 | 대표 새 요소 | 색 의미 |
@@ -182,6 +184,8 @@ PREVIEW_FIXTURE = {...}                  # 레지스트리 예제 → 갤러리�
 - 등장 애니메이션은 기존 문법(0.4~0.6초 페이드·슬라이드, 요소는 하나씩)을 따른다.
 - 결정적 검사(`17` §3) 항목을 추가한다(예: 차트 정직성).
 - 데이터 검증에 실패하면 조용히 버리지 않고 실패한다(`15` §P6).
+
+> **구현됨(v4.2.0, back_and_forth D-0081)**: 계약 `engine/primitives/__init__.py`(SCHEMA·COLOR_KEYS·draw·PREVIEW_FIXTURE), 이벤트 `{type: primitive, id}`, 레지스트리 `rules registries.primitives`·레이아웃 토큰 `rules primitives.<id>`, 양방향·토큰 AST 검사 `tests/anti_inertia/test_registry_complete.py`, 첫 요소 `statement_diff`(스케치 `tools/primitive_sketch.py`), 등록 요소 갤러리 `tools/element_gallery.py`. 위 원문은 그대로 둔다.
 
 ### 4.3 개수 상한
 - **영상 한 편에 새 요소는 최대 3개.** 먼저 재사용을 검토한다. 요소가 무한히 늘면 품질 관리가 불가능해진다.
