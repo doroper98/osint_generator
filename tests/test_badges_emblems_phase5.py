@@ -70,7 +70,7 @@ class EmblemDecisionTest(unittest.TestCase):
         reg = load_emblem_registry()
         self.assertIn("navcent", reg.emblems)
         for eid, ent in reg.emblems.items():
-            if ent.restrictions:
+            if ent.restrictions and ent.user_exception is None:   # v4.8.0 D-0109 — 사용자 예외(D98 청와대)만 제한을 넘는다
                 self.assertEqual(ent.decision, "flag_fallback", eid)
                 self.assertIsNone(ent.file, eid)
         ents = load_entities()
