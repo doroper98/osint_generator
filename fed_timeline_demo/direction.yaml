@@ -1,0 +1,41 @@
+# 『금리와 물가, 두 줄의 기록』 연출 (v4.3.0, back_and_forth D-0084 작업 6) — 사람 작성(Opus). 시간축 무대 문법(20 §6):
+# 왼쪽 → 오른쪽 시간 순, 장면당 이동 1회, 핀에서 확대(일 단위 라벨 LOD), 끝에서만 전체로 물러난다(reason 기록).
+# 값은 연출에 없다 — series 이벤트가 레코드(data/series)에서 그린다. 핀 문구의 수치는 레코드 값 그대로.
+version: 1
+genre: macro_monetary
+stage: timeline
+stage_config:
+  timeline:
+    start: "2019-01-01"
+    end: "2026-10-01"
+    lanes:   # 장르 프로필 기본 레인을 덮는다 — 레코드가 기준금리(목표 범위)가 아니라 실효금리이므로 이름을 정확히(C0 정확성)
+      - {id: policy_rate, label: 연방기금 실효금리, kind: step, unit: "%"}
+      - {id: inflation, label: 소비자물가 상승률 · 1년 전 대비, kind: line, unit: "%"}
+      - {id: events, label: 기록, kind: pins}
+    compress:
+      - {from: "2019-01-01", to: "2020-01-01", factor: 0.35}   # 2019년은 압축(화면에 물결 + "압축" 라벨)
+shots:
+  - {at: 0, mode: cut, dur: 0, camera: {date: "2020-08-01", w: 1300}}
+  - {at: {scene_start: low, off: -0.2}, mode: move, dur: 3.0, camera: {date: "2021-06-01", w: 1400}}
+  - {at: {scene_start: peak, off: -0.3}, mode: move, dur: 2.2, camera: {date: "2022-06-15", w: 40}}      # 핀 확대 — 일 단위 눈금(LOD)
+  - {at: {sid: high_0, off: 1.2}, mode: move, dur: 3.0, camera: {date: "2024-11-01", w: 1300}}         # 2023년 8월 ~ 2025년 10월(빈 달)을 한 화면에
+  - {at: {scene_start: now, off: -0.3}, mode: move, dur: 3.4, camera: {date: "2022-11-15", w: 2830},
+     reason: "마지막 장면 — 두 시리즈 전체를 한 화면에(끝 물러나기)"}
+events:
+  - {type: series, start: 0.3, end: {card: end, edge: start, off: 0.4}, lane: policy_rate, series_id: FEDFUNDS, style: step, col: amber}
+  - {type: series, start: 0.3, end: {card: end, edge: start, off: 0.4}, lane: inflation, series_id: CPIAUCSL, style: line, col: teal}
+  - {type: marker, start: {sid: low_0, off: -0.2}, end: {sid: low_1, edge: end, off: 0.6}, date: "2020-04-15", lane: events,
+     label: 금리 월평균 0.05%, sub: 2020년 4월, side: right}
+  - {type: marker, start: {sid: low_1, off: -0.2}, end: {sid: low_1, edge: end, off: 0.6}, date: "2022-03-15", lane: events,
+     label: 금리 월평균 0.2%, sub: 2022년 3월, side: left}
+  - {type: marker, start: {sid: peak_0, off: -0.2}, end: {sid: peak_0, edge: end, off: 1.0}, date: "2022-06-15", lane: events,
+     label: 물가 상승률 8.98%, sub: 2022년 6월 · 1년 전 대비, side: left, hl: true}
+  - {type: marker, start: {sid: high_0, off: -0.2}, end: {sid: high_0, edge: end, off: 0.6}, date: "2023-08-15", lane: events,
+     label: 금리 월평균 5.33%, sub: 2023년 8월, side: right}
+  - {type: marker, start: {sid: gap_0, off: -0.2}, end: {sid: gap_0, edge: end, off: 0.6}, date: "2025-10-15", lane: events,
+     label: 10월 소비자물가 미발표, sub: 미 노동통계국(BLS), side: right}
+  - {type: marker, start: {sid: now_0, off: 3.4}, end: {sid: now_2, edge: end, off: 0.8}, date: "2026-08-15", lane: events,
+     label: 2026년 8월 기준, sub: 금리 3.63% · 물가 3.35%, side: left, hl: true}
+sound:
+  bgm: null
+  intensity: [[0, 0.55], [{total: true}, 0.55]]   # 음악 없음(bgm null) — 효과음 세기만

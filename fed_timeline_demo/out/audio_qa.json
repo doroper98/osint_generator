@@ -1,0 +1,33 @@
+{
+ "schema_version": 1,
+ "final_loudness": {
+  "I": -14.02,
+  "TP": -1.95,
+  "LRA": 5.2
+ },
+ "mix_peak": 0.8,
+ "narration_rms_db": -16.5,
+ "music_rms_in_narration_db": -82.16,
+ "music_under_narration_db": -65.66,
+ "narration_seconds": 48.5,
+ "loudness_ok": true,
+ "true_peak_ok": true,
+ "music_level_ok": null,
+ "peak_ok": true,
+ "sentence_rms_db": {
+  "open_0": -15.75,
+  "open_1": -16.64,
+  "low_0": -15.73,
+  "low_1": -15.63,
+  "peak_0": -16.43,
+  "high_0": -15.47,
+  "gap_0": -16.08,
+  "now_0": -16.39,
+  "now_1": -17.19,
+  "now_2": -14.98
+ },
+ "sentence_rms_outliers": [],
+ "method": "내레이션 스템 = plan npy 재배치(믹서 규칙) × 최소제곱 스케일, 음악 = mix − 내레이션(모노 평균)",
+ "hard": [],
+ "warnings": []
+}

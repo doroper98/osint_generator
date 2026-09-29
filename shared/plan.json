@@ -1,0 +1,300 @@
+{
+ "sentences": [
+  {
+   "sid": "open_0",
+   "scene": "open",
+   "date": "2019.01",
+   "text": "미국의 연방기금 실효금리와 소비자물가 상승률을 2019년부터 따라갑니다.",
+   "tts": "미국의 연방기금 실효금리와 소비자물가 상승률을 이천십구년부터 따라갑니다.",
+   "segments": [
+    [
+     "미국의 ",
+     0
+    ],
+    [
+     "연방기금 실효금리",
+     1
+    ],
+    [
+     "와 소비자물가 상승률을 2019년부터 따라갑니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/fed_timeline_demo/tts/open_0_13e9b50867.mp3",
+   "npy": "/home/user/osint_generator/projects/fed_timeline_demo/tts/open_0_13e9b50867.npy",
+   "dur": 5.446984126984127,
+   "t0": 1.2,
+   "t1": 6.646984126984127,
+   "trim_offset": 0.385215
+  },
+  {
+   "sid": "open_1",
+   "scene": "open",
+   "date": "2019.01",
+   "text": "연방기금 실효금리는 미국 은행들이 서로 하룻밤 빌려주는 돈의 금리입니다.",
+   "tts": "연방기금 실효금리는 미국 은행들이 서로 하룻밤 빌려주는 돈의 금리입니다.",
+   "segments": [
+    [
+     "연방기금 실효금리는 미국 은행들이 서로 ",
+     0
+    ],
+    [
+     "하룻밤",
+     1
+    ],
+    [
+     " 빌려주는 돈의 금리입니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/fed_timeline_demo/tts/open_1_cf7d366d91.mp3",
+   "npy": "/home/user/osint_generator/projects/fed_timeline_demo/tts/open_1_cf7d366d91.npy",
+   "dur": 5.055691609977324,
+   "t0": 7.146984126984127,
+   "t1": 12.202675736961451,
+   "trim_offset": 0.367891
+  },
+  {
+   "sid": "low_0",
+   "scene": "low",
+   "date": "2020.04",
+   "text": "2020년 4월, 이 금리의 월평균은 0.05%였습니다.",
+   "tts": "이천이십년 사월, 이 금리의 월평균은 영쩜영오 퍼센트였습니다.",
+   "segments": [
+    [
+     "2020년 4월, 이 금리의 월평균은 ",
+     0
+    ],
+    [
+     "0.05%",
+     1
+    ],
+    [
+     "였습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/fed_timeline_demo/tts/low_0_28246dc7ca.mp3",
+   "npy": "/home/user/osint_generator/projects/fed_timeline_demo/tts/low_0_28246dc7ca.npy",
+   "dur": 5.2089569160997735,
+   "t0": 18.90267573696145,
+   "t1": 24.11163265306122,
+   "trim_offset": 0.328617
+  },
+  {
+   "sid": "low_1",
+   "scene": "low",
+   "date": "2022.03",
+   "text": "2022년 3월 월평균은 0.2%였습니다.",
+   "tts": "이천이십이년 삼월 월평균은 영쩜이 퍼센트였습니다.",
+   "segments": [
+    [
+     "2022년 3월 월평균은 ",
+     0
+    ],
+    [
+     "0.2%",
+     1
+    ],
+    [
+     "였습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/fed_timeline_demo/tts/low_1_39bd169929.mp3",
+   "npy": "/home/user/osint_generator/projects/fed_timeline_demo/tts/low_1_39bd169929.npy",
+   "dur": 3.8644444444444446,
+   "t0": 24.61163265306122,
+   "t1": 28.476077097505666,
+   "trim_offset": 0.329002
+  },
+  {
+   "sid": "peak_0",
+   "scene": "peak",
+   "date": "2022.06",
+   "text": "같은 해 6월, 소비자물가는 1년 전보다 8.98% 높았습니다.",
+   "tts": "같은 해 유월, 소비자물가는 일 년 전보다 팔쩜구팔 퍼센트 높았습니다.",
+   "segments": [
+    [
+     "같은 해 6월, 소비자물가는 1년 전보다 ",
+     0
+    ],
+    [
+     "8.98%",
+     1
+    ],
+    [
+     " 높았습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/fed_timeline_demo/tts/peak_0_f647fccf92.mp3",
+   "npy": "/home/user/osint_generator/projects/fed_timeline_demo/tts/peak_0_f647fccf92.npy",
+   "dur": 5.560385487528345,
+   "t0": 29.976077097505666,
+   "t1": 35.53646258503401,
+   "trim_offset": 0.366803
+  },
+  {
+   "sid": "high_0",
+   "scene": "high",
+   "date": "2023.08",
+   "text": "2023년 8월, 금리 월평균은 5.33%였습니다.",
+   "tts": "이천이십삼년 팔월, 금리 월평균은 오쩜삼삼 퍼센트였습니다.",
+   "segments": [
+    [
+     "2023년 8월, 금리 월평균은 ",
+     0
+    ],
+    [
+     "5.33%",
+     1
+    ],
+    [
+     "였습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/fed_timeline_demo/tts/high_0_d5d56aaf45.mp3",
+   "npy": "/home/user/osint_generator/projects/fed_timeline_demo/tts/high_0_d5d56aaf45.npy",
+   "dur": 5.2109977324263035,
+   "t0": 37.03646258503401,
+   "t1": 42.24746031746031,
+   "trim_offset": 0.328458
+  },
+  {
+   "sid": "gap_0",
+   "scene": "gap",
+   "date": "2025.10",
+   "text": "2025년 10월 소비자물가 지표는 발표되지 않았습니다.",
+   "tts": "이천이십오년 시월 소비자물가 지표는 발표되지 않았습니다.",
+   "segments": [
+    [
+     "2025년 10월 소비자물가 지표는 ",
+     0
+    ],
+    [
+     "발표되지 않았습니다",
+     1
+    ],
+    [
+     ".",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/fed_timeline_demo/tts/gap_0_c398ee8194.mp3",
+   "npy": "/home/user/osint_generator/projects/fed_timeline_demo/tts/gap_0_c398ee8194.npy",
+   "dur": 4.11063492063492,
+   "t0": 43.74746031746031,
+   "t1": 47.85809523809523,
+   "trim_offset": 0.352109
+  },
+  {
+   "sid": "now_0",
+   "scene": "now",
+   "date": "2026.08",
+   "text": "2026년 8월 기준, 금리 월평균은 3.63%입니다.",
+   "tts": "이천이십육년 팔월 기준, 금리 월평균은 삼쩜육삼 퍼센트입니다.",
+   "segments": [
+    [
+     "2026년 8월 기준, 금리 월평균은 ",
+     0
+    ],
+    [
+     "3.63%",
+     1
+    ],
+    [
+     "입니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/fed_timeline_demo/tts/now_0_37b54a56ab.mp3",
+   "npy": "/home/user/osint_generator/projects/fed_timeline_demo/tts/now_0_37b54a56ab.npy",
+   "dur": 5.29172335600907,
+   "t0": 49.35809523809523,
+   "t1": 54.6498185941043,
+   "trim_offset": 0.325147
+  },
+  {
+   "sid": "now_1",
+   "scene": "now",
+   "date": "2026.08",
+   "text": "같은 달 소비자물가 상승률은 3.35%입니다.",
+   "tts": "같은 달 소비자물가 상승률은 삼쩜삼오 퍼센트입니다.",
+   "segments": [
+    [
+     "같은 달 소비자물가 상승률은 ",
+     0
+    ],
+    [
+     "3.35%",
+     1
+    ],
+    [
+     "입니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/fed_timeline_demo/tts/now_1_468c405e98.mp3",
+   "npy": "/home/user/osint_generator/projects/fed_timeline_demo/tts/now_1_468c405e98.npy",
+   "dur": 4.0259637188208615,
+   "t0": 55.1498185941043,
+   "t1": 59.175782312925165,
+   "trim_offset": 0.382993
+  },
+  {
+   "sid": "now_2",
+   "scene": "now",
+   "date": "2026.08",
+   "text": "두 값은 FRED에서 받은 공개 자료이며, 이후 수정될 수 있습니다.",
+   "tts": "두 값은 프레드에서 받은 공개 자료이며, 이후 수정될 수 있습니다.",
+   "segments": [
+    [
+     "두 값은 FRED에서 받은 공개 자료이며, 이후 ",
+     0
+    ],
+    [
+     "수정될 수 있습니다",
+     1
+    ],
+    [
+     ".",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/fed_timeline_demo/tts/now_2_1774567f02.mp3",
+   "npy": "/home/user/osint_generator/projects/fed_timeline_demo/tts/now_2_1774567f02.npy",
+   "dur": 4.692358276643991,
+   "t0": 59.675782312925165,
+   "t1": 64.36814058956915,
+   "trim_offset": 0.366825
+  }
+ ],
+ "cards": [
+  {
+   "kind": "title",
+   "t0": 12.90267573696145,
+   "t1": 18.50267573696145
+  },
+  {
+   "kind": "end",
+   "t0": 66.06814058956915,
+   "t1": 77.06814058956915
+  }
+ ],
+ "scene_start": {
+  "open": 1.2,
+  "low": 18.90267573696145,
+  "peak": 29.976077097505666,
+  "high": 37.03646258503401,
+  "gap": 43.74746031746031,
+  "now": 49.35809523809523
+ },
+ "total": 77.56814058956915,
+ "voice": "edge-tts ko-KR-InJoonNeural",
+ "title": "금리와 물가, 두 줄의 기록",
+ "subtitle": "연방기금 실효금리와 소비자물가 상승률, 2019–2026",
+ "date": "2026.09.29",
+ "tts_resynthesized": []
+}
