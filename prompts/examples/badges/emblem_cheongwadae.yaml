@@ -1,0 +1,19 @@
+# 요소 예시 (v4.8.0, back_and_forth D-0109, 사용자 결정 D98) — 청와대(대통령 표장) 휘장 뱃지. 레지스트리 모델을 그대로 통과한다(15 P4).
+# 휘장 레지스트리 user_exception D98: 청와대·대통령실(한국)이 발언·행위 주체인 문장의 식별 표시 전용, 무가공, 크레딧 표기.
+# 시각·카메라는 hormuz_korea 연출의 decision 장면(카메라가 한반도, 서울이 화면 가운데) — 갤러리 예시일 뿐 hormuz 연출에는 넣지 않는다(골든).
+schema_version: 1
+key: badge:emblem:cheongwadae
+source: back_and_forth D-0109 (갤러리 예시 — 실제 연출 없음)
+event:
+  type: badge
+  t0: 222.0
+  t1: 240.0
+  lon: 126.97
+  lat: 37.59
+  kind: emblem
+  img: cheongwadae
+  label: 청와대
+  role: 대통령실
+  accent: gold
+gallery:
+  t: 230.0   # 카메라가 한반도에 있는 시각(서울 화면 x 419·y 195)

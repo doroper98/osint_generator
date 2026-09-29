@@ -82,6 +82,10 @@ def _slot_form(s) -> str:  # noqa: ANN001 — schemas.rules_models.PlacementSlot
         return "화면 점 → 경위도"
     if s.beside_panel is not None:
         return "패널 위 미디어 — 엔진이 그 순간 패널 글자·자막·날짜를 피하는 빈 귀퉁이를 고른다(자리가 없으면 오류)"
+    if s.screen:
+        return "패널 위 화면 고정 자리 — 패널이 떠 있는 동안 시작하는 지도 슬롯(map_*) 뱃지는 엔진이 이 자리로 옮긴다"
+    if s.align is not None:
+        return "무대 가운데(아래 무대를 어둡게) — 기사 카드를 크게 보여 줄 때"
     return "카드 위치"
 
 

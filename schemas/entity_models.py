@@ -28,6 +28,7 @@ class EntityIn(_Strict):
     emblem: Optional[str] = None        # emblems/registry.json 키(org 전용)
     role_default: str = ""
     accent: Optional[Accent] = None
+    note: Optional[str] = None          # v4.8.0 D-0109 — 사람용 메모(표기·연혁). 렌더에 쓰지 않는다
     rights: Optional[str] = None        # 권리 레지스트리 참조 "people.<pid>" · "emblems.<id>" · "library.<pid>" · "flags.<set>"
 
 

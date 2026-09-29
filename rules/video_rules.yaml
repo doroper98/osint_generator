@@ -139,6 +139,7 @@ direction_grammar:         # v4.7.0 back_and_forth D-0104 D2(a) — 연출 문�
   - 원고 문장에 media 큐가 있으면 그 미디어를 우선 쓴다.
   - 경계선(군사분계선·국경·NLL 등)을 route 로 그리지 않는다 — 지도 경계선이 이미 있다(v4.7.0 D-0107, 검사 [boundary-as-route] hard).
   - 위치가 공개되지 않은 사건 지점은 marker sub 에 '좌표 비공개'(또는 '근사 위치')를 쓴다 — 지도 좌표는 근거가 있을 때만 사건 지점으로 보인다(v4.7.0 D-0107).
+  - 청와대·대통령실(한국)이 발언·행위 주체인 문장에는 휘장 뱃지(kind emblem, img cheongwadae)를 건다. 대통령 개인이 주체면 초상 뱃지, 둘 다면 초상을 우선한다(v4.8.0 D-0109, 사용자 결정 D98).
 
 shot_grammar:              # 05 §2
   camera_moves_per_scene_max: 1

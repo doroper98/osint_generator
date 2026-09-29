@@ -139,6 +139,14 @@ entities:
     emblem: cia
     accent: us
     rights: emblems.cia
+  cheongwadae:                 # v4.8.0 D-0109(사용자 결정 D98) — 대통령 표장(봉황·무궁화). 휘장 레지스트리 user_exception D98(제한 insignia 를 넘는 유일한 예외)
+    kind: org
+    names: [청와대, 대통령실, 대한민국 대통령실, 한국 대통령실]
+    flag: kr
+    emblem: cheongwadae
+    accent: gold
+    rights: emblems.cheongwadae
+    note: 대통령실은 2022년 5월 용산으로 옮겼다가 2025년 이후 청와대로 대통령 집무가 복귀했다 — 영상 표기는 '청와대'
   potus:
     kind: org
     names: [백악관, 미국 대통령실]

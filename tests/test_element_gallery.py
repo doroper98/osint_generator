@@ -15,7 +15,7 @@ import yaml
 
 from engine.registry import validate_events
 from rules import load_rules
-from tools.element_gallery import EXAMPLES, items
+from tools.element_gallery import EXAMPLES, badge_variants, items
 
 REPO = Path(__file__).resolve().parent.parent
 FIXTURES = REPO / "tests" / "fixtures" / "preview"
@@ -23,7 +23,7 @@ FIXTURES = REPO / "tests" / "fixtures" / "preview"
 
 def expected_count() -> int:
     reg = load_rules().registries
-    return len(reg.event_types) + len(reg.panel_kinds) + len(reg.badge_kinds) + len(reg.primitives)
+    return len(reg.event_types) + len(reg.panel_kinds) + len(reg.badge_kinds) + len(reg.primitives) + len(badge_variants())
 
 
 class ElementExamplesTest(unittest.TestCase):

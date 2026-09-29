@@ -50,6 +50,12 @@ def _yaml_example(sub: str, name: str) -> dict:
     return yaml.safe_load(p.read_text(encoding="utf-8"))
 
 
+def badge_variants() -> list[str]:
+    """뱃지 종류별 추가 예제 파일 이름(badges/<종류>_<이름>.yaml) — 갤러리 칸 수 = 등록 요소 + 이 목록."""
+    kinds = load_rules().registries.badge_kinds
+    return sorted(p.stem for k in kinds for p in (EXAMPLES / "badges").glob(f"{k}_*.yaml"))
+
+
 def items() -> list[tuple[str, str, dict]]:
     """(이름, 예제 출처, 예제 문서{event, gallery?}) — 등록 요소 전부. 예제가 없으면 GalleryError(모아서)."""
     reg = load_rules().registries
@@ -77,6 +83,8 @@ def items() -> list[tuple[str, str, dict]]:
         add(f"panel_{k}", "panels", k)
     for k in reg.badge_kinds:
         add(f"badge_{k}", "badges", k)
+    for name in badge_variants():   # v4.8.0 D-0109 — 같은 종류의 추가 예제(badges/<종류>_<이름>.yaml, 예: 청와대 휘장)
+        add(f"badge_{name}", "badges", name)
     for p in reg.primitives:
         add(f"primitive_{p}", "primitives", p)
     if errs:

@@ -58,6 +58,7 @@ EMBLEM_TITLES: dict[str, tuple[str | None, str]] = {
     "mnd_korea": ("File:Emblem of the Ministry of National Defense (South Korea).svg", "kr"),
     "cheonghae": (None, "kr"),
     "cia": ("File:Seal of the U.S. Central Intelligence Agency.svg", "us"),
+    "cheongwadae": ("File:Emblem of the President of the Republic of Korea.svg", "kr"),   # v4.8.0 D-0109 대통령 표장(봉황·무궁화)
     "potus": ("File:Seal of the President of the United States.svg", "us"),
 }
 
@@ -238,14 +239,31 @@ def record_bundles(registry: Path, bundles: Path = BUNDLES) -> int:
 
 
 # ------------------------------------------------------------------ 휘장
+# 사용자 예외(D5 밖, schemas.emblem_models.USER_EXCEPTIONS 와 같은 번호) — 휘장 id → (결정 번호, 용도 한정 문구)
+EMBLEM_EXCEPTIONS: dict[str, tuple[str, str]] = {
+    "cheongwadae": ("D98", "청와대·대통령실(한국)이 발언·행위 주체인 문장의 식별 표시 전용, 무가공, 엔딩 크레딧 표기"),
+}
+
+
 def emblem_entry(eid: str, title: str | None, flag: str, ii: dict | None) -> EmblemEntry:
     if title is None or ii is None:
         dec, why = decide_emblem([], "", has_file=False)
         return EmblemEntry(file=None, decision=dec, reason=why, fallback_flag=flag, fetched_at=now_iso())
-    dec, why = decide_emblem(ii["restrictions"], ii["lic"], has_file=True)
+    ue, scope = EMBLEM_EXCEPTIONS.get(eid, (None, None))
+    dec, why = decide_emblem(ii["restrictions"], ii["lic"], has_file=True, user_exception=ue)
     return EmblemEntry(file=f"{eid}.png" if dec == "use" else None, title=title, license=ii["lic"], author=ii["artist"],
                        restrictions=ii["restrictions"], decision=dec, reason=why, fallback_flag=flag,
-                       source_url=ii["page"], fetched_at=now_iso())
+                       source_url=ii["page"], fetched_at=now_iso(), user_exception=ue, exception_scope=scope)
+
+
+def dump_emblem_registry(reg: EmblemRegistry) -> str:
+    """레지스트리 JSON — 사용자 예외 필드는 있는 항목에만 적는다(다른 항목 = v4.7.0 과 같은 바이트)."""
+    d = json.loads(reg.model_dump_json())
+    for e in d["emblems"].values():
+        for k in ("user_exception", "exception_scope"):
+            if e.get(k) is None:
+                e.pop(k, None)
+    return json.dumps(d, ensure_ascii=False, indent=1) + "\n"
 
 
 def load_emblem_registry(path: Path = EMBLEM_REGISTRY) -> EmblemRegistry:
@@ -267,7 +285,7 @@ def fetch_emblems(proj: Path | None, only: list[str] | None = None, refresh: boo
             ent = emblem_entry(eid, title, flag, ii)
             reg.emblems[eid] = ent
             registry.parent.mkdir(parents=True, exist_ok=True)
-            registry.write_text(reg.model_dump_json(indent=1) + "\n", encoding="utf-8")
+            registry.write_text(dump_emblem_registry(reg), encoding="utf-8")
             print(f"emblem {eid}: {ent.decision} ({ent.reason})", flush=True)
         if proj is not None and ent.decision == "use":
             ii = info(ent.title or "", EMBLEM_WIDTH)

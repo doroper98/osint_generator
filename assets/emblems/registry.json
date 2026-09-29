@@ -108,6 +108,22 @@
    "fallback_flag": "us",
    "source_url": "https://commons.wikimedia.org/wiki/File:Seal_of_the_President_of_the_United_States.svg",
    "fetched_at": "2026-09-28T02:30:00Z"
+  },
+  "cheongwadae": {
+   "file": "cheongwadae.png",
+   "title": "File:Emblem of the President of the Republic of Korea.svg",
+   "license": "Public domain",
+   "author": "Great Brightstar",
+   "restrictions": [
+    "insignia"
+   ],
+   "decision": "use",
+   "reason": "user_exception D98: restrictions insignia — 용도 한정",
+   "fallback_flag": "kr",
+   "source_url": "https://commons.wikimedia.org/wiki/File:Emblem_of_the_President_of_the_Republic_of_Korea.svg",
+   "fetched_at": "2026-09-29T15:14:13Z",
+   "user_exception": "D98",
+   "exception_scope": "청와대·대통령실(한국)이 발언·행위 주체인 문장의 식별 표시 전용, 무가공, 엔딩 크레딧 표기"
   }
  }
 }
