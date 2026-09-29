@@ -1,0 +1,90 @@
+{
+ "schema_version": 1,
+ "role": "D-0096 작업 4 — 랫클리프 20컷 auto 프리뷰 새 기준선(G5: 검증 라벨 본문 제거·엔딩 카드 안내 줄). 옛 기준 phaseG4/ratcliffe_mad.json, 변경 영역 증명 label_off_diff_ratcliffe2026.json",
+ "of": 20,
+ "checks_hard": 0,
+ "checks_items": 18,
+ "warnings": 2,
+ "cuts": [
+  {
+   "png": "p_0011.00.png",
+   "md5": "d86e62a26b77849e0ec941bbe6c65f01"
+  },
+  {
+   "png": "p_0024.06.png",
+   "md5": "92f3936e096d8339a7aed10e93cc88d7"
+  },
+  {
+   "png": "p_0031.01.png",
+   "md5": "4721d248860c6d4955a0ca545ce29d50"
+  },
+  {
+   "png": "p_0038.10.png",
+   "md5": "f8da2bd3459b005860fe8af528be100b"
+  },
+  {
+   "png": "p_0043.30.png",
+   "md5": "30a33c60c7c11f15aa46d86c2525cde5"
+  },
+  {
+   "png": "p_0054.32.png",
+   "md5": "88bff113d51dc97dc6038332861da509"
+  },
+  {
+   "png": "p_0063.35.png",
+   "md5": "0dc89066880c42462aa634b5ea02bb26"
+  },
+  {
+   "png": "p_0079.31.png",
+   "md5": "24af72cfa5bc76a00d99ddaadb0b8a27"
+  },
+  {
+   "png": "p_0091.10.png",
+   "md5": "597568b4433098f91e387a6ce8e8b639"
+  },
+  {
+   "png": "p_0108.23.png",
+   "md5": "d755e0b222a5e6d2ee7f1b7d249b4ea1"
+  },
+  {
+   "png": "p_0118.82.png",
+   "md5": "1b44c72c2adad1e7044b8f94d91bf547"
+  },
+  {
+   "png": "p_0135.31.png",
+   "md5": "97bcc3a77d4a4af2208e6e3849134ae3"
+  },
+  {
+   "png": "p_0146.24.png",
+   "md5": "58d344b4e7986ef906d3f481a8840871"
+  },
+  {
+   "png": "p_0161.90.png",
+   "md5": "bbcda242d697bac172cc574c42ad67ef"
+  },
+  {
+   "png": "p_0171.39.png",
+   "md5": "4bc134daf453853202405e46a78296cd"
+  },
+  {
+   "png": "p_0184.42.png",
+   "md5": "590ef43a545c747494ad8bea5b7dadcf"
+  },
+  {
+   "png": "p_0191.86.png",
+   "md5": "8d247b8ccfadbf6797d7c18b2ce53110"
+  },
+  {
+   "png": "p_0206.38.png",
+   "md5": "db106a8a0281b01895d2e25c9e4ea2aa"
+  },
+  {
+   "png": "p_0217.84.png",
+   "md5": "7fb64ee10ab46fe4fae23a526cca59ac"
+  },
+  {
+   "png": "p_0220.44.png",
+   "md5": "6e542b2d14533f01c601816e85da3b20"
+  }
+ ]
+}

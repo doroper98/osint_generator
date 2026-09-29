@@ -1,0 +1,225 @@
+{
+ "schema_version": 1,
+ "role": "D-0096 작업 4 — ratcliffe2026 auto 프리뷰, 검증 라벨 본문 제거 전후",
+ "method": "G5 직전 코드(e57bec2)·같은 자산 렌더 vs G5 코드 렌더(같은 auto 시각). 픽셀 차 > 0 마스크를 두 영역과 대조: 자막 띠 y ≥ 402(last_line_y − (max_lines−1)·line_gap − size − halo, 전체 폭) ∪ 엔딩 카드 안내 줄 y 458.2~472 × x 60~427(480p 좌표, 해상도 비례)",
+ "changed_cuts": 11,
+ "of": 20,
+ "all_inside": true,
+ "cuts": [
+  {
+   "cut": "p_0011.00.png",
+   "md5_old": "d86e62a26b77849e0ec941bbe6c65f01",
+   "md5": "d86e62a26b77849e0ec941bbe6c65f01",
+   "changed_px": 0,
+   "outside_zones_px": 0,
+   "bbox_yx": null
+  },
+  {
+   "cut": "p_0024.06.png",
+   "md5_old": "92f3936e096d8339a7aed10e93cc88d7",
+   "md5": "92f3936e096d8339a7aed10e93cc88d7",
+   "changed_px": 0,
+   "outside_zones_px": 0,
+   "bbox_yx": null
+  },
+  {
+   "cut": "p_0031.01.png",
+   "md5_old": "4721d248860c6d4955a0ca545ce29d50",
+   "md5": "4721d248860c6d4955a0ca545ce29d50",
+   "changed_px": 0,
+   "outside_zones_px": 0,
+   "bbox_yx": null
+  },
+  {
+   "cut": "p_0038.10.png",
+   "md5_old": "f8da2bd3459b005860fe8af528be100b",
+   "md5": "f8da2bd3459b005860fe8af528be100b",
+   "changed_px": 0,
+   "outside_zones_px": 0,
+   "bbox_yx": null
+  },
+  {
+   "cut": "p_0043.30.png",
+   "md5_old": "30a33c60c7c11f15aa46d86c2525cde5",
+   "md5": "30a33c60c7c11f15aa46d86c2525cde5",
+   "changed_px": 0,
+   "outside_zones_px": 0,
+   "bbox_yx": null
+  },
+  {
+   "cut": "p_0054.32.png",
+   "md5_old": "88bff113d51dc97dc6038332861da509",
+   "md5": "88bff113d51dc97dc6038332861da509",
+   "changed_px": 0,
+   "outside_zones_px": 0,
+   "bbox_yx": null
+  },
+  {
+   "cut": "p_0063.35.png",
+   "md5_old": "7118e4527d1bb90245cfbe08b87d49e4",
+   "md5": "0dc89066880c42462aa634b5ea02bb26",
+   "changed_px": 12724,
+   "outside_zones_px": 0,
+   "bbox_yx": [
+    408,
+    431,
+    81,
+    773
+   ]
+  },
+  {
+   "cut": "p_0079.31.png",
+   "md5_old": "a711f20246817d8e94c5f9e215bbe3a1",
+   "md5": "24af72cfa5bc76a00d99ddaadb0b8a27",
+   "changed_px": 12105,
+   "outside_zones_px": 0,
+   "bbox_yx": [
+    434,
+    457,
+    89,
+    764
+   ]
+  },
+  {
+   "cut": "p_0091.10.png",
+   "md5_old": "90badfcb16e7c0e67a97b7a5fe3a9b85",
+   "md5": "597568b4433098f91e387a6ce8e8b639",
+   "changed_px": 8470,
+   "outside_zones_px": 0,
+   "bbox_yx": [
+    434,
+    457,
+    195,
+    658
+   ]
+  },
+  {
+   "cut": "p_0108.23.png",
+   "md5_old": "a0e5e3691809c1ab4c3954671e25fb2e",
+   "md5": "d755e0b222a5e6d2ee7f1b7d249b4ea1",
+   "changed_px": 11971,
+   "outside_zones_px": 0,
+   "bbox_yx": [
+    408,
+    431,
+    97,
+    756
+   ]
+  },
+  {
+   "cut": "p_0118.82.png",
+   "md5_old": "a066b55d465eac6247c1be724fcf8630",
+   "md5": "1b44c72c2adad1e7044b8f94d91bf547",
+   "changed_px": 11147,
+   "outside_zones_px": 0,
+   "bbox_yx": [
+    434,
+    457,
+    122,
+    731
+   ]
+  },
+  {
+   "cut": "p_0135.31.png",
+   "md5_old": "c414fccdb1e1d9e95c98799c68f30797",
+   "md5": "97bcc3a77d4a4af2208e6e3849134ae3",
+   "changed_px": 12252,
+   "outside_zones_px": 0,
+   "bbox_yx": [
+    408,
+    431,
+    90,
+    764
+   ]
+  },
+  {
+   "cut": "p_0146.24.png",
+   "md5_old": "4ffd1afb40a2b209e69da992f686f93e",
+   "md5": "58d344b4e7986ef906d3f481a8840871",
+   "changed_px": 9748,
+   "outside_zones_px": 0,
+   "bbox_yx": [
+    434,
+    457,
+    164,
+    688
+   ]
+  },
+  {
+   "cut": "p_0161.90.png",
+   "md5_old": "7ab9d2230f000095453a5df553918e4b",
+   "md5": "bbcda242d697bac172cc574c42ad67ef",
+   "changed_px": 12311,
+   "outside_zones_px": 0,
+   "bbox_yx": [
+    408,
+    431,
+    86,
+    768
+   ]
+  },
+  {
+   "cut": "p_0171.39.png",
+   "md5_old": "4bc134daf453853202405e46a78296cd",
+   "md5": "4bc134daf453853202405e46a78296cd",
+   "changed_px": 0,
+   "outside_zones_px": 0,
+   "bbox_yx": null
+  },
+  {
+   "cut": "p_0184.42.png",
+   "md5_old": "590ef43a545c747494ad8bea5b7dadcf",
+   "md5": "590ef43a545c747494ad8bea5b7dadcf",
+   "changed_px": 0,
+   "outside_zones_px": 0,
+   "bbox_yx": null
+  },
+  {
+   "cut": "p_0191.86.png",
+   "md5_old": "8d247b8ccfadbf6797d7c18b2ce53110",
+   "md5": "8d247b8ccfadbf6797d7c18b2ce53110",
+   "changed_px": 0,
+   "outside_zones_px": 0,
+   "bbox_yx": null
+  },
+  {
+   "cut": "p_0206.38.png",
+   "md5_old": "fa082c234ead90e332e28feec732a8d2",
+   "md5": "db106a8a0281b01895d2e25c9e4ea2aa",
+   "changed_px": 10521,
+   "outside_zones_px": 0,
+   "bbox_yx": [
+    434,
+    457,
+    137,
+    716
+   ]
+  },
+  {
+   "cut": "p_0217.84.png",
+   "md5_old": "8f17e029a8f091aadb2b535b7d38dc6e",
+   "md5": "7fb64ee10ab46fe4fae23a526cca59ac",
+   "changed_px": 707,
+   "outside_zones_px": 0,
+   "bbox_yx": [
+    461,
+    469,
+    63,
+    231
+   ]
+  },
+  {
+   "cut": "p_0220.44.png",
+   "md5_old": "7994bf95554cbe8c08f66c1da6acd8a6",
+   "md5": "6e542b2d14533f01c601816e85da3b20",
+   "changed_px": 707,
+   "outside_zones_px": 0,
+   "bbox_yx": [
+    461,
+    469,
+    63,
+    231
+   ]
+  }
+ ]
+}
