@@ -1,0 +1,671 @@
+{
+ "schema_version": 1,
+ "role": "Phase G7 기준선 재등록(v4.8.0, back_and_forth D-0101 작업 4·D-0113) — 랫클리프 auto 20·fed_policy auto 22·데모 12. 기준 = v4.7.0 엔진(4777c50) 같은 시각 렌더(git worktree, 자산 심볼릭 링크). 변경 bbox 는 480p 좌표, sub_only = 바뀐 픽셀이 전부 자막 구역(y ≥ 400) 안",
+ "projects": {
+  "ratcliffe2026": {
+   "of": 20,
+   "changed": 20,
+   "sub_only": 2,
+   "old_render_eq_prev_baseline": "20/20",
+   "checks_hard": 0,
+   "checks_warnings": 9,
+   "checks_items": 21,
+   "cuts": [
+    {
+     "png": "p_0011.00.png",
+     "md5": "3d15ac55ddeec26c86e7b842d9c8020c",
+     "changed": true,
+     "bbox": [
+      178,
+      194,
+      675,
+      457
+     ],
+     "sub_only": false
+    },
+    {
+     "png": "p_0024.06.png",
+     "md5": "1590edcc40398e9c871e57aafb4a0468",
+     "changed": true,
+     "bbox": [
+      176,
+      193,
+      676,
+      457
+     ],
+     "sub_only": false
+    },
+    {
+     "png": "p_0031.01.png",
+     "md5": "b30f59b1637ffb6842a7a1d4a5a74887",
+     "changed": true,
+     "bbox": [
+      354,
+      193,
+      500,
+      207
+     ],
+     "sub_only": false
+    },
+    {
+     "png": "p_0038.10.png",
+     "md5": "98f391c25081a8b73d521c5b40d5bbf0",
+     "changed": true,
+     "bbox": [
+      203,
+      83,
+      711,
+      457
+     ],
+     "sub_only": false
+    },
+    {
+     "png": "p_0043.30.png",
+     "md5": "9b976e1f8d7c50027cfadcf5a014a642",
+     "changed": true,
+     "bbox": [
+      89,
+      171,
+      630,
+      457
+     ],
+     "sub_only": false
+    },
+    {
+     "png": "p_0054.32.png",
+     "md5": "0a13e62bc5a07066801de9d4ae5f9527",
+     "changed": true,
+     "bbox": [
+      179,
+      50,
+      829,
+      457
+     ],
+     "sub_only": false
+    },
+    {
+     "png": "p_0063.35.png",
+     "md5": "7a3de356223dfd55f40af05a40e9f925",
+     "changed": true,
+     "bbox": [
+      104,
+      48,
+      829,
+      457
+     ],
+     "sub_only": false
+    },
+    {
+     "png": "p_0079.31.png",
+     "md5": "6cb8807bbe9275acddf7e3a2e984e21d",
+     "changed": true,
+     "bbox": [
+      78,
+      86,
+      775,
+      457
+     ],
+     "sub_only": false
+    },
+    {
+     "png": "p_0091.10.png",
+     "md5": "9282d787e62a82c26bec8805d82eeaa4",
+     "changed": true,
+     "bbox": [
+      140,
+      86,
+      759,
+      457
+     ],
+     "sub_only": false
+    },
+    {
+     "png": "p_0108.23.png",
+     "md5": "dbeb33964e5a1ac143a2d09b9bad7215",
+     "changed": true,
+     "bbox": [
+      83,
+      407,
+      770,
+      457
+     ],
+     "sub_only": true
+    },
+    {
+     "png": "p_0118.82.png",
+     "md5": "bb85f74f022586cdac15524e9c1d8411",
+     "changed": true,
+     "bbox": [
+      110,
+      433,
+      742,
+      457
+     ],
+     "sub_only": true
+    },
+    {
+     "png": "p_0135.31.png",
+     "md5": "354b86d16157c918e7979abd72489bc2",
+     "changed": true,
+     "bbox": [
+      75,
+      70,
+      829,
+      457
+     ],
+     "sub_only": false
+    },
+    {
+     "png": "p_0146.24.png",
+     "md5": "62ffe54cf4097f1a09211b3f4663f9d7",
+     "changed": true,
+     "bbox": [
+      131,
+      83,
+      829,
+      457
+     ],
+     "sub_only": false
+    },
+    {
+     "png": "p_0161.90.png",
+     "md5": "849204e0c2dd72871215e97795271338",
+     "changed": true,
+     "bbox": [
+      101,
+      70,
+      829,
+      457
+     ],
+     "sub_only": false
+    },
+    {
+     "png": "p_0171.39.png",
+     "md5": "ce7a68188a8693c34063cc0ff242fd42",
+     "changed": true,
+     "bbox": [
+      342,
+      90,
+      465,
+      250
+     ],
+     "sub_only": false
+    },
+    {
+     "png": "p_0184.42.png",
+     "md5": "8769945a04d60df100ef7e647d278047",
+     "changed": true,
+     "bbox": [
+      230,
+      116,
+      623,
+      457
+     ],
+     "sub_only": false
+    },
+    {
+     "png": "p_0191.86.png",
+     "md5": "521e368234e8a1e17b6372f1ba2e9b80",
+     "changed": true,
+     "bbox": [
+      177,
+      116,
+      676,
+      457
+     ],
+     "sub_only": false
+    },
+    {
+     "png": "p_0206.38.png",
+     "md5": "5561b9e617446c0a186f3e3f4223f4d7",
+     "changed": true,
+     "bbox": [
+      127,
+      70,
+      829,
+      457
+     ],
+     "sub_only": false
+    },
+    {
+     "png": "p_0217.84.png",
+     "md5": "01c7e78c893d09bc332e6ac49042b374",
+     "changed": true,
+     "bbox": [
+      588,
+      80,
+      803,
+      125
+     ],
+     "sub_only": false
+    },
+    {
+     "png": "p_0220.44.png",
+     "md5": "1b88116042ad8f933cb5a85b1f9d3972",
+     "changed": true,
+     "bbox": [
+      588,
+      80,
+      803,
+      125
+     ],
+     "sub_only": false
+    }
+   ]
+  },
+  "fed_policy_2026": {
+   "of": 22,
+   "changed": 21,
+   "sub_only": 2,
+   "old_render_eq_prev_baseline": "0/22",
+   "checks_hard": 0,
+   "checks_warnings": 2,
+   "checks_items": 21,
+   "cuts": [
+    {
+     "png": "p_0007.15.png",
+     "md5": "53dcc4169f7b18e7f306fb2154efcfab",
+     "changed": true,
+     "bbox": [
+      144,
+      249,
+      708,
+      456
+     ],
+     "sub_only": false
+    },
+    {
+     "png": "p_0015.09.png",
+     "md5": "8b896c67fbd7f9190c331885da5637e0",
+     "changed": true,
+     "bbox": [
+      558,
+      256,
+      710,
+      415
+     ],
+     "sub_only": false
+    },
+    {
+     "png": "p_0018.20.png",
+     "md5": "a85d9d9a7c07c7334638824795a88a34",
+     "changed": false
+    },
+    {
+     "png": "p_0030.93.png",
+     "md5": "b7588765d62a7a6d4c1c9f3a227d60c1",
+     "changed": true,
+     "bbox": [
+      100,
+      83,
+      781,
+      457
+     ],
+     "sub_only": false
+    },
+    {
+     "png": "p_0043.65.png",
+     "md5": "6461a9a2b1e843f462f746d0bcaf7981",
+     "changed": true,
+     "bbox": [
+      279,
+      83,
+      699,
+      456
+     ],
+     "sub_only": false
+    },
+    {
+     "png": "p_0061.16.png",
+     "md5": "0e3a6a4fd2d0664600c8f6abb9a0b0f5",
+     "changed": true,
+     "bbox": [
+      100,
+      325,
+      752,
+      457
+     ],
+     "sub_only": false
+    },
+    {
+     "png": "p_0071.33.png",
+     "md5": "5f60672c6640a57e6e469aece1648042",
+     "changed": true,
+     "bbox": [
+      191,
+      83,
+      768,
+      456
+     ],
+     "sub_only": false
+    },
+    {
+     "png": "p_0091.71.png",
+     "md5": "3f587e7c03fbe114a3b0d91040d2a4cf",
+     "changed": true,
+     "bbox": [
+      93,
+      70,
+      825,
+      456
+     ],
+     "sub_only": false
+    },
+    {
+     "png": "p_0108.25.png",
+     "md5": "32d5972ba5493e8861c40794ec6418c1",
+     "changed": true,
+     "bbox": [
+      142,
+      83,
+      819,
+      455
+     ],
+     "sub_only": false
+    },
+    {
+     "png": "p_0128.43.png",
+     "md5": "f37ac03784c724b292598101be3f3f18",
+     "changed": true,
+     "bbox": [
+      84,
+      83,
+      829,
+      457
+     ],
+     "sub_only": false
+    },
+    {
+     "png": "p_0138.33.png",
+     "md5": "48ef33eda91b0dfd067315b16b2b47e5",
+     "changed": true,
+     "bbox": [
+      103,
+      83,
+      829,
+      457
+     ],
+     "sub_only": false
+    },
+    {
+     "png": "p_0162.47.png",
+     "md5": "5843342e6b0892ee7521e9c906361d04",
+     "changed": true,
+     "bbox": [
+      182,
+      83,
+      781,
+      456
+     ],
+     "sub_only": false
+    },
+    {
+     "png": "p_0184.30.png",
+     "md5": "2c5bbf045d9aae54d996f15cd18f0d1b",
+     "changed": true,
+     "bbox": [
+      168,
+      83,
+      747,
+      456
+     ],
+     "sub_only": false
+    },
+    {
+     "png": "p_0206.97.png",
+     "md5": "53b94c2c2cb8a2d290a758627b6ec845",
+     "changed": true,
+     "bbox": [
+      88,
+      83,
+      787,
+      456
+     ],
+     "sub_only": false
+    },
+    {
+     "png": "p_0214.92.png",
+     "md5": "1ccc6a00e454aeaf60e6137cc7db3b3b",
+     "changed": true,
+     "bbox": [
+      105,
+      83,
+      748,
+      456
+     ],
+     "sub_only": false
+    },
+    {
+     "png": "p_0233.31.png",
+     "md5": "5bed7c8cdaee8cf9f8dee86ba575666f",
+     "changed": true,
+     "bbox": [
+      160,
+      83,
+      776,
+      456
+     ],
+     "sub_only": false
+    },
+    {
+     "png": "p_0249.41.png",
+     "md5": "db5873e970a7233030454f9dc8f54b65",
+     "changed": true,
+     "bbox": [
+      117,
+      317,
+      735,
+      456
+     ],
+     "sub_only": false
+    },
+    {
+     "png": "p_0267.95.png",
+     "md5": "ca165190cdf0c2f468b71508122c63f6",
+     "changed": true,
+     "bbox": [
+      103,
+      409,
+      749,
+      454
+     ],
+     "sub_only": true
+    },
+    {
+     "png": "p_0276.09.png",
+     "md5": "19ab7a9a2cfccffbd0ca0fe3b1b2413f",
+     "changed": true,
+     "bbox": [
+      97,
+      409,
+      756,
+      454
+     ],
+     "sub_only": true
+    },
+    {
+     "png": "p_0289.92.png",
+     "md5": "9431d9c9fe08c7b2826a1c0703843917",
+     "changed": true,
+     "bbox": [
+      109,
+      83,
+      825,
+      457
+     ],
+     "sub_only": false
+    },
+    {
+     "png": "p_0299.75.png",
+     "md5": "e8f727ad90ab17153cc22f83f9957c9e",
+     "changed": true,
+     "bbox": [
+      600,
+      83,
+      752,
+      125
+     ],
+     "sub_only": false
+    },
+    {
+     "png": "p_0301.12.png",
+     "md5": "dd7633307199039b2a53315a9b725683",
+     "changed": true,
+     "bbox": [
+      600,
+      83,
+      752,
+      125
+     ],
+     "sub_only": false
+    }
+   ]
+  },
+  "fed_timeline_demo": {
+   "of": 12,
+   "changed": 10,
+   "sub_only": 1,
+   "old_render_eq_prev_baseline": "12/12",
+   "checks_hard": 0,
+   "checks_warnings": 1,
+   "checks_items": 21,
+   "cuts": [
+    {
+     "png": "p_0006.40.png",
+     "md5": "f78fb8b2490fb3575f9c9e22a3522d62",
+     "changed": true,
+     "bbox": [
+      107,
+      433,
+      746,
+      456
+     ],
+     "sub_only": true
+    },
+    {
+     "png": "p_0015.70.png",
+     "md5": "aec44a71fb40e3b66b91e6d0be547579",
+     "changed": false
+    },
+    {
+     "png": "p_0022.10.png",
+     "md5": "472bbf92d5a5ab7bd2caa92eb6e21399",
+     "changed": true,
+     "bbox": [
+      153,
+      325,
+      643,
+      456
+     ],
+     "sub_only": false
+    },
+    {
+     "png": "p_0026.40.png",
+     "md5": "3a9a4ed8770a1b27eb370d2afc41f00f",
+     "changed": true,
+     "bbox": [
+      155,
+      325,
+      591,
+      456
+     ],
+     "sub_only": false
+    },
+    {
+     "png": "p_0031.50.png",
+     "md5": "6951bb3cd8d8b4976aa0131c5eefd787",
+     "changed": true,
+     "bbox": [
+      176,
+      325,
+      676,
+      456
+     ],
+     "sub_only": false
+    },
+    {
+     "png": "p_0034.70.png",
+     "md5": "50c638e552ae1c4084e939a8b3089b57",
+     "changed": true,
+     "bbox": [
+      176,
+      325,
+      676,
+      456
+     ],
+     "sub_only": false
+    },
+    {
+     "png": "p_0040.00.png",
+     "md5": "6da589c2680e8225b1bb6cf2b9969448",
+     "changed": true,
+     "bbox": [
+      88,
+      325,
+      622,
+      456
+     ],
+     "sub_only": false
+    },
+    {
+     "png": "p_0044.50.png",
+     "md5": "4b304fe2d47cd090cd0cfb3cb4c488ce",
+     "changed": true,
+     "bbox": [
+      191,
+      324,
+      768,
+      456
+     ],
+     "sub_only": false
+    },
+    {
+     "png": "p_0047.40.png",
+     "md5": "c11bf47d8c3b38361819163bf2ac6b9c",
+     "changed": true,
+     "bbox": [
+      191,
+      324,
+      769,
+      456
+     ],
+     "sub_only": false
+    },
+    {
+     "png": "p_0053.50.png",
+     "md5": "c043a155f93f9442a35d69a66501a888",
+     "changed": true,
+     "bbox": [
+      219,
+      325,
+      827,
+      456
+     ],
+     "sub_only": false
+    },
+    {
+     "png": "p_0058.00.png",
+     "md5": "7b0bfb51036567e8c9500e559fb3df10",
+     "changed": true,
+     "bbox": [
+      238,
+      325,
+      827,
+      456
+     ],
+     "sub_only": false
+    },
+    {
+     "png": "p_0071.50.png",
+     "md5": "d8e97b5ab3b45fa1c2868ed1383e366f",
+     "changed": false
+    }
+   ]
+  }
+ },
+ "notes": [
+  "엔딩 카드 컷(랫클리프 217.84·220.44, fed_policy 299.75·301.12)의 변경 bbox 는 엔딩 카드 글자가 아니라 엔딩 카드 어둠 밑으로 사라지는 오른쪽 위 카드(line_size 13→15)다 — 엔딩 카드 자체는 무변경(D-0101 제외 목록)",
+  "fed_policy 옛 렌더가 G5 기준선과 다른 것(0/22)은 G6.5 연출·오디오 이후 기준선을 다시 등록하지 않았기 때문(G6.5 는 프리뷰 기준선 없음). G7 기준은 이 파일",
+  "자막 외 변경 = 카드·캡션·패널 부제·마커 부제·인물 뱃지 적응 크기(G7 §1)·기사 카드 조판(§2)"
+ ]
+}
