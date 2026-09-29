@@ -312,10 +312,31 @@ class PanelLayout(_Strict):
     min_screen_use: float
 
 
+class BadgeLabelBox(_Strict):
+    pad_x: float
+    gap: float
+    pad_y: float
+    inset: float
+    role_gap: float
+    role_pad: float
+    side_dx: float
+    side_dy: float
+    side_role_dy: float
+
+
 class BadgeLayout(_Strict):
-    R_person_map: Range2
+    R_person_solo: float
+    R_person_group: Range2
     R_person_panel: float
     R_flag: Range2
+    R_other: float
+    resize_sec: float
+    fade_in_sec: float
+    fade_out_sec: float
+    label_solo: Range2
+    label_group: Range2
+    label_side: Range2
+    label_box: BadgeLabelBox
     reserve_top_factor: float
     reserve_bottom_px: float
     popin_sec: float

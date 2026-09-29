@@ -175,7 +175,7 @@ def place_over(P, ctx: cairo.Context, e: dict, t: float) -> tuple[float, tuple] 
             return None
         b = marker_box(ctx, e, x, y, with_sub=True)
     else:
-        b = badge_box(ctx, e, x, y)
+        b = badge_box(ctx, e, x, y, t)
     return max(-b[0], -b[1], b[2] - W_OUT, b[3] - H_OUT), tuple(b)
 
 

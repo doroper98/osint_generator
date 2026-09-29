@@ -161,7 +161,7 @@ def avoidance_report(P) -> list[dict]:  # noqa: ANN001 — engine.project.Projec
             if not zones:
                 continue
             x, y = View(P.R.stage, P.cams[i]).to_screen(*e["world"])
-            dx, dy, ka, info = avoid_badge(badge_box(ctx, e, x, y), zones)
+            dx, dy, ka, info = avoid_badge(badge_box(ctx, e, x, y, t), zones)
             if info is None:
                 continue
             if rec is None:

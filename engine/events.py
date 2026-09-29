@@ -167,7 +167,7 @@ class BadgeEvent(_Event):
     pid: Optional[str] = None
     flag: Optional[str] = None
     img: Optional[str] = None
-    R: float = 30
+    R: Optional[float] = None        # v4.8.0 D-0101 §1 — 없으면 인물은 적응 크기, 국기·휘장은 rules badge.R_other(옛 기본 30 리터럴)
     label: str = ""
     role: Optional[str] = None
     accent: Accent = "gold"

@@ -28,6 +28,7 @@ from engine.credits import RightsError
 from engine.layers.media import caption_width, validate_media
 from engine.media_registry import credit_line
 from engine.media_plan import density_report, media_box, placement_warnings
+from engine.layers.badges import assign_person_sizes
 from engine.placement import PlacementError, resolve_places
 from engine.projection import View
 from engine.shots import ShotStage
@@ -284,6 +285,7 @@ def load_project(proj: Path, direction: Optional[Direction] = None, out: Optiona
     if bad:
         raise ProjectError(f"series 이벤트의 {sorted(set(bad))} 는 코드가 채운다 — 연출에 쓰지 않는다(P8)")
     events = validate_events(raw_events)
+    assign_person_sizes(events)   # v4.8.0 D-0101 §1 — 인물 뱃지 적응 크기(보이는 인물 수 n(t), 코드가 센다 P8)
     try:
         attach_world(events, R.stage)
     except ValueError as ex:   # 앵커 키가 무대와 다름(지도 핀을 시간축에, 등) = 오류(P10, D-0085)
