@@ -608,9 +608,10 @@ audio:                     # 10
     sentence_rms_dev_db: 3.0               # D-0061 쟁점 2 A — 문장 RMS 가 평균에서 이만큼 넘게 벗어나면 warning(정규화는 하지 않음). hormuz 0건(편차 0.65dB)
     sentence_rms_window_sec: 0.02          # 문장 RMS: 이 길이 창의 RMS 중
     sentence_rms_floor_db: -40             # 최대 창보다 이만큼 이상 작은 창(무음)은 뺀다
-    # v4.6.0 D-0097 작업 3 — 베드 저역 비율(audio/qa.py, 믹서가 out/bed_stats.json 에 기록). 처리 후 베드(내레이션·효과음 제외, 피크 정규화 뒤 모노)의
-    # bass_band_hz 대역 RMS − mid_band_hz 대역 RMS(dB, FFT 파워 합). 범위 밖 = hard. 처리 전 값도 기록해 상승폭을 남긴다(판정은 처리 후 값만)
-    bed_bass_ratio_db: [-6, 0]
+    # v4.6.0 D-0097 작업 3·D-0102 1-A — 베드 저역 비율(audio/qa.py, 믹서가 out/bed_stats.json 에 기록) = 베드(내레이션·효과음 제외, 피크 정규화 뒤 모노)의
+    # bed_bass_band_hz 대역 RMS − bed_mid_band_hz 대역 RMS(dB, FFT 파워 합). 판정 = 상승폭(처리 후 − 처리 전)이 이 범위 안, 밖 = hard.
+    # 절대 비율은 기록만(곡마다 다르다 — zabriskie_patriarch 처리 전 +11.8 dB, D-0097 의 절대 범위 [-6, 0] 은 도달 불가로 폐기)
+    bed_bass_rise_db: [4, 8]
     bed_bass_band_hz: [30, 120]
     bed_mid_band_hz: [200, 2000]
   crossfade_sec: 4.0        # v3.4.0 D-0060 작업 5 — 곡 교체 교차 페이드(경계 가운데 정렬, 선형 합 1). BGM 반복 교차 페이드(loop_xfade_sec)와 같은 값
@@ -627,6 +628,9 @@ audio:                     # 10
       env_release_sec: 0.25
       env_block_sec: 0.001  # 포락선 계산 블록 길이(블록 값을 샘플로 선형 보간)
     swell: {sec: 2.5, depth: 0.35}                       # 장면 시작(첫 장면 제외)에서 서브 층 이득 1+depth → sec 동안 선형으로 1
+    # D-0102 2-C — 피크 정규화 기준 ref = 처리 전 피크^(1−norm_ref) × 처리 후 피크^norm_ref. 1.0 = 처리 후 피크(저역 절대 그대로·중역만 내려감),
+    # 0.0 = 처리 전 피크(중역 그대로·저역 절대 상승, 음악 레벨 범위 밖). 값은 실측(reports/phaseG6/norm_ref_sweep.json)으로 정한다
+    norm_ref: 0.5
   sfx:                      # 효과음 합성(v3 mix3) — 필터 계수·시상수·이득
     whoosh: {dur_sec: 1.2, shape_pow: 2.2, low_b: 0.08, low_a: -0.92, low_gain: 0.6, high_b: 0.3, high_a: -0.7, high_gain: 0.25,
              release_sec: 0.08, release_tau_sec: 0.05, gain: 0.2}

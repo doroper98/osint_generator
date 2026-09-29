@@ -182,16 +182,19 @@ def process_bed(bg: np.ndarray, scene_starts: list[float]) -> np.ndarray:
 
 
 def bed(bg: np.ndarray, n: int, scene_starts: list[float] | None = None) -> np.ndarray:
-    """루프·자르기 → (scene_starts 가 있으면 process_bed) → 피크 정규화. None = 저음 보강 전 베드(측정용 '처리 전')."""
+    """루프·자르기 → (scene_starts 가 있으면 process_bed, 정규화 기준 norm_ref) → 피크 정규화. None = 저음 보강 전 베드(측정용 '처리 전')."""
     xf = int(AU.loop_xfade_sec * SR)
     while len(bg) < n:
         tail, head = bg[-xf:], bg[:xf]
         r = np.linspace(0, 1, xf)[:, None]
         bg = np.concatenate([bg[:-xf], tail * (1 - r) + head * r, bg[xf:]])
     bg = bg[:n]
-    if scene_starts is not None:
-        bg = process_bed(bg, scene_starts)
-    return bg / (np.abs(bg).max() + AU.norm_eps)
+    if scene_starts is None:
+        return bg / (np.abs(bg).max() + AU.norm_eps)
+    pre = float(np.abs(bg).max())
+    bg = process_bed(bg, scene_starts)
+    k = AU.bed_bass.norm_ref   # D-0102 2-C — 정규화 기준 = 처리 전 피크^(1−k) × 처리 후 피크^k
+    return bg / (pre ** (1 - k) * float(np.abs(bg).max()) ** k + AU.norm_eps)
 
 
 def crossfade_weights(starts: list[float], n: int) -> np.ndarray:

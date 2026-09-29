@@ -36,8 +36,8 @@ class BedBassRulesTest(unittest.TestCase):
         """규칙 값(셸프·서브·스웰)을 코드에 다시 적지 않는다(15 P3) — 숫자 리터럴이 규칙 값과 겹치지 않는다."""
         b = AU.bed_bass
         vals = {b.shelf.freq_hz, b.shelf.gain_db, b.shelf.q, *b.sub.band_hz, b.sub.out_lp_hz, b.sub.filter_order, b.sub.gain,
-                b.sub.env_attack_sec, b.sub.env_release_sec, b.sub.env_block_sec, b.swell.sec, b.swell.depth,
-                *AU.qa.bed_bass_ratio_db, *AU.qa.bed_bass_band_hz, *AU.qa.bed_mid_band_hz} - {0, 1, 2, 3}
+                b.sub.env_attack_sec, b.sub.env_release_sec, b.sub.env_block_sec, b.swell.sec, b.swell.depth, b.norm_ref,
+                *AU.qa.bed_bass_rise_db, *AU.qa.bed_bass_band_hz, *AU.qa.bed_mid_band_hz} - {0, 1, 2, 3}
         for rel in ("audio/mix.py", "audio/qa.py"):
             lits = {n.value for n in ast.walk(ast.parse((REPO / rel).read_text(encoding="utf-8")))
                     if isinstance(n, ast.Constant) and isinstance(n.value, (int, float)) and not isinstance(n.value, bool)}
@@ -92,6 +92,22 @@ class ProcessBedTest(unittest.TestCase):
         self.assertGreater(st["rise_db"], 0)
 
 
+class NormRefTest(unittest.TestCase):
+    def test_norm_ref_endpoints(self) -> None:
+        """norm_ref 1 = 처리 후 피크로 정규화(베드 피크 1), 0 = 처리 전 피크 기준(처리로 커진 만큼 1 을 넘음)."""
+        import audio.mix as am  # noqa: PLC0415
+
+        t = np.arange(SR * 4) / SR
+        raw = np.stack([np.sin(2 * np.pi * 110 * t) * 0.4 + np.sin(2 * np.pi * 880 * t) * 0.2] * 2, 1).astype(np.float32)
+        peaks = {}
+        for k in (0.0, 1.0):
+            au = AU.model_copy(update={"bed_bass": AU.bed_bass.model_copy(update={"norm_ref": k})})
+            with mock.patch.object(am, "AU", au):
+                peaks[k] = float(np.abs(am.bed(raw, len(raw), [1.0])).max())
+        self.assertAlmostEqual(peaks[1.0], 1.0, places=4)
+        self.assertGreater(peaks[0.0], 1.0)
+
+
 class NullBgmUntouchedTest(unittest.TestCase):
     def test_null_bgm_never_processes_and_writes_no_stats(self) -> None:
         """무음악 경로: process_bed·측정이 돌지 않는다(바이트 동일 — 실측은 reports/phaseG6)."""
@@ -124,16 +140,16 @@ class BedBassQATest(unittest.TestCase):
                 (out / "bed_stats.json").write_text(json.dumps(stats), encoding="utf-8")
             return audio_qa(out, [{"npy": str(npy), "t0": 1.0, "t1": 1.5, "sid": "s0"}], has_music=True).issues()
 
-    def _stats(self, after: float, n: int) -> dict:
+    def _stats(self, rise: float, n: int) -> dict:
         from audio.qa import BedStats  # noqa: PLC0415
 
         return BedStats(bass_band_hz=AU.qa.bed_bass_band_hz, mid_band_hz=AU.qa.bed_mid_band_hz,
-                        before={"bass_db": -30, "mid_db": -20, "ratio_db": -10}, after={"bass_db": -20 + after, "mid_db": -20, "ratio_db": after},
-                        rise_db=after + 10, swell_at=[], applied=AU.bed_bass, mix_samples=n).model_dump(mode="json")
+                        before={"bass_db": -8, "mid_db": -20, "ratio_db": 12}, after={"bass_db": -8 + rise, "mid_db": -20, "ratio_db": 12 + rise},
+                        rise_db=rise, swell_at=[], applied=AU.bed_bass, mix_samples=n).model_dump(mode="json")
 
     def test_out_of_range_is_hard(self) -> None:
         n = SR * 3
-        lo, hi = AU.qa.bed_bass_ratio_db
+        lo, hi = AU.qa.bed_bass_rise_db   # D-0102 1-A — 판정은 상승폭(절대 비율은 기록만)
         self.assertTrue(any("베드 저역 비율" in i for i in self._qa(self._stats(hi + 2, n), n)))
         self.assertTrue(any("베드 저역 비율" in i for i in self._qa(self._stats(lo - 2, n), n)))
         self.assertFalse(any("베드 저역" in i for i in self._qa(self._stats((lo + hi) / 2, n), n)))
@@ -141,7 +157,7 @@ class BedBassQATest(unittest.TestCase):
     def test_missing_or_stale_stats_is_hard(self) -> None:
         n = SR * 3
         self.assertTrue(any("bed_stats.json 없음" in i for i in self._qa(None, n)))
-        self.assertTrue(any("낡은 기록" in i for i in self._qa(self._stats(-3, n - 1), n)))
+        self.assertTrue(any("낡은 기록" in i for i in self._qa(self._stats(5, n - 1), n)))
 
 
 if __name__ == "__main__":

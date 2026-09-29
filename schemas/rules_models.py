@@ -818,13 +818,13 @@ class AudioQARules(_Strict):
     sentence_rms_dev_db: float = Field(gt=0)
     sentence_rms_window_sec: float = Field(gt=0)
     sentence_rms_floor_db: float = Field(lt=0)
-    bed_bass_ratio_db: tuple[float, float]           # v4.6.0 D-0097 작업 3
+    bed_bass_rise_db: tuple[float, float]            # v4.6.0 D-0097 작업 3·D-0102 1-A(판정 = 상승폭)
     bed_bass_band_hz: tuple[float, float]
     bed_mid_band_hz: tuple[float, float]
 
     @model_validator(mode="after")
     def _bands(self) -> "AudioQARules":
-        for name in ("bed_bass_ratio_db", "bed_bass_band_hz", "bed_mid_band_hz"):
+        for name in ("bed_bass_rise_db", "bed_bass_band_hz", "bed_mid_band_hz"):
             lo, hi = getattr(self, name)
             if not lo < hi:
                 raise ValueError(f"audio.qa.{name}: [낮은, 높은] 순서여야 한다 — {lo, hi}")
@@ -864,6 +864,7 @@ class BedBass(_Strict):
     shelf: BedShelf
     sub: BedSub
     swell: BedSwell
+    norm_ref: float = Field(ge=0, le=1)   # D-0102 2-C — 정규화 기준 = 처리 전 피크^(1−k) × 처리 후 피크^k
 
 
 class AudioRules(_Strict):

@@ -5,8 +5,9 @@ engine.checks(check_audio)·engine.mux(provenance audio)·tools/audio_report.py(
 - mix.f32: 내레이션 스템을 plan npy 로 재구성(믹서와 같은 narration_peak 정규화·배치)해 최소제곱 스케일로 맞추고,
   나머지를 음악+효과음 스템으로 본다. 내레이션 구간 RMS 차(음악 − 내레이션, dB)가 audio.qa.music_under_narration_db 안.
 - mix 피크 ≤ audio.master_peak.
-- v4.6.0(D-0097 작업 3): 베드 저역 비율 — 처리 후 베드(내레이션·효과음 제외, 믹서가 `out/bed_stats.json` 에 기록)의
-  audio.qa.bed_bass_band_hz RMS − bed_mid_band_hz RMS(dB)가 audio.qa.bed_bass_ratio_db 안. 음악이 없으면 판정 대상 아님.
+- v4.6.0(D-0097 작업 3·D-0102 1-A): 베드 저역 비율 — 베드(내레이션·효과음 제외, 믹서가 `out/bed_stats.json` 에 기록)의
+  audio.qa.bed_bass_band_hz RMS − bed_mid_band_hz RMS(dB). 상승폭(처리 후 − 처리 전)이 audio.qa.bed_bass_rise_db 안. 절대 비율은 기록만.
+  음악이 없으면 판정 대상 아님.
 """
 
 from __future__ import annotations
@@ -106,10 +107,10 @@ class AudioQA(BaseModel):
     peak_ok: bool
     sentence_rms_db: dict[str, float] = {}            # 문장 id → 무음 제외 RMS(피크 정규화 뒤)
     sentence_rms_outliers: list[str] = []             # 평균에서 sentence_rms_dev_db 넘게 벗어난 문장(warning)
-    bed_bass_ratio_db: Optional[float] = None         # v4.6.0 — 처리 후 베드 저역 비율(음악 없으면 None)
+    bed_bass_ratio_db: Optional[float] = None         # v4.6.0 — 처리 후 베드 저역 비율(기록만, 음악 없으면 None)
     bed_bass_ratio_before_db: Optional[float] = None
-    bed_bass_rise_db: Optional[float] = None
-    bed_bass_ok: Optional[bool] = None                # None = 음악 없음. bed_stats 없음·낡음·범위 밖 = False
+    bed_bass_rise_db: Optional[float] = None          # 판정 대상(처리 후 − 처리 전)
+    bed_bass_ok: Optional[bool] = None                # None = 음악 없음. bed_stats 없음·낡음·상승폭 범위 밖 = False
     bed_bass_note: Optional[str] = None
     method: str = "내레이션 스템 = plan npy 재배치(믹서 규칙) × 최소제곱 스케일, 음악 = mix − 내레이션(모노 평균)"
 
@@ -124,8 +125,8 @@ class AudioQA(BaseModel):
             lo, hi = q.music_under_narration_db
             out.append(f"내레이션 구간 음악 {self.music_under_narration_db:+.2f} dB — 범위 [{lo:g}, {hi:g}]")
         if self.bed_bass_ok is False:
-            lo, hi = q.bed_bass_ratio_db
-            out.append(f"베드 저역 비율 {self.bed_bass_ratio_db} dB — 범위 [{lo:g}, {hi:g}]" if self.bed_bass_note is None
+            lo, hi = q.bed_bass_rise_db
+            out.append(f"베드 저역 비율 상승폭 {self.bed_bass_rise_db:+.2f} dB — 범위 [{lo:g}, {hi:g}]" if self.bed_bass_note is None
                        else f"베드 저역 비율 판정 불가 — {self.bed_bass_note}")
         if not self.peak_ok:
             out.append(f"mix 피크 {self.mix_peak:.4f} > master_peak {AU.master_peak}")
@@ -230,14 +231,14 @@ def audio_qa(out_dir: Path, sentences: list, has_music: bool = True) -> AudioQA:
     bb: dict = {}
     if has_music:
         st = load_bed_stats(out_dir)
-        lo_b, hi_b = AU.qa.bed_bass_ratio_db
+        lo_b, hi_b = AU.qa.bed_bass_rise_db
         if st is None:
             bb = {"bed_bass_ok": False, "bed_bass_note": "out/bed_stats.json 없음 — audio.mix 를 다시 실행"}
         elif st.mix_samples != len(mix):
             bb = {"bed_bass_ok": False, "bed_bass_note": f"bed_stats 샘플 수 {st.mix_samples} ≠ mix.f32 {len(mix)}(낡은 기록)"}
         else:
             bb = {"bed_bass_ratio_db": st.after.ratio_db, "bed_bass_ratio_before_db": st.before.ratio_db,
-                  "bed_bass_rise_db": st.rise_db, "bed_bass_ok": lo_b <= st.after.ratio_db <= hi_b}
+                  "bed_bass_rise_db": st.rise_db, "bed_bass_ok": lo_b <= st.rise_db <= hi_b}
     return AudioQA(final_loudness=loud, mix_peak=round(peak, 4), narration_rms_db=round(vo_db, 2),
                    music_rms_in_narration_db=round(mu_db, 2), music_under_narration_db=round(mu_db - vo_db, 2),
                    narration_seconds=round(float(mask.sum()) / SR, 1),

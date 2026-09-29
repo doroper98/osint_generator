@@ -229,7 +229,7 @@ def main(argv: list[str] | None = None) -> int:
         (outd / "audio_qa.json").write_text(json.dumps({**qa, "hard": issues, "warnings": warns}, ensure_ascii=False, indent=1),
                                             encoding="utf-8")
         prov["audio"] = {**prov["audio"], "loudnorm": {"passes": 2, **loud}, "qa": {"hard": issues, "warnings": warns,
-                                                 **{k: qa[k] for k in ("final_loudness", "music_under_narration_db", "mix_peak", "bed_bass_ratio_db")}}}
+                                                 **{k: qa[k] for k in ("final_loudness", "music_under_narration_db", "mix_peak", "bed_bass_ratio_db", "bed_bass_rise_db")}}}
         (outd / "provenance.json").write_text(json.dumps(prov, ensure_ascii=False, indent=1), encoding="utf-8")
         if issues:
             raise ProjectError("오디오 QA hard 실패:\n" + "\n".join(issues))
