@@ -1137,16 +1137,16 @@
     "params": {
      "source": "site_diagram_1.png",
      "crop": [
-      720,
-      450
+      1440,
+      900
      ],
      "color": 1.0,
      "contrast": 1.0,
-     "jpeg_quality": 95
+     "jpeg_quality": 97
     }
    },
-   "source_hash": "83bdab805461a2ade2694780c5124a88",
-   "file": "site_diagram_1_720.jpg"
+   "source_hash": "762cda3dc4445bda75fa898f0353ff3d",
+   "file": "site_diagram_1_full.jpg"
   },
   "dmz_site_diagram_2": {
    "kind": "photo",
@@ -1176,16 +1176,16 @@
     "params": {
      "source": "site_diagram_2.png",
      "crop": [
-      720,
-      450
+      1440,
+      900
      ],
      "color": 1.0,
      "contrast": 1.0,
-     "jpeg_quality": 95
+     "jpeg_quality": 97
     }
    },
-   "source_hash": "2ba69bc8bb8e8ebffa0f8f2b30decbdf",
-   "file": "site_diagram_2_720.jpg"
+   "source_hash": "8e293f3ca7981cddd87abc7509f0e61d",
+   "file": "site_diagram_2_full.jpg"
   },
   "dmz_site_diagram_3": {
    "kind": "photo",
@@ -1215,16 +1215,16 @@
     "params": {
      "source": "site_diagram_3.png",
      "crop": [
-      720,
-      450
+      1440,
+      900
      ],
      "color": 1.0,
      "contrast": 1.0,
-     "jpeg_quality": 95
+     "jpeg_quality": 97
     }
    },
-   "source_hash": "abc733fe1fb5f5a129bee8eacf1fac50",
-   "file": "site_diagram_3_720.jpg"
+   "source_hash": "c0873447cf16cf2d8edc0ec1bf32f8dc",
+   "file": "site_diagram_3_full.jpg"
   }
  }
 }

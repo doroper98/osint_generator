@@ -111,7 +111,7 @@ def draw(step: int) -> cairo.ImageSurface:
     text(ctx, "북방한계선", 30, nll(30) - 8, 14, "sansm", MUTED, 1, 0)
     text(ctx, "군사분계선(MDL)", 30, mdl_y(30) - 10, 16, "sansb", RED, 1, 0)
     text(ctx, "남방한계선", 30, sll(30) - 8, 14, "sansm", MUTED, 1, 0)
-    text(ctx, "비무장지대 폭 약 4km", 690, 124, 13, "sansm", MUTED, 0.9, 0, "r")
+    text(ctx, "비무장지대 폭 약 4km", 30, 118, 13, "sansm", MUTED, 0.9, 0, "l")
 
     sx = 360
     sy = mdl_y(sx) + 9          # 사고 지점(개념상 MDL 바로 남쪽)
