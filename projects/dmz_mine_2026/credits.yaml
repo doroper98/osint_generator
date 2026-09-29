@@ -21,6 +21,8 @@ sections:
     items:
       - main: VZGLYAD · Life.ru · Gazeta.ru · Ukrinform · Al Jazeera · NK News
         rights: [media.vz_0921, media.life_0927, media.gazeta_0928, media.ukrinform_0921, media.aj_0928, media.nknews_0928, media.aj_0924, media.aj_1213]
+      - main: 한국일보 · 아시아경제 · 뉴스핌 · 시사저널 · 경향신문 · 뉴데일리
+        rights: [media.hk_0923, media.asiae_0922, media.hk_0928, media.newspim_0929, media.sisa_0929, media.khan_0929, media.newspim_0929b, media.newdaily_0929]
   - title: 글꼴
     column: 1
     auto: fonts
