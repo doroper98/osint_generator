@@ -23,8 +23,8 @@
    40.0,
    70.0
   ],
-  "full_mix_I_lufs": -14.15,
-  "static_gain_db": 0.15
+  "full_mix_I_lufs": -14.13,
+  "static_gain_db": 0.13
  },
  {
   "clip": "ab_fed_before_30s.m4a",

@@ -69,6 +69,8 @@ MINOR: 오디오 처리 추가. 베드(배경음악)에 곡을 따라가는 저�
 - **작업 4 fed_policy**: `sound.bgm: music.zabriskie_patriarch`, boom 큐 `{word: {sid: decision_1, text: 올렸다고}}` v 0.5. 크레딧 "음성" → "음악 · 음성", "국기" 를 "사진 · 기사 카드 · 국기" 한 절로 합치고 열 재배치(418·420 ≤ 428, D-0102 3-A). hormuz 연출 무변경.
 - **작업 5 provenance**: `audio.bed_bass`(적용 값·처리 전·후 비율·상승폭·스웰 시각·대역), `audio.qa.bed_bass_ratio_db`·`bed_bass_rise_db`. 음악 없으면 기록 없음.
 - **작업 6 테스트**: `tests/test_g6_bed_bass.py` 10(규칙 리터럴 0·사용자 값 유지·백색잡음 셸프 상승·110 Hz → 55 Hz·스웰 시각·길이·첫 장면 제외·norm_ref 끝값·무음악 미처리·QA 범위 밖 hard·bed_stats 없음/낡음 hard). G5 넘침 테스트 fed_policy 기대값 415·423 → 418·420.
+- **작업 7 회귀·산출물**: **전편 재렌더 생략(사용자 지시 "렌더 그만해도 돼", D-0103)** — A/B 클립·실측으로 갈음, artifacts 브랜치 없음. `reports/phaseG6/`: A/B 30초 클립 6(before 처리 끔 · A norm_ref 1.0 · C 0.8 채택 × hormuz 40–70 s·fed_policy 15–45 s), 세 판 베드 스펙트럼(`bed_spectrum.png`·`.json`), norm_ref 스윕(`norm_ref_sweep.jsonl`)·트루 피크 스윕(`tp_sweep.jsonl`), 최종 오디오 QA(`audio_qa_final.json` — mix → 2패스 loudnorm → AAC, 두 편 hard 0). hormuz 처리 끔(이득 0) mix = v3 합격본 md5 c1314fb9 바이트 동일. 골든 PNG 무변경(오디오만).
+- **작업 8 문서**: handoff 10 §3.4 "v4.6.0 저음 보강"(신호 흐름·norm_ref·측정 정의·되돌리기), §1 신호 흐름 한 칸, docs/10 mix 산출물 `bed_stats.json`, DEVLOG. GOAL·CLAUDE.md 무변경.
 
 ---
 
