@@ -214,6 +214,21 @@ def _attach_posts(proj: Path, R: RenderCtx, events: list[dict]) -> None:  # noqa
         raise ProjectError("post 카드 점검 실패:\n" + "\n".join(errs))
 
 
+def _check_quotes(proj: Path, events: list[dict]) -> None:
+    """statement_diff 문구 원문 대조(v4.4.0 D-0090 작업 4). 주문(order.yaml)이 있는 프로젝트는 before·after 가 각각 intake 본문
+    (intake/bodies/<소스 id>.txt) 어딘가의 연속 부분 문자열이어야 한다(공백 정규화) — 연출이 성명 문구를 지어내지 못하게(C0 정확성).
+    주문 없는 프로젝트(갤러리·스케치 예시 문구)는 대상 아님."""
+    diffs = [e for e in events if e["type"] == "primitive" and e.get("id") == "statement_diff"]
+    if not diffs or not (proj / "order.yaml").exists():
+        return
+    norm = lambda t: " ".join(t.replace("\u2011", "-").split())  # noqa: E731 — 비분리 하이픈(연준 성명)도 보통 하이픈으로
+    bodies = [norm(p.read_text(encoding="utf-8")) for p in sorted((proj / "intake" / "bodies").glob("*.txt"))]
+    errs = [f"statement_diff {k} 문구가 intake 본문에 없다: {norm(e[k])[:60]!r}" for e in diffs for k in ("before", "after")
+            if not any(norm(e[k]) in b for b in bodies)]
+    if errs:
+        raise ProjectError("원문 대조 실패(20 §5, C0):\n" + "\n".join(errs))
+
+
 def music_ids(sound: Optional[dict]) -> set[str]:
     """연출 sound.bgm 이 쓰는 BGM 레지스트리 id(v3.4.0 D-0060 작업 2·5 — 문자열 또는 곡 교체 목록). sound 가 없으면 빈 집합."""
     b = (sound or {}).get("bgm")
@@ -269,6 +284,7 @@ def load_project(proj: Path, direction: Optional[Direction] = None, out: Optiona
         attach_world(events, R.stage)
     except ValueError as ex:   # 앵커 키가 무대와 다름(지도 핀을 시간축에, 등) = 오류(P10, D-0085)
         raise ProjectError(f"앵커 오류: {ex}") from ex   # 앵커(lon·lat) → 월드 좌표. 레이어·검사기는 이 값과 View 만 쓴다(D-0076 작업 3)
+    _check_quotes(proj, events)      # v4.4.0 — statement_diff 문구 = intake 원문(D-0090 작업 4)
     _attach_posts(proj, R, events)   # v3.2.0 18 §5 — post 카드 문구·상자는 intake/sources.json 에서(없으면 오류)
     ent_errs = check_event_refs(events, load_entities())  # 07 §6 — 미등재 인물·국기·휘장은 렌더 전 오류(P10)
     if ent_errs:

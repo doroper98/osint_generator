@@ -48,6 +48,19 @@ def require_family(family: str) -> None:
 
 
 GLYPH_LOG: list[tuple[float, str | None, str]] | None = None   # 켜면(list) text() 가 (크기, 역할, 문자열) 을 남긴다 — checks glyph_size(v3.6.0 D-0069)
+GLYPH_MISS: list[tuple[str, str, str]] | None = None   # v4.4.0 — 켜면 text() 가 **그 글꼴**에 없는 글자를 (글꼴 이름, 글자, 문자열)로 남긴다(checks glyphs)
+
+
+@lru_cache(maxsize=None)
+def font_cmap(name: str) -> frozenset[int]:
+    """글꼴 이름(engine.style.FONT 키) → 그 파일의 cmap(fontTools). v4.4.0 — 글리프 검사를 '프로젝트 글꼴 중 하나'가 아니라
+    실제로 그리는 글꼴 기준으로(카드 큰 숫자 글꼴에 없는 '−' 가 두부 상자로 나온 사고, fed_policy_2026 v1)."""
+    from fontTools.ttLib import TTFont  # noqa: PLC0415
+
+    fam, _ = FONT[name]
+    require_family(fam)
+    f = TTFont(fc_match(fam)[1], fontNumber=0, lazy=True)
+    return frozenset(f.getBestCmap() or {})
 _M = cairo.Context(cairo.ImageSurface(cairo.FORMAT_RGB24, 1, 1))   # 설계 480p 측정 컨텍스트(항등 변환, 렌더 표면과 같은 형식)
 
 
@@ -101,6 +114,9 @@ def text(ctx: cairo.Context, s: str, x: float, y: float, size: float, name: str 
             globals()["GLYPH_LOG"] = log
         return w
     font(ctx, name, size)
+    if GLYPH_MISS is not None:
+        cm = font_cmap(name)
+        GLYPH_MISS.extend((name, ch, s[:40]) for ch in dict.fromkeys(s) if not ch.isspace() and ord(ch) not in cm)
     disp = name in DISP and " " in s
     if disp and not spacing:
         spacing = 0.0001

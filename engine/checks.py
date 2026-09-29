@@ -85,7 +85,13 @@ def check_glyphs(P) -> list[str]:  # noqa: ANN001, N803
         for ch in s:
             if not ch.isspace() and ord(ch) not in have and ch not in miss:
                 miss[ch] = s[:40]
-    return [f"글리프 없음 {ch!r} U+{ord(ch):04X} — {ctx}" for ch, ctx in miss.items()]
+    out = [f"글리프 없음 {ch!r} U+{ord(ch):04X} — {ctx}" for ch, ctx in miss.items()]
+    seen: set[tuple[str, str]] = set()
+    for lab, name, ch, ctx in (getattr(getattr(P, "R", None), "cache", None) or {}).get("glyph_miss", []):   # v4.4.0 — 프리뷰 컷에서 그 글꼴에 없는 글자(실제 그린 글꼴 기준)
+        if (name, ch) not in seen:
+            seen.add((name, ch))
+            out.append(f"글리프 없음(글꼴 {name}) {ch!r} U+{ord(ch):04X} — {lab} {ctx!r}")
+    return out
 
 
 def _covered(P, t: float) -> bool:  # noqa: ANN001, N803

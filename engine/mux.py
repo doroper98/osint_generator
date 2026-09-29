@@ -153,6 +153,16 @@ def project_provenance(P, stages: dict[str, bool]) -> dict:  # noqa: ANN001, N80
     prov["stage"] = P.R.cache.get("stage")   # v4.1.0 D-0076 작업 7 — 무대(name·declared·shots_declared·instances)
     g = P.R.cache.get("genre") or {}
     prov["genre"] = {"name": g.get("name"), "declared": g.get("declared"), "status": g.get("status")}   # v4.2.0 D-0081 작업 3, v4.3.0 status(proposed 사용 기록)
+    from genres.load import load_genre, load_order  # noqa: PLC0415
+
+    order = load_order(P.root)   # v4.4.0 D-0090 작업 4 — 주문(20 §11)과 사용자 결정 상태(by default = 사용자 미확정)
+    if order is not None:
+        prov["order"] = {"topic": order.topic, "genre": order.genre,
+                         "decisions": {k: {"value": d.value, "by": d.by, "ref": d.ref} for k, d in order.decisions.items()}}
+    new = sorted({e["id"] for e in P.events if e["type"] == "primitive"} & set(load_genre(g["name"]).primitives.new)) if g.get("name") else []
+    if new:   # v4.4.0 — 새 요소(20 §4.1)의 사용자 승인 상태. 주문에 없으면 pending
+        appr = order.decisions.get("elements_approval") if order is not None else None
+        prov["elements"] = {"new": new, "approval": appr.value if appr else "pending", "by": appr.by if appr else "default"}
     if P.R.cache.get("series_records"):   # v4.3.0 D-0084 작업 6 — 이번 영상이 그린 데이터 레코드(15 P5)
         prov["series"] = [{"series_id": r.series_id, "as_of": r.as_of, "license": r.license, "source_url": r.source_url,
                            "transform": r.transform.op, "missing": [d.isoformat() for d in r.missing_dates()]}

@@ -187,6 +187,10 @@ media:                     # v2.5.5 D-0037(D38) — 14 §10.1 밀도 경고. v3 
     window_max: 2                         # 40초 안 3개(기사 제외)부터 경고
     window_exempt_kinds: [article]
 
+  flickr:                  # v4.4.0 D-0090 작업 4 — 기관 공식 Flickr(연준 이사회 등) 사진. 사진 페이지의 license 번호를 코드가 읽어 이 목록 밖이면 받지 않는다(07 §3.2·20 §8, C9)
+    licenses_allowed: {"8": United States Government Work, "9": Public Domain Dedication (CC0), "10": Public Domain Mark}
+    size_suffix: b         # 받을 크기(_b = 긴 변 1024)
+
 media_beats:               # 14 §10
   kinds: [photo, clip, cutout, article, post]
   photo_show_sec: [4, 8]
@@ -719,6 +723,10 @@ genre_prompt:              # v4.4.0 D-0090 작업 1 — 장르 프롬프트 층(
       - "암전 컷: 수십 년 점프, 보조 무대로 넘어갈 때만."
       - "공통: 장면당 이동 1회, 숏 6초 이상, 도착 뒤 드리프트, 요소는 하나씩."
       - "무대는 하나의 연속된 좌표계다. 장면마다 새 캔버스를 띄우지 않는다(슬라이드 금지). 차트는 시간축 레인 위 series 로, 무대로 말할 수 없는 정보만 패널·카드로."
+      - "휑한 화면 금지: 컷마다 무대 밖 요소가 하나 이상 떠 있다(핀 카드·인물 뱃지·기사·사진·statement_diff·dot_plot). 얇은 선과 빈 레인만 있는 컷을 만들지 않는다."   # v4.4.0 D-0091 ①
+      - "핀 = 사건 + 근거: 핀에서 확대할 때 근거(카드·기사·사진·statement_diff)를 함께 띄운다. 같은 핀에 숏 두 개로 머물지 않는다."   # v4.4.0 D-0091 ④
+      - "콜드 오픈은 가장 최근 회의 핀 확대 + 인물 뱃지 + 성명 인용으로 연다(20 §10). 전체 조망은 끝에서 한 번."   # v4.4.0 D-0091 ⑤
+      - "정책 금리 계단·목표 범위 띠는 color_by: change(인상·인하·동결 색을 코드가 레코드 변화로 정한다). 시장 금리·물가 선은 fixed."   # v4.4.0 D-0091 ②
 
 data:                      # v4.3.0 D-0084 작업 1 — 데이터 레코드(docs/handoff/20 §5.1, schemas/data_models.py:SeriesRecord). 이 목록 밖 값 = 로드 오류(15 P6)
   units: ["%", "%p", "bp", "억 달러", "지수", "명", "원"]   # 화면 단위(20 §5.3 "단위를 화면에 표시")

@@ -172,8 +172,16 @@ class MediaDensity(_Strict):
     window_exempt_kinds: list[str]
 
 
+class FlickrRules(_Strict):
+    """v4.4.0 D-0090 작업 4 — 기관 공식 Flickr 사진 받기(tools/media_fetch)."""
+
+    licenses_allowed: dict[str, str] = Field(min_length=1)
+    size_suffix: str = Field(min_length=1)
+
+
 class MediaRules(_Strict):
     density: MediaDensity
+    flickr: Optional[FlickrRules] = None   # v4.4.0
 
 
 class DateBadge(_Strict):

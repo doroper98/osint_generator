@@ -24,9 +24,15 @@ note: 장르 프롬프트 층(v4.4.0, back_and_forth D-0090 작업 1) — prompt
 {{GENRE.elements}}
 - 시리즈 값은 연출에 쓰지 않는다. `series` 이벤트가 레코드(series_id)에서 직접 그린다. 한 레인에 계열은 셋 이하.
 - 새 요소(`primitive`)는 `{"type": "primitive", "id": 요소 id, …데이터}` 로 부른다. 데이터 모양은 사용자 메시지 "이벤트 필드" 표.
+- 무대 밖 요소 고르기: 성명 문구가 바뀐 것을 말하는 문장 = statement_diff(사용자 메시지 "원문 문서"에서 그대로 인용),
+  참가자 전망·점도표를 말하는 문장 = dot_plot(record = scatter 레코드), 발표·기자회견 문장 = 기자회견 사진, 보도 인용 문장 = 기사 카드.
+  미디어 비트(40~60초당 1개)는 사진·기사로 채우고, 모자라면 statement_diff·dot_plot 으로 채운다(D-0091 ⑥).
 
 색 의미(장르 프로필 — 영상 안에서 섞지 않는다)
 {{GENRE.colors}}
+- 위 색 의미 키(hike 등)는 `accent`·`col` 값이 아니다. 인상·인하·동결 색은 series `color_by: change` 로 코드가 칠한다.
+  카드·마커·뱃지의 `accent`, series 의 `col` 은 팔레트 토큰만: {{GENRE.accents}}.
+- 뱃지·마커는 시간축 앵커 `date`·`lane` 을 쓰거나 `place` 슬롯을 쓴다(경도·위도 없음).
 
 작은 완전 예시 — 시간축 무대(형식 참고, 값·문구를 복사하지 않는다)
 ```json
@@ -39,7 +45,11 @@ note: 장르 프롬프트 층(v4.4.0, back_and_forth D-0090 작업 1) — prompt
            {"at": {"scene_start": "now", "off": -0.3}, "mode": "move", "dur": 3.2, "camera": {"date": "2025-01-01", "w": 1400}}],
  "events": [
    {"type": "series", "start": 0.3, "end": {"card": "end", "edge": "start", "off": 0.4}, "lane": "policy_rate",
+    "series_id": "DFEDTARL", "upper_id": "DFEDTARU", "style": "band", "color_by": "change", "col": "gold"},
+   {"type": "series", "start": 0.3, "end": {"card": "end", "edge": "start", "off": 0.4}, "lane": "policy_rate",
     "series_id": "FEDFUNDS", "style": "step", "col": "amber"},
+   {"type": "badge", "start": {"sid": "hike_0", "off": 0.4}, "end": {"sid": "hike_1", "edge": "end"}, "place": "map_upper_left",
+    "kind": "person", "pid": "warsh", "flag": "us", "R": 28, "label": "케빈 워시", "role": "연준 의장", "accent": "gold"},
    {"type": "marker", "start": {"sid": "hike_0", "off": -0.2}, "end": {"sid": "hike_1", "edge": "end", "off": 0.6},
     "date": "2023-07-26", "lane": "events", "label": "FOMC 회의", "sub": "2023년 7월 26일", "side": "right", "hl": true}],
  "sound": {"bgm": null, "intensity": [[0, 0.5], [{"total": true}, 0.5]], "cues": []}}

@@ -54,8 +54,10 @@ class MediaCreditLinkTest(unittest.TestCase):
 
         cr = load_credits(Path("projects/hormuz_korea/credits.yaml"))
         refs = {r for s in cr.sections for it in s.items for r in it.refs()}
+        v3 = {"hormuz_transit", "rok_iraq", "p8", "strikes", "niovi", "reuters_0904", "herald_0907"}   # v4.4.0 — 레지스트리의 hormuz(v3) 자산만(다른 프로젝트 자산은 그 프로젝트 카드)
         for mid in load_media_registry():
-            self.assertIn(f"media.{mid}", refs, mid)
+            if mid in v3:
+                self.assertIn(f"media.{mid}", refs, mid)
         evs = [{"type": "article", "mid": "reuters_0904"}]
         self.assertEqual(required_refs(evs, {}, lambda _: None, set(), music_ids=set()) & {"media.reuters_0904"},
                          {"media.reuters_0904"})

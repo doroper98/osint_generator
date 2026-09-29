@@ -126,7 +126,7 @@ def _genre_placeholders(rules: VideoRules, g: GenreProfile) -> dict[str, str]:
     return {
         "{{GENRE.name}}": g.genre,
         "{{GENRE.status}}": g.status,
-        "{{GENRE.stages}}": primary + (f" (보조: {', '.join(g.stage.secondary)})" if g.stage.secondary else ""),
+        "{{GENRE.stages}}": primary + (f" (보조: {', '.join(sec)})" if (sec := [x for x in g.stage.secondary if x in rules.registries.stages]) else ""),   # 구현 전 무대(planned)는 보이지 않는다
         "{{GENRE.stage_grammar}}": _bullets(gp.stage_grammar[primary]),
         "{{GENRE.lanes}}": lanes,
         "{{GENRE.colors}}": _bullets([f"{k}: {v}" for k, v in g.color_semantics.items()]),
@@ -136,6 +136,7 @@ def _genre_placeholders(rules: VideoRules, g: GenreProfile) -> dict[str, str]:
         "{{GENRE.data_sources}}": _bullets(gp.data_sources),
         "{{GENRE.rubric}}": _numbered(gp.rubric_extra),
         "{{GENRE.rubric_n}}": str(len(gp.rubric_extra)),
+        "{{GENRE.accents}}": ", ".join(rules.registries.accents),
     }
 
 

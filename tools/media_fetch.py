@@ -20,6 +20,7 @@ import argparse
 import hashlib
 import io
 import json
+import re
 import subprocess
 import sys
 from pathlib import Path
@@ -55,6 +56,42 @@ def probe_duration(p: Path) -> float:
 
 
 # ------------------------------------------------------------------ 1. 받기
+FLICKR_PAGE_RE = re.compile(r"^https://www\.flickr\.com/photos/[^/]+/(\d+)/?$")
+
+
+def flickr_license(page: str, pid: str) -> str:
+    """사진 페이지 HTML → 그 사진의 Flickr license 번호(문자열). 못 찾으면 MediaFetchError(가정하지 않는다, C9)."""
+    m = re.search(r'"license":(\d+),"sizes":\{"data":\{"sq":\{"data":\{"displayUrl":"[^"]*?/' + pid + "_", page)
+    if not m:
+        raise MediaFetchError(f"Flickr {pid}: 사진 페이지에서 라이선스를 찾지 못했다 — 받지 않는다")
+    return m.group(1)
+
+
+def fetch_flickr(a: MediaAsset, dest: Path) -> None:
+    """v4.4.0 D-0090 작업 4 — 기관 공식 Flickr 사진. 페이지의 license 번호가 rules media.flickr.licenses_allowed 안이고
+    그 이름이 레지스트리 license 와 같을 때만 받는다(권리 불확실 = 받지 않음, 20 §8)."""
+    import requests  # noqa: PLC0415
+
+    from rules import load_rules  # noqa: PLC0415
+
+    fr = load_rules().media.flickr
+    m = FLICKR_PAGE_RE.match(a.url or "")
+    if fr is None or m is None:
+        raise MediaFetchError(f"Flickr 사진 페이지 URL 이 아니다: {a.url}")
+    pid = m.group(1)
+    page = requests.get(a.url, headers={"User-Agent": "Mozilla/5.0"}, timeout=60).text
+    lic = flickr_license(page, pid)
+    if lic not in fr.licenses_allowed or fr.licenses_allowed[lic] != a.license:
+        raise MediaFetchError(f"Flickr {pid}: 라이선스 {lic}({fr.licenses_allowed.get(lic, '허용 목록 밖')}) ≠ 레지스트리 {a.license!r}")
+    u = re.search(r"live\.staticflickr\.com/\d+/" + pid + r"_[0-9a-f]+_" + fr.size_suffix + r"\.jpg", page)
+    if not u:
+        raise MediaFetchError(f"Flickr {pid}: 크기 {fr.size_suffix} 파일 URL 없음")
+    r = requests.get("https://" + u.group(0), timeout=120)
+    r.raise_for_status()
+    dest.parent.mkdir(parents=True, exist_ok=True)
+    dest.write_bytes(r.content)
+
+
 def fetch_source(a: MediaAsset, media: Path, restore_from: Path | None = None, tries: int | None = None) -> Path:
     """원본 확보. 순서: 이미 있음 → `restore_from`(artifacts 보존본, v3.0.0 D-0044 B) → Commons.
     보존본도 호출자가 레지스트리 source_hash 로 대조한다(바뀐 원본을 조용히 쓰지 않는다)."""
@@ -66,6 +103,9 @@ def fetch_source(a: MediaAsset, media: Path, restore_from: Path | None = None, t
         dest.parent.mkdir(parents=True, exist_ok=True)
         dest.write_bytes((restore_from / str(prm["source"])).read_bytes())
         print(f"restore {a.title} ← {restore_from}", flush=True)
+        return dest
+    if a.url and FLICKR_PAGE_RE.match(a.url):   # v4.4.0 — 기관 공식 Flickr(Commons 가 아님)
+        fetch_flickr(a, dest)
         return dest
     kw = {} if tries is None else {"tries": tries}
     ii = commons_fetch.info(a.title, prm.get("thumb_w"))   # 표준 폭만(07 §3.2)

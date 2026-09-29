@@ -154,9 +154,15 @@ class CountryEvent(_Event):
 
 
 class BadgeEvent(_Event):
+    """뱃지. 지도 앵커 lon·lat, 또는 시간축 앵커 date·lane(v4.4.0 D-0090 작업 4 — 배치 슬롯이 시간축에서 date·lane 을 돌려준다). 한 쌍만."""
+
+    DROP_NONE: ClassVar[tuple[str, ...]] = ("lon", "lat", "date", "lane")   # 쓰지 않은 앵커 쌍은 dict 에 남기지 않는다(지도 뱃지 dict = v4.3.0 과 같음)
+
     type: Literal["badge"]
-    lon: float
-    lat: float
+    lon: Optional[float] = None
+    lat: Optional[float] = None
+    date: Optional[str] = None
+    lane: Optional[str] = None
     kind: Literal["person", "flag", "emblem"]
     pid: Optional[str] = None
     flag: Optional[str] = None
@@ -166,6 +172,16 @@ class BadgeEvent(_Event):
     role: Optional[str] = None
     accent: Accent = "gold"
     side: Optional[Literal["right"]] = None
+
+    @model_validator(mode="after")
+    def _anchor(self) -> "BadgeEvent":
+        geo = (self.lon is not None, self.lat is not None)
+        tl = (self.date is not None, self.lane is not None)
+        if not ((all(geo) and not any(tl)) or (all(tl) and not any(geo))):
+            raise ValueError("badge 앵커는 lon·lat(지도) 또는 date·lane(시간축) 중 한 쌍 — 시간축에서는 place 슬롯을 쓴다")
+        if self.date is not None and not DATE_ISO_RE.match(self.date):
+            raise ValueError(f"badge date 는 YYYY-MM-DD: {self.date!r}")
+        return self
 
     @model_validator(mode="after")
     def _kind_fields(self) -> "BadgeEvent":

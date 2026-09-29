@@ -316,6 +316,191 @@
    "hl": "재조정",
    "sub": "국방부 “항행의 자유 회복에 실질적으로 기여할 방안을 국제사회와 협의 중”",
    "note": "헤드라인 번역 · 원문 영어"
+  },
+  "fed_presser_0916": {
+   "kind": "photo",
+   "title": "Flickr DSC_9050 — Chairman Warsh answers reporters' questions at the FOMC press conference on September 16, 2026",
+   "license": "Public Domain Mark",
+   "author": "Federal Reserve Board (flickr.com/photos/federalreserve)",
+   "credit_author": "미 연준 이사회",
+   "date": "2026-09-16",
+   "url": "https://www.flickr.com/photos/federalreserve/55532673699/",
+   "caption": "워시 연준 의장 기자회견",
+   "file_note": "2026. 09. 16",
+   "depicts": [
+    "케빈 워시 연준 의장",
+    "FOMC 기자회견(2026.09.16)",
+    "기자단"
+   ],
+   "is_file_photo": false,
+   "verified_by": {
+    "by": "opus-g4(실증 운영자 대행 — Flickr 사진 페이지 license 10·설명문 대조, 실사용은 사람)",
+    "on": "2026-09-29",
+    "casualty_free": true,
+    "relevance": "9월 16일 금리 인상 발표·의장 기자회견 문장"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-09-29",
+   "tool": {
+    "name": "media_fetch.photo",
+    "params": {
+     "source": "fed_presser_0916.jpg",
+     "crop": [
+      720,
+      450
+     ],
+     "color": 0.9,
+     "contrast": 1.04,
+     "jpeg_quality": 92
+    }
+   },
+   "source_hash": "04043b484e3f88e8469e867f08a834f9",
+   "file": "fed_presser_0916_720.jpg"
+  },
+  "fed_presser_0916_b": {
+   "kind": "photo",
+   "title": "Flickr DSC_8926 — Chairman Warsh answers reporters' questions at the FOMC press conference on September 16, 2026",
+   "license": "Public Domain Mark",
+   "author": "Federal Reserve Board (flickr.com/photos/federalreserve)",
+   "credit_author": "미 연준 이사회",
+   "date": "2026-09-16",
+   "url": "https://www.flickr.com/photos/federalreserve/55532904965/",
+   "caption": "워시 연준 의장 기자회견",
+   "file_note": "2026. 09. 16",
+   "depicts": [
+    "케빈 워시 연준 의장",
+    "FOMC 기자회견(2026.09.16)"
+   ],
+   "is_file_photo": false,
+   "verified_by": {
+    "by": "opus-g4(실증 운영자 대행 — Flickr 사진 페이지 license 10·설명문 대조, 실사용은 사람)",
+    "on": "2026-09-29",
+    "casualty_free": true,
+    "relevance": "9월 16일 의장 발언(물가 목표 복귀) 문장"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-09-29",
+   "tool": {
+    "name": "media_fetch.photo",
+    "params": {
+     "source": "fed_presser_0916_b.jpg",
+     "crop": [
+      720,
+      450
+     ],
+     "color": 0.9,
+     "contrast": 1.04,
+     "jpeg_quality": 92
+    }
+   },
+   "source_hash": "74e47e34bbea9238ec5171ac2440a6c4",
+   "file": "fed_presser_0916_b_720.jpg"
+  },
+  "fed_presser_0729": {
+   "kind": "photo",
+   "title": "Flickr DSC_7029 — Chairman Warsh answers reporters' questions at the FOMC press conference on July 29, 2026",
+   "license": "Public Domain Mark",
+   "author": "Federal Reserve Board (flickr.com/photos/federalreserve)",
+   "credit_author": "미 연준 이사회",
+   "date": "2026-07-29",
+   "url": "https://www.flickr.com/photos/federalreserve/55428970561/",
+   "caption": "워시 연준 의장 기자회견",
+   "file_note": "2026. 07. 29",
+   "depicts": [
+    "케빈 워시 연준 의장",
+    "FOMC 기자회견(2026.07.29)"
+   ],
+   "is_file_photo": false,
+   "verified_by": {
+    "by": "opus-g4(실증 운영자 대행 — Flickr 사진 페이지 license 10·설명문 대조, 실사용은 사람)",
+    "on": "2026-09-29",
+    "casualty_free": true,
+    "relevance": "7월 29일 동결·소수의견 3명 문장"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-09-29",
+   "tool": {
+    "name": "media_fetch.photo",
+    "params": {
+     "source": "fed_presser_0729.jpg",
+     "crop": [
+      720,
+      450
+     ],
+     "color": 0.9,
+     "contrast": 1.04,
+     "jpeg_quality": 92
+    }
+   },
+   "source_hash": "e3fe1a0c521da44ca6e8d748de8d2807",
+   "file": "fed_presser_0729_720.jpg"
+  },
+  "cnn_0729": {
+   "kind": "article",
+   "title": "CNN 2026-07-29 — Fed holds interest rates steady after cliffhanger meeting, but three officials dissent",
+   "license": "헤드라인 번역·요지 자체 조판(원문 인용 15단어 미만, 기사 화면 캡처·로고 없음, 14 §9)",
+   "author": "CNN",
+   "credit_author": "CNN",
+   "date": "2026-07-29",
+   "url": "https://www.cnn.com/2026/07/29/business/live-news/federal-reserve-interest-rate-07-29-26",
+   "caption": "CNN",
+   "file_note": "2026. 07. 29",
+   "depicts": [
+    "7월 FOMC 동결",
+    "소수의견 3명"
+   ],
+   "is_file_photo": false,
+   "verified_by": {
+    "by": "opus-g4(실증 운영자 대행 — 헤드라인 원문 대조, 실사용은 사람)",
+    "on": "2026-09-29",
+    "casualty_free": true,
+    "relevance": "7월 29일 동결·소수의견 문장"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-09-29",
+   "tool": {
+    "name": "article_typeset",
+    "params": {
+     "translation": true
+    }
+   },
+   "headline": "연준, 박빙 회의 끝에 금리 동결… 위원 3명은 반대",
+   "hl": "위원 3명은 반대",
+   "sub": "세 명은 0.25%p 인상을 원했다",
+   "note": "헤드라인 번역 · 원문 영어"
+  },
+  "fox_0916": {
+   "kind": "article",
+   "title": "Fox Business 2026-09-16 — Federal Reserve hikes interest rates for first time since 2023 amid stubborn inflation",
+   "license": "헤드라인 번역·요지 자체 조판(원문 인용 15단어 미만, 기사 화면 캡처·로고 없음, 14 §9)",
+   "author": "Fox Business",
+   "credit_author": "Fox Business",
+   "date": "2026-09-16",
+   "url": "https://www.foxbusiness.com/economy/federal-reserve-interest-rate-decision-september-16-2026",
+   "caption": "Fox Business",
+   "file_note": "2026. 09. 16",
+   "depicts": [
+    "9월 FOMC 인상"
+   ],
+   "is_file_photo": false,
+   "verified_by": {
+    "by": "opus-g4(실증 운영자 대행 — 헤드라인 원문 대조, 실사용은 사람)",
+    "on": "2026-09-29",
+    "casualty_free": true,
+    "relevance": "9월 16일 인상 결정 문장"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-09-29",
+   "tool": {
+    "name": "article_typeset",
+    "params": {
+     "translation": true
+    }
+   },
+   "headline": "연준, 끈질긴 물가 속 2023년 이후 첫 금리 인상",
+   "hl": "2023년 이후 첫 금리 인상",
+   "sub": "목표 범위 3.75~4%",
+   "note": "헤드라인 번역 · 원문 영어"
   }
  }
 }

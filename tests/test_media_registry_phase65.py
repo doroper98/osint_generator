@@ -19,9 +19,14 @@ def _raw() -> dict:
     return json.loads(registry_path().read_text(encoding="utf-8"))
 
 
+V3_MIDS = {"hormuz_transit", "rok_iraq", "p8", "strikes", "niovi", "reuters_0904", "herald_0907"}
+
+
 class MediaRegistryTest(unittest.TestCase):
     def test_v3_seven_assets(self) -> None:
-        reg = load_media_registry()
+        # v4.4.0 — 레지스트리는 한 파일이라 새 프로젝트 자산이 늘어난다(G4 fed_policy_2026). v3 7종은 그대로 있어야 한다
+        reg = {k: v for k, v in load_media_registry().items() if k in V3_MIDS}
+        self.assertEqual(set(reg), V3_MIDS)
         kinds = sorted(a.kind for a in reg.values())
         self.assertEqual(kinds, ["article", "article", "cutout", "photo", "photo", "video", "video"])   # 14 §1 v3 7종
         self.assertTrue(all(a.rights_status == "rights_clear" for a in reg.values()))

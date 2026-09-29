@@ -138,8 +138,22 @@ def media_text(pdir: Path | None = None) -> str:
     """미디어 레지스트리 + (v3.2.0) 이 프로젝트에서 post 카드로 쓸 수 있는 X 게시물(사용자 확인·검증된 것만, 18 §5)."""
     from engine.media_registry import load_media_registry  # noqa: PLC0415
 
-    rows = [f"- {mid}: {a.kind} · {a.caption} · {a.file_note}" + (f" · 구간 {a.segment}" if a.segment else "")
-            for mid, a in load_media_registry().items()]
+    reg = load_media_registry()
+    own = False
+    if pdir is not None:   # v4.4.0 — 주문(order.yaml)이 있는 프로젝트는 자기 자료만(15 P9): 파일이 프로젝트 media/ 에 있는 것, 기사는 소스 URL 과 같은 것
+        from genres.load import load_order  # noqa: PLC0415
+
+        if load_order(pdir) is not None:
+            own = True
+            from schemas.source_models import SourcesFile  # noqa: PLC0415
+
+            spf = pdir / "intake" / "sources.json"
+            urls = {s.url for s in SourcesFile.model_validate_json(spf.read_text(encoding="utf-8")).sources} if spf.exists() else set()
+            reg = {mid: a for mid, a in reg.items()
+                   if (a.url in urls if a.kind == "article" else bool(a.file) and (pdir / "media" / str(a.file)).exists())}
+    rows = [f"- {mid}: {a.kind} · {a.caption} · {a.file_note}" + (f" · {'·'.join(a.depicts)}" if own and a.kind != "article" else "")
+            + (f" · 구간 {a.segment}" if a.segment else "")
+            for mid, a in reg.items()]
     sp = pdir / "intake" / "sources.json" if pdir is not None else None
     if sp is not None and sp.exists():
         from schemas.source_models import SourcesFile  # noqa: PLC0415
@@ -172,6 +186,10 @@ def series_records_text(pdir: Path) -> str:
     rows = []
     for sid in order.data.series:
         r = load_series(sid)
+        if r.kind == "scatter":   # v4.4.0 — 점도표 레코드(열별 참가자 점, 중앙값은 코드 계산). dot_plot 프리미티브의 record
+            cols = "; ".join(f"{c.label} {len(c.values)}명 중앙값 {c.median():g}" for c in r.columns)
+            rows.append(f"- series:{r.series_id} · scatter(dot_plot 프리미티브 record 로만) · 단위 {r.unit} · 발표 {r.released} · 열 {cols} · 출처 {r.source}")
+            continue
         miss = "; ".join(f"{m.date:%Y-%m} {m.note}" for m in r.missing) or "없음"
         (d0, v0), (d1, v1) = r.values[0], r.values[-1]
         rows.append(f"- series:{r.series_id} · 단위 {r.unit} · {r.transform.formula} · 구간 {d0:%Y-%m}~{d1:%Y-%m} · "
@@ -187,7 +205,31 @@ def stage_text(pdir: Path, genre: "GenreProfile | None") -> str:
     lane_rows = "; ".join(f"{ln.id}({ln.label}, {ln.kind})" for ln in lanes)
     return (f"(지도 무대 아님) 주 무대 {genre.stage.primary}. 장르 프로필 기본 레인: {lane_rows}.\n"
             f"stage_config.timeline 의 start·end(YYYY-MM-DD)는 레코드 구간을 덮게 정한다. 카메라 w = 화면이 덮는 일수.\n"
-            f"데이터 레코드(series 이벤트 series_id 는 이 id 만):\n{series_records_text(pdir)}")
+            f"데이터 레코드(series 이벤트 series_id 는 이 id 만):\n{series_records_text(pdir)}{documents_text(pdir)}")
+
+
+def documents_text(pdir: Path) -> str:
+    """주문 data.documents 의 원문(intake 본문) — statement_diff 의 before·after 는 여기서 그대로 인용한다(코드가 대조, v4.4.0)."""
+    from genres.load import load_order  # noqa: PLC0415
+    from schemas.source_models import SourcesFile  # noqa: PLC0415
+
+    order = load_order(pdir)
+    spf = pdir / "intake" / "sources.json"
+    if order is None or not order.data.documents or not spf.exists():
+        return ""
+    by_url = {s.url: s for s in SourcesFile.model_validate_json(spf.read_text(encoding="utf-8")).sources}
+    rows = []
+    for u in order.data.documents:
+        src = by_url.get(u)
+        body = pdir / "intake" / "bodies" / f"{src.id}.txt" if src is not None else None
+        if body is None or not body.exists():
+            continue
+        text = " ".join(body.read_text(encoding="utf-8").split())
+        rows.append(f"- {src.id} · {src.published_at} · {text[:1500]}")
+    if not rows:
+        return ""
+    return ("\n원문 문서(statement_diff 의 before·after 는 아래 원문에서 연속 구절을 그대로 — 한 글자라도 다르면 렌더 전 오류):\n"
+            + "\n".join(rows))
 
 
 def music_list_text(pdir: Path) -> str:
@@ -276,5 +318,5 @@ def next_version(pdir: Path, stem: str, suffix: str) -> int:
     return n
 
 
-__all__ = ["cards_table", "check_direction", "current_version", "loop_history", "restore_version", "dump_direction_yaml", "entities_text", "event_fields_table", "geo_text", "load_plan", "series_records_text", "stage_text",
+__all__ = ["cards_table", "check_direction", "current_version", "loop_history", "restore_version", "dump_direction_yaml", "entities_text", "event_fields_table", "geo_text", "load_plan", "documents_text", "series_records_text", "stage_text",
            "media_text", "next_version", "plan_table"]
