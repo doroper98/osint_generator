@@ -1,0 +1,30 @@
+# 장르 프로필 — 지정학 (v4.2.0, docs/handoff/20 §3, back_and_forth D-0081 작업 2)
+# 현 파이프라인을 그대로 선언한다. 새 요소 없음.
+# status approved 근거: v3『호르무즈와 한국』사용자 합격본(docs/handoff/KICKOFF_PROMPT.md §5, docs/handoff/golden/)이
+# 이 무대·요소·색 의미로 만들어졌다. 새로 승인받은 것이 아니라 합격 사실의 기록이다.
+schema_version: 1
+genre: geopolitics
+status: approved
+stage:
+  primary: mercator              # 20 §2.1 지도 무대(engine.stage.MercatorStage)
+  secondary: []
+color_semantics:                 # docs/handoff/09 §7 색 토큰의 쓰임 그대로(값 = rules registries.accents 토큰 이름)
+  confrontation: ru              # 대립·봉쇄·거절·러시아/이란 측
+  us_side: us                    # 미국 측, 호위
+  emphasis: gold                 # 강조·한국·핵심 마커·자막 강조
+  neutral: teal                  # 중립·통과·청해부대 항로
+  agreement: green               # 합의·휴전
+  secondary_text: muted          # 보조 텍스트
+  explosion_opposition: amber    # 폭발·반대 입장·추정 태그
+primitives:
+  reuse:                         # 현 rules registries 전부(event_types 16 · panel_kinds 11 · badge_kinds 3)
+    [marker, route, tanker_loop, barrier, ships, boom, country, badge, card, panel, dip, photo, clip, cutout, article, post,
+     relation, statement, timeline, precedent, versus, dots, gantt, dual_line, fork, checklist, network,
+     person, flag, emblem]
+  new: []
+badges:
+  people: rights_check           # 인물 초상 — 권리 레지스트리(Commons·라이브러리, 07 §6)
+  institutions: rights_check     # 휘장 — 위키미디어 Restrictions 있으면 국기로 대체(D5)
+media:
+  preferred: [photo, clip, cutout, article, post]   # rules media.kinds
+qa_extra: []
