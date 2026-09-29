@@ -15,7 +15,9 @@
 - attribution: unverified claim 을 인용하는데 자막에 귀속 표현(`script_schema.attribution_markers`)이 없음(18 §3-3)
 
 오류(v3.2.0 추가):
-- source-unknown: 문장 sources 가 `intake/claims.json` 밖 id(claims.json 이 없는 프로젝트면 sources 가 있는 문장 전부)
+- source-unknown: 문장 sources 가 `intake/claims.json` 밖 id(claims.json 이 없는 프로젝트면 sources 가 있는 문장 전부).
+  v4.3.0 D-0088: `series:<id>` 는 데이터 레코드 참조 — 레코드 파일이 없을 때만 오류
+- series-value-mismatch: series 참조 문장의 자막 N%·N%p 가 레코드 값과 다름·빈 달 값 언급·대조 불가(script/series_refs.py)
 - subtitle-lines: 자막이 script_schema.subtitle_max_lines 줄을 넘음(렌더러와 같은 글꼴·폭으로 실측 wrap)
 
 CLI (v3.0.0, 16 §4 `direction_validate` 의 6.9 전 대체 — D-0040 작업 4):
@@ -208,6 +210,12 @@ def load_claims_for(proj: Path) -> "dict | None":
     return claim_statuses(p) if p.exists() else None
 
 
+def _series_exists(sid: str) -> bool:
+    from data.series import series_dir  # noqa: PLC0415
+
+    return (series_dir() / f"{sid}.yaml").exists()
+
+
 def lint(script: Script, claims: "dict[str, str] | None" = None, *, check_sources: bool = True) -> LintReport:
     """claims = {claim_id: status}(claims.json). check_sources=False 는 출처 검사를 끈다 — 프롬프트 예시처럼
     claims.json 이 없는 원고 조각에만(파리티 테스트)."""
@@ -241,7 +249,16 @@ def lint(script: Script, claims: "dict[str, str] | None" = None, *, check_source
                 if not s.sources:   # v3.2.0 — 숫자·날짜 문장은 오류(D-0029 §3 예고대로 격상), 그 밖은 경고
                     num = bool(NUMERIC.search(s.text))
                     add("source-missing", "error" if num else "warning", "sources 비어 있음" + (" (수치·날짜 문장)" if num else ""))
-                unknown = [c for c in s.sources if claims is None or c not in claims]
+                from script.series_refs import check_series_sentence, is_series_ref, series_id  # noqa: PLC0415
+
+                refs = [c for c in s.sources if is_series_ref(c)]   # v4.3.0 D-0088 — 데이터 레코드 참조(claim 아님)
+                bad_refs = [c for c in refs if not _series_exists(series_id(c))]
+                if bad_refs:
+                    add("source-unknown", "error", f"데이터 레코드 없음 {bad_refs}(data/series)")
+                elif refs:
+                    for msg in check_series_sentence(s.text, s.date, refs):
+                        add("series-value-mismatch", "error", msg)
+                unknown = [c for c in s.sources if not is_series_ref(c) and (claims is None or c not in claims)]
                 if unknown:
                     add("source-unknown", "error", f"claims.json 밖 id {unknown}" if claims is not None else
                         f"claims.json 이 없다 — sources {unknown} 를 확인할 수 없다(18 §3-6)")

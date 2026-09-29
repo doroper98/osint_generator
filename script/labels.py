@@ -70,13 +70,14 @@ def compute_labels(script: Script, statuses: dict[str, str]) -> ScriptLabels:
     for sc in script.scenes:
         for k, s in enumerate(sc.sentences):
             sid = f"{sc.id}_{k}"
-            missing = [c for c in s.sources if c not in statuses]
+            cids = [c for c in s.sources if not c.startswith("series:")]   # v4.3.0 D-0088 — 데이터 레코드 참조는 claim 이 아니다(라벨 계산 밖)
+            missing = [c for c in cids if c not in statuses]
             unknown += [f"{sid}:{c}" for c in missing]
-            if missing or not s.sources:
-                out[sid] = SentenceLabel(claim_ids=list(s.sources))
+            if missing or not cids:
+                out[sid] = SentenceLabel(claim_ids=cids)
                 continue
-            weakest = min((statuses[c] for c in s.sources), key=lambda st: rank[st])
-            out[sid] = SentenceLabel(status=weakest, label=rules.labels[weakest], claim_ids=list(s.sources))
+            weakest = min((statuses[c] for c in cids), key=lambda st: rank[st])
+            out[sid] = SentenceLabel(status=weakest, label=rules.labels[weakest], claim_ids=cids)
     if unknown:
         raise LabelError(f"sources 에 claims.json 밖 claim_id {len(unknown)}건: {', '.join(unknown[:8])}")
     return ScriptLabels(labels=out)
