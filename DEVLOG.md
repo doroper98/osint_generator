@@ -3341,3 +3341,4 @@ last_review: 2026-06-06
 - 2026-09-29 dmz_mine_2026 v5: 사용자 피드백 — 임의 좌표 route 삭제(M8), 현장 개념도를 새 프리미티브 site_diagram(벡터·폭발 ①② 단어 앵커 애니메이션)으로, 1080p 최종. 사진 켄 번스 계단식 결함 발견(S8, 미수정). back_and_forth R-0112.
 - 2026-09-29 dmz_mine_2026 v5 전편 1080p: final.mp4 md5 fad4f90f6dafcd1aec00c77c54c75c33, 439.74초, 104.8MB, −14.39 LUFS·−1.61 dBTP. 전달 = 재인코딩 없는 1080p 6조각(out/share_1080p_final/).
 - 2026-09-29 엔딩 카드 롤·검정 유지(원 D87·R-0113 → v4.7.0 병합 D95·R-0122, 롤은 결정 대기) — dmz_mine_2026 크레딧 잘림·끝 전환 지도 노출 사용자 지적. pytest 1024 passed.
+- 2026-09-29 v4.7.0 LLM-AP-009 기록 — LLM 브리지 argv 프롬프트 128KB 한도(dmz_mine verify-sources, 원 R-0111 S1). 구조 조치(stdin 전달)는 G8 후보(D-0104).

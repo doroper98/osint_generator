@@ -311,3 +311,12 @@ last_review: 2026-05-22
 - **회귀 테스트 (regression_test)**: `tests/test_phase11_nb21.py` — 스키마 필수 필드 = 프롬프트 필수 규칙 문구(파리티), 컷 이름 event_ref 가 코드에서 해석됨. 옛 문구에서는 파리티 테스트가 실패한다.
 - **연관**: back_and_forth D-0062 NB21, D-0072 작업 11, PIPELINE-AP-008(표지 해석).
 
+
+## LLM-AP-009 — LLM 브리지가 프롬프트를 명령줄 인자(argv)로 넘겨 긴 입력에서 OSError
+- **증상 (symptom)**: 소스 37건인 프로젝트(dmz_mine_2026)에서 verify-sources 가 `OSError: [Errno 7] Argument list too long` 으로 실패했다. 프롬프트 한 인자가 리눅스 한도(단일 인자 128KB, `MAX_ARG_STRLEN`)를 넘었다.
+- **재현 (reproduction)**: 기사 본문을 붙인 소스 30건 이상으로 `python -m orchestrator.main verify-sources <pid>` — 프롬프트 문자열이 약 128KB 를 넘으면 subprocess 생성 단계에서 실패(LLM 호출 전).
+- **원인 (root cause)**: 구독 LLM 브리지가 `claude -p "<프롬프트 전체>"` 처럼 프롬프트를 argv 한 칸으로 넘긴다. 입력 크기가 소스 수·본문 길이에 비례해 커지는데 한도를 보지 않는다.
+- **우회 (workaround, 그 세션)**: 기사 본문의 메뉴·잡음을 덜어 약 110KB 로 줄였다(원본은 로컬 보관). 구조 해결이 아니다.
+- **구조적 조치 (structural fix, 예정 — G8 후보, back_and_forth D-0104 S1)**: 프롬프트를 stdin 으로 넘긴다(`claude -p` 는 stdin 입력을 받는다). argv 형태를 고정한 회귀 테스트를 stdin 형태로 갱신하고, 128KB 넘는 합성 프롬프트로 실패하지 않음을 확인한다. 이번 병합(v4.7.0)에서는 기록만 한다.
+- **회귀 테스트 (regression_test)**: 구조 조치 때 추가(현재 없음).
+- **연관**: vibrant-mendel 브랜치 보고 R-0118(원 R-0111) S1, docs/ADDENDUM_04(구독 LLM 브리지), back_and_forth D-0104.
