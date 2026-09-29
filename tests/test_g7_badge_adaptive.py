@@ -43,6 +43,7 @@ class AdaptiveBadgeTest(unittest.TestCase):
         back = 12.0 - B.fade_out_sec                     # b 페이드 아웃 시작 = a 다시 solo 로
         self.assertAlmostEqual(badge_R(a, back + B.resize_sec), SOLO)
         self.assertEqual(badge_R(a), SOLO)               # t 없음 = 구간 최대(보수값)
+        self.assertAlmostEqual(badge_R(b, 11.9), G_HI)   # 사라지는 뱃지는 페이드 아웃 동안 커지지 않는다(자기 자신은 끝까지 센다)
 
     def test_three_people_small(self) -> None:
         ev = [person("a", 0, 20), person("b", 1, 20), person("c", 2, 20)]

@@ -122,7 +122,7 @@ def assign_person_sizes(events: list[dict]) -> None:
         if e.get("R") is not None:
             continue
         pool = [b for b in people if _pool(b) == _pool(e)]
-        spans = [(e["t0"] if b is e else b["t0"] + BADGE.popin_sec, b["t1"] - BADGE.fade_out_sec) for b in pool]
+        spans = [(e["t0"], e["t1"]) if b is e else (b["t0"] + BADGE.popin_sec, b["t1"] - BADGE.fade_out_sec) for b in pool]   # 자기 자신은 뜨는 순간부터 끝까지
 
         def n_at(s: float, spans: list[tuple[float, float]] = spans) -> int:
             return sum(1 for a, z in spans if a <= s < z)
