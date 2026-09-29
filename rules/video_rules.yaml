@@ -261,6 +261,8 @@ layout_480p:               # 09 §2·§4, 08 §10 — 기준 해상도 854×480.
     notice_unverified: {size: 7.8, dy: 14, template: "확인되지 않은 보도·논평 인용 {n}건 — 출처는 위 목록"}   # size = license_size(가장 작은 글씨), dy = 날짜·안내 줄 기준선 아래
     # v4.5.0 back_and_forth D-0098 §2(b) — 크레딧 두 열의 마지막 기준선 ≤ 하단 구분선(H−44) − bottom_margin. 넘치면 EndCardOverflowError(조용한 넘침 금지, 15 P6)·checks offscreen [endcard-overflow]
     bottom_margin: 8
+    # v4.4.0 dmz_mine_2026(v4.7.0 병합) — 카드가 사라진 뒤 영상 끝까지 검정 유지(끝 전환에 지도가 다시 보이던 것). 넘침 시 롤(scroll_*)은 G5 넘침 오류와 충돌 — 결정 대기
+    hold_black_after: true
   card: {x_right_margin: 24, y: 70, min_w: 230, slide_px: 30, fade_sec: 0.45, big_size: 30, line_size: 13, tag_size: 10.5, src_size: 9.5}
   article_card: {w: 300, y: 68}
   # v3.2.0 18 §5 — X 게시물 카드(post). 캡처 이미지·X 로고 없이 자체 조판. 수치는 18 §5 명세 그대로
@@ -573,7 +575,7 @@ registries:                # 15 §3 P10 — 여기 없는 타입을 연출이 �
   accents: [gold, us, ru, teal, muted, green, amber]
   stages: [mercator, timeline]   # v4.1.0 D-0076 — 무대(engine.stage). 없는 무대 = 오류, 있는데 구현(STAGE_CLASSES)이 없음 = 오류(P10). timeline = v4.3.0 D-0084 작업 3
   stages_planned: [chart_wall, flow, structure, document]   # v4.2.0 D-0081 — 20 §2.1 무대 카탈로그(구현 전). 장르 프로필 proposed 만 참조 가능, 연출에서 쓰면 오류
-  primitives: [statement_diff, dot_plot]   # dot_plot = v4.4.0 D-0090 작업 3(사용자 승인 대기 — provenance elements.approval pending). v4.2.0 D-0081 — 새 시각 요소(engine/primitives/<id>.py, 20 §4.2). 이벤트 type: primitive + id. 없는 id = 오류, 있는데 모듈 없음 = 오류(P10)
+  primitives: [statement_diff, dot_plot, site_diagram]   # site_diagram = v4.4.0 dmz_mine_2026 사용자 요청(현장 개념도, 벡터).  dot_plot = v4.4.0 D-0090 작업 3(사용자 승인 대기 — provenance elements.approval pending). v4.2.0 D-0081 — 새 시각 요소(engine/primitives/<id>.py, 20 §4.2). 이벤트 type: primitive + id. 없는 id = 오류, 있는데 모듈 없음 = 오류(P10)
   primitives_planned:     # v4.2.0 D-0082 쟁점 1 A — 구현 전 프리미티브. 장르 프로필 proposed 의 new 만 참조 가능, 연출에서 쓰면 오류
     - rate_step_line      # 20 §3 macro_monetary — v4.3.0: series 이벤트(style: step)가 대신한다. 만들지 않는다(사용자 결정 전이라 목록에서 지우지 않음, D-0084 작업 4·D-0090)
     - yield_curve_shift   # 20 §3 macro_monetary — chart_wall 무대가 필요해 G4 밖(D-0090 작업 3 ③). 구현 전
@@ -588,6 +590,9 @@ audio:                     # 10
   narration_peak: 0.8
   master_peak: 0.97
   loudnorm: {I: -14, TP: -1.5, LRA: 11}
+  # RENDER-AP-004 — loudnorm(dynamic)이 TP −1.5 를 맞춰도 AAC 인코딩이 트루 피크를 올린다(ElevenLabs 내레이션 실측 −1.50 → −1.09,
+  # 허용 여유 0.15 초과). loudnorm 뒤 샘플 피크 리미터를 이 값(dBFS)에 둔다. 실측(dmz_mine_2026): 리미터 뒤 AAC −1.7 dBTP, I −14.2 LUFS.
+  post_limiter_dbfs: -2.0
   sfx_policy: events_and_scene_starts_only
   # v3.4.0 D-0060 §0 — audio/mix.py 모듈 상수 이관(값 그대로 = 사용자 합격 v3 mix, md5 c1314fb9 로 증명)
   sample_rate: 44100        # 코덱 상수(audio.mix.SR·engine.mux.SR 와 테스트로 일치 확인)
@@ -778,6 +783,72 @@ data:                      # v4.3.0 D-0084 작업 1 — 데이터 레코드(docs
   series_dir: data/series                                   # <series_id>.yaml(레코드) + <series_id>.csv(값) + raw/<series_id>.csv(받은 그대로)
 
 primitives:                # v4.2.0 D-0081 작업 4 — 프리미티브(engine/primitives/<id>.py) 레이아웃 토큰. registries.primitives 마다 한 블록(20 §4.2 "색·크기는 토큰만")
+  site_diagram:            # v4.4.0 dmz_mine_2026 사용자 요청(2026-09-29) — 사건 현장 개념도(벡터, 축척 아님). 설계 px(480p). 글자 ≥ layout_480p.min_font_px
+    x: 167                 # 상자(화면 가운데, 자막 영역 위)
+    y: 58
+    w: 520
+    h: 330
+    radius: 5
+    fade_sec: 0.5          # 상자 등장·퇴장(20 §4.2 0.4~0.6초)
+    scale_from: 0.97       # 등장 때 상자 배율(연속 변환 — 래스터 계단 없음)
+    north_bg: "rgba(51,33,31,1)"
+    south_bg: "rgba(18,23,31,1)"
+    foot_bg: "rgba(8,9,12,1)"
+    foot_h: 26
+    mdl_v: 0.36            # 그림 영역 높이 비율 — 군사분계선 기준선
+    nll_v: 0.10            # 북방한계선
+    sll_v: 0.84            # 남방한계선
+    wave_amp_a: 6.5        # 선 물결(px) — 두 사인 합
+    wave_len_a: 48
+    wave_amp_b: 3.2
+    wave_len_b: 16
+    wave_step: 3
+    mdl_w: 2.6
+    limit_w: 1.0
+    limit_dash: [2.5, 3.5]
+    limit_alpha: 0.75
+    site_u: 0.5            # 사고 지점 가로 위치(폭 비율)
+    site_dy: 6             # 군사분계선 아래로(px, 개념상 "바로 남쪽")
+    site_r: 3.2            # 사고 지점 점(폭발 전부터 보인다)
+    site_ring_r: 8
+    bracket_du: 24         # 거리 괄호선 가로 위치(사고 지점 오른쪽)
+    bracket_half: 3
+    bracket_w: 1.1
+    dist_dx: 20            # 거리 라벨(괄호선 기준)
+    dist_dy: 30            # 괄호선 위쪽으로
+    dist_size: 14
+    dist_src_size: 9.5
+    dist_src_gap: 15
+    leader_w: 0.8
+    leader_alpha: 0.55
+    burst_offsets: [[-5, 1], [-19, 22], [4, 30]]   # 사고 지점 기준 폭발 아이콘 자리(차례대로)
+    burst_r: 9
+    burst_inner: 0.48
+    burst_points: 10
+    burst_rim: "rgba(255,242,153,1)"
+    pop_sec: 0.45          # 폭발 아이콘 튀어나옴(배율 pop_from → 1)
+    pop_from: 1.9
+    flash_r: 28            # 폭발 순간 번쩍임 고리
+    flash_sec: 0.7
+    mine_offset: [11, 4]
+    mine_w: 8
+    mine_h: 5.5
+    mine_color: "rgba(140,97,56,1)"
+    left_x_u: 0.035        # 왼쪽 라벨 열(폭발)
+    right_x_u: 0.56        # 오른쪽 라벨 열(지뢰·메모)
+    label_v: 0.52          # 라벨 첫 줄 높이(그림 영역 비율)
+    row_h: 19
+    label_size: 11.5
+    label_fade_sec: 0.4
+    limit_label_size: 10
+    mdl_label_size: 12.5
+    side_size: 12.5
+    header_size: 10
+    header_dy: 18
+    width_note_size: 10
+    width_note_v: 0.24
+    foot_size: 9.5
+    pad_x: 14
   statement_diff:          # 작업 5 — 성명서 문구 비교(20 §10). 설계 px(480p). 글자 크기 ≥ layout_480p.min_font_px(glyph_size), 출처 줄 = layout_480p.card.src_size, 문구 상한 = verification.quote_max_chars
     w: 360                 # 상자 폭 — 오른쪽 여백·세로 기본값은 layout_480p.card(같은 슬롯 card_right)
     pad_x: 18

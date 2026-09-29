@@ -47,7 +47,7 @@ def _draw_endcard(R: NS) -> list[tuple[float, str | None, str]]:  # noqa: N803
 
     ctx = cairo.Context(cairo.ImageSurface(cairo.FORMAT_ARGB32, 854, 480))
     with mock.patch.object(fullcards, "credit_sections", return_value=[]):
-        return _log(lambda: fullcards.draw_endcard(ctx, R, 5.0, NS(t0=0.0), 1.0))
+        return _log(lambda: fullcards.draw_endcard(ctx, R, 5.0, NS(t0=0.0, t1=11.0), 1.0))   # t1: v4.7.0 hold_black_after(카드 끝 시각)
 
 
 class RulesTest(unittest.TestCase):

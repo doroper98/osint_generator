@@ -21,7 +21,7 @@ primitives:
     [marker, route, tanker_loop, barrier, ships, boom, country, badge, card, panel, dip, photo, clip, cutout, article, post,
      relation, statement, timeline, precedent, versus, dots, gantt, dual_line, fork, checklist, network,
      person, flag, emblem]
-  new: []
+  new: [site_diagram]   # v4.4.0 dmz_mine_2026 사용자 요청(2026-09-29) — 사건 현장 개념도(벡터)
 badges:
   people: rights_check           # 인물 초상 — 권리 레지스트리(Commons·라이브러리, 07 §6)
   institutions: rights_check     # 휘장 — 위키미디어 Restrictions 있으면 국기로 대체(D5)

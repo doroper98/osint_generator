@@ -55,7 +55,7 @@ class OverflowTest(unittest.TestCase):
         ctx = cairo.Context(cairo.ImageSurface(cairo.FORMAT_ARGB32, 854, 480))
         with mock.patch.object(fullcards, "credit_sections", return_value=secs):
             with self.assertRaises(fullcards.EndCardOverflowError):
-                fullcards.draw_endcard(ctx, R, 5.0, NS(t0=0.0), 1.0)
+                fullcards.draw_endcard(ctx, R, 5.0, NS(t0=0.0, t1=11.0), 1.0)   # t1: v4.7.0 hold_black_after(카드 끝 시각)
 
     def test_layout_last_baseline(self) -> None:
         secs = [("가", [("a", "l"), ("b", "")]), ("나", [("c", "l")])]

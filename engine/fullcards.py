@@ -78,8 +78,14 @@ def unverified_notice(R: RenderCtx) -> str | None:  # noqa: N803
 def draw_endcard(ctx: cairo.Context, R: RenderCtx, t: float, c: object, a: float) -> None:  # noqa: N803
     lt = t - c.t0  # type: ignore[attr-defined]
     plan = R.tb.plan
-    ctx.set_source_rgba(0.018, 0.022, 0.032, 0.94 * a)
+    E = END_CARD  # noqa: N806
+    bg = 0.94 * a
+    if E.hold_black_after and t > c.t1 - 0.7:  # type: ignore[attr-defined]  # 사라질 때 글자만 빠지고 배경은 검정으로(지도가 다시 드러나지 않게)
+        bg = 0.94 + 0.06 * min(1.0, (t - (c.t1 - 0.7)) / 0.7)  # type: ignore[attr-defined]
+    ctx.set_source_rgba(0.018, 0.022, 0.032, bg)
     ctx.paint()
+    if a <= 0.01:
+        return
     k = ease_out((lt - 0.1) / 0.9)
     text(ctx, "SOURCES  &  CREDITS", 64, 84 - (1 - k) * 6, 8.5, "mono", C["gold"], a * k, 0, "l", spacing=2.4, role="end_card")
     text(ctx, "자료 및 출처", 64, 110 - (1 - k) * 6, 17, "serif", (0.96, 0.95, 0.93), a * k, 0, "l", spacing=1.0, role="end_card")
@@ -118,7 +124,8 @@ def draw_endcard(ctx: cairo.Context, R: RenderCtx, t: float, c: object, a: float
 def draw_fullcards(ctx: cairo.Context, R: RenderCtx, t: float) -> None:  # noqa: N803
     plan = R.tb.plan
     for c in plan.cards:
-        if not (c.t0 - 0.1 <= t <= c.t1 + 0.1):
+        hold = c.kind == "end" and END_CARD.hold_black_after
+        if not (c.t0 - 0.1 <= t <= c.t1 + 0.1) and not (hold and t > c.t1):
             continue
         a = window(t, c.t0, c.t1, 0.7, 0.7)
         lt = t - c.t0

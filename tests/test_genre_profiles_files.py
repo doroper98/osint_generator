@@ -21,7 +21,7 @@ class GenreFilesTest(unittest.TestCase):
         reg = load_rules().registries
         self.assertEqual(p.status, "approved")
         self.assertEqual(p.stage.primary, "mercator")
-        self.assertEqual(p.primitives.new, [])
+        self.assertEqual(p.primitives.new, ["site_diagram"])   # v4.4.0 dmz_mine_2026 사용자 요청(현장 개념도) — 그 전까지 []
         carriers = {"primitive", "series"}   # 프리미티브 이벤트는 id 로 센다(checks genre_elements). series = 시간축 무대 전용(v4.3.0) — 지도 장르 밖
         self.assertEqual(set(p.primitives.reuse), (set(reg.event_types) - carriers) | set(reg.panel_kinds) | set(reg.badge_kinds))
         self.assertEqual(set(p.color_semantics.values()), set(reg.accents))   # 09 §7 색 토큰 전부에 의미가 있다

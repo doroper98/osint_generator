@@ -1,0 +1,58 @@
+# 『DMZ 지뢰 폭발 — 서울·모스크바·키이우의 시선』 엔딩 크레딧 (v4.4.0). 보도 = 인용 소스(auto: sources).
+schema_version: 1
+sections:
+  - title: 보도
+    column: 0
+    auto: sources
+  - title: 인물 사진
+    column: 1
+    items:
+      - main: 강신철 국방부 장관 — 한미연합사·주한미군
+        license_ref: kang_shin_chul
+        rights: [people.kang_shin_chul]
+      - main: 이재명 대통령
+        license_ref: lee_jae_myung
+        rights: [people.lee_jae_myung]
+      - main: 젤렌스키 대통령 — president.gov.ua
+        license_ref: zelensky
+        rights: [people.zelensky]
+      - main: 김정은 · 쇼이구 — 러시아 대통령실(kremlin.ru)
+        license_ref: kim_jong_un
+        rights: [people.kim_jong_un, people.shoigu]
+  - title: 자료사진 · 개념도
+    column: 1
+    items:
+      - main: 사건 현장 개념도 (자체 제작 · 합참 발표 보도 종합)
+        license: 코드 조판 · 축척 아님
+      - main: DMZ 인근 지뢰 경고 표지판 (2025.4)
+        license: U.S. Navy · Public Domain (Wikimedia Commons)
+        rights: [media.dmz_mine_sign]
+      - main: DMZ 철책 · 을지전망대 (2008)
+        license: Friar's Balsam · CC BY 2.0 (Wikimedia Commons)
+        rights: [media.dmz_fence]
+  - title: 기사 카드
+    column: 1
+    items:
+      - main: VZGLYAD · Life.ru · Gazeta.ru · Ukrinform · Al Jazeera · NK News
+        rights: [media.vz_0921, media.life_0927, media.gazeta_0928, media.ukrinform_0921, media.aj_0928, media.nknews_0928, media.aj_0924, media.aj_1213]
+      - main: 한국일보 · 아시아경제 · 뉴스핌 · 시사저널 · 경향신문 · 뉴데일리
+        rights: [media.hk_0923, media.asiae_0922, media.hk_0928, media.newspim_0929, media.sisa_0929, media.khan_0929, media.newspim_0929b, media.newdaily_0929]
+  - title: 글꼴
+    column: 1
+    auto: fonts
+  - title: 지도
+    column: 1
+    auto: map
+  - title: 국기
+    column: 1
+    items:
+      - main: 국기
+        license: flag-icons · MIT
+        rights: [flags.flag_icons]
+  - title: 음악 · 음성
+    column: 1
+    items:
+      - music: music.zabriskie_patriarch   # 제목·라이선스 줄은 BGM 레지스트리
+      - main: 내레이션
+        license: AI 음성 합성
+        rights: [narration.tts]

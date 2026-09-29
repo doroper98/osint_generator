@@ -70,6 +70,8 @@ class AudioQATest(unittest.TestCase):
             self.assertIn("linear=true", af)
             self.assertIn("measured_I=", af)
             self.assertIn(rec["pass2"]["normalization_type"], ("linear", "dynamic"))   # 어느 쪽이든 기록한다(숨기지 않음)
+            self.assertTrue(af.endswith(":level=false:attack=1:release=50") and ",alimiter=limit=" in af)   # RENDER-AP-004
+            self.assertEqual(rec["post_limiter_dbfs"], AU.post_limiter_dbfs)
 
     def test_music_level_inside_and_outside(self) -> None:
         lo, hi = AU.qa.music_under_narration_db
