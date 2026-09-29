@@ -1,9 +1,9 @@
 <!--
 tier: 3
-last_synced_with: v4.8.0
+last_synced_with: v4.9.0
 ssot_for: [execution-procedures]
 depends_on: [README.md, HANDOFF.md, docs/15_OPERATIONS_RUNBOOK.md, docs/handoff/16_ORCHESTRATOR_INTEGRATION.md]
-last_review: 2026-09-29
+last_review: 2026-09-30
 -->
 
 # WORKFLOWS
@@ -12,6 +12,37 @@ last_review: 2026-09-29
 (v4.1.0 에서 v0.3.3 판을 현재 명령으로 다시 썼다 — NB29. 옛 `render-debug`·`build-audio` 등은 v2.0.0 에서 삭제됐다.)
 
 ---
+
+## W0. 콘티 판(animatic) — 흐름·호흡을 먼저 싸게 (v4.9.0, back_and_forth D-0108, 사용자 결정 D97)
+
+용어: **콘티 판** = animatic(animation + -matic). 1930년대 디즈니가 스토리보드를 찍어 음성과 함께 틀어 본 "Leica reel"이 원형이고,
+광고·애니메이션 업계가 1970년대부터 animatic 이라 불렀다. "콘티"는 일본어 コンテ(continuity 의 축약)에서 왔다.
+
+게이트 ① 원고 승인 뒤, 게이트 ② 프리뷰 전에 돈다. 연출 v1 이 나오면 콘티 판으로 흐름을 보고, 고칠 것이 있으면 연출로 되돌려 다시 돈다.
+
+```bash
+python -m script.plan projects/{pid} --tts edge          # 러프 음성(무료·빠름). ElevenLabs 는 콘티 판 단계에서 쓰지 않는다
+python -m audio.mix projects/{pid}                        # 음악·믹스는 전편과 같다(bed_bass 포함)
+python -m engine.render projects/{pid} --animatic         # → out/animatic.mp4 (480p·fps 24, 5분 영상 = 4코어 3분 목표)
+python -m engine.render projects/{pid} --animatic --preview auto   # (선택) prev_animatic/ 컷·시트
+```
+
+사용자 흐름 검토 뒤 고칠 것이 있으면 연출을 다시 한다. 프로젝트가 아직 `direction` 상태면 연출 판(direction.vN)을 고쳐 콘티 판을 다시 돌리고,
+이미 렌더 이후 상태면 `python -m orchestrator.main reopen --project {pid} --to direction --reason "콘티 판 흐름 검토: …"`(D4)로 되돌린다.
+흐름이 정해지면 게이트 ② 프리뷰(`--preview auto`) → 전편으로 간다.
+
+| 콘티 판에서 | 전편과 |
+|---|---|
+| 자막·타이틀·엔딩 카드·날짜·마커·경로·타격 링·선박·국가 강조·시리즈·카메라·dip·음악 | 같다(자막이 호흡의 기준) |
+| 뱃지(인물·국기·휘장)·사진·영상·컷아웃·기사·게시물·카드·패널·프리미티브 | 같은 자리·크기·타이밍의 자리표시 상자 + `[뱃지: 이름]` 같은 글자 |
+| 지도 | 막지도 — 육지·바다 단색 + 국경선(`data/geo_flat/`, 자산·타일 없음), 라벨 없음 |
+| 표식 | 화면 위 가운데 띠 "콘티 판 · 검토용 · 배포 금지", provenance `animatic: true`, mp4 메타데이터 표식 |
+| 검사 | 콘티 프로파일 — 글리프·글자 크기·권리·미디어 해상도·차트 정직성·라벨 수는 건너뛴다(`out/animatic_checks.json` skipped) |
+| 배포 | `engine.mux`(deliver)는 콘티 판을 거부한다 |
+
+산출물: `out/animatic.mp4`, `out/animatic_checks.json`, `out/animatic_provenance.json`(`animatic_run` — 시간·조각·자리표시 수·건너뛴 검사).
+전편 산출물(`out/video_noaudio.mp4`·`final.mp4`·`render.json`)과 게이트가 읽는 `prev/` 는 건드리지 않는다.
+자산 없는 환경(geo.prep·미디어 받기 전)에서도 돈다 — plan.json·mix.f32 만 있으면 된다.
 
 ## W1. 새 영상 프로젝트
 
@@ -64,6 +95,7 @@ python -m geo.prep projects/{pid} [--res 1080p]                    # 지형 티�
 python -m engine.camera_suggest projects/{pid}                     # 카메라 제안(옵션, 연출에 자동 적용 안 함)
 python -m engine.render projects/{pid} --preview auto|golden       # 프리뷰 컷·시트·checks·provenance
 python -m engine.render projects/{pid} --jobs 4 [--res 1080p]      # 전편 video_noaudio.mp4
+python -m engine.render projects/{pid} --animatic [--jobs 4]      # 콘티 판 out/animatic.mp4(W0, v4.9.0)
 ```
 
 ## W4. Worker 추가

@@ -164,3 +164,28 @@ ffmpeg (시스템)
 fontconfig (fc-cache, fc-list)
 ```
 데이터 캐시(Natural Earth geojson ~60MB, 지형 타일, 티어 PNG)는 gitignore하고 `geo.prep`이 재생성하게 한다.
+
+## 9. 콘티 판(animatic) — v4.9.0 (back_and_forth D-0108, 사용자 결정 D97) [저장소 실측 추가]
+
+**용어**: animatic = animation + -matic. 1930년대 디즈니가 스토리보드를 라이카 카메라로 찍어 음성과 함께 틀어 본 "Leica reel"이 원형이고,
+광고·애니메이션 업계가 1970년대부터 animatic 이라 불렀다. 한국어 "콘티"는 일본어 コンテ(continuity 의 축약)에서 왔다. 본 저장소 용어 = **콘티 판**.
+
+`python -m engine.render <proj> --animatic` → `out/animatic.mp4`. 목적은 흐름·호흡을 게이트 ② 전에 싸게 보는 것(WORKFLOWS W0).
+
+| 항목 | 콘티 판 | 코드 |
+|---|---|---|
+| 진입 | `load_project(animatic=True)` **한 곳**에서 분기 — 프로파일 `rules animatic.profile`(480p, fps 24 그대로), 무대 모드, 레이어 선택 | `engine/project.py` |
+| 프레임 루프 | 전편과 같은 순서. `render_frame` 은 `P.layers`(`engine.registry.LayerSet`)만 본다 — 전편 `FULL_LAYERS`, 콘티 판 `ANIMATIC_LAYERS` | `engine/render.py`·`engine/registry.py` |
+| 지도 | `FlatMercatorStage`(MercatorStage 의 막지도 모드): 바다·육지 단색 + 국경선, 라벨 없음. 경계 = geo.yaml 티어 W bbox, 지오메트리 = NE 110m 추적 자료(`data/geo_flat/`, R-0135 A, `crimea_to_ua` 적용) | `engine/stage.py`·`tools/build_flat_map.py` |
+| 자리표시 | badge·photo·clip·cutout·article·post·card·panel·primitive → 같은 자리·크기(G7)·타이밍의 상자 + `[뱃지: 이름]` 등. 상자는 전편 기하 함수를 그대로 부른다 | `engine/layers/animatic.py` 하나 |
+| 그대로 | 자막·날짜·타이틀·엔딩 카드·마커·경로·타격 링·선박·국가 강조·시리즈·카메라·dip | — |
+| 표식 | 전체 페이드 뒤 화면 위 가운데 띠(`rules animatic.band`), mp4 메타데이터 comment(`animatic.mp4_comment`), provenance `animatic: true`·`animatic_run` | — |
+| 음성·음악 | 기존 `out/mix.f32`(edge-tts + BGM + bed_bass) 그대로, 2패스 loudnorm | `render_animatic` |
+| 파일 | `out/animatic.mp4`·`animatic_checks.json`·`animatic_provenance.json`·`animatic_render.json`, 프리뷰는 `prev_animatic/` — 전편 산출물·`prev/` 를 덮지 않는다 | — |
+| 자산 | 이미지·영상·지형 래스터·초상 실측·프로젝트 권리 점검을 쓰지 않는다 → 자산 없는 환경에서 렌더(plan.json·mix.f32 만 필요) | `tests/test_g8_animatic.py` |
+
+검사 프로파일(`engine.checks.profile_skips`): `rules animatic.checks_skip`(글리프·글자 크기·권리·미디어 해상도·차트 정직성 4종·라벨 수)은
+돌지 않고 `skipped` 로 남는다. 타이밍(shots)·자막·offscreen·stage_continuity·overlap·date·forbidden·genre_elements 는 돈다. hard 가 있으면 렌더 전에 실패한다(프리뷰와 같은 게이트).
+`engine.mux`(deliver)는 `video_noaudio.mp4` 의 메타데이터 표식이 콘티 판이면 거부한다(`AnimaticDeliverError`).
+비용 목표 = 5분 영상 4코어 3분(`rules animatic.cost_target_sec_per_300s`), 실측은 `reports/phaseG8/run_log.md`.
+

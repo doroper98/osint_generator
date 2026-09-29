@@ -1,6 +1,6 @@
 <!--
 tier: 2
-last_synced_with: v4.8.0
+last_synced_with: v4.9.0
 ssot_for: [review-gates, qa-policy]
 depends_on: [docs/handoff/16_ORCHESTRATOR_INTEGRATION.md, docs/handoff/17_AI_DIRECTOR_VISUAL_QA_PROMPTS.md, docs/handoff/18_SOURCE_INTAKE_ARTICLES_X.md, 07_VIDEO_STYLE_GUIDE.md, 08_AUDIO_AND_TTS_SPEC.md, ../GOAL.md]
 last_review: 2026-09-29
@@ -63,6 +63,8 @@ preview → prev/checks.json(결정적 검사 18항목)
 ### 2.2 장르 요소 검사 — v4.2.0
 
 `genre_elements`(hard)는 연출이 쓴 요소 종류(패널은 kind, 프리미티브는 id, 뱃지는 badge와 kind)가 장르 프로필의 reuse ∪ new 안인지 본다. 프로필 밖 요소는 요소마다 `[genre-element]` 한 줄이다.
+콘티 판(v4.9.0, handoff 11 §9)은 검사 프로파일 `animatic` 으로 돈다 — `rules:animatic.checks_skip` 은 건너뛰고 checks.json `skipped`·provenance `animatic_run.checks_skipped` 에 남는다(조용한 생략 아님).
+
 장르 프로필의 `qa_extra` 는 이 표의 검사 id 또는 `rules:qa_checks.planned`(예정 검사)만 쓸 수 있다. 새 프리미티브는 스케치 프리뷰(`tools/primitive_sketch.py`, 실제 엔진 렌더)와 사람 승인 뒤에만 영상 연출에 쓴다(handoff 20 §4.1).
 
 ### 2.3 차트 정직성 검사 — v4.3.0

@@ -127,3 +127,16 @@ projects/<slug>/
 ├─ prev/              프리뷰 PNG, sheet.jpg, checks.json, qa_verdict.v*.json
 └─ out/               final.mp4, final.srt, description.txt, thumbnail_candidates/, provenance.json
 ```
+
+---
+
+## 7. 콘티 판 루틴 W0 — v4.9.0 (back_and_forth D-0108) [저장소 실측 추가]
+
+콘티 판(animatic, handoff 11 §9)은 **상태가 아니다**. `DIRECTION` 상태 안에서 연출 판을 싸게 확인하는 사람 루프다(WORKFLOWS W0):
+게이트 ① 통과 → `voice_timeline`(`script.plan --tts edge`) → 연출 v1 → `audio.mix` → `engine.render --animatic` → 사용자 흐름 검토 →
+연출 수정(렌더 이후 상태면 `reopen --to direction`, D4) 반복 → 게이트 ② 프리뷰 → 전편.
+
+- 오케스트레이터는 엔진 입력을 쓰지 않는다(15 P1). 콘티 판은 엔진 CLI 를 사람이 직접 부르며, `engine_service` 단계·상태 머신은 바꾸지 않았다.
+- 콘티 판 산출물은 `out/animatic*`·`prev_animatic/` 에만 쓴다. 게이트 ② 화면이 읽는 `prev/` 와 deliver 입력 `out/video_noaudio.mp4` 는 그대로다.
+- deliver(`engine.mux`)는 콘티 판 표식이 있는 영상을 거부한다 — 콘티 판이 배포 단계로 새지 않는다.
+

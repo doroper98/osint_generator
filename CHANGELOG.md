@@ -1,6 +1,6 @@
 <!--
 tier: 3
-last_synced_with: v4.8.0
+last_synced_with: v4.9.0
 ssot_for: [release-notes]
 depends_on: [README.md, GOAL.md]
 last_review: 2026-09-28
@@ -56,10 +56,24 @@ released 항목은 **append-only**입니다.
 | v4.5.0 | 6094ce1 | G5 검증 라벨 본문 제거·엔딩 카드 한 줄 | pass(D-0100) |
 | v4.6.0 | 8a39e36 | G6 배경음악 저음 보강 | 보고(R-0120) — 전편 렌더 생략(D-0103), 합격 판정 대기 |
 | v4.7.0 | 4c09701 | G6.5 dmz_mine 병합·D1~D6·엔딩 카드 롤·좌표 근거 검사 | pass(D-0110) — v4.6.0 은 81a7360 으로 pass(D-0105, TAGS_PENDING) |
+| v4.8.0 | 8d2e2d6 | G7 요소 크기 — 인물 배지 적응·기사 카드·글자 크기·켄 번스·청와대 휘장 | pass(D-0114) |
 
 ---
 
-## [v4.8.0] — 2026-09-29 — G7: 요소 크기 — 인물 배지 적응 크기·기사 카드 조판 확대·글자 크기 점검·사진 켄 번스 연속 변환·청와대 휘장 (back_and_forth D-0101·D-0104 D2(c)·D6·D-0109, 사용자 결정 D89·D98) — 진행 중
+## [v4.9.0] — 2026-09-30 — G8: 콘티 판(animatic) 루틴 — 러프 음성·음악·자막 + 자리표시 요소 + 막지도 (back_and_forth D-0108, 사용자 결정 D97) — 진행 중
+
+MINOR: 사용자 지시 "초반에 아주 러프한 음성과 음악, 자막만 제대로 입히고, 화면 전환·인물·국기·휘장 등장은 텍스트로, 지도는 러프한 막지도로"(D97). `python -m engine.render <proj> --animatic` → `out/animatic.mp4`(480p, fps 24). 흐름·호흡을 게이트 ② 전에 싸게 검토한다. 전편 렌더 경로·자막·타이밍·카메라 수치는 바꾸지 않는다.
+
+### Changed
+- **§0**: VERSION 4.9.0, Tier 1·2 `last_synced_with` v4.9.0, v4.8.0 대장 행(8d2e2d6, D-0114 pass).
+- **작업 1 규칙·자료**: `rules animatic` 블록(프로파일·preset·막지도 색·자리표시 상자·띠 문구·mp4 표식·checks_skip·비용 목표, 코드 상수 0) + `AnimaticRules` 스키마. 막지도 자료 `data/geo_flat/ne_110m_countries.json`(NE 110m 퍼블릭 도메인 + 크림 고리, `tools/build_flat_map.py` — D-0108 "이미 있음" 이 실측과 달라 R-0135 결정 요청, 권고 A 로 진행).
+- **작업 2 렌더 `--animatic`**: 진입 `load_project(animatic=True)` 한 곳 — 480p 고정, `FlatMercatorStage`(막지도 모드, geo.yaml 티어 W 경계, 라벨 없음), `LayerSet`(전편 `FULL_LAYERS` / `ANIMATIC_LAYERS`) — `render_frame` 에 플래그 분기 없음. 자리표시는 `engine/layers/animatic.py` 하나(전편 기하 함수 재사용). 음성·음악 = 기존 `out/mix.f32`. 산출물 `out/animatic*`·`prev_animatic/`.
+- **작업 3 검사·표식·거부**: checks 콘티 프로파일(`profile_skips`, skipped 기록), provenance `animatic`(전편 false·콘티 판 true + `animatic_run`), 화면 위 가운데 띠, mp4 메타데이터 표식, `engine.mux` 가 콘티 판 거부(`AnimaticDeliverError`). 권리 레지스트리 없는 환경의 엔딩 카드 license_ref 자리는 `animatic.missing_license`(전편은 RightsError 그대로).
+- **작업 4 문서**: WORKFLOWS W0, handoff 11 §9·16 §7, docs/10·12·15 한 줄, 용어(ADDENDUM_03 콘티 판).
+
+---
+
+## [v4.8.0] — 2026-09-29 — G7: 요소 크기 — 인물 배지 적응 크기·기사 카드 조판 확대·글자 크기 점검·사진 켄 번스 연속 변환·청와대 휘장 (back_and_forth D-0101·D-0104 D2(c)·D6·D-0109, 사용자 결정 D89·D98) — 합격(D-0114)
 
 MINOR: 사용자 지시 "요소들이 너무 작다"(D89). 인물 배지는 동시에 보이는 인물 수에 따라 크기가 바뀌고, 기사 카드는 크게 조판하며, 화면 글자 크기를 전수 점검한다. 사진 켄 번스 계단(R-0119 S8)을 연속 변환으로 고치고, 청와대 휘장을 등재한다(D5 사용자 예외 D98). 골든 25컷은 바뀐다(expected_deltas 등록).
 
