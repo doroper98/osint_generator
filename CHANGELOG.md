@@ -1,6 +1,6 @@
 <!--
 tier: 3
-last_synced_with: v4.2.0
+last_synced_with: v4.3.0
 ssot_for: [release-notes]
 depends_on: [README.md, GOAL.md]
 last_review: 2026-09-28
@@ -50,10 +50,20 @@ released 항목은 **append-only**입니다.
 | v3.6.0 | b1298f4 | 10 해상도·성능 | pass(D-0071) |
 | v4.0.0 | 3266eaa | 11 문서·정리·G3 개정(MAJOR: G3) | pass(D-0075) |
 | v4.1.0 | 5326b10 | G1 무대 추상화 | pass(D-0080) |
+| v4.2.0 | 89b17ea | G2 장르 프로필·새 요소 파이프라인 | pass(D-0083) |
 
 ---
 
-## [v4.2.0] — 2026-09-29 — Phase G2: 장르 프로필과 새 요소 파이프라인 (back_and_forth D-0081) — 진행 중
+## [v4.3.0] — 2026-09-29 — Phase G3: 시간축 무대·데이터 레코드·차트 정직성 검사 (back_and_forth D-0084) — 진행 중
+
+MINOR: 새 기능(TimelineStage·SeriesRecord·series 이벤트·차트 정직성 검사). 렌더 수치 변경 없음 — 지정학 불변(hormuz 25컷 md5 = `reports/phaseG1/hormuz_baseline.json`, 랫클리프 20/20).
+
+### Changed
+- **§0**: VERSION 4.3.0, Tier 1·2 `last_synced_with` v4.3.0, `docs/handoff/reports/phaseG3/` 시작(hormuz 기준선은 G1 `hormuz_baseline.json`(f8e507a) 그대로 인용).
+
+---
+
+## [v4.2.0] — 2026-09-29 — Phase G2: 장르 프로필과 새 요소 파이프라인 (back_and_forth D-0081) — Fable review pass(D-0083)
 
 MINOR: 새 기능(장르 프로필·프리미티브 계약·요소 갤러리). 렌더 수치 변경 없음 — 지정학 불변(hormuz 25컷 md5 = `reports/phaseG1/hormuz_baseline.json`, 랫클리프 20/20).
 
