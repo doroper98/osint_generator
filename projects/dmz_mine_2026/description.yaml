@@ -1,0 +1,33 @@
+# 『DMZ 지뢰 폭발 — 서울·모스크바·키이우의 시선』 설명문 (v4.4.0). 챕터는 원고 장면 id.
+schema_version: 1
+headline: DMZ 지뢰 폭발 — 서울·모스크바·키이우의 시선
+summary: 2026년 9월 21일 서부전선 비무장지대에서 수색로를 내던 장병 3명이 두 차례 폭발로 다쳤습니다. 9월 28일 합참의 중간 발표와 9월 29일 추가 지뢰 발견, 국방장관의 국회 답변, 국내 정치권 반응, 평양의 무반응을 보도 날짜순으로 따라갑니다. 이어 러시아·우크라이나 매체가 이 사건을 어떻게 전했는지, 그리고 쿠르스크에서 지뢰를 제거한 북한 공병의 맥락을 살펴봅니다. 9월 29일까지의 보도를 기준으로 했습니다.
+chapters:
+- at: open
+  label: 9월 21일
+- at: TITLE
+  label: 타이틀
+- at: operation
+  label: 새 수색로
+- at: two_blasts
+  label: 두 차례 폭발
+- at: probe
+  label: 합동조사
+- at: jcs_interim
+  label: 합참 중간 발표
+- at: fourth_mine
+  label: 네 번째 지뢰
+- at: minister
+  label: 국방장관 답변
+- at: seoul
+  label: 서울의 공방
+- at: pyongyang
+  label: 평양의 침묵
+- at: moscow_media
+  label: 모스크바의 보도
+- at: kyiv
+  label: 키이우의 보도
+- at: kursk
+  label: 쿠르스크의 북한 공병
+- at: open_questions
+  label: 남은 질문

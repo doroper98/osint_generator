@@ -1,0 +1,38 @@
+# 『DMZ 지뢰 폭발 — 서울·모스크바·키이우의 시선』 엔딩 크레딧 (v4.4.0). 보도 = 인용 소스(auto: sources).
+schema_version: 1
+sections:
+  - title: 보도
+    column: 0
+    auto: sources
+  - title: 자료사진
+    column: 1
+    items:
+      - main: DMZ 인근 지뢰 경고 표지판 (2025.4)
+        license: U.S. Navy · Public Domain (Wikimedia Commons)
+        rights: [media.dmz_mine_sign]
+      - main: DMZ 철책 · 을지전망대 (2008)
+        license: Friar's Balsam · CC BY 2.0 (Wikimedia Commons)
+        rights: [media.dmz_fence]
+  - title: 기사 카드
+    column: 1
+    items:
+      - main: VZGLYAD · Life.ru · Gazeta.ru · Ukrinform · Al Jazeera · NK News
+        rights: [media.vz_0921, media.life_0927, media.gazeta_0928, media.ukrinform_0921, media.aj_0928, media.nknews_0928, media.aj_0924, media.aj_1213]
+  - title: 글꼴
+    column: 1
+    auto: fonts
+  - title: 지도
+    column: 1
+    auto: map
+  - title: 국기
+    column: 1
+    items:
+      - main: 국기
+        license: flag-icons · MIT
+        rights: [flags.flag_icons]
+  - title: 음성
+    column: 1
+    items:
+      - main: 내레이션
+        license: AI 음성 합성
+        rights: [narration.tts]
