@@ -242,6 +242,21 @@ class EndCardLayout(_Strict):
     notice_unverified: EndCardNotice
     bottom_margin: float = Field(ge=0)   # v4.5.0 D-0098 — 크레딧 마지막 기준선과 하단 구분선(H−44) 사이 최소 여백
     hold_black_after: bool = True        # v4.4.0 dmz_mine_2026(v4.7.0 병합) — 카드 뒤 검정 유지(지도가 다시 드러나지 않게)
+    # v4.7.0 D-0106 1-C — 넘치면 롤(속도 상한 넘으면 오류)
+    scroll_top: float
+    scroll_bottom: float
+    scroll_hold_in_sec: float = Field(ge=0)
+    scroll_hold_out_sec: float = Field(ge=0)
+    scroll_fade_px: float = Field(ge=0)
+    scroll_max_px_per_sec: float = Field(gt=0)
+
+    @model_validator(mode="after")
+    def _scroll_span(self) -> "EndCardLayout":
+        if self.dur_sec <= self.scroll_hold_in_sec + self.scroll_hold_out_sec:
+            raise ValueError("end_card.dur_sec 는 scroll_hold_in_sec + scroll_hold_out_sec 보다 길어야 한다(롤 시간)")
+        if self.scroll_bottom <= self.scroll_top + self.scroll_fade_px:
+            raise ValueError("end_card.scroll_bottom 은 scroll_top + scroll_fade_px 보다 아래여야 한다")
+        return self
 
 
 class CardLayout(_Strict):

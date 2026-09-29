@@ -265,8 +265,17 @@ layout_480p:               # 09 §2·§4, 08 §10 — 기준 해상도 854×480.
     notice_unverified: {size: 7.8, dy: 14, template: "확인되지 않은 보도·논평 인용 {n}건 — 출처는 위 목록"}   # size = license_size(가장 작은 글씨), dy = 날짜·안내 줄 기준선 아래
     # v4.5.0 back_and_forth D-0098 §2(b) — 크레딧 두 열의 마지막 기준선 ≤ 하단 구분선(H−44) − bottom_margin. 넘치면 EndCardOverflowError(조용한 넘침 금지, 15 P6)·checks offscreen [endcard-overflow]
     bottom_margin: 8
-    # v4.4.0 dmz_mine_2026(v4.7.0 병합) — 카드가 사라진 뒤 영상 끝까지 검정 유지(끝 전환에 지도가 다시 보이던 것). 넘침 시 롤(scroll_*)은 G5 넘침 오류와 충돌 — 결정 대기
+    # v4.4.0 dmz_mine_2026(v4.7.0 병합) — 카드가 사라진 뒤 영상 끝까지 검정 유지(끝 전환에 지도가 다시 보이던 것, R-0122 U15)
     hold_black_after: true
+    # v4.7.0 back_and_forth D-0106 1-C — 크레딧 마지막 기준선이 한도(H−44 − bottom_margin)를 넘으면 롤: 앞 hold_in 멈춤 → 목록 전체가 위로 → 뒤 hold_out 멈춤.
+    # 롤 거리 = 마지막 기준선 − (scroll_bottom − scroll_fade_px), 속도 = 거리 ÷ (dur_sec − hold_in − hold_out). 속도 > scroll_max_px_per_sec = EndCardOverflowError·[endcard-overflow] hard,
+    # 상한 안 롤 = checks warning [endcard-roll] + provenance end_card.roll_px. 60 px/s = 480p 14px 줄 초당 약 4줄(D-0106)
+    scroll_top: 140
+    scroll_bottom: 424
+    scroll_hold_in_sec: 2.5
+    scroll_hold_out_sec: 2.0
+    scroll_fade_px: 18
+    scroll_max_px_per_sec: 60
   card: {x_right_margin: 24, y: 70, min_w: 230, slide_px: 30, fade_sec: 0.45, big_size: 30, line_size: 13, tag_size: 10.5, src_size: 9.5}
   article_card: {w: 300, y: 68}
   # v3.2.0 18 §5 — X 게시물 카드(post). 캡처 이미지·X 로고 없이 자체 조판. 수치는 18 §5 명세 그대로

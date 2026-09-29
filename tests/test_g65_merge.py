@@ -21,6 +21,61 @@ class DirectionGrammarTest(unittest.TestCase):
                 self.assertIn(g, text, name)
 
 
+class EndCardRollTest(unittest.TestCase):
+    """D-0106 1-C — 넘치면 롤, 속도 상한 초과만 오류, 상한 안 롤은 warning·provenance 기록."""
+
+    @staticmethod
+    def _secs(n: int) -> list:
+        return [(f"절{i}", [("항목", "라이선스")] * 3) for i in range(n)]
+
+    def _draw(self, secs: list) -> None:
+        from types import SimpleNamespace as NS  # noqa: PLC0415
+        from unittest import mock  # noqa: PLC0415
+
+        import cairo  # noqa: PLC0415
+
+        from engine import fullcards  # noqa: PLC0415
+
+        place = [1] * len(secs)
+        R = NS(tb=NS(plan=NS(date="2026.09.29"), order=[]), credits=NS(sections=[NS(column=c) for c in place]),  # noqa: N806
+               assets=NS(rights={}, media={}), cache={})
+        ctx = cairo.Context(cairo.ImageSurface(cairo.FORMAT_ARGB32, 854, 480))
+        with mock.patch.object(fullcards, "credit_sections", return_value=secs):
+            for t in (1.0, 5.0, 10.9):
+                fullcards.draw_endcard(ctx, R, t, NS(t0=0.0, t1=load_rules().layout_480p.end_card.dur_sec), 1.0)
+
+    def test_roll_within_limit(self) -> None:
+        from engine import fullcards  # noqa: PLC0415
+
+        E = load_rules().layout_480p.end_card  # noqa: N806
+        secs = self._secs(5)                                   # 오른쪽 열 약 200px 넘침
+        place = [1] * len(secs)
+        dist, v = fullcards.endcard_roll(secs, place)
+        self.assertTrue(150 < dist < 300 and 0 < v <= E.scroll_max_px_per_sec, (dist, v))
+        self.assertEqual(fullcards.endcard_overflow(secs, place), [])
+        self.assertEqual(len(fullcards.endcard_roll_note(secs, place)), 1)
+        self._draw(secs)                                       # 오류 없이 그린다
+
+    def test_roll_over_limit_raises(self) -> None:
+        from engine import fullcards  # noqa: PLC0415
+
+        secs = self._secs(16)                                  # 약 1000px 넘침
+        place = [1] * len(secs)
+        self.assertGreater(fullcards.endcard_roll(secs, place)[0], 900)
+        self.assertEqual(len(fullcards.endcard_overflow(secs, place)), 1)
+        self.assertEqual(fullcards.endcard_roll_note(secs, place), [])
+        with self.assertRaises(fullcards.EndCardOverflowError):
+            self._draw(secs)
+
+    def test_no_overflow_no_roll(self) -> None:
+        from engine import fullcards  # noqa: PLC0415
+
+        secs = self._secs(1)
+        place = [1]
+        self.assertEqual(fullcards.endcard_roll(secs, place), (0.0, 0.0))
+        self.assertEqual(fullcards.endcard_roll_note(secs, place), [])
+
+
 if __name__ == "__main__":
     unittest.main()
 

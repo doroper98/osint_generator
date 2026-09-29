@@ -119,8 +119,8 @@ class ChecksTest(unittest.TestCase):
         self.assertEqual(set(checks.HARD) | set(checks.WARN),
                          {"overlap", "offscreen", "glyphs", "shots", "media_beats", "labels", "date", "subtitles", "rights", "forbidden",
                           "media_upscaled", "glyph_size", "stage_continuity", "genre_elements",
-                          "chart_honesty", "series_limit_3", "units_visible", "as_of_visible"})   # v4.1.0 D-0076 작업 5 — 무대 연속성(hard), v4.2.0 D-0081 작업 3 — 장르 요소(hard), v4.3.0 D-0084 작업 5 — 정직성 4(hard)
-        self.assertEqual(set(checks.WARN), {"shots", "media_beats", "media_upscaled"})   # D-0047 §0-4 숏 규칙 = warning, v3.6.0 업스케일 = warning
+                          "chart_honesty", "series_limit_3", "units_visible", "as_of_visible", "endcard_roll"})   # v4.7.0 D-0106 엔딩 카드 롤(warning), v4.1.0 D-0076 작업 5 — 무대 연속성(hard), v4.2.0 D-0081 작업 3 — 장르 요소(hard), v4.3.0 D-0084 작업 5 — 정직성 4(hard)
+        self.assertEqual(set(checks.WARN), {"shots", "media_beats", "media_upscaled", "endcard_roll"})   # D-0047 §0-4 숏 규칙 = warning, v3.6.0 업스케일 = warning
 
 
 if __name__ == "__main__":

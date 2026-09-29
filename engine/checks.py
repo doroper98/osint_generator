@@ -7,10 +7,11 @@ hard 실패가 하나라도 있으면 시각 검수 LLM 을 부르지 않고 연
 | overlap | hard | 사진·영상 상자가 카드·자막·날짜 예약 영역과 겹침, 카드·기사·게시물 카드가 날짜·자막 영역과 겹침(v3.6.0 NB23) (`media_plan.placement_warnings`). 뱃지·마커는 RESERVED 회피가 이미 처리 |
 | overlap(label) | hard | 마커 라벨이 카드 영역 때문에 흐려진(알파 < 0.5) 시간 ÷ 마커 표시 시간 > label_hidden_max_ratio `[label-hidden-by-card]`(v3.6.0 D-0068 — 설계된 hide(D36)를 연출 LLM 이 오류로 받게) |
 | glyph_size | hard | 프리뷰 컷에 그린 글자 크기(설계 px) < layout_480p.min_font_px(9.5), 역할(text role=)이 qa_checks.glyph_size_exempt 밖(v3.6.0 D-0069) |
-| offscreen | hard | 뱃지 상자(badge_box — 머리·이름표 포함, 17 §3 R×3.3 의 실측판)가 보이는 순간마다 화면 안(전면 카드·패널·암전 구간 제외). v4.5.0(D-0098): 엔딩 카드 크레딧 두 열의 마지막 기준선 ≤ 하단 구분선 − end_card.bottom_margin `[endcard-overflow]` |
+| offscreen | hard | 뱃지 상자(badge_box — 머리·이름표 포함, 17 §3 R×3.3 의 실측판)가 보이는 순간마다 화면 안(전면 카드·패널·암전 구간 제외). v4.5.0(D-0098): 엔딩 카드 크레딧 두 열의 마지막 기준선 ≤ 하단 구분선 − end_card.bottom_margin `[endcard-overflow]` — v4.7.0(D-0106) 넘치면 롤, 롤 속도 > scroll_max_px_per_sec 일 때만 |
 | glyphs | hard | 화면에 그릴 문자열(이벤트·자막·날짜·크레딧)의 모든 글자가 프로젝트 글꼴 중 하나에 있음(fontTools cmap) |
 | shots | warning | 숏 길이 ≥ shot_min_hold_sec, 장면당 이동 ≤ camera_moves_per_scene_max, 암전 ≤ 1/dip_max_per_sec (Phase 7 제안의 바탕), 시간축 되돌아가기 `[timeline_backtrack]`(v4.3.0, reason 있으면 통과) |
 | media_beats | warning | `media_plan.density_report` 경고(D38) |
+| endcard_roll | warning | v4.7.0(D-0106): 엔딩 카드 크레딧이 한도를 넘어 롤(속도 ≤ end_card.scroll_max_px_per_sec) `[endcard-roll]`. 상한 초과는 offscreen `[endcard-overflow]` hard |
 | media_upscaled | warning | 사진·영상·컷아웃 원본 픽셀 폭 < 출력 프로파일의 장치 폭(설계 폭 × k) — 추측 보간 금지, 알리기만(v3.6.0 D-0067 요건 3) |
 | labels | hard | 샘플 시각마다 도시 라벨 수 ≤ labels_per_frame_max |
 | date | hard | 문장 date 형식(YYYY / YYYY.MM / YYYY.MM.DD) — 날짜 배지는 이 값으로만 그린다 |
@@ -46,7 +47,7 @@ SAMPLE_SEC = 1.0          # 뱃지·라벨 샘플 간격
 SHADOW_PX = 7             # badge_box 가 원 둘레에 더하는 그림자 여백 — 이만큼 잘리는 것은 허용
 HARD = ("overlap", "offscreen", "glyphs", "glyph_size", "labels", "date", "subtitles", "rights", "forbidden", "stage_continuity",
         "genre_elements", "chart_honesty", "series_limit_3", "units_visible", "as_of_visible")
-WARN = ("shots", "media_beats", "media_upscaled")
+WARN = ("shots", "media_beats", "media_upscaled", "endcard_roll")   # endcard_roll v4.7.0 D-0106
 
 
 def missing_fonts() -> list[str]:
@@ -110,6 +111,15 @@ def check_offscreen(P) -> list[str]:  # noqa: ANN001, N803
         out.append(f"{what} {e.get('label') or e.get('pid') or e.get('flag')} t={t:.1f} 화면 밖 {over:.0f}px "
                    f"(상자 {[round(z) for z in b]})")
     return out
+
+
+def check_endcard_roll(P) -> list[str]:  # noqa: ANN001, N803
+    """엔딩 카드 롤(v4.7.0 back_and_forth D-0106 1-C) — 상한 안 롤은 warning(검수자가 보게). 같은 함수 `fullcards.endcard_roll`."""
+    from engine.fullcards import endcard_roll_note, project_credit_sections  # noqa: PLC0415
+
+    if P.R.credits is None or not any(c.kind == "end" for c in P.plan.cards):
+        return []
+    return endcard_roll_note(project_credit_sections(P.R), [s.column for s in P.R.credits.sections])
 
 
 def check_endcard_overflow(P) -> list[str]:  # noqa: ANN001, N803
@@ -336,6 +346,7 @@ def run_checks(P, times: list[float], provenance: dict, drawn: list[tuple[str, f
         "shots": check_shots(P),
         "media_beats": list(density_report(P.events, P.R.tb, P.plan.total)["warnings"]),
         "media_upscaled": check_media_upscaled(P),
+        "endcard_roll": check_endcard_roll(P),
         "labels": check_labels(P, times),
         "date": [f"{s.sid} 날짜 형식 {s.date!r}" for s in P.plan.sentences if not DATE_RE.match(s.date)],
         "subtitles": check_subtitles(P),
