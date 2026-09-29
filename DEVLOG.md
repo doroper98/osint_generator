@@ -3324,3 +3324,4 @@ last_review: 2026-06-06
 - 2026-09-29 dmz_mine_2026 v5: 사용자 피드백 — 임의 좌표 route 삭제(M8), 현장 개념도를 새 프리미티브 site_diagram(벡터·폭발 ①② 단어 앵커 애니메이션)으로, 1080p 최종. 사진 켄 번스 계단식 결함 발견(S8, 미수정). back_and_forth R-0112.
 - 2026-09-29 dmz_mine_2026 v5 전편 1080p: final.mp4 md5 fad4f90f6dafcd1aec00c77c54c75c33, 439.74초, 104.8MB, −14.39 LUFS·−1.61 dBTP. 전달 = 재인코딩 없는 1080p 6조각(out/share_1080p_final/).
 - 2026-09-29 엔딩 카드 롤·검정 유지(D87, R-0113) — dmz_mine_2026 크레딧 잘림·끝 전환 지도 노출 사용자 지적. pytest 1024 passed.
+- 2026-09-29 dmz_mine_2026 v7 1080p: final.mp4 md5 446264acfbc9e61dd012995ce905dd8a, 439.74초, −14.39 LUFS·−1.61 dBTP — 롤 크레딧·검정 마무리·마지막 장면 이벤트 엔딩 전 종료. 전달 6조각(out/share_1080p_v7/).
