@@ -240,6 +240,7 @@ class EndCardLayout(_Strict):
     item_size: float
     license_size: float
     notice_unverified: EndCardNotice
+    bottom_margin: float = Field(ge=0)   # v4.5.0 D-0098 — 크레딧 마지막 기준선과 하단 구분선(H−44) 사이 최소 여백
 
 
 class CardLayout(_Strict):

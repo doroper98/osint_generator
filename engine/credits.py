@@ -141,9 +141,22 @@ def series_items(series: Optional[list]) -> list[tuple[str, str]]:
     return [(r.source, f"{r.license_note} · {r.as_of_label()}") for r in series or []]
 
 
+def _unique(items: list[tuple[str, str]]) -> list[tuple[str, str]]:
+    """같은 (문구, 라이선스) 행은 한 번만(v4.5.0 back_and_forth D-0098 §4 — 같은 출처 라벨의 데이터 레코드 여럿이
+    같은 줄로 반복되던 것). 표시만 합친다: 권리 대조(`check_credits`)는 레코드·항목의 refs 를 그대로 전부 본다(합집합)."""
+    seen: set[tuple[str, str]] = set()
+    return [it for it in items if not (it in seen or seen.add(it))]
+
+
 def credit_sections(cr: Credits, rights: dict, media: Optional[dict] = None,
                     used: Optional[set[str]] = None, cited: Optional[list] = None,
                     series: Optional[list] = None) -> list[tuple[str, list[tuple[str, str]]]]:
+    return [(title, _unique(items)) for title, items in _credit_sections(cr, rights, media, used, cited, series)]
+
+
+def _credit_sections(cr: Credits, rights: dict, media: Optional[dict] = None,
+                     used: Optional[set[str]] = None, cited: Optional[list] = None,
+                     series: Optional[list] = None) -> list[tuple[str, list[tuple[str, str]]]]:
     view = registry_view(rights, media or {})
     out = []
     for sec in cr.sections:

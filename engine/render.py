@@ -152,10 +152,18 @@ def preview(P: Project, times: list[float], labels: list[str] | None = None) -> 
     paths = []
     drawn: list[tuple[str, float, str | None, str]] = []   # glyph_size(D-0069) — 컷마다 그린 글자
     miss: list[tuple[str, str, str, str]] = []   # v4.4.0 — 그린 글꼴에 없는 글자(checks glyphs)
+    from engine.fullcards import EndCardOverflowError  # noqa: PLC0415
+
+    kept: list[tuple[float, str]] = []
     for tt, lab in zip(times, labels or [f"t={t:.2f}" for t in times]):
         typography.GLYPH_LOG, typography.GLYPH_MISS = [], []
         try:
             s, _ = render_frame(P, min(P.n_frames - 1, int(tt * FPS)))
+        except EndCardOverflowError as e:
+            # 엔딩 카드 크레딧 넘침(D-0098) — 이 컷은 그리지 않고 checks offscreen [endcard-overflow] hard 로 연출 루프에 돌려준다.
+            # 전편 렌더(render_chunk)는 같은 오류로 멈춘다(조용한 넘침 금지, 15 P6)
+            log(f"preview {lab}: {e}")
+            continue
         finally:
             glog, typography.GLYPH_LOG = typography.GLYPH_LOG, None
             gmiss, typography.GLYPH_MISS = typography.GLYPH_MISS, None
@@ -164,7 +172,8 @@ def preview(P: Project, times: list[float], labels: list[str] | None = None) -> 
         p = out / f"p_{tt:07.2f}.png"
         s.write_to_png(str(p))
         paths.append(str(p))
-    names = labels or [f"t={t:.2f}" for t in times]
+        kept.append((tt, lab))
+    times, names = [t for t, _ in kept], [n for _, n in kept]
     grid([(Image.open(p), f"{i + 1:02d} {n}" + ("" if n.startswith("t=") else f"  t={t:.2f}"))
           for i, (p, n, t) in enumerate(zip(paths, names, times))],
          COLS, out / "sheet.jpg")

@@ -259,6 +259,8 @@ layout_480p:               # 09 §2·§4, 08 §10 — 기준 해상도 854×480.
     # v4.5.0 사용자 결정 D85(C9 개정, back_and_forth D-0096) — 검증 라벨은 본문(자막·패널·카드)에 그리지 않고 엔딩 카드 맨 마지막 줄 한 줄로만.
     # n = 영상에 들어간 문장 중 검증 라벨(script_schema.labels)이 붙은 문장 수. n = 0 이면 줄을 그리지 않는다. 문구는 사실만(`{n}` 자리만 코드가 채운다)
     notice_unverified: {size: 7.8, dy: 14, template: "확인되지 않은 보도·논평 인용 {n}건 — 출처는 위 목록"}   # size = license_size(가장 작은 글씨), dy = 날짜·안내 줄 기준선 아래
+    # v4.5.0 back_and_forth D-0098 §2(b) — 크레딧 두 열의 마지막 기준선 ≤ 하단 구분선(H−44) − bottom_margin. 넘치면 EndCardOverflowError(조용한 넘침 금지, 15 P6)·checks offscreen [endcard-overflow]
+    bottom_margin: 8
   card: {x_right_margin: 24, y: 70, min_w: 230, slide_px: 30, fade_sec: 0.45, big_size: 30, line_size: 13, tag_size: 10.5, src_size: 9.5}
   article_card: {w: 300, y: 68}
   # v3.2.0 18 §5 — X 게시물 카드(post). 캡처 이미지·X 로고 없이 자체 조판. 수치는 18 §5 명세 그대로
