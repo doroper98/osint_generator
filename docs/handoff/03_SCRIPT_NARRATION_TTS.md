@@ -97,6 +97,8 @@ Claude Code는 이 목록을 `docs/ANTIPATTERNS/LLM_ANTIPATTERNS.md`와 병합�
 - **추정은 추정으로.** 번들 차트처럼 출처가 없으면 "추정 · 출처 미기재" 태그(`08` §9).
 - **교차 검증.** 가능한 경우 외부 실측과 대조(v2: 번들 "18개월간 1%" ↔ DeepState 18.5%→19.3%).
 
+> **v4.5.0 변경(사용자 결정 D85, CLAUDE.md C9, back_and_forth D-0096)**: 미검증·논쟁 문장의 검증 라벨(`<미검증>`·`<논쟁>`)은 영상 본문(자막·내레이션·카드·패널)에 넣지 않는다. 원고도 라벨을 쓰지 않는다(시스템이 claims status 로 계산해 `script_labels.json` 에 기록). 화면 표기는 엔딩 카드 맨 마지막 줄 가장 작은 글씨 한 줄(`rules layout_480p.end_card.notice_unverified`)뿐이다. 귀속("~라고 밝혔습니다")·양측 병기 원칙은 그대로다.
+
 ---
 
 ## 4. 자막 텍스트 vs 발음 텍스트

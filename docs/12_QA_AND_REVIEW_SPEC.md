@@ -73,7 +73,13 @@ handoff 20 §5.3 표의 아홉 규칙을 네 검사(`chart_honesty`·`series_lim
 
 `glyphs` 는 프리뷰 컷을 그리며 **그 글자를 그린 글꼴**에 글리프가 있는지 본다(`typography.GLYPH_MISS`). 프로젝트 글꼴 중 하나에만 있는 글자는 두부 상자가 되므로 hard 다.
 프리미티브도 모듈 `AXIS` 로 정직성 적용 범위를 정한다(값 축이면 `chart_meta`). 시각 검수는 장르 영상에서 루브릭 추가 항목(handoff 20 §9, `rules:genre_prompt.rubric_extra`)을 항목마다 판정한다.
-자막 앞 검증 라벨은 의무 표기라 검수 지적 대상이 아니다(프롬프트에 규칙 값으로 명시).
+검증 라벨은 영상 본문에 그리지 않는다(v4.5.0, D85). 엔딩 카드 마지막 줄 안내 한 줄은 검수 지적 대상이 아니다(프롬프트에 규칙 값으로 명시).
+
+### 2.5 검증 라벨 본문 표기 금지 — v4.5.0
+
+| 검사 | 등급 | 키 | 근거 |
+|---|---|---|---|
+| 프리뷰 컷에 그린 글자 중 검증 라벨 문구(`[label-in-body]`) | hard(forbidden) | `rules:script_schema.labels` | 사용자 결정 D85, back_and_forth D-0096 |
 
 ## 3. 시각 검수 판정 형식
 
@@ -88,6 +94,7 @@ handoff 20 §5.3 표의 아홉 규칙을 네 검사(`chart_honesty`·`series_lim
 - 교차 확인은 **인용 대조**다. LLM은 claim 후보·인용·입장만 내고 판정은 코드(`orchestrator/source_verify.py`)가 한다(D50).
   인용 길이·독립 출처 수·재인용 표지는 `rules:verification`.
 - 문장 라벨은 claims status로 코드가 계산한다. 문구는 `rules:script_schema.labels`, 우선순위는 `rules:script_schema.label_strength_order`([07](07_VIDEO_STYLE_GUIDE.md) §6).
+- **라벨은 기록용이다(v4.5.0, 사용자 결정 D85, C9).** 자막·패널·카드에 그리지 않고, 엔딩 카드 맨 마지막 줄 가장 작은 글씨 한 줄(`rules:layout_480p.end_card.notice_unverified`)로만 건수를 적는다. 원고 라벨 ↔ claims 대조(`script.labels.check_project_labels`, 린트·렌더·mux)는 그대로다.
 - 미검증 정보를 제목·썸네일에 쓰지 않는다(G4-7). 미검증 주장을 인용하는 문장은 누가 말했는지 귀속한다(`rules:script_schema.attribution_markers`, 린트 경고).
 
 ## 5. 원고·음성 QA

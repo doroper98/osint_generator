@@ -51,7 +51,8 @@ v2 레지스트리의 값은 `rights_clear`·`restricted`·`unverified` 세 가�
 
 ## 6. 미검증 정보
 
-- 영상 안에서는 라벨로 분리한다. 문구는 `rules/video_rules.yaml script_schema.labels`(`<미검증>`·`<논쟁>`), 라벨은 claims status로 코드가 계산한다.
+- 검증 상태는 claims status로 코드가 계산해 **기록**한다(`intake/claims.json`, `script_labels.json`, provenance `script.labels`). 라벨 문구 표는 `rules/video_rules.yaml script_schema.labels`(`<미검증>`·`<논쟁>`)다.
+- **영상 본문(자막·내레이션·카드·패널)에는 라벨을 넣지 않는다**(v4.5.0, 사용자 결정 D85, CLAUDE.md C9). 표기는 엔딩 카드 맨 마지막 줄 가장 작은 글씨 한 줄뿐이다(`rules:layout_480p.end_card.notice_unverified` — 라벨 문장 수 n, n = 0 이면 없음). 본문에 라벨 글자가 그려지면 `checks forbidden [label-in-body]` hard.
 - 논쟁 사안은 양측을 같은 무게로 다룬다. 미검증 주장은 누가 말했는지 귀속한다(`attribution_markers`).
 - **제목·썸네일에는 미검증 정보 사용 금지** (GOAL G4-7).
 

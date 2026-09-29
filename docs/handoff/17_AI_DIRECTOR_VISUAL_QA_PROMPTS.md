@@ -116,6 +116,8 @@ Hard 실패가 있으면 LLM 검수를 부르지 않고 연출 LLM에 오류만 
 8. 같은 장면에 카메라가 두 번 이상 움직였나, 먼 거리를 컷 없이 이동했나
 9. 전체가 "프로 다큐처럼 보이는가"
 
+> **v4.5.0 변경(사용자 결정 D85, back_and_forth D-0096)**: 검증 라벨은 영상 본문에 그리지 않는다. 검수 프롬프트(`prompts/visual_qa.md`)는 "본문에 라벨 없음 · 엔딩 카드 마지막 줄 안내는 지적 대상 아님"을 말하고, 본문에 라벨 글자가 그려지면 결정적 검사 `checks forbidden [label-in-body]` 가 hard 로 잡는다(`engine/checks.py check_label_glyphs`).
+
 > **구현됨(v4.4.0, back_and_forth D-0090 작업 1)**: 지정학이 아닌 장르 영상은 handoff 20 §9 추가 7항목을 `rules genre_prompt.rubric_extra` 에서 받아 검수 출력 `rubric[]` 에 항목마다 판정한다(`engine.qa.QARubricItem`, 워커가 전부 요구). 자막 앞 검증 라벨은 지적 대상이 아니다. 위 원문은 그대로 둔다.
 
 ### 4.3 출력 스키마
