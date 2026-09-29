@@ -1,0 +1,1148 @@
+# direction.yaml — AI 연출 수정본(ReviseDirectionWorker, v3.1.0, 17 §5.5). changelog 는 prev/revision.v*.json.
+version: 1
+genre: null
+stage: null
+stage_config: {}
+places:
+  dmz_site:
+  - 126.8
+  - 37.995
+  cheongwadae:
+  - 126.975
+  - 37.587
+  yeouido:
+  - 126.914
+  - 37.532
+  pyongyang:
+  - 125.75
+  - 39.02
+  paju_2015:
+  - 126.73
+  - 37.955
+  moscow:
+  - 37.62
+  - 55.75
+  kyiv:
+  - 30.52
+  - 50.45
+  kursk:
+  - 36.19
+  - 51.73
+paths:
+  mdl:
+  - - 126.66
+    - 37.77
+  - - 126.69
+    - 37.86
+  - - 126.68
+    - 37.96
+  - - 126.78
+    - 38.0
+  - - 126.92
+    - 38.05
+  - - 127.08
+    - 38.18
+  - - 127.25
+    - 38.27
+  new_trail:
+  - - 126.795
+    - 37.94
+  - - 126.797
+    - 37.965
+  - - 126.8
+    - 37.99
+shots:
+- at: 0.0
+  mode: cut
+  dur: 0.0
+  camera:
+    lon: 127.1
+    lat: 37.75
+    place: null
+    date: null
+    lane: null
+    w: 6.4
+  under: false
+  scene: null
+  stage: null
+  reason: null
+- at:
+    scene_start: operation
+    'off': -1.0
+  mode: move
+  dur: 3.4
+  camera:
+    lon: 126.85
+    lat: 37.93
+    place: null
+    date: null
+    lane: null
+    w: 3.2
+  under: false
+  scene: null
+  stage: null
+  reason: null
+- at:
+    scene_start: seoul
+    'off': -0.8
+  mode: move
+  dur: 3.2
+  camera:
+    lon: 126.92
+    lat: 37.78
+    place: null
+    date: null
+    lane: null
+    w: 3.6
+  under: false
+  scene: null
+  stage: null
+  reason: null
+- at:
+    scene_start: pyongyang
+    'off': -0.8
+  mode: move
+  dur: 3.4
+  camera:
+    lon: 126.3
+    lat: 38.4
+    place: null
+    date: null
+    lane: null
+    w: 6.4
+  under: false
+  scene: null
+  stage: null
+  reason: null
+- at:
+    scene_start: moscow_media
+    'off': -0.55
+  mode: dip
+  dur: 3.0
+  camera:
+    lon: 34.0
+    lat: 52.6
+    place: null
+    date: null
+    lane: null
+    w: 24.0
+  under: false
+  scene: null
+  stage: null
+  reason: null
+- at:
+    sid: kursk_6
+    'off': -0.5
+  mode: dip
+  dur: 3.0
+  camera:
+    lon: 126.85
+    lat: 37.93
+    place: null
+    date: null
+    lane: null
+    w: 3.2
+  under: false
+  scene: null
+  stage: null
+  reason: null
+- at:
+    sid: open_questions_1
+    'off': 0.5
+  mode: move
+  dur: 9.0
+  camera:
+    lon: 127.1
+    lat: 37.75
+    place: null
+    date: null
+    lane: null
+    w: 6.4
+  under: false
+  scene: null
+  stage: null
+  reason: null
+events:
+- type: country
+  start:
+    sid: open_1
+    'off': 0.2
+  end:
+    scene_end: pyongyang
+  codes:
+  - KP
+  col: ru
+  a: 0.06
+- type: marker
+  start:
+    sid: open_0
+    'off': 0.3
+  end:
+    scene_end: open
+  at_place: dmz_site
+  label: 서부전선 비무장지대
+  sub: 9월 21일 오전 폭발
+  side: right
+  hl: true
+  icon: boom
+- type: boom
+  start:
+    sid: open_0
+    'off': 1.0
+  end:
+    sid: open_0
+    'off': 3.2
+  at_place: dmz_site
+- type: route
+  start:
+    sid: open_1
+    'off': 0.2
+  end:
+    sid: jcs_interim_1
+    'off': -0.1
+  pts:
+    path: mdl
+  grow: 1.6
+  col: muted
+  ship: false
+  dashed: true
+  label: 군사분계선
+- type: card
+  start:
+    sid: open_1
+    'off': 0.2
+  end:
+    sid: open_1
+    edge: end
+    'off': 0.3
+  tag: 폭발 지점
+  bigs:
+  - - 약 10m
+    - 군사분계선 남쪽
+  accent: gold
+- type: card
+  start:
+    sid: open_2
+    'off': 0.1
+  end:
+    sid: open_2
+    edge: end
+    'off': 0.3
+  tag: 9월 21일
+  bigs:
+  - - 3명
+    - 한국군 장병 부상
+  accent: ru
+- type: card
+  start:
+    sid: open_3
+    'off': 0.3
+  end:
+    card: title
+  tag: 합참 발표 · 9월 28일
+  lines:
+  - 북한군 지뢰일 가능성이 매우 높다
+  accent: gold
+- type: marker
+  start:
+    scene_start: operation
+  end:
+    sid: jcs_interim_1
+    'off': -0.1
+  at_place: dmz_site
+  label: 사고 지점
+  sub: 군사분계선 남쪽 약 10m
+  side: right
+  hl: true
+- type: card
+  start:
+    sid: operation_0
+    'off': 0.3
+  end:
+    sid: operation_0
+    edge: end
+    'off': 0.3
+  tag: 투입 인원
+  bigs:
+  - - 18명
+    - 간부 15명 · 병사 3명
+  accent: gold
+- type: route
+  start:
+    sid: operation_1
+    'off': 2.2
+  end:
+    scene_end: probe
+  pts:
+    path: new_trail
+  grow: 2.0
+  col: teal
+  ship: false
+  dashed: true
+  label: 새 수색로
+- type: boom
+  start:
+    sid: two_blasts_1
+    'off': 1.2
+  end:
+    sid: two_blasts_1
+    'off': 3.4
+  lon: 126.8
+  lat: 37.99
+- type: card
+  start:
+    sid: two_blasts_1
+    'off': 0.2
+  end:
+    sid: two_blasts_1
+    edge: end
+    'off': 0.4
+  tag: 첫 번째 폭발
+  lines:
+  - 앞장선 공병 중사 부상
+  accent: ru
+- type: boom
+  start:
+    sid: two_blasts_2
+    'off': 2.2
+  end:
+    sid: two_blasts_2
+    'off': 4.2
+  lon: 126.801
+  lat: 37.988
+- type: card
+  start:
+    sid: two_blasts_2
+    'off': 0.2
+  end:
+    sid: two_blasts_2
+    edge: end
+    'off': 0.3
+  tag: 두 번째 폭발
+  lines:
+  - 안전조치에 나선 수색대대장 부상
+  accent: ru
+- type: card
+  start:
+    sid: two_blasts_3
+    'off': 0.2
+  end:
+    sid: two_blasts_3
+    edge: end
+    'off': 0.3
+  tag: 한국일보 보도
+  lines:
+  - 대대장 발목 절단 중상
+  accent: ru
+- type: photo
+  start:
+    sid: two_blasts_4
+    'off': 0.9
+  end:
+    sid: two_blasts_4
+    'off':
+    - 0.9
+    - 5.5
+  mid: dmz_mine_sign
+  place: map_left
+- type: card
+  start:
+    sid: two_blasts_5
+    'off': 0.4
+  end:
+    sid: two_blasts_5
+    edge: end
+    'off': 0.3
+  tag: 강신철 국방장관 · 9월 22일
+  lines:
+  - 북한 것인지 지금은 알 수 없다
+  accent: gold
+- type: card
+  start:
+    sid: two_blasts_6
+    'off': 0.1
+  end:
+    scene_end: two_blasts
+    'off': 0.4
+  tag: 강신철 국방장관 · 9월 22일
+  lines:
+  - 확실한 증거가 필요하다
+  accent: gold
+- type: card
+  start:
+    sid: probe_0
+    'off': 0.3
+  end:
+    sid: probe_0
+    edge: end
+    'off': 0.3
+  tag: 9월 27일
+  lines:
+  - 군 · 유엔사 합동 현장조사 착수
+  accent: teal
+- type: card
+  start:
+    sid: probe_1
+    'off': -0.15
+  end:
+    sid: probe_1
+    edge: end
+    'off': 0.3
+  tag: 합동 현장조사
+  bigs:
+  - - 약 40명
+    - 사고 지점 주변 수색
+  accent: teal
+  place: card_right
+- type: card
+  start:
+    sid: probe_2
+    'off': 0.3
+  end:
+    sid: probe_2
+    edge: end
+    'off': 0.3
+  tag: 국과수 감정 · 다친 장병의 장구류
+  lines:
+  - TNT 성분
+  - 갈색 이물질
+  accent: gold
+- type: card
+  start:
+    sid: probe_3
+    'off': 0.2
+  end:
+    scene_end: probe
+    'off': 0.5
+  tag: 국과수 감정 · 다친 장병의 장구류
+  lines:
+  - 철제 파편은 확인되지 않음
+  accent: muted
+- type: article
+  start:
+    sid: jcs_interim_0
+    'off': 0.5
+  end:
+    sid: jcs_interim_0
+    edge: end
+    'off': 0.3
+  mid: aj_0928
+- type: panel
+  start:
+    sid: jcs_interim_1
+    'off': -0.1
+  end:
+    scene_end: jcs_interim
+    'off': 0.3
+  kind: versus
+  data:
+    title: 합참 중간 조사 결과 · 9월 28일
+    sides:
+    - title: 합참이 든 근거
+      src: 권대원 합참 차장 발표
+      items:
+      - text: 사고 지역에 아군 지뢰 매설 기록 없음
+        t:
+          sid: jcs_interim_1
+          'off': 0.4
+      - text: 2025년 9월, 인근에서 북한군 매설 흔적
+        t:
+          sid: jcs_interim_2
+          'off': 0.4
+      - text: 첫 폭발 지점 약 1m 옆 미폭발 갈색 지뢰 — 장병 진술
+        t:
+          sid: jcs_interim_3
+          'off': 0.4
+      - text: 지뢰는 모두 3발로 추정
+        t:
+          sid: jcs_interim_4
+          'off': 0.3
+    - title: 결론과 남은 것
+      src: 권대원 합참 차장 발표
+      items:
+      - text: 북한군 지뢰일 가능성 매우 높다
+        t:
+          sid: jcs_interim_5
+          'off': 0.3
+      - text: 최종 판정 시 모든 책임은 북한 · 상응 조치
+        t:
+          sid: jcs_interim_6
+          'off': 0.4
+      - text: 누가, 언제 묻었는지는 미규명
+        t:
+          sid: jcs_interim_7
+          'off': 0.4
+- type: marker
+  start:
+    scene_start: fourth_mine
+  end:
+    scene_end: fourth_mine
+  at_place: dmz_site
+  label: 사고 지점
+  sub: 군사분계선 남쪽 약 10m
+  side: right
+  hl: true
+- type: route
+  start:
+    scene_start: fourth_mine
+  end:
+    scene_end: fourth_mine
+  pts:
+    path: mdl
+  grow: 1.2
+  col: muted
+  ship: false
+  dashed: true
+  label: 군사분계선
+- type: card
+  start:
+    sid: fourth_mine_0
+    'off': 0.5
+  end:
+    sid: fourth_mine_0
+    edge: end
+    'off': 0.3
+  tag: 9월 29일 · 합동조사
+  lines:
+  - 북한군 수지반보병지뢰 1발 추가 발견
+  accent: ru
+- type: card
+  start:
+    sid: fourth_mine_1
+    'off': 0.2
+  end:
+    sid: fourth_mine_1
+    edge: end
+    'off': 0.3
+  tag: 합참 평가
+  lines:
+  - 장병들이 봤다고 진술한 지뢰와는 다른 것
+  accent: gold
+- type: card
+  start:
+    sid: fourth_mine_3
+    'off': 0.2
+  end:
+    scene_end: fourth_mine
+    'off': 0.4
+  tag: 권대원 합참 차장 · 국회에서 전한 유엔사 판단
+  lines:
+  - 네 번째 지뢰 · 두 폭발 구덩이
+  - 군사분계선 남쪽 — 유엔사 인정
+  accent: teal
+- type: panel
+  start:
+    scene_start: minister
+    'off': -0.2
+  end:
+    sid: minister_5
+    edge: end
+    'off': 0.6
+  kind: versus
+  data:
+    title: 국회 국방위원회 · 9월 29일
+    sides:
+    - title: 강신철 국방장관
+      src: 국회 국방위 답변
+      items:
+      - text: 북한군 지뢰가 확실하다
+        t:
+          sid: minister_0
+          'off': 0.4
+      - text: 떠내려온 지뢰는 아닌 것으로 보인다
+        t:
+          sid: minister_1
+          'off': 0.3
+      - text: 명백한 정전협정 위반
+        t:
+          sid: minister_2
+          'off': 0.4
+      - text: 상응 조치는 단계적으로 · 작전 사항이라 비공개
+        t:
+          sid: minister_3
+          'off': 0.4
+    - title: 진성준 국방위원장 (민주당)
+      src: 국회 국방위
+      items:
+      - text: 방어 목적의 시설·무기는 정전협정 위반 아니다
+        t:
+          sid: minister_5
+          'off': 0.3
+- type: card
+  start:
+    sid: minister_6
+    'off': 0.3
+  end:
+    scene_end: minister
+    'off': 0.2
+  tag: 강신철 국방장관 답변
+  lines:
+  - 사고 당시 국가안전보장회의는 열리지 않았다
+  accent: gold
+- type: marker
+  start:
+    scene_start: seoul
+    'off': 0.2
+  end:
+    scene_end: seoul
+  at_place: dmz_site
+  label: 사고 지점
+  sub: 서부전선 비무장지대
+  side: right
+  hl: false
+- type: card
+  start:
+    sid: seoul_1
+    'off': 0.3
+  end:
+    sid: seoul_1
+    edge: end
+    'off': 0.3
+  tag: 국민의힘
+  lines:
+  - 조사 지연, 대북 정책 둘러싼 정치적 압력과 관련 있나
+  accent: muted
+- type: marker
+  start:
+    sid: seoul_2
+    'off': 0.2
+  end:
+    scene_end: seoul
+  at_place: cheongwadae
+  label: 청와대
+  sub: ''
+  side: left
+  hl: true
+- type: card
+  start:
+    sid: seoul_2
+    'off': 0.4
+  end:
+    sid: seoul_2
+    edge: end
+    'off': 0.3
+  tag: 청와대
+  lines:
+  - 현장조사 일정은 합참·유엔사의 군사적 판단
+  - 대통령 유엔 연설과 관련 없다
+  accent: gold
+- type: badge
+  start:
+    sid: seoul_3
+    'off': 0.2
+  end:
+    sid: seoul_3
+    edge: end
+    'off': 0.4
+  place: map_upper_left
+  kind: flag
+  flag: kr
+  R: 20
+  label: 이재명
+  role: 대한민국 대통령
+  accent: gold
+- type: card
+  start:
+    sid: seoul_3
+    'off': 0.4
+  end:
+    sid: seoul_3
+    edge: end
+    'off': 0.3
+  tag: 이재명 대통령
+  lines:
+  - 신속하고 철저한 조사 주문
+  accent: gold
+- type: card
+  start:
+    sid: seoul_4
+    'off': 0.3
+  end:
+    sid: seoul_4
+    edge: end
+    'off': 0.3
+  tag: 민주당
+  lines:
+  - 북한 지뢰로 최종 판명되면
+  - 북한이 사과하고 재발 방지 약속해야
+  accent: teal
+- type: card
+  start:
+    sid: seoul_5
+    'off': 0.3
+  end:
+    sid: seoul_5
+    edge: end
+    'off': 0.3
+  tag: 국민의힘
+  lines:
+  - 대북 확성기 곧바로 다시 설치하라
+  accent: muted
+- type: card
+  start:
+    sid: seoul_6
+    'off': 0.3
+  end:
+    scene_end: seoul
+    'off': 0.3
+  tag: 국방부
+  lines:
+  - 확성기 재개, 최종 판단과 함께 검토
+  accent: gold
+- type: marker
+  start:
+    sid: pyongyang_0
+    'off': 2.8
+  end:
+    scene_end: pyongyang
+  at_place: pyongyang
+  label: 평양
+  sub: 9월 29일까지 반응 없음
+  side: right
+  hl: true
+- type: route
+  start:
+    sid: pyongyang_1
+    'off': 0.3
+  end:
+    scene_end: pyongyang
+  pts:
+    path: mdl
+  grow: 1.2
+  col: muted
+  ship: false
+  dashed: true
+  label: 군사분계선
+- type: card
+  start:
+    sid: pyongyang_1
+    'off': 0.4
+  end:
+    sid: pyongyang_1
+    edge: end
+    'off': 0.3
+  tag: 군 당국 · 북한군이 군사분계선을 넘은 횟수
+  bigs:
+  - - 20여 차례
+    - 최근 한 달
+  accent: ru
+- type: card
+  start:
+    sid: pyongyang_2
+    'off': 0.2
+  end:
+    sid: pyongyang_2
+    edge: end
+    'off': 0.3
+  tag: 세계일보 보도 · 북한군이 군사분계선을 넘은 횟수
+  bigs:
+  - - 20여 차례
+    - 최근 한 달
+  - - 17차례
+    - 2025년 한 해
+  accent: ru
+- type: card
+  start:
+    sid: pyongyang_3
+    'off': 0.4
+  end:
+    sid: pyongyang_3
+    edge: end
+    'off': 0.3
+  tag: 세계일보 보도
+  lines:
+  - 2024년 4월부터 비무장지대 안 요새화 작업
+  accent: ru
+- type: marker
+  start:
+    sid: pyongyang_4
+    'off': 0.6
+  end:
+    scene_end: pyongyang
+  at_place: paju_2015
+  label: 파주 비무장지대
+  sub: 2015년 8월 4일 지뢰 폭발
+  side: left
+  hl: true
+  icon: boom
+- type: card
+  start:
+    sid: pyongyang_5
+    'off': 0.2
+  end:
+    scene_end: pyongyang
+    'off': 0.3
+  tag: 2015년 8월 · 코리아헤럴드
+  lines:
+  - 하사 2명 다리 잃어
+  - '합동조사단: 북한 목함지뢰가 원인'
+  accent: muted
+- type: country
+  start:
+    scene_start: moscow_media
+  end:
+    sid: kursk_6
+    'off': -0.1
+  codes:
+  - RU
+  col: ru
+  a: 0.05
+- type: marker
+  start:
+    sid: moscow_media_0
+    'off': 0.2
+  end:
+    sid: moscow_media_2
+    'off': -0.4
+  at_place: moscow
+  label: 모스크바
+  sub: ''
+  side: right
+  hl: true
+- type: article
+  start:
+    sid: moscow_media_1
+    'off': 0.8
+  end:
+    sid: moscow_media_1
+    'off':
+    - 0.8
+    - 6.0
+  mid: vz_0921
+- type: panel
+  start:
+    sid: moscow_media_2
+    'off': -0.3
+  end:
+    scene_end: moscow_media
+    'off': 0.4
+  kind: timeline
+  data:
+    title: 러시아 매체의 보도
+    subtitle: 2026년 9월
+    start: '2026-09-20'
+    end: '2026-09-29'
+    events:
+    - date: '2026-09-21'
+      label: 브즈글랴드 · 중상 2명, 경상 1명
+      col: muted
+      side: -1
+      t:
+        sid: moscow_media_2
+        'off': -0.1
+    - date: '2026-09-27'
+      label: 라이프 등 · 합동조사 착수
+      col: teal
+      side: 1
+      t:
+        sid: moscow_media_2
+        'off': 0.5
+    - date: '2026-09-28'
+      label: 가제타루 · 합참 중간 발표와 근거
+      col: gold
+      side: -2
+      t:
+        sid: moscow_media_3
+        'off': 0.5
+- type: marker
+  start:
+    sid: kyiv_0
+    'off': 0.2
+  end:
+    sid: kursk_6
+    'off': -0.1
+  at_place: moscow
+  label: 모스크바
+  sub: ''
+  side: right
+  hl: true
+- type: marker
+  start:
+    sid: kyiv_0
+    'off': 0.2
+  end:
+    sid: kursk_6
+    'off': -0.1
+  at_place: kyiv
+  label: 키이우
+  sub: ''
+  side: left
+  hl: true
+- type: card
+  start:
+    sid: kyiv_1
+    'off': 0.4
+  end:
+    sid: kyiv_1
+    edge: end
+    'off': 0.3
+  tag: 우크린폼 · AP 인용 · 9월 21일
+  lines:
+  - 폭발 원인은 아직 밝혀지지 않았다
+  accent: teal
+- type: badge
+  start:
+    sid: kyiv_2
+    'off': 0.2
+  end:
+    sid: kyiv_3
+    edge: end
+    'off': 0.3
+  lon: 33.2
+  lat: 49.6
+  kind: flag
+  flag: ua
+  R: 20
+  label: 젤렌스키
+  role: 우크라이나 대통령
+  accent: teal
+- type: article
+  start:
+    sid: kyiv_2
+    'off': 1.5
+  end:
+    sid: kyiv_2
+    'off':
+    - 1.5
+    - 5.3
+  mid: aj_0924
+- type: card
+  start:
+    sid: kyiv_3
+    'off': 0.2
+  end:
+    sid: kyiv_3
+    edge: end
+    'off': 0.3
+  tag: 젤렌스키 대통령 · 유엔총회 연설
+  lines:
+  - 김정은이 병사들을 화폐처럼 쓰고 대가를 받는다
+  accent: teal
+- type: card
+  start:
+    sid: kyiv_4
+    'off': 0.3
+  end:
+    scene_end: kyiv
+    'off': 0.4
+  tag: 한국 외교부
+  lines:
+  - 발언은 부인하지 않음
+  - 이송 세부 사항은 확인하지 않음
+  accent: gold
+- type: card
+  start:
+    sid: kursk_1
+    'off': 0.5
+  end:
+    sid: kursk_1
+    edge: end
+    'off': 0.3
+  tag: 쇼이구 러시아 안보회의 서기 · 2025년 6월
+  bigs:
+  - - 1,000명
+    - 북한 공병
+  - - 5,000명
+    - 건설 인력
+  accent: ru
+- type: marker
+  start:
+    sid: kursk_1
+    'off': 3.5
+  end:
+    sid: kursk_6
+    'off': -0.1
+  at_place: kursk
+  label: 쿠르스크주
+  sub: 북한 공병 파견지
+  side: right
+  hl: true
+- type: badge
+  start:
+    sid: kursk_2
+    'off': 0.3
+  end:
+    sid: kursk_6
+    'off': -0.1
+  lon: 34.3
+  lat: 52.9
+  kind: flag
+  flag: kp
+  R: 17
+  label: 북한군 공병
+  accent: ru
+- type: badge
+  start:
+    sid: kursk_2
+    'off': 1.2
+  end:
+    sid: kursk_6
+    'off': -0.1
+  lon: 38.3
+  lat: 52.9
+  kind: flag
+  flag: ru
+  R: 17
+  label: 러시아 공병
+  accent: muted
+- type: card
+  start:
+    sid: kursk_3
+    'off': 0.4
+  end:
+    sid: kursk_3
+    edge: end
+    'off': 0.3
+  tag: 힌시테인 쿠르스크 주지사
+  bigs:
+  - - 약 4만2,400헥타르
+    - 지뢰 제거로 정리한 면적
+  accent: ru
+- type: card
+  start:
+    sid: kursk_4
+    'off': 0.3
+  end:
+    sid: kursk_4
+    edge: end
+    'off': 0.3
+  tag: 알자지라 보도
+  bigs:
+  - - 120일
+    - 파견 기간
+  - - 9명
+    - 숨진 인원
+  accent: ru
+- type: article
+  start:
+    sid: kursk_5
+    'off': 0.3
+  end:
+    sid: kursk_5
+    'off':
+    - 0.3
+    - 4.9
+  mid: aj_1213
+- type: marker
+  start:
+    sid: kursk_6
+    'off': 0.3
+  end:
+    total: true
+  at_place: dmz_site
+  label: 사고 지점
+  sub: 서부전선 비무장지대
+  side: right
+  hl: true
+- type: card
+  start:
+    sid: kursk_6
+    'off': 0.5
+  end:
+    scene_end: kursk
+    'off': 0.4
+  tag: 쿠르스크 경험과 이번 지뢰
+  lines:
+  - 이어져 있다는 근거는 나오지 않았다
+  accent: muted
+- type: route
+  start:
+    scene_start: open_questions
+    'off': 0.2
+  end:
+    total: true
+  pts:
+    path: mdl
+  grow: 1.4
+  col: muted
+  ship: false
+  dashed: true
+  label: 군사분계선
+- type: card
+  start:
+    sid: open_questions_0
+    'off': 0.3
+  end:
+    sid: open_questions_0
+    edge: end
+    'off': 0.3
+  tag: 아직 규명되지 않은 것
+  lines:
+  - 지뢰를 누가, 언제 묻었나
+  accent: gold
+- type: card
+  start:
+    sid: open_questions_1
+    'off': 0.3
+  end:
+    sid: open_questions_1
+    edge: end
+    'off': 0.3
+  tag: 아직 나오지 않은 판정
+  lines:
+  - 장병들이 처음 봤다는 지뢰 — 유엔사 판정
+  accent: gold
+- type: card
+  start:
+    sid: open_questions_2
+    'off': 0.3
+  end:
+    card: end
+  tag: 아직 발표되지 않은 것
+  lines:
+  - 최종 판정
+  - 상응 조치의 내용
+  accent: gold
+sound:
+  bgm: null
+  intensity:
+  - - 0.0
+    - 0.55
+  - - scene_start: operation
+    - 0.5
+  - - scene_start: two_blasts
+    - 0.62
+  - - scene_start: probe
+    - 0.52
+  - - scene_start: jcs_interim
+    - 0.58
+  - - scene_start: fourth_mine
+    - 0.6
+  - - scene_start: minister
+    - 0.58
+  - - scene_start: seoul
+    - 0.55
+  - - scene_start: pyongyang
+    - 0.62
+  - - scene_start: moscow_media
+    - 0.56
+  - - scene_start: kyiv
+    - 0.58
+  - - scene_start: kursk
+    - 0.6
+  - - scene_start: open_questions
+    - 0.52
+  - - total: true
+      'off':
+      - 0.5
+      - -7.0
+    - 0.5
+  - - total: true
+      'off': 0.5
+    - 0.0
+  cues:
+  - kind: boom
+    t:
+      sid: open_0
+      'off': 1.0
+    v: 0.4
+  - kind: boom
+    t:
+      sid: two_blasts_1
+      'off': 1.2
+    v: 0.45
+  - kind: boom
+    t:
+      sid: two_blasts_2
+      'off': 2.2
+    v: 0.5
