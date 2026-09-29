@@ -105,7 +105,10 @@ def loudnorm_two_pass(mix_f32: Path, total: float) -> tuple[str, dict]:
     p2 = _loudnorm_json(ins, af)
     rec = {"pass1": {k: float(p1[k]) for k in ("input_i", "input_tp", "input_lra", "input_thresh", "target_offset")},
            "pass2": {"output_i": float(p2["output_i"]), "output_tp": float(p2["output_tp"]),
-                     "normalization_type": p2["normalization_type"]}}
+                     "normalization_type": p2["normalization_type"]},
+           "post_limiter_dbfs": AU.post_limiter_dbfs}
+    # RENDER-AP-004 — loudnorm 뒤 샘플 피크 리미터(AAC 인코딩이 트루 피크를 올리는 만큼 미리 낮춘다). 값은 rules audio.post_limiter_dbfs
+    af += f",alimiter=limit={10 ** (AU.post_limiter_dbfs / 20):.4f}:level=false:attack=1:release=50"
     return af, rec
 
 

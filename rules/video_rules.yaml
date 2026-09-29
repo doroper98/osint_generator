@@ -582,6 +582,9 @@ audio:                     # 10
   narration_peak: 0.8
   master_peak: 0.97
   loudnorm: {I: -14, TP: -1.5, LRA: 11}
+  # RENDER-AP-004 — loudnorm(dynamic)이 TP −1.5 를 맞춰도 AAC 인코딩이 트루 피크를 올린다(ElevenLabs 내레이션 실측 −1.50 → −1.09,
+  # 허용 여유 0.15 초과). loudnorm 뒤 샘플 피크 리미터를 이 값(dBFS)에 둔다. 실측(dmz_mine_2026): 리미터 뒤 AAC −1.7 dBTP, I −14.2 LUFS.
+  post_limiter_dbfs: -2.0
   sfx_policy: events_and_scene_starts_only
   # v3.4.0 D-0060 §0 — audio/mix.py 모듈 상수 이관(값 그대로 = 사용자 합격 v3 mix, md5 c1314fb9 로 증명)
   sample_rate: 44100        # 코덱 상수(audio.mix.SR·engine.mux.SR 와 테스트로 일치 확인)

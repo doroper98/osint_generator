@@ -830,6 +830,7 @@ class AudioRules(_Strict):
     narration_peak: float
     master_peak: float
     loudnorm: Loudnorm
+    post_limiter_dbfs: float = Field(lt=0)   # 2패스 loudnorm 뒤 샘플 피크 리미터(AAC 트루 피크 초과 방지, RENDER-AP-004)
     sfx_policy: str
     sample_rate: int              # v3.4.0 D-0060 §0 — 코덱 상수 확인용(코드 SR 과 테스트로 일치)
     seed: int

@@ -83,3 +83,10 @@ last_review: 2026-05-23
 - **좋은 예**: 기본값은 렌더 계약(v3 그대로), 검사는 명시 인자(`with_sub=True`). 렌더 공용 함수를 바꾸면 golden_compare 를 돌린다.
 - **자동 조치**: `tests/test_checks.py::test_marker_reserved_box_label_only`.
 - **발견 버전**: v3.1.0 (Phase 6.9 작업 10 골든 대조) · **상태**: active
+
+## RENDER-AP-004 — loudnorm 이 TP 를 맞춰도 AAC 인코딩이 트루 피크를 올림
+- **증상**: dmz_mine_2026 을 ElevenLabs 내레이션으로 바꾸자 mux 오디오 QA 가 hard 실패. 2패스 loudnorm(dynamic) 출력 TP −1.50 dBTP → final.mp4(AAC 192k) −1.09 dBTP, 허용(−1.5 + 여유 0.15) 초과.
+- **원인**: loudnorm 은 필터 출력의 트루 피크만 맞춘다. 날카로운 순간 피크가 많은 음성은 AAC 인코딩에서 0.4dB 가까이 더 오른다(edge-tts 는 0.03~0.15 로 여유 안이었다).
+- **좋은 예**: loudnorm 뒤 샘플 피크 리미터(`rules audio.post_limiter_dbfs`, −2.0 dBFS)를 둔다. 실측: 같은 믹스 AAC −1.62 dBTP, I −14.26 LUFS(목표 −14 ± 1).
+- **자동 조치**: `audio/qa.py loudnorm_two_pass` 필터 끝 alimiter + 기록 `post_limiter_dbfs`, `tests/test_audio_qa.py::test_two_pass_record`. QA 여유(tp_codec_margin_db)는 넓히지 않았다.
+- **발견 버전**: v4.4.0 (dmz_mine_2026 v2) · **상태**: active
