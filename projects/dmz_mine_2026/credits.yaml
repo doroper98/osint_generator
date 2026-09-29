@@ -4,6 +4,9 @@ sections:
   - title: 보도
     column: 0
     auto: sources
+  - title: 인물 사진
+    column: 1
+    auto: people
   - title: 자료사진
     column: 1
     items:
