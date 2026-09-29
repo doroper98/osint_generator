@@ -932,8 +932,34 @@ class StageRules(_Strict):
     continuity: StageContinuityRules
 
 
+class StatementDiffLayout(_Strict):
+    """v4.2.0 D-0081 작업 5 — statement_diff(성명서 문구 비교) 레이아웃 토큰."""
+
+    w: float = Field(gt=0)
+    pad_x: float
+    pad_top: float
+    pad_bottom: float
+    label_gap: float
+    line_h: float
+    row_gap: float
+    src_gap: float
+    tag_size: float
+    tag_spacing: float
+    label_size: float
+    text_size: float
+    radius: float
+    bar_w: float
+    bar_inset: float
+    strike_w: float
+    strike_rise: float
+    fade_sec: float = Field(ge=0.4, le=0.6)   # 20 §4.2 등장 0.4~0.6초
+    slide_px: float
+
+
 class PrimitivesRules(_Strict):
     """v4.2.0 D-0081 작업 4 — 프리미티브별 레이아웃 토큰(engine.style.PRIMITIVES). 요소가 등록될 때 필드를 더한다."""
+
+    statement_diff: Optional[StatementDiffLayout] = None
 
 
 class VideoRules(_Strict):

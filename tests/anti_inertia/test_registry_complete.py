@@ -35,10 +35,8 @@ class RegistryCompleteTest(unittest.TestCase):
         for key, entry in registry.REGISTRY.items():  # type: ignore[attr-defined]
             self.assertIsNotNone(entry.model, key)
             self.assertTrue(callable(entry.render), key)
-            if key.startswith("primitive:"):
-                continue   # 예제 = 모듈 PREVIEW_FIXTURE(test_primitive_contract)
-            if key == "primitive" and not rules.registries.primitives:
-                continue   # 등록 프리미티브가 없으면 운반 타입 예제가 가리킬 id 가 없다
+            if key == "primitive" or key.startswith("primitive:"):
+                continue   # 예제 = 모듈 PREVIEW_FIXTURE(test_primitive_contract · test_fixtures_validate)
             fixture = REPO / "tests" / "fixtures" / "preview" / f"{key.replace(':', '_')}.yaml"
             self.assertTrue(fixture.exists(), f"프리뷰 예제 없음: {fixture}")
 
@@ -55,7 +53,13 @@ class RegistryCompleteTest(unittest.TestCase):
     def test_fixtures_validate(self) -> None:
         registry = importlib.import_module("engine.registry")
         for key in registry.REGISTRY:  # type: ignore[attr-defined]
-            if key.startswith("primitive:") or (key == "primitive" and not load_rules().registries.primitives):
+            if key == "primitive" or key.startswith("primitive:"):   # 운반 타입·id 항목 모두 모듈 PREVIEW_FIXTURE 로(중복 예제 파일 없음)
+                from engine.primitives import module  # noqa: PLC0415
+
+                pids = load_rules().registries.primitives if key == "primitive" else [key.split(":", 1)[1]]
+                self.assertTrue(pids, "운반 타입 primitive 가 등록됐는데 프리미티브가 하나도 없다")
+                for pid in pids:
+                    self.assertEqual(len(registry.validate_events([module(pid).PREVIEW_FIXTURE])), 1, pid)  # type: ignore[attr-defined]
                 continue
             doc = yaml.safe_load((REPO / "tests" / "fixtures" / "preview" / f"{key.replace(':', '_')}.yaml").read_text(encoding="utf-8"))
             out = registry.validate_events([doc["event"]])  # type: ignore[attr-defined]

@@ -1,0 +1,28 @@
+{
+ "schema_version": 1,
+ "primitive": "statement_diff",
+ "genre": "macro_monetary",
+ "project": "hormuz_korea",
+ "frames": [
+  {
+   "cut": "fixture-appearing",
+   "t": 0.25,
+   "png": "statement_diff_sketch_1.png",
+   "glyphs": 20
+  },
+  {
+   "cut": "fixture",
+   "t": 7.5,
+   "png": "statement_diff_sketch_2.png",
+   "glyphs": 20
+  },
+  {
+   "cut": "statement_diff_long",
+   "t": 7.5,
+   "png": "statement_diff_sketch_3.png",
+   "glyphs": 39
+  }
+ ],
+ "glyph_size": [],
+ "min_font_drawn": 9.5
+}

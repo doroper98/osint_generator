@@ -1,0 +1,14 @@
+# statement_diff 스케치·줄바꿈 예제 (v4.2.0, back_and_forth D-0081 작업 5). 문구는 예시다(실제 성명 아님).
+schema_version: 1
+event:
+  type: primitive
+  id: statement_diff
+  t0: 0.0
+  t1: 8.0
+  tag: 성명서 문구 비교 · 예시(긴 문구)
+  before_label: 이전 성명
+  after_label: 이번 성명
+  before: 최근 지표는 경제 활동이 견조한 속도로 확장해 왔음을 시사한다 물가는 여전히 다소 높은 수준에 머물러 있다
+  after: 최근 지표는 경제 활동의 확장 속도가 완만해졌음을 시사한다 물가는 목표를 향해 추가로 진전했으나 여전히 다소 높은 수준에 머물러 있다
+  source: 예시 문구(실제 성명 아님)
+  date: 2026.09.17

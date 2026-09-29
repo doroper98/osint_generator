@@ -557,7 +557,7 @@ registries:                # 15 §3 P10 — 여기 없는 타입을 연출이 �
   accents: [gold, us, ru, teal, muted, green, amber]
   stages: [mercator]      # v4.1.0 D-0076 — 무대(engine.stage). 없는 무대 = 오류, 있는데 구현(STAGE_CLASSES)이 없음 = 오류(P10). G3 에서 timeline 추가 예정
   stages_planned: [timeline, chart_wall, flow, structure, document]   # v4.2.0 D-0081 — 20 §2.1 무대 카탈로그(구현 전). 장르 프로필 proposed 만 참조 가능, 연출에서 쓰면 오류
-  primitives: []          # v4.2.0 D-0081 — 새 시각 요소(engine/primitives/<id>.py, 20 §4.2). 이벤트 type: primitive + id. 없는 id = 오류, 있는데 모듈 없음 = 오류(P10)
+  primitives: [statement_diff]   # v4.2.0 D-0081 — 새 시각 요소(engine/primitives/<id>.py, 20 §4.2). 이벤트 type: primitive + id. 없는 id = 오류, 있는데 모듈 없음 = 오류(P10)
   primitives_planned:     # v4.2.0 D-0082 쟁점 1 A — 구현 전 프리미티브. 장르 프로필 proposed 의 new 만 참조 가능, 연출에서 쓰면 오류
     - rate_step_line      # 20 §3 macro_monetary, G4 후보(사용자 승인 뒤 최대 3)
     - dot_plot            # 20 §3 macro_monetary, G4 후보(사용자 승인 뒤 최대 3)
@@ -604,7 +604,27 @@ audio:                     # 10
     title_card: {offset_sec: 0.2, whoosh_dur_sec: 1.4, whoosh_v: 1.0, boom_v: 0.6}      # sfx_policy: 타이틀 카드 휙+쿵
     scene_start: {lead_sec: 0.05, whoosh_dur_sec: 0.9, whoosh_v: 0.55}                  # sfx_policy: 장면 시작 휙(첫 장면 제외)
 
-primitives: {}             # v4.2.0 D-0081 작업 4 — 프리미티브(engine/primitives/<id>.py) 레이아웃 토큰. registries.primitives 마다 한 블록(20 §4.2 "색·크기는 토큰만")
+primitives:                # v4.2.0 D-0081 작업 4 — 프리미티브(engine/primitives/<id>.py) 레이아웃 토큰. registries.primitives 마다 한 블록(20 §4.2 "색·크기는 토큰만")
+  statement_diff:          # 작업 5 — 성명서 문구 비교(20 §10). 설계 px(480p). 글자 크기 ≥ layout_480p.min_font_px(glyph_size), 출처 줄 = layout_480p.card.src_size, 문구 상한 = verification.quote_max_chars
+    w: 360                 # 상자 폭 — 오른쪽 여백·세로 기본값은 layout_480p.card(같은 슬롯 card_right)
+    pad_x: 18
+    pad_top: 23            # 상자 위 → 머리 글자 기준선(카드와 같음)
+    pad_bottom: 12         # 출처 줄 기준선 → 상자 아래
+    label_gap: 22          # 앞 기준선 → 행 이름 기준선
+    line_h: 19             # 문구 줄 간격
+    row_gap: 6             # 이전·새 행 사이 추가 간격
+    src_gap: 20            # 마지막 문구 줄 → 출처 줄
+    tag_size: 10.5
+    tag_spacing: 0.4
+    label_size: 10
+    text_size: 13
+    radius: 5
+    bar_w: 3
+    bar_inset: 10
+    strike_w: 1.4          # 취소선 두께
+    strike_rise: 0.32      # 취소선 높이 = 글자 크기 × 이 값(기준선 위)
+    fade_sec: 0.5          # 등장·퇴장 페이드(20 §4.2 0.4~0.6초)
+    slide_px: 24           # 등장 슬라이드(오른쪽 → 제자리, fade_sec 동안)
 
 golden:                    # v3.6.0 D-0066 작업 4 · D-0067 요건 4 — 1080p 를 854×480 으로 Lanczos 축소해 480p 와 잰 컷별 MAD(/255) 상한.
   # 실측(hormuz 25컷, 1080p 티어 ppd×2.25): 평균 0.0107 · 최대 0.0181(p_0214.46). 설계 좌표가 같아 위치 차이는 0(frames·place_over 동일)이고,
