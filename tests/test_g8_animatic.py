@@ -126,6 +126,19 @@ class NoAssetRenderTest(_Hormuz):
             for p in pats:
                 p.stop()
 
+    def test_missing_font_is_error(self) -> None:
+        """콘티 판의 전제 자산 = 글꼴만(D-0115). 글꼴이 없으면 대체 글꼴로 조용히 그리지 않고 FontMissingError(P6)."""
+        from engine import typography
+        from engine.render import render_frame
+
+        P = self.load()  # noqa: N806
+        typography.require_family.cache_clear()
+        try:
+            with mock.patch.object(typography, "family_found", lambda fam: False), self.assertRaises(typography.FontMissingError):
+                render_frame(P, P.n_frames // 2)
+        finally:
+            typography.require_family.cache_clear()
+
     def test_camera_bounds_equal_geo_yaml_tier(self) -> None:
         """막지도 경계 = geo.yaml 티어 W bbox(geo.prep tier_record 와 같은 값) — 카메라 클램프가 전편과 같다."""
         from engine.stage import ym
