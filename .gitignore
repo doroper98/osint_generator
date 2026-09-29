@@ -200,3 +200,18 @@ projects/fed_timeline_demo/assets/
 projects/fed_timeline_demo/prev/
 projects/fed_timeline_demo/out/
 projects/fed_timeline_demo/__pycache__/
+
+# v4.4.0 Phase G4 — fed_policy_2026 실행 산출물(재현 입력·영상은 artifacts/phaseG4-v4.4.0, ARTIFACT_README 복원 절차)
+projects/fed_policy_2026/01_intake/
+projects/fed_policy_2026/03_tasks/
+projects/fed_policy_2026/assets/
+projects/fed_policy_2026/llm_calls/
+projects/fed_policy_2026/logs/
+projects/fed_policy_2026/media/
+projects/fed_policy_2026/tts/
+projects/fed_policy_2026/prev/
+projects/fed_policy_2026/out/
+projects/fed_policy_2026/plan.json
+projects/fed_policy_2026/project_manifest.json
+projects/fed_policy_2026/intake/verify_draft.json
+projects/fed_policy_2026/direction.meta.json
