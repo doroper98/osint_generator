@@ -217,7 +217,7 @@ media_beats:               # 14 §10
     photo: [회담, 발표, 현장, 부대, 시위, 경계, 파병, 장병]
     cutout: [초계기, 구축함, 미사일, 전투기, 함정, 항공기, 잠수함, 드론]
     article: [보도했습니다, 보도했다, 기고, 사설, 보도에 따르면]
-  caption_bar_px: 38
+  caption_bar_px: 42
 
 placement:                 # v3.1.0 D-0047 작업 5 — 배치 슬롯(17 §2 `place:`). 좌표 계산은 코드(engine/placement.py) — 연출 LLM 은 픽셀을 다루지 않는다
   # 연출이 place·x·y·w 를 안 준 사진·영상의 기본 슬롯(14 §10.3-5, v3 합격 좌표 — 옛 media_beats.placement 를 옮김)
@@ -266,7 +266,8 @@ hud:                       # 09 §5 — 모서리에는 날짜만
 
 layout_480p:               # 09 §2·§4, 08 §10 — 기준 해상도 854×480. 다른 해상도는 k = H/480
   base: {w: 854, h: 480, fps: 24}
-  subtitle: {size: 19, last_line_y: 452, line_gap: 26, halo: 5.0, halo_alpha: 0.92, emphasis_color: gold}   # v4.5.0 D85 — 검증 라벨 접두(label_style) 폐지
+  # v4.8.0 back_and_forth D-0113(D-0101 §3 A) — 화면 글자 크기 전수 표 1·2 적용: 본문 ≥ 12·메타 ≥ 9, 자막 21, 연동 기하(line_gap·src_gap·caption_bar_px·caption_dy·credit_dy·tag_h·tag_dy·sub_dy·body_line)
+  subtitle: {size: 21, last_line_y: 452, line_gap: 26, halo: 5.0, halo_alpha: 0.92, emphasis_color: gold}   # v4.5.0 D85 — 검증 라벨 접두(label_style) 폐지
   min_font_px: 9.5         # 화면 높이 2% 규칙(엔딩 카드 예외)
   title_card: {dur_sec: 5.6, title_size: 46, subtitle_size: 18, rule_w: 220}
   end_card:
@@ -289,13 +290,13 @@ layout_480p:               # 09 §2·§4, 08 §10 — 기준 해상도 854×480.
     scroll_hold_out_sec: 2.0
     scroll_fade_px: 18
     scroll_max_px_per_sec: 60
-  card: {x_right_margin: 24, y: 70, min_w: 230, slide_px: 30, fade_sec: 0.45, big_size: 30, line_size: 13, tag_size: 10.5, src_size: 9.5,
-         cap_size: 11, line_gap: 21, src_gap: 18}    # v4.8.0 D-0101 §3 — cap_size·line_gap·src_gap = 옛 engine/cards.py 리터럴
+  card: {x_right_margin: 24, y: 70, min_w: 230, slide_px: 30, fade_sec: 0.45, big_size: 30, line_size: 15, tag_size: 12, src_size: 11,
+         cap_size: 12, line_gap: 24, src_gap: 20}    # v4.8.0 D-0101 §3 — cap_size·line_gap·src_gap = 옛 engine/cards.py 리터럴
   # v4.8.0 D-0101 §3 — 옛 리터럴(engine/layers/media.py·markers.py·routes.py)을 값 그대로 옮김. 크기 값은 §3 결정(decision_request)으로
-  media_caption: {pad_x: 10, caption_size: 10.5, caption_dy: 16, credit_size: 7.8, credit_dy: 30, tag_size: 7.5, tag_h: 14, tag_dy: 10,
-                  cutout_caption_size: 12, cutout_credit_size: 8.5}
-  marker: {label_size: 13, sub_size: 10.5, sub_dy: 15}
-  route_label: {route_size: 11.5, barrier_size: 12.5}
+  media_caption: {pad_x: 10, caption_size: 12, caption_dy: 18, credit_size: 9, credit_dy: 34, tag_size: 9, tag_h: 16, tag_dy: 12,
+                  cutout_caption_size: 12, cutout_credit_size: 9}
+  marker: {label_size: 13, sub_size: 12, sub_dy: 16}
+  route_label: {route_size: 12.5, barrier_size: 12.5}
   # v4.8.0 back_and_forth D-0101 §2(사용자 결정 D89) — 기사 카드 조판 확대. draw_article·article_geom 수치는 전부 여기(15 P3).
   # 헤드라인·부제 줄 수가 max_lines 를 넘으면 ArticleOverflowError(렌더 전 preflight, 조용한 잘림 금지 P6).
   # 연출 place: center(슬롯 center) = 무대 가운데(가로 가운데, 세로 = 자막 구역 위 공간의 가운데), 그 동안 아래 지도·시간축을 center_dim 으로 어둡게
@@ -348,20 +349,20 @@ layout_480p:               # 09 §2·§4, 08 §10 — 기준 해상도 854×480.
     border_alpha: 0.12
     pad: 14
     icon_r: 14
-    name_size: 11.5
-    handle_size: 8.5
-    chip_size: 7.5
-    body_size: 12
-    body_line: 18
+    name_size: 13
+    handle_size: 9.5
+    chip_size: 9
+    body_size: 14
+    body_line: 20
     body_max_lines: 5
-    orig_size: 8
+    orig_size: 9
     orig_max_words: 15
-    foot_size: 7.8
+    foot_size: 9
     slide_px: 30
     fade_sec: 0.45
     hl_delay_sec: 0.8
     hl_sec: 0.7
-  panel: {cover_alpha: 0.8, fade_sec: 0.6, title_size: 19, title_y: 74, subtitle_size: 11, subtitle_y: 96, min_screen_use: 0.7}
+  panel: {cover_alpha: 0.8, fade_sec: 0.6, title_size: 19, title_y: 74, subtitle_size: 12.5, subtitle_y: 96, min_screen_use: 0.7}
   # v4.8.0 back_and_forth D-0101 §1(사용자 결정 D89) — 인물 뱃지 적응 크기. 같은 무대에서 보이는 인물 뱃지 수 n(t)(팝인 완료 ~ 페이드 아웃 시작)를
   # 코드가 센다: n = 1 → R_person_solo, n = 2 → R_person_group[1], n ≥ 3 → R_person_group[0]. 바뀌면 resize_sec 동안 smooth 보간(t 만의 함수).
   # 새로 뜨는 뱃지는 자기 자신을 세어 처음부터 그 크기로 뜬다. 연출이 R 를 주면 그 값(적응 없음). 이름표 글자는 R 에 따라 group ↔ solo 사이 보간
@@ -406,7 +407,7 @@ panels:                    # D-0032 — 패널 기하·타이밍. 코드에 리�
       demand: {color: gold, alpha: 0.8, dash: []}
       refuse: {color: ru, alpha: 0.55, dash: [4, 4]}
     state_label: {dx: 78, dy: 5, size: 12, halo: 2.4}
-    edge_label: {x: 400, y: 150, size: 11, delay_sec: 3.2, fade_sec: 0.5, halo: 2.4}   # 규칙 4 — 첫 선이 자라기 시작한 뒤(08 §3 v2.5.5 정정, D-0035 NB6). 앞서면 lint 경고
+    edge_label: {x: 400, y: 150, size: 12, delay_sec: 3.2, fade_sec: 0.5, halo: 2.4}   # 규칙 4 — 첫 선이 자라기 시작한 뒤(08 §3 v2.5.5 정정, D-0035 NB6). 앞서면 lint 경고
     quote_bottom: {y: 414, size: 13, fade_sec: 0.4, halo: 3}
     quote_source: {dy: 92, size: 12.5, fade_sec: 0.4, halo: 3}
   timeline:                # 08 §5 v3 P_timeline 합격 값(수치 무변경) + 자동 층 배치(08 §11-3)
@@ -417,14 +418,14 @@ panels:                    # D-0032 — 패널 기하·타이밍. 코드에 리�
     axis_width: 1.4
     tick_h: 8
     tick_w: 1
-    month: {size: 10.5, halo: 0}
+    month: {size: 11, halo: 0}
     month_dx: 3
     month_dy: 22
     month_alpha: 0.9
     band_h: 14
     band_alpha: 0.18
     band_fade_sec: 0.6
-    band_label: {size: 10.5, halo: 2}
+    band_label: {size: 11, halo: 2}
     band_label_dy: 40
     event_fade_sec: 0.5
     dim_alpha: 0.55
@@ -432,10 +433,10 @@ panels:                    # D-0032 — 패널 기하·타이밍. 코드에 리�
     stem_width: 1.2
     dot_r: 4.5
     layer_px: [44, 96, 148]         # 층 ±1·±2(v3) · ±3(자동 배치 여유)
-    date: {size: 11, halo: 2.4}
+    date: {size: 12, halo: 2.4}
     date_dy_above: -18
     date_dy_below: 14
-    label: {size: 11.5, halo: 2.4}
+    label: {size: 12.5, halo: 2.4}
     label_dy_above: 14
     label_dy_below: 15
     label_gap_px: 8
@@ -451,7 +452,7 @@ panels:                    # D-0032 — 패널 기하·타이밍. 코드에 리�
     marker_label_strategy: hide                # 마커 점은 사실 위치라 옮기지 않고, 라벨만 카드 뒤에서 흐린다
     min_zone_alpha: 0.01
     lead_sec: 0.45                             # 카드 페이드와 같은 길이 — 카드가 들어오기 전에 비키고, 나간 뒤에 돌아온다
-  precedent: {year_size: 28, title_size: 14, line_size: 11.5, caption_size: 10.5}   # v4.8.0 D-0101 §3 — 옛 engine/panels/precedent.py 리터럴
+  precedent: {year_size: 28, title_size: 14, line_size: 12, caption_size: 11}   # v4.8.0 D-0101 §3 — 옛 engine/panels/precedent.py 리터럴
   versus: {title_size: 16, item_size: 13.5, src_size: 10}                           # v4.8.0 D-0101 §3 — 옛 engine/panels/versus.py 리터럴
   prov_tag:                # D-0034(D37) — 추정 태그는 제목 아래(부제 다음 줄, 가운데). 08 §9 우상단(W−40, 52)은 C0 모서리 규칙과 충돌해 쓰지 않는다
     anchor: below_title
@@ -494,7 +495,7 @@ panels:                    # D-0032 — 패널 기하·타이밍. 코드에 리�
       note_sec: 3.2
       note_label: {x: 542, y: 276, size: 10.5, spacing: 0.6}
       note_value: {x: 542, y: 306, size: 22}
-      note_caption: {x: 542, y: 328, size: 11}
+      note_caption: {x: 542, y: 328, size: 12}
     gantt:
       x: [250, 810]
       axis_y: 368
@@ -534,7 +535,7 @@ panels:                    # D-0032 — 패널 기하·타이밍. 코드에 리�
       tick_size: 10
       x_pad: 30
       x_label_dy: 22
-      x_label_size: 11
+      x_label_size: 12
       draw_start_sec: 0.6
       draw_step_sec: 0.5
       draw_sec: 1.8
@@ -543,7 +544,7 @@ panels:                    # D-0032 — 패널 기하·타이밍. 코드에 리�
       point_r: 4
       value_dy_above: -10
       value_dy_below: 18
-      value_size: 11
+      value_size: 12
       value_halo: 2.6
       name_dx: 12
       name_dy: 4
@@ -572,7 +573,7 @@ panels:                    # D-0032 — 패널 기하·타이밍. 코드에 리�
       samples: 30
       line_width: 1.6
       head: {x: 18, y: -4, size: 15}
-      body: {x: 18, y: 17, size: 11.5}
+      body: {x: 18, y: 17, size: 12.5}
     checklist:
       box_x: 120
       box: 30
@@ -610,7 +611,7 @@ panels:                    # D-0032 — 패널 기하·타이밍. 코드에 리�
         related: {color: muted, alpha: 0.75, dash: []}
         opposed: {color: ru, alpha: 0.75, dash: [5, 4]}
         allied: {color: green, alpha: 0.75, dash: []}
-      label: {y: -4, size: 9.5, halo: 2.4}
+      label: {y: -4, size: 11, halo: 2.4}
       label_sec: 0.3
       mention_pulse_rate: 1.2
       mention_alpha: 0.8
