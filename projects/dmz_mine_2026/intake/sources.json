@@ -6,6 +6,13 @@
       "url": "https://www.hankookilbo.com/news/article/A2026092114160002483",
       "retrieved_at": "2026-09-29",
       "lang": "ko",
+      "verification": {
+        "status": "corroborated",
+        "checks": [
+          "claims:3"
+        ],
+        "notes": ""
+      },
       "confirmed_by": "claude(사용자 요청 대행 — URL·매체·게시일 확인)",
       "confirmed_at": "2026-09-29T08:47:23.597415Z",
       "note": "",
@@ -22,6 +29,13 @@
       "url": "https://www.hankookilbo.com/news/article/A2026092317460005437",
       "retrieved_at": "2026-09-29",
       "lang": "ko",
+      "verification": {
+        "status": "corroborated",
+        "checks": [
+          "claims:5"
+        ],
+        "notes": ""
+      },
       "confirmed_by": "claude(사용자 요청 대행 — URL·매체·게시일 확인)",
       "confirmed_at": "2026-09-29T08:47:23.970710Z",
       "note": "",
@@ -38,6 +52,13 @@
       "url": "https://www.newspim.com/news/view/20260923001071",
       "retrieved_at": "2026-09-29",
       "lang": "ko",
+      "verification": {
+        "status": "corroborated",
+        "checks": [
+          "claims:6"
+        ],
+        "notes": ""
+      },
       "confirmed_by": "claude(사용자 요청 대행 — URL·매체·게시일 확인)",
       "confirmed_at": "2026-09-29T08:47:24.377792Z",
       "note": "",
@@ -54,6 +75,13 @@
       "url": "https://biz.heraldcorp.com/article/10883800",
       "retrieved_at": "2026-09-29",
       "lang": "ko",
+      "verification": {
+        "status": "corroborated",
+        "checks": [
+          "claims:4"
+        ],
+        "notes": ""
+      },
       "confirmed_by": "claude(사용자 요청 대행 — URL·매체·게시일 확인)",
       "confirmed_at": "2026-09-29T08:47:24.911231Z",
       "note": "",
@@ -70,6 +98,13 @@
       "url": "https://www.sisajournal.com/news/articleView.html?idxno=388510",
       "retrieved_at": "2026-09-29",
       "lang": "ko",
+      "verification": {
+        "status": "corroborated",
+        "checks": [
+          "claims:14"
+        ],
+        "notes": ""
+      },
       "confirmed_by": "claude(사용자 요청 대행 — URL·매체·게시일 확인)",
       "confirmed_at": "2026-09-29T08:47:25.309591Z",
       "note": "",
@@ -86,6 +121,13 @@
       "url": "https://www.hankookilbo.com/news/article/A2026092818320004124",
       "retrieved_at": "2026-09-29",
       "lang": "ko",
+      "verification": {
+        "status": "corroborated",
+        "checks": [
+          "claims:5"
+        ],
+        "notes": ""
+      },
       "confirmed_by": "claude(사용자 요청 대행 — URL·매체·게시일 확인)",
       "confirmed_at": "2026-09-29T08:47:25.776904Z",
       "note": "",
@@ -102,6 +144,13 @@
       "url": "https://www.khan.co.kr/article/202609282151001/",
       "retrieved_at": "2026-09-29",
       "lang": "ko",
+      "verification": {
+        "status": "corroborated",
+        "checks": [
+          "claims:11"
+        ],
+        "notes": ""
+      },
       "confirmed_by": "claude(사용자 요청 대행 — URL·매체·게시일 확인)",
       "confirmed_at": "2026-09-29T08:47:26.242142Z",
       "note": "",
@@ -118,6 +167,13 @@
       "url": "https://www.newspim.com/news/view/20260929001004",
       "retrieved_at": "2026-09-29",
       "lang": "ko",
+      "verification": {
+        "status": "corroborated",
+        "checks": [
+          "claims:2"
+        ],
+        "notes": ""
+      },
       "confirmed_by": "claude(사용자 요청 대행 — URL·매체·게시일 확인)",
       "confirmed_at": "2026-09-29T08:47:26.624969Z",
       "note": "",
@@ -134,6 +190,13 @@
       "url": "https://www.fnnews.com/news/202609291659566485",
       "retrieved_at": "2026-09-29",
       "lang": "ko",
+      "verification": {
+        "status": "corroborated",
+        "checks": [
+          "claims:7"
+        ],
+        "notes": ""
+      },
       "confirmed_by": "claude(사용자 요청 대행 — URL·매체·게시일 확인)",
       "confirmed_at": "2026-09-29T08:47:27.013507Z",
       "note": "",
@@ -150,6 +213,13 @@
       "url": "https://www.sisajournal.com/news/articleView.html?idxno=388651",
       "retrieved_at": "2026-09-29",
       "lang": "ko",
+      "verification": {
+        "status": "corroborated",
+        "checks": [
+          "claims:5"
+        ],
+        "notes": ""
+      },
       "confirmed_by": "claude(사용자 요청 대행 — URL·매체·게시일 확인)",
       "confirmed_at": "2026-09-29T08:47:27.390128Z",
       "note": "",
@@ -166,6 +236,13 @@
       "url": "https://www.newspim.com/news/view/20260929000315",
       "retrieved_at": "2026-09-29",
       "lang": "ko",
+      "verification": {
+        "status": "unverified",
+        "checks": [
+          "claims:2"
+        ],
+        "notes": ""
+      },
       "confirmed_by": "claude(사용자 요청 대행 — URL·매체·게시일 확인)",
       "confirmed_at": "2026-09-29T08:47:27.801910Z",
       "note": "",
@@ -182,6 +259,13 @@
       "url": "https://www.khan.co.kr/article/202609291708001/",
       "retrieved_at": "2026-09-29",
       "lang": "ko",
+      "verification": {
+        "status": "unverified",
+        "checks": [
+          "claims:2"
+        ],
+        "notes": ""
+      },
       "confirmed_by": "claude(사용자 요청 대행 — URL·매체·게시일 확인)",
       "confirmed_at": "2026-09-29T08:47:28.187365Z",
       "note": "",
@@ -198,6 +282,13 @@
       "url": "https://www.newdaily.co.kr/site/data/html/2026/09/29/2026092900192.html",
       "retrieved_at": "2026-09-29",
       "lang": "ko",
+      "verification": {
+        "status": "disputed",
+        "checks": [
+          "claims:1"
+        ],
+        "notes": ""
+      },
       "confirmed_by": "claude(사용자 요청 대행 — URL·매체·게시일 확인)",
       "confirmed_at": "2026-09-29T08:47:28.573299Z",
       "note": "",
@@ -214,6 +305,13 @@
       "url": "https://www.segye.com/newsView/20260909506298",
       "retrieved_at": "2026-09-29",
       "lang": "ko",
+      "verification": {
+        "status": "unverified",
+        "checks": [
+          "claims:2"
+        ],
+        "notes": ""
+      },
       "confirmed_by": "claude(사용자 요청 대행 — URL·매체·게시일 확인)",
       "confirmed_at": "2026-09-29T08:47:28.994054Z",
       "note": "",
@@ -230,6 +328,13 @@
       "url": "https://www.koreajoongangdaily.com/korea/military-effectively-concludes-that-north-korean-mine-caused-series-of-blasts-in-dmz/12895478",
       "retrieved_at": "2026-09-29",
       "lang": "en",
+      "verification": {
+        "status": "corroborated",
+        "checks": [
+          "claims:13"
+        ],
+        "notes": ""
+      },
       "confirmed_by": "claude(사용자 요청 대행 — URL·매체·게시일 확인)",
       "confirmed_at": "2026-09-29T08:47:29.346975Z",
       "note": "",
@@ -246,6 +351,13 @@
       "url": "https://www.koreajoongangdaily.com/korea/military-finds-north-korean-mine-during-onsite-inspection-of-blast/12896565",
       "retrieved_at": "2026-09-29",
       "lang": "en",
+      "verification": {
+        "status": "corroborated",
+        "checks": [
+          "claims:6"
+        ],
+        "notes": ""
+      },
       "confirmed_by": "claude(사용자 요청 대행 — URL·매체·게시일 확인)",
       "confirmed_at": "2026-09-29T08:47:29.736864Z",
       "note": "",
@@ -262,6 +374,13 @@
       "url": "https://www.koreaherald.com/article/10887051",
       "retrieved_at": "2026-09-29",
       "lang": "en",
+      "verification": {
+        "status": "corroborated",
+        "checks": [
+          "claims:4"
+        ],
+        "notes": ""
+      },
       "confirmed_by": "claude(사용자 요청 대행 — URL·매체·게시일 확인)",
       "confirmed_at": "2026-09-29T08:47:30.172542Z",
       "note": "",
@@ -278,6 +397,13 @@
       "url": "https://www.nknews.org/2026/09/north-korean-mine-likely-caused-dmz-blast-that-injured-3-troops-rok/",
       "retrieved_at": "2026-09-29",
       "lang": "en",
+      "verification": {
+        "status": "unverified",
+        "checks": [
+          "claims:2"
+        ],
+        "notes": ""
+      },
       "confirmed_by": "claude(사용자 요청 대행 — URL·매체·게시일 확인)",
       "confirmed_at": "2026-09-29T08:47:30.581236Z",
       "note": "",
@@ -294,6 +420,13 @@
       "url": "https://theprint.in/world/south-korean-military-un-command-launch-investigation-into-dmz-explosion/3054876/",
       "retrieved_at": "2026-09-29",
       "lang": "en",
+      "verification": {
+        "status": "corroborated",
+        "checks": [
+          "claims:3"
+        ],
+        "notes": ""
+      },
       "confirmed_by": "claude(사용자 요청 대행 — URL·매체·게시일 확인)",
       "confirmed_at": "2026-09-29T08:47:31.041051Z",
       "note": "",
@@ -310,6 +443,13 @@
       "url": "https://vz.ru/news/2026/9/21/1453435.html",
       "retrieved_at": "2026-09-29",
       "lang": "ru",
+      "verification": {
+        "status": "disputed",
+        "checks": [
+          "claims:1"
+        ],
+        "notes": ""
+      },
       "confirmed_by": "claude(사용자 요청 대행 — URL·매체·게시일 확인)",
       "confirmed_at": "2026-09-29T08:47:31.462084Z",
       "note": "",
@@ -326,6 +466,13 @@
       "url": "https://life.ru/p/yuzhnaya-koreya-nachala-rassledovanie-vzryva-miny-u-granitsy-s-kndr",
       "retrieved_at": "2026-09-29",
       "lang": "ru",
+      "verification": {
+        "status": "corroborated",
+        "checks": [
+          "claims:2"
+        ],
+        "notes": ""
+      },
       "confirmed_by": "claude(사용자 요청 대행 — URL·매체·게시일 확인)",
       "confirmed_at": "2026-09-29T08:47:31.924777Z",
       "note": "",
@@ -342,6 +489,13 @@
       "url": "https://en.iz.ru/en/1989717/dmitrii-korneev/barrage-ceremony-how-korean-sappers-are-helping-clear-mines-kursk-region",
       "retrieved_at": "2026-09-29",
       "lang": "en",
+      "verification": {
+        "status": "corroborated",
+        "checks": [
+          "claims:1"
+        ],
+        "notes": ""
+      },
       "confirmed_by": "claude(사용자 요청 대행 — URL·매체·게시일 확인)",
       "confirmed_at": "2026-09-29T08:47:32.387003Z",
       "note": "",
@@ -358,6 +512,13 @@
       "url": "https://www.nbcnews.com/world/asia/north-korea-plans-send-military-construction-workers-deminers-russia-rcna213666",
       "retrieved_at": "2026-09-29",
       "lang": "en",
+      "verification": {
+        "status": "disputed",
+        "checks": [
+          "claims:1"
+        ],
+        "notes": ""
+      },
       "confirmed_by": "claude(사용자 요청 대행 — URL·매체·게시일 확인)",
       "confirmed_at": "2026-09-29T08:47:32.807577Z",
       "note": "",
@@ -374,6 +535,13 @@
       "url": "https://www.nknews.org/?p=963980",
       "retrieved_at": "2026-09-29",
       "lang": "en",
+      "verification": {
+        "status": "corroborated",
+        "checks": [
+          "claims:1"
+        ],
+        "notes": ""
+      },
       "confirmed_by": "claude(사용자 요청 대행 — URL·매체·게시일 확인)",
       "confirmed_at": "2026-09-29T08:47:33.192817Z",
       "note": "",
@@ -390,6 +558,13 @@
       "url": "https://www.mk.ru/politics/2025/12/13/vyyasnilos-skolko-min-unichtozhili-sapery-kndr-v-kurskoy-oblasti.html",
       "retrieved_at": "2026-09-29",
       "lang": "ru",
+      "verification": {
+        "status": "corroborated",
+        "checks": [
+          "claims:3"
+        ],
+        "notes": ""
+      },
       "confirmed_by": "claude(사용자 요청 대행 — URL·매체·게시일 확인)",
       "confirmed_at": "2026-09-29T08:47:33.707733Z",
       "note": "",
@@ -406,6 +581,13 @@
       "url": "https://www.koreaherald.com/view.php?ud=20150810000488",
       "retrieved_at": "2026-09-29",
       "lang": "en",
+      "verification": {
+        "status": "unverified",
+        "checks": [
+          "claims:2"
+        ],
+        "notes": ""
+      },
       "confirmed_by": "claude(사용자 요청 대행 — URL·매체·게시일 확인)",
       "confirmed_at": "2026-09-29T08:47:34.209153Z",
       "note": "",
@@ -422,6 +604,13 @@
       "url": "https://www.aljazeera.com/news/2026/9/21/three-south-korean-officers-wounded-in-border-explosion",
       "retrieved_at": "2026-09-29",
       "lang": "en",
+      "verification": {
+        "status": "corroborated",
+        "checks": [
+          "claims:2"
+        ],
+        "notes": ""
+      },
       "confirmed_by": "claude(사용자 요청 대행 — URL·매체·게시일 확인)",
       "confirmed_at": "2026-09-29T08:47:34.733496Z",
       "note": "",
@@ -438,6 +627,13 @@
       "url": "https://www.aljazeera.com/news/2026/9/28/south-korea-suspects-north-korean-mines-behind-dmz-blast",
       "retrieved_at": "2026-09-29",
       "lang": "en",
+      "verification": {
+        "status": "unverified",
+        "checks": [
+          "claims:2"
+        ],
+        "notes": ""
+      },
       "confirmed_by": "claude(사용자 요청 대행 — URL·매체·게시일 확인)",
       "confirmed_at": "2026-09-29T08:47:35.171370Z",
       "note": "",
@@ -454,6 +650,13 @@
       "url": "https://www.aljazeera.com/news/2026/9/24/zelenskyy-says-ukraine-sent-two-north-korean-pows-to-south-korea",
       "retrieved_at": "2026-09-29",
       "lang": "en",
+      "verification": {
+        "status": "unverified",
+        "checks": [
+          "claims:2"
+        ],
+        "notes": ""
+      },
       "confirmed_by": "claude(사용자 요청 대행 — URL·매체·게시일 확인)",
       "confirmed_at": "2026-09-29T08:47:35.683460Z",
       "note": "",
@@ -470,6 +673,13 @@
       "url": "https://www.aljazeera.com/news/2025/12/13/north-koreas-kim-bestows-hero-titles-on-soldiers-killed-in-ukraine-war",
       "retrieved_at": "2026-09-29",
       "lang": "en",
+      "verification": {
+        "status": "corroborated",
+        "checks": [
+          "claims:4"
+        ],
+        "notes": ""
+      },
       "confirmed_by": "claude(사용자 요청 대행 — URL·매체·게시일 확인)",
       "confirmed_at": "2026-09-29T08:47:36.095380Z",
       "note": "",
@@ -486,6 +696,13 @@
       "url": "https://news.mail.ru/politics/72515469/",
       "retrieved_at": "2026-09-29",
       "lang": "ru",
+      "verification": {
+        "status": "corroborated",
+        "checks": [
+          "claims:1"
+        ],
+        "notes": ""
+      },
       "confirmed_by": "claude(사용자 요청 대행 — URL·매체·게시일 확인)",
       "confirmed_at": "2026-09-29T08:47:36.488455Z",
       "note": "",
@@ -502,6 +719,13 @@
       "url": "https://www.gazeta.press/army/news/2026/09/28/29412355.shtml",
       "retrieved_at": "2026-09-29",
       "lang": "ru",
+      "verification": {
+        "status": "corroborated",
+        "checks": [
+          "claims:5"
+        ],
+        "notes": ""
+      },
       "confirmed_by": "claude(사용자 요청 대행 — URL·매체·게시일 확인)",
       "confirmed_at": "2026-09-29T08:47:36.881402Z",
       "note": "",
@@ -518,6 +742,13 @@
       "url": "https://www.ukrinform.ua/rubric-world/4166274-u-bufernij-zoni-miz-pivdennou-koreeu-ta-kndr-stavsa-vibuh-poraneni-troe-vijskovih.html",
       "retrieved_at": "2026-09-29",
       "lang": "uk",
+      "verification": {
+        "status": "corroborated",
+        "checks": [
+          "claims:1"
+        ],
+        "notes": ""
+      },
       "confirmed_by": "claude(사용자 요청 대행 — URL·매체·게시일 확인)",
       "confirmed_at": "2026-09-29T08:47:37.265375Z",
       "note": "",
@@ -534,6 +765,13 @@
       "url": "https://lb.ua/world/2026/09/21/767664_buferniy_zoni_mizh_pivdennoyu.html",
       "retrieved_at": "2026-09-29",
       "lang": "uk",
+      "verification": {
+        "status": "corroborated",
+        "checks": [
+          "claims:2"
+        ],
+        "notes": ""
+      },
       "confirmed_by": "claude(사용자 요청 대행 — URL·매체·게시일 확인)",
       "confirmed_at": "2026-09-29T08:47:37.679836Z",
       "note": "",
@@ -550,6 +788,13 @@
       "url": "https://www.sisajournal.com/news/articleView.html?idxno=388552",
       "retrieved_at": "2026-09-29",
       "lang": "ko",
+      "verification": {
+        "status": "unverified",
+        "checks": [
+          "claims:1"
+        ],
+        "notes": ""
+      },
       "confirmed_by": "claude(사용자 요청 대행 — URL·매체·게시일 확인)",
       "confirmed_at": "2026-09-29T08:47:38.097668Z",
       "note": "",
@@ -566,6 +811,13 @@
       "url": "https://www.koreaherald.com/article/10887722",
       "retrieved_at": "2026-09-29",
       "lang": "en",
+      "verification": {
+        "status": "unverified",
+        "checks": [
+          "claims:2"
+        ],
+        "notes": ""
+      },
       "confirmed_by": "claude(사용자 요청 대행 — URL·매체·게시일 확인)",
       "confirmed_at": "2026-09-29T08:47:38.601458Z",
       "note": "",
@@ -582,6 +834,13 @@
       "url": "https://view.asiae.co.kr/article/2026092218000682704",
       "retrieved_at": "2026-09-29",
       "lang": "ko",
+      "verification": {
+        "status": "unverified",
+        "checks": [
+          "claims:1"
+        ],
+        "notes": ""
+      },
       "confirmed_by": "claude(사용자 요청 대행 — URL·매체·게시일 확인)",
       "confirmed_at": "2026-09-29T08:47:39.093306Z",
       "note": "",

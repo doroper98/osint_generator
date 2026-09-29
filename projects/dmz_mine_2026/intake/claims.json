@@ -1,0 +1,1322 @@
+{
+  "schema_version": 1,
+  "claims": [
+    {
+      "claim_id": "clm_0001",
+      "text": "9월 21일 서부전선 DMZ에서 폭발이 일어나 한국군 장병 3명이 다쳤다",
+      "source_ids": [
+        "src_art_0001",
+        "src_art_0027",
+        "src_art_0019",
+        "src_art_0007",
+        "src_art_0034"
+      ],
+      "status": "corroborated",
+      "contested": false,
+      "event_date": "2026-09-21",
+      "checks": [
+        "quote_match:src_art_0001",
+        "quote_match:src_art_0027",
+        "quote_match:src_art_0019",
+        "quote_match:src_art_0007",
+        "quote_match:src_art_0034",
+        "independent_origins:5"
+      ],
+      "attributed_only": false,
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0002",
+      "text": "부상자 3명 가운데 2명은 중상, 1명은 경상이었다",
+      "source_ids": [
+        "src_art_0003",
+        "src_art_0005",
+        "src_art_0007",
+        "src_art_0017",
+        "src_art_0020",
+        "src_art_0018"
+      ],
+      "status": "disputed",
+      "contested": false,
+      "event_date": "2026-09-21",
+      "checks": [
+        "quote_match:src_art_0003",
+        "quote_match:src_art_0005",
+        "quote_match:src_art_0007",
+        "quote_match:src_art_0017",
+        "quote_match:src_art_0020",
+        "quote_match:src_art_0018",
+        "independent_origins:5"
+      ],
+      "attributed_only": false,
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0003",
+      "text": "수색대대장(중령)이 발목이 절단되는 중상을 입었다",
+      "source_ids": [
+        "src_art_0002"
+      ],
+      "status": "unverified",
+      "contested": false,
+      "event_date": "2026-09-21",
+      "checks": [
+        "quote_match:src_art_0002",
+        "independent_origins:1"
+      ],
+      "attributed_only": false,
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0004",
+      "text": "작전에는 간부 15명과 병사 3명 등 18명이 투입됐다",
+      "source_ids": [
+        "src_art_0002",
+        "src_art_0003",
+        "src_art_0004",
+        "src_art_0015"
+      ],
+      "status": "corroborated",
+      "contested": false,
+      "event_date": "2026-09-21",
+      "checks": [
+        "quote_match:src_art_0002",
+        "quote_match:src_art_0003",
+        "quote_match:src_art_0004",
+        "quote_match:src_art_0015",
+        "independent_origins:4"
+      ],
+      "attributed_only": false,
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0005",
+      "text": "사고는 유엔사 현장조사 지원을 위해 MDL 방향으로 신규 수색로를 개척하던 중 일어났다",
+      "source_ids": [
+        "src_art_0003",
+        "src_art_0002",
+        "src_art_0004",
+        "src_art_0015"
+      ],
+      "status": "corroborated",
+      "contested": false,
+      "event_date": "2026-09-21",
+      "checks": [
+        "quote_match:src_art_0003",
+        "quote_match:src_art_0002",
+        "quote_match:src_art_0004",
+        "quote_match:src_art_0015",
+        "independent_origins:4"
+      ],
+      "attributed_only": false,
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0006",
+      "text": "유엔사가 해당 수색로에 사전 동의하지 않았다",
+      "source_ids": [
+        "src_art_0015"
+      ],
+      "status": "unverified",
+      "contested": true,
+      "sides": [
+        {
+          "party": "코리아중앙데일리 보도",
+          "text": "유엔사가 사전에 수색로에 동의하지 않았던 것으로 알려졌다",
+          "source_ids": [
+            "src_art_0015"
+          ]
+        }
+      ],
+      "checks": [
+        "quote_match:src_art_0015",
+        "independent_origins:1"
+      ],
+      "attributed_only": false,
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0007",
+      "text": "9월 21일 사고 당시 폭발은 두 차례였다",
+      "source_ids": [
+        "src_art_0004",
+        "src_art_0002",
+        "src_art_0003",
+        "src_art_0005",
+        "src_art_0015"
+      ],
+      "status": "corroborated",
+      "contested": false,
+      "event_date": "2026-09-21",
+      "checks": [
+        "quote_match:src_art_0004",
+        "quote_match:src_art_0002",
+        "quote_match:src_art_0003",
+        "quote_match:src_art_0005",
+        "quote_match:src_art_0015",
+        "independent_origins:4",
+        "attributed:src_art_0003"
+      ],
+      "attributed_only": false,
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0008",
+      "text": "선두의 중사가 1차 폭발로 먼저 다쳤고, 안전조치에 나선 수색대대장이 2차 폭발로 다쳤다",
+      "source_ids": [
+        "src_art_0002",
+        "src_art_0004",
+        "src_art_0003"
+      ],
+      "status": "corroborated",
+      "contested": false,
+      "event_date": "2026-09-21",
+      "checks": [
+        "quote_match:src_art_0002",
+        "quote_match:src_art_0004",
+        "quote_match:src_art_0003",
+        "independent_origins:3"
+      ],
+      "attributed_only": false,
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0009",
+      "text": "합참은 9월 21일 지뢰 폭발로 추정되며 모든 가능성을 열어두고 조사 중이라고 밝혔다",
+      "source_ids": [
+        "src_art_0001"
+      ],
+      "status": "unverified",
+      "contested": true,
+      "sides": [
+        {
+          "party": "합동참모본부",
+          "text": "지뢰 폭발로 추정되며, 아군·북한군 지뢰 여부는 모든 가능성을 열어두고 조사 중",
+          "source_ids": [
+            "src_art_0001"
+          ]
+        }
+      ],
+      "event_date": "2026-09-21",
+      "checks": [
+        "quote_match:src_art_0001",
+        "quote_match:src_art_0001",
+        "independent_origins:0",
+        "attributed:src_art_0001",
+        "attributed:src_art_0001"
+      ],
+      "attributed_only": true,
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0010",
+      "text": "사고 당일(9월 21일) 폭발 원인과 북한 지뢰 여부는 확인되지 않았다",
+      "source_ids": [
+        "src_art_0001",
+        "src_art_0027",
+        "src_art_0033",
+        "src_art_0034"
+      ],
+      "status": "corroborated",
+      "contested": false,
+      "event_date": "2026-09-21",
+      "checks": [
+        "quote_match:src_art_0001",
+        "quote_match:src_art_0027",
+        "quote_match:src_art_0033",
+        "quote_match:src_art_0034",
+        "independent_origins:3",
+        "attributed:src_art_0001"
+      ],
+      "attributed_only": false,
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0011",
+      "text": "강신철 국방장관은 취임 첫날 북한 지뢰 여부는 지금 알 수 없고 확실한 증거가 필요하다고 말했다",
+      "source_ids": [
+        "src_art_0037"
+      ],
+      "status": "unverified",
+      "contested": true,
+      "sides": [
+        {
+          "party": "강신철 국방부 장관",
+          "text": "북한 것인지 지금 알 수 없으며 확실한 증거를 잡고 이야기해야 한다",
+          "source_ids": [
+            "src_art_0037"
+          ]
+        }
+      ],
+      "event_date": "2026-09-22",
+      "checks": [
+        "quote_match:src_art_0037",
+        "quote_match:src_art_0037",
+        "independent_origins:1"
+      ],
+      "attributed_only": false,
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0012",
+      "text": "군과 유엔사는 9월 27일 합동 현장조사에 착수했다",
+      "source_ids": [
+        "src_art_0019",
+        "src_art_0007",
+        "src_art_0021",
+        "src_art_0031"
+      ],
+      "status": "corroborated",
+      "contested": false,
+      "event_date": "2026-09-27",
+      "checks": [
+        "quote_match:src_art_0019",
+        "quote_match:src_art_0007",
+        "quote_match:src_art_0021",
+        "quote_match:src_art_0031",
+        "independent_origins:4"
+      ],
+      "attributed_only": false,
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0013",
+      "text": "9월 27일 조사팀 약 40명이 사고 지점 인근을 수색했다",
+      "source_ids": [
+        "src_art_0019",
+        "src_art_0021"
+      ],
+      "status": "corroborated",
+      "contested": false,
+      "event_date": "2026-09-27",
+      "checks": [
+        "quote_match:src_art_0019",
+        "quote_match:src_art_0021",
+        "independent_origins:2"
+      ],
+      "attributed_only": false,
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0014",
+      "text": "합참은 9월 28일 중간 조사 결과 폭발 원인이 북한군 지뢰일 가능성이 매우 높다고 발표했다",
+      "source_ids": [
+        "src_art_0005",
+        "src_art_0006",
+        "src_art_0007",
+        "src_art_0011",
+        "src_art_0010",
+        "src_art_0015",
+        "src_art_0017",
+        "src_art_0018",
+        "src_art_0028",
+        "src_art_0032"
+      ],
+      "status": "unverified",
+      "contested": true,
+      "sides": [
+        {
+          "party": "합동참모본부(권대원 차장)",
+          "text": "중간 조사 결과 북한군 지뢰일 가능성이 매우 높다",
+          "source_ids": [
+            "src_art_0005",
+            "src_art_0006",
+            "src_art_0007",
+            "src_art_0015",
+            "src_art_0017",
+            "src_art_0018",
+            "src_art_0028"
+          ]
+        }
+      ],
+      "event_date": "2026-09-28",
+      "checks": [
+        "quote_match:src_art_0005",
+        "quote_match:src_art_0006",
+        "quote_match:src_art_0007",
+        "quote_match:src_art_0011",
+        "quote_match:src_art_0010",
+        "quote_match:src_art_0015",
+        "quote_match:src_art_0017",
+        "quote_match:src_art_0018",
+        "quote_match:src_art_0028",
+        "quote_match:src_art_0032",
+        "independent_origins:8",
+        "attributed:src_art_0006",
+        "attributed:src_art_0010"
+      ],
+      "attributed_only": false,
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0015",
+      "text": "사고 지역에는 아군의 지뢰 매설 기록이 없다",
+      "source_ids": [
+        "src_art_0005",
+        "src_art_0006",
+        "src_art_0007",
+        "src_art_0015",
+        "src_art_0032"
+      ],
+      "status": "unverified",
+      "contested": true,
+      "sides": [
+        {
+          "party": "합동참모본부",
+          "text": "해당 지역에 아군 지뢰 매설 기록은 없다",
+          "source_ids": [
+            "src_art_0005",
+            "src_art_0006",
+            "src_art_0007",
+            "src_art_0015",
+            "src_art_0032"
+          ]
+        }
+      ],
+      "checks": [
+        "quote_match:src_art_0005",
+        "quote_match:src_art_0006",
+        "quote_match:src_art_0007",
+        "quote_match:src_art_0015",
+        "quote_match:src_art_0032",
+        "independent_origins:5"
+      ],
+      "attributed_only": false,
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0016",
+      "text": "2025년 9월 사고 지점 인근에서 북한군의 지뢰 매설 흔적이 발견됐다",
+      "source_ids": [
+        "src_art_0005",
+        "src_art_0007",
+        "src_art_0015",
+        "src_art_0032"
+      ],
+      "status": "unverified",
+      "contested": true,
+      "sides": [
+        {
+          "party": "합동참모본부",
+          "text": "2025년 9월 인근에서 북한군 지뢰 매설 흔적이 발견됐다",
+          "source_ids": [
+            "src_art_0005",
+            "src_art_0007",
+            "src_art_0015",
+            "src_art_0032"
+          ]
+        }
+      ],
+      "checks": [
+        "quote_match:src_art_0005",
+        "quote_match:src_art_0007",
+        "quote_match:src_art_0015",
+        "quote_match:src_art_0032",
+        "independent_origins:4"
+      ],
+      "attributed_only": false,
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0017",
+      "text": "국과수 감정에서 부상 장병 장구류에서 TNT 성분과 갈색 이물질이 검출됐다",
+      "source_ids": [
+        "src_art_0005",
+        "src_art_0015",
+        "src_art_0017",
+        "src_art_0032"
+      ],
+      "status": "corroborated",
+      "contested": false,
+      "checks": [
+        "quote_match:src_art_0005",
+        "quote_match:src_art_0015",
+        "quote_match:src_art_0017",
+        "quote_match:src_art_0032",
+        "independent_origins:4"
+      ],
+      "attributed_only": false,
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0018",
+      "text": "국과수 감정에서 철제 파편은 확인되지 않았다",
+      "source_ids": [
+        "src_art_0005",
+        "src_art_0007",
+        "src_art_0015",
+        "src_art_0032"
+      ],
+      "status": "corroborated",
+      "contested": false,
+      "checks": [
+        "quote_match:src_art_0005",
+        "quote_match:src_art_0007",
+        "quote_match:src_art_0015",
+        "quote_match:src_art_0032",
+        "independent_origins:3",
+        "attributed:src_art_0005"
+      ],
+      "attributed_only": false,
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0019",
+      "text": "합참은 9월 28일 폭발 원인이 아군 지뢰가 아닌 것은 확실하다고 밝혔다",
+      "source_ids": [
+        "src_art_0005",
+        "src_art_0007",
+        "src_art_0006"
+      ],
+      "status": "unverified",
+      "contested": true,
+      "sides": [
+        {
+          "party": "합동참모본부",
+          "text": "철제 파편이 없고 살상 반경이 작아 아군 지뢰가 아닌 것은 확실하다",
+          "source_ids": [
+            "src_art_0005",
+            "src_art_0006",
+            "src_art_0007"
+          ]
+        }
+      ],
+      "event_date": "2026-09-28",
+      "checks": [
+        "quote_match:src_art_0005",
+        "quote_match:src_art_0007",
+        "quote_match:src_art_0006",
+        "independent_origins:3"
+      ],
+      "attributed_only": false,
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0020",
+      "text": "일부 장병은 1차 폭발 지점 약 1m 거리에서 폭발하지 않은 갈색 지뢰를 봤다고 진술했다",
+      "source_ids": [
+        "src_art_0005",
+        "src_art_0007",
+        "src_art_0015"
+      ],
+      "status": "unverified",
+      "contested": true,
+      "sides": [
+        {
+          "party": "작전 참가 장병(합참 전언)",
+          "text": "1차 폭발 지점 약 1m 거리에서 미폭발 갈색 지뢰를 목격했다",
+          "source_ids": [
+            "src_art_0005",
+            "src_art_0007",
+            "src_art_0015"
+          ]
+        }
+      ],
+      "event_date": "2026-09-21",
+      "checks": [
+        "quote_match:src_art_0005",
+        "quote_match:src_art_0007",
+        "quote_match:src_art_0015",
+        "independent_origins:2",
+        "attributed:src_art_0015"
+      ],
+      "attributed_only": false,
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0021",
+      "text": "합참은 폭발 원점 일대에 지뢰가 총 3발 있었던 것으로 추정했다",
+      "source_ids": [
+        "src_art_0007",
+        "src_art_0005"
+      ],
+      "status": "unverified",
+      "contested": true,
+      "sides": [
+        {
+          "party": "합동참모본부",
+          "text": "폭발 2발과 진술상 추가 1발을 근거로 총 3발 추정",
+          "source_ids": [
+            "src_art_0005",
+            "src_art_0007"
+          ]
+        }
+      ],
+      "event_date": "2026-09-28",
+      "checks": [
+        "quote_match:src_art_0007",
+        "quote_match:src_art_0005",
+        "independent_origins:2"
+      ],
+      "attributed_only": false,
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0022",
+      "text": "사고 지점은 MDL에서 남쪽으로 약 10m 떨어진 곳이다",
+      "source_ids": [
+        "src_art_0005",
+        "src_art_0007",
+        "src_art_0015"
+      ],
+      "status": "corroborated",
+      "contested": false,
+      "event_date": "2026-09-21",
+      "checks": [
+        "quote_match:src_art_0005",
+        "quote_match:src_art_0007",
+        "quote_match:src_art_0015",
+        "independent_origins:3"
+      ],
+      "attributed_only": false,
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0023",
+      "text": "사고 지점은 북한군 지뢰 매설 추정 지역에서 약 10m 떨어져 있다",
+      "source_ids": [
+        "src_art_0005",
+        "src_art_0015",
+        "src_art_0028",
+        "src_art_0003"
+      ],
+      "status": "disputed",
+      "contested": true,
+      "sides": [
+        {
+          "party": "합참 9월 28일 중간발표(시사저널·코리아중앙데일리·알자지라 보도)",
+          "text": "북한군 매설 추정 지형 변화 지역에서 약 10m",
+          "source_ids": [
+            "src_art_0005",
+            "src_art_0015",
+            "src_art_0028"
+          ]
+        },
+        {
+          "party": "뉴스핌 9월 23일 보도",
+          "text": "북한군 지뢰 매설 추정 지역과 수십 m가량 떨어져 있다",
+          "source_ids": [
+            "src_art_0003"
+          ]
+        }
+      ],
+      "checks": [
+        "quote_match:src_art_0005",
+        "quote_match:src_art_0015",
+        "quote_match:src_art_0028",
+        "quote_match:src_art_0003",
+        "independent_origins:3"
+      ],
+      "attributed_only": false,
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0024",
+      "text": "9월 28일 기준 지뢰의 매설 주체·시점·유입 경위는 규명되지 않았다",
+      "source_ids": [
+        "src_art_0005",
+        "src_art_0006",
+        "src_art_0015",
+        "src_art_0010"
+      ],
+      "status": "corroborated",
+      "contested": false,
+      "event_date": "2026-09-28",
+      "checks": [
+        "quote_match:src_art_0005",
+        "quote_match:src_art_0006",
+        "quote_match:src_art_0015",
+        "quote_match:src_art_0010",
+        "independent_origins:3"
+      ],
+      "attributed_only": false,
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0025",
+      "text": "합참은 9월 28일 북한군 지뢰로 최종 판정되면 모든 책임은 북한에 있으며 상응 조치를 하겠다고 밝혔다",
+      "source_ids": [
+        "src_art_0005",
+        "src_art_0006",
+        "src_art_0016",
+        "src_art_0017"
+      ],
+      "status": "unverified",
+      "contested": true,
+      "sides": [
+        {
+          "party": "합동참모본부(권대원 차장)",
+          "text": "최종 판정 시 모든 책임은 북한에 있고 합당한 상응 조치를 시행",
+          "source_ids": [
+            "src_art_0005",
+            "src_art_0006",
+            "src_art_0016",
+            "src_art_0017"
+          ]
+        }
+      ],
+      "event_date": "2026-09-28",
+      "checks": [
+        "quote_match:src_art_0005",
+        "quote_match:src_art_0006",
+        "quote_match:src_art_0016",
+        "quote_match:src_art_0017",
+        "independent_origins:3",
+        "attributed:src_art_0016"
+      ],
+      "attributed_only": false,
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0026",
+      "text": "9월 29일 합동 현장조사에서 북한군 수지반보병지뢰 1발이 추가로 발견됐다",
+      "source_ids": [
+        "src_art_0008",
+        "src_art_0009",
+        "src_art_0016"
+      ],
+      "status": "corroborated",
+      "contested": false,
+      "event_date": "2026-09-29",
+      "checks": [
+        "quote_match:src_art_0008",
+        "quote_match:src_art_0009",
+        "quote_match:src_art_0016",
+        "independent_origins:3"
+      ],
+      "attributed_only": false,
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0027",
+      "text": "합참은 9월 29일 발견된 지뢰가 장병들이 진술한 지뢰와 다른 물체로 평가했다",
+      "source_ids": [
+        "src_art_0008",
+        "src_art_0016"
+      ],
+      "status": "unverified",
+      "contested": true,
+      "sides": [
+        {
+          "party": "합동참모본부",
+          "text": "29일 발견 지뢰는 장병 진술 지뢰와 별개일 가능성",
+          "source_ids": [
+            "src_art_0008",
+            "src_art_0016"
+          ]
+        }
+      ],
+      "event_date": "2026-09-29",
+      "checks": [
+        "quote_match:src_art_0008",
+        "quote_match:src_art_0016",
+        "independent_origins:1",
+        "attributed:src_art_0008"
+      ],
+      "attributed_only": false,
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0028",
+      "text": "권대원 합참차장은 9월 29일 국회에서 4번째 지뢰와 두 폭발 화구가 MDL 남쪽이라는 점을 유엔사가 인정했다고 말했다",
+      "source_ids": [
+        "src_art_0009",
+        "src_art_0016"
+      ],
+      "status": "unverified",
+      "contested": true,
+      "sides": [
+        {
+          "party": "합동참모본부(권대원 차장)",
+          "text": "유엔사는 4번째 지뢰와 두 화구가 MDL 남쪽임을 인정했고, 최초 발견 지뢰는 판정하지 않았다",
+          "source_ids": [
+            "src_art_0009"
+          ]
+        }
+      ],
+      "event_date": "2026-09-29",
+      "checks": [
+        "quote_match:src_art_0009",
+        "quote_match:src_art_0009",
+        "quote_match:src_art_0016",
+        "independent_origins:2"
+      ],
+      "attributed_only": false,
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0029",
+      "text": "강신철 국방장관은 9월 29일 국회 국방위에서 북한군 지뢰가 확실하다고 답했다",
+      "source_ids": [
+        "src_art_0010"
+      ],
+      "status": "unverified",
+      "contested": true,
+      "sides": [
+        {
+          "party": "강신철 국방부 장관",
+          "text": "북한군 지뢰가 확실하다",
+          "source_ids": [
+            "src_art_0010"
+          ]
+        }
+      ],
+      "event_date": "2026-09-29",
+      "checks": [
+        "quote_match:src_art_0010",
+        "independent_origins:1"
+      ],
+      "attributed_only": false,
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0030",
+      "text": "강신철 국방장관은 9월 29일 해당 지뢰가 유실된 것은 아닌 것으로 보인다고 말했다",
+      "source_ids": [
+        "src_art_0010"
+      ],
+      "status": "unverified",
+      "contested": true,
+      "sides": [
+        {
+          "party": "강신철 국방부 장관",
+          "text": "유실은 아닌 것으로 보인다",
+          "source_ids": [
+            "src_art_0010"
+          ]
+        }
+      ],
+      "event_date": "2026-09-29",
+      "checks": [
+        "quote_match:src_art_0010",
+        "independent_origins:0",
+        "attributed:src_art_0010"
+      ],
+      "attributed_only": true,
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0031",
+      "text": "강신철 국방장관은 9월 29일 이번 사건이 명백한 정전협정 위반이라고 말했다",
+      "source_ids": [
+        "src_art_0016",
+        "src_art_0010",
+        "src_art_0009"
+      ],
+      "status": "disputed",
+      "contested": true,
+      "sides": [
+        {
+          "party": "강신철 국방부 장관",
+          "text": "명백한 정전협정 위반이며 책임은 북한에 있다",
+          "source_ids": [
+            "src_art_0009",
+            "src_art_0010",
+            "src_art_0016"
+          ]
+        },
+        {
+          "party": "진성준 국회 국방위원장(민주당)",
+          "text": "방어적 목적의 시설이나 무기는 정전협정 위반이 아니다",
+          "source_ids": [
+            "src_art_0012"
+          ]
+        }
+      ],
+      "event_date": "2026-09-29",
+      "checks": [
+        "quote_match:src_art_0016",
+        "quote_match:src_art_0010",
+        "quote_match:src_art_0009",
+        "independent_origins:3"
+      ],
+      "attributed_only": false,
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0032",
+      "text": "강신철 국방장관은 9월 29일 상응 조치를 단계적으로 시행하겠다고 말했다",
+      "source_ids": [
+        "src_art_0009",
+        "src_art_0016"
+      ],
+      "status": "unverified",
+      "contested": true,
+      "sides": [
+        {
+          "party": "강신철 국방부 장관",
+          "text": "다양한 방책을 단계적으로 시행하되 작전 사항이라 공개는 어렵다",
+          "source_ids": [
+            "src_art_0009",
+            "src_art_0016"
+          ]
+        }
+      ],
+      "event_date": "2026-09-29",
+      "checks": [
+        "quote_match:src_art_0009",
+        "quote_match:src_art_0016",
+        "quote_match:src_art_0009",
+        "independent_origins:2",
+        "attributed:src_art_0009"
+      ],
+      "attributed_only": false,
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0033",
+      "text": "강신철 국방장관은 9월 29일 사고 당시 NSC가 소집됐느냐는 질의에 부인했다",
+      "source_ids": [
+        "src_art_0009"
+      ],
+      "status": "unverified",
+      "contested": true,
+      "sides": [
+        {
+          "party": "강신철 국방부 장관",
+          "text": "NSC 소집을 부인하며 아군 지뢰 가능성 등 당시 정황 판단이 어려웠다고 설명",
+          "source_ids": [
+            "src_art_0009"
+          ]
+        }
+      ],
+      "event_date": "2026-09-29",
+      "checks": [
+        "quote_match:src_art_0009",
+        "quote_match:src_art_0009",
+        "independent_origins:1"
+      ],
+      "attributed_only": false,
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0034",
+      "text": "청와대는 9월 29일 현장조사 일정이 대통령의 유엔 연설과 관련이 없다고 밝혔다",
+      "source_ids": [
+        "src_art_0011",
+        "src_art_0036"
+      ],
+      "status": "disputed",
+      "contested": true,
+      "sides": [
+        {
+          "party": "청와대",
+          "text": "현장조사는 합참과 유엔사가 군사적 판단으로 정한 것이며 유엔 연설과 무관하다",
+          "source_ids": [
+            "src_art_0011",
+            "src_art_0036"
+          ]
+        },
+        {
+          "party": "국민의힘",
+          "text": "조사 지연이 대북 정책과 군에 대한 정치적 압력과 연관됐다는 의혹을 제기",
+          "source_ids": [
+            "src_art_0036",
+            "src_art_0012"
+          ]
+        }
+      ],
+      "event_date": "2026-09-29",
+      "checks": [
+        "quote_match:src_art_0011",
+        "quote_match:src_art_0011",
+        "quote_match:src_art_0036",
+        "independent_origins:1",
+        "attributed:src_art_0036"
+      ],
+      "attributed_only": false,
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0035",
+      "text": "이재명 대통령은 9월 29일 DMZ 폭발 사고에 대한 신속하고 철저한 조사를 주문했다",
+      "source_ids": [
+        "src_art_0036",
+        "src_art_0009"
+      ],
+      "status": "unverified",
+      "contested": true,
+      "sides": [
+        {
+          "party": "이재명 대통령",
+          "text": "신속하고 철저한 진상 규명",
+          "source_ids": [
+            "src_art_0009",
+            "src_art_0036"
+          ]
+        }
+      ],
+      "event_date": "2026-09-29",
+      "checks": [
+        "quote_match:src_art_0036",
+        "quote_match:src_art_0009",
+        "independent_origins:1",
+        "attributed:src_art_0036"
+      ],
+      "attributed_only": false,
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0036",
+      "text": "민주당은 9월 29일 북한 지뢰로 최종 판명되면 북한이 사과하고 재발 방지를 약속해야 한다고 했다",
+      "source_ids": [
+        "src_art_0012"
+      ],
+      "status": "unverified",
+      "contested": true,
+      "sides": [
+        {
+          "party": "더불어민주당(한병도 원내대표·이주희 원내대변인)",
+          "text": "최종 판명 시 북한이 사과·재발 방지를 약속해야 하고 정부는 상응 조치를 해야 한다",
+          "source_ids": [
+            "src_art_0012"
+          ]
+        }
+      ],
+      "event_date": "2026-09-29",
+      "checks": [
+        "quote_match:src_art_0012",
+        "quote_match:src_art_0012",
+        "independent_origins:1"
+      ],
+      "attributed_only": false,
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0037",
+      "text": "국민의힘은 9월 29일 대북 확성기 즉시 재설치와 대북 방송 재개를 요구했다",
+      "source_ids": [
+        "src_art_0012",
+        "src_art_0009",
+        "src_art_0013"
+      ],
+      "status": "disputed",
+      "contested": true,
+      "sides": [
+        {
+          "party": "국민의힘(정점식 원내대표)",
+          "text": "북한의 도발이며 대북 확성기 재설치·방송 재개 등 단호한 조치가 필요하다",
+          "source_ids": [
+            "src_art_0009",
+            "src_art_0012",
+            "src_art_0013"
+          ]
+        },
+        {
+          "party": "진성준 국회 국방위원장(민주당)",
+          "text": "방어 목적의 매설이라면 군사적 맞대응에는 신중할 필요가 있다",
+          "source_ids": [
+            "src_art_0009",
+            "src_art_0012"
+          ]
+        },
+        {
+          "party": "국방부",
+          "text": "확성기 방송 재개는 최종 판단을 종합하면서 검토하겠다",
+          "source_ids": [
+            "src_art_0009"
+          ]
+        }
+      ],
+      "event_date": "2026-09-29",
+      "checks": [
+        "quote_match:src_art_0012",
+        "quote_match:src_art_0009",
+        "quote_match:src_art_0013",
+        "independent_origins:2",
+        "attributed:src_art_0009"
+      ],
+      "attributed_only": false,
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0038",
+      "text": "북한은 9월 29일 기준 한국군의 지뢰 폭발 지목에 반응하지 않았다",
+      "source_ids": [
+        "src_art_0035"
+      ],
+      "status": "unverified",
+      "contested": false,
+      "event_date": "2026-09-29",
+      "checks": [
+        "quote_match:src_art_0035",
+        "independent_origins:1"
+      ],
+      "attributed_only": false,
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0039",
+      "text": "군 당국에 따르면 북한군은 최근 한 달간 MDL을 20여 차례 침범해 2025년 한 해 17회보다 많았다",
+      "source_ids": [
+        "src_art_0014"
+      ],
+      "status": "unverified",
+      "contested": false,
+      "checks": [
+        "quote_match:src_art_0014",
+        "quote_match:src_art_0014",
+        "independent_origins:1"
+      ],
+      "attributed_only": false,
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0040",
+      "text": "북한은 2024년 4월부터 DMZ 내 요새화 작업을 진행해 왔다",
+      "source_ids": [
+        "src_art_0014"
+      ],
+      "status": "unverified",
+      "contested": false,
+      "checks": [
+        "quote_match:src_art_0014",
+        "independent_origins:1"
+      ],
+      "attributed_only": false,
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0041",
+      "text": "2015년 8월 4일 파주 인근 DMZ 남측에서 지뢰가 폭발해 하사 2명이 다리를 잃었다",
+      "source_ids": [
+        "src_art_0026"
+      ],
+      "status": "unverified",
+      "contested": false,
+      "event_date": "2015-08-04",
+      "checks": [
+        "quote_match:src_art_0026",
+        "quote_match:src_art_0026",
+        "independent_origins:1"
+      ],
+      "attributed_only": false,
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0042",
+      "text": "2015년 합동조사단은 폭발 원인을 북한 목함지뢰로 결론냈다",
+      "source_ids": [
+        "src_art_0026"
+      ],
+      "status": "unverified",
+      "contested": true,
+      "sides": [
+        {
+          "party": "국방부 합동조사단(안영호 준장)",
+          "text": "북한 목함지뢰가 원인",
+          "source_ids": [
+            "src_art_0026"
+          ]
+        }
+      ],
+      "event_date": "2015-08-10",
+      "checks": [
+        "quote_match:src_art_0026",
+        "independent_origins:1"
+      ],
+      "attributed_only": false,
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0043",
+      "text": "젤렌스키 대통령은 9월 23일 유엔총회 연설에서 북한군 포로 2명을 한국으로 보냈다고 밝혔다",
+      "source_ids": [
+        "src_art_0029"
+      ],
+      "status": "disputed",
+      "contested": true,
+      "sides": [
+        {
+          "party": "젤렌스키 우크라이나 대통령",
+          "text": "북한군 포로 2명을 한국으로 보냈다",
+          "source_ids": [
+            "src_art_0029"
+          ]
+        },
+        {
+          "party": "한국 외교부",
+          "text": "발언을 부인하지 않았으나 이송 세부 사항 확인은 거부",
+          "source_ids": [
+            "src_art_0029"
+          ]
+        }
+      ],
+      "event_date": "2026-09-23",
+      "checks": [
+        "quote_match:src_art_0029",
+        "independent_origins:1"
+      ],
+      "attributed_only": false,
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0044",
+      "text": "젤렌스키 대통령은 김정은이 북한 병사들을 화폐처럼 쓰고 대가를 받는다고 말했다",
+      "source_ids": [
+        "src_art_0029"
+      ],
+      "status": "unverified",
+      "contested": true,
+      "sides": [
+        {
+          "party": "젤렌스키 우크라이나 대통령",
+          "text": "김정은이 병사들을 화폐처럼 쓰고 대가를 받는다",
+          "source_ids": [
+            "src_art_0029"
+          ]
+        }
+      ],
+      "event_date": "2026-09-23",
+      "checks": [
+        "quote_match:src_art_0029",
+        "independent_origins:1"
+      ],
+      "attributed_only": false,
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0045",
+      "text": "쇼이구 러시아 안보회의 서기는 2025년 6월 북한이 쿠르스크에 공병 1,000명과 군사 건설인력 5,000명을 보내기로 했다고 밝혔다",
+      "source_ids": [
+        "src_art_0023"
+      ],
+      "status": "disputed",
+      "contested": true,
+      "sides": [
+        {
+          "party": "쇼이구 러시아 안보회의 서기(타스·RIA 보도)",
+          "text": "공병 1,000명·군사 건설인력 5,000명 파견",
+          "source_ids": [
+            "src_art_0023"
+          ]
+        },
+        {
+          "party": "조선중앙통신",
+          "text": "건설인력·공병 파견은 언급하지 않았다",
+          "source_ids": [
+            "src_art_0023"
+          ]
+        }
+      ],
+      "event_date": "2025-06-17",
+      "checks": [
+        "quote_match:src_art_0023",
+        "independent_origins:1"
+      ],
+      "attributed_only": false,
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0046",
+      "text": "북한군 공병이 러시아 쿠르스크주에서 러시아 공병과 함께 지뢰 제거 작업을 했다",
+      "source_ids": [
+        "src_art_0022",
+        "src_art_0024",
+        "src_art_0025",
+        "src_art_0030"
+      ],
+      "status": "corroborated",
+      "contested": false,
+      "checks": [
+        "quote_match:src_art_0022",
+        "quote_match:src_art_0024",
+        "quote_match:src_art_0025",
+        "quote_match:src_art_0030",
+        "independent_origins:4"
+      ],
+      "attributed_only": false,
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0047",
+      "text": "북한 제528공병연대의 해외 파견 기간은 120일이었다",
+      "source_ids": [
+        "src_art_0030"
+      ],
+      "status": "unverified",
+      "contested": true,
+      "sides": [
+        {
+          "party": "조선중앙통신(알자지라 전재)",
+          "text": "120일간 해외 파견",
+          "source_ids": [
+            "src_art_0030"
+          ]
+        }
+      ],
+      "checks": [
+        "quote_match:src_art_0030",
+        "independent_origins:1"
+      ],
+      "attributed_only": false,
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0048",
+      "text": "김정은은 2025년 12월 평양에서 쿠르스크 파견 공병 귀환 환영행사를 열었다",
+      "source_ids": [
+        "src_art_0030",
+        "src_art_0025"
+      ],
+      "status": "corroborated",
+      "contested": false,
+      "event_date": "2025-12-12",
+      "checks": [
+        "quote_match:src_art_0030",
+        "quote_match:src_art_0025",
+        "independent_origins:2"
+      ],
+      "attributed_only": false,
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0049",
+      "text": "528공병연대 파견 중 9명이 숨졌다",
+      "source_ids": [
+        "src_art_0030"
+      ],
+      "status": "unverified",
+      "contested": true,
+      "sides": [
+        {
+          "party": "김정은(조선중앙통신 보도)",
+          "text": "연대원 9명 손실",
+          "source_ids": [
+            "src_art_0030"
+          ]
+        }
+      ],
+      "checks": [
+        "quote_match:src_art_0030",
+        "independent_origins:1"
+      ],
+      "attributed_only": false,
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0050",
+      "text": "힌시테인 쿠르스크 주지사는 북한 공병이 약 4만2,400헥타르를 정리했다고 밝혔다",
+      "source_ids": [
+        "src_art_0025"
+      ],
+      "status": "unverified",
+      "contested": true,
+      "sides": [
+        {
+          "party": "알렉산드르 힌시테인 쿠르스크 주지사",
+          "text": "약 4만2,400헥타르 정리",
+          "source_ids": [
+            "src_art_0025"
+          ]
+        }
+      ],
+      "checks": [
+        "quote_match:src_art_0025",
+        "independent_origins:1"
+      ],
+      "attributed_only": false,
+      "notes": ""
+    }
+  ]
+}
