@@ -1,6 +1,6 @@
 <!--
 tier: 1
-last_synced_with: v4.7.0
+last_synced_with: v4.8.0
 ssot_for: [session-handoff]
 depends_on: [CLAUDE.md, GOAL.md, VERSION, docs/13_IMPLEMENTATION_ROADMAP.md, docs/handoff/KICKOFF_PROMPT.md, docs/handoff/19_FABLE_ANALYSIS_AND_OPUS_EXECUTION_PLAN.md, back_and_forth/README.md]
 last_review: 2026-09-29
@@ -13,11 +13,11 @@ last_review: 2026-09-29
 
 ---
 
-## 1. 지금 어디인가 (v4.7.0)
+## 1. 지금 어디인가 (v4.8.0)
 
 - **작업 브랜치: `overhaul/v2-map-engine`.** Phase 합격(Fable review pass) 뒤 Fable이 main을 fast-forward한다. PR 생성 금지(C8.5).
-- **완료**: v2 개편 Phase 0~11·G1~G5(v2.0.0~v4.5.0). 합격 커밋은 `docs/handoff/TAGS_PENDING.md`.
-- **진행**: G6.5 dmz_mine 브랜치 병합(v4.7.0, back_and_forth D-0104). G6 저음 보강(v4.6.0)은 보고 R-0120.
+- **완료**: v2 개편 Phase 0~11·G1~G6.5(v2.0.0~v4.7.0). 합격 커밋은 `docs/handoff/TAGS_PENDING.md`.
+- **진행**: G7 요소 크기 — 인물 배지 적응 크기·기사 카드 조판·글자 크기·켄 번스·청와대 휘장(v4.8.0, back_and_forth D-0101·D-0109, D-0110 착수).
 - **다음**: G4 사용자 판정("슬라이드가 아니라 다큐", `docs/handoff/20` §12). 합격 기준은 `GOAL.md` G3(17개, 항목별 검증 방법).
 
 ## 2. 일하는 방식 — back_and_forth

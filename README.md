@@ -1,6 +1,6 @@
 <!--
 tier: 1
-last_synced_with: v4.7.0
+last_synced_with: v4.8.0
 ssot_for: [project-entry-point]
 depends_on: [GOAL.md, CLAUDE.md, DOCS_GOVERNANCE.md, docs/02_SYSTEM_ARCHITECTURE.md]
 last_review: 2026-09-29
@@ -90,7 +90,7 @@ Private 저장소이므로 페이지가 GitHub API 를 호출하려면 사용자
 
 새 브랜치를 만들면 `docs/branches.html` 의 `BRANCH_DESCRIPTIONS` 객체에 한 줄 설명을 추가하십시오.
 
-## 현재 상태 (v4.7.0)
+## 현재 상태 (v4.8.0)
 
 | 구간 | 상태 |
 |---|---|
@@ -101,8 +101,9 @@ Private 저장소이므로 페이지가 GitHub API 를 호출하려면 사용자
 | G3 시간축 무대·데이터 레코드·차트 정직성 검사 (v4.3.0) | 완료(D-0089) |
 | G4 첫 비지정학 영상 (v4.4.0) | 완료(D-0094), 영상 최종 판정은 사용자 |
 | G5 검증 라벨 엔딩 카드 한 줄 (v4.5.0) | 완료(D-0100) |
-| G6 배경음악 저음 보강 (v4.6.0) | 보고(R-0120) |
-| G6.5 dmz_mine 브랜치 병합 (v4.7.0) | 진행 중 |
+| G6 배경음악 저음 보강 (v4.6.0) | 완료(D-0105) |
+| G6.5 dmz_mine 브랜치 병합 (v4.7.0) | 완료(D-0110) |
+| G7 요소 크기 (v4.8.0) | 진행 중 |
 | 썸네일 시스템, 텔레그램 인테이크, 유튜브 업로드 | v2 파이프라인에 없음 — 별도 계획 |
 
 Phase 표와 버전은 [docs/13_IMPLEMENTATION_ROADMAP.md](docs/13_IMPLEMENTATION_ROADMAP.md), 변경 내역은 [CHANGELOG.md](CHANGELOG.md), 합격 커밋은 [docs/handoff/TAGS_PENDING.md](docs/handoff/TAGS_PENDING.md).

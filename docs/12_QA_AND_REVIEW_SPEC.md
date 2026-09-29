@@ -1,6 +1,6 @@
 <!--
 tier: 2
-last_synced_with: v4.7.0
+last_synced_with: v4.8.0
 ssot_for: [review-gates, qa-policy]
 depends_on: [docs/handoff/16_ORCHESTRATOR_INTEGRATION.md, docs/handoff/17_AI_DIRECTOR_VISUAL_QA_PROMPTS.md, docs/handoff/18_SOURCE_INTAKE_ARTICLES_X.md, 07_VIDEO_STYLE_GUIDE.md, 08_AUDIO_AND_TTS_SPEC.md, ../GOAL.md]
 last_review: 2026-09-29

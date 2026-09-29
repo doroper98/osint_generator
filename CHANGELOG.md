@@ -1,6 +1,6 @@
 <!--
 tier: 3
-last_synced_with: v4.7.0
+last_synced_with: v4.8.0
 ssot_for: [release-notes]
 depends_on: [README.md, GOAL.md]
 last_review: 2026-09-28
@@ -55,10 +55,20 @@ released 항목은 **append-only**입니다.
 | v4.4.0 | 08c7245 | G4 첫 비지정학 영상 | pass(D-0094) — 영상 최종 판정은 사용자 |
 | v4.5.0 | 6094ce1 | G5 검증 라벨 본문 제거·엔딩 카드 한 줄 | pass(D-0100) |
 | v4.6.0 | 8a39e36 | G6 배경음악 저음 보강 | 보고(R-0120) — 전편 렌더 생략(D-0103), 합격 판정 대기 |
+| v4.7.0 | 4c09701 | G6.5 dmz_mine 병합·D1~D6·엔딩 카드 롤·좌표 근거 검사 | pass(D-0110) — v4.6.0 은 81a7360 으로 pass(D-0105, TAGS_PENDING) |
 
 ---
 
-## [v4.7.0] — 2026-09-29 — G6.5: dmz_mine 브랜치 병합·결정 D1~D6 반영 (back_and_forth D-0104) — 진행 중
+## [v4.8.0] — 2026-09-29 — G7: 요소 크기 — 인물 배지 적응 크기·기사 카드 조판 확대·글자 크기 점검·사진 켄 번스 연속 변환·청와대 휘장 (back_and_forth D-0101·D-0104 D2(c)·D6·D-0109, 사용자 결정 D89·D98) — 진행 중
+
+MINOR: 사용자 지시 "요소들이 너무 작다"(D89). 인물 배지는 동시에 보이는 인물 수에 따라 크기가 바뀌고, 기사 카드는 크게 조판하며, 화면 글자 크기를 전수 점검한다. 사진 켄 번스 계단(R-0119 S8)을 연속 변환으로 고치고, 청와대 휘장을 등재한다(D5 사용자 예외 D98). 골든 25컷은 바뀐다(expected_deltas 등록).
+
+### Changed
+- **§0**: VERSION 4.8.0, Tier 1·2 `last_synced_with` v4.8.0, v4.7.0 대장 행(4c09701, D-0110 pass).
+
+---
+
+## [v4.7.0] — 2026-09-29 — G6.5: dmz_mine 브랜치 병합·결정 D1~D6 반영 (back_and_forth D-0104) — 합격(D-0110)
 
 MINOR: 별도 세션 브랜치(`claude/vibrant-mendel-vdfhsz`, 『DMZ 지뢰 폭발』)를 병합한다. 새 요소 site_diagram, 연출 규칙(발언 주체 → 초상·기사 카드), 좌표 근거 검사 `[geo-unsourced]`, W1 체크리스트, `reopen --to direction`.
 
