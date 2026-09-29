@@ -1,0 +1,878 @@
+{
+ "schema_version": 1,
+ "engine": "engine",
+ "repo_version": "4.8.0",
+ "rules_version": "2.0.0",
+ "rules_hash": "745bf177f4d3e52f9c315177176d96e7619aa343",
+ "prompts": {},
+ "voice": "edge-tts ko-KR-InJoonNeural",
+ "word_anchor": "aligned",
+ "word_anchors": [
+  {
+   "sid": "ask_1",
+   "word": "독일",
+   "mode": "aligned",
+   "t": 77.245,
+   "alignment_source": "edge_word_boundary"
+  },
+  {
+   "sid": "ask_1",
+   "word": "영국",
+   "mode": "aligned",
+   "t": 78.095,
+   "alignment_source": "edge_word_boundary"
+  },
+  {
+   "sid": "ask_1",
+   "word": "일본",
+   "mode": "aligned",
+   "t": 79.345,
+   "alignment_source": "edge_word_boundary"
+  },
+  {
+   "sid": "ask_1",
+   "word": "호주",
+   "mode": "aligned",
+   "t": 80.518,
+   "alignment_source": "edge_word_boundary"
+  },
+  {
+   "sid": "ask_1",
+   "word": "한국",
+   "mode": "aligned",
+   "t": 82.348,
+   "alignment_source": "edge_word_boundary"
+  },
+  {
+   "sid": "ask_4",
+   "word": "한국",
+   "mode": "aligned",
+   "t": 96.637,
+   "alignment_source": "edge_word_boundary"
+  },
+  {
+   "sid": "past_3",
+   "word": "호르무즈",
+   "mode": "aligned",
+   "t": 205.056,
+   "alignment_source": "edge_word_boundary"
+  }
+ ],
+ "tts": {
+  "resynthesized": []
+ },
+ "total_sec": 292.441,
+ "sentences": 45,
+ "stages": {
+  "plan": true,
+  "geo": true,
+  "preview": true,
+  "render": true,
+  "mix": true,
+  "mux": true,
+  "ai_direction": false,
+  "visual_qa": false,
+  "bundle": false
+ },
+ "features_used": {
+  "camera_keys": 10,
+  "camera_moves": 5,
+  "camera_cuts": 5,
+  "dips": 4,
+  "dips_under": 1,
+  "badges": 8,
+  "badge_kinds": {
+   "person": 3,
+   "flag": 4,
+   "emblem": 1
+  },
+  "panels": [
+   "relation",
+   "statement",
+   "timeline",
+   "precedent",
+   "versus"
+  ],
+  "cards": 7,
+  "media": {
+   "clip": 2,
+   "photo": 2,
+   "cutout": 1,
+   "article": 2
+  },
+  "event_types": {
+   "article": 2,
+   "badge": 8,
+   "barrier": 1,
+   "boom": 1,
+   "card": 7,
+   "clip": 2,
+   "country": 1,
+   "cutout": 1,
+   "dip": 4,
+   "marker": 8,
+   "panel": 5,
+   "photo": 2,
+   "route": 4,
+   "ships": 1,
+   "tanker_loop": 1
+  },
+  "label_lod": true,
+  "vignette": false,
+  "at_word": {
+   "aligned": 7,
+   "ratio": 0
+  }
+ },
+ "qa": {
+  "auto_iterations": 0,
+  "user_approved": false,
+  "reviewer": "fable (back_and_forth)"
+ },
+ "drops": [],
+ "assets": {
+  "images_used": [
+   "emblem:navcent",
+   "flag11:au",
+   "flag11:ca",
+   "flag11:cn",
+   "flag11:de",
+   "flag11:fr",
+   "flag11:gb",
+   "flag11:in",
+   "flag11:it",
+   "flag11:jp",
+   "flag11:kr",
+   "flag11:nl",
+   "flag43:ir",
+   "flag43:kr",
+   "flag43:us",
+   "media:hormuz_transit_720.jpg",
+   "media:p8_cut.png",
+   "media:rok_iraq_720.jpg",
+   "portrait:khamenei",
+   "portrait:lee_jae_myung",
+   "portrait:roh_moo_hyun",
+   "portrait:trump"
+  ],
+  "emblems": {
+   "used": [
+    "navcent"
+   ],
+   "flag_fallback": {}
+  },
+  "badges": {
+   "suggested": [
+    "au",
+    "cheonghae",
+    "cheongwadae",
+    "cn",
+    "de",
+    "fr",
+    "gb",
+    "il",
+    "imo",
+    "in",
+    "iq",
+    "ir",
+    "jp",
+    "khamenei",
+    "kr",
+    "lee_jae_myung",
+    "roh_moo_hyun",
+    "ru",
+    "trump",
+    "us"
+   ],
+   "used": [
+    "cn",
+    "in",
+    "khamenei",
+    "kr",
+    "lee_jae_myung",
+    "navcent"
+   ],
+   "suggested_and_used": [
+    "cn",
+    "in",
+    "khamenei",
+    "kr",
+    "lee_jae_myung"
+   ],
+   "suggestions": 48
+  }
+ },
+ "panels": {
+  "used": [
+   {
+    "kind": "relation",
+    "title": "3월 15일의 요구, 다음 날의 거절",
+    "t0": 69.36,
+    "prov_tag": null
+   },
+   {
+    "kind": "statement",
+    "title": "3월 21일 공동성명",
+    "t0": 94.89,
+    "prov_tag": null
+   },
+   {
+    "kind": "timeline",
+    "title": "해협의 일곱 달",
+    "t0": 110.69,
+    "prov_tag": null
+   },
+   {
+    "kind": "precedent",
+    "title": "한국의 해외 파견 결정",
+    "t0": 186.43,
+    "prov_tag": null
+   },
+   {
+    "kind": "versus",
+    "title": "파병을 둘러싼 두 입장",
+    "t0": 224.24,
+    "prov_tag": null
+   }
+  ]
+ },
+ "credits": {
+  "card": {
+   "emblems": 1,
+   "flags": 1,
+   "map": 2,
+   "media": 7,
+   "music": 1,
+   "narration": 1,
+   "people": 4
+  },
+  "description_only": {
+   "fonts": 4
+  }
+ },
+ "reserved": {
+  "avoidance": [
+   {
+    "badge": "울산",
+    "t0": 48.67,
+    "t1": 48.75,
+    "strategy": [
+     "edge"
+    ],
+    "direction": [
+     "left"
+    ],
+    "max_px": 17.4,
+    "zones": [
+     "screen"
+    ],
+    "frames": 3
+   },
+   {
+    "badge": "부산에서 출항",
+    "t0": 162.08,
+    "t1": 186.25,
+    "strategy": [
+     "edge",
+     "push"
+    ],
+    "direction": [
+     "down",
+     "left"
+    ],
+    "max_px": 157.2,
+    "zones": [
+     "article:Reuters",
+     "card:거론된 선택지",
+     "screen"
+    ],
+    "frames": 581
+   },
+   {
+    "badge": "이재명",
+    "t0": 243.17,
+    "t1": 254.75,
+    "strategy": [
+     "edge",
+     "hide"
+    ],
+    "direction": [
+     "down",
+     "right"
+    ],
+    "max_px": 168.0,
+    "zones": [
+     "card:이재명 대통령 · 발언 요지",
+     "screen"
+    ],
+    "frames": 15
+   }
+  ]
+ },
+ "audio": {
+  "bgm": [
+   "music.zabriskie_patriarch"
+  ],
+  "bed_gain": 0.47,
+  "crossfades": 0,
+  "bed_bass": {
+   "applied": {
+    "shelf": {
+     "freq_hz": 110.0,
+     "gain_db": 5.0,
+     "q": 0.7
+    },
+    "sub": {
+     "band_hz": [
+      55.0,
+      220.0
+     ],
+     "out_lp_hz": 110.0,
+     "filter_order": 4,
+     "gain": 0.35,
+     "env_attack_sec": 0.03,
+     "env_release_sec": 0.25,
+     "env_block_sec": 0.001
+    },
+    "swell": {
+     "sec": 2.5,
+     "depth": 0.35
+    },
+    "norm_ref": 0.7
+   },
+   "ratio_db": {
+    "before": 11.78,
+    "after": 17.13
+   },
+   "rise_db": 5.35,
+   "swell_at": [
+    26.274,
+    49.203,
+    69.559,
+    110.891,
+    149.311,
+    161.794,
+    186.635,
+    211.458,
+    242.555,
+    255.111
+   ],
+   "bands_hz": {
+    "bass": [
+     30.0,
+     120.0
+    ],
+    "mid": [
+     200.0,
+     2000.0
+    ]
+   }
+  },
+  "loudnorm": {
+   "passes": 2,
+   "pass1": {
+    "input_i": -14.15,
+    "input_tp": -0.6,
+    "input_lra": 3.7,
+    "input_thresh": -24.8,
+    "target_offset": 0.21
+   },
+   "pass2": {
+    "output_i": -14.0,
+    "output_tp": -1.5,
+    "normalization_type": "dynamic"
+   },
+   "post_limiter_dbfs": -2.0
+  },
+  "qa": {
+   "hard": [],
+   "warnings": [],
+   "final_loudness": {
+    "I": -14.05,
+    "TP": -1.72,
+    "LRA": 3.7
+   },
+   "music_under_narration_db": -11.55,
+   "mix_peak": 0.9123,
+   "bed_bass_ratio_db": 17.13,
+   "bed_bass_rise_db": 5.35
+  }
+ },
+ "render": {
+  "resolution": {
+   "profile": "480p",
+   "width": 854,
+   "height": 480,
+   "fps": 24,
+   "k": 1.0,
+   "pad_x": 0.0,
+   "crf": 19,
+   "preset": "faster"
+  }
+ },
+ "badge": {
+  "R_ignored": [
+   {
+    "i": 1,
+    "pid": "lee_jae_myung",
+    "label": "이재명",
+    "t0": 1.8,
+    "R": 34.0
+   },
+   {
+    "i": 10,
+    "pid": "khamenei",
+    "label": "알리 하메네이",
+    "t0": 54.41,
+    "R": 32.0
+   },
+   {
+    "i": 30,
+    "pid": "lee_jae_myung",
+    "label": "이재명",
+    "t0": 242.96,
+    "R": 34.0
+   }
+  ],
+  "head_top": [
+   {
+    "pid": "lee_jae_myung",
+    "head_top": 1.0768,
+    "md5": "098445aaebfc8bfd9665bc842056fcc9"
+   },
+   {
+    "pid": "khamenei",
+    "head_top": 1.0768,
+    "md5": "4b531c7b949e41b5f687895ef0ebf9df"
+   }
+  ]
+ },
+ "geo": {
+  "unsourced": [
+   {
+    "kind": "place",
+    "name": "hormuz",
+    "lonlat": [
+     56.35,
+     26.55
+    ]
+   },
+   {
+    "kind": "place",
+    "name": "seoul",
+    "lonlat": [
+     126.98,
+     37.57
+    ]
+   },
+   {
+    "kind": "place",
+    "name": "ulsan",
+    "lonlat": [
+     129.31,
+     35.54
+    ]
+   },
+   {
+    "kind": "place",
+    "name": "busan",
+    "lonlat": [
+     129.04,
+     35.1
+    ]
+   },
+   {
+    "kind": "place",
+    "name": "kharg",
+    "lonlat": [
+     50.32,
+     29.24
+    ]
+   },
+   {
+    "kind": "place",
+    "name": "aden",
+    "lonlat": [
+     46.8,
+     12.4
+    ]
+   },
+   {
+    "kind": "place",
+    "name": "embassy",
+    "lonlat": [
+     126.9775,
+     37.5725
+    ]
+   },
+   {
+    "kind": "place",
+    "name": "erbil",
+    "lonlat": [
+     44.01,
+     36.19
+    ]
+   },
+   {
+    "kind": "path",
+    "name": "route",
+    "points": 20,
+    "ends": [
+     [
+      56.2,
+      26.45
+     ],
+     [
+      129.35,
+      35.45
+     ]
+    ]
+   },
+   {
+    "kind": "path",
+    "name": "cheong",
+    "points": 18,
+    "ends": [
+     [
+      129.04,
+      35.05
+     ],
+     [
+      47.2,
+      12.3
+     ]
+    ]
+   },
+   {
+    "kind": "route",
+    "name": "events[13] 허가받은 배만 통과",
+    "points": 3,
+    "ends": [
+     [
+      56.9,
+      25.9
+     ],
+     [
+      60.4,
+      24.3
+     ]
+    ]
+   }
+  ]
+ },
+ "stage": {
+  "name": "mercator",
+  "declared": false,
+  "shots_declared": 0,
+  "instances": {
+   "mercator": 1
+  },
+  "configs": {}
+ },
+ "genre": {
+  "name": "geopolitics",
+  "declared": false,
+  "status": "approved"
+ },
+ "camera": {
+  "suggest_ran": false,
+  "suggested": 0,
+  "used": 0,
+  "given_to_director": false
+ },
+ "lint_warnings": [
+  "[badge-R-ignored] 인물 뱃지 연출 R 3건 무시 — 크기는 보이는 인물 수로 코드가 정한다(D-0111): 이재명 R 34, 알리 하메네이 R 32, 이재명 R 34"
+ ],
+ "media": {
+  "suggested": [
+   {
+    "sid": "open_1",
+    "scene": "open",
+    "kind": "photo",
+    "trigger": "발표",
+    "at": 5.82,
+    "source": "trigger",
+    "asset_id": null
+   },
+   {
+    "sid": "war_0",
+    "scene": "war",
+    "kind": "clip",
+    "trigger": "공습",
+    "at": 49.2,
+    "source": "trigger",
+    "asset_id": null
+   },
+   {
+    "sid": "timeline_4",
+    "scene": "timeline",
+    "kind": "clip",
+    "trigger": "공습",
+    "at": 134.17,
+    "source": "trigger",
+    "asset_id": null
+   },
+   {
+    "sid": "review_0",
+    "scene": "review",
+    "kind": "article",
+    "trigger": "보도했습니다",
+    "at": 161.79,
+    "source": "trigger",
+    "asset_id": null
+   },
+   {
+    "sid": "review_1",
+    "scene": "review",
+    "kind": "cutout",
+    "trigger": "초계기",
+    "at": 168.02,
+    "source": "trigger",
+    "asset_id": null
+   },
+   {
+    "sid": "review_3",
+    "scene": "review",
+    "kind": "photo",
+    "trigger": "부대",
+    "at": 178.62,
+    "source": "trigger",
+    "asset_id": null
+   },
+   {
+    "sid": "past_1",
+    "scene": "past",
+    "kind": "photo",
+    "trigger": "부대",
+    "at": 190.72,
+    "source": "trigger",
+    "asset_id": null
+   },
+   {
+    "sid": "past_2",
+    "scene": "past",
+    "kind": "photo",
+    "trigger": "회담",
+    "at": 195.95,
+    "source": "trigger",
+    "asset_id": null
+   },
+   {
+    "sid": "past_3",
+    "scene": "past",
+    "kind": "photo",
+    "trigger": "부대",
+    "at": 202.41,
+    "source": "trigger",
+    "asset_id": null
+   },
+   {
+    "sid": "debate_1",
+    "scene": "debate",
+    "kind": "photo",
+    "trigger": "파병",
+    "at": 218.46,
+    "source": "trigger",
+    "asset_id": null
+   },
+   {
+    "sid": "debate_2",
+    "scene": "debate",
+    "kind": "photo",
+    "trigger": "파병",
+    "at": 224.54,
+    "source": "trigger",
+    "asset_id": null
+   },
+   {
+    "sid": "debate_3",
+    "scene": "debate",
+    "kind": "cutout",
+    "trigger": "미사일",
+    "at": 229.65,
+    "source": "trigger",
+    "asset_id": null
+   },
+   {
+    "sid": "debate_4",
+    "scene": "debate",
+    "kind": "cutout",
+    "trigger": "미사일",
+    "at": 236.0,
+    "source": "trigger",
+    "asset_id": null
+   },
+   {
+    "sid": "decision_0",
+    "scene": "decision",
+    "kind": "photo",
+    "trigger": "파병",
+    "at": 242.56,
+    "source": "trigger",
+    "asset_id": null
+   },
+   {
+    "sid": "now_3",
+    "scene": "now",
+    "kind": "photo",
+    "trigger": "부대",
+    "at": 272.44,
+    "source": "trigger",
+    "asset_id": null
+   }
+  ],
+  "used": [
+   {
+    "mid": "herald_0907",
+    "kind": "article",
+    "t0": 211.76
+   },
+   {
+    "mid": "niovi",
+    "kind": "clip",
+    "t0": 58.95
+   },
+   {
+    "mid": "rok_iraq",
+    "kind": "photo",
+    "t0": 191.32
+   },
+   {
+    "mid": "reuters_0904",
+    "kind": "article",
+    "t0": 162.09
+   },
+   {
+    "mid": "hormuz_transit",
+    "kind": "photo",
+    "t0": 256.11
+   },
+   {
+    "mid": "strikes",
+    "kind": "clip",
+    "t0": 134.47
+   },
+   {
+    "mid": "p8",
+    "kind": "cutout",
+    "t0": 168.12
+   }
+  ],
+  "suggested_and_used": [
+   "now:photo",
+   "past:photo",
+   "review:article",
+   "review:cutout",
+   "timeline:clip",
+   "war:clip"
+  ],
+  "density": {
+   "schema_version": 1,
+   "total_sec": 292.441,
+   "items": [
+    {
+     "mid": "niovi",
+     "kind": "clip",
+     "t0": 58.95,
+     "t1": 63.95,
+     "scene": "war"
+    },
+    {
+     "mid": "strikes",
+     "kind": "clip",
+     "t0": 134.47,
+     "t1": 139.47,
+     "scene": "timeline"
+    },
+    {
+     "mid": "reuters_0904",
+     "kind": "article",
+     "t0": 162.09,
+     "t1": 168.42,
+     "scene": "review"
+    },
+    {
+     "mid": "p8",
+     "kind": "cutout",
+     "t0": 168.12,
+     "t1": 178.52,
+     "scene": "review"
+    },
+    {
+     "mid": "rok_iraq",
+     "kind": "photo",
+     "t0": 191.32,
+     "t1": 202.11,
+     "scene": "past"
+    },
+    {
+     "mid": "herald_0907",
+     "kind": "article",
+     "t0": 211.76,
+     "t1": 218.96,
+     "scene": "debate"
+    },
+    {
+     "mid": "hormuz_transit",
+     "kind": "photo",
+     "t0": 256.11,
+     "t1": 266.08,
+     "scene": "now"
+    }
+   ],
+   "count": 7,
+   "sec_per_item": 41.8,
+   "target_sec_per_item": [
+    40.0,
+    60.0
+   ],
+   "window": {
+    "window_sec": 40.0,
+    "window_max": 2,
+    "exempt": [
+     "article"
+    ],
+    "max": {
+     "t0": 134.47,
+     "count": 2,
+     "mids": [
+      "strikes",
+      "p8"
+     ]
+    }
+   },
+   "per_scene": {
+    "war": [
+     "niovi"
+    ],
+    "timeline": [
+     "strikes"
+    ],
+    "review": [
+     "p8"
+    ],
+    "past": [
+     "rok_iraq"
+    ],
+    "now": [
+     "hormuz_transit"
+    ]
+   },
+   "warnings": []
+  },
+  "placement": {
+   "niovi": "explicit",
+   "rok_iraq": "explicit",
+   "hormuz_transit": "explicit",
+   "strikes": "explicit"
+  }
+ },
+ "script": {
+  "labels": {
+   "verified": 0,
+   "corroborated": 45,
+   "unverified": 0,
+   "disputed": 0
+  }
+ }
+}
