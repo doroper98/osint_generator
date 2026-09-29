@@ -3,7 +3,7 @@
  "engine": "engine",
  "repo_version": "4.5.0",
  "rules_version": "2.0.0",
- "rules_hash": "a8424198dbcdde39ef1635d6198e555f12559103",
+ "rules_hash": "ec4b961234a8725fc7ee8a425ada053f3442816c",
  "prompts": {
   "director": "903e50877c53f08ac39e20c0855a04cf7c54c0c8"
  },
