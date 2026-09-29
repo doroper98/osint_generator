@@ -1,0 +1,48 @@
+{
+ "schema_version": 1,
+ "project": "ratcliffe2026",
+ "checks_items": 18,
+ "checks_hard": 0,
+ "honesty_hard": 0,
+ "items": [
+  {
+   "id": "chart_honesty",
+   "severity": "hard",
+   "count": 0,
+   "details": [],
+   "notes": [
+    "n/a(none 축) panel versus '나토 경고, 엇갈리는 설명' t0=99.99"
+   ]
+  },
+  {
+   "id": "series_limit_3",
+   "severity": "hard",
+   "count": 0,
+   "details": [],
+   "notes": [
+    "n/a(date 축) panel timeline '방문 앞의 한 달' t0=76.37",
+    "n/a(none 축) panel versus '나토 경고, 엇갈리는 설명' t0=99.99"
+   ]
+  },
+  {
+   "id": "units_visible",
+   "severity": "hard",
+   "count": 0,
+   "details": [],
+   "notes": [
+    "n/a(date 축) panel timeline '방문 앞의 한 달' t0=76.37",
+    "n/a(none 축) panel versus '나토 경고, 엇갈리는 설명' t0=99.99"
+   ]
+  },
+  {
+   "id": "as_of_visible",
+   "severity": "hard",
+   "count": 0,
+   "details": [],
+   "notes": [
+    "n/a(date 축) panel timeline '방문 앞의 한 달' t0=76.37",
+    "n/a(none 축) panel versus '나토 경고, 엇갈리는 설명' t0=99.99"
+   ]
+  }
+ ]
+}

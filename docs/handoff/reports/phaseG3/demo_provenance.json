@@ -1,0 +1,249 @@
+{
+ "schema_version": 1,
+ "engine": "engine",
+ "repo_version": "4.3.0",
+ "rules_version": "2.0.0",
+ "rules_hash": "f22349b1947bf2bcfd9014a861823f2bcd8007b5",
+ "prompts": {},
+ "voice": "edge-tts ko-KR-InJoonNeural",
+ "word_anchor": "none",
+ "word_anchors": [],
+ "tts": {
+  "resynthesized": []
+ },
+ "total_sec": 77.568,
+ "sentences": 10,
+ "stages": {
+  "plan": true,
+  "geo": true,
+  "preview": true,
+  "render": false,
+  "mix": false,
+  "mux": false,
+  "ai_direction": false,
+  "visual_qa": false,
+  "bundle": false
+ },
+ "features_used": {
+  "camera_keys": 5,
+  "camera_moves": 4,
+  "camera_cuts": 1,
+  "dips": 0,
+  "dips_under": 0,
+  "badges": 0,
+  "badge_kinds": {},
+  "panels": [],
+  "cards": 0,
+  "media": {
+   "clip": 0,
+   "photo": 0,
+   "cutout": 0,
+   "article": 0
+  },
+  "event_types": {
+   "marker": 6,
+   "series": 2
+  },
+  "label_lod": true,
+  "vignette": false,
+  "at_word": {
+   "aligned": 0,
+   "ratio": 0
+  }
+ },
+ "qa": {
+  "auto_iterations": 0,
+  "user_approved": false,
+  "reviewer": "fable (back_and_forth)"
+ },
+ "drops": [],
+ "assets": {
+  "images_used": [],
+  "emblems": {
+   "used": [],
+   "flag_fallback": {}
+  },
+  "badges": {
+   "suggested": [
+    "us"
+   ],
+   "used": [],
+   "suggested_and_used": [],
+   "suggestions": 2
+  }
+ },
+ "panels": {
+  "used": []
+ },
+ "credits": {
+  "card": {
+   "narration": 1
+  },
+  "description_only": {
+   "fonts": 4
+  }
+ },
+ "reserved": {
+  "avoidance": []
+ },
+ "audio": {
+  "bgm": null,
+  "bed_gain": 0.47,
+  "crossfades": 0
+ },
+ "render": {
+  "resolution": {
+   "profile": "480p",
+   "width": 854,
+   "height": 480,
+   "fps": 24,
+   "k": 1.0,
+   "pad_x": 0.0,
+   "crf": 19,
+   "preset": "faster"
+  }
+ },
+ "stage": {
+  "name": "timeline",
+  "declared": true,
+  "shots_declared": 0,
+  "instances": {
+   "timeline": 1
+  },
+  "configs": {
+   "timeline": {
+    "lanes": [
+     {
+      "id": "policy_rate",
+      "label": "연방기금 실효금리",
+      "kind": "step",
+      "unit": "%"
+     },
+     {
+      "id": "inflation",
+      "label": "소비자물가 상승률 · 1년 전 대비",
+      "kind": "line",
+      "unit": "%"
+     },
+     {
+      "id": "events",
+      "label": "기록",
+      "kind": "pins"
+     }
+    ],
+    "start": "2019-01-01",
+    "end": "2026-10-01",
+    "compress": [
+     {
+      "from": "2019-01-01",
+      "to": "2020-01-01",
+      "factor": 0.35
+     }
+    ]
+   }
+  }
+ },
+ "genre": {
+  "name": "macro_monetary",
+  "declared": true,
+  "status": "proposed"
+ },
+ "series": [
+  {
+   "series_id": "FEDFUNDS",
+   "as_of": "2026-08",
+   "license": "us_gov_public_domain",
+   "source_url": "https://fred.stlouisfed.org/graph/fredgraph.csv?id=FEDFUNDS&cosd=2019-01-01",
+   "transform": "raw",
+   "missing": []
+  },
+  {
+   "series_id": "CPIAUCSL",
+   "as_of": "2026-08",
+   "license": "us_gov_public_domain",
+   "source_url": "https://fred.stlouisfed.org/graph/fredgraph.csv?id=CPIAUCSL&cosd=2018-01-01",
+   "transform": "yoy_pct",
+   "missing": [
+    "2025-10-01"
+   ]
+  }
+ ],
+ "camera": {
+  "suggest_ran": false,
+  "suggested": 0,
+  "used": 0,
+  "given_to_director": false
+ },
+ "lint_warnings": [
+  "[media-density-total] 과소 — 0개 / 78초 = inf초당 1개 > 60초 (14 §10.1)"
+ ],
+ "media": {
+  "suggested": [
+   {
+    "sid": "gap_0",
+    "scene": "gap",
+    "kind": "photo",
+    "trigger": "발표",
+    "at": 43.75,
+    "source": "trigger",
+    "asset_id": null
+   }
+  ],
+  "used": [],
+  "suggested_and_used": [],
+  "density": {
+   "schema_version": 1,
+   "total_sec": 77.568,
+   "items": [],
+   "count": 0,
+   "sec_per_item": null,
+   "target_sec_per_item": [
+    40.0,
+    60.0
+   ],
+   "window": {
+    "window_sec": 40.0,
+    "window_max": 2,
+    "exempt": [
+     "article"
+    ],
+    "max": {
+     "t0": null,
+     "count": 0,
+     "mids": []
+    }
+   },
+   "per_scene": {},
+   "warnings": [
+    "[media-density-total] 과소 — 0개 / 78초 = inf초당 1개 > 60초 (14 §10.1)"
+   ]
+  },
+  "placement": {}
+ },
+ "script": {
+  "labels": null
+ },
+ "preview": {
+  "frames": 12,
+  "times": [
+   6.4,
+   15.7,
+   22.1,
+   26.4,
+   31.5,
+   34.7,
+   40.0,
+   44.5,
+   47.4,
+   53.5,
+   58.0,
+   71.5
+  ],
+  "dir": "prev"
+ },
+ "checks": {
+  "hard": 0,
+  "warnings": 1,
+  "passed": true
+ }
+}

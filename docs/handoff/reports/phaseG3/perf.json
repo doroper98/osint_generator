@@ -1,0 +1,13 @@
+{
+ "schema_version": 1,
+ "role": "D-0084 작업 10 — 같은 컨테이너 실측(Opus 클라우드)",
+ "hormuz_golden_preview_sec": 9.7,
+ "ratcliffe_auto_preview_sec": 7.4,
+ "demo_12cut_preview_sec": 4.8,
+ "demo_full_render": {
+  "sec": 11.7,
+  "jobs": 4,
+  "frames": 1861
+ },
+ "gallery_33_sec": 10.7
+}

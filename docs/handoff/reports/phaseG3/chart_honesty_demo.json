@@ -1,0 +1,42 @@
+{
+ "schema_version": 1,
+ "project": "fed_timeline_demo",
+ "checks_items": 18,
+ "checks_hard": 0,
+ "honesty_hard": 0,
+ "items": [
+  {
+   "id": "chart_honesty",
+   "severity": "hard",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "series_limit_3",
+   "severity": "hard",
+   "count": 0,
+   "details": [],
+   "notes": [
+    "n/a(date 축) stage timeline"
+   ]
+  },
+  {
+   "id": "units_visible",
+   "severity": "hard",
+   "count": 0,
+   "details": [],
+   "notes": [
+    "n/a(date 축) stage timeline"
+   ]
+  },
+  {
+   "id": "as_of_visible",
+   "severity": "hard",
+   "count": 0,
+   "details": [],
+   "notes": [
+    "n/a(date 축) stage timeline"
+   ]
+  }
+ ]
+}

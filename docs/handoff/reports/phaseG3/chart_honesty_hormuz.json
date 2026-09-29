@@ -1,0 +1,60 @@
+{
+ "schema_version": 1,
+ "project": "hormuz_korea",
+ "checks_items": 18,
+ "checks_hard": 0,
+ "honesty_hard": 0,
+ "items": [
+  {
+   "id": "chart_honesty",
+   "severity": "hard",
+   "count": 0,
+   "details": [],
+   "notes": [
+    "n/a(none 축) panel relation '3월 15일의 요구, 다음 날의 거절' t0=69.36",
+    "n/a(none 축) panel statement '3월 21일 공동성명' t0=94.89",
+    "n/a(none 축) panel precedent '한국의 해외 파견 결정' t0=186.43",
+    "n/a(none 축) panel versus '파병을 둘러싼 두 입장' t0=224.24"
+   ]
+  },
+  {
+   "id": "series_limit_3",
+   "severity": "hard",
+   "count": 0,
+   "details": [],
+   "notes": [
+    "n/a(none 축) panel relation '3월 15일의 요구, 다음 날의 거절' t0=69.36",
+    "n/a(none 축) panel statement '3월 21일 공동성명' t0=94.89",
+    "n/a(date 축) panel timeline '해협의 일곱 달' t0=110.69",
+    "n/a(none 축) panel precedent '한국의 해외 파견 결정' t0=186.43",
+    "n/a(none 축) panel versus '파병을 둘러싼 두 입장' t0=224.24"
+   ]
+  },
+  {
+   "id": "units_visible",
+   "severity": "hard",
+   "count": 0,
+   "details": [],
+   "notes": [
+    "n/a(none 축) panel relation '3월 15일의 요구, 다음 날의 거절' t0=69.36",
+    "n/a(none 축) panel statement '3월 21일 공동성명' t0=94.89",
+    "n/a(date 축) panel timeline '해협의 일곱 달' t0=110.69",
+    "n/a(none 축) panel precedent '한국의 해외 파견 결정' t0=186.43",
+    "n/a(none 축) panel versus '파병을 둘러싼 두 입장' t0=224.24"
+   ]
+  },
+  {
+   "id": "as_of_visible",
+   "severity": "hard",
+   "count": 0,
+   "details": [],
+   "notes": [
+    "n/a(none 축) panel relation '3월 15일의 요구, 다음 날의 거절' t0=69.36",
+    "n/a(none 축) panel statement '3월 21일 공동성명' t0=94.89",
+    "n/a(date 축) panel timeline '해협의 일곱 달' t0=110.69",
+    "n/a(none 축) panel precedent '한국의 해외 파견 결정' t0=186.43",
+    "n/a(none 축) panel versus '파병을 둘러싼 두 입장' t0=224.24"
+   ]
+  }
+ ]
+}

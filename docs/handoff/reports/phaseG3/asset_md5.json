@@ -1,0 +1,41 @@
+{
+ "schema_version": 1,
+ "role": "D-0084 작업 10 — 이 컨테이너의 자산(지오 480p·demo tts·final.mp4)",
+ "hormuz_geo": {
+  "base_G_24.png": "5147a4e4d5ceb985b75fa902d5430520",
+  "base_G_48.png": "430107c2e7f944e02b0e80a0e841332c",
+  "base_G_96.png": "2be1f3e98eed8d095bff20bd2cbf2707",
+  "base_K_24.png": "3c478f19a0e4ad23abff8fb512f7d3c8",
+  "base_K_48.png": "23c54c4fe29be281935963486f058b75",
+  "base_K_96.png": "e8a190f57f2a99b614f9e587aa9177d4",
+  "base_W_12.png": "5acd32aada6db3009cef1ca2b05c174f",
+  "base_W_24.png": "b28b5bc2805719cae7fb054092c93b53",
+  "base_W_6.png": "0a688d1433b63d18a2eb8cc70a37a33a",
+  "geo.pkl": "9549f13466639c4fd2d5b96832ddd3b9",
+  "tiers.pkl": "bc825e6b113e14f56cd4407106ce5f7f"
+ },
+ "ratcliffe_geo": {
+  "base_G_24.png": "74fa261bfbb4f137884f5e67bdda1d9f",
+  "base_G_48.png": "227f25aaef7c4d569274ac3c4e442609",
+  "base_G_96.png": "b79e9eb0880e5e04ca897ced05fa7ca1",
+  "base_W_12.png": "909c112f3f6a7b3489baaaa491fa8abe",
+  "base_W_24.png": "eda0a20d167d1a35f4f6843057adbcb2",
+  "base_W_6.png": "2ff25ae8464efcc46c57c74e3114c5d2",
+  "geo.pkl": "7f160f4b067b06960e366c1ccddcd24e",
+  "tiers.pkl": "915ff6685f6389b5eb37ee7d73ec5a0f"
+ },
+ "fed_timeline_demo": {
+  "tts/gap_0_c398ee8194.mp3": "59639ad315602583be0fef9b907b6a76",
+  "tts/high_0_d5d56aaf45.mp3": "b50406938f41cae209e70e518a9fc281",
+  "tts/low_0_28246dc7ca.mp3": "12010a6eff3de4ada65bc8baf7d1bd5c",
+  "tts/low_1_39bd169929.mp3": "e7e9b42ccd65b569d6667c1312df1a43",
+  "tts/now_0_37b54a56ab.mp3": "a10d6e8a44238ce357a471f4a232c834",
+  "tts/now_1_468c405e98.mp3": "00bf0268e878ba925cce59b1e18cbaa2",
+  "tts/now_2_1774567f02.mp3": "ed88ede8fb9cb5cd94030222be401d74",
+  "tts/open_0_13e9b50867.mp3": "b1873497bbce086b7656272ae0008f9b",
+  "tts/open_1_cf7d366d91.mp3": "408971118b597ef139962e6e7918f54e",
+  "tts/peak_0_f647fccf92.mp3": "37ccca691441a3db8d5dc18547ec5002",
+  "plan.json": "8ffbb682707ce033722d083526cf2d71",
+  "out/final.mp4": "70984b297a5777c503e9acbc9255e110"
+ }
+}

@@ -3304,3 +3304,12 @@ last_review: 2026-06-06
 - **무엇을**: `genres/*.yaml`(GenreProfile, geopolitics approved·macro_monetary proposed), direction `genre`·결정적 검사 `genre_elements`(14항목), 프리미티브 계약 `engine/primitives`·첫 요소 `statement_diff`, 요소 갤러리(등록 요소 32 전부 실제 렌더), prompts/examples 채움.
 - **왜**: handoff 20 §3·§4·§12 G2 — 장르 층 선언과 "등록 요소마다 스키마·렌더러·예제·테스트", 미등록 요소 = 오류.
 - **결과**: hormuz 25/25(phaseG1 기준선)·랫클리프 20/20(G1 코드 대비), checks hard 0, pytest 881 passed(새 43). 작업 3 에서 `DEFAULT_STAGE` 삭제 때 다른 패키지(bundle/) 참조·심각도 표 테스트를 놓쳐 후속 커밋 2개 — 이후 커밋 전 전체 pytest.
+
+
+## 2026-09-29 v4.3.0 — Phase G3 시간축 무대·데이터 레코드·차트 정직성 검사
+
+- **무엇을**: `TimelineStage`(x = 일수·압축, y = 레인, 세로 척도 고정), 데이터 레코드 `SeriesRecord`(FEDFUNDS·CPIAUCSL), `series` 이벤트, 정직성 검사 4(18항목), 원고 `series:<id>` 수치 대조, 실증 `fed_timeline_demo`.
+- **왜**: handoff 20 §2.3·§5·§6·§12 G3 — 공개 시리즈 2개로 시간축 프리뷰, 정직성 위반 주입 시 실패.
+- **결과**: 실증 12컷 시트·78초 mp4, checks hard 0. hormuz 25/25·랫클리프 20/20·갤러리 33. pytest 956 passed(새 75). 결정 D-0085~D-0088(R-0100·0101·0102·0104).
+- **운영**: 2c0fba8 을 `pytest | tail && git commit` 사슬로 올려 실패 2건이 푸시됐다(tail 의 종료 코드 0) → 4088f2f 로 고침. 이후 로그에 failed 가 있으면 멈추는 조건으로만 커밋.
+

@@ -60,6 +60,20 @@ MINOR: 새 기능(TimelineStage·SeriesRecord·series 이벤트·차트 정직�
 
 ### Changed
 - **§0**: VERSION 4.3.0, Tier 1·2 `last_synced_with` v4.3.0, `docs/handoff/reports/phaseG3/` 시작(hormuz 기준선은 G1 `hormuz_baseline.json`(f8e507a) 그대로 인용).
+- **View**: 무대가 `y_px_per_unit` 을 주면 세로 척도를 고정한다(D-0085 A). 지도는 옛 식 그대로(골든 25/25).
+- **checks**: 14 → 18항목(정직성 4개 hard). `shots` warning 에 `[timeline_backtrack]`.
+- **엔진 자산**: 지도 무대를 쓰지 않는 영상은 지형 티어·지오메트리를 읽지 않고 지도 권리를 요구하지 않는다.
+- **macro_monetary 프로필**(proposed): reuse 에 series·marker. `rate_step_line` 은 series(step)가 대신한다고 주석(삭제 안 함).
+
+### Added
+- **데이터 레코드**(작업 1·2): `schemas/data_models.py:SeriesRecord`·`data/series.py`·`tools/fetch_series.py`, `rules data`. 레코드 FEDFUNDS·CPIAUCSL(FRED, public domain, 2019-01~2026-08), CPI 2025-10 은 `missing`(BLS 미발표, D-0086).
+- **TimelineStage**(작업 3): `engine/stage_timeline.py`, `rules stage_timeline`, direction `stage_config`, 카메라 `{date, lane?, w}`, 핀 `marker {date, lane}`, 숏 `reason`.
+- **series 이벤트**(작업 4): `engine/layers/series.py` — 레코드에서 직접, grow(카메라 누적 앞끝), 값 라벨·출처·기준 시점 줄, 빈 달 "자료 없음". 레지스트리 세 곳·갤러리 33.
+- **차트 정직성 검사**(작업 5): `engine/honesty.py` — chart_honesty·series_limit_3·units_visible·as_of_visible, `rules qa_checks.chart_targets`·`series_max`, 패널 모듈 `AXIS`, dual_line `unit`, 패널 `chart` 메타(D-0087). 위반 주입 9 전부 hard.
+- **원고 레코드 참조**: `sources: [series:<id>]`·린트 `series-value-mismatch`(D-0088).
+- **엔딩 크레딧 `auto: series`** — 레코드 출처·라이선스 표기 원문·기준 시점.
+- **실증**(작업 6): `projects/fed_timeline_demo` — 12컷 시트·전편 mp4(artifacts/phaseG3-v4.3.0).
+- **테스트 75개**(pytest 956 passed, G2 881 + 75, 삭제 0).
 
 ---
 

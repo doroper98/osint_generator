@@ -1,0 +1,144 @@
+{
+ "schema_version": 1,
+ "role": "20 §5.3 위반 주입 9건 — 전부 hard 여야 한다(D-0084 작업 5)",
+ "base_hard": 0,
+ "cases": [
+  {
+   "rule": "막대 그래프는 0에서 시작",
+   "inject": {
+    "kind": "bar",
+    "baseline": 2.0
+   },
+   "expect": "chart_honesty",
+   "hard": {
+    "chart_honesty": [
+     "[bar-baseline] synthetic value chart: 막대 기준선 2.0 ≠ 0"
+    ]
+   },
+   "ok": true
+  },
+  {
+   "rule": "축 생략·압축 시 물결 표시 + 라벨",
+   "inject": {
+    "compress_on_screen": 2,
+    "compress_marked": 1
+   },
+   "expect": "chart_honesty",
+   "hard": {
+    "chart_honesty": [
+     "[compress-unmarked] synthetic value chart: 화면에 걸친 압축 구간 2 중 물결·라벨 1"
+    ]
+   },
+   "ok": true
+  },
+  {
+   "rule": "단위를 화면에 표시",
+   "inject": {
+    "unit_label": null
+   },
+   "expect": "units_visible",
+   "hard": {
+    "units_visible": [
+     "[unit-missing] synthetic value chart: 화면 단위 None 가 rules data.units·unit_prefixes 에 없다"
+    ]
+   },
+   "ok": true
+  },
+  {
+   "rule": "%와 %p 구분",
+   "inject": {
+    "units": [
+     "%",
+     "%p"
+    ]
+   },
+   "expect": "chart_honesty",
+   "hard": {
+    "chart_honesty": [
+     "[unit-mix] synthetic value chart: 한 차트에 단위가 섞였다 ['%', '%p'](%/%p 구분)"
+    ]
+   },
+   "ok": true
+  },
+  {
+   "rule": "한 차트의 계열 수 ≤ 3",
+   "inject": {
+    "series_count": 4,
+    "units": [
+     "%",
+     "%",
+     "%",
+     "%"
+    ]
+   },
+   "expect": "series_limit_3",
+   "hard": {
+    "series_limit_3": [
+     "[series-limit] synthetic value chart: 계열 4 > 3"
+    ]
+   },
+   "ok": true
+  },
+  {
+   "rule": "이중 축은 양쪽 축 라벨·색 대응 명시",
+   "inject": {
+    "axes": 2,
+    "axis_labels": [
+     "금리"
+    ],
+    "axis_colors": [
+     "gold",
+     "ru"
+    ]
+   },
+   "expect": "chart_honesty",
+   "hard": {
+    "chart_honesty": [
+     "[dual-axis] synthetic value chart: 이중 축은 양쪽 축 라벨·색이 계열과 대응해야 한다(라벨 ['금리'], 축 색 ['gold', 'ru'], 계열 색 ['gold', 'ru'])"
+    ]
+   },
+   "ok": true
+  },
+  {
+   "rule": "로그 척도는 '로그 척도' 표기",
+   "inject": {
+    "log_scale": true,
+    "log_label": false
+   },
+   "expect": "chart_honesty",
+   "hard": {
+    "chart_honesty": [
+     "[log-unlabeled] synthetic value chart: 로그 척도인데 '로그 척도' 표기가 없다"
+    ]
+   },
+   "ok": true
+  },
+  {
+   "rule": "기준 시점(as of) 표시",
+   "inject": {
+    "as_of": null
+   },
+   "expect": "as_of_visible",
+   "hard": {
+    "as_of_visible": [
+     "[as-of-missing] synthetic value chart: 기준 시점(as of) 없음"
+    ]
+   },
+   "ok": true
+  },
+  {
+   "rule": "출처 줄",
+   "inject": {
+    "source_shown": false
+   },
+   "expect": "as_of_visible",
+   "hard": {
+    "as_of_visible": [
+     "[source-missing] synthetic value chart: 출처 줄이 화면에 없다"
+    ]
+   },
+   "ok": true
+  }
+ ],
+ "all_hard": true
+}

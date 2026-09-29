@@ -1,0 +1,61 @@
+{
+ "schema_version": 1,
+ "role": "D-0084 작업 2·10 — 커밋한 공개 시리즈 레코드 요약",
+ "records": [
+  {
+   "series_id": "FEDFUNDS",
+   "source": "FRED(세인트루이스 연은) · 원출처 연준 이사회 H.15",
+   "source_url": "https://fred.stlouisfed.org/graph/fredgraph.csv?id=FEDFUNDS&cosd=2019-01-01",
+   "retrieved_at": "2026-09-29",
+   "license": "us_gov_public_domain",
+   "license_note": "Public Domain: Citation Requested",
+   "transform": {
+    "op": "raw",
+    "formula": "원자료(변형 없음)"
+   },
+   "unit": "%",
+   "as_of": "2026-08",
+   "n": 92,
+   "start": "2019-01-01",
+   "end": "2026-08-01",
+   "min": 0.05,
+   "max": 5.33,
+   "missing": [],
+   "md5": {
+    "yaml": "7bce0d516220c298942cae0f37dbf219",
+    "csv": "e754499d79e034109d5ee484a9c5f635",
+    "raw_csv": "3ff3a5b1d8012a84a049be2648171580"
+   }
+  },
+  {
+   "series_id": "CPIAUCSL",
+   "source": "FRED(세인트루이스 연은) · 원출처 미 노동통계국(BLS) CPI-U",
+   "source_url": "https://fred.stlouisfed.org/graph/fredgraph.csv?id=CPIAUCSL&cosd=2018-01-01",
+   "retrieved_at": "2026-09-29",
+   "license": "us_gov_public_domain",
+   "license_note": "Public Domain: Citation Requested",
+   "transform": {
+    "op": "yoy_pct",
+    "formula": "전년 동월 대비 % = (x_t / x_(t-12) - 1) * 100, 소수 둘째 자리 반올림"
+   },
+   "unit": "%",
+   "as_of": "2026-08",
+   "n": 91,
+   "start": "2019-01-01",
+   "end": "2026-08-01",
+   "min": 0.2,
+   "max": 8.98,
+   "missing": [
+    {
+     "date": "2025-10-01",
+     "note": "BLS 미발표 — 2025 연방정부 셧다운으로 10월 조사 자료 미수집(https://www.bls.gov/cpi/additional-resources/2025-federal-government-shutdown-impact-cpi.htm)"
+    }
+   ],
+   "md5": {
+    "yaml": "93accc2b65c227101b9b1b617b02ce76",
+    "csv": "aed913cdff02198fadd467f0ef835818",
+    "raw_csv": "0e099223840a37018d3f124b2f00d027"
+   }
+  }
+ ]
+}
