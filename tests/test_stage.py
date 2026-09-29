@@ -113,7 +113,7 @@ class RegistryTest(unittest.TestCase):
 
     def test_unregistered_stage_is_error(self) -> None:
         with self.assertRaises(StageError) as cm:
-            make_stage("timeline")
+            make_stage("flow")   # v4.3.0 — timeline 은 등록됨(D-0084 작업 3). 계획만 있는 무대로 본다
         self.assertIn("미등록", str(cm.exception))
 
     def test_registered_without_implementation_is_error(self) -> None:

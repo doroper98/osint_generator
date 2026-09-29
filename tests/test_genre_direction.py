@@ -63,8 +63,11 @@ class GenreDirectionTest(unittest.TestCase):
 
     def test_stage_default_from_profile(self) -> None:
         with mock.patch("genres.load.load_genre", fake_load_genre):
-            d = Direction.model_validate(doc(genre="tl_only"))
-            self.assertEqual(d.main_stage(), "timeline")   # 프로필 primary(무대 구현은 G3 — 렌더 시 StageError)
+            tl_shots = [{"at": 0, "mode": "cut", "dur": 0, "camera": {"date": "2022-01-01", "w": 400}}]   # v4.3.0 — 시간축 카메라 앵커
+            d = Direction.model_validate(doc(genre="tl_only", shots=tl_shots, events=[]))
+            self.assertEqual(d.main_stage(), "timeline")   # 프로필 primary
+            with self.assertRaisesRegex(ValidationError, "앵커"):   # 지도 카메라(place) 를 시간축 무대에 = 오류(D-0085, P10)
+                Direction.model_validate(doc(genre="tl_only"))
 
 
 class GenreElementsTest(unittest.TestCase):

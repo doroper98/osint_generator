@@ -34,7 +34,8 @@ class GenreFilesTest(unittest.TestCase):
         reg = load_rules().registries
         self.assertEqual(p.status, "proposed")
         self.assertEqual(p.stage.names(), ["timeline", "chart_wall"])
-        self.assertTrue(set(p.stage.names()) <= set(reg.stages_planned))
+        self.assertIn("timeline", reg.stages)             # v4.3.0 D-0084 작업 3 — 등록됨
+        self.assertIn("chart_wall", reg.stages_planned)   # 보조 무대는 아직 계획
         self.assertEqual(p.primitives.new, ["rate_step_line", "dot_plot", "yield_curve_shift", "statement_diff", "target_band"])
         self.assertEqual(set(p.primitives.new) - set(reg.primitives), set(reg.primitives_planned))
         self.assertIn("timeline", p.primitives.reuse)

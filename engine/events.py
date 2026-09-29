@@ -7,12 +7,16 @@
 
 from __future__ import annotations
 
-from typing import Annotated, Literal, Optional
+from typing import Annotated, ClassVar, Literal, Optional
 
 from pydantic import AfterValidator, BaseModel, ConfigDict, Field, model_validator
 
+import re
+
 from engine.style import C
 from rules import load_rules
+
+DATE_ISO_RE = re.compile(r"^\d{4}-\d{2}-\d{2}$")
 
 _ACCENTS = frozenset(load_rules().registries.accents)
 
@@ -50,14 +54,32 @@ class _Event(BaseModel):
 
 # ------------------------------------------------------------------ 지도 레이어
 class MarkerEvent(_Event):
+    """지점 마커. 지도 앵커 lon·lat, 또는 시간축 핀 앵커 date(YYYY-MM-DD)·lane(레인 id) — 둘 중 하나(v4.3.0 D-0084 작업 4·D-0085).
+    어느 무대 앵커인지는 attach_world 가 무대에 물어 검사한다(다른 무대의 키 = 오류)."""
+
+    DROP_NONE: ClassVar[tuple[str, ...]] = ("lon", "lat", "date", "lane")   # 쓰지 않은 무대의 앵커 쌍은 dict 에 남기지 않는다(지도 이벤트 dict = v4.2.0 과 같음)
+
     type: Literal["marker"]
-    lon: float
-    lat: float
+    lon: Optional[float] = None
+    lat: Optional[float] = None
+    date: Optional[str] = None
+    lane: Optional[str] = None
     label: str
     sub: str = ""
     side: Literal["right", "left", "top", "bottom"] = "right"
     hl: bool = False
     icon: Literal["dot", "boom"] = "dot"
+
+    @model_validator(mode="after")
+    def _anchor(self) -> "MarkerEvent":
+        geo = (self.lon is not None, self.lat is not None)
+        tl = (self.date is not None, self.lane is not None)
+        if not ((all(geo) and not any(tl)) or (all(tl) and not any(geo))):
+            raise ValueError("marker 앵커는 lon·lat(지도) 또는 date·lane(시간축) 중 한 쌍")
+        if self.date is not None and not DATE_ISO_RE.match(self.date):
+            raise ValueError(f"marker date 는 YYYY-MM-DD: {self.date!r}")
+        return self
+
 
 
 class RouteEvent(_Event):

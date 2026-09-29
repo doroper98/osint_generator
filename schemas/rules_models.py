@@ -925,6 +925,112 @@ class StageContinuityRules(_Strict):
     max_switches: int = Field(ge=0)
 
 
+class TimelineLod(_Strict):
+    quarter_below_w: float = Field(gt=0)
+    month_below_w: float = Field(gt=0)
+    day_below_w: float = Field(gt=0)
+    day_label_every: int = Field(ge=1)
+
+    @model_validator(mode="after")
+    def _order(self) -> "TimelineLod":
+        if not self.day_below_w < self.month_below_w < self.quarter_below_w:
+            raise ValueError("stage_timeline.lod: day < month < quarter 여야 한다")
+        return self
+
+
+class TimelineGrid(_Strict):
+    year_alpha: float
+    minor_alpha: float
+    line_w: float
+    label_font: str
+    label_size: float
+    label_halo: float
+    label_dy: float
+    label_margin_px: float
+    min_label_gap_px: float
+
+
+class TimelineLaneLabel(_Strict):
+    x: float
+    dy: float
+    size: float
+    font: str
+    halo: float
+
+
+class TimelineWave(_Strict):
+    amp_px: float
+    period_px: float = Field(gt=0)
+    line_w: float
+    color: str
+    alpha: float
+    shade_alpha: float
+    label: str = Field(min_length=1)
+    label_font: str
+    label_size: float
+    label_halo: float
+    label_dy: float
+    label_margin_px: float
+
+
+class TimelineSeries(_Strict):
+    lane_pad: float = Field(ge=0, lt=0.5)
+    line_w: float
+    tip_r: float
+    fade_sec: float
+    playhead: float = Field(gt=0, le=1)
+    grow_in_sec: float = Field(gt=0)
+    clip_below_px: float
+    value_dx: float
+    value_dy: float
+    value_size: float
+    value_font: str
+    value_halo: float
+    grid_alpha: float
+    zero_alpha: float
+    grid_w: float
+    axis_label_margin_px: float
+    axis_label_dy: float
+    axis_label_size: float
+    axis_label_font: str
+    axis_label_halo: float
+    source_dy: float
+    source_size: float
+    source_font: str
+    source_halo: float
+
+
+class TimelineMissingMark(_Strict):
+    label: str = Field(min_length=1)
+    label_font: str
+    label_size: float
+    label_halo: float
+    label_dy: float
+    color: str
+    alpha: float
+    dash: list[float]
+    line_w: float
+    inset_px: float
+
+
+class StageTimelineRules(_Strict):
+    """v4.3.0 D-0084 작업 3·4·D-0085·D-0086 — 시간축 무대·시리즈 레이어 토큰(engine/stage_timeline.py·engine/layers/series.py)."""
+
+    lane_h: float = Field(gt=0)
+    area_top: float
+    area_bottom: float
+    bg_rgb: tuple[float, float, float]
+    band_alpha: list[float] = Field(min_length=1)
+    lane_line_alpha: float
+    lane_line_w: float
+    lod: TimelineLod
+    grid: TimelineGrid
+    lane_label: TimelineLaneLabel
+    wave: TimelineWave
+    series: TimelineSeries
+    missing_mark: TimelineMissingMark
+
+
 class DataRules(_Strict):
     """v4.3.0 D-0084 작업 1 — 데이터 레코드 허용 목록(docs/handoff/20 §5.1, schemas/data_models.py)."""
 
@@ -1005,6 +1111,7 @@ class VideoRules(_Strict):
     stage: StageRules              # v4.1.0 — D-0076 작업 5
     qa_checks: QAChecks
     primitives: PrimitivesRules = Field(default_factory=PrimitivesRules)   # v4.2.0 D-0081
+    stage_timeline: StageTimelineRules   # v4.3.0 — D-0084 작업 3·D-0085
     data: DataRules                # v4.3.0 — D-0084 작업 1
     bundle: BundleRules            # v3.5.0 — D-0063 작업 4
     provenance: ProvenanceRules

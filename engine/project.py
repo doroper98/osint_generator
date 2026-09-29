@@ -63,7 +63,8 @@ def load_direction(proj: Path, tb: Timebase, stage: object = None, doc: Optional
     stage 없이 부르는 곳(오디오 믹스·도구 — 시각·sound 만 읽는다)은 연출의 주 무대를 자산 없이(좌표 변환만) 만든다."""
     d = read_direction(proj, doc)
     try:
-        return build_direction(d, tb, stage if stage is not None else make_stage(d.main_stage()))  # type: ignore[arg-type]
+        return build_direction(d, tb, stage if stage is not None
+                               else make_stage(d.main_stage(), config=d.stage_settings(d.main_stage())))  # type: ignore[arg-type]
     except DirectionError as ex:
         raise ProjectError(str(ex)) from ex
 
@@ -231,8 +232,11 @@ def load_project(proj: Path, direction: Optional[Direction] = None, out: Optiona
     assets = Assets(proj, load_labels(proj / "labels.yaml"), None if out == output_profile() else out.name)
     R = RenderCtx(assets=assets, tb=tb, credits=load_credits(proj / "credits.yaml"), out=out)  # noqa: N806
     doc = read_direction(proj, direction)
-    stages = StageSet(assets, out)   # v4.1.0 D-0076·D-0077 — 무대는 이름마다 한 번만 만든다
-    R.stage = stages.get(doc.main_stage())
+    try:
+        stages = StageSet(assets, out, doc.stage_configs())   # v4.1.0 D-0076·D-0077 — 무대는 이름마다 한 번만. 설정 v4.3.0
+        R.stage = stages.get(doc.main_stage())
+    except ValueError as ex:
+        raise ProjectError(f"무대 설정 오류: {ex}") from ex
     keys, raw_events, sound = load_direction(proj, tb, R.stage, doc)
     try:
         shots = shot_stages(doc, tb, stages.get)

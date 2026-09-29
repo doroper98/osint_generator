@@ -49,7 +49,7 @@ class GenreProfileSchemaTest(unittest.TestCase):
 
     def test_approved_planned_stage_rejected(self) -> None:
         with self.assertRaisesRegex(ValidationError, "stages_planned"):
-            GenreProfile.model_validate(prof(stage={"primary": "timeline"}))
+            GenreProfile.model_validate(prof(stage={"primary": "chart_wall"}))   # v4.3.0 — timeline 은 등록됨
 
     def test_proposed_planned_stage_allowed(self) -> None:
         p = GenreProfile.model_validate(prof(status="proposed", stage={

@@ -101,7 +101,10 @@ class MercatorStage:
     name = "mercator"
     anchor_keys = ("lon", "lat")
 
-    def __init__(self, assets: "Optional[Assets]" = None, *, tiers: Optional[dict] = None, out: Optional[Output] = None) -> None:
+    def __init__(self, assets: "Optional[Assets]" = None, *, tiers: Optional[dict] = None, out: Optional[Output] = None,
+                 config: Optional[dict] = None) -> None:
+        if config:
+            raise StageError(f"mercator 무대에는 stage_config 가 없다: {sorted(config)}")
         self.assets = assets
         self.tiers = tiers if tiers is not None else (assets.tiers if assets is not None else None)
         self.out = out
@@ -221,7 +224,9 @@ class MercatorStage:
         return self._sea_cache[key]
 
 
-STAGE_CLASSES: dict[str, type] = {"mercator": MercatorStage}   # 구현 — rules registries.stages 와 같아야 한다(P10)
+from engine.stage_timeline import TimelineStage  # noqa: E402 — 시간축 무대(v4.3.0 D-0084 작업 3)
+
+STAGE_CLASSES: dict[str, type] = {"mercator": MercatorStage, "timeline": TimelineStage}   # 구현 — rules registries.stages 와 같아야 한다(P10)
 # direction.yaml 에 stage 가 없을 때의 무대 = 장르 프로필 stage.primary(v4.2.0 D-0081 작업 3, 기본 장르 geopolitics → mercator).
 
 
@@ -236,33 +241,39 @@ def stage_class(name: str) -> type:
     return STAGE_CLASSES[name]
 
 
-def make_stage(name: str, assets: "Optional[Assets]" = None, out: Optional[Output] = None) -> Stage:
-    return stage_class(name)(assets, out=out)
+def make_stage(name: str, assets: "Optional[Assets]" = None, out: Optional[Output] = None, config: Optional[dict] = None) -> Stage:
+    """config = 무대 설정(direction stage_config.<이름> + 장르 프로필 기본값, Direction.stage_settings). 지도는 없음."""
+    return stage_class(name)(assets, out=out, config=config)
 
 
 class StageSet:
     """영상 하나의 무대 인스턴스 — 이름마다 **한 번만** 만든다(D-0077 쟁점 3 B: 장면마다 새 캔버스 금지의 구조 쪽).
     `created` = 이름별 생성 수(provenance stage.instances). 같은 이름을 다시 부르면 같은 객체를 돌려준다."""
 
-    def __init__(self, assets: "Optional[Assets]" = None, out: Optional[Output] = None) -> None:
+    def __init__(self, assets: "Optional[Assets]" = None, out: Optional[Output] = None,
+                 configs: Optional[dict[str, dict]] = None) -> None:
         self.assets = assets
         self.out = out
+        self.configs = configs or {}
         self._by_name: dict[str, Stage] = {}
         self.created: dict[str, int] = {}
 
     def get(self, name: str) -> Stage:
         if name not in self._by_name:
-            self._by_name[name] = make_stage(name, self.assets, self.out)
+            self._by_name[name] = make_stage(name, self.assets, self.out, self.configs.get(name))
             self.created[name] = self.created.get(name, 0) + 1
         return self._by_name[name]
 
 
 def attach_world(events: list[dict], stage: Stage) -> None:
     """이벤트의 앵커 좌표 → 월드 좌표(제자리). 레이어·검사기는 이 값과 View 만 쓴다(D-0076 작업 3).
-    world = 한 점(lon·lat), world_pts = 경로(pts), world_p0·world_p1 = 봉쇄선 양 끝."""
+    world = 한 점(lon·lat 또는 시간축 date·lane — v4.3.0, 앵커 키는 무대가 검사: 다른 무대의 키 = StageError, P10),
+    world_pts = 경로(pts), world_p0·world_p1 = 봉쇄선 양 끝."""
     for e in events:
-        if "lon" in e and "lat" in e:
+        if e.get("lon") is not None and e.get("lat") is not None:
             e["world"] = stage.to_world(lon=e["lon"], lat=e["lat"])
+        elif e.get("date") is not None and e.get("lane") is not None:
+            e["world"] = stage.to_world(date=e["date"], lane=e["lane"])
         if e["type"] in ("route", "tanker_loop") and e.get("pts"):
             e["world_pts"] = [stage.to_world(lon=lo, lat=la) for lo, la in e["pts"]]
         if e["type"] == "barrier":
