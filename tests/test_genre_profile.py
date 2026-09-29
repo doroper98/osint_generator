@@ -74,6 +74,11 @@ class GenreProfileSchemaTest(unittest.TestCase):
         with self.assertRaisesRegex(ValidationError, "registries.primitives 에 없음"):
             GenreProfile.model_validate(prof(primitives={"reuse": ["card"], "new": ["hologram"]}))
 
+    def test_new_planned_only_for_proposed(self) -> None:   # D-0082 쟁점 1 A
+        with self.assertRaisesRegex(ValidationError, "primitives_planned"):
+            GenreProfile.model_validate(prof(primitives={"reuse": ["card"], "new": ["dot_plot"]}))
+        GenreProfile.model_validate(prof(status="proposed", primitives={"reuse": ["card"], "new": ["dot_plot"]}))
+
     def test_reuse_new_overlap(self) -> None:
         with self.assertRaises(ValidationError):
             GenreProfile.model_validate(prof(primitives={"reuse": ["card"], "new": ["card"]}))

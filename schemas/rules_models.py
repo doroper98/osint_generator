@@ -728,12 +728,14 @@ class Registries(_Strict):
     stages: list[str] = Field(min_length=1)   # v4.1.0 D-0076 — 무대 레지스트리(engine.stage.STAGE_CLASSES 와 일치)
     stages_planned: list[str] = Field(default_factory=list)   # v4.2.0 D-0081 — 20 §2.1 구현 전 무대(장르 프로필 proposed 만)
     primitives: list[str] = Field(default_factory=list)       # v4.2.0 D-0081 — engine/primitives/<id>.py (20 §4.2)
+    primitives_planned: list[str] = Field(default_factory=list)   # v4.2.0 D-0082 — 구현 전 프리미티브(장르 프로필 proposed 만)
 
     @model_validator(mode="after")
     def _disjoint(self) -> "Registries":
-        both = set(self.stages) & set(self.stages_planned)
-        if both:
-            raise ValueError(f"registries.stages 와 stages_planned 에 같은 무대: {sorted(both)}")
+        for a, b in (("stages", "stages_planned"), ("primitives", "primitives_planned")):
+            both = set(getattr(self, a)) & set(getattr(self, b))
+            if both:
+                raise ValueError(f"registries.{a} 와 {b} 에 같은 이름: {sorted(both)}")
         return self
 
 

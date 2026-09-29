@@ -39,6 +39,8 @@ class RegistryCompleteTest(unittest.TestCase):
         self.assertEqual(planned & set(registry.REGISTRY), set())  # type: ignore[attr-defined]
         self.assertEqual(planned & (set(rules.registries.event_types) | {f"panel:{k}" for k in rules.registries.panel_kinds}),
                          set(), "계획 항목이 등재 목록에도 있다")
+        self.assertEqual(set(rules.registries.primitives_planned) & set(rules.registries.primitives), set(),   # v4.2.0 D-0082
+                         "계획 프리미티브가 등록 목록에도 있다")
 
     def test_fixtures_validate(self) -> None:
         registry = importlib.import_module("engine.registry")

@@ -5,7 +5,7 @@
 이름 규칙(15 P10 — 미등록 이름 = 로드 오류):
 - `stage.primary`·`secondary` ∈ `rules registries.stages`(구현됨). `status: proposed` 만 `registries.stages_planned` 도 허용.
 - `primitives.reuse` ∈ registries 의 등록 요소(event_types ∪ panel_kinds ∪ badge_kinds ∪ primitives).
-- `primitives.new` ∈ `registries.primitives`.
+- `primitives.new` ∈ `registries.primitives`. `status: proposed` 만 `registries.primitives_planned` 도 허용(D-0082 쟁점 1 A).
 - `qa_extra` ∈ 결정적 검사 id(`engine.checks.HARD ∪ WARN`). `status: proposed` 만 `rules qa_checks.planned` 도 허용.
 - `color_semantics` 값 = `#rrggbb`, `rgba(r,g,b,a)`(r·g·b 0~255, a 0~1), 또는 색 토큰 이름(`registries.accents`).
 - `status: approved` 는 사용자 승인 뒤에만(20 §3). approved 가 planned 를 참조하면 오류.
@@ -142,7 +142,12 @@ class GenreProfile(_Strict):
         registered = registered_elements()
         errs += [f"primitives.reuse {x!r}: 등록 요소가 아님(registries event_types·panel_kinds·badge_kinds·primitives)"
                  for x in self.primitives.reuse if x not in registered]
-        errs += [f"primitives.new {x!r}: registries.primitives 에 없음" for x in self.primitives.new if x not in reg.primitives]
+        new_ok = set(reg.primitives) | (set(reg.primitives_planned) if proposed else set())
+        for x in self.primitives.new:
+            if x not in new_ok:
+                why = ("구현 전(primitives_planned) — approved 는 등록 프리미티브만" if x in reg.primitives_planned
+                       else "registries.primitives 에 없음")
+                errs.append(f"primitives.new {x!r}: {why}")
         checks_ok = check_ids() | (set(rules.qa_checks.planned) if proposed else set())
         for q in self.qa_extra:
             if q not in checks_ok:

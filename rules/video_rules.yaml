@@ -558,6 +558,11 @@ registries:                # 15 §3 P10 — 여기 없는 타입을 연출이 �
   stages: [mercator]      # v4.1.0 D-0076 — 무대(engine.stage). 없는 무대 = 오류, 있는데 구현(STAGE_CLASSES)이 없음 = 오류(P10). G3 에서 timeline 추가 예정
   stages_planned: [timeline, chart_wall, flow, structure, document]   # v4.2.0 D-0081 — 20 §2.1 무대 카탈로그(구현 전). 장르 프로필 proposed 만 참조 가능, 연출에서 쓰면 오류
   primitives: []          # v4.2.0 D-0081 — 새 시각 요소(engine/primitives/<id>.py, 20 §4.2). 이벤트 type: primitive + id. 없는 id = 오류, 있는데 모듈 없음 = 오류(P10)
+  primitives_planned:     # v4.2.0 D-0082 쟁점 1 A — 구현 전 프리미티브. 장르 프로필 proposed 의 new 만 참조 가능, 연출에서 쓰면 오류
+    - rate_step_line      # 20 §3 macro_monetary, G4 후보(사용자 승인 뒤 최대 3)
+    - dot_plot            # 20 §3 macro_monetary, G4 후보(사용자 승인 뒤 최대 3)
+    - yield_curve_shift   # 20 §3 macro_monetary, G4 후보(사용자 승인 뒤 최대 3)
+    - target_band         # 20 §3 macro_monetary, G4 후보(사용자 승인 뒤 최대 3)
 
 audio:                     # 10
   bed_gain: 0.47
