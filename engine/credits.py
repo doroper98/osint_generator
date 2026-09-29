@@ -163,13 +163,14 @@ def _unique(items: list[tuple[str, str]]) -> list[tuple[str, str]]:
 
 def credit_sections(cr: Credits, rights: dict, media: Optional[dict] = None,
                     used: Optional[set[str]] = None, cited: Optional[list] = None,
-                    series: Optional[list] = None) -> list[tuple[str, list[tuple[str, str]]]]:
-    return [(title, _unique(items)) for title, items in _credit_sections(cr, rights, media, used, cited, series)]
+                    series: Optional[list] = None, missing_license: Optional[str] = None) -> list[tuple[str, list[tuple[str, str]]]]:
+    """missing_license = 콘티 판(v4.9.0 D-0108)만 — 권리 레지스트리에 없는 license_ref 를 오류 대신 이 문구로. 전편은 None(RightsError)."""
+    return [(title, _unique(items)) for title, items in _credit_sections(cr, rights, media, used, cited, series, missing_license)]
 
 
 def _credit_sections(cr: Credits, rights: dict, media: Optional[dict] = None,
                      used: Optional[set[str]] = None, cited: Optional[list] = None,
-                     series: Optional[list] = None) -> list[tuple[str, list[tuple[str, str]]]]:
+                     series: Optional[list] = None, missing_license: Optional[str] = None) -> list[tuple[str, list[tuple[str, str]]]]:
     view = registry_view(rights, media or {})
     out = []
     for sec in cr.sections:
@@ -192,8 +193,11 @@ def _credit_sections(cr: Credits, rights: dict, media: Optional[dict] = None,
             if it.license_ref is not None:
                 people = rights.get("people", {})
                 if it.license_ref not in people:
-                    raise RightsError(f"권리 레지스트리에 인물 없음: {it.license_ref}")
-                lic = people[it.license_ref]["license"] + it.license_suffix
+                    if missing_license is None:
+                        raise RightsError(f"권리 레지스트리에 인물 없음: {it.license_ref}")
+                    lic = missing_license
+                else:
+                    lic = people[it.license_ref]["license"] + it.license_suffix
             else:
                 lic = (it.license or "") + it.license_suffix
             items.append((it.main, lic))

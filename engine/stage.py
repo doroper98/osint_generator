@@ -224,6 +224,49 @@ class MercatorStage:
         return self._sea_cache[key]
 
 
+class FlatMercatorStage(MercatorStage):
+    """지도 무대의 **막지도 모드**(v4.9.0 back_and_forth D-0108, 콘티 판). 좌표·경계·카메라 클램프는 MercatorStage 그대로,
+    배경은 육지·바다 단색 + 국경선(`engine.layers.animatic.draw_flat_map`), 라벨 없음. 자산(티어 래스터·geo.pkl)을 읽지 않는다 —
+    경계 = 프로젝트 geo.yaml 티어 W bbox(geo.prep 의 tier_record 와 같은 값), 지오메트리 = 저장소 막지도 자료(R-0135 A).
+    `bord` 는 coarse·fine 이 같은 110m 고리다(country 강조·국경선이 같은 자료)."""
+
+    def __init__(self, tier_w: dict, polygons: dict[str, list], out: Optional[Output] = None) -> None:
+        super().__init__(None, tiers={"W": tier_w}, out=out)
+        rings = {k: to_uv([np.asarray(r, np.float64) for poly in v for r in poly]) for k, v in polygons.items()}
+        self.bord = {"coarse": rings, "fine": rings}
+        self.adm: dict = {}
+        self.countries: list = []
+        self.seas: list = []
+        self.polygons = polygons
+        self.land_uv = [(uv, mn, mx) for k, v in polygons.items() for uv, mn, mx in to_uv([np.asarray(p[0], np.float64) for p in v])]
+
+    def render_base(self, ctx: cairo.Context, view: "View") -> None:
+        from engine.layers.animatic import draw_flat_map  # noqa: PLC0415 — layers → stage 순환 회피
+
+        draw_flat_map(ctx, self, view)
+
+    def draw_labels(self, ctx: cairo.Context, view: "View", reserved: list, alpha: float = 1.0) -> None:
+        """막지도에는 라벨이 없다(D-0108 — 타일·지형·라벨 없음)."""
+
+    def sea_points(self, box: tuple[float, float, float, float], n: int, seed: int) -> list[tuple[float, float, float]]:
+        """선박 점 — MercatorStage 와 같은 난수 절차, 육지 판정만 막지도 폴리곤으로."""
+        key = f"ships:{box}:{n}:{seed}"
+        if key not in self._sea_cache:
+            from shapely.geometry import Point, Polygon  # noqa: PLC0415
+            from shapely.prepared import prep  # noqa: PLC0415
+
+            land = [prep(Polygon(p[0])) for v in self.polygons.values() for p in v if len(p[0]) > 3]
+            rng = np.random.default_rng(seed)
+            pts = []
+            while len(pts) < n:
+                lo, la = rng.uniform(box[0], box[1]), rng.uniform(box[2], box[3])
+                pt = Point(lo, la)
+                if not any(L.contains(pt) for L in land):
+                    pts.append((lo, la, rng.uniform(0, 1)))
+            self._sea_cache[key] = [(*self.to_world(lon=lo, lat=la), ph) for lo, la, ph in pts]
+        return self._sea_cache[key]
+
+
 from engine.stage_timeline import TimelineStage  # noqa: E402 — 시간축 무대(v4.3.0 D-0084 작업 3)
 
 STAGE_CLASSES: dict[str, type] = {"mercator": MercatorStage, "timeline": TimelineStage}   # 구현 — rules registries.stages 와 같아야 한다(P10)
@@ -251,16 +294,22 @@ class StageSet:
     `created` = 이름별 생성 수(provenance stage.instances). 같은 이름을 다시 부르면 같은 객체를 돌려준다."""
 
     def __init__(self, assets: "Optional[Assets]" = None, out: Optional[Output] = None,
-                 configs: Optional[dict[str, dict]] = None) -> None:
+                 configs: Optional[dict[str, dict]] = None, modes: Optional[dict[str, Any]] = None) -> None:
+        """modes = 무대 이름 → 대체 생성 함수(config) → Stage. 콘티 판의 막지도(v4.9.0 D-0108) 한 곳만 쓴다 — 이름은 레지스트리 검사를 그대로 거친다."""
         self.assets = assets
         self.out = out
         self.configs = configs or {}
+        self.modes = modes or {}
         self._by_name: dict[str, Stage] = {}
         self.created: dict[str, int] = {}
 
     def get(self, name: str) -> Stage:
         if name not in self._by_name:
-            self._by_name[name] = make_stage(name, self.assets, self.out, self.configs.get(name))
+            if name in self.modes:
+                stage_class(name)   # 레지스트리 검사(P10)
+                self._by_name[name] = self.modes[name](self.configs.get(name))
+            else:
+                self._by_name[name] = make_stage(name, self.assets, self.out, self.configs.get(name))
             self.created[name] = self.created.get(name, 0) + 1
         return self._by_name[name]
 
@@ -281,5 +330,5 @@ def attach_world(events: list[dict], stage: Stage) -> None:
             e["world_p1"] = stage.to_world(lon=e["p1"][0], lat=e["p1"][1])
 
 
-__all__ = ["MERCATOR_LOD", "MercatorStage", "STAGE_CLASSES", "Stage", "StageError", "StageSet", "attach_world", "by_w",
+__all__ = ["MERCATOR_LOD", "FlatMercatorStage", "MercatorStage", "STAGE_CLASSES", "Stage", "StageError", "StageSet", "attach_world", "by_w",
            "lat_of", "make_stage", "stage_class", "to_uv", "ym", "ymv"]

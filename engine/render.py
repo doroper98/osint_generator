@@ -27,8 +27,7 @@ from engine.hud import draw_date
 from engine.project import Project, ProjectError, load_project
 from engine.projection import View
 from engine.reserved import card_zones
-from engine.layers.badges import draw_over_panel
-from engine.registry import MAP_LAYER_ORDER, RegistryError, resolve
+from engine.registry import MAP_LAYER_ORDER, RegistryError
 from engine.style import FADE, FPS, PANEL, output_profile
 from engine.subtitles import draw_subtitle
 from rules import load_rules
@@ -49,6 +48,7 @@ def render_frame(P: Project, i: int) -> tuple[cairo.ImageSurface, bytearray]:  #
     OP = R.out  # noqa: N806
     t = i / FPS
     view = View(R.stage, P.cams[i])
+    L = P.layers   # noqa: N806 — 전편 FULL_LAYERS · 콘티 판 ANIMATIC_LAYERS(v4.9.0 D-0108, 진입 = load_project)
     R.reserved.clear()
     buf = bytearray(OP.width * OP.height * 4)   # 배경은 무대가 채운다(render_base — 지형 래스터를 이 버퍼에 그대로 복사)
     surf = cairo.ImageSurface.create_for_data(buf, cairo.FORMAT_RGB24, OP.width, OP.height, OP.width * 4)
@@ -60,40 +60,42 @@ def render_frame(P: Project, i: int) -> tuple[cairo.ImageSurface, bytearray]:  #
     panel_a = max([window(t, e["t0"], e["t1"], PANEL.fade_sec, PANEL.fade_sec) for e in act if e["type"] == "panel"] + [0])
     R.zones = card_zones(ctx, P.events, t)   # 카드 RESERVED — 지도 레이어가 먼저 그려지므로 미리(D-0033). 앞뒤 lead 포함(글자 측정만, 그리지 않음)
     R.stage.render_base(ctx, view)           # 무대 배경: 지형 래스터 + 국경(v4.1.0 D-0076 — MercatorStage = v3 순서 그대로)
-    for L in MAP_LAYER_ORDER:  # noqa: N806
+    for typ in MAP_LAYER_ORDER:
         for e in act:
-            if e["type"] == L:
-                resolve(e).render(ctx, R, view, t, e)
+            if e["type"] == typ:
+                L.resolve(e).render(ctx, R, view, t, e)
     if panel_a < 0.99:
         R.stage.draw_labels(ctx, view, R.reserved, 1 - panel_a)
     for e in act:
         if e["type"] == "dip" and e.get("under"):
-            resolve(e).render(ctx, R, t, e)
+            L.resolve(e).render(ctx, R, t, e)
     for e in act:
         if e["type"] == "panel":
-            resolve(e).render(ctx, R, t, e)
+            L.resolve(e).render(ctx, R, t, e)
     for e in act:
         if e["type"] == "badge" and e.get("over_panel"):   # v4.8.0 D-0104 D2(c) — 패널 위 인물 뱃지(화면 고정)
-            draw_over_panel(ctx, R, t, e)
+            L.over_panel(ctx, R, t, e)
     for e in act:
         if e["type"] in ("photo", "clip"):
-            resolve(e).render(ctx, R, t, e)
+            L.resolve(e).render(ctx, R, t, e)
     for e in act:
         if e["type"] in ("card", "article", "post"):
-            resolve(e).render(ctx, R, t, e)
+            L.resolve(e).render(ctx, R, t, e)
         elif e["type"] == "primitive":            # v4.2.0 D-0081 — 무대 무관 오버레이(카드 층), 20 §4.2 draw(ctx, view, t, e, style)
-            resolve(e).render(ctx, R, view, t, e)
+            L.resolve(e).render(ctx, R, view, t, e)
     draw_date(ctx, R, t)
     draw_fullcards(ctx, R, t)
     draw_subtitle(ctx, R, t)
     for e in act:
         if e["type"] == "dip" and not e.get("under"):
-            resolve(e).render(ctx, R, t, e)
+            L.resolve(e).render(ctx, R, t, e)
     total = P.plan.total
     fa = 1 - min(smooth(t / FADE.in_sec), smooth((total - t) / FADE.out_sec))
     if fa > 0.001:
         ctx.set_source_rgba(0, 0, 0, fa)
         ctx.paint()
+    if L.overlay is not None:   # 콘티 판 표식 띠 — 페이드 뒤 맨 위(D-0108)
+        L.overlay(ctx, R, t)
     surf.flush()
     return surf, buf
 
@@ -193,14 +195,18 @@ def preview(P: Project, times: list[float], labels: list[str] | None = None) -> 
 
 
 def prev_dir(P: Project) -> Path:  # noqa: N803
-    """프리뷰 폴더 — 기본 프로파일은 prev/(검수 루프·게이트가 읽는 자리), 그 밖은 prev_<프로파일>/(480p 결과를 덮지 않는다)."""
+    """프리뷰 폴더 — 기본 프로파일은 prev/(검수 루프·게이트가 읽는 자리), 그 밖은 prev_<프로파일>/(480p 결과를 덮지 않는다).
+    콘티 판은 prev_animatic/(v4.9.0 D-0108 — 게이트가 읽는 prev/ 를 덮지 않는다)."""
+    if getattr(P, "animatic", False):
+        return P.root / "prev_animatic"
     return P.root / ("prev" if P.R.out == output_profile() else f"prev_{P.R.out.name}")
 
 
 def render_chunk(P: Project, st: int, en: int, out: Path) -> None:  # noqa: N803
     OP = P.R.out  # noqa: N806
+    preset = load_rules().animatic.preset if P.animatic else OP.preset   # 콘티 판 인코딩만(D-0108)
     ff = subprocess.Popen(["ffmpeg", "-y", "-v", "error", "-f", "rawvideo", "-pix_fmt", "bgr0", "-s", f"{OP.width}x{OP.height}",
-                           "-r", str(FPS), "-i", "-", "-c:v", "libx264", "-preset", OP.preset, "-crf", str(OP.crf),
+                           "-r", str(FPS), "-i", "-", "-c:v", "libx264", "-preset", preset, "-crf", str(OP.crf),
                            "-pix_fmt", "yuv420p", "-g", "48", str(out)], stdin=subprocess.PIPE)
     assert ff.stdin is not None
     t0 = time.time()
@@ -245,15 +251,19 @@ def plan_jobs(requested: int | None, out: "object", cpu: int | None = None, mem_
 
 
 def render_full(P: Project, jobs: int) -> Path:  # noqa: N803
+    """전편 → out/video_noaudio.mp4 + render.json. 콘티 판(P.animatic) → out/animatic_noaudio.mp4 + animatic_render.json
+    (조각·목록 이름도 animatic_ 접두 — 전편 산출물을 덮지 않는다, D-0108). 콘티 판 mp4 에는 표식 메타데이터(rules animatic.mp4_comment)."""
     outdir = P.root / "out"
     outdir.mkdir(exist_ok=True)
+    pre = "animatic_" if P.animatic else ""
+    flag = ["--animatic"] if P.animatic else ["--res", P.R.out.name]
     parts, procs = [], []
     t0 = time.time()
     for k, (s, e) in enumerate(chunk_ranges(P.n_frames, jobs)):
-        part = outdir / f"part{k:02d}.mp4"
+        part = outdir / f"{pre}part{k:02d}.mp4"
         parts.append(part)
-        logf = open(outdir / f"part{k:02d}.log", "w", encoding="utf-8")
-        procs.append((subprocess.Popen([sys.executable, "-m", "engine.render", str(P.root), "--res", P.R.out.name,
+        logf = open(outdir / f"{pre}part{k:02d}.log", "w", encoding="utf-8")
+        procs.append((subprocess.Popen([sys.executable, "-m", "engine.render", str(P.root), *flag,
                                         "--chunk", str(s), str(e), str(part)],
                                        cwd=REPO, stdout=logf, stderr=subprocess.STDOUT), logf))
     fails = []
@@ -262,22 +272,77 @@ def render_full(P: Project, jobs: int) -> Path:  # noqa: N803
             fails.append(k)
         logf.close()
     if fails:
-        raise RuntimeError(f"렌더 조각 실패: {fails} (out/partNN.log)")
-    lst = outdir / "parts.txt"
+        raise RuntimeError(f"렌더 조각 실패: {fails} (out/{pre}partNN.log)")
+    lst = outdir / f"{pre}parts.txt"
     lst.write_text("".join(f"file '{p}'\n" for p in parts), encoding="utf-8")
-    final = outdir / "video_noaudio.mp4"
-    subprocess.run(["ffmpeg", "-y", "-v", "error", "-f", "concat", "-safe", "0", "-i", str(lst), "-c", "copy", str(final)],
+    final = outdir / ("animatic_noaudio.mp4" if P.animatic else "video_noaudio.mp4")
+    meta = ["-metadata", f"comment={load_rules().animatic.mp4_comment}"] if P.animatic else []
+    subprocess.run(["ffmpeg", "-y", "-v", "error", "-f", "concat", "-safe", "0", "-i", str(lst), "-c", "copy", *meta, str(final)],
                    check=True)
     log(f"render: {P.n_frames} frames, {len(parts)} chunks, {time.time() - t0:.0f}s")
     # mux 가 provenance render.resolution 에 옮겨 적는다(영상을 만든 프로파일 = 이 파일, 15 P5)
     import resource  # noqa: PLC0415
 
     peak = resource.getrusage(resource.RUSAGE_CHILDREN).ru_maxrss // 1024   # 가장 큰 청크 프로세스(또는 그 ffmpeg) 피크, MB
-    (outdir / "render.json").write_text(json.dumps({"schema_version": 1, "resolution": P.R.out.record(), "jobs": len(parts),
+    (outdir / f"{pre}render.json").write_text(json.dumps({"schema_version": 1, "resolution": P.R.out.record(), "jobs": len(parts),
                                                     "frames": P.n_frames, "sec": round(time.time() - t0, 1),
                                                     "peak_child_rss_mb": peak},
                                                    ensure_ascii=False, indent=1), encoding="utf-8")
     return final
+
+
+ANIMATIC_STAGES = {"plan": True, "geo": False, "preview": False, "render": False, "mix": True, "mux": False,
+                   "ai_direction": False, "visual_qa": False}   # 콘티 판 — 전편 render·deliver 는 돌지 않았다(render.json 을 읽지 않게, P5)
+
+
+def render_animatic(P: Project, jobs: int) -> tuple[Path, dict]:  # noqa: N803
+    """콘티 판(v4.9.0 back_and_forth D-0108) → out/animatic.mp4 + animatic_checks.json + animatic_provenance.json.
+    ① 음성·음악 = 기존 out/mix.f32 그대로(없으면 오류 — audio.mix 먼저) ② checks 콘티 프로파일(hard 면 렌더 전 실패, 프리뷰와 같은 게이트)
+    ③ 조각 렌더(자리표시·막지도, 480p·fps 24) ④ 2패스 loudnorm + AAC → animatic.mp4(표식 메타데이터) ⑤ provenance animatic: true."""
+    from audio.qa import loudnorm_two_pass, mix_inputs  # noqa: PLC0415
+    from engine.checks import run_checks  # noqa: PLC0415
+    from engine.mux import AAC_BITRATE, SR, project_provenance  # noqa: PLC0415
+
+    AN = load_rules().animatic  # noqa: N806
+    outd = P.root / "out"
+    mix = outd / "mix.f32"
+    if not mix.exists():
+        raise ProjectError(f"out/mix.f32 없음 — 콘티 판도 음성·음악은 그대로 입힌다: `python -m audio.mix {P.root}` 먼저")
+    outd.mkdir(exist_ok=True)
+    t0 = time.time()
+    prov = project_provenance(P, ANIMATIC_STAGES)
+    times = auto_preview_times(P)
+    checks = run_checks(P, times, prov, [], [f"t={t:.2f}" for t in times])
+    (outd / "animatic_checks.json").write_text(json.dumps(checks, ensure_ascii=False, indent=1), encoding="utf-8")
+    if not checks["passed"]:
+        errs = [f"checks hard {i['id']}: {d}" for i in checks["items"] if i["severity"] == "hard" for d in i["details"]]
+        raise ProjectError("콘티 판 checks hard 실패(렌더 전):\n" + "\n".join(errs[:50]))
+    video = render_full(P, jobs)
+    t1 = time.time()
+    final = outd / AN.output
+    af, loud = loudnorm_two_pass(mix, P.plan.total)
+    subprocess.run(["ffmpeg", "-y", "-v", "error", "-i", str(video), *mix_inputs(mix, P.plan.total),
+                    "-map", "0:v", "-map", "1:a", "-c:v", "copy", "-af", af, "-ar", str(SR), "-c:a", "aac", "-b:a", AAC_BITRATE,
+                    "-t", f"{P.plan.total:.3f}", "-movflags", "+faststart", "-metadata", f"comment={AN.mp4_comment}", str(final)],
+                   check=True)
+    rj = json.loads((outd / "animatic_render.json").read_text(encoding="utf-8"))
+    kinds: dict[str, int] = {}
+    from engine.layers.animatic import PLACEHOLDERS, flat_map_source  # noqa: PLC0415
+
+    for e in P.events:
+        if e["type"] in PLACEHOLDERS:
+            kinds[e["type"]] = kinds.get(e["type"], 0) + 1
+    prov["animatic"] = True
+    prov["animatic_run"] = {"output": f"out/{AN.output}", "profile": P.R.out.name, "fps": FPS, "preset": AN.preset,
+                            "band": AN.band.text, "placeholders": dict(sorted(kinds.items())),
+                            "flat_map": flat_map_source() if "mercator" in P.R.cache["stage"]["instances"] else None,
+                            "voice": P.plan.voice, "checks_skipped": checks["skipped"],
+                            "sec": {"render": rj["sec"], "total": round(time.time() - t0, 1), "mux": round(time.time() - t1, 1)},
+                            "jobs": rj["jobs"], "frames": rj["frames"], "loudnorm": {"passes": 2, **loud},
+                            "bytes": final.stat().st_size}
+    prov["checks"] = {"hard": checks["hard"], "warnings": checks["warnings"], "passed": checks["passed"], "profile": checks["profile"]}
+    (outd / "animatic_provenance.json").write_text(json.dumps(prov, ensure_ascii=False, indent=1), encoding="utf-8")
+    return final, prov
 
 
 def main(argv: list[str] | None = None) -> int:
@@ -287,10 +352,14 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("--jobs", type=int, default=None)
     ap.add_argument("--chunk", nargs=3, metavar=("START", "END", "OUT"))
     ap.add_argument("--res", default=None, help="출력 프로파일(config engine.output.profiles 이름 또는 trial·final)")
+    ap.add_argument("--animatic", action="store_true",
+                    help="콘티 판(v4.9.0 D-0108) → out/animatic.mp4 — 막지도·자리표시·표식 띠, 480p 고정. --preview 와 함께면 prev_animatic/")
     args = ap.parse_args(argv)
     stage = "preview" if args.preview else "render"
     try:
-        P = load_project(args.proj, out=output_profile(args.res))  # noqa: N806
+        if args.animatic and args.res is not None:
+            raise ProjectError("--animatic 은 rules animatic.profile 고정 — --res 와 함께 쓰지 않는다")
+        P = load_project(args.proj, out=None if args.animatic else output_profile(args.res), animatic=args.animatic)  # noqa: N806
         if args.chunk:
             render_chunk(P, int(args.chunk[0]), int(args.chunk[1]), Path(args.chunk[2]))
             return 0
@@ -308,6 +377,12 @@ def main(argv: list[str] | None = None) -> int:
                 res = StageResult(ok=False, stage=stage, artifacts=arts, warnings=P.warnings, errors=errs[:50])
                 print(json.dumps(res.model_dump(), ensure_ascii=False))
                 return 1
+        elif args.animatic:
+            jobs, why = plan_jobs(args.jobs, P.R.out)
+            log(f"jobs {jobs} ({why}) animatic")
+            final, _ = render_animatic(P, jobs)
+            outd = P.root / "out"
+            arts = {"animatic": str(final), "provenance": str(outd / "animatic_provenance.json"), "checks": str(outd / "animatic_checks.json")}
         else:
             jobs, why = plan_jobs(args.jobs, P.R.out)
             log(f"jobs {jobs} ({why})")

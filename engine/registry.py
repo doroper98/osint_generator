@@ -10,14 +10,14 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
-from typing import Callable, Literal
+from typing import Callable, Literal, Optional
 
 from pydantic import BaseModel, ValidationError
 
 from engine import events as ev
 from engine.cards import draw_card
 from engine.layers.areas import draw_country
-from engine.layers.badges import draw_badge
+from engine.layers.badges import draw_badge, draw_over_panel
 from engine.layers.dip import draw_dip
 from engine.layers.effects import draw_boom, draw_ships
 from engine.layers.markers import draw_marker
@@ -123,6 +123,21 @@ def resolve(e: dict | str) -> Entry:
         why = "계획만 있고 구현 전(planned)" if key in planned else "레지스트리에 없음"
         raise RegistryError(f"이벤트 타입 {key!r}: {why} — rules/video_rules.yaml registries (15 P10)")
     return REGISTRY[key]
+
+
+@dataclass(frozen=True)
+class LayerSet:
+    """렌더 한 벌의 레이어 선택(v4.9.0 back_and_forth D-0108) — render_frame 은 이 객체만 본다(플래그 분기 없음).
+    resolve = 이벤트 → 항목, over_panel = 패널 위 인물 뱃지(D2(c)), overlay = 전체 페이드 뒤 맨 위 층(없으면 None).
+    전편 = `FULL_LAYERS`, 콘티 판 = `engine.layers.animatic.ANIMATIC_LAYERS`(진입 = load_project(animatic=True) 한 곳)."""
+
+    name: str
+    resolve: Callable[[dict | str], Entry]
+    over_panel: Callable[..., None]
+    overlay: Optional[Callable[..., None]] = None
+
+
+FULL_LAYERS = LayerSet("full", resolve, draw_over_panel)
 
 
 def validate_events(raw: list[dict]) -> list[dict]:

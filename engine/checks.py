@@ -31,6 +31,7 @@ hard 실패가 하나라도 있으면 시각 검수 LLM 을 부르지 않고 연
 from __future__ import annotations
 
 from functools import lru_cache
+from typing import Callable
 
 import cairo
 
@@ -352,32 +353,54 @@ def run_checks(P, times: list[float], provenance: dict, drawn: list[tuple[str, f
     labels = 컷 라벨(drawn 의 첫 칸, 없으면 preview 기본 "t=…")."""
     from engine.honesty import judge, project_metas  # noqa: PLC0415
 
-    honesty, notes = judge(project_metas(P, times, labels or [f"t={t:.2f}" for t in times], drawn))
-    res: dict[str, list[str]] = {
-        "overlap": [w for w in placement_warnings(P.events, P.R.assets.media_assets)] + check_label_hidden(P),
-        "offscreen": check_offscreen(P) + check_endcard_overflow(P),
-        "glyphs": check_glyphs(P),
-        "glyph_size": check_glyph_size(drawn),
-        "shots": check_shots(P),
-        "media_beats": list(density_report(P.events, P.R.tb, P.plan.total)["warnings"]),
-        "media_upscaled": check_media_upscaled(P),
-        "endcard_roll": check_endcard_roll(P),
-        "labels": check_labels(P, times),
-        "date": [f"{s.sid} 날짜 형식 {s.date!r}" for s in P.plan.sentences if not DATE_RE.match(s.date)],
-        "subtitles": check_subtitles(P),
-        "rights": [],   # load_project 가 권리 점검(check_credits·validate_media)에서 실패하면 여기까지 오지 않는다
-        "forbidden": check_forbidden(P, provenance) + check_label_glyphs(drawn),
-        "stage_continuity": check_stage_continuity(P),
-        "genre_elements": check_genre_elements(P),
-        "boundary_as_route": list((P.R.cache.get("geo_check") or {}).get("boundary") or []),
-        "geo_unsourced": check_geo_unsourced(P),
-        **honesty,
+    skip = profile_skips(P)
+    run: dict[str, Callable[[], list[str]]] = {
+        "overlap": lambda: [w for w in placement_warnings(P.events, P.R.assets.media_assets)] + check_label_hidden(P),
+        "offscreen": lambda: check_offscreen(P) + check_endcard_overflow(P),
+        "glyphs": lambda: check_glyphs(P),
+        "glyph_size": lambda: check_glyph_size(drawn),
+        "shots": lambda: check_shots(P),
+        "media_beats": lambda: list(density_report(P.events, P.R.tb, P.plan.total)["warnings"]),
+        "media_upscaled": lambda: check_media_upscaled(P),
+        "endcard_roll": lambda: check_endcard_roll(P),
+        "labels": lambda: check_labels(P, times),
+        "date": lambda: [f"{s.sid} 날짜 형식 {s.date!r}" for s in P.plan.sentences if not DATE_RE.match(s.date)],
+        "subtitles": lambda: check_subtitles(P),
+        "rights": lambda: [],   # load_project 가 권리 점검(check_credits·validate_media)에서 실패하면 여기까지 오지 않는다
+        "forbidden": lambda: check_forbidden(P, provenance) + check_label_glyphs(drawn),
+        "stage_continuity": lambda: check_stage_continuity(P),
+        "genre_elements": lambda: check_genre_elements(P),
+        "boundary_as_route": lambda: list((P.R.cache.get("geo_check") or {}).get("boundary") or []),
+        "geo_unsourced": lambda: check_geo_unsourced(P),
     }
+    res = {k: f() for k, f in run.items() if k not in skip}
+    notes: dict[str, list[str]] = {}
+    if not set(HONESTY) <= skip:
+        honesty, notes = judge(project_metas(P, times, labels or [f"t={t:.2f}" for t in times], drawn))
+        res.update({k: v for k, v in honesty.items() if k not in skip})
     items = [{"id": k, "severity": "hard" if k in HARD else "warning", "count": len(v), "details": v[:20],
               **({"notes": notes[k][:20]} if notes.get(k) else {})} for k, v in res.items()]
+    items += [{"id": k, "severity": "hard" if k in HARD else "warning", "count": 0, "details": [], "skipped": True}
+              for k in sorted(skip)]
     hard = sum(i["count"] for i in items if i["severity"] == "hard")
     return {"schema_version": 1, "hard": hard, "warnings": sum(i["count"] for i in items if i["severity"] == "warning"),
-            "passed": hard == 0, "thresholds": QA.model_dump(), "items": items}
+            "passed": hard == 0, "profile": "animatic" if getattr(P, "animatic", False) else "full", "skipped": sorted(skip),
+            "thresholds": QA.model_dump(), "items": items}
+
+
+HONESTY = ("chart_honesty", "series_limit_3", "units_visible", "as_of_visible")   # engine.honesty.judge 가 내는 id
+
+
+def profile_skips(P) -> set[str]:  # noqa: ANN001, N803
+    """검사 프로파일(v4.9.0 back_and_forth D-0108) — 콘티 판은 rules animatic.checks_skip 을 건너뛴다(미디어·글꼴·정직성 없음).
+    전편은 빈 집합. 건너뛴 id 는 checks.json items[].skipped·skipped[] 와 provenance animatic.checks_skipped 에 남는다(조용한 생략 아님)."""
+    if not getattr(P, "animatic", False):   # 검사 스텁(SimpleNamespace)은 전편
+        return set()
+    sk = set(R_.animatic.checks_skip)
+    bad = sorted(sk - set(HARD) - set(WARN))
+    if bad:
+        raise ValueError(f"rules animatic.checks_skip 에 없는 검사 id: {bad} — engine.checks HARD·WARN")
+    return sk
 
 
 def frames_info(P, times: list[float], names: list[str]) -> dict:  # noqa: ANN001, N803
@@ -397,5 +420,5 @@ def frames_info(P, times: list[float], names: list[str]) -> dict:  # noqa: ANN00
     return {"schema_version": 1, "frames": rows}
 
 
-__all__ = ["FontMissingError", "HARD", "WARN", "check_audio", "frames_info", "run_checks"]
+__all__ = ["FontMissingError", "HARD", "HONESTY", "WARN", "check_audio", "frames_info", "profile_skips", "run_checks"]
 

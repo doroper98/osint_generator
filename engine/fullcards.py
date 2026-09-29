@@ -82,7 +82,7 @@ def project_credit_sections(R: RenderCtx) -> list[tuple[str, list[tuple[str, str
     if R.credits is None:
         raise RuntimeError("엔딩 카드에 크레딧 데이터가 없다(projects/<p>/credits.yaml)")
     return credit_sections(R.credits, R.assets.rights, R.assets.media, R.cache.get("credit_refs"), R.cache.get("cited_sources"),
-                           R.cache.get("series_records"))
+                           R.cache.get("series_records"), missing_license=R.cache.get("missing_license"))   # v4.9.0 콘티 판만
 
 
 def unverified_notice(R: RenderCtx) -> str | None:  # noqa: N803

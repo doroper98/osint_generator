@@ -34,7 +34,7 @@ from engine.projection import View
 from engine.shots import ShotStage
 from engine.stage import StageSet, attach_world, make_stage
 from engine.refs import emblem_ids
-from engine.registry import RegistryError, validate_events
+from engine.registry import FULL_LAYERS, LayerSet, RegistryError, validate_events
 from engine.style import FPS, Output, output_profile
 from engine.timebase import Timebase
 from genres.elements import used_elements
@@ -88,12 +88,28 @@ def _walk(o: object):  # noqa: ANN202
             yield from _walk(v)
 
 
-def preflight(R: RenderCtx, events: list[dict]) -> list[str]:  # noqa: N803
-    """권리·자산 점검. 문제 목록을 돌려준다(빈 목록 = 통과)."""
+def preflight(R: RenderCtx, events: list[dict], files: bool = True) -> list[str]:  # noqa: N803
+    """권리·자산 점검. 문제 목록을 돌려준다(빈 목록 = 통과).
+    files=False = 콘티 판(v4.9.0 D-0108): 이미지·영상 파일과 프로젝트 권리 레지스트리(생성 자산)를 보지 않는다 —
+    휘장 결정·미디어 레지스트리 참조·기사 카드 줄 수(저장소 파일)만 본다. 건너뛴 검사는 provenance animatic.checks_skipped."""
     A = R.assets  # noqa: N806
     errs: list[str] = []
     keys: set[str] = set()
     for e in events:
+        if not files:
+            for img in emblem_ids(e):
+                try:
+                    A.emblem_flag(img)
+                except Exception as ex:  # noqa: BLE001 — 모아서 한 번에 보고
+                    errs.append(str(ex))
+            if e["type"] in ("photo", "clip", "cutout", "article"):
+                try:
+                    validate_media(e, A.media_assets)
+                    if e["type"] == "article":
+                        article_geom(cairo.Context(cairo.ImageSurface(cairo.FORMAT_ARGB32, 1, 1)), e)
+                except (RightsError, ArticleOverflowError) as ex:
+                    errs.append(str(ex))
+            continue
         for d in _walk(e):
             if "pid" in d and d["pid"] is not None:
                 keys |= {f"portrait:{d['pid']}", f"flag43:{d['flag']}"}
@@ -131,7 +147,7 @@ def preflight(R: RenderCtx, events: list[dict]) -> list[str]:  # noqa: N803
             A.load_image(k)
         except Exception as ex:  # noqa: BLE001 — 모아서 한 번에 보고
             errs.append(str(ex))
-    for e in events:
+    for e in events if files else ():
         if e["type"] == "clip" and e["mid"] in A.media_assets:
             try:
                 A.load_clip(A.media_assets[e["mid"]].file)
@@ -151,6 +167,11 @@ class Project:
     n_frames: int
     warnings: list[str] = field(default_factory=list)   # 연출 lint 경고(오류 아님) — StageResult.warnings 로 나간다
     shots: list[ShotStage] = field(default_factory=list)   # v4.1.0 D-0077 — 숏별 무대·전환·월드 카메라(checks stage_continuity)
+    layers: LayerSet = FULL_LAYERS   # v4.9.0 D-0108 — 전편 / 콘티 판(ANIMATIC_LAYERS). render_frame 은 이것만 본다
+
+    @property
+    def animatic(self) -> bool:
+        return self.layers.name == "animatic"
 
 
 def _media_extent(e: dict, w: float, media_assets: dict) -> tuple[float, float]:
@@ -244,19 +265,33 @@ def music_ids(sound: Optional[dict]) -> set[str]:
     return {b} if isinstance(b, str) else {g["id"] for g in b}
 
 
-def load_project(proj: Path, direction: Optional[Direction] = None, out: Optional[Output] = None) -> Project:
+def load_project(proj: Path, direction: Optional[Direction] = None, out: Optional[Output] = None,
+                 animatic: bool = False) -> Project:
     """렌더 입력 한 벌. direction 을 주면 direction.yaml 대신 그것으로(연출 워커의 저장 전 점검 — 렌더와 같은 경로, 15 P8).
-    out = 출력 프로파일(v3.6.0, None = config engine.output.default). 설계 좌표·연출·검사는 프로파일과 무관하다."""
+    out = 출력 프로파일(v3.6.0, None = config engine.output.default). 설계 좌표·연출·검사는 프로파일과 무관하다.
+    animatic = 콘티 판(v4.9.0 back_and_forth D-0108) — **플래그 분기는 여기 한 곳**: 프로파일 rules animatic.profile, 지도 = 막지도
+    (FlatMercatorStage, 지형 자산 없음), 레이어 = ANIMATIC_LAYERS(자리표시), 이미지·영상 파일·초상 실측·권리 점검(check_credits) 건너뜀."""
     proj = proj.resolve()
     plan = load_plan(proj)
     tb = Timebase(plan)
+    AN = load_rules().animatic  # noqa: N806
+    if animatic:
+        if out is not None and out.name != AN.profile:
+            raise ProjectError(f"콘티 판은 {AN.profile} 고정(rules animatic.profile) — --res {out.name} 와 함께 쓰지 않는다")
+        out = output_profile(AN.profile)
     out = out or output_profile()
     doc = read_direction(proj, direction)
     uses_map = "mercator" in {doc.main_stage(), *(doc.shot_stage(s) for s in doc.shots)}   # v4.3.0 — 지도 자산은 지도 무대에만
-    assets = Assets(proj, load_labels(proj / "labels.yaml"), None if out == output_profile() else out.name, geo=uses_map)
+    assets = Assets(proj, load_labels(proj / "labels.yaml"), None if out == output_profile() else out.name, geo=uses_map and not animatic)
     R = RenderCtx(assets=assets, tb=tb, credits=load_credits(proj / "credits.yaml"), out=out)  # noqa: N806
+    modes = {}
+    if animatic:
+        from engine.layers.animatic import flat_stage_factory  # noqa: PLC0415
+
+        R.cache["missing_license"] = AN.missing_license   # 권리 레지스트리 없는 환경의 엔딩 카드(fullcards.project_credit_sections)
+        modes = {"mercator": flat_stage_factory(proj, out)}
     try:
-        stages = StageSet(assets, out, doc.stage_configs())   # v4.1.0 D-0076·D-0077 — 무대는 이름마다 한 번만. 설정 v4.3.0
+        stages = StageSet(assets, out, doc.stage_configs(), modes)   # v4.1.0 D-0076·D-0077 — 무대는 이름마다 한 번만. 설정 v4.3.0
         R.stage = stages.get(doc.main_stage())
     except ValueError as ex:
         raise ProjectError(f"무대 설정 오류: {ex}") from ex
@@ -291,7 +326,7 @@ def load_project(proj: Path, direction: Optional[Direction] = None, out: Optiona
         raise ProjectError(f"series 이벤트의 {sorted(set(bad))} 는 코드가 채운다 — 연출에 쓰지 않는다(P8)")
     events = validate_events(raw_events)
     R.cache["badge"] = {"R_ignored": drop_person_R(events),   # v4.8.0 D-0111 A — 인물 뱃지 연출 R 은 버리고 기록(provenance badge.R_ignored)
-                        "head_top": head_tops(R, events)}      # v4.8.0 D-0112 A — 초상 실측 머리 높이(R 단위, 초상 md5 와 함께)
+                        "head_top": [] if animatic else head_tops(R, events)}   # v4.8.0 D-0112 A — 초상 실측 머리 높이(콘티 판은 초상을 열지 않는다 → 상한)
     assign_person_sizes(events)   # v4.8.0 D-0101 §1 — 인물 뱃지 적응 크기(보이는 인물 수 n(t), 코드가 센다 P8)
     try:
         attach_world(events, R.stage)
@@ -302,7 +337,7 @@ def load_project(proj: Path, direction: Optional[Direction] = None, out: Optiona
     ent_errs = check_event_refs(events, load_entities())  # 07 §6 — 미등재 인물·국기·휘장은 렌더 전 오류(P10)
     if ent_errs:
         raise RegistryError("엔티티 레지스트리 점검 실패:\n" + "\n".join(ent_errs))
-    errs = preflight(R, events)
+    errs = preflight(R, events, files=not animatic)
     if errs:
         raise ProjectError("렌더 전 점검 실패:\n" + "\n".join(errs))
     A = R.assets  # noqa: N806
@@ -315,8 +350,9 @@ def load_project(proj: Path, direction: Optional[Direction] = None, out: Optiona
     R.cache["series_records"] = [load_series(s) for s in series_ids]   # v4.3.0 — 엔딩 카드 auto: series(레코드 출처·라이선스·기준 시점)
     R.cache["sentence_labels"] = sentence_labels(proj)       # v4.5.0 D85 — 엔딩 카드 마지막 줄 건수만(자막 접두 폐지, C9)
     R.cache["cited_sources"] = cited_sources(proj, events)   # v3.2.0 18 §6 — 엔딩 카드 '보도 · 자료'·설명란 원문 링크
-    check_credits(R.credits, A.rights, A.media, req,          # D-0029 작업 7 — 누락·미확인·미표기 자산은 RightsError
-                  cited_ids={s.id for s in R.cache["cited_sources"]}, series_ids=set(series_ids))
+    if not animatic:   # 콘티 판은 권리 점검을 건너뛴다(D-0108 — provenance animatic.checks_skipped 'rights'). deliver 는 콘티 판을 거부한다
+        check_credits(R.credits, A.rights, A.media, req,          # D-0029 작업 7 — 누락·미확인·미표기 자산은 RightsError
+                      cited_ids={s.id for s in R.cache["cited_sources"]}, series_ids=set(series_ids))
     R.cache["credit_refs"] = req
     b = (sound or {}).get("bgm")
     R.cache["bgm_segments"] = 0 if not b else (1 if isinstance(b, str) else len(b))   # provenance audio.crossfades
@@ -329,6 +365,10 @@ def load_project(proj: Path, direction: Optional[Direction] = None, out: Optiona
              + ", ".join(f"{g['label'] or g['pid']} R {g['R']:g}" for g in ign)] if ign else []
     warns += lint_events(events) + placement_warnings(events, A.media_assets) \
         + density_report(events, tb, plan.total)["warnings"]
+    if animatic:
+        from engine.layers.animatic import ANIMATIC_LAYERS  # noqa: PLC0415
+
+        return Project(proj, plan, R, keys, events, cams, n, warns, shots, ANIMATIC_LAYERS)
     return Project(proj, plan, R, keys, events, cams, n, warns, shots)
 
 
