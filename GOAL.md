@@ -1,6 +1,6 @@
 <!--
 tier: 1
-last_synced_with: v4.4.0
+last_synced_with: v4.5.0
 ssot_for: [project-goals, acceptance-criteria, prohibitions]
 depends_on: [README.md, docs/handoff/00_INDEX.md, docs/handoff/15_ANTI_INERTIA_PRINCIPLES.md]
 last_review: 2026-09-29

@@ -1,6 +1,6 @@
 <!--
 tier: 3
-last_synced_with: v4.4.0
+last_synced_with: v4.5.0
 ssot_for: [release-notes]
 depends_on: [README.md, GOAL.md]
 last_review: 2026-09-28
@@ -52,10 +52,20 @@ released 항목은 **append-only**입니다.
 | v4.1.0 | 5326b10 | G1 무대 추상화 | pass(D-0080) |
 | v4.2.0 | 89b17ea | G2 장르 프로필·새 요소 파이프라인 | pass(D-0083) |
 | v4.3.0 | 4180dbe | G3 시간축 무대·데이터 레코드·차트 정직성 검사 | pass(D-0089) |
+| v4.4.0 | 08c7245 | G4 첫 비지정학 영상 | pass(D-0094) — 영상 최종 판정은 사용자 |
 
 ---
 
-## [v4.4.0] — 2026-09-29 — Phase G4: 첫 비지정학 영상 (back_and_forth D-0090) — 진행 중
+## [v4.5.0] — 2026-09-29 — G5: 검증 라벨을 영상 본문에서 제거, 엔딩 카드 마지막 줄 작은 글씨로만 (back_and_forth D-0096) — 진행 중
+
+MINOR: 규칙 변경(사용자 결정 D85, CLAUDE.md C9 개정). 사실 검증 라벨(`<미검증>`·`<논쟁>` 등)을 자막·패널·카드에 그리지 않고, 엔딩 카드 맨 마지막 줄에 가장 작은 글씨 한 줄로만 적는다. 검증 상태의 기록(claims·script_labels·provenance labels·checks labels)은 그대로. 차트 정직성 태그는 유지.
+
+### Changed
+- **§0**: VERSION 4.5.0, Tier 1·2 `last_synced_with` v4.5.0, v4.4.0 released 대장 행(08c7245, D-0094).
+
+---
+
+## [v4.4.0] — 2026-09-29 — Phase G4: 첫 비지정학 영상 (back_and_forth D-0090) — Fable review pass(D-0094), 영상 최종 판정은 사용자
 
 MINOR: 새 기능(장르 프롬프트 층·series band·점도표·성명서 단어 비교)과 첫 비지정학 영상 `projects/fed_policy_2026`. 렌더 수치 변경 없음 — 지정학·데모 불변(hormuz 25/25·랫클리프 20/20·fed_timeline_demo 12/12).
 
