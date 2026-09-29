@@ -234,7 +234,7 @@ placement:                 # v3.1.0 D-0047 작업 5 — 배치 슬롯(17 §2 `pl
     card_right:      {kinds: [card, primitive], card: null}   # primitive = v4.2.0 D-0081 작업 5(무대 무관 오버레이, 카드와 같은 슬롯)
     # v4.4.0 D-0093 — 시간축 무대 자리. 왼쪽 55%(레인 이름·출처·기준 시점 줄)와 오른쪽 축 값 자리(axis_zone_px)를 피한다
     timeline_badge:  {kinds: [badge], point: [780, 118]}              # 레인 영역 오른쪽 위, 날짜 배지 아래 — 끝점 값 라벨 자리 왼쪽
-    timeline_photo:  {kinds: [photo, clip], box: [520, 150, 250]}     # 레인 오른쪽(왼쪽 레인 이름 열·오른쪽 축 값 자리 밖)
+    timeline_photo:  {kinds: [photo, clip], box: [540, 196, 240]}     # 레인 오른쪽 아래 — 카드 자리(card_right, y 70~) 아래·왼쪽 레인 이름 열(55%)·오른쪽 축 값 자리(axis_zone_px) 밖
     # v3.2.0 D-0050 NB9 — 패널(타임라인 등) 위 미디어: 그 순간 패널이 차지한 상자(engine.placement.OCCUPIED)·자막·날짜를 피하는 첫 후보.
     # 후보 [x, y] = 제목·부제(y≤96) 아래 네 귀퉁이. 모두 막히면 오류(조용히 겹치지 않는다, P6)
     clip_panel_side:
@@ -685,7 +685,7 @@ stage_timeline:            # v4.3.0 D-0084 작업 3·4·D-0085·D-0086 — 시�
     source_size: 11        # v4.4.0 D-0092 B: 10 → 11
     source_font: sansm
     source_halo: 2.5
-    change_regime_months: 6   # v4.4.0 D-0091 ② color_by change — 마지막 변화가 이 달 수 안이면 그 방향(hike·cut), 넘으면 hold(동결). FOMC 약 4회 회의
+    change_regime_months: 2   # v4.4.0 D-0091 ② color_by change — 마지막 변화가 이 달 수 안이면 그 방향(hike·cut), 넘으면 hold(동결). FOMC 회의 간격(6~7주) — 연속 회의 인상·인하는 이어지고 동결 결정 뒤는 회색(6 → 2: fed_policy 검수 루브릭 5 지적, 2026 동결기가 인하 색)
   band:                    # v4.4.0 D-0090 작업 2 — series style band(두 레코드 사이 띠 = 목표 범위). 색은 이벤트 col
     fill_alpha: 0.28
     edge_alpha: 0.9
