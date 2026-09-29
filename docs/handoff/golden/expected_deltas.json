@@ -1,6 +1,6 @@
 {
  "schema_version": 1,
- "note": "골든 PNG 는 수정하지 않는다. 여기 등재된 컷만 golden_compare 판정에서 '의도된 차이'로 뺀다(DECISIONS D34·D36). 새 기준 프레임은 docs/handoff/reports/phase4/golden_delta/(09), docs/handoff/reports/phase6/golden_delta/(15·16).",
+ "note": "골든 PNG 는 수정하지 않는다. 여기 등재된 컷만 golden_compare 판정에서 '의도된 차이'로 뺀다(DECISIONS D34·D36). 새 기준 프레임은 docs/handoff/reports/phase4/golden_delta/(09), docs/handoff/reports/phase6/golden_delta/(15·16), docs/handoff/reports/phaseG7/golden_delta/(v4.8.0 G7 요소 크기, g7_scale_d0101).",
  "deltas": {
   "09_ask_1": {
    "reason": "refusal 패널의 국가별 '거절' 전환(rows[].t_refuse = at_word('ask_1', 국가명))이 글자 비율 추정에서 edge WordBoundary 정렬로 바뀜. 이 컷(ask_1+4, t=80.70)에서 '호주' 행 전환이 79.88초(비율)→80.52초(정렬)로 늦어져 전환 도중 상태가 찍힌다. 같은 plan 으로 정렬·비율 두 번 렌더해 차이가 난 컷은 25개 중 이것 하나(MAD 0.0983/255)",
@@ -233,6 +233,402 @@
     }
    },
    "diff_report": "docs/handoff/reports/phaseG1/geo_fix_diff.json"
+  },
+  "g7_scale_d0101": {
+   "reason": "G7 요소 크기(사용자 결정 D89, back_and_forth D-0101) — 인물 뱃지 적응 크기(§1, D-0111 A 연출 R 무시·D-0112 A 머리 예약 실측·가장자리 보정), 기사 카드 조판 확대(§2), 화면 글자 크기 표 1·2(§3, D-0113 A 자막 19→21·카드·캡션·패널·마커·경로 글자), 사진 켄 번스 연속 변환(D-0104 D6). 변경 픽셀은 요소 영역(옛·새 엔진 상자 합집합) 안 99.24% — 밖 4컷은 요소 글자 자체의 확대(경로 라벨·마커 부제·캡션 바)와 지도 도시 라벨 자리바꿈(outside_why). 기준 = v4.7.0 엔진(4777c50) 렌더(= phaseG1 hormuz_baseline 25/25). 전/후·차이 = docs/handoff/reports/phaseG7/golden_delta/",
+   "decision": "D-0101·D-0111·D-0112·D-0113·D-0104 D6",
+   "old_rules": {
+    "layout_480p.subtitle.size": 19,
+    "badge.R_person_map": [
+     30,
+     34
+    ],
+    "layout_480p.article_card.w": 300,
+    "layout_480p.card.line_size": 13
+   },
+   "new_rules": {
+    "layout_480p.subtitle.size": 21,
+    "badge.R_person_solo": 56,
+    "badge.R_person_group": [
+     30,
+     34
+    ],
+    "layout_480p.article_card.w": 440,
+    "layout_480p.card.line_size": 15
+   },
+   "cuts": [
+    "01_open_1",
+    "02_TITLE",
+    "03_route_0",
+    "04_route_2",
+    "05_route_3",
+    "06_war_1",
+    "07_war_2",
+    "08_war_3",
+    "09_ask_1",
+    "10_ask_2",
+    "11_ask_5",
+    "12_timeline_2",
+    "13_timeline_4",
+    "14_cost_1",
+    "15_review_0",
+    "16_review_1",
+    "17_past_1",
+    "18_past_3",
+    "19_debate_0",
+    "20_debate_1",
+    "21_debate_4",
+    "22_decision_0",
+    "23_now_0",
+    "24_now_3"
+   ],
+   "unchanged": [
+    "25_END"
+   ],
+   "cut_detail": {
+    "01_open_1": {
+     "render": "p_0007.82.png",
+     "changed_px": 32392,
+     "inside_px": 32392,
+     "outside_px": 0,
+     "bbox": [
+      53,
+      27,
+      829,
+      457
+     ],
+     "md5": "ffe4aacfbef7d87e275e4becb8890264"
+    },
+    "02_TITLE": {
+     "render": "p_0022.27.png",
+     "changed_px": 13488,
+     "inside_px": 13488,
+     "outside_px": 0,
+     "bbox": [
+      53,
+      26,
+      478,
+      186
+     ],
+     "md5": "3c2092ab7081d5123f6628324b16684f"
+    },
+    "03_route_0": {
+     "render": "p_0028.77.png",
+     "changed_px": 12286,
+     "inside_px": 12286,
+     "outside_px": 0,
+     "bbox": [
+      122,
+      198,
+      730,
+      457
+     ],
+     "md5": "85632860fb30ab4a4455003f1066f017"
+    },
+    "04_route_2": {
+     "render": "p_0038.45.png",
+     "changed_px": 13888,
+     "inside_px": 13888,
+     "outside_px": 0,
+     "bbox": [
+      129,
+      83,
+      829,
+      457
+     ],
+     "md5": "2def0710915d18284c1fcd83e3113840"
+    },
+    "05_route_3": {
+     "render": "p_0045.03.png",
+     "changed_px": 25603,
+     "inside_px": 25603,
+     "outside_px": 0,
+     "bbox": [
+      110,
+      174,
+      742,
+      457
+     ],
+     "md5": "3c6af866b6d7cf71d53265873c4034db"
+    },
+    "06_war_1": {
+     "render": "p_0056.21.png",
+     "changed_px": 25222,
+     "inside_px": 25222,
+     "outside_px": 0,
+     "bbox": [
+      170,
+      15,
+      683,
+      457
+     ],
+     "md5": "af0a4f1c834e7a92d7d7de979213fb9c"
+    },
+    "07_war_2": {
+     "render": "p_0061.25.png",
+     "changed_px": 14447,
+     "inside_px": 12607,
+     "outside_px": 1840,
+     "bbox": [
+      37,
+      163,
+      656,
+      457
+     ],
+     "md5": "14cc1c3545d8f312cdba730a972ad43d",
+     "outside_bbox": [
+      37,
+      359,
+      347,
+      370
+     ],
+     "outside_why": "미디어 캡션 바 38→42(바 아래 가장자리) + 지도 도시 라벨(도하) 자리바꿈(예약 영역 회피)"
+    },
+    "08_war_3": {
+     "render": "p_0065.13.png",
+     "changed_px": 24726,
+     "inside_px": 23592,
+     "outside_px": 1134,
+     "bbox": [
+      110,
+      280,
+      742,
+      457
+     ],
+     "md5": "94f97316a42f3f4b6abaa02d62da5999",
+     "outside_bbox": [
+      591,
+      356,
+      685,
+      371
+     ],
+     "outside_why": "경로 라벨 '허가받은 배만 통과' 글자 11.5→12.5(route_label — 증명 도구 상자 대상 밖)"
+    },
+    "09_ask_1": {
+     "render": "p_0080.70.png",
+     "changed_px": 10563,
+     "inside_px": 10563,
+     "outside_px": 0,
+     "bbox": [
+      130,
+      139,
+      723,
+      457
+     ],
+     "md5": "c8dc387205b5af046bb39551b09c2d9b"
+    },
+    "10_ask_2": {
+     "render": "p_0087.06.png",
+     "changed_px": 9174,
+     "inside_px": 9174,
+     "outside_px": 0,
+     "bbox": [
+      170,
+      139,
+      682,
+      457
+     ],
+     "md5": "505e7cb795a081ebec58ff0fe2c3105c"
+    },
+    "11_ask_5": {
+     "render": "p_0105.28.png",
+     "changed_px": 13211,
+     "inside_px": 13211,
+     "outside_px": 0,
+     "bbox": [
+      77,
+      86,
+      776,
+      457
+     ],
+     "md5": "62ae18e4944f9a3d8d6a95437bce51c5"
+    },
+    "12_timeline_2": {
+     "render": "p_0124.25.png",
+     "changed_px": 15809,
+     "inside_px": 15809,
+     "outside_px": 0,
+     "bbox": [
+      83,
+      86,
+      753,
+      457
+     ],
+     "md5": "284683709ec1a705c796e9b449129a5d"
+    },
+    "13_timeline_4": {
+     "render": "p_0136.97.png",
+     "changed_px": 22950,
+     "inside_px": 22950,
+     "outside_px": 0,
+     "bbox": [
+      83,
+      86,
+      749,
+      456
+     ],
+     "md5": "64ba2078b1a6e123832cabe7e437fb09"
+    },
+    "14_cost_1": {
+     "render": "p_0157.38.png",
+     "changed_px": 19037,
+     "inside_px": 19037,
+     "outside_px": 0,
+     "bbox": [
+      184,
+      70,
+      829,
+      457
+     ],
+     "md5": "b78ccaf96bc760478df5d126afc4a4ec"
+    },
+    "15_review_0": {
+     "render": "p_0164.59.png",
+     "changed_px": 62872,
+     "inside_px": 62169,
+     "outside_px": 703,
+     "bbox": [
+      105,
+      58,
+      849,
+      457
+     ],
+     "md5": "0236fb38001813e72e54907d43676831",
+     "outside_bbox": [
+      330,
+      274,
+      399,
+      287
+     ],
+     "outside_why": "지도 도시 라벨(하이데라바드) 숨김 — 커진 기사 카드 예약 영역과 라벨 충돌"
+    },
+    "16_review_1": {
+     "render": "p_0170.52.png",
+     "changed_px": 22764,
+     "inside_px": 21879,
+     "outside_px": 885,
+     "bbox": [
+      0,
+      70,
+      852,
+      457
+     ],
+     "md5": "ba49996ae8cbf136c86929b9cbe7ae32",
+     "outside_bbox": [
+      0,
+      357,
+      79,
+      371
+     ],
+     "outside_why": "마커 부제 '청해부대 2009년~' 글자 10.5→12(marker.sub_size) — 화면 왼쪽 끝"
+    },
+    "17_past_1": {
+     "render": "p_0193.22.png",
+     "changed_px": 45922,
+     "inside_px": 45922,
+     "outside_px": 0,
+     "bbox": [
+      74,
+      86,
+      711,
+      457
+     ],
+     "md5": "9dc84e283a7730ec2f7fef17cd6bf182"
+    },
+    "18_past_3": {
+     "render": "p_0207.41.png",
+     "changed_px": 20245,
+     "inside_px": 20245,
+     "outside_px": 0,
+     "bbox": [
+      74,
+      86,
+      768,
+      457
+     ],
+     "md5": "ade36ca0d8e0b0c463b680020707394b"
+    },
+    "19_debate_0": {
+     "render": "p_0214.46.png",
+     "changed_px": 70501,
+     "inside_px": 70501,
+     "outside_px": 0,
+     "bbox": [
+      89,
+      58,
+      837,
+      457
+     ],
+     "md5": "7c9830be0ba410c698af1501d9778b4e"
+    },
+    "20_debate_1": {
+     "render": "p_0220.96.png",
+     "changed_px": 13752,
+     "inside_px": 13752,
+     "outside_px": 0,
+     "bbox": [
+      96,
+      209,
+      757,
+      457
+     ],
+     "md5": "b5923bcb7a65a804b129dce45c03fe09"
+    },
+    "21_debate_4": {
+     "render": "p_0238.00.png",
+     "changed_px": 10172,
+     "inside_px": 10172,
+     "outside_px": 0,
+     "bbox": [
+      113,
+      210,
+      740,
+      457
+     ],
+     "md5": "e8139cc458022f69f28e4db05d8bc61a"
+    },
+    "22_decision_0": {
+     "render": "p_0245.56.png",
+     "changed_px": 44703,
+     "inside_px": 44703,
+     "outside_px": 0,
+     "bbox": [
+      58,
+      71,
+      829,
+      457
+     ],
+     "md5": "b7827f4a2f516b41cfe479621c5b4ef4"
+    },
+    "23_now_0": {
+     "render": "p_0258.61.png",
+     "changed_px": 32343,
+     "inside_px": 32343,
+     "outside_px": 0,
+     "bbox": [
+      102,
+      83,
+      828,
+      457
+     ],
+     "md5": "cd5fe997e38eb6f57a879a18f5fde039"
+    },
+    "24_now_3": {
+     "render": "p_0276.44.png",
+     "changed_px": 26251,
+     "inside_px": 26251,
+     "outside_px": 0,
+     "bbox": [
+      76,
+      407,
+      776,
+      457
+     ],
+     "md5": "5098eefa28bed425376487a480005982"
+    }
+   },
+   "diff_report": "docs/handoff/reports/phaseG7/golden_delta/golden_delta.json",
+   "inside_ratio": 0.9924
   }
  }
 }

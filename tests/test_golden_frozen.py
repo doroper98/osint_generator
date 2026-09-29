@@ -57,13 +57,30 @@ class GoldenFrozenTest(unittest.TestCase):
         for c in KZ_CUTS:
             self.assertIn(c, d, c)
         self.assertEqual(d["geo_kz_d0078"]["cuts"], KZ_CUTS)
-        self.assertNotIn("06_war_1", d)   # KZ 가 안 보이는 컷은 등재하지 않는다
+        self.assertNotIn("06_war_1", d["geo_kz_d0078"]["cuts"])   # KZ 가 안 보이는 컷은 등재하지 않는다
+        self.assertIsNot(d.get("06_war_1"), d["geo_kz_d0078"])     # v4.8.0 — 06 은 G7(g7_scale_d0101)로만 등재
 
     def test_delta_frames_exist(self) -> None:
         raw = json.loads((GOLDEN / "expected_deltas.json").read_text(encoding="utf-8"))["deltas"]["geo_kz_d0078"]
         for c in raw["cuts"]:
             p = REPO / "docs" / "handoff" / "reports" / "phaseG1" / "golden_delta" / f"{c}.png"
             self.assertEqual(hashlib.md5(p.read_bytes()).hexdigest(), raw["cut_detail"][c]["md5"], c)
+
+    def test_g7_scale_delta_matches_baseline(self) -> None:
+        """v4.8.0 G7(D-0101·D-0113) — g7_scale_d0101 의 컷 md5 = phaseG7 hormuz 기준선, 전/후·차이 사본이 있고, 요소 밖 변경은 사유가 적혀 있다."""
+        raw = json.loads((GOLDEN / "expected_deltas.json").read_text(encoding="utf-8"))["deltas"]["g7_scale_d0101"]
+        self.assertIn("g7_scale_d0101", load_expected_deltas())
+        base = json.loads((REPO / "docs" / "handoff" / "reports" / "phaseG7" / "hormuz_baseline.json").read_text(encoding="utf-8"))
+        md5 = {c["png"]: c["md5"] for c in base["cuts"]}
+        delta_dir = REPO / "docs" / "handoff" / "reports" / "phaseG7" / "golden_delta"
+        self.assertEqual(len(raw["cuts"]) + len(raw["unchanged"]), 25)
+        for c in raw["cuts"]:
+            d = raw["cut_detail"][c]
+            self.assertEqual(d["md5"], md5[d["render"]], c)
+            self.assertTrue((delta_dir / d["render"].replace(".png", "_old_new_diff.png")).exists(), c)
+            if d["outside_px"]:
+                self.assertTrue(d.get("outside_why"), c)
+        self.assertGreaterEqual(raw["inside_ratio"], 0.99)
 
 
 if __name__ == "__main__":
