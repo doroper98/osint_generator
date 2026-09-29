@@ -50,3 +50,8 @@ fed_policy `out/mix.f32` 는 G4 `mix.flac` 을 풀어 만들었다(G5 절차).
 | codex 도 stdin | `codex exec … -` | argv 경로 삭제(P2)를 백엔드 전체에 |
 | stdin 인코딩 | UTF-8 고정 | Windows cp949·POSIX 로캘에서 한국어 프롬프트 |
 | 프롬프트 | `{{RULES.attribution_markers}}` 를 script·verify_sources 에 | 린트·판정과 같은 목록(P3) |
+
+## 4. 테스트
+
+전체 pytest(e4d26f8): **1133 passed**, failed 0, 262 subtests passed, 735초. 기준선 1111(G8) + 22. P2 삭제 테스트 1(`test_prompt_body_with_braces_is_allowed` — argv `{prompt}` 자리 전제, stdin 전환으로 대상 소멸 → `test_prompt_placeholder_in_template_raises`·`test_no_template_carries_prompt_placeholder` 로 교체).
+새 테스트: `test_g9_gazetteer.py` 10, `test_g9_llm_stdin.py` 5, `test_g9_attribution.py` 6, 샌드박스 2.

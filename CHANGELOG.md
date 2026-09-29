@@ -69,6 +69,7 @@ MINOR: 새 검사(지명 사전 좌표 대조) 추가. 전편 렌더 없음(D-01
 - **§0**: VERSION 4.10.0, Tier 1·2 `last_synced_with` v4.10.0, v4.9.0 대장 행(e5c400b, D-0116 pass).
 - **작업 1 지명 사전(B-1)**: `data/gazetteer.yaml` = NE 10m populated places 중 수도 + 인구 ≥ 10만(3119, `tools/build_gazetteer.py` — 원본 URL·md5) + 수기 9(호르무즈 해협·하르그섬·아덴만·브누코보 공항·폴란드·주한 미국대사관·청와대·여의도·믈라카 해협 — 출처·허용 오차 km). `rules geo.gazetteer`. checks **`geo_mismatch` hard**(`[geo-mismatch]`) — place 키·marker label 이 사전과 맞는데 좌표가 맞은 항목 모두의 오차 밖. 사전에 없는 이름·paths·route 는 `[geo-unsourced]` warning 그대로. provenance `geo.matched[]`·`geo.mismatch[]`. hormuz·랫클리프 골든 좌표 무변경 전부 통과(hormuz unsourced 11 → 3).
 - **작업 2 LLM 브리지 stdin(LLM-AP-009)**: `CLI_INVOCATION` 에서 `{prompt}` 삭제 — `claude -p`(위치 인자 없음)·`codex exec … -` 가 stdin 을 읽는다. 템플릿에 `{prompt}` 가 있으면 빌드 오류(argv 경로 삭제, P2). stdin UTF-8 고정. 140KB 프롬프트 실 subprocess 테스트.
+- **테스트**: 1133 passed(1111 + 22), failed 0. WIP 커밋 두 개(31faede·e4d26f8)가 이미 푸시돼 한 의도씩 나누지 못했다(force 금지).
 - **작업 3 귀속 표현 "보도했"(D84 보류분)**: `rules script_schema.attribution_markers` 한 줄 + 프롬프트 `script`·`verify_sources` 에 `{{RULES.attribution_markers}}`. 원고 린트 attribution 경고 fed_policy 8 → 0, 랫클리프 2 → 1, dmz_mine 15 → 14. claims 판정 변화 없음(handoff 18 §8).
 
 ---
