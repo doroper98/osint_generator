@@ -656,7 +656,9 @@ audio:                     # 10
     # reports/phaseG6/norm_ref_sweep.jsonl·tp_sweep.jsonl): music_under_narration [-15,-11] 에 0.3 dB 여유 → 0.7 이상(0.6 = hormuz −10.98),
     # 최종 트루 피크 ≤ TP + tp_codec_margin_db → 0.8 이상(0.7 = hormuz final −1.34 > −1.35, 0.8 = −1.40, fed 0.7 = −1.41).
     # 0.8 에서 베드 저역 절대 +0.8 dB·중역 −4.5 dB(1.0 은 저역 −0.35·중역 −5.7), 음악 레벨 hormuz −12.12·fed −12.89, 리미터 전 mix 피크 0.93·0.88(내레이션 변화 0)
-    norm_ref: 0.8
+    # v4.7.0 back_and_forth D-0107 — 0.7 복귀. 트루 피크 조건은 post_limiter(RENDER-AP-004, −2.0 dBFS)가 맡으므로 음악 레벨 여유 0.3 dB 최소값(D-0102 원 기준)만 남는다.
+    # 저역 절대 +1.4 dB. 리미터 뒤 실측 reports/phaseG6_5/audio_qa_norm_ref07.json(hormuz·fed)
+    norm_ref: 0.7
   sfx:                      # 효과음 합성(v3 mix3) — 필터 계수·시상수·이득
     whoosh: {dur_sec: 1.2, shape_pow: 2.2, low_b: 0.08, low_a: -0.92, low_gain: 0.6, high_b: 0.3, high_a: -0.7, high_gain: 0.25,
              release_sec: 0.08, release_tau_sec: 0.05, gain: 0.2}

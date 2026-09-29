@@ -65,6 +65,7 @@ MINOR: 별도 세션 브랜치(`claude/vibrant-mendel-vdfhsz`, 『DMZ 지뢰 폭
 ### Changed
 - **§0**: VERSION 4.7.0, Tier 1·2 `last_synced_with` v4.7.0, v4.6.0 대장 행(8a39e36, R-0120 보고).
 - **D2(b) 좌표 근거(D-0107)**: 검사 `boundary_as_route`(hard) — `rules geo.boundary_names`(군사분계선·MDL·국경·휴전선·NLL·북방·남방한계선·경계선 …, 부분 일치) 이름을 단 route(label·`{path:}`)·paths 키 `[boundary-as-route]`. 검사 `geo_unsourced`(warning) — 지도 무대 places·paths·인라인 좌표 marker·route 를 `[geo-unsourced]` 로 나열, provenance `geo.unsourced[]`(hormuz 11·랫클리프 7). 연출·수정 프롬프트 `direction_grammar` 두 줄(경계선 route 금지·비공개 위치 marker sub '좌표 비공개'). 지명 사전 `data/gazetteer.yaml` 과 hard 전환은 G8. checks 항목 19 → 21. 새 테스트 3.
+- **norm_ref 0.7 복귀(D-0107)**: `audio.bed_bass.norm_ref` 0.8 → 0.7(D-0102 원 기준 = 음악 레벨 여유 0.3 dB 최소값). G6 에서 0.8 로 올린 이유(트루 피크)는 post_limiter(RENDER-AP-004)가 맡는다. 저역 절대 +0.8 → +1.4 dB. 리미터 뒤 실측 `reports/phaseG6_5/audio_qa_norm_ref07.json`: hormuz I −14.05·TP −1.72·음악 −11.55, fed I −14.04·TP −1.83·음악 −12.31, hard 0.
 
 ---
 
