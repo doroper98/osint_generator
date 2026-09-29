@@ -107,7 +107,9 @@ class WorldRoundTripTest(unittest.TestCase):
 class RegistryTest(unittest.TestCase):
     def test_registry_matches_implementations(self) -> None:
         self.assertEqual(sorted(load_rules().registries.stages), sorted(S.STAGE_CLASSES))
-        self.assertIn(S.DEFAULT_STAGE, S.STAGE_CLASSES)
+        from genres.load import DEFAULT_GENRE, load_genre  # noqa: PLC0415 — v4.2.0: 기본 무대 = 기본 장르의 stage.primary
+
+        self.assertIn(load_genre(DEFAULT_GENRE).stage.primary, S.STAGE_CLASSES)
 
     def test_unregistered_stage_is_error(self) -> None:
         with self.assertRaises(StageError) as cm:

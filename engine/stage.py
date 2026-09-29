@@ -222,7 +222,7 @@ class MercatorStage:
 
 
 STAGE_CLASSES: dict[str, type] = {"mercator": MercatorStage}   # 구현 — rules registries.stages 와 같아야 한다(P10)
-DEFAULT_STAGE = "mercator"   # direction.yaml 에 stage 가 없을 때(v3 원본 direction 무수정 원칙 D-0056). provenance 에 declared false 로 남긴다
+# direction.yaml 에 stage 가 없을 때의 무대 = 장르 프로필 stage.primary(v4.2.0 D-0081 작업 3, 기본 장르 geopolitics → mercator).
 
 
 def stage_class(name: str) -> type:
@@ -270,5 +270,5 @@ def attach_world(events: list[dict], stage: Stage) -> None:
             e["world_p1"] = stage.to_world(lon=e["p1"][0], lat=e["p1"][1])
 
 
-__all__ = ["DEFAULT_STAGE", "MERCATOR_LOD", "MercatorStage", "STAGE_CLASSES", "Stage", "StageError", "StageSet", "attach_world", "by_w",
+__all__ = ["MERCATOR_LOD", "MercatorStage", "STAGE_CLASSES", "Stage", "StageError", "StageSet", "attach_world", "by_w",
            "lat_of", "make_stage", "stage_class", "to_uv", "ym", "ymv"]

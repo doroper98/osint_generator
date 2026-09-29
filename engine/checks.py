@@ -18,6 +18,7 @@ hard 실패가 하나라도 있으면 시각 검수 LLM 을 부르지 않고 연
 | rights | hard | 권리 점검(load_project 의 check_credits·validate_media)이 통과했으면 0 |
 | forbidden | hard | 도장·비네팅·모서리 브랜드: 레지스트리 밖 이벤트 타입 0, vignette 끔, 모서리 요소 = 날짜뿐 |
 | stage_continuity | hard | 무대 연속성(v4.1.0 D-0076·D-0077, GOAL G3-17): 보조 무대 ≤ stage.max_secondary, 무대 전환은 dip 만, 같은 무대 안 먼 cut 금지, 전환 ≤ stage.continuity.max_switches (`engine.shots.stage_continuity`) |
+| genre_elements | hard | 장르 요소(v4.2.0 D-0081 작업 3, GOAL G3-17): direction 이 쓴 이벤트·패널·뱃지·프리미티브 종류(genres.elements) ⊆ 장르 프로필 primitives.reuse ∪ new |
 """
 
 from __future__ import annotations
@@ -39,7 +40,8 @@ QA = R_.qa_checks
 SG = R_.shot_grammar
 SAMPLE_SEC = 1.0          # 뱃지·라벨 샘플 간격
 SHADOW_PX = 7             # badge_box 가 원 둘레에 더하는 그림자 여백 — 이만큼 잘리는 것은 허용
-HARD = ("overlap", "offscreen", "glyphs", "glyph_size", "labels", "date", "subtitles", "rights", "forbidden", "stage_continuity")
+HARD = ("overlap", "offscreen", "glyphs", "glyph_size", "labels", "date", "subtitles", "rights", "forbidden", "stage_continuity",
+        "genre_elements")
 WARN = ("shots", "media_beats", "media_upscaled")
 
 
@@ -220,6 +222,17 @@ def check_stage_continuity(P) -> list[str]:  # noqa: ANN001, N803
     return [f"[{k}] {msg}" for k, msg in stage_continuity(P.shots)]
 
 
+def check_genre_elements(P) -> list[str]:  # noqa: ANN001, N803
+    """장르 요소 — 연출이 쓴 요소가 장르 프로필(reuse ∪ new) 밖이면 요소마다 한 줄. 상세는 "[genre-element] …"."""
+    from genres.elements import outside  # noqa: PLC0415
+    from genres.load import load_genre  # noqa: PLC0415
+
+    g = P.R.cache["genre"]
+    prof = load_genre(g["name"])
+    return [f"[genre-element] {name!r} ×{n} — 장르 {prof.genre!r} 프로필 primitives(reuse ∪ new)에 없다"
+            for name, n in outside(g["elements_used"], prof.elements()).items()]
+
+
 def check_subtitles(P) -> list[str]:  # noqa: ANN001, N803
     from script.lint import subtitle_lines  # noqa: PLC0415
 
@@ -297,6 +310,7 @@ def run_checks(P, times: list[float], provenance: dict, drawn: list[tuple[str, f
         "rights": [],   # load_project 가 권리 점검(check_credits·validate_media)에서 실패하면 여기까지 오지 않는다
         "forbidden": check_forbidden(P, provenance),
         "stage_continuity": check_stage_continuity(P),
+        "genre_elements": check_genre_elements(P),
     }
     items = [{"id": k, "severity": "hard" if k in HARD else "warning", "count": len(v), "details": v[:20]} for k, v in res.items()]
     hard = sum(i["count"] for i in items if i["severity"] == "hard")

@@ -19,7 +19,9 @@
     version: 1
     places: {hormuz: [56.35, 26.55], …}           이름표 좌표. 이벤트에서 `at_place: hormuz` → lon·lat
     paths:  {route: [[56.2, 26.45], …], …}        이름표 경로. 값 자리에 `{path: route}`
-    stage:  mercator                                v4.1.0(D-0076 작업 4) — 주 무대. 없으면 mercator(provenance stage.declared false)
+    genre:  geopolitics                             v4.2.0(D-0081 작업 3) — 장르 프로필(genres/<genre>.yaml). 없으면 geopolitics(provenance genre.declared false)
+    stage:  mercator                                v4.1.0(D-0076 작업 4) — 주 무대. 없으면 장르 프로필의 stage.primary(provenance stage.declared false).
+            있으면(숏 단위 stage 도) 장르 프로필 stage.primary·secondary 안이어야 한다(아니면 스키마 오류)
     shots:  [{at, mode: cut|move|dip, dur?, camera: {lon, lat, w}, under?, stage?}]   (dip = 1초 암전 + 한가운데 cut)
             shots[].stage = 이 숏의 무대(없으면 최상위 stage, D-0077). 등록 안 된 무대 이름 = 스키마 오류(P10)
     events: [{type, start, end, …필드}]           필드 값 어디든 앵커를 둘 수 있다(패널 내부 시각 등)
@@ -47,6 +49,7 @@ if TYPE_CHECKING:
     from collections.abc import Callable
 
     from engine.stage import Stage
+    from schemas.genre_models import GenreProfile
 
 ANCHOR_BASES: tuple[str, ...] = ("sid", "scene_start", "scene_end", "word", "card", "total", "span")
 ANCHOR_KEYS: frozenset[str] = frozenset(ANCHOR_BASES) | {"off", "edge"}
@@ -165,7 +168,8 @@ class Direction(_Strict):
     """direction.yaml 최상위 모델(17 §2)."""
 
     version: Literal[1] = 1
-    stage: Optional[str] = None   # v4.1.0 D-0076 작업 4 — 주 무대(없으면 engine.stage.DEFAULT_STAGE, declared false)
+    genre: Optional[str] = None   # v4.2.0 D-0081 작업 3 — 장르 프로필(없으면 genres.load.DEFAULT_GENRE, declared false)
+    stage: Optional[str] = None   # v4.1.0 D-0076 작업 4 — 주 무대(없으면 장르 프로필 stage.primary, declared false)
     places: dict[str, tuple[float, float]] = Field(default_factory=dict)
     paths: dict[str, list[tuple[float, float]]] = Field(default_factory=dict)
     shots: list[Shot] = Field(min_length=1)
@@ -177,10 +181,27 @@ class Direction(_Strict):
     def _stage(cls, v: Optional[str]) -> Optional[str]:
         return _registered_stage(v)
 
-    def main_stage(self) -> str:
-        from engine.stage import DEFAULT_STAGE  # noqa: PLC0415
+    @field_validator("genre")
+    @classmethod
+    def _genre(cls, v: Optional[str]) -> Optional[str]:
+        if v is not None:
+            from genres.load import load_genre  # noqa: PLC0415
 
-        return self.stage or DEFAULT_STAGE
+            load_genre(v)   # 없는 장르·프로필 오류 = GenreError(ValueError) → 스키마 오류(P10)
+        return v
+
+    def genre_name(self) -> str:
+        from genres.load import DEFAULT_GENRE  # noqa: PLC0415
+
+        return self.genre or DEFAULT_GENRE
+
+    def genre_profile(self) -> "GenreProfile":
+        from genres.load import load_genre  # noqa: PLC0415
+
+        return load_genre(self.genre_name())
+
+    def main_stage(self) -> str:
+        return self.stage or self.genre_profile().stage.primary
 
     def shot_stage(self, s: "Shot") -> str:
         return s.stage or self.main_stage()
@@ -200,6 +221,11 @@ class Direction(_Strict):
         for i, s in enumerate(self.shots):
             if s.camera.place is not None and s.camera.place not in self.places:
                 errs.append(f"shots[{i}]: camera.place {s.camera.place!r} 가 places 에 없다")
+        allowed = self.genre_profile().stage.names()   # v4.2.0 D-0081 작업 3 — 무대는 장르 프로필 안에서만
+        if self.stage is not None and self.stage not in allowed:
+            errs.append(f"stage {self.stage!r} 가 장르 {self.genre_name()!r} 프로필 무대 {allowed} 밖이다")
+        errs += [f"shots[{i}].stage {s.stage!r} 가 장르 {self.genre_name()!r} 프로필 무대 {allowed} 밖이다"
+                 for i, s in enumerate(self.shots) if s.stage is not None and s.stage not in allowed]
         if errs:
             raise ValueError("; ".join(errs))
         return self

@@ -36,6 +36,7 @@ from engine.refs import emblem_ids
 from engine.registry import RegistryError, validate_events
 from engine.style import FPS, Output, output_profile
 from engine.timebase import Timebase
+from genres.elements import used_elements
 from script.schema import Plan
 
 
@@ -239,6 +240,8 @@ def load_project(proj: Path, direction: Optional[Direction] = None, out: Optiona
         raise ProjectError(str(ex)) from ex
     R.cache["stage"] = {"name": R.stage.name, "declared": doc.stage is not None,          # provenance stage(15 P5)
                         "shots_declared": sum(1 for s in doc.shots if s.stage is not None), "instances": dict(stages.created)}
+    R.cache["genre"] = {"name": doc.genre_name(), "declared": doc.genre is not None,    # v4.2.0 D-0081 작업 3 — provenance genre(15 P5)
+                        "elements_used": used_elements(doc.events)}                   # checks genre_elements 입력(연출이 쓴 요소)
     n = int(plan.total * FPS)
     cams = build_camera(keys, n, FPS) if keys else None
     A0 = assets  # noqa: N806

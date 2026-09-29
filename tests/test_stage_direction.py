@@ -12,7 +12,9 @@ from engine import stage as S
 from engine.direction import Direction, DirectionError, build, load_direction_doc, shot_stages
 from engine.stage import MercatorStage, StageSet, ym
 from engine.timebase import Timebase
+from genres.load import load_genre
 from rules import load_rules
+from schemas.genre_models import GenreProfile
 from tests.test_direction_schema import _plan
 
 REPO = Path(__file__).resolve().parent.parent
@@ -38,6 +40,12 @@ class DirectionStageKeyTest(unittest.TestCase):
         rules = load_rules()
         fake = rules.model_copy(update={"registries": rules.registries.model_copy(update={"stages": ["mercator", "timeline"]})})
         with mock.patch("rules.load_rules", return_value=fake), mock.patch.dict(S.STAGE_CLASSES, {"timeline": MercatorStage}):
+            # v4.2.0 D-0081 작업 3 — 숏 무대는 장르 프로필 무대 안이어야 한다: timeline 을 보조 무대로 둔 가짜 장르
+            geo = load_genre("geopolitics").model_dump()
+            prof = GenreProfile.model_validate({**geo, "stage": {"primary": "mercator", "secondary": ["timeline"]}})
+            stack = mock.patch("genres.load.load_genre", return_value=prof)
+            stack.start()
+            self.addCleanup(stack.stop)
             raw = yaml.safe_load((PREVIEW / "stage_mercator.yaml").read_text(encoding="utf-8"))["direction"]
             doc = Direction.model_validate({**raw, "shots": [raw["shots"][0], {**raw["shots"][1], "stage": "timeline"}]})
             with self.assertRaises(DirectionError):
