@@ -216,4 +216,17 @@ projects/fed_policy_2026/project_manifest.json
 projects/fed_policy_2026/intake/verify_draft.json
 projects/fed_policy_2026/direction.meta.json
 
+# dmz_mine_2026 실행 산출물(fed_policy_2026 과 같은 규칙)
+projects/dmz_mine_2026/01_intake/
 projects/dmz_mine_2026/03_tasks/
+projects/dmz_mine_2026/assets/
+projects/dmz_mine_2026/llm_calls/
+projects/dmz_mine_2026/logs/
+projects/dmz_mine_2026/media/
+projects/dmz_mine_2026/tts/
+projects/dmz_mine_2026/prev/
+projects/dmz_mine_2026/out/
+projects/dmz_mine_2026/plan.json
+projects/dmz_mine_2026/project_manifest.json
+projects/dmz_mine_2026/intake/verify_draft.json
+projects/dmz_mine_2026/direction.meta.json

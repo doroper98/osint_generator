@@ -501,6 +501,348 @@
    "hl": "2023년 이후 첫 금리 인상",
    "sub": "목표 범위 3.75~4%",
    "note": "헤드라인 번역 · 원문 영어"
+  },
+  "vz_0921": {
+   "kind": "article",
+   "title": "VZGLYAD 2026-09-21 — При взрыве мины на границе с КНДР пострадали южнокорейские солдаты",
+   "license": "헤드라인 번역·요지 자체 조판(원문 인용 15단어 미만, 기사 화면 캡처·로고 없음, 14 §9)",
+   "author": "VZGLYAD",
+   "credit_author": "VZGLYAD",
+   "date": "2026-09-21",
+   "url": "https://vz.ru/news/2026/9/21/1453435.html",
+   "caption": "VZGLYAD",
+   "file_note": "2026. 09. 21",
+   "depicts": [
+    "사고 당일 러시아 매체 보도"
+   ],
+   "is_file_photo": false,
+   "verified_by": {
+    "by": "claude(사용자 요청 대행 — 원문 헤드라인·Commons 파일 페이지 대조)",
+    "on": "2026-09-29",
+    "casualty_free": true,
+    "relevance": "러시아 매체의 사고 당일 보도 문장"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-09-29",
+   "tool": {
+    "name": "article_typeset",
+    "params": {
+     "translation": true
+    }
+   },
+   "headline": "북한 접경 지뢰 폭발로 한국군 병사들 부상",
+   "hl": "한국군 병사들 부상",
+   "sub": "RIA 노보스티 인용 · 25사단 병력, 경위 조사 중",
+   "note": "헤드라인 번역 · 원문 러시아어"
+  },
+  "life_0927": {
+   "kind": "article",
+   "title": "Life.ru 2026-09-27 — Южная Корея начала расследование взрыва мины у границы с КНДР",
+   "license": "헤드라인 번역·요지 자체 조판(원문 인용 15단어 미만, 기사 화면 캡처·로고 없음, 14 §9)",
+   "author": "Life.ru",
+   "credit_author": "Life.ru",
+   "date": "2026-09-27",
+   "url": "https://life.ru/p/yuzhnaya-koreya-nachala-rassledovanie-vzryva-miny-u-granitsy-s-kndr",
+   "caption": "Life.ru",
+   "file_note": "2026. 09. 27",
+   "depicts": [
+    "합동 조사 착수 보도"
+   ],
+   "is_file_photo": false,
+   "verified_by": {
+    "by": "claude(사용자 요청 대행 — 원문 헤드라인·Commons 파일 페이지 대조)",
+    "on": "2026-09-29",
+    "casualty_free": true,
+    "relevance": "러시아 매체의 합동 조사 보도 문장"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-09-29",
+   "tool": {
+    "name": "article_typeset",
+    "params": {
+     "translation": true
+    }
+   },
+   "headline": "한국, 북한 접경 지뢰 폭발 조사 착수",
+   "hl": "조사 착수",
+   "sub": "한국군·유엔사 합동 조사 보도",
+   "note": "헤드라인 번역 · 원문 러시아어"
+  },
+  "gazeta_0928": {
+   "kind": "article",
+   "title": "Gazeta.ru 2026-09-28 — Южная Корея заподозрила КНДР в закладке мин, на которых подорвались ее военные",
+   "license": "헤드라인 번역·요지 자체 조판(원문 인용 15단어 미만, 기사 화면 캡처·로고 없음, 14 §9)",
+   "author": "Gazeta.ru",
+   "credit_author": "Gazeta.ru",
+   "date": "2026-09-28",
+   "url": "https://www.gazeta.press/army/news/2026/09/28/29412355.shtml",
+   "caption": "Gazeta.ru",
+   "file_note": "2026. 09. 28",
+   "depicts": [
+    "합참 중간 발표 보도"
+   ],
+   "is_file_photo": false,
+   "verified_by": {
+    "by": "claude(사용자 요청 대행 — 원문 헤드라인·Commons 파일 페이지 대조)",
+    "on": "2026-09-29",
+    "casualty_free": true,
+    "relevance": "러시아 매체의 중간 발표 보도 문장"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-09-29",
+   "tool": {
+    "name": "article_typeset",
+    "params": {
+     "translation": true
+    }
+   },
+   "headline": "한국, 자국 군인들이 밟은 지뢰 매설 주체로 북한 의심",
+   "hl": "북한 의심",
+   "sub": "합참 차장 발표를 연합뉴스 인용",
+   "note": "헤드라인 번역 · 원문 러시아어"
+  },
+  "ukrinform_0921": {
+   "kind": "article",
+   "title": "Ukrinform 2026-09-21 — У буферній зоні між Південною Кореєю та КНДР стався вибух, поранені троє військових",
+   "license": "헤드라인 번역·요지 자체 조판(원문 인용 15단어 미만, 기사 화면 캡처·로고 없음, 14 §9)",
+   "author": "Ukrinform",
+   "credit_author": "Ukrinform",
+   "date": "2026-09-21",
+   "url": "https://www.ukrinform.ua/rubric-world/4166274-u-bufernij-zoni-miz-pivdennou-koreeu-ta-kndr-stavsa-vibuh-poraneni-troe-vijskovih.html",
+   "caption": "Ukrinform",
+   "file_note": "2026. 09. 21",
+   "depicts": [
+    "사고 당일 우크라이나 매체 보도"
+   ],
+   "is_file_photo": false,
+   "verified_by": {
+    "by": "claude(사용자 요청 대행 — 원문 헤드라인·Commons 파일 페이지 대조)",
+    "on": "2026-09-29",
+    "casualty_free": true,
+    "relevance": "우크라이나 매체의 사고 당일 보도 문장"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-09-29",
+   "tool": {
+    "name": "article_typeset",
+    "params": {
+     "translation": true
+    }
+   },
+   "headline": "남북 완충지대서 폭발… 군인 3명 부상",
+   "hl": "군인 3명 부상",
+   "sub": "AP 인용 · 폭발 원인은 아직 밝혀지지 않았다",
+   "note": "헤드라인 번역 · 원문 우크라이나어"
+  },
+  "aj_0928": {
+   "kind": "article",
+   "title": "Al Jazeera 2026-09-28 — South Korea suspects North Korean mines behind DMZ blast",
+   "license": "헤드라인 번역·요지 자체 조판(원문 인용 15단어 미만, 기사 화면 캡처·로고 없음, 14 §9)",
+   "author": "Al Jazeera",
+   "credit_author": "Al Jazeera",
+   "date": "2026-09-28",
+   "url": "https://www.aljazeera.com/news/2026/9/28/south-korea-suspects-north-korean-mines-behind-dmz-blast",
+   "caption": "Al Jazeera",
+   "file_note": "2026. 09. 28",
+   "depicts": [
+    "합참 중간 발표 보도"
+   ],
+   "is_file_photo": false,
+   "verified_by": {
+    "by": "claude(사용자 요청 대행 — 원문 헤드라인·Commons 파일 페이지 대조)",
+    "on": "2026-09-29",
+    "casualty_free": true,
+    "relevance": "해외 언론의 중간 발표 보도 문장"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-09-29",
+   "tool": {
+    "name": "article_typeset",
+    "params": {
+     "translation": true
+    }
+   },
+   "headline": "한국, DMZ 폭발 배후로 북한 지뢰 의심",
+   "hl": "북한 지뢰 의심",
+   "sub": "합참 중간 조사 결과 보도",
+   "note": "헤드라인 번역 · 원문 영어"
+  },
+  "nknews_0928": {
+   "kind": "article",
+   "title": "NK News 2026-09-28 — North Korean mine ‘likely’ caused DMZ blast that injured 3 troops: ROK",
+   "license": "헤드라인 번역·요지 자체 조판(원문 인용 15단어 미만, 기사 화면 캡처·로고 없음, 14 §9)",
+   "author": "NK News",
+   "credit_author": "NK News",
+   "date": "2026-09-28",
+   "url": "https://www.nknews.org/2026/09/north-korean-mine-likely-caused-dmz-blast-that-injured-3-troops-rok/",
+   "caption": "NK News",
+   "file_note": "2026. 09. 28",
+   "depicts": [
+    "합참 중간 발표 보도"
+   ],
+   "is_file_photo": false,
+   "verified_by": {
+    "by": "claude(사용자 요청 대행 — 원문 헤드라인·Commons 파일 페이지 대조)",
+    "on": "2026-09-29",
+    "casualty_free": true,
+    "relevance": "해외 언론의 중간 발표 보도 문장"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-09-29",
+   "tool": {
+    "name": "article_typeset",
+    "params": {
+     "translation": true
+    }
+   },
+   "headline": "“북한 지뢰가 DMZ 폭발 원인일 가능성” — 한국군",
+   "hl": "가능성",
+   "sub": "권대원 합참 차장 브리핑",
+   "note": "헤드라인 번역 · 원문 영어"
+  },
+  "aj_0924": {
+   "kind": "article",
+   "title": "Al Jazeera 2026-09-24 — Zelenskyy says Ukraine sent two North Korean POWs to South Korea",
+   "license": "헤드라인 번역·요지 자체 조판(원문 인용 15단어 미만, 기사 화면 캡처·로고 없음, 14 §9)",
+   "author": "Al Jazeera",
+   "credit_author": "Al Jazeera",
+   "date": "2026-09-24",
+   "url": "https://www.aljazeera.com/news/2026/9/24/zelenskyy-says-ukraine-sent-two-north-korean-pows-to-south-korea",
+   "caption": "Al Jazeera",
+   "file_note": "2026. 09. 24",
+   "depicts": [
+    "젤렌스키 유엔총회 연설 보도"
+   ],
+   "is_file_photo": false,
+   "verified_by": {
+    "by": "claude(사용자 요청 대행 — 원문 헤드라인·Commons 파일 페이지 대조)",
+    "on": "2026-09-29",
+    "casualty_free": true,
+    "relevance": "젤렌스키 포로 발언 문장"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-09-29",
+   "tool": {
+    "name": "article_typeset",
+    "params": {
+     "translation": true
+    }
+   },
+   "headline": "젤렌스키 “북한군 포로 2명 한국에 보냈다”",
+   "hl": "북한군 포로 2명",
+   "sub": "9월 23일 유엔총회 연설",
+   "note": "헤드라인 번역 · 원문 영어"
+  },
+  "aj_1213": {
+   "kind": "article",
+   "title": "Al Jazeera 2025-12-13 — North Korea’s Kim bestows ‘hero’ titles on soldiers killed in Ukraine war",
+   "license": "헤드라인 번역·요지 자체 조판(원문 인용 15단어 미만, 기사 화면 캡처·로고 없음, 14 §9)",
+   "author": "Al Jazeera",
+   "credit_author": "Al Jazeera",
+   "date": "2025-12-13",
+   "url": "https://www.aljazeera.com/news/2025/12/13/north-koreas-kim-bestows-hero-titles-on-soldiers-killed-in-ukraine-war",
+   "caption": "Al Jazeera",
+   "file_note": "2025. 12. 13",
+   "depicts": [
+    "528공병연대 귀환 보도"
+   ],
+   "is_file_photo": false,
+   "verified_by": {
+    "by": "claude(사용자 요청 대행 — 원문 헤드라인·Commons 파일 페이지 대조)",
+    "on": "2026-09-29",
+    "casualty_free": true,
+    "relevance": "쿠르스크 북한 공병 문장"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-09-29",
+   "tool": {
+    "name": "article_typeset",
+    "params": {
+     "translation": true
+    }
+   },
+   "headline": "김정은, 우크라이나전 전사 군인들에 ‘영웅’ 칭호",
+   "hl": "‘영웅’ 칭호",
+   "sub": "쿠르스크에서 돌아온 제528공병연대 환영행사",
+   "note": "헤드라인 번역 · 원문 영어"
+  },
+  "dmz_mine_sign": {
+   "kind": "photo",
+   "title": "File:Korean DMZ land mine warning sign (9120122).jpg",
+   "license": "Public domain",
+   "author": "U.S. Navy photo by Lt.Cmdr. Brendan Trembath",
+   "credit_author": "U.S. Navy",
+   "date": "Taken on 2 April 2025",
+   "url": "https://commons.wikimedia.org/wiki/File:Korean_DMZ_land_mine_warning_sign_(9120122).jpg",
+   "caption": "DMZ 인근 지뢰 경고 표지판",
+   "file_note": "자료사진",
+   "depicts": [
+    "DMZ 인근 철조망의 '지뢰 MINE' 경고 표지판(2025년 4월)"
+   ],
+   "is_file_photo": true,
+   "verified_by": {
+    "by": "claude(사용자 요청 대행 — 원문 헤드라인·Commons 파일 페이지 대조)",
+    "on": "2026-09-29",
+    "casualty_free": true,
+    "relevance": "지뢰 지대·지뢰 매설 문장 — 사고 현장 사진 아님(자료사진)"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-09-29",
+   "tool": {
+    "name": "media_fetch.photo",
+    "params": {
+     "source": "dmz_mine_sign.jpg",
+     "thumb_w": 1280,
+     "crop": [
+      720,
+      450
+     ],
+     "color": 0.9,
+     "contrast": 1.04,
+     "jpeg_quality": 92
+    }
+   },
+   "source_hash": "84ce3f92b227a095d6fe9eba14d21d6d",
+   "file": "dmz_mine_sign_720.jpg"
+  },
+  "dmz_fence": {
+   "kind": "photo",
+   "title": "File:DMZ - Eulji Observatory highly guarded fences.jpg",
+   "license": "CC BY 2.0",
+   "author": "Friar's Balsam (flickr.com/photos/friarsbalsam/3069067480)",
+   "credit_author": "Friar's Balsam",
+   "date": "2008-08-15",
+   "url": "https://commons.wikimedia.org/wiki/File:DMZ_-_Eulji_Observatory_highly_guarded_fences.jpg",
+   "caption": "DMZ 철책(을지전망대)",
+   "file_note": "자료사진",
+   "depicts": [
+    "DMZ 남측 철책(동부전선 을지전망대, 2008)"
+   ],
+   "is_file_photo": true,
+   "verified_by": {
+    "by": "claude(사용자 요청 대행 — 원문 헤드라인·Commons 파일 페이지 대조)",
+    "on": "2026-09-29",
+    "casualty_free": true,
+    "relevance": "DMZ 철책·경계 문장 — 서부전선 사고 현장 아님(자료사진)"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-09-29",
+   "tool": {
+    "name": "media_fetch.photo",
+    "params": {
+     "source": "dmz_fence.jpg",
+     "thumb_w": 1280,
+     "crop": [
+      720,
+      450
+     ],
+     "color": 0.9,
+     "contrast": 1.04,
+     "jpeg_quality": 92
+    }
+   },
+   "source_hash": "94c221544f105dd455e38d8d44236685",
+   "file": "dmz_fence_720.jpg"
   }
  }
 }

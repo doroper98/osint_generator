@@ -1,0 +1,12 @@
+# 『DMZ 지뢰 폭발』 지오 설정 (v4.4.0).
+# bbox: 국가 지오메트리 권역(lon0, lat0, lon1, lat1). admin1: 1급 행정구역을 준비할 나라.
+# tiers: W 광역(쿠르스크~한반도), K 한반도, D 서부전선 DMZ(파주·임진강 — 폭발 좌표는 비공개라 권역 확대까지만), R 쿠르스크.
+schema_version: 1
+bbox: [20, 20, 150, 66]
+admin1: [KR, KP, RU, UA]
+crimea_to_ua: true
+tiers:
+  - {name: W, ppd: 24, z: 5, bbox: [26.0, 28.0, 142.0, 60.0]}
+  - {name: K, ppd: 128, z: 7, bbox: [123.0, 33.0, 132.0, 43.5]}
+  - {name: D, ppd: 512, z: 9, bbox: [125.9, 37.45, 127.7, 38.45]}
+  - {name: R, ppd: 96, z: 7, bbox: [32.5, 49.8, 38.5, 53.0]}
