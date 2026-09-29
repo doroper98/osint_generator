@@ -165,9 +165,10 @@ def project_provenance(P, stages: dict[str, bool]) -> dict:  # noqa: ANN001, N80
                                      if stages.get("render") and rj.exists() else P.R.out.record())}
     if P.R.cache.get("badge") is not None:   # v4.8.0 D-0111 A — 버린 인물 뱃지 연출 R(적응 크기)
         prov["badge"] = P.R.cache["badge"]
-    gc = (P.R.cache.get("geo_check") or {}).get("unsourced")
-    if gc is not None:   # v4.7.0 D-0107 D2(b) — 지도 무대 좌표 중 근거 대조 안 된 것(checks [geo-unsourced] 와 같은 값). 지도 없으면 기록 없음(P5)
-        prov["geo"] = {"unsourced": gc}
+    gc = P.R.cache.get("geo_check") or {}
+    if gc.get("unsourced") is not None:   # v4.7.0 D-0107 D2(b) — 지도 무대 좌표 중 근거 대조 안 된 것(checks [geo-unsourced] 와 같은 값). 지도 없으면 기록 없음(P5)
+        prov["geo"] = {"unsourced": gc["unsourced"], "matched": gc.get("matched") or [],   # v4.10.0 D-0116 — 지명 사전과 맞은 좌표·불일치
+                       "mismatch": gc.get("mismatch") or []}
     prov["animatic"] = bool(getattr(P, "animatic", False))   # v4.9.0 D-0108 — 콘티 판 여부(전편 false, 콘티 판 true + animatic_run)
     prov["stage"] = P.R.cache.get("stage")   # v4.1.0 D-0076 작업 7 — 무대(name·declared·shots_declared·instances)
     g = P.R.cache.get("genre") or {}

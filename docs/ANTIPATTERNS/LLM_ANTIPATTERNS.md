@@ -320,3 +320,4 @@ last_review: 2026-05-22
 - **구조적 조치 (structural fix, 예정 — G8 후보, back_and_forth D-0104 S1)**: 프롬프트를 stdin 으로 넘긴다(`claude -p` 는 stdin 입력을 받는다). argv 형태를 고정한 회귀 테스트를 stdin 형태로 갱신하고, 128KB 넘는 합성 프롬프트로 실패하지 않음을 확인한다. 이번 병합(v4.7.0)에서는 기록만 한다.
 - **회귀 테스트 (regression_test)**: 구조 조치 때 추가(현재 없음).
 - **연관**: vibrant-mendel 브랜치 보고 R-0118(원 R-0111) S1, docs/ADDENDUM_04(구독 LLM 브리지), back_and_forth D-0104.
+- **상태 (status)**: `[resolved v4.10.0]` — 프롬프트를 stdin 으로 넘기고 argv 경로 삭제(`CLI_INVOCATION` 에 `{prompt}` 없음, 있으면 빌드 오류). 회귀 테스트 `tests/test_g9_llm_stdin.py`(140KB 프롬프트 실 subprocess 통과·argv 대조군 OSError), back_and_forth D-0116.

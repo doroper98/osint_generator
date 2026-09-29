@@ -58,7 +58,8 @@ preview → prev/checks.json(결정적 검사 18항목)
 | 최소 글자(`glyph_size`) — 설계 px 판정, 예외 역할만 제외 | hard | `rules:layout_480p.min_font_px`, `rules:qa_checks.glyph_size_exempt` | D62 |
 | 업스케일된 미디어(`media_upscaled`) | warning | `config:engine.output` | D60 |
 | 경계선 이름을 단 경로(`boundary_as_route`, `[boundary-as-route]`) — 경계선은 지도 경계 레이어가 그린다 | hard | `rules:geo.boundary_names` | back_and_forth D-0107(M8) |
-| 지도 좌표 근거 미대조(`geo_unsourced`, `[geo-unsourced]`) — places·paths·인라인 marker·route, provenance `geo.unsourced[]` | warning(지명 사전·hard 전환은 G8) | — | back_and_forth D-0107 |
+| 지도 좌표 근거 미대조(`geo_unsourced`, `[geo-unsourced]`) — 지명 사전에 없는 이름의 places·인라인 marker, paths·route, provenance `geo.unsourced[]` | warning | `rules:geo.gazetteer` | back_and_forth D-0107, v4.10.0 D-0116 |
+| 지명 사전 좌표 불일치(`geo_mismatch`, `[geo-mismatch]`) — place 키·marker label 이 `data/gazetteer.yaml` 과 맞는데 좌표가 맞은 항목 모두의 tol_km 밖, provenance `geo.mismatch[]`·`geo.matched[]` | hard | `rules:geo.gazetteer`(`engine.gazetteer`, handoff 04 §11) | v4.10.0 back_and_forth D-0116(B-1) |
 
 ### 2.2 장르 요소 검사 — v4.2.0
 
@@ -99,7 +100,7 @@ handoff 20 §5.3 표의 아홉 규칙을 네 검사(`chart_honesty`·`series_lim
   인용 길이·독립 출처 수·재인용 표지는 `rules:verification`.
 - 문장 라벨은 claims status로 코드가 계산한다. 문구는 `rules:script_schema.labels`, 우선순위는 `rules:script_schema.label_strength_order`([07](07_VIDEO_STYLE_GUIDE.md) §6).
 - **라벨은 기록용이다(v4.5.0, 사용자 결정 D85, C9).** 자막·패널·카드에 그리지 않고, 엔딩 카드 맨 마지막 줄 가장 작은 글씨 한 줄(`rules:layout_480p.end_card.notice_unverified`)로만 건수를 적는다. 원고 라벨 ↔ claims 대조(`script.labels.check_project_labels`, 린트·렌더·mux)는 그대로다.
-- 미검증 정보를 제목·썸네일에 쓰지 않는다(G4-7). 미검증 주장을 인용하는 문장은 누가 말했는지 귀속한다(`rules:script_schema.attribution_markers`, 린트 경고).
+- 미검증 정보를 제목·썸네일에 쓰지 않는다(G4-7). 미검증 주장을 인용하는 문장은 누가 말했는지 귀속한다(`rules:script_schema.attribution_markers`, 린트 경고 — v4.10.0 "보도했" 추가, handoff 18 §8).
 
 ## 5. 원고·음성 QA
 

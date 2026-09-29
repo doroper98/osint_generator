@@ -72,6 +72,7 @@ def _rules_placeholders(rules: VideoRules) -> dict[str, str]:
         "{{RULES.corner_elements}}": ", ".join(rules.hud.allowed_corner_elements),
         "{{RULES.verification.quote_max_chars}}": str(rules.verification.quote_max_chars),
         "{{RULES.script_labels}}": ", ".join(v for v in rules.script_schema.labels.values() if v),   # v4.4.0 D-0093
+        "{{RULES.attribution_markers}}": ", ".join(f'"{m}"' for m in rules.script_schema.attribution_markers),   # v4.10.0 D-0116 — 린트·검증 판정과 같은 목록
     }
 
 

@@ -308,3 +308,23 @@ fill: col × a (v3 이란 0.07 — 0.13은 화면이 붉게 뜸, 사용자 화�
 | 국가 채움 과다 | 화면이 붉게 물듦 | 알파 0.07~0.2 |
 | NE 국호가 김 | 라벨 폭주 | KO 관용명 사전 |
 | sh의 중괄호 확장 미지원 | `mkdir -p a/{b,c}`가 `{b,c}` 폴더 생성 | 경로를 풀어 쓰거나 bash 사용 |
+
+---
+
+## 11. 지명 사전 (v4.10.0, back_and_forth D-0116 작업 1 — B-1, D-0107 D2(b) 후속)
+
+> 이 절은 임포트 원문 뒤에 붙인 추가 절이다. 위 절들은 그대로 둔다.
+
+지도 무대의 이름 붙은 좌표가 실제 지리와 맞는지 코드가 대조한다. 사람이 좌표를 잘못 적거나(경위도 뒤바뀜, 엉뚱한 도시) LLM 이 좌표를 지어내는 것을 막는다.
+
+- **사전**: `data/gazetteer.yaml`(저장소 추적 파일, 위치 = `rules geo.gazetteer.path`).
+  - `ne` 절 = `tools/build_gazetteer.py` 가 Natural Earth 10m populated places(퍼블릭 도메인)에서 만든다. 수도 + 인구(POP_MAX) ≥ `rules geo.gazetteer.ne_min_population`(10만). 이름 = NAME·NAMEASCII·NAME_EN·NAMEALT·NAME_KO(+ "특별시·광역시" 뗀 표기). 허용 오차 = `ne_tol_km`(25km). 원본 URL·md5·수록 기준은 파일 `source` 에. 손으로 고치지 않는다.
+  - `manual` 절 = 사람이 적는 항목(해협·섬·만·공항·기지·국가·건물). **항목마다 출처(`src`)와 허용 오차(`tol_km`)가 필수**다. 도구를 다시 돌려도 보존된다. 첫 판 9개(호르무즈 해협·하르그섬·아덴만·브누코보 공항·폴란드·주한 미국대사관·청와대·여의도·믈라카 해협) — 좌표는 위키백과 API·위키데이터 P625(2026-09-30 조회), 폴란드는 NE 110m 국가 폴리곤 무게중심.
+- **대조 이름**: place 키 + 그 place 를 쓰는(`at_place`) marker 의 label, 인라인 좌표 marker 의 label. 정규화 = 소문자·`_`/`-` → 공백.
+- **판정**(`engine.gazetteer.check_doc`, `load_project` 가 지도 무대에서만 호출):
+  - 이름이 사전 항목과 맞고 연출 좌표가 **맞은 항목 중 하나라도** 그 `tol_km` 안 → 통과(provenance `geo.matched[]`, 항목 id·거리).
+  - 맞은 항목 모두의 `tol_km` 밖 → `[geo-mismatch]` **hard**(provenance `geo.mismatch[]`).
+  - 맞는 이름 없음, 또는 paths·인라인 route → `[geo-unsourced]` warning(종전대로). 사건 지점은 사전에 넣지 않는다 — 연출 문법대로 sub "좌표 비공개".
+- **동음이의**: 같은 이름의 항목이 여럿이면 하나라도 오차 안이면 통과다. 예: hormuz 골든의 place 키 `aden` 은 도시 Aden(약 190km)과 맞지만 marker label "아덴만"이 Gulf of Aden(138km, 허용 400km)과 맞아 통과한다. label 없이 키만 `aden` 이면 도시 Aden 기준 hard 다.
+- **골든 확인**(좌표 무변경): hormuz 8 place 전부 통과(최대 오차 비율 0.40 = 호르무즈 해협 15.9km/40km), 랫클리프 6 place 전부 통과. 남은 unsourced 는 paths·route 뿐.
+- **새 지명 추가 절차**: 도시면 NE 에 있는지 먼저 본다(없으면 manual). manual 은 출처(문헌·API 조회일)와 허용 오차의 근거(해협 폭·섬 길이 등)를 `src` 에 한 줄로 적는다. NE 원본을 새로 받았으면 `python tools/build_gazetteer.py` 로 `ne` 절만 다시 만든다.

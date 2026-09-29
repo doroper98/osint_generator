@@ -1,6 +1,6 @@
 <!--
 tier: 3
-last_synced_with: v4.9.0
+last_synced_with: v4.10.0
 ssot_for: [release-notes]
 depends_on: [README.md, GOAL.md]
 last_review: 2026-09-28
@@ -57,10 +57,23 @@ released 항목은 **append-only**입니다.
 | v4.6.0 | 8a39e36 | G6 배경음악 저음 보강 | 보고(R-0120) — 전편 렌더 생략(D-0103), 합격 판정 대기 |
 | v4.7.0 | 4c09701 | G6.5 dmz_mine 병합·D1~D6·엔딩 카드 롤·좌표 근거 검사 | pass(D-0110) — v4.6.0 은 81a7360 으로 pass(D-0105, TAGS_PENDING) |
 | v4.8.0 | 8d2e2d6 | G7 요소 크기 — 인물 배지 적응·기사 카드·글자 크기·켄 번스·청와대 휘장 | pass(D-0114) |
+| v4.9.0 | e5c400b | G8 콘티 판(animatic) 루틴 | pass(D-0116) |
 
 ---
 
-## [v4.9.0] — 2026-09-30 — G8: 콘티 판(animatic) 루틴 — 러프 음성·음악·자막 + 자리표시 요소 + 막지도 (back_and_forth D-0108, 사용자 결정 D97) — 진행 중
+## [v4.10.0] — 2026-09-30 — G9: 정비 — 지명 사전(`[geo-mismatch]`)·LLM 브리지 stdin·귀속 표현 "보도했" (back_and_forth D-0116) — 진행 중
+
+MINOR: 새 검사(지명 사전 좌표 대조) 추가. 전편 렌더 없음(D-0103) — 프리뷰·checks·pytest 로만 확인.
+
+### Changed
+- **§0**: VERSION 4.10.0, Tier 1·2 `last_synced_with` v4.10.0, v4.9.0 대장 행(e5c400b, D-0116 pass).
+- **작업 1 지명 사전(B-1)**: `data/gazetteer.yaml` = NE 10m populated places 중 수도 + 인구 ≥ 10만(3119, `tools/build_gazetteer.py` — 원본 URL·md5) + 수기 9(호르무즈 해협·하르그섬·아덴만·브누코보 공항·폴란드·주한 미국대사관·청와대·여의도·믈라카 해협 — 출처·허용 오차 km). `rules geo.gazetteer`. checks **`geo_mismatch` hard**(`[geo-mismatch]`) — place 키·marker label 이 사전과 맞는데 좌표가 맞은 항목 모두의 오차 밖. 사전에 없는 이름·paths·route 는 `[geo-unsourced]` warning 그대로. provenance `geo.matched[]`·`geo.mismatch[]`. hormuz·랫클리프 골든 좌표 무변경 전부 통과(hormuz unsourced 11 → 3).
+- **작업 2 LLM 브리지 stdin(LLM-AP-009)**: `CLI_INVOCATION` 에서 `{prompt}` 삭제 — `claude -p`(위치 인자 없음)·`codex exec … -` 가 stdin 을 읽는다. 템플릿에 `{prompt}` 가 있으면 빌드 오류(argv 경로 삭제, P2). stdin UTF-8 고정. 140KB 프롬프트 실 subprocess 테스트.
+- **작업 3 귀속 표현 "보도했"(D84 보류분)**: `rules script_schema.attribution_markers` 한 줄 + 프롬프트 `script`·`verify_sources` 에 `{{RULES.attribution_markers}}`. 원고 린트 attribution 경고 fed_policy 8 → 0, 랫클리프 2 → 1, dmz_mine 15 → 14. claims 판정 변화 없음(handoff 18 §8).
+
+---
+
+## [v4.9.0] — 2026-09-30 — G8: 콘티 판(animatic) 루틴 — 러프 음성·음악·자막 + 자리표시 요소 + 막지도 (back_and_forth D-0108, 사용자 결정 D97) — 합격(D-0116)
 
 MINOR: 사용자 지시 "초반에 아주 러프한 음성과 음악, 자막만 제대로 입히고, 화면 전환·인물·국기·휘장 등장은 텍스트로, 지도는 러프한 막지도로"(D97). `python -m engine.render <proj> --animatic` → `out/animatic.mp4`(480p, fps 24). 흐름·호흡을 게이트 ② 전에 싸게 검토한다. 전편 렌더 경로·자막·타이밍·카메라 수치는 바꾸지 않는다.
 

@@ -40,7 +40,7 @@ class TestLLMModelConfig(unittest.TestCase):
 class TestInvocationCarriesModel(_ScratchTestBase):
     def test_claude_response_argv_has_model_from_config(self) -> None:
         w = _ResponseClaudeWorker()
-        cmd = w._build_invocation_cmd(self._args("t-001"), "PROMPT")
+        cmd = w._build_invocation_cmd(self._args("t-001"))
         self.assertIn("--model", cmd)
         self.assertEqual(cmd[cmd.index("--model") + 1], "claude-opus-5-5")
         self.assertNotIn("{model}", " ".join(cmd))
@@ -48,12 +48,12 @@ class TestInvocationCarriesModel(_ScratchTestBase):
     def test_instance_override_wins(self) -> None:
         w = _ResponseClaudeWorker()
         w.llm_model = "claude-sonnet-5"
-        cmd = w._build_invocation_cmd(self._args("t-001"), "PROMPT")
+        cmd = w._build_invocation_cmd(self._args("t-001"))
         self.assertEqual(cmd[cmd.index("--model") + 1], "claude-sonnet-5")
 
     def test_codex_argv_has_no_model_flag(self) -> None:
         w = _ResponseCodexWorker()
-        cmd = w._build_invocation_cmd(self._args("t-001"), "PROMPT")
+        cmd = w._build_invocation_cmd(self._args("t-001"))
         self.assertNotIn("--model", cmd)
 
 

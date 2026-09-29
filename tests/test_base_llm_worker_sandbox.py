@@ -198,7 +198,7 @@ class TestAssertNoSymlinks(_ScratchTestBase):
 class TestInvocationCmdShape(_ScratchTestBase):
     def test_codex_agent_includes_sandbox_and_scratch_cd(self) -> None:
         w = _AgentCodexWorker()
-        cmd = w._build_invocation_cmd(self._args("t-001"), "PROMPT")
+        cmd = w._build_invocation_cmd(self._args("t-001"))
         # sandbox 플래그 인접 확인
         self.assertIn("--sandbox", cmd)
         sb_idx = cmd.index("--sandbox")
@@ -212,12 +212,12 @@ class TestInvocationCmdShape(_ScratchTestBase):
         )
         self.assertEqual(cd_target, expected_scratch)
         self.assertTrue(cd_target.exists(), "agent argv 빌드 시 scratch dir mkdir 까지 일어나야 함")
-        # full_prompt 가 마지막 인자
-        self.assertEqual(cmd[-1], "PROMPT")
+        # 프롬프트는 stdin — 마지막 인자는 codex 의 stdin 표식 `-`(v4.10.0 LLM-AP-009)
+        self.assertEqual(cmd[-1], "-")
 
     def test_codex_response_excludes_sandbox_and_scratch(self) -> None:
         w = _ResponseCodexWorker()
-        cmd = w._build_invocation_cmd(self._args("t-001"), "PROMPT")
+        cmd = w._build_invocation_cmd(self._args("t-001"))
         self.assertNotIn("--sandbox", cmd)
         self.assertNotIn("--cd", cmd)
         # scratch dir 자체가 생성되지 않아야 함 (template-driven)
@@ -229,7 +229,7 @@ class TestInvocationCmdShape(_ScratchTestBase):
 
     def test_claude_response_unchanged(self) -> None:
         w = _ResponseClaudeWorker()
-        cmd = w._build_invocation_cmd(self._args("t-001"), "PROMPT")
+        cmd = w._build_invocation_cmd(self._args("t-001"))
         self.assertEqual(cmd[0], "claude")
         self.assertIn("-p", cmd)
         self.assertNotIn("--sandbox", cmd)
@@ -247,11 +247,11 @@ class TestPlaceholderFailFast(_ScratchTestBase):
         key = (w.llm_backend, w.llm_mode)
         saved = CLI_INVOCATION.get(key)
         CLI_INVOCATION[key] = [
-            "claude", "-p", "{prompt}", "--cd", "{scratch_dir}",
+            "claude", "-p", "--cd", "{scratch_dir}",
         ]
         try:
             with self.assertRaises(LLMSubprocessError) as ctx:
-                w._build_invocation_cmd(self._args("t-001"), "PROMPT")
+                w._build_invocation_cmd(self._args("t-001"))
             self.assertIn("scratch_dir", str(ctx.exception))
             self.assertIn("not 'agent'", str(ctx.exception))
         finally:
@@ -266,10 +266,10 @@ class TestPlaceholderFailFast(_ScratchTestBase):
         w = _ResponseClaudeWorker()
         key = (w.llm_backend, w.llm_mode)
         saved = CLI_INVOCATION.get(key)
-        CLI_INVOCATION[key] = ["claude", "-p", "{prompt}", "--magic", "{unknown_token}"]
+        CLI_INVOCATION[key] = ["claude", "-p", "--magic", "{unknown_token}"]
         try:
             with self.assertRaises(LLMSubprocessError) as ctx:
-                w._build_invocation_cmd(self._args("t-001"), "PROMPT")
+                w._build_invocation_cmd(self._args("t-001"))
             self.assertIn("unresolved placeholder", str(ctx.exception))
             self.assertIn("{unknown_token}", str(ctx.exception))
         finally:
@@ -278,13 +278,25 @@ class TestPlaceholderFailFast(_ScratchTestBase):
             else:
                 CLI_INVOCATION.pop(key, None)
 
-    def test_prompt_body_with_braces_is_allowed(self) -> None:
-        # 사용자 prompt 본문이 JSON `{...}` 같은 토큰을 포함해도 argv 의 {prompt}
-        # 자리에 통째로 들어간 seg 는 fail-fast 검사에서 제외돼 통과해야 함.
+    def test_prompt_placeholder_in_template_raises(self) -> None:
+        # v4.10.0 LLM-AP-009 — argv 경로 삭제(15 P2). 템플릿에 {prompt} 를 다시 넣으면 빌드가 실패한다.
         w = _ResponseClaudeWorker()
-        body = 'please output {"schema_version": 1}'
-        cmd = w._build_invocation_cmd(self._args("t-001"), body)
-        self.assertIn(body, cmd)
+        key = (w.llm_backend, w.llm_mode)
+        saved = CLI_INVOCATION.get(key)
+        CLI_INVOCATION[key] = ["claude", "-p", "{prompt}"]
+        try:
+            with self.assertRaises(LLMSubprocessError) as ctx:
+                w._build_invocation_cmd(self._args("t-001"))
+            self.assertIn("stdin", str(ctx.exception))
+        finally:
+            if saved is not None:
+                CLI_INVOCATION[key] = saved
+            else:
+                CLI_INVOCATION.pop(key, None)
+
+    def test_no_template_carries_prompt_placeholder(self) -> None:
+        for key, template in CLI_INVOCATION.items():
+            self.assertFalse(any("{prompt}" in seg for seg in template), key)
 
 
 if __name__ == "__main__":

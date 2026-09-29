@@ -24,7 +24,8 @@ hard 실패가 하나라도 있으면 시각 검수 LLM 을 부르지 않고 연
 | series_limit_3 | hard | 한 차트(레인·패널)의 계열 ≤ qa_checks.series_max |
 | units_visible | hard | 화면 단위(레인 이름·패널 unit·y_prefix) ∈ rules data.units·unit_prefixes |
 | boundary_as_route | hard | v4.7.0(D-0107 D2(b), M8): rules geo.boundary_names 이름을 단 route 이벤트(label·{path:})·paths 키 `[boundary-as-route]` — 경계선은 지도 경계 레이어가 그린다 |
-| geo_unsourced | warning | v4.7.0(D-0107 D2(b)): 지도 무대 places·paths·인라인 좌표 marker·route 가 지명 사전과 대조되지 않음 `[geo-unsourced]`(provenance geo.unsourced[]). 사전·hard 전환은 G8 |
+| geo_unsourced | warning | v4.7.0(D-0107 D2(b)): 지도 무대 places·paths·인라인 좌표 marker·route 가 지명 사전과 대조되지 않음 `[geo-unsourced]`(provenance geo.unsourced[]). v4.10.0: 사전(`data/gazetteer.yaml`)에 없는 이름·paths·route 만 |
+| geo_mismatch | hard | v4.10.0(D-0116 B-1): place 키·그 place 를 쓰는 marker label·인라인 marker label 이 지명 사전과 맞는데 좌표가 맞은 항목 모두의 tol_km 밖 `[geo-mismatch]`(provenance geo.mismatch[]) — `engine.gazetteer` |
 | as_of_visible | hard | 기준 시점·출처 줄 — 시리즈는 프리뷰 컷에 그린 출처 줄, 패널은 08 §9 출처 체계. 적용 범위 = qa_checks.chart_targets(축 종류) |
 """
 
@@ -49,7 +50,8 @@ SG = R_.shot_grammar
 SAMPLE_SEC = 1.0          # 뱃지·라벨 샘플 간격
 SHADOW_PX = 7             # badge_box 가 원 둘레에 더하는 그림자 여백 — 이만큼 잘리는 것은 허용
 HARD = ("overlap", "offscreen", "glyphs", "glyph_size", "labels", "date", "subtitles", "rights", "forbidden", "stage_continuity",
-        "genre_elements", "chart_honesty", "series_limit_3", "units_visible", "as_of_visible", "boundary_as_route")
+        "genre_elements", "chart_honesty", "series_limit_3", "units_visible", "as_of_visible", "boundary_as_route",
+        "geo_mismatch")   # geo_mismatch v4.10.0 D-0116
 WARN = ("shots", "media_beats", "media_upscaled", "endcard_roll", "geo_unsourced")   # endcard_roll v4.7.0 D-0106, geo_unsourced D-0107
 
 
@@ -130,8 +132,14 @@ def check_geo_unsourced(P) -> list[str]:  # noqa: ANN001, N803
     out: list[str] = []
     for it in (P.R.cache.get("geo_check") or {}).get("unsourced") or []:
         where = it["lonlat"] if "lonlat" in it else f"{it['points']}점 {it['ends'][0]}→{it['ends'][1]}"
-        out.append(f"[geo-unsourced] {it['kind']} {it['name']} {where} — 지명 사전·claim 위치와 대조 안 됨(사전은 G8)")
+        out.append(f"[geo-unsourced] {it['kind']} {it['name']} {where} — 지명 사전에 없는 이름(또는 경로)이라 좌표를 대조하지 못함")
     return out
+
+
+def check_geo_mismatch(P) -> list[str]:  # noqa: ANN001, N803
+    """지명 사전 좌표 불일치(v4.10.0 back_and_forth D-0116 B-1) — hard. 항목은 load_project 가 `engine.gazetteer.check_doc` 로 모은 것."""
+    return [f"[geo-mismatch] {it['kind']} {it['name']} {it['lonlat']} — 사전 {it['gazetteer']} 에서 {it['km']}km(허용 {it['tol_km']}km)"
+            for it in (P.R.cache.get("geo_check") or {}).get("mismatch") or []]
 
 
 def check_endcard_overflow(P) -> list[str]:  # noqa: ANN001, N803
@@ -372,6 +380,7 @@ def run_checks(P, times: list[float], provenance: dict, drawn: list[tuple[str, f
         "genre_elements": lambda: check_genre_elements(P),
         "boundary_as_route": lambda: list((P.R.cache.get("geo_check") or {}).get("boundary") or []),
         "geo_unsourced": lambda: check_geo_unsourced(P),
+        "geo_mismatch": lambda: check_geo_mismatch(P),
     }
     res = {k: f() for k, f in run.items() if k not in skip}
     notes: dict[str, list[str]] = {}

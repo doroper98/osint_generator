@@ -264,7 +264,7 @@ def lint(script: Script, claims: "dict[str, str] | None" = None, *, check_source
                         f"claims.json 이 없다 — sources {unknown} 를 확인할 수 없다(18 §3-6)")
                 if claims is not None and any(claims.get(c) == "unverified" for c in s.sources) \
                         and not any(m in s.text for m in attrib):
-                    add("attribution", "warning", "unverified claim 인용 — 귀속 표현(~라고 주장했습니다/올렸습니다) 없음")
+                    add("attribution", "warning", "unverified claim 인용 — 귀속 표현(~라고 주장했습니다/보도했습니다, rules script_schema.attribution_markers) 없음")
             n = subtitle_lines(s.text)
             if n > max_lines:
                 add("subtitle-lines", "warning", f"{n}줄 > {max_lines}")

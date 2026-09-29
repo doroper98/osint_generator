@@ -86,3 +86,18 @@ origin: claude.ai chat handoff bundle (2026-09-26 ~ 09-27), imported verbatim
 - `intake_service` / 웹 인테이크 페이지: 소스 유형 선택(기사 URL, 기사 본문, X 텍스트, X 캡처, 파일) + 요청 메모.
 - 캡처 판독 워커(비전) → 소스 레코드 초안 → 사용자 확인(계정·시각이 맞는지) → 검증 워커(교차 확인 검색) → `claims.json`.
 - `source_completeness_checker`: 원고 주장 중 claim id 없는 문장이 있으면 SCRIPT_APPROVAL 전에 차단.
+
+---
+
+## 8. 귀속 표현 목록 (v4.10.0, back_and_forth D-0116 작업 3 — G4 보류 D84)
+
+> 이 절은 임포트 원문 뒤에 붙인 추가 절이다. 위 §3-3 의 예시("주장했습니다/올렸습니다")는 그대로 둔다.
+
+- 귀속 표현의 단일 출처는 `rules script_schema.attribution_markers` 하나다. 세 곳이 같은 목록을 쓴다.
+  - 원고 린트(`script.lint`): unverified claim 을 인용하는 문장에 목록의 표현이 없으면 `attribution` 경고.
+  - 검증 판정(`orchestrator.source_verify.judge`, D-0054 B): 근거 인용이 목록의 표현을 담으면 "주장이 있었다"의 근거로만 세고 사실의 supports 에서 뺀다. 그런 근거만 있으면 contested 로 승격.
+  - 프롬프트(`prompts/script.md`·`verify_sources.md`): `{{RULES.attribution_markers}}` 자리표시로 같은 목록을 받는다.
+- v4.10.0 에 **"보도했"** 을 더했다. "ABC뉴스는 …라고 보도했습니다"는 매체에 귀속한 문장이다(G4 원고 린트 경고 8건의 원인, R-0110).
+  판정 쪽에서는 "매체 X 가 …라고 보도했다"는 인용이 사실의 교차 확인으로 세어지지 않는다 — D-0054 B 와 같은 방향(보도가 있었다는 것만 확인된다).
+- 영향 실측(v4.10.0): 원고 린트 attribution 경고 fed_policy 8 → 0, 랫클리프 2 → 1, dmz_mine 15 → 14, hormuz 0 → 0.
+  claims 판정은 fed_policy·랫클리프 모두 변화 없음 — supports 근거 소스 본문에 "보도했" 이 한 번도 나오지 않아 인용(본문의 부분 문자열)이 이 표현을 담을 수 없다. hormuz claims 는 v3 이관본(인용 대조 판정 아님)이라 대상이 아니다.

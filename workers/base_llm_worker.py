@@ -65,7 +65,7 @@ from workers.prompt_loader import load_prompt, prompt_sha1
 # CLI 호출 매핑 (ADDENDUM_04 §5)
 # ---------------------------------------------------------------------------
 # 사용자 머신 CLI 갱신 시 본 dict 만 수정하면 됩니다.
-# placeholder: {prompt}, {project_dir}, {scratch_dir}, {model}
+# placeholder: {project_dir}, {scratch_dir}, {model}, {attach_dir}. 프롬프트는 argv 가 아니라 stdin(v4.10.0 LLM-AP-009)
 #
 # v0.43.5 — claude 백엔드에 `--model {model}` 고정. 값은 config.yaml `llm.model` (SSOT).
 #   이전에는 --model 이 없어 사용자 머신 claude CLI 기본 모델이 쓰였다(저장소 비고정).
@@ -78,6 +78,11 @@ from workers.prompt_loader import load_prompt, prompt_sha1
 #     덮어쓸 수 없다. 필요한 prompt-time 자료는 build_user_prompt 에서 텍스트로
 #     내장 (외부 자료는 `<untrusted_source>` envelope 으로 격리).
 CLI_INVOCATION: dict[tuple[str, str], list[str]] = {
+    # v4.10.0 (LLM-AP-009, back_and_forth D-0116): 프롬프트는 **stdin** 으로만 넘긴다. argv 한 칸에 넣으면
+    # 리눅스 단일 인자 한도(MAX_ARG_STRLEN 128KB)를 넘는 입력에서 subprocess 생성이 OSError 로 실패했다.
+    # 그래서 템플릿에 `{prompt}` 자리가 없다(있으면 _build_invocation_cmd 가 오류 — argv 경로 삭제, 15 P2).
+    # `claude -p` 는 위치 인자가 없으면 stdin 을 프롬프트로 읽는다. `codex exec -` 도 같다.
+    #
     # response 모드: 한 방 JSON 생성기로만 동작해야 한다. 그런데 `claude -p` 는 print
     # 모드여도 cwd 의 CLAUDE.md / .claude 훅 / 도구를 자동으로 물어 에이전트처럼 22턴씩
     # 돌며 git commit 까지 시도하는 사고가 있었다 (LLM-AP-004, v0.8.1 실제 run 에서 발견).
@@ -86,34 +91,34 @@ CLI_INVOCATION: dict[tuple[str, str], list[str]] = {
     # 추가로 _invoke_llm 이 subprocess 를 **repo 밖 중립 cwd** 에서 실행해 CLAUDE.md
     # 자동 탐색을 차단한다 (도구만 꺼도 cwd 가 repo 면 CLAUDE.md 가 컨텍스트를 오염시킴).
     ("claude", "response"): [
-        "claude", "-p", "{prompt}", "--output-format", "json", "--model", "{model}",
+        "claude", "-p", "--output-format", "json", "--model", "{model}",
         "--tools", "", "--no-session-persistence",
     ],
     # v3.1.0 vision 모드(시각 검수, 17 §4.1, D-0047 §0-3): 도구는 Read 하나만, 첨부 폴더만 읽기 허용.
     # 실측(2026-09-28): `claude -p` 가 Read 로 프리뷰 시트(jpg)를 열어 25칸·첫 라벨을 정확히 읽었다(2턴).
     ("claude", "vision"): [
-        "claude", "-p", "{prompt}", "--output-format", "json", "--model", "{model}",
+        "claude", "-p", "--output-format", "json", "--model", "{model}",
         "--tools", "Read", "--allowedTools", "Read", "--add-dir", "{attach_dir}", "--no-session-persistence",
     ],
     ("claude", "agent"): [
         "claude", "--print", "--model", "{model}", "--add-dir", "{project_dir}",
-        "-p", "{prompt}",
     ],
     # codex 옵션 설명 (codex-cli 0.130.0 기준):
     #   --json: JSONL 이벤트 스트림 (마지막 agent_message 가 도메인 응답)
     #   --skip-git-repo-check: project_dir 이 git repo 아니어도 실행 허용
     #   --color never: ANSI 코드 끼지 않게 안전장치
     #   --sandbox workspace-write: --cd 디렉토리 안에서만 write 허용 (agent 모드 전용)
+    #   마지막 `-`: 프롬프트를 stdin 에서 읽는다(v4.10.0 LLM-AP-009)
     ("codex", "response"): [
         "codex", "exec", "--json", "--skip-git-repo-check",
-        "--color", "never", "{prompt}",
+        "--color", "never", "-",
     ],
     ("codex", "agent"): [
         "codex", "exec", "--json", "--skip-git-repo-check",
         "--color", "never",
         "--sandbox", "workspace-write",
         "--cd", "{scratch_dir}",
-        "{prompt}",
+        "-",
     ],
 }
 
@@ -501,20 +506,24 @@ class BaseLLMWorker(BaseWorker):
             raise LLMSubprocessError("config.yaml llm.model 이 비어 있습니다 (SSOT).")
         return model
 
-    def _build_invocation_cmd(
-        self, args: argparse.Namespace, full_prompt: str
-    ) -> list[str]:
+    def _build_invocation_cmd(self, args: argparse.Namespace) -> list[str]:
         """subprocess argv 만 빌드 (실 호출 없음). v0.4.1 refactor.
 
         분리 이유: argv shape 회귀 테스트가 subprocess 를 띄우지 않고 검증 가능하도록.
         본 메서드 안에 v0.4.1 가드들 (template-driven scratch / response 모드 충돌
-        / placeholder fail-fast) 이 들어 있다.
+        / placeholder fail-fast) 이 들어 있다. 프롬프트는 argv 에 넣지 않는다 — stdin 으로
+        넘긴다(v4.10.0 LLM-AP-009). 템플릿에 `{prompt}` 가 있으면 오류다.
         """
         key = (self.llm_backend, self.llm_mode)
         template = CLI_INVOCATION.get(key)
         if template is None:
             raise LLMSubprocessError(
                 f"unsupported backend/mode combination: {key}"
+            )
+        if any("{prompt}" in seg for seg in template):
+            raise LLMSubprocessError(
+                f"template for {key} puts {{prompt}} in argv. 프롬프트는 stdin 으로만 넘긴다 "
+                f"(LLM-AP-009 — 단일 인자 128KB 한도). CLI_INVOCATION 에서 {{prompt}} 를 빼라."
             )
 
         # v0.4.1 (codex 1차 리뷰 H2): template-driven mkdir.
@@ -547,8 +556,7 @@ class BaseLLMWorker(BaseWorker):
             attach_value = str(Path(os.path.commonpath([str(Path(a).resolve().parent) for a in atts])))
 
         cmd = [
-            seg.replace("{prompt}", full_prompt)
-               .replace("{project_dir}", str(self.project_dir(args)))
+            seg.replace("{project_dir}", str(self.project_dir(args)))
                .replace("{scratch_dir}", scratch_value)
                .replace("{model}", model_value)
                .replace("{attach_dir}", attach_value)
@@ -557,18 +565,10 @@ class BaseLLMWorker(BaseWorker):
 
         # v0.4.1 (codex 1차 리뷰 H1): 치환 후 남은 `{name}` 토큰이 있으면 즉시 실패.
         # 새 placeholder 가 도입됐는데 _build_invocation_cmd 의 치환 코드가 갱신되지
-        # 않은 경우, 또는 사용자 prompt 본문에 우연히 `{...}` 가 들어가 argv 까지
-        # 흘러간 경우를 잡는다. prompt 본문은 이미 치환 단계에서 흡수됐으므로 cmd 에
-        # 남은 `{...}` 는 진짜 미해결 placeholder. JSON `{}` 와 충돌하지 않도록 `{`
-        # 직후 영문/숫자/언더스코어 만 잡는다.
+        # 않은 경우를 잡는다. 프롬프트 본문은 argv 에 없으므로(stdin) 모든 seg 를 검사한다.
+        # JSON `{}` 와 충돌하지 않도록 `{` 직후 영문/숫자/언더스코어 만 잡는다.
         unresolved_pattern = re.compile(r"\{[A-Za-z_][A-Za-z0-9_]*\}")
         for i, seg in enumerate(cmd):
-            # full_prompt 가 들어간 자리는 사용자/시스템 prompt 자체에 placeholder-like
-            # 토큰이 있을 수 있어 검사에서 제외 (placeholder 는 template 정의 위치에만
-            # 존재하므로, full_prompt 가 통째로 들어간 seg 는 template seg 와 동일했어야
-            # 한다).
-            if seg == full_prompt:
-                continue
             m = unresolved_pattern.search(seg)
             if m:
                 raise LLMSubprocessError(
@@ -593,7 +593,7 @@ class BaseLLMWorker(BaseWorker):
             emit("system", "OSINT_LLM_STUB=1: skipping real CLI invocation")
             return stub, 0
 
-        cmd = self._build_invocation_cmd(args, full_prompt)
+        cmd = self._build_invocation_cmd(args)
 
         # LLM-AP-004: subprocess 를 repo 밖 중립 디렉토리에서 실행한다. `claude` 는 cwd
         # 에서 위로 올라가며 CLAUDE.md / .claude/settings (훅) 를 자동 탐색하는데, repo
@@ -608,10 +608,11 @@ class BaseLLMWorker(BaseWorker):
                 cmd,
                 capture_output=True,
                 text=True,
+                encoding="utf-8",   # v4.10.0 — stdin 프롬프트(한국어)를 로캘(cp949·POSIX)이 아니라 UTF-8 로 쓴다
                 timeout=timeout_sec,
                 check=False,
                 cwd=str(neutral_cwd),
-                stdin=subprocess.DEVNULL,   # v3.1.0 — claude 가 stdin 을 3초 기다리지 않게
+                input=full_prompt,   # v4.10.0 LLM-AP-009 — 프롬프트는 stdin 으로(argv 128KB 한도 없음). 쓰고 닫으니 기다림도 없다
             )
         except FileNotFoundError as e:
             raise LLMSubprocessError(

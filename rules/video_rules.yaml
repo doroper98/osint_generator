@@ -64,7 +64,7 @@ script_schema:             # 02 §2.1 요약 — 프롬프트 예시는 tests/an
     disputed: "<논쟁>"          # v3.2.0 D-0054 — 양측 주장 대립(한쪽이 논파된 것처럼 읽히는 "<반박됨>" 정정)
   label_strength_order: [disputed, unverified, corroborated, verified]
   # v3.2.0 D-0051 작업 8 — unverified claim 을 인용하는 문장은 누가 말했는지 귀속한다(18 §3-3). 자막에 이 중 하나가 없으면 린트 경고
-  attribution_markers: ["주장했", "주장합니다", "주장이", "올렸", "밝혔", "따르면", "전했", "말했", "발표했", "주장하", "라고 했", "확인되지 않", "claimed", "claims", "said", "says", "called", "alleged", "according to"]   # "확인되지 않" = 미확인임을 스스로 밝히는 문장(e2e 실측). 영어 = 검증 인용의 귀속 판정(D-0054 B, 대소문자 무시)
+  attribution_markers: ["주장했", "주장합니다", "주장이", "올렸", "밝혔", "따르면", "전했", "말했", "발표했", "보도했", "주장하", "라고 했", "확인되지 않", "claimed", "claims", "said", "says", "called", "alleged", "according to"]   # "확인되지 않" = 미확인임을 스스로 밝히는 문장(e2e 실측). "보도했" = v4.10.0 D-0116(G4 보류 D84 — 매체 귀속 "~라고 보도했습니다"). 영어 = 검증 인용의 귀속 판정(D-0054 B, 대소문자 무시)
 
 verification:              # v3.2.0 back_and_forth D-0052(D50) — 교차 확인 = 인용 대조. LLM 은 claim 후보·인용·stance, 판정은 코드(orchestrator/source_verify.py)
   quote_max_chars: 160     # 인용 상한(저작권상 짧게). 인용은 소스 본문의 연속 부분 문자열(공백 정규화 후) — 불일치 = 근거 폐기 + drops[]
@@ -657,8 +657,15 @@ geo:                       # D29(back_and_forth D-0019) — 지오 자산 단계
   land_miss_allow_px2: 16  # 국가 면적(deg²) × 티어 ppd² 가 이 값 미만이면 land-miss 를 small 로 허용(4×4 px). 이상 = drop
   land_fill_min_ratio: 0.5   # v4.1.0 D-0078 — 국가 원본 피처 합집합 영역 안 육지 화소 비율이 이 값 미만이면 land-miss(대표점 한 점이 아니라 면적, 키 충돌 덮어쓰기 검출)
   # v4.7.0 back_and_forth D-0107 D2(b) — 이 이름(부분 일치, 대소문자 무시)을 단 route 이벤트(label·{path:})·paths 키 = checks [boundary-as-route] hard(M8 재발 방지).
-  # 경계선은 지도 경계 레이어가 그린다. 지명 사전(data/gazetteer.yaml)과 [geo-unsourced] hard 전환은 G8
+  # 경계선은 지도 경계 레이어가 그린다.
   boundary_names: [군사분계선, MDL, 국경, 휴전선, NLL, 북방한계선, 남방한계선, 경계선, 분계선, 접경선, border, boundary]
+  # v4.10.0 back_and_forth D-0116(B-1, D-0107) — 지명 사전. 지도 무대 place 키·그 place 를 쓰는 marker label·인라인 marker label 이
+  # 사전 이름과 맞으면 좌표를 대조한다: 맞은 항목 모두의 허용 오차(tol_km) 밖 = checks [geo-mismatch] hard, 사전에 없는 이름 = [geo-unsourced] warning.
+  # 사전 = manual(수기 — 해협·섬·만·공항·기지·국가, 항목마다 출처·tol_km) + ne(tools/build_gazetteer.py 가 NE 10m populated places 에서 생성).
+  gazetteer:
+    path: data/gazetteer.yaml
+    ne_min_population: 100000   # NE POP_MAX 이 이상이거나 수도(ADM0CAP·FEATURECLA Admin-0 capital)면 수록
+    ne_tol_km: 25               # NE 항목 허용 오차(도심 점 ↔ 연출 좌표. 큰 도시 반경 수준 — 엉뚱한 곳·경위도 뒤바뀜을 잡는 게 목적)
 
 credits:                   # D-0030(D35) — 권리 레지스트리 종류별 표기 위치. 카드 ∪ 설명문 = 전 자산. 두 목록 밖 종류 = RightsError
   card_kinds: [people, emblems, flags, map, media, music, narration]   # 엔딩 카드(C0 유지, v3 골든 END 컷 무변경)

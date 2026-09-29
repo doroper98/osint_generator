@@ -843,10 +843,19 @@ class LabelRules(_Strict):
     city_rank_thr: dict[int, int]
 
 
+class GazetteerRules(_Strict):
+    """v4.10.0 D-0116(B-1) — 지명 사전 위치와 NE 수록 기준. 항목별 허용 오차는 사전 파일에 있다."""
+
+    path: str
+    ne_min_population: int = Field(gt=0)
+    ne_tol_km: float = Field(gt=0)
+
+
 class GeoRules(_Strict):
     land_miss_allow_px2: float
     land_fill_min_ratio: float = Field(gt=0, le=1)   # v4.1.0 D-0078
     boundary_names: list[str] = Field(min_length=1)   # v4.7.0 D-0107 D2(b) — checks [boundary-as-route]
+    gazetteer: GazetteerRules                         # v4.10.0 D-0116 — checks [geo-mismatch]
 
 
 class CreditRules(_Strict):

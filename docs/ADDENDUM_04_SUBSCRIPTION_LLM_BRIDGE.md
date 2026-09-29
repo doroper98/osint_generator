@@ -1,6 +1,6 @@
 <!--
 tier: 2
-last_synced_with: v4.9.0
+last_synced_with: v4.10.0
 ssot_for: [subscription-llm-bridge, base-llm-worker-contract, llm-call-traceability]
 depends_on: [03_AGENT_ARCHITECTURE.md, ../GOAL.md, ../CLAUDE.md]
 last_review: 2026-09-29
@@ -99,8 +99,8 @@ class BaseLLMWorker(BaseWorker):
 
 | 모드 | 의미 | 호출 형태 (가정) | 적용 Worker |
 |---|---|---|---|
-| `response` | 단순 LLM 응답. 도구·파일 IO 없음. JSON one-shot. | `claude -p "<prompt>" --output-format json --model <config llm.model> --tools "" --no-session-persistence` (repo 밖 중립 cwd 에서 실행) | Phase 3 `dynamic_intake_planner`, Phase 6 `research_agent`, Phase 11 `youtube_metadata_agent` 등 |
-| `agent` | CLI 가 도구·파일 IO 를 사용해 task 를 직접 처리. `task_result.json` 까지 CLI 가 작성. | `claude --print --add-dir <project_dir> -p "<task_spec>"` (또는 그에 상응하는 codex 호출) | Phase 7 `source_collector_worker` 처럼 외부 자료 수집·정리가 복잡한 경우 |
+| `response` | 단순 LLM 응답. 도구·파일 IO 없음. JSON one-shot. | `claude -p --output-format json --model <config llm.model> --tools "" --no-session-persistence` + 프롬프트는 **stdin**(v4.10.0 LLM-AP-009) (repo 밖 중립 cwd 에서 실행) | Phase 3 `dynamic_intake_planner`, Phase 6 `research_agent`, Phase 11 `youtube_metadata_agent` 등 |
+| `agent` | CLI 가 도구·파일 IO 를 사용해 task 를 직접 처리. `task_result.json` 까지 CLI 가 작성. | `claude --print --model <M> --add-dir <project_dir>` + task_spec 은 stdin (또는 `codex exec … -`) | Phase 7 `source_collector_worker` 처럼 외부 자료 수집·정리가 복잡한 경우 |
 
 **구분 기준**: 산출물이 **단일 JSON 문서로 표현 가능**하면 `response`, **파일 시스템 위에서 다단계 작업**이 필요하면 `agent`.
 
@@ -126,7 +126,9 @@ class BaseLLMWorker(BaseWorker):
 
 ### 5.1 `claude` CLI (Claude Code 류 · Claude.ai 구독)
 
-- 진입: `claude -p "<prompt>" --model <M>` (response mode) / `claude --print --model <M> --add-dir <dir> -p "<spec>"` (agent mode)
+- 진입: `claude -p --model <M> …` (response mode) / `claude --print --model <M> --add-dir <dir>` (agent mode). **프롬프트는 argv 가 아니라 stdin 으로 넘긴다**(v4.10.0, LLM-AP-009).
+  argv 한 칸에 넣으면 리눅스 단일 인자 한도(MAX_ARG_STRLEN 128KB)를 넘는 입력(소스 30건 이상 verify-sources)에서 subprocess 생성이 `OSError: Argument list too long` 으로 실패했다.
+  `CLI_INVOCATION` 템플릿에 `{prompt}` 자리가 있으면 `_build_invocation_cmd` 가 오류를 낸다(argv 경로 삭제, 15 P2). codex 는 마지막 인자 `-`(stdin 읽기). stdin 인코딩은 UTF-8 고정.
 - **모델 고정 (v0.43.5)**: `<M>` 은 `config.yaml` `llm.model` 한 곳에서만 온다 (현재 `claude-opus-5-5`).
   v0.43.4 까지는 `--model` 을 주지 않아 사용자 머신 CLI 의 기본 모델이 쓰였고 저장소에 기록되지 않았다.
   실제 전달값은 `llm_calls/{call_id}.json` 의 `model` 필드에 남는다.
