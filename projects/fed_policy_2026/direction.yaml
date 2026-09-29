@@ -907,7 +907,7 @@ events:
   - 아직 정해지지 않았다
   accent: gold
 sound:
-  bgm: null
+  bgm: music.zabriskie_patriarch   # v4.6.0 D-0097 작업 4(사용자 결정 D86) — 무음악(null)에서 베드 있음으로. intensity 곡선은 G4 그대로
   intensity:
   - - 0.0
     - 0.55
@@ -937,4 +937,10 @@ sound:
   - - total: true
       'off': 0.5
     - 0.0
-  cues: []
+  cues:                            # v4.6.0 D-0097 작업 4 — 금리 인상 결정 문장의 '올렸다고'에 boom(hormuz war_0 타격 boom 과 같은 v)
+  - kind: boom
+    t:
+      word:
+        sid: decision_1
+        text: 올렸다고
+    v: 0.5

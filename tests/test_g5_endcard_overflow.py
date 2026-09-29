@@ -2,7 +2,7 @@
 
 - 두 열의 마지막 기준선 > 하단 구분선(H−44) − rules end_card.bottom_margin → draw_endcard 가 EndCardOverflowError,
   checks offscreen `[endcard-overflow]`(같은 함수). 조용한 넘침 금지(15 P6).
-- 실프로젝트 4편(fed_policy·hormuz·랫클리프·데모) 넘침 0. fed_policy 는 D-0099 A 배치(왼쪽 415, 오른쪽 423).
+- 실프로젝트 4편(fed_policy·hormuz·랫클리프·데모) 넘침 0. fed_policy 는 D-0099 A 배치(왼쪽 415, 오른쪽 423) → v4.6.0 D-0102 3-A 배치(음악 줄 추가, 왼쪽 418, 오른쪽 420).
 - credit_sections: 같은 (문구, 라이선스) 행은 한 번만(fed_policy 자료 절 4줄 → 3줄), 다른 세 편은 합칠 줄이 없어 무변경.
 """
 
@@ -75,7 +75,7 @@ class OverflowTest(unittest.TestCase):
             self.assertEqual(fullcards.endcard_overflow(secs, place), [], name)
             self.assertEqual(check_endcard_overflow(P), [], name)
             lasts[name] = fullcards.endcard_layout(secs, place)[1]
-        self.assertEqual(lasts["fed_policy_2026"], [415, 423])          # D-0099 A 실측
+        self.assertEqual(lasts["fed_policy_2026"], [418, 420])          # v4.6.0 D-0102 3-A 실측(D-0099 A 415·423 에서 음악 줄 추가)
 
 
 class UniqueLineTest(unittest.TestCase):
@@ -98,7 +98,7 @@ class UniqueLineTest(unittest.TestCase):
                 raw_d, merged_d = dict(raw), dict(merged)
                 self.assertEqual((len(raw_d["자료"]), len(merged_d["자료"])), (4, 3))
                 self.assertEqual(len(set(merged_d["자료"])), 3)
-                self.assertIn("사진 · 기사 카드", merged_d)
+                self.assertIn("사진 · 기사 카드 · 국기", merged_d)   # v4.6.0 D-0102 3-A(D-0099 A "사진 · 기사 카드" + 국기)
             else:
                 self.assertEqual(raw, merged, name)   # 합칠 줄 없음 → 무변경
 
