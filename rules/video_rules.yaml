@@ -137,6 +137,8 @@ pronounce:
 direction_grammar:         # v4.7.0 back_and_forth D-0104 D2(a) — 연출 문법(사람 승인 = D-0104, 15 P11). 연출·수정 프롬프트 {{RULES.direction_grammar}}
   - 인물이 발언 주체인 문장("~는 ~라고 말했습니다")에는 그 인물의 초상 뱃지(엔티티 레지스트리에 초상이 있을 때) 또는 그 발언을 전한 기사 카드(미디어 레지스트리 기사)를 건다. 텍스트 카드만으로 대신하지 않는다.
   - 원고 문장에 media 큐가 있으면 그 미디어를 우선 쓴다.
+  - 경계선(군사분계선·국경·NLL 등)을 route 로 그리지 않는다 — 지도 경계선이 이미 있다(v4.7.0 D-0107, 검사 [boundary-as-route] hard).
+  - 위치가 공개되지 않은 사건 지점은 marker sub 에 '좌표 비공개'(또는 '근사 위치')를 쓴다 — 지도 좌표는 근거가 있을 때만 사건 지점으로 보인다(v4.7.0 D-0107).
 
 shot_grammar:              # 05 §2
   camera_moves_per_scene_max: 1
@@ -572,6 +574,9 @@ labels:                    # 04 §6·§7
 geo:                       # D29(back_and_forth D-0019) — 지오 자산 단계(geo.prep)
   land_miss_allow_px2: 16  # 국가 면적(deg²) × 티어 ppd² 가 이 값 미만이면 land-miss 를 small 로 허용(4×4 px). 이상 = drop
   land_fill_min_ratio: 0.5   # v4.1.0 D-0078 — 국가 원본 피처 합집합 영역 안 육지 화소 비율이 이 값 미만이면 land-miss(대표점 한 점이 아니라 면적, 키 충돌 덮어쓰기 검출)
+  # v4.7.0 back_and_forth D-0107 D2(b) — 이 이름(부분 일치, 대소문자 무시)을 단 route 이벤트(label·{path:})·paths 키 = checks [boundary-as-route] hard(M8 재발 방지).
+  # 경계선은 지도 경계 레이어가 그린다. 지명 사전(data/gazetteer.yaml)과 [geo-unsourced] hard 전환은 G8
+  boundary_names: [군사분계선, MDL, 국경, 휴전선, NLL, 북방한계선, 남방한계선, 경계선, 분계선, 접경선, border, boundary]
 
 credits:                   # D-0030(D35) — 권리 레지스트리 종류별 표기 위치. 카드 ∪ 설명문 = 전 자산. 두 목록 밖 종류 = RightsError
   card_kinds: [people, emblems, flags, map, media, music, narration]   # 엔딩 카드(C0 유지, v3 골든 END 컷 무변경)

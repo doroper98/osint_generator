@@ -734,6 +734,7 @@ class LabelRules(_Strict):
 class GeoRules(_Strict):
     land_miss_allow_px2: float
     land_fill_min_ratio: float = Field(gt=0, le=1)   # v4.1.0 D-0078
+    boundary_names: list[str] = Field(min_length=1)   # v4.7.0 D-0107 D2(b) — checks [boundary-as-route]
 
 
 class CreditRules(_Strict):

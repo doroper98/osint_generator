@@ -57,6 +57,8 @@ preview → prev/checks.json(결정적 검사 18항목)
 | 카드에 가린 마커 라벨(`[label-hidden-by-card]`) | hard(overlap) | `rules:qa_checks.label_hidden_max_ratio` | D61 |
 | 최소 글자(`glyph_size`) — 설계 px 판정, 예외 역할만 제외 | hard | `rules:layout_480p.min_font_px`, `rules:qa_checks.glyph_size_exempt` | D62 |
 | 업스케일된 미디어(`media_upscaled`) | warning | `config:engine.output` | D60 |
+| 경계선 이름을 단 경로(`boundary_as_route`, `[boundary-as-route]`) — 경계선은 지도 경계 레이어가 그린다 | hard | `rules:geo.boundary_names` | back_and_forth D-0107(M8) |
+| 지도 좌표 근거 미대조(`geo_unsourced`, `[geo-unsourced]`) — places·paths·인라인 marker·route, provenance `geo.unsourced[]` | warning(지명 사전·hard 전환은 G8) | — | back_and_forth D-0107 |
 
 ### 2.2 장르 요소 검사 — v4.2.0
 

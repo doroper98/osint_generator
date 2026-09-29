@@ -389,6 +389,49 @@ def shot_stages(doc: Direction, tb: Timebase, stages: "Callable[[str], Stage]") 
     return out
 
 
+def _route_names(e: dict[str, Any]) -> list[str]:
+    """route 이벤트가 가진 이름 — label·{path: 이름}(data 아래도)."""
+    f = {**e, **(e.get("data") or {})}
+    pts = f.get("pts")
+    return [str(v) for v in (f.get("label"), pts.get("path") if isinstance(pts, dict) else None) if v]
+
+
+def boundary_routes(doc: Direction, names: list[str]) -> list[str]:
+    """경계선 이름을 단 경로(v4.7.0 back_and_forth D-0107 D2(b), M8 재발 방지) — `[boundary-as-route]` 한 줄씩.
+    names = rules geo.boundary_names(부분 일치, 대소문자 무시). 경계선은 지도 경계 레이어가 그린다."""
+    low = [n.lower() for n in names]
+
+    def hit(s: str) -> Optional[str]:
+        return next((n for n, k in zip(names, low) if k in s.lower()), None)
+
+    out = [f"[boundary-as-route] paths {k!r} — 경계선 이름({n})을 단 경로. 경계선은 지도 경계 레이어가 그린다(route 금지)"
+           for k in doc.paths if (n := hit(k))]
+    for i, e in enumerate(doc.events):
+        if e.get("type") != "route":
+            continue
+        found = next(((s, n) for s in _route_names(e) if (n := hit(s))), None)   # 이벤트당 한 줄(첫 일치)
+        if found:
+            out.append(f"[boundary-as-route] events[{i}] route {found[0]!r} — 경계선 이름({found[1]})을 단 route. 지도 경계선이 이미 있다")
+    return out
+
+
+def geo_unsourced(doc: Direction) -> list[dict[str, Any]]:
+    """지도 좌표 중 출처(지명 사전·claim 위치)와 대조하지 않은 것(v4.7.0 D-0107 D2(b) — 지금은 warning, 사전·hard 는 G8).
+    places(이름·lon·lat), paths(이름·점 수·양 끝), 인라인 좌표 marker·route(events[i]). 지도 무대가 아니면 호출하지 않는다."""
+    out: list[dict[str, Any]] = [{"kind": "place", "name": k, "lonlat": [float(v[0]), float(v[1])]} for k, v in doc.places.items()]
+    out += [{"kind": "path", "name": k, "points": len(v), "ends": [list(map(float, v[0])), list(map(float, v[-1]))]}
+            for k, v in doc.paths.items() if v]
+    for i, e in enumerate(doc.events):
+        f = {**e, **(e.get("data") or {})}
+        if e.get("type") == "marker" and "at_place" not in e and "lon" in f and "lat" in f:
+            out.append({"kind": "marker", "name": f"events[{i}] {f.get('label') or ''}".strip(),
+                        "lonlat": [float(f["lon"]), float(f["lat"])]})
+        elif e.get("type") == "route" and isinstance(f.get("pts"), list) and f["pts"]:
+            out.append({"kind": "route", "name": f"events[{i}] {f.get('label') or ''}".strip(), "points": len(f["pts"]),
+                        "ends": [list(map(float, f["pts"][0])), list(map(float, f["pts"][-1]))]})
+    return out
+
+
 class _Loader(yaml.SafeLoader):
     """YAML 1.1 의 on/off/yes/no → bool 변환을 끈 안전 로더. 앵커 키 `off`(17 §2)가 False 로 바뀌지 않게 한다.
     true/false 만 bool 이다."""
@@ -418,5 +461,5 @@ def load_direction_doc(path: Path) -> Direction:
         raise DirectionError(f"{path}: {ex}") from ex
 
 
-__all__ = ["Direction", "DirectionError", "Shot", "Sound", "build", "is_anchor", "load_direction_doc", "resolve_anchor", "shot_stages",
-           "yaml_load"]
+__all__ = ["Direction", "DirectionError", "Shot", "Sound", "boundary_routes", "build", "geo_unsourced", "is_anchor", "load_direction_doc",
+           "resolve_anchor", "shot_stages", "yaml_load"]

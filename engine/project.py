@@ -20,7 +20,7 @@ from engine.assets import Assets, load_labels
 from engine.camera import CamKey, build_camera
 from engine.context import RenderCtx
 from engine.credits import check_credits, load_credits, required_refs
-from engine.direction import Direction, DirectionError, load_direction_doc, shot_stages
+from engine.direction import Direction, DirectionError, boundary_routes, geo_unsourced, load_direction_doc, shot_stages
 from engine.direction import build as build_direction
 from engine.entities import check_event_refs, load_entities
 from engine.panels import network, relation, timeline
@@ -37,6 +37,7 @@ from engine.registry import RegistryError, validate_events
 from engine.style import FPS, Output, output_profile
 from engine.timebase import Timebase
 from genres.elements import used_elements
+from rules import load_rules
 from script.schema import Plan
 
 
@@ -264,6 +265,8 @@ def load_project(proj: Path, direction: Optional[Direction] = None, out: Optiona
     R.cache["genre"] = {"name": doc.genre_name(), "declared": doc.genre is not None,    # v4.2.0 D-0081 작업 3 — provenance genre(15 P5)
                         "status": doc.genre_profile().status,                          # v4.3.0 D-0084 작업 6 — proposed 프로필 사용 기록(P6)
                         "elements_used": used_elements(doc.events)}                   # checks genre_elements 입력(연출이 쓴 요소)
+    R.cache["geo_check"] = {"boundary": boundary_routes(doc, load_rules().geo.boundary_names),   # v4.7.0 D-0107 D2(b) — checks [boundary-as-route]
+                            "unsourced": geo_unsourced(doc) if uses_map else None}              # [geo-unsourced] warning·provenance geo(지도 무대만)
     n = int(plan.total * FPS)
     cams = build_camera(keys, n, FPS) if keys else None
     A0 = assets  # noqa: N806

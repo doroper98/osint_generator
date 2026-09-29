@@ -64,6 +64,7 @@ MINOR: 별도 세션 브랜치(`claude/vibrant-mendel-vdfhsz`, 『DMZ 지뢰 폭
 
 ### Changed
 - **§0**: VERSION 4.7.0, Tier 1·2 `last_synced_with` v4.7.0, v4.6.0 대장 행(8a39e36, R-0120 보고).
+- **D2(b) 좌표 근거(D-0107)**: 검사 `boundary_as_route`(hard) — `rules geo.boundary_names`(군사분계선·MDL·국경·휴전선·NLL·북방·남방한계선·경계선 …, 부분 일치) 이름을 단 route(label·`{path:}`)·paths 키 `[boundary-as-route]`. 검사 `geo_unsourced`(warning) — 지도 무대 places·paths·인라인 좌표 marker·route 를 `[geo-unsourced]` 로 나열, provenance `geo.unsourced[]`(hormuz 11·랫클리프 7). 연출·수정 프롬프트 `direction_grammar` 두 줄(경계선 route 금지·비공개 위치 marker sub '좌표 비공개'). 지명 사전 `data/gazetteer.yaml` 과 hard 전환은 G8. checks 항목 19 → 21. 새 테스트 3.
 
 ---
 

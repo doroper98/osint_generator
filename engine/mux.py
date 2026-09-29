@@ -163,6 +163,9 @@ def project_provenance(P, stages: dict[str, bool]) -> dict:  # noqa: ANN001, N80
     rj = P.root / "out" / "render.json"
     prov["render"] = {"resolution": (json.loads(rj.read_text(encoding="utf-8"))["resolution"]
                                      if stages.get("render") and rj.exists() else P.R.out.record())}
+    gc = (P.R.cache.get("geo_check") or {}).get("unsourced")
+    if gc is not None:   # v4.7.0 D-0107 D2(b) — 지도 무대 좌표 중 근거 대조 안 된 것(checks [geo-unsourced] 와 같은 값). 지도 없으면 기록 없음(P5)
+        prov["geo"] = {"unsourced": gc}
     prov["stage"] = P.R.cache.get("stage")   # v4.1.0 D-0076 작업 7 — 무대(name·declared·shots_declared·instances)
     g = P.R.cache.get("genre") or {}
     prov["genre"] = {"name": g.get("name"), "declared": g.get("declared"), "status": g.get("status")}   # v4.2.0 D-0081 작업 3, v4.3.0 status(proposed 사용 기록)

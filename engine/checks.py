@@ -23,6 +23,8 @@ hard 실패가 하나라도 있으면 시각 검수 LLM 을 부르지 않고 연
 | chart_honesty | hard | 차트 정직성(v4.3.0 D-0084 작업 5·D-0087, 20 §5.3): 막대 0 기준선·압축 구간 ↔ 물결 라벨·%/%p·이중 축 라벨·색·로그 척도 표기 (`engine.honesty`) |
 | series_limit_3 | hard | 한 차트(레인·패널)의 계열 ≤ qa_checks.series_max |
 | units_visible | hard | 화면 단위(레인 이름·패널 unit·y_prefix) ∈ rules data.units·unit_prefixes |
+| boundary_as_route | hard | v4.7.0(D-0107 D2(b), M8): rules geo.boundary_names 이름을 단 route 이벤트(label·{path:})·paths 키 `[boundary-as-route]` — 경계선은 지도 경계 레이어가 그린다 |
+| geo_unsourced | warning | v4.7.0(D-0107 D2(b)): 지도 무대 places·paths·인라인 좌표 marker·route 가 지명 사전과 대조되지 않음 `[geo-unsourced]`(provenance geo.unsourced[]). 사전·hard 전환은 G8 |
 | as_of_visible | hard | 기준 시점·출처 줄 — 시리즈는 프리뷰 컷에 그린 출처 줄, 패널은 08 §9 출처 체계. 적용 범위 = qa_checks.chart_targets(축 종류) |
 """
 
@@ -46,8 +48,8 @@ SG = R_.shot_grammar
 SAMPLE_SEC = 1.0          # 뱃지·라벨 샘플 간격
 SHADOW_PX = 7             # badge_box 가 원 둘레에 더하는 그림자 여백 — 이만큼 잘리는 것은 허용
 HARD = ("overlap", "offscreen", "glyphs", "glyph_size", "labels", "date", "subtitles", "rights", "forbidden", "stage_continuity",
-        "genre_elements", "chart_honesty", "series_limit_3", "units_visible", "as_of_visible")
-WARN = ("shots", "media_beats", "media_upscaled", "endcard_roll")   # endcard_roll v4.7.0 D-0106
+        "genre_elements", "chart_honesty", "series_limit_3", "units_visible", "as_of_visible", "boundary_as_route")
+WARN = ("shots", "media_beats", "media_upscaled", "endcard_roll", "geo_unsourced")   # endcard_roll v4.7.0 D-0106, geo_unsourced D-0107
 
 
 def missing_fonts() -> list[str]:
@@ -120,6 +122,15 @@ def check_endcard_roll(P) -> list[str]:  # noqa: ANN001, N803
     if P.R.credits is None or not any(c.kind == "end" for c in P.plan.cards):
         return []
     return endcard_roll_note(project_credit_sections(P.R), [s.column for s in P.R.credits.sections])
+
+
+def check_geo_unsourced(P) -> list[str]:  # noqa: ANN001, N803
+    """지도 좌표 근거 미대조(v4.7.0 back_and_forth D-0107 D2(b)) — warning. 항목은 load_project 가 연출에서 모은 것(provenance 와 같은 값)."""
+    out: list[str] = []
+    for it in (P.R.cache.get("geo_check") or {}).get("unsourced") or []:
+        where = it["lonlat"] if "lonlat" in it else f"{it['points']}점 {it['ends'][0]}→{it['ends'][1]}"
+        out.append(f"[geo-unsourced] {it['kind']} {it['name']} {where} — 지명 사전·claim 위치와 대조 안 됨(사전은 G8)")
+    return out
 
 
 def check_endcard_overflow(P) -> list[str]:  # noqa: ANN001, N803
@@ -354,6 +365,8 @@ def run_checks(P, times: list[float], provenance: dict, drawn: list[tuple[str, f
         "forbidden": check_forbidden(P, provenance) + check_label_glyphs(drawn),
         "stage_continuity": check_stage_continuity(P),
         "genre_elements": check_genre_elements(P),
+        "boundary_as_route": list((P.R.cache.get("geo_check") or {}).get("boundary") or []),
+        "geo_unsourced": check_geo_unsourced(P),
         **honesty,
     }
     items = [{"id": k, "severity": "hard" if k in HARD else "warning", "count": len(v), "details": v[:20],

@@ -158,3 +158,49 @@ class ReopenTest(unittest.TestCase):
         p.m = approve_gate(p.m, "script_approval", by="t", cfg=p.cfg)
         p.to(S.ASSETS, S.DIRECTION, S.PREVIEW_QA, S.PREVIEW_APPROVAL)
         p.m = approve_gate(p.m, "preview_approval", by="t", cfg=p.cfg)
+
+
+class GeoSourceCheckTest(unittest.TestCase):
+    """D-0107 D2(b) — 경계선 이름 route = [boundary-as-route] hard, 지명 사전 없는 지도 좌표 = [geo-unsourced] warning(사전·hard 는 G8)."""
+
+    @staticmethod
+    def _doc(events: list, places: dict | None = None, paths: dict | None = None):  # noqa: ANN205
+        from engine.direction import Direction  # noqa: PLC0415
+
+        return Direction.model_validate({"places": places or {}, "paths": paths or {},
+                                         "shots": [{"at": 0, "mode": "cut", "dur": 0, "camera": {"lon": 127.0, "lat": 38.0, "w": 6}}],
+                                         "events": events})
+
+    def test_boundary_route_is_hard(self) -> None:
+        from engine.direction import boundary_routes  # noqa: PLC0415
+
+        names = load_rules().geo.boundary_names
+        doc = self._doc([{"type": "route", "start": 0, "end": 5, "pts": {"path": "mdl"}, "label": "군사분계선"},
+                         {"type": "route", "start": 0, "end": 5, "pts": [[126.7, 37.9], [127.2, 38.3]], "label": "NLL 부근"}],
+                        paths={"mdl": [[126.7, 37.9], [128.3, 38.6]]})
+        errs = boundary_routes(doc, names)
+        self.assertEqual(len(errs), 3, errs)   # paths 키 mdl, events[0](label·path 둘 다 맞아도 한 줄), events[1] NLL
+        self.assertTrue(all(e.startswith("[boundary-as-route]") for e in errs))
+        self.assertIn("boundary_as_route", __import__("engine.checks", fromlist=["HARD"]).HARD)
+
+    def test_ordinary_route_passes(self) -> None:
+        from engine.direction import boundary_routes  # noqa: PLC0415
+
+        doc = self._doc([{"type": "route", "start": 0, "end": 5, "pts": {"path": "route"}, "label": "허가받은 배만 통과"}],
+                        paths={"route": [[56.2, 26.45], [129.35, 35.45]]})
+        self.assertEqual(boundary_routes(doc, load_rules().geo.boundary_names), [])
+
+    def test_marker_without_gazetteer_warns_and_records(self) -> None:
+        from types import SimpleNamespace as NS  # noqa: PLC0415
+
+        from engine.checks import WARN, check_geo_unsourced  # noqa: PLC0415
+        from engine.direction import geo_unsourced  # noqa: PLC0415
+
+        doc = self._doc([{"type": "marker", "start": 0, "end": 5, "at_place": "site", "label": "폭발 지점", "sub": "좌표 비공개"}],
+                        places={"site": [127.0, 38.2]})
+        items = geo_unsourced(doc)
+        self.assertEqual(items, [{"kind": "place", "name": "site", "lonlat": [127.0, 38.2]}])
+        warns = check_geo_unsourced(NS(R=NS(cache={"geo_check": {"boundary": [], "unsourced": items}})))
+        self.assertEqual(len(warns), 1)
+        self.assertTrue(warns[0].startswith("[geo-unsourced] place site"))
+        self.assertIn("geo_unsourced", WARN)
