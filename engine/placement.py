@@ -63,12 +63,31 @@ def _beside_panel(e: dict, events: list[dict], slot, media_h: Callable[[dict, fl
     return f"후보 {len(bp.candidates)}곳 모두 패널·예약 영역과 겹치거나 화면 밖(폭 {bp.w:g}, 글자 폭 {text_w:.0f}, 높이 {h:.0f})"
 
 
-def _stage_slot(e: dict, slot_name: str, stage_name: str | None) -> str | None:
+PANEL_SCENE = "panel"   # stage_slots 의 '패널 장면' 키(v4.8.0 D-0104 D2(c)) — 무대 이름이 아니다
+
+
+def _stage_slot(e: dict, slot_name: str, stage_name: str | None, in_panel: bool = False) -> str | None:
     """주 무대의 `placement.stage_slots` 자리. 연출이 그 무대 전용 슬롯이나 card·panel 슬롯을 골랐으면 그대로(None).
-    지도 슬롯(map_*)·자동 슬롯만 바꾼다 — 시간축에서 지도 좌표 자리는 레인 이름·출처 줄을 가린다(D-0093)."""
-    if stage_name is None or not slot_name.startswith("map_"):
+    지도 슬롯(map_*)·자동 슬롯만 바꾼다 — 시간축에서 지도 좌표 자리는 레인 이름·출처 줄을 가린다(D-0093).
+    in_panel = 이벤트 시작 순간 패널이 떠 있다 → `stage_slots.panel` 먼저(D2(c) — 지도 층 뱃지는 패널에 가린다)."""
+    if not slot_name.startswith("map_"):
+        return None
+    if in_panel and e["type"] in PL.stage_slots.get(PANEL_SCENE, {}):
+        return PL.stage_slots[PANEL_SCENE][e["type"]]
+    if stage_name is None:
         return None
     return PL.stage_slots.get(stage_name, {}).get(e["type"])
+
+
+def _screen_point(e: dict, slot, taken: list[dict]) -> str | None:  # noqa: ANN001
+    """화면 고정 슬롯(D2(c)) — 이 뱃지와 시간이 겹치는, 먼저 자리 잡은 뱃지 수 = 점 번호. 모자라면 문구."""
+    busy = {tuple(o["screen"]) for o in taken if o["t0"] < e["t1"] and e["t0"] < o["t1"]}
+    free = [p for p in slot.screen if tuple(p) not in busy]
+    if not free:
+        return f"동시에 떠 있는 패널 위 뱃지가 자리 {len(slot.screen)}곳보다 많다"
+    e["screen"], e["over_panel"] = list(free[0]), True
+    taken.append(e)
+    return None
 
 
 def resolve_places(events: list[dict], view_at: Callable[[float], object],
@@ -80,6 +99,7 @@ def resolve_places(events: list[dict], view_at: Callable[[float], object],
     media_h(e, w) → 폭 w 일 때 (미디어 상자 높이(캡션 바 포함), 캡션 글자까지의 폭). beside_panel 슬롯에만 쓴다."""
     rec: dict[str, str] = {}
     errs: list[str] = []
+    on_screen: list[dict] = []
     for i, e in enumerate(events):
         slot_name = e.pop("place", None)
         media = e["type"] in PL.auto_media
@@ -93,7 +113,7 @@ def resolve_places(events: list[dict], view_at: Callable[[float], object],
                 if media:
                     rec[tag] = "explicit"
                 continue
-        stage_slot = _stage_slot(e, slot_name, stage_name)   # v4.4.0 D-0093 — 무대 종류별 자리(시간축 뱃지·사진)
+        stage_slot = _stage_slot(e, slot_name, stage_name, _panel_at(events, e["t0"]))   # v4.4.0 D-0093 무대 자리 · v4.8.0 D2(c) 패널 장면
         if stage_slot is not None:
             slot_name, how = stage_slot, "stage"
         slot = PL.slots.get(slot_name)
@@ -110,9 +130,15 @@ def resolve_places(events: list[dict], view_at: Callable[[float], object],
                 continue
         elif slot.box is not None:
             e["x"], e["y"], e["w"] = slot.box
-        elif slot.point is not None:
+        elif slot.point is not None or slot.screen:
+            if slot.screen:
+                err = _screen_point(e, slot, on_screen)
+                if err:
+                    errs.append(f"[{i}] {tag}: 슬롯 {slot_name!r} — {err}")
+                    continue
             v = view_at(e["t0"])
-            e.update(v.stage.from_world(*v.to_world(*slot.point)))   # type: ignore[attr-defined] — 화면 점 → 월드 → 앵커(lon·lat)
+            pt = slot.point if slot.point is not None else e["screen"]   # 화면 고정 뱃지도 앵커는 둔다(모델 검증) — 그리기는 screen
+            e.update(v.stage.from_world(*v.to_world(*pt)))   # type: ignore[attr-defined] — 화면 점 → 월드 → 앵커(lon·lat)
         else:
             if slot.card is not None:
                 e["y"] = slot.card

@@ -145,7 +145,7 @@ def marker_label_alpha(b: Box, zones: list[Zone]) -> float:
 
 def avoidance_report(P) -> list[dict]:  # noqa: ANN001 — engine.project.Project (순환 import 회피)
     """provenance `reserved.avoidance[]` — 지도 뱃지마다 카드 영역 때문에 비킨 기록(프레임 전수, 그리지 않고 계산만)."""
-    from engine.layers.badges import badge_box  # noqa: PLC0415
+    from engine.layers.badges import badge_box, screen_xy  # noqa: PLC0415
     from engine.projection import View  # noqa: PLC0415
     from engine.style import FPS  # noqa: PLC0415
 
@@ -160,7 +160,7 @@ def avoidance_report(P) -> list[dict]:  # noqa: ANN001 — engine.project.Projec
             zones = card_zones(ctx, P.events, t)
             if not zones:
                 continue
-            x, y = View(P.R.stage, P.cams[i]).to_screen(*e["world"])
+            x, y = screen_xy(e, View(P.R.stage, P.cams[i]))
             dx, dy, ka, info = avoid_badge(badge_box(ctx, e, x, y, t), zones)
             if info is None:
                 continue

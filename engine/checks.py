@@ -166,10 +166,12 @@ def place_over(P, ctx: cairo.Context, e: dict, t: float) -> tuple[float, tuple] 
     from engine.layers.badges import badge_box  # noqa: PLC0415
     from engine.layers.markers import marker_box  # noqa: PLC0415
 
-    if _covered(P, t):
+    from engine.layers.badges import screen_xy  # noqa: PLC0415
+
+    if _covered(P, t) and not e.get("over_panel"):   # 패널 위 뱃지(D2(c))는 패널이 떠 있어도 보인다
         return None
     v = View(P.R.stage, P.cams[min(P.n_frames - 1, int(t * FPS))])
-    x, y = v.to_screen(*e["world"])
+    x, y = screen_xy(e, v)
     if e["type"] == "marker":
         if x < -80 or x > W_OUT + 80 or y < -40 or y > H_OUT + 40:   # draw_marker 가 그리지 않는 위치
             return None

@@ -75,7 +75,7 @@ def _points(events: list[dict], t0: float, t1: float, lead: float = 0.0) -> list
         ref = f"{e['type']}:{e.get('label') or e.get('mid') or e.get('name') or ''}"
         if e["type"] == "marker":
             out.append(box_point(*e["world"], marker_box(ctx, e, 0.0, 0.0, with_sub=True), ref))
-        elif e["type"] == "badge":
+        elif e["type"] == "badge" and not e.get("over_panel"):   # 패널 위 뱃지(D2(c))는 화면 고정 — 카메라 구도와 무관
             out.append(box_point(*e["world"], badge_box(ctx, e, 0.0, 0.0), ref))
         elif e["type"] == "cutout":
             out.append(plain_point(*e["world"], ref))

@@ -156,7 +156,7 @@ class CountryEvent(_Event):
 class BadgeEvent(_Event):
     """뱃지. 지도 앵커 lon·lat, 또는 시간축 앵커 date·lane(v4.4.0 D-0090 작업 4 — 배치 슬롯이 시간축에서 date·lane 을 돌려준다). 한 쌍만."""
 
-    DROP_NONE: ClassVar[tuple[str, ...]] = ("lon", "lat", "date", "lane")   # 쓰지 않은 앵커 쌍은 dict 에 남기지 않는다(지도 뱃지 dict = v4.3.0 과 같음)
+    DROP_NONE: ClassVar[tuple[str, ...]] = ("lon", "lat", "date", "lane", "over_panel", "screen")   # 쓰지 않은 앵커 쌍·패널 위 자리는 dict 에 남기지 않는다(지도 뱃지 dict = v4.3.0 과 같음)
 
     type: Literal["badge"]
     lon: Optional[float] = None
@@ -172,6 +172,8 @@ class BadgeEvent(_Event):
     role: Optional[str] = None
     accent: Accent = "gold"
     side: Optional[Literal["right"]] = None
+    over_panel: Optional[bool] = None                     # v4.8.0 D-0104 D2(c) — 배치 슬롯(panel_badge)이 채운다: 패널 층 위, 화면 고정
+    screen: Optional[tuple[float, float]] = None
 
     @model_validator(mode="after")
     def _anchor(self) -> "BadgeEvent":

@@ -27,6 +27,7 @@ from engine.hud import draw_date
 from engine.project import Project, ProjectError, load_project
 from engine.projection import View
 from engine.reserved import card_zones
+from engine.layers.badges import draw_over_panel
 from engine.registry import MAP_LAYER_ORDER, RegistryError, resolve
 from engine.style import FADE, FPS, PANEL, output_profile
 from engine.subtitles import draw_subtitle
@@ -71,6 +72,9 @@ def render_frame(P: Project, i: int) -> tuple[cairo.ImageSurface, bytearray]:  #
     for e in act:
         if e["type"] == "panel":
             resolve(e).render(ctx, R, t, e)
+    for e in act:
+        if e["type"] == "badge" and e.get("over_panel"):   # v4.8.0 D-0104 D2(c) — 패널 위 인물 뱃지(화면 고정)
+            draw_over_panel(ctx, R, t, e)
     for e in act:
         if e["type"] in ("photo", "clip"):
             resolve(e).render(ctx, R, t, e)

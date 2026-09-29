@@ -93,12 +93,13 @@ class PlacementSlot(_Strict):
     point: Optional[tuple[float, float]] = None
     card: Optional[float] = None
     beside_panel: Optional[BesidePanel] = None
+    screen: Optional[list[tuple[float, float]]] = None   # v4.8.0 D-0104 D2(c) — 패널 위 화면 고정 점들(동시 n 번째 = n 번째 점)
 
     @model_validator(mode="after")
     def _one(self) -> "PlacementSlot":
         is_card = "card" in self.model_fields_set
-        if sum([self.box is not None, self.point is not None, is_card, self.beside_panel is not None]) != 1:
-            raise ValueError("슬롯은 box·point·card·beside_panel 중 하나")
+        if sum([self.box is not None, self.point is not None, is_card, self.beside_panel is not None, bool(self.screen)]) != 1:
+            raise ValueError("슬롯은 box·point·card·beside_panel·screen 중 하나")
         return self
 
 

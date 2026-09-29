@@ -218,9 +218,28 @@ def badge_box(ctx: cairo.Context, e: dict, x: float, y: float, t: float | None =
 def draw_badge(ctx: cairo.Context, R: RenderCtx, view: View, t: float, e: dict) -> None:  # noqa: N803
     from engine.reserved import avoid_badge  # noqa: PLC0415 — reserved 가 cards·media 를 import(순환 회피)
 
+    if e.get("over_panel"):          # 패널 위 뱃지는 패널 층 뒤에 그린다(draw_over_panel, D2(c))
+        return
     a = window(t, e["t0"], e["t1"], BADGE.fade_in_sec, BADGE.fade_out_sec)
     if a <= 0.01:
         return
     x, y = view.to_screen(*e["world"])
     dx, dy, ka, _ = avoid_badge(badge_box(ctx, e, x, y, t), R.zones)   # 카드가 떠 있는 동안만(D-0033)
+    badge_at(ctx, R, x + dx, y + dy, e, t, a * ka)
+
+
+def screen_xy(e: dict, view: View) -> tuple[float, float]:
+    """뱃지 화면 점 — 패널 위 뱃지(D2(c))는 슬롯의 화면 고정 점, 그 밖은 앵커를 카메라로 투영."""
+    return tuple(e["screen"]) if e.get("over_panel") else view.to_screen(*e["world"])  # type: ignore[return-value]
+
+
+def draw_over_panel(ctx: cairo.Context, R: RenderCtx, t: float, e: dict) -> None:  # noqa: N803
+    """v4.8.0 back_and_forth D-0104 D2(c) — 패널 위 인물 뱃지(`placement.slots.panel_badge`, 화면 고정). 패널 층 다음에 그린다."""
+    from engine.reserved import avoid_badge  # noqa: PLC0415
+
+    a = window(t, e["t0"], e["t1"], BADGE.fade_in_sec, BADGE.fade_out_sec)
+    if a <= 0.01:
+        return
+    x, y = e["screen"]
+    dx, dy, ka, _ = avoid_badge(badge_box(ctx, e, x, y, t), R.zones)
     badge_at(ctx, R, x + dx, y + dy, e, t, a * ka)
