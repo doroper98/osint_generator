@@ -1,6 +1,6 @@
 <!--
 tier: 3
-last_synced_with: v4.6.0
+last_synced_with: v4.7.0
 ssot_for: [release-notes]
 depends_on: [README.md, GOAL.md]
 last_review: 2026-09-28
@@ -54,10 +54,20 @@ released 항목은 **append-only**입니다.
 | v4.3.0 | 4180dbe | G3 시간축 무대·데이터 레코드·차트 정직성 검사 | pass(D-0089) |
 | v4.4.0 | 08c7245 | G4 첫 비지정학 영상 | pass(D-0094) — 영상 최종 판정은 사용자 |
 | v4.5.0 | 6094ce1 | G5 검증 라벨 본문 제거·엔딩 카드 한 줄 | pass(D-0100) |
+| v4.6.0 | 8a39e36 | G6 배경음악 저음 보강 | 보고(R-0120) — 전편 렌더 생략(D-0103), 합격 판정 대기 |
 
 ---
 
-## [v4.6.0] — 2026-09-29 — G6: 배경음악 저음 보강·웅장한 베드 (back_and_forth D-0097, 사용자 결정 D86) — 진행 중
+## [v4.7.0] — 2026-09-29 — G6.5: dmz_mine 브랜치 병합·결정 D1~D6 반영 (back_and_forth D-0104) — 진행 중
+
+MINOR: 별도 세션 브랜치(`claude/vibrant-mendel-vdfhsz`, 『DMZ 지뢰 폭발』)를 병합한다. 새 요소 site_diagram, 연출 규칙(발언 주체 → 초상·기사 카드), 좌표 근거 검사 `[geo-unsourced]`, W1 체크리스트, `reopen --to direction`.
+
+### Changed
+- **§0**: VERSION 4.7.0, Tier 1·2 `last_synced_with` v4.7.0, v4.6.0 대장 행(8a39e36, R-0120 보고).
+
+---
+
+## [v4.6.0] — 2026-09-29 — G6: 배경음악 저음 보강·웅장한 베드 (back_and_forth D-0097, 사용자 결정 D86) — 보고 R-0120(전편 렌더 생략 D-0103)
 
 MINOR: 오디오 처리 추가. 베드(배경음악)에 곡을 따라가는 저음 처리 세 가지(로우 셸프 EQ·서브 옥타브 층·장면 시작 스웰)를 `rules audio.bed_bass` 로 적용한다. 사용자 결정이므로 v3 합격 mix 는 바뀐다(되돌리기 = 해당 커밋 revert). `bed_gain 0.47`·`duck_depth 0.5` 불변, 무음악 경로 바이트 동일.
 
