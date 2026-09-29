@@ -1100,6 +1100,61 @@ class CameraRules(_Strict):
     framing: FramingRules
 
 
+class AnimaticFlatMap(_Strict):
+    """막지도 — 육지·바다 단색 + 경계선(타일·지형·라벨 없음). data = 저장소 추적 자료(tools/build_flat_map.py)."""
+
+    data: str
+    sea: Color4
+    land: Color4
+    border: Color4
+    border_w: float = Field(gt=0)
+
+
+class AnimaticPlaceholder(_Strict):
+    """자리표시 상자 — 요소와 같은 자리·크기·타이밍, 안에 `[종류: 이름]` 글자."""
+
+    fill: Color4
+    stroke: Color4
+    stroke_w: float = Field(gt=0)
+    dash: list[float]
+    text: Color4
+    font: str
+    size: float = Field(gt=0)
+    line_gap: float = Field(gt=0)
+    max_chars: int = Field(ge=8)
+    cutout_h_ratio: float = Field(gt=0)            # 컷아웃 높이 ÷ 폭(레지스트리에 비율 없음 — 근사)
+    panel_box: tuple[float, float, float, float]   # 패널 자리표시 상자(설계 px x0, y0, x1, y1) — 패널 본문이 덮는 화면 영역
+    kinds: dict[str, str]   # 요소 종류 → 화면 이름(뱃지·국기·휘장·사진…). 목록 밖 종류 = 오류
+
+
+class AnimaticBand(_Strict):
+    """화면 위 가운데 얇은 띠(모서리는 날짜만 규칙 유지)."""
+
+    text: str
+    font: str
+    size: float = Field(gt=0)
+    h: float = Field(gt=0)
+    pad_x: float = Field(ge=0)
+    baseline: float = Field(gt=0)
+    bg: Color4
+    fg: Color4
+
+
+class AnimaticRules(_Strict):
+    """v4.9.0 back_and_forth D-0108(사용자 결정 D97) — 콘티 판(animatic). 전편 렌더 경로는 이 블록을 읽지 않는다."""
+
+    profile: str                       # config engine.output 프로파일(480p). fps 는 설계 fps 그대로
+    output: str                        # out/ 아래 파일 이름
+    preset: str                        # x264 preset(콘티 판 인코딩만)
+    mp4_comment: str                   # mp4 메타데이터 표식 — deliver(engine.mux)가 보면 거부
+    flat_map: AnimaticFlatMap
+    placeholder: AnimaticPlaceholder
+    band: AnimaticBand
+    missing_license: str               # 권리 레지스트리(생성 자산)가 없는 환경의 엔딩 카드 license_ref 자리 문구(전편은 오류 그대로)
+    checks_skip: list[str] = Field(min_length=1)   # 콘티 판에서 건너뛰는 checks id(provenance animatic.checks_skipped)
+    cost_target_sec_per_300s: float = Field(gt=0)   # 5분 영상 콘티 판 목표 시간(4코어, run_log 실측과 비교)
+
+
 class PreviewRules(_Strict):
     """v3.3.0 F6 — auto 프리뷰 샘플."""
 
@@ -1438,6 +1493,7 @@ class VideoRules(_Strict):
     registries: Registries
     audio: AudioRules
     preview: PreviewRules          # v3.3.0 — D-0056 F6
+    animatic: AnimaticRules        # v4.9.0 — D-0108 콘티 판
     golden: GoldenRules            # v3.6.0 — D-0066 작업 4
     camera: CameraRules            # v3.3.0 — D-0056 작업 2
     stage: StageRules              # v4.1.0 — D-0076 작업 5

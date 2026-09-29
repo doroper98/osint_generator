@@ -1017,6 +1017,47 @@ golden:                    # v3.6.0 D-0066 작업 4 · D-0067 요건 4 — 1080p
 preview:                   # v3.3.0 D-0056 F6 — `--preview auto` 샘플. 짧은 영상에서 전면 카드만 뽑히지 않게 본편(문장 읽는 중) 컷 최소 수. golden 모드 무관
   min_body_cuts: 4
 
+animatic:                  # v4.9.0 back_and_forth D-0108(사용자 결정 D97) — 콘티 판(animatic = animation + -matic, 1930년대 디즈니 "Leica reel"). `engine.render --animatic`
+  # 흐름·호흡을 게이트 ② 전에 싸게 검토한다. 자막·타이틀·엔딩 카드·마커·경로·타격 링·시리즈·카메라·dip·음악은 그대로, 사진·뱃지 등은 자리표시 상자.
+  profile: 480p            # config engine.output 프로파일 — fps 24 유지(타이밍이 프레임 단위라 낮추지 않는다)
+  output: animatic.mp4     # out/animatic.mp4 (영상 + out/mix.f32 음성·음악). out/video_noaudio.mp4·final.mp4 는 건드리지 않는다
+  preset: veryfast         # 콘티 판 인코딩만(전편 preset 은 config 그대로)
+  mp4_comment: "animatic — 콘티 판 · 검토용 · 배포 금지"   # mp4 메타데이터 comment — engine.mux(deliver)가 이 표식을 보면 거부
+  flat_map:                # 막지도 — 육지·바다 단색 + 국경선. 타일·지형·라벨 없음(자료: tools/build_flat_map.py, R-0135 A)
+    data: data/geo_flat/ne_110m_countries.json
+    sea: [0.055, 0.086, 0.125, 1.0]
+    land: [0.16, 0.19, 0.22, 1.0]
+    border: [0.82, 0.86, 0.92, 0.42]
+    border_w: 0.75
+  placeholder:             # 요소와 같은 자리·크기(G7 값)·타이밍(팝인·페이드)의 상자 + `[종류: 이름]`
+    fill: [0.09, 0.11, 0.15, 0.78]
+    stroke: [0.91, 0.72, 0.38, 0.95]
+    stroke_w: 1.2
+    dash: [4, 3]
+    text: [1.0, 1.0, 1.0, 1.0]
+    font: sansb
+    size: 12               # layout_480p.min_font_px(9.5) 이상
+    line_gap: 15
+    max_chars: 30          # 한 줄 글자 수 상한(넘으면 … — 자리표시 문구만, 자막·카드 문구 아님)
+    cutout_h_ratio: 0.4    # 컷아웃 높이 ÷ 폭 — 레지스트리에 비율이 없다(tool.params width 만). 파일을 열지 않으려고 쓰는 근사(p8 실측 134/360 = 0.37)
+    panel_box: [64, 44, 790, 400]   # 패널 자리표시 = 패널 본문 영역(제목 기준선 74 위 ~ 자막 구역 410 위). 덮개(panel.cover_alpha)는 그대로
+    kinds: {person: 뱃지, flag: 국기, emblem: 휘장, photo: 사진, clip: 영상, cutout: 컷아웃, article: 기사, post: 게시물,
+            primitive: 요소, panel: 패널, card: 카드}
+  band:                    # 화면 위 가운데 얇은 띠 — 배포 사고 방지 표식(모서리는 날짜만 규칙 유지)
+    text: "콘티 판 · 검토용 · 배포 금지"
+    font: sansb
+    size: 11
+    h: 17
+    pad_x: 14
+    baseline: 12.5
+    bg: [0.62, 0.1, 0.12, 0.9]
+    fg: [1.0, 1.0, 1.0, 1.0]
+  missing_license: "권리 기록 없음 — 콘티 판"   # 권리 레지스트리(assets/rights_registry.json, 생성 자산)가 없을 때 엔딩 카드 license_ref 자리. 전편은 RightsError 그대로
+  # 콘티 판 검사 프로파일 — 미디어·글꼴·정직성이 없으므로 건너뛴다(provenance animatic.checks_skipped, checks.json skipped).
+  # 타이밍(shots)·자막(subtitles)·offscreen·stage_continuity·overlap·date·forbidden·genre_elements 는 그대로 돈다
+  checks_skip: [glyphs, glyph_size, rights, media_upscaled, chart_honesty, series_limit_3, units_visible, as_of_visible, labels]
+  cost_target_sec_per_300s: 180   # 5분 영상 콘티 판 = 4코어 3분 이내("저렴"의 정의, 실측은 reports/phaseG8/run_log.md)
+
 qa_checks:                 # 17 §3 — 결정적 사전 검사 임계
   overlap_core_elements: 0
   offscreen_clip: 0
