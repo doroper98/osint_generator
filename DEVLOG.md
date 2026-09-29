@@ -3298,3 +3298,9 @@ last_review: 2026-06-06
 - **왜**: handoff 20 §2.3·§12 — 지도가 아닌 무대(G3 시간축 등)를 같은 카메라 문법으로 쓰기 위한 추상화. 합격 = v3 골든 픽셀 동일.
 - **결과**: 옛 자산으로 25컷 25/25·전편 692f228e·1080p 25/25·랫클리프 20/20·camera_suggest 동일, 렌더 +0.5%. pytest 838 passed(새 46). 도중 D-0078 국가 키 충돌 수정(PIPELINE-AP-011).
 
+
+## 2026-09-29 v4.2.0 — Phase G2 장르 프로필과 새 요소 파이프라인
+
+- **무엇을**: `genres/*.yaml`(GenreProfile, geopolitics approved·macro_monetary proposed), direction `genre`·결정적 검사 `genre_elements`(14항목), 프리미티브 계약 `engine/primitives`·첫 요소 `statement_diff`, 요소 갤러리(등록 요소 32 전부 실제 렌더), prompts/examples 채움.
+- **왜**: handoff 20 §3·§4·§12 G2 — 장르 층 선언과 "등록 요소마다 스키마·렌더러·예제·테스트", 미등록 요소 = 오류.
+- **결과**: hormuz 25/25(phaseG1 기준선)·랫클리프 20/20(G1 코드 대비), checks hard 0, pytest 881 passed(새 43). 작업 3 에서 `DEFAULT_STAGE` 삭제 때 다른 패키지(bundle/) 참조·심각도 표 테스트를 놓쳐 후속 커밋 2개 — 이후 커밋 전 전체 pytest.

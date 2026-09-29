@@ -59,6 +59,15 @@ MINOR: 새 기능(장르 프로필·프리미티브 계약·요소 갤러리). �
 
 ### Changed
 - **§0**: VERSION 4.2.0, Tier 1·2 `last_synced_with` v4.2.0, `docs/handoff/reports/phaseG2/` 시작(hormuz 기준선은 G1 `hormuz_baseline.json`(f8e507a) 그대로 인용).
+- **작업 1 장르 프로필 스키마**: `schemas/genre_models.py:GenreProfile`(20 §3, extra forbid) + 로더 `genres/load.py`. 이름 규칙: 무대 ∈ `rules registries.stages`(proposed 는 `stages_planned` 도), reuse ∈ 등록 요소(event_types·panel_kinds·badge_kinds·primitives), new ∈ `registries.primitives`(proposed 는 `primitives_planned` 도, D-0082), qa_extra ∈ 결정적 검사 id(proposed 는 `qa_checks.planned` 도), 색 = hex·rgba·토큰. 파일 이름 = genre.
+- **작업 2 프로필 2개**: `genres/geopolitics.yaml`(approved — v3 합격본의 현 파이프라인 선언: mercator, registries 전부, 09 §7 색 의미), `genres/macro_monetary.yaml`(proposed — 20 §3 그대로 + D-0082: `timeline_panel` → 패널 kind `timeline`, new 4개 planned, statement_diff 색 `added`·`removed`).
+- **작업 3 direction genre**: 최상위 `genre`(없으면 geopolitics, provenance `genre: {name, declared}`), stage 없으면 프로필 주 무대(`engine.stage.DEFAULT_STAGE` 삭제), 있으면(숏 포함) 프로필 무대 안. 결정적 검사 `genre_elements`(hard, checks 14항목) — `genres/elements.py`(panel → kind, primitive → id, badge → badge + kind).
+- **작업 4 프리미티브 계약**: `engine/primitives/__init__.py` — 모듈 계약 SCHEMA·COLOR_KEYS·draw(ctx, view, t, e, style) → 예약 영역·PREVIEW_FIXTURE, 이벤트 `{type: primitive, id}`(registries.event_types 17), 레지스트리 키 `primitive:<id>`, 카드 층 무대 무관 오버레이(슬롯 `card_right`, card_zones·card_zone_warnings 포함), 크기 `rules primitives.<id>`, 색 = 장르 color_semantics. `test_registry_complete` 확장(계약·역방향·hex/숫자 AST·planned 오류).
+- **작업 5 statement_diff**: 성명서 문구 비교(20 §10) — before·after 원문에서 단어 단위 차이를 코드가 계산, 삭제 = removed 색 + 취소선, 추가 = added 색, 출처·날짜 줄 필수, 페이드 0.5초. 스케치 `tools/primitive_sketch.py` → `reports/phaseG2/statement_diff_sketch.jpg`(실제 엔진 3컷, glyph_size 0). 사용자 승인 전 — 영상 direction 미사용.
+- **작업 6 요소 갤러리**: `tools/element_gallery.py` — 등록 요소 32(event 17·panel 11·badge 3·primitive 1) 전부 실제 엔진 렌더, `reports/phaseG2/gallery.jpg`·`gallery/*.png`. `prompts/examples/{events,panels,badges}` 채움(14·5·3), `tests/fixtures/preview` 와 event 파리티.
+- **작업 7 회귀**: hormuz 25컷 25/25(phaseG1 기준선), 랫클리프 20컷 20/20·frames 동일(G1 합격 코드 워크트리 대비), provenance 차이 = genre·rules_hash·repo_version. `reports/phaseG2/{hormuz_after,ratcliffe_mad,genre_elements_*,asset_md5}.json`.
+- **작업 8 문서**: docs/05·07·09·10·12·16·ADDENDUM_03, handoff 20 §3·§4 구현됨 주석, GOAL G3-17 검증 열에 `checks:genre_elements`.
+- **작업 9**: 새 테스트 43, pytest 881 passed·xfail 0.
 
 ---
 
