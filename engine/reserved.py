@@ -145,7 +145,7 @@ def marker_label_alpha(b: Box, zones: list[Zone]) -> float:
 
 def avoidance_report(P) -> list[dict]:  # noqa: ANN001 — engine.project.Project (순환 import 회피)
     """provenance `reserved.avoidance[]` — 지도 뱃지마다 카드 영역 때문에 비킨 기록(프레임 전수, 그리지 않고 계산만)."""
-    from engine.layers.badges import badge_box, screen_xy  # noqa: PLC0415
+    from engine.layers.badges import badge_box, edge_nudge, screen_xy  # noqa: PLC0415
     from engine.projection import View  # noqa: PLC0415
     from engine.style import FPS  # noqa: PLC0415
 
@@ -158,10 +158,17 @@ def avoidance_report(P) -> list[dict]:  # noqa: ANN001 — engine.project.Projec
         for i in range(max(0, int(e["t0"] * FPS)), min(P.n_frames, int(e["t1"] * FPS) + 1)):
             t = i / FPS
             zones = card_zones(ctx, P.events, t)
-            if not zones:
-                continue
             x, y = screen_xy(e, View(P.R.stage, P.cams[i]))
-            dx, dy, ka, info = avoid_badge(badge_box(ctx, e, x, y, t), zones)
+            b = badge_box(ctx, e, x, y, t)
+            ex, ey = edge_nudge(b, x, y)          # v4.8.0 D-0112 — 화면 가장자리 보정(strategy edge)
+            if not zones and not (ex or ey):
+                continue
+            dx, dy, ka, info = avoid_badge((b[0] + ex, b[1] + ey, b[2] + ex, b[3] + ey), zones)
+            if ex or ey:
+                edge = {"strategy": "edge", "direction": ("right" if ex > 0 else "left" if ex < 0 else "")
+                        + ("down" if ey > 0 else "up" if ey < 0 else ""), "px": round(math.hypot(ex, ey), 1), "zones": ["screen"]}
+                info = edge if info is None else {**info, "strategy": info["strategy"], "zones": info["zones"] + ["screen"],
+                                                  "px": max(info["px"] or 0.0, edge["px"]), "edge": edge}
             if info is None:
                 continue
             if rec is None:
@@ -170,6 +177,8 @@ def avoidance_report(P) -> list[dict]:  # noqa: ANN001 — engine.project.Projec
             rec["t1"] = round(t, 2)
             rec["frames"] += 1
             rec["strategy"].add(info["strategy"])
+            if info.get("edge"):
+                rec["strategy"].add("edge")
             if info.get("direction"):
                 rec["direction"].add(info["direction"])
             rec["max_px"] = max(rec["max_px"], info["px"] or 0.0)

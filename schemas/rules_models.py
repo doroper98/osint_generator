@@ -377,6 +377,8 @@ class BadgeLayout(_Strict):
     label_group: Range2
     label_side: Range2
     label_box: BadgeLabelBox
+    head_reserve: Literal["measured", "factor"] = "factor"   # v4.8.0 D-0112
+    edge_nudge: bool = False
     reserve_top_factor: float
     reserve_bottom_px: float
     popin_sec: float

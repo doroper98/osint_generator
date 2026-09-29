@@ -12,7 +12,6 @@ event:
   kind: person
   pid: lee_jae_myung
   flag: kr
-  R: 34.0
   label: 이재명
   role: 대한민국 대통령
   accent: gold

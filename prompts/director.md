@@ -83,7 +83,7 @@ note: DirectorWorker system prompt (17 §5.3, D-0047 작업 7). 출력 = engine.
    {"type": "marker", "start": {"sid": "open_0", "off": 0.2}, "end": {"scene_end": "open"}, "at_place": "seoul",
     "label": "서울", "sub": "대통령실 기자회견", "side": "right", "hl": true},
    {"type": "badge", "start": {"sid": "open_0", "off": 0.6}, "end": {"scene_end": "open"}, "lon": 125.05, "lat": 37.25,
-    "kind": "person", "pid": "lee_jae_myung", "flag": "kr", "R": 34, "label": "이재명", "role": "대한민국 대통령", "accent": "gold"},
+    "kind": "person", "pid": "lee_jae_myung", "flag": "kr", "label": "이재명", "role": "대한민국 대통령", "accent": "gold"},
    {"type": "card", "start": {"sid": "open_1", "off": 0.1}, "end": {"sid": "open_2", "off": 0.6, "edge": "end"},
     "tag": "기자회견 · 9월 18일", "lines": ["전쟁에 개입하는 파병은 없다"], "accent": "gold"}],
  "sound": {"bgm": "music.zabriskie_patriarch",

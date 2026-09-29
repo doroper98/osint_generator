@@ -1,23 +1,31 @@
 {
  "schema_version": 1,
- "role": "Phase G7 기준선(진행 중) — G1 기준선(hormuz_baseline.json) 대비 D-0101 §2 기사 카드 조판(w 440·헤드라인 18)·D-0104 D6 사진 켄 번스 연속 변환으로 바뀐 컷만 다르다. 인물 뱃지 적응 크기(R-0129 결정 대기)·§3 글자 크기(결정 대기) 적용 뒤 다시 만든다. 등재 = docs/handoff/golden/expected_deltas.json g7_scale_d0101(회귀 단계)",
- "commit": "07021fc(렌더 코드) — 작업 2(85d5efa)·D6(4fdf944)",
+ "role": "Phase G7 기준선(진행 중) — G1 기준선 대비 D-0101 §1 인물 뱃지 적응 크기(D-0111 A 연출 R 무시·D-0112 A 머리 예약 실측·가장자리 보정)·§2 기사 카드 조판·D-0104 D6 켄 번스 연속 변환으로 바뀐 컷. §3 글자 크기(결정 대기) 적용 뒤 다시 만든다. 등재 = docs/handoff/golden/expected_deltas.json g7_scale_d0101(회귀 단계)",
+ "commit": "D-0111·D-0112 커밋(렌더 코드)",
  "command": "python -m engine.render projects/hormuz_korea --preview golden",
- "same_as_g1": 21,
+ "checks": {
+  "hard": 0,
+  "warnings": 11
+ },
+ "same_as_g1": 17,
  "changed_vs_g1": [
+  "p_0007.82.png",
+  "p_0022.27.png",
+  "p_0056.21.png",
   "p_0164.59.png",
   "p_0193.22.png",
   "p_0214.46.png",
+  "p_0245.56.png",
   "p_0258.61.png"
  ],
  "cuts": [
   {
    "png": "p_0007.82.png",
-   "md5": "10c0e064820b2f9946517001cf9d1e5d"
+   "md5": "c59e655b381676822a7943f6bc2ac659"
   },
   {
    "png": "p_0022.27.png",
-   "md5": "01dff54d06fa313e6928cbbdeb78089b"
+   "md5": "dfa4a2c8f15b32c423b98c5a04faf787"
   },
   {
    "png": "p_0028.77.png",
@@ -33,7 +41,7 @@
   },
   {
    "png": "p_0056.21.png",
-   "md5": "29b82a82a6bd0be90c9dd46d530072f1"
+   "md5": "79ce6b0a740e0e035b968762c6c9eeb8"
   },
   {
    "png": "p_0061.25.png",
@@ -97,7 +105,7 @@
   },
   {
    "png": "p_0245.56.png",
-   "md5": "a653b2309999dd8f63c6aaa9730b07f6"
+   "md5": "ed0dfe4fe4b9da10e85afeeea2e9ed6e"
   },
   {
    "png": "p_0258.61.png",

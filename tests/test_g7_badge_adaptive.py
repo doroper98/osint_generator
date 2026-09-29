@@ -10,7 +10,7 @@ import unittest
 import cairo
 
 from engine.events import BadgeEvent
-from engine.layers.badges import assign_person_sizes, badge_box, badge_R, label_sizes
+from engine.layers.badges import assign_person_sizes, badge_box, badge_R, drop_person_R, label_sizes
 from rules import load_rules
 
 B = load_rules().layout_480p.badge
@@ -50,7 +50,20 @@ class AdaptiveBadgeTest(unittest.TestCase):
         self.assertAlmostEqual(badge_R(ev[0], 10.0), G_LO)
         self.assertAlmostEqual(badge_R(ev[2], 10.0), G_LO)
 
-    def test_explicit_R_wins(self) -> None:  # noqa: N802
+    def test_direction_person_R_dropped(self) -> None:  # noqa: N802
+        """D-0111 A — 인물 뱃지 연출 R 은 버리고 기록(provenance badge.R_ignored). 국기 R 은 그대로."""
+        a = person("a", 0, 20, R=34)
+        f = dict(type="badge", kind="flag", flag="kr", R=18, t0=0, t1=5, label="부산")
+        ign = drop_person_R([a, f])
+        self.assertEqual(ign, [{"i": 0, "pid": "a", "label": "a", "t0": 0, "R": 34}])
+        self.assertIsNone(a["R"])
+        self.assertEqual(f["R"], 18)
+        assign_person_sizes([a, f])
+        self.assertEqual(badge_R(a, 3.0), SOLO)
+        self.assertEqual(badge_R(f, 3.0), 18)
+
+    def test_explicit_R_wins_outside_direction(self) -> None:  # noqa: N802
+        """패널 코드가 직접 준 R(이벤트가 아닌 뱃지)은 그대로 — assign_person_sizes 는 R 있는 뱃지를 적응시키지 않는다."""
         a, b = person("a", 0, 20, R=28), person("b", 5, 12)
         assign_person_sizes([a, b])
         self.assertEqual(badge_R(a, 2.0), 28)
@@ -79,6 +92,23 @@ class AdaptiveBadgeTest(unittest.TestCase):
         solo_box, group_box = badge_box(ctx, a, 400, 240, 2.0), badge_box(ctx, a, 400, 240, 10.0)
         self.assertGreater(solo_box[3] - solo_box[1], group_box[3] - group_box[1])
         self.assertEqual(badge_box(ctx, a, 400, 240), solo_box)   # t 없음 = 최대
+
+    def test_timeline_badge_slot_fits_solo(self) -> None:
+        """D-0111 — timeline_badge 점에서 solo 상자가 화면·레인 영역 안, 날짜 배지 아래, 축 값 자리 왼쪽."""
+        from engine.hud import date_box
+        from rules import load_rules as lr
+        r = lr()
+        x, y = r.placement.slots["timeline_badge"].point
+        ctx = cairo.Context(cairo.ImageSurface(cairo.FORMAT_ARGB32, 1, 1))
+        e = person("워시", 0, 10)
+        e["label"], e["role"] = "케빈 워시", "5월 연준 의장 취임"
+        assign_person_sizes([e])
+        b = badge_box(ctx, e, x, y, 5.0)
+        st = r.stage_timeline
+        self.assertGreaterEqual(b[1], max(st.area_top, date_box()[3]))
+        self.assertLessEqual(b[3], st.area_bottom)
+        self.assertLessEqual(b[2], 854 - st.series.axis_zone_px)
+        self.assertGreaterEqual(b[0], 854 * 0.55)
 
     def test_legacy_group_box_unchanged(self) -> None:
         """명시 R 뱃지 상자(옛 리터럴 25·42 = 규칙 label_box 로 계산)는 v4.7.0 과 같다."""

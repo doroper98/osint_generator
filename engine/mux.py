@@ -163,6 +163,8 @@ def project_provenance(P, stages: dict[str, bool]) -> dict:  # noqa: ANN001, N80
     rj = P.root / "out" / "render.json"
     prov["render"] = {"resolution": (json.loads(rj.read_text(encoding="utf-8"))["resolution"]
                                      if stages.get("render") and rj.exists() else P.R.out.record())}
+    if P.R.cache.get("badge") is not None:   # v4.8.0 D-0111 A — 버린 인물 뱃지 연출 R(적응 크기)
+        prov["badge"] = P.R.cache["badge"]
     gc = (P.R.cache.get("geo_check") or {}).get("unsourced")
     if gc is not None:   # v4.7.0 D-0107 D2(b) — 지도 무대 좌표 중 근거 대조 안 된 것(checks [geo-unsourced] 와 같은 값). 지도 없으면 기록 없음(P5)
         prov["geo"] = {"unsourced": gc}

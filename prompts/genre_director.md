@@ -49,7 +49,7 @@ note: 장르 프롬프트 층(v4.4.0, back_and_forth D-0090 작업 1) — prompt
    {"type": "series", "start": 0.3, "end": {"card": "end", "edge": "start", "off": 0.4}, "lane": "policy_rate",
     "series_id": "FEDFUNDS", "style": "step", "col": "amber"},
    {"type": "badge", "start": {"sid": "hike_0", "off": 0.4}, "end": {"sid": "hike_1", "edge": "end"}, "place": "map_upper_left",
-    "kind": "person", "pid": "warsh", "flag": "us", "R": 28, "label": "케빈 워시", "role": "연준 의장", "accent": "gold"},
+    "kind": "person", "pid": "warsh", "flag": "us", "label": "케빈 워시", "role": "연준 의장", "accent": "gold"},
    {"type": "marker", "start": {"sid": "hike_0", "off": -0.2}, "end": {"sid": "hike_1", "edge": "end", "off": 0.6},
     "date": "2023-07-26", "lane": "events", "label": "FOMC 회의", "sub": "2023년 7월 26일", "side": "right", "hl": true}],
  "sound": {"bgm": null, "intensity": [[0, 0.5], [{"total": true}, 0.5]], "cues": []}}

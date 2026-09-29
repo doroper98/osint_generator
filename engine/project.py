@@ -28,7 +28,7 @@ from engine.credits import RightsError
 from engine.layers.media import ArticleOverflowError, article_geom, caption_width, validate_media
 from engine.media_registry import credit_line
 from engine.media_plan import density_report, media_box, placement_warnings
-from engine.layers.badges import assign_person_sizes
+from engine.layers.badges import assign_person_sizes, drop_person_R, portrait_head_top
 from engine.placement import PlacementError, resolve_places
 from engine.projection import View
 from engine.shots import ShotStage
@@ -290,6 +290,8 @@ def load_project(proj: Path, direction: Optional[Direction] = None, out: Optiona
     if bad:
         raise ProjectError(f"series 이벤트의 {sorted(set(bad))} 는 코드가 채운다 — 연출에 쓰지 않는다(P8)")
     events = validate_events(raw_events)
+    R.cache["badge"] = {"R_ignored": drop_person_R(events),   # v4.8.0 D-0111 A — 인물 뱃지 연출 R 은 버리고 기록(provenance badge.R_ignored)
+                        "head_top": head_tops(R, events)}      # v4.8.0 D-0112 A — 초상 실측 머리 높이(R 단위, 초상 md5 와 함께)
     assign_person_sizes(events)   # v4.8.0 D-0101 §1 — 인물 뱃지 적응 크기(보이는 인물 수 n(t), 코드가 센다 P8)
     try:
         attach_world(events, R.stage)
@@ -322,7 +324,10 @@ def load_project(proj: Path, direction: Optional[Direction] = None, out: Optiona
     if not keys or cams is None:
         raise ProjectError("카메라 키가 없다")
     prepare_series(R, events, cams, n)   # v4.3.0 D-0084 작업 4 — 레코드 로드·레인 범위·grow 앞끝(카메라 경로)
-    warns = lint_events(events) + placement_warnings(events, A.media_assets) \
+    ign = R.cache["badge"]["R_ignored"]
+    warns = [f"[badge-R-ignored] 인물 뱃지 연출 R {len(ign)}건 무시 — 크기는 보이는 인물 수로 코드가 정한다(D-0111): "
+             + ", ".join(f"{g['label'] or g['pid']} R {g['R']:g}" for g in ign)] if ign else []
+    warns += lint_events(events) + placement_warnings(events, A.media_assets) \
         + density_report(events, tb, plan.total)["warnings"]
     return Project(proj, plan, R, keys, events, cams, n, warns, shots)
 
@@ -375,6 +380,29 @@ def prepare_series(R: RenderCtx, events: list[dict], cams: np.ndarray, n: int) -
             front[i] = best
         front[i1:] = best
         R.cache["series_front"][e["key"]] = front
+
+
+def head_tops(R: RenderCtx, events: list[dict]) -> list[dict]:  # noqa: N803
+    """인물 뱃지 이벤트에 초상 실측 `head_top` 을 붙이고(제자리) 초상별 기록을 돌려준다(D-0112 A). 초상이 없으면 붙이지 않는다
+    (preflight 가 자산 오류로 알린다 — badge_box 는 상한 reserve_top_factor)."""
+    import hashlib  # noqa: PLC0415
+
+    from engine.assets import AssetError  # noqa: PLC0415
+
+    out: dict[str, dict] = {}
+    for e in events:
+        if e["type"] != "badge" or e["kind"] != "person":
+            continue
+        key = f"portrait:{e['pid']}"
+        try:
+            R.assets.load_image(key)
+        except AssetError:
+            continue
+        e["head_top"] = portrait_head_top(R.assets.img[key])
+        if e["pid"] not in out:
+            p = R.assets.root / "assets" / "portraits" / f"{e['pid']}.png"
+            out[e["pid"]] = {"pid": e["pid"], "head_top": e["head_top"], "md5": hashlib.md5(p.read_bytes()).hexdigest()}
+    return list(out.values())
 
 
 def lint_events(events: list[dict]) -> list[str]:

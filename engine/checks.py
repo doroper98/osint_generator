@@ -166,7 +166,7 @@ def place_over(P, ctx: cairo.Context, e: dict, t: float) -> tuple[float, tuple] 
     from engine.layers.badges import badge_box  # noqa: PLC0415
     from engine.layers.markers import marker_box  # noqa: PLC0415
 
-    from engine.layers.badges import screen_xy  # noqa: PLC0415
+    from engine.layers.badges import edge_nudge, screen_xy  # noqa: PLC0415
 
     if _covered(P, t) and not e.get("over_panel"):   # 패널 위 뱃지(D2(c))는 패널이 떠 있어도 보인다
         return None
@@ -178,6 +178,8 @@ def place_over(P, ctx: cairo.Context, e: dict, t: float) -> tuple[float, tuple] 
         b = marker_box(ctx, e, x, y, with_sub=True)
     else:
         b = badge_box(ctx, e, x, y, t)
+        ex, ey = edge_nudge(b, x, y)            # v4.8.0 D-0112 — 렌더러와 같은 가장자리 보정 뒤 상자(보정 뒤에도 밖이면 hard)
+        b = (b[0] + ex, b[1] + ey, b[2] + ex, b[3] + ey)
     return max(-b[0], -b[1], b[2] - W_OUT, b[3] - H_OUT), tuple(b)
 
 

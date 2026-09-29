@@ -244,13 +244,15 @@ placement:                 # v3.1.0 D-0047 작업 5 — 배치 슬롯(17 §2 `pl
     map_lower_right: {kinds: [badge, cutout, marker], point: [660, 330]}
     card_right:      {kinds: [card, primitive], card: null}   # primitive = v4.2.0 D-0081 작업 5(무대 무관 오버레이, 카드와 같은 슬롯)
     # v4.4.0 D-0093 — 시간축 무대 자리. 왼쪽 55%(레인 이름·출처·기준 시점 줄)와 오른쪽 축 값 자리(axis_zone_px)를 피한다
-    timeline_badge:  {kinds: [badge], point: [780, 118]}              # 레인 영역 오른쪽 위, 날짜 배지 아래 — 끝점 값 라벨 자리 왼쪽
-    timeline_photo:  {kinds: [photo, clip], box: [540, 196, 240]}
+    # v4.8.0 D-0111 — solo R 56 상자(머리 2.2R 위 ~ 이름·역할 46px 아래, 원+그림자 ±63): x 640 → 577~703 — 55% 열(470) 오른쪽, 끝점 값 라벨(~760~)·축 값 자리(790~) 왼쪽
+    # y 186 → 63~288: 레인 영역(area_top 60 ~ area_bottom 380) 안·날짜 배지 상자(y ≤ 50) 아래. 옛 [780, 118] 은 solo 에서 위로 잘렸다(top −5)
+    timeline_badge:  {kinds: [badge], point: [640, 186]}
+    timeline_photo:  {kinds: [photo, clip], box: [540, 196, 240]}     # 레인 오른쪽 아래 — 카드 자리(card_right, y 70~) 아래·왼쪽 레인 이름 열(55%)·오른쪽 축 값 자리(axis_zone_px) 밖
     # v4.8.0 D-0104 D2(c) — 패널 위 인물 뱃지(화면 고정, 패널 층 위에 그린다). 동시에 떠 있는 n 번째 뱃지 = n 번째 점. 모자라면 오류.
     # y 300: solo R 56 상자(머리 2.2R 위 ~ 이름·역할 46px 아래) = y 177~402 — 자막 구역(y≥410) 밖. 왼쪽 먼저(카드 자리 x≥594 를 피함)
     panel_badge:     {kinds: [badge], screen: [[96, 300], [758, 300]]}
     # v4.8.0 D-0101 §2 — 기사 카드 무대 가운데(article_card.center_dim 으로 아래를 어둡게). 기본(place 없음)은 오른쪽 카드 자리
-    center:          {kinds: [article], align: center}     # 레인 오른쪽 아래 — 카드 자리(card_right, y 70~) 아래·왼쪽 레인 이름 열(55%)·오른쪽 축 값 자리(axis_zone_px) 밖
+    center:          {kinds: [article], align: center}
     # v3.2.0 D-0050 NB9 — 패널(타임라인 등) 위 미디어: 그 순간 패널이 차지한 상자(engine.placement.OCCUPIED)·자막·날짜를 피하는 첫 후보.
     # 후보 [x, y] = 제목·부제(y≤96) 아래 네 귀퉁이. 모두 막히면 오류(조용히 겹치지 않는다, P6)
     clip_panel_side:
@@ -370,7 +372,10 @@ layout_480p:               # 09 §2·§4, 08 §10 — 기준 해상도 854×480.
     label_group: [12, 10]         # 인물 group·국기·휘장(이름표 아래)
     label_side: [13, 10]          # side: right(v3)
     label_box: {pad_x: 8, gap: 5, pad_y: 8, inset: 5.5, role_gap: 8.5, role_pad: 4, side_dx: 10, side_dy: 1, side_role_dy: 17}
-    reserve_top_factor: 2.2
+    reserve_top_factor: 2.2       # 머리 예약 상한(v3 값) — head_reserve: factor 면 이 값 그대로
+    # v4.8.0 back_and_forth D-0112 A — 머리 예약 = 초상 실측(불러올 때 알파 윗줄로 head_top 계산, R 단위, 상한 reserve_top_factor). 초상 없는 인물은 상한
+    head_reserve: measured        # measured | factor(되돌림)
+    edge_nudge: true              # 그 순간 상자가 화면 밖이면 그 px 만큼 안쪽으로(avoid_badge 와 같은 단계, provenance reserve.avoidance strategy edge). 보정 뒤에도 밖이면 offscreen hard
     reserve_bottom_px: 44
     popin_sec: 0.55
   timeline_gaps: {gap_sec: 0.5, scene_gap_sec: 1.0, lead_sec: 1.2, title_after_cold_open: true}
