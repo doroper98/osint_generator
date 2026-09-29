@@ -1289,6 +1289,7 @@ class VideoRules(_Strict):
     rules_version: str
     banned_phrases: BannedPhrases
     balance_principles: list[str]
+    direction_grammar: list[str] = Field(min_length=1)   # v4.7.0 D-0104 D2(a) — 연출 문법(프롬프트 {{RULES.direction_grammar}})
     script_schema: ScriptSchemaRules
     verification: VerificationRules   # v3.2.0 — D-0052(D50)
     tts_rules: TTSRules

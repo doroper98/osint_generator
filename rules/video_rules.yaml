@@ -134,6 +134,10 @@ tts_risk:
 pronounce:
   dict_path: assets/pronounce/pronounce_ko.json
 
+direction_grammar:         # v4.7.0 back_and_forth D-0104 D2(a) — 연출 문법(사람 승인 = D-0104, 15 P11). 연출·수정 프롬프트 {{RULES.direction_grammar}}
+  - 인물이 발언 주체인 문장("~는 ~라고 말했습니다")에는 그 인물의 초상 뱃지(엔티티 레지스트리에 초상이 있을 때) 또는 그 발언을 전한 기사 카드(미디어 레지스트리 기사)를 건다. 텍스트 카드만으로 대신하지 않는다.
+  - 원고 문장에 media 큐가 있으면 그 미디어를 우선 쓴다.
+
 shot_grammar:              # 05 §2
   camera_moves_per_scene_max: 1
   shot_min_hold_sec: 6.0
