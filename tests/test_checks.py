@@ -28,7 +28,7 @@ def _P(events: list[dict] | None = None, keys: list[CamKey] | None = None, sente
     tb = NS(total=60.0, in_fullcard=lambda t: False)
     stage = MercatorStage(tiers=TIERS)
     attach_world(events or [], stage)
-    return NS(events=events or [], keys=keys or [], n_frames=n, cams=cams,
+    return NS(events=events or [], keys=keys or [], n_frames=n, cams=cams, shots=[],   # v4.3.0 shots(timeline_backtrack)
               plan=NS(sentences=sents, title="제목", subtitle="부제", date="2026.09", total=60.0),
               R=NS(tb=tb, assets=NS(tiers=TIERS, base={}), stage=stage))
 
