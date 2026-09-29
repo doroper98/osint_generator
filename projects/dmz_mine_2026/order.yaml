@@ -20,3 +20,4 @@ media:
 decisions:
   topic: {value: DMZ 지뢰 폭발 사건 국내외 관점, by: user, ref: 사용자 요청 2026-09-29}
   verification_labels: {value: hidden, by: user, ref: "사용자 답 2026-09-29 — 라벨 없이 제작, 어디에도 올리지 않는 개인 프로젝트"}
+  elements_approval: {value: "site_diagram approved", by: user, ref: "사용자 요청 2026-09-29 — 개념도 벡터 조판·폭발 아이콘 애니메이션"}

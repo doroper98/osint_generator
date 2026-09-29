@@ -27,29 +27,7 @@ places:
   kursk:
   - 36.19
   - 51.73
-paths:
-  mdl:
-  - - 126.66
-    - 37.77
-  - - 126.69
-    - 37.86
-  - - 126.68
-    - 37.96
-  - - 126.78
-    - 38.0
-  - - 126.92
-    - 38.05
-  - - 127.08
-    - 38.18
-  - - 127.25
-    - 38.27
-  new_trail:
-  - - 126.795
-    - 37.94
-  - - 126.797
-    - 37.965
-  - - 126.8
-    - 37.99
+paths: {}
 shots:
 - at: 0.0
   mode: cut
@@ -192,19 +170,6 @@ events:
     sid: open_0
     'off': 3.2
   at_place: dmz_site
-- type: route
-  start:
-    sid: open_1
-    'off': 0.2
-  end:
-    scene_end: fourth_mine
-  pts:
-    path: mdl
-  grow: 1.6
-  col: muted
-  ship: false
-  dashed: true
-  label: 군사분계선
 - type: card
   start:
     sid: open_1
@@ -265,19 +230,6 @@ events:
   - - 18명
     - 간부 15명 · 병사 3명
   accent: gold
-- type: route
-  start:
-    sid: operation_1
-    'off': 2.2
-  end:
-    scene_end: probe
-  pts:
-    path: new_trail
-  grow: 2.0
-  col: teal
-  ship: false
-  dashed: true
-  label: 새 수색로
 - type: boom
   start:
     sid: two_blasts_1
@@ -296,18 +248,6 @@ events:
     'off': 4.2
   lon: 126.801
   lat: 37.988
-- type: card
-  start:
-    sid: two_blasts_3
-    'off': 0.2
-  end:
-    sid: two_blasts_3
-    edge: end
-    'off': 0.3
-  tag: 한국일보 보도
-  lines:
-  - 대대장 발목 절단 중상
-  accent: ru
 - type: photo
   start:
     sid: two_blasts_4
@@ -629,19 +569,6 @@ events:
   sub: 9월 29일까지 반응 없음
   side: right
   hl: true
-- type: route
-  start:
-    sid: pyongyang_1
-    'off': 0.3
-  end:
-    scene_end: pyongyang
-  pts:
-    path: mdl
-  grow: 1.2
-  col: muted
-  ship: false
-  dashed: true
-  label: 군사분계선
 - type: card
   start:
     sid: pyongyang_1
@@ -962,19 +889,6 @@ events:
   lines:
   - 이어져 있다는 근거는 나오지 않았다
   accent: muted
-- type: route
-  start:
-    scene_start: open_questions
-    'off': 0.2
-  end:
-    total: true
-  pts:
-    path: mdl
-  grow: 1.4
-  col: muted
-  ship: false
-  dashed: true
-  label: 군사분계선
 - type: card
   start:
     sid: open_questions_0
@@ -1076,12 +990,12 @@ events:
   accent: ru
 - type: article
   start:
-    sid: two_blasts_0
-    'off': 0.4
+    sid: two_blasts_3
+    'off': 1.1
   end:
-    sid: two_blasts_0
+    sid: two_blasts_3
     edge: end
-    'off': 0.3
+    'off': 0.4
   mid: hk_0923
 - type: article
   start:
@@ -1192,42 +1106,83 @@ events:
     edge: end
     'off': 0.3
   mid: hk_0928
-- type: photo
+- type: primitive
+  id: site_diagram
   start:
     sid: operation_1
     'off': 0.2
   end:
-    sid: operation_1
-    edge: end
-    'off': 0.6
-  mid: dmz_site_diagram_1
-  x: 187
-  y: 62
-  w: 480
-- type: photo
-  start:
-    sid: two_blasts_1
-    'off': 0.1
-  end:
-    sid: two_blasts_2
-    edge: end
-    'off': 0.0
-  mid: dmz_site_diagram_2
-  x: 187
-  y: 62
-  w: 480
-- type: photo
+    sid: two_blasts_3
+    'off': 0.9
+  data:
+    header: 2026. 9. 21 · 경기 파주 서부전선 · 육군 25사단 관할
+    north: 북측
+    south: 남측
+    nll: 북방한계선
+    mdl: 군사분계선(MDL)
+    sll: 남방한계선
+    width_note: 비무장지대 폭 약 4km
+    distance: MDL 남쪽 약 10m
+    distance_src: 합참 발표(9.28)
+    footnote: 개념도 · 축척·실제 지형 아님 · 정확한 좌표 비공개
+    source: 합참 발표(9.23·9.28·9.29) 보도 종합
+    date: 2026.09.29
+    marks:
+    - kind: burst
+      label: ① 1차 폭발 — 앞장선 공병 중사 부상
+      t:
+        word:
+          sid: two_blasts_1
+          text: 첫 폭발
+    - kind: burst
+      label: ② 2차 폭발 — 구조 나선 수색대대장 부상
+      t:
+        word:
+          sid: two_blasts_2
+          text: 두 번째 폭발
+- type: primitive
+  id: site_diagram
   start:
     sid: fourth_mine_1
     'off': 0.1
   end:
     sid: fourth_mine_3
     edge: end
-    'off': 0.4
-  mid: dmz_site_diagram_3
-  x: 187
-  y: 62
-  w: 480
+    'off': 0.5
+  data:
+    header: 2026. 9. 21 · 경기 파주 서부전선 · 육군 25사단 관할
+    north: 북측
+    south: 남측
+    nll: 북방한계선
+    mdl: 군사분계선(MDL)
+    sll: 남방한계선
+    width_note: 비무장지대 폭 약 4km
+    distance: MDL 남쪽 약 10m
+    distance_src: 합참 발표(9.28)
+    footnote: 개념도 · 축척·실제 지형 아님 · 정확한 좌표 비공개
+    source: 합참 발표(9.23·9.28·9.29) 보도 종합
+    date: 2026.09.29
+    marks:
+    - kind: burst
+      label: ① 1차 폭발 — 앞장선 공병 중사 부상
+      t:
+        sid: fourth_mine_1
+        'off': 0.0
+    - kind: burst
+      label: ② 2차 폭발 — 구조 나선 수색대대장 부상
+      t:
+        sid: fourth_mine_1
+        'off': 0.0
+    - kind: mine
+      label: 미폭발 갈색 지뢰 목격 — 1차 폭발 지점 약 1m
+      t:
+        sid: fourth_mine_1
+        'off': 1.2
+    - kind: note
+      label: '9.29 합동조사: 수지반보병지뢰 1발 추가 발견'
+      t:
+        sid: fourth_mine_1
+        'off': 2.4
 sound:
   bgm: music.zabriskie_patriarch
   intensity:

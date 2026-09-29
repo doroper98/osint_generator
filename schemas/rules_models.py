@@ -1156,11 +1156,82 @@ class DotPlotLayout(_Strict):
     dot_stagger_sec: float = Field(ge=0)
 
 
+class SiteDiagramLayout(_Strict):
+    """v4.4.0 dmz_mine_2026 — site_diagram(사건 현장 개념도, 벡터) 레이아웃 토큰(설계 px·비율)."""
+
+    x: float
+    y: float
+    w: float = Field(gt=0)
+    h: float = Field(gt=0)
+    radius: float
+    fade_sec: float = Field(ge=0.4, le=0.6)
+    scale_from: float = Field(gt=0, le=1)
+    north_bg: str
+    south_bg: str
+    foot_bg: str
+    foot_h: float
+    mdl_v: float = Field(gt=0, lt=1)
+    nll_v: float = Field(ge=0, lt=1)
+    sll_v: float = Field(gt=0, lt=1)
+    wave_amp_a: float
+    wave_len_a: float = Field(gt=0)
+    wave_amp_b: float
+    wave_len_b: float = Field(gt=0)
+    wave_step: float = Field(gt=0)
+    mdl_w: float
+    limit_w: float
+    limit_dash: list[float]
+    limit_alpha: float
+    site_u: float
+    site_dy: float
+    site_r: float
+    site_ring_r: float
+    bracket_du: float
+    bracket_half: float
+    bracket_w: float
+    dist_dx: float
+    dist_dy: float
+    dist_size: float
+    dist_src_size: float
+    dist_src_gap: float
+    leader_w: float
+    leader_alpha: float
+    burst_offsets: list[tuple[float, float]] = Field(min_length=1)
+    burst_r: float
+    burst_inner: float
+    burst_points: int = Field(ge=3)
+    burst_rim: str
+    pop_sec: float = Field(gt=0)
+    pop_from: float = Field(ge=1)
+    flash_r: float
+    flash_sec: float = Field(gt=0)
+    mine_offset: tuple[float, float]
+    mine_w: float
+    mine_h: float
+    mine_color: str
+    left_x_u: float
+    right_x_u: float
+    label_v: float
+    row_h: float
+    label_size: float
+    label_fade_sec: float = Field(gt=0)
+    limit_label_size: float
+    mdl_label_size: float
+    side_size: float
+    header_size: float
+    header_dy: float
+    width_note_size: float
+    width_note_v: float
+    foot_size: float
+    pad_x: float
+
+
 class PrimitivesRules(_Strict):
     """v4.2.0 D-0081 작업 4 — 프리미티브별 레이아웃 토큰(engine.style.PRIMITIVES). 요소가 등록될 때 필드를 더한다."""
 
     statement_diff: Optional[StatementDiffLayout] = None
     dot_plot: Optional[DotPlotLayout] = None   # v4.4.0 D-0090 작업 3
+    site_diagram: Optional[SiteDiagramLayout] = None   # v4.4.0 dmz_mine_2026 사용자 요청(현장 개념도)
 
 
 class VideoRules(_Strict):
