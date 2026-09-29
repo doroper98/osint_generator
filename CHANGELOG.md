@@ -1,6 +1,6 @@
 <!--
 tier: 3
-last_synced_with: v4.5.0
+last_synced_with: v4.6.0
 ssot_for: [release-notes]
 depends_on: [README.md, GOAL.md]
 last_review: 2026-09-28
@@ -53,10 +53,20 @@ released 항목은 **append-only**입니다.
 | v4.2.0 | 89b17ea | G2 장르 프로필·새 요소 파이프라인 | pass(D-0083) |
 | v4.3.0 | 4180dbe | G3 시간축 무대·데이터 레코드·차트 정직성 검사 | pass(D-0089) |
 | v4.4.0 | 08c7245 | G4 첫 비지정학 영상 | pass(D-0094) — 영상 최종 판정은 사용자 |
+| v4.5.0 | 6094ce1 | G5 검증 라벨 본문 제거·엔딩 카드 한 줄 | pass(D-0100) |
 
 ---
 
-## [v4.5.0] — 2026-09-29 — G5: 검증 라벨을 영상 본문에서 제거, 엔딩 카드 마지막 줄 작은 글씨로만 (back_and_forth D-0096) — 진행 중
+## [v4.6.0] — 2026-09-29 — G6: 배경음악 저음 보강·웅장한 베드 (back_and_forth D-0097, 사용자 결정 D86) — 진행 중
+
+MINOR: 오디오 처리 추가. 베드(배경음악)에 곡을 따라가는 저음 처리 세 가지(로우 셸프 EQ·서브 옥타브 층·장면 시작 스웰)를 `rules audio.bed_bass` 로 적용한다. 사용자 결정이므로 v3 합격 mix 는 바뀐다(되돌리기 = 해당 커밋 revert). `bed_gain 0.47`·`duck_depth 0.5` 불변, 무음악 경로 바이트 동일.
+
+### Changed
+- **§0**: VERSION 4.6.0, Tier 1·2 `last_synced_with` v4.6.0, v4.5.0 released 대장 행(6094ce1, D-0100).
+
+---
+
+## [v4.5.0] — 2026-09-29 — G5: 검증 라벨을 영상 본문에서 제거, 엔딩 카드 마지막 줄 작은 글씨로만 (back_and_forth D-0096) — Fable review pass(D-0100)
 
 MINOR: 규칙 변경(사용자 결정 D85, CLAUDE.md C9 개정). 사실 검증 라벨(`<미검증>`·`<논쟁>` 등)을 자막·패널·카드에 그리지 않고, 엔딩 카드 맨 마지막 줄에 가장 작은 글씨 한 줄로만 적는다. 검증 상태의 기록(claims·script_labels·provenance labels·checks labels)은 그대로. 차트 정직성 태그는 유지.
 

@@ -1,6 +1,6 @@
 <!--
 tier: 2
-last_synced_with: v4.5.0
+last_synced_with: v4.6.0
 ssot_for: [audio-tts-index]
 depends_on: [docs/handoff/03_SCRIPT_NARRATION_TTS.md, docs/handoff/10_AUDIO.md, rules/video_rules.yaml, config.yaml, assets/audio/bgm/registry.yaml, docs/ANTIPATTERNS/TTS_ANTIPATTERNS.md]
 last_review: 2026-09-29
