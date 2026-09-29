@@ -653,7 +653,7 @@ stage_timeline:            # v4.3.0 D-0084 작업 3·4·D-0085·D-0086 — 시�
     tip_r: 3.2
     fade_sec: 0.5
     min_alpha: 0.01        # 이보다 흐리면 그리지 않는다(다른 레이어의 등장 문턱과 같은 값)
-    playhead: 0.62         # grow 앞끝 = 화면 왼쪽 + 화면 폭 × 이 값(누적 최대)
+    playhead: 0.8          # grow 앞끝 = 화면 왼쪽 + 화면 폭 × 이 값(누적 최대). 화면 오른쪽 끝이 무대 끝에 가까워지면 1 로 늘어난다
     grow_in_sec: 1.6       # 등장 직후 화면 왼쪽에서 앞끝까지 쓸어 나가는 시간
     clip_below_px: 30
     value_dx: 7
@@ -662,6 +662,7 @@ stage_timeline:            # v4.3.0 D-0084 작업 3·4·D-0085·D-0086 — 시�
     value_font: sansb
     value_halo: 3
     value_min_x: 60        # 끝점이 화면 왼쪽 이 안쪽이면 값 라벨을 그리지 않는다(레인 이름과 겹침 방지 — 점은 그대로)
+    axis_zone_px: 64       # 화면 오른쪽 축 값 라벨 자리 — 끝점 값 라벨이 여기로 넘어가면 끝점 왼쪽에 쓴다
     grid_alpha: 0.06
     zero_alpha: 0.16
     grid_w: 0.7

@@ -20,7 +20,7 @@ import cairo
 from data.series import load_series
 from engine.style import C, FPS, TIMELINE, W_OUT
 from engine.timebase import ease_out, window
-from engine.typography import text
+from engine.typography import text, tw
 
 if TYPE_CHECKING:
     from engine.context import RenderCtx
@@ -113,10 +113,30 @@ def draw_series(ctx: cairo.Context, R: "RenderCtx", view: "View", t: float, e: d
             ctx.arc(sx, sy, S.tip_r, 0, 2 * math.pi)
             ctx.set_source_rgba(*col, a)
             ctx.fill()
-            text(ctx, fmt_value(last[2], rec.unit), sx + S.value_dx, sy + S.value_dy, S.value_size, S.value_font, col, a,
-                 S.value_halo, "l")
+            s = fmt_value(last[2], rec.unit)
+            lw = tw(ctx, s, S.value_size, S.value_font)
+            x0 = sx + S.value_dx if sx + S.value_dx + lw <= W_OUT - S.axis_zone_px else sx - S.value_dx - lw   # 오른쪽 축 값 자리를 비킨다
+            box = (x0, sy + S.value_dy - S.value_size, x0 + lw, sy + S.value_dy)
+            if not _hits(box, _lane_name_box(ctx, view, stage, e["lane"])):   # 레인 이름을 덮지 않는다(끝점은 그대로)
+                text(ctx, s, box[0], sy + S.value_dy, S.value_size, S.value_font, col, a, S.value_halo, "l")
     _draw_axis(ctx, view, stage, e, rng, rec.unit, a)
     _draw_source(ctx, view, stage, e, a)
+
+
+def lane_name(ln: object) -> str:
+    """레인 이름표 — 이름 + (단위). 무대(draw_labels)와 레이어가 같은 문자열을 쓴다."""
+    return ln.label if not ln.unit else f"{ln.label} ({ln.unit})"  # type: ignore[attr-defined]
+
+
+def _lane_name_box(ctx: cairo.Context, view: "View", stage: "TimelineStage", lane: str) -> tuple[float, float, float, float]:
+    L = TIMELINE.lane_label  # noqa: N806
+    i = stage.lane_index(lane)
+    top, _ = stage.lane_screen(view, i)
+    return (L.x, top + L.dy - L.size, L.x + tw(ctx, lane_name(stage.lanes[i]), L.size, L.font), top + L.dy + L.size / 2)
+
+
+def _hits(a: tuple[float, float, float, float], b: tuple[float, float, float, float]) -> bool:
+    return a[0] < b[2] and b[0] < a[2] and a[1] < b[3] and b[1] < a[3]
 
 
 def _next_month(d: date) -> date:

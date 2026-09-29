@@ -10,7 +10,7 @@ from __future__ import annotations
 
 import math
 from dataclasses import dataclass
-from typing import Literal, Protocol
+from typing import Literal, Optional, Protocol
 
 from rules import load_rules
 
@@ -27,6 +27,7 @@ class ShotStage:
     x: float
     y: float
     w: float
+    reason: Optional[str] = None   # v4.3.0 — 연출이 적은 되돌아가기 이유(timeline_backtrack)
 
 
 class _Key(Protocol):
@@ -101,4 +102,12 @@ def stage_continuity(shots: list[ShotStage]) -> list[tuple[str, str]]:
     return out
 
 
-__all__ = ["ShotStage", "choose_transition", "scene_at", "shot_issues", "stage_continuity"]
+def timeline_backtrack(shots: list[ShotStage]) -> list[str]:
+    """시간축 카메라 문법(20 §6, D-0084 작업 3): 기본은 왼쪽 → 오른쪽. 같은 시간축 무대의 연속 숏에서 카메라 중심이 왼쪽(과거)으로
+    가는데 숏에 reason 이 없으면 경고 한 줄. 이유가 있으면 통과(끝 물러나기 등)."""
+    ks = sorted(shots, key=lambda s: s.t)
+    return [f"[timeline_backtrack] t={b.t:.2f} 시간축 카메라가 왼쪽(과거)으로 되돌아간다 — 숏 reason 에 이유를 적거나 순서를 바꾼다"
+            for a, b in zip(ks, ks[1:]) if a.stage == b.stage == "timeline" and b.x < a.x and not b.reason]
+
+
+__all__ = ["ShotStage", "choose_transition", "scene_at", "shot_issues", "stage_continuity", "timeline_backtrack"]

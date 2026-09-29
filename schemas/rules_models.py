@@ -991,6 +991,7 @@ class TimelineSeries(_Strict):
     value_font: str
     value_halo: float
     value_min_x: float
+    axis_zone_px: float
     grid_alpha: float
     zero_alpha: float
     grid_w: float

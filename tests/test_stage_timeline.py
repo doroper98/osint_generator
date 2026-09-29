@@ -208,3 +208,33 @@ class DirectionTimelineTest(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class BacktrackTest(unittest.TestCase):
+    """20 §6 — 시간축 카메라는 왼쪽 → 오른쪽이 기본. 되돌아가면 shots 경고, reason 이 있으면 통과."""
+
+    def test_backtrack_warning_and_reason(self) -> None:
+        from engine.shots import ShotStage, timeline_backtrack  # noqa: PLC0415
+
+        a = ShotStage(t=0, mode="cut", stage="timeline", x=500, y=1.5, w=300)
+        b = ShotStage(t=10, mode="move", stage="timeline", x=200, y=1.5, w=300)
+        self.assertEqual(len(timeline_backtrack([a, b])), 1)
+        self.assertEqual(timeline_backtrack([a, ShotStage(**{**b.__dict__, "reason": "끝 물러나기"})]), [])
+        self.assertEqual(timeline_backtrack([a, ShotStage(**{**b.__dict__, "x": 800})]), [])
+        self.assertEqual(timeline_backtrack([ShotStage(**{**a.__dict__, "stage": "mercator"}), ShotStage(**{**b.__dict__, "stage": "mercator"})]), [])
+
+    def test_grow_front_reaches_end_when_view_reaches_end(self) -> None:
+        from types import SimpleNamespace  # noqa: PLC0415
+
+        from engine.project import prepare_series  # noqa: PLC0415
+        from engine.registry import validate_events  # noqa: PLC0415
+        from engine.style import FPS  # noqa: PLC0415
+
+        s = stage()
+        ev = validate_events([{"type": "series", "t0": 0, "t1": 5, "lane": "policy_rate", "series_id": "FEDFUNDS", "style": "step"}])
+        n = int(5 * FPS) + 1
+        R = SimpleNamespace(stage=s, cache={})  # noqa: N806
+        prepare_series(R, ev, np.tile(np.array([s.bounds[2] / 2, 1.5, s.bounds[2]]), (n, 1)), n)
+        self.assertAlmostEqual(R.cache["series_front"][0][-1], s.bounds[2], places=6)   # 전체 화면 = 전부 드러남
+        prepare_series(R, ev, np.tile(np.array([500.0, 1.5, 400.0]), (n, 1)), n)
+        self.assertAlmostEqual(R.cache["series_front"][0][-1], 300 + 400 * TIMELINE.series.playhead, places=6)

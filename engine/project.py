@@ -337,7 +337,9 @@ def prepare_series(R: RenderCtx, events: list[dict], cams: np.ndarray, n: int) -
         for i in range(i0, i1):
             v = View(st, cams[i])
             sweep = ease_out((i / FPS - e["t0"]) / S.grow_in_sec)
-            best = max(best, v.x0 + v.w * S.playhead * sweep)
+            rest = st.bounds[2] - (v.x0 + v.w)   # 화면 오른쪽 끝 너머 남은 무대 — 끝에 닿으면 앞끝도 화면 끝(= 전부 드러남)
+            ph = S.playhead + (1 - S.playhead) * min(1.0, max(0.0, 1 - rest / (v.w * (1 - S.playhead))))
+            best = max(best, v.x0 + v.w * ph * sweep)
             front[i] = best
         front[i1:] = best
         R.cache["series_front"][e["key"]] = front

@@ -305,7 +305,7 @@ class TimelineStage:
         T = TIMELINE  # noqa: N806
         for i, ln in enumerate(self.lanes):
             top, _ = self.lane_screen(view, i)
-            name = ln.label if not ln.unit else f"{ln.label} ({ln.unit})"
+            name = ln.label if not ln.unit else f"{ln.label} ({ln.unit})"   # engine.layers.series.lane_name 과 같은 문자열
             text(ctx, name, T.lane_label.x, top + T.lane_label.dy, T.lane_label.size, T.lane_label.font, C["white"], alpha,
                  T.lane_label.halo, "l")
         _, bot = self.lane_screen(view, self.n - 1)

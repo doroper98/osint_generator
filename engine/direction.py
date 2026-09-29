@@ -114,6 +114,7 @@ class Shot(_Strict):
     under: bool = False
     scene: Optional[str] = None   # 읽는 사람용 표시(검증 안 함)
     stage: Optional[str] = None   # v4.1.0 D-0077 — 이 숏의 무대(없으면 최상위 stage)
+    reason: Optional[str] = None  # v4.3.0 D-0084 작업 3 — 시간축에서 왼쪽으로 되돌아가는 이유(있으면 timeline_backtrack 경고 없음, 20 §6)
 
     @field_validator("stage")
     @classmethod
@@ -384,7 +385,7 @@ def shot_stages(doc: Direction, tb: Timebase, stages: "Callable[[str], Stage]") 
     for s in doc.shots:
         name = doc.shot_stage(s)
         x, y = stages(name).to_world(**_where(s.camera, doc))
-        out.append(ShotStage(t=resolve_anchor(s.at, tb), mode=s.mode, stage=name, x=x, y=y, w=s.camera.w))
+        out.append(ShotStage(t=resolve_anchor(s.at, tb), mode=s.mode, stage=name, x=x, y=y, w=s.camera.w, reason=s.reason))
     return out
 
 
