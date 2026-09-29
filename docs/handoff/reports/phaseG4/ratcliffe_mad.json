@@ -1,0 +1,98 @@
+{
+ "schema_version": 1,
+ "role": "D-0090 작업 6 — 랫클리프 20컷 auto 프리뷰, G3 합격 컷(phaseG3/ratcliffe_mad.json) 대비 G4 코드, 같은 자산",
+ "md5_same": 20,
+ "of": 20,
+ "checks_hard": 0,
+ "checks_items": 18,
+ "warnings": [
+  [
+   "장면 open_questions 카메라 이동 2 > 1"
+  ],
+  [
+   "[media-density-total] 과소 — 0개 / 226초 = inf초당 1개 > 60초 (14 §10.1)"
+  ]
+ ],
+ "cuts": [
+  {
+   "png": "p_0011.00.png",
+   "md5": "d86e62a26b77849e0ec941bbe6c65f01"
+  },
+  {
+   "png": "p_0024.06.png",
+   "md5": "92f3936e096d8339a7aed10e93cc88d7"
+  },
+  {
+   "png": "p_0031.01.png",
+   "md5": "4721d248860c6d4955a0ca545ce29d50"
+  },
+  {
+   "png": "p_0038.10.png",
+   "md5": "f8da2bd3459b005860fe8af528be100b"
+  },
+  {
+   "png": "p_0043.30.png",
+   "md5": "30a33c60c7c11f15aa46d86c2525cde5"
+  },
+  {
+   "png": "p_0054.32.png",
+   "md5": "88bff113d51dc97dc6038332861da509"
+  },
+  {
+   "png": "p_0063.35.png",
+   "md5": "7118e4527d1bb90245cfbe08b87d49e4"
+  },
+  {
+   "png": "p_0079.31.png",
+   "md5": "a711f20246817d8e94c5f9e215bbe3a1"
+  },
+  {
+   "png": "p_0091.10.png",
+   "md5": "90badfcb16e7c0e67a97b7a5fe3a9b85"
+  },
+  {
+   "png": "p_0108.23.png",
+   "md5": "a0e5e3691809c1ab4c3954671e25fb2e"
+  },
+  {
+   "png": "p_0118.82.png",
+   "md5": "a066b55d465eac6247c1be724fcf8630"
+  },
+  {
+   "png": "p_0135.31.png",
+   "md5": "c414fccdb1e1d9e95c98799c68f30797"
+  },
+  {
+   "png": "p_0146.24.png",
+   "md5": "4ffd1afb40a2b209e69da992f686f93e"
+  },
+  {
+   "png": "p_0161.90.png",
+   "md5": "7ab9d2230f000095453a5df553918e4b"
+  },
+  {
+   "png": "p_0171.39.png",
+   "md5": "4bc134daf453853202405e46a78296cd"
+  },
+  {
+   "png": "p_0184.42.png",
+   "md5": "590ef43a545c747494ad8bea5b7dadcf"
+  },
+  {
+   "png": "p_0191.86.png",
+   "md5": "8d247b8ccfadbf6797d7c18b2ce53110"
+  },
+  {
+   "png": "p_0206.38.png",
+   "md5": "fa082c234ead90e332e28feec732a8d2"
+  },
+  {
+   "png": "p_0217.84.png",
+   "md5": "8f17e029a8f091aadb2b535b7d38dc6e"
+  },
+  {
+   "png": "p_0220.44.png",
+   "md5": "7994bf95554cbe8c08f66c1da6acd8a6"
+  }
+ ]
+}
