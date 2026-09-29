@@ -1,0 +1,302 @@
+{
+ "schema_version": 1,
+ "project": "hormuz_korea",
+ "full": true,
+ "count": 36,
+ "expected": {
+  "event_types": 18,
+  "panel_kinds": 11,
+  "badge_kinds": 3,
+  "primitives": 3
+ },
+ "elements": [
+  {
+   "element": "event_marker",
+   "example": "prompts/examples/events/marker.yaml",
+   "genre": "geopolitics",
+   "t": 12.0,
+   "png": "event_marker.png",
+   "glyphs": 15
+  },
+  {
+   "element": "event_route",
+   "example": "prompts/examples/events/route.yaml",
+   "genre": "geopolitics",
+   "t": 47.85,
+   "png": "event_route.png",
+   "glyphs": 29
+  },
+  {
+   "element": "event_tanker_loop",
+   "example": "prompts/examples/events/tanker_loop.yaml",
+   "genre": "geopolitics",
+   "t": 291.44,
+   "png": "event_tanker_loop.png",
+   "glyphs": 31
+  },
+  {
+   "element": "event_barrier",
+   "example": "prompts/examples/events/barrier.yaml",
+   "genre": "geopolitics",
+   "t": 68.21,
+   "png": "event_barrier.png",
+   "glyphs": 10
+  },
+  {
+   "element": "event_ships",
+   "example": "prompts/examples/events/ships.yaml",
+   "genre": "geopolitics",
+   "t": 160.44,
+   "png": "event_ships.png",
+   "glyphs": 11
+  },
+  {
+   "element": "event_boom",
+   "example": "prompts/examples/events/boom.yaml",
+   "genre": "geopolitics",
+   "t": 51.5,
+   "png": "event_boom.png",
+   "glyphs": 9
+  },
+  {
+   "element": "event_country",
+   "example": "prompts/examples/events/country.yaml",
+   "genre": "geopolitics",
+   "t": 68.21,
+   "png": "event_country.png",
+   "glyphs": 9
+  },
+  {
+   "element": "event_badge",
+   "example": "prompts/examples/badges/person.yaml",
+   "genre": "geopolitics",
+   "t": 12.0,
+   "png": "event_badge.png",
+   "glyphs": 15
+  },
+  {
+   "element": "event_card",
+   "example": "prompts/examples/events/card.yaml",
+   "genre": "geopolitics",
+   "t": 13.9,
+   "png": "event_card.png",
+   "glyphs": 3
+  },
+  {
+   "element": "event_panel",
+   "example": "prompts/examples/panels/relation.yaml",
+   "genre": "geopolitics",
+   "t": 94.19,
+   "png": "event_panel.png",
+   "glyphs": 15
+  },
+  {
+   "element": "event_dip",
+   "example": "prompts/examples/events/dip.yaml",
+   "genre": "geopolitics",
+   "t": 23.17,
+   "png": "event_dip.png",
+   "glyphs": 0
+  },
+  {
+   "element": "event_photo",
+   "example": "prompts/examples/events/photo.yaml",
+   "genre": "geopolitics",
+   "t": 201.1,
+   "png": "event_photo.png",
+   "glyphs": 3
+  },
+  {
+   "element": "event_clip",
+   "example": "prompts/examples/events/clip.yaml",
+   "genre": "geopolitics",
+   "t": 62.95,
+   "png": "event_clip.png",
+   "glyphs": 3
+  },
+  {
+   "element": "event_cutout",
+   "example": "prompts/examples/events/cutout.yaml",
+   "genre": "geopolitics",
+   "t": 177.51,
+   "png": "event_cutout.png",
+   "glyphs": 32
+  },
+  {
+   "element": "event_article",
+   "example": "prompts/examples/events/article.yaml",
+   "genre": "geopolitics",
+   "t": 217.96,
+   "png": "event_article.png",
+   "glyphs": 7
+  },
+  {
+   "element": "event_post",
+   "example": "prompts/examples/events/post.yaml",
+   "genre": "geopolitics",
+   "t": 15.0,
+   "png": "event_post.png",
+   "glyphs": 9
+  },
+  {
+   "element": "event_primitive",
+   "example": "engine/primitives/statement_diff.py PREVIEW_FIXTURE",
+   "genre": "macro_monetary",
+   "t": 7.0,
+   "png": "event_primitive.png",
+   "glyphs": 20
+  },
+  {
+   "element": "event_series",
+   "example": "prompts/examples/events/series.yaml",
+   "genre": "macro_monetary",
+   "t": 12.0,
+   "png": "event_series.png",
+   "glyphs": 14
+  },
+  {
+   "element": "panel_relation",
+   "example": "prompts/examples/panels/relation.yaml",
+   "genre": "geopolitics",
+   "t": 94.19,
+   "png": "panel_relation.png",
+   "glyphs": 15
+  },
+  {
+   "element": "panel_statement",
+   "example": "prompts/examples/panels/statement.yaml",
+   "genre": "geopolitics",
+   "t": 109.54,
+   "png": "panel_statement.png",
+   "glyphs": 11
+  },
+  {
+   "element": "panel_timeline",
+   "example": "prompts/examples/panels/timeline.yaml",
+   "genre": "geopolitics",
+   "t": 147.95,
+   "png": "panel_timeline.png",
+   "glyphs": 27
+  },
+  {
+   "element": "panel_precedent",
+   "example": "prompts/examples/panels/precedent.yaml",
+   "genre": "geopolitics",
+   "t": 210.1,
+   "png": "panel_precedent.png",
+   "glyphs": 20
+  },
+  {
+   "element": "panel_versus",
+   "example": "prompts/examples/panels/versus.yaml",
+   "genre": "geopolitics",
+   "t": 241.2,
+   "png": "panel_versus.png",
+   "glyphs": 10
+  },
+  {
+   "element": "panel_dots",
+   "example": "prompts/examples/panels/dots.yaml",
+   "genre": "geopolitics",
+   "t": 23.0,
+   "png": "panel_dots.png",
+   "glyphs": 10
+  },
+  {
+   "element": "panel_gantt",
+   "example": "prompts/examples/panels/gantt.yaml",
+   "genre": "geopolitics",
+   "t": 23.0,
+   "png": "panel_gantt.png",
+   "glyphs": 18
+  },
+  {
+   "element": "panel_dual_line",
+   "example": "prompts/examples/panels/dual_line.yaml",
+   "genre": "geopolitics",
+   "t": 23.0,
+   "png": "panel_dual_line.png",
+   "glyphs": 19
+  },
+  {
+   "element": "panel_fork",
+   "example": "prompts/examples/panels/fork.yaml",
+   "genre": "geopolitics",
+   "t": 23.0,
+   "png": "panel_fork.png",
+   "glyphs": 8
+  },
+  {
+   "element": "panel_checklist",
+   "example": "prompts/examples/panels/checklist.yaml",
+   "genre": "geopolitics",
+   "t": 23.0,
+   "png": "panel_checklist.png",
+   "glyphs": 6
+  },
+  {
+   "element": "panel_network",
+   "example": "prompts/examples/panels/network.yaml",
+   "genre": "geopolitics",
+   "t": 29.0,
+   "png": "panel_network.png",
+   "glyphs": 11
+  },
+  {
+   "element": "badge_person",
+   "example": "prompts/examples/badges/person.yaml",
+   "genre": "geopolitics",
+   "t": 12.0,
+   "png": "badge_person.png",
+   "glyphs": 15
+  },
+  {
+   "element": "badge_flag",
+   "example": "prompts/examples/badges/flag.yaml",
+   "genre": "geopolitics",
+   "t": 68.21,
+   "png": "badge_flag.png",
+   "glyphs": 10
+  },
+  {
+   "element": "badge_emblem",
+   "example": "prompts/examples/badges/emblem.yaml",
+   "genre": "geopolitics",
+   "t": 291.44,
+   "png": "badge_emblem.png",
+   "glyphs": 33
+  },
+  {
+   "element": "badge_emblem_cheongwadae",
+   "example": "prompts/examples/badges/emblem_cheongwadae.yaml",
+   "genre": "geopolitics",
+   "t": 230.0,
+   "png": "badge_emblem_cheongwadae.png",
+   "glyphs": 10
+  },
+  {
+   "element": "primitive_statement_diff",
+   "example": "engine/primitives/statement_diff.py PREVIEW_FIXTURE",
+   "genre": "macro_monetary",
+   "t": 7.0,
+   "png": "primitive_statement_diff.png",
+   "glyphs": 20
+  },
+  {
+   "element": "primitive_dot_plot",
+   "example": "engine/primitives/dot_plot.py PREVIEW_FIXTURE",
+   "genre": "macro_monetary",
+   "t": 7.0,
+   "png": "primitive_dot_plot.png",
+   "glyphs": 14
+  },
+  {
+   "element": "primitive_site_diagram",
+   "example": "engine/primitives/site_diagram.py PREVIEW_FIXTURE",
+   "genre": "geopolitics",
+   "t": 8.0,
+   "png": "primitive_site_diagram.png",
+   "glyphs": 15
+  }
+ ]
+}
