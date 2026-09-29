@@ -1,0 +1,5 @@
+{"mix": "/tmp/claude-0/var/hz_off/mix.f32", "pass1_tp": -0.8, "type": "dynamic", "final_I": -14.03, "final_TP": -1.47}
+{"mix": "/tmp/claude-0/var/hormuz_k0.7/mix.f32", "pass1_tp": -0.6, "type": "dynamic", "final_I": -14.03, "final_TP": -1.34}
+{"mix": "/tmp/claude-0/var/hormuz_k0.8/mix.f32", "pass1_tp": -0.66, "type": "dynamic", "final_I": -14.03, "final_TP": -1.4}
+{"mix": "/tmp/claude-0/var/hormuz_k0.9/mix.f32", "pass1_tp": -0.71, "type": "dynamic", "final_I": -14.03, "final_TP": -1.4}
+{"mix": "/tmp/claude-0/var/hormuz_k1.0/mix.f32", "pass1_tp": -0.76, "type": "dynamic", "final_I": -14.03, "final_TP": -1.47}

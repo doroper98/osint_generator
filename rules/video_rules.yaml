@@ -629,10 +629,11 @@ audio:                     # 10
       env_block_sec: 0.001  # 포락선 계산 블록 길이(블록 값을 샘플로 선형 보간)
     swell: {sec: 2.5, depth: 0.35}                       # 장면 시작(첫 장면 제외)에서 서브 층 이득 1+depth → sec 동안 선형으로 1
     # D-0102 2-C — 피크 정규화 기준 ref = 처리 전 피크^(1−norm_ref) × 처리 후 피크^norm_ref. 1.0 = 처리 후 피크(저역 절대 그대로·중역만 내려감),
-    # 0.0 = 처리 전 피크(중역 그대로·저역 절대 상승, 음악 레벨 범위 밖). 값 = music_under_narration 이 [-15,-11] 안에 0.3 dB 이상 여유를 두는 최소값
-    # (hormuz·fed_policy 둘 다, 0.1 단위 실측 reports/phaseG6/norm_ref_sweep.jsonl): 0.6 = hormuz −10.98(밖), 0.7 = hormuz −11.55·fed −12.31.
-    # 0.7 에서 베드 저역 절대 +1.4 dB·중역 −3.9 dB(1.0 은 저역 −0.35·중역 −5.7), 리미터 전 mix 피크 0.93·0.88(내레이션 변화 0)
-    norm_ref: 0.7
+    # 0.0 = 처리 전 피크(중역 그대로·저역 절대 상승, 음악 레벨 범위 밖). 값 = 기존 오디오 QA hard 를 모두 통과하는 최소값(hormuz·fed_policy 둘 다, 0.1 단위 실측
+    # reports/phaseG6/norm_ref_sweep.jsonl·tp_sweep.jsonl): music_under_narration [-15,-11] 에 0.3 dB 여유 → 0.7 이상(0.6 = hormuz −10.98),
+    # 최종 트루 피크 ≤ TP + tp_codec_margin_db → 0.8 이상(0.7 = hormuz final −1.34 > −1.35, 0.8 = −1.40, fed 0.7 = −1.41).
+    # 0.8 에서 베드 저역 절대 +0.8 dB·중역 −4.5 dB(1.0 은 저역 −0.35·중역 −5.7), 음악 레벨 hormuz −12.12·fed −12.89, 리미터 전 mix 피크 0.93·0.88(내레이션 변화 0)
+    norm_ref: 0.8
   sfx:                      # 효과음 합성(v3 mix3) — 필터 계수·시상수·이득
     whoosh: {dur_sec: 1.2, shape_pow: 2.2, low_b: 0.08, low_a: -0.92, low_gain: 0.6, high_b: 0.3, high_a: -0.7, high_gain: 0.25,
              release_sec: 0.08, release_tau_sec: 0.05, gain: 0.2}
