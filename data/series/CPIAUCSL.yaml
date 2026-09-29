@@ -1,0 +1,16 @@
+series_id: CPIAUCSL
+source: FRED(세인트루이스 연은) · 원출처 미 노동통계국(BLS) CPI-U
+source_url: https://fred.stlouisfed.org/graph/fredgraph.csv?id=CPIAUCSL&cosd=2018-01-01
+retrieved_at: '2026-09-29'
+transform:
+  op: yoy_pct
+  formula: 전년 동월 대비 % = (x_t / x_(t-12) - 1) * 100, 소수 둘째 자리 반올림
+as_of: 2026-08
+revision_note: 계절조정 지수에서 계산. 잠정치는 이후 수정될 수 있음
+unit: '%'
+frequency: monthly
+license: us_gov_public_domain
+license_note: 'Public Domain: Citation Requested'
+missing:
+- date: '2025-10-01'
+  note: BLS 미발표 — 2025 연방정부 셧다운으로 10월 조사 자료 미수집(https://www.bls.gov/cpi/additional-resources/2025-federal-government-shutdown-impact-cpi.htm)

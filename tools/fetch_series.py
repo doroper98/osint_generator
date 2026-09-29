@@ -62,6 +62,8 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("--source", required=True, help="출처 줄(화면 표기)")
     ap.add_argument("--license", required=True)
     ap.add_argument("--revision-note", default=None)
+    ap.add_argument("--missing-note", action="append", default=[], metavar="YYYY-MM-DD=사유",
+                    help="원자료 빈 날짜마다 사유(D-0086). 사유 없는 빈 날짜 = 오류")
     ap.add_argument("--retrieved-at", default=None, help="YYYY-MM-DD(기본 오늘)")
     ap.add_argument("--out", type=Path, default=None, help="레코드 폴더(기본 rules data.series_dir)")
     a = ap.parse_args(argv)
@@ -76,8 +78,13 @@ def main(argv: list[str] | None = None) -> int:
     raw_bytes = fetch(url)
     raw_path = out / "raw" / f"{a.series_id}.csv"
     raw_path.write_bytes(raw_bytes)
-    raw = read_csv(raw_path)
-    values = apply_transform(a.transform, raw, start)
+    raw = read_csv(raw_path, allow_empty=True)
+    values, miss = apply_transform(a.transform, raw, start)
+    notes = dict(x.split("=", 1) for x in a.missing_note)
+    raw_empty = {d for d, v in raw if v is None}
+    lacking = [d.isoformat() for d in miss if next((n for k, n in notes.items() if date.fromisoformat(k) in (d, date(d.year - 1, d.month, 1)) and date.fromisoformat(k) in raw_empty), None) is None]
+    if lacking:
+        raise SeriesError(f"{a.series_id}: 빈 날짜 {lacking} 의 사유(--missing-note) 없음 — 채우지 않고 사유를 기록한다(D-0086)")
     last = values[-1][0]
     rec = {
         "series_id": a.series_id,
@@ -91,6 +98,8 @@ def main(argv: list[str] | None = None) -> int:
         "frequency": "monthly",
         "license": a.license,
         "license_note": license_note(a.series_id),
+        "missing": [{"date": d.isoformat(), "note": next(n for k, n in notes.items()
+                                                        if date.fromisoformat(k) in (d, date(d.year - 1, d.month, 1)))} for d in miss],
     }
     yp = out / f"{a.series_id}.yaml"
     yp.write_text(yaml.safe_dump(rec, allow_unicode=True, sort_keys=False), encoding="utf-8")

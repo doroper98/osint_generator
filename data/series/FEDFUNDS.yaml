@@ -1,0 +1,14 @@
+series_id: FEDFUNDS
+source: FRED(세인트루이스 연은) · 원출처 연준 이사회 H.15
+source_url: https://fred.stlouisfed.org/graph/fredgraph.csv?id=FEDFUNDS&cosd=2019-01-01
+retrieved_at: '2026-09-29'
+transform:
+  op: raw
+  formula: 원자료(변형 없음)
+as_of: 2026-08
+revision_note: 월평균 실효금리. 과거 값은 수정될 수 있음
+unit: '%'
+frequency: monthly
+license: us_gov_public_domain
+license_note: 'Public Domain: Citation Requested'
+missing: []

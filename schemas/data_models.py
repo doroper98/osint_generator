@@ -8,7 +8,7 @@
 - `unit` ∈ `rules data.units`, `license` ∈ `rules data.licenses_allowed`, `frequency` ∈ `rules data.frequencies`.
 - `source_url` 의 도메인 ∈ `rules data.sources_allowed`.
 - `transform.op` ∈ `rules data.transforms`, `transform.formula` = 그 규칙 문구(식은 한 곳 — 레코드는 사본을 들고 다닌다).
-- `values` 날짜는 엄격히 증가, monthly 면 매월 1일·한 달 간격(빈 달 없음).
+- `values` 날짜는 엄격히 증가, monthly 면 매월 1일·한 달 간격. 빈 달은 `missing` 에 적힌 것만(D-0086 A — 보간 금지).
 - `as_of`(YYYY-MM, 화면 "YYYY년 M월 기준") = 마지막 값의 달, 그리고 as_of 달의 첫날 ≤ retrieved_at.
 """
 
@@ -47,6 +47,13 @@ class SeriesTransform(_Strict):
         return self
 
 
+class MissingValue(_Strict):
+    """원자료에 값이 없는 날짜(D-0086 A). 그리지도 채우지도 않는다(보간 금지) — 화면에는 끊김 + "자료 없음" 표시."""
+
+    date: date
+    note: str = Field(min_length=1)
+
+
 class SeriesRecord(_Strict):
     """시리즈 하나의 레코드 + 값. 값은 `<series_id>.csv` 에서 로더(data/series.py)가 채운다."""
 
@@ -61,6 +68,7 @@ class SeriesRecord(_Strict):
     frequency: str
     license: str
     license_note: str                            # 출처 페이지의 라이선스 표기 원문(예: "Public Domain: Citation Requested")
+    missing: list[MissingValue] = Field(default_factory=list)   # v4.3.0 D-0086 — 적힌 날짜만 빈 값 허용
     values: list[tuple[date, float]] = Field(min_length=2)
 
     @field_validator("series_id")
@@ -120,9 +128,21 @@ class SeriesRecord(_Strict):
             bad = [d for d in ds if d.day != 1]
             if bad:
                 raise ValueError(f"monthly 값 날짜는 매월 1일: {bad[:3]}")
-            gaps = [(a, b) for a, b in zip(ds, ds[1:]) if (b.year * 12 + b.month) - (a.year * 12 + a.month) != 1]
+            miss = {m.date for m in self.missing}
+            bad = sorted(miss & set(ds))
+            if bad:
+                raise ValueError(f"missing 날짜에 값이 있다: {bad}")
+            out = sorted(d for d in miss if not ds[0] < d < ds[-1])
+            if out:
+                raise ValueError(f"missing 날짜 {out} 가 값 구간({ds[0]}~{ds[-1]}) 안쪽이 아니다")
+            gaps = []
+            for a, b in zip(ds, ds[1:]):
+                k = a.year * 12 + a.month
+                between = [date((k + j) // 12, (k + j) % 12 + 1, 1) for j in range(b.year * 12 + b.month - k - 1)]
+                if [d for d in between if d not in miss]:
+                    gaps.append((a, b))
             if gaps:
-                raise ValueError(f"monthly 값에 빈 달이 있다: {gaps[:3]}")
+                raise ValueError(f"monthly 값에 missing 에 적히지 않은 빈 달이 있다(조용한 드롭 금지, D-0086): {gaps[:3]}")
         last = ds[-1]
         if self.as_of != f"{last.year:04d}-{last.month:02d}":
             raise ValueError(f"as_of {self.as_of} ≠ 마지막 값의 달 {last:%Y-%m}")
@@ -140,6 +160,9 @@ class SeriesRecord(_Strict):
     def end(self) -> date:
         return self.values[-1][0]
 
+    def missing_dates(self) -> list[date]:
+        return sorted(m.date for m in self.missing)
+
     def between(self, d0: date, d1: date) -> list[tuple[date, float]]:
         return [(d, v) for d, v in self.values if d0 <= d <= d1]
 
@@ -149,4 +172,4 @@ class SeriesRecord(_Strict):
         return f"{y}년 {m}월 기준"
 
 
-__all__ = ["SeriesRecord", "SeriesTransform"]
+__all__ = ["MissingValue", "SeriesRecord", "SeriesTransform"]

@@ -11,6 +11,7 @@ import csv
 from datetime import date
 from functools import lru_cache
 from pathlib import Path
+from typing import Optional
 
 import yaml
 from pydantic import ValidationError
@@ -29,15 +30,19 @@ def series_dir() -> Path:
     return REPO / load_rules().data.series_dir
 
 
-def read_csv(path: Path) -> list[tuple[date, float]]:
-    """`date,value` 또는 FRED fredgraph(`observation_date,<ID>`) CSV → [(날짜, 값)]. 빈 값('.' 등) = 오류."""
-    out: list[tuple[date, float]] = []
+def read_csv(path: Path, allow_empty: bool = False) -> list[tuple[date, Optional[float]]]:
+    """`date,value` 또는 FRED fredgraph(`observation_date,<ID>`) CSV → [(날짜, 값)]. 빈 값은 allow_empty 일 때만 None
+    (원자료 — 레코드 missing 과 대조한다, D-0086), 아니면 오류."""
+    out: list[tuple[date, Optional[float]]] = []
     with path.open(encoding="utf-8", newline="") as f:
         rows = list(csv.reader(f))
     if not rows or len(rows[0]) != 2:
         raise SeriesError(f"{path}: 두 열 CSV 가 아니다")
     for i, r in enumerate(rows[1:], 2):
         try:
+            if allow_empty and len(r) == 2 and r[1].strip() in ("", "."):
+                out.append((date.fromisoformat(r[0]), None))
+                continue
             out.append((date.fromisoformat(r[0]), float(r[1])))
         except (ValueError, IndexError) as ex:
             raise SeriesError(f"{path}:{i}: 값 읽기 실패 {r!r} — {ex}") from ex
@@ -52,20 +57,26 @@ def write_csv(path: Path, values: list[tuple[date, float]]) -> None:
             w.writerow([d.isoformat(), repr(float(v))])
 
 
-def apply_transform(op: str, raw: list[tuple[date, float]], start: date) -> list[tuple[date, float]]:
-    """`rules data.transforms` 의 연산(명시된 것만). raw = 원자료(월별 연속), start 이상만 돌려준다."""
+def apply_transform(op: str, raw: list[tuple[date, Optional[float]]], start: date) -> tuple[list[tuple[date, float]], list[date]]:
+    """`rules data.transforms` 의 연산(명시된 것만). raw = 원자료(월별, 빈 값 None), start 이상만 → (값, 빈 날짜).
+    빈 값은 채우지 않는다(D-0086). yoy_pct 는 t 또는 t−12 가 빈 값이면 t 도 빈 날짜."""
     if op == "raw":
-        return [(d, v) for d, v in raw if d >= start]
+        return [(d, v) for d, v in raw if d >= start and v is not None], [d for d, v in raw if d >= start and v is None]
     if op == "yoy_pct":
         by = dict(raw)
-        out = []
+        out: list[tuple[date, float]] = []
+        miss: list[date] = []
         for d, v in raw:
             prev = date(d.year - 1, d.month, d.day)
             if d >= start:
                 if prev not in by:
                     raise SeriesError(f"yoy_pct: {d} 의 12개월 전 값({prev})이 원자료에 없다")
-                out.append((d, round((v / by[prev] - 1) * 100, 2)))
-        return out
+                pv = by[prev]
+                if v is None or pv is None:
+                    miss.append(d)
+                else:
+                    out.append((d, round((v / pv - 1) * 100, 2)))
+        return out, miss
     raise SeriesError(f"구현 없는 transform {op!r} — rules data.transforms 와 이 함수가 같아야 한다(P10)")
 
 
@@ -87,7 +98,9 @@ def load_series_file(yaml_path: Path) -> SeriesRecord:
         raise SeriesError(f"{yaml_path}: series_id {rec.series_id!r} ≠ 파일 이름 {yaml_path.stem!r}")
     rp = yaml_path.parent / "raw" / csv_path.name
     if rp.exists():
-        again = apply_transform(rec.transform.op, read_csv(rp), rec.start)
+        again, miss = apply_transform(rec.transform.op, read_csv(rp, allow_empty=True), rec.start)
+        if miss != rec.missing_dates():
+            raise SeriesError(f"{csv_path}: 원자료의 빈 날짜 {miss} ≠ 레코드 missing {rec.missing_dates()}(D-0086)")
         if again != rec.values:
             diff = next(((a, b) for a, b in zip(again, rec.values) if a != b), (len(again), len(rec.values)))
             raise SeriesError(f"{csv_path}: raw/ 에 transform {rec.transform.op} 을 다시 적용한 값과 다르다 — 첫 차이 {diff}")

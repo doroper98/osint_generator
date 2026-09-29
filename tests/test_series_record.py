@@ -69,6 +69,14 @@ class SeriesRecordSchemaTest(unittest.TestCase):
         with self.assertRaisesRegex(ValidationError, "빈 달"):
             SeriesRecord.model_validate(rec(values=v))
 
+    def test_declared_missing_month_passes(self) -> None:
+        """D-0086 A — missing 에 적힌 빈 달만 허용(보간 없음)."""
+        v = [("2024-01-01", 1.0), ("2024-03-01", 1.0), ("2024-04-01", 1.0)]
+        r = SeriesRecord.model_validate(rec(values=v, missing=[{"date": "2024-02-01", "note": "미발표"}]))
+        self.assertEqual(r.missing_dates(), [date(2024, 2, 1)])
+        with self.assertRaisesRegex(ValidationError, "missing 날짜에 값이 있다"):
+            SeriesRecord.model_validate(rec(missing=[{"date": "2024-02-01", "note": "미발표"}]))
+
     def test_as_of_after_retrieved_rejected(self) -> None:
         with self.assertRaisesRegex(ValidationError, "retrieved_at"):
             SeriesRecord.model_validate(rec(retrieved_at="2024-03-20"))
@@ -112,9 +120,17 @@ class SeriesLoaderTest(unittest.TestCase):
             with self.assertRaisesRegex(SeriesError, "다시 적용한 값과 다르다"):
                 load_series_file(yp)
 
+    def test_raw_empty_must_match_missing(self) -> None:
+        """원자료 빈 값 → yoy 는 t 와 t+12 가 빈 날짜(D-0086)."""
+        raw = [(date(2023, m, 1), 100.0) for m in range(1, 13)] + [(date(2024, 1, 1), None), (date(2024, 2, 1), 102.0)]
+        vals, miss = apply_transform("yoy_pct", raw, date(2024, 1, 1))
+        self.assertEqual((vals, miss), ([(date(2024, 2, 1), 2.0)], [date(2024, 1, 1)]))
+        vals, miss = apply_transform("raw", raw, date(2024, 1, 1))
+        self.assertEqual(miss, [date(2024, 1, 1)])
+
     def test_yoy_transform(self) -> None:
         raw = [(date(2023, m, 1), 100.0) for m in range(1, 13)] + [(date(2024, 1, 1), 103.0), (date(2024, 2, 1), 101.5)]
-        self.assertEqual(apply_transform("yoy_pct", raw, date(2024, 1, 1)), [(date(2024, 1, 1), 3.0), (date(2024, 2, 1), 1.5)])
+        self.assertEqual(apply_transform("yoy_pct", raw, date(2024, 1, 1)), ([(date(2024, 1, 1), 3.0), (date(2024, 2, 1), 1.5)], []))
         with self.assertRaisesRegex(SeriesError, "12개월 전"):
             apply_transform("yoy_pct", raw[1:], date(2024, 1, 1))
 
