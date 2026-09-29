@@ -1,0 +1,37 @@
+{
+ "schema_version": 1,
+ "project": "hormuz_korea",
+ "genre": {
+  "name": "geopolitics",
+  "declared": false
+ },
+ "elements_used": {
+  "article": 2,
+  "badge": 8,
+  "barrier": 1,
+  "boom": 1,
+  "card": 7,
+  "clip": 2,
+  "country": 1,
+  "cutout": 1,
+  "emblem": 1,
+  "flag": 4,
+  "marker": 8,
+  "person": 3,
+  "photo": 2,
+  "precedent": 1,
+  "relation": 1,
+  "route": 4,
+  "ships": 1,
+  "statement": 1,
+  "tanker_loop": 1,
+  "timeline": 1,
+  "versus": 1
+ },
+ "check": {
+  "id": "genre_elements",
+  "severity": "hard",
+  "count": 0,
+  "details": []
+ }
+}

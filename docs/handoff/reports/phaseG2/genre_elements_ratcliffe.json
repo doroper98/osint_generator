@@ -1,0 +1,26 @@
+{
+ "schema_version": 1,
+ "project": "ratcliffe2026",
+ "genre": {
+  "name": "geopolitics",
+  "declared": false
+ },
+ "elements_used": {
+  "badge": 7,
+  "card": 14,
+  "country": 2,
+  "emblem": 2,
+  "flag": 1,
+  "marker": 13,
+  "person": 4,
+  "route": 2,
+  "timeline": 1,
+  "versus": 1
+ },
+ "check": {
+  "id": "genre_elements",
+  "severity": "hard",
+  "count": 0,
+  "details": []
+ }
+}

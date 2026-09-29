@@ -1,0 +1,40 @@
+{
+ "schema_version": 1,
+ "role": "D-0081 작업 3 — checks genre_elements 합성 사례",
+ "cases": [
+  {
+   "case": "geopolitics — 프로필 안 요소만",
+   "hard": 0,
+   "details": []
+  },
+  {
+   "case": "geopolitics + statement_diff(프로필 밖, macro_monetary new)",
+   "hard": 1,
+   "details": [
+    "[genre-element] 'statement_diff' ×1 — 장르 'geopolitics' 프로필 primitives(reuse ∪ new)에 없다"
+   ]
+  },
+  {
+   "case": "macro_monetary + marker·relation(프로필 밖)",
+   "hard": 2,
+   "details": [
+    "[genre-element] 'marker' ×1 — 장르 'macro_monetary' 프로필 primitives(reuse ∪ new)에 없다",
+    "[genre-element] 'relation' ×1 — 장르 'macro_monetary' 프로필 primitives(reuse ∪ new)에 없다"
+   ]
+  },
+  {
+   "case": "planned 프리미티브 dot_plot 사용 → 렌더 전 레지스트리 오류",
+   "hard": null,
+   "details": [
+    "[0] primitive: 이벤트 타입 'primitive:dot_plot': 계획만 있고 구현 전(planned) — rules/video_rules.yaml registries (15 P10)"
+   ]
+  },
+  {
+   "case": "genre macro_monetary + stage mercator → 스키마 오류(무대-프로필 불일치)",
+   "hard": null,
+   "details": [
+    "Value error, stage 'mercator' 가 장르 'macro_monetary' 프로필 무대 ['timeline', 'chart_wall'] 밖이다 [type=value_error, input_value={'version': 1, 'places': ...y', 'stage': 'mercator'}, input_type=dict]"
+   ]
+  }
+ ]
+}
