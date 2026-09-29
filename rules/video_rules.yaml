@@ -249,8 +249,7 @@ hud:                       # 09 §5 — 모서리에는 날짜만
 
 layout_480p:               # 09 §2·§4, 08 §10 — 기준 해상도 854×480. 다른 해상도는 k = H/480
   base: {w: 854, h: 480, fps: 24}
-  subtitle: {size: 19, last_line_y: 452, line_gap: 26, halo: 5.0, halo_alpha: 0.92, emphasis_color: gold,
-             label_style: {size_ratio: 0.72, color: amber, gap_px: 6}}   # v3.3.0 NB12 — 검증 라벨 접두(script_schema.labels 문구, C9)
+  subtitle: {size: 19, last_line_y: 452, line_gap: 26, halo: 5.0, halo_alpha: 0.92, emphasis_color: gold}   # v4.5.0 D85 — 검증 라벨 접두(label_style) 폐지
   min_font_px: 9.5         # 화면 높이 2% 규칙(엔딩 카드 예외)
   title_card: {dur_sec: 5.6, title_size: 46, subtitle_size: 18, rule_w: 220}
   end_card:
@@ -367,8 +366,6 @@ panels:                    # D-0032 — 패널 기하·타이밍. 코드에 리�
     h: 19
     box_dy: -13                     # 상자 위 끝 = 태그 기준선 + box_dy
     r: 3
-    gap_px: 8                       # 태그와 <미검증> 등 검증 라벨 사이(같은 줄, 별개 장치 — C9)
-    claim_color: ru
     body_top_px: 118                # 태그 없는 패널의 본문 기준 위 끝(v3 본문 시작)
     body_top_px_with_tag: 136       # 태그 줄이 있으면 본문을 여기서 시작 — 이동량 = 둘의 차(모든 차트 같은 값)
   charts:                  # D-0032 작업 5 — v2 render2 P_dots·P_gantt·P_dual·P_fork·P_check·P_network 합격 값(08 §8), 제목은 v3 중앙 상단(08 §2)

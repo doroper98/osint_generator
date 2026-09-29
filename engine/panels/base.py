@@ -65,49 +65,35 @@ def prov_tag_text(pv: dict | None) -> str | None:
     return "추정" if pv["sources"] else "추정 · 출처 미기재"
 
 
-def claim_label(pv: dict | None) -> str | None:
-    """사실 검증 라벨(<미검증> 등, C9) — 추정 태그와 별개(D-0034 §3)."""
-    if pv is None or not pv.get("claim_status"):
-        return None
-    from script.labels import status_label  # noqa: PLC0415 — 규칙 표 하나(v3.2.0, 원고 라벨·post 카드와 같은 SSOT)
-
-    return status_label(pv["claim_status"])
-
-
 def tag_row_y(e: dict) -> float:
     """태그 줄 기준선 — 제목(부제가 있으면 부제) 기준선 + y_offset_px (D-0034 anchor below_title)."""
     return (PANEL.subtitle_y if e.get("subtitle") else PANEL.title_y) + _TAG.y_offset_px
 
 
 def body_shift(e: dict) -> float:
-    """태그 줄(추정 태그·검증 라벨)이 있는 패널만 본문을 내린다 — 모든 차트 같은 값(D-0034 §2)."""
-    if prov_tag_text(e.get("provenance")) is None and claim_label(e.get("provenance")) is None:
+    """태그 줄(추정 태그)이 있는 패널만 본문을 내린다 — 모든 차트 같은 값(D-0034 §2)."""
+    if prov_tag_text(e.get("provenance")) is None:
         return 0.0
     return _TAG.body_top_px_with_tag - _TAG.body_top_px
 
 
 def tag_boxes(ctx: cairo.Context, e: dict) -> list[tuple[str, str, tuple[float, float, float, float]]]:
-    """(문구, 색 이름, 상자) — 검증 라벨, 추정 태그 순으로 가운데 정렬."""
+    """(문구, 색 이름, 상자) — 추정 태그 하나, 가운데 정렬. 사실 검증 라벨(provenance.claim_status)은 그리지 않는다
+    (v4.5.0 D85, C9 — 기록만, 화면은 엔딩 카드 마지막 줄)."""
     from engine.typography import tw  # noqa: PLC0415
 
     T = _TAG  # noqa: N806
-    pv = e.get("provenance")
-    items = [(s, c) for s, c in ((claim_label(pv), T.claim_color), (prov_tag_text(pv), T.color)) if s]
-    if not items:
+    s = prov_tag_text(e.get("provenance"))
+    if s is None:
         return []
-    ws = [tw(ctx, s, T.size, T.font) + T.pad_x for s, _ in items]
-    total = sum(ws) + T.gap_px * (len(ws) - 1)
-    x = W_OUT / 2 - total / 2
+    w = tw(ctx, s, T.size, T.font) + T.pad_x
+    x = W_OUT / 2 - w / 2
     y = tag_row_y(e)
-    out = []
-    for (s, c), w in zip(items, ws):
-        out.append((s, c, (x, y + T.box_dy, x + w, y + T.box_dy + T.h)))
-        x += w + T.gap_px
-    return out
+    return [(s, T.color, (x, y + T.box_dy, x + w, y + T.box_dy + T.h))]
 
 
 def prov_tag(ctx: cairo.Context, e: dict, a: float) -> str | None:
-    """추정/출처 태그(v2 `prov_tag` 공통화, 08 §9) + 사실 검증 라벨. 위치는 제목 아래 가운데(D-0034).
+    """추정/출처 태그(v2 `prov_tag` 공통화, 08 §9). 위치는 제목 아래 가운데(D-0034). 검증 라벨은 그리지 않는다(v4.5.0 D85).
     그린 추정 태그 문구를 돌려준다(provenance panels.used[].prov_tag)."""
     from engine.typography import rrect  # noqa: PLC0415
 

@@ -203,8 +203,11 @@ class TimelineSlotsTest(unittest.TestCase):
         self.assertEqual(rec["badge:미국"], "slot:map_upper_left")
         self.assertIn("lon", ev[0])
 
-    def test_visual_qa_prompt_exempts_labels(self) -> None:
+    def test_visual_qa_prompt_says_labels_not_on_screen(self) -> None:
+        """v4.5.0 D85 — 검수 프롬프트는 '의무 표기'가 아니라 '본문에 그리지 않음 · 엔딩 카드 한 줄'을 말한다(프롬프트가 영상과 어긋나지 않게)."""
         from rules import load_rules  # noqa: PLC0415
         from workers.prompt_loader import load_prompt  # noqa: PLC0415
 
-        self.assertIn("검증 라벨(<미검증>, <논쟁>)은 규칙이 정한 의무 표기", load_prompt("visual_qa", load_rules()))
+        p = load_prompt("visual_qa", load_rules())
+        self.assertIn("검증 라벨(<미검증>, <논쟁>)은 영상 본문(자막·패널·카드)에 그리지 않는다", p)
+        self.assertNotIn("의무 표기", p)

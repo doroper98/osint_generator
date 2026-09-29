@@ -82,10 +82,12 @@ last_review: 2026-09-29
 
 ## 6. 검증 라벨
 
-자막 앞의 검증 라벨은 코드가 `intake/claims.json` status로 계산한다(15 P8). 문구는 `rules:script_schema.labels`다.
+문장 검증 라벨은 코드가 `intake/claims.json` status로 계산한다(15 P8). 문구는 `rules:script_schema.labels`다.
+**v4.5.0(사용자 결정 D85, C9)부터 라벨은 영상 본문(자막·패널·카드)에 그리지 않는다.** 기록(claims·`script_labels.json`·provenance)만 남긴다.
 `<미검증>`은 확인되지 않은 주장, `<논쟁>`은 양측 주장이 맞서는 사안이다. 논쟁 사안은 양측을 같은 무게로 다룬다(C0 경계).
 한 문장이 여러 claim을 인용하면 `rules:script_schema.label_strength_order` 앞쪽(가장 약한 것)이 라벨이 된다.
-라벨 모양은 `rules:layout_480p.subtitle.label_style`, 미검증 주장을 인용하는 문장의 귀속 표현은 `rules:script_schema.attribution_markers`.
+화면에는 엔딩 카드 맨 마지막 줄에 가장 작은 글씨 한 줄(`rules:layout_480p.end_card.notice_unverified`, 라벨 문장 수 n, n = 0 이면 없음)만 쓴다.
+미검증 주장을 인용하는 문장의 귀속 표현은 `rules:script_schema.attribution_markers`.
 
 ## 7. 되돌리면 안 되는 것
 

@@ -301,7 +301,7 @@ def load_project(proj: Path, direction: Optional[Direction] = None, out: Optiona
 
     series_ids = list(dict.fromkeys(sid for e in events if e["type"] == "series" for sid in record_ids(e)))   # band = 두 레코드(v4.4.0)
     R.cache["series_records"] = [load_series(s) for s in series_ids]   # v4.3.0 — 엔딩 카드 auto: series(레코드 출처·라이선스·기준 시점)
-    R.cache["sentence_labels"] = sentence_labels(proj)       # v3.3.0 NB12 — 자막 검증 라벨(C9)
+    R.cache["sentence_labels"] = sentence_labels(proj)       # v4.5.0 D85 — 엔딩 카드 마지막 줄 건수만(자막 접두 폐지, C9)
     R.cache["cited_sources"] = cited_sources(proj, events)   # v3.2.0 18 §6 — 엔딩 카드 '보도 · 자료'·설명란 원문 링크
     check_credits(R.credits, A.rights, A.media, req,          # D-0029 작업 7 — 누락·미확인·미표기 자산은 RightsError
                   cited_ids={s.id for s in R.cache["cited_sources"]}, series_ids=set(series_ids))

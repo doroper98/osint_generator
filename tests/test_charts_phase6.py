@@ -132,26 +132,13 @@ class ProvTagPlacementTest(unittest.TestCase):
             self.assertGreater(top, DATE_BADGE.underline_y)                   # 날짜 배지(모서리)와 겹침 0
             self.assertGreater(body_shift(e), 0.0)
 
-    def test_claim_label_and_tag_both_drawn(self) -> None:
+    def test_claim_label_not_drawn_only_prov_tag(self) -> None:
+        """v4.5.0 D85(C9) — 패널 provenance.claim_status 는 기록만. 태그 줄에는 추정 태그 하나만(검증 라벨 상자 없음)."""
         import cairo
 
         from engine.panels.base import tag_boxes
 
         e = validate_events([_ex("gantt")])[0]
+        self.assertEqual(e["provenance"]["claim_status"], "unverified")   # 기록은 그대로
         ctx = cairo.Context(cairo.ImageSurface(cairo.FORMAT_ARGB32, 1, 1))
-        self.assertEqual([b[0] for b in tag_boxes(ctx, e)], ["<미검증>", "추정 · 출처 미기재"])
-        # 갤러리 PNG 에 두 상자 모두 실제로 칠해졌다(ru·amber 테두리 픽셀)
-        from PIL import Image
-
-        from engine.style import C
-
-        im = Image.open(REPO / "docs" / "handoff" / "reports" / "phase6" / "panels" / "gantt.png").convert("RGB")
-        for _, cname, (x0, y0, x1, y1) in tag_boxes(ctx, e):
-            want = tuple(round(v * 255) for v in C[cname])
-            def dist(px: tuple) -> float:   # 1px 테두리는 두 줄로 번져 밝기가 준다 — 밝기를 맞춘 뒤 색만 비교
-                k = max(px) / max(want)
-                return sum(abs(px[i] - want[i] * k) for i in range(3)) if k > 0.3 else 999.0
-
-            cols = range(int(x0) + 4, int(x1) - 4)
-            best = [min(dist(im.getpixel((x, y))) for y in range(int(y0) - 1, int(y0) + 2)) for x in cols]
-            self.assertGreater(sum(1 for d in best if d < 40), len(best) // 2, cname)   # 윗변이 그 색으로 칠해졌다
+        self.assertEqual([b[0] for b in tag_boxes(ctx, e)], ["추정 · 출처 미기재"])

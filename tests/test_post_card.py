@@ -36,13 +36,16 @@ class PostCardTest(unittest.TestCase):
     def test_official_chip_and_no_label_when_verified(self) -> None:
         d = post_text(_ev(), _src())
         self.assertTrue(d["official"])
-        self.assertIsNone(d["label"])
         self.assertEqual(d["foot"], "X 게시물 · 번역")
 
-    def test_unverified_label_from_rules(self) -> None:
+    def test_unverified_post_has_no_label_on_card(self) -> None:
+        """v4.5.0 D85(C9) — 미검증 소스도 카드에 검증 라벨을 그리지 않는다. 문구 어디에도 라벨 없음."""
         d = post_text(_ev(src="src_x_0002"), _src())
-        self.assertEqual(d["label"], load_rules().script_schema.labels["unverified"])
+        self.assertNotIn("label", d)
         self.assertFalse(d["official"])
+        shown = " ".join(str(v) for v in d.values() if isinstance(v, str))
+        for lab in (v for v in load_rules().script_schema.labels.values() if v):
+            self.assertNotIn(lab, shown)
 
     def test_private_masked_and_deleted_marked(self) -> None:
         d = post_text(_ev(src="src_x_0003"), _src())

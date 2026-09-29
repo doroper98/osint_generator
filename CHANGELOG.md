@@ -63,6 +63,7 @@ MINOR: 규칙 변경(사용자 결정 D85, CLAUDE.md C9 개정). 사실 검증 �
 ### Changed
 - **§0**: VERSION 4.5.0, Tier 1·2 `last_synced_with` v4.5.0, v4.4.0 released 대장 행(08c7245, D-0094).
 - **작업 1 규칙**: `rules layout_480p.end_card` 에 `notice_unverified`(size 7.8 = license_size, dy 14, template "확인되지 않은 보도·논평 인용 {n}건 — 출처는 위 목록") — 스키마 `EndCardNotice`(template 에 `{n}` 필수). `script_schema.labels` 는 기록용(화면 표기 없음) 주석.
+- **작업 2 렌더**: 자막 첫 줄 라벨 접두·패널 태그 줄 검증 라벨 상자·post 카드 하단 라벨을 그리지 않는다(기록 `claim_status`·소스 verification 은 그대로). 자막 줄바꿈 폭에서 라벨 폭을 빼던 계산 제거(린트와 같은 폭). 엔딩 카드 날짜 줄 아래 맨 마지막 줄에 `notice_unverified`(n = 영상 문장 중 라벨 문장 수, 0 이면 없음, `engine.fullcards.unverified_notice`). 죽은 키 삭제(P2): `layout_480p.subtitle.label_style`·`panels.prov_tag.gap_px`·`claim_color`. 시각 검수 프롬프트의 '의무 표기' 문장을 '본문에 그리지 않음 · 엔딩 카드 한 줄'로. docs/07 §6 라벨 문단. 옛 라벨 렌더 테스트 3개 교체.
 
 ---
 

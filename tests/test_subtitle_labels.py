@@ -1,4 +1,4 @@
-"""NB12(v3.3.0, C9) — 검증 라벨 자막 접두 · F6 auto 프리뷰 본편 컷 최소 수."""
+"""v4.5.0 D85(C9 개정) — 검증 라벨은 자막에 그리지 않는다(v3.3.0 NB12 접두 폐지) · F6 auto 프리뷰 본편 컷 최소 수."""
 
 from __future__ import annotations
 
@@ -9,7 +9,7 @@ import cairo
 import numpy as np
 
 from engine.checks import missing_fonts
-from engine.style import C, H_OUT, SUBTITLE, W_OUT
+from engine.style import H_OUT, W_OUT
 from engine.subtitles import draw_subtitle
 from rules import load_rules
 
@@ -24,12 +24,6 @@ def _frame(label: str | None) -> np.ndarray:
     return np.frombuffer(surf.get_data(), np.uint8).reshape(H_OUT, W_OUT, 4)[..., [2, 1, 0]]
 
 
-def _amber_px(img: np.ndarray) -> int:
-    col = np.array(C[SUBTITLE.label_style.color]) * 255
-    band = img[int(SUBTITLE.last_line_y) - 20: int(SUBTITLE.last_line_y) + 4]
-    return int((np.abs(band.astype(float) - col).sum(-1) < 60).sum())
-
-
 _MISSING_FONTS = missing_fonts()
 
 
@@ -37,14 +31,24 @@ class SubtitleLabelTest(unittest.TestCase):
     # 렌더 경로(engine.typography)는 글꼴이 없으면 fontconfig 대체 글꼴로 그린다 — 라벨 픽셀 수가 달라진다(D-0057 §2 NB14).
     # 렌더 경로 글꼴 검사(P6)는 Phase 10 후보. 지금은 글리프 검사(test_checks)와 같은 사유 있는 skip.
     @unittest.skipIf(bool(_MISSING_FONTS), f"프로젝트 글꼴 없음 {_MISSING_FONTS} — `python tools/fetch_data.py fonts` 필요(D-0057 NB14)")
-    def test_label_drawn_in_rule_color(self) -> None:
-        lab = load_rules().script_schema.labels["unverified"]
-        self.assertGreater(_amber_px(_frame(lab)), 20)
-        self.assertEqual(_amber_px(_frame(None)), 0)
+    def test_label_sentence_frame_equals_unlabeled(self) -> None:
+        """라벨이 붙은 문장도 자막 픽셀이 라벨 없는 문장과 같다 — 라벨 글리프 0."""
+        for lab in (v for v in load_rules().script_schema.labels.values() if v):
+            self.assertTrue(np.array_equal(_frame(lab), _frame(None)), lab)
 
-    def test_no_label_frame_unchanged_by_feature(self) -> None:
-        """라벨 없는 문장은 기능 전과 같다(hormuz 25컷 MAD 0 의 단위 근거) — 두 번 그려도 같은 픽셀."""
-        self.assertTrue(np.array_equal(_frame(None), _frame(None)))
+    def test_label_text_never_passed_to_text(self) -> None:
+        """text() 호출 기록(typography.GLYPH_LOG)에 라벨 문구가 없다 — 글꼴과 무관한 판정."""
+        from engine import typography  # noqa: PLC0415
+
+        for lab in (v for v in load_rules().script_schema.labels.values() if v):
+            typography.GLYPH_LOG = []
+            try:
+                _frame(lab)
+                drawn = [s for _, _, s in typography.GLYPH_LOG]
+            finally:
+                typography.GLYPH_LOG = None
+            self.assertTrue(drawn)
+            self.assertFalse([s for s in drawn if lab in s or s in lab], lab)
 
 
 class AutoPreviewBodyCutsTest(unittest.TestCase):

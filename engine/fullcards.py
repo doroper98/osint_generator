@@ -1,4 +1,7 @@
-"""전면 카드 — 타이틀·엔딩 (v2.1.0, render3 `draw_endcard, draw_fullcards`, 09 §6)."""
+"""전면 카드 — 타이틀·엔딩 (v2.1.0, render3 `draw_endcard, draw_fullcards`, 09 §6).
+
+v4.5.0(D85, back_and_forth D-0096): 엔딩 카드 맨 마지막 줄에 검증 안내 한 줄(`rules layout_480p.end_card.notice_unverified`).
+"""
 
 from __future__ import annotations
 
@@ -11,6 +14,15 @@ from engine.timebase import ease_io, ease_out, smooth, window
 from engine.typography import text
 
 ENDCARD_NOTE = "수치와 인용은 제작 시점의 공개 보도에 근거합니다"
+NOTICE = END_CARD.notice_unverified
+
+
+def unverified_notice(R: RenderCtx) -> str | None:  # noqa: N803
+    """엔딩 카드 마지막 줄(v4.5.0 사용자 결정 D85, C9) — 이 영상에 들어간 문장 중 검증 라벨이 붙은 문장 수 n.
+    n = 0 이면 None(줄 없음). 라벨 표는 `R.cache["sentence_labels"]`(claims status → 규칙 표, engine.project)."""
+    labels = R.cache.get("sentence_labels") or {}
+    n = sum(1 for sid in R.tb.order if labels.get(sid))
+    return NOTICE.template.replace("{n}", str(n)) if n else None
 
 
 def draw_endcard(ctx: cairo.Context, R: RenderCtx, t: float, c: object, a: float) -> None:  # noqa: N803
@@ -59,6 +71,9 @@ def draw_endcard(ctx: cairo.Context, R: RenderCtx, t: float, c: object, a: float
     ctx.fill()
     text(ctx, plan.date.replace(".", ". ") + " 기준", 64, H_OUT - 26, 7.8, "monom", C["muted"], fa, 0, "l", spacing=0.6, role="end_card")
     text(ctx, ENDCARD_NOTE, W_OUT - 64, H_OUT - 26, 7.8, "sans", C["muted"], fa, 0, "r", role="end_card")
+    notice = unverified_notice(R)
+    if notice:   # 맨 마지막 줄, 가장 작은 글씨 — 본문(자막·패널·카드)에는 검증 라벨을 그리지 않는다
+        text(ctx, notice, 64, H_OUT - 26 + NOTICE.dy, NOTICE.size, "sans", C["muted"], fa, 0, "l", role="end_card")
 
 
 def draw_fullcards(ctx: cairo.Context, R: RenderCtx, t: float) -> None:  # noqa: N803

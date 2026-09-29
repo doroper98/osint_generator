@@ -3,7 +3,7 @@
 캡처 이미지를 쓰지 않고 자체 조판한다. X 로고(상표) 없음. 문구는 프로젝트 `intake/sources.json` 의 소스 레코드에서만
 (`R.cache["sources"]`, engine.project 가 싣고 점검한다) — 연출은 소스 id·형광펜·원문 한 줄·자리만 정한다(D25 원칙).
 - 공식 계정(official_*)이면 '공식 계정' 칩. 일반인 계정(private)은 이름·핸들·아이콘을 가리고 "개인 계정"(18 §5).
-- 검증 라벨은 규칙 표(`script.labels.status_label` — 원고·패널과 같은 SSOT). 있으면 하단에 호박색 글자, 도장 없음.
+- 검증 라벨은 카드에 그리지 않는다(v4.5.0 사용자 결정 D85, C9). 검증 상태는 소스 레코드·provenance 에 기록된다.
 - 삭제된 게시물은 하단에 "삭제된 게시물 · 캡처 YYYY. MM. DD"(18 §3-4).
 기하·글자 크기·타이밍 = `rules layout_480p.post_card`(18 §5 수치).
 """
@@ -27,8 +27,6 @@ class PostSourceError(ValueError):
 
 def post_text(e: dict, sources: dict) -> dict:
     """카드 문구 — 소스 레코드에서. 없으면 PostSourceError(P6·P10)."""
-    from script.labels import status_label  # noqa: PLC0415
-
     s = sources.get(e["src"])
     if s is None or s.type != "x_post":
         raise PostSourceError(f"post {e['src']}: intake/sources.json 에 X 게시물 소스가 없다")
@@ -55,7 +53,6 @@ def post_text(e: dict, sources: dict) -> dict:
                 initial="" if private else s.account_name.strip()[:1].upper(), private=private,
                 official=s.account_class.startswith("official"), body=body, hl=e.get("hl"), orig=orig, when=when,
                 foot="X 게시물 · 번역" if s.text_ko else "X 게시물",
-                label=status_label(s.verification.status),
                 deleted=f"삭제된 게시물 · 캡처 {s.retrieved_at.strftime('%Y. %m. %d')}" if s.deleted else None)
 
 
@@ -76,7 +73,7 @@ def post_geom(ctx: cairo.Context, e: dict, sources: dict) -> tuple[float, float,
     if d["orig"] and tw(ctx, d["orig"], PC.orig_size, "monom") > PC.w - 2 * PC.pad:
         raise PostSourceError(f"post {e['src']}: 원문 한 줄이 카드 폭을 넘는다 — quote 를 끈다(자르지 않는다)")
     h = _head_h() + len(lines) * PC.body_line + (PC.body_line if d["orig"] else 0) + PC.pad + PC.foot_size * 2 \
-        + (PC.foot_size * 2 if (d["label"] or d["deleted"]) else 0)
+        + (PC.foot_size * 2 if d["deleted"] else 0)
     x = W_OUT - PC.w - CARD.x_right_margin if e.get("at", "card") == "card" else (W_OUT - PC.w) / 2
     y = PC.y if e.get("at", "card") == "card" else PC.panel_y
     return x, y, PC.w, h, lines
@@ -137,11 +134,10 @@ def draw_post(ctx: cairo.Context, R: RenderCtx, t: float, e: dict) -> None:  # n
     if d["orig"]:
         text(ctx, d["orig"], x + PC.pad, yy, PC.orig_size, "monom", C["muted"], a, 0, "l", role="media_meta")
         yy += PC.body_line
-    # 하단 — 게시 시각 / 'X 게시물 · 번역', 검증 라벨·삭제 표기(호박색, 도장 없음)
+    # 하단 — 게시 시각 / 'X 게시물 · 번역', 삭제 표기(호박색, 도장 없음)
     fy = y + h - PC.pad
-    if d["label"] or d["deleted"]:
-        note = " · ".join(x_ for x_ in (d["label"], d["deleted"]) if x_)
-        text(ctx, note, x + PC.pad, fy - PC.foot_size * 2, PC.foot_size, "sansb", C["amber"], a, 0, "l", role="media_meta")
+    if d["deleted"]:
+        text(ctx, d["deleted"], x + PC.pad, fy - PC.foot_size * 2, PC.foot_size, "sansb", C["amber"], a, 0, "l", role="media_meta")
     text(ctx, d["when"], x + PC.pad, fy, PC.foot_size, "monom", C["muted"], a, 0, "l")
     text(ctx, d["foot"], x + w - PC.pad, fy, PC.foot_size, "sans", C["muted"], a, 0, "r")
 

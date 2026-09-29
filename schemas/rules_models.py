@@ -211,14 +211,6 @@ class LayoutBase(_Strict):
     fps: int
 
 
-class SubtitleLabelStyle(_Strict):
-    """v3.3.0 NB12 — 자막 앞 검증 라벨(<미검증>·<논쟁>)."""
-
-    size_ratio: float = Field(gt=0, le=1)
-    color: str
-    gap_px: float = Field(ge=0)
-
-
 class SubtitleLayout(_Strict):
     size: float
     last_line_y: float
@@ -226,7 +218,6 @@ class SubtitleLayout(_Strict):
     halo: float
     halo_alpha: float
     emphasis_color: str
-    label_style: SubtitleLabelStyle
 
 
 class TitleCardLayout(_Strict):
@@ -507,8 +498,6 @@ class ProvTagRules(_Strict):
     h: float
     box_dy: float
     r: float
-    gap_px: float
-    claim_color: str
     body_top_px: float
     body_top_px_with_tag: float
 
