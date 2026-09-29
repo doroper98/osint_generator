@@ -1,0 +1,92 @@
+{
+ "schema_version": 1,
+ "reason": "stage_timeline 글자 토큰 4개(D-0092): lane_label.size 12→15·dy 17→20, grid.label_size 10→11.5, series.axis_label_size 10→11, series.source_size 10→11",
+ "method": "G4 코드·옛 토큰 렌더 vs G4 코드·새 토큰 렌더(같은 12 시각), 픽셀 차 > 0 마스크를 라벨 영역과 대조. 라벨 영역 = 레인마다 [레인 위, 위+dy+8]×[0, 화면 55%](레인 이름) ∪ [레인 아래−출처 줄 3칸, 아래+2]×[0, 75%](출처·기준 시점) ∪ 레인 전체×[오른쪽 80px](축 값) ∪ [마지막 레인 아래, +label_dy+10]×전체(날짜 눈금)",
+ "all_inside": true,
+ "cuts": [
+  {
+   "cut": "p_0006.40.png",
+   "md5": "2c64879cee4f22df2239648a04db43c7",
+   "changed_px": 19155,
+   "outside_label_zones_px": 0,
+   "outside_bbox": null
+  },
+  {
+   "cut": "p_0015.70.png",
+   "md5": "aec44a71fb40e3b66b91e6d0be547579",
+   "changed_px": 17292,
+   "outside_label_zones_px": 0,
+   "outside_bbox": null
+  },
+  {
+   "cut": "p_0022.10.png",
+   "md5": "1cd98cb40c98d2943cb21f2a4b0de860",
+   "changed_px": 19472,
+   "outside_label_zones_px": 0,
+   "outside_bbox": null
+  },
+  {
+   "cut": "p_0026.40.png",
+   "md5": "0021a6bdcbd7c9c6a00b8653b88b8da2",
+   "changed_px": 19472,
+   "outside_label_zones_px": 0,
+   "outside_bbox": null
+  },
+  {
+   "cut": "p_0031.50.png",
+   "md5": "a4ad8cc7b841477bfa18051f28b32c71",
+   "changed_px": 16579,
+   "outside_label_zones_px": 0,
+   "outside_bbox": null
+  },
+  {
+   "cut": "p_0034.70.png",
+   "md5": "c55c0ee3eba81093f4dc2a7315078fd6",
+   "changed_px": 16769,
+   "outside_label_zones_px": 0,
+   "outside_bbox": null
+  },
+  {
+   "cut": "p_0040.00.png",
+   "md5": "127794a63b5d69f3baa993813a72398b",
+   "changed_px": 16694,
+   "outside_label_zones_px": 0,
+   "outside_bbox": null
+  },
+  {
+   "cut": "p_0044.50.png",
+   "md5": "4cf16b8b795d8ee1fa4e9b8075e8f8f5",
+   "changed_px": 19515,
+   "outside_label_zones_px": 0,
+   "outside_bbox": null
+  },
+  {
+   "cut": "p_0047.40.png",
+   "md5": "92428cd270d7971853d439a30bb64424",
+   "changed_px": 19217,
+   "outside_label_zones_px": 0,
+   "outside_bbox": null
+  },
+  {
+   "cut": "p_0053.50.png",
+   "md5": "0d207e05c1dddca13130dbd9d24e8089",
+   "changed_px": 17144,
+   "outside_label_zones_px": 0,
+   "outside_bbox": null
+  },
+  {
+   "cut": "p_0058.00.png",
+   "md5": "7afa5266dfc10636f5d42b4946742703",
+   "changed_px": 17144,
+   "outside_label_zones_px": 0,
+   "outside_bbox": null
+  },
+  {
+   "cut": "p_0071.50.png",
+   "md5": "d8e97b5ab3b45fa1c2868ed1383e366f",
+   "changed_px": 6155,
+   "outside_label_zones_px": 0,
+   "outside_bbox": null
+  }
+ ]
+}

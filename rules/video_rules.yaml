@@ -621,15 +621,15 @@ stage_timeline:            # v4.3.0 D-0084 작업 3·4·D-0085·D-0086 — 시�
     minor_alpha: 0.07
     line_w: 0.8
     label_font: mono
-    label_size: 10
+    label_size: 11.5       # v4.4.0 D-0092 B: 10 → 11.5
     label_halo: 2.5
     label_dy: 17           # 레인 영역 아래 끝 → 눈금 라벨 기준선
     label_margin_px: 24    # 화면 양 끝 이 안쪽만 라벨
     min_label_gap_px: 38   # 라벨 사이 최소 간격(좁으면 건너뜀)
   lane_label:              # 레인 이름(왼쪽 고정, 단위 포함 — units_visible)
     x: 16
-    dy: 17                 # 레인 위 끝 → 기준선
-    size: 12
+    dy: 20                 # 레인 위 끝 → 기준선(v4.4.0 D-0092 B: 17 → 20)
+    size: 15               # v4.4.0 D-0092 B: 12 → 15(카드 본문 13 보다 크고 제목보다 작게)
     font: sansb
     halo: 3
   wave:                    # 압축 구간(20 §2.3·§5.3 — 압축 메타가 있으면 화면에 반드시 물결 + 라벨)
@@ -667,12 +667,12 @@ stage_timeline:            # v4.3.0 D-0084 작업 3·4·D-0085·D-0086 — 시�
     grid_w: 0.7
     axis_label_margin_px: 8
     axis_label_dy: -3
-    axis_label_size: 10
+    axis_label_size: 11    # v4.4.0 D-0092 B: 10 → 11
     axis_label_font: mono
     axis_label_halo: 2.5
     source_dy: 7           # 레인 아래 끝 → 출처·기준 시점 줄 기준선(위로). 같은 레인 n 번째 series 는 source_step 씩 위
     source_step: 12
-    source_size: 10
+    source_size: 11        # v4.4.0 D-0092 B: 10 → 11
     source_font: sansm
     source_halo: 2.5
     change_regime_months: 6   # v4.4.0 D-0091 ② color_by change — 마지막 변화가 이 달 수 안이면 그 방향(hike·cut), 넘으면 hold(동결). FOMC 약 4회 회의

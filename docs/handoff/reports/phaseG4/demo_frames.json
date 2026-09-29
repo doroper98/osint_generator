@@ -1,0 +1,273 @@
+{
+ "schema_version": 1,
+ "note": "fed_timeline_demo 12컷 새 기준선(v4.4.0, back_and_forth D-0092 — stage_timeline 글자 토큰 4개 B). phaseG3/demo_frames.json 은 그대로 둔다. md5 = prev/p_*.png",
+ "sheet_md5": "0721e1e592080984367f394bd2650c60",
+ "cuts": {
+  "p_0006.40.png": "2c64879cee4f22df2239648a04db43c7",
+  "p_0015.70.png": "aec44a71fb40e3b66b91e6d0be547579",
+  "p_0022.10.png": "1cd98cb40c98d2943cb21f2a4b0de860",
+  "p_0026.40.png": "0021a6bdcbd7c9c6a00b8653b88b8da2",
+  "p_0031.50.png": "a4ad8cc7b841477bfa18051f28b32c71",
+  "p_0034.70.png": "c55c0ee3eba81093f4dc2a7315078fd6",
+  "p_0040.00.png": "127794a63b5d69f3baa993813a72398b",
+  "p_0044.50.png": "4cf16b8b795d8ee1fa4e9b8075e8f8f5",
+  "p_0047.40.png": "92428cd270d7971853d439a30bb64424",
+  "p_0053.50.png": "0d207e05c1dddca13130dbd9d24e8089",
+  "p_0058.00.png": "7afa5266dfc10636f5d42b4946742703",
+  "p_0071.50.png": "d8e97b5ab3b45fa1c2868ed1383e366f"
+ },
+ "frames": {
+  "schema_version": 1,
+  "frames": [
+   {
+    "n": 1,
+    "file": "p_0006.40.png",
+    "label": "t=6.40",
+    "t": 6.4,
+    "sid": "open_0",
+    "text": "미국의 연방기금 실효금리와 소비자물가 상승률을 2019년부터 따라갑니다.",
+    "after_sid": null,
+    "card": null,
+    "events": [
+     {
+      "type": "series"
+     },
+     {
+      "type": "series"
+     }
+    ]
+   },
+   {
+    "n": 2,
+    "file": "p_0015.70.png",
+    "label": "t=15.70",
+    "t": 15.7,
+    "sid": null,
+    "text": null,
+    "after_sid": "open_1",
+    "card": "title",
+    "events": [
+     {
+      "type": "series"
+     },
+     {
+      "type": "series"
+     }
+    ]
+   },
+   {
+    "n": 3,
+    "file": "p_0022.10.png",
+    "label": "t=22.10",
+    "t": 22.1,
+    "sid": "low_0",
+    "text": "2020년 4월, 이 금리의 월평균은 0.05%였습니다.",
+    "after_sid": null,
+    "card": null,
+    "events": [
+     {
+      "type": "series"
+     },
+     {
+      "type": "series"
+     },
+     {
+      "type": "marker",
+      "label": "금리 월평균 0.05%"
+     }
+    ]
+   },
+   {
+    "n": 4,
+    "file": "p_0026.40.png",
+    "label": "t=26.40",
+    "t": 26.4,
+    "sid": "low_1",
+    "text": "2022년 3월 월평균은 0.2%였습니다.",
+    "after_sid": null,
+    "card": null,
+    "events": [
+     {
+      "type": "series"
+     },
+     {
+      "type": "series"
+     },
+     {
+      "type": "marker",
+      "label": "금리 월평균 0.05%"
+     },
+     {
+      "type": "marker",
+      "label": "금리 월평균 0.2%"
+     }
+    ]
+   },
+   {
+    "n": 5,
+    "file": "p_0031.50.png",
+    "label": "t=31.50",
+    "t": 31.5,
+    "sid": "peak_0",
+    "text": "같은 해 6월, 소비자물가는 1년 전보다 8.98% 높았습니다.",
+    "after_sid": null,
+    "card": null,
+    "events": [
+     {
+      "type": "series"
+     },
+     {
+      "type": "series"
+     },
+     {
+      "type": "marker",
+      "label": "물가 상승률 8.98%"
+     }
+    ]
+   },
+   {
+    "n": 6,
+    "file": "p_0034.70.png",
+    "label": "t=34.70",
+    "t": 34.7,
+    "sid": "peak_0",
+    "text": "같은 해 6월, 소비자물가는 1년 전보다 8.98% 높았습니다.",
+    "after_sid": null,
+    "card": null,
+    "events": [
+     {
+      "type": "series"
+     },
+     {
+      "type": "series"
+     },
+     {
+      "type": "marker",
+      "label": "물가 상승률 8.98%"
+     }
+    ]
+   },
+   {
+    "n": 7,
+    "file": "p_0040.00.png",
+    "label": "t=40.00",
+    "t": 40.0,
+    "sid": "high_0",
+    "text": "2023년 8월, 금리 월평균은 5.33%였습니다.",
+    "after_sid": null,
+    "card": null,
+    "events": [
+     {
+      "type": "series"
+     },
+     {
+      "type": "series"
+     },
+     {
+      "type": "marker",
+      "label": "금리 월평균 5.33%"
+     }
+    ]
+   },
+   {
+    "n": 8,
+    "file": "p_0044.50.png",
+    "label": "t=44.50",
+    "t": 44.5,
+    "sid": "gap_0",
+    "text": "2025년 10월 소비자물가 지표는 발표되지 않았습니다.",
+    "after_sid": null,
+    "card": null,
+    "events": [
+     {
+      "type": "series"
+     },
+     {
+      "type": "series"
+     },
+     {
+      "type": "marker",
+      "label": "10월 소비자물가 미발표"
+     }
+    ]
+   },
+   {
+    "n": 9,
+    "file": "p_0047.40.png",
+    "label": "t=47.40",
+    "t": 47.4,
+    "sid": "gap_0",
+    "text": "2025년 10월 소비자물가 지표는 발표되지 않았습니다.",
+    "after_sid": null,
+    "card": null,
+    "events": [
+     {
+      "type": "series"
+     },
+     {
+      "type": "series"
+     },
+     {
+      "type": "marker",
+      "label": "10월 소비자물가 미발표"
+     }
+    ]
+   },
+   {
+    "n": 10,
+    "file": "p_0053.50.png",
+    "label": "t=53.50",
+    "t": 53.5,
+    "sid": "now_0",
+    "text": "2026년 8월 기준, 금리 월평균은 3.63%입니다.",
+    "after_sid": null,
+    "card": null,
+    "events": [
+     {
+      "type": "series"
+     },
+     {
+      "type": "series"
+     },
+     {
+      "type": "marker",
+      "label": "2026년 8월 기준"
+     }
+    ]
+   },
+   {
+    "n": 11,
+    "file": "p_0058.00.png",
+    "label": "t=58.00",
+    "t": 58.0,
+    "sid": "now_1",
+    "text": "같은 달 소비자물가 상승률은 3.35%입니다.",
+    "after_sid": null,
+    "card": null,
+    "events": [
+     {
+      "type": "series"
+     },
+     {
+      "type": "series"
+     },
+     {
+      "type": "marker",
+      "label": "2026년 8월 기준"
+     }
+    ]
+   },
+   {
+    "n": 12,
+    "file": "p_0071.50.png",
+    "label": "t=71.50",
+    "t": 71.5,
+    "sid": null,
+    "text": null,
+    "after_sid": "now_2",
+    "card": "end",
+    "events": []
+   }
+  ]
+ }
+}
