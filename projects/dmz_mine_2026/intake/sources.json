@@ -1,0 +1,597 @@
+{
+  "schema_version": 1,
+  "sources": [
+    {
+      "id": "src_art_0001",
+      "url": "https://www.hankookilbo.com/news/article/A2026092114160002483",
+      "retrieved_at": "2026-09-29",
+      "lang": "ko",
+      "confirmed_by": "claude(사용자 요청 대행 — URL·매체·게시일 확인)",
+      "confirmed_at": "2026-09-29T08:47:23.597415Z",
+      "note": "",
+      "type": "article",
+      "publisher": "한국일보",
+      "headline_original": "육군 25사단 DMZ서 지뢰 추정 폭발… 발목 절단 간부 포함 3명 부상-정치ㅣ한국일보",
+      "published_at": "2026-09-21",
+      "key_facts": [
+        "육군 25사단 DMZ서 지뢰 추정 폭발… 발목 절단 간부 포함 3명 부상-정치ㅣ한국일보"
+      ]
+    },
+    {
+      "id": "src_art_0002",
+      "url": "https://www.hankookilbo.com/news/article/A2026092317460005437",
+      "retrieved_at": "2026-09-29",
+      "lang": "ko",
+      "confirmed_by": "claude(사용자 요청 대행 — URL·매체·게시일 확인)",
+      "confirmed_at": "2026-09-29T08:47:23.970710Z",
+      "note": "",
+      "type": "article",
+      "publisher": "한국일보",
+      "headline_original": "서부전선 DMZ 폭발 2차례였다... 北 지뢰 여부엔 軍 \"조사 중\"-정치ㅣ한국일보",
+      "published_at": "2026-09-23",
+      "key_facts": [
+        "서부전선 DMZ 폭발 2차례였다... 北 지뢰 여부엔 軍 \"조사 중\"-정치ㅣ한국일보"
+      ]
+    },
+    {
+      "id": "src_art_0003",
+      "url": "https://www.newspim.com/news/view/20260923001071",
+      "retrieved_at": "2026-09-29",
+      "lang": "ko",
+      "confirmed_by": "claude(사용자 요청 대행 — URL·매체·게시일 확인)",
+      "confirmed_at": "2026-09-29T08:47:24.377792Z",
+      "note": "",
+      "type": "article",
+      "publisher": "뉴스핌",
+      "headline_original": "합참 \"DMZ 지뢰 추정 폭발… 18명 투입된",
+      "published_at": "2026-09-23",
+      "key_facts": [
+        "합참 \"DMZ 지뢰 추정 폭발… 18명 투입된"
+      ]
+    },
+    {
+      "id": "src_art_0004",
+      "url": "https://biz.heraldcorp.com/article/10883800",
+      "retrieved_at": "2026-09-29",
+      "lang": "ko",
+      "confirmed_by": "claude(사용자 요청 대행 — URL·매체·게시일 확인)",
+      "confirmed_at": "2026-09-29T08:47:24.911231Z",
+      "note": "",
+      "type": "article",
+      "publisher": "헤럴드경제",
+      "headline_original": "DMZ 지뢰 폭발 2차례…선두 공병 중사 부상, 안전조치 나선 대대장도 다쳐",
+      "published_at": "2026-09-23",
+      "key_facts": [
+        "DMZ 지뢰 폭발 2차례…선두 공병 중사 부상, 안전조치 나선 대대장도 다쳐"
+      ]
+    },
+    {
+      "id": "src_art_0005",
+      "url": "https://www.sisajournal.com/news/articleView.html?idxno=388510",
+      "retrieved_at": "2026-09-29",
+      "lang": "ko",
+      "confirmed_by": "claude(사용자 요청 대행 — URL·매체·게시일 확인)",
+      "confirmed_at": "2026-09-29T08:47:25.309591Z",
+      "note": "",
+      "type": "article",
+      "publisher": "시사저널",
+      "headline_original": "“DMZ 폭발, 北지뢰 가능성 매우 높아”…합참이 제시한 4가지 근거 - 시사저널",
+      "published_at": "2026-09-28",
+      "key_facts": [
+        "“DMZ 폭발, 北지뢰 가능성 매우 높아”…합참이 제시한 4가지 근거 - 시사저널"
+      ]
+    },
+    {
+      "id": "src_art_0006",
+      "url": "https://www.hankookilbo.com/news/article/A2026092818320004124",
+      "retrieved_at": "2026-09-29",
+      "lang": "ko",
+      "confirmed_by": "claude(사용자 요청 대행 — URL·매체·게시일 확인)",
+      "confirmed_at": "2026-09-29T08:47:25.776904Z",
+      "note": "",
+      "type": "article",
+      "publisher": "한국일보",
+      "headline_original": "軍 \"DMZ 폭발 원인, 북 지뢰 가능성 매우 높아\"… 최종 판정 시 상응한 조치-정치ㅣ한국일보",
+      "published_at": "2026-09-28",
+      "key_facts": [
+        "軍 \"DMZ 폭발 원인, 북 지뢰 가능성 매우 높아\"… 최종 판정 시 상응한 조치-정치ㅣ한국일보"
+      ]
+    },
+    {
+      "id": "src_art_0007",
+      "url": "https://www.khan.co.kr/article/202609282151001/",
+      "retrieved_at": "2026-09-29",
+      "lang": "ko",
+      "confirmed_by": "claude(사용자 요청 대행 — URL·매체·게시일 확인)",
+      "confirmed_at": "2026-09-29T08:47:26.242142Z",
+      "note": "",
+      "type": "article",
+      "publisher": "경향신문",
+      "headline_original": "군 “북한군 수지 반보병지뢰 발견 진술…최종 판정 시 상응 조치”",
+      "published_at": "2026-09-28",
+      "key_facts": [
+        "군 “북한군 수지 반보병지뢰 발견 진술…최종 판정 시 상응 조치”"
+      ]
+    },
+    {
+      "id": "src_art_0008",
+      "url": "https://www.newspim.com/news/view/20260929001004",
+      "retrieved_at": "2026-09-29",
+      "lang": "ko",
+      "confirmed_by": "claude(사용자 요청 대행 — URL·매체·게시일 확인)",
+      "confirmed_at": "2026-09-29T08:47:26.624969Z",
+      "note": "",
+      "type": "article",
+      "publisher": "뉴스핌",
+      "headline_original": "25사단 DMZ 지뢰폭발 현장서 北 수지반보병지뢰 추가 발견",
+      "published_at": "2026-09-29",
+      "key_facts": [
+        "25사단 DMZ 지뢰폭발 현장서 北 수지반보병지뢰 추가 발견"
+      ]
+    },
+    {
+      "id": "src_art_0009",
+      "url": "https://www.fnnews.com/news/202609291659566485",
+      "retrieved_at": "2026-09-29",
+      "lang": "ko",
+      "confirmed_by": "claude(사용자 요청 대행 — URL·매체·게시일 확인)",
+      "confirmed_at": "2026-09-29T08:47:27.013507Z",
+      "note": "",
+      "type": "article",
+      "publisher": "파이낸셜뉴스",
+      "headline_original": "강신철 \"北정전협정 위반, 상응조치\"..\"지뢰 4발중 3발 MDL남쪽 침범\"",
+      "published_at": "2026-09-29",
+      "key_facts": [
+        "강신철 \"北정전협정 위반, 상응조치\"..\"지뢰 4발중 3발 MDL남쪽 침범\""
+      ]
+    },
+    {
+      "id": "src_art_0010",
+      "url": "https://www.sisajournal.com/news/articleView.html?idxno=388651",
+      "retrieved_at": "2026-09-29",
+      "lang": "ko",
+      "confirmed_by": "claude(사용자 요청 대행 — URL·매체·게시일 확인)",
+      "confirmed_at": "2026-09-29T08:47:27.390128Z",
+      "note": "",
+      "type": "article",
+      "publisher": "시사저널",
+      "headline_original": "강신철 “DMZ 폭발, 북한군 지뢰 확실…명백한 정전협정 위반” - 시사저널",
+      "published_at": "2026-09-29",
+      "key_facts": [
+        "강신철 “DMZ 폭발, 북한군 지뢰 확실…명백한 정전협정 위반” - 시사저널"
+      ]
+    },
+    {
+      "id": "src_art_0011",
+      "url": "https://www.newspim.com/news/view/20260929000315",
+      "retrieved_at": "2026-09-29",
+      "lang": "ko",
+      "confirmed_by": "claude(사용자 요청 대행 — URL·매체·게시일 확인)",
+      "confirmed_at": "2026-09-29T08:47:27.801910Z",
+      "note": "",
+      "type": "article",
+      "publisher": "뉴스핌",
+      "headline_original": "靑 \"지뢰사고 현장조사, 李대통령 유엔 연설과 전혀 관련 없어\"",
+      "published_at": "2026-09-29",
+      "key_facts": [
+        "靑 \"지뢰사고 현장조사, 李대통령 유엔 연설과 전혀 관련 없어\""
+      ]
+    },
+    {
+      "id": "src_art_0012",
+      "url": "https://www.khan.co.kr/article/202609291708001/",
+      "retrieved_at": "2026-09-29",
+      "lang": "ko",
+      "confirmed_by": "claude(사용자 요청 대행 — URL·매체·게시일 확인)",
+      "confirmed_at": "2026-09-29T08:47:28.187365Z",
+      "note": "",
+      "type": "article",
+      "publisher": "경향신문",
+      "headline_original": "여야 모두 “북한 사과해야”…북 의도성 두고는 여당 내 신중론도",
+      "published_at": "2026-09-29",
+      "key_facts": [
+        "여야 모두 “북한 사과해야”…북 의도성 두고는 여당 내 신중론도"
+      ]
+    },
+    {
+      "id": "src_art_0013",
+      "url": "https://www.newdaily.co.kr/site/data/html/2026/09/29/2026092900192.html",
+      "retrieved_at": "2026-09-29",
+      "lang": "ko",
+      "confirmed_by": "claude(사용자 요청 대행 — URL·매체·게시일 확인)",
+      "confirmed_at": "2026-09-29T08:47:28.573299Z",
+      "note": "",
+      "type": "article",
+      "publisher": "뉴데일리",
+      "headline_original": "국힘, DMZ 北 지뢰 가능성에 \"저열한 北 도발 … 대북 확성기 즉시 재설치해야\"",
+      "published_at": "2026-09-29",
+      "key_facts": [
+        "국힘, DMZ 北 지뢰 가능성에 \"저열한 北 도발 … 대북 확성기 즉시 재설치해야\""
+      ]
+    },
+    {
+      "id": "src_art_0014",
+      "url": "https://www.segye.com/newsView/20260909506298",
+      "retrieved_at": "2026-09-29",
+      "lang": "ko",
+      "confirmed_by": "claude(사용자 요청 대행 — URL·매체·게시일 확인)",
+      "confirmed_at": "2026-09-29T08:47:28.994054Z",
+      "note": "",
+      "type": "article",
+      "publisher": "세계일보",
+      "headline_original": "북한군, 최근 한 달간 군사분계선 20여회 침범… 2025년 한해보다 많아",
+      "published_at": "2026-09-09",
+      "key_facts": [
+        "북한군, 최근 한 달간 군사분계선 20여회 침범… 2025년 한해보다 많아"
+      ]
+    },
+    {
+      "id": "src_art_0015",
+      "url": "https://www.koreajoongangdaily.com/korea/military-effectively-concludes-that-north-korean-mine-caused-series-of-blasts-in-dmz/12895478",
+      "retrieved_at": "2026-09-29",
+      "lang": "en",
+      "confirmed_by": "claude(사용자 요청 대행 — URL·매체·게시일 확인)",
+      "confirmed_at": "2026-09-29T08:47:29.346975Z",
+      "note": "",
+      "type": "article",
+      "publisher": "koreajoongangdaily",
+      "headline_original": "Military effectively concludes that North Korean mine caused series of blasts in DMZ",
+      "published_at": "2026-09-29",
+      "key_facts": [
+        "Military effectively concludes that North Korean mine caused series of blasts in DMZ"
+      ]
+    },
+    {
+      "id": "src_art_0016",
+      "url": "https://www.koreajoongangdaily.com/korea/military-finds-north-korean-mine-during-onsite-inspection-of-blast/12896565",
+      "retrieved_at": "2026-09-29",
+      "lang": "en",
+      "confirmed_by": "claude(사용자 요청 대행 — URL·매체·게시일 확인)",
+      "confirmed_at": "2026-09-29T08:47:29.736864Z",
+      "note": "",
+      "type": "article",
+      "publisher": "koreajoongangdaily",
+      "headline_original": "Military finds North Korean mine during on-site inspection of blast",
+      "published_at": "2026-09-29",
+      "key_facts": [
+        "Military finds North Korean mine during on-site inspection of blast"
+      ]
+    },
+    {
+      "id": "src_art_0017",
+      "url": "https://www.koreaherald.com/article/10887051",
+      "retrieved_at": "2026-09-29",
+      "lang": "en",
+      "confirmed_by": "claude(사용자 요청 대행 — URL·매체·게시일 확인)",
+      "confirmed_at": "2026-09-29T08:47:30.172542Z",
+      "note": "",
+      "type": "article",
+      "publisher": "The Korea Herald",
+      "headline_original": "N. Korean land mines highly likely cause of DMZ blast: S. Korean military",
+      "published_at": "2026-09-29",
+      "key_facts": [
+        "N. Korean land mines highly likely cause of DMZ blast: S. Korean military"
+      ]
+    },
+    {
+      "id": "src_art_0018",
+      "url": "https://www.nknews.org/2026/09/north-korean-mine-likely-caused-dmz-blast-that-injured-3-troops-rok/",
+      "retrieved_at": "2026-09-29",
+      "lang": "en",
+      "confirmed_by": "claude(사용자 요청 대행 — URL·매체·게시일 확인)",
+      "confirmed_at": "2026-09-29T08:47:30.581236Z",
+      "note": "",
+      "type": "article",
+      "publisher": "NK News - North Korea News",
+      "headline_original": "North Korean mine ‘likely’ caused DMZ blast that injured 3 troops: ROK | NK News",
+      "published_at": "2026-09-28",
+      "key_facts": [
+        "North Korean mine ‘likely’ caused DMZ blast that injured 3 troops: ROK | NK News"
+      ]
+    },
+    {
+      "id": "src_art_0019",
+      "url": "https://theprint.in/world/south-korean-military-un-command-launch-investigation-into-dmz-explosion/3054876/",
+      "retrieved_at": "2026-09-29",
+      "lang": "en",
+      "confirmed_by": "claude(사용자 요청 대행 — URL·매체·게시일 확인)",
+      "confirmed_at": "2026-09-29T08:47:31.041051Z",
+      "note": "",
+      "type": "article",
+      "publisher": "ThePrint",
+      "headline_original": "South Korean military, UN command launch investigation into DMZ explosion",
+      "published_at": "2026-09-27",
+      "key_facts": [
+        "South Korean military, UN command launch investigation into DMZ explosion"
+      ]
+    },
+    {
+      "id": "src_art_0020",
+      "url": "https://vz.ru/news/2026/9/21/1453435.html",
+      "retrieved_at": "2026-09-29",
+      "lang": "ru",
+      "confirmed_by": "claude(사용자 요청 대행 — URL·매체·게시일 확인)",
+      "confirmed_at": "2026-09-29T08:47:31.462084Z",
+      "note": "",
+      "type": "article",
+      "publisher": "ВЗГЛЯД.РУ",
+      "headline_original": "При взрыве мины на границе с КНДР пострадали южнокорейские солдаты",
+      "published_at": "2026-09-21",
+      "key_facts": [
+        "При взрыве мины на границе с КНДР пострадали южнокорейские солдаты"
+      ]
+    },
+    {
+      "id": "src_art_0021",
+      "url": "https://life.ru/p/yuzhnaya-koreya-nachala-rassledovanie-vzryva-miny-u-granitsy-s-kndr",
+      "retrieved_at": "2026-09-29",
+      "lang": "ru",
+      "confirmed_by": "claude(사용자 요청 대행 — URL·매체·게시일 확인)",
+      "confirmed_at": "2026-09-29T08:47:31.924777Z",
+      "note": "",
+      "type": "article",
+      "publisher": "Life.ru",
+      "headline_original": "Южная Корея начала расследование взрыва мины у границы с КНДР",
+      "published_at": "2026-09-27",
+      "key_facts": [
+        "Южная Корея начала расследование взрыва мины у границы с КНДР"
+      ]
+    },
+    {
+      "id": "src_art_0022",
+      "url": "https://en.iz.ru/en/1989717/dmitrii-korneev/barrage-ceremony-how-korean-sappers-are-helping-clear-mines-kursk-region",
+      "retrieved_at": "2026-09-29",
+      "lang": "en",
+      "confirmed_by": "claude(사용자 요청 대행 — URL·매체·게시일 확인)",
+      "confirmed_at": "2026-09-29T08:47:32.387003Z",
+      "note": "",
+      "type": "article",
+      "publisher": "Известия",
+      "headline_original": "The Barrage ceremony: how Korean sappers are helping to clear mines from the Kursk region",
+      "published_at": "2025-11-14",
+      "key_facts": [
+        "The Barrage ceremony: how Korean sappers are helping to clear mines from the Kursk region"
+      ]
+    },
+    {
+      "id": "src_art_0023",
+      "url": "https://www.nbcnews.com/world/asia/north-korea-plans-send-military-construction-workers-deminers-russia-rcna213666",
+      "retrieved_at": "2026-09-29",
+      "lang": "en",
+      "confirmed_by": "claude(사용자 요청 대행 — URL·매체·게시일 확인)",
+      "confirmed_at": "2026-09-29T08:47:32.807577Z",
+      "note": "",
+      "type": "article",
+      "publisher": "NBC News",
+      "headline_original": "North Korea plans to send military construction workers and deminers to Russia",
+      "published_at": "2025-06-18",
+      "key_facts": [
+        "North Korea plans to send military construction workers and deminers to Russia"
+      ]
+    },
+    {
+      "id": "src_art_0024",
+      "url": "https://www.nknews.org/?p=963980",
+      "retrieved_at": "2026-09-29",
+      "lang": "en",
+      "confirmed_by": "claude(사용자 요청 대행 — URL·매체·게시일 확인)",
+      "confirmed_at": "2026-09-29T08:47:33.192817Z",
+      "note": "",
+      "type": "article",
+      "publisher": "NK News - North Korea News",
+      "headline_original": "North Korean soldiers have begun clearing mines in Kursk, Russia says | NK News",
+      "published_at": "2025-11-14",
+      "key_facts": [
+        "North Korean soldiers have begun clearing mines in Kursk, Russia says | NK News"
+      ]
+    },
+    {
+      "id": "src_art_0025",
+      "url": "https://www.mk.ru/politics/2025/12/13/vyyasnilos-skolko-min-unichtozhili-sapery-kndr-v-kurskoy-oblasti.html",
+      "retrieved_at": "2026-09-29",
+      "lang": "ru",
+      "confirmed_by": "claude(사용자 요청 대행 — URL·매체·게시일 확인)",
+      "confirmed_at": "2026-09-29T08:47:33.707733Z",
+      "note": "",
+      "type": "article",
+      "publisher": "Московский Комсомолец",
+      "headline_original": "Выяснилось, сколько мин уничтожили саперы КНДР в Курской области",
+      "published_at": "2025-12-13",
+      "key_facts": [
+        "Выяснилось, сколько мин уничтожили саперы КНДР в Курской области"
+      ]
+    },
+    {
+      "id": "src_art_0026",
+      "url": "https://www.koreaherald.com/view.php?ud=20150810000488",
+      "retrieved_at": "2026-09-29",
+      "lang": "en",
+      "confirmed_by": "claude(사용자 요청 대행 — URL·매체·게시일 확인)",
+      "confirmed_at": "2026-09-29T08:47:34.209153Z",
+      "note": "",
+      "type": "article",
+      "publisher": "The Korea Herald",
+      "headline_original": "N. Korea behind recent mine explosion in DMZ: Defense Ministry",
+      "published_at": "2015-08-10",
+      "key_facts": [
+        "N. Korea behind recent mine explosion in DMZ: Defense Ministry"
+      ]
+    },
+    {
+      "id": "src_art_0027",
+      "url": "https://www.aljazeera.com/news/2026/9/21/three-south-korean-officers-wounded-in-border-explosion",
+      "retrieved_at": "2026-09-29",
+      "lang": "en",
+      "confirmed_by": "claude(사용자 요청 대행 — URL·매체·게시일 확인)",
+      "confirmed_at": "2026-09-29T08:47:34.733496Z",
+      "note": "",
+      "type": "article",
+      "publisher": "Al Jazeera",
+      "headline_original": "Three South Korean military officers wounded in explosion near border",
+      "published_at": "2026-09-21",
+      "key_facts": [
+        "Three South Korean military officers wounded in explosion near border"
+      ]
+    },
+    {
+      "id": "src_art_0028",
+      "url": "https://www.aljazeera.com/news/2026/9/28/south-korea-suspects-north-korean-mines-behind-dmz-blast",
+      "retrieved_at": "2026-09-29",
+      "lang": "en",
+      "confirmed_by": "claude(사용자 요청 대행 — URL·매체·게시일 확인)",
+      "confirmed_at": "2026-09-29T08:47:35.171370Z",
+      "note": "",
+      "type": "article",
+      "publisher": "Al Jazeera",
+      "headline_original": "South Korea suspects North Korean mines behind DMZ blast",
+      "published_at": "2026-09-28",
+      "key_facts": [
+        "South Korea suspects North Korean mines behind DMZ blast"
+      ]
+    },
+    {
+      "id": "src_art_0029",
+      "url": "https://www.aljazeera.com/news/2026/9/24/zelenskyy-says-ukraine-sent-two-north-korean-pows-to-south-korea",
+      "retrieved_at": "2026-09-29",
+      "lang": "en",
+      "confirmed_by": "claude(사용자 요청 대행 — URL·매체·게시일 확인)",
+      "confirmed_at": "2026-09-29T08:47:35.683460Z",
+      "note": "",
+      "type": "article",
+      "publisher": "Al Jazeera",
+      "headline_original": "Zelenskyy says Ukraine sent two North Korean POWs to South Korea",
+      "published_at": "2026-09-24",
+      "key_facts": [
+        "Zelenskyy says Ukraine sent two North Korean POWs to South Korea"
+      ]
+    },
+    {
+      "id": "src_art_0030",
+      "url": "https://www.aljazeera.com/news/2025/12/13/north-koreas-kim-bestows-hero-titles-on-soldiers-killed-in-ukraine-war",
+      "retrieved_at": "2026-09-29",
+      "lang": "en",
+      "confirmed_by": "claude(사용자 요청 대행 — URL·매체·게시일 확인)",
+      "confirmed_at": "2026-09-29T08:47:36.095380Z",
+      "note": "",
+      "type": "article",
+      "publisher": "Al Jazeera",
+      "headline_original": "North Korea’s Kim bestows ‘hero’ titles on soldiers killed in Ukraine war",
+      "published_at": "2025-12-13",
+      "key_facts": [
+        "North Korea’s Kim bestows ‘hero’ titles on soldiers killed in Ukraine war"
+      ]
+    },
+    {
+      "id": "src_art_0031",
+      "url": "https://news.mail.ru/politics/72515469/",
+      "retrieved_at": "2026-09-29",
+      "lang": "ru",
+      "confirmed_by": "claude(사용자 요청 대행 — URL·매체·게시일 확인)",
+      "confirmed_at": "2026-09-29T08:47:36.488455Z",
+      "note": "",
+      "type": "article",
+      "publisher": "RBC (Mail.ru 전재)",
+      "headline_original": "Южная Корея и ООН начали расследование взрыва на границе с КНДР - Новости Mail",
+      "published_at": "2026-09-27",
+      "key_facts": [
+        "Южная Корея и ООН начали расследование взрыва на границе с КНДР - Новости Mail"
+      ]
+    },
+    {
+      "id": "src_art_0032",
+      "url": "https://www.gazeta.press/army/news/2026/09/28/29412355.shtml",
+      "retrieved_at": "2026-09-29",
+      "lang": "ru",
+      "confirmed_by": "claude(사용자 요청 대행 — URL·매체·게시일 확인)",
+      "confirmed_at": "2026-09-29T08:47:36.881402Z",
+      "note": "",
+      "type": "article",
+      "publisher": "Gazeta.ru",
+      "headline_original": "Южная Корея заподозрила КНДР в закладке мин, на которых подорвались ее военные - Газета | Новости",
+      "published_at": "2026-09-28",
+      "key_facts": [
+        "Южная Корея заподозрила КНДР в закладке мин, на которых подорвались ее военные - Газета | Новости"
+      ]
+    },
+    {
+      "id": "src_art_0033",
+      "url": "https://www.ukrinform.ua/rubric-world/4166274-u-bufernij-zoni-miz-pivdennou-koreeu-ta-kndr-stavsa-vibuh-poraneni-troe-vijskovih.html",
+      "retrieved_at": "2026-09-29",
+      "lang": "uk",
+      "confirmed_by": "claude(사용자 요청 대행 — URL·매체·게시일 확인)",
+      "confirmed_at": "2026-09-29T08:47:37.265375Z",
+      "note": "",
+      "type": "article",
+      "publisher": "Ukrinform",
+      "headline_original": "У буферній зоні між Південною Кореєю та КНДР стався вибух, поранені троє військових",
+      "published_at": "2026-09-21",
+      "key_facts": [
+        "У буферній зоні між Південною Кореєю та КНДР стався вибух, поранені троє військових"
+      ]
+    },
+    {
+      "id": "src_art_0034",
+      "url": "https://lb.ua/world/2026/09/21/767664_buferniy_zoni_mizh_pivdennoyu.html",
+      "retrieved_at": "2026-09-29",
+      "lang": "uk",
+      "confirmed_by": "claude(사용자 요청 대행 — URL·매체·게시일 확인)",
+      "confirmed_at": "2026-09-29T08:47:37.679836Z",
+      "note": "",
+      "type": "article",
+      "publisher": "LB.ua",
+      "headline_original": "У буферній зоні між Південною Кореєю та КНДР стався вибух. Поранені люди",
+      "published_at": "2026-09-21",
+      "key_facts": [
+        "У буферній зоні між Південною Кореєю та КНДР стався вибух. Поранені люди"
+      ]
+    },
+    {
+      "id": "src_art_0035",
+      "url": "https://www.sisajournal.com/news/articleView.html?idxno=388552",
+      "retrieved_at": "2026-09-29",
+      "lang": "ko",
+      "confirmed_by": "claude(사용자 요청 대행 — URL·매체·게시일 확인)",
+      "confirmed_at": "2026-09-29T08:47:38.097668Z",
+      "note": "",
+      "type": "article",
+      "publisher": "시사저널",
+      "headline_original": "北 “韓, 핵보유 야망 실현할 것”…DMZ 지뢰 폭발 주범 지목엔 ‘침묵’ - 시사저널",
+      "published_at": "2026-09-29",
+      "key_facts": [
+        "北 “韓, 핵보유 야망 실현할 것”…DMZ 지뢰 폭발 주범 지목엔 ‘침묵’ - 시사저널"
+      ]
+    },
+    {
+      "id": "src_art_0036",
+      "url": "https://www.koreaherald.com/article/10887722",
+      "retrieved_at": "2026-09-29",
+      "lang": "en",
+      "confirmed_by": "claude(사용자 요청 대행 — URL·매체·게시일 확인)",
+      "confirmed_at": "2026-09-29T08:47:38.601458Z",
+      "note": "",
+      "type": "article",
+      "publisher": "The Korea Herald",
+      "headline_original": "Lee calls for transparent DMZ mine probe amid row over investigation delay",
+      "published_at": "2026-09-29",
+      "key_facts": [
+        "Lee calls for transparent DMZ mine probe amid row over investigation delay"
+      ]
+    },
+    {
+      "id": "src_art_0037",
+      "url": "https://view.asiae.co.kr/article/2026092218000682704",
+      "retrieved_at": "2026-09-29",
+      "lang": "ko",
+      "confirmed_by": "claude(사용자 요청 대행 — URL·매체·게시일 확인)",
+      "confirmed_at": "2026-09-29T08:47:39.093306Z",
+      "note": "",
+      "type": "article",
+      "publisher": "아시아경제",
+      "headline_original": "강신철, DMZ 지뢰사고 \"北 것인지 지금 알 수 없어…확실한 증거 필요\"",
+      "published_at": "2026-09-22",
+      "key_facts": [
+        "강신철, DMZ 지뢰사고 \"北 것인지 지금 알 수 없어…확실한 증거 필요\""
+      ]
+    }
+  ]
+}
