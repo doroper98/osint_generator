@@ -126,6 +126,7 @@ class Assets:
         self.img: dict[str, Image.Image] = {}
         self.clips: dict[str, np.ndarray] = {}
         self._sc: dict[tuple[str, int], tuple[cairo.ImageSurface, bytearray]] = {}
+        self._orig: dict[str, tuple[cairo.ImageSurface, bytearray]] = {}
 
     def emblem_flag(self, eid: str) -> str | None:
         """휘장 결정. `flag_fallback` 이면 대체 국기 코드, `use` 면 None. 미등재 휘장은 오류(15 P10)."""
@@ -168,6 +169,14 @@ class Assets:
         """원본 이미지 픽셀 폭(업스케일 경고 checks media_upscaled)."""
         self.load_image(key)
         return self.img[key].width
+
+    def original(self, key: str) -> cairo.ImageSurface:
+        """원본 해상도 표면 하나(v4.8.0 D-0104 D6) — 켄 번스처럼 크기가 매 프레임 바뀌는 그림은 이 표면을 cairo 변환으로
+        연속 배율로 그린다. `scaled` 는 폭을 3px 단위로 양자화해 다시 만들므로 배율이 계단처럼 튄다(R-0119 S8)."""
+        if key not in self._orig:
+            self.load_image(key)
+            self._orig[key] = surf_from_pil(self.img[key])
+        return self._orig[key][0]
 
     def scaled(self, key: str, w: float) -> cairo.ImageSurface:
         wq = max(8, int(round(w / 3.0) * 3))

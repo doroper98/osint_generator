@@ -79,6 +79,19 @@ def media_tag(ctx: cairo.Context, x: float, y: float, s_: str, a: float) -> None
     text(ctx, s_, x + 14, y + 18, 7.5, "mono", C["gold"], a, 0, "l", spacing=0.8, role="media_meta")
 
 
+def ken_burns_source(ctx: cairo.Context, src: cairo.ImageSurface, x: float, y: float, w: float, h: float, k: float) -> None:
+    """사진을 설계 폭 w × k 로(연속 배율) 원천으로 건다 — 원본 해상도 표면 하나 + 패턴 행렬(v4.8.0 D-0104 D6, R-0119 S8).
+    옛 방식(매 프레임 `raster(w × k)` = 3px 단위 폭으로 다시 리샘플)은 크기가 계단처럼 튀었다. 위치 기준(가로 0.35·세로 0.5)은 v3 그대로."""
+    fw = w * k
+    fh = fw * src.get_height() / src.get_width()
+    ox, oy = x - (fw - w) * 0.35, y - (fh - h) * 0.5
+    sc = src.get_width() / fw                       # 설계 1 단위당 원본 픽셀
+    pat = cairo.SurfacePattern(src)
+    pat.set_matrix(cairo.Matrix(xx=sc, yy=sc, x0=-ox * sc, y0=-oy * sc))
+    pat.set_filter(cairo.FILTER_GOOD)
+    ctx.set_source(pat)
+
+
 def draw_photo(ctx: cairo.Context, R: RenderCtx, t: float, e: dict) -> None:  # noqa: N803
     a = window(t, e["t0"], e["t1"], 0.5, 0.5)
     if a <= 0.01:
@@ -89,11 +102,10 @@ def draw_photo(ctx: cairo.Context, R: RenderCtx, t: float, e: dict) -> None:  # 
     h = w * 0.625
     media_frame(ctx, x, y, w, h + 38, a)
     k = 1.0 + (KEN_BURNS_MAX - 1.0) * clamp01(lt / (e["t1"] - e["t0"]))  # Ken Burns
-    fs, fw, fh = R.assets.raster(f"media:{m.file}", w * k, R.out.k)
     ctx.save()
     ctx.rectangle(x, y, w, h)
     ctx.clip()
-    set_raster(ctx, fs, R.out.k, x - (fw - w) * 0.35, y - (fh - h) * 0.5)
+    ken_burns_source(ctx, R.assets.original(f"media:{m.file}"), x, y, w, h, k)
     ctx.paint_with_alpha(a)
     ctx.restore()
     ctx.rectangle(x + 0.5, y + 0.5, w - 1, h + 37)
