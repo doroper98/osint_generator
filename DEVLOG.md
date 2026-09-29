@@ -3350,3 +3350,12 @@ last_review: 2026-06-06
 - **어떻게**: 크기 값은 전부 규칙 파일로(리터럴 0). 글자 크기는 먼저 리터럴만 규칙으로 옮겨 골든 바이트 동일을 확인하고(1단계), Fable 결정 뒤 값만 바꿨다(2단계). 골든 변경은 v4.7.0 엔진 렌더(= G1 기준선 25/25)를 기준으로 요소 상자 합집합 안 비율을 쟀다.
 - **결과**: hormuz 골든 24/25 변경, 요소 영역 안 99.24%(밖 4컷 = 캡션 바·경로 라벨·마커 부제 확대와 지도 도시 라벨 자리바꿈). 랫클리프 20/20·fed_policy 21/22·데모 10/12 변경, 모두 checks hard 0. 갤러리 36. 운영: 재기동 20 이 R-0131 뒤 회수돼 재기동 21 이 D-0113 부터 이었다. 새 컨테이너 준비에 청와대 휘장 받기(`tools.commons_fetch emblems … --only cheongwadae`)가 필요하다.
 - **연관**: D89·D98, D-0101·D-0104·D-0109·D-0111~D-0113.
+
+## 2026-09-30 v4.9.0 — G8 콘티 판(animatic) 루틴
+
+- **무엇을**: `engine.render --animatic` → `out/animatic.mp4`(480p·fps 24). 막지도(`FlatMercatorStage`)·자리표시 상자(`engine/layers/animatic.py`)·표식 띠·검사 프로파일·deliver 거부.
+- **왜**: 사용자 결정 D97 — 흐름·호흡을 게이트 ② 전에 싸게 검토(back_and_forth D-0108).
+- **어떻게**: 플래그 분기는 `load_project(animatic=True)` 한 곳, `render_frame` 은 `LayerSet` 만 본다. 자리 계산은 전편 기하 함수 재사용. 막지도 자료는 저장소 추적 NE 110m(R-0135, D-0108 "이미 있음" 이 실측과 달라 결정 요청).
+- **결과**: fed_policy 307초 → 124초, hormuz 292초 → 118초(4코어, 목표 180초). hormuz md5 3회 동일. 자산 없는 폴더에서도 렌더(엔딩 카드만 다름). pytest 1110 passed.
+- **연관**: D-0108·D-0114·R-0135, reports/phaseG8/run_log.md, artifacts/phaseG8-v4.9.0.
+

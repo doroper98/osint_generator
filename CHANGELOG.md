@@ -70,6 +70,8 @@ MINOR: 사용자 지시 "초반에 아주 러프한 음성과 음악, 자막만 
 - **작업 2 렌더 `--animatic`**: 진입 `load_project(animatic=True)` 한 곳 — 480p 고정, `FlatMercatorStage`(막지도 모드, geo.yaml 티어 W 경계, 라벨 없음), `LayerSet`(전편 `FULL_LAYERS` / `ANIMATIC_LAYERS`) — `render_frame` 에 플래그 분기 없음. 자리표시는 `engine/layers/animatic.py` 하나(전편 기하 함수 재사용). 음성·음악 = 기존 `out/mix.f32`. 산출물 `out/animatic*`·`prev_animatic/`.
 - **작업 3 검사·표식·거부**: checks 콘티 프로파일(`profile_skips`, skipped 기록), provenance `animatic`(전편 false·콘티 판 true + `animatic_run`), 화면 위 가운데 띠, mp4 메타데이터 표식, `engine.mux` 가 콘티 판 거부(`AnimaticDeliverError`). 권리 레지스트리 없는 환경의 엔딩 카드 license_ref 자리는 `animatic.missing_license`(전편은 RightsError 그대로).
 - **작업 4 문서**: WORKFLOWS W0, handoff 11 §9·16 §7, docs/10·12·15 한 줄, 용어(ADDENDUM_03 콘티 판).
+- **작업 5 테스트(ea2dee0)**: `tests/test_g8_animatic.py` 10개 — 자리표시 문구, 자산 없는 환경 렌더(파일 접근 패치), 결정성 md5, 띠, 검사 프로파일, 크림, provenance, deliver 거부. 1110 passed.
+- **작업 6 실측**: fed_policy 307초 → 124.4초, hormuz 292초 → 118초(4코어, 목표 180초), hormuz md5 3회 동일, 자산 없는 폴더 111초. `reports/phaseG8/`, artifacts `phaseG8-v4.9.0`(4f66348).
 
 ---
 
