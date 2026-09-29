@@ -608,8 +608,25 @@ audio:                     # 10
     sentence_rms_dev_db: 3.0               # D-0061 쟁점 2 A — 문장 RMS 가 평균에서 이만큼 넘게 벗어나면 warning(정규화는 하지 않음). hormuz 0건(편차 0.65dB)
     sentence_rms_window_sec: 0.02          # 문장 RMS: 이 길이 창의 RMS 중
     sentence_rms_floor_db: -40             # 최대 창보다 이만큼 이상 작은 창(무음)은 뺀다
+    # v4.6.0 D-0097 작업 3 — 베드 저역 비율(audio/qa.py, 믹서가 out/bed_stats.json 에 기록). 처리 후 베드(내레이션·효과음 제외, 피크 정규화 뒤 모노)의
+    # bass_band_hz 대역 RMS − mid_band_hz 대역 RMS(dB, FFT 파워 합). 범위 밖 = hard. 처리 전 값도 기록해 상승폭을 남긴다(판정은 처리 후 값만)
+    bed_bass_ratio_db: [-6, 0]
+    bed_bass_band_hz: [30, 120]
+    bed_mid_band_hz: [200, 2000]
   crossfade_sec: 4.0        # v3.4.0 D-0060 작업 5 — 곡 교체 교차 페이드(경계 가운데 정렬, 선형 합 1). BGM 반복 교차 페이드(loop_xfade_sec)와 같은 값
   norm_eps: 1.0e-6          # 피크 정규화 분모 여유
+  bed_bass:                 # v4.6.0 D-0097(사용자 결정 D86) — 베드 저음 보강(audio/mix.py process_bed). 곡을 따라가는 처리만 — 고정 근음 드론·절차 합성 없음
+    # 순서: 디코드 → (곡 교체면 곡마다) 셸프 → 서브 옥타브 층 합산(장면 시작 스웰) → 피크 정규화(기존) → bed_gain·intensity·덕킹(기존, 값 불변)
+    shelf: {freq_hz: 110, gain_db: 5.0, q: 0.7}         # 로우 셸프 biquad(RBJ 쿡북 계수, scipy lfilter), 양 채널
+    sub:                    # 서브 옥타브: 모노합 → 밴드패스 → 영교차(상승) 2분주 사각파 → 로우패스 → × 원 대역 포락선 × gain → 양 채널에 더함
+      band_hz: [55, 220]
+      out_lp_hz: 110
+      filter_order: 4       # 밴드패스·로우패스 버터워스 차수(sos)
+      gain: 0.35
+      env_attack_sec: 0.03  # 포락선(원 대역 블록 RMS×√2 의 attack/release 추종)
+      env_release_sec: 0.25
+      env_block_sec: 0.001  # 포락선 계산 블록 길이(블록 값을 샘플로 선형 보간)
+    swell: {sec: 2.5, depth: 0.35}                       # 장면 시작(첫 장면 제외)에서 서브 층 이득 1+depth → sec 동안 선형으로 1
   sfx:                      # 효과음 합성(v3 mix3) — 필터 계수·시상수·이득
     whoosh: {dur_sec: 1.2, shape_pow: 2.2, low_b: 0.08, low_a: -0.92, low_gain: 0.6, high_b: 0.3, high_a: -0.7, high_gain: 0.25,
              release_sec: 0.08, release_tau_sec: 0.05, gain: 0.2}

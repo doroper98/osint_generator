@@ -5,6 +5,8 @@ engine.checks(check_audio)·engine.mux(provenance audio)·tools/audio_report.py(
 - mix.f32: 내레이션 스템을 plan npy 로 재구성(믹서와 같은 narration_peak 정규화·배치)해 최소제곱 스케일로 맞추고,
   나머지를 음악+효과음 스템으로 본다. 내레이션 구간 RMS 차(음악 − 내레이션, dB)가 audio.qa.music_under_narration_db 안.
 - mix 피크 ≤ audio.master_peak.
+- v4.6.0(D-0097 작업 3): 베드 저역 비율 — 처리 후 베드(내레이션·효과음 제외, 믹서가 `out/bed_stats.json` 에 기록)의
+  audio.qa.bed_bass_band_hz RMS − bed_mid_band_hz RMS(dB)가 audio.qa.bed_bass_ratio_db 안. 음악이 없으면 판정 대상 아님.
 """
 
 from __future__ import annotations
@@ -19,6 +21,7 @@ import numpy as np
 from pydantic import BaseModel, ConfigDict
 
 from rules import load_rules
+from schemas.rules_models import BedBass
 
 SR = 44100                     # 코덱 상수(audio.mix.SR 과 같음 — test_audio_rules)
 AU = load_rules().audio
@@ -30,6 +33,59 @@ class Loudness(BaseModel):
     I: float  # noqa: E741, N815
     TP: float  # noqa: N815
     LRA: float  # noqa: N815
+
+
+class BedBand(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+
+    bass_db: float
+    mid_db: float
+    ratio_db: float                                   # bass − mid
+
+
+class BedStats(BaseModel):
+    """out/bed_stats.json — 믹서가 쓰는 베드 저역 측정(처리 전·후). 음악이 있을 때만 존재."""
+
+    model_config = ConfigDict(extra="forbid")
+
+    schema_version: int = 1
+    bass_band_hz: tuple[float, float]
+    mid_band_hz: tuple[float, float]
+    before: BedBand                                   # 저음 보강 전 베드(루프·정규화만)
+    after: BedBand                                    # process_bed 뒤 베드
+    rise_db: float                                    # after.ratio − before.ratio
+    swell_at: list[float]                             # 스웰 시각(첫 장면 제외)
+    applied: BedBass                                  # rules audio.bed_bass 적용 값
+    mix_samples: Optional[int] = None                 # 같은 실행의 mix.f32 샘플 수(낡은 기록 판별)
+    method: str = "베드 모노(좌우 평균) rfft 파워를 대역별로 합한 RMS, 비율 = 저역 − 중역(dB)"
+
+
+def band_rms_db(x: np.ndarray, band: tuple[float, float]) -> float:
+    """모노 신호의 대역 RMS(dB) — rfft 파워(파서발) 합. 결정적."""
+    X = np.fft.rfft(x.astype(np.float64))  # noqa: N806
+    f = np.fft.rfftfreq(len(x), 1 / SR)
+    m = (f >= band[0]) & (f < band[1])
+    return db(float(np.sqrt(2 * np.sum(np.abs(X[m]) ** 2)) / len(x)))
+
+
+def _band(y: np.ndarray) -> BedBand:
+    q = AU.qa
+    mono = y.mean(1) if y.ndim == 2 else y
+    b, m = band_rms_db(mono, q.bed_bass_band_hz), band_rms_db(mono, q.bed_mid_band_hz)
+    return BedBand(bass_db=round(b, 2), mid_db=round(m, 2), ratio_db=round(b - m, 2))
+
+
+def bed_stats(before: np.ndarray, after: np.ndarray, swell_at: list[float]) -> dict:
+    """처리 전·후 베드(N×2) 저역 비율 — 믹서가 부른다(측정 코드 경로 하나)."""
+    b0, b1 = _band(before), _band(after)
+    return BedStats(bass_band_hz=AU.qa.bed_bass_band_hz, mid_band_hz=AU.qa.bed_mid_band_hz, before=b0, after=b1,
+                    rise_db=round(b1.ratio_db - b0.ratio_db, 2), swell_at=[round(t, 3) for t in swell_at],
+                    applied=AU.bed_bass).model_dump(mode="json")
+
+
+def load_bed_stats(out_dir: Path) -> Optional[BedStats]:
+    p = out_dir / "bed_stats.json"
+    return BedStats.model_validate(json.loads(p.read_text(encoding="utf-8"))) if p.exists() else None
 
 
 class AudioQA(BaseModel):
@@ -50,6 +106,11 @@ class AudioQA(BaseModel):
     peak_ok: bool
     sentence_rms_db: dict[str, float] = {}            # 문장 id → 무음 제외 RMS(피크 정규화 뒤)
     sentence_rms_outliers: list[str] = []             # 평균에서 sentence_rms_dev_db 넘게 벗어난 문장(warning)
+    bed_bass_ratio_db: Optional[float] = None         # v4.6.0 — 처리 후 베드 저역 비율(음악 없으면 None)
+    bed_bass_ratio_before_db: Optional[float] = None
+    bed_bass_rise_db: Optional[float] = None
+    bed_bass_ok: Optional[bool] = None                # None = 음악 없음. bed_stats 없음·낡음·범위 밖 = False
+    bed_bass_note: Optional[str] = None
     method: str = "내레이션 스템 = plan npy 재배치(믹서 규칙) × 최소제곱 스케일, 음악 = mix − 내레이션(모노 평균)"
 
     def issues(self) -> list[str]:
@@ -62,6 +123,10 @@ class AudioQA(BaseModel):
         if self.music_level_ok is False:
             lo, hi = q.music_under_narration_db
             out.append(f"내레이션 구간 음악 {self.music_under_narration_db:+.2f} dB — 범위 [{lo:g}, {hi:g}]")
+        if self.bed_bass_ok is False:
+            lo, hi = q.bed_bass_ratio_db
+            out.append(f"베드 저역 비율 {self.bed_bass_ratio_db} dB — 범위 [{lo:g}, {hi:g}]" if self.bed_bass_note is None
+                       else f"베드 저역 비율 판정 불가 — {self.bed_bass_note}")
         if not self.peak_ok:
             out.append(f"mix 피크 {self.mix_peak:.4f} > master_peak {AU.master_peak}")
         return out
@@ -162,13 +227,24 @@ def audio_qa(out_dir: Path, sentences: list, has_music: bool = True) -> AudioQA:
     final = out_dir / "final.mp4"
     loud = measure_loudnorm(final) if final.exists() else None
     peak = float(np.abs(mix).max())
+    bb: dict = {}
+    if has_music:
+        st = load_bed_stats(out_dir)
+        lo_b, hi_b = AU.qa.bed_bass_ratio_db
+        if st is None:
+            bb = {"bed_bass_ok": False, "bed_bass_note": "out/bed_stats.json 없음 — audio.mix 를 다시 실행"}
+        elif st.mix_samples != len(mix):
+            bb = {"bed_bass_ok": False, "bed_bass_note": f"bed_stats 샘플 수 {st.mix_samples} ≠ mix.f32 {len(mix)}(낡은 기록)"}
+        else:
+            bb = {"bed_bass_ratio_db": st.after.ratio_db, "bed_bass_ratio_before_db": st.before.ratio_db,
+                  "bed_bass_rise_db": st.rise_db, "bed_bass_ok": lo_b <= st.after.ratio_db <= hi_b}
     return AudioQA(final_loudness=loud, mix_peak=round(peak, 4), narration_rms_db=round(vo_db, 2),
                    music_rms_in_narration_db=round(mu_db, 2), music_under_narration_db=round(mu_db - vo_db, 2),
                    narration_seconds=round(float(mask.sum()) / SR, 1),
                    loudness_ok=None if loud is None else abs(loud.I - AU.loudnorm.I) <= AU.qa.i_tol_lu,
                    true_peak_ok=None if loud is None else round(loud.TP, 2) <= round(AU.loudnorm.TP + AU.qa.tp_codec_margin_db, 2),
                    music_level_ok=(lo <= mu_db - vo_db <= hi) if has_music else None, peak_ok=peak <= AU.master_peak,
-                   sentence_rms_db=srms, sentence_rms_outliers=rms_outliers(srms))
+                   sentence_rms_db=srms, sentence_rms_outliers=rms_outliers(srms), **bb)
 
 
-__all__ = ["AudioQA", "Loudness", "audio_qa", "loudnorm_two_pass", "measure_loudnorm", "stems"]
+__all__ = ["AudioQA", "BedStats", "Loudness", "audio_qa", "band_rms_db", "bed_stats", "load_bed_stats", "loudnorm_two_pass", "measure_loudnorm", "stems"]

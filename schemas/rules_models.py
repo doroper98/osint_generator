@@ -818,6 +818,52 @@ class AudioQARules(_Strict):
     sentence_rms_dev_db: float = Field(gt=0)
     sentence_rms_window_sec: float = Field(gt=0)
     sentence_rms_floor_db: float = Field(lt=0)
+    bed_bass_ratio_db: tuple[float, float]           # v4.6.0 D-0097 작업 3
+    bed_bass_band_hz: tuple[float, float]
+    bed_mid_band_hz: tuple[float, float]
+
+    @model_validator(mode="after")
+    def _bands(self) -> "AudioQARules":
+        for name in ("bed_bass_ratio_db", "bed_bass_band_hz", "bed_mid_band_hz"):
+            lo, hi = getattr(self, name)
+            if not lo < hi:
+                raise ValueError(f"audio.qa.{name}: [낮은, 높은] 순서여야 한다 — {lo, hi}")
+        return self
+
+
+class BedShelf(_Strict):
+    freq_hz: float = Field(gt=0)
+    gain_db: float
+    q: float = Field(gt=0)
+
+
+class BedSub(_Strict):
+    band_hz: tuple[float, float]
+    out_lp_hz: float = Field(gt=0)
+    filter_order: int = Field(ge=1)
+    gain: float = Field(ge=0)
+    env_attack_sec: float = Field(gt=0)
+    env_release_sec: float = Field(gt=0)
+    env_block_sec: float = Field(gt=0)
+
+    @model_validator(mode="after")
+    def _band(self) -> "BedSub":
+        if not 0 < self.band_hz[0] < self.band_hz[1]:
+            raise ValueError(f"audio.bed_bass.sub.band_hz: 0 < 낮은 < 높은 — {self.band_hz}")
+        return self
+
+
+class BedSwell(_Strict):
+    sec: float = Field(gt=0)
+    depth: float = Field(ge=0)
+
+
+class BedBass(_Strict):
+    """v4.6.0 D-0097 — 베드 저음 보강(audio/mix.py process_bed)."""
+
+    shelf: BedShelf
+    sub: BedSub
+    swell: BedSwell
 
 
 class AudioRules(_Strict):
@@ -840,6 +886,7 @@ class AudioRules(_Strict):
     crossfade_sec: float = Field(gt=0)
     qa: AudioQARules
     norm_eps: float
+    bed_bass: BedBass
     sfx: SfxRules
 
 

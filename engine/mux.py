@@ -146,6 +146,13 @@ def project_provenance(P, stages: dict[str, bool]) -> dict:  # noqa: ANN001, N80
     segs = P.R.cache.get("bgm_segments", 1 if mus else 0)
     prov["audio"] = {"bgm": mus or None, "bed_gain": load_rules().audio.bed_gain,    # v3.4.0 — bgm null = 음악 없음(명시 상태, F1)
                      "crossfades": max(0, segs - 1)}
+    if stages.get("mix") and mus:   # v4.6.0 D-0097 작업 5 — 베드 저음 보강 적용 값·측정치(믹서 기록 out/bed_stats.json). 음악 없으면 기록 없음(P5)
+        from audio.qa import load_bed_stats  # noqa: PLC0415
+
+        bs = load_bed_stats(P.root / "out")
+        if bs is not None:
+            prov["audio"]["bed_bass"] = {"applied": bs.applied.model_dump(), "ratio_db": {"before": bs.before.ratio_db, "after": bs.after.ratio_db},
+                                         "rise_db": bs.rise_db, "swell_at": bs.swell_at, "bands_hz": {"bass": list(bs.bass_band_hz), "mid": list(bs.mid_band_hz)}}
     # v3.6.0 D-0066 작업 1 — 이 산출물의 출력 프로파일. 전편은 render 가 남긴 out/render.json(영상을 만든 프로파일), 프리뷰는 P.R.out
     rj = P.root / "out" / "render.json"
     prov["render"] = {"resolution": (json.loads(rj.read_text(encoding="utf-8"))["resolution"]
@@ -222,7 +229,7 @@ def main(argv: list[str] | None = None) -> int:
         (outd / "audio_qa.json").write_text(json.dumps({**qa, "hard": issues, "warnings": warns}, ensure_ascii=False, indent=1),
                                             encoding="utf-8")
         prov["audio"] = {**prov["audio"], "loudnorm": {"passes": 2, **loud}, "qa": {"hard": issues, "warnings": warns,
-                                                 **{k: qa[k] for k in ("final_loudness", "music_under_narration_db", "mix_peak")}}}
+                                                 **{k: qa[k] for k in ("final_loudness", "music_under_narration_db", "mix_peak", "bed_bass_ratio_db")}}}
         (outd / "provenance.json").write_text(json.dumps(prov, ensure_ascii=False, indent=1), encoding="utf-8")
         if issues:
             raise ProjectError("오디오 QA hard 실패:\n" + "\n".join(issues))
