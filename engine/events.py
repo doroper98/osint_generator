@@ -256,6 +256,9 @@ class ArticleEvent(_Event):
 
     type: Literal["article"]
     mid: str
+    align: Optional[Literal["center"]] = None   # v4.8.0 D-0101 §2 — 배치 슬롯 center 가 채운다(무대 가운데)
+
+    DROP_NONE: ClassVar[tuple[str, ...]] = ("align",)   # 오른쪽 기본 기사 dict = v4.7.0 과 같음
 
 
 class PostEvent(_Event):

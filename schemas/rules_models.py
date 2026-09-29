@@ -94,12 +94,13 @@ class PlacementSlot(_Strict):
     card: Optional[float] = None
     beside_panel: Optional[BesidePanel] = None
     screen: Optional[list[tuple[float, float]]] = None   # v4.8.0 D-0104 D2(c) — 패널 위 화면 고정 점들(동시 n 번째 = n 번째 점)
+    align: Optional[Literal["center"]] = None             # v4.8.0 D-0101 §2 — 기사 카드 무대 가운데
 
     @model_validator(mode="after")
     def _one(self) -> "PlacementSlot":
         is_card = "card" in self.model_fields_set
-        if sum([self.box is not None, self.point is not None, is_card, self.beside_panel is not None, bool(self.screen)]) != 1:
-            raise ValueError("슬롯은 box·point·card·beside_panel·screen 중 하나")
+        if sum([self.box is not None, self.point is not None, is_card, self.beside_panel is not None, bool(self.screen), self.align is not None]) != 1:
+            raise ValueError("슬롯은 box·point·card·beside_panel·screen·align 중 하나")
         return self
 
 
@@ -273,8 +274,46 @@ class CardLayout(_Strict):
 
 
 class ArticleCardLayout(_Strict):
+    """v4.8.0 back_and_forth D-0101 §2 — 기사 카드 조판(draw_article·article_geom 수치 전부)."""
+
     w: float
     y: float
+    pad: float
+    pub_size: float
+    date_size: float
+    headline_size: float
+    headline_gap: float
+    headline_max_lines: int = Field(ge=1)
+    sub_size: float
+    sub_gap: float
+    sub_max_lines: int = Field(ge=0)
+    sub_lead: float
+    meta_size: float
+    head_base: float
+    rule_y: float
+    rule_w: float
+    rule_alpha: float
+    body_top: float
+    foot_h: float
+    foot_inset: float
+    radius: float
+    shadow: list[tuple[float, float]]
+    shadow_dx: float
+    shadow_dy: float
+    paper: tuple[float, float, float]
+    ink: tuple[float, float, float]
+    grey: tuple[float, float, float]
+    hl_rgba: tuple[float, float, float, float]
+    hl_rise: float
+    hl_h: float
+    hl_pad: float
+    hl_delay_sec: float
+    hl_sec: float
+    slide_sec: float
+    fade_sec: float
+    tag: str
+    tag_spacing: float
+    center_dim: float = Field(ge=0, le=1)
 
 
 class PostCardLayout(_Strict):

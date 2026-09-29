@@ -25,7 +25,7 @@ from engine.direction import build as build_direction
 from engine.entities import check_event_refs, load_entities
 from engine.panels import network, relation, timeline
 from engine.credits import RightsError
-from engine.layers.media import caption_width, validate_media
+from engine.layers.media import ArticleOverflowError, article_geom, caption_width, validate_media
 from engine.media_registry import credit_line
 from engine.media_plan import density_report, media_box, placement_warnings
 from engine.layers.badges import assign_person_sizes
@@ -121,6 +121,11 @@ def preflight(R: RenderCtx, events: list[dict]) -> list[str]:  # noqa: N803
                 continue
             if e["type"] in ("photo", "cutout"):
                 keys.add(f"media:{m.file}")
+            if e["type"] == "article":         # v4.8.0 D-0101 §2 — 헤드라인·부제 최대 줄 수(조용한 잘림 금지)
+                try:
+                    article_geom(cairo.Context(cairo.ImageSurface(cairo.FORMAT_ARGB32, 1, 1)), e)
+                except ArticleOverflowError as ex:
+                    errs.append(str(ex))
     for k in sorted(keys):
         try:
             A.load_image(k)

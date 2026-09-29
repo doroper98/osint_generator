@@ -130,6 +130,8 @@ def resolve_places(events: list[dict], view_at: Callable[[float], object],
                 continue
         elif slot.box is not None:
             e["x"], e["y"], e["w"] = slot.box
+        elif slot.align is not None:          # v4.8.0 D-0101 §2 — 기사 카드 무대 가운데
+            e["align"] = slot.align
         elif slot.point is not None or slot.screen:
             if slot.screen:
                 err = _screen_point(e, slot, on_screen)

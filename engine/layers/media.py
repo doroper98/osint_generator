@@ -19,9 +19,12 @@ from engine.credits import RightsError
 from engine.media_registry import cached_registry, credit_line, load_media_registry
 from engine.projection import View
 from engine.style import ARTICLE, CARD, C, FPS, W_OUT
+from rules import load_rules
 from engine.timebase import clamp01, ease_io, ease_out, smooth, window
 from engine.typography import rrect, text, tw, wrap
 
+
+SUB_Y = load_rules().layout_480p.reserved_zones.subtitle.y_from   # 자막 구역 위 — 기사 카드 가운데 자리의 세로 범위
 
 EVENT_KIND: dict[str, str] = {"photo": "photo", "clip": "video", "cutout": "cutout", "article": "article"}   # 이벤트 → 레지스트리 kind
 
@@ -128,8 +131,12 @@ def draw_clip(ctx: cairo.Context, R: RenderCtx, t: float, e: dict) -> None:  # n
     media_caption(ctx, x, y + h, w, m.caption, credit_line(m), a)
 
 
+class ArticleOverflowError(ValueError):
+    """헤드라인·부제가 rules article_card 의 최대 줄 수를 넘는다(v4.8.0 D-0101 §2 — 조용한 잘림 금지, 15 P6)."""
+
+
 def article_alpha(t: float, e: dict) -> float:
-    return window(t, e["t0"], e["t1"], 0.45, 0.45)
+    return window(t, e["t0"], e["t1"], ARTICLE.fade_sec, ARTICLE.fade_sec)
 
 
 def article_text(e: dict) -> dict:
@@ -139,55 +146,70 @@ def article_text(e: dict) -> dict:
 
 
 def article_geom(ctx: cairo.Context, e: dict) -> tuple[float, float, float, float, list[str], list[str]]:
-    """기사 카드 상자 (x, y, 폭, 높이, 헤드라인 줄, 부제 줄) — 슬라이드 전 제자리(RESERVED, D-0033)."""
+    """기사 카드 상자 (x, y, 폭, 높이, 헤드라인 줄, 부제 줄) — 슬라이드 전 제자리(RESERVED, D-0033).
+    v4.8.0 D-0101 §2: 수치는 rules article_card, `align: center`(슬롯 center) = 무대 가운데. 줄 수 초과 = ArticleOverflowError."""
+    A = ARTICLE  # noqa: N806
     e = {**e, **article_text(e)}
-    w = ARTICLE.w
-    hl_lines = wrap(ctx, e["headline"], w - 32, 13.5, "serifb")
-    sub_lines = wrap(ctx, e["sub"], w - 32, 9.5, "sans")
-    h = 44 + len(hl_lines) * 20 + 6 + len(sub_lines) * 14 + 24
-    return W_OUT - w - CARD.x_right_margin, ARTICLE.y, w, h, hl_lines, sub_lines
+    w = A.w
+    hl_lines = wrap(ctx, e["headline"], w - A.pad * 2, A.headline_size, "serifb")
+    sub_lines = wrap(ctx, e["sub"], w - A.pad * 2, A.sub_size, "sans") if e["sub"] else []
+    over = [f"{what} {len(ls)}줄 > {mx}" for what, ls, mx in (("헤드라인", hl_lines, A.headline_max_lines), ("부제", sub_lines, A.sub_max_lines))
+            if len(ls) > mx]
+    if over:
+        raise ArticleOverflowError(f"기사 카드 {e['mid']}({e['pub']}): {', '.join(over)} — 레지스트리 문구를 줄인다(rules article_card)")
+    last = A.body_top + (len(hl_lines) - 1) * A.headline_gap                       # 마지막 글자 줄 기준선
+    if sub_lines:
+        last += A.headline_gap + A.sub_lead + (len(sub_lines) - 1) * A.sub_gap
+    h = last + A.foot_h
+    if e.get("align") == "center":
+        return (W_OUT - w) / 2, (SUB_Y - h) / 2, w, h, hl_lines, sub_lines
+    return W_OUT - w - CARD.x_right_margin, A.y, w, h, hl_lines, sub_lines
 
 
 def draw_article(ctx: cairo.Context, R: RenderCtx, t: float, e: dict) -> None:  # noqa: N803
+    A = ARTICLE  # noqa: N806
     a = article_alpha(t, e)
     if a <= 0.01:
         return
     e = {**e, **article_text(e)}
     lt = t - e["t0"]
     x0, y, w, h, hl_lines, sub_lines = article_geom(ctx, e)
-    x = x0 + (1 - ease_out(lt / 0.55)) * CARD.slide_px
-    for d_, al in ((6, 0.12), (3, 0.2)):
-        rrect(ctx, x - d_ + 2, y - d_ + 4, w + 2 * d_, h + 2 * d_, 3 + d_)
+    if e.get("align") == "center":        # 아래 지도·시간축을 dip 만큼 어둡게(D-0101 §2)
+        ctx.set_source_rgba(0, 0, 0, A.center_dim * a)
+        ctx.paint()
+    x = x0 + (1 - ease_out(lt / A.slide_sec)) * CARD.slide_px
+    for d_, al in A.shadow:
+        rrect(ctx, x - d_ + A.shadow_dx, y - d_ + A.shadow_dy, w + d_ * 2, h + d_ * 2, A.radius + d_)
         ctx.set_source_rgba(0, 0, 0, al * a)
         ctx.fill()
-    rrect(ctx, x, y, w, h, 3)
-    ctx.set_source_rgba(0.95, 0.935, 0.905, a)
+    rrect(ctx, x, y, w, h, A.radius)
+    ctx.set_source_rgba(*A.paper, a)
     ctx.fill()
-    ink = (0.1, 0.105, 0.12)
-    grey = (0.38, 0.39, 0.42)
-    text(ctx, e["pub"], x + 16, y + 25, 12.5, "serifb", ink, a, 0, "l")
-    text(ctx, e["date"], x + w - 16, y + 25, 8.5, "monom", grey, a, 0, "r", role="media_meta")
-    ctx.set_source_rgba(*ink, 0.35 * a)
-    ctx.rectangle(x + 16, y + 33, w - 32, 0.8)
+    ink, grey = A.ink, A.grey
+    text(ctx, e["pub"], x + A.pad, y + A.head_base, A.pub_size, "serifb", ink, a, 0, "l")
+    text(ctx, e["date"], x + w - A.pad, y + A.head_base, A.date_size, "monom", grey, a, 0, "r", role="media_meta")
+    ctx.set_source_rgba(*ink, A.rule_alpha * a)
+    ctx.rectangle(x + A.pad, y + A.rule_y, w - A.pad * 2, A.rule_w)
     ctx.fill()
-    yy = y + 54
-    hk = ease_io((lt - 0.8) / 0.7)
+    yy = y + A.body_top
+    hk = ease_io((lt - A.hl_delay_sec) / A.hl_sec)
+    hs = A.headline_size
     for ln in hl_lines:
         if e.get("hl") and e["hl"] in ln and hk > 0:
             i = ln.index(e["hl"])
-            x0 = x + 16 + tw(ctx, ln[:i], 13.5, "serifb")
-            ww = tw(ctx, e["hl"], 13.5, "serifb")
-            ctx.rectangle(x0 - 2, yy - 12, (ww + 4) * hk, 16)
-            ctx.set_source_rgba(1.0, 0.8, 0.3, 0.55 * a)
+            hx = x + A.pad + tw(ctx, ln[:i], hs, "serifb")
+            ww = tw(ctx, e["hl"], hs, "serifb")
+            ctx.rectangle(hx - A.hl_pad, yy - hs * A.hl_rise, (ww + A.hl_pad * 2) * hk, hs * A.hl_h)
+            ctx.set_source_rgba(*A.hl_rgba[:3], A.hl_rgba[3] * a)
             ctx.fill()
-        text(ctx, ln, x + 16, yy, 13.5, "serifb", ink, a, 0, "l")
-        yy += 20
-    yy += 4
+        text(ctx, ln, x + A.pad, yy, hs, "serifb", ink, a, 0, "l")
+        yy += A.headline_gap
+    yy += A.sub_lead
     for ln in sub_lines:
-        text(ctx, ln, x + 16, yy, 9.5, "sans", grey, a, 0, "l")
-        yy += 14
-    text(ctx, "ARTICLE", x + 16, y + h - 11, 7.5, "mono", grey, a, 0, "l", spacing=0.8, role="media_meta")
-    text(ctx, e["note"], x + w - 16, y + h - 11, 7.8, "sans", grey, a, 0, "r", role="media_meta")
+        text(ctx, ln, x + A.pad, yy, A.sub_size, "sans", grey, a, 0, "l")
+        yy += A.sub_gap
+    text(ctx, A.tag, x + A.pad, y + h - A.foot_inset, A.meta_size, "mono", grey, a, 0, "l", spacing=A.tag_spacing, role="media_meta")
+    text(ctx, e["note"], x + w - A.pad, y + h - A.foot_inset, A.meta_size, "sans", grey, a, 0, "r", role="media_meta")
 
 
 def draw_cutout(ctx: cairo.Context, R: RenderCtx, view: View, t: float, e: dict) -> None:  # noqa: N803

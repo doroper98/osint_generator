@@ -247,7 +247,9 @@ placement:                 # v3.1.0 D-0047 작업 5 — 배치 슬롯(17 §2 `pl
     timeline_photo:  {kinds: [photo, clip], box: [540, 196, 240]}
     # v4.8.0 D-0104 D2(c) — 패널 위 인물 뱃지(화면 고정, 패널 층 위에 그린다). 동시에 떠 있는 n 번째 뱃지 = n 번째 점. 모자라면 오류.
     # y 300: solo R 56 상자(머리 2.2R 위 ~ 이름·역할 46px 아래) = y 177~402 — 자막 구역(y≥410) 밖. 왼쪽 먼저(카드 자리 x≥594 를 피함)
-    panel_badge:     {kinds: [badge], screen: [[96, 300], [758, 300]]}     # 레인 오른쪽 아래 — 카드 자리(card_right, y 70~) 아래·왼쪽 레인 이름 열(55%)·오른쪽 축 값 자리(axis_zone_px) 밖
+    panel_badge:     {kinds: [badge], screen: [[96, 300], [758, 300]]}
+    # v4.8.0 D-0101 §2 — 기사 카드 무대 가운데(article_card.center_dim 으로 아래를 어둡게). 기본(place 없음)은 오른쪽 카드 자리
+    center:          {kinds: [article], align: center}     # 레인 오른쪽 아래 — 카드 자리(card_right, y 70~) 아래·왼쪽 레인 이름 열(55%)·오른쪽 축 값 자리(axis_zone_px) 밖
     # v3.2.0 D-0050 NB9 — 패널(타임라인 등) 위 미디어: 그 순간 패널이 차지한 상자(engine.placement.OCCUPIED)·자막·날짜를 피하는 첫 후보.
     # 후보 [x, y] = 제목·부제(y≤96) 아래 네 귀퉁이. 모두 막히면 오류(조용히 겹치지 않는다, P6)
     clip_panel_side:
@@ -285,7 +287,48 @@ layout_480p:               # 09 §2·§4, 08 §10 — 기준 해상도 854×480.
     scroll_fade_px: 18
     scroll_max_px_per_sec: 60
   card: {x_right_margin: 24, y: 70, min_w: 230, slide_px: 30, fade_sec: 0.45, big_size: 30, line_size: 13, tag_size: 10.5, src_size: 9.5}
-  article_card: {w: 300, y: 68}
+  # v4.8.0 back_and_forth D-0101 §2(사용자 결정 D89) — 기사 카드 조판 확대. draw_article·article_geom 수치는 전부 여기(15 P3).
+  # 헤드라인·부제 줄 수가 max_lines 를 넘으면 ArticleOverflowError(렌더 전 preflight, 조용한 잘림 금지 P6).
+  # 연출 place: center(슬롯 center) = 무대 가운데(가로 가운데, 세로 = 자막 구역 위 공간의 가운데), 그 동안 아래 지도·시간축을 center_dim 으로 어둡게
+  article_card:
+    w: 440
+    y: 60
+    pad: 20                   # 좌우 안쪽 여백(옛 16)
+    pub_size: 15              # 매체(옛 12.5)
+    date_size: 10             # 날짜(옛 8.5)
+    headline_size: 18         # 헤드라인(옛 13.5 — 자막 19 보다 작았다)
+    headline_gap: 26          # 헤드라인 줄 간격(옛 20)
+    headline_max_lines: 3
+    sub_size: 12              # 부제(옛 9.5)
+    sub_gap: 17               # 부제 줄 간격(옛 14)
+    sub_max_lines: 3
+    sub_lead: 6               # 헤드라인 끝 → 부제 첫 기준선 추가 간격(옛 4)
+    meta_size: 9              # ARTICLE·메모(옛 7.5·7.8)
+    head_base: 30             # 위 → 매체·날짜 기준선(옛 25)
+    rule_y: 40                # 위 → 구분선(옛 33)
+    rule_w: 0.8
+    rule_alpha: 0.35
+    body_top: 68              # 위 → 첫 헤드라인 기준선(옛 54)
+    foot_h: 32                # 마지막 글자 줄 기준선 → 바닥(ARTICLE·메모 줄 포함, 옛 30)
+    foot_inset: 13            # 바닥 → ARTICLE·메모 기준선(옛 11)
+    radius: 3
+    shadow: [[6, 0.12], [3, 0.2]]    # [번짐 px, 알파]
+    shadow_dx: 2
+    shadow_dy: 4
+    paper: [0.95, 0.935, 0.905]
+    ink: [0.1, 0.105, 0.12]
+    grey: [0.38, 0.39, 0.42]
+    hl_rgba: [1.0, 0.8, 0.3, 0.55]    # 형광펜
+    hl_rise: 0.9              # 형광펜 상자 위 = 기준선 − 글자 크기 × hl_rise(옛 12/13.5)
+    hl_h: 1.2                 # 형광펜 높이 = 글자 크기 × hl_h(옛 16/13.5)
+    hl_pad: 2
+    hl_delay_sec: 0.8
+    hl_sec: 0.7
+    slide_sec: 0.55
+    fade_sec: 0.45
+    tag: ARTICLE
+    tag_spacing: 0.8
+    center_dim: 0.93          # place: center 동안 아래 무대 어둡기 = dip 최대 어둡기(engine/layers/dip.py)
   # v3.2.0 18 §5 — X 게시물 카드(post). 캡처 이미지·X 로고 없이 자체 조판. 수치는 18 §5 명세 그대로
   post_card:
     w: 300
