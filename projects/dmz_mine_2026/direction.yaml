@@ -872,7 +872,8 @@ events:
     sid: kursk_6
     'off': 0.3
   end:
-    total: true
+    card: end
+    'off': 0.3
   at_place: dmz_site
   label: 사고 지역
   sub: 파주 · 정확한 좌표 비공개
@@ -918,7 +919,8 @@ events:
     sid: open_questions_2
     'off': 0.3
   end:
-    total: true
+    card: end
+    'off': 0.3
   tag: 아직 발표되지 않은 것
   lines:
   - 최종 판정
