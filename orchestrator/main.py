@@ -234,6 +234,12 @@ def build_parser() -> argparse.ArgumentParser:
     rjt.add_argument("--comment", required=True)
     rjt.add_argument("--by", default="user")
 
+    rop = sub.add_parser("reopen", help="렌더 이후 사용자 피드백으로 연출을 다시 → direction (사유 필수, v4.7.0 D-0104 D4)")
+    rop.add_argument("--project", required=True)
+    rop.add_argument("--to", required=True, choices=["direction"])
+    rop.add_argument("--reason", required=True)
+    rop.add_argument("--by", default="user")
+
     sub.add_parser("version", help="버전 출력")
 
     return parser
@@ -378,9 +384,32 @@ def main(argv: list[str] | None = None) -> int:
 
     if args.cmd in ("advance", "gate-view", "approve", "reject"):
         return _cmd_pipeline(args)
+    if args.cmd == "reopen":
+        return _cmd_reopen(args)
 
     parser.error("unknown command")
     return 2
+
+
+def _cmd_reopen(args: argparse.Namespace) -> int:
+    """reopen — 렌더 이후 → direction(v4.7.0 D-0104 D4). manifest.reopens 에 사유·연출 판 번호."""
+    from orchestrator.errors import ManifestError
+    from orchestrator.pipeline import next_action
+    from orchestrator.project_manager import load_manifest, reopen
+
+    try:
+        before = load_manifest(args.project).current_state
+        manifest = reopen(load_manifest(args.project), args.to, by=args.by, reason=args.reason)
+    except (FileNotFoundError, ManifestError) as e:
+        print(f"error: {e}", file=sys.stderr)
+        return 1
+    except ValueError as e:
+        print(f"error: {e}", file=sys.stderr)
+        return 2
+    rec = manifest.reopens[-1]
+    print(f"reopen: {before} → {manifest.current_state} (연출 판 v{rec.direction_version})")
+    print(f"next   : {next_action(manifest.current_state)}")
+    return 0
 
 
 def _cmd_pipeline(args: argparse.Namespace) -> int:

@@ -44,6 +44,13 @@ ROLLBACKS: dict[ProjectState, frozenset[ProjectState]] = {
     }),
 }
 
+# v4.7.0 back_and_forth D-0104 D4 — 렌더 뒤 사용자 피드백으로 연출을 다시 하는 되돌림(`reopen`, 사유 필수).
+# 게이트 반려(ROLLBACKS)와 다른 길이다: 게이트 ② 를 지난 뒤(render 이후)에만, direction 으로만.
+REOPENS: dict[ProjectState, frozenset[ProjectState]] = {
+    s: frozenset({ProjectState.DIRECTION})
+    for s in (ProjectState.RENDER, ProjectState.AUDIO_MIX, ProjectState.DELIVER, ProjectState.DONE)
+}
+
 # 사용자 승인 게이트(16 §5). 게이트에서 앞으로 가는 전이는 승인 기록이 있어야 한다(project_manager).
 GATES: frozenset[ProjectState] = frozenset(ROLLBACKS)
 
@@ -97,3 +104,11 @@ def validate_transition(current: ProjectState | str, target: ProjectState | str)
             f"잘못된 상태 전이: '{cur.value}' → '{tgt.value}'. "
             f"허용된 다음 상태: {allowed_str}"
         )
+
+
+def validate_reopen(current: ProjectState | str, target: ProjectState | str) -> None:
+    """reopen 이 허용되지 않으면 ValueError(v4.7.0 D-0104 D4). 렌더 이후 상태 → direction 만."""
+    cur, tgt = coerce(current), coerce(target)
+    if tgt not in REOPENS.get(cur, frozenset()):
+        froms = ", ".join(sorted(x.value for x in REOPENS))
+        raise ValueError(f"reopen 은 렌더 이후 상태({froms})에서 direction 으로만 간다: '{cur.value}' → '{tgt.value}'")

@@ -199,6 +199,19 @@ class StageRecord(BaseModel):
 MANIFEST_SCHEMA_VERSION: int = 2   # v3.0.0 — 상태 머신 교체(16 §2), 옛 manifest 는 재생성(19 §3.6)
 
 
+class ReopenRecord(BaseModel):
+    """렌더 이후 연출 되돌림 기록(v4.7.0 back_and_forth D-0104 D4). append-only. 사유는 이 프로젝트 수정 지시로만(15 P11)."""
+
+    model_config = ConfigDict(extra="forbid", use_enum_values=True)
+
+    from_state: ProjectState
+    to_state: ProjectState
+    by: str = Field(min_length=1)
+    at: datetime = Field(default_factory=utc_now)
+    reason: str = Field(min_length=1)
+    direction_version: Optional[int] = None   # 되돌리는 시점의 최신 연출 판 번호(direction.v{N}.yaml 의 N, 없으면 None)
+
+
 class ProjectManifest(VersionedModel):
     schema_version: Literal[2] = MANIFEST_SCHEMA_VERSION  # type: ignore[assignment]
     project_id: str
@@ -219,6 +232,7 @@ class ProjectManifest(VersionedModel):
     stage_records: list[StageRecord] = Field(default_factory=list)     # v3.0.0 — engine_service 실행 기록
     final_outputs: dict[str, str] = Field(default_factory=dict)
     state_history: list[StateTransition] = Field(default_factory=list)
+    reopens: list[ReopenRecord] = Field(default_factory=list)          # v4.7.0 D-0104 D4 — 렌더 이후 연출 되돌림(선택 필드, schema_version 2 유지)
 
 
 # ---------------------------------------------------------------------------

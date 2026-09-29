@@ -24,7 +24,7 @@ from pydantic import ValidationError
 
 from orchestrator.config import AppConfig, load_config, project_dir
 from orchestrator.errors import ManifestCorruptError, ManifestVersionError
-from orchestrator.state_machine import GATES, ROLLBACKS, coerce, is_rollback, next_state, validate_transition
+from orchestrator.state_machine import GATES, ROLLBACKS, coerce, is_rollback, next_state, validate_reopen, validate_transition
 from schemas.models import (
     MANIFEST_SCHEMA_VERSION,
     Category,
@@ -32,6 +32,7 @@ from schemas.models import (
     StageRecord,
     ProjectManifest,
     ProjectState,
+    ReopenRecord,
     StateTransition,
 )
 
@@ -326,10 +327,13 @@ def transition_state(
 
 
 def _apply_transition(
-    manifest: ProjectManifest, next_state: ProjectState | str, reason: str, cfg: AppConfig
+    manifest: ProjectManifest, next_state: ProjectState | str, reason: str, cfg: AppConfig, reopen: bool = False
 ) -> ProjectManifest:
     target = coerce(next_state)
-    validate_transition(manifest.current_state, target)
+    if reopen:
+        validate_reopen(manifest.current_state, target)
+    else:
+        validate_transition(manifest.current_state, target)
     if target == ProjectState.SCRIPT_APPROVAL:   # v3.2.0 18 §7 — claim id 없는 주장 문장이 있으면 게이트 ① 전에 차단
         from orchestrator.source_completeness_checker import check_script_sources  # noqa: PLC0415
 
@@ -342,6 +346,32 @@ def _apply_transition(
     manifest.current_state = target.value   # type: ignore[assignment] — 로드한 manifest 와 같은 모양(use_enum_values)
     _write_manifest(manifest, cfg)
     return manifest
+
+
+def latest_direction_version(pdir: Path) -> Optional[int]:
+    """direction.v{N}.yaml 중 가장 큰 N(없으면 None)."""
+    ns = [int(m.group(1)) for f in pdir.glob("direction.v*.yaml") if (m := re.fullmatch(r"direction\.v(\d+)\.yaml", f.name))]
+    return max(ns) if ns else None
+
+
+def reopen(
+    manifest: ProjectManifest,
+    to: ProjectState | str,
+    by: str,
+    reason: str,
+    cfg: Optional[AppConfig] = None,
+) -> ProjectManifest:
+    """렌더 이후 → direction 되돌림(v4.7.0 back_and_forth D-0104 D4). 사유 필수, manifest.reopens 에 사유·판 번호 기록.
+    사유는 이 프로젝트의 수정 지시로만 남긴다(규칙·프롬프트 자동 반영 금지, 15 P11)."""
+    cfg = cfg or load_config()
+    tgt = coerce(to)
+    validate_reopen(manifest.current_state, tgt)
+    if not reason.strip():
+        raise ValueError("reopen 사유(reason)가 비었다 — 무엇을 왜 다시 연출하는지 적는다")
+    ver = latest_direction_version(project_dir(manifest.project_id, cfg))
+    manifest.reopens.append(ReopenRecord(from_state=coerce(manifest.current_state), to_state=tgt, by=by, reason=reason,
+                                         direction_version=ver))
+    return _apply_transition(manifest, tgt, f"reopen → {tgt.value} — {by}: {reason}", cfg, reopen=True)
 
 
 def record_stage(manifest: ProjectManifest, record: StageRecord, cfg: Optional[AppConfig] = None) -> ProjectManifest:
