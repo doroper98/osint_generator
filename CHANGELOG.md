@@ -63,6 +63,12 @@ MINOR: 오디오 처리 추가. 베드(배경음악)에 곡을 따라가는 저�
 
 ### Changed
 - **§0**: VERSION 4.6.0, Tier 1·2 `last_synced_with` v4.6.0, v4.5.0 released 대장 행(6094ce1, D-0100).
+- **작업 1 규칙**: `rules audio.bed_bass`(shelf 110 Hz +5 dB q 0.7 · sub band 55–220 Hz · out_lp 110 Hz · filter_order 4 · gain 0.35 · 포락선 attack 0.03 s·release 0.25 s·block 0.001 s · swell 2.5 s·0.35 · norm_ref 0.7), `audio.qa.bed_bass_rise_db [4, 8]`·`bed_bass_band_hz [30, 120]`·`bed_mid_band_hz [200, 2000]`. 스키마 `BedBass`·`BedShelf`·`BedSub`·`BedSwell`(extra forbid). D-0097 의 절대 범위 `bed_bass_ratio_db [-6, 0]` 은 이 곡(처리 전 +11.8 dB)으로 도달할 수 없어 상승폭 판정으로 바꿨다(D-0102 1-A).
+- **작업 2 믹서**: `audio/mix.py process_bed` — 로우 셸프(RBJ 쿡북 biquad) → 서브 옥타브 층(밴드패스 → 상승 영교차 2분주 → 로우패스 → × 원 대역 포락선 × gain × 장면 시작 스웰) 합산. `bed()`·`segment_bed()`(곡마다 자기 시간축) 둘 다 통과. 정규화 기준 = 처리 전 피크^(1−norm_ref) × 처리 후 피크^norm_ref(D-0102 2-C) — 1.0 이면 저역 절대 그대로·중역만 −5.7 dB, 0.7 은 저역 +1.4·중역 −3.9 dB(음악 레벨 범위 여유 0.3 dB 최소값, `reports/phaseG6/norm_ref_sweep.jsonl`). 음악이 있으면 `out/bed_stats.json`(처리 전·후 저역 비율). 무음악 경로는 처리·측정 없음. bed_gain 0.47·duck 0.5 불변.
+- **작업 3 QA**: `audio/qa.py` 베드 저역 비율(30–120 Hz RMS − 200–2000 Hz RMS, rfft 파워) — 상승폭 범위 밖·`bed_stats.json` 없음·샘플 수 불일치(낡은 기록) = hard. 절대 비율은 기록만.
+- **작업 4 fed_policy**: `sound.bgm: music.zabriskie_patriarch`, boom 큐 `{word: {sid: decision_1, text: 올렸다고}}` v 0.5. 크레딧 "음성" → "음악 · 음성", "국기" 를 "사진 · 기사 카드 · 국기" 한 절로 합치고 열 재배치(418·420 ≤ 428, D-0102 3-A). hormuz 연출 무변경.
+- **작업 5 provenance**: `audio.bed_bass`(적용 값·처리 전·후 비율·상승폭·스웰 시각·대역), `audio.qa.bed_bass_ratio_db`·`bed_bass_rise_db`. 음악 없으면 기록 없음.
+- **작업 6 테스트**: `tests/test_g6_bed_bass.py` 10(규칙 리터럴 0·사용자 값 유지·백색잡음 셸프 상승·110 Hz → 55 Hz·스웰 시각·길이·첫 장면 제외·norm_ref 끝값·무음악 미처리·QA 범위 밖 hard·bed_stats 없음/낡음 hard). G5 넘침 테스트 fed_policy 기대값 415·423 → 418·420.
 
 ---
 
