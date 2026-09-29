@@ -3322,3 +3322,4 @@ last_review: 2026-06-06
 - 2026-09-29 dmz_mine_2026: 사용자 요청 영상 『DMZ 지뢰 폭발 — 서울·모스크바·키이우의 시선』 480p 409.9초 완성(checks hard 0, 검수 hard 1 잔여를 사용자가 알고 승인). 검증 라벨 화면 표시 프로젝트 한정 끔(D85). 검증 워커 프롬프트가 argv 한도(128KB)를 넘는 문제는 본문 정리로 우회 — 구조 수정은 미착수(LLM-AP 후보).
 - 2026-09-29 dmz_mine_2026 v2: 사용자 피드백(정적 화면·AI 음성·'군사분계선' 발음) — ElevenLabs 재합성(439.7초, tts '군사 분계선'), 인물 초상 4명 등재(Commons 자유 라이선스)·한국 기사 카드 8장, AI 연출이 쓰지 않은 초상 뱃지·기사 카드를 사용자 연출 지시로 direction 에 반영(checks hard 0). mux 트루 피크 초과 → RENDER-AP-004(rules audio.post_limiter_dbfs −2.0).
 - 2026-09-29 dmz_mine_2026 v5: 사용자 피드백 — 임의 좌표 route 삭제(M8), 현장 개념도를 새 프리미티브 site_diagram(벡터·폭발 ①② 단어 앵커 애니메이션)으로, 1080p 최종. 사진 켄 번스 계단식 결함 발견(S8, 미수정). back_and_forth R-0112.
+- 2026-09-29 dmz_mine_2026 v5 전편 1080p: final.mp4 md5 fad4f90f6dafcd1aec00c77c54c75c33, 439.74초, 104.8MB, −14.39 LUFS·−1.61 dBTP. 전달 = 재인코딩 없는 1080p 6조각(out/share_1080p_final/).
