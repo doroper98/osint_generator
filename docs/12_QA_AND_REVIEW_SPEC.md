@@ -3,7 +3,7 @@ tier: 2
 last_synced_with: v5.0.0
 ssot_for: [review-gates, qa-policy]
 depends_on: [docs/handoff/16_ORCHESTRATOR_INTEGRATION.md, docs/handoff/17_AI_DIRECTOR_VISUAL_QA_PROMPTS.md, docs/handoff/18_SOURCE_INTAKE_ARTICLES_X.md, 07_VIDEO_STYLE_GUIDE.md, 08_AUDIO_AND_TTS_SPEC.md, ../GOAL.md]
-last_review: 2026-09-29
+last_review: 2026-09-30
 -->
 
 # 12 — QA·검수 명세 (v4.0.0 동기화)
@@ -99,6 +99,7 @@ handoff 20 §5.3 표의 아홉 규칙을 네 검사(`chart_honesty`·`series_lim
 - 소스 레코드·주장(claim)·근거는 `intake/sources.json`·`intake/claims.json`이다(handoff 18).
 - 교차 확인은 **인용 대조**다. LLM은 claim 후보·인용·입장만 내고 판정은 코드(`orchestrator/source_verify.py`)가 한다(D50).
   인용 길이·독립 출처 수·재인용 표지는 `rules:verification`.
+- **귀속 인용은 교차 확인이 아니다(v5.0.0 GOAL G4-21).** claims `claim_kind` fact 는 귀속 인용을 supports 에서 빼고(D-0054 B), statement("발언이 있었다")는 귀속 인용·발언 주체 본인의 공식 원문을 supports 로 센다. statement 의 단정 인용은 폐기 + drops[](판정 실패 → 재검증). 판정 표·해석은 handoff 18 §9.
 - 문장 라벨은 claims status로 코드가 계산한다. 문구는 `rules:script_schema.labels`, 우선순위는 `rules:script_schema.label_strength_order`([07](07_VIDEO_STYLE_GUIDE.md) §6).
 - **라벨은 기록용이다(v4.5.0, 사용자 결정 D85, C9).** 자막·패널·카드에 그리지 않고, 엔딩 카드 맨 마지막 줄 가장 작은 글씨 한 줄(`rules:layout_480p.end_card.notice_unverified`)로만 건수를 적는다. 원고 라벨 ↔ claims 대조(`script.labels.check_project_labels`, 린트·렌더·mux)는 그대로다.
 - 미검증 정보를 제목·썸네일에 쓰지 않는다(G4-7). 미검증 주장을 인용하는 문장은 누가 말했는지 귀속한다(`rules:script_schema.attribution_markers`, 린트 경고 — v4.10.0 "보도했" 추가, handoff 18 §8).

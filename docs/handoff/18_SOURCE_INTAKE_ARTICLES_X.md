@@ -101,3 +101,20 @@ origin: claude.ai chat handoff bundle (2026-09-26 ~ 09-27), imported verbatim
   판정 쪽에서는 "매체 X 가 …라고 보도했다"는 인용이 사실의 교차 확인으로 세어지지 않는다 — D-0054 B 와 같은 방향(보도가 있었다는 것만 확인된다).
 - 영향 실측(v4.10.0): 원고 린트 attribution 경고 fed_policy 8 → 0, 랫클리프 2 → 1, dmz_mine 15 → 14, hormuz 0 → 0.
   claims 판정은 fed_policy·랫클리프 모두 변화 없음 — supports 근거 소스 본문에 "보도했" 이 한 번도 나오지 않아 인용(본문의 부분 문자열)이 이 표현을 담을 수 없다. hormuz claims 는 v3 이관본(인용 대조 판정 아님)이라 대상이 아니다.
+
+## 9. 주장의 종류 `claim_kind: fact | statement` (v5.0.0, GOAL G4-21, back_and_forth D-0119·D-0122)
+
+> 이 절도 임포트 원문 뒤에 붙인 추가 절이다. §3-3·§3-6 은 그대로 둔다.
+
+- **G4-21**: 매체가 "~라고 보도했다/주장했다"로 전한 인용은 "그런 보도·발언이 있었다"의 근거일 뿐, 그 내용의 교차 확인이 아니다.
+  독립 출처 둘 이상이 같은 공식 발언을 전하면 "발언이 있었다"는 사실만 corroborated.
+- claims 에 `claim_kind`(기본 fact). **fact** = 내용 자체, **statement** = "누가 ~라고 말했다"(문장에 발언 주체와 귀속을 넣는다).
+- 판정은 코드(`orchestrator.source_verify.judge`), LLM 은 kind **후보**만(P8).
+  - fact: §8 그대로(D-0054 B) — 귀속 인용은 supports 에서 빼고, 그것만 있으면 contested.
+  - statement: 귀속 인용을 발언의 supports 로 센다 → 독립 origin `independent_min` 이상이면 corroborated. 귀속만이라는 이유로 contested 로 올리지 않는다.
+  - statement 인데 귀속 없이 내용을 단정한 인용은 발언의 근거가 아니다 → 근거 폐기 + drops[] + checks `asserted:<src>`.
+  - **발언 원문 해석(D-0122 ② B)**: 발언 주체 **본인**의 공식 계정·공문(`is_official` + 사용자 확인)에 담긴 비귀속 원문은 매체 인용이 아니라 발언 그 자체다.
+    LLM 이 `speaker_source_ids` 로 댄 소스만 인정한다(checks `primary:<src>`, status 는 기존 공식 규칙 → verified). 아니면 폐기 "본인 공식 소스 아님". GOAL 문안과 충돌하지 않는다.
+  - 귀속 인용도 본인 원문도 없는 statement 후보는 fact 로 판정(checks `kind_candidate:statement`, 경고). fact 후보를 코드가 statement 로 올리지 않는다.
+- drops 가 있으면 `apply_draft` 는 파일을 쓰지 않고 실패로 보고한다(StageResult 계약·P6, D-0122 ① A, PIPELINE-AP-012). 재검증 1회.
+- 재판정(v5.0.0, `reports/phaseG11/rejudge.md`): 랫클리프·fed_policy status 변화 0(기존 draft = fact), hormuz 는 v3 이관본이라 대상 아님. 화면 영향 0(D85).
