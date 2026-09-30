@@ -17,7 +17,7 @@ import difflib
 from typing import Literal, Optional
 
 import cairo
-from pydantic import BaseModel, ConfigDict, field_validator, model_validator
+from pydantic import BaseModel, ConfigDict, Field, field_validator, model_validator
 
 from engine.style import C, CARD, CARD_BG, PRIMITIVES, QUOTE_MAX_CHARS, W_OUT
 from engine.timebase import ease_out, window
@@ -38,10 +38,11 @@ class StatementDiff(BaseModel):
     tag: str                         # 머리(예: "FOMC 성명서 · 물가 문단")
     before_label: str                # 이전 문구 이름(예: "7월 성명")
     after_label: str                 # 새 문구 이름(예: "9월 성명")
-    before: str                      # 이전 문구 원문
-    after: str                       # 새 문구 원문
+    # v5.2.0 LLM-AP-011 — 연출 프롬프트 필드 표(workers.direction_io.event_fields_table)가 description 으로 제약을 보인다
+    before: str = Field(description=f"원문 ≤ {QUOTE_MAX_CHARS}자, 바뀐 문장만")   # 이전 문구 원문
+    after: str = Field(description=f"원문 ≤ {QUOTE_MAX_CHARS}자, 바뀐 문장만")    # 새 문구 원문
     source: str                      # 출처(불변 층 — 필수)
-    date: str                        # 기준 날짜 YYYY | YYYY.MM | YYYY.MM.DD (불변 층 — 필수)
+    date: str = Field(description="YYYY | YYYY.MM | YYYY.MM.DD(점, 하이픈 금지)")   # 기준 날짜(불변 층 — 필수)
     y: Optional[float] = None        # 세로 위치(설계 px). 없으면 카드 기본 y
 
     @field_validator("tag", "before_label", "after_label", "before", "after", "source")

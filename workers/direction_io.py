@@ -61,7 +61,8 @@ def event_fields_table() -> str:
         for name, f in model.model_fields.items():
             if name in SKIP_FIELDS or (key.startswith("panel:") and name == "kind"):
                 continue
-            fields.append(f"{name}{'*' if f.is_required() else ''}: {_ann(f.annotation)}")
+            note = f" ({f.description})" if f.description else ""   # v5.2.0 LLM-AP-011 — 스키마 제약(형식·상한)을 필드 표에
+            fields.append(f"{name}{'*' if f.is_required() else ''}: {_ann(f.annotation)}{note}")
             subs += _nested(f.annotation, seen)
         where = " (패널 — 아래 필드는 data 아래)" if key.startswith("panel:") else ""
         lines.append(f"- {key}{where}: " + "; ".join(fields))

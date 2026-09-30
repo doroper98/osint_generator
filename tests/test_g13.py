@@ -122,6 +122,15 @@ class PromptTest(unittest.TestCase):
             self.assertNotIn("{main_kinds}", t, name)
         self.assertTrue(any("기사(article) 이벤트로" in g for g in R.direction_grammar))
 
+    def test_field_table_shows_schema_constraints(self) -> None:
+        """LLM-AP-011 — 필드 표가 statement_diff 의 날짜 형식·인용 상한(규칙 값)을 보인다."""
+        from engine.style import QUOTE_MAX_CHARS  # noqa: PLC0415
+        from workers.direction_io import event_fields_table  # noqa: PLC0415
+
+        row = next(ln for ln in event_fields_table().splitlines() if ln.startswith("- primitive:statement_diff:"))
+        self.assertIn("date*: str (YYYY | YYYY.MM | YYYY.MM.DD", row)
+        self.assertIn(f"before*: str (원문 ≤ {QUOTE_MAX_CHARS}자", row)
+
 
 if __name__ == "__main__":
     unittest.main()

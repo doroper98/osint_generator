@@ -331,3 +331,13 @@ last_review: 2026-05-22
 - **회귀 테스트 (regression_test)**: `tests/test_g12_island.py::OverlapTest::test_details_name_events_for_revision`(태그 모양 3가지 issue_ref).
 - **연관**: back_and_forth R-0148 §4 보정 ②, D-0127 §6, docs/handoff/17 §5.5.
 - **상태 (status)**: active
+
+## LLM-AP-011 — 연출가가 statement_diff date 를 ISO(하이픈)로, 인용을 상한 넘게 적어 렌더 전 검증에서 반복 거부
+- **증상 (symptom)**: G13 fed_policy 연출가 재실행 3회가 모두 `check_parsed: 이벤트 검증 실패` 로 거부됐다 — primitive statement_diff `date '2026-09-16'`(형식 YYYY.MM.DD 아님)·`before` 174자 > quote_max_chars 160. G12 연출가 1~3·5~6회 거부의 일부도 같은 인용 상한이었다(reports/phaseG12 §3.1).
+- **재현 (reproduction)**: `rm projects/fed_policy_2026/direction.yaml && python tools/ai_direction_run.py projects/fed_policy_2026 --preview auto` — 연출 프롬프트 필드 표에 `date*: str`·`before*: str` 만 있음.
+- **원인 (root cause)**: 필드 표(`workers.direction_io.event_fields_table`)가 타입만 보이고 스키마 검증기의 제약(날짜 형식·인용 상한)을 보이지 않았다. LLM 은 intake 원문 날짜(ISO)와 성명서 문단을 그대로 옮긴다.
+- **우회 (workaround, 그 세션)**: 없음 — 구조 조치 후 재실행.
+- **구조적 조치 (structural fix)**: 모델 필드 `description` 을 필드 표에 괄호로 붙인다(코드가 정본, 손으로 프롬프트에 적지 않음). statement_diff `date`·`before`·`after` 에 형식·상한(규칙 값 quote_max_chars) description.
+- **회귀 테스트 (regression_test)**: `tests/test_g13.py::PromptTest::test_field_table_shows_schema_constraints`.
+- **연관**: back_and_forth D-0129 §D, LLM-AP-010.
+- **상태 (status)**: active

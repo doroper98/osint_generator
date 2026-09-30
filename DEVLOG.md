@@ -3390,3 +3390,4 @@ last_review: 2026-06-06
 - **결과**: 골든 hormuz 3컷만 변경(25_END·기사 두 컷, expected_deltas 2건), fed v9 checks hard 0·검수 hard 4(마커 라벨 겹침 등 — 게이트 ② Fable). pytest 1205(§C 스테이지) · 최종 1206(§E, 기대값 2 갱신).
 - **연관**: TTS-AP-067·068(상태 줄), reports/phaseG12, artifacts/phaseG12-v5.1.0.
 - 2026-09-30 v5.1.0 PIPELINE-AP-013(검사가 라벨 date 를 시간축 앵커로 오판 → 연출가 3회 거부, 65eda77)·LLM-AP-010(수정 LLM issue_ref 표기 불일치 → 지적 이벤트 미해결, 2b9ae07·c46573b) 기록. G12 후속 D-0127 §6. 검수 예외: article press_lead 구간 empty 판정 제외(rules qa_checks.empty_exempt, D-0127 §5).
+- 2026-09-30 v5.2.0 LLM-AP-011(연출가가 statement_diff date ISO·인용 174자 > 160 → 재실행 3회 거부) 기록, 필드 표에 스키마 description(형식·상한). G13 D-0129 §D.
