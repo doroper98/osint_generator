@@ -314,6 +314,11 @@ def load_project(proj: Path, direction: Optional[Direction] = None, out: Optiona
                             "matched": gz["matched"] if gz else None,                            # v4.10.0 사전과 맞은 좌표(provenance geo.matched)
                             "mismatch": gz["mismatch"] if gz else None}                          # v4.10.0 checks [geo-mismatch] hard
     n = int(plan.total * FPS)
+    if any(s.stage == "timeline" for s in shots):   # v5.1.0 D-0121 §A — 시간축 축 스케일 변화(checks timeline_rescale·provenance). 시간축 숏 없으면 기록 없음(P5)
+        from engine.shots import timeline_w_changes  # noqa: PLC0415
+
+        R.cache["timeline"] = {"w_changes": timeline_w_changes(shots, plan.sentences)}
+    R.cache["pacing"] = pacing_check(plan.total, tb, shots, raw_events, keys, R.stage.name)   # v4.11.0 D-0118 §1 — 검사·provenance·creep 한 결과
     R.cache["pacing"] = pacing_check(plan.total, tb, shots, raw_events, keys, R.stage.name)   # v4.11.0 D-0118 §1 — 검사·provenance·creep 한 결과
     cams = build_camera(keys, n, FPS, creep=[tuple(r) for r in R.cache["pacing"]["creep"]]) if keys else None
     A0 = assets  # noqa: N806

@@ -140,6 +140,7 @@ direction_grammar:         # v4.7.0 back_and_forth D-0104 D2(a) — 연출 문�
   - 경계선(군사분계선·국경·NLL 등)을 route 로 그리지 않는다 — 지도 경계선이 이미 있다(v4.7.0 D-0107, 검사 [boundary-as-route] hard).
   - 위치가 공개되지 않은 사건 지점은 marker sub 에 '좌표 비공개'(또는 '근사 위치')를 쓴다 — 지도 좌표는 근거가 있을 때만 사건 지점으로 보인다(v4.7.0 D-0107).
   - 청와대·대통령실(한국)이 발언·행위 주체인 문장에는 휘장 뱃지(kind emblem, img cheongwadae)를 건다. 대통령 개인이 주체면 초상 뱃지, 둘 다면 초상을 우선한다(v4.8.0 D-0109, 사용자 결정 D98).
+  - 시간축 무대는 축 스케일(w)을 장면 단위로 고정한다 — 확대·축소는 영상당 몇 번뿐이고 그 밖은 중심 이동(pan)만(v5.1.0 D-0121 §A, 검사 [timeline-rescale] hard, 수치는 아래 축 스케일 절).
 
 shot_grammar:              # 05 §2
   camera_moves_per_scene_max: 1
@@ -875,6 +876,14 @@ stage_timeline:            # v4.3.0 D-0084 작업 3·4·D-0085·D-0086 — 시�
     dash: [2, 3]
     line_w: 1
     inset_px: 6
+  # v5.1.0 back_and_forth D-0121 §A(사용자 피드백 D105 — fed 시간축 가로축 스케일이 숏마다 바뀌어 불편) — 축 스케일(카메라 w, 일)을 장면 단위로 고정.
+  # w 변화 = 시간축 숏(지도 무대 제외)의 연속한 두 숏 사이 w 가 다름(첫 숏 설정은 변화 아님). checks timeline_rescale(hard)
+  # `[timeline-rescale] {at} w {a}→{b} ({이유})`: ① scene_fixed 인데 같은 장면 안 변화 ② 영상 전체 변화 수 > max ③ 비율 max/min < ratio_min. provenance timeline.w_changes[]
+  axis_scale:
+    w_changes_per_video_max: 3     # 오프닝 뒤 작업 척도·중간 1회·엔딩 조망
+    w_change_ratio_min: 1.5        # 이 미만의 w 변화는 '흔들림'
+    scene_fixed: true              # 장면 안에서 w 변경 금지 — move 는 중심 이동(pan)만
+    grammar: "시간축 무대는 축 스케일(카메라 w, 화면이 덮는 일수)을 장면 단위로 고정한다. 확대·축소는 영상 전체 {max}회 이하(오프닝 뒤 작업 척도·중간 1회·엔딩 조망), 한 번에 {ratio}배 이상만 바꾼다. 장면 안에서는 w 를 그대로 두고 중심 이동(pan)만 한다. 지도의 '문장마다 줌 금지'(G4-16)와 같은 원리다. 검사 [timeline-rescale] hard."
 
 genre_prompt:              # v4.4.0 D-0090 작업 1 — 장르 프롬프트 층(docs/handoff/20 §5.1·§5.2·§6·§7·§9, 15 P3). 워커가 장르 프로필 + 이 절로 프롬프트 끝 문단을 만든다(workers/prompt_loader.py)
   base_genre: geopolitics  # 기본 프롬프트(prompts/*.md)가 이미 전제한 장르 — 이 장르는 추가 문단 0(프롬프트 바이트 동일)
@@ -898,7 +907,7 @@ genre_prompt:              # v4.4.0 D-0090 작업 1 — 장르 프롬프트 층(
   stage_grammar:           # 20 §6 — 무대별 카메라·연출 문법. 주 무대 줄이 연출·수정·검수 프롬프트에 들어간다(키 ∈ registries.stages)
     timeline:
       - "이동: 왼쪽 → 오른쪽 시간 순이 기본이다. 되돌아갈 때는 이유가 있을 때만, 그 숏의 reason 에 이유를 적는다."
-      - "확대: 사건 핀(회의일·발표일)에서 확대한다. 확대하면 월·일 눈금이 나타난다(LOD) — 휑한 화면 금지."
+      - "확대: 축 스케일(w)은 장면 단위로 고정한다 — 확대·축소는 영상당 몇 번뿐(축 스케일 절, 검사 [timeline-rescale]). 사건 핀으로는 중심 이동(pan)으로 가고, 핀의 근거는 카드·기사·사진으로 띄운다(v5.1.0 D-0121 §A — 옛 '핀마다 확대'를 대체)."
       - "암전 컷: 수십 년 점프, 보조 무대로 넘어갈 때만."
       - "공통: 장면당 이동 1회, 숏 6초 이상, 도착 뒤 드리프트, 요소는 하나씩."
       - "무대는 하나의 연속된 좌표계다. 장면마다 새 캔버스를 띄우지 않는다(슬라이드 금지). 차트는 시간축 레인 위 series 로, 무대로 말할 수 없는 정보만 패널·카드로."

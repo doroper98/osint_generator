@@ -170,6 +170,8 @@ def project_provenance(P, stages: dict[str, bool]) -> dict:  # noqa: ANN001, N80
     if gc.get("unsourced") is not None:   # v4.7.0 D-0107 D2(b) — 지도 무대 좌표 중 근거 대조 안 된 것(checks [geo-unsourced] 와 같은 값). 지도 없으면 기록 없음(P5)
         prov["geo"] = {"unsourced": gc["unsourced"], "matched": gc.get("matched") or [],   # v4.10.0 D-0116 — 지명 사전과 맞은 좌표·불일치
                        "mismatch": gc.get("mismatch") or []}
+    if P.R.cache.get("timeline") is not None:   # v5.1.0 D-0121 §A — 시간축 축 스케일 변화(checks [timeline-rescale] 와 같은 값)
+        prov["timeline"] = {"w_changes": P.R.cache["timeline"]["w_changes"]}
     pc = P.R.cache.get("pacing")
     if pc is not None:   # v4.11.0 D-0118 §1 — 정적 구간(checks [static-window] 와 같은 값)·느린 푸시인 적용 범위
         prov["pacing"] = {"window_sec": pc["window_sec"], "min_changes": pc["min_changes"], "static_windows": pc["static_windows"],

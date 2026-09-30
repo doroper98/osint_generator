@@ -50,7 +50,7 @@ class DemoPreviewTest(unittest.TestCase):
 
         self.assertEqual(main([str(PROJ), "--preview", "auto"]), 0)
         chk = json.loads((PROJ / "prev" / "checks.json").read_text(encoding="utf-8"))
-        self.assertEqual((chk["hard"], len(chk["items"])), (0, 23))   # v4.11.0 D-0118 static_window, v4.10.0 D-0116 geo_mismatch, v4.7.0 D-0106 endcard_roll(warning), D-0107 boundary_as_route·geo_unsourced 추가
+        self.assertEqual((chk["hard"], len(chk["items"])), (0, 24))   # v5.1.0 D-0121 §A timeline_rescale, v4.11.0 D-0118 static_window, v4.10.0 D-0116 geo_mismatch, v4.7.0 D-0106 endcard_roll(warning), D-0107 boundary_as_route·geo_unsourced 추가
         prov = json.loads((PROJ / "prev" / "provenance.json").read_text(encoding="utf-8"))
         self.assertEqual(prov["stage"]["name"], "timeline")
         self.assertEqual(prov["genre"], {"name": "macro_monetary", "declared": True, "status": "proposed"})

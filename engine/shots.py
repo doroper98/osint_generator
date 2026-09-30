@@ -110,4 +110,36 @@ def timeline_backtrack(shots: list[ShotStage]) -> list[str]:
             for a, b in zip(ks, ks[1:]) if a.stage == b.stage == "timeline" and b.x < a.x and not b.reason]
 
 
-__all__ = ["ShotStage", "choose_transition", "scene_at", "shot_issues", "stage_continuity", "timeline_backtrack"]
+def timeline_w_changes(shots: list[ShotStage], sentences: list) -> list[dict]:  # noqa: ANN001 — Plan.sentences(scene·t0)
+    """시간축 축 스케일 변화(v5.1.0 D-0121 §A) — 시간축 무대 숏만(지도 무대 제외), 시각 순 연속한 두 숏의 w 가 다르면 한 건.
+    첫 숏(설정)은 변화가 아니다. 장면 = scene_at(숏 시각, shot_grammar.scene_attach_lead_sec — 이동 선행 키는 다음 장면).
+    반환 [{at, from, to, ratio, scene_from, scene_to, n}] — provenance timeline.w_changes[] 와 검사가 같은 값을 본다."""
+    ks = [s for s in sorted(shots, key=lambda s: s.t) if s.stage == "timeline"]
+    out: list[dict] = []
+    for a, b in zip(ks, ks[1:]):
+        if b.w != a.w:
+            out.append({"at": round(b.t, 2), "from": a.w, "to": b.w, "ratio": round(max(a.w, b.w) / min(a.w, b.w), 3),
+                        "scene_from": scene_at(sentences, a.t), "scene_to": scene_at(sentences, b.t), "n": len(out) + 1})
+    return out
+
+
+def timeline_rescale(changes: list[dict]) -> list[str]:
+    """`[timeline-rescale] {at} w {a}→{b} ({이유})` — rules stage_timeline.axis_scale: ① scene_fixed 인데 같은 장면 안 변화
+    ② 영상 전체 변화 수 > w_changes_per_video_max(초과분마다) ③ 비율 < w_change_ratio_min. 코드는 w 를 고치지 않는다(P8)."""
+    ax = load_rules().stage_timeline.axis_scale
+    out: list[str] = []
+    for c in changes:
+        why = []
+        if ax.scene_fixed and c["scene_from"] == c["scene_to"]:
+            why.append(f"장면 {c['scene_to']} 안")
+        if c["n"] > ax.w_changes_per_video_max:
+            why.append(f"영상 {c['n']}번째 > {ax.w_changes_per_video_max}")
+        if c["ratio"] < ax.w_change_ratio_min:
+            why.append(f"비율 {c['ratio']:g} < {ax.w_change_ratio_min:g}")
+        if why:
+            out.append(f"[timeline-rescale] t={c['at']:.2f} w {c['from']:g}→{c['to']:g} ({', '.join(why)})")
+    return out
+
+
+__all__ = ["ShotStage", "choose_transition", "scene_at", "shot_issues", "stage_continuity", "timeline_backtrack", "timeline_rescale",
+           "timeline_w_changes"]

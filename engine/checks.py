@@ -27,6 +27,7 @@ hard 실패가 하나라도 있으면 시각 검수 LLM 을 부르지 않고 연
 | geo_unsourced | warning | v4.7.0(D-0107 D2(b)): 지도 무대 places·paths·인라인 좌표 marker·route 가 지명 사전과 대조되지 않음 `[geo-unsourced]`(provenance geo.unsourced[]). v4.10.0: 사전(`data/gazetteer.yaml`)에 없는 이름·paths·route 만 |
 | geo_mismatch | hard | v4.10.0(D-0116 B-1): place 키·그 place 를 쓰는 marker label·인라인 marker label 이 지명 사전과 맞는데 좌표가 맞은 항목 모두의 tol_km 밖 `[geo-mismatch]`(provenance geo.mismatch[]) — `geo.gazetteer` |
 | static_window | warning | v4.11.0(D-0118 §1): 지도 무대(전면 카드·패널 덮개 밖)의 어떤 pacing.static_window.window_sec 창이든 change_kinds 변화(이벤트 등장 t0·카메라 키) < min_changes `[static-window] t0-t1 changes=n`(provenance pacing.static_windows[]). 표시된 범위에는 느린 푸시인(creep). `engine.pacing` |
+| timeline_rescale | hard | v5.1.0(D-0121 §A): 시간축 무대 숏의 w 변화가 장면 안(scene_fixed)·영상당 > axis_scale.w_changes_per_video_max·비율 < w_change_ratio_min `[timeline-rescale] t w a→b (이유)`(provenance timeline.w_changes[]). 지도 무대 제외 `engine.shots` |
 | as_of_visible | hard | 기준 시점·출처 줄 — 시리즈는 프리뷰 컷에 그린 출처 줄, 패널은 08 §9 출처 체계. 적용 범위 = qa_checks.chart_targets(축 종류) |
 """
 
@@ -52,7 +53,7 @@ SAMPLE_SEC = 1.0          # 뱃지·라벨 샘플 간격
 SHADOW_PX = 7             # badge_box 가 원 둘레에 더하는 그림자 여백 — 이만큼 잘리는 것은 허용
 HARD = ("overlap", "offscreen", "glyphs", "glyph_size", "labels", "date", "subtitles", "rights", "forbidden", "stage_continuity",
         "genre_elements", "chart_honesty", "series_limit_3", "units_visible", "as_of_visible", "boundary_as_route",
-        "geo_mismatch")   # geo_mismatch v4.10.0 D-0116
+        "geo_mismatch", "timeline_rescale")   # geo_mismatch v4.10.0 D-0116, timeline_rescale v5.1.0 D-0121 §A
 WARN = ("shots", "media_beats", "media_upscaled", "endcard_roll", "geo_unsourced",   # endcard_roll v4.7.0 D-0106, geo_unsourced D-0107
         "static_window")   # static_window v4.11.0 D-0118
 
@@ -149,6 +150,13 @@ def check_static_window(P) -> list[str]:  # noqa: ANN001, N803
     pc = P.R.cache.get("pacing") or {}
     return [f"[static-window] {w['t0']:.1f}-{w['t1']:.1f} changes={w['changes']} (창 {pc.get('window_sec'):g}초, 기준 ≥ {pc.get('min_changes')}; "
             f"종류 {', '.join(w['kinds']) or '없음'})" for w in pc.get("static_windows") or []]
+
+
+def check_timeline_rescale(P) -> list[str]:  # noqa: ANN001, N803
+    """시간축 축 스케일(v5.1.0 D-0121 §A) — engine.shots.timeline_rescale 한 곳, 입력 = provenance timeline.w_changes 와 같은 값."""
+    from engine.shots import timeline_rescale  # noqa: PLC0415
+
+    return timeline_rescale((P.R.cache.get("timeline") or {}).get("w_changes") or [])
 
 
 def check_endcard_overflow(P) -> list[str]:  # noqa: ANN001, N803
@@ -392,6 +400,7 @@ def run_checks(P, times: list[float], provenance: dict, drawn: list[tuple[str, f
         "geo_unsourced": lambda: check_geo_unsourced(P),
         "geo_mismatch": lambda: check_geo_mismatch(P),
         "static_window": lambda: check_static_window(P),
+        "timeline_rescale": lambda: check_timeline_rescale(P),
     }
     res = {k: f() for k, f in run.items() if k not in skip}
     notes: dict[str, list[str]] = {}

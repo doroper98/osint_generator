@@ -1320,6 +1320,16 @@ class TimelineBand(_Strict):
     sep: str = Field(min_length=1)
 
 
+class TimelineAxisScale(_Strict):
+    """v5.1.0 D-0121 §A(사용자 피드백 D105) — 시간축 축 스케일(카메라 w) 고정. checks timeline_rescale(hard)·provenance timeline.w_changes[].
+    grammar 의 {max}·{ratio} 는 같은 블록 값(프롬프트 {{RULES.stage_timeline.axis_scale}})."""
+
+    w_changes_per_video_max: int = Field(ge=0)
+    w_change_ratio_min: float = Field(gt=1)
+    scene_fixed: bool
+    grammar: str = Field(pattern=r"\{max\}")
+
+
 class StageTimelineRules(_Strict):
     """v4.3.0 D-0084 작업 3·4·D-0085·D-0086 — 시간축 무대·시리즈 레이어 토큰(engine/stage_timeline.py·engine/layers/series.py)."""
 
@@ -1337,6 +1347,7 @@ class StageTimelineRules(_Strict):
     series: TimelineSeries
     band: TimelineBand             # v4.4.0 — D-0090 작업 2
     missing_mark: TimelineMissingMark
+    axis_scale: TimelineAxisScale  # v5.1.0 — D-0121 §A
 
 
 class GenrePromptRules(_Strict):

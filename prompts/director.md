@@ -37,6 +37,10 @@ note: DirectorWorker system prompt (17 §5.3, D-0047 작업 7). 출력 = engine.
 ---------------------------------
 {{RULES.pacing.static_window}}
 
+시간축 축 스케일 (규칙 파일)
+--------------------------
+{{RULES.stage_timeline.axis_scale}}
+
 시각은 앵커로만 쓴다
 --------------------
 숫자 초를 쓰지 말고(목소리가 바뀌면 틀어진다) 원고 문장·장면에 건다.
