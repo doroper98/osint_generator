@@ -16,6 +16,7 @@ from pydantic import BaseModel, ConfigDict, Field, model_validator
 SourceType = Literal["x_post", "article", "document"]
 AccountClass = Literal["official_gov", "official_org", "journalist", "public_figure", "private", "unknown"]
 VerificationStatus = Literal["verified", "corroborated", "unverified", "disputed"]
+ClaimKind = Literal["fact", "statement"]   # v5.0.0 GOAL G4-21 — fact = 내용 자체, statement = "그런 발언·보도가 있었다"
 AttachedMedia = Literal["video", "photo", "none"]
 SOURCE_ID = r"^src_[a-z0-9_]+$"
 CLAIM_ID = r"^clm_[a-z0-9_]+$"
@@ -156,6 +157,7 @@ class Claim(_Strict):
     event_date: Optional[date] = None                 # 사건일(날짜 배지) — 게시일과 다를 수 있다(18 §3-2)
     checks: list[str] = Field(default_factory=list)   # 코드 판정 근거(quote_match:<src>·official:<src>·independent_origins:N …)
     attributed_only: bool = False                     # 근거가 전부 "~라고 주장/said" 인용 — 사실이 아니라 주장의 존재만 확인(D-0054 B)
+    claim_kind: ClaimKind = "fact"                    # v5.0.0 GOAL G4-21 — 코드 확정값. statement = "발언이 있었다"(귀속 인용을 supports 로 센다)
     notes: str = ""
 
     @model_validator(mode="after")
@@ -232,6 +234,7 @@ class ClaimCandidate(_Strict):
     event_date: Optional[date] = None
     contested: bool = False
     sides: Optional[list[ClaimSide]] = None
+    claim_kind: ClaimKind = "fact"                    # v5.0.0 G4-21 — LLM 의 kind 후보. 확정은 코드(source_verify.judge)
 
 
 class VerifyDraft(_Strict):

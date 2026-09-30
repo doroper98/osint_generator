@@ -213,10 +213,10 @@ last_review: 2026-09-29
 | 파일 | 모델 | 규칙 |
 |---|---|---|
 | 프로젝트 `intake/sources.json` | `schemas/source_models.py` `SourcesFile`·`XPostSource`·`ArticleSource`·`DocumentSource` | type 판별 3종(18 §2). 기사는 요지(`key_facts`)만, 원문 장문 금지. X 캡처는 `capture` 경로 필수. `confirmed_by` 가 비면 검증 단계로 못 간다(18 §7). `account_class` 는 `rules/official_accounts.yaml` 로 코드가 정한다 |
-| 프로젝트 `intake/claims.json` | `ClaimsFile`·`Claim`·`ClaimSide` | `status ∈ {verified, corroborated, unverified, disputed}`. 분쟁 사안(`contested`)은 `sides ≥ 2` 가 없으면 `unverified` 만 허용(18 §3-5). 소스 id 는 sources.json 안(`check_claim_sources`) |
+| 프로젝트 `intake/claims.json` | `ClaimsFile`·`Claim`·`ClaimSide` | `status ∈ {verified, corroborated, unverified, disputed}`. 분쟁 사안(`contested`)은 `sides ≥ 2` 가 없으면 `unverified` 만 허용(18 §3-5). 소스 id 는 sources.json 안(`check_claim_sources`). `claim_kind ∈ {fact, statement}`(기본 fact, v5.0.0 GOAL G4-21 — optional 이라 `schema_version` 1 유지): fact = 내용 자체, statement = "그런 발언·보도가 있었다"(귀속 인용을 supports 로 센다). 값은 `judge` 가 확정한다 |
 | 프로젝트 `intake/screenshots/<id>.png`·`intake/bodies/<id>.txt` | — | X 캡처 원본·기사/공문 본문. **비공개 보관**(레코드에는 요지만) |
 | 프로젝트 `intake/drafts/<id>.json` | `CaptureDraft` | 캡처 판독 워커(`CaptureReadWorker`, vision) 초안. 소스 레코드로 합치는 것은 `orchestrator/source_intake` + 사용자 확인 |
-| 프로젝트 `intake/verify_draft.json` | `VerifyDraft`·`ClaimCandidate`·`EvidenceQuote` | 검증 워커(`VerifySourcesWorker`) 초안 — 주장 후보와 소스 본문 인용. id·status 는 LLM 이 아니라 `orchestrator/source_verify.judge` 가 인용 대조로 정한다(D-0052 D50) |
+| 프로젝트 `intake/verify_draft.json` | `VerifyDraft`·`ClaimCandidate`·`EvidenceQuote` | 검증 워커(`VerifySourcesWorker`) 초안 — 주장 후보와 소스 본문 인용. id·status 는 LLM 이 아니라 `orchestrator/source_verify.judge` 가 인용 대조로 정한다(D-0052 D50). `ClaimCandidate.claim_kind` 는 LLM 의 kind **후보**(기본 fact) — 확정은 코드(v5.0.0 G4-21) |
 | 프로젝트 `facts.json` | `script/schema.py` `Facts`·`Fact` | ResearchWorker 출력(claims.json → 사실 목록). `source_ids` = claims.json `claim_id`. 원고(ScriptWorker) 입력 = facts.json + claims.json |
 | `rules/official_accounts.yaml` | `OfficialAccountsFile`·`OfficialAccount` | 공식 계정 목록(출처 URL·확인일). 미등재 핸들 = `unknown` |
 
