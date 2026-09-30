@@ -170,6 +170,14 @@ def project_provenance(P, stages: dict[str, bool]) -> dict:  # noqa: ANN001, N80
     if gc.get("unsourced") is not None:   # v4.7.0 D-0107 D2(b) — 지도 무대 좌표 중 근거 대조 안 된 것(checks [geo-unsourced] 와 같은 값). 지도 없으면 기록 없음(P5)
         prov["geo"] = {"unsourced": gc["unsourced"], "matched": gc.get("matched") or [],   # v4.10.0 D-0116 — 지명 사전과 맞은 좌표·불일치
                        "mismatch": gc.get("mismatch") or []}
+    if P.R.cache.get("island") is not None or any(e["type"] == "island" for e in P.events):   # v5.1.0 D-0126 — 아일랜드(없으면 기록 없음, P5)
+        from engine.island import island_boxes  # noqa: PLC0415
+
+        prov["islands"] = [{"name": n, "t0": round(a, 2), "t1": round(b, 2), "box": [round(v, 1) for v in bx]}
+                           for n, a, b, bx in island_boxes(P.events, P.R.assets.media_assets, P.R.stage.name)]
+        prov["island"] = P.R.cache.get("island")   # lane_h_effective(Q2 A)
+    if P.R.cache.get("backdrop"):   # v5.1.0 D-0123 §3 — 배경 사진(등장 순)·서로 다른 수. 배경 없으면 기록 없음(P5)
+        prov["backdrop"] = {"photos": P.R.cache["backdrop"]["photos"], "unique": P.R.cache["backdrop"]["unique"]}
     if P.R.cache.get("timeline") is not None:   # v5.1.0 D-0121 §A — 시간축 축 스케일 변화(checks [timeline-rescale] 와 같은 값)
         prov["timeline"] = {"w_changes": P.R.cache["timeline"]["w_changes"]}
     pc = P.R.cache.get("pacing")

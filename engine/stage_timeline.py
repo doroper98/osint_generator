@@ -20,7 +20,7 @@ from typing import TYPE_CHECKING, Any, Optional, Union
 import cairo
 from pydantic import BaseModel, ConfigDict, Field, model_validator
 
-from engine.style import C, TIMELINE, W_OUT
+from engine.style import C, TIMELINE
 from engine.typography import text
 from schemas.genre_models import TimelineLane
 
@@ -111,6 +111,9 @@ class TimelineStage:
         self.n = len(self.lanes)
         self._idx = {ln.id: i for i, ln in enumerate(self.lanes)}
         self.y_px_per_unit: float = TIMELINE.lane_h
+        self.area_top: float = TIMELINE.area_top         # 레인 영역(뷰포트 설계 px) — 아일랜드면 fit_island 가 상자 안으로 다시 잡는다
+        self.area_bottom: float = TIMELINE.area_bottom
+        self.island = False                              # v5.1.0 D-0126 Q1 A — 차트 아일랜드 뷰포트(바탕은 아일랜드 상자가 칠한다)
         self._bounds = (0.0, 0.0, self.x_of(self.cfg.end), float(self.n))
 
     # --- 좌표
@@ -169,17 +172,24 @@ class TimelineStage:
         i = min(self.n - 1, max(0, int(self.n - y)))
         return {"date": d.isoformat(), "lane": self.lanes[i].id}
 
+    def fit_island(self, box_h: float, pad_top: float, pad_bottom: float) -> None:
+        """차트 아일랜드 뷰포트로 쓴다(v5.1.0 D-0126 Q1·Q2 A). 레인 영역 = 상자 안 [pad_top, box_h − pad_bottom],
+        세로 척도 = min(lane_h, 영역 ÷ 레인 수) — 넘침 0(P6), 글자 크기 불변. 무대 인스턴스는 영상당 하나라 한 번만 부른다."""
+        self.island = True
+        self.area_top = pad_top
+        self.area_bottom = box_h - pad_bottom
+        self.y_px_per_unit = min(TIMELINE.lane_h, (self.area_bottom - self.area_top) / self.n)
+
     def frame_y1(self, cam_y: float, h: float) -> float:
         """View 의 위 끝 월드 y(D-0085): 레인 총높이 ≤ 레인 영역이면 영역 가운데 고정, 아니면 카메라 y 를 영역 안으로 클램프."""
-        T = TIMELINE  # noqa: N806
         s = self.y_px_per_unit
-        area = T.area_bottom - T.area_top
+        area = self.area_bottom - self.area_top
         total = self.n * s
         if total <= area:
-            return self.n + (T.area_top + (area - total) / 2) / s
-        hi = self.n + T.area_top / s
+            return self.n + (self.area_top + (area - total) / 2) / s
+        hi = self.n + self.area_top / s
         lo = hi - (total - area) / s
-        return min(max(cam_y + (T.area_top + T.area_bottom) / 2 / s, lo), hi)
+        return min(max(cam_y + (self.area_top + self.area_bottom) / 2 / s, lo), hi)
 
     # --- LOD
     def lod_rules(self) -> dict[str, Any]:
@@ -241,15 +251,16 @@ class TimelineStage:
 
     def render_base(self, ctx: cairo.Context, view: "View") -> None:
         T = TIMELINE  # noqa: N806
-        ctx.set_source_rgb(*T.bg_rgb)
-        ctx.paint()
+        if not self.island:   # 아일랜드 뷰포트 바탕 = 아일랜드 상자(반투명, 배경 사진이 비친다)
+            ctx.set_source_rgb(*T.bg_rgb)
+            ctx.paint()
         for i in range(self.n):
             top, bot = self.lane_screen(view, i)
-            ctx.rectangle(0, top, W_OUT, bot - top)
+            ctx.rectangle(0, top, view.vw, bot - top)
             ctx.set_source_rgba(*C["white"], T.band_alpha[i % len(T.band_alpha)])
             ctx.fill()
             ctx.move_to(0, bot)
-            ctx.line_to(W_OUT, bot)
+            ctx.line_to(view.vw, bot)
             ctx.set_source_rgba(*C["white"], T.lane_line_alpha)
             ctx.set_line_width(T.lane_line_w)
             ctx.stroke()
@@ -270,7 +281,7 @@ class TimelineStage:
         W = TIMELINE.wave  # noqa: N806
         xa, _ = view.to_screen(self.x_of(z.from_), 0.0)
         xb, _ = view.to_screen(self.x_of(z.to), 0.0)
-        if xb < 0 or xa > W_OUT:
+        if xb < 0 or xa > view.vw:
             return
         ctx.rectangle(xa, top, xb - xa, bot - top)
         ctx.set_source_rgba(*TIMELINE.bg_rgb, W.shade_alpha)
@@ -287,7 +298,7 @@ class TimelineStage:
             ctx.set_source_rgba(*C[W.color], W.alpha)
             ctx.set_line_width(W.line_w)
             ctx.stroke()
-        cx = min(max((max(xa, 0.0) + min(xb, float(W_OUT))) / 2, W.label_margin_px), W_OUT - W.label_margin_px)
+        cx = min(max((max(xa, 0.0) + min(xb, float(view.vw))) / 2, W.label_margin_px), view.vw - W.label_margin_px)
         text(ctx, W.label, cx, top + W.label_dy, W.label_size, W.label_font, C[W.color], W.alpha, W.label_halo, "c")
 
     def compress_on_screen(self, view: "View") -> list[Compress]:
@@ -296,7 +307,7 @@ class TimelineStage:
         for z in self.cfg.compress:
             xa, _ = view.to_screen(self.x_of(z.from_), 0.0)
             xb, _ = view.to_screen(self.x_of(z.to), 0.0)
-            if not (xb < 0 or xa > W_OUT):
+            if not (xb < 0 or xa > view.vw):
                 out.append(z)
         return out
 
@@ -311,10 +322,10 @@ class TimelineStage:
         _, bot = self.lane_screen(view, self.n - 1)
         unit = self.tick_unit(view.w)
         G = T.grid  # noqa: N806
-        last = -W_OUT
+        last = -view.vw
         for d, kind in self.ticks(view):
             x, _ = view.to_screen(self.x_of(d), 0.0)
-            if x < G.label_margin_px or x > W_OUT - G.label_margin_px or x - last < G.min_label_gap_px:
+            if x < G.label_margin_px or x > view.vw - G.label_margin_px or x - last < G.min_label_gap_px:
                 continue
             text(ctx, self.tick_label(d, unit), x, bot + G.label_dy, G.label_size, G.label_font,
                  C["white"] if kind == "year" else C["muted"], alpha, G.label_halo, "c")

@@ -17,6 +17,8 @@ from pydantic import BaseModel, ValidationError
 from engine import events as ev
 from engine.cards import draw_card
 from engine.layers.areas import draw_country
+from engine.island import draw_island
+from engine.layers.backdrop import draw_backdrop
 from engine.layers.badges import draw_badge, draw_over_panel
 from engine.layers.dip import draw_dip
 from engine.layers.effects import draw_boom, draw_ships
@@ -56,6 +58,8 @@ REGISTRY: dict[str, Entry] = {
     "marker": Entry(ev.MarkerEvent, draw_marker, "map"),
     "series": Entry(ev.SeriesEvent, draw_series, "map"),     # v4.3.0 D-0084 작업 4 — 시간축 무대 전용(데이터 레코드에서 직접)
     "badge": Entry(ev.BadgeEvent, draw_badge, "map"),
+    "backdrop": Entry(ev.BackdropEvent, draw_backdrop, "map"),   # v5.1.0 D-0123 — backdrop 무대 배경 사진(무대 바탕 바로 위, render_frame 이 먼저 그린다)
+    "island": Entry(ev.IslandEvent, draw_island, "map"),         # v5.1.0 D-0126 Q1 A — 차트 아일랜드(backdrop 무대, 무대 레이어 맨 앞)
     # 화면 레이어 — render(ctx, R, t, e)
     "dip": Entry(ev.DipEvent, draw_dip, "dip"),
     "photo": Entry(ev.PhotoEvent, draw_photo, "media"),
@@ -83,7 +87,7 @@ for _pid in load_rules().registries.primitives:
     REGISTRY[f"primitive:{_pid}"] = Entry(event_model(_pid, module(_pid).SCHEMA), make_renderer(_pid), "primitive")
 
 # v3 LAYER 순서(render3 L950) — 지도 레이어는 타입 순서대로, 같은 타입 안에서는 이벤트 순서대로 그린다.
-MAP_LAYER_ORDER: tuple[str, ...] = ("country", "ships", "route", "tanker_loop", "barrier", "boom", "cutout", "series", "marker", "badge")
+MAP_LAYER_ORDER: tuple[str, ...] = ("island", "country", "ships", "route", "tanker_loop", "barrier", "boom", "cutout", "series", "marker", "badge")
 
 
 def dispatch_panel(ctx: object, R: object, t: float, e: dict) -> None:  # noqa: N803

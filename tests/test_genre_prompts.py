@@ -72,7 +72,7 @@ class MacroGenreBlockTest(unittest.TestCase):
     def test_stage_grammar_from_rules(self) -> None:
         for name in ("director", "revise_direction", "visual_qa"):
             out = load_prompt(name, self.r, self.g)
-            for line in self.r.genre_prompt.stage_grammar["timeline"]:
+            for line in self.r.genre_prompt.stage_grammar["backdrop"]:   # v5.1.0 D-0123 — macro_monetary 주 무대 = backdrop
                 self.assertIn(line, out)
 
     def test_narration_switches_and_n(self) -> None:
@@ -195,7 +195,8 @@ class WorkerWiringTest(unittest.TestCase):
             self.assertEqual(series_records_text(pdir), "(없음)")
             write_order(pdir)
             out = stage_text(pdir, load_genre("macro_monetary"))
-            self.assertIn("(지도 무대 아님) 주 무대 timeline", out)
+            self.assertIn("(지도 무대 아님) 주 무대 backdrop", out)
+            self.assertIn("차트 아일랜드", out)
             self.assertIn("series:FEDFUNDS · 단위 % ·", out)
 
     def test_script_series_block_only_with_order(self) -> None:

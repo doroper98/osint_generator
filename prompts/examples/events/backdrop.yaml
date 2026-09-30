@@ -1,0 +1,10 @@
+# 요소 예시 (v5.1.0, back_and_forth D-0123 §1) — 레지스트리 모델을 그대로 통과한다(15 P4). tests/fixtures/preview/backdrop.yaml 와 같은 event.
+# backdrop 무대 배경 사진: 장면마다 한 장, 연속 같은 사진 금지, 영상 전체 서로 다른 사진 3~6장(rules stage_backdrop). img = 미디어 레지스트리 photo.
+schema_version: 1
+key: backdrop
+source: G12 backdrop 무대(v5.1.0) — 갤러리용 hormuz 사진
+event:
+  type: backdrop
+  t0: 0.0
+  t1: 24.5
+  img: hormuz_transit

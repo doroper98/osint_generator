@@ -1,0 +1,19 @@
+# 요소 예시 (v5.1.0, back_and_forth D-0126 Q1 A) — 레지스트리 모델을 그대로 통과한다(15 P4). tests/fixtures/preview/island.yaml 와 같은 event.
+# 차트 아일랜드: backdrop 무대에서 시간축 차트를 상자 안에 띄운다. box = center|left|right(카드와 함께면 left). 뷰포트 카메라 = stage: timeline 숏.
+# 시간축 앵커 이벤트(series·date 핀)는 이 이벤트가 떠 있는 동안에만 보인다(밖이면 오류). 같은 순간 차트 아일랜드는 하나.
+schema_version: 1
+key: island
+source: G12 차트 아일랜드(v5.1.0, D-0126 Q1 A)
+event:
+  type: island
+  t0: 0.5
+  t1: 20.0
+  kind: chart
+  box: left
+gallery:
+  stage_config:
+    timeline:
+      start: "2019-01-01"
+      end: "2026-10-01"
+  genre: macro_monetary
+  cam: {date: "2025-06-01", w: 900}

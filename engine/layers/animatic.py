@@ -205,6 +205,18 @@ def draw_photo(ctx: cairo.Context, R: RenderCtx, t: float, e: dict) -> None:  # 
     box(ctx, x0, y0 + dy, x1 - x0, y1 - y0, [label("photo", R.assets.media_assets[e["mid"]].caption)], a)
 
 
+def draw_backdrop(ctx: cairo.Context, R: RenderCtx, view: View, t: float, e: dict) -> None:  # noqa: N803
+    """배경 사진 자리표시(v5.1.0 D-0123 §3) — 회색 판(자리표시 바탕) 전체 + 가운데 위 `[배경: id]`. 페이드 = backdrop_alpha(crossfade)."""
+    from engine.layers.backdrop import backdrop_alpha  # noqa: PLC0415
+
+    a = backdrop_alpha(t, e)
+    if a <= 0.01:
+        return
+    ctx.set_source_rgba(*PH.fill[:3], PH.fill[3] * a)
+    ctx.paint()
+    _lines(ctx, [label("backdrop", e["img"])], W_OUT / 2, PH.line_gap * 2, a)
+
+
 def draw_clip(ctx: cairo.Context, R: RenderCtx, t: float, e: dict) -> None:  # noqa: N803
     from engine.media_plan import media_box  # noqa: PLC0415
 
@@ -312,6 +324,7 @@ def draw_band(ctx: cairo.Context, R: RenderCtx, t: float) -> None:  # noqa: N803
 PLACEHOLDERS: dict[str, Callable[..., Any]] = {
     "badge": draw_badge, "photo": draw_photo, "clip": draw_clip, "cutout": draw_cutout, "article": draw_article,
     "post": draw_post, "card": draw_card, "panel": draw_panel, "primitive": draw_primitive,
+    "backdrop": draw_backdrop,   # v5.1.0 D-0123
 }
 
 

@@ -236,6 +236,8 @@ def required_refs(events: list[dict], rights: dict, emblem_flag: Callable[[str],
                 need.add(f"emblems.{img}")
         if e["type"] in ("photo", "clip", "cutout", "article") and e.get("mid"):   # v2.5.5 — 기사도 레지스트리 항목
             need.add(f"media.{e['mid']}")
+        if e["type"] == "backdrop":   # v5.1.0 D-0123 — 배경 사진도 미디어 레지스트리 항목(크레딧 media 참조)
+            need.add(f"media.{e['img']}")
     if any(k.startswith(("flag11:", "flag43:")) for k in image_keys):
         need |= {f"flags.{k}" for k in rights.get("flags", {})} or {"flags.?"}
     for sec in ALWAYS_USED:

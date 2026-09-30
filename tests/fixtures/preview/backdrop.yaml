@@ -1,0 +1,11 @@
+# 레지스트리 프리뷰 예제 (v5.1.0, back_and_forth D-0121 §B·D-0123 §1, 15 P10) — 모델 검증 테스트가 읽는다.
+# backdrop 무대 배경 사진 — img 는 미디어 레지스트리 id(kind photo·rights_clear). 블러·dim·crossfade 수치는 rules stage_backdrop.
+# 갤러리는 hormuz 프로젝트로 그리므로 그 프로젝트 media 에 있는 권리 기록 사진(미 해군 퍼블릭 도메인)을 쓴다.
+schema_version: 1
+key: backdrop
+source: G12 backdrop 무대(v5.1.0) — 갤러리용 hormuz 사진
+event:
+  type: backdrop
+  t0: 0.0
+  t1: 24.5
+  img: hormuz_transit

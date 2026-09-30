@@ -28,6 +28,7 @@ class ShotStage:
     y: float
     w: float
     reason: Optional[str] = None   # v4.3.0 — 연출이 적은 되돌아가기 이유(timeline_backtrack)
+    island: bool = False           # v5.1.0 D-0126 Q1 A — backdrop 주 무대의 차트 아일랜드 뷰포트 카메라(무대 전환이 아니다)
 
 
 class _Key(Protocol):
@@ -84,7 +85,7 @@ def stage_continuity(shots: list[ShotStage]) -> list[tuple[str, str]]:
     max_switches: 무대가 바뀌는 지점 수 > stage.continuity.max_switches(장면마다 새 캔버스 = 슬라이드)
     다른 무대 사이의 좌표 거리는 비교하지 않는다(switch_without_dip 이 잡는다)."""
     st = load_rules().stage
-    ks = sorted(shots, key=lambda s: s.t)
+    ks = sorted((s for s in shots if not s.island), key=lambda s: s.t)   # 아일랜드 카메라는 무대 전환이 아니다(D-0126 Q1)
     out: list[tuple[str, str]] = []
     names = list(dict.fromkeys(s.stage for s in ks))
     if len(names) - 1 > st.max_secondary:

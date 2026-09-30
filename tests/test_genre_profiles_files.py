@@ -33,9 +33,9 @@ class GenreFilesTest(unittest.TestCase):
         p = load_genre("macro_monetary")
         reg = load_rules().registries
         self.assertEqual(p.status, "proposed")
-        self.assertEqual(p.stage.names(), ["timeline", "chart_wall"])
-        self.assertIn("timeline", reg.stages)             # v4.3.0 D-0084 작업 3 — 등록됨
-        self.assertIn("chart_wall", reg.stages_planned)   # 보조 무대는 아직 계획
+        self.assertEqual(p.stage.names(), ["backdrop", "timeline"])   # v5.1.0 D-0123 §2 — 기본 무대 backdrop, 보조 timeline(차트 아일랜드·순수 차트)
+        self.assertTrue(set(p.stage.names()) <= set(reg.stages))   # 둘 다 등록됨(chart_wall 은 보조 상한 1 때문에 뺐다 — registries.stages_planned 그대로)
+        self.assertIn("chart_wall", reg.stages_planned)
         self.assertEqual(p.primitives.new, ["rate_step_line", "dot_plot", "yield_curve_shift", "statement_diff", "target_band"])
         self.assertEqual(set(p.primitives.new) - set(reg.primitives), set(reg.primitives_planned))
         self.assertIn("timeline", p.primitives.reuse)

@@ -8,7 +8,7 @@ import cairo
 
 from engine.context import RenderCtx
 from engine.projection import View
-from engine.style import C, H_OUT, W_OUT
+from engine.style import C
 from engine.timebase import ease_out, smooth, window
 from engine.typography import text, tw
 from rules import load_rules
@@ -61,7 +61,7 @@ def draw_marker(ctx: cairo.Context, R: RenderCtx, view: View, t: float, e: dict)
         return
     x, y = view.to_screen(*e["world"])
     lt = t - e["t0"]
-    if x < -80 or x > W_OUT + 80 or y < -40 or y > H_OUT + 40:
+    if x < -80 or x > view.vw + 80 or y < -40 or y > view.vh + 40:
         return
     col = C["gold"] if e.get("hl") else C["white"]
     for k in range(2):

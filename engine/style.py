@@ -106,5 +106,7 @@ CARD_BG: tuple[float, float, float, float] = tuple(_RULES.colors.card_bg)   # ty
 # v4.2.0 D-0081 작업 4 — 프리미티브 레이아웃 토큰(rules primitives.<id>). 프리미티브 모듈은 이 값과 PrimitiveStyle 만 쓴다(20 §4.2)
 PRIMITIVES: dict[str, object] = {k: v for k, v in _RULES.primitives if v is not None}
 ANIMATIC = _RULES.animatic   # v4.9.0 D-0108 — 콘티 판(engine/layers/animatic.py 만 읽는다)
+ISLAND = _RULES.island   # v5.1.0 D-0123 §1·D-0126 — 아일랜드 공통 규칙
+BACKDROP = _RULES.stage_backdrop   # v5.1.0 D-0121 §B·D-0123 — 사진 배경 무대·backdrop 이벤트 토큰
 TIMELINE = _RULES.stage_timeline   # v4.3.0 D-0084 작업 3 — 시간축 무대·시리즈 레이어 토큰
 QUOTE_MAX_CHARS: int = _RULES.verification.quote_max_chars   # 인용 상한 — 프리미티브 statement_diff 문구 상한(v4.2.0)

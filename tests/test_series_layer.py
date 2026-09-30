@@ -107,7 +107,7 @@ class SeriesDrawTest(unittest.TestCase):
 
 class SeriesWiringTest(unittest.TestCase):
     def test_series_on_map_stage_is_error(self) -> None:
-        with self.assertRaisesRegex(ProjectError, "시간축 무대 전용"):
+        with self.assertRaisesRegex(ProjectError, "시간축 무대\\(또는 차트 아일랜드\\) 전용"):
             setup([FED], stage_name="mercator")
 
     def test_series_on_pins_lane_is_error(self) -> None:

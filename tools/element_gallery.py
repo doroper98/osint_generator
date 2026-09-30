@@ -29,7 +29,8 @@ from engine.primitives import module  # noqa: E402
 from engine.project import load_project, prepare_series  # noqa: E402
 from engine.stage import make_stage  # noqa: E402
 from engine.sheet import grid  # noqa: E402
-from engine.style import FPS  # noqa: E402
+from engine.registry import MAP_LAYER_ORDER, resolve  # noqa: E402
+from engine.style import FPS, ISLAND  # noqa: E402
 from genres.load import DEFAULT_GENRE, genre_names, load_genre  # noqa: E402
 from rules import load_rules  # noqa: E402
 from tools._element_render import prepare, render_event, set_genre  # noqa: E402
@@ -137,14 +138,22 @@ def main(argv: list[str] | None = None) -> int:
 
             sources = SourcesFile.model_validate_json((REPO / opts["sources"]).read_text(encoding="utf-8")).by_id()
         stage0 = P.R.stage
-        if "stage_config" in opts:   # v4.3.0 — 지도가 아닌 무대의 요소(series): 예제가 준 무대·카메라로 그린다
+        island = doc["event"]["type"] == "island"   # v5.1.0 D-0126 — 차트 아일랜드: 무대는 그대로, 예제 시간축을 상자 안 뷰포트로
+        if "stage_config" in opts and island:
+            chart_stage = stage_for_example(opts)
+            chart_stage.fit_island(next(iter(ISLAND.boxes.values()))[3], ISLAND.chart.pad_top, ISLAND.chart.pad_bottom)
+            ccam = np.array([*chart_stage.to_world(**{k: v for k, v in opts["cam"].items() if k != "w"}), opts["cam"]["w"]], float)
+            n_ = int(doc["event"]["t1"] * FPS) + 1
+            P.R.cache["island_chart"] = {"stage": chart_stage, "cams": np.tile(ccam, (n_, 1)), "order": MAP_LAYER_ORDER, "events": [],
+                                         "resolve": resolve}
+        elif "stage_config" in opts:   # v4.3.0 — 지도가 아닌 무대의 요소(series): 예제가 준 무대·카메라로 그린다
             P.R.stage = stage_for_example(opts)
         try:
             ev = prepare(P, doc["event"], sources)
             genre = opts.get("genre") or genre_for(ev)
             set_genre(P, genre)
             t = shot_time(ev, opts)
-            if "stage_config" in opts:
+            if "stage_config" in opts and not island:
                 cam = np.array([*P.R.stage.to_world(**{k: v for k, v in opts["cam"].items() if k != "w"}), opts["cam"]["w"]], float)
                 prepare_series(P.R, [ev], np.tile(cam, (int(ev["t1"] * FPS) + 1, 1)), int(ev["t1"] * FPS) + 1)
             else:

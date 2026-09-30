@@ -203,7 +203,8 @@ def stage_text(pdir: Path, genre: "GenreProfile | None") -> str:
         return geo_text(pdir)
     lanes = genre.stage.timeline.lanes if genre.stage.timeline is not None else []
     lane_rows = "; ".join(f"{ln.id}({ln.label}, {ln.kind})" for ln in lanes)
-    return (f"(지도 무대 아님) 주 무대 {genre.stage.primary}. 장르 프로필 기본 레인: {lane_rows}.\n"
+    island = (" — 차트는 차트 아일랜드(island 이벤트, 카메라 = stage: timeline 숏)로 띄운다" if genre.stage.primary == "backdrop" else "")
+    return (f"(지도 무대 아님) 주 무대 {genre.stage.primary}{island}. 장르 프로필 기본 레인: {lane_rows}.\n"
             f"stage_config.timeline 의 start·end(YYYY-MM-DD)는 레코드 구간을 덮게 정한다. 카메라 w = 화면이 덮는 일수.\n"
             f"데이터 레코드(series 이벤트 series_id 는 이 id 만):\n{series_records_text(pdir)}{documents_text(pdir)}")
 

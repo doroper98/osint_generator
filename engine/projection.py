@@ -20,25 +20,28 @@ if TYPE_CHECKING:
 class View:
     """한 프레임의 뷰포트. 카메라는 무대 경계(stage.bounds) 안으로 클램프한다."""
 
-    def __init__(self, stage: "Stage", cam: "np.ndarray") -> None:
+    def __init__(self, stage: "Stage", cam: "np.ndarray", viewport: "tuple[float, float] | None" = None) -> None:
+        """viewport = 화면 안 뷰포트 (폭, 높이) 설계 px(v5.1.0 D-0126 Q1 A — 차트 아일랜드 상자). 없으면 화면 전체.
+        화면 좌표는 뷰포트 왼쪽 위가 원점이다(그리는 쪽이 상자 위치로 옮긴다)."""
         x, y, w = cam
         self.stage = stage
+        self.vw, self.vh = viewport if viewport is not None else (float(W_OUT), float(H_OUT))
         xmin, ymin, xmax, ymax = stage.bounds
         fixed = getattr(stage, "y_px_per_unit", None)   # v4.3.0 D-0085 A — 무대가 세로 척도를 고정(시간축). 없으면 등방(지도)
         if fixed is None:
-            w = min(w, xmax - xmin - 0.01, (ymax - ymin - 0.01) * W_OUT / H_OUT)
+            w = min(w, xmax - xmin - 0.01, (ymax - ymin - 0.01) * self.vw / self.vh)
             self.w = w
-            self.h = w * H_OUT / W_OUT
-            self.s = W_OUT / w
+            self.h = w * self.vh / self.vw
+            self.s = self.vw / w
             self.sy = self.s
             self.x0 = min(max(x - w / 2, xmin), xmax - w)
             self.y1 = min(max(y + self.h / 2, ymin + self.h), ymax)
         else:
             w = min(w, xmax - xmin)
             self.w = w
-            self.s = W_OUT / w          # 가로 배율(월드 x 1 = s px)
+            self.s = self.vw / w        # 가로 배율(월드 x 1 = s px)
             self.sy = fixed             # 세로 배율(월드 y 1 = sy px)
-            self.h = H_OUT / fixed
+            self.h = self.vh / fixed
             self.x0 = min(max(x - w / 2, xmin), xmax - w)
             self.y1 = stage.frame_y1(y, self.h)  # type: ignore[attr-defined]
 

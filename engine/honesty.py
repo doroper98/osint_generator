@@ -137,10 +137,21 @@ def project_metas(P, times: list[float], labels: list[str], drawn: list[tuple[st
     texts = _cut_texts(drawn)
     metas: list[ChartMeta] = []
     st = P.R.stage
-    if st.name == "timeline":
+    chart = (getattr(P.R, "cache", None) or {}).get("island_chart")   # v5.1.0 D-0126 — backdrop 주 무대의 차트 아일랜드(뷰포트 = 상자)
+    if st.name == "timeline" or chart:
+        from engine.island import chart_view, island_box  # noqa: PLC0415
+
         on = marked = 0
+        if chart:
+            st = chart["stage"]
         for t, lab in zip(times, labels):
-            v = View(st, P.cams[min(P.n_frames - 1, int(t * FPS))])
+            if chart:
+                isl = next((e for e in P.events if e["type"] == "island" and e["t0"] <= t <= e["t1"]), None)
+                if isl is None:
+                    continue
+                v = chart_view(chart, t, island_box(isl))
+            else:
+                v = View(st, P.cams[min(P.n_frames - 1, int(t * FPS))])
             n = len(st.compress_on_screen(v))
             on += n
             marked += n if TIMELINE.wave.label in texts.get(lab, set()) else 0

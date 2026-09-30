@@ -74,6 +74,7 @@ def _rules_placeholders(rules: VideoRules) -> dict[str, str]:
         "{{RULES.script_labels}}": ", ".join(v for v in rules.script_schema.labels.values() if v),   # v4.4.0 D-0093
         "{{RULES.pacing.static_window}}": _ladder(rules),   # v4.11.0 D-0118 §1 — 변화 사다리(검사 [static-window] 와 같은 값)
         "{{RULES.stage_timeline.axis_scale}}": _axis_scale(rules),   # v5.1.0 D-0121 §A — 검사 [timeline-rescale] 와 같은 값
+        "{{RULES.backdrop_island}}": _backdrop_island(rules),   # v5.1.0 D-0123·D-0126 — backdrop 무대·아일랜드
         "{{RULES.attribution_markers}}": ", ".join(f'"{m}"' for m in rules.script_schema.attribution_markers),   # v4.10.0 D-0116 — 린트·검증 판정과 같은 목록
     }
 
@@ -89,6 +90,19 @@ def _axis_scale(rules: VideoRules) -> str:
     """시간축 축 스케일 문법(v5.1.0 D-0121 §A) — rules stage_timeline.axis_scale.grammar 의 {자리}를 같은 블록 값으로(.replace, C2)."""
     ax = rules.stage_timeline.axis_scale
     return ax.grammar.replace("{max}", str(ax.w_changes_per_video_max)).replace("{ratio}", f"{ax.w_change_ratio_min:g}")
+
+
+def _backdrop_island(rules: VideoRules) -> str:
+    """backdrop 무대·아일랜드 연출 문법(v5.1.0) — rules stage_backdrop.grammar 의 {자리}를 같은 규칙 값으로(.replace, C2)."""
+    bd, isl = rules.stage_backdrop, rules.island
+    vals = {"{min_photos}": str(bd.min_photos), "{max_photos}": str(bd.max_photos), "{crossfade}": f"{bd.crossfade_sec:g}",
+            "{boxes}": ", ".join(isl.boxes), "{max_concurrent}": str(isl.max_concurrent)}
+    out = []
+    for line in bd.grammar:
+        for k, v in vals.items():
+            line = line.replace(k, v)
+        out.append(line)
+    return _bullets(out)
 
 
 def _slot_form(s) -> str:  # noqa: ANN001 — schemas.rules_models.PlacementSlot

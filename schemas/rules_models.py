@@ -1350,6 +1350,53 @@ class StageTimelineRules(_Strict):
     axis_scale: TimelineAxisScale  # v5.1.0 — D-0121 §A
 
 
+class StageBackdropRules(_Strict):
+    """v5.1.0 D-0121 §B·D-0123 §1 — 사진 배경 무대·backdrop 이벤트 토큰(engine/stage_backdrop.py·engine/layers/backdrop.py)."""
+
+    kind: Literal["photo"]
+    blur_px: float = Field(gt=0)
+    dim: float = Field(ge=0, le=1)
+    desaturate: float = Field(ge=0, le=1)
+    crossfade_sec: float = Field(gt=0)
+    ken_burns: float = Field(ge=0)
+    change_on: Literal["scene"]
+    min_photos: int = Field(ge=1)
+    max_photos: int = Field(ge=1)
+    bg_rgb: tuple[float, float, float]
+    grammar: list[str] = Field(min_length=1)   # 연출·수정 프롬프트 {{RULES.backdrop_island}}
+
+    @model_validator(mode="after")
+    def _range(self) -> "StageBackdropRules":
+        if self.max_photos < self.min_photos:
+            raise ValueError("stage_backdrop.max_photos < min_photos")
+        return self
+
+
+class IslandChart(_Strict):
+    pad_top: float = Field(ge=0)
+    pad_bottom: float = Field(ge=0)
+
+
+class IslandRules(_Strict):
+    """v5.1.0 D-0123 §1·D-0126 — backdrop 무대 위 아일랜드 공통 규칙(engine/island.py)."""
+
+    radius: float = Field(ge=0)
+    fill_alpha: float = Field(ge=0, le=1)
+    edge_alpha: float = Field(ge=0, le=1)
+    edge_w: float = Field(gt=0)
+    shadow: list[tuple[float, float]]
+    max_concurrent: int = Field(ge=1)
+    boxes: dict[str, tuple[float, float, float, float]] = Field(min_length=1)
+    panel_box: tuple[float, float, float, float]
+    chart: IslandChart
+
+    @model_validator(mode="after")
+    def _same_h(self) -> "IslandRules":
+        if len({b[3] for b in self.boxes.values()}) != 1:
+            raise ValueError("island.boxes 높이는 모두 같아야 한다(차트 레인 영역 한 벌, D-0126 Q2)")
+        return self
+
+
 class GenrePromptRules(_Strict):
     """v4.4.0 D-0090 작업 1 — 장르 프롬프트 층(docs/handoff/20 §5·§6·§7·§9). 문장은 여기, 켜고 끄는 것은 장르 프로필."""
 
@@ -1558,6 +1605,8 @@ class VideoRules(_Strict):
     qa_checks: QAChecks
     primitives: PrimitivesRules = Field(default_factory=PrimitivesRules)   # v4.2.0 D-0081
     stage_timeline: StageTimelineRules   # v4.3.0 — D-0084 작업 3·D-0085
+    stage_backdrop: StageBackdropRules   # v5.1.0 — D-0121 §B·D-0123
+    island: IslandRules                  # v5.1.0 — D-0123 §1·D-0126
     data: DataRules                # v4.3.0 — D-0084 작업 1
     genre_prompt: GenrePromptRules  # v4.4.0 — D-0090 작업 1
     bundle: BundleRules            # v3.5.0 — D-0063 작업 4

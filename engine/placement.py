@@ -138,6 +138,10 @@ def resolve_places(events: list[dict], view_at: Callable[[float], object],
                 if err:
                     errs.append(f"[{i}] {tag}: 슬롯 {slot_name!r} — {err}")
                     continue
+            if stage_name == "backdrop" and e["type"] == "badge" and slot.point is not None:
+                e["screen"], e["over_panel"] = list(slot.point), True   # v5.1.0 D-0123 — backdrop 무대 뱃지 = 화면 고정(월드 앵커 없음)
+                rec[tag] = f"{how}:{slot_name}"
+                continue
             v = view_at(e["t0"])
             pt = slot.point if slot.point is not None else e["screen"]   # 화면 고정 뱃지도 앵커는 둔다(모델 검증) — 그리기는 screen
             e.update(v.stage.from_world(*v.to_world(*pt)))   # type: ignore[attr-defined] — 화면 점 → 월드 → 앵커(lon·lat)

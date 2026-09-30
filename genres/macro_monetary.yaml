@@ -8,12 +8,13 @@
 #   4) reuse 에 series(시간축 계열 — rate_step_line 을 대신, D-0084 작업 4)·marker(시간축 핀 = marker, D-0084 작업 4) — v4.3.0
 # status proposed: 사용자 승인 전(20 §3, §12 G4). approved 로 바꾸는 것은 사용자 결정이다.
 # 무대 timeline 은 v4.3.0 에 구현됨, chart_wall 은 구현 전(registries.stages_planned).
+# v5.1.0(back_and_forth D-0123 §2): 기본 무대 = backdrop(차트가 주가 되는 주제도 사진 배경 + 차트 아일랜드, D106). timeline 은 보조(순수 차트 영상).
 schema_version: 1
 genre: macro_monetary            # 통화정책·거시경제
 status: proposed                 # proposed | approved (사용자 승인 후)
 stage:
-  primary: timeline              # §2.1
-  secondary: [chart_wall]
+  primary: backdrop              # v5.1.0 D-0123 §2(사용자 확인 D108) — 기본 무대(default_stage) = 사진 배경 + 차트 아일랜드. 옛 값 timeline(§2.1)
+  secondary: [timeline]          # 차트 아일랜드·순수 차트 영상(데모). 옛 값 chart_wall(구현 전, registries.stages_planned) — 보조 무대 상한 1(rules stage.max_secondary)
   timeline:
     lanes:
       - {id: policy_rate, label: 기준금리, kind: step, unit: "%"}
@@ -27,7 +28,7 @@ color_semantics:
   added: green                   # (3) 성명서 문구 추가 — 초록(20 §3.1 policy_document)
   removed: ru                    # (3) 성명서 문구 삭제 — 붉은 취소선(20 §3.1 policy_document)
 primitives:                      # 이 장르에서 쓰는 시각 요소(레지스트리 id)
-  reuse: [card, article, post, badge, person, photo, versus, timeline, checklist, series, marker]   # (1) 20 §3 timeline_panel = panel kind timeline, (4) series·marker, (6) person·photo
+  reuse: [card, article, post, badge, person, photo, versus, timeline, checklist, series, marker, backdrop, island]   # backdrop·island = v5.1.0 D-0123·D-0126   # (1) 20 §3 timeline_panel = panel kind timeline, (4) series·marker, (6) person·photo
   new:   [rate_step_line, dot_plot, yield_curve_shift, statement_diff, target_band]   # (2) statement_diff·dot_plot(v4.4.0) 등록 — rate_step_line = series step, target_band = series band 가 대신(만들지 않음), yield_curve_shift = G4 밖(chart_wall)
 badges:
   people: from_library           # 라이브러리 인물(예: 제롬 파월, 케빈 워시 초상이 이미 있음)

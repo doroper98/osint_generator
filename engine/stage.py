@@ -267,9 +267,11 @@ class FlatMercatorStage(MercatorStage):
         return self._sea_cache[key]
 
 
+from engine.stage_backdrop import BackdropStage  # noqa: E402 — 사진 배경 무대(v5.1.0 D-0123)
 from engine.stage_timeline import TimelineStage  # noqa: E402 — 시간축 무대(v4.3.0 D-0084 작업 3)
 
-STAGE_CLASSES: dict[str, type] = {"mercator": MercatorStage, "timeline": TimelineStage}   # 구현 — rules registries.stages 와 같아야 한다(P10)
+STAGE_CLASSES: dict[str, type] = {"mercator": MercatorStage, "timeline": TimelineStage,   # 구현 — rules registries.stages 와 같아야 한다(P10)
+                                  "backdrop": BackdropStage}
 # direction.yaml 에 stage 가 없을 때의 무대 = 장르 프로필 stage.primary(v4.2.0 D-0081 작업 3, 기본 장르 geopolitics → mercator).
 
 
@@ -314,15 +316,15 @@ class StageSet:
         return self._by_name[name]
 
 
-def attach_world(events: list[dict], stage: Stage) -> None:
+def attach_world(events: list[dict], stage: Stage, chart_stage: Optional[Stage] = None) -> None:
     """이벤트의 앵커 좌표 → 월드 좌표(제자리). 레이어·검사기는 이 값과 View 만 쓴다(D-0076 작업 3).
     world = 한 점(lon·lat 또는 시간축 date·lane — v4.3.0, 앵커 키는 무대가 검사: 다른 무대의 키 = StageError, P10),
     world_pts = 경로(pts), world_p0·world_p1 = 봉쇄선 양 끝."""
     for e in events:
         if e.get("lon") is not None and e.get("lat") is not None:
             e["world"] = stage.to_world(lon=e["lon"], lat=e["lat"])
-        elif e.get("date") is not None and e.get("lane") is not None:
-            e["world"] = stage.to_world(date=e["date"], lane=e["lane"])
+        elif e.get("date") is not None and e.get("lane") is not None:   # chart_stage = 차트 아일랜드 시간축(v5.1.0 D-0126 Q1 A)
+            e["world"] = (chart_stage or stage).to_world(date=e["date"], lane=e["lane"])
         if e["type"] in ("route", "tanker_loop") and e.get("pts"):
             e["world_pts"] = [stage.to_world(lon=lo, lat=la) for lo, la in e["pts"]]
         if e["type"] == "barrier":

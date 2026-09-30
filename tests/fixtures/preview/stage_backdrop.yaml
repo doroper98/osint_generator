@@ -1,0 +1,15 @@
+# 무대 레지스트리 프리뷰 예제 (v5.1.0, back_and_forth D-0121 §B·D-0123 §1) — rules registries.stages 의 무대마다 하나.
+# 사진 배경 무대: 카메라 = 빈 카메라 {}(이동 없음, 앵커 없음). 배경 = backdrop 이벤트(img = 미디어 레지스트리 photo·rights_clear).
+# 장면마다 사진을 바꾸고(연속 같은 사진 금지) 전환은 crossfade 만. Direction 모델을 그대로 통과해야 한다(P4).
+schema_version: 1
+key: backdrop
+anchor_keys: []
+direction:
+  version: 1
+  genre: macro_monetary
+  stage: backdrop
+  shots:
+    - {at: 0, mode: cut, dur: 0, camera: {}}
+  events:
+    - {type: backdrop, start: 0, end: {scene_end: open}, img: fed_presser_0916}
+    - {type: backdrop, start: {scene_start: decision}, end: {scene_end: decision}, img: fed_presser_0729}

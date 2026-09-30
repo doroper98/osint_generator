@@ -57,7 +57,9 @@ def render_event(P, ev: dict, t: float, cam: tuple | None = None) -> tuple[Image
     entry = resolve(ev)
     typography.GLYPH_LOG = []
     try:
-        if ev["type"] in MAP_LAYER_ORDER:
+        if ev["type"] == "backdrop":   # v5.1.0 D-0123 — 무대 바탕 바로 위(render_frame 이 무대 레이어 전에 그린다)
+            entry.render(ctx, R, view, t, ev)
+        elif ev["type"] in MAP_LAYER_ORDER:
             entry.render(ctx, R, view, t, ev)
             R.stage.draw_labels(ctx, view, R.reserved, 1.0)
         elif entry.stage == "primitive":

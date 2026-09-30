@@ -17,16 +17,18 @@ import cairo
 import numpy as np
 
 from engine.assets import Assets, load_labels
-from engine.camera import CamKey, build_camera
+from engine.camera import CamKey, build_camera, cam
 from engine.context import RenderCtx
 from engine.credits import check_credits, load_credits, required_refs
 from engine.direction import Direction, DirectionError, boundary_routes, geo_unsourced, load_direction_doc, shot_stages
+from engine.direction import ISLAND_STAGE, is_island_shot, island_keys
 from engine.direction import build as build_direction
 from geo.gazetteer import check_doc as gazetteer_check
 from engine.entities import check_event_refs, load_entities
 from engine.panels import network, relation, timeline
 from engine.credits import RightsError
 from engine.layers.media import ArticleOverflowError, article_geom, caption_width, validate_media
+from engine.layers.backdrop import backdrop_report, validate_backdrop
 from engine.media_registry import credit_line
 from engine.media_plan import density_report, media_box, placement_warnings
 from engine.pacing import change_times, creep_ranges, map_segments, static_windows
@@ -36,8 +38,8 @@ from engine.projection import View
 from engine.shots import ShotStage
 from engine.stage import StageSet, attach_world, make_stage
 from engine.refs import emblem_ids
-from engine.registry import FULL_LAYERS, LayerSet, RegistryError, validate_events
-from engine.style import FPS, Output, output_profile
+from engine.registry import FULL_LAYERS, MAP_LAYER_ORDER, LayerSet, RegistryError, validate_events
+from engine.style import FPS, ISLAND, TIMELINE, Output, output_profile
 from engine.timebase import Timebase
 from genres.elements import used_elements
 from rules import load_rules
@@ -104,6 +106,11 @@ def preflight(R: RenderCtx, events: list[dict], files: bool = True) -> list[str]
                     A.emblem_flag(img)
                 except Exception as ex:  # noqa: BLE001 — 모아서 한 번에 보고
                     errs.append(str(ex))
+            if e["type"] == "backdrop":   # v5.1.0 D-0123 — 배경 사진 권리(콘티 판도 레지스트리는 본다)
+                try:
+                    validate_backdrop(e, A.media_assets)
+                except RightsError as ex:
+                    errs.append(str(ex))
             if e["type"] in ("photo", "clip", "cutout", "article"):
                 try:
                     validate_media(e, A.media_assets)
@@ -131,6 +138,11 @@ def preflight(R: RenderCtx, events: list[dict], files: bool = True) -> list[str]
                 keys.add(f"emblem:{img}")
                 if img not in A.rights.get("emblems", {}):
                     errs.append(f"권리 레지스트리에 휘장 없음: {img}")
+        if e["type"] == "backdrop":   # v5.1.0 D-0123 — 배경 사진 권리 게이트(레지스트리 photo·rights_clear) + 파일
+            try:
+                keys.add(f"media:{validate_backdrop(e, A.media_assets).file}")
+            except RightsError as ex:
+                errs.append(str(ex))
         if e["type"] in ("photo", "clip", "cutout", "article"):
             try:
                 m = validate_media(e, A.media_assets)   # 권리 게이트(D-0036) — 참조·종류·권리 상태
@@ -319,7 +331,16 @@ def load_project(proj: Path, direction: Optional[Direction] = None, out: Optiona
 
         R.cache["timeline"] = {"w_changes": timeline_w_changes(shots, plan.sentences)}
     R.cache["pacing"] = pacing_check(plan.total, tb, shots, raw_events, keys, R.stage.name)   # v4.11.0 D-0118 §1 — 검사·provenance·creep 한 결과
-    R.cache["pacing"] = pacing_check(plan.total, tb, shots, raw_events, keys, R.stage.name)   # v4.11.0 D-0118 §1 — 검사·provenance·creep 한 결과
+    chart_stage = None
+    if R.stage.name == "backdrop":   # v5.1.0 D-0123·D-0126 Q1 A — 주 무대 카메라 {}(고정), 차트 아일랜드 카메라 = stage: timeline 숏
+        if not keys:
+            keys = [cam(0.0, *R.stage.to_world(), R.stage.fixed_w, 0.0, "cut")]
+        if any(is_island_shot(doc, s_, "backdrop") for s_ in doc.shots):
+            chart_stage = stages.get(ISLAND_STAGE)
+            box_h = next(iter(ISLAND.boxes.values()))[3]   # 상자 높이는 모두 같다(rules 검증)
+            chart_stage.fit_island(box_h, ISLAND.chart.pad_top, ISLAND.chart.pad_bottom)   # Q2 A — 레인 자동 맞춤
+            R.cache["island"] = {"lane_h_effective": round(chart_stage.y_px_per_unit, 3), "lane_h": TIMELINE.lane_h,
+                                 "lanes": chart_stage.n}
     cams = build_camera(keys, n, FPS, creep=[tuple(r) for r in R.cache["pacing"]["creep"]]) if keys else None
     A0 = assets  # noqa: N806
 
@@ -332,6 +353,8 @@ def load_project(proj: Path, direction: Optional[Direction] = None, out: Optiona
                                    stage_name=R.stage.name)   # v4.4.0 D-0093 — 무대 종류별 자리
     except PlacementError as ex:
         raise ProjectError(str(ex)) from ex
+    if R.stage.name != "backdrop" and any(e.get("type") == "backdrop" for e in raw_events):   # v5.1.0 D-0123 — 배경 사진은 backdrop 무대에만(P10)
+        raise ProjectError(f"backdrop 이벤트는 backdrop 무대에서만 — 주 무대 {R.stage.name!r}")
     bad = [k for e in raw_events if e.get("type") == "series" for k in ("key", "axis", "slot") if k in e]
     if bad:
         raise ProjectError(f"series 이벤트의 {sorted(set(bad))} 는 코드가 채운다 — 연출에 쓰지 않는다(P8)")
@@ -340,9 +363,11 @@ def load_project(proj: Path, direction: Optional[Direction] = None, out: Optiona
                         "head_top": [] if animatic else head_tops(R, events)}   # v4.8.0 D-0112 A — 초상 실측 머리 높이(콘티 판은 초상을 열지 않는다 → 상한)
     assign_person_sizes(events)   # v4.8.0 D-0101 §1 — 인물 뱃지 적응 크기(보이는 인물 수 n(t), 코드가 센다 P8)
     try:
-        attach_world(events, R.stage)
+        attach_world(events, R.stage, chart_stage)
     except ValueError as ex:   # 앵커 키가 무대와 다름(지도 핀을 시간축에, 등) = 오류(P10, D-0085)
         raise ProjectError(f"앵커 오류: {ex}") from ex   # 앵커(lon·lat) → 월드 좌표. 레이어·검사기는 이 값과 View 만 쓴다(D-0076 작업 3)
+    R.cache["backdrop"] = backdrop_report(events, R.assets.media_assets)   # v5.1.0 D-0123 §3 — checks backdrop_rights·backdrop_repeat·provenance
+    R.cache["stage_choice"] = doc.stage_choice()                          # v5.1.0 D-0123 §2 — checks stage_choice(warning)
     _check_quotes(proj, events)      # v4.4.0 — statement_diff 문구 = intake 원문(D-0090 작업 4)
     _attach_posts(proj, R, events)   # v3.2.0 18 §5 — post 카드 문구·상자는 intake/sources.json 에서(없으면 오류)
     ent_errs = check_event_refs(events, load_entities())  # 07 §6 — 미등재 인물·국기·휘장은 렌더 전 오류(P10)
@@ -370,7 +395,15 @@ def load_project(proj: Path, direction: Optional[Direction] = None, out: Optiona
     R.cache["media_placement"] = placement
     if not keys or cams is None:
         raise ProjectError("카메라 키가 없다")
-    prepare_series(R, events, cams, n)   # v4.3.0 D-0084 작업 4 — 레코드 로드·레인 범위·grow 앞끝(카메라 경로)
+    chart_cams = cams
+    if chart_stage is not None:   # v5.1.0 D-0126 Q1 A — 차트 아일랜드 뷰포트 카메라·시간축 앵커 이벤트
+        chart_cams = build_camera(island_keys(doc, tb, chart_stage), n, FPS)
+        R.cache["island_chart"] = {"stage": chart_stage, "cams": chart_cams, "order": MAP_LAYER_ORDER,
+                                   "events": island_chart_events(events), "resolve": _layers(animatic).resolve}
+    island_errs = check_islands(events, R.stage.name, chart_stage)
+    if island_errs:
+        raise ProjectError("아일랜드 점검 실패(P6·P10):\n" + "\n".join(island_errs))
+    prepare_series(R, events, chart_cams, n, chart_stage or R.stage)   # v4.3.0 D-0084 작업 4 — 레코드 로드·레인 범위·grow 앞끝(카메라 경로)
     ign = R.cache["badge"]["R_ignored"]
     warns = [f"[badge-R-ignored] 인물 뱃지 연출 R {len(ign)}건 무시 — 크기는 보이는 인물 수로 코드가 정한다(D-0111): "
              + ", ".join(f"{g['label'] or g['pid']} R {g['R']:g}" for g in ign)] if ign else []
@@ -381,6 +414,42 @@ def load_project(proj: Path, direction: Optional[Direction] = None, out: Optiona
 
         return Project(proj, plan, R, keys, events, cams, n, warns, shots, ANIMATIC_LAYERS)
     return Project(proj, plan, R, keys, events, cams, n, warns, shots)
+
+
+def _layers(animatic: bool) -> LayerSet:
+    if animatic:
+        from engine.layers.animatic import ANIMATIC_LAYERS  # noqa: PLC0415
+
+        return ANIMATIC_LAYERS
+    return FULL_LAYERS
+
+
+def island_chart_events(events: list[dict]) -> list[dict]:
+    """차트 아일랜드 안에서 그리는 이벤트 — 시간축 앵커(series·date 핀). `in_island` 표시(주 무대 레이어 루프가 건너뛴다)."""
+    out = [e for e in events if e["type"] == "series" or (e["type"] == "marker" and e.get("date") is not None)]
+    for e in out:
+        e["in_island"] = True
+    return out
+
+
+def check_islands(events: list[dict], stage_name: str, chart_stage: object) -> list[str]:
+    """아일랜드 배선 점검(v5.1.0 D-0126): island 이벤트는 backdrop 무대에만, 차트 아일랜드는 카메라(stage: timeline 숏)가 있어야,
+    같은 순간 차트 아일랜드는 하나, 시간축 앵커 이벤트는 차트 아일랜드가 떠 있는 동안에만(밖이면 조용히 안 보인다 → 오류, P6)."""
+    isl = sorted((e for e in events if e["type"] == "island"), key=lambda e: e["t0"])
+    errs: list[str] = []
+    if isl and stage_name != "backdrop":
+        errs.append(f"island 이벤트는 backdrop 무대에서만 — 주 무대 {stage_name!r}")
+    if isl and chart_stage is None and stage_name == "backdrop":
+        errs.append("차트 아일랜드 카메라가 없다 — direction 에 stage: timeline 숏(아일랜드 뷰포트 카메라, D-0126 Q1)")
+    errs += [f"차트 아일랜드 둘이 겹친다: t={b['t0']:.2f} < 앞 끝 {a['t1']:.2f}(같은 순간 차트 아일랜드는 하나 — 카메라 하나)"
+             for a, b in zip(isl, isl[1:]) if b["t0"] < a["t1"]]
+    if stage_name == "backdrop":
+        errs += [f"{e['type']} t={e['t0']:.2f} 시간축 앵커(date·lane) — backdrop 무대에서 차트 아일랜드 안에는 series·marker 만(뱃지는 화면 슬롯)"
+                 for e in events if e.get("date") is not None and e["type"] not in ("series", "marker")]
+        for e in events:
+            if e.get("in_island") and not any(i["t0"] - 0.05 <= e["t0"] and e["t1"] <= i["t1"] + 0.05 for i in isl):
+                errs.append(f"{e['type']} t={e['t0']:.2f}~{e['t1']:.2f} 가 차트 아일랜드 구간 밖이다 — island 이벤트 안에서만 보인다")
+    return errs
 
 
 def pacing_check(total: float, tb: Timebase, shots: list[ShotStage], events: list[dict], keys: list[CamKey],
@@ -404,7 +473,7 @@ def pacing_check(total: float, tb: Timebase, shots: list[ShotStage], events: lis
             "creep_w_ratio": sw.creep.w_ratio if sw.creep.enabled else None}
 
 
-def prepare_series(R: RenderCtx, events: list[dict], cams: np.ndarray, n: int) -> None:  # noqa: N803
+def prepare_series(R: RenderCtx, events: list[dict], cams: np.ndarray, n: int, st: object = None) -> None:  # noqa: N803
     """series 이벤트 준비(v4.3.0 D-0084 작업 4). 시간축 무대만 · 레코드 로드 실패 = 오류(P6) · 레인 kind step|line 만.
     key(이벤트 순번)·axis(레인의 첫 series 만 축 라벨)·slot(레인 안 순번 — 출처 줄 위치), 레인 값 범위, grow 앞끝(프레임별 누적 최대)."""
     from data.series import SeriesError, load_series  # noqa: PLC0415
@@ -416,9 +485,9 @@ def prepare_series(R: RenderCtx, events: list[dict], cams: np.ndarray, n: int) -
     R.cache["series_range"], R.cache["series_front"] = {}, {}
     if not ser:
         return
-    st = R.stage
+    st = st or R.stage   # v5.1.0 D-0126 — backdrop 주 무대면 차트 아일랜드의 시간축 무대
     if st.name != "timeline":
-        raise ProjectError(f"series 이벤트는 시간축 무대 전용 — 주 무대 {st.name!r}")
+        raise ProjectError(f"series 이벤트는 시간축 무대(또는 차트 아일랜드) 전용 — 주 무대 {st.name!r}")
     slots: dict[str, int] = {}
     for i, e in enumerate(ser):
         try:

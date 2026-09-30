@@ -5,6 +5,7 @@
 version: 1
 genre: macro_monetary
 stage: timeline
+stage_reason: "순수 차트(시간축) 검증용 데모 — backdrop 기본 무대 대신 시간축 무대(v5.1.0 D-0123 §4)"
 stage_config:
   timeline:
     start: "2019-01-01"

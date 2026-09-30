@@ -78,13 +78,17 @@ class Camera(_Strict):
     place: Optional[str] = None
     date: Optional[str] = None
     lane: Optional[str] = None
-    w: float = Field(gt=0)
+    w: Optional[float] = Field(default=None, gt=0)   # v5.1.0 D-0123 — backdrop 무대 카메라 `{}`(이동 없음)는 w 도 없다
 
     @model_validator(mode="after")
     def _where(self) -> "Camera":
         kinds = [self.place is not None, self.lon is not None or self.lat is not None, self.date is not None]
+        if sum(kinds) == 0 and self.w is None and self.lane is None:
+            return self   # backdrop 무대 `{}` — 무대 앵커 키 검사(Direction)가 다른 무대의 빈 카메라를 막는다(P10)
         if sum(kinds) != 1:
-            raise ValueError("camera 는 lon·lat · place · date(시간축) 중 하나")
+            raise ValueError("camera 는 lon·lat · place · date(시간축) 중 하나(backdrop 무대는 빈 카메라 {})")
+        if self.w is None:
+            raise ValueError("camera w 가 없다(backdrop 무대의 빈 카메라 {} 만 w 없음)")
         if kinds[1] and (self.lon is None or self.lat is None):
             raise ValueError("camera lon·lat 은 둘 다")
         if self.lane is not None and self.date is None:
@@ -92,7 +96,9 @@ class Camera(_Strict):
         return self
 
     def keys(self) -> set[str]:
-        """이 카메라가 쓴 앵커 키(place 는 지도 lon·lat)."""
+        """이 카메라가 쓴 앵커 키(place 는 지도 lon·lat, 빈 카메라 = 없음)."""
+        if self.w is None:
+            return set()
         if self.date is not None:
             return {"date"} | ({"lane"} if self.lane is not None else set())
         return {"lon", "lat"}
@@ -188,6 +194,7 @@ class Direction(_Strict):
     version: Literal[1] = 1
     genre: Optional[str] = None   # v4.2.0 D-0081 작업 3 — 장르 프로필(없으면 genres.load.DEFAULT_GENRE, declared false)
     stage: Optional[str] = None   # v4.1.0 D-0076 작업 4 — 주 무대(없으면 장르 프로필 stage.primary, declared false)
+    stage_reason: Optional[str] = None   # v5.1.0 D-0123 §2 — 장르 기본 무대(default_stage)와 다른 무대를 고른 이유(없으면 checks stage_choice warning)
     stage_config: dict[str, dict[str, Any]] = Field(default_factory=dict)   # v4.3.0 D-0084 작업 3 — 무대 이름 → 설정
     places: dict[str, tuple[float, float]] = Field(default_factory=dict)
     paths: dict[str, list[tuple[float, float]]] = Field(default_factory=dict)
@@ -221,6 +228,17 @@ class Direction(_Strict):
 
     def main_stage(self) -> str:
         return self.stage or self.genre_profile().stage.primary
+
+    def default_stage(self) -> str:
+        """장르 기본 무대(v5.1.0 D-0123 §2 `default_stage`) = 장르 프로필 stage.primary — 같은 값을 두 곳에 두지 않는다(P3)."""
+        return self.genre_profile().stage.primary
+
+    def stage_choice(self) -> list[str]:
+        """주 무대를 장르 기본과 다르게 골랐는데 stage_reason 이 없으면 한 줄(checks stage_choice warning). 코드는 무대를 바꾸지 않는다(P8)."""
+        if self.main_stage() != self.default_stage() and not self.stage_reason:
+            return [f"[stage-choice] 주 무대 {self.main_stage()!r} ≠ 장르 {self.genre_name()!r} 기본 무대 {self.default_stage()!r} — "
+                    "direction stage_reason 에 이유를 적는다"]
+        return []
 
     def shot_stage(self, s: "Shot") -> str:
         return s.stage or self.main_stage()
@@ -335,8 +353,40 @@ def _where(c: Camera, doc: Direction) -> dict[str, Any]:
         return {"lon": lon, "lat": lat}
     if c.date is not None:
         return {"date": c.date, **({"lane": c.lane} if c.lane is not None else {})}
+    if c.w is None:
+        return {}   # backdrop 빈 카메라(v5.1.0 D-0123)
     assert c.lon is not None and c.lat is not None
     return {"lon": c.lon, "lat": c.lat}
+
+
+def _cam_w(s: Shot, stage: "Stage") -> float:
+    """숏의 카메라 폭 — 빈 카메라(backdrop, v5.1.0 D-0123)는 무대 고정 폭(fixed_w). 다른 무대의 빈 카메라는 앵커 검사가 먼저 막는다."""
+    if s.camera.w is not None:
+        return s.camera.w
+    fw = getattr(stage, "fixed_w", None)
+    if fw is None:
+        raise DirectionError(f"숏 {s.at!r}: 무대 {stage.name!r} 는 카메라 w 가 필요하다")
+    return float(fw)
+
+
+ISLAND_STAGE = "timeline"   # v5.1.0 D-0126 Q1 A — backdrop 주 무대에서 이 무대의 숏 = 차트 아일랜드 뷰포트 카메라
+
+
+def is_island_shot(doc: Direction, s: Shot, main: str) -> bool:
+    """주 무대 backdrop 의 `stage: timeline` 숏 = 차트 아일랜드 카메라(D-0126 Q1 A — "숏 무대 ≠ 주 무대"를 아일랜드 뷰포트로 좁힌다)."""
+    return main == "backdrop" and doc.shot_stage(s) == ISLAND_STAGE
+
+
+def island_keys(doc: Direction, tb: Timebase, chart_stage: "Stage") -> list[CamKey]:
+    """차트 아일랜드 뷰포트 카메라 키(시간축 월드 좌표, w = 뷰포트 폭이 덮는 일수). 주 무대가 backdrop 이 아니면 []."""
+    keys: list[CamKey] = []
+    for s in doc.shots:
+        if not is_island_shot(doc, s, doc.main_stage()):
+            continue
+        t = resolve_anchor(s.at, tb)
+        xy = chart_stage.to_world(**_where(s.camera, doc))
+        keys.append(cam(t, *xy, _cam_w(s, chart_stage), 0 if s.mode == "dip" else s.dur, "cut" if s.mode == "dip" else s.mode))
+    return keys
 
 
 def build(doc: Direction, tb: Timebase, stage: "Stage") -> tuple[list[CamKey], list[dict], Optional[dict]]:
@@ -346,16 +396,18 @@ def build(doc: Direction, tb: Timebase, stage: "Stage") -> tuple[list[CamKey], l
     keys: list[CamKey] = []
     dips: list[dict] = []
     for s in doc.shots:
+        if is_island_shot(doc, s, stage.name):
+            continue   # v5.1.0 D-0126 Q1 A — 차트 아일랜드 뷰포트 카메라(island_keys)
         if doc.shot_stage(s) != stage.name:
-            raise DirectionError(f"숏 {s.at!r} 의 무대 {doc.shot_stage(s)!r} ≠ 주 무대 {stage.name!r} — 보조 무대 렌더는 아직 없다"
-                                 "(G3, docs/handoff/20 §12). 무대 연속성 검사(checks stage_continuity)는 shot_stages 로 따로 본다")
+            raise DirectionError(f"숏 {s.at!r} 의 무대 {doc.shot_stage(s)!r} ≠ 주 무대 {stage.name!r} — 아일랜드 없는 보조 무대 렌더는 아직 없다"
+                                 "(G3·G12 D-0126 Q7, docs/handoff/20 §12). 무대 연속성 검사(checks stage_continuity)는 shot_stages 로 따로 본다")
         t = resolve_anchor(s.at, tb)
         anchor = _where(s.camera, doc)
         if s.mode == "dip":
             dips.append(dict(type="dip", t0=t - DIP_HALF_SEC, t1=t + DIP_HALF_SEC, **({"under": True} if s.under else {})))
-            keys.append(cam(t, *stage.to_world(**anchor), s.camera.w, 0, "cut"))
+            keys.append(cam(t, *stage.to_world(**anchor), _cam_w(s, stage), 0, "cut"))
         else:
-            keys.append(cam(t, *stage.to_world(**anchor), s.camera.w, s.dur, s.mode))
+            keys.append(cam(t, *stage.to_world(**anchor), _cam_w(s, stage), s.dur, s.mode))
     events: list[dict] = []
     for e in doc.events:
         d: dict = {"type": e["type"], "t0": resolve_anchor(e["start"], tb), "t1": resolve_anchor(e["end"], tb)}
@@ -385,7 +437,8 @@ def shot_stages(doc: Direction, tb: Timebase, stages: "Callable[[str], Stage]") 
     for s in doc.shots:
         name = doc.shot_stage(s)
         x, y = stages(name).to_world(**_where(s.camera, doc))
-        out.append(ShotStage(t=resolve_anchor(s.at, tb), mode=s.mode, stage=name, x=x, y=y, w=s.camera.w, reason=s.reason))
+        out.append(ShotStage(t=resolve_anchor(s.at, tb), mode=s.mode, stage=name, x=x, y=y, w=_cam_w(s, stages(name)), reason=s.reason,
+                             island=is_island_shot(doc, s, doc.main_stage())))
     return out
 
 

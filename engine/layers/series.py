@@ -20,7 +20,7 @@ from typing import TYPE_CHECKING
 import cairo
 
 from data.series import load_series
-from engine.style import C, FPS, TIMELINE, W_OUT
+from engine.style import C, FPS, TIMELINE
 from engine.timebase import ease_out, window
 from engine.typography import text, tw
 
@@ -138,9 +138,9 @@ def draw_series(ctx: cairo.Context, R: "RenderCtx", view: "View", t: float, e: d
         front = float(fr[min(len(fr) - 1, max(0, int(t * FPS)))])
     col = C[e["col"]]
     mcol = month_colors(e, R)   # v4.4.0 D-0091 ② — None 이면 한 색(기존 그대로)
-    fx = view.to_screen(front, 0.0)[0] if front != math.inf else float(W_OUT)
+    fx = view.to_screen(front, 0.0)[0] if front != math.inf else float(view.vw)
     ctx.save()
-    ctx.rectangle(0, 0, max(0.0, fx), TIMELINE.area_bottom + TIMELINE.series.clip_below_px)
+    ctx.rectangle(0, 0, max(0.0, fx), stage.area_bottom + TIMELINE.series.clip_below_px)
     ctx.clip()
     last: tuple[float, float, float] | None = None
     last_hi: float | None = None
@@ -177,14 +177,14 @@ def draw_series(ctx: cairo.Context, R: "RenderCtx", view: "View", t: float, e: d
     _draw_missing(ctx, view, stage, rec, e, front, a)
     if last is not None:
         sx, sy = view.to_screen(last[0], last[1])
-        if S.value_min_x <= sx <= W_OUT:
+        if S.value_min_x <= sx <= view.vw:
             tip = col if mcol is None else mcol[_month_of(stage, last[0], rec)]
             ctx.arc(sx, sy, S.tip_r, 0, 2 * math.pi)
             ctx.set_source_rgba(*tip, a)
             ctx.fill()
             s = value_text(e, last[2], rec.unit, last_hi)
             lw = tw(ctx, s, S.value_size, S.value_font)
-            x0 = sx + S.value_dx if sx + S.value_dx + lw <= W_OUT - S.axis_zone_px else sx - S.value_dx - lw   # 오른쪽 축 값 자리를 비킨다
+            x0 = sx + S.value_dx if sx + S.value_dx + lw <= view.vw - S.axis_zone_px else sx - S.value_dx - lw   # 오른쪽 축 값 자리를 비킨다
             box = (x0, sy + S.value_dy - S.value_size, x0 + lw, sy + S.value_dy)
             if not _hits(box, _lane_name_box(ctx, view, stage, e["lane"])):   # 레인 이름을 덮지 않는다(끝점은 그대로)
                 text(ctx, s, box[0], sy + S.value_dy, S.value_size, S.value_font, tip, a, S.value_halo, "l")
@@ -308,7 +308,7 @@ def _draw_missing(ctx: cairo.Context, view: "View", stage: "TimelineStage", rec:
             continue
         sx, top = view.to_screen(x, hi_y)
         _, bot = view.to_screen(x, lo_y)
-        if not 0 <= sx <= W_OUT:
+        if not 0 <= sx <= view.vw:
             continue
         ctx.set_dash(M.dash)
         ctx.move_to(sx, top + M.inset_px)
@@ -328,11 +328,11 @@ def _draw_axis(ctx: cairo.Context, view: "View", stage: "TimelineStage", e: dict
     for v in (rng[0], rng[1]):
         _, sy = view.to_screen(0.0, value_y(stage, e["lane"], rng, v))
         ctx.move_to(0, sy)
-        ctx.line_to(W_OUT, sy)
+        ctx.line_to(view.vw, sy)
         ctx.set_source_rgba(*C["white"], (S.zero_alpha if v == 0 else S.grid_alpha) * a)
         ctx.set_line_width(S.grid_w)
         ctx.stroke()
-        text(ctx, fmt_value(v, unit), W_OUT - S.axis_label_margin_px, sy + S.axis_label_dy, S.axis_label_size, S.axis_label_font,
+        text(ctx, fmt_value(v, unit), view.vw - S.axis_label_margin_px, sy + S.axis_label_dy, S.axis_label_size, S.axis_label_font,
              C["muted"], a, S.axis_label_halo, "r")
 
 

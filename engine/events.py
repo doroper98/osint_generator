@@ -179,6 +179,8 @@ class BadgeEvent(_Event):
     def _anchor(self) -> "BadgeEvent":
         geo = (self.lon is not None, self.lat is not None)
         tl = (self.date is not None, self.lane is not None)
+        if self.over_panel and self.screen is not None and not any(geo) and not any(tl):
+            return self   # v5.1.0 D-0123 — backdrop 무대 화면 고정 뱃지(앵커 없음, 배치 슬롯이 채운다)
         if not ((all(geo) and not any(tl)) or (all(tl) and not any(geo))):
             raise ValueError("badge 앵커는 lon·lat(지도) 또는 date·lane(시간축) 중 한 쌍 — 시간축에서는 place 슬롯을 쓴다")
         if self.date is not None and not DATE_ISO_RE.match(self.date):
@@ -248,6 +250,30 @@ class ClipEvent(_Event):
     def _xyw_together(self) -> "ClipEvent":
         if len({self.x is None, self.y is None, self.w is None}) != 1:
             raise ValueError("clip x·y·w 는 모두 주거나 모두 비운다")
+        return self
+
+
+class BackdropEvent(_Event):
+    """backdrop 무대 배경 사진(v5.1.0 D-0121 §B·D-0123) — img = 미디어 레지스트리 id(kind photo·rights_clear). 연출이 장면마다 고른다(P8).
+    블러·dim·crossfade 수치는 rules stage_backdrop. 캡션 바 없음(장식), 크레딧은 credits.yaml media 참조."""
+
+    type: Literal["backdrop"]
+    img: str = Field(min_length=1)
+
+
+class IslandEvent(_Event):
+    """아일랜드(v5.1.0 D-0123 §1·D-0126 Q1 A) — backdrop 무대 위 내용물 상자. kind chart = 시간축 뷰포트(카메라 = stage: timeline 숏).
+    box = rules island.boxes 이름(연출은 픽셀을 다루지 않는다 — place 는 배치 슬롯 키라 쓰지 않는다). 사진·기사·패널·프리미티브 아일랜드는 각자의 이벤트 타입이다."""
+
+    type: Literal["island"]
+    kind: Literal["chart"]
+    box: str = "center"
+
+    @model_validator(mode="after")
+    def _box(self) -> "IslandEvent":
+        boxes = load_rules().island.boxes
+        if self.box not in boxes:
+            raise ValueError(f"island box {self.box!r} 가 rules island.boxes {sorted(boxes)} 에 없다")
         return self
 
 

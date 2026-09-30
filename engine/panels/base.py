@@ -49,7 +49,13 @@ def make_panel_renderer(fn: PanelFn) -> Callable[[cairo.Context, RenderCtx, floa
         a = panel_alpha(t, e)
         if a <= 0.01:
             return
-        draw_panel_cover(ctx, a)
+        if getattr(getattr(R, "stage", None), "name", None) == "backdrop":   # v5.1.0 D-0126 Q4 A — backdrop 무대 위 패널 = 아일랜드 상자
+            from engine.island import draw_frame  # noqa: PLC0415
+            from engine.style import ISLAND  # noqa: PLC0415
+
+            draw_frame(ctx, tuple(ISLAND.panel_box), a)
+        else:
+            draw_panel_cover(ctx, a)
         fn(ctx, R, t, e, a)
 
     render.__name__ = f"panel_{fn.__name__}"
