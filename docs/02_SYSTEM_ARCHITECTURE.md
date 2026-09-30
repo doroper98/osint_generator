@@ -1,6 +1,6 @@
 <!--
 tier: 2
-last_synced_with: v4.11.0
+last_synced_with: v5.0.0
 ssot_for: [system-architecture, component-boundaries]
 depends_on: [03_AGENT_ARCHITECTURE.md, 05_DATA_SCHEMA_SPEC.md, ADDENDUM_01_ORCHESTRATOR_COMMAND_CENTER_LAYOUT.md]
 last_review: 2026-09-29

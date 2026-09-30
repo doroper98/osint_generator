@@ -1,6 +1,6 @@
 <!--
 tier: 3
-last_synced_with: v4.11.0
+last_synced_with: v5.0.0
 ssot_for: [release-notes]
 depends_on: [README.md, GOAL.md]
 last_review: 2026-09-28
@@ -59,10 +59,20 @@ released 항목은 **append-only**입니다.
 | v4.8.0 | 8d2e2d6 | G7 요소 크기 — 인물 배지 적응·기사 카드·글자 크기·켄 번스·청와대 휘장 | pass(D-0114) |
 | v4.9.0 | e5c400b | G8 콘티 판(animatic) 루틴 | pass(D-0116) |
 | v4.10.0 | 29dfa44 | G9 정비 — 지명 사전·[geo-mismatch]·브리지 stdin·귀속 표현 | pass(D-0117) |
+| v4.11.0 | 7ff2976 | G10 정적 구간 검사·음악 상한 +2 dB·글자 크기 2차 표 | pass(D-0119) — 청감 판정은 사용자 |
 
 ---
 
-## [v4.11.0] — 2026-09-30 — G10: 정적 구간 검사 `[static-window]`·변화 사다리·느린 푸시인, 음악 상한 +2 dB, 글자 크기 2차 표 (back_and_forth D-0118, 사용자 위임 D103) — 진행 중
+## [v5.0.0] — 2026-09-30 — G11: GOAL G4-21 개정 — 귀속 인용은 교차 확인이 아니다, claims `claim_kind: fact | statement` (back_and_forth D-0119, 사용자 결정 D103) — 진행 중
+
+MAJOR: GOAL G4 변경(C5.4). JSON `schema_version` 은 그대로(1) — `claim_kind` 는 기본값 있는 optional 필드. 전편 렌더 없음(화면 영향 0, D85).
+
+### Changed
+- **§0**: VERSION 5.0.0, Tier 1·2 `last_synced_with` v5.0.0, v4.11.0 대장 행(7ff2976, D-0119 pass). **GOAL G4-21 추가**(D-0119 문안 그대로, 그 외 GOAL 본문 무변경).
+
+---
+
+## [v4.11.0] — 2026-09-30 — G10: 정적 구간 검사 `[static-window]`·변화 사다리·느린 푸시인, 음악 상한 +2 dB, 글자 크기 2차 표 (back_and_forth D-0118, 사용자 위임 D103) — 합격(D-0119)
 
 MINOR: 새 검사(정적 구간) 추가. 전편 렌더는 480p 두 편(hormuz·fed_policy)만(D-0103), 오디오 A/B 는 30초 클립.
 

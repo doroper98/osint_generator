@@ -1,6 +1,6 @@
 <!--
 tier: 2
-last_synced_with: v4.11.0
+last_synced_with: v5.0.0
 ssot_for: [json-contracts-overview]
 depends_on: [../schemas/models.py, ../schemas/source_models.py, ../schemas/engine_models.py, ../script/schema.py, ../engine/direction.py, ../engine/qa.py, ../orchestrator/config.py]
 last_review: 2026-09-29

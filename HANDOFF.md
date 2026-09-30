@@ -1,6 +1,6 @@
 <!--
 tier: 1
-last_synced_with: v4.11.0
+last_synced_with: v5.0.0
 ssot_for: [session-handoff]
 depends_on: [CLAUDE.md, GOAL.md, VERSION, docs/13_IMPLEMENTATION_ROADMAP.md, docs/handoff/KICKOFF_PROMPT.md, docs/handoff/19_FABLE_ANALYSIS_AND_OPUS_EXECUTION_PLAN.md, back_and_forth/README.md]
 last_review: 2026-09-29
@@ -13,11 +13,11 @@ last_review: 2026-09-29
 
 ---
 
-## 1. 지금 어디인가 (v4.11.0)
+## 1. 지금 어디인가 (v5.0.0)
 
 - **작업 브랜치: `overhaul/v2-map-engine`.** Phase 합격(Fable review pass) 뒤 Fable이 main을 fast-forward한다. PR 생성 금지(C8.5).
-- **완료**: v2 개편 Phase 0~11·G1~G9(v2.0.0~v4.10.0). 합격 커밋은 `docs/handoff/TAGS_PENDING.md`.
-- **진행**: G10 — 정적 구간 검사 `[static-window]`·음악 상한 +2 dB·글자 크기 2차 표(v4.11.0, back_and_forth D-0118).
+- **완료**: v2 개편 Phase 0~11·G1~G10(v2.0.0~v4.11.0). 합격 커밋은 `docs/handoff/TAGS_PENDING.md`.
+- **진행**: G11 — GOAL G4-21 개정·claims `claim_kind: fact | statement`(v5.0.0, back_and_forth D-0119).
 - **다음**: G4 사용자 판정("슬라이드가 아니라 다큐", `docs/handoff/20` §12). 합격 기준은 `GOAL.md` G3(17개, 항목별 검증 방법).
 
 ## 2. 일하는 방식 — back_and_forth

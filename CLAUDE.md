@@ -1,6 +1,6 @@
 <!--
 tier: 1
-last_synced_with: v4.11.0
+last_synced_with: v5.0.0
 ssot_for: [ai-assistant-rules, code-style, commit-conventions]
 depends_on: [GOAL.md, DOCS_GOVERNANCE.md, docs/handoff/15_ANTI_INERTIA_PRINCIPLES.md]
 last_review: 2026-09-29

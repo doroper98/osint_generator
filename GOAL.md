@@ -1,6 +1,6 @@
 <!--
 tier: 1
-last_synced_with: v4.11.0
+last_synced_with: v5.0.0
 ssot_for: [project-goals, acceptance-criteria, prohibitions]
 depends_on: [README.md, docs/handoff/00_INDEX.md, docs/handoff/15_ANTI_INERTIA_PRINCIPLES.md]
 last_review: 2026-09-29
@@ -175,6 +175,7 @@ v1 산출물 표 (이력 보존):
 18. AI 상투 문구(`rules/video_rules.yaml banned_phrases`)를 원고·자막에 쓰면 안 된다.
 19. 발음(TTS) 텍스트에 숫자·기호를 넣으면 안 된다.
 20. 실패 시 옛 스타일로 폴백한 출력을 내보내면 안 된다 — 해당 단계에서 중단하고 사용자에게 보고한다.
+21. 매체가 '~라고 보도했다/주장했다'로 전한 인용은 '그런 보도·발언이 있었다'의 근거일 뿐, 그 내용의 교차 확인으로 세면 안 된다. 독립 출처 둘 이상이 같은 공식 발언을 전하면 '발언이 있었다'는 사실만 corroborated 로 한다(v5.0.0, 사용자 결정 D103).
 
 ## G5. 비목표 (Non-goals)
 
