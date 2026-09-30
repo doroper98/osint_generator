@@ -1,0 +1,569 @@
+{
+ "schema_version": 1,
+ "frames": [
+  {
+   "n": 1,
+   "file": "p_0007.82.png",
+   "label": "open_1+2",
+   "t": 7.824,
+   "sid": "open_1",
+   "text": "전쟁에 개입하는 파병은 하지 않겠다는 발표였습니다.",
+   "after_sid": null,
+   "card": null,
+   "events": [
+    {
+     "type": "marker",
+     "label": "서울"
+    },
+    {
+     "type": "badge",
+     "kind": "person",
+     "label": "이재명"
+    },
+    {
+     "type": "card",
+     "tag": "기자회견 · 9월 18일"
+    }
+   ]
+  },
+  {
+   "n": 2,
+   "file": "p_0022.27.png",
+   "label": "TITLE+2",
+   "t": 22.274,
+   "sid": null,
+   "text": null,
+   "after_sid": "open_3",
+   "card": "title",
+   "events": [
+    {
+     "type": "marker",
+     "label": "서울"
+    },
+    {
+     "type": "badge",
+     "kind": "person",
+     "label": "이재명"
+    }
+   ]
+  },
+  {
+   "n": 3,
+   "file": "p_0028.77.png",
+   "label": "route_0+2.5",
+   "t": 28.774,
+   "sid": "route_0",
+   "text": "호르무즈 해협은 페르시아만에서 먼바다로 나가는 유일한 바닷길입니다.",
+   "after_sid": null,
+   "card": null,
+   "events": [
+    {
+     "type": "marker",
+     "label": "호르무즈 해협"
+    }
+   ]
+  },
+  {
+   "n": 4,
+   "file": "p_0038.45.png",
+   "label": "route_2+2",
+   "t": 38.445,
+   "sid": "route_2",
+   "text": "플라스틱의 원료인 나프타도 54%가 같은 길로 들어왔습니다.",
+   "after_sid": null,
+   "card": null,
+   "events": [
+    {
+     "type": "marker",
+     "label": "호르무즈 해협"
+    },
+    {
+     "type": "route",
+     "label": ""
+    },
+    {
+     "type": "card",
+     "tag": "2025년 수입 중 호르무즈 경유 비중"
+    }
+   ]
+  },
+  {
+   "n": 5,
+   "file": "p_0045.03.png",
+   "label": "route_3+3.5",
+   "t": 45.03,
+   "sid": "route_3",
+   "text": "유조선은 해협을 나와 인도양을 건너고, 믈라카 해협을 거쳐 한국 남해안에 닿습니다.",
+   "after_sid": null,
+   "card": null,
+   "events": [
+    {
+     "type": "marker",
+     "label": "호르무즈 해협"
+    },
+    {
+     "type": "route",
+     "label": ""
+    }
+   ]
+  },
+  {
+   "n": 6,
+   "file": "p_0056.21.png",
+   "label": "war_1+2",
+   "t": 56.213,
+   "sid": "war_1",
+   "text": "이 공격으로 이란의 최고지도자 알리 하메네이가 숨졌습니다.",
+   "after_sid": null,
+   "card": null,
+   "events": [
+    {
+     "type": "country"
+    },
+    {
+     "type": "badge",
+     "kind": "person",
+     "label": "알리 하메네이"
+    }
+   ]
+  },
+  {
+   "n": 7,
+   "file": "p_0061.25.png",
+   "label": "war_2+2.5",
+   "t": 61.247,
+   "sid": "war_2",
+   "text": "이란은 곧바로 호르무즈 해협을 닫았습니다.",
+   "after_sid": null,
+   "card": null,
+   "events": [
+    {
+     "type": "country"
+    },
+    {
+     "type": "marker",
+     "label": "호르무즈 해협"
+    },
+    {
+     "type": "barrier",
+     "label": "봉쇄"
+    },
+    {
+     "type": "clip",
+     "mid": "niovi"
+    }
+   ]
+  },
+  {
+   "n": 8,
+   "file": "p_0065.13.png",
+   "label": "war_3+3",
+   "t": 65.133,
+   "sid": "war_3",
+   "text": "이란이 허가한 배만 지나갈 수 있었고, 대부분 중국과 인도로 가는 유조선이었습니다.",
+   "after_sid": null,
+   "card": null,
+   "events": [
+    {
+     "type": "country"
+    },
+    {
+     "type": "marker",
+     "label": "호르무즈 해협"
+    },
+    {
+     "type": "barrier",
+     "label": "봉쇄"
+    },
+    {
+     "type": "route",
+     "label": "허가받은 배만 통과"
+    },
+    {
+     "type": "badge",
+     "kind": "flag",
+     "label": "중국"
+    },
+    {
+     "type": "badge",
+     "kind": "flag",
+     "label": "인도"
+    }
+   ]
+  },
+  {
+   "n": 9,
+   "file": "p_0080.70.png",
+   "label": "ask_1+4",
+   "t": 80.702,
+   "sid": "ask_1",
+   "text": "다음 날 독일, 영국, 일본, 호주, 그리고 한국이 이 요구를 거절했습니다.",
+   "after_sid": null,
+   "card": null,
+   "events": [
+    {
+     "type": "panel",
+     "kind": "relation",
+     "title": "3월 15일의 요구, 다음 날의 거절"
+    }
+   ]
+  },
+  {
+   "n": 10,
+   "file": "p_0087.06.png",
+   "label": "ask_2+2",
+   "t": 87.058,
+   "sid": "ask_2",
+   "text": "독일 국방장관은 우리가 시작한 전쟁이 아니라고 말했습니다.",
+   "after_sid": null,
+   "card": null,
+   "events": [
+    {
+     "type": "panel",
+     "kind": "relation",
+     "title": "3월 15일의 요구, 다음 날의 거절"
+    }
+   ]
+  },
+  {
+   "n": 11,
+   "file": "p_0105.28.png",
+   "label": "ask_5+1.5",
+   "t": 105.281,
+   "sid": "ask_5",
+   "text": "이란의 공격을 규탄하고, 항행의 자유를 지키는 노력에 함께한다는 내용이었습니다.",
+   "after_sid": null,
+   "card": null,
+   "events": [
+    {
+     "type": "panel",
+     "kind": "statement",
+     "title": "3월 21일 공동성명"
+    }
+   ]
+  },
+  {
+   "n": 12,
+   "file": "p_0124.25.png",
+   "label": "timeline_2+2",
+   "t": 124.253,
+   "sid": "timeline_2",
+   "text": "4월 13일, 미국은 이란 항구를 드나드는 배를 막는 해상 봉쇄에 들어갔습니다.",
+   "after_sid": null,
+   "card": null,
+   "events": [
+    {
+     "type": "panel",
+     "kind": "timeline",
+     "title": "해협의 일곱 달"
+    }
+   ]
+  },
+  {
+   "n": 13,
+   "file": "p_0136.97.png",
+   "label": "timeline_4+2.8",
+   "t": 136.972,
+   "sid": "timeline_4",
+   "text": "하지만 7월 8일, 해협에서 상선들이 공격받고 미국이 다시 이란을 공습하면서 휴전은 무너졌습니다.",
+   "after_sid": null,
+   "card": null,
+   "events": [
+    {
+     "type": "panel",
+     "kind": "timeline",
+     "title": "해협의 일곱 달"
+    },
+    {
+     "type": "clip",
+     "mid": "strikes"
+    }
+   ]
+  },
+  {
+   "n": 14,
+   "file": "p_0157.38.png",
+   "label": "cost_1+1",
+   "t": 157.38,
+   "sid": "cost_1",
+   "text": "배 천여 척과 선원 2만 명이 걸프 안쪽에 발이 묶였습니다.",
+   "after_sid": null,
+   "card": null,
+   "events": [
+    {
+     "type": "ships"
+    },
+    {
+     "type": "card",
+     "tag": "국제해사기구 · 6월 11일 기준"
+    }
+   ]
+  },
+  {
+   "n": 15,
+   "file": "p_0164.59.png",
+   "label": "review_0+2.8",
+   "t": 164.594,
+   "sid": "review_0",
+   "text": "9월 초, 국내 방송사들은 정부가 연내 파병을 준비하고 있다고 보도했습니다.",
+   "after_sid": null,
+   "card": null,
+   "events": [
+    {
+     "type": "route",
+     "label": ""
+    },
+    {
+     "type": "badge",
+     "kind": "flag",
+     "label": "부산에서 출항"
+    },
+    {
+     "type": "article",
+     "mid": "reuters_0904"
+    }
+   ]
+  },
+  {
+   "n": 16,
+   "file": "p_0170.52.png",
+   "label": "review_1+2.5",
+   "t": 170.518,
+   "sid": "review_1",
+   "text": "해상초계기와 군수지원함 같은 선택지가 거론됐습니다.",
+   "after_sid": null,
+   "card": null,
+   "events": [
+    {
+     "type": "route",
+     "label": ""
+    },
+    {
+     "type": "marker",
+     "label": "아덴만"
+    },
+    {
+     "type": "badge",
+     "kind": "flag",
+     "label": "부산에서 출항"
+    },
+    {
+     "type": "card",
+     "tag": "거론된 선택지"
+    },
+    {
+     "type": "cutout",
+     "mid": "p8"
+    }
+   ]
+  },
+  {
+   "n": 17,
+   "file": "p_0193.22.png",
+   "label": "past_1+2.5",
+   "t": 193.216,
+   "sid": "past_1",
+   "text": "2004년 노무현 정부는 이라크 아르빌에 자이툰 부대를 보냈습니다.",
+   "after_sid": null,
+   "card": null,
+   "events": [
+    {
+     "type": "panel",
+     "kind": "precedent",
+     "title": "한국의 해외 파견 결정"
+    },
+    {
+     "type": "photo",
+     "mid": "rok_iraq"
+    }
+   ]
+  },
+  {
+   "n": 18,
+   "file": "p_0207.41.png",
+   "label": "past_3+5",
+   "t": 207.41,
+   "sid": "past_3",
+   "text": "2020년에는 청해부대의 작전 구역을 호르무즈까지 넓히되, 지휘권은 한국군이 갖는 방식을 택했습니다.",
+   "after_sid": null,
+   "card": null,
+   "events": [
+    {
+     "type": "panel",
+     "kind": "precedent",
+     "title": "한국의 해외 파견 결정"
+    }
+   ]
+  },
+  {
+   "n": 19,
+   "file": "p_0214.46.png",
+   "label": "debate_0+3",
+   "t": 214.458,
+   "sid": "debate_0",
+   "text": "9월 7일, 정부는 전투가 격해지고 반대 여론이 커지자 계획을 다시 조정하기 시작했습니다.",
+   "after_sid": null,
+   "card": null,
+   "events": [
+    {
+     "type": "article",
+     "mid": "herald_0907"
+    }
+   ]
+  },
+  {
+   "n": 20,
+   "file": "p_0220.96.png",
+   "label": "debate_1+2.5",
+   "t": 220.964,
+   "sid": "debate_1",
+   "text": "다음 날 서울 미국대사관 근처에서는 대학생들이 파병 반대 집회를 열었습니다.",
+   "after_sid": null,
+   "card": null,
+   "events": [
+    {
+     "type": "marker",
+     "label": "주한 미국대사관"
+    }
+   ]
+  },
+  {
+   "n": 21,
+   "file": "p_0238.00.png",
+   "label": "debate_4+2",
+   "t": 238.005,
+   "sid": "debate_4",
+   "text": "미국의 방공 미사일 재고가 줄고 있다는 점도 반대 논리의 근거가 됐습니다.",
+   "after_sid": null,
+   "card": null,
+   "events": [
+    {
+     "type": "marker",
+     "label": "주한 미국대사관"
+    },
+    {
+     "type": "panel",
+     "kind": "versus",
+     "title": "파병을 둘러싼 두 입장"
+    }
+   ]
+  },
+  {
+   "n": 22,
+   "file": "p_0245.56.png",
+   "label": "decision_0+3",
+   "t": 245.555,
+   "sid": "decision_0",
+   "text": "그리고 9월 18일, 이재명 대통령은 전쟁에 들어가는 파병은 없다고 분명히 했습니다.",
+   "after_sid": null,
+   "card": null,
+   "events": [
+    {
+     "type": "marker",
+     "label": "서울"
+    },
+    {
+     "type": "badge",
+     "kind": "person",
+     "label": "이재명"
+    },
+    {
+     "type": "card",
+     "tag": "이재명 대통령 · 발언 요지"
+    }
+   ]
+  },
+  {
+   "n": 23,
+   "file": "p_0258.61.png",
+   "label": "now_0+3.5",
+   "t": 258.611,
+   "sid": "now_0",
+   "text": "미군은 호위 작전으로 원유 10억 배럴을 해협 밖으로 내보냈다고 밝혔습니다.",
+   "after_sid": null,
+   "card": null,
+   "events": [
+    {
+     "type": "route",
+     "label": ""
+    },
+    {
+     "type": "tanker_loop"
+    },
+    {
+     "type": "badge",
+     "kind": "emblem",
+     "label": "미 해군 중부사령부"
+    },
+    {
+     "type": "card",
+     "tag": "미 중부사령부 발표"
+    },
+    {
+     "type": "marker",
+     "label": "호르무즈 해협"
+    },
+    {
+     "type": "photo",
+     "mid": "hormuz_transit"
+    }
+   ]
+  },
+  {
+   "n": 24,
+   "file": "p_0276.44.png",
+   "label": "now_3+4",
+   "t": 276.441,
+   "sid": "now_3",
+   "text": "청해부대가 어디까지 움직일지, 국회가 이 문제를 어떻게 다룰지는 아직 정해지지 않았습니다.",
+   "after_sid": null,
+   "card": null,
+   "events": [
+    {
+     "type": "route",
+     "label": ""
+    },
+    {
+     "type": "tanker_loop"
+    },
+    {
+     "type": "badge",
+     "kind": "emblem",
+     "label": "미 해군 중부사령부"
+    },
+    {
+     "type": "marker",
+     "label": "호르무즈 해협"
+    }
+   ]
+  },
+  {
+   "n": 25,
+   "file": "p_0288.44.png",
+   "label": "END-4",
+   "t": 288.441,
+   "sid": null,
+   "text": null,
+   "after_sid": "now_3",
+   "card": "end",
+   "events": [
+    {
+     "type": "route",
+     "label": ""
+    },
+    {
+     "type": "tanker_loop"
+    },
+    {
+     "type": "badge",
+     "kind": "emblem",
+     "label": "미 해군 중부사령부"
+    },
+    {
+     "type": "marker",
+     "label": "호르무즈 해협"
+    }
+   ]
+  }
+ ]
+}

@@ -1,0 +1,640 @@
+{
+ "schema_version": 1,
+ "frames": [
+  {
+   "n": 1,
+   "file": "p_0007.15.png",
+   "label": "t=7.15",
+   "t": 7.15,
+   "sid": "open_1",
+   "text": "CNN과 NBC 등은 2023년 이후 첫 금리 인상이라고 보도했습니다.",
+   "after_sid": null,
+   "card": null,
+   "events": [
+    {
+     "type": "series"
+    },
+    {
+     "type": "series"
+    },
+    {
+     "type": "series"
+    },
+    {
+     "type": "marker",
+     "label": "FOMC 회의"
+    },
+    {
+     "type": "badge",
+     "kind": "person",
+     "label": "케빈 워시"
+    },
+    {
+     "type": "primitive",
+     "tag": "FOMC 성명 · 결정 문구"
+    }
+   ]
+  },
+  {
+   "n": 2,
+   "file": "p_0015.09.png",
+   "label": "t=15.09",
+   "t": 15.09,
+   "sid": null,
+   "text": null,
+   "after_sid": "open_2",
+   "card": null,
+   "events": [
+    {
+     "type": "series"
+    },
+    {
+     "type": "series"
+    },
+    {
+     "type": "series"
+    },
+    {
+     "type": "marker",
+     "label": "FOMC 회의"
+    },
+    {
+     "type": "badge",
+     "kind": "person",
+     "label": "케빈 워시"
+    }
+   ]
+  },
+  {
+   "n": 3,
+   "file": "p_0018.20.png",
+   "label": "t=18.20",
+   "t": 18.2,
+   "sid": null,
+   "text": null,
+   "after_sid": "open_2",
+   "card": "title",
+   "events": [
+    {
+     "type": "series"
+    },
+    {
+     "type": "series"
+    },
+    {
+     "type": "series"
+    }
+   ]
+  },
+  {
+   "n": 4,
+   "file": "p_0030.93.png",
+   "label": "t=30.93",
+   "t": 30.93,
+   "sid": "decision_1",
+   "text": "연방공개시장위원회, FOMC는 목표 범위를 0.25%p 올렸다고 발표했습니다.",
+   "after_sid": null,
+   "card": null,
+   "events": [
+    {
+     "type": "series"
+    },
+    {
+     "type": "series"
+    },
+    {
+     "type": "series"
+    },
+    {
+     "type": "marker",
+     "label": "FOMC 회의"
+    },
+    {
+     "type": "photo",
+     "mid": "fed_presser_0916"
+    },
+    {
+     "type": "card",
+     "tag": "FOMC 발표 · 9월 16일"
+    }
+   ]
+  },
+  {
+   "n": 5,
+   "file": "p_0043.65.png",
+   "label": "t=43.65",
+   "t": 43.65,
+   "sid": "decision_4",
+   "text": "결정은 12대 0, 만장일치였습니다.",
+   "after_sid": null,
+   "card": null,
+   "events": [
+    {
+     "type": "series"
+    },
+    {
+     "type": "series"
+    },
+    {
+     "type": "series"
+    },
+    {
+     "type": "marker",
+     "label": "FOMC 회의"
+    },
+    {
+     "type": "card",
+     "tag": "표결 · 9월 16일"
+    }
+   ]
+  },
+  {
+   "n": 6,
+   "file": "p_0061.16.png",
+   "label": "t=61.16",
+   "t": 61.16,
+   "sid": "cuts_2025_1",
+   "text": "2025년 10월 29일, FOMC는 목표 범위를 0.25%p 내렸다고 발표했습니다.",
+   "after_sid": null,
+   "card": null,
+   "events": [
+    {
+     "type": "series"
+    },
+    {
+     "type": "series"
+    },
+    {
+     "type": "series"
+    },
+    {
+     "type": "marker",
+     "label": "9월 인하"
+    },
+    {
+     "type": "marker",
+     "label": "FOMC 회의"
+    }
+   ]
+  },
+  {
+   "n": 7,
+   "file": "p_0071.33.png",
+   "label": "t=71.33",
+   "t": 71.33,
+   "sid": "cuts_2025_2",
+   "text": "이때 범위는 3.75~4%로, 지금과 같은 수준이었습니다.",
+   "after_sid": null,
+   "card": null,
+   "events": [
+    {
+     "type": "series"
+    },
+    {
+     "type": "series"
+    },
+    {
+     "type": "series"
+    },
+    {
+     "type": "marker",
+     "label": "9월 인하"
+    },
+    {
+     "type": "marker",
+     "label": "FOMC 회의"
+    },
+    {
+     "type": "card",
+     "tag": "2025년 10월 29일 목표 범위"
+    }
+   ]
+  },
+  {
+   "n": 8,
+   "file": "p_0091.71.png",
+   "label": "t=91.71",
+   "t": 91.71,
+   "sid": "hold_2026_1",
+   "text": "NBC와 ABC에 따르면 이란 전쟁은 2월 28일 미국과 이스라엘의 공격으로 시작됐습니다.",
+   "after_sid": null,
+   "card": null,
+   "events": [
+    {
+     "type": "series"
+    },
+    {
+     "type": "series"
+    },
+    {
+     "type": "series"
+    },
+    {
+     "type": "marker",
+     "label": "이란 전쟁 시작"
+    },
+    {
+     "type": "card",
+     "tag": "NBC·ABC 보도"
+    }
+   ]
+  },
+  {
+   "n": 9,
+   "file": "p_0108.25.png",
+   "label": "t=108.25",
+   "t": 108.25,
+   "sid": "hold_2026_4",
+   "text": "연준 자료에 따르면 워시 의장이 처음 주재한 회의는 6월이었습니다.",
+   "after_sid": null,
+   "card": null,
+   "events": [
+    {
+     "type": "series"
+    },
+    {
+     "type": "series"
+    },
+    {
+     "type": "series"
+    },
+    {
+     "type": "marker",
+     "label": "이란 전쟁 시작"
+    },
+    {
+     "type": "badge",
+     "kind": "person",
+     "label": "케빈 워시"
+    },
+    {
+     "type": "card",
+     "tag": "연준 자료"
+    },
+    {
+     "type": "marker",
+     "label": "6월 FOMC 회의"
+    }
+   ]
+  },
+  {
+   "n": 10,
+   "file": "p_0128.43.png",
+   "label": "t=128.43",
+   "t": 128.43,
+   "sid": "july_dissent_1",
+   "text": "연준 성명에 따르면 해맥·카시카리·로건은 0.25%p 인상을 원하며 반대했습니다.",
+   "after_sid": null,
+   "card": null,
+   "events": [
+    {
+     "type": "series"
+    },
+    {
+     "type": "series"
+    },
+    {
+     "type": "series"
+    },
+    {
+     "type": "marker",
+     "label": "FOMC 회의"
+    },
+    {
+     "type": "card",
+     "tag": "반대 3명 · 0.25%p 인상을 원함"
+    }
+   ]
+  },
+  {
+   "n": 11,
+   "file": "p_0138.33.png",
+   "label": "t=138.33",
+   "t": 138.33,
+   "sid": "july_dissent_2",
+   "text": "ABC뉴스는 같은 방향 반대표 3표가 10년 만에 가장 많았다고 보도했습니다.",
+   "after_sid": null,
+   "card": null,
+   "events": [
+    {
+     "type": "series"
+    },
+    {
+     "type": "series"
+    },
+    {
+     "type": "series"
+    },
+    {
+     "type": "marker",
+     "label": "FOMC 회의"
+    },
+    {
+     "type": "card",
+     "tag": "ABC뉴스 보도"
+    }
+   ]
+  },
+  {
+   "n": 12,
+   "file": "p_0162.47.png",
+   "label": "t=162.47",
+   "t": 162.47,
+   "sid": "prices_jobs_2",
+   "text": "워시 의장은 8월 PCE 상승률을 약 3.6%로 추정했습니다.",
+   "after_sid": null,
+   "card": null,
+   "events": [
+    {
+     "type": "series"
+    },
+    {
+     "type": "series"
+    },
+    {
+     "type": "series"
+    },
+    {
+     "type": "photo",
+     "mid": "fed_presser_0916_b"
+    },
+    {
+     "type": "card",
+     "tag": "워시 의장 추정 · 8월"
+    }
+   ]
+  },
+  {
+   "n": 13,
+   "file": "p_0184.30.png",
+   "label": "t=184.30",
+   "t": 184.3,
+   "sid": "prices_jobs_6",
+   "text": "ABC뉴스는 8월 고용이 16만 2천 명 늘었다고 보도했습니다.",
+   "after_sid": null,
+   "card": null,
+   "events": [
+    {
+     "type": "series"
+    },
+    {
+     "type": "series"
+    },
+    {
+     "type": "series"
+    },
+    {
+     "type": "marker",
+     "label": "8월 고용"
+    },
+    {
+     "type": "card",
+     "tag": "ABC뉴스 보도 · 8월 고용"
+    }
+   ]
+  },
+  {
+   "n": 14,
+   "file": "p_0206.97.png",
+   "label": "t=206.97",
+   "t": 206.97,
+   "sid": "markets_0",
+   "text": "CNN·NBC·ABC는 인상 당일 다우지수가 약 630포인트 내렸다고 보도했습니다.",
+   "after_sid": null,
+   "card": null,
+   "events": [
+    {
+     "type": "series"
+    },
+    {
+     "type": "series"
+    },
+    {
+     "type": "series"
+    },
+    {
+     "type": "marker",
+     "label": "인상 당일"
+    },
+    {
+     "type": "card",
+     "tag": "CNN·NBC·ABC 보도 · 9월 16일"
+    }
+   ]
+  },
+  {
+   "n": 15,
+   "file": "p_0214.92.png",
+   "label": "t=214.92",
+   "t": 214.92,
+   "sid": "markets_2",
+   "text": "CNN과 폭스비즈니스는 미 국채 10년물 금리가 약 5%였다고 보도했습니다.",
+   "after_sid": null,
+   "card": null,
+   "events": [
+    {
+     "type": "series"
+    },
+    {
+     "type": "series"
+    },
+    {
+     "type": "series"
+    },
+    {
+     "type": "marker",
+     "label": "인상 당일"
+    },
+    {
+     "type": "card",
+     "tag": "CNN·폭스비즈니스 보도"
+    }
+   ]
+  },
+  {
+   "n": 16,
+   "file": "p_0233.31.png",
+   "label": "t=233.31",
+   "t": 233.31,
+   "sid": "projections_1",
+   "text": "참가자 전망 중앙값은 올해 PCE 물가를 3.7%로 제시했습니다.",
+   "after_sid": null,
+   "card": null,
+   "events": [
+    {
+     "type": "series"
+    },
+    {
+     "type": "series"
+    },
+    {
+     "type": "series"
+    },
+    {
+     "type": "marker",
+     "label": "SEP 발표"
+    },
+    {
+     "type": "card",
+     "tag": "참가자 전망 중앙값 · PCE 물가"
+    }
+   ]
+  },
+  {
+   "n": 17,
+   "file": "p_0249.41.png",
+   "label": "t=249.41",
+   "t": 249.41,
+   "sid": "projections_4",
+   "text": "점도표는 FOMC 참가자들이 각자 예상하는 금리를 점으로 찍은 표입니다.",
+   "after_sid": null,
+   "card": null,
+   "events": [
+    {
+     "type": "series"
+    },
+    {
+     "type": "series"
+    },
+    {
+     "type": "series"
+    },
+    {
+     "type": "marker",
+     "label": "SEP 발표"
+    },
+    {
+     "type": "primitive",
+     "tag": "점도표 · 약속이 아닌 참가자별 전망"
+    }
+   ]
+  },
+  {
+   "n": 18,
+   "file": "p_0267.95.png",
+   "label": "t=267.95",
+   "t": 267.95,
+   "sid": "pressure_1",
+   "text": "워시 의장은 인플레이션이 너무 오래 높아 가격 안정에 먼저 초점을 둔다고 설명했습니다.",
+   "after_sid": null,
+   "card": null,
+   "events": [
+    {
+     "type": "series"
+    },
+    {
+     "type": "series"
+    },
+    {
+     "type": "series"
+    },
+    {
+     "type": "panel",
+     "kind": "versus",
+     "title": "금리를 둘러싼 두 목소리 · 9월 16일"
+    }
+   ]
+  },
+  {
+   "n": 19,
+   "file": "p_0276.09.png",
+   "label": "t=276.09",
+   "t": 276.09,
+   "sid": "pressure_2",
+   "text": "CNN과 NBC뉴스는 워시 의장이 대통령의 금리 압박에 대한 언급을 거부했다고 보도했습니다.",
+   "after_sid": null,
+   "card": null,
+   "events": [
+    {
+     "type": "series"
+    },
+    {
+     "type": "series"
+    },
+    {
+     "type": "series"
+    },
+    {
+     "type": "panel",
+     "kind": "versus",
+     "title": "금리를 둘러싼 두 목소리 · 9월 16일"
+    }
+   ]
+  },
+  {
+   "n": 20,
+   "file": "p_0289.92.png",
+   "label": "t=289.92",
+   "t": 289.92,
+   "sid": "close_1",
+   "text": "점도표가 가리킨 추가 인상이 실제로 이뤄질지는 아직 정해지지 않았습니다.",
+   "after_sid": null,
+   "card": null,
+   "events": [
+    {
+     "type": "series"
+    },
+    {
+     "type": "series"
+    },
+    {
+     "type": "series"
+    },
+    {
+     "type": "card",
+     "tag": "점도표가 가리킨 추가 인상"
+    }
+   ]
+  },
+  {
+   "n": 21,
+   "file": "p_0299.75.png",
+   "label": "t=299.75",
+   "t": 299.75,
+   "sid": null,
+   "text": null,
+   "after_sid": "close_1",
+   "card": "end",
+   "events": [
+    {
+     "type": "series"
+    },
+    {
+     "type": "series"
+    },
+    {
+     "type": "series"
+    },
+    {
+     "type": "card",
+     "tag": "점도표가 가리킨 추가 인상"
+    }
+   ]
+  },
+  {
+   "n": 22,
+   "file": "p_0301.12.png",
+   "label": "t=301.12",
+   "t": 301.12,
+   "sid": null,
+   "text": null,
+   "after_sid": "close_1",
+   "card": "end",
+   "events": [
+    {
+     "type": "series"
+    },
+    {
+     "type": "series"
+    },
+    {
+     "type": "series"
+    },
+    {
+     "type": "card",
+     "tag": "점도표가 가리킨 추가 인상"
+    }
+   ]
+  }
+ ]
+}

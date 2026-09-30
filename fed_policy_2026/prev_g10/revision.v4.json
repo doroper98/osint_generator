@@ -1,0 +1,62 @@
+{
+ "schema_version": 1,
+ "direction_version": 4,
+ "changelog": [
+  {
+   "issue_ref": "p_0007.15",
+   "change": "open 장면 케빈 워시 뱃지를 map_upper_left(레인 제목·FRED 출처 줄 위)에서 뺐다. 사건 레인 빈 곳(date 2026-09-02, lane events)에 둬서 9월 16일 핀 왼쪽 빈 공간에 앉혔다. 레인 머리와 출처 열을 피한다"
+  },
+  {
+   "issue_ref": "p_0015.09",
+   "change": "open 뱃지 끝을 scene_end open에서 open_2 off -0.6(카메라 이동 시작)으로 당겼다. 왼쪽으로 넓히는 이동 중에 뱃지가 오른쪽 레인 끝 값 라벨(3.63%)을 덮지 않는다"
+  },
+  {
+   "issue_ref": "offscreen:뱃지 케빈 워시 t=12.3",
+   "change": "같은 수정(뱃지를 open_2 이동 시작 전에 끝냄)으로 이동 중 화면 밖으로 밀려나는 구간을 없앴다"
+  },
+  {
+   "issue_ref": "p_0108.25",
+   "change": "hold_2026 케빈 워시 뱃지를 map_upper_left에서 사건 레인 빈 곳(date 2026-05-01, lane events)으로 옮겼다. 이란 전쟁 핀과 6월 회의 핀 사이라 레인 머리·출처 줄을 피한다"
+  },
+  {
+   "issue_ref": "card:연준 자료",
+   "change": "시작을 hold_2026_4 off 0.3에서 off -0.3(문장 시작 전)으로 앞당겼다. 끝도 edge end +0.3에서 +0.45로 늘려 문장을 읽는 동안 끝까지 불투명하게 둔다. 다음 카드 시작(108.79) 전에 끝난다"
+  },
+  {
+   "issue_ref": "marker:이란 전쟁 시작",
+   "change": "6월 FOMC 회의 핀(2026-06-17, '6월 FOMC 회의', sub '워시 의장 첫 주재', side right)을 hold_2026_4에 세웠다. hold_2026 숏(2026-04-10, w 260)에 6월이 이미 들어 있다. 장면당 이동 1회 규칙 때문에 추가 이동은 넣지 않았다"
+  },
+  {
+   "issue_ref": "photo:fed_presser_0916",
+   "change": "map_left(레인 라벨·출처 열을 덮고 카드와 겹침)에서 timeline_photo 슬롯으로 옮겼다. checks media-over-card 도 함께 해소한다"
+  },
+  {
+   "issue_ref": "photo:fed_presser_0916_b",
+   "change": "map_left에서 timeline_photo 슬롯으로 옮겼다. 레인 라벨 열 바깥, 눈금 줄 위에 둬서 출처 줄·월 눈금과 겹치지 않고 '워시 의장 추정 · 8월' 카드와도 겹치지 않는다(checks media-over-card)"
+  },
+  {
+   "issue_ref": "p_0128.43",
+   "change": "july_dissent 이동을 scene_start에서 july_dissent_2 off -0.6으로 늦췄다. 9대 3·반대 3명 문장은 넓은 화면(7월 29일 핀이 오른쪽에 보임)에서 읽고, 세 번째 문장에서 핀으로 확대한다. 두 컷의 프레이밍이 달라지고, 핀이 화면 오른쪽 끝에 있으므로 7월 29일 마커 side 를 right→left 로 바꿨다"
+  },
+  {
+   "issue_ref": "p_0206.97",
+   "change": "markets 이동을 scene_start에서 markets_1 off -0.6으로 늦췄다. 다우 하락 문장은 앞 장면의 넓은 화면에서 '인상 당일' 핀과 함께 보이고, S&P500 문장부터 9월 16일로 확대한다(p_0214.92 와 프레이밍이 달라짐)"
+  },
+  {
+   "issue_ref": "card:ABC뉴스 보도 · 8월 고용",
+   "change": "사건 레인에 '8월 고용' 핀(2026-08-15, sub 'ABC뉴스 보도')을 prices_jobs_6부터 장면 끝까지 세웠다. 넓은 화면의 빈 사건 레인을 채운다"
+  },
+  {
+   "issue_ref": "card:참가자 전망 중앙값 · PCE 물가",
+   "change": "사건 레인에 'SEP 발표' 핀(2026-09-16, sub '9월 16일 · 경제전망요약')을 projections_0부터 장면 끝까지 세웠다"
+  },
+  {
+   "issue_ref": "p_0138.33",
+   "change": "변경 없음(연출 범위 밖). '<미검증>'·'<논평>' 태그는 원고 자막 문자열·자막 렌더러에서 나온다. direction 에는 자막 필드가 없어 여기서 고칠 수 없다. 원고/자막 단계에서 태그를 제거해야 한다"
+  },
+  {
+   "issue_ref": "p_0267.95",
+   "change": "변경 없음(연출 범위 밖). 회색 자막은 태그 붙은 문장에 대한 자막 렌더러 스타일로 보인다. direction 에 자막 불투명도 필드가 없어 자막 단계에서 처리해야 한다"
+  }
+ ]
+}

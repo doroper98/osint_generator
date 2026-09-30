@@ -1,0 +1,26 @@
+{
+ "schema_version": 1,
+ "direction_version": 2,
+ "changelog": [
+  {
+   "issue_ref": "offscreen:마커 FOMC 회의 t=12.9",
+   "change": "open 장면 9월 16일 마커의 끝을 scene_end:open 에서 {sid: open_2, off: -0.6}(카메라가 2026-02-15로 이동을 시작하는 시각)으로 당김. 이동 중 핀이 화면 오른쪽 밖으로 밀리기 전에 내려감"
+  },
+  {
+   "issue_ref": "offscreen:마커 FOMC 회의 t=121.6",
+   "change": "july_dissent 장면 7월 29일 마커 시작을 {sid: july_dissent_0, off: 0.1}에서 off 2.4로 늦춤. 카메라 이동(120.2~123.2초)이 끝나 7월 29일이 화면 중앙에 온 뒤 핀이 뜸"
+  },
+  {
+   "issue_ref": "offscreen:마커 인상 당일 t=201.6",
+   "change": "markets 장면 9월 16일 마커 시작을 {sid: markets_0, off: 0.1}에서 off 2.4로 늦춤. 카메라 이동(200.2~203.2초)이 끝나 9월 16일이 화면 중앙에 온 뒤 핀이 뜸"
+  },
+  {
+   "issue_ref": "shots:timeline_backtrack t=10.76",
+   "change": "open_2 숏에 reason 추가: 원고 '1년 전만 해도 금리를 내리고 있었다'에 맞춰 과거 인하 국면이 보이도록 폭을 넓히며 왼쪽으로 간다"
+  },
+  {
+   "issue_ref": "shots:timeline_backtrack t=284.55",
+   "change": "close_0 끝맺음 풀백 숏에 reason 추가: 끝에서 한 번 하는 전체 조망이라 2019~2026 전 구간이 보이도록 중심을 과거로 옮긴다"
+  }
+ ]
+}

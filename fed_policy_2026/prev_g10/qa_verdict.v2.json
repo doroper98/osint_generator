@@ -1,0 +1,149 @@
+{
+  "schema_version": 1,
+  "verdict": "revise",
+  "issues": [
+    {
+      "frame": "p_0030.93",
+      "severity": "hard",
+      "category": "occlusion",
+      "evidence": "The FOMC meeting pin sits under the photo (fed_presser_0916) at the lower right. Only a clipped '9월 16' shows at the photo's bottom-left edge, and the 'FOMC 회의' pin label cannot be seen. The x-axis ticks from September on are also covered by the photo.",
+      "fix": {
+        "event_ref": "photo:fed_presser_0916",
+        "suggest": "Move the photo up to the rate lane (map_upper_right area) so it clears the event lane, or pull the camera in so the pin sits left of the photo."
+      }
+    },
+    {
+      "frame": "p_0138.33",
+      "severity": "hard",
+      "category": "camera",
+      "evidence": "p_0128.43 (x-axis runs from 2026 to 8월) and p_0138.33 (x-axis shows only '8월') are in the same july_dissent scene on the same 7월 29일 FOMC pin, and the zoom changes between them. That is a second camera move in one scene and a second shot on the same pin. The closer view shows no day ticks, only one '8월' label, so the axis is empty (the LOD rule is not met).",
+      "fix": {
+        "event_ref": "p_0138.33",
+        "suggest": "Keep the p_0128.43 framing and swap only the card to the ABC뉴스 report. If you do zoom in, show day ticks (7.22–8.5) like p_0214.92."
+      }
+    },
+    {
+      "frame": "p_0267.95",
+      "severity": "hard",
+      "category": "media",
+      "evidence": "The narration here is Warsh's sentence (pressure_1: 'focusing first on price stability'), but the versus panel shows only the left 'Trump' column and the right column is empty. The subtitle on screen is also the dimmed previous Trump sentence, so what is read and what is shown do not match.",
+      "fix": {
+        "event_ref": "panel:금리를 둘러싼 두 목소리 · 9월 16일",
+        "suggest": "Make the '워시 연준 의장' column enter as pressure_1 starts, and fade the previous subtitle out before the new sentence begins."
+      }
+    },
+    {
+      "frame": "p_0108.25",
+      "severity": "soft",
+      "category": "occlusion",
+      "evidence": "The 'Kevin Warsh' person badge sits on the x-axis. The small red text under its name label collides with the '5월', '6월' tick labels, and neither can be read.",
+      "fix": {
+        "event_ref": "badge:케빈 워시",
+        "suggest": "Place the badge higher in the event lane (next to the '6월 FOMC 회의' pin) so its label clears the axis ticks."
+      }
+    },
+    {
+      "frame": "p_0108.25",
+      "severity": "soft",
+      "category": "legibility",
+      "evidence": "The subtitle '연준 자료에 따르면 워시 의장이 처음 주재한 회의는 6월이었습니다' is dim grey. It has much less contrast than the white subtitles in other cuts.",
+      "fix": {
+        "event_ref": "p_0108.25",
+        "suggest": "Keep subtitles at full opacity while the sentence is being read. Shorten the fade-in or move it ahead of the sentence start."
+      }
+    },
+    {
+      "frame": "p_0043.65",
+      "severity": "soft",
+      "category": "legibility",
+      "evidence": "The endpoint label at the right end of the rate lane shows a trailing '%' after the value, as in '3.63%%'. Two labels look stacked. The same thing appears in p_0015.09, p_0233.31 and p_0249.41.",
+      "fix": {
+        "event_ref": "p_0043.65",
+        "suggest": "Remove the duplicate endpoint label and keep only one '3.63%'."
+      }
+    },
+    {
+      "frame": "p_0162.47",
+      "severity": "soft",
+      "category": "occlusion",
+      "evidence": "The photo (fed_presser_0916_b) covers the right end of the CPI line and the 7월–9월 ticks. A faded red '3.63%' label peeks out from behind the '약 3.6%' card, half hidden. The most recent section, which the sentence is about, cannot be seen.",
+      "fix": {
+        "event_ref": "photo:fed_presser_0916_b",
+        "suggest": "Shrink the photo and move it into the event lane, or remove the rate endpoint label while the card is up."
+      }
+    },
+    {
+      "frame": "p_0015.09",
+      "severity": "soft",
+      "category": "empty",
+      "evidence": "The screen has only the three series lines and empty lanes: no pin card, badge, article or photo. That breaks the genre rule of at least one off-stage element in every cut, and the full 2025–2026 overview comes before the end.",
+      "fix": {
+        "event_ref": "p_0015.09",
+        "suggest": "Go from the cold open straight to the title card, or keep the Warsh badge and the statement card up through this cut."
+      }
+    },
+    {
+      "frame": "p_0289.92",
+      "severity": "soft",
+      "category": "color",
+      "evidence": "In the closing overview, the policy rate staircase rises in steps through 2022–2023, but it is drawn in pale grey/white, not the hike color (#ff7a59). In p_0007.15 only the 2026 hike segment is orange-red, so the two are inconsistent.",
+      "fix": {
+        "event_ref": "p_0289.92",
+        "suggest": "Apply color_by: change to the whole policy rate staircase so the 2022–23 hikes are also colored #ff7a59."
+      }
+    },
+    {
+      "frame": "p_0289.92",
+      "severity": "soft",
+      "category": "legibility",
+      "evidence": "At the left of the overview, the rate staircase and the CPI line run straight through the source lines ('FRED(세인트루이스 연은)…기준'), and the text is broken by the lines.",
+      "fix": {
+        "event_ref": "p_0289.92",
+        "suggest": "Give the source lines a background halo, or put them in their own margin below the lane where no data is drawn."
+      }
+    }
+  ],
+  "praise": [
+    "The cold open is done as the rule asks: close on the latest meeting pin, the Warsh badge, and the statement diff (maintain→raise).",
+    "p_0214.92 zooms to day ticks (8.29–10.1), which pins down when the hike happened.",
+    "Every number (0.25%p, 12대 0, 3.75~4%, 16만 2천 명, 약 630포인트, 3.7%) matches between card and subtitle.",
+    "In p_0249.41 the dot plot is defined in the same sentence as its panel, with the caveat 'not a promise'."
+  ],
+  "rubric": [
+    {
+      "item": 1,
+      "ok": true,
+      "evidence": "Apart from the title, end, versus and dot plot panels, every cut shows the same two lanes (rate/CPI) and event lane on one time axis. Only the cards change; the canvas is never replaced."
+    },
+    {
+      "item": 2,
+      "ok": true,
+      "evidence": "The date moves on one axis (2025.10.29 → 2026.02.28 → 06 → 07.29 → 09.16). One exception is the extra zoom inside a scene at p_0138.33."
+    },
+    {
+      "item": 3,
+      "ok": true,
+      "evidence": "Both lanes have a 0% baseline, units '(%)' and a source line ('FRED…2026년 8월/9월 기준') on screen. The as-of date is in the top-right corner."
+    },
+    {
+      "item": 4,
+      "ok": true,
+      "evidence": "The subtitle values 0.25%p, 12대 0, 3.75~4%, 3.6%, 16만 2천 명, 630포인트, 5% and 3.7% match the card values."
+    },
+    {
+      "item": 5,
+      "ok": false,
+      "evidence": "The 2026 hike segment is hike orange, but in the p_0289.92 overview the 2022–23 hike staircase is pale grey/white instead of the hike color."
+    },
+    {
+      "item": 6,
+      "ok": true,
+      "evidence": "FOMC is spelled out in full on first mention in p_0030.93, and the dot plot gets a one-sentence definition in p_0249.41."
+    },
+    {
+      "item": 7,
+      "ok": true,
+      "evidence": "No sentence reads as advice to buy or sell. p_0289.92 ends with 'not yet decided'."
+    }
+  ]
+}

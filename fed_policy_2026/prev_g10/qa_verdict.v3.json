@@ -1,0 +1,130 @@
+{
+  "schema_version": 1,
+  "verdict": "revise",
+  "issues": [
+    {
+      "frame": "p_0015.09",
+      "severity": "hard",
+      "category": "occlusion",
+      "evidence": "The Kevin Warsh person badge sits right on top of the FOMC 회의 pin label in the event lane. Only the 'FO' of the name tag shows; the rest of the label and the date line underneath are hidden behind the badge.",
+      "fix": {
+        "event_ref": "badge:케빈 워시",
+        "suggest": "Move the badge off the pin label, to the lower left of the pin as in p_0007.15, or have it leave before the zoom-out."
+      }
+    },
+    {
+      "frame": "p_0061.16",
+      "severity": "hard",
+      "category": "empty",
+      "evidence": "This shot zooms in on the 2025-10-29 cut pin, but the screen shows only the thin lines of the rate and CPI lanes plus two pins (9월 인하, FOMC 회의). Nothing off the stage is showing: no card, article or photo. The narration says the range was cut by 0.25%p, but that number and its source don't appear on screen until the next frame (p_0071.33).",
+      "fix": {
+        "event_ref": "marker:FOMC 회의",
+        "suggest": "Bring in the evidence card '2025년 10월 29일 목표 범위' (−0.25%p, source line) on arrival at the pin, together with the zoom-in."
+      }
+    },
+    {
+      "frame": "p_0108.25",
+      "severity": "soft",
+      "category": "occlusion",
+      "evidence": "The Warsh badge and its caption are not in the event lane next to the 6월 FOMC 회의 pin. They sit on top of the CPI lane at the right edge, over the line and near the right-axis scale.",
+      "fix": {
+        "event_ref": "badge:케빈 워시",
+        "suggest": "Put the badge in the event lane above or beside the '6월 FOMC 회의' pin, clear of the lines and the axis scale."
+      }
+    },
+    {
+      "frame": "p_0162.47",
+      "severity": "soft",
+      "category": "occlusion",
+      "evidence": "The press-conference photo covers the right end of the CPI lane (about June–October), so the series end point there can't be seen. The red '3.75~4%' target-range label is also cut off by the '약 3.6%' card on its right.",
+      "fix": {
+        "event_ref": "photo:fed_presser_0916_b",
+        "suggest": "Move the photo down to the event lane at the lower right, or shrink it so it doesn't cover the line's end point. Place the card so it doesn't cover the range label."
+      }
+    },
+    {
+      "frame": "p_0091.71",
+      "severity": "hard",
+      "category": "color",
+      "evidence": "Frames p_0091.71 to p_0138.33 cover the 2026 hold period (February–August). Across all of it, the rate lane shows only one blue line, the same family as the cut colour (#5aa9ff). There is no grey (#a9b0bd) hold segment and no target-range band, so viewers could read this stretch as a cut.",
+      "fix": {
+        "event_ref": "p_0091.71",
+        "suggest": "Draw the target-range step and band with color_by: change so the hold period shows in grey. Give the fixed effective-rate line a colour outside the hike/cut/hold palette."
+      }
+    },
+    {
+      "frame": "p_0267.95",
+      "severity": "soft",
+      "category": "density",
+      "evidence": "In the versus panel, each column's box has one or two bullets at the top, and more than two-thirds of the height below is empty. The Warsh column's bullets are still fading in and hard to read.",
+      "fix": {
+        "event_ref": "panel:금리를 둘러싼 두 목소리 · 9월 16일",
+        "suggest": "Shrink the box height to fit the content, or place the quote source and date under each bullet."
+      }
+    },
+    {
+      "frame": "p_0184.30",
+      "severity": "soft",
+      "category": "media",
+      "evidence": "Frames p_0184.30, p_0206.97, p_0214.92 and p_0233.31 all repeat the same kind of top-right text card (big number plus source). Apart from the two photos in p_0030.93 and p_0162.47, there are no articles or photos, which matches the media_beats warning (1 per 76.8 s).",
+      "fix": {
+        "event_ref": "card:CNN·NBC·ABC 보도 · 9월 16일",
+        "suggest": "In the markets section, add an article capture or a market photo (labelled as a stock photo, with a source line) instead of another text card."
+      }
+    },
+    {
+      "frame": "p_0233.31",
+      "severity": "soft",
+      "category": "legibility",
+      "evidence": "The event-lane pin label is just the abbreviation 'SEP 발표'. Neither this frame nor p_0249.41 spells it out as 'Summary of Economic Projections'.",
+      "fix": {
+        "event_ref": "marker:SEP 발표",
+        "suggest": "Change the label to '경제전망 요약(SEP) 발표' or add a one-line definition as a subtitle."
+      }
+    }
+  ],
+  "praise": [
+    "The cold open's statement_diff strikes out 'maintain' and '3-1/2' in red and shows 'raise' next to them, so the decision is clear at a glance.",
+    "Zooming in on the July pin brings up weekly ticks (7.15–8.15), so the LOD works.",
+    "The big numbers on the cards (12대 0, 3.75~4%, 약 3.6%, 16만 2천 명, 약 630포인트, 약 5%, 3.7%) match the narration exactly.",
+    "Under every lane there is a FRED/BLS source line with an as-of date, and the unit (%) is shown.",
+    "The dot-plot panel carries its definition ('약속이 아닌 참가자별 전망') and a median legend."
+  ],
+  "rubric": [
+    {
+      "item": 1,
+      "ok": true,
+      "evidence": "Every frame except the title card, versus panel and end card keeps the same two lanes (rate, CPI) and event lane; only the time-axis ticks change. The versus panel is also overlaid on the dimmed stage."
+    },
+    {
+      "item": 2,
+      "ok": true,
+      "evidence": "The camera moves along one time axis from the 2026.09 pin → 2025.10 → 2026.02–07 → 2026.09 → the full overview. There is no new canvas."
+    },
+    {
+      "item": 3,
+      "ok": true,
+      "evidence": "The right axis runs from 0% to 5.5%/0.98%, and every lane has a '%' unit and a source line such as 'FRED … 2026년 8월 기준'. The corner date is always shown."
+    },
+    {
+      "item": 4,
+      "ok": true,
+      "evidence": "Card values match the subtitles: 0.25%p, 12대 0, 3.75~4%, 약 3.6%, 16만 2천 명, 약 630포인트, 약 5%, 3.7%."
+    },
+    {
+      "item": 5,
+      "ok": false,
+      "evidence": "The 2026 hold period in p_0091.71–p_0138.33 appears only as a blue line (the cut colour). No grey hold segment or target-range band is visible."
+    },
+    {
+      "item": 6,
+      "ok": true,
+      "evidence": "In p_0249.41, the dot plot gets a one-sentence definition subtitle when it first comes up. The 'SEP' pin label is a minor gap (soft)."
+    },
+    {
+      "item": 7,
+      "ok": true,
+      "evidence": "No subtitle or card reads as a buy/sell recommendation; the close is only 'not yet decided'."
+    }
+  ]
+}
