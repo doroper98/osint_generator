@@ -99,6 +99,9 @@ class OverlapTest(unittest.TestCase):
         self.assertIn("두 입장", det[0])
         t = resolve_refs({"island_overlap"}, None, {"items": [{"id": "island_overlap", "details": det}]})
         self.assertTrue(_touched(ev[0], "k", t))
+        for ref in ("island-overlap: 두 줄로 줄여 적음", "[island-overlap]: x", "island_overlap: y"):   # 수정 LLM 이 태그 모양으로 적어도
+            t2 = resolve_refs({ref}, None, {"items": [{"id": "island_overlap", "details": det}]})
+            self.assertTrue(_touched(ev[0], "k", t2), ref)
 
     def test_rule_boxes_clear_subtitle(self) -> None:
         for name, (x, y, w, h) in ISLAND.boxes.items():

@@ -94,6 +94,8 @@ def resolve_refs(refs: set[str], frames: Optional[dict] = None, checks: Optional
     out: set[tuple[str, str]] = set()
     by_file = {Path(f["file"]).stem: f for f in (frames or {}).get("frames", [])}
     by_check = {i["id"]: i.get("details", []) for i in (checks or {}).get("items", [])}
+    # v5.1.0 — 상세 태그 모양("[island-overlap]"·"island-overlap")도 검사 id 로(수정 LLM 은 태그를 그대로 옮겨 적는다)
+    by_check.update({k.replace("_", "-"): v for k, v in list(by_check.items())})
     for r in refs:
         r = r.strip()
         if not r:
@@ -103,8 +105,10 @@ def resolve_refs(refs: set[str], frames: Optional[dict] = None, checks: Optional
             out |= {(ev["type"], event_name(ev)) for ev in by_file[m.group(0)]["events"]}
         elif r in by_check:
             out |= {("~", d) for d in by_check[r]}
-        elif ":" in r and r.split(":", 1)[0].strip() in by_check:   # "offscreen:마커 호르무즈 해협 t=185.1" — 검사 id + 상세
+        elif ":" in r and r.split(":", 1)[0].strip().strip("[]") in by_check:   # "offscreen:마커 호르무즈 해협 t=185.1" — 검사 id + 상세
             out.add(("~", r.split(":", 1)[1]))
+            cid = r.split(":", 1)[0].strip().strip("[]")   # v5.1.0 — 검사 id 로 시작하면 그 검사의 상세 전부(수정 LLM 이 상세를 줄여 적어도 지적 이벤트를 찾는다)
+            out |= {("~", d) for d in by_check[cid]}
         elif "|" in r:
             parts = r.split("|")
             out.add((parts[0], parts[2] if len(parts) > 2 else parts[-1]))
