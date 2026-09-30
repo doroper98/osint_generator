@@ -95,6 +95,15 @@ last_review: 2026-05-19
 - **회귀 테스트**: `tests/test_geo_key_collision.py`(픽스처 KZ·바이코누르, 실데이터 충돌 키 전부 합집합)
 - **발견 버전**: v4.1.0 (사용자 보고, back_and_forth D-0078) · **상태**: active
 
+## PIPELINE-AP-012 — 검증 단계가 파일을 먼저 쓰고 결과 모델 검증에서 예외로 죽음(drops 있는 ok)
+- **증상**: `verify-sources` 에서 근거 인용 하나만 버려져도(본문 불일치·상한 초과) CLI 가 트레이스백으로 끝났다. 그런데 `intake/claims.json`·`sources.json` 은 이미 새로 써져 있었다 — 실패인데 산출물이 남는다.
+- **원인**: `orchestrator/source_verify.apply_draft` 가 파일을 쓴 뒤 `StageResult(ok=True, drops=[…])` 를 만들었다. `StageResult` 는 "drops 가 있으면 ok 일 수 없다"(15 P6)를 검증기로 막는다 → ValidationError. 테스트는 drops 없는 판정과 전부 폐기(ok=False) 판정만 다뤄 "일부 폐기" 길을 밟지 않았다. G11(v5.0.0) statement 의 단정 인용 폐기로 이 길이 흔해져 드러났다.
+- **좋은 예**: 판정 → drops 가 있으면 파일을 쓰지 않고 `ok=False` + drops 사유 + 경고로 반환(재검증 1회 감수, 사용자 결정 위임 D-0122 ① A). 파일은 성공일 때만 쓴다.
+- **교훈**: 결과 모델에 불변식이 있으면 그 모델을 만드는 코드의 모든 분기(특히 "부분 실패")를 테스트한다. 부작용(파일 쓰기)은 결과가 확정된 뒤에.
+- **자동 조치**: `apply_draft` drops 분기(v5.0.0 G11 §3, 7cfdef6).
+- **회귀 테스트**: `tests/test_g11_claim_kind.py::StatementJudgeTest::test_apply_draft_asserted_fails_with_drops_and_writes_nothing`
+- **발견 버전**: v5.0.0 (G11 §3 구현 중, back_and_forth R-0143 ①) · **상태**: active
+
 ---
 
 > 새 패턴 발견 시 본 파일 끝에 append. 과거 항목 수정 금지.
