@@ -137,3 +137,21 @@ class StatementJudgeTest(_Base):
         self.assertTrue(any("clm_0002" in w and "fact 로 판정" in w for w in res.warnings))
         got = {c.claim_id: (c.claim_kind, c.status) for c in sv.load_claims(self.pdir).claims}  # type: ignore[union-attr]
         self.assertEqual(got, {"clm_0001": ("statement", "corroborated"), "clm_0002": ("fact", "unverified")})
+
+
+class PromptKindTest(_Proj):
+    def test_prompt_defines_kind_and_example_passes_schema(self) -> None:
+        """P4 — verify_sources 예시가 VerifyDraft 를 통과하고 fact·statement 를 둘 다 보여 준다. 규칙 목록이 삽입된다."""
+        from rules import load_rules  # noqa: PLC0415
+        from tests.anti_inertia.test_prompt_schema_parity import examples  # noqa: PLC0415
+        from workers.prompt_loader import load_prompt  # noqa: PLC0415
+
+        kinds = set()
+        for data in examples("verify_sources"):
+            d = VerifyDraft.model_validate(data)
+            kinds |= {c.claim_kind for c in d.claims}
+        self.assertEqual(kinds, {"fact", "statement"})
+        text = load_prompt("verify_sources", load_rules())
+        self.assertIn("G4-21", text)
+        self.assertIn('"statement"', text)
+        self.assertNotIn("{{RULES", text)
