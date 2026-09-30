@@ -1,6 +1,6 @@
 <!--
 tier: 3
-last_synced_with: v5.1.0
+last_synced_with: v5.2.0
 ssot_for: [release-notes]
 depends_on: [README.md, GOAL.md]
 last_review: 2026-09-28
@@ -61,10 +61,20 @@ released 항목은 **append-only**입니다.
 | v4.10.0 | 29dfa44 | G9 정비 — 지명 사전·[geo-mismatch]·브리지 stdin·귀속 표현 | pass(D-0117) |
 | v4.11.0 | 7ff2976 | G10 정적 구간 검사·음악 상한 +2 dB·글자 크기 2차 표 | pass(D-0119) — 청감 판정은 사용자 |
 | v5.0.0 | 87912d2 | G11 GOAL G4-21·claim_kind fact/statement | pass(D-0125) |
+| v5.1.0 | 3619f2c | G12 backdrop 무대·아일랜드·축 스케일·기사 프레스 v2·발음 사전·버전 도장 | pass(D-0127) — 후속 D-0128 완료 |
 
 ---
 
-## [v5.1.0] — 2026-09-30 — G12: backdrop 무대·아일랜드, 시간축 축 스케일 고정, 기사 프레스 규약 v2, 발음 사전 합성 직전 적용, 엔딩 카드 버전 도장 (back_and_forth D-0121·D-0123·D-0124·D-0125, 사용자 결정 D105~D109) — 진행 중
+## [v5.2.0] — 2026-09-30 — G13: 배경 사진 가독, 주 아일랜드 상시, 보도 인용 = 기사 이벤트, 카드↔아일랜드 교차 (back_and_forth D-0129, 사용자 판정 D113) — 진행 중
+
+MINOR: 새 검사 2개(`backdrop_main_missing` hard·`card_island` warning). JSON `schema_version` 그대로(1).
+
+### Changed
+- **§0**: VERSION 5.2.0, Tier 1·2 `last_synced_with` v5.2.0, v5.1.0 대장 행(3619f2c, D-0127 pass).
+
+---
+
+## [v5.1.0] — 2026-09-30 — G12: backdrop 무대·아일랜드, 시간축 축 스케일 고정, 기사 프레스 규약 v2, 발음 사전 합성 직전 적용, 엔딩 카드 버전 도장 (back_and_forth D-0121·D-0123·D-0124·D-0125, 사용자 결정 D105~D109) — 합격(D-0127)
 
 MINOR: 새 무대(backdrop)·새 이벤트 타입·새 검사. JSON `schema_version` 그대로(1).
 
