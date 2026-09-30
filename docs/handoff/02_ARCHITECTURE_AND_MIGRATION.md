@@ -231,3 +231,12 @@ python -m engine.render projects/hormuz_korea --jobs 4            # 청크 병�
 python -m audio.mix     projects/hormuz_korea
 python -m engine.mux    projects/hormuz_korea                     # loudnorm, srt, 설명문, 크레딧
 ```
+
+## v5.1.0 — 무대 셋: mercator · timeline · backdrop (G12, back_and_forth D-0123·D-0126)
+
+- `rules:registries.stages` = mercator · timeline · **backdrop**(사진 배경 무대, `engine/stage_backdrop.py`). 레지스트리 세 곳(P10): 규칙 목록 ·
+  `engine.stage.STAGE_CLASSES` · `tests/fixtures/preview/stage_backdrop.yaml`.
+- backdrop 무대: 월드 좌표 = 화면 px, 카메라 = 빈 카메라 `{}`(이동 없음, `fixed_w`). 배경 = `backdrop` 이벤트(장면마다 블러 실사진),
+  내용물 = 아일랜드(`engine/island.py`). 차트 아일랜드는 시간축 무대 인스턴스를 상자 크기 뷰포트(`View(viewport=)`)로 그린다 —
+  카메라는 `stage: timeline` 숏(D-0126 Q1 A). 레이어 순서: 무대 바탕 → backdrop 사진(crossfade) → 아일랜드(무대 레이어 맨 앞) → 지도 레이어 …
+- 기사(article)는 v5.1.0 부터 화면 전체 프레스 규약 v2(`engine/layers/article.py`) — 카드 층 뒤, 날짜·자막 앞.

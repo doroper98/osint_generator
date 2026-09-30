@@ -170,3 +170,13 @@ cam(title.t0 + 2.9, lon, lat, w, dur=0, mode='cut')
 > 같은 뷰가 `rules:pacing.static_window.window_sec` 를 넘으면 문장 내용을 따라 ① 마커·라벨 등장 ② 관계선 하나 ③ 뱃지·카드 ④ 강조 ⑤ 그래도 없으면 숏 이동 순으로 변화를 준다(연출 프롬프트 `{{RULES.pacing.static_window}}`, 문안 = `rules:pacing.static_window.ladder`).
 > 검사 `static_window`(warning, `[static-window]`)는 지도가 보이는 구간(숏 무대 mercator, 전면 카드·패널 덮개 밖)의 모든 창에서 `change_kinds` 변화(이벤트 등장 t0·카메라 키)를 센다(`engine/pacing.py`).
 > 걸린 범위에만 **느린 푸시인(creep)**: w 를 범위 길이에 걸쳐 `creep.w_ratio` 로 선형 축소, 범위 뒤 유지 — 다음 키의 이동이 줄어든 w 에서 출발해 흡수한다. §1.1 드리프트와 곱한다. 45초에 4 % 라 줌 범프(§1.2, G4-16)가 아니다. 이동 중에는 걸지 않는다.
+
+> **구현 메모(v5.1.0, back_and_forth D-0121 §A — 시간축 축 스케일 고정, 사용자 피드백 D105)**: 시간축 무대(주 무대든
+> 차트 아일랜드 카메라든)의 카메라 w(화면이 덮는 일수)는 **장면 단위로 고정**한다. 확대·축소는 영상 전체
+> `rules:stage_timeline.axis_scale.w_changes_per_video_max` 회 이하(오프닝 뒤 작업 척도·중간 1회·엔딩 조망), 한 번에
+> `w_change_ratio_min` 배 이상만. 장면 안에서는 중심 이동(pan)만 — 지도의 "문장마다 줌 금지"(G4-16)와 같은 원리다.
+> 검사 `timeline_rescale`(hard, `[timeline-rescale] t w a→b (이유)`), provenance `timeline.w_changes[]`, 연출·수정 프롬프트
+> `{{RULES.stage_timeline.axis_scale}}`. 코드는 w 를 고치지 않는다(P8) — 걸리면 연출을 다시 쓴다(fed_policy LLM 재연출, 데모 사람 연출 수정).
+>
+> **차트 아일랜드 카메라(v5.1.0 D-0126 Q1 A)**: 주 무대가 backdrop 이면 `stage: timeline` 숏은 무대 전환이 아니라
+> 차트 아일랜드 뷰포트의 카메라다(무대 연속성 검사에서 빠진다, 축 스케일 검사는 그대로). 아일랜드 없는 보조 무대 렌더는 아직 없다(Q7 A).

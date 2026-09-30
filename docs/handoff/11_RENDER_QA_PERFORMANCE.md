@@ -189,3 +189,6 @@ fontconfig (fc-cache, fc-list)
 `engine.mux`(deliver)는 `video_noaudio.mp4` 의 메타데이터 표식이 콘티 판이면 거부한다(`AnimaticDeliverError`).
 비용 목표 = 5분 영상 4코어 3분(`rules animatic.cost_target_sec_per_300s`), 실측은 `reports/phaseG8/run_log.md`.
 
+### v5.1.0 — 버전 도장·새 검사 (G12)
+- 엔딩 카드 버전 도장은 G4-14 대상이 아니다(엔딩 카드 한정, 사용자 결정 D109 — `09` v5.1.0 절). provenance `end_card.version_stamp` = "v" + repo_version.
+- 새 검사: `timeline_rescale`(hard, D-0121 §A) · `backdrop_rights`·`backdrop_repeat`(hard, D-0123 §3) · `island_overlap`(hard, D-0126 Q3) · `stage_choice`(warning, D-0123 §2). 검사 항목 23 → 28.

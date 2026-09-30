@@ -214,3 +214,5 @@ navcent:
 - **화면 가장자리 보정**(`edge_nudge`): 앵커가 화면 안인데 그 순간 상자가 밖이면 그 px 만큼 안쪽으로 — 카드 회피(D-0033)보다 먼저, provenance `reserved.avoidance` strategy `edge`. 보정 뒤에도 밖이면 offscreen hard.
 - **자리**: 시간축 `timeline_badge` [640, 186](solo 상자가 레인 영역·축 값 자리 밖). 패널 장면(패널이 떠 있는 순간 시작하는 map_* 뱃지)은 `stage_slots.panel → panel_badge` 화면 고정 점 [[96,300],[758,300]], 패널 층 위에 그린다(D2(c), dmz_mine M7).
 - **청와대 휘장**(D-0109, 사용자 결정 D98): `assets/emblems/registry.json cheongwadae` — Commons 대통령 표장(Public domain, restrictions insignia 기록 유지), `user_exception: D98` + `exception_scope`(청와대·대통령실이 발언·행위 주체인 문장의 식별 표시 전용, 무가공, 크레딧). 예외는 `schemas/emblem_models.USER_EXCEPTIONS` 목록만 — 다른 제한 휘장은 §5 그대로 국기 대체. 연출 문법 한 줄(`rules direction_grammar`): 대통령 개인이 주체면 초상, 둘 다면 초상 우선.
+
+- **v5.1.0 크레딧(G12)**: 배경 사진(`backdrop.img`)·프레스 사진(`article.press`)도 `media.<id>` 권리 참조로 요구된다(`engine.credits.required_refs`) — credits.yaml 에 그 항목이 없으면 렌더 전 RightsError.

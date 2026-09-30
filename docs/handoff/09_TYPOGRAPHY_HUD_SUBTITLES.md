@@ -196,3 +196,10 @@ text(날짜, W−26, 40, 15, Mono SemiBold, 흰색 0.95, 헤일로 3, 우정렬)
 - 자막 22 의 결과: 2줄 문장 hormuz 15 → 17/45, fed_policy 7 → 11/48, 랫클리프 7 → 10/38, 데모 0/10. 3줄 0. `docs/handoff/reports/phaseG10/subtitle_lines.json`.
 - 카드 넘침 0: 가장 넓은 카드 fed_policy 436px(x ≥ 394), 카드 아래 끝 ≤ 204 — 자막 구역(410)과 멀다. 렌더 전 점검·checks hard 0(네 편).
 - 골든: 23컷 변경(타이틀·엔딩 무변경), 변경 픽셀 요소 영역 안 100 %. expected_deltas `g10_scale_d0118`, 증명 `reports/phaseG10/golden_delta/`, 기준선 `reports/phaseG10/hormuz_baseline.json`·`regression_baselines.json`.
+
+## v5.1.0 — 엔딩 카드 버전 도장 (G12, back_and_forth D-0124, 사용자 결정 D109)
+
+- 엔딩 카드 오른쪽 아래 구석 `v{VERSION}`(`rules:layout_480p.end_card.version_stamp` — x_from_right 12·y_from_bottom 10·7.8 mono·alpha 0.55·halo 없음). 문자열은 렌더 시점 VERSION 파일(P3).
+- 롤(scroll)에 실리지 않고 고정, 검정 홀드 구간에는 없다. 안내 줄(notice_unverified)과 겹치면 안내 줄을 우선하고 도장을 dy 만큼 위로. checks offscreen `[endcard-overflow]` 에 포함.
+- **G4-14 와의 관계**: G4-14("화면 모서리에 날짜 외 요소 금지")는 본문 장면의 브랜드·섹션 표기를 막는 규칙이다. 엔딩 카드는 크레딧 텍스트 화면이라 대상이 아니며, 이 도장은 사용자 결정 D109 로 엔딩 카드에만 둔다(GOAL 본문 무변경).
+- 골든 25_END: 도장 상자 안 86px 만 변경(expected_deltas `g12_version_stamp_d0124`). 기준선은 도장 상자를 가린 md5 — 버전 증분마다 재등재 불필요.

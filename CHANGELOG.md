@@ -70,6 +70,13 @@ MINOR: 새 무대(backdrop)·새 이벤트 타입·새 검사. JSON `schema_vers
 
 ### Changed
 - **§0**: VERSION 5.1.0, Tier 1·2 `last_synced_with` v5.1.0, v5.0.0 대장 행(87912d2, D-0125 pass).
+- **§G 버전 도장**(455eafd, D-0124·D109): 엔딩 카드 오른쪽 아래 `v{VERSION}`(rules end_card.version_stamp, 렌더 시점 VERSION 파일), 롤에 고정. 골든 25_END expected_deltas `g12_version_stamp_d0124`(도장 상자 밖 변화 0, 기준선은 도장 가린 md5).
+- **§D 발음 사전 합성 직전**(619b6a1, TTS-AP-067·068 구조 조치): 명시 tts 에도 사전(`script.lint.pronounce_tts`), 멱등, 캐시 키 = 치환 뒤. fed 9문장 재합성.
+- **§A 시간축 축 스케일**(5e3f798, D105): `stage_timeline.axis_scale`, checks `timeline_rescale` hard, provenance `timeline.w_changes[]`, 데모 w 1400→1300(pan).
+- **D-0123 backdrop 무대·아일랜드**(a4cf81a, D106·D108, D-0126 Q1~Q4 A): 무대 `backdrop`(사진 배경), 이벤트 `backdrop`·`island`, 차트 아일랜드(stage: timeline 숏 = 뷰포트 카메라, 레인 자동 맞춤), 아일랜드 공통 규칙(`rules:island`), backdrop 위 패널 = 아일랜드 상자, macro_monetary 기본 무대 backdrop, checks `backdrop_rights`·`backdrop_repeat`·`island_overlap`(hard)·`stage_choice`(warning).
+- **§C 기사 프레스 규약 v2**(88a19ea, D107, D-0126 Q5·Q6 A): 옛 오른쪽·가운데 기사 카드 삭제(P2). 프레스 사진(레지스트리 photo) 1초 → 덮개 + 세리프 원문 헤드라인·번역 부제·출처 줄, 사진 없으면 블러 무대. 골든 기사 두 컷 `g12_article_d0121`.
+- **보정**(65eda77·2b9ae07·c46573b): backdrop 시간축 앵커 판정 = date·lane 쌍, `[island-overlap]` 상세에 이벤트 이름·`resolve_refs` 태그 모양 허용 — 첫 fed AI 재연출에서 발견.
+- **§E**(d885a7c): fed_policy AI 재연출 v9(backdrop + 차트 아일랜드 + 연준 Flickr 6장, checks hard 0·검수 hard 4) 480p 한 편, hormuz 기사 30초 클립, 시트 → artifacts/phaseG12-v5.1.0(d3dc8c6). 연준 Flickr 3장 등재(D-0126 Q5 A).
 
 ---
 

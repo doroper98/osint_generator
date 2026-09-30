@@ -224,3 +224,12 @@ Claude Code 과제: 필드에 `segment`, `depicts`(사건/장소/인물), `is_fi
 옛 `draw_photo` 는 매 프레임 `raster(w × k)` 로 다시 리샘플했다. `Assets.scaled` 가 폭을 3px 단위로 양자화하므로 배율이 계단처럼 튀었다(글자 많은 사진에서 "끊김").
 이제 원본 해상도 표면 하나(`Assets.original`)를 cairo 패턴 행렬로 연속 배율 그린다(`media.ken_burns_source`, FILTER_GOOD — BEST 는 1080p 한 장 118ms 로 느림).
 hormuz 사진 2건 실측 프레임 간 차이 최대 14.6 → 0.41, 8.0 → 0.27(평균은 그대로). 위치 기준(가로 0.35·세로 0.5)·끝 배율 1.07 은 v3 그대로.
+
+## v5.1.0 — 배경 사진·프레스 사진 권리 (G12, back_and_forth D-0121 §B·§C·D-0123·D-0126 Q5 A)
+
+- **배경 사진**(`backdrop` 이벤트 `img`)과 **프레스 사진**(`article` 이벤트 `press`)은 미디어 레지스트리의 kind photo·rights_clear·가공 파일 있는 실사진만(C9·G4-10).
+  AI 생성·출처 불명·기사 자체 사진 금지. 권리 게이트 = `engine.layers.backdrop.validate_backdrop`·`engine.layers.article.validate_press`(렌더 전) + checks `backdrop_rights` hard.
+- 배경은 장식이라 캡션 바·자료사진 표기가 화면에 없다 — 크레딧은 credits.yaml(media 참조, `required_refs` 가 요구). 블러 18·dim 0.55·채도 0.7·crossfade 1.2초·켄 번스 4 %(`rules:stage_backdrop`).
+- 연속 같은 사진 금지, 영상 전체 서로 다른 사진 `min_photos`~`max_photos`(checks `backdrop_repeat` hard).
+- fed_policy 배경 후보(D-0126 Q5 A): 연준 이사회 Flickr — 기자회견 3장(PDM, 기존) + 에클스 빌딩 외관(US Gov Work, 8)·이사회실(PDM, 10)·아트리움(8). 라이선스 번호는 코드가 사진 페이지에서 확인(`tools/media_fetch.py fetch_flickr`).
+- 프레스 사진이 없으면 블러 무대 폴백(hormuz 기사 2건 — 권리 기록 있는 공식 사진 없음).

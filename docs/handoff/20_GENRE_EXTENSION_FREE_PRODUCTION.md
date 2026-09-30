@@ -356,3 +356,11 @@ revision_note: 잠정치는 이후 수정될 수 있음
 ### 관성 방지 체크 (`15` 연계)
 - 장르 확장이 지정학 파이프라인의 동작을 바꾸면 안 된다(골든 회귀).
 - 비지정학 영상에서 차트가 장면마다 새 캔버스로 뜨는 구성을 결정적 검사로 잡는다(무대 연속성 검사: 장면 전환마다 같은 Stage인지, 카메라 좌표가 연속인지).
+
+## v5.1.0 — 장르 기본 무대(default_stage) (G12, back_and_forth D-0123 §2, 사용자 확인 D108)
+
+- `default_stage` = 장르 프로필 `stage.primary`(같은 값을 두 곳에 두지 않는다, P3 — `Direction.default_stage()`).
+  geopolitics = mercator, **macro_monetary = backdrop**(차트가 주가 되는 주제도 사진 배경 + 차트 아일랜드, D106), 보조 = timeline(순수 차트 영상).
+  corporate·legal 프로필은 아직 없다 — 만들 때 backdrop 으로.
+- 무대 선택은 연출(LLM)이 한다(P8). 장르 기본과 다르게 고르면 direction `stage_reason` 필수 — 없으면 checks `stage_choice` warning `[stage-choice]`.
+- `rules:direction_grammar`: "주제가 지리·이동·위치가 아니면 지도 무대를 쓰지 않는다 — backdrop 무대 + 아일랜드". 장르 `stage_grammar.backdrop` 3줄.

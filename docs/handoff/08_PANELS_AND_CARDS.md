@@ -204,3 +204,25 @@ v3 카드 목록:
 - 자리: 기본 오른쪽 카드 자리. 연출 `place: center`(슬롯 `center`, `align: center`) = 무대 가운데(세로는 자막 구역 위 공간의 가운데), 그 동안 아래 무대를 `center_dim` 0.93(암전 최대 어둡기)으로 덮는다. fed_policy 기사 2건은 center.
 - 전/후: `docs/handoff/reports/phaseG7/article_before_after.jpg`.
 - 카드·패널 글자(D-0113 A): 오른쪽 카드 line 13 → 15·tag 12·src 11(줄 간격 24·출처 간격 20), 패널 부제 12.5, 관계선 라벨·연표·차트 글자 ≥ 12, 네트워크 라벨 11 — 전체 표는 09 §9, 수치 정본은 `rules/video_rules.yaml`.
+
+## 13. v5.1.0 — 아일랜드 공통 규약 (G12, back_and_forth D-0123 §1·D-0126 Q1~Q4 A, 사용자 결정 D106·D108)
+
+backdrop 무대 위에 놓이는 내용물은 전부 **아일랜드 상자** 한 규칙(`rules:island`, `engine/island.py`)이다.
+- 상자: 둥근 모서리 `radius`, 바탕 = `stage_timeline.bg_rgb × fill_alpha`(배경 사진이 비친다), 흰 테두리 `edge_alpha`, 그림자. 등장 = 카드 규칙(슬라이드 `card.slide_px`·페이드 `card.fade_sec`).
+- 차트 아일랜드: `{type: island, kind: chart, box: center|left|right}` — 연출은 이름만 고른다(픽셀 금지). 상자 높이는 모두 같다.
+  레인 세로 척도 = min(`stage_timeline.lane_h`, 레인 영역 ÷ 레인 수)(Q2 A, provenance `island.lane_h_effective`). series·date 핀은 차트 아일랜드가 떠 있는 동안에만(밖이면 렌더 전 오류).
+- 겹침(Q3 A): 같은 순간 보이는 아일랜드(차트·사진·영상·프리미티브·패널) 제자리 상자 교차 > 0, 자막 구역 교차, 동시 수 > `max_concurrent` = checks `island_overlap` hard. 카드·뱃지는 기존 예약 영역 규칙.
+- 패널(Q4 A): backdrop 무대 위 패널만 덮개 대신 `island.panel_box` 상자. 지도·시간축 무대 패널 수치 무변경(골든 무변경). 전 무대 통일은 후보(DECISIONS 메모).
+- 뱃지: backdrop 무대에서는 화면 슬롯(map_*) 점에 화면 고정(시간축·지도 앵커 없음).
+
+## 14. v5.1.0 — 기사 프레스 규약 v2 (G12, back_and_forth D-0121 §C·D-0126 Q5·Q6 A, 사용자 결정 D107) — §12 를 대체
+
+옛 오른쪽·가운데 기사 카드(§12, v4.8.0)는 삭제했다(P2 — `article_geom`·슬롯 `center`·`align`·옛 조판 키 없음).
+- 순서: 프레스 사진 단독 `press_lead_sec` → 덮개(theme overlay × `overlay_alpha`) + 글자 → 끝에서 `overlay_fade_sec` 페이드.
+- 프레스 사진 = 이벤트 `press`(미디어 레지스트리 photo·rights_clear 공식 사진). 없으면 **지금 무대를 블러**(`stage_backdrop.blur_px`·`dim`) — 사진을 지어내지 않는다(G4-10·P6, provenance `article[].press: none`).
+- 글자 블록: 자막 구역 위 공간의 세로 가운데, 왼쪽 정렬(x = 화면 폭 × `x_left_ratio`), 폭 ≤ `max_w_ratio`. 왼쪽 세로 선(헤드라인 높이, theme rule 색).
+  세리프 헤드라인 = 레지스트리 `headline_original`(원문 언어, 인용 부호, `verification.quote_max_chars` 이하) — 없으면 한국어 번역 헤드라인(부호 없음) + source 줄 끝 `translated_note`(Q6 A, provenance `headline: translated`).
+  산세리프 부제 = 번역 헤드라인(원문이 있을 때) 또는 요지. source 줄 = `"— {publisher}, {date}"`(날짜 2026.9.24 형식).
+- theme dark(검정 덮개·흰 글자)·light(흰 덮개·검은 글자) — 연출이 고른다(P8), 기본 `theme_default`. 줄 수·인용 상한 초과 = `ArticleOverflowError`(렌더 전).
+- 콘티 판: 프레스 사진 = 회색 판 + `[프레스: id]`, 덮개·글자는 전편과 같다.
+- hormuz 골든 기사 두 컷(15_review_0 164.59·19_debate_0 214.46)은 원문 헤드라인이 저장소에 없어 번역 헤드라인 + "헤드라인 번역" — expected_deltas `g12_article_d0121`. Reuters·Korea Herald 원문 확보는 사용자 몫.

@@ -3381,3 +3381,11 @@ last_review: 2026-06-06
 - **왜**: back_and_forth D-0119(사용자 결정 D103), D-0122(drops A·1차 원문 B).
 - **결과**: 랫클리프·fed status 변화 0, hormuz 대상 아님, 화면 영향 0. apply_draft 가 drops 있는 판정에서 파일을 쓴 뒤 예외로 죽던 결함 수정(ok=False·미기록). pytest 1165.
 - **연관**: D-0119·D-0122, PIPELINE-AP-012, handoff 18 §9, docs/05·12, reports/phaseG11.
+
+## 2026-09-30 v5.1.0 — G12: backdrop 무대·아일랜드·축 스케일·기사 프레스 v2·발음 사전·버전 도장
+
+- **무엇을**: 엔딩 카드 버전 도장(§G), 발음 사전 합성 직전 적용(§D), 시간축 축 스케일 검사 `timeline_rescale`(§A), 사진 배경 무대 `backdrop`·이벤트 `backdrop`·`island`·차트 아일랜드·아일랜드 공통 규칙(D-0123), 기사 프레스 규약 v2(§C, 옛 카드 삭제), fed_policy AI 재연출(backdrop + 차트 아일랜드 + 연준 Flickr 6장) 480p·hormuz 기사 30초 클립.
+- **왜**: 사용자 시청 피드백(D105 — fed 가로축 스케일·발음), 사용자 결정 D106~D109, back_and_forth D-0121·D-0123·D-0124·D-0126.
+- **어떻게**: 규칙 SSOT(`stage_timeline.axis_scale`·`stage_backdrop`·`island`·`article_card` v2·`end_card.version_stamp`), 레지스트리 세 곳(P10), 코드는 연출을 고치지 않고 검사만(P8). 첫 AI 재연출에서 내 검사 결함 2건(statement_diff 라벨 date 오판, 수정 워커 issue_ref 해석)을 찾아 보정.
+- **결과**: 골든 hormuz 3컷만 변경(25_END·기사 두 컷, expected_deltas 2건), fed v9 checks hard 0·검수 hard 4(마커 라벨 겹침 등 — 게이트 ② Fable). pytest 1205(§C 스테이지) · 최종 1206(§E, 기대값 2 갱신).
+- **연관**: TTS-AP-067·068(상태 줄), reports/phaseG12, artifacts/phaseG12-v5.1.0.
