@@ -2,6 +2,7 @@
 # v4.5.0(back_and_forth D-0098 §2(a)·D-0099 A): 두 열이 하단 구분선 − bottom_margin 안에서 끝나게 열 재배치,
 # 사진·기사 카드 두 절을 한 절 "사진 · 기사 카드"로 합침(항목 문구·라이선스·rights 참조 무변경).
 # 실측 마지막 기준선: 왼쪽 자료·보도·국기 415, 오른쪽 안내·글꼴·음성·사진 · 기사 카드 423(한도 428).
+# v5.1.0(back_and_forth D-0126 Q5 A): backdrop 배경 사진 3장(연준 이사회 Flickr) 항목 추가 — 크레딧이 넘치면 롤(D-0106).
 # v4.6.0(back_and_forth D-0097 작업 4·D-0102 3-A): 음악(bgm) 추가로 "음성" → "음악 · 음성"(hormuz 와 같은 절), 넘침을 막으려고
 # "국기" 절을 "사진 · 기사 카드 · 국기" 한 절로 합치고 열 재배치(항목 문구·라이선스·rights 참조 무변경). 실측 마지막 기준선: 왼쪽 418, 오른쪽 420(한도 428).
 schema_version: 1
@@ -32,8 +33,13 @@ sections:
       - main: 워시 연준 의장 기자회견 (2026.7.29 · 9.16)
         license: 미 연준 이사회 Flickr · Public Domain Mark
         rights: [media.fed_presser_0916, media.fed_presser_0916_b, media.fed_presser_0729]
+      - main: 에클스 빌딩 외관·이사회실·아트리움 (자료사진 · 배경)
+        license: 미 연준 이사회 Flickr · US Gov Work·Public Domain Mark
+        rights: [media.fed_eccles_ext, media.fed_boardroom, media.fed_eccles_atrium]
       - main: 케빈 워시
         license_ref: warsh
+      - main: 도널드 트럼프
+        license_ref: trump
       - main: CNN (7.29)  ·  Fox Business (9.16)
         rights: [media.cnn_0729, media.fox_0916]
       - main: 국기

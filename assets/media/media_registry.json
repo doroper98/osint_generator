@@ -1110,6 +1110,124 @@
    "hl": "대북 확성기 즉시 재설치",
    "sub": "정점식 원내대표",
    "note": "헤드라인 원문"
+  },
+  "fed_eccles_ext": {
+   "kind": "photo",
+   "title": "Flickr The Marriner S. Eccles building built in 1937: ec_05",
+   "license": "United States Government Work",
+   "author": "Federal Reserve Board (flickr.com/photos/federalreserve)",
+   "credit_author": "미 연준 이사회",
+   "date": "2012-09-01",
+   "url": "https://www.flickr.com/photos/federalreserve/26114196145/",
+   "caption": "연준 에클스 빌딩",
+   "file_note": "자료사진 · 2012. 09",
+   "depicts": [
+    "마리너 S. 에클스 연방준비제도 이사회 건물 외관",
+    "워싱턴 D.C."
+   ],
+   "is_file_photo": true,
+   "verified_by": {
+    "by": "opus-g12(실증 운영자 대행 — Flickr 사진 페이지 license 번호·설명문 대조, 실사용은 사람)",
+    "on": "2026-09-30",
+    "casualty_free": true,
+    "relevance": "backdrop 무대 배경 사진(D-0126 Q5 A)"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-09-30",
+   "tool": {
+    "name": "media_fetch.photo",
+    "params": {
+     "source": "fed_eccles_ext.jpg",
+     "crop": [
+      720,
+      450
+     ],
+     "color": 0.9,
+     "contrast": 1.04,
+     "jpeg_quality": 92
+    }
+   },
+   "source_hash": "c2b56e854dc36ab512b449d7e5384916",
+   "file": "fed_eccles_ext_720.jpg"
+  },
+  "fed_boardroom": {
+   "kind": "photo",
+   "title": "Flickr Eccles Board Room, 2019: boardroom 2019",
+   "license": "Public Domain Mark",
+   "author": "Federal Reserve Board (flickr.com/photos/federalreserve)",
+   "credit_author": "미 연준 이사회",
+   "date": "2019-11-08",
+   "url": "https://www.flickr.com/photos/federalreserve/54025669590/",
+   "caption": "연준 이사회 회의실",
+   "file_note": "자료사진 · 2019. 11",
+   "depicts": [
+    "에클스 빌딩 이사회 회의실(Board Room)",
+    "회의 테이블",
+    "에즈라 윈터 미국 지도 벽화"
+   ],
+   "is_file_photo": true,
+   "verified_by": {
+    "by": "opus-g12(실증 운영자 대행 — Flickr 사진 페이지 license 번호·설명문 대조, 실사용은 사람)",
+    "on": "2026-09-30",
+    "casualty_free": true,
+    "relevance": "backdrop 무대 배경 사진(D-0126 Q5 A)"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-09-30",
+   "tool": {
+    "name": "media_fetch.photo",
+    "params": {
+     "source": "fed_boardroom.jpg",
+     "crop": [
+      720,
+      450
+     ],
+     "color": 0.9,
+     "contrast": 1.04,
+     "jpeg_quality": 92
+    }
+   },
+   "source_hash": "ca9572d1666a83c2df7f674d9bb1704e",
+   "file": "fed_boardroom_720.jpg"
+  },
+  "fed_eccles_atrium": {
+   "kind": "photo",
+   "title": "Flickr View of the two-story atrium in the Marriner S. Eccles Building: EA_033105_AT_1191.jpg",
+   "license": "United States Government Work",
+   "author": "Federal Reserve Board (flickr.com/photos/federalreserve)",
+   "credit_author": "미 연준 이사회",
+   "date": "2005-03-31",
+   "url": "https://www.flickr.com/photos/federalreserve/8548424277/",
+   "caption": "연준 에클스 빌딩 중앙홀",
+   "file_note": "자료사진 · 2005. 03",
+   "depicts": [
+    "에클스 빌딩 2층 높이 중앙홀(아트리움)",
+    "계단"
+   ],
+   "is_file_photo": true,
+   "verified_by": {
+    "by": "opus-g12(실증 운영자 대행 — Flickr 사진 페이지 license 번호·설명문 대조, 실사용은 사람)",
+    "on": "2026-09-30",
+    "casualty_free": true,
+    "relevance": "backdrop 무대 배경 사진(D-0126 Q5 A)"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-09-30",
+   "tool": {
+    "name": "media_fetch.photo",
+    "params": {
+     "source": "fed_eccles_atrium.jpg",
+     "crop": [
+      720,
+      450
+     ],
+     "color": 0.9,
+     "contrast": 1.04,
+     "jpeg_quality": 92
+    }
+   },
+   "source_hash": "595d32629aa0867fc94cb52623c669a7",
+   "file": "fed_eccles_atrium_720.jpg"
   }
  }
 }

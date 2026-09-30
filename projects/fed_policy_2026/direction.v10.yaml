@@ -237,7 +237,7 @@ events:
   lane: events
   label: 2025년 9월 인하
   sub: 폭스비즈니스 보도
-  side: top
+  side: left
   hl: false
 - type: marker
   start:
@@ -341,11 +341,9 @@ events:
 - type: badge
   start:
     sid: hold_2026_3
-    'off': 0.3
+    'off': -0.3
   end:
-    sid: hold_2026_4
-    edge: end
-    'off': 0.3
+    scene_end: hold_2026
   place: map_upper_right
   kind: person
   pid: warsh
@@ -363,7 +361,7 @@ events:
   lane: events
   label: 워시 첫 주재 회의
   sub: 6월 · 연준 자료
-  side: bottom
+  side: right
   hl: false
 - type: card
   start:
@@ -436,7 +434,8 @@ events:
     'off': 0.3
   tag: ABC뉴스 보도
   lines:
-  - 같은 방향 반대표 3표 · 10년 만에 최다
+  - 같은 방향 반대표 3표
+  - 10년 만에 최다
   accent: amber
 - type: article
   start:
@@ -498,7 +497,7 @@ events:
   tag: 워시 의장 · 8월 추정
   bigs:
   - - 약 3.6%
-    - PCE 상승률
+    - PCE 상승률 · 차트의 CPI와 다른 지표
   accent: amber
 - type: card
   start:
@@ -515,8 +514,8 @@ events:
   accent: amber
 - type: series
   start:
-    sid: prices_jobs_4
-    'off': -0.2
+    sid: open_2
+    'off': -0.1
   end:
     total: true
   lane: inflation
@@ -631,7 +630,7 @@ events:
 - type: article
   start:
     sid: markets_2
-    'off': 0.2
+    'off': -0.5
   end:
     sid: markets_2
     edge: end
@@ -694,12 +693,23 @@ events:
     sid: projections_4
     'off': 0.3
   end:
-    scene_end: projections
-    'off': -0.1
+    sid: projections_4
+    edge: end
+    'off': 0.2
   tag: 점도표 · 9월 16일 · 참가자별 전망
   lines:
   - 참가자들이 각자 예상하는 금리를 점으로 찍은 표
-  - 약속이 아니라 전망 · 중앙값은 연내 0.25%p 추가 인상 한 번
+  accent: gold
+- type: card
+  start:
+    sid: projections_5
+    'off': 0.2
+  end:
+    scene_end: projections
+    'off': -0.1
+  tag: 점도표 · 약속이 아닌 전망
+  lines:
+  - 중앙값은 연내 0.25%p 추가 인상 한 번
   accent: gold
 - type: badge
   start:
@@ -708,7 +718,7 @@ events:
   end:
     sid: pressure_0
     edge: end
-    'off': 0.3
+    'off': -0.3
   place: map_upper_right
   kind: person
   pid: trump
@@ -776,7 +786,7 @@ events:
   lane: events
   label: 다음 FOMC 회의
   sub: 10월 말
-  side: left
+  side: bottom
   hl: true
 - type: marker
   start:
@@ -795,8 +805,7 @@ events:
     sid: close_1
     'off': 0.4
   end:
-    total: true
-    'off': -0.5
+    card: end
   tag: 점도표가 가리킨 추가 인상
   lines:
   - 실제로 이뤄질지는 아직 정해지지 않았다

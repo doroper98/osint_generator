@@ -75,7 +75,7 @@ class OverflowTest(unittest.TestCase):
             self.assertEqual(fullcards.endcard_overflow(secs, place), [], name)
             self.assertEqual(check_endcard_overflow(P), [], name)
             lasts[name] = fullcards.endcard_layout(secs, place)[1]
-        self.assertEqual(lasts["fed_policy_2026"], [418, 420])          # v4.6.0 D-0102 3-A 실측(D-0099 A 415·423 에서 음악 줄 추가)
+        self.assertEqual(lasts["fed_policy_2026"], [395, 466])          # v5.1.0 G12 — AI 재연출(시리즈 레코드 2)·배경 사진 3장·트럼프 항목: 오른쪽 열 롤 60px(9.2 px/s, 상한 안 — D-0106 [endcard-roll] warning). v4.6.0 실측 418·420
 
 
 class UniqueLineTest(unittest.TestCase):
@@ -96,8 +96,8 @@ class UniqueLineTest(unittest.TestCase):
             raw, merged = _credit_sections(*args), credit_sections(*args)
             if name == "fed_policy_2026":
                 raw_d, merged_d = dict(raw), dict(merged)
-                self.assertEqual((len(raw_d["자료"]), len(merged_d["자료"])), (4, 3))
-                self.assertEqual(len(set(merged_d["자료"])), 3)
+                self.assertEqual((len(raw_d["자료"]), len(merged_d["자료"])), (3, 2))   # v5.1.0 G12 재연출 — 레코드 3줄(같은 줄 1 합침). v4.6.0 은 (4, 3)
+                self.assertEqual(len(set(merged_d["자료"])), 2)
                 self.assertIn("사진 · 기사 카드 · 국기", merged_d)   # v4.6.0 D-0102 3-A(D-0099 A "사진 · 기사 카드" + 국기)
             else:
                 self.assertEqual(raw, merged, name)   # 합칠 줄 없음 → 무변경

@@ -1,4 +1,4 @@
-# direction.yaml — AI 연출 수정본(ReviseDirectionWorker, v3.1.0, 17 §5.5). changelog 는 prev/revision.v*.json.
+# direction.yaml — AI 연출(DirectorWorker, v3.1.0, 17 §5.3). 사람 검토 전 초안 — 승인 게이트 ②에서 판정.
 version: 1
 genre: macro_monetary
 stage: backdrop
@@ -83,7 +83,7 @@ shots:
   under: false
   scene: null
   stage: timeline
-  reason: 엔딩 조망 — 2023년 이후 금리 흐름 전체(인상기·인하기·이번 인상)를 한 화면에 보여 주려 축을 넓히며 중심을 과거로 옮긴다
+  reason: null
 events:
 - type: backdrop
   start: 0
@@ -189,7 +189,8 @@ events:
   sub: 3.75~4%
   side: left
   hl: true
-- type: card
+- type: primitive
+  id: statement_diff
   start:
     sid: decision_1
     'off': 0.2
@@ -198,10 +199,12 @@ events:
     edge: end
     'off': 0.3
   tag: FOMC 성명 · 결정 문구
-  lines:
-  - 7월 29일 · 3.5~3.75% 동결
-  - 9월 16일 · 0.25%p 올려 3.75~4%
-  accent: gold
+  before_label: 7월 29일
+  after_label: 9월 16일
+  before: The Committee decided to maintain the target range for the federal funds rate at 3-1/2 to 3-3/4 percent
+  after: The Committee decided to raise the target range for the federal funds rate by 1/4 percentage point to 3-3/4 to 4 percent
+  source: FOMC 성명
+  date: 2026.09.16
 - type: card
   start:
     sid: decision_4
@@ -689,18 +692,16 @@ events:
   - - 2.3%
     - 올해 실질 GDP 성장률
   accent: teal
-- type: card
+- type: primitive
+  id: dot_plot
   start:
     sid: projections_4
     'off': 0.3
   end:
     scene_end: projections
     'off': -0.1
+  record: SEP_20260916
   tag: 점도표 · 9월 16일 · 참가자별 전망
-  lines:
-  - 참가자들이 각자 예상하는 금리를 점으로 찍은 표
-  - 약속이 아니라 전망 · 중앙값은 연내 0.25%p 추가 인상 한 번
-  accent: gold
 - type: badge
   start:
     sid: pressure_0
