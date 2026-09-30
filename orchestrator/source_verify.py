@@ -16,7 +16,10 @@
 5. (v5.0.0 GOAL G4-21, D-0119) `claim_kind` 는 LLM 이 후보만 낸다. **statement**(“그런 발언·보도가 있었다”) 후보는 귀속 인용
    supports 가 하나라도 있으면 채택 — 귀속 인용을 supports 로 세어 ③ 그대로(independent_min 이상 → corroborated), 귀속만이라는
    이유로 contested 로 올리지 않는다. 귀속 표현 없이 내용을 단정하는 인용은 statement 의 근거가 아니다 → 근거 폐기 + drops[]
-   + checks `asserted:<src>`(경고). 귀속 인용이 하나도 없으면 후보 불채택 → fact(checks `kind_candidate:statement`, 경고). **fact** 는 ⓪ 그대로.
+   + checks `asserted:<src>`(경고). 예외(D-0122 ② B, 좁게): LLM 이 `speaker_source_ids` 로 댄 발언 주체 **본인** 소스가
+   `is_official` + 사용자 확인이면 그 비귀속 원문은 발언의 supports(checks `primary:<src>`) — 매체 인용이 아니라 발언 그 자체다.
+   아니면 폐기 + drops "본인 공식 소스 아님". 귀속 인용·본인 원문이 하나도 없으면 후보 불채택 → fact(checks `kind_candidate:statement`, 경고).
+   **fact** 는 ⓪ 그대로.
    fact 후보를 코드가 statement 로 올리지 않는다(“침범했다”가 보도 둘로 corroborated 가 되는 것을 막는 것이 G4-21).
 """
 
@@ -106,24 +109,27 @@ def judge(draft: VerifyDraft, sources: SourcesFile, bodies: dict[str, str]) -> t
             drops.append(f"{cid}: 본문과 맞는 supports 근거 없음 — 후보 버림({cand.text[:40]!r})")
             continue
         att = [e for e in sup_all if _attributed(e.quote, markers)]
+        primary = [e for e in sup_all if e not in att and e.source_id in cand.speaker_source_ids
+                   and is_official(recs[e.source_id]) and recs[e.source_id].confirmed]   # D-0122 B — 본인 공식 원문
         kind = "fact"
         kind_checks: list[str] = []
-        if cand.claim_kind == "statement":                     # G4-21 — 후보 채택은 귀속 인용 근거가 있을 때만
-            if att:
+        if cand.claim_kind == "statement":                     # G4-21 — 후보 채택은 귀속 인용·본인 원문 근거가 있을 때만
+            if att or primary:
                 kind = "statement"
             else:                                               # 후보 불채택은 근거 폐기가 아니다 — checks 에 남기고 경고로(apply_draft)
                 kind_checks = ["kind_candidate:statement"]
         asserted: list[EvidenceQuote] = []
         if kind == "statement":                                 # 귀속 없는 단정 인용은 "발언이 있었다"의 근거가 아니다
-            asserted = [e for e in sup_all if e not in att]
+            asserted = [e for e in sup_all if e not in att and e not in primary]
             for e in asserted:
-                drops.append(f"{cid}: {e.source_id} 인용이 귀속 표현 없이 내용을 단정 — statement 근거 아님, 근거 폐기(G4-21)")
+                why = "본인 공식 소스 아님" if e.source_id in cand.speaker_source_ids else "statement 근거 아님"
+                drops.append(f"{cid}: {e.source_id} 인용이 귀속 표현 없이 내용을 단정 — {why}, 근거 폐기(G4-21)")
             good = [e for e in good if e not in asserted]
-            sup_all = att
-            sup = att                                           # G4-21 — 귀속 인용을 발언의 supports 로 센다
+            sup_all = att + primary
+            sup = sup_all                                       # G4-21 — 귀속 인용·본인 원문을 발언의 supports 로 센다
         else:
             sup = [e for e in sup_all if e not in att]          # D-0054 B — 귀속 인용은 사실의 근거가 아니다
-        attributed_only = not [e for e in sup_all if e not in att]
+        attributed_only = not [e for e in sup_all if e not in att]   # statement 에 본인 원문이 있으면 False(귀속만이 아니다)
         quotes_by_src = {e.source_id: _norm(e.quote) for e in good}
 
         def counted(e) -> bool:  # noqa: ANN001
@@ -138,6 +144,7 @@ def judge(draft: VerifyDraft, sources: SourcesFile, bodies: dict[str, str]) -> t
             con_orig -= sup_orig                               # 반박 origin 제거는 분쟁이 아닐 때만(D-0054 A)
         checks = [f"quote_match:{e.source_id}" for e in good] + [f"independent_origins:{len(sup_orig)}"]
         checks += [f"attributed:{e.source_id}" for e in att]
+        checks += [f"primary:{e.source_id}" for e in primary if kind == "statement"]
         checks += [f"asserted:{e.source_id}" for e in asserted] + kind_checks
         official = [e.source_id for e in sup if is_official(recs[e.source_id]) and recs[e.source_id].confirmed and counted(e)]
         checks += [f"official:{s}" for s in official]
@@ -224,7 +231,7 @@ def apply_draft(pdir: Path, draft: VerifyDraft, sources: SourcesFile, bodies: di
     warns = [f"claim_kind {kinds}"]
     warns += [f"{c.claim_id}: statement 인데 귀속 없이 단정한 인용 {[x.split(':', 1)[1] for x in c.checks if x.startswith('asserted:')]} — 근거 폐기(G4-21)"
               for c in claims.claims if any(x.startswith("asserted:") for x in c.checks)]
-    warns += [f"{c.claim_id}: statement 후보인데 귀속 인용 근거 없음 — fact 로 판정(G4-21)"
+    warns += [f"{c.claim_id}: statement 후보인데 귀속 인용·본인 원문 근거 없음 — fact 로 판정(G4-21)"
               for c in claims.claims if "kind_candidate:statement" in c.checks]
     if drops:   # StageResult 계약(drops 가 있으면 ok 아님, 15 P6) — 파일을 쓰지 않고 실패로 보고한다(v5.0.0 전에는 쓴 뒤 예외)
         return StageResult(ok=False, stage="source_verify", errors=[f"근거 폐기 {len(drops)}건 — drops 확인 후 재검증"],

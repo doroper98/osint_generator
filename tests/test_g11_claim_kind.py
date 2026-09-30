@@ -205,3 +205,47 @@ class RejudgeToolTest(_Proj):
         self.assertEqual(t.rejudge(self.pdir)["mode"], "not_applicable")
         self.assertTrue(t.statement_shaped("합참은 조사 중이라고 밝혔다"))
         self.assertFalse(t.statement_shaped("폭발 원인은 확인되지 않았다"))
+
+
+class PrimaryStatementTest(_Proj):
+    """D-0122 ② B(좁게) — 발언 주체 본인의 공식·사용자 확인 소스 원문은 statement supports. 제3자·미확인은 폐기."""
+
+    def setUp(self) -> None:
+        super().setUp()
+        from rules import load_official_accounts  # noqa: PLC0415
+
+        off = load_official_accounts().accounts[0]
+        p = self.pdir
+        self.x_off = si.add_x_text(p, account_name=off.name, handle=off.handle, text="We will continue escort operations in the strait.",
+                                   lang="en", posted_at=datetime(2026, 9, 20, 14, 0)).id
+        self.x_3rd = si.add_x_text(p, account_name="Some Watcher", handle="@watcher_1", text="We will continue escort operations in the strait.",
+                                   lang="en", posted_at=datetime(2026, 9, 20, 15, 0)).id
+        self.a1 = si.add_article(p, publisher="가나일보", headline="h", published_at=D, body="당국은 호위를 계속하겠다고 밝혔다.").id
+
+    def _judge(self, d: VerifyDraft):  # noqa: ANN202
+        s = si.load_sources(self.pdir)
+        return sv.judge(d, s, {r.id: si.body_text(self.pdir, r) for r in s.sources})
+
+    def _d(self, speaker: str) -> VerifyDraft:
+        return _draft(_stmt("당국이 호위를 계속하겠다고 밝혔다", _ev(speaker, "We will continue escort operations"),
+                            _ev(self.a1, "당국은 호위를 계속하겠다고 밝혔다"), speaker_source_ids=[speaker]))
+
+    def test_own_confirmed_official_original_counts(self) -> None:
+        si.confirm(self.pdir, self.x_off, "user")
+        c, drops = self._judge(self._d(self.x_off))
+        cl = c.claims[0]
+        self.assertEqual(drops, [])
+        self.assertEqual((cl.claim_kind, cl.status, cl.attributed_only), ("statement", "verified", False))
+        self.assertIn(f"primary:{self.x_off}", cl.checks)
+        self.assertIn(f"official:{self.x_off}", cl.checks)
+
+    def test_third_party_account_original_dropped(self) -> None:
+        si.confirm(self.pdir, self.x_3rd, "user")
+        c, drops = self._judge(self._d(self.x_3rd))
+        self.assertEqual((c.claims[0].claim_kind, c.claims[0].status), ("statement", "unverified"))
+        self.assertTrue(any(self.x_3rd in d and "본인 공식 소스 아님" in d for d in drops))
+
+    def test_unconfirmed_official_original_dropped(self) -> None:
+        c, drops = self._judge(self._d(self.x_off))                         # 사용자 확인 전
+        self.assertNotIn(f"primary:{self.x_off}", c.claims[0].checks)
+        self.assertTrue(any(self.x_off in d and "본인 공식 소스 아님" in d for d in drops))

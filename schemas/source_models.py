@@ -235,6 +235,7 @@ class ClaimCandidate(_Strict):
     contested: bool = False
     sides: Optional[list[ClaimSide]] = None
     claim_kind: ClaimKind = "fact"                    # v5.0.0 G4-21 — LLM 의 kind 후보. 확정은 코드(source_verify.judge)
+    speaker_source_ids: list[str] = Field(default_factory=list)   # v5.0.0 D-0122 — statement 발언 주체 본인의 소스(공식 계정·공문) 후보
 
 
 class VerifyDraft(_Strict):
