@@ -106,6 +106,10 @@ class WiringTest(unittest.TestCase):
         self.assertEqual(len(errs), 1)
         self.assertIn("차트 아일랜드 구간 밖", errs[0])
         self.assertTrue(check_islands([_isl(0, 5)], "mercator", None))   # island 는 backdrop 무대에만
+        diff = {"type": "primitive", "id": "statement_diff", "t0": 1.0, "t1": 2.0, "date": "2026.09"}   # 라벨 날짜(앵커 아님, lane 없음)
+        self.assertEqual(check_islands([_isl(0.0, 40.0), diff], "backdrop", object()), [])
+        badge = {"type": "badge", "t0": 1.0, "t1": 2.0, "date": "2026-09-16", "lane": "events"}   # 시간축 앵커 뱃지 = 오류
+        self.assertEqual(len(check_islands([_isl(0.0, 40.0), badge], "backdrop", object())), 1)
         self.assertTrue(check_islands([_isl(0, 5), _isl(4, 9)], "backdrop", object()))   # 차트 아일랜드 겹침
 
     def test_panel_on_backdrop_uses_island_box(self) -> None:

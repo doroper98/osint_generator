@@ -879,8 +879,8 @@ stage_backdrop:            # v5.1.0 back_and_forth D-0121 §B·D-0123 §1(사용
   grammar:
     - "사진 배경 무대: 최상위 `stage: backdrop`. 주 무대 카메라 숏은 `{\"at\": 0, \"mode\": \"cut\", \"dur\": 0, \"camera\": {}}` 하나(이동 없음)."
     - "배경 사진: 장면마다 `{\"type\": \"backdrop\", \"start\": {\"scene_start\": 장면}, \"end\": {\"scene_end\": 장면}, \"img\": 사진 id}`. img 는 사용자 메시지 미디어 목록의 사진(photo) id 만. 연속 같은 사진 금지, 영상 전체 서로 다른 사진 {min_photos}~{max_photos}장. 블러·어둡게·crossfade {crossfade}초는 코드가 한다(검사 [backdrop-repeat]·[backdrop-rights] hard)."
-    - "차트 아일랜드: `{\"type\": \"island\", \"kind\": \"chart\", \"box\": {boxes} 중 하나, start, end}` — 시간축 차트가 이 상자 안에 뜬다. 차트 카메라는 `\"stage\": \"timeline\"` 숏(camera {date, lane?, w}) — 시간축 축 스케일 규칙을 그대로 따른다. series·date 마커는 차트 아일랜드가 떠 있는 동안에만 쓴다. 같은 순간 차트 아일랜드는 하나. 오른쪽 카드와 함께면 box left."
-    - "아일랜드(차트·사진·영상·프리미티브·패널)는 같은 순간 {max_concurrent}개 이하, 서로 겹치지 않는다(검사 [island-overlap] hard). 뱃지는 화면 슬롯(map_*)에 둔다(시간축 앵커 금지)."
+    - "차트 아일랜드: `{\"type\": \"island\", \"kind\": \"chart\", \"box\": {boxes} 중 하나, start, end}` — 시간축 차트가 이 상자 안에 뜬다. 차트 카메라는 `\"stage\": \"timeline\"` 숏(camera {date, lane?, w}) — 시간축 축 스케일 규칙을 그대로 따른다. series·date 마커는 차트 아일랜드가 떠 있는 동안에만 쓴다. 같은 순간 차트 아일랜드는 하나 — 차트가 필요한 구간 전체에 하나를 길게 두는 것이 기본이고, 둘을 이을 때는 앞 것의 end 뒤에 다음 것의 start 를 둔다(시각이 겹치면 오류). 오른쪽 카드와 함께면 box left."
+    - "아일랜드(차트·사진·영상·프리미티브·패널)는 같은 순간 {max_concurrent}개 이하, 서로 겹치지 않는다(검사 [island-overlap] hard). 뱃지는 화면 슬롯(map_*)에, 프리미티브(statement_diff·dot_plot 등)·카드는 카드 슬롯에 둔다 — backdrop 무대에서 date·lane 앵커는 series·marker 만(그 밖은 오류)."
     - "기사: `{\"type\": \"article\", \"mid\": 기사 id, \"theme\": dark|light(기본 {theme_default}), \"press\": 공식 사진 id(선택)}` — 화면 전체. 프레스 사진 {press_lead}초 → 덮개 + 세리프 헤드라인(원문 언어)·부제(번역)·출처 줄. press 는 미디어 목록의 권리 기록 사진만, 없으면 쓰지 않는다(코드가 지금 화면을 흐려 깐다)."
 
 island:                    # v5.1.0 back_and_forth D-0123 §1·D-0126(Q1~Q4 A) — backdrop 무대 위 내용물 상자(아일랜드) 공통 규칙. engine/island.py. 설계 px(480p)

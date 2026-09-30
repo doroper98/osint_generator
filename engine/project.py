@@ -450,7 +450,7 @@ def check_islands(events: list[dict], stage_name: str, chart_stage: object) -> l
              for a, b in zip(isl, isl[1:]) if b["t0"] < a["t1"]]
     if stage_name == "backdrop":
         errs += [f"{e['type']} t={e['t0']:.2f} 시간축 앵커(date·lane) — backdrop 무대에서 차트 아일랜드 안에는 series·marker 만(뱃지는 화면 슬롯)"
-                 for e in events if e.get("date") is not None and e["type"] not in ("series", "marker")]
+                 for e in events if e.get("date") is not None and e.get("lane") is not None and e["type"] not in ("series", "marker")]
         for e in events:
             if e.get("in_island") and not any(i["t0"] - 0.05 <= e["t0"] and e["t1"] <= i["t1"] + 0.05 for i in isl):
                 errs.append(f"{e['type']} t={e['t0']:.2f}~{e['t1']:.2f} 가 차트 아일랜드 구간 밖이다 — island 이벤트 안에서만 보인다")
