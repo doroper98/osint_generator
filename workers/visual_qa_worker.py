@@ -28,6 +28,18 @@ def checks_summary(pdir: Path) -> str:
     return f"hard {c['hard']} · warning {c['warnings']}\n" + "\n".join(rows)
 
 
+def press_lead_empty(v: QAVerdict, pdir: Path, exempt: list[str]) -> list[str]:
+    """empty 지적 중 기사 프레스 단독 구간 컷(frames.json article phase "press_lead")의 frame 목록(v5.1.0 D-0127 §5).
+    조용히 버리지 않고 워커가 재요청한다(15 P6)."""
+    if "article_press_lead" not in exempt:
+        return []
+    fp = pdir / "prev" / "frames.json"
+    frames = json.loads(fp.read_text(encoding="utf-8"))["frames"] if fp.exists() else []
+    lead = {Path(f["file"]).stem for f in frames
+            if any(e.get("type") == "article" and e.get("phase") == "press_lead" for e in f["events"])}
+    return [i.frame for i in v.issues if i.category == "empty" and i.frame in lead]
+
+
 class VisualQAWorker(BaseLLMWorker):
     worker_name = "visual_qa"
     task_type = "visual_qa"
@@ -54,6 +66,10 @@ class VisualQAWorker(BaseLLMWorker):
     def check_parsed(self, args: argparse.Namespace, task: TaskQueueItem, parsed: BaseModel) -> None:
         """장르 루브릭(v4.4.0 D-0090 작업 1, 20 §9): 기본 장르가 아니면 rules genre_prompt.rubric_extra 항목마다 판정 한 번."""
         assert isinstance(parsed, QAVerdict)
+        bad_empty = press_lead_empty(parsed, self.project_dir(args), self.rules.qa_checks.empty_exempt)
+        if bad_empty:
+            raise ValueError(f"empty 지적 {bad_empty} 은 기사 프레스 단독 구간(article phase press_lead) 컷이다 — "
+                             "규약상 비어 보이는 순간이라 empty 로 지적하지 않는다(rules qa_checks.empty_exempt)")
         g = self.genre
         if g is None or g.genre == self.rules.genre_prompt.base_genre:
             if parsed.rubric:

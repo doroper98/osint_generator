@@ -321,3 +321,13 @@ last_review: 2026-05-22
 - **회귀 테스트 (regression_test)**: 구조 조치 때 추가(현재 없음).
 - **연관**: vibrant-mendel 브랜치 보고 R-0118(원 R-0111) S1, docs/ADDENDUM_04(구독 LLM 브리지), back_and_forth D-0104.
 - **상태 (status)**: `[resolved v4.10.0]` — 프롬프트를 stdin 으로 넘기고 argv 경로 삭제(`CLI_INVOCATION` 에 `{prompt}` 없음, 있으면 빌드 오류). 회귀 테스트 `tests/test_g9_llm_stdin.py`(140KB 프롬프트 실 subprocess 통과·argv 대조군 OSError), back_and_forth D-0116.
+
+## LLM-AP-010 — 수정 LLM 의 issue_ref 표기가 검사 id 와 달라 지적 이벤트가 "지적 없이 변경"으로 거부됨
+- **증상 (symptom)**: fed_policy AI 연출 v8 의 수정 회차가 3번 연속 "지적받지 않은 부분을 바꿨다"(`unchanged_violations`)로 거부됐다. 바꾼 이벤트는 checks `island_overlap` 이 지적한 statement_diff·dot_plot 이었다.
+- **재현 (reproduction)**: checks 항목 `island_overlap` 이 hard 인 프리뷰에서 수정 LLM 이 changelog `issue_ref` 를 "island-overlap: …"(하이픈·줄인 상세) 또는 "[island-overlap]" 으로 적음 → `resolve_refs` 가 검사 id 로 풀지 못함 → 지적 이벤트 집합이 비어 변경이 위반으로 잡힘.
+- **원인 (root cause)**: ① 검사 상세 문장에 이벤트 이름이 없어("primitive statement_diff" 만) 상세 → 이벤트 대응이 안 됐다. ② `resolve_refs` 가 검사 id 정확 일치(밑줄)만 받았다. LLM 은 상세 태그 모양(`[island-overlap]`)을 그대로 옮겨 적고 상세를 줄여 쓴다.
+- **우회 (workaround, 그 세션)**: 없음 — 구조 조치 후 v9·v10 수정 회차가 통과했다.
+- **구조적 조치 (structural fix)**: `[island-overlap]` 상세에 이벤트 이름(2b9ae07), `resolve_refs` 가 태그 모양·하이픈·줄인 상세도 검사 id 로 받아 그 검사 상세 전부를 지적 이벤트로 푼다(c46573b).
+- **회귀 테스트 (regression_test)**: `tests/test_g12_island.py::OverlapTest::test_details_name_events_for_revision`(태그 모양 3가지 issue_ref).
+- **연관**: back_and_forth R-0148 §4 보정 ②, D-0127 §6, docs/handoff/17 §5.5.
+- **상태 (status)**: active

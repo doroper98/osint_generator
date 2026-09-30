@@ -1091,6 +1091,7 @@ class QAChecks(_Strict):
     chart_targets: dict[Literal["value", "date", "none"], list[Literal["chart_honesty", "series_limit_3", "units_visible", "as_of_visible"]]]   # v4.3.0 D-0087
     series_max: int = Field(ge=1)   # v4.3.0 — 20 §5.3 계열 수 상한
     visual_qa_loop_max: int
+    empty_exempt: list[Literal["article_press_lead"]] = Field(default_factory=list)   # v5.1.0 D-0127 §5 — 검수 empty 제외 구간
     loop_pick_order: list[Literal["checks_hard", "qa_hard", "qa_soft"]]
 
 

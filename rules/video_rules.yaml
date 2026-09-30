@@ -1148,6 +1148,9 @@ qa_checks:                 # 17 §3 — 결정적 사전 검사 임계
     none: []                                                                # 값·날짜 축이 없는 패널
   series_max: 3            # 한 차트(레인·패널)의 계열 수 상한(20 §5.3)
   visual_qa_loop_max: 2
+  # v5.1.0 D-0127 §5 — 시각 검수 empty 판정 제외 구간(규약상 비어 보이는 순간). article_press_lead = 기사 프레스 사진(또는 블러 무대) 단독
+  # layout_480p.article_card.press_lead_sec + 헤드라인 페이드 인 overlay_fade_sec. frames.json article 이벤트 phase "press_lead" 로 표시, 검수 워커가 그 컷의 empty 지적을 거부
+  empty_exempt: [article_press_lead]
   loop_pick_order: [checks_hard, qa_hard, qa_soft]   # D-0049 쟁점 3 — 상한 도달 시 사전식 최소 판, 동점은 이른 회차
 
 bundle:                    # v3.5.0 D-0063 작업 4 — 번들 어댑터(bundle/) 어휘 대응. 번들은 재료다(12 §5) — 여기 없는 차트 종류는 패널로 만들지 않고 unsupported 로 기록(P6)

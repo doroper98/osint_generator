@@ -152,5 +152,32 @@ class AnimaticAndLegacyTest(unittest.TestCase):
         self.assertEqual(bad, [])
 
 
+class PressLeadQAExemptTest(unittest.TestCase):
+    def test_press_lead_frame_not_empty(self) -> None:
+        """D-0127 §5 — 프레스 단독 구간 컷은 frames.json article phase "press_lead", 그 컷의 empty 지적은 워커가 거부."""
+        import json  # noqa: PLC0415
+        import tempfile  # noqa: PLC0415
+        from pathlib import Path  # noqa: PLC0415
+
+        from engine import checks  # noqa: PLC0415
+        from engine.qa import QAVerdict  # noqa: PLC0415
+        from workers.visual_qa_worker import press_lead_empty  # noqa: PLC0415
+
+        tb = NS(cur_sentence=lambda t: None, sent={})
+        art = {"type": "article", "mid": "fox", "t0": 10.0, "t1": 20.0}
+        P = NS(R=NS(tb=tb), events=[art], plan=NS(cards=[]))  # noqa: N806
+        lead = ARTICLE.press_lead_sec + ARTICLE.overlay_fade_sec
+        rows = checks.frames_info(P, [10.0 + lead / 2, 10.0 + lead + 1], ["a", "b"])["frames"]
+        self.assertEqual([r["events"][0]["phase"] for r in rows], ["press_lead", "headline"])
+        self.assertEqual(load_rules().qa_checks.empty_exempt, ["article_press_lead"])
+        issue = {"severity": "hard", "category": "empty", "evidence": "블러 배경과 자막만 보인다"}
+        v = QAVerdict(verdict="revise", issues=[{**issue, "frame": Path(r["file"]).stem} for r in rows])
+        with tempfile.TemporaryDirectory() as d:
+            (Path(d) / "prev").mkdir()
+            (Path(d) / "prev" / "frames.json").write_text(json.dumps({"frames": rows}), encoding="utf-8")
+            self.assertEqual(press_lead_empty(v, Path(d), ["article_press_lead"]), [Path(rows[0]["file"]).stem])
+            self.assertEqual(press_lead_empty(v, Path(d), []), [])
+
+
 if __name__ == "__main__":
     unittest.main()

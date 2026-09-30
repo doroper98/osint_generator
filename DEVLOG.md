@@ -3389,3 +3389,4 @@ last_review: 2026-06-06
 - **어떻게**: 규칙 SSOT(`stage_timeline.axis_scale`·`stage_backdrop`·`island`·`article_card` v2·`end_card.version_stamp`), 레지스트리 세 곳(P10), 코드는 연출을 고치지 않고 검사만(P8). 첫 AI 재연출에서 내 검사 결함 2건(statement_diff 라벨 date 오판, 수정 워커 issue_ref 해석)을 찾아 보정.
 - **결과**: 골든 hormuz 3컷만 변경(25_END·기사 두 컷, expected_deltas 2건), fed v9 checks hard 0·검수 hard 4(마커 라벨 겹침 등 — 게이트 ② Fable). pytest 1205(§C 스테이지) · 최종 1206(§E, 기대값 2 갱신).
 - **연관**: TTS-AP-067·068(상태 줄), reports/phaseG12, artifacts/phaseG12-v5.1.0.
+- 2026-09-30 v5.1.0 PIPELINE-AP-013(검사가 라벨 date 를 시간축 앵커로 오판 → 연출가 3회 거부, 65eda77)·LLM-AP-010(수정 LLM issue_ref 표기 불일치 → 지적 이벤트 미해결, 2b9ae07·c46573b) 기록. G12 후속 D-0127 §6. 검수 예외: article press_lead 구간 empty 판정 제외(rules qa_checks.empty_exempt, D-0127 §5).

@@ -104,6 +104,15 @@ last_review: 2026-05-19
 - **회귀 테스트**: `tests/test_g11_claim_kind.py::StatementJudgeTest::test_apply_draft_asserted_fails_with_drops_and_writes_nothing`
 - **발견 버전**: v5.0.0 (G11 §3 구현 중, back_and_forth R-0143 ①) · **상태**: active
 
+## PIPELINE-AP-013 — 검사가 라벨용 date 를 시간축 앵커로 오판해 AI 연출가를 3회 거부
+- **증상**: fed_policy AI 재연출(G12 §E)에서 연출가 1~3회가 모두 "backdrop 무대의 시간축 이벤트가 차트 아일랜드 구간 밖" 오류로 거부됐다. 거부된 이벤트는 statement_diff 프리미티브였다 — 시간축에 앉지 않는 요소다.
+- **원인**: `check_islands`(engine/project.py)가 이벤트에 `date` 필드만 있으면 시간축 앵커로 보았다. statement_diff 의 `date` 는 "기준 날짜" 라벨이고 `lane` 이 없다. 앵커 판정 기준을 필드 하나로 잡아 다른 뜻의 같은 이름 필드를 구별하지 못했다.
+- **좋은 예**: 시간축 앵커 = `date`·`lane` 쌍. lane 없는 date 는 라벨로 본다. 연출가 거부 사유가 같은 모양으로 반복되면 LLM 보다 검사를 먼저 의심하고, llm_calls 원문과 오류 문장을 대조한다.
+- **교훈**: 검사기의 오판은 LLM 재시도 비용으로 나타난다. 거부가 3회 연속이면 검사기 결함부터 본다.
+- **자동 조치**: `check_islands` 앵커 판정 = date·lane 쌍(v5.1.0 G12 보정 ①, 65eda77), rules `stage_backdrop.grammar` 2줄.
+- **회귀 테스트**: `tests/test_g12_island.py::WiringTest::test_timeline_events_only_inside_island`(statement_diff 라벨 date 통과·lane 있는 badge 오류)
+- **발견 버전**: v5.1.0 (G12 §E fed 재연출, back_and_forth R-0148 §4·D-0127 §6) · **상태**: active
+
 ---
 
 > 새 패턴 발견 시 본 파일 끝에 append. 과거 항목 수정 금지.

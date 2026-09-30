@@ -460,8 +460,18 @@ def frames_info(P, times: list[float], names: list[str]) -> dict:  # noqa: ANN00
         act = [e for e in P.events if e["t0"] <= t <= e["t1"]]
         rows.append({"n": i, "file": f"p_{t:07.2f}.png", "label": n, "t": round(t, 3), "sid": sid,
                      "text": tb.sent[sid].text if sid else None, "after_sid": None if sid else last, "card": card,
-                     "events": [{"type": e["type"], **{k: e[k] for k in ("kind", "label", "mid", "title", "tag") if k in e}} for e in act]})
+                     "events": [{"type": e["type"], **{k: e[k] for k in ("kind", "label", "mid", "title", "tag") if k in e},
+                                 **_article_phase(e, t)} for e in act]})
     return {"schema_version": 1, "frames": rows}
+
+
+def _article_phase(e: dict, t: float) -> dict:
+    """기사 이벤트 구간(v5.1.0 D-0127 §5) — 프레스 사진(블러 무대) 단독 + 헤드라인 페이드 인 동안 "press_lead", 그 뒤 "headline".
+    검수는 press_lead 컷을 empty 로 지적하지 않는다(rules qa_checks.empty_exempt)."""
+    if e.get("type") != "article":
+        return {}
+    A = R_.layout_480p.article_card  # noqa: N806
+    return {"phase": "press_lead" if t < e["t0"] + A.press_lead_sec + A.overlay_fade_sec else "headline"}
 
 
 __all__ = ["FontMissingError", "HARD", "HONESTY", "WARN", "check_audio", "frames_info", "profile_skips", "run_checks"]
