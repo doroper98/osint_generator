@@ -103,7 +103,7 @@ class EndCardNoticeTest(unittest.TestCase):
 
         with mock.patch.object(fullcards, "text", spy):
             _draw_endcard(_endcard_R({"a_0": "<논쟁>"}, ["a_0"]))
-        last_y, last_s = max(ys)
+        last_y, last_s = max(yy for yy in ys if yy[1] != fullcards.version_stamp())   # v5.1.0 D-0124 — 구석 버전 도장은 줄이 아니다
         self.assertEqual(last_s, NOTICE.template.replace("{n}", "1"))
         self.assertLess(last_y, H_OUT)
         self.assertGreater(last_y, H_OUT - 26)

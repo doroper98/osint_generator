@@ -153,11 +153,12 @@ def check_static_window(P) -> list[str]:  # noqa: ANN001, N803
 
 def check_endcard_overflow(P) -> list[str]:  # noqa: ANN001, N803
     """엔딩 카드 크레딧 넘침(v4.5.0 back_and_forth D-0098 §2) — draw_endcard 가 오류를 내는 것과 같은 함수(`fullcards.endcard_overflow`)."""
-    from engine.fullcards import endcard_overflow, project_credit_sections  # noqa: PLC0415
+    from engine.fullcards import endcard_overflow, project_credit_sections, unverified_notice, version_stamp_overflow  # noqa: PLC0415
 
     if P.R.credits is None or not any(c.kind == "end" for c in P.plan.cards):
         return []
-    return endcard_overflow(project_credit_sections(P.R), [s.column for s in P.R.credits.sections])
+    return (endcard_overflow(project_credit_sections(P.R), [s.column for s in P.R.credits.sections])
+            + version_stamp_overflow(unverified_notice(P.R)))   # v5.1.0 D-0124 — 버전 도장 포함
 
 
 def offscreen_hits(P) -> list[tuple[dict, float, float, tuple]]:  # noqa: ANN001, N803

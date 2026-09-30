@@ -1,0 +1,23 @@
+{
+ "cut": "25_END",
+ "render": "p_0288.44.png",
+ "stamp": "v5.1.0",
+ "stamp_box": [
+  812.0,
+  462.2,
+  842.0,
+  471.95
+ ],
+ "box_pad_px": 2,
+ "changed_px": 86,
+ "inside_px": 86,
+ "outside_px": 0,
+ "bbox": [
+  812,
+  465,
+  841,
+  469
+ ],
+ "md5_old": "42d94cea05dc2c3d6f0862cb305b6b4b",
+ "md5": "ebb92004f9567defba250ba3ee476c79"
+}

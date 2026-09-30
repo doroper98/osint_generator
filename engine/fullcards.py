@@ -5,9 +5,13 @@ v4.5.0(back_and_forth D-0098 §2): 크레딧 배치는 `endcard_layout` 한 곳�
 하단 구분선(H−44) − `end_card.bottom_margin` 을 넘으면 `EndCardOverflowError`(조용한 넘침 금지, 15 P6) — checks offscreen 도 같은 함수로 본다.
 v4.7.0(back_and_forth D-0106 1-C, dmz_mine 브랜치 롤): 넘치면 목록이 위로 흐른다(롤). 롤 속도가 `end_card.scroll_max_px_per_sec` 를
 넘을 때만 `EndCardOverflowError`. 상한 안 롤은 checks warning `[endcard-roll]`·provenance `end_card` 기록.
+v5.1.0(back_and_forth D-0124, 사용자 결정 D109): 오른쪽 아래 구석 버전 도장 `v{VERSION}`(`end_card.version_stamp`) — 렌더 시점 VERSION 파일,
+롤에 고정(클립·스크롤 밖), 안내 줄과 겹치면 dy 만큼 위로. 화면 밖이면 `[endcard-overflow]`.
 """
 
 from __future__ import annotations
+
+from pathlib import Path
 
 import cairo
 
@@ -19,6 +23,8 @@ from engine.typography import text
 
 ENDCARD_NOTE = "수치와 인용은 제작 시점의 공개 보도에 근거합니다"
 NOTICE = END_CARD.notice_unverified
+STAMP = END_CARD.version_stamp
+VERSION_FILE = Path(__file__).resolve().parent.parent / "VERSION"
 COLS_X = (64, 456)      # 크레딧 두 열의 왼쪽 x
 TOP_Y = 158             # 크레딧 첫 절 제목 기준선
 RULE_Y = H_OUT - 44     # 하단 구분선(날짜·안내 줄 위)
@@ -75,6 +81,36 @@ def endcard_roll_note(secs: list[tuple[str, list[tuple[str, str]]]], place: list
     dist, v = endcard_roll(secs, place)
     return [f"[endcard-roll] 크레딧이 넘쳐 롤 {dist:.0f}px · {v:.1f} px/s(상한 {END_CARD.scroll_max_px_per_sec:g})"] \
         if 0 < v <= END_CARD.scroll_max_px_per_sec else []
+
+
+def version_stamp() -> str:
+    """버전 도장 문자열 — 렌더 시점의 VERSION 파일 한 줄(C5.1 SSOT). 코드 상수·config 복사 금지(P3)."""
+    return "v" + VERSION_FILE.read_text(encoding="utf-8").strip()
+
+
+def version_stamp_box(notice: str | None) -> tuple[float, float, float, float]:
+    """도장 글자 상자(x0, y0, x1, y1) — 기준선 = H − y_from_bottom, 오른쪽 끝 = W − x_from_right.
+    안내 줄(notice, 왼쪽 x=64·기준선 H−26+dy)과 겹치면 notice 를 우선하고 도장을 STAMP.dy 만큼 위로 올린다(D-0124)."""
+    from engine.typography import adv  # noqa: PLC0415
+
+    s = version_stamp()
+    w = adv(s, STAMP.size, STAMP.font)
+    x1 = W_OUT - STAMP.x_from_right
+    base = H_OUT - STAMP.y_from_bottom
+    box = (x1 - w, base - STAMP.size, x1, base + STAMP.size * 0.25)
+    if notice:
+        ny = H_OUT - 26 + NOTICE.dy
+        nb = (64.0, ny - NOTICE.size, 64 + adv(notice, NOTICE.size, "sans"), ny + NOTICE.size * 0.25)
+        if box[0] < nb[2] and nb[0] < box[2] and box[1] < nb[3] and nb[1] < box[3]:
+            box = (box[0], box[1] - STAMP.dy, box[2], box[3] - STAMP.dy)
+    return box
+
+
+def version_stamp_overflow(notice: str | None) -> list[str]:
+    """도장이 화면 밖이면 한 줄 — checks offscreen [endcard-overflow] 에 포함(D-0124)."""
+    x0, y0, x1, y1 = version_stamp_box(notice)
+    return [] if 0 <= x0 and x1 <= W_OUT and 0 <= y0 and y1 <= H_OUT else \
+        [f"[endcard-overflow] 버전 도장 {version_stamp()} 상자 ({x0:.0f},{y0:.0f})–({x1:.0f},{y1:.0f}) 가 화면 밖"]
 
 
 def project_credit_sections(R: RenderCtx) -> list[tuple[str, list[tuple[str, str]]]]:  # noqa: N803
@@ -154,6 +190,9 @@ def draw_endcard(ctx: cairo.Context, R: RenderCtx, t: float, c: object, a: float
     notice = unverified_notice(R)
     if notice:   # 맨 마지막 줄, 가장 작은 글씨 — 본문(자막·패널·카드)에는 검증 라벨을 그리지 않는다
         text(ctx, notice, 64, H_OUT - 26 + NOTICE.dy, NOTICE.size, "sans", C["muted"], fa, 0, "l", role="end_card")
+    # v5.1.0 D-0124 — 버전 도장: 카드 등장과 함께(a), 롤 클립·스크롤 밖이라 고정, halo 없음. 검정 홀드(a = 0)에는 없음
+    _x0, _y0, x1, y1 = version_stamp_box(notice)
+    text(ctx, version_stamp(), x1, y1 - STAMP.size * 0.25, STAMP.size, STAMP.font, C["muted"], a * STAMP.alpha, 0, "r", role="end_card")
 
 
 def draw_fullcards(ctx: cairo.Context, R: RenderCtx, t: float) -> None:  # noqa: N803

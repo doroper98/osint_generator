@@ -154,11 +154,12 @@ def project_provenance(P, stages: dict[str, bool]) -> dict:  # noqa: ANN001, N80
             prov["audio"]["bed_bass"] = {"applied": bs.applied.model_dump(), "ratio_db": {"before": bs.before.ratio_db, "after": bs.after.ratio_db},
                                          "rise_db": bs.rise_db, "swell_at": bs.swell_at, "bands_hz": {"bass": list(bs.bass_band_hz), "mid": list(bs.mid_band_hz)}}
     if P.R.credits is not None and any(c.kind == "end" for c in P.plan.cards):   # v4.7.0 D-0106 1-C — 엔딩 카드 롤(없으면 기록 없음)
-        from engine.fullcards import endcard_roll, project_credit_sections  # noqa: PLC0415
+        from engine.fullcards import endcard_roll, project_credit_sections, version_stamp  # noqa: PLC0415
 
         dist, v = endcard_roll(project_credit_sections(P.R), [s.column for s in P.R.credits.sections])
+        prov["end_card"] = {"version_stamp": version_stamp()}   # v5.1.0 D-0124 — 화면 도장 = "v" + repo_version(테스트)
         if dist > 0:
-            prov["end_card"] = {"roll_px": round(dist, 1), "roll_px_per_sec": round(v, 2)}
+            prov["end_card"].update({"roll_px": round(dist, 1), "roll_px_per_sec": round(v, 2)})
     # v3.6.0 D-0066 작업 1 — 이 산출물의 출력 프로파일. 전편은 render 가 남긴 out/render.json(영상을 만든 프로파일), 프리뷰는 P.R.out
     rj = P.root / "out" / "render.json"
     prov["render"] = {"resolution": (json.loads(rj.read_text(encoding="utf-8"))["resolution"]

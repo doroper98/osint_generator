@@ -259,11 +259,24 @@ class EndCardNotice(_Strict):
     template: str = Field(pattern=r"\{n\}")
 
 
+class EndCardVersionStamp(_Strict):
+    """v5.1.0 D-0124(사용자 결정 D109) — 엔딩 카드 오른쪽 아래 구석 버전 도장. 문자열 = "v" + VERSION 파일(렌더 시점, P3).
+    notice_unverified 와 겹치면 notice 를 우선하고 도장을 dy 만큼 위로 올린다."""
+
+    x_from_right: float = Field(ge=0)
+    y_from_bottom: float = Field(ge=0)
+    size: float = Field(gt=0)
+    font: str
+    alpha: float = Field(gt=0, le=1)
+    dy: float = Field(gt=0)
+
+
 class EndCardLayout(_Strict):
     dur_sec: float
     item_size: float
     license_size: float
     notice_unverified: EndCardNotice
+    version_stamp: EndCardVersionStamp
     bottom_margin: float = Field(ge=0)   # v4.5.0 D-0098 — 크레딧 마지막 기준선과 하단 구분선(H−44) 사이 최소 여백
     hold_black_after: bool = True        # v4.4.0 dmz_mine_2026(v4.7.0 병합) — 카드 뒤 검정 유지(지도가 다시 드러나지 않게)
     # v4.7.0 D-0106 1-C — 넘치면 롤(속도 상한 넘으면 오류)
@@ -280,6 +293,8 @@ class EndCardLayout(_Strict):
             raise ValueError("end_card.dur_sec 는 scroll_hold_in_sec + scroll_hold_out_sec 보다 길어야 한다(롤 시간)")
         if self.scroll_bottom <= self.scroll_top + self.scroll_fade_px:
             raise ValueError("end_card.scroll_bottom 은 scroll_top + scroll_fade_px 보다 아래여야 한다")
+        if self.version_stamp.size > min(self.license_size, self.notice_unverified.size):
+            raise ValueError("end_card.version_stamp.size 는 엔딩 카드에서 가장 작은 글씨(license_size·notice) 이하여야 한다(D-0124)")
         return self
 
 

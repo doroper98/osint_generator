@@ -35,6 +35,20 @@ PREP = (
 )
 
 
+def _masked_md5(p: Path, box: list[float], pad: int) -> str:
+    """도장 상자(+pad)를 0 으로 가린 RGB 픽셀 md5 — 버전 도장 문자열(VERSION)과 무관한 대조(v5.1.0 D-0124)."""
+    import math  # noqa: PLC0415
+
+    import numpy as np  # noqa: PLC0415
+    from PIL import Image  # noqa: PLC0415
+
+    a = np.array(Image.open(p).convert("RGB"))
+    x0, y0 = math.floor(box[0]) - pad, math.floor(box[1]) - pad
+    x1, y1 = math.ceil(box[2]) + pad, math.ceil(box[3]) + pad
+    a[y0:y1 + 1, x0:x1 + 1] = 0
+    return hashlib.md5(a.tobytes()).hexdigest()
+
+
 class ProvenanceE2ETest(unittest.TestCase):
     def test_hormuz_preview_provenance(self) -> None:
         proj = REPO / "projects" / "hormuz_korea"
@@ -77,9 +91,13 @@ class ProvenanceE2ETest(unittest.TestCase):
         # v4.1.0 D-0076 작업 6·8 — 무대 추상화 뒤에도 25컷 픽셀 동일(기준선 = KZ 수정 뒤 hormuz_baseline.json, D-0078)
         # v4.8.0 G7 — 기사 카드 조판·켄 번스 연속 변환(D-0101 §2·D-0104 D6)으로 바뀐 컷을 반영한 phaseG7 기준선(바뀐 컷 = changed_vs_g1)
         # v4.11.0 G10 — 글자 크기 2차 표(D-0118 §3, 자막 22·카드 line 16)로 바뀐 컷을 반영한 phaseG10 기준선(바뀐 컷 = changed_vs_g7)
-        base = json.loads((REPO / "docs" / "handoff" / "reports" / "phaseG10" / "hormuz_baseline.json").read_text(encoding="utf-8"))
-        got = {p.name: hashlib.md5(p.read_bytes()).hexdigest() for p in (proj / "prev").glob("p_*.png")}
-        self.assertEqual(got, {c["png"]: c["md5"] for c in base["cuts"]})
+        # v5.1.0 G12 — 엔딩 카드 버전 도장(D-0124)으로 바뀐 25_END 를 반영한 phaseG12 기준선. 도장은 VERSION 을 따르므로 그 컷은 도장 상자를 가린 md5
+        base = json.loads((REPO / "docs" / "handoff" / "reports" / "phaseG12" / "hormuz_baseline.json").read_text(encoding="utf-8"))
+        want = {c["png"]: c.get("md5_masked") or c["md5"] for c in base["cuts"]}
+        masked = {c["png"] for c in base["cuts"] if c.get("mask")}
+        got = {p.name: (_masked_md5(p, base["stamp_box"], base["mask_pad_px"]) if p.name in masked else hashlib.md5(p.read_bytes()).hexdigest())
+               for p in (proj / "prev").glob("p_*.png")}
+        self.assertEqual(got, want)
 
 
 if __name__ == "__main__":
