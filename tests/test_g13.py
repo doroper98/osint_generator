@@ -132,5 +132,24 @@ class PromptTest(unittest.TestCase):
         self.assertIn(f"before*: str (원문 ≤ {QUOTE_MAX_CHARS}자", row)
 
 
+class RedirectTest(unittest.TestCase):
+    def test_redirect_moves_not_deletes(self) -> None:
+        """D-0131 — --redirect 없으면 기존 direction.yaml 유지, 있으면 prev/direction_{시각}.yaml 로 이동(내용 그대로)."""
+        import tempfile  # noqa: PLC0415
+        from datetime import datetime  # noqa: PLC0415
+        from pathlib import Path  # noqa: PLC0415
+
+        from tools.ai_direction_run import redirect  # noqa: PLC0415
+
+        with tempfile.TemporaryDirectory() as d:
+            pdir = Path(d)
+            self.assertIsNone(redirect(pdir))   # 없으면 아무 일 없음
+            (pdir / "direction.yaml").write_text("version: 1\n", encoding="utf-8")
+            moved = redirect(pdir, datetime(2026, 9, 30, 18, 40, 5))
+            self.assertEqual(moved, pdir / "prev" / "direction_260930_184005.yaml")
+            self.assertFalse((pdir / "direction.yaml").exists())
+            self.assertEqual(moved.read_text(encoding="utf-8"), "version: 1\n")
+
+
 if __name__ == "__main__":
     unittest.main()

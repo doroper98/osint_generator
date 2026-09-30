@@ -5,6 +5,8 @@
 파이프라인 advance 와 **같은 함수**(orchestrator.ai_direction.run_worker·qa_loop, engine_service.run_stage)를 쓴다.
 다른 점은 두 가지뿐: 매니페스트 상태 전이를 하지 않고, 단계 결과를 `prev/ai_run.jsonl` 한 줄씩 남긴다(보고서 재료).
 direction.yaml 이 없을 때만 연출가를 부른다(사람 연출은 건드리지 않는다).
+v5.2.0(back_and_forth D-0131): `--redirect` — 기존 direction.yaml 을 prev/direction_{yymmdd_hhmmss}.yaml 로 **이동**(삭제 아님)한 뒤
+연출가를 부른다(무대 구성이 바뀌는 재연출. 옛 연출은 연출가 입력에 넣지 않는다 — P9).
 """
 
 from __future__ import annotations
@@ -13,6 +15,7 @@ import argparse
 import json
 import sys
 import time
+from datetime import datetime
 from pathlib import Path
 
 REPO = Path(__file__).resolve().parent.parent
@@ -22,14 +25,31 @@ from orchestrator import ai_direction, engine_service  # noqa: E402
 from schemas.engine_models import StageResult  # noqa: E402
 
 
+def redirect(pdir: Path, now: datetime | None = None) -> Path | None:
+    """기존 direction.yaml 을 prev/direction_{yymmdd_hhmmss}.yaml 로 옮긴다(없으면 None). 이력 보존 — 삭제하지 않는다."""
+    src = pdir / "direction.yaml"
+    if not src.exists():
+        return None
+    dst = pdir / "prev" / f"direction_{(now or datetime.now()).strftime('%y%m%d_%H%M%S')}.yaml"
+    dst.parent.mkdir(exist_ok=True)
+    if dst.exists():
+        raise SystemExit(f"{dst} 가 이미 있다 — 덮어쓰지 않는다")
+    src.rename(dst)
+    return dst
+
+
 def main(argv: list[str] | None = None) -> int:
     ap = argparse.ArgumentParser(description="AI 연출 → 검사 → 시각 검수 루프 1회 실행")
     ap.add_argument("proj", type=Path)
     ap.add_argument("--preview", default="auto", help="auto · golden · 쉼표 초")
     ap.add_argument("--backend", default="claude")
+    ap.add_argument("--redirect", action="store_true", help="기존 direction.yaml 을 prev/ 로 옮기고 연출가부터(D-0131)")
     args = ap.parse_args(argv)
     pdir = args.proj.resolve()
     (pdir / "prev").mkdir(exist_ok=True)
+    if args.redirect:
+        moved = redirect(pdir)
+        print(json.dumps({"redirect": str(moved) if moved else None}, ensure_ascii=False), flush=True)
     log = pdir / "prev" / "ai_run.jsonl"
     t_start = time.time()
 
