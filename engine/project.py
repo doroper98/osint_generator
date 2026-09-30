@@ -27,7 +27,8 @@ from geo.gazetteer import check_doc as gazetteer_check
 from engine.entities import check_event_refs, load_entities
 from engine.panels import network, relation, timeline
 from engine.credits import RightsError
-from engine.layers.media import ArticleOverflowError, article_geom, caption_width, validate_media
+from engine.layers.article import ArticleOverflowError, article_layout, validate_press
+from engine.layers.media import caption_width, validate_media
 from engine.layers.backdrop import backdrop_report, validate_backdrop
 from engine.media_registry import credit_line
 from engine.media_plan import density_report, media_box, placement_warnings
@@ -115,7 +116,8 @@ def preflight(R: RenderCtx, events: list[dict], files: bool = True) -> list[str]
                 try:
                     validate_media(e, A.media_assets)
                     if e["type"] == "article":
-                        article_geom(cairo.Context(cairo.ImageSurface(cairo.FORMAT_ARGB32, 1, 1)), e)
+                        validate_press(e, A.media_assets)
+                        article_layout(cairo.Context(cairo.ImageSurface(cairo.FORMAT_ARGB32, 1, 1)), e)
                 except (RightsError, ArticleOverflowError) as ex:
                     errs.append(str(ex))
             continue
@@ -151,10 +153,13 @@ def preflight(R: RenderCtx, events: list[dict], files: bool = True) -> list[str]
                 continue
             if e["type"] in ("photo", "cutout"):
                 keys.add(f"media:{m.file}")
-            if e["type"] == "article":         # v4.8.0 D-0101 §2 — 헤드라인·부제 최대 줄 수(조용한 잘림 금지)
+            if e["type"] == "article":         # v5.1.0 D-0121 §C — 줄 수·인용 상한(조용한 잘림 금지) + 프레스 사진 권리
                 try:
-                    article_geom(cairo.Context(cairo.ImageSurface(cairo.FORMAT_ARGB32, 1, 1)), e)
-                except ArticleOverflowError as ex:
+                    article_layout(cairo.Context(cairo.ImageSurface(cairo.FORMAT_ARGB32, 1, 1)), e)
+                    press = validate_press(e, A.media_assets)
+                    if press is not None:
+                        keys.add(f"media:{press.file}")
+                except (ArticleOverflowError, RightsError) as ex:
                     errs.append(str(ex))
     for k in sorted(keys):
         try:

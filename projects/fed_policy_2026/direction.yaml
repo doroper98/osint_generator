@@ -520,7 +520,6 @@ events:
     edge: end
     'off': 0.8
   mid: fox_0916
-  place: center
 - type: marker
   start:
     sid: july_dissent_0
@@ -583,7 +582,6 @@ events:
     edge: end
     'off': 0.8
   mid: cnn_0729
-  place: center
 - type: card
   start:
     sid: prices_jobs_0

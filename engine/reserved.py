@@ -16,7 +16,7 @@ from dataclasses import dataclass
 import cairo
 
 from engine.cards import card_geom
-from engine.layers.media import article_geom, article_text
+from engine.layers.article import article_box
 from engine.style import CARD
 from engine.timebase import window
 from rules import load_rules
@@ -50,21 +50,21 @@ def card_box(ctx: cairo.Context, e: dict) -> Box:
         from engine.primitives import primitive_box  # noqa: PLC0415 — primitives → events → style 순환 회피
 
         return primitive_box(e)
-    else:
-        x, y, w, h, _, _ = article_geom(ctx, e)
+    else:   # v5.1.0 D-0121 §C — 기사 프레스 v2 글자 블록(화면 전체 덮개 위, 세로 가운데)
+        return article_box(ctx, e)
     return x, y, x + w, y + h
 
 
 def card_zones(ctx: cairo.Context, events: list[dict], t: float) -> list[Zone]:
     out: list[Zone] = []
     for e in events:
-        if e["type"] not in ("card", "article", "post", "primitive"):
+        if e["type"] not in ("card", "post", "primitive"):   # 기사(v5.1.0 프레스 v2)는 화면 전체 덮개 — 뱃지가 비킬 카드 자리가 아니다
             continue
-        a = presence(t, e, CARD.fade_sec)   # 기사·게시물 카드도 같은 0.45초 페이드(media.article_alpha, post.post_alpha)
+        a = presence(t, e, CARD.fade_sec)   # 게시물 카드도 같은 0.45초 페이드(post.post_alpha)
         if a <= RES.min_zone_alpha:
             continue
         ref = (f"post:{e['src']}" if e["type"] == "post" else f"card:{e['tag']}" if e["type"] == "card"
-               else f"primitive:{e['id']}" if e["type"] == "primitive" else f"article:{article_text(e)['pub']}")
+               else f"primitive:{e['id']}")
         out.append(Zone(card_box(ctx, e), a, ref))
     return out
 

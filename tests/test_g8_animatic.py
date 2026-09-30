@@ -84,7 +84,7 @@ class PlaceholderLabelTest(unittest.TestCase):
 
         kinds = load_rules().animatic.placeholder.kinds
         self.assertEqual(set(kinds), {"person", "flag", "emblem", "photo", "clip", "cutout", "article", "post", "primitive", "panel", "card",
-                                        "backdrop", "island"})   # v5.1.0 D-0123·D-0126 배경·아일랜드
+                                        "backdrop", "island", "press"})   # v5.1.0 D-0123·D-0126 배경·아일랜드, v5.1.0 D-0121 §C 프레스
         self.assertEqual(set(PLACEHOLDERS), {"badge", "photo", "clip", "cutout", "article", "post", "card", "panel", "primitive", "backdrop"})
         self.assertEqual((label("person", "김정은"), label("flag", "KR"), label("emblem", "청와대")),
                          ("[뱃지: 김정은]", "[국기: KR]", "[휘장: 청와대]"))

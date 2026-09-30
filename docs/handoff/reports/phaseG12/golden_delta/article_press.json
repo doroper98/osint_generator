@@ -1,0 +1,26 @@
+{
+ "15_review_0": {
+  "render": "p_0164.59.png",
+  "changed_px": 399588,
+  "bbox": [
+   0,
+   0,
+   853,
+   479
+  ],
+  "md5_old": "b94726234882a108274008b8380a8ca0",
+  "md5": "64f691b4da5d7782777cba99e1216138"
+ },
+ "19_debate_0": {
+  "render": "p_0214.46.png",
+  "changed_px": 399273,
+  "bbox": [
+   0,
+   0,
+   853,
+   479
+  ],
+  "md5_old": "98c5ba3f9c7cda1644ab7b6bea72f4c8",
+  "md5": "becd48a87b9026f9e805c0d49a8c869a"
+ }
+}

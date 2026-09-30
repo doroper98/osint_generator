@@ -278,13 +278,14 @@ class IslandEvent(_Event):
 
 
 class ArticleEvent(_Event):
-    """기사 클리핑 — 매체·날짜·헤드라인 번역·형광펜·부제·주석은 레지스트리(kind article)에서만."""
+    """기사 프레스 v2(v5.1.0 D-0121 §C) — 매체·날짜·원문/번역 헤드라인·부제는 레지스트리(kind article)에서만."""
 
     type: Literal["article"]
     mid: str
-    align: Optional[Literal["center"]] = None   # v4.8.0 D-0101 §2 — 배치 슬롯 center 가 채운다(무대 가운데)
+    theme: Optional[Literal["dark", "light"]] = None   # v5.1.0 D-0121 §C — 없으면 rules article_card.theme_default. 연출이 고른다(P8)
+    press: Optional[str] = None                         # 프레스 사진(미디어 레지스트리 photo·rights_clear). 없으면 블러 무대 폴백
 
-    DROP_NONE: ClassVar[tuple[str, ...]] = ("align",)   # 오른쪽 기본 기사 dict = v4.7.0 과 같음
+    DROP_NONE: ClassVar[tuple[str, ...]] = ("theme", "press")
 
 
 class PostEvent(_Event):

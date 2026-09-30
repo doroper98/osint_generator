@@ -1,6 +1,6 @@
 {
  "schema_version": 1,
- "note": "골든 PNG 는 수정하지 않는다. 여기 등재된 컷만 golden_compare 판정에서 '의도된 차이'로 뺀다(DECISIONS D34·D36). 새 기준 프레임은 docs/handoff/reports/phase4/golden_delta/(09), docs/handoff/reports/phase6/golden_delta/(15·16), docs/handoff/reports/phaseG7/golden_delta/(v4.8.0 G7 요소 크기, g7_scale_d0101), docs/handoff/reports/phaseG10/golden_delta/(v4.11.0 G10 글자 크기 2차 표, g10_scale_d0118), docs/handoff/reports/phaseG12/golden_delta/(v5.1.0 G12 엔딩 카드 버전 도장, g12_version_stamp_d0124).",
+ "note": "골든 PNG 는 수정하지 않는다. 여기 등재된 컷만 golden_compare 판정에서 '의도된 차이'로 뺀다(DECISIONS D34·D36). 새 기준 프레임은 docs/handoff/reports/phase4/golden_delta/(09), docs/handoff/reports/phase6/golden_delta/(15·16), docs/handoff/reports/phaseG7/golden_delta/(v4.8.0 G7 요소 크기, g7_scale_d0101), docs/handoff/reports/phaseG10/golden_delta/(v4.11.0 G10 글자 크기 2차 표, g10_scale_d0118), docs/handoff/reports/phaseG12/golden_delta/(v5.1.0 G12 엔딩 카드 버전 도장, g12_version_stamp_d0124), 같은 폴더 기사 프레스 v2(g12_article_d0121).",
  "deltas": {
   "09_ask_1": {
    "reason": "refusal 패널의 국가별 '거절' 전환(rows[].t_refuse = at_word('ask_1', 국가명))이 글자 비율 추정에서 edge WordBoundary 정렬로 바뀜. 이 컷(ask_1+4, t=80.70)에서 '호주' 행 전환이 79.88초(비율)→80.52초(정렬)로 늦어져 전환 도중 상태가 찍힌다. 같은 plan 으로 정렬·비율 두 번 렌더해 차이가 난 컷은 25개 중 이것 하나(MAD 0.0983/255)",
@@ -1014,6 +1014,46 @@
     }
    },
    "inside_ratio": 1.0
+  },
+  "g12_article_d0121": {
+   "reason": "G12 §C 기사 프레스 규약 v2(사용자 결정 D107, back_and_forth D-0121 §C·D-0126 Q5·Q6 A): 옛 오른쪽 기사 카드 → 화면 전체(프레스 사진 단독 1초 → 덮개 0.82 + 세리프 헤드라인·부제·출처 줄, 세로 가운데·왼쪽 정렬). hormuz 기사 두 건(Reuters 9.4·Korea Herald 9.7)은 권리 기록 있는 공식 프레스 사진이 없어 지금 무대를 블러한 판(폴백, 사진을 지어내지 않는다), 원문 헤드라인이 저장소에 없어 번역 헤드라인 + '헤드라인 번역'(Q6 A). 화면 전체 덮개라 변경 픽셀은 프레임 전체. 나머지 23컷 무변경. 전/후·차이 = docs/handoff/reports/phaseG12/golden_delta/",
+   "decision": "D-0121 §C (D107)",
+   "old_rules": {
+    "layout_480p.article_card": "v4.8.0 오른쪽 카드(w 440·y 60)"
+   },
+   "new_rules": {
+    "layout_480p.article_card": "v5.1.0 프레스 규약 v2(theme dark·overlay 0.82·headline serif 30)"
+   },
+   "cuts": [
+    "15_review_0",
+    "19_debate_0"
+   ],
+   "cut_detail": {
+    "15_review_0": {
+     "render": "p_0164.59.png",
+     "changed_px": 399588,
+     "bbox": [
+      0,
+      0,
+      853,
+      479
+     ],
+     "md5_old": "b94726234882a108274008b8380a8ca0",
+     "md5": "64f691b4da5d7782777cba99e1216138"
+    },
+    "19_debate_0": {
+     "render": "p_0214.46.png",
+     "changed_px": 399273,
+     "bbox": [
+      0,
+      0,
+      853,
+      479
+     ],
+     "md5_old": "98c5ba3f9c7cda1644ab7b6bea72f4c8",
+     "md5": "becd48a87b9026f9e805c0d49a8c869a"
+    }
+   }
   }
  }
 }

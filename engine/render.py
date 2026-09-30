@@ -82,10 +82,13 @@ def render_frame(P: Project, i: int) -> tuple[cairo.ImageSurface, bytearray]:  #
         if e["type"] in ("photo", "clip"):
             L.resolve(e).render(ctx, R, t, e)
     for e in act:
-        if e["type"] in ("card", "article", "post"):
+        if e["type"] in ("card", "post"):
             L.resolve(e).render(ctx, R, t, e)
         elif e["type"] == "primitive":            # v4.2.0 D-0081 — 무대 무관 오버레이(카드 층), 20 §4.2 draw(ctx, view, t, e, style)
             L.resolve(e).render(ctx, R, view, t, e)
+    for e in act:   # v5.1.0 D-0121 §C — 기사 프레스 v2: 화면 전체(프레스 사진·블러 무대 + 덮개) — 카드 층 위, 날짜·자막 아래
+        if e["type"] == "article":
+            L.resolve(e).render(ctx, R, t, e)
     draw_date(ctx, R, t)
     draw_fullcards(ctx, R, t)
     draw_subtitle(ctx, R, t)

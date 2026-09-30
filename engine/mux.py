@@ -176,6 +176,10 @@ def project_provenance(P, stages: dict[str, bool]) -> dict:  # noqa: ANN001, N80
         prov["islands"] = [{"name": n, "t0": round(a, 2), "t1": round(b, 2), "box": [round(v, 1) for v in bx]}
                            for n, a, b, bx in island_boxes(P.events, P.R.assets.media_assets, P.R.stage.name)]
         prov["island"] = P.R.cache.get("island")   # lane_h_effective(Q2 A)
+    if any(e["type"] == "article" for e in P.events):   # v5.1.0 D-0121 §C — 기사 프레스 v2(프레스 사진 none = 블러 무대 폴백, 헤드라인 원문|번역)
+        from engine.layers.article import article_usage  # noqa: PLC0415
+
+        prov["article"] = article_usage(P.events)
     if P.R.cache.get("backdrop"):   # v5.1.0 D-0123 §3 — 배경 사진(등장 순)·서로 다른 수. 배경 없으면 기록 없음(P5)
         prov["backdrop"] = {"photos": P.R.cache["backdrop"]["photos"], "unique": P.R.cache["backdrop"]["unique"]}
     if P.R.cache.get("timeline") is not None:   # v5.1.0 D-0121 §A — 시간축 축 스케일 변화(checks [timeline-rescale] 와 같은 값)

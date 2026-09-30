@@ -9,7 +9,7 @@ animatic = animation + -matic. 1930년대 디즈니가 스토리보드를 라이
 - 지도: `engine.stage.FlatMercatorStage` 의 배경 = `draw_flat_map`(육지·바다 단색 + 국경선, 라벨 없음). 카메라·dip 그대로.
 - 자리표시(`rules animatic.placeholder.kinds`): badge(인물·국기·휘장)·photo·clip·cutout·article·post·primitive·panel·card 는
   같은 자리·크기(G7 값)·타이밍(팝인·페이드·슬라이드)의 상자 + `[종류: 이름]`. 상자 계산은 전편 레이어의 기하 함수를 그대로 부른다
-  (badge_R·place_badge·media_box·article_geom·post_box·card_geom·primitive_box) — 자리를 따로 계산하지 않는다.
+  (badge_R·place_badge·media_box·article_layout·post_box·card_geom·primitive_box) — 자리를 따로 계산하지 않는다.
 - 그대로: 마커·경로·타격 링·선박·국가 강조·시리즈·dip·자막·날짜·타이틀·엔딩 카드.
 - 표식: 전체 페이드 뒤 화면 위 가운데 띠(`rules animatic.band`) — 암전 중에도 보인다.
 이미지·영상·타일 파일을 읽지 않는다(자산 없는 환경에서 렌더 가능, D-0108 합격 조건).
@@ -243,20 +243,20 @@ def draw_cutout(ctx: cairo.Context, R: RenderCtx, view: View, t: float, e: dict)
 
 
 def draw_article(ctx: cairo.Context, R: RenderCtx, t: float, e: dict) -> None:  # noqa: N803
-    """media.draw_article 와 같은 상자(article_geom, G7 조판)·슬라이드·가운데 자리의 아래 어둡게."""
-    from engine.layers.media import article_alpha, article_geom, article_text  # noqa: PLC0415
-    from engine.style import ARTICLE  # noqa: PLC0415
+    """기사 프레스 v2(D-0121 §C 콘티 판): 프레스 사진 = 회색 판 + `[프레스: id]`(없으면 블러 무대 폴백 그대로), 덮개·헤드라인 글자는 전편과 같다."""
+    from engine.layers.article import article_phase, draw_article_text, draw_press  # noqa: PLC0415
 
-    a = article_alpha(t, e)
-    if a <= 0.01:
+    pa, ta = article_phase(t, e)
+    if pa <= 0.01:
         return
-    d = article_text(e)
-    x0, y, w, h, hl, _ = article_geom(ctx, e)
-    if e.get("align") == "center":
-        ctx.set_source_rgba(0, 0, 0, ARTICLE.center_dim * a)
+    if e.get("press"):
+        ctx.set_source_rgba(*PH.fill[:3], PH.fill[3] * pa)
         ctx.paint()
-    x = x0 + (1 - ease_out((t - e["t0"]) / ARTICLE.slide_sec)) * CARD.slide_px
-    box(ctx, x, y, w, h, [label("article", f"{d['pub']} {d['date']}"), hl[0] if hl else ""], a)
+        _lines(ctx, [label("press", e["press"])], W_OUT / 2, PH.line_gap * 2, pa)
+    else:
+        draw_press(ctx, R, e, pa)
+    if ta > 0.01:
+        draw_article_text(ctx, e, ta)
 
 
 def draw_post(ctx: cairo.Context, R: RenderCtx, t: float, e: dict) -> None:  # noqa: N803

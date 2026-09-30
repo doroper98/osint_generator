@@ -74,7 +74,7 @@ def _rules_placeholders(rules: VideoRules) -> dict[str, str]:
         "{{RULES.script_labels}}": ", ".join(v for v in rules.script_schema.labels.values() if v),   # v4.4.0 D-0093
         "{{RULES.pacing.static_window}}": _ladder(rules),   # v4.11.0 D-0118 §1 — 변화 사다리(검사 [static-window] 와 같은 값)
         "{{RULES.stage_timeline.axis_scale}}": _axis_scale(rules),   # v5.1.0 D-0121 §A — 검사 [timeline-rescale] 와 같은 값
-        "{{RULES.backdrop_island}}": _backdrop_island(rules),   # v5.1.0 D-0123·D-0126 — backdrop 무대·아일랜드
+        "{{RULES.backdrop_island}}": _backdrop_island(rules),   # v5.1.0 D-0123·D-0126·D-0121 §C — backdrop 무대·아일랜드·기사 프레스 v2
         "{{RULES.attribution_markers}}": ", ".join(f'"{m}"' for m in rules.script_schema.attribution_markers),   # v4.10.0 D-0116 — 린트·검증 판정과 같은 목록
     }
 
@@ -93,10 +93,11 @@ def _axis_scale(rules: VideoRules) -> str:
 
 
 def _backdrop_island(rules: VideoRules) -> str:
-    """backdrop 무대·아일랜드 연출 문법(v5.1.0) — rules stage_backdrop.grammar 의 {자리}를 같은 규칙 값으로(.replace, C2)."""
-    bd, isl = rules.stage_backdrop, rules.island
+    """backdrop 무대·아일랜드·기사 프레스 v2 연출 문법(v5.1.0) — rules stage_backdrop.grammar 의 {자리}를 같은 규칙 값으로(.replace, C2)."""
+    bd, isl, ar = rules.stage_backdrop, rules.island, rules.layout_480p.article_card
     vals = {"{min_photos}": str(bd.min_photos), "{max_photos}": str(bd.max_photos), "{crossfade}": f"{bd.crossfade_sec:g}",
-            "{boxes}": ", ".join(isl.boxes), "{max_concurrent}": str(isl.max_concurrent)}
+            "{boxes}": ", ".join(isl.boxes), "{max_concurrent}": str(isl.max_concurrent), "{theme_default}": ar.theme_default,
+            "{press_lead}": f"{ar.press_lead_sec:g}"}
     out = []
     for line in bd.grammar:
         for k, v in vals.items():
@@ -114,8 +115,6 @@ def _slot_form(s) -> str:  # noqa: ANN001 — schemas.rules_models.PlacementSlot
         return "패널 위 미디어 — 엔진이 그 순간 패널 글자·자막·날짜를 피하는 빈 귀퉁이를 고른다(자리가 없으면 오류)"
     if s.screen:
         return "패널 위 화면 고정 자리 — 패널이 떠 있는 동안 시작하는 지도 슬롯(map_*) 뱃지는 엔진이 이 자리로 옮긴다"
-    if s.align is not None:
-        return "무대 가운데(아래 무대를 어둡게) — 기사 카드를 크게 보여 줄 때"
     return "카드 위치"
 
 

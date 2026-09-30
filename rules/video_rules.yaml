@@ -274,8 +274,6 @@ placement:                 # v3.1.0 D-0047 작업 5 — 배치 슬롯(17 §2 `pl
     # v4.8.0 D-0104 D2(c) — 패널 위 인물 뱃지(화면 고정, 패널 층 위에 그린다). 동시에 떠 있는 n 번째 뱃지 = n 번째 점. 모자라면 오류.
     # y 300: solo R 56 상자(머리 2.2R 위 ~ 이름·역할 46px 아래) = y 177~402 — 자막 구역(y≥410) 밖. 왼쪽 먼저(카드 자리 x≥594 를 피함)
     panel_badge:     {kinds: [badge], screen: [[96, 300], [758, 300]]}
-    # v4.8.0 D-0101 §2 — 기사 카드 무대 가운데(article_card.center_dim 으로 아래를 어둡게). 기본(place 없음)은 오른쪽 카드 자리
-    center:          {kinds: [article], align: center}
     # v3.2.0 D-0050 NB9 — 패널(타임라인 등) 위 미디어: 그 순간 패널이 차지한 상자(engine.placement.OCCUPIED)·자막·날짜를 피하는 첫 후보.
     # 후보 [x, y] = 제목·부제(y≤96) 아래 네 귀퉁이. 모두 막히면 오류(조용히 겹치지 않는다, P6)
     clip_panel_side:
@@ -325,48 +323,26 @@ layout_480p:               # 09 §2·§4, 08 §10 — 기준 해상도 854×480.
                   cutout_caption_size: 12, cutout_credit_size: 9}
   marker: {label_size: 13, sub_size: 12, sub_dy: 16}
   route_label: {route_size: 12.5, barrier_size: 12.5}
-  # v4.8.0 back_and_forth D-0101 §2(사용자 결정 D89) — 기사 카드 조판 확대. draw_article·article_geom 수치는 전부 여기(15 P3).
-  # 헤드라인·부제 줄 수가 max_lines 를 넘으면 ArticleOverflowError(렌더 전 preflight, 조용한 잘림 금지 P6).
-  # 연출 place: center(슬롯 center) = 무대 가운데(가로 가운데, 세로 = 자막 구역 위 공간의 가운데), 그 동안 아래 지도·시간축을 center_dim 으로 어둡게
+  # v5.1.0 back_and_forth D-0121 §C(사용자 결정 D107) — 기사 프레스 규약 v2. 옛 오른쪽·가운데 기사 카드(v4.8.0 D-0101 §2) 경로는 삭제(P2).
+  # 순서: 프레스 사진 단독 press_lead_sec(없으면 지금 무대를 stage_backdrop.blur_px·dim 으로 블러 — 사진을 지어내지 않는다, G4-10·P6)
+  #   → 덮개(theme overlay × overlay_alpha)·글자 overlay_fade_sec 페이드 인 → 끝에서 같은 시간 페이드 아웃.
+  # 글자 블록 = 세로 가운데(자막 구역 위 공간)·왼쪽 정렬(x = 화면 폭 × x_left_ratio), 폭 ≤ 화면 폭 × max_w_ratio.
+  # 왼쪽 세로 선(헤드라인 높이) · 세리프 헤드라인(원문 언어 그대로, 인용 부호 — 원문이 없으면 한국어 번역 헤드라인·부호 없음·source 줄에 translated_note)
+  # · 산세리프 부제(한국어 번역·요지) · source 줄. 줄 수 초과·인용 상한(verification.quote_max_chars) 초과 = ArticleOverflowError(렌더 전, P6)
   article_card:
-    w: 440
-    y: 60
-    pad: 20                   # 좌우 안쪽 여백(옛 16)
-    pub_size: 15              # 매체(옛 12.5)
-    date_size: 10             # 날짜(옛 8.5)
-    headline_size: 18         # 헤드라인(옛 13.5 — 자막 19 보다 작았다)
-    headline_gap: 26          # 헤드라인 줄 간격(옛 20)
-    headline_max_lines: 3
-    sub_size: 12              # 부제(옛 9.5)
-    sub_gap: 17               # 부제 줄 간격(옛 14)
-    sub_max_lines: 3
-    sub_lead: 6               # 헤드라인 끝 → 부제 첫 기준선 추가 간격(옛 4)
-    meta_size: 9              # ARTICLE·메모(옛 7.5·7.8)
-    head_base: 30             # 위 → 매체·날짜 기준선(옛 25)
-    rule_y: 40                # 위 → 구분선(옛 33)
-    rule_w: 0.8
-    rule_alpha: 0.35
-    body_top: 68              # 위 → 첫 헤드라인 기준선(옛 54)
-    foot_h: 32                # 마지막 글자 줄 기준선 → 바닥(ARTICLE·메모 줄 포함, 옛 30)
-    foot_inset: 13            # 바닥 → ARTICLE·메모 기준선(옛 11)
-    radius: 3
-    shadow: [[6, 0.12], [3, 0.2]]    # [번짐 px, 알파]
-    shadow_dx: 2
-    shadow_dy: 4
-    paper: [0.95, 0.935, 0.905]
-    ink: [0.1, 0.105, 0.12]
-    grey: [0.38, 0.39, 0.42]
-    hl_rgba: [1.0, 0.8, 0.3, 0.55]    # 형광펜
-    hl_rise: 0.9              # 형광펜 상자 위 = 기준선 − 글자 크기 × hl_rise(옛 12/13.5)
-    hl_h: 1.2                 # 형광펜 높이 = 글자 크기 × hl_h(옛 16/13.5)
-    hl_pad: 2
-    hl_delay_sec: 0.8
-    hl_sec: 0.7
-    slide_sec: 0.55
-    fade_sec: 0.45
-    tag: ARTICLE
-    tag_spacing: 0.8
-    center_dim: 0.93          # place: center 동안 아래 무대 어둡기 = dip 최대 어둡기(engine/layers/dip.py)
+    theme_default: dark       # 연출이 이벤트 theme 로 고른다(P8)
+    themes:
+      dark: {overlay: [0.0, 0.0, 0.0], ink: [0.97, 0.965, 0.95], muted: [0.62, 0.64, 0.68], rule: [0.91, 0.72, 0.38]}
+      light: {overlay: [1.0, 1.0, 1.0], ink: [0.07, 0.075, 0.09], muted: [0.36, 0.37, 0.41], rule: [0.07, 0.075, 0.09]}
+    press_lead_sec: 1.0       # 프레스 사진(또는 블러 무대) 단독
+    overlay_alpha: 0.82
+    overlay_fade_sec: 0.5
+    x_left_ratio: 0.11
+    max_w_ratio: 0.78
+    rule: {w: 4, gap: 18}     # 왼쪽 세로 선 두께·글자까지 간격
+    headline: {size: 30, gap: 38, max_lines: 3, quotes: true}
+    sub: {size: 15, gap: 20, max_lines: 2, lead: 14}      # lead = 헤드라인 마지막 기준선 → 부제 첫 줄 위 여백
+    source: {size: 13, lead: 12, format: "— {publisher}, {date}", translated_note: "헤드라인 번역"}
   # v3.2.0 18 §5 — X 게시물 카드(post). 캡처 이미지·X 로고 없이 자체 조판. 수치는 18 §5 명세 그대로
   post_card:
     w: 300
@@ -905,6 +881,7 @@ stage_backdrop:            # v5.1.0 back_and_forth D-0121 §B·D-0123 §1(사용
     - "배경 사진: 장면마다 `{\"type\": \"backdrop\", \"start\": {\"scene_start\": 장면}, \"end\": {\"scene_end\": 장면}, \"img\": 사진 id}`. img 는 사용자 메시지 미디어 목록의 사진(photo) id 만. 연속 같은 사진 금지, 영상 전체 서로 다른 사진 {min_photos}~{max_photos}장. 블러·어둡게·crossfade {crossfade}초는 코드가 한다(검사 [backdrop-repeat]·[backdrop-rights] hard)."
     - "차트 아일랜드: `{\"type\": \"island\", \"kind\": \"chart\", \"box\": {boxes} 중 하나, start, end}` — 시간축 차트가 이 상자 안에 뜬다. 차트 카메라는 `\"stage\": \"timeline\"` 숏(camera {date, lane?, w}) — 시간축 축 스케일 규칙을 그대로 따른다. series·date 마커는 차트 아일랜드가 떠 있는 동안에만 쓴다. 같은 순간 차트 아일랜드는 하나. 오른쪽 카드와 함께면 box left."
     - "아일랜드(차트·사진·영상·프리미티브·패널)는 같은 순간 {max_concurrent}개 이하, 서로 겹치지 않는다(검사 [island-overlap] hard). 뱃지는 화면 슬롯(map_*)에 둔다(시간축 앵커 금지)."
+    - "기사: `{\"type\": \"article\", \"mid\": 기사 id, \"theme\": dark|light(기본 {theme_default}), \"press\": 공식 사진 id(선택)}` — 화면 전체. 프레스 사진 {press_lead}초 → 덮개 + 세리프 헤드라인(원문 언어)·부제(번역)·출처 줄. press 는 미디어 목록의 권리 기록 사진만, 없으면 쓰지 않는다(코드가 지금 화면을 흐려 깐다)."
 
 island:                    # v5.1.0 back_and_forth D-0123 §1·D-0126(Q1~Q4 A) — backdrop 무대 위 내용물 상자(아일랜드) 공통 규칙. engine/island.py. 설계 px(480p)
   # 연출은 픽셀을 다루지 않는다 — 차트 아일랜드는 box(boxes 이름)만 고른다. 등장 = 슬라이드 layout_480p.card.slide_px + 페이드 card.fade_sec(카드 규칙 재사용)
@@ -1131,7 +1108,7 @@ animatic:                  # v4.9.0 back_and_forth D-0108(사용자 결정 D97) 
     cutout_h_ratio: 0.4    # 컷아웃 높이 ÷ 폭 — 레지스트리에 비율이 없다(tool.params width 만). 파일을 열지 않으려고 쓰는 근사(p8 실측 134/360 = 0.37)
     panel_box: [64, 44, 790, 400]   # 패널 자리표시 = 패널 본문 영역(제목 기준선 74 위 ~ 자막 구역 410 위). 덮개(panel.cover_alpha)는 그대로
     kinds: {person: 뱃지, flag: 국기, emblem: 휘장, photo: 사진, clip: 영상, cutout: 컷아웃, article: 기사, post: 게시물,
-            primitive: 요소, panel: 패널, card: 카드, backdrop: 배경, island: 아일랜드}   # backdrop = v5.1.0 D-0123 §3 — 회색 판 + [배경: id]
+            primitive: 요소, panel: 패널, card: 카드, backdrop: 배경, island: 아일랜드, press: 프레스}   # backdrop = v5.1.0 D-0123 §3 — 회색 판 + [배경: id]
   band:                    # 화면 위 가운데 얇은 띠 — 배포 사고 방지 표식(모서리는 날짜만 규칙 유지)
     text: "콘티 판 · 검토용 · 배포 금지"
     font: sansb

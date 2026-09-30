@@ -16,7 +16,7 @@ from pathlib import Path
 REPO = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(REPO))
 
-from engine.layers.media import article_text  # noqa: E402
+from engine.layers.article import article_text  # noqa: E402
 from engine.media_registry import credit_line  # noqa: E402
 from engine.project import load_project  # noqa: E402
 

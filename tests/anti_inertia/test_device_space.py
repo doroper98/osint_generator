@@ -23,6 +23,7 @@ ALLOWED: dict[str, str] = {
     "engine/layers/media.py": "사진·영상·컷아웃 래스터",
     "engine/checks.py": "media_upscaled 경고(원본 폭 < 장치 폭)",
     "engine/layers/backdrop.py": "배경 사진 래스터 장치 해상도(블러 반경 × k, v5.1.0 D-0123)",
+    "engine/layers/article.py": "프레스 사진·블러 무대 폴백 장치 해상도(v5.1.0 D-0121 §C)",
     "engine/mux.py": "provenance render.resolution",
 }
 NAMES = frozenset({"Output", "output_profile"})

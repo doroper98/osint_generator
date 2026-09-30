@@ -1,6 +1,6 @@
 {
  "schema_version": 1,
- "role": "Phase G12 기준선 — phaseG10 기준선 대비 D-0124 엔딩 카드 버전 도장(25_END 오른쪽 아래 구석)만 바뀐 컷. 도장 문자열은 VERSION 을 따르므로 25_END 는 도장 상자(+2px)를 0 으로 가린 픽셀 md5(md5_masked)로 대조한다 — 버전 증분마다 기준선을 다시 등재하지 않게. 등재 = docs/handoff/golden/expected_deltas.json g12_version_stamp_d0124",
+ "role": "Phase G12 기준선 — phaseG10 기준선 대비 D-0124 엔딩 카드 버전 도장(25_END 오른쪽 아래 구석)만 바뀐 컷. 도장 문자열은 VERSION 을 따르므로 25_END 는 도장 상자(+2px)를 0 으로 가린 픽셀 md5(md5_masked)로 대조한다 — 버전 증분마다 기준선을 다시 등재하지 않게. 등재 = docs/handoff/golden/expected_deltas.json g12_version_stamp_d0124 v5.1.0 §C(D-0121 기사 프레스 v2): 기사 두 컷(15_review_0·19_debate_0) — g12_article_d0121.",
  "command": "python -m engine.render projects/hormuz_korea --preview golden",
  "stamp_box": [
   812.0,
@@ -9,8 +9,10 @@
   471.95
  ],
  "mask_pad_px": 2,
- "same_as_g10": 24,
+ "same_as_g10": 22,
  "changed_vs_g10": [
+  "p_0164.59.png",
+  "p_0214.46.png",
   "p_0288.44.png"
  ],
  "cuts": [
@@ -72,7 +74,7 @@
   },
   {
    "png": "p_0164.59.png",
-   "md5": "b94726234882a108274008b8380a8ca0"
+   "md5": "64f691b4da5d7782777cba99e1216138"
   },
   {
    "png": "p_0170.52.png",
@@ -88,7 +90,7 @@
   },
   {
    "png": "p_0214.46.png",
-   "md5": "98c5ba3f9c7cda1644ab7b6bea72f4c8"
+   "md5": "becd48a87b9026f9e805c0d49a8c869a"
   },
   {
    "png": "p_0220.96.png",

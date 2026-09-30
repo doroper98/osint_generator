@@ -23,7 +23,8 @@ from engine.layers.badges import draw_badge, draw_over_panel
 from engine.layers.dip import draw_dip
 from engine.layers.effects import draw_boom, draw_ships
 from engine.layers.markers import draw_marker
-from engine.layers.media import draw_article, draw_clip, draw_cutout, draw_photo
+from engine.layers.article import draw_article
+from engine.layers.media import draw_clip, draw_cutout, draw_photo
 from engine.layers.post import draw_post
 from engine.layers.routes import draw_barrier, draw_route, draw_tanker_loop
 from engine.layers.series import draw_series

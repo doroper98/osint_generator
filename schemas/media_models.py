@@ -84,6 +84,7 @@ class MediaAsset(_Strict):
     hl: Optional[str] = None
     sub: Optional[str] = None
     note: Optional[str] = None
+    headline_original: Optional[str] = None   # v5.1.0 D-0121 §C·D-0126 Q6 A — 원문 헤드라인 verbatim(원문 언어). 없으면 번역 헤드라인 + "헤드라인 번역"
 
     @model_validator(mode="after")
     def _by_kind(self) -> "MediaAsset":
@@ -102,6 +103,8 @@ class MediaAsset(_Strict):
                     errs.append(f"기사 필드 없음: {f}")
             if self.hl and self.headline and self.hl not in self.headline:
                 errs.append(f"기사 hl 이 헤드라인에 없다: {self.hl!r}")
+        elif self.headline_original is not None:
+            errs.append("headline_original 은 기사(kind article)만")
         else:
             if not self.file:
                 errs.append("가공 파일(file) 없음")

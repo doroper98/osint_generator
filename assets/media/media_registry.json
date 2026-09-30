@@ -467,7 +467,8 @@
    "headline": "연준, 박빙 회의 끝에 금리 동결… 위원 3명은 반대",
    "hl": "위원 3명은 반대",
    "sub": "세 명은 0.25%p 인상을 원했다",
-   "note": "헤드라인 번역 · 원문 영어"
+   "note": "헤드라인 번역 · 원문 영어",
+   "headline_original": "Fed holds interest rates steady after cliffhanger meeting, but three officials dissent"
   },
   "fox_0916": {
    "kind": "article",
@@ -500,7 +501,8 @@
    "headline": "연준, 끈질긴 물가 속 2023년 이후 첫 금리 인상",
    "hl": "2023년 이후 첫 금리 인상",
    "sub": "목표 범위 3.75~4%",
-   "note": "헤드라인 번역 · 원문 영어"
+   "note": "헤드라인 번역 · 원문 영어",
+   "headline_original": "Federal Reserve hikes interest rates for first time since 2023 amid stubborn inflation"
   },
   "vz_0921": {
    "kind": "article",
