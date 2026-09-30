@@ -7,6 +7,8 @@
   min(lane_h, 영역 ÷ 레인 수)(Q2 A, `TimelineStage.fit_island`). 시간축 앵커 이벤트(series·date 핀)는 상자 안에서만 그린다.
 - 겹침(checks island_overlap hard, Q3 A): 같은 순간 보이는 아일랜드 제자리 상자끼리 교차 > 0, 자막 구역 교차, 동시 수 > max_concurrent.
 - backdrop 무대 위 패널은 덮개 대신 panel_box 아일랜드 상자(Q4 A). 수치는 전부 `rules island`(코드 리터럴 0).
+- v5.2.0 D-0129 §B 주 아일랜드 상시(checks backdrop_main_missing hard): main_kinds 가 하나도 안 보이는 구간 > card_only_max_sec
+  (타이틀·엔딩 카드·기사 구간 제외). §C 카드 ↔ 아일랜드 교차(checks card_island warning): 카드·게시물 카드 제자리 상자 ∩ 아일랜드 상자 > 0.
 """
 
 from __future__ import annotations
@@ -147,4 +149,70 @@ def island_overlap(boxes: list[tuple[str, float, float, Box]]) -> list[str]:
     return out
 
 
-__all__ = ["chart_view", "draw_frame", "draw_island", "island_alpha", "island_box", "island_boxes", "island_overlap", "island_slide"]
+# ------------------------------------------------------------------ 주 아일랜드 상시(v5.2.0 D-0129 §B)
+def is_main(e: dict) -> bool:
+    """주 아일랜드 이벤트인가 — island 이벤트는 kind(chart), 그 밖은 이벤트 type 이 rules island.main_kinds 안."""
+    kinds = set(ISLAND.main_kinds)
+    return (e.get("kind") in kinds) if e["type"] == "island" else e["type"] in kinds
+
+
+def _merge(spans: list[tuple[float, float]]) -> list[tuple[float, float]]:
+    out: list[tuple[float, float]] = []
+    for a, b in sorted(spans):
+        if out and a <= out[-1][1]:
+            out[-1] = (out[-1][0], max(out[-1][1], b))
+        else:
+            out.append((a, b))
+    return out
+
+
+def main_missing(events: list[dict], total: float, excluded: list[tuple[float, float]], stage_name: str) -> list[dict]:
+    """backdrop 무대에서 주 아일랜드가 하나도 보이지 않는 구간 중 card_only_max_sec 초과 → [{t0, t1, sec}].
+    excluded = 전면 카드(타이틀·엔딩) 구간. 기사 구간도 뺀다(화면 전체 조판). backdrop 무대가 아니거나 main_required 가 꺼지면 []."""
+    if stage_name != "backdrop" or not ISLAND.main_required:
+        return []
+    cover = [(e["t0"], e["t1"]) for e in events if is_main(e) or e["type"] == "article"] + list(excluded)
+    gaps: list[dict] = []
+    t = 0.0
+    for a, b in _merge([(max(0.0, a), min(total, b)) for a, b in cover if b > 0 and a < total]):
+        if a - t > ISLAND.card_only_max_sec:
+            gaps.append({"t0": round(t, 2), "t1": round(a, 2), "sec": round(a - t, 2)})
+        t = max(t, b)
+    if total - t > ISLAND.card_only_max_sec:
+        gaps.append({"t0": round(t, 2), "t1": round(total, 2), "sec": round(total - t, 2)})
+    return gaps
+
+
+def main_missing_details(gaps: list[dict]) -> list[str]:
+    return [f"[backdrop-main-missing] {g['t0']:.2f}-{g['t1']:.2f} {g['sec']:g}s — 주 아일랜드({'·'.join(ISLAND.main_kinds)}) 없음"
+            f" > {ISLAND.card_only_max_sec:g}s(카드만 있는 구간 금지)" for g in gaps]
+
+
+# ------------------------------------------------------------------ 카드 ↔ 아일랜드 교차(v5.2.0 D-0129 §C)
+def card_overlap(events: list[dict], boxes: list[tuple[str, float, float, Box]]) -> list[dict]:
+    """카드·게시물 카드 제자리 상자(engine.reserved.card_box)와 같은 순간 보이는 아일랜드 상자의 교차 > 0 → [{card, island, t0, t1, px2}]."""
+    if not boxes:
+        return []
+    from engine.reserved import card_box  # noqa: PLC0415 — reserved → layers.article → style 순환 회피
+
+    ctx = cairo.Context(cairo.ImageSurface(cairo.FORMAT_ARGB32, 1, 1))
+    out: list[dict] = []
+    for e in events:
+        if e["type"] not in ("card", "post") or (e["type"] == "post" and "post_box" not in e):
+            continue
+        x0, y0, x1, y1 = card_box(ctx, e)
+        cb = (x0, y0, x1 - x0, y1 - y0)
+        ref = f"post:{e['src']}" if e["type"] == "post" else f"card:{e.get('tag') or ''}"
+        for name, a0, a1, ib in boxes:
+            lo, hi = max(e["t0"], a0), min(e["t1"], a1)
+            if lo < hi and _inter(cb, ib) > 0:
+                out.append({"card": ref, "island": name, "t0": round(lo, 2), "t1": round(hi, 2), "px2": round(_inter(cb, ib))})
+    return out
+
+
+def card_overlap_details(rows: list[dict]) -> list[str]:
+    return [f"[card-island] {r['card']} ↔ {r['island']} t={r['t0']:.2f}~{r['t1']:.2f} 교차 {r['px2']}px²" for r in rows]
+
+
+__all__ = ["card_overlap", "card_overlap_details", "chart_view", "draw_frame", "draw_island", "island_alpha", "island_box", "island_boxes", "island_overlap", "island_slide", "is_main", "main_missing",
+           "main_missing_details"]

@@ -31,6 +31,8 @@ hard 실패가 하나라도 있으면 시각 검수 LLM 을 부르지 않고 연
 | backdrop_rights | hard | v5.1.0(D-0123 §3): backdrop 배경 사진이 미디어 레지스트리 kind photo·rights_clear·파일 있음이 아님 `[backdrop-rights]`(렌더 전 preflight 도 같은 게이트) `engine.layers.backdrop` |
 | backdrop_repeat | hard | v5.1.0(D-0123 §3): 연속 두 배경이 같은 사진 `[backdrop-repeat]`, 서로 다른 사진 수가 stage_backdrop.min_photos~max_photos 밖 `[backdrop-photos]`(provenance backdrop.photos[]) |
 | island_overlap | hard | v5.1.0(D-0126 Q3 A): backdrop 무대 아일랜드(차트 island·사진·영상·프리미티브·패널 상자) 제자리 상자끼리 같은 순간 교차 > 0, 자막 구역 교차, 동시 수 > island.max_concurrent `[island-overlap]` `engine.island` |
+| backdrop_main_missing | hard | v5.2.0(D-0129 §B): backdrop 무대에서 주 아일랜드(island.main_kinds)가 하나도 보이지 않는 구간 > island.card_only_max_sec `[backdrop-main-missing] t0-t1 {n}s`(타이틀·엔딩 카드·기사 구간 제외, provenance backdrop.main_missing[]) `engine.island` |
+| card_island | warning | v5.2.0(D-0129 §C): 카드·게시물 카드 제자리 상자와 같은 순간 보이는 아일랜드 상자 교차 > 0 `[card-island]`(provenance island.card_overlap[]) `engine.island` |
 | stage_choice | warning | v5.1.0(D-0123 §2): 주 무대 ≠ 장르 기본 무대(default_stage = 장르 프로필 stage.primary)인데 direction stage_reason 없음 `[stage-choice]` |
 | as_of_visible | hard | 기준 시점·출처 줄 — 시리즈는 프리뷰 컷에 그린 출처 줄, 패널은 08 §9 출처 체계. 적용 범위 = qa_checks.chart_targets(축 종류) |
 """
@@ -57,9 +59,10 @@ SAMPLE_SEC = 1.0          # 뱃지·라벨 샘플 간격
 SHADOW_PX = 7             # badge_box 가 원 둘레에 더하는 그림자 여백 — 이만큼 잘리는 것은 허용
 HARD = ("overlap", "offscreen", "glyphs", "glyph_size", "labels", "date", "subtitles", "rights", "forbidden", "stage_continuity",
         "genre_elements", "chart_honesty", "series_limit_3", "units_visible", "as_of_visible", "boundary_as_route",
-        "geo_mismatch", "timeline_rescale", "backdrop_rights", "backdrop_repeat", "island_overlap")   # island_overlap v5.1.0 D-0126 Q3, geo_mismatch v4.10.0 D-0116, timeline_rescale v5.1.0 D-0121 §A, backdrop_* v5.1.0 D-0123
+        "geo_mismatch", "timeline_rescale", "backdrop_rights", "backdrop_repeat", "island_overlap",
+        "backdrop_main_missing")   # backdrop_main_missing v5.2.0 D-0129 §B, island_overlap v5.1.0 D-0126 Q3, geo_mismatch v4.10.0 D-0116, timeline_rescale v5.1.0 D-0121 §A, backdrop_* v5.1.0 D-0123
 WARN = ("shots", "media_beats", "media_upscaled", "endcard_roll", "geo_unsourced",   # endcard_roll v4.7.0 D-0106, geo_unsourced D-0107
-        "static_window", "stage_choice")   # static_window v4.11.0 D-0118, stage_choice v5.1.0 D-0123
+        "static_window", "stage_choice", "card_island")   # static_window v4.11.0 D-0118, stage_choice v5.1.0 D-0123, card_island v5.2.0 D-0129 §C
 
 
 def missing_fonts() -> list[str]:
@@ -168,6 +171,20 @@ def check_island_overlap(P) -> list[str]:  # noqa: ANN001, N803
     from engine.island import island_boxes, island_overlap  # noqa: PLC0415
 
     return island_overlap(island_boxes(P.events, P.R.assets.media_assets, P.R.stage.name))
+
+
+def check_main_missing(P) -> list[str]:  # noqa: ANN001, N803
+    """주 아일랜드 상시(v5.2.0 D-0129 §B) — 구간은 load_project 가 engine.island.main_missing 으로 한 번 계산(provenance 와 같은 값)."""
+    from engine.island import main_missing_details  # noqa: PLC0415
+
+    return main_missing_details(((P.R.cache.get("island_check") or {}).get("main_missing")) or [])
+
+
+def check_card_island(P) -> list[str]:  # noqa: ANN001, N803
+    """카드 ↔ 아일랜드 교차(v5.2.0 D-0129 §C) — warning. 항목은 load_project 가 engine.island.card_overlap 으로 모은 것."""
+    from engine.island import card_overlap_details  # noqa: PLC0415
+
+    return card_overlap_details(((P.R.cache.get("island_check") or {}).get("card_overlap")) or [])
 
 
 def check_endcard_overflow(P) -> list[str]:  # noqa: ANN001, N803
@@ -416,6 +433,8 @@ def run_checks(P, times: list[float], provenance: dict, drawn: list[tuple[str, f
         "backdrop_repeat": lambda: list((P.R.cache.get("backdrop") or {}).get("repeat") or []),
         "stage_choice": lambda: list(P.R.cache.get("stage_choice") or []),
         "island_overlap": lambda: check_island_overlap(P),
+        "backdrop_main_missing": lambda: check_main_missing(P),
+        "card_island": lambda: check_card_island(P),
     }
     res = {k: f() for k, f in run.items() if k not in skip}
     notes: dict[str, list[str]] = {}

@@ -229,7 +229,7 @@ hormuz 사진 2건 실측 프레임 간 차이 최대 14.6 → 0.41, 8.0 → 0.2
 
 - **배경 사진**(`backdrop` 이벤트 `img`)과 **프레스 사진**(`article` 이벤트 `press`)은 미디어 레지스트리의 kind photo·rights_clear·가공 파일 있는 실사진만(C9·G4-10).
   AI 생성·출처 불명·기사 자체 사진 금지. 권리 게이트 = `engine.layers.backdrop.validate_backdrop`·`engine.layers.article.validate_press`(렌더 전) + checks `backdrop_rights` hard.
-- 배경은 장식이라 캡션 바·자료사진 표기가 화면에 없다 — 크레딧은 credits.yaml(media 참조, `required_refs` 가 요구). 블러 18·dim 0.55·채도 0.7·crossfade 1.2초·켄 번스 4 %(`rules:stage_backdrop`).
+- 배경은 장식이라 캡션 바·자료사진 표기가 화면에 없다 — 크레딧은 credits.yaml(media 참조, `required_refs` 가 요구). 블러·덮개·채도 낮춤·crossfade 1.2초·켄 번스 4 %(`rules:stage_backdrop`). v5.2.0(D-0129 §A, 사용자 판정 D113 "사진을 알아볼 수 없다"): 블러 18→6·dim 0.55→0.38·채도 낮춤 0.3→0.15 — 자막·카드·아일랜드 가독은 halo·상자 알파가 맡는다. 값은 스윕 시트(`tools/backdrop_sweep.py`, 4·0.30 / 6·0.38 / 10·0.45)에서 사용자가 확정한다. 기사 프레스 폴백 블러는 `article_card.press_fallback`(18·0.55, 분리).
 - 연속 같은 사진 금지, 영상 전체 서로 다른 사진 `min_photos`~`max_photos`(checks `backdrop_repeat` hard).
 - fed_policy 배경 후보(D-0126 Q5 A): 연준 이사회 Flickr — 기자회견 3장(PDM, 기존) + 에클스 빌딩 외관(US Gov Work, 8)·이사회실(PDM, 10)·아트리움(8). 라이선스 번호는 코드가 사진 페이지에서 확인(`tools/media_fetch.py fetch_flickr`).
 - 프레스 사진이 없으면 블러 무대 폴백(hormuz 기사 2건 — 권리 기록 있는 공식 사진 없음).

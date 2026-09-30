@@ -97,7 +97,8 @@ def _backdrop_island(rules: VideoRules) -> str:
     bd, isl, ar = rules.stage_backdrop, rules.island, rules.layout_480p.article_card
     vals = {"{min_photos}": str(bd.min_photos), "{max_photos}": str(bd.max_photos), "{crossfade}": f"{bd.crossfade_sec:g}",
             "{boxes}": ", ".join(isl.boxes), "{max_concurrent}": str(isl.max_concurrent), "{theme_default}": ar.theme_default,
-            "{press_lead}": f"{ar.press_lead_sec:g}"}
+            "{press_lead}": f"{ar.press_lead_sec:g}",
+            "{main_kinds}": "·".join(isl.main_kinds), "{card_only_max}": f"{isl.card_only_max_sec:g}"}   # v5.2.0 D-0129 §B
     out = []
     for line in bd.grammar:
         for k, v in vals.items():

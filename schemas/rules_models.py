@@ -371,12 +371,20 @@ class ArticleSource(_Strict):
     translated_note: str = Field(min_length=1)
 
 
+class ArticlePressFallback(_Strict):
+    """v5.2.0 D-0129 §A — 프레스 사진이 없을 때 지금 무대를 흐리는 값(배경 사진 stage_backdrop 값과 분리 — hormuz 기사 골든 불변)."""
+
+    blur_px: float = Field(gt=0)
+    dim: float = Field(ge=0, le=1)
+
+
 class ArticleCardLayout(_Strict):
     """v5.1.0 back_and_forth D-0121 §C — 기사 프레스 규약 v2(engine/layers/article.py 수치 전부). 옛 카드 조판 키는 삭제(P2)."""
 
     theme_default: Literal["dark", "light"]
     themes: dict[Literal["dark", "light"], ArticleTheme]
     press_lead_sec: float = Field(ge=0)
+    press_fallback: ArticlePressFallback   # v5.2.0 D-0129 §A
     overlay_alpha: float = Field(gt=0, le=1)
     overlay_fade_sec: float = Field(gt=0)
     x_left_ratio: float = Field(gt=0, lt=1)
@@ -1400,6 +1408,9 @@ class IslandRules(_Strict):
     boxes: dict[str, tuple[float, float, float, float]] = Field(min_length=1)
     panel_box: tuple[float, float, float, float]
     chart: IslandChart
+    main_required: bool                  # v5.2.0 D-0129 §B — backdrop 무대에 주 아일랜드 상시(checks backdrop_main_missing)
+    main_kinds: list[Literal["chart", "primitive", "photo", "clip", "article", "panel"]] = Field(min_length=1)
+    card_only_max_sec: float = Field(gt=0)   # 주 아일랜드 없는 구간 상한(전환 허용)
 
     @model_validator(mode="after")
     def _same_h(self) -> "IslandRules":

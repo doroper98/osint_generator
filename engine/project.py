@@ -375,6 +375,12 @@ def load_project(proj: Path, direction: Optional[Direction] = None, out: Optiona
     R.cache["stage_choice"] = doc.stage_choice()                          # v5.1.0 D-0123 §2 — checks stage_choice(warning)
     _check_quotes(proj, events)      # v4.4.0 — statement_diff 문구 = intake 원문(D-0090 작업 4)
     _attach_posts(proj, R, events)   # v3.2.0 18 §5 — post 카드 문구·상자는 intake/sources.json 에서(없으면 오류)
+    if R.stage.name == "backdrop":   # v5.2.0 D-0129 §B·§C — 주 아일랜드 상시(checks backdrop_main_missing)·카드 ↔ 아일랜드 교차(card_island)
+        from engine.island import card_overlap, island_boxes, main_missing  # noqa: PLC0415
+
+        R.cache["island_check"] = {
+            "main_missing": main_missing(events, plan.total, [(c.t0 - 0.3, c.t1 + 0.3) for c in plan.cards], R.stage.name),
+            "card_overlap": card_overlap(events, island_boxes(events, R.assets.media_assets, R.stage.name))}
     ent_errs = check_event_refs(events, load_entities())  # 07 §6 — 미등재 인물·국기·휘장은 렌더 전 오류(P10)
     if ent_errs:
         raise RegistryError("엔티티 레지스트리 점검 실패:\n" + "\n".join(ent_errs))
