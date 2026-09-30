@@ -288,7 +288,8 @@ hud:                       # 09 §5 — 모서리에는 날짜만
 layout_480p:               # 09 §2·§4, 08 §10 — 기준 해상도 854×480. 다른 해상도는 k = H/480
   base: {w: 854, h: 480, fps: 24}
   # v4.8.0 back_and_forth D-0113(D-0101 §3 A) — 화면 글자 크기 전수 표 1·2 적용: 본문 ≥ 12·메타 ≥ 9, 자막 21, 연동 기하(line_gap·src_gap·caption_bar_px·caption_dy·credit_dy·tag_h·tag_dy·sub_dy·body_line)
-  subtitle: {size: 21, last_line_y: 452, line_gap: 26, halo: 5.0, halo_alpha: 0.92, emphasis_color: gold}   # v4.5.0 D85 — 검증 라벨 접두(label_style) 폐지
+  # v4.11.0 back_and_forth D-0118 §3(사용자 위임 D103, G7 480p 판정 대신) — 2차 표: 자막 21 → 22, card.line_size 15 → 16. 그 밖 무변경(표 3 유지)
+  subtitle: {size: 22, last_line_y: 452, line_gap: 26, halo: 5.0, halo_alpha: 0.92, emphasis_color: gold}   # v4.5.0 D85 — 검증 라벨 접두(label_style) 폐지
   min_font_px: 9.5         # 화면 높이 2% 규칙(엔딩 카드 예외)
   title_card: {dur_sec: 5.6, title_size: 46, subtitle_size: 18, rule_w: 220}
   end_card:
@@ -311,7 +312,7 @@ layout_480p:               # 09 §2·§4, 08 §10 — 기준 해상도 854×480.
     scroll_hold_out_sec: 2.0
     scroll_fade_px: 18
     scroll_max_px_per_sec: 60
-  card: {x_right_margin: 24, y: 70, min_w: 230, slide_px: 30, fade_sec: 0.45, big_size: 30, line_size: 15, tag_size: 12, src_size: 11,
+  card: {x_right_margin: 24, y: 70, min_w: 230, slide_px: 30, fade_sec: 0.45, big_size: 30, line_size: 16, tag_size: 12, src_size: 11,
          cap_size: 12, line_gap: 24, src_gap: 20}    # v4.8.0 D-0101 §3 — cap_size·line_gap·src_gap = 옛 engine/cards.py 리터럴
   # v4.8.0 D-0101 §3 — 옛 리터럴(engine/layers/media.py·markers.py·routes.py)을 값 그대로 옮김. 크기 값은 §3 결정(decision_request)으로
   media_caption: {pad_x: 10, caption_size: 12, caption_dy: 18, credit_size: 9, credit_dy: 34, tag_size: 9, tag_h: 16, tag_dy: 12,

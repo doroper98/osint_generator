@@ -1,0 +1,56 @@
+{
+ "schema_version": 1,
+ "role": "D-0118 §3 기록 — 자막 크기 21 → 22 에서 문장별 줄 수(wrap 700px, engine.typography.wrap = script.lint 와 같은 폭). 3줄 0",
+ "projects": {
+  "hormuz_korea": {
+   "sentences": 45,
+   "lines_by_size": {
+    "21": {
+     "1": 30,
+     "2": 15
+    },
+    "22": {
+     "1": 28,
+     "2": 17
+    }
+   }
+  },
+  "fed_policy_2026": {
+   "sentences": 48,
+   "lines_by_size": {
+    "21": {
+     "1": 41,
+     "2": 7
+    },
+    "22": {
+     "1": 37,
+     "2": 11
+    }
+   }
+  },
+  "ratcliffe2026": {
+   "sentences": 38,
+   "lines_by_size": {
+    "21": {
+     "1": 31,
+     "2": 7
+    },
+    "22": {
+     "1": 28,
+     "2": 10
+    }
+   }
+  },
+  "fed_timeline_demo": {
+   "sentences": 10,
+   "lines_by_size": {
+    "21": {
+     "1": 10
+    },
+    "22": {
+     "1": 10
+    }
+   }
+  }
+ }
+}

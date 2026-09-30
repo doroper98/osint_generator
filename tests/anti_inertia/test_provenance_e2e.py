@@ -76,7 +76,8 @@ class ProvenanceE2ETest(unittest.TestCase):
         self.assertEqual(len(frames["frames"]), 25)
         # v4.1.0 D-0076 작업 6·8 — 무대 추상화 뒤에도 25컷 픽셀 동일(기준선 = KZ 수정 뒤 hormuz_baseline.json, D-0078)
         # v4.8.0 G7 — 기사 카드 조판·켄 번스 연속 변환(D-0101 §2·D-0104 D6)으로 바뀐 컷을 반영한 phaseG7 기준선(바뀐 컷 = changed_vs_g1)
-        base = json.loads((REPO / "docs" / "handoff" / "reports" / "phaseG7" / "hormuz_baseline.json").read_text(encoding="utf-8"))
+        # v4.11.0 G10 — 글자 크기 2차 표(D-0118 §3, 자막 22·카드 line 16)로 바뀐 컷을 반영한 phaseG10 기준선(바뀐 컷 = changed_vs_g7)
+        base = json.loads((REPO / "docs" / "handoff" / "reports" / "phaseG10" / "hormuz_baseline.json").read_text(encoding="utf-8"))
         got = {p.name: hashlib.md5(p.read_bytes()).hexdigest() for p in (proj / "prev").glob("p_*.png")}
         self.assertEqual(got, {c["png"]: c["md5"] for c in base["cuts"]})
 

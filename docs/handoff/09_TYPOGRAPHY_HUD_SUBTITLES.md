@@ -187,3 +187,12 @@ text(날짜, W−26, 40, 15, Mono SemiBold, 흰색 0.95, 헤일로 3, 우정렬)
 - 자막 21 의 결과: 2줄 문장 hormuz 3 → 15/45, fed_policy 1 → 7/48, 랫클리프 5 → 7/38, 데모 0/10. 3줄 0(wrap 700px, `script.lint` 와 같은 폭). 2줄은 모두 자막 구역(y ≥ 410) 안. `docs/handoff/reports/phaseG7/subtitle_lines.json`.
 - 전/후: `docs/handoff/reports/phaseG7/scale_before_after.jpg`(hormuz 6·fed_policy 6컷), 골든 증명 `reports/phaseG7/golden_delta/`(expected_deltas `g7_scale_d0101`).
 - 사용자가 480p 를 보고 "아직 작다"고 하면 2차 표(자막 22·카드 line 16)를 G8 뒤에 검토한다(D-0113).
+
+## 10. v4.11.0 — 글자 크기 2차 표 (G10, back_and_forth D-0118 §3, 사용자 위임 D103)
+
+§9 마지막 줄의 2차 표를 적용했다(G7 480p 판정 대신 사용자 위임). 수치 정본은 여전히 `rules/video_rules.yaml` 이다.
+
+- 바뀐 키: `layout_480p.subtitle.size`(21 → 22), `layout_480p.card.line_size`(15 → 16). 그 밖 무변경(표 1·2 의 다른 값, 표 3 유지, card.line_gap 그대로).
+- 자막 22 의 결과: 2줄 문장 hormuz 15 → 17/45, fed_policy 7 → 11/48, 랫클리프 7 → 10/38, 데모 0/10. 3줄 0. `docs/handoff/reports/phaseG10/subtitle_lines.json`.
+- 카드 넘침 0: 가장 넓은 카드 fed_policy 436px(x ≥ 394), 카드 아래 끝 ≤ 204 — 자막 구역(410)과 멀다. 렌더 전 점검·checks hard 0(네 편).
+- 골든: 23컷 변경(타이틀·엔딩 무변경), 변경 픽셀 요소 영역 안 100 %. expected_deltas `g10_scale_d0118`, 증명 `reports/phaseG10/golden_delta/`, 기준선 `reports/phaseG10/hormuz_baseline.json`·`regression_baselines.json`.
