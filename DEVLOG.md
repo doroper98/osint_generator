@@ -3374,3 +3374,10 @@ last_review: 2026-06-06
 - **결과**: 골든 정적 창 0(creep 0, 프레임 무변경). 음악 hormuz −11.55 → −9.83·fed −12.31 → −10.57, TP −1.58·−1.65(한도 안). 2줄 자막 hormuz 17/45, 3줄 0, 카드 넘침 0, 골든 23컷 요소 영역 안 100 %. pytest 1149.
 - **연관**: D-0118, handoff 05 §7·09 §10·10 §3, docs/12, reports/phaseG10, artifacts/phaseG10-v4.11.0.
 
+
+## 2026-09-30 v5.0.0 — G11: GOAL G4-21 — 귀속 인용은 교차 확인이 아니다, claim_kind fact/statement
+
+- **무엇을**: GOAL G4-21 추가. claims `claim_kind`(fact 기본·statement), `speaker_source_ids`. judge 가 statement 는 귀속 인용·본인 공식 원문을 supports 로, 단정 인용은 폐기(drops). verify_sources 프롬프트 kind 정의. 재판정 도구 `tools/g11_rejudge.py`.
+- **왜**: back_and_forth D-0119(사용자 결정 D103), D-0122(drops A·1차 원문 B).
+- **결과**: 랫클리프·fed status 변화 0, hormuz 대상 아님, 화면 영향 0. apply_draft 가 drops 있는 판정에서 파일을 쓴 뒤 예외로 죽던 결함 수정(ok=False·미기록). pytest 1165.
+- **연관**: D-0119·D-0122, PIPELINE-AP-012, handoff 18 §9, docs/05·12, reports/phaseG11.

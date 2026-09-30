@@ -69,6 +69,12 @@ MAJOR: GOAL G4 변경(C5.4). JSON `schema_version` 은 그대로(1) — `claim_k
 
 ### Changed
 - **§0**: VERSION 5.0.0, Tier 1·2 `last_synced_with` v5.0.0, v4.11.0 대장 행(7ff2976, D-0119 pass). **GOAL G4-21 추가**(D-0119 문안 그대로, 그 외 GOAL 본문 무변경).
+- **§2 스키마**: `Claim.claim_kind`(코드 확정)·`ClaimCandidate.claim_kind`(LLM 후보) `Literal["fact","statement"] = "fact"`, `ClaimCandidate.speaker_source_ids`(optional, D-0122). docs/05.
+- **§3 판정**(`orchestrator/source_verify.judge`): statement = 귀속 인용을 supports 로 세어 independent_min → corroborated(귀속만이라는 이유로 contested 승격 안 함). 단정 인용 = 근거 폐기 + drops[] + checks `asserted:`. 발언 주체 본인 공식·사용자 확인 원문(`speaker_source_ids`) = supports(checks `primary:`, D-0122 ② B). 근거 없으면 fact(checks `kind_candidate:statement`). fact 경로 무변경.
+- **apply_draft drops 계약**: drops 가 있으면 파일을 쓰지 않고 ok=False(D-0122 ① A). 종전엔 파일을 쓴 뒤 StageResult 예외 — PIPELINE-AP-012.
+- **§4 프롬프트** `verify_sources`: kind 정의·statement 근거 조건·예시(VerifyDraft 통과, P4).
+- **§5 재판정 표** `tools/g11_rejudge.py`·`reports/phaseG11/rejudge.md`: hormuz 대상 아님(v3 이관), 랫클리프·fed_policy status 변화 0, 화면 영향 0(D85). 참고 dmz_mine: 새 프롬프트면 clm_0014 1건 corroborated.
+- **§6 문서**: handoff 18 §9·docs/12 §4·docs/05. **테스트**: 1165 passed(1149 + 16), failed 0.
 
 ---
 
