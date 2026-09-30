@@ -12,3 +12,12 @@
 | `sheets/endcard_before_after_{hormuz,fed}.jpg` | 엔딩 카드 전/후(버전 도장) |
 
 전편 hormuz 렌더 없음(D-0125). 영상 최종 판정은 사용자.
+
+## 후속 D-0127(같은 v5.1.0) — 수정 회차 1회·재렌더
+
+| 파일 | 내용 |
+|---|---|
+| `fed_policy_2026/followup_d0127/final_480p.mp4` | fed_policy 480p 재렌더(md5 `c833024f…`, 307.66초, I −14.08·TP −1.65, checks hard 0). 연출 = v9 유지(v11 미채택). 검수 예외(press_lead) 반영 트리, 현재 plan·mix(`f4ff0ad2…`) |
+| `fed_policy_2026/followup_d0127/{provenance_480p.json,audio_qa.json,final.srt,credits.txt,description.txt}` | 전편 기록(provenance 의 모델 이름 값은 가림 — config.yaml 이 단일 출처) |
+| `fed_policy_2026/followup_d0127/ai_direction/` | 재검수 v3(v9) → 수정 v11(`direction.v11.yaml`·`revision.v11.json`) → v11 프리뷰 checks hard 3(`checks.v11.json`·`sheet.v11.jpg`) → v9 복원, qa_loop·ai_run |
+| `sheets/fed_v9_vs_v11_d0127.jpg` | v9(왼쪽)·v11(오른쪽) 6컷 — 71.40·108.39·207.20·249.80·268.41·290.40초 |

@@ -1,0 +1,7 @@
+{"t": 8.6, "ok": true, "stage": "validate", "errors": [], "warnings": ["[media-density-total] 과소 — 2개 / 308초 = 153.8초당 1개 > 60초 (14 §10.1)"]}
+{"t": 25.6, "ok": true, "stage": "preview", "errors": [], "warnings": ["[media-density-total] 과소 — 2개 / 308초 = 153.8초당 1개 > 60초 (14 §10.1)"]}
+{"t": 96.0, "ok": true, "stage": "visual_qa", "errors": [], "warnings": []}
+{"t": 235.5, "ok": true, "stage": "revise_direction", "errors": [], "warnings": []}
+{"t": 244.1, "ok": true, "stage": "validate", "errors": [], "warnings": ["[media-density-total] 과소 — 5개 / 308초 = 61.5초당 1개 > 60초 (14 §10.1)"]}
+{"t": 259.4, "ok": false, "stage": "preview", "errors": ["checks hard island_overlap: [island-overlap] island chart left ↔ photo fed_presser_0916 t=43.54~52.24 교차 632px²", "checks hard island_overlap: [island-overlap] island chart left ↔ photo fed_eccles_ext t=201.74~213.80 교차 632px²", "checks hard island_overlap: [island-overlap] island chart left ↔ photo fed_presser_0916 t=269.20~275.00 교차 632px²"], "warnings": ["[media-density-total] 과소 — 5개 / 308초 = 61.5초당 1개 > 60초 (14 §10.1)"]}
+{"t": 272.9, "ok": true, "stage": "preview", "errors": [], "warnings": ["[media-density-total] 과소 — 2개 / 308초 = 153.8초당 1개 > 60초 (14 §10.1)"]}

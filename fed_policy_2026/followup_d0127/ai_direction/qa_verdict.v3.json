@@ -1,0 +1,139 @@
+{
+  "schema_version": 1,
+  "verdict": "revise",
+  "issues": [
+    {
+      "frame": "p_0108.39",
+      "severity": "hard",
+      "category": "occlusion",
+      "evidence": "In the lower left of the chart, the '이란 전쟁 시작 · 2월 28일 · NBC·ABC', '워시 의장 취임' and '워시 첫 주재 회의 · 6월 · 연준 자료' marker labels pile up in the same spot. The letters overlap and cannot be read.",
+      "fix": {
+        "event_ref": "marker:워시 의장 취임",
+        "suggest": "Remove the '이란 전쟁 시작' marker or reduce it to a dot before the two Warsh markers appear. Give the Warsh markers alternating upper and lower label slots so they do not overlap."
+      }
+    },
+    {
+      "frame": "p_0071.40",
+      "severity": "hard",
+      "category": "occlusion",
+      "evidence": "The '2025년 9월 인하 · 폭스비즈니스 보도' label runs into the dot and label of the '10월 29일 인하' marker. The end of '폭스비즈니스 보도' is covered by the second marker.",
+      "fix": {
+        "event_ref": "marker:2025년 9월 인하",
+        "suggest": "Move the September label above the line and the October 29 label below it, or shorten the September marker to a dot once October arrives."
+      }
+    },
+    {
+      "frame": "p_0249.80",
+      "severity": "hard",
+      "category": "occlusion",
+      "evidence": "The three-line 점도표 card overlaps the right part of the chart island. It covers the '3.75-4%' end label and the '5.5%' axis label on the rate lane, which are visible in the other cuts.",
+      "fix": {
+        "event_ref": "card:점도표 · 9월 16일 · 참가자별 전망",
+        "suggest": "Shorten the card to two lines and move it to the right-side slot used by the other cards, clear of the chart. Alternatively, shrink the chart island while the card is shown."
+      }
+    },
+    {
+      "frame": "p_0290.40",
+      "severity": "hard",
+      "category": "occlusion",
+      "evidence": "At the right end of the chart, the '9월 16일 인상' and '다음 FOMC 회의' marker labels overlap and read as broken text ('다음 FO…10월 말'). The card on the right also sits right against the chart's right edge.",
+      "fix": {
+        "event_ref": "marker:다음 FOMC 회의",
+        "suggest": "On the zoomed-out axis, move the '9월 16일 인상' label above the line and '다음 FOMC 회의' below it. Alternatively, show only the next-meeting marker."
+      }
+    },
+    {
+      "frame": "p_0268.41",
+      "severity": "hard",
+      "category": "media",
+      "evidence": "The sentence being read is Warsh's explanation ('워시 의장은 인플레이션이 너무 오래 높아…'). The screen shows a faint Trump badge, the '트럼프 대통령 · 소셜미디어' card and the previous Trump sentence as the subtitle. The picture and narration are out of step, and the Trump elements look like they are fading.",
+      "fix": {
+        "event_ref": "badge:도널드 트럼프",
+        "suggest": "Have the Trump badge and card leave when the pressure_0 sentence ends. For pressure_1, bring in the Warsh badge and a card on his explanation."
+      }
+    },
+    {
+      "frame": "p_0030.93",
+      "severity": "soft",
+      "category": "honesty",
+      "evidence": "The rate lane covers 0–5.5% in a band only a few pixels tall. The 0.25%p hike this cut is about, and the 2025 cuts in p_0061.19, all look like one flat line. The steps only become visible in p_0290.40 on the 2020–2028 axis.",
+      "fix": {
+        "event_ref": "series:FEDFUNDS",
+        "suggest": "Make the rate lane taller, or narrow the y range around 3–5.5% with a compressed-scale wave mark, so the 0.25%p steps are visible."
+      }
+    },
+    {
+      "frame": "p_0162.64",
+      "severity": "soft",
+      "category": "empty",
+      "evidence": "From p_0015.09 to p_0162.64, the '소비자물가(CPI) 상승률' lane shows only its title, with no series. The '기록' lane stays empty in every cut. Half the chart island is empty grid.",
+      "fix": {
+        "event_ref": "island:chart",
+        "suggest": "Hide empty lanes until their series appears, or show CPI from the start."
+      }
+    },
+    {
+      "frame": "p_0162.64",
+      "severity": "soft",
+      "category": "honesty",
+      "evidence": "The narration and card say 'PCE 약 3.6%', but the only inflation series on the chart is CPI (3.35% from p_0184.49 on). The two numbers on screen appear to disagree, with no explanation that they are different indicators.",
+      "fix": {
+        "event_ref": "card:워시 의장 · 8월 추정",
+        "suggest": "Add the line 'PCE는 CPI와 다른 물가 지표' to the card. Alternatively, use a PCE series in the lane."
+      }
+    },
+    {
+      "frame": "p_0215.14",
+      "severity": "soft",
+      "category": "media",
+      "evidence": "Apart from the backdrops and portrait badges, no photo, video or article island appears across all 22 cuts (the deterministic check also reports 2 media items in 308 seconds). Chart plus text card repeats for about 4 minutes.",
+      "fix": {
+        "event_ref": "p_0215.14",
+        "suggest": "After the press_lead, show the Fox Business article island. Add a press conference photo or clip island at the decision, market and pressure sections."
+      }
+    }
+  ],
+  "praise": [
+    "The same chart island stays on screen throughout while only the cards change, so it does not feel like a slide deck",
+    "Units (%), the FRED source line and the as-of date appear on each lane",
+    "Numbers on the cards match the narration (12대 0, 3.75~4%, 약 3.6%, 16만 2천 명, 약 630포인트, 3.7%)",
+    "The corner date follows the time being narrated in each scene (2025.10.29 → 2026.02.28 → 2026.07.29 → 2026.09.16)"
+  ],
+  "rubric": [
+    {
+      "item": 1,
+      "ok": true,
+      "evidence": "In cuts 2–22 the chart island stays in place and only markers and cards come and go. There is no new canvas per scene."
+    },
+    {
+      "item": 2,
+      "ok": true,
+      "evidence": "The camera does not move and the backdrop changes by crossfade. The x-axis changes from quarters (p_0071.40) to months (p_0091.83) to years (p_0290.40), but the same chart continues."
+    },
+    {
+      "item": 3,
+      "ok": true,
+      "evidence": "0% baseline, % units, the 'FRED…2026년 9월 기준' source line and the as-of date are visible. The rate lane is compressed so 0.25%p steps can't be seen (listed separately as soft)."
+    },
+    {
+      "item": 4,
+      "ok": true,
+      "evidence": "Cards and narration match: 3.75~4%, 12대 0, 약 3.6%, 16만 2천 명, 약 630포인트, 3.7%. The PCE-vs-CPI confusion is listed separately."
+    },
+    {
+      "item": 5,
+      "ok": true,
+      "evidence": "The 2025 cut sections of the rate line are blue and the September 2026 hike end is red-orange, matching the profile's cut/hike colors."
+    },
+    {
+      "item": 6,
+      "ok": true,
+      "evidence": "FOMC is spelled out when first mentioned (p_0030.93) and 점도표 gets a one-sentence definition (p_0249.80). I could not confirm a PCE definition in the sampled cuts."
+    },
+    {
+      "item": 7,
+      "ok": true,
+      "evidence": "Market numbers are stated as reported facts ('CNN·NBC·ABC는…보도했습니다'). No sentence reads as advice to buy or sell."
+    }
+  ]
+}

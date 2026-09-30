@@ -1,0 +1,38 @@
+{
+ "schema_version": 1,
+ "direction_version": 11,
+ "changelog": [
+  {
+   "issue_ref": "p_0108.39 / marker:워시 의장 취임",
+   "change": "'이란 전쟁 시작' 마커가 hold_2026_2 문장 끝(+0.3초)에 사라지게 end 를 {sid: hold_2026_2, edge: end, off: 0.3} 로 바꿈. 두 워시 마커가 뜰 때는 이 마커가 없다. 두 워시 마커는 지금처럼 위(top)·아래(bottom)로 엇갈려 둠"
+  },
+  {
+   "issue_ref": "p_0071.40 / marker:2025년 9월 인하",
+   "change": "9월 인하 마커가 10월 29일 마커가 뜨는 순간(단어 '29일,')에 사라지게 end 를 바꿈. 두 라벨이 한 화면에 함께 있지 않다"
+  },
+  {
+   "issue_ref": "p_0249.80 / card:점도표 · 9월 16일 · 참가자별 전망",
+   "change": "3줄 카드를 2장으로 나눔. projections_4 에는 '점도표 · 9월 16일' 1줄 정의, projections_5~장면 끝에는 '점도표 · 참가자별 전망' 2줄. 둘 다 place card_right 로 차트 오른쪽 카드 자리에 둠"
+  },
+  {
+   "issue_ref": "p_0290.40 / marker:다음 FOMC 회의",
+   "change": "엔딩 조망 축에서 겹치던 close_1 의 '9월 16일 인상' 마커를 뺌. 다음 FOMC 회의 마커 하나만 남김"
+  },
+  {
+   "issue_ref": "p_0268.41 / badge:도널드 트럼프",
+   "change": "트럼프 뱃지와 트럼프 소셜미디어 카드의 end 를 pressure_0 문장 끝 -0.1초로 앞당김. 워시 문장(pressure_1) 전에 페이드가 끝난다. 워시 뱃지·설명 카드는 그대로 pressure_1 에 뜬다"
+  },
+  {
+   "issue_ref": "p_0162.64 / island:chart",
+   "change": "CPI(CPIAUCSL) series 를 금리 series 와 같이 open_2 -0.2초에 시작하게 함. 물가 레인이 처음부터 차 있다. 8월 CPI 마커와 카드는 그대로 둠"
+  },
+  {
+   "issue_ref": "p_0162.64 / card:워시 의장 · 8월 추정",
+   "change": "PCE 약 3.6% 카드에 lines ['소비자물가(CPI)와는 다른 물가 지표'] 한 줄을 더해 차트의 CPI 선과 구분함"
+  },
+  {
+   "issue_ref": "p_0215.14 / media_beats [media-density-total]",
+   "change": "photo 아일랜드 3개를 map_right_low 에 추가(차트 island 와 합쳐 동시 2개 이하). 결정 장면 decision_4~5 에 fed_presser_0916, 시장 장면 markets_0~1 에 fed_eccles_ext, 압박 장면 pressure_1 에 fed_presser_0916. 각 구간의 배경 사진과 다른 사진이다"
+  }
+ ]
+}
