@@ -1395,6 +1395,7 @@ class StageBackdropRules(_Strict):
 class IslandChart(_Strict):
     pad_top: float = Field(ge=0)
     pad_bottom: float = Field(ge=0)
+    label_flip_pad: float = Field(ge=0)   # v5.2.0 D-0133 §1 — 아일랜드 마커 라벨 ↔ 상자 가장자리 여백(넘으면 반대쪽, 그래도 넘으면 클램프)
 
 
 class IslandRules(_Strict):

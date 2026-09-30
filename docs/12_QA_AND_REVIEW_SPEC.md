@@ -67,6 +67,8 @@ preview → prev/checks.json(결정적 검사 18항목)
 | 아일랜드 겹침(`island_overlap`, `[island-overlap]`) — backdrop 무대 아일랜드(차트·사진·영상·프리미티브·패널) 제자리 상자 교차 > 0·자막 구역 교차·동시 > max_concurrent, provenance `islands[]` | hard | `rules:island`(`engine.island`, handoff 08 §13) | v5.1.0 D-0126 Q3 A |
 | 주 아일랜드 없음(`backdrop_main_missing`, `[backdrop-main-missing] t0-t1 {n}s`) — backdrop 무대에서 `island.main_kinds`(차트 아일랜드·프리미티브·사진·영상·기사·패널)가 하나도 안 보이는 구간 > `island.card_only_max_sec`(타이틀·엔딩 카드·기사 구간 제외), provenance `backdrop.main_missing[]` | hard | `rules:island`(`engine.island.main_missing`, handoff 08 §13) | v5.2.0 D-0129 §B |
 | 카드 ↔ 아일랜드 교차(`card_island`, `[card-island]`) — 카드·게시물 카드 제자리 상자 ∩ 같은 순간 아일랜드 상자 > 0, provenance `island.card_overlap[]` | warning | `rules:island`(`engine.island.card_overlap`) | v5.2.0 D-0129 §C |
+| 아일랜드 마커 라벨 잘림(`island_label_clip`, `[island-label-clip]`) — 차트 아일랜드 안 마커 라벨 글자 상자가 반전(오른쪽 → 왼쪽)·클램프(`island.chart.label_flip_pad`) 뒤에도 아일랜드 상자 밖, provenance `island.label_clip[]`·`island.label_flip[]` | hard | `rules:island.chart`(`engine.island.label_check`, `engine.layers.markers.island_label`) | v5.2.0 D-0133 §1·§2 |
+| 아일랜드 마커 라벨 ↔ 출처 줄(`island_label_overlap`, `[island-label-overlap]`) — 마커 라벨 글자 상자 ∩ 같은 순간 시리즈 출처 줄 글자 상자 > 0, provenance `island.label_overlap[]`. 고치는 것은 연출 회차 | warning | `rules:island.chart` | v5.2.0 D-0133 §3 |
 | 무대 선택(`stage_choice`, `[stage-choice]`) — 주 무대 ≠ 장르 기본 무대(stage.primary)인데 direction `stage_reason` 없음 | warning | 장르 프로필(handoff 20) | v5.1.0 D-0123 §2 |
 
 ### 2.2 장르 요소 검사 — v4.2.0

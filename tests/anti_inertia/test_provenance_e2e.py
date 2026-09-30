@@ -69,9 +69,9 @@ class ProvenanceE2ETest(unittest.TestCase):
             self.assertIs(prov["stages"][not_run], False, not_run)
         self.assertTrue((proj / "prev" / "sheet.jpg").exists())
         chk = json.loads((proj / "prev" / "checks.json").read_text(encoding="utf-8"))   # v3.1.0 17 §3(D-0047 작업 6)
-        self.assertEqual(len(chk["items"]), 30)   # v5.2.0 D-0129 backdrop_main_missing(hard)·card_island(warning) — 지도 무대 0, v5.1.0 D-0123·D-0126 backdrop_rights·backdrop_repeat·island_overlap(hard)·stage_choice(warning), D-0121 §A timeline_rescale(hard), v4.11.0 D-0118 static_window(warning), v4.10.0 D-0116 geo_mismatch(hard), v4.7.0 D-0107 boundary_as_route(hard)·geo_unsourced(warning), D-0106 endcard_roll(warning), v3.6.0 media_upscaled(warning)·glyph_size(hard), v4.1.0 stage_continuity(hard), v4.2.0 genre_elements(hard), v4.3.0 정직성 4(hard)
+        self.assertEqual(len(chk["items"]), 32)   # v5.2.0 D-0133 island_label_clip(hard)·island_label_overlap(warning), D-0129 backdrop_main_missing(hard)·card_island(warning) — 지도 무대 0, v5.1.0 D-0123·D-0126 backdrop_rights·backdrop_repeat·island_overlap(hard)·stage_choice(warning), D-0121 §A timeline_rescale(hard), v4.11.0 D-0118 static_window(warning), v4.10.0 D-0116 geo_mismatch(hard), v4.7.0 D-0107 boundary_as_route(hard)·geo_unsourced(warning), D-0106 endcard_roll(warning), v3.6.0 media_upscaled(warning)·glyph_size(hard), v4.1.0 stage_continuity(hard), v4.2.0 genre_elements(hard), v4.3.0 정직성 4(hard)
         self.assertEqual(next(i for i in chk["items"] if i["id"] == "stage_continuity")["count"], 0)
-        for cid in ("backdrop_main_missing", "card_island"):   # v5.2.0 D-0129 — 지도 무대(hormuz)는 새 검사 영향 0
+        for cid in ("backdrop_main_missing", "card_island", "island_label_clip", "island_label_overlap"):   # v5.2.0 D-0129·D-0133 — 지도 무대(hormuz)는 새 검사 영향 0
             self.assertEqual(next(i for i in chk["items"] if i["id"] == cid)["count"], 0, cid)
         self.assertEqual(next(i for i in chk["items"] if i["id"] == "genre_elements")["count"], 0)
         self.assertEqual(next(i for i in chk["items"] if i["id"] == "boundary_as_route")["count"], 0)   # v4.7.0 D-0107 D2(b)

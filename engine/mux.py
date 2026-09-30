@@ -179,6 +179,8 @@ def project_provenance(P, stages: dict[str, bool]) -> dict:  # noqa: ANN001, N80
     ic = P.R.cache.get("island_check")
     if ic is not None and (ic["card_overlap"] or prov.get("islands")):   # v5.2.0 D-0129 §C — checks [card-island] 와 같은 값
         prov["island"] = {**(prov.get("island") or {}), "card_overlap": ic["card_overlap"]}
+        if "label_clip" in ic:   # v5.2.0 D-0133 §2·§3 — checks [island-label-clip]·[island-label-overlap] 와 같은 값, label_flip = 반전·클램프가 실제로 돈 라벨
+            prov["island"].update({k: ic[k] for k in ("label_clip", "label_overlap", "label_flip")})
     if any(e["type"] == "article" for e in P.events):   # v5.1.0 D-0121 §C — 기사 프레스 v2(프레스 사진 none = 블러 무대 폴백, 헤드라인 원문|번역)
         from engine.layers.article import article_usage  # noqa: PLC0415
 

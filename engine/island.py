@@ -9,6 +9,8 @@
 - backdrop 무대 위 패널은 덮개 대신 panel_box 아일랜드 상자(Q4 A). 수치는 전부 `rules island`(코드 리터럴 0).
 - v5.2.0 D-0129 §B 주 아일랜드 상시(checks backdrop_main_missing hard): main_kinds 가 하나도 안 보이는 구간 > card_only_max_sec
   (타이틀·엔딩 카드·기사 구간 제외). §C 카드 ↔ 아일랜드 교차(checks card_island warning): 카드·게시물 카드 제자리 상자 ∩ 아일랜드 상자 > 0.
+- v5.2.0 D-0133 §2·§3 마커 라벨(렌더러 `markers.island_label` 반전·클램프 뒤 글자 상자): 상자 밖 = checks island_label_clip hard
+  `[island-label-clip]`, 같은 순간 같은 아일랜드의 시리즈 출처 줄 글자 상자와 교차 = island_label_overlap warning `[island-label-overlap]`.
 """
 
 from __future__ import annotations
@@ -214,5 +216,84 @@ def card_overlap_details(rows: list[dict]) -> list[str]:
     return [f"[card-island] {r['card']} ↔ {r['island']} t={r['t0']:.2f}~{r['t1']:.2f} 교차 {r['px2']}px²" for r in rows]
 
 
-__all__ = ["card_overlap", "card_overlap_details", "chart_view", "draw_frame", "draw_island", "island_alpha", "island_box", "island_boxes", "island_overlap", "island_slide", "is_main", "main_missing",
-           "main_missing_details"]
+# ------------------------------------------------------------------ 마커 라벨 ↔ 상자·출처 줄(v5.2.0 D-0133 §2·§3)
+LABEL_STEP_FRAMES = 2   # 표본 간격(프레임) — 카메라가 움직이는 동안 라벨 자리가 바뀐다
+
+
+def _source_rects(ctx: cairo.Context, chart: dict, v: View, t: float) -> list[tuple[str, Box]]:
+    """같은 순간 차트 아일랜드의 시리즈 출처 줄 글자 상자(x0, y0, x1, y1) — layers.series._draw_source 와 같은 자리."""
+    from engine.layers.series import source_line  # noqa: PLC0415
+    from engine.typography import tw  # noqa: PLC0415
+
+    L, S = TIMELINE.lane_label, TIMELINE.series  # noqa: N806
+    st = chart["stage"]
+    out: list[tuple[str, Box]] = []
+    for e in chart["events"]:
+        if e["type"] != "series" or not e["t0"] <= t <= e["t1"]:
+            continue
+        _, bot = st.lane_screen(v, st.lane_index(e["lane"]))
+        by = bot - S.source_dy - S.source_step * e.get("slot", 0)
+        s = source_line(e)
+        out.append((e["lane"], (L.x, by - S.source_size, L.x + tw(ctx, s, S.source_size, S.source_font), by + S.source_size * 0.25)))
+    return out
+
+
+def label_check(events: list[dict], chart: dict) -> dict:
+    """차트 아일랜드 안 마커 라벨을 표본 프레임마다 렌더와 같은 자리로 재어 → {label_clip: [...], label_overlap: [...], label_flip: n}.
+    clip = 라벨이 보이는(알파 > 0.01) 순간 글자 상자가 아일랜드 상자에 걸치되 다 들어가지 않는다(반전·클램프 뒤). 마커마다 연속 구간 하나로 묶는다."""
+    from engine.layers.markers import island_label_rect  # noqa: PLC0415
+    from engine.timebase import smooth  # noqa: PLC0415
+
+    isl = [e for e in events if e["type"] == "island"]
+    ctx = cairo.Context(cairo.ImageSurface(cairo.FORMAT_ARGB32, 1, 1))
+    clips: list[dict] = []
+    overlaps: list[dict] = []
+    flips: set[str] = set()
+
+    def add(rows: list[dict], key: dict, t: float, first: Optional[dict] = None) -> None:
+        """같은 키의 연속 표본은 한 구간으로. first = 구간 첫 표본에서만 적는 값(글자 상자)."""
+        if rows and all(rows[-1][k] == v_ for k, v_ in key.items()) and t - rows[-1]["t1"] <= LABEL_STEP_FRAMES / FPS + 0.011:
+            rows[-1]["t1"] = round(t, 2)
+        else:
+            rows.append({**key, **(first or {}), "t0": round(t, 2), "t1": round(t, 2)})
+
+    for e in chart["events"]:
+        if e["type"] != "marker" or not e.get("label"):
+            continue
+        f0, f1 = int(e["t0"] * FPS), int(e["t1"] * FPS)
+        for f in range(f0, f1 + 1, LABEL_STEP_FRAMES):
+            t = f / FPS
+            box_e = next((i for i in isl if i["t0"] <= t <= i["t1"]), None)
+            la = window(t, e["t0"], e["t1"], 0.35, 0.5) * smooth((t - e["t0"] - 0.2) / 0.4)
+            if box_e is None or la <= 0.01 or island_alpha(t, box_e) <= 0.01:
+                continue
+            bw, bh = island_box(box_e)[2:]
+            v = chart_view(chart, t, island_box(box_e))
+            x, y = v.to_screen(*e["world"])
+            if x < -80 or x > v.vw + 80 or y < -40 or y > v.vh + 40:
+                continue   # 렌더러도 그리지 않는다
+            x0, y0, x1, y1, how = island_label_rect(ctx, e, x, y, bw)
+            if how != "none":
+                flips.add(e["label"])
+            inside = x0 >= 0 and y0 >= 0 and x1 <= bw and y1 <= bh
+            touches = x1 > 0 and y1 > 0 and x0 < bw and y0 < bh
+            if touches and not inside:
+                add(clips, {"label": e["label"], "island": box_e.get("box") or "center", "box": [round(bw), round(bh)]}, t,
+                    {"rect": [round(x0), round(y0), round(x1), round(y1)]})
+            for lane, (sx0, sy0, sx1, sy1) in _source_rects(ctx, chart, v, t):
+                if min(x1, sx1) > max(x0, sx0) and min(y1, sy1) > max(y0, sy0):
+                    add(overlaps, {"label": e["label"], "lane": lane}, t)
+    return {"label_clip": clips, "label_overlap": overlaps, "label_flip": sorted(flips)}
+
+
+def label_clip_details(rows: list[dict]) -> list[str]:
+    return [f"[island-label-clip] marker {r['label']!r} t={r['t0']:.2f}~{r['t1']:.2f} 라벨 글자 상자 {r['rect']} 가 island chart {r['island']}"
+            f" 상자 0~{r['box'][0]}×0~{r['box'][1]} 밖(반전·클램프 뒤)" for r in rows]
+
+
+def label_overlap_details(rows: list[dict]) -> list[str]:
+    return [f"[island-label-overlap] marker {r['label']!r} ↔ 레인 {r['lane']} 출처 줄 t={r['t0']:.2f}~{r['t1']:.2f}" for r in rows]
+
+
+__all__ = ["card_overlap", "card_overlap_details", "chart_view", "draw_frame", "draw_island", "island_alpha", "island_box", "island_boxes", "island_overlap", "island_slide", "is_main", "label_check",
+           "label_clip_details", "label_overlap_details", "main_missing", "main_missing_details"]

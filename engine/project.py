@@ -415,6 +415,10 @@ def load_project(proj: Path, direction: Optional[Direction] = None, out: Optiona
     if island_errs:
         raise ProjectError("아일랜드 점검 실패(P6·P10):\n" + "\n".join(island_errs))
     prepare_series(R, events, chart_cams, n, chart_stage or R.stage)   # v4.3.0 D-0084 작업 4 — 레코드 로드·레인 범위·grow 앞끝(카메라 경로)
+    if chart_stage is not None and R.cache.get("island_check") is not None:   # v5.2.0 D-0133 §2·§3 — 마커 라벨 ↔ 상자·출처 줄(시리즈 slot 뒤)
+        from engine.island import label_check  # noqa: PLC0415
+
+        R.cache["island_check"].update(label_check(events, R.cache["island_chart"]))
     ign = R.cache["badge"]["R_ignored"]
     warns = [f"[badge-R-ignored] 인물 뱃지 연출 R {len(ign)}건 무시 — 크기는 보이는 인물 수로 코드가 정한다(D-0111): "
              + ", ".join(f"{g['label'] or g['pid']} R {g['R']:g}" for g in ign)] if ign else []

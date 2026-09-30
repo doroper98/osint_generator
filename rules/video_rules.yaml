@@ -890,6 +890,7 @@ stage_backdrop:            # v5.1.0 back_and_forth D-0121 §B·D-0123 §1(사용
     - "차트 아일랜드: `{\"type\": \"island\", \"kind\": \"chart\", \"box\": {boxes} 중 하나, start, end}` — 시간축 차트가 이 상자 안에 뜬다. 차트 카메라는 `\"stage\": \"timeline\"` 숏(camera {date, lane?, w}) — 시간축 축 스케일 규칙을 그대로 따른다. series·date 마커는 차트 아일랜드가 떠 있는 동안에만 쓴다. 같은 순간 차트 아일랜드는 하나 — 차트가 필요한 구간 전체에 하나를 길게 두는 것이 기본이고, 둘을 이을 때는 앞 것의 end 뒤에 다음 것의 start 를 둔다(시각이 겹치면 오류). 오른쪽 카드와 함께면 box left."
     - "아일랜드(차트·사진·영상·프리미티브·패널)는 같은 순간 {max_concurrent}개 이하, 서로 겹치지 않는다(검사 [island-overlap] hard). 뱃지는 화면 슬롯(map_*)에, 프리미티브(statement_diff·dot_plot 등)·카드는 카드 슬롯에 둔다 — backdrop 무대에서 date·lane 앵커는 series·marker 만(그 밖은 오류)."
     - "주 아일랜드 상시(v5.2.0): backdrop 무대에서는 주 아일랜드({main_kinds})가 항상 하나 보인다. 카드만 있는 구간(블러 배경 + 카드)은 {card_only_max}초 이하 — 넘으면 검사 [backdrop-main-missing] hard(타이틀·엔딩 카드·기사 구간 제외). 차트 아일랜드는 오프닝 첫 문장부터 띄운다. 보도를 인용하는 카드(출처가 매체)는 카드가 아니라 article 이벤트로 — 프레스 규약 v2(가운데·세리프 헤드라인)로 조판한다. 카드는 아일랜드 상자와 겹치지 않는 자리에(겹치면 [card-island] warning)."
+    - "차트 아일랜드 안 마커 라벨은 아일랜드 안에서만 보인다 — 오른쪽 끝 마커는 라벨이 점 왼쪽에 붙는다(코드가 정한다). 그래도 상자 밖이면 검사 [island-label-clip] hard, 라벨이 같은 레인 출처 줄과 겹치면 [island-label-overlap] warning — 마커 날짜·레인이나 카메라(date·w)를 바꿔 푼다."
     - "사진·영상을 left 차트 아일랜드와 같은 순간에 띄울 때는 `\"place\": \"backdrop_right_low\"`(backdrop 무대 전용 사진 자리 — 오른쪽 카드 자리 아래·자막 위·left 상자 밖, v5.2.0 D-0132). map_right_low·panel_gap·timeline_photo 는 left 상자와 겹친다([island-overlap] hard)."
     - "기사: `{\"type\": \"article\", \"mid\": 기사 id, \"theme\": dark|light(기본 {theme_default}), \"press\": 공식 사진 id(선택)}` — 화면 전체. 프레스 사진 {press_lead}초 → 덮개 + 세리프 헤드라인(원문 언어)·부제(번역)·출처 줄. press 는 미디어 목록의 권리 기록 사진만, 없으면 쓰지 않는다(코드가 지금 화면을 흐려 깐다)."
 
@@ -911,6 +912,10 @@ island:                    # v5.1.0 back_and_forth D-0123 §1·D-0126(Q1~Q4 A) �
   chart:                   # 차트 아일랜드 안 레인 영역(Q2 A): [pad_top, 상자 높이 − pad_bottom], 세로 척도 = min(stage_timeline.lane_h, 영역 ÷ 레인 수)
     pad_top: 34            # 압축 라벨(wave.label_dy −7) 자리
     pad_bottom: 40         # 날짜 눈금 라벨(grid.label_dy 17) 자리
+    # v5.2.0 back_and_forth D-0133 §1 — 차트 아일랜드 안 마커 라벨(글자 상자)이 상자 가장자리 − label_flip_pad 를 넘으면 점 반대쪽(오른쪽 → 왼쪽)에 붙이고,
+    # 그래도 넘치면 상자 안으로 클램프. 아일랜드 마커에만(지도·시간축 무대 마커 경로 무변경). 기본 = 점 ↔ 라벨 여백(markers._SIDE dx 12)과 같은 값.
+    # 그 뒤에도 상자 밖 = checks island_label_clip hard `[island-label-clip]`, 라벨 ↔ 같은 순간 시리즈 출처 줄 교차 = island_label_overlap warning `[island-label-overlap]`
+    label_flip_pad: 12
   # v5.2.0 back_and_forth D-0129 §B(사용자 판정 D113 "차트 없이 블러 배경 + 오른쪽 카드만 나오는 화면이 너무 오래 간다") — 주 아일랜드 상시.
   # checks backdrop_main_missing hard: backdrop 무대에서 main_kinds(chart = island kind chart, 그 밖 = 이벤트 type)가 하나도 보이지 않는 구간 > card_only_max_sec
   # → `[backdrop-main-missing] t0-t1 {n}s`(타이틀·엔딩 카드·기사 구간 제외, provenance backdrop.main_missing[]). 코드는 카드를 기사로 바꾸지 않는다(P8) — 검사 + 문법 + 재연출

@@ -1,4 +1,8 @@
-"""지점 마커 (v2.1.0, render3 `icon, draw_marker`). 차지한 영역은 R.reserved 에 올려 라벨이 피한다."""
+"""지점 마커 (v2.1.0, render3 `icon, draw_marker`). 차지한 영역은 R.reserved 에 올려 라벨이 피한다.
+
+v5.2.0 back_and_forth D-0133 §1 — 차트 아일랜드 안 마커(`in_island`)만: 라벨 글자 상자가 상자 가장자리 − island.chart.label_flip_pad 를
+넘으면 점 반대쪽에 붙이고(오른쪽 → 왼쪽), 그래도 넘치면 상자 안으로 클램프(`island_label`). 지도·시간축 무대 마커는 무변경(골든).
+"""
 
 from __future__ import annotations
 
@@ -8,7 +12,7 @@ import cairo
 
 from engine.context import RenderCtx
 from engine.projection import View
-from engine.style import C
+from engine.style import C, ISLAND
 from engine.timebase import ease_out, smooth, window
 from engine.typography import text, tw
 from rules import load_rules
@@ -55,6 +59,50 @@ def marker_box(ctx: cairo.Context, e: dict, x: float, y: float, with_sub: bool =
     return (x - 14 if anc != "r" else x - w, y - 16, x + w if anc != "r" else x + 14, y + 26)
 
 
+_FLIP = {"right": "left", "left": "right"}
+
+
+def label_w(ctx: cairo.Context, e: dict) -> float:
+    """라벨·부제 글자 폭(같은 기준점·같은 정렬로 그린다 — 넓은 쪽)."""
+    w = tw(ctx, e["label"], MK.label_size, "sansb")
+    return max(w, tw(ctx, e["sub"], MK.sub_size, "sansm")) if e.get("sub") else w
+
+
+def _span(side: str, x: float, w: float, shift: float = 0.0) -> tuple[float, float]:
+    dx, _, anc = _SIDE[side]
+    x0 = x + dx + shift - (w if anc == "r" else w / 2 if anc == "c" else 0)
+    return x0, x0 + w
+
+
+def island_label(ctx: cairo.Context, e: dict, x: float, vw: float) -> tuple[str, float, str]:
+    """아일랜드 마커 라벨 자리(D-0133 §1) → (side, x 이동, 처리 none|flip|clamp). vw = 상자 폭(뷰포트)."""
+    pad = ISLAND.chart.label_flip_pad
+    side = e.get("side") or "right"
+    w = label_w(ctx, e)
+    x0, x1 = _span(side, x, w)
+    if x0 >= pad and x1 <= vw - pad:
+        return side, 0.0, "none"
+    how = "none"
+    if side in _FLIP:
+        f0, f1 = _span(_FLIP[side], x, w)
+        if f0 >= pad and f1 <= vw - pad:
+            return _FLIP[side], 0.0, "flip"
+        if (x1 > vw - pad and side == "right") or (x0 < pad and side == "left"):
+            side, x0, x1, how = _FLIP[side], f0, f1, "flip"
+    lo, hi = pad, vw - pad - w
+    shift = (max(lo, min(x0, hi)) if hi >= lo else lo) - x0   # 폭이 상자보다 넓으면 왼쪽 여백에 붙는다(넘친 오른쪽은 검사가 잡는다)
+    return side, shift, "clamp" if abs(shift) > 1e-6 else how
+
+
+def island_label_rect(ctx: cairo.Context, e: dict, x: float, y: float, vw: float) -> tuple[float, float, float, float, str]:
+    """아일랜드 마커 라벨·부제 글자 상자(상자 좌표 x0, y0, x1, y1)와 처리 — checks island_label_clip·overlap 이 렌더와 같은 자리를 잰다."""
+    side, shift, how = island_label(ctx, e, x, vw)
+    x0, x1 = _span(side, x, label_w(ctx, e), shift)
+    by = y + _SIDE[side][1]
+    bot = by + MK.sub_dy + MK.sub_size * 0.25 if e.get("sub") else by + MK.label_size * 0.25
+    return x0, by - MK.label_size, x1, bot, how
+
+
 def draw_marker(ctx: cairo.Context, R: RenderCtx, view: View, t: float, e: dict) -> None:  # noqa: N803
     a = window(t, e["t0"], e["t1"], 0.35, 0.5)
     if a <= 0.01:
@@ -72,12 +120,14 @@ def draw_marker(ctx: cairo.Context, R: RenderCtx, view: View, t: float, e: dict)
         ctx.set_line_width(1.3)
         ctx.stroke()
     icon(ctx, e.get("icon") or "dot", x, y, col, a * ease_out(lt / 0.3))
-    side = e.get("side") or "right"
+    side, shift = e.get("side") or "right", 0.0
+    if e.get("in_island"):   # v5.2.0 D-0133 §1 — 아일랜드 상자 밖으로 나가는 라벨은 반대쪽·클램프(상자 좌표, view.vw = 상자 폭)
+        side, shift, _ = island_label(ctx, e, x, view.vw)
     la = a * smooth((lt - 0.2) / 0.4)
     dx, dy, anc = _SIDE[side]
-    box = marker_box(ctx, e, x, y)
+    box = marker_box(ctx, {**e, "side": side} if side != (e.get("side") or "right") else e, x + shift, y)
     la *= marker_label_alpha(box, R.zones)   # 카드 뒤 라벨은 흐린다 — 점은 사실 위치라 그대로(D-0033)
-    text(ctx, e["label"], x + dx, y + dy, MK.label_size, "sansb", (1, 1, 1), la, 3.2, anc)
+    text(ctx, e["label"], x + dx + shift, y + dy, MK.label_size, "sansb", (1, 1, 1), la, 3.2, anc)
     if e.get("sub"):
-        text(ctx, e["sub"], x + dx, y + dy + MK.sub_dy, MK.sub_size, "sansm", C["gold"], la, 3, anc)
+        text(ctx, e["sub"], x + dx + shift, y + dy + MK.sub_dy, MK.sub_size, "sansm", C["gold"], la, 3, anc)
     R.reserved.append(box)
