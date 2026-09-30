@@ -7,11 +7,12 @@
 from __future__ import annotations
 
 import math
-from typing import TYPE_CHECKING, Literal
+from typing import TYPE_CHECKING, Literal, Sequence
 
 import numpy as np
 from pydantic import BaseModel, ConfigDict
 
+from engine.pacing import creep_factor
 from engine.timebase import ease_io
 from rules import load_rules
 
@@ -41,8 +42,9 @@ def cam(t: float, x: float, y: float, w: float, dur: float = 3.0, mode: Literal[
     return CamKey(t=t, x=x, y=y, w=w, dur=dur, mode=mode)
 
 
-def build_camera(keys: list[CamKey], n_frames: int, fps: int) -> "np.ndarray":
-    """프레임별 (x, y, w) 배열."""
+def build_camera(keys: list[CamKey], n_frames: int, fps: int,
+                 creep: Sequence[tuple[float, float]] = ()) -> "np.ndarray":
+    """프레임별 (x, y, w) 배열. creep = 느린 푸시인 범위(v4.11.0 D-0118 §1, engine.pacing.creep_ranges) — 드리프트와 곱한다."""
     cams = sorted(keys, key=lambda c: c.t)
     out = np.zeros((n_frames, 3))
     cur = np.array([cams[0].x, cams[0].y, cams[0].w], float)
@@ -65,6 +67,8 @@ def build_camera(keys: list[CamKey], n_frames: int, fps: int) -> "np.ndarray":
             da = t - (act.t + act.dur)
         if da > 0:
             v[2] *= 1 - _DRIFT.amount * (1 - math.exp(-da / _DRIFT.tau_sec))
+        if creep:
+            v[2] *= creep_factor(t, 0.0 if act is None else act.t + act.dur, creep)
         out[i] = v
     return out
 

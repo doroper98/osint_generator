@@ -60,6 +60,7 @@ preview → prev/checks.json(결정적 검사 18항목)
 | 경계선 이름을 단 경로(`boundary_as_route`, `[boundary-as-route]`) — 경계선은 지도 경계 레이어가 그린다 | hard | `rules:geo.boundary_names` | back_and_forth D-0107(M8) |
 | 지도 좌표 근거 미대조(`geo_unsourced`, `[geo-unsourced]`) — 지명 사전에 없는 이름의 places·인라인 marker, paths·route, provenance `geo.unsourced[]` | warning | `rules:geo.gazetteer` | back_and_forth D-0107, v4.10.0 D-0116 |
 | 지명 사전 좌표 불일치(`geo_mismatch`, `[geo-mismatch]`) — place 키·marker label 이 `data/gazetteer.yaml` 과 맞는데 좌표가 맞은 항목 모두의 tol_km 밖, provenance `geo.mismatch[]`·`geo.matched[]` | hard | `rules:geo.gazetteer`(`geo.gazetteer`, handoff 04 §11) | v4.10.0 back_and_forth D-0116(B-1) |
+| 정적 구간(`static_window`, `[static-window] t0-t1 changes=n`) — 지도가 보이는 구간(전면 카드·패널 덮개 밖)의 어떤 window_sec 창이든 change_kinds 변화 < min_changes. 걸린 범위에 느린 푸시인(creep), provenance `pacing.static_windows[]`·`pacing.creep`. 콘티 판에서도 돈다 | warning | `rules:pacing.static_window`(`engine.pacing`, handoff 05 §7) | v4.11.0 back_and_forth D-0118 §1 |
 
 ### 2.2 장르 요소 검사 — v4.2.0
 

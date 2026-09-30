@@ -152,6 +152,28 @@ class ShotGrammar(_Strict):
     w_guide: dict[str, float | Range2]
 
 
+class StaticCreep(_Strict):
+    """느린 푸시인(v4.11.0 back_and_forth D-0118 §1) — [static-window] 창에서만 카메라 w 를 창 길이에 걸쳐 w_ratio 로 선형 축소."""
+
+    enabled: bool
+    w_ratio: float = Field(gt=0.9, le=1)      # 0.96 = 4 % — 줌 범프 아님(G4-16)
+    min_window_sec: float = Field(gt=0)
+
+
+class StaticWindow(_Strict):
+    """정적 구간 검사 `[static-window]`(v4.11.0 D-0118 §1) — 지도 무대의 window_sec 슬라이딩 창에서 change_kinds 변화 < min_changes = warning."""
+
+    window_sec: float = Field(gt=0)
+    min_changes: int = Field(ge=1)
+    change_kinds: list[str] = Field(min_length=1)   # registries.event_types 이름 + camera(카메라 키)
+    creep: StaticCreep
+    ladder: str = Field(min_length=1)                # 연출 프롬프트 변화 사다리({{RULES.pacing.static_window}}), {window_sec} 자리
+
+
+class PacingRules(_Strict):
+    static_window: StaticWindow
+
+
 class MediaBeats(_Strict):
     kinds: list[str]
     photo_show_sec: Range2
@@ -1489,6 +1511,7 @@ class VideoRules(_Strict):
     pronounce: PronounceRules     # v3.0.0 — D-0040 작업 8
     placement: PlacementRules     # v3.1.0 — D-0047 작업 5
     shot_grammar: ShotGrammar
+    pacing: PacingRules            # v4.11.0 — D-0118 §1 정적 구간
     media_beats: MediaBeats
     media: MediaRules
     hud: HudRules
@@ -1523,6 +1546,9 @@ class VideoRules(_Strict):
         bad = sorted(set(self.bundle.edge_types.values()) - set(self.panels.charts.network.styles))
         if bad:
             raise ValueError(f"bundle.edge_types 값이 panels.charts.network.styles 에 없다: {bad}")
+        bad = sorted(set(self.pacing.static_window.change_kinds) - set(self.registries.event_types) - {"camera"})
+        if bad:
+            raise ValueError(f"pacing.static_window.change_kinds 가 registries.event_types(+camera) 에 없다: {bad}")
         bad = sorted(set(self.genre_prompt.stage_grammar) - set(self.registries.stages))
         if bad:
             raise ValueError(f"genre_prompt.stage_grammar 의 무대가 registries.stages 에 없다: {bad}")

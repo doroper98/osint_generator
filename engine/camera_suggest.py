@@ -196,7 +196,7 @@ def suggest(P) -> CameraSuggest:  # noqa: ANN001, N803 — engine.project.Projec
             trans.append(choose_transition(prev, sg) if sg is not None and prev is not None and k.t > 0 else None)
             prev = here
         nk, ev = _keys_for(P, sugs, trans)
-        P2 = dataclasses.replace(P, keys=nk, events=ev, cams=build_camera(nk, P.n_frames, FPS))  # noqa: N806
+        P2 = dataclasses.replace(P, keys=nk, events=ev, cams=build_camera(nk, P.n_frames, FPS, creep=[tuple(r) for r in (P.R.cache.get("pacing") or {}).get("creep", [])]))  # noqa: N806
         hits = offscreen_hits(P2)
         left = []
         grow = set()

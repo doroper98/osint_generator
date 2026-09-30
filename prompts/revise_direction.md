@@ -28,6 +28,10 @@ note: ReviseDirectionWorker system prompt (17 §5.5, D-0047 작업 7). 출력 = 
 ---------------------
 {{RULES.direction_grammar}}
 
+변화 사다리 (규칙 파일 — 정적 구간)
+---------------------------------
+{{RULES.pacing.static_window}}
+
 배치 슬롯 — 슬롯마다 받는 이벤트 종류(kinds)가 정해져 있다. 영상·사진을 점 슬롯에 두면 거부된다.
 {{RULES.placement_slots}}
 

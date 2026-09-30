@@ -165,3 +165,8 @@ cam(title.t0 + 2.9, lon, lat, w, dur=0, mode='cut')
 > **구현 메모(v4.1.0, back_and_forth D-0076)**: 카메라 키·프레이밍·제안은 무대 월드 좌표 (x, y, w)로 계산한다(`engine/stage.py`, handoff 20 §2.3). 지도 무대에서 월드 좌표는 (경도, Mercator 도 단위)라 결과는 v3.3.0 과 비트 단위로 같다(camera_suggest 결과 JSON 동일). 로그 줌·드리프트·dip 은 그대로다.
 
 > **구현 메모(v3.3.0, back_and_forth D-0058)**: 제안 엔진(`engine/camera_suggest.py`)은 **틀 안 최적화**다. 현재 카메라 w 가 속한 §2.2 용도 분류(`shot_grammar.w_guide`)의 하한(`camera.framing.context_w_min`) 위에서 장소를 다 담는 최소 폭·중심을 낸다. 현재 스케일 분류가 틀렸으면 제안이 그것을 고치지 못한다. 자동 적용은 하지 않는다(P8).
+
+> **구현 메모(v4.11.0, back_and_forth D-0118 §1 — 변화 사다리·느린 푸시인)**: 한 지도 뷰가 오래 머물 때의 처방은 **뷰 전환이 아니라 같은 뷰 안의 '동기 있는 변화'**다.
+> 같은 뷰가 `rules:pacing.static_window.window_sec` 를 넘으면 문장 내용을 따라 ① 마커·라벨 등장 ② 관계선 하나 ③ 뱃지·카드 ④ 강조 ⑤ 그래도 없으면 숏 이동 순으로 변화를 준다(연출 프롬프트 `{{RULES.pacing.static_window}}`, 문안 = `rules:pacing.static_window.ladder`).
+> 검사 `static_window`(warning, `[static-window]`)는 지도가 보이는 구간(숏 무대 mercator, 전면 카드·패널 덮개 밖)의 모든 창에서 `change_kinds` 변화(이벤트 등장 t0·카메라 키)를 센다(`engine/pacing.py`).
+> 걸린 범위에만 **느린 푸시인(creep)**: w 를 범위 길이에 걸쳐 `creep.w_ratio` 로 선형 축소, 범위 뒤 유지 — 다음 키의 이동이 줄어든 w 에서 출발해 흡수한다. §1.1 드리프트와 곱한다. 45초에 4 % 라 줌 범프(§1.2, G4-16)가 아니다. 이동 중에는 걸지 않는다.

@@ -68,6 +68,7 @@ MINOR: 새 검사(정적 구간) 추가. 전편 렌더는 480p 두 편(hormuz·f
 
 ### Changed
 - **§0**: VERSION 4.11.0, Tier 1·2 `last_synced_with` v4.11.0, v4.10.0 대장 행(29dfa44, D-0117 pass).
+- **§1 정적 구간 `[static-window]`·변화 사다리·느린 푸시인**: `rules pacing.static_window`(window_sec 45·min_changes 3·change_kinds = 레지스트리 이름 12 + camera·creep w_ratio 0.96·ladder). `engine/pacing.py` — 지도가 보이는 구간(숏 무대 mercator, 전면 카드·패널 덮개 밖)의 모든 45초 창(0.1초 격자, 닫힌 구간)에서 변화(이벤트 등장 t0·카메라 키) < 3 이면 범위 하나. checks **`static_window` warning**, provenance `pacing`(static_windows·creep). 걸린 범위에만 creep — `build_camera(creep=…)` 가 w 를 범위 길이에 걸쳐 × 0.96 선형, 범위 뒤 유지, 다음 키 이동이 흡수(드리프트와 곱함, 이동 중 없음). 연출 프롬프트 `director`·`revise_direction` 에 `{{RULES.pacing.static_window}}`(변화 사다리). 콘티 판에서도 돈다(checks_skip 밖). 골든: hormuz 지도 구간이 모두 45초 미만(패널·카드로 끊김) → 창 0, 랫클리프 창 0(45초 창 최소 변화 9) → creep 0, 25컷 기준선 바이트 동일.
 
 ---
 

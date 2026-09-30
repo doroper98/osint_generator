@@ -26,6 +26,7 @@ hard 실패가 하나라도 있으면 시각 검수 LLM 을 부르지 않고 연
 | boundary_as_route | hard | v4.7.0(D-0107 D2(b), M8): rules geo.boundary_names 이름을 단 route 이벤트(label·{path:})·paths 키 `[boundary-as-route]` — 경계선은 지도 경계 레이어가 그린다 |
 | geo_unsourced | warning | v4.7.0(D-0107 D2(b)): 지도 무대 places·paths·인라인 좌표 marker·route 가 지명 사전과 대조되지 않음 `[geo-unsourced]`(provenance geo.unsourced[]). v4.10.0: 사전(`data/gazetteer.yaml`)에 없는 이름·paths·route 만 |
 | geo_mismatch | hard | v4.10.0(D-0116 B-1): place 키·그 place 를 쓰는 marker label·인라인 marker label 이 지명 사전과 맞는데 좌표가 맞은 항목 모두의 tol_km 밖 `[geo-mismatch]`(provenance geo.mismatch[]) — `geo.gazetteer` |
+| static_window | warning | v4.11.0(D-0118 §1): 지도 무대(전면 카드·패널 덮개 밖)의 어떤 pacing.static_window.window_sec 창이든 change_kinds 변화(이벤트 등장 t0·카메라 키) < min_changes `[static-window] t0-t1 changes=n`(provenance pacing.static_windows[]). 표시된 범위에는 느린 푸시인(creep). `engine.pacing` |
 | as_of_visible | hard | 기준 시점·출처 줄 — 시리즈는 프리뷰 컷에 그린 출처 줄, 패널은 08 §9 출처 체계. 적용 범위 = qa_checks.chart_targets(축 종류) |
 """
 
@@ -52,7 +53,8 @@ SHADOW_PX = 7             # badge_box 가 원 둘레에 더하는 그림자 여�
 HARD = ("overlap", "offscreen", "glyphs", "glyph_size", "labels", "date", "subtitles", "rights", "forbidden", "stage_continuity",
         "genre_elements", "chart_honesty", "series_limit_3", "units_visible", "as_of_visible", "boundary_as_route",
         "geo_mismatch")   # geo_mismatch v4.10.0 D-0116
-WARN = ("shots", "media_beats", "media_upscaled", "endcard_roll", "geo_unsourced")   # endcard_roll v4.7.0 D-0106, geo_unsourced D-0107
+WARN = ("shots", "media_beats", "media_upscaled", "endcard_roll", "geo_unsourced",   # endcard_roll v4.7.0 D-0106, geo_unsourced D-0107
+        "static_window")   # static_window v4.11.0 D-0118
 
 
 def missing_fonts() -> list[str]:
@@ -140,6 +142,13 @@ def check_geo_mismatch(P) -> list[str]:  # noqa: ANN001, N803
     """지명 사전 좌표 불일치(v4.10.0 back_and_forth D-0116 B-1) — hard. 항목은 load_project 가 `geo.gazetteer.check_doc` 로 모은 것."""
     return [f"[geo-mismatch] {it['kind']} {it['name']} {it['lonlat']} — 사전 {it['gazetteer']} 에서 {it['km']}km(허용 {it['tol_km']}km)"
             for it in (P.R.cache.get("geo_check") or {}).get("mismatch") or []]
+
+
+def check_static_window(P) -> list[str]:  # noqa: ANN001, N803
+    """정적 구간(v4.11.0 back_and_forth D-0118 §1) — warning. 범위는 load_project 가 `engine.pacing` 으로 한 번 계산한 것(creep·provenance 와 같은 값)."""
+    pc = P.R.cache.get("pacing") or {}
+    return [f"[static-window] {w['t0']:.1f}-{w['t1']:.1f} changes={w['changes']} (창 {pc.get('window_sec'):g}초, 기준 ≥ {pc.get('min_changes')}; "
+            f"종류 {', '.join(w['kinds']) or '없음'})" for w in pc.get("static_windows") or []]
 
 
 def check_endcard_overflow(P) -> list[str]:  # noqa: ANN001, N803
@@ -381,6 +390,7 @@ def run_checks(P, times: list[float], provenance: dict, drawn: list[tuple[str, f
         "boundary_as_route": lambda: list((P.R.cache.get("geo_check") or {}).get("boundary") or []),
         "geo_unsourced": lambda: check_geo_unsourced(P),
         "geo_mismatch": lambda: check_geo_mismatch(P),
+        "static_window": lambda: check_static_window(P),
     }
     res = {k: f() for k, f in run.items() if k not in skip}
     notes: dict[str, list[str]] = {}

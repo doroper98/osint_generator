@@ -29,6 +29,7 @@ from engine.credits import RightsError
 from engine.layers.media import ArticleOverflowError, article_geom, caption_width, validate_media
 from engine.media_registry import credit_line
 from engine.media_plan import density_report, media_box, placement_warnings
+from engine.pacing import change_times, creep_ranges, map_segments, static_windows
 from engine.layers.badges import assign_person_sizes, drop_person_R, portrait_head_top
 from engine.placement import PlacementError, resolve_places
 from engine.projection import View
@@ -313,7 +314,8 @@ def load_project(proj: Path, direction: Optional[Direction] = None, out: Optiona
                             "matched": gz["matched"] if gz else None,                            # v4.10.0 사전과 맞은 좌표(provenance geo.matched)
                             "mismatch": gz["mismatch"] if gz else None}                          # v4.10.0 checks [geo-mismatch] hard
     n = int(plan.total * FPS)
-    cams = build_camera(keys, n, FPS) if keys else None
+    R.cache["pacing"] = pacing_check(plan.total, tb, shots, raw_events, keys, R.stage.name)   # v4.11.0 D-0118 §1 — 검사·provenance·creep 한 결과
+    cams = build_camera(keys, n, FPS, creep=[tuple(r) for r in R.cache["pacing"]["creep"]]) if keys else None
     A0 = assets  # noqa: N806
 
     def view_at(t: float) -> View:
@@ -374,6 +376,27 @@ def load_project(proj: Path, direction: Optional[Direction] = None, out: Optiona
 
         return Project(proj, plan, R, keys, events, cams, n, warns, shots, ANIMATIC_LAYERS)
     return Project(proj, plan, R, keys, events, cams, n, warns, shots)
+
+
+def pacing_check(total: float, tb: Timebase, shots: list[ShotStage], events: list[dict], keys: list[CamKey],
+                 main_stage: str) -> dict:
+    """정적 구간(v4.11.0 back_and_forth D-0118 §1, engine.pacing) — 지도가 보이는 구간(숏 무대 mercator, 전면 카드·패널 덮개 밖)의
+    window_sec 창마다 change_kinds 변화 수. 결과 = {segments, static_windows, creep} — checks [static-window]·provenance pacing·카메라 creep."""
+    sw = load_rules().pacing.static_window
+    ss = sorted(shots, key=lambda s: s.t)
+    panels = [(float(e["t0"]), float(e["t1"])) for e in events if e.get("type") == "panel"]
+
+    def stage_at(t: float) -> str:
+        return next((s.stage for s in reversed(ss) if s.t <= t), ss[0].stage if ss else main_stage)
+
+    def covered(t: float) -> bool:
+        return tb.in_fullcard(t) or any(a <= t <= b for a, b in panels)
+
+    segs = map_segments(total, stage_at, covered)
+    wins = static_windows(segs, change_times(events, [k.t for k in keys], sw.change_kinds))
+    return {"window_sec": sw.window_sec, "min_changes": sw.min_changes, "segments": [list(x) for x in segs],
+            "static_windows": wins, "creep": [list(r) for r in creep_ranges(wins)],
+            "creep_w_ratio": sw.creep.w_ratio if sw.creep.enabled else None}
 
 
 def prepare_series(R: RenderCtx, events: list[dict], cams: np.ndarray, n: int) -> None:  # noqa: N803
