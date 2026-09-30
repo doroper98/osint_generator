@@ -67,11 +67,12 @@ released 항목은 **append-only**입니다.
 
 ## [v5.2.0] — 2026-09-30 — G13: 배경 사진 가독, 주 아일랜드 상시, 보도 인용 = 기사 이벤트, 카드↔아일랜드 교차 (back_and_forth D-0129, 사용자 판정 D113) — 진행 중
 
-MINOR: 새 검사 2개(`backdrop_main_missing` hard·`card_island` warning). JSON `schema_version` 그대로(1).
+MINOR: 새 검사 4개(`backdrop_main_missing`·`island_label_clip` hard, `card_island`·`island_label_overlap` warning). JSON `schema_version` 그대로(1).
 
 ### Changed
 - **§0**: VERSION 5.2.0, Tier 1·2 `last_synced_with` v5.2.0, v5.1.0 대장 행(3619f2c, D-0127 pass).
 - **D-0132 backdrop 전용 사진 슬롯**(A): `placement.slots.backdrop_right_low` box [594, 212, 236]·`stages: [backdrop]`(슬롯 모델 새 필드 `stages` — 다른 주 무대에서 쓰면 배치 오류, P10), 연출 문법 한 줄(left 차트 아일랜드와 함께 쓰는 사진 자리), 프리뷰 예제 `stage_backdrop.yaml`. 테스트 3. 슬롯 값은 사용자 합격 값 아님.
+- **D-0133 아일랜드 마커 라벨**(B): 차트 아일랜드 안 마커 라벨이 상자 가장자리 − `island.chart.label_flip_pad`(12)를 넘으면 점 반대쪽, 그래도 넘치면 클램프(`markers.island_label`, 아일랜드 마커에만). checks `island_label_clip` hard·`island_label_overlap` warning(시리즈 출처 줄 교차), provenance `island.label_clip[]`·`label_overlap[]`·`label_flip[]`, 연출 문법 한 줄. 테스트 10, hormuz 골든 25/25 = G12 기준선(`phaseG13/hormuz_label_clip.json`).
 
 ---
 
