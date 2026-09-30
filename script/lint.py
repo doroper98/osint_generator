@@ -163,6 +163,22 @@ _NUM_THEN_HANGUL_RE = re.compile(r"(?<!\d)(\d{1,8})(?=[가-힣])")
 _NUM_RE = re.compile(r"(?<!\d)(\d{1,8})(?!\d)")
 
 
+def apply_dict(text: str, mapping: dict[str, str] | None = None) -> str:
+    """사전 치환만(긴 key 부터, `_` 메타 제외) — apply_pronunciation 1) 단계와 합성 직전 명시 tts(`pronounce_tts`)가 같은 함수."""
+    out = text
+    for key in sorted(mapping or {}, key=len, reverse=True):
+        if not key.startswith("_") and key in out:
+            out = out.replace(key, (mapping or {})[key])
+    return out
+
+
+def pronounce_tts(tts: str, mapping: dict[str, str] | None = None) -> str:
+    """합성 직전 발음 사전(v5.1.0 back_and_forth D-0121 §D, TTS-AP-067·068 구조 조치) — 원고가 tts 를 명시해도 사전을 거친다.
+    숫자 변환은 하지 않는다(명시 tts 는 이미 한글). 치환이 있었을 때만 공백을 정리한다(치환 없는 문장의 캐시 키 불변). 멱등."""
+    out = apply_dict(tts, load_pronounce_dict() if mapping is None else mapping)
+    return tts if out == tts else re.sub(r"\s+", " ", out).strip()
+
+
 def apply_pronunciation(text: str, mapping: dict[str, str] | None = None) -> str:
     """텍스트를 narration 용 음차로 변환.
 
@@ -174,13 +190,7 @@ def apply_pronunciation(text: str, mapping: dict[str, str] | None = None) -> str
     단어 경계: mapping key 가 한국어이므로 `\b` 가 작동 안 함. 단순 substring 치환을
     긴 key 부터 적용해 부분 매칭 충돌 회피.
     """
-    out = text
-    if mapping:
-        for key in sorted(mapping.keys(), key=len, reverse=True):
-            if key.startswith("_"):
-                continue
-            if key in out:
-                out = out.replace(key, mapping[key])
+    out = apply_dict(text, mapping)
     # 숫자 + 단위어 사이 공백 보정 → "팔십 달러", "십 구 일".
     out = _NUM_THEN_HANGUL_RE.sub(
         lambda m: num_to_sino_kr(int(m.group(1))) + " ", out

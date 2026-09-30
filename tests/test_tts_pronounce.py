@@ -106,5 +106,53 @@ class TestApplyPronunciation(unittest.TestCase):
         self.assertTrue(load_dict())   # rules pronounce.dict_path 의 저장소 사전
 
 
+class TestPronounceBeforeSynth(unittest.TestCase):
+    """v5.1.0 back_and_forth D-0121 §D(TTS-AP-067·068 구조 조치) — 합성 직전 사전은 명시 tts 에도 적용, 멱등."""
+
+    def test_veto_fortis(self) -> None:
+        from script.lint import pronounce_tts  # noqa: PLC0415
+
+        self.assertEqual(pronounce_tts("의회는 거부권을 행사했습니다"), "의회는 거부꿘을 행사했습니다")   # TTS-AP-067
+
+    def test_fomc_split(self) -> None:
+        from script.lint import pronounce_tts  # noqa: PLC0415
+
+        self.assertEqual(pronounce_tts("연방공개시장위원회는 동결했습니다"), "연방 공개시장 위원회는 동결했습니다")   # TTS-AP-068
+
+    def test_explicit_tts_path_in_plan(self) -> None:
+        """script.plan.build 가 원고 명시 tts 를 사전에 통과시킨 뒤 캐시 키를 만든다(합성은 가짜)."""
+        import yaml  # noqa: PLC0415
+        from unittest import mock  # noqa: PLC0415
+
+        from script import plan as plan_mod  # noqa: PLC0415
+        from script.tts.cache import cache_key  # noqa: PLC0415
+
+        with tempfile.TemporaryDirectory() as d:
+            proj = Path(d)
+            (proj / "script.yaml").write_text(yaml.safe_dump({
+                "title": "t", "subtitle": "s", "date": "2026.09.30", "scenes": [{"id": "a", "sentences": [
+                    {"text": "연방공개시장위원회가 거부권을 말했습니다.", "tts": "연방공개시장위원회가 거부권을 말했습니다.", "date": "2026.09.30"}]}]},
+                allow_unicode=True), encoding="utf-8")
+            seen: list[str] = []
+            with mock.patch.object(plan_mod, "lint", return_value=mock.Mock(errors=[], warnings=[])), \
+                 mock.patch.object(plan_mod, "load_claims_for", return_value=None), \
+                 mock.patch.object(plan_mod.edge, "synth_all", side_effect=lambda jobs, voice=None: seen.extend(t for t, _ in jobs)), \
+                 mock.patch.object(plan_mod, "trim_to_npy", return_value=(proj / "x.npy", 1.0, 0.0)):
+                pl = plan_mod.build(proj, "edge")
+        want = "연방 공개시장 위원회가 거부꿘을 말했습니다."
+        self.assertEqual(seen, [want])
+        self.assertEqual(pl.sentences[0].tts, want)
+        self.assertIn(cache_key(want, None, None), pl.sentences[0].mp3)
+
+    def test_idempotent_whole_dict(self) -> None:
+        from script.lint import pronounce_tts  # noqa: PLC0415
+
+        d = load_dict()
+        for k in d:
+            once = pronounce_tts(k, d)
+            self.assertEqual(pronounce_tts(once, d), once, k)
+        self.assertEqual(pronounce_tts("사전에  없는   문장", d), "사전에  없는   문장")   # 치환 없으면 그대로(캐시 키 불변)
+
+
 if __name__ == "__main__":
     unittest.main()

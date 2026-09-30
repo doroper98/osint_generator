@@ -15,7 +15,7 @@ from pathlib import Path
 import yaml
 
 from orchestrator.config import load_config
-from script.lint import lint, load_claims_for
+from script.lint import lint, load_claims_for, load_pronounce_dict, pronounce_tts
 from script.schema import Plan, Script
 from script.timeline import layout, sentence_rows
 from script.tts import edge, elevenlabs
@@ -46,6 +46,9 @@ def build(proj: Path, tts: str, warnings: list[str] | None = None, edge_voice: s
         edge_voice = None           # 기본 목소리 = v3 캐시 키 그대로
     jobs: list[tuple[str, Path]] = []
     resynth: list[str] = []
+    pron = load_pronounce_dict()
+    for x in rows:   # v5.1.0 D-0121 §D — 합성 직전 발음 사전(명시 tts 포함, 멱등). 캐시 키 = 치환 뒤 텍스트
+        x["tts"] = pronounce_tts(x["tts"], pron)
     for k, x in enumerate(rows):
         p = mp3_path(tts_dir, x["sid"], cache_key(x["tts"], vid, None if use_eleven else edge_voice))
         x["mp3"] = str(p)
