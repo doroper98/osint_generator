@@ -1,0 +1,403 @@
+{
+  "schema_version": 1,
+  "labels": {
+    "open_0": {
+      "status": "corroborated",
+      "label": null,
+      "claim_ids": [
+        "clm_0001"
+      ]
+    },
+    "open_1": {
+      "status": "corroborated",
+      "label": null,
+      "claim_ids": [
+        "clm_0002"
+      ]
+    },
+    "open_2": {
+      "status": "unverified",
+      "label": "<미검증>",
+      "claim_ids": [
+        "clm_0004",
+        "clm_0013"
+      ]
+    },
+    "proposal_0": {
+      "status": "unverified",
+      "label": "<미검증>",
+      "claim_ids": [
+        "clm_0009"
+      ]
+    },
+    "proposal_1": {
+      "status": "unverified",
+      "label": "<미검증>",
+      "claim_ids": [
+        "clm_0006"
+      ]
+    },
+    "proposal_2": {
+      "status": "unverified",
+      "label": "<미검증>",
+      "claim_ids": [
+        "clm_0007"
+      ]
+    },
+    "proposal_3": {
+      "status": "corroborated",
+      "label": null,
+      "claim_ids": [
+        "clm_0004"
+      ]
+    },
+    "proposal_4": {
+      "status": "unverified",
+      "label": "<미검증>",
+      "claim_ids": [
+        "clm_0005"
+      ]
+    },
+    "rejection_dispute_0": {
+      "status": "disputed",
+      "label": "<논쟁>",
+      "claim_ids": [
+        "clm_0003"
+      ]
+    },
+    "rejection_dispute_1": {
+      "status": "disputed",
+      "label": "<논쟁>",
+      "claim_ids": [
+        "clm_0003"
+      ]
+    },
+    "rejection_dispute_2": {
+      "status": "corroborated",
+      "label": null,
+      "claim_ids": [
+        "clm_0008"
+      ]
+    },
+    "mediation_0": {
+      "status": "corroborated",
+      "label": null,
+      "claim_ids": [
+        "clm_0010"
+      ]
+    },
+    "mediation_1": {
+      "status": "disputed",
+      "label": "<논쟁>",
+      "claim_ids": [
+        "clm_0011"
+      ]
+    },
+    "mediation_2": {
+      "status": "disputed",
+      "label": "<논쟁>",
+      "claim_ids": [
+        "clm_0011"
+      ]
+    },
+    "mediation_3": {
+      "status": "disputed",
+      "label": "<논쟁>",
+      "claim_ids": [
+        "clm_0011"
+      ]
+    },
+    "mediation_4": {
+      "status": "unverified",
+      "label": "<미검증>",
+      "claim_ids": [
+        "clm_0012"
+      ]
+    },
+    "mediation_5": {
+      "status": "unverified",
+      "label": "<미검증>",
+      "claim_ids": [
+        "clm_0018"
+      ]
+    },
+    "mediation_6": {
+      "status": "unverified",
+      "label": "<미검증>",
+      "claim_ids": [
+        "clm_0019"
+      ]
+    },
+    "mediation_7": {
+      "status": "unverified",
+      "label": "<미검증>",
+      "claim_ids": [
+        "clm_0020"
+      ]
+    },
+    "mediation_8": {
+      "status": "unverified",
+      "label": "<미검증>",
+      "claim_ids": [
+        "clm_0021"
+      ]
+    },
+    "nuclear_0": {
+      "status": "unverified",
+      "label": "<미검증>",
+      "claim_ids": [
+        "clm_0013"
+      ]
+    },
+    "nuclear_1": {
+      "status": "unverified",
+      "label": "<미검증>",
+      "claim_ids": [
+        "clm_0014"
+      ]
+    },
+    "nuclear_2": {
+      "status": "unverified",
+      "label": "<미검증>",
+      "claim_ids": [
+        "clm_0015"
+      ]
+    },
+    "nuclear_3": {
+      "status": "unverified",
+      "label": "<미검증>",
+      "claim_ids": [
+        "clm_0016"
+      ]
+    },
+    "nuclear_4": {
+      "status": "unverified",
+      "label": "<미검증>",
+      "claim_ids": [
+        "clm_0017"
+      ]
+    },
+    "war_background_0": {
+      "status": "corroborated",
+      "label": null,
+      "claim_ids": [
+        "clm_0028"
+      ]
+    },
+    "war_background_1": {
+      "status": "unverified",
+      "label": "<미검증>",
+      "claim_ids": [
+        "clm_0029"
+      ]
+    },
+    "war_background_2": {
+      "status": "unverified",
+      "label": "<미검증>",
+      "claim_ids": [
+        "clm_0042"
+      ]
+    },
+    "war_background_3": {
+      "status": "corroborated",
+      "label": null,
+      "claim_ids": [
+        "clm_0025"
+      ]
+    },
+    "war_background_4": {
+      "status": "disputed",
+      "label": "<논쟁>",
+      "claim_ids": [
+        "clm_0026"
+      ]
+    },
+    "war_background_5": {
+      "status": "disputed",
+      "label": "<논쟁>",
+      "claim_ids": [
+        "clm_0027"
+      ]
+    },
+    "war_background_6": {
+      "status": "disputed",
+      "label": "<논쟁>",
+      "claim_ids": [
+        "clm_0027"
+      ]
+    },
+    "war_background_7": {
+      "status": "corroborated",
+      "label": null,
+      "claim_ids": [
+        "clm_0040"
+      ]
+    },
+    "war_background_8": {
+      "status": "unverified",
+      "label": "<미검증>",
+      "claim_ids": [
+        "clm_0041"
+      ]
+    },
+    "pressure_0": {
+      "status": "unverified",
+      "label": "<미검증>",
+      "claim_ids": [
+        "clm_0022"
+      ]
+    },
+    "pressure_1": {
+      "status": "unverified",
+      "label": "<미검증>",
+      "claim_ids": [
+        "clm_0023"
+      ]
+    },
+    "pressure_2": {
+      "status": "unverified",
+      "label": "<미검증>",
+      "claim_ids": [
+        "clm_0024"
+      ]
+    },
+    "pressure_3": {
+      "status": "unverified",
+      "label": "<미검증>",
+      "claim_ids": [
+        "clm_0043"
+      ]
+    },
+    "shipping_oil_0": {
+      "status": "corroborated",
+      "label": null,
+      "claim_ids": [
+        "clm_0031"
+      ]
+    },
+    "shipping_oil_1": {
+      "status": "corroborated",
+      "label": null,
+      "claim_ids": [
+        "clm_0030"
+      ]
+    },
+    "shipping_oil_2": {
+      "status": "unverified",
+      "label": "<미검증>",
+      "claim_ids": [
+        "clm_0032"
+      ]
+    },
+    "shipping_oil_3": {
+      "status": "unverified",
+      "label": "<미검증>",
+      "claim_ids": [
+        "clm_0032"
+      ]
+    },
+    "shipping_oil_4": {
+      "status": "unverified",
+      "label": "<미검증>",
+      "claim_ids": [
+        "clm_0033"
+      ]
+    },
+    "shipping_oil_5": {
+      "status": "unverified",
+      "label": "<미검증>",
+      "claim_ids": [
+        "clm_0034"
+      ]
+    },
+    "shipping_oil_6": {
+      "status": "unverified",
+      "label": "<미검증>",
+      "claim_ids": [
+        "clm_0034"
+      ]
+    },
+    "shipping_oil_7": {
+      "status": "unverified",
+      "label": "<미검증>",
+      "claim_ids": [
+        "clm_0035"
+      ]
+    },
+    "shipping_oil_8": {
+      "status": "unverified",
+      "label": "<미검증>",
+      "claim_ids": [
+        "clm_0035"
+      ]
+    },
+    "shipping_oil_9": {
+      "status": "unverified",
+      "label": "<미검증>",
+      "claim_ids": [
+        "clm_0036"
+      ]
+    },
+    "shipping_oil_10": {
+      "status": "unverified",
+      "label": "<미검증>",
+      "claim_ids": [
+        "clm_0037"
+      ]
+    },
+    "shipping_oil_11": {
+      "status": "unverified",
+      "label": "<미검증>",
+      "claim_ids": [
+        "clm_0039"
+      ]
+    },
+    "korea_0": {
+      "status": "corroborated",
+      "label": null,
+      "claim_ids": [
+        "clm_0044"
+      ]
+    },
+    "korea_1": {
+      "status": "corroborated",
+      "label": null,
+      "claim_ids": [
+        "clm_0045"
+      ]
+    },
+    "korea_2": {
+      "status": "unverified",
+      "label": "<미검증>",
+      "claim_ids": [
+        "clm_0038"
+      ]
+    },
+    "korea_3": {
+      "status": "corroborated",
+      "label": null,
+      "claim_ids": [
+        "clm_0046"
+      ]
+    },
+    "korea_4": {
+      "status": "unverified",
+      "label": "<미검증>",
+      "claim_ids": [
+        "clm_0047"
+      ]
+    },
+    "korea_5": {
+      "status": "unverified",
+      "label": "<미검증>",
+      "claim_ids": [
+        "clm_0047"
+      ]
+    },
+    "close_0": {
+      "status": null,
+      "label": null,
+      "claim_ids": []
+    }
+  }
+}

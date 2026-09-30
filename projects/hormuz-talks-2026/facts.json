@@ -1,0 +1,699 @@
+{
+  "schema_version": 1,
+  "facts": [
+    {
+      "id": "f_trump_reject_0926",
+      "text": "트럼프 미국 대통령은 9월 26일 이란의 호르무즈 해협 7일 내 재개방 제안을 거부하며, 이란 제안은 받아들일 수 없다고 말했다.",
+      "date": "2026.09.26",
+      "place": "호르무즈 해협",
+      "actors": [
+        "도널드 트럼프"
+      ],
+      "numbers": [
+        "7일"
+      ],
+      "source_ids": [
+        "clm_0001",
+        "clm_0002"
+      ],
+      "confidence": "high",
+      "contested": false,
+      "sides": null
+    },
+    {
+      "id": "f_formal_rejection_dispute",
+      "text": "AP 보도(PBS 게재)에 따르면 익명의 역내·미국 관리들은 트럼프의 공개 발언에도 미국이 현 제안을 공식 거부하지 않았으며 발언은 협상 전술일 수 있다고 밝혔고, 트럼프 대통령은 기자들에게 이란 제안을 거부한다고 말했다.",
+      "date": null,
+      "place": null,
+      "actors": [
+        "익명 역내·미국 관리",
+        "도널드 트럼프"
+      ],
+      "numbers": [],
+      "source_ids": [
+        "clm_0003"
+      ],
+      "confidence": "medium",
+      "contested": true,
+      "sides": [
+        "익명 역내·미국 관리(AP): 미국은 현 제안을 공식 거부하지 않았고 발언은 협상 전술일 수 있다",
+        "트럼프 대통령: 그들의 제안을 거부한다고 기자들에게 말했다"
+      ]
+    },
+    {
+      "id": "f_iran_proposal_terms",
+      "text": "이란 제안은 미국에 동결 자금 해제, 제재 해제, 이란 항구에 대한 해상봉쇄 종료를 요구한다.",
+      "date": "2026.09.25",
+      "place": null,
+      "actors": [
+        "이란 정부",
+        "미국 정부"
+      ],
+      "numbers": [],
+      "source_ids": [
+        "clm_0004"
+      ],
+      "confidence": "high",
+      "contested": false,
+      "sides": null
+    },
+    {
+      "id": "f_frozen_assets_12bn",
+      "text": "알자지라는 이란의 7일 제안에 약 120억 달러 규모 동결 자산 해제가 포함됐다고 보도했다.",
+      "date": "2026.09.25",
+      "place": null,
+      "actors": [
+        "이란 정부"
+      ],
+      "numbers": [
+        "7일",
+        "약 120억 달러"
+      ],
+      "source_ids": [
+        "clm_0005"
+      ],
+      "confidence": "low",
+      "contested": false,
+      "sides": null
+    },
+    {
+      "id": "f_araghchi_7day_plan",
+      "text": "아락치 이란 외무장관은 9월 25일 조건이 충족되면 7일 안에 해협을 재개방할 수 있고, 미국 측 조치는 4~5일 안에 완료될 수 있다고 밝혔다.",
+      "date": "2026.09.25",
+      "place": "호르무즈 해협",
+      "actors": [
+        "아바스 아락치 이란 외무장관"
+      ],
+      "numbers": [
+        "7일",
+        "4~5일"
+      ],
+      "source_ids": [
+        "clm_0006",
+        "clm_0007"
+      ],
+      "confidence": "low",
+      "contested": false,
+      "sides": null
+    },
+    {
+      "id": "f_araghchi_awaits_answer",
+      "text": "아락치 외무장관은 트럼프의 거부에 대해 중재자를 통한 확정 답변을 기다린다고 밝혔다.",
+      "date": "2026.09.26",
+      "place": null,
+      "actors": [
+        "아바스 아락치 이란 외무장관"
+      ],
+      "numbers": [],
+      "source_ids": [
+        "clm_0008"
+      ],
+      "confidence": "high",
+      "contested": false,
+      "sides": null
+    },
+    {
+      "id": "f_proposal_submitted_0916",
+      "text": "알자지라에 따르면 이란 관리는 9월 16일 중재자를 통해 미국에 최신 제안을 제출했다고 밝혔다.",
+      "date": "2026.09.16",
+      "place": null,
+      "actors": [
+        "이란 관리"
+      ],
+      "numbers": [],
+      "source_ids": [
+        "clm_0009"
+      ],
+      "confidence": "low",
+      "contested": false,
+      "sides": null
+    },
+    {
+      "id": "f_qatar_mediation",
+      "text": "카타르가 미국과 이란 사이 협상을 중재하고 있다.",
+      "date": null,
+      "place": null,
+      "actors": [
+        "카타르",
+        "미국 정부",
+        "이란 정부"
+      ],
+      "numbers": [],
+      "source_ids": [
+        "clm_0010"
+      ],
+      "confidence": "high",
+      "contested": false,
+      "sides": null
+    },
+    {
+      "id": "f_unga_meeting_dispute",
+      "text": "9월 22일 유엔총회 기간 아락치 외무장관과 위트코프 특사의 직접 회동 여부를 두고, 이란 국영매체는 회동이 있었다고 전했고 위트코프 특사는 중재자들이 양측 대표단 사이를 오가는 방식으로 협상했다고 말했다.",
+      "date": "2026.09.22",
+      "place": "뉴욕 유엔총회",
+      "actors": [
+        "아바스 아락치 이란 외무장관",
+        "스티브 위트코프 미 특사",
+        "이란 국영매체"
+      ],
+      "numbers": [],
+      "source_ids": [
+        "clm_0011"
+      ],
+      "confidence": "medium",
+      "contested": true,
+      "sides": [
+        "이란 국영매체: 아락치와 위트코프의 회동이 있었다",
+        "위트코프 특사: 중재자들이 양측 대표단 사이를 오가는 방식으로 협상했다"
+      ]
+    },
+    {
+      "id": "f_indirect_talks_continue",
+      "text": "알자지라에 따르면 미국 관리는 트럼프의 거부 이후에도 간접 협상이 계속되고 있다고 밝혔다.",
+      "date": null,
+      "place": null,
+      "actors": [
+        "미국 관리"
+      ],
+      "numbers": [],
+      "source_ids": [
+        "clm_0012"
+      ],
+      "confidence": "low",
+      "contested": false,
+      "sides": null
+    },
+    {
+      "id": "f_us_nuclear_condition",
+      "text": "알자지라에 따르면 미국 관리는 이란 핵 프로그램 문제가 다뤄지지 않으면 합의는 없으며, 트럼프는 핵 문제 진전을 대가로 제재 완화와 동결 자금 해제 의향이 있다고 밝혔다.",
+      "date": null,
+      "place": null,
+      "actors": [
+        "미국 관리",
+        "도널드 트럼프"
+      ],
+      "numbers": [],
+      "source_ids": [
+        "clm_0013",
+        "clm_0014"
+      ],
+      "confidence": "low",
+      "contested": false,
+      "sides": null
+    },
+    {
+      "id": "f_inspectors_demand",
+      "text": "AP 보도(PBS 게재)에 따르면 한 역내 관리는 미국이 사찰단 입국 허용 등 핵 프로그램 양보를 요구하고 있다고 말했다.",
+      "date": null,
+      "place": null,
+      "actors": [
+        "역내 관리",
+        "미국 정부"
+      ],
+      "numbers": [],
+      "source_ids": [
+        "clm_0015"
+      ],
+      "confidence": "low",
+      "contested": false,
+      "sides": null
+    },
+    {
+      "id": "f_pezeshkian_inspectors",
+      "text": "페제시키안 이란 대통령은 미국이 제안을 받아들이면 유엔 핵사찰단 입국을 허용하겠다고 말했다고 NPR이 보도했다.",
+      "date": null,
+      "place": null,
+      "actors": [
+        "마수드 페제시키안 이란 대통령"
+      ],
+      "numbers": [],
+      "source_ids": [
+        "clm_0016"
+      ],
+      "confidence": "low",
+      "contested": false,
+      "sides": null
+    },
+    {
+      "id": "f_pezeshkian_distrust",
+      "text": "페제시키안 이란 대통령은 미국과의 협상을 더는 신뢰하지 않는다고 말했다.",
+      "date": "2026.09.26",
+      "place": null,
+      "actors": [
+        "마수드 페제시키안 이란 대통령"
+      ],
+      "numbers": [],
+      "source_ids": [
+        "clm_0017"
+      ],
+      "confidence": "low",
+      "contested": false,
+      "sides": null
+    },
+    {
+      "id": "f_araghchi_qatar_0928",
+      "text": "알자지라와 A News에 따르면 아락치 외무장관은 9월 28일 뉴욕에서 카타르 중재자들을 만났고, 카타르 측이 새 아이디어를 미국에 전달할 것이라고 밝혔다.",
+      "date": "2026.09.28",
+      "place": "뉴욕",
+      "actors": [
+        "아바스 아락치 이란 외무장관",
+        "카타르 중재단"
+      ],
+      "numbers": [],
+      "source_ids": [
+        "clm_0018",
+        "clm_0019"
+      ],
+      "confidence": "low",
+      "contested": false,
+      "sides": null
+    },
+    {
+      "id": "f_us_response_0930",
+      "text": "모하제라니 이란 정부 대변인은 9월 30일 아락치 외무장관이 카타르 중재 제안에 대한 미국의 답변을 받았다고 밝혔으나, 답변 내용은 공개하지 않았다.",
+      "date": "2026.09.30",
+      "place": null,
+      "actors": [
+        "파테메 모하제라니 이란 정부 대변인",
+        "아바스 아락치 이란 외무장관"
+      ],
+      "numbers": [],
+      "source_ids": [
+        "clm_0020",
+        "clm_0021"
+      ],
+      "confidence": "low",
+      "contested": false,
+      "sides": null
+    },
+    {
+      "id": "f_rhetoric_0928",
+      "text": "알자지라에 따르면 트럼프 대통령은 9월 28일 미국이 이길 것이라고 말했고, 모즈타바 하메네이 최고지도자는 메시지에서 적이 아라비아해 너머로 감히 나오지 못한다고 말했다.",
+      "date": "2026.09.28",
+      "place": null,
+      "actors": [
+        "도널드 트럼프",
+        "모즈타바 하메네이 이란 최고지도자"
+      ],
+      "numbers": [],
+      "source_ids": [
+        "clm_0022",
+        "clm_0023"
+      ],
+      "confidence": "low",
+      "contested": false,
+      "sides": null
+    },
+    {
+      "id": "f_wsj_bombing_report",
+      "text": "월스트리트저널은 트럼프가 중간선거 이후 이란 폭격 재개를 예상한다고 측근들에게 말했다고 보도했다.",
+      "date": null,
+      "place": null,
+      "actors": [
+        "월스트리트저널",
+        "도널드 트럼프"
+      ],
+      "numbers": [],
+      "source_ids": [
+        "clm_0024"
+      ],
+      "confidence": "low",
+      "contested": false,
+      "sides": null
+    },
+    {
+      "id": "f_june_mou",
+      "text": "미국과 이란은 6월 양해각서(MoU)에 서명했다.",
+      "date": "2026.06",
+      "place": null,
+      "actors": [
+        "미국 정부",
+        "이란 정부"
+      ],
+      "numbers": [],
+      "source_ids": [
+        "clm_0025"
+      ],
+      "confidence": "high",
+      "contested": false,
+      "sides": null
+    },
+    {
+      "id": "f_mou_collapse",
+      "text": "PBS와 알자지라는 6월 양해각서가 체결 며칠 만에 무산됐다고 보도했다.",
+      "date": "2026.06",
+      "place": null,
+      "actors": [
+        "미국 정부",
+        "이란 정부"
+      ],
+      "numbers": [],
+      "source_ids": [
+        "clm_0026"
+      ],
+      "confidence": "medium",
+      "contested": false,
+      "sides": null
+    },
+    {
+      "id": "f_mou_breach_dispute",
+      "text": "양해각서 파기 책임을 두고 미국 관리는 이란이 상선에 발포해 합의를 깼다고 밝혔고, 이란 정부는 혐의를 부인하며 이스라엘의 레바논 공격을 막지 못한 미국이 약속을 깼다고 주장했다.",
+      "date": null,
+      "place": null,
+      "actors": [
+        "미국 관리",
+        "이란 정부"
+      ],
+      "numbers": [],
+      "source_ids": [
+        "clm_0027"
+      ],
+      "confidence": "medium",
+      "contested": true,
+      "sides": [
+        "미국 관리: 이란이 상선에 발포해 양해각서를 깼다",
+        "이란 정부: 혐의를 부인하며, 이스라엘의 레바논 공격을 막지 못한 미국이 약속을 깼다"
+      ]
+    },
+    {
+      "id": "f_war_start_0228",
+      "text": "이란은 2월 28일 미국·이스라엘의 공격 직후 호르무즈 해협을 봉쇄했다.",
+      "date": "2026.02.28",
+      "place": "호르무즈 해협",
+      "actors": [
+        "이란 정부",
+        "미국",
+        "이스라엘"
+      ],
+      "numbers": [],
+      "source_ids": [
+        "clm_0028"
+      ],
+      "confidence": "high",
+      "contested": false,
+      "sides": null
+    },
+    {
+      "id": "f_pezeshkian_blame",
+      "text": "페제시키안 이란 대통령은 미국이 먼저 이란의 길을 막았다고 말했다고 NPR이 보도했다.",
+      "date": null,
+      "place": null,
+      "actors": [
+        "마수드 페제시키안 이란 대통령"
+      ],
+      "numbers": [],
+      "source_ids": [
+        "clm_0029"
+      ],
+      "confidence": "low",
+      "contested": false,
+      "sides": null
+    },
+    {
+      "id": "f_shipping_drop",
+      "text": "이란의 선박 공격으로 호르무즈 해협 통항이 크게 줄었다.",
+      "date": null,
+      "place": "호르무즈 해협",
+      "actors": [
+        "이란"
+      ],
+      "numbers": [],
+      "source_ids": [
+        "clm_0030"
+      ],
+      "confidence": "high",
+      "contested": false,
+      "sides": null
+    },
+    {
+      "id": "f_oil_share_20pct",
+      "text": "전쟁 전에는 세계 석유의 약 20%가 호르무즈 해협을 통과했다.",
+      "date": null,
+      "place": "호르무즈 해협",
+      "actors": [],
+      "numbers": [
+        "약 20%"
+      ],
+      "source_ids": [
+        "clm_0031"
+      ],
+      "confidence": "high",
+      "contested": false,
+      "sides": null
+    },
+    {
+      "id": "f_transits_marinetraffic",
+      "text": "알자지라가 인용한 MarineTraffic 집계로 9월 21~27일 해협 통과는 132회로 전주 116회보다 늘었으며, 알자지라는 전쟁 전 통과가 하루 약 130회였다고 보도했다.",
+      "date": "2026.09",
+      "place": "호르무즈 해협",
+      "actors": [
+        "MarineTraffic"
+      ],
+      "numbers": [
+        "132회",
+        "116회",
+        "하루 약 130회"
+      ],
+      "source_ids": [
+        "clm_0032",
+        "clm_0033"
+      ],
+      "confidence": "low",
+      "contested": false,
+      "sides": null
+    },
+    {
+      "id": "f_gulf_exports_sept",
+      "text": "로이터는 Kpler 자료를 인용해 9월 중동 주요 산유국 원유 수출이 하루 1280만 배럴로 개전 후 최고치를 기록했다고 보도했다.",
+      "date": "2026.09",
+      "place": null,
+      "actors": [
+        "로이터",
+        "Kpler"
+      ],
+      "numbers": [
+        "하루 1280만 배럴"
+      ],
+      "source_ids": [
+        "clm_0034"
+      ],
+      "confidence": "low",
+      "contested": false,
+      "sides": null
+    },
+    {
+      "id": "f_centcom_escort",
+      "text": "쿠퍼 미 중부사령관은 미군이 최근 몇 달간 2000회 통항과 10억 배럴 이상의 원유 수송을 지원했다고 밝혔다.",
+      "date": "2026.09.26",
+      "place": null,
+      "actors": [
+        "브래드 쿠퍼 미 중부사령관"
+      ],
+      "numbers": [
+        "2000회",
+        "10억 배럴"
+      ],
+      "source_ids": [
+        "clm_0035"
+      ],
+      "confidence": "low",
+      "contested": false,
+      "sides": null
+    },
+    {
+      "id": "f_brent_108",
+      "text": "알자지라와 PBS는 브렌트유가 9월 28일 아시아 거래에서 3% 넘게 올라 배럴당 108달러 안팎까지 올랐다고 보도했다.",
+      "date": "2026.09.28",
+      "place": null,
+      "actors": [],
+      "numbers": [
+        "3%",
+        "배럴당 108달러"
+      ],
+      "source_ids": [
+        "clm_0036",
+        "clm_0037"
+      ],
+      "confidence": "low",
+      "contested": false,
+      "sides": null
+    },
+    {
+      "id": "f_kospi_drop",
+      "text": "알자지라는 코스피가 9월 28일 2.70% 하락했다고 보도했다.",
+      "date": "2026.09.28",
+      "place": "한국",
+      "actors": [],
+      "numbers": [
+        "2.70%"
+      ],
+      "source_ids": [
+        "clm_0038"
+      ],
+      "confidence": "low",
+      "contested": false,
+      "sides": null
+    },
+    {
+      "id": "f_flights_cancelled",
+      "text": "알자지라는 UAE·이라크·오만이 미국의 2차 제재 위협 이후 관련 항공편을 취소했다고 보도했다.",
+      "date": null,
+      "place": null,
+      "actors": [
+        "UAE",
+        "이라크",
+        "오만",
+        "미국 정부"
+      ],
+      "numbers": [],
+      "source_ids": [
+        "clm_0039"
+      ],
+      "confidence": "low",
+      "contested": false,
+      "sides": null
+    },
+    {
+      "id": "f_houthi_bab_el_mandeb",
+      "text": "이란과 연계된 후티가 홍해 연안 통제를 넓혀 바브엘만데브 해협에 자리 잡았다.",
+      "date": null,
+      "place": "바브엘만데브 해협",
+      "actors": [
+        "후티"
+      ],
+      "numbers": [],
+      "source_ids": [
+        "clm_0040"
+      ],
+      "confidence": "high",
+      "contested": false,
+      "sides": null
+    },
+    {
+      "id": "f_houthi_saudi_blockade",
+      "text": "알자지라는 후티가 홍해에서 사우디 선박에 대한 해상봉쇄를 선언했다고 보도했다.",
+      "date": null,
+      "place": "홍해",
+      "actors": [
+        "후티",
+        "사우디아라비아"
+      ],
+      "numbers": [],
+      "source_ids": [
+        "clm_0041"
+      ],
+      "confidence": "low",
+      "contested": false,
+      "sides": null
+    },
+    {
+      "id": "f_april_ceasefire",
+      "text": "A News는 4월에 휴전 합의가 이뤄졌다고 보도했다.",
+      "date": "2026.04",
+      "place": null,
+      "actors": [
+        "미국 정부",
+        "이란 정부"
+      ],
+      "numbers": [],
+      "source_ids": [
+        "clm_0042"
+      ],
+      "confidence": "low",
+      "contested": false,
+      "sides": null
+    },
+    {
+      "id": "f_us_public_opinion",
+      "text": "알자지라에 따르면 8월 말 로이터/입소스 조사에서 미국인 63%가 이란 전쟁에 반대했다.",
+      "date": "2026.08",
+      "place": "미국",
+      "actors": [
+        "로이터/입소스"
+      ],
+      "numbers": [
+        "63%"
+      ],
+      "source_ids": [
+        "clm_0043"
+      ],
+      "confidence": "low",
+      "contested": false,
+      "sides": null
+    },
+    {
+      "id": "f_korea_oil_70pct",
+      "text": "한국은 원유 수입의 70%를 호르무즈 해협을 거쳐 들여온다.",
+      "date": null,
+      "place": "한국",
+      "actors": [
+        "한국"
+      ],
+      "numbers": [
+        "70%"
+      ],
+      "source_ids": [
+        "clm_0044"
+      ],
+      "confidence": "high",
+      "contested": false,
+      "sides": null
+    },
+    {
+      "id": "f_korea_helium_65pct",
+      "text": "한국 헬륨 공급의 약 65%가 카타르산이다.",
+      "date": null,
+      "place": "한국",
+      "actors": [
+        "한국",
+        "카타르"
+      ],
+      "numbers": [
+        "약 65%"
+      ],
+      "source_ids": [
+        "clm_0045"
+      ],
+      "confidence": "high",
+      "contested": false,
+      "sides": null
+    },
+    {
+      "id": "f_korea_price_cap",
+      "text": "한국 정부는 유가 상한제를 도입했다.",
+      "date": null,
+      "place": "한국",
+      "actors": [
+        "한국 정부"
+      ],
+      "numbers": [],
+      "source_ids": [
+        "clm_0046"
+      ],
+      "confidence": "high",
+      "contested": false,
+      "sides": null
+    },
+    {
+      "id": "f_korea_reserve_26days",
+      "text": "CSIS는 한국의 IEA 공동 방출 참여로 정부 비축유가 7760만 배럴, 실소비 기준 약 26일분으로 줄었다고 분석했다.",
+      "date": "2026.03.12",
+      "place": "한국",
+      "actors": [
+        "한국 정부",
+        "IEA",
+        "CSIS"
+      ],
+      "numbers": [
+        "7760만 배럴",
+        "약 26일분"
+      ],
+      "source_ids": [
+        "clm_0047"
+      ],
+      "confidence": "low",
+      "contested": false,
+      "sides": null
+    }
+  ]
+}

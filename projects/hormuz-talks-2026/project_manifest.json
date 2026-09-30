@@ -1,0 +1,61 @@
+{
+  "schema_version": 2,
+  "project_id": "hormuz-talks-2026",
+  "title": "호르무즈 협상 — 무엇을 먼저 할 것인가",
+  "category": "geopolitics",
+  "created_at": "2026-09-30T23:36:11.402506Z",
+  "updated_at": "2026-09-30T23:45:17.947633Z",
+  "current_state": "script_draft",
+  "target_duration_min": 5,
+  "topic_summary": "2026년 9월 말 미국·이란 호르무즈 해협 재개방 협상. 이란의 7일 로드맵 제안, 트럼프의 거부, 카타르 중재와 미국 답신. 쟁점은 조건이 아니라 이행 순서(해협·제재·동결자금 vs 핵 사찰). 전쟁 경과(2월 28일 개전, 4월 휴전·봉쇄, 6월 양해각서, 7월 재개)와 유가·한국 에너지 영향.",
+  "initial_links": [],
+  "paths": {
+    "sources": "intake/sources.json",
+    "claims": "intake/claims.json",
+    "screenshots": "intake/screenshots",
+    "script": "script.yaml",
+    "script_labels": "script_labels.json",
+    "plan": "plan.json",
+    "tts": "tts",
+    "assets": "assets",
+    "media": "media",
+    "direction": "direction.yaml",
+    "prev": "prev",
+    "prev_sheet": "prev/sheet.jpg",
+    "prev_provenance": "prev/provenance.json",
+    "out": "out",
+    "final": "out/final.mp4",
+    "provenance": "out/provenance.json"
+  },
+  "render_mode_status": {},
+  "gate_decisions": [],
+  "stage_records": [],
+  "final_outputs": {},
+  "state_history": [
+    {
+      "from_state": "created",
+      "to_state": "intake",
+      "transitioned_at": "2026-09-30T23:37:34.015168Z",
+      "reason": "plan-intake 시작"
+    },
+    {
+      "from_state": "intake",
+      "to_state": "source_verify",
+      "transitioned_at": "2026-09-30T23:38:17.196428Z",
+      "reason": "CLI submit-intake"
+    },
+    {
+      "from_state": "source_verify",
+      "to_state": "research",
+      "transitioned_at": "2026-09-30T23:43:20.403732Z",
+      "reason": "ResearchWorker 성공(facts.json)"
+    },
+    {
+      "from_state": "research",
+      "to_state": "script_draft",
+      "transitioned_at": "2026-09-30T23:45:17.947566Z",
+      "reason": "ScriptWorker 성공"
+    }
+  ],
+  "reopens": []
+}
