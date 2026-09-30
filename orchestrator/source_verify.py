@@ -13,6 +13,11 @@
 3. (contested 아닐 때) status 순서: 독립 origin 의 contradicts 근거 → **disputed** / 공식 1차 출처(official_* 계정·document)가 supports
    + 그 소스 사용자 확인 → **verified** / supports 독립 origin ≥ `independent_min` → **corroborated** / 나머지 **unverified**.
 4. contested 인데 sides < 2 → unverified(스키마). 사용자 확인 안 된 소스가 있으면 단계 자체를 시작하지 않는다(18 §7).
+5. (v5.0.0 GOAL G4-21, D-0119) `claim_kind` 는 LLM 이 후보만 낸다. **statement**(“그런 발언·보도가 있었다”) 후보는 귀속 인용
+   supports 가 하나라도 있으면 채택 — 귀속 인용을 supports 로 세어 ③ 그대로(independent_min 이상 → corroborated), 귀속만이라는
+   이유로 contested 로 올리지 않는다. 귀속 표현 없이 내용을 단정하는 인용은 statement 의 근거가 아니다 → 근거 폐기 + drops[]
+   + checks `asserted:<src>`(경고). 귀속 인용이 하나도 없으면 후보 불채택 → fact(checks `kind_candidate:statement`, 경고). **fact** 는 ⓪ 그대로.
+   fact 후보를 코드가 statement 로 올리지 않는다(“침범했다”가 보도 둘로 corroborated 가 되는 것을 막는 것이 G4-21).
 """
 
 from __future__ import annotations
@@ -25,7 +30,7 @@ from typing import Optional
 from orchestrator.source_intake import Source, body_text, load_sources, save_sources, unconfirmed
 from rules import load_rules
 from schemas.engine_models import StageResult
-from schemas.source_models import (ArticleSource, Claim, ClaimCandidate, ClaimsFile, DocumentSource, SourcesFile,
+from schemas.source_models import (ArticleSource, Claim, ClaimCandidate, ClaimsFile, DocumentSource, EvidenceQuote, SourcesFile,
                                    SourceVerification, VerifyDraft, XPostSource, check_claim_sources)
 
 CLAIMS = Path("intake") / "claims.json"
@@ -100,8 +105,25 @@ def judge(draft: VerifyDraft, sources: SourcesFile, bodies: dict[str, str]) -> t
         if not sup_all:
             drops.append(f"{cid}: 본문과 맞는 supports 근거 없음 — 후보 버림({cand.text[:40]!r})")
             continue
-        sup = [e for e in sup_all if not _attributed(e.quote, markers)]   # D-0054 B — 귀속 인용은 사실의 근거가 아니다
-        attributed_only = not sup
+        att = [e for e in sup_all if _attributed(e.quote, markers)]
+        kind = "fact"
+        kind_checks: list[str] = []
+        if cand.claim_kind == "statement":                     # G4-21 — 후보 채택은 귀속 인용 근거가 있을 때만
+            if att:
+                kind = "statement"
+            else:                                               # 후보 불채택은 근거 폐기가 아니다 — checks 에 남기고 경고로(apply_draft)
+                kind_checks = ["kind_candidate:statement"]
+        asserted: list[EvidenceQuote] = []
+        if kind == "statement":                                 # 귀속 없는 단정 인용은 "발언이 있었다"의 근거가 아니다
+            asserted = [e for e in sup_all if e not in att]
+            for e in asserted:
+                drops.append(f"{cid}: {e.source_id} 인용이 귀속 표현 없이 내용을 단정 — statement 근거 아님, 근거 폐기(G4-21)")
+            good = [e for e in good if e not in asserted]
+            sup_all = att
+            sup = att                                           # G4-21 — 귀속 인용을 발언의 supports 로 센다
+        else:
+            sup = [e for e in sup_all if e not in att]          # D-0054 B — 귀속 인용은 사실의 근거가 아니다
+        attributed_only = not [e for e in sup_all if e not in att]
         quotes_by_src = {e.source_id: _norm(e.quote) for e in good}
 
         def counted(e) -> bool:  # noqa: ANN001
@@ -109,13 +131,14 @@ def judge(draft: VerifyDraft, sources: SourcesFile, bodies: dict[str, str]) -> t
             others = [q for s, q in quotes_by_src.items() if s != e.source_id]
             return not (isinstance(r, XPostSource) and r.deleted) and not _reprint(r, others, V.reprint_markers)
 
-        contested = cand.contested or attributed_only          # 귀속 인용만 있으면 코드가 분쟁으로 승격(LLM 누락 보완)
+        contested = cand.contested or (attributed_only and kind == "fact")   # 귀속 인용만 있는 사실 = 분쟁으로 승격(LLM 누락 보완)
         sup_orig = {origin(recs[e.source_id]) for e in sup if counted(e)}
         con_orig = {origin(recs[e.source_id]) for e in con if counted(e)}
         if not contested:
             con_orig -= sup_orig                               # 반박 origin 제거는 분쟁이 아닐 때만(D-0054 A)
         checks = [f"quote_match:{e.source_id}" for e in good] + [f"independent_origins:{len(sup_orig)}"]
-        checks += [f"attributed:{e.source_id}" for e in sup_all if e not in sup]
+        checks += [f"attributed:{e.source_id}" for e in att]
+        checks += [f"asserted:{e.source_id}" for e in asserted] + kind_checks
         official = [e.source_id for e in sup if is_official(recs[e.source_id]) and recs[e.source_id].confirmed and counted(e)]
         checks += [f"official:{s}" for s in official]
         sides = cand.sides if contested else None
@@ -131,7 +154,7 @@ def judge(draft: VerifyDraft, sources: SourcesFile, bodies: dict[str, str]) -> t
             status = "unverified"
         ids = list(dict.fromkeys(e.source_id for e in sup_all + con))
         claims.append(Claim(claim_id=cid, text=cand.text, source_ids=ids, status=status, contested=contested,  # type: ignore[arg-type]
-                            sides=sides, event_date=cand.event_date, checks=checks, attributed_only=attributed_only, notes=""))
+                            sides=sides, event_date=cand.event_date, checks=checks, attributed_only=attributed_only, claim_kind=kind, notes=""))  # type: ignore[arg-type]
     out = ClaimsFile(claims=claims)
     errs = check_claim_sources(out, sources)
     if errs:   # sides 가 없는 소스를 가리킴 등 — 조용히 넘기지 않는다
@@ -197,13 +220,21 @@ def apply_draft(pdir: Path, draft: VerifyDraft, sources: SourcesFile, bodies: di
         return StageResult(ok=False, stage="source_verify", errors=[str(ex)])
     if not claims.claims:
         return StageResult(ok=False, stage="source_verify", errors=["판정 뒤 남은 claim 이 없다"], drops=[{"reason": d} for d in drops])
+    kinds = {k: sum(c.claim_kind == k for c in claims.claims) for k in ("fact", "statement")}
+    warns = [f"claim_kind {kinds}"]
+    warns += [f"{c.claim_id}: statement 인데 귀속 없이 단정한 인용 {[x.split(':', 1)[1] for x in c.checks if x.startswith('asserted:')]} — 근거 폐기(G4-21)"
+              for c in claims.claims if any(x.startswith("asserted:") for x in c.checks)]
+    warns += [f"{c.claim_id}: statement 후보인데 귀속 인용 근거 없음 — fact 로 판정(G4-21)"
+              for c in claims.claims if "kind_candidate:statement" in c.checks]
+    if drops:   # StageResult 계약(drops 가 있으면 ok 아님, 15 P6) — 파일을 쓰지 않고 실패로 보고한다(v5.0.0 전에는 쓴 뒤 예외)
+        return StageResult(ok=False, stage="source_verify", errors=[f"근거 폐기 {len(drops)}건 — drops 확인 후 재검증"],
+                           drops=[{"reason": d} for d in drops], warnings=warns)
     p = claims_path(pdir)
     p.parent.mkdir(parents=True, exist_ok=True)
     p.write_text(claims.model_dump_json(indent=2, exclude_none=True), encoding="utf-8")
     save_sources(pdir, source_verification(sources, claims))
     counts = {s: sum(c.status == s for c in claims.claims) for s in _STRENGTH}
-    return StageResult(ok=True, stage="source_verify", artifacts={"claims": str(p)},
-                       drops=[{"reason": d} for d in drops], warnings=[f"status {counts}"])
+    return StageResult(ok=True, stage="source_verify", artifacts={"claims": str(p)}, warnings=[f"status {counts}"] + warns)
 
 
 __all__ = ["apply_draft", "claims_path", "is_official", "judge", "load_claims", "origin", "run_verify", "source_verification",
