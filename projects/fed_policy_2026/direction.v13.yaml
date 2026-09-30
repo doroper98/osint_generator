@@ -270,7 +270,8 @@ events:
   - 은행끼리 하루짜리 자금을 빌려줄 때 적용
   - 미국의 기준금리
   accent: muted
-- type: card
+- type: primitive
+  id: statement_diff
   start:
     sid: decision_1
     'off': 0.4
@@ -280,11 +281,12 @@ events:
     'off': 0.4
   place: card_right
   tag: FOMC 성명 · 목표 범위
-  lines:
-  - 목표 범위 0.25%p 인상
-  - 새 목표 범위 3.75~4%
-  accent: gold
-  src: 연준 FOMC 성명
+  before_label: 7월 29일 성명
+  after_label: 9월 16일 성명
+  before: The Committee decided to maintain the target range for the federal funds rate at 3-1/2 to 3-3/4 percent
+  after: The Committee decided to raise the target range for the federal funds rate by 1/4 percentage point to 3-3/4 to 4 percent
+  source: 연준 FOMC 성명
+  date: 2026.09.16
 - type: card
   start:
     sid: decision_3
@@ -723,18 +725,19 @@ events:
   - - 2.3%
     - 실질 GDP 성장률
   accent: teal
-- type: card
+- type: primitive
+  id: dot_plot
   start:
     sid: projections_4
     'off': 0.3
   end:
     scene_end: projections
   place: card_right
+  record: SEP_20260916
   tag: 점도표 · FOMC 참가자별 금리 전망
-  lines:
-  - 참가자별 금리 전망 · 약속이 아님
-  - '중앙값: 연내 0.25%p 추가 인상 한 번'
-  accent: gold
+  columns:
+  - '2026'
+  - '2027'
 - type: badge
   start:
     sid: pressure_0
@@ -796,7 +799,7 @@ events:
   end:
     scene_end: pressure
   mid: fed_presser_0916_b
-  place: panel_gap
+  place: timeline_photo
 - type: marker
   start:
     scene_start: close
