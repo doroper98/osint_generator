@@ -130,6 +130,8 @@ class PromptTest(unittest.TestCase):
         row = next(ln for ln in event_fields_table().splitlines() if ln.startswith("- primitive:statement_diff:"))
         self.assertIn("date*: str (YYYY | YYYY.MM | YYYY.MM.DD", row)
         self.assertIn(f"before*: str (원문 ≤ {QUOTE_MAX_CHARS}자", row)
+        dot = next(ln for ln in event_fields_table().splitlines() if ln.startswith("- primitive:dot_plot:"))
+        self.assertIn("record*: str (레코드 id 그대로 — series: 접두 없이", dot)
 
 
 class RedirectTest(unittest.TestCase):

@@ -35,7 +35,7 @@ class DotPlot(BaseModel):
 
     model_config = ConfigDict(extra="forbid")
 
-    record: str                                   # scatter 데이터 레코드 id(예: SEP_20260916)
+    record: str = Field(description="레코드 id 그대로 — series: 접두 없이(예: SEP_20260916)")   # scatter 데이터 레코드 id. v5.2.0 LLM-AP-011 필드 표
     tag: str                                      # 머리(예: "FOMC 참가자 금리 전망 · 2026년 9월")
     columns: Optional[list[str]] = Field(default=None, min_length=1)   # 보여 줄 열(레코드 열 이름). 없으면 전부
     y: Optional[float] = None                     # 세로 위치(설계 px). 없으면 카드 기본 y
