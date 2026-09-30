@@ -1,0 +1,38 @@
+{
+ "schema_version": 1,
+ "direction_version": 16,
+ "changelog": [
+  {
+   "issue_ref": "card:워시 의장 · 9월 16일",
+   "change": "실업률 '약 4.1%' 카드의 끝을 prices_jobs_6 끝에서 prices_jobs_5 끝(+0.3초)으로 당겨 실업률 문장에만 뜨게 함. prices_jobs_6(8월 고용 문장)에는 '+16.2만 명 · 고용 증가' 카드(tag '8월 고용')를 새로 띄워 자막 숫자와 화면 숫자를 맞춤"
+  },
+  {
+   "issue_ref": "marker:8월 소비자물가 3.35%",
+   "change": "라벨을 '8월 CPI'로 줄이고 sub(아랫줄)를 비움. side 를 left 에서 top 으로 바꿔 레인 선 위쪽, 출처 줄 반대편에 붙임. 레인 끝 값 3.35%와도 겹치지 않음"
+  },
+  {
+   "issue_ref": "card:점도표 · FOMC 참가자별 금리 전망",
+   "change": "카드 폭을 만드는 lines 를 짧게 줄임('참가자별 전망 · 약속 아님' / '중앙값: 연내 추가 인상 1회'). 카드 폭이 줄어 차트 아일랜드 오른쪽 축 눈금을 덮지 않음. tag·시각은 그대로"
+  },
+  {
+   "issue_ref": "p_0108.39",
+   "change": "'이란 전쟁 시작' 마커는 hold_2026_2 끝(+0.3초)에, '워시 의장 취임' 마커는 hold_2026_3 끝(+0.3초)에 퇴장시킴. hold_2026_4 에서는 '워시 첫 주재 회의'만 남기고 hl true 로 강조"
+  },
+  {
+   "issue_ref": "marker:다음 FOMC",
+   "change": "side 를 right 에서 top 으로 바꿔 '9월 16일 인상'(side left) 라벨과 붙지 않게 떼어 놓음"
+  },
+  {
+   "issue_ref": "badge:도널드 트럼프",
+   "change": "트럼프 뱃지와 '트럼프 대통령 · 소셜미디어' 카드의 끝을 pressure_0 끝 −0.1초로 당김. pressure_1 시작 전에 퇴장이 끝남"
+  },
+  {
+   "issue_ref": "photo:fed_presser_0916_b",
+   "change": "pressure_1 워시 뱃지의 끝을 scene_end 에서 pressure_1 끝으로 당김. 기자회견 사진 아일랜드(pressure_2)가 뜰 때 같은 얼굴 뱃지가 없음"
+  },
+  {
+   "issue_ref": "card:SEP 전망 중앙값 · 올해",
+   "change": "projections_1·projections_3 카드 tag 를 '경제전망(SEP) 중앙값 · 올해'로 풀어 씀"
+  }
+ ]
+}

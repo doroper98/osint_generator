@@ -1,0 +1,260 @@
+{
+ "schema_version": 1,
+ "hard": 0,
+ "warnings": 8,
+ "passed": true,
+ "profile": "full",
+ "skipped": [],
+ "thresholds": {
+  "overlap_core_elements": 0,
+  "offscreen_clip": 0,
+  "missing_glyphs": 0,
+  "labels_per_frame_max": 18,
+  "subtitle_lines_max": 2,
+  "rights_missing": 0,
+  "forbidden_components": 0,
+  "glyph_size_exempt": [
+   "end_card",
+   "media_meta"
+  ],
+  "label_hidden_max_ratio": 0.5,
+  "planned": [],
+  "chart_targets": {
+   "value": [
+    "chart_honesty",
+    "series_limit_3",
+    "units_visible",
+    "as_of_visible"
+   ],
+   "date": [
+    "chart_honesty"
+   ],
+   "none": []
+  },
+  "series_max": 3,
+  "visual_qa_loop_max": 2,
+  "empty_exempt": [
+   "article_press_lead"
+  ],
+  "loop_pick_order": [
+   "checks_hard",
+   "qa_hard",
+   "qa_soft"
+  ]
+ },
+ "items": [
+  {
+   "id": "overlap",
+   "severity": "hard",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "offscreen",
+   "severity": "hard",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "glyphs",
+   "severity": "hard",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "glyph_size",
+   "severity": "hard",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "shots",
+   "severity": "warning",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "media_beats",
+   "severity": "warning",
+   "count": 4,
+   "details": [
+    "[media-kind-repeat] 이웃 장면 cuts_2025→hold_2026 같은 형태 ['article'] (14 §10.1)",
+    "[media-kind-repeat] 이웃 장면 hold_2026→july_dissent 같은 형태 ['article'] (14 §10.1)",
+    "[media-kind-repeat] 이웃 장면 july_dissent→prices_jobs 같은 형태 ['article'] (14 §10.1)",
+    "[media-kind-repeat] 이웃 장면 prices_jobs→markets 같은 형태 ['article'] (14 §10.1)"
+   ]
+  },
+  {
+   "id": "media_upscaled",
+   "severity": "warning",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "endcard_roll",
+   "severity": "warning",
+   "count": 1,
+   "details": [
+    "[endcard-roll] 크레딧이 넘쳐 롤 60px · 9.2 px/s(상한 60)"
+   ]
+  },
+  {
+   "id": "labels",
+   "severity": "hard",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "date",
+   "severity": "hard",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "subtitles",
+   "severity": "hard",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "rights",
+   "severity": "hard",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "forbidden",
+   "severity": "hard",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "stage_continuity",
+   "severity": "hard",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "genre_elements",
+   "severity": "hard",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "boundary_as_route",
+   "severity": "hard",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "geo_unsourced",
+   "severity": "warning",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "geo_mismatch",
+   "severity": "hard",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "static_window",
+   "severity": "warning",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "timeline_rescale",
+   "severity": "hard",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "backdrop_rights",
+   "severity": "hard",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "backdrop_repeat",
+   "severity": "hard",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "stage_choice",
+   "severity": "warning",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "island_overlap",
+   "severity": "hard",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "backdrop_main_missing",
+   "severity": "hard",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "card_island",
+   "severity": "warning",
+   "count": 2,
+   "details": [
+    "[card-island] card:연방기금금리 ↔ island chart left t=21.70~27.76 교차 3240px²",
+    "[card-island] card:점도표 · FOMC 참가자별 금리 전망 ↔ island chart left t=246.15~261.95 교차 1800px²"
+   ]
+  },
+  {
+   "id": "island_label_clip",
+   "severity": "hard",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "island_label_overlap",
+   "severity": "warning",
+   "count": 1,
+   "details": [
+    "[island-label-overlap] marker '8월 소비자물가 3.35%' ↔ 레인 inflation 출처 줄 t=170.50~200.83"
+   ]
+  },
+  {
+   "id": "chart_honesty",
+   "severity": "hard",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "series_limit_3",
+   "severity": "hard",
+   "count": 0,
+   "details": [],
+   "notes": [
+    "n/a(date 축) stage timeline"
+   ]
+  },
+  {
+   "id": "units_visible",
+   "severity": "hard",
+   "count": 0,
+   "details": [],
+   "notes": [
+    "n/a(date 축) stage timeline"
+   ]
+  },
+  {
+   "id": "as_of_visible",
+   "severity": "hard",
+   "count": 0,
+   "details": [],
+   "notes": [
+    "n/a(date 축) stage timeline"
+   ]
+  }
+ ]
+}

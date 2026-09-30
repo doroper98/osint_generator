@@ -1,0 +1,30 @@
+{
+ "schema_version": 1,
+ "rounds": [
+  {
+   "version": 15,
+   "checks_hard": 0,
+   "checks_file": "checks.v15.json",
+   "sheet": "sheet.v15.jpg",
+   "qa": "qa_verdict.v1.json",
+   "qa_hard": 3,
+   "qa_soft": 5,
+   "revision": "revision.v16.json"
+  },
+  {
+   "version": 16,
+   "checks_hard": 0,
+   "checks_file": "checks.v16.json",
+   "sheet": "sheet.v16.jpg",
+   "qa": "qa_verdict.v2.json",
+   "qa_hard": 1,
+   "qa_soft": 7,
+   "revision": null
+  }
+ ],
+ "selected": {
+  "version": 16,
+  "by": "code",
+  "reason": "상한 1회 도달 — checks_hard·qa_hard·qa_soft 사전식 최소 (checks hard 0, 검수 hard 1, soft 7)"
+ }
+}

@@ -1,0 +1,864 @@
+# direction.yaml — AI 연출 수정본(ReviseDirectionWorker, v3.1.0, 17 §5.5). changelog 는 prev/revision.v*.json.
+version: 1
+genre: macro_monetary
+stage: backdrop
+stage_reason: null
+stage_config:
+  timeline:
+    start: '2019-01-01'
+    end: '2026-12-31'
+    lanes:
+    - id: policy_rate
+      label: 연방기금금리 목표 범위
+      kind: step
+      unit: '%'
+    - id: inflation
+      label: 소비자물가 상승률 (CPI, 전년 대비)
+      kind: line
+      unit: '% (전년 대비)'
+    - id: events
+      label: FOMC · 사건
+      kind: pins
+places: {}
+paths: {}
+shots:
+- at: 0.0
+  mode: cut
+  dur: 0.0
+  camera:
+    lon: null
+    lat: null
+    place: null
+    date: null
+    lane: null
+    w: null
+  under: false
+  scene: null
+  stage: null
+  reason: null
+- at: 0.0
+  mode: cut
+  dur: 0.0
+  camera:
+    lon: null
+    lat: null
+    place: null
+    date: '2025-02-01'
+    lane: null
+    w: 1400.0
+  under: false
+  scene: null
+  stage: timeline
+  reason: null
+- at:
+    scene_start: decision
+    'off': -0.8
+  mode: move
+  dur: 3.2
+  camera:
+    lon: null
+    lat: null
+    place: null
+    date: '2026-06-01'
+    lane: null
+    w: 540.0
+  under: false
+  scene: null
+  stage: timeline
+  reason: null
+- at:
+    scene_start: cuts_2025
+    'off': -0.8
+  mode: move
+  dur: 3.0
+  camera:
+    lon: null
+    lat: null
+    place: null
+    date: '2025-12-01'
+    lane: null
+    w: 540.0
+  under: false
+  scene: null
+  stage: timeline
+  reason: 원고가 2025년 9~12월 인하 과정으로 거슬러 올라간다
+- at:
+    scene_start: hold_2026
+    'off': -0.8
+  mode: move
+  dur: 3.0
+  camera:
+    lon: null
+    lat: null
+    place: null
+    date: '2026-05-01'
+    lane: null
+    w: 540.0
+  under: false
+  scene: null
+  stage: timeline
+  reason: null
+- at:
+    scene_start: july_dissent
+    'off': -0.8
+  mode: move
+  dur: 2.8
+  camera:
+    lon: null
+    lat: null
+    place: null
+    date: '2026-07-15'
+    lane: null
+    w: 540.0
+  under: false
+  scene: null
+  stage: timeline
+  reason: null
+- at:
+    sid: close_0
+    'off': 2.0
+  mode: move
+  dur: 9.0
+  camera:
+    lon: null
+    lat: null
+    place: null
+    date: '2025-02-01'
+    lane: null
+    w: 1400.0
+  under: false
+  scene: null
+  stage: timeline
+  reason: 엔딩 조망 — 인하에서 인상까지 전체 기간을 다시 보여 주는 풀백
+events:
+- type: backdrop
+  start:
+    scene_start: open
+  end:
+    scene_end: open
+  img: fed_eccles_ext
+- type: backdrop
+  start:
+    scene_start: decision
+  end:
+    scene_end: decision
+  img: fed_boardroom
+- type: backdrop
+  start:
+    scene_start: cuts_2025
+  end:
+    scene_end: cuts_2025
+  img: fed_eccles_atrium
+- type: backdrop
+  start:
+    scene_start: hold_2026
+  end:
+    scene_end: hold_2026
+  img: fed_eccles_ext
+- type: backdrop
+  start:
+    scene_start: july_dissent
+  end:
+    scene_end: july_dissent
+  img: fed_presser_0729
+- type: backdrop
+  start:
+    scene_start: prices_jobs
+  end:
+    scene_end: prices_jobs
+  img: fed_boardroom
+- type: backdrop
+  start:
+    scene_start: markets
+  end:
+    scene_end: markets
+  img: fed_eccles_atrium
+- type: backdrop
+  start:
+    scene_start: projections
+  end:
+    scene_end: projections
+  img: fed_presser_0916
+- type: backdrop
+  start:
+    scene_start: pressure
+  end:
+    scene_end: pressure
+  img: fed_eccles_ext
+- type: backdrop
+  start:
+    scene_start: close
+  end:
+    total: true
+  img: fed_boardroom
+- type: island
+  kind: chart
+  box: left
+  start:
+    sid: open_0
+    'off': -0.4
+  end:
+    total: true
+- type: series
+  start:
+    sid: open_0
+    'off': -0.2
+  end:
+    total: true
+  lane: policy_rate
+  series_id: DFEDTARL
+  upper_id: DFEDTARU
+  style: band
+  color_by: change
+  col: gold
+- type: series
+  start:
+    sid: decision_5
+    'off': 0.4
+  end:
+    total: true
+  lane: inflation
+  series_id: CPIAUCSL
+  style: line
+  col: teal
+  grow: true
+- type: marker
+  start:
+    sid: open_0
+    'off': 0.4
+  end:
+    scene_end: decision
+  date: '2026-09-16'
+  lane: events
+  label: 9월 16일
+  sub: 금리 인상
+  side: left
+  hl: true
+- type: card
+  start:
+    sid: open_0
+    'off': 0.6
+  end:
+    sid: open_0
+    edge: end
+    'off': 0.3
+  tag: 2026년 9월 16일 · FOMC
+  lines:
+  - 미국 연준, 금리 인상
+  accent: gold
+- type: article
+  start:
+    sid: open_1
+    'off': 0.3
+  end:
+    sid: open_1
+    edge: end
+    'off': 0.5
+  mid: cnn_0916
+  theme: dark
+- type: card
+  start:
+    sid: decision_0
+    'off': 0.3
+  end:
+    sid: decision_0
+    edge: end
+    'off': 0.3
+  tag: 연방기금금리
+  lines:
+  - 은행끼리 하루짜리 자금을 빌려줄 때 적용
+  - 미국의 기준금리
+  accent: muted
+- type: card
+  start:
+    sid: decision_1
+    'off': 0.4
+  end:
+    sid: decision_2
+    edge: end
+    'off': 0.4
+  place: card_right
+  tag: FOMC 성명 · 목표 범위
+  lines:
+  - 목표 범위 0.25%p 인상
+  - 새 목표 범위 3.75~4%
+  accent: gold
+  src: 연준 FOMC 성명
+- type: card
+  start:
+    sid: decision_3
+    'off': 0.4
+  end:
+    sid: decision_3
+    edge: end
+    'off': 0.3
+  tag: 연준 이사회 자료 · 9월
+  bigs:
+  - - 3.75%
+    - 목표 범위 하단
+  accent: gold
+  src: FRED · 연준 이사회
+- type: card
+  start:
+    sid: decision_4
+    'off': 0.3
+  end:
+    sid: decision_4
+    edge: end
+    'off': 0.3
+  tag: 9월 16일 FOMC 표결
+  bigs:
+  - - 12 대 0
+    - 만장일치
+  accent: gold
+- type: card
+  start:
+    sid: decision_5
+    'off': 0.3
+  end:
+    scene_end: decision
+    'off': -0.1
+  tag: FOMC 성명 · 9월 16일
+  lines:
+  - “Inflation remains elevated.”
+  - 인플레이션은 여전히 높다
+  accent: gold
+  quote: true
+- type: article
+  start:
+    sid: cuts_2025_0
+    'off': 0.3
+  end:
+    sid: cuts_2025_0
+    edge: end
+    'off': 0.4
+  mid: fox_0916
+  theme: dark
+- type: marker
+  start:
+    sid: cuts_2025_0
+    edge: end
+    'off': 0.5
+  end:
+    scene_end: cuts_2025
+  date: '2025-09-01'
+  lane: events
+  label: 인하
+  sub: 2025년 9월
+  side: top
+  hl: false
+- type: marker
+  start:
+    sid: cuts_2025_1
+    'off': 0.8
+  end:
+    scene_end: cuts_2025
+  date: '2025-10-29'
+  lane: events
+  label: 10월 29일 인하
+  sub: −0.25%p
+  side: right
+  hl: true
+- type: card
+  start:
+    sid: cuts_2025_2
+    'off': 0.3
+  end:
+    sid: cuts_2025_2
+    edge: end
+    'off': 0.3
+  tag: 2025년 10월 29일 목표 범위
+  bigs:
+  - - 3.75~4%
+    - 지금과 같은 수준
+  accent: gold
+- type: marker
+  start:
+    sid: cuts_2025_3
+    'off': 0.4
+  end:
+    scene_end: cuts_2025
+  date: '2025-12-10'
+  lane: events
+  label: 12월 10일 인하
+  sub: 3.5~3.75%
+  side: right
+  hl: true
+- type: card
+  start:
+    sid: hold_2026_0
+    'off': 0.4
+  end:
+    sid: hold_2026_0
+    edge: end
+    'off': 0.3
+  tag: 2026년 FOMC
+  lines:
+  - 7월까지 다섯 번의 회의
+  - 모두 금리 동결
+  accent: muted
+- type: marker
+  start:
+    sid: hold_2026_1
+    'off': 0.6
+  end:
+    scene_end: hold_2026
+  date: '2026-02-28'
+  lane: events
+  label: 이란 전쟁 시작
+  sub: 2월 28일 · 미국·이스라엘 공격
+  side: right
+  hl: true
+- type: badge
+  start:
+    sid: hold_2026_3
+    'off': 0.4
+  end:
+    sid: hold_2026_4
+    edge: end
+    'off': 0.3
+  place: map_upper_right
+  kind: person
+  pid: warsh
+  flag: us
+  label: 케빈 워시
+  role: 연준 의장 · 5월 취임
+  accent: gold
+- type: marker
+  start:
+    sid: hold_2026_3
+    'off': 0.8
+  end:
+    scene_end: hold_2026
+  date: '2026-05-01'
+  lane: events
+  label: 워시 의장 취임
+  sub: 5월
+  side: top
+  hl: false
+- type: marker
+  start:
+    sid: hold_2026_4
+    'off': 0.6
+  end:
+    scene_end: hold_2026
+  date: '2026-06-01'
+  lane: events
+  label: 워시 첫 주재 회의
+  sub: 6월
+  side: right
+  hl: false
+- type: card
+  start:
+    sid: hold_2026_5
+    'off': 0.3
+  end:
+    sid: hold_2026_5
+    edge: end
+    'off': 0.3
+  tag: 선제 지침
+  lines:
+  - 중앙은행이 앞으로의 금리 방향을
+  - 미리 시사하는 문구
+  accent: muted
+- type: article
+  start:
+    sid: hold_2026_6
+    'off': 0.3
+  end:
+    sid: hold_2026_6
+    edge: end
+    'off': 0.5
+  mid: fox_0729
+  theme: dark
+- type: marker
+  start:
+    sid: july_dissent_0
+    'off': 0.3
+  end:
+    scene_end: july_dissent
+  date: '2026-07-29'
+  lane: events
+  label: 7월 29일 동결
+  sub: 9 대 3
+  side: left
+  hl: true
+- type: card
+  start:
+    sid: july_dissent_0
+    'off': 0.6
+  end:
+    sid: july_dissent_0
+    edge: end
+    'off': 0.3
+  tag: 7월 29일 FOMC 표결
+  bigs:
+  - - 9 대 3
+    - 동결 결정
+  accent: muted
+- type: card
+  start:
+    sid: july_dissent_1
+    'off': 0.4
+  end:
+    sid: july_dissent_2
+    edge: end
+    'off': 0.3
+  tag: 7월 29일 FOMC 성명 · 반대표
+  lines:
+  - 해맥 · 카시카리 · 로건
+  - 0.25%p 인상을 원하며 반대
+  accent: amber
+- type: article
+  start:
+    sid: july_dissent_3
+    'off': 0.3
+  end:
+    sid: july_dissent_3
+    edge: end
+    'off': 0.5
+  mid: cnn_0729
+  theme: dark
+- type: card
+  start:
+    sid: prices_jobs_0
+    'off': 0.3
+  end:
+    sid: prices_jobs_0
+    edge: end
+    'off': 0.3
+  tag: PCE 물가
+  lines:
+  - 개인이 소비한 상품과 서비스
+  - 가격의 변화를 재는 지표
+  accent: muted
+- type: card
+  start:
+    sid: prices_jobs_1
+    'off': 0.3
+  end:
+    sid: prices_jobs_1
+    edge: end
+    'off': 0.3
+  tag: 근원 PCE
+  lines:
+  - 변동이 큰 식품과 에너지를 뺀 값
+  accent: muted
+- type: badge
+  start:
+    sid: prices_jobs_2
+    'off': 0.3
+  end:
+    sid: prices_jobs_3
+    edge: end
+    'off': 0.3
+  place: map_upper_right
+  kind: person
+  pid: warsh
+  flag: us
+  label: 케빈 워시
+  role: 연준 의장
+  accent: gold
+- type: card
+  start:
+    sid: prices_jobs_2
+    'off': 0.7
+  end:
+    sid: prices_jobs_2
+    edge: end
+    'off': 0.3
+  tag: 워시 의장 추정 · 9월 16일
+  bigs:
+  - - 약 3.6%
+    - 8월 PCE 상승률
+  accent: gold
+- type: card
+  start:
+    sid: prices_jobs_3
+    'off': 0.3
+  end:
+    sid: prices_jobs_3
+    edge: end
+    'off': 0.3
+  tag: 워시 의장 · 9월 16일
+  bigs:
+  - - 약 3.2%
+    - 근원 PCE
+  accent: gold
+- type: marker
+  start:
+    sid: prices_jobs_4
+    'off': 0.6
+  end:
+    scene_end: prices_jobs
+  date: '2026-08-01'
+  lane: inflation
+  label: 8월 소비자물가 3.35%
+  sub: 노동통계국 · 전년 동월 대비
+  side: left
+  hl: true
+- type: badge
+  start:
+    sid: prices_jobs_5
+    'off': 0.3
+  end:
+    sid: prices_jobs_6
+    edge: end
+    'off': 0.3
+  place: map_upper_right
+  kind: person
+  pid: warsh
+  flag: us
+  label: 케빈 워시
+  role: 연준 의장
+  accent: gold
+- type: card
+  start:
+    sid: prices_jobs_5
+    'off': 0.6
+  end:
+    sid: prices_jobs_6
+    edge: end
+    'off': 0.3
+  tag: 워시 의장 · 9월 16일
+  bigs:
+  - - 약 4.1%
+    - 실업률 · 낮은 수준
+  accent: gold
+- type: article
+  start:
+    sid: prices_jobs_7
+    'off': 0.3
+  end:
+    sid: prices_jobs_7
+    edge: end
+    'off': 0.6
+  mid: abc_0916
+  theme: dark
+- type: article
+  start:
+    sid: markets_0
+    'off': 0.3
+  end:
+    sid: markets_0
+    edge: end
+    'off': 0.5
+  mid: nbc_0916
+  theme: dark
+- type: card
+  start:
+    sid: markets_1
+    'off': 0.3
+  end:
+    sid: markets_1
+    edge: end
+    'off': 0.3
+  tag: 9월 16일 · 인상 당일
+  bigs:
+  - - 약 −0.4%
+    - S&P500 지수
+  accent: ru
+- type: card
+  start:
+    sid: markets_2
+    'off': 0.4
+  end:
+    scene_end: markets
+    'off': -0.1
+  tag: 9월 16일 · 미 국채
+  bigs:
+  - - 약 5%
+    - 10년물 금리
+  accent: amber
+- type: card
+  start:
+    sid: projections_0
+    'off': 0.3
+  end:
+    sid: projections_0
+    edge: end
+    'off': 0.3
+  tag: 경제전망요약 (SEP)
+  lines:
+  - FOMC 참가자들이 각자 내놓은
+  - 경제 전망을 모은 자료
+  accent: muted
+- type: card
+  start:
+    sid: projections_1
+    'off': 0.4
+  end:
+    sid: projections_1
+    edge: end
+    'off': 0.3
+  tag: SEP 전망 중앙값 · 올해
+  bigs:
+  - - 3.7%
+    - PCE 물가
+  accent: gold
+- type: card
+  start:
+    sid: projections_2
+    'off': 0.3
+  end:
+    sid: projections_2
+    edge: end
+    'off': 0.3
+  tag: SEP 전망 중앙값 · 내년
+  bigs:
+  - - 2.3%
+    - PCE 물가
+  accent: gold
+- type: card
+  start:
+    sid: projections_3
+    'off': 0.3
+  end:
+    sid: projections_3
+    edge: end
+    'off': 0.3
+  tag: SEP 전망 중앙값 · 올해
+  bigs:
+  - - 2.3%
+    - 실질 GDP 성장률
+  accent: teal
+- type: card
+  start:
+    sid: projections_4
+    'off': 0.3
+  end:
+    scene_end: projections
+  tag: 점도표 · FOMC 참가자별 금리 전망
+  lines:
+  - 참가자별 금리 전망 · 약속이 아님
+  - '중앙값: 연내 0.25%p 추가 인상 한 번'
+  accent: gold
+- type: badge
+  start:
+    sid: pressure_0
+    'off': 0.3
+  end:
+    sid: pressure_0
+    edge: end
+    'off': 0.3
+  place: map_upper_right
+  kind: person
+  pid: trump
+  flag: us
+  label: 도널드 트럼프
+  role: 미국 대통령
+  accent: us
+- type: card
+  start:
+    sid: pressure_0
+    'off': 0.7
+  end:
+    sid: pressure_0
+    edge: end
+    'off': 0.3
+  tag: 트럼프 대통령 · 소셜미디어
+  lines:
+  - 금리를 1% 이하로
+  - 빨리 내려야 한다
+  accent: us
+- type: badge
+  start:
+    sid: pressure_1
+    'off': 0.3
+  end:
+    scene_end: pressure
+  place: map_upper_right
+  kind: person
+  pid: warsh
+  flag: us
+  label: 케빈 워시
+  role: 연준 의장
+  accent: gold
+- type: card
+  start:
+    sid: pressure_1
+    'off': 0.6
+  end:
+    sid: pressure_1
+    edge: end
+    'off': 0.3
+  tag: 워시 의장 · 9월 16일 기자회견
+  lines:
+  - 인플레이션이 너무 오래 높았다
+  - 가격 안정에 먼저 초점
+  accent: gold
+- type: photo
+  start:
+    sid: pressure_2
+    'off': 0.3
+  end:
+    scene_end: pressure
+  mid: fed_presser_0916_b
+  place: backdrop_right_low
+- type: marker
+  start:
+    scene_start: close
+  end:
+    total: true
+  date: '2026-09-16'
+  lane: events
+  label: 9월 16일 인상
+  sub: 3.75~4%
+  side: left
+  hl: false
+- type: marker
+  start:
+    sid: close_0
+    'off': 0.6
+  end:
+    total: true
+  date: '2026-10-27'
+  lane: events
+  label: 다음 FOMC
+  sub: 10월 말
+  side: right
+  hl: true
+- type: card
+  start:
+    sid: close_1
+    'off': 0.4
+  end:
+    sid: close_1
+    edge: end
+    'off': 1.2
+  tag: 점도표가 가리킨 추가 인상
+  lines:
+  - 아직 정해지지 않았다
+  accent: gold
+sound:
+  bgm: music.zabriskie_patriarch
+  intensity:
+  - - 0.0
+    - 0.55
+  - - scene_start: decision
+    - 0.5
+  - - scene_start: cuts_2025
+    - 0.52
+  - - scene_start: hold_2026
+    - 0.58
+  - - scene_start: july_dissent
+    - 0.64
+  - - scene_start: prices_jobs
+    - 0.56
+  - - scene_start: markets
+    - 0.62
+  - - scene_start: projections
+    - 0.54
+  - - scene_start: pressure
+    - 0.62
+  - - scene_start: close
+    - 0.55
+  - - total: true
+      'off':
+      - 0.5
+      - -7.0
+    - 0.5
+  - - total: true
+      'off': 0.5
+    - 0.0
+  cues: []

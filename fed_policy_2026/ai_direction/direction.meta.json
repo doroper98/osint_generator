@@ -1,0 +1,11 @@
+{
+ "schema_version": 1,
+ "origin": "ai",
+ "worker": "director",
+ "version": 12,
+ "model": "claude",
+ "prompt_sha1": "d3164d8d40ef37d818e3b41bd64986df77ee7ffa",
+ "camera_suggest_sha1": null,
+ "bundle_materials_sha1": null,
+ "reconstructed": "재기동 32 — 컨테이너 회수로 유실(추적 안 됨). prompt_sha1 = a015a2e1~1 트리에서 DirectorWorker.system_prompt() 재계산, model = 백엔드 이름"
+}

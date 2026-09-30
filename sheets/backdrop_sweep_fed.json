@@ -1,0 +1,89 @@
+{
+ "schema_version": 1,
+ "project": "fed_policy_2026",
+ "variants": [
+  [
+   4.0,
+   0.3
+  ],
+  [
+   6.0,
+   0.38
+  ],
+  [
+   10.0,
+   0.45
+  ]
+ ],
+ "times": [
+  43.65,
+  91.83,
+  250.0
+ ],
+ "sheet": "backdrop_sweep_fed.jpg",
+ "cells": [
+  {
+   "t": 43.65,
+   "blur_px": 4.0,
+   "dim": 0.3,
+   "desaturate": 0.15,
+   "file": "t0043.65_b4_d0.3_s0.15.png"
+  },
+  {
+   "t": 43.65,
+   "blur_px": 6.0,
+   "dim": 0.38,
+   "desaturate": 0.15,
+   "file": "t0043.65_b6_d0.38_s0.15.png"
+  },
+  {
+   "t": 43.65,
+   "blur_px": 10.0,
+   "dim": 0.45,
+   "desaturate": 0.15,
+   "file": "t0043.65_b10_d0.45_s0.15.png"
+  },
+  {
+   "t": 91.83,
+   "blur_px": 4.0,
+   "dim": 0.3,
+   "desaturate": 0.15,
+   "file": "t0091.83_b4_d0.3_s0.15.png"
+  },
+  {
+   "t": 91.83,
+   "blur_px": 6.0,
+   "dim": 0.38,
+   "desaturate": 0.15,
+   "file": "t0091.83_b6_d0.38_s0.15.png"
+  },
+  {
+   "t": 91.83,
+   "blur_px": 10.0,
+   "dim": 0.45,
+   "desaturate": 0.15,
+   "file": "t0091.83_b10_d0.45_s0.15.png"
+  },
+  {
+   "t": 250.0,
+   "blur_px": 4.0,
+   "dim": 0.3,
+   "desaturate": 0.15,
+   "file": "t0250.00_b4_d0.3_s0.15.png"
+  },
+  {
+   "t": 250.0,
+   "blur_px": 6.0,
+   "dim": 0.38,
+   "desaturate": 0.15,
+   "file": "t0250.00_b6_d0.38_s0.15.png"
+  },
+  {
+   "t": 250.0,
+   "blur_px": 10.0,
+   "dim": 0.45,
+   "desaturate": 0.15,
+   "file": "t0250.00_b10_d0.45_s0.15.png"
+  }
+ ]
+}
