@@ -41,3 +41,4 @@ last_review: 2026-09-27
 | v4.10.0 | 29dfa44 | Phase G9 정비 3건(지명 사전·[geo-mismatch] hard·LLM 브리지 stdin·귀속 표현 "보도했") 합격 (D-0117) | 미푸시 |
 | v4.11.0 | 7ff2976 | Phase G10 정적 구간 검사·음악 상한 +2 dB·글자 크기 2차 표 합격 (D-0119, 사용자 결정 D103) — 청감 판정은 사용자 | 미푸시 |
 | v5.0.0 | 87912d2 | Phase G11 GOAL G4-21 개정·claim_kind fact/statement 합격 (D-0125, 사용자 결정 D103) — MAJOR: GOAL G4 변경 | 미푸시 |
+| v5.1.0 | 3619f2c | Phase G12 backdrop 무대·아일랜드·축 스케일·기사 프레스 v2·발음 사전·버전 도장 합격 (D-0127, 사용자 결정 D105~D109) | 미푸시 |
