@@ -84,6 +84,7 @@ def _key(e: dict) -> str:
 
 
 FRAME_RE = re.compile(r"^p_\d+\.\d+")
+TAG_RE = re.compile(r"^\[([a-z0-9_-]+)\]")   # 검사 상세 태그 "[island-overlap] …"
 
 
 def resolve_refs(refs: set[str], frames: Optional[dict] = None, checks: Optional[dict] = None) -> set[tuple[str, str]]:
@@ -109,6 +110,8 @@ def resolve_refs(refs: set[str], frames: Optional[dict] = None, checks: Optional
             out.add(("~", r.split(":", 1)[1]))
             cid = r.split(":", 1)[0].strip().strip("[]")   # v5.1.0 — 검사 id 로 시작하면 그 검사의 상세 전부(수정 LLM 이 상세를 줄여 적어도 지적 이벤트를 찾는다)
             out |= {("~", d) for d in by_check[cid]}
+        elif (m2 := TAG_RE.match(r)) and m2.group(1) in by_check:   # v5.2.0 LLM-AP-012 — "[island-overlap] 상세…"(콜론 없이 태그 + 줄인 상세)
+            out |= {("~", d) for d in by_check[m2.group(1)]}
         elif "|" in r:
             parts = r.split("|")
             out.add((parts[0], parts[2] if len(parts) > 2 else parts[-1]))

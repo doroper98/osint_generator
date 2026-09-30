@@ -341,3 +341,13 @@ last_review: 2026-05-22
 - **회귀 테스트 (regression_test)**: `tests/test_g13.py::PromptTest::test_field_table_shows_schema_constraints`.
 - **연관**: back_and_forth D-0129 §D, LLM-AP-010.
 - **상태 (status)**: active
+
+## LLM-AP-012 — 수정 LLM 이 "[검사-태그] 줄인 상세" 를 콜론 없이 적어 지적 이벤트 변경이 "지적 없이 변경"으로 거부
+- **증상 (symptom)**: G13 fed 연출가 통과 뒤 첫 수정 회차가 island_overlap 이 지적한 statement_diff·dot_plot·photo 를 정확히 옮겼는데도 `unchanged_violations` 3건으로 거부됐다.
+- **재현 (reproduction)**: changelog issue_ref = `"[island-overlap] island chart left ↔ primitive statement_diff … t=28.36~37.90"`(교차 면적 생략, 콜론 없음) + checks island_overlap 상세 → `resolve_refs` 가 ("*", 원문)만 남김.
+- **원인 (root cause)**: LLM-AP-010 조치는 검사 id 그대로·"id:상세" 꼴만 받았다. 태그 괄호 뒤 공백 + 줄인 상세 꼴은 검사 id 로 풀리지 않았다.
+- **우회 (workaround, 그 세션)**: 없음 — 구조 조치 후 같은 연출로 루프 재개.
+- **구조적 조치 (structural fix)**: `engine.qa.TAG_RE` — issue_ref 가 `[검사-태그]` 로 시작하고 그 태그가 checks 항목(밑줄·하이픈)이면 그 검사 상세 전부를 지적 이벤트로 푼다. 거부된 실제 수정본으로 위반 0 확인.
+- **회귀 테스트 (regression_test)**: `tests/test_g13.py::ResolveRefsTest::test_bracket_tag_without_colon`.
+- **연관**: LLM-AP-010, back_and_forth D-0129 §D·D-0131.
+- **상태 (status)**: active

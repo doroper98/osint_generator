@@ -134,6 +134,18 @@ class PromptTest(unittest.TestCase):
         self.assertIn("record*: str (레코드 id 그대로 — series: 접두 없이", dot)
 
 
+class ResolveRefsTest(unittest.TestCase):
+    def test_bracket_tag_without_colon(self) -> None:
+        """LLM-AP-012 — 수정 LLM 이 "[island-overlap] 상세(면적 생략)" 로 적어도 그 검사 상세 전부로 푼다."""
+        from engine.qa import resolve_refs  # noqa: PLC0415
+
+        det = "[island-overlap] island chart left ↔ primitive statement_diff FOMC 성명 t=28.36~37.90 교차 18800px²"
+        chk = {"items": [{"id": "island_overlap", "details": [det]}]}
+        got = resolve_refs({"[island-overlap] island chart left ↔ primitive statement_diff FOMC 성명 t=28.36~37.90"}, None, chk)
+        self.assertIn(("~", det), got)
+        self.assertNotIn(("~", det), resolve_refs({"[no-such-check] x"}, None, chk))
+
+
 class RedirectTest(unittest.TestCase):
     def test_redirect_moves_not_deletes(self) -> None:
         """D-0131 — --redirect 없으면 기존 direction.yaml 유지, 있으면 prev/direction_{시각}.yaml 로 이동(내용 그대로)."""
