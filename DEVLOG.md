@@ -3366,3 +3366,11 @@ last_review: 2026-06-06
 - **왜**: back_and_forth D-0116(B-1·D-0104 S1·D84 보류분).
 - **결과**: 골든 hormuz 8·랫클리프 6 place 전부 사전 오차 안(좌표 무변경), 전 프로젝트 mismatch 0. 140KB 프롬프트 실 subprocess 통과(argv 대조군 OSError). 린트 경고 fed 8 → 0, claims 판정 변화 없음(근거 본문에 "보도했" 없음).
 - **연관**: D-0116, LLM-AP-009, handoff 04 §11·18 §8, ADDENDUM_04 §5.1.
+
+## 2026-09-30 v4.11.0 — G10: 정적 구간 검사·음악 상한 +2 dB·글자 크기 2차 표
+
+- **무엇을**: ① `rules pacing.static_window` + `engine/pacing.py` + checks `[static-window]` warning + 느린 푸시인(creep, w × 0.96) + 연출 프롬프트 변화 사다리. ② `music_under_narration_db` [-13, -9], norm_ref 0.7 → 0.4(`tools/norm_ref_sweep.py`). ③ 자막 22·카드 line 16.
+- **왜**: back_and_forth D-0118(사용자 "이것들 진행해봐", 세부 값 Fable 위임 D103).
+- **결과**: 골든 정적 창 0(creep 0, 프레임 무변경). 음악 hormuz −11.55 → −9.83·fed −12.31 → −10.57, TP −1.58·−1.65(한도 안). 2줄 자막 hormuz 17/45, 3줄 0, 카드 넘침 0, 골든 23컷 요소 영역 안 100 %. pytest 1149.
+- **연관**: D-0118, handoff 05 §7·09 §10·10 §3, docs/12, reports/phaseG10, artifacts/phaseG10-v4.11.0.
+
