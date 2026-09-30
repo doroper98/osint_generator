@@ -89,6 +89,17 @@ class OverlapTest(unittest.TestCase):
         many = [(f"i{k}", 0, 5, (k * 100.0, 0.0, 90.0, 90.0)) for k in range(n)]
         self.assertTrue(any("동시 아일랜드" in s for s in island_overlap(many)))
 
+    def test_details_name_events_for_revision(self) -> None:
+        """상세 문장에 이벤트 이름 — 수정 워커가 지적받은 이벤트를 찾는다(engine.qa.resolve_refs "~" 규칙)."""
+        from engine.island import island_boxes  # noqa: PLC0415
+        from engine.qa import resolve_refs, _touched  # noqa: PLC0415
+
+        ev = [{"type": "panel", "kind": "versus", "title": "두 입장", "t0": 0.0, "t1": 5.0}]
+        det = island_overlap(island_boxes(ev, {}, "backdrop") + [("island chart center", 0.0, 5.0, tuple(ISLAND.boxes["center"]))])
+        self.assertIn("두 입장", det[0])
+        t = resolve_refs({"island_overlap"}, None, {"items": [{"id": "island_overlap", "details": det}]})
+        self.assertTrue(_touched(ev[0], "k", t))
+
     def test_rule_boxes_clear_subtitle(self) -> None:
         for name, (x, y, w, h) in ISLAND.boxes.items():
             self.assertLessEqual(y + h, SUB_Y, name)

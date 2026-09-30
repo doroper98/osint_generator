@@ -107,6 +107,7 @@ def island_boxes(events: list[dict], media_assets: dict, stage_name: str) -> lis
         return []
     from engine.media_plan import media_box  # noqa: PLC0415
     from engine.primitives import primitive_box  # noqa: PLC0415
+    from engine.qa import event_name  # noqa: PLC0415 — 상세에 이벤트 이름(수정 워커가 지적 이벤트를 찾는 규칙, engine.qa.resolve_refs)
 
     out: list[tuple[str, float, float, Box]] = []
     for e in events:
@@ -117,10 +118,10 @@ def island_boxes(events: list[dict], media_assets: dict, stage_name: str) -> lis
             x0, y0, x1, y1 = media_box(e, media_assets)
             out.append((f"{typ} {e['mid']}", e["t0"], e["t1"], (x0, y0, x1 - x0, y1 - y0)))
         elif typ == "panel":
-            out.append((f"panel {e['kind']}", e["t0"], e["t1"], _panel_box()))
+            out.append((f"panel {e['kind']} {event_name(e)}".rstrip(), e["t0"], e["t1"], _panel_box()))
         elif typ == "primitive":
             x0, y0, x1, y1 = primitive_box(e)
-            out.append((f"primitive {e['id']}", e["t0"], e["t1"], (x0, y0, x1 - x0, y1 - y0)))
+            out.append((f"primitive {e['id']} {event_name(e)}".rstrip(), e["t0"], e["t1"], (x0, y0, x1 - x0, y1 - y0)))
     return out
 
 
