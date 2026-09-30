@@ -90,3 +90,10 @@ last_review: 2026-05-23
 - **좋은 예**: loudnorm 뒤 샘플 피크 리미터(`rules audio.post_limiter_dbfs`, −2.0 dBFS)를 둔다. 실측: 같은 믹스 AAC −1.62 dBTP, I −14.26 LUFS(목표 −14 ± 1).
 - **자동 조치**: `audio/qa.py loudnorm_two_pass` 필터 끝 alimiter + 기록 `post_limiter_dbfs`, `tests/test_audio_qa.py::test_two_pass_record`. QA 여유(tp_codec_margin_db)는 넓히지 않았다.
 - **발견 버전**: v4.4.0 (dmz_mine_2026 v2) · **상태**: active
+
+## RENDER-AP-005 — 차트 아일랜드가 상자 밖 마커 라벨을 조용히 자름
+- **증상**: fed_policy 차트 아일랜드 오른쪽 끝 마커 "다음 FOMC" 라벨이 상자 테두리에서 잘려 "다" 만 보였다. G12 v9·G13 v15 시각 검수가 두 번 hard 로 지적했고 검사는 0이었다.
+- **원인**: 아일랜드 렌더러는 상자 모양으로 clip 한다. 마커 라벨은 지도 무대 규칙(점 오른쪽 고정)을 그대로 따라 상자 밖으로 나가도 알리지 않았다(조용한 드롭, 15 P6). 연출로 고쳐도 차트 오른쪽 끝 날짜면 다시 생긴다.
+- **좋은 예**: 라벨 자리는 렌더 수치라 코드가 정한다 — 아일랜드 마커만 상자 가장자리 − `island.chart.label_flip_pad` 를 넘으면 반대쪽, 그래도 넘치면 클램프. 그 뒤에도 밖이면 hard 검사. 지도 무대 마커 경로는 그대로(골든).
+- **자동 조치**: `engine/layers/markers.island_label`, checks `island_label_clip`(hard)·`island_label_overlap`(warning), `tests/test_g13_label_clip.py`(반전·클램프·지도 경로 무변경·hormuz 25/25 기록).
+- **발견 버전**: v5.1.0 (G12 검수) · **해결 버전**: v5.2.0 (D-0133) · **상태**: active

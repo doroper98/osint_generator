@@ -3393,3 +3393,4 @@ last_review: 2026-06-06
 - 2026-09-30 v5.2.0 LLM-AP-011(연출가가 statement_diff date ISO·인용 174자 > 160 → 재실행 3회 거부) 기록, 필드 표에 스키마 description(형식·상한). G13 D-0129 §D.
 - 2026-09-30 v5.2.0 LLM-AP-011 같은 부류 추가: 연출가가 dot_plot record 에 'series:' 접두 → 필드 표 description(레코드 id 그대로).
 - 2026-09-30 v5.2.0 LLM-AP-012(수정 LLM issue_ref "[island-overlap] 줄인 상세" 콜론 없음 → 지적 이벤트 미해결 거부) 기록, engine.qa TAG_RE.
+- 2026-09-30 v5.2.0 RENDER-AP-005(차트 아일랜드가 상자 밖 마커 라벨을 조용히 자름 → 검수 hard 2회) 기록. 아일랜드 마커 라벨 반전·클램프 + checks island_label_clip hard·island_label_overlap warning. G13 D-0133.
