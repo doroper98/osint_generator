@@ -230,3 +230,18 @@ projects/dmz_mine_2026/plan.json
 projects/dmz_mine_2026/project_manifest.json
 projects/dmz_mine_2026/intake/verify_draft.json
 projects/dmz_mine_2026/direction.meta.json
+
+# hormuz-talks-2026 (v5.2.0) — 런타임·LLM 기록·렌더 산출물은 추적하지 않는다(dmz_mine_2026 과 같은 규칙).
+projects/hormuz-talks-2026/01_intake/
+projects/hormuz-talks-2026/03_tasks/
+projects/hormuz-talks-2026/assets/
+projects/hormuz-talks-2026/llm_calls/
+projects/hormuz-talks-2026/logs/
+projects/hormuz-talks-2026/media/
+projects/hormuz-talks-2026/tts/
+projects/hormuz-talks-2026/prev/
+projects/hormuz-talks-2026/out/
+projects/hormuz-talks-2026/plan.json
+projects/hormuz-talks-2026/project_manifest.json
+projects/hormuz-talks-2026/intake/verify_draft.json
+projects/hormuz-talks-2026/direction.meta.json
