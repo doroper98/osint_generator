@@ -1,0 +1,18 @@
+{
+ "schema_version": 1,
+ "direction_version": 9,
+ "changelog": [
+  {
+   "issue_ref": "island_overlap:island chart left ↔ primitive statement_diff FOMC 성명 · 결정 문구 t=28.16~42.94",
+   "change": "차트 아일랜드·series·날짜 마커는 그대로 두고, 차트와 겹치던 statement_diff 프리미티브(아일랜드)를 같은 시각(decision_1+0.2 ~ decision_3 끝+0.3)의 카드 슬롯 카드로 바꿈. 문구는 원고의 결정 내용(7월 동결 → 9월 0.25%p 인상, 3.75~4%)만 씀"
+  },
+  {
+   "issue_ref": "island_overlap:island chart left ↔ primitive dot_plot 점도표 · 9월 16일 · 참가자별 전망 t=246.15~261.85",
+   "change": "차트 아일랜드는 그대로 두고, 겹치던 dot_plot 프리미티브를 같은 시각(projections_4+0.3 ~ 장면 끝-0.1)의 카드로 바꿈. 문구는 원고 projections_4~6(참가자별 전망·약속 아님·연내 0.25%p 추가 인상 한 번)만 씀"
+  },
+  {
+   "issue_ref": "shots:[timeline_backtrack] t=282.51",
+   "change": "엔딩 조망 숏(close_0-0.5)은 그대로 두고 reason 에 과거로 향하는 이유(2023년 이후 금리 흐름 전체를 보여 주는 엔딩 조망)를 적음"
+  }
+ ]
+}

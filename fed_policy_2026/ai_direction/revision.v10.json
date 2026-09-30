@@ -1,0 +1,50 @@
+{
+ "schema_version": 1,
+ "direction_version": 10,
+ "changelog": [
+  {
+   "issue_ref": "article:fox_0916",
+   "change": "기사 등장을 markets_2+0.2 에서 markets_2-0.5(markets_1 끝 무렵)로 당겨 문장이 시작될 때 기사가 이미 화면을 다 채우게 함. 차트 아일랜드는 end total 그대로 유지"
+  },
+  {
+   "issue_ref": "marker:워시 첫 주재 회의",
+   "change": "side 를 bottom → right 로 바꿔 라벨이 6월 점에서 오른쪽(빈 쪽)으로 뻗게 하고, 왼쪽 2~5월에 몰린 '이란 전쟁 시작'·'워시 의장 취임' 라벨 무더기와 떨어뜨림"
+  },
+  {
+   "issue_ref": "marker:다음 FOMC 회의",
+   "change": "side 를 left → bottom 으로 바꿔, 위(top)에 붙는 '9월 16일 인상' 라벨과 위아래 레벨을 나눔"
+  },
+  {
+   "issue_ref": "card:점도표 · 9월 16일 · 참가자별 전망",
+   "change": "앞 회차에 dot_plot 프리미티브를 카드로 바꾼 것은 유지하고, 3줄 카드를 시각으로 둘로 나눔 — projections_4 에는 정의 한 줄만(끝 projections_4 끝+0.2), projections_5~6 에는 새 카드 '점도표 · 약속이 아닌 전망 / 중앙값은 연내 0.25%p 추가 인상 한 번'(원고 문구). 카드 높이가 줄어 차트 오른쪽 위 끝값·눈금을 덮지 않음"
+  },
+  {
+   "issue_ref": "marker:2025년 9월 인하",
+   "change": "side 를 top → left 로 옮겨 오른쪽의 '10월 29일 인하' 라벨·원 마커와 반대편에 붙임"
+  },
+  {
+   "issue_ref": "card:ABC뉴스 보도",
+   "change": "july_dissent_2 카드의 한 줄 문구를 두 줄('같은 방향 반대표 3표' / '10년 만에 최다')로 나눠 카드 폭을 줄임 — 카드 왼쪽 끝이 차트 오른쪽 5.5% 눈금에서 떨어짐"
+  },
+  {
+   "issue_ref": "badge:도널드 트럼프",
+   "change": "뱃지 퇴장을 pressure_0 끝+0.3 에서 끝-0.3 으로 당겨 워시 문장(pressure_1)이 시작될 때 트럼프 뱃지가 남지 않게 함"
+  },
+  {
+   "issue_ref": "badge:케빈 워시",
+   "change": "hold_2026 뱃지 등장을 hold_2026_3-0.3 으로 당겨 문장 시작 전에 페이드인을 끝내고, 퇴장을 hold_2026_4 끝+0.3 에서 장면 끝으로 늘려 p_0108 부근에 페이드아웃 중인 반투명 상태가 생기지 않게 함(워시 체제 선제 지침 문장까지 이어짐)"
+  },
+  {
+   "issue_ref": "p_0015.09",
+   "change": "CPI 시리즈 등장을 prices_jobs_4-0.2 에서 open_2-0.1 로 당겨 차트가 뜰 때부터 소비자물가 레인이 비어 있지 않게 함(8월 CPI 마커 시각은 그대로)"
+  },
+  {
+   "issue_ref": "card:워시 의장 · 8월 추정",
+   "change": "prices_jobs_2 카드 부제를 'PCE 상승률' → 'PCE 상승률 · 차트의 CPI와 다른 지표'로 바꿔 차트 레인(CPI)과 구분"
+  },
+  {
+   "issue_ref": "card:점도표가 가리킨 추가 인상",
+   "change": "퇴장을 {total, -0.5} 에서 {card: end} 로 바꿔 엔딩 카드가 뜨기 전에 퇴장시킴 — '자료 및 출처' 제목 뒤로 비치지 않음"
+  }
+ ]
+}

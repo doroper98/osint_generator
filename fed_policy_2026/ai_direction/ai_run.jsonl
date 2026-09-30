@@ -1,0 +1,11 @@
+{"t": 8.4, "ok": true, "stage": "validate", "errors": [], "warnings": ["[media-density-total] 과소 — 2개 / 308초 = 153.8초당 1개 > 60초 (14 §10.1)"]}
+{"t": 25.1, "ok": false, "stage": "preview", "errors": ["checks hard island_overlap: [island-overlap] island chart left ↔ primitive statement_diff FOMC 성명 · 결정 문구 t=28.16~42.94 교차 18800px²", "checks hard island_overlap: [island-overlap] island chart left ↔ primitive dot_plot 점도표 · 9월 16일 · 참가자별 전망 t=246.15~261.85 교차 35912px²"], "warnings": ["[media-density-total] 과소 — 2개 / 308초 = 153.8초당 1개 > 60초 (14 §10.1)"]}
+{"t": 203.6, "ok": true, "stage": "revise_direction", "errors": [], "warnings": []}
+{"t": 211.8, "ok": true, "stage": "validate", "errors": [], "warnings": ["[media-density-total] 과소 — 2개 / 308초 = 153.8초당 1개 > 60초 (14 §10.1)"]}
+{"t": 225.5, "ok": true, "stage": "preview", "errors": [], "warnings": ["[media-density-total] 과소 — 2개 / 308초 = 153.8초당 1개 > 60초 (14 §10.1)"]}
+{"t": 290.1, "ok": true, "stage": "visual_qa", "errors": [], "warnings": []}
+{"t": 517.6, "ok": true, "stage": "revise_direction", "errors": [], "warnings": []}
+{"t": 526.0, "ok": true, "stage": "validate", "errors": [], "warnings": ["[media-density-total] 과소 — 2개 / 308초 = 153.8초당 1개 > 60초 (14 §10.1)"]}
+{"t": 541.6, "ok": true, "stage": "preview", "errors": [], "warnings": ["[media-density-total] 과소 — 2개 / 308초 = 153.8초당 1개 > 60초 (14 §10.1)"]}
+{"t": 606.8, "ok": true, "stage": "visual_qa", "errors": [], "warnings": []}
+{"t": 621.8, "ok": true, "stage": "preview", "errors": [], "warnings": ["[media-density-total] 과소 — 2개 / 308초 = 153.8초당 1개 > 60초 (14 §10.1)"]}

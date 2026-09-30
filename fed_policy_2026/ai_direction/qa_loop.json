@@ -1,0 +1,40 @@
+{
+ "schema_version": 1,
+ "rounds": [
+  {
+   "version": 8,
+   "checks_hard": 2,
+   "checks_file": "checks.v8.json",
+   "sheet": "sheet.v8.jpg",
+   "qa": null,
+   "qa_hard": null,
+   "qa_soft": null,
+   "revision": "revision.v9.json"
+  },
+  {
+   "version": 9,
+   "checks_hard": 0,
+   "checks_file": "checks.v9.json",
+   "sheet": "sheet.v9.jpg",
+   "qa": "qa_verdict.v1.json",
+   "qa_hard": 4,
+   "qa_soft": 7,
+   "revision": "revision.v10.json"
+  },
+  {
+   "version": 10,
+   "checks_hard": 0,
+   "checks_file": "checks.v10.json",
+   "sheet": "sheet.v10.jpg",
+   "qa": "qa_verdict.v2.json",
+   "qa_hard": 5,
+   "qa_soft": 3,
+   "revision": null
+  }
+ ],
+ "selected": {
+  "version": 9,
+  "by": "code",
+  "reason": "상한 2회 도달 — checks_hard·qa_hard·qa_soft 사전식 최소 (checks hard 0, 검수 hard 4, soft 7)"
+ }
+}
