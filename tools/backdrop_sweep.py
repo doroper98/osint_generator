@@ -25,34 +25,36 @@ from engine.sheet import grid  # noqa: E402
 from engine.style import BACKDROP, FPS  # noqa: E402
 
 
-def parse_variant(s: str) -> tuple[float, float]:
-    """'blur:dim' → (blur_px, dim)."""
-    b, d = s.split(":")
-    return float(b), float(d)
+def parse_variant(s: str) -> tuple[float, ...]:
+    """'blur:dim' 또는 'blur:dim:desaturate' → (blur_px, dim[, desaturate]). desaturate 를 빼면 규칙 값."""
+    return tuple(float(v) for v in s.split(":"))
 
 
-def sweep(proj: Path, times: list[float], variants: list[tuple[float, float]], dest: Path) -> dict:
+def sweep(proj: Path, times: list[float], variants: list[tuple[float, ...]], dest: Path) -> dict:
     """times × variants 컷을 그려 dest(JPEG 격자)와 dest 옆 PNG 들을 남긴다. 기록 dict(변형·컷 파일)를 돌려준다."""
     P = load_project(proj)  # noqa: N806
-    keep = (BACKDROP.blur_px, BACKDROP.dim)
+    keep = (BACKDROP.blur_px, BACKDROP.dim, BACKDROP.desaturate)
     cells: list[tuple[Image.Image, str]] = []
     rows: list[dict] = []
     png_dir = dest.with_suffix("")
     png_dir.mkdir(parents=True, exist_ok=True)
     try:
         for t in times:
-            for b, d in variants:
-                BACKDROP.blur_px, BACKDROP.dim = b, d   # 이 프로세스 안에서만(desaturate 는 규칙 값 그대로)
+            for v in variants:
+                b, d = v[0], v[1]
+                BACKDROP.blur_px, BACKDROP.dim = b, d   # 이 프로세스 안에서만(규칙 파일은 그대로)
+                BACKDROP.desaturate = v[2] if len(v) > 2 else keep[2]
                 P.R.cache.pop("backdrop_surf", None)
                 s, _ = render_frame(P, min(P.n_frames - 1, int(t * FPS)))
-                p = png_dir / f"t{t:07.2f}_b{b:g}_d{d:g}.png"
+                ds = BACKDROP.desaturate
+                p = png_dir / f"t{t:07.2f}_b{b:g}_d{d:g}_s{ds:g}.png"
                 s.write_to_png(str(p))
-                cells.append((Image.open(p), f"t={t:.2f}  blur {b:g} · dim {d:g}"))
-                rows.append({"t": t, "blur_px": b, "dim": d, "file": p.name})
+                cells.append((Image.open(p), f"t={t:.2f}  blur {b:g} · dim {d:g} · desat {ds:g}"))
+                rows.append({"t": t, "blur_px": b, "dim": d, "desaturate": ds, "file": p.name})
     finally:
-        BACKDROP.blur_px, BACKDROP.dim = keep
+        BACKDROP.blur_px, BACKDROP.dim, BACKDROP.desaturate = keep
     grid(cells, len(variants), dest)
-    rec = {"schema_version": 1, "project": proj.name, "desaturate": BACKDROP.desaturate, "variants": [list(v) for v in variants],
+    rec = {"schema_version": 1, "project": proj.name, "variants": [list(v) for v in variants],
            "times": times, "sheet": dest.name, "cells": rows}
     dest.with_suffix(".json").write_text(json.dumps(rec, ensure_ascii=False, indent=1), encoding="utf-8")
     return rec
@@ -62,7 +64,7 @@ def main(argv: list[str] | None = None) -> int:
     ap = argparse.ArgumentParser(description="stage_backdrop 블러·덮개 스윕 시트")
     ap.add_argument("proj", type=Path)
     ap.add_argument("--t", type=float, action="append", required=True, help="컷 시각(초), 여러 번")
-    ap.add_argument("--v", type=parse_variant, action="append", required=True, help="blur:dim 변형, 여러 번")
+    ap.add_argument("--v", type=parse_variant, action="append", required=True, help="blur:dim[:desaturate] 변형, 여러 번")
     ap.add_argument("--out", type=Path, required=True)
     args = ap.parse_args(argv)
     rec = sweep(args.proj.resolve(), args.t, args.v, args.out.resolve())
