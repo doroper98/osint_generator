@@ -94,6 +94,7 @@ class PlacementSlot(_Strict):
     card: Optional[float] = None
     beside_panel: Optional[BesidePanel] = None
     screen: Optional[list[tuple[float, float]]] = None   # v4.8.0 D-0104 D2(c) — 패널 위 화면 고정 점들(동시 n 번째 = n 번째 점)
+    stages: Optional[list[str]] = None   # v5.2.0 D-0132 — 이 주 무대에서만 쓰는 슬롯(없으면 무대 무관). 다른 무대 = 배치 오류(P10)
 
     @model_validator(mode="after")
     def _one(self) -> "PlacementSlot":
@@ -1649,6 +1650,9 @@ class VideoRules(_Strict):
         bad = sorted(set(self.genre_prompt.stage_grammar) - set(self.registries.stages))
         if bad:
             raise ValueError(f"genre_prompt.stage_grammar 의 무대가 registries.stages 에 없다: {bad}")
+        bad = sorted(f"{n}→{st}" for n, sl in self.placement.slots.items() for st in (sl.stages or []) if st not in self.registries.stages)
+        if bad:
+            raise ValueError(f"placement.slots 의 stages 가 registries.stages 에 없다: {bad}")   # v5.2.0 D-0132
         a, b = set(self.camera.framing.context_w_min), set(self.shot_grammar.w_guide)
         if a != b:
             raise ValueError(f"camera.framing.context_w_min 키가 shot_grammar.w_guide 와 다르다 — 누락 {sorted(b - a)} · 초과 {sorted(a - b)}")

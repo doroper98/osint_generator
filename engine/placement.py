@@ -8,6 +8,7 @@
   등장하는 요소까지)·자막·날짜 예약 영역을 피하는 첫 후보 자리. 막히면 오류. 겹침 판정은 RESERVED 와 같은 `reserved._hits`
 - 사진·영상에 place·x 가 둘 다 없으면 `placement.auto_media`(14 §10.3-5, v3 합격 좌표)
 - 무대 종류별 자리(v4.4.0 D-0093): 그 무대의 `placement.stage_slots` 에 이벤트 종류가 있으면 지도 슬롯(map_*) 대신 그 슬롯
+- 무대 전용 슬롯(v5.2.0 D-0132): 슬롯에 `stages` 가 있으면 그 주 무대에서만 쓴다(다른 무대 = 오류). 코드가 다른 슬롯으로 옮기지 않는다(P8)
 슬롯 이름이 없거나 그 종류에 쓸 수 없는 슬롯이면 오류(15 P6·P10).
 """
 
@@ -122,6 +123,9 @@ def resolve_places(events: list[dict], view_at: Callable[[float], object],
             continue
         if e["type"] not in slot.kinds:
             errs.append(f"[{i}] {tag}: 슬롯 {slot_name!r} 는 {slot.kinds} 용")
+            continue
+        if slot.stages is not None and stage_name not in slot.stages:   # v5.2.0 D-0132 — 무대 전용 슬롯
+            errs.append(f"[{i}] {tag}: 슬롯 {slot_name!r} 는 {slot.stages} 무대 전용(주 무대 {stage_name!r})")
             continue
         if slot.beside_panel is not None:
             err = _beside_panel(e, events, slot, media_h)

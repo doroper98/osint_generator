@@ -71,6 +71,7 @@ MINOR: 새 검사 2개(`backdrop_main_missing` hard·`card_island` warning). JSO
 
 ### Changed
 - **§0**: VERSION 5.2.0, Tier 1·2 `last_synced_with` v5.2.0, v5.1.0 대장 행(3619f2c, D-0127 pass).
+- **D-0132 backdrop 전용 사진 슬롯**(A): `placement.slots.backdrop_right_low` box [594, 212, 236]·`stages: [backdrop]`(슬롯 모델 새 필드 `stages` — 다른 주 무대에서 쓰면 배치 오류, P10), 연출 문법 한 줄(left 차트 아일랜드와 함께 쓰는 사진 자리), 프리뷰 예제 `stage_backdrop.yaml`. 테스트 3. 슬롯 값은 사용자 합격 값 아님.
 
 ---
 

@@ -68,7 +68,7 @@ def _rules_placeholders(rules: VideoRules) -> dict[str, str]:
         "{{RULES.event_types}}": _bullets(list(rules.registries.event_types)),
         "{{RULES.panel_kinds}}": _bullets(list(rules.registries.panel_kinds)),
         "{{RULES.placement_slots}}": _bullets([
-            f"{name} — {', '.join(s.kinds)} ({_slot_form(s)})" for name, s in rules.placement.slots.items()]),
+            f"{name} — {', '.join(s.kinds)} ({_slot_form(s)}){_slot_stages(s)}" for name, s in rules.placement.slots.items()]),
         "{{RULES.corner_elements}}": ", ".join(rules.hud.allowed_corner_elements),
         "{{RULES.verification.quote_max_chars}}": str(rules.verification.quote_max_chars),
         "{{RULES.script_labels}}": ", ".join(v for v in rules.script_schema.labels.values() if v),   # v4.4.0 D-0093
@@ -105,6 +105,11 @@ def _backdrop_island(rules: VideoRules) -> str:
             line = line.replace(k, v)
         out.append(line)
     return _bullets(out)
+
+
+def _slot_stages(s) -> str:  # noqa: ANN001 — schemas.rules_models.PlacementSlot
+    """무대 전용 슬롯(v5.2.0 D-0132) 표기 — 다른 무대에서 쓰면 배치 오류."""
+    return "" if s.stages is None else f" — {'·'.join(s.stages)} 무대 전용(다른 무대에서 쓰면 오류)"
 
 
 def _slot_form(s) -> str:  # noqa: ANN001 — schemas.rules_models.PlacementSlot

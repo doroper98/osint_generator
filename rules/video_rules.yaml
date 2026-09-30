@@ -272,6 +272,10 @@ placement:                 # v3.1.0 D-0047 작업 5 — 배치 슬롯(17 §2 `pl
     # y 186 → 63~288: 레인 영역(area_top 60 ~ area_bottom 380) 안·날짜 배지 상자(y ≤ 50) 아래. 옛 [780, 118] 은 solo 에서 위로 잘렸다(top −5)
     timeline_badge:  {kinds: [badge], point: [640, 186]}
     timeline_photo:  {kinds: [photo, clip], box: [540, 196, 240]}     # 레인 오른쪽 아래 — 카드 자리(card_right, y 70~) 아래·왼쪽 레인 이름 열(55%)·오른쪽 축 값 자리(axis_zone_px) 밖
+    # v5.2.0 back_and_forth D-0132(A) — backdrop 무대 전용 사진 자리(left 차트 아일랜드 x 24~564 와 함께). 카드 예약 구역(x ≥ 594, y 70~200) 아래·
+    # 자막 구역(y 410) 위·left 상자 오른쪽 끝 564 밖. 폭 236 → 16:9 + 캡션 바 42 = y 212~387. stages = 이 무대에서만(다른 무대 = 배치 오류, P10).
+    # 사용자 합격 값 아님(480p 시감 뒤 조정 가능)
+    backdrop_right_low: {kinds: [photo, clip], box: [594, 212, 236], stages: [backdrop]}
     # v4.8.0 D-0104 D2(c) — 패널 위 인물 뱃지(화면 고정, 패널 층 위에 그린다). 동시에 떠 있는 n 번째 뱃지 = n 번째 점. 모자라면 오류.
     # y 300: solo R 56 상자(머리 2.2R 위 ~ 이름·역할 46px 아래) = y 177~402 — 자막 구역(y≥410) 밖. 왼쪽 먼저(카드 자리 x≥594 를 피함)
     panel_badge:     {kinds: [badge], screen: [[96, 300], [758, 300]]}
@@ -886,6 +890,7 @@ stage_backdrop:            # v5.1.0 back_and_forth D-0121 §B·D-0123 §1(사용
     - "차트 아일랜드: `{\"type\": \"island\", \"kind\": \"chart\", \"box\": {boxes} 중 하나, start, end}` — 시간축 차트가 이 상자 안에 뜬다. 차트 카메라는 `\"stage\": \"timeline\"` 숏(camera {date, lane?, w}) — 시간축 축 스케일 규칙을 그대로 따른다. series·date 마커는 차트 아일랜드가 떠 있는 동안에만 쓴다. 같은 순간 차트 아일랜드는 하나 — 차트가 필요한 구간 전체에 하나를 길게 두는 것이 기본이고, 둘을 이을 때는 앞 것의 end 뒤에 다음 것의 start 를 둔다(시각이 겹치면 오류). 오른쪽 카드와 함께면 box left."
     - "아일랜드(차트·사진·영상·프리미티브·패널)는 같은 순간 {max_concurrent}개 이하, 서로 겹치지 않는다(검사 [island-overlap] hard). 뱃지는 화면 슬롯(map_*)에, 프리미티브(statement_diff·dot_plot 등)·카드는 카드 슬롯에 둔다 — backdrop 무대에서 date·lane 앵커는 series·marker 만(그 밖은 오류)."
     - "주 아일랜드 상시(v5.2.0): backdrop 무대에서는 주 아일랜드({main_kinds})가 항상 하나 보인다. 카드만 있는 구간(블러 배경 + 카드)은 {card_only_max}초 이하 — 넘으면 검사 [backdrop-main-missing] hard(타이틀·엔딩 카드·기사 구간 제외). 차트 아일랜드는 오프닝 첫 문장부터 띄운다. 보도를 인용하는 카드(출처가 매체)는 카드가 아니라 article 이벤트로 — 프레스 규약 v2(가운데·세리프 헤드라인)로 조판한다. 카드는 아일랜드 상자와 겹치지 않는 자리에(겹치면 [card-island] warning)."
+    - "사진·영상을 left 차트 아일랜드와 같은 순간에 띄울 때는 `\"place\": \"backdrop_right_low\"`(backdrop 무대 전용 사진 자리 — 오른쪽 카드 자리 아래·자막 위·left 상자 밖, v5.2.0 D-0132). map_right_low·panel_gap·timeline_photo 는 left 상자와 겹친다([island-overlap] hard)."
     - "기사: `{\"type\": \"article\", \"mid\": 기사 id, \"theme\": dark|light(기본 {theme_default}), \"press\": 공식 사진 id(선택)}` — 화면 전체. 프레스 사진 {press_lead}초 → 덮개 + 세리프 헤드라인(원문 언어)·부제(번역)·출처 줄. press 는 미디어 목록의 권리 기록 사진만, 없으면 쓰지 않는다(코드가 지금 화면을 흐려 깐다)."
 
 island:                    # v5.1.0 back_and_forth D-0123 §1·D-0126(Q1~Q4 A) — backdrop 무대 위 내용물 상자(아일랜드) 공통 규칙. engine/island.py. 설계 px(480p)
