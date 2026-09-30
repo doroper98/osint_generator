@@ -1,6 +1,6 @@
 <!--
 tier: 2
-last_synced_with: v5.0.0
+last_synced_with: v5.1.0
 ssot_for: [map-geo-index]
 depends_on: [docs/handoff/04_MAP_ENGINE.md, docs/handoff/05_CAMERA_SHOTS_TRANSITIONS.md, docs/handoff/06_OVERLAYS_AND_DATA_LAYERS.md, rules/video_rules.yaml, config.yaml]
 last_review: 2026-09-29
