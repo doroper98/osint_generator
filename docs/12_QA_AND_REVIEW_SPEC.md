@@ -65,7 +65,7 @@ preview → prev/checks.json(결정적 검사 18항목)
 | 배경 사진 권리(`backdrop_rights`, `[backdrop-rights]`) — backdrop 이벤트 img 가 미디어 레지스트리 photo·rights_clear·파일 아님(렌더 전 preflight 도 같은 게이트) | hard | `rules:stage_backdrop`(`engine.layers.backdrop`, handoff 14) | v5.1.0 D-0123 §3 |
 | 배경 사진 반복(`backdrop_repeat`, `[backdrop-repeat]`·`[backdrop-photos]`) — 연속 같은 사진, 서로 다른 사진 수가 min_photos~max_photos 밖, provenance `backdrop.photos[]` | hard | `rules:stage_backdrop` | v5.1.0 D-0123 §3 |
 | 아일랜드 겹침(`island_overlap`, `[island-overlap]`) — backdrop 무대 아일랜드(차트·사진·영상·프리미티브·패널) 제자리 상자 교차 > 0·자막 구역 교차·동시 > max_concurrent, provenance `islands[]` | hard | `rules:island`(`engine.island`, handoff 08 §13) | v5.1.0 D-0126 Q3 A |
-| 주 아일랜드 없음(`backdrop_main_missing`, `[backdrop-main-missing] t0-t1 {n}s`) — backdrop 무대에서 `island.main_kinds`(차트 아일랜드·프리미티브·사진·영상·기사)가 하나도 안 보이는 구간 > `island.card_only_max_sec`(타이틀·엔딩 카드·기사 구간 제외), provenance `backdrop.main_missing[]` | hard | `rules:island`(`engine.island.main_missing`, handoff 08 §13) | v5.2.0 D-0129 §B |
+| 주 아일랜드 없음(`backdrop_main_missing`, `[backdrop-main-missing] t0-t1 {n}s`) — backdrop 무대에서 `island.main_kinds`(차트 아일랜드·프리미티브·사진·영상·기사·패널)가 하나도 안 보이는 구간 > `island.card_only_max_sec`(타이틀·엔딩 카드·기사 구간 제외), provenance `backdrop.main_missing[]` | hard | `rules:island`(`engine.island.main_missing`, handoff 08 §13) | v5.2.0 D-0129 §B |
 | 카드 ↔ 아일랜드 교차(`card_island`, `[card-island]`) — 카드·게시물 카드 제자리 상자 ∩ 같은 순간 아일랜드 상자 > 0, provenance `island.card_overlap[]` | warning | `rules:island`(`engine.island.card_overlap`) | v5.2.0 D-0129 §C |
 | 무대 선택(`stage_choice`, `[stage-choice]`) — 주 무대 ≠ 장르 기본 무대(stage.primary)인데 direction `stage_reason` 없음 | warning | 장르 프로필(handoff 20) | v5.1.0 D-0123 §2 |
 

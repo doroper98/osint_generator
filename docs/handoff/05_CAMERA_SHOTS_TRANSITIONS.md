@@ -182,7 +182,7 @@ cam(title.t0 + 2.9, lon, lat, w, dur=0, mode='cut')
 > 차트 아일랜드 뷰포트의 카메라다(무대 연속성 검사에서 빠진다, 축 스케일 검사는 그대로). 아일랜드 없는 보조 무대 렌더는 아직 없다(Q7 A).
 
 > **구현 메모(v5.2.0, back_and_forth D-0129 §B — 주 아일랜드 상시, 사용자 판정 D113)**: backdrop 무대에서는 주 아일랜드
-> (차트·개념도·사진·영상·기사)가 **항상 하나** 보인다. 블러 배경 + 카드만 있는 구간은 `rules:island.card_only_max_sec` 이하(전환 폭).
+> (차트·개념도·사진·영상·기사·패널)가 **항상 하나** 보인다. 블러 배경 + 카드만 있는 구간은 `rules:island.card_only_max_sec` 이하(전환 폭).
 > 차트 아일랜드는 오프닝 첫 문장부터 띄운다. **보도를 인용하는 카드(출처가 매체)는 카드가 아니라 article 이벤트**로 — 프레스 규약 v2
 > (08 §14)로 화면 가운데 크게 조판한다. 문안 = `rules:stage_backdrop.grammar`·`direction_grammar`(연출·수정 프롬프트). 검사
 > `backdrop_main_missing`(hard)·`card_island`(warning). 코드는 카드를 기사로 바꾸지 않는다(P8) — 걸리면 연출을 다시 쓴다.

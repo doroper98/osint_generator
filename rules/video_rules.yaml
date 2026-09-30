@@ -910,7 +910,7 @@ island:                    # v5.1.0 back_and_forth D-0123 §1·D-0126(Q1~Q4 A) �
   # checks backdrop_main_missing hard: backdrop 무대에서 main_kinds(chart = island kind chart, 그 밖 = 이벤트 type)가 하나도 보이지 않는 구간 > card_only_max_sec
   # → `[backdrop-main-missing] t0-t1 {n}s`(타이틀·엔딩 카드·기사 구간 제외, provenance backdrop.main_missing[]). 코드는 카드를 기사로 바꾸지 않는다(P8) — 검사 + 문법 + 재연출
   main_required: true
-  main_kinds: [chart, primitive, photo, clip, article]
+  main_kinds: [chart, primitive, photo, clip, article, panel]   # panel = D-0130 Q3 B(backdrop 패널 766×362 는 화면 대부분을 채우는 아일랜드)
   card_only_max_sec: 3.0   # 전환(앞 아일랜드 퇴장 ~ 다음 등장) 허용 폭
 
 genre_prompt:              # v4.4.0 D-0090 작업 1 — 장르 프롬프트 층(docs/handoff/20 §5.1·§5.2·§6·§7·§9, 15 P3). 워커가 장르 프로필 + 이 절로 프롬프트 끝 문단을 만든다(workers/prompt_loader.py)

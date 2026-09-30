@@ -31,7 +31,7 @@ class RulesValueTest(unittest.TestCase):
         self.assertEqual((BACKDROP.blur_px, BACKDROP.dim, BACKDROP.desaturate), (6, 0.38, 0.15))
         self.assertEqual(ISLAND.fill_alpha, 0.78)   # 아일랜드 가독은 그대로
         self.assertTrue(ISLAND.main_required)
-        self.assertEqual(ISLAND.main_kinds, ["chart", "primitive", "photo", "clip", "article"])
+        self.assertEqual(ISLAND.main_kinds, ["chart", "primitive", "photo", "clip", "article", "panel"])   # panel = D-0130 Q3 B
         self.assertEqual(MAXS, 3.0)
 
     def test_article_fallback_separate_from_backdrop(self) -> None:
@@ -65,7 +65,14 @@ class MainMissingTest(unittest.TestCase):
         self.assertEqual(main_missing(ev, 70, cards, "backdrop"), [])
         self.assertTrue(all(is_main(e) for e in ev))
         self.assertFalse(is_main(_ev("island", 0, 1, kind="other")))
-        self.assertFalse(is_main(_ev("panel", 0, 1, kind="table")))
+        self.assertFalse(is_main(_ev("card", 0, 1, tag="x")))
+
+    def test_panel_only_segment_passes(self) -> None:
+        """D-0130 Q3 B — backdrop 패널(panel_box)만 있는 구간은 "카드만 있는 구간"이 아니다."""
+        self.assertTrue(is_main(_ev("panel", 0, 1, kind="table")))
+        ev = [_ev("island", 0, 10, kind="chart"), _ev("panel", 10, 25, kind="table"), _ev("card", 10, 25, tag="t"),
+              _ev("island", 25, 30, kind="chart")]
+        self.assertEqual(main_missing(ev, 30, [], "backdrop"), [])
 
     def test_other_stage_or_rule_off(self) -> None:
         ev = [_ev("card", 0, 20, tag="a")]
