@@ -155,3 +155,53 @@ class PromptKindTest(_Proj):
         self.assertIn("G4-21", text)
         self.assertIn('"statement"', text)
         self.assertNotIn("{{RULES", text)
+
+
+class RejudgeToolTest(_Proj):
+    """§5 재판정 도구(tools/g11_rejudge.py) — 읽기만, 결정적, 기존 draft(kind 없음 = fact) 재판정은 status 무변경."""
+
+    def _tool(self):  # noqa: ANN202
+        import importlib.util  # noqa: PLC0415
+        from pathlib import Path  # noqa: PLC0415
+
+        path = Path(__file__).resolve().parent.parent / "tools" / "g11_rejudge.py"
+        spec = importlib.util.spec_from_file_location("g11_rejudge", path)
+        mod = importlib.util.module_from_spec(spec)  # type: ignore[arg-type]
+        spec.loader.exec_module(mod)  # type: ignore[union-attr]
+        return mod
+
+    def test_old_draft_rejudge_unchanged_and_deterministic(self) -> None:
+        a1 = si.add_article(self.pdir, publisher="가나일보", headline="h", published_at=D, body="유조선 두 척이 해협을 지났다. 이란은 침범이라고 주장했다.").id
+        a2 = si.add_article(self.pdir, publisher="다라통신", headline="h", published_at=D, body="유조선 두 척이 해협을 지났다고 밝혔다.").id
+        for s in (a1, a2):
+            si.confirm(self.pdir, s, "user")
+        d = _draft({"text": "두 척 통과", "evidence": [_ev(a1, "유조선 두 척이 해협을 지났다"), _ev(a2, "유조선 두 척이 해협을")]},
+                   {"text": "침범", "evidence": [_ev(a1, "이란은 침범이라고 주장했다")]})
+        s, b = sv.verify_inputs(self.pdir)
+        self.assertTrue(sv.apply_draft(self.pdir, d, s, b).ok)
+        # 옛 draft 모양(claim_kind 필드 없음) 그대로 저장 → 재판정
+        raw = d.model_dump(mode="json")
+        for c in raw["claims"]:
+            c.pop("claim_kind")
+        (self.pdir / "intake" / "verify_draft.json").write_text(__import__("json").dumps(raw, ensure_ascii=False), encoding="utf-8")
+        before = (self.pdir / "intake" / "claims.json").read_bytes()
+        t = self._tool()
+        r1, r2 = t.rejudge(self.pdir), t.rejudge(self.pdir)
+        self.assertEqual(r1, r2)
+        self.assertEqual((r1["mode"], r1["changed"]), ("rejudge", 0))
+        self.assertEqual({r["kind"] for r in r1["rows"]}, {"fact"})
+        self.assertEqual((self.pdir / "intake" / "claims.json").read_bytes(), before)       # 읽기만
+
+    def test_v3_migrated_not_applicable_and_report_copy_no_bodies(self) -> None:
+        from pathlib import Path  # noqa: PLC0415
+
+        t = self._tool()
+        e2e = Path(__file__).resolve().parent.parent / "docs/handoff/reports/phase6_95/e2e/project"
+        self.assertEqual(t.rejudge(e2e)["mode"], "no_bodies")
+        (self.pdir / "intake").mkdir(parents=True, exist_ok=True)
+        (self.pdir / "intake" / "claims.json").write_text(
+            '{"schema_version": 1, "claims": [{"claim_id": "clm_0001", "text": "t", "source_ids": ["src_art_0001"], '
+            '"status": "corroborated", "checks": ["v3_user_approved", "credits.yaml"]}]}', encoding="utf-8")
+        self.assertEqual(t.rejudge(self.pdir)["mode"], "not_applicable")
+        self.assertTrue(t.statement_shaped("합참은 조사 중이라고 밝혔다"))
+        self.assertFalse(t.statement_shaped("폭발 원인은 확인되지 않았다"))
