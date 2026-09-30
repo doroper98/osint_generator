@@ -40,8 +40,8 @@ sections:
         license_ref: warsh
       - main: 도널드 트럼프
         license_ref: trump
-      - main: CNN (7.29)  ·  Fox Business (9.16)
-        rights: [media.cnn_0729, media.fox_0916]
+      - main: CNN (7.29·9.16)  ·  Fox Business (7.29·9.16)  ·  NBC News (9.16)  ·  ABC News (9.16)
+        rights: [media.cnn_0729, media.fox_0729, media.cnn_0916, media.fox_0916, media.nbc_0916, media.abc_0916]
       - main: 국기
         license: flag-icons · MIT
         rights: [flags.flag_icons]
