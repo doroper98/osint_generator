@@ -226,20 +226,6 @@
         "clm_0027"
       ]
     },
-    "war_background_7": {
-      "status": "corroborated",
-      "label": null,
-      "claim_ids": [
-        "clm_0040"
-      ]
-    },
-    "war_background_8": {
-      "status": "unverified",
-      "label": "<미검증>",
-      "claim_ids": [
-        "clm_0041"
-      ]
-    },
     "pressure_0": {
       "status": "unverified",
       "label": "<미검증>",
@@ -293,63 +279,56 @@
       "status": "unverified",
       "label": "<미검증>",
       "claim_ids": [
-        "clm_0032"
+        "clm_0033"
       ]
     },
     "shipping_oil_4": {
       "status": "unverified",
       "label": "<미검증>",
       "claim_ids": [
-        "clm_0033"
+        "clm_0035"
       ]
     },
     "shipping_oil_5": {
       "status": "unverified",
       "label": "<미검증>",
       "claim_ids": [
-        "clm_0034"
+        "clm_0035"
       ]
     },
     "shipping_oil_6": {
       "status": "unverified",
       "label": "<미검증>",
       "claim_ids": [
-        "clm_0034"
+        "clm_0036"
       ]
     },
     "shipping_oil_7": {
       "status": "unverified",
       "label": "<미검증>",
       "claim_ids": [
-        "clm_0035"
-      ]
-    },
-    "shipping_oil_8": {
-      "status": "unverified",
-      "label": "<미검증>",
-      "claim_ids": [
-        "clm_0035"
-      ]
-    },
-    "shipping_oil_9": {
-      "status": "unverified",
-      "label": "<미검증>",
-      "claim_ids": [
-        "clm_0036"
-      ]
-    },
-    "shipping_oil_10": {
-      "status": "unverified",
-      "label": "<미검증>",
-      "claim_ids": [
         "clm_0037"
       ]
     },
-    "shipping_oil_11": {
+    "second_strait_0": {
+      "status": "corroborated",
+      "label": null,
+      "claim_ids": [
+        "clm_0040"
+      ]
+    },
+    "second_strait_1": {
+      "status": "corroborated",
+      "label": null,
+      "claim_ids": [
+        "clm_0040"
+      ]
+    },
+    "second_strait_2": {
       "status": "unverified",
       "label": "<미검증>",
       "claim_ids": [
-        "clm_0039"
+        "clm_0041"
       ]
     },
     "korea_0": {
@@ -395,9 +374,11 @@
       ]
     },
     "close_0": {
-      "status": null,
-      "label": null,
-      "claim_ids": []
+      "status": "unverified",
+      "label": "<미검증>",
+      "claim_ids": [
+        "clm_0021"
+      ]
     }
   }
 }
