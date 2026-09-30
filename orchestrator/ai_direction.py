@@ -99,16 +99,18 @@ def _archive_round(pdir: Path, version: int, hard: int) -> "QALoopRound":
 
 
 def qa_loop(pdir: Path, run_engine: Callable[[str], StageResult], record: Callable[[StageResult], None],
-            backend: str = "claude", workers: Optional[dict[str, WorkerFactory]] = None) -> tuple[bool, dict]:
+            backend: str = "claude", workers: Optional[dict[str, WorkerFactory]] = None,
+            loop_max: Optional[int] = None) -> tuple[bool, dict]:
     """PREVIEW_QA 한 번. (다음 상태로 가도 되는가, 요약). run_engine(stage) = engine_service 호출.
     회차마다 prev/qa_loop.json 에 판·검사·검수·수정 기록(수정 워커 입력·게이트 ② 판 목록·provenance 공용, D-0049).
-    상한 도달 시 rules qa_checks.loop_pick_order 사전식 최소 판을 direction.yaml 로 되돌리고 다시 프리뷰한다(D-0049 쟁점 3)."""
+    상한 도달 시 rules qa_checks.loop_pick_order 사전식 최소 판을 direction.yaml 로 되돌리고 다시 프리뷰한다(D-0049 쟁점 3).
+    loop_max = 이번 호출의 수정 회차 수(None = rules qa_checks.visual_qa_loop_max). 상한 밖 추가 회차는 감독 결정이 있을 때만(v5.2.0 D-0132 §3)."""
     from engine.qa import QALoopPick, QALoopRecord, QAVerdict, pick_best  # noqa: PLC0415
     from workers.direction_io import current_version, restore_version  # noqa: PLC0415
     from workers.revise_direction_worker import latest  # noqa: PLC0415
 
     qc = load_rules().qa_checks
-    loop_max = qc.visual_qa_loop_max
+    loop_max = qc.visual_qa_loop_max if loop_max is None else loop_max
     summary: dict = {"iterations": 0, "verdicts": [], "loop_max": loop_max}
     ai = is_ai_direction(pdir)
     rec = QALoopRecord()

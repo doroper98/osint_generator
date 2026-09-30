@@ -137,6 +137,15 @@ class LoopTest(unittest.TestCase):
         self.assertEqual(self.calls.count("revise_direction"), LOOP_MAX)
         self.assertNotIn("visual_qa", self.calls)
 
+    def test_loop_max_override_one_round(self) -> None:
+        """D-0132 §3 — 감독이 허용한 추가 회차 1회: loop_max=1 이면 수정 1회 뒤 이번 호출의 판 중 최선을 고른다."""
+        self.ai()
+        ok, s = ai_direction.qa_loop(self.pdir, self.engine([1] * 10), lambda r: self.records.append(r.stage),
+                                     workers=self.workers(), loop_max=1)
+        self.assertFalse(ok)
+        self.assertEqual(self.calls.count("revise_direction"), 1)
+        self.assertEqual((s["loop_max"], s["iterations"]), (1, 1))
+
     def test_worker_failure_stays(self) -> None:
         self.ai()
         ok, _ = self.loop([0], fail=True)

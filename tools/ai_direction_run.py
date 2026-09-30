@@ -5,6 +5,7 @@
 파이프라인 advance 와 **같은 함수**(orchestrator.ai_direction.run_worker·qa_loop, engine_service.run_stage)를 쓴다.
 다른 점은 두 가지뿐: 매니페스트 상태 전이를 하지 않고, 단계 결과를 `prev/ai_run.jsonl` 한 줄씩 남긴다(보고서 재료).
 direction.yaml 이 없을 때만 연출가를 부른다(사람 연출은 건드리지 않는다).
+v5.2.0(back_and_forth D-0132 §3): `--rounds N` — 이번 실행의 수정 회차 수(기본 = 규칙 상한). 상한 밖 추가 회차는 감독 결정이 있을 때만.
 v5.2.0(back_and_forth D-0131): `--redirect` — 기존 direction.yaml 을 prev/direction_{yymmdd_hhmmss}.yaml 로 **이동**(삭제 아님)한 뒤
 연출가를 부른다(무대 구성이 바뀌는 재연출. 옛 연출은 연출가 입력에 넣지 않는다 — P9).
 """
@@ -44,6 +45,8 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("--preview", default="auto", help="auto · golden · 쉼표 초")
     ap.add_argument("--backend", default="claude")
     ap.add_argument("--redirect", action="store_true", help="기존 direction.yaml 을 prev/ 로 옮기고 연출가부터(D-0131)")
+    ap.add_argument("--rounds", type=int, default=None,
+                    help="이번 실행의 수정 회차 수(기본 rules qa_checks.visual_qa_loop_max). 상한 밖 추가 회차는 감독 결정(D) 이 있을 때만(D-0132 §3)")
     args = ap.parse_args(argv)
     pdir = args.proj.resolve()
     (pdir / "prev").mkdir(exist_ok=True)
@@ -72,7 +75,7 @@ def main(argv: list[str] | None = None) -> int:
     record(val)
     if not val.ok:
         return 1
-    ok, summary = ai_direction.qa_loop(pdir, run_engine, record, args.backend)
+    ok, summary = ai_direction.qa_loop(pdir, run_engine, record, args.backend, loop_max=args.rounds)
     print(json.dumps({"ok": ok, **summary}, ensure_ascii=False))
     (pdir / "prev" / "ai_run_summary.json").write_text(json.dumps({"ok": ok, **summary}, ensure_ascii=False, indent=1),
                                                        encoding="utf-8")
