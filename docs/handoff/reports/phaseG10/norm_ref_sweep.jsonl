@@ -1,0 +1,16 @@
+{"project": "hormuz", "norm_ref": 0.7, "music_under_narration_db": -11.55, "mix_peak": 0.9123, "bed_bass_rise_db": 5.35, "bed_bass_ratio_db": 17.13, "narration_rms_db": -16.66}
+{"project": "hormuz", "norm_ref": 0.6, "music_under_narration_db": -10.98, "mix_peak": 0.9172, "bed_bass_rise_db": 5.35, "bed_bass_ratio_db": 17.13, "narration_rms_db": -16.66}
+{"project": "hormuz", "norm_ref": 0.5, "music_under_narration_db": -10.41, "mix_peak": 0.9225, "bed_bass_rise_db": 5.35, "bed_bass_ratio_db": 17.13, "narration_rms_db": -16.66}
+{"project": "hormuz", "norm_ref": 0.4, "music_under_narration_db": -9.83, "mix_peak": 0.9282, "bed_bass_rise_db": 5.35, "bed_bass_ratio_db": 17.13, "narration_rms_db": -16.66}
+{"project": "hormuz", "norm_ref": 0.3, "music_under_narration_db": -9.26, "mix_peak": 0.9372, "bed_bass_rise_db": 5.35, "bed_bass_ratio_db": 17.13, "narration_rms_db": -16.66}
+{"project": "hormuz", "norm_ref": 0.2, "music_under_narration_db": -8.68, "mix_peak": 0.9468, "bed_bass_rise_db": 5.35, "bed_bass_ratio_db": 17.13, "narration_rms_db": -16.66}
+{"project": "hormuz", "norm_ref": 0.1, "music_under_narration_db": -8.1, "mix_peak": 0.9505, "bed_bass_rise_db": 5.35, "bed_bass_ratio_db": 17.13, "narration_rms_db": -16.72}
+{"project": "hormuz", "norm_ref": 0.0, "music_under_narration_db": -7.52, "mix_peak": 0.9523, "bed_bass_rise_db": 5.35, "bed_bass_ratio_db": 17.13, "narration_rms_db": -16.8}
+{"project": "fed", "norm_ref": 0.7, "music_under_narration_db": -12.31, "mix_peak": 0.8697, "bed_bass_rise_db": 5.34, "bed_bass_ratio_db": 17.2, "narration_rms_db": -16.81}
+{"project": "fed", "norm_ref": 0.6, "music_under_narration_db": -11.73, "mix_peak": 0.8747, "bed_bass_rise_db": 5.34, "bed_bass_ratio_db": 17.2, "narration_rms_db": -16.81}
+{"project": "fed", "norm_ref": 0.5, "music_under_narration_db": -11.15, "mix_peak": 0.88, "bed_bass_rise_db": 5.34, "bed_bass_ratio_db": 17.2, "narration_rms_db": -16.81}
+{"project": "fed", "norm_ref": 0.4, "music_under_narration_db": -10.57, "mix_peak": 0.8857, "bed_bass_rise_db": 5.34, "bed_bass_ratio_db": 17.2, "narration_rms_db": -16.81}
+{"project": "fed", "norm_ref": 0.3, "music_under_narration_db": -9.98, "mix_peak": 0.8939, "bed_bass_rise_db": 5.34, "bed_bass_ratio_db": 17.2, "narration_rms_db": -16.81}
+{"project": "fed", "norm_ref": 0.2, "music_under_narration_db": -9.4, "mix_peak": 0.9028, "bed_bass_rise_db": 5.34, "bed_bass_ratio_db": 17.2, "narration_rms_db": -16.81}
+{"project": "fed", "norm_ref": 0.1, "music_under_narration_db": -8.81, "mix_peak": 0.9122, "bed_bass_rise_db": 5.34, "bed_bass_ratio_db": 17.2, "narration_rms_db": -16.81}
+{"project": "fed", "norm_ref": 0.0, "music_under_narration_db": -8.22, "mix_peak": 0.9224, "bed_bass_rise_db": 5.34, "bed_bass_ratio_db": 17.2, "narration_rms_db": -16.81}

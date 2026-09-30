@@ -87,6 +87,11 @@ k 는 두 편(hormuz·fed_policy) 모두 기존 오디오 QA hard 를 통과하�
 음악 레벨이 범위 안에 0.3 dB 이상 여유를 두려면 0.7 이상, 최종 트루 피크(loudnorm 2패스 + AAC)가 −1.5 + 0.15 dBTP 안에 들려면 0.8 이상이다(0.7 은 hormuz −1.34). 그래서 0.8 — 저역 절대 +0.8 dB, 중역 −4.5 dB 다.
 즉 bed_gain·음악 레벨 범위·트루 피크 여유를 지키는 한 이것이 저역을 올릴 수 있는 한계다. 더 웅장하게 하려면 음악 레벨 범위 자체를 사용자 청감으로 다시 정해야 한다.
 
+> **구현 메모(v4.11.0, back_and_forth D-0118 §2 — 음악 상한 +2 dB, 사용자 위임 D103)**: 위 마지막 문장의 "범위 자체"를 옮겼다.
+> `rules:audio.qa.music_under_narration_db` [−15, −11] → **[−13, −9]**(v3 값에서 2 dB 위). `norm_ref` 는 같은 절차(0.3 dB 여유 최소값, `tools/norm_ref_sweep.py`,
+> `reports/phaseG10/norm_ref_sweep.jsonl`)로 **0.4**(0.3 = hormuz −9.26 여유 밖, 0.4 = hormuz −9.83·fed −10.57). 음악 +1.7 dB, 베드 저역 비율 상승폭은 그대로(5.35).
+> 트루 피크는 post_limiter(−2.0 dBFS, RENDER-AP-004)가 맡는다. 다른 오디오 값(post_limiter·TP·bed_bass)은 무변경. 원복은 두 줄(범위·norm_ref 0.7).
+
 **측정 정의(audio/qa.py, `out/bed_stats.json`)**: 베드(내레이션·효과음 제외) 모노의 30–120 Hz 대역 RMS − 200–2000 Hz 대역 RMS(dB, rfft 파워 합).
 믹서가 처리 전·후 두 값을 남기고, 판정은 **상승폭**(후 − 전)이 `audio.qa.bed_bass_rise_db` [4, 8] 안인지다(hard).
 절대 비율은 곡마다 달라 기록만 한다. zabriskie_patriarch 는 60–120 Hz 패드가 강해 처리 전부터 +11.8 dB 다(D-0097 의 절대 범위 [−6, 0] 은 도달 불가로 폐기, D-0102).
