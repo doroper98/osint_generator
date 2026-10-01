@@ -68,7 +68,7 @@ def render_frame(P: Project, i: int) -> tuple[cairo.ImageSurface, bytearray]:  #
         for e in act:
             if e["type"] == typ and not e.get("in_island"):   # v5.1.0 D-0126 — 차트 아일랜드 안 이벤트는 island 렌더러가 상자 안에 그린다
                 L.resolve(e).render(ctx, R, view, t, e)
-    for e in act:   # v5.2.0 사건 띠(시안) — 지도 도시 라벨이 띠 카드 아래로 들어가지 않게 예약 상자로
+    for e in act:   # v5.2.0 사건 띠(D-0135) — 지명 라벨 회피(마커·뱃지와 같은 예약 상자). 회피 장치가 없는 해역 이름은 checks chain 이 잡는다
         if e["type"] == "chain":
             from engine.chain import chain_boxes  # noqa: PLC0415
 

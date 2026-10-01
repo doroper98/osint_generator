@@ -23,10 +23,11 @@ if TYPE_CHECKING:
     from engine.stage import MercatorStage
 
 
-def draw_labels(ctx: cairo.Context, stage: "MercatorStage", view: View, reserved: list, la: float) -> None:
+def draw_labels(ctx: cairo.Context, stage: "MercatorStage", view: View, reserved: list, la: float) -> list:
     A = stage.assets  # noqa: N806
     lab = A.labels
     placed = list(reserved)
+    drawn: list = []   # v5.2.0 — 그린 지명 상자(해역 포함). 사건 띠 깔림 검사(checks chain)가 읽는다. 그리기는 그대로
 
     def free(x: float, y: float, w: float, h: float) -> bool:
         for (a, b, c, d) in placed:
@@ -41,6 +42,8 @@ def draw_labels(ctx: cairo.Context, stage: "MercatorStage", view: View, reserved
         x, y = view.to_screen(*sw)
         if -40 < x < W_OUT + 40 and 0 < y < H_OUT:
             text(ctx, s.name, x, y, 11 if view.w > 30 else 12, "serif", SEA_LABEL, 0.62 * la, 0, "c", spacing=2.2)
+            sw_ = tw(ctx, s.name, 11 if view.w > 30 else 12, "serif") + 2.2 * len(s.name)
+            drawn.append((x - sw_ / 2, y - 11, x + sw_ / 2, y + 3))
     # countries
     thr = by_w(view.w, LOD["country_rank_max"])
     for k, m, mw in stage.countries:
@@ -58,6 +61,7 @@ def draw_labels(ctx: cairo.Context, stage: "MercatorStage", view: View, reserved
             continue
         text(ctx, nm, x, y, size, "sansm", (0.9, 0.92, 0.96), 0.55 * la, 2.2, "c", spacing=1.8)
         placed.append((x - w / 2, y - 12, x + w / 2, y + 4))
+        drawn.append(placed[-1])
     # admin-1 names (close zoom)
     if view.w < LOD["admin_names_below_w"]:
         for k in lab.province_countries:
@@ -70,6 +74,7 @@ def draw_labels(ctx: cairo.Context, stage: "MercatorStage", view: View, reserved
                     if free(x - w / 2, y - 9, w, 12):
                         text(ctx, ad["name"], x, y, 9.5, "sans", (0.78, 0.82, 0.88), 0.42 * la, 1.8, "c")
                         placed.append((x - w / 2, y - 9, x + w / 2, y + 3))
+                        drawn.append(placed[-1])
     # cities
     rk = by_w(view.w, LOD["city_rank_max"])
     xs = (stage.plc_x - view.x0) * view.s
@@ -94,6 +99,8 @@ def draw_labels(ctx: cairo.Context, stage: "MercatorStage", view: View, reserved
         ctx.stroke()
         text(ctx, nm, x + 5, y + 4, size, "sansb" if cap else "sansm", (0.93, 0.94, 0.97), 0.82 * la, 2.6, "l")
         placed.append((x - 3, y - 8, x + w + 7, y + 5))
+        drawn.append(placed[-1])
         n += 1
         if n >= LOD["city_labels_max"]:
             break
+    return drawn

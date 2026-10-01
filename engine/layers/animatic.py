@@ -322,14 +322,14 @@ def draw_band(ctx: cairo.Context, R: RenderCtx, t: float) -> None:  # noqa: N803
 
 # ------------------------------------------------------------------ 레이어 선택
 def draw_chain(ctx: cairo.Context, R: RenderCtx, t: float, e: dict) -> None:  # noqa: N803
-    """사건 띠 = 전편과 같은 자리(chain.slots)·등장·밀기, 카드마다 `[사건: 날짜 · 국기]` + 제목."""
-    from engine.chain import chain_alpha, slots  # noqa: PLC0415
-    from engine.style import CHAIN  # noqa: PLC0415
+    """사건 띠 v2 = 전편과 같은 자리(chain.layout)·접기·밀기. 카드 `[사건: 날짜 · 국기]` + 제목, 칩 `[사건: 날짜]`."""
+    from engine.chain import chain_alpha, layout  # noqa: PLC0415
 
     ea = chain_alpha(t, e)
-    for i, x, y, a in slots(t, e):
-        it = e["items"][i]
-        box(ctx, x, y, CHAIN.w, CHAIN.h, [label("chain", f"{it['date']} · {it['flag'].upper()}"), it["title"]], ea * a)
+    for s in layout(t, e):
+        it = e["items"][s.i]
+        lines = [label("chain", it["date"])] if s.fold >= 1 / 2 else [label("chain", f"{it['date']} · {it['flag'].upper()}"), it["title"]]
+        box(ctx, s.x, s.y, s.w, s.h, lines, ea * s.a)
 
 
 PLACEHOLDERS: dict[str, Callable[..., Any]] = {

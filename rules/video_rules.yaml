@@ -894,22 +894,26 @@ stage_backdrop:            # v5.1.0 back_and_forth D-0121 §B·D-0123 §1(사용
     - "사진·영상을 left 차트 아일랜드와 같은 순간에 띄울 때는 `\"place\": \"backdrop_right_low\"`(backdrop 무대 전용 사진 자리 — 오른쪽 카드 자리 아래·자막 위·left 상자 밖, v5.2.0 D-0132). map_right_low·panel_gap·timeline_photo 는 left 상자와 겹친다([island-overlap] hard)."
     - "기사: `{\"type\": \"article\", \"mid\": 기사 id, \"theme\": dark|light(기본 {theme_default}), \"press\": 공식 사진 id(선택)}` — 화면 전체. 프레스 사진 {press_lead}초 → 덮개 + 세리프 헤드라인(원문 언어)·부제(번역)·출처 줄. press 는 미디어 목록의 권리 기록 사진만, 없으면 쓰지 않는다(코드가 지금 화면을 흐려 깐다)."
 
-chain:                     # v5.2.0 사건 띠(engine/chain.py) — 사용자 제안(2026-10-01) 시안. 지도(배경)는 고정, 상단 가로줄에 사건 카드를 왼쪽부터 하나씩 더한다.
-  # 카드 좌상단 국기 원(flag_R), 지금 사건 = accent 윗선·불투명, 지난 사건 = past_alpha. 넘치면 최근 max_visible 개만 남기고 shift_sec 동안 왼쪽으로 민다.
-  # 설계 px(480p). 사용자 합격 값 아님 — 콘티 판·프리뷰 시감 뒤 조정, 합격하면 status adopted 로 승격(정규 규약).
+chain:                     # v5.2.0 사건 띠 v2 "접히는 띠"(engine/chain.py, back_and_forth D-0135) — 사용자 제안(2026-10-01) 시안. 지도(배경)는 고정.
+  # "쌓이되 작아진다": 지금 사건만 펼친 카드(card), 지난 사건은 칩(chip)으로 접힌다. 국기 원 = 얇은 시간 레일 위의 점(카드·칩 좌상단 모서리).
+  # 새 사건: 직전 카드가 fold_sec 동안 칩으로 접히고(폭·높이 smooth), 칩이 max_chips 를 넘으면 가장 오래된 칩이 shift_sec 동안 왼쪽으로 밀려 흐려져 나간다.
+  # 새 카드는 접기·밀기가 끝난 뒤(max(fold_sec, shift_sec)) 아래에서 올라온다 — 그래서 어느 순간에도 띠 폭 ≤ width_cap(checks chain 이 단언).
+  # 상자 = 아일랜드 공통 상자(island.radius·fill_alpha·edge_alpha·edge_w·shadow 재사용, engine.island.draw_frame). 설계 px(480p). 값은 미합격(사용자 시트 판정 전).
   status: prototype
-  x0: 22
-  y: 64
-  w: 156
-  h: 74
+  x0: 22                   # 띠 왼쪽 끝
+  rail_y: 58               # 시간 레일 y(카드·칩 윗변 = 레일)
+  rail_w: 1.5
+  rail_alpha: 0.35         # 색 = colors muted
+  flag_R: 11               # 카드 국기 원
+  chip_flag_R: 9           # 칩 국기 원
+  card: {w: 196, h: 74, pad_x: 12, date_dx: 6, date_dy: 15, title_dy: 36, line_dy: 54, date_size: 10, title_size: 11.5, line_size: 9.5, accent_w: 2.5}
+  chip: {w: 112, h: 34, pad_x: 8, date_dx: 5, date_dy: 13, title_dy: 27, date_size: 9.5, title_size: 10.5}
   gap: 8
-  max_visible: 5
-  past_alpha: 0.55
-  flag_R: 11
-  date_size: 10
-  title_size: 11.5
-  line_size: 9.5
+  max_chips: 3
+  fold_sec: 0.45
   shift_sec: 0.6
+  width_cap: 560           # 3 × (112 + 8) + 196 = 556
+  past_alpha: 0.55         # 칩 글자·국기 알파(바탕·테두리는 그대로)
 island:                    # v5.1.0 back_and_forth D-0123 §1·D-0126(Q1~Q4 A) — backdrop 무대 위 내용물 상자(아일랜드) 공통 규칙. engine/island.py. 설계 px(480p)
   # 연출은 픽셀을 다루지 않는다 — 차트 아일랜드는 box(boxes 이름)만 고른다. 등장 = 슬라이드 layout_480p.card.slide_px + 페이드 card.fade_sec(카드 규칙 재사용)
   # 겹침(checks island_overlap hard, Q3 A): 같은 순간 보이는 아일랜드 제자리 상자(그림자·슬라이드 경로 제외)끼리 교차 > 0, 자막 구역(reserved_zones.subtitle) 교차.

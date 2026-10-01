@@ -1398,23 +1398,57 @@ class IslandChart(_Strict):
     label_flip_pad: float = Field(ge=0)   # v5.2.0 D-0133 §1 — 아일랜드 마커 라벨 ↔ 상자 가장자리 여백(넘으면 반대쪽, 그래도 넘으면 클램프)
 
 
-class ChainRules(_Strict):
-    """v5.2.0 사건 띠(chain) — 지도 위 상단 가로줄에 사건 카드를 왼쪽부터 쌓는다(사용자 제안 2026-10-01, 시안).
-    설계 px(480p). 지금 사건 = 강조(accent 윗선·불투명), 지난 사건 = past_alpha. 넘치면 왼쪽으로 밀어 최근 max_visible 개."""
-
-    status: Literal["prototype", "adopted"]
-    x0: float
-    y: float
+class ChainCardRules(_Strict):
     w: float
     h: float
-    gap: float
-    max_visible: int = Field(ge=1)
-    past_alpha: float = Field(gt=0, le=1)
-    flag_R: float
+    pad_x: float
+    date_dx: float
+    date_dy: float
+    title_dy: float
+    line_dy: float
     date_size: float
     title_size: float
     line_size: float
+    accent_w: float
+
+
+class ChainChipRules(_Strict):
+    w: float
+    h: float
+    pad_x: float
+    date_dx: float
+    date_dy: float
+    title_dy: float
+    date_size: float
+    title_size: float
+
+
+class ChainRules(_Strict):
+    """v5.2.0 사건 띠 v2 "접히는 띠"(back_and_forth D-0135, 사용자 제안 2026-10-01, 시안). 설계 px(480p).
+    지금 사건 = 카드(card), 지난 사건 = 칩(chip). 상자 모양은 rules island 재사용. 폭 상한 width_cap 은 checks chain 이 단언."""
+
+    status: Literal["prototype", "adopted"]
+    x0: float
+    rail_y: float
+    rail_w: float
+    rail_alpha: float = Field(gt=0, le=1)
+    flag_R: float
+    chip_flag_R: float
+    card: ChainCardRules
+    chip: ChainChipRules
+    gap: float
+    max_chips: int = Field(ge=1)
+    fold_sec: float = Field(gt=0)
     shift_sec: float = Field(gt=0)
+    width_cap: float
+    past_alpha: float = Field(gt=0, le=1)
+
+    @model_validator(mode="after")
+    def _fits(self) -> "ChainRules":
+        need = self.max_chips * (self.chip.w + self.gap) + self.card.w
+        if need > self.width_cap:
+            raise ValueError(f"chain: max_chips×(chip.w+gap)+card.w = {need} > width_cap {self.width_cap}")
+        return self
 
 
 class IslandRules(_Strict):

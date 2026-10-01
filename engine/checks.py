@@ -62,7 +62,7 @@ SHADOW_PX = 7             # badge_box 가 원 둘레에 더하는 그림자 여�
 HARD = ("overlap", "offscreen", "glyphs", "glyph_size", "labels", "date", "subtitles", "rights", "forbidden", "stage_continuity",
         "genre_elements", "chart_honesty", "series_limit_3", "units_visible", "as_of_visible", "boundary_as_route",
         "geo_mismatch", "timeline_rescale", "backdrop_rights", "backdrop_repeat", "island_overlap",
-        "backdrop_main_missing", "island_label_clip")   # island_label_clip v5.2.0 D-0133 §2, backdrop_main_missing v5.2.0 D-0129 §B, island_overlap v5.1.0 D-0126 Q3, geo_mismatch v4.10.0 D-0116, timeline_rescale v5.1.0 D-0121 §A, backdrop_* v5.1.0 D-0123
+        "backdrop_main_missing", "island_label_clip", "chain")   # island_label_clip v5.2.0 D-0133 §2, backdrop_main_missing v5.2.0 D-0129 §B, island_overlap v5.1.0 D-0126 Q3, geo_mismatch v4.10.0 D-0116, timeline_rescale v5.1.0 D-0121 §A, backdrop_* v5.1.0 D-0123
 WARN = ("shots", "media_beats", "media_upscaled", "endcard_roll", "geo_unsourced",   # endcard_roll v4.7.0 D-0106, geo_unsourced D-0107
         "static_window", "stage_choice", "card_island", "island_label_overlap")   # static_window v4.11.0 D-0118, stage_choice v5.1.0 D-0123, card_island v5.2.0 D-0129 §C, island_label_overlap D-0133 §3
 
@@ -117,6 +117,53 @@ def _covered(P, t: float) -> bool:  # noqa: ANN001, N803
     if P.R.tb.in_fullcard(t):
         return True
     return any(e["type"] in ("panel", "dip") and e["t0"] <= t <= e["t1"] for e in P.events)
+
+
+CHAIN_STEP_SEC = 0.1   # 사건 띠 샘플 간격(접기 0.45·밀기 0.6초를 놓치지 않게)
+
+
+def check_chain(P) -> list[str]:  # noqa: ANN001, N803
+    """v5.2.0 사건 띠 v2(back_and_forth D-0135) — 띠 폭 ≤ width_cap, 보이는 칩 ≤ max_chips, 모서리 날짜 상자와 교차 0,
+    지명(지도 라벨)이 띠 상자 밑에 깔리는 순간 0 — 도시·나라·도 이름은 렌더처럼 띠 상자를 회피한 뒤 본다(회피 장치가 없는 해역 이름이 걸리면
+    연출이 구도를 바꾼다), 글자 넘침 0.
+    문제마다 처음 시각 한 줄. 지도가 가려진 순간(패널·전면 카드·암전)은 깔림을 보지 않는다."""
+    from engine.chain import chain_boxes, chain_width, check_text, chip_count  # noqa: PLC0415
+    from engine.hud import date_box  # noqa: PLC0415
+    from engine.style import CHAIN  # noqa: PLC0415
+
+    ctx = cairo.Context(cairo.ImageSurface(cairo.FORMAT_ARGB32, 1, 1))
+    out: list[str] = []
+    db = date_box()
+    for e in P.events:
+        if e["type"] != "chain":
+            continue
+        out += check_text(ctx, e)
+        seen: set[str] = set()
+        t = e["t0"]
+        while t <= e["t1"]:
+            boxes = chain_boxes(t, e)
+            w = chain_width(t, e)
+            if w > CHAIN.width_cap and "w" not in seen:
+                seen.add("w")
+                out.append(f"[chain-width] t={t:.2f} 띠 폭 {w:.0f}px > width_cap {CHAIN.width_cap:.0f}")
+            c = chip_count(t, e)
+            if c > CHAIN.max_chips and "c" not in seen:
+                seen.add("c")
+                out.append(f"[chain-chips] t={t:.2f} 칩 {c}개 > max_chips {CHAIN.max_chips}")
+            if any(_box_hit(b, db) for b in boxes) and "d" not in seen:
+                seen.add("d")
+                out.append(f"[chain-date] t={t:.2f} 띠가 모서리 날짜 상자와 겹침")
+            if boxes and not _covered(P, t):
+                v = View(P.R.stage, P.cams[min(P.n_frames - 1, int(t * FPS))])
+                for lb in P.R.stage.draw_labels(ctx, v, list(boxes), 0.0) or []:   # 렌더와 같이 띠 상자를 회피한 뒤 남는 지명(해역 등)
+                    if any(_box_hit(lb, b) for b in boxes):
+                        key = f"l{round(lb[0])}:{round(lb[1])}"
+                        if key not in seen:
+                            seen.add(key)
+                            out.append(f"[chain-label-under] t={t:.2f} 지명 상자 {tuple(round(x) for x in lb)} 가 띠 밑에 깔림"
+                                       " — 첫 숏 구도(camera lon·lat·w)를 바꾼다")
+            t += CHAIN_STEP_SEC
+    return out
 
 
 def check_offscreen(P) -> list[str]:  # noqa: ANN001, N803
@@ -453,6 +500,7 @@ def run_checks(P, times: list[float], provenance: dict, drawn: list[tuple[str, f
         "card_island": lambda: check_card_island(P),
         "island_label_clip": lambda: check_island_label_clip(P),
         "island_label_overlap": lambda: check_island_label_overlap(P),
+        "chain": lambda: check_chain(P),
     }
     res = {k: f() for k, f in run.items() if k not in skip}
     notes: dict[str, list[str]] = {}
