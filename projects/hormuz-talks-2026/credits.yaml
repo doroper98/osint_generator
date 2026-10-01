@@ -16,8 +16,8 @@ sections:
   - title: 기사 카드
     column: 1
     items:
-      - main: Al Jazeera · NPR · PBS News · A News · CSIS
-        rights: [media.aj_0926_reject, media.npr_0926_reject, media.pbs_0928_mediators, media.aj_0929_qatar, media.anews_0930_reply, media.aj_0928_oil, media.csis_0402_korea]
+      - main: Al Jazeera · A News · CSIS
+        rights: [media.aj_0926_reject, media.pbs_0928_mediators, media.aj_0929_qatar, media.anews_0930_reply, media.aj_0928_oil, media.csis_0402_korea]
   - title: 글꼴
     column: 1
     auto: fonts
