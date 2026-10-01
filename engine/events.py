@@ -223,6 +223,36 @@ class CardEvent(_Event):
     y: Optional[float] = None
 
 
+class ChainItem(BaseModel):
+    """사건 띠 카드 하나 — at = 등장 시각(앵커는 direction 이 초로 푼다). flag = 국기 코드(좌상단 원). 문구는 원고 문장의 사실만."""
+
+    model_config = ConfigDict(extra="forbid")
+
+    at: float
+    flag: str
+    date: str = Field(min_length=1)
+    title: str = Field(min_length=1)
+    line: Optional[str] = None
+    accent: Accent = "gold"
+
+
+class ChainEvent(_Event):
+    """v5.2.0 사건 띠(사용자 제안 2026-10-01, 시안) — 지도 배경은 고정한 채 상단 가로줄에 사건 카드를 왼쪽부터 하나씩 더한다(engine/chain.py).
+    items 는 at 오름차순. 지금 사건 = 강조, 지난 사건 = 흐리게. 넘치면 최근 rules chain.max_visible 개."""
+
+    type: Literal["chain"]
+    items: list[ChainItem] = Field(min_length=1)
+
+    @model_validator(mode="after")
+    def _items(self) -> "ChainEvent":
+        ats = [i.at for i in self.items]
+        if ats != sorted(ats):
+            raise ValueError("chain items 는 at 오름차순이어야 한다(왼쪽부터 쌓인다)")
+        if not (self.t0 - 0.05 <= ats[0] and ats[-1] <= self.t1):
+            raise ValueError(f"chain items at {ats[0]:.2f}~{ats[-1]:.2f} 가 이벤트 구간 {self.t0:.2f}~{self.t1:.2f} 밖")
+        return self
+
+
 class PhotoEvent(_Event):
     """사진 카드 — 파일·캡션·출처 줄은 미디어 레지스트리에서만. 연출이 문자열을 주면 모델 오류(extra=forbid, D-0036)."""
 

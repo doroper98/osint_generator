@@ -1398,6 +1398,25 @@ class IslandChart(_Strict):
     label_flip_pad: float = Field(ge=0)   # v5.2.0 D-0133 §1 — 아일랜드 마커 라벨 ↔ 상자 가장자리 여백(넘으면 반대쪽, 그래도 넘으면 클램프)
 
 
+class ChainRules(_Strict):
+    """v5.2.0 사건 띠(chain) — 지도 위 상단 가로줄에 사건 카드를 왼쪽부터 쌓는다(사용자 제안 2026-10-01, 시안).
+    설계 px(480p). 지금 사건 = 강조(accent 윗선·불투명), 지난 사건 = past_alpha. 넘치면 왼쪽으로 밀어 최근 max_visible 개."""
+
+    status: Literal["prototype", "adopted"]
+    x0: float
+    y: float
+    w: float
+    h: float
+    gap: float
+    max_visible: int = Field(ge=1)
+    past_alpha: float = Field(gt=0, le=1)
+    flag_R: float
+    date_size: float
+    title_size: float
+    line_size: float
+    shift_sec: float = Field(gt=0)
+
+
 class IslandRules(_Strict):
     """v5.1.0 D-0123 §1·D-0126 — backdrop 무대 위 아일랜드 공통 규칙(engine/island.py)."""
 
@@ -1631,6 +1650,7 @@ class VideoRules(_Strict):
     stage_timeline: StageTimelineRules   # v4.3.0 — D-0084 작업 3·D-0085
     stage_backdrop: StageBackdropRules   # v5.1.0 — D-0121 §B·D-0123
     island: IslandRules                  # v5.1.0 — D-0123 §1·D-0126
+    chain: ChainRules                    # v5.2.0 — 사건 띠(사용자 제안 2026-10-01, 시안)
     data: DataRules                # v4.3.0 — D-0084 작업 1
     genre_prompt: GenrePromptRules  # v4.4.0 — D-0090 작업 1
     bundle: BundleRules            # v3.5.0 — D-0063 작업 4

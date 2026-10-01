@@ -68,10 +68,18 @@ def render_frame(P: Project, i: int) -> tuple[cairo.ImageSurface, bytearray]:  #
         for e in act:
             if e["type"] == typ and not e.get("in_island"):   # v5.1.0 D-0126 — 차트 아일랜드 안 이벤트는 island 렌더러가 상자 안에 그린다
                 L.resolve(e).render(ctx, R, view, t, e)
+    for e in act:   # v5.2.0 사건 띠(시안) — 지도 도시 라벨이 띠 카드 아래로 들어가지 않게 예약 상자로
+        if e["type"] == "chain":
+            from engine.chain import chain_boxes  # noqa: PLC0415
+
+            R.reserved += chain_boxes(t, e)
     if panel_a < 0.99:
         R.stage.draw_labels(ctx, view, R.reserved, 1 - panel_a)
     for e in act:
         if e["type"] == "dip" and e.get("under"):
+            L.resolve(e).render(ctx, R, t, e)
+    for e in act:   # v5.2.0 사건 띠(시안) — 지도 위·패널 덮개 아래(패널이 뜨면 덮인다)
+        if e["type"] == "chain":
             L.resolve(e).render(ctx, R, t, e)
     for e in act:
         if e["type"] == "panel":
