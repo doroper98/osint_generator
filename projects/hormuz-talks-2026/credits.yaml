@@ -1,0 +1,30 @@
+# 『호르무즈 협상 — 무엇을 먼저 할 것인가』 엔딩 크레딧 (v5.2.0). 보도 = 인용 소스(auto: sources).
+schema_version: 1
+sections:
+  - title: 보도
+    column: 0
+    auto: sources
+  - title: 기사 카드
+    column: 1
+    items:
+      - main: Al Jazeera · NPR · PBS News · A News · CSIS
+        rights: [media.aj_0926_reject, media.npr_0926_reject, media.pbs_0928_mediators, media.aj_0929_qatar, media.anews_0930_reply, media.aj_0928_oil, media.csis_0402_korea]
+  - title: 글꼴
+    column: 1
+    auto: fonts
+  - title: 지도
+    column: 1
+    auto: map
+  - title: 국기
+    column: 1
+    items:
+      - main: 국기
+        license: flag-icons · MIT
+        rights: [flags.flag_icons]
+  - title: 음악 · 음성
+    column: 1
+    items:
+      - music: music.zabriskie_patriarch   # 제목·라이선스 줄은 BGM 레지스트리
+      - main: 내레이션
+        license: AI 음성 합성
+        rights: [narration.tts]

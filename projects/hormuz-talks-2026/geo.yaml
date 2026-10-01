@@ -1,0 +1,11 @@
+# 『호르무즈 협상』 지오 설정 (v5.2.0) — hormuz_korea(v3 prep3 값)를 바탕으로 홍해 남단 티어 R 추가.
+# tiers: W 광역(홍해~한반도), G 걸프·호르무즈, K 한반도, R 바브엘만데브(두 번째 해협 장면).
+schema_version: 1
+bbox: [20, -20, 150, 60]
+admin1: [KR, IR, OM, AE, SA, QA, KW, BH, IQ, KP, JP, YE]
+crimea_to_ua: false
+tiers:
+  - {name: W, ppd: 24, z: 5, bbox: [28.0, -12.0, 140.0, 48.0]}
+  - {name: G, ppd: 96, z: 7, bbox: [46.0, 20.5, 62.0, 32.5]}
+  - {name: K, ppd: 96, z: 7, bbox: [122.5, 32.3, 131.8, 39.8]}
+  - {name: R, ppd: 96, z: 7, bbox: [38.5, 10.0, 47.5, 17.5]}

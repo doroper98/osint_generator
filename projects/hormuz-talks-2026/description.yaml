@@ -1,0 +1,29 @@
+# 『호르무즈 협상』 유튜브 설명문 (v5.2.0). chapters.at = 장면 id 또는 TITLE.
+schema_version: 1
+headline: 호르무즈 협상 — 무엇을 먼저 할 것인가
+summary: 2026년 9월 26일, 트럼프 대통령이 이란의 해협 재개방 제안을 거부했습니다. 카타르 중재와 미국의 답신, 해협·제재·동결 자금·핵 사찰의 이행 순서 쟁점, 두 번째 해협 바브엘만데브, 그리고 한국의 에너지 영향을 지도로 정리했습니다.
+chapters:
+- at: open
+  label: 9월 26일의 거부
+- at: TITLE
+  label: 타이틀
+- at: proposal
+  label: 이란의 7일 로드맵
+- at: rejection_dispute
+  label: 거부인가 전술인가
+- at: mediation
+  label: 카타르 중재와 미국의 답변
+- at: nuclear
+  label: 핵 사찰이라는 조건
+- at: war_background
+  label: 일곱 달의 전쟁
+- at: pressure
+  label: 압박과 여론
+- at: shipping_oil
+  label: 해협 통항과 유가
+- at: second_strait
+  label: 두 번째 해협
+- at: korea
+  label: 한국의 에너지
+- at: close
+  label: 남은 질문
