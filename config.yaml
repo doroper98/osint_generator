@@ -33,6 +33,9 @@ engine:
       480p: {width: 854, height: 480, fps: 24, crf: 19, preset: faster, mem_per_job_mb: 600}
       # clip = 영상 클립 npy 크기(16:9 정확, 필요 장치 폭 990px 이상 중 최소 — back_and_forth D-0074). 원본 webm 에서 media_fetch --res 1080p
       1080p: {width: 1920, height: 1080, fps: 24, crf: 19, preset: faster, mem_per_job_mb: 1500, clip: [1024, 576]}
+      # 720p(v5.2.0, 사용자 결정 2026-09-30 hormuz-talks-2026 완성본) — k = 1.5, 854 × 1.5 = 1281 > 1280 이라 −0.25px 패드(1080p 와 같은 방식).
+      # clip null = 영상 클립은 기본 npy(이 프로파일로 media_fetch --res 하지 않음). mem 은 480p·1080p 실측 사이 보간 + 여유
+      720p: {width: 1280, height: 720, fps: 24, crf: 19, preset: faster, mem_per_job_mb: 1000, clip: null}
   trial: 480p                          # 별칭 — 트라이얼(프리뷰·검수) 프로파일
   final: 1080p                         # 별칭 — 최종 프로파일
   render:
