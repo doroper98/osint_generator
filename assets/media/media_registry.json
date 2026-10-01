@@ -1365,6 +1365,252 @@
    },
    "source_hash": "595d32629aa0867fc94cb52623c669a7",
    "file": "fed_eccles_atrium_720.jpg"
+  },
+  "aj_0926_reject": {
+   "kind": "article",
+   "title": "Al Jazeera 2026-09-26 — 트럼프, 이란의 ‘7일 로드맵’ 거부… 전쟁 종식·호르무즈 재개방 제안(헤드라인 번역)",
+   "license": "헤드라인 번역·요지 자체 조판(원문 인용 15단어 미만, 기사 화면 캡처·로고 없음, 14 §9)",
+   "author": "Al Jazeera",
+   "credit_author": "Al Jazeera",
+   "date": "2026-09-26",
+   "url": "https://www.aljazeera.com/news/2026/9/26/trump-rejects-irans-seven-day-roadmap-to-reopen-strait-of-hormuz",
+   "caption": "Al Jazeera",
+   "file_note": "2026. 09. 26",
+   "depicts": [
+    "트럼프 대통령",
+    "이란 7일 제안"
+   ],
+   "is_file_photo": false,
+   "verified_by": {
+    "by": "claude(사용자 요청 대행 — 2026-09-30 hormuz-talks-2026 원고 승인 대화)",
+    "on": "2026-10-01",
+    "casualty_free": true,
+    "relevance": "open·proposal 장면 — 거부 보도 인용"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-09-30",
+   "tool": {
+    "name": "article_typeset",
+    "params": {
+     "translation": true
+    }
+   },
+   "headline": "트럼프, 이란의 ‘7일 로드맵’ 거부… 전쟁 종식·호르무즈 재개방 제안",
+   "hl": "7일 로드맵",
+   "sub": "이란은 동결 자금 해제·제재 해제·해상봉쇄 종료를 조건으로 제시",
+   "note": "헤드라인 번역 · 원문 영어",
+   "headline_original": "Trump rejects Iran's seven-day roadmap to end war and reopen Hormuz"
+  },
+  "npr_0926_reject": {
+   "kind": "article",
+   "title": "NPR 2026-09-26 — 트럼프, 호르무즈 해협 재개방 계획 거부(헤드라인 번역)",
+   "license": "헤드라인 번역·요지 자체 조판(원문 인용 15단어 미만, 기사 화면 캡처·로고 없음, 14 §9)",
+   "author": "NPR",
+   "credit_author": "NPR",
+   "date": "2026-09-26",
+   "url": "https://www.npr.org/2026/09/26/nx-s1-5981990/trump-rejects-iranian-deal-strait-of-hormuz",
+   "caption": "NPR",
+   "file_note": "2026. 09. 26",
+   "depicts": [
+    "트럼프 대통령",
+    "페제시키안 대통령"
+   ],
+   "is_file_photo": false,
+   "verified_by": {
+    "by": "claude(사용자 요청 대행 — 2026-09-30 hormuz-talks-2026 원고 승인 대화)",
+    "on": "2026-10-01",
+    "casualty_free": true,
+    "relevance": "rejection·nuclear 장면 — 매체 보도 인용"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-09-30",
+   "tool": {
+    "name": "article_typeset",
+    "params": {
+     "translation": true
+    }
+   },
+   "headline": "트럼프, 호르무즈 해협 재개방 계획 거부",
+   "hl": "재개방 계획 거부",
+   "sub": "페제시키안 대통령, 제안 수용 시 유엔 사찰 수용 언급",
+   "note": "헤드라인 번역 · 원문 영어",
+   "headline_original": "Trump rejects plan to reopen Strait of Hormuz"
+  },
+  "pbs_0928_mediators": {
+   "kind": "article",
+   "title": "PBS News 2026-09-28 — 트럼프의 이란 제안 거부 뒤에도 중재국들 미·이란 합의 작업 계속(헤드라인 번역)",
+   "license": "헤드라인 번역·요지 자체 조판(원문 인용 15단어 미만, 기사 화면 캡처·로고 없음, 14 §9)",
+   "author": "PBS News",
+   "credit_author": "PBS News",
+   "date": "2026-09-28",
+   "url": "https://www.pbs.org/newshour/world/mediators-still-working-on-u-s-iran-deal-after-trump-rejected-latest-tehran-proposal",
+   "caption": "PBS News",
+   "file_note": "2026. 09. 28",
+   "depicts": [
+    "중재국",
+    "후티",
+    "바브엘만데브"
+   ],
+   "is_file_photo": false,
+   "verified_by": {
+    "by": "claude(사용자 요청 대행 — 2026-09-30 hormuz-talks-2026 원고 승인 대화)",
+    "on": "2026-10-01",
+    "casualty_free": true,
+    "relevance": "mediation·second_strait 장면 — 보도 인용"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-09-30",
+   "tool": {
+    "name": "article_typeset",
+    "params": {
+     "translation": true
+    }
+   },
+   "headline": "트럼프의 이란 제안 거부 뒤에도 중재국들 미·이란 합의 작업 계속",
+   "hl": "중재국들",
+   "sub": "후티의 바브엘만데브 장악으로 새 전선",
+   "note": "헤드라인 번역 · 원문 영어",
+   "headline_original": "Mediators still working on U.S.-Iran deal after Trump rejected latest Tehran proposal"
+  },
+  "aj_0929_qatar": {
+   "kind": "article",
+   "title": "Al Jazeera 2026-09-29 — 이란 아락치, 카타르 중재단 면담… 미국은 핵 협상 요구(헤드라인 번역)",
+   "license": "헤드라인 번역·요지 자체 조판(원문 인용 15단어 미만, 기사 화면 캡처·로고 없음, 14 §9)",
+   "author": "Al Jazeera",
+   "credit_author": "Al Jazeera",
+   "date": "2026-09-29",
+   "url": "https://www.aljazeera.com/news/2026/9/29/irans-araghchi-meets-qatari-mediators-as-us-insists-on-nuclear-talks",
+   "caption": "Al Jazeera",
+   "file_note": "2026. 09. 29",
+   "depicts": [
+    "아락치 외무장관",
+    "카타르 중재단"
+   ],
+   "is_file_photo": false,
+   "verified_by": {
+    "by": "claude(사용자 요청 대행 — 2026-09-30 hormuz-talks-2026 원고 승인 대화)",
+    "on": "2026-10-01",
+    "casualty_free": true,
+    "relevance": "mediation·nuclear 장면 — 보도 인용"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-09-30",
+   "tool": {
+    "name": "article_typeset",
+    "params": {
+     "translation": true
+    }
+   },
+   "headline": "이란 아락치, 카타르 중재단 면담… 미국은 핵 협상 요구",
+   "hl": "카타르 중재단",
+   "sub": "미국 관리 “핵 문제 빠지면 합의 없다”",
+   "note": "헤드라인 번역 · 원문 영어",
+   "headline_original": "Iran's Araghchi meets Qatari mediators as US calls for nuclear talks"
+  },
+  "anews_0930_reply": {
+   "kind": "article",
+   "title": "A News 2026-09-30 — 이란 “카타르 중재 제안에 대한 미국 답변 받았다”(헤드라인 번역)",
+   "license": "헤드라인 번역·요지 자체 조판(원문 인용 15단어 미만, 기사 화면 캡처·로고 없음, 14 §9)",
+   "author": "A News",
+   "credit_author": "A News",
+   "date": "2026-09-30",
+   "url": "https://www.anews.com.tr/middle-east/2026/09/30/iran-receives-us-response-to-qatari-mediated-proposal-spokesperson",
+   "caption": "A News",
+   "file_note": "2026. 09. 30",
+   "depicts": [
+    "모하제라니 대변인",
+    "미국 답변"
+   ],
+   "is_file_photo": false,
+   "verified_by": {
+    "by": "claude(사용자 요청 대행 — 2026-09-30 hormuz-talks-2026 원고 승인 대화)",
+    "on": "2026-10-01",
+    "casualty_free": true,
+    "relevance": "mediation·close 장면 — 보도 인용"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-09-30",
+   "tool": {
+    "name": "article_typeset",
+    "params": {
+     "translation": true
+    }
+   },
+   "headline": "이란 “카타르 중재 제안에 대한 미국 답변 받았다”",
+   "hl": "미국 답변",
+   "sub": "정부 대변인, 답변 내용은 밝히지 않아",
+   "note": "헤드라인 번역 · 원문 영어",
+   "headline_original": "Iran receives US response to Qatari-mediated proposal: Spokesperson"
+  },
+  "aj_0928_oil": {
+   "kind": "article",
+   "title": "Al Jazeera 2026-09-28 — 트럼프의 호르무즈 재개방안 거부에 유가 급등(헤드라인 번역)",
+   "license": "헤드라인 번역·요지 자체 조판(원문 인용 15단어 미만, 기사 화면 캡처·로고 없음, 14 §9)",
+   "author": "Al Jazeera",
+   "credit_author": "Al Jazeera",
+   "date": "2026-09-28",
+   "url": "https://www.aljazeera.com/economy/2026/9/28/oil-prices-surge-after-trump-rejects-irans-plan-to-reopen-strait-of-hormuz",
+   "caption": "Al Jazeera",
+   "file_note": "2026. 09. 28",
+   "depicts": [
+    "브렌트유",
+    "유가"
+   ],
+   "is_file_photo": false,
+   "verified_by": {
+    "by": "claude(사용자 요청 대행 — 2026-09-30 hormuz-talks-2026 원고 승인 대화)",
+    "on": "2026-10-01",
+    "casualty_free": true,
+    "relevance": "shipping_oil 장면 — 유가 보도 인용"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-09-30",
+   "tool": {
+    "name": "article_typeset",
+    "params": {
+     "translation": true
+    }
+   },
+   "headline": "트럼프의 호르무즈 재개방안 거부에 유가 급등",
+   "hl": "유가 급등",
+   "sub": "브렌트유 배럴당 108달러 근접 — 9월 28일 아시아 거래",
+   "note": "헤드라인 번역 · 원문 영어",
+   "headline_original": "Oil prices surge after Trump rejects Iran's plan to reopen Strait of Hormuz"
+  },
+  "csis_0402_korea": {
+   "kind": "article",
+   "title": "CSIS 2026-04-02 — 이란 분쟁이 한국에 미친 영향 — 숫자로 보기(헤드라인 번역)",
+   "license": "헤드라인 번역·요지 자체 조판(원문 인용 15단어 미만, 기사 화면 캡처·로고 없음, 14 §9)",
+   "author": "CSIS",
+   "credit_author": "CSIS",
+   "date": "2026-04-02",
+   "url": "https://www.csis.org/analysis/impact-iran-conflict-south-korea-numbers",
+   "caption": "CSIS",
+   "file_note": "2026. 04. 02",
+   "depicts": [
+    "한국 에너지",
+    "비축유"
+   ],
+   "is_file_photo": false,
+   "verified_by": {
+    "by": "claude(사용자 요청 대행 — 2026-09-30 hormuz-talks-2026 원고 승인 대화)",
+    "on": "2026-10-01",
+    "casualty_free": true,
+    "relevance": "korea 장면 — 4월 초 분석 인용(시점 명시)"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-09-30",
+   "tool": {
+    "name": "article_typeset",
+    "params": {
+     "translation": true
+    }
+   },
+   "headline": "이란 분쟁이 한국에 미친 영향 — 숫자로 보기",
+   "hl": "숫자로 보기",
+   "sub": "4월 초 분석 · 원유 수입 70% 호르무즈 경유",
+   "note": "헤드라인 번역 · 원문 영어",
+   "headline_original": "The Impact of the Iran Conflict on South Korea: By the Numbers"
   }
  }
 }
