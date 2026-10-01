@@ -134,6 +134,13 @@ class TestPronounceBeforeSynth(unittest.TestCase):
         m = {"ab": "ab", "b": "X", "c": "b"}
         self.assertEqual(apply_dict("ab b c", m), "ab X b")
 
+    def test_institution_split(self) -> None:
+        """TTS-AP-070 — 긴 기관명은 의미 단위 띄어쓰기로 분절 고정(TTS-AP-068 과 같은 부류)."""
+        from script.lint import pronounce_tts  # noqa: PLC0415
+
+        self.assertEqual(pronounce_tts("미국 전략국제문제연구소는 사월 초"), "미국 전략 국제문제 연구소는 사월 초")
+        self.assertEqual(pronounce_tts("국제에너지기구 공동 방출"), "국제 에너지 기구 공동 방출")
+
     def test_explicit_tts_path_in_plan(self) -> None:
         """script.plan.build 가 원고 명시 tts 를 사전에 통과시킨 뒤 캐시 키를 만든다(합성은 가짜)."""
         import yaml  # noqa: PLC0415

@@ -547,3 +547,12 @@ last_review: 2026-06-06
 - **회귀 테스트**: `tests/test_tts_pronounce.py::TestPronounceBeforeSynth::test_noun_plus_subject_ga_not_oil_price`·`test_single_pass_no_rechain`
 - **출처**: 사용자 시청 피드백(2026-10-01).
 - **발견 버전**: v5.2.0 · **상태**: active
+
+### TTS-AP-070 — "전략국제문제연구소"를 "전략국 / 제연구소"로 끊어 읽음
+
+- **증상**: hormuz-talks-2026 콘티 판(v5.2.0, 사용자 시청 2026-10-01) — "미국 전략국제문제연구소는"을 [미국 전략국 제연구소]처럼 분절. TTS-AP-068(연방공개시장위원회)과 같은 부류.
+- **원칙**: TTS-AP-068 그대로 — 4어절 이상 한자어 합성 기관명은 의미 단위 띄어쓰기로 사전 등재(자막은 원문 유지).
+- **자동 조치**: 사전에 `"전략국제문제연구소": "전략 국제문제 연구소"`. 같은 원고의 같은 부류(긴 기관명) `"국제에너지기구": "국제 에너지 기구"`·`"월스트리트저널": "월스트리트 저널"` 도 함께 등재(원고 tts 6글자 이상 한글 어절 전수 확인).
+- **회귀 테스트**: `tests/test_tts_pronounce.py::TestPronounceBeforeSynth::test_institution_split`
+- **출처**: 사용자 시청 피드백(2026-10-01).
+- **발견 버전**: v5.2.0 · **상태**: active
