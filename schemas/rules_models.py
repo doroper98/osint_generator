@@ -1424,6 +1424,9 @@ class CascadeRules(_Strict):
     front: CascadeFrontRules
     back_scale: float = Field(gt=0, lt=1)
     back_text_alpha: float = Field(gt=0, le=1)
+    back_fade_px: float = Field(ge=0)      # D-0138 — 덮이는 경계 글자 알파 그라데이션 폭
+    back_dy: float = Field(ge=0)           # D-0138 — 층마다 내려앉음
+    back_dim: float = Field(ge=0, lt=1)    # D-0138 — 층마다 어두워짐
     max_back: int = Field(ge=1)
     focus_sec: float = Field(gt=0)
     shift_sec: float = Field(gt=0)

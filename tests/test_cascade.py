@@ -65,6 +65,33 @@ class CascadeGeometryTest(unittest.TestCase):
         boxes = cascade_boxes(t, e)
         self.assertAlmostEqual(boxes[0][2] - cards[0].x, CASCADE.step)
 
+    def test_no_text_overlap_during_transition(self) -> None:
+        """D-0138 ③ — 전환 중 물러나는 카드 글자와 새 카드 글자가 같은 자리에서 비치는 순간 0:
+        새 카드 글자가 보이면 물러나는 카드는 새 카드 왼쪽 끝까지만 그린다, 앞 절반에는 새 카드 글자가 없다."""
+        e = _event()
+        for k in range(1, len(e["items"])):
+            t0 = e["items"][k]["at"]
+            t = t0
+            while t <= t0 + CASCADE.focus_sec + STEP:
+                cards = {c.i: c for c in layout(t, e)}
+                new, old = cards.get(k), cards.get(k - 1)
+                if new and old and new.title_a > 0.01:
+                    self.assertLessEqual(old.clip_x1, new.x + 1e-6, (k, t))
+                if t < t0 + CASCADE.focus_sec / 2 - 1e-6 and new:
+                    self.assertLessEqual(new.title_a, 1e-9, (k, t))
+                t += STEP / 5
+
+    def test_depth_monotonic(self) -> None:
+        """D-0138 ② — 뒤로 갈수록(오래된 카드일수록) 깊이·내려앉음이 단조 증가, 맨 앞은 깊이 0."""
+        e = _event(5)
+        cards = layout(e["items"][-1]["at"] + 3.0, e)
+        depths = [c.depth for c in cards]
+        ys = [c.y for c in cards]
+        self.assertTrue(all(a > b for a, b in zip(depths, depths[1:])))
+        self.assertTrue(all(a > b for a, b in zip(ys, ys[1:])))
+        self.assertAlmostEqual(depths[-1], 0.0)
+        self.assertAlmostEqual(ys[0] - ys[-1], CASCADE.back_dy * depths[0])
+
     def test_rules_validator(self) -> None:
         from schemas.rules_models import CascadeRules  # noqa: PLC0415
 

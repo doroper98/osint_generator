@@ -907,6 +907,11 @@ cascade:                   # v5.2.0 겹침 카드(cascade, engine/cascade.py) �
   front: {w: 214, h: 82, pad_x: 13, date_dx: 6, date_dy: 16, title_dy: 41, line_dy: 61, date_size: 10.5, title_size: 13, line_size: 10, accent_w: 3}
   back_scale: 0.86         # 뒤 카드 크기(앞 대비) — 앞 카드가 위·아래로 더 커서 뒤 카드를 덮는다
   back_text_alpha: 0.5     # 뒤 카드 글자·국기 알파(바탕·테두리는 그대로)
+  # back_and_forth D-0138 보강(미합격 값): 뒤 카드도 제목을 남기고 덮이는 경계 back_fade_px 를 알파 그라데이션으로 가린다(자름 아님),
+  # 앞에 쌓인 카드 수(depth)마다 back_dy 내려앉고 바탕을 back_dim 만큼 더 어둡게. 전환 = 물러나는 카드 글자 앞 절반 지움 → 새 카드 글자 뒤 절반
+  back_fade_px: 12
+  back_dy: 5
+  back_dim: 0.06
   max_back: 4
   focus_sec: 0.5           # 앞 → 뒤 물러남 · 새 앞 카드 등장
   shift_sec: 0.6
