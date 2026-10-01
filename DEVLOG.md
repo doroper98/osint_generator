@@ -3395,3 +3395,4 @@ last_review: 2026-06-06
 - 2026-09-30 v5.2.0 LLM-AP-012(수정 LLM issue_ref "[island-overlap] 줄인 상세" 콜론 없음 → 지적 이벤트 미해결 거부) 기록, engine.qa TAG_RE.
 - 2026-09-30 v5.2.0 RENDER-AP-005(차트 아일랜드가 상자 밖 마커 라벨을 조용히 자름 → 검수 hard 2회) 기록. 아일랜드 마커 라벨 반전·클램프 + checks island_label_clip hard·island_label_overlap warning. G13 D-0133.
 - 2026-10-01 v5.2.0 PIPELINE-AP-014(콘티 판 W0 를 건너뛰고 검수 루프에서 바로 프리뷰로 감 — 사용자 지적) 기록. 게이트 ② 승인 = 콘티 판 기록 필수(`require_animatic`, 우회 없음), animatic_run.direction_sha1. CLAUDE.md C8.6·WORKFLOWS W0·HANDOFF §5·runbook·docs/12 에 의무 명시.
+- 2026-10-01 v5.2.0 TTS-AP-069("브렌트유가" 조사 가를 油價 유까로 치환 → [브렌트 유까]) 기록. apply_dict 한 번 훑기·최장 일치로 교체, 예외 항목 브렌트유가·비축유가. 사용자 시청 피드백.

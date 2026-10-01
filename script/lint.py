@@ -164,12 +164,14 @@ _NUM_RE = re.compile(r"(?<!\d)(\d{1,8})(?!\d)")
 
 
 def apply_dict(text: str, mapping: dict[str, str] | None = None) -> str:
-    """사전 치환만(긴 key 부터, `_` 메타 제외) — apply_pronunciation 1) 단계와 합성 직전 명시 tts(`pronounce_tts`)가 같은 함수."""
-    out = text
-    for key in sorted(mapping or {}, key=len, reverse=True):
-        if not key.startswith("_") and key in out:
-            out = out.replace(key, (mapping or {})[key])
-    return out
+    """사전 치환만(`_` 메타 제외) — apply_pronunciation 1) 단계와 합성 직전 명시 tts(`pronounce_tts`)가 같은 함수.
+    v5.2.0(TTS-AP-069): 한 번 훑기 — 각 위치에서 가장 긴 key 하나만 치환하고, 치환된 글자는 다시 치환하지 않는다.
+    그래서 긴 예외 항목(예: "브렌트유가" → "브렌트유가", 명사 + 조사 '가')이 짧은 항목("유가" → "유까", 油價)을 막는다."""
+    keys = sorted((k for k in (mapping or {}) if not k.startswith("_") and k), key=len, reverse=True)
+    if not keys:
+        return text
+    pat = re.compile("|".join(re.escape(k) for k in keys))
+    return pat.sub(lambda m: (mapping or {})[m.group(0)], text)
 
 
 def pronounce_tts(tts: str, mapping: dict[str, str] | None = None) -> str:
