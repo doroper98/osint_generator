@@ -50,6 +50,7 @@ last_review: 2026-09-29
 
 ## 5. 자주 까먹는 규칙
 
+- **콘티 판(W0)은 필수.** 연출 판 → `audio.mix` → `engine.render --animatic` → 사용자에게 `out/animatic.mp4` 전달·흐름 검토 → 그 뒤 프리뷰·게이트 ②. 없으면 게이트 ② 승인이 코드에서 거부된다(PIPELINE-AP-014).
 - 커밋 첫 줄 `vX.Y.Z: 요지` = `VERSION`. 한 커밋 한 의도. 푸시 거부 시 `pull --rebase` 후 재시도, force 금지.
 - 모델 식별자를 산출물·커밋·문서에 넣지 않는다. `.env`·API 키 커밋 금지.
 - 긴 실행(전편 렌더·AI 연출) 중에는 그 워크트리의 코드·규칙을 바꾸지 않는다(PIPELINE-AP-010).

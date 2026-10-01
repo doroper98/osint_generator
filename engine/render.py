@@ -13,6 +13,7 @@
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 import os
 import subprocess
@@ -343,6 +344,9 @@ def render_animatic(P: Project, jobs: int) -> tuple[Path, dict]:  # noqa: N803
                             "band": AN.band.text, "placeholders": dict(sorted(kinds.items())),
                             "flat_map": flat_map_source() if "mercator" in P.R.cache["stage"]["instances"] else None,
                             "voice": P.plan.voice, "checks_skipped": checks["skipped"],
+                            # v5.2.0 — 어느 연출 판으로 만든 콘티 판인지(게이트 ② 기록, orchestrator.project_manager.require_animatic)
+                            "direction_sha1": hashlib.sha1((P.root / "direction.yaml").read_bytes()).hexdigest()
+                            if (P.root / "direction.yaml").exists() else None,
                             "sec": {"render": rj["sec"], "total": round(time.time() - t0, 1), "mux": round(time.time() - t1, 1)},
                             "jobs": rj["jobs"], "frames": rj["frames"], "loudnorm": {"passes": 2, **loud},
                             "bytes": final.stat().st_size}

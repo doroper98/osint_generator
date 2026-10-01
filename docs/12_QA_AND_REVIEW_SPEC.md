@@ -74,6 +74,9 @@ preview → prev/checks.json(결정적 검사 18항목)
 ### 2.2 장르 요소 검사 — v4.2.0
 
 `genre_elements`(hard)는 연출이 쓴 요소 종류(패널은 kind, 프리미티브는 id, 뱃지는 badge와 kind)가 장르 프로필의 reuse ∪ new 안인지 본다. 프로필 밖 요소는 요소마다 `[genre-element]` 한 줄이다.
+**게이트 ② 선행 조건(v5.2.0, PIPELINE-AP-014)**: 현재 `plan.json` 길이와 같은 콘티 판 기록(`out/animatic_provenance.json`, `animatic_run`)이 있어야
+`preview_approval` 승인이 된다(`orchestrator.project_manager.require_animatic`, 우회 없음). 게이트 기록 `shown.animatic` 에 경로·길이·연출 판 sha1.
+
 콘티 판(v4.9.0, handoff 11 §9)은 검사 프로파일 `animatic` 으로 돈다 — `rules:animatic.checks_skip` 은 건너뛰고 checks.json `skipped`·provenance `animatic_run.checks_skipped` 에 남는다(조용한 생략 아님).
 
 장르 프로필의 `qa_extra` 는 이 표의 검사 id 또는 `rules:qa_checks.planned`(예정 검사)만 쓸 수 있다. 새 프리미티브는 스케치 프리뷰(`tools/primitive_sketch.py`, 실제 엔진 렌더)와 사람 승인 뒤에만 영상 연출에 쓴다(handoff 20 §4.1).

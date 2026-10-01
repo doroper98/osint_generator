@@ -42,6 +42,14 @@ def fake_runner(fail: str | None = None, drops: bool = False, log: list | None =
     return run
 
 
+def write_animatic(pdir: Path, total_sec: float = 292.44, animatic: bool = True) -> None:
+    """게이트 ② 시험용 콘티 판 기록(engine.render --animatic 이 남기는 provenance 의 최소 필드)."""
+    (pdir / "out").mkdir(parents=True, exist_ok=True)
+    prov = {"animatic": animatic, "total_sec": total_sec,
+            "animatic_run": {"output": "out/animatic.mp4", "direction_sha1": "0" * 40} if animatic else None}
+    (pdir / "out" / "animatic_provenance.json").write_text(json.dumps(prov), encoding="utf-8")
+
+
 class _Proj(unittest.TestCase):
     def setUp(self) -> None:
         self._tmp = tempfile.TemporaryDirectory()
@@ -50,6 +58,7 @@ class _Proj(unittest.TestCase):
         self.m = new_project("p", "t", "geopolitics", cfg=self.cfg)
         shutil.copy(REPO / "projects" / "hormuz_korea" / "script.yaml", self.root / "p" / "script.yaml")
         shutil.copytree(REPO / "projects" / "hormuz_korea" / "intake", self.root / "p" / "intake")   # v3.2.0 — claims.json(18 §7 게이트 ① 전 검사)
+        write_animatic(self.root / "p")   # v5.2.0 — 게이트 ② 는 콘티 판 의무(PIPELINE-AP-014)
 
     def tearDown(self) -> None:
         self._tmp.cleanup()
@@ -300,3 +309,43 @@ class ChosenVersionTest(_Proj):
         self.assertEqual(self.m.gate_decisions[-1].chosen_version, 1)
         rec2 = QALoopRecord.model_validate_json((pdir / "prev" / "qa_loop.json").read_text(encoding="utf-8"))
         self.assertEqual((rec2.selected.version, rec2.selected.by), (1, "human"))  # type: ignore[union-attr]
+
+
+class AnimaticGateTest(_Proj):
+    """PIPELINE-AP-014 — 콘티 판 없이 게이트 ② 승인 불가(우회 플래그 없음, 사용자 결정 2026-10-01)."""
+
+    def _to_gate2(self) -> None:
+        self.to_gate1()
+        self.m = approve_gate(self.m, "script_approval", by="t", cfg=self.cfg)
+        self.to(S.ASSETS, S.DIRECTION, S.PREVIEW_QA, S.PREVIEW_APPROVAL)
+
+    def test_missing_animatic_blocks_gate2(self) -> None:
+        from orchestrator.project_manager import AnimaticMissingError  # noqa: PLC0415
+
+        self._to_gate2()
+        (self.root / "p" / "out" / "animatic_provenance.json").unlink()
+        with self.assertRaises(AnimaticMissingError) as ctx:
+            approve_gate(self.m, "preview_approval", by="t", cfg=self.cfg)
+        self.assertIn("--animatic", str(ctx.exception))
+        self.assertEqual(self.m.current_state, "preview_approval")
+
+    def test_unfinished_animatic_blocks_gate2(self) -> None:
+        from orchestrator.project_manager import AnimaticMissingError  # noqa: PLC0415
+
+        self._to_gate2()
+        write_animatic(self.root / "p", animatic=False)
+        with self.assertRaises(AnimaticMissingError):
+            approve_gate(self.m, "preview_approval", by="t", cfg=self.cfg)
+
+    def test_stale_voice_blocks_gate2(self) -> None:
+        from orchestrator.project_manager import AnimaticMissingError  # noqa: PLC0415
+
+        self._to_gate2()
+        (self.root / "p" / "plan.json").write_text(json.dumps({"total": 300.0}), encoding="utf-8")
+        with self.assertRaises(AnimaticMissingError) as ctx:
+            approve_gate(self.m, "preview_approval", by="t", cfg=self.cfg)
+        self.assertIn("옛 음성", str(ctx.exception))
+        write_animatic(self.root / "p", total_sec=300.02)
+        m = approve_gate(self.m, "preview_approval", by="t", cfg=self.cfg)
+        self.assertEqual(m.current_state, "render")
+        self.assertIn("out/animatic.mp4", m.gate_decisions[-1].shown["animatic"])

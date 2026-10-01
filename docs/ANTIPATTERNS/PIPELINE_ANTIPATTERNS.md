@@ -113,6 +113,15 @@ last_review: 2026-05-19
 - **회귀 테스트**: `tests/test_g12_island.py::WiringTest::test_timeline_events_only_inside_island`(statement_diff 라벨 date 통과·lane 있는 badge 오류)
 - **발견 버전**: v5.1.0 (G12 §E fed 재연출, back_and_forth R-0148 §4·D-0127 §6) · **상태**: active
 
+## PIPELINE-AP-014 — 콘티 판(W0)을 건너뛰고 검수 루프에서 바로 프리뷰 게이트로 감
+- **증상**: hormuz-talks-2026(v5.2.0) 제작에서 연출 v1~v7 과 AI 검수 루프를 돌리는 동안 콘티 판을 한 번도 만들지 않았다. 사용자가 "콘티 짜는 것도 만들어 두지 않았었나?" 로 지적한 뒤에야 렌더했다.
+- **원인**: 콘티 판은 상태가 아니라 `direction` 안의 사람 루프(handoff 16 §7)라서 `advance` 가 부르지 않고, 게이트 ② 도 확인하지 않았다. 문서(WORKFLOWS W0)에만 있는 단계는 세션이 놓치면 그대로 빠진다(15 패턴 A — 만들었지만 연결되지 않음).
+- **좋은 예**: 연출 판 → `audio.mix` → `engine.render --animatic` → `out/animatic.mp4` 를 사용자에게 보내 흐름 검토 → 프리뷰 → 게이트 ②.
+- **교훈**: 사람 검토 단계도 코드가 선행 조건으로 확인하지 않으면 "선택 사항" 이 된다. 문서 규칙은 게이트 검사로 받친다.
+- **자동 조치**: `orchestrator.project_manager.require_animatic` — 게이트 ② 승인 전에 `out/animatic_provenance.json`(animatic_run 있음, total_sec = plan.json total ± 0.05초) 확인, 없으면 `AnimaticMissingError`(우회 플래그 없음, 사용자 결정 2026-10-01). 게이트 기록 `shown.animatic`. `engine.render --animatic` provenance 에 `animatic_run.direction_sha1`.
+- **회귀 테스트**: `tests/test_gates_pipeline.py::AnimaticGateTest`(없음·미완료·옛 음성 거부, 맞으면 승인·기록)
+- **발견 버전**: v5.2.0 (사용자 지적 2026-10-01) · **상태**: active
+
 ---
 
 > 새 패턴 발견 시 본 파일 끝에 append. 과거 항목 수정 금지.

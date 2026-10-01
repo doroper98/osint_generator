@@ -18,10 +18,11 @@ released 항목은 **append-only**입니다.
 ## [Unreleased]
 
 ### Added
--
+- 출력 프로파일 `720p`(1280×720) — `--res 720p`(geo.prep·engine.render).
+- 콘티 판 provenance `animatic_run.direction_sha1`.
 
 ### Changed
--
+- 게이트 ② 승인은 현재 음성 타임라인의 콘티 판(`out/animatic_provenance.json`)이 있어야 된다(`require_animatic`, PIPELINE-AP-014). 콘티 판은 선택이 아니라 필수 단계.
 
 ### Fixed
 -

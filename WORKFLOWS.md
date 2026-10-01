@@ -18,6 +18,12 @@ last_review: 2026-09-30
 용어: **콘티 판** = animatic(animation + -matic). 1930년대 디즈니가 스토리보드를 찍어 음성과 함께 틀어 본 "Leica reel"이 원형이고,
 광고·애니메이션 업계가 1970년대부터 animatic 이라 불렀다. "콘티"는 일본어 コンテ(continuity 의 축약)에서 왔다.
 
+> **필수 단계 — 건너뛰기 금지(사용자 결정 2026-10-01, PIPELINE-AP-014).** 모든 영상 프로젝트는 게이트 ② 전에 콘티 판을 만들고
+> `out/animatic.mp4` 를 **사용자에게 보내 흐름 검토를 받는다.** "검수 루프가 hard 0 이니 바로 프리뷰" 는 허용되지 않는다.
+> 코드 강제: `approve --gate preview_approval` 은 현재 `plan.json` 길이와 같은 콘티 판 기록(`out/animatic_provenance.json`)이 없으면
+> 거부된다(`orchestrator.project_manager.require_animatic`). 음성을 다시 만들면 콘티 판도 다시 만든다. 우회 플래그는 없다.
+> 게이트 ② 기록 `shown.animatic` 에 콘티 판 경로·길이·연출 판 sha1(`animatic_run.direction_sha1`)이 남는다.
+
 게이트 ① 원고 승인 뒤, 게이트 ② 프리뷰 전에 돈다. 연출 v1 이 나오면 콘티 판으로 흐름을 보고, 고칠 것이 있으면 연출로 되돌려 다시 돈다.
 
 ```bash
@@ -53,7 +59,7 @@ python -m orchestrator.main command-center --project {pid}      # 또는 run_pip
 
 상태 흐름(`schemas/models.py ProjectState`, docs/handoff/16 §2):
 `created → intake → source_verify → research → script_draft → script_approval★ → voice_timeline → assets → direction → preview_qa → preview_approval★ → render → audio_mix → deliver → done`.
-★ 두 곳이 사용자 승인 게이트다.
+★ 두 곳이 사용자 승인 게이트다. `direction` 과 `preview_approval★` 사이에 **콘티 판(W0) 사용자 흐름 검토가 필수**다 — 콘티 판 기록 없이는 게이트 ② 승인이 거부된다.
 
 ### W1.1 새 프로젝트 준비 체크리스트 (v4.7.0, back_and_forth D-0104 D3 — dmz_mine_2026 누락 M1~M5)
 
