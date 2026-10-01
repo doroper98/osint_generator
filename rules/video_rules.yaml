@@ -684,7 +684,7 @@ credits:                   # D-0030(D35) — 권리 레지스트리 종류별 �
   music_description: 'Music: "{name}" — {author} ({license})'          # 설명란 footer 의 {music} 자리(v3 description.yaml 문구와 같은 결과)
 
 registries:                # 15 §3 P10 — 여기 없는 타입을 연출이 쓰면 오류, 있는데 렌더러가 없으면 오류
-  event_types: [marker, route, tanker_loop, barrier, ships, boom, country, badge, card, panel, dip, photo, clip, cutout, article, post, primitive, series, backdrop, island, chain]   # island = v5.1.0 D-0126 Q1(차트 아일랜드 — 뷰포트 카메라 = stage: timeline 숏), backdrop = v5.1.0 D-0121 §B·D-0123(backdrop 무대 배경 사진, 미디어 레지스트리 photo), post = v3.2.0 복귀(D26, 18 §5), primitive = v4.2.0 D-0081(id → registries.primitives), series = v4.3.0 D-0084(시간축 무대, 데이터 레코드)
+  event_types: [marker, route, tanker_loop, barrier, ships, boom, country, badge, card, panel, dip, photo, clip, cutout, article, post, primitive, series, backdrop, island, cascade]   # island = v5.1.0 D-0126 Q1(차트 아일랜드 — 뷰포트 카메라 = stage: timeline 숏), backdrop = v5.1.0 D-0121 §B·D-0123(backdrop 무대 배경 사진, 미디어 레지스트리 photo), post = v3.2.0 복귀(D26, 18 §5), primitive = v4.2.0 D-0081(id → registries.primitives), series = v4.3.0 D-0084(시간축 무대, 데이터 레코드)
   event_types_planned: [occupied, arc, channel, shield, tl, particles, flash, dots, movers, line, arrow]   # v1/v2 이식 후보(미구현 = 사용 불가)
   panel_kinds: [relation, statement, timeline, precedent, versus, dots, gantt, dual_line, fork, checklist, network]   # relation = v3 refusal 일반화, 뒤 6종 = v2 차트 이식(D-0032)
   panel_kinds_planned: []
@@ -894,26 +894,23 @@ stage_backdrop:            # v5.1.0 back_and_forth D-0121 §B·D-0123 §1(사용
     - "사진·영상을 left 차트 아일랜드와 같은 순간에 띄울 때는 `\"place\": \"backdrop_right_low\"`(backdrop 무대 전용 사진 자리 — 오른쪽 카드 자리 아래·자막 위·left 상자 밖, v5.2.0 D-0132). map_right_low·panel_gap·timeline_photo 는 left 상자와 겹친다([island-overlap] hard)."
     - "기사: `{\"type\": \"article\", \"mid\": 기사 id, \"theme\": dark|light(기본 {theme_default}), \"press\": 공식 사진 id(선택)}` — 화면 전체. 프레스 사진 {press_lead}초 → 덮개 + 세리프 헤드라인(원문 언어)·부제(번역)·출처 줄. press 는 미디어 목록의 권리 기록 사진만, 없으면 쓰지 않는다(코드가 지금 화면을 흐려 깐다)."
 
-chain:                     # v5.2.0 사건 띠 v2 "접히는 띠"(engine/chain.py, back_and_forth D-0135) — 사용자 제안(2026-10-01) 시안. 지도(배경)는 고정.
-  # "쌓이되 작아진다": 지금 사건만 펼친 카드(card), 지난 사건은 칩(chip)으로 접힌다. 국기 원 = 얇은 시간 레일 위의 점(카드·칩 좌상단 모서리).
-  # 새 사건: 직전 카드가 fold_sec 동안 칩으로 접히고(폭·높이 smooth), 칩이 max_chips 를 넘으면 가장 오래된 칩이 shift_sec 동안 왼쪽으로 밀려 흐려져 나간다.
-  # 새 카드는 접기·밀기가 끝난 뒤(max(fold_sec, shift_sec)) 아래에서 올라온다 — 그래서 어느 순간에도 띠 폭 ≤ width_cap(checks chain 이 단언).
-  # 상자 = 아일랜드 공통 상자(island.radius·fill_alpha·edge_alpha·edge_w·shadow 재사용, engine.island.draw_frame). 설계 px(480p). 값은 미합격(사용자 시트 판정 전).
+cascade:                   # v5.2.0 겹침 카드(cascade, engine/cascade.py) — 사용자 제안(2026-10-01) 재구성 시안. "띠"(D-0135) 폐기, 사용자 판정 "프레이밍이 잘못됐다".
+  # 지도(배경) 고정. 사건 카드를 왼쪽부터 step 간격으로 비스듬히 겹친다(윈도 '계단식 창 배열'처럼). 지금 말하는 사건 = 맨 앞·front 크기·accent 윗선,
+  # 언급이 지나간 사건 = focus_sec 동안 back_scale 로 물러나 다음 카드 밑에 깔린다 → 뒤 카드는 왼쪽 step 폭(국기 원·날짜)만 보인다(겹친 부분은 그리지 않는다).
+  # 뒤 카드가 max_back 을 넘으면 가장 오래된 카드가 shift_sec 동안 왼쪽으로 밀려 흐려져 나간다. 최악 폭 (max_back+1)×step + front.w ≤ width_cap(checks cascade).
+  # 상자 = 아일랜드 공통 상자(island.* 재사용). 설계 px(480p). 값은 미합격.
   status: prototype
-  x0: 22                   # 띠 왼쪽 끝
-  rail_y: 58               # 시간 레일 y(카드·칩 윗변 = 레일)
-  rail_w: 1.5
-  rail_alpha: 0.35         # 색 = colors muted
-  flag_R: 11               # 카드 국기 원
-  chip_flag_R: 9           # 칩 국기 원
-  card: {w: 196, h: 74, pad_x: 12, date_dx: 6, date_dy: 15, title_dy: 36, line_dy: 54, date_size: 10, title_size: 11.5, line_size: 9.5, accent_w: 2.5}
-  chip: {w: 112, h: 34, pad_x: 8, date_dx: 5, date_dy: 13, title_dy: 27, date_size: 9.5, title_size: 10.5}
-  gap: 8
-  max_chips: 3
-  fold_sec: 0.45
+  x0: 22
+  y: 60                    # 카드 윗변(모서리 날짜 상자 y ≤ 50 아래)
+  step: 68                 # 뒤 카드가 보이는 폭
+  flag_R: 12               # 국기 원(카드 좌상단 모서리, 뒤 카드는 back_scale 배)
+  front: {w: 214, h: 82, pad_x: 13, date_dx: 6, date_dy: 16, title_dy: 41, line_dy: 61, date_size: 10.5, title_size: 13, line_size: 10, accent_w: 3}
+  back_scale: 0.86         # 뒤 카드 크기(앞 대비) — 앞 카드가 위·아래로 더 커서 뒤 카드를 덮는다
+  back_text_alpha: 0.5     # 뒤 카드 글자·국기 알파(바탕·테두리는 그대로)
+  max_back: 4
+  focus_sec: 0.5           # 앞 → 뒤 물러남 · 새 앞 카드 등장
   shift_sec: 0.6
-  width_cap: 560           # 3 × (112 + 8) + 196 = 556
-  past_alpha: 0.55         # 칩 글자·국기 알파(바탕·테두리는 그대로)
+  width_cap: 560           # 최악 5 × 68 + 214 = 554, 정상 4 × 68 + 214 = 486
 island:                    # v5.1.0 back_and_forth D-0123 §1·D-0126(Q1~Q4 A) — backdrop 무대 위 내용물 상자(아일랜드) 공통 규칙. engine/island.py. 설계 px(480p)
   # 연출은 픽셀을 다루지 않는다 — 차트 아일랜드는 box(boxes 이름)만 고른다. 등장 = 슬라이드 layout_480p.card.slide_px + 페이드 card.fade_sec(카드 규칙 재사용)
   # 겹침(checks island_overlap hard, Q3 A): 같은 순간 보이는 아일랜드 제자리 상자(그림자·슬라이드 경로 제외)끼리 교차 > 0, 자막 구역(reserved_zones.subtitle) 교차.
@@ -1149,7 +1146,7 @@ animatic:                  # v4.9.0 back_and_forth D-0108(사용자 결정 D97) 
     cutout_h_ratio: 0.4    # 컷아웃 높이 ÷ 폭 — 레지스트리에 비율이 없다(tool.params width 만). 파일을 열지 않으려고 쓰는 근사(p8 실측 134/360 = 0.37)
     panel_box: [64, 44, 790, 400]   # 패널 자리표시 = 패널 본문 영역(제목 기준선 74 위 ~ 자막 구역 410 위). 덮개(panel.cover_alpha)는 그대로
     kinds: {person: 뱃지, flag: 국기, emblem: 휘장, photo: 사진, clip: 영상, cutout: 컷아웃, article: 기사, post: 게시물,
-            primitive: 요소, panel: 패널, card: 카드, backdrop: 배경, island: 아일랜드, press: 프레스, chain: 사건}   # backdrop = v5.1.0 D-0123 §3 — 회색 판 + [배경: id]
+            primitive: 요소, panel: 패널, card: 카드, backdrop: 배경, island: 아일랜드, press: 프레스, cascade: 사건}   # backdrop = v5.1.0 D-0123 §3 — 회색 판 + [배경: id]
   band:                    # 화면 위 가운데 얇은 띠 — 배포 사고 방지 표식(모서리는 날짜만 규칙 유지)
     text: "콘티 판 · 검토용 · 배포 금지"
     font: sansb

@@ -27,7 +27,7 @@ def draw_labels(ctx: cairo.Context, stage: "MercatorStage", view: View, reserved
     A = stage.assets  # noqa: N806
     lab = A.labels
     placed = list(reserved)
-    drawn: list = []   # v5.2.0 — 그린 지명 상자(해역 포함). 사건 띠 깔림 검사(checks chain)가 읽는다. 그리기는 그대로
+    drawn: list = []   # v5.2.0 — 그린 지명 상자(해역 포함). 겹침 카드 깔림 검사(checks chain)가 읽는다. 그리기는 그대로
 
     def free(x: float, y: float, w: float, h: float) -> bool:
         for (a, b, c, d) in placed:

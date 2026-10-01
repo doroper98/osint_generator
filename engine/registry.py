@@ -16,7 +16,7 @@ from pydantic import BaseModel, ValidationError
 
 from engine import events as ev
 from engine.cards import draw_card
-from engine.chain import draw_chain
+from engine.cascade import draw_cascade
 from engine.layers.areas import draw_country
 from engine.island import draw_island
 from engine.layers.backdrop import draw_backdrop
@@ -67,7 +67,7 @@ REGISTRY: dict[str, Entry] = {
     "photo": Entry(ev.PhotoEvent, draw_photo, "media"),
     "clip": Entry(ev.ClipEvent, draw_clip, "media"),
     "card": Entry(ev.CardEvent, draw_card, "card"),
-    "chain": Entry(ev.ChainEvent, draw_chain, "card"),       # v5.2.0 사건 띠(시안) — 패널 덮개 아래에 그린다(engine/render.py)
+    "cascade": Entry(ev.CascadeEvent, draw_cascade, "card"),       # v5.2.0 겹침 카드(시안) — 패널 덮개 아래에 그린다(engine/render.py)
     "article": Entry(ev.ArticleEvent, draw_article, "card"),
     "post": Entry(ev.PostEvent, draw_post, "card"),          # v3.2.0 18 §5
     "panel": Entry(ev._Panel, lambda ctx, R, t, e: dispatch_panel(ctx, R, t, e), "panel"),  # kind 별 항목으로 위임

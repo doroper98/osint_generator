@@ -1398,7 +1398,7 @@ class IslandChart(_Strict):
     label_flip_pad: float = Field(ge=0)   # v5.2.0 D-0133 §1 — 아일랜드 마커 라벨 ↔ 상자 가장자리 여백(넘으면 반대쪽, 그래도 넘으면 클램프)
 
 
-class ChainCardRules(_Strict):
+class CascadeFrontRules(_Strict):
     w: float
     h: float
     pad_x: float
@@ -1412,42 +1412,30 @@ class ChainCardRules(_Strict):
     accent_w: float
 
 
-class ChainChipRules(_Strict):
-    w: float
-    h: float
-    pad_x: float
-    date_dx: float
-    date_dy: float
-    title_dy: float
-    date_size: float
-    title_size: float
-
-
-class ChainRules(_Strict):
-    """v5.2.0 사건 띠 v2 "접히는 띠"(back_and_forth D-0135, 사용자 제안 2026-10-01, 시안). 설계 px(480p).
-    지금 사건 = 카드(card), 지난 사건 = 칩(chip). 상자 모양은 rules island 재사용. 폭 상한 width_cap 은 checks chain 이 단언."""
+class CascadeRules(_Strict):
+    """v5.2.0 겹침 카드(cascade — 사용자 재구성 2026-10-01, 시안). 설계 px(480p). 상자 모양은 rules island 재사용.
+    최악 폭 (max_back + 1) × step + front.w ≤ width_cap 을 여기서 검증하고, 실제 폭은 checks cascade 가 잰다."""
 
     status: Literal["prototype", "adopted"]
     x0: float
-    rail_y: float
-    rail_w: float
-    rail_alpha: float = Field(gt=0, le=1)
+    y: float
+    step: float
     flag_R: float
-    chip_flag_R: float
-    card: ChainCardRules
-    chip: ChainChipRules
-    gap: float
-    max_chips: int = Field(ge=1)
-    fold_sec: float = Field(gt=0)
+    front: CascadeFrontRules
+    back_scale: float = Field(gt=0, lt=1)
+    back_text_alpha: float = Field(gt=0, le=1)
+    max_back: int = Field(ge=1)
+    focus_sec: float = Field(gt=0)
     shift_sec: float = Field(gt=0)
     width_cap: float
-    past_alpha: float = Field(gt=0, le=1)
 
     @model_validator(mode="after")
-    def _fits(self) -> "ChainRules":
-        need = self.max_chips * (self.chip.w + self.gap) + self.card.w
+    def _fits(self) -> "CascadeRules":
+        need = (self.max_back + 1) * self.step + self.front.w
         if need > self.width_cap:
-            raise ValueError(f"chain: max_chips×(chip.w+gap)+card.w = {need} > width_cap {self.width_cap}")
+            raise ValueError(f"cascade: (max_back+1)×step+front.w = {need} > width_cap {self.width_cap}")
+        if self.step >= self.front.w * self.back_scale:
+            raise ValueError("cascade: step 이 뒤 카드 폭 이상이면 겹치지 않는다")
         return self
 
 
@@ -1684,7 +1672,7 @@ class VideoRules(_Strict):
     stage_timeline: StageTimelineRules   # v4.3.0 — D-0084 작업 3·D-0085
     stage_backdrop: StageBackdropRules   # v5.1.0 — D-0121 §B·D-0123
     island: IslandRules                  # v5.1.0 — D-0123 §1·D-0126
-    chain: ChainRules                    # v5.2.0 — 사건 띠(사용자 제안 2026-10-01, 시안)
+    cascade: CascadeRules                # v5.2.0 — 겹침 카드(사용자 재구성 2026-10-01, 시안)
     data: DataRules                # v4.3.0 — D-0084 작업 1
     genre_prompt: GenrePromptRules  # v4.4.0 — D-0090 작업 1
     bundle: BundleRules            # v3.5.0 — D-0063 작업 4

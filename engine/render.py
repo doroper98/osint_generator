@@ -68,18 +68,18 @@ def render_frame(P: Project, i: int) -> tuple[cairo.ImageSurface, bytearray]:  #
         for e in act:
             if e["type"] == typ and not e.get("in_island"):   # v5.1.0 D-0126 — 차트 아일랜드 안 이벤트는 island 렌더러가 상자 안에 그린다
                 L.resolve(e).render(ctx, R, view, t, e)
-    for e in act:   # v5.2.0 사건 띠(D-0135) — 지명 라벨 회피(마커·뱃지와 같은 예약 상자). 회피 장치가 없는 해역 이름은 checks chain 이 잡는다
-        if e["type"] == "chain":
-            from engine.chain import chain_boxes  # noqa: PLC0415
+    for e in act:   # v5.2.0 겹침 카드(사용자 재구성 2026-10-01) — 지명 라벨 회피(마커·뱃지와 같은 예약 상자). 회피 장치가 없는 해역 이름은 checks cascade 가 잡는다
+        if e["type"] == "cascade":
+            from engine.cascade import cascade_boxes  # noqa: PLC0415
 
-            R.reserved += chain_boxes(t, e)
+            R.reserved += cascade_boxes(t, e)
     if panel_a < 0.99:
         R.stage.draw_labels(ctx, view, R.reserved, 1 - panel_a)
     for e in act:
         if e["type"] == "dip" and e.get("under"):
             L.resolve(e).render(ctx, R, t, e)
-    for e in act:   # v5.2.0 사건 띠(시안) — 지도 위·패널 덮개 아래(패널이 뜨면 덮인다)
-        if e["type"] == "chain":
+    for e in act:   # v5.2.0 겹침 카드(시안) — 지도 위·패널 덮개 아래(패널이 뜨면 덮인다)
+        if e["type"] == "cascade":
             L.resolve(e).render(ctx, R, t, e)
     for e in act:
         if e["type"] == "panel":

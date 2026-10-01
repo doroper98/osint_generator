@@ -223,8 +223,8 @@ class CardEvent(_Event):
     y: Optional[float] = None
 
 
-class ChainItem(BaseModel):
-    """사건 띠 카드 하나 — at = 등장 시각(앵커는 direction 이 초로 푼다). flag = 국기 코드(좌상단 원). 문구는 원고 문장의 사실만."""
+class CascadeItem(BaseModel):
+    """겹침 카드 카드 하나 — at = 등장 시각(앵커는 direction 이 초로 푼다). flag = 국기 코드(좌상단 원). 문구는 원고 문장의 사실만."""
 
     model_config = ConfigDict(extra="forbid")
 
@@ -236,20 +236,21 @@ class ChainItem(BaseModel):
     accent: Accent = "gold"
 
 
-class ChainEvent(_Event):
-    """v5.2.0 사건 띠(사용자 제안 2026-10-01, 시안) — 지도 배경은 고정한 채 상단 가로줄에 사건 카드를 왼쪽부터 하나씩 더한다(engine/chain.py).
-    items 는 at 오름차순. 지금 사건 = 강조, 지난 사건 = 흐리게. 넘치면 최근 rules chain.max_visible 개."""
+class CascadeEvent(_Event):
+    """v5.2.0 겹침 카드(cascade — 사용자 제안·재구성 2026-10-01, 시안). 지도 배경은 고정한 채 사건 카드를 왼쪽부터 비스듬히 겹쳐 쌓는다.
+    지금 말하는 사건 = 맨 앞·크게, 언급이 지나간 사건 = 뒤로 물러나 작아지고 앞 카드에 덮여 국기·날짜만 보인다(engine/cascade.py).
+    items 는 at 오름차순. 뒤 카드가 rules cascade.max_back 을 넘으면 가장 오래된 카드가 왼쪽으로 밀려 나간다."""
 
-    type: Literal["chain"]
-    items: list[ChainItem] = Field(min_length=1)
+    type: Literal["cascade"]
+    items: list[CascadeItem] = Field(min_length=1)
 
     @model_validator(mode="after")
-    def _items(self) -> "ChainEvent":
+    def _items(self) -> "CascadeEvent":
         ats = [i.at for i in self.items]
         if ats != sorted(ats):
-            raise ValueError("chain items 는 at 오름차순이어야 한다(왼쪽부터 쌓인다)")
+            raise ValueError("cascade items 는 at 오름차순이어야 한다(왼쪽부터 쌓인다)")
         if not (self.t0 - 0.05 <= ats[0] and ats[-1] <= self.t1):
-            raise ValueError(f"chain items at {ats[0]:.2f}~{ats[-1]:.2f} 가 이벤트 구간 {self.t0:.2f}~{self.t1:.2f} 밖")
+            raise ValueError(f"cascade items at {ats[0]:.2f}~{ats[-1]:.2f} 가 이벤트 구간 {self.t0:.2f}~{self.t1:.2f} 밖")
         return self
 
 

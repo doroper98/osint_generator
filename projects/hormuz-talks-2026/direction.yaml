@@ -215,7 +215,7 @@ events:
   lines:
   - 해협 · 제재 · 자금 · 핵 사찰
   accent: gold
-- type: chain
+- type: cascade
   start:
     sid: proposal_0
     'off': 0.2
@@ -226,7 +226,7 @@ events:
       sid: proposal_0
       'off': 0.3
     flag: ir
-    date: 2026. 09. 16
+    date: 09. 16
     title: 이란, 최신 제안 전달
     line: 중재자를 거쳐 미국에
     accent: ru
