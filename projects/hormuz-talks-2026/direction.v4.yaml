@@ -1,3 +1,4 @@
+# direction.yaml — AI 연출 수정본(ReviseDirectionWorker, v3.1.0, 17 §5.5). changelog 는 prev/revision.v*.json.
 version: 1
 genre: null
 stage: null
@@ -150,12 +151,12 @@ shots:
   mode: dip
   dur: 3.0
   camera:
-    lon: 91.0
-    lat: 22.0
+    lon: 88.5
+    lat: 20.0
     place: null
     date: null
     lane: null
-    w: 96.0
+    w: 90.0
   under: false
   scene: null
   stage: null
@@ -166,8 +167,8 @@ shots:
   mode: move
   dur: 9.0
   camera:
-    lon: 91.0
-    lat: 22.0
+    lon: 89.0
+    lat: 20.0
     place: null
     date: null
     lane: null
@@ -210,7 +211,7 @@ events:
     sid: open_2
     'off': 0.4
   end:
-    scene_end: open
+    card: title
   tag: 쟁점 · 무엇을 먼저 하느냐
   lines:
   - 해협 · 제재 · 자금 · 핵 사찰
@@ -297,9 +298,9 @@ events:
     sid: rejection_dispute_0
     'off': 0.3
   end:
-    sid: rejection_dispute_1
+    sid: rejection_dispute_0
     edge: end
-    'off': 0.3
+    'off': 0.2
   place: map_upper_left
   kind: person
   pid: trump
@@ -311,7 +312,8 @@ events:
 - type: panel
   start:
     sid: rejection_dispute_0
-    'off': -0.2
+    edge: end
+    'off': 0.0
   end:
     sid: rejection_dispute_1
     edge: end
@@ -326,14 +328,15 @@ events:
       - text: “그들의 제안을 거부한다”
         t:
           sid: rejection_dispute_0
-          'off': 0.8
+          edge: end
+          'off': 0.2
     - title: 익명의 관리들
       src: AP 통신 · 9월 26일
       items:
       - text: 공식 거부는 아니다
         t:
           sid: rejection_dispute_1
-          'off': 2.0
+          'off': 0.0
       - text: 협상 전술일 수 있다
         t:
           word:
@@ -715,9 +718,8 @@ events:
   accent: ru
 - type: marker
   start:
-    word:
-      sid: pressure_1
-      text: 아라비아해
+    sid: pressure_1
+    'off': 0.2
   end:
     scene_end: pressure
   at_place: arabian
@@ -739,8 +741,9 @@ events:
   accent: us
 - type: panel
   start:
-    sid: pressure_3
-    'off': -0.2
+    sid: pressure_2
+    edge: end
+    'off': -0.4
   end:
     scene_end: pressure
   kind: dots
@@ -975,7 +978,6 @@ events:
   - - 70%
     - 호르무즈 해협 경유
   accent: gold
-  y: 250
 - type: marker
   start:
     word:
@@ -1003,7 +1005,6 @@ events:
   - - 약 65%
     - 카타르산
   accent: teal
-  y: 250
 - type: card
   start:
     sid: korea_2
@@ -1017,7 +1018,7 @@ events:
   - - -2.7%
     - 하락
   accent: ru
-  y: 250
+  y: 0.58
 - type: card
   start:
     sid: korea_3
@@ -1030,7 +1031,6 @@ events:
   lines:
   - 유가 상한제 도입
   accent: gold
-  y: 250
 - type: article
   start:
     sid: korea_4
@@ -1079,7 +1079,7 @@ events:
     sid: close_0
     'off': 0.4
   end:
-    total: true
+    card: end
   tag: 9월 30일 기준 · 확인되지 않은 것
   lines:
   - 미국의 답변에 담긴 내용
