@@ -1,0 +1,6 @@
+보도: Reuters (Aaj English TV 전재) (10.1)  ·  The Moscow Times (10.1) / The Moscow Times (9.30)  ·  NBC News (AP) (10.1) / Kyiv Post (10.1)  ·  EADaily (10.1) / Trend (9.28)  ·  Meduza (9.15) / The Moscow Times (9.13)
+인물 사진: 블라디미르 푸틴 — osint_generator 라이브러리 가공본 — CC BY 4.0(kremlin.ru) · 라이브러리 가공 / 도널드 트럼프 — 백악관 공식 초상(Shealeah Craighead) — Public domain · osint_generator 라이브러리 가공본
+글꼴: IBM Plex Sans KR — IBM · SIL OFL 1.1 / IBM Plex Mono — IBM · SIL OFL 1.1 / GmarketSans — Gmarket · G마켓 무료 폰트 / Noto Serif CJK KR — Google · Adobe · SIL OFL 1.1
+지도: Natural Earth — Natural Earth · Public domain / AWS Terrain Tiles — Mapzen · AWS Open Data · 구성 데이터별 조건(Mapzen terrarium)
+국기: 국기 — flag-icons · MIT
+음악 · 음성: The Life and Death of a Certain K. Zabriskie, Patriarch — Chris Zabriskie · CC BY 4.0 / 내레이션 — AI 음성 합성

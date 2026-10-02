@@ -1,0 +1,665 @@
+{
+ "schema_version": 1,
+ "frames": [
+  {
+   "n": 1,
+   "file": "p_0012.20.png",
+   "label": "t=12.20",
+   "t": 12.2,
+   "sid": "open_1",
+   "text": "발다이 토론클럽 연례회의는 9월 28일부터 10월 1일까지 모스크바 지역에서 열렸습니다.",
+   "after_sid": null,
+   "card": null,
+   "events": [
+    {
+     "type": "marker",
+     "label": "모스크바"
+    },
+    {
+     "type": "badge",
+     "kind": "person",
+     "label": "블라디미르 푸틴"
+    },
+    {
+     "type": "card",
+     "tag": "발다이 토론클럽 연례회의"
+    }
+   ]
+  },
+  {
+   "n": 2,
+   "file": "p_0026.86.png",
+   "label": "t=26.86",
+   "t": 26.86,
+   "sid": "open_3",
+   "text": "모스크바타임스에 따르면 그는 세계가 위험한 순간을 지나고 있다고 말했습니다.",
+   "after_sid": null,
+   "card": null,
+   "events": [
+    {
+     "type": "marker",
+     "label": "모스크바"
+    },
+    {
+     "type": "marker",
+     "label": "소치"
+    },
+    {
+     "type": "route",
+     "label": "우크라이나 공격 위협"
+    },
+    {
+     "type": "card",
+     "tag": "푸틴 대통령 · 발다이 연설"
+    }
+   ]
+  },
+  {
+   "n": 3,
+   "file": "p_0035.00.png",
+   "label": "t=35.00",
+   "t": 35.0,
+   "sid": null,
+   "text": null,
+   "after_sid": "open_4",
+   "card": "title",
+   "events": [
+    {
+     "type": "marker",
+     "label": "모스크바"
+    },
+    {
+     "type": "marker",
+     "label": "소치"
+    },
+    {
+     "type": "route",
+     "label": "우크라이나 공격 위협"
+    },
+    {
+     "type": "card",
+     "tag": "이날 발언의 두 갈래"
+    }
+   ]
+  },
+  {
+   "n": 4,
+   "file": "p_0044.32.png",
+   "label": "t=44.32",
+   "t": 44.32,
+   "sid": "timeline_0",
+   "text": "9월 28일, 벨기에 주재 러시아 대사관은 나토에 입장문을 전달했다고 밝혔습니다.",
+   "after_sid": null,
+   "card": null,
+   "events": [
+    {
+     "type": "marker",
+     "label": "브뤼셀"
+    },
+    {
+     "type": "cascade"
+    }
+   ]
+  },
+  {
+   "n": 5,
+   "file": "p_0052.47.png",
+   "label": "t=52.47",
+   "t": 52.47,
+   "sid": "timeline_2",
+   "text": "그리고 10월 1일, 푸틴 대통령이 발다이 무대에서 안보와 에너지를 함께 꺼냈습니다.",
+   "after_sid": null,
+   "card": null,
+   "events": [
+    {
+     "type": "marker",
+     "label": "브뤼셀"
+    },
+    {
+     "type": "marker",
+     "label": "모스크바"
+    },
+    {
+     "type": "cascade"
+    }
+   ]
+  },
+  {
+   "n": 6,
+   "file": "p_0066.05.png",
+   "label": "t=66.05",
+   "t": 66.05,
+   "sid": "kaliningrad_warning_1",
+   "text": "그때는 모든 무기 사용 문제가 즉시 제기될 것이라고 밝혔습니다.",
+   "after_sid": null,
+   "card": null,
+   "events": [
+    {
+     "type": "country"
+    },
+    {
+     "type": "marker",
+     "label": "칼리닌그라드"
+    },
+    {
+     "type": "quote"
+    }
+   ]
+  },
+  {
+   "n": 7,
+   "file": "p_0075.53.png",
+   "label": "t=75.53",
+   "t": 75.53,
+   "sid": "kaliningrad_warning_3",
+   "text": "서방에 개입의 한계를 경고한 발언으로 읽힙니다.",
+   "after_sid": null,
+   "card": null,
+   "events": [
+    {
+     "type": "country"
+    },
+    {
+     "type": "marker",
+     "label": "칼리닌그라드"
+    },
+    {
+     "type": "card",
+     "tag": "발언의 성격"
+    }
+   ]
+  },
+  {
+   "n": 8,
+   "file": "p_0089.87.png",
+   "label": "t=89.87",
+   "t": 89.87,
+   "sid": "nato_letter_1",
+   "text": "칼리닌그라드 방어를 위해 핵무기를 사용할 수 있다는 경고였습니다.",
+   "after_sid": null,
+   "card": null,
+   "events": [
+    {
+     "type": "marker",
+     "label": "러시아"
+    },
+    {
+     "type": "marker",
+     "label": "나토"
+    },
+    {
+     "type": "route",
+     "label": "서한"
+    },
+    {
+     "type": "marker",
+     "label": "칼리닌그라드"
+    },
+    {
+     "type": "card",
+     "tag": "러시아 → 나토 서한"
+    }
+   ]
+  },
+  {
+   "n": 9,
+   "file": "p_0099.05.png",
+   "label": "t=99.05",
+   "t": 99.05,
+   "sid": "nato_letter_3",
+   "text": "AP통신에 따르면 그는 러시아의 입장이 위협이 아니라 위협 시도에 대한 대응이라고 말했습니다.",
+   "after_sid": null,
+   "card": null,
+   "events": [
+    {
+     "type": "marker",
+     "label": "러시아"
+    },
+    {
+     "type": "marker",
+     "label": "나토"
+    },
+    {
+     "type": "route",
+     "label": "서한"
+    },
+    {
+     "type": "marker",
+     "label": "칼리닌그라드"
+    },
+    {
+     "type": "quote"
+    }
+   ]
+  },
+  {
+   "n": 10,
+   "file": "p_0113.08.png",
+   "label": "t=113.08",
+   "t": 113.08,
+   "sid": "nato_response_1",
+   "text": "AP통신에 따르면 앨리슨 하트 나토 대변인은 러시아의 무력 위협과 무책임한 핵 수사를 규탄한다고 말했습니다.",
+   "after_sid": null,
+   "card": null,
+   "events": [
+    {
+     "type": "marker",
+     "label": "러시아"
+    },
+    {
+     "type": "marker",
+     "label": "나토"
+    },
+    {
+     "type": "route",
+     "label": "답신 · 9월 30일"
+    }
+   ]
+  },
+  {
+   "n": 11,
+   "file": "p_0122.13.png",
+   "label": "t=122.13",
+   "t": 122.13,
+   "sid": "nato_response_2",
+   "text": "키이우포스트는 뤼터 나토 사무총장이 러시아의 핵 위협을 심각하게 받아들이지 않는다고 말했다고 보도했습니다.",
+   "after_sid": null,
+   "card": null,
+   "events": [
+    {
+     "type": "marker",
+     "label": "러시아"
+    },
+    {
+     "type": "marker",
+     "label": "나토"
+    },
+    {
+     "type": "route",
+     "label": "답신 · 9월 30일"
+    },
+    {
+     "type": "card",
+     "tag": "뤼터 나토 사무총장"
+    }
+   ]
+  },
+  {
+   "n": 12,
+   "file": "p_0137.65.png",
+   "label": "t=137.65",
+   "t": 137.65,
+   "sid": "europe_remarks_1",
+   "text": "우크라이나에 무기를 공급하는 유럽 공장을 공격할 계획도 없다고 밝혔습니다.",
+   "after_sid": null,
+   "card": null,
+   "events": [
+    {
+     "type": "badge",
+     "kind": "person",
+     "label": "블라디미르 푸틴"
+    },
+    {
+     "type": "card",
+     "tag": "푸틴 대통령 · 발다이 연설"
+    }
+   ]
+  },
+  {
+   "n": 13,
+   "file": "p_0148.83.png",
+   "label": "t=148.83",
+   "t": 148.83,
+   "sid": "europe_remarks_3",
+   "text": "모스크바타임스에 따르면 그는 의제가 마련되면 시진핑 주석, 트럼프 대통령과 3자 회담을 할 준비가 돼 있다고 말했습니다.",
+   "after_sid": null,
+   "card": null,
+   "events": [
+    {
+     "type": "badge",
+     "kind": "person",
+     "label": "블라디미르 푸틴"
+    },
+    {
+     "type": "card",
+     "tag": "푸틴 대통령 · 3자 회담"
+    }
+   ]
+  },
+  {
+   "n": 14,
+   "file": "p_0164.23.png",
+   "label": "t=164.23",
+   "t": 164.23,
+   "sid": "geography_1",
+   "text": "이곳에는 이스칸데르 미사일이 배치돼 있습니다.",
+   "after_sid": null,
+   "card": null,
+   "events": [
+    {
+     "type": "marker",
+     "label": "칼리닌그라드"
+    },
+    {
+     "type": "country"
+    },
+    {
+     "type": "badge",
+     "kind": "flag",
+     "label": "폴란드 · 나토"
+    },
+    {
+     "type": "country"
+    },
+    {
+     "type": "badge",
+     "kind": "flag",
+     "label": "리투아니아 · 나토"
+    },
+    {
+     "type": "marker",
+     "label": "이스칸데르 미사일"
+    }
+   ]
+  },
+  {
+   "n": 15,
+   "file": "p_0173.11.png",
+   "label": "t=173.11",
+   "t": 173.11,
+   "sid": "geography_2",
+   "text": "AP통신과 키이우포스트는 수바우키 회랑을 폴란드와 리투아니아 사이 약 80km 길이의 국경 구간으로 보도했습니다.",
+   "after_sid": null,
+   "card": null,
+   "events": [
+    {
+     "type": "marker",
+     "label": "칼리닌그라드"
+    },
+    {
+     "type": "country"
+    },
+    {
+     "type": "badge",
+     "kind": "flag",
+     "label": "폴란드 · 나토"
+    },
+    {
+     "type": "country"
+    },
+    {
+     "type": "badge",
+     "kind": "flag",
+     "label": "리투아니아 · 나토"
+    },
+    {
+     "type": "marker",
+     "label": "이스칸데르 미사일"
+    },
+    {
+     "type": "marker",
+     "label": "수바우키 회랑"
+    }
+   ]
+  },
+  {
+   "n": 16,
+   "file": "p_0184.15.png",
+   "label": "t=184.15",
+   "t": 184.15,
+   "sid": "blockade_dispute_0",
+   "text": "유럽 주재 러시아 대사관들은 나토가 칼리닌그라드 봉쇄를 준비한다는 정보가 있다고 주장했습니다.",
+   "after_sid": null,
+   "card": null,
+   "events": [
+    {
+     "type": "panel",
+     "kind": "versus",
+     "title": "엇갈리는 주장"
+    }
+   ]
+  },
+  {
+   "n": 17,
+   "file": "p_0189.53.png",
+   "label": "t=189.53",
+   "t": 189.53,
+   "sid": "blockade_dispute_1",
+   "text": "나토는 칼리닌그라드를 겨냥하지 않으며 자신들은 방어 동맹이라고 밝혔습니다.",
+   "after_sid": null,
+   "card": null,
+   "events": [
+    {
+     "type": "panel",
+     "kind": "versus",
+     "title": "엇갈리는 주장"
+    }
+   ]
+  },
+  {
+   "n": 18,
+   "file": "p_0197.71.png",
+   "label": "t=197.71",
+   "t": 197.71,
+   "sid": "hybrid_dispute_0",
+   "text": "유럽 각국 정부와 에스토니아는 러시아가 사보타주와 방화 같은 하이브리드 전쟁을 강화한다고 주장했습니다.",
+   "after_sid": null,
+   "card": null,
+   "events": [
+    {
+     "type": "panel",
+     "kind": "versus",
+     "title": "엇갈리는 주장"
+    }
+   ]
+  },
+  {
+   "n": 19,
+   "file": "p_0202.77.png",
+   "label": "t=202.77",
+   "t": 202.77,
+   "sid": "hybrid_dispute_1",
+   "text": "러시아 정부는 이 의혹을 부인하며 터무니없다고 말했습니다.",
+   "after_sid": null,
+   "card": null,
+   "events": [
+    {
+     "type": "panel",
+     "kind": "versus",
+     "title": "엇갈리는 주장"
+    }
+   ]
+  },
+  {
+   "n": 20,
+   "file": "p_0221.49.png",
+   "label": "t=221.49",
+   "t": 221.49,
+   "sid": "diesel_2",
+   "text": "로이터에 따르면 그는 러시아에 경유는 충분하지만, 금지와 제재 때문에 세계시장에 나가지 못할 것이라고 말했습니다.",
+   "after_sid": null,
+   "card": null,
+   "events": [
+    {
+     "type": "country"
+    },
+    {
+     "type": "marker",
+     "label": "모스크바"
+    },
+    {
+     "type": "quote"
+    }
+   ]
+  },
+  {
+   "n": 21,
+   "file": "p_0240.93.png",
+   "label": "t=240.93",
+   "t": 240.93,
+   "sid": "diesel_5",
+   "text": "로이터는 미국 경유 가격이 갤런당 6.50달러를 넘어 사상 최고치를 기록했다고 보도했습니다.",
+   "after_sid": null,
+   "card": null,
+   "events": [
+    {
+     "type": "country"
+    },
+    {
+     "type": "marker",
+     "label": "모스크바"
+    },
+    {
+     "type": "panel",
+     "kind": "dual_line",
+     "title": "미국 경유 소매가격"
+    }
+   ]
+  },
+  {
+   "n": 22,
+   "file": "p_0260.69.png",
+   "label": "t=260.69",
+   "t": 260.69,
+   "sid": "russia_domestic_0",
+   "text": "모스크바타임스는 러시아 휘발유 평균 가격이 연초보다 21% 올랐다고 보도했습니다.",
+   "after_sid": null,
+   "card": null,
+   "events": [
+    {
+     "type": "country"
+    },
+    {
+     "type": "marker",
+     "label": "모스크바"
+    },
+    {
+     "type": "card",
+     "tag": "러시아 휘발유 평균 가격"
+    }
+   ]
+  },
+  {
+   "n": 23,
+   "file": "p_0267.12.png",
+   "label": "t=267.12",
+   "t": 267.12,
+   "sid": "russia_domestic_1",
+   "text": "같은 매체에 따르면 러시아 연방반독점청은 주유소 체인의 폭리 의심 사례 58건을 조사 중이라고 밝혔습니다.",
+   "after_sid": null,
+   "card": null,
+   "events": [
+    {
+     "type": "country"
+    },
+    {
+     "type": "marker",
+     "label": "모스크바"
+    },
+    {
+     "type": "card",
+     "tag": "러시아 연방반독점청 · 9월 30일"
+    }
+   ]
+  },
+  {
+   "n": 24,
+   "file": "p_0282.46.png",
+   "label": "t=282.46",
+   "t": 282.46,
+   "sid": "refinery_1",
+   "text": "로이터에 따르면 그는 우크라이나가 목표를 부분적으로 달성했다고도 인정했습니다.",
+   "after_sid": null,
+   "card": null,
+   "events": [
+    {
+     "type": "country"
+    },
+    {
+     "type": "country"
+    },
+    {
+     "type": "quote"
+    }
+   ]
+  },
+  {
+   "n": 25,
+   "file": "p_0295.99.png",
+   "label": "t=295.99",
+   "t": 295.99,
+   "sid": "refinery_3",
+   "text": "모스크바타임스에 따르면 푸틴 대통령은 러시아도 우크라이나에 같은 방식으로 대응하고 있다고 말했습니다.",
+   "after_sid": null,
+   "card": null,
+   "events": [
+    {
+     "type": "country"
+    },
+    {
+     "type": "country"
+    },
+    {
+     "type": "badge",
+     "kind": "person",
+     "label": "블라디미르 푸틴"
+    },
+    {
+     "type": "card",
+     "tag": "푸틴 대통령"
+    }
+   ]
+  },
+  {
+   "n": 26,
+   "file": "p_0316.80.png",
+   "label": "t=316.80",
+   "t": 316.8,
+   "sid": "open_questions_2",
+   "text": "경유 공급 중단 발언이 실제 수출 정책으로 이어질지는 정해지지 않았습니다.",
+   "after_sid": null,
+   "card": null,
+   "events": [
+    {
+     "type": "panel",
+     "kind": "checklist",
+     "title": "아직 확인되지 않은 것"
+    }
+   ]
+  },
+  {
+   "n": 27,
+   "file": "p_0330.54.png",
+   "label": "t=330.54",
+   "t": 330.54,
+   "sid": null,
+   "text": null,
+   "after_sid": "open_questions_3",
+   "card": "end",
+   "events": [
+    {
+     "type": "panel",
+     "kind": "checklist",
+     "title": "아직 확인되지 않은 것"
+    }
+   ]
+  },
+  {
+   "n": 28,
+   "file": "p_0334.84.png",
+   "label": "t=334.84",
+   "t": 334.84,
+   "sid": null,
+   "text": null,
+   "after_sid": "open_questions_3",
+   "card": "end",
+   "events": [
+    {
+     "type": "panel",
+     "kind": "checklist",
+     "title": "아직 확인되지 않은 것"
+    }
+   ]
+  }
+ ]
+}

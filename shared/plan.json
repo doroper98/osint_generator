@@ -1,0 +1,1315 @@
+{
+ "sentences": [
+  {
+   "sid": "open_0",
+   "scene": "open",
+   "date": "2026.10.01",
+   "text": "10월 1일, 푸틴 대통령이 모스크바 발다이 토론클럽 총회에서 연설했습니다.",
+   "tts": "시월 일일, 푸틴 대통령이 모스크바 발다이 토론클럽 총회에서 연설했습니다.",
+   "segments": [
+    [
+     "10월 1일, 푸틴 대통령이 모스크바 ",
+     0
+    ],
+    [
+     "발다이 토론클럽",
+     1
+    ],
+    [
+     " 총회에서 연설했습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/valdai-2026/tts/open_0_10920fdaa1.mp3",
+   "npy": "/home/user/osint_generator/projects/valdai-2026/tts/open_0_10920fdaa1.npy",
+   "dur": 5.6801133786848075,
+   "t0": 1.2,
+   "t1": 6.880113378684808,
+   "trim_offset": 0.319909
+  },
+  {
+   "sid": "open_1",
+   "scene": "open",
+   "date": "2026.09.28",
+   "text": "발다이 토론클럽 연례회의는 9월 28일부터 10월 1일까지 모스크바 지역에서 열렸습니다.",
+   "tts": "발다이 토론클럽 연례회의는 구월 이십팔일부터 시월 일일까지 모스크바 지역에서 열렸습니다.",
+   "segments": [
+    [
+     "발다이 토론클럽 연례회의는 9월 28일부터 10월 1일까지 모스크바 지역에서 열렸습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/valdai-2026/tts/open_1_93cb09e7f7.mp3",
+   "npy": "/home/user/osint_generator/projects/valdai-2026/tts/open_1_93cb09e7f7.npy",
+   "dur": 6.622108843537415,
+   "t0": 7.380113378684808,
+   "t1": 14.002222222222223,
+   "trim_offset": 0.351701
+  },
+  {
+   "sid": "open_2",
+   "scene": "open",
+   "date": "2026.09.15",
+   "text": "파이낸셜타임스는 회의 장소가 우크라이나의 공격 위협 때문에 소치에서 옮겨졌다고 보도했습니다.",
+   "tts": "파이낸셜 타임스는 회의 장소가 우크라이나의 공격 위협 때문에 소치에서 옮겨졌다고 보도했습니다.",
+   "segments": [
+    [
+     "파이낸셜타임스는 회의 장소가 우크라이나의 공격 위협 때문에 소치에서 옮겨졌다고 보도했습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/valdai-2026/tts/open_2_632585d479.mp3",
+   "npy": "/home/user/osint_generator/projects/valdai-2026/tts/open_2_632585d479.npy",
+   "dur": 6.465668934240362,
+   "t0": 14.502222222222223,
+   "t1": 20.967891156462585,
+   "trim_offset": 0.342426
+  },
+  {
+   "sid": "open_3",
+   "scene": "open",
+   "date": "2026.10.01",
+   "text": "모스크바타임스에 따르면 그는 세계가 위험한 순간을 지나고 있다고 말했습니다.",
+   "tts": "모스크바 타임스에 따르면 그는 세계가 위험한 순간을 지나고 있다고 말했습니다.",
+   "segments": [
+    [
+     "모스크바타임스에 따르면 그는 세계가 ",
+     0
+    ],
+    [
+     "위험한 순간",
+     1
+    ],
+    [
+     "을 지나고 있다고 말했습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/valdai-2026/tts/open_3_c6e5f1b186.mp3",
+   "npy": "/home/user/osint_generator/projects/valdai-2026/tts/open_3_c6e5f1b186.npy",
+   "dur": 5.300997732426304,
+   "t0": 21.467891156462585,
+   "t1": 26.76888888888889,
+   "trim_offset": 0.378934
+  },
+  {
+   "sid": "open_4",
+   "scene": "open",
+   "date": "2026.10.01",
+   "text": "이날 발언은 안보와 에너지, 두 갈래로 이어졌습니다.",
+   "tts": "이날 발언은 안보와 에너지, 두 갈래로 이어졌습니다.",
+   "segments": [
+    [
+     "이날 발언은 ",
+     0
+    ],
+    [
+     "안보",
+     1
+    ],
+    [
+     "와 ",
+     0
+    ],
+    [
+     "에너지",
+     1
+    ],
+    [
+     ", 두 갈래로 이어졌습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/valdai-2026/tts/open_4_b7c0c0176c.mp3",
+   "npy": "/home/user/osint_generator/projects/valdai-2026/tts/open_4_b7c0c0176c.npy",
+   "dur": 4.232199546485261,
+   "t0": 27.26888888888889,
+   "t1": 31.50108843537415,
+   "trim_offset": 0.353379
+  },
+  {
+   "sid": "timeline_0",
+   "scene": "timeline",
+   "date": "2026.09.28",
+   "text": "9월 28일, 벨기에 주재 러시아 대사관은 나토에 입장문을 전달했다고 밝혔습니다.",
+   "tts": "구월 이십팔일, 벨기에 주재 러시아 대사관은 나토에 입장문을 전달했다고 밝혔습니다.",
+   "segments": [
+    [
+     "9월 28일, 벨기에 주재 러시아 대사관은 나토에 ",
+     0
+    ],
+    [
+     "입장문",
+     1
+    ],
+    [
+     "을 전달했다고 밝혔습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/valdai-2026/tts/timeline_0_074e79a026.mp3",
+   "npy": "/home/user/osint_generator/projects/valdai-2026/tts/timeline_0_074e79a026.npy",
+   "dur": 6.139546485260771,
+   "t0": 38.201088435374146,
+   "t1": 44.34063492063492,
+   "trim_offset": 0.376939
+  },
+  {
+   "sid": "timeline_1",
+   "scene": "timeline",
+   "date": "2026.09.30",
+   "text": "9월 30일, 러시아 정부는 경유 수출 금지를 10월 말까지 연장했습니다.",
+   "tts": "구월 삼십일, 러시아 정부는 경유 수출 금지를 시월 말까지 연장했습니다.",
+   "segments": [
+    [
+     "9월 30일, 러시아 정부는 ",
+     0
+    ],
+    [
+     "경유 수출 금지",
+     1
+    ],
+    [
+     "를 10월 말까지 연장했습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/valdai-2026/tts/timeline_1_5aac3356a3.mp3",
+   "npy": "/home/user/osint_generator/projects/valdai-2026/tts/timeline_1_5aac3356a3.npy",
+   "dur": 5.984965986394558,
+   "t0": 44.84063492063492,
+   "t1": 50.825600907029475,
+   "trim_offset": 0.377052
+  },
+  {
+   "sid": "timeline_2",
+   "scene": "timeline",
+   "date": "2026.10.01",
+   "text": "그리고 10월 1일, 푸틴 대통령이 발다이 무대에서 안보와 에너지를 함께 꺼냈습니다.",
+   "tts": "그리고 시월 일일, 푸틴 대통령이 발다이 무대에서 안보와 에너지를 함께 꺼냈습니다.",
+   "segments": [
+    [
+     "그리고 10월 1일, 푸틴 대통령이 발다이 무대에서 안보와 에너지를 함께 꺼냈습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/valdai-2026/tts/timeline_2_7713a7ec41.mp3",
+   "npy": "/home/user/osint_generator/projects/valdai-2026/tts/timeline_2_7713a7ec41.npy",
+   "dur": 6.115306122448979,
+   "t0": 51.325600907029475,
+   "t1": 57.44090702947845,
+   "trim_offset": 0.365896
+  },
+  {
+   "sid": "kaliningrad_warning_0",
+   "scene": "kaliningrad_warning",
+   "date": "2026.10.01",
+   "text": "푸틴 대통령은 러시아 본토나 칼리닌그라드가 직접 공격받는 경우를 언급했습니다.",
+   "tts": "푸틴 대통령은 러시아 본토나 칼리닌그라드가 직접 공격받는 경우를 언급했습니다.",
+   "segments": [
+    [
+     "푸틴 대통령은 러시아 본토나 ",
+     0
+    ],
+    [
+     "칼리닌그라드",
+     1
+    ],
+    [
+     "가 직접 공격받는 경우를 언급했습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/valdai-2026/tts/kaliningrad_warning_0_d075f6dbc8.mp3",
+   "npy": "/home/user/osint_generator/projects/valdai-2026/tts/kaliningrad_warning_0_d075f6dbc8.npy",
+   "dur": 5.601700680272109,
+   "t0": 58.94090702947845,
+   "t1": 64.54260770975056,
+   "trim_offset": 0.382971
+  },
+  {
+   "sid": "kaliningrad_warning_1",
+   "scene": "kaliningrad_warning",
+   "date": "2026.10.01",
+   "text": "그때는 모든 무기 사용 문제가 즉시 제기될 것이라고 밝혔습니다.",
+   "tts": "그때는 모든 무기 사용 문제가 즉시 제기될 것이라고 밝혔습니다.",
+   "segments": [
+    [
+     "그때는 ",
+     0
+    ],
+    [
+     "모든 무기",
+     1
+    ],
+    [
+     " 사용 문제가 즉시 제기될 것이라고 밝혔습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/valdai-2026/tts/kaliningrad_warning_1_c40b4eb22d.mp3",
+   "npy": "/home/user/osint_generator/projects/valdai-2026/tts/kaliningrad_warning_1_c40b4eb22d.npy",
+   "dur": 4.489773242630386,
+   "t0": 65.04260770975056,
+   "t1": 69.53238095238095,
+   "trim_offset": 0.362812
+  },
+  {
+   "sid": "kaliningrad_warning_2",
+   "scene": "kaliningrad_warning",
+   "date": "2026.10.01",
+   "text": "핵무기 사용을 결정했다는 발표는 아니었습니다.",
+   "tts": "핵무기 사용을 결정했다는 발표는 아니었습니다.",
+   "segments": [
+    [
+     "핵무기 사용을 ",
+     0
+    ],
+    [
+     "결정",
+     1
+    ],
+    [
+     "했다는 발표는 아니었습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/valdai-2026/tts/kaliningrad_warning_2_6b86ff1ced.mp3",
+   "npy": "/home/user/osint_generator/projects/valdai-2026/tts/kaliningrad_warning_2_6b86ff1ced.npy",
+   "dur": 3.204126984126984,
+   "t0": 70.03238095238095,
+   "t1": 73.23650793650793,
+   "trim_offset": 0.363197
+  },
+  {
+   "sid": "kaliningrad_warning_3",
+   "scene": "kaliningrad_warning",
+   "date": "2026.10.01",
+   "text": "서방에 개입의 한계를 경고한 발언으로 읽힙니다.",
+   "tts": "서방에 개입의 한계를 경고한 발언으로 읽힙니다.",
+   "segments": [
+    [
+     "서방에 ",
+     0
+    ],
+    [
+     "개입의 한계",
+     1
+    ],
+    [
+     "를 경고한 발언으로 읽힙니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/valdai-2026/tts/kaliningrad_warning_3_11191abcd9.mp3",
+   "npy": "/home/user/osint_generator/projects/valdai-2026/tts/kaliningrad_warning_3_11191abcd9.npy",
+   "dur": 3.0959410430839003,
+   "t0": 73.73650793650793,
+   "t1": 76.83244897959183,
+   "trim_offset": 0.353787
+  },
+  {
+   "sid": "kaliningrad_warning_4",
+   "scene": "kaliningrad_warning",
+   "date": "2026.10.01",
+   "text": "그는 러시아에 다른 나라가 갖지 못한 무기가 있다고도 말했습니다.",
+   "tts": "그는 러시아에 다른 나라가 갖지 못한 무기가 있다고도 말했습니다.",
+   "segments": [
+    [
+     "그는 러시아에 다른 나라가 ",
+     0
+    ],
+    [
+     "갖지 못한 무기",
+     1
+    ],
+    [
+     "가 있다고도 말했습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/valdai-2026/tts/kaliningrad_warning_4_ae2bb045db.mp3",
+   "npy": "/home/user/osint_generator/projects/valdai-2026/tts/kaliningrad_warning_4_ae2bb045db.npy",
+   "dur": 4.154988662131519,
+   "t0": 77.33244897959183,
+   "t1": 81.48743764172335,
+   "trim_offset": 0.389501
+  },
+  {
+   "sid": "nato_letter_0",
+   "scene": "nato_letter",
+   "date": "2026",
+   "text": "같은 주, 러시아는 나토에 서한을 보냈습니다.",
+   "tts": "같은 주, 러시아는 나토에 서한을 보냈습니다.",
+   "segments": [
+    [
+     "같은 주, 러시아는 나토에 서한을 보냈습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/valdai-2026/tts/nato_letter_0_ae3dafac28.mp3",
+   "npy": "/home/user/osint_generator/projects/valdai-2026/tts/nato_letter_0_ae3dafac28.npy",
+   "dur": 3.504580498866213,
+   "t0": 82.98743764172335,
+   "t1": 86.49201814058956,
+   "trim_offset": 0.354989
+  },
+  {
+   "sid": "nato_letter_1",
+   "scene": "nato_letter",
+   "date": "2026",
+   "text": "칼리닌그라드 방어를 위해 핵무기를 사용할 수 있다는 경고였습니다.",
+   "tts": "칼리닌그라드 방어를 위해 핵무기를 사용할 수 있다는 경고였습니다.",
+   "segments": [
+    [
+     "칼리닌그라드 방어를 위해 ",
+     0
+    ],
+    [
+     "핵무기",
+     1
+    ],
+    [
+     "를 사용할 수 있다는 경고였습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/valdai-2026/tts/nato_letter_1_87385afd78.mp3",
+   "npy": "/home/user/osint_generator/projects/valdai-2026/tts/nato_letter_1_87385afd78.npy",
+   "dur": 4.40562358276644,
+   "t0": 86.99201814058956,
+   "t1": 91.397641723356,
+   "trim_offset": 0.378617
+  },
+  {
+   "sid": "nato_letter_2",
+   "scene": "nato_letter",
+   "date": "2026.10.01",
+   "text": "AP통신은 푸틴 대통령이 이 서한에 대해 모든 것이 올바르게 쓰였다고 말했다고 보도했습니다.",
+   "tts": "에이피 통신은 푸틴 대통령이 이 서한에 대해 모든 것이 올바르게 쓰였다고 말했다고 보도했습니다.",
+   "segments": [
+    [
+     "AP통신은 푸틴 대통령이 이 서한에 대해 모든 것이 ",
+     0
+    ],
+    [
+     "올바르게 쓰였다",
+     1
+    ],
+    [
+     "고 말했다고 보도했습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/valdai-2026/tts/nato_letter_2_347d4c7371.mp3",
+   "npy": "/home/user/osint_generator/projects/valdai-2026/tts/nato_letter_2_347d4c7371.npy",
+   "dur": 6.147891156462585,
+   "t0": 91.897641723356,
+   "t1": 98.04553287981858,
+   "trim_offset": 0.347823
+  },
+  {
+   "sid": "nato_letter_3",
+   "scene": "nato_letter",
+   "date": "2026.10.01",
+   "text": "AP통신에 따르면 그는 러시아의 입장이 위협이 아니라 위협 시도에 대한 대응이라고 말했습니다.",
+   "tts": "에이피 통신에 따르면 그는 러시아의 입장이 위협이 아니라 위협 시도에 대한 대응이라고 말했습니다.",
+   "segments": [
+    [
+     "AP통신에 따르면 그는 러시아의 입장이 위협이 아니라 위협 시도에 대한 ",
+     0
+    ],
+    [
+     "대응",
+     1
+    ],
+    [
+     "이라고 말했습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/valdai-2026/tts/nato_letter_3_1583eaf894.mp3",
+   "npy": "/home/user/osint_generator/projects/valdai-2026/tts/nato_letter_3_1583eaf894.npy",
+   "dur": 6.24498866213152,
+   "t0": 98.54553287981858,
+   "t1": 104.7905215419501,
+   "trim_offset": 0.352381
+  },
+  {
+   "sid": "nato_response_0",
+   "scene": "nato_response",
+   "date": "2026.09.30",
+   "text": "나토는 9월 30일, 자신들이 방어 동맹임을 강조하는 답신을 보냈다고 밝혔습니다.",
+   "tts": "나토는 구월 삼십일, 자신들이 방어 동맹임을 강조하는 답신을 보냈다고 밝혔습니다.",
+   "segments": [
+    [
+     "나토는 9월 30일, 자신들이 ",
+     0
+    ],
+    [
+     "방어 동맹",
+     1
+    ],
+    [
+     "임을 강조하는 답신을 보냈다고 밝혔습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/valdai-2026/tts/nato_response_0_48dfaa47c3.mp3",
+   "npy": "/home/user/osint_generator/projects/valdai-2026/tts/nato_response_0_48dfaa47c3.npy",
+   "dur": 6.123356009070295,
+   "t0": 106.2905215419501,
+   "t1": 112.41387755102039,
+   "trim_offset": 0.354649
+  },
+  {
+   "sid": "nato_response_1",
+   "scene": "nato_response",
+   "date": "2026.09.30",
+   "text": "AP통신에 따르면 앨리슨 하트 나토 대변인은 러시아의 무력 위협과 무책임한 핵 수사를 규탄한다고 말했습니다.",
+   "tts": "에이피 통신에 따르면 앨리슨 하트 나토 대변인은 러시아의 무력 위협과 무책임한 핵 수사를 규탄한다고 말했습니다.",
+   "segments": [
+    [
+     "AP통신에 따르면 앨리슨 하트 나토 대변인은 러시아의 무력 위협과 무책임한 핵 수사를 ",
+     0
+    ],
+    [
+     "규탄",
+     1
+    ],
+    [
+     "한다고 말했습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/valdai-2026/tts/nato_response_1_f5bf2b3db1.mp3",
+   "npy": "/home/user/osint_generator/projects/valdai-2026/tts/nato_response_1_f5bf2b3db1.npy",
+   "dur": 7.378888888888889,
+   "t0": 112.91387755102039,
+   "t1": 120.29276643990929,
+   "trim_offset": 0.339161
+  },
+  {
+   "sid": "nato_response_2",
+   "scene": "nato_response",
+   "date": "2026.09.30",
+   "text": "키이우포스트는 뤼터 나토 사무총장이 러시아의 핵 위협을 심각하게 받아들이지 않는다고 말했다고 보도했습니다.",
+   "tts": "키이우 포스트는 뤼터 나토 사무총장이 러시아의 핵 위협을 심각하게 받아들이지 않는다고 말했다고 보도했습니다.",
+   "segments": [
+    [
+     "키이우포스트는 ",
+     0
+    ],
+    [
+     "뤼터",
+     1
+    ],
+    [
+     " 나토 사무총장이 러시아의 핵 위협을 심각하게 받아들이지 않는다고 말했다고 보도했습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/valdai-2026/tts/nato_response_2_7e4c1a522a.mp3",
+   "npy": "/home/user/osint_generator/projects/valdai-2026/tts/nato_response_2_7e4c1a522a.npy",
+   "dur": 6.976009070294785,
+   "t0": 120.79276643990929,
+   "t1": 127.76877551020407,
+   "trim_offset": 0.349615
+  },
+  {
+   "sid": "europe_remarks_0",
+   "scene": "europe_remarks",
+   "date": "2026.10.01",
+   "text": "푸틴 대통령은 러시아가 유럽 국가를 공격할 계획이 없다고 밝혔습니다.",
+   "tts": "푸틴 대통령은 러시아가 유럽 국가를 공격할 계획이 없다고 밝혔습니다.",
+   "segments": [
+    [
+     "푸틴 대통령은 러시아가 유럽 국가를 공격할 ",
+     0
+    ],
+    [
+     "계획이 없다",
+     1
+    ],
+    [
+     "고 밝혔습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/valdai-2026/tts/europe_remarks_0_323746f965.mp3",
+   "npy": "/home/user/osint_generator/projects/valdai-2026/tts/europe_remarks_0_323746f965.npy",
+   "dur": 4.756666666666667,
+   "t0": 129.26877551020408,
+   "t1": 134.02544217687074,
+   "trim_offset": 0.383537
+  },
+  {
+   "sid": "europe_remarks_1",
+   "scene": "europe_remarks",
+   "date": "2026.10.01",
+   "text": "우크라이나에 무기를 공급하는 유럽 공장을 공격할 계획도 없다고 밝혔습니다.",
+   "tts": "우크라이나에 무기를 공급하는 유럽 공장을 공격할 계획도 없다고 밝혔습니다.",
+   "segments": [
+    [
+     "우크라이나에 무기를 공급하는 ",
+     0
+    ],
+    [
+     "유럽 공장",
+     1
+    ],
+    [
+     "을 공격할 계획도 없다고 밝혔습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/valdai-2026/tts/europe_remarks_1_1c1c55a3c5.mp3",
+   "npy": "/home/user/osint_generator/projects/valdai-2026/tts/europe_remarks_1_1c1c55a3c5.npy",
+   "dur": 5.140952380952381,
+   "t0": 134.52544217687074,
+   "t1": 139.6663945578231,
+   "trim_offset": 0.364263
+  },
+  {
+   "sid": "europe_remarks_2",
+   "scene": "europe_remarks",
+   "date": "2026.10.01",
+   "text": "키이우포스트는 그가 우크라이나용 무기를 생산하는 유럽 공장을 감시하고 있다고 말했다고 보도했습니다.",
+   "tts": "키이우 포스트는 그가 우크라이나용 무기를 생산하는 유럽 공장을 감시하고 있다고 말했다고 보도했습니다.",
+   "segments": [
+    [
+     "키이우포스트는 그가 우크라이나용 무기를 생산하는 유럽 공장을 ",
+     0
+    ],
+    [
+     "감시",
+     1
+    ],
+    [
+     "하고 있다고 말했다고 보도했습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/valdai-2026/tts/europe_remarks_2_0b646a7721.mp3",
+   "npy": "/home/user/osint_generator/projects/valdai-2026/tts/europe_remarks_2_0b646a7721.npy",
+   "dur": 6.330680272108843,
+   "t0": 140.1663945578231,
+   "t1": 146.49707482993196,
+   "trim_offset": 0.363537
+  },
+  {
+   "sid": "europe_remarks_3",
+   "scene": "europe_remarks",
+   "date": "2026.10.01",
+   "text": "모스크바타임스에 따르면 그는 의제가 마련되면 시진핑 주석, 트럼프 대통령과 3자 회담을 할 준비가 돼 있다고 말했습니다.",
+   "tts": "모스크바 타임스에 따르면 그는 의제가 마련되면 시진핑 주석, 트럼프 대통령과 삼자 회담을 할 준비가 돼 있다고 말했습니다.",
+   "segments": [
+    [
+     "모스크바타임스에 따르면 그는 의제가 마련되면 시진핑 주석, 트럼프 대통령과 ",
+     0
+    ],
+    [
+     "3자 회담",
+     1
+    ],
+    [
+     "을 할 준비가 돼 있다고 말했습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/valdai-2026/tts/europe_remarks_3_02c4828690.mp3",
+   "npy": "/home/user/osint_generator/projects/valdai-2026/tts/europe_remarks_3_02c4828690.npy",
+   "dur": 9.066122448979591,
+   "t0": 146.99707482993196,
+   "t1": 156.06319727891156,
+   "trim_offset": 0.36678
+  },
+  {
+   "sid": "geography_0",
+   "scene": "geography",
+   "date": "2026",
+   "text": "칼리닌그라드는 나토 회원국 폴란드와 리투아니아 사이에 있습니다.",
+   "tts": "칼리닌그라드는 나토 회원국 폴란드와 리투아니아 사이에 있습니다.",
+   "segments": [
+    [
+     "칼리닌그라드는 나토 회원국 ",
+     0
+    ],
+    [
+     "폴란드",
+     1
+    ],
+    [
+     "와 ",
+     0
+    ],
+    [
+     "리투아니아",
+     1
+    ],
+    [
+     " 사이에 있습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/valdai-2026/tts/geography_0_6d48d157b7.mp3",
+   "npy": "/home/user/osint_generator/projects/valdai-2026/tts/geography_0_6d48d157b7.npy",
+   "dur": 4.329410430839002,
+   "t0": 157.56319727891156,
+   "t1": 161.89260770975056,
+   "trim_offset": 0.353492
+  },
+  {
+   "sid": "geography_1",
+   "scene": "geography",
+   "date": "2026",
+   "text": "이곳에는 이스칸데르 미사일이 배치돼 있습니다.",
+   "tts": "이곳에는 이스칸데르 미사일이 배치돼 있습니다.",
+   "segments": [
+    [
+     "이곳에는 ",
+     0
+    ],
+    [
+     "이스칸데르",
+     1
+    ],
+    [
+     " 미사일이 배치돼 있습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/valdai-2026/tts/geography_1_8ef1bb4b5b.mp3",
+   "npy": "/home/user/osint_generator/projects/valdai-2026/tts/geography_1_8ef1bb4b5b.npy",
+   "dur": 3.2853061224489797,
+   "t0": 162.39260770975056,
+   "t1": 165.67791383219955,
+   "trim_offset": 0.363764
+  },
+  {
+   "sid": "geography_2",
+   "scene": "geography",
+   "date": "2026",
+   "text": "AP통신과 키이우포스트는 수바우키 회랑을 폴란드와 리투아니아 사이 약 80km 길이의 국경 구간으로 보도했습니다.",
+   "tts": "에이피 통신과 키이우 포스트는 수바우키 회랑을 폴란드와 리투아니아 사이 약 팔십 킬로미터 길이의 국경 구간으로 보도했습니다.",
+   "segments": [
+    [
+     "AP통신과 키이우포스트는 ",
+     0
+    ],
+    [
+     "수바우키 회랑",
+     1
+    ],
+    [
+     "을 폴란드와 리투아니아 사이 약 80km 길이의 국경 구간으로 보도했습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/valdai-2026/tts/geography_2_09902daac4.mp3",
+   "npy": "/home/user/osint_generator/projects/valdai-2026/tts/geography_2_09902daac4.npy",
+   "dur": 8.268934240362812,
+   "t0": 166.17791383219955,
+   "t1": 174.44684807256237,
+   "trim_offset": 0.287959
+  },
+  {
+   "sid": "geography_3",
+   "scene": "geography",
+   "date": "2026",
+   "text": "이 길이 수치를 두고는 출처마다 설명이 엇갈립니다.",
+   "tts": "이 길이 수치를 두고는 출처마다 설명이 엇갈립니다.",
+   "segments": [
+    [
+     "이 길이 수치를 두고는 출처마다 설명이 엇갈립니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/valdai-2026/tts/geography_3_4279878249.mp3",
+   "npy": "/home/user/osint_generator/projects/valdai-2026/tts/geography_3_4279878249.npy",
+   "dur": 3.6734013605442177,
+   "t0": 174.94684807256237,
+   "t1": 178.62024943310658,
+   "trim_offset": 0.33415
+  },
+  {
+   "sid": "blockade_dispute_0",
+   "scene": "blockade_dispute",
+   "date": "2026",
+   "text": "유럽 주재 러시아 대사관들은 나토가 칼리닌그라드 봉쇄를 준비한다는 정보가 있다고 주장했습니다.",
+   "tts": "유럽 주재 러시아 대사관들은 나토가 칼리닌그라드 봉쇄를 준비한다는 정보가 있다고 주장했습니다.",
+   "segments": [
+    [
+     "유럽 주재 러시아 대사관들은 나토가 칼리닌그라드 ",
+     0
+    ],
+    [
+     "봉쇄",
+     1
+    ],
+    [
+     "를 준비한다는 정보가 있다고 주장했습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/valdai-2026/tts/blockade_dispute_0_9471fa2053.mp3",
+   "npy": "/home/user/osint_generator/projects/valdai-2026/tts/blockade_dispute_0_9471fa2053.npy",
+   "dur": 6.570090702947846,
+   "t0": 180.12024943310658,
+   "t1": 186.69034013605443,
+   "trim_offset": 0.402063
+  },
+  {
+   "sid": "blockade_dispute_1",
+   "scene": "blockade_dispute",
+   "date": "2026",
+   "text": "나토는 칼리닌그라드를 겨냥하지 않으며 자신들은 방어 동맹이라고 밝혔습니다.",
+   "tts": "나토는 칼리닌그라드를 겨냥하지 않으며 자신들은 방어 동맹이라고 밝혔습니다.",
+   "segments": [
+    [
+     "나토는 칼리닌그라드를 겨냥하지 않으며 자신들은 ",
+     0
+    ],
+    [
+     "방어 동맹",
+     1
+    ],
+    [
+     "이라고 밝혔습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/valdai-2026/tts/blockade_dispute_1_92d0ba057a.mp3",
+   "npy": "/home/user/osint_generator/projects/valdai-2026/tts/blockade_dispute_1_92d0ba057a.npy",
+   "dur": 5.22201814058957,
+   "t0": 187.19034013605443,
+   "t1": 192.412358276644,
+   "trim_offset": 0.351224
+  },
+  {
+   "sid": "hybrid_dispute_0",
+   "scene": "hybrid_dispute",
+   "date": "2026",
+   "text": "유럽 각국 정부와 에스토니아는 러시아가 사보타주와 방화 같은 하이브리드 전쟁을 강화한다고 주장했습니다.",
+   "tts": "유럽 각국 정부와 에스토니아는 러시아가 사보타주와 방화 같은 하이브리드 전쟁을 강화한다고 주장했습니다.",
+   "segments": [
+    [
+     "유럽 각국 정부와 에스토니아는 러시아가 사보타주와 방화 같은 ",
+     0
+    ],
+    [
+     "하이브리드 전쟁",
+     1
+    ],
+    [
+     "을 강화한다고 주장했습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/valdai-2026/tts/hybrid_dispute_0_4250757338.mp3",
+   "npy": "/home/user/osint_generator/projects/valdai-2026/tts/hybrid_dispute_0_4250757338.npy",
+   "dur": 6.904263038548753,
+   "t0": 193.912358276644,
+   "t1": 200.81662131519275,
+   "trim_offset": 0.386644
+  },
+  {
+   "sid": "hybrid_dispute_1",
+   "scene": "hybrid_dispute",
+   "date": "2026",
+   "text": "러시아 정부는 이 의혹을 부인하며 터무니없다고 말했습니다.",
+   "tts": "러시아 정부는 이 의혹을 부인하며 터무니없다고 말했습니다.",
+   "segments": [
+    [
+     "러시아 정부는 이 의혹을 ",
+     0
+    ],
+    [
+     "부인",
+     1
+    ],
+    [
+     "하며 터무니없다고 말했습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/valdai-2026/tts/hybrid_dispute_1_f521a4178e.mp3",
+   "npy": "/home/user/osint_generator/projects/valdai-2026/tts/hybrid_dispute_1_f521a4178e.npy",
+   "dur": 4.09360544217687,
+   "t0": 201.31662131519275,
+   "t1": 205.41022675736963,
+   "trim_offset": 0.380136
+  },
+  {
+   "sid": "diesel_0",
+   "scene": "diesel",
+   "date": "2026.10.01",
+   "text": "연설에서는 에너지 문제도 나왔습니다.",
+   "tts": "연설에서는 에너지 문제도 나왔습니다.",
+   "segments": [
+    [
+     "연설에서는 에너지 문제도 나왔습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/valdai-2026/tts/diesel_0_fafeeeda87.mp3",
+   "npy": "/home/user/osint_generator/projects/valdai-2026/tts/diesel_0_fafeeeda87.npy",
+   "dur": 2.6953741496598638,
+   "t0": 206.91022675736963,
+   "t1": 209.6056009070295,
+   "trim_offset": 0.381973
+  },
+  {
+   "sid": "diesel_1",
+   "scene": "diesel",
+   "date": "2026.10.01",
+   "text": "로이터는 푸틴 대통령이 제재가 해제될 때까지 세계시장에 경유를 공급하지 않겠다고 밝혔다고 보도했습니다.",
+   "tts": "로이터는 푸틴 대통령이 제재가 해제될 때까지 세계시장에 경유를 공급하지 않겠다고 밝혔다고 보도했습니다.",
+   "segments": [
+    [
+     "로이터는 푸틴 대통령이 제재가 해제될 때까지 세계시장에 ",
+     0
+    ],
+    [
+     "경유",
+     1
+    ],
+    [
+     "를 공급하지 않겠다고 밝혔다고 보도했습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/valdai-2026/tts/diesel_1_e1d1c678ac.mp3",
+   "npy": "/home/user/osint_generator/projects/valdai-2026/tts/diesel_1_e1d1c678ac.npy",
+   "dur": 7.176099773242631,
+   "t0": 210.1056009070295,
+   "t1": 217.28170068027214,
+   "trim_offset": 0.363084
+  },
+  {
+   "sid": "diesel_2",
+   "scene": "diesel",
+   "date": "2026.10.01",
+   "text": "로이터에 따르면 그는 러시아에 경유는 충분하지만, 금지와 제재 때문에 세계시장에 나가지 못할 것이라고 말했습니다.",
+   "tts": "로이터에 따르면 그는 러시아에 경유는 충분하지만, 금지와 제재 때문에 세계시장에 나가지 못할 것이라고 말했습니다.",
+   "segments": [
+    [
+     "로이터에 따르면 그는 러시아에 경유는 충분하지만, ",
+     0
+    ],
+    [
+     "금지와 제재",
+     1
+    ],
+    [
+     " 때문에 세계시장에 나가지 못할 것이라고 말했습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/valdai-2026/tts/diesel_2_7defdd2f27.mp3",
+   "npy": "/home/user/osint_generator/projects/valdai-2026/tts/diesel_2_7defdd2f27.npy",
+   "dur": 7.7214965986394555,
+   "t0": 217.78170068027214,
+   "t1": 225.50319727891159,
+   "trim_offset": 0.35898
+  },
+  {
+   "sid": "diesel_3",
+   "scene": "diesel",
+   "date": "2026.09.30",
+   "text": "러시아는 9월 30일, 연료 생산업체의 경유 수출 금지를 10월 31일까지 연장했습니다.",
+   "tts": "러시아는 구월 삼십일, 연료 생산업체의 경유 수출 금지를 시월 삼십일일까지 연장했습니다.",
+   "segments": [
+    [
+     "러시아는 9월 30일, 연료 생산업체의 경유 ",
+     0
+    ],
+    [
+     "수출 금지",
+     1
+    ],
+    [
+     "를 10월 31일까지 연장했습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/valdai-2026/tts/diesel_3_f39b2251d7.mp3",
+   "npy": "/home/user/osint_generator/projects/valdai-2026/tts/diesel_3_f39b2251d7.npy",
+   "dur": 7.038639455782313,
+   "t0": 226.00319727891159,
+   "t1": 233.0418367346939,
+   "trim_offset": 0.36263
+  },
+  {
+   "sid": "diesel_4",
+   "scene": "diesel",
+   "date": "2026",
+   "text": "모스크바타임스는 비생산업체 대상 경유 수출 금지가 1월까지 유지된다고 보도했습니다.",
+   "tts": "모스크바 타임스는 비생산업체 대상 경유 수출 금지가 일월까지 유지된다고 보도했습니다.",
+   "segments": [
+    [
+     "모스크바타임스는 ",
+     0
+    ],
+    [
+     "비생산업체",
+     1
+    ],
+    [
+     " 대상 경유 수출 금지가 1월까지 유지된다고 보도했습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/valdai-2026/tts/diesel_4_0b0ca88910.mp3",
+   "npy": "/home/user/osint_generator/projects/valdai-2026/tts/diesel_4_0b0ca88910.npy",
+   "dur": 6.246439909297052,
+   "t0": 233.5418367346939,
+   "t1": 239.78827664399097,
+   "trim_offset": 0.374218
+  },
+  {
+   "sid": "diesel_5",
+   "scene": "diesel",
+   "date": "2026",
+   "text": "로이터는 미국 경유 가격이 갤런당 6.50달러를 넘어 사상 최고치를 기록했다고 보도했습니다.",
+   "tts": "로이터는 미국 경유 가격이 갤런당 육쩜오딸러를 넘어 사상 최고치를 기록했다고 보도했습니다.",
+   "segments": [
+    [
+     "로이터는 미국 경유 가격이 갤런당 ",
+     0
+    ],
+    [
+     "6.50달러",
+     1
+    ],
+    [
+     "를 넘어 사상 최고치를 기록했다고 보도했습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/valdai-2026/tts/diesel_5_94db321c4c.mp3",
+   "npy": "/home/user/osint_generator/projects/valdai-2026/tts/diesel_5_94db321c4c.npy",
+   "dur": 6.3053968253968256,
+   "t0": 240.28827664399097,
+   "t1": 246.5936734693878,
+   "trim_offset": 0.354172
+  },
+  {
+   "sid": "diesel_6",
+   "scene": "diesel",
+   "date": "2026",
+   "text": "로이터에 따르면 트럼프 대통령은 우크라이나의 러시아 생산시설 공격이 세계 경유 부족을 일으킨다고 말했습니다.",
+   "tts": "로이터에 따르면 트럼프 대통령은 우크라이나의 러시아 생산시설 공격이 세계 경유 부족을 일으킨다고 말했습니다.",
+   "segments": [
+    [
+     "로이터에 따르면 트럼프 대통령은 우크라이나의 러시아 생산시설 공격이 세계 ",
+     0
+    ],
+    [
+     "경유 부족",
+     1
+    ],
+    [
+     "을 일으킨다고 말했습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/valdai-2026/tts/diesel_6_7e28633164.mp3",
+   "npy": "/home/user/osint_generator/projects/valdai-2026/tts/diesel_6_7e28633164.npy",
+   "dur": 7.264126984126984,
+   "t0": 247.0936734693878,
+   "t1": 254.35780045351478,
+   "trim_offset": 0.365896
+  },
+  {
+   "sid": "russia_domestic_0",
+   "scene": "russia_domestic",
+   "date": "2026",
+   "text": "모스크바타임스는 러시아 휘발유 평균 가격이 연초보다 21% 올랐다고 보도했습니다.",
+   "tts": "모스크바 타임스는 러시아 휘발유 평균 가격이 연초보다 이십일 퍼센트 올랐다고 보도했습니다.",
+   "segments": [
+    [
+     "모스크바타임스는 러시아 휘발유 평균 가격이 연초보다 ",
+     0
+    ],
+    [
+     "21%",
+     1
+    ],
+    [
+     " 올랐다고 보도했습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/valdai-2026/tts/russia_domestic_0_d59418ede8.mp3",
+   "npy": "/home/user/osint_generator/projects/valdai-2026/tts/russia_domestic_0_d59418ede8.npy",
+   "dur": 6.436031746031746,
+   "t0": 255.85780045351478,
+   "t1": 262.29383219954656,
+   "trim_offset": 0.381338
+  },
+  {
+   "sid": "russia_domestic_1",
+   "scene": "russia_domestic",
+   "date": "2026.09.30",
+   "text": "같은 매체에 따르면 러시아 연방반독점청은 주유소 체인의 폭리 의심 사례 58건을 조사 중이라고 밝혔습니다.",
+   "tts": "같은 매체에 따르면 러시아 연방 반독점청은 주유소 체인의 폭리 의심 사례 오십팔 건을 조사 중이라고 밝혔습니다.",
+   "segments": [
+    [
+     "같은 매체에 따르면 러시아 연방반독점청은 주유소 체인의 폭리 의심 사례 ",
+     0
+    ],
+    [
+     "58건",
+     1
+    ],
+    [
+     "을 조사 중이라고 밝혔습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/valdai-2026/tts/russia_domestic_1_75dfad2350.mp3",
+   "npy": "/home/user/osint_generator/projects/valdai-2026/tts/russia_domestic_1_75dfad2350.npy",
+   "dur": 8.007823129251701,
+   "t0": 262.79383219954656,
+   "t1": 270.80165532879823,
+   "trim_offset": 0.343039
+  },
+  {
+   "sid": "refinery_0",
+   "scene": "refinery",
+   "date": "2026.10.01",
+   "text": "푸틴 대통령은 우크라이나의 정유시설 공격이 러시아 국내총생산의 1%에 해당하는 피해를 줬다고 말했습니다.",
+   "tts": "푸틴 대통령은 우크라이나의 정유시설 공격이 러시아 국내총생산의 일 퍼센트에 해당하는 피해를 줬다고 말했습니다.",
+   "segments": [
+    [
+     "푸틴 대통령은 우크라이나의 정유시설 공격이 러시아 국내총생산의 ",
+     0
+    ],
+    [
+     "1%",
+     1
+    ],
+    [
+     "에 해당하는 피해를 줬다고 말했습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/valdai-2026/tts/refinery_0_39c8d28972.mp3",
+   "npy": "/home/user/osint_generator/projects/valdai-2026/tts/refinery_0_39c8d28972.npy",
+   "dur": 7.592947845804988,
+   "t0": 272.30165532879823,
+   "t1": 279.8946031746032,
+   "trim_offset": 0.407483
+  },
+  {
+   "sid": "refinery_1",
+   "scene": "refinery",
+   "date": "2026.10.01",
+   "text": "로이터에 따르면 그는 우크라이나가 목표를 부분적으로 달성했다고도 인정했습니다.",
+   "tts": "로이터에 따르면 그는 우크라이나가 목표를 부분적으로 달성했다고도 인정했습니다.",
+   "segments": [
+    [
+     "로이터에 따르면 그는 우크라이나가 목표를 부분적으로 달성했다고도 인정했습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/valdai-2026/tts/refinery_1_88bcf84506.mp3",
+   "npy": "/home/user/osint_generator/projects/valdai-2026/tts/refinery_1_88bcf84506.npy",
+   "dur": 5.419138321995465,
+   "t0": 280.3946031746032,
+   "t1": 285.8137414965987,
+   "trim_offset": 0.358912
+  },
+  {
+   "sid": "refinery_2",
+   "scene": "refinery",
+   "date": "2026",
+   "text": "우크라이나군은 러시아 정유 능력의 45% 이상을 무력화했다고 주장했습니다.",
+   "tts": "우크라이나군은 러시아 정유 능력의 사십오 퍼센트 이상을 무력화했다고 주장했습니다.",
+   "segments": [
+    [
+     "우크라이나군은 러시아 정유 능력의 ",
+     0
+    ],
+    [
+     "45%",
+     1
+    ],
+    [
+     " 이상을 무력화했다고 주장했습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/valdai-2026/tts/refinery_2_cec0a1e463.mp3",
+   "npy": "/home/user/osint_generator/projects/valdai-2026/tts/refinery_2_cec0a1e463.npy",
+   "dur": 5.52798185941043,
+   "t0": 286.3137414965987,
+   "t1": 291.84172335600914,
+   "trim_offset": 0.366213
+  },
+  {
+   "sid": "refinery_3",
+   "scene": "refinery",
+   "date": "2026.10.01",
+   "text": "모스크바타임스에 따르면 푸틴 대통령은 러시아도 우크라이나에 같은 방식으로 대응하고 있다고 말했습니다.",
+   "tts": "모스크바 타임스에 따르면 푸틴 대통령은 러시아도 우크라이나에 같은 방식으로 대응하고 있다고 말했습니다.",
+   "segments": [
+    [
+     "모스크바타임스에 따르면 푸틴 대통령은 러시아도 우크라이나에 ",
+     0
+    ],
+    [
+     "같은 방식",
+     1
+    ],
+    [
+     "으로 대응하고 있다고 말했습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/valdai-2026/tts/refinery_3_6c0a44a875.mp3",
+   "npy": "/home/user/osint_generator/projects/valdai-2026/tts/refinery_3_6c0a44a875.npy",
+   "dur": 6.854761904761904,
+   "t0": 292.34172335600914,
+   "t1": 299.19648526077106,
+   "trim_offset": 0.372494
+  },
+  {
+   "sid": "refinery_4",
+   "scene": "refinery",
+   "date": "2026.10.01",
+   "text": "군사적 긴장과 연료 공급, 제재를 하나로 묶은 메시지로 읽을 수 있습니다.",
+   "tts": "군사적 긴장과 연료 공급, 제재를 하나로 묶은 메시지로 읽을 수 있습니다.",
+   "segments": [
+    [
+     "군사적 긴장과 연료 공급, 제재를 ",
+     0
+    ],
+    [
+     "하나로 묶은",
+     1
+    ],
+    [
+     " 메시지로 읽을 수 있습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/valdai-2026/tts/refinery_4_ee40dfcb2b.mp3",
+   "npy": "/home/user/osint_generator/projects/valdai-2026/tts/refinery_4_ee40dfcb2b.npy",
+   "dur": 5.299659863945578,
+   "t0": 299.69648526077106,
+   "t1": 304.99614512471663,
+   "trim_offset": 0.383356
+  },
+  {
+   "sid": "open_questions_0",
+   "scene": "open_questions",
+   "date": "2026",
+   "text": "칼리닌그라드 봉쇄 준비설은 아직 어느 쪽으로도 확인되지 않았습니다.",
+   "tts": "칼리닌그라드 봉쇄 준비설은 아직 어느 쪽으로도 확인되지 않았습니다.",
+   "segments": [
+    [
+     "칼리닌그라드 봉쇄 준비설은 아직 어느 쪽으로도 확인되지 않았습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/valdai-2026/tts/open_questions_0_0626445359.mp3",
+   "npy": "/home/user/osint_generator/projects/valdai-2026/tts/open_questions_0_0626445359.npy",
+   "dur": 4.467823129251701,
+   "t0": 306.49614512471663,
+   "t1": 310.96396825396835,
+   "trim_offset": 0.37941
+  },
+  {
+   "sid": "open_questions_1",
+   "scene": "open_questions",
+   "date": "2026",
+   "text": "우크라이나군이 내세운 정유 피해 규모도 독립적으로 확인되지 않았습니다.",
+   "tts": "우크라이나군이 내세운 정유 피해 규모도 독립적으로 확인되지 않았습니다.",
+   "segments": [
+    [
+     "우크라이나군이 내세운 정유 피해 규모도 독립적으로 확인되지 않았습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/valdai-2026/tts/open_questions_1_73a69dbfe2.mp3",
+   "npy": "/home/user/osint_generator/projects/valdai-2026/tts/open_questions_1_73a69dbfe2.npy",
+   "dur": 4.638321995464852,
+   "t0": 311.46396825396835,
+   "t1": 316.1022902494332,
+   "trim_offset": 0.353583
+  },
+  {
+   "sid": "open_questions_2",
+   "scene": "open_questions",
+   "date": "2026.10",
+   "text": "경유 공급 중단 발언이 실제 수출 정책으로 이어질지는 정해지지 않았습니다.",
+   "tts": "경유 공급 중단 발언이 실제 수출 정책으로 이어질지는 정해지지 않았습니다.",
+   "segments": [
+    [
+     "경유 공급 중단 발언이 실제 수출 정책으로 이어질지는 정해지지 않았습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/valdai-2026/tts/open_questions_2_8a613cdca7.mp3",
+   "npy": "/home/user/osint_generator/projects/valdai-2026/tts/open_questions_2_8a613cdca7.npy",
+   "dur": 5.034625850340136,
+   "t0": 316.6022902494332,
+   "t1": 321.6369160997734,
+   "trim_offset": 0.36678
+  },
+  {
+   "sid": "open_questions_3",
+   "scene": "open_questions",
+   "date": "2026.10",
+   "text": "3자 회담이 열릴지, 그 의제가 무엇일지는 아직 확인되지 않았습니다.",
+   "tts": "삼자 회담이 열릴지, 그 의제가 무엇일지는 아직 확인되지 않았습니다.",
+   "segments": [
+    [
+     "3자 회담이 열릴지, 그 의제가 무엇일지는 아직 확인되지 않았습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/valdai-2026/tts/open_questions_3_b84e670b45.mp3",
+   "npy": "/home/user/osint_generator/projects/valdai-2026/tts/open_questions_3_b84e670b45.npy",
+   "dur": 5.502902494331066,
+   "t0": 322.1369160997734,
+   "t1": 327.63981859410444,
+   "trim_offset": 0.322517
+  }
+ ],
+ "cards": [
+  {
+   "kind": "title",
+   "t0": 32.20108843537415,
+   "t1": 37.801088435374155
+  },
+  {
+   "kind": "end",
+   "t0": 329.33981859410443,
+   "t1": 340.33981859410443
+  }
+ ],
+ "scene_start": {
+  "open": 1.2,
+  "timeline": 38.201088435374146,
+  "kaliningrad_warning": 58.94090702947845,
+  "nato_letter": 82.98743764172335,
+  "nato_response": 106.2905215419501,
+  "europe_remarks": 129.26877551020408,
+  "geography": 157.56319727891156,
+  "blockade_dispute": 180.12024943310658,
+  "hybrid_dispute": 193.912358276644,
+  "diesel": 206.91022675736963,
+  "russia_domestic": 255.85780045351478,
+  "refinery": 272.30165532879823,
+  "open_questions": 306.49614512471663
+ },
+ "total": 340.83981859410443,
+ "voice": "edge-tts ko-KR-InJoonNeural",
+ "title": "발다이 포럼",
+ "subtitle": "칼리닌그라드 경고와 경유 압박",
+ "date": "2026.10.02",
+ "tts_resynthesized": []
+}

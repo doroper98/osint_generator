@@ -1,0 +1,843 @@
+{
+ "schema_version": 1,
+ "engine": "engine",
+ "repo_version": "5.4.0",
+ "rules_version": "2.0.0",
+ "rules_hash": "9ee6b0a96c4a8d63b2665dca78bd300f4382e831",
+ "prompts": {
+  "director": "c20ab72f92aec525afd4eef7e81ef600522c7fa1"
+ },
+ "voice": "edge-tts ko-KR-InJoonNeural",
+ "word_anchor": "aligned",
+ "word_anchors": [
+  {
+   "sid": "kaliningrad_warning_0",
+   "word": "칼리닌그라드",
+   "mode": "aligned",
+   "t": 60.85,
+   "alignment_source": "edge_word_boundary"
+  },
+  {
+   "sid": "nato_letter_1",
+   "word": "칼리닌그라드",
+   "mode": "aligned",
+   "t": 86.992,
+   "alignment_source": "edge_word_boundary"
+  },
+  {
+   "sid": "europe_remarks_3",
+   "word": "시진핑",
+   "mode": "aligned",
+   "t": 150.353,
+   "alignment_source": "edge_word_boundary"
+  },
+  {
+   "sid": "europe_remarks_3",
+   "word": "트럼프",
+   "mode": "aligned",
+   "t": 151.848,
+   "alignment_source": "edge_word_boundary"
+  },
+  {
+   "sid": "geography_0",
+   "word": "폴란드",
+   "mode": "aligned",
+   "t": 159.515,
+   "alignment_source": "edge_word_boundary"
+  },
+  {
+   "sid": "geography_0",
+   "word": "폴란드",
+   "mode": "aligned",
+   "t": 159.515,
+   "alignment_source": "edge_word_boundary"
+  },
+  {
+   "sid": "geography_0",
+   "word": "리투아니아",
+   "mode": "aligned",
+   "t": 160.146,
+   "alignment_source": "edge_word_boundary"
+  },
+  {
+   "sid": "geography_0",
+   "word": "리투아니아",
+   "mode": "aligned",
+   "t": 160.146,
+   "alignment_source": "edge_word_boundary"
+  },
+  {
+   "sid": "geography_2",
+   "word": "수바우키",
+   "mode": "aligned",
+   "t": 167.897,
+   "alignment_source": "edge_word_boundary"
+  }
+ ],
+ "tts": {
+  "resynthesized": []
+ },
+ "total_sec": 340.84,
+ "sentences": 50,
+ "stages": {
+  "plan": true,
+  "geo": true,
+  "preview": true,
+  "render": true,
+  "mix": true,
+  "mux": true,
+  "ai_direction": true,
+  "visual_qa": false,
+  "bundle": false
+ },
+ "features_used": {
+  "camera_keys": 10,
+  "camera_moves": 8,
+  "camera_cuts": 2,
+  "dips": 1,
+  "dips_under": 1,
+  "badges": 9,
+  "badge_kinds": {
+   "person": 5,
+   "flag": 4
+  },
+  "panels": [
+   "versus",
+   "dual_line",
+   "dots",
+   "dots",
+   "checklist"
+  ],
+  "cards": 20,
+  "media": {
+   "clip": 0,
+   "photo": 0,
+   "cutout": 0,
+   "article": 0
+  },
+  "event_types": {
+   "badge": 9,
+   "card": 20,
+   "cascade": 1,
+   "country": 5,
+   "dip": 1,
+   "marker": 12,
+   "panel": 5,
+   "quote": 8,
+   "route": 3
+  },
+  "label_lod": true,
+  "vignette": false,
+  "at_word": {
+   "aligned": 9,
+   "ratio": 0
+  }
+ },
+ "qa": {
+  "auto_iterations": 1,
+  "user_approved": false,
+  "reviewer": "fable (back_and_forth)",
+  "visual_qa": []
+ },
+ "drops": [],
+ "assets": {
+  "images_used": [
+   "flag11:cn",
+   "flag11:lt",
+   "flag11:pl",
+   "flag11:ru",
+   "flag11:us",
+   "flag43:ru",
+   "flag43:us",
+   "portrait:putin",
+   "portrait:trump"
+  ],
+  "emblems": {
+   "used": [],
+   "flag_fallback": {}
+  },
+  "badges": {
+   "suggested": [
+    "ee",
+    "lt",
+    "pl",
+    "putin",
+    "ru",
+    "trump",
+    "ua",
+    "us",
+    "xi_jinping"
+   ],
+   "used": [
+    "cn",
+    "lt",
+    "pl",
+    "putin",
+    "us"
+   ],
+   "suggested_and_used": [
+    "lt",
+    "pl",
+    "putin",
+    "us"
+   ],
+   "suggestions": 43
+  }
+ },
+ "panels": {
+  "used": [
+   {
+    "kind": "versus",
+    "title": "엇갈리는 주장",
+    "t0": 179.92,
+    "prov_tag": null
+   },
+   {
+    "kind": "dual_line",
+    "title": "미국 경유 소매가격",
+    "t0": 240.39,
+    "prov_tag": null
+   },
+   {
+    "kind": "dots",
+    "title": "정유시설 공격 피해",
+    "t0": 272.4,
+    "prov_tag": "추정"
+   },
+   {
+    "kind": "dots",
+    "title": "우크라이나군 주장",
+    "t0": 286.41,
+    "prov_tag": "추정"
+   },
+   {
+    "kind": "checklist",
+    "title": "아직 확인되지 않은 것",
+    "t0": 306.3,
+    "prov_tag": null
+   }
+  ]
+ },
+ "credits": {
+  "card": {
+   "flags": 1,
+   "map": 2,
+   "music": 1,
+   "narration": 1,
+   "people": 2
+  },
+  "description_only": {
+   "fonts": 4
+  }
+ },
+ "reserved": {
+  "avoidance": [
+   {
+    "badge": "트럼프 대통령",
+    "t0": 151.83,
+    "t1": 157.17,
+    "strategy": [
+     "push"
+    ],
+    "direction": [
+     "down"
+    ],
+    "max_px": 44.2,
+    "zones": [
+     "card:푸틴 대통령 · 3자 회담"
+    ],
+    "frames": 129
+   },
+   {
+    "badge": "리투아니아 · 나토",
+    "t0": 174.75,
+    "t1": 179.71,
+    "strategy": [
+     "push"
+    ],
+    "direction": [
+     "left"
+    ],
+    "max_px": 127.8,
+    "zones": [
+     "card:수바우키 회랑 길이"
+    ],
+    "frames": 120
+   }
+  ]
+ },
+ "audio": {
+  "bgm": [
+   "music.zabriskie_patriarch"
+  ],
+  "bed_gain": 0.47,
+  "crossfades": 0,
+  "bed_bass": {
+   "applied": {
+    "shelf": {
+     "freq_hz": 110.0,
+     "gain_db": 5.0,
+     "q": 0.7
+    },
+    "sub": {
+     "band_hz": [
+      55.0,
+      220.0
+     ],
+     "out_lp_hz": 110.0,
+     "filter_order": 4,
+     "gain": 0.35,
+     "env_attack_sec": 0.03,
+     "env_release_sec": 0.25,
+     "env_block_sec": 0.001
+    },
+    "swell": {
+     "sec": 2.5,
+     "depth": 0.35
+    },
+    "norm_ref": 0.4
+   },
+   "ratio_db": {
+    "before": 12.06,
+    "after": 17.41
+   },
+   "rise_db": 5.35,
+   "swell_at": [
+    38.201,
+    58.941,
+    82.987,
+    106.291,
+    129.269,
+    157.563,
+    180.12,
+    193.912,
+    206.91,
+    255.858,
+    272.302,
+    306.496
+   ],
+   "bands_hz": {
+    "bass": [
+     30.0,
+     120.0
+    ],
+    "mid": [
+     200.0,
+     2000.0
+    ]
+   }
+  },
+  "loudnorm": {
+   "passes": 2,
+   "pass1": {
+    "input_i": -14.13,
+    "input_tp": -0.58,
+    "input_lra": 3.2,
+    "input_thresh": -24.59,
+    "target_offset": 0.18
+   },
+   "pass2": {
+    "output_i": -14.0,
+    "output_tp": -1.5,
+    "normalization_type": "dynamic"
+   },
+   "post_limiter_dbfs": -2.0
+  },
+  "qa": {
+   "hard": [],
+   "warnings": [],
+   "final_loudness": {
+    "I": -14.05,
+    "TP": -1.74,
+    "LRA": 3.2
+   },
+   "music_under_narration_db": -10.25,
+   "mix_peak": 0.9271,
+   "bed_bass_ratio_db": 17.41,
+   "bed_bass_rise_db": 5.35
+  }
+ },
+ "end_card": {
+  "version_stamp": "v5.4.0",
+  "roll_px": 108.0,
+  "roll_px_per_sec": 16.62
+ },
+ "render": {
+  "resolution": {
+   "profile": "720p",
+   "width": 1280,
+   "height": 720,
+   "fps": 24,
+   "k": 1.5,
+   "pad_x": -0.5,
+   "crf": 19,
+   "preset": "faster"
+  }
+ },
+ "badge": {
+  "R_ignored": [
+   {
+    "i": 1,
+    "pid": "putin",
+    "label": "블라디미르 푸틴",
+    "t0": 1.8,
+    "R": 34.0
+   },
+   {
+    "i": 12,
+    "pid": "putin",
+    "label": "블라디미르 푸틴",
+    "t0": 61.34,
+    "R": 34.0
+   },
+   {
+    "i": 27,
+    "pid": "putin",
+    "label": "블라디미르 푸틴",
+    "t0": 129.47,
+    "R": 34.0
+   },
+   {
+    "i": 45,
+    "pid": "putin",
+    "label": "블라디미르 푸틴",
+    "t0": 210.21,
+    "R": 34.0
+   },
+   {
+    "i": 57,
+    "pid": "putin",
+    "label": "블라디미르 푸틴",
+    "t0": 292.44,
+    "R": 34.0
+   }
+  ],
+  "head_top": [
+   {
+    "pid": "putin",
+    "head_top": 1.0645,
+    "md5": "2c318b012ef4266afb97de5a3e3412b0"
+   }
+  ]
+ },
+ "geo": {
+  "unsourced": [
+   {
+    "kind": "place",
+    "name": "iskander",
+    "lonlat": [
+     21.3,
+     54.55
+    ]
+   },
+   {
+    "kind": "place",
+    "name": "suwalki",
+    "lonlat": [
+     23.3,
+     54.2
+    ]
+   },
+   {
+    "kind": "path",
+    "name": "letter",
+    "points": 5,
+    "ends": [
+     [
+      37.62,
+      55.75
+     ],
+     [
+      4.35,
+      50.85
+     ]
+    ]
+   },
+   {
+    "kind": "path",
+    "name": "reply",
+    "points": 5,
+    "ends": [
+     [
+      4.35,
+      50.85
+     ],
+     [
+      37.62,
+      55.75
+     ]
+    ]
+   },
+   {
+    "kind": "path",
+    "name": "venue",
+    "points": 4,
+    "ends": [
+     [
+      39.72,
+      43.6
+     ],
+     [
+      37.62,
+      55.75
+     ]
+    ]
+   }
+  ],
+  "matched": [
+   {
+    "kind": "place",
+    "name": "moscow",
+    "lonlat": [
+     37.62,
+     55.75
+    ],
+    "gazetteer": "moscow_rus",
+    "km": 0.6,
+    "tol_km": 25.0
+   },
+   {
+    "kind": "place",
+    "name": "sochi",
+    "lonlat": [
+     39.72,
+     43.6
+    ],
+    "gazetteer": "sochi_rus",
+    "km": 1.4,
+    "tol_km": 25.0
+   },
+   {
+    "kind": "place",
+    "name": "kaliningrad",
+    "lonlat": [
+     20.51,
+     54.71
+    ],
+    "gazetteer": "kaliningrad_rus",
+    "km": 1.4,
+    "tol_km": 25.0
+   },
+   {
+    "kind": "place",
+    "name": "nato",
+    "lonlat": [
+     4.35,
+     50.85
+    ],
+    "gazetteer": "brussels_bel",
+    "km": 2.1,
+    "tol_km": 25.0
+   }
+  ],
+  "mismatch": []
+ },
+ "cascade": {
+  "status": "adopted",
+  "events": 1,
+  "items": 3,
+  "hidden_labels": [
+   {
+    "name": "덴마크",
+    "kind": "country",
+    "how": "회피",
+    "t": 38.5
+   },
+   {
+    "name": "함부르크",
+    "kind": "city",
+    "how": "회피",
+    "t": 38.5
+   },
+   {
+    "name": "코펜하겐",
+    "kind": "city",
+    "how": "회피",
+    "t": 38.5
+   },
+   {
+    "name": "발트해",
+    "kind": "sea",
+    "how": "깔림",
+    "t": 38.9
+   },
+   {
+    "name": "북해",
+    "kind": "sea",
+    "how": "깔림",
+    "t": 39.2
+   },
+   {
+    "name": "오슬로",
+    "kind": "city",
+    "how": "회피",
+    "t": 40.2
+   },
+   {
+    "name": "스톡홀름",
+    "kind": "city",
+    "how": "회피",
+    "t": 45.1
+   }
+  ]
+ },
+ "quote": {
+  "status": "adopted",
+  "count": 8,
+  "speakers": [
+   "도널드 트럼프",
+   "블라디미르 푸틴"
+  ]
+ },
+ "border_glow": {
+  "status": "adopted",
+  "on": true
+ },
+ "pacing": {
+  "window_sec": 45.0,
+  "min_changes": 3,
+  "static_windows": [],
+  "creep": null
+ },
+ "animatic": false,
+ "stage": {
+  "name": "mercator",
+  "declared": false,
+  "shots_declared": 0,
+  "instances": {
+   "mercator": 1
+  },
+  "configs": {
+   "mercator": {
+    "border_glow": true
+   }
+  }
+ },
+ "genre": {
+  "name": "geopolitics",
+  "declared": false,
+  "status": "approved"
+ },
+ "order": {
+  "topic": "2026년 9월 28일~10월 1일 모스크바 발다이 토론클럽 — 10월 1일 푸틴 대통령의 칼리닌그라드 등 영토 직접 공격 시 모든 무기 사용 검토 경고, 유럽 공격 계획 부인, 제재 유지 시 경유 세계시장 미공급, 우크라이나의 정유시설 공격 피해 인정",
+  "genre": "geopolitics",
+  "decisions": {
+   "topic": {
+    "value": "발다이 포럼 푸틴 발언 — 핵 억지·에너지 압박",
+    "by": "user",
+    "ref": "사용자 요청 2026-10-02"
+   },
+   "resolution": {
+    "value": "720p",
+    "by": "default",
+    "ref": "hormuz-talks-2026 사용자 지시 준용(완성본 단계에서 확인)"
+   }
+  }
+ },
+ "camera": {
+  "suggest_ran": false,
+  "suggested": 0,
+  "used": 0,
+  "given_to_director": false
+ },
+ "lint_warnings": [
+  "[badge-R-ignored] 인물 뱃지 연출 R 5건 무시 — 크기는 보이는 인물 수로 코드가 정한다(D-0111): 블라디미르 푸틴 R 34, 블라디미르 푸틴 R 34, 블라디미르 푸틴 R 34, 블라디미르 푸틴 R 34, 블라디미르 푸틴 R 34",
+  "[media-density-total] 과소 — 0개 / 341초 = inf초당 1개 > 60초 (14 §10.1)"
+ ],
+ "media": {
+  "suggested": [
+   {
+    "sid": "open_2",
+    "scene": "open",
+    "kind": "article",
+    "trigger": "보도했습니다",
+    "at": 14.5,
+    "source": "trigger",
+    "asset_id": null
+   },
+   {
+    "sid": "kaliningrad_warning_2",
+    "scene": "kaliningrad_warning",
+    "kind": "photo",
+    "trigger": "발표",
+    "at": 70.03,
+    "source": "trigger",
+    "asset_id": null
+   },
+   {
+    "sid": "nato_letter_2",
+    "scene": "nato_letter",
+    "kind": "article",
+    "trigger": "보도했습니다",
+    "at": 91.9,
+    "source": "trigger",
+    "asset_id": null
+   },
+   {
+    "sid": "nato_response_2",
+    "scene": "nato_response",
+    "kind": "article",
+    "trigger": "보도했습니다",
+    "at": 120.79,
+    "source": "trigger",
+    "asset_id": null
+   },
+   {
+    "sid": "europe_remarks_2",
+    "scene": "europe_remarks",
+    "kind": "article",
+    "trigger": "보도했습니다",
+    "at": 140.17,
+    "source": "trigger",
+    "asset_id": null
+   },
+   {
+    "sid": "europe_remarks_3",
+    "scene": "europe_remarks",
+    "kind": "photo",
+    "trigger": "회담",
+    "at": 147.0,
+    "source": "trigger",
+    "asset_id": null
+   },
+   {
+    "sid": "geography_1",
+    "scene": "geography",
+    "kind": "cutout",
+    "trigger": "미사일",
+    "at": 162.39,
+    "source": "trigger",
+    "asset_id": null
+   },
+   {
+    "sid": "geography_2",
+    "scene": "geography",
+    "kind": "article",
+    "trigger": "보도했습니다",
+    "at": 166.18,
+    "source": "trigger",
+    "asset_id": null
+   },
+   {
+    "sid": "diesel_1",
+    "scene": "diesel",
+    "kind": "article",
+    "trigger": "보도했습니다",
+    "at": 210.11,
+    "source": "trigger",
+    "asset_id": null
+   },
+   {
+    "sid": "diesel_4",
+    "scene": "diesel",
+    "kind": "article",
+    "trigger": "보도했습니다",
+    "at": 233.54,
+    "source": "trigger",
+    "asset_id": null
+   },
+   {
+    "sid": "diesel_5",
+    "scene": "diesel",
+    "kind": "article",
+    "trigger": "보도했습니다",
+    "at": 240.29,
+    "source": "trigger",
+    "asset_id": null
+   },
+   {
+    "sid": "russia_domestic_0",
+    "scene": "russia_domestic",
+    "kind": "article",
+    "trigger": "보도했습니다",
+    "at": 255.86,
+    "source": "trigger",
+    "asset_id": null
+   },
+   {
+    "sid": "open_questions_3",
+    "scene": "open_questions",
+    "kind": "photo",
+    "trigger": "회담",
+    "at": 322.14,
+    "source": "trigger",
+    "asset_id": null
+   }
+  ],
+  "used": [],
+  "suggested_and_used": [],
+  "density": {
+   "schema_version": 1,
+   "total_sec": 340.84,
+   "items": [],
+   "count": 0,
+   "sec_per_item": null,
+   "target_sec_per_item": [
+    40.0,
+    60.0
+   ],
+   "window": {
+    "window_sec": 40.0,
+    "window_max": 2,
+    "exempt": [
+     "article"
+    ],
+    "max": {
+     "t0": null,
+     "count": 0,
+     "mids": []
+    }
+   },
+   "per_scene": {},
+   "warnings": [
+    "[media-density-total] 과소 — 0개 / 341초 = inf초당 1개 > 60초 (14 §10.1)"
+   ]
+  },
+  "placement": {
+   "badge:블라디미르 푸틴": "slot:map_lower_left",
+   "badge:시진핑 주석": "slot:map_upper_left",
+   "badge:트럼프 대통령": "slot:map_upper_right"
+  }
+ },
+ "script": {
+  "labels": {
+   "verified": 0,
+   "corroborated": 20,
+   "unverified": 22,
+   "disputed": 7
+  }
+ },
+ "ai_direction": {
+  "origin": "ai",
+  "model": "claude-opus-5-5",
+  "prompt_sha1": "c20ab72f92aec525afd4eef7e81ef600522c7fa1",
+  "direction_versions": 5,
+  "used_version": 5,
+  "selected": {
+   "version": 1,
+   "by": "code",
+   "reason": "상한 1회 도달 — checks_hard·qa_hard·qa_soft 사전식 최소 (checks hard 5, 검수 hard None, soft None)"
+  },
+  "rounds": [
+   {
+    "version": 1,
+    "checks_hard": 5,
+    "qa_hard": null,
+    "qa_soft": null
+   },
+   {
+    "version": 2,
+    "checks_hard": 6,
+    "qa_hard": null,
+    "qa_soft": null
+   }
+  ],
+  "revisions": [
+   {
+    "direction_version": 2,
+    "changes": 6
+   }
+  ],
+  "visual_qa": []
+ }
+}
