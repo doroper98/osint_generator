@@ -26,6 +26,16 @@ class BannedPhrases(_Strict):
     defect_classes: list[str]
 
 
+class ScriptGrammar(_Strict):
+    """v5.5.0 원고 서술 규약(사용자 결정 2026-10-02) — 프롬프트 줄 + 린트 값(엇갈린 수치·미확인 서술 금지, 문장 흐름 연결어)."""
+
+    lines: list[str] = Field(min_length=1)
+    connectives: list[str] = Field(min_length=1)
+    connective_min_ratio: float = Field(ge=0, le=1)
+    connective_max_ratio: float = Field(ge=0, le=1)
+    uncertain_patterns: list[str] = Field(min_length=1)
+
+
 class ScriptSchemaRules(_Strict):
     sentence_fields: list[str]
     date_formats: list[str]
@@ -152,6 +162,7 @@ class ShotGrammar(_Strict):
     auto_transition: AutoTransition
     scene_attach_lead_sec: float = Field(ge=0)
     w_guide: dict[str, float | Range2]
+    move_path: Literal["linear", "fixed_point"] = "linear"   # v5.5.0 — 이동+줌 경로(fixed_point = 한 고정점 기준 줌, 지도 흐름이 직선)
 
 
 class StaticCreep(_Strict):
@@ -469,6 +480,8 @@ class BadgeLayout(_Strict):
     reserve_top_factor: float
     reserve_bottom_px: float
     popin_sec: float
+    head_popout: bool = True          # v5.5.0 — False = 초상 머리를 원 안에만(정수리가 원 밖으로 나오지 않음)
+    head_inside_max: float = Field(default=0.9, gt=0, le=1)   # v5.5.0 — 정수리 최고 높이(중심에서 R 단위). 넘으면 초상을 내린다
 
 
 class TimelineGaps(_Strict):
@@ -1708,6 +1721,7 @@ class VideoRules(_Strict):
     banned_phrases: BannedPhrases
     balance_principles: list[str]
     direction_grammar: list[str] = Field(min_length=1)   # v4.7.0 D-0104 D2(a) — 연출 문법(프롬프트 {{RULES.direction_grammar}})
+    script_grammar: ScriptGrammar          # v5.5.0 — 원고 서술 규약
     script_schema: ScriptSchemaRules
     verification: VerificationRules   # v3.2.0 — D-0052(D50)
     tts_rules: TTSRules

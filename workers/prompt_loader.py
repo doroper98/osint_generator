@@ -54,6 +54,7 @@ def _rules_placeholders(rules: VideoRules) -> dict[str, str]:
         "{{RULES.banned_phrases}}": _bullets(rules.banned_phrases.patterns),
         "{{RULES.defect_classes}}": _bullets(rules.banned_phrases.defect_classes),
         "{{RULES.balance_principles}}": _bullets(rules.balance_principles),
+        "{{RULES.script_grammar}}": _bullets(rules.script_grammar.lines),   # v5.5.0 — 원고 서술 규약(린트와 같은 값)
         "{{RULES.direction_grammar}}": _bullets(rules.direction_grammar),   # v4.7.0 D-0104 D2(a)
         "{{RULES.tts_rules}}": yaml.safe_dump(
             rules.tts_rules.model_dump(mode="json"), allow_unicode=True, sort_keys=False

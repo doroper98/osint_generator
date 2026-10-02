@@ -86,8 +86,19 @@ def portrait_head_top(img: "object") -> float:
     return round(float(min(BADGE.reserve_top_factor, PORTRAIT_CLIP, max(1.0, top))), 4)
 
 
+def portrait_top(R: RenderCtx, e: dict) -> float:  # noqa: N803
+    """그릴 때의 정수리 높이(R 단위) — 이벤트 head_top(불러올 때 실측), 없으면(인용 초상 등) 그 자리에서 잰다."""
+    if e.get("head_top") is not None:
+        return float(e["head_top"])
+    key = f"portrait:{e['pid']}"
+    R.assets.load_image(key)
+    return portrait_head_top(R.assets.img[key])
+
+
 def head_factor(e: dict) -> float:
     """badge_box·예약 영역의 머리 높이(R 단위). measured 면 이벤트 head_top(없으면 상한), factor 면 상한(v3)."""
+    if not BADGE.head_popout:   # v5.5.0 — 머리가 원 안이면 위 예약은 원(+그림자, badge_box 의 Rr + 7)까지
+        return 1.0
     if BADGE.head_reserve == "measured" and e.get("head_top") is not None:
         return float(e["head_top"])
     return BADGE.reserve_top_factor
@@ -202,10 +213,14 @@ def badge_at(ctx: cairo.Context, R: RenderCtx, x: float, y: float, e: dict, t: f
         ps, pw, ph = R.assets.raster(f"portrait:{e['pid']}", Rr * 1.72, R.out.k)
         ctx.save()
         ctx.arc(0, 0, Rr, 0, 2 * math.pi)
-        ctx.rectangle(-Rr * 0.66, -Rr * 2.4, Rr * 1.32, Rr * 2.4)
-        ctx.set_fill_rule(cairo.FILL_RULE_WINDING)
+        dy = 0.0
+        if BADGE.head_popout:   # v3 — 머리가 원 위로 나온다
+            ctx.rectangle(-Rr * 0.66, -Rr * 2.4, Rr * 1.32, Rr * 2.4)
+            ctx.set_fill_rule(cairo.FILL_RULE_WINDING)
+        else:                   # v5.5.0 — 원 안에만. 정수리가 head_inside_max 보다 높으면 초상을 내린다(사용자 지적 2026-10-02)
+            dy = max(0.0, portrait_top(R, e) - BADGE.head_inside_max) * Rr
         ctx.clip()
-        set_raster(ctx, ps, R.out.k, -pw / 2, Rr - ph + Rr * 0.02)
+        set_raster(ctx, ps, R.out.k, -pw / 2, Rr - ph + Rr * 0.02 + dy)
         ctx.paint_with_alpha(a)
         ctx.restore()
     ctx.new_path()

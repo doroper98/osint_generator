@@ -175,10 +175,10 @@ class GateViewTest(_Proj):
     def test_script_gate_view_sections(self) -> None:
         from orchestrator.gate_view import gate_view  # noqa: PLC0415
         text, shown = gate_view(self.root / "p", "script_approval")
-        for part in ("장면 목록", "원고 전문(자막)", "출처 표", "린트 — 오류 0", "미디어 후보"):
+        for part in ("장면 목록", "원고 전문(자막)", "출처 표", "린트 — 오류 2", "미디어 후보"):   # v5.5.0 script_grammar 이전 기준 원고 — 미확인 서술 1·흐름 부족 1
             self.assertIn(part, text)
         self.assertIn("open_0", text)
-        self.assertEqual(shown["lint_errors"], "0")
+        self.assertEqual(shown["lint_errors"], "2")   # v5.5.0 — 기준 원고(규약 이전)는 새 두 항목만
 
     def test_preview_gate_view_reads_prev(self) -> None:
         from orchestrator.gate_view import gate_view  # noqa: PLC0415
@@ -240,7 +240,7 @@ class CommandCenterKeysTest(_Proj):
         m = load_manifest("p", self.cfg)
         self.assertEqual(m.current_state, "voice_timeline")
         self.assertEqual(m.gate_decisions[-1].by, "command-center")
-        self.assertEqual(m.gate_decisions[-1].shown.get("lint_errors"), "0")
+        self.assertEqual(m.gate_decisions[-1].shown.get("lint_errors"), "2")   # v5.5.0 — 기준 원고(규약 이전)
 
 
 class CommandCenterSourceConfirmTest(_Proj):

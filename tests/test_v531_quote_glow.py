@@ -159,3 +159,62 @@ class UserFeedbackFixesTest(unittest.TestCase):
         self.assertEqual(len(item_lines(ctx, "나토가 칼리닌그라드 봉쇄를 준비한다는 정보가 있다")), 2)
         with self.assertRaises(VersusOverflowError):
             item_lines(ctx, " ".join(["아주 긴 항목 문구가 계속 이어진다"] * 6))
+
+
+class ScriptGrammarTest(unittest.TestCase):
+    """v5.5.0 사용자 결정(2026-10-02) — 엇갈린 수치·미확인 서술 금지, 문장 흐름(연결어) — LLM-AP-013."""
+
+    def _script(self, texts: list[str]) -> object:
+        from script.schema import Script  # noqa: PLC0415
+
+        return Script.model_validate({"schema_version": 1, "title": "t", "subtitle": "s", "date": "2026.10.02", "scenes": [
+            {"id": "a", "sentences": [{"date": "2026.10.02", "text": t, "emphasis": [], "sources": ["clm_0001"]} for t in texts]}]})
+
+    def test_flow_and_uncertain(self) -> None:
+        from script.lint import lint  # noqa: PLC0415
+
+        flat = ["가가 발표했습니다.", "나나가 답했습니다.", "다다가 반박했습니다.", "라라가 정리했습니다."]
+        kinds = [i.kind for i in lint(self._script(flat), {"clm_0001": "corroborated"}).errors]
+        self.assertEqual(kinds, ["flow-sparse"])
+        flow = ["가가 발표했습니다.", "그러자 나나가 답했습니다.", "하지만 다다가 반박했습니다.", "라라가 정리했습니다."]
+        self.assertEqual([i.kind for i in lint(self._script(flow), {"clm_0001": "corroborated"}).errors], [])
+        unc = flow[:3] + ["이 수치는 아직 확인되지 않았습니다."]
+        self.assertIn("uncertain-phrase", [i.kind for i in lint(self._script(unc), {"clm_0001": "corroborated"}).errors])
+
+    def test_disputed_claim_is_error(self) -> None:
+        from script.lint import lint  # noqa: PLC0415
+
+        s = self._script(["가가 발표했습니다.", "그러자 나나가 답했습니다.", "하지만 다다가 반박했습니다.", "따라서 라라가 정리했습니다."])
+        self.assertIn("disputed-claim", [i.kind for i in lint(s, {"clm_0001": "disputed"}).errors])
+
+    def test_prompt_has_script_grammar(self) -> None:
+        from rules import load_rules  # noqa: PLC0415
+        from workers.prompt_loader import load_prompt  # noqa: PLC0415
+
+        p = load_prompt("script", load_rules())
+        self.assertIn("엇갈린 수치", p)
+        self.assertIn("연결어", p)
+        self.assertNotIn("미확인 쟁점 →", p)
+
+
+class HeadAndPathTest(unittest.TestCase):
+    """v5.5.0 사용자 지적(2026-10-02) — RENDER-AP-006(정수리 원 밖)·007(이동 중 방향 틀어짐)."""
+
+    def test_move_path_is_straight(self) -> None:
+        import numpy as np  # noqa: PLC0415
+
+        from engine.camera import build_camera, cam  # noqa: PLC0415
+
+        c = build_camera([cam(0, 0, 0, 7, 0, "cut"), cam(1, 30, 10, 58, 3.4, "move")], 24 * 6, 24)
+        s = (np.array([12.0, 3.0]) - c[:, :2]) / c[:, 2:3]
+        seg = s[24:106]
+        v = seg[-1] - seg[0]
+        n = np.array([-v[1], v[0]]) / np.linalg.norm(v)
+        self.assertLess(float(np.abs((seg - seg[0]) @ n).max()), 1e-9)
+
+    def test_head_inside_rules(self) -> None:
+        from engine.layers.badges import head_factor  # noqa: PLC0415
+        from engine.style import BADGE  # noqa: PLC0415
+
+        self.assertFalse(BADGE.head_popout)
+        self.assertEqual(head_factor({"kind": "person", "head_top": 1.6}), 1.0)

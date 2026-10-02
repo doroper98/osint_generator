@@ -247,6 +247,8 @@ def lint(script: Script, claims: "dict[str, str] | None" = None, *, check_source
     forbidden = re.compile(r.tts_rules.forbidden_chars_regex)
     max_lines = r.script_schema.subtitle_max_lines
     out: list[LintIssue] = []
+    sg = r.script_grammar   # v5.5.0
+    total = flow = 0
     for sc in script.scenes:
         for k, s in enumerate(sc.sentences):
             sid = f"{sc.id}_{k}"
@@ -293,6 +295,24 @@ def lint(script: Script, claims: "dict[str, str] | None" = None, *, check_source
             n = subtitle_lines(s.text)
             if n > max_lines:
                 add("subtitle-lines", "warning", f"{n}줄 > {max_lines}")
+            # v5.5.0 script_grammar(사용자 결정 2026-10-02) — 엇갈린 수치·논쟁 주장, 미확인 서술 금지
+            if check_sources and claims is not None:
+                bad = [c for c in s.sources if claims.get(c) == "disputed"]
+                if bad:
+                    add("disputed-claim", "error", f"논쟁 중인 주장 {bad} — 엇갈린 수치·주장은 원고에 넣지 않는다(script_grammar)")
+            hit = next((u for u in sg.uncertain_patterns if u in s.text), None)
+            if hit:
+                add("uncertain-phrase", "error", f"미확인 서술 {hit!r} — 확인된 사실과 귀속만 쓴다(script_grammar)")
+            total += 1
+            flow += any(s.text.startswith(c) for c in sg.connectives)
+    if total >= 4:   # v5.5.0 — 문장 흐름: 연결어로 앞 문장을 받는 문장 비율
+        r_ = flow / total
+        if r_ < sg.connective_min_ratio:
+            out.append(LintIssue(kind="flow-sparse", severity="error", sid="-", text="",
+                                 detail=f"연결어로 잇는 문장 {flow}/{total} = {r_:.0%} < {sg.connective_min_ratio:.0%} — 나열이 아니라 흐름으로(script_grammar)"))
+        elif r_ > sg.connective_max_ratio:
+            out.append(LintIssue(kind="flow-overuse", severity="warning", sid="-", text="",
+                                 detail=f"연결어 문장 {r_:.0%} > {sg.connective_max_ratio:.0%} — 남발도 어색하다"))
     return LintReport(issues=out)
 
 

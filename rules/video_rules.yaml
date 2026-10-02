@@ -44,8 +44,19 @@ balance_principles:        # 03 §3 — 프롬프트 공통 머리말
   - 주장은 귀속한다(밝혔습니다/보도했습니다).
   - 논쟁 사안은 양쪽을 같은 무게로, 출처와 함께.
   - 추정은 "추정"으로 표시. 출처 없는 차트는 "추정 · 출처 미기재" 태그.
-  - 마무리는 예언 대신 미정 사실.
+  - 마무리는 예언 대신 확인된 사실의 정리(v5.5.0 — 미확인·미정 나열 금지, script_grammar).
 
+script_grammar:            # v5.5.0 사용자 결정(2026-10-02) — 원고 서술 규약. 프롬프트 {{RULES.script_grammar}}(script·genre_script), 린트가 같은 값으로 강제
+  lines:
+    - '엇갈린 수치·논쟁 중인 주장(claims status disputed)은 원고에 넣지 않는다 — 양측 수치가 다르면 그 수치를 쓰지 않는다(린트 [disputed-claim] 오류).'
+    - '"아직 확인되지 않았다·엇갈린다·불분명하다·알려지지 않았다" 같은 미확인 서술을 쓰지 않는다 — 확인된 사실과 누가 무엇을 말했는지(귀속)만 쓴다(린트 [uncertain-phrase] 오류).'
+    - '문장과 문장 사이에 흐름을 만든다 — 앞 문장과의 관계를 드러내는 연결어(그래서·따라서·그러므로·그렇지만·하지만·반면·게다가·이어서·이에 대해 등)로 잇고, 사실의 나열로 쓰지 않는다(린트 [flow-sparse] 오류).'
+    - '연결어는 관계가 사실일 때만 쓴다 — 인과(그래서·따라서·그러므로)는 출처가 그 인과를 말할 때만, 대조(그렇지만·하지만·반면)는 실제로 다른 입장·결과일 때만. 근거 없는 인과 연결은 사실 왜곡이다.'
+    - '마무리는 확인된 사실의 정리로 끝낸다 — 출처에 예정된 일정(회의·기한)이 있으면 그것으로 맺는다. 예언·추측·미확인 나열로 끝내지 않는다.'
+  connectives: [그래서, 따라서, 그러므로, 그렇지만, 하지만, 그러나, 반면, 게다가, 또한, 이어서, 이에 대해, 이에, 그런데, 결국, 한편, 특히, 더욱이, 그 결과, 이 때문에, 그러자, 그럼에도]
+  connective_min_ratio: 0.3     # 원고 전체에서 연결어로 시작하거나 앞 문장을 받는 문장의 비율 하한(미만 = [flow-sparse] 오류)
+  connective_max_ratio: 0.7     # 상한(초과 = [flow-overuse] 경고 — 남발도 나열만큼 어색하다)
+  uncertain_patterns: ["확인되지 않", "확인된 바 없", "엇갈리", "엇갈린", "불분명", "알려지지 않", "미확인", "정해지지 않", "불확실"]
 script_schema:             # 02 §2.1 요약 — 프롬프트 예시는 tests/anti_inertia/test_prompt_schema_parity 로 검증
   sentence_fields: [date, text, tts, emphasis, sources, media]
   date_formats: ["YYYY", "YYYY.MM", "YYYY.MM.DD"]
@@ -162,6 +173,10 @@ shot_grammar:              # 05 §2
   camera_moves_per_scene_max: 1
   shot_min_hold_sec: 6.0
   move_dur_sec: [2.6, 3.4]
+  # v5.5.0 사용자 지적(2026-10-02 "지도 이동 중간에 방향이 살짝 틀어진다", RENDER-AP) — 이동과 줌이 함께일 때 중심을 진행률(e)에 비례로,
+  # 폭을 로그로 움직이면 지도 위 점들의 화면 경로가 휘는 곡선이 된다(흐름 방향이 이동 중 돈다). fixed_point = 중심을 폭 w 에 비례해 움직여
+  # 한 고정점을 중심으로 한 확대·축소 + 평행이동(닮음 변환)이 되게 한다 → 모든 점이 직선으로 흐른다. 폭이 거의 같으면(순수 이동) linear 와 같다.
+  move_path: fixed_point
   move_lead_sec: [0.6, 1.2]
   dip_total_sec: 1.0
   dip_max_per_sec: 90      # 90초당 1회 이하
@@ -409,6 +424,10 @@ layout_480p:               # 09 §2·§4, 08 §10 — 기준 해상도 854×480.
     edge_nudge: true              # 그 순간 상자가 화면 밖이면 그 px 만큼 안쪽으로(avoid_badge 와 같은 단계, provenance reserve.avoidance strategy edge). 보정 뒤에도 밖이면 offscreen hard
     reserve_bottom_px: 44
     popin_sec: 0.55
+    # v5.5.0 사용자 지적(2026-10-02 "푸틴의 정수리가 원 테두리 밖(위쪽)으로 나와 어색", RENDER-AP) — v3 의 '머리 내밀기'(원 위 2.4R 직사각형까지 그림)를 끈다.
+    # 초상은 원 안에만 그리고, 실측 정수리(head_top, R 단위)가 head_inside_max 를 넘으면 그만큼 초상을 아래로 내려 머리 전체가 원 안에 든다.
+    head_popout: false
+    head_inside_max: 0.9
   timeline_gaps: {gap_sec: 0.5, scene_gap_sec: 1.0, lead_sec: 1.2, title_after_cold_open: true}
   fade: {in_sec: 1.2, out_sec: 1.6}
   reserved_zones: {card: {x_from_right: 260, y: [70, 200]}, subtitle: {y_from: 410}}
