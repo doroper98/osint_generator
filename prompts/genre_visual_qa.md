@@ -1,6 +1,6 @@
 <!--
 tier: 2
-last_synced_with: v5.3.1
+last_synced_with: v5.4.0
 ssot_for: [prompt-genre_visual_qa]
 depends_on: [rules/video_rules.yaml, genres/load.py, workers/prompt_loader.py, docs/handoff/20_GENRE_EXTENSION_FREE_PRODUCTION.md]
 last_review: 2026-09-29

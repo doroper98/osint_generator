@@ -1,6 +1,6 @@
 <!--
 tier: 3
-last_synced_with: v5.3.1
+last_synced_with: v5.4.0
 ssot_for: [release-notes]
 depends_on: [README.md, GOAL.md]
 last_review: 2026-09-28
@@ -63,6 +63,17 @@ released 항목은 **append-only**입니다.
 | v5.0.0 | 87912d2 | G11 GOAL G4-21·claim_kind fact/statement | pass(D-0125) |
 | v5.1.0 | 3619f2c | G12 backdrop 무대·아일랜드·축 스케일·기사 프레스 v2·발음 사전·버전 도장 | pass(D-0127) — 후속 D-0128 완료 |
 | v5.2.0 | d4703d9 | G13 배경 가독·주 아일랜드 상시·보도 인용 = 기사·card-island·라벨 반전 | pass(D-0134) — 후속 겹침 카드 시안(D-0135~D-0138) |
+
+---
+
+## [v5.4.0] — 2026-10-02 — 인물 발언 인용(quote)·국경선 글로우 정규 규약 승격, 통계 차트 문법 (사용자 결정 2026-10-02 "마음에 든다") — 진행 중
+
+MINOR: 새 이벤트 타입 quote 정식 등록 + 지도 무대 렌더 기본값 변경(국경선 글로우). JSON `schema_version` 그대로(1).
+
+### Changed
+- `rules quote_center.status`·`border_glow.status` = adopted. 국경선 글로우는 지도 무대 기본(끄기 = `stage_config.mercator.border_glow: false`).
+- 연출 문법 2줄: 직접 인용 = quote(맞선 인용 upper/lower, 요약에는 따옴표 금지), 가격·추이·통계 = 알맞은 차트.
+- hormuz_korea 골든 재기준선(글로우) — `reports/phaseG15/`, expected_deltas `g15_border_glow`.
 
 ---
 

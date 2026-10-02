@@ -1,6 +1,6 @@
 <!--
 tier: 2
-last_synced_with: v5.3.1
+last_synced_with: v5.4.0
 ssot_for: [video-style-guide-index]
 depends_on: [docs/handoff/05_CAMERA_SHOTS_TRANSITIONS.md, docs/handoff/06_OVERLAYS_AND_DATA_LAYERS.md, docs/handoff/08_PANELS_AND_CARDS.md, docs/handoff/09_TYPOGRAPHY_HUD_SUBTITLES.md, docs/handoff/14_MEDIA_PHOTO_VIDEO.md, docs/handoff/17_AI_DIRECTOR_VISUAL_QA_PROMPTS.md, rules/video_rules.yaml, CLAUDE.md]
 last_review: 2026-09-29
