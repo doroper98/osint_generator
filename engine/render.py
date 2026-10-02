@@ -61,7 +61,7 @@ def render_frame(P: Project, i: int) -> tuple[cairo.ImageSurface, bytearray]:  #
     panel_a = max([window(t, e["t0"], e["t1"], PANEL.fade_sec, PANEL.fade_sec) for e in act if e["type"] == "panel"] + [0])
     R.zones = card_zones(ctx, P.events, t)   # 카드 RESERVED — 지도 레이어가 먼저 그려지므로 미리(D-0033). 앞뒤 lead 포함(글자 측정만, 그리지 않음)
     R.stage.render_base(ctx, view)           # 무대 배경: 지형 래스터 + 국경(v4.1.0 D-0076 — MercatorStage = v3 순서 그대로)
-    if getattr(R.stage, "border_glow", False):   # v5.3.1 국경선 글로우(시안 — direction stage_config.mercator.border_glow, valdai-2026 한정)
+    if getattr(R.stage, "border_glow", False):   # v5.4.0 국경선 글로우(정규 — 지도 기본, stage_config.mercator.border_glow: false 로 끔)
         from engine.layers.borders import draw_border_glow  # noqa: PLC0415
 
         draw_border_glow(ctx, R.stage, view, t)
@@ -99,7 +99,7 @@ def render_frame(P: Project, i: int) -> tuple[cairo.ImageSurface, bytearray]:  #
             L.resolve(e).render(ctx, R, t, e)
         elif e["type"] == "primitive":            # v4.2.0 D-0081 — 무대 무관 오버레이(카드 층), 20 §4.2 draw(ctx, view, t, e, style)
             L.resolve(e).render(ctx, R, view, t, e)
-    for e in act:   # v5.3.1 인물 발언 중앙 인용(시안) — 지도·카드 위 덮개 + 가운데 초상·인용문, 기사·날짜·자막 아래
+    for e in act:   # v5.4.0 인물 발언 인용(정규) — 지도·카드 위 덮개 + 가운데 초상·인용문, 기사·날짜·자막 아래
         if e["type"] == "quote":
             L.resolve(e).render(ctx, R, t, e)
     for e in act:   # v5.1.0 D-0121 §C — 기사 프레스 v2: 화면 전체(프레스 사진·블러 무대 + 덮개) — 카드 층 위, 날짜·자막 아래

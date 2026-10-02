@@ -1466,6 +1466,7 @@ class BorderGlowRules(_Strict):
     run_period_px: float = Field(gt=0)
     run_speed_px: float = Field(gt=0)
     run_layers: list[tuple[float, float]] = Field(min_length=1)
+    default_on: bool = False   # v5.4.0 — 지도 무대 기본 켜짐(direction stage_config.mercator.border_glow 로 덮는다)
 
     @model_validator(mode="after")
     def _seg(self) -> "BorderGlowRules":

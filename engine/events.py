@@ -255,7 +255,7 @@ class CascadeEvent(_Event):
 
 
 class QuoteEvent(_Event):
-    """v5.3.1 인물 발언 중앙 인용(시안 — 사용자 제안 2026-10-02, valdai-2026 한정, engine/quote.py). 오른쪽 위 카드 대신
+    """v5.4.0 인물 발언 인용(정규 — 사용자 결정 2026-10-02, engine/quote.py). 오른쪽 위 카드 대신
     지도 위 덮개 + 가운데 초상(pid, 없으면 국기) + 세리프 인용문(따옴표는 코드가 그린다 — text 에 넣지 않는다) + 작은 이름·매체·날짜."""
 
     type: Literal["quote"]

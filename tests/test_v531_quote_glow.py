@@ -1,4 +1,4 @@
-"""v5.3.1 시안 두 가지(사용자 제안 2026-10-02, valdai-2026 한정) — 인물 발언 중앙 인용(quote)·국경선 글로우(border_glow)."""
+"""v5.3.1 시안 → v5.4.0 정규(사용자 결정 2026-10-02) — 인물 발언 인용(quote)·국경선 글로우(border_glow)·사용자 시청 지적 수정."""
 
 from __future__ import annotations
 
@@ -20,11 +20,23 @@ def _q(text: str) -> dict:
                 src="로이터", date="2026. 10. 01", accent="ru")
 
 
-class PrototypeStatusTest(unittest.TestCase):
-    def test_prototype_until_user_judges(self) -> None:
-        """사용자 판정 전 = prototype(마음에 들면 규약 승격 — 사용자 지시 2026-10-02)."""
-        self.assertEqual(QUOTE.status, "prototype")
-        self.assertEqual(BORDER_GLOW.status, "prototype")
+class AdoptedStatusTest(unittest.TestCase):
+    def test_adopted_by_user(self) -> None:
+        """v5.4.0 — 사용자 결정(2026-10-02 "마음에 든다, 정규 규약으로 승격") = adopted, 국경 글로우 지도 기본 켜짐."""
+        self.assertEqual(QUOTE.status, "adopted")
+        self.assertEqual(BORDER_GLOW.status, "adopted")
+        self.assertTrue(BORDER_GLOW.default_on)
+
+    def test_grammar_lines_in_prompts(self) -> None:
+        """연출 문법 2줄(직접 인용 = quote·맞선 인용 upper/lower, 통계 = 알맞은 차트) — 프롬프트는 {{RULES.direction_grammar}} 로만(P3)."""
+        from rules import load_rules  # noqa: PLC0415
+        from workers.prompt_loader import load_prompt  # noqa: PLC0415
+
+        rules = load_rules()
+        for key in ("**인용(quote)**", "알맞은 차트를 건다"):
+            self.assertEqual(sum(key in g for g in rules.direction_grammar), 1, key)
+            for name in ("director", "revise_direction"):
+                self.assertIn(key, load_prompt(name, rules), name)
 
 
 class QuoteModelTest(unittest.TestCase):
@@ -45,28 +57,43 @@ class QuoteModelTest(unittest.TestCase):
 
 class BorderGlowConfigTest(unittest.TestCase):
     def test_mercator_config_only_border_glow(self) -> None:
-        """지도 무대 stage_config 는 border_glow(bool) 하나 — 그 밖 키 = 오류(P10). 기본 꺼짐(골든 무설정)."""
-        self.assertFalse(MercatorStage().border_glow)
+        """지도 무대 stage_config 는 border_glow(bool) 하나 — 그 밖 키 = 오류(P10). v5.4.0 기본 켜짐, false 로 끈다."""
+        self.assertTrue(MercatorStage().border_glow)
+        self.assertFalse(MercatorStage(config={"border_glow": False}).border_glow)
         self.assertTrue(MercatorStage(config={"border_glow": True}).border_glow)
         with self.assertRaises(StageError):
             MercatorStage(config={"glow": True})
         with self.assertRaises(StageError):
             MercatorStage(config={"border_glow": "yes"})
 
-    def test_only_valdai_opts_in(self) -> None:
-        """이번 영상만 적용(사용자 지시) — 저장소에서 border_glow·quote 를 쓰는 연출은 valdai-2026 하나."""
-        users = {"glow": set(), "quote": set()}
+    def test_no_project_turns_glow_off(self) -> None:
+        """v5.4.0 — 정규 규약: 저장소 연출 중 국경 글로우를 끈 것은 없다(끄려면 사용자 결정)."""
+        off = []
         for f in sorted((REPO / "projects").glob("*/direction.yaml")):
             d = yaml.safe_load(f.read_text(encoding="utf-8")) or {}
-            if ((d.get("stage_config") or {}).get("mercator") or {}).get("border_glow"):
-                users["glow"].add(f.parent.name)
-            if any(e.get("type") == "quote" for e in d.get("events") or []):
-                users["quote"].add(f.parent.name)
-        self.assertEqual(users, {"glow": {"valdai-2026"}, "quote": {"valdai-2026"}})
+            if ((d.get("stage_config") or {}).get("mercator") or {}).get("border_glow") is False:
+                off.append(f.parent.name)
+        self.assertEqual(off, [])
 
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class GlowGoldenRecordTest(unittest.TestCase):
+    def test_g15_baseline_and_delta(self) -> None:
+        """v5.4.0 G15 — 글로우 켠 25컷 기준선 + expected_deltas g15_border_glow(25컷, 전/후·차이 사본), 끄면 = phaseG12 25/25(기록)."""
+        import json  # noqa: PLC0415
+
+        rec = json.loads((REPO / "docs" / "handoff" / "reports" / "phaseG15" / "hormuz_baseline.json").read_text(encoding="utf-8"))
+        self.assertEqual((len(rec["cuts"]), rec["glow_off_same_as_g12"], rec["changed_vs_g12"]), (25, 25, 25))
+        raw = json.loads((REPO / "docs" / "handoff" / "golden" / "expected_deltas.json").read_text(encoding="utf-8"))["deltas"]["g15_border_glow"]
+        self.assertEqual(len(raw["cuts"]), 25)
+        md5 = {c["png"]: c.get("md5_masked") or c["md5"] for c in rec["cuts"]}
+        for c in raw["cuts"]:
+            d = raw["cut_detail"][c]
+            self.assertEqual(d["md5"], md5[d["render"]], c)
+            self.assertTrue((REPO / "docs" / "handoff" / "reports" / "phaseG15" / "golden_delta" / d["render"].replace(".png", "_old_new_diff.jpg")).exists(), c)
 
 
 @unittest.skipUnless(fonts_ready(), NO_FONTS_REASON)

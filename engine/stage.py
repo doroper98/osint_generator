@@ -108,7 +108,9 @@ class MercatorStage:
             raise StageError(f"mercator 무대 stage_config 는 border_glow 만 — 받은 키 {bad}")
         if config and not isinstance(config.get("border_glow", False), bool):
             raise StageError("mercator stage_config.border_glow 는 true|false")
-        self.border_glow = bool((config or {}).get("border_glow", False))   # v5.3.1 국경선 글로우(시안, valdai-2026 한정)
+        from engine.style import BORDER_GLOW  # noqa: PLC0415 — style → stage 순환 회피
+
+        self.border_glow = bool((config or {}).get("border_glow", BORDER_GLOW.default_on))   # v5.4.0 국경선 글로우 — 지도 무대 기본(rules border_glow.default_on)
         self.assets = assets
         self.tiers = tiers if tiers is not None else (assets.tiers if assets is not None else None)
         self.out = out
