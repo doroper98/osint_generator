@@ -216,3 +216,10 @@ navcent:
 - **청와대 휘장**(D-0109, 사용자 결정 D98): `assets/emblems/registry.json cheongwadae` — Commons 대통령 표장(Public domain, restrictions insignia 기록 유지), `user_exception: D98` + `exception_scope`(청와대·대통령실이 발언·행위 주체인 문장의 식별 표시 전용, 무가공, 크레딧). 예외는 `schemas/emblem_models.USER_EXCEPTIONS` 목록만 — 다른 제한 휘장은 §5 그대로 국기 대체. 연출 문법 한 줄(`rules direction_grammar`): 대통령 개인이 주체면 초상, 둘 다면 초상 우선.
 
 - **v5.1.0 크레딧(G12)**: 배경 사진(`backdrop.img`)·프레스 사진(`article.press`)도 `media.<id>` 권리 참조로 요구된다(`engine.credits.required_refs`) — credits.yaml 에 그 항목이 없으면 렌더 전 RightsError.
+
+## 9. v5.5.0 — 인물 정수리는 원 안에 (사용자 결정 2026-10-02, RENDER-AP-006)
+
+§2.1 3단계의 "머리는 원 위로 나온다"(v3 합집합 clip)는 **폐기**한다. 사용자 시청 지적: 정수리가 원 테두리 밖으로 나온 모습이 어색하다.
+`rules badge.head_popout: false` 이면 인물 컷아웃도 원(R) 하나로 clip 하고, 실측 정수리(`portrait_head_top`)가 원 꼭대기에서
+`head_inside_max`·R 보다 깊이 내려오도록 컷아웃을 아래로 민다(어깨가 더 잘린다). 머리 예약(`head_factor`)은 1.0 — 원 밖으로 나오는 머리가 없다.
+골든 재기준선 phaseG16(expected_deltas `g16_head_path`).
