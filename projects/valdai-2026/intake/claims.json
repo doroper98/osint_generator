@@ -1,0 +1,686 @@
+{
+ "schema_version": 1,
+ "claims": [
+  {
+   "claim_id": "clm_0001",
+   "text": "푸틴 대통령이 10월 1일 모스크바 발다이 토론클럽 총회에서 연설했다",
+   "source_ids": [
+    "src_art_0001",
+    "src_art_0006",
+    "src_art_0004"
+   ],
+   "status": "corroborated",
+   "contested": false,
+   "event_date": "2026-10-01",
+   "checks": [
+    "quote_match:src_art_0001",
+    "quote_match:src_art_0006",
+    "quote_match:src_art_0004",
+    "independent_origins:3"
+   ],
+   "attributed_only": false,
+   "claim_kind": "fact",
+   "notes": ""
+  },
+  {
+   "claim_id": "clm_0002",
+   "text": "푸틴 대통령이 제재가 해제될 때까지 러시아가 세계시장에 경유를 공급하지 않겠다고 밝혔다",
+   "source_ids": [
+    "src_art_0001"
+   ],
+   "status": "unverified",
+   "contested": false,
+   "event_date": "2026-10-01",
+   "checks": [
+    "quote_match:src_art_0001",
+    "quote_match:src_art_0001",
+    "independent_origins:1",
+    "attributed:src_art_0001",
+    "attributed:src_art_0001"
+   ],
+   "attributed_only": true,
+   "claim_kind": "statement",
+   "notes": ""
+  },
+  {
+   "claim_id": "clm_0003",
+   "text": "러시아가 연료 생산업체의 경유 수출 금지를 10월 31일까지 연장했다",
+   "source_ids": [
+    "src_art_0003",
+    "src_art_0001"
+   ],
+   "status": "corroborated",
+   "contested": false,
+   "event_date": "2026-09-30",
+   "checks": [
+    "quote_match:src_art_0003",
+    "quote_match:src_art_0001",
+    "independent_origins:2"
+   ],
+   "attributed_only": false,
+   "claim_kind": "fact",
+   "notes": ""
+  },
+  {
+   "claim_id": "clm_0004",
+   "text": "러시아의 비생산업체 대상 경유 수출 금지는 1월까지 유지된다",
+   "source_ids": [
+    "src_art_0003"
+   ],
+   "status": "unverified",
+   "contested": false,
+   "checks": [
+    "quote_match:src_art_0003",
+    "independent_origins:1"
+   ],
+   "attributed_only": false,
+   "claim_kind": "fact",
+   "notes": ""
+  },
+  {
+   "claim_id": "clm_0005",
+   "text": "미국 경유 가격이 갤런당 6.50달러를 넘어 사상 최고치를 기록했다",
+   "source_ids": [
+    "src_art_0001"
+   ],
+   "status": "unverified",
+   "contested": false,
+   "checks": [
+    "quote_match:src_art_0001",
+    "independent_origins:1"
+   ],
+   "attributed_only": false,
+   "claim_kind": "fact",
+   "notes": ""
+  },
+  {
+   "claim_id": "clm_0006",
+   "text": "러시아 휘발유 평균 가격이 연초 대비 21% 올랐다",
+   "source_ids": [
+    "src_art_0003"
+   ],
+   "status": "unverified",
+   "contested": false,
+   "checks": [
+    "quote_match:src_art_0003",
+    "independent_origins:1"
+   ],
+   "attributed_only": false,
+   "claim_kind": "fact",
+   "notes": ""
+  },
+  {
+   "claim_id": "clm_0007",
+   "text": "러시아 연방반독점청이 주유소 체인의 가격 폭리 의심 사례 58건을 조사 중이라고 밝혔다",
+   "source_ids": [
+    "src_art_0003"
+   ],
+   "status": "unverified",
+   "contested": false,
+   "event_date": "2026-09-30",
+   "checks": [
+    "quote_match:src_art_0003",
+    "independent_origins:1",
+    "attributed:src_art_0003"
+   ],
+   "attributed_only": true,
+   "claim_kind": "statement",
+   "notes": ""
+  },
+  {
+   "claim_id": "clm_0008",
+   "text": "트럼프 대통령이 지난달 우크라이나의 러시아 생산시설 공격이 세계 경유 부족을 일으키고 있다고 말했다",
+   "source_ids": [
+    "src_art_0001"
+   ],
+   "status": "unverified",
+   "contested": false,
+   "checks": [
+    "quote_match:src_art_0001",
+    "independent_origins:1",
+    "attributed:src_art_0001"
+   ],
+   "attributed_only": true,
+   "claim_kind": "statement",
+   "notes": ""
+  },
+  {
+   "claim_id": "clm_0009",
+   "text": "우크라이나의 정유시설 공격으로 러시아가 GDP의 1%에 해당하는 손실을 입었다",
+   "source_ids": [
+    "src_art_0002"
+   ],
+   "status": "unverified",
+   "contested": true,
+   "sides": [
+    {
+     "party": "푸틴 대통령",
+     "text": "우크라이나의 정유시설 공격으로 GDP의 1%를 잃었다",
+     "source_ids": [
+      "src_art_0002",
+      "src_art_0001"
+     ]
+    }
+   ],
+   "checks": [
+    "quote_match:src_art_0002",
+    "independent_origins:1"
+   ],
+   "attributed_only": false,
+   "claim_kind": "fact",
+   "notes": ""
+  },
+  {
+   "claim_id": "clm_0010",
+   "text": "우크라이나군이 러시아 정유 능력의 45% 이상을 무력화했다고 주장했다",
+   "source_ids": [
+    "src_art_0003"
+   ],
+   "status": "unverified",
+   "contested": false,
+   "checks": [
+    "quote_match:src_art_0003",
+    "independent_origins:1",
+    "attributed:src_art_0003"
+   ],
+   "attributed_only": true,
+   "claim_kind": "statement",
+   "notes": ""
+  },
+  {
+   "claim_id": "clm_0011",
+   "text": "푸틴 대통령이 러시아가 우크라이나에 같은 방식으로 대응하고 있다고 밝혔다",
+   "source_ids": [
+    "src_art_0002"
+   ],
+   "status": "unverified",
+   "contested": false,
+   "event_date": "2026-10-01",
+   "checks": [
+    "quote_match:src_art_0002",
+    "independent_origins:1",
+    "attributed:src_art_0002"
+   ],
+   "attributed_only": true,
+   "claim_kind": "statement",
+   "notes": ""
+  },
+  {
+   "claim_id": "clm_0012",
+   "text": "푸틴 대통령이 러시아·칼리닌그라드에 대한 직접 공격 시 모든 무기 사용 문제가 즉시 제기될 것이라고 밝혔다",
+   "source_ids": [
+    "src_art_0004",
+    "src_art_0005"
+   ],
+   "status": "corroborated",
+   "contested": false,
+   "event_date": "2026-10-01",
+   "checks": [
+    "quote_match:src_art_0004",
+    "quote_match:src_art_0005",
+    "independent_origins:2",
+    "attributed:src_art_0004",
+    "attributed:src_art_0005"
+   ],
+   "attributed_only": true,
+   "claim_kind": "statement",
+   "notes": ""
+  },
+  {
+   "claim_id": "clm_0013",
+   "text": "푸틴 대통령이 러시아는 유럽 국가를 공격할 계획이 없다고 밝혔다",
+   "source_ids": [
+    "src_art_0002",
+    "src_art_0005"
+   ],
+   "status": "corroborated",
+   "contested": false,
+   "event_date": "2026-10-01",
+   "checks": [
+    "quote_match:src_art_0002",
+    "quote_match:src_art_0005",
+    "independent_origins:2",
+    "attributed:src_art_0002",
+    "attributed:src_art_0005"
+   ],
+   "attributed_only": true,
+   "claim_kind": "statement",
+   "notes": ""
+  },
+  {
+   "claim_id": "clm_0014",
+   "text": "푸틴 대통령이 러시아에는 다른 나라가 갖지 못한 무기가 있다고 말했다",
+   "source_ids": [
+    "src_art_0005",
+    "src_art_0004"
+   ],
+   "status": "corroborated",
+   "contested": false,
+   "event_date": "2026-10-01",
+   "checks": [
+    "quote_match:src_art_0005",
+    "quote_match:src_art_0004",
+    "independent_origins:2",
+    "attributed:src_art_0005",
+    "attributed:src_art_0004"
+   ],
+   "attributed_only": true,
+   "claim_kind": "statement",
+   "notes": ""
+  },
+  {
+   "claim_id": "clm_0015",
+   "text": "푸틴 대통령이 NATO에 보낸 경고에 대해 모든 것이 올바르게 쓰였다고 말했다",
+   "source_ids": [
+    "src_art_0004"
+   ],
+   "status": "unverified",
+   "contested": false,
+   "event_date": "2026-10-01",
+   "checks": [
+    "quote_match:src_art_0004",
+    "independent_origins:1",
+    "attributed:src_art_0004"
+   ],
+   "attributed_only": true,
+   "claim_kind": "statement",
+   "notes": ""
+  },
+  {
+   "claim_id": "clm_0016",
+   "text": "푸틴 대통령이 러시아의 입장은 위협이 아니라 위협 시도에 대한 대응이라고 말했다",
+   "source_ids": [
+    "src_art_0004"
+   ],
+   "status": "unverified",
+   "contested": false,
+   "event_date": "2026-10-01",
+   "checks": [
+    "quote_match:src_art_0004",
+    "independent_origins:1",
+    "attributed:src_art_0004"
+   ],
+   "attributed_only": true,
+   "claim_kind": "statement",
+   "notes": ""
+  },
+  {
+   "claim_id": "clm_0017",
+   "text": "푸틴 대통령이 우크라이나에 무기를 공급하는 유럽 공장을 공격할 계획은 없다고 밝혔다",
+   "source_ids": [
+    "src_art_0002",
+    "src_art_0005"
+   ],
+   "status": "corroborated",
+   "contested": false,
+   "event_date": "2026-10-01",
+   "checks": [
+    "quote_match:src_art_0002",
+    "quote_match:src_art_0005",
+    "independent_origins:2",
+    "attributed:src_art_0002",
+    "attributed:src_art_0005"
+   ],
+   "attributed_only": true,
+   "claim_kind": "statement",
+   "notes": ""
+  },
+  {
+   "claim_id": "clm_0018",
+   "text": "푸틴 대통령이 러시아가 우크라이나용 무기를 생산하는 유럽 공장을 감시하고 있다고 밝혔다",
+   "source_ids": [
+    "src_art_0005"
+   ],
+   "status": "unverified",
+   "contested": false,
+   "event_date": "2026-10-01",
+   "checks": [
+    "quote_match:src_art_0005",
+    "independent_origins:1",
+    "attributed:src_art_0005"
+   ],
+   "attributed_only": true,
+   "claim_kind": "statement",
+   "notes": ""
+  },
+  {
+   "claim_id": "clm_0019",
+   "text": "푸틴 대통령이 의제가 마련되면 시진핑·트럼프와 3자 회담을 할 준비가 돼 있다고 밝혔다",
+   "source_ids": [
+    "src_art_0002"
+   ],
+   "status": "unverified",
+   "contested": false,
+   "event_date": "2026-10-01",
+   "checks": [
+    "quote_match:src_art_0002",
+    "independent_origins:1",
+    "attributed:src_art_0002"
+   ],
+   "attributed_only": true,
+   "claim_kind": "statement",
+   "notes": ""
+  },
+  {
+   "claim_id": "clm_0020",
+   "text": "푸틴 대통령이 세계가 위험한 순간을 지나고 있다고 말했다",
+   "source_ids": [
+    "src_art_0002"
+   ],
+   "status": "unverified",
+   "contested": false,
+   "event_date": "2026-10-01",
+   "checks": [
+    "quote_match:src_art_0002",
+    "independent_origins:1",
+    "attributed:src_art_0002"
+   ],
+   "attributed_only": true,
+   "claim_kind": "statement",
+   "notes": ""
+  },
+  {
+   "claim_id": "clm_0021",
+   "text": "러시아가 이번 주 NATO에 칼리닌그라드 방어를 위한 핵무기 사용 가능성을 경고하는 서한을 보냈다",
+   "source_ids": [
+    "src_art_0004",
+    "src_art_0005",
+    "src_art_0002"
+   ],
+   "status": "corroborated",
+   "contested": false,
+   "checks": [
+    "quote_match:src_art_0004",
+    "quote_match:src_art_0004",
+    "quote_match:src_art_0005",
+    "quote_match:src_art_0002",
+    "independent_origins:2",
+    "attributed:src_art_0002"
+   ],
+   "attributed_only": false,
+   "claim_kind": "fact",
+   "notes": ""
+  },
+  {
+   "claim_id": "clm_0022",
+   "text": "유럽 주재 러시아 대사관들이 NATO가 칼리닌그라드 공중·해상 봉쇄를 준비하고 있다는 정보가 있다고 밝혔다",
+   "source_ids": [
+    "src_art_0004"
+   ],
+   "status": "unverified",
+   "contested": false,
+   "checks": [
+    "quote_match:src_art_0004",
+    "independent_origins:1",
+    "attributed:src_art_0004"
+   ],
+   "attributed_only": true,
+   "claim_kind": "statement",
+   "notes": ""
+  },
+  {
+   "claim_id": "clm_0023",
+   "text": "NATO가 칼리닌그라드 봉쇄를 준비하고 있다",
+   "source_ids": [
+    "src_art_0004"
+   ],
+   "status": "disputed",
+   "contested": true,
+   "sides": [
+    {
+     "party": "유럽 주재 러시아 대사관",
+     "text": "NATO가 칼리닌그라드 공중·해상 봉쇄를 준비하고 있다는 정보가 있다",
+     "source_ids": [
+      "src_art_0004"
+     ]
+    },
+    {
+     "party": "NATO",
+     "text": "NATO는 칼리닌그라드를 겨냥하지 않으며 방어 동맹이다",
+     "source_ids": [
+      "src_art_0004",
+      "src_art_0005"
+     ]
+    }
+   ],
+   "checks": [
+    "quote_match:src_art_0004",
+    "quote_match:src_art_0004",
+    "independent_origins:0",
+    "attributed:src_art_0004"
+   ],
+   "attributed_only": true,
+   "claim_kind": "fact",
+   "notes": ""
+  },
+  {
+   "claim_id": "clm_0024",
+   "text": "NATO가 러시아 서한에 방어 동맹임을 강조하는 답신을 보냈다고 밝혔다",
+   "source_ids": [
+    "src_art_0002",
+    "src_art_0005",
+    "src_art_0004"
+   ],
+   "status": "corroborated",
+   "contested": false,
+   "event_date": "2026-09-30",
+   "checks": [
+    "quote_match:src_art_0002",
+    "quote_match:src_art_0005",
+    "quote_match:src_art_0004",
+    "independent_origins:3",
+    "attributed:src_art_0002",
+    "attributed:src_art_0005",
+    "attributed:src_art_0004"
+   ],
+   "attributed_only": true,
+   "claim_kind": "statement",
+   "notes": ""
+  },
+  {
+   "claim_id": "clm_0025",
+   "text": "NATO 대변인 앨리슨 하트가 러시아의 무력 위협과 무책임한 핵 수사를 규탄한다고 말했다",
+   "source_ids": [
+    "src_art_0004"
+   ],
+   "status": "unverified",
+   "contested": false,
+   "event_date": "2026-09-30",
+   "checks": [
+    "quote_match:src_art_0004",
+    "independent_origins:1",
+    "attributed:src_art_0004"
+   ],
+   "attributed_only": true,
+   "claim_kind": "statement",
+   "notes": ""
+  },
+  {
+   "claim_id": "clm_0026",
+   "text": "뤼터 NATO 사무총장이 러시아의 핵 위협을 심각하게 받아들이지 않는다고 말했다",
+   "source_ids": [
+    "src_art_0005"
+   ],
+   "status": "unverified",
+   "contested": false,
+   "event_date": "2026-09-30",
+   "checks": [
+    "quote_match:src_art_0005",
+    "independent_origins:1",
+    "attributed:src_art_0005"
+   ],
+   "attributed_only": true,
+   "claim_kind": "statement",
+   "notes": ""
+  },
+  {
+   "claim_id": "clm_0027",
+   "text": "러시아가 유럽에서 사보타주·방화 등 하이브리드 전쟁을 강화했다",
+   "source_ids": [
+    "src_art_0002",
+    "src_art_0005",
+    "src_art_0004"
+   ],
+   "status": "disputed",
+   "contested": true,
+   "sides": [
+    {
+     "party": "유럽 각국 정부·에스토니아",
+     "text": "러시아가 사보타주·방화 등 하이브리드 전쟁을 강화하고 있다",
+     "source_ids": [
+      "src_art_0002",
+      "src_art_0005"
+     ]
+    },
+    {
+     "party": "러시아 정부",
+     "text": "의혹을 부인하며 터무니없다고 했다",
+     "source_ids": [
+      "src_art_0002",
+      "src_art_0004"
+     ]
+    }
+   ],
+   "checks": [
+    "quote_match:src_art_0002",
+    "quote_match:src_art_0005",
+    "quote_match:src_art_0005",
+    "quote_match:src_art_0002",
+    "quote_match:src_art_0004",
+    "independent_origins:2"
+   ],
+   "attributed_only": false,
+   "claim_kind": "fact",
+   "notes": ""
+  },
+  {
+   "claim_id": "clm_0028",
+   "text": "칼리닌그라드는 NATO 회원국 폴란드와 리투아니아 사이에 있다",
+   "source_ids": [
+    "src_art_0004",
+    "src_art_0005",
+    "src_art_0002"
+   ],
+   "status": "corroborated",
+   "contested": false,
+   "checks": [
+    "quote_match:src_art_0004",
+    "quote_match:src_art_0005",
+    "quote_match:src_art_0002",
+    "independent_origins:3"
+   ],
+   "attributed_only": false,
+   "claim_kind": "fact",
+   "notes": ""
+  },
+  {
+   "claim_id": "clm_0029",
+   "text": "칼리닌그라드에 이스칸데르 미사일이 배치돼 있다",
+   "source_ids": [
+    "src_art_0004",
+    "src_art_0005"
+   ],
+   "status": "corroborated",
+   "contested": false,
+   "checks": [
+    "quote_match:src_art_0004",
+    "quote_match:src_art_0005",
+    "independent_origins:2"
+   ],
+   "attributed_only": false,
+   "claim_kind": "fact",
+   "notes": ""
+  },
+  {
+   "claim_id": "clm_0030",
+   "text": "수바우키 회랑은 약 80km 길이의 폴란드-리투아니아 국경 구간이다",
+   "source_ids": [
+    "src_art_0004",
+    "src_art_0005"
+   ],
+   "status": "disputed",
+   "contested": false,
+   "checks": [
+    "quote_match:src_art_0004",
+    "quote_match:src_art_0005",
+    "independent_origins:1"
+   ],
+   "attributed_only": false,
+   "claim_kind": "fact",
+   "notes": ""
+  },
+  {
+   "claim_id": "clm_0031",
+   "text": "발다이 토론클럽 제23차 연례회의가 9월 28일 시작돼 10월 1일까지 열렸다",
+   "source_ids": [
+    "src_art_0008",
+    "src_art_0006"
+   ],
+   "status": "corroborated",
+   "contested": false,
+   "event_date": "2026-09-28",
+   "checks": [
+    "quote_match:src_art_0008",
+    "quote_match:src_art_0006",
+    "independent_origins:2"
+   ],
+   "attributed_only": false,
+   "claim_kind": "fact",
+   "notes": "수동 추가(원고 보강) — Trend 'will run through October 1', EADaily 'XXIII annual meeting'"
+  },
+  {
+   "claim_id": "clm_0032",
+   "text": "푸틴 대통령이 러시아에 경유는 충분하지만 석유·석유제품에 대한 금지와 제재 때문에 세계시장에 나가지 못할 것이라고 말했다",
+   "source_ids": [
+    "src_art_0001"
+   ],
+   "status": "unverified",
+   "contested": false,
+   "event_date": "2026-10-01",
+   "checks": [
+    "quote_match:src_art_0001",
+    "independent_origins:1",
+    "attributed:src_art_0001"
+   ],
+   "attributed_only": true,
+   "claim_kind": "statement",
+   "notes": "수동 추가(원고 보강) — Reuters 인용문"
+  },
+  {
+   "claim_id": "clm_0033",
+   "text": "푸틴 대통령이 우크라이나가 러시아 정유시설 공격으로 목표를 부분적으로 달성했다고 말했다",
+   "source_ids": [
+    "src_art_0001"
+   ],
+   "status": "unverified",
+   "contested": false,
+   "event_date": "2026-10-01",
+   "checks": [
+    "quote_match:src_art_0001",
+    "independent_origins:1",
+    "attributed:src_art_0001"
+   ],
+   "attributed_only": true,
+   "claim_kind": "statement",
+   "notes": "수동 추가(원고 보강) — Reuters 'partially achieved its objectives'"
+  },
+  {
+   "claim_id": "clm_0034",
+   "text": "파이낸셜타임스는 발다이 연례회의 장소가 우크라이나 공격 위협 때문에 소치에서 모스크바 지역으로 옮겨졌다고 보도했다",
+   "source_ids": [
+    "src_art_0009"
+   ],
+   "status": "unverified",
+   "contested": false,
+   "event_date": "2026-09-15",
+   "checks": [
+    "quote_match:src_art_0009",
+    "independent_origins:1",
+    "attributed:src_art_0009"
+   ],
+   "attributed_only": true,
+   "claim_kind": "statement",
+   "notes": "수동 추가(원고 보강) — Meduza 의 FT 보도 전재"
+  }
+ ]
+}

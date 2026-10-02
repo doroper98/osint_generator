@@ -245,3 +245,19 @@ projects/hormuz-talks-2026/plan.json
 projects/hormuz-talks-2026/project_manifest.json
 projects/hormuz-talks-2026/intake/verify_draft.json
 projects/hormuz-talks-2026/direction.meta.json
+
+# valdai-2026 (v5.3.0) — 런타임·LLM 기록·렌더 산출물은 추적하지 않는다(hormuz-talks-2026 과 같은 규칙).
+projects/valdai-2026/01_intake/
+projects/valdai-2026/03_tasks/
+projects/valdai-2026/assets/
+projects/valdai-2026/llm_calls/
+projects/valdai-2026/logs/
+projects/valdai-2026/media/
+projects/valdai-2026/tts/
+projects/valdai-2026/prev/
+projects/valdai-2026/prev_animatic/
+projects/valdai-2026/out/
+projects/valdai-2026/plan.json
+projects/valdai-2026/project_manifest.json
+projects/valdai-2026/intake/verify_draft.json
+projects/valdai-2026/direction.meta.json
