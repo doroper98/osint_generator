@@ -36,6 +36,27 @@
     "clm_0001"
    ]
   },
+  "timeline_0": {
+   "status": "unverified",
+   "label": "<미검증>",
+   "claim_ids": [
+    "clm_0035"
+   ]
+  },
+  "timeline_1": {
+   "status": "corroborated",
+   "label": null,
+   "claim_ids": [
+    "clm_0003"
+   ]
+  },
+  "timeline_2": {
+   "status": "corroborated",
+   "label": null,
+   "claim_ids": [
+    "clm_0001"
+   ]
+  },
   "kaliningrad_warning_0": {
    "status": "corroborated",
    "label": null,

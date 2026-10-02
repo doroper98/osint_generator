@@ -7,6 +7,8 @@ chapters:
   label: 발다이의 연설
 - at: TITLE
   label: 타이틀
+- at: timeline
+  label: 사흘의 경과
 - at: kaliningrad_warning
   label: 칼리닌그라드 경고
 - at: nato_letter

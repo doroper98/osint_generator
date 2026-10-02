@@ -681,6 +681,24 @@
    "attributed_only": true,
    "claim_kind": "statement",
    "notes": "수동 추가(원고 보강) — Meduza 의 FT 보도 전재"
+  },
+  {
+   "claim_id": "clm_0035",
+   "text": "벨기에 주재 러시아 대사관이 9월 28일 나토 국제사무국과 벨기에 외무부에 입장문을 전달했다고 밝혔다",
+   "source_ids": [
+    "src_art_0005"
+   ],
+   "status": "unverified",
+   "contested": false,
+   "event_date": "2026-09-28",
+   "checks": [
+    "quote_match:src_art_0005",
+    "independent_origins:1",
+    "attributed:src_art_0005"
+   ],
+   "attributed_only": true,
+   "claim_kind": "statement",
+   "notes": "수동 추가(원고 보강 — 사건 경과 장면) — Kyiv Post 'On Monday, Sept. 28, Russia’s embassy in Belgium said it had delivered a position…'"
   }
  ]
 }
