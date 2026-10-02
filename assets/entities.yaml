@@ -194,6 +194,10 @@ entities:
   ua: {kind: country, names: [우크라이나], flag: ua, rights: flags.flag_icons}
   pl: {kind: country, names: [폴란드], flag: pl, rights: flags.flag_icons}
   lv: {kind: country, names: [라트비아], flag: lv, rights: flags.flag_icons}
+  lt: {kind: country, names: [리투아니아], flag: lt, rights: flags.flag_icons}   # v5.3.0 valdai-2026(칼리닌그라드 이웃)
+  ee: {kind: country, names: [에스토니아], flag: ee, rights: flags.flag_icons}   # v5.3.0 valdai-2026
+  by: {kind: country, names: [벨라루스], flag: by, rights: flags.flag_icons}   # v5.3.0 valdai-2026
+  fi: {kind: country, names: [핀란드], flag: fi, rights: flags.flag_icons}   # v5.3.0 valdai-2026
   ro: {kind: country, names: [루마니아], flag: ro, rights: flags.flag_icons}
   pk: {kind: country, names: [파키스탄], flag: pk, rights: flags.flag_icons}
   il: {kind: country, names: [이스라엘], flag: il, rights: flags.flag_icons}
