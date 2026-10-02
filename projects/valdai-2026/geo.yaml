@@ -1,0 +1,10 @@
+# 『발다이 포럼』 지오 설정 (v5.3.0) — 유럽·러시아 서부.
+# tiers: W 광역(서유럽~우랄), B 발트해·칼리닌그라드(폴란드·리투아니아 사이), M 모스크바 일대.
+schema_version: 1
+bbox: [-12, 30, 70, 72]
+admin1: [RU, UA, PL, LT, BY]
+crimea_to_ua: true
+tiers:
+  - {name: W, ppd: 24, z: 5, bbox: [-10.0, 35.0, 62.0, 68.0]}
+  - {name: B, ppd: 96, z: 7, bbox: [17.0, 52.5, 26.5, 57.5]}
+  - {name: M, ppd: 96, z: 7, bbox: [34.0, 53.5, 41.5, 57.5]}

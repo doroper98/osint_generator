@@ -1,0 +1,31 @@
+# 『발다이 포럼』 유튜브 설명문 (v5.3.0). chapters.at = 장면 id 또는 TITLE.
+schema_version: 1
+headline: 발다이 포럼 — 칼리닌그라드 경고와 경유 압박
+summary: 2026년 10월 1일, 푸틴 대통령은 모스크바 발다이 토론클럽에서 칼리닌그라드 등 러시아 영토가 직접 공격받으면 모든 무기 사용 문제가 제기될 것이라고 경고했습니다. 유럽 공격 계획은 없다는 주장, 나토의 반응, 제재가 유지되는 한 경유를 세계시장에 공급하지 않겠다는 발언, 우크라이나의 정유시설 공격 피해 인정까지 지도로 정리했습니다.
+chapters:
+- at: open
+  label: 발다이의 연설
+- at: TITLE
+  label: 타이틀
+- at: kaliningrad_warning
+  label: 칼리닌그라드 경고
+- at: nato_letter
+  label: 나토에 보낸 서한
+- at: nato_response
+  label: 나토의 답
+- at: europe_remarks
+  label: 유럽을 향한 말
+- at: geography
+  label: 칼리닌그라드의 위치
+- at: blockade_dispute
+  label: 봉쇄설 공방
+- at: hybrid_dispute
+  label: 하이브리드 공방
+- at: diesel
+  label: 경유와 제재
+- at: russia_domestic
+  label: 러시아 안의 연료 가격
+- at: refinery
+  label: 정유시설 공격
+- at: open_questions
+  label: 남은 질문

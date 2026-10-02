@@ -35,6 +35,8 @@ hard 실패가 하나라도 있으면 시각 검수 LLM 을 부르지 않고 연
 | card_island | warning | v5.2.0(D-0129 §C): 카드·게시물 카드 제자리 상자와 같은 순간 보이는 아일랜드 상자 교차 > 0 `[card-island]`(provenance island.card_overlap[]) `engine.island` |
 | island_label_clip | hard | v5.2.0(D-0133 §2): 차트 아일랜드 안 마커 라벨 글자 상자가 반전·클램프(island.chart.label_flip_pad, `markers.island_label`) 뒤에도 아일랜드 상자 밖 `[island-label-clip]`(provenance island.label_clip[]) `engine.island.label_check` |
 | island_label_overlap | warning | v5.2.0(D-0133 §3): 차트 아일랜드 안 마커 라벨 글자 상자 ∩ 같은 순간 시리즈 출처 줄 글자 상자 > 0 `[island-label-overlap]`(provenance island.label_overlap[]) — 고치는 것은 연출 회차 |
+| cascade | hard | v5.2.0 겹침 카드(v5.3.0 D-0139 채택): `[cascade-width]`·`[cascade-back]`·`[cascade-date]`·`[cascade-overflow]`, 문장 지명(마커·at_place·경로·봉쇄선 이름표)이 카드 밑 `[cascade-label-under]`(D-0137 §2) |
+| cascade_label_hidden | warning | v5.3.0(D-0139 §3): 배경 지명(gazetteer·해역)이 겹침 카드 회피로 안 그려지거나 깔림 `[cascade-label-hidden]`(provenance cascade.hidden_labels[]) |
 | stage_choice | warning | v5.1.0(D-0123 §2): 주 무대 ≠ 장르 기본 무대(default_stage = 장르 프로필 stage.primary)인데 direction stage_reason 없음 `[stage-choice]` |
 | as_of_visible | hard | 기준 시점·출처 줄 — 시리즈는 프리뷰 컷에 그린 출처 줄, 패널은 08 §9 출처 체계. 적용 범위 = qa_checks.chart_targets(축 종류) |
 """
@@ -62,9 +64,9 @@ SHADOW_PX = 7             # badge_box 가 원 둘레에 더하는 그림자 여�
 HARD = ("overlap", "offscreen", "glyphs", "glyph_size", "labels", "date", "subtitles", "rights", "forbidden", "stage_continuity",
         "genre_elements", "chart_honesty", "series_limit_3", "units_visible", "as_of_visible", "boundary_as_route",
         "geo_mismatch", "timeline_rescale", "backdrop_rights", "backdrop_repeat", "island_overlap",
-        "backdrop_main_missing", "island_label_clip")   # island_label_clip v5.2.0 D-0133 §2, backdrop_main_missing v5.2.0 D-0129 §B, island_overlap v5.1.0 D-0126 Q3, geo_mismatch v4.10.0 D-0116, timeline_rescale v5.1.0 D-0121 §A, backdrop_* v5.1.0 D-0123
+        "backdrop_main_missing", "island_label_clip", "cascade")   # island_label_clip v5.2.0 D-0133 §2, backdrop_main_missing v5.2.0 D-0129 §B, island_overlap v5.1.0 D-0126 Q3, geo_mismatch v4.10.0 D-0116, timeline_rescale v5.1.0 D-0121 §A, backdrop_* v5.1.0 D-0123
 WARN = ("shots", "media_beats", "media_upscaled", "endcard_roll", "geo_unsourced",   # endcard_roll v4.7.0 D-0106, geo_unsourced D-0107
-        "static_window", "stage_choice", "card_island", "island_label_overlap")   # static_window v4.11.0 D-0118, stage_choice v5.1.0 D-0123, card_island v5.2.0 D-0129 §C, island_label_overlap D-0133 §3
+        "static_window", "stage_choice", "card_island", "island_label_overlap", "cascade_label_hidden")   # static_window v4.11.0 D-0118, stage_choice v5.1.0 D-0123, card_island v5.2.0 D-0129 §C, island_label_overlap D-0133 §3
 
 
 def missing_fonts() -> list[str]:
@@ -117,6 +119,129 @@ def _covered(P, t: float) -> bool:  # noqa: ANN001, N803
     if P.R.tb.in_fullcard(t):
         return True
     return any(e["type"] in ("panel", "dip") and e["t0"] <= t <= e["t1"] for e in P.events)
+
+
+CASCADE_STEP_SEC = 0.1   # 겹침 카드 샘플 간격(물러남 0.5·밀기 0.6초를 놓치지 않게)
+
+
+def check_cascade(P) -> list[str]:  # noqa: ANN001, N803
+    """v5.2.0 겹침 카드(cascade, 사용자 재구성 2026-10-01, v5.3.0 D-0139 채택) — 전체 폭 ≤ width_cap, 뒤 카드 ≤ max_back,
+    모서리 날짜 상자와 교차 0, 글자 넘침 0, **문장 지명**(지금 보이는 마커·at_place·경로·봉쇄선 이름표)이 카드 밑에 깔리는 순간 0(hard, D-0137 §2).
+    배경 지명(gazetteer)이 회피로 안 그려지거나 해역 이름이 깔리는 것은 warning(`check_cascade_label_hidden`). 문제마다 처음 시각 한 줄."""
+    from engine.cascade import back_count, cascade_boxes, cascade_width, check_text  # noqa: PLC0415
+    from engine.hud import date_box  # noqa: PLC0415
+    from engine.style import CASCADE  # noqa: PLC0415
+
+    ctx = cairo.Context(cairo.ImageSurface(cairo.FORMAT_ARGB32, 1, 1))
+    out: list[str] = []
+    db = date_box()
+    for e in P.events:
+        if e["type"] != "cascade":
+            continue
+        out += check_text(ctx, e)
+        seen: set[str] = set()
+        t = e["t0"]
+        while t <= e["t1"]:
+            boxes = cascade_boxes(t, e)
+            w = cascade_width(t, e)
+            if w > CASCADE.width_cap and "w" not in seen:
+                seen.add("w")
+                out.append(f"[cascade-width] t={t:.2f} 겹침 카드 폭 {w:.0f}px > width_cap {CASCADE.width_cap:.0f}")
+            c = back_count(t, e)
+            if c > CASCADE.max_back and "c" not in seen:
+                seen.add("c")
+                out.append(f"[cascade-back] t={t:.2f} 뒤 카드 {c}개 > max_back {CASCADE.max_back}")
+            if any(_box_hit(b, db) for b in boxes) and "d" not in seen:
+                seen.add("d")
+                out.append(f"[cascade-date] t={t:.2f} 겹침 카드가 모서리 날짜 상자와 겹침")
+            t += CASCADE_STEP_SEC
+    return out + cascade_label_report(P)["under"]
+
+
+def check_cascade_label_hidden(P) -> list[str]:  # noqa: ANN001, N803
+    """v5.3.0 D-0139 §3(D-0137 §2) — 문장과 무관한 배경 지명(gazetteer)이 겹침 카드 회피로 안 그려지거나 카드 밑에 깔림 — warning.
+    provenance cascade.hidden_labels[] 와 같은 값."""
+    return cascade_label_report(P)["hidden"]
+
+
+def _place_label_boxes(ctx: cairo.Context, P, v: View, t: float) -> list[tuple[str, tuple]]:  # noqa: ANN001, N803
+    """지금 보이는 문장 지명 상자 — 마커(at_place 포함) 점·라벨, 항로 이름표, 봉쇄선 이름표. 렌더러와 같은 자리·같은 등장 조건."""
+    from engine.layers.markers import marker_box  # noqa: PLC0415
+    from engine.layers.routes import RL, catmull  # noqa: PLC0415
+    from engine.timebase import ease_io, ease_out, window  # noqa: PLC0415
+    from engine.typography import tw  # noqa: PLC0415
+
+    out: list[tuple[str, tuple]] = []
+    for e in P.events:
+        if e["type"] not in ("marker", "route", "barrier") or not e.get("label") or not e["t0"] <= t <= e["t1"]:
+            continue
+        if e["type"] == "marker":
+            if window(t, e["t0"], e["t1"], 0.35, 0.5) <= 0.01 or t - e["t0"] < 0.2:   # 라벨은 0.2초 뒤부터(draw_marker)
+                continue
+            x, y = v.to_screen(*e["world"])
+            if -80 <= x <= W_OUT + 80 and -40 <= y <= H_OUT + 40:
+                out.append((e["label"], marker_box(ctx, e, x, y)))
+        elif e["type"] == "route":
+            prog = ease_io((t - e["t0"]) / e["grow"]) if e["grow"] > 0.05 else 1
+            if prog < 0.99 or window(t, e["t0"], e["t1"], 0.35, 0.6) <= 0.01:
+                continue
+            S_ = v.to_screen_arr(e.get("curve") if "curve" in e else catmull(e["world_pts"], 12))  # noqa: N806
+            x, y = S_[len(S_) // 2]
+            w = tw(ctx, e["label"], RL.route_size, "sansb")
+            out.append((e["label"], (x - w / 2, y - 11 - RL.route_size, x + w / 2, y - 11 + RL.route_size * 0.3)))
+        else:
+            if ease_out((t - e["t0"]) / 0.8) <= 0.95:
+                continue
+            x0, y0 = v.to_screen(*e["world_p0"])
+            x1, y1 = v.to_screen(*e["world_p1"])
+            xr, yb = (x0 + x1) / 2 - 12, (y0 + y1) / 2 + 4
+            w = tw(ctx, e["label"], RL.barrier_size, "sansb")
+            out.append((e["label"], (xr - w, yb - RL.barrier_size, xr, yb + RL.barrier_size * 0.3)))
+    return out
+
+
+def cascade_label_report(P) -> dict:  # noqa: ANN001, N803
+    """겹침 카드 ↔ 지명(v5.3.0 D-0139 §3, D-0137 §2) → {under: [hard 줄], hidden: [warning 줄], hidden_labels: [{name, kind, t}]}.
+    - 문장 지명(지금 보이는 마커·at_place·경로·봉쇄선 이름표)이 카드 상자와 교차 → `[cascade-label-under]` hard.
+    - 배경 지명(gazetteer 나라·도·도시)이 카드 회피로 안 그려짐, 해역 이름이 카드 밑에 깔림 → `[cascade-label-hidden]` warning.
+      같은 이름의 마커가 보이면 그 이름은 마커 라벨이 보여 준다(마커 라벨이 깔리면 위 hard) — 지도 라벨은 이름으로 문장 지명을 가리지 않는다.
+    렌더와 같은 `draw_labels`(카드 상자 회피 전/후)로 잰다. 지도가 가려진 순간(패널·전면 카드·암전)은 보지 않는다. P.R.cache 에 한 번만 잰다."""
+    if P.R.cache.get("cascade_check") is not None:
+        return P.R.cache["cascade_check"]
+    from engine.cascade import cascade_boxes  # noqa: PLC0415
+    from engine.style import CASCADE  # noqa: PLC0415
+
+    ctx = cairo.Context(cairo.ImageSurface(cairo.FORMAT_ARGB32, 1, 1))
+    under: list[str] = []
+    hidden: list[str] = []
+    names: dict[str, dict] = {}
+    for e in P.events:
+        if e["type"] != "cascade":
+            continue
+        seen: set[str] = set()
+        t = e["t0"]
+        while t <= e["t1"]:
+            boxes = cascade_boxes(t, e)
+            if boxes and not _covered(P, t):
+                v = View(P.R.stage, P.cams[min(P.n_frames - 1, int(t * FPS))])
+                for nm, lb in _place_label_boxes(ctx, P, v, t):
+                    if any(_box_hit(lb, b) for b in boxes) and f"p:{nm}" not in seen:
+                        seen.add(f"p:{nm}")
+                        under.append(f"[cascade-label-under] t={t:.2f} 문장 지명 {nm!r} 상자 {tuple(round(x) for x in lb)} 가 겹침 카드 밑에 깔림"
+                                     " — 첫 숏 구도(camera lon·lat·w)나 마커 side 를 바꾼다")
+                kept = P.R.stage.draw_labels(ctx, v, list(boxes), 0.0) or []   # 렌더와 같이 카드 상자를 회피한 뒤 그려지는 지명
+                free = P.R.stage.draw_labels(ctx, v, [], 0.0) or []            # 카드가 없을 때 그려졌을 지명
+                kept_names = {getattr(b, "name", None) for b in kept}
+                gone = [(b, "깔림") for b in kept if any(_box_hit(b, c) for c in boxes)]
+                gone += [(b, "회피") for b in free if getattr(b, "name", None) not in kept_names and any(_box_hit(b, c) for c in boxes)]
+                for b, how in gone:
+                    nm, kind = getattr(b, "name", "?"), getattr(b, "kind", "?")
+                    if nm not in names:
+                        names[nm] = {"name": nm, "kind": kind, "how": how, "t": round(t, 2)}
+                        hidden.append(f"[cascade-label-hidden] t={t:.2f} 배경 지명 {nm!r}({kind}) 이 겹침 카드 때문에 안 보임({how})")
+            t += CASCADE_STEP_SEC
+    P.R.cache["cascade_check"] = {"under": under, "hidden": hidden, "hidden_labels": list(names.values())}
+    return P.R.cache["cascade_check"]
 
 
 def check_offscreen(P) -> list[str]:  # noqa: ANN001, N803
@@ -453,6 +578,8 @@ def run_checks(P, times: list[float], provenance: dict, drawn: list[tuple[str, f
         "card_island": lambda: check_card_island(P),
         "island_label_clip": lambda: check_island_label_clip(P),
         "island_label_overlap": lambda: check_island_label_overlap(P),
+        "cascade": lambda: check_cascade(P),
+        "cascade_label_hidden": lambda: check_cascade_label_hidden(P),
     }
     res = {k: f() for k, f in run.items() if k not in skip}
     notes: dict[str, list[str]] = {}

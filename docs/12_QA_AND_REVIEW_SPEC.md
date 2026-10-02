@@ -1,6 +1,6 @@
 <!--
 tier: 2
-last_synced_with: v5.2.0
+last_synced_with: v5.3.0
 ssot_for: [review-gates, qa-policy]
 depends_on: [docs/handoff/16_ORCHESTRATOR_INTEGRATION.md, docs/handoff/17_AI_DIRECTOR_VISUAL_QA_PROMPTS.md, docs/handoff/18_SOURCE_INTAKE_ARTICLES_X.md, 07_VIDEO_STYLE_GUIDE.md, 08_AUDIO_AND_TTS_SPEC.md, ../GOAL.md]
 last_review: 2026-09-30
@@ -68,12 +68,21 @@ preview → prev/checks.json(결정적 검사 18항목)
 | 주 아일랜드 없음(`backdrop_main_missing`, `[backdrop-main-missing] t0-t1 {n}s`) — backdrop 무대에서 `island.main_kinds`(차트 아일랜드·프리미티브·사진·영상·기사·패널)가 하나도 안 보이는 구간 > `island.card_only_max_sec`(타이틀·엔딩 카드·기사 구간 제외), provenance `backdrop.main_missing[]` | hard | `rules:island`(`engine.island.main_missing`, handoff 08 §13) | v5.2.0 D-0129 §B |
 | 카드 ↔ 아일랜드 교차(`card_island`, `[card-island]`) — 카드·게시물 카드 제자리 상자 ∩ 같은 순간 아일랜드 상자 > 0, provenance `island.card_overlap[]` | warning | `rules:island`(`engine.island.card_overlap`) | v5.2.0 D-0129 §C |
 | 아일랜드 마커 라벨 잘림(`island_label_clip`, `[island-label-clip]`) — 차트 아일랜드 안 마커 라벨 글자 상자가 반전(오른쪽 → 왼쪽)·클램프(`island.chart.label_flip_pad`) 뒤에도 아일랜드 상자 밖, provenance `island.label_clip[]`·`island.label_flip[]` | hard | `rules:island.chart`(`engine.island.label_check`, `engine.layers.markers.island_label`) | v5.2.0 D-0133 §1·§2 |
+| 겹침 카드 폭(`cascade`, `[cascade-width]`) — 보이는 카드 오른쪽 끝 − x0 > width_cap. 0.1초 표본, 첫 시각 | hard | `rules:cascade`(`engine.cascade`, v5.3.0 D-0139 채택) | v5.2.0 사용자 재구성 2026-10-01(D-0135 띠 대체), v5.3.0 D-0139 |
+| 겹침 카드 뒤 카드 수(`cascade`, `[cascade-back]`) — 반 이상 물러난 뒤 카드(밀려 나가는 카드 제외) > max_back | hard | `rules:cascade`(`engine.cascade`, v5.3.0 D-0139 채택) | v5.2.0, v5.3.0 D-0139 |
+| 겹침 카드 ↔ 모서리 날짜(`cascade`, `[cascade-date]`) — 보이는 카드 상자 ∩ 모서리 날짜 상자 > 0 | hard | `rules:cascade`(`engine.cascade`, v5.3.0 D-0139 채택) | v5.2.0, v5.3.0 D-0139 |
+| 겹침 카드 문장 지명 깔림(`cascade`, `[cascade-label-under]`) — 지금 보이는 마커·at_place·경로·봉쇄선 이름표 상자가 카드 밑. 지도가 가려진 순간 제외 → 연출이 구도·마커 side 를 바꾼다 | hard | `rules:cascade`(`engine.cascade`, v5.3.0 D-0139 채택) | v5.3.0 D-0139 §3(D-0137 §2) |
+| 겹침 카드 글자 넘침(`cascade`, `[cascade-overflow]`) — 앞 카드 날짜·제목·부제 폭, 뒤 카드 보이는 폭 안 날짜 폭 초과(자름·말줄임 없음, 렌더도 `CascadeError`) | hard | `rules:cascade`(`engine.cascade`, v5.3.0 D-0139 채택) | v5.2.0, v5.3.0 D-0139 |
+| 겹침 카드 배경 지명 가림(`cascade_label_hidden`, `[cascade-label-hidden]`) — 문장과 무관한 gazetteer 나라·도·도시 이름이 카드 회피로 안 그려짐, 해역 이름이 카드 밑. provenance `cascade.hidden_labels[]` | warning | `rules:cascade`(`engine.cascade`, v5.3.0 D-0139 채택) | v5.3.0 D-0139 §3(D-0137 §2) |
 | 아일랜드 마커 라벨 ↔ 출처 줄(`island_label_overlap`, `[island-label-overlap]`) — 마커 라벨 글자 상자 ∩ 같은 순간 시리즈 출처 줄 글자 상자 > 0, provenance `island.label_overlap[]`. 고치는 것은 연출 회차 | warning | `rules:island.chart` | v5.2.0 D-0133 §3 |
 | 무대 선택(`stage_choice`, `[stage-choice]`) — 주 무대 ≠ 장르 기본 무대(stage.primary)인데 direction `stage_reason` 없음 | warning | 장르 프로필(handoff 20) | v5.1.0 D-0123 §2 |
 
 ### 2.2 장르 요소 검사 — v4.2.0
 
 `genre_elements`(hard)는 연출이 쓴 요소 종류(패널은 kind, 프리미티브는 id, 뱃지는 badge와 kind)가 장르 프로필의 reuse ∪ new 안인지 본다. 프로필 밖 요소는 요소마다 `[genre-element]` 한 줄이다.
+**게이트 ② 선행 조건(v5.2.0, PIPELINE-AP-014)**: 현재 `plan.json` 길이와 같은 콘티 판 기록(`out/animatic_provenance.json`, `animatic_run`)이 있어야
+`preview_approval` 승인이 된다(`orchestrator.project_manager.require_animatic`, 우회 없음). 게이트 기록 `shown.animatic` 에 경로·길이·연출 판 sha1.
+
 콘티 판(v4.9.0, handoff 11 §9)은 검사 프로파일 `animatic` 으로 돈다 — `rules:animatic.checks_skip` 은 건너뛰고 checks.json `skipped`·provenance `animatic_run.checks_skipped` 에 남는다(조용한 생략 아님).
 
 장르 프로필의 `qa_extra` 는 이 표의 검사 id 또는 `rules:qa_checks.planned`(예정 검사)만 쓸 수 있다. 새 프리미티브는 스케치 프리뷰(`tools/primitive_sketch.py`, 실제 엔진 렌더)와 사람 승인 뒤에만 영상 연출에 쓴다(handoff 20 §4.1).

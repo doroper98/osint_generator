@@ -1,6 +1,6 @@
 <!--
 tier: 2
-last_synced_with: v5.2.0
+last_synced_with: v5.3.0
 ssot_for: [operations-runbook]
 depends_on: [../WORKFLOWS.md, 02_SYSTEM_ARCHITECTURE.md]
 last_review: 2026-09-29
@@ -17,7 +17,7 @@ last_review: 2026-09-29
 | 다음 단계 진행 | `python -m orchestrator.main advance --project {pid}` (엔진 상태는 engine_service 로 CLI 실행) |
 | 게이트 화면 | `python -m orchestrator.main gate-view --project {pid}` |
 | 승인·반려 | `python -m orchestrator.main approve --project {pid} --gate script_approval\|preview_approval --comment "..." [--version N]` / `reject …` |
-| 콘티 판(흐름 검토, v4.9.0) | `python -m engine.render projects/{pid} --animatic` → `out/animatic.mp4` (WORKFLOWS W0 — 배포 금지, deliver 가 거부) |
+| 콘티 판(흐름 검토, v4.9.0 — **필수**, v5.2.0) | `python -m audio.mix projects/{pid}` → `python -m engine.render projects/{pid} --animatic` → `out/animatic.mp4` 를 사용자에게 보내 흐름 검토 (WORKFLOWS W0 — 배포 금지, deliver 가 거부. 기록이 없으면 게이트 ② 승인 거부, PIPELINE-AP-014) |
 | 단일 Worker 실행 | `python -m workers.{worker_name} --project-id {pid} --task-id {tid}` |
 | 로그 확인 | `logs/orchestrator.log`, `projects/{pid}/logs/workers/{task_id}.log` |
 

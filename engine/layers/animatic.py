@@ -321,10 +321,23 @@ def draw_band(ctx: cairo.Context, R: RenderCtx, t: float) -> None:  # noqa: N803
 
 
 # ------------------------------------------------------------------ 레이어 선택
+def draw_cascade(ctx: cairo.Context, R: RenderCtx, t: float, e: dict) -> None:  # noqa: N803
+    """겹침 카드 = 전편과 같은 자리(cascade.layout)·물러남·밀기. 앞 카드 `[사건: 날짜 · 국기]` + 제목, 뒤 카드 = 보이는 폭만 `[사건: 날짜]`."""
+    from engine.cascade import cascade_alpha, layout  # noqa: PLC0415
+
+    ea = cascade_alpha(t, e)
+    for c in layout(t, e):
+        it = e["items"][c.i]
+        w = min(c.w, c.clip_x1 - c.x)
+        lines = [label("cascade", it["date"])] if c.back >= 1 / 2 else [label("cascade", f"{it['date']} · {it['flag'].upper()}"), it["title"]]
+        box(ctx, c.x, c.y, w, c.h, lines, ea * c.a)
+
+
 PLACEHOLDERS: dict[str, Callable[..., Any]] = {
     "badge": draw_badge, "photo": draw_photo, "clip": draw_clip, "cutout": draw_cutout, "article": draw_article,
     "post": draw_post, "card": draw_card, "panel": draw_panel, "primitive": draw_primitive,
     "backdrop": draw_backdrop,   # v5.1.0 D-0123
+    "cascade": draw_cascade,         # v5.2.0 겹침 카드(v5.3.0 D-0139 채택)
 }
 
 

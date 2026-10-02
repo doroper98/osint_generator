@@ -1,6 +1,6 @@
 <!--
 tier: 3
-last_synced_with: v5.2.0
+last_synced_with: v5.3.0
 ssot_for: [release-notes]
 depends_on: [README.md, GOAL.md]
 last_review: 2026-09-28
@@ -62,10 +62,25 @@ released 항목은 **append-only**입니다.
 | v4.11.0 | 7ff2976 | G10 정적 구간 검사·음악 상한 +2 dB·글자 크기 2차 표 | pass(D-0119) — 청감 판정은 사용자 |
 | v5.0.0 | 87912d2 | G11 GOAL G4-21·claim_kind fact/statement | pass(D-0125) |
 | v5.1.0 | 3619f2c | G12 backdrop 무대·아일랜드·축 스케일·기사 프레스 v2·발음 사전·버전 도장 | pass(D-0127) — 후속 D-0128 완료 |
+| v5.2.0 | d4703d9 | G13 배경 가독·주 아일랜드 상시·보도 인용 = 기사·card-island·라벨 반전 | pass(D-0134) — 후속 겹침 카드 시안(D-0135~D-0138) |
 
 ---
 
-## [v5.2.0] — 2026-09-30 — G13: 배경 사진 가독, 주 아일랜드 상시, 보도 인용 = 기사 이벤트, 카드↔아일랜드 교차 (back_and_forth D-0129, 사용자 판정 D113) — 진행 중
+## [v5.3.0] — 2026-10-02 — G14: 겹침 카드(cascade) 채택 — 사건 경과를 겹침 카드로 (back_and_forth D-0139, 사용자 결정 D116·사용자 판정 D117) — 진행 중
+
+MINOR: Phase G14 완료 + 새 이벤트 타입 `cascade` 정식 등록(C5.4). JSON `schema_version` 그대로(1).
+
+### Added
+- 출력 프로파일 `720p`(1280×720) — `--res 720p`(geo.prep·engine.render).
+- 콘티 판 provenance `animatic_run.direction_sha1`.
+
+### Changed
+- **§0**: VERSION 5.3.0, Tier 1·2 `last_synced_with` v5.3.0, v5.2.0 대장 행(d4703d9, D-0134 pass).
+- 게이트 ② 승인은 현재 음성 타임라인의 콘티 판(`out/animatic_provenance.json`)이 있어야 된다(`require_animatic`, PIPELINE-AP-014). 콘티 판은 선택이 아니라 필수 단계.
+
+---
+
+## [v5.2.0] — 2026-09-30 — G13: 배경 사진 가독, 주 아일랜드 상시, 보도 인용 = 기사 이벤트, 카드↔아일랜드 교차 (back_and_forth D-0129, 사용자 판정 D113) — 합격(D-0134)
 
 MINOR: 새 검사 4개(`backdrop_main_missing`·`island_label_clip` hard, `card_island`·`island_label_overlap` warning). JSON `schema_version` 그대로(1).
 

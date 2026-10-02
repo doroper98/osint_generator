@@ -58,6 +58,13 @@ def card_box(ctx: cairo.Context, e: dict) -> Box:
 def card_zones(ctx: cairo.Context, events: list[dict], t: float) -> list[Zone]:
     out: list[Zone] = []
     for e in events:
+        if e["type"] == "cascade":   # v5.2.0 겹침 카드 — 보이는 카드 상자마다 영역(뱃지가 비킨다)
+            from engine.cascade import cascade_alpha, cascade_boxes  # noqa: PLC0415
+
+            ca = cascade_alpha(t, e)
+            if ca > RES.min_zone_alpha:
+                out += [Zone(b, ca, f"cascade:{e['items'][0]['title']}") for b in cascade_boxes(t, e)]
+            continue
         if e["type"] not in ("card", "post", "primitive"):   # 기사(v5.1.0 프레스 v2)는 화면 전체 덮개 — 뱃지가 비킬 카드 자리가 아니다
             continue
         a = presence(t, e, CARD.fade_sec)   # 게시물 카드도 같은 0.45초 페이드(post.post_alpha)

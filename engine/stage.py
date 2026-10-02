@@ -196,10 +196,10 @@ class MercatorStage:
                          box=(max(0.0, x0 + dx), max(0.0, y0), min(x0 + dx + wd, im.width), min(y0 + view.h * lv, im.height)))
 
     # --- 라벨·LOD
-    def draw_labels(self, ctx: cairo.Context, view: "View", reserved: list, alpha: float = 1.0) -> None:
+    def draw_labels(self, ctx: cairo.Context, view: "View", reserved: list, alpha: float = 1.0) -> list:
         from engine.layers.labels import draw_labels  # noqa: PLC0415
 
-        draw_labels(ctx, self, view, reserved, alpha)
+        return draw_labels(ctx, self, view, reserved, alpha)
 
     def lod_rules(self) -> dict[str, Any]:
         return dict(MERCATOR_LOD)

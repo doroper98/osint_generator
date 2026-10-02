@@ -1,6 +1,6 @@
 <!--
 tier: 1
-last_synced_with: v5.2.0
+last_synced_with: v5.3.0
 ssot_for: [project-entry-point]
 depends_on: [GOAL.md, CLAUDE.md, DOCS_GOVERNANCE.md, docs/02_SYSTEM_ARCHITECTURE.md]
 last_review: 2026-09-29
@@ -90,7 +90,7 @@ Private 저장소이므로 페이지가 GitHub API 를 호출하려면 사용자
 
 새 브랜치를 만들면 `docs/branches.html` 의 `BRANCH_DESCRIPTIONS` 객체에 한 줄 설명을 추가하십시오.
 
-## 현재 상태 (v5.2.0)
+## 현재 상태 (v5.3.0)
 
 | 구간 | 상태 |
 |---|---|
@@ -109,7 +109,8 @@ Private 저장소이므로 페이지가 GitHub API 를 호출하려면 사용자
 | G10 정적 구간 검사·음악 상한·글자 크기 2차 표 (v4.11.0) | 완료(D-0119) |
 | G11 GOAL G4-21·claim_kind fact/statement (v5.0.0) | 완료(D-0125) |
 | G12 backdrop 무대·아일랜드·축 스케일·기사 프레스 v2·버전 도장 (v5.1.0) | 완료(D-0127·D-0128) |
-| G13 배경 가독·주 아일랜드 상시·보도 인용 = 기사·card-island (v5.2.0) | 진행 중 |
+| G13 배경 가독·주 아일랜드 상시·보도 인용 = 기사·card-island (v5.2.0) | 완료(D-0134) |
+| G14 겹침 카드(cascade) 채택 (v5.3.0) | 진행 중 |
 | 썸네일 시스템, 텔레그램 인테이크, 유튜브 업로드 | v2 파이프라인에 없음 — 별도 계획 |
 
 Phase 표와 버전은 [docs/13_IMPLEMENTATION_ROADMAP.md](docs/13_IMPLEMENTATION_ROADMAP.md), 변경 내역은 [CHANGELOG.md](CHANGELOG.md), 합격 커밋은 [docs/handoff/TAGS_PENDING.md](docs/handoff/TAGS_PENDING.md).

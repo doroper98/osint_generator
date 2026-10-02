@@ -119,6 +119,28 @@ class TestPronounceBeforeSynth(unittest.TestCase):
 
         self.assertEqual(pronounce_tts("연방공개시장위원회는 동결했습니다"), "연방 공개시장 위원회는 동결했습니다")   # TTS-AP-068
 
+    def test_noun_plus_subject_ga_not_oil_price(self) -> None:
+        """TTS-AP-069 — '브렌트유 + 가(조사)' 를 油價 '유까' 로 바꾸지 않는다(긴 예외 항목이 이긴다). 油價는 그대로 '유까'."""
+        from script.lint import pronounce_tts  # noqa: PLC0415
+
+        self.assertEqual(pronounce_tts("브렌트유가 삼 퍼센트 넘게 올랐다"), "브렌트유가 삼 퍼센트 넘게 올랐다")
+        self.assertEqual(pronounce_tts("정부 비축유가 줄었다"), "정부 비축유가 줄었다")
+        self.assertEqual(pronounce_tts("한국 정부는 유가 상한제를"), "한국 정부는 유까 상한제를")
+
+    def test_single_pass_no_rechain(self) -> None:
+        """치환된 글자는 다시 치환하지 않는다(한 번 훑기, 최장 일치) — 값이 다른 key 를 품어도 연쇄 없음."""
+        from script.lint import apply_dict  # noqa: PLC0415
+
+        m = {"ab": "ab", "b": "X", "c": "b"}
+        self.assertEqual(apply_dict("ab b c", m), "ab X b")
+
+    def test_institution_split(self) -> None:
+        """TTS-AP-070 — 긴 기관명은 의미 단위 띄어쓰기로 분절 고정(TTS-AP-068 과 같은 부류)."""
+        from script.lint import pronounce_tts  # noqa: PLC0415
+
+        self.assertEqual(pronounce_tts("미국 전략국제문제연구소는 사월 초"), "미국 전략 국제문제 연구소는 사월 초")
+        self.assertEqual(pronounce_tts("국제에너지기구 공동 방출"), "국제 에너지 기구 공동 방출")
+
     def test_explicit_tts_path_in_plan(self) -> None:
         """script.plan.build 가 원고 명시 tts 를 사전에 통과시킨 뒤 캐시 키를 만든다(합성은 가짜)."""
         import yaml  # noqa: PLC0415

@@ -1,0 +1,12 @@
+# 레지스트리 프리뷰 예제 (v5.3.0 D-0139 겹침 카드, 사용자 결정 D116·D117, 15 P10) — 모델 검증 테스트가 읽는다. 문구는 예시(실제 사건 아님).
+schema_version: 1
+key: cascade
+source: projects/hormuz-talks-2026/direction.yaml (첫 사용 예, v5.3.0 채택) — 시각은 hormuz_korea 갤러리 시각
+event:
+  type: cascade
+  t0: 5.92
+  t1: 14.9
+  items:
+  - {at: 6.2, flag: kr, date: 09. 18, title: 파병 불가 발표, line: 기자회견 · 대통령실, accent: gold}
+  - {at: 9.0, flag: us, date: 09. 19, title: "미국, 동맹 협력 요청", line: 국무부 논평, accent: us}
+  - {at: 12.0, flag: ir, date: 09. 20, title: "이란, 환영 성명", line: 외무부 대변인, accent: ru}

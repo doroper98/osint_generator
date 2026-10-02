@@ -406,6 +406,8 @@ def approve_gate(
     g = _require_gate(manifest, gate)
     nxt = next_state(g)
     assert nxt is not None
+    if g == ProjectState.PREVIEW_APPROVAL:   # 콘티 판 의무(WORKFLOWS W0, PIPELINE-AP-014) — 건너뛰면 게이트 ② 승인 불가
+        shown = {**(shown or {}), "animatic": require_animatic(project_dir(manifest.project_id, cfg))}
     if chosen_version is not None:
         if g != ProjectState.PREVIEW_APPROVAL:
             raise ValueError("chosen_version 은 게이트 ②(preview_approval)에서만 쓴다")
@@ -413,6 +415,32 @@ def approve_gate(
     manifest.gate_decisions.append(GateDecision(gate=g, decision="approved", by=by, comment=comment, shown=shown or {},
                                                 chosen_version=chosen_version))
     return _apply_transition(manifest, nxt, f"{g.value} 승인 — {by}", cfg)
+
+
+class AnimaticMissingError(ValueError):
+    """게이트 ② 승인 전에 현재 음성 타임라인의 콘티 판(out/animatic.mp4)이 없다."""
+
+
+ANIMATIC_TOTAL_TOL_SEC = 0.05   # 콘티 판 total_sec ↔ plan.json total 허용 차(같은 음성 타임라인인지)
+
+
+def require_animatic(pdir: Path) -> str:
+    """콘티 판이 현재 음성 타임라인(plan.json)으로 렌더됐는지 확인하고 게이트 기록용 한 줄을 돌려준다.
+    없거나 옛 음성이면 AnimaticMissingError — 우회 플래그 없음(사용자 결정 2026-10-01, PIPELINE-AP-014)."""
+    how = f"`python -m engine.render {pdir} --animatic` 로 콘티 판을 만들고 사용자 흐름 검토를 받은 뒤 승인한다(WORKFLOWS W0)"
+    pp = pdir / "out" / "animatic_provenance.json"
+    if not pp.exists():
+        raise AnimaticMissingError(f"콘티 판 없음({pp}) — 게이트 ② 는 콘티 판 없이 승인할 수 없다. {how}")
+    prov = json.loads(pp.read_text(encoding="utf-8"))
+    run = prov.get("animatic_run")
+    if not prov.get("animatic") or not isinstance(run, dict):
+        raise AnimaticMissingError(f"{pp.name} 에 animatic_run 기록이 없다 — 콘티 판 렌더가 끝나지 않았다. {how}")
+    plan = pdir / "plan.json"
+    if plan.exists():
+        total = float(json.loads(plan.read_text(encoding="utf-8"))["total"])
+        if abs(float(prov.get("total_sec", -1.0)) - total) > ANIMATIC_TOTAL_TOL_SEC:
+            raise AnimaticMissingError(f"콘티 판 길이 {prov.get('total_sec')}초 ≠ 현재 plan {total:.2f}초 — 옛 음성으로 만든 콘티 판이다. {how}")
+    return f"{run.get('output')} · {prov.get('total_sec')}초 · direction {run.get('direction_sha1') or '기록 없음'}"
 
 
 def _choose_version(pdir: Path, version: int, by: str) -> None:

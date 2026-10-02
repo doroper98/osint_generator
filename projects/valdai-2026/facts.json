@@ -1,0 +1,432 @@
+{
+  "schema_version": 1,
+  "facts": [
+    {
+      "id": "f_valdai_speech",
+      "text": "푸틴 대통령은 10월 1일 모스크바에서 열린 발다이 토론클럽 총회에서 연설했다.",
+      "date": "2026.10.01",
+      "place": "모스크바",
+      "actors": [
+        "블라디미르 푸틴"
+      ],
+      "numbers": [],
+      "source_ids": [
+        "clm_0001"
+      ],
+      "confidence": "high",
+      "contested": false,
+      "sides": null
+    },
+    {
+      "id": "f_dangerous_moment",
+      "text": "푸틴 대통령은 세계가 위험한 순간을 지나고 있다고 말했다고 모스크바타임스가 보도했다.",
+      "date": "2026.10.01",
+      "place": "모스크바",
+      "actors": [
+        "블라디미르 푸틴"
+      ],
+      "numbers": [],
+      "source_ids": [
+        "clm_0020"
+      ],
+      "confidence": "low",
+      "contested": false,
+      "sides": null
+    },
+    {
+      "id": "f_all_weapons",
+      "text": "푸틴 대통령은 러시아 본토나 칼리닌그라드가 직접 공격받으면 모든 무기 사용 문제가 즉시 제기될 것이라고 밝혔다.",
+      "date": "2026.10.01",
+      "place": "모스크바",
+      "actors": [
+        "블라디미르 푸틴"
+      ],
+      "numbers": [],
+      "source_ids": [
+        "clm_0012"
+      ],
+      "confidence": "high",
+      "contested": false,
+      "sides": null
+    },
+    {
+      "id": "f_unique_weapons",
+      "text": "푸틴 대통령은 러시아에 다른 나라가 갖지 못한 무기가 있다고 말했다.",
+      "date": "2026.10.01",
+      "place": "모스크바",
+      "actors": [
+        "블라디미르 푸틴"
+      ],
+      "numbers": [],
+      "source_ids": [
+        "clm_0014"
+      ],
+      "confidence": "high",
+      "contested": false,
+      "sides": null
+    },
+    {
+      "id": "f_no_europe_attack",
+      "text": "푸틴 대통령은 러시아가 유럽 국가를 공격할 계획이 없으며, 우크라이나에 무기를 공급하는 유럽 공장을 공격할 계획도 없다고 밝혔다.",
+      "date": "2026.10.01",
+      "place": "모스크바",
+      "actors": [
+        "블라디미르 푸틴"
+      ],
+      "numbers": [],
+      "source_ids": [
+        "clm_0013",
+        "clm_0017"
+      ],
+      "confidence": "high",
+      "contested": false,
+      "sides": null
+    },
+    {
+      "id": "f_monitor_factories",
+      "text": "푸틴 대통령은 러시아가 우크라이나용 무기를 생산하는 유럽 공장을 감시하고 있다고 말했다고 키이우포스트가 보도했다.",
+      "date": "2026.10.01",
+      "place": "모스크바",
+      "actors": [
+        "블라디미르 푸틴"
+      ],
+      "numbers": [],
+      "source_ids": [
+        "clm_0018"
+      ],
+      "confidence": "low",
+      "contested": false,
+      "sides": null
+    },
+    {
+      "id": "f_letter_correct",
+      "text": "푸틴 대통령은 NATO에 보낸 경고에 대해 모든 것이 올바르게 쓰였다며, 러시아의 입장은 위협이 아니라 위협 시도에 대한 대응이라고 말했다고 AP가 보도했다.",
+      "date": "2026.10.01",
+      "place": "모스크바",
+      "actors": [
+        "블라디미르 푸틴"
+      ],
+      "numbers": [],
+      "source_ids": [
+        "clm_0015",
+        "clm_0016"
+      ],
+      "confidence": "low",
+      "contested": false,
+      "sides": null
+    },
+    {
+      "id": "f_trilateral",
+      "text": "푸틴 대통령은 의제가 마련되면 시진핑 주석·트럼프 대통령과 3자 회담을 할 준비가 돼 있다고 말했다고 모스크바타임스가 보도했다.",
+      "date": "2026.10.01",
+      "place": "모스크바",
+      "actors": [
+        "블라디미르 푸틴",
+        "시진핑",
+        "도널드 트럼프"
+      ],
+      "numbers": [],
+      "source_ids": [
+        "clm_0019"
+      ],
+      "confidence": "low",
+      "contested": false,
+      "sides": null
+    },
+    {
+      "id": "f_nato_letter",
+      "text": "러시아는 이번 주 NATO에 칼리닌그라드 방어를 위해 핵무기를 사용할 수 있다고 경고하는 서한을 보냈다.",
+      "date": null,
+      "place": "칼리닌그라드",
+      "actors": [
+        "러시아 정부",
+        "NATO"
+      ],
+      "numbers": [],
+      "source_ids": [
+        "clm_0021"
+      ],
+      "confidence": "high",
+      "contested": false,
+      "sides": null
+    },
+    {
+      "id": "f_nato_reply",
+      "text": "NATO는 러시아 서한에 자신들이 방어 동맹임을 강조하는 답신을 보냈다고 밝혔다.",
+      "date": "2026.09.30",
+      "place": null,
+      "actors": [
+        "NATO"
+      ],
+      "numbers": [],
+      "source_ids": [
+        "clm_0024"
+      ],
+      "confidence": "high",
+      "contested": false,
+      "sides": null
+    },
+    {
+      "id": "f_nato_hart",
+      "text": "앨리슨 하트 NATO 대변인은 러시아의 무력 위협과 무책임한 핵 수사를 규탄한다고 말했다고 AP가 보도했다.",
+      "date": "2026.09.30",
+      "place": null,
+      "actors": [
+        "앨리슨 하트",
+        "NATO"
+      ],
+      "numbers": [],
+      "source_ids": [
+        "clm_0025"
+      ],
+      "confidence": "low",
+      "contested": false,
+      "sides": null
+    },
+    {
+      "id": "f_rutte",
+      "text": "뤼터 NATO 사무총장은 러시아의 핵 위협을 심각하게 받아들이지 않는다고 말했다고 키이우포스트가 보도했다.",
+      "date": "2026.09.30",
+      "place": null,
+      "actors": [
+        "마르크 뤼터",
+        "NATO"
+      ],
+      "numbers": [],
+      "source_ids": [
+        "clm_0026"
+      ],
+      "confidence": "low",
+      "contested": false,
+      "sides": null
+    },
+    {
+      "id": "f_blockade_dispute",
+      "text": "유럽 주재 러시아 대사관들은 NATO가 칼리닌그라드 공중·해상 봉쇄를 준비하고 있다는 정보가 있다고 주장했고, NATO는 칼리닌그라드를 겨냥하지 않는 방어 동맹이라고 반박했다.",
+      "date": null,
+      "place": "칼리닌그라드",
+      "actors": [
+        "유럽 주재 러시아 대사관",
+        "NATO"
+      ],
+      "numbers": [],
+      "source_ids": [
+        "clm_0022",
+        "clm_0023",
+        "clm_0024"
+      ],
+      "confidence": "low",
+      "contested": true,
+      "sides": [
+        "유럽 주재 러시아 대사관: NATO가 칼리닌그라드 공중·해상 봉쇄를 준비하고 있다는 정보가 있다",
+        "NATO: 칼리닌그라드를 겨냥하지 않으며 방어 동맹이다"
+      ]
+    },
+    {
+      "id": "f_hybrid_dispute",
+      "text": "유럽 각국 정부와 에스토니아는 러시아가 사보타주·방화 등 하이브리드 전쟁을 강화하고 있다고 주장했고, 러시아 정부는 이를 터무니없다며 부인했다.",
+      "date": null,
+      "place": "유럽",
+      "actors": [
+        "유럽 각국 정부",
+        "에스토니아 정부",
+        "러시아 정부"
+      ],
+      "numbers": [],
+      "source_ids": [
+        "clm_0027"
+      ],
+      "confidence": "medium",
+      "contested": true,
+      "sides": [
+        "유럽 각국 정부·에스토니아: 러시아가 사보타주·방화 등 하이브리드 전쟁을 강화하고 있다",
+        "러시아 정부: 의혹을 부인하며 터무니없다고 했다"
+      ]
+    },
+    {
+      "id": "f_kaliningrad_geo",
+      "text": "칼리닌그라드는 NATO 회원국 폴란드와 리투아니아 사이에 있으며, 이스칸데르 미사일이 배치돼 있다.",
+      "date": null,
+      "place": "칼리닌그라드",
+      "actors": [
+        "러시아군"
+      ],
+      "numbers": [],
+      "source_ids": [
+        "clm_0028",
+        "clm_0029"
+      ],
+      "confidence": "high",
+      "contested": false,
+      "sides": null
+    },
+    {
+      "id": "f_suwalki",
+      "text": "AP·키이우포스트는 수바우키 회랑을 약 80km 길이의 폴란드-리투아니아 국경 구간으로 소개했다.",
+      "date": null,
+      "place": "수바우키 회랑",
+      "actors": [],
+      "numbers": [
+        "약 80km"
+      ],
+      "source_ids": [
+        "clm_0030"
+      ],
+      "confidence": "medium",
+      "contested": false,
+      "sides": null
+    },
+    {
+      "id": "f_diesel_supply",
+      "text": "로이터는 푸틴 대통령이 제재가 해제될 때까지 러시아가 세계시장에 경유를 공급하지 않겠다고 밝혔다고 보도했다.",
+      "date": "2026.10.01",
+      "place": "모스크바",
+      "actors": [
+        "블라디미르 푸틴"
+      ],
+      "numbers": [],
+      "source_ids": [
+        "clm_0002"
+      ],
+      "confidence": "low",
+      "contested": false,
+      "sides": null
+    },
+    {
+      "id": "f_diesel_ban_oct",
+      "text": "러시아는 연료 생산업체의 경유 수출 금지를 10월 31일까지 연장했다.",
+      "date": "2026.09.30",
+      "place": "러시아",
+      "actors": [
+        "러시아 정부"
+      ],
+      "numbers": [
+        "10월 31일"
+      ],
+      "source_ids": [
+        "clm_0003"
+      ],
+      "confidence": "high",
+      "contested": false,
+      "sides": null
+    },
+    {
+      "id": "f_diesel_ban_nonproducer",
+      "text": "모스크바타임스는 비생산업체 대상 경유 수출 금지는 1월까지 유지된다고 보도했다.",
+      "date": null,
+      "place": "러시아",
+      "actors": [
+        "러시아 정부"
+      ],
+      "numbers": [
+        "1월"
+      ],
+      "source_ids": [
+        "clm_0004"
+      ],
+      "confidence": "low",
+      "contested": false,
+      "sides": null
+    },
+    {
+      "id": "f_us_diesel_price",
+      "text": "로이터는 미국 경유 가격이 갤런당 6.50달러를 넘어 사상 최고치를 기록했다고 보도했다.",
+      "date": null,
+      "place": "미국",
+      "actors": [],
+      "numbers": [
+        "갤런당 6.50달러"
+      ],
+      "source_ids": [
+        "clm_0005"
+      ],
+      "confidence": "low",
+      "contested": false,
+      "sides": null
+    },
+    {
+      "id": "f_ru_gasoline",
+      "text": "모스크바타임스는 러시아 휘발유 평균 가격이 연초 대비 21% 올랐다고 보도했다.",
+      "date": null,
+      "place": "러시아",
+      "actors": [],
+      "numbers": [
+        "21%"
+      ],
+      "source_ids": [
+        "clm_0006"
+      ],
+      "confidence": "low",
+      "contested": false,
+      "sides": null
+    },
+    {
+      "id": "f_fas_probe",
+      "text": "러시아 연방반독점청은 주유소 체인의 가격 폭리 의심 사례 58건을 조사 중이라고 밝혔다고 모스크바타임스가 보도했다.",
+      "date": "2026.09.30",
+      "place": "러시아",
+      "actors": [
+        "러시아 연방반독점청"
+      ],
+      "numbers": [
+        "58건"
+      ],
+      "source_ids": [
+        "clm_0007"
+      ],
+      "confidence": "low",
+      "contested": false,
+      "sides": null
+    },
+    {
+      "id": "f_trump_diesel",
+      "text": "로이터는 트럼프 대통령이 지난달 우크라이나의 러시아 생산시설 공격이 세계 경유 부족을 일으키고 있다고 말했다고 보도했다.",
+      "date": null,
+      "place": null,
+      "actors": [
+        "도널드 트럼프"
+      ],
+      "numbers": [],
+      "source_ids": [
+        "clm_0008"
+      ],
+      "confidence": "low",
+      "contested": false,
+      "sides": null
+    },
+    {
+      "id": "f_ua_refinery_45",
+      "text": "우크라이나군은 러시아 정유 능력의 45% 이상을 무력화했다고 주장했다.",
+      "date": null,
+      "place": "러시아",
+      "actors": [
+        "우크라이나군"
+      ],
+      "numbers": [
+        "45% 이상"
+      ],
+      "source_ids": [
+        "clm_0010"
+      ],
+      "confidence": "low",
+      "contested": false,
+      "sides": null
+    },
+    {
+      "id": "f_putin_reciprocal",
+      "text": "푸틴 대통령은 러시아가 우크라이나에 같은 방식으로 대응하고 있다고 말했다고 모스크바타임스가 보도했다.",
+      "date": "2026.10.01",
+      "place": "모스크바",
+      "actors": [
+        "블라디미르 푸틴"
+      ],
+      "numbers": [],
+      "source_ids": [
+        "clm_0011"
+      ],
+      "confidence": "low",
+      "contested": false,
+      "sides": null
+    }
+  ]
+}

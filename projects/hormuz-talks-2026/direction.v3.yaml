@@ -1,0 +1,1114 @@
+# direction.yaml — AI 연출 수정본(ReviseDirectionWorker, v3.1.0, 17 §5.5). changelog 는 prev/revision.v*.json.
+version: 1
+genre: null
+stage: null
+stage_reason: null
+stage_config: {}
+places:
+  hormuz:
+  - 56.35
+  - 26.55
+  tehran:
+  - 51.39
+  - 35.69
+  doha:
+  - 51.53
+  - 25.29
+  bab:
+  - 43.33
+  - 12.58
+  arabian:
+  - 64.0
+  - 15.5
+  seoul:
+  - 126.98
+  - 37.57
+  ulsan:
+  - 129.31
+  - 35.54
+paths:
+  korea_route:
+  - - 56.3
+    - 26.4
+  - - 58.0
+    - 24.6
+  - - 61.0
+    - 22.0
+  - - 66.0
+    - 17.0
+  - - 73.0
+    - 10.0
+  - - 80.0
+    - 5.6
+  - - 88.0
+    - 5.8
+  - - 95.0
+    - 6.0
+  - - 98.5
+    - 4.8
+  - - 101.3
+    - 2.8
+  - - 104.0
+    - 1.3
+  - - 106.8
+    - 4.2
+  - - 110.5
+    - 10.0
+  - - 115.5
+    - 16.0
+  - - 120.0
+    - 20.5
+  - - 122.6
+    - 24.5
+  - - 124.3
+    - 29.0
+  - - 126.6
+    - 32.6
+  - - 129.3
+    - 35.5
+shots:
+- at: 0.0
+  mode: cut
+  dur: 0.0
+  camera:
+    lon: 53.5
+    lat: 31.0
+    place: null
+    date: null
+    lane: null
+    w: 26.0
+  under: false
+  scene: null
+  stage: null
+  reason: null
+- at:
+    scene_start: mediation
+    'off': -1.0
+  mode: move
+  dur: 3.0
+  camera:
+    lon: 52.6
+    lat: 27.6
+    place: null
+    date: null
+    lane: null
+    w: 14.0
+  under: false
+  scene: null
+  stage: null
+  reason: null
+- at:
+    scene_start: pressure
+    'off': -1.0
+  mode: move
+  dur: 3.4
+  camera:
+    lon: 58.5
+    lat: 21.5
+    place: null
+    date: null
+    lane: null
+    w: 30.0
+  under: false
+  scene: null
+  stage: null
+  reason: null
+- at:
+    scene_start: shipping_oil
+    'off': -1.0
+  mode: move
+  dur: 3.0
+  camera:
+    lon: 56.3
+    lat: 26.2
+    place: null
+    date: null
+    lane: null
+    w: 13.0
+  under: false
+  scene: null
+  stage: null
+  reason: null
+- at:
+    scene_start: second_strait
+    'off': -1.0
+  mode: move
+  dur: 3.4
+  camera:
+    lon: 50.5
+    lat: 19.5
+    place: null
+    date: null
+    lane: null
+    w: 32.0
+  under: false
+  scene: null
+  stage: null
+  reason: null
+- at:
+    scene_start: korea
+    'off': -0.55
+  mode: dip
+  dur: 3.0
+  camera:
+    lon: 88.5
+    lat: 20.0
+    place: null
+    date: null
+    lane: null
+    w: 90.0
+  under: false
+  scene: null
+  stage: null
+  reason: null
+- at:
+    sid: close_0
+    'off': -0.5
+  mode: move
+  dur: 9.0
+  camera:
+    lon: 89.0
+    lat: 20.0
+    place: null
+    date: null
+    lane: null
+    w: 96.0
+  under: false
+  scene: null
+  stage: null
+  reason: null
+events:
+- type: marker
+  start:
+    word:
+      sid: open_0
+      text: 해협
+  end:
+    scene_end: rejection_dispute
+  at_place: hormuz
+  label: 호르무즈 해협
+  sub: 이란, 재개방 제안
+  side: right
+  hl: true
+- type: badge
+  start:
+    sid: open_0
+    'off': 0.6
+  end:
+    sid: open_1
+    edge: end
+    'off': 0.4
+  place: map_upper_left
+  kind: person
+  pid: trump
+  flag: us
+  R: 34
+  label: 도널드 트럼프
+  role: 미국 대통령
+  accent: us
+- type: card
+  start:
+    sid: open_2
+    'off': 0.4
+  end:
+    scene_end: open
+  tag: 쟁점 · 무엇을 먼저 하느냐
+  lines:
+  - 해협 · 제재 · 자금 · 핵 사찰
+  accent: gold
+- type: marker
+  start:
+    sid: proposal_0
+    'off': 0.4
+  end:
+    scene_end: proposal
+  at_place: tehran
+  label: 테헤란
+  sub: 9월 16일 중재자 통해 최신 제안
+  side: left
+  hl: true
+- type: badge
+  start:
+    sid: proposal_1
+    'off': 0.3
+  end:
+    sid: proposal_2
+    edge: end
+    'off': 0.4
+  place: map_upper_left
+  kind: flag
+  flag: ir
+  R: 20
+  label: 아락치
+  role: 이란 외무장관
+  accent: ru
+- type: card
+  start:
+    sid: proposal_1
+    'off': 0.6
+  end:
+    sid: proposal_1
+    edge: end
+    'off': 0.3
+  tag: 아락치 이란 외무장관 · 9월 25일
+  bigs:
+  - - 7일
+    - 조건 충족 시 해협 개방
+  accent: ru
+- type: card
+  start:
+    sid: proposal_2
+    'off': 0.3
+  end:
+    sid: proposal_2
+    edge: end
+    'off': 0.4
+  tag: 아락치 이란 외무장관 · 9월 25일
+  bigs:
+  - - 4~5일
+    - 미국 측 조치
+  accent: us
+- type: card
+  start:
+    sid: proposal_3
+    'off': 0.2
+  end:
+    sid: proposal_3
+    edge: end
+    'off': 0.3
+  tag: 이란의 요구
+  lines:
+  - 동결 자금 해제
+  - 제재 해제
+  - 해상봉쇄 종료
+  accent: ru
+- type: card
+  start:
+    sid: proposal_4
+    'off': 0.4
+  end:
+    scene_end: proposal
+  tag: 해제 대상 동결 자산
+  bigs:
+  - - 약 120억 달러
+    - 이란이 요구하는 동결 자금
+  accent: gold
+- type: badge
+  start:
+    sid: rejection_dispute_0
+    'off': 0.3
+  end:
+    sid: rejection_dispute_1
+    edge: end
+    'off': 0.3
+  place: map_upper_left
+  kind: person
+  pid: trump
+  flag: us
+  R: 34
+  label: 도널드 트럼프
+  role: 미국 대통령
+  accent: us
+- type: panel
+  start:
+    sid: rejection_dispute_0
+    'off': -0.2
+  end:
+    sid: rejection_dispute_1
+    edge: end
+    'off': 0.4
+  kind: versus
+  data:
+    title: 공식 거부인가
+    sides:
+    - title: 트럼프 대통령
+      src: 기자들에게 · 9월 26일
+      items:
+      - text: “그들의 제안을 거부한다”
+        t:
+          sid: rejection_dispute_0
+          'off': 0.8
+    - title: 익명의 관리들
+      src: AP 통신 · 9월 26일
+      items:
+      - text: 공식 거부는 아니다
+        t:
+          sid: rejection_dispute_1
+          'off': 2.0
+      - text: 협상 전술일 수 있다
+        t:
+          word:
+            sid: rejection_dispute_1
+            text: 협상
+- type: article
+  start:
+    sid: rejection_dispute_2
+    'off': 0.3
+  end:
+    sid: rejection_dispute_2
+    edge: end
+    'off': 0.6
+  mid: aj_0926_reject
+- type: country
+  start:
+    scene_start: mediation
+  end:
+    scene_end: war_background
+  codes:
+  - IR
+  col: ru
+  a: 0.06
+- type: country
+  start:
+    word:
+      sid: mediation_0
+      text: 카타르가
+  end:
+    scene_end: mediation
+  codes:
+  - QA
+  col: gold
+  a: 0.12
+- type: marker
+  start:
+    word:
+      sid: mediation_0
+      text: 카타르가
+  end:
+    scene_end: mediation
+  at_place: doha
+  label: 도하
+  sub: 카타르 중재
+  side: bottom
+  hl: true
+- type: panel
+  start:
+    sid: mediation_1
+    'off': -0.2
+  end:
+    sid: mediation_3
+    edge: end
+    'off': 0.4
+  kind: versus
+  data:
+    title: 9월 22일 유엔총회 기간 · 직접 회동이 있었나
+    sides:
+    - title: 이란 국영매체
+      src: 9월 22일 보도
+      items:
+      - text: 아락치 장관과 위트코프 특사가 만났다
+        t:
+          sid: mediation_2
+          'off': 0.4
+    - title: 위트코프 특사
+      src: 9월 22일 발언
+      items:
+      - text: 중재자들이 대표단 사이를 오가며 협상했다
+        t:
+          sid: mediation_3
+          'off': 0.4
+- type: badge
+  start:
+    sid: mediation_4
+    'off': 0.2
+  end:
+    sid: mediation_4
+    edge: end
+    'off': 0.4
+  place: map_upper_right
+  kind: flag
+  flag: us
+  R: 18
+  label: 미국 관리
+  accent: us
+- type: card
+  start:
+    sid: mediation_4
+    'off': 0.4
+  end:
+    sid: mediation_4
+    edge: end
+    'off': 0.4
+  tag: 미국 관리 · 거부 이후
+  lines:
+  - 간접 협상은 이어진다
+  accent: us
+- type: badge
+  start:
+    sid: mediation_5
+    'off': 0.3
+  end:
+    sid: mediation_6
+    edge: end
+    'off': 0.4
+  place: map_upper_left
+  kind: flag
+  flag: ir
+  R: 20
+  label: 아락치
+  role: 이란 외무장관
+  accent: ru
+- type: card
+  start:
+    sid: mediation_5
+    'off': 0.5
+  end:
+    sid: mediation_5
+    edge: end
+    'off': 0.3
+  tag: 9월 28일 · 뉴욕
+  lines:
+  - 아락치 장관, 카타르 중재자들과 회동
+  accent: gold
+- type: card
+  start:
+    sid: mediation_6
+    'off': 0.3
+  end:
+    sid: mediation_6
+    edge: end
+    'off': 0.4
+  tag: 아락치 이란 외무장관
+  lines:
+  - 카타르가 새 아이디어를 미국에 전달
+  accent: gold
+- type: article
+  start:
+    sid: mediation_7
+    'off': 0.3
+  end:
+    sid: mediation_7
+    edge: end
+    'off': 0.5
+  mid: anews_0930_reply
+- type: card
+  start:
+    sid: mediation_8
+    'off': 0.2
+  end:
+    scene_end: mediation
+  tag: 이란 정부 대변인 · 9월 30일
+  lines:
+  - 미국의 답변 수령
+  - 답변 내용은 공개되지 않았다
+  accent: muted
+- type: panel
+  start:
+    scene_start: nuclear
+    'off': -0.2
+  end:
+    sid: nuclear_3
+    edge: end
+    'off': 0.3
+  kind: versus
+  data:
+    title: 핵 사찰을 둘러싼 조건
+    sides:
+    - title: 미국 측
+      src: 알자지라 · AP 통신 보도
+      items:
+      - text: 핵 문제가 빠지면 합의는 없다
+        t:
+          sid: nuclear_0
+          'off': 0.5
+      - text: 핵 진전 있으면 제재 완화·자금 해제 가능
+        t:
+          sid: nuclear_1
+          'off': 0.5
+      - text: 사찰단 입국 요구 (역내 관리)
+        t:
+          word:
+            sid: nuclear_2
+            text: 사찰단
+    - title: 페제시키안 이란 대통령
+      src: NPR 보도
+      items:
+      - text: 제안이 수용되면 유엔 사찰단을 받겠다
+        t:
+          sid: nuclear_3
+          'off': 0.8
+- type: article
+  start:
+    sid: nuclear_4
+    'off': 0.2
+  end:
+    sid: nuclear_4
+    edge: end
+    'off': 0.6
+  mid: npr_0926_reject
+- type: marker
+  start:
+    sid: war_background_0
+    'off': 0.2
+  end:
+    scene_end: war_background
+  at_place: hormuz
+  label: 호르무즈 해협
+  sub: 2월 28일 이란 봉쇄
+  side: right
+  hl: true
+- type: barrier
+  start:
+    sid: war_background_0
+    'off': 2.6
+  end:
+    scene_end: war_background
+  p0:
+  - 56.25
+  - 27.0
+  p1:
+  - 56.45
+  - 26.25
+  label: 봉쇄
+- type: badge
+  start:
+    sid: war_background_1
+    'off': 0.3
+  end:
+    sid: war_background_1
+    edge: end
+    'off': 0.4
+  place: map_upper_left
+  kind: flag
+  flag: ir
+  R: 20
+  label: 페제시키안
+  role: 이란 대통령
+  accent: ru
+- type: card
+  start:
+    sid: war_background_1
+    'off': 0.6
+  end:
+    sid: war_background_1
+    edge: end
+    'off': 0.3
+  tag: 페제시키안 이란 대통령
+  lines:
+  - 미국이 먼저 이란의 길을 막았다
+  accent: ru
+  quote: true
+- type: panel
+  start:
+    sid: war_background_2
+    'off': -0.2
+  end:
+    sid: war_background_4
+    edge: end
+    'off': 0.3
+  kind: timeline
+  data:
+    title: 봉쇄에서 거부까지
+    subtitle: 2026년 2월 – 9월
+    start: '2026-02-01'
+    end: '2026-09-30'
+    events:
+    - date: '2026-02-28'
+      label: 공격 직후 해협 봉쇄
+      col: ru
+      side: -1
+      t:
+        sid: war_background_2
+        'off':
+        - -0.2
+        - 0.6
+    - date: '2026-04-15'
+      label: 4월 휴전 합의
+      col: green
+      side: 1
+      t:
+        sid: war_background_2
+        'off': 0.8
+    - date: '2026-06-15'
+      label: 6월 양해각서 서명
+      col: green
+      side: -2
+      t:
+        word:
+          sid: war_background_3
+          text: 양해각서에
+    - date: '2026-06-25'
+      label: 며칠 만에 무산
+      col: ru
+      side: 2
+      t:
+        sid: war_background_4
+        'off': 1.6
+    - date: '2026-09-26'
+      label: 트럼프, 제안 거부
+      col: us
+      side: -1
+      t:
+        sid: war_background_4
+        'off': 2.6
+      dim: true
+- type: panel
+  start:
+    sid: war_background_5
+    'off': -0.2
+  end:
+    scene_end: war_background
+  kind: versus
+  data:
+    title: 합의는 왜 깨졌나
+    sides:
+    - title: 미국 관리
+      src: 6월 발언
+      items:
+      - text: 이란이 상선에 발포해 합의를 깼다
+        t:
+          sid: war_background_5
+          'off': 0.4
+    - title: 이란 정부
+      src: 6월 반박
+      items:
+      - text: 발포 주장 부인
+        t:
+          sid: war_background_6
+          'off': 0.5
+      - text: 레바논 공격을 못 막은 미국 탓
+        t:
+          word:
+            sid: war_background_6
+            text: 레바논
+- type: badge
+  start:
+    sid: pressure_0
+    'off': 0.3
+  end:
+    sid: pressure_2
+    edge: end
+    'off': 0.4
+  place: map_upper_left
+  kind: person
+  pid: trump
+  flag: us
+  R: 34
+  label: 도널드 트럼프
+  role: 미국 대통령
+  accent: us
+- type: card
+  start:
+    sid: pressure_0
+    'off': 0.8
+  end:
+    sid: pressure_0
+    edge: end
+    'off': 0.4
+  tag: 트럼프 대통령 · 9월 28일
+  lines:
+  - 미국이 이길 것
+  accent: us
+- type: badge
+  start:
+    sid: pressure_1
+    'off': 0.3
+  end:
+    sid: pressure_1
+    edge: end
+    'off': 0.5
+  place: map_upper_right
+  kind: flag
+  flag: ir
+  R: 20
+  label: 모즈타바 하메네이
+  role: 이란 최고지도자
+  accent: ru
+- type: marker
+  start:
+    word:
+      sid: pressure_1
+      text: 아라비아해
+  end:
+    scene_end: pressure
+  at_place: arabian
+  label: 아라비아해
+  sub: ''
+  side: bottom
+  hl: true
+- type: card
+  start:
+    sid: pressure_2
+    'off': 0.6
+  end:
+    sid: pressure_2
+    edge: end
+    'off': 0.3
+  tag: 트럼프 대통령 · 측근들에게
+  lines:
+  - 중간선거 뒤 폭격 재개 예상
+  accent: us
+- type: panel
+  start:
+    sid: pressure_3
+    'off': -0.2
+  end:
+    scene_end: pressure
+  kind: dots
+  data:
+    title: 8월 말 로이터·입소스 조사
+    subtitle: 알자지라 보도
+    provenance:
+      verification: verified
+      sources:
+      - clm_0043
+    highlight: 63
+    big: 63%
+    unit: '%'
+    caption: 전쟁에 반대한 미국인
+- type: marker
+  start:
+    sid: shipping_oil_0
+    'off': 0.1
+  end:
+    scene_end: shipping_oil
+  at_place: hormuz
+  label: 호르무즈 해협
+  sub: ''
+  side: right
+  hl: true
+- type: ships
+  start:
+    sid: shipping_oil_0
+    'off': 0.2
+  end:
+    scene_end: shipping_oil
+  box:
+  - 53.0
+  - 58.8
+  - 24.2
+  - 28.3
+  n: 120
+  seed: 7
+- type: card
+  start:
+    sid: shipping_oil_0
+    'off': 0.5
+  end:
+    sid: shipping_oil_0
+    edge: end
+    'off': 0.4
+  tag: 전쟁 전
+  bigs:
+  - - 약 20%
+    - 이 해협을 지난 세계 석유
+  accent: gold
+- type: country
+  start:
+    sid: shipping_oil_1
+    'off': 0.2
+  end:
+    sid: shipping_oil_1
+    edge: end
+    'off': 0.4
+  codes:
+  - IR
+  col: ru
+  a: 0.08
+- type: card
+  start:
+    sid: shipping_oil_2
+    'off': 0.5
+  end:
+    sid: shipping_oil_2
+    edge: end
+    'off': 0.3
+  tag: 해협 통과 · 마린트래픽 집계
+  bigs:
+  - - 132건
+    - 9월 21~27일 일주일
+  accent: teal
+- type: card
+  start:
+    sid: shipping_oil_3
+    'off': 0.3
+  end:
+    sid: shipping_oil_3
+    edge: end
+    'off': 0.4
+  tag: 해협 통과 · 전쟁 전
+  bigs:
+  - - 약 130건
+    - 하루
+  accent: muted
+- type: badge
+  start:
+    sid: shipping_oil_4
+    'off': 0.3
+  end:
+    sid: shipping_oil_5
+    edge: end
+    'off': 0.4
+  place: map_upper_left
+  kind: flag
+  flag: us
+  R: 20
+  label: 쿠퍼
+  role: 미 중부사령관
+  accent: us
+- type: card
+  start:
+    sid: shipping_oil_4
+    'off': 0.8
+  end:
+    sid: shipping_oil_4
+    edge: end
+    'off': 0.3
+  tag: 쿠퍼 미 중부사령관 · 9월 26일
+  bigs:
+  - - 2000건
+    - 최근 몇 달 미군이 지원한 통항
+  accent: us
+- type: card
+  start:
+    sid: shipping_oil_5
+    'off': 0.3
+  end:
+    sid: shipping_oil_5
+    edge: end
+    'off': 0.4
+  tag: 쿠퍼 미 중부사령관 · 9월 26일
+  bigs:
+  - - 10억 배럴+
+    - 미군이 지원한 원유 수송
+  accent: us
+- type: article
+  start:
+    sid: shipping_oil_6
+    'off': 0.3
+  end:
+    sid: shipping_oil_6
+    edge: end
+    'off': 0.5
+  mid: aj_0928_oil
+- type: card
+  start:
+    sid: shipping_oil_7
+    'off': 0.3
+  end:
+    scene_end: shipping_oil
+  tag: 브렌트유 · 9월 28일
+  bigs:
+  - - 108달러 안팎
+    - 배럴당 · 3% 넘게 상승
+  accent: ru
+- type: marker
+  start:
+    sid: second_strait_0
+    'off': 0.2
+  end:
+    scene_end: second_strait
+  at_place: hormuz
+  label: 호르무즈 해협
+  sub: ''
+  side: right
+  hl: true
+- type: marker
+  start:
+    word:
+      sid: second_strait_1
+      text: 바브엘만데브
+  end:
+    scene_end: second_strait
+  at_place: bab
+  label: 바브엘만데브 해협
+  sub: 홍해 입구 · 후티
+  side: top
+  hl: true
+- type: country
+  start:
+    sid: second_strait_2
+    'off': 0.3
+  end:
+    scene_end: second_strait
+  codes:
+  - SA
+  col: ru
+  a: 0.08
+- type: card
+  start:
+    sid: second_strait_2
+    'off': 0.6
+  end:
+    scene_end: second_strait
+  tag: 후티
+  lines:
+  - 사우디 선박에 해상봉쇄 선언
+  accent: ru
+- type: route
+  start:
+    sid: korea_0
+    'off': 0.3
+  end:
+    total: true
+  pts:
+    path: korea_route
+  grow:
+    span:
+    - sid: korea_0
+      'off': 0.3
+    - sid: korea_0
+      edge: end
+      'off': -0.2
+  col: gold
+  ship: true
+- type: badge
+  start:
+    sid: korea_0
+    'off': 0.3
+  end:
+    total: true
+  at_place: seoul
+  kind: flag
+  flag: kr
+  R: 18
+  label: 한국
+  accent: gold
+- type: card
+  start:
+    sid: korea_0
+    'off': 0.6
+  end:
+    sid: korea_0
+    edge: end
+    'off': 0.4
+  tag: 한국 원유 수입
+  bigs:
+  - - 70%
+    - 호르무즈 해협 경유
+  accent: gold
+- type: marker
+  start:
+    word:
+      sid: korea_1
+      text: 카타르산입니다.
+  end:
+    sid: korea_1
+    edge: end
+    'off': 0.5
+  at_place: doha
+  label: 카타르
+  sub: ''
+  side: bottom
+  hl: true
+- type: card
+  start:
+    sid: korea_1
+    'off': 0.3
+  end:
+    sid: korea_1
+    edge: end
+    'off': 0.3
+  tag: 한국 헬륨 공급
+  bigs:
+  - - 약 65%
+    - 카타르산
+  accent: teal
+- type: card
+  start:
+    sid: korea_2
+    'off': 0.4
+  end:
+    sid: korea_2
+    edge: end
+    'off': 0.3
+  tag: 코스피 · 9월 28일
+  bigs:
+  - - -2.7%
+    - 하락
+  accent: ru
+- type: card
+  start:
+    sid: korea_3
+    'off': 0.2
+  end:
+    sid: korea_3
+    edge: end
+    'off': 0.3
+  tag: 한국 정부
+  lines:
+  - 유가 상한제 도입
+  accent: gold
+- type: article
+  start:
+    sid: korea_4
+    'off': 0.3
+  end:
+    sid: korea_4
+    edge: end
+    'off': -0.6
+  mid: csis_0402_korea
+- type: card
+  start:
+    sid: korea_4
+    edge: end
+    'off': -0.5
+  end:
+    sid: korea_5
+    'off': 0.1
+  tag: CSIS 분석 · 4월 초
+  bigs:
+  - - 7760만 배럴
+    - IEA 공동 방출 뒤 정부 비축유
+  accent: gold
+- type: card
+  start:
+    sid: korea_5
+    'off': 0.2
+  end:
+    scene_end: korea
+  tag: CSIS 분석 · 4월 초
+  bigs:
+  - - 약 26일분
+    - 당시 실소비 기준
+  accent: gold
+- type: marker
+  start:
+    scene_start: close
+  end:
+    total: true
+  at_place: hormuz
+  label: 호르무즈 해협
+  sub: ''
+  side: right
+  hl: true
+- type: card
+  start:
+    sid: close_0
+    'off': 0.4
+  end:
+    total: true
+  tag: 9월 30일 기준 · 확인되지 않은 것
+  lines:
+  - 미국의 답변에 담긴 내용
+  - 해협과 핵 사찰, 무엇이 먼저 움직일지
+  accent: muted
+sound:
+  bgm: music.zabriskie_patriarch
+  intensity:
+  - - 0.0
+    - 0.6
+  - - scene_start: proposal
+    - 0.58
+  - - scene_start: rejection_dispute
+    - 0.66
+  - - scene_start: mediation
+    - 0.6
+  - - scene_start: nuclear
+    - 0.64
+  - - scene_start: war_background
+    - 0.72
+  - - scene_start: pressure
+    - 0.7
+  - - scene_start: shipping_oil
+    - 0.66
+  - - scene_start: second_strait
+    - 0.7
+  - - scene_start: korea
+    - 0.62
+  - - scene_start: close
+    - 0.58
+  - - total: true
+      'off': 0.5
+    - 0.0
+  cues: []

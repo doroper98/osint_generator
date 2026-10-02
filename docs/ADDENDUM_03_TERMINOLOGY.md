@@ -1,6 +1,6 @@
 <!--
 tier: 2
-last_synced_with: v5.2.0
+last_synced_with: v5.3.0
 ssot_for: [official-terminology]
 depends_on: []
 last_review: 2026-09-29

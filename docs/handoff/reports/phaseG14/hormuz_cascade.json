@@ -1,0 +1,114 @@
+{
+ "schema_version": 1,
+ "role": "Phase G14 §5(D-0139) — 겹침 카드(cascade) 채택(문법·지명 hard/warning 분리·밀기 전환 글자 지연·provenance cascade) 뒤 hormuz(mercator) 25컷 = phaseG12 기준선. cascade 는 지도 무대 골든에 아무것도 건드리지 않음 증명(승격 조건). 25_END 는 도장 상자 가린 md5(G12 기준선과 같은 방식). 자산 = artifacts/phase7-v3.3.0 shared 복원",
+ "command": "python -m engine.render projects/hormuz_korea --preview golden",
+ "same_as_g12": 25,
+ "checks": {
+  "hard": 0,
+  "items": 34,
+  "cascade": 0,
+  "cascade_label_hidden": 0
+ },
+ "cuts": [
+  {
+   "png": "p_0007.82.png",
+   "md5": "6d5bac39ddfd0339a467ce73bf336ac8"
+  },
+  {
+   "png": "p_0022.27.png",
+   "md5": "3c2092ab7081d5123f6628324b16684f"
+  },
+  {
+   "png": "p_0028.77.png",
+   "md5": "4c0034a68ddb3b0c15a1fd39c8419cb7"
+  },
+  {
+   "png": "p_0038.45.png",
+   "md5": "ba08b2ea32be63ed190f30844c363cb3"
+  },
+  {
+   "png": "p_0045.03.png",
+   "md5": "f48fbaee040a3e109d9e0baac4b28157"
+  },
+  {
+   "png": "p_0056.21.png",
+   "md5": "9673f7dcd3997c5df1f7fbe0b653270b"
+  },
+  {
+   "png": "p_0061.25.png",
+   "md5": "ee677704b4dbc661d42e855fbd3fd258"
+  },
+  {
+   "png": "p_0065.13.png",
+   "md5": "d0cbfce2d251a1b7d6927ce6d4bc77df"
+  },
+  {
+   "png": "p_0080.70.png",
+   "md5": "ed533046536e64a64a001e62971918bc"
+  },
+  {
+   "png": "p_0087.06.png",
+   "md5": "560f34318fd92d70b062dbb6effb7c90"
+  },
+  {
+   "png": "p_0105.28.png",
+   "md5": "eab82a6bc954b2c79d6f94f05721c5bf"
+  },
+  {
+   "png": "p_0124.25.png",
+   "md5": "1c404207f0002705bf99b1987f560653"
+  },
+  {
+   "png": "p_0136.97.png",
+   "md5": "7a154a65f953d7cba230af0e81069d45"
+  },
+  {
+   "png": "p_0157.38.png",
+   "md5": "b88cd36e438d7976ffca659d9e123c8d"
+  },
+  {
+   "png": "p_0164.59.png",
+   "md5": "64f691b4da5d7782777cba99e1216138"
+  },
+  {
+   "png": "p_0170.52.png",
+   "md5": "cfaece7a0ccc7885c80dee4f17d26c8a"
+  },
+  {
+   "png": "p_0193.22.png",
+   "md5": "c701e96a55295bd0507d3c3805bab440"
+  },
+  {
+   "png": "p_0207.41.png",
+   "md5": "f6a8e12e3656be70c82ad5e048d1f0b5"
+  },
+  {
+   "png": "p_0214.46.png",
+   "md5": "becd48a87b9026f9e805c0d49a8c869a"
+  },
+  {
+   "png": "p_0220.96.png",
+   "md5": "03290e07a43723ad85dd74a52f27e29b"
+  },
+  {
+   "png": "p_0238.00.png",
+   "md5": "019a42bb8cf1866b116fc4f3250eb4a0"
+  },
+  {
+   "png": "p_0245.56.png",
+   "md5": "6413b909c9b57e4f81c1dc37347f7b97"
+  },
+  {
+   "png": "p_0258.61.png",
+   "md5": "5c2faa89f67ca9e1ef6625f9926f6410"
+  },
+  {
+   "png": "p_0276.44.png",
+   "md5": "96c1510d9d7c4aa1ae6bcf9ea81d437e"
+  },
+  {
+   "png": "p_0288.44.png",
+   "md5": "27002e442aba29f6ea8576e5499f9b61"
+  }
+ ]
+}

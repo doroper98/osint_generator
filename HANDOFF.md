@@ -1,6 +1,6 @@
 <!--
 tier: 1
-last_synced_with: v5.2.0
+last_synced_with: v5.3.0
 ssot_for: [session-handoff]
 depends_on: [CLAUDE.md, GOAL.md, VERSION, docs/13_IMPLEMENTATION_ROADMAP.md, docs/handoff/KICKOFF_PROMPT.md, docs/handoff/19_FABLE_ANALYSIS_AND_OPUS_EXECUTION_PLAN.md, back_and_forth/README.md]
 last_review: 2026-09-29
@@ -13,11 +13,11 @@ last_review: 2026-09-29
 
 ---
 
-## 1. 지금 어디인가 (v5.2.0)
+## 1. 지금 어디인가 (v5.3.0)
 
 - **작업 브랜치: `overhaul/v2-map-engine`.** Phase 합격(Fable review pass) 뒤 Fable이 main을 fast-forward한다. PR 생성 금지(C8.5).
-- **완료**: v2 개편 Phase 0~11·G1~G12(v2.0.0~v5.1.0). 합격 커밋은 `docs/handoff/TAGS_PENDING.md`.
-- **진행**: G13 — 배경 사진 가독(블러·덮개 완화)·주 아일랜드 상시(`[backdrop-main-missing]`)·보도 인용 = 기사 이벤트·`[card-island]`(v5.2.0, back_and_forth D-0129, 사용자 판정 D113).
+- **완료**: v2 개편 Phase 0~11·G1~G13(v2.0.0~v5.2.0). 합격 커밋은 `docs/handoff/TAGS_PENDING.md`.
+- **진행**: G14 — 겹침 카드(cascade) 채택: 지도 고정 구간의 사건 경과를 겹침 카드 하나로(v5.3.0, back_and_forth D-0139, 사용자 결정 D116·판정 D117).
 - **다음**: G4 사용자 판정("슬라이드가 아니라 다큐", `docs/handoff/20` §12). 합격 기준은 `GOAL.md` G3(17개, 항목별 검증 방법).
 
 ## 2. 일하는 방식 — back_and_forth
@@ -50,6 +50,7 @@ last_review: 2026-09-29
 
 ## 5. 자주 까먹는 규칙
 
+- **콘티 판(W0)은 필수.** 연출 판 → `audio.mix` → `engine.render --animatic` → 사용자에게 `out/animatic.mp4` 전달·흐름 검토 → 그 뒤 프리뷰·게이트 ②. 없으면 게이트 ② 승인이 코드에서 거부된다(PIPELINE-AP-014).
 - 커밋 첫 줄 `vX.Y.Z: 요지` = `VERSION`. 한 커밋 한 의도. 푸시 거부 시 `pull --rebase` 후 재시도, force 금지.
 - 모델 식별자를 산출물·커밋·문서에 넣지 않는다. `.env`·API 키 커밋 금지.
 - 긴 실행(전편 렌더·AI 연출) 중에는 그 워크트리의 코드·규칙을 바꾸지 않는다(PIPELINE-AP-010).

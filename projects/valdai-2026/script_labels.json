@@ -1,0 +1,336 @@
+{
+ "schema_version": 1,
+ "labels": {
+  "open_0": {
+   "status": "corroborated",
+   "label": null,
+   "claim_ids": [
+    "clm_0001"
+   ]
+  },
+  "open_1": {
+   "status": "corroborated",
+   "label": null,
+   "claim_ids": [
+    "clm_0031"
+   ]
+  },
+  "open_2": {
+   "status": "unverified",
+   "label": "<미검증>",
+   "claim_ids": [
+    "clm_0034"
+   ]
+  },
+  "open_3": {
+   "status": "unverified",
+   "label": "<미검증>",
+   "claim_ids": [
+    "clm_0020"
+   ]
+  },
+  "open_4": {
+   "status": "corroborated",
+   "label": null,
+   "claim_ids": [
+    "clm_0001"
+   ]
+  },
+  "kaliningrad_warning_0": {
+   "status": "corroborated",
+   "label": null,
+   "claim_ids": [
+    "clm_0012"
+   ]
+  },
+  "kaliningrad_warning_1": {
+   "status": "corroborated",
+   "label": null,
+   "claim_ids": [
+    "clm_0012"
+   ]
+  },
+  "kaliningrad_warning_2": {
+   "status": "corroborated",
+   "label": null,
+   "claim_ids": [
+    "clm_0012"
+   ]
+  },
+  "kaliningrad_warning_3": {
+   "status": "corroborated",
+   "label": null,
+   "claim_ids": [
+    "clm_0012"
+   ]
+  },
+  "kaliningrad_warning_4": {
+   "status": "corroborated",
+   "label": null,
+   "claim_ids": [
+    "clm_0014"
+   ]
+  },
+  "nato_letter_0": {
+   "status": "corroborated",
+   "label": null,
+   "claim_ids": [
+    "clm_0021"
+   ]
+  },
+  "nato_letter_1": {
+   "status": "corroborated",
+   "label": null,
+   "claim_ids": [
+    "clm_0021"
+   ]
+  },
+  "nato_letter_2": {
+   "status": "unverified",
+   "label": "<미검증>",
+   "claim_ids": [
+    "clm_0015"
+   ]
+  },
+  "nato_letter_3": {
+   "status": "unverified",
+   "label": "<미검증>",
+   "claim_ids": [
+    "clm_0016"
+   ]
+  },
+  "nato_response_0": {
+   "status": "corroborated",
+   "label": null,
+   "claim_ids": [
+    "clm_0024"
+   ]
+  },
+  "nato_response_1": {
+   "status": "unverified",
+   "label": "<미검증>",
+   "claim_ids": [
+    "clm_0025"
+   ]
+  },
+  "nato_response_2": {
+   "status": "unverified",
+   "label": "<미검증>",
+   "claim_ids": [
+    "clm_0026"
+   ]
+  },
+  "europe_remarks_0": {
+   "status": "corroborated",
+   "label": null,
+   "claim_ids": [
+    "clm_0013"
+   ]
+  },
+  "europe_remarks_1": {
+   "status": "corroborated",
+   "label": null,
+   "claim_ids": [
+    "clm_0017"
+   ]
+  },
+  "europe_remarks_2": {
+   "status": "unverified",
+   "label": "<미검증>",
+   "claim_ids": [
+    "clm_0018"
+   ]
+  },
+  "europe_remarks_3": {
+   "status": "unverified",
+   "label": "<미검증>",
+   "claim_ids": [
+    "clm_0019"
+   ]
+  },
+  "geography_0": {
+   "status": "corroborated",
+   "label": null,
+   "claim_ids": [
+    "clm_0028"
+   ]
+  },
+  "geography_1": {
+   "status": "corroborated",
+   "label": null,
+   "claim_ids": [
+    "clm_0029"
+   ]
+  },
+  "geography_2": {
+   "status": "disputed",
+   "label": "<논쟁>",
+   "claim_ids": [
+    "clm_0030"
+   ]
+  },
+  "geography_3": {
+   "status": "disputed",
+   "label": "<논쟁>",
+   "claim_ids": [
+    "clm_0030"
+   ]
+  },
+  "blockade_dispute_0": {
+   "status": "disputed",
+   "label": "<논쟁>",
+   "claim_ids": [
+    "clm_0022",
+    "clm_0023"
+   ]
+  },
+  "blockade_dispute_1": {
+   "status": "disputed",
+   "label": "<논쟁>",
+   "claim_ids": [
+    "clm_0023",
+    "clm_0024"
+   ]
+  },
+  "hybrid_dispute_0": {
+   "status": "disputed",
+   "label": "<논쟁>",
+   "claim_ids": [
+    "clm_0027"
+   ]
+  },
+  "hybrid_dispute_1": {
+   "status": "disputed",
+   "label": "<논쟁>",
+   "claim_ids": [
+    "clm_0027"
+   ]
+  },
+  "diesel_0": {
+   "status": "corroborated",
+   "label": null,
+   "claim_ids": [
+    "clm_0001"
+   ]
+  },
+  "diesel_1": {
+   "status": "unverified",
+   "label": "<미검증>",
+   "claim_ids": [
+    "clm_0002"
+   ]
+  },
+  "diesel_2": {
+   "status": "unverified",
+   "label": "<미검증>",
+   "claim_ids": [
+    "clm_0032"
+   ]
+  },
+  "diesel_3": {
+   "status": "corroborated",
+   "label": null,
+   "claim_ids": [
+    "clm_0003"
+   ]
+  },
+  "diesel_4": {
+   "status": "unverified",
+   "label": "<미검증>",
+   "claim_ids": [
+    "clm_0004"
+   ]
+  },
+  "diesel_5": {
+   "status": "unverified",
+   "label": "<미검증>",
+   "claim_ids": [
+    "clm_0005"
+   ]
+  },
+  "diesel_6": {
+   "status": "unverified",
+   "label": "<미검증>",
+   "claim_ids": [
+    "clm_0008"
+   ]
+  },
+  "russia_domestic_0": {
+   "status": "unverified",
+   "label": "<미검증>",
+   "claim_ids": [
+    "clm_0006"
+   ]
+  },
+  "russia_domestic_1": {
+   "status": "unverified",
+   "label": "<미검증>",
+   "claim_ids": [
+    "clm_0007"
+   ]
+  },
+  "refinery_0": {
+   "status": "unverified",
+   "label": "<미검증>",
+   "claim_ids": [
+    "clm_0009"
+   ]
+  },
+  "refinery_1": {
+   "status": "unverified",
+   "label": "<미검증>",
+   "claim_ids": [
+    "clm_0033"
+   ]
+  },
+  "refinery_2": {
+   "status": "unverified",
+   "label": "<미검증>",
+   "claim_ids": [
+    "clm_0010"
+   ]
+  },
+  "refinery_3": {
+   "status": "unverified",
+   "label": "<미검증>",
+   "claim_ids": [
+    "clm_0011"
+   ]
+  },
+  "refinery_4": {
+   "status": "corroborated",
+   "label": null,
+   "claim_ids": [
+    "clm_0012",
+    "clm_0003"
+   ]
+  },
+  "open_questions_0": {
+   "status": "disputed",
+   "label": "<논쟁>",
+   "claim_ids": [
+    "clm_0022",
+    "clm_0023"
+   ]
+  },
+  "open_questions_1": {
+   "status": "unverified",
+   "label": "<미검증>",
+   "claim_ids": [
+    "clm_0010"
+   ]
+  },
+  "open_questions_2": {
+   "status": null,
+   "label": null,
+   "claim_ids": []
+  },
+  "open_questions_3": {
+   "status": "unverified",
+   "label": "<미검증>",
+   "claim_ids": [
+    "clm_0019"
+   ]
+  }
+ }
+}

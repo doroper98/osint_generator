@@ -13,6 +13,7 @@
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 import os
 import subprocess
@@ -67,10 +68,18 @@ def render_frame(P: Project, i: int) -> tuple[cairo.ImageSurface, bytearray]:  #
         for e in act:
             if e["type"] == typ and not e.get("in_island"):   # v5.1.0 D-0126 — 차트 아일랜드 안 이벤트는 island 렌더러가 상자 안에 그린다
                 L.resolve(e).render(ctx, R, view, t, e)
+    for e in act:   # v5.2.0 겹침 카드(사용자 재구성 2026-10-01) — 지명 라벨 회피(마커·뱃지와 같은 예약 상자). 회피 장치가 없는 해역 이름은 checks cascade 가 잡는다
+        if e["type"] == "cascade":
+            from engine.cascade import cascade_boxes  # noqa: PLC0415
+
+            R.reserved += cascade_boxes(t, e)
     if panel_a < 0.99:
         R.stage.draw_labels(ctx, view, R.reserved, 1 - panel_a)
     for e in act:
         if e["type"] == "dip" and e.get("under"):
+            L.resolve(e).render(ctx, R, t, e)
+    for e in act:   # v5.2.0 겹침 카드(시안) — 지도 위·패널 덮개 아래(패널이 뜨면 덮인다)
+        if e["type"] == "cascade":
             L.resolve(e).render(ctx, R, t, e)
     for e in act:
         if e["type"] == "panel":
@@ -343,6 +352,9 @@ def render_animatic(P: Project, jobs: int) -> tuple[Path, dict]:  # noqa: N803
                             "band": AN.band.text, "placeholders": dict(sorted(kinds.items())),
                             "flat_map": flat_map_source() if "mercator" in P.R.cache["stage"]["instances"] else None,
                             "voice": P.plan.voice, "checks_skipped": checks["skipped"],
+                            # v5.2.0 — 어느 연출 판으로 만든 콘티 판인지(게이트 ② 기록, orchestrator.project_manager.require_animatic)
+                            "direction_sha1": hashlib.sha1((P.root / "direction.yaml").read_bytes()).hexdigest()
+                            if (P.root / "direction.yaml").exists() else None,
                             "sec": {"render": rj["sec"], "total": round(time.time() - t0, 1), "mux": round(time.time() - t1, 1)},
                             "jobs": rj["jobs"], "frames": rj["frames"], "loudnorm": {"passes": 2, **loud},
                             "bytes": final.stat().st_size}

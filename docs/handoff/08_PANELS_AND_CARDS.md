@@ -228,3 +228,18 @@ backdrop 무대 위에 놓이는 내용물은 전부 **아일랜드 상자** 한
 - theme dark(검정 덮개·흰 글자)·light(흰 덮개·검은 글자) — 연출이 고른다(P8), 기본 `theme_default`. 줄 수·인용 상한 초과 = `ArticleOverflowError`(렌더 전).
 - 콘티 판: 프레스 사진 = 회색 판 + `[프레스: id]`, 덮개·글자는 전편과 같다.
 - hormuz 골든 기사 두 컷(15_review_0 164.59·19_debate_0 214.46)은 원문 헤드라인이 저장소에 없어 번역 헤드라인 + "헤드라인 번역" — expected_deltas `g12_article_d0121`. Reuters·Korea Herald 원문 확보는 사용자 몫.
+
+## 15. v5.3.0 — 겹침 카드(cascade, G14, back_and_forth D-0139, 사용자 결정 D116·판정 D117)
+
+지도 고정 구간에서 날짜가 있는 사건이 셋 이상 이어지면(협상 경과·발표 순서) 카드를 늘어놓지 않고 **겹침 카드 하나**로 건다(`rules:cascade`, `engine/cascade.py`, 이벤트 `cascade`).
+어원은 라틴어 cadere(떨어지다) → 이탈리아어 cascata(층층 폭포). 화면 문법은 윈도의 '계단식 창 배열'이다.
+- **문법**(`rules direction_grammar`): 지금 문장의 사건만 앞에 크게, 언급이 지나간 사건은 뒤로 물러나 겹친다. 사건마다 국기·날짜·제목 한 줄, 부제(`line`)는 선택. 같은 순간 cascade 는 하나, 카드와 같이 두지 않는다. 연출 필드 = `items[]{at, flag, date, title, line?, accent?}`(at 오름차순, 앵커 가능).
+- **구조**: 앞 카드 = `cascade.front` 상자(accent 윗선·날짜·제목·부제). 뒤 카드 = `back_scale` 로 물러나 다음 카드 밑에 깔리고 `step` 폭만 보인다(국기 원·날짜·제목 앞부분). 덮인 부분은 그리지 않는다(반투명끼리 비침 없음). 덮이는 경계 `back_fade_px` 는 글자만 알파 그라데이션으로 가린다(자름 아님). **레일 없음**. 국기 원 = 카드 좌상단 모서리(`flag_R`, 뒤 카드는 `back_scale` 배). 상자 = 아일랜드 공통 상자(§13, `island.*`).
+- **깊이**: 앞에 쌓인 카드 수(depth, smooth)마다 `back_dy` 아래로 내려앉고 `back_dim` 만큼 어두워진다. 오래된 카드일수록 아래로 계단이 진다(위쪽은 모서리 날짜 상자와 가깝다).
+- **전환 순서**: 물러나는 카드 제목·부제는 `focus_sec` 앞 절반에 지우고(덮임 경계도 앞 절반에 다음 카드 왼쪽 끝까지 당김) → 뒤 절반에 뒤 카드 글자(`back_text_alpha`). 새 앞 카드 글자는 전환 뒤 절반 — 밀기 없는 전환 = `focus_sec`, 가장 오래된 뒤 카드가 밀려 나가는(`max_back` 초과, `shift_sec`) 전환 = max(`focus_sec`, `shift_sec`)(D-0137 §3). 두 글자가 같은 자리에서 비치는 순간 0. 새 카드는 아래에서 올라온다(폭 증가 없음).
+- **검사**(checks, 0.1초 표본, 문제마다 첫 시각): `[cascade-width]`(전체 폭 > `width_cap`)·`[cascade-back]`(뒤 카드 > `max_back`)·`[cascade-date]`(모서리 날짜 상자 교차)·`[cascade-overflow]`(앞 카드 글자 넘침, 뒤 카드 보이는 폭 안 날짜 넘침 — 자름·말줄임 없음, 렌더 전 오류) = `cascade` **hard**. `[cascade-label-under]` **hard** = 문장 지명(지금 보이는 마커·at_place·경로·봉쇄선 이름표)이 카드 밑. `[cascade-label-hidden]` **warning** = 문장과 무관한 배경 지명(gazetteer 나라·도·도시)이 카드 회피로 안 그려지거나 해역 이름이 깔림(`cascade_label_hidden`, provenance `cascade.hidden_labels[]`, D-0137 §2).
+- **회피**: 보이는 카드 상자는 지명 라벨·뱃지 예약 영역이다(`R.reserved`·`engine.reserved.card_zones`) — 카드가 사라지면 지명이 돌아온다(되돌릴 수 있는 배치, D-0137 §1 A).
+- **provenance**: `cascade{status, events, items, hidden_labels[]}` — 쓰인 영상에만(P5). `status` = `cascade.status`.
+- **값**: 전부 `rules cascade` 키(`x0`·`y`·`step`·`flag_R`·`front.*`·`back_scale`·`back_text_alpha`·`back_fade_px`·`back_dy`·`back_dim`·`max_back`·`focus_sec`·`shift_sec`·`width_cap`) — 사용자 합격 값(D117), C0 되돌림 금지. 최악 폭 (`max_back`+1)×`step`+`front.w` ≤ `width_cap` 은 규칙 모델이 검증한다.
+- **폐기 기록**: D-0135 접히는 띠(chain, 카드 + 칩 띠)와 D-0136 띠 v2 검수는 사용자 판정("프레이밍이 잘못됐다", D116)으로 대체됐다. 이벤트 이름 `chain` → `cascade`. D-0137(지명 깔림 A·hard/warning 분리·골든 승격 조건)은 cascade 에 그대로 적용했다.
+- **골든**: hormuz_korea 에는 cascade 가 없다 — 지도 무대 25컷 바이트 동일이 승격 조건(`reports/phaseG14/hormuz_cascade.json`).
