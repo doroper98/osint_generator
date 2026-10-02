@@ -1,0 +1,413 @@
+{
+ "schema_version": 1,
+ "engine": "engine",
+ "repo_version": "5.2.0",
+ "rules_version": "2.0.0",
+ "rules_hash": "defd745b2d663362aac41062550da6d1ad88ab31",
+ "prompts": {},
+ "voice": "edge-tts ko-KR-InJoonNeural",
+ "word_anchor": "none",
+ "word_anchors": [],
+ "tts": {
+  "resynthesized": []
+ },
+ "total_sec": 189.16,
+ "sentences": 31,
+ "stages": {
+  "plan": true,
+  "geo": false,
+  "preview": false,
+  "render": false,
+  "mix": true,
+  "mux": false,
+  "ai_direction": false,
+  "visual_qa": false,
+  "bundle": false
+ },
+ "features_used": {
+  "camera_keys": 4,
+  "camera_moves": 0,
+  "camera_cuts": 4,
+  "dips": 3,
+  "dips_under": 3,
+  "badges": 1,
+  "badge_kinds": {
+   "person": 1
+  },
+  "panels": [
+   "versus",
+   "versus"
+  ],
+  "cards": 15,
+  "media": {
+   "clip": 0,
+   "photo": 0,
+   "cutout": 0,
+   "article": 0
+  },
+  "event_types": {
+   "badge": 1,
+   "card": 15,
+   "country": 4,
+   "dip": 3,
+   "marker": 2,
+   "panel": 2
+  },
+  "label_lod": true,
+  "vignette": false,
+  "at_word": {
+   "aligned": 0,
+   "ratio": 0
+  }
+ },
+ "qa": {
+  "auto_iterations": 0,
+  "user_approved": false,
+  "reviewer": "fable (back_and_forth)"
+ },
+ "drops": [],
+ "assets": {
+  "images_used": [],
+  "emblems": {
+   "used": [],
+   "flag_fallback": {}
+  },
+  "badges": {
+   "suggested": [
+    "au",
+    "pl",
+    "putin",
+    "ru",
+    "ua",
+    "us"
+   ],
+   "used": [
+    "putin"
+   ],
+   "suggested_and_used": [
+    "putin"
+   ],
+   "suggestions": 18
+  }
+ },
+ "panels": {
+  "used": [
+   {
+    "kind": "versus",
+    "title": "발언과 해석을 나눠 읽기",
+    "t0": 76.13,
+    "prov_tag": null
+   },
+   {
+    "kind": "versus",
+    "title": "확인된 것과 해석",
+    "t0": 164.11,
+    "prov_tag": null
+   }
+  ]
+ },
+ "credits": {
+  "card": {
+   "map": 1,
+   "music": 1,
+   "narration": 1,
+   "people": 1
+  },
+  "description_only": {
+   "fonts": 1
+  }
+ },
+ "reserved": {
+  "avoidance": []
+ },
+ "audio": {
+  "bgm": [
+   "music.zabriskie_patriarch"
+  ],
+  "bed_gain": 0.47,
+  "crossfades": 0,
+  "bed_bass": {
+   "applied": {
+    "shelf": {
+     "freq_hz": 110.0,
+     "gain_db": 5.0,
+     "q": 0.7
+    },
+    "sub": {
+     "band_hz": [
+      55.0,
+      220.0
+     ],
+     "out_lp_hz": 110.0,
+     "filter_order": 4,
+     "gain": 0.35,
+     "env_attack_sec": 0.03,
+     "env_release_sec": 0.25,
+     "env_block_sec": 0.001
+    },
+    "swell": {
+     "sec": 2.5,
+     "depth": 0.35
+    },
+    "norm_ref": 0.4
+   },
+   "ratio_db": {
+    "before": 11.95,
+    "after": 17.27
+   },
+   "rise_db": 5.32,
+   "swell_at": [
+    22.258,
+    51.414,
+    76.228,
+    93.592,
+    113.705,
+    140.5,
+    164.205
+   ],
+   "bands_hz": {
+    "bass": [
+     30.0,
+     120.0
+    ],
+    "mid": [
+     200.0,
+     2000.0
+    ]
+   }
+  }
+ },
+ "end_card": {
+  "version_stamp": "v5.2.0"
+ },
+ "render": {
+  "resolution": {
+   "profile": "480p",
+   "width": 854,
+   "height": 480,
+   "fps": 24,
+   "k": 1.0,
+   "pad_x": 0.0,
+   "crf": 19,
+   "preset": "faster"
+  }
+ },
+ "badge": {
+  "R_ignored": [],
+  "head_top": []
+ },
+ "geo": {
+  "unsourced": [],
+  "matched": [
+   {
+    "kind": "place",
+    "name": "moscow",
+    "lonlat": [
+     37.62,
+     55.75
+    ],
+    "gazetteer": "moscow_rus",
+    "km": 0.6,
+    "tol_km": 25.0
+   },
+   {
+    "kind": "place",
+    "name": "kaliningrad",
+    "lonlat": [
+     20.5,
+     54.7
+    ],
+    "gazetteer": "kaliningrad_rus",
+    "km": 0.2,
+    "tol_km": 25.0
+   }
+  ],
+  "mismatch": []
+ },
+ "pacing": {
+  "window_sec": 45.0,
+  "min_changes": 3,
+  "static_windows": [],
+  "creep": null
+ },
+ "animatic": true,
+ "stage": {
+  "name": "mercator",
+  "declared": false,
+  "shots_declared": 0,
+  "instances": {
+   "mercator": 1
+  },
+  "configs": {}
+ },
+ "genre": {
+  "name": "geopolitics",
+  "declared": false,
+  "status": "approved"
+ },
+ "order": {
+  "topic": "2026.10.01 발다이 토론클럽 푸틴 연설 — 칼리닌그라드 직접 공격 시 모든 무기 사용 검토, 유럽 공격 계획 부인, 제재 하 디젤 비공급, 우크라이나 정유시설 공격 피해 인정",
+  "genre": "geopolitics",
+  "decisions": {
+   "topic": {
+    "value": "발다이 푸틴 발언 핵 억지·에너지 압박",
+    "by": "user",
+    "ref": "사용자 요청 2026-10-02"
+   },
+   "first_deliverable": {
+    "value": "콘티 판 먼저",
+    "by": "user",
+    "ref": "사용자 요청 2026-10-02"
+   }
+  }
+ },
+ "camera": {
+  "suggest_ran": false,
+  "suggested": 0,
+  "used": 0,
+  "given_to_director": false
+ },
+ "lint_warnings": [
+  "[media-density-total] 과소 — 0개 / 189초 = inf초당 1개 > 60초 (14 §10.1)"
+ ],
+ "media": {
+  "suggested": [
+   {
+    "sid": "reading_0",
+    "scene": "reading",
+    "kind": "photo",
+    "trigger": "발표",
+    "at": 76.23,
+    "source": "trigger",
+    "asset_id": null
+   },
+   {
+    "sid": "energy_3",
+    "scene": "energy",
+    "kind": "article",
+    "trigger": "보도에 따르면",
+    "at": 129.57,
+    "source": "trigger",
+    "asset_id": null
+   },
+   {
+    "sid": "energy_4",
+    "scene": "energy",
+    "kind": "article",
+    "trigger": "보도했습니다",
+    "at": 134.92,
+    "source": "trigger",
+    "asset_id": null
+   },
+   {
+    "sid": "refinery_3",
+    "scene": "refinery",
+    "kind": "article",
+    "trigger": "보도했습니다",
+    "at": 157.67,
+    "source": "trigger",
+    "asset_id": null
+   }
+  ],
+  "used": [],
+  "suggested_and_used": [],
+  "density": {
+   "schema_version": 1,
+   "total_sec": 189.16,
+   "items": [],
+   "count": 0,
+   "sec_per_item": null,
+   "target_sec_per_item": [
+    40.0,
+    60.0
+   ],
+   "window": {
+    "window_sec": 40.0,
+    "window_max": 2,
+    "exempt": [
+     "article"
+    ],
+    "max": {
+     "t0": null,
+     "count": 0,
+     "mids": []
+    }
+   },
+   "per_scene": {},
+   "warnings": [
+    "[media-density-total] 과소 — 0개 / 189초 = inf초당 1개 > 60초 (14 §10.1)"
+   ]
+  },
+  "placement": {
+   "badge:푸틴": "slot:map_upper_left"
+  }
+ },
+ "script": {
+  "labels": {
+   "verified": 0,
+   "corroborated": 15,
+   "unverified": 16,
+   "disputed": 0
+  }
+ },
+ "animatic_run": {
+  "output": "out/animatic.mp4",
+  "profile": "480p",
+  "fps": 24,
+  "preset": "veryfast",
+  "band": "콘티 판 · 검토용 · 배포 금지",
+  "placeholders": {
+   "badge": 1,
+   "card": 15,
+   "panel": 2
+  },
+  "flat_map": {
+   "data": "data/geo_flat/ne_110m_countries.json",
+   "md5": "dfcac5c88837127985c5c9609f877970",
+   "countries": "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/master/geojson/ne_110m_admin_0_countries.geojson",
+   "license": "Natural Earth — public domain (naturalearthdata.com/about/terms-of-use)"
+  },
+  "voice": "edge-tts ko-KR-InJoonNeural",
+  "checks_skipped": [
+   "as_of_visible",
+   "chart_honesty",
+   "glyph_size",
+   "glyphs",
+   "labels",
+   "media_upscaled",
+   "rights",
+   "series_limit_3",
+   "units_visible"
+  ],
+  "sec": {
+   "render": 54.6,
+   "total": 92.0,
+   "mux": 35.6
+  },
+  "jobs": 4,
+  "frames": 4539,
+  "loudnorm": {
+   "passes": 2,
+   "pass1": {
+    "input_i": -14.06,
+    "input_tp": -0.71,
+    "input_lra": 4.2,
+    "input_thresh": -24.81,
+    "target_offset": 0.19
+   },
+   "pass2": {
+    "output_i": -14.0,
+    "output_tp": -1.5,
+    "normalization_type": "dynamic"
+   },
+   "post_limiter_dbfs": -2.0
+  },
+  "bytes": 8665409
+ },
+ "checks": {
+  "hard": 0,
+  "warnings": 1,
+  "passed": true,
+  "profile": "animatic"
+ }
+}

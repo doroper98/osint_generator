@@ -1,0 +1,861 @@
+{
+ "sentences": [
+  {
+   "sid": "open_0",
+   "scene": "open",
+   "date": "2026.10.01",
+   "text": "10월 1일, 모스크바에서 발다이 토론클럽 연례회의가 열렸습니다.",
+   "tts": "시월 일일, 모스크바에서 발다이 토론클럽 연례회의가 열렸습니다.",
+   "segments": [
+    [
+     "10월 1일, 모스크바에서 ",
+     0
+    ],
+    [
+     "발다이 토론클럽",
+     1
+    ],
+    [
+     " 연례회의가 열렸습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/valdai_2026/tts/open_0_2522e8e99e.mp3",
+   "npy": "/home/user/osint_generator/projects/valdai_2026/tts/open_0_2522e8e99e.npy",
+   "dur": 5.016394557823129,
+   "t0": 1.2,
+   "t1": 6.216394557823129,
+   "trim_offset": 0.327188
+  },
+  {
+   "sid": "open_1",
+   "scene": "open",
+   "date": "2026.10.01",
+   "text": "푸틴 대통령은 이 자리에서 핵을 포함한 무기 사용 가능성을 말했습니다.",
+   "tts": "푸틴 대통령은 이 자리에서 핵을 포함한 무기 사용 가능성을 말했습니다.",
+   "segments": [
+    [
+     "푸틴 대통령은 이 자리에서 핵을 포함한 ",
+     0
+    ],
+    [
+     "무기 사용 가능성",
+     1
+    ],
+    [
+     "을 말했습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/valdai_2026/tts/open_1_af89eeff45.mp3",
+   "npy": "/home/user/osint_generator/projects/valdai_2026/tts/open_1_af89eeff45.npy",
+   "dur": 4.645646258503401,
+   "t0": 6.716394557823129,
+   "t1": 11.36204081632653,
+   "trim_offset": 0.392041
+  },
+  {
+   "sid": "open_2",
+   "scene": "open",
+   "date": "2026.10.01",
+   "text": "같은 연설에서 연료 공급과 제재 문제도 꺼냈습니다.",
+   "tts": "같은 연설에서 연료 공급과 제재 문제도 꺼냈습니다.",
+   "segments": [
+    [
+     "같은 연설에서 ",
+     0
+    ],
+    [
+     "연료 공급과 제재",
+     1
+    ],
+    [
+     " 문제도 꺼냈습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/valdai_2026/tts/open_2_1a57a6be77.mp3",
+   "npy": "/home/user/osint_generator/projects/valdai_2026/tts/open_2_1a57a6be77.npy",
+   "dur": 3.695873015873016,
+   "t0": 11.86204081632653,
+   "t1": 15.557913832199546,
+   "trim_offset": 0.394331
+  },
+  {
+   "sid": "kaliningrad_0",
+   "scene": "kaliningrad",
+   "date": "2026.10.01",
+   "text": "핵심 발언은 칼리닌그라드에 관한 것이었습니다.",
+   "tts": "핵심 발언은 칼리닌그라드에 관한 것이었습니다.",
+   "segments": [
+    [
+     "핵심 발언은 ",
+     0
+    ],
+    [
+     "칼리닌그라드",
+     1
+    ],
+    [
+     "에 관한 것이었습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/valdai_2026/tts/kaliningrad_0_9de104c824.mp3",
+   "npy": "/home/user/osint_generator/projects/valdai_2026/tts/kaliningrad_0_9de104c824.npy",
+   "dur": 3.1084126984126983,
+   "t0": 22.257913832199545,
+   "t1": 25.366326530612245,
+   "trim_offset": 0.393447
+  },
+  {
+   "sid": "kaliningrad_1",
+   "scene": "kaliningrad",
+   "date": "2026.10.01",
+   "text": "폴란드와 리투아니아 사이에 끼인 러시아의 서쪽 끝 영토입니다.",
+   "tts": "폴란드와 리투아니아 사이에 끼인 러시아의 서쪽 끝 영토입니다.",
+   "segments": [
+    [
+     "폴란드와 리투아니아 사이에 끼인 러시아의 ",
+     0
+    ],
+    [
+     "서쪽 끝 영토",
+     1
+    ],
+    [
+     "입니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/valdai_2026/tts/kaliningrad_1_861973031d.mp3",
+   "npy": "/home/user/osint_generator/projects/valdai_2026/tts/kaliningrad_1_861973031d.npy",
+   "dur": 4.09265306122449,
+   "t0": 25.866326530612245,
+   "t1": 29.958979591836734,
+   "trim_offset": 0.378118
+  },
+  {
+   "sid": "kaliningrad_2",
+   "scene": "kaliningrad",
+   "date": "2026.10.01",
+   "text": "푸틴은 칼리닌그라드가 직접 공격받으면, 보유한 모든 무기의 사용 문제가 즉각 의제에 오를 것이라고 말했습니다.",
+   "tts": "푸틴은 칼리닌그라드가 직접 공격받으면, 보유한 모든 무기의 사용 문제가 즉각 의제에 오를 것이라고 말했습니다.",
+   "segments": [
+    [
+     "푸틴은 칼리닌그라드가 직접 공격받으면, 보유한 ",
+     0
+    ],
+    [
+     "모든 무기",
+     1
+    ],
+    [
+     "의 사용 문제가 즉각 의제에 오를 것이라고 말했습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/valdai_2026/tts/kaliningrad_2_f99c66b241.mp3",
+   "npy": "/home/user/osint_generator/projects/valdai_2026/tts/kaliningrad_2_f99c66b241.npy",
+   "dur": 7.79453514739229,
+   "t0": 30.458979591836734,
+   "t1": 38.253514739229026,
+   "trim_offset": 0.391678
+  },
+  {
+   "sid": "kaliningrad_3",
+   "scene": "kaliningrad",
+   "date": "2026.09.30",
+   "text": "이번 주 러시아가 나토에 외교 서한도 보냈다고 호주 공영방송은 전했습니다.",
+   "tts": "이번 주 러시아가 나토에 외교 서한도 보냈다고 호주 공영방송은 전했습니다.",
+   "segments": [
+    [
+     "이번 주 러시아가 나토에 ",
+     0
+    ],
+    [
+     "외교 서한",
+     1
+    ],
+    [
+     "도 보냈다고 호주 공영방송은 전했습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/valdai_2026/tts/kaliningrad_3_dbf716cef5.mp3",
+   "npy": "/home/user/osint_generator/projects/valdai_2026/tts/kaliningrad_3_dbf716cef5.npy",
+   "dur": 5.0672789115646255,
+   "t0": 38.753514739229026,
+   "t1": 43.820793650793654,
+   "trim_offset": 0.35449
+  },
+  {
+   "sid": "kaliningrad_4",
+   "scene": "kaliningrad",
+   "date": "2026.09.30",
+   "text": "나토가 칼리닌그라드를 고립시키려 하면 핵무기를 쓸 수 있다는 경고였다고 전했습니다.",
+   "tts": "나토가 칼리닌그라드를 고립시키려 하면 핵무기를 쓸 수 있다는 경고였다고 전했습니다.",
+   "segments": [
+    [
+     "나토가 칼리닌그라드를 ",
+     0
+    ],
+    [
+     "고립시키려",
+     1
+    ],
+    [
+     " 하면 핵무기를 쓸 수 있다는 경고였다고 전했습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/valdai_2026/tts/kaliningrad_4_0e47b9f005.mp3",
+   "npy": "/home/user/osint_generator/projects/valdai_2026/tts/kaliningrad_4_0e47b9f005.npy",
+   "dur": 5.593469387755102,
+   "t0": 44.320793650793654,
+   "t1": 49.914263038548754,
+   "trim_offset": 0.35458
+  },
+  {
+   "sid": "denial_0",
+   "scene": "denial",
+   "date": "2026.10.01",
+   "text": "푸틴은 동시에, 어느 유럽 국가도 공격할 계획이 없다고 말했습니다.",
+   "tts": "푸틴은 동시에, 어느 유럽 국가도 공격할 계획이 없다고 말했습니다.",
+   "segments": [
+    [
+     "푸틴은 동시에, 어느 유럽 국가도 ",
+     0
+    ],
+    [
+     "공격할 계획이 없다",
+     1
+    ],
+    [
+     "고 말했습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/valdai_2026/tts/denial_0_07300261fc.mp3",
+   "npy": "/home/user/osint_generator/projects/valdai_2026/tts/denial_0_07300261fc.npy",
+   "dur": 4.866575963718821,
+   "t0": 51.414263038548754,
+   "t1": 56.28083900226758,
+   "trim_offset": 0.378005
+  },
+  {
+   "sid": "denial_1",
+   "scene": "denial",
+   "date": "2026.10.01",
+   "text": "이 말은 푸틴이 말한 것이고, 확인되지 않은 주장입니다.",
+   "tts": "이 말은 푸틴이 말한 것이고, 확인되지 않은 주장입니다.",
+   "segments": [
+    [
+     "이 말은 푸틴이 말한 것이고, ",
+     0
+    ],
+    [
+     "확인되지 않은 주장",
+     1
+    ],
+    [
+     "입니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/valdai_2026/tts/denial_1_6f8d1fe712.mp3",
+   "npy": "/home/user/osint_generator/projects/valdai_2026/tts/denial_1_6f8d1fe712.npy",
+   "dur": 4.101587301587301,
+   "t0": 56.78083900226758,
+   "t1": 60.88242630385488,
+   "trim_offset": 0.340272
+  },
+  {
+   "sid": "denial_2",
+   "scene": "denial",
+   "date": "2026.10.01",
+   "text": "그는 러시아가 나토에 2대 1로 열세라고 말했습니다.",
+   "tts": "그는 러시아가 나토에 이 대 일로 열세라고 말했습니다.",
+   "segments": [
+    [
+     "그는 러시아가 나토에 ",
+     0
+    ],
+    [
+     "2대 1",
+     1
+    ],
+    [
+     "로 열세라고 말했습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/valdai_2026/tts/denial_2_9e3e92c688.mp3",
+   "npy": "/home/user/osint_generator/projects/valdai_2026/tts/denial_2_9e3e92c688.npy",
+   "dur": 3.622562358276644,
+   "t0": 61.38242630385488,
+   "t1": 65.00498866213152,
+   "trim_offset": 0.357438
+  },
+  {
+   "sid": "denial_3",
+   "scene": "denial",
+   "date": "2026.10.01",
+   "text": "그러면서 다른 핵보유국에 없는 무기를 경쟁 우위라고 말했습니다.",
+   "tts": "그러면서 다른 핵보유국에 없는 무기를 경쟁 우위라고 말했습니다.",
+   "segments": [
+    [
+     "그러면서 다른 핵보유국에 없는 무기를 ",
+     0
+    ],
+    [
+     "경쟁 우위",
+     1
+    ],
+    [
+     "라고 말했습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/valdai_2026/tts/denial_3_50f88d4994.mp3",
+   "npy": "/home/user/osint_generator/projects/valdai_2026/tts/denial_3_50f88d4994.npy",
+   "dur": 4.046190476190477,
+   "t0": 65.50498866213152,
+   "t1": 69.551179138322,
+   "trim_offset": 0.380884
+  },
+  {
+   "sid": "denial_4",
+   "scene": "denial",
+   "date": "2026.10.01",
+   "text": "핵무기는 체호프의 총과 같다고 러시아 국영 매체는 전했습니다.",
+   "tts": "핵무기는 체호프의 총과 같다고 러시아 국영 매체는 전했습니다.",
+   "segments": [
+    [
+     "핵무기는 ",
+     0
+    ],
+    [
+     "체호프의 총",
+     1
+    ],
+    [
+     "과 같다고 러시아 국영 매체는 전했습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/valdai_2026/tts/denial_4_f0581d4e08.mp3",
+   "npy": "/home/user/osint_generator/projects/valdai_2026/tts/denial_4_f0581d4e08.npy",
+   "dur": 4.676507936507937,
+   "t0": 70.051179138322,
+   "t1": 74.72768707482993,
+   "trim_offset": 0.361882
+  },
+  {
+   "sid": "reading_0",
+   "scene": "reading",
+   "date": "2026.10.01",
+   "text": "이 발언은 핵 사용을 결정했다는 발표가 아닙니다.",
+   "tts": "이 발언은 핵 사용을 결정했다는 발표가 아닙니다.",
+   "segments": [
+    [
+     "이 발언은 핵 사용을 결정했다는 ",
+     0
+    ],
+    [
+     "발표가 아닙니다",
+     1
+    ],
+    [
+     ".",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/valdai_2026/tts/reading_0_a14f4daacd.mp3",
+   "npy": "/home/user/osint_generator/projects/valdai_2026/tts/reading_0_a14f4daacd.npy",
+   "dur": 3.418888888888889,
+   "t0": 76.22768707482993,
+   "t1": 79.64657596371882,
+   "trim_offset": 0.341587
+  },
+  {
+   "sid": "reading_1",
+   "scene": "reading",
+   "date": "2026.10.01",
+   "text": "조건이 붙은 경고입니다. 직접 공격이라는 조건입니다.",
+   "tts": "조건이 붙은 경고입니다. 직접 공격이라는 조건입니다.",
+   "segments": [
+    [
+     "조건이 붙은 경고",
+     1
+    ],
+    [
+     "입니다. 직접 공격이라는 조건입니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/valdai_2026/tts/reading_1_063fa02299.mp3",
+   "npy": "/home/user/osint_generator/projects/valdai_2026/tts/reading_1_063fa02299.npy",
+   "dur": 5.124195011337869,
+   "t0": 80.14657596371882,
+   "t1": 85.27077097505669,
+   "trim_offset": 0.372109
+  },
+  {
+   "sid": "reading_2",
+   "scene": "reading",
+   "date": "2026.10.01",
+   "text": "서방에 개입의 한계를 알리는 메시지로 읽을 수 있습니다. 이것은 해석입니다.",
+   "tts": "서방에 개입의 한계를 알리는 메시지로 읽을 수 있습니다. 이것은 해석입니다.",
+   "segments": [
+    [
+     "서방에 개입의 한계를 알리는 메시지로 읽을 수 있습니다. 이것은 ",
+     0
+    ],
+    [
+     "해석",
+     1
+    ],
+    [
+     "입니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/valdai_2026/tts/reading_2_76469e2fd8.mp3",
+   "npy": "/home/user/osint_generator/projects/valdai_2026/tts/reading_2_76469e2fd8.npy",
+   "dur": 6.320839002267574,
+   "t0": 85.77077097505669,
+   "t1": 92.09160997732427,
+   "trim_offset": 0.369864
+  },
+  {
+   "sid": "reactions_0",
+   "scene": "reactions",
+   "date": "2026.10.01",
+   "text": "나토 사무총장 뤼터는 동맹이 방어적이라고 답했습니다.",
+   "tts": "나토 사무총장 뤼터는 동맹이 방어적이라고 답했습니다.",
+   "segments": [
+    [
+     "나토 사무총장 뤼터는 동맹이 ",
+     0
+    ],
+    [
+     "방어적",
+     1
+    ],
+    [
+     "이라고 답했습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/valdai_2026/tts/reactions_0_807bf61a0c.mp3",
+   "npy": "/home/user/osint_generator/projects/valdai_2026/tts/reactions_0_807bf61a0c.npy",
+   "dur": 3.8606122448979594,
+   "t0": 93.59160997732427,
+   "t1": 97.45222222222223,
+   "trim_offset": 0.38542
+  },
+  {
+   "sid": "reactions_1",
+   "scene": "reactions",
+   "date": "2026.10.01",
+   "text": "핵 위협은 도움이 되지 않는다고도 말했습니다.",
+   "tts": "핵 위협은 도움이 되지 않는다고도 말했습니다.",
+   "segments": [
+    [
+     "핵 위협은 ",
+     0
+    ],
+    [
+     "도움이 되지 않는다",
+     1
+    ],
+    [
+     "고도 말했습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/valdai_2026/tts/reactions_1_d3f2f8f4a8.mp3",
+   "npy": "/home/user/osint_generator/projects/valdai_2026/tts/reactions_1_d3f2f8f4a8.npy",
+   "dur": 2.9837641723356008,
+   "t0": 97.95222222222223,
+   "t1": 100.93598639455783,
+   "trim_offset": 0.383583
+  },
+  {
+   "sid": "reactions_2",
+   "scene": "reactions",
+   "date": "2026.10.01",
+   "text": "우크라이나 매체 UA.NEWS는 두 말이 서로 모순이라고 주장했습니다.",
+   "tts": "우크라이나 매체 유에이 뉴스는 두 말이 서로 모순이라고 주장했습니다.",
+   "segments": [
+    [
+     "우크라이나 매체 UA.NEWS는 두 말이 서로 ",
+     0
+    ],
+    [
+     "모순",
+     1
+    ],
+    [
+     "이라고 주장했습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/valdai_2026/tts/reactions_2_1ed96b47a9.mp3",
+   "npy": "/home/user/osint_generator/projects/valdai_2026/tts/reactions_2_1ed96b47a9.npy",
+   "dur": 4.884036281179139,
+   "t0": 101.43598639455783,
+   "t1": 106.32002267573696,
+   "trim_offset": 0.379592
+  },
+  {
+   "sid": "reactions_3",
+   "scene": "reactions",
+   "date": "2026.10.01",
+   "text": "누구도 위협하지 않는다면서, 곧바로 핵 시나리오를 언급했다고 전했습니다.",
+   "tts": "누구도 위협하지 않는다면서, 곧바로 핵 시나리오를 언급했다고 전했습니다.",
+   "segments": [
+    [
+     "누구도 위협하지 않는다면서, ",
+     0
+    ],
+    [
+     "곧바로",
+     1
+    ],
+    [
+     " 핵 시나리오를 언급했다고 전했습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/valdai_2026/tts/reactions_3_cf6a08fb32.mp3",
+   "npy": "/home/user/osint_generator/projects/valdai_2026/tts/reactions_3_cf6a08fb32.npy",
+   "dur": 5.384965986394558,
+   "t0": 106.82002267573696,
+   "t1": 112.20498866213153,
+   "trim_offset": 0.380204
+  },
+  {
+   "sid": "energy_0",
+   "scene": "energy",
+   "date": "2026.10.01",
+   "text": "에너지 발언도 중요했습니다.",
+   "tts": "에너지 발언도 중요했습니다.",
+   "segments": [
+    [
+     "에너지",
+     1
+    ],
+    [
+     " 발언도 중요했습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/valdai_2026/tts/energy_0_83262f97ea.mp3",
+   "npy": "/home/user/osint_generator/projects/valdai_2026/tts/energy_0_83262f97ea.npy",
+   "dur": 1.9380045351473922,
+   "t0": 113.70498866213153,
+   "t1": 115.64299319727891,
+   "trim_offset": 0.360227
+  },
+  {
+   "sid": "energy_1",
+   "scene": "energy",
+   "date": "2026.10.01",
+   "text": "푸틴은 제재가 유지되는 한, 러시아산 경유가 세계 시장에 공급되지 않을 것이라고 말했습니다.",
+   "tts": "푸틴은 제재가 유지되는 한, 러시아산 경유까 세계 시장에 공급되지 않을 것이라고 말했습니다.",
+   "segments": [
+    [
+     "푸틴은 제재가 유지되는 한, 러시아산 경유가 ",
+     0
+    ],
+    [
+     "세계 시장",
+     1
+    ],
+    [
+     "에 공급되지 않을 것이라고 말했습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/valdai_2026/tts/energy_1_24dfb5ca35.mp3",
+   "npy": "/home/user/osint_generator/projects/valdai_2026/tts/energy_1_24dfb5ca35.npy",
+   "dur": 6.839433106575964,
+   "t0": 116.14299319727891,
+   "t1": 122.98242630385488,
+   "trim_offset": 0.378209
+  },
+  {
+   "sid": "energy_2",
+   "scene": "energy",
+   "date": "2026.10.01",
+   "text": "러시아에 쓸 경유는 충분하지만, 제재 때문에 해외에는 닿지 않는다고 말했습니다.",
+   "tts": "러시아에 쓸 경유는 충분하지만, 제재 때문에 해외에는 닿지 않는다고 말했습니다.",
+   "segments": [
+    [
+     "러시아에 쓸 경유는 ",
+     0
+    ],
+    [
+     "충분하지만",
+     1
+    ],
+    [
+     ", 제재 때문에 해외에는 닿지 않는다고 말했습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/valdai_2026/tts/energy_2_15e9a5addf.mp3",
+   "npy": "/home/user/osint_generator/projects/valdai_2026/tts/energy_2_15e9a5addf.npy",
+   "dur": 5.587233560090703,
+   "t0": 123.48242630385488,
+   "t1": 129.0696598639456,
+   "trim_offset": 0.366893
+  },
+  {
+   "sid": "energy_3",
+   "scene": "energy",
+   "date": "2026.07.09",
+   "text": "보도에 따르면 러시아는 7월부터 생산자의 경유 수출을 금지해 왔습니다.",
+   "tts": "보도에 따르면 러시아는 칠월부터 생산자의 경유 수출을 금지해 왔습니다.",
+   "segments": [
+    [
+     "보도에 따르면 러시아는 7월부터 생산자의 경유 ",
+     0
+    ],
+    [
+     "수출을 금지",
+     1
+    ],
+    [
+     "해 왔습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/valdai_2026/tts/energy_3_23c81f8087.mp3",
+   "npy": "/home/user/osint_generator/projects/valdai_2026/tts/energy_3_23c81f8087.npy",
+   "dur": 4.85514739229025,
+   "t0": 129.5696598639456,
+   "t1": 134.42480725623585,
+   "trim_offset": 0.37771
+  },
+  {
+   "sid": "energy_4",
+   "scene": "energy",
+   "date": "2026.09.30",
+   "text": "이번 주에는 그 금지를 10월 말까지 늘렸다고 보도했습니다.",
+   "tts": "이번 주에는 그 금지를 시월 말까지 늘렸다고 보도했습니다.",
+   "segments": [
+    [
+     "이번 주에는 그 금지를 ",
+     0
+    ],
+    [
+     "10월 말",
+     1
+    ],
+    [
+     "까지 늘렸다고 보도했습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/valdai_2026/tts/energy_4_b7b1d6b496.mp3",
+   "npy": "/home/user/osint_generator/projects/valdai_2026/tts/energy_4_b7b1d6b496.npy",
+   "dur": 4.075124716553288,
+   "t0": 134.92480725623585,
+   "t1": 138.99993197278914,
+   "trim_offset": 0.37966
+  },
+  {
+   "sid": "refinery_0",
+   "scene": "refinery",
+   "date": "2026.10.01",
+   "text": "푸틴은 우크라이나의 정유시설 공격이 피해를 줬다고 말했습니다.",
+   "tts": "푸틴은 우크라이나의 정유시설 공격이 피해를 줬다고 말했습니다.",
+   "segments": [
+    [
+     "푸틴은 우크라이나의 정유시설 공격이 ",
+     0
+    ],
+    [
+     "피해를 줬다",
+     1
+    ],
+    [
+     "고 말했습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/valdai_2026/tts/refinery_0_3114dcaf9a.mp3",
+   "npy": "/home/user/osint_generator/projects/valdai_2026/tts/refinery_0_3114dcaf9a.npy",
+   "dur": 4.122063492063492,
+   "t0": 140.49993197278914,
+   "t1": 144.62199546485263,
+   "trim_offset": 0.384558
+  },
+  {
+   "sid": "refinery_1",
+   "scene": "refinery",
+   "date": "2026.10.01",
+   "text": "공격이 부분적으로 목적을 이뤘고, 국내총생산의 약 1퍼센트에 해당하는 피해라고 말했습니다.",
+   "tts": "공격이 부분적으로 목적을 이뤘고, 국내총생산의 약 일 퍼센트에 해당하는 피해라고 말했습니다.",
+   "segments": [
+    [
+     "공격이 부분적으로 목적을 이뤘고, 국내총생산의 ",
+     0
+    ],
+    [
+     "약 1퍼센트",
+     1
+    ],
+    [
+     "에 해당하는 피해라고 말했습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/valdai_2026/tts/refinery_1_1e38a97a0b.mp3",
+   "npy": "/home/user/osint_generator/projects/valdai_2026/tts/refinery_1_1e38a97a0b.npy",
+   "dur": 6.808004535147393,
+   "t0": 145.12199546485263,
+   "t1": 151.93000000000004,
+   "trim_offset": 0.355896
+  },
+  {
+   "sid": "refinery_2",
+   "scene": "refinery",
+   "date": "2026.10.01",
+   "text": "이 수치는 푸틴이 말했을 뿐, 독립 검증된 수치는 아닙니다.",
+   "tts": "이 수치는 푸틴이 말했을 뿐, 독립 검증된 수치는 아닙니다.",
+   "segments": [
+    [
+     "이 수치는 푸틴이 말했을 뿐, ",
+     0
+    ],
+    [
+     "독립 검증",
+     1
+    ],
+    [
+     "된 수치는 아닙니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/valdai_2026/tts/refinery_2_a06d0a8e77.mp3",
+   "npy": "/home/user/osint_generator/projects/valdai_2026/tts/refinery_2_a06d0a8e77.npy",
+   "dur": 4.7398866213151924,
+   "t0": 152.43000000000004,
+   "t1": 157.16988662131521,
+   "trim_offset": 0.342063
+  },
+  {
+   "sid": "refinery_3",
+   "scene": "refinery",
+   "date": "2026.10.01",
+   "text": "한편 미국 경유 가격은 갤런당 6.5달러를 넘었다고 보도했습니다.",
+   "tts": "한편 미국 경유 가격은 갤런당 육 점 오 딸러를 넘었다고 보도했습니다.",
+   "segments": [
+    [
+     "한편 미국 경유 가격은 갤런당 ",
+     0
+    ],
+    [
+     "6.5달러",
+     1
+    ],
+    [
+     "를 넘었다고 보도했습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/valdai_2026/tts/refinery_3_42ccd497cb.mp3",
+   "npy": "/home/user/osint_generator/projects/valdai_2026/tts/refinery_3_42ccd497cb.npy",
+   "dur": 5.035487528344671,
+   "t0": 157.66988662131521,
+   "t1": 162.7053741496599,
+   "trim_offset": 0.368367
+  },
+  {
+   "sid": "close_0",
+   "scene": "close",
+   "date": "2026.10.01",
+   "text": "군사 긴장, 연료 공급, 제재가 한 연설에 함께 담겼습니다.",
+   "tts": "군사 긴장, 연료 공급, 제재가 한 연설에 함께 담겼습니다.",
+   "segments": [
+    [
+     "군사 긴장, 연료 공급, 제재가 ",
+     0
+    ],
+    [
+     "한 연설",
+     1
+    ],
+    [
+     "에 함께 담겼습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/valdai_2026/tts/close_0_8e2073917a.mp3",
+   "npy": "/home/user/osint_generator/projects/valdai_2026/tts/close_0_8e2073917a.npy",
+   "dur": 5.487074829931973,
+   "t0": 164.2053741496599,
+   "t1": 169.69244897959186,
+   "trim_offset": 0.365964
+  },
+  {
+   "sid": "close_1",
+   "scene": "close",
+   "date": "2026.10.01",
+   "text": "하나의 메시지로 읽을 수 있다는 것은 해석이고, 사실로 확인된 것은 발언 자체입니다.",
+   "tts": "하나의 메시지로 읽을 수 있다는 것은 해석이고, 사실로 확인된 것은 발언 자체입니다.",
+   "segments": [
+    [
+     "하나의 메시지로 읽을 수 있다는 것은 해석이고, 사실로 확인된 것은 ",
+     0
+    ],
+    [
+     "발언 자체",
+     1
+    ],
+    [
+     "입니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/valdai_2026/tts/close_1_d7ca9a68c3.mp3",
+   "npy": "/home/user/osint_generator/projects/valdai_2026/tts/close_1_d7ca9a68c3.npy",
+   "dur": 5.767278911564626,
+   "t0": 170.19244897959186,
+   "t1": 175.9597278911565,
+   "trim_offset": 0.348594
+  }
+ ],
+ "cards": [
+  {
+   "kind": "title",
+   "t0": 16.257913832199545,
+   "t1": 21.857913832199543
+  },
+  {
+   "kind": "end",
+   "t0": 177.65972789115648,
+   "t1": 188.65972789115648
+  }
+ ],
+ "scene_start": {
+  "open": 1.2,
+  "kaliningrad": 22.257913832199545,
+  "denial": 51.414263038548754,
+  "reading": 76.22768707482993,
+  "reactions": 93.59160997732427,
+  "energy": 113.70498866213153,
+  "refinery": 140.49993197278914,
+  "close": 164.2053741496599
+ },
+ "total": 189.15972789115648,
+ "voice": "edge-tts ko-KR-InJoonNeural",
+ "title": "발다이 포럼",
+ "subtitle": "핵 억지 발언과 에너지 압박",
+ "date": "2026.10.02",
+ "tts_resynthesized": []
+}

@@ -1,0 +1,7 @@
+# 재생성 가능한 중간 산출물(mix.f32 67MB·청크·npy)은 추적하지 않는다.
+tts/*.npy
+out/mix.f32
+out/bed_stats.json
+out/animatic_part*
+out/animatic_noaudio.mp4
+out/animatic_render.json
