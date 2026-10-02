@@ -3397,3 +3397,4 @@ last_review: 2026-06-06
 - 2026-10-01 v5.2.0 PIPELINE-AP-014(콘티 판 W0 를 건너뛰고 검수 루프에서 바로 프리뷰로 감 — 사용자 지적) 기록. 게이트 ② 승인 = 콘티 판 기록 필수(`require_animatic`, 우회 없음), animatic_run.direction_sha1. CLAUDE.md C8.6·WORKFLOWS W0·HANDOFF §5·runbook·docs/12 에 의무 명시.
 - 2026-10-01 v5.2.0 TTS-AP-069("브렌트유가" 조사 가를 油價 유까로 치환 → [브렌트 유까]) 기록. apply_dict 한 번 훑기·최장 일치로 교체, 예외 항목 브렌트유가·비축유가. 사용자 시청 피드백.
 - 2026-10-01 v5.2.0 TTS-AP-070("전략국제문제연구소" 분절 오독) 기록. 사전 등재 + 같은 원고 긴 기관명 2건(국제에너지기구·월스트리트저널).
+- 2026-10-02 v5.3.0 G14 겹침 카드(cascade) 채택(D-0139, 사용자 판정 D117) — 연출 문법 한 줄, 지명 깔림 hard(문장 지명)·warning(배경 지명, provenance cascade.hidden_labels[]) 분리, 밀기 전환 새 카드 글자 지연 max(focus, shift), 핸드오프 08 §15.
