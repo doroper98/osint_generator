@@ -696,7 +696,7 @@ credits:                   # D-0030(D35) — 권리 레지스트리 종류별 �
   music_description: 'Music: "{name}" — {author} ({license})'          # 설명란 footer 의 {music} 자리(v3 description.yaml 문구와 같은 결과)
 
 registries:                # 15 §3 P10 — 여기 없는 타입을 연출이 쓰면 오류, 있는데 렌더러가 없으면 오류
-  event_types: [marker, route, tanker_loop, barrier, ships, boom, country, badge, card, panel, dip, photo, clip, cutout, article, post, primitive, series, backdrop, island, cascade]   # island = v5.1.0 D-0126 Q1(차트 아일랜드 — 뷰포트 카메라 = stage: timeline 숏), backdrop = v5.1.0 D-0121 §B·D-0123(backdrop 무대 배경 사진, 미디어 레지스트리 photo), post = v3.2.0 복귀(D26, 18 §5), primitive = v4.2.0 D-0081(id → registries.primitives), series = v4.3.0 D-0084(시간축 무대, 데이터 레코드), cascade = v5.3.0 D-0139(겹침 카드, 사용자 결정 D116·D117)
+  event_types: [marker, route, tanker_loop, barrier, ships, boom, country, badge, card, panel, dip, photo, clip, cutout, article, post, primitive, series, backdrop, island, cascade, quote]   # island = v5.1.0 D-0126 Q1(차트 아일랜드 — 뷰포트 카메라 = stage: timeline 숏), backdrop = v5.1.0 D-0121 §B·D-0123(backdrop 무대 배경 사진, 미디어 레지스트리 photo), post = v3.2.0 복귀(D26, 18 §5), primitive = v4.2.0 D-0081(id → registries.primitives), series = v4.3.0 D-0084(시간축 무대, 데이터 레코드), cascade = v5.3.0 D-0139(겹침 카드, 사용자 결정 D116·D117), quote = v5.3.1 시안(인물 발언 중앙 인용, valdai-2026 한정)
   event_types_planned: [occupied, arc, channel, shield, tl, particles, flash, dots, movers, line, arrow]   # v1/v2 이식 후보(미구현 = 사용 불가)
   panel_kinds: [relation, statement, timeline, precedent, versus, dots, gantt, dual_line, fork, checklist, network]   # relation = v3 refusal 일반화, 뒤 6종 = v2 차트 이식(D-0032)
   panel_kinds_planned: []
@@ -928,6 +928,36 @@ cascade:                   # v5.3.0 D-0139 겹침 카드(cascade, engine/cascade
   focus_sec: 0.5           # 앞 → 뒤 물러남 · 새 앞 카드 등장. 새 앞 카드 글자 = 앵커 + focus_sec 뒤 절반(0.25~0.5초, 밀기 없는 전환 — D-0137 §3·D-0139 §3)
   shift_sec: 0.6           # 가장 오래된 뒤 카드 밀려 나감. 밀기 있는 전환의 새 앞 카드 글자 = 앵커 + max(focus_sec, shift_sec) 뒤 절반(0.3~0.6초)
   width_cap: 560           # 최악 5 × 68 + 214 = 554, 정상 4 × 68 + 214 = 486
+quote_center:              # v5.3.1 시안(사용자 제안 2026-10-02 — valdai-2026 한정, 마음에 들면 규약 승격). engine/quote.py, 이벤트 quote. 설계 px(480p)
+  # 인물 발언 = 오른쪽 위 카드 대신 화면 가운데: 지도 위 균일 덮개(비네팅 아님) → 초상(뱃지 렌더러) → 세리프 인용문(큰 따옴표, 최대 quote_max_lines 줄)
+  # → 이름·직함(who) → 매체·날짜(src, 가장 작게). 등장 = fade_sec 페이드 + rise_px 위로 떠오름(줌 튐 없음). 넘치면 렌더 전 오류(QuoteError, 자름 없음 P6).
+  status: prototype
+  scrim_rgb: [0.02, 0.03, 0.05]
+  scrim_alpha: 0.62
+  portrait_R: 44
+  portrait_y: 120
+  quote_y: 214              # 첫 줄 기준선
+  quote_size: 21
+  quote_line_h: 30
+  quote_max_w: 620
+  quote_max_lines: 2
+  mark_size: 34             # 여는·닫는 따옴표(accent)
+  mark_alpha: 0.85
+  who_size: 12
+  who_dy: 32                # 마지막 인용 줄 기준선 → 이름 줄
+  src_size: 10.5
+  src_dy: 19                # 이름 줄 → 매체·날짜 줄
+  rise_px: 8
+  fade_sec: 0.35
+border_glow:               # v5.3.1 시안(사용자 제안 2026-10-02 — valdai-2026 한정). engine/layers/borders.draw_border_glow. 켜기 = direction stage_config.mercator.border_glow: true
+  # 국경선(행정구역 선 제외) 위에 옅은 빛(halo)을 상시 깔고, 짧은 빛 조각이 선을 따라 천천히 흐른다(cairo 대시 오프셋 = speed_px × t). 설계 px.
+  status: prototype
+  rgb: [0.62, 0.84, 1.0]
+  halo: [[5.0, 0.03], [2.6, 0.055]]          # [선 폭, 알파] — 상시
+  run_seg_px: 34                              # 흐르는 빛 조각 길이
+  run_period_px: 320                          # 조각 사이 간격(한 주기)
+  run_speed_px: 20                            # 초당 이동(설계 px) — "천천히"
+  run_layers: [[6.0, 0.045], [3.2, 0.09], [1.4, 0.24]]   # 바깥 → 안 [선 폭, 알파], 둥근 끝
 island:                    # v5.1.0 back_and_forth D-0123 §1·D-0126(Q1~Q4 A) — backdrop 무대 위 내용물 상자(아일랜드) 공통 규칙. engine/island.py. 설계 px(480p)
   # 연출은 픽셀을 다루지 않는다 — 차트 아일랜드는 box(boxes 이름)만 고른다. 등장 = 슬라이드 layout_480p.card.slide_px + 페이드 card.fade_sec(카드 규칙 재사용)
   # 겹침(checks island_overlap hard, Q3 A): 같은 순간 보이는 아일랜드 제자리 상자(그림자·슬라이드 경로 제외)끼리 교차 > 0, 자막 구역(reserved_zones.subtitle) 교차.
@@ -1163,7 +1193,7 @@ animatic:                  # v4.9.0 back_and_forth D-0108(사용자 결정 D97) 
     cutout_h_ratio: 0.4    # 컷아웃 높이 ÷ 폭 — 레지스트리에 비율이 없다(tool.params width 만). 파일을 열지 않으려고 쓰는 근사(p8 실측 134/360 = 0.37)
     panel_box: [64, 44, 790, 400]   # 패널 자리표시 = 패널 본문 영역(제목 기준선 74 위 ~ 자막 구역 410 위). 덮개(panel.cover_alpha)는 그대로
     kinds: {person: 뱃지, flag: 국기, emblem: 휘장, photo: 사진, clip: 영상, cutout: 컷아웃, article: 기사, post: 게시물,
-            primitive: 요소, panel: 패널, card: 카드, backdrop: 배경, island: 아일랜드, press: 프레스, cascade: 사건}   # backdrop = v5.1.0 D-0123 §3 — 회색 판 + [배경: id]
+            primitive: 요소, panel: 패널, card: 카드, backdrop: 배경, island: 아일랜드, press: 프레스, cascade: 사건, quote: 인용}   # backdrop = v5.1.0 D-0123 §3 — 회색 판 + [배경: id]
   band:                    # 화면 위 가운데 얇은 띠 — 배포 사고 방지 표식(모서리는 날짜만 규칙 유지)
     text: "콘티 판 · 검토용 · 배포 금지"
     font: sansb

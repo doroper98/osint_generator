@@ -76,8 +76,9 @@ def flat_stage_factory(proj: Path, out: Any) -> Callable[[Optional[dict]], Any]:
     from geo.prep import load_conf  # noqa: PLC0415
 
     def make(config: Optional[dict]) -> Any:
-        if config:
-            raise StageError(f"mercator 무대에는 stage_config 가 없다: {sorted(config)}")
+        bad = sorted(set(config or {}) - {"border_glow"})
+        if bad:   # v5.3.1 — 전편 MercatorStage 와 같은 키 검사. 막지도에는 글로우를 그리지 않는다(자리표시 지도)
+            raise StageError(f"mercator 무대 stage_config 는 border_glow 만 — 받은 키 {bad}")
         conf = load_conf(proj)
         w = next((t for t in conf.tiers if t.name == "W"), None)
         if w is None:
@@ -333,11 +334,27 @@ def draw_cascade(ctx: cairo.Context, R: RenderCtx, t: float, e: dict) -> None:  
         box(ctx, c.x, c.y, w, c.h, lines, ea * c.a)
 
 
+def draw_quote(ctx: cairo.Context, R: RenderCtx, t: float, e: dict) -> None:  # noqa: N803
+    """인용(시안) = 전편과 같은 덮개·자리 — 가운데 상자 `[인용: 말한 사람]` + 인용문 첫 줄."""
+    from engine.quote import quote_alpha, quote_lines  # noqa: PLC0415
+    from engine.style import QUOTE as Q  # noqa: PLC0415
+
+    a = quote_alpha(t, e)
+    lines = quote_lines(ctx, e)
+    ctx.rectangle(0, 0, W_OUT, 10_000)
+    ctx.set_source_rgba(*Q.scrim_rgb, Q.scrim_alpha * a)
+    ctx.fill()
+    top = Q.portrait_y - Q.portrait_R
+    h = Q.quote_y + (len(lines) - 1) * Q.quote_line_h + Q.who_dy + Q.src_dy - top
+    box(ctx, (W_OUT - Q.quote_max_w) / 2, top, Q.quote_max_w, h, [label("quote", e["speaker"]), *lines], a)
+
+
 PLACEHOLDERS: dict[str, Callable[..., Any]] = {
     "badge": draw_badge, "photo": draw_photo, "clip": draw_clip, "cutout": draw_cutout, "article": draw_article,
     "post": draw_post, "card": draw_card, "panel": draw_panel, "primitive": draw_primitive,
     "backdrop": draw_backdrop,   # v5.1.0 D-0123
     "cascade": draw_cascade,         # v5.2.0 겹침 카드(v5.3.0 D-0139 채택)
+    "quote": draw_quote,             # v5.3.1 인물 발언 중앙 인용(시안)
 }
 
 

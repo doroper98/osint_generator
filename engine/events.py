@@ -254,6 +254,27 @@ class CascadeEvent(_Event):
         return self
 
 
+class QuoteEvent(_Event):
+    """v5.3.1 인물 발언 중앙 인용(시안 — 사용자 제안 2026-10-02, valdai-2026 한정, engine/quote.py). 오른쪽 위 카드 대신
+    지도 위 덮개 + 가운데 초상(pid, 없으면 국기) + 세리프 인용문(따옴표는 코드가 그린다 — text 에 넣지 않는다) + 작은 이름·매체·날짜."""
+
+    type: Literal["quote"]
+    pid: Optional[str] = None          # 인물 엔티티(초상). 없으면 flag 원
+    flag: str                          # 인물 뱃지 바탕 국기 / pid 없을 때 국기 원
+    speaker: str = Field(min_length=1)
+    role: Optional[str] = None
+    text: str = Field(min_length=1)
+    src: Optional[str] = None          # 매체(예: 로이터)
+    date: Optional[str] = None         # 화면 날짜(예: 2026. 10. 01)
+    accent: Accent = "gold"
+
+    @model_validator(mode="after")
+    def _no_marks(self) -> "QuoteEvent":
+        if any(c in self.text for c in "“”\"「」"):
+            raise ValueError("quote text 에 따옴표를 넣지 않는다 — 코드가 그린다")
+        return self
+
+
 class PhotoEvent(_Event):
     """사진 카드 — 파일·캡션·출처 줄은 미디어 레지스트리에서만. 연출이 문자열을 주면 모델 오류(extra=forbid, D-0036)."""
 

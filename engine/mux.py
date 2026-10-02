@@ -188,6 +188,15 @@ def project_provenance(P, stages: dict[str, bool]) -> dict:  # noqa: ANN001, N80
 
         prov["cascade"] = {"status": CASCADE.status, "events": len(cas), "items": sum(len(e["items"]) for e in cas),
                            "hidden_labels": cascade_label_report(P)["hidden_labels"]}
+    qs = [e for e in P.events if e["type"] == "quote"]
+    if qs:   # v5.3.1 인물 발언 중앙 인용(시안) — 쓰인 영상에만(P5)
+        from engine.style import QUOTE  # noqa: PLC0415
+
+        prov["quote"] = {"status": QUOTE.status, "count": len(qs), "speakers": sorted({e["speaker"] for e in qs})}
+    if getattr(P.R.stage, "border_glow", False):   # v5.3.1 국경선 글로우(시안) — 켠 영상에만(P5)
+        from engine.style import BORDER_GLOW  # noqa: PLC0415
+
+        prov["border_glow"] = {"status": BORDER_GLOW.status, "on": True}
     if any(e["type"] == "article" for e in P.events):   # v5.1.0 D-0121 §C — 기사 프레스 v2(프레스 사진 none = 블러 무대 폴백, 헤드라인 원문|번역)
         from engine.layers.article import article_usage  # noqa: PLC0415
 

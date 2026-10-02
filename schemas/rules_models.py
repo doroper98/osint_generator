@@ -1414,6 +1414,47 @@ class CascadeFrontRules(_Strict):
     accent_w: float
 
 
+class QuoteCenterRules(_Strict):
+    """v5.3.1 인물 발언 중앙 인용(시안 — 사용자 제안 2026-10-02, valdai-2026 한정). 설계 px(480p)."""
+
+    status: Literal["prototype", "adopted"]
+    scrim_rgb: tuple[float, float, float]
+    scrim_alpha: float = Field(ge=0, le=1)
+    portrait_R: float = Field(gt=0)
+    portrait_y: float
+    quote_y: float
+    quote_size: float = Field(gt=0)
+    quote_line_h: float = Field(gt=0)
+    quote_max_w: float = Field(gt=0)
+    quote_max_lines: int = Field(ge=1, le=3)
+    mark_size: float = Field(gt=0)
+    mark_alpha: float = Field(ge=0, le=1)
+    who_size: float = Field(gt=0)
+    who_dy: float
+    src_size: float = Field(gt=0)
+    src_dy: float
+    rise_px: float = Field(ge=0)
+    fade_sec: float = Field(gt=0)
+
+
+class BorderGlowRules(_Strict):
+    """v5.3.1 국경선 글로우(시안 — 사용자 제안 2026-10-02, valdai-2026 한정). 설계 px."""
+
+    status: Literal["prototype", "adopted"]
+    rgb: tuple[float, float, float]
+    halo: list[tuple[float, float]]
+    run_seg_px: float = Field(gt=0)
+    run_period_px: float = Field(gt=0)
+    run_speed_px: float = Field(gt=0)
+    run_layers: list[tuple[float, float]] = Field(min_length=1)
+
+    @model_validator(mode="after")
+    def _seg(self) -> "BorderGlowRules":
+        if self.run_seg_px >= self.run_period_px:
+            raise ValueError("border_glow: run_seg_px 는 run_period_px 보다 짧아야 한다(빛 조각 사이 간격)")
+        return self
+
+
 class CascadeRules(_Strict):
     """v5.2.0 겹침 카드(cascade — 사용자 재구성 2026-10-01, v5.3.0 D-0139 채택). 설계 px(480p). 상자 모양은 rules island 재사용.
     최악 폭 (max_back + 1) × step + front.w ≤ width_cap 을 여기서 검증하고, 실제 폭은 checks cascade 가 잰다."""
@@ -1678,6 +1719,8 @@ class VideoRules(_Strict):
     stage_backdrop: StageBackdropRules   # v5.1.0 — D-0121 §B·D-0123
     island: IslandRules                  # v5.1.0 — D-0123 §1·D-0126
     cascade: CascadeRules                # v5.2.0 — 겹침 카드(사용자 재구성 2026-10-01, v5.3.0 D-0139 채택)
+    quote_center: QuoteCenterRules       # v5.3.1 — 인물 발언 중앙 인용(시안, valdai-2026 한정)
+    border_glow: BorderGlowRules         # v5.3.1 — 국경선 글로우(시안, direction stage_config.mercator.border_glow)
     data: DataRules                # v4.3.0 — D-0084 작업 1
     genre_prompt: GenrePromptRules  # v4.4.0 — D-0090 작업 1
     bundle: BundleRules            # v3.5.0 — D-0063 작업 4

@@ -1,0 +1,16 @@
+# 레지스트리 프리뷰 예제 (v5.3.1 인물 발언 중앙 인용 시안, 사용자 제안 2026-10-02, 15 P10) — 모델 검증 테스트가 읽는다. 문구는 예시(실제 발언 아님).
+schema_version: 1
+key: quote
+source: projects/valdai-2026/direction.yaml (첫 사용 예, v5.3.1 시안) — 시각은 hormuz_korea 갤러리 시각
+event:
+  type: quote
+  t0: 5.92
+  t1: 14.9
+  pid: trump
+  flag: us
+  speaker: 도널드 트럼프
+  role: 미국 대통령
+  text: 예시 인용문 한 줄
+  src: 예시 매체
+  date: 2026. 10. 01
+  accent: us
