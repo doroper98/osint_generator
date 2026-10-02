@@ -1,0 +1,20 @@
+schema_version: 1
+headline: 발다이 포럼 — 핵 억지 발언과 에너지 압박
+summary: 2026년 10월 1일 모스크바 발다이 토론클럽에서 푸틴 대통령이 한 연설을 따라갑니다. 칼리닌그라드가 직접 공격받으면 모든 무기 사용이 의제에 오를 것이라는 경고, 유럽을 공격할 계획이 없다는 주장, 제재가 유지되는 한 러시아 경유가 세계 시장에 공급되지 않는다는 발언을 발언자 귀속으로 정리했습니다. 나토 사무총장과 우크라이나 매체의 반응을 같은 무게로 싣고, 해석과 사실을 구분합니다. 10월 2일까지의 보도를 기준으로 했습니다.
+chapters:
+- at: open
+  label: 발다이 포럼
+- at: kaliningrad
+  label: 칼리닌그라드
+- at: denial
+  label: 유럽 공격 계획 부인
+- at: reading
+  label: 어떻게 읽을까
+- at: reactions
+  label: 나토와 우크라이나 매체
+- at: energy
+  label: 경유 비공급
+- at: refinery
+  label: 정유시설 공격
+- at: close
+  label: 정리

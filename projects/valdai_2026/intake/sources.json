@@ -1,0 +1,133 @@
+{
+  "schema_version": 1,
+  "sources": [
+    {
+      "id": "src_art_0001",
+      "url": "https://www.abc.net.au/news/2026-10-02/putin-kaliningrad-threat-nuclear-weapons/107219366",
+      "retrieved_at": "2026-10-02",
+      "lang": "en",
+      "verification": {
+        "status": "corroborated",
+        "checks": [],
+        "notes": ""
+      },
+      "confirmed_by": "claude(사용자 요청 대행 — URL·매체·게시일 확인)",
+      "confirmed_at": "2026-10-02T04:30:00Z",
+      "note": "",
+      "type": "article",
+      "publisher": "ABC News (Australia)",
+      "headline_original": "Putin warns Russia will use 'all weapons' if Kaliningrad threatened",
+      "published_at": "2026-10-02",
+      "key_facts": [
+        "Putin warns Russia will use 'all weapons' if Kaliningrad threatened"
+      ]
+    },
+    {
+      "id": "src_art_0002",
+      "url": "https://www.rt.com/russia/646620-putin-valdai-speech-ukraine-west-ai/",
+      "retrieved_at": "2026-10-02",
+      "lang": "en",
+      "verification": {
+        "status": "corroborated",
+        "checks": [],
+        "notes": ""
+      },
+      "confirmed_by": "claude(사용자 요청 대행 — URL·매체·게시일 확인)",
+      "confirmed_at": "2026-10-02T04:30:00Z",
+      "note": "",
+      "type": "article",
+      "publisher": "RT",
+      "headline_original": "Nuclear war, Ukraine, 'AI totalitarianism': Key takeaways from Putin's Valdai speech",
+      "published_at": "2026-10-01",
+      "key_facts": [
+        "Nuclear war, Ukraine, 'AI totalitarianism': Key takeaways from Putin's Valdai speech"
+      ]
+    },
+    {
+      "id": "src_art_0003",
+      "url": "https://ua.news/en/war-vs-rf/putin-na-valdayi-povtoriv-feiki-pro-viinu-pogrozhuvav-iadernoiu-zbroieiu",
+      "retrieved_at": "2026-10-02",
+      "lang": "en",
+      "verification": {
+        "status": "corroborated",
+        "checks": [],
+        "notes": ""
+      },
+      "confirmed_by": "claude(사용자 요청 대행 — URL·매체·게시일 확인)",
+      "confirmed_at": "2026-10-02T04:30:00Z",
+      "note": "",
+      "type": "article",
+      "publisher": "UA.NEWS",
+      "headline_original": "Putin repeated false claims about the war and threatened to use nuclear weapons",
+      "published_at": "2026-10-01",
+      "key_facts": [
+        "Putin repeated false claims about the war and threatened to use nuclear weapons"
+      ]
+    },
+    {
+      "id": "src_art_0004",
+      "url": "https://english.aaj.tv/news/330474869/putin-says-russia-wont-supply-diesel-to-global-markets-until-sanctions-are-lifted",
+      "retrieved_at": "2026-10-02",
+      "lang": "en",
+      "verification": {
+        "status": "corroborated",
+        "checks": [],
+        "notes": ""
+      },
+      "confirmed_by": "claude(사용자 요청 대행 — URL·매체·게시일 확인)",
+      "confirmed_at": "2026-10-02T04:30:00Z",
+      "note": "",
+      "type": "article",
+      "publisher": "Aaj English TV",
+      "headline_original": "Putin says Russia won't supply diesel to global markets until sanctions are lifted",
+      "published_at": "2026-10-01",
+      "key_facts": [
+        "Putin says Russia won't supply diesel to global markets until sanctions are lifted"
+      ]
+    },
+    {
+      "id": "src_art_0005",
+      "url": "https://valdaiclub.com/multimedia/photos/meeting-maxim-oreshkin-2026",
+      "retrieved_at": "2026-10-02",
+      "lang": "en",
+      "verification": {
+        "status": "corroborated",
+        "checks": [],
+        "notes": ""
+      },
+      "confirmed_by": "claude(사용자 요청 대행 — URL·매체·게시일 확인)",
+      "confirmed_at": "2026-10-02T04:30:00Z",
+      "note": "",
+      "type": "article",
+      "publisher": "Valdai Club",
+      "headline_original": "Meeting with Maxim Oreshkin (photo gallery)",
+      "published_at": "2026-10-01",
+      "key_facts": [
+        "Meeting with Maxim Oreshkin (photo gallery)"
+      ]
+    },
+    {
+      "id": "src_art_0006",
+      "url": "https://www.reuters.com/business/energy/putin-says-russia-wont-supply-diesel-global-markets-until-sanctions-are-lifted-2026-10-01/",
+      "retrieved_at": "2026-10-02",
+      "lang": "en",
+      "verification": {
+        "status": "unverified",
+        "checks": [
+          "제목·URL만 확인(본문 접근 불가)"
+        ],
+        "notes": "사용자 제공 링크, 본문 미열람"
+      },
+      "confirmed_by": "claude(사용자 요청 대행 — URL·매체·게시일 확인)",
+      "confirmed_at": "2026-10-02T04:30:00Z",
+      "note": "",
+      "type": "article",
+      "publisher": "Reuters",
+      "headline_original": "Putin says Russia won't supply diesel to global markets until sanctions are lifted",
+      "published_at": "2026-10-01",
+      "key_facts": [
+        "Putin says Russia won't supply diesel to global markets until sanctions are lifted"
+      ]
+    }
+  ]
+}

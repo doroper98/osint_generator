@@ -1,0 +1,28 @@
+# 『발다이 포럼』 엔딩 크레딧 (콘티 판 단계).
+schema_version: 1
+sections:
+  - title: 보도
+    column: 0
+    auto: sources
+  - title: 인물 사진
+    column: 1
+    items:
+      - main: 푸틴 대통령 — 러시아 대통령실(kremlin.ru)
+        license_ref: putin
+        rights: [people.putin]
+  - title: 지도
+    column: 1
+    auto: map
+  - title: 국기
+    column: 1
+    items:
+      - main: 국기
+        license: flag-icons · MIT
+        rights: [flags.flag_icons]
+  - title: 음악 · 음성
+    column: 1
+    items:
+      - music: music.zabriskie_patriarch
+      - main: 내레이션
+        license: AI 음성 합성
+        rights: [narration.tts]

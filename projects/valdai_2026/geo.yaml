@@ -1,0 +1,10 @@
+---
+# 『발다이 포럼』 지오 설정 (콘티 판 단계 — 타일 티어는 전편 전에 geo.prep 으로 준비).
+# tiers: W 유럽·러시아 광역, B 발트(칼리닌그라드·폴란드·리투아니아).
+schema_version: 1
+bbox: [0, 40, 70, 66]
+admin1: [RU, PL, LT, UA]
+crimea_to_ua: true
+tiers:
+  - {name: W, ppd: 24, z: 5, bbox: [-2.0, 38.0, 66.0, 64.0]}
+  - {name: B, ppd: 128, z: 7, bbox: [15.0, 51.0, 29.0, 58.0]}

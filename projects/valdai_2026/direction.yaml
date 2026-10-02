@@ -1,0 +1,221 @@
+version: 1
+places:
+  moscow: [37.62, 55.75]
+  kaliningrad: [20.5, 54.7]
+paths: {}
+shots:
+- {at: 0.0, mode: cut, dur: 0.0, camera: {lon: 37.6, lat: 55.75, w: 9.0}}
+- {at: {scene_start: kaliningrad, off: -0.8}, mode: dip, dur: 3.0, camera: {lon: 21.5, lat: 54.6, w: 8.0}, under: true}
+- {at: {scene_start: reactions, off: -0.8}, mode: dip, dur: 3.0, camera: {lon: 28.0, lat: 52.0, w: 30.0}, under: true}
+- {at: {scene_start: energy, off: -0.8}, mode: dip, dur: 3.0, camera: {lon: 45.0, lat: 56.0, w: 40.0}, under: true}
+events:
+# ---- open
+- type: marker
+  start: {sid: open_0, off: 0.3}
+  end: {scene_end: open}
+  at_place: moscow
+  label: 모스크바
+  sub: 발다이 토론클럽 · 10월 1일
+  side: right
+  hl: true
+- type: card
+  start: {sid: open_0, off: 0.4}
+  end: {sid: open_0, edge: end, off: 0.3}
+  tag: 10월 1일
+  lines: [발다이 토론클럽 연례회의]
+  accent: gold
+- type: badge
+  start: {sid: open_1, off: 0.2}
+  end: {scene_end: open}
+  place: map_upper_left
+  kind: person
+  flag: ru
+  label: 푸틴
+  role: 러시아 대통령
+  accent: ru
+  pid: putin
+- type: card
+  start: {sid: open_2, off: 0.2}
+  end: {scene_end: open}
+  tag: 같은 연설
+  lines: [연료 공급 · 제재]
+  accent: ru
+# ---- kaliningrad
+- type: country
+  start: {scene_start: kaliningrad}
+  end: {scene_end: kaliningrad}
+  codes: [PL, LT]
+  col: teal
+  a: 0.06
+- type: country
+  start: {sid: kaliningrad_0, off: 0.2}
+  end: {scene_end: kaliningrad}
+  codes: [RU]
+  col: ru
+  a: 0.07
+- type: marker
+  start: {sid: kaliningrad_0, off: 0.3}
+  end: {scene_end: kaliningrad}
+  at_place: kaliningrad
+  label: 칼리닌그라드
+  sub: 러시아 서쪽 끝 영토
+  side: right
+  hl: true
+- type: card
+  start: {sid: kaliningrad_2, off: 0.3}
+  end: {sid: kaliningrad_2, edge: end, off: 0.3}
+  tag: 푸틴 · 발다이 포럼
+  lines: [직접 공격 시 모든 무기 사용 문제가 즉각 의제에]
+  accent: ru
+- type: card
+  start: {sid: kaliningrad_3, off: 0.2}
+  end: {scene_end: kaliningrad}
+  tag: 외교 서한 · 보도
+  lines: [나토가 고립시키려 하면 핵무기 사용 가능]
+  accent: gold
+# ---- denial
+- type: card
+  start: {sid: denial_0, off: 0.3}
+  end: {sid: denial_1, edge: end, off: 0.3}
+  tag: 푸틴 주장
+  lines: [유럽 국가를 공격할 계획 없다]
+  accent: ru
+- type: card
+  start: {sid: denial_2, off: 0.3}
+  end: {sid: denial_2, edge: end, off: 0.3}
+  tag: 푸틴 발언
+  bigs:
+  - ["2 : 1", 나토 대비 열세]
+  accent: ru
+- type: card
+  start: {sid: denial_3, off: 0.3}
+  end: {sid: denial_3, edge: end, off: 0.3}
+  tag: 푸틴 발언
+  lines: [다른 핵보유국에 없는 무기 = 경쟁 우위]
+  accent: gold
+- type: card
+  start: {sid: denial_4, off: 0.3}
+  end: {scene_end: denial}
+  tag: 핵무기에 대한 비유
+  lines: [체호프의 총]
+  accent: ru
+# ---- reading
+- type: panel
+  start: {sid: reading_0, off: -0.1}
+  end: {scene_end: reading, off: 0.3}
+  kind: versus
+  data:
+    title: 발언과 해석을 나눠 읽기
+    sides:
+    - title: 푸틴이 말한 것
+      src: 발다이 포럼 · 10월 1일
+      items:
+      - text: 직접 공격 시 모든 무기 사용이 의제에
+        t: {sid: reading_0, off: 0.4}
+      - text: 조건은 직접 공격
+        t: {sid: reading_1, off: 0.4}
+    - title: 이 영상의 해석
+      src: 해석 — 확인된 사실이 아님
+      items:
+      - text: 핵 사용 결정 발표가 아니다
+        t: {sid: reading_0, off: 0.9}
+      - text: 서방에 개입의 한계를 알리는 메시지
+        t: {sid: reading_2, off: 0.4}
+# ---- reactions
+- type: country
+  start: {sid: reactions_2, off: 0.1}
+  end: {scene_end: reactions}
+  codes: [UA]
+  col: teal
+  a: 0.07
+- type: card
+  start: {sid: reactions_0, off: 0.3}
+  end: {sid: reactions_1, edge: end, off: 0.3}
+  tag: 나토 사무총장 뤼터
+  lines: [동맹은 방어적 · 핵 위협은 도움이 안 된다]
+  accent: us
+- type: card
+  start: {sid: reactions_2, off: 0.3}
+  end: {scene_end: reactions}
+  tag: UA.NEWS · 우크라이나 매체
+  lines: [누구도 위협하지 않는다면서 핵 시나리오 언급 = 모순]
+  accent: teal
+# ---- energy
+- type: country
+  start: {scene_start: energy}
+  end: {scene_end: refinery}
+  codes: [RU]
+  col: ru
+  a: 0.06
+- type: card
+  start: {sid: energy_1, off: 0.3}
+  end: {sid: energy_2, edge: end, off: 0.3}
+  tag: 푸틴 발언 · 경유
+  lines: [제재가 유지되는 한 러시아 경유는 세계 시장에 공급되지 않는다]
+  accent: gold
+- type: card
+  start: {sid: energy_3, off: 0.4}
+  end: {sid: energy_3, edge: end, off: 0.3}
+  tag: 수출 금지 · 보도
+  bigs:
+  - [7월, 생산자 경유 수출 금지 시작]
+  accent: ru
+- type: card
+  start: {sid: energy_4, off: 0.4}
+  end: {scene_end: energy}
+  tag: 연장 · 보도
+  bigs:
+  - [10월 말, 수출 금지 연장]
+  accent: ru
+# ---- refinery
+- type: card
+  start: {sid: refinery_1, off: 0.5}
+  end: {sid: refinery_2, edge: end, off: 0.3}
+  tag: 푸틴 발언 · 독립 검증 없음
+  bigs:
+  - [약 1%, 국내총생산 피해]
+  accent: ru
+- type: card
+  start: {sid: refinery_3, off: 0.4}
+  end: {scene_end: refinery}
+  tag: 보도 · 미국
+  bigs:
+  - [6.5달러 초과, 경유 갤런당 가격]
+  accent: gold
+# ---- close
+- type: panel
+  start: {sid: close_0, off: -0.1}
+  end: {scene_end: close, off: 0.3}
+  kind: versus
+  data:
+    title: 확인된 것과 해석
+    sides:
+    - title: 발언으로 확인된 것
+      src: 발다이 포럼 · 10월 1일
+      items:
+      - text: 직접 공격 시 모든 무기 사용 거론
+        t: {sid: close_0, off: 0.3}
+      - text: 유럽 공격 계획 없다는 주장
+        t: {sid: close_0, off: 1.1}
+      - text: 제재 하 경유 비공급
+        t: {sid: close_0, off: 1.9}
+    - title: 해석
+      src: 확인된 사실이 아님
+      items:
+      - text: 군사 긴장 · 연료 · 제재를 잇는 하나의 메시지
+        t: {sid: close_1, off: 0.3}
+sound:
+  bgm: music.zabriskie_patriarch
+  intensity:
+  - [0.0, 0.55]
+  - [{scene_start: kaliningrad}, 0.62]
+  - [{scene_start: denial}, 0.58]
+  - [{scene_start: reading}, 0.5]
+  - [{scene_start: reactions}, 0.55]
+  - [{scene_start: energy}, 0.58]
+  - [{scene_start: refinery}, 0.55]
+  - [{scene_start: close}, 0.5]
+  - [{total: true, off: [0.5, -7.0]}, 0.5]
+  - [{total: true, off: 0.5}, 0.0]
+  cues:
+  - {kind: boom, t: {sid: kaliningrad_2, off: 0.6}, v: 0.35}

@@ -1,0 +1,56 @@
+{
+  "schema_version": 1,
+  "facts": [
+    {
+      "id": "f_valdai_0",
+      "text": "10월 1일 푸틴 대통령이 모스크바 발다이 포럼에서 러시아 영토가 직접 공격받으면 모든 무기 사용 문제가 의제에 오를 것이라고 말했다.",
+      "date": "2026.10.01",
+      "place": "모스크바",
+      "actors": [
+        "푸틴"
+      ],
+      "numbers": [],
+      "source_ids": [
+        "clm_0001"
+      ],
+      "confidence": "high",
+      "contested": false,
+      "sides": null
+    },
+    {
+      "id": "f_diesel_0",
+      "text": "푸틴은 제재가 유지되는 한 러시아 경유가 세계 시장에 공급되지 않을 것이라고 말했다.",
+      "date": "2026.10.01",
+      "place": "모스크바",
+      "actors": [
+        "푸틴"
+      ],
+      "numbers": [],
+      "source_ids": [
+        "clm_0008",
+        "clm_0009"
+      ],
+      "confidence": "high",
+      "contested": false,
+      "sides": null
+    },
+    {
+      "id": "f_refinery_0",
+      "text": "푸틴은 우크라이나의 정유시설 공격이 국내총생산의 약 1% 피해를 냈다고 말했다(독립 검증 없음).",
+      "date": "2026.10.01",
+      "place": "모스크바",
+      "actors": [
+        "푸틴"
+      ],
+      "numbers": [
+        "약 1%"
+      ],
+      "source_ids": [
+        "clm_0010"
+      ],
+      "confidence": "low",
+      "contested": false,
+      "sides": null
+    }
+  ]
+}

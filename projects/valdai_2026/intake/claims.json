@@ -1,0 +1,204 @@
+{
+  "schema_version": 1,
+  "claims": [
+    {
+      "claim_id": "clm_0001",
+      "text": "10월 1일 푸틴 대통령이 모스크바 발다이 포럼에서, 칼리닌그라드 등 러시아 영토가 직접 공격받으면 보유한 모든 무기 사용 문제가 즉각 의제에 오를 것이라고 말했다",
+      "source_ids": [
+        "src_art_0001",
+        "src_art_0002"
+      ],
+      "status": "corroborated",
+      "contested": false,
+      "event_date": "2026-10-01",
+      "checks": [
+        "quote_match:src_art_0001",
+        "quote_match:src_art_0002"
+      ],
+      "attributed_only": false,
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0002",
+      "text": "러시아가 이번 주 나토에 외교 서한을 보내, 나토가 칼리닌그라드를 고립시키려 하면 핵무기를 쓸 수 있다고 경고했다",
+      "source_ids": [
+        "src_art_0001"
+      ],
+      "status": "unverified",
+      "contested": false,
+      "event_date": "2026-10-01",
+      "checks": [
+        "quote_match:src_art_0001"
+      ],
+      "attributed_only": false,
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0003",
+      "text": "푸틴은 러시아가 어느 유럽 국가도 공격할 계획이 없다고 말했다",
+      "source_ids": [
+        "src_art_0001"
+      ],
+      "status": "unverified",
+      "contested": false,
+      "event_date": "2026-10-01",
+      "checks": [
+        "quote_match:src_art_0001"
+      ],
+      "attributed_only": true,
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0004",
+      "text": "푸틴은 핵무기를 '체호프의 총'에 비유하며 존재하는 한 언젠가 쓰일 수 있다고 말했다",
+      "source_ids": [
+        "src_art_0002"
+      ],
+      "status": "unverified",
+      "contested": false,
+      "event_date": "2026-10-01",
+      "checks": [
+        "quote_match:src_art_0002"
+      ],
+      "attributed_only": true,
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0005",
+      "text": "푸틴은 러시아가 나토에 2대 1로 열세이며, 다른 핵보유국에 없는 무기를 '경쟁 우위'라고 불렀다",
+      "source_ids": [
+        "src_art_0001"
+      ],
+      "status": "unverified",
+      "contested": false,
+      "event_date": "2026-10-01",
+      "checks": [
+        "quote_match:src_art_0001"
+      ],
+      "attributed_only": true,
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0006",
+      "text": "마르크 뤼터 나토 사무총장은 동맹이 방어적이며 핵 위협은 도움이 안 된다고 말했다",
+      "source_ids": [
+        "src_art_0001"
+      ],
+      "status": "corroborated",
+      "contested": false,
+      "event_date": "2026-10-01",
+      "checks": [
+        "quote_match:src_art_0001"
+      ],
+      "attributed_only": false,
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0007",
+      "text": "UA.NEWS는 푸틴의 '누구도 위협하지 않는다'는 말과 칼리닌그라드 핵 시나리오가 모순이라고 해석하고, 뤼터 총장이 이를 '핵 협박'이라 불렀다고 전했다",
+      "source_ids": [
+        "src_art_0003"
+      ],
+      "status": "unverified",
+      "contested": false,
+      "event_date": "2026-10-01",
+      "checks": [
+        "quote_match:src_art_0003"
+      ],
+      "attributed_only": true,
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0008",
+      "text": "푸틴은 제재가 유지되는 한 러시아 경유(디젤)가 세계 시장에 공급되지 않을 것이라고 말했다",
+      "source_ids": [
+        "src_art_0004"
+      ],
+      "status": "corroborated",
+      "contested": false,
+      "event_date": "2026-10-01",
+      "checks": [
+        "quote_match:src_art_0004"
+      ],
+      "attributed_only": false,
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0009",
+      "text": "푸틴은 러시아에 쓸 경유는 충분하지만 제재와 금지 때문에 세계 시장에는 닿지 않는다고 말했다",
+      "source_ids": [
+        "src_art_0004"
+      ],
+      "status": "unverified",
+      "contested": false,
+      "event_date": "2026-10-01",
+      "checks": [
+        "quote_match:src_art_0004"
+      ],
+      "attributed_only": true,
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0010",
+      "text": "푸틴은 우크라이나의 정유시설 공격이 부분적으로 목적을 이뤘고 러시아 GDP의 약 1% 피해를 냈다고 말했다",
+      "source_ids": [
+        "src_art_0001",
+        "src_art_0004"
+      ],
+      "status": "unverified",
+      "contested": false,
+      "event_date": "2026-10-01",
+      "checks": [
+        "quote_match:src_art_0001",
+        "quote_match:src_art_0004"
+      ],
+      "attributed_only": true,
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0011",
+      "text": "러시아는 7월 생산자 대상 디젤 수출 금지를 시작했고, 이번 주 이를 10월 31일까지 연장했다",
+      "source_ids": [
+        "src_art_0004"
+      ],
+      "status": "unverified",
+      "contested": false,
+      "event_date": "2026-10-01",
+      "checks": [
+        "quote_match:src_art_0004"
+      ],
+      "attributed_only": false,
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0012",
+      "text": "미국 디젤 가격이 갤런당 6.5달러를 넘어 기록적 수준이라는 보도가 있다",
+      "source_ids": [
+        "src_art_0004"
+      ],
+      "status": "unverified",
+      "contested": false,
+      "event_date": "2026-10-01",
+      "checks": [
+        "quote_match:src_art_0004"
+      ],
+      "attributed_only": false,
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0013",
+      "text": "발다이 클럽은 10월 1일 제23차 연례회의 중 대통령 집무실 부실장 막심 오레시킨과의 회담 사진을 게시했다",
+      "source_ids": [
+        "src_art_0005"
+      ],
+      "status": "corroborated",
+      "contested": false,
+      "event_date": "2026-10-01",
+      "checks": [
+        "quote_match:src_art_0005"
+      ],
+      "attributed_only": false,
+      "notes": ""
+    }
+  ]
+}

@@ -1,0 +1,154 @@
+schema_version: 1
+title: 발다이 포럼
+subtitle: 핵 억지 발언과 에너지 압박
+date: 2026.10.02
+scenes:
+- id: open
+  sentences:
+  - date: 2026.10.01
+    text: 10월 1일, 모스크바에서 발다이 토론클럽 연례회의가 열렸습니다.
+    tts: 시월 일일, 모스크바에서 발다이 토론클럽 연례회의가 열렸습니다.
+    emphasis: [발다이 토론클럽]
+    sources: [clm_0013]
+  - date: 2026.10.01
+    text: 푸틴 대통령은 이 자리에서 핵을 포함한 무기 사용 가능성을 말했습니다.
+    emphasis: [무기 사용 가능성]
+    sources: [clm_0001]
+  - date: 2026.10.01
+    text: 같은 연설에서 연료 공급과 제재 문제도 꺼냈습니다.
+    emphasis: [연료 공급과 제재]
+    sources: [clm_0008]
+- id: kaliningrad
+  sentences:
+  - date: 2026.10.01
+    text: 핵심 발언은 칼리닌그라드에 관한 것이었습니다.
+    emphasis: [칼리닌그라드]
+    sources: [clm_0001]
+  - date: 2026.10.01
+    text: 폴란드와 리투아니아 사이에 끼인 러시아의 서쪽 끝 영토입니다.
+    emphasis: [서쪽 끝 영토]
+    sources: [clm_0001]
+  - date: 2026.10.01
+    text: 푸틴은 칼리닌그라드가 직접 공격받으면, 보유한 모든 무기의 사용 문제가 즉각 의제에 오를 것이라고 말했습니다.
+    tts: 푸틴은 칼리닌그라드가 직접 공격받으면, 보유한 모든 무기의 사용 문제가 즉각 의제에 오를 것이라고 말했습니다.
+    emphasis: [모든 무기]
+    sources: [clm_0001]
+  - date: 2026.09.30
+    text: 이번 주 러시아가 나토에 외교 서한도 보냈다고 호주 공영방송은 전했습니다.
+    tts: 이번 주 러시아가 나토에 외교 서한도 보냈다고 호주 공영방송은 전했습니다.
+    emphasis: [외교 서한]
+    sources: [clm_0002]
+  - date: 2026.09.30
+    text: 나토가 칼리닌그라드를 고립시키려 하면 핵무기를 쓸 수 있다는 경고였다고 전했습니다.
+    emphasis: [고립시키려]
+    sources: [clm_0002]
+- id: denial
+  sentences:
+  - date: 2026.10.01
+    text: 푸틴은 동시에, 어느 유럽 국가도 공격할 계획이 없다고 말했습니다.
+    emphasis: [공격할 계획이 없다]
+    sources: [clm_0003]
+  - date: 2026.10.01
+    text: 이 말은 푸틴이 말한 것이고, 확인되지 않은 주장입니다.
+    emphasis: [확인되지 않은 주장]
+    sources: [clm_0003]
+  - date: 2026.10.01
+    text: 그는 러시아가 나토에 2대 1로 열세라고 말했습니다.
+    tts: 그는 러시아가 나토에 이 대 일로 열세라고 말했습니다.
+    emphasis: [2대 1]
+    sources: [clm_0005]
+  - date: 2026.10.01
+    text: 그러면서 다른 핵보유국에 없는 무기를 경쟁 우위라고 말했습니다.
+    emphasis: [경쟁 우위]
+    sources: [clm_0005]
+  - date: 2026.10.01
+    text: 핵무기는 체호프의 총과 같다고 러시아 국영 매체는 전했습니다.
+    emphasis: [체호프의 총]
+    sources: [clm_0004]
+- id: reading
+  sentences:
+  - date: 2026.10.01
+    text: 이 발언은 핵 사용을 결정했다는 발표가 아닙니다.
+    emphasis: [발표가 아닙니다]
+    sources: [clm_0001]
+  - date: 2026.10.01
+    text: 조건이 붙은 경고입니다. 직접 공격이라는 조건입니다.
+    emphasis: [조건이 붙은 경고]
+    sources: [clm_0001]
+  - date: 2026.10.01
+    text: 서방에 개입의 한계를 알리는 메시지로 읽을 수 있습니다. 이것은 해석입니다.
+    emphasis: [해석]
+    sources: [clm_0001]
+- id: reactions
+  sentences:
+  - date: 2026.10.01
+    text: 나토 사무총장 뤼터는 동맹이 방어적이라고 답했습니다.
+    emphasis: [방어적]
+    sources: [clm_0006]
+  - date: 2026.10.01
+    text: 핵 위협은 도움이 되지 않는다고도 말했습니다.
+    emphasis: [도움이 되지 않는다]
+    sources: [clm_0006]
+  - date: 2026.10.01
+    text: 우크라이나 매체 UA.NEWS는 두 말이 서로 모순이라고 주장했습니다.
+    tts: 우크라이나 매체 유에이 뉴스는 두 말이 서로 모순이라고 주장했습니다.
+    emphasis: [모순]
+    sources: [clm_0007]
+  - date: 2026.10.01
+    text: 누구도 위협하지 않는다면서, 곧바로 핵 시나리오를 언급했다고 전했습니다.
+    emphasis: [곧바로]
+    sources: [clm_0007]
+- id: energy
+  sentences:
+  - date: 2026.10.01
+    text: 에너지 발언도 중요했습니다.
+    emphasis: [에너지]
+    sources: [clm_0008]
+  - date: 2026.10.01
+    text: 푸틴은 제재가 유지되는 한, 러시아산 경유가 세계 시장에 공급되지 않을 것이라고 말했습니다.
+    emphasis: [세계 시장]
+    sources: [clm_0008]
+  - date: 2026.10.01
+    text: 러시아에 쓸 경유는 충분하지만, 제재 때문에 해외에는 닿지 않는다고 말했습니다.
+    emphasis: [충분하지만]
+    sources: [clm_0009]
+  - date: 2026.07.09
+    text: 보도에 따르면 러시아는 7월부터 생산자의 경유 수출을 금지해 왔습니다.
+    tts: 보도에 따르면 러시아는 칠월부터 생산자의 경유 수출을 금지해 왔습니다.
+    emphasis: [수출을 금지]
+    sources: [clm_0011]
+  - date: 2026.09.30
+    text: 이번 주에는 그 금지를 10월 말까지 늘렸다고 보도했습니다.
+    tts: 이번 주에는 그 금지를 시월 말까지 늘렸다고 보도했습니다.
+    emphasis: [10월 말]
+    sources: [clm_0011]
+- id: refinery
+  sentences:
+  - date: 2026.10.01
+    text: 푸틴은 우크라이나의 정유시설 공격이 피해를 줬다고 말했습니다.
+    emphasis: [피해를 줬다]
+    sources: [clm_0010]
+  - date: 2026.10.01
+    text: 공격이 부분적으로 목적을 이뤘고, 국내총생산의 약 1퍼센트에 해당하는 피해라고 말했습니다.
+    tts: 공격이 부분적으로 목적을 이뤘고, 국내총생산의 약 일 퍼센트에 해당하는 피해라고 말했습니다.
+    emphasis: [약 1퍼센트]
+    sources: [clm_0010]
+  - date: 2026.10.01
+    text: 이 수치는 푸틴이 말했을 뿐, 독립 검증된 수치는 아닙니다.
+    emphasis: [독립 검증]
+    sources: [clm_0010]
+  - date: 2026.10.01
+    text: 한편 미국 경유 가격은 갤런당 6.5달러를 넘었다고 보도했습니다.
+    tts: 한편 미국 경유 가격은 갤런당 육 점 오 달러를 넘었다고 보도했습니다.
+    emphasis: [6.5달러]
+    sources: [clm_0012]
+- id: close
+  sentences:
+  - date: 2026.10.01
+    text: 군사 긴장, 연료 공급, 제재가 한 연설에 함께 담겼습니다.
+    emphasis: [한 연설]
+    sources: [clm_0001, clm_0008]
+  - date: 2026.10.01
+    text: 하나의 메시지로 읽을 수 있다는 것은 해석이고, 사실로 확인된 것은 발언 자체입니다.
+    emphasis: [발언 자체]
+    sources: [clm_0001, clm_0008]
