@@ -1394,6 +1394,157 @@
      "md5": "7110687d535aa6dbe606fa12e4365795"
     }
    }
+  },
+  "g16_head_path": {
+   "reason": "v5.5.0 사용자 지적(2026-10-02): ① 인물 뱃지 정수리가 원 테두리 밖(위)으로 나와 어색 — v3 '머리 내밀기' 끔(rules badge.head_popout false, head_inside_max 0.9: 초상은 원 안, 정수리 높으면 내림) ② 지도 이동 중 방향이 살짝 틀어짐 — 이동+줌의 중심을 진행률 비례에서 폭 비례로(rules shot_grammar.move_path fixed_point: 고정점 기준 닮음 변환, 지도 위 점이 직선으로 흐름). 인물 뱃지가 보이는 컷·이동 중인 컷만 변경. 전/후·차이 = docs/handoff/reports/phaseG16/golden_delta/",
+   "decision": "사용자 지적 2026-10-02(v5.5.0)",
+   "old_rules": {
+    "badge.head_popout": "true(v3)",
+    "shot_grammar.move_path": "linear(v3)"
+   },
+   "new_rules": {
+    "badge.head_popout": "false · head_inside_max 0.9",
+    "shot_grammar.move_path": "fixed_point"
+   },
+   "cuts": [
+    "01_open_1",
+    "02_TITLE",
+    "06_war_1",
+    "09_ask_1",
+    "10_ask_2",
+    "17_past_1",
+    "18_past_3",
+    "22_decision_0",
+    "24_now_3"
+   ],
+   "unchanged": [
+    "03_route_0",
+    "04_route_2",
+    "05_route_3",
+    "07_war_2",
+    "08_war_3",
+    "11_ask_5",
+    "12_timeline_2",
+    "13_timeline_4",
+    "14_cost_1",
+    "15_review_0",
+    "16_review_1",
+    "19_debate_0",
+    "20_debate_1",
+    "21_debate_4",
+    "23_now_0",
+    "25_END"
+   ],
+   "cut_detail": {
+    "01_open_1": {
+     "render": "p_0007.82.png",
+     "changed_px": 7036,
+     "bbox": [
+      75,
+      27,
+      153,
+      141
+     ],
+     "md5_old": "dfe90cd2567a16464d21415ce617b7c9",
+     "md5": "160bc254590c7faea19be3247a168a21"
+    },
+    "02_TITLE": {
+     "render": "p_0022.27.png",
+     "changed_px": 6729,
+     "bbox": [
+      72,
+      25,
+      150,
+      140
+     ],
+     "md5_old": "57231f6dcc19c834da8aa1f33142fc59",
+     "md5": "8c848119b871a74dd04e88ab6e5ebb9e"
+    },
+    "06_war_1": {
+     "render": "p_0056.21.png",
+     "changed_px": 7053,
+     "bbox": [
+      559,
+      15,
+      647,
+      129
+     ],
+     "md5_old": "af49a2a66319153ff24f524791d775f3",
+     "md5": "2250efba35b2fee5761ab9de4e1faf1e"
+    },
+    "09_ask_1": {
+     "render": "p_0080.70.png",
+     "changed_px": 2892,
+     "bbox": [
+      203,
+      223,
+      266,
+      296
+     ],
+     "md5_old": "90d8b1431d43dc37114ff77cbc138bbb",
+     "md5": "a91283b6135eb2df27f02ae2da754861"
+    },
+    "10_ask_2": {
+     "render": "p_0087.06.png",
+     "changed_px": 2895,
+     "bbox": [
+      203,
+      223,
+      266,
+      296
+     ],
+     "md5_old": "266a4664c88be68479c71d7486b741aa",
+     "md5": "3537d7fcff4c01851f0c167d9e2037d1"
+    },
+    "17_past_1": {
+     "render": "p_0193.22.png",
+     "changed_px": 1272,
+     "bbox": [
+      173,
+      296,
+      214,
+      344
+     ],
+     "md5_old": "eda80ec02a9d7ce55af78bef02e4a950",
+     "md5": "d4364ebe5f294eaa3098bc438fa80862"
+    },
+    "18_past_3": {
+     "render": "p_0207.41.png",
+     "changed_px": 1278,
+     "bbox": [
+      173,
+      296,
+      214,
+      344
+     ],
+     "md5_old": "87824bb0dfce36f0d6f7c4f023d4bad6",
+     "md5": "d233cc113f5dbb51e0d0e0ef0a66ff52"
+    },
+    "22_decision_0": {
+     "render": "p_0245.56.png",
+     "changed_px": 7072,
+     "bbox": [
+      80,
+      71,
+      158,
+      185
+     ],
+     "md5_old": "93800d3104b0a3ee09324fd579920000",
+     "md5": "b76a739165f99fea4cc22f2e36edd526"
+    },
+    "24_now_3": {
+     "render": "p_0276.44.png",
+     "changed_px": 176224,
+     "bbox": [
+      0,
+      0,
+      853,
+      479
+     ],
+     "md5_old": "c0636a3cc99aa89b4fe75458caf42914",
+     "md5": "24a4dc9e0cb90ca63a8674f4a8e3e553"
+    }
+   }
   }
  }
 }

@@ -1,0 +1,230 @@
+{
+ "schema_version": 1,
+ "role": "Phase G16(v5.5.0) 기준선 — 사용자 지적 2건(2026-10-02): ① 인물 뱃지 정수리가 원 밖으로 나옴 → badge.head_popout false·head_inside_max(초상 원 안, 정수리 높으면 내림) ② 지도 이동 중 방향이 살짝 틀어짐 → shot_grammar.move_path fixed_point(이동+줌 = 고정점 기준 닮음 변환). phaseG15 대비 바뀐 컷만 cut_detail. 25_END 도장 가린 md5",
+ "command": "python -m engine.render projects/hormuz_korea --preview golden",
+ "stamp_box": [
+  812.0,
+  462.2,
+  842.0,
+  471.95
+ ],
+ "mask_pad_px": 2,
+ "changed_vs_g15": [
+  "p_0007.82.png",
+  "p_0022.27.png",
+  "p_0056.21.png",
+  "p_0080.70.png",
+  "p_0087.06.png",
+  "p_0193.22.png",
+  "p_0207.41.png",
+  "p_0245.56.png",
+  "p_0276.44.png"
+ ],
+ "same_as_g15": 16,
+ "cuts": [
+  {
+   "png": "p_0007.82.png",
+   "md5": "160bc254590c7faea19be3247a168a21"
+  },
+  {
+   "png": "p_0022.27.png",
+   "md5": "8c848119b871a74dd04e88ab6e5ebb9e"
+  },
+  {
+   "png": "p_0028.77.png",
+   "md5": "e43b1075d6e0b5788d397858e9af9df4"
+  },
+  {
+   "png": "p_0038.45.png",
+   "md5": "f47e589a1ac6aa3e1cf70f34a3fb075c"
+  },
+  {
+   "png": "p_0045.03.png",
+   "md5": "dae86a6e201f8ed9d118d82790dd0af4"
+  },
+  {
+   "png": "p_0056.21.png",
+   "md5": "2250efba35b2fee5761ab9de4e1faf1e"
+  },
+  {
+   "png": "p_0061.25.png",
+   "md5": "1272f25f905d92d94c6771ed89707306"
+  },
+  {
+   "png": "p_0065.13.png",
+   "md5": "9882493e07e54fb5c7e4b816130716aa"
+  },
+  {
+   "png": "p_0080.70.png",
+   "md5": "a91283b6135eb2df27f02ae2da754861"
+  },
+  {
+   "png": "p_0087.06.png",
+   "md5": "3537d7fcff4c01851f0c167d9e2037d1"
+  },
+  {
+   "png": "p_0105.28.png",
+   "md5": "99484bf8652887f65e8ed17085a1ad4a"
+  },
+  {
+   "png": "p_0124.25.png",
+   "md5": "87c6f3b26fcd5368a3af8f0d72ffd2a1"
+  },
+  {
+   "png": "p_0136.97.png",
+   "md5": "95eb4232cfd1c7cd29ce17837769d8c1"
+  },
+  {
+   "png": "p_0157.38.png",
+   "md5": "b1a59521a49cddf50997ed1830896bfd"
+  },
+  {
+   "png": "p_0164.59.png",
+   "md5": "ed55da5934ba38b0dc74e036b673715e"
+  },
+  {
+   "png": "p_0170.52.png",
+   "md5": "9e34cadafbf3c9a7eaccc08ed71bfe85"
+  },
+  {
+   "png": "p_0193.22.png",
+   "md5": "d4364ebe5f294eaa3098bc438fa80862"
+  },
+  {
+   "png": "p_0207.41.png",
+   "md5": "d233cc113f5dbb51e0d0e0ef0a66ff52"
+  },
+  {
+   "png": "p_0214.46.png",
+   "md5": "9d13ee6604a08d90c5ee7184fbd7e46e"
+  },
+  {
+   "png": "p_0220.96.png",
+   "md5": "a992d6d4d7f130e697ebec19e1e7e2ba"
+  },
+  {
+   "png": "p_0238.00.png",
+   "md5": "e7a2862ccd0927df321a6ecc6ad4a329"
+  },
+  {
+   "png": "p_0245.56.png",
+   "md5": "b76a739165f99fea4cc22f2e36edd526"
+  },
+  {
+   "png": "p_0258.61.png",
+   "md5": "2df287c4d68935a096629ebecf61eecb"
+  },
+  {
+   "png": "p_0276.44.png",
+   "md5": "24a4dc9e0cb90ca63a8674f4a8e3e553"
+  },
+  {
+   "png": "p_0288.44.png",
+   "md5": "7110687d535aa6dbe606fa12e4365795",
+   "mask": "end_card.version_stamp",
+   "md5_masked": "7110687d535aa6dbe606fa12e4365795",
+   "md5_at_record": "ee34756ff63b98836e26a40ecb1bf71a"
+  }
+ ],
+ "cut_detail": {
+  "p_0007.82.png": {
+   "changed_px": 7036,
+   "bbox": [
+    75,
+    27,
+    153,
+    141
+   ],
+   "md5_old": "dfe90cd2567a16464d21415ce617b7c9",
+   "md5": "160bc254590c7faea19be3247a168a21"
+  },
+  "p_0022.27.png": {
+   "changed_px": 6729,
+   "bbox": [
+    72,
+    25,
+    150,
+    140
+   ],
+   "md5_old": "57231f6dcc19c834da8aa1f33142fc59",
+   "md5": "8c848119b871a74dd04e88ab6e5ebb9e"
+  },
+  "p_0056.21.png": {
+   "changed_px": 7053,
+   "bbox": [
+    559,
+    15,
+    647,
+    129
+   ],
+   "md5_old": "af49a2a66319153ff24f524791d775f3",
+   "md5": "2250efba35b2fee5761ab9de4e1faf1e"
+  },
+  "p_0080.70.png": {
+   "changed_px": 2892,
+   "bbox": [
+    203,
+    223,
+    266,
+    296
+   ],
+   "md5_old": "90d8b1431d43dc37114ff77cbc138bbb",
+   "md5": "a91283b6135eb2df27f02ae2da754861"
+  },
+  "p_0087.06.png": {
+   "changed_px": 2895,
+   "bbox": [
+    203,
+    223,
+    266,
+    296
+   ],
+   "md5_old": "266a4664c88be68479c71d7486b741aa",
+   "md5": "3537d7fcff4c01851f0c167d9e2037d1"
+  },
+  "p_0193.22.png": {
+   "changed_px": 1272,
+   "bbox": [
+    173,
+    296,
+    214,
+    344
+   ],
+   "md5_old": "eda80ec02a9d7ce55af78bef02e4a950",
+   "md5": "d4364ebe5f294eaa3098bc438fa80862"
+  },
+  "p_0207.41.png": {
+   "changed_px": 1278,
+   "bbox": [
+    173,
+    296,
+    214,
+    344
+   ],
+   "md5_old": "87824bb0dfce36f0d6f7c4f023d4bad6",
+   "md5": "d233cc113f5dbb51e0d0e0ef0a66ff52"
+  },
+  "p_0245.56.png": {
+   "changed_px": 7072,
+   "bbox": [
+    80,
+    71,
+    158,
+    185
+   ],
+   "md5_old": "93800d3104b0a3ee09324fd579920000",
+   "md5": "b76a739165f99fea4cc22f2e36edd526"
+  },
+  "p_0276.44.png": {
+   "changed_px": 176224,
+   "bbox": [
+    0,
+    0,
+    853,
+    479
+   ],
+   "md5_old": "c0636a3cc99aa89b4fe75458caf42914",
+   "md5": "24a4dc9e0cb90ca63a8674f4a8e3e553"
+  }
+ }
+}

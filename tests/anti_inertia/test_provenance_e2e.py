@@ -97,7 +97,8 @@ class ProvenanceE2ETest(unittest.TestCase):
         # v4.11.0 G10 — 글자 크기 2차 표(D-0118 §3, 자막 22·카드 line 16)로 바뀐 컷을 반영한 phaseG10 기준선(바뀐 컷 = changed_vs_g7)
         # v5.1.0 G12 — 엔딩 카드 버전 도장(D-0124)으로 바뀐 25_END 를 반영한 phaseG12 기준선. 도장은 VERSION 을 따르므로 그 컷은 도장 상자를 가린 md5
         # v5.4.0 G15 — 국경선 글로우 정규 승격(사용자 결정 2026-10-02)으로 25컷 전부 바뀐 phaseG15 기준선. 글로우 끄면 = phaseG12(기록)
-        base = json.loads((REPO / "docs" / "handoff" / "reports" / "phaseG15" / "hormuz_baseline.json").read_text(encoding="utf-8"))
+        # v5.5.0 G16 — 인물 뱃지 정수리 원 안·이동 경로 고정점(사용자 지적 2026-10-02)으로 9컷 바뀐 phaseG16 기준선
+        base = json.loads((REPO / "docs" / "handoff" / "reports" / "phaseG16" / "hormuz_baseline.json").read_text(encoding="utf-8"))
         self.assertEqual(prov.get("border_glow"), {"status": "adopted", "on": True})
         want = {c["png"]: c.get("md5_masked") or c["md5"] for c in base["cuts"]}
         masked = {c["png"] for c in base["cuts"] if c.get("mask")}
