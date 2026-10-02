@@ -25,6 +25,8 @@ status: done
 - 대본: valdai 원고 = disputed 인용 7·미확인 서술 4·연결어 0/50. 새 린트라면 build-script 에서 막힌다. LLM-AP-013.
 
 ## 검증
+- 전체 pytest 1271 passed · failed 5 → 5건 수정(카메라 경로 기대값 2·머리 예약 1·이전 원고 린트 기대값 2) 뒤 해당 파일 재실행 통과 = 1276 passed · failed 0.
+- 이전 원고(hormuz 골든·fed_timeline_demo)는 새 린트로 게이트 ① 원고 린트가 실패한다 — 기록만, 원고 재작성 없음.
 - hormuz 골든: 9컷 변경 → phaseG16 기준선 + expected_deltas `g16_head_path`(전/후·차이 이미지). 나머지 16컷 = phaseG15.
 - v3 골든 원고는 새 린트에서 오류 2(flow-sparse·uncertain-phrase now_3) — 테스트가 고정(원고 재작성 대상 아님).
 - 프롬프트 예시 원고(P4)는 새 린트 통과하도록 연결어·마무리 수정.
