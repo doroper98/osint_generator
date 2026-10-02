@@ -1,6 +1,6 @@
 <!--
 tier: 3
-last_synced_with: v5.3.0
+last_synced_with: v5.3.1
 ssot_for: [release-notes]
 depends_on: [README.md, GOAL.md]
 last_review: 2026-09-28
@@ -63,6 +63,15 @@ released 항목은 **append-only**입니다.
 | v5.0.0 | 87912d2 | G11 GOAL G4-21·claim_kind fact/statement | pass(D-0125) |
 | v5.1.0 | 3619f2c | G12 backdrop 무대·아일랜드·축 스케일·기사 프레스 v2·발음 사전·버전 도장 | pass(D-0127) — 후속 D-0128 완료 |
 | v5.2.0 | d4703d9 | G13 배경 가독·주 아일랜드 상시·보도 인용 = 기사·card-island·라벨 반전 | pass(D-0134) — 후속 겹침 카드 시안(D-0135~D-0138) |
+
+---
+
+## [v5.3.1] — 2026-10-02 — valdai-2026 사용자 시청 피드백: 발음 3건(TTS-AP-071~073), 인물 발언 중앙 인용·국경선 글로우 시안(이번 영상만) — 진행 중
+
+PATCH: 버그 수정 + 프로젝트 한정 시안(사용자 판정 뒤 규약 승격 여부 결정). JSON `schema_version` 그대로(1).
+
+### Fixed
+- 발음: "에이피통신" 앞 음절 탈락(TTS-AP-071), "모스크바타임스" 분절(TTS-AP-072), 하이픈 병렬 지명 쉼(TTS-AP-073) — 사전 6항목, `rules tts_risk.spoken_patterns`(사전 적용 뒤 합성 문자열 경고 `tts-spoken:*`).
 
 ---
 
