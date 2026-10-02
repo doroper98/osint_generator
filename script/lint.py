@@ -109,6 +109,16 @@ def tts_risks(text: str) -> list[tuple[str, str, str]]:
     return out
 
 
+def spoken_risks(spoken: str) -> list[tuple[str, str, str]]:
+    """v5.3.0 TTS-AP-071~073 — 사전 적용 뒤 합성 문자열의 위험 표기 [(종류, 조각, 힌트)]. 패턴 = rules tts_risk.spoken_patterns."""
+    out: list[tuple[str, str, str]] = []
+    for p in load_rules().tts_risk.spoken_patterns:
+        for m in re.finditer(p.regex, spoken, re.IGNORECASE if p.ignore_case else 0):
+            if (p.kind, m.group(0)) not in {(k, s) for k, s, _ in out}:
+                out.append((p.kind, m.group(0), p.hint))
+    return out
+
+
 # ------------------------------------------------------------------ 발음 변환 (옛 orchestrator/tts_pronounce, v0.34.10)
 # 한자어 숫자 자동 변환 + JSON 음차 사전(경로 = rules pronounce.dict_path). 번들 어댑터(bundle/text)가 쓴다.
 # 한 숫자의 음절은 붙여 쓴다(TTS-AP-058). 자막은 원본 유지 — 변환은 발음 텍스트만.
@@ -257,6 +267,9 @@ def lint(script: Script, claims: "dict[str, str] | None" = None, *, check_source
                         add("emphasis-missing", "error", e)
             for kind, snippet, hint in tts_risks(say):
                 add(f"tts-risk:{kind}", "warning", f"{snippet!r} → {hint}", say)
+            spoken = pronounce_tts(say)   # v5.3.0 TTS-AP-071~073 — 사전 적용 뒤 실제 합성 문자열
+            for kind, snippet, hint in spoken_risks(spoken):
+                add(f"tts-spoken:{kind}", "warning", f"{snippet!r} → {hint}", spoken)
             if check_sources:
                 if not s.sources:   # v3.2.0 — 숫자·날짜 문장은 오류(D-0029 §3 예고대로 격상), 그 밖은 경고
                     num = bool(NUMERIC.search(s.text))

@@ -68,6 +68,8 @@ class TTSRisk(_Strict):
 
     covered_before_roman: list[str]
     patterns: list[TTSRiskPattern]
+    # v5.3.0 TTS-AP-071~073 — 사전 적용 **뒤** 실제 합성 문자열(pronounce_tts)에서 보는 패턴. 사전이 고친 것은 경고하지 않는다
+    spoken_patterns: list[TTSRiskPattern] = Field(default_factory=list)
 
 
 class PronounceRules(_Strict):
