@@ -688,6 +688,7 @@ class DotsRules(_Strict):
     pulse_alpha: float
     big: TextAt
     unit_dx: float
+    unit_gap: float   # v5.3.1 — 단위는 max(unit_dx, 큰 숫자 폭 + unit_gap) 에(두 자리 이상에서 숫자와 겹침 방지)
     unit_size: float
     caption: TextAt
     detail: TextAt
@@ -742,6 +743,9 @@ class DualLineRules(_Strict):
     x_pad: float
     x_label_dy: float
     x_label_size: float
+    x_label_rot_rad: float  # v5.3.1 — 기운 라벨 각도(라디안, 45도)
+    x_label_rot_dx: float   # v5.3.1 — 45도 기운 라벨 기준점(눈금 x 에서 오른쪽)
+    x_label_rot_dy: float   # v5.3.1 — 45도 기운 라벨 기준점(축 아래)
     draw_start_sec: float
     draw_step_sec: float           # 두 번째 선 지연
     draw_sec: float
@@ -855,6 +859,9 @@ class VersusPanelRules(_Strict):
     title_size: float
     item_size: float
     src_size: float
+    item_pad_r: float = Field(gt=0)          # v5.3.1 — 항목 글자 오른쪽 여백(상자 테두리에 닿지 않게)
+    item_max_lines: int = Field(ge=1, le=3)  # v5.3.1 — 한 항목 최대 줄 수(넘치면 오류, P6)
+    item_line_gap: float = Field(gt=0)       # v5.3.1 — 접힌 항목 둘째 줄 간격(항목 간격 50 안)
 
 
 class PanelRules(_Strict):
@@ -1414,6 +1421,14 @@ class CascadeFrontRules(_Strict):
     accent_w: float
 
 
+class QuotePairSlot(_Strict):
+    """v5.3.1 맞선 인용 자리 — portrait = 초상 중심 [x, y], text_x = 글자 시작(upper, 왼쪽 정렬)·끝(lower, 오른쪽 정렬), quote_y = 첫 줄 기준선."""
+
+    portrait: tuple[float, float]
+    text_x: float
+    quote_y: float
+
+
 class QuoteCenterRules(_Strict):
     """v5.3.1 인물 발언 중앙 인용(시안 — 사용자 제안 2026-10-02, valdai-2026 한정). 설계 px(480p)."""
 
@@ -1435,6 +1450,10 @@ class QuoteCenterRules(_Strict):
     src_dy: float
     rise_px: float = Field(ge=0)
     fade_sec: float = Field(gt=0)
+    pair_R: float = Field(gt=0)
+    pair_max_w: float = Field(gt=0)
+    upper: QuotePairSlot
+    lower: QuotePairSlot
 
 
 class BorderGlowRules(_Strict):

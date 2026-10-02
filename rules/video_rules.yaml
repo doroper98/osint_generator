@@ -276,8 +276,8 @@ placement:                 # v3.1.0 D-0047 작업 5 — 배치 슬롯(17 §2 `pl
     map_center:      {kinds: [badge, cutout, marker], point: [427, 240]}
     map_upper_left:  {kinds: [badge, cutout, marker], point: [190, 150]}
     map_upper_right: {kinds: [badge, cutout, marker], point: [660, 150]}
-    map_lower_left:  {kinds: [badge, cutout, marker], point: [190, 330]}
-    map_lower_right: {kinds: [badge, cutout, marker], point: [660, 330]}
+    map_lower_left:  {kinds: [badge, cutout, marker], point: [190, 290]}   # v5.3.1 사용자 지적(2026-10-02) — 330 은 solo R 56 이름·역할(아래 +102)이 두 줄 자막(≈402)과 겹쳤다(checks subtitle_overlap). 290 → 아래 끝 392
+    map_lower_right: {kinds: [badge, cutout, marker], point: [660, 290]}   # v5.3.1 같은 이유(330 → 290)
     card_right:      {kinds: [card, primitive], card: null}   # primitive = v4.2.0 D-0081 작업 5(무대 무관 오버레이, 카드와 같은 슬롯)
     # v4.4.0 D-0093 — 시간축 무대 자리. 왼쪽 55%(레인 이름·출처·기준 시점 줄)와 오른쪽 축 값 자리(axis_zone_px)를 피한다
     # v4.8.0 D-0111 — solo R 56 상자(머리 2.2R 위 ~ 이름·역할 46px 아래, 원+그림자 ±63): x 640 → 577~703 — 55% 열(470) 오른쪽, 끝점 값 라벨(~760~)·축 값 자리(790~) 왼쪽
@@ -475,7 +475,7 @@ panels:                    # D-0032 — 패널 기하·타이밍. 코드에 리�
     min_zone_alpha: 0.01
     lead_sec: 0.45                             # 카드 페이드와 같은 길이 — 카드가 들어오기 전에 비키고, 나간 뒤에 돌아온다
   precedent: {year_size: 28, title_size: 14, line_size: 12, caption_size: 11}   # v4.8.0 D-0101 §3 — 옛 engine/panels/precedent.py 리터럴
-  versus: {title_size: 16, item_size: 13.5, src_size: 10}                           # v4.8.0 D-0101 §3 — 옛 engine/panels/versus.py 리터럴
+  versus: {title_size: 16, item_size: 13.5, src_size: 10, item_pad_r: 18, item_max_lines: 2, item_line_gap: 21}   # v4.8.0 D-0101 §3 — 옛 engine/panels/versus.py 리터럴. v5.3.1 사용자 지적(항목 글자가 상자 밖) — 넘칠 때만 접음·넘치면 오류
   prov_tag:                # D-0034(D37) — 추정 태그는 제목 아래(부제 다음 줄, 가운데). 08 §9 우상단(W−40, 52)은 C0 모서리 규칙과 충돌해 쓰지 않는다
     anchor: below_title
     y_offset_px: 20                 # 제목(부제가 있으면 부제) 기준선에서 태그 줄 기준선까지
@@ -508,6 +508,7 @@ panels:                    # D-0032 — 패널 기하·타이밍. 코드에 리�
       pulse_alpha: 0.7
       big: {x: 540, y: 168, size: 64}
       unit_dx: 42
+      unit_gap: 6            # v5.3.1 — 단위 x = big.x + max(unit_dx, 큰 숫자 폭 + unit_gap). 한 자리('1')는 unit_dx 그대로(옛 출력), '45' 처럼 넓으면 뒤로 밀린다
       unit_size: 30
       caption: {x: 542, y: 196, size: 14}
       detail: {x: 542, y: 222, size: 12.5}
@@ -558,6 +559,9 @@ panels:                    # D-0032 — 패널 기하·타이밍. 코드에 리�
       x_pad: 30
       x_label_dy: 22
       x_label_size: 12
+      x_label_rot_rad: 0.7853981634   # v5.3.1 사용자 제안(45도) — 이벤트 x_label_rotate: true 일 때 라벨 기울기
+      x_label_rot_dx: 4.2      # 기운 라벨 라벨 끝 기준점(눈금 오른쪽)
+      x_label_rot_dy: 12       # 축 아래
       draw_start_sec: 0.6
       draw_step_sec: 0.5
       draw_sec: 1.8
@@ -935,8 +939,8 @@ quote_center:              # v5.3.1 시안(사용자 제안 2026-10-02 — valda
   scrim_rgb: [0.02, 0.03, 0.05]
   scrim_alpha: 0.62
   portrait_R: 44
-  portrait_y: 120
-  quote_y: 214              # 첫 줄 기준선
+  portrait_y: 185           # v5.3.1 사용자 지적 "너무 위로 올라가 있어" — 날짜 상자(≤50) 아래·자막(≈402) 위 공간의 세로 가운데로(120 → 185)
+  quote_y: 279              # 첫 줄 기준선(214 → 279, 초상과 같은 +65)
   quote_size: 21
   quote_line_h: 30
   quote_max_w: 620
@@ -949,6 +953,12 @@ quote_center:              # v5.3.1 시안(사용자 제안 2026-10-02 — valda
   src_dy: 19                # 이름 줄 → 매체·날짜 줄
   rise_px: 8
   fade_sec: 0.35
+  # v5.3.1 사용자 지시(2026-10-02) — A 의 인용과 그에 맞서는 B 의 인용: A = 왼쪽 위 초상 + 윗줄(왼쪽 정렬), B = 오른쪽 아래 초상 + 아랫줄(오른쪽 정렬).
+  # 이벤트 quote pos: upper | lower(기본 center). 덮개는 같은 순간 한 번만 깐다.
+  pair_R: 38
+  pair_max_w: 540
+  upper: {portrait: [116, 140], text_x: 172, quote_y: 134}
+  lower: {portrait: [738, 290], text_x: 682, quote_y: 284}
 border_glow:               # v5.3.1 시안(사용자 제안 2026-10-02 — valdai-2026 한정). engine/layers/borders.draw_border_glow. 켜기 = direction stage_config.mercator.border_glow: true
   # 국경선(행정구역 선 제외) 위에 옅은 빛(halo)을 상시 깔고, 짧은 빛 조각이 선을 따라 천천히 흐른다(cairo 대시 오프셋 = speed_px × t). 설계 px.
   status: prototype
@@ -1023,7 +1033,7 @@ genre_prompt:              # v4.4.0 D-0090 작업 1 — 장르 프롬프트 층(
       - "정책 금리 계단·목표 범위 띠는 color_by: change(인상·인하·동결 색을 코드가 레코드 변화로 정한다). 시장 금리·물가 선은 fixed."   # v4.4.0 D-0091 ②
 
 data:                      # v4.3.0 D-0084 작업 1 — 데이터 레코드(docs/handoff/20 §5.1, schemas/data_models.py:SeriesRecord). 이 목록 밖 값 = 로드 오류(15 P6)
-  units: ["%", "%p", "bp", "억 달러", "지수", "명", "원"]   # 화면 단위(20 §5.3 "단위를 화면에 표시")
+  units: ["%", "%p", "bp", "억 달러", "지수", "명", "원", "달러/갤런"]   # v5.3.1 달러/갤런 = 미국 경유 소매가(EIA GASDESW, valdai-2026). 화면 단위(20 §5.3 "단위를 화면에 표시")
   licenses_allowed: [us_gov_public_domain, cc_by_4]        # 재배포 가능한 공개 라이선스만(20 §5.1 "시리즈마다 이용 조건 확인")
   unit_prefixes: ["$", "₩", "€", "¥"]                    # v4.3.0 D-0087 보정 1 — 값 앞 통화 기호도 단위 표시로 인정(dual_line y_prefix)
   sources_allowed: [fred.stlouisfed.org, www.federalreserve.gov]   # source_url 도메인(tools/fetch_series.py 가 받는 곳). federalreserve.gov = v4.4.0 SEP 점도표(D-0090 작업 2)

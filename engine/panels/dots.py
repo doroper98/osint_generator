@@ -10,7 +10,7 @@ from engine.context import RenderCtx
 from engine.panels.base import chart
 from engine.style import C
 from engine.timebase import smooth
-from engine.typography import text
+from engine.typography import text, tw
 from rules import load_rules
 
 AXIS = "value"   # v4.3.0 D-0087 — 축 종류(값 축). 정직성 검사 적용 = rules qa_checks.chart_targets
@@ -43,7 +43,8 @@ def draw(ctx: cairo.Context, R: RenderCtx, t: float, e: dict, a: float) -> None:
     la = a * smooth((lt - D.label_sec) / D.label_fade_sec)
     text(ctx, e["big"], D.big.x, D.big.y, D.big.size, "disp", C["ru"], la, D.big.halo, "l")
     if e["unit"]:
-        text(ctx, e["unit"], D.big.x + D.unit_dx, D.big.y, D.unit_size, "disp", C["ru"], la, D.big.halo, "l")
+        ux = D.big.x + max(D.unit_dx, tw(ctx, e["big"], D.big.size, "disp") + D.unit_gap)   # v5.3.1 — '45%' 겹침(사용자 시청 2026-10-02)
+        text(ctx, e["unit"], ux, D.big.y, D.unit_size, "disp", C["ru"], la, D.big.halo, "l")
     text(ctx, e["caption"], D.caption.x, D.caption.y, D.caption.size, "sansb", C["white"], la, D.caption.halo, "l")
     text(ctx, e["detail"], D.detail.x, D.detail.y, D.detail.size, "sansm", C["muted"], la, D.detail.halo, "l")
     if e["note_value"]:

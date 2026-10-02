@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import math
+from decimal import Decimal
 
 import cairo
 import numpy as np
@@ -23,6 +24,12 @@ def _fmt(v: float, prefix: str, decimals: int) -> str:
     return f"{prefix}{v:.{decimals}f}"
 
 
+def step_decimals(step: float) -> int:
+    """v5.3.1 — 세로축 눈금 소수 자릿수 = 눈금 간격이 필요로 하는 만큼(0.4 → 1). 옛 코드는 0 고정이라 소수 간격 축이
+    "$6 · $6 · $6" 처럼 같은 값으로 찍혔다(사용자 확인 2026-10-02, 정직성). 정수 간격은 0(옛 출력 그대로)."""
+    return max(0, -Decimal(str(step)).normalize().as_tuple().exponent)
+
+
 @chart
 def draw(ctx: cairo.Context, R: RenderCtx, t: float, e: dict, a: float) -> None:  # noqa: N803
     lt = t - e["t0"]
@@ -38,11 +45,18 @@ def draw(ctx: cairo.Context, R: RenderCtx, t: float, e: dict, a: float) -> None:
         ctx.set_source_rgba(*C["white"], L.grid_alpha * a)
         ctx.rectangle(X0, fy(v), X1 - X0, 1)
         ctx.fill()
-        text(ctx, _fmt(v, e["y_prefix"], 0), X0 + L.tick_dx, fy(v) + L.tick_dy, L.tick_size, "sansm", C["muted"], a, 0, "r")
+        text(ctx, _fmt(v, e["y_prefix"], step_decimals(e["y_step"])), X0 + L.tick_dx, fy(v) + L.tick_dy, L.tick_size, "sansm", C["muted"], a, 0, "r")
     n = len(e["x_labels"])
     xs = [X0 + L.x_pad + (X1 - X0 - 2 * L.x_pad) * i / (n - 1) for i in range(n)]
     for x, s_ in zip(xs, e["x_labels"]):
-        text(ctx, s_, x, Y1 + L.x_label_dy, L.x_label_size, "sansm", C["muted"], a, 0, "c")
+        if e.get("x_label_rotate"):   # v5.3.1 — 45도: 글자 끝이 눈금 아래에 오도록 오른쪽 정렬로 기울인다
+            ctx.save()
+            ctx.translate(x + L.x_label_rot_dx, Y1 + L.x_label_rot_dy)
+            ctx.rotate(-L.x_label_rot_rad)   # 화면 글자 회전(지도 투영 아님)
+            text(ctx, s_, 0, 0, L.x_label_size, "sansm", C["muted"], a, 0, "r")
+            ctx.restore()
+        else:
+            text(ctx, s_, x, Y1 + L.x_label_dy, L.x_label_size, "sansm", C["muted"], a, 0, "c")
     for si, ser in enumerate(e["series"]):
         col = C[ser["col"]]
         pts = [(xs[i], fy(y)) for i, y in enumerate(ser["values"])]

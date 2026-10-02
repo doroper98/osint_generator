@@ -335,18 +335,19 @@ def draw_cascade(ctx: cairo.Context, R: RenderCtx, t: float, e: dict) -> None:  
 
 
 def draw_quote(ctx: cairo.Context, R: RenderCtx, t: float, e: dict) -> None:  # noqa: N803
-    """인용(시안) = 전편과 같은 덮개·자리 — 가운데 상자 `[인용: 말한 사람]` + 인용문 첫 줄."""
-    from engine.quote import quote_alpha, quote_lines  # noqa: PLC0415
+    """인용(시안) = 전편과 같은 덮개·자리(quote_box — center·upper·lower) — 상자 `[인용: 말한 사람]` + 인용문."""
+    from engine.quote import quote_alpha, quote_box, quote_lines  # noqa: PLC0415
     from engine.style import QUOTE as Q  # noqa: PLC0415
 
     a = quote_alpha(t, e)
     lines = quote_lines(ctx, e)
-    ctx.rectangle(0, 0, W_OUT, 10_000)
-    ctx.set_source_rgba(*Q.scrim_rgb, Q.scrim_alpha * a)
-    ctx.fill()
-    top = Q.portrait_y - Q.portrait_R
-    h = Q.quote_y + (len(lines) - 1) * Q.quote_line_h + Q.who_dy + Q.src_dy - top
-    box(ctx, (W_OUT - Q.quote_max_w) / 2, top, Q.quote_max_w, h, [label("quote", e["speaker"]), *lines], a)
+    if R.cache.get("quote_scrim_t") != t:
+        R.cache["quote_scrim_t"] = t
+        ctx.rectangle(0, 0, W_OUT, 10_000)
+        ctx.set_source_rgba(*Q.scrim_rgb, Q.scrim_alpha * a)
+        ctx.fill()
+    x0, y0, x1, y1 = quote_box(ctx, e)
+    box(ctx, x0, y0, x1 - x0, y1 - y0, [label("quote", e["speaker"]), *lines], a)
 
 
 PLACEHOLDERS: dict[str, Callable[..., Any]] = {

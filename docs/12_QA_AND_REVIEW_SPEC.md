@@ -74,6 +74,8 @@ preview → prev/checks.json(결정적 검사 18항목)
 | 겹침 카드 문장 지명 깔림(`cascade`, `[cascade-label-under]`) — 지금 보이는 마커·at_place·경로·봉쇄선 이름표 상자가 카드 밑. 지도가 가려진 순간 제외 → 연출이 구도·마커 side 를 바꾼다 | hard | `rules:cascade`(`engine.cascade`, v5.3.0 D-0139 채택) | v5.3.0 D-0139 §3(D-0137 §2) |
 | 겹침 카드 글자 넘침(`cascade`, `[cascade-overflow]`) — 앞 카드 날짜·제목·부제 폭, 뒤 카드 보이는 폭 안 날짜 폭 초과(자름·말줄임 없음, 렌더도 `CascadeError`) | hard | `rules:cascade`(`engine.cascade`, v5.3.0 D-0139 채택) | v5.2.0, v5.3.0 D-0139 |
 | 겹침 카드 배경 지명 가림(`cascade_label_hidden`, `[cascade-label-hidden]`) — 문장과 무관한 gazetteer 나라·도·도시 이름이 카드 회피로 안 그려짐, 해역 이름이 카드 밑. provenance `cascade.hidden_labels[]` | warning | `rules:cascade`(`engine.cascade`, v5.3.0 D-0139 채택) | v5.3.0 D-0139 §3(D-0137 §2) |
+| 자막 겹침(`subtitle_overlap`, `[subtitle-overlap]`) — 뱃지(원·이름표·역할)·마커(점·라벨·부제)·인용(quote) 상자 ∩ 그 순간 실제 자막 글자 상자(줄 수·폭, 후광 제외) > 2px. 0.25초 표본, 이벤트마다 첫 시각. 지도가 가려진 순간은 뱃지·마커 제외 | hard | `engine.checks.check_subtitle_overlap`·`engine.subtitles.subtitle_boxes` | v5.3.1 사용자 지적 2026-10-02(인물 뱃지 이름·국적 ↔ 두 줄 자막) |
+| 패널 글자 넘침(versus 항목·인용문, `[panel-overflow]`·`[quote-overflow]`) — 상자 폭을 넘으면 접고(최대 `panels.versus.item_max_lines`·`quote_center.quote_max_lines` 줄) 그래도 넘치면 렌더 전 오류(자름 없음) | hard(렌더 오류) | `engine.panels.versus.item_lines`·`engine.quote.quote_lines` | v5.3.1 사용자 지적 2026-10-02 |
 | 아일랜드 마커 라벨 ↔ 출처 줄(`island_label_overlap`, `[island-label-overlap]`) — 마커 라벨 글자 상자 ∩ 같은 순간 시리즈 출처 줄 글자 상자 > 0, provenance `island.label_overlap[]`. 고치는 것은 연출 회차 | warning | `rules:island.chart` | v5.2.0 D-0133 §3 |
 | 무대 선택(`stage_choice`, `[stage-choice]`) — 주 무대 ≠ 장르 기본 무대(stage.primary)인데 direction `stage_reason` 없음 | warning | 장르 프로필(handoff 20) | v5.1.0 D-0123 §2 |
 

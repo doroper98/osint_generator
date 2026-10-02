@@ -37,6 +37,7 @@ hard 실패가 하나라도 있으면 시각 검수 LLM 을 부르지 않고 연
 | island_label_overlap | warning | v5.2.0(D-0133 §3): 차트 아일랜드 안 마커 라벨 글자 상자 ∩ 같은 순간 시리즈 출처 줄 글자 상자 > 0 `[island-label-overlap]`(provenance island.label_overlap[]) — 고치는 것은 연출 회차 |
 | cascade | hard | v5.2.0 겹침 카드(v5.3.0 D-0139 채택): `[cascade-width]`·`[cascade-back]`·`[cascade-date]`·`[cascade-overflow]`, 문장 지명(마커·at_place·경로·봉쇄선 이름표)이 카드 밑 `[cascade-label-under]`(D-0137 §2) |
 | cascade_label_hidden | warning | v5.3.0(D-0139 §3): 배경 지명(gazetteer·해역)이 겹침 카드 회피로 안 그려지거나 깔림 `[cascade-label-hidden]`(provenance cascade.hidden_labels[]) |
+| subtitle_overlap | hard | v5.3.1(사용자 지적 2026-10-02): 뱃지(이름표·역할 포함)·마커(부제 포함)·인용 상자 ∩ 그 순간 실제 자막 글자 상자(줄 수·폭) > 0 `[subtitle-overlap]` |
 | stage_choice | warning | v5.1.0(D-0123 §2): 주 무대 ≠ 장르 기본 무대(default_stage = 장르 프로필 stage.primary)인데 direction stage_reason 없음 `[stage-choice]` |
 | as_of_visible | hard | 기준 시점·출처 줄 — 시리즈는 프리뷰 컷에 그린 출처 줄, 패널은 08 §9 출처 체계. 적용 범위 = qa_checks.chart_targets(축 종류) |
 """
@@ -64,7 +65,7 @@ SHADOW_PX = 7             # badge_box 가 원 둘레에 더하는 그림자 여�
 HARD = ("overlap", "offscreen", "glyphs", "glyph_size", "labels", "date", "subtitles", "rights", "forbidden", "stage_continuity",
         "genre_elements", "chart_honesty", "series_limit_3", "units_visible", "as_of_visible", "boundary_as_route",
         "geo_mismatch", "timeline_rescale", "backdrop_rights", "backdrop_repeat", "island_overlap",
-        "backdrop_main_missing", "island_label_clip", "cascade")   # island_label_clip v5.2.0 D-0133 §2, backdrop_main_missing v5.2.0 D-0129 §B, island_overlap v5.1.0 D-0126 Q3, geo_mismatch v4.10.0 D-0116, timeline_rescale v5.1.0 D-0121 §A, backdrop_* v5.1.0 D-0123
+        "backdrop_main_missing", "island_label_clip", "cascade", "subtitle_overlap")   # island_label_clip v5.2.0 D-0133 §2, backdrop_main_missing v5.2.0 D-0129 §B, island_overlap v5.1.0 D-0126 Q3, geo_mismatch v4.10.0 D-0116, timeline_rescale v5.1.0 D-0121 §A, backdrop_* v5.1.0 D-0123
 WARN = ("shots", "media_beats", "media_upscaled", "endcard_roll", "geo_unsourced",   # endcard_roll v4.7.0 D-0106, geo_unsourced D-0107
         "static_window", "stage_choice", "card_island", "island_label_overlap", "cascade_label_hidden")   # static_window v4.11.0 D-0118, stage_choice v5.1.0 D-0123, card_island v5.2.0 D-0129 §C, island_label_overlap D-0133 §3
 
@@ -156,6 +157,44 @@ def check_cascade(P) -> list[str]:  # noqa: ANN001, N803
                 out.append(f"[cascade-date] t={t:.2f} 겹침 카드가 모서리 날짜 상자와 겹침")
             t += CASCADE_STEP_SEC
     return out + cascade_label_report(P)["under"]
+
+
+SUB_STEP_SEC = 0.25   # 자막 겹침 표본 간격
+SUB_TOL_PX = 2.0      # 자막 겹침 허용 — 경계 접촉(≤ 2px)은 겹침이 아니다(글자 상자는 근사, offscreen 의 SHADOW_PX 와 같은 취지)
+
+
+def _overlap_px(a: tuple, b: tuple) -> float:
+    return min(min(a[2], b[2]) - max(a[0], b[0]), min(a[3], b[3]) - max(a[1], b[1]))
+
+
+def check_subtitle_overlap(P) -> list[str]:  # noqa: ANN001, N803
+    """v5.3.1(사용자 지적 2026-10-02 — 인물 뱃지 이름·국적이 두 줄 자막과 겹침, hormuz-talks v11 에서도 손으로만 고침) —
+    뱃지(원·이름표·역할)·마커(점·라벨·부제)·인용(quote) 상자가 **그 순간 실제 자막 글자 상자**(줄 수·폭 그대로)와 교차하면 hard.
+    이벤트마다 첫 시각 한 줄. 지도가 가려진 순간은 뱃지·마커를 보지 않는다(place_over 와 같은 규칙)."""
+    from engine.subtitles import subtitle_boxes  # noqa: PLC0415
+
+    ctx = cairo.Context(cairo.ImageSurface(cairo.FORMAT_ARGB32, 1, 1))
+    out: list[str] = []
+    for e in P.events:
+        if e["type"] not in ("badge", "marker", "quote"):
+            continue
+        t = e["t0"] + 0.3
+        while t < e["t1"] - 0.3:
+            subs = subtitle_boxes(ctx, P.R.tb, t)
+            if subs:
+                if e["type"] == "quote":
+                    from engine.quote import quote_box  # noqa: PLC0415
+
+                    b = quote_box(ctx, e)
+                else:
+                    r = place_over(P, ctx, e, t)
+                    b = r[1] if r is not None else None
+                if b is not None and any(_overlap_px(b, s) > SUB_TOL_PX for s in subs):
+                    who = e.get("label") or e.get("speaker") or e.get("pid") or e.get("flag")
+                    out.append(f"[subtitle-overlap] {e['type']} {who!r} t={t:.2f} 상자 {tuple(round(v) for v in b)} 가 자막 글자와 겹침 — 자리(place·side·lon/lat)를 옮긴다")
+                    break
+            t += SUB_STEP_SEC
+    return out
 
 
 def check_cascade_label_hidden(P) -> list[str]:  # noqa: ANN001, N803
@@ -580,6 +619,7 @@ def run_checks(P, times: list[float], provenance: dict, drawn: list[tuple[str, f
         "island_label_overlap": lambda: check_island_label_overlap(P),
         "cascade": lambda: check_cascade(P),
         "cascade_label_hidden": lambda: check_cascade_label_hidden(P),
+        "subtitle_overlap": lambda: check_subtitle_overlap(P),
     }
     res = {k: f() for k, f in run.items() if k not in skip}
     notes: dict[str, list[str]] = {}

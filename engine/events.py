@@ -267,6 +267,7 @@ class QuoteEvent(_Event):
     src: Optional[str] = None          # 매체(예: 로이터)
     date: Optional[str] = None         # 화면 날짜(예: 2026. 10. 01)
     accent: Accent = "gold"
+    pos: Literal["center", "upper", "lower"] = "center"   # v5.3.1 — 맞선 인용: A = upper(왼쪽 위), B = lower(오른쪽 아래)
 
     @model_validator(mode="after")
     def _no_marks(self) -> "QuoteEvent":
@@ -622,6 +623,7 @@ class PanelDualLine(_Chart):
     y_prefix: str = ""
     unit: Optional[str] = None     # v4.3.0 D-0087 보정 1 — 값 단위(rules data.units). units_visible = unit 또는 y_prefix(data.unit_prefixes)
     x_labels: list[str] = Field(min_length=2)
+    x_label_rotate: bool = False   # v5.3.1 사용자 제안(2026-10-02) — 촘촘한 날짜 라벨(주간 등)은 기울여 겹침 없이(각도 = rules panels.charts.dual_line.x_label_rot_rad)
     series: list[DualSeries] = Field(min_length=1, max_length=2)
 
     @model_validator(mode="after")

@@ -23,13 +23,38 @@ class QuoteError(ValueError):
     """인용문이 자리를 넘는다 — 조용히 자르지 않는다(15 P6). 연출이 문구를 줄인다."""
 
 
+def _geom(e: dict) -> tuple[float, float, float, float, float, str]:
+    """배치별 (초상 x, 초상 y, 초상 R, 글자 기준 x, 첫 줄 기준선, 정렬) — center = 가운데, upper = A(왼쪽 위·왼쪽 정렬), lower = B(오른쪽 아래·오른쪽 정렬)."""
+    pos = e.get("pos") or "center"
+    if pos == "center":
+        return W_OUT / 2, Q.portrait_y, Q.portrait_R, W_OUT / 2, Q.quote_y, "c"
+    s = Q.upper if pos == "upper" else Q.lower
+    return s.portrait[0], s.portrait[1], Q.pair_R, s.text_x, s.quote_y, "l" if pos == "upper" else "r"
+
+
 def quote_lines(ctx: cairo.Context, e: dict) -> list[str]:
     """인용문 줄(따옴표 자리 포함 폭으로 접는다). 넘치면 QuoteError."""
-    room = Q.quote_max_w - 2 * tw(ctx, "“", Q.mark_size, "serifb")
+    maxw = Q.quote_max_w if (e.get("pos") or "center") == "center" else Q.pair_max_w
+    room = maxw - 2 * tw(ctx, "“", Q.mark_size, "serifb")
     lines = wrap(ctx, e["text"], room, Q.quote_size, "serifb")
     if len(lines) > Q.quote_max_lines or any(tw(ctx, s, Q.quote_size, "serifb") > room for s in lines):
         raise QuoteError(f"[quote-overflow] {e['speaker']} {e['text']!r} — {len(lines)}줄 > {Q.quote_max_lines} 또는 폭 > {room:.0f}px, 문구를 줄인다")
     return lines
+
+
+def _span(x: float, w: float, anc: str) -> tuple[float, float]:
+    return (x - w / 2, x + w / 2) if anc == "c" else (x, x + w) if anc == "l" else (x - w, x)
+
+
+def quote_box(ctx: cairo.Context, e: dict) -> tuple[float, float, float, float]:
+    """인용 덩어리 상자(초상 그림자 ~ 매체·날짜 줄, 제자리) — checks subtitle_overlap."""
+    px, py, pr, tx, qy, anc = _geom(e)
+    lines = quote_lines(ctx, e)
+    mark = tw(ctx, "“", Q.mark_size, "serifb")
+    xs = [_span(tx, tw(ctx, s, Q.quote_size, "serifb") + 2 * mark, anc) for s in lines]
+    bottom = qy + (len(lines) - 1) * Q.quote_line_h + Q.who_dy + Q.src_dy + Q.src_size * 0.3
+    return (min([px - pr - 7] + [a for a, _ in xs]), min(py - pr - 7, qy - Q.quote_size),
+            max([px + pr + 7] + [b for _, b in xs]), max(bottom, py + pr + 7))
 
 
 def quote_alpha(t: float, e: dict) -> float:
@@ -43,29 +68,35 @@ def draw_quote(ctx: cairo.Context, R: RenderCtx, t: float, e: dict) -> None:  # 
     if a <= 0.01:
         return
     lines = quote_lines(ctx, e)
-    ctx.save()
-    ctx.rectangle(0, 0, W_OUT, 10_000)
-    ctx.set_source_rgba(*Q.scrim_rgb, Q.scrim_alpha * a)
-    ctx.fill()
-    ctx.restore()
+    if R.cache.get("quote_scrim_t") != t:   # 같은 순간 맞선 인용 두 개면 덮개는 한 번만(겹쳐 더 어두워지지 않게)
+        R.cache["quote_scrim_t"] = t
+        ctx.save()
+        ctx.rectangle(0, 0, W_OUT, 10_000)
+        ctx.set_source_rgba(*Q.scrim_rgb, Q.scrim_alpha * a)
+        ctx.fill()
+        ctx.restore()
     dy = (1 - ease_out(min(1.0, (t - e["t0"]) / Q.fade_sec))) * Q.rise_px
     acc = C.get(e.get("accent") or "gold", C["gold"])
-    cx = W_OUT / 2
-    badge = dict(kind="person" if e.get("pid") else "flag", pid=e.get("pid"), flag=e["flag"], R=Q.portrait_R,
+    px, py, pr, tx, qy, anc = _geom(e)
+    badge = dict(kind="person" if e.get("pid") else "flag", pid=e.get("pid"), flag=e["flag"], R=pr,
                  t0=e["t0"], label="", accent=e.get("accent") or "gold")
-    badge_at(ctx, R, cx, Q.portrait_y + dy, badge, t, a)
-    y = Q.quote_y + dy
+    badge_at(ctx, R, px, py + dy, badge, t, a)
+    y = qy + dy
+    mark = tw(ctx, "“", Q.mark_size, "serifb")
     for k, s in enumerate(lines):
         yy = y + k * Q.quote_line_h
-        text(ctx, s, cx, yy, Q.quote_size, "serifb", (1, 1, 1), a, 3, "c")
         w = tw(ctx, s, Q.quote_size, "serifb")
+        x0, x1 = _span(tx, w + 2 * mark, anc)   # 따옴표 자리 포함 줄 상자
+        text(ctx, s, x0 + mark, yy, Q.quote_size, "serifb", (1, 1, 1), a, 3, "l")
         if k == 0:
-            text(ctx, "“", cx - w / 2 - 4, yy + Q.mark_size * 0.28, Q.mark_size, "serifb", acc, Q.mark_alpha * a, 0, "r")
+            text(ctx, "“", x0 + mark - 4, yy + Q.mark_size * 0.28, Q.mark_size, "serifb", acc, Q.mark_alpha * a, 0, "r")
         if k == len(lines) - 1:
-            text(ctx, "”", cx + w / 2 + 4, yy + Q.mark_size * 0.28, Q.mark_size, "serifb", acc, Q.mark_alpha * a, 0, "l")
+            text(ctx, "”", x0 + mark + w + 4, yy + Q.mark_size * 0.28, Q.mark_size, "serifb", acc, Q.mark_alpha * a, 0, "l")
     yw = y + (len(lines) - 1) * Q.quote_line_h + Q.who_dy
     who = e["speaker"] + (f" · {e['role']}" if e.get("role") else "")
-    text(ctx, who, cx, yw, Q.who_size, "sansb", (1, 1, 1), 0.92 * a, 2.6, "c")
+    wx = tx if anc != "l" else tx + mark
+    wx = wx - mark if anc == "r" else wx
+    text(ctx, who, wx, yw, Q.who_size, "sansb", (1, 1, 1), 0.92 * a, 2.6, anc)
     src = " · ".join(x for x in (e.get("src"), e.get("date")) if x)
     if src:
-        text(ctx, src, cx, yw + Q.src_dy, Q.src_size, "mono", C["muted"], 0.9 * a, 2.4, "c")
+        text(ctx, src, wx, yw + Q.src_dy, Q.src_size, "mono", C["muted"], 0.9 * a, 2.4, anc)
