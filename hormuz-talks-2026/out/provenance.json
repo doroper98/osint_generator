@@ -1,0 +1,879 @@
+{
+ "schema_version": 1,
+ "engine": "engine",
+ "repo_version": "5.3.0",
+ "rules_version": "2.0.0",
+ "rules_hash": "c81a0d1e2d377c356d1944b49e2b97e0a8259981",
+ "prompts": {},
+ "voice": "edge-tts ko-KR-InJoonNeural",
+ "word_anchor": "aligned",
+ "word_anchors": [
+  {
+   "sid": "open_0",
+   "word": "해협",
+   "mode": "aligned",
+   "t": 4.065,
+   "alignment_source": "edge_word_boundary"
+  },
+  {
+   "sid": "rejection_dispute_1",
+   "word": "협상",
+   "mode": "aligned",
+   "t": 62.381,
+   "alignment_source": "edge_word_boundary"
+  },
+  {
+   "sid": "mediation_0",
+   "word": "카타르가",
+   "mode": "aligned",
+   "t": 71.943,
+   "alignment_source": "edge_word_boundary"
+  },
+  {
+   "sid": "mediation_0",
+   "word": "카타르가",
+   "mode": "aligned",
+   "t": 71.943,
+   "alignment_source": "edge_word_boundary"
+  },
+  {
+   "sid": "nuclear_2",
+   "word": "사찰단",
+   "mode": "aligned",
+   "t": 134.779,
+   "alignment_source": "edge_word_boundary"
+  },
+  {
+   "sid": "war_background_3",
+   "word": "양해각서에",
+   "mode": "aligned",
+   "t": 167.727,
+   "alignment_source": "edge_word_boundary"
+  },
+  {
+   "sid": "war_background_6",
+   "word": "레바논",
+   "mode": "aligned",
+   "t": 181.475,
+   "alignment_source": "edge_word_boundary"
+  },
+  {
+   "sid": "pressure_1",
+   "word": "아라비아해",
+   "mode": "aligned",
+   "t": 195.254,
+   "alignment_source": "edge_word_boundary"
+  },
+  {
+   "sid": "korea_1",
+   "word": "카타르산입니다.",
+   "mode": "aligned",
+   "t": 282.827,
+   "alignment_source": "edge_word_boundary"
+  }
+ ],
+ "tts": {
+  "resynthesized": []
+ },
+ "total_sec": 330.503,
+ "sentences": 54,
+ "stages": {
+  "plan": true,
+  "geo": true,
+  "preview": true,
+  "render": true,
+  "mix": true,
+  "mux": true,
+  "ai_direction": false,
+  "visual_qa": false,
+  "bundle": false
+ },
+ "features_used": {
+  "camera_keys": 7,
+  "camera_moves": 5,
+  "camera_cuts": 2,
+  "dips": 1,
+  "dips_under": 0,
+  "badges": 12,
+  "badge_kinds": {
+   "person": 4,
+   "flag": 8
+  },
+  "panels": [
+   "versus",
+   "versus",
+   "versus",
+   "timeline",
+   "versus",
+   "dots"
+  ],
+  "cards": 24,
+  "media": {
+   "clip": 0,
+   "photo": 0,
+   "cutout": 0,
+   "article": 4
+  },
+  "event_types": {
+   "article": 4,
+   "badge": 12,
+   "barrier": 1,
+   "card": 24,
+   "cascade": 1,
+   "country": 4,
+   "dip": 1,
+   "marker": 10,
+   "panel": 6,
+   "route": 1,
+   "ships": 1
+  },
+  "label_lod": true,
+  "vignette": false,
+  "at_word": {
+   "aligned": 9,
+   "ratio": 0
+  }
+ },
+ "qa": {
+  "auto_iterations": 0,
+  "user_approved": false,
+  "reviewer": "fable (back_and_forth)"
+ },
+ "drops": [],
+ "assets": {
+  "images_used": [
+   "flag11:ir",
+   "flag11:kr",
+   "flag11:qa",
+   "flag11:us",
+   "flag43:us",
+   "portrait:trump"
+  ],
+  "emblems": {
+   "used": [],
+   "flag_fallback": {}
+  },
+  "badges": {
+   "suggested": [
+    "il",
+    "ir",
+    "khamenei",
+    "kr",
+    "qa",
+    "sa",
+    "trump",
+    "un",
+    "us"
+   ],
+   "used": [
+    "ir",
+    "kr",
+    "trump",
+    "us"
+   ],
+   "suggested_and_used": [
+    "ir",
+    "kr",
+    "trump",
+    "us"
+   ],
+   "suggestions": 42
+  }
+ },
+ "panels": {
+  "used": [
+   {
+    "kind": "versus",
+    "title": "공식 거부인가",
+    "t0": 58.44,
+    "prov_tag": null
+   },
+   {
+    "kind": "versus",
+    "title": "9월 22일 유엔총회 기간 · 직접 회동이 있었나",
+    "t0": 74.14,
+    "prov_tag": null
+   },
+   {
+    "kind": "versus",
+    "title": "핵 사찰을 둘러싼 조건",
+    "t0": 120.51,
+    "prov_tag": null
+   },
+   {
+    "kind": "timeline",
+    "title": "봉쇄에서 거부까지",
+    "t0": 161.98,
+    "prov_tag": null
+   },
+   {
+    "kind": "versus",
+    "title": "합의는 왜 깨졌나",
+    "t0": 179.35,
+    "prov_tag": null
+   },
+   {
+    "kind": "dots",
+    "title": "8월 말 로이터·입소스 조사",
+    "t0": 204.94,
+    "prov_tag": null
+   }
+  ]
+ },
+ "credits": {
+  "card": {
+   "flags": 1,
+   "map": 2,
+   "media": 4,
+   "music": 1,
+   "narration": 1,
+   "people": 1
+  },
+  "description_only": {
+   "fonts": 4
+  }
+ },
+ "reserved": {
+  "avoidance": [
+   {
+    "badge": "도널드 트럼프",
+    "t0": 187.38,
+    "t1": 192.62,
+    "strategy": [
+     "edge"
+    ],
+    "direction": [
+     "down"
+    ],
+    "max_px": 54.5,
+    "zones": [
+     "screen"
+    ],
+    "frames": 127
+   }
+  ]
+ },
+ "audio": {
+  "bgm": [
+   "music.zabriskie_patriarch"
+  ],
+  "bed_gain": 0.47,
+  "crossfades": 0,
+  "bed_bass": {
+   "applied": {
+    "shelf": {
+     "freq_hz": 110.0,
+     "gain_db": 5.0,
+     "q": 0.7
+    },
+    "sub": {
+     "band_hz": [
+      55.0,
+      220.0
+     ],
+     "out_lp_hz": 110.0,
+     "filter_order": 4,
+     "gain": 0.35,
+     "env_attack_sec": 0.03,
+     "env_release_sec": 0.25,
+     "env_block_sec": 0.001
+    },
+    "swell": {
+     "sec": 2.5,
+     "depth": 0.35
+    },
+    "norm_ref": 0.4
+   },
+   "ratio_db": {
+    "before": 12.01,
+    "after": 17.35
+   },
+   "rise_db": 5.34,
+   "swell_at": [
+    24.712,
+    53.827,
+    71.429,
+    120.71,
+    150.711,
+    186.6,
+    214.198,
+    260.673,
+    275.568,
+    310.056
+   ],
+   "bands_hz": {
+    "bass": [
+     30.0,
+     120.0
+    ],
+    "mid": [
+     200.0,
+     2000.0
+    ]
+   }
+  },
+  "loudnorm": {
+   "passes": 2,
+   "pass1": {
+    "input_i": -14.7,
+    "input_tp": -0.26,
+    "input_lra": 3.2,
+    "input_thresh": -25.22,
+    "target_offset": -0.1
+   },
+   "pass2": {
+    "output_i": -13.99,
+    "output_tp": -1.5,
+    "normalization_type": "dynamic"
+   },
+   "post_limiter_dbfs": -2.0
+  },
+  "qa": {
+   "hard": [],
+   "warnings": [],
+   "final_loudness": {
+    "I": -14.04,
+    "TP": -1.67,
+    "LRA": 3.1
+   },
+   "music_under_narration_db": -9.63,
+   "mix_peak": 0.8998,
+   "bed_bass_ratio_db": 17.35,
+   "bed_bass_rise_db": 5.34
+  }
+ },
+ "end_card": {
+  "version_stamp": "v5.3.0",
+  "roll_px": 147.0,
+  "roll_px_per_sec": 22.62
+ },
+ "render": {
+  "resolution": {
+   "profile": "720p",
+   "width": 1280,
+   "height": 720,
+   "fps": 24,
+   "k": 1.5,
+   "pad_x": -0.5,
+   "crf": 19,
+   "preset": "faster"
+  }
+ },
+ "badge": {
+  "R_ignored": [
+   {
+    "i": 1,
+    "pid": "trump",
+    "label": "도널드 트럼프",
+    "t0": 1.8,
+    "R": 34.0
+   },
+   {
+    "i": 8,
+    "pid": "trump",
+    "label": "도널드 트럼프",
+    "t0": 54.13,
+    "R": 34.0
+   },
+   {
+    "i": 30,
+    "pid": "trump",
+    "label": "도널드 트럼프",
+    "t0": 186.9,
+    "R": 34.0
+   },
+   {
+    "i": 34,
+    "pid": "trump",
+    "label": "도널드 트럼프",
+    "t0": 198.8,
+    "R": 34.0
+   }
+  ],
+  "head_top": [
+   {
+    "pid": "trump",
+    "head_top": 1.0276,
+    "md5": "f2cd16bd229947837c8db5f19c401459"
+   }
+  ]
+ },
+ "geo": {
+  "unsourced": [
+   {
+    "kind": "place",
+    "name": "bab",
+    "lonlat": [
+     43.33,
+     12.58
+    ]
+   },
+   {
+    "kind": "place",
+    "name": "arabian",
+    "lonlat": [
+     64.0,
+     15.5
+    ]
+   },
+   {
+    "kind": "path",
+    "name": "korea_route",
+    "points": 19,
+    "ends": [
+     [
+      56.3,
+      26.4
+     ],
+     [
+      129.3,
+      35.5
+     ]
+    ]
+   }
+  ],
+  "matched": [
+   {
+    "kind": "place",
+    "name": "hormuz",
+    "lonlat": [
+     56.35,
+     26.55
+    ],
+    "gazetteer": "strait_of_hormuz",
+    "km": 15.9,
+    "tol_km": 40.0
+   },
+   {
+    "kind": "place",
+    "name": "tehran",
+    "lonlat": [
+     51.39,
+     35.69
+    ],
+    "gazetteer": "tehran_irn",
+    "km": 3.4,
+    "tol_km": 25.0
+   },
+   {
+    "kind": "place",
+    "name": "doha",
+    "lonlat": [
+     51.53,
+     25.29
+    ],
+    "gazetteer": "doha_qat",
+    "km": 0.5,
+    "tol_km": 25.0
+   },
+   {
+    "kind": "place",
+    "name": "seoul",
+    "lonlat": [
+     126.98,
+     37.57
+    ],
+    "gazetteer": "seoul_kor",
+    "km": 1.6,
+    "tol_km": 25.0
+   },
+   {
+    "kind": "place",
+    "name": "ulsan",
+    "lonlat": [
+     129.31,
+     35.54
+    ],
+    "gazetteer": "ulsan_kor",
+    "km": 1.1,
+    "tol_km": 25.0
+   }
+  ],
+  "mismatch": []
+ },
+ "cascade": {
+  "status": "adopted",
+  "events": 1,
+  "items": 7,
+  "hidden_labels": [
+   {
+    "name": "이라크",
+    "kind": "country",
+    "how": "회피",
+    "t": 25.11
+   },
+   {
+    "name": "바그다드",
+    "kind": "city",
+    "how": "회피",
+    "t": 25.11
+   },
+   {
+    "name": "키르쿠크",
+    "kind": "city",
+    "how": "회피",
+    "t": 25.11
+   },
+   {
+    "name": "하마단",
+    "kind": "city",
+    "how": "회피",
+    "t": 31.91
+   },
+   {
+    "name": "테헤란",
+    "kind": "city",
+    "how": "회피",
+    "t": 54.21
+   },
+   {
+    "name": "이스파한",
+    "kind": "city",
+    "how": "회피",
+    "t": 71.31
+   },
+   {
+    "name": "이란",
+    "kind": "country",
+    "how": "회피",
+    "t": 71.51
+   },
+   {
+    "name": "나자프",
+    "kind": "city",
+    "how": "회피",
+    "t": 71.61
+   },
+   {
+    "name": "아바즈",
+    "kind": "city",
+    "how": "회피",
+    "t": 71.81
+   },
+   {
+    "name": "바스라",
+    "kind": "city",
+    "how": "회피",
+    "t": 72.01
+   },
+   {
+    "name": "야즈드",
+    "kind": "city",
+    "how": "회피",
+    "t": 72.01
+   },
+   {
+    "name": "쿠웨이트",
+    "kind": "country",
+    "how": "회피",
+    "t": 72.21
+   },
+   {
+    "name": "시라즈",
+    "kind": "city",
+    "how": "회피",
+    "t": 72.21
+   },
+   {
+    "name": "쿠웨이트 시",
+    "kind": "city",
+    "how": "회피",
+    "t": 72.31
+   },
+   {
+    "name": "부셰르",
+    "kind": "city",
+    "how": "회피",
+    "t": 72.51
+   }
+  ]
+ },
+ "article": [
+  {
+   "mid": "aj_0926_reject",
+   "t0": 6.92,
+   "press": "none",
+   "theme": "dark",
+   "headline": "original"
+  },
+  {
+   "mid": "anews_0930_reply",
+   "t0": 110.36,
+   "press": "none",
+   "theme": "dark",
+   "headline": "original"
+  },
+  {
+   "mid": "aj_0928_oil",
+   "t0": 248.73,
+   "press": "none",
+   "theme": "dark",
+   "headline": "original"
+  },
+  {
+   "mid": "csis_0402_korea",
+   "t0": 294.19,
+   "press": "none",
+   "theme": "dark",
+   "headline": "original"
+  }
+ ],
+ "pacing": {
+  "window_sec": 45.0,
+  "min_changes": 3,
+  "static_windows": [],
+  "creep": null
+ },
+ "animatic": false,
+ "stage": {
+  "name": "mercator",
+  "declared": false,
+  "shots_declared": 0,
+  "instances": {
+   "mercator": 1
+  },
+  "configs": {}
+ },
+ "genre": {
+  "name": "geopolitics",
+  "declared": false,
+  "status": "approved"
+ },
+ "order": {
+  "topic": "2026년 9월 말 미국·이란 전쟁과 호르무즈 해협 재개방 협상 — 이란 7일 로드맵, 트럼프 거부, 카타르 중재와 미국 답신, 이행 순서 쟁점, 한국 에너지 영향",
+  "genre": "geopolitics",
+  "decisions": {
+   "topic": {
+    "value": "미국–이란 전쟁과 호르무즈 해협 협상",
+    "by": "user",
+    "ref": "사용자 요청 2026-09-30"
+   },
+   "resolution": {
+    "value": "720p",
+    "by": "user",
+    "ref": "사용자 요청 2026-09-30"
+   }
+  }
+ },
+ "camera": {
+  "suggest_ran": false,
+  "suggested": 0,
+  "used": 0,
+  "given_to_director": false
+ },
+ "lint_warnings": [
+  "[badge-R-ignored] 인물 뱃지 연출 R 4건 무시 — 크기는 보이는 인물 수로 코드가 정한다(D-0111): 도널드 트럼프 R 34, 도널드 트럼프 R 34, 도널드 트럼프 R 34, 도널드 트럼프 R 34",
+  "[media-density-total] 과소 — 4개 / 331초 = 82.6초당 1개 > 60초 (14 §10.1)"
+ ],
+ "media": {
+  "suggested": [
+   {
+    "sid": "open_2",
+    "scene": "open",
+    "kind": "article",
+    "trigger": "보도에 따르면",
+    "at": 11.18,
+    "source": "trigger",
+    "asset_id": null
+   },
+   {
+    "sid": "proposal_4",
+    "scene": "proposal",
+    "kind": "article",
+    "trigger": "보도했습니다",
+    "at": 47.38,
+    "source": "trigger",
+    "asset_id": null
+   },
+   {
+    "sid": "nuclear_3",
+    "scene": "nuclear",
+    "kind": "article",
+    "trigger": "보도했습니다",
+    "at": 137.77,
+    "source": "trigger",
+    "asset_id": null
+   },
+   {
+    "sid": "war_background_1",
+    "scene": "war_background",
+    "kind": "article",
+    "trigger": "보도했습니다",
+    "at": 156.17,
+    "source": "trigger",
+    "asset_id": null
+   },
+   {
+    "sid": "war_background_2",
+    "scene": "war_background",
+    "kind": "article",
+    "trigger": "보도했습니다",
+    "at": 162.18,
+    "source": "trigger",
+    "asset_id": null
+   },
+   {
+    "sid": "war_background_4",
+    "scene": "war_background",
+    "kind": "article",
+    "trigger": "보도했습니다",
+    "at": 170.01,
+    "source": "trigger",
+    "asset_id": null
+   },
+   {
+    "sid": "pressure_2",
+    "scene": "pressure",
+    "kind": "article",
+    "trigger": "보도했습니다",
+    "at": 198.5,
+    "source": "trigger",
+    "asset_id": null
+   },
+   {
+    "sid": "shipping_oil_2",
+    "scene": "shipping_oil",
+    "kind": "article",
+    "trigger": "보도했습니다",
+    "at": 223.0,
+    "source": "trigger",
+    "asset_id": null
+   },
+   {
+    "sid": "shipping_oil_3",
+    "scene": "shipping_oil",
+    "kind": "article",
+    "trigger": "보도했습니다",
+    "at": 231.88,
+    "source": "trigger",
+    "asset_id": null
+   },
+   {
+    "sid": "shipping_oil_6",
+    "scene": "shipping_oil",
+    "kind": "article",
+    "trigger": "보도했습니다",
+    "at": 248.43,
+    "source": "trigger",
+    "asset_id": null
+   },
+   {
+    "sid": "second_strait_2",
+    "scene": "second_strait",
+    "kind": "article",
+    "trigger": "보도했습니다",
+    "at": 269.43,
+    "source": "trigger",
+    "asset_id": null
+   },
+   {
+    "sid": "korea_2",
+    "scene": "korea",
+    "kind": "article",
+    "trigger": "보도했습니다",
+    "at": 284.67,
+    "source": "trigger",
+    "asset_id": null
+   }
+  ],
+  "used": [
+   {
+    "mid": "aj_0926_reject",
+    "kind": "article",
+    "t0": 6.92
+   },
+   {
+    "mid": "anews_0930_reply",
+    "kind": "article",
+    "t0": 110.36
+   },
+   {
+    "mid": "aj_0928_oil",
+    "kind": "article",
+    "t0": 248.73
+   },
+   {
+    "mid": "csis_0402_korea",
+    "kind": "article",
+    "t0": 294.19
+   }
+  ],
+  "suggested_and_used": [
+   "korea:article",
+   "open:article",
+   "shipping_oil:article"
+  ],
+  "density": {
+   "schema_version": 1,
+   "total_sec": 330.503,
+   "items": [
+    {
+     "mid": "aj_0926_reject",
+     "kind": "article",
+     "t0": 6.92,
+     "t1": 11.08,
+     "scene": "open"
+    },
+    {
+     "mid": "anews_0930_reply",
+     "kind": "article",
+     "t0": 110.36,
+     "t1": 115.65,
+     "scene": "mediation"
+    },
+    {
+     "mid": "aj_0928_oil",
+     "kind": "article",
+     "t0": 248.73,
+     "t1": 255.03,
+     "scene": "shipping_oil"
+    },
+    {
+     "mid": "csis_0402_korea",
+     "kind": "article",
+     "t0": 294.19,
+     "t1": 303.45,
+     "scene": "korea"
+    }
+   ],
+   "count": 4,
+   "sec_per_item": 82.6,
+   "target_sec_per_item": [
+    40.0,
+    60.0
+   ],
+   "window": {
+    "window_sec": 40.0,
+    "window_max": 2,
+    "exempt": [
+     "article"
+    ],
+    "max": {
+     "t0": null,
+     "count": 0,
+     "mids": []
+    }
+   },
+   "per_scene": {},
+   "warnings": [
+    "[media-density-total] 과소 — 4개 / 331초 = 82.6초당 1개 > 60초 (14 §10.1)"
+   ]
+  },
+  "placement": {
+   "badge:도널드 트럼프": "slot:map_upper_left",
+   "badge:아락치": "slot:map_lower_left",
+   "badge:미국 관리": "slot:map_upper_left",
+   "badge:페제시키안": "slot:map_upper_left",
+   "badge:모즈타바 하메네이": "slot:map_upper_right",
+   "badge:쿠퍼": "slot:map_upper_left"
+  }
+ },
+ "script": {
+  "labels": {
+   "verified": 0,
+   "corroborated": 14,
+   "unverified": 32,
+   "disputed": 8
+  }
+ }
+}

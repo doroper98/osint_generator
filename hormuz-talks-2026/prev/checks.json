@@ -1,0 +1,302 @@
+{
+ "schema_version": 1,
+ "hard": 0,
+ "warnings": 20,
+ "passed": true,
+ "profile": "full",
+ "skipped": [],
+ "thresholds": {
+  "overlap_core_elements": 0,
+  "offscreen_clip": 0,
+  "missing_glyphs": 0,
+  "labels_per_frame_max": 18,
+  "subtitle_lines_max": 2,
+  "rights_missing": 0,
+  "forbidden_components": 0,
+  "glyph_size_exempt": [
+   "end_card",
+   "media_meta"
+  ],
+  "label_hidden_max_ratio": 0.5,
+  "planned": [],
+  "chart_targets": {
+   "value": [
+    "chart_honesty",
+    "series_limit_3",
+    "units_visible",
+    "as_of_visible"
+   ],
+   "date": [
+    "chart_honesty"
+   ],
+   "none": []
+  },
+  "series_max": 3,
+  "visual_qa_loop_max": 2,
+  "empty_exempt": [
+   "article_press_lead"
+  ],
+  "loop_pick_order": [
+   "checks_hard",
+   "qa_hard",
+   "qa_soft"
+  ]
+ },
+ "items": [
+  {
+   "id": "overlap",
+   "severity": "hard",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "offscreen",
+   "severity": "hard",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "glyphs",
+   "severity": "hard",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "glyph_size",
+   "severity": "hard",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "shots",
+   "severity": "warning",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "media_beats",
+   "severity": "warning",
+   "count": 1,
+   "details": [
+    "[media-density-total] 과소 — 4개 / 331초 = 82.6초당 1개 > 60초 (14 §10.1)"
+   ]
+  },
+  {
+   "id": "media_upscaled",
+   "severity": "warning",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "endcard_roll",
+   "severity": "warning",
+   "count": 1,
+   "details": [
+    "[endcard-roll] 크레딧이 넘쳐 롤 147px · 22.6 px/s(상한 60)"
+   ]
+  },
+  {
+   "id": "labels",
+   "severity": "hard",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "date",
+   "severity": "hard",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "subtitles",
+   "severity": "hard",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "rights",
+   "severity": "hard",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "forbidden",
+   "severity": "hard",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "stage_continuity",
+   "severity": "hard",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "genre_elements",
+   "severity": "hard",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "boundary_as_route",
+   "severity": "hard",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "geo_unsourced",
+   "severity": "warning",
+   "count": 3,
+   "details": [
+    "[geo-unsourced] place bab [43.33, 12.58] — 지명 사전에 없는 이름(또는 경로)이라 좌표를 대조하지 못함",
+    "[geo-unsourced] place arabian [64.0, 15.5] — 지명 사전에 없는 이름(또는 경로)이라 좌표를 대조하지 못함",
+    "[geo-unsourced] path korea_route 19점 [56.3, 26.4]→[129.3, 35.5] — 지명 사전에 없는 이름(또는 경로)이라 좌표를 대조하지 못함"
+   ]
+  },
+  {
+   "id": "geo_mismatch",
+   "severity": "hard",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "static_window",
+   "severity": "warning",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "timeline_rescale",
+   "severity": "hard",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "backdrop_rights",
+   "severity": "hard",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "backdrop_repeat",
+   "severity": "hard",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "stage_choice",
+   "severity": "warning",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "island_overlap",
+   "severity": "hard",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "backdrop_main_missing",
+   "severity": "hard",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "card_island",
+   "severity": "warning",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "island_label_clip",
+   "severity": "hard",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "island_label_overlap",
+   "severity": "warning",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "cascade",
+   "severity": "hard",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "cascade_label_hidden",
+   "severity": "warning",
+   "count": 15,
+   "details": [
+    "[cascade-label-hidden] t=25.11 배경 지명 '이라크'(country) 이 겹침 카드 때문에 안 보임(회피)",
+    "[cascade-label-hidden] t=25.11 배경 지명 '바그다드'(city) 이 겹침 카드 때문에 안 보임(회피)",
+    "[cascade-label-hidden] t=25.11 배경 지명 '키르쿠크'(city) 이 겹침 카드 때문에 안 보임(회피)",
+    "[cascade-label-hidden] t=31.91 배경 지명 '하마단'(city) 이 겹침 카드 때문에 안 보임(회피)",
+    "[cascade-label-hidden] t=54.21 배경 지명 '테헤란'(city) 이 겹침 카드 때문에 안 보임(회피)",
+    "[cascade-label-hidden] t=71.31 배경 지명 '이스파한'(city) 이 겹침 카드 때문에 안 보임(회피)",
+    "[cascade-label-hidden] t=71.51 배경 지명 '이란'(country) 이 겹침 카드 때문에 안 보임(회피)",
+    "[cascade-label-hidden] t=71.61 배경 지명 '나자프'(city) 이 겹침 카드 때문에 안 보임(회피)",
+    "[cascade-label-hidden] t=71.81 배경 지명 '아바즈'(city) 이 겹침 카드 때문에 안 보임(회피)",
+    "[cascade-label-hidden] t=72.01 배경 지명 '바스라'(city) 이 겹침 카드 때문에 안 보임(회피)",
+    "[cascade-label-hidden] t=72.01 배경 지명 '야즈드'(city) 이 겹침 카드 때문에 안 보임(회피)",
+    "[cascade-label-hidden] t=72.21 배경 지명 '쿠웨이트'(country) 이 겹침 카드 때문에 안 보임(회피)",
+    "[cascade-label-hidden] t=72.21 배경 지명 '시라즈'(city) 이 겹침 카드 때문에 안 보임(회피)",
+    "[cascade-label-hidden] t=72.31 배경 지명 '쿠웨이트 시'(city) 이 겹침 카드 때문에 안 보임(회피)",
+    "[cascade-label-hidden] t=72.51 배경 지명 '부셰르'(city) 이 겹침 카드 때문에 안 보임(회피)"
+   ]
+  },
+  {
+   "id": "chart_honesty",
+   "severity": "hard",
+   "count": 0,
+   "details": [],
+   "notes": [
+    "n/a(none 축) panel versus '공식 거부인가' t0=58.44",
+    "n/a(none 축) panel versus '9월 22일 유엔총회 기간 · 직접 회동이 있었나' t0=74.14",
+    "n/a(none 축) panel versus '핵 사찰을 둘러싼 조건' t0=120.51",
+    "n/a(none 축) panel versus '합의는 왜 깨졌나' t0=179.35"
+   ]
+  },
+  {
+   "id": "series_limit_3",
+   "severity": "hard",
+   "count": 0,
+   "details": [],
+   "notes": [
+    "n/a(none 축) panel versus '공식 거부인가' t0=58.44",
+    "n/a(none 축) panel versus '9월 22일 유엔총회 기간 · 직접 회동이 있었나' t0=74.14",
+    "n/a(none 축) panel versus '핵 사찰을 둘러싼 조건' t0=120.51",
+    "n/a(date 축) panel timeline '봉쇄에서 거부까지' t0=161.98",
+    "n/a(none 축) panel versus '합의는 왜 깨졌나' t0=179.35"
+   ]
+  },
+  {
+   "id": "units_visible",
+   "severity": "hard",
+   "count": 0,
+   "details": [],
+   "notes": [
+    "n/a(none 축) panel versus '공식 거부인가' t0=58.44",
+    "n/a(none 축) panel versus '9월 22일 유엔총회 기간 · 직접 회동이 있었나' t0=74.14",
+    "n/a(none 축) panel versus '핵 사찰을 둘러싼 조건' t0=120.51",
+    "n/a(date 축) panel timeline '봉쇄에서 거부까지' t0=161.98",
+    "n/a(none 축) panel versus '합의는 왜 깨졌나' t0=179.35"
+   ]
+  },
+  {
+   "id": "as_of_visible",
+   "severity": "hard",
+   "count": 0,
+   "details": [],
+   "notes": [
+    "n/a(none 축) panel versus '공식 거부인가' t0=58.44",
+    "n/a(none 축) panel versus '9월 22일 유엔총회 기간 · 직접 회동이 있었나' t0=74.14",
+    "n/a(none 축) panel versus '핵 사찰을 둘러싼 조건' t0=120.51",
+    "n/a(date 축) panel timeline '봉쇄에서 거부까지' t0=161.98",
+    "n/a(none 축) panel versus '합의는 왜 깨졌나' t0=179.35"
+   ]
+  }
+ ]
+}

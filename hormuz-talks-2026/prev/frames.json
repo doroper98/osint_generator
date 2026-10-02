@@ -1,0 +1,580 @@
+{
+ "schema_version": 1,
+ "frames": [
+  {
+   "n": 1,
+   "file": "p_0008.15.png",
+   "label": "t=8.15",
+   "t": 8.15,
+   "sid": "open_1",
+   "text": "트럼프 대통령은 이란 제안을 받아들일 수 없다고 말했습니다.",
+   "after_sid": null,
+   "card": null,
+   "events": [
+    {
+     "type": "marker",
+     "label": "호르무즈 해협"
+    },
+    {
+     "type": "article",
+     "mid": "aj_0926_reject",
+     "phase": "press_lead"
+    }
+   ]
+  },
+  {
+   "n": 2,
+   "file": "p_0017.41.png",
+   "label": "t=17.41",
+   "t": 17.41,
+   "sid": "open_2",
+   "text": "보도에 따르면 쟁점은 해협과 제재, 자금, 핵 사찰 가운데 무엇을 먼저 하느냐입니다.",
+   "after_sid": null,
+   "card": null,
+   "events": [
+    {
+     "type": "marker",
+     "label": "호르무즈 해협"
+    },
+    {
+     "type": "card",
+     "tag": "쟁점 · 무엇을 먼저 하느냐"
+    }
+   ]
+  },
+  {
+   "n": 3,
+   "file": "p_0021.51.png",
+   "label": "t=21.51",
+   "t": 21.51,
+   "sid": null,
+   "text": null,
+   "after_sid": "open_2",
+   "card": "title",
+   "events": [
+    {
+     "type": "marker",
+     "label": "호르무즈 해협"
+    },
+    {
+     "type": "card",
+     "tag": "쟁점 · 무엇을 먼저 하느냐"
+    }
+   ]
+  },
+  {
+   "n": 4,
+   "file": "p_0033.34.png",
+   "label": "t=33.34",
+   "t": 33.34,
+   "sid": "proposal_1",
+   "text": "아락치 외무장관은 조건이 충족되면 7일 안에 해협을 열 수 있다고 밝혔습니다.",
+   "after_sid": null,
+   "card": null,
+   "events": [
+    {
+     "type": "marker",
+     "label": "호르무즈 해협"
+    },
+    {
+     "type": "cascade"
+    },
+    {
+     "type": "marker",
+     "label": "테헤란"
+    },
+    {
+     "type": "badge",
+     "kind": "flag",
+     "label": "아락치"
+    }
+   ]
+  },
+  {
+   "n": 5,
+   "file": "p_0044.85.png",
+   "label": "t=44.85",
+   "t": 44.85,
+   "sid": "proposal_3",
+   "text": "이란은 동결 자금 해제, 제재 해제, 해상봉쇄 종료를 요구합니다.",
+   "after_sid": null,
+   "card": null,
+   "events": [
+    {
+     "type": "marker",
+     "label": "호르무즈 해협"
+    },
+    {
+     "type": "cascade"
+    }
+   ]
+  },
+  {
+   "n": 6,
+   "file": "p_0059.00.png",
+   "label": "t=59.00",
+   "t": 59.0,
+   "sid": "rejection_dispute_1",
+   "text": "AP 통신에 따르면 익명의 관리들은 공식 거부가 아니며 협상 전술일 수 있다고 밝혔습니다.",
+   "after_sid": null,
+   "card": null,
+   "events": [
+    {
+     "type": "marker",
+     "label": "호르무즈 해협"
+    },
+    {
+     "type": "cascade"
+    },
+    {
+     "type": "panel",
+     "kind": "versus",
+     "title": "공식 거부인가"
+    }
+   ]
+  },
+  {
+   "n": 7,
+   "file": "p_0065.90.png",
+   "label": "t=65.90",
+   "t": 65.9,
+   "sid": "rejection_dispute_2",
+   "text": "아락치 외무장관은 중재자를 통한 확정 답변을 기다린다고 밝혔습니다.",
+   "after_sid": null,
+   "card": null,
+   "events": [
+    {
+     "type": "marker",
+     "label": "호르무즈 해협"
+    },
+    {
+     "type": "cascade"
+    }
+   ]
+  },
+  {
+   "n": 8,
+   "file": "p_0086.11.png",
+   "label": "t=86.11",
+   "t": 86.11,
+   "sid": "mediation_3",
+   "text": "위트코프 특사는 중재자들이 대표단 사이를 오가며 협상했다고 말했습니다.",
+   "after_sid": null,
+   "card": null,
+   "events": [
+    {
+     "type": "cascade"
+    },
+    {
+     "type": "country"
+    },
+    {
+     "type": "country"
+    },
+    {
+     "type": "marker",
+     "label": "도하"
+    },
+    {
+     "type": "panel",
+     "kind": "versus",
+     "title": "9월 22일 유엔총회 기간 · 직접 회동이 있었나"
+    }
+   ]
+  },
+  {
+   "n": 9,
+   "file": "p_0105.68.png",
+   "label": "t=105.68",
+   "t": 105.68,
+   "sid": "mediation_6",
+   "text": "아락치 장관은 카타르가 새 아이디어를 미국에 전달할 것이라고 밝혔습니다.",
+   "after_sid": null,
+   "card": null,
+   "events": [
+    {
+     "type": "cascade"
+    },
+    {
+     "type": "country"
+    },
+    {
+     "type": "country"
+    },
+    {
+     "type": "marker",
+     "label": "도하"
+    },
+    {
+     "type": "badge",
+     "kind": "flag",
+     "label": "아락치"
+    },
+    {
+     "type": "card",
+     "tag": "아락치 이란 외무장관"
+    }
+   ]
+  },
+  {
+   "n": 10,
+   "file": "p_0129.61.png",
+   "label": "t=129.61",
+   "t": 129.61,
+   "sid": "nuclear_1",
+   "text": "이 관리는 핵 진전이 있으면 제재 완화와 자금 해제도 가능하다고 말했습니다.",
+   "after_sid": null,
+   "card": null,
+   "events": [
+    {
+     "type": "country"
+    },
+    {
+     "type": "panel",
+     "kind": "versus",
+     "title": "핵 사찰을 둘러싼 조건"
+    }
+   ]
+  },
+  {
+   "n": 11,
+   "file": "p_0141.47.png",
+   "label": "t=141.47",
+   "t": 141.47,
+   "sid": "nuclear_3",
+   "text": "NPR은 페제시키안 대통령이 제안이 수용되면 유엔 사찰단을 받겠다고 말했다고 보도했습니다.",
+   "after_sid": null,
+   "card": null,
+   "events": [
+    {
+     "type": "country"
+    },
+    {
+     "type": "panel",
+     "kind": "versus",
+     "title": "핵 사찰을 둘러싼 조건"
+    }
+   ]
+  },
+  {
+   "n": 12,
+   "file": "p_0161.37.png",
+   "label": "t=161.37",
+   "t": 161.37,
+   "sid": "war_background_1",
+   "text": "NPR은 페제시키안 대통령이 미국이 먼저 이란의 길을 막았다고 말했다고 보도했습니다.",
+   "after_sid": null,
+   "card": null,
+   "events": [
+    {
+     "type": "country"
+    },
+    {
+     "type": "marker",
+     "label": "호르무즈 해협"
+    },
+    {
+     "type": "barrier",
+     "label": "봉쇄"
+    },
+    {
+     "type": "badge",
+     "kind": "flag",
+     "label": "페제시키안"
+    },
+    {
+     "type": "card",
+     "tag": "페제시키안 이란 대통령"
+    }
+   ]
+  },
+  {
+   "n": 13,
+   "file": "p_0175.59.png",
+   "label": "t=175.59",
+   "t": 175.59,
+   "sid": "war_background_5",
+   "text": "미국 관리는 이란이 상선에 발포해 합의를 깼다고 밝혔습니다.",
+   "after_sid": null,
+   "card": null,
+   "events": [
+    {
+     "type": "country"
+    },
+    {
+     "type": "marker",
+     "label": "호르무즈 해협"
+    },
+    {
+     "type": "barrier",
+     "label": "봉쇄"
+    },
+    {
+     "type": "badge",
+     "kind": "flag",
+     "label": "미국 관리"
+    },
+    {
+     "type": "card",
+     "tag": "미국 관리 · 6월"
+    }
+   ]
+  },
+  {
+   "n": 14,
+   "file": "p_0194.77.png",
+   "label": "t=194.77",
+   "t": 194.77,
+   "sid": "pressure_1",
+   "text": "모즈타바 하메네이 최고지도자는 적이 아라비아해 너머로 나오지 못한다고 말했습니다.",
+   "after_sid": null,
+   "card": null,
+   "events": [
+    {
+     "type": "badge",
+     "kind": "flag",
+     "label": "모즈타바 하메네이"
+    }
+   ]
+  },
+  {
+   "n": 15,
+   "file": "p_0205.67.png",
+   "label": "t=205.67",
+   "t": 205.67,
+   "sid": "pressure_3",
+   "text": "알자지라에 따르면 8월 말 로이터·입소스 조사에서 미국인 63%가 전쟁에 반대했습니다.",
+   "after_sid": null,
+   "card": null,
+   "events": [
+    {
+     "type": "marker",
+     "label": "아라비아해"
+    },
+    {
+     "type": "panel",
+     "kind": "dots",
+     "title": "8월 말 로이터·입소스 조사"
+    }
+   ]
+  },
+  {
+   "n": 16,
+   "file": "p_0228.04.png",
+   "label": "t=228.04",
+   "t": 228.04,
+   "sid": "shipping_oil_2",
+   "text": "알자지라는 마린트래픽 집계를 인용해 9월 21~27일 일주일 통과가 132건이라고 보도했습니다.",
+   "after_sid": null,
+   "card": null,
+   "events": [
+    {
+     "type": "marker",
+     "label": "호르무즈 해협"
+    },
+    {
+     "type": "ships"
+    },
+    {
+     "type": "card",
+     "tag": "해협 통과 · 마린트래픽 집계"
+    }
+   ]
+  },
+  {
+   "n": 17,
+   "file": "p_0246.49.png",
+   "label": "t=246.49",
+   "t": 246.49,
+   "sid": "shipping_oil_5",
+   "text": "쿠퍼 사령관은 10억 배럴 넘는 원유 수송도 지원했다고 말했습니다.",
+   "after_sid": null,
+   "card": null,
+   "events": [
+    {
+     "type": "marker",
+     "label": "호르무즈 해협"
+    },
+    {
+     "type": "ships"
+    },
+    {
+     "type": "badge",
+     "kind": "flag",
+     "label": "쿠퍼"
+    },
+    {
+     "type": "card",
+     "tag": "쿠퍼 미 중부사령관 · 9월 26일"
+    }
+   ]
+  },
+  {
+   "n": 18,
+   "file": "p_0265.04.png",
+   "label": "t=265.04",
+   "t": 265.04,
+   "sid": "second_strait_1",
+   "text": "이란과 연계된 후티는 홍해 입구 바브엘만데브 해협에 자리를 잡았습니다.",
+   "after_sid": null,
+   "card": null,
+   "events": [
+    {
+     "type": "marker",
+     "label": "호르무즈 해협"
+    },
+    {
+     "type": "marker",
+     "label": "바브엘만데브 해협"
+    }
+   ]
+  },
+  {
+   "n": 19,
+   "file": "p_0270.85.png",
+   "label": "t=270.85",
+   "t": 270.85,
+   "sid": "second_strait_2",
+   "text": "알자지라는 후티가 사우디 선박에 대한 해상봉쇄를 선언했다고 보도했습니다.",
+   "after_sid": null,
+   "card": null,
+   "events": [
+    {
+     "type": "marker",
+     "label": "호르무즈 해협"
+    },
+    {
+     "type": "marker",
+     "label": "바브엘만데브 해협"
+    },
+    {
+     "type": "country"
+    },
+    {
+     "type": "card",
+     "tag": "후티"
+    }
+   ]
+  },
+  {
+   "n": 20,
+   "file": "p_0285.81.png",
+   "label": "t=285.81",
+   "t": 285.81,
+   "sid": "korea_2",
+   "text": "알자지라는 9월 28일 코스피가 2.7% 떨어졌다고 보도했습니다.",
+   "after_sid": null,
+   "card": null,
+   "events": [
+    {
+     "type": "route",
+     "label": ""
+    },
+    {
+     "type": "badge",
+     "kind": "flag",
+     "label": "한국"
+    },
+    {
+     "type": "card",
+     "tag": "코스피 · 9월 28일"
+    }
+   ]
+  },
+  {
+   "n": 21,
+   "file": "p_0299.46.png",
+   "label": "t=299.46",
+   "t": 299.46,
+   "sid": "korea_4",
+   "text": "CSIS는 4월 초 분석에서 IEA 공동 방출 뒤 한국 정부 비축유가 7760만 배럴로 줄었다고 밝혔습니다.",
+   "after_sid": null,
+   "card": null,
+   "events": [
+    {
+     "type": "route",
+     "label": ""
+    },
+    {
+     "type": "badge",
+     "kind": "flag",
+     "label": "한국"
+    },
+    {
+     "type": "article",
+     "mid": "csis_0402_korea",
+     "phase": "headline"
+    }
+   ]
+  },
+  {
+   "n": 22,
+   "file": "p_0316.19.png",
+   "label": "t=316.19",
+   "t": 316.19,
+   "sid": "close_0",
+   "text": "미국의 답변에 무엇이 담겼는지, 해협과 핵 사찰 중 무엇이 먼저 움직일지는 아직 확인되지 않았습니다.",
+   "after_sid": null,
+   "card": null,
+   "events": [
+    {
+     "type": "route",
+     "label": ""
+    },
+    {
+     "type": "badge",
+     "kind": "flag",
+     "label": "한국"
+    },
+    {
+     "type": "marker",
+     "label": "호르무즈 해협"
+    },
+    {
+     "type": "card",
+     "tag": "9월 30일 기준 · 확인되지 않은 것"
+    }
+   ]
+  },
+  {
+   "n": 23,
+   "file": "p_0324.37.png",
+   "label": "t=324.37",
+   "t": 324.37,
+   "sid": null,
+   "text": null,
+   "after_sid": "close_0",
+   "card": "end",
+   "events": [
+    {
+     "type": "route",
+     "label": ""
+    },
+    {
+     "type": "marker",
+     "label": "호르무즈 해협"
+    }
+   ]
+  },
+  {
+   "n": 24,
+   "file": "p_0324.50.png",
+   "label": "t=324.50",
+   "t": 324.5,
+   "sid": null,
+   "text": null,
+   "after_sid": "close_0",
+   "card": "end",
+   "events": [
+    {
+     "type": "route",
+     "label": ""
+    },
+    {
+     "type": "marker",
+     "label": "호르무즈 해협"
+    }
+   ]
+  }
+ ]
+}

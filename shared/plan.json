@@ -1,0 +1,1269 @@
+{
+ "sentences": [
+  {
+   "sid": "open_0",
+   "scene": "open",
+   "date": "2026.09.26",
+   "text": "9월 26일, 트럼프 대통령이 이란의 해협 재개방 제안을 거부했습니다.",
+   "tts": "구월 이십육일, 트럼프 대통령이 이란의 해협 재개방 제안을 거부했습니다.",
+   "segments": [
+    [
+     "9월 26일, 트럼프 대통령이 이란의 해협 재개방 제안을 ",
+     0
+    ],
+    [
+     "거부",
+     1
+    ],
+    [
+     "했습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/hormuz-talks-2026/tts/open_0_cb38700fd4.mp3",
+   "npy": "/home/user/osint_generator/projects/hormuz-talks-2026/tts/open_0_cb38700fd4.npy",
+   "dur": 5.022789115646258,
+   "t0": 1.2,
+   "t1": 6.2227891156462585,
+   "trim_offset": 0.380272
+  },
+  {
+   "sid": "open_1",
+   "scene": "open",
+   "date": "2026.09.26",
+   "text": "트럼프 대통령은 이란 제안을 받아들일 수 없다고 말했습니다.",
+   "tts": "트럼프 대통령은 이란 제안을 받아들일 수 없다고 말했습니다.",
+   "segments": [
+    [
+     "트럼프 대통령은 이란 제안을 받아들일 수 없다고 말했습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/hormuz-talks-2026/tts/open_1_c7fb341c04.mp3",
+   "npy": "/home/user/osint_generator/projects/hormuz-talks-2026/tts/open_1_c7fb341c04.npy",
+   "dur": 3.9573696145124715,
+   "t0": 6.7227891156462585,
+   "t1": 10.68015873015873,
+   "trim_offset": 0.383243
+  },
+  {
+   "sid": "open_2",
+   "scene": "open",
+   "date": "2026.09",
+   "text": "보도에 따르면 쟁점은 해협과 제재, 자금, 핵 사찰 가운데 무엇을 먼저 하느냐입니다.",
+   "tts": "보도에 따르면 쟁점은 해협과 제재, 자금, 핵 사찰 가운데 무엇을 먼저 하느냐입니다.",
+   "segments": [
+    [
+     "보도에 따르면 쟁점은 해협과 제재, 자금, 핵 사찰 가운데 무엇을 ",
+     0
+    ],
+    [
+     "먼저",
+     1
+    ],
+    [
+     " 하느냐입니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/hormuz-talks-2026/tts/open_2_806a9ebdd4.mp3",
+   "npy": "/home/user/osint_generator/projects/hormuz-talks-2026/tts/open_2_806a9ebdd4.npy",
+   "dur": 6.832131519274377,
+   "t0": 11.18015873015873,
+   "t1": 18.012290249433107,
+   "trim_offset": 0.368503
+  },
+  {
+   "sid": "proposal_0",
+   "scene": "proposal",
+   "date": "2026.09.16",
+   "text": "알자지라에 따르면 이란 관리는 9월 16일 중재자를 통해 최신 제안을 냈다고 밝혔습니다.",
+   "tts": "알자지라에 따르면 이란 관리는 구월 십육일 중재자를 통해 최신 제안을 냈다고 밝혔습니다.",
+   "segments": [
+    [
+     "알자지라에 따르면 이란 관리는 9월 16일 중재자를 통해 최신 제안을 냈다고 밝혔습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/hormuz-talks-2026/tts/proposal_0_1691402ddc.mp3",
+   "npy": "/home/user/osint_generator/projects/hormuz-talks-2026/tts/proposal_0_1691402ddc.npy",
+   "dur": 6.283650793650794,
+   "t0": 24.712290249433106,
+   "t1": 30.9959410430839,
+   "trim_offset": 0.351542
+  },
+  {
+   "sid": "proposal_1",
+   "scene": "proposal",
+   "date": "2026.09.25",
+   "text": "아락치 외무장관은 조건이 충족되면 7일 안에 해협을 열 수 있다고 밝혔습니다.",
+   "tts": "아락치 외무장관은 조건이 충족되면 칠일 안에 해협을 열 수 있다고 밝혔습니다.",
+   "segments": [
+    [
+     "아락치 외무장관은 조건이 충족되면 ",
+     0
+    ],
+    [
+     "7일",
+     1
+    ],
+    [
+     " 안에 해협을 열 수 있다고 밝혔습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/hormuz-talks-2026/tts/proposal_1_8c89815aa1.mp3",
+   "npy": "/home/user/osint_generator/projects/hormuz-talks-2026/tts/proposal_1_8c89815aa1.npy",
+   "dur": 5.169160997732426,
+   "t0": 31.4959410430839,
+   "t1": 36.66510204081632,
+   "trim_offset": 0.378027
+  },
+  {
+   "sid": "proposal_2",
+   "scene": "proposal",
+   "date": "2026.09.25",
+   "text": "미국 측 조치는 4~5일 안에 끝날 수 있다고도 말했습니다.",
+   "tts": "미국 측 조치는 사오일 안에 끝날 수 있다고도 말했습니다.",
+   "segments": [
+    [
+     "미국 측 조치는 4~5일 안에 끝날 수 있다고도 말했습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/hormuz-talks-2026/tts/proposal_2_78439c5ca1.mp3",
+   "npy": "/home/user/osint_generator/projects/hormuz-talks-2026/tts/proposal_2_78439c5ca1.npy",
+   "dur": 3.707596371882086,
+   "t0": 37.16510204081632,
+   "t1": 40.872698412698405,
+   "trim_offset": 0.378753
+  },
+  {
+   "sid": "proposal_3",
+   "scene": "proposal",
+   "date": "2026.09.25",
+   "text": "이란은 동결 자금 해제, 제재 해제, 해상봉쇄 종료를 요구합니다.",
+   "tts": "이란은 동결 자금 해제, 제재 해제, 해상봉쇄 종료를 요구합니다.",
+   "segments": [
+    [
+     "이란은 동결 자금 해제, 제재 해제, ",
+     0
+    ],
+    [
+     "해상봉쇄 종료",
+     1
+    ],
+    [
+     "를 요구합니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/hormuz-talks-2026/tts/proposal_3_70537d2ca8.mp3",
+   "npy": "/home/user/osint_generator/projects/hormuz-talks-2026/tts/proposal_3_70537d2ca8.npy",
+   "dur": 5.502607709750567,
+   "t0": 41.372698412698405,
+   "t1": 46.875306122448976,
+   "trim_offset": 0.363129
+  },
+  {
+   "sid": "proposal_4",
+   "scene": "proposal",
+   "date": "2026.09.25",
+   "text": "알자지라는 해제 대상 동결 자산이 약 120억 달러라고 보도했습니다.",
+   "tts": "알자지라는 해제 대상 동결 자산이 약 백이십억 딸러라고 보도했습니다.",
+   "segments": [
+    [
+     "알자지라는 해제 대상 동결 자산이 약 ",
+     0
+    ],
+    [
+     "120억 달러",
+     1
+    ],
+    [
+     "라고 보도했습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/hormuz-talks-2026/tts/proposal_4_cc57c8cd82.mp3",
+   "npy": "/home/user/osint_generator/projects/hormuz-talks-2026/tts/proposal_4_cc57c8cd82.npy",
+   "dur": 4.952040816326531,
+   "t0": 47.375306122448976,
+   "t1": 52.327346938775506,
+   "trim_offset": 0.374966
+  },
+  {
+   "sid": "rejection_dispute_0",
+   "scene": "rejection_dispute",
+   "date": "2026.09.26",
+   "text": "트럼프 대통령은 기자들에게 그들의 제안을 거부한다고 말했습니다.",
+   "tts": "트럼프 대통령은 기자들에게 그들의 제안을 거부한다고 말했습니다.",
+   "segments": [
+    [
+     "트럼프 대통령은 기자들에게 그들의 제안을 거부한다고 말했습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/hormuz-talks-2026/tts/rejection_dispute_0_aea6f3d781.mp3",
+   "npy": "/home/user/osint_generator/projects/hormuz-talks-2026/tts/rejection_dispute_0_aea6f3d781.npy",
+   "dur": 4.31562358276644,
+   "t0": 53.827346938775506,
+   "t1": 58.14297052154195,
+   "trim_offset": 0.383356
+  },
+  {
+   "sid": "rejection_dispute_1",
+   "scene": "rejection_dispute",
+   "date": "2026.09.26",
+   "text": "AP 통신에 따르면 익명의 관리들은 공식 거부가 아니며 협상 전술일 수 있다고 밝혔습니다.",
+   "tts": "에이피 통신에 따르면 익명의 관리들은 공식 거부가 아니며 협상 전술일 수 있다고 밝혔습니다.",
+   "segments": [
+    [
+     "AP 통신에 따르면 익명의 관리들은 공식 거부가 아니며 ",
+     0
+    ],
+    [
+     "협상 전술",
+     1
+    ],
+    [
+     "일 수 있다고 밝혔습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/hormuz-talks-2026/tts/rejection_dispute_1_9029f9920c.mp3",
+   "npy": "/home/user/osint_generator/projects/hormuz-talks-2026/tts/rejection_dispute_1_9029f9920c.npy",
+   "dur": 6.0757823129251705,
+   "t0": 58.64297052154195,
+   "t1": 64.71875283446713,
+   "trim_offset": 0.358186
+  },
+  {
+   "sid": "rejection_dispute_2",
+   "scene": "rejection_dispute",
+   "date": "2026.09.26",
+   "text": "아락치 외무장관은 중재자를 통한 확정 답변을 기다린다고 밝혔습니다.",
+   "tts": "아락치 외무장관은 중재자를 통한 확정 답변을 기다린다고 밝혔습니다.",
+   "segments": [
+    [
+     "아락치 외무장관은 중재자를 통한 확정 답변을 기다린다고 밝혔습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/hormuz-talks-2026/tts/rejection_dispute_2_4ad4bdcdef.mp3",
+   "npy": "/home/user/osint_generator/projects/hormuz-talks-2026/tts/rejection_dispute_2_4ad4bdcdef.npy",
+   "dur": 4.709977324263039,
+   "t0": 65.21875283446713,
+   "t1": 69.92873015873016,
+   "trim_offset": 0.385079
+  },
+  {
+   "sid": "mediation_0",
+   "scene": "mediation",
+   "date": "2026.09",
+   "text": "협상은 카타르가 중재하고 있습니다.",
+   "tts": "협상은 카타르가 중재하고 있습니다.",
+   "segments": [
+    [
+     "협상은 ",
+     0
+    ],
+    [
+     "카타르",
+     1
+    ],
+    [
+     "가 중재하고 있습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/hormuz-talks-2026/tts/mediation_0_5b59dd5d60.mp3",
+   "npy": "/home/user/osint_generator/projects/hormuz-talks-2026/tts/mediation_0_5b59dd5d60.npy",
+   "dur": 2.411700680272109,
+   "t0": 71.42873015873016,
+   "t1": 73.84043083900227,
+   "trim_offset": 0.39805
+  },
+  {
+   "sid": "mediation_1",
+   "scene": "mediation",
+   "date": "2026.09.22",
+   "text": "9월 22일 유엔총회 기간, 직접 회동이 있었는지를 두고 말이 엇갈립니다.",
+   "tts": "구월 이십이일 유엔총회 기간, 직접 회동이 있었는지를 두고 말이 엇갈립니다.",
+   "segments": [
+    [
+     "9월 22일 유엔총회 기간, 직접 회동이 있었는지를 두고 말이 엇갈립니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/hormuz-talks-2026/tts/mediation_1_6f22b2defa.mp3",
+   "npy": "/home/user/osint_generator/projects/hormuz-talks-2026/tts/mediation_1_6f22b2defa.npy",
+   "dur": 5.2956689342403624,
+   "t0": 74.34043083900227,
+   "t1": 79.63609977324263,
+   "trim_offset": 0.350385
+  },
+  {
+   "sid": "mediation_2",
+   "scene": "mediation",
+   "date": "2026.09.22",
+   "text": "이란 국영매체는 아락치 장관과 위트코프 특사가 만났다고 전했습니다.",
+   "tts": "이란 국영매체는 아락치 장관과 위트코프 특사가 만났다고 전했습니다.",
+   "segments": [
+    [
+     "이란 국영매체는 아락치 장관과 위트코프 특사가 만났다고 전했습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/hormuz-talks-2026/tts/mediation_2_eb6a8e1e26.mp3",
+   "npy": "/home/user/osint_generator/projects/hormuz-talks-2026/tts/mediation_2_eb6a8e1e26.npy",
+   "dur": 4.99718820861678,
+   "t0": 80.13609977324263,
+   "t1": 85.13328798185941,
+   "trim_offset": 0.366871
+  },
+  {
+   "sid": "mediation_3",
+   "scene": "mediation",
+   "date": "2026.09.22",
+   "text": "위트코프 특사는 중재자들이 대표단 사이를 오가며 협상했다고 말했습니다.",
+   "tts": "위트코프 특사는 중재자들이 대표단 사이를 오가며 협상했다고 말했습니다.",
+   "segments": [
+    [
+     "위트코프 특사는 중재자들이 대표단 사이를 오가며 협상했다고 말했습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/hormuz-talks-2026/tts/mediation_3_5b594dd6d9.mp3",
+   "npy": "/home/user/osint_generator/projects/hormuz-talks-2026/tts/mediation_3_5b594dd6d9.npy",
+   "dur": 5.121700680272109,
+   "t0": 85.63328798185941,
+   "t1": 90.75498866213152,
+   "trim_offset": 0.373923
+  },
+  {
+   "sid": "mediation_4",
+   "scene": "mediation",
+   "date": "2026.09.26",
+   "text": "알자지라에 따르면 미국 관리는 거부 이후에도 간접 협상이 이어진다고 밝혔습니다.",
+   "tts": "알자지라에 따르면 미국 관리는 거부 이후에도 간접 협상이 이어진다고 밝혔습니다.",
+   "segments": [
+    [
+     "알자지라에 따르면 미국 관리는 거부 이후에도 ",
+     0
+    ],
+    [
+     "간접 협상",
+     1
+    ],
+    [
+     "이 이어진다고 밝혔습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/hormuz-talks-2026/tts/mediation_4_6deaa6e131.mp3",
+   "npy": "/home/user/osint_generator/projects/hormuz-talks-2026/tts/mediation_4_6deaa6e131.npy",
+   "dur": 5.42671201814059,
+   "t0": 91.25498866213152,
+   "t1": 96.68170068027212,
+   "trim_offset": 0.373243
+  },
+  {
+   "sid": "mediation_5",
+   "scene": "mediation",
+   "date": "2026.09.28",
+   "text": "알자지라와 A 뉴스에 따르면 아락치 장관은 9월 28일 뉴욕에서 카타르 중재자들을 만났습니다.",
+   "tts": "알자지라와 에이 뉴스에 따르면 아락치 장관은 구월 이십팔일 뉴욕에서 카타르 중재자들을 만났습니다.",
+   "segments": [
+    [
+     "알자지라와 A 뉴스에 따르면 아락치 장관은 9월 28일 뉴욕에서 카타르 중재자들을 만났습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/hormuz-talks-2026/tts/mediation_5_2723e24e30.mp3",
+   "npy": "/home/user/osint_generator/projects/hormuz-talks-2026/tts/mediation_5_2723e24e30.npy",
+   "dur": 6.871859410430839,
+   "t0": 97.18170068027212,
+   "t1": 104.05356009070296,
+   "trim_offset": 0.364331
+  },
+  {
+   "sid": "mediation_6",
+   "scene": "mediation",
+   "date": "2026.09.28",
+   "text": "아락치 장관은 카타르가 새 아이디어를 미국에 전달할 것이라고 밝혔습니다.",
+   "tts": "아락치 장관은 카타르가 새 아이디어를 미국에 전달할 것이라고 밝혔습니다.",
+   "segments": [
+    [
+     "아락치 장관은 카타르가 ",
+     0
+    ],
+    [
+     "새 아이디어",
+     1
+    ],
+    [
+     "를 미국에 전달할 것이라고 밝혔습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/hormuz-talks-2026/tts/mediation_6_ff4a666f39.mp3",
+   "npy": "/home/user/osint_generator/projects/hormuz-talks-2026/tts/mediation_6_ff4a666f39.npy",
+   "dur": 5.010521541950113,
+   "t0": 104.55356009070296,
+   "t1": 109.56408163265307,
+   "trim_offset": 0.3622
+  },
+  {
+   "sid": "mediation_7",
+   "scene": "mediation",
+   "date": "2026.09.30",
+   "text": "모하제라니 정부 대변인은 9월 30일 미국의 답변을 받았다고 밝혔습니다.",
+   "tts": "모하제라니 정부 대변인은 구월 삼십일 미국의 답변을 받았다고 밝혔습니다.",
+   "segments": [
+    [
+     "모하제라니 정부 대변인은 9월 30일 ",
+     0
+    ],
+    [
+     "미국의 답변",
+     1
+    ],
+    [
+     "을 받았다고 밝혔습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/hormuz-talks-2026/tts/mediation_7_9a177eab7b.mp3",
+   "npy": "/home/user/osint_generator/projects/hormuz-talks-2026/tts/mediation_7_9a177eab7b.npy",
+   "dur": 5.0889342403628115,
+   "t0": 110.06408163265307,
+   "t1": 115.15301587301589,
+   "trim_offset": 0.366508
+  },
+  {
+   "sid": "mediation_8",
+   "scene": "mediation",
+   "date": "2026.09.30",
+   "text": "대변인에 따르면 답변 내용은 공개되지 않았습니다.",
+   "tts": "대변인에 따르면 답변 내용은 공개되지 않았습니다.",
+   "segments": [
+    [
+     "대변인에 따르면 답변 내용은 공개되지 않았습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/hormuz-talks-2026/tts/mediation_8_0daa89b891.mp3",
+   "npy": "/home/user/osint_generator/projects/hormuz-talks-2026/tts/mediation_8_0daa89b891.npy",
+   "dur": 3.5565079365079364,
+   "t0": 115.65301587301589,
+   "t1": 119.20952380952383,
+   "trim_offset": 0.382812
+  },
+  {
+   "sid": "nuclear_0",
+   "scene": "nuclear",
+   "date": "2026.09",
+   "text": "알자지라에 따르면 미국 관리는 핵 문제가 빠지면 합의는 없다고 밝혔습니다.",
+   "tts": "알자지라에 따르면 미국 관리는 핵 문제가 빠지면 합의는 없다고 밝혔습니다.",
+   "segments": [
+    [
+     "알자지라에 따르면 미국 관리는 ",
+     0
+    ],
+    [
+     "핵 문제",
+     1
+    ],
+    [
+     "가 빠지면 합의는 없다고 밝혔습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/hormuz-talks-2026/tts/nuclear_0_e98cf2c51e.mp3",
+   "npy": "/home/user/osint_generator/projects/hormuz-talks-2026/tts/nuclear_0_e98cf2c51e.npy",
+   "dur": 5.024036281179138,
+   "t0": 120.70952380952383,
+   "t1": 125.73356009070297,
+   "trim_offset": 0.375374
+  },
+  {
+   "sid": "nuclear_1",
+   "scene": "nuclear",
+   "date": "2026.09",
+   "text": "이 관리는 핵 진전이 있으면 제재 완화와 자금 해제도 가능하다고 말했습니다.",
+   "tts": "이 관리는 핵 진전이 있으면 제재 완화와 자금 해제도 가능하다고 말했습니다.",
+   "segments": [
+    [
+     "이 관리는 핵 진전이 있으면 제재 완화와 자금 해제도 가능하다고 말했습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/hormuz-talks-2026/tts/nuclear_1_acbaa9c2f4.mp3",
+   "npy": "/home/user/osint_generator/projects/hormuz-talks-2026/tts/nuclear_1_acbaa9c2f4.npy",
+   "dur": 5.060181405895691,
+   "t0": 126.23356009070297,
+   "t1": 131.29374149659867,
+   "trim_offset": 0.359456
+  },
+  {
+   "sid": "nuclear_2",
+   "scene": "nuclear",
+   "date": "2026.09",
+   "text": "AP 통신에 따르면 한 역내 관리는 미국이 사찰단 입국을 요구한다고 말했습니다.",
+   "tts": "에이피 통신에 따르면 한 역내 관리는 미국이 사찰단 입국을 요구한다고 말했습니다.",
+   "segments": [
+    [
+     "AP 통신에 따르면 한 역내 관리는 미국이 ",
+     0
+    ],
+    [
+     "사찰단",
+     1
+    ],
+    [
+     " 입국을 요구한다고 말했습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/hormuz-talks-2026/tts/nuclear_2_51c2211d02.mp3",
+   "npy": "/home/user/osint_generator/projects/hormuz-talks-2026/tts/nuclear_2_51c2211d02.npy",
+   "dur": 5.473333333333334,
+   "t0": 131.79374149659867,
+   "t1": 137.267074829932,
+   "trim_offset": 0.350454
+  },
+  {
+   "sid": "nuclear_3",
+   "scene": "nuclear",
+   "date": "2026.09",
+   "text": "NPR은 페제시키안 대통령이 제안이 수용되면 유엔 사찰단을 받겠다고 말했다고 보도했습니다.",
+   "tts": "엔피알은 페제시키안 대통령이 제안이 수용되면 유엔 사찰단을 받겠다고 말했다고 보도했습니다.",
+   "segments": [
+    [
+     "NPR은 페제시키안 대통령이 제안이 수용되면 유엔 사찰단을 받겠다고 말했다고 보도했습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/hormuz-talks-2026/tts/nuclear_3_12bdde49fa.mp3",
+   "npy": "/home/user/osint_generator/projects/hormuz-talks-2026/tts/nuclear_3_12bdde49fa.npy",
+   "dur": 6.104535147392291,
+   "t0": 137.767074829932,
+   "t1": 143.87160997732428,
+   "trim_offset": 0.345646
+  },
+  {
+   "sid": "nuclear_4",
+   "scene": "nuclear",
+   "date": "2026.09.26",
+   "text": "페제시키안 대통령은 미국과의 협상을 더는 신뢰하지 않는다고 말했습니다.",
+   "tts": "페제시키안 대통령은 미국과의 협상을 더는 신뢰하지 않는다고 말했습니다.",
+   "segments": [
+    [
+     "페제시키안 대통령은 미국과의 협상을 더는 ",
+     0
+    ],
+    [
+     "신뢰",
+     1
+    ],
+    [
+     "하지 않는다고 말했습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/hormuz-talks-2026/tts/nuclear_4_ac73fe208d.mp3",
+   "npy": "/home/user/osint_generator/projects/hormuz-talks-2026/tts/nuclear_4_ac73fe208d.npy",
+   "dur": 4.839705215419501,
+   "t0": 144.37160997732428,
+   "t1": 149.2113151927438,
+   "trim_offset": 0.388957
+  },
+  {
+   "sid": "war_background_0",
+   "scene": "war_background",
+   "date": "2026.02.28",
+   "text": "이란은 2월 28일 미국·이스라엘의 공격 직후 해협을 봉쇄했습니다.",
+   "tts": "이란은 이월 이십팔일 미국과 이스라엘의 공격 직후 해협을 봉쇄했습니다.",
+   "segments": [
+    [
+     "이란은 2월 28일 미국·이스라엘의 공격 직후 해협을 ",
+     0
+    ],
+    [
+     "봉쇄",
+     1
+    ],
+    [
+     "했습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/hormuz-talks-2026/tts/war_background_0_1286b8cd48.mp3",
+   "npy": "/home/user/osint_generator/projects/hormuz-talks-2026/tts/war_background_0_1286b8cd48.npy",
+   "dur": 4.955759637188208,
+   "t0": 150.7113151927438,
+   "t1": 155.667074829932,
+   "trim_offset": 0.36771
+  },
+  {
+   "sid": "war_background_1",
+   "scene": "war_background",
+   "date": "2026.09",
+   "text": "NPR은 페제시키안 대통령이 미국이 먼저 이란의 길을 막았다고 말했다고 보도했습니다.",
+   "tts": "엔피알은 페제시키안 대통령이 미국이 먼저 이란의 길을 막았다고 말했다고 보도했습니다.",
+   "segments": [
+    [
+     "NPR은 페제시키안 대통령이 미국이 먼저 이란의 길을 막았다고 말했다고 보도했습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/hormuz-talks-2026/tts/war_background_1_196d9d255b.mp3",
+   "npy": "/home/user/osint_generator/projects/hormuz-talks-2026/tts/war_background_1_196d9d255b.npy",
+   "dur": 5.508548752834467,
+   "t0": 156.167074829932,
+   "t1": 161.67562358276646,
+   "trim_offset": 0.338367
+  },
+  {
+   "sid": "war_background_2",
+   "scene": "war_background",
+   "date": "2026.04",
+   "text": "A 뉴스는 4월에 휴전 합의가 이뤄졌다고 보도했습니다.",
+   "tts": "에이 뉴스는 사월에 휴전 합의가 이뤄졌다고 보도했습니다.",
+   "segments": [
+    [
+     "A 뉴스는 4월에 휴전 합의가 이뤄졌다고 보도했습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/hormuz-talks-2026/tts/war_background_2_ec02054d9f.mp3",
+   "npy": "/home/user/osint_generator/projects/hormuz-talks-2026/tts/war_background_2_ec02054d9f.npy",
+   "dur": 3.769387755102041,
+   "t0": 162.17562358276646,
+   "t1": 165.9450113378685,
+   "trim_offset": 0.376576
+  },
+  {
+   "sid": "war_background_3",
+   "scene": "war_background",
+   "date": "2026.06",
+   "text": "미국과 이란은 6월 양해각서에 서명했습니다.",
+   "tts": "미국과 이란은 유월 양해각서에 서명했습니다.",
+   "segments": [
+    [
+     "미국과 이란은 6월 ",
+     0
+    ],
+    [
+     "양해각서",
+     1
+    ],
+    [
+     "에 서명했습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/hormuz-talks-2026/tts/war_background_3_dee22a5c8d.mp3",
+   "npy": "/home/user/osint_generator/projects/hormuz-talks-2026/tts/war_background_3_dee22a5c8d.npy",
+   "dur": 3.0623809523809524,
+   "t0": 166.4450113378685,
+   "t1": 169.50739229024944,
+   "trim_offset": 0.391542
+  },
+  {
+   "sid": "war_background_4",
+   "scene": "war_background",
+   "date": "2026.06",
+   "text": "PBS와 알자지라는 이 합의가 며칠 만에 무산됐다고 보도했습니다.",
+   "tts": "피비에스와 알자지라는 이 합의가 며칠 만에 무산됐다고 보도했습니다.",
+   "segments": [
+    [
+     "PBS와 알자지라는 이 합의가 며칠 만에 무산됐다고 보도했습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/hormuz-talks-2026/tts/war_background_4_a10d25162d.mp3",
+   "npy": "/home/user/osint_generator/projects/hormuz-talks-2026/tts/war_background_4_a10d25162d.npy",
+   "dur": 4.412244897959184,
+   "t0": 170.00739229024944,
+   "t1": 174.41963718820864,
+   "trim_offset": 0.368458
+  },
+  {
+   "sid": "war_background_5",
+   "scene": "war_background",
+   "date": "2026.06",
+   "text": "미국 관리는 이란이 상선에 발포해 합의를 깼다고 밝혔습니다.",
+   "tts": "미국 관리는 이란이 상선에 발포해 합의를 깼다고 밝혔습니다.",
+   "segments": [
+    [
+     "미국 관리는 이란이 상선에 발포해 합의를 깼다고 밝혔습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/hormuz-talks-2026/tts/war_background_5_63e442a725.mp3",
+   "npy": "/home/user/osint_generator/projects/hormuz-talks-2026/tts/war_background_5_63e442a725.npy",
+   "dur": 4.128798185941043,
+   "t0": 174.91963718820864,
+   "t1": 179.04843537414968,
+   "trim_offset": 0.375941
+  },
+  {
+   "sid": "war_background_6",
+   "scene": "war_background",
+   "date": "2026.06",
+   "text": "이란 정부는 이를 부인하며 레바논 공격을 못 막은 미국 탓이라고 주장했습니다.",
+   "tts": "이란 정부는 이를 부인하며 레바논 공격을 못 막은 미국 탓이라고 주장했습니다.",
+   "segments": [
+    [
+     "이란 정부는 이를 부인하며 레바논 공격을 못 막은 미국 탓이라고 주장했습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/hormuz-talks-2026/tts/war_background_6_5274dfbbed.mp3",
+   "npy": "/home/user/osint_generator/projects/hormuz-talks-2026/tts/war_background_6_5274dfbbed.npy",
+   "dur": 5.551791383219955,
+   "t0": 179.54843537414968,
+   "t1": 185.10022675736963,
+   "trim_offset": 0.364399
+  },
+  {
+   "sid": "pressure_0",
+   "scene": "pressure",
+   "date": "2026.09.28",
+   "text": "알자지라에 따르면 트럼프 대통령은 9월 28일 미국이 이길 것이라고 말했습니다.",
+   "tts": "알자지라에 따르면 트럼프 대통령은 구월 이십팔일 미국이 이길 것이라고 말했습니다.",
+   "segments": [
+    [
+     "알자지라에 따르면 트럼프 대통령은 9월 28일 미국이 이길 것이라고 말했습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/hormuz-talks-2026/tts/pressure_0_438553fb78.mp3",
+   "npy": "/home/user/osint_generator/projects/hormuz-talks-2026/tts/pressure_0_438553fb78.npy",
+   "dur": 5.740045351473923,
+   "t0": 186.60022675736963,
+   "t1": 192.34027210884355,
+   "trim_offset": 0.375646
+  },
+  {
+   "sid": "pressure_1",
+   "scene": "pressure",
+   "date": "2026.09.28",
+   "text": "모즈타바 하메네이 최고지도자는 적이 아라비아해 너머로 나오지 못한다고 말했습니다.",
+   "tts": "모즈타바 하메네이 최고지도자는 적이 아라비아해 너머로 나오지 못한다고 말했습니다.",
+   "segments": [
+    [
+     "모즈타바 하메네이 최고지도자는 적이 아라비아해 너머로 나오지 못한다고 말했습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/hormuz-talks-2026/tts/pressure_1_24768c94be.mp3",
+   "npy": "/home/user/osint_generator/projects/hormuz-talks-2026/tts/pressure_1_24768c94be.npy",
+   "dur": 5.157573696145125,
+   "t0": 192.84027210884355,
+   "t1": 197.99784580498869,
+   "trim_offset": 0.367959
+  },
+  {
+   "sid": "pressure_2",
+   "scene": "pressure",
+   "date": "2026.09",
+   "text": "월스트리트저널은 트럼프가 중간선거 뒤 폭격 재개를 예상한다고 측근들에게 말했다고 보도했습니다.",
+   "tts": "월스트리트 저널은 트럼프가 중간선거 뒤 폭격 재개를 예상한다고 측근들에게 말했다고 보도했습니다.",
+   "segments": [
+    [
+     "월스트리트저널은 트럼프가 중간선거 뒤 ",
+     0
+    ],
+    [
+     "폭격 재개",
+     1
+    ],
+    [
+     "를 예상한다고 측근들에게 말했다고 보도했습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/hormuz-talks-2026/tts/pressure_2_d7ecd958ea.mp3",
+   "npy": "/home/user/osint_generator/projects/hormuz-talks-2026/tts/pressure_2_d7ecd958ea.npy",
+   "dur": 6.74204081632653,
+   "t0": 198.49784580498869,
+   "t1": 205.2398866213152,
+   "trim_offset": 0.368844
+  },
+  {
+   "sid": "pressure_3",
+   "scene": "pressure",
+   "date": "2026.08",
+   "text": "알자지라에 따르면 8월 말 로이터·입소스 조사에서 미국인 63%가 전쟁에 반대했습니다.",
+   "tts": "알자지라에 따르면 팔월 말 로이터와 입소스 조사에서 미국인 육십삼 퍼센트가 전쟁에 반대했습니다.",
+   "segments": [
+    [
+     "알자지라에 따르면 8월 말 로이터·입소스 조사에서 미국인 ",
+     0
+    ],
+    [
+     "63%",
+     1
+    ],
+    [
+     "가 전쟁에 반대했습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/hormuz-talks-2026/tts/pressure_3_1d31e0cea4.mp3",
+   "npy": "/home/user/osint_generator/projects/hormuz-talks-2026/tts/pressure_3_1d31e0cea4.npy",
+   "dur": 6.957845804988662,
+   "t0": 205.7398866213152,
+   "t1": 212.69773242630387,
+   "trim_offset": 0.34517
+  },
+  {
+   "sid": "shipping_oil_0",
+   "scene": "shipping_oil",
+   "date": "2026",
+   "text": "전쟁 전에는 세계 석유의 약 20%가 이 해협을 지났습니다.",
+   "tts": "전쟁 전에는 세계 석유의 약 이십 퍼센트가 이 해협을 지났습니다.",
+   "segments": [
+    [
+     "전쟁 전에는 세계 석유의 약 ",
+     0
+    ],
+    [
+     "20%",
+     1
+    ],
+    [
+     "가 이 해협을 지났습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/hormuz-talks-2026/tts/shipping_oil_0_4581ff3fe0.mp3",
+   "npy": "/home/user/osint_generator/projects/hormuz-talks-2026/tts/shipping_oil_0_4581ff3fe0.npy",
+   "dur": 4.598662131519275,
+   "t0": 214.19773242630387,
+   "t1": 218.79639455782313,
+   "trim_offset": 0.380091
+  },
+  {
+   "sid": "shipping_oil_1",
+   "scene": "shipping_oil",
+   "date": "2026.03",
+   "text": "이란의 선박 공격으로 통항은 크게 줄었습니다.",
+   "tts": "이란의 선박 공격으로 통항은 크게 줄었습니다.",
+   "segments": [
+    [
+     "이란의 선박 공격으로 통항은 크게 줄었습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/hormuz-talks-2026/tts/shipping_oil_1_ddaaf3900c.mp3",
+   "npy": "/home/user/osint_generator/projects/hormuz-talks-2026/tts/shipping_oil_1_ddaaf3900c.npy",
+   "dur": 3.2036054421768707,
+   "t0": 219.29639455782313,
+   "t1": 222.5,
+   "trim_offset": 0.349751
+  },
+  {
+   "sid": "shipping_oil_2",
+   "scene": "shipping_oil",
+   "date": "2026.09",
+   "text": "알자지라는 마린트래픽 집계를 인용해 9월 21~27일 일주일 통과가 132건이라고 보도했습니다.",
+   "tts": "알자지라는 마린트래픽 집계를 인용해 구월 이십일일부터 이십칠일까지 일주일 통과가 백삼십이 건이라고 보도했습니다.",
+   "segments": [
+    [
+     "알자지라는 마린트래픽 집계를 인용해 9월 21~27일 일주일 통과가 ",
+     0
+    ],
+    [
+     "132건",
+     1
+    ],
+    [
+     "이라고 보도했습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/hormuz-talks-2026/tts/shipping_oil_2_45729a3667.mp3",
+   "npy": "/home/user/osint_generator/projects/hormuz-talks-2026/tts/shipping_oil_2_45729a3667.npy",
+   "dur": 8.377074829931972,
+   "t0": 223.0,
+   "t1": 231.37707482993198,
+   "trim_offset": 0.3639
+  },
+  {
+   "sid": "shipping_oil_3",
+   "scene": "shipping_oil",
+   "date": "2026",
+   "text": "알자지라는 전쟁 전에는 하루 약 130건이 지났다고 보도했습니다.",
+   "tts": "알자지라는 전쟁 전에는 하루 약 백삼십 건이 지났다고 보도했습니다.",
+   "segments": [
+    [
+     "알자지라는 전쟁 전에는 ",
+     0
+    ],
+    [
+     "하루 약 130건",
+     1
+    ],
+    [
+     "이 지났다고 보도했습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/hormuz-talks-2026/tts/shipping_oil_3_a9508c17a0.mp3",
+   "npy": "/home/user/osint_generator/projects/hormuz-talks-2026/tts/shipping_oil_3_a9508c17a0.npy",
+   "dur": 4.723333333333334,
+   "t0": 231.87707482993198,
+   "t1": 236.6004081632653,
+   "trim_offset": 0.374512
+  },
+  {
+   "sid": "shipping_oil_4",
+   "scene": "shipping_oil",
+   "date": "2026.09.26",
+   "text": "쿠퍼 미 중부사령관은 미군이 최근 몇 달간 2000건의 통항을 지원했다고 밝혔습니다.",
+   "tts": "쿠퍼 미 중부사령관은 미군이 최근 몇 달간 이천 건의 통항을 지원했다고 밝혔습니다.",
+   "segments": [
+    [
+     "쿠퍼 미 중부사령관은 미군이 최근 몇 달간 2000건의 통항을 지원했다고 밝혔습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/hormuz-talks-2026/tts/shipping_oil_4_0437c1a9f3.mp3",
+   "npy": "/home/user/osint_generator/projects/hormuz-talks-2026/tts/shipping_oil_4_0437c1a9f3.npy",
+   "dur": 5.766145124716553,
+   "t0": 237.1004081632653,
+   "t1": 242.86655328798187,
+   "trim_offset": 0.365034
+  },
+  {
+   "sid": "shipping_oil_5",
+   "scene": "shipping_oil",
+   "date": "2026.09.26",
+   "text": "쿠퍼 사령관은 10억 배럴 넘는 원유 수송도 지원했다고 말했습니다.",
+   "tts": "쿠퍼 사령관은 십억 배럴 넘는 워뉴 수송도 지원했다고 말했습니다.",
+   "segments": [
+    [
+     "쿠퍼 사령관은 10억 배럴 넘는 원유 수송도 지원했다고 말했습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/hormuz-talks-2026/tts/shipping_oil_5_31f5299dc0.mp3",
+   "npy": "/home/user/osint_generator/projects/hormuz-talks-2026/tts/shipping_oil_5_31f5299dc0.npy",
+   "dur": 4.560929705215419,
+   "t0": 243.36655328798187,
+   "t1": 247.9274829931973,
+   "trim_offset": 0.389592
+  },
+  {
+   "sid": "shipping_oil_6",
+   "scene": "shipping_oil",
+   "date": "2026.09.28",
+   "text": "알자지라와 PBS는 9월 28일 브렌트유가 3% 넘게 올랐다고 보도했습니다.",
+   "tts": "알자지라와 피비에스는 구월 이십팔일 브렌트유가 삼 퍼센트 넘게 올랐다고 보도했습니다.",
+   "segments": [
+    [
+     "알자지라와 PBS는 9월 28일 브렌트유가 3% 넘게 올랐다고 보도했습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/hormuz-talks-2026/tts/shipping_oil_6_e201c018b7.mp3",
+   "npy": "/home/user/osint_generator/projects/hormuz-talks-2026/tts/shipping_oil_6_e201c018b7.npy",
+   "dur": 6.098639455782313,
+   "t0": 248.4274829931973,
+   "t1": 254.5261224489796,
+   "trim_offset": 0.364036
+  },
+  {
+   "sid": "shipping_oil_7",
+   "scene": "shipping_oil",
+   "date": "2026.09.28",
+   "text": "두 매체는 배럴당 108달러 안팎까지 올랐다고 전했습니다.",
+   "tts": "두 매체는 배럴당 백팔 딸러 안팎까지 올랐다고 전했습니다.",
+   "segments": [
+    [
+     "두 매체는 배럴당 ",
+     0
+    ],
+    [
+     "108달러",
+     1
+    ],
+    [
+     " 안팎까지 올랐다고 전했습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/hormuz-talks-2026/tts/shipping_oil_7_10028ccd7e.mp3",
+   "npy": "/home/user/osint_generator/projects/hormuz-talks-2026/tts/shipping_oil_7_10028ccd7e.npy",
+   "dur": 4.1465986394557826,
+   "t0": 255.0261224489796,
+   "t1": 259.17272108843537,
+   "trim_offset": 0.373764
+  },
+  {
+   "sid": "second_strait_0",
+   "scene": "second_strait",
+   "date": "2026.09",
+   "text": "위협받는 해협은 호르무즈 하나가 아닙니다.",
+   "tts": "위협받는 해협은 호르무즈 하나가 아닙니다.",
+   "segments": [
+    [
+     "위협받는 해협은 호르무즈 하나가 아닙니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/hormuz-talks-2026/tts/second_strait_0_269c515d01.mp3",
+   "npy": "/home/user/osint_generator/projects/hormuz-talks-2026/tts/second_strait_0_269c515d01.npy",
+   "dur": 2.8967573696145124,
+   "t0": 260.67272108843537,
+   "t1": 263.5694784580499,
+   "trim_offset": 0.367438
+  },
+  {
+   "sid": "second_strait_1",
+   "scene": "second_strait",
+   "date": "2026.09",
+   "text": "이란과 연계된 후티는 홍해 입구 바브엘만데브 해협에 자리를 잡았습니다.",
+   "tts": "이란과 연계된 후티는 홍해 입구 바브엘만데브 해협에 자리를 잡았습니다.",
+   "segments": [
+    [
+     "이란과 연계된 후티는 홍해 입구 ",
+     0
+    ],
+    [
+     "바브엘만데브",
+     1
+    ],
+    [
+     " 해협에 자리를 잡았습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/hormuz-talks-2026/tts/second_strait_1_ef84757eba.mp3",
+   "npy": "/home/user/osint_generator/projects/hormuz-talks-2026/tts/second_strait_1_ef84757eba.npy",
+   "dur": 4.863015873015873,
+   "t0": 264.0694784580499,
+   "t1": 268.93249433106575,
+   "trim_offset": 0.34093
+  },
+  {
+   "sid": "second_strait_2",
+   "scene": "second_strait",
+   "date": "2026.09",
+   "text": "알자지라는 후티가 사우디 선박에 대한 해상봉쇄를 선언했다고 보도했습니다.",
+   "tts": "알자지라는 후티가 사우디 선박에 대한 해상봉쇄를 선언했다고 보도했습니다.",
+   "segments": [
+    [
+     "알자지라는 후티가 사우디 선박에 대한 해상봉쇄를 선언했다고 보도했습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/hormuz-talks-2026/tts/second_strait_2_2a6d41d81a.mp3",
+   "npy": "/home/user/osint_generator/projects/hormuz-talks-2026/tts/second_strait_2_2a6d41d81a.npy",
+   "dur": 4.635850340136054,
+   "t0": 269.43249433106575,
+   "t1": 274.0683446712018,
+   "trim_offset": 0.374104
+  },
+  {
+   "sid": "korea_0",
+   "scene": "korea",
+   "date": "2026",
+   "text": "한국은 원유 수입의 70%를 이 해협을 거쳐 들여옵니다.",
+   "tts": "한국은 워뉴 수입의 칠십 퍼센트를 이 해협을 거쳐 들여옵니다.",
+   "segments": [
+    [
+     "한국은 원유 수입의 ",
+     0
+    ],
+    [
+     "70%",
+     1
+    ],
+    [
+     "를 이 해협을 거쳐 들여옵니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/hormuz-talks-2026/tts/korea_0_18a2a65c16.mp3",
+   "npy": "/home/user/osint_generator/projects/hormuz-talks-2026/tts/korea_0_18a2a65c16.npy",
+   "dur": 4.080498866213152,
+   "t0": 275.5683446712018,
+   "t1": 279.64884353741496,
+   "trim_offset": 0.363946
+  },
+  {
+   "sid": "korea_1",
+   "scene": "korea",
+   "date": "2026",
+   "text": "한국 헬륨 공급의 약 65%는 카타르산입니다.",
+   "tts": "한국 헬륨 공급의 약 육십오 퍼센트는 카타르산입니다.",
+   "segments": [
+    [
+     "한국 ",
+     0
+    ],
+    [
+     "헬륨",
+     1
+    ],
+    [
+     " 공급의 약 65%는 카타르산입니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/hormuz-talks-2026/tts/korea_1_9cdb2d4963.mp3",
+   "npy": "/home/user/osint_generator/projects/hormuz-talks-2026/tts/korea_1_9cdb2d4963.npy",
+   "dur": 4.017278911564626,
+   "t0": 280.14884353741496,
+   "t1": 284.1661224489796,
+   "trim_offset": 0.386825
+  },
+  {
+   "sid": "korea_2",
+   "scene": "korea",
+   "date": "2026.09.28",
+   "text": "알자지라는 9월 28일 코스피가 2.7% 떨어졌다고 보도했습니다.",
+   "tts": "알자지라는 구월 이십팔일 코스피가 이쩜칠 퍼센트 떨어졌다고 보도했습니다.",
+   "segments": [
+    [
+     "알자지라는 9월 28일 코스피가 2.7% 떨어졌다고 보도했습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/hormuz-talks-2026/tts/korea_2_e342173812.mp3",
+   "npy": "/home/user/osint_generator/projects/hormuz-talks-2026/tts/korea_2_e342173812.npy",
+   "dur": 5.364875283446712,
+   "t0": 284.6661224489796,
+   "t1": 290.03099773242633,
+   "trim_offset": 0.375601
+  },
+  {
+   "sid": "korea_3",
+   "scene": "korea",
+   "date": "2026",
+   "text": "한국 정부는 유가 상한제를 도입했습니다.",
+   "tts": "한국 정부는 유까 상한제를 도입했습니다.",
+   "segments": [
+    [
+     "한국 정부는 ",
+     0
+    ],
+    [
+     "유가 상한제",
+     1
+    ],
+    [
+     "를 도입했습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/hormuz-talks-2026/tts/korea_3_39eee3b4bd.mp3",
+   "npy": "/home/user/osint_generator/projects/hormuz-talks-2026/tts/korea_3_39eee3b4bd.npy",
+   "dur": 2.8597278911564628,
+   "t0": 290.53099773242633,
+   "t1": 293.3907256235828,
+   "trim_offset": 0.361497
+  },
+  {
+   "sid": "korea_4",
+   "scene": "korea",
+   "date": "2026.04",
+   "text": "CSIS는 4월 초 분석에서 IEA 공동 방출 뒤 한국 정부 비축유가 7760만 배럴로 줄었다고 밝혔습니다.",
+   "tts": "미국 전략 국제문제 연구소는 사월 초 분석에서 국제 에너지 기구 공동 방출 뒤 한국 정부 비축유가 칠천칠백육십만 배럴로 줄었다고 밝혔습니다.",
+   "segments": [
+    [
+     "CSIS는 4월 초 분석에서 IEA 공동 방출 뒤 한국 정부 비축유가 7760만 배럴로 줄었다고 밝혔습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/hormuz-talks-2026/tts/korea_4_e742bd589b.mp3",
+   "npy": "/home/user/osint_generator/projects/hormuz-talks-2026/tts/korea_4_e742bd589b.npy",
+   "dur": 10.161360544217686,
+   "t0": 293.8907256235828,
+   "t1": 304.0520861678005,
+   "trim_offset": 0.39907
+  },
+  {
+   "sid": "korea_5",
+   "scene": "korea",
+   "date": "2026.04",
+   "text": "당시 실소비 기준으로 약 26일분이라고 밝혔습니다.",
+   "tts": "당시 실소비 기준으로 약 이십육일분이라고 밝혔습니다.",
+   "segments": [
+    [
+     "당시 실소비 기준으로 약 ",
+     0
+    ],
+    [
+     "26일분",
+     1
+    ],
+    [
+     "이라고 밝혔습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/hormuz-talks-2026/tts/korea_5_6fd61bbc98.mp3",
+   "npy": "/home/user/osint_generator/projects/hormuz-talks-2026/tts/korea_5_6fd61bbc98.npy",
+   "dur": 4.004013605442177,
+   "t0": 304.5520861678005,
+   "t1": 308.5560997732427,
+   "trim_offset": 0.364218
+  },
+  {
+   "sid": "close_0",
+   "scene": "close",
+   "date": "2026.09.30",
+   "text": "미국의 답변에 무엇이 담겼는지, 해협과 핵 사찰 중 무엇이 먼저 움직일지는 아직 확인되지 않았습니다.",
+   "tts": "미국의 답변에 무엇이 담겼는지, 해협과 핵 사찰 중 무엇이 먼저 움직일지는 아직 확인되지 않았습니다.",
+   "segments": [
+    [
+     "미국의 답변에 무엇이 담겼는지, 해협과 핵 사찰 중 무엇이 먼저 움직일지는 아직 확인되지 않았습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/hormuz-talks-2026/tts/close_0_1538ddbd93.mp3",
+   "npy": "/home/user/osint_generator/projects/hormuz-talks-2026/tts/close_0_1538ddbd93.npy",
+   "dur": 7.246439909297052,
+   "t0": 310.0560997732427,
+   "t1": 317.30253968253976,
+   "trim_offset": 0.404444
+  }
+ ],
+ "cards": [
+  {
+   "kind": "title",
+   "t0": 18.712290249433106,
+   "t1": 24.312290249433104
+  },
+  {
+   "kind": "end",
+   "t0": 319.00253968253975,
+   "t1": 330.00253968253975
+  }
+ ],
+ "scene_start": {
+  "open": 1.2,
+  "proposal": 24.712290249433106,
+  "rejection_dispute": 53.827346938775506,
+  "mediation": 71.42873015873016,
+  "nuclear": 120.70952380952383,
+  "war_background": 150.7113151927438,
+  "pressure": 186.60022675736963,
+  "shipping_oil": 214.19773242630387,
+  "second_strait": 260.67272108843537,
+  "korea": 275.5683446712018,
+  "close": 310.0560997732427
+ },
+ "total": 330.50253968253975,
+ "voice": "edge-tts ko-KR-InJoonNeural",
+ "title": "호르무즈 협상 — 무엇을 먼저 할 것인가",
+ "subtitle": "해협과 제재, 동결 자금, 그리고 핵 사찰",
+ "date": "2026.09.30",
+ "tts_resynthesized": []
+}
