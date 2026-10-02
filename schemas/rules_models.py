@@ -1413,7 +1413,7 @@ class CascadeFrontRules(_Strict):
 
 
 class CascadeRules(_Strict):
-    """v5.2.0 겹침 카드(cascade — 사용자 재구성 2026-10-01, 시안). 설계 px(480p). 상자 모양은 rules island 재사용.
+    """v5.2.0 겹침 카드(cascade — 사용자 재구성 2026-10-01, v5.3.0 D-0139 채택). 설계 px(480p). 상자 모양은 rules island 재사용.
     최악 폭 (max_back + 1) × step + front.w ≤ width_cap 을 여기서 검증하고, 실제 폭은 checks cascade 가 잰다."""
 
     status: Literal["prototype", "adopted"]
@@ -1675,7 +1675,7 @@ class VideoRules(_Strict):
     stage_timeline: StageTimelineRules   # v4.3.0 — D-0084 작업 3·D-0085
     stage_backdrop: StageBackdropRules   # v5.1.0 — D-0121 §B·D-0123
     island: IslandRules                  # v5.1.0 — D-0123 §1·D-0126
-    cascade: CascadeRules                # v5.2.0 — 겹침 카드(사용자 재구성 2026-10-01, 시안)
+    cascade: CascadeRules                # v5.2.0 — 겹침 카드(사용자 재구성 2026-10-01, v5.3.0 D-0139 채택)
     data: DataRules                # v4.3.0 — D-0084 작업 1
     genre_prompt: GenrePromptRules  # v4.4.0 — D-0090 작업 1
     bundle: BundleRules            # v3.5.0 — D-0063 작업 4

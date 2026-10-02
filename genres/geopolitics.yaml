@@ -20,7 +20,7 @@ primitives:
   reuse:                         # 현 rules registries 전부(event_types 16 · panel_kinds 11 · badge_kinds 3)
     [marker, route, tanker_loop, barrier, ships, boom, country, badge, card, panel, dip, photo, clip, cutout, article, post,
      relation, statement, timeline, precedent, versus, dots, gantt, dual_line, fork, checklist, network,
-     person, flag, emblem, backdrop, island, cascade]   # backdrop·island = v5.1.0 D-0123(보조 무대 삽입 문법 — 렌더는 다음 Phase, D-0126 Q7). cascade = v5.2.0 겹침 카드 시안(사용자 제안 2026-10-01)
+     person, flag, emblem, backdrop, island, cascade]   # backdrop·island = v5.1.0 D-0123(보조 무대 삽입 문법 — 렌더는 다음 Phase, D-0126 Q7). cascade = v5.3.0 D-0139 겹침 카드(사용자 결정 D116·D117)
   new: [site_diagram]   # v4.4.0 dmz_mine_2026 사용자 요청(2026-09-29) — 사건 현장 개념도(벡터)
 badges:
   people: rights_check           # 인물 초상 — 권리 레지스트리(Commons·라이브러리, 07 §6)

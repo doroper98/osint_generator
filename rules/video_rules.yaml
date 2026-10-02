@@ -143,6 +143,7 @@ direction_grammar:         # v4.7.0 back_and_forth D-0104 D2(a) — 연출 문�
   - 주제가 지리·이동·위치가 아니면(정책·금리·기업·법정·발언 중심) 지도 무대를 쓰지 않는다 — backdrop 무대 + 아일랜드(차트·개념도·사진·기사·패널)로 구성한다. 지도가 중심이면 mercator(v5.1.0 D-0123 §2). 장르 기본 무대와 다르게 고르면 stage_reason 에 이유를 적는다.
   - 보도를 인용하는 카드(출처가 매체 — 통신사·신문·방송)는 카드가 아니라 기사(article) 이벤트로 건다 — 프레스 규약 v2(가운데·세리프 헤드라인). backdrop 무대에서는 주 아일랜드가 항상 하나 보이고 카드만 있는 구간은 짧게 둔다(아래 사진 배경 무대 절, v5.2.0 D-0129, 검사 [backdrop-main-missing] hard).
   - 시간축 무대는 축 스케일(w)을 장면 단위로 고정한다 — 확대·축소는 영상당 몇 번뿐이고 그 밖은 중심 이동(pan)만(v5.1.0 D-0121 §A, 검사 [timeline-rescale] hard, 수치는 아래 축 스케일 절).
+  - 지도 고정 구간에서 날짜가 있는 사건이 셋 이상 이어지면(협상 경과·발표 순서) 카드를 늘어놓지 않고 **겹침 카드(cascade) 하나**로 건다 — 지금 문장의 사건만 앞에 크게, 언급이 지나간 사건은 뒤로 물러나 겹친다. 사건마다 국기·날짜·제목 한 줄, 부제는 선택. 같은 순간 cascade 는 하나, 카드와 같이 두지 않는다(v5.3.0 D-0139, 사용자 결정 D116·D117, 검사 [cascade-*] hard).
 
 shot_grammar:              # 05 §2
   camera_moves_per_scene_max: 1
@@ -684,7 +685,7 @@ credits:                   # D-0030(D35) — 권리 레지스트리 종류별 �
   music_description: 'Music: "{name}" — {author} ({license})'          # 설명란 footer 의 {music} 자리(v3 description.yaml 문구와 같은 결과)
 
 registries:                # 15 §3 P10 — 여기 없는 타입을 연출이 쓰면 오류, 있는데 렌더러가 없으면 오류
-  event_types: [marker, route, tanker_loop, barrier, ships, boom, country, badge, card, panel, dip, photo, clip, cutout, article, post, primitive, series, backdrop, island, cascade]   # island = v5.1.0 D-0126 Q1(차트 아일랜드 — 뷰포트 카메라 = stage: timeline 숏), backdrop = v5.1.0 D-0121 §B·D-0123(backdrop 무대 배경 사진, 미디어 레지스트리 photo), post = v3.2.0 복귀(D26, 18 §5), primitive = v4.2.0 D-0081(id → registries.primitives), series = v4.3.0 D-0084(시간축 무대, 데이터 레코드)
+  event_types: [marker, route, tanker_loop, barrier, ships, boom, country, badge, card, panel, dip, photo, clip, cutout, article, post, primitive, series, backdrop, island, cascade]   # island = v5.1.0 D-0126 Q1(차트 아일랜드 — 뷰포트 카메라 = stage: timeline 숏), backdrop = v5.1.0 D-0121 §B·D-0123(backdrop 무대 배경 사진, 미디어 레지스트리 photo), post = v3.2.0 복귀(D26, 18 §5), primitive = v4.2.0 D-0081(id → registries.primitives), series = v4.3.0 D-0084(시간축 무대, 데이터 레코드), cascade = v5.3.0 D-0139(겹침 카드, 사용자 결정 D116·D117)
   event_types_planned: [occupied, arc, channel, shield, tl, particles, flash, dots, movers, line, arrow]   # v1/v2 이식 후보(미구현 = 사용 불가)
   panel_kinds: [relation, statement, timeline, precedent, versus, dots, gantt, dual_line, fork, checklist, network]   # relation = v3 refusal 일반화, 뒤 6종 = v2 차트 이식(D-0032)
   panel_kinds_planned: []
@@ -894,11 +895,11 @@ stage_backdrop:            # v5.1.0 back_and_forth D-0121 §B·D-0123 §1(사용
     - "사진·영상을 left 차트 아일랜드와 같은 순간에 띄울 때는 `\"place\": \"backdrop_right_low\"`(backdrop 무대 전용 사진 자리 — 오른쪽 카드 자리 아래·자막 위·left 상자 밖, v5.2.0 D-0132). map_right_low·panel_gap·timeline_photo 는 left 상자와 겹친다([island-overlap] hard)."
     - "기사: `{\"type\": \"article\", \"mid\": 기사 id, \"theme\": dark|light(기본 {theme_default}), \"press\": 공식 사진 id(선택)}` — 화면 전체. 프레스 사진 {press_lead}초 → 덮개 + 세리프 헤드라인(원문 언어)·부제(번역)·출처 줄. press 는 미디어 목록의 권리 기록 사진만, 없으면 쓰지 않는다(코드가 지금 화면을 흐려 깐다)."
 
-cascade:                   # v5.2.0 겹침 카드(cascade, engine/cascade.py) — 사용자 제안(2026-10-01) 재구성 시안. "띠"(D-0135) 폐기, 사용자 판정 "프레이밍이 잘못됐다".
+cascade:                   # v5.3.0 D-0139 겹침 카드(cascade, engine/cascade.py) — 사용자 제안(2026-10-01) 재구성, 사용자 결정 D116·판정 D117 채택. "띠"(D-0135) 폐기.
   # 지도(배경) 고정. 사건 카드를 왼쪽부터 step 간격으로 비스듬히 겹친다(윈도 '계단식 창 배열'처럼). 지금 말하는 사건 = 맨 앞·front 크기·accent 윗선,
   # 언급이 지나간 사건 = focus_sec 동안 back_scale 로 물러나 다음 카드 밑에 깔린다 → 뒤 카드는 왼쪽 step 폭(국기 원·날짜)만 보인다(겹친 부분은 그리지 않는다).
   # 뒤 카드가 max_back 을 넘으면 가장 오래된 카드가 shift_sec 동안 왼쪽으로 밀려 흐려져 나간다. 최악 폭 (max_back+1)×step + front.w ≤ width_cap(checks cascade).
-  # 상자 = 아일랜드 공통 상자(island.* 재사용). 설계 px(480p). 값은 미합격.
+  # 상자 = 아일랜드 공통 상자(island.* 재사용). 설계 px(480p). 값은 사용자 합격 값(D117, 2026-10-02) — C0 되돌림 금지, 사용자 결정 없이 바꾸지 않는다.
   status: prototype
   x0: 22
   y: 60                    # 카드 윗변(모서리 날짜 상자 y ≤ 50 아래)
@@ -907,14 +908,14 @@ cascade:                   # v5.2.0 겹침 카드(cascade, engine/cascade.py) �
   front: {w: 214, h: 82, pad_x: 13, date_dx: 6, date_dy: 16, title_dy: 41, line_dy: 61, date_size: 10.5, title_size: 13, line_size: 10, accent_w: 3}
   back_scale: 0.86         # 뒤 카드 크기(앞 대비) — 앞 카드가 위·아래로 더 커서 뒤 카드를 덮는다
   back_text_alpha: 0.5     # 뒤 카드 글자·국기 알파(바탕·테두리는 그대로)
-  # back_and_forth D-0138 보강(미합격 값): 뒤 카드도 제목을 남기고 덮이는 경계 back_fade_px 를 알파 그라데이션으로 가린다(자름 아님),
+  # back_and_forth D-0138 보강(사용자 합격 값, D117): 뒤 카드도 제목을 남기고 덮이는 경계 back_fade_px 를 알파 그라데이션으로 가린다(자름 아님),
   # 앞에 쌓인 카드 수(depth)마다 back_dy 내려앉고 바탕을 back_dim 만큼 더 어둡게. 전환 = 물러나는 카드 글자 앞 절반 지움 → 새 카드 글자 뒤 절반
   back_fade_px: 12
   back_dy: 5
   back_dim: 0.06
   max_back: 4
-  focus_sec: 0.5           # 앞 → 뒤 물러남 · 새 앞 카드 등장
-  shift_sec: 0.6
+  focus_sec: 0.5           # 앞 → 뒤 물러남 · 새 앞 카드 등장. 새 앞 카드 글자 = 앵커 + focus_sec 뒤 절반(0.25~0.5초, 밀기 없는 전환 — D-0137 §3·D-0139 §3)
+  shift_sec: 0.6           # 가장 오래된 뒤 카드 밀려 나감. 밀기 있는 전환의 새 앞 카드 글자 = 앵커 + max(focus_sec, shift_sec) 뒤 절반(0.3~0.6초)
   width_cap: 560           # 최악 5 × 68 + 214 = 554, 정상 4 × 68 + 214 = 486
 island:                    # v5.1.0 back_and_forth D-0123 §1·D-0126(Q1~Q4 A) — backdrop 무대 위 내용물 상자(아일랜드) 공통 규칙. engine/island.py. 설계 px(480p)
   # 연출은 픽셀을 다루지 않는다 — 차트 아일랜드는 box(boxes 이름)만 고른다. 등장 = 슬라이드 layout_480p.card.slide_px + 페이드 card.fade_sec(카드 규칙 재사용)

@@ -337,7 +337,7 @@ PLACEHOLDERS: dict[str, Callable[..., Any]] = {
     "badge": draw_badge, "photo": draw_photo, "clip": draw_clip, "cutout": draw_cutout, "article": draw_article,
     "post": draw_post, "card": draw_card, "panel": draw_panel, "primitive": draw_primitive,
     "backdrop": draw_backdrop,   # v5.1.0 D-0123
-    "cascade": draw_cascade,         # v5.2.0 겹침 카드(시안)
+    "cascade": draw_cascade,         # v5.2.0 겹침 카드(v5.3.0 D-0139 채택)
 }
 
 
