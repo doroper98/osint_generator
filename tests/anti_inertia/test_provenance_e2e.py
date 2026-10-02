@@ -69,9 +69,10 @@ class ProvenanceE2ETest(unittest.TestCase):
             self.assertIs(prov["stages"][not_run], False, not_run)
         self.assertTrue((proj / "prev" / "sheet.jpg").exists())
         chk = json.loads((proj / "prev" / "checks.json").read_text(encoding="utf-8"))   # v3.1.0 17 §3(D-0047 작업 6)
-        self.assertEqual(len(chk["items"]), 32)   # v5.2.0 D-0133 island_label_clip(hard)·island_label_overlap(warning), D-0129 backdrop_main_missing(hard)·card_island(warning) — 지도 무대 0, v5.1.0 D-0123·D-0126 backdrop_rights·backdrop_repeat·island_overlap(hard)·stage_choice(warning), D-0121 §A timeline_rescale(hard), v4.11.0 D-0118 static_window(warning), v4.10.0 D-0116 geo_mismatch(hard), v4.7.0 D-0107 boundary_as_route(hard)·geo_unsourced(warning), D-0106 endcard_roll(warning), v3.6.0 media_upscaled(warning)·glyph_size(hard), v4.1.0 stage_continuity(hard), v4.2.0 genre_elements(hard), v4.3.0 정직성 4(hard)
+        self.assertEqual(len(chk["items"]), 34)   # v5.3.0 D-0139 cascade(hard)·cascade_label_hidden(warning) — 지도 무대 골든 0, v5.2.0 D-0133 island_label_clip(hard)·island_label_overlap(warning), D-0129 backdrop_main_missing(hard)·card_island(warning) — 지도 무대 0, v5.1.0 D-0123·D-0126 backdrop_rights·backdrop_repeat·island_overlap(hard)·stage_choice(warning), D-0121 §A timeline_rescale(hard), v4.11.0 D-0118 static_window(warning), v4.10.0 D-0116 geo_mismatch(hard), v4.7.0 D-0107 boundary_as_route(hard)·geo_unsourced(warning), D-0106 endcard_roll(warning), v3.6.0 media_upscaled(warning)·glyph_size(hard), v4.1.0 stage_continuity(hard), v4.2.0 genre_elements(hard), v4.3.0 정직성 4(hard)
         self.assertEqual(next(i for i in chk["items"] if i["id"] == "stage_continuity")["count"], 0)
-        for cid in ("backdrop_main_missing", "card_island", "island_label_clip", "island_label_overlap"):   # v5.2.0 D-0129·D-0133 — 지도 무대(hormuz)는 새 검사 영향 0
+        for cid in ("backdrop_main_missing", "card_island", "island_label_clip", "island_label_overlap",
+                    "cascade", "cascade_label_hidden"):   # v5.3.0 D-0139 — 골든에는 겹침 카드 없음   # v5.2.0 D-0129·D-0133 — 지도 무대(hormuz)는 새 검사 영향 0
             self.assertEqual(next(i for i in chk["items"] if i["id"] == cid)["count"], 0, cid)
         self.assertEqual(next(i for i in chk["items"] if i["id"] == "genre_elements")["count"], 0)
         self.assertEqual(next(i for i in chk["items"] if i["id"] == "boundary_as_route")["count"], 0)   # v4.7.0 D-0107 D2(b)
@@ -85,7 +86,8 @@ class ProvenanceE2ETest(unittest.TestCase):
         self.assertEqual(prov["genre"], {"name": "geopolitics", "declared": False, "status": "approved"})   # v4.2.0 D-0081 작업 3, v4.3.0 status
         self.assertEqual(prov["stage"], {"name": "mercator", "declared": False, "shots_declared": 0, "instances": {"mercator": 1},
                                          "configs": {}})   # D-0076 작업 7, v4.3.0 configs(무대 설정 — 지도는 없음)
-        self.assertNotIn("series", prov)   # v4.3.0 — 데이터 레코드를 그리지 않은 영상
+        self.assertNotIn("series", prov)
+        self.assertNotIn("cascade", prov)   # v5.3.0 D-0139 §3 — 겹침 카드를 쓰지 않은 영상(P5)   # v4.3.0 — 데이터 레코드를 그리지 않은 영상
         self.assertEqual(prov["render"]["resolution"]["profile"], "480p")   # v3.6.0 D-0066 작업 1
         self.assertEqual(prov["checks"]["hard"], chk["hard"])
         frames = json.loads((proj / "prev" / "frames.json").read_text(encoding="utf-8"))

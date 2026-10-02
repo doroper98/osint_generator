@@ -181,6 +181,13 @@ def project_provenance(P, stages: dict[str, bool]) -> dict:  # noqa: ANN001, N80
         prov["island"] = {**(prov.get("island") or {}), "card_overlap": ic["card_overlap"]}
         if "label_clip" in ic:   # v5.2.0 D-0133 §2·§3 — checks [island-label-clip]·[island-label-overlap] 와 같은 값, label_flip = 반전·클램프가 실제로 돈 라벨
             prov["island"].update({k: ic[k] for k in ("label_clip", "label_overlap", "label_flip")})
+    cas = [e for e in P.events if e["type"] == "cascade"]
+    if cas:   # v5.3.0 D-0139 §3·§6 — 겹침 카드(없으면 기록 없음, P5). status = rules cascade.status, hidden_labels = checks [cascade-label-hidden] 와 같은 값
+        from engine.checks import cascade_label_report  # noqa: PLC0415
+        from engine.style import CASCADE  # noqa: PLC0415
+
+        prov["cascade"] = {"status": CASCADE.status, "events": len(cas), "items": sum(len(e["items"]) for e in cas),
+                           "hidden_labels": cascade_label_report(P)["hidden_labels"]}
     if any(e["type"] == "article" for e in P.events):   # v5.1.0 D-0121 §C — 기사 프레스 v2(프레스 사진 none = 블러 무대 폴백, 헤드라인 원문|번역)
         from engine.layers.article import article_usage  # noqa: PLC0415
 

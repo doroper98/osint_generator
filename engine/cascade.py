@@ -1,5 +1,5 @@
 """겹침 카드(cascade) — 지도 배경은 고정, 사건 카드를 왼쪽부터 비스듬히 겹쳐 쌓는다
-(v5.2.0, 사용자 제안·재구성 2026-10-01 — 시안. D-0135 "띠"를 대체).
+(v5.2.0, 사용자 제안·재구성 2026-10-01 — D-0135 "띠"를 대체. v5.3.0 D-0139 채택, 사용자 결정 D116·판정 D117).
 
 어원: 라틴어 cadere(떨어지다) → 이탈리아어 cascata(층층 폭포) → 프랑스어 cascade. 화면 문법으로는 윈도의 '계단식 창 배열' —
 앞 창은 온전히, 뒤 창은 제목줄만 보이게 비스듬히 겹친다.
@@ -10,6 +10,7 @@
   그래서 뒤 카드는 왼쪽 step 폭만 보인다 — 국기 원·날짜·제목 앞부분(덮이는 경계 back_fade_px 는 알파 그라데이션으로 가림, D-0138).
   부제·윗선은 물러나며 사라진다. 앞에 쌓인 카드 수만큼 back_dy 내려앉고 back_dim 어두워진다(깊이).
   전환 순서: 물러나는 카드 글자는 focus_sec 앞 절반에 지우고(경계도 앞 절반에 당김), 새 카드 글자는 뒤 절반에 나타난다 — 두 글자가 같은 자리에서 비치는 순간 0.
+  밀기 있는 전환(가장 오래된 카드가 밀려 나감)의 새 카드 글자는 max(focus_sec, shift_sec) 뒤 절반(v5.3.0 D-0139 §3, `text_sec`).
 - 뒤 카드가 max_back 을 넘으면 가장 오래된 카드가 shift_sec 동안 왼쪽으로 밀려 흐려져 나간다.
 - 상자 = 아일랜드 공통 상자(engine.island.draw_frame). 국기 원 = 카드 좌상단 모서리(badge_at 재사용, 이름표 없음).
 - 패널 덮개 아래에 그린다(engine/render.py). 지명 라벨·뱃지는 보이는 카드 상자를 피한다(R.reserved·engine.reserved.card_zones).
@@ -89,6 +90,12 @@ def _half(p: float, second: bool) -> float:
     return smooth(p * 2 - 1) if second else 1 - smooth(p * 2)
 
 
+def text_sec(k: int) -> float:
+    """k 번째 사건이 앞에 서는 전환 길이 — 새 앞 카드 글자는 이 길이의 뒤 절반에 나타난다(v5.3.0 D-0139 §3, D-0137 §3).
+    밀기 없는 전환 = focus_sec, 가장 오래된 뒤 카드가 밀려 나가는 전환(k ≥ max_back + 1) = max(focus_sec, shift_sec)."""
+    return max(CASCADE.focus_sec, CASCADE.shift_sec) if k >= CASCADE.max_back + 1 else CASCADE.focus_sec
+
+
 def layout(t: float, e: dict) -> list[Card]:
     """보이는 카드(뒤 → 앞 순서). 그리기·예약 영역·검사가 같이 쓴다."""
     items = e["items"]
@@ -114,8 +121,8 @@ def layout(t: float, e: dict) -> list[Card]:
             title_a = _half(prog[k + 1], False) if prog[k + 1] < 1 / 2 else CASCADE.back_text_alpha * _half(prog[k + 1], True)
         elif k + 1 < n:
             title_a = CASCADE.back_text_alpha
-        else:                                   # 맨 앞(새 카드): 뒤 절반에 나타남. 첫 사건은 앞 카드가 없으니 바로
-            title_a = _half(prog[k], True) if k > 0 else 1.0
+        else:                                   # 맨 앞(새 카드): 전환 뒤 절반에 나타남. 첫 사건은 앞 카드가 없으니 바로
+            title_a = _half(min(1.0, max(0.0, (t - ap) / text_sec(k))), True) if k > 0 else 1.0
         detail_a = (1 - smooth(prog[k + 1] * 2)) if k + 1 < n else title_a
         if a > 0.01:
             out.append(Card(k, x, y, scale, back, depth, a, clip, ap, off > k, title_a, detail_a))
