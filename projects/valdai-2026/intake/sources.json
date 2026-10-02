@@ -194,6 +194,22 @@
       "key_facts": [
         "Financial Times: Valdai Club meeting moved from Sochi to Moscow region over threat of Ukrainian strikes — Meduza"
       ]
+    },
+    {
+      "id": "src_art_0010",
+      "url": "https://www.themoscowtimes.com/2026/09/13/trump-tells-ukraines-zelensky-to-stop-hitting-russian-diesel-a93696",
+      "retrieved_at": "2026-10-02",
+      "lang": "ko",
+      "confirmed_by": "claude(사용자 요청 대행 — URL·매체·게시일 확인)",
+      "confirmed_at": "2026-10-02T11:25:52.354532Z",
+      "note": "",
+      "type": "article",
+      "publisher": "The Moscow Times",
+      "headline_original": "Trump Tells Ukraine's Zelensky to Stop Hitting Russian Diesel - The Moscow Times",
+      "published_at": "2026-09-13",
+      "key_facts": [
+        "Trump Tells Ukraine's Zelensky to Stop Hitting Russian Diesel - The Moscow Times"
+      ]
     }
   ]
 }

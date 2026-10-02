@@ -273,7 +273,8 @@
    "status": "unverified",
    "label": "<미검증>",
    "claim_ids": [
-    "clm_0008"
+    "clm_0008",
+    "clm_0036"
    ]
   },
   "russia_domestic_0": {

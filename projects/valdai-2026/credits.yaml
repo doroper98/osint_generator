@@ -10,6 +10,9 @@ sections:
       - main: 블라디미르 푸틴 — osint_generator 라이브러리 가공본
         license: CC BY 4.0(kremlin.ru) · 라이브러리 가공
         rights: [people.putin]
+      - main: 도널드 트럼프 — 백악관 공식 초상(Shealeah Craighead)
+        license: Public domain · osint_generator 라이브러리 가공본
+        rights: [people.trump]
   - title: 글꼴
     column: 1
     auto: fonts

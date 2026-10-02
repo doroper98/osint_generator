@@ -269,6 +269,7 @@ scenes:
     - 경유 부족
     sources:
     - clm_0008
+    - clm_0036
 - id: russia_domestic
   sentences:
   - date: '2026'
