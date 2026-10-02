@@ -18,6 +18,12 @@ from workers.direction_io import event_fields_table
 from workers.prompt_loader import load_prompt
 
 
+class CascadeAdoptedTest(unittest.TestCase):
+    def test_status_adopted(self) -> None:
+        """§1-3 — 사용자 판정 D117 합격 → rules cascade.status = adopted(승격 조건 §5 통과 뒤 마지막 커밋)."""
+        self.assertEqual(CASCADE.status, "adopted")
+
+
 class CascadeGrammarTest(unittest.TestCase):
     def test_grammar_line_in_rules_and_prompts(self) -> None:
         """§2 — direction_grammar 한 줄(사람 승인 = D117 + D-0139). 프롬프트는 {{RULES.direction_grammar}} 로만 받는다(P3)."""

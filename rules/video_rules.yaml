@@ -900,7 +900,7 @@ cascade:                   # v5.3.0 D-0139 겹침 카드(cascade, engine/cascade
   # 언급이 지나간 사건 = focus_sec 동안 back_scale 로 물러나 다음 카드 밑에 깔린다 → 뒤 카드는 왼쪽 step 폭(국기 원·날짜)만 보인다(겹친 부분은 그리지 않는다).
   # 뒤 카드가 max_back 을 넘으면 가장 오래된 카드가 shift_sec 동안 왼쪽으로 밀려 흐려져 나간다. 최악 폭 (max_back+1)×step + front.w ≤ width_cap(checks cascade).
   # 상자 = 아일랜드 공통 상자(island.* 재사용). 설계 px(480p). 값은 사용자 합격 값(D117, 2026-10-02) — C0 되돌림 금지, 사용자 결정 없이 바꾸지 않는다.
-  status: prototype
+  status: adopted
   x0: 22
   y: 60                    # 카드 윗변(모서리 날짜 상자 y ≤ 50 아래)
   step: 68                 # 뒤 카드가 보이는 폭
