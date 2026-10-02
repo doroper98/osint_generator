@@ -1,6 +1,6 @@
 <!--
 tier: 3
-last_synced_with: v5.4.0
+last_synced_with: v5.5.0
 ssot_for: [release-notes]
 depends_on: [README.md, GOAL.md]
 last_review: 2026-09-28
@@ -63,6 +63,20 @@ released 항목은 **append-only**입니다.
 | v5.0.0 | 87912d2 | G11 GOAL G4-21·claim_kind fact/statement | pass(D-0125) |
 | v5.1.0 | 3619f2c | G12 backdrop 무대·아일랜드·축 스케일·기사 프레스 v2·발음 사전·버전 도장 | pass(D-0127) — 후속 D-0128 완료 |
 | v5.2.0 | d4703d9 | G13 배경 가독·주 아일랜드 상시·보도 인용 = 기사·card-island·라벨 반전 | pass(D-0134) — 후속 겹침 카드 시안(D-0135~D-0138) |
+
+---
+
+## [v5.5.0] — 2026-10-02 — 대본 서술 규약(엇갈린 수치·미확인 문구 금지, 접속어 흐름)·뱃지 정수리·지도 이동 경로 (사용자 결정 2026-10-02) — 진행 중
+
+MINOR: 대본 린트 새 검사(script_grammar) + 렌더 기본값 2건 변경. JSON `schema_version` 그대로(1).
+
+### Changed
+- `rules script_grammar` 신설 — 대본 프롬프트 `{{RULES.script_grammar}}`, 린트 `disputed-claim`·`uncertain-phrase`(오류)·`flow-sparse`(오류)·`flow-overuse`(경고).
+- 마무리 문장 = 예언·미확인 쟁점 대신 확인된 사실의 정리(`balance_principles`·script·genre_script 프롬프트).
+- `badge.head_popout: false` — 인물 정수리가 원 테두리 밖으로 나오지 않는다(RENDER-AP-006).
+- `shot_grammar.move_path: fixed_point` — 줌과 이동이 함께인 카메라 이동에서 지도 방향이 중간에 틀어지지 않는다(RENDER-AP-007).
+- hormuz_korea 골든 재기준선 — `reports/phaseG16/`, expected_deltas `g16_head_path`(9컷).
+- LLM-AP-013 — 엇갈린 수치·미확인 문구·나열식 대본.
 
 ---
 
