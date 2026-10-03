@@ -72,6 +72,7 @@ MINOR: 대본 린트 새 검사(script_grammar) + 렌더 기본값 2건 변경. 
 
 ### Changed
 - `rules script_grammar` 신설 — 대본 프롬프트 `{{RULES.script_grammar}}`, 린트 `disputed-claim`·`uncertain-phrase`(오류)·`flow-sparse`(오류)·`flow-overuse`(경고).
+- 개정(사용자 결정 2026-10-03 "막지 말고 양측을 밝혀라"): 논쟁 주장은 양측 귀속 병기 허용 — 무귀속 단정만 `disputed-claim`. 미확인 패턴은 내레이터 문장만. 연결어 목록 확장·프롬프트 노출·단어 경계. 세 오류는 게이트 ① 전에 차단(LLM-AP-014).
 - 마무리 문장 = 예언·미확인 쟁점 대신 확인된 사실의 정리(`balance_principles`·script·genre_script 프롬프트).
 - `badge.head_popout: false` — 인물 정수리가 원 테두리 밖으로 나오지 않는다(RENDER-AP-006).
 - `shot_grammar.move_path: fixed_point` — 줌과 이동이 함께인 카메라 이동에서 지도 방향이 중간에 틀어지지 않는다(RENDER-AP-007).

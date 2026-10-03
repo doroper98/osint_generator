@@ -253,13 +253,16 @@ t += 1.2; 엔딩 카드 (t ~ t+11); total = t + 11 + 0.5
 치환이 없으면 문자열 그대로(캐시 키 불변). 캐시 키는 치환 뒤 텍스트 — 사전 항목이 걸린 문장만 재합성 대상이 된다
 (G12 실측: fed 9문장·hormuz 4문장·랫클리프 1문장. 재합성은 fed 480p 한 편에서만).
 
-## 12. v5.5.0 — 대본 서술 규약(script_grammar, 사용자 결정 2026-10-02, LLM-AP-013)
+## 12. v5.5.0 — 대본 서술 규약(script_grammar, 사용자 결정 2026-10-02 · 개정 2026-10-03, LLM-AP-013·014)
 
-- **엇갈린 수치·미확인 문구는 대본에 넣지 않는다.** claims status 가 disputed 인 주장을 인용한 문장은 린트 오류(`disputed-claim`).
-  "확인되지 않았다"·"엇갈린다"·"정해지지 않았다" 같은 미확인 서술도 오류(`uncertain-phrase`, 패턴 = `rules script_grammar.uncertain_patterns`).
-  §3 "양측 병기"는 그대로다 — 양측의 **확인된 발언**을 귀속해 쓰고, 다툼이 있는 수치 자체는 뺀다.
-- **문장은 흐름으로 잇는다.** 그래서·따라서·그렇지만·반면 같은 연결어로 앞 문장과의 관계(인과·대조·추가)를 드러낸다.
-  연결어로 시작하는 문장 비율이 `connective_min_ratio` 미만이면 오류(`flow-sparse`), `connective_max_ratio` 초과면 경고(`flow-overuse`).
-  인과 연결어(그래서·따라서·그러므로)는 실제 인과가 출처로 확인될 때만 쓴다.
-- **마무리는 확인된 사실의 정리.** "아직 정해지지 않은 것"으로 끝내던 v3 관행(골든 `now_0`)은 폐기. 골든 원고는 이 두 오류를 그대로 남긴다(재기준 대상 아님, 테스트가 고정).
-- 문안 SSOT = `rules script_grammar.lines` → 대본 프롬프트 `{{RULES.script_grammar}}`(P3). 값은 규칙 키로만 인용한다.
+- **논쟁 주장은 막지 않고 양측을 밝힌다.** claims status 가 disputed 인 주장은 양측이 한 말을 귀속해 나란히 쓴다
+  ("러시아는 ~라고 주장했습니다. 반면 나토는 ~라고 부인했습니다"). 양측 병기 자체가 논쟁 중임을 보여 준다(§3 그대로).
+  말한 사람(귀속 표현 `script_schema.attribution_markers`) 없이 논쟁 주장을 사실처럼 쓴 문장만 린트 오류(`disputed-claim`).
+- **출처마다 조금 다른 수치**는 출처를 붙여 쓰거나("AP통신은 약 80km라고 보도했습니다") 숫자 없이 쓴다. 수치가 쟁점의 핵심이면 양측 수치를 각각 출처와 함께.
+- **내레이터의 미확인 결론 금지.** "엇갈립니다·아직 확인되지 않았습니다·정해지지 않았습니다"처럼 내용 없이 결론만 붙이는 문장은 오류(`uncertain-phrase`,
+  패턴 = `rules script_grammar.uncertain_patterns`). 당사자가 그렇게 말한 것을 귀속해 전하는 문장은 된다.
+- **문장은 흐름으로 잇는다.** 연결어(`rules script_grammar.connectives` — 프롬프트에 목록 그대로 노출)로 시작하는 문장 비율이
+  `connective_min_ratio` 미만이면 오류(`flow-sparse`), `connective_max_ratio` 초과면 경고(`flow-overuse`). 인과 연결어는 실제 인과가 출처로 확인될 때만.
+- **검사 시점**: 세 오류는 게이트 ① 진입 전에 막는다(`orchestrator/source_completeness_checker.BLOCKING`) — 승인 뒤 음성 단계에서 늦게 막히지 않는다.
+- **마무리는 확인된 사실의 정리.** "아직 정해지지 않은 것"으로 끝내던 v3 관행(골든 `now_3`)은 폐기. 골든 원고는 고치지 않는다(테스트가 오류 2를 고정).
+- 문안 SSOT = `rules script_grammar.lines` → 대본 프롬프트 `{{RULES.script_grammar}}`(P3).
