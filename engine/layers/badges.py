@@ -91,8 +91,11 @@ def portrait_top(R: RenderCtx, e: dict) -> float:  # noqa: N803
     if e.get("head_top") is not None:
         return float(e["head_top"])
     key = f"portrait:{e['pid']}"
-    R.assets.load_image(key)
-    return portrait_head_top(R.assets.img[key])
+    memo = R.cache.setdefault("portrait_top", {})   # 프레임마다 다시 재지 않는다
+    if key not in memo:
+        R.assets.load_image(key)
+        memo[key] = portrait_head_top(R.assets.img[key])
+    return memo[key]
 
 
 def head_factor(e: dict) -> float:

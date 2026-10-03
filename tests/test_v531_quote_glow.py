@@ -181,20 +181,50 @@ class ScriptGrammarTest(unittest.TestCase):
         unc = flow[:3] + ["이 수치는 아직 확인되지 않았습니다."]
         self.assertIn("uncertain-phrase", [i.kind for i in lint(self._script(unc), {"clm_0001": "corroborated"}).errors])
 
-    def test_disputed_claim_is_error(self) -> None:
+    def test_disputed_claim_needs_attribution(self) -> None:
+        """개정 2026-10-03 사용자 결정 — 논쟁 주장은 막지 않고 양측 귀속으로. 말한 사람 없는 단정만 오류."""
         from script.lint import lint  # noqa: PLC0415
 
-        s = self._script(["가가 발표했습니다.", "그러자 나나가 답했습니다.", "하지만 다다가 반박했습니다.", "따라서 라라가 정리했습니다."])
-        self.assertIn("disputed-claim", [i.kind for i in lint(s, {"clm_0001": "disputed"}).errors])
+        both = self._script(["러시아는 나토가 봉쇄를 준비한다고 주장했습니다.", "반면 나토는 방어 동맹이라고 밝혔습니다.",
+                             "AP통신은 회랑 길이를 약 팔십 킬로미터라고 보도했습니다.", "그러자 러시아는 다시 반박했다고 전했습니다."])
+        self.assertEqual([i.kind for i in lint(both, {"clm_0001": "disputed"}).errors], [])
+        bare = self._script(["러시아는 나토를 비난했다고 밝혔습니다.", "반면 나토는 방어 동맹이라고 밝혔습니다.",
+                             "나토가 봉쇄를 준비하고 있습니다.", "그러자 러시아는 다시 반박했다고 전했습니다."])
+        errs = lint(bare, {"clm_0001": "disputed"}).errors
+        self.assertEqual([(i.kind, i.sid) for i in errs], [("disputed-claim", "a_2")])
+
+    def test_uncertain_is_narrator_only(self) -> None:
+        from script.lint import lint  # noqa: PLC0415
+
+        base = ["가가 발표했습니다.", "그러자 나나가 답했습니다.", "하지만 다다가 반박했습니다."]
+        ok = base + ["IMF는 불확실성이 커졌다고 밝혔습니다.", "나토는 확인되지 않은 주장이라고 반박했다고 밝혔습니다."]
+        self.assertEqual([i.kind for i in lint(self._script(ok), {"clm_0001": "corroborated"}).errors], [])
+        bad = base + ["이 수치는 출처마다 엇갈립니다."]
+        self.assertEqual([i.kind for i in lint(self._script(bad), {"clm_0001": "corroborated"}).errors], ["uncertain-phrase"])
+
+    def test_connective_word_boundary(self) -> None:
+        from script.lint import starts_with_connective  # noqa: PLC0415
+        from rules import load_rules  # noqa: PLC0415
+
+        cs = load_rules().script_grammar.connectives
+        self.assertTrue(starts_with_connective("즉, 회담은 열렸습니다.", cs))
+        self.assertTrue(starts_with_connective("다만 일정은 미정입니다.", cs))
+        self.assertFalse(starts_with_connective("즉시 회담이 열렸습니다.", cs))
 
     def test_prompt_has_script_grammar(self) -> None:
         from rules import load_rules  # noqa: PLC0415
         from workers.prompt_loader import load_prompt  # noqa: PLC0415
 
-        p = load_prompt("script", load_rules())
-        self.assertIn("엇갈린 수치", p)
-        self.assertIn("연결어", p)
+        r = load_rules()
+        p = load_prompt("script", r)
+        self.assertIn("양측이 한 말을 나란히", p)
+        self.assertIn("연결어 목록: " + "·".join(r.script_grammar.connectives), p)   # 린트가 세는 목록 그대로
         self.assertNotIn("미확인 쟁점 →", p)
+
+    def test_gate1_blocks_script_grammar(self) -> None:
+        from orchestrator.source_completeness_checker import BLOCKING  # noqa: PLC0415
+
+        self.assertTrue({"disputed-claim", "uncertain-phrase", "flow-sparse"} <= set(BLOCKING))
 
 
 class HeadAndPathTest(unittest.TestCase):

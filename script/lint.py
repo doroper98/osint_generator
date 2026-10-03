@@ -238,6 +238,15 @@ def _series_exists(sid: str) -> bool:
     return (series_dir() / f"{sid}.yaml").exists()
 
 
+def starts_with_connective(text: str, connectives: list[str]) -> bool:
+    """문장이 연결어로 시작하는가(v5.5.0 script_grammar) — 연결어 뒤가 띄어쓰기·쉼표·끝이어야 한다("즉시"는 "즉"이 아니다)."""
+    return any(text.startswith(c) and (len(text) == len(c) or text[len(c)] in " ,") for c in connectives)
+
+
+def _attributed(text: str, markers: list[str]) -> bool:
+    return any(m.lower() in text.lower() for m in markers)
+
+
 def lint(script: Script, claims: "dict[str, str] | None" = None, *, check_sources: bool = True) -> LintReport:
     """claims = {claim_id: status}(claims.json). check_sources=False 는 출처 검사를 끈다 — 프롬프트 예시처럼
     claims.json 이 없는 원고 조각에만(파리티 테스트)."""
@@ -248,6 +257,7 @@ def lint(script: Script, claims: "dict[str, str] | None" = None, *, check_source
     max_lines = r.script_schema.subtitle_max_lines
     out: list[LintIssue] = []
     sg = r.script_grammar   # v5.5.0
+    who_said = [m for m in attrib if not any(m in u or u in m for u in sg.uncertain_patterns)]   # "확인되지 않" 은 귀속이 아니다
     total = flow = 0
     for sc in script.scenes:
         for k, s in enumerate(sc.sentences):
@@ -295,16 +305,17 @@ def lint(script: Script, claims: "dict[str, str] | None" = None, *, check_source
             n = subtitle_lines(s.text)
             if n > max_lines:
                 add("subtitle-lines", "warning", f"{n}줄 > {max_lines}")
-            # v5.5.0 script_grammar(사용자 결정 2026-10-02) — 엇갈린 수치·논쟁 주장, 미확인 서술 금지
-            if check_sources and claims is not None:
+            # v5.5.0 script_grammar(사용자 결정 2026-10-02, 개정 2026-10-03) — 논쟁 주장은 양측 귀속으로, 내레이터의 미확인 결론 금지
+            said = _attributed(s.text, who_said)
+            if check_sources and claims is not None and not said:
                 bad = [c for c in s.sources if claims.get(c) == "disputed"]
                 if bad:
-                    add("disputed-claim", "error", f"논쟁 중인 주장 {bad} — 엇갈린 수치·주장은 원고에 넣지 않는다(script_grammar)")
+                    add("disputed-claim", "error", f"논쟁 중인 주장 {bad} 을 말한 사람 없이 사실처럼 씀 — 양측이 한 말을 귀속해 나란히 쓴다(script_grammar)")
             hit = next((u for u in sg.uncertain_patterns if u in s.text), None)
-            if hit:
-                add("uncertain-phrase", "error", f"미확인 서술 {hit!r} — 확인된 사실과 귀속만 쓴다(script_grammar)")
+            if hit and not said:
+                add("uncertain-phrase", "error", f"미확인 결론 {hit!r} — 누가 무엇을 말했는지를 쓴다(script_grammar)")
             total += 1
-            flow += any(s.text.startswith(c) for c in sg.connectives)
+            flow += starts_with_connective(s.text, sg.connectives)
     if total >= 4:   # v5.5.0 — 문장 흐름: 연결어로 앞 문장을 받는 문장 비율
         r_ = flow / total
         if r_ < sg.connective_min_ratio:
