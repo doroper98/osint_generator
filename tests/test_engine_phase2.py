@@ -8,10 +8,12 @@ from __future__ import annotations
 
 import math
 import unittest
+from unittest import mock
 
 import numpy as np
 from pydantic import ValidationError
 
+from engine import camera as camera_mod
 from engine.camera import Director, build_camera, cam
 from engine.events import BadgeEvent, CardEvent, PanelVersus
 from engine.mux import Chapter, Description, build_description, build_srt, srt_time
@@ -81,8 +83,11 @@ class CameraTest(unittest.TestCase):
         mid = c[20]  # t=2.0 → 이동 중간(ease_io(0.5)=0.5)
         w_from = c[9][2]  # 이동 시작 직전 프레임(첫 cut 이후 드리프트가 이미 조금 들어가 있다 — v3 동작)
         self.assertLess(w_from, 10.0)
-        self.assertAlmostEqual(mid[0], 5.0)
         self.assertAlmostEqual(mid[2], math.sqrt(w_from * 40.0))  # 로그 보간 = 기하 평균
+        # v5.5.0 move_path fixed_point — 중심은 폭과 같은 비율로 움직인다(RENDER-AP-007). 선형(e) 이면 5.0
+        self.assertAlmostEqual(mid[0], 10.0 * (mid[2] - w_from) / (40.0 - w_from))
+        with mock.patch.object(camera_mod, "_PATH", "linear"):
+            self.assertAlmostEqual(build_camera(keys, 50, fps)[20][0], 5.0)
         d = load_rules().shot_grammar.drift
         t_after = 4.9 - 3.0
         self.assertAlmostEqual(c[49][2], 40.0 * (1 - d.amount * (1 - math.exp(-t_after / d.tau_sec))))

@@ -103,8 +103,14 @@ class MercatorStage:
 
     def __init__(self, assets: "Optional[Assets]" = None, *, tiers: Optional[dict] = None, out: Optional[Output] = None,
                  config: Optional[dict] = None) -> None:
-        if config:
-            raise StageError(f"mercator 무대에는 stage_config 가 없다: {sorted(config)}")
+        bad = sorted(set(config or {}) - {"border_glow"})
+        if bad:   # v5.3.1 — 지도 무대 설정은 border_glow(시안, rules border_glow) 하나뿐. 그 밖 = 오류
+            raise StageError(f"mercator 무대 stage_config 는 border_glow 만 — 받은 키 {bad}")
+        if config and not isinstance(config.get("border_glow", False), bool):
+            raise StageError("mercator stage_config.border_glow 는 true|false")
+        from engine.style import BORDER_GLOW  # noqa: PLC0415 — style → stage 순환 회피
+
+        self.border_glow = bool((config or {}).get("border_glow", BORDER_GLOW.default_on))   # v5.4.0 국경선 글로우 — 지도 무대 기본(rules border_glow.default_on)
         self.assets = assets
         self.tiers = tiers if tiers is not None else (assets.tiers if assets is not None else None)
         self.out = out

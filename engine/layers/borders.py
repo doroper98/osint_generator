@@ -10,6 +10,7 @@ from typing import TYPE_CHECKING
 
 from engine.projection import View
 from engine.stage import MERCATOR_LOD as LOD
+from engine.style import BORDER_GLOW as BG
 from engine.timebase import smooth
 
 if TYPE_CHECKING:
@@ -52,3 +53,31 @@ def draw_borders(ctx: cairo.Context, stage: "MercatorStage", view: View) -> None
             ctx.set_line_width(0.55)
             ctx.stroke()
         ctx.set_dash([])
+
+
+def draw_border_glow(ctx: cairo.Context, stage: "MercatorStage", view: View, t: float) -> None:
+    """v5.3.1 국경선 글로우(시안 — 사용자 제안 2026-10-02, valdai-2026 한정; 켜기 = direction stage_config.mercator.border_glow).
+    국경선(draw_borders 와 같은 LOD 고리, 행정구역 선 제외) 위에 옅은 빛(rules border_glow.halo)을 상시 깔고, 짧은 빛 조각(run_seg_px)이
+    run_period_px 간격으로 선을 따라 run_speed_px/초로 천천히 흐른다(cairo 대시 오프셋). 수치는 전부 rules border_glow."""
+    lod = "fine" if view.w < LOD["borders_fine_below_w"] else "coarse"
+    ctx.save()
+    ctx.new_path()
+    for _k, rings in stage.bord[lod].items():
+        path_rings(ctx, view, rings)
+    path = ctx.copy_path()
+    ctx.set_line_join(cairo.LINE_JOIN_ROUND)
+    for w, a in BG.halo:
+        ctx.new_path()
+        ctx.append_path(path)
+        ctx.set_source_rgba(*BG.rgb, a)
+        ctx.set_line_width(w)
+        ctx.stroke()
+    ctx.set_line_cap(cairo.LINE_CAP_ROUND)
+    ctx.set_dash([BG.run_seg_px, BG.run_period_px - BG.run_seg_px], -BG.run_speed_px * t)
+    for w, a in BG.run_layers:
+        ctx.new_path()
+        ctx.append_path(path)
+        ctx.set_source_rgba(*BG.rgb, a)
+        ctx.set_line_width(w)
+        ctx.stroke()
+    ctx.restore()

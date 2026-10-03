@@ -4,6 +4,7 @@
 대조해 게이트 ① 진입을 막는 오류만 낸다. 판정은 `script.lint` 와 같은 함수(한 규칙, 두 곳 — 15 P8):
 - source-unknown: 문장 sources 가 claims.json 밖 id (claims.json 이 없으면 sources 가 있는 문장 전부)
 - source-missing(오류): 숫자·날짜가 있는 문장인데 sources 가 비었다
+- v5.5.0 script_grammar: disputed-claim(논쟁 주장 무귀속)·uncertain-phrase(내레이터의 미확인 결론)·flow-sparse(연결어 부족)
 """
 
 from __future__ import annotations
@@ -15,7 +16,7 @@ import yaml
 from script.lint import lint, load_claims_for
 from script.schema import Script
 
-BLOCKING = ("source-unknown", "source-missing")
+BLOCKING = ("source-unknown", "source-missing", "disputed-claim", "uncertain-phrase", "flow-sparse")   # v5.5.0 — 서술 규약도 승인 전에(음성 단계에서 늦게 막히지 않게)
 
 
 def check_script_sources(pdir: Path) -> list[str]:

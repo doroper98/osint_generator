@@ -36,6 +36,24 @@ def split_runs(ln: str, j: int, flags: list[int]) -> list[tuple[str, int]]:
     return out
 
 
+def subtitle_boxes(ctx: cairo.Context, tb: object, t: float) -> list[tuple[float, float, float, float]]:
+    """시각 t 에 보이는 자막 줄 글자 상자(후광 제외 — 글자 자체, 설계 px) — draw_subtitle 과 같은 접기·기준선(v5.3.1 checks subtitle_overlap)."""
+    for sid in tb.order:  # type: ignore[attr-defined]
+        x = tb.sent[sid]  # type: ignore[attr-defined]
+        if x.t0 - 0.05 <= t <= x.t1 + 0.25:
+            size = SUBTITLE.size
+            txt, _ = emphasis_flags(x.segments)
+            lines = wrap(ctx, txt, SUBTITLE_WRAP_PX, size, "sansm")
+            base_y = SUBTITLE.last_line_y - (len(lines) - 1) * SUBTITLE.line_gap
+            out = []
+            for li, ln in enumerate(lines):
+                w = tw(ctx, ln, size, "sansm")
+                by = base_y + li * SUBTITLE.line_gap
+                out.append((W_OUT / 2 - w / 2, by - size * 0.86, W_OUT / 2 + w / 2, by + size * 0.22))   # 글자 상자(후광 제외)
+            return out
+    return []
+
+
 def draw_subtitle(ctx: cairo.Context, R: RenderCtx, t: float) -> None:  # noqa: N803
     tb = R.tb
     for sid in tb.order:

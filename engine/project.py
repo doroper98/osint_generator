@@ -121,6 +121,13 @@ def preflight(R: RenderCtx, events: list[dict], files: bool = True) -> list[str]
                 except (RightsError, ArticleOverflowError) as ex:
                     errs.append(str(ex))
             continue
+        if e["type"] == "quote":   # v5.3.1 인용(시안) — 글자 넘침은 렌더 전 오류(P6)
+            from engine.quote import QuoteError, quote_lines  # noqa: PLC0415
+
+            try:
+                quote_lines(cairo.Context(cairo.ImageSurface(cairo.FORMAT_ARGB32, 1, 1)), e)
+            except QuoteError as ex:
+                errs.append(str(ex))
         for d in _walk(e):
             if "pid" in d and d["pid"] is not None:
                 keys |= {f"portrait:{d['pid']}", f"flag43:{d['flag']}"}

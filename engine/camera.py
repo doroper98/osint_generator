@@ -20,6 +20,8 @@ if TYPE_CHECKING:
     from engine.stage import Stage
 
 _DRIFT = load_rules().shot_grammar.drift  # amount 0.03, tau 9.0 (v3 값, rules SSOT)
+_PATH = load_rules().shot_grammar.move_path   # v5.5.0 — 이동+줌 경로(rules shot_grammar.move_path)
+_W_SAME = np.finfo(float).eps ** 0.5           # 폭이 사실상 같으면 순수 이동(진행률 비례)
 
 
 class CamKey(BaseModel):
@@ -62,8 +64,11 @@ def build_camera(keys: list[CamKey], n_frames: int, fps: int,
             da = t
         else:
             e = ease_io((t - act.t) / act.dur) if act.dur > 0 else 1.0
-            v = np.array([frm[0] + (act.x - frm[0]) * e, frm[1] + (act.y - frm[1]) * e,
-                          math.exp(math.log(frm[2]) + (math.log(act.w) - math.log(frm[2])) * e)])
+            w = math.exp(math.log(frm[2]) + (math.log(act.w) - math.log(frm[2])) * e)
+            f = e
+            if _PATH == "fixed_point" and not math.isclose(act.w, frm[2], rel_tol=_W_SAME):
+                f = (w - frm[2]) / (act.w - frm[2])   # v5.5.0 — 중심을 폭에 비례로 → 고정점 기준 닮음 변환(지도 흐름 직선)
+            v = np.array([frm[0] + (act.x - frm[0]) * f, frm[1] + (act.y - frm[1]) * f, w])
             da = t - (act.t + act.dur)
         if da > 0:
             v[2] *= 1 - _DRIFT.amount * (1 - math.exp(-da / _DRIFT.tau_sec))

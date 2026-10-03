@@ -26,6 +26,16 @@ class BannedPhrases(_Strict):
     defect_classes: list[str]
 
 
+class ScriptGrammar(_Strict):
+    """v5.5.0 원고 서술 규약(사용자 결정 2026-10-02) — 프롬프트 줄 + 린트 값(엇갈린 수치·미확인 서술 금지, 문장 흐름 연결어)."""
+
+    lines: list[str] = Field(min_length=1)
+    connectives: list[str] = Field(min_length=1)
+    connective_min_ratio: float = Field(ge=0, le=1)
+    connective_max_ratio: float = Field(ge=0, le=1)
+    uncertain_patterns: list[str] = Field(min_length=1)
+
+
 class ScriptSchemaRules(_Strict):
     sentence_fields: list[str]
     date_formats: list[str]
@@ -68,6 +78,8 @@ class TTSRisk(_Strict):
 
     covered_before_roman: list[str]
     patterns: list[TTSRiskPattern]
+    # v5.3.0 TTS-AP-071~073 — 사전 적용 **뒤** 실제 합성 문자열(pronounce_tts)에서 보는 패턴. 사전이 고친 것은 경고하지 않는다
+    spoken_patterns: list[TTSRiskPattern] = Field(default_factory=list)
 
 
 class PronounceRules(_Strict):
@@ -150,6 +162,7 @@ class ShotGrammar(_Strict):
     auto_transition: AutoTransition
     scene_attach_lead_sec: float = Field(ge=0)
     w_guide: dict[str, float | Range2]
+    move_path: Literal["linear", "fixed_point"] = "linear"   # v5.5.0 — 이동+줌 경로(fixed_point = 한 고정점 기준 줌, 지도 흐름이 직선)
 
 
 class StaticCreep(_Strict):
@@ -467,6 +480,8 @@ class BadgeLayout(_Strict):
     reserve_top_factor: float
     reserve_bottom_px: float
     popin_sec: float
+    head_popout: bool = True          # v5.5.0 — False = 초상 머리를 원 안에만(정수리가 원 밖으로 나오지 않음)
+    head_inside_max: float = Field(default=0.9, gt=0, le=1)   # v5.5.0 — 정수리 최고 높이(중심에서 R 단위). 넘으면 초상을 내린다
 
 
 class TimelineGaps(_Strict):
@@ -686,6 +701,7 @@ class DotsRules(_Strict):
     pulse_alpha: float
     big: TextAt
     unit_dx: float
+    unit_gap: float   # v5.3.1 — 단위는 max(unit_dx, 큰 숫자 폭 + unit_gap) 에(두 자리 이상에서 숫자와 겹침 방지)
     unit_size: float
     caption: TextAt
     detail: TextAt
@@ -740,6 +756,9 @@ class DualLineRules(_Strict):
     x_pad: float
     x_label_dy: float
     x_label_size: float
+    x_label_rot_rad: float  # v5.3.1 — 기운 라벨 각도(라디안, 45도)
+    x_label_rot_dx: float   # v5.3.1 — 45도 기운 라벨 기준점(눈금 x 에서 오른쪽)
+    x_label_rot_dy: float   # v5.3.1 — 45도 기운 라벨 기준점(축 아래)
     draw_start_sec: float
     draw_step_sec: float           # 두 번째 선 지연
     draw_sec: float
@@ -853,6 +872,9 @@ class VersusPanelRules(_Strict):
     title_size: float
     item_size: float
     src_size: float
+    item_pad_r: float = Field(gt=0)          # v5.3.1 — 항목 글자 오른쪽 여백(상자 테두리에 닿지 않게)
+    item_max_lines: int = Field(ge=1, le=3)  # v5.3.1 — 한 항목 최대 줄 수(넘치면 오류, P6)
+    item_line_gap: float = Field(gt=0)       # v5.3.1 — 접힌 항목 둘째 줄 간격(항목 간격 50 안)
 
 
 class PanelRules(_Strict):
@@ -1412,6 +1434,60 @@ class CascadeFrontRules(_Strict):
     accent_w: float
 
 
+class QuotePairSlot(_Strict):
+    """v5.3.1 맞선 인용 자리 — portrait = 초상 중심 [x, y], text_x = 글자 시작(upper, 왼쪽 정렬)·끝(lower, 오른쪽 정렬), quote_y = 첫 줄 기준선."""
+
+    portrait: tuple[float, float]
+    text_x: float
+    quote_y: float
+
+
+class QuoteCenterRules(_Strict):
+    """v5.3.1 인물 발언 중앙 인용(시안 — 사용자 제안 2026-10-02, valdai-2026 한정). 설계 px(480p)."""
+
+    status: Literal["prototype", "adopted"]
+    scrim_rgb: tuple[float, float, float]
+    scrim_alpha: float = Field(ge=0, le=1)
+    portrait_R: float = Field(gt=0)
+    portrait_y: float
+    quote_y: float
+    quote_size: float = Field(gt=0)
+    quote_line_h: float = Field(gt=0)
+    quote_max_w: float = Field(gt=0)
+    quote_max_lines: int = Field(ge=1, le=3)
+    mark_size: float = Field(gt=0)
+    mark_alpha: float = Field(ge=0, le=1)
+    who_size: float = Field(gt=0)
+    who_dy: float
+    src_size: float = Field(gt=0)
+    src_dy: float
+    rise_px: float = Field(ge=0)
+    fade_sec: float = Field(gt=0)
+    pair_R: float = Field(gt=0)
+    pair_max_w: float = Field(gt=0)
+    upper: QuotePairSlot
+    lower: QuotePairSlot
+
+
+class BorderGlowRules(_Strict):
+    """v5.3.1 국경선 글로우(시안 — 사용자 제안 2026-10-02, valdai-2026 한정). 설계 px."""
+
+    status: Literal["prototype", "adopted"]
+    rgb: tuple[float, float, float]
+    halo: list[tuple[float, float]]
+    run_seg_px: float = Field(gt=0)
+    run_period_px: float = Field(gt=0)
+    run_speed_px: float = Field(gt=0)
+    run_layers: list[tuple[float, float]] = Field(min_length=1)
+    default_on: bool = False   # v5.4.0 — 지도 무대 기본 켜짐(direction stage_config.mercator.border_glow 로 덮는다)
+
+    @model_validator(mode="after")
+    def _seg(self) -> "BorderGlowRules":
+        if self.run_seg_px >= self.run_period_px:
+            raise ValueError("border_glow: run_seg_px 는 run_period_px 보다 짧아야 한다(빛 조각 사이 간격)")
+        return self
+
+
 class CascadeRules(_Strict):
     """v5.2.0 겹침 카드(cascade — 사용자 재구성 2026-10-01, v5.3.0 D-0139 채택). 설계 px(480p). 상자 모양은 rules island 재사용.
     최악 폭 (max_back + 1) × step + front.w ≤ width_cap 을 여기서 검증하고, 실제 폭은 checks cascade 가 잰다."""
@@ -1645,6 +1721,7 @@ class VideoRules(_Strict):
     banned_phrases: BannedPhrases
     balance_principles: list[str]
     direction_grammar: list[str] = Field(min_length=1)   # v4.7.0 D-0104 D2(a) — 연출 문법(프롬프트 {{RULES.direction_grammar}})
+    script_grammar: ScriptGrammar          # v5.5.0 — 원고 서술 규약
     script_schema: ScriptSchemaRules
     verification: VerificationRules   # v3.2.0 — D-0052(D50)
     tts_rules: TTSRules
@@ -1676,6 +1753,8 @@ class VideoRules(_Strict):
     stage_backdrop: StageBackdropRules   # v5.1.0 — D-0121 §B·D-0123
     island: IslandRules                  # v5.1.0 — D-0123 §1·D-0126
     cascade: CascadeRules                # v5.2.0 — 겹침 카드(사용자 재구성 2026-10-01, v5.3.0 D-0139 채택)
+    quote_center: QuoteCenterRules       # v5.3.1 — 인물 발언 중앙 인용(시안, valdai-2026 한정)
+    border_glow: BorderGlowRules         # v5.3.1 — 국경선 글로우(시안, direction stage_config.mercator.border_glow)
     data: DataRules                # v4.3.0 — D-0084 작업 1
     genre_prompt: GenrePromptRules  # v4.4.0 — D-0090 작업 1
     bundle: BundleRules            # v3.5.0 — D-0063 작업 4

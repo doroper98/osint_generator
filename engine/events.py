@@ -254,6 +254,28 @@ class CascadeEvent(_Event):
         return self
 
 
+class QuoteEvent(_Event):
+    """v5.4.0 인물 발언 인용(정규 — 사용자 결정 2026-10-02, engine/quote.py). 오른쪽 위 카드 대신
+    지도 위 덮개 + 가운데 초상(pid, 없으면 국기) + 세리프 인용문(따옴표는 코드가 그린다 — text 에 넣지 않는다) + 작은 이름·매체·날짜."""
+
+    type: Literal["quote"]
+    pid: Optional[str] = None          # 인물 엔티티(초상). 없으면 flag 원
+    flag: str                          # 인물 뱃지 바탕 국기 / pid 없을 때 국기 원
+    speaker: str = Field(min_length=1)
+    role: Optional[str] = None
+    text: str = Field(min_length=1)
+    src: Optional[str] = None          # 매체(예: 로이터)
+    date: Optional[str] = None         # 화면 날짜(예: 2026. 10. 01)
+    accent: Accent = "gold"
+    pos: Literal["center", "upper", "lower"] = "center"   # v5.3.1 — 맞선 인용: A = upper(왼쪽 위), B = lower(오른쪽 아래)
+
+    @model_validator(mode="after")
+    def _no_marks(self) -> "QuoteEvent":
+        if any(c in self.text for c in "“”\"「」"):
+            raise ValueError("quote text 에 따옴표를 넣지 않는다 — 코드가 그린다")
+        return self
+
+
 class PhotoEvent(_Event):
     """사진 카드 — 파일·캡션·출처 줄은 미디어 레지스트리에서만. 연출이 문자열을 주면 모델 오류(extra=forbid, D-0036)."""
 
@@ -601,6 +623,7 @@ class PanelDualLine(_Chart):
     y_prefix: str = ""
     unit: Optional[str] = None     # v4.3.0 D-0087 보정 1 — 값 단위(rules data.units). units_visible = unit 또는 y_prefix(data.unit_prefixes)
     x_labels: list[str] = Field(min_length=2)
+    x_label_rotate: bool = False   # v5.3.1 사용자 제안(2026-10-02) — 촘촘한 날짜 라벨(주간 등)은 기울여 겹침 없이(각도 = rules panels.charts.dual_line.x_label_rot_rad)
     series: list[DualSeries] = Field(min_length=1, max_length=2)
 
     @model_validator(mode="after")

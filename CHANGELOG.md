@@ -1,6 +1,6 @@
 <!--
 tier: 3
-last_synced_with: v5.3.0
+last_synced_with: v5.5.0
 ssot_for: [release-notes]
 depends_on: [README.md, GOAL.md]
 last_review: 2026-09-28
@@ -63,6 +63,41 @@ released 항목은 **append-only**입니다.
 | v5.0.0 | 87912d2 | G11 GOAL G4-21·claim_kind fact/statement | pass(D-0125) |
 | v5.1.0 | 3619f2c | G12 backdrop 무대·아일랜드·축 스케일·기사 프레스 v2·발음 사전·버전 도장 | pass(D-0127) — 후속 D-0128 완료 |
 | v5.2.0 | d4703d9 | G13 배경 가독·주 아일랜드 상시·보도 인용 = 기사·card-island·라벨 반전 | pass(D-0134) — 후속 겹침 카드 시안(D-0135~D-0138) |
+
+---
+
+## [v5.5.0] — 2026-10-02 — 대본 서술 규약(엇갈린 수치·미확인 문구 금지, 접속어 흐름)·뱃지 정수리·지도 이동 경로 (사용자 결정 2026-10-02) — 진행 중
+
+MINOR: 대본 린트 새 검사(script_grammar) + 렌더 기본값 2건 변경. JSON `schema_version` 그대로(1).
+
+### Changed
+- `rules script_grammar` 신설 — 대본 프롬프트 `{{RULES.script_grammar}}`, 린트 `disputed-claim`·`uncertain-phrase`(오류)·`flow-sparse`(오류)·`flow-overuse`(경고).
+- 개정(사용자 결정 2026-10-03 "막지 말고 양측을 밝혀라"): 논쟁 주장은 양측 귀속 병기 허용 — 무귀속 단정만 `disputed-claim`. 미확인 패턴은 내레이터 문장만. 연결어 목록 확장·프롬프트 노출·단어 경계. 세 오류는 게이트 ① 전에 차단(LLM-AP-014).
+- 마무리 문장 = 예언·미확인 쟁점 대신 확인된 사실의 정리(`balance_principles`·script·genre_script 프롬프트).
+- `badge.head_popout: false` — 인물 정수리가 원 테두리 밖으로 나오지 않는다(RENDER-AP-006).
+- `shot_grammar.move_path: fixed_point` — 줌과 이동이 함께인 카메라 이동에서 지도 방향이 중간에 틀어지지 않는다(RENDER-AP-007).
+- hormuz_korea 골든 재기준선 — `reports/phaseG16/`, expected_deltas `g16_head_path`(9컷).
+- LLM-AP-013 — 엇갈린 수치·미확인 문구·나열식 대본.
+
+---
+
+## [v5.4.0] — 2026-10-02 — 인물 발언 인용(quote)·국경선 글로우 정규 규약 승격, 통계 차트 문법 (사용자 결정 2026-10-02 "마음에 든다") — 진행 중
+
+MINOR: 새 이벤트 타입 quote 정식 등록 + 지도 무대 렌더 기본값 변경(국경선 글로우). JSON `schema_version` 그대로(1).
+
+### Changed
+- `rules quote_center.status`·`border_glow.status` = adopted. 국경선 글로우는 지도 무대 기본(끄기 = `stage_config.mercator.border_glow: false`).
+- 연출 문법 2줄: 직접 인용 = quote(맞선 인용 upper/lower, 요약에는 따옴표 금지), 가격·추이·통계 = 알맞은 차트.
+- hormuz_korea 골든 재기준선(글로우) — `reports/phaseG15/`, expected_deltas `g15_border_glow`.
+
+---
+
+## [v5.3.1] — 2026-10-02 — valdai-2026 사용자 시청 피드백: 발음 3건(TTS-AP-071~073), 인물 발언 중앙 인용·국경선 글로우 시안(이번 영상만) — 진행 중
+
+PATCH: 버그 수정 + 프로젝트 한정 시안(사용자 판정 뒤 규약 승격 여부 결정). JSON `schema_version` 그대로(1).
+
+### Fixed
+- 발음: "에이피통신" 앞 음절 탈락(TTS-AP-071), "모스크바타임스" 분절(TTS-AP-072), 하이픈 병렬 지명 쉼(TTS-AP-073) — 사전 6항목, `rules tts_risk.spoken_patterns`(사전 적용 뒤 합성 문자열 경고 `tts-spoken:*`).
 
 ---
 

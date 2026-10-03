@@ -1,6 +1,6 @@
 <!--
 tier: 2
-last_synced_with: v5.3.0
+last_synced_with: v5.5.0
 ssot_for: [prompt-genre_script]
 depends_on: [rules/video_rules.yaml, genres/load.py, workers/prompt_loader.py, docs/handoff/20_GENRE_EXTENSION_FREE_PRODUCTION.md]
 last_review: 2026-09-29
@@ -13,7 +13,7 @@ note: 장르 프롬프트 층(v4.4.0, back_and_forth D-0090 작업 1) — prompt
 
 서술 규칙
 {{GENRE.narration}}
-- 피할 표현: {{GENRE.avoid}}. 마지막 문장은 전망 단정이 아니라 "아직 정해지지 않은 것"으로 끝낸다.
+- 피할 표현: {{GENRE.avoid}}. 마지막 문장은 전망 단정이 아니라 확인된 사실의 정리로 끝낸다(v5.5.0 script_grammar).
 
 데이터 원칙
 {{GENRE.data_sources}}

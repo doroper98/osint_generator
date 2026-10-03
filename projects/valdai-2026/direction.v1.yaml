@@ -1,0 +1,1047 @@
+# direction.yaml — AI 연출(DirectorWorker, v3.1.0, 17 §5.3). 사람 검토 전 초안 — 승인 게이트 ②에서 판정.
+version: 1
+genre: null
+stage: null
+stage_reason: null
+stage_config: {}
+places:
+  moscow:
+  - 37.62
+  - 55.75
+  sochi:
+  - 39.72
+  - 43.6
+  kaliningrad:
+  - 20.51
+  - 54.71
+  iskander:
+  - 21.3
+  - 54.55
+  suwalki:
+  - 23.3
+  - 54.2
+  nato:
+  - 4.35
+  - 50.85
+paths:
+  letter:
+  - - 37.62
+    - 55.75
+  - - 30.0
+    - 57.0
+  - - 20.0
+    - 56.2
+  - - 11.0
+    - 53.8
+  - - 4.35
+    - 50.85
+  reply:
+  - - 4.35
+    - 50.85
+  - - 11.5
+    - 52.4
+  - - 20.5
+    - 53.6
+  - - 29.5
+    - 54.6
+  - - 37.62
+    - 55.75
+  venue:
+  - - 39.72
+    - 43.6
+  - - 40.6
+    - 47.5
+  - - 39.6
+    - 51.6
+  - - 37.62
+    - 55.75
+shots:
+- at: 0.0
+  mode: cut
+  dur: 0.0
+  camera:
+    lon: null
+    lat: null
+    place: moscow
+    date: null
+    lane: null
+    w: 7.0
+  under: false
+  scene: null
+  stage: null
+  reason: null
+- at:
+    sid: open_2
+    'off': -0.6
+  mode: move
+  dur: 3.4
+  camera:
+    lon: 38.8
+    lat: 50.0
+    place: null
+    date: null
+    lane: null
+    w: 30.0
+  under: false
+  scene: null
+  stage: null
+  reason: null
+- at:
+    scene_start: kaliningrad_warning
+    'off': -1.2
+  mode: move
+  dur: 3.4
+  camera:
+    lon: 29.0
+    lat: 55.2
+    place: null
+    date: null
+    lane: null
+    w: 28.0
+  under: false
+  scene: null
+  stage: null
+  reason: null
+- at:
+    scene_start: nato_letter
+    'off': -0.8
+  mode: move
+  dur: 3.4
+  camera:
+    lon: 21.0
+    lat: 53.4
+    place: null
+    date: null
+    lane: null
+    w: 44.0
+  under: false
+  scene: null
+  stage: null
+  reason: null
+- at:
+    scene_start: geography
+    'off': -1.0
+  mode: move
+  dur: 3.4
+  camera:
+    lon: 22.0
+    lat: 54.5
+    place: null
+    date: null
+    lane: null
+    w: 8.0
+  under: false
+  scene: null
+  stage: null
+  reason: null
+- at:
+    scene_start: diesel
+    'off': -0.55
+  mode: dip
+  dur: 3.0
+  camera:
+    lon: 40.0
+    lat: 55.0
+    place: null
+    date: null
+    lane: null
+    w: 50.0
+  under: true
+  scene: null
+  stage: null
+  reason: null
+- at:
+    scene_start: refinery
+    'off': -1.0
+  mode: move
+  dur: 3.4
+  camera:
+    lon: 37.0
+    lat: 51.5
+    place: null
+    date: null
+    lane: null
+    w: 30.0
+  under: false
+  scene: null
+  stage: null
+  reason: null
+- at:
+    scene_start: open_questions
+    'off': -1.0
+  mode: move
+  dur: 3.4
+  camera:
+    lon: 26.0
+    lat: 52.0
+    place: null
+    date: null
+    lane: null
+    w: 88.0
+  under: false
+  scene: null
+  stage: null
+  reason: null
+- at:
+    sid: open_questions_3
+    'off': -0.5
+  mode: move
+  dur: 9.0
+  camera:
+    lon: 26.0
+    lat: 52.0
+    place: null
+    date: null
+    lane: null
+    w: 96.0
+  under: false
+  scene: null
+  stage: null
+  reason: null
+events:
+- type: marker
+  start:
+    sid: open_0
+    'off': 0.2
+  end:
+    scene_end: open
+  at_place: moscow
+  label: 모스크바
+  sub: 발다이 토론클럽 총회
+  side: right
+  hl: true
+- type: badge
+  start:
+    sid: open_0
+    'off': 0.6
+  end:
+    scene_end: open
+  place: map_lower_left
+  kind: person
+  pid: putin
+  flag: ru
+  R: 34
+  label: 블라디미르 푸틴
+  role: 러시아 대통령
+  accent: ru
+- type: card
+  start:
+    sid: open_1
+    'off': 0.2
+  end:
+    sid: open_1
+    edge: end
+    'off': 0.3
+  tag: 발다이 토론클럽 연례회의
+  lines:
+  - 9월 28일 – 10월 1일 · 모스크바 지역
+  accent: muted
+- type: marker
+  start:
+    sid: open_2
+    'off': 3.0
+  end:
+    scene_end: open
+  at_place: sochi
+  label: 소치
+  sub: 회의 장소에서 옮겨짐 · FT 보도
+  side: right
+  hl: false
+- type: route
+  start:
+    sid: open_2
+    'off': 3.2
+  end:
+    scene_end: open
+  pts:
+    path: venue
+  grow: 1.8
+  col: muted
+  ship: false
+  dashed: true
+  label: 우크라이나 공격 위협
+- type: card
+  start:
+    sid: open_3
+    'off': 0.2
+  end:
+    sid: open_3
+    edge: end
+    'off': 0.3
+  tag: 푸틴 대통령 · 발다이 연설
+  lines:
+  - “세계가 위험한 순간을 지나고 있다”
+  accent: ru
+  src: 모스크바타임스
+  quote: true
+- type: card
+  start:
+    sid: open_4
+    'off': 0.2
+  end:
+    scene_end: open
+  tag: 이날 발언의 두 갈래
+  lines:
+  - 안보
+  - 에너지
+  accent: gold
+- type: country
+  start:
+    sid: kaliningrad_warning_0
+    'off': 0.2
+  end:
+    scene_end: kaliningrad_warning
+  codes:
+  - RU
+  col: ru
+  a: 0.07
+- type: marker
+  start:
+    word:
+      sid: kaliningrad_warning_0
+      text: 칼리닌그라드
+  end:
+    scene_end: kaliningrad_warning
+  at_place: kaliningrad
+  label: 칼리닌그라드
+  sub: 직접 공격받는 경우 언급
+  side: left
+  hl: true
+- type: badge
+  start:
+    sid: kaliningrad_warning_0
+    'off': 0.3
+  end:
+    scene_end: kaliningrad_warning
+  place: map_lower_left
+  kind: person
+  pid: putin
+  flag: ru
+  R: 34
+  label: 블라디미르 푸틴
+  role: 러시아 대통령
+  accent: ru
+- type: card
+  start:
+    sid: kaliningrad_warning_1
+    'off': 0.2
+  end:
+    sid: kaliningrad_warning_1
+    edge: end
+    'off': 0.3
+  tag: 푸틴 대통령 · 발다이 연설
+  lines:
+  - “모든 무기 사용 문제가 즉시 제기될 것”
+  accent: ru
+  quote: true
+- type: card
+  start:
+    sid: kaliningrad_warning_2
+    'off': 0.1
+  end:
+    sid: kaliningrad_warning_3
+    edge: end
+    'off': 0.3
+  tag: 발언의 성격
+  lines:
+  - 핵무기 사용 결정 발표는 아니다
+  - 서방에 개입의 한계를 경고
+  accent: muted
+- type: card
+  start:
+    sid: kaliningrad_warning_4
+    'off': 0.2
+  end:
+    scene_end: kaliningrad_warning
+  tag: 푸틴 대통령 · 발다이 연설
+  lines:
+  - “다른 나라가 갖지 못한 무기가 있다”
+  accent: ru
+  quote: true
+- type: marker
+  start:
+    sid: nato_letter_0
+    'off': 0.2
+  end:
+    scene_end: nato_response
+  at_place: moscow
+  label: 러시아
+  sub: ''
+  side: right
+  hl: false
+- type: marker
+  start:
+    sid: nato_letter_0
+    'off': 1.0
+  end:
+    scene_end: nato_response
+  at_place: nato
+  label: 나토
+  sub: ''
+  side: left
+  hl: true
+- type: route
+  start:
+    sid: nato_letter_0
+    'off': 1.2
+  end:
+    scene_end: nato_letter
+  pts:
+    path: letter
+  grow: 2.0
+  col: ru
+  ship: false
+  label: 서한
+- type: marker
+  start:
+    word:
+      sid: nato_letter_1
+      text: 칼리닌그라드
+  end:
+    scene_end: nato_letter
+  at_place: kaliningrad
+  label: 칼리닌그라드
+  sub: ''
+  side: bottom
+  hl: true
+- type: card
+  start:
+    sid: nato_letter_1
+    'off': 0.2
+  end:
+    sid: nato_letter_1
+    edge: end
+    'off': 0.3
+  tag: 러시아 → 나토 서한
+  lines:
+  - 칼리닌그라드 방어를 위해 핵무기 사용 가능
+  accent: ru
+- type: badge
+  start:
+    sid: nato_letter_2
+    'off': 0.1
+  end:
+    scene_end: nato_letter
+  place: map_lower_left
+  kind: person
+  pid: putin
+  flag: ru
+  R: 34
+  label: 블라디미르 푸틴
+  role: 러시아 대통령
+  accent: ru
+- type: card
+  start:
+    sid: nato_letter_2
+    'off': 0.2
+  end:
+    sid: nato_letter_2
+    edge: end
+    'off': 0.3
+  tag: 푸틴 대통령 · 서한에 대해
+  lines:
+  - “모든 것이 올바르게 쓰였다”
+  accent: ru
+  src: AP통신
+  quote: true
+- type: card
+  start:
+    sid: nato_letter_3
+    'off': 0.2
+  end:
+    scene_end: nato_letter
+  tag: 푸틴 대통령
+  lines:
+  - “위협이 아니라 위협 시도에 대한 대응”
+  accent: ru
+  src: AP통신
+  quote: true
+- type: route
+  start:
+    sid: nato_response_0
+    'off': 0.3
+  end:
+    scene_end: nato_response
+  pts:
+    path: reply
+  grow: 2.0
+  col: teal
+  ship: false
+  dashed: true
+  label: 답신 · 9월 30일
+- type: card
+  start:
+    sid: nato_response_0
+    'off': 0.3
+  end:
+    sid: nato_response_0
+    edge: end
+    'off': 0.3
+  tag: 나토 답신 · 9월 30일
+  lines:
+  - 방어 동맹임을 강조
+  accent: teal
+- type: card
+  start:
+    sid: nato_response_1
+    'off': 0.2
+  end:
+    sid: nato_response_1
+    edge: end
+    'off': 0.3
+  tag: 앨리슨 하트 나토 대변인
+  lines:
+  - “러시아의 무력 위협과 무책임한 핵 수사를 규탄”
+  accent: teal
+  src: AP통신
+  quote: true
+- type: card
+  start:
+    sid: nato_response_2
+    'off': 0.2
+  end:
+    scene_end: nato_response
+  tag: 뤼터 나토 사무총장
+  lines:
+  - “러시아의 핵 위협을 심각하게 받아들이지 않는다”
+  accent: teal
+  src: 키이우포스트
+  quote: true
+- type: badge
+  start:
+    sid: europe_remarks_0
+    'off': 0.2
+  end:
+    scene_end: europe_remarks
+  place: map_lower_left
+  kind: person
+  pid: putin
+  flag: ru
+  R: 34
+  label: 블라디미르 푸틴
+  role: 러시아 대통령
+  accent: ru
+- type: card
+  start:
+    sid: europe_remarks_0
+    'off': 0.2
+  end:
+    sid: europe_remarks_0
+    edge: end
+    'off': 0.3
+  tag: 푸틴 대통령 · 발다이 연설
+  lines:
+  - 유럽 국가를 공격할 계획이 없다
+  accent: ru
+- type: card
+  start:
+    sid: europe_remarks_1
+    'off': 0.2
+  end:
+    sid: europe_remarks_1
+    edge: end
+    'off': 0.3
+  tag: 푸틴 대통령 · 발다이 연설
+  lines:
+  - 우크라이나에 무기 공급하는 유럽 공장도 공격 계획 없다
+  accent: ru
+- type: card
+  start:
+    sid: europe_remarks_2
+    'off': 0.2
+  end:
+    sid: europe_remarks_2
+    edge: end
+    'off': 0.3
+  tag: 푸틴 대통령
+  lines:
+  - “우크라이나용 무기 생산 유럽 공장을 감시하고 있다”
+  accent: ru
+  src: 키이우포스트
+  quote: true
+- type: card
+  start:
+    sid: europe_remarks_3
+    'off': 0.2
+  end:
+    scene_end: europe_remarks
+  tag: 푸틴 대통령 · 3자 회담
+  lines:
+  - 의제가 마련되면 시진핑·트럼프와 3자 회담 준비
+  accent: gold
+  src: 모스크바타임스
+- type: badge
+  start:
+    word:
+      sid: europe_remarks_3
+      text: 시진핑
+  end:
+    scene_end: europe_remarks
+  place: map_upper_left
+  kind: flag
+  flag: cn
+  R: 20
+  label: 시진핑 주석
+  accent: muted
+- type: badge
+  start:
+    word:
+      sid: europe_remarks_3
+      text: 트럼프
+  end:
+    scene_end: europe_remarks
+  place: map_upper_right
+  kind: flag
+  flag: us
+  R: 20
+  label: 트럼프 대통령
+  accent: us
+- type: marker
+  start:
+    sid: geography_0
+    'off': 0.1
+  end:
+    scene_end: geography
+  at_place: kaliningrad
+  label: 칼리닌그라드
+  sub: 러시아
+  side: left
+  hl: true
+- type: country
+  start:
+    word:
+      sid: geography_0
+      text: 폴란드
+  end:
+    scene_end: geography
+  codes:
+  - PL
+  col: teal
+  a: 0.08
+- type: badge
+  start:
+    word:
+      sid: geography_0
+      text: 폴란드
+  end:
+    scene_end: geography
+  lon: 20.8
+  lat: 53.25
+  kind: flag
+  flag: pl
+  R: 18
+  label: 폴란드 · 나토
+  accent: teal
+- type: country
+  start:
+    word:
+      sid: geography_0
+      text: 리투아니아
+  end:
+    scene_end: geography
+  codes:
+  - LT
+  col: teal
+  a: 0.08
+- type: badge
+  start:
+    word:
+      sid: geography_0
+      text: 리투아니아
+  end:
+    scene_end: geography
+  lon: 24.2
+  lat: 55.55
+  kind: flag
+  flag: lt
+  R: 18
+  label: 리투아니아 · 나토
+  accent: teal
+- type: marker
+  start:
+    sid: geography_1
+    'off': 0.3
+  end:
+    scene_end: geography
+  at_place: iskander
+  label: 이스칸데르 미사일
+  sub: 배치 · 좌표 비공개
+  side: bottom
+  hl: false
+- type: marker
+  start:
+    word:
+      sid: geography_2
+      text: 수바우키
+  end:
+    scene_end: geography
+  at_place: suwalki
+  label: 수바우키 회랑
+  sub: 약 80km 국경 구간 · AP·키이우포스트
+  side: right
+  hl: true
+- type: card
+  start:
+    sid: geography_3
+    'off': 0.2
+  end:
+    scene_end: geography
+  tag: 수바우키 회랑 길이
+  lines:
+  - 출처마다 설명이 엇갈린다
+  accent: muted
+- type: panel
+  start:
+    scene_start: blockade_dispute
+    'off': -0.2
+  end:
+    scene_end: hybrid_dispute
+  kind: versus
+  data:
+    title: 엇갈리는 주장
+    sides:
+    - title: 러시아 측
+      src: 유럽 주재 러시아 대사관 · 러시아 정부
+      items:
+      - text: 나토가 칼리닌그라드 봉쇄를 준비한다는 정보가 있다
+        t:
+          sid: blockade_dispute_0
+          'off': 0.4
+      - text: 하이브리드전 의혹 부인 — “터무니없다”
+        t:
+          sid: hybrid_dispute_1
+          'off': 0.3
+    - title: 나토 · 유럽 측
+      src: 나토 · 유럽 각국 정부 · 에스토니아
+      items:
+      - text: 칼리닌그라드를 겨냥하지 않는다 · 방어 동맹
+        t:
+          sid: blockade_dispute_1
+          'off': 0.3
+      - text: 러시아가 사보타주·방화 등 하이브리드 전쟁 강화
+        t:
+          sid: hybrid_dispute_0
+          'off': 0.4
+- type: country
+  start:
+    sid: diesel_0
+    'off': 0.2
+  end:
+    scene_end: refinery
+  codes:
+  - RU
+  col: ru
+  a: 0.06
+- type: marker
+  start:
+    sid: diesel_0
+    'off': 0.3
+  end:
+    scene_end: russia_domestic
+  at_place: moscow
+  label: 모스크바
+  sub: ''
+  side: right
+  hl: true
+- type: badge
+  start:
+    sid: diesel_1
+    'off': 0.1
+  end:
+    sid: diesel_2
+    edge: end
+    'off': 0.3
+  place: map_lower_left
+  kind: person
+  pid: putin
+  flag: ru
+  R: 34
+  label: 블라디미르 푸틴
+  role: 러시아 대통령
+  accent: ru
+- type: card
+  start:
+    sid: diesel_1
+    'off': 0.2
+  end:
+    sid: diesel_1
+    edge: end
+    'off': 0.3
+  tag: 푸틴 대통령 · 10월 1일
+  lines:
+  - “제재 해제 때까지 세계시장에 경유를 공급하지 않겠다”
+  accent: ru
+  src: 로이터
+  quote: true
+- type: card
+  start:
+    sid: diesel_2
+    'off': 0.2
+  end:
+    sid: diesel_2
+    edge: end
+    'off': 0.3
+  tag: 푸틴 대통령
+  lines:
+  - “경유는 충분하지만 금지와 제재 때문에 세계시장에 나가지 못한다”
+  accent: ru
+  src: 로이터
+  quote: true
+- type: card
+  start:
+    sid: diesel_3
+    'off': 0.2
+  end:
+    sid: diesel_3
+    edge: end
+    'off': 0.3
+  tag: 러시아 · 9월 30일
+  lines:
+  - 연료 생산업체 경유 수출 금지
+  - 10월 31일까지 연장
+  accent: ru
+- type: card
+  start:
+    sid: diesel_4
+    'off': 0.2
+  end:
+    sid: diesel_4
+    edge: end
+    'off': 0.3
+  tag: 비생산업체 대상
+  lines:
+  - 경유 수출 금지 1월까지 유지
+  accent: ru
+  src: 모스크바타임스
+- type: card
+  start:
+    sid: diesel_5
+    'off': 0.2
+  end:
+    sid: diesel_5
+    edge: end
+    'off': 0.3
+  tag: 미국 경유 가격
+  bigs:
+  - - $6.50+
+    - 갤런당 · 사상 최고치
+  accent: us
+  src: 로이터
+- type: badge
+  start:
+    sid: diesel_6
+    'off': 0.2
+  end:
+    scene_end: diesel
+  place: map_upper_right
+  kind: flag
+  flag: us
+  R: 20
+  label: 트럼프 대통령
+  accent: us
+- type: card
+  start:
+    sid: diesel_6
+    'off': 0.2
+  end:
+    scene_end: diesel
+  tag: 트럼프 대통령
+  lines:
+  - “우크라이나의 러시아 생산시설 공격이 세계 경유 부족을 일으킨다”
+  accent: us
+  src: 로이터
+  quote: true
+- type: card
+  start:
+    sid: russia_domestic_0
+    'off': 0.2
+  end:
+    sid: russia_domestic_0
+    edge: end
+    'off': 0.3
+  tag: 러시아 휘발유 평균 가격
+  bigs:
+  - - +21%
+    - 연초 대비
+  accent: ru
+  src: 모스크바타임스
+- type: card
+  start:
+    sid: russia_domestic_1
+    'off': 0.2
+  end:
+    scene_end: russia_domestic
+  tag: 러시아 연방반독점청 · 9월 30일
+  bigs:
+  - - 58건
+    - 주유소 체인 폭리 의심 사례 조사
+  accent: ru
+  src: 모스크바타임스
+- type: country
+  start:
+    sid: refinery_0
+    'off': 0.3
+  end:
+    scene_end: refinery
+  codes:
+  - UA
+  col: teal
+  a: 0.08
+- type: badge
+  start:
+    sid: refinery_0
+    'off': 0.1
+  end:
+    sid: refinery_1
+    edge: end
+    'off': 0.3
+  place: map_lower_left
+  kind: person
+  pid: putin
+  flag: ru
+  R: 34
+  label: 블라디미르 푸틴
+  role: 러시아 대통령
+  accent: ru
+- type: card
+  start:
+    sid: refinery_0
+    'off': 0.2
+  end:
+    sid: refinery_0
+    edge: end
+    'off': 0.3
+  tag: 푸틴 대통령 · 정유시설 공격 피해
+  bigs:
+  - - 1%
+    - 러시아 국내총생산 규모
+  accent: ru
+- type: card
+  start:
+    sid: refinery_1
+    'off': 0.2
+  end:
+    sid: refinery_1
+    edge: end
+    'off': 0.3
+  tag: 푸틴 대통령
+  lines:
+  - “우크라이나가 목표를 부분적으로 달성했다”
+  accent: ru
+  src: 로이터
+  quote: true
+- type: badge
+  start:
+    sid: refinery_2
+    'off': 0.1
+  end:
+    sid: refinery_2
+    edge: end
+    'off': 0.3
+  place: map_upper_left
+  kind: flag
+  flag: ua
+  R: 20
+  label: 우크라이나군
+  accent: teal
+- type: card
+  start:
+    sid: refinery_2
+    'off': 0.2
+  end:
+    sid: refinery_2
+    edge: end
+    'off': 0.3
+  tag: 우크라이나군 주장
+  bigs:
+  - - 45%+
+    - 무력화한 러시아 정유 능력
+  accent: teal
+- type: badge
+  start:
+    sid: refinery_3
+    'off': 0.1
+  end:
+    sid: refinery_3
+    edge: end
+    'off': 0.4
+  place: map_lower_left
+  kind: person
+  pid: putin
+  flag: ru
+  R: 34
+  label: 블라디미르 푸틴
+  role: 러시아 대통령
+  accent: ru
+- type: card
+  start:
+    sid: refinery_3
+    'off': 0.2
+  end:
+    sid: refinery_3
+    edge: end
+    'off': 0.3
+  tag: 푸틴 대통령
+  lines:
+  - “러시아도 우크라이나에 같은 방식으로 대응하고 있다”
+  accent: ru
+  src: 모스크바타임스
+  quote: true
+- type: card
+  start:
+    sid: refinery_4
+    'off': 0.2
+  end:
+    scene_end: refinery
+  tag: 하나로 묶은 메시지
+  lines:
+  - 군사적 긴장 · 연료 공급 · 제재
+  accent: gold
+- type: panel
+  start:
+    scene_start: open_questions
+    'off': -0.2
+  end:
+    total: true
+  kind: checklist
+  data:
+    title: 아직 확인되지 않은 것
+    items:
+    - 칼리닌그라드 봉쇄 준비설
+    - 우크라이나군 주장 정유 피해 규모
+    - 경유 공급 중단 발언의 실제 수출 정책화
+    - 3자 회담 개최 여부와 의제
+sound:
+  bgm: music.zabriskie_patriarch
+  intensity:
+  - - 0.0
+    - 0.58
+  - - scene_start: kaliningrad_warning
+    - 0.72
+  - - scene_start: nato_letter
+    - 0.7
+  - - scene_start: nato_response
+    - 0.64
+  - - scene_start: europe_remarks
+    - 0.6
+  - - scene_start: geography
+    - 0.66
+  - - scene_start: blockade_dispute
+    - 0.62
+  - - scene_start: diesel
+    - 0.6
+  - - scene_start: russia_domestic
+    - 0.58
+  - - scene_start: refinery
+    - 0.66
+  - - scene_start: open_questions
+    - 0.55
+  - - total: true
+      'off':
+      - 0.5
+      - -7.0
+    - 0.5
+  - - total: true
+      'off': 0.5
+    - 0.0
+  cues: []

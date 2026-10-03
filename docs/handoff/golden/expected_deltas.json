@@ -1054,6 +1054,497 @@
      "md5": "becd48a87b9026f9e805c0d49a8c869a"
     }
    }
+  },
+  "g15_border_glow": {
+   "reason": "v5.4.0 국경선 글로우 정규 승격(사용자 결정 2026-10-02 \"국경선 글로잉·따옴표 정규 규약으로 승격, 마음에 든다\" — v5.3.1 valdai-2026 시안): 지도 무대 국경선 위 옅은 빛(halo)과 선을 따라 천천히 흐르는 빛 조각이 기본으로 켜진다(rules border_glow.default_on). 지도가 비치는 25컷 전부 변경(타이틀·엔딩 반투명 덮개·기사 흐림 아래 포함). 글로우를 끄면 25/25 = phaseG12 기준선(재측정). 25_END md5 는 도장 상자 가린 값. 전/후·차이 = docs/handoff/reports/phaseG15/golden_delta/",
+   "decision": "사용자 결정 2026-10-02(v5.4.0)",
+   "old_rules": {
+    "border_glow": "없음(v5.3.1 시안 — 꺼짐 기본)"
+   },
+   "new_rules": {
+    "border_glow": "v5.4.0 adopted · default_on true"
+   },
+   "cuts": [
+    "01_open_1",
+    "02_TITLE",
+    "03_route_0",
+    "04_route_2",
+    "05_route_3",
+    "06_war_1",
+    "07_war_2",
+    "08_war_3",
+    "09_ask_1",
+    "10_ask_2",
+    "11_ask_5",
+    "12_timeline_2",
+    "13_timeline_4",
+    "14_cost_1",
+    "15_review_0",
+    "16_review_1",
+    "17_past_1",
+    "18_past_3",
+    "19_debate_0",
+    "20_debate_1",
+    "21_debate_4",
+    "22_decision_0",
+    "23_now_0",
+    "24_now_3",
+    "25_END"
+   ],
+   "unchanged": [],
+   "cut_detail": {
+    "01_open_1": {
+     "render": "p_0007.82.png",
+     "changed_px": 19388,
+     "bbox": [
+      135,
+      0,
+      733,
+      479
+     ],
+     "md5_old": "6d5bac39ddfd0339a467ce73bf336ac8",
+     "md5": "dfe90cd2567a16464d21415ce617b7c9"
+    },
+    "02_TITLE": {
+     "render": "p_0022.27.png",
+     "changed_px": 17555,
+     "bbox": [
+      133,
+      0,
+      735,
+      479
+     ],
+     "md5_old": "3c2092ab7081d5123f6628324b16684f",
+     "md5": "57231f6dcc19c834da8aa1f33142fc59"
+    },
+    "03_route_0": {
+     "render": "p_0028.77.png",
+     "changed_px": 25399,
+     "bbox": [
+      0,
+      0,
+      853,
+      479
+     ],
+     "md5_old": "4c0034a68ddb3b0c15a1fd39c8419cb7",
+     "md5": "e43b1075d6e0b5788d397858e9af9df4"
+    },
+    "04_route_2": {
+     "render": "p_0038.45.png",
+     "changed_px": 62547,
+     "bbox": [
+      0,
+      0,
+      853,
+      479
+     ],
+     "md5_old": "ba08b2ea32be63ed190f30844c363cb3",
+     "md5": "f47e589a1ac6aa3e1cf70f34a3fb075c"
+    },
+    "05_route_3": {
+     "render": "p_0045.03.png",
+     "changed_px": 61887,
+     "bbox": [
+      0,
+      0,
+      853,
+      479
+     ],
+     "md5_old": "f48fbaee040a3e109d9e0baac4b28157",
+     "md5": "dae86a6e201f8ed9d118d82790dd0af4"
+    },
+    "06_war_1": {
+     "render": "p_0056.21.png",
+     "changed_px": 25404,
+     "bbox": [
+      0,
+      0,
+      853,
+      479
+     ],
+     "md5_old": "9673f7dcd3997c5df1f7fbe0b653270b",
+     "md5": "af49a2a66319153ff24f524791d775f3"
+    },
+    "07_war_2": {
+     "render": "p_0061.25.png",
+     "changed_px": 20331,
+     "bbox": [
+      0,
+      0,
+      853,
+      479
+     ],
+     "md5_old": "ee677704b4dbc661d42e855fbd3fd258",
+     "md5": "1272f25f905d92d94c6771ed89707306"
+    },
+    "08_war_3": {
+     "render": "p_0065.13.png",
+     "changed_px": 24655,
+     "bbox": [
+      0,
+      0,
+      853,
+      479
+     ],
+     "md5_old": "d0cbfce2d251a1b7d6927ce6d4bc77df",
+     "md5": "9882493e07e54fb5c7e4b816130716aa"
+    },
+    "09_ask_1": {
+     "render": "p_0080.70.png",
+     "changed_px": 21441,
+     "bbox": [
+      0,
+      0,
+      853,
+      479
+     ],
+     "md5_old": "ed533046536e64a64a001e62971918bc",
+     "md5": "90d8b1431d43dc37114ff77cbc138bbb"
+    },
+    "10_ask_2": {
+     "render": "p_0087.06.png",
+     "changed_px": 20926,
+     "bbox": [
+      0,
+      0,
+      853,
+      479
+     ],
+     "md5_old": "560f34318fd92d70b062dbb6effb7c90",
+     "md5": "266a4664c88be68479c71d7486b741aa"
+    },
+    "11_ask_5": {
+     "render": "p_0105.28.png",
+     "changed_px": 19279,
+     "bbox": [
+      0,
+      0,
+      853,
+      479
+     ],
+     "md5_old": "eab82a6bc954b2c79d6f94f05721c5bf",
+     "md5": "99484bf8652887f65e8ed17085a1ad4a"
+    },
+    "12_timeline_2": {
+     "render": "p_0124.25.png",
+     "changed_px": 21233,
+     "bbox": [
+      0,
+      0,
+      853,
+      479
+     ],
+     "md5_old": "1c404207f0002705bf99b1987f560653",
+     "md5": "87c6f3b26fcd5368a3af8f0d72ffd2a1"
+    },
+    "13_timeline_4": {
+     "render": "p_0136.97.png",
+     "changed_px": 13059,
+     "bbox": [
+      0,
+      0,
+      853,
+      479
+     ],
+     "md5_old": "7a154a65f953d7cba230af0e81069d45",
+     "md5": "95eb4232cfd1c7cd29ce17837769d8c1"
+    },
+    "14_cost_1": {
+     "render": "p_0157.38.png",
+     "changed_px": 24794,
+     "bbox": [
+      0,
+      0,
+      853,
+      479
+     ],
+     "md5_old": "b88cd36e438d7976ffca659d9e123c8d",
+     "md5": "b1a59521a49cddf50997ed1830896bfd"
+    },
+    "15_review_0": {
+     "render": "p_0164.59.png",
+     "changed_px": 117823,
+     "bbox": [
+      0,
+      0,
+      853,
+      479
+     ],
+     "md5_old": "64f691b4da5d7782777cba99e1216138",
+     "md5": "ed55da5934ba38b0dc74e036b673715e"
+    },
+    "16_review_1": {
+     "render": "p_0170.52.png",
+     "changed_px": 64803,
+     "bbox": [
+      0,
+      0,
+      853,
+      479
+     ],
+     "md5_old": "cfaece7a0ccc7885c80dee4f17d26c8a",
+     "md5": "9e34cadafbf3c9a7eaccc08ed71bfe85"
+    },
+    "17_past_1": {
+     "render": "p_0193.22.png",
+     "changed_px": 47817,
+     "bbox": [
+      0,
+      0,
+      853,
+      479
+     ],
+     "md5_old": "c701e96a55295bd0507d3c3805bab440",
+     "md5": "eda80ec02a9d7ce55af78bef02e4a950"
+    },
+    "18_past_3": {
+     "render": "p_0207.41.png",
+     "changed_px": 50282,
+     "bbox": [
+      0,
+      0,
+      853,
+      479
+     ],
+     "md5_old": "f6a8e12e3656be70c82ad5e048d1f0b5",
+     "md5": "87824bb0dfce36f0d6f7c4f023d4bad6"
+    },
+    "19_debate_0": {
+     "render": "p_0214.46.png",
+     "changed_px": 41941,
+     "bbox": [
+      0,
+      0,
+      853,
+      479
+     ],
+     "md5_old": "becd48a87b9026f9e805c0d49a8c869a",
+     "md5": "9d13ee6604a08d90c5ee7184fbd7e46e"
+    },
+    "20_debate_1": {
+     "render": "p_0220.96.png",
+     "changed_px": 22344,
+     "bbox": [
+      0,
+      0,
+      853,
+      479
+     ],
+     "md5_old": "03290e07a43723ad85dd74a52f27e29b",
+     "md5": "a992d6d4d7f130e697ebec19e1e7e2ba"
+    },
+    "21_debate_4": {
+     "render": "p_0238.00.png",
+     "changed_px": 14073,
+     "bbox": [
+      0,
+      0,
+      853,
+      479
+     ],
+     "md5_old": "019a42bb8cf1866b116fc4f3250eb4a0",
+     "md5": "e7a2862ccd0927df321a6ecc6ad4a329"
+    },
+    "22_decision_0": {
+     "render": "p_0245.56.png",
+     "changed_px": 20017,
+     "bbox": [
+      58,
+      0,
+      728,
+      479
+     ],
+     "md5_old": "6413b909c9b57e4f81c1dc37347f7b97",
+     "md5": "93800d3104b0a3ee09324fd579920000"
+    },
+    "23_now_0": {
+     "render": "p_0258.61.png",
+     "changed_px": 52172,
+     "bbox": [
+      0,
+      0,
+      853,
+      479
+     ],
+     "md5_old": "5c2faa89f67ca9e1ef6625f9926f6410",
+     "md5": "2df287c4d68935a096629ebecf61eecb"
+    },
+    "24_now_3": {
+     "render": "p_0276.44.png",
+     "changed_px": 64460,
+     "bbox": [
+      0,
+      0,
+      853,
+      479
+     ],
+     "md5_old": "96c1510d9d7c4aa1ae6bcf9ea81d437e",
+     "md5": "c0636a3cc99aa89b4fe75458caf42914"
+    },
+    "25_END": {
+     "render": "p_0288.44.png",
+     "changed_px": 51617,
+     "bbox": [
+      0,
+      0,
+      853,
+      479
+     ],
+     "md5_old": "27002e442aba29f6ea8576e5499f9b61",
+     "md5": "7110687d535aa6dbe606fa12e4365795"
+    }
+   }
+  },
+  "g16_head_path": {
+   "reason": "v5.5.0 사용자 지적(2026-10-02): ① 인물 뱃지 정수리가 원 테두리 밖(위)으로 나와 어색 — v3 '머리 내밀기' 끔(rules badge.head_popout false, head_inside_max 0.9: 초상은 원 안, 정수리 높으면 내림) ② 지도 이동 중 방향이 살짝 틀어짐 — 이동+줌의 중심을 진행률 비례에서 폭 비례로(rules shot_grammar.move_path fixed_point: 고정점 기준 닮음 변환, 지도 위 점이 직선으로 흐름). 인물 뱃지가 보이는 컷·이동 중인 컷만 변경. 전/후·차이 = docs/handoff/reports/phaseG16/golden_delta/",
+   "decision": "사용자 지적 2026-10-02(v5.5.0)",
+   "old_rules": {
+    "badge.head_popout": "true(v3)",
+    "shot_grammar.move_path": "linear(v3)"
+   },
+   "new_rules": {
+    "badge.head_popout": "false · head_inside_max 0.9",
+    "shot_grammar.move_path": "fixed_point"
+   },
+   "cuts": [
+    "01_open_1",
+    "02_TITLE",
+    "06_war_1",
+    "09_ask_1",
+    "10_ask_2",
+    "17_past_1",
+    "18_past_3",
+    "22_decision_0",
+    "24_now_3"
+   ],
+   "unchanged": [
+    "03_route_0",
+    "04_route_2",
+    "05_route_3",
+    "07_war_2",
+    "08_war_3",
+    "11_ask_5",
+    "12_timeline_2",
+    "13_timeline_4",
+    "14_cost_1",
+    "15_review_0",
+    "16_review_1",
+    "19_debate_0",
+    "20_debate_1",
+    "21_debate_4",
+    "23_now_0",
+    "25_END"
+   ],
+   "cut_detail": {
+    "01_open_1": {
+     "render": "p_0007.82.png",
+     "changed_px": 7036,
+     "bbox": [
+      75,
+      27,
+      153,
+      141
+     ],
+     "md5_old": "dfe90cd2567a16464d21415ce617b7c9",
+     "md5": "160bc254590c7faea19be3247a168a21"
+    },
+    "02_TITLE": {
+     "render": "p_0022.27.png",
+     "changed_px": 6729,
+     "bbox": [
+      72,
+      25,
+      150,
+      140
+     ],
+     "md5_old": "57231f6dcc19c834da8aa1f33142fc59",
+     "md5": "8c848119b871a74dd04e88ab6e5ebb9e"
+    },
+    "06_war_1": {
+     "render": "p_0056.21.png",
+     "changed_px": 7053,
+     "bbox": [
+      559,
+      15,
+      647,
+      129
+     ],
+     "md5_old": "af49a2a66319153ff24f524791d775f3",
+     "md5": "2250efba35b2fee5761ab9de4e1faf1e"
+    },
+    "09_ask_1": {
+     "render": "p_0080.70.png",
+     "changed_px": 2892,
+     "bbox": [
+      203,
+      223,
+      266,
+      296
+     ],
+     "md5_old": "90d8b1431d43dc37114ff77cbc138bbb",
+     "md5": "a91283b6135eb2df27f02ae2da754861"
+    },
+    "10_ask_2": {
+     "render": "p_0087.06.png",
+     "changed_px": 2895,
+     "bbox": [
+      203,
+      223,
+      266,
+      296
+     ],
+     "md5_old": "266a4664c88be68479c71d7486b741aa",
+     "md5": "3537d7fcff4c01851f0c167d9e2037d1"
+    },
+    "17_past_1": {
+     "render": "p_0193.22.png",
+     "changed_px": 1272,
+     "bbox": [
+      173,
+      296,
+      214,
+      344
+     ],
+     "md5_old": "eda80ec02a9d7ce55af78bef02e4a950",
+     "md5": "d4364ebe5f294eaa3098bc438fa80862"
+    },
+    "18_past_3": {
+     "render": "p_0207.41.png",
+     "changed_px": 1278,
+     "bbox": [
+      173,
+      296,
+      214,
+      344
+     ],
+     "md5_old": "87824bb0dfce36f0d6f7c4f023d4bad6",
+     "md5": "d233cc113f5dbb51e0d0e0ef0a66ff52"
+    },
+    "22_decision_0": {
+     "render": "p_0245.56.png",
+     "changed_px": 7072,
+     "bbox": [
+      80,
+      71,
+      158,
+      185
+     ],
+     "md5_old": "93800d3104b0a3ee09324fd579920000",
+     "md5": "b76a739165f99fea4cc22f2e36edd526"
+    },
+    "24_now_3": {
+     "render": "p_0276.44.png",
+     "changed_px": 176224,
+     "bbox": [
+      0,
+      0,
+      853,
+      479
+     ],
+     "md5_old": "c0636a3cc99aa89b4fe75458caf42914",
+     "md5": "24a4dc9e0cb90ca63a8674f4a8e3e553"
+    }
+   }
   }
  }
 }

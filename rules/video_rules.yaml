@@ -44,8 +44,20 @@ balance_principles:        # 03 §3 — 프롬프트 공통 머리말
   - 주장은 귀속한다(밝혔습니다/보도했습니다).
   - 논쟁 사안은 양쪽을 같은 무게로, 출처와 함께.
   - 추정은 "추정"으로 표시. 출처 없는 차트는 "추정 · 출처 미기재" 태그.
-  - 마무리는 예언 대신 미정 사실.
+  - 마무리는 예언 대신 확인된 사실의 정리(v5.5.0 — 미확인·미정 나열 금지, script_grammar).
 
+script_grammar:            # v5.5.0 사용자 결정(2026-10-02, 개정 2026-10-03 "막지 말고 양측을 밝혀라") — 원고 서술 규약. 프롬프트 {{RULES.script_grammar}}(script·genre_script), 린트가 같은 값으로 강제
+  lines:
+    - '논쟁 중인 주장(claims status disputed)은 숨기지 않고 양측이 한 말을 나란히 쓴다 — "러시아는 ~라고 주장했습니다. 반면 나토는 ~라고 부인했습니다." 말한 사람(귀속) 없이 한쪽 주장을 사실처럼 쓰지 않는다(린트 [disputed-claim] 오류). 양측 병기 자체가 논쟁 중임을 보여 준다.'
+    - '출처마다 조금 다른 수치는 출처를 붙여 쓰거나("AP통신은 약 80km라고 보도했습니다") 숫자 없이 쓴다. 수치 자체가 쟁점의 핵심이면 양측 수치를 각각 출처와 함께 쓴다.'
+    - '"엇갈립니다·아직 확인되지 않았습니다·불분명합니다·정해지지 않았습니다"처럼 내용 없이 미확인이라는 결론만 붙이는 서술을 내레이터 목소리로 쓰지 않는다 — 누가 무엇을 말했는지를 쓴다. 당사자가 그렇게 말한 것을 귀속해 전하는 것은 된다("나토는 근거가 확인되지 않은 주장이라고 반박했습니다")(린트 [uncertain-phrase] 오류).'
+    - '문장과 문장 사이에 흐름을 만든다 — 앞 문장과의 관계를 드러내는 연결어로 문장을 시작해 잇고, 사실의 나열로 쓰지 않는다. 린트가 세는 연결어는 아래 목록이다(린트 [flow-sparse] 오류).'
+    - '연결어는 관계가 사실일 때만 쓴다 — 인과(그래서·따라서·그러므로)는 출처가 그 인과를 말할 때만, 대조(그렇지만·하지만·반면)는 실제로 다른 입장·결과일 때만. 근거 없는 인과 연결은 사실 왜곡이다.'
+    - '마무리는 확인된 사실의 정리로 끝낸다 — 출처에 예정된 일정(회의·기한)이 있으면 그것으로 맺는다. 예언·추측·미확인 나열로 끝내지 않는다.'
+  connectives: [그래서, 따라서, 그러므로, 그렇지만, 하지만, 그러나, 반면, 게다가, 또한, 그리고, 이어서, 이후, 그 뒤, 이에 대해, 이에, 그런데, 다만, 결국, 한편, 특히, 더욱이, 오히려, 물론, 즉, 이처럼, 이렇게, 그러면서, 동시에, 그 결과, 이 때문에, 이로 인해, 그러자, 그럼에도]   # v5.5.0 개정(2026-10-03) — 자연스러운 접속어 추가, 프롬프트에 이 목록 그대로 노출
+  connective_min_ratio: 0.3     # 원고 전체에서 연결어로 시작하거나 앞 문장을 받는 문장의 비율 하한(미만 = [flow-sparse] 오류)
+  connective_max_ratio: 0.7     # 상한(초과 = [flow-overuse] 경고 — 남발도 나열만큼 어색하다)
+  uncertain_patterns: ["확인되지 않았", "확인된 바 없", "엇갈립니다", "엇갈린다", "엇갈렸습니다", "불분명합니다", "불분명하다", "알려지지 않았습니다", "알려지지 않았다", "정해지지 않았", "불확실합니다", "불확실하다"]   # 내레이터 목소리의 미확인 결론. 귀속 문장("~라고 반박했습니다")은 린트가 뺀다(v5.5.0 개정 2026-10-03)
 script_schema:             # 02 §2.1 요약 — 프롬프트 예시는 tests/anti_inertia/test_prompt_schema_parity 로 검증
   sentence_fields: [date, text, tts, emphasis, sources, media]
   date_formats: ["YYYY", "YYYY.MM", "YYYY.MM.DD"]
@@ -131,6 +143,17 @@ tts_risk:
   - kind: roman_letters
     regex: '[A-Za-z]{1,}'
     hint: 'narration 에 로마자 금지 — 한국어 명칭/음차로 (예: USGS→''미국 지질조사소''). 영문은 caption 에만.'
+  # v5.3.0 TTS-AP-071~073(사용자 시청 2026-10-02, valdai-2026 콘티 판) — 사전 적용 뒤 실제 합성 문자열에서 본다(script.lint `tts-spoken:*` 경고).
+  spoken_patterns:
+  - kind: glued_acronym
+    regex: (?:에이|비|씨|디|에프|지|에이치|아이|제이|케이|엘|엠|엔|오|피|큐|알|에스|티|브이|더블유|엑스|와이|제트){2,}(?=통신|뉴스|방송|신문|그룹|전자|연구소)
+    hint: 글자 이름으로 읽는 약어 뒤에 명사를 붙이면 엔진이 앞 음절을 삼킨다('에이피통신' → [피 통신], TTS-AP-071). 약어와 명사 사이를 띄운다('에이피 통신').
+  - kind: glued_media_name
+    regex: '[가-힣]{2,}(?:타임스|포스트|저널|헤럴드|트리뷴|가디언|텔레그래프)'
+    hint: 외래어 매체명 붙여쓰기는 엔진이 엉뚱한 자리에서 끊는다('모스크바타임스' → [모스크 바타임스], TTS-AP-072). 고유명과 매체 종류 사이를 띄운다 — 발음 사전 등재.
+  - kind: bare_parallel_names
+    regex: (?:폴란드|리투아니아|러시아|우크라이나|벨라루스|미국|중국|이란|이스라엘|한국|북한|일본|대만) (?:폴란드|리투아니아|러시아|우크라이나|벨라루스|미국|중국|이란|이스라엘|한국|북한|일본|대만)(?![와과])
+    hint: 하이픈 병렬(폴란드-리투아니아)을 공백으로만 바꾸면 엔진이 두 이름 사이·뒤에서 길게 쉰다(TTS-AP-073). 원고를 '폴란드와 리투아니아 사이'처럼 조사로 잇는다.
 pronounce:
   dict_path: assets/pronounce/pronounce_ko.json
 
@@ -144,11 +167,17 @@ direction_grammar:         # v4.7.0 back_and_forth D-0104 D2(a) — 연출 문�
   - 보도를 인용하는 카드(출처가 매체 — 통신사·신문·방송)는 카드가 아니라 기사(article) 이벤트로 건다 — 프레스 규약 v2(가운데·세리프 헤드라인). backdrop 무대에서는 주 아일랜드가 항상 하나 보이고 카드만 있는 구간은 짧게 둔다(아래 사진 배경 무대 절, v5.2.0 D-0129, 검사 [backdrop-main-missing] hard).
   - 시간축 무대는 축 스케일(w)을 장면 단위로 고정한다 — 확대·축소는 영상당 몇 번뿐이고 그 밖은 중심 이동(pan)만(v5.1.0 D-0121 §A, 검사 [timeline-rescale] hard, 수치는 아래 축 스케일 절).
   - 지도 고정 구간에서 날짜가 있는 사건이 셋 이상 이어지면(협상 경과·발표 순서) 카드를 늘어놓지 않고 **겹침 카드(cascade) 하나**로 건다 — 지금 문장의 사건만 앞에 크게, 언급이 지나간 사건은 뒤로 물러나 겹친다. 사건마다 국기·날짜·제목 한 줄, 부제는 선택. 같은 순간 cascade 는 하나, 카드와 같이 두지 않는다(v5.3.0 D-0139, 사용자 결정 D116·D117, 검사 [cascade-*] hard).
+  - '인물의 **직접 인용**(원문 기사에서 따옴표로 확인된 발언)은 카드가 아니라 **인용(quote)** 으로 건다 — 초상(pid, 없으면 flag) + 화면 가운데 따옴표 인용문 + 아래 작은 이름·직함·매체·날짜. 기자의 요약·간접 화법("~라고 말했다"를 줄인 문구)에는 따옴표를 쓰지 않는다 — 카드(quote: false). A 의 인용과 그에 맞서는 B 의 인용을 함께 보일 때는 같은 순간 A = pos upper(왼쪽 위), B = pos lower(오른쪽 아래). 인용 중에는 같은 인물의 지도 뱃지를 겹쳐 두지 않는다(v5.4.0, 사용자 결정 2026-10-02, 검사 [quote-overflow]·[subtitle-overlap] hard).'
+  - '가격·추이·통계 문장에는 알맞은 차트를 건다 — 시간에 따른 변화 = 선 차트(panel dual_line, 출처 있는 실측값, 촘촘한 날짜 라벨은 x_label_rotate), 전체 대비 비율 = 도트(panel dots), 단일 지표 = 큰 숫자 카드(bigs). 값은 출처가 있는 것만, 주장 수치는 주장 주체를 패널 문구에 적는다(v5.4.0, 사용자 지시 2026-10-02, 검사 정직성 4종 hard).'
 
 shot_grammar:              # 05 §2
   camera_moves_per_scene_max: 1
   shot_min_hold_sec: 6.0
   move_dur_sec: [2.6, 3.4]
+  # v5.5.0 사용자 지적(2026-10-02 "지도 이동 중간에 방향이 살짝 틀어진다", RENDER-AP) — 이동과 줌이 함께일 때 중심을 진행률(e)에 비례로,
+  # 폭을 로그로 움직이면 지도 위 점들의 화면 경로가 휘는 곡선이 된다(흐름 방향이 이동 중 돈다). fixed_point = 중심을 폭 w 에 비례해 움직여
+  # 한 고정점을 중심으로 한 확대·축소 + 평행이동(닮음 변환)이 되게 한다 → 모든 점이 직선으로 흐른다. 폭이 거의 같으면(순수 이동) linear 와 같다.
+  move_path: fixed_point
   move_lead_sec: [0.6, 1.2]
   dip_total_sec: 1.0
   dip_max_per_sec: 90      # 90초당 1회 이하
@@ -265,8 +294,8 @@ placement:                 # v3.1.0 D-0047 작업 5 — 배치 슬롯(17 §2 `pl
     map_center:      {kinds: [badge, cutout, marker], point: [427, 240]}
     map_upper_left:  {kinds: [badge, cutout, marker], point: [190, 150]}
     map_upper_right: {kinds: [badge, cutout, marker], point: [660, 150]}
-    map_lower_left:  {kinds: [badge, cutout, marker], point: [190, 330]}
-    map_lower_right: {kinds: [badge, cutout, marker], point: [660, 330]}
+    map_lower_left:  {kinds: [badge, cutout, marker], point: [190, 290]}   # v5.3.1 사용자 지적(2026-10-02) — 330 은 solo R 56 이름·역할(아래 +102)이 두 줄 자막(≈402)과 겹쳤다(checks subtitle_overlap). 290 → 아래 끝 392
+    map_lower_right: {kinds: [badge, cutout, marker], point: [660, 290]}   # v5.3.1 같은 이유(330 → 290)
     card_right:      {kinds: [card, primitive], card: null}   # primitive = v4.2.0 D-0081 작업 5(무대 무관 오버레이, 카드와 같은 슬롯)
     # v4.4.0 D-0093 — 시간축 무대 자리. 왼쪽 55%(레인 이름·출처·기준 시점 줄)와 오른쪽 축 값 자리(axis_zone_px)를 피한다
     # v4.8.0 D-0111 — solo R 56 상자(머리 2.2R 위 ~ 이름·역할 46px 아래, 원+그림자 ±63): x 640 → 577~703 — 55% 열(470) 오른쪽, 끝점 값 라벨(~760~)·축 값 자리(790~) 왼쪽
@@ -396,6 +425,10 @@ layout_480p:               # 09 §2·§4, 08 §10 — 기준 해상도 854×480.
     edge_nudge: true              # 그 순간 상자가 화면 밖이면 그 px 만큼 안쪽으로(avoid_badge 와 같은 단계, provenance reserve.avoidance strategy edge). 보정 뒤에도 밖이면 offscreen hard
     reserve_bottom_px: 44
     popin_sec: 0.55
+    # v5.5.0 사용자 지적(2026-10-02 "푸틴의 정수리가 원 테두리 밖(위쪽)으로 나와 어색", RENDER-AP) — v3 의 '머리 내밀기'(원 위 2.4R 직사각형까지 그림)를 끈다.
+    # 초상은 원 안에만 그리고, 실측 정수리(head_top, R 단위)가 head_inside_max 를 넘으면 그만큼 초상을 아래로 내려 머리 전체가 원 안에 든다.
+    head_popout: false
+    head_inside_max: 0.9
   timeline_gaps: {gap_sec: 0.5, scene_gap_sec: 1.0, lead_sec: 1.2, title_after_cold_open: true}
   fade: {in_sec: 1.2, out_sec: 1.6}
   reserved_zones: {card: {x_from_right: 260, y: [70, 200]}, subtitle: {y_from: 410}}
@@ -464,7 +497,7 @@ panels:                    # D-0032 — 패널 기하·타이밍. 코드에 리�
     min_zone_alpha: 0.01
     lead_sec: 0.45                             # 카드 페이드와 같은 길이 — 카드가 들어오기 전에 비키고, 나간 뒤에 돌아온다
   precedent: {year_size: 28, title_size: 14, line_size: 12, caption_size: 11}   # v4.8.0 D-0101 §3 — 옛 engine/panels/precedent.py 리터럴
-  versus: {title_size: 16, item_size: 13.5, src_size: 10}                           # v4.8.0 D-0101 §3 — 옛 engine/panels/versus.py 리터럴
+  versus: {title_size: 16, item_size: 13.5, src_size: 10, item_pad_r: 18, item_max_lines: 2, item_line_gap: 21}   # v4.8.0 D-0101 §3 — 옛 engine/panels/versus.py 리터럴. v5.3.1 사용자 지적(항목 글자가 상자 밖) — 넘칠 때만 접음·넘치면 오류
   prov_tag:                # D-0034(D37) — 추정 태그는 제목 아래(부제 다음 줄, 가운데). 08 §9 우상단(W−40, 52)은 C0 모서리 규칙과 충돌해 쓰지 않는다
     anchor: below_title
     y_offset_px: 20                 # 제목(부제가 있으면 부제) 기준선에서 태그 줄 기준선까지
@@ -497,6 +530,7 @@ panels:                    # D-0032 — 패널 기하·타이밍. 코드에 리�
       pulse_alpha: 0.7
       big: {x: 540, y: 168, size: 64}
       unit_dx: 42
+      unit_gap: 6            # v5.3.1 — 단위 x = big.x + max(unit_dx, 큰 숫자 폭 + unit_gap). 한 자리('1')는 unit_dx 그대로(옛 출력), '45' 처럼 넓으면 뒤로 밀린다
       unit_size: 30
       caption: {x: 542, y: 196, size: 14}
       detail: {x: 542, y: 222, size: 12.5}
@@ -547,6 +581,9 @@ panels:                    # D-0032 — 패널 기하·타이밍. 코드에 리�
       x_pad: 30
       x_label_dy: 22
       x_label_size: 12
+      x_label_rot_rad: 0.7853981634   # v5.3.1 사용자 제안(45도) — 이벤트 x_label_rotate: true 일 때 라벨 기울기
+      x_label_rot_dx: 4.2      # 기운 라벨 라벨 끝 기준점(눈금 오른쪽)
+      x_label_rot_dy: 12       # 축 아래
       draw_start_sec: 0.6
       draw_step_sec: 0.5
       draw_sec: 1.8
@@ -685,7 +722,7 @@ credits:                   # D-0030(D35) — 권리 레지스트리 종류별 �
   music_description: 'Music: "{name}" — {author} ({license})'          # 설명란 footer 의 {music} 자리(v3 description.yaml 문구와 같은 결과)
 
 registries:                # 15 §3 P10 — 여기 없는 타입을 연출이 쓰면 오류, 있는데 렌더러가 없으면 오류
-  event_types: [marker, route, tanker_loop, barrier, ships, boom, country, badge, card, panel, dip, photo, clip, cutout, article, post, primitive, series, backdrop, island, cascade]   # island = v5.1.0 D-0126 Q1(차트 아일랜드 — 뷰포트 카메라 = stage: timeline 숏), backdrop = v5.1.0 D-0121 §B·D-0123(backdrop 무대 배경 사진, 미디어 레지스트리 photo), post = v3.2.0 복귀(D26, 18 §5), primitive = v4.2.0 D-0081(id → registries.primitives), series = v4.3.0 D-0084(시간축 무대, 데이터 레코드), cascade = v5.3.0 D-0139(겹침 카드, 사용자 결정 D116·D117)
+  event_types: [marker, route, tanker_loop, barrier, ships, boom, country, badge, card, panel, dip, photo, clip, cutout, article, post, primitive, series, backdrop, island, cascade, quote]   # island = v5.1.0 D-0126 Q1(차트 아일랜드 — 뷰포트 카메라 = stage: timeline 숏), backdrop = v5.1.0 D-0121 §B·D-0123(backdrop 무대 배경 사진, 미디어 레지스트리 photo), post = v3.2.0 복귀(D26, 18 §5), primitive = v4.2.0 D-0081(id → registries.primitives), series = v4.3.0 D-0084(시간축 무대, 데이터 레코드), cascade = v5.3.0 D-0139(겹침 카드, 사용자 결정 D116·D117), quote = v5.4.0 정규(인물 발언 인용, 사용자 결정 2026-10-02)
   event_types_planned: [occupied, arc, channel, shield, tl, particles, flash, dots, movers, line, arrow]   # v1/v2 이식 후보(미구현 = 사용 불가)
   panel_kinds: [relation, statement, timeline, precedent, versus, dots, gantt, dual_line, fork, checklist, network]   # relation = v3 refusal 일반화, 뒤 6종 = v2 차트 이식(D-0032)
   panel_kinds_planned: []
@@ -917,6 +954,43 @@ cascade:                   # v5.3.0 D-0139 겹침 카드(cascade, engine/cascade
   focus_sec: 0.5           # 앞 → 뒤 물러남 · 새 앞 카드 등장. 새 앞 카드 글자 = 앵커 + focus_sec 뒤 절반(0.25~0.5초, 밀기 없는 전환 — D-0137 §3·D-0139 §3)
   shift_sec: 0.6           # 가장 오래된 뒤 카드 밀려 나감. 밀기 있는 전환의 새 앞 카드 글자 = 앵커 + max(focus_sec, shift_sec) 뒤 절반(0.3~0.6초)
   width_cap: 560           # 최악 5 × 68 + 214 = 554, 정상 4 × 68 + 214 = 486
+quote_center:              # v5.4.0 정규(사용자 결정 2026-10-02 "마음에 든다" — v5.3.1 시안 승격). engine/quote.py, 이벤트 quote. 설계 px(480p). 사용자 합격 값 — C0 되돌림 금지
+  # 인물 발언 = 오른쪽 위 카드 대신 화면 가운데: 지도 위 균일 덮개(비네팅 아님) → 초상(뱃지 렌더러) → 세리프 인용문(큰 따옴표, 최대 quote_max_lines 줄)
+  # → 이름·직함(who) → 매체·날짜(src, 가장 작게). 등장 = fade_sec 페이드 + rise_px 위로 떠오름(줌 튐 없음). 넘치면 렌더 전 오류(QuoteError, 자름 없음 P6).
+  status: adopted
+  scrim_rgb: [0.02, 0.03, 0.05]
+  scrim_alpha: 0.62
+  portrait_R: 44
+  portrait_y: 185           # v5.3.1 사용자 지적 "너무 위로 올라가 있어" — 날짜 상자(≤50) 아래·자막(≈402) 위 공간의 세로 가운데로(120 → 185)
+  quote_y: 279              # 첫 줄 기준선(214 → 279, 초상과 같은 +65)
+  quote_size: 21
+  quote_line_h: 30
+  quote_max_w: 620
+  quote_max_lines: 2
+  mark_size: 34             # 여는·닫는 따옴표(accent)
+  mark_alpha: 0.85
+  who_size: 12
+  who_dy: 32                # 마지막 인용 줄 기준선 → 이름 줄
+  src_size: 10.5
+  src_dy: 19                # 이름 줄 → 매체·날짜 줄
+  rise_px: 8
+  fade_sec: 0.35
+  # v5.3.1 사용자 지시(2026-10-02) — A 의 인용과 그에 맞서는 B 의 인용: A = 왼쪽 위 초상 + 윗줄(왼쪽 정렬), B = 오른쪽 아래 초상 + 아랫줄(오른쪽 정렬).
+  # 이벤트 quote pos: upper | lower(기본 center). 덮개는 같은 순간 한 번만 깐다.
+  pair_R: 38
+  pair_max_w: 540
+  upper: {portrait: [116, 140], text_x: 172, quote_y: 134}
+  lower: {portrait: [738, 290], text_x: 682, quote_y: 284}
+border_glow:               # v5.4.0 정규(사용자 결정 2026-10-02 — v5.3.1 시안 승격). engine/layers/borders.draw_border_glow. 지도 무대 기본 켜짐(default_on), 끄기 = direction stage_config.mercator.border_glow: false
+  # 국경선(행정구역 선 제외) 위에 옅은 빛(halo)을 상시 깔고, 짧은 빛 조각이 선을 따라 천천히 흐른다(cairo 대시 오프셋 = speed_px × t). 설계 px. 사용자 합격 값
+  status: adopted
+  default_on: true
+  rgb: [0.62, 0.84, 1.0]
+  halo: [[5.0, 0.03], [2.6, 0.055]]          # [선 폭, 알파] — 상시
+  run_seg_px: 34                              # 흐르는 빛 조각 길이
+  run_period_px: 320                          # 조각 사이 간격(한 주기)
+  run_speed_px: 20                            # 초당 이동(설계 px) — "천천히"
+  run_layers: [[6.0, 0.045], [3.2, 0.09], [1.4, 0.24]]   # 바깥 → 안 [선 폭, 알파], 둥근 끝
 island:                    # v5.1.0 back_and_forth D-0123 §1·D-0126(Q1~Q4 A) — backdrop 무대 위 내용물 상자(아일랜드) 공통 규칙. engine/island.py. 설계 px(480p)
   # 연출은 픽셀을 다루지 않는다 — 차트 아일랜드는 box(boxes 이름)만 고른다. 등장 = 슬라이드 layout_480p.card.slide_px + 페이드 card.fade_sec(카드 규칙 재사용)
   # 겹침(checks island_overlap hard, Q3 A): 같은 순간 보이는 아일랜드 제자리 상자(그림자·슬라이드 경로 제외)끼리 교차 > 0, 자막 구역(reserved_zones.subtitle) 교차.
@@ -982,7 +1056,7 @@ genre_prompt:              # v4.4.0 D-0090 작업 1 — 장르 프롬프트 층(
       - "정책 금리 계단·목표 범위 띠는 color_by: change(인상·인하·동결 색을 코드가 레코드 변화로 정한다). 시장 금리·물가 선은 fixed."   # v4.4.0 D-0091 ②
 
 data:                      # v4.3.0 D-0084 작업 1 — 데이터 레코드(docs/handoff/20 §5.1, schemas/data_models.py:SeriesRecord). 이 목록 밖 값 = 로드 오류(15 P6)
-  units: ["%", "%p", "bp", "억 달러", "지수", "명", "원"]   # 화면 단위(20 §5.3 "단위를 화면에 표시")
+  units: ["%", "%p", "bp", "억 달러", "지수", "명", "원", "달러/갤런"]   # v5.3.1 달러/갤런 = 미국 경유 소매가(EIA GASDESW, valdai-2026). 화면 단위(20 §5.3 "단위를 화면에 표시")
   licenses_allowed: [us_gov_public_domain, cc_by_4]        # 재배포 가능한 공개 라이선스만(20 §5.1 "시리즈마다 이용 조건 확인")
   unit_prefixes: ["$", "₩", "€", "¥"]                    # v4.3.0 D-0087 보정 1 — 값 앞 통화 기호도 단위 표시로 인정(dual_line y_prefix)
   sources_allowed: [fred.stlouisfed.org, www.federalreserve.gov]   # source_url 도메인(tools/fetch_series.py 가 받는 곳). federalreserve.gov = v4.4.0 SEP 점도표(D-0090 작업 2)
@@ -1152,7 +1226,7 @@ animatic:                  # v4.9.0 back_and_forth D-0108(사용자 결정 D97) 
     cutout_h_ratio: 0.4    # 컷아웃 높이 ÷ 폭 — 레지스트리에 비율이 없다(tool.params width 만). 파일을 열지 않으려고 쓰는 근사(p8 실측 134/360 = 0.37)
     panel_box: [64, 44, 790, 400]   # 패널 자리표시 = 패널 본문 영역(제목 기준선 74 위 ~ 자막 구역 410 위). 덮개(panel.cover_alpha)는 그대로
     kinds: {person: 뱃지, flag: 국기, emblem: 휘장, photo: 사진, clip: 영상, cutout: 컷아웃, article: 기사, post: 게시물,
-            primitive: 요소, panel: 패널, card: 카드, backdrop: 배경, island: 아일랜드, press: 프레스, cascade: 사건}   # backdrop = v5.1.0 D-0123 §3 — 회색 판 + [배경: id]
+            primitive: 요소, panel: 패널, card: 카드, backdrop: 배경, island: 아일랜드, press: 프레스, cascade: 사건, quote: 인용}   # backdrop = v5.1.0 D-0123 §3 — 회색 판 + [배경: id]
   band:                    # 화면 위 가운데 얇은 띠 — 배포 사고 방지 표식(모서리는 날짜만 규칙 유지)
     text: "콘티 판 · 검토용 · 배포 금지"
     font: sansb

@@ -178,3 +178,33 @@ class TestPronounceBeforeSynth(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class TestSpokenRisks(unittest.TestCase):
+    """v5.3.0 TTS-AP-071~073 — 사전 적용 뒤 합성 문자열 경고(rules tts_risk.spoken_patterns)·사전 항목."""
+
+    def test_dictionary_fixes(self) -> None:
+        from script.lint import pronounce_tts  # noqa: PLC0415
+
+        self.assertEqual(pronounce_tts("에이피통신에 따르면"), "에이피 통신에 따르면")   # TTS-AP-071
+        self.assertEqual(pronounce_tts("AP통신은"), "에이피 통신은")
+        self.assertEqual(pronounce_tts("모스크바타임스는"), "모스크바 타임스는")   # TTS-AP-072
+        self.assertEqual(pronounce_tts("키이우포스트는"), "키이우 포스트는")
+
+    def test_spoken_patterns(self) -> None:
+        from script.lint import pronounce_tts, spoken_risks  # noqa: PLC0415
+
+        kinds = lambda t: [k for k, _, _ in spoken_risks(t)]  # noqa: E731
+        self.assertEqual(kinds("비비씨뉴스는"), ["glued_acronym"])
+        self.assertEqual(kinds("가디언포스트는"), ["glued_media_name"])
+        self.assertEqual(kinds("폴란드 리투아니아 국경 구간"), ["bare_parallel_names"])   # TTS-AP-073
+        self.assertEqual(kinds("폴란드와 리투아니아 사이"), [])
+        self.assertEqual(kinds(pronounce_tts("에이피통신과 모스크바타임스")), [])   # 사전이 고친 것은 경고하지 않는다
+
+    def test_lint_reports_spoken(self) -> None:
+        from script.lint import lint  # noqa: PLC0415
+        from script.schema import Script  # noqa: PLC0415
+
+        s = Script.model_validate({"schema_version": 1, "title": "t", "subtitle": "s", "date": "2026.10.02", "scenes": [{"id": "a", "sentences": [
+            {"date": "2026.10.02", "text": "폴란드-리투아니아 국경입니다.", "tts": "폴란드 리투아니아 국경입니다.", "emphasis": [], "sources": []}]}]})
+        self.assertIn("tts-spoken:bare_parallel_names", [i.kind for i in lint(s, check_sources=False).issues])

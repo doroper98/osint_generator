@@ -103,7 +103,9 @@ class RunStageTest(unittest.TestCase):
     @unittest.skipUnless(fonts_ready(), NO_FONTS_REASON)   # 린트가 자막 줄 수를 글자 폭으로 잰다(script/lint.py) — NB27
     def test_real_cli_direction_validate(self) -> None:
         r = es.run_stage(HORMUZ, "direction_validate")
-        self.assertTrue(r.ok, r.errors)
+        # v5.5.0 script_grammar(LLM-AP-013) — v3 골든 원고는 미확인 마무리·연결어 부족 오류 2개를 그대로 갖는다(원고 재작성 대상 아님)
+        self.assertFalse(r.ok)
+        self.assertEqual(sorted(x.split("]")[0] + "]" for x in r.errors), ["[flow-sparse]", "[uncertain-phrase]"])
         self.assertEqual(r.stage, "lint")
         # v3.2.0 — v3 원고가 claims 로 이관돼(D51) sources 경고가 사라졌다. 라벨 집계는 artifacts 로
         self.assertEqual([w for w in r.warnings if "source" in w], [])

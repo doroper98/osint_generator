@@ -69,10 +69,10 @@ class ProvenanceE2ETest(unittest.TestCase):
             self.assertIs(prov["stages"][not_run], False, not_run)
         self.assertTrue((proj / "prev" / "sheet.jpg").exists())
         chk = json.loads((proj / "prev" / "checks.json").read_text(encoding="utf-8"))   # v3.1.0 17 §3(D-0047 작업 6)
-        self.assertEqual(len(chk["items"]), 34)   # v5.3.0 D-0139 cascade(hard)·cascade_label_hidden(warning) — 지도 무대 골든 0, v5.2.0 D-0133 island_label_clip(hard)·island_label_overlap(warning), D-0129 backdrop_main_missing(hard)·card_island(warning) — 지도 무대 0, v5.1.0 D-0123·D-0126 backdrop_rights·backdrop_repeat·island_overlap(hard)·stage_choice(warning), D-0121 §A timeline_rescale(hard), v4.11.0 D-0118 static_window(warning), v4.10.0 D-0116 geo_mismatch(hard), v4.7.0 D-0107 boundary_as_route(hard)·geo_unsourced(warning), D-0106 endcard_roll(warning), v3.6.0 media_upscaled(warning)·glyph_size(hard), v4.1.0 stage_continuity(hard), v4.2.0 genre_elements(hard), v4.3.0 정직성 4(hard)
+        self.assertEqual(len(chk["items"]), 35)   # v5.3.1 subtitle_overlap(hard), v5.3.0 D-0139 cascade(hard)·cascade_label_hidden(warning) — 지도 무대 골든 0, v5.2.0 D-0133 island_label_clip(hard)·island_label_overlap(warning), D-0129 backdrop_main_missing(hard)·card_island(warning) — 지도 무대 0, v5.1.0 D-0123·D-0126 backdrop_rights·backdrop_repeat·island_overlap(hard)·stage_choice(warning), D-0121 §A timeline_rescale(hard), v4.11.0 D-0118 static_window(warning), v4.10.0 D-0116 geo_mismatch(hard), v4.7.0 D-0107 boundary_as_route(hard)·geo_unsourced(warning), D-0106 endcard_roll(warning), v3.6.0 media_upscaled(warning)·glyph_size(hard), v4.1.0 stage_continuity(hard), v4.2.0 genre_elements(hard), v4.3.0 정직성 4(hard)
         self.assertEqual(next(i for i in chk["items"] if i["id"] == "stage_continuity")["count"], 0)
         for cid in ("backdrop_main_missing", "card_island", "island_label_clip", "island_label_overlap",
-                    "cascade", "cascade_label_hidden"):   # v5.3.0 D-0139 — 골든에는 겹침 카드 없음   # v5.2.0 D-0129·D-0133 — 지도 무대(hormuz)는 새 검사 영향 0
+                    "cascade", "cascade_label_hidden", "subtitle_overlap"):   # v5.3.0 D-0139 — 골든에는 겹침 카드 없음   # v5.2.0 D-0129·D-0133 — 지도 무대(hormuz)는 새 검사 영향 0
             self.assertEqual(next(i for i in chk["items"] if i["id"] == cid)["count"], 0, cid)
         self.assertEqual(next(i for i in chk["items"] if i["id"] == "genre_elements")["count"], 0)
         self.assertEqual(next(i for i in chk["items"] if i["id"] == "boundary_as_route")["count"], 0)   # v4.7.0 D-0107 D2(b)
@@ -96,7 +96,10 @@ class ProvenanceE2ETest(unittest.TestCase):
         # v4.8.0 G7 — 기사 카드 조판·켄 번스 연속 변환(D-0101 §2·D-0104 D6)으로 바뀐 컷을 반영한 phaseG7 기준선(바뀐 컷 = changed_vs_g1)
         # v4.11.0 G10 — 글자 크기 2차 표(D-0118 §3, 자막 22·카드 line 16)로 바뀐 컷을 반영한 phaseG10 기준선(바뀐 컷 = changed_vs_g7)
         # v5.1.0 G12 — 엔딩 카드 버전 도장(D-0124)으로 바뀐 25_END 를 반영한 phaseG12 기준선. 도장은 VERSION 을 따르므로 그 컷은 도장 상자를 가린 md5
-        base = json.loads((REPO / "docs" / "handoff" / "reports" / "phaseG12" / "hormuz_baseline.json").read_text(encoding="utf-8"))
+        # v5.4.0 G15 — 국경선 글로우 정규 승격(사용자 결정 2026-10-02)으로 25컷 전부 바뀐 phaseG15 기준선. 글로우 끄면 = phaseG12(기록)
+        # v5.5.0 G16 — 인물 뱃지 정수리 원 안·이동 경로 고정점(사용자 지적 2026-10-02)으로 9컷 바뀐 phaseG16 기준선
+        base = json.loads((REPO / "docs" / "handoff" / "reports" / "phaseG16" / "hormuz_baseline.json").read_text(encoding="utf-8"))
+        self.assertEqual(prov.get("border_glow"), {"status": "adopted", "on": True})
         want = {c["png"]: c.get("md5_masked") or c["md5"] for c in base["cuts"]}
         masked = {c["png"] for c in base["cuts"] if c.get("mask")}
         got = {p.name: (_masked_md5(p, base["stamp_box"], base["mask_pad_px"]) if p.name in masked else hashlib.md5(p.read_bytes()).hexdigest())

@@ -328,3 +328,11 @@ fill: col × a (v3 이란 0.07 — 0.13은 화면이 붉게 뜸, 사용자 화�
 - **동음이의**: 같은 이름의 항목이 여럿이면 하나라도 오차 안이면 통과다. 예: hormuz 골든의 place 키 `aden` 은 도시 Aden(약 190km)과 맞지만 marker label "아덴만"이 Gulf of Aden(138km, 허용 400km)과 맞아 통과한다. label 없이 키만 `aden` 이면 도시 Aden 기준 hard 다.
 - **골든 확인**(좌표 무변경): hormuz 8 place 전부 통과(최대 오차 비율 0.40 = 호르무즈 해협 15.9km/40km), 랫클리프 6 place 전부 통과. 남은 unsourced 는 paths·route 뿐.
 - **새 지명 추가 절차**: 도시면 NE 에 있는지 먼저 본다(없으면 manual). manual 은 출처(문헌·API 조회일)와 허용 오차의 근거(해협 폭·섬 길이 등)를 `src` 에 한 줄로 적는다. NE 원본을 새로 받았으면 `python tools/build_gazetteer.py` 로 `ne` 절만 다시 만든다.
+
+## v5.4.0 — 국경선 글로우 (사용자 결정 2026-10-02, v5.3.1 valdai-2026 시안 승격)
+
+사용자 제안: "국경 라인들에는 옅은 글로잉 효과, 국경 라인을 따라 얕은 빛이 천천히 움직이는 효과." 시청 뒤 정규 규약으로 승격.
+- 국경선(행정구역 선 제외) 위에 옅은 빛(`rules border_glow.halo`)을 깔고, 짧은 빛 조각(`run_seg_px`)이 `run_period_px` 간격으로 선을 따라 `run_speed_px`/초로 흐른다(`engine/layers/borders.draw_border_glow`, cairo 대시 오프셋).
+- 지도 무대 기본 켜짐(`border_glow.default_on`). 끄기 = `direction stage_config.mercator.border_glow: false`(그 밖 키 = 오류). 콘티 판 막지도에는 그리지 않는다.
+- provenance `border_glow{status, on}`. hormuz 골든 25컷 재기준선 = `reports/phaseG15/`(expected_deltas `g15_border_glow`, 끄면 = phaseG12).
+

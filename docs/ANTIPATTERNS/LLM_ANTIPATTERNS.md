@@ -351,3 +351,23 @@ last_review: 2026-05-22
 - **회귀 테스트 (regression_test)**: `tests/test_g13.py::ResolveRefsTest::test_bracket_tag_without_colon`.
 - **연관**: LLM-AP-010, back_and_forth D-0129 §D·D-0131.
 - **상태 (status)**: active
+
+## LLM-AP-013 — 원고 LLM 이 엇갈린 수치·미확인 서술을 넣고, 문장을 연결어 없이 사실의 나열로 씀
+
+- **증상 (symptom)**: valdai-2026 원고(ScriptWorker 초안, v5.3.0 — 사용자 시청 2026-10-02). ① "수바우키 회랑 약 80km … 이 길이 수치를 두고는 출처마다 설명이 엇갈립니다", 봉쇄 준비설·하이브리드 공방(논쟁 주장), 마지막 장면 "아직 확인되지 않았습니다" 4문장. ② 50문장 중 앞 문장을 연결어로 받는 문장 0개 — 사용자 판정 "단순히 문구의 나열".
+- **원리 (root cause)**: 옛 원고 프롬프트가 "도입 → 핵심 → 맥락 → **미확인 쟁점** → 정리"와 "마무리는 **아직 정해지지 않은 사실**로"를 권장했다(15 P11 이전의 균형 원칙을 그대로 옮긴 문구). 논쟁(disputed) 주장은 "양측을 함께 쓴다"고만 해서, LLM 은 엇갈린 수치도 '균형'으로 넣었다. 문장 하나 = 주장 하나 = 자막 한 장 규칙만 있고 문장 사이 관계에 대한 규칙이 없어, LLM 은 claim 목록을 순서대로 한 문장씩 옮겼다(나열). 린트도 문장 단위만 봤다.
+- **좋은 예**: 확인된 사실과 귀속 발언만 쓴다. 엇갈린 수치·논쟁 주장은 넣지 않는다. 문장 사이에 관계를 드러내는 연결어(그래서·따라서·그렇지만·반면·이에 대해 등)로 흐름을 만든다 — 단 인과·대조 관계가 출처로 성립할 때만(근거 없는 "그러므로"는 사실 왜곡). 마무리는 확인된 사실의 정리.
+- **구조적 조치 (structural fix)**: `rules script_grammar`(lines·connectives·connective_min_ratio 0.3·connective_max_ratio 0.7·uncertain_patterns) → 프롬프트 `{{RULES.script_grammar}}`(prompts/script.md, genre_script.md 마무리 문구 교체) + `script.lint` 오류 `[disputed-claim]`·`[uncertain-phrase]`·`[flow-sparse]`, 경고 `[flow-overuse]`. 게이트 ① 화면의 린트 줄에 그대로 보인다.
+- **회귀 테스트 (regression_test)**: `tests/test_v531_quote_glow.py::ScriptGrammarTest`. v3 기준 원고(hormuz_korea)는 규약 이전 원고라 고치지 않는다 — 새 두 항목(미확인 서술 1·흐름 부족)만 걸림을 단언(`tests/test_script_lint.py`).
+- **연관**: 사용자 결정 2026-10-02(v5.5.0), docs/handoff/03 §2(상투 문구), CLAUDE.md C0 경계(정확성).
+- **상태 (status)**: active [partially superseded by LLM-AP-014 — disputed 전면 금지 → 무귀속만 금지]
+
+## LLM-AP-014 — 규약 과잉 일반화: "엇갈린 수치 금지"를 "논쟁 주장 전면 금지"로 구현해 양측 병기를 막음
+
+- **증상 (symptom)**: LLM-AP-013 구조 조치(v5.5.0 첫 구현)가 disputed claim 을 인용한 문장을 모두 오류로 막았다. valdai-2026 의 "러시아 대사관들은 ~ 주장했습니다 / 나토는 ~ 밝혔습니다" 양측 병기 4문장, "AP통신은 약 80km라고 보도했습니다"까지 오류. 사용자 점검(2026-10-03): "막지 말고 논쟁 중이라는 사실을 언급하면 되는 것 아니야?"
+- **원리 (root cause)**: claim status(disputed)는 **내용**의 논쟁 여부다. "누가 무엇을 말했다"는 문장은 내용을 단정하지 않으므로 사실이다. 구현이 이 둘을 구분하지 않아 CLAUDE.md C0 "논쟁 사안은 양측을 같은 무게로"와 직접 충돌했다. 같은 이유로 미확인 패턴("불확실"·"알려지지 않")이 귀속 문장("IMF는 불확실성이 커졌다고 밝혔습니다")까지 잡았고, 연결어 검사는 프롬프트가 "등"으로 예시만 준 목록 밖 접속어(그리고·다만·이후)를 세지 못했다. 또 새 오류가 게이트 ① 차단 목록에 없어 승인 뒤 음성 단계에서야 막혔다.
+- **좋은 예**: 논쟁 주장 = 양측 귀속 병기(허용). 무귀속 단정·내레이터의 미확인 결론만 오류. 연결어 목록은 프롬프트에 린트와 같은 목록으로 노출, 단어 경계("즉시"≠"즉"). 새 원고 오류는 게이트 ① 전에.
+- **구조적 조치 (structural fix)**: `script.lint` — disputed-claim·uncertain-phrase 는 귀속 표현이 있으면 면제("확인되지 않" 표지는 귀속에서 제외), `starts_with_connective`(단어 경계). `rules script_grammar` 문안·connectives 확장·uncertain_patterns 문장 끝 형태로 축소. `source_completeness_checker.BLOCKING` 에 세 항목. 프롬프트 `연결어 목록:` 줄.
+- **회귀 테스트 (regression_test)**: `tests/test_v531_quote_glow.py::ScriptGrammarTest`(양측 병기 허용·무귀속 오류·귀속 미확인 허용·단어 경계·프롬프트 목록·게이트 차단).
+- **연관**: 사용자 결정 2026-10-03, LLM-AP-013, CLAUDE.md C0 경계, docs/handoff/03 §3·§12.
+- **상태 (status)**: active

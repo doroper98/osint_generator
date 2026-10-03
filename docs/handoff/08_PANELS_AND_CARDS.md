@@ -243,3 +243,14 @@ backdrop 무대 위에 놓이는 내용물은 전부 **아일랜드 상자** 한
 - **값**: 전부 `rules cascade` 키(`x0`·`y`·`step`·`flag_R`·`front.*`·`back_scale`·`back_text_alpha`·`back_fade_px`·`back_dy`·`back_dim`·`max_back`·`focus_sec`·`shift_sec`·`width_cap`) — 사용자 합격 값(D117), C0 되돌림 금지. 최악 폭 (`max_back`+1)×`step`+`front.w` ≤ `width_cap` 은 규칙 모델이 검증한다.
 - **폐기 기록**: D-0135 접히는 띠(chain, 카드 + 칩 띠)와 D-0136 띠 v2 검수는 사용자 판정("프레이밍이 잘못됐다", D116)으로 대체됐다. 이벤트 이름 `chain` → `cascade`. D-0137(지명 깔림 A·hard/warning 분리·골든 승격 조건)은 cascade 에 그대로 적용했다.
 - **골든**: hormuz_korea 에는 cascade 가 없다 — 지도 무대 25컷 바이트 동일이 승격 조건(`reports/phaseG14/hormuz_cascade.json`).
+
+## 16. v5.4.0 — 인물 발언 인용(quote)·통계 차트 문법 (사용자 결정 2026-10-02, v5.3.1 valdai-2026 시안 승격)
+
+사용자 제안(2026-10-02): "인물이 이야기한 사항은 오른쪽 위 카드보다 인물 사진을 보여 주면서 화면 가운데 따옴표로, 기사·날짜는 따옴표 글 아래 작게." 시청 뒤 "마음에 든다, 정규 규약으로 승격".
+- **문법**(`rules direction_grammar`): 인물의 **직접 인용**(원문 기사에서 따옴표로 확인된 발언)만 `quote` 로 건다. 기자의 요약·간접 화법에는 따옴표를 쓰지 않는다 — 카드(`quote: false`). 따옴표는 코드가 그린다(text 에 넣으면 모델 오류).
+- **배치**(`rules quote_center`): 지도 위 균일 덮개(비네팅 아님) → 초상(뱃지 렌더러) → 세리프 인용문(최대 `quote_max_lines` 줄) → 이름·직함 → 매체·날짜(가장 작게). 덩어리는 날짜 상자 아래·두 줄 자막 위 공간의 세로 가운데(사용자 지적 "너무 위").
+- **맞선 인용**: A 의 인용과 그에 맞서는 B 의 인용 = 같은 순간 A `pos: upper`(왼쪽 위 초상 + 윗줄, 왼쪽 정렬), B `pos: lower`(오른쪽 아래 초상 + 아랫줄, 오른쪽 정렬). 덮개는 한 번만.
+- **검사**: `[quote-overflow]`(렌더 전 오류, 자름 없음), `[subtitle-overlap]` hard(인용·뱃지·마커 상자 ↔ 실제 자막 글자). 인용 중에는 같은 인물의 지도 뱃지를 겹쳐 두지 않는다(문법).
+- **통계 차트 문법**(사용자 지시 2026-10-02 — 디자인 시트 v8.6.0 §6.4 판단표): 시간 변화 = 선(`panel dual_line`, 출처 있는 실측값, 촘촘한 날짜 라벨은 `x_label_rotate`), 전체 대비 비율 = 도트(`panel dots`, 칸 채움 애니메이션), 단일 지표 = 큰 숫자 카드(`bigs`). 주장 수치는 주장 주체를 패널 문구에.
+- **같이 고친 결함**: dual_line 세로축 눈금 소수 자릿수(옛 0 고정), dots 두 자리 숫자의 단위 겹침(`unit_gap`), versus 항목 넘침(`item_*`, 넘칠 때만 두 줄).
+- **값**: 규칙 키(`quote_center.*`·`panels.charts.dual_line.x_label_rot_*`·`panels.charts.dots.unit_gap`·`panels.versus.item_*`) — 사용자 합격 값, 값 복사 금지.

@@ -50,13 +50,32 @@ def write_animatic(pdir: Path, total_sec: float = 292.44, animatic: bool = True)
     (pdir / "out" / "animatic_provenance.json").write_text(json.dumps(prov), encoding="utf-8")
 
 
+def _v550_script(src: Path, dst: Path) -> None:
+    """기준 원고(v3)를 v5.5.0 서술 규약에 맞춘 사본 — 미확인 마무리를 확인된 사실로, 문장 둘에 하나는 연결어로(게이트 ① 차단 방지).
+    기준 원고 자체는 고치지 않는다(골든)."""
+    import yaml  # noqa: PLC0415
+
+    d = yaml.safe_load(src.read_text(encoding="utf-8"))
+    k = 0
+    for sc in d["scenes"]:
+        for s in sc["sentences"]:
+            if "정해지지 않았" in s["text"]:
+                s["text"] = s["tts"] = "결국 파병 여부는 국회 동의 절차를 거쳐 결정됩니다."
+            elif k % 2 and not s["text"].startswith("결국"):
+                s["text"] = "또한 " + s["text"]
+                if s.get("tts"):
+                    s["tts"] = "또한 " + s["tts"]
+            k += 1
+    dst.write_text(yaml.safe_dump(d, allow_unicode=True, sort_keys=False), encoding="utf-8")
+
+
 class _Proj(unittest.TestCase):
     def setUp(self) -> None:
         self._tmp = tempfile.TemporaryDirectory()
         self.root = Path(self._tmp.name)
         self.cfg = AppConfig(paths=PathsConfig(projects_root=str(self.root)))
         self.m = new_project("p", "t", "geopolitics", cfg=self.cfg)
-        shutil.copy(REPO / "projects" / "hormuz_korea" / "script.yaml", self.root / "p" / "script.yaml")
+        _v550_script(REPO / "projects" / "hormuz_korea" / "script.yaml", self.root / "p" / "script.yaml")
         shutil.copytree(REPO / "projects" / "hormuz_korea" / "intake", self.root / "p" / "intake")   # v3.2.0 — claims.json(18 §7 게이트 ① 전 검사)
         write_animatic(self.root / "p")   # v5.2.0 — 게이트 ② 는 콘티 판 의무(PIPELINE-AP-014)
 
@@ -175,10 +194,10 @@ class GateViewTest(_Proj):
     def test_script_gate_view_sections(self) -> None:
         from orchestrator.gate_view import gate_view  # noqa: PLC0415
         text, shown = gate_view(self.root / "p", "script_approval")
-        for part in ("장면 목록", "원고 전문(자막)", "출처 표", "린트 — 오류 0", "미디어 후보"):
+        for part in ("장면 목록", "원고 전문(자막)", "출처 표", "린트 — 오류 0", "미디어 후보"):   # v5.5.0 — 규약에 맞춘 기준 원고 사본(_v550_script)
             self.assertIn(part, text)
         self.assertIn("open_0", text)
-        self.assertEqual(shown["lint_errors"], "0")
+        self.assertEqual(shown["lint_errors"], "0")   # v5.5.0 — 규약에 맞춘 사본
 
     def test_preview_gate_view_reads_prev(self) -> None:
         from orchestrator.gate_view import gate_view  # noqa: PLC0415
@@ -240,7 +259,7 @@ class CommandCenterKeysTest(_Proj):
         m = load_manifest("p", self.cfg)
         self.assertEqual(m.current_state, "voice_timeline")
         self.assertEqual(m.gate_decisions[-1].by, "command-center")
-        self.assertEqual(m.gate_decisions[-1].shown.get("lint_errors"), "0")
+        self.assertEqual(m.gate_decisions[-1].shown.get("lint_errors"), "0")   # v5.5.0 — 규약에 맞춘 사본
 
 
 class CommandCenterSourceConfirmTest(_Proj):

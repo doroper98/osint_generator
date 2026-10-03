@@ -84,7 +84,9 @@ class CreepTest(unittest.TestCase):
         self.assertTrue(np.array_equal(base, build_camera(keys, n, fps, creep=[])))   # 창 없음 = 바이트 동일(골든)
         cr = build_camera(keys, n, fps, creep=[(100.0, 145.0)])
         self.assertTrue(np.array_equal(cr[:1001], base[:1001]))                   # 창 전·시작 무변경
-        self.assertTrue(np.array_equal(cr[:, :2], base[:, :2]))                   # 위치는 그대로 — w 만
+        # 위치는 그대로 — w 만. 단 다음 키 이동(t 160~163)은 v5.5.0 fixed_point 라 줄어든 w 에서 출발하면 중심 비율이 달라진다(직선 흐름)
+        self.assertTrue(np.array_equal(cr[:1600, :2], base[:1600, :2]))
+        self.assertTrue(np.allclose(cr[1630:, :2], base[1630:, :2], rtol=0, atol=1e-9))   # 이동 도착 = 같은 자리(부동소수 오차만)
         self.assertAlmostEqual(cr[1450, 2] / base[1450, 2], SW.creep.w_ratio, places=6)
         self.assertAlmostEqual(cr[1599, 2] / base[1599, 2], SW.creep.w_ratio, places=6)   # 다음 키 전까지 유지
         self.assertLess(abs(cr[1601, 2] - cr[1600, 2]), 0.05)                      # 이동이 줄어든 w 에서 출발(끊김 없음)

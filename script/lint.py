@@ -109,6 +109,16 @@ def tts_risks(text: str) -> list[tuple[str, str, str]]:
     return out
 
 
+def spoken_risks(spoken: str) -> list[tuple[str, str, str]]:
+    """v5.3.0 TTS-AP-071~073 — 사전 적용 뒤 합성 문자열의 위험 표기 [(종류, 조각, 힌트)]. 패턴 = rules tts_risk.spoken_patterns."""
+    out: list[tuple[str, str, str]] = []
+    for p in load_rules().tts_risk.spoken_patterns:
+        for m in re.finditer(p.regex, spoken, re.IGNORECASE if p.ignore_case else 0):
+            if (p.kind, m.group(0)) not in {(k, s) for k, s, _ in out}:
+                out.append((p.kind, m.group(0), p.hint))
+    return out
+
+
 # ------------------------------------------------------------------ 발음 변환 (옛 orchestrator/tts_pronounce, v0.34.10)
 # 한자어 숫자 자동 변환 + JSON 음차 사전(경로 = rules pronounce.dict_path). 번들 어댑터(bundle/text)가 쓴다.
 # 한 숫자의 음절은 붙여 쓴다(TTS-AP-058). 자막은 원본 유지 — 변환은 발음 텍스트만.
@@ -228,6 +238,15 @@ def _series_exists(sid: str) -> bool:
     return (series_dir() / f"{sid}.yaml").exists()
 
 
+def starts_with_connective(text: str, connectives: list[str]) -> bool:
+    """문장이 연결어로 시작하는가(v5.5.0 script_grammar) — 연결어 뒤가 띄어쓰기·쉼표·끝이어야 한다("즉시"는 "즉"이 아니다)."""
+    return any(text.startswith(c) and (len(text) == len(c) or text[len(c)] in " ,") for c in connectives)
+
+
+def _attributed(text: str, markers: list[str]) -> bool:
+    return any(m.lower() in text.lower() for m in markers)
+
+
 def lint(script: Script, claims: "dict[str, str] | None" = None, *, check_sources: bool = True) -> LintReport:
     """claims = {claim_id: status}(claims.json). check_sources=False 는 출처 검사를 끈다 — 프롬프트 예시처럼
     claims.json 이 없는 원고 조각에만(파리티 테스트)."""
@@ -237,6 +256,9 @@ def lint(script: Script, claims: "dict[str, str] | None" = None, *, check_source
     forbidden = re.compile(r.tts_rules.forbidden_chars_regex)
     max_lines = r.script_schema.subtitle_max_lines
     out: list[LintIssue] = []
+    sg = r.script_grammar   # v5.5.0
+    who_said = [m for m in attrib if not any(m in u or u in m for u in sg.uncertain_patterns)]   # "확인되지 않" 은 귀속이 아니다
+    total = flow = 0
     for sc in script.scenes:
         for k, s in enumerate(sc.sentences):
             sid = f"{sc.id}_{k}"
@@ -257,6 +279,9 @@ def lint(script: Script, claims: "dict[str, str] | None" = None, *, check_source
                         add("emphasis-missing", "error", e)
             for kind, snippet, hint in tts_risks(say):
                 add(f"tts-risk:{kind}", "warning", f"{snippet!r} → {hint}", say)
+            spoken = pronounce_tts(say)   # v5.3.0 TTS-AP-071~073 — 사전 적용 뒤 실제 합성 문자열
+            for kind, snippet, hint in spoken_risks(spoken):
+                add(f"tts-spoken:{kind}", "warning", f"{snippet!r} → {hint}", spoken)
             if check_sources:
                 if not s.sources:   # v3.2.0 — 숫자·날짜 문장은 오류(D-0029 §3 예고대로 격상), 그 밖은 경고
                     num = bool(NUMERIC.search(s.text))
@@ -280,6 +305,25 @@ def lint(script: Script, claims: "dict[str, str] | None" = None, *, check_source
             n = subtitle_lines(s.text)
             if n > max_lines:
                 add("subtitle-lines", "warning", f"{n}줄 > {max_lines}")
+            # v5.5.0 script_grammar(사용자 결정 2026-10-02, 개정 2026-10-03) — 논쟁 주장은 양측 귀속으로, 내레이터의 미확인 결론 금지
+            said = _attributed(s.text, who_said)
+            if check_sources and claims is not None and not said:
+                bad = [c for c in s.sources if claims.get(c) == "disputed"]
+                if bad:
+                    add("disputed-claim", "error", f"논쟁 중인 주장 {bad} 을 말한 사람 없이 사실처럼 씀 — 양측이 한 말을 귀속해 나란히 쓴다(script_grammar)")
+            hit = next((u for u in sg.uncertain_patterns if u in s.text), None)
+            if hit and not said:
+                add("uncertain-phrase", "error", f"미확인 결론 {hit!r} — 누가 무엇을 말했는지를 쓴다(script_grammar)")
+            total += 1
+            flow += starts_with_connective(s.text, sg.connectives)
+    if total >= 4:   # v5.5.0 — 문장 흐름: 연결어로 앞 문장을 받는 문장 비율
+        r_ = flow / total
+        if r_ < sg.connective_min_ratio:
+            out.append(LintIssue(kind="flow-sparse", severity="error", sid="-", text="",
+                                 detail=f"연결어로 잇는 문장 {flow}/{total} = {r_:.0%} < {sg.connective_min_ratio:.0%} — 나열이 아니라 흐름으로(script_grammar)"))
+        elif r_ > sg.connective_max_ratio:
+            out.append(LintIssue(kind="flow-overuse", severity="warning", sid="-", text="",
+                                 detail=f"연결어 문장 {r_:.0%} > {sg.connective_max_ratio:.0%} — 남발도 어색하다"))
     return LintReport(issues=out)
 
 
