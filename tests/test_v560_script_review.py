@@ -137,6 +137,20 @@ class LabelCollisionTest(unittest.TestCase):
         self.assertLessEqual(_overlap_px(_text_part(mk, box), near_dot), 0)
         self.assertGreater(_overlap_px(_text_part(mk, box), on_text), 0)
 
+    def test_precedent_overflow(self) -> None:
+        """RENDER-AP-013 — 연도 카드 글자가 카드 폭을 넘으면 오류(1701 카드 '단절'이 밖으로 나간 사고)."""
+        import cairo  # noqa: PLC0415
+
+        from engine import checks  # noqa: PLC0415
+        from engine.panels.precedent import overflow  # noqa: PLC0415
+
+        ctx = cairo.Context(cairo.ImageSurface(cairo.FORMAT_ARGB32, 1, 1))
+        bad = {"cards": [{"year": "1701", "title": "프로이센 대관식 도시", "lines": ["전간기 동프로이센 · 독일 본토와 단절"]}]}
+        ok = {"cards": [{"year": "1701", "title": "프로이센 대관식 도시", "lines": ["전간기 동프로이센", "독일 본토와 떨어진 땅"]}]}
+        self.assertEqual(len(overflow(ctx, bad)), 1)
+        self.assertEqual(overflow(ctx, ok), [])
+        self.assertIn("panel_overflow", checks.HARD)
+
     def test_timeline_span_hard(self) -> None:
         """RENDER-AP-011 — 월 축 타임라인 패널은 max_span_months 이하."""
         from engine import checks  # noqa: PLC0415

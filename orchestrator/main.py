@@ -236,7 +236,7 @@ def build_parser() -> argparse.ArgumentParser:
 
     rop = sub.add_parser("reopen", help="렌더 이후 사용자 피드백으로 연출을 다시 → direction (사유 필수, v4.7.0 D-0104 D4)")
     rop.add_argument("--project", required=True)
-    rop.add_argument("--to", required=True, choices=["direction"])
+    rop.add_argument("--to", required=True, choices=["direction", "script_draft"])   # script_draft v5.6.0 PIPELINE-AP-017
     rop.add_argument("--reason", required=True)
     rop.add_argument("--by", default="user")
 

@@ -1208,6 +1208,46 @@
       "attributed_only": false,
       "claim_kind": "fact",
       "notes": ""
+    },
+    {
+      "claim_id": "clm_0066",
+      "text": "쾨니히스베르크는 1701년부터 프로이센 왕의 대관식 도시였고, 2차 세계대전 전까지 독일 동쪽 끝의 대도시였다",
+      "source_ids": [
+        "src_art_0018",
+        "src_art_0014"
+      ],
+      "status": "corroborated",
+      "contested": false,
+      "event_date": "1701-01-18",
+      "checks": [
+        "quote_match:src_art_0018",
+        "quote_match:src_art_0018",
+        "quote_match:src_art_0014",
+        "independent_origins:2"
+      ],
+      "attributed_only": false,
+      "claim_kind": "fact",
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0067",
+      "text": "양차 대전 사이 쾨니히스베르크는 폴란드 회랑으로 독일 본토와 떨어진 동프로이센 역외 영토에 있었다",
+      "source_ids": [
+        "src_art_0018"
+      ],
+      "status": "unverified",
+      "contested": false,
+      "event_date": "1920-01-10",
+      "checks": [
+        "quote_match:src_art_0018",
+        "quote_match:src_art_0018",
+        "quote_match:src_art_0018",
+        "quote_match:src_art_0018",
+        "independent_origins:1"
+      ],
+      "attributed_only": false,
+      "claim_kind": "fact",
+      "notes": ""
     }
   ]
 }

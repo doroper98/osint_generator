@@ -89,6 +89,8 @@ MINOR: 게이트 ② 선행 조건 강화 + 새 도구. JSON `schema_version` �
 ### Fixed (본편 720p 사용자 지적 — 2026-10-04)
 - 쾨니히스베르크 연표: 월 축 타임라인 패널에 1255–1990 을 넣어 "1.1·4.9·8.1" 날짜와 굵은 띠가 나옴 → 연도 카드(precedent) 4장. 검사 `timeline_span` hard, 규칙 `panels.timeline.max_span_months: 36`(RENDER-AP-011).
 - 2026년 철도 훈련 장면: 철도 구간이 프레임 밖 → 장면을 2컷(철도 북쪽 · 벨라루스 훈련장 남쪽)으로. 검사 `route_frame` hard(규칙 `route_frame.max_out: 0.25`), `label_collision` 이 경로·봉쇄선 이름표도 대조(마커는 글자 영역만). 2004년 "육상 연결" 이름표 겹침도 이 검사로 발견해 삭제(RENDER-AP-012).
+- 원고 v3(사용자 지적 "독일 영유권이 갑자기 나온다"): 1255년 뒤 2문장 — 프로이센 대관식 도시·독일 동쪽 끝 대도시, 전간기 폴란드 회랑으로 떨어진 동프로이센(claim clm_0066·0067, 위키백과 원문 인용). 연표 1255·1701·1945·1990 4장, "독일, 영유권 주장 포기".
+- `reopen --to script_draft` — 렌더 뒤 원고 보강도 게이트 ① 재승인 → 콘티 판 순서로(PIPELINE-AP-017). 검사 `panel_overflow` hard — 연도 카드 글자 폭(RENDER-AP-013).
 
 ---
 

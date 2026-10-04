@@ -54,31 +54,45 @@
       "status": "corroborated",
       "label": null,
       "claim_ids": [
-        "clm_0013"
+        "clm_0066"
       ]
     },
     "konigsberg_3": {
-      "status": "corroborated",
-      "label": null,
+      "status": "unverified",
+      "label": "<미검증>",
       "claim_ids": [
-        "clm_0014"
+        "clm_0067"
       ]
     },
     "konigsberg_4": {
       "status": "corroborated",
       "label": null,
       "claim_ids": [
-        "clm_0015"
+        "clm_0013"
       ]
     },
     "konigsberg_5": {
       "status": "corroborated",
       "label": null,
       "claim_ids": [
-        "clm_0016"
+        "clm_0014"
       ]
     },
     "konigsberg_6": {
+      "status": "corroborated",
+      "label": null,
+      "claim_ids": [
+        "clm_0015"
+      ]
+    },
+    "konigsberg_7": {
+      "status": "corroborated",
+      "label": null,
+      "claim_ids": [
+        "clm_0016"
+      ]
+    },
+    "konigsberg_8": {
       "status": "unverified",
       "label": "<미검증>",
       "claim_ids": [

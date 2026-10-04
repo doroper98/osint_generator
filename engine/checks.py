@@ -65,7 +65,7 @@ SHADOW_PX = 7             # badge_box 가 원 둘레에 더하는 그림자 여�
 HARD = ("overlap", "offscreen", "glyphs", "glyph_size", "labels", "date", "subtitles", "rights", "forbidden", "stage_continuity",
         "genre_elements", "chart_honesty", "series_limit_3", "units_visible", "as_of_visible", "boundary_as_route",
         "geo_mismatch", "timeline_rescale", "backdrop_rights", "backdrop_repeat", "island_overlap",
-        "backdrop_main_missing", "island_label_clip", "cascade", "subtitle_overlap", "label_collision", "timeline_span", "route_frame")   # island_label_clip v5.2.0 D-0133 §2, backdrop_main_missing v5.2.0 D-0129 §B, island_overlap v5.1.0 D-0126 Q3, geo_mismatch v4.10.0 D-0116, timeline_rescale v5.1.0 D-0121 §A, backdrop_* v5.1.0 D-0123
+        "backdrop_main_missing", "island_label_clip", "cascade", "subtitle_overlap", "label_collision", "timeline_span", "route_frame", "panel_overflow")   # island_label_clip v5.2.0 D-0133 §2, backdrop_main_missing v5.2.0 D-0129 §B, island_overlap v5.1.0 D-0126 Q3, geo_mismatch v4.10.0 D-0116, timeline_rescale v5.1.0 D-0121 §A, backdrop_* v5.1.0 D-0123
 WARN = ("shots", "media_beats", "media_upscaled", "endcard_roll", "geo_unsourced",   # endcard_roll v4.7.0 D-0106, geo_unsourced D-0107
         "static_window", "stage_choice", "card_island", "island_label_overlap", "cascade_label_hidden")   # static_window v4.11.0 D-0118, stage_choice v5.1.0 D-0123, card_island v5.2.0 D-0129 §C, island_label_overlap D-0133 §3
 
@@ -225,6 +225,14 @@ def check_route_frame(P) -> list[str]:  # noqa: ANN001, N803
     mx = R_.route_frame.max_out
     return [f"[route-frame] 경로 {nm!r} t={t:.2f} 곡선 {f:.0%} 가 화면 밖(허용 {mx:.0%}) — 카메라가 경로를 담게 하거나 경로를 문장 지역으로 줄인다"
             for nm, t, f in route_frame_report(P) if f > mx]
+
+
+def check_panel_overflow(P) -> list[str]:  # noqa: ANN001, N803
+    """v5.6.0 RENDER-AP-013 — 연도 카드(precedent) 글자가 카드 폭을 넘으면 hard(렌더 전에)."""
+    from engine.panels.precedent import overflow  # noqa: PLC0415
+
+    ctx = cairo.Context(cairo.ImageSurface(cairo.FORMAT_ARGB32, 1, 1))
+    return [m for e in P.events if e["type"] == "panel" and e.get("kind") == "precedent" for m in overflow(ctx, e)]
 
 
 def check_timeline_span(P) -> list[str]:  # noqa: ANN001, N803
@@ -724,6 +732,7 @@ def run_checks(P, times: list[float], provenance: dict, drawn: list[tuple[str, f
         "label_collision": lambda: check_label_collision(P),   # v5.6.0 RENDER-AP-009
         "timeline_span": lambda: check_timeline_span(P),       # v5.6.0 RENDER-AP-011
         "route_frame": lambda: check_route_frame(P),           # v5.6.0 RENDER-AP-012
+        "panel_overflow": lambda: check_panel_overflow(P),     # v5.6.0 RENDER-AP-013
     }
     res = {k: f() for k, f in run.items() if k not in skip}
     notes: dict[str, list[str]] = {}

@@ -3406,3 +3406,4 @@ last_review: 2026-06-06
 - 2026-10-04 v5.6.0 사용자 결정 — 자막(원고) → 콘티 → 승인 후 본편 순서 강제(원고 지문, PIPELINE-AP-015), 제작 자산 공용 보관 tools/asset_library.py(PIPELINE-AP-016, 초상 5인·나토 휘장 승격). v5.5.1 나토 휘장(U20261004)·기준 해상도 720p(final).
 - 2026-10-04 v5.6.0 사용자 시청 지적 12건 규약 승격 — TTS-AP-074~081, RENDER-AP-008(뱃지 고정)·009(지도 글자 겹침 검사), LLM-AP-015(참조 출처 화면 표기·시제·앵커 브리핑 마무리), 약어 읽기 등재. kaliningrad 원고 v2·콘티 판 v2(480.9초) + 원고 검토 자료 전달.
 - 2026-10-04 v5.6.0 본편 720p 사용자 지적 2건 — 연표 월 축 패널에 750년(RENDER-AP-011, timeline_span hard), 철도 훈련 장면 철도 구간 프레임 밖(RENDER-AP-012, route_frame hard·경로 이름표 겹침 검사). kaliningrad 본편 재렌더.
+- 2026-10-04 v5.6.0 원고 v3 — 독일 시기 2문장 보강(사용자 승인), reopen → script_draft(PIPELINE-AP-017), 게이트 ① 재승인 6d9e4ae4, 연도 카드 폭 검사 panel_overflow(RENDER-AP-013). 콘티 판 v4.

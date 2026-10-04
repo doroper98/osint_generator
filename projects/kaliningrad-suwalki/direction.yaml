@@ -420,30 +420,34 @@ events:
         word:
           sid: konigsberg_1
           text: 튜턴
+    - year: '1701'
+      title: 프로이센 대관식 도시
+      lines:
+      - 독일 동쪽 끝 대도시
+      - 전간기 동프로이센
+      - 독일 본토와 떨어진 땅
+      t0:
+        word:
+          sid: konigsberg_2
+          text: 프로이센
     - year: '1945'
       title: 소련 편입
       lines:
       - 4월 9일 소련군 장악
       - 8월 1일 포츠담 협정
+      - 1946년 칼리닌그라드로 개칭
       t0:
         word:
-          sid: konigsberg_2
+          sid: konigsberg_4
           text: 소련군
       hl: true
-    - year: '1946'
-      title: 칼리닌그라드로 개칭
-      lines:
-      - 도시 이름 변경
-      t0:
-        sid: konigsberg_4
-        'off': 0.3
     - year: '1990'
-      title: 독일 영유권 포기
+      title: 독일, 영유권 주장 포기
       lines:
       - 최종 해결 조약
       - 9월 12일 서명
       t0:
-        sid: konigsberg_5
+        sid: konigsberg_7
         'off': 0.4
 - type: marker
   start:

@@ -147,8 +147,10 @@ class ReopenTest(unittest.TestCase):
         self._to_render_from_gate1()
         with self.assertRaises(ValueError):   # 사유 필수
             reopen(self.p.m, "direction", by="u", reason="  ", cfg=self.p.cfg)
-        with self.assertRaises(ValueError):   # direction 으로만
-            reopen(self.p.m, "script_draft", by="u", reason="x", cfg=self.p.cfg)
+        with self.assertRaises(ValueError):   # direction·script_draft(v5.6.0 PIPELINE-AP-017) 로만
+            reopen(self.p.m, "research", by="u", reason="x", cfg=self.p.cfg)
+        m = reopen(self.p.m, "script_draft", by="u", reason="원고 내용 보강", cfg=self.p.cfg)   # 원고로 → 게이트 ① 재승인
+        self.assertEqual(m.current_state, "script_draft")
 
     def _to_render_from_gate1(self) -> None:
         from orchestrator.project_manager import approve_gate  # noqa: PLC0415

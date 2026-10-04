@@ -285,7 +285,7 @@
       "verification": {
         "status": "corroborated",
         "checks": [
-          "claims:7"
+          "claims:8"
         ],
         "notes": ""
       },
@@ -354,7 +354,7 @@
       "verification": {
         "status": "corroborated",
         "checks": [
-          "claims:3"
+          "claims:5"
         ],
         "notes": ""
       },
