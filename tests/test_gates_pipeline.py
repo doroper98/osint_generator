@@ -169,7 +169,7 @@ class PipelineTest(_Proj):
         self.assertEqual(m.current_state, "done")
         self.assertEqual(log, ["plan", "geo", "geo", "lint", "validate", "camera_suggest", "preview", "render", "mix", "mux"])   # v5.5.1 — assets + assets_final(배포 720p 티어)
         recs = load_manifest("p", self.cfg).stage_records
-        self.assertEqual([r.stage for r in recs], ["plan", "assets", "direction_validate", "validate", "camera_suggest", "preview", "render", "mix", "deliver"])
+        self.assertEqual([r.stage for r in recs], ["plan", "assets", "assets_final", "direction_validate", "validate", "camera_suggest", "preview", "render", "mix", "deliver"])
         self.assertTrue((self.root / "p" / recs[0].log).exists())
 
     def test_failure_and_drops_stay(self) -> None:
