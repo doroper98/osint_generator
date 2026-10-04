@@ -245,6 +245,7 @@ entities:
   lt: {kind: country, names: [리투아니아], flag: lt, rights: flags.flag_icons}   # v5.3.0 valdai-2026(칼리닌그라드 이웃)
   ee: {kind: country, names: [에스토니아], flag: ee, rights: flags.flag_icons}   # v5.3.0 valdai-2026
   by: {kind: country, names: [벨라루스], flag: by, rights: flags.flag_icons}   # v5.3.0 valdai-2026
+  dk: {kind: country, names: [덴마크], flag: dk, rights: flags.flag_icons}
   fi: {kind: country, names: [핀란드], flag: fi, rights: flags.flag_icons}   # v5.3.0 valdai-2026
   ro: {kind: country, names: [루마니아], flag: ro, rights: flags.flag_icons}
   pk: {kind: country, names: [파키스탄], flag: pk, rights: flags.flag_icons}
