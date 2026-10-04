@@ -261,3 +261,19 @@ projects/valdai-2026/plan.json
 projects/valdai-2026/project_manifest.json
 projects/valdai-2026/intake/verify_draft.json
 projects/valdai-2026/direction.meta.json
+
+# kaliningrad-suwalki (v5.5.1) — 런타임·LLM 기록·렌더 산출물은 추적하지 않는다(valdai-2026 과 같은 규칙).
+projects/kaliningrad-suwalki/01_intake/
+projects/kaliningrad-suwalki/03_tasks/
+projects/kaliningrad-suwalki/assets/
+projects/kaliningrad-suwalki/llm_calls/
+projects/kaliningrad-suwalki/logs/
+projects/kaliningrad-suwalki/media/
+projects/kaliningrad-suwalki/tts/
+projects/kaliningrad-suwalki/prev/
+projects/kaliningrad-suwalki/prev_animatic/
+projects/kaliningrad-suwalki/out/
+projects/kaliningrad-suwalki/plan.json
+projects/kaliningrad-suwalki/project_manifest.json
+projects/kaliningrad-suwalki/intake/verify_draft.json
+projects/kaliningrad-suwalki/direction.meta.json

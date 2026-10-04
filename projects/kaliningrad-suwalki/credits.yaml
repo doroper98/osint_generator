@@ -1,0 +1,42 @@
+# 『칼리닌그라드와 수바우키 회랑』 엔딩 크레딧 (v5.5.1). 보도 = 인용 소스(auto: sources). 인물 사진은 연출 확정 뒤 정리.
+schema_version: 1
+sections:
+- title: 보도
+  column: 0
+  auto: sources
+- title: 인물 사진 · 휘장
+  column: 1
+  items:
+  - main: 블라디미르 푸틴 — osint_generator 라이브러리 가공본
+    license: CC BY 4.0(kremlin.ru) · 라이브러리 가공
+    rights:
+    - people.putin
+  - main: 도널드 트럼프 — 백악관 공식 초상(Shealeah Craighead)
+    license: Public domain · osint_generator 라이브러리 가공본
+    rights:
+    - people.trump
+  - main: 나토 휘장 — 나토 깃발(위키미디어 공용, 가운데 정사각 자르기)
+    license: Public domain · insignia(사용자 지시 예외)
+    rights:
+    - emblems.nato
+- title: 글꼴
+  column: 1
+  auto: fonts
+- title: 지도
+  column: 1
+  auto: map
+- title: 국기
+  column: 1
+  items:
+  - main: 국기
+    license: flag-icons · MIT
+    rights:
+    - flags.flag_icons
+- title: 음악 · 음성
+  column: 1
+  items:
+  - music: music.zabriskie_patriarch
+  - main: 내레이션
+    license: AI 음성 합성
+    rights:
+    - narration.tts
