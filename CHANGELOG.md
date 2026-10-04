@@ -1,6 +1,6 @@
 <!--
 tier: 3
-last_synced_with: v5.5.1
+last_synced_with: v5.6.0
 ssot_for: [release-notes]
 depends_on: [README.md, GOAL.md]
 last_review: 2026-09-28
@@ -66,7 +66,21 @@ released 항목은 **append-only**입니다.
 
 ---
 
-## [v5.5.1] — 2026-10-04 — 나토 휘장 등록(사용자 직접 지시), 칼리닌그라드·수바우키 회랑 영상 — 진행 중
+## [v5.6.0] — 2026-10-04 — 자막(원고) → 콘티 → 승인 후 본편 순서 강제, 제작 자산 공용 보관 (사용자 결정 2026-10-04) — 진행 중
+
+MINOR: 게이트 ② 선행 조건 강화 + 새 도구. JSON `schema_version` 그대로(1).
+
+### Changed
+- 게이트 ① 승인 기록에 원고 지문(`shown.script_sha1`), 콘티 판 기록에 원고 지문(`animatic_run.script_sha1`). 게이트 ② 는 두 지문이 같아야 승인 — 원고 검토 없이 만든 콘티 판·승인 뒤 고친 원고로 만든 콘티 판은 통과 못 함(PIPELINE-AP-015).
+- 콘티 판을 보낼 때 원고 검토 자료(게이트 ① 화면: 원고 전문·출처 표·린트)도 함께 보낸다(WORKFLOWS W0).
+
+### Added
+- `tools/asset_library.py promote|check` — 프로젝트에서 만든 초상 → `assets/library/people`(+library_manifest), 휘장 → `assets/emblems/files`(PIPELINE-AP-016). `commons_fetch emblems` 는 공용 파일이 있으면 복사(재다운로드·재가공 없음).
+- 공용 자산 승격: 루카셴코·투스크·메르츠·뤼터·나우세다 초상, 나토 휘장.
+
+---
+
+ — 2026-10-04 — 나토 휘장 등록(사용자 직접 지시), 칼리닌그라드·수바우키 회랑 영상 — 진행 중
 
 PATCH: 휘장 1건 추가 + 권리 기록 선택 필드. JSON `schema_version` 그대로(1).
 

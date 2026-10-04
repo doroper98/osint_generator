@@ -1,6 +1,6 @@
 <!--
 tier: 1
-last_synced_with: v5.5.1
+last_synced_with: v5.6.0
 ssot_for: [ai-assistant-rules, code-style, commit-conventions]
 depends_on: [GOAL.md, DOCS_GOVERNANCE.md, docs/handoff/15_ANTI_INERTIA_PRINCIPLES.md]
 last_review: 2026-09-29
@@ -161,11 +161,17 @@ HyperFrames/Remotion 문법, `docs/07/08/09` 구판)은 **v2.0.0에서 폐기**�
 3. **테스트 가능한 산출물**. 매 Phase는 `python -m py_compile`과 import smoke test 통과.
 4. **무리하게 미래 기능을 만들지 않는다**. 본 Phase 범위 안에서만 구현.
 5. **사용자가 명시적으로 요청하지 않은 PR 생성 금지**.
-6. **콘티 판(animatic)은 건너뛰지 않는다 — 의무 단계.** 게이트 ① 승인 → 음성 → 연출 판이 나오면
+6. **자막(원고) → 콘티 → (승인 후) 본영상 — 순서 의무(사용자 결정 2026-10-04, PIPELINE-AP-015).** 원고가 나오면
+   `gate-view` 원고 검토 자료(원고 전문·출처 표·린트)를 **사용자에게 보내 자막 점검**을 요청하고 게이트 ① 승인을 받는다. 승인 기록에 원고 지문이 남고,
+   콘티 판은 그 원고로 만들어야 게이트 ② 를 통과한다(`require_animatic` 이 원고 지문 대조). 원고를 고치면 다시 게이트 ① → 콘티 판.
+   **콘티 판(animatic)은 건너뛰지 않는다 — 의무 단계.** 게이트 ① 승인 → 음성 → 연출 판이 나오면
    `python -m audio.mix` → `python -m engine.render projects/{pid} --animatic` → **`out/animatic.mp4` 를 사용자에게 보내 흐름 검토**를 받은 뒤에만
    프리뷰·게이트 ②·전편으로 간다(`WORKFLOWS.md` W0). 코드가 강제한다: 현재 음성 타임라인의 콘티 판 기록
    (`out/animatic_provenance.json`)이 없으면 `approve --gate preview_approval` 이 거부된다(`orchestrator.project_manager.require_animatic`,
    우회 플래그 없음 — 사용자 결정 2026-10-01, PIPELINE-AP-014).
+7. **제작한 자산은 공용 자산으로 보관한다(사용자 결정 2026-10-04, PIPELINE-AP-016).** 초상·휘장 등 영상 제작 중 만든 자산은 프로젝트 폴더
+   (저장소 미추적)에만 두지 않고 `python tools/asset_library.py promote projects/{pid}` 로 `assets/library/people`·`assets/emblems/files` 에
+   권리 기록과 함께 올린다. 다음 영상은 공용 자산을 먼저 쓴다(새로 받거나 다시 만들지 않는다). 콘티 판 전 `asset_library.py check` 가 0 이어야 한다.
 
 ## C9. 보안 / 권리
 

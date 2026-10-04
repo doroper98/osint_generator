@@ -124,4 +124,22 @@ last_review: 2026-05-19
 
 ---
 
+## PIPELINE-AP-015 — 원고(자막) 검토 없이 콘티 판부터 만들어 보냄
+- **증상**: kaliningrad-suwalki(v5.5.1) — 원고를 내가 다듬은 뒤 게이트 ① 승인 없이 음성·연출·콘티 판을 만들어 보냈다. 사용자 결정(2026-10-04): "콘티판 제작과 더불어서 자막(대본)에 대한 점검도 요청 — 자막 → 콘티 → (승인 후) 본영상".
+- **원인**: 게이트 ① 은 상태 전이로만 있었고, 엔진 CLI(`script.plan`·`engine.render --animatic`)를 직접 부르면 건너뛸 수 있었다. 게이트 ② 는 콘티 판 존재·음성 길이만 봤지, 그 콘티 판이 승인된 원고로 만들어졌는지 보지 않았다.
+- **좋은 예**: 원고 → `gate-view` 자료를 사용자에게 보내 자막 점검 → `approve --gate script_approval`(원고 지문 기록) → 음성 → 연출 → 콘티 판(원고 지문 기록) → 사용자 흐름 검토 → 프리뷰 → 게이트 ② → 본편.
+- **자동 조치**: 게이트 ① 승인 `shown.script_sha1`, 콘티 판 `animatic_run.script_sha1`, `require_animatic(pdir, approved_sha1)` 이 대조 — 승인 기록 없음·지문 다름 = 게이트 ② 거부(우회 플래그 없음).
+- **회귀 테스트**: `tests/test_gates_pipeline.py::AnimaticGateTest::test_script_changed_after_approval_blocks_gate2`
+- **발견 버전**: v5.5.1 (사용자 지적 2026-10-04) · **상태**: active
+
+## PIPELINE-AP-016 — 제작한 자산(초상·휘장)을 프로젝트 폴더에만 두어 다음 영상에서 다시 만듦
+- **증상**: kaliningrad-suwalki 에서 나토 휘장·인물 초상 5인을 만들었지만 프로젝트 `assets/`(.gitignore)에만 있었다. 다른 영상·새 세션에서는 다시 받고 다시 가공해야 했다(위키미디어 429 로 수십 분).
+- **원인**: 공용 자산 자리(`assets/library`)는 사전 구축 24인만 있었고, 프로젝트에서 만든 자산을 올리는 단계가 없었다.
+- **좋은 예**: 자산을 만든 뒤 `python tools/asset_library.py promote projects/{pid}` — 초상은 라이브러리(권리 기록 동반), 휘장은 `assets/emblems/files`. 다음 영상은 라이브러리·공용 파일을 먼저 쓴다.
+- **자동 조치**: `tools/asset_library.py check`(승격 안 된 자산 = exit 1), `commons_fetch emblems` 가 공용 파일 우선. 권리 기록 없는 자산은 승격하지 않는다(C9).
+- **회귀 테스트**: `tests/test_asset_library.py`
+- **발견 버전**: v5.5.1 (사용자 지시 2026-10-04) · **상태**: active
+
+---
+
 > 새 패턴 발견 시 본 파일 끝에 append. 과거 항목 수정 금지.

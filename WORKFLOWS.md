@@ -15,6 +15,15 @@ last_review: 2026-09-30
 
 ## W0. 콘티 판(animatic) — 흐름·호흡을 먼저 싸게 (v4.9.0, back_and_forth D-0108, 사용자 결정 D97)
 
+> **순서 의무 — 자막(원고) → 콘티 → (승인 후) 본영상 (v5.6.0, 사용자 결정 2026-10-04, PIPELINE-AP-015).**
+> 1. 원고가 나오면 `python -m orchestrator.main gate-view {pid}` 원고 검토 자료(원고 전문·출처 표·린트)를 **사용자에게 보내 자막 점검**을 요청한다.
+> 2. 사용자 승인 → `approve --gate script_approval` (승인 기록에 원고 지문 `script_sha1`).
+> 3. 음성 → 연출 → 콘티 판(기록에 원고 지문). 콘티 판을 보낼 때도 원고 검토 자료를 함께 보낸다.
+> 4. 게이트 ② 는 콘티 판의 원고 지문 = 승인 원고 지문일 때만 통과. 원고를 고치면 게이트 ① 부터 다시.
+>
+> **자산 보관 (v5.6.0, PIPELINE-AP-016)**: 초상·휘장 등 이번 영상에서 만든 자산은 콘티 판 전에
+> `python tools/asset_library.py promote projects/{pid}` 로 공용 자산에 올린다(`check` = 0). 다음 영상은 공용 자산을 먼저 쓴다.
+
 용어: **콘티 판** = animatic(animation + -matic). 1930년대 디즈니가 스토리보드를 찍어 음성과 함께 틀어 본 "Leica reel"이 원형이고,
 광고·애니메이션 업계가 1970년대부터 animatic 이라 불렀다. "콘티"는 일본어 コンテ(continuity 의 축약)에서 왔다.
 
