@@ -384,7 +384,10 @@ def main(argv: list[str] | None = None) -> int:
     try:
         if args.animatic and args.res is not None:
             raise ProjectError("--animatic 은 rules animatic.profile 고정 — --res 와 함께 쓰지 않는다")
-        P = load_project(args.proj, out=None if args.animatic else output_profile(args.res), animatic=args.animatic)  # noqa: N806
+        res = args.res
+        if res is None and args.preview == "golden":
+            res = "trial"   # v5.5.1 — 골든 기준선(md5)은 트라이얼 프로파일로 찍혔다. 기본 해상도(720p)가 바뀌어도 골든 비교는 그대로
+        P = load_project(args.proj, out=None if args.animatic else output_profile(res), animatic=args.animatic)  # noqa: N806
         if args.chunk:
             render_chunk(P, int(args.chunk[0]), int(args.chunk[1]), Path(args.chunk[2]))
             return 0
