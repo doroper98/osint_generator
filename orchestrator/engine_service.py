@@ -11,11 +11,12 @@
 16 §4 CLI 대응 (실측, v3.0.0):
 | stage              | 명령                                   | 비고 |
 | plan               | python -m script.plan <proj>           | plan.json, tts/ |
-| assets             | python -m geo.prep <proj>              | 인물·국기·미디어는 tools/fetch_data(사람 준비) |
+| assets             | python -m geo.prep <proj>              | (설계 해상도 480p) — assets_final: python -m geo.prep <proj> --res final(v5.5.1)
+|                    |                                        | 인물·국기·미디어는 tools/fetch_data(사람 준비) |
 | direction_validate | python -m script.lint <proj>           | 원고 Script 로드 + 린트(게이트 ① 에서도 씀 — 연출 파일 불필요) |
 | validate           | python -m engine.validate <proj>       | v3.1.0 연출 점검(17 §1): 렌더 입력과 같은 load_project — 스키마·앵커·레지스트리·엔티티·슬롯·예약영역 |
 | preview            | python -m engine.render <proj> --preview auto |
-| render             | python -m engine.render <proj> --jobs N |
+| render             | python -m engine.render <proj> --res final --jobs N | (v5.5.1 배포 프로파일 720p)
 | mix                | python -m audio.mix <proj>             |
 | deliver            | python -m engine.mux <proj>            | final.mp4·srt·description·provenance.json |
 """
@@ -36,12 +37,13 @@ from schemas.models import ProjectState
 
 REPO = Path(__file__).resolve().parent.parent
 
-Stage = Literal["plan", "assets", "direction_validate", "validate", "preview", "render", "mix", "deliver", "camera_suggest"]
+Stage = Literal["plan", "assets", "assets_final", "direction_validate", "validate", "preview", "render", "mix", "deliver", "camera_suggest"]
 
 # 단계 → (모듈, CLI 가 StageResult.stage 에 적는 이름)
 STAGE_COMMANDS: dict[str, tuple[str, str]] = {
     "plan": ("script.plan", "plan"),
     "assets": ("geo.prep", "geo"),
+    "assets_final": ("geo.prep", "geo"),   # v5.5.1 — 배포 프로파일(final = 720p) 지형 티어(assets/res_720p/)
     "direction_validate": ("script.lint", "lint"),
     "validate": ("engine.validate", "validate"),
     "preview": ("engine.render", "preview"),
@@ -54,7 +56,7 @@ STAGE_COMMANDS: dict[str, tuple[str, str]] = {
 # 상태 → 그 상태에서 돌리는 엔진 단계(16 §2). 목록에 없는 상태는 LLM·사람 단계다.
 STATE_STAGES: dict[ProjectState, tuple[str, ...]] = {
     ProjectState.VOICE_TIMELINE: ("plan",),
-    ProjectState.ASSETS: ("assets",),
+    ProjectState.ASSETS: ("assets", "assets_final"),
     ProjectState.DIRECTION: ("direction_validate", "validate", "camera_suggest"),
     ProjectState.PREVIEW_QA: ("preview",),
     ProjectState.RENDER: ("render",),
@@ -73,8 +75,10 @@ def build_command(project_dir: Path, stage: str, *, jobs: int | None = None,
     cmd = [sys.executable, "-m", module, str(project_dir)]
     if stage == "preview":
         cmd += ["--preview", preview]
-    elif stage == "render" and jobs is not None:
-        cmd += ["--jobs", str(jobs)]
+    elif stage == "render":   # v5.5.1 사용자 결정 2026-10-04 — 전편은 배포 프로파일(final = 720p)
+        cmd += ["--res", "final"] + (["--jobs", str(jobs)] if jobs is not None else [])
+    elif stage == "assets_final":
+        cmd += ["--res", "final"]
     return cmd + list(extra)
 
 

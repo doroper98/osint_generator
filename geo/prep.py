@@ -172,7 +172,7 @@ def main(argv: list[str] | None = None) -> int:
 
         eng = load_config().engine
         name, prof = eng.profile(args.res)
-        rname = None if name == eng.profile(None)[0] else name
+        rname = None if prof.height == load_rules().layout_480p.base.h else name   # v5.5.1 — 기본 자산 = 설계 해상도(k=1)
         rep = prep(proj, res=rname, k=prof.height / load_rules().layout_480p.base.h)
         drops = [dict(stage="geo", tier=n, land_miss=r["land_miss"]["drops"], px2=r["land_miss"]["px2"])
                  for n, r in rep["tiers"].items() if r["land_miss"]["drops"]]

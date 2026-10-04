@@ -1,7 +1,7 @@
 """test_provenance_e2e — "이번 영상에 쓰였다"를 산출물로 증명 (docs/handoff/15 P5, 19 부록 B).
 
 `projects/hormuz_korea` 를 `engine.render --preview golden`(골든 25 앵커, 전편 렌더 없음)으로 돌려
-`prev_480p/provenance.json`(v5.5.1 — 기본 출력 720p, 골든은 트라이얼 480p 라 prev_480p/) 의 `features_used` 가 v3 기대값과 일치하고, 돌지 않은 단계가 false 로 적혔고
+`prev/provenance.json` 의 `features_used` 가 v3 기대값과 일치하고, 돌지 않은 단계가 false 로 적혔고
 (`stages.render/mix/mux == False`), `drops == []` 인지 본다.
 
 v3.0.0(back_and_forth D-0041, DECISIONS D40): preview 경로·기대값 실물 정정 — 뱃지 8(골든 연출 badge 이벤트 8개,
@@ -58,7 +58,7 @@ class ProvenanceE2ETest(unittest.TestCase):
         run = subprocess.run([sys.executable, "-m", "engine.render", str(proj), "--preview", "golden"],
                              cwd=REPO, capture_output=True, text=True, check=False)
         self.assertEqual(run.returncode, 0, run.stdout[-2000:] + run.stderr[-2000:])
-        prov = json.loads((proj / "prev_480p" / "provenance.json").read_text(encoding="utf-8"))
+        prov = json.loads((proj / "prev" / "provenance.json").read_text(encoding="utf-8"))
         features = prov["features_used"]
         for key, value in EXPECTED_FEATURES.items():
             self.assertEqual(features.get(key), value, key)
@@ -67,8 +67,8 @@ class ProvenanceE2ETest(unittest.TestCase):
         self.assertTrue(prov["stages"]["preview"])
         for not_run in ("render", "mix", "mux"):
             self.assertIs(prov["stages"][not_run], False, not_run)
-        self.assertTrue((proj / "prev_480p" / "sheet.jpg").exists())
-        chk = json.loads((proj / "prev_480p" / "checks.json").read_text(encoding="utf-8"))   # v3.1.0 17 §3(D-0047 작업 6)
+        self.assertTrue((proj / "prev" / "sheet.jpg").exists())
+        chk = json.loads((proj / "prev" / "checks.json").read_text(encoding="utf-8"))   # v3.1.0 17 §3(D-0047 작업 6)
         self.assertEqual(len(chk["items"]), 35)   # v5.3.1 subtitle_overlap(hard), v5.3.0 D-0139 cascade(hard)·cascade_label_hidden(warning) — 지도 무대 골든 0, v5.2.0 D-0133 island_label_clip(hard)·island_label_overlap(warning), D-0129 backdrop_main_missing(hard)·card_island(warning) — 지도 무대 0, v5.1.0 D-0123·D-0126 backdrop_rights·backdrop_repeat·island_overlap(hard)·stage_choice(warning), D-0121 §A timeline_rescale(hard), v4.11.0 D-0118 static_window(warning), v4.10.0 D-0116 geo_mismatch(hard), v4.7.0 D-0107 boundary_as_route(hard)·geo_unsourced(warning), D-0106 endcard_roll(warning), v3.6.0 media_upscaled(warning)·glyph_size(hard), v4.1.0 stage_continuity(hard), v4.2.0 genre_elements(hard), v4.3.0 정직성 4(hard)
         self.assertEqual(next(i for i in chk["items"] if i["id"] == "stage_continuity")["count"], 0)
         for cid in ("backdrop_main_missing", "card_island", "island_label_clip", "island_label_overlap",
@@ -90,7 +90,7 @@ class ProvenanceE2ETest(unittest.TestCase):
         self.assertNotIn("cascade", prov)   # v5.3.0 D-0139 §3 — 겹침 카드를 쓰지 않은 영상(P5)   # v4.3.0 — 데이터 레코드를 그리지 않은 영상
         self.assertEqual(prov["render"]["resolution"]["profile"], "480p")   # v3.6.0 D-0066 작업 1
         self.assertEqual(prov["checks"]["hard"], chk["hard"])
-        frames = json.loads((proj / "prev_480p" / "frames.json").read_text(encoding="utf-8"))
+        frames = json.loads((proj / "prev" / "frames.json").read_text(encoding="utf-8"))
         self.assertEqual(len(frames["frames"]), 25)
         # v4.1.0 D-0076 작업 6·8 — 무대 추상화 뒤에도 25컷 픽셀 동일(기준선 = KZ 수정 뒤 hormuz_baseline.json, D-0078)
         # v4.8.0 G7 — 기사 카드 조판·켄 번스 연속 변환(D-0101 §2·D-0104 D6)으로 바뀐 컷을 반영한 phaseG7 기준선(바뀐 컷 = changed_vs_g1)
@@ -103,7 +103,7 @@ class ProvenanceE2ETest(unittest.TestCase):
         want = {c["png"]: c.get("md5_masked") or c["md5"] for c in base["cuts"]}
         masked = {c["png"] for c in base["cuts"] if c.get("mask")}
         got = {p.name: (_masked_md5(p, base["stamp_box"], base["mask_pad_px"]) if p.name in masked else hashlib.md5(p.read_bytes()).hexdigest())
-               for p in (proj / "prev_480p").glob("p_*.png")}
+               for p in (proj / "prev").glob("p_*.png")}
         self.assertEqual(got, want)
 
 
