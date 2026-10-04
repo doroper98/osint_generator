@@ -476,11 +476,25 @@
       ]
     },
     "recap_4": {
-      "status": "corroborated",
+      "status": "unverified",
+      "label": "<미검증>",
+      "claim_ids": [
+        "clm_0065"
+      ]
+    },
+    "recap_5": {
+      "status": null,
       "label": null,
+      "claim_ids": []
+    },
+    "recap_6": {
+      "status": "unverified",
+      "label": "<미검증>",
       "claim_ids": [
         "clm_0046",
-        "clm_0049"
+        "clm_0053",
+        "clm_0040",
+        "clm_0055"
       ]
     }
   }

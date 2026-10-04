@@ -1190,6 +1190,24 @@
       "attributed_only": false,
       "claim_kind": "fact",
       "notes": ""
+    },
+    {
+      "claim_id": "clm_0065",
+      "text": "애틀랜틱 카운슬은 수바우키 회랑을 냉전 시절 독일의 풀다 갭에 빗댔다",
+      "source_ids": [
+        "src_art_0002"
+      ],
+      "status": "unverified",
+      "contested": false,
+      "event_date": "2016-02-09",
+      "checks": [
+        "quote_match:src_art_0002",
+        "independent_origins:1",
+        "kind_candidate:statement"
+      ],
+      "attributed_only": false,
+      "claim_kind": "fact",
+      "notes": ""
     }
   ]
 }
