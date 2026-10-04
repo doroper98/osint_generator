@@ -1,7 +1,7 @@
 {
  "schema_version": 1,
  "hard": 0,
- "warnings": 23,
+ "warnings": 24,
  "passed": true,
  "profile": "full",
  "skipped": [],
@@ -70,8 +70,10 @@
   {
    "id": "shots",
    "severity": "warning",
-   "count": 0,
-   "details": []
+   "count": 1,
+   "details": [
+    "장면 year_2026 카메라 이동 2 > 1"
+   ]
   },
   {
    "id": "media_beats",
@@ -263,11 +265,24 @@
    "details": []
   },
   {
+   "id": "timeline_span",
+   "severity": "hard",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "route_frame",
+   "severity": "hard",
+   "count": 0,
+   "details": []
+  },
+  {
    "id": "chart_honesty",
    "severity": "hard",
    "count": 0,
    "details": [],
    "notes": [
+    "n/a(none 축) panel precedent '쾨니히스베르크에서 칼리닌그라드로' t0=39.50",
     "n/a(none 축) panel versus '자파드 2025를 둘러싼 두 주장' t0=299.65",
     "n/a(none 축) panel versus '드론 진입을 둘러싼 두 주장' t0=328.89",
     "n/a(none 축) panel versus '칼리닌그라드를 둘러싼 경고와 응답' t0=402.14"
@@ -279,7 +294,7 @@
    "count": 0,
    "details": [],
    "notes": [
-    "n/a(date 축) panel timeline '쾨니히스베르크에서 칼리닌그라드로' t0=39.50",
+    "n/a(none 축) panel precedent '쾨니히스베르크에서 칼리닌그라드로' t0=39.50",
     "n/a(none 축) panel versus '자파드 2025를 둘러싼 두 주장' t0=299.65",
     "n/a(none 축) panel versus '드론 진입을 둘러싼 두 주장' t0=328.89",
     "n/a(none 축) panel versus '칼리닌그라드를 둘러싼 경고와 응답' t0=402.14"
@@ -291,7 +306,7 @@
    "count": 0,
    "details": [],
    "notes": [
-    "n/a(date 축) panel timeline '쾨니히스베르크에서 칼리닌그라드로' t0=39.50",
+    "n/a(none 축) panel precedent '쾨니히스베르크에서 칼리닌그라드로' t0=39.50",
     "n/a(none 축) panel versus '자파드 2025를 둘러싼 두 주장' t0=299.65",
     "n/a(none 축) panel versus '드론 진입을 둘러싼 두 주장' t0=328.89",
     "n/a(none 축) panel versus '칼리닌그라드를 둘러싼 경고와 응답' t0=402.14"
@@ -303,7 +318,7 @@
    "count": 0,
    "details": [],
    "notes": [
-    "n/a(date 축) panel timeline '쾨니히스베르크에서 칼리닌그라드로' t0=39.50",
+    "n/a(none 축) panel precedent '쾨니히스베르크에서 칼리닌그라드로' t0=39.50",
     "n/a(none 축) panel versus '자파드 2025를 둘러싼 두 주장' t0=299.65",
     "n/a(none 축) panel versus '드론 진입을 둘러싼 두 주장' t0=328.89",
     "n/a(none 축) panel versus '칼리닌그라드를 둘러싼 경고와 응답' t0=402.14"

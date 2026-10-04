@@ -3,7 +3,7 @@
  "engine": "engine",
  "repo_version": "5.6.0",
  "rules_version": "2.0.0",
- "rules_hash": "c5a8a041db7218615ce1f74197b706fd6d5f9384",
+ "rules_hash": "f0d65eff10d815eb951d439566a9ca889573074c",
  "prompts": {
   "director": "9e580e713bc724ff209c6ed1b4d7a3d829b5aed3"
  },
@@ -57,20 +57,6 @@
    "word": "소련군",
    "mode": "aligned",
    "t": 47.186,
-   "alignment_source": "edge_word_boundary"
-  },
-  {
-   "sid": "konigsberg_3",
-   "word": "포츠담",
-   "mode": "aligned",
-   "t": 51.427,
-   "alignment_source": "edge_word_boundary"
-  },
-  {
-   "sid": "konigsberg_6",
-   "word": "영유권",
-   "mode": "aligned",
-   "t": 71.225,
    "alignment_source": "edge_word_boundary"
   },
   {
@@ -329,8 +315,8 @@
   "bundle": false
  },
  "features_used": {
-  "camera_keys": 11,
-  "camera_moves": 9,
+  "camera_keys": 12,
+  "camera_moves": 10,
   "camera_cuts": 2,
   "dips": 1,
   "dips_under": 0,
@@ -341,7 +327,7 @@
    "emblem": 5
   },
   "panels": [
-   "timeline",
+   "precedent",
    "versus",
    "versus",
    "versus"
@@ -367,7 +353,7 @@
   "label_lod": true,
   "vignette": false,
   "at_word": {
-   "aligned": 43,
+   "aligned": 41,
    "ratio": 0
   }
  },
@@ -459,7 +445,7 @@
  "panels": {
   "used": [
    {
-    "kind": "timeline",
+    "kind": "precedent",
     "title": "쾨니히스베르크에서 칼리닌그라드로",
     "t0": 39.5,
     "prov_tag": null
@@ -589,7 +575,7 @@
     "direction": [
      "down"
     ],
-    "max_px": 63.6,
+    "max_px": 62.3,
     "zones": [
      "card"
     ],
@@ -1109,7 +1095,6 @@
  },
  "lint_warnings": [
   "[badge-R-ignored] 인물 뱃지 연출 R 9건 무시 — 크기는 보이는 인물 수로 코드가 정한다(D-0111): 메르츠 R 32, 나우세다 R 32, 투스크 R 32, 투스크 R 30, 루카셴코 R 30, 루카셴코 R 30, 푸틴 R 30, 뤼터 R 30, 푸틴 R 30",
-  "[timeline-overlap] '쾨니히스베르크에서 칼리닌그라드로' 1946-01-01 칼리닌그라드로 개칭 (1946) 층 -3 라벨이 앞 사건과 겹친다",
   "[media-density-total] 과소 — 0개 / 493초 = inf초당 1개 > 60초 (14 §10.1)"
  ],
  "media": {
