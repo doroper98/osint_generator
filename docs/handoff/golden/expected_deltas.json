@@ -1545,6 +1545,46 @@
      "md5": "24a4dc9e0cb90ca63a8674f4a8e3e553"
     }
    }
+  },
+  "g17_badge_hold_label_clamp": {
+   "reason": "v5.6.0 사용자 지적(2026-10-04, kaliningrad 콘티): ① 인물 뱃지가 아일랜드(카드) 때문에 떴다가 위아래로 움직임 — 카드 회피를 존재도 비례 미끄러짐에서 수명 내내 고정 이동으로(rules reserved.badge_hold, RENDER-AP-008) ② 지도 글자 겹침 검사(label_collision) 도입 중 위·아래 마커 검사 상자가 그린 자리와 달랐던 것을 바로잡자, 골든 아덴만 부제가 화면 왼쪽에서 16px 잘려 있던 것이 드러남 — 가운데 정렬 라벨을 화면 안쪽으로 미는 클램프(RENDER-AP-009). 전/후·차이 = docs/handoff/reports/phaseG17/golden_delta/",
+   "decision": "사용자 지적 2026-10-04(v5.6.0)",
+   "old_rules": {
+    "reserved.badge_hold": "없음(push × 카드 존재도)",
+    "marker 가운데 정렬 라벨": "클램프 없음"
+   },
+   "new_rules": {
+    "reserved.badge_hold": "true · hold_directions [down, left]",
+    "marker 가운데 정렬 라벨": "화면 안쪽 4px 클램프(markers.center_clamp)"
+   },
+   "cuts": [
+    "p_0164.59.png",
+    "p_0170.52.png"
+   ],
+   "cut_detail": {
+    "p_0164.59.png": {
+     "changed_px": 21718,
+     "bbox": [
+      687,
+      23,
+      853,
+      302
+     ],
+     "md5_old": "ed55da5934ba38b0dc74e036b673715e",
+     "md5": "add8fc255af69fb77e36c20d68cac844"
+    },
+    "p_0170.52.png": {
+     "changed_px": 4384,
+     "bbox": [
+      0,
+      191,
+      853,
+      371
+     ],
+     "md5_old": "9e34cadafbf3c9a7eaccc08ed71bfe85",
+     "md5": "247fd0c29e610c04cc1a0a25ef51ae79"
+    }
+   }
   }
  }
 }
