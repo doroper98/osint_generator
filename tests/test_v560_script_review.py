@@ -126,6 +126,24 @@ class LabelCollisionTest(unittest.TestCase):
 
         self.assertIn("label_collision", checks.HARD)
 
+    def test_line_label_vs_marker_text_only(self) -> None:
+        """RENDER-AP-012 — 경로·봉쇄선 이름표는 마커 글자 영역과 대조(점·맥동 고리 제외 — 호르무즈 '봉쇄' 골든 합격 배치)."""
+        from engine.checks import _overlap_px, _text_part  # noqa: PLC0415
+
+        mk = {"type": "marker", "side": "right"}
+        box = (100.0, 84.0, 260.0, 126.0)                    # 점 (114, 100) 오른쪽 라벨
+        near_dot = (60.0, 90.0, 118.0, 104.0)                # 선 옆 이름표가 점 고리에만 닿음
+        on_text = (150.0, 90.0, 230.0, 104.0)                # 이름표가 마커 글자 위
+        self.assertLessEqual(_overlap_px(_text_part(mk, box), near_dot), 0)
+        self.assertGreater(_overlap_px(_text_part(mk, box), on_text), 0)
+
+    def test_timeline_span_hard(self) -> None:
+        """RENDER-AP-011 — 월 축 타임라인 패널은 max_span_months 이하."""
+        from engine import checks  # noqa: PLC0415
+
+        self.assertIn("timeline_span", checks.HARD)
+        self.assertEqual(load_rules().panels.timeline.max_span_months, 36)
+
 
 class BadgeHoldTest(unittest.TestCase):
     def test_hold_rule_on(self) -> None:

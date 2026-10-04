@@ -86,6 +86,10 @@ MINOR: 게이트 ② 선행 조건 강화 + 새 도구. JSON `schema_version` �
 - 뱃지 카드 회피 고정 `reserved.badge_hold`(RENDER-AP-008), 검사 `label_collision` hard + 위·아래 마커 검사 상자 가운데 정렬(RENDER-AP-009).
 - 린트 속도 — 발음 사전 경로·글자 이름 표 캐시(문장마다 규칙 파일 다시 읽던 것).
 
+### Fixed (본편 720p 사용자 지적 — 2026-10-04)
+- 쾨니히스베르크 연표: 월 축 타임라인 패널에 1255–1990 을 넣어 "1.1·4.9·8.1" 날짜와 굵은 띠가 나옴 → 연도 카드(precedent) 4장. 검사 `timeline_span` hard, 규칙 `panels.timeline.max_span_months: 36`(RENDER-AP-011).
+- 2026년 철도 훈련 장면: 철도 구간이 프레임 밖 → 장면을 2컷(철도 북쪽 · 벨라루스 훈련장 남쪽)으로. 검사 `route_frame` hard(규칙 `route_frame.max_out: 0.25`), `label_collision` 이 경로·봉쇄선 이름표도 대조(마커는 글자 영역만). 2004년 "육상 연결" 이름표 겹침도 이 검사로 발견해 삭제(RENDER-AP-012).
+
 ---
 
  — 2026-10-04 — 나토 휘장 등록(사용자 직접 지시), 칼리닌그라드·수바우키 회랑 영상 — 진행 중

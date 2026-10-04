@@ -26,6 +26,12 @@ class BannedPhrases(_Strict):
     defect_classes: list[str]
 
 
+class RouteFrame(_Strict):
+    """v5.6.0 RENDER-AP-012 — 경로 곡선 프레임 검사."""
+
+    max_out: float = Field(default=0.25, ge=0, le=1)   # 다 그려진 경로 곡선 중 화면 밖 비율 상한
+
+
 class SourceNote(_Strict):
     """v5.6.0 참조 출처 화면 표기(사용자 결정 2026-10-04) — 내레이션 대신 문장 동안 화면 아래 작은 링크."""
 
@@ -629,6 +635,8 @@ class RelationPanelRules(_Strict):
 
 class TimelinePanelRules(_Strict):
     """08 §5 v3 P_timeline 합격 값 + 자동 층 배치(08 §11-3, D-0032 작업 3)."""
+
+    max_span_months: int = Field(default=36, gt=0)   # v5.6.0 RENDER-AP-011 — 월 눈금 축이라 이보다 긴 기간은 오류(연도 카드 precedent 로)
 
     x: Range2                   # 축 x0→x1
     y: float                    # 축 y
@@ -1749,6 +1757,7 @@ class VideoRules(_Strict):
     direction_grammar: list[str] = Field(min_length=1)   # v4.7.0 D-0104 D2(a) — 연출 문법(프롬프트 {{RULES.direction_grammar}})
     script_grammar: ScriptGrammar          # v5.5.0 — 원고 서술 규약
     source_note: SourceNote                # v5.6.0 — 참조 출처 화면 표기
+    route_frame: RouteFrame = Field(default_factory=RouteFrame)   # v5.6.0 RENDER-AP-012
     script_schema: ScriptSchemaRules
     verification: VerificationRules   # v3.2.0 — D-0052(D50)
     tts_rules: TTSRules

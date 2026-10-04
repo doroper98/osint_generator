@@ -233,6 +233,22 @@ shots:
   mode: move
   dur: 3.4
   camera:
+    lon: 22.9
+    lat: 54.55
+    place: null
+    date: null
+    lane: null
+    w: 7.5
+  under: false
+  scene: null
+  stage: null
+  reason: null
+- at:
+    sid: year_2026_1
+    'off': -0.4
+  mode: move
+  dur: 3.0
+  camera:
     lon: 24.0
     lat: 53.0
     place: null
@@ -378,7 +394,8 @@ events:
     sid: konigsberg_0
     'off': 0.3
   end:
-    scene_end: konigsberg
+    sid: konigsberg_1
+    'off': -0.2
   at_place: kaliningrad
   label: 쾨니히스베르크
   sub: 오늘의 칼리닌그라드
@@ -390,59 +407,44 @@ events:
     'off': -0.2
   end:
     scene_end: konigsberg
-  kind: timeline
+  kind: precedent
   data:
     title: 쾨니히스베르크에서 칼리닌그라드로
     subtitle: 1255 – 1990
-    start: '1250-01-01'
-    end: '2000-12-31'
-    events:
-    - date: '1255-01-01'
-      label: 튜턴 기사단이 세운 도시
-      col: muted
-      side: 1
-      t:
+    cards:
+    - year: '1255'
+      title: 쾨니히스베르크 건설
+      lines:
+      - 튜턴 기사단
+      t0:
         word:
           sid: konigsberg_1
           text: 튜턴
-    - date: '1945-04-09'
-      label: 소련군 장악
-      col: ru
-      side: -2
-      t:
+    - year: '1945'
+      title: 소련 편입
+      lines:
+      - 4월 9일 소련군 장악
+      - 8월 1일 포츠담 협정
+      t0:
         word:
           sid: konigsberg_2
           text: 소련군
-    - date: '1945-08-01'
-      label: 포츠담 협정 · 소련 귀속
-      col: ru
-      side: 2
-      t:
-        word:
-          sid: konigsberg_3
-          text: 포츠담
-    - date: '1946-01-01'
-      label: 칼리닌그라드로 개칭 (1946)
-      col: ru
-      side: -3
-      t:
+      hl: true
+    - year: '1946'
+      title: 칼리닌그라드로 개칭
+      lines:
+      - 도시 이름 변경
+      t0:
         sid: konigsberg_4
         'off': 0.3
-    - date: '1990-09-12'
-      label: 독일 관련 최종 해결 조약
-      col: gold
-      side: 1
-      t:
+    - year: '1990'
+      title: 독일 영유권 포기
+      lines:
+      - 최종 해결 조약
+      - 9월 12일 서명
+      t0:
         sid: konigsberg_5
         'off': 0.4
-    - date: '1990-09-12'
-      label: 독일, 영유권 주장 포기
-      col: gold
-      side: -1
-      t:
-        word:
-          sid: konigsberg_6
-          text: 영유권
 - type: marker
   start:
     word:
@@ -546,7 +548,6 @@ events:
   col: gold
   ship: false
   dashed: true
-  label: 육상 연결 · 나토·EU 회원국 경유
 - type: marker
   start:
     word:
@@ -1244,24 +1245,25 @@ events:
     sid: year_2026_0
     'off': 0.3
   end:
-    scene_end: year_2026
+    sid: year_2026_1
+    'off': -0.2
   pts:
     path: rail_lt
   grow: 2.0
   col: gold
   ship: false
   dashed: true
-  label: 칼리닌그라드행 러시아 통과 열차
 - type: marker
   start:
     sid: year_2026_0
     'off': 2.6
   end:
-    scene_end: year_2026
+    sid: year_2026_1
+    'off': -0.2
   at_place: rail_drill
-  label: 리투아니아 훈련
-  sub: 2026년 2월 · 통과 열차 보안 사고 가정 · 지점 비공개
-  side: bottom
+  label: 리투아니아 훈련 · 2026년 2월
+  sub: 칼리닌그라드행 러시아 통과 열차 보안 사고 가정 · 지점 비공개
+  side: top
   hl: false
 - type: country
   start:
