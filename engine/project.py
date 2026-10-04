@@ -315,7 +315,9 @@ def load_project(proj: Path, direction: Optional[Direction] = None, out: Optiona
     R.cache["source_notes"] = source_notes(proj)   # v5.6.0 — 참조 출처 화면 표기(sid → 링크 줄, rules source_note)
     modes = {}
     if animatic:
-        from engine.layers.animatic import flat_stage_factory  # noqa: PLC0415
+        from engine.layers.animatic import _badge_at, flat_stage_factory  # noqa: PLC0415
+
+        R.cache["badge_placeholder"] = _badge_at   # v5.6.0 PIPELINE-AP-018 — 패널은 실제로 그리고 그 안 뱃지만 자리표시
 
         R.cache["missing_license"] = AN.missing_license   # 권리 레지스트리 없는 환경의 엔딩 카드(fullcards.project_credit_sections)
         modes = {"mercator": flat_stage_factory(proj, out)}

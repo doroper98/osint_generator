@@ -180,6 +180,10 @@ def label_sizes(e: dict, Rr: float) -> tuple[float, float]:  # noqa: N803
 
 
 def badge_at(ctx: cairo.Context, R: RenderCtx, x: float, y: float, e: dict, t: float, a: float) -> None:  # noqa: N803
+    ph = R.cache.get("badge_placeholder")   # v5.6.0 PIPELINE-AP-018 — 콘티 판: 패널 안 뱃지는 자리표시(초상 파일을 읽지 않는다)
+    if ph is not None:
+        ph(ctx, R, x, y, e, t, a)
+        return
     Rr = badge_R(e, t)  # noqa: N806
     lt = t - e["t0"]
     k = ease_back(lt / BADGE.popin_sec)

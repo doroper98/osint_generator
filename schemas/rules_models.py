@@ -1245,7 +1245,6 @@ class AnimaticPlaceholder(_Strict):
     line_gap: float = Field(gt=0)
     max_chars: int = Field(ge=8)
     cutout_h_ratio: float = Field(gt=0)            # 컷아웃 높이 ÷ 폭(레지스트리에 비율 없음 — 근사)
-    panel_box: tuple[float, float, float, float]   # 패널 자리표시 상자(설계 px x0, y0, x1, y1) — 패널 본문이 덮는 화면 영역
     kinds: dict[str, str]   # 요소 종류 → 화면 이름(뱃지·국기·휘장·사진…). 목록 밖 종류 = 오류
 
 

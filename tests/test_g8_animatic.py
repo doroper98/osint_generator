@@ -83,12 +83,11 @@ class PlaceholderLabelTest(unittest.TestCase):
         from rules import load_rules
 
         kinds = load_rules().animatic.placeholder.kinds
-        self.assertEqual(set(kinds), {"person", "flag", "emblem", "photo", "clip", "cutout", "article", "post", "primitive", "panel", "card",
-                                        "backdrop", "island", "press", "cascade", "quote"})   # v5.3.1 인용 시안, v5.1.0 D-0123·D-0126 배경·아일랜드, v5.1.0 D-0121 §C 프레스, v5.2.0 겹침 카드
-        self.assertEqual(set(PLACEHOLDERS), {"badge", "photo", "clip", "cutout", "article", "post", "card", "panel", "primitive", "backdrop", "cascade", "quote"})
+        self.assertEqual(set(kinds), {"person", "flag", "emblem", "photo", "clip", "cutout", "article", "post", "primitive",
+                                        "backdrop", "island", "press", "cascade", "quote"})   # v5.6.0 패널·카드는 실제 렌더(PIPELINE-AP-018), v5.3.1 인용 시안, v5.1.0 D-0123·D-0126 배경·아일랜드, v5.1.0 D-0121 §C 프레스, v5.2.0 겹침 카드
+        self.assertEqual(set(PLACEHOLDERS), {"badge", "photo", "clip", "cutout", "article", "post", "primitive", "backdrop", "cascade", "quote"})
         self.assertEqual((label("person", "김정은"), label("flag", "KR"), label("emblem", "청와대")),
                          ("[뱃지: 김정은]", "[국기: KR]", "[휘장: 청와대]"))
-        self.assertEqual(label("panel", "relation — 제목"), "[패널: relation — 제목]")
         self.assertTrue(label("photo", "가" * 80).endswith("…]"))
         with self.assertRaises(KeyError):
             label("stamp", "x")
@@ -100,7 +99,8 @@ class PlaceholderLabelTest(unittest.TestCase):
         self.assertIs(FULL_LAYERS.resolve, resolve)
         for key in ("marker", "route", "boom", "series", "country", "ships", "dip", "barrier", "tanker_loop"):
             self.assertIs(resolve_animatic(key).render, resolve(key).render, key)   # 마커·경로·타격 링·시리즈 그대로
-        self.assertIs(resolve_animatic("panel:relation").render, PLACEHOLDERS["panel"])
+        for key in ("panel:relation", "panel:precedent", "card"):   # v5.6.0 PIPELINE-AP-018 — 패널·카드는 전편 렌더러(콘티 판에서 숫자·문구 승인)
+            self.assertIs(resolve_animatic(key).render, resolve(key).render, key)
         self.assertIs(resolve_animatic("badge").render, PLACEHOLDERS["badge"])
 
 
