@@ -111,3 +111,22 @@ last_review: 2026-05-23
 - **좋은 예**: 중심을 폭에 비례해 움직인다(c = c0 + Δ·(w − w0)/(w1 − w0)). 그러면 (P − c)/w = U/w − V 꼴(고정 벡터 U·V)이 되어 모든 점이 직선으로 흐른다 — 한 고정점을 중심으로 한 확대·축소 + 평행이동(닮음 변환). 폭이 같으면 진행률 비례로 되돌아간다. 이징(ease_io)은 폭(로그)에 그대로 걸린다.
 - **자동 조치**: `rules shot_grammar.move_path: fixed_point`, `engine/camera.build_camera`. 검증: 합성 이동(w 7 → 58, 대각 이동)에서 점 궤적 직선 이탈 ≈ 0(2e-16).
 - **발견 버전**: v5.4.0 (사용자 시청) · **해결 버전**: v5.5.0 · **상태**: active
+
+## RENDER-AP-008 — 인물 뱃지가 아일랜드(카드) 때문에 떴다가 위아래로 움직임
+
+- **증상(실제 현상)**: kaliningrad-suwalki 콘티 판(사용자 시청 2026-10-04) — 오른쪽 위 아일랜드 카드와 인물 뱃지가 함께 뜨는 장면마다, 뱃지가 나타난 뒤 카드가 들어오고 나가면서 위아래로 미끄러졌다. 사용자: "뱃지 위치를 아일랜드 아래에 고정되게".
+- **원리**: 카드 회피(D-0033)가 이동량 = 밀어낼 거리 × 카드 존재도(0→1→0) 였다. 카드가 뱃지보다 늦게 들어오거나 먼저 나가면 존재도가 변하는 동안 뱃지가 움직인다 — 의도는 "카드가 사라지면 제자리로"였지만 화면에서는 흔들림으로 보인다.
+- **원칙**: 뱃지는 사는 동안 한 자리에 있다. 수명과 겹치는 카드 전부를 동시에 피하는 자리를 처음부터 쓴다(카드 아래가 우선).
+- **자동 조치**: rules `layout_480p.reserved.badge_hold: true`·`hold_directions: [down, left]`·`hold_sample_sec` — `engine.reserved.hold_pushes` 가 load_project 에서 뱃지마다 고정 이동 `push_hold` 를 정하고, `place_badge` 는 그 값만 쓴다. 못 피하면(max_push_px 초과) 기존 회피. provenance `reserved.avoidance` strategy `hold`.
+- **회귀 테스트**: `tests/test_v560_script_review.py::BadgeHoldTest`
+- **발견 버전**: v5.5.1 · **상태**: active
+
+## RENDER-AP-009 — 지도 지명 글자끼리·뱃지와 지명 글자가 겹쳐도 검사가 잡지 못함
+
+- **증상(실제 현상)**: kaliningrad-suwalki 콘티 판(사용자 시청 2026-10-04) — ① 수바우키 장면에서 '수바우키'·'수바우키 회랑' 마커와 부제, 빌뉴스 부제, 경로 라벨이 서로 겹쳤다. ② 왼쪽 위 슬롯의 나토 휘장 뱃지가 '발트해' 마커 부제의 날짜("2025년 1월~")를 가렸다. checks hard 0 이었다.
+- **원리**: 검사는 화면 밖·자막 겹침·카드 겹침만 봤고, 마커와 마커·뱃지와 마커 사이는 보지 않았다. 또 `marker_box(with_sub)` 가 위·아래(side top/bottom) 라벨을 점 오른쪽으로 펼친 상자로 계산해, 실제로 점 가운데 정렬로 그린 글자 자리와 달랐다(검사 상자 ≠ 그린 자리).
+- **원칙**: 같은 순간 보이는 지도 글자·뱃지는 서로 겹치지 않는다. 검사 상자는 그린 자리와 같다.
+- **자동 조치**: `engine.checks.check_label_collision` — hard `label_collision`(표본 0.5초, 쌍마다 한 줄, 허용 2px). `marker_box(with_sub=True)` 가 top/bottom 을 가운데 정렬 상자로. `place_over` 가 뱃지 고정 이동(push_hold)을 반영. hormuz 골든 0건(기준선 영향 없음).
+- **회귀 테스트**: `tests/test_v560_script_review.py::LabelCollisionTest`
+- **발견 버전**: v5.5.1 · **상태**: active
+

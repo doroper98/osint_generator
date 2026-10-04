@@ -78,6 +78,14 @@ MINOR: 게이트 ② 선행 조건 강화 + 새 도구. JSON `schema_version` �
 - `tools/asset_library.py promote|check` — 프로젝트에서 만든 초상 → `assets/library/people`(+library_manifest), 휘장 → `assets/emblems/files`(PIPELINE-AP-016). `commons_fetch emblems` 는 공용 파일이 있으면 복사(재다운로드·재가공 없음).
 - 공용 자산 승격: 루카셴코·투스크·메르츠·뤼터·나우세다 초상, 나토 휘장.
 
+### Changed (사용자 시청 지적 12건 — kaliningrad 콘티 판, 2026-10-04)
+- 참조 출처 화면 표기 `rules source_note` + `engine/source_note.py` — 위키백과 등은 그 문장 동안 왼쪽 아래 작은 링크(버전 도장 크기), 내레이션 금지(린트 `reference-in-narration`).
+- 약어 읽기 등재 `tts_rules.acronyms`(AFP·AP 글자 이름 / CSIS·EIA·IAEA·IEA·IMF·WHO·WTO·ICC·IISS 글자 이름 + 국문 명칭), 린트 `tts-acronym`, 합성 직전 글자 이름 띄우기.
+- 발음 위험 패턴 6종 추가(TTS-AP-074·076~079·081), 발음 사전 "같은 달 → 같은달"(TTS-AP-080).
+- 린트 `tense-present`(과거 날짜 문장의 현재형 종결 경고), 마무리 = 앵커 브리핑(script_grammar).
+- 뱃지 카드 회피 고정 `reserved.badge_hold`(RENDER-AP-008), 검사 `label_collision` hard + 위·아래 마커 검사 상자 가운데 정렬(RENDER-AP-009).
+- 린트 속도 — 발음 사전 경로·글자 이름 표 캐시(문장마다 규칙 파일 다시 읽던 것).
+
 ---
 
  — 2026-10-04 — 나토 휘장 등록(사용자 직접 지시), 칼리닌그라드·수바우키 회랑 영상 — 진행 중

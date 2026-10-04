@@ -371,3 +371,14 @@ last_review: 2026-05-22
 - **회귀 테스트 (regression_test)**: `tests/test_v531_quote_glow.py::ScriptGrammarTest`(양측 병기 허용·무귀속 오류·귀속 미확인 허용·단어 경계·프롬프트 목록·게이트 차단).
 - **연관**: 사용자 결정 2026-10-03, LLM-AP-013, CLAUDE.md C0 경계, docs/handoff/03 §3·§12.
 - **상태 (status)**: active
+
+## LLM-AP-015 — 원고가 참조 출처를 내레이션으로 반복하고("위키백과에 따르면"·"위키백과는 전했습니다"), 과거 일을 현재형으로 쓰고, "정리하면"으로 맺음
+
+- **증상 (symptom)**: kaliningrad-suwalki 원고(v5.5.1, 사용자 시청 2026-10-04) — ① "위키백과에 따르면" 7회, "…라고 위키백과는 전했습니다" 1회 — 사용자: "너무 많이 나옴, 위키백과가 전했다는 말도 맞지 않음". ② "이 땅의 옛 이름은 쾨니히스베르크입니다"·"…세운 도시입니다"처럼 과거 일을 현재형으로 — "헷갈린다". ③ 마무리 "정리하면, …" — "앵커 브리핑처럼 맺어 달라".
+- **원리 (root cause)**: unverified claim 은 귀속 표현이 없으면 린트 경고가 나서, 원고(LLM·나)가 경고를 없애려고 출처 이름을 내레이션에 붙였다(백과사전에 '보도·전달' 동사까지). 시제 규칙이 없었고, 마무리 규칙은 "확인된 사실의 정리"라 '정리하면'을 불렀다.
+- **좋은 예**: 참조 출처는 화면 아래 작은 링크로(rules `source_note` — 그 문장 동안 자동, 버전 도장과 같은 크기), 내레이션은 사실만. 과거 사건·과거 상태는 과거형. 마무리 = 대상의 정체 한 문장 + 지금 상황 + 지켜볼 지점("1946년까지 쾨니히스베르크로 불렸던 칼리닌그라드." … "계속 지켜봐야 하겠습니다").
+- **구조적 조치 (structural fix)**: 린트 `reference-in-narration`(오류 — `source_note.spoken_names`), `tense-present`(경고 — 문장 날짜가 영상 해보다 앞인데 현재형 종결), 화면 표기 귀속이면 attribution 경고 면제(`noted_claims`). `script_grammar.lines` 3줄(시제·참조 출처·앵커 브리핑 마무리) → 원고 프롬프트. `engine/source_note.py`(sid → 링크, provenance `source_note`).
+- **회귀 테스트 (regression_test)**: `tests/test_v560_script_review.py::ScriptRulesTest`
+- **연관**: 사용자 결정 2026-10-04, LLM-AP-013·014, CLAUDE.md C9(검증 상태는 기록, 화면 귀속).
+- **상태 (status)**: active
+
