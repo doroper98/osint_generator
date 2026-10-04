@@ -12,6 +12,7 @@ TUI / CLI 는 본 모듈을 통해서만 manifest 를 갱신합니다.
 
 from __future__ import annotations
 
+import hashlib
 import json
 import logging
 import os
@@ -406,8 +407,10 @@ def approve_gate(
     g = _require_gate(manifest, gate)
     nxt = next_state(g)
     assert nxt is not None
+    if g == ProjectState.SCRIPT_APPROVAL:   # v5.6.0 — 승인한 원고의 지문(콘티 판이 이 원고로 만들어졌는지 게이트 ② 에서 대조)
+        shown = {**(shown or {}), "script_sha1": script_sha1(project_dir(manifest.project_id, cfg))}
     if g == ProjectState.PREVIEW_APPROVAL:   # 콘티 판 의무(WORKFLOWS W0, PIPELINE-AP-014) — 건너뛰면 게이트 ② 승인 불가
-        shown = {**(shown or {}), "animatic": require_animatic(project_dir(manifest.project_id, cfg))}
+        shown = {**(shown or {}), "animatic": require_animatic(project_dir(manifest.project_id, cfg), approved_script_sha1(manifest))}
     if chosen_version is not None:
         if g != ProjectState.PREVIEW_APPROVAL:
             raise ValueError("chosen_version 은 게이트 ②(preview_approval)에서만 쓴다")
@@ -424,9 +427,27 @@ class AnimaticMissingError(ValueError):
 ANIMATIC_TOTAL_TOL_SEC = 0.05   # 콘티 판 total_sec ↔ plan.json total 허용 차(같은 음성 타임라인인지)
 
 
-def require_animatic(pdir: Path) -> str:
+def script_sha1(pdir: Path) -> str:
+    """원고(script.yaml) 바이트 지문. 없으면 빈 문자열."""
+    p = pdir / "script.yaml"
+    return hashlib.sha1(p.read_bytes()).hexdigest() if p.exists() else ""
+
+
+def approved_script_sha1(manifest: ProjectManifest) -> str | None:
+    """마지막 게이트 ① 승인 기록의 원고 지문(v5.6.0). 승인 기록이 없거나 지문이 없으면 None."""
+    for d in reversed(manifest.gate_decisions):
+        gate = d.gate if isinstance(d.gate, str) else d.gate.value
+        if gate == ProjectState.SCRIPT_APPROVAL.value and d.decision == "approved":
+            return (d.shown or {}).get("script_sha1") or None
+    return None
+
+
+def require_animatic(pdir: Path, approved_sha1: str | None = None) -> str:
     """콘티 판이 현재 음성 타임라인(plan.json)으로 렌더됐는지 확인하고 게이트 기록용 한 줄을 돌려준다.
-    없거나 옛 음성이면 AnimaticMissingError — 우회 플래그 없음(사용자 결정 2026-10-01, PIPELINE-AP-014)."""
+    없거나 옛 음성이면 AnimaticMissingError — 우회 플래그 없음(사용자 결정 2026-10-01, PIPELINE-AP-014).
+    v5.6.0(사용자 결정 2026-10-04 "자막 → 콘티 → 승인 후 본영상"): 게이트 ① 에서 승인한 원고 지문(approved_sha1)과
+    콘티 판이 만들어진 원고 지문(animatic_run.script_sha1)이 같아야 한다 — 원고 검토 없이 만든 콘티 판·승인 뒤 고친 원고로 만든
+    콘티 판은 게이트 ② 를 통과하지 못한다(PIPELINE-AP-015)."""
     how = f"`python -m engine.render {pdir} --animatic` 로 콘티 판을 만들고 사용자 흐름 검토를 받은 뒤 승인한다(WORKFLOWS W0)"
     pp = pdir / "out" / "animatic_provenance.json"
     if not pp.exists():
@@ -440,7 +461,13 @@ def require_animatic(pdir: Path) -> str:
         total = float(json.loads(plan.read_text(encoding="utf-8"))["total"])
         if abs(float(prov.get("total_sec", -1.0)) - total) > ANIMATIC_TOTAL_TOL_SEC:
             raise AnimaticMissingError(f"콘티 판 길이 {prov.get('total_sec')}초 ≠ 현재 plan {total:.2f}초 — 옛 음성으로 만든 콘티 판이다. {how}")
-    return f"{run.get('output')} · {prov.get('total_sec')}초 · direction {run.get('direction_sha1') or '기록 없음'}"
+    if approved_sha1 is None:
+        raise AnimaticMissingError("게이트 ① 원고 승인 기록(원고 지문)이 없다 — 원고(자막) 검토·승인 → 콘티 판 → 본편 순서다"
+                                   f"(WORKFLOWS W0, PIPELINE-AP-015). `approve --gate script_approval` 뒤 콘티 판을 다시 만든다")
+    if run.get("script_sha1") != approved_sha1:
+        raise AnimaticMissingError(f"콘티 판의 원고 지문 {str(run.get('script_sha1'))[:10]} ≠ 승인 원고 {approved_sha1[:10]} — "
+                                   f"승인한 원고로 콘티 판을 다시 만든다. {how}")
+    return f"{run.get('output')} · {prov.get('total_sec')}초 · direction {run.get('direction_sha1') or '기록 없음'} · script {approved_sha1[:10]}"
 
 
 def _choose_version(pdir: Path, version: int, by: str) -> None:

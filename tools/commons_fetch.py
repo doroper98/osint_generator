@@ -22,6 +22,7 @@ import argparse
 import io
 import json
 import re
+import shutil
 import sys
 import time
 import urllib.error
@@ -46,6 +47,7 @@ BACKOFF_MAX_SEC = _CFG.backoff_max_sec
 TRIES = _CFG.tries
 STANDARD_WIDTHS: tuple[int, ...] = tuple(_CFG.standard_widths)
 EMBLEM_REGISTRY = REPO / "assets" / "emblems" / "registry.json"
+EMBLEM_FILES = REPO / "assets" / "emblems" / "files"   # v5.6.0 공용 휘장 파일(저장소 추적) — tools/asset_library.py promote
 EMBLEM_WIDTH = 500                         # prep3 portraits_emblems: commons_get(title, dest, 500)
 
 # 기관 휘장 후보 (07 §5.2 판단 사례). 제목은 2026-09-28 search 로 확인한 기관 공식본(제한 태그를 피하려 변형본을 고르지 않는다).
@@ -306,8 +308,19 @@ def fetch_emblems(proj: Path | None, only: list[str] | None = None, refresh: boo
             registry.write_text(dump_emblem_registry(reg), encoding="utf-8")
             print(f"emblem {eid}: {ent.decision} ({ent.reason})", flush=True)
         if proj is not None and ent.decision == "use":
+            dest = proj / "assets" / "emblems" / (ent.file or f"{eid}.png")
+            shared = EMBLEM_FILES / (ent.file or f"{eid}.png")
+            if shared.exists():   # v5.6.0 — 공용 자산(tools/asset_library.py 로 승격된 파일)이 있으면 다시 받지·가공하지 않는다
+                dest.parent.mkdir(parents=True, exist_ok=True)
+                shutil.copyfile(shared, dest)
+                rec = dict(license=ent.license, url=ent.source_url, title=ent.title or "", restrictions=", ".join(ent.restrictions),
+                           rights_status="rights_clear", retrieved_at=ent.fetched_at)
+                if eid in EMBLEM_SQUARE:
+                    rec["processing"] = {"tool": "assets/emblems/files 공용 자산", "op": "center_square", "note": "원형 뱃지용 가운데 정사각 자르기만 — 색·도형 무가공"}
+                record_rights(proj / "assets" / "rights_registry.json", "emblems", eid, rec)
+                continue
             ii = info(ent.title or "", EMBLEM_WIDTH)
-            dest = download(ii, proj / "assets" / "emblems" / (ent.file or f"{eid}.png"))
+            dest = download(ii, dest)
             rec = dict(license=ii["lic"], url=ii["page"], title=ii["title"], restrictions=ii["restr"],
                        rights_status="rights_clear", retrieved_at=now_iso())
             if eid in EMBLEM_SQUARE:

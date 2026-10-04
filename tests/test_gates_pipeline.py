@@ -45,8 +45,12 @@ def fake_runner(fail: str | None = None, drops: bool = False, log: list | None =
 def write_animatic(pdir: Path, total_sec: float = 292.44, animatic: bool = True) -> None:
     """게이트 ② 시험용 콘티 판 기록(engine.render --animatic 이 남기는 provenance 의 최소 필드)."""
     (pdir / "out").mkdir(parents=True, exist_ok=True)
+    import hashlib  # noqa: PLC0415
+
+    sp = pdir / "script.yaml"   # v5.6.0 — 콘티 판을 만든 원고 지문(게이트 ① 승인 원고와 대조)
+    sha = hashlib.sha1(sp.read_bytes()).hexdigest() if sp.exists() else None
     prov = {"animatic": animatic, "total_sec": total_sec,
-            "animatic_run": {"output": "out/animatic.mp4", "direction_sha1": "0" * 40} if animatic else None}
+            "animatic_run": {"output": "out/animatic.mp4", "direction_sha1": "0" * 40, "script_sha1": sha} if animatic else None}
     (pdir / "out" / "animatic_provenance.json").write_text(json.dumps(prov), encoding="utf-8")
 
 
@@ -353,6 +357,17 @@ class AnimaticGateTest(_Proj):
 
         self._to_gate2()
         write_animatic(self.root / "p", animatic=False)
+        with self.assertRaises(AnimaticMissingError):
+            approve_gate(self.m, "preview_approval", by="t", cfg=self.cfg)
+
+    def test_script_changed_after_approval_blocks_gate2(self) -> None:
+        """v5.6.0 사용자 결정 2026-10-04 — 자막(원고) → 콘티 → 승인 후 본편. 승인 뒤 원고를 고치고 옛 콘티 판으로 게이트 ② 불가(PIPELINE-AP-015)."""
+        from orchestrator.project_manager import AnimaticMissingError  # noqa: PLC0415
+
+        self._to_gate2()
+        sp = self.root / "p" / "script.yaml"
+        sp.write_text(sp.read_text(encoding="utf-8") + "\n# 승인 뒤 수정\n", encoding="utf-8")
+        write_animatic(self.root / "p", total_sec=300.02)   # 고친 원고로 만든 콘티 판 — 승인 원고와 지문이 다르다
         with self.assertRaises(AnimaticMissingError):
             approve_gate(self.m, "preview_approval", by="t", cfg=self.cfg)
 

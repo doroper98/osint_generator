@@ -362,6 +362,9 @@ def render_animatic(P: Project, jobs: int) -> tuple[Path, dict]:  # noqa: N803
                             # v5.2.0 — 어느 연출 판으로 만든 콘티 판인지(게이트 ② 기록, orchestrator.project_manager.require_animatic)
                             "direction_sha1": hashlib.sha1((P.root / "direction.yaml").read_bytes()).hexdigest()
                             if (P.root / "direction.yaml").exists() else None,
+                            # v5.6.0 사용자 결정 2026-10-04 — 어느 원고로 만든 콘티 판인지(게이트 ① 승인 원고와 같아야 게이트 ② 통과)
+                            "script_sha1": hashlib.sha1((P.root / "script.yaml").read_bytes()).hexdigest()
+                            if (P.root / "script.yaml").exists() else None,
                             "sec": {"render": rj["sec"], "total": round(time.time() - t0, 1), "mux": round(time.time() - t1, 1)},
                             "jobs": rj["jobs"], "frames": rj["frames"], "loudnorm": {"passes": 2, **loud},
                             "bytes": final.stat().st_size}
