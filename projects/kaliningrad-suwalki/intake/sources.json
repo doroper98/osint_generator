@@ -9,7 +9,7 @@
       "verification": {
         "status": "corroborated",
         "checks": [
-          "claims:8"
+          "claims:6"
         ],
         "notes": ""
       },
@@ -32,7 +32,7 @@
       "verification": {
         "status": "corroborated",
         "checks": [
-          "claims:8"
+          "claims:10"
         ],
         "notes": ""
       },
@@ -101,7 +101,7 @@
       "verification": {
         "status": "unverified",
         "checks": [
-          "claims:2"
+          "claims:3"
         ],
         "notes": ""
       },
@@ -122,7 +122,7 @@
       "retrieved_at": "2026-10-04",
       "lang": "ko",
       "verification": {
-        "status": "corroborated",
+        "status": "unverified",
         "checks": [
           "claims:8"
         ],
@@ -170,7 +170,7 @@
       "verification": {
         "status": "corroborated",
         "checks": [
-          "claims:6"
+          "claims:5"
         ],
         "notes": ""
       },
@@ -191,9 +191,9 @@
       "retrieved_at": "2026-10-04",
       "lang": "ko",
       "verification": {
-        "status": "corroborated",
+        "status": "unverified",
         "checks": [
-          "claims:7"
+          "claims:4"
         ],
         "notes": ""
       },
@@ -216,7 +216,7 @@
       "verification": {
         "status": "corroborated",
         "checks": [
-          "claims:6"
+          "claims:9"
         ],
         "notes": ""
       },
@@ -237,9 +237,9 @@
       "retrieved_at": "2026-10-04",
       "lang": "ko",
       "verification": {
-        "status": "corroborated",
+        "status": "unverified",
         "checks": [
-          "claims:4"
+          "claims:2"
         ],
         "notes": ""
       },
@@ -262,7 +262,7 @@
       "verification": {
         "status": "corroborated",
         "checks": [
-          "claims:11"
+          "claims:10"
         ],
         "notes": ""
       },
@@ -285,7 +285,7 @@
       "verification": {
         "status": "corroborated",
         "checks": [
-          "claims:4"
+          "claims:6"
         ],
         "notes": ""
       },
@@ -331,7 +331,7 @@
       "verification": {
         "status": "corroborated",
         "checks": [
-          "claims:2"
+          "claims:1"
         ],
         "notes": ""
       },
@@ -351,6 +351,13 @@
       "url": "https://en.wikipedia.org/wiki/History_of_Kaliningrad",
       "retrieved_at": "2026-10-04",
       "lang": "ko",
+      "verification": {
+        "status": "corroborated",
+        "checks": [
+          "claims:3"
+        ],
+        "notes": ""
+      },
       "confirmed_by": "claude(사용자 요청 대행 — URL·매체·게시일 확인)",
       "confirmed_at": "2026-10-04T02:20:35.502123Z",
       "note": "위키백과 문서 — 게시일 대신 접근일(2026-10-04)",
@@ -367,6 +374,13 @@
       "url": "https://en.wikipedia.org/wiki/Enlargement_of_NATO",
       "retrieved_at": "2026-10-04",
       "lang": "ko",
+      "verification": {
+        "status": "unverified",
+        "checks": [
+          "claims:2"
+        ],
+        "notes": ""
+      },
       "confirmed_by": "claude(사용자 요청 대행 — URL·매체·게시일 확인)",
       "confirmed_at": "2026-10-04T02:20:35.994961Z",
       "note": "위키백과 문서 — 게시일 대신 접근일(2026-10-04) · 본문 = 관련 문단만 발췌(원문 문단 그대로, 검증 본문 상한 12000자 안)",
@@ -383,6 +397,13 @@
       "url": "https://en.wikipedia.org/wiki/Kaliningrad_Oblast",
       "retrieved_at": "2026-10-04",
       "lang": "ko",
+      "verification": {
+        "status": "corroborated",
+        "checks": [
+          "claims:5"
+        ],
+        "notes": ""
+      },
       "confirmed_by": "claude(사용자 요청 대행 — URL·매체·게시일 확인)",
       "confirmed_at": "2026-10-04T02:20:36.521605Z",
       "note": "위키백과 문서 — 게시일 대신 접근일(2026-10-04) · 본문 = 관련 문단만 발췌(원문 문단 그대로, 검증 본문 상한 12000자 안)",
