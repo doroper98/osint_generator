@@ -11,7 +11,7 @@ import cairo
 from engine.context import RenderCtx
 from engine.style import C, SUBTITLE, SUBTITLE_WRAP_PX, W_OUT
 from engine.timebase import smooth
-from engine.typography import text, tw, wrap
+from engine.typography import font, text, tw, wrap
 
 
 def emphasis_flags(segments: list[tuple[str, int]]) -> tuple[str, list[int]]:
@@ -54,6 +54,15 @@ def subtitle_boxes(ctx: cairo.Context, tb: object, t: float) -> list[tuple[float
     return []
 
 
+def _ctx_w(ctx: cairo.Context, s: str, size: float) -> float:
+    """그리는 컨텍스트 기준 전진 폭(설계 px) — 장치 배율의 글자 전진 폭 반올림과 같은 값."""
+    ctx.save()
+    font(ctx, "sansm", size)
+    w = ctx.text_extents(s).x_advance
+    ctx.restore()
+    return w
+
+
 def draw_subtitle(ctx: cairo.Context, R: RenderCtx, t: float) -> None:  # noqa: N803
     tb = R.tb
     for sid in tb.order:
@@ -68,9 +77,11 @@ def draw_subtitle(ctx: cairo.Context, R: RenderCtx, t: float) -> None:  # noqa: 
             for li, ln in enumerate(lines):
                 j = txt.find(ln, pos)
                 pos = j + len(ln)
-                xx = W_OUT / 2 - tw(ctx, ln, size, "sansm") / 2
+                # v5.6.0 — 줄 가운데·구간 전진 폭은 그리는 컨텍스트(장치 배율 k)에서 잰다. 1배 측정 컨텍스트로 재면 글자 전진 폭
+                # 반올림이 배율마다 달라 720p 에서 강조어 앞뒤에 틈이 생겼다(사용자 시청 2026-10-04, RENDER-AP-010). 480p(k=1)는 같은 값
+                xx = W_OUT / 2 - _ctx_w(ctx, ln, size) / 2
                 for run, f in split_runs(ln, j, flags):
                     text(ctx, run, xx, base_y + li * SUBTITLE.line_gap, size, "sansb" if f else "sansm",
                          C[SUBTITLE.emphasis_color] if f else (1, 1, 1), a, SUBTITLE.halo, "l", halo_a=SUBTITLE.halo_alpha)
-                    xx += tw(ctx, run, size, "sansm")
+                    xx += _ctx_w(ctx, run, size)
             return

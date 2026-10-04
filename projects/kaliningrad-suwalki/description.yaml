@@ -1,0 +1,33 @@
+# 『칼리닌그라드와 수바우키 회랑』 유튜브 설명문 (v5.6.0). chapters.at = 장면 id 또는 TITLE.
+schema_version: 1
+headline: 칼리닌그라드와 수바우키 회랑 — 쾨니히스베르크에서 2026년 나토·러시아 대치까지
+summary: 2026년 9월 30일, 러시아는 나토가 칼리닌그라드 봉쇄를 준비한다는 정보가 있다며 핵무기를 포함한 모든 무기를 쓸 준비가 돼 있다고 밝혔습니다. 튜턴 기사단의 쾨니히스베르크가 어떻게 러시아의 역외 영토 칼리닌그라드가 됐는지, 폴란드와 리투아니아 국경 위의 수바우키 회랑이 왜 발트 3국과 나토를 잇는 유일한 육로가 됐는지, 그리고 나토와 러시아가 이 지역을 어떻게 다뤄 왔는지 지도로 정리했습니다.
+chapters:
+- at: cold_open
+  label: 러시아의 서면 경고
+- at: TITLE
+  label: 타이틀
+- at: konigsberg
+  label: 쾨니히스베르크에서 칼리닌그라드로
+- at: exclave
+  label: 고립된 영토
+- at: suwalki_1920
+  label: 1920년의 국경, 수바우키 회랑
+- at: military
+  label: 칼리닌그라드의 군사력
+- at: transit_2022
+  label: 2022년 통과 제재
+- at: nato_east
+  label: 나토의 동부 측면
+- at: zapad
+  label: 자파드 2025
+- at: drones
+  label: 드론 영공 침범
+- at: belarus
+  label: 러시아와 벨라루스
+- at: year_2026
+  label: 2026년의 훈련
+- at: standoff
+  label: 봉쇄설과 핵 경고
+- at: recap
+  label: 끓어오르는 회랑
