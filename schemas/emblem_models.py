@@ -34,7 +34,10 @@ def license_allowed(lic: str) -> bool:
 
 
 # 사용자 예외(DECISIONS 번호 → 휘장 id). v4.8.0 D98 = 청와대(대통령 표장) — 청와대·대통령실 언급 문장의 식별 표시, 무가공, 크레딧
-USER_EXCEPTIONS: dict[str, frozenset[str]] = {"D98": frozenset({"cheongwadae"})}
+USER_EXCEPTIONS: dict[str, frozenset[str]] = {
+    "D98": frozenset({"cheongwadae"}),
+    "U20261004": frozenset({"nato"}),   # v5.5.0 사용자 직접 지시 2026-10-04 "nato 휘장도 제작해서" — Fable DECISIONS 기록 대기(D119 방식)
+}
 
 
 def decide_emblem(restrictions: list[str], license: str, has_file: bool,
@@ -62,7 +65,7 @@ class EmblemEntry(_Strict):
     fallback_flag: str = Field(pattern=r"^[a-z]{2}$")
     source_url: str = ""
     fetched_at: str = ""
-    user_exception: Optional[str] = Field(default=None, pattern=r"^D\d+$")   # v4.8.0 D-0109 — 사용자 결정 번호(D98)
+    user_exception: Optional[str] = Field(default=None, pattern=r"^(D\d+|U\d{8})$")   # v4.8.0 D-0109 — 사용자 결정 번호(D98). U+날짜 = 사용자 직접 지시(v5.5.0)
     exception_scope: Optional[str] = None                                     # 예외의 용도 한정 문구(필수 — 예외가 있으면)
 
     @model_validator(mode="after")

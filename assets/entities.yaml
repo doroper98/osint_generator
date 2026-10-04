@@ -154,6 +154,13 @@ entities:
     emblem: potus
     accent: us
     rights: emblems.potus
+  nato:                        # v5.5.0 사용자 직접 지시 2026-10-04 "nato 휘장도 제작해서" — 휘장 레지스트리 user_exception U20261004(나토 깃발 가운데 정사각)
+    kind: org
+    names: [나토, NATO, 북대서양조약기구]
+    flag: be
+    emblem: nato
+    accent: us
+    rights: emblems.nato
   un_security_council:
     kind: org
     names: [안보리, 유엔 안전보장이사회, 안전보장이사회]

@@ -64,6 +64,7 @@ class EmblemRights(_Strict):
     restrictions: str = ""
     rights_status: Optional[RightsStatus] = None
     retrieved_at: Optional[str] = None
+    processing: Optional[dict[str, object]] = None  # v5.5.0 — 원형 뱃지용 자르기 등 가공 기록(C9). 색·도형 가공은 금지
 
 
 class AssetRights(_Strict):
