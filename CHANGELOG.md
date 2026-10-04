@@ -1,6 +1,6 @@
 <!--
 tier: 3
-last_synced_with: v5.5.0
+last_synced_with: v5.5.1
 ssot_for: [release-notes]
 depends_on: [README.md, GOAL.md]
 last_review: 2026-09-28
@@ -63,6 +63,17 @@ released 항목은 **append-only**입니다.
 | v5.0.0 | 87912d2 | G11 GOAL G4-21·claim_kind fact/statement | pass(D-0125) |
 | v5.1.0 | 3619f2c | G12 backdrop 무대·아일랜드·축 스케일·기사 프레스 v2·발음 사전·버전 도장 | pass(D-0127) — 후속 D-0128 완료 |
 | v5.2.0 | d4703d9 | G13 배경 가독·주 아일랜드 상시·보도 인용 = 기사·card-island·라벨 반전 | pass(D-0134) — 후속 겹침 카드 시안(D-0135~D-0138) |
+
+---
+
+## [v5.5.1] — 2026-10-04 — 나토 휘장 등록(사용자 직접 지시), 칼리닌그라드·수바우키 회랑 영상 — 진행 중
+
+PATCH: 휘장 1건 추가 + 권리 기록 선택 필드. JSON `schema_version` 그대로(1).
+
+### Added
+- 휘장 `nato` — Commons `File:Flag of NATO.svg`(Public domain, 제한 insignia). 사용자 직접 지시 2026-10-04 "nato 휘장도 제작해서" → 사용자 예외 `U20261004`(용도 한정: 나토가 주체인 문장의 식별 표시, 무가공, 크레딧). 원형 뱃지용 가운데 정사각 자르기(`tools/commons_fetch.EMBLEM_SQUARE`)만 — 가공 기록은 `EmblemRights.processing`.
+- `EmblemEntry.user_exception` 패턴에 `U+날짜`(사용자 직접 지시, Fable DECISIONS 기록 대기) 허용.
+- 엔티티 `nato`(나토·NATO·북대서양조약기구).
 
 ---
 

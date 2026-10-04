@@ -1,6 +1,6 @@
 <!--
 tier: 1
-last_synced_with: v5.5.0
+last_synced_with: v5.5.1
 ssot_for: [doc-governance, tier-system, change-propagation]
 depends_on: [README.md, GOAL.md, CLAUDE.md]
 last_review: 2026-09-29
