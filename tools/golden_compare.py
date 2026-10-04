@@ -72,8 +72,9 @@ def mad(a: "object", b: "object") -> float:
 
 def render_previews(times: list[float], root: Path) -> list[Path]:
     arg = ",".join(f"{t:.2f}" for t in times)
-    subprocess.run([sys.executable, "-m", "engine.render", str(root), "--preview", arg], check=True, cwd=REPO)
-    return [root / "prev" / f"p_{float(f'{t:.2f}'):07.2f}.png" for t in times]
+    # v5.5.1 — 골든 기준 PNG 는 트라이얼(480p). 기본 출력이 720p 가 돼도 비교는 트라이얼 프로파일로(prev_480p/)
+    subprocess.run([sys.executable, "-m", "engine.render", str(root), "--preview", arg, "--res", "trial"], check=True, cwd=REPO)
+    return [root / "prev_480p" / f"p_{float(f'{t:.2f}'):07.2f}.png" for t in times]
 
 
 def diff_sheet(pairs: list[tuple[str, "object", "object", float]], dest: Path) -> None:

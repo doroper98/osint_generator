@@ -87,7 +87,7 @@ class MaterialsTest(unittest.TestCase):
         self.assertEqual((mo.kind, mo.value, mo.label_side, mo.scenes), ("capital", "8월 25일 회담", "right", ["sc01"]))
         self.assertEqual((m.paths[0].kind, m.paths[0].weight, m.paths[0].label_t), ("flow", 3, 0.5))
         self.assertEqual((m.versus[0].label_a, m.versus[0].line_b), ("경고론", "준일상"))
-        self.assertEqual([x.entity_id for x in m.badges], ["trump", "putin"])
+        self.assertEqual([x.entity_id for x in m.badges], ["trump", "nato", "putin"])   # v5.5.1 — 엔티티 nato(나토) 등록
         self.assertEqual([q.text for q in m.quotes], ["인용 한 줄"])
 
     def test_direction_draft_schema_and_panels_only(self) -> None:

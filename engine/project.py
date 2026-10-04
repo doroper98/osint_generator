@@ -308,7 +308,7 @@ def load_project(proj: Path, direction: Optional[Direction] = None, out: Optiona
     out = out or output_profile()
     doc = read_direction(proj, direction)
     uses_map = "mercator" in {doc.main_stage(), *(doc.shot_stage(s) for s in doc.shots)}   # v4.3.0 — 지도 자산은 지도 무대에만
-    assets = Assets(proj, load_labels(proj / "labels.yaml"), None if out == output_profile() else out.name, geo=uses_map and not animatic)
+    assets = Assets(proj, load_labels(proj / "labels.yaml"), None if out.k == 1 else out.name, geo=uses_map and not animatic)
     R = RenderCtx(assets=assets, tb=tb, credits=load_credits(proj / "credits.yaml"), out=out)  # noqa: N806
     modes = {}
     if animatic:

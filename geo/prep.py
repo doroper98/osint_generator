@@ -123,7 +123,7 @@ def res_spec(tc: TierConf, k: float) -> TierSpec:
 
 
 def assets_dir(proj: Path, res: str | None) -> Path:
-    """480p(기본 프로파일)는 assets/, 그 밖은 assets/res_<프로파일>/ — engine.assets 가 같은 규칙으로 읽는다."""
+    """480p(설계 해상도, k=1 — v5.5.1 부터 기본 출력 프로파일 720p 와 별개)는 assets/, 그 밖은 assets/res_<프로파일>/ — engine.assets 가 같은 규칙으로 읽는다."""
     return proj / "assets" if res is None else proj / "assets" / f"res_{res}"
 
 

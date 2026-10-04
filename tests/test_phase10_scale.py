@@ -92,7 +92,7 @@ class HormuzScaleTest(unittest.TestCase):
     def setUpClass(cls) -> None:
         from engine.project import load_project  # noqa: PLC0415
 
-        cls.P480 = load_project(HORMUZ)
+        cls.P480 = load_project(HORMUZ, out=output_profile("480p"))   # v5.5.1 — 기본 출력은 720p, 이 비교는 480p 기준
         cls.P1080 = load_project(HORMUZ, out=output_profile("1080p"))
 
     def test_positions_identical(self) -> None:

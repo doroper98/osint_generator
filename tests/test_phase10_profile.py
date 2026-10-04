@@ -16,7 +16,7 @@ class ProfileConfigTest(unittest.TestCase):
     def test_aliases(self) -> None:
         eng = load_config().engine
         self.assertEqual(eng.profile("trial")[0], "480p")
-        self.assertEqual(eng.profile("final")[0], "1080p")
+        self.assertEqual(eng.profile("final")[0], "720p")   # v5.5.1 사용자 결정 2026-10-04 — 기준 해상도 720p
         self.assertEqual(eng.profile(None)[0], eng.output.default)
         _, p = eng.profile("1080p")
         self.assertEqual((p.width, p.height, p.fps), (1920, 1080, 24))
