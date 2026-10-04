@@ -23,4 +23,4 @@ media:
 decisions:
   topic: {value: 칼리닌그라드 형성·수바우키 회랑·나토와 러시아, by: user, ref: 사용자 요청 2026-10-04}
   nato_emblem: {value: 나토 깃발 휘장 사용, by: user, ref: 사용자 요청 2026-10-04 "nato 휘장도 제작해서"}
-  resolution: {value: 720p, by: default, ref: hormuz-talks-2026 사용자 지시 준용(완성본 단계에서 확인)}
+  resolution: {value: 720p, by: user, ref: 사용자 결정 2026-10-04 "기준 해상도는 720p야"(config engine.output.default)}

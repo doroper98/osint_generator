@@ -27,7 +27,7 @@ engine:
   # v3.6.0 출력 프로파일(D-0066 작업 1). 설계 좌표는 rules layout_480p.base(854×480) 고정 — 프로파일은 장치 크기·인코딩만 바꾼다.
   # 렌더 진입에서 k = height/480 로 한 번 확대(D-0067 A). fps 는 설계 fps 와 같아야 한다(타이밍이 프레임 단위).
   output:
-    default: 480p
+    default: 720p                      # v5.5.1 사용자 결정 2026-10-04 "기준 해상도는 720p야" — 렌더·프리뷰 기본(설계 좌표는 480p 그대로, k = 1.5)
     profiles:
       # mem_per_job_mb = 청크 렌더 프로세스 1개의 피크 메모리 상한(실측 480p 140MB · 1080p 432MB + ffmpeg·여유, v3.6.0 D-0066 작업 6)
       480p: {width: 854, height: 480, fps: 24, crf: 19, preset: faster, mem_per_job_mb: 600}
@@ -37,7 +37,7 @@ engine:
       # clip null = 영상 클립은 기본 npy(이 프로파일로 media_fetch --res 하지 않음). mem 은 480p·1080p 실측 사이 보간 + 여유
       720p: {width: 1280, height: 720, fps: 24, crf: 19, preset: faster, mem_per_job_mb: 1000, clip: null}
   trial: 480p                          # 별칭 — 트라이얼(프리뷰·검수) 프로파일
-  final: 1080p                         # 별칭 — 최종 프로파일
+  final: 720p                          # 별칭 — 최종 프로파일(v5.5.1 사용자 결정 2026-10-04, 1080p 는 --res 1080p 로만)
   render:
     jobs: null                         # 청크 병렬 수. null = os.cpu_count(). 사용 가능 메모리 ÷ 프로파일 mem_per_job_mb 로 줄인다
 
