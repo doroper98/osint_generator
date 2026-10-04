@@ -52,10 +52,17 @@ _SIDE = {"right": (12, 4, "l"), "left": (-12, 4, "r"), "top": (0, -14, "c"), "bo
 def marker_box(ctx: cairo.Context, e: dict, x: float, y: float, with_sub: bool = False) -> tuple[float, float, float, float]:
     """점·라벨이 차지하는 상자. 예약 영역(R.reserved)은 v3 그대로 라벨 폭만(골든 불변).
     with_sub=True 는 화면 밖 검사용 — 부제가 라벨보다 길면 그 폭까지(D-0049 쟁점 4)."""
-    anc = _SIDE[e.get("side") or "right"][2]
+    side = e.get("side") or "right"
+    anc = _SIDE[side][2]
     w = tw(ctx, e["label"], MK.label_size, "sansb") + 20
     if with_sub and e.get("sub"):
         w = max(w, tw(ctx, e["sub"], MK.sub_size, "sansm") + 20)
+    if with_sub and anc == "c":   # v5.6.0 RENDER-AP-009 — 위·아래 라벨은 점 가운데 정렬로 그려진다(검사 상자도 그대로)
+        dy = _SIDE[side][1]
+        x0, x1 = _span(side, x, label_w(ctx, e))
+        y0 = min(y - 16, y + dy - MK.label_size)
+        y1 = max(y + 16, y + dy + (MK.sub_dy + MK.sub_size * 0.3 if e.get("sub") else MK.label_size * 0.3))
+        return (min(x0 - 4, x - 14), y0, max(x1 + 4, x + 14), y1)
     return (x - 14 if anc != "r" else x - w, y - 16, x + w if anc != "r" else x + 14, y + 26)
 
 

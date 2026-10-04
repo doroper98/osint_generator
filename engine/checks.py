@@ -65,7 +65,7 @@ SHADOW_PX = 7             # badge_box 가 원 둘레에 더하는 그림자 여�
 HARD = ("overlap", "offscreen", "glyphs", "glyph_size", "labels", "date", "subtitles", "rights", "forbidden", "stage_continuity",
         "genre_elements", "chart_honesty", "series_limit_3", "units_visible", "as_of_visible", "boundary_as_route",
         "geo_mismatch", "timeline_rescale", "backdrop_rights", "backdrop_repeat", "island_overlap",
-        "backdrop_main_missing", "island_label_clip", "cascade", "subtitle_overlap")   # island_label_clip v5.2.0 D-0133 §2, backdrop_main_missing v5.2.0 D-0129 §B, island_overlap v5.1.0 D-0126 Q3, geo_mismatch v4.10.0 D-0116, timeline_rescale v5.1.0 D-0121 §A, backdrop_* v5.1.0 D-0123
+        "backdrop_main_missing", "island_label_clip", "cascade", "subtitle_overlap", "label_collision")   # island_label_clip v5.2.0 D-0133 §2, backdrop_main_missing v5.2.0 D-0129 §B, island_overlap v5.1.0 D-0126 Q3, geo_mismatch v4.10.0 D-0116, timeline_rescale v5.1.0 D-0121 §A, backdrop_* v5.1.0 D-0123
 WARN = ("shots", "media_beats", "media_upscaled", "endcard_roll", "geo_unsourced",   # endcard_roll v4.7.0 D-0106, geo_unsourced D-0107
         "static_window", "stage_choice", "card_island", "island_label_overlap", "cascade_label_hidden")   # static_window v4.11.0 D-0118, stage_choice v5.1.0 D-0123, card_island v5.2.0 D-0129 §C, island_label_overlap D-0133 §3
 
@@ -194,6 +194,38 @@ def check_subtitle_overlap(P) -> list[str]:  # noqa: ANN001, N803
                     out.append(f"[subtitle-overlap] {e['type']} {who!r} t={t:.2f} 상자 {tuple(round(v) for v in b)} 가 자막 글자와 겹침 — 자리(place·side·lon/lat)를 옮긴다")
                     break
             t += SUB_STEP_SEC
+    return out
+
+
+COLLIDE_STEP_SEC = 0.5   # v5.6.0 지도 글자 겹침 표본 간격
+
+
+def check_label_collision(P) -> list[str]:  # noqa: ANN001, N803
+    """v5.6.0(사용자 지적 2026-10-04 — 수바우키 장면 지명 글자가 서로 겹침, 나토 휘장이 발트해 마커의 날짜를 가림, RENDER-AP-009) —
+    같은 순간 보이는 지도 뱃지·마커(점·라벨·부제) 상자끼리 SUB_TOL_PX 넘게 교차하면 hard. 쌍마다 첫 시각 한 줄."""
+    ctx = cairo.Context(cairo.ImageSurface(cairo.FORMAT_ARGB32, 1, 1))
+    evs = [e for e in P.events if e["type"] in ("badge", "marker") and not e.get("over_panel")]
+    seen: set[tuple[int, int]] = set()
+    out: list[str] = []
+    lo = min((e["t0"] for e in evs), default=0.0)
+    hi = max((e["t1"] for e in evs), default=0.0)
+    t = lo
+    while t < hi:
+        live = []
+        for k, e in enumerate(evs):
+            if e["t0"] + 0.3 <= t <= e["t1"] - 0.3:
+                r = place_over(P, ctx, e, t)
+                if r is not None:
+                    live.append((k, e, r[1]))
+        for i in range(len(live)):
+            for j in range(i + 1, len(live)):
+                (ka, ea, ba), (kb, eb, bb) = live[i], live[j]
+                if (ka, kb) not in seen and _overlap_px(ba, bb) > SUB_TOL_PX:
+                    seen.add((ka, kb))
+                    na = ea.get("label") or ea.get("pid") or ea.get("img")
+                    nb = eb.get("label") or eb.get("pid") or eb.get("img")
+                    out.append(f"[label-collision] {ea['type']} {na!r} ↔ {eb['type']} {nb!r} t={t:.2f} — 지도 글자·뱃지가 겹침. side·place·sub 길이를 바꾸거나 한쪽을 먼저 끝낸다")
+        t += COLLIDE_STEP_SEC
     return out
 
 
@@ -414,7 +446,8 @@ def place_over(P, ctx: cairo.Context, e: dict, t: float) -> tuple[float, tuple] 
     else:
         b = badge_box(ctx, e, x, y, t)
         ex, ey = edge_nudge(b, x, y)            # v4.8.0 D-0112 — 렌더러와 같은 가장자리 보정 뒤 상자(보정 뒤에도 밖이면 hard)
-        b = (b[0] + ex, b[1] + ey, b[2] + ex, b[3] + ey)
+        hx, hy = e.get("push_hold", (0.0, 0.0))  # v5.6.0 — 고정 이동(badge_hold)도 렌더러와 같게
+        b = (b[0] + ex + hx, b[1] + ey + hy, b[2] + ex + hx, b[3] + ey + hy)
     return max(-b[0], -b[1], b[2] - W_OUT, b[3] - H_OUT), tuple(b)
 
 
@@ -620,6 +653,7 @@ def run_checks(P, times: list[float], provenance: dict, drawn: list[tuple[str, f
         "cascade": lambda: check_cascade(P),
         "cascade_label_hidden": lambda: check_cascade_label_hidden(P),
         "subtitle_overlap": lambda: check_subtitle_overlap(P),
+        "label_collision": lambda: check_label_collision(P),   # v5.6.0 RENDER-AP-009
     }
     res = {k: f() for k, f in run.items() if k not in skip}
     notes: dict[str, list[str]] = {}

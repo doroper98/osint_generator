@@ -186,8 +186,8 @@ class TestSpokenRisks(unittest.TestCase):
     def test_dictionary_fixes(self) -> None:
         from script.lint import pronounce_tts  # noqa: PLC0415
 
-        self.assertEqual(pronounce_tts("에이피통신에 따르면"), "에이피 통신에 따르면")   # TTS-AP-071
-        self.assertEqual(pronounce_tts("AP통신은"), "에이피 통신은")
+        self.assertEqual(pronounce_tts("에이피통신에 따르면"), "에이 피 통신에 따르면")   # TTS-AP-071 + 075(v5.6.0 글자 이름 띄우기)
+        self.assertEqual(pronounce_tts("AP통신은"), "에이 피 통신은")
         self.assertEqual(pronounce_tts("모스크바타임스는"), "모스크바 타임스는")   # TTS-AP-072
         self.assertEqual(pronounce_tts("키이우포스트는"), "키이우 포스트는")
 

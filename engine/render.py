@@ -26,6 +26,7 @@ import cairo
 from engine.fullcards import draw_fullcards
 from engine.hud import draw_date
 from engine.project import Project, ProjectError, load_project
+from engine.source_note import draw_source_note
 from engine.projection import View
 from engine.reserved import card_zones
 from engine.registry import MAP_LAYER_ORDER, RegistryError
@@ -108,6 +109,7 @@ def render_frame(P: Project, i: int) -> tuple[cairo.ImageSurface, bytearray]:  #
     draw_date(ctx, R, t)
     draw_fullcards(ctx, R, t)
     draw_subtitle(ctx, R, t)
+    draw_source_note(ctx, R, t, R.cache.get("source_notes") or {})   # v5.6.0 — 참조 출처(위키백과 등) 아주 작게 왼쪽 아래
     for e in act:
         if e["type"] == "dip" and not e.get("under"):
             L.resolve(e).render(ctx, R, t, e)

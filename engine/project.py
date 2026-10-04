@@ -310,6 +310,9 @@ def load_project(proj: Path, direction: Optional[Direction] = None, out: Optiona
     uses_map = "mercator" in {doc.main_stage(), *(doc.shot_stage(s) for s in doc.shots)}   # v4.3.0 — 지도 자산은 지도 무대에만
     assets = Assets(proj, load_labels(proj / "labels.yaml"), None if out.k == 1 else out.name, geo=uses_map and not animatic)
     R = RenderCtx(assets=assets, tb=tb, credits=load_credits(proj / "credits.yaml"), out=out)  # noqa: N806
+    from engine.source_note import source_notes  # noqa: PLC0415
+
+    R.cache["source_notes"] = source_notes(proj)   # v5.6.0 — 참조 출처 화면 표기(sid → 링크 줄, rules source_note)
     modes = {}
     if animatic:
         from engine.layers.animatic import flat_stage_factory  # noqa: PLC0415
@@ -431,11 +434,16 @@ def load_project(proj: Path, direction: Optional[Direction] = None, out: Optiona
              + ", ".join(f"{g['label'] or g['pid']} R {g['R']:g}" for g in ign)] if ign else []
     warns += lint_events(events) + placement_warnings(events, A.media_assets) \
         + density_report(events, tb, plan.total)["warnings"]
+    from engine.reserved import hold_pushes  # noqa: PLC0415
+
     if animatic:
         from engine.layers.animatic import ANIMATIC_LAYERS  # noqa: PLC0415
 
-        return Project(proj, plan, R, keys, events, cams, n, warns, shots, ANIMATIC_LAYERS)
-    return Project(proj, plan, R, keys, events, cams, n, warns, shots)
+        P = Project(proj, plan, R, keys, events, cams, n, warns, shots, ANIMATIC_LAYERS)  # noqa: N806
+    else:
+        P = Project(proj, plan, R, keys, events, cams, n, warns, shots)  # noqa: N806
+    hold_pushes(P)   # v5.6.0 — 지도 뱃지 고정 이동(카드 회피가 위아래로 미끄러지지 않게)
+    return P
 
 
 def _layers(animatic: bool) -> LayerSet:
