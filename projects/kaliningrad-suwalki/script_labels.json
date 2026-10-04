@@ -122,10 +122,11 @@
       ]
     },
     "suwalki_1920_0": {
-      "status": "corroborated",
-      "label": null,
+      "status": "unverified",
+      "label": "<미검증>",
       "claim_ids": [
-        "clm_0001"
+        "clm_0001",
+        "clm_0005"
       ]
     },
     "suwalki_1920_1": {
@@ -386,17 +387,24 @@
       "status": "unverified",
       "label": "<미검증>",
       "claim_ids": [
-        "clm_0041"
+        "clm_0040"
       ]
     },
     "year_2026_3": {
       "status": "unverified",
       "label": "<미검증>",
       "claim_ids": [
-        "clm_0042"
+        "clm_0041"
       ]
     },
     "year_2026_4": {
+      "status": "unverified",
+      "label": "<미검증>",
+      "claim_ids": [
+        "clm_0042"
+      ]
+    },
+    "year_2026_5": {
       "status": "unverified",
       "label": "<미검증>",
       "claim_ids": [
@@ -442,8 +450,7 @@
       "status": "corroborated",
       "label": null,
       "claim_ids": [
-        "clm_0013",
-        "clm_0014"
+        "clm_0015"
       ]
     },
     "recap_1": {
@@ -457,11 +464,18 @@
       "status": "corroborated",
       "label": null,
       "claim_ids": [
-        "clm_0001",
         "clm_0063"
       ]
     },
     "recap_3": {
+      "status": "corroborated",
+      "label": null,
+      "claim_ids": [
+        "clm_0046",
+        "clm_0049"
+      ]
+    },
+    "recap_4": {
       "status": "corroborated",
       "label": null,
       "claim_ids": [

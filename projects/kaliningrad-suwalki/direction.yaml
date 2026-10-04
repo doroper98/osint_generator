@@ -553,7 +553,9 @@ events:
       sid: suwalki_1920_1
       text: 수바우키에서
   end:
-    scene_end: suwalki_1920
+    word:
+      sid: suwalki_1920_4
+      text: 좁은
   at_place: suwalki
   label: 수바우키
   sub: 1920.10.7 폴란드–리투아니아 협정
@@ -565,7 +567,9 @@ events:
       sid: suwalki_1920_2
       text: 빌뉴스를
   end:
-    scene_end: suwalki_1920
+    word:
+      sid: suwalki_1920_4
+      text: 좁은
   at_place: vilnius
   label: 빌뉴스
   sub: 1920.10.9 폴란드군 점령 · 1939년까지 폴란드 관할
@@ -619,10 +623,11 @@ events:
       sid: suwalki_1920_4
       text: 좁은
   end:
-    scene_end: suwalki_1920
+    sid: suwalki_1920_6
+    edge: end
   at_place: corridor
   label: 수바우키 회랑
-  sub: 칼리닌그라드–벨라루스 사이 국경 지대
+  sub: 칼리닌그라드와 벨라루스 사이
   side: bottom
   hl: true
 - type: route
@@ -636,7 +641,7 @@ events:
   grow: 2.6
   col: teal
   ship: false
-  label: 발트 3국 ↔ 나머지 나토 · 유일한 육로
+  label: 발트 3국 ↔ 나토 · 유일한 육로
 - type: card
   start:
     sid: suwalki_1920_6
@@ -678,7 +683,8 @@ events:
     sid: military_0
     'off': 0.2
   end:
-    scene_end: military
+    sid: military_1
+    'off': 0.1
   at_place: kaliningrad
   label: 칼리닌그라드
   sub: 러시아 발트 함대 주둔
@@ -693,7 +699,7 @@ events:
   at_place: iskander
   label: 이스칸데르 미사일
   sub: 핵탑재 가능 · 배치 위치 비공개
-  side: bottom
+  side: right
   hl: false
 - type: card
   start:
@@ -805,11 +811,13 @@ events:
       sid: nato_east_0
       text: 빌뉴스에서
   end:
-    scene_end: nato_east
+    sid: nato_east_2
+    edge: end
+    'off': 0.4
   at_place: vilnius
   label: 빌뉴스
   sub: 2025.5.22 독일 제45기갑여단 출범
-  side: right
+  side: left
   hl: true
 - type: badge
   start:
@@ -902,7 +910,9 @@ events:
     sid: nato_east_4
     'off': 0.3
   end:
-    scene_end: nato_east
+    sid: nato_east_4
+    edge: end
+    'off': 0.4
   at_place: lt_bg
   kind: flag
   flag: de
@@ -985,7 +995,7 @@ events:
   at_place: baltic
   label: 발트해
   sub: 2025년 1월~ 발트 센트리 · 해저 기반시설 보호
-  side: top
+  side: right
   hl: false
 - type: badge
   start:
@@ -1278,7 +1288,7 @@ events:
 - type: marker
   start:
     word:
-      sid: year_2026_1
+      sid: year_2026_2
       text: 브레스트
   end:
     scene_end: year_2026
@@ -1290,7 +1300,7 @@ events:
 - type: marker
   start:
     word:
-      sid: year_2026_1
+      sid: year_2026_2
       text: 루자니
   end:
     scene_end: year_2026
@@ -1301,10 +1311,10 @@ events:
   hl: false
 - type: badge
   start:
-    sid: year_2026_2
+    sid: year_2026_3
     'off': 0.2
   end:
-    sid: year_2026_2
+    sid: year_2026_3
     edge: end
     'off': 0.3
   place: map_lower_right
@@ -1316,10 +1326,10 @@ events:
   accent: ru
 - type: badge
   start:
-    sid: year_2026_3
+    sid: year_2026_4
     'off': 0.2
   end:
-    sid: year_2026_3
+    sid: year_2026_4
     edge: end
     'off': 0.4
   place: map_lower_right
@@ -1331,10 +1341,10 @@ events:
   accent: ru
 - type: card
   start:
-    sid: year_2026_3
+    sid: year_2026_4
     'off': 0.5
   end:
-    sid: year_2026_3
+    sid: year_2026_4
     edge: end
     'off': 0.4
   tag: 무라베이코 벨라루스 총참모장 · 발언 요지
@@ -1346,7 +1356,7 @@ events:
 - type: marker
   start:
     word:
-      sid: year_2026_4
+      sid: year_2026_5
       text: 수바우키에서
   end:
     scene_end: year_2026
@@ -1487,7 +1497,7 @@ events:
     total: true
   at_place: kaliningrad
   label: 칼리닌그라드
-  sub: 옛 쾨니히스베르크 · 1945년 소련
+  sub: 옛 쾨니히스베르크 · 1946년 개칭
   side: left
   hl: true
 - type: country
@@ -1532,8 +1542,8 @@ events:
     total: true
   at_place: corridor
   label: 수바우키 회랑
-  sub: 1920년 국경 위 · 발트 3국–나토 유일한 육로
-  side: bottom
+  sub: 1920년 국경 · 발트 3국과 나토 잇는 유일한 육로
+  side: right
   hl: true
 - type: route
   start:
