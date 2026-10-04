@@ -89,6 +89,47 @@ entities:
     portrait: shoigu
     role_default: 러시아 안보회의 서기
     rights: people.shoigu
+  # v5.5.1 kaliningrad-suwalki — 초상 = 위키미디어 공용(CC BY·CC0·PD) 판화 가공(tools/portrait_fallback.py --style engraving)
+  lukashenko:
+    kind: person
+    names: [루카셴코, 루카셴코 대통령, 알렉산드르 루카셴코]
+    flag: by
+    portrait: lukashenko
+    role_default: 벨라루스 대통령
+    accent: ru
+    rights: people.lukashenko
+  tusk:
+    kind: person
+    names: [투스크, 투스크 총리, 도날트 투스크]
+    flag: pl
+    portrait: tusk
+    role_default: 폴란드 총리
+    accent: us
+    rights: people.tusk
+  merz:
+    kind: person
+    names: [메르츠, 메르츠 총리, 프리드리히 메르츠]
+    flag: de
+    portrait: merz
+    role_default: 독일 총리
+    accent: us
+    rights: people.merz
+  rutte:
+    kind: person
+    names: [뤼터, 뤼터 사무총장, 마르크 뤼터]
+    flag: nl
+    portrait: rutte
+    role_default: 나토 사무총장
+    accent: us
+    rights: people.rutte
+  nauseda:
+    kind: person
+    names: [나우세다, 나우세다 대통령, 기타나스 나우세다]
+    flag: lt
+    portrait: nauseda
+    role_default: 리투아니아 대통령
+    accent: us
+    rights: people.nauseda
   # ---------------------------------------------------------------- 기관
   navcent:
     kind: org
