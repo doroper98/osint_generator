@@ -106,7 +106,9 @@ class GateTest(_Proj):
         m = approve_gate(self.m, "script_approval", by="tester", comment="좋다", shown={"lint_errors": "0"}, cfg=self.cfg)
         self.assertEqual(m.current_state, "voice_timeline")
         d = load_manifest("p", self.cfg).gate_decisions[-1]
-        self.assertEqual((d.gate, d.decision, d.by, d.comment, d.shown), ("script_approval", "approved", "tester", "좋다", {"lint_errors": "0"}))
+        shown = dict(d.shown)
+        self.assertEqual(len(shown.pop("script_sha1")), 40)   # v5.6.0 — 승인 원고 지문(PIPELINE-AP-015)
+        self.assertEqual((d.gate, d.decision, d.by, d.comment, shown), ("script_approval", "approved", "tester", "좋다", {"lint_errors": "0"}))
 
     def test_reject_script_rolls_back_with_comment(self) -> None:
         self.to_gate1()

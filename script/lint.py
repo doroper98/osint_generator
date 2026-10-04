@@ -309,6 +309,8 @@ def ends_present(text: str) -> bool:
     t = text.rstrip(" .!?\"'’”")
     if not t.endswith("니다"):
         return False
+    if t.endswith(("바 있습니다", "적이 있습니다", "적 있습니다")):   # 경험·완료('…한 바 있습니다') = 과거
+        return False
     if t.endswith("습니다") and len(t) >= 4:
         c = t[-4]
         past = "가" <= c <= "힣" and (ord(c) - 0xAC00) % 28 == 20 and c not in "있없겠"

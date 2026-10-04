@@ -51,7 +51,7 @@ class DemoPreviewTest(unittest.TestCase):
 
         self.assertEqual(main([str(PROJ), "--preview", "auto"]), 0)
         chk = json.loads((PROJ / "prev" / "checks.json").read_text(encoding="utf-8"))
-        self.assertEqual((chk["hard"], len(chk["items"])), (0, 35))   # v5.3.1 subtitle_overlap, v5.3.0 D-0139 cascade(hard)·cascade_label_hidden(warning), v5.2.0 D-0133 island_label_clip(hard)·island_label_overlap(warning), D-0129 backdrop_main_missing(hard)·card_island(warning), v5.1.0 D-0123·D-0126 backdrop 2·island_overlap·stage_choice, D-0121 §A timeline_rescale, v4.11.0 D-0118 static_window, v4.10.0 D-0116 geo_mismatch, v4.7.0 D-0106 endcard_roll(warning), D-0107 boundary_as_route·geo_unsourced 추가
+        self.assertEqual((chk["hard"], len(chk["items"])), (0, 36))   # v5.6.0 label_collision(hard), v5.3.1 subtitle_overlap, v5.3.0 D-0139 cascade(hard)·cascade_label_hidden(warning), v5.2.0 D-0133 island_label_clip(hard)·island_label_overlap(warning), D-0129 backdrop_main_missing(hard)·card_island(warning), v5.1.0 D-0123·D-0126 backdrop 2·island_overlap·stage_choice, D-0121 §A timeline_rescale, v4.11.0 D-0118 static_window, v4.10.0 D-0116 geo_mismatch, v4.7.0 D-0106 endcard_roll(warning), D-0107 boundary_as_route·geo_unsourced 추가
         prov = json.loads((PROJ / "prev" / "provenance.json").read_text(encoding="utf-8"))
         self.assertEqual(prov["stage"]["name"], "timeline")
         self.assertEqual(prov["genre"], {"name": "macro_monetary", "declared": True, "status": "proposed"})

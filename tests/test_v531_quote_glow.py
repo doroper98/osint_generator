@@ -186,7 +186,7 @@ class ScriptGrammarTest(unittest.TestCase):
         from script.lint import lint  # noqa: PLC0415
 
         both = self._script(["러시아는 나토가 봉쇄를 준비한다고 주장했습니다.", "반면 나토는 방어 동맹이라고 밝혔습니다.",
-                             "AP통신은 회랑 길이를 약 팔십 킬로미터라고 보도했습니다.", "그러자 러시아는 다시 반박했다고 전했습니다."])
+                             "로이터는 회랑 길이를 약 팔십 킬로미터라고 보도했습니다.", "그러자 러시아는 다시 반박했다고 전했습니다."])
         self.assertEqual([i.kind for i in lint(both, {"clm_0001": "disputed"}).errors], [])
         bare = self._script(["러시아는 나토를 비난했다고 밝혔습니다.", "반면 나토는 방어 동맹이라고 밝혔습니다.",
                              "나토가 봉쇄를 준비하고 있습니다.", "그러자 러시아는 다시 반박했다고 전했습니다."])
@@ -197,7 +197,7 @@ class ScriptGrammarTest(unittest.TestCase):
         from script.lint import lint  # noqa: PLC0415
 
         base = ["가가 발표했습니다.", "그러자 나나가 답했습니다.", "하지만 다다가 반박했습니다."]
-        ok = base + ["IMF는 불확실성이 커졌다고 밝혔습니다.", "나토는 확인되지 않은 주장이라고 반박했다고 밝혔습니다."]
+        ok = base + ["국제통화기금은 불확실성이 커졌다고 밝혔습니다.", "나토는 확인되지 않은 주장이라고 반박했다고 밝혔습니다."]
         self.assertEqual([i.kind for i in lint(self._script(ok), {"clm_0001": "corroborated"}).errors], [])
         bad = base + ["이 수치는 출처마다 엇갈립니다."]
         self.assertEqual([i.kind for i in lint(self._script(bad), {"clm_0001": "corroborated"}).errors], ["uncertain-phrase"])
