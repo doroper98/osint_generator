@@ -1,0 +1,1615 @@
+# direction.yaml — AI 연출(DirectorWorker, v3.1.0, 17 §5.3). 사람 검토 전 초안 — 승인 게이트 ②에서 판정.
+version: 1
+genre: null
+stage: null
+stage_reason: null
+stage_config: {}
+places:
+  kaliningrad:
+  - 20.51
+  - 54.71
+  corridor:
+  - 23.2
+  - 54.15
+  suwalki:
+  - 22.93
+  - 54.1
+  vilnius:
+  - 25.28
+  - 54.69
+  moscow:
+  - 37.62
+  - 55.76
+  iskander:
+  - 21.5
+  - 54.45
+  lt_air:
+  - 24.2
+  - 55.4
+  minority:
+  - 23.0
+  - 53.85
+  alikhanov:
+  - 19.6
+  - 53.9
+  lt_bg:
+  - 23.6
+  - 55.5
+  braniewo:
+  - 19.82
+  - 54.38
+  baltic:
+  - 18.3
+  - 55.8
+  zapad:
+  - 27.8
+  - 53.4
+  drone:
+  - 22.6
+  - 51.7
+  rail_drill:
+  - 24.4
+  - 54.95
+  goza:
+  - 23.95
+  - 53.75
+  brest:
+  - 23.75
+  - 52.15
+  ruzhany:
+  - 24.88
+  - 52.87
+  denmark:
+  - 11.0
+  - 55.6
+paths:
+  rail:
+  - - 37.62
+    - 55.76
+  - - 32.05
+    - 54.78
+  - - 27.56
+    - 53.9
+  - - 25.28
+    - 54.69
+  - - 23.9
+    - 54.9
+  - - 22.75
+    - 54.64
+  - - 20.51
+    - 54.71
+  rail_lt:
+  - - 25.28
+    - 54.69
+  - - 23.9
+    - 54.9
+  - - 22.75
+    - 54.64
+  - - 20.51
+    - 54.71
+  landpath:
+  - - 21.01
+    - 52.23
+  - - 23.16
+    - 53.13
+  - - 22.93
+    - 54.1
+  - - 23.35
+    - 54.4
+  - - 23.9
+    - 54.9
+  - - 24.4
+    - 55.5
+shots:
+- at: 0.0
+  mode: cut
+  dur: 0.0
+  camera:
+    lon: 21.6
+    lat: 54.6
+    place: null
+    date: null
+    lane: null
+    w: 9.0
+  under: false
+  scene: null
+  stage: null
+  reason: null
+- at:
+    sid: cold_open_3
+    'off': -0.8
+  mode: move
+  dur: 3.4
+  camera:
+    lon: 22.6
+    lat: 54.4
+    place: null
+    date: null
+    lane: null
+    w: 10.0
+  under: false
+  scene: null
+  stage: null
+  reason: null
+- at:
+    scene_start: konigsberg
+    'off': -1.0
+  mode: move
+  dur: 3.4
+  camera:
+    lon: null
+    lat: null
+    place: kaliningrad
+    date: null
+    lane: null
+    w: 3.4
+  under: false
+  scene: null
+  stage: null
+  reason: null
+- at:
+    scene_start: exclave
+    'off': -0.55
+  mode: dip
+  dur: 3.0
+  camera:
+    lon: 29.0
+    lat: 55.5
+    place: null
+    date: null
+    lane: null
+    w: 24.0
+  under: false
+  scene: null
+  stage: null
+  reason: null
+- at:
+    scene_start: suwalki_1920
+    'off': -1.0
+  mode: move
+  dur: 3.4
+  camera:
+    lon: 23.6
+    lat: 54.3
+    place: null
+    date: null
+    lane: null
+    w: 9.0
+  under: false
+  scene: null
+  stage: null
+  reason: null
+- at:
+    scene_start: military
+    'off': -0.8
+  mode: move
+  dur: 2.6
+  camera:
+    lon: 22.6
+    lat: 54.9
+    place: null
+    date: null
+    lane: null
+    w: 14.0
+  under: false
+  scene: null
+  stage: null
+  reason: null
+- at:
+    scene_start: nato_east
+    'off': -1.0
+  mode: move
+  dur: 3.0
+  camera:
+    lon: 21.8
+    lat: 55.0
+    place: null
+    date: null
+    lane: null
+    w: 20.0
+  under: false
+  scene: null
+  stage: null
+  reason: null
+- at:
+    scene_start: zapad
+    'off': -1.0
+  mode: move
+  dur: 3.0
+  camera:
+    lon: 26.5
+    lat: 53.3
+    place: null
+    date: null
+    lane: null
+    w: 18.0
+  under: false
+  scene: null
+  stage: null
+  reason: null
+- at:
+    scene_start: year_2026
+    'off': -1.0
+  mode: move
+  dur: 3.4
+  camera:
+    lon: 24.0
+    lat: 53.0
+    place: null
+    date: null
+    lane: null
+    w: 10.0
+  under: false
+  scene: null
+  stage: null
+  reason: null
+- at:
+    scene_start: standoff
+    'off': -1.0
+  mode: move
+  dur: 3.4
+  camera:
+    lon: 22.0
+    lat: 55.4
+    place: null
+    date: null
+    lane: null
+    w: 30.0
+  under: false
+  scene: null
+  stage: null
+  reason: null
+- at:
+    sid: recap_3
+    'off': -0.5
+  mode: move
+  dur: 9.0
+  camera:
+    lon: 22.5
+    lat: 55.2
+    place: null
+    date: null
+    lane: null
+    w: 40.0
+  under: false
+  scene: null
+  stage: null
+  reason: null
+events:
+- type: badge
+  start:
+    sid: cold_open_0
+    'off': 0.6
+  end:
+    sid: cold_open_2
+    edge: end
+    'off': 0.5
+  place: map_upper_right
+  kind: flag
+  flag: ru
+  R: 20
+  label: 러시아
+  role: 나토에 서면 메시지
+  accent: ru
+- type: marker
+  start:
+    word:
+      sid: cold_open_1
+      text: 칼리닌그라드의
+  end:
+    scene_end: cold_open
+  at_place: kaliningrad
+  label: 칼리닌그라드
+  sub: 러시아 역외 영토
+  side: left
+  hl: true
+- type: card
+  start:
+    sid: cold_open_1
+    'off': 0.3
+  end:
+    sid: cold_open_1
+    edge: end
+    'off': 0.3
+  tag: 러시아의 서면 메시지 · 2026년 9월 30일
+  lines:
+  - 나토가 칼리닌그라드 공중·해상 봉쇄를 준비한다는 정보 (러시아 주장)
+  accent: ru
+- type: card
+  start:
+    sid: cold_open_2
+    'off': 0.3
+  end:
+    sid: cold_open_2
+    edge: end
+    'off': 0.6
+  tag: 러시아의 서면 메시지 · 2026년 9월 30일
+  lines:
+  - 칼리닌그라드가 고립되면
+  - 핵무기를 포함한 모든 무기를 쓸 준비
+  accent: ru
+- type: country
+  start:
+    word:
+      sid: cold_open_3
+      text: 리투아니아와
+  end:
+    scene_end: cold_open
+  codes:
+  - LT
+  col: teal
+  a: 0.06
+- type: country
+  start:
+    word:
+      sid: cold_open_3
+      text: 폴란드
+  end:
+    scene_end: cold_open
+  codes:
+  - PL
+  col: teal
+  a: 0.06
+- type: country
+  start:
+    word:
+      sid: cold_open_3
+      text: 러시아의
+  end:
+    scene_end: cold_open
+  codes:
+  - RU
+  col: ru
+  a: 0.07
+- type: marker
+  start:
+    word:
+      sid: cold_open_4
+      text: 수바우키
+  end:
+    scene_end: cold_open
+  at_place: corridor
+  label: 수바우키 회랑
+  sub: 칼리닌그라드 남동쪽 국경 지대
+  side: right
+  hl: true
+- type: marker
+  start:
+    sid: konigsberg_0
+    'off': 0.3
+  end:
+    scene_end: konigsberg
+  at_place: kaliningrad
+  label: 쾨니히스베르크
+  sub: 오늘의 칼리닌그라드
+  side: right
+  hl: true
+- type: panel
+  start:
+    sid: konigsberg_1
+    'off': -0.2
+  end:
+    scene_end: konigsberg
+  kind: timeline
+  data:
+    title: 쾨니히스베르크에서 칼리닌그라드로
+    subtitle: 1255 – 1990
+    start: '1250-01-01'
+    end: '2000-12-31'
+    events:
+    - date: '1255-01-01'
+      label: 튜턴 기사단이 세운 도시
+      col: muted
+      side: 1
+      t:
+        word:
+          sid: konigsberg_1
+          text: 튜턴
+    - date: '1945-04-09'
+      label: 소련군 장악
+      col: ru
+      side: -2
+      t:
+        word:
+          sid: konigsberg_2
+          text: 소련군
+    - date: '1945-08-01'
+      label: 포츠담 협정 · 소련 귀속
+      col: ru
+      side: 2
+      t:
+        word:
+          sid: konigsberg_3
+          text: 포츠담
+    - date: '1946-01-01'
+      label: 칼리닌그라드로 개칭 (1946)
+      col: ru
+      side: -3
+      t:
+        sid: konigsberg_4
+        'off': 0.3
+    - date: '1990-09-12'
+      label: 독일 관련 최종 해결 조약
+      col: gold
+      side: 1
+      t:
+        sid: konigsberg_5
+        'off': 0.4
+    - date: '1990-09-12'
+      label: 독일, 영유권 주장 포기
+      col: gold
+      side: -1
+      t:
+        word:
+          sid: konigsberg_6
+          text: 영유권
+- type: marker
+  start:
+    word:
+      sid: exclave_0
+      text: 칼리닌그라드는
+  end:
+    scene_end: exclave
+  at_place: kaliningrad
+  label: 칼리닌그라드
+  sub: 러시아 본토와 분리 · 1991
+  side: right
+  hl: true
+- type: country
+  start:
+    word:
+      sid: exclave_0
+      text: 리투아니아
+  end:
+    scene_end: exclave
+  codes:
+  - LT
+  col: teal
+  a: 0.07
+- type: marker
+  start:
+    word:
+      sid: exclave_0
+      text: 본토와
+  end:
+    scene_end: exclave
+  at_place: moscow
+  label: 모스크바
+  sub: 러시아 본토
+  side: right
+  hl: false
+- type: country
+  start:
+    word:
+      sid: exclave_1
+      text: 폴란드는
+  end:
+    scene_end: exclave
+  codes:
+  - PL
+  col: teal
+  a: 0.07
+- type: cascade
+  start:
+    sid: exclave_1
+    'off': 0.1
+  end:
+    scene_end: exclave
+  items:
+  - at:
+      word:
+        sid: exclave_1
+        text: 폴란드는
+    flag: pl
+    date: '1999'
+    title: 폴란드 나토 가입
+    accent: teal
+  - at:
+      word:
+        sid: exclave_1
+        text: 리투아니아는
+    flag: lt
+    date: '2004'
+    title: 리투아니아 나토 가입
+    accent: teal
+  - at:
+      sid: exclave_3
+      'off': 0.3
+    flag: ru
+    date: '2003.07'
+    title: 간소화 통행문서 도입
+    line: 러시아 시민 리투아니아 경유 왕래
+    accent: gold
+  - at:
+      sid: exclave_4
+      'off': 0.3
+    flag: ru
+    date: '2003'
+    title: 러시아군 보급 경유
+    line: 리투아니아 경유 가능 · 애틀랜틱 카운슬
+    accent: ru
+- type: route
+  start:
+    sid: exclave_2
+    'off': 0.5
+  end:
+    scene_end: exclave
+  pts:
+    path: rail
+  grow:
+    span:
+    - sid: exclave_2
+      'off': 0.5
+    - sid: exclave_2
+      edge: end
+      'off': -1.0
+  col: gold
+  ship: false
+  dashed: true
+  label: 육상 연결 · 나토·EU 회원국 경유
+- type: marker
+  start:
+    word:
+      sid: suwalki_1920_1
+      text: 수바우키에서
+  end:
+    scene_end: suwalki_1920
+  at_place: suwalki
+  label: 수바우키
+  sub: 1920.10.7 폴란드–리투아니아 협정
+  side: left
+  hl: false
+- type: marker
+  start:
+    word:
+      sid: suwalki_1920_2
+      text: 빌뉴스를
+  end:
+    scene_end: suwalki_1920
+  at_place: vilnius
+  label: 빌뉴스
+  sub: 1920.10.9 폴란드군 점령 · 1939년까지 폴란드 관할
+  side: left
+  hl: false
+- type: country
+  start:
+    sid: suwalki_1920_3
+    'off': 0.3
+  end:
+    scene_end: suwalki_1920
+  codes:
+  - PL
+  col: gold
+  a: 0.06
+- type: country
+  start:
+    sid: suwalki_1920_3
+    'off': 0.6
+  end:
+    scene_end: suwalki_1920
+  codes:
+  - LT
+  col: teal
+  a: 0.06
+- type: country
+  start:
+    word:
+      sid: suwalki_1920_4
+      text: 칼리닌그라드와
+  end:
+    scene_end: suwalki_1920
+  codes:
+  - RU
+  col: ru
+  a: 0.07
+- type: country
+  start:
+    word:
+      sid: suwalki_1920_4
+      text: 벨라루스
+  end:
+    scene_end: suwalki_1920
+  codes:
+  - BY
+  col: ru
+  a: 0.07
+- type: marker
+  start:
+    word:
+      sid: suwalki_1920_4
+      text: 좁은
+  end:
+    scene_end: suwalki_1920
+  at_place: corridor
+  label: 수바우키 회랑
+  sub: 칼리닌그라드–벨라루스 사이 국경 지대
+  side: bottom
+  hl: true
+- type: route
+  start:
+    sid: suwalki_1920_5
+    'off': 0.4
+  end:
+    scene_end: suwalki_1920
+  pts:
+    path: landpath
+  grow: 2.6
+  col: teal
+  ship: false
+  label: 발트 3국 ↔ 나머지 나토 · 유일한 육로
+- type: card
+  start:
+    sid: suwalki_1920_6
+    'off': 0.2
+  end:
+    sid: suwalki_1920_6
+    edge: end
+    'off': 0.6
+  tag: 수바우키 회랑 국경 구간
+  bigs:
+  - - 104km
+    - 폴란드–리투아니아 국경 구간 길이
+  accent: gold
+  src: AFP 보도
+- type: badge
+  start:
+    sid: suwalki_1920_7
+    'off': 0.3
+  end:
+    scene_end: suwalki_1920
+  at_place: minority
+  kind: flag
+  flag: lt
+  R: 17
+  label: 리투아니아계 소수민족
+  role: 폴란드 수바우키 지역
+  accent: teal
+- type: country
+  start:
+    scene_start: military
+  end:
+    scene_end: military
+  codes:
+  - RU
+  col: ru
+  a: 0.07
+- type: marker
+  start:
+    sid: military_0
+    'off': 0.2
+  end:
+    scene_end: military
+  at_place: kaliningrad
+  label: 칼리닌그라드
+  sub: 러시아 발트 함대 주둔
+  side: top
+  hl: true
+- type: marker
+  start:
+    sid: military_1
+    'off': 0.2
+  end:
+    scene_end: military
+  at_place: iskander
+  label: 이스칸데르 미사일
+  sub: 핵탑재 가능 · 배치 위치 비공개
+  side: bottom
+  hl: false
+- type: card
+  start:
+    sid: military_2
+    'off': 0.2
+  end:
+    scene_end: military
+  tag: 이스칸데르 · 이동식 체계
+  bigs:
+  - - 500km
+    - 사거리
+  accent: ru
+  src: CSIS 자료
+- type: country
+  start:
+    sid: transit_2022_0
+    'off': 0.5
+  end:
+    scene_end: transit_2022
+  codes:
+  - LT
+  col: teal
+  a: 0.08
+- type: marker
+  start:
+    word:
+      sid: transit_2022_0
+      text: 영공을
+  end:
+    scene_end: transit_2022
+  at_place: lt_air
+  label: 리투아니아 영공
+  sub: 2022년 2월 · 러시아발 칼리닌그라드행 항공편 차단
+  side: top
+  hl: true
+- type: route
+  start:
+    sid: transit_2022_1
+    'off': 0.2
+  end:
+    sid: transit_2022_3
+    'off': 0.5
+  pts:
+    path: rail_lt
+  grow: 1.8
+  col: gold
+  ship: false
+  dashed: true
+  label: 칼리닌그라드행 통과
+- type: barrier
+  start:
+    word:
+      sid: transit_2022_1
+      text: 통과를
+  end:
+    sid: transit_2022_3
+    'off': 0.4
+  p0:
+  - 22.55
+  - 54.95
+  p1:
+  - 22.95
+  - 54.35
+  label: 제재 물품 통과 금지
+- type: badge
+  start:
+    sid: transit_2022_2
+    'off': 0.2
+  end:
+    sid: transit_2022_2
+    edge: end
+    'off': 0.5
+  place: map_upper_right
+  kind: flag
+  flag: ru
+  R: 20
+  label: 알리하노프
+  role: 칼리닌그라드 주지사
+  accent: ru
+- type: card
+  start:
+    sid: transit_2022_2
+    'off': 0.6
+  end:
+    sid: transit_2022_2
+    edge: end
+    'off': 0.5
+  tag: 알리하노프 칼리닌그라드 주지사 · 발언
+  bigs:
+  - - 40~50%
+    - 리투아니아 경유 품목 중 금지 대상
+  accent: ru
+  src: 주지사 주장 수치
+- type: route
+  start:
+    sid: transit_2022_3
+    'off': 0.5
+  end:
+    scene_end: transit_2022
+  pts:
+    path: rail_lt
+  grow: 1.5
+  col: teal
+  ship: false
+  label: 철도 통과 계속 허용
+- type: marker
+  start:
+    word:
+      sid: nato_east_0
+      text: 빌뉴스에서
+  end:
+    scene_end: nato_east
+  at_place: vilnius
+  label: 빌뉴스
+  sub: 2025.5.22 독일 제45기갑여단 출범
+  side: right
+  hl: true
+- type: badge
+  start:
+    sid: nato_east_1
+    'off': 0.2
+  end:
+    sid: nato_east_1
+    edge: end
+    'off': 0.4
+  place: map_upper_right
+  kind: person
+  pid: merz
+  flag: de
+  R: 32
+  label: 메르츠
+  role: 독일 총리
+  accent: teal
+- type: card
+  start:
+    sid: nato_east_1
+    'off': 0.5
+  end:
+    sid: nato_east_1
+    edge: end
+    'off': 0.4
+  tag: 메르츠 독일 총리 · 발언 요지
+  lines:
+  - 나토 동부 측면 방어를 직접 맡겠다
+  accent: teal
+  quote: false
+- type: badge
+  start:
+    sid: nato_east_2
+    'off': 0.2
+  end:
+    sid: nato_east_2
+    edge: end
+    'off': 0.4
+  place: map_upper_right
+  kind: person
+  pid: nauseda
+  flag: lt
+  R: 32
+  label: 나우세다
+  role: 리투아니아 대통령
+  accent: teal
+- type: card
+  start:
+    sid: nato_east_2
+    'off': 0.5
+  end:
+    sid: nato_east_2
+    edge: end
+    'off': 0.4
+  tag: 나우세다 리투아니아 대통령 · 발언 요지
+  lines:
+  - 독일 여단의 도착은 역사적 사건
+  accent: teal
+  quote: false
+- type: badge
+  start:
+    sid: nato_east_3
+    'off': 0.2
+  end:
+    sid: nato_east_4
+    edge: end
+    'off': 0.5
+  place: map_upper_left
+  kind: emblem
+  img: nato
+  R: 26
+  label: 나토
+  role: 동부 측면 다국적 전투단
+  accent: teal
+- type: card
+  start:
+    sid: nato_east_3
+    'off': 0.4
+  end:
+    sid: nato_east_4
+    edge: end
+    'off': 0.3
+  tag: 나토 · 2026년 9월 29일
+  bigs:
+  - - 9개
+    - 동부 측면 다국적 전투단
+  accent: teal
+- type: badge
+  start:
+    sid: nato_east_4
+    'off': 0.3
+  end:
+    scene_end: nato_east
+  at_place: lt_bg
+  kind: flag
+  flag: de
+  R: 18
+  label: 리투아니아 전투단
+  role: 독일 주도
+  accent: teal
+- type: country
+  start:
+    word:
+      sid: nato_east_5
+      text: 폴란드의
+  end:
+    scene_end: nato_east
+  codes:
+  - PL
+  col: teal
+  a: 0.07
+- type: card
+  start:
+    sid: nato_east_5
+    'off': 0.4
+  end:
+    sid: nato_east_5
+    edge: end
+    'off': 0.3
+  tag: 폴란드 동부 방패 사업
+  bigs:
+  - - 800km
+    - 러시아·벨라루스 쪽 국경 보호 설계
+  accent: teal
+  src: 자유유럽방송 보도
+- type: badge
+  start:
+    sid: nato_east_6
+    'off': 0.1
+  end:
+    sid: nato_east_6
+    edge: end
+    'off': 0.4
+  place: map_upper_right
+  kind: person
+  pid: tusk
+  flag: pl
+  R: 32
+  label: 투스크
+  role: 폴란드 총리
+  accent: teal
+- type: card
+  start:
+    sid: nato_east_6
+    'off': 0.4
+  end:
+    sid: nato_east_6
+    edge: end
+    'off': 0.5
+  tag: 투스크 폴란드 총리 · 발언 요지
+  lines:
+  - 이 요새화는 평화를 위한 투자
+  accent: teal
+  quote: false
+- type: marker
+  start:
+    word:
+      sid: nato_east_7
+      text: 브라니에보에
+  end:
+    scene_end: nato_east
+  at_place: braniewo
+  label: 브라니에보
+  sub: 2025년 8월 폴란드 기갑기병여단 배치
+  side: left
+  hl: true
+- type: marker
+  start:
+    sid: nato_east_8
+    'off': 0.3
+  end:
+    scene_end: nato_east
+  at_place: baltic
+  label: 발트해
+  sub: 2025년 1월~ 발트 센트리 · 해저 기반시설 보호
+  side: top
+  hl: false
+- type: badge
+  start:
+    sid: nato_east_8
+    'off': 0.6
+  end:
+    scene_end: nato_east
+  place: map_upper_left
+  kind: emblem
+  img: nato
+  R: 26
+  label: 나토
+  role: 발트 센트리
+  accent: teal
+- type: country
+  start:
+    word:
+      sid: zapad_0
+      text: 러시아와
+  end:
+    scene_end: belarus
+  codes:
+  - RU
+  col: ru
+  a: 0.07
+- type: country
+  start:
+    word:
+      sid: zapad_0
+      text: 벨라루스에서
+  end:
+    scene_end: belarus
+  codes:
+  - BY
+  col: ru
+  a: 0.09
+- type: marker
+  start:
+    word:
+      sid: zapad_0
+      text: 자파드
+  end:
+    scene_end: zapad
+  at_place: zapad
+  label: 자파드 2025
+  sub: 2025.9.12–16 러시아·벨라루스 연합훈련 · 벨라루스(지점 비공개)
+  side: right
+  hl: true
+- type: card
+  start:
+    sid: zapad_1
+    'off': 0.3
+  end:
+    sid: zapad_1
+    edge: end
+    'off': 0.1
+  tag: 2021년 자파드 참가 병력
+  bigs:
+  - - 약 20만 명
+    - 러시아 당국 발표
+  accent: ru
+  src: 러시아 당국 주장
+- type: panel
+  start:
+    sid: zapad_2
+    'off': -0.3
+  end:
+    scene_end: zapad
+  kind: versus
+  data:
+    title: 자파드 2025를 둘러싼 두 주장
+    sides:
+    - title: 투스크 폴란드 총리
+      src: 투스크 총리 발언 · 2025년 9월
+      items:
+      - text: 매우 공격적인 기동
+        t:
+          sid: zapad_2
+          'off': 0.4
+      - text: 수바우키 회랑이 훈련 표적 중 하나
+        t:
+          sid: zapad_3
+          'off': 0.4
+    - title: 루카셴코 벨라루스 대통령
+      src: 루카셴코 대통령 발언 · 2025년 9월
+      items:
+      - text: 회랑 공격설은 완전한 넌센스
+        t:
+          sid: zapad_4
+          'off': 0.4
+- type: badge
+  start:
+    sid: zapad_2
+    'off': 0.2
+  end:
+    sid: zapad_3
+    edge: end
+    'off': 0.3
+  place: map_upper_right
+  kind: person
+  pid: tusk
+  flag: pl
+  R: 30
+  label: 투스크
+  role: 폴란드 총리
+  accent: teal
+- type: badge
+  start:
+    sid: zapad_4
+    'off': 0.2
+  end:
+    scene_end: zapad
+  place: map_upper_right
+  kind: person
+  pid: lukashenko
+  flag: by
+  R: 30
+  label: 루카셴코
+  role: 벨라루스 대통령
+  accent: ru
+- type: marker
+  start:
+    word:
+      sid: drones_0
+      text: 드론이
+  end:
+    scene_end: drones
+  at_place: drone
+  label: 러시아 드론 영공 진입
+  sub: 2025년 9월 · 폴란드 영공 · 좌표 비공개
+  side: top
+  icon: dot
+  hl: true
+- type: badge
+  start:
+    sid: drones_1
+    'off': 0.2
+  end:
+    sid: drones_1
+    edge: end
+    'off': 0.4
+  place: map_upper_left
+  kind: emblem
+  img: nato
+  R: 26
+  label: 나토
+  role: 이스턴 센트리
+  accent: teal
+- type: card
+  start:
+    sid: drones_1
+    'off': 0.5
+  end:
+    sid: drones_1
+    edge: end
+    'off': 0.1
+  tag: 나토 · 2025년 9월
+  lines:
+  - 조약 4조에 따른 협의
+  - 이스턴 센트리 활동 시작
+  accent: teal
+- type: panel
+  start:
+    sid: drones_2
+    'off': -0.3
+  end:
+    scene_end: drones
+  kind: versus
+  data:
+    title: 드론 진입을 둘러싼 두 주장
+    sides:
+    - title: 유럽 지도자들
+      src: 유럽 지도자들 발언 · 2025년 9월
+      items:
+      - text: 드론 진입은 의도적인 것으로 보인다
+        t:
+          sid: drones_2
+          'off': 0.4
+    - title: 러시아 · 벨라루스
+      src: 러시아·벨라루스 주장 · 2025년 9월
+      items:
+      - text: 항로를 벗어났을 뿐
+        t:
+          sid: drones_3
+          'off': 0.4
+      - text: 폴란드를 겨냥하지 않았다
+        t:
+          sid: drones_3
+          'off': 2.6
+- type: badge
+  start:
+    word:
+      sid: belarus_0
+      text: 루카셴코와
+  end:
+    scene_end: belarus
+  place: map_upper_left
+  kind: person
+  pid: lukashenko
+  flag: by
+  R: 30
+  label: 루카셴코
+  role: 벨라루스 대통령
+  accent: ru
+- type: badge
+  start:
+    word:
+      sid: belarus_0
+      text: 푸틴은
+  end:
+    scene_end: belarus
+  place: map_upper_right
+  kind: person
+  pid: putin
+  flag: ru
+  R: 30
+  label: 푸틴
+  role: 러시아 대통령
+  accent: ru
+- type: card
+  start:
+    sid: belarus_0
+    'off': 0.5
+  end:
+    sid: belarus_0
+    edge: end
+    'off': 0.3
+  tag: 안보 보장 조약 · 2024년 12월
+  lines:
+  - 루카셴코–푸틴 서명
+  accent: ru
+  src: 디펜스 뉴스 보도
+- type: card
+  start:
+    sid: belarus_1
+    'off': 0.3
+  end:
+    scene_end: belarus
+  tag: 루카셴코 대통령 · 2024년 12월 발언 요지
+  lines:
+  - 벨라루스에 러시아 전술핵 수십 기
+  accent: ru
+  quote: false
+- type: route
+  start:
+    sid: year_2026_0
+    'off': 0.3
+  end:
+    scene_end: year_2026
+  pts:
+    path: rail_lt
+  grow: 2.0
+  col: gold
+  ship: false
+  dashed: true
+  label: 칼리닌그라드행 러시아 통과 열차
+- type: marker
+  start:
+    sid: year_2026_0
+    'off': 2.6
+  end:
+    scene_end: year_2026
+  at_place: rail_drill
+  label: 리투아니아 훈련
+  sub: 2026년 2월 · 통과 열차 보안 사고 가정 · 지점 비공개
+  side: bottom
+  hl: false
+- type: country
+  start:
+    sid: year_2026_1
+    'off': 0.3
+  end:
+    scene_end: year_2026
+  codes:
+  - BY
+  col: ru
+  a: 0.08
+- type: marker
+  start:
+    word:
+      sid: year_2026_1
+      text: 고자
+  end:
+    scene_end: year_2026
+  at_place: goza
+  label: 고자 훈련장
+  sub: 리투아니아 인근 · 근사 위치
+  side: right
+  hl: false
+- type: marker
+  start:
+    word:
+      sid: year_2026_1
+      text: 브레스트
+  end:
+    scene_end: year_2026
+  at_place: brest
+  label: 브레스트 훈련장
+  sub: 폴란드 인근
+  side: top
+  hl: false
+- type: marker
+  start:
+    word:
+      sid: year_2026_1
+      text: 루자니
+  end:
+    scene_end: year_2026
+  at_place: ruzhany
+  label: 루자니 훈련장
+  sub: 근사 위치
+  side: right
+  hl: false
+- type: badge
+  start:
+    sid: year_2026_2
+    'off': 0.2
+  end:
+    sid: year_2026_2
+    edge: end
+    'off': 0.3
+  place: map_lower_right
+  kind: flag
+  flag: by
+  R: 20
+  label: 벨라루스군
+  role: 총 참가 병력 비공개
+  accent: ru
+- type: badge
+  start:
+    sid: year_2026_3
+    'off': 0.2
+  end:
+    sid: year_2026_3
+    edge: end
+    'off': 0.4
+  place: map_lower_right
+  kind: flag
+  flag: by
+  R: 20
+  label: 무라베이코
+  role: 벨라루스 총참모장
+  accent: ru
+- type: card
+  start:
+    sid: year_2026_3
+    'off': 0.5
+  end:
+    sid: year_2026_3
+    edge: end
+    'off': 0.4
+  tag: 무라베이코 벨라루스 총참모장 · 발언 요지
+  lines:
+  - 공격 행동은 고려하지 않는다
+  - 공격 준비설은 근거가 없다
+  accent: ru
+  quote: false
+- type: marker
+  start:
+    word:
+      sid: year_2026_4
+      text: 수바우키에서
+  end:
+    scene_end: year_2026
+  at_place: suwalki
+  label: 수바우키
+  sub: 2026년 9월 주민 대피 훈련
+  side: left
+  hl: true
+- type: marker
+  start:
+    scene_start: standoff
+  end:
+    scene_end: standoff
+  at_place: kaliningrad
+  label: 칼리닌그라드
+  sub: '러시아 주장: 나토 봉쇄 준비'
+  side: left
+  hl: true
+- type: country
+  start:
+    sid: standoff_0
+    'off': 0.2
+  end:
+    scene_end: standoff
+  codes:
+  - RU
+  col: ru
+  a: 0.08
+- type: panel
+  start:
+    sid: standoff_0
+    'off': 0.6
+  end:
+    sid: standoff_3
+    edge: end
+    'off': 0.6
+  kind: versus
+  data:
+    title: 칼리닌그라드를 둘러싼 경고와 응답
+    sides:
+    - title: 러시아
+      src: 러시아 서면 메시지 · 푸틴 대통령 발언
+      items:
+      - text: 나토가 칼리닌그라드 봉쇄 준비 (9월 30일 · 러시아 주장)
+        t:
+          sid: standoff_0
+          'off': 0.9
+      - text: '푸틴: 나토에 보낸 경고는 모두 올바르게 쓰였다 (10월 1일)'
+        t:
+          sid: standoff_3
+          'off': 0.4
+    - title: 나토
+      src: 뤼터 사무총장 · 하트 대변인 · 9월 30일
+      items:
+      - text: '뤼터: 나토는 방어 동맹 · 핵 위협을 멈춰라'
+        t:
+          sid: standoff_1
+          'off': 0.4
+      - text: '하트 대변인: 무책임한 핵 위협 수사 강하게 규탄'
+        t:
+          sid: standoff_2
+          'off': 0.4
+- type: badge
+  start:
+    sid: standoff_1
+    'off': 0.2
+  end:
+    sid: standoff_1
+    edge: end
+    'off': 0.3
+  place: map_upper_right
+  kind: person
+  pid: rutte
+  flag: nl
+  R: 30
+  label: 뤼터
+  role: 나토 사무총장
+  accent: teal
+- type: badge
+  start:
+    sid: standoff_2
+    'off': 0.2
+  end:
+    sid: standoff_2
+    edge: end
+    'off': 0.3
+  place: map_upper_right
+  kind: emblem
+  img: nato
+  R: 26
+  label: 앨리슨 하트
+  role: 나토 대변인
+  accent: teal
+- type: badge
+  start:
+    sid: standoff_3
+    'off': 0.2
+  end:
+    sid: standoff_3
+    edge: end
+    'off': 0.4
+  place: map_upper_right
+  kind: person
+  pid: putin
+  flag: ru
+  R: 30
+  label: 푸틴
+  role: 러시아 대통령
+  accent: ru
+- type: marker
+  start:
+    sid: standoff_4
+    'off': 0.3
+  end:
+    scene_end: standoff
+  at_place: denmark
+  label: 덴마크
+  sub: 러시아 군함, 덴마크 군 헬기 근처 조명탄 2발 · 좌표 비공개
+  side: right
+  hl: true
+- type: badge
+  start:
+    sid: standoff_4
+    'off': 0.6
+  end:
+    scene_end: standoff
+  place: map_upper_left
+  kind: flag
+  flag: dk
+  R: 18
+  label: 덴마크 당국
+  accent: muted
+- type: marker
+  start:
+    sid: recap_0
+    'off': 1.0
+  end:
+    total: true
+  at_place: kaliningrad
+  label: 칼리닌그라드
+  sub: 옛 쾨니히스베르크 · 1945년 소련
+  side: left
+  hl: true
+- type: country
+  start:
+    word:
+      sid: recap_1
+      text: 리투아니아와
+  end:
+    total: true
+  codes:
+  - LT
+  col: teal
+  a: 0.06
+- type: country
+  start:
+    word:
+      sid: recap_1
+      text: 폴란드
+  end:
+    total: true
+  codes:
+  - PL
+  col: teal
+  a: 0.06
+- type: country
+  start:
+    word:
+      sid: recap_1
+      text: 러시아의
+  end:
+    total: true
+  codes:
+  - RU
+  col: ru
+  a: 0.07
+- type: marker
+  start:
+    word:
+      sid: recap_2
+      text: 수바우키
+  end:
+    total: true
+  at_place: corridor
+  label: 수바우키 회랑
+  sub: 1920년 국경 위 · 발트 3국–나토 유일한 육로
+  side: bottom
+  hl: true
+- type: route
+  start:
+    sid: recap_2
+    'off': 1.5
+  end:
+    total: true
+  pts:
+    path: landpath
+  grow: 2.5
+  col: teal
+  ship: false
+  label: ''
+- type: badge
+  start:
+    word:
+      sid: recap_3
+      text: 러시아는
+  end:
+    total: true
+  place: map_upper_right
+  kind: flag
+  flag: ru
+  R: 20
+  label: 러시아
+  role: 핵 경고
+  accent: ru
+- type: badge
+  start:
+    word:
+      sid: recap_3
+      text: 나토는
+  end:
+    total: true
+  place: map_upper_left
+  kind: emblem
+  img: nato
+  R: 26
+  label: 나토
+  role: 방어 동맹
+  accent: teal
+sound:
+  bgm: music.zabriskie_patriarch
+  intensity:
+  - - 0.0
+    - 0.7
+  - - scene_start: konigsberg
+    - 0.5
+  - - scene_start: exclave
+    - 0.55
+  - - scene_start: suwalki_1920
+    - 0.6
+  - - scene_start: military
+    - 0.68
+  - - scene_start: transit_2022
+    - 0.6
+  - - scene_start: nato_east
+    - 0.62
+  - - scene_start: zapad
+    - 0.68
+  - - scene_start: drones
+    - 0.7
+  - - scene_start: belarus
+    - 0.66
+  - - scene_start: year_2026
+    - 0.64
+  - - scene_start: standoff
+    - 0.74
+  - - scene_start: recap
+    - 0.6
+  - - total: true
+      'off':
+      - 0.5
+      - -7.0
+    - 0.58
+  - - total: true
+      'off': 0.5
+    - 0.0
+  cues: []
