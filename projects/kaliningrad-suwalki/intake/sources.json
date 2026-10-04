@@ -32,7 +32,7 @@
       "verification": {
         "status": "corroborated",
         "checks": [
-          "claims:10"
+          "claims:11"
         ],
         "notes": ""
       },
@@ -122,9 +122,9 @@
       "retrieved_at": "2026-10-04",
       "lang": "ko",
       "verification": {
-        "status": "unverified",
+        "status": "corroborated",
         "checks": [
-          "claims:8"
+          "claims:9"
         ],
         "notes": ""
       },
@@ -191,9 +191,9 @@
       "retrieved_at": "2026-10-04",
       "lang": "ko",
       "verification": {
-        "status": "unverified",
+        "status": "corroborated",
         "checks": [
-          "claims:4"
+          "claims:5"
         ],
         "notes": ""
       },
@@ -237,9 +237,9 @@
       "retrieved_at": "2026-10-04",
       "lang": "ko",
       "verification": {
-        "status": "unverified",
+        "status": "corroborated",
         "checks": [
-          "claims:2"
+          "claims:3"
         ],
         "notes": ""
       },
@@ -285,7 +285,7 @@
       "verification": {
         "status": "corroborated",
         "checks": [
-          "claims:6"
+          "claims:7"
         ],
         "notes": ""
       },
@@ -308,7 +308,7 @@
       "verification": {
         "status": "corroborated",
         "checks": [
-          "claims:5"
+          "claims:6"
         ],
         "notes": ""
       },
@@ -400,7 +400,7 @@
       "verification": {
         "status": "corroborated",
         "checks": [
-          "claims:5"
+          "claims:7"
         ],
         "notes": ""
       },

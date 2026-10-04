@@ -1090,6 +1090,106 @@
       "attributed_only": false,
       "claim_kind": "fact",
       "notes": ""
+    },
+    {
+      "claim_id": "clm_0059",
+      "text": "쾨니히스베르크는 1255년 튜턴 기사단이 세웠다",
+      "source_ids": [
+        "src_art_0014"
+      ],
+      "status": "unverified",
+      "contested": false,
+      "checks": [
+        "quote_match:src_art_0014",
+        "independent_origins:1"
+      ],
+      "attributed_only": false,
+      "claim_kind": "fact",
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0060",
+      "text": "1990년 리투아니아 독립과 1991년 소련 해체로 칼리닌그라드가 러시아 본토와 떨어졌다",
+      "source_ids": [
+        "src_art_0020"
+      ],
+      "status": "unverified",
+      "contested": false,
+      "checks": [
+        "quote_match:src_art_0020",
+        "independent_origins:1"
+      ],
+      "attributed_only": false,
+      "claim_kind": "fact",
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0061",
+      "text": "폴란드·리투아니아의 나토·EU 가입 뒤 칼리닌그라드와 러시아 본토를 잇는 모든 육상 연결은 나토·EU 회원국을 거쳐야 한다",
+      "source_ids": [
+        "src_art_0020"
+      ],
+      "status": "unverified",
+      "contested": false,
+      "checks": [
+        "quote_match:src_art_0020",
+        "independent_origins:1"
+      ],
+      "attributed_only": false,
+      "claim_kind": "fact",
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0062",
+      "text": "수바우키 회랑은 칼리닌그라드와 벨라루스 사이를 가른다",
+      "source_ids": [
+        "src_art_0012",
+        "src_art_0007"
+      ],
+      "status": "corroborated",
+      "contested": false,
+      "checks": [
+        "quote_match:src_art_0012",
+        "quote_match:src_art_0007",
+        "independent_origins:2"
+      ],
+      "attributed_only": false,
+      "claim_kind": "fact",
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0063",
+      "text": "수바우키 회랑은 리투아니아·라트비아·에스토니아를 나머지 나토와 잇는 유일한 육로다",
+      "source_ids": [
+        "src_art_0010",
+        "src_art_0002"
+      ],
+      "status": "corroborated",
+      "contested": false,
+      "checks": [
+        "quote_match:src_art_0010",
+        "quote_match:src_art_0002",
+        "independent_origins:2"
+      ],
+      "attributed_only": false,
+      "claim_kind": "fact",
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0064",
+      "text": "나토 전진 지상군은 9개 다국적 전투단으로 배치돼 있다",
+      "source_ids": [
+        "src_art_0015"
+      ],
+      "status": "unverified",
+      "contested": false,
+      "checks": [
+        "quote_match:src_art_0015",
+        "independent_origins:1"
+      ],
+      "attributed_only": false,
+      "claim_kind": "fact",
+      "notes": ""
     }
   ]
 }
