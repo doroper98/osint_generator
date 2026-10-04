@@ -1,245 +1,398 @@
 {
- "schema_version": 1,
- "sources": [
-  {
-   "id": "src_art_0001",
-   "url": "https://en.wikipedia.org/wiki/Suwa%C5%82ki_Agreement",
-   "retrieved_at": "2026-10-04",
-   "lang": "ko",
-   "confirmed_by": "claude(사용자 요청 대행 — URL·매체·게시일 확인)",
-   "confirmed_at": "2026-10-04T02:12:15.814641Z",
-   "note": "위키백과 문서 — 게시일 대신 접근일(2026-10-04)",
-   "type": "article",
-   "publisher": "Wikipedia (Suwałki Agreement)",
-   "headline_original": "Suwałki Agreement - Wikipedia",
-   "published_at": "2026-10-04",
-   "key_facts": [
-    "Suwałki Agreement - Wikipedia"
-   ]
-  },
-  {
-   "id": "src_art_0002",
-   "url": "https://www.atlanticcouncil.org/?p=93719",
-   "retrieved_at": "2026-10-04",
-   "lang": "ko",
-   "confirmed_by": "claude(사용자 요청 대행 — URL·매체·게시일 확인)",
-   "confirmed_at": "2026-10-04T02:12:16.376874Z",
-   "note": "",
-   "type": "article",
-   "publisher": "Atlantic Council",
-   "headline_original": "NATO’s Vulnerable Link in Europe: Poland’s Suwalki Gap",
-   "published_at": "2016-02-09",
-   "key_facts": [
-    "NATO’s Vulnerable Link in Europe: Poland’s Suwalki Gap"
-   ]
-  },
-  {
-   "id": "src_art_0004",
-   "url": "https://www.aljazeera.com/news/2022/6/18/lithuania-enforces-eu-sanctions-on-goods-to-russias-kaliningrad",
-   "retrieved_at": "2026-10-04",
-   "lang": "ko",
-   "confirmed_by": "claude(사용자 요청 대행 — URL·매체·게시일 확인)",
-   "confirmed_at": "2026-10-04T02:12:16.936212Z",
-   "note": "",
-   "type": "article",
-   "publisher": "Al Jazeera",
-   "headline_original": "Lithuania enforces EU sanctions on goods to Russia’s Kaliningrad",
-   "published_at": "2022-06-18",
-   "key_facts": [
-    "Lithuania enforces EU sanctions on goods to Russia’s Kaliningrad"
-   ]
-  },
-  {
-   "id": "src_art_0005",
-   "url": "https://missilethreat.csis.org/russia-deploys-iskander-missiles-kaliningrad/",
-   "retrieved_at": "2026-10-04",
-   "lang": "ko",
-   "confirmed_by": "claude(사용자 요청 대행 — URL·매체·게시일 확인)",
-   "confirmed_at": "2026-10-04T02:12:17.499291Z",
-   "note": "",
-   "type": "article",
-   "publisher": "CSIS Missile Threat",
-   "headline_original": "Russia Deploys Iskander Missiles to Kaliningrad | Missile Threat",
-   "published_at": "2018-02-06",
-   "key_facts": [
-    "Russia Deploys Iskander Missiles to Kaliningrad | Missile Threat"
-   ]
-  },
-  {
-   "id": "src_art_0006",
-   "url": "https://www.baltictimes.com/historic_day_for_lithuania_and_germany__german_brigade_inaugurated_in_vilnius",
-   "retrieved_at": "2026-10-04",
-   "lang": "ko",
-   "confirmed_by": "claude(사용자 요청 대행 — URL·매체·게시일 확인)",
-   "confirmed_at": "2026-10-04T02:12:17.985505Z",
-   "note": "",
-   "type": "article",
-   "publisher": "The Baltic Times",
-   "headline_original": "Historic day for Lithuania and Germany: German brigade inaugurated in Vilnius",
-   "published_at": "2025-05-22",
-   "key_facts": [
-    "Historic day for Lithuania and Germany: German brigade inaugurated in Vilnius"
-   ]
-  },
-  {
-   "id": "src_art_0007",
-   "url": "https://www.defensenews.com/global/europe/2025/09/10/russia-belarus-military-drills-start-this-week-heres-what-to-know/",
-   "retrieved_at": "2026-10-04",
-   "lang": "ko",
-   "confirmed_by": "claude(사용자 요청 대행 — URL·매체·게시일 확인)",
-   "confirmed_at": "2026-10-04T02:12:18.493104Z",
-   "note": "",
-   "type": "article",
-   "publisher": "Defense News",
-   "headline_original": "Russia-Belarus military drills start this week. Here’s what to know",
-   "published_at": "2025-09-10",
-   "key_facts": [
-    "Russia-Belarus military drills start this week. Here’s what to know"
-   ]
-  },
-  {
-   "id": "src_art_0008",
-   "url": "https://rferl.org/amp/poland-tusk-shield-russia-kaliningrad-belarus/33221739.html",
-   "retrieved_at": "2026-10-04",
-   "lang": "ko",
-   "confirmed_by": "claude(사용자 요청 대행 — URL·매체·게시일 확인)",
-   "confirmed_at": "2026-10-04T02:12:19.011940Z",
-   "note": "",
-   "type": "article",
-   "publisher": "RFE/RL",
-   "headline_original": "Polish PM Says Fortifications On Russian, Belarusian Borders Are 'Investment In Peace'",
-   "published_at": "2024-11-30",
-   "key_facts": [
-    "Polish PM Says Fortifications On Russian, Belarusian Borders Are 'Investment In Peace'"
-   ]
-  },
-  {
-   "id": "src_art_0009",
-   "url": "https://euronews.com/2026/02/09/lithuania-wargames-security-incident-on-russian-kaliningrad-transit-train",
-   "retrieved_at": "2026-10-04",
-   "lang": "ko",
-   "confirmed_by": "claude(사용자 요청 대행 — URL·매체·게시일 확인)",
-   "confirmed_at": "2026-10-04T02:12:19.534540Z",
-   "note": "",
-   "type": "article",
-   "publisher": "Euronews",
-   "headline_original": "Lithuania wargames security incident on Russian train to Kaliningrad",
-   "published_at": "2026-02-09",
-   "key_facts": [
-    "Lithuania wargames security incident on Russian train to Kaliningrad"
-   ]
-  },
-  {
-   "id": "src_art_0010",
-   "url": "https://euromaidanpress.com/2026/09/17/belarus-tank-drills-suwalki-gap/",
-   "retrieved_at": "2026-10-04",
-   "lang": "ko",
-   "confirmed_by": "claude(사용자 요청 대행 — URL·매체·게시일 확인)",
-   "confirmed_at": "2026-10-04T02:12:20.054997Z",
-   "note": "",
-   "type": "article",
-   "publisher": "Euromaidan Press",
-   "headline_original": "Belarus holds military drills around the Suwalki Gap, NATO's only land link to the Baltics - Euromaidan Press",
-   "published_at": "2026-09-17",
-   "key_facts": [
-    "Belarus holds military drills around the Suwalki Gap, NATO's only land link to the Baltics - Euromaidan Press"
-   ]
-  },
-  {
-   "id": "src_art_0011",
-   "url": "https://www.aljazeera.com/news/2026/9/30/russia-warns-nato-of-possible-nuclear-response-if-kaliningrad-is-cut-off",
-   "retrieved_at": "2026-10-04",
-   "lang": "ko",
-   "confirmed_by": "claude(사용자 요청 대행 — URL·매체·게시일 확인)",
-   "confirmed_at": "2026-10-04T02:12:20.578382Z",
-   "note": "",
-   "type": "article",
-   "publisher": "Al Jazeera",
-   "headline_original": "Russia warns NATO of possible nuclear response if Kaliningrad is cut off",
-   "published_at": "2026-09-30",
-   "key_facts": [
-    "Russia warns NATO of possible nuclear response if Kaliningrad is cut off"
-   ]
-  },
-  {
-   "id": "src_art_0012",
-   "url": "https://www.malaymail.com/news/life/2026/09/30/caught-between-russia-and-its-ally-but-life-goes-on-for-polish-residents-at-strategic-nato-chokepoint/237013",
-   "retrieved_at": "2026-10-04",
-   "lang": "ko",
-   "confirmed_by": "claude(사용자 요청 대행 — URL·매체·게시일 확인)",
-   "confirmed_at": "2026-10-04T02:12:21.094221Z",
-   "note": "",
-   "type": "article",
-   "publisher": "Malay Mail (AFP)",
-   "headline_original": "Caught between Russia and its ally, but life goes on for Polish residents at strategic Nato chokepoint",
-   "published_at": "2026-09-30",
-   "key_facts": [
-    "Caught between Russia and its ally, but life goes on for Polish residents at strategic Nato chokepoint"
-   ]
-  },
-  {
-   "id": "src_art_0013",
-   "url": "https://www.nbcnews.com/world/russia/putin-says-russia-will-use-weapons-arsenal-territory-attacked-rcna601034",
-   "retrieved_at": "2026-10-04",
-   "lang": "ko",
-   "confirmed_by": "claude(사용자 요청 대행 — URL·매체·게시일 확인)",
-   "confirmed_at": "2026-10-04T02:12:21.638523Z",
-   "note": "",
-   "type": "article",
-   "publisher": "NBC News (AP)",
-   "headline_original": "Putin says Russia will use ‘all weapons’ in its arsenal if any of its territory is attacked",
-   "published_at": "2026-10-01",
-   "key_facts": [
-    "Putin says Russia will use ‘all weapons’ in its arsenal if any of its territory is attacked"
-   ]
-  },
-  {
-   "id": "src_art_0014",
-   "url": "https://en.wikipedia.org/wiki/Kaliningrad",
-   "retrieved_at": "2026-10-04",
-   "lang": "ko",
-   "confirmed_by": "claude(사용자 요청 대행 — URL·매체·게시일 확인)",
-   "confirmed_at": "2026-10-04T02:12:22.180940Z",
-   "note": "위키백과 문서 — 게시일 대신 접근일(2026-10-04)",
-   "type": "article",
-   "publisher": "Wikipedia (Kaliningrad)",
-   "headline_original": "Kaliningrad - Wikipedia",
-   "published_at": "2026-10-04",
-   "key_facts": [
-    "Kaliningrad - Wikipedia"
-   ]
-  },
-  {
-   "id": "src_art_0015",
-   "url": "https://www.nato.int/cps/en/natohq/topics_136388.htm",
-   "retrieved_at": "2026-10-04",
-   "lang": "ko",
-   "confirmed_by": "claude(사용자 요청 대행 — URL·매체·게시일 확인)",
-   "confirmed_at": "2026-10-04T02:12:22.725749Z",
-   "note": "",
-   "type": "article",
-   "publisher": "NATO",
-   "headline_original": "Strengthening NATO’s eastern flank",
-   "published_at": "2026-09-29",
-   "key_facts": [
-    "Strengthening NATO’s eastern flank"
-   ]
-  },
-  {
-   "id": "src_art_0017",
-   "url": "https://www.baltictimes.com/news/articles/7355/",
-   "retrieved_at": "2026-10-04",
-   "lang": "ko",
-   "confirmed_by": "claude(사용자 요청 대행 — URL·매체·게시일 확인)",
-   "confirmed_at": "2026-10-04T02:12:23.237768Z",
-   "note": "",
-   "type": "article",
-   "publisher": "The Baltic Times",
-   "headline_original": "Brussels committed to transit deal",
-   "published_at": "2002-12-19",
-   "key_facts": [
-    "Brussels committed to transit deal"
-   ]
-  }
- ]
+  "schema_version": 1,
+  "sources": [
+    {
+      "id": "src_art_0001",
+      "url": "https://en.wikipedia.org/wiki/Suwa%C5%82ki_Agreement",
+      "retrieved_at": "2026-10-04",
+      "lang": "ko",
+      "verification": {
+        "status": "corroborated",
+        "checks": [
+          "claims:8"
+        ],
+        "notes": ""
+      },
+      "confirmed_by": "claude(사용자 요청 대행 — URL·매체·게시일 확인)",
+      "confirmed_at": "2026-10-04T02:12:15.814641Z",
+      "note": "위키백과 문서 — 게시일 대신 접근일(2026-10-04)",
+      "type": "article",
+      "publisher": "Wikipedia (Suwałki Agreement)",
+      "headline_original": "Suwałki Agreement - Wikipedia",
+      "published_at": "2026-10-04",
+      "key_facts": [
+        "Suwałki Agreement - Wikipedia"
+      ]
+    },
+    {
+      "id": "src_art_0002",
+      "url": "https://www.atlanticcouncil.org/?p=93719",
+      "retrieved_at": "2026-10-04",
+      "lang": "ko",
+      "verification": {
+        "status": "corroborated",
+        "checks": [
+          "claims:8"
+        ],
+        "notes": ""
+      },
+      "confirmed_by": "claude(사용자 요청 대행 — URL·매체·게시일 확인)",
+      "confirmed_at": "2026-10-04T02:12:16.376874Z",
+      "note": "",
+      "type": "article",
+      "publisher": "Atlantic Council",
+      "headline_original": "NATO’s Vulnerable Link in Europe: Poland’s Suwalki Gap",
+      "published_at": "2016-02-09",
+      "key_facts": [
+        "NATO’s Vulnerable Link in Europe: Poland’s Suwalki Gap"
+      ]
+    },
+    {
+      "id": "src_art_0004",
+      "url": "https://www.aljazeera.com/news/2022/6/18/lithuania-enforces-eu-sanctions-on-goods-to-russias-kaliningrad",
+      "retrieved_at": "2026-10-04",
+      "lang": "ko",
+      "verification": {
+        "status": "corroborated",
+        "checks": [
+          "claims:6"
+        ],
+        "notes": ""
+      },
+      "confirmed_by": "claude(사용자 요청 대행 — URL·매체·게시일 확인)",
+      "confirmed_at": "2026-10-04T02:12:16.936212Z",
+      "note": "",
+      "type": "article",
+      "publisher": "Al Jazeera",
+      "headline_original": "Lithuania enforces EU sanctions on goods to Russia’s Kaliningrad",
+      "published_at": "2022-06-18",
+      "key_facts": [
+        "Lithuania enforces EU sanctions on goods to Russia’s Kaliningrad"
+      ]
+    },
+    {
+      "id": "src_art_0005",
+      "url": "https://missilethreat.csis.org/russia-deploys-iskander-missiles-kaliningrad/",
+      "retrieved_at": "2026-10-04",
+      "lang": "ko",
+      "verification": {
+        "status": "corroborated",
+        "checks": [
+          "claims:2"
+        ],
+        "notes": ""
+      },
+      "confirmed_by": "claude(사용자 요청 대행 — URL·매체·게시일 확인)",
+      "confirmed_at": "2026-10-04T02:12:17.499291Z",
+      "note": "",
+      "type": "article",
+      "publisher": "CSIS Missile Threat",
+      "headline_original": "Russia Deploys Iskander Missiles to Kaliningrad | Missile Threat",
+      "published_at": "2018-02-06",
+      "key_facts": [
+        "Russia Deploys Iskander Missiles to Kaliningrad | Missile Threat"
+      ]
+    },
+    {
+      "id": "src_art_0006",
+      "url": "https://www.baltictimes.com/historic_day_for_lithuania_and_germany__german_brigade_inaugurated_in_vilnius",
+      "retrieved_at": "2026-10-04",
+      "lang": "ko",
+      "verification": {
+        "status": "unverified",
+        "checks": [
+          "claims:2"
+        ],
+        "notes": ""
+      },
+      "confirmed_by": "claude(사용자 요청 대행 — URL·매체·게시일 확인)",
+      "confirmed_at": "2026-10-04T02:12:17.985505Z",
+      "note": "",
+      "type": "article",
+      "publisher": "The Baltic Times",
+      "headline_original": "Historic day for Lithuania and Germany: German brigade inaugurated in Vilnius",
+      "published_at": "2025-05-22",
+      "key_facts": [
+        "Historic day for Lithuania and Germany: German brigade inaugurated in Vilnius"
+      ]
+    },
+    {
+      "id": "src_art_0007",
+      "url": "https://www.defensenews.com/global/europe/2025/09/10/russia-belarus-military-drills-start-this-week-heres-what-to-know/",
+      "retrieved_at": "2026-10-04",
+      "lang": "ko",
+      "verification": {
+        "status": "corroborated",
+        "checks": [
+          "claims:8"
+        ],
+        "notes": ""
+      },
+      "confirmed_by": "claude(사용자 요청 대행 — URL·매체·게시일 확인)",
+      "confirmed_at": "2026-10-04T02:12:18.493104Z",
+      "note": "",
+      "type": "article",
+      "publisher": "Defense News",
+      "headline_original": "Russia-Belarus military drills start this week. Here’s what to know",
+      "published_at": "2025-09-10",
+      "key_facts": [
+        "Russia-Belarus military drills start this week. Here’s what to know"
+      ]
+    },
+    {
+      "id": "src_art_0008",
+      "url": "https://rferl.org/amp/poland-tusk-shield-russia-kaliningrad-belarus/33221739.html",
+      "retrieved_at": "2026-10-04",
+      "lang": "ko",
+      "verification": {
+        "status": "unverified",
+        "checks": [
+          "claims:2"
+        ],
+        "notes": ""
+      },
+      "confirmed_by": "claude(사용자 요청 대행 — URL·매체·게시일 확인)",
+      "confirmed_at": "2026-10-04T02:12:19.011940Z",
+      "note": "",
+      "type": "article",
+      "publisher": "RFE/RL",
+      "headline_original": "Polish PM Says Fortifications On Russian, Belarusian Borders Are 'Investment In Peace'",
+      "published_at": "2024-11-30",
+      "key_facts": [
+        "Polish PM Says Fortifications On Russian, Belarusian Borders Are 'Investment In Peace'"
+      ]
+    },
+    {
+      "id": "src_art_0009",
+      "url": "https://euronews.com/2026/02/09/lithuania-wargames-security-incident-on-russian-kaliningrad-transit-train",
+      "retrieved_at": "2026-10-04",
+      "lang": "ko",
+      "verification": {
+        "status": "corroborated",
+        "checks": [
+          "claims:6"
+        ],
+        "notes": ""
+      },
+      "confirmed_by": "claude(사용자 요청 대행 — URL·매체·게시일 확인)",
+      "confirmed_at": "2026-10-04T02:12:19.534540Z",
+      "note": "",
+      "type": "article",
+      "publisher": "Euronews",
+      "headline_original": "Lithuania wargames security incident on Russian train to Kaliningrad",
+      "published_at": "2026-02-09",
+      "key_facts": [
+        "Lithuania wargames security incident on Russian train to Kaliningrad"
+      ]
+    },
+    {
+      "id": "src_art_0010",
+      "url": "https://euromaidanpress.com/2026/09/17/belarus-tank-drills-suwalki-gap/",
+      "retrieved_at": "2026-10-04",
+      "lang": "ko",
+      "verification": {
+        "status": "corroborated",
+        "checks": [
+          "claims:7"
+        ],
+        "notes": ""
+      },
+      "confirmed_by": "claude(사용자 요청 대행 — URL·매체·게시일 확인)",
+      "confirmed_at": "2026-10-04T02:12:20.054997Z",
+      "note": "",
+      "type": "article",
+      "publisher": "Euromaidan Press",
+      "headline_original": "Belarus holds military drills around the Suwalki Gap, NATO's only land link to the Baltics - Euromaidan Press",
+      "published_at": "2026-09-17",
+      "key_facts": [
+        "Belarus holds military drills around the Suwalki Gap, NATO's only land link to the Baltics - Euromaidan Press"
+      ]
+    },
+    {
+      "id": "src_art_0011",
+      "url": "https://www.aljazeera.com/news/2026/9/30/russia-warns-nato-of-possible-nuclear-response-if-kaliningrad-is-cut-off",
+      "retrieved_at": "2026-10-04",
+      "lang": "ko",
+      "verification": {
+        "status": "corroborated",
+        "checks": [
+          "claims:6"
+        ],
+        "notes": ""
+      },
+      "confirmed_by": "claude(사용자 요청 대행 — URL·매체·게시일 확인)",
+      "confirmed_at": "2026-10-04T02:12:20.578382Z",
+      "note": "",
+      "type": "article",
+      "publisher": "Al Jazeera",
+      "headline_original": "Russia warns NATO of possible nuclear response if Kaliningrad is cut off",
+      "published_at": "2026-09-30",
+      "key_facts": [
+        "Russia warns NATO of possible nuclear response if Kaliningrad is cut off"
+      ]
+    },
+    {
+      "id": "src_art_0012",
+      "url": "https://www.malaymail.com/news/life/2026/09/30/caught-between-russia-and-its-ally-but-life-goes-on-for-polish-residents-at-strategic-nato-chokepoint/237013",
+      "retrieved_at": "2026-10-04",
+      "lang": "ko",
+      "verification": {
+        "status": "corroborated",
+        "checks": [
+          "claims:4"
+        ],
+        "notes": ""
+      },
+      "confirmed_by": "claude(사용자 요청 대행 — URL·매체·게시일 확인)",
+      "confirmed_at": "2026-10-04T02:12:21.094221Z",
+      "note": "",
+      "type": "article",
+      "publisher": "Malay Mail (AFP)",
+      "headline_original": "Caught between Russia and its ally, but life goes on for Polish residents at strategic Nato chokepoint",
+      "published_at": "2026-09-30",
+      "key_facts": [
+        "Caught between Russia and its ally, but life goes on for Polish residents at strategic Nato chokepoint"
+      ]
+    },
+    {
+      "id": "src_art_0013",
+      "url": "https://www.nbcnews.com/world/russia/putin-says-russia-will-use-weapons-arsenal-territory-attacked-rcna601034",
+      "retrieved_at": "2026-10-04",
+      "lang": "ko",
+      "verification": {
+        "status": "corroborated",
+        "checks": [
+          "claims:11"
+        ],
+        "notes": ""
+      },
+      "confirmed_by": "claude(사용자 요청 대행 — URL·매체·게시일 확인)",
+      "confirmed_at": "2026-10-04T02:12:21.638523Z",
+      "note": "",
+      "type": "article",
+      "publisher": "NBC News (AP)",
+      "headline_original": "Putin says Russia will use ‘all weapons’ in its arsenal if any of its territory is attacked",
+      "published_at": "2026-10-01",
+      "key_facts": [
+        "Putin says Russia will use ‘all weapons’ in its arsenal if any of its territory is attacked"
+      ]
+    },
+    {
+      "id": "src_art_0014",
+      "url": "https://en.wikipedia.org/wiki/Kaliningrad",
+      "retrieved_at": "2026-10-04",
+      "lang": "ko",
+      "verification": {
+        "status": "corroborated",
+        "checks": [
+          "claims:4"
+        ],
+        "notes": ""
+      },
+      "confirmed_by": "claude(사용자 요청 대행 — URL·매체·게시일 확인)",
+      "confirmed_at": "2026-10-04T02:12:22.180940Z",
+      "note": "위키백과 문서 — 게시일 대신 접근일(2026-10-04)",
+      "type": "article",
+      "publisher": "Wikipedia (Kaliningrad)",
+      "headline_original": "Kaliningrad - Wikipedia",
+      "published_at": "2026-10-04",
+      "key_facts": [
+        "Kaliningrad - Wikipedia"
+      ]
+    },
+    {
+      "id": "src_art_0015",
+      "url": "https://www.nato.int/cps/en/natohq/topics_136388.htm",
+      "retrieved_at": "2026-10-04",
+      "lang": "ko",
+      "verification": {
+        "status": "corroborated",
+        "checks": [
+          "claims:5"
+        ],
+        "notes": ""
+      },
+      "confirmed_by": "claude(사용자 요청 대행 — URL·매체·게시일 확인)",
+      "confirmed_at": "2026-10-04T02:12:22.725749Z",
+      "note": "",
+      "type": "article",
+      "publisher": "NATO",
+      "headline_original": "Strengthening NATO’s eastern flank",
+      "published_at": "2026-09-29",
+      "key_facts": [
+        "Strengthening NATO’s eastern flank"
+      ]
+    },
+    {
+      "id": "src_art_0017",
+      "url": "https://www.baltictimes.com/news/articles/7355/",
+      "retrieved_at": "2026-10-04",
+      "lang": "ko",
+      "verification": {
+        "status": "corroborated",
+        "checks": [
+          "claims:2"
+        ],
+        "notes": ""
+      },
+      "confirmed_by": "claude(사용자 요청 대행 — URL·매체·게시일 확인)",
+      "confirmed_at": "2026-10-04T02:12:23.237768Z",
+      "note": "",
+      "type": "article",
+      "publisher": "The Baltic Times",
+      "headline_original": "Brussels committed to transit deal",
+      "published_at": "2002-12-19",
+      "key_facts": [
+        "Brussels committed to transit deal"
+      ]
+    },
+    {
+      "id": "src_art_0018",
+      "url": "https://en.wikipedia.org/wiki/History_of_Kaliningrad",
+      "retrieved_at": "2026-10-04",
+      "lang": "ko",
+      "confirmed_by": "claude(사용자 요청 대행 — URL·매체·게시일 확인)",
+      "confirmed_at": "2026-10-04T02:20:35.502123Z",
+      "note": "위키백과 문서 — 게시일 대신 접근일(2026-10-04)",
+      "type": "article",
+      "publisher": "Wikipedia (History of Kaliningrad)",
+      "headline_original": "Königsberg - Wikipedia",
+      "published_at": "2026-10-04",
+      "key_facts": [
+        "Königsberg - Wikipedia"
+      ]
+    },
+    {
+      "id": "src_art_0019",
+      "url": "https://en.wikipedia.org/wiki/Enlargement_of_NATO",
+      "retrieved_at": "2026-10-04",
+      "lang": "ko",
+      "confirmed_by": "claude(사용자 요청 대행 — URL·매체·게시일 확인)",
+      "confirmed_at": "2026-10-04T02:20:35.994961Z",
+      "note": "위키백과 문서 — 게시일 대신 접근일(2026-10-04) · 본문 = 관련 문단만 발췌(원문 문단 그대로, 검증 본문 상한 12000자 안)",
+      "type": "article",
+      "publisher": "Wikipedia (Enlargement of NATO)",
+      "headline_original": "Enlargement of NATO - Wikipedia",
+      "published_at": "2026-10-04",
+      "key_facts": [
+        "Enlargement of NATO - Wikipedia"
+      ]
+    },
+    {
+      "id": "src_art_0020",
+      "url": "https://en.wikipedia.org/wiki/Kaliningrad_Oblast",
+      "retrieved_at": "2026-10-04",
+      "lang": "ko",
+      "confirmed_by": "claude(사용자 요청 대행 — URL·매체·게시일 확인)",
+      "confirmed_at": "2026-10-04T02:20:36.521605Z",
+      "note": "위키백과 문서 — 게시일 대신 접근일(2026-10-04) · 본문 = 관련 문단만 발췌(원문 문단 그대로, 검증 본문 상한 12000자 안)",
+      "type": "article",
+      "publisher": "Wikipedia (Kaliningrad Oblast)",
+      "headline_original": "Kaliningrad Oblast - Wikipedia",
+      "published_at": "2026-10-04",
+      "key_facts": [
+        "Kaliningrad Oblast - Wikipedia"
+      ]
+    }
+  ]
 }

@@ -1,0 +1,1042 @@
+{
+  "schema_version": 1,
+  "claims": [
+    {
+      "claim_id": "clm_0001",
+      "text": "폴란드와 리투아니아가 1920년 10월 7일 수바우키 협정에 서명했다",
+      "source_ids": [
+        "src_art_0001",
+        "src_art_0002"
+      ],
+      "status": "corroborated",
+      "contested": false,
+      "event_date": "1920-10-07",
+      "checks": [
+        "quote_match:src_art_0001",
+        "quote_match:src_art_0002",
+        "independent_origins:2"
+      ],
+      "attributed_only": false,
+      "claim_kind": "fact",
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0002",
+      "text": "국제연맹이 1920년 9월 20일 폴란드·리투아니아 교전 중단을 촉구하는 결의를 채택했다",
+      "source_ids": [
+        "src_art_0001"
+      ],
+      "status": "unverified",
+      "contested": false,
+      "event_date": "1920-09-20",
+      "checks": [
+        "quote_match:src_art_0001",
+        "independent_origins:1"
+      ],
+      "attributed_only": false,
+      "claim_kind": "fact",
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0003",
+      "text": "1920년 9월 22일 폴란드군이 항복한 리투아니아군 1,700명을 포로로 잡았다",
+      "source_ids": [
+        "src_art_0001"
+      ],
+      "status": "unverified",
+      "contested": false,
+      "event_date": "1920-09-22",
+      "checks": [
+        "quote_match:src_art_0001",
+        "independent_origins:1"
+      ],
+      "attributed_only": false,
+      "claim_kind": "fact",
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0004",
+      "text": "수바우키 협정은 빌뉴스 문제를 다루지 않았다",
+      "source_ids": [
+        "src_art_0001",
+        "src_art_0002"
+      ],
+      "status": "disputed",
+      "contested": false,
+      "event_date": "1920-10-07",
+      "checks": [
+        "quote_match:src_art_0001",
+        "quote_match:src_art_0001",
+        "quote_match:src_art_0002",
+        "independent_origins:1"
+      ],
+      "attributed_only": false,
+      "claim_kind": "fact",
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0005",
+      "text": "폴란드군이 1920년 10월 9일 빌뉴스를 점령했다",
+      "source_ids": [
+        "src_art_0001",
+        "src_art_0002"
+      ],
+      "status": "corroborated",
+      "contested": false,
+      "event_date": "1920-10-09",
+      "checks": [
+        "quote_match:src_art_0001",
+        "quote_match:src_art_0002",
+        "independent_origins:2"
+      ],
+      "attributed_only": false,
+      "claim_kind": "fact",
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0006",
+      "text": "중앙리투아니아 공화국이 1923년 폴란드 제2공화국에 편입됐다",
+      "source_ids": [
+        "src_art_0001"
+      ],
+      "status": "unverified",
+      "contested": false,
+      "checks": [
+        "quote_match:src_art_0001",
+        "independent_origins:1"
+      ],
+      "attributed_only": false,
+      "claim_kind": "fact",
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0007",
+      "text": "빌뉴스 지역은 1939년까지 폴란드 관할에 있었다",
+      "source_ids": [
+        "src_art_0001",
+        "src_art_0002"
+      ],
+      "status": "corroborated",
+      "contested": false,
+      "checks": [
+        "quote_match:src_art_0001",
+        "quote_match:src_art_0002",
+        "independent_origins:2"
+      ],
+      "attributed_only": false,
+      "claim_kind": "fact",
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0008",
+      "text": "수바우키 협정의 경계선은 대부분 오늘날 폴란드·리투아니아 국경으로 남아 있다",
+      "source_ids": [
+        "src_art_0001"
+      ],
+      "status": "unverified",
+      "contested": false,
+      "checks": [
+        "quote_match:src_art_0001",
+        "independent_origins:1"
+      ],
+      "attributed_only": false,
+      "claim_kind": "fact",
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0009",
+      "text": "푼스크 주민의 약 80%(약 3,600명)가 리투아니아계다",
+      "source_ids": [
+        "src_art_0002"
+      ],
+      "status": "unverified",
+      "contested": false,
+      "checks": [
+        "quote_match:src_art_0002",
+        "independent_origins:1"
+      ],
+      "attributed_only": false,
+      "claim_kind": "fact",
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0010",
+      "text": "수바우키 회랑은 칼리닌그라드와 벨라루스 사이에 있다",
+      "source_ids": [
+        "src_art_0007",
+        "src_art_0010",
+        "src_art_0012",
+        "src_art_0013"
+      ],
+      "status": "corroborated",
+      "contested": false,
+      "checks": [
+        "quote_match:src_art_0007",
+        "quote_match:src_art_0010",
+        "quote_match:src_art_0012",
+        "quote_match:src_art_0013",
+        "independent_origins:4"
+      ],
+      "attributed_only": false,
+      "claim_kind": "fact",
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0011",
+      "text": "수바우키 회랑은 발트 3국을 다른 NATO 회원국과 잇는 유일한 육로다",
+      "source_ids": [
+        "src_art_0010",
+        "src_art_0012"
+      ],
+      "status": "corroborated",
+      "contested": false,
+      "checks": [
+        "quote_match:src_art_0010",
+        "quote_match:src_art_0012",
+        "independent_origins:2"
+      ],
+      "attributed_only": false,
+      "claim_kind": "fact",
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0012",
+      "text": "수바우키 회랑의 길이는 약 104km다",
+      "source_ids": [
+        "src_art_0012",
+        "src_art_0002",
+        "src_art_0013"
+      ],
+      "status": "disputed",
+      "contested": false,
+      "checks": [
+        "quote_match:src_art_0012",
+        "quote_match:src_art_0002",
+        "quote_match:src_art_0013",
+        "independent_origins:2"
+      ],
+      "attributed_only": false,
+      "claim_kind": "fact",
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0013",
+      "text": "수바우키는 인구 7만 명의 도시다",
+      "source_ids": [
+        "src_art_0012"
+      ],
+      "status": "unverified",
+      "contested": false,
+      "checks": [
+        "quote_match:src_art_0012",
+        "independent_origins:1"
+      ],
+      "attributed_only": false,
+      "claim_kind": "fact",
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0014",
+      "text": "칼리닌그라드는 러시아 본토와 육상 국경이 없는 역외 영토다",
+      "source_ids": [
+        "src_art_0004",
+        "src_art_0014",
+        "src_art_0010"
+      ],
+      "status": "corroborated",
+      "contested": false,
+      "checks": [
+        "quote_match:src_art_0004",
+        "quote_match:src_art_0014",
+        "quote_match:src_art_0010",
+        "independent_origins:3"
+      ],
+      "attributed_only": false,
+      "claim_kind": "fact",
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0015",
+      "text": "칼리닌그라드에 러시아 발트함대가 있다",
+      "source_ids": [
+        "src_art_0014",
+        "src_art_0002",
+        "src_art_0011",
+        "src_art_0013"
+      ],
+      "status": "corroborated",
+      "contested": false,
+      "checks": [
+        "quote_match:src_art_0014",
+        "quote_match:src_art_0002",
+        "quote_match:src_art_0011",
+        "quote_match:src_art_0013",
+        "independent_origins:4"
+      ],
+      "attributed_only": false,
+      "claim_kind": "fact",
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0016",
+      "text": "칼리닌그라드에 핵탑재 가능 이스칸데르 미사일이 배치돼 있다",
+      "source_ids": [
+        "src_art_0013",
+        "src_art_0011",
+        "src_art_0004",
+        "src_art_0005"
+      ],
+      "status": "corroborated",
+      "contested": false,
+      "checks": [
+        "quote_match:src_art_0013",
+        "quote_match:src_art_0011",
+        "quote_match:src_art_0004",
+        "quote_match:src_art_0005",
+        "independent_origins:3"
+      ],
+      "attributed_only": false,
+      "claim_kind": "fact",
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0017",
+      "text": "이스칸데르는 사거리 500km의 이동식 체계로 핵탄두를 운반할 수 있다",
+      "source_ids": [
+        "src_art_0005"
+      ],
+      "status": "unverified",
+      "contested": false,
+      "checks": [
+        "quote_match:src_art_0005",
+        "independent_origins:1"
+      ],
+      "attributed_only": false,
+      "claim_kind": "fact",
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0018",
+      "text": "칼리닌그라드시 인구는 2020년 489,359명이었다",
+      "source_ids": [
+        "src_art_0014"
+      ],
+      "status": "unverified",
+      "contested": false,
+      "checks": [
+        "quote_match:src_art_0014",
+        "independent_origins:1"
+      ],
+      "attributed_only": false,
+      "claim_kind": "fact",
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0019",
+      "text": "쾨니히스베르크는 1946년 7월 칼리닌그라드로 개칭됐다",
+      "source_ids": [
+        "src_art_0014"
+      ],
+      "status": "unverified",
+      "contested": false,
+      "checks": [
+        "quote_match:src_art_0014",
+        "independent_origins:1"
+      ],
+      "attributed_only": false,
+      "claim_kind": "fact",
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0020",
+      "text": "EU와 러시아가 2003년 7월 1일부터 러시아인이 간이 통과 문서로 리투아니아를 경유해 칼리닌그라드를 오가도록 합의했다",
+      "source_ids": [
+        "src_art_0017",
+        "src_art_0009"
+      ],
+      "status": "corroborated",
+      "contested": false,
+      "checks": [
+        "quote_match:src_art_0017",
+        "quote_match:src_art_0009",
+        "independent_origins:2"
+      ],
+      "attributed_only": false,
+      "claim_kind": "fact",
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0021",
+      "text": "안타나스 발리오니스 리투아니아 외무장관이 리투아니아가 EU로부터 이듬해 900만~1,000만 유로를 받는다고 밝혔다",
+      "source_ids": [
+        "src_art_0017"
+      ],
+      "status": "unverified",
+      "contested": false,
+      "checks": [
+        "quote_match:src_art_0017",
+        "independent_origins:1",
+        "attributed:src_art_0017"
+      ],
+      "attributed_only": true,
+      "claim_kind": "statement",
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0022",
+      "text": "러시아군은 2003년부터 리투아니아를 경유해 칼리닌그라드 주둔군에 보급할 수 있다",
+      "source_ids": [
+        "src_art_0002"
+      ],
+      "status": "unverified",
+      "contested": false,
+      "checks": [
+        "quote_match:src_art_0002",
+        "independent_origins:1"
+      ],
+      "attributed_only": false,
+      "claim_kind": "fact",
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0023",
+      "text": "리투아니아가 2022년 2월 러시아발 칼리닌그라드행 항공편에 영공을 닫았다",
+      "source_ids": [
+        "src_art_0004"
+      ],
+      "status": "unverified",
+      "contested": false,
+      "checks": [
+        "quote_match:src_art_0004",
+        "independent_origins:1"
+      ],
+      "attributed_only": false,
+      "claim_kind": "fact",
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0024",
+      "text": "리투아니아가 2022년 6월 18일 EU 제재 대상 화물의 칼리닌그라드행 통과를 금지했다",
+      "source_ids": [
+        "src_art_0004",
+        "src_art_0009"
+      ],
+      "status": "corroborated",
+      "contested": false,
+      "event_date": "2022-06-18",
+      "checks": [
+        "quote_match:src_art_0004",
+        "quote_match:src_art_0009",
+        "independent_origins:2"
+      ],
+      "attributed_only": false,
+      "claim_kind": "fact",
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0025",
+      "text": "안톤 알리하노프 칼리닌그라드 주지사가 통과 금지가 칼리닌그라드 교역 품목의 40~50%에 해당한다고 밝혔다",
+      "source_ids": [
+        "src_art_0004"
+      ],
+      "status": "unverified",
+      "contested": false,
+      "event_date": "2022-06-17",
+      "checks": [
+        "quote_match:src_art_0004",
+        "independent_origins:1",
+        "attributed:src_art_0004"
+      ],
+      "attributed_only": true,
+      "claim_kind": "statement",
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0026",
+      "text": "알리하노프 주지사가 통과 금지를 자유 통과권의 심각한 침해라고 말했다",
+      "source_ids": [
+        "src_art_0004"
+      ],
+      "status": "unverified",
+      "contested": false,
+      "event_date": "2022-06-17",
+      "checks": [
+        "quote_match:src_art_0004",
+        "independent_origins:1",
+        "attributed:src_art_0004"
+      ],
+      "attributed_only": true,
+      "claim_kind": "statement",
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0027",
+      "text": "EU가 제재 권고를 수정해 리투아니아에 철도 통과를 허용하라고 권고했다",
+      "source_ids": [
+        "src_art_0009"
+      ],
+      "status": "unverified",
+      "contested": false,
+      "checks": [
+        "quote_match:src_art_0009",
+        "independent_origins:1"
+      ],
+      "attributed_only": false,
+      "claim_kind": "fact",
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0028",
+      "text": "2025년 6월 러시아 시민이 칼리닌그라드행 통과 열차에서 리투아니아에 내렸다",
+      "source_ids": [
+        "src_art_0009"
+      ],
+      "status": "unverified",
+      "contested": false,
+      "checks": [
+        "quote_match:src_art_0009",
+        "independent_origins:1"
+      ],
+      "attributed_only": false,
+      "claim_kind": "fact",
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0029",
+      "text": "리투아니아가 2026년 2월 9일 칼리닌그라드행 러시아 통과 열차 보안 사고를 가정한 훈련을 했다",
+      "source_ids": [
+        "src_art_0009"
+      ],
+      "status": "unverified",
+      "contested": false,
+      "event_date": "2026-02-09",
+      "checks": [
+        "quote_match:src_art_0009",
+        "independent_origins:1"
+      ],
+      "attributed_only": false,
+      "claim_kind": "fact",
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0030",
+      "text": "폴란드 기갑여단이 2025년 8월 러시아 국경 인근(브라니에보)에 배치됐다",
+      "source_ids": [
+        "src_art_0009"
+      ],
+      "status": "unverified",
+      "contested": false,
+      "checks": [
+        "quote_match:src_art_0009",
+        "independent_origins:1"
+      ],
+      "attributed_only": false,
+      "claim_kind": "fact",
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0031",
+      "text": "독일 제45기갑여단 '리투아니아'가 2025년 5월 22일 빌뉴스에서 창설식을 열었다",
+      "source_ids": [
+        "src_art_0006"
+      ],
+      "status": "unverified",
+      "contested": false,
+      "event_date": "2025-05-22",
+      "checks": [
+        "quote_match:src_art_0006",
+        "independent_origins:1"
+      ],
+      "attributed_only": false,
+      "claim_kind": "fact",
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0032",
+      "text": "메르츠 독일 총리가 NATO 동부 측면 방어를 직접 맡겠다고 말했다",
+      "source_ids": [
+        "src_art_0006"
+      ],
+      "status": "unverified",
+      "contested": false,
+      "event_date": "2025-05-22",
+      "checks": [
+        "quote_match:src_art_0006",
+        "independent_origins:1",
+        "attributed:src_art_0006"
+      ],
+      "attributed_only": true,
+      "claim_kind": "statement",
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0033",
+      "text": "NATO 전진지상군은 9개 다국적 전투단으로 배치돼 있다",
+      "source_ids": [
+        "src_art_0015"
+      ],
+      "status": "unverified",
+      "contested": false,
+      "checks": [
+        "quote_match:src_art_0015",
+        "independent_origins:1"
+      ],
+      "attributed_only": false,
+      "claim_kind": "fact",
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0034",
+      "text": "리투아니아 주둔 NATO 전투단의 주도국은 독일이다",
+      "source_ids": [
+        "src_art_0015"
+      ],
+      "status": "unverified",
+      "contested": false,
+      "checks": [
+        "quote_match:src_art_0015",
+        "independent_origins:1"
+      ],
+      "attributed_only": false,
+      "claim_kind": "fact",
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0035",
+      "text": "NATO가 2025년 1월부터 발트해에서 '발틱 센트리'를 운용하고 있다",
+      "source_ids": [
+        "src_art_0015",
+        "src_art_0013"
+      ],
+      "status": "corroborated",
+      "contested": false,
+      "checks": [
+        "quote_match:src_art_0015",
+        "quote_match:src_art_0013",
+        "independent_origins:2"
+      ],
+      "attributed_only": false,
+      "claim_kind": "fact",
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0036",
+      "text": "폴란드 동쪽 방패(East Shield) 사업은 러시아·벨라루스 국경 800km 방어를 목표로 한다",
+      "source_ids": [
+        "src_art_0008"
+      ],
+      "status": "unverified",
+      "contested": false,
+      "checks": [
+        "quote_match:src_art_0008",
+        "independent_origins:1"
+      ],
+      "attributed_only": false,
+      "claim_kind": "fact",
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0037",
+      "text": "투스크 폴란드 총리가 2024년 11월 30일 국경 요새화를 '평화에 대한 투자'라고 말했다",
+      "source_ids": [
+        "src_art_0008"
+      ],
+      "status": "unverified",
+      "contested": false,
+      "event_date": "2024-11-30",
+      "checks": [
+        "quote_match:src_art_0008",
+        "independent_origins:1",
+        "attributed:src_art_0008"
+      ],
+      "attributed_only": true,
+      "claim_kind": "statement",
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0038",
+      "text": "러시아·벨라루스 연합훈련 '자파드 2025'가 2025년 9월 12일부터 16일까지 벨라루스에서 열렸다",
+      "source_ids": [
+        "src_art_0007"
+      ],
+      "status": "unverified",
+      "contested": false,
+      "event_date": "2025-09-12",
+      "checks": [
+        "quote_match:src_art_0007",
+        "independent_origins:1"
+      ],
+      "attributed_only": false,
+      "claim_kind": "fact",
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0039",
+      "text": "벨라루스 국방 당국이 당초 자파드 2025에 약 1만 3천 명이 참가한다고 밝혔다",
+      "source_ids": [
+        "src_art_0007"
+      ],
+      "status": "unverified",
+      "contested": false,
+      "checks": [
+        "quote_match:src_art_0007",
+        "independent_origins:1",
+        "attributed:src_art_0007"
+      ],
+      "attributed_only": true,
+      "claim_kind": "statement",
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0040",
+      "text": "러시아 당국이 2021년 자파드 훈련에 약 20만 명이 참가했다고 밝혔다",
+      "source_ids": [
+        "src_art_0007"
+      ],
+      "status": "unverified",
+      "contested": false,
+      "checks": [
+        "quote_match:src_art_0007",
+        "independent_origins:1",
+        "attributed:src_art_0007"
+      ],
+      "attributed_only": true,
+      "claim_kind": "statement",
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0041",
+      "text": "루카셴코와 푸틴이 2024년 12월 벨라루스 안보 보장 조약에 서명했다",
+      "source_ids": [
+        "src_art_0007"
+      ],
+      "status": "unverified",
+      "contested": false,
+      "checks": [
+        "quote_match:src_art_0007",
+        "independent_origins:1"
+      ],
+      "attributed_only": false,
+      "claim_kind": "fact",
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0042",
+      "text": "투스크 총리가 자파드 훈련을 '매우 공격적'인 기동이라고 말했다",
+      "source_ids": [
+        "src_art_0007"
+      ],
+      "status": "unverified",
+      "contested": false,
+      "event_date": "2025-09-09",
+      "checks": [
+        "quote_match:src_art_0007",
+        "independent_origins:1",
+        "attributed:src_art_0007"
+      ],
+      "attributed_only": true,
+      "claim_kind": "statement",
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0043",
+      "text": "자파드 2025의 목표 중 하나가 수바우키 회랑이었다",
+      "source_ids": [
+        "src_art_0007"
+      ],
+      "status": "disputed",
+      "contested": true,
+      "sides": [
+        {
+          "party": "도날드 투스크 폴란드 총리",
+          "text": "수바우키 회랑이 자파드의 목표 중 하나였다",
+          "source_ids": [
+            "src_art_0007"
+          ]
+        },
+        {
+          "party": "알렉산드르 루카셴코 벨라루스 대통령",
+          "text": "자파드 중 수바우키 회랑 공격 구상은 '터무니없다'",
+          "source_ids": [
+            "src_art_0007"
+          ]
+        }
+      ],
+      "checks": [
+        "quote_match:src_art_0007",
+        "quote_match:src_art_0007",
+        "independent_origins:1"
+      ],
+      "attributed_only": false,
+      "claim_kind": "fact",
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0044",
+      "text": "2025년 9월 러시아 드론이 폴란드 영공에 침입했다",
+      "source_ids": [
+        "src_art_0015",
+        "src_art_0007"
+      ],
+      "status": "unverified",
+      "contested": false,
+      "event_date": "2025-09-10",
+      "checks": [
+        "quote_match:src_art_0015",
+        "quote_match:src_art_0007",
+        "independent_origins:1",
+        "attributed:src_art_0007"
+      ],
+      "attributed_only": false,
+      "claim_kind": "fact",
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0045",
+      "text": "NATO가 영공 침범 대응으로 '이스턴 센트리'를 개시했다",
+      "source_ids": [
+        "src_art_0015"
+      ],
+      "status": "unverified",
+      "contested": false,
+      "checks": [
+        "quote_match:src_art_0015",
+        "independent_origins:1"
+      ],
+      "attributed_only": false,
+      "claim_kind": "fact",
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0046",
+      "text": "벨라루스 서부작전사령부가 2026년 9월 15~18일 폴란드·리투아니아 인근에서 훈련을 했다",
+      "source_ids": [
+        "src_art_0010"
+      ],
+      "status": "unverified",
+      "contested": false,
+      "event_date": "2026-09-15",
+      "checks": [
+        "quote_match:src_art_0010",
+        "independent_origins:1"
+      ],
+      "attributed_only": false,
+      "claim_kind": "fact",
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0047",
+      "text": "벨라루스는 2026년 9월 훈련의 총 병력 규모를 공개하지 않았다",
+      "source_ids": [
+        "src_art_0010"
+      ],
+      "status": "unverified",
+      "contested": false,
+      "checks": [
+        "quote_match:src_art_0010",
+        "independent_origins:1"
+      ],
+      "attributed_only": false,
+      "claim_kind": "fact",
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0048",
+      "text": "무라베이코 벨라루스 총참모장이 공격 행동을 검토하지 않으며 공격 준비 주장은 근거 없다고 말했다",
+      "source_ids": [
+        "src_art_0010"
+      ],
+      "status": "unverified",
+      "contested": false,
+      "checks": [
+        "quote_match:src_art_0010",
+        "independent_origins:1",
+        "attributed:src_art_0010"
+      ],
+      "attributed_only": true,
+      "claim_kind": "statement",
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0049",
+      "text": "벨라루스 국방부가 훈련 규모가 2011 빈 문서의 통보 기준 미만이라고 주장했다",
+      "source_ids": [
+        "src_art_0010"
+      ],
+      "status": "unverified",
+      "contested": false,
+      "checks": [
+        "quote_match:src_art_0010",
+        "independent_origins:1",
+        "attributed:src_art_0010"
+      ],
+      "attributed_only": true,
+      "claim_kind": "statement",
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0050",
+      "text": "러시아가 2026년 9월 30일 NATO에 서면 메시지를 보냈다",
+      "source_ids": [
+        "src_art_0013"
+      ],
+      "status": "unverified",
+      "contested": false,
+      "event_date": "2026-09-30",
+      "checks": [
+        "quote_match:src_art_0013",
+        "independent_origins:1"
+      ],
+      "attributed_only": false,
+      "claim_kind": "fact",
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0051",
+      "text": "러시아 측이 NATO가 칼리닌그라드 공중·해상 봉쇄를 준비 중이라는 정보가 있다고 주장했다",
+      "source_ids": [
+        "src_art_0011",
+        "src_art_0013"
+      ],
+      "status": "corroborated",
+      "contested": false,
+      "event_date": "2026-09-30",
+      "checks": [
+        "quote_match:src_art_0011",
+        "quote_match:src_art_0013",
+        "independent_origins:2",
+        "attributed:src_art_0011",
+        "attributed:src_art_0013"
+      ],
+      "attributed_only": true,
+      "claim_kind": "statement",
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0052",
+      "text": "NATO가 칼리닌그라드 봉쇄를 준비하고 있다",
+      "source_ids": [
+        "src_art_0011",
+        "src_art_0013"
+      ],
+      "status": "disputed",
+      "contested": true,
+      "sides": [
+        {
+          "party": "러시아 정부",
+          "text": "NATO가 칼리닌그라드 공중·해상 봉쇄를 준비 중이라는 정보가 있다",
+          "source_ids": [
+            "src_art_0011",
+            "src_art_0013"
+          ]
+        },
+        {
+          "party": "NATO",
+          "text": "NATO는 방어 동맹이며 칼리닌그라드를 겨냥하지 않는다",
+          "source_ids": [
+            "src_art_0011",
+            "src_art_0013"
+          ]
+        }
+      ],
+      "checks": [
+        "quote_match:src_art_0011",
+        "quote_match:src_art_0013",
+        "independent_origins:0",
+        "attributed:src_art_0011"
+      ],
+      "attributed_only": true,
+      "claim_kind": "fact",
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0053",
+      "text": "주아일랜드 러시아 대사관이 성명에서 칼리닌그라드 고립 시도 시 핵무기를 포함한 전 무기를 쓸 준비가 돼 있다고 밝혔다",
+      "source_ids": [
+        "src_art_0013"
+      ],
+      "status": "unverified",
+      "contested": false,
+      "event_date": "2026-09-29",
+      "checks": [
+        "quote_match:src_art_0013",
+        "independent_origins:1",
+        "attributed:src_art_0013"
+      ],
+      "attributed_only": true,
+      "claim_kind": "statement",
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0054",
+      "text": "뤼터 NATO 사무총장이 NATO는 방어 동맹이며 러시아가 핵 위협을 멈춰야 한다고 말했다",
+      "source_ids": [
+        "src_art_0011"
+      ],
+      "status": "unverified",
+      "contested": false,
+      "event_date": "2026-09-30",
+      "checks": [
+        "quote_match:src_art_0011",
+        "independent_origins:1",
+        "attributed:src_art_0011"
+      ],
+      "attributed_only": true,
+      "claim_kind": "statement",
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0055",
+      "text": "앨리슨 하트 NATO 대변인이 무력 위협과 무책임한 핵 언사를 강하게 규탄한다고 말했다",
+      "source_ids": [
+        "src_art_0013"
+      ],
+      "status": "unverified",
+      "contested": false,
+      "event_date": "2026-09-30",
+      "checks": [
+        "quote_match:src_art_0013",
+        "independent_origins:1",
+        "attributed:src_art_0013"
+      ],
+      "attributed_only": true,
+      "claim_kind": "statement",
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0056",
+      "text": "푸틴 대통령이 NATO에 보낸 경고 내용이 모두 옳게 쓰였다고 말했다",
+      "source_ids": [
+        "src_art_0013"
+      ],
+      "status": "unverified",
+      "contested": false,
+      "event_date": "2026-10-01",
+      "checks": [
+        "quote_match:src_art_0013",
+        "independent_origins:1",
+        "attributed:src_art_0013"
+      ],
+      "attributed_only": true,
+      "claim_kind": "statement",
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0057",
+      "text": "덴마크 당국이 러시아 군함이 발트해에서 덴마크 군 헬기 근처로 조명탄 두 발을 쐈다고 밝혔다",
+      "source_ids": [
+        "src_art_0011"
+      ],
+      "status": "unverified",
+      "contested": false,
+      "checks": [
+        "quote_match:src_art_0011",
+        "independent_origins:1",
+        "attributed:src_art_0011"
+      ],
+      "attributed_only": true,
+      "claim_kind": "statement",
+      "notes": ""
+    }
+  ]
+}
