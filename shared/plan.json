@@ -1,0 +1,1911 @@
+{
+ "sentences": [
+  {
+   "sid": "cold_open_0",
+   "scene": "cold_open",
+   "date": "2026.09.30",
+   "text": "2026년 9월 30일, 러시아가 서면 메시지를 나토에 보냈습니다.",
+   "tts": "이천이십육년 구월 삼십일, 러시아가 서면 메시지를 나토에 보냈습니다.",
+   "segments": [
+    [
+     "2026년 9월 30일, 러시아가 ",
+     0
+    ],
+    [
+     "서면 메시지",
+     1
+    ],
+    [
+     "를 나토에 보냈습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/kaliningrad-suwalki/tts/cold_open_0_401fd0df0f.mp3",
+   "npy": "/home/user/osint_generator/projects/kaliningrad-suwalki/tts/cold_open_0_401fd0df0f.npy",
+   "dur": 5.5810884353741494,
+   "t0": 1.2,
+   "t1": 6.78108843537415,
+   "trim_offset": 0.351497
+  },
+  {
+   "sid": "cold_open_1",
+   "scene": "cold_open",
+   "date": "2026.09.30",
+   "text": "러시아는 나토가 칼리닌그라드의 공중과 해상 봉쇄를 준비한다는 정보가 있다고 주장했습니다.",
+   "tts": "러시아는 나토가 칼리닌그라드의 공중과 해상 봉쇄를 준비한다는 정보가 있다고 주장했습니다.",
+   "segments": [
+    [
+     "러시아는 나토가 칼리닌그라드의 공중과 해상 ",
+     0
+    ],
+    [
+     "봉쇄",
+     1
+    ],
+    [
+     "를 준비한다는 정보가 있다고 주장했습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/kaliningrad-suwalki/tts/cold_open_1_dcd6a38f33.mp3",
+   "npy": "/home/user/osint_generator/projects/kaliningrad-suwalki/tts/cold_open_1_dcd6a38f33.npy",
+   "dur": 5.7881179138322,
+   "t0": 7.28108843537415,
+   "t1": 13.06920634920635,
+   "trim_offset": 0.366553
+  },
+  {
+   "sid": "cold_open_2",
+   "scene": "cold_open",
+   "date": "2026.09.30",
+   "text": "그러면서 칼리닌그라드가 고립되면 핵무기를 포함한 모든 무기를 쓸 준비가 돼 있다고 밝혔습니다.",
+   "tts": "그러면서 칼리닌그라드가 고립되면 핵무기를 포함한 모든 무기를 쓸 준비가 돼 있다고 밝혔습니다.",
+   "segments": [
+    [
+     "그러면서 칼리닌그라드가 고립되면 ",
+     0
+    ],
+    [
+     "핵무기",
+     1
+    ],
+    [
+     "를 포함한 모든 무기를 쓸 준비가 돼 있다고 밝혔습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/kaliningrad-suwalki/tts/cold_open_2_f095c20b1d.mp3",
+   "npy": "/home/user/osint_generator/projects/kaliningrad-suwalki/tts/cold_open_2_f095c20b1d.npy",
+   "dur": 6.249931972789116,
+   "t0": 13.56920634920635,
+   "t1": 19.819138321995467,
+   "trim_offset": 0.368005
+  },
+  {
+   "sid": "cold_open_3",
+   "scene": "cold_open",
+   "date": "2026",
+   "text": "칼리닌그라드는 리투아니아와 폴란드 사이에 있는 러시아의 역외 영토입니다.",
+   "tts": "칼리닌그라드는 리투아니아와 폴란드 사이에 있는 러시아의 역외 영토입니다.",
+   "segments": [
+    [
+     "칼리닌그라드는 리투아니아와 폴란드 사이에 있는 러시아의 ",
+     0
+    ],
+    [
+     "역외 영토",
+     1
+    ],
+    [
+     "입니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/kaliningrad-suwalki/tts/cold_open_3_4ecf407fbd.mp3",
+   "npy": "/home/user/osint_generator/projects/kaliningrad-suwalki/tts/cold_open_3_4ecf407fbd.npy",
+   "dur": 5.001451247165533,
+   "t0": 20.319138321995467,
+   "t1": 25.320589569161,
+   "trim_offset": 0.353016
+  },
+  {
+   "sid": "cold_open_4",
+   "scene": "cold_open",
+   "date": "2026",
+   "text": "그리고 그 남동쪽 국경 지대가 수바우키 회랑입니다.",
+   "tts": "그리고 그 남동쪽 국경 지대가 수바우키 회랑입니다.",
+   "segments": [
+    [
+     "그리고 그 남동쪽 국경 지대가 ",
+     0
+    ],
+    [
+     "수바우키 회랑",
+     1
+    ],
+    [
+     "입니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/kaliningrad-suwalki/tts/cold_open_4_030f00505e.mp3",
+   "npy": "/home/user/osint_generator/projects/kaliningrad-suwalki/tts/cold_open_4_030f00505e.npy",
+   "dur": 3.686734693877551,
+   "t0": 25.820589569161,
+   "t1": 29.50732426303855,
+   "trim_offset": 0.379274
+  },
+  {
+   "sid": "konigsberg_0",
+   "scene": "konigsberg",
+   "date": "1255",
+   "text": "이 땅은 원래 쾨니히스베르크라고 불렸습니다.",
+   "tts": "이 땅은 원래 쾨니히스베르크라고 불렸습니다.",
+   "segments": [
+    [
+     "이 땅은 원래 ",
+     0
+    ],
+    [
+     "쾨니히스베르크",
+     1
+    ],
+    [
+     "라고 불렸습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/kaliningrad-suwalki/tts/konigsberg_0_47c5743c7a.mp3",
+   "npy": "/home/user/osint_generator/projects/kaliningrad-suwalki/tts/konigsberg_0_47c5743c7a.npy",
+   "dur": 2.9918820861678004,
+   "t0": 36.20732426303855,
+   "t1": 39.19920634920635,
+   "trim_offset": 0.342154
+  },
+  {
+   "sid": "konigsberg_1",
+   "scene": "konigsberg",
+   "date": "1255",
+   "text": "쾨니히스베르크는 1255년 튜턴 기사단이 세운 도시였습니다.",
+   "tts": "쾨니히스베르크는 천이백오십오년 튜턴 기사단이 세운 도시였습니다.",
+   "segments": [
+    [
+     "쾨니히스베르크는 1255년 ",
+     0
+    ],
+    [
+     "튜턴 기사단",
+     1
+    ],
+    [
+     "이 세운 도시였습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/kaliningrad-suwalki/tts/konigsberg_1_484ff23879.mp3",
+   "npy": "/home/user/osint_generator/projects/kaliningrad-suwalki/tts/konigsberg_1_484ff23879.npy",
+   "dur": 4.494920634920635,
+   "t0": 39.69920634920635,
+   "t1": 44.19412698412698,
+   "trim_offset": 0.368231
+  },
+  {
+   "sid": "konigsberg_2",
+   "scene": "konigsberg",
+   "date": "1945.04.09",
+   "text": "그러나 1945년 4월 9일, 소련군이 쾨니히스베르크를 장악했습니다.",
+   "tts": "그러나 천구백사십오년 사월 구일, 소련군이 쾨니히스베르크를 장악했습니다.",
+   "segments": [
+    [
+     "그러나 1945년 4월 9일, ",
+     0
+    ],
+    [
+     "소련군",
+     1
+    ],
+    [
+     "이 쾨니히스베르크를 장악했습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/kaliningrad-suwalki/tts/konigsberg_2_b288d35b30.mp3",
+   "npy": "/home/user/osint_generator/projects/kaliningrad-suwalki/tts/konigsberg_2_b288d35b30.npy",
+   "dur": 5.326122448979592,
+   "t0": 44.69412698412698,
+   "t1": 50.02024943310657,
+   "trim_offset": 0.353946
+  },
+  {
+   "sid": "konigsberg_3",
+   "scene": "konigsberg",
+   "date": "1945.08.01",
+   "text": "이어 8월 1일 포츠담 협정은 이 도시를 최종 국경 확정 때까지 소련에 귀속시켰습니다.",
+   "tts": "이어 팔월 일일 포츠담 협정은 이 도시를 최종 국경 확정 때까지 소련에 귀속시켰습니다.",
+   "segments": [
+    [
+     "이어 8월 1일 ",
+     0
+    ],
+    [
+     "포츠담 협정",
+     1
+    ],
+    [
+     "은 이 도시를 최종 국경 확정 때까지 소련에 귀속시켰습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/kaliningrad-suwalki/tts/konigsberg_3_fbdd9afceb.mp3",
+   "npy": "/home/user/osint_generator/projects/kaliningrad-suwalki/tts/konigsberg_3_fbdd9afceb.npy",
+   "dur": 6.447097505668935,
+   "t0": 50.52024943310657,
+   "t1": 56.967346938775506,
+   "trim_offset": 0.353673
+  },
+  {
+   "sid": "konigsberg_4",
+   "scene": "konigsberg",
+   "date": "1946",
+   "text": "1946년에는 도시 이름이 칼리닌그라드로 바뀌었습니다.",
+   "tts": "천구백사십육년에는 도시 이름이 칼리닌그라드로 바뀌었습니다.",
+   "segments": [
+    [
+     "1946년에는 도시 이름이 ",
+     0
+    ],
+    [
+     "칼리닌그라드",
+     1
+    ],
+    [
+     "로 바뀌었습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/kaliningrad-suwalki/tts/konigsberg_4_a923f3cc75.mp3",
+   "npy": "/home/user/osint_generator/projects/kaliningrad-suwalki/tts/konigsberg_4_a923f3cc75.npy",
+   "dur": 4.36437641723356,
+   "t0": 57.467346938775506,
+   "t1": 61.831723356009064,
+   "trim_offset": 0.377029
+  },
+  {
+   "sid": "konigsberg_5",
+   "scene": "konigsberg",
+   "date": "1990.09.12",
+   "text": "1990년 9월 12일에는 독일 관련 최종 해결 조약이 서명됐습니다.",
+   "tts": "천구백구십년 구월 십이일에는 독일 관련 최종 해결 조약이 서명됐습니다.",
+   "segments": [
+    [
+     "1990년 9월 12일에는 독일 관련 ",
+     0
+    ],
+    [
+     "최종 해결 조약",
+     1
+    ],
+    [
+     "이 서명됐습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/kaliningrad-suwalki/tts/konigsberg_5_eb1188ffe4.mp3",
+   "npy": "/home/user/osint_generator/projects/kaliningrad-suwalki/tts/konigsberg_5_eb1188ffe4.npy",
+   "dur": 5.103673469387755,
+   "t0": 62.331723356009064,
+   "t1": 67.43539682539682,
+   "trim_offset": 0.369365
+  },
+  {
+   "sid": "konigsberg_6",
+   "scene": "konigsberg",
+   "date": "1990.09.12",
+   "text": "이 조약으로 독일은 쾨니히스베르크에 대한 모든 영유권 주장을 포기했습니다.",
+   "tts": "이 조약으로 독일은 쾨니히스베르크에 대한 모든 영유권 주장을 포기했습니다.",
+   "segments": [
+    [
+     "이 조약으로 독일은 쾨니히스베르크에 대한 모든 ",
+     0
+    ],
+    [
+     "영유권",
+     1
+    ],
+    [
+     " 주장을 포기했습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/kaliningrad-suwalki/tts/konigsberg_6_66dfab9b8b.mp3",
+   "npy": "/home/user/osint_generator/projects/kaliningrad-suwalki/tts/konigsberg_6_66dfab9b8b.npy",
+   "dur": 5.153265306122449,
+   "t0": 67.93539682539682,
+   "t1": 73.08866213151927,
+   "trim_offset": 0.354195
+  },
+  {
+   "sid": "exclave_0",
+   "scene": "exclave",
+   "date": "1991",
+   "text": "그런데 1990년 리투아니아 독립과 1991년 소련 해체로 칼리닌그라드는 러시아 본토와 떨어졌습니다.",
+   "tts": "그런데 천구백구십년 리투아니아 독립과 천구백구십일년 소련 해체로 칼리닌그라드는 러시아 본토와 떨어졌습니다.",
+   "segments": [
+    [
+     "그런데 1990년 리투아니아 독립과 1991년 ",
+     0
+    ],
+    [
+     "소련 해체",
+     1
+    ],
+    [
+     "로 칼리닌그라드는 러시아 본토와 떨어졌습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/kaliningrad-suwalki/tts/exclave_0_97b815bf0d.mp3",
+   "npy": "/home/user/osint_generator/projects/kaliningrad-suwalki/tts/exclave_0_97b815bf0d.npy",
+   "dur": 7.570022675736961,
+   "t0": 74.58866213151927,
+   "t1": 82.15868480725624,
+   "trim_offset": 0.360476
+  },
+  {
+   "sid": "exclave_1",
+   "scene": "exclave",
+   "date": "1999",
+   "text": "한편 폴란드는 1999년, 리투아니아는 2004년에 나토에 가입했습니다.",
+   "tts": "한편 폴란드는 천구백구십구년, 리투아니아는 이천사년에 나토에 가입했습니다.",
+   "segments": [
+    [
+     "한편 폴란드는 1999년, 리투아니아는 2004년에 ",
+     0
+    ],
+    [
+     "나토",
+     1
+    ],
+    [
+     "에 가입했습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/kaliningrad-suwalki/tts/exclave_1_a1b675d32b.mp3",
+   "npy": "/home/user/osint_generator/projects/kaliningrad-suwalki/tts/exclave_1_a1b675d32b.npy",
+   "dur": 5.771882086167801,
+   "t0": 82.65868480725624,
+   "t1": 88.43056689342404,
+   "trim_offset": 0.34449
+  },
+  {
+   "sid": "exclave_2",
+   "scene": "exclave",
+   "date": "2004",
+   "text": "그 결과 칼리닌그라드와 러시아 본토를 잇는 모든 육상 연결은 나토와 유럽연합 회원국을 거쳐야 하게 됐습니다.",
+   "tts": "그 결과 칼리닌그라드와 러시아 본토를 잇는 모든 육상 연결은 나토와 유럽연합 회원국을 거쳐야 하게 됐습니다.",
+   "segments": [
+    [
+     "그 결과 칼리닌그라드와 러시아 본토를 잇는 모든 ",
+     0
+    ],
+    [
+     "육상 연결",
+     1
+    ],
+    [
+     "은 나토와 유럽연합 회원국을 거쳐야 하게 됐습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/kaliningrad-suwalki/tts/exclave_2_585998b273.mp3",
+   "npy": "/home/user/osint_generator/projects/kaliningrad-suwalki/tts/exclave_2_585998b273.npy",
+   "dur": 7.151473922902494,
+   "t0": 88.93056689342404,
+   "t1": 96.08204081632654,
+   "trim_offset": 0.329048
+  },
+  {
+   "sid": "exclave_3",
+   "scene": "exclave",
+   "date": "2003.07.01",
+   "text": "그래서 2003년 7월 1일부터 러시아 시민은 간소화 통행문서로 리투아니아를 거쳐 칼리닌그라드를 오가게 됐습니다.",
+   "tts": "그래서 이천삼년 칠월 일일부터 러시아 시민은 간소화 통행문서로 리투아니아를 거쳐 칼리닌그라드를 오가게 됐습니다.",
+   "segments": [
+    [
+     "그래서 2003년 7월 1일부터 러시아 시민은 ",
+     0
+    ],
+    [
+     "간소화 통행문서",
+     1
+    ],
+    [
+     "로 리투아니아를 거쳐 칼리닌그라드를 오가게 됐습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/kaliningrad-suwalki/tts/exclave_3_111c057766.mp3",
+   "npy": "/home/user/osint_generator/projects/kaliningrad-suwalki/tts/exclave_3_111c057766.npy",
+   "dur": 7.869297052154195,
+   "t0": 96.58204081632654,
+   "t1": 104.45133786848073,
+   "trim_offset": 0.363356
+  },
+  {
+   "sid": "exclave_4",
+   "scene": "exclave",
+   "date": "2016.02.09",
+   "text": "애틀랜틱 카운슬은 2016년, 러시아군도 2003년부터 보급을 위해 리투아니아를 경유할 수 있었다고 전했습니다.",
+   "tts": "애틀랜틱 카운슬은 이천십육년, 러시아군도 이천삼년부터 보급을 위해 리투아니아를 경유할 수 있었다고 전했습니다.",
+   "segments": [
+    [
+     "애틀랜틱 카운슬은 2016년, 러시아군도 2003년부터 ",
+     0
+    ],
+    [
+     "보급",
+     1
+    ],
+    [
+     "을 위해 리투아니아를 경유할 수 있었다고 전했습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/kaliningrad-suwalki/tts/exclave_4_410fc15e78.mp3",
+   "npy": "/home/user/osint_generator/projects/kaliningrad-suwalki/tts/exclave_4_410fc15e78.npy",
+   "dur": 8.30562358276644,
+   "t0": 104.95133786848073,
+   "t1": 113.25696145124718,
+   "trim_offset": 0.352449
+  },
+  {
+   "sid": "suwalki_1920_0",
+   "scene": "suwalki_1920",
+   "date": "1920.10.07",
+   "text": "수바우키 회랑의 국경선은 1920년에 처음 그어졌습니다.",
+   "tts": "수바우키 회랑의 국경선은 천구백이십년에 처음 그어졌습니다.",
+   "segments": [
+    [
+     "수바우키 회랑의 국경선은 ",
+     0
+    ],
+    [
+     "1920년",
+     1
+    ],
+    [
+     "에 처음 그어졌습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/kaliningrad-suwalki/tts/suwalki_1920_0_619327ad45.mp3",
+   "npy": "/home/user/osint_generator/projects/kaliningrad-suwalki/tts/suwalki_1920_0_619327ad45.npy",
+   "dur": 4.293197278911564,
+   "t0": 114.75696145124718,
+   "t1": 119.05015873015874,
+   "trim_offset": 0.386145
+  },
+  {
+   "sid": "suwalki_1920_1",
+   "scene": "suwalki_1920",
+   "date": "1920.10.07",
+   "text": "1920년 10월 7일, 폴란드와 리투아니아는 수바우키에서 협정을 맺었습니다.",
+   "tts": "천구백이십년 시월 칠일, 폴란드와 리투아니아는 수바우키에서 협정을 맺었습니다.",
+   "segments": [
+    [
+     "1920년 10월 7일, 폴란드와 리투아니아는 ",
+     0
+    ],
+    [
+     "수바우키",
+     1
+    ],
+    [
+     "에서 협정을 맺었습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/kaliningrad-suwalki/tts/suwalki_1920_1_642ba861c3.mp3",
+   "npy": "/home/user/osint_generator/projects/kaliningrad-suwalki/tts/suwalki_1920_1_642ba861c3.npy",
+   "dur": 6.067619047619048,
+   "t0": 119.55015873015874,
+   "t1": 125.61777777777779,
+   "trim_offset": 0.372857
+  },
+  {
+   "sid": "suwalki_1920_2",
+   "scene": "suwalki_1920",
+   "date": "1920.10.09",
+   "text": "그러나 이틀 뒤 폴란드군이 빌뉴스를 점령했고, 빌뉴스 지역은 1939년까지 폴란드 관할에 있었습니다.",
+   "tts": "그러나 이틀 뒤 폴란드군이 빌뉴스를 점령했고, 빌뉴스 지역은 천구백삼십구년까지 폴란드 관할에 있었습니다.",
+   "segments": [
+    [
+     "그러나 이틀 뒤 폴란드군이 ",
+     0
+    ],
+    [
+     "빌뉴스",
+     1
+    ],
+    [
+     "를 점령했고, 빌뉴스 지역은 1939년까지 폴란드 관할에 있었습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/kaliningrad-suwalki/tts/suwalki_1920_2_f00c5d64c1.mp3",
+   "npy": "/home/user/osint_generator/projects/kaliningrad-suwalki/tts/suwalki_1920_2_f00c5d64c1.npy",
+   "dur": 7.864421768707483,
+   "t0": 126.11777777777779,
+   "t1": 133.98219954648528,
+   "trim_offset": 0.366508
+  },
+  {
+   "sid": "suwalki_1920_3",
+   "scene": "suwalki_1920",
+   "date": "2026",
+   "text": "1920년의 경계선은 지금도 두 나라 국경의 대부분으로 남아 있습니다.",
+   "tts": "천구백이십년의 경계선은 지금도 두 나라 국경의 대부분으로 남아 있습니다.",
+   "segments": [
+    [
+     "1920년의 ",
+     0
+    ],
+    [
+     "경계선",
+     1
+    ],
+    [
+     "은 지금도 두 나라 국경의 대부분으로 남아 있습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/kaliningrad-suwalki/tts/suwalki_1920_3_beea1590ac.mp3",
+   "npy": "/home/user/osint_generator/projects/kaliningrad-suwalki/tts/suwalki_1920_3_beea1590ac.npy",
+   "dur": 5.0902267573696145,
+   "t0": 134.48219954648528,
+   "t1": 139.57242630385488,
+   "trim_offset": 0.367188
+  },
+  {
+   "sid": "suwalki_1920_4",
+   "scene": "suwalki_1920",
+   "date": "2026",
+   "text": "즉 수바우키 회랑은 누군가 통로로 만든 땅이 아니라, 칼리닌그라드와 벨라루스 사이를 폴란드와 리투아니아 국경이 지나가는 좁은 땅입니다.",
+   "tts": "즉 수바우키 회랑은 누군가 통로로 만든 땅이 아니라, 칼리닌그라드와 벨라루스 사이를 폴란드와 리투아니아 국경이 지나가는 좁은 땅입니다.",
+   "segments": [
+    [
+     "즉 수바우키 회랑은 누군가 통로로 만든 땅이 아니라, 칼리닌그라드와 벨라루스 사이를 폴란드와 리투아니아 국경이 지나가는 ",
+     0
+    ],
+    [
+     "좁은 땅",
+     1
+    ],
+    [
+     "입니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/kaliningrad-suwalki/tts/suwalki_1920_4_a07b5b4cfc.mp3",
+   "npy": "/home/user/osint_generator/projects/kaliningrad-suwalki/tts/suwalki_1920_4_a07b5b4cfc.npy",
+   "dur": 9.288480725623582,
+   "t0": 140.07242630385488,
+   "t1": 149.36090702947845,
+   "trim_offset": 0.360181
+  },
+  {
+   "sid": "suwalki_1920_5",
+   "scene": "suwalki_1920",
+   "date": "2026",
+   "text": "그리고 이 땅은 발트 3국을 나토의 다른 회원국과 잇는 유일한 육로입니다.",
+   "tts": "그리고 이 땅은 발트 삼국을 나토의 다른 회원국과 잇는 유일한 육로입니다.",
+   "segments": [
+    [
+     "그리고 이 땅은 발트 3국을 나토의 다른 회원국과 잇는 ",
+     0
+    ],
+    [
+     "유일한 육로",
+     1
+    ],
+    [
+     "입니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/kaliningrad-suwalki/tts/suwalki_1920_5_0f0f7f2f5c.mp3",
+   "npy": "/home/user/osint_generator/projects/kaliningrad-suwalki/tts/suwalki_1920_5_0f0f7f2f5c.npy",
+   "dur": 5.119024943310658,
+   "t0": 149.86090702947845,
+   "t1": 154.9799319727891,
+   "trim_offset": 0.378095
+  },
+  {
+   "sid": "suwalki_1920_6",
+   "scene": "suwalki_1920",
+   "date": "2026.09.30",
+   "text": "AFP통신은 이 국경 구간의 길이를 104km라고 보도했습니다.",
+   "tts": "에이 에프 피 통신은 이 국경 구간의 길이를 백사 킬로미터라고 보도했습니다.",
+   "segments": [
+    [
+     "AFP통신은 이 국경 구간의 길이를 ",
+     0
+    ],
+    [
+     "104km",
+     1
+    ],
+    [
+     "라고 보도했습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/kaliningrad-suwalki/tts/suwalki_1920_6_2875d14e11.mp3",
+   "npy": "/home/user/osint_generator/projects/kaliningrad-suwalki/tts/suwalki_1920_6_2875d14e11.npy",
+   "dur": 5.00297052154195,
+   "t0": 155.4799319727891,
+   "t1": 160.48290249433106,
+   "trim_offset": 0.354989
+  },
+  {
+   "sid": "suwalki_1920_7",
+   "scene": "suwalki_1920",
+   "date": "2016.02.09",
+   "text": "애틀랜틱 카운슬은 폴란드 수바우키 지역에 리투아니아계 소수민족이 산다고 전했습니다.",
+   "tts": "애틀랜틱 카운슬은 폴란드 수바우키 지역에 리투아니아계 소수민족이 산다고 전했습니다.",
+   "segments": [
+    [
+     "애틀랜틱 카운슬은 폴란드 수바우키 지역에 ",
+     0
+    ],
+    [
+     "리투아니아계",
+     1
+    ],
+    [
+     " 소수민족이 산다고 전했습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/kaliningrad-suwalki/tts/suwalki_1920_7_3aea369f18.mp3",
+   "npy": "/home/user/osint_generator/projects/kaliningrad-suwalki/tts/suwalki_1920_7_3aea369f18.npy",
+   "dur": 5.63655328798186,
+   "t0": 160.98290249433106,
+   "t1": 166.6194557823129,
+   "trim_offset": 0.353129
+  },
+  {
+   "sid": "military_0",
+   "scene": "military",
+   "date": "2026",
+   "text": "칼리닌그라드에는 러시아 발트 함대가 주둔합니다.",
+   "tts": "칼리닌그라드에는 러시아 발트 함대가 주둔합니다.",
+   "segments": [
+    [
+     "칼리닌그라드에는 러시아 ",
+     0
+    ],
+    [
+     "발트 함대",
+     1
+    ],
+    [
+     "가 주둔합니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/kaliningrad-suwalki/tts/military_0_d6c9fd2130.mp3",
+   "npy": "/home/user/osint_generator/projects/kaliningrad-suwalki/tts/military_0_d6c9fd2130.npy",
+   "dur": 3.414512471655329,
+   "t0": 168.1194557823129,
+   "t1": 171.53396825396825,
+   "trim_offset": 0.37941
+  },
+  {
+   "sid": "military_1",
+   "scene": "military",
+   "date": "2026",
+   "text": "또 핵탑재가 가능한 이스칸데르 미사일도 배치돼 있습니다.",
+   "tts": "또 핵탑재가 가능한 이스칸데르 미사일도 배치돼 있습니다.",
+   "segments": [
+    [
+     "또 핵탑재가 가능한 ",
+     0
+    ],
+    [
+     "이스칸데르",
+     1
+    ],
+    [
+     " 미사일도 배치돼 있습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/kaliningrad-suwalki/tts/military_1_f651af00f8.mp3",
+   "npy": "/home/user/osint_generator/projects/kaliningrad-suwalki/tts/military_1_f651af00f8.npy",
+   "dur": 3.686734693877551,
+   "t0": 172.03396825396825,
+   "t1": 175.7207029478458,
+   "trim_offset": 0.388073
+  },
+  {
+   "sid": "military_2",
+   "scene": "military",
+   "date": "2018",
+   "text": "미국 전략국제문제연구소(CSIS)는 2018년 자료에서 이스칸데르가 사거리 500km의 이동식 체계라고 밝혔습니다.",
+   "tts": "미국 씨 에스 아이 에스, 전략 국제문제 연구소는 이천십팔년 자료에서 이스칸데르가 사거리 오백 킬로미터의 이동식 체계라고 밝혔습니다.",
+   "segments": [
+    [
+     "미국 전략국제문제연구소(CSIS)는 2018년 자료에서 이스칸데르가 사거리 ",
+     0
+    ],
+    [
+     "500km",
+     1
+    ],
+    [
+     "의 이동식 체계라고 밝혔습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/kaliningrad-suwalki/tts/military_2_56763bd594.mp3",
+   "npy": "/home/user/osint_generator/projects/kaliningrad-suwalki/tts/military_2_56763bd594.npy",
+   "dur": 10.542154195011339,
+   "t0": 176.2207029478458,
+   "t1": 186.76285714285714,
+   "trim_offset": 0.390862
+  },
+  {
+   "sid": "transit_2022_0",
+   "scene": "transit_2022",
+   "date": "2022.02",
+   "text": "2022년 러시아의 우크라이나 전면 침공 뒤, 알자지라에 따르면 리투아니아는 2월 러시아발 칼리닌그라드행 항공편에 영공을 닫았습니다.",
+   "tts": "이천이십이년 러시아의 우크라이나 전면 침공 뒤, 알자지라에 따르면 리투아니아는 이월 러시아발 칼리닌그라드행 항공편에 영공을 닫았습니다.",
+   "segments": [
+    [
+     "2022년 러시아의 우크라이나 전면 침공 뒤, 알자지라에 따르면 리투아니아는 2월 러시아발 칼리닌그라드행 항공편에 ",
+     0
+    ],
+    [
+     "영공",
+     1
+    ],
+    [
+     "을 닫았습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/kaliningrad-suwalki/tts/transit_2022_0_d910589a82.mp3",
+   "npy": "/home/user/osint_generator/projects/kaliningrad-suwalki/tts/transit_2022_0_d910589a82.npy",
+   "dur": 9.722857142857142,
+   "t0": 188.26285714285714,
+   "t1": 197.9857142857143,
+   "trim_offset": 0.346644
+  },
+  {
+   "sid": "transit_2022_1",
+   "scene": "transit_2022",
+   "date": "2022.06.18",
+   "text": "이어 6월에는 유럽연합 제재 물품의 칼리닌그라드행 통과를 금지했다고 알자지라는 보도했습니다.",
+   "tts": "이어 유월에는 유럽연합 제재 물품의 칼리닌그라드행 통과를 금지했다고 알자지라는 보도했습니다.",
+   "segments": [
+    [
+     "이어 6월에는 유럽연합 제재 물품의 칼리닌그라드행 ",
+     0
+    ],
+    [
+     "통과를 금지",
+     1
+    ],
+    [
+     "했다고 알자지라는 보도했습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/kaliningrad-suwalki/tts/transit_2022_1_68d8f9bee9.mp3",
+   "npy": "/home/user/osint_generator/projects/kaliningrad-suwalki/tts/transit_2022_1_68d8f9bee9.npy",
+   "dur": 6.293242630385487,
+   "t0": 198.4857142857143,
+   "t1": 204.7789569160998,
+   "trim_offset": 0.367755
+  },
+  {
+   "sid": "transit_2022_2",
+   "scene": "transit_2022",
+   "date": "2022.06.18",
+   "text": "이에 대해 알리하노프 칼리닌그라드 주지사는 금지 대상이 리투아니아 경유 품목의 40~50%에 이른다고 말했습니다.",
+   "tts": "이에 대해 알리하노프 칼리닌그라드 주지사는 금지 대상이 리투아니아 경유 품목의 사십에서 오십 퍼센트에 이른다고 말했습니다.",
+   "segments": [
+    [
+     "이에 대해 알리하노프 칼리닌그라드 주지사는 금지 대상이 리투아니아 경유 품목의 ",
+     0
+    ],
+    [
+     "40~50%",
+     1
+    ],
+    [
+     "에 이른다고 말했습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/kaliningrad-suwalki/tts/transit_2022_2_2e14d1f9c6.mp3",
+   "npy": "/home/user/osint_generator/projects/kaliningrad-suwalki/tts/transit_2022_2_2e14d1f9c6.npy",
+   "dur": 7.9228798185941045,
+   "t0": 205.2789569160998,
+   "t1": 213.2018367346939,
+   "trim_offset": 0.341995
+  },
+  {
+   "sid": "transit_2022_3",
+   "scene": "transit_2022",
+   "date": "2022",
+   "text": "결국 유럽연합은 권고를 고쳐 리투아니아에 철도 통과를 계속 허용하라고 했다고 유로뉴스는 보도했습니다.",
+   "tts": "결국 유럽연합은 권고를 고쳐 리투아니아에 철도 통과를 계속 허용하라고 했다고 유로뉴스는 보도했습니다.",
+   "segments": [
+    [
+     "결국 유럽연합은 권고를 고쳐 리투아니아에 ",
+     0
+    ],
+    [
+     "철도 통과",
+     1
+    ],
+    [
+     "를 계속 허용하라고 했다고 유로뉴스는 보도했습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/kaliningrad-suwalki/tts/transit_2022_3_adcacee2ec.mp3",
+   "npy": "/home/user/osint_generator/projects/kaliningrad-suwalki/tts/transit_2022_3_adcacee2ec.npy",
+   "dur": 7.008276643990929,
+   "t0": 213.7018367346939,
+   "t1": 220.71011337868484,
+   "trim_offset": 0.339615
+  },
+  {
+   "sid": "nato_east_0",
+   "scene": "nato_east",
+   "date": "2025.05.22",
+   "text": "발틱 타임스는 2025년 5월 22일 빌뉴스에서 독일 제45기갑여단이 공식 출범했다고 보도했습니다.",
+   "tts": "발틱 타임스는 이천이십오년 오월 이십이일 빌뉴스에서 독일 제사십오 기갑여단이 공식 출범했다고 보도했습니다.",
+   "segments": [
+    [
+     "발틱 타임스는 2025년 5월 22일 빌뉴스에서 독일 ",
+     0
+    ],
+    [
+     "제45기갑여단",
+     1
+    ],
+    [
+     "이 공식 출범했다고 보도했습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/kaliningrad-suwalki/tts/nato_east_0_3b58e13b4a.mp3",
+   "npy": "/home/user/osint_generator/projects/kaliningrad-suwalki/tts/nato_east_0_3b58e13b4a.npy",
+   "dur": 7.848458049886621,
+   "t0": 222.21011337868484,
+   "t1": 230.05857142857147,
+   "trim_offset": 0.372766
+  },
+  {
+   "sid": "nato_east_1",
+   "scene": "nato_east",
+   "date": "2025.05.22",
+   "text": "이 자리에서 메르츠 독일 총리는 나토 동부 측면 방어를 직접 맡겠다고 말했습니다.",
+   "tts": "이 자리에서 메르츠 독일 총리는 나토 동부 측면 방어를 직접 맡겠다고 말했습니다.",
+   "segments": [
+    [
+     "이 자리에서 메르츠 독일 총리는 나토 ",
+     0
+    ],
+    [
+     "동부 측면",
+     1
+    ],
+    [
+     " 방어를 직접 맡겠다고 말했습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/kaliningrad-suwalki/tts/nato_east_1_55fedd4028.mp3",
+   "npy": "/home/user/osint_generator/projects/kaliningrad-suwalki/tts/nato_east_1_55fedd4028.npy",
+   "dur": 5.624308390022676,
+   "t0": 230.55857142857147,
+   "t1": 236.18287981859413,
+   "trim_offset": 0.342472
+  },
+  {
+   "sid": "nato_east_2",
+   "scene": "nato_east",
+   "date": "2025.05.22",
+   "text": "나우세다 리투아니아 대통령은 독일 여단의 도착을 역사적 사건이라고 말했습니다.",
+   "tts": "나우세다 리투아니아 대통령은 독일 여단의 도착을 역사적 사건이라고 말했습니다.",
+   "segments": [
+    [
+     "나우세다 리투아니아 대통령은 독일 여단의 도착을 ",
+     0
+    ],
+    [
+     "역사적 사건",
+     1
+    ],
+    [
+     "이라고 말했습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/kaliningrad-suwalki/tts/nato_east_2_26e34e9ad9.mp3",
+   "npy": "/home/user/osint_generator/projects/kaliningrad-suwalki/tts/nato_east_2_26e34e9ad9.npy",
+   "dur": 5.413786848072562,
+   "t0": 236.68287981859413,
+   "t1": 242.0966666666667,
+   "trim_offset": 0.354603
+  },
+  {
+   "sid": "nato_east_3",
+   "scene": "nato_east",
+   "date": "2026.09.29",
+   "text": "나토에 따르면 동부 측면에는 지금 아홉 개 다국적 전투단이 배치돼 있습니다.",
+   "tts": "나토에 따르면 동부 측면에는 지금 아홉 개 다국적 전투단이 배치돼 있습니다.",
+   "segments": [
+    [
+     "나토에 따르면 동부 측면에는 지금 ",
+     0
+    ],
+    [
+     "아홉 개",
+     1
+    ],
+    [
+     " 다국적 전투단이 배치돼 있습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/kaliningrad-suwalki/tts/nato_east_3_c0c699e41a.mp3",
+   "npy": "/home/user/osint_generator/projects/kaliningrad-suwalki/tts/nato_east_3_c0c699e41a.npy",
+   "dur": 5.216643990929705,
+   "t0": 242.5966666666667,
+   "t1": 247.8133106575964,
+   "trim_offset": 0.377166
+  },
+  {
+   "sid": "nato_east_4",
+   "scene": "nato_east",
+   "date": "2026.09.29",
+   "text": "그중 리투아니아 전투단은 독일이 이끈다고 나토는 밝혔습니다.",
+   "tts": "그중 리투아니아 전투단은 독일이 이끈다고 나토는 밝혔습니다.",
+   "segments": [
+    [
+     "그중 리투아니아 전투단은 ",
+     0
+    ],
+    [
+     "독일",
+     1
+    ],
+    [
+     "이 이끈다고 나토는 밝혔습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/kaliningrad-suwalki/tts/nato_east_4_e329a82398.mp3",
+   "npy": "/home/user/osint_generator/projects/kaliningrad-suwalki/tts/nato_east_4_e329a82398.npy",
+   "dur": 4.167392290249433,
+   "t0": 248.3133106575964,
+   "t1": 252.48070294784583,
+   "trim_offset": 0.349751
+  },
+  {
+   "sid": "nato_east_5",
+   "scene": "nato_east",
+   "date": "2024.11.30",
+   "text": "자유유럽방송에 따르면 폴란드의 동부 방패 사업은 러시아와 벨라루스 쪽 국경 800km를 보호하도록 설계됐습니다.",
+   "tts": "자유유럽방송에 따르면 폴란드의 동부 방패 사업은 러시아와 벨라루스 쪽 국경 팔백 킬로미터를 보호하도록 설계됐습니다.",
+   "segments": [
+    [
+     "자유유럽방송에 따르면 폴란드의 ",
+     0
+    ],
+    [
+     "동부 방패",
+     1
+    ],
+    [
+     " 사업은 러시아와 벨라루스 쪽 국경 800km를 보호하도록 설계됐습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/kaliningrad-suwalki/tts/nato_east_5_87b374753e.mp3",
+   "npy": "/home/user/osint_generator/projects/kaliningrad-suwalki/tts/nato_east_5_87b374753e.npy",
+   "dur": 8.463696145124716,
+   "t0": 252.98070294784583,
+   "t1": 261.44439909297057,
+   "trim_offset": 0.349229
+  },
+  {
+   "sid": "nato_east_6",
+   "scene": "nato_east",
+   "date": "2024.11.30",
+   "text": "투스크 폴란드 총리는 이 요새화를 평화를 위한 투자라고 말했습니다.",
+   "tts": "투스크 폴란드 총리는 이 요새화를 평화를 위한 투자라고 말했습니다.",
+   "segments": [
+    [
+     "투스크 폴란드 총리는 이 요새화를 ",
+     0
+    ],
+    [
+     "평화를 위한 투자",
+     1
+    ],
+    [
+     "라고 말했습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/kaliningrad-suwalki/tts/nato_east_6_a5d1239d76.mp3",
+   "npy": "/home/user/osint_generator/projects/kaliningrad-suwalki/tts/nato_east_6_a5d1239d76.npy",
+   "dur": 4.397120181405896,
+   "t0": 261.94439909297057,
+   "t1": 266.3415192743765,
+   "trim_offset": 0.362472
+  },
+  {
+   "sid": "nato_east_7",
+   "scene": "nato_east",
+   "date": "2025.08",
+   "text": "유로뉴스는 2025년 8월 폴란드 기갑기병여단이 러시아 국경 인근 브라니에보에 배치됐다고 보도했습니다.",
+   "tts": "유로뉴스는 이천이십오년 팔월 폴란드 기갑기병여단이 러시아 국경 인근 브라니에보에 배치됐다고 보도했습니다.",
+   "segments": [
+    [
+     "유로뉴스는 2025년 8월 폴란드 기갑기병여단이 러시아 국경 인근 ",
+     0
+    ],
+    [
+     "브라니에보",
+     1
+    ],
+    [
+     "에 배치됐다고 보도했습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/kaliningrad-suwalki/tts/nato_east_7_783f89bed8.mp3",
+   "npy": "/home/user/osint_generator/projects/kaliningrad-suwalki/tts/nato_east_7_783f89bed8.npy",
+   "dur": 7.849886621315193,
+   "t0": 266.8415192743765,
+   "t1": 274.6914058956917,
+   "trim_offset": 0.369138
+  },
+  {
+   "sid": "nato_east_8",
+   "scene": "nato_east",
+   "date": "2026",
+   "text": "나토는 2025년 1월부터 발트 센트리 활동으로 발트해의 해저 기반시설을 지키고 있습니다.",
+   "tts": "나토는 이천이십오년 일월부터 발트 센트리 활동으로 발트해의 해저 기반시설을 지키고 있습니다.",
+   "segments": [
+    [
+     "나토는 2025년 1월부터 발트 센트리 활동으로 발트해의 ",
+     0
+    ],
+    [
+     "해저 기반시설",
+     1
+    ],
+    [
+     "을 지키고 있습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/kaliningrad-suwalki/tts/nato_east_8_38a58e5def.mp3",
+   "npy": "/home/user/osint_generator/projects/kaliningrad-suwalki/tts/nato_east_8_38a58e5def.npy",
+   "dur": 6.283174603174603,
+   "t0": 275.1914058956917,
+   "t1": 281.47458049886626,
+   "trim_offset": 0.37356
+  },
+  {
+   "sid": "zapad_0",
+   "scene": "zapad",
+   "date": "2025.09.12",
+   "text": "반면 디펜스 뉴스에 따르면 러시아와 벨라루스는 2025년 9월 12일부터 16일까지 벨라루스에서 연합훈련 자파드 2025를 열었습니다.",
+   "tts": "반면 디펜스 뉴스에 따르면 러시아와 벨라루스는 이천이십오년 구월 십이일부터 십육일까지 벨라루스에서 연합훈련 자파드 이천이십오를 열었습니다.",
+   "segments": [
+    [
+     "반면 디펜스 뉴스에 따르면 러시아와 벨라루스는 2025년 9월 12일부터 16일까지 벨라루스에서 연합훈련 ",
+     0
+    ],
+    [
+     "자파드 2025",
+     1
+    ],
+    [
+     "를 열었습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/kaliningrad-suwalki/tts/zapad_0_e791c91181.mp3",
+   "npy": "/home/user/osint_generator/projects/kaliningrad-suwalki/tts/zapad_0_e791c91181.npy",
+   "dur": 10.458866213151927,
+   "t0": 282.97458049886626,
+   "t1": 293.43344671201817,
+   "trim_offset": 0.352472
+  },
+  {
+   "sid": "zapad_1",
+   "scene": "zapad",
+   "date": "2021",
+   "text": "러시아 당국은 2021년 자파드에 약 20만 명이 참가했다고 밝혔습니다.",
+   "tts": "러시아 당국은 이천이십일년 자파드에 약 이십만 명이 참가했다고 밝혔습니다.",
+   "segments": [
+    [
+     "러시아 당국은 2021년 자파드에 약 ",
+     0
+    ],
+    [
+     "20만 명",
+     1
+    ],
+    [
+     "이 참가했다고 밝혔습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/kaliningrad-suwalki/tts/zapad_1_870b66ee9e.mp3",
+   "npy": "/home/user/osint_generator/projects/kaliningrad-suwalki/tts/zapad_1_870b66ee9e.npy",
+   "dur": 5.5187301587301585,
+   "t0": 293.93344671201817,
+   "t1": 299.4521768707483,
+   "trim_offset": 0.35966
+  },
+  {
+   "sid": "zapad_2",
+   "scene": "zapad",
+   "date": "2025.09",
+   "text": "투스크 총리는 자파드를 매우 공격적인 기동이라고 말했습니다.",
+   "tts": "투스크 총리는 자파드를 매우 공격적인 기동이라고 말했습니다.",
+   "segments": [
+    [
+     "투스크 총리는 자파드를 ",
+     0
+    ],
+    [
+     "매우 공격적",
+     1
+    ],
+    [
+     "인 기동이라고 말했습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/kaliningrad-suwalki/tts/zapad_2_cd1b57af07.mp3",
+   "npy": "/home/user/osint_generator/projects/kaliningrad-suwalki/tts/zapad_2_cd1b57af07.npy",
+   "dur": 4.102426303854875,
+   "t0": 299.9521768707483,
+   "t1": 304.0546031746032,
+   "trim_offset": 0.367302
+  },
+  {
+   "sid": "zapad_3",
+   "scene": "zapad",
+   "date": "2025.09",
+   "text": "그러면서 수바우키 회랑이 훈련의 표적 중 하나였다고 주장했습니다.",
+   "tts": "그러면서 수바우키 회랑이 훈련의 표적 중 하나였다고 주장했습니다.",
+   "segments": [
+    [
+     "그러면서 수바우키 회랑이 훈련의 ",
+     0
+    ],
+    [
+     "표적",
+     1
+    ],
+    [
+     " 중 하나였다고 주장했습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/kaliningrad-suwalki/tts/zapad_3_7ba01a6740.mp3",
+   "npy": "/home/user/osint_generator/projects/kaliningrad-suwalki/tts/zapad_3_7ba01a6740.npy",
+   "dur": 4.396825396825397,
+   "t0": 304.5546031746032,
+   "t1": 308.9514285714286,
+   "trim_offset": 0.373311
+  },
+  {
+   "sid": "zapad_4",
+   "scene": "zapad",
+   "date": "2025.09",
+   "text": "반면 루카셴코 벨라루스 대통령은 회랑 공격설을 완전한 넌센스라고 일축했습니다.",
+   "tts": "반면 루카셴코 벨라루스 대통령은 회랑 공격설을 완전한 넌센스라고 일축했습니다.",
+   "segments": [
+    [
+     "반면 루카셴코 벨라루스 대통령은 회랑 공격설을 완전한 ",
+     0
+    ],
+    [
+     "넌센스",
+     1
+    ],
+    [
+     "라고 일축했습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/kaliningrad-suwalki/tts/zapad_4_65d300c732.mp3",
+   "npy": "/home/user/osint_generator/projects/kaliningrad-suwalki/tts/zapad_4_65d300c732.npy",
+   "dur": 5.72625850340136,
+   "t0": 309.4514285714286,
+   "t1": 315.17768707483,
+   "trim_offset": 0.372494
+  },
+  {
+   "sid": "drones_0",
+   "scene": "drones",
+   "date": "2025.09",
+   "text": "같은 달 러시아 드론이 폴란드 영공에 들어왔다고 디펜스 뉴스와 나토는 밝혔습니다.",
+   "tts": "같은달 러시아 드론이 폴란드 영공에 들어왔다고 디펜스 뉴스와 나토는 밝혔습니다.",
+   "segments": [
+    [
+     "같은 달 러시아 ",
+     0
+    ],
+    [
+     "드론",
+     1
+    ],
+    [
+     "이 폴란드 영공에 들어왔다고 디펜스 뉴스와 나토는 밝혔습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/kaliningrad-suwalki/tts/drones_0_92c4d488ef.mp3",
+   "npy": "/home/user/osint_generator/projects/kaliningrad-suwalki/tts/drones_0_92c4d488ef.npy",
+   "dur": 5.578911564625851,
+   "t0": 316.67768707483,
+   "t1": 322.25659863945583,
+   "trim_offset": 0.342177
+  },
+  {
+   "sid": "drones_1",
+   "scene": "drones",
+   "date": "2025.09",
+   "text": "그러자 나토는 조약 4조에 따른 협의를 열고 이스턴 센트리 활동을 시작했다고 밝혔습니다.",
+   "tts": "그러자 나토는 조약 사조에 따른 협의를 열고 이스턴 센트리 활동을 시작했다고 밝혔습니다.",
+   "segments": [
+    [
+     "그러자 나토는 조약 4조에 따른 협의를 열고 ",
+     0
+    ],
+    [
+     "이스턴 센트리",
+     1
+    ],
+    [
+     " 활동을 시작했다고 밝혔습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/kaliningrad-suwalki/tts/drones_1_ecc29ebf50.mp3",
+   "npy": "/home/user/osint_generator/projects/kaliningrad-suwalki/tts/drones_1_ecc29ebf50.npy",
+   "dur": 5.930725623582767,
+   "t0": 322.75659863945583,
+   "t1": 328.6873242630386,
+   "trim_offset": 0.366508
+  },
+  {
+   "sid": "drones_2",
+   "scene": "drones",
+   "date": "2025.09",
+   "text": "유럽 지도자들은 드론 진입이 의도적인 것으로 보인다고 말했습니다.",
+   "tts": "유럽 지도자들은 드론 진입이 의도적인 것으로 보인다고 말했습니다.",
+   "segments": [
+    [
+     "유럽 지도자들은 드론 진입이 ",
+     0
+    ],
+    [
+     "의도적",
+     1
+    ],
+    [
+     "인 것으로 보인다고 말했습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/kaliningrad-suwalki/tts/drones_2_b20dc8da8b.mp3",
+   "npy": "/home/user/osint_generator/projects/kaliningrad-suwalki/tts/drones_2_b20dc8da8b.npy",
+   "dur": 4.484331065759637,
+   "t0": 329.1873242630386,
+   "t1": 333.67165532879824,
+   "trim_offset": 0.418776
+  },
+  {
+   "sid": "drones_3",
+   "scene": "drones",
+   "date": "2025.09",
+   "text": "반면 러시아와 벨라루스는 드론이 항로를 벗어났을 뿐 폴란드를 겨냥하지 않았다고 주장했습니다.",
+   "tts": "반면 러시아와 벨라루스는 드론이 항로를 벗어났을 뿐 폴란드를 겨냥하지 않았다고 주장했습니다.",
+   "segments": [
+    [
+     "반면 러시아와 벨라루스는 드론이 ",
+     0
+    ],
+    [
+     "항로",
+     1
+    ],
+    [
+     "를 벗어났을 뿐 폴란드를 겨냥하지 않았다고 주장했습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/kaliningrad-suwalki/tts/drones_3_0f4894822f.mp3",
+   "npy": "/home/user/osint_generator/projects/kaliningrad-suwalki/tts/drones_3_0f4894822f.npy",
+   "dur": 6.281473922902494,
+   "t0": 334.17165532879824,
+   "t1": 340.4531292517007,
+   "trim_offset": 0.342245
+  },
+  {
+   "sid": "belarus_0",
+   "scene": "belarus",
+   "date": "2024.12",
+   "text": "디펜스 뉴스에 따르면 루카셴코와 푸틴은 2024년 12월 안보 보장 조약을 맺었습니다.",
+   "tts": "디펜스 뉴스에 따르면 루카셴코와 푸틴은 이천이십사년 십이월 안보 보장 조약을 맺었습니다.",
+   "segments": [
+    [
+     "디펜스 뉴스에 따르면 루카셴코와 푸틴은 2024년 12월 ",
+     0
+    ],
+    [
+     "안보 보장 조약",
+     1
+    ],
+    [
+     "을 맺었습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/kaliningrad-suwalki/tts/belarus_0_f6b3eb257e.mp3",
+   "npy": "/home/user/osint_generator/projects/kaliningrad-suwalki/tts/belarus_0_f6b3eb257e.npy",
+   "dur": 6.408367346938776,
+   "t0": 341.9531292517007,
+   "t1": 348.3614965986395,
+   "trim_offset": 0.378299
+  },
+  {
+   "sid": "belarus_1",
+   "scene": "belarus",
+   "date": "2024.12",
+   "text": "같은 달 루카셴코 대통령은 벨라루스에 러시아 전술핵이 수십 기 있다고 말했습니다.",
+   "tts": "같은달 루카셴코 대통령은 벨라루스에 러시아 전술핵이 수십 기 있다고 말했습니다.",
+   "segments": [
+    [
+     "같은 달 루카셴코 대통령은 벨라루스에 러시아 ",
+     0
+    ],
+    [
+     "전술핵",
+     1
+    ],
+    [
+     "이 수십 기 있다고 말했습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/kaliningrad-suwalki/tts/belarus_1_3a71fe0ca6.mp3",
+   "npy": "/home/user/osint_generator/projects/kaliningrad-suwalki/tts/belarus_1_3a71fe0ca6.npy",
+   "dur": 5.539138321995464,
+   "t0": 348.8614965986395,
+   "t1": 354.40063492063496,
+   "trim_offset": 0.358685
+  },
+  {
+   "sid": "year_2026_0",
+   "scene": "year_2026",
+   "date": "2026.02",
+   "text": "2026년 2월에는 리투아니아가 칼리닌그라드로 가는 러시아 열차에서 보안 사고가 난 상황을 가정해 훈련했다고 유로뉴스가 보도했습니다.",
+   "tts": "이천이십육년 이월에는 리투아니아가 칼리닌그라드로 가는 러시아 열차에서 보안 사고가 난 상황을 가정해 훈련했다고 유로뉴스가 보도했습니다.",
+   "segments": [
+    [
+     "2026년 2월에는 리투아니아가 칼리닌그라드로 가는 러시아 열차에서 보안 사고가 난 상황을 가정해 훈련했다고 유로뉴스가 보도했습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/kaliningrad-suwalki/tts/year_2026_0_66088c2957.mp3",
+   "npy": "/home/user/osint_generator/projects/kaliningrad-suwalki/tts/year_2026_0_66088c2957.npy",
+   "dur": 9.468775510204082,
+   "t0": 355.90063492063496,
+   "t1": 365.369410430839,
+   "trim_offset": 0.353401
+  },
+  {
+   "sid": "year_2026_1",
+   "scene": "year_2026",
+   "date": "2026.09",
+   "text": "유로마이단 프레스는 2026년 9월 벨라루스군이 리투아니아와 가까운 고자 훈련장에서 훈련했다고 보도했습니다.",
+   "tts": "유로마이단 프레스는 이천이십육년 구월 벨라루스군이 리투아니아와 가까운 고자 훈련장에서 훈련했다고 보도했습니다.",
+   "segments": [
+    [
+     "유로마이단 프레스는 2026년 9월 ",
+     0
+    ],
+    [
+     "벨라루스군",
+     1
+    ],
+    [
+     "이 리투아니아와 가까운 고자 훈련장에서 훈련했다고 보도했습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/kaliningrad-suwalki/tts/year_2026_1_9e1ddb8f5a.mp3",
+   "npy": "/home/user/osint_generator/projects/kaliningrad-suwalki/tts/year_2026_1_9e1ddb8f5a.npy",
+   "dur": 7.81562358276644,
+   "t0": 365.869410430839,
+   "t1": 373.68503401360545,
+   "trim_offset": 0.373968
+  },
+  {
+   "sid": "year_2026_2",
+   "scene": "year_2026",
+   "date": "2026.09",
+   "text": "폴란드와 가까운 브레스트와 루자니 훈련장에서도 훈련이 열렸다고 이 매체는 전했습니다.",
+   "tts": "폴란드와 가까운 브레스트와 루자니 훈련장에서도 훈련이 열렸다고 이 매체는 전했습니다.",
+   "segments": [
+    [
+     "폴란드와 가까운 브레스트와 루자니 훈련장에서도 훈련이 열렸다고 이 매체는 전했습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/kaliningrad-suwalki/tts/year_2026_2_17e8418c45.mp3",
+   "npy": "/home/user/osint_generator/projects/kaliningrad-suwalki/tts/year_2026_2_17e8418c45.npy",
+   "dur": 6.031950113378684,
+   "t0": 374.18503401360545,
+   "t1": 380.21698412698413,
+   "trim_offset": 0.370816
+  },
+  {
+   "sid": "year_2026_3",
+   "scene": "year_2026",
+   "date": "2026.09",
+   "text": "이 매체에 따르면 벨라루스는 총 참가 병력을 공개하지 않았습니다.",
+   "tts": "이 매체에 따르면 벨라루스는 총 참가 병력을 공개하지 않았습니다.",
+   "segments": [
+    [
+     "이 매체에 따르면 벨라루스는 총 참가 ",
+     0
+    ],
+    [
+     "병력",
+     1
+    ],
+    [
+     "을 공개하지 않았습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/kaliningrad-suwalki/tts/year_2026_3_202ace1e3c.mp3",
+   "npy": "/home/user/osint_generator/projects/kaliningrad-suwalki/tts/year_2026_3_202ace1e3c.npy",
+   "dur": 4.617278911564626,
+   "t0": 380.71698412698413,
+   "t1": 385.3342630385488,
+   "trim_offset": 0.36263
+  },
+  {
+   "sid": "year_2026_4",
+   "scene": "year_2026",
+   "date": "2026.09",
+   "text": "이에 대해 무라베이코 벨라루스 총참모장은 공격 행동을 고려하지 않으며 공격 준비설은 근거가 없다고 말했습니다.",
+   "tts": "이에 대해 무라베이코 벨라루스 총참모장은 공격 행동을 고려하지 않으며 공격 준비설은 근거가 없다고 말했습니다.",
+   "segments": [
+    [
+     "이에 대해 무라베이코 벨라루스 총참모장은 공격 행동을 고려하지 않으며 공격 준비설은 ",
+     0
+    ],
+    [
+     "근거가 없다",
+     1
+    ],
+    [
+     "고 말했습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/kaliningrad-suwalki/tts/year_2026_4_2640de2d08.mp3",
+   "npy": "/home/user/osint_generator/projects/kaliningrad-suwalki/tts/year_2026_4_2640de2d08.npy",
+   "dur": 7.831315192743764,
+   "t0": 385.8342630385488,
+   "t1": 393.66557823129256,
+   "trim_offset": 0.349773
+  },
+  {
+   "sid": "year_2026_5",
+   "scene": "year_2026",
+   "date": "2026.09",
+   "text": "같은 달 수바우키에서는 주민 대피 훈련이 열렸다고 AFP통신이 보도했습니다.",
+   "tts": "같은달 수바우키에서는 주민 대피 훈련이 열렸다고 에이 에프 피 통신이 보도했습니다.",
+   "segments": [
+    [
+     "같은 달 수바우키에서는 주민 ",
+     0
+    ],
+    [
+     "대피 훈련",
+     1
+    ],
+    [
+     "이 열렸다고 AFP통신이 보도했습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/kaliningrad-suwalki/tts/year_2026_5_8715ca9923.mp3",
+   "npy": "/home/user/osint_generator/projects/kaliningrad-suwalki/tts/year_2026_5_8715ca9923.npy",
+   "dur": 5.879024943310657,
+   "t0": 394.16557823129256,
+   "t1": 400.0446031746032,
+   "trim_offset": 0.355624
+  },
+  {
+   "sid": "standoff_0",
+   "scene": "standoff",
+   "date": "2026.09.30",
+   "text": "그리고 9월 30일, 러시아는 나토가 칼리닌그라드 봉쇄를 준비한다는 정보가 있다고 주장했습니다.",
+   "tts": "그리고 구월 삼십일, 러시아는 나토가 칼리닌그라드 봉쇄를 준비한다는 정보가 있다고 주장했습니다.",
+   "segments": [
+    [
+     "그리고 9월 30일, 러시아는 나토가 칼리닌그라드 ",
+     0
+    ],
+    [
+     "봉쇄",
+     1
+    ],
+    [
+     "를 준비한다는 정보가 있다고 주장했습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/kaliningrad-suwalki/tts/standoff_0_2ade1f6faa.mp3",
+   "npy": "/home/user/osint_generator/projects/kaliningrad-suwalki/tts/standoff_0_2ade1f6faa.npy",
+   "dur": 6.928526077097506,
+   "t0": 401.5446031746032,
+   "t1": 408.4731292517007,
+   "trim_offset": 0.344921
+  },
+  {
+   "sid": "standoff_1",
+   "scene": "standoff",
+   "date": "2026.09.30",
+   "text": "이에 대해 나토의 뤼터 사무총장은 나토는 방어 동맹이라며 러시아에 핵 위협을 멈추라고 말했습니다.",
+   "tts": "이에 대해 나토의 뤼터 사무총장은 나토는 방어 동맹이라며 러시아에 핵 위협을 멈추라고 말했습니다.",
+   "segments": [
+    [
+     "이에 대해 나토의 뤼터 사무총장은 나토는 ",
+     0
+    ],
+    [
+     "방어 동맹",
+     1
+    ],
+    [
+     "이라며 러시아에 핵 위협을 멈추라고 말했습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/kaliningrad-suwalki/tts/standoff_1_1ec1311608.mp3",
+   "npy": "/home/user/osint_generator/projects/kaliningrad-suwalki/tts/standoff_1_1ec1311608.npy",
+   "dur": 6.689523809523809,
+   "t0": 408.9731292517007,
+   "t1": 415.6626530612245,
+   "trim_offset": 0.329456
+  },
+  {
+   "sid": "standoff_2",
+   "scene": "standoff",
+   "date": "2026.09.30",
+   "text": "나토의 앨리슨 하트 대변인도 무책임한 핵 위협 수사를 강하게 규탄한다고 밝혔습니다.",
+   "tts": "나토의 앨리슨 하트 대변인도 무책임한 핵 위협 수사를 강하게 규탄한다고 밝혔습니다.",
+   "segments": [
+    [
+     "나토의 앨리슨 하트 대변인도 무책임한 핵 위협 수사를 강하게 ",
+     0
+    ],
+    [
+     "규탄",
+     1
+    ],
+    [
+     "한다고 밝혔습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/kaliningrad-suwalki/tts/standoff_2_28edd19807.mp3",
+   "npy": "/home/user/osint_generator/projects/kaliningrad-suwalki/tts/standoff_2_28edd19807.npy",
+   "dur": 5.600453514739229,
+   "t0": 416.1626530612245,
+   "t1": 421.7631065759637,
+   "trim_offset": 0.352653
+  },
+  {
+   "sid": "standoff_3",
+   "scene": "standoff",
+   "date": "2026.10.01",
+   "text": "그러나 다음 날 푸틴 대통령은 나토에 보낸 경고가 모두 올바르게 쓰였다고 말했습니다.",
+   "tts": "그러나 다음 날 푸틴 대통령은 나토에 보낸 경고가 모두 올바르게 쓰였다고 말했습니다.",
+   "segments": [
+    [
+     "그러나 다음 날 푸틴 대통령은 나토에 보낸 경고가 모두 ",
+     0
+    ],
+    [
+     "올바르게",
+     1
+    ],
+    [
+     " 쓰였다고 말했습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/kaliningrad-suwalki/tts/standoff_3_5c569c77da.mp3",
+   "npy": "/home/user/osint_generator/projects/kaliningrad-suwalki/tts/standoff_3_5c569c77da.npy",
+   "dur": 5.894399092970522,
+   "t0": 422.2631065759637,
+   "t1": 428.1575056689342,
+   "trim_offset": 0.353968
+  },
+  {
+   "sid": "standoff_4",
+   "scene": "standoff",
+   "date": "2026.09",
+   "text": "한편 덴마크 당국은 러시아 군함이 덴마크 군 헬기 근처로 조명탄 두 발을 쐈다고 밝혔습니다.",
+   "tts": "한편 덴마크 당국은 러시아 군함이 덴마크 군 헬기 근처로 조명탄 두 발을 쐈다고 밝혔습니다.",
+   "segments": [
+    [
+     "한편 덴마크 당국은 러시아 군함이 덴마크 군 헬기 근처로 ",
+     0
+    ],
+    [
+     "조명탄",
+     1
+    ],
+    [
+     " 두 발을 쐈다고 밝혔습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/kaliningrad-suwalki/tts/standoff_4_210361d32b.mp3",
+   "npy": "/home/user/osint_generator/projects/kaliningrad-suwalki/tts/standoff_4_210361d32b.npy",
+   "dur": 6.534761904761905,
+   "t0": 428.6575056689342,
+   "t1": 435.19226757369614,
+   "trim_offset": 0.350952
+  },
+  {
+   "sid": "recap_0",
+   "scene": "recap",
+   "date": "1946",
+   "text": "1946년까지 쾨니히스베르크로 불렸던 칼리닌그라드.",
+   "tts": "천구백사십육년까지 쾨니히스베르크로 불렸던 칼리닌그라드.",
+   "segments": [
+    [
+     "1946년까지 ",
+     0
+    ],
+    [
+     "쾨니히스베르크",
+     1
+    ],
+    [
+     "로 불렸던 칼리닌그라드.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/kaliningrad-suwalki/tts/recap_0_32f56e4046.mp3",
+   "npy": "/home/user/osint_generator/projects/kaliningrad-suwalki/tts/recap_0_32f56e4046.npy",
+   "dur": 4.333786848072562,
+   "t0": 436.69226757369614,
+   "t1": 441.0260544217687,
+   "trim_offset": 0.374603
+  },
+  {
+   "sid": "recap_1",
+   "scene": "recap",
+   "date": "2026",
+   "text": "지금 이 땅은 리투아니아와 폴란드 사이에 놓인 러시아의 역외 영토입니다.",
+   "tts": "지금 이 땅은 리투아니아와 폴란드 사이에 놓인 러시아의 역외 영토입니다.",
+   "segments": [
+    [
+     "지금 이 땅은 리투아니아와 폴란드 사이에 놓인 러시아의 ",
+     0
+    ],
+    [
+     "역외 영토",
+     1
+    ],
+    [
+     "입니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/kaliningrad-suwalki/tts/recap_1_5f5da86e43.mp3",
+   "npy": "/home/user/osint_generator/projects/kaliningrad-suwalki/tts/recap_1_5f5da86e43.npy",
+   "dur": 5.148934240362812,
+   "t0": 441.5260544217687,
+   "t1": 446.6749886621315,
+   "trim_offset": 0.373673
+  },
+  {
+   "sid": "recap_2",
+   "scene": "recap",
+   "date": "2026",
+   "text": "그리고 그 옆 수바우키 회랑은 발트 3국을 나토의 다른 회원국과 잇는 유일한 육로입니다.",
+   "tts": "그리고 그 옆 수바우키 회랑은 발트 삼국을 나토의 다른 회원국과 잇는 유일한 육로입니다.",
+   "segments": [
+    [
+     "그리고 그 옆 수바우키 회랑은 발트 3국을 나토의 다른 회원국과 잇는 ",
+     0
+    ],
+    [
+     "유일한 육로",
+     1
+    ],
+    [
+     "입니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/kaliningrad-suwalki/tts/recap_2_45443287ff.mp3",
+   "npy": "/home/user/osint_generator/projects/kaliningrad-suwalki/tts/recap_2_45443287ff.npy",
+   "dur": 6.039047619047619,
+   "t0": 447.1749886621315,
+   "t1": 453.2140362811791,
+   "trim_offset": 0.366508
+  },
+  {
+   "sid": "recap_3",
+   "scene": "recap",
+   "date": "2026.09.30",
+   "text": "2026년 가을, 이 좁은 땅을 사이에 두고 러시아는 핵 경고를, 나토는 '방어 동맹'이라는 답을 내놓았습니다.",
+   "tts": "이천이십육년 가을, 이 좁은 땅을 사이에 두고 러시아는 핵 경고를, 나토는 방어 동맹이라는 답을 내놓았습니다.",
+   "segments": [
+    [
+     "2026년 가을, 이 좁은 땅을 사이에 두고 러시아는 ",
+     0
+    ],
+    [
+     "핵 경고",
+     1
+    ],
+    [
+     "를, 나토는 '방어 동맹'이라는 답을 내놓았습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/kaliningrad-suwalki/tts/recap_3_e6a726fa61.mp3",
+   "npy": "/home/user/osint_generator/projects/kaliningrad-suwalki/tts/recap_3_e6a726fa61.npy",
+   "dur": 8.59968253968254,
+   "t0": 453.7140362811791,
+   "t1": 462.31371882086165,
+   "trim_offset": 0.333492
+  },
+  {
+   "sid": "recap_4",
+   "scene": "recap",
+   "date": "2016.02.09",
+   "text": "애틀랜틱 카운슬은 이곳을 냉전 시절 서독의 '풀다 갭'에 빗댄 바 있습니다.",
+   "tts": "애틀랜틱 카운슬은 이곳을 냉전 시절 서독의 풀다 갭에 빗댄 바 있습니다.",
+   "segments": [
+    [
+     "애틀랜틱 카운슬은 이곳을 냉전 시절 서독의 '",
+     0
+    ],
+    [
+     "풀다 갭",
+     1
+    ],
+    [
+     "'에 빗댄 바 있습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/kaliningrad-suwalki/tts/recap_4_8f55a305ba.mp3",
+   "npy": "/home/user/osint_generator/projects/kaliningrad-suwalki/tts/recap_4_8f55a305ba.npy",
+   "dur": 4.945102040816327,
+   "t0": 462.81371882086165,
+   "t1": 467.758820861678,
+   "trim_offset": 0.363719
+  },
+  {
+   "sid": "recap_5",
+   "scene": "recap",
+   "date": "2026",
+   "text": "아직 총성이 오가는 열전(hot war)은 아닙니다.",
+   "tts": "아직 총성이 오가는 열전은 아닙니다.",
+   "segments": [
+    [
+     "아직 총성이 오가는 ",
+     0
+    ],
+    [
+     "열전",
+     1
+    ],
+    [
+     "(hot war)은 아닙니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/kaliningrad-suwalki/tts/recap_5_74d327dd4f.mp3",
+   "npy": "/home/user/osint_generator/projects/kaliningrad-suwalki/tts/recap_5_74d327dd4f.npy",
+   "dur": 2.666417233560091,
+   "t0": 468.258820861678,
+   "t1": 470.92523809523806,
+   "trim_offset": 0.364331
+  },
+  {
+   "sid": "recap_6",
+   "scene": "recap",
+   "date": "2026",
+   "text": "그렇지만 핵 경고와 국경 요새화, 맞불 군사훈련이 맞물리며 수바우키 회랑을 둘러싼 긴장은 끓어오르고 있습니다.",
+   "tts": "그렇지만 핵 경고와 국경 요새화, 맞불 군사훈련이 맞물리며 수바우키 회랑을 둘러싼 긴장은 끓어오르고 있습니다.",
+   "segments": [
+    [
+     "그렇지만 핵 경고와 국경 요새화, 맞불 군사훈련이 맞물리며 수바우키 회랑을 둘러싼 긴장은 ",
+     0
+    ],
+    [
+     "끓어오르고",
+     1
+    ],
+    [
+     " 있습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/kaliningrad-suwalki/tts/recap_6_025714f38f.mp3",
+   "npy": "/home/user/osint_generator/projects/kaliningrad-suwalki/tts/recap_6_025714f38f.npy",
+   "dur": 8.254875283446712,
+   "t0": 471.42523809523806,
+   "t1": 479.6801133786848,
+   "trim_offset": 0.344558
+  }
+ ],
+ "cards": [
+  {
+   "kind": "title",
+   "t0": 30.20732426303855,
+   "t1": 35.80732426303855
+  },
+  {
+   "kind": "end",
+   "t0": 481.38011337868477,
+   "t1": 492.38011337868477
+  }
+ ],
+ "scene_start": {
+  "cold_open": 1.2,
+  "konigsberg": 36.20732426303855,
+  "exclave": 74.58866213151927,
+  "suwalki_1920": 114.75696145124718,
+  "military": 168.1194557823129,
+  "transit_2022": 188.26285714285714,
+  "nato_east": 222.21011337868484,
+  "zapad": 282.97458049886626,
+  "drones": 316.67768707483,
+  "belarus": 341.9531292517007,
+  "year_2026": 355.90063492063496,
+  "standoff": 401.5446031746032,
+  "recap": 436.69226757369614
+ },
+ "total": 492.88011337868477,
+ "voice": "edge-tts ko-KR-InJoonNeural",
+ "title": "칼리닌그라드와 수바우키 회랑",
+ "subtitle": "쾨니히스베르크에서 2026년 나토·러시아 대치까지",
+ "date": "2026.10.04",
+ "tts_resynthesized": []
+}

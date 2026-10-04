@@ -1,0 +1,1299 @@
+{
+ "schema_version": 1,
+ "engine": "engine",
+ "repo_version": "5.6.0",
+ "rules_version": "2.0.0",
+ "rules_hash": "c5a8a041db7218615ce1f74197b706fd6d5f9384",
+ "prompts": {
+  "director": "9e580e713bc724ff209c6ed1b4d7a3d829b5aed3"
+ },
+ "voice": "edge-tts ko-KR-InJoonNeural",
+ "word_anchor": "aligned",
+ "word_anchors": [
+  {
+   "sid": "cold_open_1",
+   "word": "칼리닌그라드의",
+   "mode": "aligned",
+   "t": 8.292,
+   "alignment_source": "edge_word_boundary"
+  },
+  {
+   "sid": "cold_open_3",
+   "word": "리투아니아와",
+   "mode": "aligned",
+   "t": 21.421,
+   "alignment_source": "edge_word_boundary"
+  },
+  {
+   "sid": "cold_open_3",
+   "word": "폴란드",
+   "mode": "aligned",
+   "t": 22.336,
+   "alignment_source": "edge_word_boundary"
+  },
+  {
+   "sid": "cold_open_3",
+   "word": "러시아의",
+   "mode": "aligned",
+   "t": 23.496,
+   "alignment_source": "edge_word_boundary"
+  },
+  {
+   "sid": "cold_open_4",
+   "word": "수바우키",
+   "mode": "aligned",
+   "t": 28.016,
+   "alignment_source": "edge_word_boundary"
+  },
+  {
+   "sid": "konigsberg_1",
+   "word": "튜턴",
+   "mode": "aligned",
+   "t": 41.997,
+   "alignment_source": "edge_word_boundary"
+  },
+  {
+   "sid": "konigsberg_2",
+   "word": "소련군",
+   "mode": "aligned",
+   "t": 47.186,
+   "alignment_source": "edge_word_boundary"
+  },
+  {
+   "sid": "konigsberg_3",
+   "word": "포츠담",
+   "mode": "aligned",
+   "t": 51.427,
+   "alignment_source": "edge_word_boundary"
+  },
+  {
+   "sid": "konigsberg_6",
+   "word": "영유권",
+   "mode": "aligned",
+   "t": 71.225,
+   "alignment_source": "edge_word_boundary"
+  },
+  {
+   "sid": "exclave_0",
+   "word": "칼리닌그라드는",
+   "mode": "aligned",
+   "t": 79.097,
+   "alignment_source": "edge_word_boundary"
+  },
+  {
+   "sid": "exclave_0",
+   "word": "리투아니아",
+   "mode": "aligned",
+   "t": 75.927,
+   "alignment_source": "edge_word_boundary"
+  },
+  {
+   "sid": "exclave_0",
+   "word": "본토와",
+   "mode": "aligned",
+   "t": 80.785,
+   "alignment_source": "edge_word_boundary"
+  },
+  {
+   "sid": "exclave_1",
+   "word": "폴란드는",
+   "mode": "aligned",
+   "t": 82.956,
+   "alignment_source": "edge_word_boundary"
+  },
+  {
+   "sid": "exclave_1",
+   "word": "폴란드는",
+   "mode": "aligned",
+   "t": 82.956,
+   "alignment_source": "edge_word_boundary"
+  },
+  {
+   "sid": "exclave_1",
+   "word": "리투아니아는",
+   "mode": "aligned",
+   "t": 85.082,
+   "alignment_source": "edge_word_boundary"
+  },
+  {
+   "sid": "suwalki_1920_1",
+   "word": "수바우키에서",
+   "mode": "aligned",
+   "t": 123.26,
+   "alignment_source": "edge_word_boundary"
+  },
+  {
+   "sid": "suwalki_1920_4",
+   "word": "좁은",
+   "mode": "aligned",
+   "t": 148.305,
+   "alignment_source": "edge_word_boundary"
+  },
+  {
+   "sid": "suwalki_1920_2",
+   "word": "빌뉴스를",
+   "mode": "aligned",
+   "t": 127.811,
+   "alignment_source": "edge_word_boundary"
+  },
+  {
+   "sid": "suwalki_1920_4",
+   "word": "좁은",
+   "mode": "aligned",
+   "t": 148.305,
+   "alignment_source": "edge_word_boundary"
+  },
+  {
+   "sid": "suwalki_1920_4",
+   "word": "칼리닌그라드와",
+   "mode": "aligned",
+   "t": 143.666,
+   "alignment_source": "edge_word_boundary"
+  },
+  {
+   "sid": "suwalki_1920_4",
+   "word": "벨라루스",
+   "mode": "aligned",
+   "t": 144.89,
+   "alignment_source": "edge_word_boundary"
+  },
+  {
+   "sid": "suwalki_1920_4",
+   "word": "좁은",
+   "mode": "aligned",
+   "t": 148.305,
+   "alignment_source": "edge_word_boundary"
+  },
+  {
+   "sid": "transit_2022_0",
+   "word": "영공을",
+   "mode": "aligned",
+   "t": 196.702,
+   "alignment_source": "edge_word_boundary"
+  },
+  {
+   "sid": "transit_2022_1",
+   "word": "통과를",
+   "mode": "aligned",
+   "t": 201.814,
+   "alignment_source": "edge_word_boundary"
+  },
+  {
+   "sid": "nato_east_0",
+   "word": "빌뉴스에서",
+   "mode": "aligned",
+   "t": 225.238,
+   "alignment_source": "edge_word_boundary"
+  },
+  {
+   "sid": "nato_east_5",
+   "word": "폴란드의",
+   "mode": "aligned",
+   "t": 254.498,
+   "alignment_source": "edge_word_boundary"
+  },
+  {
+   "sid": "nato_east_7",
+   "word": "브라니에보에",
+   "mode": "aligned",
+   "t": 272.296,
+   "alignment_source": "edge_word_boundary"
+  },
+  {
+   "sid": "zapad_0",
+   "word": "러시아와",
+   "mode": "aligned",
+   "t": 284.824,
+   "alignment_source": "edge_word_boundary"
+  },
+  {
+   "sid": "zapad_0",
+   "word": "벨라루스에서",
+   "mode": "aligned",
+   "t": 289.773,
+   "alignment_source": "edge_word_boundary"
+  },
+  {
+   "sid": "zapad_0",
+   "word": "자파드",
+   "mode": "aligned",
+   "t": 291.383,
+   "alignment_source": "edge_word_boundary"
+  },
+  {
+   "sid": "drones_0",
+   "word": "드론이",
+   "mode": "aligned",
+   "t": 317.558,
+   "alignment_source": "edge_word_boundary"
+  },
+  {
+   "sid": "belarus_0",
+   "word": "루카셴코와",
+   "mode": "aligned",
+   "t": 343.416,
+   "alignment_source": "edge_word_boundary"
+  },
+  {
+   "sid": "belarus_0",
+   "word": "푸틴은",
+   "mode": "aligned",
+   "t": 344.344,
+   "alignment_source": "edge_word_boundary"
+  },
+  {
+   "sid": "year_2026_1",
+   "word": "고자",
+   "mode": "aligned",
+   "t": 371.009,
+   "alignment_source": "edge_word_boundary"
+  },
+  {
+   "sid": "year_2026_2",
+   "word": "브레스트",
+   "mode": "aligned",
+   "t": 375.179,
+   "alignment_source": "edge_word_boundary"
+  },
+  {
+   "sid": "year_2026_2",
+   "word": "루자니",
+   "mode": "aligned",
+   "t": 376.003,
+   "alignment_source": "edge_word_boundary"
+  },
+  {
+   "sid": "year_2026_5",
+   "word": "수바우키에서",
+   "mode": "aligned",
+   "t": 394.62,
+   "alignment_source": "edge_word_boundary"
+  },
+  {
+   "sid": "recap_1",
+   "word": "리투아니아와",
+   "mode": "aligned",
+   "t": 442.515,
+   "alignment_source": "edge_word_boundary"
+  },
+  {
+   "sid": "recap_1",
+   "word": "폴란드",
+   "mode": "aligned",
+   "t": 443.495,
+   "alignment_source": "edge_word_boundary"
+  },
+  {
+   "sid": "recap_1",
+   "word": "러시아의",
+   "mode": "aligned",
+   "t": 444.783,
+   "alignment_source": "edge_word_boundary"
+  },
+  {
+   "sid": "recap_2",
+   "word": "수바우키",
+   "mode": "aligned",
+   "t": 448.056,
+   "alignment_source": "edge_word_boundary"
+  },
+  {
+   "sid": "recap_3",
+   "word": "러시아는",
+   "mode": "aligned",
+   "t": 457.45,
+   "alignment_source": "edge_word_boundary"
+  },
+  {
+   "sid": "recap_3",
+   "word": "나토는",
+   "mode": "aligned",
+   "t": 459.151,
+   "alignment_source": "edge_word_boundary"
+  }
+ ],
+ "tts": {
+  "resynthesized": []
+ },
+ "total_sec": 492.88,
+ "sentences": 70,
+ "stages": {
+  "plan": true,
+  "geo": true,
+  "preview": true,
+  "render": true,
+  "mix": true,
+  "mux": true,
+  "ai_direction": true,
+  "visual_qa": false,
+  "bundle": false
+ },
+ "features_used": {
+  "camera_keys": 11,
+  "camera_moves": 9,
+  "camera_cuts": 2,
+  "dips": 1,
+  "dips_under": 0,
+  "badges": 22,
+  "badge_kinds": {
+   "flag": 8,
+   "person": 9,
+   "emblem": 5
+  },
+  "panels": [
+   "timeline",
+   "versus",
+   "versus",
+   "versus"
+  ],
+  "cards": 15,
+  "media": {
+   "clip": 0,
+   "photo": 0,
+   "cutout": 0,
+   "article": 0
+  },
+  "event_types": {
+   "badge": 22,
+   "barrier": 1,
+   "card": 15,
+   "cascade": 1,
+   "country": 19,
+   "dip": 1,
+   "marker": 25,
+   "panel": 4,
+   "route": 6
+  },
+  "label_lod": true,
+  "vignette": false,
+  "at_word": {
+   "aligned": 43,
+   "ratio": 0
+  }
+ },
+ "qa": {
+  "auto_iterations": 0,
+  "user_approved": false,
+  "reviewer": "fable (back_and_forth)",
+  "visual_qa": []
+ },
+ "drops": [],
+ "assets": {
+  "images_used": [
+   "emblem:nato",
+   "flag11:by",
+   "flag11:de",
+   "flag11:dk",
+   "flag11:lt",
+   "flag11:pl",
+   "flag11:ru",
+   "flag43:by",
+   "flag43:de",
+   "flag43:lt",
+   "flag43:nl",
+   "flag43:pl",
+   "flag43:ru",
+   "portrait:lukashenko",
+   "portrait:merz",
+   "portrait:nauseda",
+   "portrait:putin",
+   "portrait:rutte",
+   "portrait:tusk"
+  ],
+  "emblems": {
+   "used": [
+    "nato"
+   ],
+   "flag_fallback": {}
+  },
+  "badges": {
+   "suggested": [
+    "by",
+    "de",
+    "dk",
+    "eu",
+    "lt",
+    "lukashenko",
+    "merz",
+    "nato",
+    "nauseda",
+    "pl",
+    "putin",
+    "ru",
+    "rutte",
+    "tusk",
+    "ua",
+    "us"
+   ],
+   "used": [
+    "by",
+    "de",
+    "dk",
+    "lt",
+    "lukashenko",
+    "merz",
+    "nato",
+    "nauseda",
+    "putin",
+    "ru",
+    "rutte",
+    "tusk"
+   ],
+   "suggested_and_used": [
+    "by",
+    "de",
+    "dk",
+    "lt",
+    "lukashenko",
+    "merz",
+    "nato",
+    "nauseda",
+    "putin",
+    "ru",
+    "rutte",
+    "tusk"
+   ],
+   "suggestions": 99
+  }
+ },
+ "panels": {
+  "used": [
+   {
+    "kind": "timeline",
+    "title": "쾨니히스베르크에서 칼리닌그라드로",
+    "t0": 39.5,
+    "prov_tag": null
+   },
+   {
+    "kind": "versus",
+    "title": "자파드 2025를 둘러싼 두 주장",
+    "t0": 299.65,
+    "prov_tag": null
+   },
+   {
+    "kind": "versus",
+    "title": "드론 진입을 둘러싼 두 주장",
+    "t0": 328.89,
+    "prov_tag": null
+   },
+   {
+    "kind": "versus",
+    "title": "칼리닌그라드를 둘러싼 경고와 응답",
+    "t0": 402.14,
+    "prov_tag": null
+   }
+  ]
+ },
+ "credits": {
+  "card": {
+   "emblems": 1,
+   "flags": 1,
+   "map": 2,
+   "music": 1,
+   "narration": 1,
+   "people": 6
+  },
+  "description_only": {
+   "fonts": 4
+  }
+ },
+ "reserved": {
+  "avoidance": [
+   {
+    "badge": "러시아",
+    "t0": 1.8,
+    "t1": 20.32,
+    "strategy": [
+     "hold"
+    ],
+    "direction": [
+     "down"
+    ],
+    "max_px": 47.9,
+    "zones": [
+     "card"
+    ],
+    "frames": 444
+   },
+   {
+    "badge": "알리하노프",
+    "t0": 205.48,
+    "t1": 213.7,
+    "strategy": [
+     "hold"
+    ],
+    "direction": [
+     "down"
+    ],
+    "max_px": 79.0,
+    "zones": [
+     "card"
+    ],
+    "frames": 197
+   },
+   {
+    "badge": "메르츠",
+    "t0": 230.76,
+    "t1": 236.58,
+    "strategy": [
+     "hold"
+    ],
+    "direction": [
+     "down"
+    ],
+    "max_px": 57.6,
+    "zones": [
+     "card"
+    ],
+    "frames": 139
+   },
+   {
+    "badge": "나우세다",
+    "t0": 236.88,
+    "t1": 242.5,
+    "strategy": [
+     "hold"
+    ],
+    "direction": [
+     "down"
+    ],
+    "max_px": 57.3,
+    "zones": [
+     "card"
+    ],
+    "frames": 134
+   },
+   {
+    "badge": "투스크",
+    "t0": 262.04,
+    "t1": 266.74,
+    "strategy": [
+     "hold"
+    ],
+    "direction": [
+     "down"
+    ],
+    "max_px": 57.0,
+    "zones": [
+     "card"
+    ],
+    "frames": 112
+   },
+   {
+    "badge": "푸틴",
+    "t0": 344.34,
+    "t1": 355.55,
+    "strategy": [
+     "hold"
+    ],
+    "direction": [
+     "down"
+    ],
+    "max_px": 63.6,
+    "zones": [
+     "card"
+    ],
+    "frames": 268
+   }
+  ]
+ },
+ "audio": {
+  "bgm": [
+   "music.zabriskie_patriarch"
+  ],
+  "bed_gain": 0.47,
+  "crossfades": 0,
+  "bed_bass": {
+   "applied": {
+    "shelf": {
+     "freq_hz": 110.0,
+     "gain_db": 5.0,
+     "q": 0.7
+    },
+    "sub": {
+     "band_hz": [
+      55.0,
+      220.0
+     ],
+     "out_lp_hz": 110.0,
+     "filter_order": 4,
+     "gain": 0.35,
+     "env_attack_sec": 0.03,
+     "env_release_sec": 0.25,
+     "env_block_sec": 0.001
+    },
+    "swell": {
+     "sec": 2.5,
+     "depth": 0.35
+    },
+    "norm_ref": 0.4
+   },
+   "ratio_db": {
+    "before": 10.49,
+    "after": 15.84
+   },
+   "rise_db": 5.35,
+   "swell_at": [
+    36.207,
+    74.589,
+    114.757,
+    168.119,
+    188.263,
+    222.21,
+    282.975,
+    316.678,
+    341.953,
+    355.901,
+    401.545,
+    436.692
+   ],
+   "bands_hz": {
+    "bass": [
+     30.0,
+     120.0
+    ],
+    "mid": [
+     200.0,
+     2000.0
+    ]
+   }
+  },
+  "loudnorm": {
+   "passes": 2,
+   "pass1": {
+    "input_i": -14.3,
+    "input_tp": -0.37,
+    "input_lra": 2.9,
+    "input_thresh": -24.7,
+    "target_offset": 0.17
+   },
+   "pass2": {
+    "output_i": -14.0,
+    "output_tp": -1.5,
+    "normalization_type": "dynamic"
+   },
+   "post_limiter_dbfs": -2.0
+  },
+  "qa": {
+   "hard": [],
+   "warnings": [],
+   "final_loudness": {
+    "I": -14.05,
+    "TP": -1.62,
+    "LRA": 2.9
+   },
+   "music_under_narration_db": -9.99,
+   "mix_peak": 0.9551,
+   "bed_bass_ratio_db": 15.84,
+   "bed_bass_rise_db": 5.35
+  }
+ },
+ "end_card": {
+  "version_stamp": "v5.6.0",
+  "roll_px": 223.0,
+  "roll_px_per_sec": 34.31
+ },
+ "render": {
+  "resolution": {
+   "profile": "720p",
+   "width": 1280,
+   "height": 720,
+   "fps": 24,
+   "k": 1.5,
+   "pad_x": -0.5,
+   "crf": 19,
+   "preset": "faster"
+  }
+ },
+ "source_note": {
+  "sentences": 20,
+  "links": [
+   "en.wikipedia.org/wiki/Enlargement_of_NATO",
+   "en.wikipedia.org/wiki/History_of_Kaliningrad",
+   "en.wikipedia.org/wiki/Kaliningrad",
+   "en.wikipedia.org/wiki/Kaliningrad_Oblast",
+   "en.wikipedia.org/wiki/Suwałki_Agreement"
+  ]
+ },
+ "badge": {
+  "R_ignored": [
+   {
+    "i": 38,
+    "pid": "merz",
+    "label": "메르츠",
+    "t0": 230.76,
+    "R": 32.0
+   },
+   {
+    "i": 40,
+    "pid": "nauseda",
+    "label": "나우세다",
+    "t0": 236.88,
+    "R": 32.0
+   },
+   {
+    "i": 47,
+    "pid": "tusk",
+    "label": "투스크",
+    "t0": 262.04,
+    "R": 32.0
+   },
+   {
+    "i": 57,
+    "pid": "tusk",
+    "label": "투스크",
+    "t0": 300.15,
+    "R": 30.0
+   },
+   {
+    "i": 58,
+    "pid": "lukashenko",
+    "label": "루카셴코",
+    "t0": 309.65,
+    "R": 30.0
+   },
+   {
+    "i": 63,
+    "pid": "lukashenko",
+    "label": "루카셴코",
+    "t0": 343.42,
+    "R": 30.0
+   },
+   {
+    "i": 64,
+    "pid": "putin",
+    "label": "푸틴",
+    "t0": 344.34,
+    "R": 30.0
+   },
+   {
+    "i": 80,
+    "pid": "rutte",
+    "label": "뤼터",
+    "t0": 409.17,
+    "R": 30.0
+   },
+   {
+    "i": 82,
+    "pid": "putin",
+    "label": "푸틴",
+    "t0": 422.46,
+    "R": 30.0
+   }
+  ],
+  "head_top": [
+   {
+    "pid": "merz",
+    "head_top": 1.0768,
+    "md5": "6a14474e28a53e30a41abe3bae66706f"
+   },
+   {
+    "pid": "nauseda",
+    "head_top": 1.003,
+    "md5": "09d99dd768313d9ae18a5a20f1746d75"
+   },
+   {
+    "pid": "tusk",
+    "head_top": 1.0,
+    "md5": "8398083bdaa6f1083fcbd05e86ba89d9"
+   },
+   {
+    "pid": "lukashenko",
+    "head_top": 1.0727,
+    "md5": "a6c4d59e1d1c5f1deec72f40928ed390"
+   },
+   {
+    "pid": "putin",
+    "head_top": 1.0645,
+    "md5": "2c318b012ef4266afb97de5a3e3412b0"
+   },
+   {
+    "pid": "rutte",
+    "head_top": 1.0727,
+    "md5": "c20a2309b3f885d9ff9f7259a8be9c85"
+   }
+  ]
+ },
+ "geo": {
+  "unsourced": [
+   {
+    "kind": "place",
+    "name": "corridor",
+    "lonlat": [
+     23.2,
+     54.15
+    ]
+   },
+   {
+    "kind": "place",
+    "name": "suwalki",
+    "lonlat": [
+     22.93,
+     54.1
+    ]
+   },
+   {
+    "kind": "place",
+    "name": "iskander",
+    "lonlat": [
+     21.5,
+     54.45
+    ]
+   },
+   {
+    "kind": "place",
+    "name": "lt_air",
+    "lonlat": [
+     24.2,
+     55.4
+    ]
+   },
+   {
+    "kind": "place",
+    "name": "minority",
+    "lonlat": [
+     23.0,
+     53.85
+    ]
+   },
+   {
+    "kind": "place",
+    "name": "alikhanov",
+    "lonlat": [
+     19.6,
+     53.9
+    ]
+   },
+   {
+    "kind": "place",
+    "name": "lt_bg",
+    "lonlat": [
+     23.6,
+     55.5
+    ]
+   },
+   {
+    "kind": "place",
+    "name": "braniewo",
+    "lonlat": [
+     19.82,
+     54.38
+    ]
+   },
+   {
+    "kind": "place",
+    "name": "baltic",
+    "lonlat": [
+     18.3,
+     55.8
+    ]
+   },
+   {
+    "kind": "place",
+    "name": "zapad",
+    "lonlat": [
+     27.8,
+     53.4
+    ]
+   },
+   {
+    "kind": "place",
+    "name": "drone",
+    "lonlat": [
+     22.6,
+     51.7
+    ]
+   },
+   {
+    "kind": "place",
+    "name": "rail_drill",
+    "lonlat": [
+     24.4,
+     54.95
+    ]
+   },
+   {
+    "kind": "place",
+    "name": "goza",
+    "lonlat": [
+     23.95,
+     53.75
+    ]
+   },
+   {
+    "kind": "place",
+    "name": "ruzhany",
+    "lonlat": [
+     24.88,
+     52.87
+    ]
+   },
+   {
+    "kind": "place",
+    "name": "denmark",
+    "lonlat": [
+     11.0,
+     55.6
+    ]
+   },
+   {
+    "kind": "path",
+    "name": "rail",
+    "points": 7,
+    "ends": [
+     [
+      37.62,
+      55.76
+     ],
+     [
+      20.51,
+      54.71
+     ]
+    ]
+   },
+   {
+    "kind": "path",
+    "name": "rail_lt",
+    "points": 4,
+    "ends": [
+     [
+      25.28,
+      54.69
+     ],
+     [
+      20.51,
+      54.71
+     ]
+    ]
+   },
+   {
+    "kind": "path",
+    "name": "landpath",
+    "points": 6,
+    "ends": [
+     [
+      21.01,
+      52.23
+     ],
+     [
+      24.4,
+      55.5
+     ]
+    ]
+   }
+  ],
+  "matched": [
+   {
+    "kind": "place",
+    "name": "kaliningrad",
+    "lonlat": [
+     20.51,
+     54.71
+    ],
+    "gazetteer": "kaliningrad_rus",
+    "km": 1.4,
+    "tol_km": 25.0
+   },
+   {
+    "kind": "place",
+    "name": "vilnius",
+    "lonlat": [
+     25.28,
+     54.69
+    ],
+    "gazetteer": "vilnius_ltu",
+    "km": 2.5,
+    "tol_km": 25.0
+   },
+   {
+    "kind": "place",
+    "name": "moscow",
+    "lonlat": [
+     37.62,
+     55.76
+    ],
+    "gazetteer": "moscow_rus",
+    "km": 0.8,
+    "tol_km": 25.0
+   },
+   {
+    "kind": "place",
+    "name": "brest",
+    "lonlat": [
+     23.75,
+     52.15
+    ],
+    "gazetteer": "brest_blr",
+    "km": 6.5,
+    "tol_km": 25.0
+   }
+  ],
+  "mismatch": []
+ },
+ "cascade": {
+  "status": "adopted",
+  "events": 1,
+  "items": 4,
+  "hidden_labels": [
+   {
+    "name": "발트해",
+    "kind": "sea",
+    "how": "깔림",
+    "t": 83.06
+   },
+   {
+    "name": "라트비아",
+    "kind": "country",
+    "how": "회피",
+    "t": 85.16
+   },
+   {
+    "name": "프스코프",
+    "kind": "city",
+    "how": "회피",
+    "t": 105.36
+   }
+  ]
+ },
+ "border_glow": {
+  "status": "adopted",
+  "on": true
+ },
+ "pacing": {
+  "window_sec": 45.0,
+  "min_changes": 3,
+  "static_windows": [],
+  "creep": null
+ },
+ "animatic": false,
+ "stage": {
+  "name": "mercator",
+  "declared": false,
+  "shots_declared": 0,
+  "instances": {
+   "mercator": 1
+  },
+  "configs": {}
+ },
+ "genre": {
+  "name": "geopolitics",
+  "declared": false,
+  "status": "approved"
+ },
+ "order": {
+  "topic": "칼리닌그라드는 어떻게 생겨났는지(쾨니히스베르크·동프로이센·1945년 소련 편입·1991년 고립 영토), 수바우키 회랑은 왜 생겼는지(1920년 폴란드·리투아니아 국경), 나토와 러시아가 이 지역을 어떻게 다뤄 왔고 지금(2026년 가을) 어떻게 다루고 있는지",
+  "genre": "geopolitics",
+  "decisions": {
+   "topic": {
+    "value": "칼리닌그라드 형성·수바우키 회랑·나토와 러시아",
+    "by": "user",
+    "ref": "사용자 요청 2026-10-04"
+   },
+   "nato_emblem": {
+    "value": "나토 깃발 휘장 사용",
+    "by": "user",
+    "ref": "사용자 요청 2026-10-04 \"nato 휘장도 제작해서\""
+   },
+   "resolution": {
+    "value": "720p",
+    "by": "user",
+    "ref": "사용자 결정 2026-10-04 \"기준 해상도는 720p야\"(config engine.output.default)"
+   }
+  }
+ },
+ "camera": {
+  "suggest_ran": false,
+  "suggested": 0,
+  "used": 0,
+  "given_to_director": false
+ },
+ "lint_warnings": [
+  "[badge-R-ignored] 인물 뱃지 연출 R 9건 무시 — 크기는 보이는 인물 수로 코드가 정한다(D-0111): 메르츠 R 32, 나우세다 R 32, 투스크 R 32, 투스크 R 30, 루카셴코 R 30, 루카셴코 R 30, 푸틴 R 30, 뤼터 R 30, 푸틴 R 30",
+  "[timeline-overlap] '쾨니히스베르크에서 칼리닌그라드로' 1946-01-01 칼리닌그라드로 개칭 (1946) 층 -3 라벨이 앞 사건과 겹친다",
+  "[media-density-total] 과소 — 0개 / 493초 = inf초당 1개 > 60초 (14 §10.1)"
+ ],
+ "media": {
+  "suggested": [
+   {
+    "sid": "suwalki_1920_3",
+    "scene": "suwalki_1920",
+    "kind": "photo",
+    "trigger": "경계",
+    "at": 134.48,
+    "source": "trigger",
+    "asset_id": null
+   },
+   {
+    "sid": "suwalki_1920_6",
+    "scene": "suwalki_1920",
+    "kind": "article",
+    "trigger": "보도했습니다",
+    "at": 155.48,
+    "source": "trigger",
+    "asset_id": null
+   },
+   {
+    "sid": "military_1",
+    "scene": "military",
+    "kind": "cutout",
+    "trigger": "미사일",
+    "at": 172.03,
+    "source": "trigger",
+    "asset_id": null
+   },
+   {
+    "sid": "transit_2022_1",
+    "scene": "transit_2022",
+    "kind": "article",
+    "trigger": "보도했습니다",
+    "at": 198.49,
+    "source": "trigger",
+    "asset_id": null
+   },
+   {
+    "sid": "transit_2022_3",
+    "scene": "transit_2022",
+    "kind": "article",
+    "trigger": "보도했습니다",
+    "at": 213.7,
+    "source": "trigger",
+    "asset_id": null
+   },
+   {
+    "sid": "nato_east_0",
+    "scene": "nato_east",
+    "kind": "article",
+    "trigger": "보도했습니다",
+    "at": 222.21,
+    "source": "trigger",
+    "asset_id": null
+   },
+   {
+    "sid": "nato_east_7",
+    "scene": "nato_east",
+    "kind": "article",
+    "trigger": "보도했습니다",
+    "at": 266.84,
+    "source": "trigger",
+    "asset_id": null
+   },
+   {
+    "sid": "drones_0",
+    "scene": "drones",
+    "kind": "cutout",
+    "trigger": "드론",
+    "at": 316.68,
+    "source": "trigger",
+    "asset_id": null
+   },
+   {
+    "sid": "drones_2",
+    "scene": "drones",
+    "kind": "cutout",
+    "trigger": "드론",
+    "at": 329.19,
+    "source": "trigger",
+    "asset_id": null
+   },
+   {
+    "sid": "drones_3",
+    "scene": "drones",
+    "kind": "cutout",
+    "trigger": "드론",
+    "at": 334.17,
+    "source": "trigger",
+    "asset_id": null
+   },
+   {
+    "sid": "year_2026_0",
+    "scene": "year_2026",
+    "kind": "article",
+    "trigger": "보도했습니다",
+    "at": 355.9,
+    "source": "trigger",
+    "asset_id": null
+   },
+   {
+    "sid": "year_2026_1",
+    "scene": "year_2026",
+    "kind": "article",
+    "trigger": "보도했습니다",
+    "at": 365.87,
+    "source": "trigger",
+    "asset_id": null
+   },
+   {
+    "sid": "year_2026_5",
+    "scene": "year_2026",
+    "kind": "article",
+    "trigger": "보도했습니다",
+    "at": 394.17,
+    "source": "trigger",
+    "asset_id": null
+   }
+  ],
+  "used": [],
+  "suggested_and_used": [],
+  "density": {
+   "schema_version": 1,
+   "total_sec": 492.88,
+   "items": [],
+   "count": 0,
+   "sec_per_item": null,
+   "target_sec_per_item": [
+    40.0,
+    60.0
+   ],
+   "window": {
+    "window_sec": 40.0,
+    "window_max": 2,
+    "exempt": [
+     "article"
+    ],
+    "max": {
+     "t0": null,
+     "count": 0,
+     "mids": []
+    }
+   },
+   "per_scene": {},
+   "warnings": [
+    "[media-density-total] 과소 — 0개 / 493초 = inf초당 1개 > 60초 (14 §10.1)"
+   ]
+  },
+  "placement": {
+   "badge:러시아": "slot:map_upper_right",
+   "badge:알리하노프": "slot:map_upper_right",
+   "badge:메르츠": "slot:map_upper_right",
+   "badge:나우세다": "slot:map_upper_right",
+   "badge:나토": "slot:map_upper_left",
+   "badge:투스크": "stage:panel_badge",
+   "badge:루카셴코": "slot:map_upper_left",
+   "badge:푸틴": "stage:panel_badge",
+   "badge:벨라루스군": "slot:map_lower_right",
+   "badge:무라베이코": "slot:map_lower_right",
+   "badge:뤼터": "stage:panel_badge",
+   "badge:앨리슨 하트": "stage:panel_badge",
+   "badge:덴마크 당국": "slot:map_upper_left"
+  }
+ },
+ "script": {
+  "labels": {
+   "verified": 0,
+   "corroborated": 25,
+   "unverified": 39,
+   "disputed": 5
+  }
+ },
+ "ai_direction": {
+  "origin": "ai+human_edit",
+  "model": "claude-opus-5-5",
+  "prompt_sha1": "9e580e713bc724ff209c6ed1b4d7a3d829b5aed3",
+  "direction_versions": 1,
+  "used_version": null,
+  "selected": null,
+  "rounds": [],
+  "revisions": [],
+  "visual_qa": []
+ }
+}
