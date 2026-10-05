@@ -33,12 +33,13 @@ from typing import Optional
 from orchestrator.source_intake import Source, body_text, load_sources, save_sources, unconfirmed
 from rules import load_rules
 from schemas.engine_models import StageResult
-from schemas.source_models import (ArticleSource, Claim, ClaimCandidate, ClaimsFile, DocumentSource, EvidenceQuote, SourcesFile,
+from schemas.source_models import (ArticleSource, Claim, ClaimCandidate, ClaimsFile, DirectQuote, DocumentSource, EvidenceQuote, SourcesFile,
                                    SourceVerification, VerifyDraft, XPostSource, check_claim_sources)
 
 CLAIMS = Path("intake") / "claims.json"
 DRAFT = Path("intake") / "verify_draft.json"
 _WS = re.compile(r"\s+")
+QUOTED = re.compile(r"[“\"‘]([^”\"’“]{3,200})[”\"’]")   # v5.6.0 — 근거 인용 안의 따옴표 구간(원문 직접 인용)
 _STRENGTH = {"disputed": 0, "unverified": 1, "corroborated": 2, "verified": 3}
 
 
@@ -160,8 +161,11 @@ def judge(draft: VerifyDraft, sources: SourcesFile, bodies: dict[str, str]) -> t
         else:
             status = "unverified"
         ids = list(dict.fromkeys(e.source_id for e in sup_all + con))
+        dq = [DirectQuote(source_id=e.source_id, text=m.strip()) for e in sup_all for m in QUOTED.findall(e.quote)
+              if len(m.strip()) >= 3] if kind == "statement" else []   # v5.6.0 — 연출 인용 후보(원문 따옴표, 본문 대조된 근거 안)
         claims.append(Claim(claim_id=cid, text=cand.text, source_ids=ids, status=status, contested=contested,  # type: ignore[arg-type]
-                            sides=sides, event_date=cand.event_date, checks=checks, attributed_only=attributed_only, claim_kind=kind, notes=""))  # type: ignore[arg-type]
+                            sides=sides, event_date=cand.event_date, checks=checks, attributed_only=attributed_only, claim_kind=kind, notes="",  # type: ignore[arg-type]
+                            direct_quotes=dq or None))
     out = ClaimsFile(claims=claims)
     errs = check_claim_sources(out, sources)
     if errs:   # sides 가 없는 소스를 가리킴 등 — 조용히 넘기지 않는다

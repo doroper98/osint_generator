@@ -145,6 +145,13 @@ class ClaimSide(_Strict):
     source_ids: list[str] = Field(min_length=1)
 
 
+class DirectQuote(_Strict):
+    """v5.6.0 — 원문 기사가 따옴표로 전한 발언 조각(검증 단계가 본문과 대조해 채택한 근거 인용 안의 따옴표 구간). 연출 인용(quote) 후보."""
+
+    source_id: str
+    text: str = Field(min_length=3)
+
+
 class Claim(_Strict):
     """주장 하나(18 §3-6). status 는 검증 워커의 코드 대조 결과 — LLM 이 정하지 않는다(D-0051 작업 6)."""
 
@@ -159,6 +166,7 @@ class Claim(_Strict):
     attributed_only: bool = False                     # 근거가 전부 "~라고 주장/said" 인용 — 사실이 아니라 주장의 존재만 확인(D-0054 B)
     claim_kind: ClaimKind = "fact"                    # v5.0.0 GOAL G4-21 — 코드 확정값. statement = "발언이 있었다"(귀속 인용을 supports 로 센다)
     notes: str = ""
+    direct_quotes: Optional[list[DirectQuote]] = None   # v5.6.0 — statement 의 원문 따옴표 발언(코드 추출, 없으면 None — 파일에 안 남음)
 
     @model_validator(mode="after")
     def _contested(self) -> "Claim":

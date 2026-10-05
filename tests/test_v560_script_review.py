@@ -253,5 +253,41 @@ class UserViewingRulesTest(unittest.TestCase):
             self.assertIn(w, g)
 
 
+class MediaInputTest(unittest.TestCase):
+    """PIPELINE-AP-019 — 인용·기사 조판 재료 공급과 게이트 ② 미디어 요약(막지 않음)."""
+
+    def test_direct_quote_regex(self) -> None:
+        from orchestrator.source_verify import QUOTED  # noqa: PLC0415
+
+        self.assertEqual(QUOTED.findall('Tusk said the drills were “very aggressive” military maneuvers'), ["very aggressive"])
+        self.assertEqual(QUOTED.findall('including any irresponsible nuclear rhetoric,” she said'), [])   # 여는 따옴표 없음 = 조각 아님
+
+    def test_claim_field_optional(self) -> None:
+        from schemas.source_models import Claim  # noqa: PLC0415
+
+        c = Claim(claim_id="clm_0001", text="t", source_ids=["src_art_0001"], status="unverified")
+        self.assertNotIn("direct_quotes", c.model_dump(exclude_none=True))   # 없으면 파일에 안 남는다(기존 claims.json 불변)
+
+    def test_media_summary_does_not_block(self) -> None:
+        from orchestrator.gate_view import media_summary  # noqa: PLC0415
+
+        with tempfile.TemporaryDirectory() as d:
+            p = Path(d)
+            (p / "direction.yaml").write_text(yaml.safe_dump({"events": [{"type": "card"}], "media_note": "적합한 실사 없음"}, allow_unicode=True), encoding="utf-8")
+            out = "\n".join(media_summary(p))
+        self.assertIn("인용(따옴표)   0건 사용", out)
+        self.assertIn("적합한 실사 없음", out)
+
+    def test_article_register_strip_site(self) -> None:
+        import importlib.util  # noqa: PLC0415
+
+        spec = importlib.util.spec_from_file_location("article_register", REPO / "tools" / "article_register.py")
+        m = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(m)  # type: ignore[union-attr]
+        self.assertEqual(m._strip_site("Russia Deploys Iskander Missiles to Kaliningrad | Missile Threat", "CSIS Missile Threat"),
+                         "Russia Deploys Iskander Missiles to Kaliningrad")
+        self.assertEqual(m._strip_site("Russia-Belarus drills - what to know", "Defense News"), "Russia-Belarus drills - what to know")
+
+
 if __name__ == "__main__":
     unittest.main()

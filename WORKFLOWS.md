@@ -35,6 +35,14 @@ last_review: 2026-09-30
 
 게이트 ① 원고 승인 뒤, 게이트 ② 프리뷰 전에 돈다. 연출 v1 이 나오면 콘티 판으로 흐름을 보고, 고칠 것이 있으면 연출로 되돌려 다시 돈다.
 
+연출 전에 미디어 재료를 등록한다(v5.6.0 PIPELINE-AP-019 — 등록이 빠지면 연출 후보가 0건이라 인용·기사 조판·실사가 화면에 안 나온다):
+- 기사 조판: `python tools/article_register.py projects/{pid}` → 빠진 헤드라인 번역(sources.json `headline_ko`)을 채우고 `--write`.
+- 실사(사진·영상): `python tools/media_fetch.py search "<무기·장소 이름>"` 로 후보(라이선스·제한 표시)를 찾고, 피사체·라이선스·촬영 시기를
+  대조해 고른 것만 레지스트리에 권리 기록과 함께 올린다(무기 이름 = rules weapon_photo.terms).
+- 인용: 검증 단계가 claims `direct_quotes`(원문 따옴표 발언)를 남긴다 — 연출 입력 "인용 후보"로 자동 공급.
+콘티 판을 보낼 때 `gate-view` 의 **미디어·인용 요약**(쓴 수/쓸 수 있던 수, 무기 이름의 실사 유무, 실사 출처·라이선스 목록, media_note)을 함께 보낸다 —
+콘티 판에서 실사는 자리표시라 이 목록으로 확인한다. 0건이어도 막지 않는다(사용자 결정 2026-10-05) — 이유를 media_note 에 적는다.
+
 ```bash
 python -m script.plan projects/{pid} --tts edge          # 러프 음성(무료·빠름). ElevenLabs 는 콘티 판 단계에서 쓰지 않는다
 python -m audio.mix projects/{pid}                        # 음악·믹스는 전편과 같다(bed_bass 포함)

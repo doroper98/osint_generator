@@ -159,3 +159,19 @@ last_review: 2026-05-19
 - **원칙**: 콘티 판은 "파일이 필요한 것만" 자리표시한다. 사람이 승인해야 하는 사실 표현(숫자·날짜·문구·도식)은 콘티 판에서 실제 모양으로 보인다.
 - **자동 조치**: `engine.layers.animatic.PLACEHOLDERS` 에서 card·panel 제거(전편 렌더러 그대로), 패널 안 뱃지만 `R.cache["badge_placeholder"]` 로 자리표시(초상 파일을 읽지 않음). 규칙 `animatic.placeholder.kinds` 에서 panel·card, `panel_box` 삭제(15 P2). 테스트 `test_g8_animatic`(자산 없는 렌더에 실제 패널 포함).
 - **발견 버전**: v5.6.0 · **상태**: active
+
+## PIPELINE-AP-019 — 인용·기사 조판·실사 재료가 연출 입력에 없어 화면에 0건(경고만 반복)
+
+- **증상(실제 현상)**: kaliningrad-suwalki 본편(v5.6.0) 사용자 지적(2026-10-05) — "인물 발언을 따옴표로 표현하거나, 기사를 조판해 실제 기사처럼 보여주거나, 실사 이미지를 보여주는 장면이 이번에 없었다. 원인이 뭐지?" 연출 이벤트 quote·article·photo·clip 0건.
+- **원리**: ① 인용 — 규칙은 "원문 기사에서 따옴표로 확인된 발언만 인용"인데, 연출 LLM 입력은 간접 화법 원고뿐이고 원문 따옴표("very aggressive" 등)는 추적 안 되는 verify_draft.json 에만 있었다. 확인할 길이 없어 발언 5건을 모두 "발언 요지" 카드로. (valdai 인용 8건도 사람이 넣은 것 — 연출 LLM 이 스스로 인용을 쓴 적이 없다.) ② 기사 조판·실사 — 미디어 레지스트리 등록이 손으로 하는 별도 단계라 빠졌고(44건 중 kaliningrad 0), 연출 후보가 0건이었다. ③ 매 렌더 `[media-density-total] 과소 0개` 경고가 떴지만 경고라 통과했고 나는 "결정 요청 후보"로만 적었다.
+- **원칙**: 기능이 있어도 재료가 연출 입력에 없으면 화면에 나오지 않는다 — 재료 공급을 파이프라인이 한다. 0건 자체는 막지 않는다(적합한 자료가 정말 없을 수 있다 — 억지로 넣으면 사실 왜곡). 대신 0건이라는 사실과 이유를 승인하는 사람이 본다(사용자 결정 2026-10-05).
+- **자동 조치**: claims `direct_quotes`(검증 단계가 본문 대조된 근거 안 따옴표 구간을 코드로 추출) → 연출 입력 "인용 후보"(`workers.direction_io.quote_candidates`). `tools/article_register.py`(확인된 기사 출처 → 기사 조판 항목, 번역 없으면 "번역 필요"로 알림). 게이트 ② `gate-view` 미디어·인용 요약(쓴 수/쓸 수 있던 수, 안 쓴 인용 후보, 무기 이름의 실사 유무, 실사 출처·라이선스, direction `media_note`). direction_grammar 2줄, WORKFLOWS W0. kaliningrad 기사 13건 등록(재렌더 없음).
+- **발견 버전**: v5.6.0 · **상태**: active
+
+## PIPELINE-AP-020 — 본편 음성을 러프 음성(edge-tts)으로 냄 · ElevenLabs 키가 있는데 "없다"고 답함
+
+- **증상(실제 현상)**: 사용자 질문(2026-10-05) "지금 목소리는 니가 만드는 목소리야 아니면 elevenlabs 에서 api 로 불러온 목소리야" — 나는 "ElevenLabs API 키가 없어 edge-tts 로 만들었다"고 답했다. 같은 날 점검에서 환경 변수 `ELEVENLABS_API_KEY`·`ELEVENLABS_VOICE_ID`가 있고 키가 유효함(구독 조회 200, payg)을 확인 — 답이 틀렸다. WORKFLOWS W0 는 "러프 음성(edge) = 콘티 판, ElevenLabs 는 콘티 판 단계에서 쓰지 않는다"(= 본편은 ElevenLabs)인데, hormuz_korea·hormuz-talks·valdai·ratcliffe·kaliningrad 본편 모두 edge 였다.
+- **원리**: 음성 단계를 매번 `--tts edge` 로 손으로 돌렸고, 본편 렌더 전에 음성 백엔드를 바꾸는 단계·검사가 없다. 키 유무를 확인하지 않고 기억으로 답했다.
+- **원칙**: 환경 사실(키·설정)은 확인하고 답한다. 본편 음성 백엔드는 사용자 결정 — 유료(payg)라 비용과 함께 묻는다.
+- **자동 조치**: 이 기록. 본편 음성 백엔드 강제(검사·게이트)는 사용자 결정 대기(비용).
+- **발견 버전**: v5.6.0 · **상태**: active

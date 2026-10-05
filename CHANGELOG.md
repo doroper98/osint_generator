@@ -95,6 +95,7 @@ MINOR: 게이트 ② 선행 조건 강화 + 새 도구. JSON `schema_version` �
 - 연표 패널 주석 `precedent.footnote`(사용자 요청 2026-10-05 — 최종 해결 조약 설명, 자막을 가리지 않게): 카드 아래 2줄 이하, 근거 claim 필수, 검사 `panel_overflow` 가 폭·근거·실제 자막 상자 겹침을 본다. 주석 근거가 참조 출처면 화면 출처 링크에 덧붙는다. 출처 추가 src_art_0021(위키백과 Treaty on the Final Settlement), claim clm_0068·0069.
 - 기록 점검(2026-10-05): 마무리 규약을 사용자 결정("지켜봐야 하겠습니다" → "끓어오르고 있습니다", 포럼 용어 귀속, 3~4문장)으로 정정, 금지 문구 `지켜봐야…`·`귀추가 주목`(LLM-AP-016). script_grammar "결과 전에 전제"(LLM-AP-017). direction_grammar 3줄(주석·연도 카드/타임라인 구분·주제 경로 프레임). DECISIONS D120~D123, back_and_forth R-0170.
 - 사용자 지적 5건(재렌더 없이 규약): 검사 `opening_establish`·`flag_territory`·`badge_over_panel` hard, `weapon_photo` warning, 규칙 `opening`·`weapon_photo`, 연출 `opening_exempt`(골든만), direction_grammar 5줄(오프닝·항로·무기 실사·국기 자리·versus 뱃지). RENDER-AP-014~017, DECISIONS D124·D125.
+- 인용·기사 조판·실사 재료 공급(PIPELINE-AP-019): claims `direct_quotes`(원문 따옴표 발언, 코드 추출) → 연출 입력 "인용 후보", `tools/article_register.py`(확인된 기사 → 기사 조판 항목, kaliningrad 13건 등록), 게이트 ② `gate-view` 미디어·인용 요약(0건이어도 막지 않음 — 사용자 결정), direction `media_note`. 본편 음성 edge-tts 기록(PIPELINE-AP-020).
 
 ---
 

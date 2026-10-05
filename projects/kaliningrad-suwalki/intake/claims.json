@@ -513,7 +513,13 @@
       ],
       "attributed_only": true,
       "claim_kind": "statement",
-      "notes": ""
+      "notes": "",
+      "direct_quotes": [
+        {
+          "source_id": "src_art_0006",
+          "text": "an event of historic significance for Lithuania"
+        }
+      ]
     },
     {
       "claim_id": "clm_0029",
@@ -668,7 +674,13 @@
       ],
       "attributed_only": true,
       "claim_kind": "statement",
-      "notes": ""
+      "notes": "",
+      "direct_quotes": [
+        {
+          "source_id": "src_art_0007",
+          "text": "very aggressive"
+        }
+      ]
     },
     {
       "claim_id": "clm_0037",
@@ -822,7 +834,13 @@
       ],
       "attributed_only": true,
       "claim_kind": "statement",
-      "notes": ""
+      "notes": "",
+      "direct_quotes": [
+        {
+          "source_id": "src_art_0011",
+          "text": "information that NATO is preparing an air and naval blockade of Kaliningrad"
+        }
+      ]
     },
     {
       "claim_id": "clm_0045",
@@ -937,7 +955,13 @@
       ],
       "attributed_only": true,
       "claim_kind": "statement",
-      "notes": ""
+      "notes": "",
+      "direct_quotes": [
+        {
+          "source_id": "src_art_0011",
+          "text": "stop the nuclear threats"
+        }
+      ]
     },
     {
       "claim_id": "clm_0050",
@@ -955,7 +979,13 @@
       ],
       "attributed_only": true,
       "claim_kind": "statement",
-      "notes": ""
+      "notes": "",
+      "direct_quotes": [
+        {
+          "source_id": "src_art_0013",
+          "text": "everything is written correctly"
+        }
+      ]
     },
     {
       "claim_id": "clm_0051",
@@ -1025,7 +1055,13 @@
       ],
       "attributed_only": true,
       "claim_kind": "statement",
-      "notes": ""
+      "notes": "",
+      "direct_quotes": [
+        {
+          "source_id": "src_art_0008",
+          "text": "an investment in peace."
+        }
+      ]
     },
     {
       "claim_id": "clm_0055",
