@@ -1,0 +1,14 @@
+{
+  "schema_version": 1,
+  "files": {
+    "hwasong17_diagram.png": {
+      "source_url": "https://commons.wikimedia.org/wiki/File:Diagram_of_Hwasong-17.svg",
+      "download": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c8/Diagram_of_Hwasong-17.svg/960px-Diagram_of_Hwasong-17.svg.png",
+      "author": "Geoarchive",
+      "license": "CC BY-SA 4.0",
+      "rights_status": "cleared_with_attribution",
+      "note": "왼쪽 = 2022.3.24 발사형, 오른쪽 = 2022.11.17(18) 발사형. 스케치는 오른쪽을 잘라 가로로 눕혀 사용",
+      "fetched": "2026-10-05"
+    }
+  }
+}

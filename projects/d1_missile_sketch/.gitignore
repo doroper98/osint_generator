@@ -1,5 +1,7 @@
 # 생성물·외부 자산(재생성: python -m geo.prep / prep_eez.py / sketch_d1.py)
 assets/
 out/
-media/
+media/*
+!media/hwasong17_diagram.png
+!media/RIGHTS.json
 __pycache__/
