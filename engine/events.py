@@ -550,6 +550,7 @@ class PanelPrecedent(_Panel):
     subtitle: Optional[str] = None
     cards: list[PrecedentCard] = Field(min_length=1, max_length=4)
     footnote: Optional[PrecedentFootnote] = None
+    DROP_NONE: ClassVar[tuple[str, ...]] = ("footnote",)   # 주석 없는 연도 카드 dict = 이전과 같음
 
 
 class VersusItem(_Strict):
