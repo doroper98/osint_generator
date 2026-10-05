@@ -65,7 +65,7 @@ SHADOW_PX = 7             # badge_box 가 원 둘레에 더하는 그림자 여�
 HARD = ("overlap", "offscreen", "glyphs", "glyph_size", "labels", "date", "subtitles", "rights", "forbidden", "stage_continuity",
         "genre_elements", "chart_honesty", "series_limit_3", "units_visible", "as_of_visible", "boundary_as_route",
         "geo_mismatch", "timeline_rescale", "backdrop_rights", "backdrop_repeat", "island_overlap",
-        "backdrop_main_missing", "island_label_clip", "cascade", "subtitle_overlap", "label_collision", "timeline_span", "route_frame", "panel_overflow")   # island_label_clip v5.2.0 D-0133 §2, backdrop_main_missing v5.2.0 D-0129 §B, island_overlap v5.1.0 D-0126 Q3, geo_mismatch v4.10.0 D-0116, timeline_rescale v5.1.0 D-0121 §A, backdrop_* v5.1.0 D-0123
+        "backdrop_main_missing", "island_label_clip", "cascade", "subtitle_overlap", "label_collision", "timeline_span", "route_frame", "panel_overflow", "flag_territory", "badge_over_panel", "opening_establish")   # island_label_clip v5.2.0 D-0133 §2, backdrop_main_missing v5.2.0 D-0129 §B, island_overlap v5.1.0 D-0126 Q3, geo_mismatch v4.10.0 D-0116, timeline_rescale v5.1.0 D-0121 §A, backdrop_* v5.1.0 D-0123
 WARN = ("shots", "media_beats", "media_upscaled", "endcard_roll", "geo_unsourced",   # endcard_roll v4.7.0 D-0106, geo_unsourced D-0107
         "static_window", "stage_choice", "card_island", "island_label_overlap", "cascade_label_hidden")   # static_window v4.11.0 D-0118, stage_choice v5.1.0 D-0123, card_island v5.2.0 D-0129 §C, island_label_overlap D-0133 §3
 
@@ -258,6 +258,96 @@ def check_panel_overflow(P) -> list[str]:  # noqa: ANN001, N803
                 out.append(f"[panel-footnote] precedent 주석이 자막과 겹침 t={t:.2f} 주석 {tuple(round(v) for v in fb)} 자막 {tuple(round(v) for v in hit)}")
                 break
             t += 0.25
+    return out
+
+
+@lru_cache(maxsize=1)
+def _land_polygons() -> dict:
+    """국가 코드 → shapely 지오메트리(저장소 막지도 자료 110m, 콘티 판과 같은 자료)."""
+    from shapely.geometry import MultiPolygon, Polygon  # noqa: PLC0415
+
+    from engine.layers.animatic import load_flat_polygons  # noqa: PLC0415
+
+    return {k: MultiPolygon([Polygon(q[0], q[1:]) for q in v]).buffer(0) for k, v in load_flat_polygons(False).items()}
+
+
+def _map_main(P) -> bool:  # noqa: ANN001, N803
+    from engine.stage import MercatorStage  # noqa: PLC0415
+
+    return isinstance(P.R.stage, MercatorStage)
+
+
+def check_flag_territory(P) -> list[str]:  # noqa: ANN001, N803
+    """v5.6.0 사용자 지적(2026-10-05 "첫 화면에 리투아니아 지역에 러시아 국기 뱃지가 있어 헷갈린다", RENDER-AP-014) —
+    국기 뱃지(kind flag) 가운데가 **다른 나라 땅** 위면 hard. 바다·자기 나라 땅(역외 영토 포함)·지도 밖은 된다."""
+    if not _map_main(P):
+        return []
+    from shapely.geometry import Point  # noqa: PLC0415
+
+    from engine.stage import lat_of  # noqa: PLC0415
+
+    ctx = cairo.Context(cairo.ImageSurface(cairo.FORMAT_ARGB32, 1, 1))
+    land = _land_polygons()
+    out: list[str] = []
+    for e in P.events:
+        if e["type"] != "badge" or e.get("kind") != "flag" or e.get("over_panel") or not e.get("flag"):
+            continue
+        t = e["t0"] + 0.5 * (e["t1"] - e["t0"])
+        r = place_over(P, ctx, e, t)
+        if r is None:
+            continue
+        b = r[1]
+        v = View(P.R.stage, P.cams[min(P.n_frames - 1, int(t * FPS))])
+        wx, wy = v.to_world((b[0] + b[2]) / 2, (b[1] + b[3]) / 2)
+        pt = Point(wx, lat_of(wy))
+        on = next((k for k, g in land.items() if g.contains(pt)), None)
+        if on and on != e["flag"].upper():
+            out.append(f"[flag-territory] 국기 뱃지 {e.get('label')!r}({e['flag'].upper()}) t={t:.1f} 가 {on} 땅 위 — 자기 나라 땅·바다·화면 가장자리로 옮긴다")
+    return out
+
+
+def check_badge_over_panel(P) -> list[str]:  # noqa: ANN001, N803
+    """v5.6.0 사용자 지적(2026-10-05 "자파드 2025 두 주장 화면에서 인물 뱃지가 한 구역에 계속 떠 누구 의견인지 헷갈리고 글씨를 가린다",
+    RENDER-AP-015) — 양측 비교(versus) 패널이 떠 있는 동안 뱃지가 있으면 hard. 발언자는 기둥 제목이 밝힌다(같은 무게, G4)."""
+    out: list[str] = []
+    vs = [e for e in P.events if e["type"] == "panel" and e.get("kind") == "versus"]
+    for b in (e for e in P.events if e["type"] == "badge"):
+        for p in vs:
+            if min(b["t1"], p["t1"]) - max(b["t0"], p["t0"]) > 0.3:
+                out.append(f"[badge-over-panel] 뱃지 {b.get('label') or b.get('pid')!r} t={max(b['t0'], p['t0']):.1f} — 양측 비교 패널 {p.get('title')!r} 위. "
+                           "발언자는 기둥 제목이 밝힌다 — 뱃지는 패널 앞 문장에서 끝낸다")
+    return out
+
+
+def check_opening_establish(P) -> list[str]:  # noqa: ANN001, N803
+    """v5.6.0 사용자 요청(2026-10-05 "지리를 잘 모르는 사람은 위치를 인지하기 어렵다 — 전체 지도에서 천천히 들어가는 오프닝", RENDER-AP-016) —
+    지도 주 무대 영상의 첫 카메라는 넓게(rules opening.min_w 이상) 시작해, opening.max_sec 안에 opening.min_zoom 배 이상
+    opening.min_move_sec 이상 걸려 천천히 들어가야 한다. 연출 opening_exempt(사유)가 있으면 건너뛴다."""
+    if not _map_main(P) or not P.keys or P.R.cache.get("opening_exempt"):
+        return []
+    op = R_.opening
+    k0 = P.keys[0]
+    if k0.w < op.min_w:
+        return [f"[opening-establish] 첫 화면 폭 {k0.w:.1f}° < {op.min_w}° — 넓은 지도(나라·지역이 보이는 폭)에서 시작해 대상 지역으로 들어간다"]
+    for a, b in zip(P.keys, P.keys[1:]):
+        if b.t > op.max_sec:
+            break
+        if b.w <= k0.w / op.min_zoom:
+            if b.t - a.t < op.min_move_sec:
+                return [f"[opening-establish] 들어가는 이동 {b.t - a.t:.1f}초 < {op.min_move_sec}초 — 천천히 들어간다"]
+            return []
+    return [f"[opening-establish] {op.max_sec}초 안에 {op.min_zoom}배 이상 들어가지 않는다(첫 폭 {k0.w:.1f}°) — 전체 지도에서 대상 지역으로 들어가는 오프닝"]
+
+
+def check_weapon_photo(P) -> list[str]:  # noqa: ANN001, N803
+    """v5.6.0 사용자 요청(2026-10-05 "무기체계가 나올 때는 웬만하면 실사 이미지", RENDER-AP-017) — 문장에 무기체계 이름(rules weapon_photo.terms)이
+    나오는데 그 문장 동안 사진·영상·컷아웃이 없으면 warning(권리 있는 실사가 없을 수 있어 경고 — 사람이 판단)."""
+    media = [e for e in P.events if e["type"] in ("photo", "clip", "cutout")]
+    out: list[str] = []
+    for sid, s in P.R.tb.sent.items():
+        hit = next((w for w in R_.weapon_photo.terms if w in s.text), None)
+        if hit and not any(m["t0"] < s.t1 and s.t0 < m["t1"] for m in media):
+            out.append(f"[weapon-photo] {sid} '{hit}' — 무기체계 실사 사진(권리 기록된 자료사진)이 없다")
     return out
 
 
@@ -759,6 +849,10 @@ def run_checks(P, times: list[float], provenance: dict, drawn: list[tuple[str, f
         "timeline_span": lambda: check_timeline_span(P),       # v5.6.0 RENDER-AP-011
         "route_frame": lambda: check_route_frame(P),           # v5.6.0 RENDER-AP-012
         "panel_overflow": lambda: check_panel_overflow(P),     # v5.6.0 RENDER-AP-013
+        "flag_territory": lambda: check_flag_territory(P),     # v5.6.0 RENDER-AP-014
+        "badge_over_panel": lambda: check_badge_over_panel(P),  # v5.6.0 RENDER-AP-015
+        "opening_establish": lambda: check_opening_establish(P),  # v5.6.0 RENDER-AP-016
+        "weapon_photo": lambda: check_weapon_photo(P),         # v5.6.0 RENDER-AP-017(warning)
     }
     res = {k: f() for k, f in run.items() if k not in skip}
     notes: dict[str, list[str]] = {}

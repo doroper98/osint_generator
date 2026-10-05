@@ -2,6 +2,7 @@
 # 옛 direction.py 를 변환기(tools/direction_to_yaml.py, 551d48a — 변환 뒤 삭제)로 옮겼다(앵커 식·더한 순서 보존 → 옛 연출과 dict 단위 동일).
 # 시각은 앵커로만 쓴다. `off` 가 목록이면 앞에서부터 차례로 더한다. `{span: [A, B]}` = B − A(초).
 version: 1
+opening_exempt: v3 골든 — 사용자 합격 오프닝(제목 뒤 해협 클로즈업). 넓은 지도 오프닝 규칙(v5.6.0 RENDER-AP-016) 이전 기준 영상이라 그대로 둔다
 places:
   hormuz: [56.35, 26.55]
   seoul: [126.98, 37.57]

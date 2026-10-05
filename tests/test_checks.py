@@ -123,7 +123,7 @@ class ChecksTest(unittest.TestCase):
                           "boundary_as_route", "geo_unsourced", "geo_mismatch", "static_window",
                           "timeline_rescale", "backdrop_rights", "backdrop_repeat", "island_overlap", "stage_choice",
                           "backdrop_main_missing", "card_island", "island_label_clip", "island_label_overlap", "cascade",
-                          "cascade_label_hidden", "subtitle_overlap", "label_collision", "timeline_span", "route_frame", "panel_overflow"})   # v5.3.0 D-0139 §3 배경 지명 가림(warning), v5.2.0 D-0135 겹침 카드, v5.2.0 D-0129 §B·§C, v4.11.0 D-0118 정적 구간(warning), v4.10.0 D-0116 지명 사전 좌표(hard), v4.7.0 D-0107 경계선 route(hard)·좌표 근거(warning), D-0106 엔딩 카드 롤(warning), v4.1.0 D-0076 작업 5 — 무대 연속성(hard), v4.2.0 D-0081 작업 3 — 장르 요소(hard), v4.3.0 D-0084 작업 5 — 정직성 4(hard)
+                          "cascade_label_hidden", "subtitle_overlap", "label_collision", "timeline_span", "route_frame", "panel_overflow", "flag_territory", "badge_over_panel", "opening_establish"})   # v5.3.0 D-0139 §3 배경 지명 가림(warning), v5.2.0 D-0135 겹침 카드, v5.2.0 D-0129 §B·§C, v4.11.0 D-0118 정적 구간(warning), v4.10.0 D-0116 지명 사전 좌표(hard), v4.7.0 D-0107 경계선 route(hard)·좌표 근거(warning), D-0106 엔딩 카드 롤(warning), v4.1.0 D-0076 작업 5 — 무대 연속성(hard), v4.2.0 D-0081 작업 3 — 장르 요소(hard), v4.3.0 D-0084 작업 5 — 정직성 4(hard)
         self.assertEqual(set(checks.WARN), {"shots", "media_beats", "media_upscaled", "endcard_roll", "geo_unsourced", "static_window", "stage_choice", "card_island", "island_label_overlap", "cascade_label_hidden"})   # v5.3.0 D-0139 §3 cascade_label_hidden = warning, v5.2.0 D-0129 §C card_island = warning, v4.11.0 D-0118 정적 구간 = warning, D-0047 §0-4 숏 규칙 = warning, v3.6.0 업스케일 = warning
 
 

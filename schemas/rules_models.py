@@ -26,6 +26,21 @@ class BannedPhrases(_Strict):
     defect_classes: list[str]
 
 
+class OpeningRules(_Strict):
+    """v5.6.0 RENDER-AP-016 — 지도 영상 오프닝: 넓은 지도에서 대상 지역으로 천천히 들어간다."""
+
+    min_w: float = Field(gt=0)          # 첫 카메라 폭(경도 °) 하한
+    max_sec: float = Field(gt=0)        # 이 시간 안에 들어간다
+    min_zoom: float = Field(gt=1)       # 첫 폭 ÷ 들어간 폭 하한
+    min_move_sec: float = Field(gt=0)   # 들어가는 이동 시간 하한("천천히")
+
+
+class WeaponPhotoRules(_Strict):
+    """v5.6.0 RENDER-AP-017 — 무기체계 이름이 나오는 문장엔 실사 사진(경고)."""
+
+    terms: list[str] = Field(min_length=1)
+
+
 class RouteFrame(_Strict):
     """v5.6.0 RENDER-AP-012 — 경로 곡선 프레임 검사."""
 
@@ -1760,6 +1775,8 @@ class VideoRules(_Strict):
     script_grammar: ScriptGrammar          # v5.5.0 — 원고 서술 규약
     source_note: SourceNote                # v5.6.0 — 참조 출처 화면 표기
     route_frame: RouteFrame = Field(default_factory=RouteFrame)   # v5.6.0 RENDER-AP-012
+    opening: OpeningRules                  # v5.6.0 RENDER-AP-016
+    weapon_photo: WeaponPhotoRules         # v5.6.0 RENDER-AP-017
     script_schema: ScriptSchemaRules
     verification: VerificationRules   # v3.2.0 — D-0052(D50)
     tts_rules: TTSRules

@@ -206,5 +206,52 @@ class BadgeHoldTest(unittest.TestCase):
         self.assertEqual((dy, ka), (37.0, 1.0))
 
 
+class UserViewingRulesTest(unittest.TestCase):
+    """v5.6.0 사용자 지적(2026-10-05, 재렌더 없이 규칙으로) — RENDER-AP-014~017."""
+
+    def _P(self, events: list, keys: list | None = None, sents: dict | None = None, exempt: str | None = None):  # noqa: ANN202
+        from types import SimpleNamespace as NS  # noqa: PLC0415
+
+        from engine.stage import MercatorStage  # noqa: PLC0415
+
+        return NS(events=events, keys=keys or [], R=NS(stage=MercatorStage(), cache={"opening_exempt": exempt}, tb=NS(sent=sents or {})))
+
+    def test_badge_over_versus(self) -> None:
+        from engine.checks import check_badge_over_panel  # noqa: PLC0415
+
+        vs = {"type": "panel", "kind": "versus", "title": "두 주장", "t0": 10.0, "t1": 20.0}
+        b = {"type": "badge", "label": "투스크", "t0": 12.0, "t1": 18.0}
+        self.assertEqual(len(check_badge_over_panel(self._P([vs, b]))), 1)
+        b2 = dict(b, t0=2.0, t1=10.1)   # 패널 앞 문장에서 끝남
+        self.assertEqual(check_badge_over_panel(self._P([vs, b2])), [])
+
+    def test_opening_establish(self) -> None:
+        from engine.camera import CamKey  # noqa: PLC0415
+        from engine.checks import check_opening_establish  # noqa: PLC0415
+
+        K = lambda t, w: CamKey(t=t, x=0, y=0, w=w)  # noqa: E731
+        self.assertEqual(check_opening_establish(self._P([], [K(0, 40), K(3, 40), K(9, 10)])), [])     # 넓게 → 6초 동안 들어감
+        self.assertTrue(check_opening_establish(self._P([], [K(0, 9), K(20, 10)])))                    # 처음부터 좁음
+        self.assertTrue(check_opening_establish(self._P([], [K(0, 40), K(5, 40), K(6, 10)])))          # 너무 빨리 들어감
+        self.assertEqual(check_opening_establish(self._P([], [K(0, 9)], exempt="골든")), [])
+
+    def test_weapon_photo_warning(self) -> None:
+        from types import SimpleNamespace as NS  # noqa: PLC0415
+
+        from engine import checks  # noqa: PLC0415
+
+        s = {"m_0": NS(text="이스칸데르의 사거리는 500km입니다.", t0=0.0, t1=5.0)}
+        self.assertEqual(len(checks.check_weapon_photo(self._P([], sents=s))), 1)
+        photo = {"type": "photo", "t0": 1.0, "t1": 4.0}
+        self.assertEqual(checks.check_weapon_photo(self._P([photo], sents=s)), [])
+        self.assertNotIn("weapon_photo", checks.HARD)
+        self.assertTrue({"flag_territory", "badge_over_panel", "opening_establish"} <= set(checks.HARD))
+
+    def test_rules_in_direction_prompt(self) -> None:
+        g = " ".join(load_rules().direction_grammar)
+        for w in ("오프닝은 넓은 지도", "항로", "실사 사진", "국기 뱃지는 그 나라 땅", "양측 비교(versus) 패널"):
+            self.assertIn(w, g)
+
+
 if __name__ == "__main__":
     unittest.main()

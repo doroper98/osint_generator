@@ -312,6 +312,7 @@ def load_project(proj: Path, direction: Optional[Direction] = None, out: Optiona
     R = RenderCtx(assets=assets, tb=tb, credits=load_credits(proj / "credits.yaml"), out=out)  # noqa: N806
     from engine.source_note import source_notes  # noqa: PLC0415
 
+    R.cache["opening_exempt"] = doc.opening_exempt   # v5.6.0 RENDER-AP-016 — 검사 opening_establish 면제 사유
     R.cache["source_notes"] = source_notes(proj)   # v5.6.0 — 참조 출처 화면 표기(sid → 링크 줄, rules source_note)
     modes = {}
     if animatic:
