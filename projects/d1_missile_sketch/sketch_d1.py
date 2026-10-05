@@ -46,12 +46,13 @@ UNCERT_KM = 25                    # "약" 표현 → 점 대신 반경 표시(�
 SOURCES = [
     "발사·비행: 합동참모본부 2022.11.18 발표(뉴시스 보도) · 일본 방위성 2022.11.18 발표",
     "EEZ: Marine Regions(VLIZ) EEZ 경계 · CC BY 4.0 · 한일·한중 미획정 구간은 등거리선 참고",
+    "서해 남북: NLL 개략 재구성(공식 좌표 아님) · 북한 해상군사분계선 1999.9.2 발표 좌표(한국일보 1999.9.3)",
     "사드 AN/TPY-2 종말 모드 약 600km · 그린파인 블록-C 최대 약 800km(공개 사양·보도)",
     "화성-17형 도해: Geoarchive · Wikimedia Commons · CC BY-SA 4.0",
 ]
 
 COL_EEZ = {"KR": "gold", "JP": "teal", "KP": "ru", "CN": "muted", "RU": "muted"}
-OVERLAP_COLS = {"KR_JP": ("gold", "teal"), "JP_RU": ("teal", "muted"), "TW_JP_CN": ("teal", "muted")}
+OVERLAP_COLS = {"KR_KP": ("gold", "ru"), "KR_JP": ("gold", "teal"), "JP_RU": ("teal", "muted"), "TW_JP_CN": ("teal", "muted")}
 
 
 # ---------------------------------------------------------------- 측지 계산(구면, R = 6371km)
@@ -94,7 +95,7 @@ TRACK_KM = gc_dist(LAUNCH, IMPACT)
 # ---------------------------------------------------------------- 카메라(숏 4개, 이동은 장면 전환에서만)
 SHOTS = [  # (시작, 이동 끝, 중심 lon, lat, w)
     (0.0, 0.0, 132.6, 36.6, 37.0),     # 광역 — EEZ
-    (8.6, 10.4, 127.6, 38.9, 9.5),     # 한반도 — 발사 지점·미사일
+    (8.6, 10.4, 126.9, 38.15, 9.5),    # 한반도 — 발사 지점·서해 남북 경계·미사일
     (17.0, 18.8, 132.0, 38.6, 25.0),   # 탐지 자산
     (28.0, 29.8, 132.9, 40.3, 19.5),   # 궤적·착탄
 ]
@@ -207,14 +208,24 @@ def label2(ctx: cairo.Context, x: float, y: float, a: float, main: str, sub: str
 
 # ---------------------------------------------------------------- 층 1: EEZ
 EEZ_TIMES = {"KR": 0.9, "JP": 1.7, "KP": 2.5, "CN": 3.1, "RU": 3.5,
-             ("KR_JP", "overlap"): 4.7, ("KR_JP", "joint"): 5.6, ("JP_RU", "overlap"): 6.4}
+             ("KR_JP", "overlap"): 4.7, ("KR_JP", "joint"): 5.6, ("JP_RU", "overlap"): 6.4,
+             ("NLL", "claim_line"): 10.6, ("NK1999", "claim_line"): 11.8, ("KR_KP", "overlap"): 4.2}
+WEST_KEYS = {("NLL", "claim_line"), ("NK1999", "claim_line"), ("KR_KP", "overlap")}   # 서해 남북 — 숏 2(한반도)에서 강조
+CLAIM_STYLE = {"NLL": ("gold", None), "NK1999": ("ru", [6, 4])}
+CLAIM_TXT = {   # (이름, 부제, 위치, 기준)
+    "NLL": ("NLL · 1953", "유엔군사령부 설정 · 화면 선은 개략", (123.15, 38.32), "l"),
+    "NK1999": ("북한 주장 해상군사분계선 · 1999", "1999.9.2 발표 좌표", (125.6, 37.05), "l"),
+}
 EEZ_NAME = {"KR": "한국 EEZ", "JP": "일본 EEZ", "KP": "북한 EEZ", "CN": "중국 EEZ", "RU": "러시아 EEZ"}
 EEZ_LABEL_AT = {"KR": (124.4, 35.4), "JP": (146.5, 33.5), "KP": (130.6, 40.4), "CN": (122.6, 29.0), "RU": (137.2, 44.4)}
 OVERLAP_TXT = {
     ("KR_JP", "overlap"): ("독도 주변 수역", "일본이 영유권 주장 · 대한민국 실효 지배", (133.6, 38.6), "l"),
     ("KR_JP", "joint"): ("한일 공동개발구역", "1974년 협정 · 경계 미획정 수역", (125.0, 31.2), "r"),
     ("JP_RU", "overlap"): ("쿠릴 남단 4개 섬", "러·일 중첩 주장", (146.4, 41.0), "r"),
+    ("KR_KP", "overlap"): ("남북 주장 중첩 수역", "법적 경계 미획정", (123.15, 37.55), "l"),
 }
+OVERLAP_END = {("KR_KP", "overlap"): 17.6}   # 기본 9.0
+OVERLAP_LABEL_AT = {("KR_KP", "overlap"): 13.0}   # 빗금은 처음부터, 설명 라벨은 서해 장면에서
 
 
 class EEZ:
@@ -234,8 +245,25 @@ class EEZ:
             key = f["code"] if f["kind"] == "eez" else (f["code"], f["kind"])
             if key not in EEZ_TIMES:
                 continue
-            a = smooth((t - EEZ_TIMES[key]) / 0.7) * dim
+            d_ = max(dim, window(t, 8.6, 18.2, 0.6, 0.8)) if key in WEST_KEYS else dim
+            a = smooth((t - EEZ_TIMES[key]) / 0.7) * d_
             if a <= 0.01:
+                continue
+            if f["kind"] == "claim_line":
+                col, dash = CLAIM_STYLE[f["code"]]
+                grow = ease_io(clamp01((t - EEZ_TIMES[key]) / 1.2))
+                for i, ln in enumerate(f["lines"]):
+                    S = view.to_screen_arr(world(np.array(ln)))
+                    dense = np.concatenate([np.linspace(S[j], S[j + 1], 12, endpoint=False) for j in range(len(S) - 1)] + [S[-1:]])
+                    n = max(2, int(len(dense) * grow))
+                    glow_line(ctx, dense[:n], C[col], a * (0.45 if i else 1.0), 1.5 if i == 0 else 1.0,
+                              dash=[2, 3] if i else dash)
+                if f["code"] == "NK1999":   # 발표 꼭짓점(북한 발표 좌표) 표시
+                    for lon, lat in f["lines"][0][:-1]:
+                        x, y = view.to_screen(lon, ym(lat))
+                        ctx.rectangle(x - 2.2, y - 2.2, 4.4, 4.4)
+                        ctx.set_source_rgba(*C[col], a * grow)
+                        ctx.fill()
                 continue
             ctx.save()
             ctx.new_path()
@@ -268,10 +296,11 @@ class EEZ:
                     hatch(ctx, OVERLAP_COLS[f["code"]], 0.75 * a)
                     col_line = OVERLAP_COLS[f["code"]][0]
                 ctx.reset_clip()
-                path_ll(ctx, view, [r for poly in f["polys"] for r in poly])
-                ctx.set_source_rgba(*C[col_line], 0.95 * a)
-                ctx.set_line_width(1.3)
-                ctx.stroke()
+                if key not in WEST_KEYS:   # 서해 남북 중첩은 테두리 대신 두 주장선(NLL·북한선)이 경계를 그린다
+                    path_ll(ctx, view, [r for poly in f["polys"] for r in poly])
+                    ctx.set_source_rgba(*C[col_line], 0.95 * a)
+                    ctx.set_line_width(1.3)
+                    ctx.stroke()
             ctx.restore()
 
     def labels(self, ctx: cairo.Context, view: View, t: float, dim: float) -> None:
@@ -281,7 +310,8 @@ class EEZ:
             if 0 < x < W_OUT and 0 < y < H_OUT:
                 text(ctx, EEZ_NAME[code], x, y, 11.5, "sansb", C[COL_EEZ[code]], 0.95 * a, 3, "c")
         for key, (main, sub, (lon, lat), anc) in OVERLAP_TXT.items():
-            a = window(t, EEZ_TIMES[key] + 0.3, 9.0, 0.5, 0.6) * dim
+            d_ = max(dim, window(t, 8.6, 18.2, 0.6, 0.8)) if key in WEST_KEYS else dim
+            a = window(t, OVERLAP_LABEL_AT.get(key, EEZ_TIMES[key]) + 0.3, OVERLAP_END.get(key, 9.0), 0.5, 0.6) * d_
             if a <= 0.01:
                 continue
             f = next(f for f in self.feat if (f["code"], f["kind"]) == key)
@@ -293,6 +323,29 @@ class EEZ:
             ctx.set_line_width(0.8)
             ctx.stroke()
             label2(ctx, tx, ty, a, main, sub, sub_col="muted", anchor=anc)
+        for code, (main, sub, (lon, lat), anc) in CLAIM_TXT.items():
+            key = (code, "claim_line")
+            a = window(t, EEZ_TIMES[key] + 0.9, 17.6, 0.5, 0.6)
+            if a <= 0.01:
+                continue
+            tx, ty = view.to_screen(lon, ym(lat))
+            label2(ctx, tx, ty, a, main, sub, sub_col=CLAIM_STYLE[code][0], anchor=anc)
+        f = next(f for f in self.feat if f["code"] == "NK1999")
+        a = window(t, EEZ_TIMES[("NK1999", "claim_line")] + 1.4, 17.6, 0.5, 0.6)
+        if a > 0.01:
+            lon, lat = f["lines"][1][-1]
+            x, y = view.to_screen(lon, ym(lat))
+            tag(ctx, "이후 '중국과의 경계까지' · 방향 미발표 — 점선은 같은 방향 연장", x + 10, y + 4, "amber", a)
+        a = window(t, 10.2, 17.6, 0.5, 0.6)
+        for name, (lon, lat), dx in (("백령도", (124.67, 37.96), -6), ("연평도", (125.70, 37.66), 6)):
+            if a <= 0.01:
+                break
+            x, y = view.to_screen(lon, ym(lat))
+            ctx.arc(x, y, 2.4, 0, 2 * math.pi)
+            ctx.set_source_rgba(1, 1, 1, a)
+            ctx.fill()
+            RES.append((x - 40, y + 4, x + 40, y + 20))
+            DEFER.append(lambda x=x, y=y, name=name, dx=dx, a=a: text(ctx, name, x + dx * 0, y + 16, 11.5, "sansb", (1, 1, 1), a, 3, "c"))
 
 
 # ---------------------------------------------------------------- 층 2: 탐지 자산
@@ -567,7 +620,7 @@ def draw_missile_card(ctx: cairo.Context, t: float) -> None:
     if a <= 0.01:
         return
     s = missile_img()
-    x, y, w, h = 452, 262, 376, 168
+    x, y, w, h = 452, 64, 376, 168
     slide = (1 - ease_out(clamp01((t - T_CARD0) / 0.55))) * 24
     x += slide
     rrect(ctx, x, y, w, h, 8)
@@ -681,6 +734,8 @@ def draw_date(ctx: cairo.Context, t: float) -> None:
 def draw_source_line(ctx: cairo.Context, t: float) -> None:
     a = window(t, 1.0, 9.6, 0.6, 0.6)
     text(ctx, "EEZ 경계: Marine Regions(VLIZ) · CC BY 4.0 · 미획정 구간은 등거리선 참고", 14, 470, 9.5, "sans", C["muted"], 0.9 * a, 2, role="source")
+    a3 = window(t, 10.8, 17.6, 0.6, 0.6)
+    text(ctx, "NLL: 서해 5도와 북측 해안의 중간점 원칙으로 개략 재구성(공식 좌표 아님) · 북한선: 1999.9.2 발표 좌표(한국일보 보도)", 14, 470, 9.5, "sans", C["muted"], 0.9 * a3, 2, role="source")
     a2 = window(t, 19.4, 28.4, 0.6, 0.6)
     text(ctx, "탐지 거리: 공개 사양·언론 보도 기준 · 실제 운용 범위는 비공개", 14, 470, 9.5, "sans", C["muted"], 0.9 * a2, 2, role="source")
 
