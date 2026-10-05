@@ -45,9 +45,11 @@ ROLLBACKS: dict[ProjectState, frozenset[ProjectState]] = {
 }
 
 # v4.7.0 back_and_forth D-0104 D4 — 렌더 뒤 사용자 피드백으로 연출을 다시 하는 되돌림(`reopen`, 사유 필수).
-# 게이트 반려(ROLLBACKS)와 다른 길이다: 게이트 ② 를 지난 뒤(render 이후)에만, direction 으로만.
+# 게이트 반려(ROLLBACKS)와 다른 길이다: 게이트 ② 를 지난 뒤(render 이후)에만, direction 또는 script_draft 로.
+# v5.6.0(사용자 지시 2026-10-04 — 본편을 본 뒤 원고 내용 보강 "독일 이야기 추가", PIPELINE-AP-017): 게이트 ② 반려가 내용 문제로
+# script_draft 에 갈 수 있듯, 렌더 뒤에도 원고로 돌아간다 → 게이트 ① 재승인(원고 지문) → 콘티 판 → 게이트 ② 순서 그대로.
 REOPENS: dict[ProjectState, frozenset[ProjectState]] = {
-    s: frozenset({ProjectState.DIRECTION})
+    s: frozenset({ProjectState.DIRECTION, ProjectState.SCRIPT_DRAFT})
     for s in (ProjectState.RENDER, ProjectState.AUDIO_MIX, ProjectState.DELIVER, ProjectState.DONE)
 }
 
@@ -107,8 +109,8 @@ def validate_transition(current: ProjectState | str, target: ProjectState | str)
 
 
 def validate_reopen(current: ProjectState | str, target: ProjectState | str) -> None:
-    """reopen 이 허용되지 않으면 ValueError(v4.7.0 D-0104 D4). 렌더 이후 상태 → direction 만."""
+    """reopen 이 허용되지 않으면 ValueError(v4.7.0 D-0104 D4). 렌더 이후 상태 → direction·script_draft(v5.6.0) 만."""
     cur, tgt = coerce(current), coerce(target)
     if tgt not in REOPENS.get(cur, frozenset()):
         froms = ", ".join(sorted(x.value for x in REOPENS))
-        raise ValueError(f"reopen 은 렌더 이후 상태({froms})에서 direction 으로만 간다: '{cur.value}' → '{tgt.value}'")
+        raise ValueError(f"reopen 은 렌더 이후 상태({froms})에서 direction·script_draft 로만 간다: '{cur.value}' → '{tgt.value}'")

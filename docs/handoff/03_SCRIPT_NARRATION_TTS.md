@@ -266,3 +266,24 @@ t += 1.2; 엔딩 카드 (t ~ t+11); total = t + 11 + 0.5
 - **검사 시점**: 세 오류는 게이트 ① 진입 전에 막는다(`orchestrator/source_completeness_checker.BLOCKING`) — 승인 뒤 음성 단계에서 늦게 막히지 않는다.
 - **마무리는 확인된 사실의 정리.** "아직 정해지지 않은 것"으로 끝내던 v3 관행(골든 `now_3`)은 폐기. 골든 원고는 고치지 않는다(테스트가 오류 2를 고정).
 - 문안 SSOT = `rules script_grammar.lines` → 대본 프롬프트 `{{RULES.script_grammar}}`(P3).
+
+## 13. v5.6.0 — 사용자 시청 지적 12건 규약 승격 (kaliningrad-suwalki 콘티, 2026-10-04)
+
+| 지적 | 규약(키) | 기록 |
+|---|---|---|
+| "나토에 서면" → [나토에서면] | 발음 위험 `particle_merge_seo` — '…에 서…' 연속 금지 | TTS-AP-074 |
+| "위키백과에 따르면" 반복·"위키백과는 전했습니다" | `source_note`(화면 아래 작은 링크, 크기 = 버전 도장)·린트 `reference-in-narration` 오류 | LLM-AP-015 |
+| AFP → [아프피], CSIS → [크시스] | `tts_rules.acronyms`(글자 이름 / 글자 이름 + 국문 명칭)·린트 `tts-acronym` 오류·합성 직전 글자 이름 띄우기 | TTS-AP-075 |
+| 과거 일을 현재형으로 | `script_grammar` 시제 줄·린트 `tense-present` 경고 | LLM-AP-015 |
+| "나머지 나토 회원국" → [나머지나토] | `modifier_name_group` — '나토의 다른 회원국' | TTS-AP-076 |
+| 지명 글자 겹침 | 검사 `label_collision`(hard)·marker_box 가운데 정렬 상자 | RENDER-AP-009 |
+| 나토 휘장이 날짜를 가림 | 같은 검사(뱃지 ↔ 마커 글자) | RENDER-AP-009 |
+| "발트 센트리 해저" → [센트리해저] | `op_name_noun_run` — 이름 뒤에 조사·일반 명사 | TTS-AP-081 |
+| "같은 달" 띄어 읽음 | 발음 사전 `같은 달 → 같은달` | TTS-AP-080 |
+| 뱃지가 아일랜드 때문에 위아래로 움직임 | `reserved.badge_hold`(수명 내내 카드 아래 고정) | RENDER-AP-008 |
+| "칼리닌그라드행 러시아 통과 열차"·"인근 고자," | `dest_noun_chain`·`short_name_after_modifier` | TTS-AP-077·078 |
+| "앨리슨 하트 나토 대변인" → [하트나토] | `name_org_title` — '나토의 앨리슨 하트 대변인' | TTS-AP-079 |
+| 마무리 "정리하면" | `script_grammar` 앵커 브리핑 마무리(대상의 정체 · 지금 상황 · 지켜볼 지점, 예언 금지) | LLM-AP-015 |
+
+발음 위험 패턴은 경고(사전 적용 뒤 합성 문자열 `tts-spoken:*`)다 — 원고를 쓸 때 고치고, 최종 판정은 사용자 청취(컨테이너에 음성 인식기 없음).
+

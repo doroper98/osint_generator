@@ -1,0 +1,65 @@
+# 『칼리닌그라드와 수바우키 회랑』 지도 라벨 (v5.5.1) — 국가 한글 관용명·해역 라벨(화면 폭 범위 wmin~wmax, 경도 도).
+schema_version: 1
+ko:
+  RU: 러시아
+  UA: 우크라이나
+  BY: 벨라루스
+  PL: 폴란드
+  LT: 리투아니아
+  LV: 라트비아
+  EE: 에스토니아
+  FI: 핀란드
+  SE: 스웨덴
+  'NO': 노르웨이
+  DK: 덴마크
+  DE: 독일
+  FR: 프랑스
+  GB: 영국
+  CZ: 체코
+  SK: 슬로바키아
+  HU: 헝가리
+  RO: 루마니아
+  MD: 몰도바
+  BG: 불가리아
+  TR: 튀르키예
+  GE: 조지아
+  KZ: 카자흐스탄
+  AT: 오스트리아
+  IT: 이탈리아
+  NL: 네덜란드
+  BE: 벨기에
+  CH: 스위스
+  ES: 스페인
+seas:
+- name: 발트해
+  lon: 19.0
+  lat: 57.6
+  wmin: 0
+  wmax: 60
+- name: 그단스크만
+  lon: 19.3
+  lat: 54.75
+  wmin: 0
+  wmax: 8
+- name: 쿠르스키 석호
+  lon: 21.1
+  lat: 55.25
+  wmin: 0
+  wmax: 4
+- name: 흑해
+  lon: 34.0
+  lat: 43.2
+  wmin: 8
+  wmax: 90
+- name: 북해
+  lon: 3.5
+  lat: 56.5
+  wmin: 20
+  wmax: 90
+- name: 카스피해
+  lon: 50.5
+  lat: 42.0
+  wmin: 20
+  wmax: 90
+province_countries: []
+hide_country_label_below_w: {}

@@ -45,8 +45,12 @@ def fake_runner(fail: str | None = None, drops: bool = False, log: list | None =
 def write_animatic(pdir: Path, total_sec: float = 292.44, animatic: bool = True) -> None:
     """게이트 ② 시험용 콘티 판 기록(engine.render --animatic 이 남기는 provenance 의 최소 필드)."""
     (pdir / "out").mkdir(parents=True, exist_ok=True)
+    import hashlib  # noqa: PLC0415
+
+    sp = pdir / "script.yaml"   # v5.6.0 — 콘티 판을 만든 원고 지문(게이트 ① 승인 원고와 대조)
+    sha = hashlib.sha1(sp.read_bytes()).hexdigest() if sp.exists() else None
     prov = {"animatic": animatic, "total_sec": total_sec,
-            "animatic_run": {"output": "out/animatic.mp4", "direction_sha1": "0" * 40} if animatic else None}
+            "animatic_run": {"output": "out/animatic.mp4", "direction_sha1": "0" * 40, "script_sha1": sha} if animatic else None}
     (pdir / "out" / "animatic_provenance.json").write_text(json.dumps(prov), encoding="utf-8")
 
 
@@ -102,7 +106,9 @@ class GateTest(_Proj):
         m = approve_gate(self.m, "script_approval", by="tester", comment="좋다", shown={"lint_errors": "0"}, cfg=self.cfg)
         self.assertEqual(m.current_state, "voice_timeline")
         d = load_manifest("p", self.cfg).gate_decisions[-1]
-        self.assertEqual((d.gate, d.decision, d.by, d.comment, d.shown), ("script_approval", "approved", "tester", "좋다", {"lint_errors": "0"}))
+        shown = dict(d.shown)
+        self.assertEqual(len(shown.pop("script_sha1")), 40)   # v5.6.0 — 승인 원고 지문(PIPELINE-AP-015)
+        self.assertEqual((d.gate, d.decision, d.by, d.comment, shown), ("script_approval", "approved", "tester", "좋다", {"lint_errors": "0"}))
 
     def test_reject_script_rolls_back_with_comment(self) -> None:
         self.to_gate1()
@@ -167,9 +173,9 @@ class PipelineTest(_Proj):
         for _ in range(3):   # render → audio_mix → deliver → done
             m, _ = advance("p", self.cfg, runner=fake_runner(log=log))
         self.assertEqual(m.current_state, "done")
-        self.assertEqual(log, ["plan", "geo", "lint", "validate", "camera_suggest", "preview", "render", "mix", "mux"])
+        self.assertEqual(log, ["plan", "geo", "geo", "lint", "validate", "camera_suggest", "preview", "render", "mix", "mux"])   # v5.5.1 — assets + assets_final(배포 720p 티어)
         recs = load_manifest("p", self.cfg).stage_records
-        self.assertEqual([r.stage for r in recs], ["plan", "assets", "direction_validate", "validate", "camera_suggest", "preview", "render", "mix", "deliver"])
+        self.assertEqual([r.stage for r in recs], ["plan", "assets", "assets_final", "direction_validate", "validate", "camera_suggest", "preview", "render", "mix", "deliver"])
         self.assertTrue((self.root / "p" / recs[0].log).exists())
 
     def test_failure_and_drops_stay(self) -> None:
@@ -353,6 +359,17 @@ class AnimaticGateTest(_Proj):
 
         self._to_gate2()
         write_animatic(self.root / "p", animatic=False)
+        with self.assertRaises(AnimaticMissingError):
+            approve_gate(self.m, "preview_approval", by="t", cfg=self.cfg)
+
+    def test_script_changed_after_approval_blocks_gate2(self) -> None:
+        """v5.6.0 사용자 결정 2026-10-04 — 자막(원고) → 콘티 → 승인 후 본편. 승인 뒤 원고를 고치고 옛 콘티 판으로 게이트 ② 불가(PIPELINE-AP-015)."""
+        from orchestrator.project_manager import AnimaticMissingError  # noqa: PLC0415
+
+        self._to_gate2()
+        sp = self.root / "p" / "script.yaml"
+        sp.write_text(sp.read_text(encoding="utf-8") + "\n# 승인 뒤 수정\n", encoding="utf-8")
+        write_animatic(self.root / "p", total_sec=300.02)   # 고친 원고로 만든 콘티 판 — 승인 원고와 지문이 다르다
         with self.assertRaises(AnimaticMissingError):
             approve_gate(self.m, "preview_approval", by="t", cfg=self.cfg)
 

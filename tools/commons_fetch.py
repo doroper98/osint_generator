@@ -22,6 +22,7 @@ import argparse
 import io
 import json
 import re
+import shutil
 import sys
 import time
 import urllib.error
@@ -46,6 +47,7 @@ BACKOFF_MAX_SEC = _CFG.backoff_max_sec
 TRIES = _CFG.tries
 STANDARD_WIDTHS: tuple[int, ...] = tuple(_CFG.standard_widths)
 EMBLEM_REGISTRY = REPO / "assets" / "emblems" / "registry.json"
+EMBLEM_FILES = REPO / "assets" / "emblems" / "files"   # v5.6.0 공용 휘장 파일(저장소 추적) — tools/asset_library.py promote
 EMBLEM_WIDTH = 500                         # prep3 portraits_emblems: commons_get(title, dest, 500)
 
 # 기관 휘장 후보 (07 §5.2 판단 사례). 제목은 2026-09-28 search 로 확인한 기관 공식본(제한 태그를 피하려 변형본을 고르지 않는다).
@@ -60,6 +62,7 @@ EMBLEM_TITLES: dict[str, tuple[str | None, str]] = {
     "cia": ("File:Seal of the U.S. Central Intelligence Agency.svg", "us"),
     "cheongwadae": ("File:Emblem of the President of the Republic of Korea.svg", "kr"),   # v4.8.0 D-0109 대통령 표장(봉황·무궁화)
     "potus": ("File:Seal of the President of the United States.svg", "us"),
+    "nato": ("File:Flag of NATO.svg", "be"),   # v5.5.0 사용자 지시 2026-10-04 — 나토 깃발(나침반 장미). 대체 국기 = 본부 소재국(실제로는 use)
 }
 
 
@@ -242,7 +245,24 @@ def record_bundles(registry: Path, bundles: Path = BUNDLES) -> int:
 # 사용자 예외(D5 밖, schemas.emblem_models.USER_EXCEPTIONS 와 같은 번호) — 휘장 id → (결정 번호, 용도 한정 문구)
 EMBLEM_EXCEPTIONS: dict[str, tuple[str, str]] = {
     "cheongwadae": ("D98", "청와대·대통령실(한국)이 발언·행위 주체인 문장의 식별 표시 전용, 무가공, 엔딩 크레딧 표기"),
+    "nato": ("U20261004", "나토(북대서양조약기구)가 발언·행위 주체인 문장의 식별 표시 전용, 무가공, 엔딩 크레딧 표기"),
 }
+
+
+# 깃발 형태(가로로 긴) 휘장 — 원형 뱃지에 흰 띠가 남지 않도록 가운데 정사각만 자른다(색·도형 무가공).
+EMBLEM_SQUARE: frozenset[str] = frozenset({"nato"})
+
+
+def square_crop(path: Path) -> dict[str, object]:
+    """가운데 정사각 자르기(멱등 — 이미 정사각이면 그대로). 권리 기록용 가공 문구를 돌려준다."""
+    from PIL import Image  # noqa: PLC0415
+
+    im = Image.open(path)
+    w, h = im.size
+    s = min(w, h)
+    if w != h:
+        im.crop(((w - s) // 2, (h - s) // 2, (w - s) // 2 + s, (h - s) // 2 + s)).save(path)
+    return {"tool": "PIL Image.crop", "op": "center_square", "source_size": [w, h], "note": "원형 뱃지용 가운데 정사각 자르기만 — 색·도형 무가공"}
 
 
 def emblem_entry(eid: str, title: str | None, flag: str, ii: dict | None) -> EmblemEntry:
@@ -288,11 +308,24 @@ def fetch_emblems(proj: Path | None, only: list[str] | None = None, refresh: boo
             registry.write_text(dump_emblem_registry(reg), encoding="utf-8")
             print(f"emblem {eid}: {ent.decision} ({ent.reason})", flush=True)
         if proj is not None and ent.decision == "use":
+            dest = proj / "assets" / "emblems" / (ent.file or f"{eid}.png")
+            shared = EMBLEM_FILES / (ent.file or f"{eid}.png")
+            if shared.exists():   # v5.6.0 — 공용 자산(tools/asset_library.py 로 승격된 파일)이 있으면 다시 받지·가공하지 않는다
+                dest.parent.mkdir(parents=True, exist_ok=True)
+                shutil.copyfile(shared, dest)
+                rec = dict(license=ent.license, url=ent.source_url, title=ent.title or "", restrictions=", ".join(ent.restrictions),
+                           rights_status="rights_clear", retrieved_at=ent.fetched_at)
+                if eid in EMBLEM_SQUARE:
+                    rec["processing"] = {"tool": "assets/emblems/files 공용 자산", "op": "center_square", "note": "원형 뱃지용 가운데 정사각 자르기만 — 색·도형 무가공"}
+                record_rights(proj / "assets" / "rights_registry.json", "emblems", eid, rec)
+                continue
             ii = info(ent.title or "", EMBLEM_WIDTH)
-            download(ii, proj / "assets" / "emblems" / (ent.file or f"{eid}.png"))
-            record_rights(proj / "assets" / "rights_registry.json", "emblems", eid,
-                          dict(license=ii["lic"], url=ii["page"], title=ii["title"], restrictions=ii["restr"],
-                               rights_status="rights_clear", retrieved_at=now_iso()))
+            dest = download(ii, dest)
+            rec = dict(license=ii["lic"], url=ii["page"], title=ii["title"], restrictions=ii["restr"],
+                       rights_status="rights_clear", retrieved_at=now_iso())
+            if eid in EMBLEM_SQUARE:
+                rec["processing"] = square_crop(dest)
+            record_rights(proj / "assets" / "rights_registry.json", "emblems", eid, rec)
     return reg
 
 

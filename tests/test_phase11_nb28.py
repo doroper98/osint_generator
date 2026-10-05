@@ -55,7 +55,7 @@ class ClipPathTest(unittest.TestCase):
 
 class ClipConfigTest(unittest.TestCase):
     def test_1080p_clip_is_1024x576(self) -> None:
-        _, p = load_config().engine.profile("final")
+        _, p = load_config().engine.profile("1080p")   # v5.5.1 — final 은 720p(클립 null), 1080p 는 이름으로
         self.assertEqual(p.clip, (1024, 576))
         _, t = load_config().engine.profile("trial")
         self.assertIsNone(t.clip)

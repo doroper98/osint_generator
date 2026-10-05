@@ -1,0 +1,806 @@
+{
+  "schema_version": 1,
+  "facts": [
+    {
+      "id": "f_suwalki_agreement_1920",
+      "text": "폴란드와 리투아니아는 1920년 10월 7일 수바우키에서 수바우키 협정에 서명했다.",
+      "date": "1920.10.07",
+      "place": "수바우키",
+      "actors": [
+        "폴란드",
+        "리투아니아"
+      ],
+      "numbers": [],
+      "source_ids": [
+        "clm_0001"
+      ],
+      "confidence": "high",
+      "contested": false,
+      "sides": null
+    },
+    {
+      "id": "f_suwalki_agreement_vilnius",
+      "text": "수바우키 협정은 빌뉴스의 귀속을 명시하지 않았다는 서술이 있으나, 이 내용은 원문 대조에서 확인이 엇갈렸다.",
+      "date": "1920.10.07",
+      "place": null,
+      "actors": [
+        "폴란드",
+        "리투아니아"
+      ],
+      "numbers": [],
+      "source_ids": [
+        "clm_0002"
+      ],
+      "confidence": "medium",
+      "contested": false,
+      "sides": null
+    },
+    {
+      "id": "f_vilnius_occupation_1920",
+      "text": "폴란드군은 1920년 10월 9일 빌뉴스를 점령했고, 빌뉴스 지역은 1939년까지 폴란드 관할에 있었다.",
+      "date": "1920.10.09",
+      "place": "빌뉴스",
+      "actors": [
+        "폴란드군"
+      ],
+      "numbers": [],
+      "source_ids": [
+        "clm_0003",
+        "clm_0004"
+      ],
+      "confidence": "high",
+      "contested": false,
+      "sides": null
+    },
+    {
+      "id": "f_border_legacy",
+      "text": "위키백과는 1920년 수바우키 지역 경계선이 오늘날 폴란드·리투아니아 국경의 대부분으로 남아 있다고 적고 있다.",
+      "date": "1920",
+      "place": "폴란드·리투아니아 국경",
+      "actors": [
+        "폴란드",
+        "리투아니아"
+      ],
+      "numbers": [],
+      "source_ids": [
+        "clm_0005"
+      ],
+      "confidence": "low",
+      "contested": false,
+      "sides": null
+    },
+    {
+      "id": "f_lithuanian_minority",
+      "text": "폴란드 수바우키 지역에는 리투아니아계 소수민족이 살고 있다.",
+      "date": "2026",
+      "place": "수바우키 지역",
+      "actors": [
+        "리투아니아계 소수민족"
+      ],
+      "numbers": [],
+      "source_ids": [
+        "clm_0006"
+      ],
+      "confidence": "high",
+      "contested": false,
+      "sides": null
+    },
+    {
+      "id": "f_punsk_population",
+      "text": "애틀랜틱 카운슬은 푼스크 주민이 약 3,600명이고 그중 약 80%가 리투아니아계라고 보도했다.",
+      "date": "2016",
+      "place": "푼스크",
+      "actors": [
+        "애틀랜틱 카운슬"
+      ],
+      "numbers": [
+        "약 3,600명",
+        "약 80%"
+      ],
+      "source_ids": [
+        "clm_0007"
+      ],
+      "confidence": "low",
+      "contested": false,
+      "sides": null
+    },
+    {
+      "id": "f_minority_language_veto",
+      "text": "애틀랜틱 카운슬은 두다 폴란드 대통령이 2015년 10월 소수민족 언어 보조 사용을 허용하는 법에 거부권을 행사했다고 보도했다.",
+      "date": "2015.10",
+      "place": null,
+      "actors": [
+        "두다 폴란드 대통령",
+        "애틀랜틱 카운슬"
+      ],
+      "numbers": [],
+      "source_ids": [
+        "clm_0058"
+      ],
+      "confidence": "low",
+      "contested": false,
+      "sides": null
+    },
+    {
+      "id": "f_corridor_length",
+      "text": "수바우키 회랑의 길이는 약 104km로 보도되지만, 이 수치는 원문 대조에서 확인이 엇갈렸다.",
+      "date": "2026",
+      "place": "수바우키 회랑",
+      "actors": [],
+      "numbers": [
+        "약 104km"
+      ],
+      "source_ids": [
+        "clm_0008"
+      ],
+      "confidence": "medium",
+      "contested": false,
+      "sides": null
+    },
+    {
+      "id": "f_kaliningrad_exclave",
+      "text": "칼리닌그라드는 리투아니아와 폴란드 사이에 있는 러시아의 역외 영토이며, 러시아 발트 함대가 주둔한다.",
+      "date": "2026",
+      "place": "칼리닌그라드",
+      "actors": [
+        "러시아",
+        "러시아 발트 함대"
+      ],
+      "numbers": [],
+      "source_ids": [
+        "clm_0009",
+        "clm_0010"
+      ],
+      "confidence": "high",
+      "contested": false,
+      "sides": null
+    },
+    {
+      "id": "f_iskander_deployed",
+      "text": "칼리닌그라드에는 핵탑재 가능한 이스칸데르 미사일이 배치돼 있다.",
+      "date": "2026",
+      "place": "칼리닌그라드",
+      "actors": [
+        "러시아"
+      ],
+      "numbers": [],
+      "source_ids": [
+        "clm_0011"
+      ],
+      "confidence": "high",
+      "contested": false,
+      "sides": null
+    },
+    {
+      "id": "f_iskander_range",
+      "text": "CSIS 미사일 위협은 이스칸데르가 사거리 500km의 이동식 체계로 핵 탑재가 가능하다고 설명했다.",
+      "date": "2018",
+      "place": null,
+      "actors": [
+        "CSIS 미사일 위협"
+      ],
+      "numbers": [
+        "500km"
+      ],
+      "source_ids": [
+        "clm_0012"
+      ],
+      "confidence": "low",
+      "contested": false,
+      "sides": null
+    },
+    {
+      "id": "f_konigsberg_captured_1945",
+      "text": "소련은 1945년 4월 9일 쾨니히스베르크를 장악했다.",
+      "date": "1945.04.09",
+      "place": "쾨니히스베르크",
+      "actors": [
+        "소련"
+      ],
+      "numbers": [],
+      "source_ids": [
+        "clm_0013"
+      ],
+      "confidence": "high",
+      "contested": false,
+      "sides": null
+    },
+    {
+      "id": "f_potsdam_1945",
+      "text": "1945년 8월 1일 포츠담 협정으로 쾨니히스베르크는 최종 국경 확정 때까지 소련에 귀속됐다.",
+      "date": "1945.08.01",
+      "place": "쾨니히스베르크",
+      "actors": [
+        "소련"
+      ],
+      "numbers": [],
+      "source_ids": [
+        "clm_0014"
+      ],
+      "confidence": "high",
+      "contested": false,
+      "sides": null
+    },
+    {
+      "id": "f_renamed_1946",
+      "text": "쾨니히스베르크는 1946년 칼리닌그라드로 개칭됐다.",
+      "date": "1946",
+      "place": "칼리닌그라드",
+      "actors": [
+        "소련"
+      ],
+      "numbers": [],
+      "source_ids": [
+        "clm_0015"
+      ],
+      "confidence": "high",
+      "contested": false,
+      "sides": null
+    },
+    {
+      "id": "f_final_settlement_1990",
+      "text": "독일 관련 최종 해결 조약은 1990년 9월 12일 서명됐다.",
+      "date": "1990.09.12",
+      "place": null,
+      "actors": [
+        "독일"
+      ],
+      "numbers": [],
+      "source_ids": [
+        "clm_0016"
+      ],
+      "confidence": "high",
+      "contested": false,
+      "sides": null
+    },
+    {
+      "id": "f_poland_nato_1999",
+      "text": "위키백과에 따르면 폴란드는 1999년 NATO 회원국이 됐다.",
+      "date": "1999",
+      "place": null,
+      "actors": [
+        "폴란드",
+        "NATO"
+      ],
+      "numbers": [],
+      "source_ids": [
+        "clm_0018"
+      ],
+      "confidence": "low",
+      "contested": false,
+      "sides": null
+    },
+    {
+      "id": "f_lithuania_nato_2004",
+      "text": "위키백과에 따르면 리투아니아를 포함한 7개국이 2004년 3월 NATO에 가입했다.",
+      "date": "2004.03",
+      "place": null,
+      "actors": [
+        "리투아니아",
+        "NATO"
+      ],
+      "numbers": [
+        "7개국"
+      ],
+      "source_ids": [
+        "clm_0019"
+      ],
+      "confidence": "low",
+      "contested": false,
+      "sides": null
+    },
+    {
+      "id": "f_transit_document_2003",
+      "text": "2003년 7월 1일부터 러시아 시민은 간소화 통행문서로 리투아니아를 경유해 칼리닌그라드를 오갈 수 있게 됐다.",
+      "date": "2003.07.01",
+      "place": "리투아니아",
+      "actors": [
+        "러시아",
+        "리투아니아",
+        "EU"
+      ],
+      "numbers": [],
+      "source_ids": [
+        "clm_0020"
+      ],
+      "confidence": "high",
+      "contested": false,
+      "sides": null
+    },
+    {
+      "id": "f_military_transit_2003",
+      "text": "애틀랜틱 카운슬은 러시아군이 2003년부터 칼리닌그라드 보급을 위해 리투아니아를 경유할 수 있다고 보도했다.",
+      "date": "2003",
+      "place": "리투아니아",
+      "actors": [
+        "러시아군",
+        "애틀랜틱 카운슬"
+      ],
+      "numbers": [],
+      "source_ids": [
+        "clm_0021"
+      ],
+      "confidence": "low",
+      "contested": false,
+      "sides": null
+    },
+    {
+      "id": "f_airspace_closed_2022",
+      "text": "알자지라는 리투아니아가 2022년 2월 러시아발 칼리닌그라드행 항공편에 영공을 닫았다고 보도했다.",
+      "date": "2022.02",
+      "place": null,
+      "actors": [
+        "리투아니아",
+        "알자지라"
+      ],
+      "numbers": [],
+      "source_ids": [
+        "clm_0022"
+      ],
+      "confidence": "low",
+      "contested": false,
+      "sides": null
+    },
+    {
+      "id": "f_sanctions_transit_2022",
+      "text": "알자지라와 유로뉴스는 리투아니아가 2022년 6월 EU 제재 대상 물품의 칼리닌그라드행 통과를 금지했다고 보도했다.",
+      "date": "2022.06.18",
+      "place": "리투아니아",
+      "actors": [
+        "리투아니아",
+        "EU"
+      ],
+      "numbers": [],
+      "source_ids": [
+        "clm_0023"
+      ],
+      "confidence": "low",
+      "contested": false,
+      "sides": null
+    },
+    {
+      "id": "f_alikhanov_share",
+      "text": "알리하노프 칼리닌그라드 주지사는 통과 금지가 리투아니아 경유 반출입 품목의 40~50%에 해당한다고 말했다고 알자지라가 보도했다.",
+      "date": "2022.06",
+      "place": null,
+      "actors": [
+        "알리하노프 칼리닌그라드 주지사"
+      ],
+      "numbers": [
+        "40~50%"
+      ],
+      "source_ids": [
+        "clm_0025"
+      ],
+      "confidence": "low",
+      "contested": false,
+      "sides": null
+    },
+    {
+      "id": "f_eu_rail_guidance",
+      "text": "유로뉴스는 EU가 제재 권고를 수정해 리투아니아에 철도 통과를 계속 허용하라고 권고했다고 보도했다.",
+      "date": "2022",
+      "place": null,
+      "actors": [
+        "EU",
+        "리투아니아"
+      ],
+      "numbers": [],
+      "source_ids": [
+        "clm_0024"
+      ],
+      "confidence": "low",
+      "contested": false,
+      "sides": null
+    },
+    {
+      "id": "f_german_brigade_2025",
+      "text": "발틱 타임스는 독일 제45기갑여단 '리투아니아'가 2025년 5월 22일 빌뉴스 대성당 광장에서 공식 출범했고, 메르츠 독일 총리는 NATO 동부 측면 방어를 직접 맡겠다고, 나우세다 리투아니아 대통령은 역사적 사건이라고 말했다고 보도했다.",
+      "date": "2025.05.22",
+      "place": "빌뉴스",
+      "actors": [
+        "독일 제45기갑여단",
+        "메르츠 독일 총리",
+        "나우세다 리투아니아 대통령"
+      ],
+      "numbers": [
+        "제45"
+      ],
+      "source_ids": [
+        "clm_0026",
+        "clm_0027",
+        "clm_0028"
+      ],
+      "confidence": "low",
+      "contested": false,
+      "sides": null
+    },
+    {
+      "id": "f_battlegroup_lead",
+      "text": "NATO는 리투아니아 주둔 다국적 전투단의 주도국이 독일이라고 밝혔다.",
+      "date": "2026",
+      "place": "리투아니아",
+      "actors": [
+        "NATO",
+        "독일"
+      ],
+      "numbers": [],
+      "source_ids": [
+        "clm_0029"
+      ],
+      "confidence": "low",
+      "contested": false,
+      "sides": null
+    },
+    {
+      "id": "f_zapad_2025",
+      "text": "디펜스 뉴스는 러시아·벨라루스 연합훈련 '자파드 2025'가 2025년 9월 12일부터 16일까지 벨라루스에서 열렸다고 보도했다.",
+      "date": "2025.09.12",
+      "place": "벨라루스",
+      "actors": [
+        "러시아",
+        "벨라루스"
+      ],
+      "numbers": [],
+      "source_ids": [
+        "clm_0030"
+      ],
+      "confidence": "low",
+      "contested": false,
+      "sides": null
+    },
+    {
+      "id": "f_zapad_2021_size",
+      "text": "러시아 당국은 2021년 자파드 훈련에 약 20만 명이 참가했다고 밝혔다.",
+      "date": "2021",
+      "place": null,
+      "actors": [
+        "러시아 당국"
+      ],
+      "numbers": [
+        "약 20만 명"
+      ],
+      "source_ids": [
+        "clm_0031"
+      ],
+      "confidence": "low",
+      "contested": false,
+      "sides": null
+    },
+    {
+      "id": "f_tusk_zapad",
+      "text": "투스크 폴란드 총리는 자파드 훈련을 '매우 공격적'인 기동이라고 말했다.",
+      "date": "2025.09.09",
+      "place": null,
+      "actors": [
+        "투스크 폴란드 총리"
+      ],
+      "numbers": [],
+      "source_ids": [
+        "clm_0036"
+      ],
+      "confidence": "low",
+      "contested": false,
+      "sides": null
+    },
+    {
+      "id": "f_zapad_target_dispute",
+      "text": "투스크 폴란드 총리는 수바우키 회랑이 자파드 2025의 표적 중 하나였다고 말했고, 루카셴코 벨라루스 대통령은 수바우키 회랑 공격설을 '완전한 넌센스'라고 반박했다.",
+      "date": "2025.09",
+      "place": "수바우키 회랑",
+      "actors": [
+        "투스크 폴란드 총리",
+        "루카셴코 벨라루스 대통령"
+      ],
+      "numbers": [],
+      "source_ids": [
+        "clm_0037"
+      ],
+      "confidence": "medium",
+      "contested": true,
+      "sides": [
+        "투스크 폴란드 총리: 수바우키 회랑이 자파드의 표적 중 하나였다",
+        "루카셴코 벨라루스 대통령: 수바우키 회랑 공격설은 '완전한 넌센스'"
+      ]
+    },
+    {
+      "id": "f_drone_incursion_2025",
+      "text": "NATO와 디펜스 뉴스에 따르면 2025년 9월 러시아 드론이 폴란드 영공에 진입했고, NATO는 조약 4조에 따른 안보 협의를 열고 '이스턴 센트리' 활동을 시작했다.",
+      "date": "2025.09.10",
+      "place": "폴란드",
+      "actors": [
+        "러시아",
+        "폴란드",
+        "NATO"
+      ],
+      "numbers": [
+        "4조"
+      ],
+      "source_ids": [
+        "clm_0032",
+        "clm_0033",
+        "clm_0034"
+      ],
+      "confidence": "low",
+      "contested": false,
+      "sides": null
+    },
+    {
+      "id": "f_drone_intent_dispute",
+      "text": "유럽 지도자들은 러시아 드론의 폴란드 진입이 의도적인 것으로 보인다고 했고, 러시아군과 벨라루스는 폴란드를 겨냥하지 않았으며 드론이 항로를 벗어났다고 주장했다.",
+      "date": "2025.09.10",
+      "place": "폴란드",
+      "actors": [
+        "유럽 지도자들",
+        "러시아군",
+        "벨라루스"
+      ],
+      "numbers": [],
+      "source_ids": [
+        "clm_0035"
+      ],
+      "confidence": "medium",
+      "contested": true,
+      "sides": [
+        "유럽 지도자들: 의도적인 것으로 보인다",
+        "러시아군·벨라루스: 폴란드를 겨냥하지 않았다, 드론이 항로를 벗어났다"
+      ]
+    },
+    {
+      "id": "f_belarus_security_treaty",
+      "text": "디펜스 뉴스는 루카셴코와 푸틴이 2024년 12월 벨라루스 안보 보장 조약에 서명했고, 루카셴코 대통령이 같은 달 벨라루스에 러시아 전술핵이 수십 기 있다고 말했다고 보도했다.",
+      "date": "2024.12",
+      "place": null,
+      "actors": [
+        "루카셴코 벨라루스 대통령",
+        "푸틴 러시아 대통령"
+      ],
+      "numbers": [
+        "수십 기"
+      ],
+      "source_ids": [
+        "clm_0038",
+        "clm_0039"
+      ],
+      "confidence": "low",
+      "contested": false,
+      "sides": null
+    },
+    {
+      "id": "f_belarus_drills_2026",
+      "text": "유로마이단 프레스는 벨라루스군이 2026년 9월 리투아니아 인근 고자, 폴란드 인근 브레스트·루자니 훈련장에서 훈련했으며 총 참가 병력은 공개하지 않았다고 보도했다.",
+      "date": "2026.09.15",
+      "place": "고자·브레스트·루자니",
+      "actors": [
+        "벨라루스군"
+      ],
+      "numbers": [],
+      "source_ids": [
+        "clm_0040",
+        "clm_0041"
+      ],
+      "confidence": "low",
+      "contested": false,
+      "sides": null
+    },
+    {
+      "id": "f_belarus_drills_statement",
+      "text": "무라베이코 벨라루스 총참모장은 공격 행동을 고려하지 않는다며 공격 준비설을 근거 없다고 말했고, 벨라루스 국방부는 훈련이 2011년 빈 문서의 통보 기준 미만이라고 주장했다.",
+      "date": "2026.09",
+      "place": null,
+      "actors": [
+        "무라베이코 벨라루스 총참모장",
+        "벨라루스 국방부"
+      ],
+      "numbers": [],
+      "source_ids": [
+        "clm_0042",
+        "clm_0043"
+      ],
+      "confidence": "low",
+      "contested": false,
+      "sides": null
+    },
+    {
+      "id": "f_russia_note_0930",
+      "text": "러시아는 2026년 9월 30일 NATO에 서면 메시지를 보내, NATO가 칼리닌그라드 공중·해상 봉쇄를 준비한다는 정보가 있다고 주장했다.",
+      "date": "2026.09.30",
+      "place": null,
+      "actors": [
+        "러시아",
+        "NATO"
+      ],
+      "numbers": [],
+      "source_ids": [
+        "clm_0044",
+        "clm_0047"
+      ],
+      "confidence": "high",
+      "contested": false,
+      "sides": null
+    },
+    {
+      "id": "f_blockade_dispute",
+      "text": "러시아는 NATO가 칼리닌그라드 공중·해상 봉쇄를 준비 중이라는 정보가 있다고 주장했고, NATO는 칼리닌그라드를 겨냥하지 않으며 어떤 활동도 러시아에 위험이 되지 않는다고 반박했다.",
+      "date": "2026.09.30",
+      "place": "칼리닌그라드",
+      "actors": [
+        "러시아",
+        "NATO"
+      ],
+      "numbers": [],
+      "source_ids": [
+        "clm_0045"
+      ],
+      "confidence": "medium",
+      "contested": true,
+      "sides": [
+        "러시아: NATO가 칼리닌그라드 공중·해상 봉쇄를 준비 중이라는 정보가 있다",
+        "NATO: 칼리닌그라드를 겨냥하지 않으며 어떤 활동도 러시아에 위험이 되지 않는다"
+      ]
+    },
+    {
+      "id": "f_russia_nuclear_warning",
+      "text": "러시아는 칼리닌그라드가 고립되면 핵무기를 포함한 모든 무기를 쓸 준비가 돼 있다고 밝혔다.",
+      "date": "2026.09.30",
+      "place": "칼리닌그라드",
+      "actors": [
+        "러시아"
+      ],
+      "numbers": [],
+      "source_ids": [
+        "clm_0046"
+      ],
+      "confidence": "high",
+      "contested": false,
+      "sides": null
+    },
+    {
+      "id": "f_rutte_response",
+      "text": "뤼터 NATO 사무총장은 NATO는 방어 동맹이며 러시아는 핵 위협을 멈추라고 말했다.",
+      "date": "2026.09.30",
+      "place": null,
+      "actors": [
+        "뤼터 NATO 사무총장"
+      ],
+      "numbers": [],
+      "source_ids": [
+        "clm_0049"
+      ],
+      "confidence": "high",
+      "contested": false,
+      "sides": null
+    },
+    {
+      "id": "f_hart_response",
+      "text": "앨리슨 하트 NATO 대변인은 무책임한 핵 위협 수사를 강하게 규탄한다고 밝혔다.",
+      "date": "2026.09.30",
+      "place": null,
+      "actors": [
+        "앨리슨 하트 NATO 대변인"
+      ],
+      "numbers": [],
+      "source_ids": [
+        "clm_0048"
+      ],
+      "confidence": "low",
+      "contested": false,
+      "sides": null
+    },
+    {
+      "id": "f_putin_1001",
+      "text": "푸틴 대통령은 NATO에 보낸 경고가 '모두 올바르게 쓰였다'고 말했다.",
+      "date": "2026.10.01",
+      "place": null,
+      "actors": [
+        "푸틴 러시아 대통령"
+      ],
+      "numbers": [],
+      "source_ids": [
+        "clm_0050"
+      ],
+      "confidence": "low",
+      "contested": false,
+      "sides": null
+    },
+    {
+      "id": "f_denmark_flares",
+      "text": "덴마크 당국은 러시아 군함이 덴마크 군 헬기 근처에 조명탄 두 발을 쐈다고 밝혔다.",
+      "date": "2026",
+      "place": null,
+      "actors": [
+        "덴마크 당국",
+        "러시아 해군"
+      ],
+      "numbers": [
+        "두 발"
+      ],
+      "source_ids": [
+        "clm_0051"
+      ],
+      "confidence": "low",
+      "contested": false,
+      "sides": null
+    },
+    {
+      "id": "f_baltic_sentry",
+      "text": "NATO의 발트 센트리 활동은 2025년 1월 시작돼 해저 기반시설을 보호하고 있다.",
+      "date": "2025.01",
+      "place": "발트해",
+      "actors": [
+        "NATO"
+      ],
+      "numbers": [],
+      "source_ids": [
+        "clm_0052"
+      ],
+      "confidence": "high",
+      "contested": false,
+      "sides": null
+    },
+    {
+      "id": "f_tusk_fortification",
+      "text": "투스크 폴란드 총리는 칼리닌그라드·벨라루스 국경 요새화를 '평화를 위한 투자'라고 말했다.",
+      "date": "2024.11.30",
+      "place": null,
+      "actors": [
+        "투스크 폴란드 총리"
+      ],
+      "numbers": [],
+      "source_ids": [
+        "clm_0054"
+      ],
+      "confidence": "low",
+      "contested": false,
+      "sides": null
+    },
+    {
+      "id": "f_branevo_brigade",
+      "text": "유로뉴스는 폴란드 브라니에보 기갑기병여단이 2025년 8월 러시아 국경 인근에 배치됐다고 보도했다.",
+      "date": "2025.08",
+      "place": "브라니에보",
+      "actors": [
+        "폴란드군"
+      ],
+      "numbers": [],
+      "source_ids": [
+        "clm_0056"
+      ],
+      "confidence": "low",
+      "contested": false,
+      "sides": null
+    },
+    {
+      "id": "f_lithuania_train_drill",
+      "text": "유로뉴스는 리투아니아가 칼리닌그라드행 러시아 통과 열차 내 보안 사고를 가정한 훈련을 실시했다고 보도했다.",
+      "date": "2026",
+      "place": "리투아니아",
+      "actors": [
+        "리투아니아"
+      ],
+      "numbers": [],
+      "source_ids": [
+        "clm_0055"
+      ],
+      "confidence": "low",
+      "contested": false,
+      "sides": null
+    },
+    {
+      "id": "f_suwalki_evacuation_drill",
+      "text": "AFP는 2026년 9월 수바우키에서 주민 대피 훈련이 열렸다고 보도했다.",
+      "date": "2026.09",
+      "place": "수바우키",
+      "actors": [
+        "수바우키 주민"
+      ],
+      "numbers": [],
+      "source_ids": [
+        "clm_0057"
+      ],
+      "confidence": "low",
+      "contested": false,
+      "sides": null
+    }
+  ]
+}

@@ -180,6 +180,10 @@ def label_sizes(e: dict, Rr: float) -> tuple[float, float]:  # noqa: N803
 
 
 def badge_at(ctx: cairo.Context, R: RenderCtx, x: float, y: float, e: dict, t: float, a: float) -> None:  # noqa: N803
+    ph = R.cache.get("badge_placeholder")   # v5.6.0 PIPELINE-AP-018 — 콘티 판: 패널 안 뱃지는 자리표시(초상 파일을 읽지 않는다)
+    if ph is not None:
+        ph(ctx, R, x, y, e, t, a)
+        return
     Rr = badge_R(e, t)  # noqa: N806
     lt = t - e["t0"]
     k = ease_back(lt / BADGE.popin_sec)
@@ -296,6 +300,8 @@ def place_badge(ctx: cairo.Context, e: dict, x: float, y: float, t: float, zones
 
     b = badge_box(ctx, e, x, y, t)
     ex, ey = edge_nudge(b, x, y)
+    if "push_hold" in e:   # v5.6.0 rules reserved.badge_hold — 수명 내내 같은 자리(카드 아래 고정, RENDER-AP-008)
+        return ex + e["push_hold"][0], ey + e["push_hold"][1], 1.0
     dx, dy, ka, _ = avoid_badge((b[0] + ex, b[1] + ey, b[2] + ex, b[3] + ey), zones)   # 카드가 떠 있는 동안만(D-0033)
     return ex + dx, ey + dy, ka
 

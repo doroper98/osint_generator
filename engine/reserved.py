@@ -161,6 +161,12 @@ def avoidance_report(P) -> list[dict]:  # noqa: ANN001 — engine.project.Projec
     for e in P.events:
         if e["type"] != "badge":
             continue
+        if "push_hold" in e:   # v5.6.0 — 고정 이동(badge_hold): 수명 내내 같은 이동
+            dx, dy = e["push_hold"]
+            out.append({"badge": e["label"] or e.get("img") or e.get("flag"), "t0": round(e["t0"], 2), "t1": round(e["t1"], 2),
+                        "strategy": ["hold"], "direction": ["down" if dy > 0 else "left"], "max_px": round(math.hypot(dx, dy), 1),
+                        "zones": ["card"], "frames": int((e["t1"] - e["t0"]) * FPS)})
+            continue
         rec: dict | None = None
         for i in range(max(0, int(e["t0"] * FPS)), min(P.n_frames, int(e["t1"] * FPS) + 1)):
             t = i / FPS
@@ -193,3 +199,51 @@ def avoidance_report(P) -> list[dict]:  # noqa: ANN001 — engine.project.Projec
         if rec is not None:
             out.append({k: sorted(v) if isinstance(v, set) else v for k, v in rec.items()})
     return out
+
+
+def hold_pushes(P) -> None:  # noqa: ANN001 — engine.project.Project
+    """v5.6.0 rules reserved.badge_hold — 지도 뱃지마다 고정 이동 e["push_hold"] = (dx, dy) 를 정한다(RENDER-AP-008).
+    뱃지 수명 [t0, t1] 과 겹치는 카드 상자 전부(존재도 1)를 동시에 피하는 최소 이동을 hold_directions 로 시간 표본마다 구하고,
+    가장 큰 것을 쓴다. 못 피하면(max_push_px 초과) 기록하지 않는다 — 그 뱃지는 기존 회피(밀림·흐림)를 따른다."""
+    if not RES.badge_hold:
+        return
+    from engine.layers.badges import badge_box, edge_nudge, screen_xy  # noqa: PLC0415
+    from engine.projection import View  # noqa: PLC0415
+    from engine.style import FPS  # noqa: PLC0415
+
+    ctx = cairo.Context(cairo.ImageSurface(cairo.FORMAT_ARGB32, 1, 1))
+    cards = [e for e in P.events if e["type"] in ("card", "post", "primitive")]
+    for e in P.events:
+        if e["type"] != "badge" or e.get("over_panel"):
+            continue
+        lo, hi = e["t0"], e["t1"]
+        near = [c for c in cards if c["t0"] - RES.lead_sec < hi and lo < c["t1"]]
+        if not near:
+            continue
+        zones = [Zone(card_box(ctx, c), 1.0, "hold") for c in near]
+        best: tuple[float, float, float] | None = None
+        t = lo
+        while t <= hi:
+            i = min(P.n_frames - 1, max(0, int(t * FPS)))
+            x, y = screen_xy(e, View(P.R.stage, P.cams[i]))
+            b = badge_box(ctx, e, x, y, t)
+            ex, ey = edge_nudge(b, x, y)
+            b = (b[0] + ex, b[1] + ey, b[2] + ex, b[3] + ey)
+            if any(_hits(b, z.box, RES.push_gap_px) for z in zones):
+                pv = None
+                for name in RES.hold_directions:
+                    d = _DIRS[name]
+                    s = max(_need(b, z.box, d, RES.push_gap_px) for z in zones if _hits(b, z.box, RES.push_gap_px))
+                    moved = _shift(b, d, s)
+                    if s <= RES.max_push_px and not any(_hits(moved, z.box, RES.push_gap_px) for z in zones):
+                        pv = (d[0] * s, d[1] * s, s)
+                        break
+                if pv is None:
+                    best = None
+                    break
+                if best is None or pv[2] > best[2]:
+                    best = pv
+            t += RES.hold_sample_sec
+        if best is not None:
+            e["push_hold"] = (best[0], best[1])
+

@@ -15,6 +15,15 @@ last_review: 2026-09-30
 
 ## W0. 콘티 판(animatic) — 흐름·호흡을 먼저 싸게 (v4.9.0, back_and_forth D-0108, 사용자 결정 D97)
 
+> **순서 의무 — 자막(원고) → 콘티 → (승인 후) 본영상 (v5.6.0, 사용자 결정 2026-10-04, PIPELINE-AP-015).**
+> 1. 원고가 나오면 `python -m orchestrator.main gate-view {pid}` 원고 검토 자료(원고 전문·출처 표·린트)를 **사용자에게 보내 자막 점검**을 요청한다.
+> 2. 사용자 승인 → `approve --gate script_approval` (승인 기록에 원고 지문 `script_sha1`).
+> 3. 음성 → 연출 → 콘티 판(기록에 원고 지문). 콘티 판을 보낼 때도 원고 검토 자료를 함께 보낸다.
+> 4. 게이트 ② 는 콘티 판의 원고 지문 = 승인 원고 지문일 때만 통과. 원고를 고치면 게이트 ① 부터 다시.
+>
+> **자산 보관 (v5.6.0, PIPELINE-AP-016)**: 초상·휘장 등 이번 영상에서 만든 자산은 콘티 판 전에
+> `python tools/asset_library.py promote projects/{pid}` 로 공용 자산에 올린다(`check` = 0). 다음 영상은 공용 자산을 먼저 쓴다.
+
 용어: **콘티 판** = animatic(animation + -matic). 1930년대 디즈니가 스토리보드를 찍어 음성과 함께 틀어 본 "Leica reel"이 원형이고,
 광고·애니메이션 업계가 1970년대부터 animatic 이라 불렀다. "콘티"는 일본어 コンテ(continuity 의 축약)에서 왔다.
 
@@ -26,6 +35,14 @@ last_review: 2026-09-30
 
 게이트 ① 원고 승인 뒤, 게이트 ② 프리뷰 전에 돈다. 연출 v1 이 나오면 콘티 판으로 흐름을 보고, 고칠 것이 있으면 연출로 되돌려 다시 돈다.
 
+연출 전에 미디어 재료를 등록한다(v5.6.0 PIPELINE-AP-019 — 등록이 빠지면 연출 후보가 0건이라 인용·기사 조판·실사가 화면에 안 나온다):
+- 기사 조판: `python tools/article_register.py projects/{pid}` → 빠진 헤드라인 번역(sources.json `headline_ko`)을 채우고 `--write`.
+- 실사(사진·영상): `python tools/media_fetch.py search "<무기·장소 이름>"` 로 후보(라이선스·제한 표시)를 찾고, 피사체·라이선스·촬영 시기를
+  대조해 고른 것만 레지스트리에 권리 기록과 함께 올린다(무기 이름 = rules weapon_photo.terms).
+- 인용: 검증 단계가 claims `direct_quotes`(원문 따옴표 발언)를 남긴다 — 연출 입력 "인용 후보"로 자동 공급.
+콘티 판을 보낼 때 `gate-view` 의 **미디어·인용 요약**(쓴 수/쓸 수 있던 수, 무기 이름의 실사 유무, 실사 출처·라이선스 목록, media_note)을 함께 보낸다 —
+콘티 판에서 실사는 자리표시라 이 목록으로 확인한다. 0건이어도 막지 않는다(사용자 결정 2026-10-05) — 이유를 media_note 에 적는다.
+
 ```bash
 python -m script.plan projects/{pid} --tts edge          # 러프 음성(무료·빠름). ElevenLabs 는 콘티 판 단계에서 쓰지 않는다
 python -m audio.mix projects/{pid}                        # 음악·믹스는 전편과 같다(bed_bass 포함)
@@ -35,12 +52,14 @@ python -m engine.render projects/{pid} --animatic --preview auto   # (선택) pr
 
 사용자 흐름 검토 뒤 고칠 것이 있으면 연출을 다시 한다. 프로젝트가 아직 `direction` 상태면 연출 판(direction.vN)을 고쳐 콘티 판을 다시 돌리고,
 이미 렌더 이후 상태면 `python -m orchestrator.main reopen --project {pid} --to direction --reason "콘티 판 흐름 검토: …"`(D4)로 되돌린다.
+원고(자막) 내용을 고칠 때는 `reopen --to script_draft` → 게이트 ① 재승인 → 음성 → 콘티 판 순서다(v5.6.0 PIPELINE-AP-017).
 흐름이 정해지면 게이트 ② 프리뷰(`--preview auto`) → 전편으로 간다.
 
 | 콘티 판에서 | 전편과 |
 |---|---|
 | 자막·타이틀·엔딩 카드·날짜·마커·경로·타격 링·선박·국가 강조·시리즈·카메라·dip·음악 | 같다(자막이 호흡의 기준) |
-| 뱃지(인물·국기·휘장)·사진·영상·컷아웃·기사·게시물·카드·패널·프리미티브 | 같은 자리·크기·타이밍의 자리표시 상자 + `[뱃지: 이름]` 같은 글자 |
+| 카드·패널(숫자·문구·도식) | 같다 — 콘티 판에서 승인한다(v5.6.0 PIPELINE-AP-018). 패널 안 뱃지만 자리표시 |
+| 뱃지(인물·국기·휘장)·사진·영상·컷아웃·기사·게시물·프리미티브 | 같은 자리·크기·타이밍의 자리표시 상자 + `[뱃지: 이름]` 같은 글자 |
 | 지도 | 막지도 — 육지·바다 단색 + 국경선(`data/geo_flat/`, 자산·타일 없음), 라벨 없음 |
 | 표식 | 화면 위 가운데 띠 "콘티 판 · 검토용 · 배포 금지", provenance `animatic: true`, mp4 메타데이터 표식 |
 | 검사 | 콘티 프로파일 — 글리프·글자 크기·권리·미디어 해상도·차트 정직성·라벨 수는 건너뛴다(`out/animatic_checks.json` skipped) |

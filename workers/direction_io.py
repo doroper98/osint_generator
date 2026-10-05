@@ -153,6 +153,7 @@ def media_text(pdir: Path | None = None) -> str:
             reg = {mid: a for mid, a in reg.items()
                    if (a.url in urls if a.kind == "article" else bool(a.file) and (pdir / "media" / str(a.file)).exists())}
     rows = [f"- {mid}: {a.kind} · {a.caption} · {a.file_note}" + (f" · {'·'.join(a.depicts)}" if own and a.kind != "article" else "")
+            + (f" · 헤드라인 「{a.headline}」" if a.kind == "article" and a.headline else "")   # v5.6.0 — 어떤 기사인지 보고 고른다
             + (f" · 구간 {a.segment}" if a.segment else "")
             for mid, a in reg.items()]
     sp = pdir / "intake" / "sources.json" if pdir is not None else None
@@ -273,6 +274,39 @@ def camera_suggest_text(pdir: Path) -> tuple[str, str | None]:
     return ("\n".join(rows) if rows else "(제안할 숏 없음)"), sha
 
 
+def quote_candidates(pdir: Path) -> list[dict]:
+    """v5.6.0(사용자 지적 2026-10-05 "인물 발언을 따옴표로 표현하는 장면이 없다") — 원문 기사가 따옴표로 전한 발언(claims direct_quotes)과
+    그 claim 을 인용한 원고 문장. 연출 인용(quote) 후보이자 검토 자료의 "인용 후보 n건" 근거."""
+    import json  # noqa: PLC0415
+
+    import yaml  # noqa: PLC0415
+
+    cp, sp, srp = pdir / "intake" / "claims.json", pdir / "script.yaml", pdir / "intake" / "sources.json"
+    if not (cp.exists() and sp.exists()):
+        return []
+    srcs = {s["id"]: s for s in (json.loads(srp.read_text(encoding="utf-8"))["sources"] if srp.exists() else [])}
+    sids: dict[str, list[str]] = {}
+    for sc in yaml.safe_load(sp.read_text(encoding="utf-8"))["scenes"]:
+        for k, se in enumerate(sc["sentences"]):
+            for c in se.get("sources", []):
+                sids.setdefault(c, []).append(f"{sc['id']}_{k}")
+    out = []
+    for c in json.loads(cp.read_text(encoding="utf-8"))["claims"]:
+        if c.get("direct_quotes") and c["claim_id"] in sids:
+            for q in c["direct_quotes"]:
+                s = srcs.get(q["source_id"], {})
+                out.append({"claim_id": c["claim_id"], "sids": sids[c["claim_id"]], "claim": c["text"], "original": q["text"],
+                            "publisher": s.get("publisher", q["source_id"]), "date": s.get("published_at", "")})
+    return out
+
+
+def quote_candidates_text(pdir: Path) -> str:
+    rows = quote_candidates(pdir)
+    if not rows:
+        return "(없음 — 원문 따옴표로 확인된 발언이 원고에 없다)"
+    return "\n".join(f"- {r['claim_id']} · 문장 {', '.join(r['sids'])} · {r['claim']} · 원문 “{r['original']}” · {r['publisher']} · {r['date']}" for r in rows)
+
+
 def bundle_materials_text(pdir: Path) -> tuple[str, str | None]:
     """번들 재료 블록(v3.5.0 D-0063 작업 4) — `intake/bundle_materials.json` 이 있을 때만. **재료일 뿐 강제 아님**(P8).
     이전 영상의 연출은 넣지 않는다(15 P9) — 이 프로젝트 번들에서 뽑은 장소·경로·패널 데이터뿐. 없으면 ("", None)."""
@@ -320,5 +354,5 @@ def next_version(pdir: Path, stem: str, suffix: str) -> int:
     return n
 
 
-__all__ = ["cards_table", "check_direction", "current_version", "loop_history", "restore_version", "dump_direction_yaml", "entities_text", "event_fields_table", "geo_text", "load_plan", "documents_text", "series_records_text", "stage_text",
+__all__ = ["quote_candidates", "quote_candidates_text", "cards_table", "check_direction", "current_version", "loop_history", "restore_version", "dump_direction_yaml", "entities_text", "event_fields_table", "geo_text", "load_plan", "documents_text", "series_records_text", "stage_text",
            "media_text", "next_version", "plan_table"]

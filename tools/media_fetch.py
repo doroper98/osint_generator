@@ -215,11 +215,12 @@ def run(proj: Path, only: list[str] | None = None, sheets: bool = True, registry
     media.mkdir(parents=True, exist_ok=True)
     clip_scale: tuple[int, int] | None = None
     if res is not None:
+        from engine.style import H_OUT  # noqa: PLC0415
         from orchestrator.config import load_config  # noqa: PLC0415
         cfg = load_config().engine
         name, prof = cfg.profile(res)
-        if name == cfg.output.default:
-            raise MediaFetchError(f"--res {res} 는 기본 프로파일이다 — 기본 클립은 --res 없이(레지스트리 scale)")
+        if prof.height == H_OUT:   # v5.5.1 — 기본 클립 = 설계 해상도(480p). 기본 출력 프로파일(720p)과 분리
+            raise MediaFetchError(f"--res {res} 는 설계 해상도 프로파일이다 — 기본 클립은 --res 없이(레지스트리 scale)")
         if prof.clip is None:
             raise MediaFetchError(f"config engine.output.profiles.{name}.clip 이 없다 — 클립 크기를 정하지 않은 프로파일")
         res, clip_scale = name, prof.clip

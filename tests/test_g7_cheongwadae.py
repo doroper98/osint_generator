@@ -23,10 +23,14 @@ class CheongwadaeEmblemTest(unittest.TestCase):
         self.assertIn("insignia", e.restrictions)                      # 제한은 그대로 기록
         self.assertTrue(e.exception_scope and "청와대" in e.exception_scope)
         self.assertTrue(e.source_url.startswith("https://commons.wikimedia.org/"))
-        others = [k for k, v in reg.emblems.items() if v.restrictions and k != "cheongwadae"]
+        others = [k for k, v in reg.emblems.items() if v.restrictions and k not in ("cheongwadae", "nato")]   # nato = U20261004
         self.assertTrue(others)
         self.assertTrue(all(reg.emblems[k].decision == "flag_fallback" and reg.emblems[k].user_exception is None for k in others))
-        self.assertEqual(USER_EXCEPTIONS, {"D98": frozenset({"cheongwadae"})})
+        self.assertEqual(USER_EXCEPTIONS, {"D98": frozenset({"cheongwadae"}), "U20261004": frozenset({"nato"})})
+        n = reg.emblems["nato"]   # v5.5.0 사용자 직접 지시 2026-10-04
+        self.assertEqual((n.decision, n.user_exception, n.file), ("use", "U20261004", "nato.png"))
+        self.assertIn("insignia", n.restrictions)
+        self.assertIn("나토", n.exception_scope or "")
         raw = json.loads((REPO / "assets/emblems/registry.json").read_text(encoding="utf-8"))
         self.assertNotIn("user_exception", raw["emblems"]["navcent"])   # 예외 없는 항목 = v4.7.0 과 같은 필드
 

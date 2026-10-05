@@ -1,0 +1,515 @@
+{
+  "schema_version": 1,
+  "labels": {
+    "cold_open_0": {
+      "status": "corroborated",
+      "label": null,
+      "claim_ids": [
+        "clm_0047"
+      ]
+    },
+    "cold_open_1": {
+      "status": "corroborated",
+      "label": null,
+      "claim_ids": [
+        "clm_0044"
+      ]
+    },
+    "cold_open_2": {
+      "status": "corroborated",
+      "label": null,
+      "claim_ids": [
+        "clm_0046"
+      ]
+    },
+    "cold_open_3": {
+      "status": "corroborated",
+      "label": null,
+      "claim_ids": [
+        "clm_0009"
+      ]
+    },
+    "cold_open_4": {
+      "status": "corroborated",
+      "label": null,
+      "claim_ids": [
+        "clm_0062"
+      ]
+    },
+    "konigsberg_0": {
+      "status": "corroborated",
+      "label": null,
+      "claim_ids": [
+        "clm_0013"
+      ]
+    },
+    "konigsberg_1": {
+      "status": "unverified",
+      "label": "<미검증>",
+      "claim_ids": [
+        "clm_0059"
+      ]
+    },
+    "konigsberg_2": {
+      "status": "corroborated",
+      "label": null,
+      "claim_ids": [
+        "clm_0066"
+      ]
+    },
+    "konigsberg_3": {
+      "status": "unverified",
+      "label": "<미검증>",
+      "claim_ids": [
+        "clm_0067"
+      ]
+    },
+    "konigsberg_4": {
+      "status": "corroborated",
+      "label": null,
+      "claim_ids": [
+        "clm_0013"
+      ]
+    },
+    "konigsberg_5": {
+      "status": "corroborated",
+      "label": null,
+      "claim_ids": [
+        "clm_0014"
+      ]
+    },
+    "konigsberg_6": {
+      "status": "corroborated",
+      "label": null,
+      "claim_ids": [
+        "clm_0015"
+      ]
+    },
+    "konigsberg_7": {
+      "status": "corroborated",
+      "label": null,
+      "claim_ids": [
+        "clm_0016"
+      ]
+    },
+    "konigsberg_8": {
+      "status": "unverified",
+      "label": "<미검증>",
+      "claim_ids": [
+        "clm_0017"
+      ]
+    },
+    "exclave_0": {
+      "status": "unverified",
+      "label": "<미검증>",
+      "claim_ids": [
+        "clm_0060"
+      ]
+    },
+    "exclave_1": {
+      "status": "unverified",
+      "label": "<미검증>",
+      "claim_ids": [
+        "clm_0018",
+        "clm_0019"
+      ]
+    },
+    "exclave_2": {
+      "status": "unverified",
+      "label": "<미검증>",
+      "claim_ids": [
+        "clm_0061"
+      ]
+    },
+    "exclave_3": {
+      "status": "corroborated",
+      "label": null,
+      "claim_ids": [
+        "clm_0020"
+      ]
+    },
+    "exclave_4": {
+      "status": "unverified",
+      "label": "<미검증>",
+      "claim_ids": [
+        "clm_0021"
+      ]
+    },
+    "suwalki_1920_0": {
+      "status": "unverified",
+      "label": "<미검증>",
+      "claim_ids": [
+        "clm_0001",
+        "clm_0005"
+      ]
+    },
+    "suwalki_1920_1": {
+      "status": "corroborated",
+      "label": null,
+      "claim_ids": [
+        "clm_0001"
+      ]
+    },
+    "suwalki_1920_2": {
+      "status": "corroborated",
+      "label": null,
+      "claim_ids": [
+        "clm_0003",
+        "clm_0004"
+      ]
+    },
+    "suwalki_1920_3": {
+      "status": "unverified",
+      "label": "<미검증>",
+      "claim_ids": [
+        "clm_0005"
+      ]
+    },
+    "suwalki_1920_4": {
+      "status": "corroborated",
+      "label": null,
+      "claim_ids": [
+        "clm_0062"
+      ]
+    },
+    "suwalki_1920_5": {
+      "status": "corroborated",
+      "label": null,
+      "claim_ids": [
+        "clm_0063"
+      ]
+    },
+    "suwalki_1920_6": {
+      "status": "disputed",
+      "label": "<논쟁>",
+      "claim_ids": [
+        "clm_0008"
+      ]
+    },
+    "suwalki_1920_7": {
+      "status": "corroborated",
+      "label": null,
+      "claim_ids": [
+        "clm_0006"
+      ]
+    },
+    "military_0": {
+      "status": "corroborated",
+      "label": null,
+      "claim_ids": [
+        "clm_0010"
+      ]
+    },
+    "military_1": {
+      "status": "corroborated",
+      "label": null,
+      "claim_ids": [
+        "clm_0011"
+      ]
+    },
+    "military_2": {
+      "status": "unverified",
+      "label": "<미검증>",
+      "claim_ids": [
+        "clm_0012"
+      ]
+    },
+    "transit_2022_0": {
+      "status": "unverified",
+      "label": "<미검증>",
+      "claim_ids": [
+        "clm_0022"
+      ]
+    },
+    "transit_2022_1": {
+      "status": "unverified",
+      "label": "<미검증>",
+      "claim_ids": [
+        "clm_0023"
+      ]
+    },
+    "transit_2022_2": {
+      "status": "unverified",
+      "label": "<미검증>",
+      "claim_ids": [
+        "clm_0025"
+      ]
+    },
+    "transit_2022_3": {
+      "status": "unverified",
+      "label": "<미검증>",
+      "claim_ids": [
+        "clm_0024"
+      ]
+    },
+    "nato_east_0": {
+      "status": "unverified",
+      "label": "<미검증>",
+      "claim_ids": [
+        "clm_0026"
+      ]
+    },
+    "nato_east_1": {
+      "status": "unverified",
+      "label": "<미검증>",
+      "claim_ids": [
+        "clm_0027"
+      ]
+    },
+    "nato_east_2": {
+      "status": "unverified",
+      "label": "<미검증>",
+      "claim_ids": [
+        "clm_0028"
+      ]
+    },
+    "nato_east_3": {
+      "status": "unverified",
+      "label": "<미검증>",
+      "claim_ids": [
+        "clm_0064"
+      ]
+    },
+    "nato_east_4": {
+      "status": "unverified",
+      "label": "<미검증>",
+      "claim_ids": [
+        "clm_0029"
+      ]
+    },
+    "nato_east_5": {
+      "status": "unverified",
+      "label": "<미검증>",
+      "claim_ids": [
+        "clm_0053"
+      ]
+    },
+    "nato_east_6": {
+      "status": "unverified",
+      "label": "<미검증>",
+      "claim_ids": [
+        "clm_0054"
+      ]
+    },
+    "nato_east_7": {
+      "status": "unverified",
+      "label": "<미검증>",
+      "claim_ids": [
+        "clm_0056"
+      ]
+    },
+    "nato_east_8": {
+      "status": "corroborated",
+      "label": null,
+      "claim_ids": [
+        "clm_0052"
+      ]
+    },
+    "zapad_0": {
+      "status": "unverified",
+      "label": "<미검증>",
+      "claim_ids": [
+        "clm_0030"
+      ]
+    },
+    "zapad_1": {
+      "status": "unverified",
+      "label": "<미검증>",
+      "claim_ids": [
+        "clm_0031"
+      ]
+    },
+    "zapad_2": {
+      "status": "unverified",
+      "label": "<미검증>",
+      "claim_ids": [
+        "clm_0036"
+      ]
+    },
+    "zapad_3": {
+      "status": "disputed",
+      "label": "<논쟁>",
+      "claim_ids": [
+        "clm_0037"
+      ]
+    },
+    "zapad_4": {
+      "status": "disputed",
+      "label": "<논쟁>",
+      "claim_ids": [
+        "clm_0037"
+      ]
+    },
+    "drones_0": {
+      "status": "unverified",
+      "label": "<미검증>",
+      "claim_ids": [
+        "clm_0032"
+      ]
+    },
+    "drones_1": {
+      "status": "unverified",
+      "label": "<미검증>",
+      "claim_ids": [
+        "clm_0033",
+        "clm_0034"
+      ]
+    },
+    "drones_2": {
+      "status": "disputed",
+      "label": "<논쟁>",
+      "claim_ids": [
+        "clm_0035"
+      ]
+    },
+    "drones_3": {
+      "status": "disputed",
+      "label": "<논쟁>",
+      "claim_ids": [
+        "clm_0035"
+      ]
+    },
+    "belarus_0": {
+      "status": "unverified",
+      "label": "<미검증>",
+      "claim_ids": [
+        "clm_0038"
+      ]
+    },
+    "belarus_1": {
+      "status": "unverified",
+      "label": "<미검증>",
+      "claim_ids": [
+        "clm_0039"
+      ]
+    },
+    "year_2026_0": {
+      "status": "unverified",
+      "label": "<미검증>",
+      "claim_ids": [
+        "clm_0055"
+      ]
+    },
+    "year_2026_1": {
+      "status": "unverified",
+      "label": "<미검증>",
+      "claim_ids": [
+        "clm_0040"
+      ]
+    },
+    "year_2026_2": {
+      "status": "unverified",
+      "label": "<미검증>",
+      "claim_ids": [
+        "clm_0040"
+      ]
+    },
+    "year_2026_3": {
+      "status": "unverified",
+      "label": "<미검증>",
+      "claim_ids": [
+        "clm_0041"
+      ]
+    },
+    "year_2026_4": {
+      "status": "unverified",
+      "label": "<미검증>",
+      "claim_ids": [
+        "clm_0042"
+      ]
+    },
+    "year_2026_5": {
+      "status": "unverified",
+      "label": "<미검증>",
+      "claim_ids": [
+        "clm_0057"
+      ]
+    },
+    "standoff_0": {
+      "status": "corroborated",
+      "label": null,
+      "claim_ids": [
+        "clm_0044"
+      ]
+    },
+    "standoff_1": {
+      "status": "corroborated",
+      "label": null,
+      "claim_ids": [
+        "clm_0049"
+      ]
+    },
+    "standoff_2": {
+      "status": "unverified",
+      "label": "<미검증>",
+      "claim_ids": [
+        "clm_0048"
+      ]
+    },
+    "standoff_3": {
+      "status": "unverified",
+      "label": "<미검증>",
+      "claim_ids": [
+        "clm_0050"
+      ]
+    },
+    "standoff_4": {
+      "status": "unverified",
+      "label": "<미검증>",
+      "claim_ids": [
+        "clm_0051"
+      ]
+    },
+    "recap_0": {
+      "status": "corroborated",
+      "label": null,
+      "claim_ids": [
+        "clm_0015"
+      ]
+    },
+    "recap_1": {
+      "status": "corroborated",
+      "label": null,
+      "claim_ids": [
+        "clm_0009"
+      ]
+    },
+    "recap_2": {
+      "status": "corroborated",
+      "label": null,
+      "claim_ids": [
+        "clm_0063"
+      ]
+    },
+    "recap_3": {
+      "status": "corroborated",
+      "label": null,
+      "claim_ids": [
+        "clm_0046",
+        "clm_0049"
+      ]
+    },
+    "recap_4": {
+      "status": "unverified",
+      "label": "<미검증>",
+      "claim_ids": [
+        "clm_0065"
+      ]
+    },
+    "recap_5": {
+      "status": null,
+      "label": null,
+      "claim_ids": []
+    },
+    "recap_6": {
+      "status": "unverified",
+      "label": "<미검증>",
+      "claim_ids": [
+        "clm_0046",
+        "clm_0053",
+        "clm_0040",
+        "clm_0055"
+      ]
+    }
+  }
+}

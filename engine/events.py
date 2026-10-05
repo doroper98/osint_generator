@@ -536,10 +536,21 @@ class PrecedentCard(_Strict):
     person: Optional[PrecedentPerson] = None
 
 
+class PrecedentFootnote(_Strict):
+    """v5.6.0 사용자 요청(2026-10-05 "해결 조약에 대한 설명이나 풋노트가 자막을 가리지 않는 선에서") — 카드 아래 작은 글씨 주석.
+    sources = 근거 claim(출처 없는 수치 금지, C0). 자막 겹침·폭은 검사 panel_overflow 가 본다."""
+
+    lines: list[str] = Field(min_length=1, max_length=2)
+    t0: float
+    sources: list[str] = Field(min_length=1)
+
+
 class PanelPrecedent(_Panel):
     kind: Literal["precedent"]
     subtitle: Optional[str] = None
     cards: list[PrecedentCard] = Field(min_length=1, max_length=4)
+    footnote: Optional[PrecedentFootnote] = None
+    DROP_NONE: ClassVar[tuple[str, ...]] = (*_Panel.DROP_NONE, "footnote")   # 주석 없는 연도 카드 dict = 이전과 같음(부모 chart 유지)
 
 
 class VersusItem(_Strict):

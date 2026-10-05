@@ -164,6 +164,9 @@ def project_provenance(P, stages: dict[str, bool]) -> dict:  # noqa: ANN001, N80
     rj = P.root / "out" / "render.json"
     prov["render"] = {"resolution": (json.loads(rj.read_text(encoding="utf-8"))["resolution"]
                                      if stages.get("render") and rj.exists() else P.R.out.record())}
+    if P.R.cache.get("source_notes"):   # v5.6.0 — 참조 출처 화면 표기를 쓴 영상만(P5)
+        prov["source_note"] = {"sentences": len(P.R.cache["source_notes"]),
+                               "links": sorted({u for v in P.R.cache["source_notes"].values() for u in v.split(" · ")[1:]})}
     if P.R.cache.get("badge") is not None:   # v4.8.0 D-0111 A — 버린 인물 뱃지 연출 R(적응 크기)
         prov["badge"] = P.R.cache["badge"]
     gc = P.R.cache.get("geo_check") or {}

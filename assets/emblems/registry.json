@@ -124,6 +124,22 @@
    "fetched_at": "2026-09-29T15:14:13Z",
    "user_exception": "D98",
    "exception_scope": "청와대·대통령실(한국)이 발언·행위 주체인 문장의 식별 표시 전용, 무가공, 엔딩 크레딧 표기"
+  },
+  "nato": {
+   "file": "nato.png",
+   "title": "File:Flag of NATO.svg",
+   "license": "Public domain",
+   "author": "Current file: Found by 475847394d347339 in websites noted in the source section. Previous file Vectorization: Mysid and uploaded to Flag of NATO.svg Code cleaned up by Artem Karimov.",
+   "restrictions": [
+    "insignia"
+   ],
+   "decision": "use",
+   "reason": "user_exception U20261004: restrictions insignia — 용도 한정",
+   "fallback_flag": "be",
+   "source_url": "https://commons.wikimedia.org/wiki/File:Flag_of_NATO.svg",
+   "fetched_at": "2026-10-04T02:05:10Z",
+   "user_exception": "U20261004",
+   "exception_scope": "나토(북대서양조약기구)가 발언·행위 주체인 문장의 식별 표시 전용, 무가공, 엔딩 크레딧 표기"
   }
  }
 }

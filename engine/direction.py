@@ -194,6 +194,8 @@ class Direction(_Strict):
     version: Literal[1] = 1
     genre: Optional[str] = None   # v4.2.0 D-0081 작업 3 — 장르 프로필(없으면 genres.load.DEFAULT_GENRE, declared false)
     stage: Optional[str] = None   # v4.1.0 D-0076 작업 4 — 주 무대(없으면 장르 프로필 stage.primary, declared false)
+    media_note: Optional[str] = None       # v5.6.0 PIPELINE-AP-019 — 인용·기사 조판·실사를 0건으로 둔 이유(게이트 ② 미디어 요약에 보인다)
+    opening_exempt: Optional[str] = None   # v5.6.0 RENDER-AP-016 — 넓은 지도 오프닝을 하지 않는 이유(없으면 검사 opening_establish hard)
     stage_reason: Optional[str] = None   # v5.1.0 D-0123 §2 — 장르 기본 무대(default_stage)와 다른 무대를 고른 이유(없으면 checks stage_choice warning)
     stage_config: dict[str, dict[str, Any]] = Field(default_factory=dict)   # v4.3.0 D-0084 작업 3 — 무대 이름 → 설정
     places: dict[str, tuple[float, float]] = Field(default_factory=dict)

@@ -119,8 +119,59 @@ def preview_gate_view(pdir: Path) -> tuple[str, dict[str, str]]:
         shown.update({"provenance": str(pp), "drops": str(len(prov.get("drops", [])))})
     else:
         lines += ["", "provenance 요약 (없음 — preview 단계가 prev/provenance.json 을 쓴다)"]
-    lines += ["", *_camera_table(pdir, shown), "", *_qa_rounds(pdir, shown)]
+    lines += ["", *media_summary(pdir, shown), "", *_camera_table(pdir, shown), "", *_qa_rounds(pdir, shown)]
     return "\n".join(lines), shown
+
+
+def media_summary(pdir: Path, shown: dict[str, str] | None = None) -> list[str]:
+    """v5.6.0(사용자 결정 2026-10-05 "없으면 없는 거지 막을 필요는 없다" — 막지 않고 보이게, PIPELINE-AP-019) —
+    인용·기사 조판·실사(사진·영상·컷아웃) 쓴 수 / 쓸 수 있던 수, 무기 이름 문장의 실사 유무, 연출이 적은 이유(media_note)."""
+    import re  # noqa: PLC0415
+
+    import yaml  # noqa: PLC0415
+
+    from rules import load_rules  # noqa: PLC0415
+    from workers.direction_io import media_text, quote_candidates  # noqa: PLC0415
+
+    dp = pdir / "direction.yaml"
+    if not dp.exists():
+        return ["미디어·인용 요약 — direction.yaml 없음"]
+    doc = yaml.safe_load(dp.read_text(encoding="utf-8")) or {}
+    evs = doc.get("events", [])
+    used = {k: sum(1 for e in evs if e.get("type") in kinds) for k, kinds in
+            {"quote": ("quote",), "article": ("article",), "real": ("photo", "clip", "cutout")}.items()}
+    reg = media_text(pdir)
+    avail = {"article": len(re.findall(r"^- [^:]+: article ", reg, re.M)),
+             "real": len(re.findall(r"^- [^:]+: (photo|video|cutout) ", reg, re.M))}
+    qc = quote_candidates(pdir)
+    quoted = " ".join(str(e) for e in evs if e.get("type") == "quote")
+    unused = sorted({q["claim_id"] for q in qc if q["original"][:12] not in quoted})
+    out = ["미디어·인용 요약 (막지 않는다 — 보고 판단)",
+           f"  인용(따옴표)   {used['quote']}건 사용 · 원문 따옴표 후보 {len(qc)}건" + (f" — 안 쓴 후보 {', '.join(unused)}" if unused and len(qc) else ""),
+           f"  기사 조판      {used['article']}건 사용 · 등록 {avail['article']}건" + ("  (tools/article_register.py 로 등록)" if not avail["article"] else ""),
+           f"  실사(사진·영상) {used['real']}건 사용 · 등록 {avail['real']}건" + ("  (tools/media_fetch.py search 로 후보)" if not avail["real"] else "")]
+    reals = [e for e in evs if e.get("type") in ("photo", "clip", "cutout") and e.get("mid")]
+    if reals:   # 실사는 콘티 판에서 자리표시라 여기서 출처·권리를 본다(사용자 확인용 목록)
+        from engine.media_registry import load_media_registry  # noqa: PLC0415
+
+        mr = load_media_registry()
+        out += [f"    {e['type']:<6} {e['mid']} · {mr[e['mid']].caption} · {mr[e['mid']].file_note} · {mr[e['mid']].license[:40]} · {mr[e['mid']].url or ''}"
+                for e in reals if e["mid"] in mr]
+    sp = pdir / "script.yaml"
+    if sp.exists():
+        terms = load_rules().weapon_photo.terms
+        hits = sorted({w for sc in (yaml.safe_load(sp.read_text(encoding="utf-8")) or {}).get("scenes", [])
+                       for s in sc.get("sentences", []) for w in terms if w in s.get("text", "")})
+        if hits:
+            out.append(f"  무기 이름       {', '.join(hits)} — 실사 {'있음' if used['real'] else '없음'}")
+    if doc.get("media_note"):
+        out.append(f"  연출 메모       {doc['media_note']}")
+    elif not (used["quote"] and used["article"] and used["real"]):
+        out.append("  연출 메모       (없음 — 0건인 항목의 이유를 direction.yaml media_note 에 적는다)")
+    if shown is not None:
+        shown.update({"media_used": f"quote {used['quote']} · article {used['article']} · real {used['real']}",
+                      "quote_candidates": str(len(qc))})
+    return out
 
 
 def _camera_table(pdir: Path, shown: dict[str, str]) -> list[str]:

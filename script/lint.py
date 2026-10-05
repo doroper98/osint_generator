@@ -28,6 +28,7 @@ CLI (v3.0.0, 16 §4 `direction_validate` 의 6.9 전 대체 — D-0040 작업 4)
 from __future__ import annotations
 
 import argparse
+import functools
 import json
 import re
 import sys
@@ -187,8 +188,51 @@ def apply_dict(text: str, mapping: dict[str, str] | None = None) -> str:
 def pronounce_tts(tts: str, mapping: dict[str, str] | None = None) -> str:
     """합성 직전 발음 사전(v5.1.0 back_and_forth D-0121 §D, TTS-AP-067·068 구조 조치) — 원고가 tts 를 명시해도 사전을 거친다.
     숫자 변환은 하지 않는다(명시 tts 는 이미 한글). 치환이 있었을 때만 공백을 정리한다(치환 없는 문장의 캐시 키 불변). 멱등."""
-    out = apply_dict(tts, load_pronounce_dict() if mapping is None else mapping)
+    mp = load_pronounce_dict() if mapping is None else mapping
+    out = apply_dict(tts, mp)
+    for glued, spaced in letter_spacing(mp).items():   # v5.6.0 TTS-AP-075 — 붙은 글자 이름 연속 띄우기(등재 약어·사전 값만)
+        out = out.replace(glued, spaced)
     return tts if out == tts else re.sub(r"\s+", " ", out).strip()
+
+
+@functools.lru_cache(maxsize=1)
+def _letter_names() -> tuple[str, ...]:
+    return tuple(sorted(load_rules().tts_rules.letter_names, key=len, reverse=True))
+
+
+@functools.lru_cache(maxsize=1)
+def _acronym_letters() -> frozenset[str]:
+    return frozenset(a.letters for a in load_rules().tts_rules.acronyms)
+
+
+def letter_split(s: str) -> list[str] | None:
+    """s 가 알파벳 글자 이름(rules tts_rules.letter_names)만으로 이뤄졌으면 글자 목록, 아니면 None(긴 이름 먼저)."""
+    names = _letter_names()
+    out: list[str] = []
+    i = 0
+    while i < len(s):
+        n = next((x for x in names if s.startswith(x, i)), None)
+        if n is None:
+            return None
+        out.append(n)
+        i += len(n)
+    return out
+
+
+def letter_spacing(mapping: dict[str, str]) -> dict[str, str]:
+    """{붙은 글자 연속: 띄운 형태} — 등재 약어 letters + 발음 사전 값의 각 어절 중 글자 이름 2개 이상으로만 된 것."""
+    return _letter_spacing(frozenset(w for v in mapping.values() for w in v.split()))
+
+
+@functools.lru_cache(maxsize=8)
+def _letter_spacing(words: frozenset[str]) -> dict[str, str]:
+    cands = set(_acronym_letters()) | set(words)
+    out: dict[str, str] = {}
+    for c in cands:
+        parts = letter_split(c) if c else None
+        if parts and len(parts) >= 2:
+            out[c] = " ".join(parts)
+    return dict(sorted(out.items(), key=lambda kv: -len(kv[0])))
 
 
 def apply_pronunciation(text: str, mapping: dict[str, str] | None = None) -> str:
@@ -211,6 +255,7 @@ def apply_pronunciation(text: str, mapping: dict[str, str] | None = None) -> str
     return out
 
 
+@functools.lru_cache(maxsize=1)
 def pronounce_dict_path() -> Path:
     return Path(__file__).resolve().parent.parent / load_rules().pronounce.dict_path
 
@@ -247,7 +292,34 @@ def _attributed(text: str, markers: list[str]) -> bool:
     return any(m.lower() in text.lower() for m in markers)
 
 
-def lint(script: Script, claims: "dict[str, str] | None" = None, *, check_sources: bool = True) -> LintReport:
+def noted_claims(proj: Path) -> set[str]:
+    """화면 출처 표기(rules source_note — 위키백과 등 참조 출처)로 귀속되는 claim id(v5.6.0). 근거 소스 중 참조 출처가 있는 claim."""
+    cp, sp = proj / "intake" / "claims.json", proj / "intake" / "sources.json"
+    if not (cp.exists() and sp.exists()):
+        return set()
+    pubs = load_rules().source_note.publishers
+    srcs = json.loads(sp.read_text(encoding="utf-8"))
+    srcs = srcs["sources"] if isinstance(srcs, dict) else srcs
+    ref = {s["id"] for s in srcs if any(str(s.get("publisher", "")).startswith(p) for p in pubs)}
+    return {c["claim_id"] for c in json.loads(cp.read_text(encoding="utf-8"))["claims"] if set(c.get("source_ids", [])) & ref}
+
+
+def ends_present(text: str) -> bool:
+    """문장 끝 서술어가 현재형인가(v5.6.0 tense-present) — '…습니다' 앞 글자에 받침 ㅆ(있·없·겠 제외)이면 과거형, 그 밖의 '…니다' 는 현재형."""
+    t = text.rstrip(" .!?\"'’”")
+    if not t.endswith("니다"):
+        return False
+    if t.endswith(("바 있습니다", "적이 있습니다", "적 있습니다")):   # 경험·완료('…한 바 있습니다') = 과거
+        return False
+    if t.endswith("습니다") and len(t) >= 4:
+        c = t[-4]
+        past = "가" <= c <= "힣" and (ord(c) - 0xAC00) % 28 == 20 and c not in "있없겠"
+        return not past
+    return True
+
+
+def lint(script: Script, claims: "dict[str, str] | None" = None, *, check_sources: bool = True,
+         noted: "set[str] | None" = None) -> LintReport:
     """claims = {claim_id: status}(claims.json). check_sources=False 는 출처 검사를 끈다 — 프롬프트 예시처럼
     claims.json 이 없는 원고 조각에만(파리티 테스트)."""
     r = load_rules()
@@ -299,7 +371,7 @@ def lint(script: Script, claims: "dict[str, str] | None" = None, *, check_source
                 if unknown:
                     add("source-unknown", "error", f"claims.json 밖 id {unknown}" if claims is not None else
                         f"claims.json 이 없다 — sources {unknown} 를 확인할 수 없다(18 §3-6)")
-                if claims is not None and any(claims.get(c) == "unverified" for c in s.sources) \
+                if claims is not None and any(claims.get(c) == "unverified" and c not in (noted or set()) for c in s.sources) \
                         and not any(m in s.text for m in attrib):
                     add("attribution", "warning", "unverified claim 인용 — 귀속 표현(~라고 주장했습니다/보도했습니다, rules script_schema.attribution_markers) 없음")
             n = subtitle_lines(s.text)
@@ -314,6 +386,17 @@ def lint(script: Script, claims: "dict[str, str] | None" = None, *, check_source
             hit = next((u for u in sg.uncertain_patterns if u in s.text), None)
             if hit and not said:
                 add("uncertain-phrase", "error", f"미확인 결론 {hit!r} — 누가 무엇을 말했는지를 쓴다(script_grammar)")
+            for a in r.tts_rules.acronyms:   # v5.6.0 사용자 결정 2026-10-04 — 약어 읽기 등재(TTS-AP-075)
+                if re.search(rf"(?<![A-Za-z]){re.escape(a.abbr)}(?![A-Za-z])", s.text):
+                    said_ns = (s.tts or "").replace(" ", "")
+                    if a.letters not in said_ns or (a.read == "letters_and_name" and a.name.replace(" ", "") not in said_ns):
+                        want = a.letters + (f", {a.name}" if a.read == "letters_and_name" else "")
+                        add("tts-acronym", "error", f"{a.abbr} → 발음 '{want}'(rules tts_rules.acronyms)", s.tts or s.text)
+            spoken_ref = next((n for n in r.source_note.spoken_names if n in s.text), None)
+            if spoken_ref:   # v5.6.0 — 참조 출처는 화면 아래 링크로(rules source_note), 내레이션에서 말하지 않는다
+                add("reference-in-narration", "error", f"'{spoken_ref}' — 참조 출처는 내레이션에서 말하지 않는다(화면 출처 표기 source_note)")
+            if s.date[:4].isdigit() and script.date[:4].isdigit() and int(s.date[:4]) < int(script.date[:4]) and ends_present(s.text):
+                add("tense-present", "warning", f"{s.date} 의 일인데 현재형으로 끝남 — 과거의 사건·상태는 과거형으로(script_grammar)")
             total += 1
             flow += starts_with_connective(s.text, sg.connectives)
     if total >= 4:   # v5.5.0 — 문장 흐름: 연결어로 앞 문장을 받는 문장 비율
@@ -341,7 +424,7 @@ def main(argv: list[str] | None = None) -> int:
 
     try:
         script = Script.model_validate(yaml.safe_load(path.read_text(encoding="utf-8")))
-        rep = lint(script, load_claims_for(path.parent))
+        rep = lint(script, load_claims_for(path.parent), noted=noted_claims(path.parent))
         labels = check_project_labels(path.parent, script)   # 도시어가 있으면 라벨 재계산·대조(D-0043 §3)
         arts = {"script": str(path)}
         if labels is not None:

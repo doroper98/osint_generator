@@ -12,7 +12,7 @@ import cairo
 
 from engine.context import RenderCtx
 from engine.projection import View
-from engine.style import C, ISLAND
+from engine.style import C, ISLAND, W_OUT
 from engine.timebase import ease_out, smooth, window
 from engine.typography import text, tw
 from rules import load_rules
@@ -52,14 +52,37 @@ _SIDE = {"right": (12, 4, "l"), "left": (-12, 4, "r"), "top": (0, -14, "c"), "bo
 def marker_box(ctx: cairo.Context, e: dict, x: float, y: float, with_sub: bool = False) -> tuple[float, float, float, float]:
     """점·라벨이 차지하는 상자. 예약 영역(R.reserved)은 v3 그대로 라벨 폭만(골든 불변).
     with_sub=True 는 화면 밖 검사용 — 부제가 라벨보다 길면 그 폭까지(D-0049 쟁점 4)."""
-    anc = _SIDE[e.get("side") or "right"][2]
+    side = e.get("side") or "right"
+    anc = _SIDE[side][2]
     w = tw(ctx, e["label"], MK.label_size, "sansb") + 20
     if with_sub and e.get("sub"):
         w = max(w, tw(ctx, e["sub"], MK.sub_size, "sansm") + 20)
+    if with_sub and anc == "c":   # v5.6.0 RENDER-AP-009 — 위·아래 라벨은 점 가운데 정렬로 그려진다(검사 상자도 그대로)
+        dy = _SIDE[side][1]
+        x0, x1 = _span(side, x, label_w(ctx, e), center_clamp(ctx, e, x))
+        y0 = min(y - 16, y + dy - MK.label_size)
+        y1 = max(y + 16, y + dy + (MK.sub_dy + MK.sub_size * 0.3 if e.get("sub") else MK.label_size * 0.3))
+        return (min(x0 - 4, x - 14), y0, max(x1 + 4, x + 14), y1)
     return (x - 14 if anc != "r" else x - w, y - 16, x + w if anc != "r" else x + 14, y + 26)
 
 
 _FLIP = {"right": "left", "left": "right"}
+
+
+CENTER_PAD = 4.0   # v5.6.0 RENDER-AP-009 — 위·아래(가운데 정렬) 라벨이 화면 가장자리에서 잘리지 않게 안쪽으로 미는 여백(px)
+
+
+def center_clamp(ctx: cairo.Context, e: dict, x: float) -> float:
+    """위·아래 라벨(가운데 정렬)이 화면 밖으로 나가면 안쪽으로 미는 x 이동. 점은 사실 위치라 그대로, 글자만 민다(D-0033 원칙)."""
+    side = e.get("side") or "right"
+    if _SIDE[side][2] != "c":
+        return 0.0
+    x0, x1 = _span(side, x, label_w(ctx, e))
+    if x0 < CENTER_PAD:
+        return CENTER_PAD - x0
+    if x1 > W_OUT - CENTER_PAD:
+        return W_OUT - CENTER_PAD - x1
+    return 0.0
 
 
 def label_w(ctx: cairo.Context, e: dict) -> float:
@@ -123,6 +146,8 @@ def draw_marker(ctx: cairo.Context, R: RenderCtx, view: View, t: float, e: dict)
     side, shift = e.get("side") or "right", 0.0
     if e.get("in_island"):   # v5.2.0 D-0133 §1 — 아일랜드 상자 밖으로 나가는 라벨은 반대쪽·클램프(상자 좌표, view.vw = 상자 폭)
         side, shift, _ = island_label(ctx, e, x, view.vw)
+    else:
+        shift = center_clamp(ctx, e, x)
     la = a * smooth((lt - 0.2) / 0.4)
     dx, dy, anc = _SIDE[side]
     box = marker_box(ctx, {**e, "side": side} if side != (e.get("side") or "right") else e, x + shift, y)

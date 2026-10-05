@@ -26,6 +26,38 @@ class BannedPhrases(_Strict):
     defect_classes: list[str]
 
 
+class OpeningRules(_Strict):
+    """v5.6.0 RENDER-AP-016 — 지도 영상 오프닝: 넓은 지도에서 대상 지역으로 천천히 들어간다."""
+
+    min_w: float = Field(gt=0)          # 첫 카메라 폭(경도 °) 하한
+    max_sec: float = Field(gt=0)        # 이 시간 안에 들어간다
+    min_zoom: float = Field(gt=1)       # 첫 폭 ÷ 들어간 폭 하한
+    min_move_sec: float = Field(gt=0)   # 들어가는 이동 시간 하한("천천히")
+
+
+class WeaponPhotoRules(_Strict):
+    """v5.6.0 RENDER-AP-017 — 무기체계 이름이 나오는 문장엔 실사 사진(경고)."""
+
+    terms: list[str] = Field(min_length=1)
+
+
+class RouteFrame(_Strict):
+    """v5.6.0 RENDER-AP-012 — 경로 곡선 프레임 검사."""
+
+    max_out: float = Field(default=0.25, ge=0, le=1)   # 다 그려진 경로 곡선 중 화면 밖 비율 상한
+
+
+class SourceNote(_Strict):
+    """v5.6.0 참조 출처 화면 표기(사용자 결정 2026-10-04) — 내레이션 대신 문장 동안 화면 아래 작은 링크."""
+
+    publishers: list[str] = Field(min_length=1)
+    x: float = Field(ge=0)
+    y_from_bottom: float = Field(ge=0)
+    alpha: float = Field(gt=0, le=1)
+    prefix: str
+    spoken_names: list[str] = Field(min_length=1)   # 내레이션에 나오면 린트 reference-in-narration 오류
+
+
 class ScriptGrammar(_Strict):
     """v5.5.0 원고 서술 규약(사용자 결정 2026-10-02) — 프롬프트 줄 + 린트 값(엇갈린 수치·미확인 서술 금지, 문장 흐름 연결어)."""
 
@@ -64,6 +96,18 @@ class TTSRules(_Strict):
     decimal_policy: str
     emphasis_must_be_substring: bool
     alignment_sources: list[str]   # v2.3.0 D34 — `{mp3}.align.json` alignment_source 등재값(P10). 등재 외 = 오류
+    letter_names: list[str] = Field(default_factory=list)       # v5.6.0 TTS-AP-075 — 알파벳 글자 이름(한글). 등재 약어·사전 값의 글자 연속만 합성 직전 띄운다
+    acronyms: list["Acronym"] = Field(default_factory=list)      # v5.6.0 사용자 결정 2026-10-04 — 약어 읽기 등재(린트 tts-acronym)
+
+
+class Acronym(_Strict):
+    """약어 읽기(v5.6.0 사용자 결정 2026-10-04). read=letters: 글자 이름으로("AFP 통신" → 에이 에프 피 통신),
+    letters_and_name: 글자 이름 + 국문 명칭("CSIS" → 씨 에스 아이 에스, 전략국제문제연구소 — 국내 뉴스처럼 둘 다 읽는 기관)."""
+
+    abbr: str
+    letters: str
+    name: str = ""
+    read: Literal["letters", "letters_and_name"]
 
 
 class TTSRiskPattern(_Strict):
@@ -607,6 +651,8 @@ class RelationPanelRules(_Strict):
 class TimelinePanelRules(_Strict):
     """08 §5 v3 P_timeline 합격 값 + 자동 층 배치(08 §11-3, D-0032 작업 3)."""
 
+    max_span_months: int = Field(default=36, gt=0)   # v5.6.0 RENDER-AP-011 — 월 눈금 축이라 이보다 긴 기간은 오류(연도 카드 precedent 로)
+
     x: Range2                   # 축 x0→x1
     y: float                    # 축 y
     axis_draw_sec: float
@@ -652,6 +698,9 @@ class ReservedRules(_Strict):
     marker_label_strategy: Literal["hide", "none"]
     min_zone_alpha: float         # 이 값 이하의 영역 존재도는 영역으로 치지 않는다
     lead_sec: float               # 영역 존재도: 카드 구간 [t0, t1] 은 1, 앞뒤 lead_sec 동안 오르내림 — 카드가 겹쳐 바뀌어도 뱃지가 튀지 않는다
+    badge_hold: bool = False      # v5.6.0 사용자 지적 2026-10-04 — 뱃지 수명 동안 겹치는 카드 전부를 피하는 이동을 한 번 정해 고정(위아래로 움직이지 않는다)
+    hold_directions: list[Literal["left", "down", "left-down"]] = Field(default_factory=lambda: ["down"])   # 고정 이동 방향(아일랜드 아래)
+    hold_sample_sec: float = 0.25  # 고정 이동 계산의 시간 표본 간격(카메라가 움직이면 가장 큰 이동을 쓴다)
 
 
 # ------------------------------------------------------------------ v2 번들 차트 이식 (D-0032 작업 5, 08 §8·§9)
@@ -866,6 +915,9 @@ class PrecedentPanelRules(_Strict):
     title_size: float
     line_size: float
     caption_size: float
+    footnote_size: float = Field(default=10.0, gt=0)   # v5.6.0 — 카드 아래 주석(layout_480p.min_font_px 이상)
+    footnote_y: float = Field(default=381.0, gt=0)     # 첫 줄 기준선(설계 px) — 카드 아래 끝 362, 자막 구역 410 위
+    footnote_gap: float = Field(default=13.0, gt=0)    # 줄 간격
 
 
 class VersusPanelRules(_Strict):
@@ -1211,7 +1263,6 @@ class AnimaticPlaceholder(_Strict):
     line_gap: float = Field(gt=0)
     max_chars: int = Field(ge=8)
     cutout_h_ratio: float = Field(gt=0)            # 컷아웃 높이 ÷ 폭(레지스트리에 비율 없음 — 근사)
-    panel_box: tuple[float, float, float, float]   # 패널 자리표시 상자(설계 px x0, y0, x1, y1) — 패널 본문이 덮는 화면 영역
     kinds: dict[str, str]   # 요소 종류 → 화면 이름(뱃지·국기·휘장·사진…). 목록 밖 종류 = 오류
 
 
@@ -1722,6 +1773,10 @@ class VideoRules(_Strict):
     balance_principles: list[str]
     direction_grammar: list[str] = Field(min_length=1)   # v4.7.0 D-0104 D2(a) — 연출 문법(프롬프트 {{RULES.direction_grammar}})
     script_grammar: ScriptGrammar          # v5.5.0 — 원고 서술 규약
+    source_note: SourceNote                # v5.6.0 — 참조 출처 화면 표기
+    route_frame: RouteFrame = Field(default_factory=RouteFrame)   # v5.6.0 RENDER-AP-012
+    opening: OpeningRules                  # v5.6.0 RENDER-AP-016
+    weapon_photo: WeaponPhotoRules         # v5.6.0 RENDER-AP-017
     script_schema: ScriptSchemaRules
     verification: VerificationRules   # v3.2.0 — D-0052(D50)
     tts_rules: TTSRules

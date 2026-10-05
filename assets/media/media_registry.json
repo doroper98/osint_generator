@@ -1611,6 +1611,435 @@
    "sub": "4월 초 분석 · 원유 수입 70% 호르무즈 경유",
    "note": "헤드라인 번역 · 원문 영어",
    "headline_original": "The Impact of the Iran Conflict on South Korea: By the Numbers"
+  },
+  "kaliningrad_suwalki_art_0002": {
+   "kind": "article",
+   "title": "Atlantic Council 2016-02-09 — NATO’s Vulnerable Link in Europe: Poland’s Suwalki Gap",
+   "license": "헤드라인 번역·요지 자체 조판(원문 인용 15단어 미만, 기사 화면 캡처·로고 없음, 14 §9)",
+   "author": "Atlantic Council",
+   "credit_author": "Atlantic Council",
+   "date": "2016-02-09",
+   "url": "https://www.atlanticcouncil.org/?p=93719",
+   "caption": "Atlantic Council",
+   "file_note": "2016. 02. 09",
+   "depicts": [
+    "폴란드와 리투아니아가 1920년 10월 7일 수바우키에서 수바우키 협정…"
+   ],
+   "is_file_photo": false,
+   "verified_by": {
+    "by": "code(tools/article_register — sources.json 확인 기록·claims 대조)",
+    "on": "2026-10-05",
+    "casualty_free": true,
+    "relevance": "kaliningrad-suwalki 원고 claim 근거 기사"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-10-04",
+   "tool": {
+    "name": "article_typeset",
+    "params": {
+     "translation": true
+    }
+   },
+   "headline": "유럽 속 나토의 취약한 고리, 폴란드 수바우키 회랑",
+   "sub": "폴란드와 리투아니아가 1920년 10월 7일 수바우키에서 수바우키 협정…",
+   "note": "헤드라인 번역 · 원문 영어",
+   "headline_original": "NATO’s Vulnerable Link in Europe: Poland’s Suwalki Gap"
+  },
+  "kaliningrad_suwalki_art_0004": {
+   "kind": "article",
+   "title": "Al Jazeera 2022-06-18 — Lithuania enforces EU sanctions on goods to Russia’s Kaliningrad",
+   "license": "헤드라인 번역·요지 자체 조판(원문 인용 15단어 미만, 기사 화면 캡처·로고 없음, 14 §9)",
+   "author": "Al Jazeera",
+   "credit_author": "Al Jazeera",
+   "date": "2022-06-18",
+   "url": "https://www.aljazeera.com/news/2022/6/18/lithuania-enforces-eu-sanctions-on-goods-to-russias-kaliningrad",
+   "caption": "Al Jazeera",
+   "file_note": "2022. 06. 18",
+   "depicts": [
+    "칼리닌그라드는 리투아니아와 폴란드 사이에 있는 러시아의 역외 영토다"
+   ],
+   "is_file_photo": false,
+   "verified_by": {
+    "by": "code(tools/article_register — sources.json 확인 기록·claims 대조)",
+    "on": "2026-10-05",
+    "casualty_free": true,
+    "relevance": "kaliningrad-suwalki 원고 claim 근거 기사"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-10-04",
+   "tool": {
+    "name": "article_typeset",
+    "params": {
+     "translation": true
+    }
+   },
+   "headline": "리투아니아, 러시아 칼리닌그라드행 화물에 EU 제재 적용",
+   "sub": "칼리닌그라드는 리투아니아와 폴란드 사이에 있는 러시아의 역외 영토다",
+   "note": "헤드라인 번역 · 원문 영어",
+   "headline_original": "Lithuania enforces EU sanctions on goods to Russia’s Kaliningrad"
+  },
+  "kaliningrad_suwalki_art_0005": {
+   "kind": "article",
+   "title": "CSIS Missile Threat 2018-02-06 — Russia Deploys Iskander Missiles to Kaliningrad",
+   "license": "헤드라인 번역·요지 자체 조판(원문 인용 15단어 미만, 기사 화면 캡처·로고 없음, 14 §9)",
+   "author": "CSIS Missile Threat",
+   "credit_author": "CSIS Missile Threat",
+   "date": "2018-02-06",
+   "url": "https://missilethreat.csis.org/russia-deploys-iskander-missiles-kaliningrad/",
+   "caption": "CSIS Missile Threat",
+   "file_note": "2018. 02. 06",
+   "depicts": [
+    "칼리닌그라드에 핵탑재 가능한 이스칸데르 미사일이 배치돼 있다"
+   ],
+   "is_file_photo": false,
+   "verified_by": {
+    "by": "code(tools/article_register — sources.json 확인 기록·claims 대조)",
+    "on": "2026-10-05",
+    "casualty_free": true,
+    "relevance": "kaliningrad-suwalki 원고 claim 근거 기사"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-10-04",
+   "tool": {
+    "name": "article_typeset",
+    "params": {
+     "translation": true
+    }
+   },
+   "headline": "러시아, 칼리닌그라드에 이스칸데르 미사일 배치",
+   "sub": "칼리닌그라드에 핵탑재 가능한 이스칸데르 미사일이 배치돼 있다",
+   "note": "헤드라인 번역 · 원문 영어",
+   "headline_original": "Russia Deploys Iskander Missiles to Kaliningrad"
+  },
+  "kaliningrad_suwalki_art_0006": {
+   "kind": "article",
+   "title": "The Baltic Times 2025-05-22 — Historic day for Lithuania and Germany: German brigade inaugurated in Vilnius",
+   "license": "헤드라인 번역·요지 자체 조판(원문 인용 15단어 미만, 기사 화면 캡처·로고 없음, 14 §9)",
+   "author": "The Baltic Times",
+   "credit_author": "The Baltic Times",
+   "date": "2025-05-22",
+   "url": "https://www.baltictimes.com/historic_day_for_lithuania_and_germany__german_brigade_inaugurated_in_vilnius",
+   "caption": "The Baltic Times",
+   "file_note": "2025. 05. 22",
+   "depicts": [
+    "독일 제45기갑여단 '리투아니아'가 2025년 5월 22일 빌뉴스 대성…"
+   ],
+   "is_file_photo": false,
+   "verified_by": {
+    "by": "code(tools/article_register — sources.json 확인 기록·claims 대조)",
+    "on": "2026-10-05",
+    "casualty_free": true,
+    "relevance": "kaliningrad-suwalki 원고 claim 근거 기사"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-10-04",
+   "tool": {
+    "name": "article_typeset",
+    "params": {
+     "translation": true
+    }
+   },
+   "headline": "리투아니아·독일의 역사적인 날 — 빌뉴스서 독일 여단 출범",
+   "sub": "독일 제45기갑여단 '리투아니아'가 2025년 5월 22일 빌뉴스 대성…",
+   "note": "헤드라인 번역 · 원문 영어",
+   "headline_original": "Historic day for Lithuania and Germany: German brigade inaugurated in Vilnius"
+  },
+  "kaliningrad_suwalki_art_0007": {
+   "kind": "article",
+   "title": "Defense News 2025-09-10 — Russia-Belarus military drills start this week. Here’s what to know",
+   "license": "헤드라인 번역·요지 자체 조판(원문 인용 15단어 미만, 기사 화면 캡처·로고 없음, 14 §9)",
+   "author": "Defense News",
+   "credit_author": "Defense News",
+   "date": "2025-09-10",
+   "url": "https://www.defensenews.com/global/europe/2025/09/10/russia-belarus-military-drills-start-this-week-heres-what-to-know/",
+   "caption": "Defense News",
+   "file_note": "2025. 09. 10",
+   "depicts": [
+    "러시아·벨라루스 연합훈련 '자파드 2025'가 2025년 9월 12일부…"
+   ],
+   "is_file_photo": false,
+   "verified_by": {
+    "by": "code(tools/article_register — sources.json 확인 기록·claims 대조)",
+    "on": "2026-10-05",
+    "casualty_free": true,
+    "relevance": "kaliningrad-suwalki 원고 claim 근거 기사"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-10-04",
+   "tool": {
+    "name": "article_typeset",
+    "params": {
+     "translation": true
+    }
+   },
+   "headline": "러시아·벨라루스 군사훈련 이번 주 시작 — 알아야 할 것",
+   "sub": "러시아·벨라루스 연합훈련 '자파드 2025'가 2025년 9월 12일부…",
+   "note": "헤드라인 번역 · 원문 영어",
+   "headline_original": "Russia-Belarus military drills start this week. Here’s what to know"
+  },
+  "kaliningrad_suwalki_art_0008": {
+   "kind": "article",
+   "title": "RFE/RL 2024-11-30 — Polish PM Says Fortifications On Russian, Belarusian Borders Are 'Investment In Peace'",
+   "license": "헤드라인 번역·요지 자체 조판(원문 인용 15단어 미만, 기사 화면 캡처·로고 없음, 14 §9)",
+   "author": "RFE/RL",
+   "credit_author": "RFE/RL",
+   "date": "2024-11-30",
+   "url": "https://rferl.org/amp/poland-tusk-shield-russia-kaliningrad-belarus/33221739.html",
+   "caption": "RFE/RL",
+   "file_note": "2024. 11. 30",
+   "depicts": [
+    "폴란드의 '동부 방패' 사업은 러시아·벨라루스 국경 800km를 보호하…"
+   ],
+   "is_file_photo": false,
+   "verified_by": {
+    "by": "code(tools/article_register — sources.json 확인 기록·claims 대조)",
+    "on": "2026-10-05",
+    "casualty_free": true,
+    "relevance": "kaliningrad-suwalki 원고 claim 근거 기사"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-10-04",
+   "tool": {
+    "name": "article_typeset",
+    "params": {
+     "translation": true
+    }
+   },
+   "headline": "폴란드 총리 \"러시아·벨라루스 국경 요새화는 평화를 위한 투자\"",
+   "sub": "폴란드의 '동부 방패' 사업은 러시아·벨라루스 국경 800km를 보호하…",
+   "note": "헤드라인 번역 · 원문 영어",
+   "headline_original": "Polish PM Says Fortifications On Russian, Belarusian Borders Are 'Investment In Peace'"
+  },
+  "kaliningrad_suwalki_art_0009": {
+   "kind": "article",
+   "title": "Euronews 2026-02-09 — Lithuania wargames security incident on Russian train to Kaliningrad",
+   "license": "헤드라인 번역·요지 자체 조판(원문 인용 15단어 미만, 기사 화면 캡처·로고 없음, 14 §9)",
+   "author": "Euronews",
+   "credit_author": "Euronews",
+   "date": "2026-02-09",
+   "url": "https://euronews.com/2026/02/09/lithuania-wargames-security-incident-on-russian-kaliningrad-transit-train",
+   "caption": "Euronews",
+   "file_note": "2026. 02. 09",
+   "depicts": [
+    "2003년 7월 1일부터 러시아 시민이 간소화 통행문서로 리투아니아를 …"
+   ],
+   "is_file_photo": false,
+   "verified_by": {
+    "by": "code(tools/article_register — sources.json 확인 기록·claims 대조)",
+    "on": "2026-10-05",
+    "casualty_free": true,
+    "relevance": "kaliningrad-suwalki 원고 claim 근거 기사"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-10-04",
+   "tool": {
+    "name": "article_typeset",
+    "params": {
+     "translation": true
+    }
+   },
+   "headline": "리투아니아, 칼리닌그라드행 러시아 열차 보안 사고 가정 훈련",
+   "sub": "2003년 7월 1일부터 러시아 시민이 간소화 통행문서로 리투아니아를 …",
+   "note": "헤드라인 번역 · 원문 영어",
+   "headline_original": "Lithuania wargames security incident on Russian train to Kaliningrad"
+  },
+  "kaliningrad_suwalki_art_0010": {
+   "kind": "article",
+   "title": "Euromaidan Press 2026-09-17 — Belarus holds military drills around the Suwalki Gap, NATO's only land link to the Baltics",
+   "license": "헤드라인 번역·요지 자체 조판(원문 인용 15단어 미만, 기사 화면 캡처·로고 없음, 14 §9)",
+   "author": "Euromaidan Press",
+   "credit_author": "Euromaidan Press",
+   "date": "2026-09-17",
+   "url": "https://euromaidanpress.com/2026/09/17/belarus-tank-drills-suwalki-gap/",
+   "caption": "Euromaidan Press",
+   "file_note": "2026. 09. 17",
+   "depicts": [
+    "벨라루스군이 2026년 9월 리투아니아 인근 고자, 폴란드 인근 브레스…"
+   ],
+   "is_file_photo": false,
+   "verified_by": {
+    "by": "code(tools/article_register — sources.json 확인 기록·claims 대조)",
+    "on": "2026-10-05",
+    "casualty_free": true,
+    "relevance": "kaliningrad-suwalki 원고 claim 근거 기사"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-10-04",
+   "tool": {
+    "name": "article_typeset",
+    "params": {
+     "translation": true
+    }
+   },
+   "headline": "벨라루스, 수바우키 회랑 주변서 군사훈련 — 발트로 가는 나토의 유일한 육로",
+   "sub": "벨라루스군이 2026년 9월 리투아니아 인근 고자, 폴란드 인근 브레스…",
+   "note": "헤드라인 번역 · 원문 영어",
+   "headline_original": "Belarus holds military drills around the Suwalki Gap, NATO's only land link to the Baltics"
+  },
+  "kaliningrad_suwalki_art_0011": {
+   "kind": "article",
+   "title": "Al Jazeera 2026-09-30 — Russia warns NATO of possible nuclear response if Kaliningrad is cut off",
+   "license": "헤드라인 번역·요지 자체 조판(원문 인용 15단어 미만, 기사 화면 캡처·로고 없음, 14 §9)",
+   "author": "Al Jazeera",
+   "credit_author": "Al Jazeera",
+   "date": "2026-09-30",
+   "url": "https://www.aljazeera.com/news/2026/9/30/russia-warns-nato-of-possible-nuclear-response-if-kaliningrad-is-cut-off",
+   "caption": "Al Jazeera",
+   "file_note": "2026. 09. 30",
+   "depicts": [
+    "칼리닌그라드는 리투아니아와 폴란드 사이에 있는 러시아의 역외 영토다"
+   ],
+   "is_file_photo": false,
+   "verified_by": {
+    "by": "code(tools/article_register — sources.json 확인 기록·claims 대조)",
+    "on": "2026-10-05",
+    "casualty_free": true,
+    "relevance": "kaliningrad-suwalki 원고 claim 근거 기사"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-10-04",
+   "tool": {
+    "name": "article_typeset",
+    "params": {
+     "translation": true
+    }
+   },
+   "headline": "러시아, 칼리닌그라드 고립 시 핵 대응 가능성 나토에 경고",
+   "sub": "칼리닌그라드는 리투아니아와 폴란드 사이에 있는 러시아의 역외 영토다",
+   "note": "헤드라인 번역 · 원문 영어",
+   "headline_original": "Russia warns NATO of possible nuclear response if Kaliningrad is cut off"
+  },
+  "kaliningrad_suwalki_art_0012": {
+   "kind": "article",
+   "title": "Malay Mail (AFP) 2026-09-30 — Caught between Russia and its ally, but life goes on for Polish residents at strategic Nato chokepoint",
+   "license": "헤드라인 번역·요지 자체 조판(원문 인용 15단어 미만, 기사 화면 캡처·로고 없음, 14 §9)",
+   "author": "Malay Mail (AFP)",
+   "credit_author": "Malay Mail (AFP)",
+   "date": "2026-09-30",
+   "url": "https://www.malaymail.com/news/life/2026/09/30/caught-between-russia-and-its-ally-but-life-goes-on-for-polish-residents-at-strategic-nato-chokepoint/237013",
+   "caption": "Malay Mail (AFP)",
+   "file_note": "2026. 09. 30",
+   "depicts": [
+    "수바우키 회랑의 길이는 약 104km다"
+   ],
+   "is_file_photo": false,
+   "verified_by": {
+    "by": "code(tools/article_register — sources.json 확인 기록·claims 대조)",
+    "on": "2026-10-05",
+    "casualty_free": true,
+    "relevance": "kaliningrad-suwalki 원고 claim 근거 기사"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-10-04",
+   "tool": {
+    "name": "article_typeset",
+    "params": {
+     "translation": true
+    }
+   },
+   "headline": "러시아와 그 동맹 사이에 끼었지만 — 나토 전략 요충지 폴란드 주민의 일상은 계속된다",
+   "sub": "수바우키 회랑의 길이는 약 104km다",
+   "note": "헤드라인 번역 · 원문 영어",
+   "headline_original": "Caught between Russia and its ally, but life goes on for Polish residents at strategic Nato chokepoint"
+  },
+  "kaliningrad_suwalki_art_0013": {
+   "kind": "article",
+   "title": "NBC News (AP) 2026-10-01 — Putin says Russia will use ‘all weapons’ in its arsenal if any of its territory is attacked",
+   "license": "헤드라인 번역·요지 자체 조판(원문 인용 15단어 미만, 기사 화면 캡처·로고 없음, 14 §9)",
+   "author": "NBC News (AP)",
+   "credit_author": "NBC News (AP)",
+   "date": "2026-10-01",
+   "url": "https://www.nbcnews.com/world/russia/putin-says-russia-will-use-weapons-arsenal-territory-attacked-rcna601034",
+   "caption": "NBC News (AP)",
+   "file_note": "2026. 10. 01",
+   "depicts": [
+    "수바우키 회랑의 길이는 약 104km다"
+   ],
+   "is_file_photo": false,
+   "verified_by": {
+    "by": "code(tools/article_register — sources.json 확인 기록·claims 대조)",
+    "on": "2026-10-05",
+    "casualty_free": true,
+    "relevance": "kaliningrad-suwalki 원고 claim 근거 기사"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-10-04",
+   "tool": {
+    "name": "article_typeset",
+    "params": {
+     "translation": true
+    }
+   },
+   "headline": "푸틴 \"영토 공격받으면 모든 무기 쓸 것\"",
+   "sub": "수바우키 회랑의 길이는 약 104km다",
+   "note": "헤드라인 번역 · 원문 영어",
+   "headline_original": "Putin says Russia will use ‘all weapons’ in its arsenal if any of its territory is attacked"
+  },
+  "kaliningrad_suwalki_art_0015": {
+   "kind": "article",
+   "title": "NATO 2026-09-29 — Strengthening NATO’s eastern flank",
+   "license": "헤드라인 번역·요지 자체 조판(원문 인용 15단어 미만, 기사 화면 캡처·로고 없음, 14 §9)",
+   "author": "NATO",
+   "credit_author": "NATO",
+   "date": "2026-09-29",
+   "url": "https://www.nato.int/cps/en/natohq/topics_136388.htm",
+   "caption": "NATO",
+   "file_note": "2026. 09. 29",
+   "depicts": [
+    "리투아니아 주둔 NATO 다국적 전투단의 주도국은 독일이다"
+   ],
+   "is_file_photo": false,
+   "verified_by": {
+    "by": "code(tools/article_register — sources.json 확인 기록·claims 대조)",
+    "on": "2026-10-05",
+    "casualty_free": true,
+    "relevance": "kaliningrad-suwalki 원고 claim 근거 기사"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-10-04",
+   "tool": {
+    "name": "article_typeset",
+    "params": {
+     "translation": true
+    }
+   },
+   "headline": "나토 동부 측면 강화",
+   "sub": "리투아니아 주둔 NATO 다국적 전투단의 주도국은 독일이다",
+   "note": "헤드라인 번역 · 원문 영어",
+   "headline_original": "Strengthening NATO’s eastern flank"
+  },
+  "kaliningrad_suwalki_art_0017": {
+   "kind": "article",
+   "title": "The Baltic Times 2002-12-19 — Brussels committed to transit deal",
+   "license": "헤드라인 번역·요지 자체 조판(원문 인용 15단어 미만, 기사 화면 캡처·로고 없음, 14 §9)",
+   "author": "The Baltic Times",
+   "credit_author": "The Baltic Times",
+   "date": "2002-12-19",
+   "url": "https://www.baltictimes.com/news/articles/7355/",
+   "caption": "The Baltic Times",
+   "file_note": "2002. 12. 19",
+   "depicts": [
+    "2003년 7월 1일부터 러시아 시민이 간소화 통행문서로 리투아니아를 …"
+   ],
+   "is_file_photo": false,
+   "verified_by": {
+    "by": "code(tools/article_register — sources.json 확인 기록·claims 대조)",
+    "on": "2026-10-05",
+    "casualty_free": true,
+    "relevance": "kaliningrad-suwalki 원고 claim 근거 기사"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-10-04",
+   "tool": {
+    "name": "article_typeset",
+    "params": {
+     "translation": true
+    }
+   },
+   "headline": "브뤼셀, 통과 합의 이행 약속",
+   "sub": "2003년 7월 1일부터 러시아 시민이 간소화 통행문서로 리투아니아를 …",
+   "note": "헤드라인 번역 · 원문 영어",
+   "headline_original": "Brussels committed to transit deal"
   }
  }
 }

@@ -1,6 +1,6 @@
 <!--
 tier: 1
-last_synced_with: v5.5.0
+last_synced_with: v5.6.0
 ssot_for: [session-handoff]
 depends_on: [CLAUDE.md, GOAL.md, VERSION, docs/13_IMPLEMENTATION_ROADMAP.md, docs/handoff/KICKOFF_PROMPT.md, docs/handoff/19_FABLE_ANALYSIS_AND_OPUS_EXECUTION_PLAN.md, back_and_forth/README.md]
 last_review: 2026-09-29

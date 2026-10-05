@@ -26,6 +26,7 @@ import cairo
 from engine.fullcards import draw_fullcards
 from engine.hud import draw_date
 from engine.project import Project, ProjectError, load_project
+from engine.source_note import draw_source_note
 from engine.projection import View
 from engine.reserved import card_zones
 from engine.registry import MAP_LAYER_ORDER, RegistryError
@@ -108,6 +109,7 @@ def render_frame(P: Project, i: int) -> tuple[cairo.ImageSurface, bytearray]:  #
     draw_date(ctx, R, t)
     draw_fullcards(ctx, R, t)
     draw_subtitle(ctx, R, t)
+    draw_source_note(ctx, R, t, R.cache.get("source_notes") or {})   # v5.6.0 — 참조 출처(위키백과 등) 아주 작게 왼쪽 아래
     for e in act:
         if e["type"] == "dip" and not e.get("under"):
             L.resolve(e).render(ctx, R, t, e)
@@ -362,6 +364,9 @@ def render_animatic(P: Project, jobs: int) -> tuple[Path, dict]:  # noqa: N803
                             # v5.2.0 — 어느 연출 판으로 만든 콘티 판인지(게이트 ② 기록, orchestrator.project_manager.require_animatic)
                             "direction_sha1": hashlib.sha1((P.root / "direction.yaml").read_bytes()).hexdigest()
                             if (P.root / "direction.yaml").exists() else None,
+                            # v5.6.0 사용자 결정 2026-10-04 — 어느 원고로 만든 콘티 판인지(게이트 ① 승인 원고와 같아야 게이트 ② 통과)
+                            "script_sha1": hashlib.sha1((P.root / "script.yaml").read_bytes()).hexdigest()
+                            if (P.root / "script.yaml").exists() else None,
                             "sec": {"render": rj["sec"], "total": round(time.time() - t0, 1), "mux": round(time.time() - t1, 1)},
                             "jobs": rj["jobs"], "frames": rj["frames"], "loudnorm": {"passes": 2, **loud},
                             "bytes": final.stat().st_size}
@@ -384,7 +389,10 @@ def main(argv: list[str] | None = None) -> int:
     try:
         if args.animatic and args.res is not None:
             raise ProjectError("--animatic 은 rules animatic.profile 고정 — --res 와 함께 쓰지 않는다")
-        P = load_project(args.proj, out=None if args.animatic else output_profile(args.res), animatic=args.animatic)  # noqa: N806
+        res = args.res
+        if res is None and args.preview == "golden":
+            res = "trial"   # v5.5.1 — 골든 기준선(md5)은 트라이얼 프로파일로 찍혔다. 기본 해상도(720p)가 바뀌어도 골든 비교는 그대로
+        P = load_project(args.proj, out=None if args.animatic else output_profile(res), animatic=args.animatic)  # noqa: N806
         if args.chunk:
             render_chunk(P, int(args.chunk[0]), int(args.chunk[1]), Path(args.chunk[2]))
             return 0

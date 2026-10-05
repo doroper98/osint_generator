@@ -1,6 +1,6 @@
 <!--
 tier: 3
-last_synced_with: v5.5.0
+last_synced_with: v5.6.0
 ssot_for: [release-notes]
 depends_on: [README.md, GOAL.md]
 last_review: 2026-09-28
@@ -63,6 +63,50 @@ released 항목은 **append-only**입니다.
 | v5.0.0 | 87912d2 | G11 GOAL G4-21·claim_kind fact/statement | pass(D-0125) |
 | v5.1.0 | 3619f2c | G12 backdrop 무대·아일랜드·축 스케일·기사 프레스 v2·발음 사전·버전 도장 | pass(D-0127) — 후속 D-0128 완료 |
 | v5.2.0 | d4703d9 | G13 배경 가독·주 아일랜드 상시·보도 인용 = 기사·card-island·라벨 반전 | pass(D-0134) — 후속 겹침 카드 시안(D-0135~D-0138) |
+
+---
+
+## [v5.6.0] — 2026-10-04 — 자막(원고) → 콘티 → 승인 후 본편 순서 강제, 제작 자산 공용 보관 (사용자 결정 2026-10-04) — 진행 중
+
+MINOR: 게이트 ② 선행 조건 강화 + 새 도구. JSON `schema_version` 그대로(1).
+
+### Changed
+- 게이트 ① 승인 기록에 원고 지문(`shown.script_sha1`), 콘티 판 기록에 원고 지문(`animatic_run.script_sha1`). 게이트 ② 는 두 지문이 같아야 승인 — 원고 검토 없이 만든 콘티 판·승인 뒤 고친 원고로 만든 콘티 판은 통과 못 함(PIPELINE-AP-015).
+- 콘티 판을 보낼 때 원고 검토 자료(게이트 ① 화면: 원고 전문·출처 표·린트)도 함께 보낸다(WORKFLOWS W0).
+
+### Added
+- `tools/asset_library.py promote|check` — 프로젝트에서 만든 초상 → `assets/library/people`(+library_manifest), 휘장 → `assets/emblems/files`(PIPELINE-AP-016). `commons_fetch emblems` 는 공용 파일이 있으면 복사(재다운로드·재가공 없음).
+- 공용 자산 승격: 루카셴코·투스크·메르츠·뤼터·나우세다 초상, 나토 휘장.
+
+### Changed (사용자 시청 지적 12건 — kaliningrad 콘티 판, 2026-10-04)
+- 참조 출처 화면 표기 `rules source_note` + `engine/source_note.py` — 위키백과 등은 그 문장 동안 왼쪽 아래 작은 링크(버전 도장 크기), 내레이션 금지(린트 `reference-in-narration`).
+- 약어 읽기 등재 `tts_rules.acronyms`(AFP·AP 글자 이름 / CSIS·EIA·IAEA·IEA·IMF·WHO·WTO·ICC·IISS 글자 이름 + 국문 명칭), 린트 `tts-acronym`, 합성 직전 글자 이름 띄우기.
+- 발음 위험 패턴 6종 추가(TTS-AP-074·076~079·081), 발음 사전 "같은 달 → 같은달"(TTS-AP-080).
+- 린트 `tense-present`(과거 날짜 문장의 현재형 종결 경고), 마무리 = 앵커 브리핑(script_grammar).
+- 뱃지 카드 회피 고정 `reserved.badge_hold`(RENDER-AP-008), 검사 `label_collision` hard + 위·아래 마커 검사 상자 가운데 정렬(RENDER-AP-009).
+- 린트 속도 — 발음 사전 경로·글자 이름 표 캐시(문장마다 규칙 파일 다시 읽던 것).
+
+### Fixed (본편 720p 사용자 지적 — 2026-10-04)
+- 쾨니히스베르크 연표: 월 축 타임라인 패널에 1255–1990 을 넣어 "1.1·4.9·8.1" 날짜와 굵은 띠가 나옴 → 연도 카드(precedent) 4장. 검사 `timeline_span` hard, 규칙 `panels.timeline.max_span_months: 36`(RENDER-AP-011).
+- 2026년 철도 훈련 장면: 철도 구간이 프레임 밖 → 장면을 2컷(철도 북쪽 · 벨라루스 훈련장 남쪽)으로. 검사 `route_frame` hard(규칙 `route_frame.max_out: 0.25`), `label_collision` 이 경로·봉쇄선 이름표도 대조(마커는 글자 영역만). 2004년 "육상 연결" 이름표 겹침도 이 검사로 발견해 삭제(RENDER-AP-012).
+- 원고 v3(사용자 지적 "독일 영유권이 갑자기 나온다"): 1255년 뒤 2문장 — 프로이센 대관식 도시·독일 동쪽 끝 대도시, 전간기 폴란드 회랑으로 떨어진 동프로이센(claim clm_0066·0067, 위키백과 원문 인용). 연표 1255·1701·1945·1990 4장, "독일, 영유권 주장 포기".
+- `reopen --to script_draft` — 렌더 뒤 원고 보강도 게이트 ① 재승인 → 콘티 판 순서로(PIPELINE-AP-017). 검사 `panel_overflow` hard — 연도 카드 글자 폭(RENDER-AP-013).
+- 콘티 판이 패널·카드를 실제로 그린다(숫자·문구·도식 승인 가능). 자리표시는 파일이 필요한 요소(사진·영상·초상·뱃지)만(PIPELINE-AP-018).
+- 연표 패널 주석 `precedent.footnote`(사용자 요청 2026-10-05 — 최종 해결 조약 설명, 자막을 가리지 않게): 카드 아래 2줄 이하, 근거 claim 필수, 검사 `panel_overflow` 가 폭·근거·실제 자막 상자 겹침을 본다. 주석 근거가 참조 출처면 화면 출처 링크에 덧붙는다. 출처 추가 src_art_0021(위키백과 Treaty on the Final Settlement), claim clm_0068·0069.
+- 기록 점검(2026-10-05): 마무리 규약을 사용자 결정("지켜봐야 하겠습니다" → "끓어오르고 있습니다", 포럼 용어 귀속, 3~4문장)으로 정정, 금지 문구 `지켜봐야…`·`귀추가 주목`(LLM-AP-016). script_grammar "결과 전에 전제"(LLM-AP-017). direction_grammar 3줄(주석·연도 카드/타임라인 구분·주제 경로 프레임). DECISIONS D120~D123, back_and_forth R-0170.
+- 사용자 지적 5건(재렌더 없이 규약): 검사 `opening_establish`·`flag_territory`·`badge_over_panel` hard, `weapon_photo` warning, 규칙 `opening`·`weapon_photo`, 연출 `opening_exempt`(골든만), direction_grammar 5줄(오프닝·항로·무기 실사·국기 자리·versus 뱃지). RENDER-AP-014~017, DECISIONS D124·D125.
+- 인용·기사 조판·실사 재료 공급(PIPELINE-AP-019): claims `direct_quotes`(원문 따옴표 발언, 코드 추출) → 연출 입력 "인용 후보", `tools/article_register.py`(확인된 기사 → 기사 조판 항목, kaliningrad 13건 등록), 게이트 ② `gate-view` 미디어·인용 요약(0건이어도 막지 않음 — 사용자 결정), direction `media_note`. 본편 음성 edge-tts 기록(PIPELINE-AP-020).
+
+---
+
+ — 2026-10-04 — 나토 휘장 등록(사용자 직접 지시), 칼리닌그라드·수바우키 회랑 영상 — 진행 중
+
+PATCH: 휘장 1건 추가 + 권리 기록 선택 필드. JSON `schema_version` 그대로(1).
+
+### Added
+- 휘장 `nato` — Commons `File:Flag of NATO.svg`(Public domain, 제한 insignia). 사용자 직접 지시 2026-10-04 "nato 휘장도 제작해서" → 사용자 예외 `U20261004`(용도 한정: 나토가 주체인 문장의 식별 표시, 무가공, 크레딧). 원형 뱃지용 가운데 정사각 자르기(`tools/commons_fetch.EMBLEM_SQUARE`)만 — 가공 기록은 `EmblemRights.processing`.
+- `EmblemEntry.user_exception` 패턴에 `U+날짜`(사용자 직접 지시, Fable DECISIONS 기록 대기) 허용.
+- 엔티티 `nato`(나토·NATO·북대서양조약기구).
 
 ---
 

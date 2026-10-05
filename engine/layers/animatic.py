@@ -7,10 +7,13 @@ animatic = animation + -matic. 1930년대 디즈니가 스토리보드를 라이
 `ANIMATIC_LAYERS`(engine.registry.LayerSet)를 내놓고, render_frame 은 전편과 같은 순서로 그린다.
 
 - 지도: `engine.stage.FlatMercatorStage` 의 배경 = `draw_flat_map`(육지·바다 단색 + 국경선, 라벨 없음). 카메라·dip 그대로.
-- 자리표시(`rules animatic.placeholder.kinds`): badge(인물·국기·휘장)·photo·clip·cutout·article·post·primitive·panel·card 는
+- 자리표시(`rules animatic.placeholder.kinds`): badge(인물·국기·휘장)·photo·clip·cutout·article·post·primitive 는
   같은 자리·크기(G7 값)·타이밍(팝인·페이드·슬라이드)의 상자 + `[종류: 이름]`. 상자 계산은 전편 레이어의 기하 함수를 그대로 부른다
   (badge_R·place_badge·media_box·article_layout·post_box·card_geom·primitive_box) — 자리를 따로 계산하지 않는다.
 - 그대로: 마커·경로·타격 링·선박·국가 강조·시리즈·dip·자막·날짜·타이틀·엔딩 카드.
+- v5.6.0(사용자 지적 2026-10-04 "콘티판에는 패널이라고만 나와서 대본 말고는 승인할 게 없다", PIPELINE-AP-018): 패널·카드는
+  코드가 글자로 그리는 요소라 파일이 필요 없다 → 전편 렌더러 그대로(숫자·문구·도식을 콘티 판에서 승인). 패널 안 인물·국기
+  뱃지만 `R.cache["badge_placeholder"]`(= 이 모듈 `_badge_at`)로 자리표시.
 - 표식: 전체 페이드 뒤 화면 위 가운데 띠(`rules animatic.band`) — 암전 중에도 보인다.
 이미지·영상·타일 파일을 읽지 않는다(자산 없는 환경에서 렌더 가능, D-0108 합격 조건).
 """
@@ -274,31 +277,6 @@ def draw_post(ctx: cairo.Context, R: RenderCtx, t: float, e: dict) -> None:  # n
     box(ctx, x, y, w, h, [label("post", who)], a)
 
 
-def draw_card(ctx: cairo.Context, R: RenderCtx, t: float, e: dict) -> None:  # noqa: N803
-    """cards.draw_card 와 같은 상자(card_geom)·페이드·슬라이드. 둘째 줄 = 큰 글자(없으면 첫 줄)."""
-    from engine.cards import card_alpha, card_geom  # noqa: PLC0415
-
-    a = card_alpha(t, e)
-    if a <= 0.01:
-        return
-    x0, y, w, h, _ = card_geom(ctx, e)
-    x = x0 + (1 - ease_out((t - e["t0"]) / 0.55)) * CARD.slide_px
-    big = e["bigs"][0][0] if e.get("bigs") else ((e.get("lines") or [""])[0])
-    box(ctx, x, y, w, h, [label("card", e["tag"]), big], a)
-
-
-def draw_panel(ctx: cairo.Context, R: RenderCtx, t: float, e: dict) -> None:  # noqa: N803
-    """패널 = 덮개(전편과 같은 알파·페이드) + 본문 영역 상자 `[패널: kind — 제목]`."""
-    from engine.panels.base import draw_panel_cover, panel_alpha  # noqa: PLC0415
-
-    a = panel_alpha(t, e)
-    if a <= 0.01:
-        return
-    draw_panel_cover(ctx, a)
-    x0, y0, x1, y1 = PH.panel_box
-    box(ctx, x0, y0, x1 - x0, y1 - y0, [label("panel", f"{e['kind']} — {e.get('title') or ''}")], a)
-
-
 def draw_primitive(ctx: cairo.Context, R: RenderCtx, view: View, t: float, e: dict) -> tuple[float, float, float, float]:  # noqa: N803
     """프리미티브 = 제자리 상자(primitive_box — 그리지 않고 잰 상자)·카드 페이드. 예약 영역은 전편처럼 더한다."""
     from engine.primitives import primitive_box  # noqa: PLC0415
@@ -352,7 +330,7 @@ def draw_quote(ctx: cairo.Context, R: RenderCtx, t: float, e: dict) -> None:  # 
 
 PLACEHOLDERS: dict[str, Callable[..., Any]] = {
     "badge": draw_badge, "photo": draw_photo, "clip": draw_clip, "cutout": draw_cutout, "article": draw_article,
-    "post": draw_post, "card": draw_card, "panel": draw_panel, "primitive": draw_primitive,
+    "post": draw_post, "primitive": draw_primitive,   # card·panel 은 v5.6.0 부터 실제로 그린다(PIPELINE-AP-018 — 승인할 수 있는 콘티 판)
     "backdrop": draw_backdrop,   # v5.1.0 D-0123
     "cascade": draw_cascade,         # v5.2.0 겹침 카드(v5.3.0 D-0139 채택)
     "quote": draw_quote,             # v5.3.1 인물 발언 중앙 인용(시안)

@@ -1,0 +1,58 @@
+# 『칼리닌그라드와 수바우키 회랑』 엔딩 크레딧 (v5.5.1). 보도 = 인용 소스(auto: sources).
+schema_version: 1
+sections:
+- title: 보도
+  column: 0
+  auto: sources
+- title: 인물 사진 · 휘장
+  column: 1
+  items:
+  - main: 블라디미르 푸틴 — osint_generator 라이브러리 가공본
+    license: CC BY 4.0(kremlin.ru) · 라이브러리 가공
+    rights:
+    - people.putin
+  - main: 알렉산드르 루카셴코 — kremlin.ru(위키미디어 공용) 판화 가공
+    license: CC BY 4.0
+    rights:
+    - people.lukashenko
+  - main: 도날트 투스크 — 폴란드 총리실 KPRM(위키미디어 공용) 판화 가공
+    license: CC BY 3.0 pl
+    rights:
+    - people.tusk
+  - main: 프리드리히 메르츠 — 핀란드 정부(위키미디어 공용) 판화 가공
+    license: CC BY 2.0
+    rights:
+    - people.merz
+  - main: 마르크 뤼터 — 미 국방장관실(위키미디어 공용) 판화 가공
+    license: Public domain
+    rights:
+    - people.rutte
+  - main: 기타나스 나우세다 — 우크라이나 대통령실(위키미디어 공용) 판화 가공
+    license: CC0
+    rights:
+    - people.nauseda
+  - main: 나토 휘장 — 나토 깃발(위키미디어 공용, 가운데 정사각 자르기)
+    license: Public domain · insignia(사용자 지시 예외)
+    rights:
+    - emblems.nato
+- title: 글꼴
+  column: 1
+  auto: fonts
+- title: 지도
+  column: 1
+  auto: map
+- title: 국기
+  column: 1
+  items:
+  - main: 국기
+    license: flag-icons · MIT
+    rights:
+    - flags.flag_icons
+- title: 음악 · 음성
+  column: 1
+  items:
+  - music: music.zabriskie_patriarch
+  - main: 내레이션
+    license: AI 음성 합성
+    rights:
+    - narration.tts

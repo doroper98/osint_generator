@@ -33,6 +33,7 @@ from workers.direction_io import (
     stage_text,
     load_plan,
     media_text,
+    quote_candidates_text,
     next_version,
     plan_table,
 )
@@ -59,6 +60,7 @@ class DirectorWorker(BaseLLMWorker):
                 .replace("{plan_table}", plan_table(load_plan(pdir)))
                 .replace("{entities}", entities_text(pdir))
                 .replace("{media}", media_text(pdir))
+                .replace("{quote_candidates}", quote_candidates_text(pdir))   # v5.6.0 — 원문 따옴표 발언(인용 후보)
                 .replace("{geo}", stage_text(pdir, self.genre))   # v4.4.0 — 시간축이면 무대 역량
                 .replace("{event_fields}", event_fields_table())
                 .replace("{music_list}", music_list_text(pdir))

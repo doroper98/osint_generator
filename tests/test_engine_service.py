@@ -39,7 +39,8 @@ class CommandTest(unittest.TestCase):
         self.assertEqual(es.build_command(p, "assets")[2:], ["geo.prep", "/p"])
         self.assertEqual(es.build_command(p, "direction_validate")[2:], ["script.lint", "/p"])
         self.assertEqual(es.build_command(p, "preview")[2:], ["engine.render", "/p", "--preview", "auto"])
-        self.assertEqual(es.build_command(p, "render", jobs=4)[2:], ["engine.render", "/p", "--jobs", "4"])
+        self.assertEqual(es.build_command(p, "render", jobs=4)[2:], ["engine.render", "/p", "--res", "final", "--jobs", "4"])   # v5.5.1 배포 720p
+        self.assertEqual(es.build_command(p, "assets_final")[2:], ["geo.prep", "/p", "--res", "final"])
         self.assertEqual(es.build_command(p, "mix")[2:], ["audio.mix", "/p"])
         self.assertEqual(es.build_command(p, "deliver")[2:], ["engine.mux", "/p"])
         self.assertEqual(es.build_command(p, "validate")[2:], ["engine.validate", "/p"])   # v3.1.0 17 §1
