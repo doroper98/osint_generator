@@ -289,5 +289,18 @@ class MediaInputTest(unittest.TestCase):
         self.assertEqual(m._strip_site("Russia-Belarus drills - what to know", "Defense News"), "Russia-Belarus drills - what to know")
 
 
+class NoElevenLabsTest(unittest.TestCase):
+    def test_elevenlabs_refused(self) -> None:
+        """사용자 결정(2026-10-05) — ElevenLabs 음성을 쓰지 않는다(PIPELINE-AP-020)."""
+        from orchestrator.config import load_config  # noqa: PLC0415
+        from script.plan import build  # noqa: PLC0415
+
+        cfg = load_config().tts
+        self.assertEqual((cfg.backend_default, cfg.elevenlabs_allowed), ("edge", False))
+        with self.assertRaises(ValueError) as cm:
+            build(REPO / "projects" / "hormuz_korea", "elevenlabs", [])
+        self.assertIn("거부", str(cm.exception))
+
+
 if __name__ == "__main__":
     unittest.main()
