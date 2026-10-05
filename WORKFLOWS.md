@@ -44,7 +44,7 @@ last_review: 2026-09-30
 콘티 판에서 실사는 자리표시라 이 목록으로 확인한다. 0건이어도 막지 않는다(사용자 결정 2026-10-05) — 이유를 media_note 에 적는다.
 
 ```bash
-python -m script.plan projects/{pid} --tts edge          # 러프 음성(무료·빠름). ElevenLabs 는 콘티 판 단계에서 쓰지 않는다
+python -m script.plan projects/{pid} --tts edge          # 음성 = edge-tts(콘티 판·본편 모두). ElevenLabs 는 쓰지 않는다(사용자 결정 2026-10-05, config tts.elevenlabs_allowed: false — script.plan 이 거부)
 python -m audio.mix projects/{pid}                        # 음악·믹스는 전편과 같다(bed_bass 포함)
 python -m engine.render projects/{pid} --animatic         # → out/animatic.mp4 (480p·fps 24, 5분 영상 = 4코어 3분 목표)
 python -m engine.render projects/{pid} --animatic --preview auto   # (선택) prev_animatic/ 컷·시트
