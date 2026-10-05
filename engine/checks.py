@@ -284,8 +284,6 @@ def check_flag_territory(P) -> list[str]:  # noqa: ANN001, N803
         return []
     from shapely.geometry import Point  # noqa: PLC0415
 
-    from engine.stage import lat_of  # noqa: PLC0415
-
     ctx = cairo.Context(cairo.ImageSurface(cairo.FORMAT_ARGB32, 1, 1))
     land = _land_polygons()
     out: list[str] = []
@@ -299,7 +297,8 @@ def check_flag_territory(P) -> list[str]:  # noqa: ANN001, N803
         b = r[1]
         v = View(P.R.stage, P.cams[min(P.n_frames - 1, int(t * FPS))])
         wx, wy = v.to_world((b[0] + b[2]) / 2, (b[1] + b[3]) / 2)
-        pt = Point(wx, lat_of(wy))
+        ll = P.R.stage.from_world(wx, wy)   # 좌표 변환은 무대에만(15 P1 — 무대 격리)
+        pt = Point(ll["lon"], ll["lat"])
         on = next((k for k, g in land.items() if g.contains(pt)), None)
         if on and on != e["flag"].upper():
             out.append(f"[flag-territory] 국기 뱃지 {e.get('label')!r}({e['flag'].upper()}) t={t:.1f} 가 {on} 땅 위 — 자기 나라 땅·바다·화면 가장자리로 옮긴다")
