@@ -1,0 +1,7 @@
+# Phase D1 3D 시제품 — 지구본 텍스처(엔진 지형 스타일 그대로). 스케치 전용.
+schema_version: 1
+bbox: [-180, -80, 180, 80]
+admin1: []
+crimea_to_ua: true
+tiers:
+  - {name: W, ppd: 8, z: 4, bbox: [-180.0, -79.0, 180.0, 79.0]}

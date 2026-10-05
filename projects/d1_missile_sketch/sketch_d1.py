@@ -95,27 +95,32 @@ TRACK_KM = gc_dist(LAUNCH, IMPACT)
 # ---------------------------------------------------------------- 카메라(숏 4개, 이동은 장면 전환에서만)
 SHOTS = [  # (시작, 이동 끝, 중심 lon, lat, w)
     (0.0, 0.0, 132.6, 36.6, 37.0),     # 광역 — EEZ
-    (8.6, 10.4, 126.9, 38.15, 9.5),    # 한반도 — 발사 지점·서해 남북 경계·미사일
-    (17.0, 18.8, 132.0, 38.6, 25.0),   # 탐지 자산
-    (28.0, 29.8, 132.9, 40.3, 19.5),   # 궤적·착탄
+    (8.4, 11.0, 126.9, 38.15, 9.5),    # 한반도 — 발사 지점·서해 남북 경계·미사일
+    (16.8, 19.2, 132.0, 38.6, 25.0),   # 탐지 자산
+    (27.8, 30.2, 132.9, 40.3, 19.5),   # 궤적·착탄
 ]
 
 
+PUSH_IN = 0.035   # 숏 안 느린 푸시인 비율(줌 범프 없음)
+
+
 def camera(t: float) -> tuple[float, float, float]:
-    cur = SHOTS[0]
-    prev = SHOTS[0]
-    for s in SHOTS:
-        if t >= s[0]:
-            prev, cur = cur, s
-    if cur is SHOTS[0]:
-        prev = cur
+    """이동은 앞 숏이 '끝난 상태'(푸시인까지 들어간 w)에서 시작한다 — 옛 코드는 숏의 원래 w 에서 다시 시작해
+    전환 첫 프레임에 줌이 3.6 % 튀었다(멈칫의 원인)."""
+    i = max(j for j, s in enumerate(SHOTS) if t >= s[0])
+    cur = SHOTS[i]
+    if i == 0:
+        px, py, pw = cur[2], ym(cur[3]), cur[4]
+    else:
+        prev = SHOTS[i - 1]
+        px, py, pw = prev[2], ym(prev[3]), prev[4] * (1 - PUSH_IN)   # 앞 숏 끝 상태
     k = ease_io(clamp01((t - cur[0]) / max(1e-6, cur[1] - cur[0]))) if cur[1] > cur[0] else 1.0
-    x = prev[2] + (cur[2] - prev[2]) * k
-    y = ym(prev[3]) + (ym(cur[3]) - ym(prev[3])) * k
-    w = math.exp(math.log(prev[4]) + (math.log(cur[4]) - math.log(prev[4])) * k)
-    nxt = next((s[0] for s in SHOTS if s[0] > t), TOTAL)
+    x = px + (cur[2] - px) * k
+    y = py + (ym(cur[3]) - py) * k
+    w = math.exp(math.log(pw) + (math.log(cur[4]) - math.log(pw)) * k)
+    nxt = SHOTS[i + 1][0] if i + 1 < len(SHOTS) else TOTAL
     hold = clamp01((t - cur[1]) / max(1.0, nxt - cur[1]))
-    w *= 1 - 0.035 * smooth(hold)       # 숏 안 느린 푸시인(줌 범프 없음)
+    w *= 1 - PUSH_IN * smooth(hold)
     return x, y, w
 
 
