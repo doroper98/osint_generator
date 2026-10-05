@@ -80,7 +80,7 @@
    "severity": "warning",
    "count": 1,
    "details": [
-    "[media-density-total] 과소 — 0개 / 493초 = inf초당 1개 > 60초 (14 §10.1)"
+    "[media-density-total] 과소 — 0개 / 507초 = inf초당 1개 > 60초 (14 §10.1)"
    ]
   },
   {
@@ -247,9 +247,9 @@
    "severity": "warning",
    "count": 3,
    "details": [
-    "[cascade-label-hidden] t=83.06 배경 지명 '발트해'(sea) 이 겹침 카드 때문에 안 보임(깔림)",
-    "[cascade-label-hidden] t=85.16 배경 지명 '라트비아'(country) 이 겹침 카드 때문에 안 보임(회피)",
-    "[cascade-label-hidden] t=105.36 배경 지명 '프스코프'(city) 이 겹침 카드 때문에 안 보임(회피)"
+    "[cascade-label-hidden] t=97.53 배경 지명 '발트해'(sea) 이 겹침 카드 때문에 안 보임(깔림)",
+    "[cascade-label-hidden] t=99.63 배경 지명 '라트비아'(country) 이 겹침 카드 때문에 안 보임(회피)",
+    "[cascade-label-hidden] t=119.83 배경 지명 '프스코프'(city) 이 겹침 카드 때문에 안 보임(회피)"
    ]
   },
   {
@@ -277,15 +277,21 @@
    "details": []
   },
   {
+   "id": "panel_overflow",
+   "severity": "hard",
+   "count": 0,
+   "details": []
+  },
+  {
    "id": "chart_honesty",
    "severity": "hard",
    "count": 0,
    "details": [],
    "notes": [
     "n/a(none 축) panel precedent '쾨니히스베르크에서 칼리닌그라드로' t0=39.50",
-    "n/a(none 축) panel versus '자파드 2025를 둘러싼 두 주장' t0=299.65",
-    "n/a(none 축) panel versus '드론 진입을 둘러싼 두 주장' t0=328.89",
-    "n/a(none 축) panel versus '칼리닌그라드를 둘러싼 경고와 응답' t0=402.14"
+    "n/a(none 축) panel versus '자파드 2025를 둘러싼 두 주장' t0=314.12",
+    "n/a(none 축) panel versus '드론 진입을 둘러싼 두 주장' t0=343.36",
+    "n/a(none 축) panel versus '칼리닌그라드를 둘러싼 경고와 응답' t0=416.62"
    ]
   },
   {
@@ -295,9 +301,9 @@
    "details": [],
    "notes": [
     "n/a(none 축) panel precedent '쾨니히스베르크에서 칼리닌그라드로' t0=39.50",
-    "n/a(none 축) panel versus '자파드 2025를 둘러싼 두 주장' t0=299.65",
-    "n/a(none 축) panel versus '드론 진입을 둘러싼 두 주장' t0=328.89",
-    "n/a(none 축) panel versus '칼리닌그라드를 둘러싼 경고와 응답' t0=402.14"
+    "n/a(none 축) panel versus '자파드 2025를 둘러싼 두 주장' t0=314.12",
+    "n/a(none 축) panel versus '드론 진입을 둘러싼 두 주장' t0=343.36",
+    "n/a(none 축) panel versus '칼리닌그라드를 둘러싼 경고와 응답' t0=416.62"
    ]
   },
   {
@@ -307,9 +313,9 @@
    "details": [],
    "notes": [
     "n/a(none 축) panel precedent '쾨니히스베르크에서 칼리닌그라드로' t0=39.50",
-    "n/a(none 축) panel versus '자파드 2025를 둘러싼 두 주장' t0=299.65",
-    "n/a(none 축) panel versus '드론 진입을 둘러싼 두 주장' t0=328.89",
-    "n/a(none 축) panel versus '칼리닌그라드를 둘러싼 경고와 응답' t0=402.14"
+    "n/a(none 축) panel versus '자파드 2025를 둘러싼 두 주장' t0=314.12",
+    "n/a(none 축) panel versus '드론 진입을 둘러싼 두 주장' t0=343.36",
+    "n/a(none 축) panel versus '칼리닌그라드를 둘러싼 경고와 응답' t0=416.62"
    ]
   },
   {
@@ -319,9 +325,9 @@
    "details": [],
    "notes": [
     "n/a(none 축) panel precedent '쾨니히스베르크에서 칼리닌그라드로' t0=39.50",
-    "n/a(none 축) panel versus '자파드 2025를 둘러싼 두 주장' t0=299.65",
-    "n/a(none 축) panel versus '드론 진입을 둘러싼 두 주장' t0=328.89",
-    "n/a(none 축) panel versus '칼리닌그라드를 둘러싼 경고와 응답' t0=402.14"
+    "n/a(none 축) panel versus '자파드 2025를 둘러싼 두 주장' t0=314.12",
+    "n/a(none 축) panel versus '드론 진입을 둘러싼 두 주장' t0=343.36",
+    "n/a(none 축) panel versus '칼리닌그라드를 둘러싼 경고와 응답' t0=416.62"
    ]
   }
  ]
