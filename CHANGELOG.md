@@ -93,6 +93,7 @@ MINOR: 게이트 ② 선행 조건 강화 + 새 도구. JSON `schema_version` �
 - `reopen --to script_draft` — 렌더 뒤 원고 보강도 게이트 ① 재승인 → 콘티 판 순서로(PIPELINE-AP-017). 검사 `panel_overflow` hard — 연도 카드 글자 폭(RENDER-AP-013).
 - 콘티 판이 패널·카드를 실제로 그린다(숫자·문구·도식 승인 가능). 자리표시는 파일이 필요한 요소(사진·영상·초상·뱃지)만(PIPELINE-AP-018).
 - 연표 패널 주석 `precedent.footnote`(사용자 요청 2026-10-05 — 최종 해결 조약 설명, 자막을 가리지 않게): 카드 아래 2줄 이하, 근거 claim 필수, 검사 `panel_overflow` 가 폭·근거·실제 자막 상자 겹침을 본다. 주석 근거가 참조 출처면 화면 출처 링크에 덧붙는다. 출처 추가 src_art_0021(위키백과 Treaty on the Final Settlement), claim clm_0068·0069.
+- 기록 점검(2026-10-05): 마무리 규약을 사용자 결정("지켜봐야 하겠습니다" → "끓어오르고 있습니다", 포럼 용어 귀속, 3~4문장)으로 정정, 금지 문구 `지켜봐야…`·`귀추가 주목`(LLM-AP-016). script_grammar "결과 전에 전제"(LLM-AP-017). direction_grammar 3줄(주석·연도 카드/타임라인 구분·주제 경로 프레임). DECISIONS D120~D123, back_and_forth R-0170.
 
 ---
 

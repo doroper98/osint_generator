@@ -80,6 +80,13 @@ class ScriptRulesTest(unittest.TestCase):
         self.assertIn("attribution", _kinds(sc))
         self.assertNotIn("attribution", _kinds(sc, noted={"clm_0001"}))
 
+    def test_closing_no_watch_phrase(self) -> None:
+        """LLM-AP-016 — 마무리 관전 권유("지켜봐야 하겠습니다")는 금지 문구(사용자 결정: "끓어오르고 있습니다"처럼 단정)."""
+        bad = _script([("2026", "앞으로의 움직임을 계속 지켜봐야 하겠습니다.", None)])
+        self.assertIn("slop", _kinds(bad))
+        ok = _script([("2026", "그렇지만 긴장은 끓어오르고 있습니다.", None)])
+        self.assertNotIn("slop", _kinds(ok))
+
     def test_rules_reach_prompt(self) -> None:
         from workers.prompt_loader import load_prompt  # noqa: PLC0415
 
@@ -88,6 +95,9 @@ class ScriptRulesTest(unittest.TestCase):
         self.assertIn("과거형", p)
         self.assertIn("위키백과에 따르면", p)          # 금지 문구로 안내
         self.assertIn("전략국제문제연구소", p)          # 약어 등재(tts_rules 덤프)
+        self.assertIn("결과를 말하기 전에 그 전제", p)   # LLM-AP-017
+        self.assertIn("끓어오르고 있습니다", p)          # LLM-AP-016
+        self.assertNotIn("지켜볼 지점", p)
 
 
 class SourceNoteTest(unittest.TestCase):

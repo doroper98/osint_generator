@@ -13,7 +13,7 @@ note: 장르 프롬프트 층(v4.4.0, back_and_forth D-0090 작업 1) — prompt
 
 서술 규칙
 {{GENRE.narration}}
-- 피할 표현: {{GENRE.avoid}}. 마무리는 앵커 브리핑처럼 — 대상의 정체·지금 상황(확인된 사실)·지켜볼 지점. 전망 단정 금지(v5.6.0 script_grammar).
+- 피할 표현: {{GENRE.avoid}}. 마무리는 앵커 브리핑처럼 — 대상의 정체·지금 상황(확인된 사실)·긴장의 현재 상태를 단정하는 결론("지켜봐야 하겠습니다" 금지). 미래 전망 단정 금지(v5.6.0 script_grammar).
 
 데이터 원칙
 {{GENRE.data_sources}}
