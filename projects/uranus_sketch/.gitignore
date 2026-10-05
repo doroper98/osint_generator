@@ -1,0 +1,4 @@
+# 생성물(재생성: python -m geo.prep / prep_uranus.py / uranus_sketch.py)
+assets/
+out/
+__pycache__/

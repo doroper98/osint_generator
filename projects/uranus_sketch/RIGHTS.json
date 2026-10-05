@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "files": {
+    "ref_operation_uranus.svg": {
+      "source_url": "https://commons.wikimedia.org/wiki/File:Operation_Uranus.svg",
+      "author": "Lưu Ly",
+      "license": "CC BY 3.0",
+      "based_on": "http://victory.mil.ru/war/maps/023.jpg (러시아 국방부 지도 023)",
+      "use": "전선(11.19·23·30)·강 경로를 경위도 눈금으로 정합해 추출(prep_uranus.py). 화면에는 재작도한 선만 쓴다",
+      "rights_status": "cleared_with_attribution",
+      "fetched": "2026-10-05"
+    }
+  },
+  "references_not_stored": {
+    "Stalingrad_-_Preparations_for_Operation_Uranus.png": {
+      "source_url": "https://commons.wikimedia.org/wiki/File:Stalingrad_-_Preparations_for_Operation_Uranus.png",
+      "author": "John O'Sullivan (Josullivan.59)", "license": "CC BY-SA 3.0",
+      "use": "11.18 군·군단 배치 대조(위치는 개략으로 직접 입력)"
+    }
+  }
+}
