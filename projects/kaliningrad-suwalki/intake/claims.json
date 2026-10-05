@@ -1248,6 +1248,49 @@
       "attributed_only": false,
       "claim_kind": "fact",
       "notes": ""
+    },
+    {
+      "claim_id": "clm_0068",
+      "text": "최종 해결 조약(2+4 조약)은 동·서독과 4개 점령국(프랑스·소련·영국·미국)이 협상해 1990년 9월 12일 모스크바에서 서명했다",
+      "source_ids": [
+        "src_art_0021"
+      ],
+      "status": "unverified",
+      "contested": false,
+      "event_date": "1990-09-12",
+      "checks": [
+        "quote_match:src_art_0021",
+        "quote_match:src_art_0021",
+        "quote_match:src_art_0021",
+        "quote_match:src_art_0021",
+        "independent_origins:1"
+      ],
+      "attributed_only": false,
+      "claim_kind": "fact",
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0069",
+      "text": "최종 해결 조약은 포츠담 협정을 대체해 1990년 10월 3일 독일 통일의 길을 열었고, 독일은 오데르–나이세선 동쪽 옛 영토에 대한 주장을 포기했다",
+      "source_ids": [
+        "src_art_0021",
+        "src_art_0018"
+      ],
+      "status": "unverified",
+      "contested": false,
+      "event_date": "1990-09-12",
+      "checks": [
+        "quote_match:src_art_0021",
+        "quote_match:src_art_0021",
+        "quote_match:src_art_0021",
+        "quote_match:src_art_0018",
+        "independent_origins:1",
+        "attributed:src_art_0021",
+        "attributed:src_art_0018"
+      ],
+      "attributed_only": false,
+      "claim_kind": "fact",
+      "notes": ""
     }
   ]
 }

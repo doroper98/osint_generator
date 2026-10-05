@@ -444,6 +444,9 @@ def load_project(proj: Path, direction: Optional[Direction] = None, out: Optiona
         P = Project(proj, plan, R, keys, events, cams, n, warns, shots, ANIMATIC_LAYERS)  # noqa: N806
     else:
         P = Project(proj, plan, R, keys, events, cams, n, warns, shots)  # noqa: N806
+    from engine.source_note import add_footnote_notes  # noqa: PLC0415
+
+    add_footnote_notes(R.cache["source_notes"], proj, P.events, R.tb)   # v5.6.0 — 화면 주석 근거 링크
     hold_pushes(P)   # v5.6.0 — 지도 뱃지 고정 이동(카드 회피가 위아래로 미끄러지지 않게)
     return P
 

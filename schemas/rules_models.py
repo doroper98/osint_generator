@@ -900,6 +900,9 @@ class PrecedentPanelRules(_Strict):
     title_size: float
     line_size: float
     caption_size: float
+    footnote_size: float = Field(default=10.0, gt=0)   # v5.6.0 — 카드 아래 주석(layout_480p.min_font_px 이상)
+    footnote_y: float = Field(default=381.0, gt=0)     # 첫 줄 기준선(설계 px) — 카드 아래 끝 362, 자막 구역 410 위
+    footnote_gap: float = Field(default=13.0, gt=0)    # 줄 간격
 
 
 class VersusPanelRules(_Strict):

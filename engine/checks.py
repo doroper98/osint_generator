@@ -228,11 +228,37 @@ def check_route_frame(P) -> list[str]:  # noqa: ANN001, N803
 
 
 def check_panel_overflow(P) -> list[str]:  # noqa: ANN001, N803
-    """v5.6.0 RENDER-AP-013 — 연도 카드(precedent) 글자가 카드 폭을 넘으면 hard(렌더 전에)."""
+    """v5.6.0 RENDER-AP-013 — 연도 카드(precedent) 글자가 카드 폭을 넘으면 hard(렌더 전에). 주석(footnote)은 폭·근거 claim·자막 겹침까지."""
     from engine.panels.precedent import overflow  # noqa: PLC0415
 
+    import json  # noqa: PLC0415
+
+    from engine.panels.precedent import footnote_box  # noqa: PLC0415
+    from engine.subtitles import subtitle_boxes  # noqa: PLC0415
+
     ctx = cairo.Context(cairo.ImageSurface(cairo.FORMAT_ARGB32, 1, 1))
-    return [m for e in P.events if e["type"] == "panel" and e.get("kind") == "precedent" for m in overflow(ctx, e)]
+    out: list[str] = []
+    cp = P.root / "intake" / "claims.json"
+    claims = {c["claim_id"] for c in json.loads(cp.read_text(encoding="utf-8"))["claims"]} if cp.exists() else set()
+    for e in P.events:
+        if e["type"] != "panel" or e.get("kind") != "precedent":
+            continue
+        out += overflow(ctx, e)
+        fn = e.get("footnote")
+        if not fn:
+            continue
+        miss = [c for c in fn["sources"] if c not in claims]   # v5.6.0 — 주석도 출처 없는 문구 금지(C0)
+        if miss:
+            out.append(f"[panel-footnote] precedent 주석 근거 claim 없음: {', '.join(miss)}")
+        fb = footnote_box(e)
+        t = max(fn["t0"], e["t0"])
+        while t < e["t1"]:   # 주석이 보이는 동안 실제 자막 글자 상자와 겹치면 오류(사용자 조건 "자막을 가리지 않는 선")
+            hit = next((b for b in subtitle_boxes(ctx, P.R.tb, t) if _overlap_px(fb, b) > 0), None)
+            if hit:
+                out.append(f"[panel-footnote] precedent 주석이 자막과 겹침 t={t:.2f} 주석 {tuple(round(v) for v in fb)} 자막 {tuple(round(v) for v in hit)}")
+                break
+            t += 0.25
+    return out
 
 
 def check_timeline_span(P) -> list[str]:  # noqa: ANN001, N803

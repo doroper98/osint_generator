@@ -151,6 +151,24 @@ class LabelCollisionTest(unittest.TestCase):
         self.assertEqual(overflow(ctx, ok), [])
         self.assertIn("panel_overflow", checks.HARD)
 
+    def test_precedent_footnote(self) -> None:
+        """사용자 요청(2026-10-05) — 카드 아래 주석: 폭 검사, 자막 구역(410) 위, 근거 claim 필수(스키마)."""
+        import cairo  # noqa: PLC0415
+        from pydantic import ValidationError  # noqa: PLC0415
+
+        from engine.events import PrecedentFootnote  # noqa: PLC0415
+        from engine.panels.precedent import footnote_box, overflow  # noqa: PLC0415
+
+        ctx = cairo.Context(cairo.ImageSurface(cairo.FORMAT_ARGB32, 1, 1))
+        cards = [{"year": str(1900 + i), "title": "t", "lines": []} for i in range(4)]
+        e = {"cards": cards, "footnote": {"lines": ["※ 짧은 주석"], "t0": 0.0, "sources": ["clm_1"]}}
+        self.assertEqual(overflow(ctx, e), [])
+        self.assertLess(footnote_box(e)[3], 410)
+        e["footnote"]["lines"] = ["가" * 120]
+        self.assertEqual(len(overflow(ctx, e)), 1)
+        with self.assertRaises(ValidationError):
+            PrecedentFootnote.model_validate({"lines": ["x"], "t0": 0.0, "sources": []})
+
     def test_timeline_span_hard(self) -> None:
         """RENDER-AP-011 — 월 축 타임라인 패널은 max_span_months 이하."""
         from engine import checks  # noqa: PLC0415

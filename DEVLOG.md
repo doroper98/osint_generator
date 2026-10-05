@@ -3408,3 +3408,4 @@ last_review: 2026-06-06
 - 2026-10-04 v5.6.0 본편 720p 사용자 지적 2건 — 연표 월 축 패널에 750년(RENDER-AP-011, timeline_span hard), 철도 훈련 장면 철도 구간 프레임 밖(RENDER-AP-012, route_frame hard·경로 이름표 겹침 검사). kaliningrad 본편 재렌더.
 - 2026-10-04 v5.6.0 원고 v3 — 독일 시기 2문장 보강(사용자 승인), reopen → script_draft(PIPELINE-AP-017), 게이트 ① 재승인 6d9e4ae4, 연도 카드 폭 검사 panel_overflow(RENDER-AP-013). 콘티 판 v4.
 - 2026-10-04 v5.6.0 사용자 지적 "콘티판에는 패널이라고만 나와 승인할 게 없다" — 콘티 판 패널·카드 실제 렌더(PIPELINE-AP-018). 콘티 판 v5.
+- 2026-10-05 v5.6.0 콘티 판 v5 사용자 승인(게이트 ②) + 요청 "해결 조약 풋노트(자막 가리지 않게)" → precedent.footnote(근거 claim·자막 겹침 검사). 본편 재렌더.

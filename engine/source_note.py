@@ -31,25 +31,50 @@ def _short(url: str) -> str:
     return u.rstrip("/")
 
 
-def source_notes(proj: Path) -> dict[str, str]:
-    """sid → 표기 문자열. 원고·claims·sources 중 하나라도 없으면 빈 사전(표기 없음 — 출처 기록이 없는 영상)."""
-    sp, cp, srp = proj / "script.yaml", proj / "intake" / "claims.json", proj / "intake" / "sources.json"
-    if not (sp.exists() and cp.exists() and srp.exists()):
-        return {}
+def _maps(proj: Path) -> tuple[dict[str, str], dict[str, list[str]]]:
+    """(참조 출처 id → 짧은 URL, claim id → source ids). 기록 파일이 하나라도 없거나 참조 출처가 없으면 빈 사전."""
+    cp, srp = proj / "intake" / "claims.json", proj / "intake" / "sources.json"
+    if not (cp.exists() and srp.exists()):
+        return {}, {}
     srcs = json.loads(srp.read_text(encoding="utf-8"))
     srcs = srcs["sources"] if isinstance(srcs, dict) else srcs
     ref = {s["id"]: _short(s["url"]) for s in srcs
            if s.get("url") and any(str(s.get("publisher", "")).startswith(p) for p in SN.publishers)}
     if not ref:
+        return {}, {}
+    return ref, {c["claim_id"]: c.get("source_ids", []) for c in json.loads(cp.read_text(encoding="utf-8"))["claims"]}
+
+
+def _urls(claim_ids: list[str], ref: dict[str, str], ev: dict[str, list[str]]) -> list[str]:
+    return list(dict.fromkeys(ref[sid] for c in claim_ids for sid in ev.get(c, []) if sid in ref))
+
+
+def source_notes(proj: Path) -> dict[str, str]:
+    """sid → 표기 문자열. 원고·claims·sources 중 하나라도 없으면 빈 사전(표기 없음 — 출처 기록이 없는 영상)."""
+    sp = proj / "script.yaml"
+    ref, ev = _maps(proj)
+    if not (sp.exists() and ref):
         return {}
-    ev = {c["claim_id"]: c.get("source_ids", []) for c in json.loads(cp.read_text(encoding="utf-8"))["claims"]}
     out: dict[str, str] = {}
     for sc in yaml.safe_load(sp.read_text(encoding="utf-8"))["scenes"]:
         for k, s in enumerate(sc["sentences"]):
-            urls = list(dict.fromkeys(ref[sid] for c in s.get("sources", []) for sid in ev.get(c, []) if sid in ref))
+            urls = _urls(s.get("sources", []), ref, ev)
             if urls:
                 out[f"{sc['id']}_{k}"] = SN.prefix + " · ".join(urls)
     return out
+
+
+def add_footnote_notes(notes: dict[str, str], proj: Path, events: list[dict], tb: object) -> None:
+    """v5.6.0 — 화면 주석(precedent footnote)의 근거도 참조 출처면, 주석이 보이는 동안 읽히는 문장의 링크 줄에 덧붙인다."""
+    fns = [(e, e["footnote"]) for e in events if e["type"] == "panel" and e.get("footnote")]
+    ref, ev = _maps(proj) if fns else ({}, {})
+    for e, fn in fns:
+        add = _urls(fn["sources"], ref, ev)
+        for sid, s in tb.sent.items():   # type: ignore[attr-defined]
+            if add and s.t1 > fn["t0"] and s.t0 < e["t1"]:
+                urls = notes[sid][len(SN.prefix):].split(" · ") if sid in notes else []
+                urls += [u for u in add if u not in urls]
+                notes[sid] = SN.prefix + " · ".join(urls)
 
 
 def draw_source_note(ctx: cairo.Context, R: RenderCtx, t: float, notes: dict[str, str]) -> None:  # noqa: N803

@@ -354,7 +354,7 @@
       "verification": {
         "status": "corroborated",
         "checks": [
-          "claims:5"
+          "claims:6"
         ],
         "notes": ""
       },
@@ -413,6 +413,29 @@
       "published_at": "2026-10-04",
       "key_facts": [
         "Kaliningrad Oblast - Wikipedia"
+      ]
+    },
+    {
+      "id": "src_art_0021",
+      "url": "https://en.wikipedia.org/wiki/Treaty_on_the_Final_Settlement_with_Respect_to_Germany",
+      "retrieved_at": "2026-10-05",
+      "lang": "ko",
+      "verification": {
+        "status": "unverified",
+        "checks": [
+          "claims:2"
+        ],
+        "notes": ""
+      },
+      "confirmed_by": "claude(사용자 요청 대행 — URL·매체·접근일 확인)",
+      "confirmed_at": "2026-10-05T01:32:26.627633Z",
+      "note": "위키백과 문서 — 게시일 대신 접근일(2026-10-05). 사용자 요청: 해결 조약 풋노트",
+      "type": "article",
+      "publisher": "Wikipedia (Treaty on the Final Settlement with Respect to Germany)",
+      "headline_original": "Treaty on the Final Settlement with Respect to Germany - Wikipedia",
+      "published_at": "2026-10-05",
+      "key_facts": [
+        "Treaty on the Final Settlement with Respect to Germany - Wikipedia"
       ]
     }
   ]

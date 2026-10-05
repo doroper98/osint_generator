@@ -449,6 +449,16 @@ events:
       t0:
         sid: konigsberg_7
         'off': 0.4
+    footnote:
+      lines:
+      - ※ 최종 해결 조약 — 흔히 '2+4 조약'. 동·서독과 4개 점령국(미·영·프·소)이 1990년 9월 12일 모스크바에서 서명
+      - 포츠담 협정을 대체하고 10월 3일 독일 통일의 길을 엶 · 독일은 오데르–나이세선 동쪽 옛 영토에 대한 주장을 포기
+      t0:
+        sid: konigsberg_7
+        'off': 1.2
+      sources:
+      - clm_0068
+      - clm_0069
 - type: marker
   start:
     word:

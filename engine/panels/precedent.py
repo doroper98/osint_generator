@@ -33,7 +33,27 @@ def overflow(ctx: cairo.Context, e: dict) -> list[str]:
             items.append((cd["person"]["caption"], PR.caption_size, "sansb"))
         out += [f"[panel-overflow] precedent {cd['year']} 카드 {s_!r} — 폭 {tw(ctx, s_, size, font):.0f}px > {room}px, 문구를 줄인다"
                 for s_, size, font in items if tw(ctx, s_, size, font) > room]
+    fn = e.get("footnote")
+    if fn:
+        x0, x1 = footnote_span(len(e["cards"]))
+        out += [f"[panel-overflow] precedent 주석 {s_!r} — 폭 {tw(ctx, s_, PR.footnote_size, 'sansm'):.0f}px > {x1 - x0:.0f}px, 문구를 줄인다"
+                for s_ in fn["lines"] if tw(ctx, s_, PR.footnote_size, "sansm") > x1 - x0]
     return out
+
+
+CARD_X0, CARD_STEP = 58, 190   # 카드 왼쪽 끝·간격(v3 합격 값)
+
+
+def footnote_span(n: int) -> tuple[float, float]:
+    """주석 가로 범위 = 첫 카드 왼쪽 ~ 마지막 카드 오른쪽."""
+    return CARD_X0, CARD_X0 + (n - 1) * CARD_STEP + CARD_W
+
+
+def footnote_box(e: dict) -> tuple[float, float, float, float]:
+    """주석 상자(설계 px) — 자막 겹침 검사용. 위 = 첫 줄 글자 윗선, 아래 = 끝 줄 기준선 + 내림."""
+    x0, x1 = footnote_span(len(e["cards"]))
+    n = len(e["footnote"]["lines"])
+    return (x0, PR.footnote_y - PR.footnote_size, x1, PR.footnote_y + (n - 1) * PR.footnote_gap + PR.footnote_size * 0.3)
 
 
 AXIS = "none"   # v4.3.0 D-0087 — 축 종류(값·날짜 축 없음). 정직성 검사 적용 = rules qa_checks.chart_targets
@@ -44,7 +64,7 @@ def draw(ctx: cairo.Context, R: RenderCtx, t: float, e: dict, a: float) -> None:
         f = smooth((t - t0) / 0.5)
         if f <= 0:
             continue
-        x = 58 + i * 190
+        x = CARD_X0 + i * CARD_STEP
         y = 150 - (1 - f) * 16
         ca = a * f
         col = C["gold"] if cd.get("hl") else C["teal"]
@@ -63,3 +83,10 @@ def draw(ctx: cairo.Context, R: RenderCtx, t: float, e: dict, a: float) -> None:
             badge_at(ctx, R, x + 136, y + 172, dict(kind="person", pid=pp["pid"], flag=pp["flag"], R=24, t0=t0 + 0.3,
                                                     label="", accent="teal"), t, a)
             text(ctx, pp["caption"], x + 16, y + 196, PR.caption_size, "sansb", C["teal"], ca * smooth((t - t0 - 0.6) / 0.4), 0, "l")
+    fn = e.get("footnote")
+    if fn:
+        fa = a * smooth((t - fn["t0"]) / 0.5)
+        if fa > 0:
+            x0, _ = footnote_span(len(e["cards"]))
+            for j, s_ in enumerate(fn["lines"]):
+                text(ctx, s_, x0, PR.footnote_y + j * PR.footnote_gap, PR.footnote_size, "sansm", C["muted"], fa, 0, "l")
