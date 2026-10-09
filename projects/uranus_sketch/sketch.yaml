@@ -61,6 +61,7 @@ fronts:
     - {stroke: "#09bed1", width: 1.0, layer: river, side: major}
     - {stroke: "#09bed1", width: 0.3, layer: river, side: minor}
   graticule: {lons: [42, 43, 44], lats: [50, 49, 48], stroke: "#c0edf2", width: 0.2}
+  city_check: ["스탈린그라드", "칼라치"]   # SK-G1 도시 검산(D-0147). 스탈린그라드 0.0645° = 원 지도가 기호를 볼가강 기슭(44.57°E)에 찍은 배치 차
   layers:   # 그리는 순서. 조각 = "층:편:번호" — 추축 쪽 선을 기준으로 소련 선을 화면에서 옮겨 이중선
     - {date: "1119", pieces: ["1119:axis:0", "1119:axis:1"], grow: [0.6, 2.8], dim: [{t: 36.0, sec: 1.5, to: 0.3}]}          # 11.19 개시선
     - {date: "1123", pieces: ["1123:axis:10"], grow: [36.6, 2.4], dim: [{t: 46.5, sec: 1.5, to: 0.45}]}                        # 11.23 포위망 서·남 고리

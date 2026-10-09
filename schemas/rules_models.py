@@ -2347,6 +2347,7 @@ class SketchChecks(_Strict):
     max_dlogw_per_frame: float = Field(gt=0)
     max_d2logw_per_frame: float = Field(gt=0)
     georef_residual_deg: float = Field(gt=0)
+    georef_city_deg: float = Field(ge=0)
     horizon_tol_km: float = Field(ge=0)
     label_overlap_px: float = Field(ge=0)
     approx_word: str = Field(min_length=1)

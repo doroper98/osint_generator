@@ -2,7 +2,7 @@
 
 | ID | 내용 |
 |---|---|
-| SK-G1 | fronts.json 정합 잔차 ≤ checks.georef_residual_deg(없으면 prep_georef 먼저) |
+| SK-G1 | fronts.json 정합 잔차 ≤ checks.georef_residual_deg(없으면 prep_georef 먼저). 도시 검산: fronts.city_check 도시 ↔ 가장 가까운 참고 SVG 원 기호 ≤ checks.georef_city_deg(D-0147) |
 | SK-G2 | 포위망 레시피 다각형 shapely valid·면적 > 0. 미세 자기 교차 조각 비율 ≤ checks.pocket_sliver_ratio 면 warning(D-0146) |
 | SK-G3 | 제대·병종(스키마 단계) |
 | SK-H5 | approx 층(전선 전부·부대 위치) — '개략' 출처 줄이 화면이 열린 뒤 ~ 엔딩 직전 전 구간, 엔딩 자료에 '개략' |
@@ -16,6 +16,7 @@ from __future__ import annotations
 
 from pathlib import Path
 
+import numpy as np
 from shapely.geometry import Polygon
 from shapely.validation import explain_validity, make_valid
 
@@ -27,6 +28,7 @@ from sketch.campaign.spec import CampaignSpec
 from sketch.common.camera import CameraPath
 from sketch.common.checks import CheckReport, check_camera, check_label_overlap, check_rights, check_rights_files
 from sketch.common.numbers import unit_numbers
+from sketch.common.svg_georef import circle_centers, coef_to_ll
 
 SK = load_rules().sketch
 MEDIA_DIR = "media"
@@ -77,6 +79,30 @@ def pocket_validity(report: CheckReport, name: str, poly: Polygon, ratio: float)
         report.add("SK-G2", f"{name}: 자기 교차 — 큰 다각형 밖 조각 비율 {frac:.3f} > {ratio}({where})")
 
 
+def city_offsets(spec: CampaignSpec, project: Path, data: FrontData) -> list[tuple[str, float | None]]:
+    """fronts.city_check 도시마다 (이름, 가장 가까운 참고 SVG 원 기호까지 거리°). places 에 없는 이름은 None."""
+    if not spec.fronts.city_check:
+        return []
+    ll = coef_to_ll(circle_centers(project / spec.fronts.reference.file), data.coef["lon"], data.coef["lat"])
+    places = {p.name: p for p in spec.places}
+    out: list[tuple[str, float | None]] = []
+    for name in spec.fronts.city_check:
+        p = places.get(name)
+        if p is None or len(ll) == 0:
+            out.append((name, None))
+            continue
+        out.append((name, float(np.linalg.norm(ll - np.array([p.lon, p.lat]), axis=1).min())))
+    return out
+
+
+def check_cities(report: CheckReport, spec: CampaignSpec, project: Path, data: FrontData, lim: float) -> None:
+    for name, d in city_offsets(spec, project, data):
+        if d is None:
+            report.add("SK-G1", f"도시 검산 {name}: places 에 없거나 참고 SVG 에 원 기호가 없다")
+        elif d > lim:
+            report.add("SK-G1", f"도시 검산 {name}: 참고 SVG 원 기호와 {d:.4f}° > {lim}°")
+
+
 def check_spec(report: CheckReport, spec: CampaignSpec, project: Path) -> FrontData | None:
     th = SK.checks
     # SK-H1 — 전황 화면에는 발표 수치 표가 없다: 단위 붙은 숫자는 문구 어디에도 없어야 한다(엔딩 자료 포함)
@@ -95,6 +121,7 @@ def check_spec(report: CheckReport, spec: CampaignSpec, project: Path) -> FrontD
         data = FrontData(fpath)
         if data.residual_deg > th.georef_residual_deg:
             report.add("SK-G1", f"정합 잔차 {data.residual_deg:.4f}° > {th.georef_residual_deg}°")
+        check_cities(report, spec, project, data, th.georef_city_deg)
     # SK-G2 + 조각 참조
     report.ran_check("SK-G2")
     if data is not None:

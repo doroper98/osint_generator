@@ -1752,6 +1752,7 @@ sketch:                    # v5.7.0 back_and_forth D-0140(D130) — 스케치 �
     max_dlogw_per_frame: 0.07    # SK-C1 연속 프레임 |Δ ln w| — 하드 컷·대점프(검토본 최대 0.0623)
     max_d2logw_per_frame: 0.01   # SK-C1 |Δ² ln w|, |Δ² x|/w, |Δ² y|/w — 멈칫(0.03 대) 차단, 검토본 ≤ 0.004
     georef_residual_deg: 0.01    # SK-G1 눈금 적합 최대 잔차(천왕성 현재 0.0084)
+    georef_city_deg: 0.07        # SK-G1 도시 검산 — spec fronts.city_check 도시와 가장 가까운 참고 SVG 원 기호(정합 변환) 거리 상한(천왕성 스탈린그라드 0.0645 = 지도 기호 배치 차·칼라치 0.0348, D-0147 A)
     horizon_tol_km: 0.5          # SK-H6 패널 값(정수 km 반올림) 허용 폭
     label_overlap_px: 0          # SK-C2 새 라벨 예약 상자 겹침(warning)
     seam_px: 12.5                # 2D → 3D 이음새 회귀 임계(설계 px) — 첫 3D 프레임과 2D 마지막 프레임의 발사점·착탄점 화면 좌표 차. 검토본 실측 11.7 + 여유(D-0144: 메르카토르 대 방위 등거리 본질 차, 근본 해결은 본편 globe 무대의 투영 혼합)

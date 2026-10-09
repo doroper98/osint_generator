@@ -108,6 +108,7 @@ class Fronts(_Strict):
     style_map: list[StyleEntry] = Field(min_length=1)
     graticule: Graticule
     layers: list[FrontLayer] = Field(min_length=1)
+    city_check: list[str] = []     # SK-G1 도시 검산 대상 places 이름(참고 SVG 원 기호와 거리 ≤ checks.georef_city_deg, D-0147)
 
 
 class BuildStep(_Strict):

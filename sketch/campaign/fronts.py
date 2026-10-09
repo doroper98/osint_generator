@@ -38,6 +38,7 @@ class FrontData:
         self.layers: dict = d["layers"]
         self.rivers: dict = d["rivers"]
         self.residual_deg: float = d["residual_deg"]
+        self.coef: dict[str, list[float]] = d["coef"]
         self.source: str = d["source"]
 
     def piece(self, ref: str) -> np.ndarray:

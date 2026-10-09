@@ -24,7 +24,7 @@ from shapely.geometry import Polygon
 from rules import load_rules
 from sketch.campaign import arrows as arrows_mod
 from sketch.campaign import fronts as fronts_mod
-from sketch.campaign.checks import check_spec, pocket_validity
+from sketch.campaign.checks import check_cities, check_spec, city_offsets, pocket_validity
 from sketch.campaign.fronts import FrontData
 from sketch.campaign.pockets import build_polygon
 from sketch.campaign.spec import CampaignSpec
@@ -140,6 +140,24 @@ class SpecChecksTest(unittest.TestCase):
         raw = raw_spec()
         raw["tags"][2]["text"] = "포위망 — 약 300km 둘레"
         self.assertIn("SK-H1", ids(run(raw)))
+
+    def test_city_check(self) -> None:
+        """도시 검산(D-0147 A) — 두 도시 ≤ checks.georef_city_deg 통과, 임계 0.03 이면 두 도시 모두 실패, places 에 없는 이름은 hard."""
+        sp = load_spec(PROJ, CampaignSpec)
+        data = FrontData(PROJ / sp.fronts.file)
+        off = dict(city_offsets(sp, PROJ, data))
+        self.assertEqual(set(off), {"스탈린그라드", "칼라치"})
+        self.assertAlmostEqual(off["스탈린그라드"], 0.0645, delta=0.0005)    # 지도 기호 배치 차(볼가강 기슭)
+        self.assertAlmostEqual(off["칼라치"], 0.0348, delta=0.0005)
+        r = CheckReport()
+        check_cities(r, sp, PROJ, data, SK.checks.georef_city_deg)
+        self.assertEqual(r.hard, [])
+        r = CheckReport()
+        check_cities(r, sp, PROJ, data, 0.03)
+        self.assertEqual([f.id for f in r.hard], ["SK-G1", "SK-G1"])
+        raw = raw_spec()
+        raw["fronts"]["city_check"] = ["차리친"]
+        self.assertIn("SK-G1", ids(run(raw)))
 
     def test_r1_reference_license(self) -> None:
         rights = json.loads((PROJ / "RIGHTS.json").read_text(encoding="utf-8"))

@@ -13,7 +13,7 @@ from dataclasses import dataclass
 from pathlib import Path
 
 import numpy as np
-from svgelements import SVG, Color, Shape
+from svgelements import SVG, Circle, Color, Shape
 
 LENGTH_ERROR = 1e-2       # 경로 길이 근사 허용 오차(SVG 단위)
 SAMPLE_STEP = 1.0         # 표본 간격(SVG 단위)
@@ -37,6 +37,16 @@ def collect(svg_path: Path) -> dict[StyleKey, list[np.ndarray]]:
         n = max(2, int(L / SAMPLE_STEP))
         groups[key].append(np.array([(p.x, p.y) for p in (e.point(t) for t in np.linspace(0, 1, n))]))
     return groups
+
+
+def circle_centers(svg_path: Path) -> np.ndarray:
+    """SVG 원 기호(도시 점 등) 중심 (N, 2) — 변환 적용된 외곽 상자 중심."""
+    out = []
+    for e in SVG.parse(str(svg_path)).elements():
+        if isinstance(e, Circle):
+            x0, y0, x1, y1 = e.bbox()
+            out.append(((x0 + x1) / 2, (y0 + y1) / 2))
+    return np.array(out, float).reshape(-1, 2)
 
 
 @dataclass(frozen=True)
@@ -76,8 +86,13 @@ def fit_graticule(lines: list[np.ndarray], lons: list[float], lats: list[float])
 
 
 def to_ll(P: np.ndarray, fit: Fit) -> np.ndarray:
+    return coef_to_ll(P, fit.coef_lon, fit.coef_lat)
+
+
+def coef_to_ll(P: np.ndarray, coef_lon: np.ndarray, coef_lat: np.ndarray) -> np.ndarray:
+    """SVG 좌표 → 경위도(저장된 계수로 — fronts.json coef)."""
     A = _design(P[:, 0], P[:, 1])
-    return np.column_stack([A @ fit.coef_lon, A @ fit.coef_lat])
+    return np.column_stack([A @ np.asarray(coef_lon), A @ np.asarray(coef_lat)])
 
 
 def georef(svg_path: Path, style_map: list[dict], graticule: dict) -> tuple[dict, Fit]:
