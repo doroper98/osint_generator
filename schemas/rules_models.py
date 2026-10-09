@@ -1764,6 +1764,359 @@ class PrimitivesRules(_Strict):
     site_diagram: Optional[SiteDiagramLayout] = None   # v4.4.0 dmz_mine_2026 사용자 요청(현장 개념도)
 
 
+# ---------------------------------------------------------------- v5.7.0 스케치 계층(sketch/, D-0140 D130)
+RGB = tuple[float, float, float]
+
+
+class SketchText(_Strict):
+    """글자 한 종류 — 크기·글꼴(engine.style.FONT 키)·후광, 쓰는 곳에 따라 위치·간격."""
+
+    size: float = Field(gt=0)
+    font: str
+    halo: Optional[float] = Field(default=None, ge=0)
+    dy: Optional[float] = None
+    x: Optional[float] = None
+    y: Optional[float] = None
+    y0: Optional[float] = None
+    alpha: Optional[float] = Field(default=None, gt=0, le=1)
+
+
+class SketchCamera(_Strict):
+    push_in: dict[str, float] = Field(min_length=1)   # spec kind → 숏 안 푸시인 비율
+    hold_min_sec: float = Field(gt=0)
+    move_min_sec: float = Field(gt=0)
+
+
+class SketchFade(_Strict):
+    open_sec: float = Field(gt=0)
+    close_sec: float = Field(gt=0)
+    end_dim_alpha: float = Field(gt=0, le=1)
+    end_bg: RGB
+    end_in_sec: float = Field(gt=0)
+    date_hide_lead_sec: float = Field(ge=0)
+    date_hide_sec: float = Field(gt=0)
+
+
+class SketchTextRules(_Strict):
+    label: SketchText
+    label_sub: SketchText
+    label_edge_margin: float = Field(ge=0)
+    label_reserve_pad: tuple[float, float, float, float]
+    place: SketchText
+    hud: SketchText
+    hud_value: SketchText
+    source: SketchText
+    end_title: SketchText
+    end_line: SketchText
+    end_note: SketchText
+
+
+class SketchTag(_Strict):
+    size: float = Field(gt=0)
+    font: str
+    pad_w: float
+    text_dx: float
+    box_dy: float
+    box_h: float = Field(gt=0)
+    radius: float = Field(ge=0)
+    fill_alpha: float = Field(ge=0, le=1)
+    edge_alpha: float = Field(ge=0, le=1)
+    edge_w: float = Field(gt=0)
+    halo: float = Field(ge=0)
+    reserve: tuple[float, float, float]
+    reserve_min_alpha: float = Field(ge=0, le=1)
+
+
+class SketchEez(_Strict):
+    fill_alpha: float = Field(ge=0, le=1)
+    pulse_fill_alpha: float = Field(ge=0, le=1)
+    edge_alpha: float = Field(ge=0, le=1)
+    pulse_edge_alpha: float = Field(ge=0, le=1)
+    edge_w: float = Field(gt=0)
+    dash: list[float] = Field(min_length=2)
+    min_edge_len_deg: float = Field(ge=0)
+    hatch_gap: float = Field(gt=0)
+    hatch_w: float = Field(gt=0)
+    hatch_alpha: float = Field(ge=0, le=1)
+    dots_gap: float = Field(gt=0)
+    dots_r: float = Field(gt=0)
+    dots_row: float = Field(gt=0)
+    dots_alpha: float = Field(ge=0, le=1)
+    overlap_edge_alpha: float = Field(ge=0, le=1)
+    overlap_edge_w: float = Field(gt=0)
+    appear_sec: float = Field(gt=0)
+    claim_grow_sec: float = Field(gt=0)
+    claim_dense: int = Field(ge=2)
+    claim_w: tuple[float, float]
+    claim_ext_alpha: float = Field(ge=0, le=1)
+    claim_ext_dash: list[float] = Field(min_length=2)
+    vertex_half: float = Field(gt=0)
+    leader_alpha: float = Field(ge=0, le=1)
+    leader_w: float = Field(gt=0)
+    leader_dx: float
+    leader_dy: float
+
+
+class SketchSensors(_Strict):
+    grow_sec: float = Field(gt=0)
+    appear_sec: float = Field(gt=0)
+    sector_points: int = Field(ge=3)
+    fill_alpha: tuple[float, float]
+    edge_alpha: float = Field(ge=0, le=1)
+    edge_w: float = Field(gt=0)
+    tick_fracs: list[float]
+    tick_points: int = Field(ge=2)
+    tick_alpha: float = Field(ge=0, le=1)
+    tick_w: float = Field(gt=0)
+    tick_dash: list[float] = Field(min_length=2)
+    scan_rate: float = Field(gt=0)
+    scan_alpha: float = Field(ge=0, le=1)
+    scan_w: float = Field(gt=0)
+    site_r: float = Field(gt=0)
+    site_w: float = Field(gt=0)
+    undisclosed_offsets: list[tuple[float, float]] = Field(min_length=2)
+    undisclosed_fill_alpha: float = Field(ge=0, le=1)
+    undisclosed_edge_alpha: float = Field(ge=0, le=1)
+    undisclosed_edge_w: float = Field(gt=0)
+    undisclosed_dash: list[float] = Field(min_length=2)
+    undisclosed_glow_r: float = Field(gt=0)
+    undisclosed_glow_alpha: float = Field(ge=0, le=1)
+    focus_dim: float = Field(ge=0, le=1)
+    tag_dy: float
+    ship_ring: tuple[float, float]
+    ship_ring_rate: float = Field(gt=0)
+    ship_ring_alpha: float = Field(ge=0, le=1)
+    ship_ring_w: float = Field(gt=0)
+
+
+class SketchLaunchTrackImpact(_Strict):
+    launch_ring: tuple[float, float]
+    launch_ring_rate: float = Field(gt=0)
+    launch_ring_alpha: float = Field(ge=0, le=1)
+    launch_ring_w: float = Field(gt=0)
+    launch_tri: tuple[float, float, float]
+    track_w: float = Field(gt=0)
+    track_points: int = Field(ge=2)
+    head_r: float = Field(gt=0)
+    head_stops: tuple[float, float, float]
+    hud_x: float
+    hud_y: tuple[float, float, float, float]
+    flash_r: float = Field(gt=0)
+    flash_decay: float = Field(gt=0)
+    flash_alpha: float = Field(ge=0, le=1)
+    flash_rgb: RGB
+    impact_grow_sec: float = Field(gt=0)
+    impact_ring_step_deg: float = Field(gt=0)
+    impact_fill_alpha: float = Field(ge=0, le=1)
+    impact_edge_alpha: float = Field(ge=0, le=1)
+    impact_dash: list[float] = Field(min_length=2)
+    impact_edge_w: float = Field(gt=0)
+    ref_line_points: int = Field(ge=2)
+    ref_line_alpha: float = Field(ge=0, le=1)
+    ref_line_w: float = Field(gt=0)
+    ref_line_dash: list[float] = Field(min_length=2)
+    ref_dot_r: float = Field(gt=0)
+    impact_label_dy: float
+    impact_tag_dy: float
+
+
+class SketchProfile(_Strict):
+    rect: tuple[float, float, float, float]
+    slide_px: float = Field(ge=0)
+    dim_alpha: float = Field(ge=0, le=1)
+    bg: Color4
+    radius: float = Field(ge=0)
+    plot_inset: tuple[float, float, float, float]
+    alt_max_km: float = Field(gt=0)
+    alt_ticks_km: list[float] = Field(min_length=2)
+    range_ticks_km: list[float] = Field(min_length=2)
+    range_max_km: float = Field(gt=0)
+    iss_km: float = Field(gt=0)
+    grow_sec: float = Field(gt=0)
+    curve_points: int = Field(ge=2)
+    rows_dy: tuple[float, float, float]
+
+
+class SketchCard(_Strict):
+    rect: tuple[float, float, float, float]
+    slide_px: float = Field(ge=0)
+    radius: float = Field(ge=0)
+    inner_pad: float = Field(ge=0)
+    inner_bottom: float = Field(ge=0)
+    inner_bg: Color4
+    title: SketchText
+    sub: SketchText
+    credit: SketchText
+
+
+class SketchGlobeKey(_Strict):
+    pos_km: tuple[float, float, float]
+    target_km: tuple[float, float, float]
+
+
+class SketchGlobe(_Strict):
+    k_max: float = Field(gt=1)
+    fov_deg: float = Field(gt=0, lt=180)
+    fov_side_deg: float = Field(gt=0, lt=180)
+    key_b: SketchGlobeKey
+    key_c: SketchGlobeKey
+    side_drift_km: float
+    light: tuple[float, float, float]
+    shade: tuple[float, float, float, float, float]
+    rim_pow: float = Field(gt=0)
+    rim_rgb: RGB
+    rim_alpha: float = Field(ge=0, le=1)
+    space_rgb: RGB
+    atmos_rgb: RGB
+    atmos_alpha: float = Field(ge=0, le=1)
+    atmos_height: float = Field(gt=0)
+    atmos_pow: float = Field(gt=0)
+
+
+class SketchSymbol(_Strict):
+    w: float = Field(gt=0)
+    h: float = Field(gt=0)
+    fill_alpha: float = Field(ge=0, le=1)
+    edge_alpha: float = Field(ge=0, le=1)
+    edge_w: float = Field(gt=0)
+    mark_w: float = Field(gt=0)
+    armor_rx: float = Field(gt=0)
+    armor_ry: float = Field(gt=0)
+    pop: float = Field(ge=0)
+    pop_sec: float = Field(gt=0)
+
+
+class SketchFront(_Strict):
+    axis_w: float = Field(gt=0)
+    soviet_w: float = Field(gt=0)
+    offset_px: float
+    dash: list[float] = Field(min_length=2)
+
+
+class SketchArrow(_Strict):
+    spline: int = Field(ge=2)
+    half: tuple[float, float]          # 꼬리 반폭, 머리 쪽 추가 반폭
+    tip: float = Field(gt=0)
+    wing: float = Field(gt=0)
+    alpha: tuple[float, float]         # 꼬리, 머리
+    edge_alpha: float = Field(ge=0, le=1)
+    edge_w: float = Field(gt=0)
+    label_dy: float
+    label_from: float = Field(ge=0, le=1)
+
+
+class SketchPocket(_Strict):
+    fill_alpha: float = Field(ge=0, le=1)
+    hatch_alpha: float = Field(ge=0, le=1)
+    hatch_gap: float = Field(gt=0)
+    hatch_w: float = Field(gt=0)
+
+
+class SketchCampaignTag(_Strict):
+    size: float = Field(gt=0)
+    font: str
+    pad_w: float
+    text_dx: float
+    box_dy: float
+    box_h: float = Field(gt=0)
+    radius: float = Field(ge=0)
+    bg_alpha: float = Field(ge=0, le=1)
+    edge_alpha: float = Field(ge=0, le=1)
+    edge_w: float = Field(gt=0)
+
+
+class SketchPlace(_Strict):
+    size: float = Field(gt=0)
+    font: str
+    dot_r: float = Field(gt=0)
+    dx: float
+    dy: float
+    sub_size: float = Field(gt=0)
+    sub_dy: float
+
+
+class SketchRiverLabel(_Strict):
+    size: float = Field(gt=0)
+    font: str
+    alpha: float = Field(ge=0, le=1)
+    spacing: float = Field(ge=0)
+
+
+class SketchLegend(_Strict):
+    x: float
+    y: float
+    w: float = Field(gt=0)
+    h: float = Field(gt=0)
+    col_dx: float
+    row_dy: float
+    symbol_scale: float = Field(gt=0)
+
+
+class SketchPincer(_Strict):
+    flash_r: float = Field(gt=0)
+    flash_decay: float = Field(gt=0)
+    ring: tuple[float, float]
+    tag_dy: float
+
+
+class SketchCampaign(_Strict):
+    terrain_dim: Color4
+    river: dict[Literal["minor", "major"], tuple[float, float]]
+    symbol: SketchSymbol
+    echelon: SketchText
+    unit_name: SketchText
+    unit_fade_to: float = Field(ge=0, le=1)
+    unit_fade_sec: float = Field(gt=0)
+    front: SketchFront
+    arrow: SketchArrow
+    pocket: SketchPocket
+    tag: SketchCampaignTag
+    place: SketchPlace
+    river_label: SketchRiverLabel
+    legend: SketchLegend
+    pincer: SketchPincer
+
+
+class SketchChecks(_Strict):
+    """D-0140 §4 · D-0141 — 스케치 결정적 검사 임계."""
+
+    max_dlogw_per_frame: float = Field(gt=0)
+    max_d2logw_per_frame: float = Field(gt=0)
+    georef_residual_deg: float = Field(gt=0)
+    horizon_tol_km: float = Field(ge=0)
+    label_overlap_px: float = Field(ge=0)
+
+
+class SketchRules(_Strict):
+    """스케치 계층 화면 수치(D-0140 §3, D130). 사실·연출 값은 spec — 여기는 화면 수치만."""
+
+    camera: SketchCamera
+    fade: SketchFade
+    text: SketchTextRules
+    tag: SketchTag
+    eez: SketchEez
+    sensors: SketchSensors
+    launch_track_impact: SketchLaunchTrackImpact
+    profile: SketchProfile
+    card: SketchCard
+    globe: SketchGlobe
+    campaign: SketchCampaign
+    checks: SketchChecks
+
+    def fonts_used(self) -> set[str]:
+        """규칙 안의 글꼴 이름 전부(engine.style.FONT 키 대조 — tests/test_sketch_rules)."""
+        out: set[str] = set()
+
+        def walk(m: BaseModel) -> None:
+            for name in type(m).model_fields:
+                v = getattr(m, name)
+                if isinstance(v, BaseModel):
+                    walk(v)
+                elif name == "font" and isinstance(v, str):
+                    out.add(v)
+        walk(self)
+        return out
+
 class VideoRules(_Strict):
     """`rules/video_rules.yaml` 최상위 모델."""
 
@@ -1814,6 +2167,7 @@ class VideoRules(_Strict):
     genre_prompt: GenrePromptRules  # v4.4.0 — D-0090 작업 1
     bundle: BundleRules            # v3.5.0 — D-0063 작업 4
     provenance: ProvenanceRules
+    sketch: SketchRules                  # v5.7.0 — 스케치 계층 화면 수치(D-0140 D130)
 
     @model_validator(mode="after")
     def _context_keys(self) -> "VideoRules":
