@@ -37,7 +37,7 @@ description: 북한 미사일 발사 사건 하나를 사용자 검토용 화면
 
 `<pid>` 는 `missile_YYYYMMDD_sketch` 처럼 짓습니다. 아래 순서대로 합니다.
 
-1. **폴더**: `projects/<pid>/` 를 만듭니다. `projects/d1_missile_sketch/` 에서 `geo.yaml`·`labels.yaml`·`.gitignore` 를 복사합니다. `.gitignore` 첫 줄 설명만 고칩니다.
+1. **폴더**: `projects/<pid>/` 를 만듭니다. `projects/d1_missile_sketch/` 에서 `geo.yaml`·`labels.yaml`·`.gitignore` 를 복사합니다. `.gitignore` 의 첫 줄 설명을 고치고, d1 도해 예외 줄(`!media/hwasong17_diagram.png`)은 지웁니다(③-5 에서 이번 도해가 있을 때만 그 파일 이름으로 다시 넣음).
    - 한반도·일본 주변 사건이면 `geo.yaml` 티어를 그대로 씁니다. 다른 지역이면 `bbox`·`tiers[].bbox` 를 사건 화면이 들어가게 바꿉니다(`docs/09_MAP_AND_GEO_SPEC.md`).
 2. **지형**: 두 해상도를 준비합니다.
    ```bash
@@ -62,7 +62,8 @@ description: 북한 미사일 발사 사건 하나를 사용자 검토용 화면
    python tools/commons_fetch.py get "File:<이름>" projects/<pid>/media/<파일>.png --width 960
    ```
    - 요청 간격·재시도는 도구가 `config.yaml commons` 대로 지킵니다. 직접 반복 요청하지 않습니다.
-   - 라이선스가 `rules sketch.rights.allowed_licenses` 안일 때만 씁니다. `projects/<pid>/media/RIGHTS.json` 에 항목을 적습니다. 형식은 `docs/handoff/22` §4 입니다.
+   - 검색어는 두세 개(형 이름 영문·한글 로마자·"missile diagram")를 시도합니다. 결과 줄이 비어도 실패가 아니라 "후보 없음" 입니다.
+   - 도구 출력의 `allowed` 표시는 인물·휘장용 판정이라 스케치 기준이 아닙니다. 라이선스가 `rules sketch.rights.allowed_licenses` 안이고 파일 페이지에 사용 제한(Restrictions)이 없을 때만 씁니다. `projects/<pid>/media/RIGHTS.json` 에 항목을 적습니다. 형식은 `docs/handoff/22` §4 입니다.
    - `.gitignore` 에 `media/*` 와 쓴 파일의 `!media/<파일>`·`!media/RIGHTS.json` 을 둡니다.
    - **권리가 분명한 도해가 없으면 `media`·`card` 를 spec 에서 빼고 엔딩 자료의 도해 줄도 지웁니다.** 카드 없이도 검사·렌더는 통과합니다.
 
@@ -78,6 +79,7 @@ description: 북한 미사일 발사 사건 하나를 사용자 검토용 화면
   - 이동 자산은 `kind: ship` + `tag` 필수이고 `range_km` 는 비웁니다.
   - 3D 볼륨(`el_deg`)은 위치 공개 + 범위가 있는 자산만 씁니다. 방위·고각은 개념값이라 라벨에 "(개념)" 을 붙입니다.
   - 거리·방위 값은 사건과 무관한 자산 사양입니다. d1 값을 그대로 쓰되 "사용자 확정 대기" 주석을 유지합니다.
+- **착탄 강조(`eez.pulse`)**: 착탄이 발표상 그 나라 EEZ **안**일 때만 그 나라 코드를 둡니다. 밖이거나 미발표면 `pulse` 줄을 지웁니다.
 - **해양 경계(SK-H4·H5, `docs/handoff/22` §2.5)**:
   - 중첩 주장 수역은 청구국 두 색 사선입니다(`kind: overlap`, `claimants` 두 나라 색이 달라야 함).
   - 서해 남북은 NLL 과 북한 1999 선 사이 빗금이고, NLL 은 `approx: true` 입니다. 그 층이 설명되는 동안 '개략'(`rules sketch.checks.approx_word`)이 든 출처 줄을 두고, 엔딩 자료에도 '개략' 을 씁니다.
