@@ -28,7 +28,7 @@ class Num(_Strict):
 
 
 class Agency(_Strict):
-    """발표 기관 — 고도 단면 패널에 나란히 같은 무게로(CONVENTIONS §2)."""
+    """발표 기관 — 고도 단면 패널에 나란히 같은 무게로(docs/handoff/22 §2.3)."""
 
     who: str = Field(min_length=1)
     color: str = Field(min_length=1)               # engine.style 색 토큰 이름
@@ -89,7 +89,7 @@ class Track(_Strict):
 
 
 class Sensor(_Strict):
-    """탐지 자산. radar = 고정 레이더, ship = 이동 자산(위치는 예시, 범위 비공개). CONVENTIONS §3."""
+    """탐지 자산. radar = 고정 레이더, ship = 이동 자산(위치는 예시, 범위 비공개). docs/handoff/22 §2.4."""
 
     name: str
     sub: Optional[str] = None

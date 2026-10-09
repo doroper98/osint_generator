@@ -152,6 +152,7 @@ HyperFrames/Remotion 문법, `docs/07/08/09` 구판)은 **v2.0.0에서 폐기**�
 | `rules/video_rules.yaml` | `prompts/` 재생성 결과 확인, `tests/anti_inertia/` 통과 |
 | 새 이벤트 타입·패널 종류·미디어 형태 | 스키마·렌더러·프리뷰 예제 **세 곳 동시** (`rules/video_rules.yaml registries`) |
 | `docs/handoff/*` | `docs/handoff/19` §3 판정표, `docs/handoff/DECISIONS.md` |
+| `sketch/` · `rules/video_rules.yaml sketch:` | `docs/handoff/22_SKETCH_TRACK.md`, `.claude/skills/*/SKILL.md` |
 
 ## C8. 작업 흐름 (AI 에이전트용)
 

@@ -128,3 +128,4 @@ origin: claude.ai chat handoff bundle (2026-09-26 ~ 09-27), imported verbatim
 | 린트(lint) | 원고 자동 검사. 금지 문구, 발음 텍스트의 숫자·기호, 강조어 누락을 잡는다. |
 
 - `21_SESSION_LIVENESS_AND_RECOVERY.md` — 세션 생존·복구 정본(멍때림 사고 근본 원인, 3중 방어, 재기동 문안, 사용자 약속). 2026-09-28 추가.
+- `22_SKETCH_TRACK.md` — 화면 스케치 트랙(미사일 사건도·전황 작전도, 엔진 밖 `sketch/`) 정본: 계층 결정·spec 계약·검사표·출처·권리·재현·사용자 확정 대기·본편 등록 후보. 2026-10-10 추가(v5.10.0).

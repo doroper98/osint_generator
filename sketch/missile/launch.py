@@ -1,5 +1,5 @@
 """층 3: 발사·궤적·착탄 — 발사 기호, 지상 투영(대원) 궤적, 비행 경과 계기, 착탄 불확실성 영역(SK-H2)과 기준점 거리선.
-CONVENTIONS §2. 원본: 4d9dc65 `sketch_d1.draw_launch`·`draw_track`·`draw_impact`.
+docs/handoff/22 §2.3. 원본: 4d9dc65 `sketch_d1.draw_launch`·`draw_track`·`draw_impact`.
 
 화면 숫자는 `Numbers` 포맷터를 거친 발표값뿐이다(SK-H1). 계산한 대원 거리는 그리지 않는다.
 """

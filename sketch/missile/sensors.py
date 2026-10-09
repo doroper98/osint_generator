@@ -1,5 +1,5 @@
 """층 2: 탐지 자산 — 위치 공개 레이더(기준점 + 부채꼴), 위치 비공개(기준점 없음 · 여러 겹 흐림 · 개념도 태그),
-이동 자산(위치 예시 기호 · 범위 없음). CONVENTIONS §3, SK-H3. 원본: 4d9dc65 `sketch_d1.draw_sensor`·`draw_aegis`.
+이동 자산(위치 예시 기호 · 범위 없음). docs/handoff/22 §2.4, SK-H3. 원본: 4d9dc65 `sketch_d1.draw_sensor`·`draw_aegis`.
 
 수치 = rules sketch.sensors, 사실·시각·문구 = spec.sensors.
 """

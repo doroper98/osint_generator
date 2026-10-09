@@ -1359,9 +1359,9 @@ provenance:                # 15 §3 P5
 
 sketch:                    # v5.7.0 back_and_forth D-0140(D130) — 스케치 계층(sketch/, 엔진 레지스트리 밖) 화면 수치 SSOT. 값 = 사용자 검토본(4d9dc65 projects/*_sketch 스크립트 리터럴) 그대로(D-0140 §7 — "더 좋아 보이게" 바꾸지 않는다). 설계 px(480p), 장치 px = output_profile k 배. 사실·연출 값(좌표·시각·발표 수치·문구)은 projects/<pid>/sketch.yaml(spec). 묶음은 S0 뼈대 — S1~S3 이식 때 같은 묶음 안에 키를 더한다
   camera:
-    push_in: {missile: 0.035, campaign: 0.03}   # 숏 안 느린 푸시인 비율(줌 범프 없음). 이동은 앞 숏의 푸시인 끝 상태에서 시작(멈칫 교훈, CONVENTIONS §5)
+    push_in: {missile: 0.035, campaign: 0.03}   # 숏 안 느린 푸시인 비율(줌 범프 없음). 이동은 앞 숏의 푸시인 끝 상태에서 시작(멈칫 교훈, docs/handoff/22 §2.6)
     hold_min_sec: 1.0                            # 푸시인 분모 하한 max(이 값, 다음 숏 시작 − 이동 끝)
-    move_min_sec: 2.4                            # 큰 줌(4배 안팎) 이동 하한(CONVENTIONS §5) — 검사·스킬 안내용
+    move_min_sec: 2.4                            # 큰 줌(4배 안팎) 이동 하한(docs/handoff/22 §2.6) — 검사·스킬 안내용
   fade:
     open_sec: 1.0          # 첫 화면 검정에서 열림
     close_sec: 1.2         # 끝 화면 검정으로 닫힘

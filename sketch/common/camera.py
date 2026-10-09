@@ -3,7 +3,7 @@
 x = 경도, y = 메르카토르 y(engine.stage.ym), w = 화면 가로 폭(경도 °). engine.projection.View 가 그대로 받는다.
 숏 안에서는 느린 푸시인(rules sketch.camera.push_in[kind]), 숏 사이 이동은 ease_io 로 위치·log w 를 보간한다.
 **이동은 앞 숏이 끝난 상태(푸시인까지 들어간 w)에서 시작한다** — 원래 w 에서 다시 시작하면 전환 첫 프레임에
-줌이 push_in 만큼 튄다(멈칫 사고, CONVENTIONS §5). 원본: 4d9dc65 `sketch_d1.camera`·`uranus_sketch.camera`.
+줌이 push_in 만큼 튄다(멈칫 사고, docs/handoff/22 §2.6). 원본: 4d9dc65 `sketch_d1.camera`·`uranus_sketch.camera`.
 """
 
 from __future__ import annotations

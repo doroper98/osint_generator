@@ -1,5 +1,5 @@
 """층 5: 고도 단면 패널 — 고각 궤적(개념 곡선 × 발표 정점), 기준선, 두 기관 발표를 나란히 같은 무게로.
-CONVENTIONS §2. 원본: 4d9dc65 `sketch_d1.draw_profile`. 수치 = rules sketch.profile, 문구·발표값 = spec.profile·announced.
+docs/handoff/22 §2.3. 원본: 4d9dc65 `sketch_d1.draw_profile`. 수치 = rules sketch.profile, 문구·발표값 = spec.profile·announced.
 """
 
 from __future__ import annotations

@@ -1,5 +1,5 @@
 """층 1: 해양 경계(EEZ) — 나라 색 옅은 채움 + 바다 쪽 경계 점선, 중첩 주장 두 색 사선(SK-H4), 공동 관리 점무늬,
-서해 남북 두 주장선(NLL 개략·북한 1999 선). CONVENTIONS §4. 원본: 4d9dc65 `sketch_d1.EEZ`.
+서해 남북 두 주장선(NLL 개략·북한 1999 선). docs/handoff/22 §2.5. 원본: 4d9dc65 `sketch_d1.EEZ`.
 
 수치 = rules sketch.eez·text·fade, 사실·시각·문구 = spec.eez.
 """

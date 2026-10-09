@@ -1,7 +1,7 @@
 """화면 숫자 포맷터 — SK-H1 의 구현 지점 하나(D-0142 §1).
 
 화면에 나오는 발표·사양 수치는 spec 의 `{키}` 자리표시를 이 모듈이 채운 것뿐이다. 계산한 거리·시간을 문자열로
-만들지 않는다(980km 대 발표 1,000km 사고, CONVENTIONS §2). 채운 값은 `shown` 에 남아 provenance `numbers_shown` 이 된다.
+만들지 않는다(980km 대 발표 1,000km 사고, docs/handoff/22 §2.3). 채운 값은 `shown` 에 남아 provenance `numbers_shown` 이 된다.
 자리표시 키: `{기관.값}`(announced), `{track.distance_km}`, `{sensor.range_km}`(그 자산), `{profile.ref_km}`,
 3D 라벨용 `{sensor.range_plain}`('약' 없이)·`{sensor.az}`·`{sensor.el}`(개념값), 상수 `{const.earth_radius_km}`.
 좌표·지구 반지름으로 계산한 기하값(수평선 패널, D136)은 `computed()` 로만 만들고 `computed_log` 에 따로 남는다(numbers_shown 과 섞지 않는다).

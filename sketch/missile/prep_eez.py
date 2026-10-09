@@ -5,7 +5,7 @@
 
 각 EEZ·중첩·공동관리 다각형을 화면 권역(prep.clip)으로 자르고 단순화한다. `lines` = 바다 쪽 경계(해안선과 겹치는 구간을 뺀 선).
 육지 = Natural Earth 10m 국가(data/geo/ne). **서해 남북**: Marine Regions 남북 등거리선은 NLL 도 북한 주장선도 아니라 쓰지 않는다 —
-prep.west_box 안의 남북 EEZ 를 NLL(개략)·북한 1999 선으로 다시 나누고 두 선 사이를 중첩(KR_KP overlap)으로 둔다(CONVENTIONS §4).
+prep.west_box 안의 남북 EEZ 를 NLL(개략)·북한 1999 선으로 다시 나누고 두 선 사이를 중첩(KR_KP overlap)으로 둔다(docs/handoff/22 §2.5).
 사실 값(mrgid·좌표)은 spec.eez.prep, 기하 처리 공차는 아래 상수(데이터 준비 — 화면 수치가 아니다). 원본: 4d9dc65 `prep_eez.py`.
 """
 

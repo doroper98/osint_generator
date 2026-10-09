@@ -58,7 +58,7 @@ def sector(at: LonLat, brg: float, width_deg: float, km: float, n: int) -> np.nd
 def horizon_altitude(d_km: float) -> float:
     """지표 거리 d 떨어진 레이더의 고각 0° 시선이 그 지점 상공에서 지나는 높이 km = R(1/cos(d/R) − 1).
 
-    사양·대기 굴절과 무관한 순수 기하(CONVENTIONS §3 "레이더 수평선 최소 고도").
+    사양·대기 굴절과 무관한 순수 기하(docs/handoff/22 §2.4 "레이더 수평선 최소 고도").
     """
     th = d_km / EARTH_KM
     if not 0 <= th < math.pi / 2:
