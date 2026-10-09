@@ -148,3 +148,6 @@ last_review: 2026-09-27
 | 2026-10-09 | D129 | 스케치 스킬 트랙(S0~S4)의 교신·작업 브랜치 = `claude/bold-mccarthy-ttmagk`(README §1 개정). `overhaul/v2-map-engine` 은 v5.3.0 에서 정지(main 보다 64 커밋 뒤) | ③ 저장소 실측 | Fable (D-0140) | README §1 인용문 삭제 |
 | 2026-10-09 | D130 | 스케치 화면 수치(px·알파·초·간격·각도·색 토큰 이름)의 SSOT = `rules/video_rules.yaml sketch:` 한 곳(`SketchRules`, extra=forbid). 사실·연출 값은 spec. 코드 리터럴은 `tests/anti_inertia/test_sketch_no_literals` 가 막는다 | ③ P3 | Fable (D-0140) | 규칙 블록·테스트 삭제 |
 | 2026-10-09 | D131 | 에이전트 스킬 위치 = `.claude/skills/<name>/SKILL.md`(Claude Code 프로젝트 스킬 규격). 스킬은 CLI 를 부르는 절차서이며 코드를 담지 않는다 | ① ② | Fable (D-0140) | 폴더 삭제 |
+| 2026-10-09 | D132 | SK-C1 카메라 연속성 = 1차 + 2차 차분: `\|Δ ln w\|` ≤ 0.07, `\|Δ² ln w\|`·`\|Δ² x\|/w`·`\|Δ² y\|/w` ≤ 0.01(숏 경계 예외 없음). 그 밖 `georef_residual_deg 0.01`·`horizon_tol_km 0.5`·`label_overlap_px 0`(warning). 키 = `rules sketch.checks` | R-0174·Fable 재현 실측(검토본 0.004 / 옛 멈칫 0.036) ①② | Fable (D-0141) | 키 삭제 |
+| 2026-10-09 | D133 | 스케치 SK-R1 허용 라이선스 = `rules sketch.rights.allowed_licenses` [CC0, CC BY 3.0, CC BY 4.0, CC BY-SA 3.0, CC BY-SA 4.0, Public domain, United States Government Work]. 목록 밖·RIGHTS.json 항목 없음 = hard | C9·G4-8 ③ | Fable (D-0142) | 목록 수정 |
+| 2026-10-09 | D134 | 세션 도구가 붙이는 커밋 트레일러 `Co-Authored-By: Claude …` 는 허용. "모델 식별자 금지"는 코드·문서·산출물에 적용(커밋 메시지 트레일러 제외). 7f990f5 유지(force 금지) | ① ③ | Fable (D-0142) | 규칙 재해석 한 줄 |
