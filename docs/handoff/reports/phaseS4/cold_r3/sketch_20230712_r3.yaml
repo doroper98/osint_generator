@@ -1,0 +1,187 @@
+# 미사일 발사 사건 화면 스케치 spec — 2023.07.12 화성-18형(d1 spec 에서 출발, 사실 값만 교체)
+# 사실·연출 값만 둔다. 화면 수치는 rules/video_rules.yaml sketch:. 실행: python -m sketch.missile projects/missile_20230712_r3_sketch
+# 화면 숫자는 {기관.값}·{track.distance_km}·{sensor.range_km}·{profile.ref_km} 자리표시를 포맷터가 채운다(SK-H1).
+schema_version: 1
+kind: missile
+title: "2023.07.12 화성-18형 발사"
+date: "2023. 7. 12"
+duration_sec: 56.0
+sheet_times: [5.0, 8.4, 14.0, 20.5, 27.0, 34.0, 41.0, 48.0, 54.0]
+
+sources:
+  - text: "발사·비행: 합동참모본부 2023.07.12 발표(뉴시스 2023.07.12 보도)"
+    url: "https://mobile.newsis.com/view/NISX20230712_0002373729"
+  - text: "비행·착탄: 일본 방위성 2023.07.12 발표(뉴시스 2023.07.12 보도 인용)"   # 방위성 원문(mod.go.jp/j/press/news/2023/07/12c.html) 403 — 보도 인용 경로
+    url: "https://www.mod.go.jp/j/press/news/2023/07/12c.html"
+  - text: "EEZ: Marine Regions(VLIZ) EEZ 경계 · CC BY 4.0 · 한일·한중 미획정 구간은 등거리선 참고"
+  - text: "서해 남북: NLL 개략 재구성(공식 좌표 아님) · 북한 해상군사분계선 1999.9.2 발표 좌표(한국일보 1999.9.3)"
+  - text: "사드 AN/TPY-2 종말 모드 약 600km · 그린파인 블록-C 최대 약 800km(공개 사양·보도)"   # 사용자 확정 대기(레이더 사양 값)
+
+shots:   # 숏 4개, 이동은 장면 전환에서만
+  - {t0: 0.0, t1: 0.0, lon: 132.6, lat: 36.6, w: 37.0}     # 광역 — EEZ
+  - {t0: 8.4, t1: 11.0, lon: 126.9, lat: 38.15, w: 9.5}    # 한반도 — 발사 지점·서해 남북 경계·미사일
+  - {t0: 16.8, t1: 19.2, lon: 132.0, lat: 38.6, w: 25.0}   # 탐지 자산
+  - {t0: 27.8, t1: 30.2, lon: 132.9, lat: 40.3, w: 19.5}   # 궤적·착탄
+
+launch: {label: "평양 일대", sub: "발사 · 오전 10시경", lon: 125.75, lat: 39.03, t: 10.8, color: ru}   # 합참 "10시경 평양 일대에서" — 좌표는 평양 대표점
+
+announced:   # 두 기관 나란히 같은 무게(고도 단면 패널)
+  jcs:
+    who: "합동참모본부"
+    color: gold
+    values:
+      range_km: {v: 1000, unit: km, approx: true}     # 합참 "약 1000㎞ 비행" — 정점·속도는 "정밀 분석 중"(미발표)
+    rows: ["거리 {jcs.range_km}"]
+  mod:
+    who: "일본 방위성"
+    color: teal
+    values:
+      range_km: {v: 1000, unit: km, approx: true}     # 방위성 "約1,000km"
+      apogee_km: {v: 6000, unit: km, approx: true}    # 방위성 "約6,000kmを超える" — 하한 발표
+      flight_min: {v: 74, unit: min, approx: true}    # 방위성 "約74分" — 초 단위 발표 없음
+    rows: ["거리 {mod.range_km}", "고도 {mod.apogee_km} 초과", "비행 {mod.flight_min}"]
+
+track:
+  ref: {name: "오쿠시리섬", lon: 139.47, lat: 42.15}   # 奥尻島 대표점
+  bearing_deg: 270            # 일본 방위성 "奥尻島の西方約250km"
+  distance_km: 250
+  approx: true
+  uncertainty_km: 25          # "약" 표현 → 점 대신 반경(스케치 값) — 사용자 확정 대기
+  flight_sec: 4440            # 일본 방위성 약 74분 × 60(sec 발표 없음, D144)
+  t0: 30.4
+  t1: 38.0
+  hud:
+    label: "비행 경과"
+    range_line: "비행거리 {jcs.range_km} · 합참 발표"
+    note: "궤적선은 발사점·착탄점을 잇는 지상 투영(대원) · 실제 비행은 고각"
+    hold_sec: 3.5
+  impact:
+    label: "착탄 추정 영역"
+    sub: "일본 방위성 · 오쿠시리섬 서쪽 {track.distance_km}"
+    tag: "일본 EEZ 바깥"
+    tag_color: teal
+
+sensors:   # 레이더 거리·방위 폭 = 공개 사양·보도 — 사용자 확정 대기
+  - {name: "사드 AN/TPY-2 · 성주", sub: "종말 모드 탐지 {sensor.range_km}", kind: radar, lon: 128.28, lat: 35.99, location_public: true,
+     range_km: 600, range_approx: true, az_width_deg: 120, color: us, t: 19.0, side: r, label_at: [129.4, 35.25],
+     el_deg: [0, 60], short: "성주", globe_name: "AN/TPY-2 · 성주", globe_label: [-10, 30, r]}   # 3D 방위·고각 = 개념값(공개 정밀 사양 없음)
+  - {name: "그린파인 레이더", sub: "블록-C 최대 {sensor.range_km}", kind: radar, lon: 127.5, lat: 36.7, location_public: false,
+     range_km: 800, range_approx: true, az_width_deg: 120, color: gold, t: 21.0, tag: "위치 비공개 · 범위는 개념도", side: l, label_at: [125.2, 36.0]}
+  - {name: "AN/TPY-2 · 샤리키", sub: "전진배치 모드", kind: radar, lon: 140.32, lat: 40.89, location_public: true,
+     range_km: 1000, az_width_deg: 120, color: teal, t: 23.0, tag: "거리 공개 추정치", side: l, label_at: [141.0, 41.9],
+     el_deg: [0, 60], short: "샤리키", globe_label: [12, -18, l]}
+  - {name: "AN/TPY-2 · 교가미사키", sub: "전진배치 모드", kind: radar, lon: 135.22, lat: 35.76, location_public: true,
+     range_km: 1000, az_width_deg: 120, color: teal, t: 24.4, side: l, label_at: [135.6, 35.0],
+     el_deg: [0, 60], short: "교가미사키", globe_label: [12, 30, l]}
+  - {name: "이지스 구축함", sub: "SPY-1D · 동해 작전", kind: ship, lon: 130.3, lat: 36.5, location_public: false,
+     color: gold, t: 25.8, tag: "함정 위치는 예시 · 탐지 거리 비공개"}
+
+eez:
+  file: eez.json
+  nations:
+    KR: {color: gold, label: "한국 EEZ", label_at: [124.4, 35.4], t: 0.9}
+    JP: {color: teal, label: "일본 EEZ", label_at: [146.5, 33.5], t: 1.7}
+    KP: {color: ru, label: "북한 EEZ", label_at: [130.6, 40.4], t: 2.5}
+    CN: {color: muted, label: "중국 EEZ", label_at: [122.6, 29.0], t: 3.1}
+    RU: {color: muted, label: "러시아 EEZ", label_at: [137.2, 44.4], t: 3.5}
+  labels_end: 8.6
+  regions:
+    - {code: KR_JP, kind: overlap, claimants: [KR, JP], t: 4.7, end: 9.0, at: [133.6, 38.6], anchor: l,
+       label: "독도 주변 수역", sub: "일본이 영유권 주장 · 대한민국 실효 지배"}   # 독도 문구 — 사용자 확정 대기
+    - {code: KR_JP, kind: joint, color: green, t: 5.6, end: 9.0, at: [125.0, 31.2], anchor: r,
+       label: "한일 공동개발구역", sub: "1974년 협정 · 경계 미획정 수역"}
+    - {code: JP_RU, kind: overlap, claimants: [JP, RU], t: 6.4, end: 9.0, at: [146.4, 41.0], anchor: r,
+       label: "쿠릴 남단 4개 섬", sub: "러·일 중첩 주장"}
+    - {code: KR_KP, kind: overlap, claimants: [KR, KP], t: 4.2, label_t: 13.0, end: 17.6, at: [123.15, 37.55], anchor: l,
+       label: "남북 주장 중첩 수역", sub: "법적 경계 미획정", edge: false, focus: [8.6, 18.2]}   # 빗금은 처음부터, 설명 라벨은 서해 장면에서
+  claim_lines:
+    - {code: NLL, color: gold, t: 10.6, end: 17.6, at: [123.15, 38.32], anchor: l, approx: true, focus: [8.6, 18.2],
+       label: "NLL · 1953", sub: "유엔군사령부 설정 · 화면 선은 개략"}   # NLL 좌표 개략 — 사용자 확정 대기(본편 전 공식 좌표)
+    - {code: NK1999, color: ru, dash: [6, 4], t: 11.8, end: 17.6, at: [125.6, 37.05], anchor: l, vertices: true, focus: [8.6, 18.2],
+       label: "북한 주장 해상군사분계선 · 1999", sub: "1999.9.2 발표 좌표",
+       ext_tag: {text: "이후 '중국과의 경계까지' · 방향 미발표 — 점선은 같은 방향 연장", color: amber}}
+  places:
+    t0: 10.2
+    t1: 17.6
+    items:
+      - {name: "백령도", lon: 124.67, lat: 37.96}
+      - {name: "연평도", lon: 125.70, lat: 37.66}
+  prep:                      # d1 과 같은 권역·나라 — eez.json 은 d1 파생 파일 복사(SKILL ③-4)
+    wfs_url: "https://geo.vliz.be/geoserver/MarineRegions/wfs?service=WFS&version=1.0.0&request=GetFeature&typeName=MarineRegions:eez&outputFormat=application/json&bbox=115,25,150,48"
+    license: "CC BY 4.0"
+    keep:
+      8327: [KR, eez]
+      8328: [KP, eez]
+      8487: [JP, eez]
+      8486: [CN, eez]
+      5690: [RU, eez]
+      48955: [KR_JP, overlap]
+      21796: [KR_JP, joint]
+      48950: [JP_RU, overlap]
+    clip: [110, 22, 160, 52]
+    west_box: [123.0, 36.5, 126.8, 38.6]   # 서해 북부 — 이 안의 남북 EEZ 는 두 주장선으로 다시 나눈다(Marine Regions 남북 등거리선은 쓰지 않는다)
+    west_codes: [8327, 8328]               # (남, 북)
+    anchor: [126.17, 37.72]                # 한강 하구 서쪽 — 두 선의 동쪽 공통 시작점(개략)
+    # NLL(1953, 유엔군사령부) 개략 재구성 — 서해 5도와 북측 해안의 중간점 원칙. 사용자 확정 대기(본편 전 공식 좌표로 교체)
+    nll_approx: [[123.0, 38.05], [124.10, 38.05], [124.62, 38.05], [124.79, 38.01], [124.86, 37.96], [124.87, 37.80],
+                 [124.88, 37.70], [125.20, 37.69], [125.55, 37.70], [125.66, 37.71], [125.80, 37.69], [125.99, 37.71], [126.17, 37.72]]
+    # 북한 '조선 서해 해상군사분계선'(1999.9.2) — 한국일보 1999.9.3. 2점 위도는 보도마다 1'02"·1'12" — 여기서는 1'12"
+    nk1999_dms: [[[125, 31, 0], [37, 18, 30]], [[124, 55, 0], [37, 1, 12]], [[124, 32, 30], [36, 50, 45]]]
+
+dim:   # 장면별 초점
+  eez: [{t: 9.0, d: -0.55, sec: 1.0}, {t: 30.0, d: 0.25, sec: 1.0}]
+  eez_labels_off: 30.0
+  sensors: [{t: 29.0, d: -0.6, sec: 1.0}]
+  sensors_focus_end: 27.2
+  sensors_labels_end: 27.6
+
+profile:
+  t0: 43.0
+  t1: 51.2
+  title: "고도 단면"
+  sub: "고각 발사 · 위로 높이 솟아 짧게 떨어짐"
+  alt_axis: "고도 km"
+  range_axis: "지상 거리 km"
+  curve: mod                  # 정점은 방위성만 발표(하한 "6,000km 초과") — 곡선은 그 값을 정점으로 그린 개념 곡선: 사용자 확정 대기
+  apex_label: "정점"
+  note: "가로·세로 축척 다름 · 궤적 모양은 개념"
+  reference: {label: "국제우주정거장 {profile.ref_km}", km: {v: 400, unit: km, approx: true}}
+
+notes:
+  source_lines:
+    - {t0: 1.0, t1: 9.6, text: "EEZ 경계: Marine Regions(VLIZ) · CC BY 4.0 · 미획정 구간은 등거리선 참고"}
+    - {t0: 10.8, t1: 17.6, text: "NLL: 서해 5도와 북측 해안의 중간점 원칙으로 개략 재구성(공식 좌표 아님) · 북한선: 1999.9.2 발표 좌표(한국일보 보도)"}
+    - {t0: 19.4, t1: 28.4, text: "탐지 거리: 공개 사양·언론 보도 기준 · 실제 운용 범위는 비공개"}
+  end_title: "자료"
+  end_note: "화면 스케치 · 자막·내레이션 없음"
+  end_sec: 4.4
+
+globe:   # 3D 전환편(python -m sketch.missile <pid> --globe) — 4d9dc65 globe3d.py 값
+  texture_project: ../d1_missile_sketch/globe_tex   # 전 지구 텍스처 재사용(SKILL ③-3)
+  center: [132.9, 40.3]            # 접점 = 2D 마지막 숏 중심
+  duration_sec: 19.0
+  handoff_2d_t: 41.0               # 2D 장면을 이어받는 시각(= track.t1 + 3.0)
+  t_2d: 2.0                        # 2D 유지
+  t_x: 1.0                         # 2D → 3D 교차 전환
+  t_k0: 3.0                        # 곡률 전환(k: k_max → 1)
+  t_k1: 7.5
+  t_side0: 7.5                     # 옆 시점으로 이동
+  t_side1: 11.0
+  t_fly0: 11.0                     # 미사일 비행(발표 비행 시간 압축)
+  t_fly1: 16.5
+  sheet_times: [1.0, 4.5, 6.5, 9.0, 12.5, 15.0, 17.5]
+  labels:
+    launch_sub: "발사"
+    impact_sub: "일본 EEZ 밖"
+    apex: "정점 {mod.apogee_km} 초과"
+    apex_sub: "일본 방위성 · 실제 축척"
+    radar_sub: "{sensor.range_plain} · 방위 {sensor.az} · 고각 {sensor.el}(개념)"
+  panel:   # 수평선 최소 고도 — 값은 기하 계산(SK-H6), 주석은 패널과 같은 창에 필수
+    title: "발사 지점 상공이 보이기 시작하는 고도"
+    distance_fmt: "거리 {value}"
+    altitude_fmt: "{value} 위"
+    note: "지구 곡률(고각 0°)만 계산 · 굴절·탐지 성능과 별개"
+    note2: "먼 레이더일수록 발사 직후 저고도 구간을 수평선에 가려 못 본다"
+  hud_notes:
+    - "탐지 볼륨 = 공개 거리 + 개념 방위·고각(실제 운용 범위는 비공개)"
+    - "궤적 높이 = 발표 정점 × 개념 곡선 · 지구 반지름 {const.earth_radius_km} 와 같은 축척"
