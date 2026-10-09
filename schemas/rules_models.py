@@ -1774,6 +1774,7 @@ class SketchText(_Strict):
     size: float = Field(gt=0)
     font: str
     halo: Optional[float] = Field(default=None, ge=0)
+    dx: Optional[float] = None
     dy: Optional[float] = None
     x: Optional[float] = None
     y: Optional[float] = None
@@ -1790,9 +1791,19 @@ class SketchCamera(_Strict):
 class SketchFade(_Strict):
     open_sec: float = Field(gt=0)
     close_sec: float = Field(gt=0)
+    black_min: float = Field(ge=0)
+    min_alpha: float = Field(ge=0)
+    win_in: float = Field(gt=0)
+    win_out: float = Field(gt=0)
+    note_in: float = Field(gt=0)
+    note_out: float = Field(gt=0)
     end_dim_alpha: float = Field(gt=0, le=1)
     end_bg: RGB
     end_in_sec: float = Field(gt=0)
+    date_in_t: float = Field(ge=0)
+    date_alpha: float = Field(gt=0, le=1)
+    date_line_alpha: float = Field(gt=0, le=1)
+    date_halo: float = Field(ge=0)
     date_hide_lead_sec: float = Field(ge=0)
     date_hide_sec: float = Field(gt=0)
 
@@ -1803,8 +1814,13 @@ class SketchTextRules(_Strict):
     label_edge_margin: float = Field(ge=0)
     label_reserve_pad: tuple[float, float, float, float]
     place: SketchText
+    eez_name: SketchText
     hud: SketchText
     hud_value: SketchText
+    hud_range: SketchText
+    hud_note: SketchText
+    ref_name: SketchText
+    ref_distance: SketchText
     source: SketchText
     end_title: SketchText
     end_line: SketchText
@@ -1827,14 +1843,44 @@ class SketchTag(_Strict):
     reserve_min_alpha: float = Field(ge=0, le=1)
 
 
+class SketchUnit(_Strict):
+    prefix: str = ""
+    suffix: str = ""
+    check: bool
+
+    @model_validator(mode="after")
+    def _one(self) -> "SketchUnit":
+        if not (self.prefix or self.suffix):
+            raise ValueError("단위는 prefix 나 suffix 중 하나가 필요하다")
+        return self
+
+
+class SketchNumbers(_Strict):
+    """화면 숫자 포맷터(SK-H1, D-0142 §1)."""
+
+    approx_prefix: str
+    clock_prefix: str
+    units: dict[str, SketchUnit] = Field(min_length=1)
+
+
+class SketchRights(_Strict):
+    """SK-R1 허용 라이선스(D133)."""
+
+    allowed_licenses: list[str] = Field(min_length=1)
+
+
 class SketchEez(_Strict):
+    appear_sec: float = Field(gt=0)
+    min_alpha: float = Field(ge=0)
     fill_alpha: float = Field(ge=0, le=1)
     pulse_fill_alpha: float = Field(ge=0, le=1)
     edge_alpha: float = Field(ge=0, le=1)
     pulse_edge_alpha: float = Field(ge=0, le=1)
     edge_w: float = Field(gt=0)
+    pulse_edge_w: float = Field(ge=0)
     dash: list[float] = Field(min_length=2)
     min_edge_len_deg: float = Field(ge=0)
+    min_edge_step_deg: float = Field(ge=0)
     hatch_gap: float = Field(gt=0)
     hatch_w: float = Field(gt=0)
     hatch_alpha: float = Field(ge=0, le=1)
@@ -1844,17 +1890,28 @@ class SketchEez(_Strict):
     dots_alpha: float = Field(ge=0, le=1)
     overlap_edge_alpha: float = Field(ge=0, le=1)
     overlap_edge_w: float = Field(gt=0)
-    appear_sec: float = Field(gt=0)
+    focus_in: float = Field(gt=0)
+    focus_out: float = Field(gt=0)
     claim_grow_sec: float = Field(gt=0)
     claim_dense: int = Field(ge=2)
     claim_w: tuple[float, float]
     claim_ext_alpha: float = Field(ge=0, le=1)
     claim_ext_dash: list[float] = Field(min_length=2)
     vertex_half: float = Field(gt=0)
+    label_delay: float = Field(ge=0)
+    label_in: float = Field(gt=0)
+    label_out: float = Field(gt=0)
+    region_label_delay: float = Field(ge=0)
+    claim_label_delay: float = Field(ge=0)
+    ext_tag_delay: float = Field(ge=0)
+    ext_tag_dx: float
+    ext_tag_dy: float
     leader_alpha: float = Field(ge=0, le=1)
     leader_w: float = Field(gt=0)
     leader_dx: float
     leader_dy: float
+    place_dot_r: float = Field(gt=0)
+    place_box: tuple[float, float, float]
 
 
 class SketchSensors(_Strict):
@@ -1882,27 +1939,52 @@ class SketchSensors(_Strict):
     undisclosed_glow_r: float = Field(gt=0)
     undisclosed_glow_alpha: float = Field(ge=0, le=1)
     focus_dim: float = Field(ge=0, le=1)
+    label_delay: float = Field(ge=0)
+    label_in: float = Field(gt=0)
+    label_out: float = Field(gt=0)
+    full_out: float = Field(gt=0)
+    full_min: float = Field(ge=0, lt=0.5)
+    short_alpha: float = Field(ge=0, le=1)
     tag_dy: float
+    ship_rings: int = Field(ge=1)
     ship_ring: tuple[float, float]
     ship_ring_rate: float = Field(gt=0)
     ship_ring_alpha: float = Field(ge=0, le=1)
     ship_ring_w: float = Field(gt=0)
+    ship_shape: list[tuple[float, float]] = Field(min_length=3)
+    ship_bridge: tuple[float, float, float, float]
+    ship_label_delay: float = Field(ge=0)
+    ship_label: tuple[float, float, float]
 
 
 class SketchLaunchTrackImpact(_Strict):
+    min_alpha: float = Field(ge=0)
+    launch_appear: float = Field(gt=0)
+    launch_rings: int = Field(ge=1)
     launch_ring: tuple[float, float]
     launch_ring_rate: float = Field(gt=0)
     launch_ring_alpha: float = Field(ge=0, le=1)
     launch_ring_w: float = Field(gt=0)
     launch_tri: tuple[float, float, float]
+    launch_tri_w: float = Field(gt=0)
+    launch_label_delay: float = Field(ge=0)
+    launch_label_in: float = Field(gt=0)
+    launch_label: tuple[float, float, float, float]
     track_w: float = Field(gt=0)
     track_points: int = Field(ge=2)
     head_r: float = Field(gt=0)
     head_stops: tuple[float, float, float]
     hud_x: float
     hud_y: tuple[float, float, float, float]
+    hud_in: float = Field(gt=0)
+    hud_out: float = Field(gt=0)
+    hud_range_in: float = Field(gt=0)
+    range_color: str
+    impact_color: str
+    impact_appear: float = Field(gt=0)
     flash_r: float = Field(gt=0)
     flash_decay: float = Field(gt=0)
+    flash_min: float = Field(ge=0)
     flash_alpha: float = Field(ge=0, le=1)
     flash_rgb: RGB
     impact_grow_sec: float = Field(gt=0)
@@ -1911,39 +1993,90 @@ class SketchLaunchTrackImpact(_Strict):
     impact_edge_alpha: float = Field(ge=0, le=1)
     impact_dash: list[float] = Field(min_length=2)
     impact_edge_w: float = Field(gt=0)
-    ref_line_points: int = Field(ge=2)
+    ref_delay: float = Field(ge=0)
+    ref_in: float = Field(gt=0)
+    ref_grow_sec: float = Field(gt=0)
+    ref_line_points: int = Field(ge=3)
     ref_line_alpha: float = Field(ge=0, le=1)
     ref_line_w: float = Field(gt=0)
     ref_line_dash: list[float] = Field(min_length=2)
     ref_dot_r: float = Field(gt=0)
-    impact_label_dy: float
-    impact_tag_dy: float
+    ref_mid_delay: float = Field(ge=0)
+    ref_mid_in: float = Field(gt=0)
+    impact_label_delay: float = Field(ge=0)
+    impact_label_in: float = Field(gt=0)
+    impact_label: tuple[float, float, float]
+    impact_tag_delay: float = Field(ge=0)
+    impact_tag_in: float = Field(gt=0)
+    pulse: tuple[float, float, float, float]
+
+
+class SketchProfileText(_Strict):
+    title: SketchText
+    sub: SketchText
+    tick: SketchText
+    axis: SketchText
+    ref: SketchText
+    apex: SketchText
+    note: SketchText
+    who: SketchText
+    row: SketchText
 
 
 class SketchProfile(_Strict):
     rect: tuple[float, float, float, float]
+    in_sec: float = Field(gt=0)
+    min_alpha: float = Field(ge=0)
     slide_px: float = Field(ge=0)
     dim_alpha: float = Field(ge=0, le=1)
     bg: Color4
     radius: float = Field(ge=0)
+    pad_x: float
     plot_inset: tuple[float, float, float, float]
+    grid_w: float = Field(gt=0)
+    zero_alpha: float = Field(ge=0, le=1)
+    grid_alpha: float = Field(ge=0, le=1)
     alt_max_km: float = Field(gt=0)
     alt_ticks_km: list[float] = Field(min_length=2)
     range_ticks_km: list[float] = Field(min_length=2)
     range_max_km: float = Field(gt=0)
-    iss_km: float = Field(gt=0)
+    tick_dx: float
+    tick_dy: float
+    axis_title_dy: float
+    range_tick_dy: float
+    axis_label_dy: float
+    ref_color: str
+    ref_alpha: float = Field(ge=0, le=1)
+    ref_dash: list[float] = Field(min_length=2)
+    ref_label_dx: float
+    ref_label_dy: float
+    grow_delay: float = Field(ge=0)
     grow_sec: float = Field(gt=0)
     curve_points: int = Field(ge=2)
+    curve_w: float = Field(gt=0)
+    apex_delay: float = Field(ge=0)
+    apex_in: float = Field(gt=0)
+    apex_r: float = Field(gt=0)
+    apex_dx: float
+    apex_dy: float
+    rows_delay: float = Field(ge=0)
+    rows_in: float = Field(gt=0)
     rows_dy: tuple[float, float, float]
+    text: SketchProfileText
 
 
 class SketchCard(_Strict):
     rect: tuple[float, float, float, float]
+    fade_sec: float = Field(gt=0)
+    min_alpha: float = Field(ge=0)
     slide_px: float = Field(ge=0)
     radius: float = Field(ge=0)
     inner_pad: float = Field(ge=0)
     inner_bottom: float = Field(ge=0)
+    inner_radius: float = Field(ge=0)
     inner_bg: Color4
+    img_pad: float = Field(ge=0)
+    text_dx: float
     title: SketchText
     sub: SketchText
     credit: SketchText
@@ -2085,6 +2218,7 @@ class SketchChecks(_Strict):
     georef_residual_deg: float = Field(gt=0)
     horizon_tol_km: float = Field(ge=0)
     label_overlap_px: float = Field(ge=0)
+    approx_word: str = Field(min_length=1)
 
 
 class SketchRules(_Strict):
@@ -2094,6 +2228,8 @@ class SketchRules(_Strict):
     fade: SketchFade
     text: SketchTextRules
     tag: SketchTag
+    numbers: SketchNumbers
+    rights: SketchRights
     eez: SketchEez
     sensors: SketchSensors
     launch_track_impact: SketchLaunchTrackImpact

@@ -48,7 +48,10 @@ def path_rings(ctx: cairo.Context, view: View, rings: Sequence[Sequence[Sequence
 
 
 def hatch(ctx: cairo.Context, cols: Sequence[RGB], a: float, gap: float, wd: float) -> None:
-    """현재 클립 안을 사선으로 채운다. 색이 둘 이상이면 번갈아 든다(중첩 주장 = 양쪽 색이 같은 무게, SK-H4)."""
+    """현재 클립 안을 두 색 이상이 번갈아 드는 사선으로 채운다(중첩 주장 = 양쪽 색이 같은 무게, SK-H4).
+    색이 하나면 오류 — 한 나라 색 사선은 중첩 표현이 아니다(D-0142 §2)."""
+    if len(set(cols)) < 2:
+        raise ValueError(f"SK-H4 hatch 색 {list(cols)} — 중첩 사선은 서로 다른 색 2개 이상")
     x0, y0, x1, y1 = ctx.clip_extents()
     h = y1 - y0
     s = x0 - h
