@@ -175,3 +175,12 @@ last_review: 2026-05-19
 - **원칙**: 환경 사실(키·설정)은 확인하고 답한다. 본편 음성 백엔드는 사용자 결정 — 유료(payg)라 비용과 함께 묻는다.
 - **자동 조치**: 이 기록. 본편 음성 백엔드 강제(검사·게이트)는 사용자 결정 대기(비용).
 - **발견 버전**: v5.6.0 · **상태**: active
+
+## PIPELINE-AP-021 — 버전 자릿수가 늘자 기준선의 도장 가림 상자가 좁아 hormuz 엔딩 컷 대조 실패
+
+- **증상(실제 현상)**: VERSION 을 5.10.0(첫 두 자리 MINOR)으로 올리자 `tests/anti_inertia/test_provenance_e2e.py::test_hormuz_preview_provenance` 가 실패했다. 25컷 중 엔딩 컷 `p_0288.44.png` 한 장만 달랐다. 엔진 코드는 바뀌지 않았다.
+- **재현**: VERSION 5.10.0 으로 `python -m pytest tests/anti_inertia/test_provenance_e2e.py`. VERSION 5.9.0 으로 같은 렌더를 하면 통과한다. 두 렌더 차이는 101px, x 807~831 · y 465~469 로 도장 글자 안뿐이다.
+- **원리**: 도장은 오른쪽 끝이 고정이고 왼쪽으로 자란다(`engine.fullcards.version_stamp_box`). 기준선 `stamp_box` 는 등재 당시 문자열("v5.x.0", 폭 30)의 상자를 고정 숫자로 적었다. "v5.10.0"(폭 35)이 상자 밖으로 5px 나와 가린 md5 가 달라졌다.
+- **원칙**: 바뀌는 문자열을 가리는 상자는 그 문자열이 가질 수 있는 최대 폭으로 잡고, 숫자의 근거를 기준선에 적는다.
+- **자동 조치**: 기준선 `stamp_box` 를 `adv("v99.99.99")` 폭(45)으로 넓히고 `stamp_box_basis` 키에 근거를 적었다. `md5_masked` 를 다시 등재했다(5.9.0·5.10.0 두 렌더가 같은 값). `tests/test_g12_version_stamp.py::test_baseline_mask_box_covers_any_version` 가 오른쪽 끝·최소 폭·현재 도장 상자 포함을 단정한다(back_and_forth D-0148).
+- **발견 버전**: v5.10.0 · **상태**: resolved

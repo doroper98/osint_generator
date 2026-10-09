@@ -8,6 +8,7 @@
 
 from __future__ import annotations
 
+import json
 import unittest
 from pathlib import Path
 from types import SimpleNamespace as NS
@@ -74,6 +75,17 @@ class VersionStampTest(unittest.TestCase):
         moved = fullcards.version_stamp_box(long_notice)
         self.assertAlmostEqual(free[1] - moved[1], STAMP.dy)
         self.assertEqual(free[0], moved[0])
+
+    def test_baseline_mask_box_covers_any_version(self) -> None:
+        """hormuz 기준선 가림 상자(D-0148, PIPELINE-AP-021) — 오른쪽 끝 고정, 폭 ≥ 'v99.99.99', 현재 도장 상자를 포함."""
+        from engine.typography import adv  # noqa: PLC0415
+
+        base = json.loads((REPO / "docs/handoff/reports/phaseG17/hormuz_baseline.json").read_text(encoding="utf-8"))
+        x0, y0, x1, y1 = base["stamp_box"]
+        self.assertEqual(x1, W_OUT - STAMP.x_from_right)
+        self.assertGreaterEqual(x1 - x0, adv("v99.99.99", STAMP.size, STAMP.font))
+        c0, c1, c2, c3 = fullcards.version_stamp_box(None)
+        self.assertTrue(x0 <= c0 and y0 <= c1 and c2 <= x1 and c3 <= y1, (base["stamp_box"], (c0, c1, c2, c3)))
 
     def test_provenance_matches_repo_version(self) -> None:
         from orchestrator import __version__  # noqa: PLC0415

@@ -3,11 +3,12 @@
  "role": "Phase G17(v5.6.0) 기준선 — 사용자 지적(2026-10-04 kaliningrad 콘티): ① 인물 뱃지가 아일랜드 때문에 위아래로 움직임 → reserved.badge_hold(수명 내내 카드 아래 고정, RENDER-AP-008) ② 위·아래 마커 라벨이 화면 가장자리에서 잘림(검사 상자 오류로 숨어 있던 아덴만 부제 16px 잘림 포함) → 가운데 정렬 라벨 화면 안쪽 클램프(RENDER-AP-009). phaseG16 대비 바뀐 컷만 cut_detail. 25_END 도장 가린 md5",
  "command": "python -m engine.render projects/hormuz_korea --preview golden",
  "stamp_box": [
-  812.0,
+  797.0,
   462.2,
   842.0,
   471.95
  ],
+ "stamp_box_basis": "v99.99.99 — 오른쪽 끝 고정(W − x_from_right), 폭 = adv('v99.99.99') 45px; v5.10.0 에서 두 자리 MINOR 로 넓힘(D-0148)",
  "mask_pad_px": 2,
  "cuts": [
   {
@@ -109,7 +110,7 @@
   {
    "png": "p_0288.44.png",
    "md5": "4aeff3d39af3c19cf74f762a2afaedd4",
-   "md5_masked": "7110687d535aa6dbe606fa12e4365795",
+   "md5_masked": "4e62e94886b84ad6d86f3b9ce50e64ff",
    "mask": true
   }
  ],
