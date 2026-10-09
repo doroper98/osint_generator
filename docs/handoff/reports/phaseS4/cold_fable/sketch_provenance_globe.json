@@ -1,0 +1,68 @@
+{
+  "schema_version": 1,
+  "kind": "missile",
+  "spec_sha1": "5b895121c59b769673f5b86a41b8a7c404f74b0e",
+  "rules_hash": "943608de2608e6d8c0c621fc756b8f2913251a6c",
+  "data_files": [
+    {
+      "path": "eez.json",
+      "sha1": "272b3a4f94583d4788b3d7206113fcf5354fdd92",
+      "source": "Marine Regions EEZ (VLIZ) WFS MarineRegions:eez, CC BY 4.0, fetched 2026-10-05",
+      "license": "CC BY 4.0"
+    }
+  ],
+  "features_drawn": {
+    "eez_fill": 5,
+    "overlap_hatch_colors:2": 3,
+    "joint_dots": 1,
+    "claim_line:NLL": 1,
+    "claim_line:NK1999": 1,
+    "sensor_point:사드 AN/TPY-2 · 성주": 1,
+    "sensor_range": 3,
+    "sensor_range_concept": 1,
+    "sensor_point:AN/TPY-2 · 샤리키": 1,
+    "sensor_point:AN/TPY-2 · 교가미사키": 1,
+    "ship_symbol": 1,
+    "launch_symbol": 1,
+    "track": 1,
+    "impact_area": 1
+  },
+  "approximations": [
+    "착탄: 오쿠시리섬 기준 발표 거리('약') → 반경 25km 영역",
+    "NLL: 유엔군사령부 설정 · 화면 선은 개략",
+    "그린파인 레이더: 위치 비공개 · 범위는 개념도",
+    "AN/TPY-2 · 샤리키: 거리 공개 추정치",
+    "이지스 구축함: 함정 위치는 예시 · 탐지 거리 비공개"
+  ],
+  "numbers_shown": [
+    "jcs.range_km=약 1,000km",
+    "track.distance_km=약 200km",
+    "track.flight_sec ← mod.flight_min×60=+86:00"
+  ],
+  "numbers_computed": [],
+  "checks": {
+    "ran": [
+      "SK-H1",
+      "SK-H2",
+      "SK-H3",
+      "SK-H4",
+      "SK-H5",
+      "SK-C1",
+      "SK-R1",
+      "SK-C2"
+    ],
+    "hard": [],
+    "warnings": [
+      {
+        "id": "SK-C2",
+        "message": "라벨 예약 상자 겹침 1프레임(첫 t=54.50s, 끝 t=54.50s)"
+      }
+    ]
+  },
+  "render": {
+    "profile": "720p",
+    "frames": 1,
+    "duration_sec": 0.0,
+    "elapsed_sec": 0.0
+  }
+}

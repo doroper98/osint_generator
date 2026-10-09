@@ -1,0 +1,8 @@
+# Phase D1 스케치(미사일 궤적·탐지 자산·EEZ) 지오 설정 — 스케치 전용, 본편 아님.
+schema_version: 1
+bbox: [105, 18, 165, 56]
+admin1: [KR, KP, JP]
+crimea_to_ua: true
+tiers:
+  - {name: W, ppd: 24, z: 5, bbox: [110.0, 22.0, 160.0, 52.0]}
+  - {name: K, ppd: 128, z: 7, bbox: [123.0, 33.0, 132.0, 43.5]}

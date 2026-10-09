@@ -1,0 +1,76 @@
+schema_version: 1
+ko:
+  KP: 북한
+  KR: 대한민국
+  IR: 이란
+  SA: 사우디아라비아
+  AE: 아랍에미리트
+  CN: 중국
+  IN: 인도
+  PK: 파키스탄
+  OM: 오만
+  QA: 카타르
+  KW: 쿠웨이트
+  BH: 바레인
+  IQ: 이라크
+  YE: 예멘
+  JP: 일본
+  TW: 대만
+  RU: 러시아
+  AF: 아프가니스탄
+  MM: 미얀마
+  TH: 태국
+  VN: 베트남
+  MY: 말레이시아
+  ID: 인도네시아
+  PH: 필리핀
+  LK: 스리랑카
+  BD: 방글라데시
+  EG: 이집트
+  SO: 소말리아
+  ET: 에티오피아
+  TR: 튀르키예
+  SY: 시리아
+  JO: 요르단
+  IL: 이스라엘
+  MN: 몽골
+  KZ: 카자흐스탄
+  TM: 투르크메니스탄
+  UZ: 우즈베키스탄
+  NP: 네팔
+  SD: 수단
+  LA: 라오스
+  KH: 캄보디아
+  UA: 우크라이나
+  BY: 벨라루스
+  PL: 폴란드
+  GE: 조지아
+  LT: 리투아니아
+  LV: 라트비아
+  EE: 에스토니아
+  FI: 핀란드
+  RO: 루마니아
+  MD: 몰도바
+  AZ: 아제르바이잔
+  AM: 아르메니아
+seas:
+- name: 서해
+  lon: 124.0
+  lat: 36.2
+  wmin: 2
+  wmax: 40
+- name: 동해
+  lon: 133.5
+  lat: 40.0
+  wmin: 2
+  wmax: 60
+- name: 태평양
+  lon: 150.0
+  lat: 33.0
+  wmin: 10
+  wmax: 60
+province_countries:
+- KR
+- KP
+hide_country_label_below_w:
+  KR: 12

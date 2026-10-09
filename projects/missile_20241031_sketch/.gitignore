@@ -1,0 +1,4 @@
+# 생성물·외부 자산 — 2024.10.31 화성-19형 스케치(재생성: python -m geo.prep / sketch.missile.prep_eez)
+assets/
+out/
+__pycache__/
