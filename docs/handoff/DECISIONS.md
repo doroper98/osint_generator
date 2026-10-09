@@ -156,3 +156,4 @@ last_review: 2026-09-27
 | 2026-10-10 | D137 | 2D→3D 이음새: 검토본 기하 유지(접점 방위 등거리 구 — 메르카토르와 극한이 달라 7° 떨어진 점에서 ≈12.8px 세로 차는 본질). 테스트는 회귀 방지 `rules sketch.checks.seam_px` 12.5(실측 11.7 + 0.8). D-0143 §4 "≤ 2px" 정정. 근본 해결(투영 혼합)은 본편 globe 무대 등록 과제 | ① ② ③ R-0179 실측 | Fable (D-0144) | seam_px 값 한 줄 |
 | 2026-10-10 | D138 | 전황 스케치 강 색 = 검토본 `(0.42, 0.66, 0.86)` 그대로 규칙 키 `sketch.campaign.river.rgb`(RGB 실수, hex 금지). 토큰 `water` 로 바꾸지 않는다(D-0140 §7 "사용자가 본 값") | ② ③ | Fable (D-0145) | 키를 토큰 이름으로 교체 |
 | 2026-10-10 | D139 | 참고 작전도 SVG 는 미디어가 아니라 데이터 파일 — spec `fronts.reference{file, rights}` 로 가리키고 SK-R1 을 `projects/<pid>/RIGHTS.json` 항목으로 일반화. provenance data_files 에 sha1·출처·라이선스 | C9 ③ | Fable (D-0145) | media 로 되돌림 |
+| 2026-10-10 | D140 | SK-G2 포위망 유효성: make_valid 뒤 최대 다각형을 뺀 조각 면적 비율 ≤ `rules sketch.checks.pocket_sliver_ratio`(1e-3)이면 통과 + warning 기록, 넘으면 hard. 검토본 레시피(나비 조각 5e-6 deg², 비율 ≤ 5e-5)는 그대로 그린다 | ① ② ③ R-0182·Fable 재현 | Fable (D-0146) | 키 삭제(엄격 valid 로 복귀) |
