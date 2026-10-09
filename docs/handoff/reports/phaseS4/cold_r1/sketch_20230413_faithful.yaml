@@ -1,0 +1,148 @@
+# 미사일 발사 사건 화면 스케치 spec — 2023.04.13 화성-18형(첫 고체연료 ICBM). d1(2022.11.18) spec 에서 사실 값만 바꿈
+# 사실·연출 값만 둔다. 화면 수치는 rules/video_rules.yaml sketch:. 실행: python -m sketch.missile projects/missile_20230413_sketch
+# 화면 숫자는 {기관.값}·{track.distance_km}·{sensor.range_km}·{profile.ref_km} 자리표시를 포맷터가 채운다(SK-H1).
+schema_version: 1
+kind: missile
+title: "2023.04.13 화성-18형 발사"
+date: "2023. 4. 13"
+duration_sec: 56.0
+sheet_times: [5.0, 8.4, 14.0, 20.5, 27.0, 34.0, 41.0, 48.0, 54.0]
+
+sources:
+  - text: "발사·비행: 합동참모본부 2023.04.13 발표(뉴데일리·뉴시스 2023.04.13 보도) · 일본 방위성 2023.04.13 발표·2023.04.21 발표(防衛省 お知らせ)"
+  - text: "착탄: 일본 방위성 2023.04.21 발표 '일본 EEZ 밖 낙하 추정' · 착탄 위치·기준점 미발표 — 화면 영역은 개념(개략)"
+  - text: "EEZ: Marine Regions(VLIZ) EEZ 경계 · CC BY 4.0 · 한일·한중 미획정 구간은 등거리선 참고"
+  - text: "서해 남북: NLL 개략 재구성(공식 좌표 아님) · 북한 해상군사분계선 1999.9.2 발표 좌표(한국일보 1999.9.3)"
+  - text: "사드 AN/TPY-2 종말 모드 약 600km · 그린파인 블록-C 최대 약 800km(공개 사양·보도)"   # 사용자 확정 대기(레이더 사양 값)
+
+shots:   # 숏 4개, 이동은 장면 전환에서만
+  - {t0: 0.0, t1: 0.0, lon: 132.6, lat: 36.6, w: 37.0}     # 광역 — EEZ
+  - {t0: 8.4, t1: 11.0, lon: 126.9, lat: 38.15, w: 9.5}    # 한반도 — 발사 지점·서해 남북 경계·미사일
+  - {t0: 16.8, t1: 19.2, lon: 132.0, lat: 38.6, w: 25.0}   # 탐지 자산
+  - {t0: 27.8, t1: 30.2, lon: 131.3, lat: 40.7, w: 19.5}   # 궤적·착탄(발사 지점·개념 착탄 영역의 중간)
+
+launch: {label: "평양 인근", sub: "발사 · 오전 7시 23분(합참) · 7시 22분경(일본 방위성)", lon: 125.75, lat: 39.02, t: 10.8, color: ru}   # 합참 "평양 인근" · 일본 방위성 "平壌付近" — 좌표는 평양 대표점
+
+announced:   # 두 기관 나란히 같은 무게 — 이번 사건은 두 기관 모두 비행거리만 발표(정점 고도·속도·비행 시간 미발표)
+  jcs:
+    who: "합동참모본부"
+    color: gold
+    values:
+      range_km: {v: 1000, unit: km, approx: true}     # 합참 "약 1000km 비행 후 동해상 탄착"(뉴데일리 2023.04.13)
+    rows: ["거리 {jcs.range_km}"]
+  mod:
+    who: "일본 방위성"
+    color: teal
+    values:
+      range_km: {v: 1000, unit: km, approx: true}     # 防衛省 2023.04.21 "約1,000km程度飛翔"
+    rows: ["거리 {mod.range_km}"]
+
+track:
+  # 착탄 위치·기준점은 두 기관 모두 미발표. 일본 방위성: "東方向に発射 · 左(北)へ方向を変えながら約1,000km程度飛翔 · 日本海の我が国EEZ外に落下と推定"
+  ref: {name: "발사 지점", lon: 125.75, lat: 39.02}   # 사용자 확정 대기 — 발표 기준점이 없어 발사 지점을 기준점으로 씀
+  bearing_deg: 65             # 사용자 확정 대기 — 방위 미발표. "동쪽 발사 후 북쪽으로 선회" + "일본 EEZ 밖" 에 맞춘 개념 방위
+  distance_km: 1000           # 두 기관 발표 비행거리 "약 1,000km" — 기준점 방위 거리가 아니라 비행거리(지상 직선거리는 이보다 짧을 수 있음)
+  approx: true
+  uncertainty_km: 120         # 사용자 확정 대기 — 위치 미발표를 넓은 영역으로(스케치 값)
+  # flight_sec: 미발표(합참·일본 방위성 모두) — 스키마 필수 필드라 비워 두면 SK-SPEC hard. 사용자 확정 대기
+  t0: 30.4
+  t1: 38.0
+  hud:
+    label: "비행 경과"
+    range_line: "비행거리 합참 {jcs.range_km} · 일본 방위성 {mod.range_km}"
+    note: "궤적선은 발사점·착탄점을 잇는 지상 투영(대원) · 실제 비행은 고각"
+    hold_sec: 3.5
+  impact:
+    label: "착탄 개념 영역"
+    sub: "착탄 위치 미발표 · 비행거리 {track.distance_km} 기준 개념(개략)"
+    tag: "일본 EEZ 밖 낙하 추정(일본 방위성)"
+    tag_color: teal
+
+sensors:   # 레이더 거리·방위 폭 = 공개 사양·보도 — 사용자 확정 대기
+  - {name: "사드 AN/TPY-2 · 성주", sub: "종말 모드 탐지 {sensor.range_km}", kind: radar, lon: 128.28, lat: 35.99, location_public: true,
+     range_km: 600, range_approx: true, az_width_deg: 120, color: us, t: 19.0, side: r, label_at: [129.4, 35.25],
+     el_deg: [0, 60], short: "성주", globe_name: "AN/TPY-2 · 성주", globe_label: [-10, 30, r]}   # 3D 방위·고각 = 개념값(공개 정밀 사양 없음)
+  - {name: "그린파인 레이더", sub: "블록-C 최대 {sensor.range_km}", kind: radar, lon: 127.5, lat: 36.7, location_public: false,
+     range_km: 800, range_approx: true, az_width_deg: 120, color: gold, t: 21.0, tag: "위치 비공개 · 범위는 개념도", side: l, label_at: [125.2, 36.0]}
+  - {name: "AN/TPY-2 · 샤리키", sub: "전진배치 모드", kind: radar, lon: 140.32, lat: 40.89, location_public: true,
+     range_km: 1000, az_width_deg: 120, color: teal, t: 23.0, tag: "거리 공개 추정치", side: l, label_at: [141.0, 41.9],
+     el_deg: [0, 60], short: "샤리키", globe_label: [12, -18, l]}
+  - {name: "AN/TPY-2 · 교가미사키", sub: "전진배치 모드", kind: radar, lon: 135.22, lat: 35.76, location_public: true,
+     range_km: 1000, az_width_deg: 120, color: teal, t: 24.4, side: l, label_at: [135.6, 35.0],
+     el_deg: [0, 60], short: "교가미사키", globe_label: [12, 30, l]}
+  - {name: "이지스 구축함", sub: "SPY-1D · 동해 작전", kind: ship, lon: 130.3, lat: 36.5, location_public: false,
+     color: gold, t: 25.8, tag: "함정 위치는 예시 · 탐지 거리 비공개"}
+
+eez:
+  file: eez.json
+  nations:
+    KR: {color: gold, label: "한국 EEZ", label_at: [124.4, 35.4], t: 0.9}
+    JP: {color: teal, label: "일본 EEZ", label_at: [146.5, 33.5], t: 1.7}
+    KP: {color: ru, label: "북한 EEZ", label_at: [130.6, 40.4], t: 2.5}
+    CN: {color: muted, label: "중국 EEZ", label_at: [122.6, 29.0], t: 3.1}
+    RU: {color: muted, label: "러시아 EEZ", label_at: [137.2, 44.4], t: 3.5}
+  labels_end: 8.6
+  regions:
+    - {code: KR_JP, kind: overlap, claimants: [KR, JP], t: 4.7, end: 9.0, at: [133.6, 38.6], anchor: l,
+       label: "독도 주변 수역", sub: "일본이 영유권 주장 · 대한민국 실효 지배"}   # 독도 문구 — 사용자 확정 대기
+    - {code: KR_JP, kind: joint, color: green, t: 5.6, end: 9.0, at: [125.0, 31.2], anchor: r,
+       label: "한일 공동개발구역", sub: "1974년 협정 · 경계 미획정 수역"}
+    - {code: JP_RU, kind: overlap, claimants: [JP, RU], t: 6.4, end: 9.0, at: [146.4, 41.0], anchor: r,
+       label: "쿠릴 남단 4개 섬", sub: "러·일 중첩 주장"}
+    - {code: KR_KP, kind: overlap, claimants: [KR, KP], t: 4.2, label_t: 13.0, end: 17.6, at: [123.15, 37.55], anchor: l,
+       label: "남북 주장 중첩 수역", sub: "법적 경계 미획정", edge: false, focus: [8.6, 18.2]}   # 빗금은 처음부터, 설명 라벨은 서해 장면에서
+  claim_lines:
+    - {code: NLL, color: gold, t: 10.6, end: 17.6, at: [123.15, 38.32], anchor: l, approx: true, focus: [8.6, 18.2],
+       label: "NLL · 1953", sub: "유엔군사령부 설정 · 화면 선은 개략"}   # NLL 좌표 개략 — 사용자 확정 대기(본편 전 공식 좌표)
+    - {code: NK1999, color: ru, dash: [6, 4], t: 11.8, end: 17.6, at: [125.6, 37.05], anchor: l, vertices: true, focus: [8.6, 18.2],
+       label: "북한 주장 해상군사분계선 · 1999", sub: "1999.9.2 발표 좌표",
+       ext_tag: {text: "이후 '중국과의 경계까지' · 방향 미발표 — 점선은 같은 방향 연장", color: amber}}
+  places:
+    t0: 10.2
+    t1: 17.6
+    items:
+      - {name: "백령도", lon: 124.67, lat: 37.96}
+      - {name: "연평도", lon: 125.70, lat: 37.66}
+  prep:                      # python -m sketch.missile.prep_eez <WFS GeoJSON> projects/d1_missile_sketch
+    wfs_url: "https://geo.vliz.be/geoserver/MarineRegions/wfs?service=WFS&version=1.0.0&request=GetFeature&typeName=MarineRegions:eez&outputFormat=application/json&bbox=115,25,150,48"
+    license: "CC BY 4.0"
+    keep:
+      8327: [KR, eez]
+      8328: [KP, eez]
+      8487: [JP, eez]
+      8486: [CN, eez]
+      5690: [RU, eez]
+      48955: [KR_JP, overlap]
+      21796: [KR_JP, joint]
+      48950: [JP_RU, overlap]
+    clip: [110, 22, 160, 52]
+    west_box: [123.0, 36.5, 126.8, 38.6]   # 서해 북부 — 이 안의 남북 EEZ 는 두 주장선으로 다시 나눈다(Marine Regions 남북 등거리선은 쓰지 않는다)
+    west_codes: [8327, 8328]               # (남, 북)
+    anchor: [126.17, 37.72]                # 한강 하구 서쪽 — 두 선의 동쪽 공통 시작점(개략)
+    # NLL(1953, 유엔군사령부) 개략 재구성 — 서해 5도와 북측 해안의 중간점 원칙. 사용자 확정 대기(본편 전 공식 좌표로 교체)
+    nll_approx: [[123.0, 38.05], [124.10, 38.05], [124.62, 38.05], [124.79, 38.01], [124.86, 37.96], [124.87, 37.80],
+                 [124.88, 37.70], [125.20, 37.69], [125.55, 37.70], [125.66, 37.71], [125.80, 37.69], [125.99, 37.71], [126.17, 37.72]]
+    # 북한 '조선 서해 해상군사분계선'(1999.9.2) — 한국일보 1999.9.3. 2점 위도는 보도마다 1'02"·1'12" — 여기서는 1'12"
+    nk1999_dms: [[[125, 31, 0], [37, 18, 30]], [[124, 55, 0], [37, 1, 12]], [[124, 32, 30], [36, 50, 45]]]
+
+dim:   # 장면별 초점
+  eez: [{t: 9.0, d: -0.55, sec: 1.0}, {t: 30.0, d: 0.25, sec: 1.0}]
+  eez_labels_off: 30.0
+  sensors: [{t: 29.0, d: -0.6, sec: 1.0}]
+  sensors_focus_end: 27.2
+  sensors_labels_end: 27.6
+
+
+# profile(고도 단면) 없음 — 합참·일본 방위성 모두 정점 고도 미발표(SK-H1). 사용자 확정 대기
+
+notes:
+  source_lines:
+    - {t0: 1.0, t1: 9.6, text: "EEZ 경계: Marine Regions(VLIZ) · CC BY 4.0 · 미획정 구간은 등거리선 참고"}
+    - {t0: 10.8, t1: 17.6, text: "NLL: 서해 5도와 북측 해안의 중간점 원칙으로 개략 재구성(공식 좌표 아님) · 북한선: 1999.9.2 발표 좌표(한국일보 보도)"}
+    - {t0: 19.4, t1: 28.4, text: "탐지 거리: 공개 사양·언론 보도 기준 · 실제 운용 범위는 비공개"}
+    - {t0: 30.4, t1: 41.0, text: "착탄: 두 기관 모두 위치 미발표 · 일본 방위성 '일본 EEZ 밖 낙하 추정' · 영역·방위는 개념(개략)"}
+  end_title: "자료"
+  end_note: "화면 스케치 · 자막·내레이션 없음"
+  end_sec: 4.4
+
+# globe(3D 전환편) 없음 — 정점 고도가 profile.curve 기관 발표값이어야 하는데 미발표. 사용자 확정 대기
