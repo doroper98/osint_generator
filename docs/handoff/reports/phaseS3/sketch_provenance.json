@@ -1,0 +1,72 @@
+{
+  "schema_version": 1,
+  "kind": "campaign",
+  "spec_sha1": "4992955cf9991939f782dff38dca06b941d681a0",
+  "rules_hash": "01bd1fde479502e7d3698d9f15d531185878427d",
+  "data_files": [
+    {
+      "path": "ref_operation_uranus.svg",
+      "sha1": "6d6fc7dceaf76f4ae65f36645e6746ebbf680cb9",
+      "source": "https://commons.wikimedia.org/wiki/File:Operation_Uranus.svg",
+      "license": "CC BY 3.0"
+    },
+    {
+      "path": "fronts.json",
+      "sha1": "fcc46498477100fff6ffb244956c5735554b23aa",
+      "source": "Wikimedia Commons File:Operation Uranus.svg (Lưu Ly, CC BY 3.0) — redrawn from victory.mil.ru map 023; georeferenced by 42–44°E × 48–50°N graticule",
+      "license": "CC BY 3.0"
+    }
+  ],
+  "features_drawn": {
+    "legend": 241,
+    "tag": 1462,
+    "pincer": 499,
+    "front:1119": 1377,
+    "front:1123": 1901,
+    "front:1130": 536,
+    "pocket:11.23 포위망": 243,
+    "pocket:11.30 포위망": 261,
+    "arrow": 4943,
+    "unit:XXXX": 9785,
+    "unit:XXX": 822
+  },
+  "approximations": [
+    "전선: 참고 작전도 경위도 눈금 정합 개략선(잔차 0.0084°)",
+    "부대 위치·화살표 경로: 군 단위 개략(참고 지도 2종 대조)"
+  ],
+  "numbers_shown": [],
+  "numbers_computed": [],
+  "checks": {
+    "ran": [
+      "SK-H1",
+      "SK-G3",
+      "SK-G1",
+      "SK-G2",
+      "SK-H5",
+      "SK-C1",
+      "SK-R1",
+      "SK-C2"
+    ],
+    "hard": [],
+    "warnings": [
+      {
+        "id": "SK-G2",
+        "message": "11.23 포위망: 미세 자기 교차 조각 1개 · 5.05e-06 deg² (전체의 1.3e-05) — Self-intersection[44.6692254545455 48.9183218181818]"
+      },
+      {
+        "id": "SK-G2",
+        "message": "11.30 포위망: 미세 자기 교차 조각 1개 · 5.05e-06 deg² (전체의 2.6e-05) — Self-intersection[44.6692254545455 48.9183218181818]"
+      },
+      {
+        "id": "SK-C2",
+        "message": "라벨 예약 상자 겹침 308프레임(첫 t=45.17s, 끝 t=57.96s)"
+      }
+    ]
+  },
+  "render": {
+    "profile": "720p",
+    "frames": 1392,
+    "duration_sec": 58.0,
+    "elapsed_sec": 87.5
+  }
+}
