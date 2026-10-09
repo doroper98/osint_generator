@@ -1,6 +1,6 @@
 <!--
 tier: 3
-last_synced_with: v5.8.0
+last_synced_with: v5.9.0
 ssot_for: [release-notes]
 depends_on: [README.md, GOAL.md]
 last_review: 2026-09-28
@@ -66,7 +66,20 @@ released 항목은 **append-only**입니다.
 
 ---
 
-## [v5.8.0] — 2026-10-09 — 스케치 스킬 트랙 S2: 미사일 3D 지구본 전환 이식 (back_and_forth D-0143) — 진행 중
+## [v5.9.0] — 2026-10-10 — 스케치 스킬 트랙 S3: 전황 작전도(천왕성 작전) 이식 (back_and_forth D-0145) — 진행 중
+
+MINOR: Phase 완료 단위. 스케치 계층만(엔진·본편 무변경). JSON `schema_version` 그대로(1).
+
+### Added
+- `sketch/common/svg_georef.py`(SVG 스타일 묶음 추출 + 눈금 2차 다항 정합, SK-G1), `python -m sketch.campaign.prep_georef`.
+- `sketch/campaign/*`(spec·전선·부대 부호·화살표·포위망 레시피·장면·검사), `python -m sketch.campaign`. 검사 SK-G1~G3·H5(전 구간 '개략')·R1(참고도 권리, D139).
+
+### Removed
+- `projects/uranus_sketch/{uranus_sketch.py, prep_uranus.py}`(P2). `projects/**/*.py` 0 단정.
+
+---
+
+## [v5.8.0] — 2026-10-09 — 스케치 스킬 트랙 S2: 미사일 3D 지구본 전환 이식 (back_and_forth D-0143) — S2 pass(D-0145, f156f7b)
 
 MINOR: Phase 완료 단위. 스케치 계층만(엔진·본편 무변경). JSON `schema_version` 그대로(1).
 
