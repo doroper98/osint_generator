@@ -1,6 +1,6 @@
 <!--
 tier: 3
-last_synced_with: v5.9.0
+last_synced_with: v5.10.0
 ssot_for: [release-notes]
 depends_on: [README.md, GOAL.md]
 last_review: 2026-09-28
@@ -66,7 +66,21 @@ released 항목은 **append-only**입니다.
 
 ---
 
-## [v5.9.0] — 2026-10-10 — 스케치 스킬 트랙 S3: 전황 작전도(천왕성 작전) 이식 (back_and_forth D-0145) — 진행 중
+## [v5.10.0] — 2026-10-10 — 스케치 스킬 트랙 S4: 스킬·문서·통합 (back_and_forth D-0147) — 진행 중
+
+MINOR: Phase 완료 단위. 스케치 계층만(엔진·본편 무변경). JSON `schema_version` 그대로(1).
+
+### Added
+- `.claude/skills/{missile-event-map, campaign-front-map}/SKILL.md` 완성(D-0140 §8 ①~⑦).
+- `docs/handoff/22_SKETCH_TRACK.md`(계층 결정·spec 계약·검사표·출처·권리·재현·사용자 확정 대기·본편 등록 후보).
+- `tests/test_sketch_integration.py`(두 프로젝트 CLI 끝까지·P6 음성·결정성·스킬 파일).
+
+### Removed
+- `projects/d1_missile_sketch/CONVENTIONS.md`(→ `docs/handoff/22`, P2).
+
+---
+
+## [v5.9.0] — 2026-10-10 — 스케치 스킬 트랙 S3: 전황 작전도(천왕성 작전) 이식 (back_and_forth D-0145) — S3 pass(D-0147, 7b607b1)
 
 MINOR: Phase 완료 단위. 스케치 계층만(엔진·본편 무변경). JSON `schema_version` 그대로(1).
 
@@ -75,7 +89,10 @@ MINOR: Phase 완료 단위. 스케치 계층만(엔진·본편 무변경). JSON 
 - `sketch/campaign/*`(spec·전선·부대 부호·화살표·포위망 레시피·장면·검사), `python -m sketch.campaign`. 검사 SK-G1~G3·H5(전 구간 '개략')·R1(참고도 권리, D139).
 
 ### Removed
-- `projects/uranus_sketch/{uranus_sketch.py, prep_uranus.py}`(P2). `projects/**/*.py` 0 단정.
+- `projects/uranus_sketch/{uranus_sketch.py, prep_uranus.py, uranus.json}`(P2, `fronts.json` 이 대체). `projects/**/*.py` 0 단정.
+
+### Changed
+- SK-G1 도시 검산(D-0147 A): `checks.georef_city_deg`, spec `fronts.city_check`.
 
 ---
 
