@@ -1,0 +1,163 @@
+{
+  "schema_version": 1,
+  "kind": "missile_globe",
+  "spec_sha1": "5648d519d62d6e39d684389ff5796aefd399c39d",
+  "rules_hash": "159e8043731f290668c6557ef7996eae38b5e7ef",
+  "data_files": [
+    {
+      "path": "eez.json",
+      "sha1": "272b3a4f94583d4788b3d7206113fcf5354fdd92",
+      "source": "Marine Regions EEZ (VLIZ) WFS MarineRegions:eez, CC BY 4.0, fetched 2026-10-05",
+      "license": "CC BY 4.0"
+    },
+    {
+      "path": "media/hwasong17_diagram.png",
+      "sha1": "786b2bc4bd9124adf2875f6958529475651c0126",
+      "source": "https://commons.wikimedia.org/wiki/File:Diagram_of_Hwasong-17.svg",
+      "license": "CC BY-SA 4.0"
+    }
+  ],
+  "features_drawn": {
+    "eez_fill": 245,
+    "overlap_hatch_colors:2": 147,
+    "joint_dots": 49,
+    "claim_line:NLL": 49,
+    "claim_line:NK1999": 49,
+    "sensor_point:사드 AN/TPY-2 · 성주": 49,
+    "sensor_range": 147,
+    "sensor_range_concept": 49,
+    "sensor_point:AN/TPY-2 · 샤리키": 49,
+    "sensor_point:AN/TPY-2 · 교가미사키": 49,
+    "ship_symbol": 49,
+    "launch_symbol": 49,
+    "track": 49,
+    "impact_area": 49,
+    "radar_volume": 298,
+    "label_moved_below_panel": 200,
+    "horizon_panel": 200,
+    "horizon_panel_note": 200,
+    "lofted_track": 192
+  },
+  "approximations": [
+    "착탄: 오시마오시마 기준 발표 거리('약') → 반경 25km 영역",
+    "NLL: 유엔군사령부 설정 · 화면 선은 개략",
+    "그린파인 레이더: 위치 비공개 · 범위는 개념도",
+    "AN/TPY-2 · 샤리키: 거리 공개 추정치",
+    "이지스 구축함: 함정 위치는 예시 · 탐지 거리 비공개",
+    "사드 AN/TPY-2 · 성주: 3D 방위·고각 = 개념값",
+    "AN/TPY-2 · 샤리키: 3D 방위·고각 = 개념값",
+    "AN/TPY-2 · 교가미사키: 3D 방위·고각 = 개념값"
+  ],
+  "numbers_shown": [
+    "const.earth_radius_km=6,371km",
+    "jcs.range_km=약 1,000km",
+    "mod.apogee_km=6,040.9km",
+    "sensor.az:AN/TPY-2 · 교가미사키=120°",
+    "sensor.az:AN/TPY-2 · 샤리키=120°",
+    "sensor.az:사드 AN/TPY-2 · 성주=120°",
+    "sensor.el:AN/TPY-2 · 교가미사키=0~60°",
+    "sensor.el:AN/TPY-2 · 샤리키=0~60°",
+    "sensor.el:사드 AN/TPY-2 · 성주=0~60°",
+    "sensor.range_plain:AN/TPY-2 · 교가미사키=1,000km",
+    "sensor.range_plain:AN/TPY-2 · 샤리키=1,000km",
+    "sensor.range_plain:사드 AN/TPY-2 · 성주=600km",
+    "track.distance_km=약 210km"
+  ],
+  "numbers_computed": [
+    {
+      "key": "horizon.altitude_km:AN/TPY-2 · 교가미사키",
+      "value": 67.71512864065745,
+      "shown": "약 68km",
+      "formula": "R·(1/cos(d/R) − 1), d = gc_dist(자산, 발사 지점), R = 6371 km",
+      "inputs": {
+        "sensor_lon": 135.22,
+        "sensor_lat": 35.76,
+        "launch_lon": 125.67,
+        "launch_lat": 39.2,
+        "d_km": 924.7986894842314
+      }
+    },
+    {
+      "key": "horizon.altitude_km:AN/TPY-2 · 샤리키",
+      "value": 126.57996936088088,
+      "shown": "약 127km",
+      "formula": "R·(1/cos(d/R) − 1), d = gc_dist(자산, 발사 지점), R = 6371 km",
+      "inputs": {
+        "sensor_lon": 140.32,
+        "sensor_lat": 40.89,
+        "launch_lon": 125.67,
+        "launch_lat": 39.2,
+        "d_km": 1259.612191385432
+      }
+    },
+    {
+      "key": "horizon.altitude_km:사드 AN/TPY-2 · 성주",
+      "value": 14.171529153523977,
+      "shown": "약 14km",
+      "formula": "R·(1/cos(d/R) − 1), d = gc_dist(자산, 발사 지점), R = 6371 km",
+      "inputs": {
+        "sensor_lon": 128.28,
+        "sensor_lat": 35.99,
+        "launch_lon": 125.67,
+        "launch_lat": 39.2,
+        "d_km": 424.546273325201
+      }
+    },
+    {
+      "key": "horizon.distance_km:AN/TPY-2 · 교가미사키",
+      "value": 924.7986894842314,
+      "shown": "925km",
+      "formula": "gc_dist(자산, 발사 지점)",
+      "inputs": {
+        "sensor_lon": 135.22,
+        "sensor_lat": 35.76,
+        "launch_lon": 125.67,
+        "launch_lat": 39.2
+      }
+    },
+    {
+      "key": "horizon.distance_km:AN/TPY-2 · 샤리키",
+      "value": 1259.612191385432,
+      "shown": "1,260km",
+      "formula": "gc_dist(자산, 발사 지점)",
+      "inputs": {
+        "sensor_lon": 140.32,
+        "sensor_lat": 40.89,
+        "launch_lon": 125.67,
+        "launch_lat": 39.2
+      }
+    },
+    {
+      "key": "horizon.distance_km:사드 AN/TPY-2 · 성주",
+      "value": 424.546273325201,
+      "shown": "425km",
+      "formula": "gc_dist(자산, 발사 지점)",
+      "inputs": {
+        "sensor_lon": 128.28,
+        "sensor_lat": 35.99,
+        "launch_lon": 125.67,
+        "launch_lat": 39.2
+      }
+    }
+  ],
+  "checks": {
+    "ran": [
+      "SK-H1",
+      "SK-H2",
+      "SK-H3",
+      "SK-H4",
+      "SK-H5",
+      "SK-C1",
+      "SK-R1",
+      "SK-H6"
+    ],
+    "hard": [],
+    "warnings": []
+  },
+  "render": {
+    "profile": "720p",
+    "frames": 456,
+    "duration_sec": 19.0,
+    "elapsed_sec": 248.9
+  }
+}
