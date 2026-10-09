@@ -44,3 +44,4 @@ last_review: 2026-09-27
 | v5.1.0 | 3619f2c | Phase G12 backdrop 무대·아일랜드·축 스케일·기사 프레스 v2·발음 사전·버전 도장 합격 (D-0127, 사용자 결정 D105~D109) | 미푸시 |
 | v5.2.0 | d4703d9 | Phase G13 배경 가독(blur 6·dim 0.38)·주 아일랜드 상시·보도 카드 = article·[card-island]·backdrop 사진 슬롯·아일랜드 라벨 반전 합격 (D-0134, 사용자 판정 D113) — 블러 변형·슬롯 값은 사용자 판정 대기 | 미푸시 |
 | v5.3.0 | f17ba8d | Phase G14 겹침 카드(cascade) 채택 합격 (D-0139 → R-0164, 사용자 판정 D117). 승격 커밋 f17ba8d, merge 커밋은 overhaul 로그 참조. 720p 완성본 artifacts/phaseG14-v5.3.0(86a5724) | 미푸시 |
+| v5.10.0 | c28582f | 스케치 스킬 트랙 S0~S4 합격(D-0142~D-0151, 결정 D128~D145) — 미사일 발사 사건도 2D·3D 전환·전황 작전도를 `sketch/` 패키지 + spec YAML + `.claude/skills` 두 스킬로, 콜드 테스트 Opus 3회·Fable 1회 코드 수정 0. 사용자 확정 대기 = 22 §6 | 미푸시 |
