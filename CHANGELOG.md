@@ -1,6 +1,6 @@
 <!--
 tier: 3
-last_synced_with: v5.7.0
+last_synced_with: v5.8.0
 ssot_for: [release-notes]
 depends_on: [README.md, GOAL.md]
 last_review: 2026-09-28
@@ -66,7 +66,20 @@ released 항목은 **append-only**입니다.
 
 ---
 
-## [v5.7.0] — 2026-10-09 — 스케치 스킬 트랙 S0·S1: 미사일 2D→3D·전황 작전도 스케치를 spec 주도 패키지 `sketch/` + 스킬로 (back_and_forth D-0140) — 진행 중
+## [v5.8.0] — 2026-10-09 — 스케치 스킬 트랙 S2: 미사일 3D 지구본 전환 이식 (back_and_forth D-0143) — 진행 중
+
+MINOR: Phase 완료 단위. 스케치 계층만(엔진·본편 무변경). JSON `schema_version` 그대로(1).
+
+### Added
+- `sketch/missile/globe.py`(구 곡률 전환·카메라·래스터·레이더 볼륨)·`globe_scene.py`(장면·라벨·수평선 패널), `python -m sketch.missile --globe`.
+- 공통 `render.CrossfadeScene`(2D → 3D 교차 전환), SK-C1(3D) 기준점 화면 궤적(D135), SK-H6 수평선 패널 + `numbers_computed`(D136).
+
+### Removed
+- `projects/d1_missile_sketch/globe3d.py`(P2).
+
+---
+
+## [v5.7.0] — 2026-10-09 — 스케치 스킬 트랙 S0·S1: 미사일 2D→3D·전황 작전도 스케치를 spec 주도 패키지 `sketch/` + 스킬로 (back_and_forth D-0140) — S0 pass(D-0142, 8690ab8)·S1 pass(D-0143, 2b357d6)
 
 MINOR: 새 독립 패키지(엔진 레지스트리 밖, D128) + 규칙 묶음 `rules sketch:`(D130). JSON `schema_version` 그대로(1). 본편·골든 출력 무변경.
 
