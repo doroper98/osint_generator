@@ -37,6 +37,9 @@ description: 북한 미사일 발사 사건 하나를 사용자 검토용 화면
 두 기관 값이 다르면 둘 다 씁니다. 한쪽을 고르거나 평균 내지 않습니다.
 
 - **`announced` 값마다 `sources[]` 에 출처가 한 건 이상 있어야 합니다.** 출처 없는 값은 넣지 않습니다. 코드는 발표값의 진위를 가리지 못합니다(출처 책임은 사람).
+- **하한·상한 발표**("약 6,000km 초과" 등): `Num` 에는 값과 `approx` 만 둡니다. 그 값이 나오는 모든 문구(기관 `rows`, `globe.labels.apex`, `profile.apex_label`)에서 자리표시 바로 뒤에 "초과"·"이상" 을 씁니다. 고도 단면 곡선은 그 값을 정점으로 그리는 개념 곡선이므로 "사용자 확정 대기" 주석을 답니다.
+- **한 기관만 발표한 값**: 발표한 기관의 `values`·`rows` 에만 둡니다. 다른 기관 줄 수가 적어도 채우지 않습니다("분석 중" 같은 문구도 넣지 않음).
+- **1차 출처를 열 수 없을 때**(403 등): 그 발표를 인용한 보도로 값을 확인하고, `sources[]` 에 "<기관> YYYY.MM.DD 발표(<매체> YYYY.MM.DD 보도 인용)" 처럼 인용 경로를 씁니다.
 - `track.flight_sec`(비행 경과 시계)는 `announced` 의 `unit: sec` 값과 같아야 합니다. sec 발표가 없을 때만 `unit: min` 값 × 60 을 씁니다. 그 밖의 값은 SK-H1 hard 입니다.
 
 ## ③ 프로젝트 폴더 준비
@@ -69,9 +72,10 @@ description: 북한 미사일 발사 사건 하나를 사용자 검토용 화면
    ```
    - 요청 간격·재시도는 도구가 `config.yaml commons` 대로 지킵니다. 직접 반복 요청하지 않습니다.
    - 검색어는 두세 개(형 이름 영문·한글 로마자·"missile diagram")를 시도합니다. 결과 줄이 비어도 실패가 아니라 "후보 없음" 입니다.
+   - 단, 출력에 429(요청 제한) 대기가 보였는데 결과가 비면 "후보 없음" 이 아닙니다. 다른 검색을 마친 뒤 한 번만 다시 시도하고, 그래도 비면 "제한으로 확인 못 함" 으로 보고합니다.
    - 도구 출력의 `allowed` 표시는 인물·휘장용 판정이라 스케치 기준이 아닙니다. 라이선스가 `rules sketch.rights.allowed_licenses` 안이고 파일 페이지에 사용 제한(Restrictions)이 없을 때만 씁니다. `projects/<pid>/media/RIGHTS.json` 에 항목을 적습니다. 형식은 `docs/handoff/22` §4 입니다.
    - `.gitignore` 에 `media/*` 와 쓴 파일의 `!media/<파일>`·`!media/RIGHTS.json` 을 둡니다.
-   - **권리가 분명한 도해가 없으면 `media`·`card` 를 spec 에서 빼고 엔딩 자료의 도해 줄도 지웁니다.** 카드 없이도 검사·렌더는 통과합니다.
+   - **권리가 분명한 도해가 없으면 `media`·`card` 를 spec 에서 빼고 엔딩 자료의 도해 줄도 지웁니다.** 카드 없이도 검사·렌더는 통과합니다. 이때 `media/` 폴더와 `media/RIGHTS.json` 은 만들지 않습니다.
 
 ## ④ spec 작성 규칙
 
@@ -92,6 +96,8 @@ description: 북한 미사일 발사 사건 하나를 사용자 검토용 화면
 - **사용자 확정 대기 항목**: 독도 문구·NLL 좌표·레이더 사양 값·착탄 반경·3D 방위·고각입니다. 현재 값과 근거는 `docs/handoff/22` §6 표에 있습니다. spec 해당 줄에 `# 사용자 확정 대기` 주석을 남기고 값을 임의로 바꾸지 않습니다.
 - **카메라(SK-C1)**: 숏은 `shots[]` 로만 바꿉니다. 큰 줌 이동은 `rules sketch.camera.move_min_sec` 이상 둡니다. 발사 지점·탄착 지점이 바뀌면 숏 중심만 옮기고 시각 구성은 유지합니다.
 - **3D 편(`globe`)**: `globe.center` 는 마지막 숏 중심과 같아야 합니다(이음새). `handoff_2d_t` 는 2D 길이 안이어야 합니다. 수평선 패널의 `note` 는 비우지 않습니다(SK-H6).
+- **발사 지점 라벨**: `launch` 에는 라벨 위치 필드가 없습니다. 좌표는 발표 지명의 대표점으로 두고, 배경 도시 이름과 겹쳐도 좌표를 옮기지 않습니다. 겹침은 전달물의 확인 항목으로 보고합니다.
+- **엔딩 자료 줄**: `sources[]` 한 줄은 화면 폭 안에 들어가게 짧게 씁니다. 길면 기관별로 두 줄로 나눕니다. 넘침을 잡는 검사가 없으므로 ⑤의 시트 마지막 컷에서 눈으로 확인합니다.
 - **화면 수치(px·알파·간격·글자 크기)는 spec 에 쓰지 않습니다.** 모두 `rules/video_rules.yaml sketch:` 에 있고, 사건마다 바꾸지 않습니다(C0).
 
 ## ⑤ 실행
@@ -107,6 +113,8 @@ python -m sketch.missile projects/<pid> --globe --res final          # 4. 3D 전
 
 - 2 단계에서 라벨 잘림·겹침·빈 화면이 보이면 spec 의 위치(`label_at`·`at`·`side`)나 숏을 고칩니다.
 - 렌더마다 `out/sketch_provenance.json` 이 새로 쓰입니다. 2D·3D 둘 다 남기려면 2D 뒤 provenance 를 `out/sketch_provenance_2d.json` 으로 복사합니다.
+- 시트 마지막 컷(엔딩 자료)에서 줄이 화면 밖으로 넘치지 않는지 봅니다.
+- SK-C2(warning)는 렌더를 막지 않습니다. 겹친 시각을 전달물에 적어 사용자 확인을 받습니다.
 - 확인할 것: provenance `checks.hard` 가 빈 목록, `numbers_shown` 이 발표값뿐, `numbers_computed` 는 수평선 패널(3D) 값뿐입니다.
 
 ## ⑥ 사용자 전달물
@@ -114,7 +122,7 @@ python -m sketch.missile projects/<pid> --globe --res final          # 4. 3D 전
 - `out/sketch_2d.mp4`·`out/sketch_globe.mp4`(있으면). mp4 는 커밋하지 않습니다.
 - 컨택트 시트 `out/sketch_2d_sheet.jpg`·`out/sketch_globe_sheet.jpg`.
 - `out/sketch_provenance.json`(검사 결과·쓴 숫자·데이터 파일 sha1·근사 목록).
-- 사용자 확정 대기 목록: `docs/handoff/22` §6 링크 + 이번 사건에서 새로 생긴 항목.
+- 사용자 확정 대기 목록: `docs/handoff/22` §6 링크 + 이번 사건에서 새로 생긴 항목(하한 발표 표기, 발사 라벨 겹침, SK-C2 시각 등).
 - 출처 목록: spec `sources[]` 그대로.
 
 ## ⑦ 금지 · 한계
