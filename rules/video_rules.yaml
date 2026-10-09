@@ -1740,4 +1740,5 @@ sketch:                    # v5.7.0 back_and_forth D-0140(D130) — 스케치 �
     georef_residual_deg: 0.01    # SK-G1 눈금 적합 최대 잔차(천왕성 현재 0.0084)
     horizon_tol_km: 0.5          # SK-H6 패널 값(정수 km 반올림) 허용 폭
     label_overlap_px: 0          # SK-C2 새 라벨 예약 상자 겹침(warning)
+    seam_px: 12.5                # 2D → 3D 이음새 회귀 임계(설계 px) — 첫 3D 프레임과 2D 마지막 프레임의 발사점·착탄점 화면 좌표 차. 검토본 실측 11.7 + 여유(D-0144: 메르카토르 대 방위 등거리 본질 차, 근본 해결은 본편 globe 무대의 투영 혼합)
     approx_word: "개략"          # SK-H5 approx 층이 설명되는 동안 출처 줄·엔딩 자료 카드에 있어야 하는 낱말

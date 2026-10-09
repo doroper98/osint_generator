@@ -209,6 +209,21 @@ class GlobeScene:
         B = DATE_BADGE   # 날짜(모서리 유일 요소)
         text(ctx, sp.date, self.out.width - B.x_right * kp, B.y * kp, B.size * kp, B.font, WHITE, F.date_alpha, F.date_halo * kp, "r")
 
+    def seam_offsets(self) -> np.ndarray:
+        """2D → 3D 이음새(D-0144): 2D 마지막 프레임(handoff_2d_t + t_2d × handoff_rate)과 첫 3D 프레임(t_2d)에서
+        발사점·착탄점(지상 궤적 양 끝) 화면 좌표 차 |Δx|·|Δy|(설계 px, 2×2)."""
+        from engine.projection import View   # noqa: PLC0415
+        from engine.stage import ym          # noqa: PLC0415
+
+        g, out = self.g, self.out
+        ends = self.track[[0, -1]]
+        view = View(self.flat.stage, np.array(self.flat.camera.at(g.handoff_2d_t + g.t_2d * G.handoff_rate)))
+        s2 = np.array([view.to_screen(lon, ym(lat)) for lon, lat in ends])
+        cam = self.path.cam(g.t_2d)
+        s3, _ = cam.project(self.local(ends[:, 0], ends[:, 1], np.zeros(len(ends)), self.path.k_at(g.t_k0)))
+        s3 = (s3 - np.array([out.pad_x, 0])) / out.k
+        return np.abs(s2 - s3)
+
     def horizon_rows(self) -> list[tuple[Sensor, float, float]]:
         """(자산, 지표 거리 km, 수평선 최소 고도 km) — SK-H6 대조 대상."""
         out = []

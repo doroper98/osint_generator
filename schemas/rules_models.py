@@ -2300,6 +2300,7 @@ class SketchChecks(_Strict):
     horizon_tol_km: float = Field(ge=0)
     label_overlap_px: float = Field(ge=0)
     approx_word: str = Field(min_length=1)
+    seam_px: float = Field(gt=0)
 
 
 class SketchRules(_Strict):

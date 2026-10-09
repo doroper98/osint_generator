@@ -196,6 +196,21 @@ class GlobeFramesTest(unittest.TestCase):
             self.assertIn("mod.apogee_km=6,040.9km", prov["numbers_shown"])
             self.assertTrue((proj / "out" / "sketch_globe_012.5.png").is_file())
 
+    def test_seam_regression(self) -> None:
+        """2D → 3D 이음새 ≤ checks.seam_px(D-0144 — 검토본 기하, 회귀 방지). 두 해상도 모두."""
+        from rules import load_rules
+        from sketch.missile.globe_scene import GlobeScene
+        from sketch.missile.scene import MissileScene
+
+        sp = spec()
+        th = load_rules().sketch.checks.seam_px
+        for res in ("trial", "final"):
+            if res == "final" and not (PROJ / "assets" / "res_720p" / "tiers.pkl").is_file():
+                continue
+            d = GlobeScene(sp, PROJ, MissileScene(sp, PROJ, res)).seam_offsets()
+            self.assertLessEqual(float(d.max()), th, f"{res}: {d.round(2).tolist()}")
+            self.assertGreater(float(d.max()), 1.0)       # 0 이면 측정이 죽은 것(검토본 실측 ≈ 11.7)
+
     def test_bad_el_rejected(self) -> None:
         raw = yaml.safe_load((PROJ / "sketch.yaml").read_text(encoding="utf-8"))
         raw["sensors"][0]["el_deg"] = [0, 120]
