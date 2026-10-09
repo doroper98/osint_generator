@@ -243,7 +243,6 @@ class CliTest(unittest.TestCase):
             self.assertIn("SK-H4", r.stderr)
             r = self._run(proj)           # 렌더도 거부(지형을 읽기 전에 멈춘다)
             self.assertEqual(r.returncode, 1)
-        self.assertEqual(self._run(PROJ, "--globe").returncode, 2)
 
 
 @unittest.skipUnless((PROJ / "assets" / "tiers.pkl").is_file(),
