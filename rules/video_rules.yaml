@@ -1413,12 +1413,14 @@ sketch:                    # v5.7.0 back_and_forth D-0140(D130) — 스케치 �
     reserve_min_alpha: 0.05   # 이 알파 이하로 흐린 라벨·태그는 예약 상자를 만들지 않는다(지명 라벨이 비켜 가지 않게)
   numbers:                 # 화면 숫자 포맷터(sketch/missile/numbers.py, SK-H1) — 발표값 + 단위 → 문자열
     approx_prefix: "약 "
+    range_sep: "~"
     clock_prefix: "+"
     units:                 # check = 자유 문구(출처 줄·엔딩) 안 이 단위 숫자가 허용 값인지 본다. 분은 '오전 10시 15분' 같은 시각과 겹쳐 제외
       km: {suffix: "km", check: true}
       sec: {suffix: "초", check: true}
       min: {suffix: "분", check: false}
       mach: {prefix: "마하 ", check: true}
+      deg: {suffix: "°", check: false}       # 개념 방위·고각(3D 라벨) — 패널 주석 "고각 0°" 같은 문구와 겹쳐 대조 제외
   rights:                  # SK-R1 — projects/<pid>/media/RIGHTS.json 라이선스 허용 목록(D-0142 §3, D133). 목록 밖·항목 없음 = hard
     allowed_licenses: ["CC0", "CC BY 3.0", "CC BY 4.0", "CC BY-SA 3.0", "CC BY-SA 4.0", "Public domain", "United States Government Work"]
   eez:
@@ -1621,13 +1623,20 @@ sketch:                    # v5.7.0 back_and_forth D-0140(D130) — 스케치 �
     title: {size: 17, font: disp, halo: 0, dy: -50}
     sub: {size: 11.5, font: sansm, halo: 0, dy: -31}
     credit: {size: 9.5, font: sans, halo: 0, dy: -14}
-  globe:
+  globe:                   # 3D 지구본 전환편(sketch/missile/globe.py·globe_scene.py, D-0143). 값 = 4d9dc65 globe3d.py 리터럴. 글자·배치 = 설계 px(장치 = k 배), 선 굵기·대시·점 반지름(*_w·*_dash·head_r) = px_ref_height 장치 px 기준(장치 = 값 × 출력 높이 / px_ref_height — 원본이 720p 장치 px 로 적었다), 거리 km
+    px_ref_height: 720
     k_max: 80.0                 # 곡률 전환 시작 반지름 배수(평면에 가까움)
     fov_deg: 40.0               # 하향 시점
     fov_side_deg: 46.0          # 기울임·옆 시점
+    km_per_deg: 111.32          # 하향 시점 화면 폭(경도 ° → km)
     key_b: {pos_km: [0.0, -9000.0, 11000.0], target_km: [0.0, 0.0, -600.0]}
     key_c: {pos_km: [1400.0, -19500.0, 4200.0], target_km: [-250.0, 0.0, 2900.0]}
     side_drift_km: -900.0       # 옆 시점 느린 이동(패럴랙스)
+    up_switch_sec: 0.01         # 하향 시점 업 벡터(북)를 유지하는 여유
+    up_parallel: 0.999          # 업 벡터가 전방과 거의 평행하면 천정으로
+    z_eps: 1.0e-6
+    z_near_km: 1.0              # 카메라 앞 판정
+    occlusion_margin_km: [1.0, 5.0]   # 구 가림 판정 [카메라 쪽, 점 쪽] 여유
     light: [-0.35, -0.45, 0.82]
     shade: [0.45, 0.55, 0.55, 0.45, 0.6]   # [램버트 바닥, 램버트 폭, 시야 바닥, 시야 폭, 시야 지수]
     rim_pow: 3
@@ -1638,6 +1647,77 @@ sketch:                    # v5.7.0 back_and_forth D-0140(D130) — 스케치 �
     atmos_alpha: 0.55
     atmos_height: 0.05          # 대기 글로 두께(지구 반지름 비)
     atmos_pow: 2.2
+    texture_tiers: [W, W, K]    # [전 지구 텍스처 티어, 상세 티어…](거친 것 → 세밀한 것)
+    tex_lat_clip: 84.9
+    tex_edge_deg: 0.05          # 티어 가장자리 표본 제외 폭
+    glow_layers: [[4, 0.08], [2, 0.22], [1, 0.95]]   # 선 글로 [굵기 배수, 알파]
+    plain_alpha: 0.9
+    border_lon: [100, 160]      # 국경 고리 권역
+    border_lat: [15, 60]
+    border_cut_box: [105, 165, 18, 56]   # geo.prep 권역 상자(잘린 가장자리 구간을 끊는다) [lon0, lon1, lat0, lat1]
+    border_cut_eps: 0.05
+    border_max_pts: 400
+    border_rgb: [0.85, 0.88, 0.92]
+    border_alpha: 0.35
+    border_w: 0.9
+    eez_min_pts: 8              # 착탄 나라 EEZ 경계선(spec eez.pulse) — 이보다 짧은 조각 제외
+    eez_alpha: 0.7
+    eez_w: 1.2
+    eez_dash: [5, 4]
+    volume_az_n: 25
+    volume_el_n: 7
+    north_ref_deg: 0.01
+    volume_in: [1.0, 1.0]       # [t_k1 보다 먼저, 페이드 초]
+    volume_lower_alpha: [0.10, 0.12]   # [기본, 가시 시 더함]
+    volume_upper_alpha: [0.05, 0.08]
+    volume_edge_alpha: [0.55, 0.45]
+    volume_edge_w: 1.3
+    volume_mid_alpha: 0.35
+    volume_mid_w: 1.0
+    volume_mid_dash: [3, 4]
+    fade_open: 0.6
+    fade_close: 1.0
+    handoff_rate: 0.3           # 2D 이어받는 동안 2D 시간 진행 비율
+    track_w: [2.2, 1.4]         # 지상 궤적 [옆 시점 전, 후]
+    track_alpha_side: 0.55
+    alt_delay: 1.2              # 고각 궤적 등장(t_side0 뒤)
+    alt_in: 1.0
+    curtain_step: 8             # 고도 커튼 간격(궤적 점)
+    curtain_alpha: 0.16
+    curtain_w: 1.0
+    preview_alpha: 0.35
+    preview_w: 1.2
+    preview_dash: [4, 5]
+    flown_w: 2.4
+    head_r: 22
+    label_delay: 1.6            # 발사·착탄·정점 라벨(t_side0 뒤)
+    label_in: 0.6
+    label: {size: 13, font: sansb, halo: 3.2}
+    label_sub: {size: 11.5, font: sansm, halo: 3, dy: 17}
+    label_launch: [-14, 6]      # 발사·착탄·정점 라벨 오프셋 — px_ref_height 장치 px 기준(원본)
+    label_impact: [14, 6]
+    label_apex: [16, -6]
+    radar_label: [0.6, 1.6, 0.6, 0.6]   # [t_k1 보다 먼저, t_side0 뒤 끝, 들어옴, 나감]
+    panel_rect: [336, 292, 12, 26, 322, 140]   # [오른쪽에서, 위, 왼 여백, 위 여백, 폭, 높이]
+    panel_radius: 8
+    panel_alpha: 0.82
+    panel_in: [0.4, 0.6]        # [t_side1 보다 먼저, 페이드]
+    panel_title: {size: 12, font: sansb, halo: 0, dy: -6}
+    panel_rows: [20, 22]        # [첫 줄, 간격]
+    panel_dot: [5, -4, 4.5]     # [dx, dy, 반지름]
+    panel_name: {size: 12, font: sansm, halo: 0, dx: 16}
+    panel_dist: {size: 11, font: sansm, halo: 0, dx: 120}
+    panel_alt: {size: 12, font: sansb, halo: 0, dx: 298}
+    panel_note: {size: 9.5, font: sans, halo: 0, dy: 92}
+    panel_note2: {size: 9.5, font: sans, halo: 0, dy: 106}
+    hud_x: 32
+    hud_y: [396, 424]
+    hud_in: [0.4, 0.8]
+    notes_x: 14
+    notes_y: [452, 468]
+    notes_alpha: 0.9
+    notes_in: 0.6
+    notes_halo: 2
   campaign:
     terrain_dim: [0.02, 0.03, 0.05, 0.28]   # 지형을 한 단계 눌러 부호·선이 앞으로
     river: {minor: [0.8, 0.55], major: [2.0, 0.85]}   # [굵기, 알파]

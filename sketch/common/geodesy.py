@@ -64,3 +64,38 @@ def horizon_altitude(d_km: float) -> float:
     if not 0 <= th < math.pi / 2:
         raise ValueError(f"horizon_altitude 거리 {d_km} km — 0 이상 R·π/2 미만이어야 한다")
     return EARTH_KM * (1 / math.cos(th) - 1)
+
+
+# ---------------------------------------------------------------- 배열판(3D 지구본, D-0143) — 원본: 4d9dc65 globe3d.py dest_v·to_local·Tex.sample
+KM_PER_DEG: float = EARTH_KM * math.pi / 180
+
+
+def dest_arr(lon: float, lat: float, brg: np.ndarray, km: np.ndarray) -> tuple[np.ndarray, np.ndarray]:
+    """dest 의 배열판(방위·거리 배열). 경도는 −180~180 으로 감는다."""
+    p1, l1, b, d = math.radians(lat), math.radians(lon), np.radians(brg), np.asarray(km) / EARTH_KM
+    p2 = np.arcsin(np.clip(np.sin(p1) * np.cos(d) + np.cos(p1) * np.sin(d) * np.cos(b), -1, 1))
+    l2 = l1 + np.arctan2(np.sin(b) * np.sin(d) * np.cos(p1), np.cos(d) - np.sin(p1) * np.sin(p2))
+    return (np.degrees(l2) + 540) % 360 - 180, np.degrees(p2)
+
+
+def to_local(cen: LonLat, lon: np.ndarray, lat: np.ndarray, alt: np.ndarray, k: float) -> np.ndarray:
+    """지구 점(경위도·고도 km) → 접점 cen 에서 접하는 반지름 kR 구 위 국소 3D 좌표(x 동 · y 북 · z 위, km).
+
+    구 위 점은 '접점에서의 방위·지표 거리'를 그대로 옮긴다(거리·방위 보존). k → ∞ 면 평면(방위 등거리 지도), k = 1 이면 실제 지구.
+    """
+    lon, lat, alt = np.atleast_1d(lon).astype(float), np.atleast_1d(lat).astype(float), np.atleast_1d(alt).astype(float)
+    l1, p1, l2, p2 = math.radians(cen[0]), math.radians(cen[1]), np.radians(lon), np.radians(lat)
+    h = np.sin((p2 - p1) / 2) ** 2 + math.cos(p1) * np.cos(p2) * np.sin((l2 - l1) / 2) ** 2
+    d = 2 * EARTH_KM * np.arcsin(np.sqrt(np.clip(h, 0, 1)))
+    y = np.sin(l2 - l1) * np.cos(p2)
+    x = math.cos(p1) * np.sin(p2) - math.sin(p1) * np.cos(p2) * np.cos(l2 - l1)
+    az = np.arctan2(y, x)
+    rk = k * EARTH_KM
+    th = d / rk
+    rr = rk + alt
+    return np.column_stack([rr * np.sin(th) * np.sin(az), rr * np.sin(th) * np.cos(az), rr * np.cos(th) - rk])
+
+
+def merc_y_deg(lat: np.ndarray) -> np.ndarray:
+    """메르카토르 y(도 단위, engine.stage.ym 과 같은 식)의 배열판."""
+    return np.degrees(np.log(np.tan(np.pi / 4 + np.radians(lat) / 2)))

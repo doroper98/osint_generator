@@ -1859,6 +1859,7 @@ class SketchNumbers(_Strict):
     """화면 숫자 포맷터(SK-H1, D-0142 §1)."""
 
     approx_prefix: str
+    range_sep: str
     clock_prefix: str
     units: dict[str, SketchUnit] = Field(min_length=1)
 
@@ -2088,12 +2089,21 @@ class SketchGlobeKey(_Strict):
 
 
 class SketchGlobe(_Strict):
+    """3D 지구본 전환편(D-0143). 글자·배치 = 설계 px, 선 굵기·대시·head_r = px_ref_height 장치 px 기준, 거리 km."""
+
+    px_ref_height: float = Field(gt=0)
     k_max: float = Field(gt=1)
     fov_deg: float = Field(gt=0, lt=180)
     fov_side_deg: float = Field(gt=0, lt=180)
+    km_per_deg: float = Field(gt=0)
     key_b: SketchGlobeKey
     key_c: SketchGlobeKey
     side_drift_km: float
+    up_switch_sec: float = Field(ge=0)
+    up_parallel: float = Field(gt=0, lt=1)
+    z_eps: float = Field(gt=0)
+    z_near_km: float = Field(gt=0)
+    occlusion_margin_km: tuple[float, float]
     light: tuple[float, float, float]
     shade: tuple[float, float, float, float, float]
     rim_pow: float = Field(gt=0)
@@ -2104,6 +2114,77 @@ class SketchGlobe(_Strict):
     atmos_alpha: float = Field(ge=0, le=1)
     atmos_height: float = Field(gt=0)
     atmos_pow: float = Field(gt=0)
+    texture_tiers: list[str] = Field(min_length=1)
+    tex_lat_clip: float = Field(gt=0, lt=90)
+    tex_edge_deg: float = Field(ge=0)
+    glow_layers: list[tuple[float, float]] = Field(min_length=1)
+    plain_alpha: float = Field(ge=0, le=1)
+    border_lon: tuple[float, float]
+    border_lat: tuple[float, float]
+    border_cut_box: tuple[float, float, float, float]
+    border_cut_eps: float = Field(gt=0)
+    border_max_pts: int = Field(ge=2)
+    border_rgb: RGB
+    border_alpha: float = Field(ge=0, le=1)
+    border_w: float = Field(gt=0)
+    eez_min_pts: int = Field(ge=2)
+    eez_alpha: float = Field(ge=0, le=1)
+    eez_w: float = Field(gt=0)
+    eez_dash: list[float] = Field(min_length=2)
+    volume_az_n: int = Field(ge=2)
+    volume_el_n: int = Field(ge=2)
+    north_ref_deg: float = Field(gt=0)
+    volume_in: tuple[float, float]
+    volume_lower_alpha: tuple[float, float]
+    volume_upper_alpha: tuple[float, float]
+    volume_edge_alpha: tuple[float, float]
+    volume_edge_w: float = Field(gt=0)
+    volume_mid_alpha: float = Field(ge=0, le=1)
+    volume_mid_w: float = Field(gt=0)
+    volume_mid_dash: list[float] = Field(min_length=2)
+    fade_open: float = Field(gt=0)
+    fade_close: float = Field(gt=0)
+    handoff_rate: float = Field(ge=0)
+    track_w: tuple[float, float]
+    track_alpha_side: float = Field(ge=0, le=1)
+    alt_delay: float = Field(ge=0)
+    alt_in: float = Field(gt=0)
+    curtain_step: int = Field(ge=1)
+    curtain_alpha: float = Field(ge=0, le=1)
+    curtain_w: float = Field(gt=0)
+    preview_alpha: float = Field(ge=0, le=1)
+    preview_w: float = Field(gt=0)
+    preview_dash: list[float] = Field(min_length=2)
+    flown_w: float = Field(gt=0)
+    head_r: float = Field(gt=0)
+    label_delay: float = Field(ge=0)
+    label_in: float = Field(gt=0)
+    label: SketchText
+    label_sub: SketchText
+    label_launch: tuple[float, float]
+    label_impact: tuple[float, float]
+    label_apex: tuple[float, float]
+    radar_label: tuple[float, float, float, float]
+    panel_rect: tuple[float, float, float, float, float, float]
+    panel_radius: float = Field(ge=0)
+    panel_alpha: float = Field(ge=0, le=1)
+    panel_in: tuple[float, float]
+    panel_title: SketchText
+    panel_rows: tuple[float, float]
+    panel_dot: tuple[float, float, float]
+    panel_name: SketchText
+    panel_dist: SketchText
+    panel_alt: SketchText
+    panel_note: SketchText
+    panel_note2: SketchText
+    hud_x: float
+    hud_y: tuple[float, float]
+    hud_in: tuple[float, float]
+    notes_x: float
+    notes_y: tuple[float, float]
+    notes_alpha: float = Field(ge=0, le=1)
+    notes_in: float = Field(gt=0)
+    notes_halo: float = Field(ge=0)
 
 
 class SketchSymbol(_Strict):

@@ -10,18 +10,21 @@ from __future__ import annotations
 import hashlib
 import subprocess
 import time
-from collections.abc import Sequence
+from collections.abc import Callable, Sequence
 from pathlib import Path
 from typing import Protocol
 
+import numpy as np
 from PIL import Image
 
 from engine.sheet import grid
 from engine.style import FPS, H_OUT, W_OUT, Output
+from engine.timebase import smooth
 from rules import rules_hash
 from sketch.common.spec import RenderRecord, SketchProvenance
 
 PROVENANCE_FILE = "sketch_provenance.json"
+BGRA = 4            # 프레임 바이트 채널 수(cairo RGB24/ARGB32 = B·G·R·X)
 SHEET_COLS = 2
 
 
@@ -30,6 +33,36 @@ class Scene(Protocol):
 
     def frame(self, t: float) -> bytes:
         """시각 t 의 한 프레임(BGRA, out.width × out.height)."""
+
+
+class CrossfadeScene:
+    """두 장면 잇기(D-0143 §4) — t_cut 전에는 앞 장면 a(시각 a_time(t)), [t_cut, t_cut + t_x] 동안 a 의 t_cut 정지 화면과
+    뒤 장면 b 를 smooth 비율로 섞고, 그 뒤는 b. 전체에 열림·닫힘 검정. 두 장면은 같은 출력 프로파일이어야 한다."""
+
+    def __init__(self, a: Scene, b: Scene, a_time: Callable[[float], float], t_cut: float, t_x: float,
+                 duration_sec: float, fade_open: float, fade_close: float) -> None:
+        if (a.out.width, a.out.height) != (b.out.width, b.out.height):
+            raise ValueError(f"CrossfadeScene 출력 크기 다름 {a.out.name} ≠ {b.out.name}")
+        self.a, self.b, self.out = a, b, b.out
+        self.a_time, self.t_cut, self.t_x = a_time, t_cut, t_x
+        self.duration, self.fade_open, self.fade_close = duration_sec, fade_open, fade_close
+        self._held: np.ndarray | None = None
+
+    def _arr(self, buf: bytes) -> np.ndarray:
+        return np.frombuffer(bytes(buf), np.uint8).reshape(self.out.height, self.out.width, BGRA)
+
+    def frame(self, t: float) -> bytes:
+        if t < self.t_cut:
+            g = self._arr(self.a.frame(self.a_time(t)))
+        else:
+            g = self._arr(self.b.frame(t))
+            if t < self.t_cut + self.t_x:
+                if self._held is None:
+                    self._held = self._arr(self.a.frame(self.a_time(self.t_cut))).astype(np.float32)
+                k = smooth((t - self.t_cut) / self.t_x)
+                g = (self._held * (1 - k) + g.astype(np.float32) * k).astype(np.uint8)
+        fa = 1 - min(smooth(t / self.fade_open), smooth((self.duration - t) / self.fade_close))
+        return (g.astype(np.float32) * (1 - fa)).astype(np.uint8).tobytes()
 
 
 def sha1_file(path: Path) -> str:

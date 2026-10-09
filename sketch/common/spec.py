@@ -100,6 +100,16 @@ class DataFile(_Strict):
     license: str
 
 
+class ComputedNumber(_Strict):
+    """화면에 쓴 기하 계산값(D136) — 발표값이 아니다. 식·입력을 함께 남긴다."""
+
+    key: str
+    value: float
+    shown: str
+    formula: str
+    inputs: dict[str, float] = Field(default_factory=dict)
+
+
 class CheckFinding(_Strict):
     id: str                       # SK-H1 … SK-G3
     message: str
@@ -129,5 +139,6 @@ class SketchProvenance(_Strict):
     features_drawn: dict[str, int] = Field(default_factory=dict)
     approximations: list[str] = Field(default_factory=list)
     numbers_shown: list[str] = Field(default_factory=list)
+    numbers_computed: list[ComputedNumber] = Field(default_factory=list)
     checks: CheckRecord = Field(default_factory=CheckRecord)
     render: Optional[RenderRecord] = None
