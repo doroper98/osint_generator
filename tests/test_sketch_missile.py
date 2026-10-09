@@ -96,6 +96,38 @@ class H1NumbersTest(unittest.TestCase):
         self.assertIn("SK-H1", ids(r))
 
 
+class H1FlightClockTest(unittest.TestCase):
+    """D-0149 3-3 — 비행 경과 시계 원천 = announced sec 값(없으면 min × 60). 지어낸 값은 SK-H1 hard."""
+
+    def test_reviewed_clock_source(self) -> None:
+        r = run_checks(raw_spec())
+        self.assertNotIn("SK-H1", ids(r))
+        nums = Numbers(MissileSpec.model_validate(raw_spec()))
+        nums.clock(4135)
+        self.assertEqual(nums.shown, {"track.flight_sec ← mod.flight_sec": "+68:55"})
+        r = CheckReport()
+        check_render(r, MissileSpec.model_validate(raw_spec()), {}, nums, [], 0.0)
+        self.assertEqual(r.hard, [])
+
+    def test_invented_flight_sec(self) -> None:
+        raw = raw_spec()
+        raw["track"]["flight_sec"] = 9999
+        r = run_checks(raw)
+        self.assertIn("SK-H1", ids(r))
+        self.assertTrue(any("mod.flight_sec=4135" in f.message for f in r.hard))
+
+    def test_minutes_only_source(self) -> None:
+        raw = raw_spec()
+        del raw["announced"]["mod"]["values"]["flight_sec"]
+        raw["announced"]["mod"]["values"]["flight_min"] = {"v": 69, "unit": "min"}
+        raw["announced"]["mod"]["rows"] = ["거리 {mod.range_km}", "고도 {mod.apogee_km}", "비행 {mod.flight_min}"]
+        raw["track"]["flight_sec"] = 69 * 60
+        self.assertNotIn("SK-H1", ids(run_checks(raw)))
+        nums = Numbers(MissileSpec.model_validate(raw))
+        nums.clock(69 * 60)
+        self.assertEqual(list(nums.shown), ["track.flight_sec ← mod.flight_min×60"])
+
+
 class H2ImpactAreaTest(unittest.TestCase):
     def test_approx_needs_area(self) -> None:
         raw = raw_spec()

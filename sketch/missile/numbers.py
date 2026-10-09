@@ -19,10 +19,25 @@ from sketch.common.spec import ComputedNumber
 from sketch.missile.spec import MissileSpec, Num, Sensor
 
 SECONDS_PER_MINUTE = 60
+CLOCK_KEY = "track.flight_sec"
 PLACEHOLDER = re.compile(r"\{([a-z0-9_]+\.[a-z0-9_]+)\}")
 NU = load_rules().sketch.numbers
 
 
+
+def flight_source(spec: MissileSpec) -> tuple[str | None, list[str]]:
+    """시계 원천(D-0149 3-3) — track.flight_sec 와 같은 announced `sec` 값의 키. sec 값이 하나도 없을 때만 `min` × 60.
+    돌려주는 것: (원천 키 또는 None, 후보 발표값 목록 — 오류 메시지용)."""
+    secs = [(f"{k}.{n}", v) for k, ag in spec.announced.items() for n, v in ag.values.items() if v.unit == "sec"]
+    mins = [(f"{k}.{n}", v) for k, ag in spec.announced.items() for n, v in ag.values.items() if v.unit == "min"]
+    want = float(spec.track.flight_sec)
+    if secs:
+        cands = [f"{key}={v.v}" for key, v in secs]
+        hit = next((key for key, v in secs if float(v.v) == want), None)
+    else:
+        cands = [f"{key}={v.v}×{SECONDS_PER_MINUTE}" for key, v in mins]
+        hit = next((f"{key}×{SECONDS_PER_MINUTE}" for key, v in mins if float(v.v) * SECONDS_PER_MINUTE == want), None)
+    return hit, cands
 
 
 def _num(v: float) -> str:
@@ -55,6 +70,7 @@ class Numbers:
                               for s in spec.sensors if s.range_km is not None]
         self.shown: dict[str, str] = {}
         self.computed_log: dict[str, ComputedNumber] = {}
+        self.clock_source, _ = flight_source(spec)
 
     def allowed_values(self) -> dict[str, set[float]]:
         """단위 → 허용 값(자유 문구 검사)."""
@@ -127,6 +143,11 @@ class Numbers:
         return bad
 
     def clock(self, sec: float) -> str:
-        """비행 경과 계기 '+mm:ss' — 발표 비행 시간 × 진행 비율(계기, 발표 수치 아님)."""
+        """비행 경과 계기 '+mm:ss' — 발표 비행 시간 × 진행 비율. 마지막으로 그린 값을 `track.flight_sec ← 원천` 키로 남긴다(D-0149)."""
         m, s = divmod(int(sec), SECONDS_PER_MINUTE)
-        return f"{NU.clock_prefix}{m:02d}:{s:02d}"
+        out = f"{NU.clock_prefix}{m:02d}:{s:02d}"
+        self.shown[self.clock_key()] = out
+        return out
+
+    def clock_key(self) -> str:
+        return f"{CLOCK_KEY} ← {self.clock_source}"

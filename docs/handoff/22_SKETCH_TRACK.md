@@ -32,6 +32,9 @@ last_review: 2026-10-10
 | D139 | 참고 작전도 SVG = 데이터 파일. spec `fronts.reference{file, rights}`, SK-R1 = 프로젝트 `RIGHTS.json` |
 | D140 | SK-G2 미세 자기 교차 조각 비율 ≤ `checks.pocket_sliver_ratio` → 통과 + warning, 초과 hard. 그리기는 레시피 그대로 |
 | D141 | 전황 도시 검산 ≤ `checks.georef_city_deg`, spec `fronts.city_check` 도시 전부 |
+| D142 | hormuz 엔딩 컷 도장 가림 상자 = `v99.99.99` 폭(PIPELINE-AP-021) |
+| D143 | 정점·비행 시간·착탄 기준점 중 하나라도 두 기관 모두 미발표면 미사일 스킬 범위 밖 — 사용자에게 표로 보고, 개념값으로 채우지 않음 |
+| D144 | SK-H1 시계 원천: `track.flight_sec` = announced sec(없으면 min × 60), provenance 시계 + 원천 키 |
 
 ## 2. spec 계약
 
@@ -132,7 +135,7 @@ spec 파일은 `projects/<pid>/sketch.yaml` 하나입니다. Pydantic v2, extra=
 
 | ID | 판정 | 등급 | 규칙 키 | 종류 |
 |---|---|---|---|---|
-| SK-H1 | 화면 숫자는 포맷터만. 자유 문구 단위 숫자가 발표값 표 밖이면 위반(전황 = 단위 숫자 전부 금지) | hard | `numbers.units`(check) | 둘 다 |
+| SK-H1 | 화면 숫자는 포맷터만. 자유 문구 단위 숫자가 발표값 표 밖이면 위반(전황 = 단위 숫자 전부 금지). 미사일 시계 `track.flight_sec` = announced sec 값(없으면 min × 60, D-0149) — 발표값의 진위는 출처 책임(사람) | hard | `numbers.units`(check) | 둘 다 |
 | SK-H2 | `track.approx` → `uncertainty_km` > 0, 착탄 영역을 그림 | hard | — | 미사일 |
 | SK-H3 | 비공개 레이더 tag·이동 자산 tag·범위 없음, 기준점은 위치 공개 자산만 | hard | — | 미사일 |
 | SK-H4 | 중첩 수역 청구국 색 ≥ 2 | hard | — | 미사일 |
@@ -225,3 +228,4 @@ python -m sketch.campaign projects/uranus_sketch --res final
 | 2D→3D 이음새 | 위 투영 혼합과 같은 결정 |
 | 근접 숏 추가 | 실제 축척 옆 시점에서 레이더 볼륨이 작아 보임 — 근접 숏 카메라 규칙 |
 | 동해 남북 경계 | 서해와 같은 두 주장선 방식으로 정리할지 |
+| 미발표 수치 사건 표현(시계 없는 HUD · 방향만 있는 궤적 · '착탄 위치 미발표' 영역 · 고도 단면/3D 생략) | 어느 요소를 빼고 무엇을 남길지는 사용자 검토 전 새 화면 문법(D-0149, 사례 2023-04-13 화성-18형 — `reports/phaseS4/cold_r1/`) |

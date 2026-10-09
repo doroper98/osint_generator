@@ -2,7 +2,7 @@
 
 | ID | spec 단계 | 렌더 뒤 |
 |---|---|---|
-| SK-H1 | 자리표시가 다 채워지는가, 자유 문구의 단위 숫자가 허용 값인가 | numbers_shown 키가 포맷터 표 안인가 |
+| SK-H1 | 자리표시가 다 채워지는가, 자유 문구의 단위 숫자가 허용 값인가, track.flight_sec(시계) = announced sec 값(없으면 min × 60, D-0149) | numbers_shown 키가 포맷터 표 안인가(시계 = 원천 키) |
 | SK-H2 | approx → uncertainty_km > 0(스키마) | 착탄 영역(impact_area)을 그렸는가 |
 | SK-H3 | 비공개 자산 tag·범위(스키마) | 기준점을 그린 자산이 전부 위치 공개인가 |
 | SK-H4 | 중첩 청구국 색 ≥ 2(스키마) | 한 색 사선이 없었는가 |
@@ -27,7 +27,7 @@ from sketch.common.camera import CameraPath
 from sketch.common.checks import CheckReport, check_camera, check_label_overlap, check_rights
 from sketch.common.geodesy import dest, gc_dist, horizon_altitude, to_local
 from sketch.missile.globe import CameraPath3D, Keys, visible
-from sketch.missile.numbers import Numbers
+from sketch.missile.numbers import Numbers, flight_source
 from sketch.missile.spec import MissileSpec, Sensor
 
 SK = load_rules().sketch
@@ -83,6 +83,10 @@ def check_spec(report: CheckReport, spec: MissileSpec, project: Path) -> Numbers
             report.add("SK-H1", f"{path}: 자리표시 {{{key}}} 를 채울 발표값이 없다")
         for tok in nums.free_text_violations(s):
             report.add("SK-H1", f"{path}: {tok!r} — 발표·사양 값(announced·track·sensors.range_km)에 없는 숫자")
+    src, cands = flight_source(spec)
+    if src is None:
+        report.add("SK-H1", f"track.flight_sec {spec.track.flight_sec} — 비행 경과 시계의 원천이 될 발표값이 없다"
+                            f"(announced sec 값, 없으면 min × 60; 후보 {cands or '없음'})")
     for cid in ("SK-H2", "SK-H3", "SK-H4"):
         report.ran_check(cid)
     # SK-H5 — approx 층(예: NLL 개략 재구성)이 라벨로 설명되는 동안 출처 줄에 '개략', 엔딩 자료에도
@@ -124,6 +128,8 @@ def _shown_in_table(report: CheckReport, spec: MissileSpec, nums: Numbers) -> No
     for key in nums.shown:
         base, _, who = key.partition(":")
         if key in nums.table or (base.startswith("sensor.") and who in names):
+            continue
+        if key == nums.clock_key() and nums.clock_source is not None:
             continue
         report.add("SK-H1", f"화면 숫자 {key} 가 포맷터 표 밖")
 
