@@ -1,0 +1,158 @@
+{
+  "schema_version": 1,
+  "kind": "missile_globe",
+  "spec_sha1": "654610d4829acecc7c820d8ea3c662701f409bc6",
+  "rules_hash": "943608de2608e6d8c0c621fc756b8f2913251a6c",
+  "data_files": [
+    {
+      "path": "eez.json",
+      "sha1": "272b3a4f94583d4788b3d7206113fcf5354fdd92",
+      "source": "Marine Regions EEZ (VLIZ) WFS MarineRegions:eez, CC BY 4.0, fetched 2026-10-05",
+      "license": "CC BY 4.0"
+    }
+  ],
+  "features_drawn": {
+    "eez_fill": 245,
+    "overlap_hatch_colors:2": 147,
+    "joint_dots": 49,
+    "claim_line:NLL": 49,
+    "claim_line:NK1999": 49,
+    "sensor_point:사드 AN/TPY-2 · 성주": 49,
+    "sensor_range": 147,
+    "sensor_range_concept": 49,
+    "sensor_point:AN/TPY-2 · 샤리키": 49,
+    "sensor_point:AN/TPY-2 · 교가미사키": 49,
+    "ship_symbol": 49,
+    "launch_symbol": 49,
+    "track": 49,
+    "impact_area": 49,
+    "radar_volume": 298,
+    "label_moved_below_panel": 200,
+    "horizon_panel": 200,
+    "horizon_panel_note": 200,
+    "lofted_track": 192
+  },
+  "approximations": [
+    "착탄: 오쿠시리섬 기준 발표 거리('약') → 반경 25km 영역",
+    "NLL: 유엔군사령부 설정 · 화면 선은 개략",
+    "그린파인 레이더: 위치 비공개 · 범위는 개념도",
+    "AN/TPY-2 · 샤리키: 거리 공개 추정치",
+    "이지스 구축함: 함정 위치는 예시 · 탐지 거리 비공개",
+    "사드 AN/TPY-2 · 성주: 3D 방위·고각 = 개념값",
+    "AN/TPY-2 · 샤리키: 3D 방위·고각 = 개념값",
+    "AN/TPY-2 · 교가미사키: 3D 방위·고각 = 개념값"
+  ],
+  "numbers_shown": [
+    "const.earth_radius_km=6,371km",
+    "jcs.range_km=약 1,000km",
+    "mod.apogee_km=약 6,000km",
+    "sensor.az:AN/TPY-2 · 교가미사키=120°",
+    "sensor.az:AN/TPY-2 · 샤리키=120°",
+    "sensor.az:사드 AN/TPY-2 · 성주=120°",
+    "sensor.el:AN/TPY-2 · 교가미사키=0~60°",
+    "sensor.el:AN/TPY-2 · 샤리키=0~60°",
+    "sensor.el:사드 AN/TPY-2 · 성주=0~60°",
+    "sensor.range_plain:AN/TPY-2 · 교가미사키=1,000km",
+    "sensor.range_plain:AN/TPY-2 · 샤리키=1,000km",
+    "sensor.range_plain:사드 AN/TPY-2 · 성주=600km",
+    "track.distance_km=약 250km",
+    "track.flight_sec ← mod.flight_min×60=+74:00"
+  ],
+  "numbers_computed": [
+    {
+      "key": "horizon.altitude_km:AN/TPY-2 · 교가미사키",
+      "value": 65.7765344761372,
+      "shown": "약 66km",
+      "formula": "R·(1/cos(d/R) − 1), d = gc_dist(자산, 발사 지점), R = 6371 km",
+      "inputs": {
+        "sensor_lon": 135.22,
+        "sensor_lat": 35.76,
+        "launch_lon": 125.75,
+        "launch_lat": 39.03,
+        "d_km": 911.5792037923833
+      }
+    },
+    {
+      "key": "horizon.altitude_km:AN/TPY-2 · 샤리키",
+      "value": 126.12332673966142,
+      "shown": "약 126km",
+      "formula": "R·(1/cos(d/R) − 1), d = gc_dist(자산, 발사 지점), R = 6371 km",
+      "inputs": {
+        "sensor_lon": 140.32,
+        "sensor_lat": 40.89,
+        "launch_lon": 125.75,
+        "launch_lat": 39.03,
+        "d_km": 1257.3749978791723
+      }
+    },
+    {
+      "key": "horizon.altitude_km:사드 AN/TPY-2 · 성주",
+      "value": 12.89492838623401,
+      "shown": "약 13km",
+      "formula": "R·(1/cos(d/R) − 1), d = gc_dist(자산, 발사 지점), R = 6371 km",
+      "inputs": {
+        "sensor_lon": 128.28,
+        "sensor_lat": 35.99,
+        "launch_lon": 125.75,
+        "launch_lat": 39.03,
+        "d_km": 405.00681888150496
+      }
+    },
+    {
+      "key": "horizon.distance_km:AN/TPY-2 · 교가미사키",
+      "value": 911.5792037923833,
+      "shown": "912km",
+      "formula": "gc_dist(자산, 발사 지점)",
+      "inputs": {
+        "sensor_lon": 135.22,
+        "sensor_lat": 35.76,
+        "launch_lon": 125.75,
+        "launch_lat": 39.03
+      }
+    },
+    {
+      "key": "horizon.distance_km:AN/TPY-2 · 샤리키",
+      "value": 1257.3749978791723,
+      "shown": "1,257km",
+      "formula": "gc_dist(자산, 발사 지점)",
+      "inputs": {
+        "sensor_lon": 140.32,
+        "sensor_lat": 40.89,
+        "launch_lon": 125.75,
+        "launch_lat": 39.03
+      }
+    },
+    {
+      "key": "horizon.distance_km:사드 AN/TPY-2 · 성주",
+      "value": 405.00681888150496,
+      "shown": "405km",
+      "formula": "gc_dist(자산, 발사 지점)",
+      "inputs": {
+        "sensor_lon": 128.28,
+        "sensor_lat": 35.99,
+        "launch_lon": 125.75,
+        "launch_lat": 39.03
+      }
+    }
+  ],
+  "checks": {
+    "ran": [
+      "SK-H1",
+      "SK-H2",
+      "SK-H3",
+      "SK-H4",
+      "SK-H5",
+      "SK-C1",
+      "SK-R1",
+      "SK-H6"
+    ],
+    "hard": [],
+    "warnings": []
+  },
+  "render": {
+    "profile": "720p",
+    "frames": 456,
+    "duration_sec": 19.0,
+    "elapsed_sec": 265.7
+  }
+}

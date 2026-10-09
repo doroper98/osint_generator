@@ -1,0 +1,6 @@
+# 생성물·외부 자산 — 2023.07.12 화성-18형 스케치(재생성: python -m geo.prep / sketch.missile.prep_eez)
+assets/
+out/
+media/*
+!media/RIGHTS.json
+__pycache__/
