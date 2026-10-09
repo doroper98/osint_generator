@@ -89,7 +89,7 @@ class ProfileLayer:
         ctx.set_source_rgba(*C["gold"], pa)
         ctx.fill()
         ap = TX.apex
-        text(ctx, pr.apex_label, axp + P.apex_dx, ayp + P.apex_dy, ap.size, ap.font, C["gold"], pa, ap.halo)
+        text(ctx, self.nums.fill(pr.apex_label), axp + P.apex_dx, ayp + P.apex_dy, ap.size, ap.font, C["gold"], pa, ap.halo)
         nt = TX.note
         text(ctx, pr.note, px, gy1 + P.axis_label_dy, nt.size, nt.font, C["muted"], a, nt.halo, role="source")
         # 두 기관 나란히(같은 무게)

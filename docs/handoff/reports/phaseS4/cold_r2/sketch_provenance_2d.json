@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "kind": "missile",
-  "spec_sha1": "654610d4829acecc7c820d8ea3c662701f409bc6",
+  "spec_sha1": "e59c15505bef0d0118dcae1b290578d384fadc43",
   "rules_hash": "943608de2608e6d8c0c621fc756b8f2913251a6c",
   "data_files": [
     {
@@ -56,6 +56,7 @@
       "SK-H5",
       "SK-C1",
       "SK-R1",
+      "SK-E1",
       "SK-C2"
     ],
     "hard": [],
@@ -70,6 +71,6 @@
     "profile": "720p",
     "frames": 1344,
     "duration_sec": 56.0,
-    "elapsed_sec": 254.6
+    "elapsed_sec": 249.8
   }
 }

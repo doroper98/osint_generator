@@ -10,6 +10,7 @@
 | SK-C1 | 카메라 연속성(D-0141) | — |
 | SK-R1 | media 권리 기록 | — |
 | SK-C2 | — | 라벨 예약 상자 겹침(warning) |
+| SK-E1 | 엔딩 자료 줄 수·폭(D-0150) | — |
 
 3D 전환편(`--globe`, D-0143): SK-C1(3D, D135) = 발사점·착탄점 화면 궤적 2차 차분 + 초점 거리 Δ ln f, 2D 구간은 S1 카메라 검사.
 SK-H6(D136) = 수평선 패널 주석(spec globe.panel.note) 필수 + 패널 값 = horizon_altitude(gc_dist) ± checks.horizon_tol_km.
@@ -24,7 +25,7 @@ import numpy as np
 from engine.style import FPS, Output
 from rules import load_rules
 from sketch.common.camera import CameraPath
-from sketch.common.checks import CheckReport, check_camera, check_label_overlap, check_rights
+from sketch.common.checks import CheckReport, check_camera, check_end_card, check_label_overlap, check_rights
 from sketch.common.geodesy import dest, gc_dist, horizon_altitude, to_local
 from sketch.missile.globe import CameraPath3D, Keys, visible
 from sketch.missile.numbers import Numbers, flight_source
@@ -104,6 +105,8 @@ def check_spec(report: CheckReport, spec: MissileSpec, project: Path) -> Numbers
     path = CameraPath(tuple(spec.shots), spec.duration_sec, cam.push_in[spec.kind], cam.hold_min_sec)
     check_camera(report, path.track(FPS), FPS, th)
     check_rights(report, project / MEDIA_DIR, spec.media, SK.rights.allowed_licenses)
+    Ln, Nt = SK.text.end_line, SK.text.end_note
+    check_end_card(report, [s.text for s in spec.sources], Ln.x, Ln.y0, Ln.dy, Ln.size, Ln.font, Nt.y)
     return nums
 
 

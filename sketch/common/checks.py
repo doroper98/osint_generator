@@ -16,6 +16,7 @@ from typing import Optional
 import numpy as np
 from pydantic import BaseModel, ConfigDict, Field, ValidationError
 
+from engine.style import W_OUT
 from schemas.rules_models import SketchChecks
 from sketch.common.spec import CheckFinding, CheckRecord, MediaItem
 
@@ -26,6 +27,7 @@ CHECK_IDS: dict[str, str] = {   # ID → 등급(D-0140 §4 표)
     "SK-H1": "hard", "SK-H2": "hard", "SK-H3": "hard", "SK-H4": "hard", "SK-H5": "hard", "SK-H6": "hard",
     "SK-C1": "hard", "SK-C2": "warning", "SK-R1": "hard",
     "SK-G1": "hard", "SK-G2": "hard", "SK-G3": "hard",
+    "SK-E1": "hard",     # 엔딩 자료 상자(D-0150)
     "SK-SPEC": "hard",   # spec 스키마 위반 중 SK 번호가 없는 것(형식·참조 오류)
 }
 
@@ -153,6 +155,23 @@ def check_rights(report: CheckReport, media_dir: Path, items: list[MediaItem], a
         if not (media_dir / m.file).is_file():
             report.add("SK-R1", f"{m.file}: 파일 없음({media_dir})")
     return rf.files
+
+
+# ---------------------------------------------------------------- SK-E1 엔딩 자료 상자(D-0150)
+def check_end_card(report: CheckReport, lines: list[str], x: float, y0: float, dy: float, size: float, font: str,
+                   note_y: float) -> None:
+    """SK-E1 — 출처 줄 i 의 기준선 = y0 + i·dy. 마지막 줄 다음 칸(y0 + 줄 수·dy)이 end_note 기준선을 넘으면 겹침,
+    줄 폭이 화면 폭 − 2·x 를 넘으면 넘침. 둘 다 hard(검사 없이 6번째 줄이 end_note 와 포개진 사고, Fable 콜드 테스트)."""
+    from engine.typography import adv  # noqa: PLC0415 — 글꼴 측정은 검사 때만
+
+    report.ran_check("SK-E1")
+    if y0 + len(lines) * dy > note_y:
+        report.add("SK-E1", f"엔딩 자료 {len(lines)}줄 — 마지막 줄이 맺음 줄(end_note)과 겹친다"
+                            f"(들어가는 줄 수 {int((note_y - y0) // dy)})")
+    for i, s in enumerate(lines):
+        w = adv(s, size, font)
+        if w > W_OUT - 2 * x:
+            report.add("SK-E1", f"sources[{i}] 폭 {w:.0f} > {W_OUT - 2 * x:.0f}(화면 폭 − 좌우 여백) — 줄을 나눈다")
 
 
 # ---------------------------------------------------------------- SK-C2 라벨 겹침(warning)

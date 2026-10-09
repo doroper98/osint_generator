@@ -10,6 +10,7 @@
 | SK-R1 | 참고 작전도·media 권리(프로젝트 RIGHTS.json, D139) |
 | SK-C1 | 카메라 연속성 |
 | SK-C2 | 부대·집게 예약 상자 겹침(warning, 렌더 뒤) |
+| SK-E1 | 엔딩 자료 줄 수·폭(D-0150) |
 """
 
 from __future__ import annotations
@@ -26,7 +27,7 @@ from sketch.campaign.fronts import FrontData
 from sketch.campaign.pockets import build_polygon
 from sketch.campaign.spec import CampaignSpec
 from sketch.common.camera import CameraPath
-from sketch.common.checks import CheckReport, check_camera, check_label_overlap, check_rights, check_rights_files
+from sketch.common.checks import CheckReport, check_camera, check_end_card, check_label_overlap, check_rights, check_rights_files
 from sketch.common.numbers import unit_numbers
 from sketch.common.svg_georef import circle_centers, coef_to_ll
 
@@ -156,6 +157,8 @@ def check_spec(report: CheckReport, spec: CampaignSpec, project: Path) -> FrontD
     check_rights_files(report, project / ref.rights, [(ref.file, project / ref.file)], SK.rights.allowed_licenses)
     if spec.media:
         check_rights(report, project / MEDIA_DIR, spec.media, SK.rights.allowed_licenses)
+    E, Ln = SK.campaign.end, SK.text.end_line
+    check_end_card(report, [s.text for s in spec.sources], E.x, Ln.y0, Ln.dy, E.line_size, Ln.font, E.note_y)
     return data
 
 

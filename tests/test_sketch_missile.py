@@ -128,6 +128,56 @@ class H1FlightClockTest(unittest.TestCase):
         self.assertEqual(list(nums.shown), ["track.flight_sec ← mod.flight_min×60"])
 
 
+class E1EndCardTest(unittest.TestCase):
+    """D-0150 SK-E1 — 엔딩 자료 줄 수(end_note 와 겹침)·줄 폭. 미사일·전황 공통."""
+
+    def test_reviewed_specs_pass(self) -> None:
+        from tests.test_sketch_campaign import raw_spec as campaign_raw, run as campaign_run  # noqa: PLC0415
+
+        for r in (run_checks(raw_spec()), campaign_run(campaign_raw())):
+            self.assertIn("SK-E1", r.ran)
+            self.assertNotIn("SK-E1", ids(r))
+
+    def test_sixth_line_hits_end_note(self) -> None:
+        raw = raw_spec()
+        self.assertEqual(len(raw["sources"]), 5)
+        raw["sources"].append({"text": "여섯째 출처 줄"})
+        r = run_checks(raw)
+        self.assertEqual([f.id for f in r.hard], ["SK-E1"])
+        self.assertIn("6줄", r.hard[0].message)
+
+    def test_line_too_wide(self) -> None:
+        raw = raw_spec()
+        raw["sources"][0]["text"] = raw["sources"][0]["text"] * 2
+        r = run_checks(raw)
+        self.assertEqual([f.id for f in r.hard], ["SK-E1"])
+        self.assertIn("sources[0]", r.hard[0].message)
+
+
+class ProfileApexLabelTest(unittest.TestCase):
+    def test_apex_label_placeholder_is_filled(self) -> None:
+        """D-0150 — profile.apex_label 도 포맷터를 거친다(자리표시가 화면에 그대로 나오지 않음)."""
+        from sketch.missile.profile import ProfileLayer  # noqa: PLC0415
+
+        raw = raw_spec()
+        raw["profile"]["apex_label"] = "정점 {mod.apogee_km}"
+        spec = MissileSpec.model_validate(raw)
+        nums = Numbers(spec)
+        drawn: list[str] = []
+        import sketch.missile.profile as prof  # noqa: PLC0415
+
+        orig = prof.text
+        prof.text = lambda ctx, s, *a, **k: drawn.append(s) or 0.0   # type: ignore[assignment]
+        try:
+            ctx = cairo.Context(cairo.ImageSurface(cairo.FORMAT_RGB24, 64, 64))
+            ProfileLayer(spec, nums).draw(ctx, spec.profile.t1 - 0.1)
+        finally:
+            prof.text = orig
+        self.assertIn("정점 6,040.9km", drawn)
+        self.assertFalse(any("{" in d for d in drawn))
+        self.assertEqual(nums.shown["mod.apogee_km"], "6,040.9km")
+
+
 class H2ImpactAreaTest(unittest.TestCase):
     def test_approx_needs_area(self) -> None:
         raw = raw_spec()

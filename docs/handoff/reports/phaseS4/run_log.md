@@ -26,6 +26,7 @@ S0~S3 와 같은 컨테이너를 썼습니다(`FONTCONFIG_FILE` 표준 설정, S
 | 삭제(P2) | `projects/d1_missile_sketch/CONVENTIONS.md`(→ 22 §2.3~§2.6). 코드 주석의 참조를 22 §2.x 로 바꿈 |
 | 헌법·색인 | `CLAUDE.md` C7 한 행, `docs/handoff/19` §3 3.19, `00_INDEX` 한 줄 |
 | SK-H1 시계 원천(D-0149 3-3) | `track.flight_sec` = announced sec(없으면 min × 60), 아니면 hard. provenance `numbers_shown` 에 `track.flight_sec ← 원천` |
+| SK-E1·apex_label(D-0150 마감) | 엔딩 자료 줄 수·폭 hard(미사일·전황), 고도 단면 정점 라벨 포맷터 경유, 22 §1·§3·§7 |
 | 도장 가림 상자(D-0148) | hormuz 기준선 `stamp_box` 를 `v99.99.99` 폭으로, `md5_masked` 재등재, 재발 방지 테스트, PIPELINE-AP-021 |
 | 도시 검산(D-0147 R-0183 A) | v5.9.0 마지막 커밋 a95f833 |
 
@@ -70,7 +71,7 @@ S0~S3 와 같은 컨테이너를 썼습니다(`FONTCONFIG_FILE` 표준 설정, S
 |---|---|
 | `--check` | 0, hard 0 · warning 0 |
 | `--frames 5,27,34` | 0(27초 SK-C2 warning 1프레임) |
-| `--res final` 2D | 0, `sketch_2d.mp4` 14,133,965 B, md5 `65b21db15386861556ed46b856a2ced4` |
+| `--res final` 2D | 0, `sketch_2d.mp4` 14,133,965 B, md5 `65b21db15386861556ed46b856a2ced4`(2회차 원본 — 엔딩 6줄 겹침). D-0150 뒤 5줄로 고쳐 다시 렌더: 14,135,698 B, md5 `965975bb83271d298272353012cfaf39`, provenance ran 에 SK-E1 |
 | `--globe --res final` | 0, `sketch_globe.mp4` 2,751,204 B, md5 `0b4b0c17bcf084cfb1de80434155e708` |
 | provenance 2D | hard 0, warning SK-C2(471프레임 21.12~55.96초). 시계 `track.flight_sec ← mod.flight_min×60` = "+74:00" |
 | provenance 3D | hard 0, warning 0. `numbers_computed` = 수평선 패널 3자산 |
@@ -110,12 +111,25 @@ S0~S3 와 같은 컨테이너를 썼습니다(`FONTCONFIG_FILE` 표준 설정, S
 
 회차 상한(3회)에 닿아 4회차는 돌리지 않았습니다. 3회차 문장 수정은 위 표가 기록입니다.
 
+### Fable 회차 — 2024-10-31 화성-19형(D-0150, `cold_fable/`)
+
+Fable 이 SKILL 만으로 `projects/missile_20241031_sketch/` 를 만들었습니다. 코드 수정은 0 이고, hard 0 으로 2D·3D 전편까지 나왔습니다.
+출처 줄을 6개 쓰자 6번째 줄이 맺음 줄과 포개졌는데, 검사가 없어 통과한 것이 발견됐습니다. 그래서 SK-E1 을 더했습니다(D145).
+
+### 마감 커밋(D-0150) 뒤 2회차 프로젝트
+
+- SK-E1 이 2회차 spec(`missile_20230712_sketch`, 출처 6줄)에서도 같은 겹침을 잡았습니다. 2회차 시트 엔딩 컷에서 6번째 줄이 맺음 줄과 겹쳐 보였던 것이 그것입니다.
+- 방위성 두 줄을 한 줄로 합쳐 5줄로 맞췄습니다(폭 검사도 통과하게 괄호 출처를 줄임). `--check`·`--globe --check` hard 0 입니다.
+- 2D 전편을 다시 렌더해 `cold_missile_sheet.jpg`·`cold_r2/sketch_provenance_2d.json` 을 바꿨습니다(md5 아래 §3 갱신). 3D 편은 엔딩 자료가 없어 그대로입니다.
+- SK-E1 판정은 "`y0` + 줄 수·`dy` > `end_note.y`"(초과)로 했습니다. D-0150 문구의 "≥" 로 하면 d1 의 5줄(200 + 5 × 20 = 300 = `end_note.y`)이 걸립니다. 5줄의 마지막 기준선은 280 이고 맺음 줄과 한 줄 간격이 정확히 남으므로, 등호는 통과로 두었습니다.
+
 ## 4. 콜드 테스트가 드러낸 코드 쪽 후보(이번 범위에서 고치지 않음)
 
 - `launch` 라벨 위치 필드(`label_at`/`side`)가 없어 배경 도시 라벨과 겹칠 때 피할 수 없습니다. spec 필드 추가는 화면 문법 변경이라 22 §7 후보입니다.
-- 엔딩 자료 줄 넘침 검사가 없습니다(본편 `[endcard-overflow]` 같은 검사가 스케치에 없음).
+- 엔딩 자료 줄 넘침 검사가 없었습니다 → **D-0150 으로 SK-E1 추가(해결)**.
 - 3D 레이더 라벨 `{sensor.range_plain}` 은 '약' 없이 나옵니다(d1 검토본 그대로).
-- `profile.apex_label` 은 `nums.fill` 을 거치지 않습니다. 자리표시를 넣으면 SK-H1 은 통과하는데 화면에 `{…}` 가 그대로 나올 수 있습니다(3회차 B1 로 발견, 스킬 문장으로 막음).
+- `profile.apex_label` 이 `nums.fill` 을 거치지 않았습니다 → **D-0150 으로 포맷터 경유(해결)**. d1 은 "정점" 이라 화면이 같습니다(48초 컷 0.000 %).
+- `launch` 라벨 위치 필드, SK-C2 메시지의 두 상자 이름, 3D '약' 표기는 22 §7 등록 후보로 올렸습니다(D-0150).
 
 ## 5. 테스트
 
@@ -132,9 +146,13 @@ S0~S3 와 같은 컨테이너를 썼습니다(`FONTCONFIG_FILE` 표준 설정, S
 | 통합(`test_sketch_integration.py`) | 7 |
 | 도장 가림 상자 재발 방지(D-0148) | 1 |
 | SK-H1 시계 원천(D-0149) | 3 |
+| SK-E1 엔딩 자료(D-0150) | 3 |
+| `profile.apex_label` 포맷터(D-0150) | 1 |
 | 삭제 | 0 |
 
 기준은 1378 + 12 = 1390 이고, 실측 1390 passed(23분 30초)입니다. `-rs` 출력에 SKIPPED 줄이 없습니다 — **skip 0**.
+
+D-0150 마감 커밋 뒤: 1390 + 4(SK-E1 3, apex_label 1) = **1394 passed · failed 0 · skip 0**(22분 44초, `-rs` 에 SKIPPED 없음).
 
 ## 6. 기준 프레임 재대조(S4 끝)
 
@@ -147,3 +165,5 @@ d449c25 에서 `--res final` 로 다시 그려 검토본 기준 프레임과 대
 | S3 전황(phaseS3/ref) | 7 | 전부 0.000 % |
 
 `git diff --stat 7b607b1..HEAD -- engine` = 0 입니다.
+
+D-0150 마감 커밋 뒤 1컷씩 다시 대조했습니다. d1 48.0초(고도 단면 정점 라벨 포함)와 uranus 55.5초(엔딩 자료) 모두 0.000 % 입니다.

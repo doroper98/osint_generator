@@ -35,6 +35,7 @@ last_review: 2026-10-10
 | D142 | hormuz 엔딩 컷 도장 가림 상자 = `v99.99.99` 폭(PIPELINE-AP-021) |
 | D143 | 정점·비행 시간·착탄 기준점 중 하나라도 두 기관 모두 미발표면 미사일 스킬 범위 밖 — 사용자에게 표로 보고, 개념값으로 채우지 않음 |
 | D144 | SK-H1 시계 원천: `track.flight_sec` = announced sec(없으면 min × 60), provenance 시계 + 원천 키 |
+| D145 | SK-E1 엔딩 자료 상자 검사(hard, 미사일·전황 공통), `profile.apex_label` 포맷터 경유, §7 후보 3행 |
 
 ## 2. spec 계약
 
@@ -147,6 +148,7 @@ spec 파일은 `projects/<pid>/sketch.yaml` 하나입니다. Pydantic v2, extra=
 | SK-G1 | 참고 작전도 정합 잔차 + 도시 검산 | hard | `checks.georef_residual_deg`·`checks.georef_city_deg` | 전황 |
 | SK-G2 | 포위망 다각형 유효(미세 조각은 warning) | hard / warning | `checks.pocket_sliver_ratio` | 전황 |
 | SK-G3 | 제대·병종 값 | hard | — | 전황 |
+| SK-E1 | 엔딩 자료 줄 수: `y0` + 줄 수·`dy` 가 맺음 줄(end_note) 기준선을 넘으면 겹침. 줄 폭 > 화면 폭 − 2·`x` 면 넘침 | hard | `text.end_line`·`text.end_note`(전황 `campaign.end`) | 둘 다 |
 | SK-SPEC | 그 밖 스키마·참조 오류 | hard | — | 둘 다 |
 
 2D→3D 이음새는 검사가 아니라 회귀 테스트입니다(`checks.seam_px`, D137).
@@ -228,4 +230,7 @@ python -m sketch.campaign projects/uranus_sketch --res final
 | 2D→3D 이음새 | 위 투영 혼합과 같은 결정 |
 | 근접 숏 추가 | 실제 축척 옆 시점에서 레이더 볼륨이 작아 보임 — 근접 숏 카메라 규칙 |
 | 동해 남북 경계 | 서해와 같은 두 주장선 방식으로 정리할지 |
+| `launch` 라벨 위치 필드(`label_at`/`side`) | 발사 라벨이 배경 도시 이름("평양직할시")과 겹칠 때 옮길 수단 — 라벨만 옮기고 기호는 좌표에 둘지, 배경 도시 라벨을 숨길지(콜드 테스트 2·3회차·Fable 회차 공통) |
+| SK-C2 메시지에 겹친 두 상자 이름 | 예약 상자에 주인(라벨 종류·이름)을 달아 warning 이 "무엇과 무엇" 을 말하게 할지 — 상자 자료형 변경(D-0150 발견 2) |
+| 3D `{sensor.range_plain}` '약' 없음 | 3D 라벨이 2D 의 '약 ○km' 와 달리 '약' 을 뺀 검토본 표기 — 통일할지(검토본 값 변경이라 사용자 확인) |
 | 미발표 수치 사건 표현(시계 없는 HUD · 방향만 있는 궤적 · '착탄 위치 미발표' 영역 · 고도 단면/3D 생략) | 어느 요소를 빼고 무엇을 남길지는 사용자 검토 전 새 화면 문법(D-0149, 사례 2023-04-13 화성-18형 — `reports/phaseS4/cold_r1/`) |

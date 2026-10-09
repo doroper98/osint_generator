@@ -66,14 +66,24 @@ released 항목은 **append-only**입니다.
 
 ---
 
-## [v5.10.0] — 2026-10-10 — 스케치 스킬 트랙 S4: 스킬·문서·통합 (back_and_forth D-0147) — 진행 중
+## [v5.10.0] — 2026-10-10 — 스케치 스킬 트랙 S4: 스킬·문서·통합 (back_and_forth D-0147·D-0150) — 릴리즈
 
 MINOR: Phase 완료 단위. 스케치 계층만(엔진·본편 무변경). JSON `schema_version` 그대로(1).
 
+**스케치 스킬 트랙 S0~S4 요약(v5.7.0~v5.10.0, D-0140)**: 사용자 검토본 화면 스케치 두 종(미사일 발사 사건도 2D·3D 지구본 전환, 전황 작전도)을
+엔진 밖 독립 패키지 `sketch/`(spec YAML + CLI, 화면 수치 = `rules sketch:`)로 옮기고, 결정적 검사 SK-H1~H6·C1·C2·R1·G1~G3·E1 과
+`.claude/skills/` 두 스킬로 감쌌다. 검토본 기준 프레임은 S1 9컷·S3 7컷 픽셀 동일, S2 7컷 중 4컷 동일(3컷 = 결함 수정).
+스킬 콜드 테스트는 미사일 세 사건(2023-04-13 범위 밖 판정, 2023-07-12, 2024-10-31)을 코드 수정 없이 만들었다. 정본 `docs/handoff/22`.
+
 ### Added
-- `.claude/skills/{missile-event-map, campaign-front-map}/SKILL.md` 완성(D-0140 §8 ①~⑦).
+- `.claude/skills/{missile-event-map, campaign-front-map}/SKILL.md` 완성(D-0140 §8 ①~⑦), 콜드 테스트 회차별 문장 보강.
 - `docs/handoff/22_SKETCH_TRACK.md`(계층 결정·spec 계약·검사표·출처·권리·재현·사용자 확정 대기·본편 등록 후보).
 - `tests/test_sketch_integration.py`(두 프로젝트 CLI 끝까지·P6 음성·결정성·스킬 파일).
+- SK-E1 엔딩 자료 상자 검사(줄 수·폭, hard, D-0150). SK-H1 시계 원천 대조(D-0149).
+- 콜드 테스트 산출 `projects/missile_20230712_sketch/`·`projects/missile_20241031_sketch/`.
+
+### Changed
+- `profile.apex_label` 포맷터 경유(D-0150). hormuz 기준선 도장 가림 상자 `v99.99.99` 폭(D-0148, PIPELINE-AP-021).
 
 ### Removed
 - `projects/d1_missile_sketch/CONVENTIONS.md`(→ `docs/handoff/22`, P2).
