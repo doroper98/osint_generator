@@ -2200,11 +2200,27 @@ class SketchSymbol(_Strict):
     pop_sec: float = Field(gt=0)
 
 
+class SketchCampaignRiver(_Strict):
+    rgb: RGB
+    minor: tuple[float, float]
+    major: tuple[float, float]
+
+
 class SketchFront(_Strict):
+    axis_color: str
+    soviet_color: str
     axis_w: float = Field(gt=0)
     soviet_w: float = Field(gt=0)
     offset_px: float
     dash: list[float] = Field(min_length=2)
+
+
+class SketchPocket(_Strict):
+    color: str
+    fill_alpha: float = Field(ge=0, le=1)
+    hatch_alpha: float = Field(ge=0, le=1)
+    hatch_gap: float = Field(gt=0)
+    hatch_w: float = Field(gt=0)
 
 
 class SketchArrow(_Strict):
@@ -2213,40 +2229,25 @@ class SketchArrow(_Strict):
     tip: float = Field(gt=0)
     wing: float = Field(gt=0)
     alpha: tuple[float, float]         # 꼬리, 머리
+    edge_rgb: RGB
     edge_alpha: float = Field(ge=0, le=1)
     edge_w: float = Field(gt=0)
-    label_dy: float
+    appear: float = Field(gt=0)
     label_from: float = Field(ge=0, le=1)
-
-
-class SketchPocket(_Strict):
-    fill_alpha: float = Field(ge=0, le=1)
-    hatch_alpha: float = Field(ge=0, le=1)
-    hatch_gap: float = Field(gt=0)
-    hatch_w: float = Field(gt=0)
-
-
-class SketchCampaignTag(_Strict):
-    size: float = Field(gt=0)
-    font: str
-    pad_w: float
-    text_dx: float
-    box_dy: float
-    box_h: float = Field(gt=0)
-    radius: float = Field(ge=0)
-    bg_alpha: float = Field(ge=0, le=1)
-    edge_alpha: float = Field(ge=0, le=1)
-    edge_w: float = Field(gt=0)
+    label_in: float = Field(gt=0)
+    label_out: float = Field(gt=0)
 
 
 class SketchPlace(_Strict):
     size: float = Field(gt=0)
     font: str
+    halo: float = Field(ge=0)
+    alpha: float = Field(ge=0, le=1)
     dot_r: float = Field(gt=0)
     dx: float
     dy: float
-    sub_size: float = Field(gt=0)
-    sub_dy: float
+    in_sec: float = Field(gt=0)
+    probe: tuple[float, float]
 
 
 class SketchRiverLabel(_Strict):
@@ -2256,39 +2257,88 @@ class SketchRiverLabel(_Strict):
     spacing: float = Field(ge=0)
 
 
+class SketchCampaignTag(_Strict):
+    size: float = Field(gt=0)
+    font: str
+    pad_w: float
+    text_dx: float
+    text_dy: float
+    box_dy: float
+    box_h: float = Field(gt=0)
+    radius: float = Field(ge=0)
+    bg_alpha: float = Field(ge=0, le=1)
+    edge_alpha: float = Field(ge=0, le=1)
+    edge_w: float = Field(gt=0)
+
+
 class SketchLegend(_Strict):
     x: float
     y: float
-    w: float = Field(gt=0)
-    h: float = Field(gt=0)
+    box: tuple[float, float, float, float]
+    radius: float = Field(ge=0)
+    alpha: float = Field(ge=0, le=1)
     col_dx: float
     row_dy: float
+    sym_dx: float
+    sym_dy: float
     symbol_scale: float = Field(gt=0)
+    label_dx: float
+    caption_dy: float
 
 
 class SketchPincer(_Strict):
     flash_r: float = Field(gt=0)
     flash_decay: float = Field(gt=0)
+    flash_rgb: RGB
+    flash_alpha: float = Field(ge=0, le=1)
+    rings: int = Field(ge=1)
     ring: tuple[float, float]
+    ring_rate: float = Field(gt=0)
+    ring_alpha: float = Field(ge=0, le=1)
+    ring_w: float = Field(gt=0)
+    ring_color: str
+    ring_in: float = Field(gt=0)
+    ring_out: float = Field(gt=0)
     tag_dy: float
+    tag_in: float = Field(gt=0)
+    tag_out: float = Field(gt=0)
+    tag_color: str
+    box: tuple[float, float, float]
+
+
+class SketchCampaignEnd(_Strict):
+    x: float
+    line_size: float = Field(gt=0)
+    note_y: float
 
 
 class SketchCampaign(_Strict):
     terrain_dim: Color4
-    river: dict[Literal["minor", "major"], tuple[float, float]]
+    river: SketchCampaignRiver
+    front: SketchFront
+    pocket: SketchPocket
     symbol: SketchSymbol
     echelon: SketchText
     unit_name: SketchText
-    unit_fade_to: float = Field(ge=0, le=1)
+    light_name_rgb: RGB
+    unit_in: float = Field(gt=0)
     unit_fade_sec: float = Field(gt=0)
-    front: SketchFront
+    offscreen_px: float = Field(ge=0)
+    unit_box: tuple[float, float, float]
     arrow: SketchArrow
-    pocket: SketchPocket
-    tag: SketchCampaignTag
+    arrow_label: SketchText
+    arrow_label_rgb: RGB
     place: SketchPlace
+    place_sub: SketchText
     river_label: SketchRiverLabel
+    tag: SketchCampaignTag
     legend: SketchLegend
+    legend_label: SketchText
+    legend_caption: SketchText
     pincer: SketchPincer
+    source_alpha: float = Field(ge=0, le=1)
+    end: SketchCampaignEnd
+    date_delay: float = Field(ge=0)
 
 
 class SketchChecks(_Strict):
@@ -2300,6 +2350,8 @@ class SketchChecks(_Strict):
     horizon_tol_km: float = Field(ge=0)
     label_overlap_px: float = Field(ge=0)
     approx_word: str = Field(min_length=1)
+    approx_note_end_gap_sec: float = Field(ge=0)
+    pocket_sliver_ratio: float = Field(ge=0, lt=1)
     seam_px: float = Field(gt=0)
 
 

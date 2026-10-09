@@ -99,3 +99,5 @@ def to_local(cen: LonLat, lon: np.ndarray, lat: np.ndarray, alt: np.ndarray, k: 
 def merc_y_deg(lat: np.ndarray) -> np.ndarray:
     """메르카토르 y(도 단위, engine.stage.ym 과 같은 식)의 배열판."""
     return np.degrees(np.log(np.tan(np.pi / 4 + np.radians(lat) / 2)))
+
+NORMAL_EPS: float = 1e-6     # 화면 법선 정규화 분모 하한(전선 이중선·화살표 띠)

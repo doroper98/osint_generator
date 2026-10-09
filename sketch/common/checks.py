@@ -56,6 +56,11 @@ class CheckReport:
         f = CheckFinding(id=cid, message=message)
         (self.hard if CHECK_IDS[cid] == "hard" else self.warnings).append(f)
 
+    def warn(self, cid: str, message: str) -> None:
+        """hard 등급 검사가 허용치 안의 사소한 발견을 남길 때(예: SK-G2 미세 조각, D-0146) — warning 으로 기록."""
+        self.ran_check(cid)
+        self.warnings.append(CheckFinding(id=cid, message=message))
+
     def record(self) -> CheckRecord:
         return CheckRecord(ran=list(self.ran), hard=list(self.hard), warnings=list(self.warnings))
 
@@ -169,3 +174,28 @@ def check_label_overlap(report: CheckReport, frames: list[tuple[float, list]], t
     if hit:
         report.add("SK-C2", f"라벨 예약 상자 겹침 {len(hit)}프레임(첫 t={hit[0]:.2f}s, 끝 t={hit[-1]:.2f}s)")
     return len(hit)
+
+
+def check_rights_files(report: CheckReport, rights_path: Path, files: list[tuple[str, Path]], allowed: list[str]) -> dict[str, RightsEntry]:
+    """SK-R1(일반, D139) — 데이터·참고 파일(이름, 실제 경로)마다 RIGHTS.json 항목·허용 라이선스·파일 존재."""
+    report.ran_check("SK-R1")
+    if not files:
+        return {}
+    if not rights_path.is_file():
+        report.add("SK-R1", f"{rights_path} 없음 — 파일 {len(files)}개의 권리 기록이 없다")
+        return {}
+    try:
+        rf = RightsFile.model_validate(json.loads(rights_path.read_text(encoding="utf-8")))
+    except (ValidationError, json.JSONDecodeError) as e:
+        report.add("SK-R1", f"{rights_path} 형식 오류: {e}")
+        return {}
+    for name, path in files:
+        ent = rf.files.get(name)
+        if ent is None:
+            report.add("SK-R1", f"{name}: RIGHTS.json 항목 없음")
+            continue
+        if ent.license not in allowed:
+            report.add("SK-R1", f"{name}: 라이선스 {ent.license!r} 가 허용 목록(rules sketch.rights.allowed_licenses) 밖")
+        if not path.is_file():
+            report.add("SK-R1", f"{name}: 파일 없음({path})")
+    return rf.files

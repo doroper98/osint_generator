@@ -19,6 +19,7 @@ from engine.timebase import smooth, window
 from engine.typography import text
 from sketch.common.camera import CameraPath
 from sketch.common.draw import SK, WHITE, Overlay
+from sketch.common.render import BGRA
 from sketch.missile.card import CardLayer
 from sketch.missile.eez import EezLayer
 from sketch.missile.launch import LaunchLayer
@@ -62,8 +63,8 @@ class MissileScene:
     def frame(self, t: float) -> bytes:
         sp, OP = self.spec, self.out
         view = View(self.stage, np.array(self.camera.at(t)))
-        buf = bytearray(OP.width * OP.height * 4)
-        surf = cairo.ImageSurface.create_for_data(buf, cairo.FORMAT_RGB24, OP.width, OP.height, OP.width * 4)
+        buf = bytearray(OP.width * OP.height * BGRA)
+        surf = cairo.ImageSurface.create_for_data(buf, cairo.FORMAT_RGB24, OP.width, OP.height, OP.width * BGRA)
         ctx = cairo.Context(surf)
         ctx.translate(OP.pad_x, 0)
         ctx.scale(OP.k, OP.k)

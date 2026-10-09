@@ -14,6 +14,7 @@ import re
 
 from rules import load_rules
 from sketch.common.geodesy import EARTH_KM
+from sketch.common.numbers import UNIT_NUM, unit_of
 from sketch.common.spec import ComputedNumber
 from sketch.missile.spec import MissileSpec, Num, Sensor
 
@@ -22,20 +23,6 @@ PLACEHOLDER = re.compile(r"\{([a-z0-9_]+\.[a-z0-9_]+)\}")
 NU = load_rules().sketch.numbers
 
 
-def _unit_pattern() -> re.Pattern[str]:
-    """단위 붙은 숫자(자유 문구 검사용) — 규칙 단위 표의 접두·접미 그대로."""
-    alts = []
-    for u in NU.units.values():
-        if not u.check:
-            continue
-        if u.suffix:
-            alts.append(r"(?P<n%d>\d[\d,]*(?:\.\d+)?)\s*" % len(alts) + re.escape(u.suffix))
-        if u.prefix:
-            alts.append(re.escape(u.prefix.strip()) + r"\s*(?P<n%d>\d[\d,]*(?:\.\d+)?)" % len(alts))
-    return re.compile("|".join(alts))
-
-
-UNIT_NUM = _unit_pattern()
 
 
 def _num(v: float) -> str:
@@ -134,21 +121,10 @@ class Numbers:
         bare = PLACEHOLDER.sub("", s)
         bad = []
         for m in UNIT_NUM.finditer(bare):
-            idx = next(i for i, g in enumerate(m.groups()) if g is not None)
-            val = float(m.groups()[idx].replace(",", ""))
-            unit = self._unit_of(m.group(0))
-            if val not in allowed.get(unit, set()):
+            val = float(next(g for g in m.groups() if g is not None).replace(",", ""))
+            if val not in allowed.get(unit_of(m.group(0)), set()):
                 bad.append(m.group(0).strip())
         return bad
-
-    @staticmethod
-    def _unit_of(token: str) -> str:
-        for name, u in NU.units.items():
-            if not u.check:
-                continue
-            if (u.suffix and token.strip().endswith(u.suffix)) or (u.prefix and token.strip().startswith(u.prefix.strip())):
-                return name
-        raise KeyError(token)
 
     def clock(self, sec: float) -> str:
         """비행 경과 계기 '+mm:ss' — 발표 비행 시간 × 진행 비율(계기, 발표 수치 아님)."""

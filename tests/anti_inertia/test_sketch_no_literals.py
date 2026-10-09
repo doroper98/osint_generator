@@ -19,7 +19,7 @@ from tests.anti_inertia._ast_util import REPO, code_strings, docstring_nodes, it
 
 SKETCH_ROOT = "sketch"
 DRAW_MODULES: frozenset[str] = frozenset({   # (a)(b) 대상 — 모듈 이름(stem). 패키지 어디에 있든
-    "draw", "eez", "sensors", "launch", "profile", "card", "globe", "globe_scene", "fronts", "units", "arrows", "pockets",
+    "draw", "eez", "sensors", "launch", "profile", "card", "globe", "globe_scene", "fronts", "units", "arrows", "pockets", "scene",
 })
 FORMULA_MODULES: frozenset[str] = frozenset({"geodesy", "svg_georef"})   # (e) 수식 — (b) 면제
 ALLOWED_NUMBERS: frozenset[float] = frozenset({0, 1, 2, 3, 0.5, 90, 180, 360})

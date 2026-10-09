@@ -66,6 +66,20 @@ def hatch(ctx: cairo.Context, cols: Sequence[RGB], a: float, gap: float, wd: flo
         i += 1
 
 
+def hatch_mono(ctx: cairo.Context, col: RGB, a: float, gap: float, wd: float) -> None:
+    """현재 클립 안 한 색 사선(한 경로로 한 번에 긋는다) — 포위망 같은 '한 세력 영역' 표시. 중첩 주장에는 hatch(두 색)."""
+    x0, y0, x1, y1 = ctx.clip_extents()
+    h = y1 - y0
+    s = x0 - h
+    while s < x1:
+        ctx.move_to(s, y1)
+        ctx.line_to(s + h, y0)
+        s += gap
+    ctx.set_source_rgba(*col, a)
+    ctx.set_line_width(wd)
+    ctx.stroke()
+
+
 def dots(ctx: cairo.Context, col: RGB, a: float) -> None:
     """현재 클립 안 엇갈린 점무늬(공동 관리 수역). 간격·반지름 = rules sketch.eez.dots_*."""
     E = SK.eez
