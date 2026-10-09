@@ -1,0 +1,137 @@
+# 전황 작전도 화면 스케치 spec — 천왕성 작전 1942.11.19~30(사용자 검토본 4d9dc65 uranus_sketch.py 값 그대로)
+# 사실·연출 값만. 화면 수치는 rules/video_rules.yaml sketch.campaign. 실행: python -m sketch.campaign projects/uranus_sketch
+# 전선 좌표 = 참고 작전도 정합 개략선(prep_georef), 부대 위치·화살표 경로 = 군 단위 개략(참고 지도 2종 대조). 병력 수치는 화면 본문에 쓰지 않는다.
+schema_version: 1
+kind: campaign
+title: "천왕성 작전 1942.11.19~30"
+date: "1942. 11. 18"
+duration_sec: 58.0
+sheet_times: [11.5, 20.0, 30.5, 38.5, 42.0, 51.0, 55.5]
+
+sources:
+  - text: "전선(11.19·23·30): 러시아 국방부 지도 023 재작도 'Operation Uranus'(Lưu Ly, Wikimedia Commons, CC BY 3.0) — 경위도 눈금으로 정합한 개략선"
+  - text: "11.18 배치: 'Stalingrad – Preparations for Operation Uranus'(J. O'Sullivan, Commons, CC BY-SA 3.0) 대조 · 군 단위 개략"
+  - text: "포위 병력 추정은 사료마다 크게 다름(약 25만~30만 명대 제시가 많음)"
+
+shots:   # 앞 숏 끝 상태에서 이어 간다
+  - {t0: 0.0, t1: 0.0, lon: 42.75, lat: 48.85, w: 6.6}
+  - {t0: 13.0, t1: 15.6, lon: 43.05, lat: 49.22, w: 2.7}
+  - {t0: 24.0, t1: 26.6, lon: 44.05, lat: 48.22, w: 2.7}
+  - {t0: 32.6, t1: 35.2, lon: 43.98, lat: 48.74, w: 2.3}
+  - {t0: 43.5, t1: 46.2, lon: 43.35, lat: 48.55, w: 4.4}
+
+nations:   # 색 = 엔진 강조 토큰
+  su: {color: ru, label: "소련", light_name: true}
+  de: {color: us, label: "독일"}
+  ro: {color: amber, label: "루마니아"}
+  it: {color: green, label: "이탈리아"}
+
+units:   # 11.18 배치, 군·군단 단위 개략
+  - {nation: it, echelon: XXXX, arm: inf, name: "이탈리아 제8군", lon: 40.75, lat: 49.78, t: 3.6}
+  - {nation: ro, echelon: XXXX, arm: inf, name: "루마니아 제3군", lon: 42.15, lat: 49.33, t: 4.2, fade: [{t: 21.0, sec: 2.0, to: 0.35}]}   # 북쪽 돌파 뒤 무너짐
+  - {nation: de, echelon: XXX, arm: arm, name: "독일 제48기갑군단", lon: 42.42, lat: 49.03, t: 4.8, fade: [{t: 23.0, sec: 2.0, to: 0.35}]}
+  - {nation: de, echelon: XXXX, arm: inf, name: "독일 제6군", lon: 44.05, lat: 49.02, t: 5.4}
+  - {nation: de, echelon: XXXX, arm: arm, name: "독일 제4기갑군", lon: 44.22, lat: 48.42, t: 6.0}
+  - {nation: ro, echelon: XXXX, arm: inf, name: "루마니아 제4군", lon: 44.25, lat: 47.95, t: 6.6, fade: [{t: 31.0, sec: 2.0, to: 0.35}]}
+  - {nation: su, echelon: XXXX, arm: arm, name: "제5전차군", lon: 42.72, lat: 49.72, t: 8.4}
+  - {nation: su, echelon: XXXX, arm: inf, name: "제21군", lon: 43.18, lat: 49.52, t: 8.9}
+  - {nation: su, echelon: XXXX, arm: inf, name: "제65군", lon: 43.62, lat: 49.42, t: 9.4}
+  - {nation: su, echelon: XXXX, arm: inf, name: "제24군", lon: 44.05, lat: 49.30, t: 9.8}
+  - {nation: su, echelon: XXXX, arm: inf, name: "제66군", lon: 44.55, lat: 49.18, t: 10.2}
+  - {nation: su, echelon: XXXX, arm: inf, name: "제62군", lon: 44.72, lat: 48.80, t: 10.6}
+  - {nation: su, echelon: XXXX, arm: inf, name: "제64군", lon: 44.78, lat: 48.52, t: 11.0}
+  - {nation: su, echelon: XXXX, arm: inf, name: "제57군", lon: 44.88, lat: 48.27, t: 11.4}
+  - {nation: su, echelon: XXXX, arm: inf, name: "제51군", lon: 44.98, lat: 47.98, t: 11.8}
+
+fronts:
+  file: fronts.json            # python -m sketch.campaign.prep_georef projects/uranus_sketch
+  reference: {file: ref_operation_uranus.svg, rights: RIGHTS.json}   # D139 — 데이터 파일, 권리는 프로젝트 RIGHTS.json
+  source: "Wikimedia Commons File:Operation Uranus.svg (Lưu Ly, CC BY 3.0) — redrawn from victory.mil.ru map 023; georeferenced by 42–44°E × 48–50°N graticule"
+  # (색, 굵기, 점선) → 의미. 스타일 묶음을 그려 보고 범례와 대조해 정했다(스케치 확인 2026-10-05). 순서 = 조각 번호 순서
+  style_map:
+    - {stroke: "#100aea", width: 1.0, layer: "1119", side: axis}
+    - {stroke: "#e80c2c", width: 1.0, layer: "1119", side: soviet}
+    - {stroke: "#100aea", width: 0.5, layer: "1123", side: axis}
+    - {stroke: "#e80c2c", width: 0.5, layer: "1123", side: soviet}
+    - {stroke: "#100aea", width: 0.3, layer: "1123", side: axis}
+    - {stroke: "#e80c2c", width: 0.3, layer: "1123", side: soviet}
+    - {stroke: "#100aea", width: 0.3, dash: "2, 1, 2, 1", layer: "1130", side: axis}
+    - {stroke: "#e80c2c", width: 0.3, dash: "2, 1, 2, 1", layer: "1130", side: soviet}
+    - {stroke: "#100aea", width: 0.5, dash: "2, 1, 2, 1", layer: "1130", side: axis}
+    - {stroke: "#09bed1", width: 1.0, layer: river, side: major}
+    - {stroke: "#09bed1", width: 0.3, layer: river, side: minor}
+  graticule: {lons: [42, 43, 44], lats: [50, 49, 48], stroke: "#c0edf2", width: 0.2}
+  layers:   # 그리는 순서. 조각 = "층:편:번호" — 추축 쪽 선을 기준으로 소련 선을 화면에서 옮겨 이중선
+    - {date: "1119", pieces: ["1119:axis:0", "1119:axis:1"], grow: [0.6, 2.8], dim: [{t: 36.0, sec: 1.5, to: 0.3}]}          # 11.19 개시선
+    - {date: "1123", pieces: ["1123:axis:10"], grow: [36.6, 2.4], dim: [{t: 46.5, sec: 1.5, to: 0.45}]}                        # 11.23 포위망 서·남 고리
+    - {date: "1123", pieces: ["1123:axis:2", "1123:axis:6", "1123:axis:4"], grow: [36.6, 2.4], dim: [{t: 46.5, sec: 1.5, to: 0.45}]}   # 11.23 바깥 선
+    - {date: "1123", pieces: ["1123:axis:12"], grow: [21.5, 1.6]}                                                              # 라스포핀스카야 포위 고리
+    - {date: "1130", pieces: ["1130:axis:0", "1130:soviet:0", "1130:soviet:1"], grow: [46.8, 3.0], dashed: true}               # 11.30 외곽
+    - {date: "1130", pieces: ["1123:axis:8"], grow: [46.8, 3.0], dashed: true}                                                 # 11.30 포위망 북서 호
+
+pockets:   # 조각 레시피를 순서대로 이어 붙인 다각형(SK-G2)
+  - name: "11.23 포위망"
+    build:
+      - {piece: "1123:axis:10"}                                       # 돈강 큰 굴곡 → 스탈린그라드 남쪽
+      - {points: [[44.61, 48.79], [44.67, 48.92]]}                    # 스탈린그라드 시가
+      - {piece: "1119:axis:1", lon_min_of: "1123:axis:10"}            # 북쪽 개시선(동 → 서), 고리 서쪽 끝 경도 이동
+    show: [{t: 38.2, sec: 1.2, from: 0, to: 1}, {t: 47.0, sec: 1.5, from: 1, to: 0}]
+  - name: "11.30 포위망"
+    build:
+      - {piece: "1123:axis:10", start_near: "1123:axis:8"}            # 북서 호 서쪽 끝(칼라치 동쪽)과 만나는 고리 점부터
+      - {points: [[44.61, 48.79], [44.67, 48.92]]}
+      - {piece: "1119:axis:1", lon_min_of: "1123:axis:8"}
+      - {piece: "1123:axis:8"}
+    show: [{t: 38.2, sec: 1.2, from: 0, to: 1}, {t: 47.0, sec: 1.5, from: 0, to: 1}]
+
+arrows:   # 진격 화살표(군 단위 개략)
+  color: ru
+  dim: [{t: 44.0, sec: 1.5, to: 0.28}]
+  label_end: 43.0
+  items:
+    - {name: "제5전차군 · 제26·제1전차군단", pts: [[42.76, 49.50], [42.62, 49.22], [42.85, 48.98], [43.25, 48.80], [43.52, 48.72]], t0: 16.0, t1: 31.0}
+    - {name: "제21군 · 제4전차군단", pts: [[43.08, 49.28], [43.22, 49.07], [43.45, 48.88], [43.62, 48.64]], t0: 16.6, t1: 37.0}
+    - {name: "제65군", pts: [[43.30, 49.30], [43.55, 49.17], [43.72, 49.02]], t0: 17.2, t1: 26.0}
+    - {name: "제51군 · 제4기계화군단", pts: [[44.55, 48.10], [44.20, 48.08], [43.95, 48.25], [43.78, 48.45], [43.66, 48.60]], t0: 26.8, t1: 37.0}
+    - {name: "제57군 · 제13전차군단", pts: [[44.55, 48.42], [44.30, 48.42], [44.05, 48.50], [43.85, 48.57]], t0: 27.4, t1: 36.0}
+    - {name: "제4기병군단", pts: [[44.45, 47.98], [44.15, 47.88], [43.85, 47.80]], t0: 28.0, t1: 34.0}
+
+places_t: 1.0
+places:   # 1942년 지명(현재 이름)
+  - {name: "스탈린그라드", now: "현 볼고그라드", lon: 44.51, lat: 48.71}
+  - {name: "칼라치", lon: 43.53, lat: 48.69}
+  - {name: "세라피모비치", lon: 42.74, lat: 49.58}
+  - {name: "클레츠카야", lon: 43.06, lat: 49.32}
+  - {name: "수로비키노", lon: 42.85, lat: 48.61}
+  - {name: "코텔니코보", lon: 43.14, lat: 47.63}
+  - {name: "소베츠키", lon: 43.64, lat: 48.60}
+  - {name: "모로좁스크", lon: 41.81, lat: 48.35}
+rivers_label:
+  - {name: "돈강", lon: 42.35, lat: 49.66}
+  - {name: "볼가강", lon: 45.05, lat: 48.62}
+  - {name: "치르강", lon: 42.30, lat: 48.80}
+  - {name: "돈강", lon: 43.0, lat: 48.05}
+
+dates:
+  - {t: 0.0, text: "1942. 11. 18"}
+  - {t: 15.4, text: "1942. 11. 19"}
+  - {t: 26.4, text: "1942. 11. 20"}
+  - {t: 35.0, text: "1942. 11. 23"}
+  - {t: 46.0, text: "1942. 11. 30"}
+
+pincer: {lon: 43.64, lat: 48.60, t: 37.2, t_end: 45.0, tag_t: 37.6, text: "11.23 소베츠키 — 남북 집게가 만남"}   # 집게가 닫히는 순간
+
+tags:   # 국면 태그(그리는 순서 = 원본)
+  - {text: "약한 측면", at: [[42.15, 49.33], [44.25, 47.95]], dy: -30, t0: 6.0, t1: 13.0, fin: 0.5, fout: 0.6, color: amber}
+  - {text: "라스포핀스카야 — 루마니아군 포위", at: [[43.0, 49.38]], dy: -22, t0: 22.4, t1: 31.0, fin: 0.5, fout: 0.6, color: amber}
+  - {text: "포위망 — 독일 제6군·제4기갑군 일부", at: [[44.15, 48.80]], t0: 39.6, t1: 53.0, fin: 0.6, fout: 0.6, color: us}
+  - {text: "11.30 외곽 포위선(치르강·악사이 방면)", at: [[42.55, 48.40]], t0: 48.6, t1: 53.0, fin: 0.6, fout: 0.6, color: ru}
+
+legend: {t0: 3.4, t1: 13.5, order: [su, de, ro, it], caption: "XXXX 군 · XXX 군단 · 사선 보병 · 타원 기갑"}
+
+notes:
+  source_lines:
+    - {t0: 1.0, t1: 52.0, text: "전선·부대 위치는 개략(참고 작전도 정합 · 군 단위) — 출처는 끝 화면"}
+  end_title: "자료"
+  end_note: "천왕성 작전 화면 스케치 · 자막·내레이션 없음"
+  end_sec: 5.0
