@@ -1,6 +1,6 @@
 <!--
 tier: 3
-last_synced_with: v5.6.0
+last_synced_with: v5.7.0
 ssot_for: [release-notes]
 depends_on: [README.md, GOAL.md]
 last_review: 2026-09-28
@@ -63,6 +63,19 @@ released 항목은 **append-only**입니다.
 | v5.0.0 | 87912d2 | G11 GOAL G4-21·claim_kind fact/statement | pass(D-0125) |
 | v5.1.0 | 3619f2c | G12 backdrop 무대·아일랜드·축 스케일·기사 프레스 v2·발음 사전·버전 도장 | pass(D-0127) — 후속 D-0128 완료 |
 | v5.2.0 | d4703d9 | G13 배경 가독·주 아일랜드 상시·보도 인용 = 기사·card-island·라벨 반전 | pass(D-0134) — 후속 겹침 카드 시안(D-0135~D-0138) |
+
+---
+
+## [v5.7.0] — 2026-10-09 — 스케치 스킬 트랙 S0·S1: 미사일 2D→3D·전황 작전도 스케치를 spec 주도 패키지 `sketch/` + 스킬로 (back_and_forth D-0140) — 진행 중
+
+MINOR: 새 독립 패키지(엔진 레지스트리 밖, D128) + 규칙 묶음 `rules sketch:`(D130). JSON `schema_version` 그대로(1). 본편·골든 출력 무변경.
+
+### Added
+- `sketch/common`(spec 계약·측지·카메라·그리기·렌더·검사 틀), CLI `python -m sketch.missile`·`python -m sketch.campaign`(S0 = 인자 계약, 이식은 S1~S3).
+- `rules/video_rules.yaml sketch:` + `schemas/rules_models.SketchRules`(extra=forbid) — 값은 사용자 검토본(4d9dc65) 리터럴 그대로.
+- 관성 방지 `tests/anti_inertia/test_sketch_no_literals`(글자 크기·숫자·hex 색·import 방향), `test_single_config` 검사 대상에 `sketch`.
+- 스킬 초안 `.claude/skills/missile-event-map`·`campaign-front-map`(D131).
+- `requirements-engine.txt` 에 svgelements(이미 쓰던 의존성 기재).
 
 ---
 

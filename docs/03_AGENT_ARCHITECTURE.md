@@ -1,6 +1,6 @@
 <!--
 tier: 2
-last_synced_with: v5.6.0
+last_synced_with: v5.7.0
 ssot_for: [agent-catalog, worker-catalog]
 depends_on: [02_SYSTEM_ARCHITECTURE.md, docs/handoff/15_ANTI_INERTIA_PRINCIPLES.md, docs/handoff/16_ORCHESTRATOR_INTEGRATION.md, docs/handoff/17_AI_DIRECTOR_VISUAL_QA_PROMPTS.md]
 last_review: 2026-09-29

@@ -15,3 +15,4 @@ cairosvg>=2.7
 fonttools>=4.47
 rembg>=2.0.50
 onnxruntime>=1.17
+svgelements>=1.9   # v5.7.0 D-0140 S0 - sketch/ SVG georef (already used by projects/uranus_sketch/prep_uranus.py)
