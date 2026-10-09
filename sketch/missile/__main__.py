@@ -1,7 +1,7 @@
 """미사일 발사 사건 스케치 CLI(D-0140 §3).
 
     python -m sketch.missile projects/<pid>                 # 2D → out/sketch_2d.mp4 · sketch_2d_sheet.jpg · sketch_provenance.json
-    python -m sketch.missile projects/<pid> --globe         # 3D 전환편(Phase S2)
+    python -m sketch.missile projects/<pid> --globe         # 3D 전환편 → out/sketch_globe.mp4 · sketch_globe_sheet.jpg · provenance
     python -m sketch.missile projects/<pid> --frames 5,27   # 정지 화면 → out/sketch_2d_005.0.png …
     python -m sketch.missile projects/<pid> --check         # 렌더 없이 검사만(종료 코드 1 = hard 위반)
 
@@ -19,13 +19,15 @@ from sketch.common.checks import CheckReport, SketchCheckError, spec_errors
 from sketch.common.cli import base_parser, parse_frames
 from sketch.common.render import base_provenance, render_video, sha1_file, write_frames, write_provenance
 from sketch.common.spec import SPEC_FILE, DataFile, RenderRecord, load_spec
-from sketch.missile.checks import MEDIA_DIR, check_render, check_spec
+from engine.style import output_profile
+from sketch.missile.checks import MEDIA_DIR, check_globe_render, check_globe_spec, check_render, check_spec
 from sketch.missile.spec import MissileSpec
 
-NOT_YET = 2   # 종료 코드 — 이식 전 단계(조용히 옛 스크립트로 폴백하지 않는다, P6)
 FAIL = 1
 OUT_DIR = "out"
 STEM = "sketch_2d"
+STEM_GLOBE = "sketch_globe"
+KIND_GLOBE = "missile_globe"
 
 
 def load_checked(project: Path) -> tuple[MissileSpec | None, CheckReport]:
@@ -64,11 +66,13 @@ def main(argv: list[str] | None = None) -> int:
     ap = base_parser("python -m sketch.missile", "미사일 발사 사건 화면 스케치 — EEZ·탐지 자산·궤적·착탄·고도 단면(2D), 지구본 전환(3D)")
     ap.add_argument("--globe", action="store_true", help="2D → 3D 지구본 전환편")
     args = ap.parse_args(argv)
-    if args.globe:
-        print("sketch.missile --globe: 3D 전환편은 Phase S2 에서 들어온다(D-0140 §5)", file=sys.stderr)
-        return NOT_YET
     project: Path = args.project
     spec, report = load_checked(project)
+    if args.globe and spec is not None:
+        if spec.globe is None:
+            print("spec 에 globe 블록이 없다 — 3D 전환편을 만들 수 없다", file=sys.stderr)
+            return FAIL
+        check_globe_spec(report, spec, output_profile(args.res))
     for f in report.hard + report.warnings:
         print(f"{f.id} {f.message}", file=sys.stderr)
     if args.check:
@@ -84,8 +88,10 @@ def main(argv: list[str] | None = None) -> int:
 
     scene = MissileScene(spec, project, args.res)
     out = project / OUT_DIR
-    prov = base_provenance(spec.kind, project / SPEC_FILE)
     times = parse_frames(args.frames)
+    if args.globe:
+        return run_globe(spec, project, scene, report, times, out)
+    prov = base_provenance(spec.kind, project / SPEC_FILE)
     if times:
         paths = write_frames(scene, times, out, STEM)
         rec = RenderRecord(profile=scene.out.name, frames=len(paths), duration_sec=0, elapsed_sec=0)
@@ -102,6 +108,46 @@ def main(argv: list[str] | None = None) -> int:
     prov.features_drawn = scene.features_drawn()
     prov.approximations = approximations(spec)
     prov.numbers_shown = [f"{k}={v}" for k, v in sorted(scene.nums.shown.items())]
+    prov.checks = report.record()
+    print(write_provenance(prov, out))
+    for f in report.warnings:
+        print(f"{f.id} {f.message}", file=sys.stderr)
+    if report.hard:
+        print(SketchCheckError(report.hard), file=sys.stderr)
+        return FAIL
+    return 0
+
+
+def run_globe(spec: MissileSpec, project: Path, flat: "MissileScene", report: CheckReport, times: list[float],  # noqa: F821
+              out: Path) -> int:
+    """3D 전환편 — 2D 장면을 handoff_2d_t 에서 이어받아 교차 전환(CrossfadeScene) 뒤 지구본."""
+    from sketch.common.render import CrossfadeScene  # noqa: PLC0415
+    from sketch.missile.globe_scene import G, GlobeScene  # noqa: PLC0415
+
+    g = spec.globe
+    assert g is not None
+    gs = GlobeScene(spec, project, flat)
+    scene = CrossfadeScene(flat, gs, lambda t: g.handoff_2d_t + t * G.handoff_rate, g.t_2d, g.t_x, g.duration_sec,
+                           G.fade_open, G.fade_close)
+    prov = base_provenance(KIND_GLOBE, project / SPEC_FILE)
+    if times:
+        paths = write_frames(scene, times, out, STEM_GLOBE)
+        rec = RenderRecord(profile=scene.out.name, frames=len(paths), duration_sec=0, elapsed_sec=0)
+        for p in paths:
+            print(p)
+    else:
+        mp4, sheet, rec = render_video(scene, g.duration_sec, g.sheet_times, out, STEM_GLOBE)
+        print(mp4, sheet)
+    drawn = dict(flat.features_drawn())
+    for k_, v in gs.drawn.items():
+        drawn[k_] = drawn.get(k_, 0) + v
+    check_globe_render(report, spec, flat.nums, gs.drawn)
+    prov.render = rec
+    prov.data_files = data_files(spec, project, flat.eez.source)
+    prov.features_drawn = drawn
+    prov.approximations = approximations(spec) + [f"{s.name}: 3D 방위·고각 = 개념값" for s in spec.sensors if s.el_deg]
+    prov.numbers_shown = [f"{k_}={v}" for k_, v in sorted(flat.nums.shown.items())]
+    prov.numbers_computed = sorted(flat.nums.computed_log.values(), key=lambda c: c.key)
     prov.checks = report.record()
     print(write_provenance(prov, out))
     for f in report.warnings:

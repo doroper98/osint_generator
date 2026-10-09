@@ -24,6 +24,7 @@ class Num(_Strict):
     v: float
     unit: str = Field(min_length=1)
     approx: bool = False
+    hi: Optional[float] = None    # 범위 위 끝(예: 고각 0~60°)
 
 
 class Agency(_Strict):
@@ -106,6 +107,9 @@ class Sensor(_Strict):
     t: float = Field(ge=0)
     label_at: Optional[LonLat] = None        # radar 라벨 위치(ship 은 기호 옆)
     side: Literal["l", "r"] = "l"
+    short: Optional[str] = None              # 3D 수평선 패널 줄 이름
+    globe_name: Optional[str] = None         # 3D 라벨 이름(없으면 name)
+    globe_label: Optional[tuple[float, float, Anchor]] = None   # 3D 라벨 [dx, dy(설계 px), 기준]
 
     @model_validator(mode="after")
     def _h3(self) -> "Sensor":
@@ -122,6 +126,12 @@ class Sensor(_Strict):
             raise ValueError(f"{self.name}: range_km 가 있으면 az_width_deg 필요")
         if self.kind == "radar" and self.label_at is None:
             raise ValueError(f"{self.name}: radar 는 label_at 필요")
+        if self.el_deg is not None:
+            e0, e1 = self.el_deg
+            if not 0 <= e0 < e1 <= 90:
+                raise ValueError(f"{self.name}: el_deg {self.el_deg} — 0 ≤ 아래 < 위 ≤ 90")
+            if self.range_km is None or self.az_width_deg is None or not self.location_public:
+                raise ValueError(f"SK-H3 {self.name}: 3D 볼륨(el_deg)은 위치 공개 + 범위가 있는 자산만")
         return self
 
 
@@ -281,6 +291,55 @@ class Notes(_Strict):
     end_sec: float = Field(gt=0)          # 엔딩 자료 카드 길이(끝에서)
 
 
+class GlobeLabels(_Strict):
+    launch_sub: str
+    impact_sub: str
+    apex: str             # 자리표시(정점 발표값)
+    apex_sub: str
+    radar_sub: str        # 자리표시 {sensor.range_plain}·{sensor.az}·{sensor.el}
+
+
+class GlobePanel(_Strict):
+    """수평선 최소 고도 패널(SK-H6, D136) — 값은 기하 계산(numbers_computed), note 는 같은 창에 필수."""
+
+    title: str
+    distance_fmt: str     # "거리 {value}"
+    altitude_fmt: str     # "{value} 위"
+    note: str = ""
+    note2: str = ""
+
+
+class Globe(_Strict):
+    """3D 전환편(D-0143 §1). 2D 장면을 handoff_2d_t 에서 이어받아 t_2d 까지 보이고, t_x 동안 교차 전환."""
+
+    texture_project: str
+    center: LonLat                    # 접점 = 2D 마지막 숏 중심
+    duration_sec: float = Field(gt=0)
+    handoff_2d_t: float = Field(ge=0)
+    t_2d: float = Field(ge=0)
+    t_x: float = Field(gt=0)
+    t_k0: float
+    t_k1: float
+    t_side0: float
+    t_side1: float
+    t_fly0: float
+    t_fly1: float
+    sheet_times: list[float] = Field(min_length=1)
+    labels: GlobeLabels
+    panel: GlobePanel
+    hud_notes: list[str] = Field(default_factory=list)
+
+    @model_validator(mode="after")
+    def _keys(self) -> "Globe":
+        ks = [self.t_2d, self.t_2d + self.t_x, self.t_k1, self.t_side1, self.t_fly1, self.duration_sec]
+        if ks != sorted(ks) or not (self.t_2d <= self.t_k0 < self.t_k1 <= self.t_side0 < self.t_side1 <= self.t_fly0 < self.t_fly1):
+            raise ValueError(f"globe 키프레임 순서가 맞지 않다: {ks}")
+        bad = [s for s in self.sheet_times if not 0 <= s < self.duration_sec]
+        if bad:
+            raise ValueError(f"globe.sheet_times {bad} 가 길이 밖")
+        return self
+
+
 class MissileSpec(SketchSpec):
     kind: Literal["missile"]
     launch: Launch
@@ -293,6 +352,7 @@ class MissileSpec(SketchSpec):
     dim: Dim
     notes: Notes
     sheet_times: list[float] = Field(min_length=1)
+    globe: Optional[Globe] = None
 
     @model_validator(mode="after")
     def _refs(self) -> "MissileSpec":
@@ -303,4 +363,12 @@ class MissileSpec(SketchSpec):
         bad = [s for s in self.sheet_times if not 0 <= s < self.duration_sec]
         if bad:
             raise ValueError(f"sheet_times {bad} 가 영상 길이 밖")
+        if self.globe is not None:
+            last = self.shots[-1]
+            if tuple(self.globe.center) != (last.lon, last.lat):
+                raise ValueError(f"globe.center {self.globe.center} ≠ 2D 마지막 숏 중심 {(last.lon, last.lat)}(이음새)")
+            if not self.profile:
+                raise ValueError("globe 는 정점 고도를 profile.curve 기관에서 가져온다 — profile 필요")
+            if not 0 <= self.globe.handoff_2d_t <= self.duration_sec:
+                raise ValueError("globe.handoff_2d_t 가 2D 길이 밖")
         return self

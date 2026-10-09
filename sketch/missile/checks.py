@@ -10,16 +10,23 @@
 | SK-C1 | 카메라 연속성(D-0141) | — |
 | SK-R1 | media 권리 기록 | — |
 | SK-C2 | — | 라벨 예약 상자 겹침(warning) |
+
+3D 전환편(`--globe`, D-0143): SK-C1(3D, D135) = 발사점·착탄점 화면 궤적 2차 차분 + 초점 거리 Δ ln f, 2D 구간은 S1 카메라 검사.
+SK-H6(D136) = 수평선 패널 주석(spec globe.panel.note) 필수 + 패널 값 = horizon_altitude(gc_dist) ± checks.horizon_tol_km.
 """
 
 from __future__ import annotations
 
 from pathlib import Path
 
-from engine.style import FPS
+import numpy as np
+
+from engine.style import FPS, Output
 from rules import load_rules
 from sketch.common.camera import CameraPath
 from sketch.common.checks import CheckReport, check_camera, check_label_overlap, check_rights
+from sketch.common.geodesy import dest, gc_dist, horizon_altitude, to_local
+from sketch.missile.globe import CameraPath3D, Keys, visible
 from sketch.missile.numbers import Numbers
 from sketch.missile.spec import MissileSpec, Sensor
 
@@ -99,10 +106,7 @@ def check_spec(report: CheckReport, spec: MissileSpec, project: Path) -> Numbers
 def check_render(report: CheckReport, spec: MissileSpec, drawn: dict[str, int], nums: Numbers,
                  boxes: list[tuple[float, list]], covered_until: float) -> None:
     """렌더 뒤 provenance 대조(SK-H1·H2·H3·H4) + 라벨 겹침(SK-C2). covered_until = 렌더한 마지막 시각."""
-    allowed = set(nums.table) | {f"sensor.range_km:{s.name}" for s in spec.sensors if s.range_km is not None}
-    for key in nums.shown:
-        if key not in allowed:
-            report.add("SK-H1", f"화면 숫자 {key} 가 포맷터 표 밖")
+    _shown_in_table(report, spec, nums)
     if spec.track.approx and covered_until > spec.track.t1 and not drawn.get("impact_area"):
         report.add("SK-H2", "track.approx 인데 착탄 영역(impact_area)을 그리지 않았다")
     public = {s.name for s in spec.sensors if s.location_public}
@@ -112,3 +116,96 @@ def check_render(report: CheckReport, spec: MissileSpec, drawn: dict[str, int], 
     if drawn.get("overlap_hatch_colors:1"):
         report.add("SK-H4", "중첩 수역을 한 색 사선으로 그렸다")
     check_label_overlap(report, boxes, SK.checks)
+
+
+def _shown_in_table(report: CheckReport, spec: MissileSpec, nums: Numbers) -> None:
+    """SK-H1 렌더 뒤 — 화면에 채운 숫자 키가 포맷터 표(발표·track·profile·상수) 또는 그 자산의 sensor.* 값인가."""
+    names = {s.name for s in spec.sensors}
+    for key in nums.shown:
+        base, _, who = key.partition(":")
+        if key in nums.table or (base.startswith("sensor.") and who in names):
+            continue
+        report.add("SK-H1", f"화면 숫자 {key} 가 포맷터 표 밖")
+
+
+# ---------------------------------------------------------------- 3D 전환편(D-0143)
+def globe_path(spec: MissileSpec, out: Output) -> CameraPath3D:
+    g = spec.globe
+    assert g is not None
+    last = spec.shots[-1]
+    keys = Keys(g.t_2d, g.t_x, g.t_k0, g.t_k1, g.t_side0, g.t_side1, g.t_fly0, g.t_fly1, g.duration_sec)
+    return CameraPath3D(keys, last.lat, last.w * (1 - SK.camera.push_in[spec.kind]), out.width, out.height)
+
+
+def globe_anchor_track(spec: MissileSpec, path: CameraPath3D, fps: int) -> tuple[list[float], np.ndarray, np.ndarray, np.ndarray]:
+    """3D 구간(t ≥ t_2d) 프레임마다 발사점·착탄점 화면 좌표(n×2×2)·보임(n×2)·초점 거리(n)."""
+    g = spec.globe
+    assert g is not None
+    tr = spec.track
+    imp = dest(tr.ref.lon, tr.ref.lat, tr.bearing_deg, tr.distance_km)
+    lon, lat = np.array([spec.launch.lon, imp[0]]), np.array([spec.launch.lat, imp[1]])
+    ts = [i / fps for i in range(int(g.duration_sec * fps)) if i / fps >= g.t_2d]
+    S, V, Fl = [], [], []
+    for t in ts:
+        k = path.k_at(max(t, g.t_k0))
+        cam = path.cam(t)
+        P = to_local(tuple(g.center), lon, lat, np.zeros(2), k)   # type: ignore[arg-type]
+        sc, front = cam.project(P)
+        S.append(sc)
+        V.append(front & visible(cam, P, k))
+        Fl.append(cam.f)
+    return ts, np.array(S), np.array(V), np.array(Fl)
+
+
+def check_camera_3d(report: CheckReport, ts: list[float], S: np.ndarray, V: np.ndarray, Fl: np.ndarray, width: int) -> dict[str, float]:
+    """SK-C1(3D, D135) — 보이는 구간의 기준점 화면 궤적 |Δ² px|/W·|Δ² py|/W ≤ max_d2logw_per_frame, |Δ ln f| ≤ max_dlogw_per_frame."""
+    th = SK.checks
+    report.ran_check("SK-C1")
+    worst = {"dlnf": float(np.abs(np.diff(np.log(Fl))).max(initial=0))}
+    if worst["dlnf"] > th.max_dlogw_per_frame:
+        report.add("SK-C1", f"3D 초점 거리 |Δ ln f| {worst['dlnf']:.4f} > {th.max_dlogw_per_frame}")
+    for j, name in enumerate(("발사점", "착탄점")):
+        d2 = np.abs(np.diff(S[:, j, :], 2, axis=0)) / width
+        ok = V[2:, j] & V[1:-1, j] & V[:-2, j]
+        if not ok.any():
+            continue
+        m = d2[ok].max(axis=1)
+        worst[f"d2 {name}"] = float(m.max())
+        bad = np.flatnonzero(m > th.max_d2logw_per_frame)
+        if bad.size:
+            t_bad = np.array(ts[1:-1])[ok][bad]
+            report.add("SK-C1", f"3D {name} 화면 궤적 |Δ²|/W {m.max():.4f} > {th.max_d2logw_per_frame} — "
+                                f"{bad.size}프레임(첫 t={t_bad[0]:.2f}s, 속도 급변)")
+    return worst
+
+
+def check_globe_spec(report: CheckReport, spec: MissileSpec, out: Output) -> dict[str, float]:
+    """렌더 전 3D 검사 — SK-C1(2D 이어받기 구간 + 3D 기준점 궤적), SK-H6(패널 주석)."""
+    g = spec.globe
+    assert g is not None
+    cam = SK.camera
+    flat = CameraPath(tuple(spec.shots), spec.duration_sec, cam.push_in[spec.kind], cam.hold_min_sec)
+    rate = SK.globe.handoff_rate
+    n2 = [i / FPS for i in range(int(g.duration_sec * FPS)) if i / FPS < g.t_2d]
+    worst = check_camera(report, np.array([flat.at(g.handoff_2d_t + t * rate) for t in n2]), FPS, SK.checks) if len(n2) > 2 else {}
+    worst |= check_camera_3d(report, *globe_anchor_track(spec, globe_path(spec, out), FPS), out.width)
+    report.ran_check("SK-H6")
+    if not g.panel.note.strip():
+        report.add("SK-H6", "수평선 패널 주석(globe.panel.note)이 없다 — 기하 계산값은 '지구 곡률만 계산 · 굴절·탐지 성능과 별개' 주석과 같은 창에(D136)")
+    return worst
+
+
+def check_globe_render(report: CheckReport, spec: MissileSpec, nums: Numbers, drawn: dict[str, int]) -> None:
+    """렌더 뒤 — SK-H6 패널 값 재계산 대조 + 주석을 패널과 함께 그렸는가, SK-H1 화면 숫자 표."""
+    th = SK.checks
+    launch = (spec.launch.lon, spec.launch.lat)
+    for s in spec.sensors:
+        c = nums.computed_log.get(f"horizon.altitude_km:{s.name}")
+        if c is None:
+            continue
+        want = horizon_altitude(gc_dist((s.lon, s.lat), launch))
+        if abs(c.value - want) > th.horizon_tol_km:
+            report.add("SK-H6", f"{s.name}: 패널 고도 {c.value:.2f} km ≠ 수평선 식 {want:.2f} km(± {th.horizon_tol_km})")
+    if drawn.get("horizon_panel") and drawn.get("horizon_panel_note", 0) < drawn["horizon_panel"]:
+        report.add("SK-H6", "수평선 패널을 주석 없이 그린 프레임이 있다")
+    _shown_in_table(report, spec, nums)
