@@ -83,4 +83,13 @@ uranus 검토본 기준 프레임(phaseS3/ref) 7컷 대조입니다.
 | `ArrowGrowthTest.test_zero_length_segments_and_start` | 겹친 점·첫 구간 처리 |
 | `DetectionNoteTest.test_user_decided_note_in_all_missile_specs` | 세 spec 에 D150 주석, 옛 문구 없음 |
 
-__PYTEST__
+## 5. 전체 pytest
+
+`FONTCONFIG_FILE` 표준 설정, 97683de 에서 돌렸습니다.
+
+| 시점 | passed | failed | skipped | xfail |
+|---|---|---|---|---|
+| V1 끝 | 1410 | 0 | 0 | 0 |
+| S5 끝 | **1415** | **0** | **0** | 0 |
+
+기준 1410 + 5 = 1415 = 실측(24분 33초)입니다. `-rs` 출력에 SKIPPED 줄이 없습니다.
