@@ -1,6 +1,6 @@
 <!--
 tier: 3
-last_synced_with: v5.12.0
+last_synced_with: v5.13.0
 ssot_for: [release-notes]
 depends_on: [README.md, GOAL.md]
 last_review: 2026-09-28
@@ -66,7 +66,16 @@ released 항목은 **append-only**입니다.
 
 ---
 
-## [v5.12.0] — 2026-10-10 — 스케치 S5: 탐지 주석 문구·전황 화살표 부드럽게·확정 목록 (back_and_forth D-0154, 사용자 결정 D150) — 진행 중
+## [v5.13.0] — 2026-10-10 — 품질 트랙 Q0: 기록·충돌 판정·지도 밝은 테마 시제품·유료 TTS 호출 차단 (back_and_forth D-0153) — 진행 중
+
+MINOR: Phase 완료 단위. 사용자 결정 D148(cascade V2·인물 뱃지 적용, 지도 테마는 Q0 시제품 뒤), 충돌 판정 D149. JSON `schema_version` 그대로(1).
+
+---
+
+## [v5.12.0] — 2026-10-10 — 스케치 S5: 탐지 주석 문구·전황 화살표 부드럽게·확정 목록 (back_and_forth D-0154, 사용자 결정 D150) — S5 phase_report(R-0190)
+
+### Changed
+- 세 미사일 spec 탐지 줄 = "탐지 거리 표현은 공개 자료를 토대로 한 추정값"(D150 #3). 전황 화살표 끝점 호 길이 보간(완성 상태 동일), `sketch.campaign.arrow.max_step_px`. `docs/handoff/22` §6 확정 목록.
 
 MINOR: Phase 완료 단위. 스케치 계층만. JSON `schema_version` 그대로(1).
 

@@ -1,6 +1,6 @@
 <!--
 tier: 3
-last_synced_with: v5.12.0
+last_synced_with: v5.13.0
 ssot_for: [phaseG13-run-log]
 depends_on: [rules/video_rules.yaml, engine/island.py, engine/layers/markers.py, tools/ai_direction_run.py, tools/backdrop_sweep.py, back_and_forth/260930_170916_D0129_fable_g13-backdrop-legibility-main-island.md, back_and_forth/260930_193608_D0132_fable_g13-backdrop-photo-slot.md, back_and_forth/260930_204931_D0133_fable_g13-label-clip-b.md]
 last_review: 2026-09-30

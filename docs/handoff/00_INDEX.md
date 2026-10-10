@@ -129,3 +129,4 @@ origin: claude.ai chat handoff bundle (2026-09-26 ~ 09-27), imported verbatim
 
 - `21_SESSION_LIVENESS_AND_RECOVERY.md` — 세션 생존·복구 정본(멍때림 사고 근본 원인, 3중 방어, 재기동 문안, 사용자 약속). 2026-09-28 추가.
 - `22_SKETCH_TRACK.md` — 화면 스케치 트랙(미사일 사건도·전황 작전도, 엔진 밖 `sketch/`) 정본: 계층 결정·spec 계약·검사표·출처·권리·재현·사용자 확정 대기·본편 등록 후보. 2026-10-10 추가(v5.10.0).
+- `23_QUALITY_GUIDE_20261010.md` — 사용자가 codex 와 만든 품질 개선 가이드 원문(수정 금지, 브리프). 지도 테마·선 위계·LOD·cascade V2·인물 뱃지·hairline 식 자산 스킬·관계선. 적용 계획 = back_and_forth D-0153(Q0~Q6), 충돌 판정 D149. 2026-10-10 추가(v5.13.0).
