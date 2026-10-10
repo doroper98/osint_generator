@@ -26,7 +26,8 @@ class CheongwadaeEmblemTest(unittest.TestCase):
         others = [k for k, v in reg.emblems.items() if v.restrictions and k not in ("cheongwadae", "nato")]   # nato = U20261004
         self.assertTrue(others)
         self.assertTrue(all(reg.emblems[k].decision == "flag_fallback" and reg.emblems[k].user_exception is None for k in others))
-        self.assertEqual(USER_EXCEPTIONS, {"D98": frozenset({"cheongwadae"}), "U20261004": frozenset({"nato"})})
+        self.assertEqual(USER_EXCEPTIONS, {"D98": frozenset({"cheongwadae"}), "U20261004": frozenset({"nato"}),
+                                           "U20261010": frozenset({"lee_jae_myung"})})   # v5.15.0 인물 예외(사용자 결정 D153, D-0160)
         n = reg.emblems["nato"]   # v5.5.0 사용자 직접 지시 2026-10-04
         self.assertEqual((n.decision, n.user_exception, n.file), ("use", "U20261004", "nato.png"))
         self.assertIn("insignia", n.restrictions)
