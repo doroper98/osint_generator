@@ -17,6 +17,7 @@ class _Strict(BaseModel):
 
 
 Color4 = tuple[float, float, float, float]
+RGB = tuple[float, float, float]
 Range2 = tuple[float, float]
 
 
@@ -947,7 +948,6 @@ class Colors(_Strict):
     green: str
     muted: str
     amber: str
-    sea_label: str
     water: str
     badge_bg: str
     panel_cover: Color4
@@ -981,11 +981,108 @@ class GazetteerRules(_Strict):
     ne_tol_km: float = Field(gt=0)
 
 
+class Shade(_Strict):
+    """hillshade 배율 = clip(base + gain·(hs − sin 고도), lo, hi)."""
+
+    base: float
+    gain: float
+    lo: float
+    hi: float
+
+    @model_validator(mode="after")
+    def _range(self) -> "Shade":
+        if not 0 < self.lo <= self.hi:
+            raise ValueError(f"shade lo·hi 는 0 < lo ≤ hi: {self.lo}·{self.hi}")
+        return self
+
+
+class CoastGlow(_Strict):
+    rgb: str
+    strength: float = Field(ge=0)
+    blur_px: tuple[float, float]   # [설계 ppd < 64, 그 이상] × k
+
+
+class TerrainTheme(_Strict):
+    """geo.prep 가 지형 티어 래스터에 굽는 값(v5.13.0 D-0153 Q0-2)."""
+
+    land_stops: list[tuple[float, str]] = Field(min_length=2)
+    sea_stops: list[tuple[float, str]] = Field(min_length=2)
+    exaggeration: tuple[float, float]   # [설계 ppd < 64, 그 이상]
+    sun: tuple[float, float]            # 방위·고도(도)
+    land_shade: Shade
+    sea_shade: Optional[Shade]
+    sea_tint: Optional[tuple[int, int, int]]   # 회색 g → (g+r, g+g', g+b), 0~255
+    coast_glow: CoastGlow
+
+    @model_validator(mode="after")
+    def _stops(self) -> "TerrainTheme":
+        for nm in ("land_stops", "sea_stops"):
+            v = [a for a, _ in getattr(self, nm)]
+            if v != sorted(v) or len(set(v)) != len(v):
+                raise ValueError(f"{nm} 값은 오름차순·중복 없음: {v}")
+        return self
+
+
+class MapLine(_Strict):
+    rgb: RGB
+    width: float = Field(gt=0)
+    alpha: Optional[float] = Field(default=..., ge=0, le=1)   # None = 무대 LOD 알파
+    dash: list[float] = Field(default_factory=list)            # [] = 실선
+
+
+class CityDot(_Strict):
+    fill: RGB
+    edge: RGB
+    edge_alpha: float = Field(ge=0, le=1)
+
+
+class MapTheme(_Strict):
+    """렌더가 읽는 지도 선·지명 색(engine/layers/borders·labels)."""
+
+    border: MapLine
+    admin: MapLine
+    sea_label: str
+    country_label: RGB
+    admin_label: RGB
+    city_dot: CityDot
+    city_label: RGB
+    halo: RGB
+
+
+class GeoTheme(_Strict):
+    terrain: TerrainTheme
+    map: MapTheme
+
+
+class GeoThemes(_Strict):
+    """v5.13.0 D-0153 Q0-2 — 지도 테마 시안. 기본 테마 자산 = assets/, 그 밖 = assets/theme_<이름>/."""
+
+    default: str
+    dark: GeoTheme
+    light: GeoTheme
+
+    @model_validator(mode="after")
+    def _default(self) -> "GeoThemes":
+        if self.default not in self.names():
+            raise ValueError(f"geo.themes.default {self.default!r} 는 {self.names()} 중 하나")
+        return self
+
+    @staticmethod
+    def names() -> list[str]:
+        return ["dark", "light"]
+
+    def get(self, name: str) -> GeoTheme:
+        if name not in self.names():
+            raise ValueError(f"지도 테마 {name!r} 없음 — rules geo.themes: {self.names()}")
+        return getattr(self, name)
+
+
 class GeoRules(_Strict):
     land_miss_allow_px2: float
     land_fill_min_ratio: float = Field(gt=0, le=1)   # v4.1.0 D-0078
     boundary_names: list[str] = Field(min_length=1)   # v4.7.0 D-0107 D2(b) — checks [boundary-as-route]
     gazetteer: GazetteerRules                         # v4.10.0 D-0116 — checks [geo-mismatch]
+    themes: GeoThemes                                 # v5.13.0 D-0153 Q0-2 — 지도 테마(시안)
 
 
 class CreditRules(_Strict):
@@ -1765,7 +1862,6 @@ class PrimitivesRules(_Strict):
 
 
 # ---------------------------------------------------------------- v5.7.0 스케치 계층(sketch/, D-0140 D130)
-RGB = tuple[float, float, float]
 
 
 class SketchText(_Strict):

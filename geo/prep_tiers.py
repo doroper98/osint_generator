@@ -2,7 +2,7 @@
 
     python -m geo.prep_tiers --geo assets/geo.pkl --tiles-dir data/geo/tiles --out assets --tier W:24:5:28,-12,140,48 [--tier …]
 
-팔레트·힐셰이드·과장·블러 수치는 v3 사용자 합격 값 그대로다(19a §H, D27 — 새 리터럴 추가 없음).
+팔레트·힐셰이드·과장·블러 수치는 rules geo.themes.<테마>.terrain(v5.13.0 D-0153 Q0-2) — dark = v3 사용자 합격 값 그대로(19a §H, D27).
 - 타일 모자이크는 티어 박스가 덮는 타일 범위만 쓴다. 범위 안 타일이 하나라도 없으면 오류(15 P6).
 - 박스 클램프: 경도 ±180, 위도 ±85.0511(웹 메르카토르 한계)로 자른다(부동소수 초과 방지).
 - 커버리지 검사: 대표점이 티어 안에 있는 국가의 육지 마스크가 비면 `land-miss`로 돌려준다.
@@ -16,12 +16,16 @@ import sys
 import time
 from dataclasses import dataclass
 from pathlib import Path
+from typing import TYPE_CHECKING
 
 import numpy as np
 from PIL import Image, ImageDraw, ImageFilter
 
 from geo.prep_geometry import rings
 from rules import load_rules
+
+if TYPE_CHECKING:
+    from schemas.rules_models import Shade, TerrainTheme
 
 MERC_LAT_MAX = 85.0511287798
 TILE = 256
@@ -110,10 +114,23 @@ def hexc(h: str) -> list[int]:
     return [int(h[i:i + 2], 16) for i in (0, 2, 4)]
 
 
-# v3 팔레트 (19a §H, 사용자 합격 값)
-LAND_STOPS = [(0, "#2b313a"), (400, "#30353c"), (1500, "#3b3a3a"), (4000, "#4b4640")]
-SEA_STOPS = [(0, "#1c4a66"), (60, "#18415c"), (400, "#11304a"), (2000, "#0c2236"), (6000, "#081626")]
-COAST_GLOW = "#3a9cb8"
+def terrain_theme(name: str | None = None) -> "TerrainTheme":
+    """rules geo.themes.<name>.terrain (v5.13.0 D-0153 Q0-2). None = geo.themes.default. dark = v3 팔레트(19a §H, 사용자 합격 값)."""
+    th = load_rules().geo.themes
+    return th.get(name or th.default).terrain
+
+
+def shade(hs: np.ndarray, alt: float, sh: "Shade") -> np.ndarray:
+    return np.clip((sh.base + sh.gain * (hs - np.sin(alt)))[..., None], sh.lo, sh.hi)
+
+
+def hillshade(E: np.ndarray, mpp: np.ndarray, ex: float, az: float, alt: float) -> np.ndarray:  # noqa: N803
+    gy, gx = np.gradient(E * ex)
+    gx /= mpp
+    gy /= mpp
+    slope = np.arctan(np.hypot(gx, gy))
+    aspect = np.arctan2(-gx, gy)
+    return np.clip(np.sin(alt) * np.cos(slope) + np.cos(alt) * np.sin(slope) * np.cos(az - aspect), 0, 1)
 
 
 def rasterize_land(G: dict, T: TierSpec, W: int, H: int, dppd: float | None = None,  # noqa: N803
@@ -180,12 +197,17 @@ def fill_ratios(mimg: Image.Image, ref: dict, T: TierSpec, tol: float) -> dict[s
 
 
 def build_tier(T: TierSpec, G: dict, tiles_dir: Path, out_dir: Path, k: float = 1.0,  # noqa: N803
-               ref: dict | None = None, ratios: dict | None = None) -> tuple[list[int], list[str]]:
+               ref: dict | None = None, ratios: dict | None = None,
+               theme: "TerrainTheme | None" = None) -> tuple[list[int], list[str]]:
     """base_{name}_{ppd}.png + 반·4분의 1 해상도 2단. (levels, land-miss).
 
     k ≠ 1(v3.6.0 D-0066 작업 3, 출력 프로파일 k = H/480): T 는 이미 ppd × k·확대 줌으로 만든 장치 티어다. 설계 ppd(= T.ppd / k)
     구간으로 고르는 값(단순화 허용 오차·지형 과장)은 480p 와 같게, 화소 단위 반경(육지 가장자리·해안 광채 블러)은 × k 로 —
-    축소하면 480p 베이스와 같은 모양이 되게 한다. k=1 이면 종전과 같은 계산."""
+    축소하면 480p 베이스와 같은 모양이 되게 한다. k=1 이면 종전과 같은 계산.
+
+    theme = rules geo.themes.<이름>.terrain(v5.13.0 D-0153 Q0-2, None = 기본 테마). sea_shade 가 있으면 해저 별도 hillshade,
+    sea_tint 가 있으면 바다 회색 g → (g + tint), 0~255(가이드 23 §15 — 육지 제외)."""
+    th = theme or terrain_theme()
     t0 = time.time()
     dppd = T.ppd / k                      # 설계(480p) ppd
     M, x0, y0 = mosaic(tiles_dir, T)  # noqa: N806
@@ -200,19 +222,21 @@ def build_tier(T: TierSpec, G: dict, tiles_dir: Path, out_dir: Path, k: float = 
     mpp = (111320 * np.cos(np.radians(lat_rows)) / ppd)[:, None]
     mimg, miss = rasterize_land(G, T, W, H, dppd, ref, ratios)
     land = np.asarray(mimg.filter(ImageFilter.GaussianBlur(0.6 * k)), np.float32) / 255
-    ex = 2.8 if dppd < 64 else 2.0
-    gy, gx = np.gradient(np.maximum(E, 0) * ex)
-    gx /= mpp
-    gy /= mpp
-    az, alt = math.radians(315), math.radians(42)
-    slope = np.arctan(np.hypot(gx, gy))
-    aspect = np.arctan2(-gx, gy)
-    hs = np.clip(np.sin(alt) * np.cos(slope) + np.cos(alt) * np.sin(slope) * np.cos(az - aspect), 0, 1)
-    lc = lerp_col([(v, hexc(c)) for v, c in LAND_STOPS], np.clip(E, 0, 4000))
-    lc = lc * np.clip((0.58 + 0.95 * (hs - np.sin(alt)))[..., None], 0.5, 1.5)
-    sc = lerp_col([(v, hexc(c)) for v, c in SEA_STOPS], np.clip(-E, 0, 6000))
-    glow = np.asarray(mimg.filter(ImageFilter.GaussianBlur((3 if dppd < 64 else 8) * k)), np.float32)[..., None] / 255
-    sc = sc + np.array(hexc(COAST_GLOW), np.float32) * glow * 0.2
+    near = dppd >= 64
+    ex = th.exaggeration[near]
+    az, alt = math.radians(th.sun[0]), math.radians(th.sun[1])
+    hs = hillshade(np.maximum(E, 0), mpp, ex, az, alt)
+    ls, ss = th.land_stops, th.sea_stops
+    lc = lerp_col([(v, hexc(c)) for v, c in ls], np.clip(E, ls[0][0], ls[-1][0]))
+    lc = lc * shade(hs, alt, th.land_shade)
+    sc = lerp_col([(v, hexc(c)) for v, c in ss], np.clip(-E, ss[0][0], ss[-1][0]))
+    if th.sea_shade is not None:
+        sc = sc * shade(hillshade(np.minimum(E, 0), mpp, ex, az, alt), alt, th.sea_shade)
+    if th.sea_tint is not None:
+        sc = np.clip(sc[..., :1] + np.array(th.sea_tint, np.float32), 0, 255)
+    cg = th.coast_glow
+    glow = np.asarray(mimg.filter(ImageFilter.GaussianBlur(cg.blur_px[near] * k)), np.float32)[..., None] / 255
+    sc = sc + np.array(hexc(cg.rgb), np.float32) * glow * cg.strength
     out = sc * (1 - land[..., None]) + lc * land[..., None]
     img = Image.fromarray(np.clip(out, 0, 255).astype(np.uint8), "RGB")
     out_dir.mkdir(parents=True, exist_ok=True)

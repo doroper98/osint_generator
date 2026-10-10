@@ -750,7 +750,6 @@ colors:                    # 09 §7
   green: "#8fd08a"
   muted: "#a9b0bd"
   amber: "#ffb347"
-  sea_label: "#9cc8e6"
   water: "#7fc4ff"            # v3 render3 C["water"] (v2.1.0 추가 — 코드 상수에서 이관)
   badge_bg: "#1b2a3a"         # v3 badge_at 원판 바탕 (v2.1.0 추가)
   panel_cover: [0.025, 0.03, 0.045, 0.8]
@@ -786,6 +785,50 @@ geo:                       # D29(back_and_forth D-0019) — 지오 자산 단계
     path: data/gazetteer.yaml
     ne_min_population: 100000   # NE POP_MAX 이 이상이거나 수도(ADM0CAP·FEATURECLA Admin-0 capital)면 수록
     ne_tol_km: 25               # NE 항목 허용 오차(도심 점 ↔ 연출 좌표. 큰 도시 반경 수준 — 엉뚱한 곳·경위도 뒤바뀜을 잡는 게 목적)
+  # v5.13.0 back_and_forth D-0153 Q0-2 — 지도 테마(시안). 지형 래스터는 geo.prep 가 굽는다(terrain) → 테마 = 준비 산출물 분기
+  # (dark = assets/, 그 밖 = assets/theme_<이름>/). 지도 선·지명 색(map)은 렌더가 읽는다. 고르기 = direction stage_config.mercator.theme.
+  # dark = v3 사용자 합격 값 그대로(geo/prep_tiers 상수·engine/layers 리터럴·colors.sea_label 에서 이관, 출력 바이트 동일).
+  # light = 가이드 23 §13·§15 시안 값(Q0 시제품 — 사용자 결정 뒤 Q3 에서 한 테마만 남긴다, D-0153 §2).
+  themes:
+    default: dark
+    dark:
+      terrain:
+        land_stops: [[0, "#2b313a"], [400, "#30353c"], [1500, "#3b3a3a"], [4000, "#4b4640"]]   # 고도(m) → 색
+        sea_stops: [[0, "#1c4a66"], [60, "#18415c"], [400, "#11304a"], [2000, "#0c2236"], [6000, "#081626"]]   # 수심(m) → 색
+        exaggeration: [2.8, 2.0]        # 지형 과장 [설계 ppd < 64, 그 이상]
+        sun: [315, 42]                  # 광원 방위·고도(도)
+        land_shade: {base: 0.58, gain: 0.95, lo: 0.5, hi: 1.5}   # 육지색 × clip(base + gain·(hs − sin 고도), lo, hi)
+        sea_shade: null                 # 해저 hillshade 없음
+        sea_tint: null                  # 바다 회색 → RGB 변환 없음(sea_stops 가 이미 색)
+        coast_glow: {rgb: "#3a9cb8", strength: 0.2, blur_px: [3, 8]}   # 해안 광채(바다 쪽) — blur [설계 ppd < 64, 그 이상] × k
+      map:
+        border: {rgb: [0.82, 0.86, 0.92], width: 0.75, alpha: null}            # alpha null = 무대 LOD border_alpha(near/far)
+        admin: {rgb: [0.8, 0.84, 0.9], width: 0.55, dash: [2.5, 2.5], alpha: null}   # alpha null = LOD admin_lines_fade.alpha
+        sea_label: "#9cc8e6"
+        country_label: [0.9, 0.92, 0.96]
+        admin_label: [0.78, 0.82, 0.88]
+        city_dot: {fill: [0.95, 0.96, 0.98], edge: [0.0, 0.0, 0.0], edge_alpha: 0.6}
+        city_label: [0.93, 0.94, 0.97]
+        halo: [0.02, 0.03, 0.05]        # 지명 글자 테두리(engine.typography.text 기본값과 같음)
+    light:
+      terrain:
+        land_stops: [[0, "#f3f3f1"], [400, "#ececea"], [1500, "#dfdfdc"], [4000, "#d2d2ce"]]   # 밝은 회색 높이 톤(§13, 시안 실측 육지 225~246)
+        sea_stops: [[0, "#d3d3d3"], [60, "#c8c8c8"], [400, "#b9b9b9"], [2000, "#a5a5a5"], [6000, "#939393"]]   # 회색 깊이 g → sea_tint
+        exaggeration: [2.7, 1.7]        # §13 데모 2.7→1.7
+        sun: [315, 42]                  # §13
+        land_shade: {base: 1.0, gain: 0.35, lo: 0.86, hi: 1.05}   # 대비 낮게(§13 "선·라벨을 읽을 수 있게")
+        sea_shade: {base: 1.0, gain: 0.3, lo: 0.9, hi: 1.06}      # 해저 별도 hillshade(§13)
+        sea_tint: [-21, -5, 8]          # §15 g → (g−21, g−5, g+8), 0~255, 육지 제외
+        coast_glow: {rgb: "#3a9cb8", strength: 0.0, blur_px: [3, 8]}   # 밝은 바다에는 광채 없음
+      map:
+        border: {rgb: [0.212, 0.212, 0.212], width: 0.77, alpha: 0.9}            # §15 1.15px@720 ÷ 1.5, RGB 54, α 230
+        admin: {rgb: [0.592, 0.592, 0.592], width: 0.37, dash: [], alpha: 0.42}  # §15 ADM1 .55px@720 ÷ 1.5, gray151, α 108, 실선
+        sea_label: "#3d6f8e"
+        country_label: [0.2, 0.21, 0.23]
+        admin_label: [0.36, 0.37, 0.39]
+        city_dot: {fill: [0.16, 0.17, 0.19], edge: [1.0, 1.0, 1.0], edge_alpha: 0.7}
+        city_label: [0.12, 0.13, 0.15]
+        halo: [0.97, 0.97, 0.96]
 
 credits:                   # D-0030(D35) — 권리 레지스트리 종류별 표기 위치. 카드 ∪ 설명문 = 전 자산. 두 목록 밖 종류 = RightsError
   card_kinds: [people, emblems, flags, map, media, music, narration]   # 엔딩 카드(C0 유지, v3 골든 END 컷 무변경)

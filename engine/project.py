@@ -308,7 +308,14 @@ def load_project(proj: Path, direction: Optional[Direction] = None, out: Optiona
     out = out or output_profile()
     doc = read_direction(proj, direction)
     uses_map = "mercator" in {doc.main_stage(), *(doc.shot_stage(s) for s in doc.shots)}   # v4.3.0 — 지도 자산은 지도 무대에만
-    assets = Assets(proj, load_labels(proj / "labels.yaml"), None if out.k == 1 else out.name, geo=uses_map and not animatic)
+    from engine.stage import StageError, mercator_theme  # noqa: PLC0415
+
+    try:   # v5.13.0 D-0153 Q0-2 — 지도 테마 = 지형 티어 자산 분기(assets/theme_<이름>/). 자산을 읽기 전에 정한다
+        theme = mercator_theme(doc.stage_configs().get("mercator"))
+    except StageError as ex:
+        raise ProjectError(f"무대 설정 오류: {ex}") from ex
+    assets = Assets(proj, load_labels(proj / "labels.yaml"), None if out.k == 1 else out.name, geo=uses_map and not animatic,
+                    theme=theme)
     R = RenderCtx(assets=assets, tb=tb, credits=load_credits(proj / "credits.yaml"), out=out)  # noqa: N806
     from engine.source_note import source_notes  # noqa: PLC0415
 

@@ -37,20 +37,21 @@ def draw_borders(ctx: cairo.Context, stage: "MercatorStage", view: View) -> None
     for _k, rings in stage.bord[lod].items():
         path_rings(ctx, view, rings)
     ctx.set_line_join(cairo.LINE_JOIN_ROUND)
+    bo, ad_ = stage.theme.border, stage.theme.admin   # v5.13.0 D-0153 Q0-2 — 지도 테마 선 색·폭(rules geo.themes.<테마>.map)
     ba = LOD["border_alpha"]
-    ctx.set_source_rgba(0.82, 0.86, 0.92, ba["near"] if view.w < ba["below_w"] else ba["far"])
-    ctx.set_line_width(0.75)
+    ctx.set_source_rgba(*bo.rgb, (ba["near"] if view.w < ba["below_w"] else ba["far"]) if bo.alpha is None else bo.alpha)
+    ctx.set_line_width(bo.width)
     ctx.stroke()
     af = LOD["admin_lines_fade"]
-    a = af["alpha"] * smooth((af["w"] - view.w) / af["span"])
+    a = (af["alpha"] if ad_.alpha is None else ad_.alpha) * smooth((af["w"] - view.w) / af["span"])
     if a > 0.01:
-        ctx.set_dash([2.5, 2.5])
+        ctx.set_dash(ad_.dash)
         for _k, lst in stage.adm.items():
             ctx.new_path()
             for ad in lst:
                 path_rings(ctx, view, ad["rings"], 2)
-            ctx.set_source_rgba(0.8, 0.84, 0.9, a)
-            ctx.set_line_width(0.55)
+            ctx.set_source_rgba(*ad_.rgb, a)
+            ctx.set_line_width(ad_.width)
             ctx.stroke()
         ctx.set_dash([])
 

@@ -26,7 +26,7 @@ from pydantic import BaseModel, ConfigDict, Field, field_validator
 from shapely.geometry import box
 
 from geo.prep_geometry import build_geo, coverage_reference
-from geo.prep_tiers import TierSpec, build_tier, tier_record, tile_path, tile_range
+from geo.prep_tiers import TierSpec, build_tier, terrain_theme, tier_record, tile_path, tile_range
 from rules import load_rules
 
 REPO = Path(__file__).resolve().parent.parent
@@ -122,19 +122,30 @@ def res_spec(tc: TierConf, k: float) -> TierSpec:
     return TierConf(name=tc.name, ppd=round(tc.ppd * k), z=z, bbox=tc.bbox).spec()
 
 
-def assets_dir(proj: Path, res: str | None) -> Path:
-    """480p(설계 해상도, k=1 — v5.5.1 부터 기본 출력 프로파일 720p 와 별개)는 assets/, 그 밖은 assets/res_<프로파일>/ — engine.assets 가 같은 규칙으로 읽는다."""
-    return proj / "assets" if res is None else proj / "assets" / f"res_{res}"
+def theme_root(a: Path, theme: str | None) -> Path:
+    """지도 테마 자산 뿌리(v5.13.0 D-0153 Q0-2) — 기본 테마(rules geo.themes.default)·None = a, 그 밖 = a/theme_<이름>/.
+    engine.assets 가 같은 함수로 읽는다."""
+    th = load_rules().geo.themes
+    th.get(theme or th.default)   # 없는 이름 = ValueError
+    return a if theme in (None, th.default) else a / f"theme_{theme}"
 
 
-def prep(proj: Path, cache: Path = CACHE, res: str | None = None, k: float = 1.0) -> dict:
+def assets_dir(proj: Path, res: str | None, theme: str | None = None) -> Path:
+    """480p(설계 해상도, k=1 — v5.5.1 부터 기본 출력 프로파일 720p 와 별개)는 assets/, 그 밖은 assets/res_<프로파일>/ — engine.assets 가 같은 규칙으로 읽는다.
+    테마가 기본이 아니면 그 앞에 theme_<이름>/ (assets/theme_light/res_720p/ …). 지오메트리 geo.pkl 은 테마·해상도와 무관하게 assets/ 한 벌."""
+    a = theme_root(proj / "assets", theme)
+    return a if res is None else a / f"res_{res}"
+
+
+def prep(proj: Path, cache: Path = CACHE, res: str | None = None, k: float = 1.0, theme: str | None = None) -> dict:
     conf = load_conf(proj)
-    ne_dir, tiles_dir, out = cache / "ne", cache / "tiles", assets_dir(proj, res)
+    ne_dir, tiles_dir, out = cache / "ne", cache / "tiles", assets_dir(proj, res, theme)
+    terrain = terrain_theme(theme)
     ensure_ne(ne_dir)
     geo, G = build_geo(ne_dir, conf.bbox, set(conf.admin1), conf.crimea_to_ua)  # noqa: N806
     ref = coverage_reference(ne_dir, box(*conf.bbox))   # 면적 커버리지 기준(G 조립과 따로, D-0078)
     out.mkdir(parents=True, exist_ok=True)
-    if res is None:
+    if res is None and out == proj / "assets":
         pickle.dump(geo, open(out / "geo.pkl", "wb"))   # 지오메트리는 설계 좌표(도) — 해상도와 무관, 한 벌
     tiers, report = {}, {}
     for tc in conf.tiers:
@@ -143,7 +154,7 @@ def prep(proj: Path, cache: Path = CACHE, res: str | None = None, k: float = 1.0
         n = ensure_tiles(tiles_dir, T)
         t1 = time.time()
         ratios: dict[str, float] = {}
-        lv, miss = build_tier(T, G, tiles_dir, out, k, ref, ratios)
+        lv, miss = build_tier(T, G, tiles_dir, out, k, ref, ratios, terrain)
         tiers[T.name] = tier_record(T, tiles_dir, lv)
         low = {k_: r for k_, r in sorted(ratios.items(), key=lambda kv: kv[1])[:5]}
         report[T.name] = dict(tiles=n, levels=lv, land_miss=classify_miss(miss, G, tc.ppd, ref), ppd=T.ppd, z=T.z,
@@ -153,7 +164,7 @@ def prep(proj: Path, cache: Path = CACHE, res: str | None = None, k: float = 1.0
     pickle.dump(tiers, open(out / "tiers.pkl", "wb"))
     rep = dict(schema_version=1, bbox=list(conf.bbox), countries=len(geo["coarse"]),
                admin1={k_: len(v) for k_, v in geo["admin1"].items()}, places=len(geo["places"]),
-               crimea_to_ua=conf.crimea_to_ua, res=res or "480p", k=k, tiers=report,
+               crimea_to_ua=conf.crimea_to_ua, res=res or "480p", k=k, theme=theme or load_rules().geo.themes.default, tiers=report,
                country_area_deg2={k_: round(float(g.area), 3) for k_, g in G.items()})
     (out / "geo_report.json").write_text(json.dumps(rep, ensure_ascii=False, indent=1), encoding="utf-8")
     return rep
@@ -165,6 +176,7 @@ def main(argv: list[str] | None = None) -> int:
     ap = argparse.ArgumentParser(description="geo.prep")
     ap.add_argument("proj", type=Path)
     ap.add_argument("--res", default=None, help="출력 프로파일(config engine.output) — 기본 프로파일이 아니면 ppd × k 티어를 assets/res_<이름>/ 에")
+    ap.add_argument("--theme", default=None, help="지도 테마(rules geo.themes) — 기본이 아니면 assets/theme_<이름>/ 에(v5.13.0 D-0153 Q0-2)")
     args = ap.parse_args(argv)
     proj = args.proj.resolve()
     try:
@@ -173,11 +185,13 @@ def main(argv: list[str] | None = None) -> int:
         eng = load_config().engine
         name, prof = eng.profile(args.res)
         rname = None if prof.height == load_rules().layout_480p.base.h else name   # v5.5.1 — 기본 자산 = 설계 해상도(k=1)
-        rep = prep(proj, res=rname, k=prof.height / load_rules().layout_480p.base.h)
+        if args.theme is not None and not (proj / "assets" / "geo.pkl").exists():
+            raise ValueError(f"테마 {args.theme} 자산은 기본 자산(geo.pkl) 뒤에 — `python -m geo.prep {proj}` 먼저")
+        rep = prep(proj, res=rname, k=prof.height / load_rules().layout_480p.base.h, theme=args.theme)
         drops = [dict(stage="geo", tier=n, land_miss=r["land_miss"]["drops"], px2=r["land_miss"]["px2"])
                  for n, r in rep["tiers"].items() if r["land_miss"]["drops"]]
-        res = StageResult(ok=not drops, stage="geo", artifacts={"assets": str(assets_dir(proj, rname)),
-                                                                "report": str(assets_dir(proj, rname) / "geo_report.json")},
+        res = StageResult(ok=not drops, stage="geo", artifacts={"assets": str(assets_dir(proj, rname, args.theme)),
+                                                                "report": str(assets_dir(proj, rname, args.theme) / "geo_report.json")},
                           drops=drops)
     except (OSError, ValueError) as ex:
         res = StageResult(ok=False, stage="geo", errors=[str(ex)])

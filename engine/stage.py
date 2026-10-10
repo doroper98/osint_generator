@@ -23,6 +23,7 @@ from PIL import Image
 
 from engine.style import H_OUT, W_OUT, Output
 from engine.timebase import smooth
+from rules import load_rules
 
 if TYPE_CHECKING:
     from engine.assets import Assets
@@ -95,6 +96,25 @@ def by_w(w: float, rule: tuple[list[tuple[float, float]], float]) -> float:
     return last
 
 
+MERCATOR_CONFIG_KEYS = ("border_glow", "theme")
+
+
+def mercator_theme(config: Optional[dict]) -> str:
+    """mercator stage_config 검사 + 지도 테마 이름(v5.13.0 D-0153 Q0-2). 키는 MERCATOR_CONFIG_KEYS 만(그 밖 = 오류, P10).
+    theme 없음 = rules geo.themes.default. 전편 MercatorStage·콘티 막지도·engine.project(자산 테마 선택)가 같이 쓴다."""
+    config = config or {}
+    bad = sorted(set(config) - set(MERCATOR_CONFIG_KEYS))
+    if bad:   # v5.3.1 border_glow, v5.13.0 theme. 그 밖 = 오류
+        raise StageError(f"mercator 무대 stage_config 는 {list(MERCATOR_CONFIG_KEYS)} 만 — 받은 키 {bad}")
+    if not isinstance(config.get("border_glow", False), bool):
+        raise StageError("mercator stage_config.border_glow 는 true|false")
+    th = load_rules().geo.themes
+    name = config.get("theme", th.default)
+    if name not in th.names():
+        raise StageError(f"mercator stage_config.theme 은 {th.names()} 중 하나 — 받은 값 {name!r}")
+    return name
+
+
 class MercatorStage:
     """지도 무대(20 §2.1 `MercatorStage`). 앵커 = (lon, lat). assets 없이 만들면 좌표 변환만(tiers 가 있으면 경계까지) 쓴다."""
 
@@ -103,14 +123,13 @@ class MercatorStage:
 
     def __init__(self, assets: "Optional[Assets]" = None, *, tiers: Optional[dict] = None, out: Optional[Output] = None,
                  config: Optional[dict] = None) -> None:
-        bad = sorted(set(config or {}) - {"border_glow"})
-        if bad:   # v5.3.1 — 지도 무대 설정은 border_glow(시안, rules border_glow) 하나뿐. 그 밖 = 오류
-            raise StageError(f"mercator 무대 stage_config 는 border_glow 만 — 받은 키 {bad}")
-        if config and not isinstance(config.get("border_glow", False), bool):
-            raise StageError("mercator stage_config.border_glow 는 true|false")
+        self.theme_name = mercator_theme(config)
         from engine.style import BORDER_GLOW  # noqa: PLC0415 — style → stage 순환 회피
 
         self.border_glow = bool((config or {}).get("border_glow", BORDER_GLOW.default_on))   # v5.4.0 국경선 글로우 — 지도 무대 기본(rules border_glow.default_on)
+        self.theme = load_rules().geo.themes.get(self.theme_name).map   # v5.13.0 D-0153 Q0-2 — 지도 선·지명 색(engine/layers/borders·labels)
+        if assets is not None and getattr(assets, "geo", None) and (getattr(assets, "theme", None) or load_rules().geo.themes.default) != self.theme_name:
+            raise StageError(f"지도 테마 불일치: 자산 {assets.theme} ↔ stage_config {self.theme_name} — 같은 테마 티어로 그린다")
         self.assets = assets
         self.tiers = tiers if tiers is not None else (assets.tiers if assets is not None else None)
         self.out = out

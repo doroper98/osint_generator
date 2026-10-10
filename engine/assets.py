@@ -69,13 +69,16 @@ def set_raster(ctx: cairo.Context, surf: cairo.ImageSurface, k: float, x: float,
 
 
 class Assets:
-    def __init__(self, root: Path, labels: Labels, res: str | None = None, geo: bool = True) -> None:
+    def __init__(self, root: Path, labels: Labels, res: str | None = None, geo: bool = True, theme: str | None = None) -> None:
         """res = 기본이 아닌 출력 프로파일 이름(v3.6.0 D-0066 작업 3) — 지형 티어를 assets/res_<이름>/(ppd × k)에서 읽는다.
         없으면 오류: 480p 티어를 늘려 쓰지 않는다(업스케일 흐림 금지, D-0067 요건 3). 티어 경계(도)는 두 벌이 같아야 한다.
-        geo = 지도 무대를 쓰는가(v4.3.0) — False 면 지형 티어·지오메트리를 읽지 않는다(시간축만 쓰는 영상, geo.prep 불필요)."""
+        geo = 지도 무대를 쓰는가(v4.3.0) — False 면 지형 티어·지오메트리를 읽지 않는다(시간축만 쓰는 영상, geo.prep 불필요).
+        theme = 지도 테마(v5.13.0 D-0153 Q0-2, direction stage_config.mercator.theme) — 기본이 아니면 assets/theme_<이름>/ 의 티어.
+        없으면 오류(기본 테마 티어로 대신 그리지 않는다, 15 P6). geo.pkl 은 assets/ 한 벌."""
         self.root = root
         self.labels = labels
         self.res = res
+        self.theme = theme
         a = root / "assets"
         self.tiers: dict = {}
         self.base: dict = {}
@@ -85,16 +88,20 @@ class Assets:
         self._load_registries(a)
 
     def _load_geo(self, a: Path) -> None:
-        root, res = self.root, self.res
-        td = a if res is None else a / f"res_{res}"
+        from geo.prep import theme_root  # noqa: PLC0415
+
+        root, res, theme = self.root, self.res, self.theme
+        tr = theme_root(a, theme)
+        td = tr if res is None else tr / f"res_{res}"
         if not (td / "tiers.pkl").exists():
-            raise AssetError(f"지형 티어 없음: {td / 'tiers.pkl'} — `python -m geo.prep {root} --res {res}` 먼저")
+            opt = "".join(f" --{k} {v}" for k, v in (("res", res), ("theme", theme)) if v is not None)
+            raise AssetError(f"지형 티어 없음: {td / 'tiers.pkl'} — `python -m geo.prep {root}{opt}` 먼저")
         self.tiers = pickle.load(open(td / "tiers.pkl", "rb"))
-        if res is not None:
+        if td != a:
             base = pickle.load(open(a / "tiers.pkl", "rb"))
             key = ("lon0", "lon1", "lat0", "lat1")
             if {n: [T[k] for k in key] for n, T in base.items()} != {n: [T[k] for k in key] for n, T in self.tiers.items()}:
-                raise AssetError(f"{td} 티어 경계가 assets/tiers.pkl 과 다르다 — geo.yaml 이 바뀐 뒤 --res {res} 를 다시 돌린다")
+                raise AssetError(f"{td} 티어 경계가 assets/tiers.pkl 과 다르다 — geo.yaml 이 바뀐 뒤 geo.prep(--res·--theme)를 다시 돌린다")
         self.base = {(n, lv): Image.open(td / f"base_{n}_{lv}.png").convert("RGB")
                      for n, T in self.tiers.items() for lv in T["levels"]}
         self.geo = pickle.load(open(a / "geo.pkl", "rb"))

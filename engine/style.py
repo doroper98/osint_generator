@@ -78,7 +78,6 @@ C: dict[str, Color] = {
     "ru": hexc(_c.ru), "us": hexc(_c.us), "gold": hexc(_c.gold), "teal": hexc(_c.teal), "green": hexc(_c.green),
     "muted": hexc(_c.muted), "amber": hexc(_c.amber), "white": (1, 1, 1), "kr": hexc(_c.gold), "water": hexc(_c.water),
 }
-SEA_LABEL: Color = hexc(_c.sea_label)
 BADGE_BG: Color = hexc(_c.badge_bg)
 
 _f = _RULES.fonts

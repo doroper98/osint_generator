@@ -91,10 +91,15 @@ def mixed_runs(s: str, name: str) -> list[list[str]]:
     return runs
 
 
+HALO_RGB = (0.02, 0.03, 0.05)   # 글자 테두리 기본색(rules geo.themes.dark.map.halo 와 같음 — 지도 밖 글자는 테마와 무관)
+
+
 def text(ctx: cairo.Context, s: str, x: float, y: float, size: float, name: str = "sansm",
          col: tuple = (1, 1, 1), a: float = 1.0, halo: float = 3.0, anchor: str = "l",
-         spacing: float = 0.0, halo_a: float = 0.8, role: str | None = None) -> float:
-    """role = 글자 역할(규칙 qa_checks.glyph_size_exempt 의 이름). 없으면 최소 글자 검사 예외 대상이 아니다(기본 엄격, D-0069)."""
+         spacing: float = 0.0, halo_a: float = 0.8, role: str | None = None,
+         halo_rgb: tuple = HALO_RGB) -> float:
+    """role = 글자 역할(규칙 qa_checks.glyph_size_exempt 의 이름). 없으면 최소 글자 검사 예외 대상이 아니다(기본 엄격, D-0069).
+    halo_rgb = 글자 테두리 색(v5.13.0 D-0153 Q0-2 — 지도 지명만 테마 값을 넘긴다. 기본 = 종전 값)."""
     if a <= 0.01 or not s:
         return 0
     if GLYPH_LOG is not None:
@@ -109,7 +114,7 @@ def text(ctx: cairo.Context, s: str, x: float, y: float, size: float, name: str 
         log, globals()["GLYPH_LOG"] = GLYPH_LOG, None   # 런 분할은 한 문자열로 이미 기록했다
         try:
             for r, f in runs:
-                x += text(ctx, r, x, y, size, f, col, a, halo, "l", 0.0, halo_a)
+                x += text(ctx, r, x, y, size, f, col, a, halo, "l", 0.0, halo_a, halo_rgb=halo_rgb)
         finally:
             globals()["GLYPH_LOG"] = log
         return w
@@ -140,7 +145,7 @@ def text(ctx: cairo.Context, s: str, x: float, y: float, size: float, name: str 
         ctx.move_to(x, y)
         ctx.text_path(s)
     if halo > 0:
-        ctx.set_source_rgba(0.02, 0.03, 0.05, halo_a * a)
+        ctx.set_source_rgba(*halo_rgb, halo_a * a)
         ctx.set_line_width(halo)
         ctx.set_line_join(cairo.LINE_JOIN_ROUND)
         ctx.stroke_preserve()

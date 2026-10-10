@@ -75,13 +75,11 @@ def flat_map_source() -> dict:
 
 def flat_stage_factory(proj: Path, out: Any) -> Callable[[Optional[dict]], Any]:
     """StageSet modes["mercator"] — 경계 = 프로젝트 geo.yaml 티어 W bbox(tiers.pkl 과 같은 값, geo.prep tier_record)."""
-    from engine.stage import FlatMercatorStage, StageError  # noqa: PLC0415
+    from engine.stage import FlatMercatorStage, mercator_theme  # noqa: PLC0415
     from geo.prep import load_conf  # noqa: PLC0415
 
     def make(config: Optional[dict]) -> Any:
-        bad = sorted(set(config or {}) - {"border_glow"})
-        if bad:   # v5.3.1 — 전편 MercatorStage 와 같은 키 검사. 막지도에는 글로우를 그리지 않는다(자리표시 지도)
-            raise StageError(f"mercator 무대 stage_config 는 border_glow 만 — 받은 키 {bad}")
+        mercator_theme(config)   # 전편 MercatorStage 와 같은 키 검사(v5.13.0). 막지도에는 글로우·지형 테마를 그리지 않는다(자리표시 지도)
         conf = load_conf(proj)
         w = next((t for t in conf.tiers if t.name == "W"), None)
         if w is None:

@@ -16,7 +16,7 @@ from typing import TYPE_CHECKING
 from engine.projection import View
 from engine.stage import MERCATOR_LOD as LOD
 from engine.stage import by_w
-from engine.style import H_OUT, SEA_LABEL, W_OUT
+from engine.style import H_OUT, W_OUT, hexc
 from engine.typography import text, tw
 
 if TYPE_CHECKING:
@@ -39,6 +39,8 @@ def _lb(box: tuple, name: str, kind: str) -> LabelBox:
 def draw_labels(ctx: cairo.Context, stage: "MercatorStage", view: View, reserved: list, la: float) -> list:
     A = stage.assets  # noqa: N806
     lab = A.labels
+    th = stage.theme   # v5.13.0 D-0153 Q0-2 — 지명 색·글자 테두리(rules geo.themes.<테마>.map)
+    hr = tuple(th.halo)
     placed = list(reserved)
     drawn: list = []   # v5.2.0 — 그린 지명 상자(해역 포함). 겹침 카드 깔림 검사(checks chain)가 읽는다. 그리기는 그대로
 
@@ -54,7 +56,7 @@ def draw_labels(ctx: cairo.Context, stage: "MercatorStage", view: View, reserved
             continue
         x, y = view.to_screen(*sw)
         if -40 < x < W_OUT + 40 and 0 < y < H_OUT:
-            text(ctx, s.name, x, y, 11 if view.w > 30 else 12, "serif", SEA_LABEL, 0.62 * la, 0, "c", spacing=2.2)
+            text(ctx, s.name, x, y, 11 if view.w > 30 else 12, "serif", hexc(th.sea_label), 0.62 * la, 0, "c", spacing=2.2)
             sw_ = tw(ctx, s.name, 11 if view.w > 30 else 12, "serif") + 2.2 * len(s.name)
             drawn.append(_lb((x - sw_ / 2, y - 11, x + sw_ / 2, y + 3), s.name, "sea"))
     # countries
@@ -72,7 +74,7 @@ def draw_labels(ctx: cairo.Context, stage: "MercatorStage", view: View, reserved
         w = tw(ctx, nm, size, "sansm") + 1.8 * len(nm)
         if not free(x - w / 2, y - 12, w, 16):
             continue
-        text(ctx, nm, x, y, size, "sansm", (0.9, 0.92, 0.96), 0.55 * la, 2.2, "c", spacing=1.8)
+        text(ctx, nm, x, y, size, "sansm", th.country_label, 0.55 * la, 2.2, "c", spacing=1.8, halo_rgb=hr)
         placed.append((x - w / 2, y - 12, x + w / 2, y + 4))
         drawn.append(_lb(placed[-1], nm, "country"))
     # admin-1 names (close zoom)
@@ -85,7 +87,7 @@ def draw_labels(ctx: cairo.Context, stage: "MercatorStage", view: View, reserved
                 if 20 < x < W_OUT - 20 and 60 < y < H_OUT - 70:
                     w = tw(ctx, ad["name"], 9.5, "sans")
                     if free(x - w / 2, y - 9, w, 12):
-                        text(ctx, ad["name"], x, y, 9.5, "sans", (0.78, 0.82, 0.88), 0.42 * la, 1.8, "c")
+                        text(ctx, ad["name"], x, y, 9.5, "sans", th.admin_label, 0.42 * la, 1.8, "c", halo_rgb=hr)
                         placed.append((x - w / 2, y - 9, x + w / 2, y + 3))
                         drawn.append(_lb(placed[-1], ad["name"], "admin"))
     # cities
@@ -105,12 +107,12 @@ def draw_labels(ctx: cairo.Context, stage: "MercatorStage", view: View, reserved
         if not free(x - 3, y - 8, w + 10, 13):
             continue
         ctx.arc(x, y, 2.4 if cap else 1.9, 0, 2 * math.pi)
-        ctx.set_source_rgba(0.95, 0.96, 0.98, 0.9 * la)
+        ctx.set_source_rgba(*th.city_dot.fill, 0.9 * la)
         ctx.fill_preserve()
-        ctx.set_source_rgba(0, 0, 0, 0.6 * la)
+        ctx.set_source_rgba(*th.city_dot.edge, th.city_dot.edge_alpha * la)
         ctx.set_line_width(0.8)
         ctx.stroke()
-        text(ctx, nm, x + 5, y + 4, size, "sansb" if cap else "sansm", (0.93, 0.94, 0.97), 0.82 * la, 2.6, "l")
+        text(ctx, nm, x + 5, y + 4, size, "sansb" if cap else "sansm", th.city_label, 0.82 * la, 2.6, "l", halo_rgb=hr)
         placed.append((x - 3, y - 8, x + w + 7, y + 5))
         drawn.append(_lb(placed[-1], nm, "city"))
         n += 1

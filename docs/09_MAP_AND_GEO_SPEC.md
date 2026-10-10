@@ -26,7 +26,13 @@ last_review: 2026-09-29
 ```bash
 python -m geo.prep projects/<pid>                 # → assets/{geo.pkl, tiers.pkl, base_*.png, geo_report.json}
 python -m geo.prep projects/<pid> --res 1080p     # → assets/res_1080p/ (480p 자산은 건드리지 않는다)
+python -m geo.prep projects/<pid> --theme light   # → assets/theme_light/ (v5.13.0 시안, 기본 테마 자산은 그대로)
 ```
+
+**지도 테마(v5.13.0 D-0153 Q0-2, 시안)**: 지형 색은 준비 단계에서 래스터에 구워진다. 그래서 테마는 준비 산출물 분기다.
+- 값은 `rules geo.themes.<이름>`에만 있다. `terrain` 은 geo.prep 가 굽는 값이고, `map` 은 렌더가 읽는 국경·행정선·지명·글자 테두리 색이다.
+- 고르는 곳은 `direction stage_config.mercator.theme` 하나다. 기본(`geo.themes.default`, dark = v3 합격 값)이 아니면 `assets/theme_<이름>/` 티어를 읽는다. 없으면 오류이고, 기본 테마로 대신 그리지 않는다.
+- Q3 에서 사용자가 한 테마를 고르면 다른 테마는 삭제한다(교체형, D-0153 §2).
 
 | 입력 | 뜻 | 정본 |
 |---|---|---|
