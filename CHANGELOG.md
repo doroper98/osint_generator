@@ -1,6 +1,6 @@
 <!--
 tier: 3
-last_synced_with: v5.14.0
+last_synced_with: v5.15.0
 ssot_for: [release-notes]
 depends_on: [README.md, GOAL.md]
 last_review: 2026-09-28
@@ -66,7 +66,19 @@ released 항목은 **append-only**입니다.
 
 ---
 
-## [v5.14.0] — 2026-10-10 — 품질 트랙 Q1: cascade V2(일정한 오른쪽 아래 slot·온전한 frame 가림·cascade.surface) (back_and_forth D-0153 §4·D-0157) — 진행 중
+## [v5.15.0] — 2026-10-10 — 품질 트랙 Q2: 인물 뱃지·국기 물결(사진 2.04R·alpha-top −.83R·출력 크기 기반 strip·링 2.4/.8) (back_and_forth D-0153 §5·D-0158) — 진행 중
+
+MINOR: Phase 완료 단위. 사용자 결정 D148(인물 뱃지 적용). JSON `schema_version` 그대로(1).
+
+---
+
+## [v5.14.0] — 2026-10-10 — 품질 트랙 Q1: cascade V2(일정한 오른쪽 아래 slot·온전한 frame 가림·cascade.surface) (back_and_forth D-0153 §4·D-0157) — Q1 phase_report(R-0192), 검토 합격(D-0158)
+
+### Changed
+- `rules cascade` V2 값(slot `x0 + dx·s`·`y0 + dy·s`, 230×108, 깊이 Y 삭제), `cascade.frame`·`cascade.surface`. 뒤 카드 상자 = 앞 카드 실제 모양으로 가림(`island.draw_frame(style, occluders)`, 기본 호출 바이트 동일).
+
+### Added
+- `tools/cascade_demo.py` — 가이드 23 §6 8항목 데모 프레임.
 
 MINOR: Phase 완료 단위. 사용자 결정 D148(cascade V2 적용). JSON `schema_version` 그대로(1).
 
