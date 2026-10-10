@@ -180,6 +180,78 @@ def _ctx() -> cairo.Context:
     return cairo.Context(cairo.ImageSurface(cairo.FORMAT_RGB24, 64, 64))
 
 
+def _old_arrow_path(S: np.ndarray, prog: float) -> tuple[np.ndarray, np.ndarray, np.ndarray] | None:
+    """4d9dc65 원본 — 꼭짓점 단위로 자른 경로(searchsorted), u = linspace, 라벨 = P[len // 2]."""
+    L = np.concatenate([[0], np.cumsum(np.linalg.norm(np.diff(S, axis=0), axis=1))])
+    k = int(np.searchsorted(L, L[-1] * prog))
+    if k < 2:
+        return None
+    P = S[:k]
+    return P, np.linspace(0, 1, len(P)), P[len(P) // 2]
+
+
+class ArrowGrowthTest(unittest.TestCase):
+    """D-0154 S5(사용자 지적 "화살표 애니메이션이 드문드문") — 호 길이 보간. 완성 상태는 원본과 같다."""
+
+    PTS = [[0.0, 0.0], [120.0, 40.0], [260.0, 10.0], [400.0, 90.0]]
+
+    @classmethod
+    def full(cls) -> np.ndarray:
+        from engine.layers.routes import catmull  # noqa: PLC0415
+
+        return catmull(cls.PTS, SK.campaign.arrow.spline)
+
+    @classmethod
+    def path(cls) -> np.ndarray:
+        return arrows_mod.drawn_path(cls.full())
+
+    def test_end_moves_continuously(self) -> None:
+        P = self.path()
+        total = float(np.linalg.norm(np.diff(P, axis=0), axis=1).sum())
+        step = 0.01
+        ends, es = [], []
+        for prog in np.arange(0.05, 1.0 + 1e-9, step):
+            g = arrows_mod.grown(P, float(prog))
+            assert g is not None
+            ends.append(g[0][-1])
+            es.append(g[2])
+        moves = np.linalg.norm(np.diff(np.array(ends), axis=0), axis=1)
+        self.assertTrue(np.all(np.diff(es) > 0))                                     # 끝 위치 단조 증가
+        self.assertLessEqual(float(moves.max()), total * step + SK.campaign.arrow.max_step_px)
+        self.assertGreater(float(moves.min()), 0)                                    # 멈추는 프레임 없음
+        old = [(_old_arrow_path(self.full(), float(p)) or (P[:1],))[0][-1] for p in np.arange(0.05, 1.0 + 1e-9, step)]
+        old_moves = np.linalg.norm(np.diff(np.array(old), axis=0), axis=1)
+        self.assertGreater(int((old_moves == 0).sum()), 0)                           # 원본은 멈췄다 건너뛰었다(회귀 확인)
+
+    def test_finished_arrow_equals_original(self) -> None:
+        P = self.path()
+        new = arrows_mod.grown(P, 1.0)
+        old = _old_arrow_path(self.full(), 1.0)
+        assert new is not None and old is not None
+        np.testing.assert_array_equal(new[0], old[0])
+        np.testing.assert_allclose(new[1], old[1])
+        np.testing.assert_array_equal(arrows_mod.at_index(P, (new[2] + 1) * 0.5), old[2])
+
+    def test_width_and_label_follow_end(self) -> None:
+        P = self.path()
+        a, b = arrows_mod.grown(P, 0.50), arrows_mod.grown(P, 0.51)
+        assert a is not None and b is not None
+        self.assertAlmostEqual(float(a[1][-1]), 1.0)                                 # 머리 쪽 폭은 늘 끝점에
+        self.assertLess(float(np.linalg.norm(arrows_mod.at_index(P, (b[2] + 1) * 0.5)
+                                             - arrows_mod.at_index(P, (a[2] + 1) * 0.5))),
+                        float(np.linalg.norm(b[0][-1] - a[0][-1])) + SK.campaign.arrow.max_step_px)
+
+
+    def test_zero_length_segments_and_start(self) -> None:
+        P = np.array([[0.0, 0.0], [0.0, 0.0], [10.0, 0.0], [10.0, 0.0], [20.0, 0.0]])   # 겹친 점
+        self.assertIsNone(arrows_mod.grown(P[1:], 0.01))                               # 첫 구간 안 = 아직 그리지 않음
+        np.testing.assert_allclose(arrows_mod.grown(P, 0.01)[0][-1], [0.2, 0.0])       # 겹친 점은 건너뛰고 길이대로
+        g = arrows_mod.grown(P, 0.75)
+        assert g is not None
+        np.testing.assert_allclose(g[0][-1], [15.0, 0.0])
+        self.assertTrue(np.all(np.isfinite(g[1])))
+
+
 class DrawingTest(unittest.TestCase):
     def test_unit_reserve_box(self) -> None:
         from sketch.campaign.units import UnitLayer

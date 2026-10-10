@@ -2236,6 +2236,7 @@ class SketchArrow(_Strict):
     label_from: float = Field(ge=0, le=1)
     label_in: float = Field(gt=0)
     label_out: float = Field(gt=0)
+    max_step_px: float = Field(ge=0)   # v5.12.0 — 성장 끝점 이동 상한 여유(호 길이 보간, D-0154)
 
 
 class SketchPlace(_Strict):

@@ -1732,7 +1732,8 @@ sketch:                    # v5.7.0 back_and_forth D-0140(D130) — 스케치 �
     offscreen_px: 40            # 화면 밖 이만큼 넘는 부대는 그리지 않는다
     unit_box: [3, 22, 26]       # 예약 상자 [좌우 여백, 위, 아래]
     arrow: {spline: 16, half: [2.5, 6.5], tip: 16, wing: 14.0, alpha: [0.15, 0.78], edge_rgb: [1.0, 0.85, 0.85], edge_alpha: 0.55, edge_w: 0.8,
-            appear: 0.4, label_from: 0.35, label_in: 0.6, label_out: 0.8}
+            appear: 0.4, label_from: 0.35, label_in: 0.6, label_out: 0.8,
+            max_step_px: 0.5}   # v5.12.0 D-0154 S5 — 성장 끝점의 프레임 간 이동이 호 길이 증가분을 넘는 허용 폭(px, 꼭짓점 건너뜀 금지 — 테스트 상한)
     arrow_label: {size: 11.5, font: sansb, halo: 3.2, dy: -13}
     arrow_label_rgb: [1.0, 0.86, 0.86]
     place: {size: 11.5, font: sansm, halo: 3, alpha: 0.9, dot_r: 2.6, dx: 6, dy: 4, in_sec: 0.8, probe: [60, 14]}

@@ -128,6 +128,17 @@ class H1FlightClockTest(unittest.TestCase):
         self.assertEqual(list(nums.shown), ["track.flight_sec ← mod.flight_min×60"])
 
 
+class DetectionNoteTest(unittest.TestCase):
+    def test_user_decided_note_in_all_missile_specs(self) -> None:
+        """D150 #3(2026-10-10) — 레이더 값은 두고 화면 하단 주석 "탐지 거리 표현은 공개 자료를 토대로 한 추정값"."""
+        note = "탐지 거리 표현은 공개 자료를 토대로 한 추정값"
+        for pid in ("d1_missile_sketch", "missile_20230712_sketch", "missile_20241031_sketch"):
+            raw = yaml.safe_load((REPO / "projects" / pid / "sketch.yaml").read_text(encoding="utf-8"))
+            texts = [n["text"] for n in raw["notes"]["source_lines"]]
+            self.assertIn(note, texts, pid)
+            self.assertFalse(any("실제 운용 범위는 비공개" in t for t in texts), pid)
+
+
 class E1EndCardTest(unittest.TestCase):
     """D-0150 SK-E1 — 엔딩 자료 줄 수(end_note 와 겹침)·줄 폭. 미사일·전황 공통."""
 
