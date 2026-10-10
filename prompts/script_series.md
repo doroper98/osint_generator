@@ -1,6 +1,6 @@
 <!--
 tier: 2
-last_synced_with: v5.16.0
+last_synced_with: v5.17.0
 ssot_for: [prompt-script_series]
 depends_on: [prompts/script_user.md, workers/script_worker.py, script/series_refs.py]
 last_review: 2026-09-29

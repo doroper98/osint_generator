@@ -1,6 +1,6 @@
 <!--
 tier: 3
-last_synced_with: v5.16.0
+last_synced_with: v5.17.0
 ssot_for: [release-notes]
 depends_on: [README.md, GOAL.md]
 last_review: 2026-09-28
@@ -66,7 +66,13 @@ released 항목은 **append-only**입니다.
 
 ---
 
-## [v5.16.0] — 2026-10-10 — 음성 트랙 V2: Supertonic 강제 정렬(MMS_FA + uroman), at_word 정렬 없음 = 오류 (back_and_forth D-0164 §5, D151) — 진행 중
+## [v5.17.0] — 2026-10-11 — 음성 트랙 V3: 호르무즈 Supertonic + MMS 재현·사용자 청취 (back_and_forth D-0167 §3) — 진행 중
+
+MINOR: Phase 완료 단위. JSON `schema_version` 그대로(1).
+
+---
+
+## [v5.16.0] — 2026-10-10 — 음성 트랙 V2: Supertonic 강제 정렬(MMS_FA + uroman), at_word 정렬 없음 = 오류 (back_and_forth D-0164 §5·D-0165, D151) — V2 phase_report(R-0196), 검수 합격(D-0167)
 
 MINOR: Phase 완료 단위. JSON `schema_version` 그대로(1).
 
