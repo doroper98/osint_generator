@@ -16,6 +16,8 @@ v2.5.5(D32 sunset 2/2): 자산 부트스트랩(v3 참조 코드 실행본)은 �
 - people  : tools/portrait_fallback.py(초상)·tools/commons_fetch.py(권리 기록) — 인물 4·휘장·국기 PNG·rights_registry(+ assets/rights_bundles.yaml) (v2.4.0 D-0029)
 - media   : tools/media_fetch.py — assets/media/media_registry.json 7종(사진·영상·컷아웃, 기사는 파일 없음) 받기·md5 대조·가공·영상 검수 시트
 - bgm     : 배경음악 mp3 를 git 객체(bd37b58)에서 복원 + sha1 대조 (네트워크 불필요, DECISIONS D22)
+- supertonic : 내레이션 음성 모델(Supertonic 3, HF 고정 revision)·스타일·LICENSE → assets/tts/supertonic(미추적) + sha1 대조
+              (값 = config.yaml tts.supertonic, v5.11.0 D-0152 — 사용자 결정 D146). all 에 넣지 않는다(380MB)
 - all     : fonts ne tiles flags commons bgm (people → media 는 따로 — 런북 순서)
 
 실패는 조용히 넘기지 않는다: 받지 못한 파일이 있으면 목록을 출력하고 exit 1 (docs/handoff/15 P6).
@@ -369,8 +371,49 @@ def cmd_bgm(root: Path, dry: bool) -> list[str]:
     return []
 
 
+HF_RESOLVE = "https://huggingface.co/{repo}/resolve/{rev}/{path}"
+STREAM_TIMEOUT_SEC = 900.0     # 모델 파일 하나(최대 약 260MB)를 받는 상한
+STREAM_CHUNK = 1 << 20
+
+
+def stream_download(url: str, dest: Path) -> None:
+    """큰 파일 — 임시 파일에 흘려 받고 끝나면 이름을 바꾼다(중간에 끊긴 파일이 남지 않게)."""
+    import requests  # noqa: PLC0415
+
+    dest.parent.mkdir(parents=True, exist_ok=True)
+    part = dest.with_name(dest.name + ".part")
+    try:
+        with requests.get(url, stream=True, timeout=STREAM_TIMEOUT_SEC) as r:
+            r.raise_for_status()
+            with part.open("wb") as f:
+                for block in r.iter_content(STREAM_CHUNK):
+                    f.write(block)
+    except requests.RequestException as e:
+        part.unlink(missing_ok=True)
+        raise FetchError(f"{url}: {e}") from e
+    part.replace(dest)
+
+
+def cmd_supertonic(root: Path, dry: bool) -> list[str]:
+    """Supertonic 3 자산 — 없거나 sha1 이 다른 파일만 고정 revision 에서 받고 전부 대조(D-0152 V0)."""
+    from orchestrator.config import load_config  # noqa: PLC0415
+    from script.tts import supertonic_assets as sa  # noqa: PLC0415
+
+    cfg = load_config().tts.supertonic
+    if cfg is None:
+        return ["supertonic: config.yaml tts.supertonic 없음"]
+    base = sa.asset_dir(cfg)
+    todo = [rel for rel, want in cfg.assets.items() if not (base / rel).is_file() or sa.sha1_file(base / rel) != want]
+    if dry:
+        return [f"supertonic → {base / rel} ({cfg.repo}@{cfg.revision[:10]})" for rel in todo] or [f"supertonic: {base} 일치"]
+    for rel in todo:
+        stream_download(HF_RESOLVE.format(repo=cfg.repo, rev=cfg.revision, path=rel), base / rel)
+    return [f"supertonic {m}" for m in sa.mismatches(cfg)]
+
+
 COMMANDS = {"fonts": cmd_fonts, "ne": cmd_ne, "tiles": cmd_tiles, "flags": cmd_flags,
-            "commons": cmd_commons, "people": cmd_people, "media": cmd_media, "bgm": cmd_bgm}
+            "commons": cmd_commons, "people": cmd_people, "media": cmd_media, "bgm": cmd_bgm,
+            "supertonic": cmd_supertonic}
 ALL = ("fonts", "ne", "tiles", "flags", "commons", "bgm")
 
 

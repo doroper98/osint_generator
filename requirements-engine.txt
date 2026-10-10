@@ -16,3 +16,9 @@ fonttools>=4.47
 rembg>=2.0.50
 onnxruntime>=1.17
 svgelements>=1.9   # v5.7.0 D-0140 S0 - sketch/ SVG georef (already used by projects/uranus_sketch/prep_uranus.py)
+# v5.11.0 D-0152 narration voice: Supertonic 3 runs on onnxruntime (above); wav I/O via scipy; models via: python tools/fetch_data.py supertonic
+# V2 forced alignment (torchaudio MMS_FA + uroman romanization). CPU wheels:
+#   pip install torch torchaudio --index-url https://download.pytorch.org/whl/cpu
+torch>=2.2
+torchaudio>=2.2
+uroman>=1.3

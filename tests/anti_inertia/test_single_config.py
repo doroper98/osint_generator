@@ -16,7 +16,8 @@ from tests.anti_inertia._ast_util import REPO, code_strings, iter_py, parse
 SCANNED_ROOTS: tuple[str, ...] = ("workers", "orchestrator", "engine", "script", "audio", "geo", "sketch")   # sketch: v5.7.0 D-0140
 ALLOWED: frozenset[str] = frozenset({"orchestrator/config.py", "engine/style.py"})
 RESOLUTION_TUPLES: frozenset[tuple[int, int]] = frozenset({(854, 480), (1920, 1080), (1080, 1920)})
-NUMERIC_NAMES: frozenset[str] = frozenset({"fps", "invoke_timeout_sec", "script_timeout_sec"})
+NUMERIC_NAMES: frozenset[str] = frozenset({"fps", "invoke_timeout_sec", "script_timeout_sec",
+                                           "total_step", "silence_sec", "max_chunk_len"})   # v5.11.0 D-0152 tts.supertonic
 
 
 def _forbidden_strings() -> dict[str, str]:
@@ -27,6 +28,9 @@ def _forbidden_strings() -> dict[str, str]:
         cfg.llm.model: "config.yaml llm.model",
         cfg.tts.edge_voice: "config.yaml tts.edge_voice",
     }
+    if cfg.tts.supertonic is not None:   # v5.11.0 D-0152 — 모델 저장소·revision 은 config.yaml 한 곳
+        out[cfg.tts.supertonic.repo] = "config.yaml tts.supertonic.repo"
+        out[cfg.tts.supertonic.revision] = "config.yaml tts.supertonic.revision"
     for name, value in rules.colors.model_dump().items():
         if isinstance(value, str):
             out[value.lower()] = f"rules colors.{name}"

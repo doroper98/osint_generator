@@ -9,7 +9,7 @@ from __future__ import annotations
 from pathlib import Path
 
 import yaml
-from pydantic import BaseModel, ConfigDict, Field, model_validator
+from pydantic import BaseModel, ConfigDict, Field, field_validator, model_validator
 
 
 REPO_ROOT: Path = Path(__file__).resolve().parent.parent
@@ -132,6 +132,32 @@ class VoiceSettings(BaseModel):
     style: float = 0.1
 
 
+class SupertonicConfig(BaseModel):
+    """Supertonic 3 내레이션(v5.11.0 D-0152, 사용자 결정 D146·설계 D147). 값의 단일 출처 = config.yaml tts.supertonic(기본값 없음).
+    assets = asset_dir 기준 상대 경로 → sha1. 받기·대조 = `python tools/fetch_data.py supertonic`, 없으면 오류(폴백 금지, P6)."""
+
+    model_config = ConfigDict(extra="forbid")
+
+    repo: str = Field(min_length=1)            # Hugging Face 모델 저장소
+    revision: str = Field(min_length=40, max_length=40)   # 고정 커밋(개발 종료·보관 저장소 — 재현성)
+    asset_dir: str = Field(min_length=1)       # 저장소 기준(git 미추적)
+    voice_style: str = Field(min_length=1)     # voice_styles/<이름>.json
+    speed: float = Field(gt=0)
+    total_step: int = Field(ge=1)              # 잠재 벡터 정제 단계 수
+    silence_sec: float = Field(ge=0)           # 긴 문장을 나눈 조각 사이 무음
+    max_chunk_len: int = Field(ge=1)           # 조각 최대 글자 수(원 helper 한국어 기본값)
+    seed_salt: str = Field(min_length=1)       # 문장 시드 = sha1(발음 텍스트 + 스타일 + 속도 + 단계 + salt) — 바꾸면 전 문장 재합성
+    assets: dict[str, str] = Field(min_length=1)   # 상대 경로 → sha1(40자)
+
+    @field_validator("assets")
+    @classmethod
+    def _sha1s(cls, v: dict[str, str]) -> dict[str, str]:
+        bad = [k for k, h in v.items() if len(h) != 40 or any(c not in "0123456789abcdef" for c in h)]
+        if bad:
+            raise ValueError(f"tts.supertonic.assets sha1 형식 오류: {bad}")
+        return v
+
+
 class TTSConfig(BaseModel):
     """TTS 설정 (v2.0.0). voice id·API 키는 .env 로만 (C9)."""
 
@@ -145,6 +171,7 @@ class TTSConfig(BaseModel):
     eleven_model_env: str = "ELEVENLABS_MODEL_ID"
     eleven_model_default: str = "eleven_multilingual_v2"
     voice_settings: VoiceSettings = Field(default_factory=VoiceSettings)
+    supertonic: SupertonicConfig | None = None   # v5.11.0 D-0152 — 없으면 Supertonic 백엔드가 오류(P6)
 
 
 class CommonsConfig(BaseModel):

@@ -277,3 +277,6 @@ projects/kaliningrad-suwalki/plan.json
 projects/kaliningrad-suwalki/project_manifest.json
 projects/kaliningrad-suwalki/intake/verify_draft.json
 projects/kaliningrad-suwalki/direction.meta.json
+
+# 내레이션 음성 모델(Supertonic 3, 380MB) — 커밋 금지. 받기·sha1 대조: python tools/fetch_data.py supertonic (v5.11.0 D-0152)
+assets/tts/supertonic/

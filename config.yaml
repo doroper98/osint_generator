@@ -52,6 +52,25 @@ tts:
   eleven_model_env: ELEVENLABS_MODEL_ID
   eleven_model_default: eleven_multilingual_v2
   voice_settings: {stability: 0.65, similarity_boost: 0.8, style: 0.1}   # Phase 4 with-timestamps 경로가 전송
+  supertonic:                          # v5.11.0 사용자 결정 D146(2026-10-10) — Supertonic 3 남성 M3 × 속도 0.95, 설계 D147(back_and_forth D-0152)
+    repo: Supertone/supertonic-3       # 코드 MIT, 가중치 OpenRAIL-M(상업 사용 가능, Attachment A 사용 제한). 제작사 개발 종료·보관 → 우리가 파일을 보관
+    revision: 3cadd1ee6394adea1bd021217a0e650ede09a323
+    asset_dir: assets/tts/supertonic   # git 미추적 — python tools/fetch_data.py supertonic
+    voice_style: M3
+    speed: 0.95
+    total_step: 16
+    silence_sec: 0.3                   # 긴 문장 조각 사이 무음(자막 앵커에 영향 — provenance·plan 에 기록)
+    max_chunk_len: 120                 # 원 helper.py 한국어 기본값
+    seed_salt: "v1"
+    assets:                            # 상대 경로 → sha1 (D-0152 §1 Fable 실측과 일치)
+      onnx/duration_predictor.onnx: 7506c6781997d06c7e0f203e8c16555fe39ad115
+      onnx/text_encoder.onnx: bef43a4d0bd4889e08aaa2c2e107ecc5aebd6e00
+      onnx/vector_estimator.onnx: 6460a27d6787bead8f0cc6973c28be6281930076
+      onnx/vocoder.onnx: 5e94809905565e9bfbc54a130137c37e03bc2048
+      onnx/tts.json: 310fe80fdba5a36d03a4c0c85561be5c3e1c2da7
+      onnx/unicode_indexer.json: c8133b892e49c85f47880f1ac0226f91579ea5ac
+      voice_styles/M3.json: 7764333982bc4d4d27b3872ead13dfe4b0400d81
+      LICENSE: e6ab935ad6e8025ce4bf68e7382bd5332f4329ea
 
 llm:
   # v1.2.2 — 구독 LLM 브리지(`claude -p`)가 쓰는 모델의 단일 출처 (SSOT).
