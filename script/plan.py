@@ -19,6 +19,7 @@ from pathlib import Path
 import yaml
 
 from orchestrator.config import load_config
+from script import lint_waivers
 from script.lint import lint, load_claims_for, load_pronounce_dict, pronounce_tts
 from script.schema import Plan, Script
 from script.timeline import layout, sentence_rows
@@ -38,10 +39,11 @@ def build(proj: Path, tts: str, warnings: list[str] | None = None, edge_voice: s
         elevenlabs.require_allowed()   # 다른 단계보다 먼저(린트·합성 전에 거부) — 공통 함수(D-0153 Q0)
     script = load_script(proj)
     rep = lint(script, load_claims_for(proj))   # v3.2.0 — 출처는 claims.json 기준(D-0051 작업 8)
+    rep, waived = lint_waivers.apply(rep, lint_waivers.load(proj), script)   # v5.17.0 D-0168 — 정확 일치 면제만
     if rep.errors:
         raise ValueError("원고 린트 위반:\n" + "\n".join(i.line() for i in rep.errors))
     if warnings is not None:
-        warnings.extend(i.line() for i in rep.warnings)
+        warnings.extend(lint_waivers.waived_lines(waived) + [i.line() for i in rep.warnings])
     rows = sentence_rows(script)
     tts_dir = proj / "tts"
     tts_dir.mkdir(parents=True, exist_ok=True)
@@ -91,7 +93,8 @@ def build(proj: Path, tts: str, warnings: list[str] | None = None, edge_voice: s
     return Plan(sentences=rows, cards=cards, scene_start=scene_start, total=total,
                 voice=(supertonic.voice_label(st_cfg) if st_cfg else
                        elevenlabs.voice_label() if use_eleven else edge.voice_label(edge_voice)),
-                title=script.title, subtitle=script.subtitle, date=script.date, tts_resynthesized=resynth)
+                title=script.title, subtitle=script.subtitle, date=script.date, tts_resynthesized=resynth,
+                lint_waived=waived or None)
 
 
 def forced_alignment(mp3: Path, pron_text: str) -> dict:

@@ -138,6 +138,8 @@ def build(plan: Plan, keys: list[CamKey], events: list[dict], repo_version: str,
     feats = features(keys, events)
     feats["at_word"] = {"aligned": sum(1 for a in anchors if a["mode"] == "aligned"),
                         "ratio": sum(1 for a in anchors if a["mode"] == "ratio")}
+    if plan.lint_waived:   # v5.17.0 D-0168 — 면제로 통과한 린트(없으면 쓰지 않는다, P5)
+        feats["lint"] = {"waived": plan.lint_waived}
     rows = [s.alignment for s in plan.sentences if s.alignment is not None]
     if rows:   # v5.16.0 D-0164 §5-4 — plan 이 정렬을 기록했을 때만(돌지 않은 단계는 적지 않는다, P5)
         scores = [r.score_mean for r in rows if r.score_mean is not None]

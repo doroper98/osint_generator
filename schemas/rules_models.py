@@ -67,6 +67,7 @@ class ScriptGrammar(_Strict):
     connective_min_ratio: float = Field(ge=0, le=1)
     connective_max_ratio: float = Field(ge=0, le=1)
     uncertain_patterns: list[str] = Field(min_length=1)
+    lint_waivable: list[str] = Field(min_length=1)   # v5.17.0 D-0168 — 프로젝트 면제 목록에 올릴 수 있는 린트 kind(문체·흐름만)
 
 
 class ScriptSchemaRules(_Strict):

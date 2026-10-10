@@ -79,6 +79,9 @@ script_grammar:            # v5.5.0 사용자 결정(2026-10-02, 개정 2026-10-
   connective_min_ratio: 0.3     # 원고 전체에서 연결어로 시작하거나 앞 문장을 받는 문장의 비율 하한(미만 = [flow-sparse] 오류)
   connective_max_ratio: 0.7     # 상한(초과 = [flow-overuse] 경고 — 남발도 나열만큼 어색하다)
   uncertain_patterns: ["확인되지 않았", "확인된 바 없", "엇갈립니다", "엇갈린다", "엇갈렸습니다", "불분명합니다", "불분명하다", "알려지지 않았습니다", "알려지지 않았다", "정해지지 않았", "불확실합니다", "불확실하다"]   # 내레이터 목소리의 미확인 결론. 귀속 문장("~라고 반박했습니다")은 린트가 뺀다(v5.5.0 개정 2026-10-03)
+  # v5.17.0 D-0168(DECISIONS D162) — projects/<pid>/lint_waivers.yaml 에 올릴 수 있는 kind. 문체·흐름 휴리스틱만.
+  # AI 상투 문구(banned_phrases, C0)·출처·수치·발음(tts-*)·참조 출처 규칙은 면제 불가(목록 밖 = 로드 오류).
+  lint_waivable: [uncertain-phrase, flow-sparse, flow-overuse, tense-present]
 script_schema:             # 02 §2.1 요약 — 프롬프트 예시는 tests/anti_inertia/test_prompt_schema_parity 로 검증
   sentence_fields: [date, text, tts, emphasis, sources, media]
   date_formats: ["YYYY", "YYYY.MM", "YYYY.MM.DD"]

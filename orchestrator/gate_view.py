@@ -78,6 +78,7 @@ def script_gate_view(pdir: Path, runner: Callable = subprocess.run) -> tuple[str
     lines += [f"  오류 {e}" for e in lint.errors] + [f"  경고 {w}" for w in lint.warnings[:20]]
     if len(lint.warnings) > 20:
         lines.append(f"  … 경고 {len(lint.warnings) - 20}건 더")
+    lines += ["", *waiver_table(pdir)]
     lines += ["", f"미디어 후보 — 원고 media 필드 {len(media_rows)}건", *media_rows]
     if plan is not None:   # 트리거 제안(14 §10.2, 제안만 — P8)
         sug = suggest_media(plan)
@@ -90,6 +91,20 @@ def script_gate_view(pdir: Path, runner: Callable = subprocess.run) -> tuple[str
     shown = {"script": str(pdir / "script.yaml"), "lint_errors": str(len(lint.errors)),
              "lint_warnings": str(len(lint.warnings)), "est_sec": f"{total:.1f}"}
     return "\n".join(lines), shown
+
+
+def waiver_table(pdir: Path) -> list[str]:
+    """린트 면제 표(v5.17.0 D-0168 §2-5) — 게이트 ① 에서 사용자가 본다. 파일만 읽는다."""
+    from script.lint_waivers import LintWaiverError, load  # noqa: PLC0415
+
+    try:
+        ws = load(pdir)
+    except LintWaiverError as e:
+        return [f"린트 면제 표 — 오류: {e}"]
+    if not ws:
+        return ["린트 면제 표 — 없음"]
+    return [f"린트 면제 표 — {len(ws)}건(승인 뒤 생긴 문체·흐름 규칙만)",
+            *[f"  {w.kind:<16} {w.sid:<10} {w.decided_by}  {w.reason}" for w in ws]]
 
 
 def preview_gate_view(pdir: Path) -> tuple[str, dict[str, str]]:

@@ -425,12 +425,16 @@ def main(argv: list[str] | None = None) -> int:
     try:
         script = Script.model_validate(yaml.safe_load(path.read_text(encoding="utf-8")))
         rep = lint(script, load_claims_for(path.parent), noted=noted_claims(path.parent))
+        from script import lint_waivers  # noqa: PLC0415 — v5.17.0 D-0168(plan 과 같은 면제 적용)
+
+        rep, waived = lint_waivers.apply(rep, lint_waivers.load(path.parent), script)
         labels = check_project_labels(path.parent, script)   # 도시어가 있으면 라벨 재계산·대조(D-0043 §3)
         arts = {"script": str(path)}
         if labels is not None:
             arts["label_counts"] = json.dumps(labels.counts(), ensure_ascii=False)
         res = StageResult(ok=not rep.errors, stage="lint", artifacts=arts,
-                          errors=[i.line() for i in rep.errors], warnings=[i.line() for i in rep.warnings])
+                          errors=[i.line() for i in rep.errors],
+                          warnings=lint_waivers.waived_lines(waived) + [i.line() for i in rep.warnings])
     except (OSError, ValueError, ValidationError, yaml.YAMLError) as ex:
         res = StageResult(ok=False, stage="lint", errors=[f"{path}: {ex}"])
     print(json.dumps(res.model_dump(), ensure_ascii=False))

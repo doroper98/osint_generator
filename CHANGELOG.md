@@ -70,6 +70,12 @@ released 항목은 **append-only**입니다.
 
 MINOR: Phase 완료 단위. JSON `schema_version` 그대로(1).
 
+### Added
+- 원고 린트 면제 목록(D-0168, DECISIONS D162): `script/lint_waivers.py`, `projects/<pid>/lint_waivers.yaml`, `rules script_grammar.lint_waivable`.
+  정확 일치만 통과·낡은 면제 = 오류·면제 불가 kind = 로드 오류·승인 뒤 규칙만. plan·린트 CLI·게이트 ① 면제 표·provenance `features.lint.waived`.
+  호르무즈 면제 2건(uncertain-phrase now_3, flow-sparse) — now_3 은 다음 원고 개정 때 고친다.
+- V3 도구: `tools/v3_cut_table.py`(컷 대응표·25컷 나란히 시트), `tools/click_sample.py`(앵커 클릭음 표본).
+
 ---
 
 ## [v5.16.0] — 2026-10-10 — 음성 트랙 V2: Supertonic 강제 정렬(MMS_FA + uroman), at_word 정렬 없음 = 오류 (back_and_forth D-0164 §5·D-0165, D151) — V2 phase_report(R-0196), 검수 합격(D-0167)

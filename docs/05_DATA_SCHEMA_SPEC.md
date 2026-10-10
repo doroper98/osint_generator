@@ -32,6 +32,7 @@ last_review: 2026-09-29
 | `facts.json` | `script.schema.Facts` | ResearchWorker | RESEARCH |
 | `script.yaml`, `script_labels.json` | `script.schema.Script`, `script.labels.ScriptLabels` | ScriptWorker(또는 사람) | SCRIPT_DRAFT |
 | `plan.json`, `tts/*.mp3(.align.json)` | `script.schema.Plan`(v5.16.0 optional `PlanSentence.alignment {source, score_mean, elapsed_ms}` — 정렬 출처·문장 점수·정렬 시간. `.align.json` 은 `script/tts/align` 공통 형식, MMS 는 `score_mean`·`elapsed_ms` 를 더 담는다) | `script.plan` | VOICE_TIMELINE |
+| `lint_waivers.yaml`(v5.17.0, git 추적) | `script.lint_waivers.LintWaivers`(항목 `LintWaiver`: kind·sid·text_sha1·rule_since·script_approved·reason·decided_by) — `Plan.lint_waived` optional 로 기록 | 사람(결정 기록, D-0168) | SCRIPT_DRAFT |
 | `geo.yaml`, `labels.yaml` | `geo.prep` 설정 모델, 라벨 모델 | 사람 | ASSETS |
 | `assets/{geo.pkl, tiers.pkl, base_*.png, geo_report.json}`, `assets/res_<프로파일>/` | `schemas.engine_models.Tier` | `geo.prep` | ASSETS |
 | `assets/rights_registry.json`, `credits.yaml` | `RightsRegistry`, `engine.credits.Credits` | 사람·`tools/fetch_data` | ASSETS |

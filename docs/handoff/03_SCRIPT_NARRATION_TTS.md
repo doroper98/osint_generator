@@ -66,6 +66,12 @@ origin: claude.ai chat handoff bundle (2026-09-26 ~ 09-27), imported verbatim
 7. **가짜 대구**("말하는 것, 그리고 말하지 않는 것"): 형식만 있는 대비.
 8. **"진짜 이유"류 메타 발언**: 앞 내용의 가치를 스스로 선언.
 
+### 2.0 린트 면제 목록 (v5.17.0, back_and_forth D-0168, DECISIONS D162)
+원고가 승인된 **뒤에** 생긴 문체·흐름 규칙(`rules script_grammar.lint_waivable` = uncertain-phrase·flow-sparse·flow-overuse·tense-present)에
+걸린 승인 원고만 `projects/<pid>/lint_waivers.yaml`(git 추적, 항목마다 kind·sid·text_sha1·rule_since·script_approved·reason·decided_by)로
+면제한다. (kind, sid, 문장 text sha1) **정확 일치**만 통과하고, 낡은 면제(오류가 없거나 원고가 바뀜)는 오류다. AI 상투 문구·출처·수치·발음 규칙은
+면제할 수 없다. `script.plan`·`script.lint`(게이트 ① 화면) 같은 함수(`script/lint_waivers.py`), 게이트 ① 자료에 면제 표, provenance `features.lint.waived`.
+
 ### 2.1 린트 정규식 (v3 `plan3.py` `BANNED`)
 
 ```python
