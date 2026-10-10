@@ -6,6 +6,9 @@
 - 정렬은 `{mp3}.align.json`(script/tts/align 공통 형식, 출처 elevenlabs_timestamps)에 **alignment 만** 저장한다 — audio_base64·요청 헤더·voice_id 는 쓰지 않는다(D-0022, C9).
 
 API 키·voice id 는 환경 변수로만 받는다(C9). 어떤 파일에도 쓰지 않는다.
+
+v5.13.0(D-0153 Q0, 가이드 23 §19 P0): 유료 호출 차단은 `require_allowed()` 한 곳 — plan·`eleven_one`·`tools/tts_align_probe.py` 가
+요청·키 접근·파일 생성 전에 부른다. 키가 있어도 `config tts.elevenlabs_allowed: false` 면 호출하지 않는다(사용자 결정 D127, PIPELINE-AP-020).
 """
 
 from __future__ import annotations
@@ -18,6 +21,17 @@ from orchestrator.config import load_config
 from script.tts import align
 
 API = "https://api.elevenlabs.io/v1/text-to-speech/{voice}/with-timestamps"
+
+
+class ElevenLabsRefused(ValueError):
+    pass
+
+
+def require_allowed() -> None:
+    """유료 TTS(ElevenLabs) 차단 — 허용이 아니면 오류. 다른 백엔드로 자동 전환하지 않는다(P6)."""
+    if not load_config().tts.elevenlabs_allowed:
+        raise ElevenLabsRefused("--tts elevenlabs 거부 — 사용자 결정(2026-10-05): ElevenLabs 음성을 쓰지 않는다"
+                                "(config tts.elevenlabs_allowed: false). 콘티 판·본편 모두 기본 백엔드(config tts.backend_default)")
 
 
 def available() -> bool:
@@ -45,6 +59,7 @@ def request_body(text: str, prev_text: str | None, next_text: str | None) -> dic
 
 
 def eleven_one(text: str, path: Path, prev_text: str | None, next_text: str | None) -> None:
+    require_allowed()   # 요청·키 접근 전(유료 호출 차단, D-0153 Q0)
     import requests  # noqa: PLC0415
 
     r = requests.post(API.format(voice=voice_id()), headers={"xi-api-key": os.environ["ELEVENLABS_API_KEY"]},

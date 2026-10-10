@@ -32,9 +32,8 @@ def load_script(proj: Path) -> Script:
 
 
 def build(proj: Path, tts: str, warnings: list[str] | None = None, edge_voice: str | None = None) -> Plan:
-    if tts == "elevenlabs" and not load_config().tts.elevenlabs_allowed:   # 다른 단계보다 먼저(린트·합성 전에 거부)
-        raise ValueError("--tts elevenlabs 거부 — 사용자 결정(2026-10-05): ElevenLabs 음성을 쓰지 않는다(config tts.elevenlabs_allowed: false). "
-                         "콘티 판·본편 모두 기본 백엔드(config tts.backend_default)")
+    if tts == "elevenlabs":
+        elevenlabs.require_allowed()   # 다른 단계보다 먼저(린트·합성 전에 거부) — 공통 함수(D-0153 Q0)
     script = load_script(proj)
     rep = lint(script, load_claims_for(proj))   # v3.2.0 — 출처는 claims.json 기준(D-0051 작업 8)
     if rep.errors:

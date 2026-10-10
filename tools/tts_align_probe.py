@@ -46,6 +46,11 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("--fixtures", type=Path, default=None)
     args = ap.parse_args(argv)
     proj = args.proj.resolve()
+    try:
+        elevenlabs.require_allowed()   # 키 접근·폴더 생성·과금 전에 차단(v5.13.0 D-0153 Q0, 가이드 23 §19 P0)
+    except elevenlabs.ElevenLabsRefused as e:
+        print(e, file=sys.stderr)
+        return 2
     if not elevenlabs.available():
         print("ELEVENLABS_API_KEY / ELEVENLABS_VOICE_ID 없음", file=sys.stderr)
         return 2
