@@ -29,6 +29,7 @@ v2 레지스트리의 값은 `rights_clear`·`restricted`·`unverified` 세 가�
 | `review_required` | 사람 검토 필요 | ❌ 검토 전 사용 금지 |
 | `manual_user_provided` | 사용자가 직접 업로드, 권리 책임 사용자 | ✅(레지스트리에 기록 후) |
 | `download_failed` · `login_required` · `private_or_deleted` · `do_not_use` | 확보 실패·접근 불가·사용 금지 | ❌ |
+| `restricted` | 이용 조건 제한(변경 금지·비상업 등, 예: 공공누리 제4유형) | ❌ — 단 등록된 **사용자 예외**(`schemas/emblem_models.USER_EXCEPTIONS`, 인물·휘장)가 있으면 ✅, provenance `rights.exceptions` 에 기록(v5.15.0 D-0160, 사용자 결정 D153 — 배포 전 재확인) |
 
 ## 3. X 게시물
 

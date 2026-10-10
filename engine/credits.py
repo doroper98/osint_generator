@@ -261,6 +261,25 @@ def description_credits(rights: dict, required: set[str], rules: Optional[Credit
     return lines
 
 
+def rights_exception(ref: str, entry: dict) -> Optional[str]:
+    """restricted 인물 자산의 등록된 사용자 예외 번호(v5.15.0 D-0160) — 없으면 None. 인물(people.<id>)만, restricted 만."""
+    from schemas.emblem_models import person_exception_ok  # noqa: PLC0415
+
+    kind, _, key = ref.partition(".")
+    ue = entry.get("user_exception")
+    if kind == "people" and entry.get("rights_status") == "restricted" and person_exception_ok(key, ue):
+        return ue
+    return None
+
+
+def rights_exceptions(required: set[str], rights: dict) -> list[dict]:
+    """provenance `rights.exceptions` — 이번 영상이 쓴 restricted·사용자 예외 자산(조용히 통과시키지 않고 보이게, 15 P6)."""
+    view = registry_view(rights, {})
+    return [{"ref": r, "rights_status": view[r].get("rights_status"), "user_exception": view[r].get("user_exception"),
+             "exception": view[r].get("exception"), "license": view[r].get("license")}
+            for r in sorted(required) if r in view and rights_exception(r, view[r]) is not None]
+
+
 def credit_summary(required: set[str], rules: Optional[CreditRules] = None) -> dict[str, dict[str, int]]:
     """provenance `credits`: 표기 위치별 종류 → 개수."""
     rules = rules or load_rules().credits
@@ -315,7 +334,7 @@ def check_credits(cr: Credits, rights: dict, media: dict, required: set[str], ru
             errs.append(f"권리 레지스트리에 없음: {r}")
             continue
         status = view[r].get("rights_status", "rights_clear")
-        if status != "rights_clear":
+        if status != "rights_clear" and rights_exception(r, view[r]) is None:
             errs.append(f"권리 미확인 자산({status}): {r} — <미검증> 라벨 외 사용 금지(C9)")
         if kind in rules.card_kinds and r not in covered:
             errs.append(f"엔딩 크레딧 누락: {r}")

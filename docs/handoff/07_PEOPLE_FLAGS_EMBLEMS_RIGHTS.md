@@ -96,6 +96,7 @@ extmetadata: LicenseShortName, Artist(HTML), Restrictions, Credit
 - **Restrictions 태그**(`personality`, `insignia`, `trademarked`, `communist`)가 있으면 자동 차단 → 사람 판단. (예: 이재명 2021 사진은 KOGL+personality → 제외, 같은 인물의 Public domain 공식 초상 사용)
 - **다운로드 폭은 표준 썸네일 폭(예: 960) 또는 원본**. 비표준 폭(700 등)은 썸네일 생성 요청이 되어 **HTTP 429**가 반복된다(v2에서 실제 발생 — 저장소 RIGHTS.md의 교훈과 동일). 실패 시 원본 URL로 폴백, 6회 재시도, 지수적 대기.
 - 받은 바이트는 `PIL.Image.open(BytesIO).verify()`로 검증(429 HTML이 jpg로 저장되는 사고 방지).
+- **사용자 예외 D153(개인 프로젝트, v5.15.0 D-0160)**: 이재명 초상 = 대통령실 공식 초상(공공누리 제4유형 — 출처표시·비상업·변경 금지). 허용 라이선스 밖이지만 사용자가 조건을 인지하고 정한 예외다(`USER_EXCEPTIONS["U20261010"]`, `rights_status: restricted`, 라이브러리 `lee_jae_myung_mono_v02`). **배포(공개 게시) 전에는 이 예외를 다시 확인한다.**
 
 ### 3.3 이번 세션에서 쓴 인물 원본
 | 인물 | 파일 | 라이선스 | 비고 |

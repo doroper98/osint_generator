@@ -123,7 +123,7 @@ def asset_usage(P) -> dict:  # noqa: ANN001, N803 — engine.project.Project (�
 def project_provenance(P, stages: dict[str, bool]) -> dict:  # noqa: ANN001, N803 — engine.project.Project
     """이 프로젝트의 provenance 한 벌(15 P5). mux(out/)와 preview(prev/)가 같은 함수를 쓴다(D-0041 §2).
     `stages` 는 이번 산출물에 실제로 돈 단계 — 돌지 않은 단계는 false 로 명시한다."""
-    from engine.credits import credit_summary  # noqa: PLC0415
+    from engine.credits import credit_summary, rights_exceptions  # noqa: PLC0415
     from engine.media_plan import density_report  # noqa: PLC0415
     from engine.provenance import ai_direction_summary  # noqa: PLC0415
     from engine.provenance import build as build_prov  # noqa: PLC0415
@@ -141,6 +141,9 @@ def project_provenance(P, stages: dict[str, bool]) -> dict:  # noqa: ANN001, N80
     req = P.R.cache.get("credit_refs") or set()
     prov = build_prov(P.plan, P.keys, P.events, __version__, stages, P.R.tb.word_anchors, asset_usage(P))
     prov["credits"] = credit_summary(req)   # D-0030 §3 — 표기 위치별 종류 개수
+    exc = rights_exceptions(req, P.R.assets.rights)
+    if exc:   # v5.15.0 D-0160 — restricted·사용자 예외 자산을 쓴 영상에만(P5·P6)
+        prov["rights"] = {"exceptions": exc}
     prov["reserved"] = {"avoidance": avoidance_report(P)}   # D-0033 §2 — 카드 영역 때문에 비킨·흐린 뱃지
     mus = sorted(r for r in (P.R.cache.get("credit_refs") or set()) if r.startswith("music."))
     segs = P.R.cache.get("bgm_segments", 1 if mus else 0)

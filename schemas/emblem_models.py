@@ -37,7 +37,15 @@ def license_allowed(lic: str) -> bool:
 USER_EXCEPTIONS: dict[str, frozenset[str]] = {
     "D98": frozenset({"cheongwadae"}),
     "U20261004": frozenset({"nato"}),   # v5.5.0 사용자 직접 지시 2026-10-04 "nato 휘장도 제작해서" — Fable DECISIONS 기록 대기(D119 방식)
+    # v5.15.0 back_and_forth D-0160(사용자 결정 D153, 2026-10-10) — 인물 초상 예외(같은 사전, 키 = 인물 id): 이재명 대통령 공식 초상
+    # (대통령실, 공공누리 제4유형 — 출처표시·비상업·변경 금지). 개인 프로젝트로 조건 인지 후 사용. **배포(공개 게시) 전 재확인**.
+    "U20261010": frozenset({"lee_jae_myung"}),
 }
+
+
+def person_exception_ok(pid: str, user_exception: Optional[str]) -> bool:
+    """인물 권리 항목의 사용자 예외가 USER_EXCEPTIONS 에 등록돼 있는가(D-0160). 예외 없는 restricted 는 False."""
+    return user_exception is not None and pid in USER_EXCEPTIONS.get(user_exception, frozenset())
 
 
 def decide_emblem(restrictions: list[str], license: str, has_file: bool,

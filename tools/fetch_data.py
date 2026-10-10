@@ -63,15 +63,13 @@ GMARKET_URL = "https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/Gmar
 
 # commons_v3.json — prep3 portraits_emblems() 가 정확한 title 로 고른다 (reference rights_registry.json 기준)
 COMMONS_PEOPLE: dict[str, str] = {
-    "lee_jae_myung": "File:Lee Jae Myung portrait.jpg",
     "roh_moo_hyun": "File:Roh Moo-hyun presidential portrait.jpg",
-}
+}   # v5.15.0 D-0160 — 이재명은 라이브러리(대통령실 공식 초상 v02, 사용자 예외 U20261010)로 옮겼다(LIBRARY_PEOPLE)
 COMMONS_EMBLEMS: dict[str, str] = {"centcom": "File:United States Naval Forces Central Command patch 2014.png"}
 # 미리 받기: legacy 코드는 파일이 없을 때만 Commons API 를 다시 부른다(prep3 commons_get, media3 thumb_url —
 # 후자는 재시도 없음). 메타데이터 조회 1회로 legacy 코드가 요청할 것과 **같은 폭**의 파일을 같은 경로에 둔다.
 # key → (폭 또는 None=원본, V3_ROOT 기준 경로). 폭 근거: prep3 commons_get 960/500, media3 thumb 1280/960, round2 1600
 PREFETCH: dict[str, tuple[int | None, str]] = {
-    "lee_jae_myung": (960, "assets/photo_lee_jae_myung.jpg"),
     "roh_moo_hyun": (960, "assets/photo_roh_moo_hyun.jpg"),
     "centcom": (500, "assets/emblems/navcent.png"),
 }
@@ -277,7 +275,7 @@ def cmd_commons(root: Path, dry: bool) -> list[str]:
     return failures
 
 
-LIBRARY_PEOPLE: tuple[str, ...] = ("trump", "khamenei")          # v3 호르무즈 — 라이브러리 가공본
+LIBRARY_PEOPLE: tuple[str, ...] = ("trump", "khamenei", "lee_jae_myung")   # v3 호르무즈 — 라이브러리 가공본(이재명 = v5.15.0 공식 초상 v02, D-0160)
 FLAG_EXTRA: tuple[str, ...] = ("eu",)                            # prep3 flags() extra 중 FLAG_CODES 밖
 
 
@@ -311,11 +309,14 @@ def cmd_people(root: Path, dry: bool) -> list[str]:
     pm = json.loads((REPO / "assets/library/workshop/references/photo_manifest.json").read_text(encoding="utf-8"))["people"]
     for pid in LIBRARY_PEOPLE:
         lib = library_portrait(pid, root / "assets" / "portraits" / f"{pid}.png")
-        record_rights(regp, "people", pid, dict(src="repo_library", license=lib["source"]["license"],
-                                               artist=re.sub("<[^>]+>", "", pm.get(pid, {}).get("artist", "")),
-                                               url=lib["source"]["url"], rights_status="rights_clear",
+        src = lib["source"]   # v5.15.0 D-0160 — 권리 상태·사용자 예외는 라이브러리 기록 그대로(restricted 를 rights_clear 로 덮지 않음)
+        record_rights(regp, "people", pid, dict(src="repo_library", license=src["license"],
+                                               artist=re.sub("<[^>]+>", "", pm.get(pid, {}).get("artist", "")) or src.get("credit", ""),
+                                               url=src["url"], rights_status="restricted" if src.get("user_exception") else "rights_clear",
                                                processing={"tool": "tools/portrait_fallback.py library",
-                                                           "variant": lib["variant"]["path"]}))
+                                                           "variant": lib["variant"]["path"]},
+                                               **({"user_exception": src["user_exception"], "exception": src["exception"]}
+                                                  if src.get("user_exception") else {})))
     cand = json.loads((root / "data" / "commons_v3.json").read_text(encoding="utf-8"))
     for pid, title in COMMONS_PEOPLE.items():
         c = next(x for x in cand[pid] if x["title"] == title)

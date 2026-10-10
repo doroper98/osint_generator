@@ -58,7 +58,8 @@ def pending(proj: Path) -> dict[str, list[str]]:
     return {"people": people, "emblems": emb}
 
 
-def promote(proj: Path) -> dict[str, list[str]]:
+def promote(proj: Path, version: int = 1) -> dict[str, list[str]]:
+    """version = 초상 변형 번호(v5.15.0 D-0160 — 같은 인물의 다른 사진이면 2 이상, 파일 `<pid>_mono_vNN.png`)."""
     from schemas.models import AssetLibraryManifest  # noqa: PLC0415
 
     todo = pending(proj)
@@ -70,14 +71,15 @@ def promote(proj: Path) -> dict[str, list[str]]:
         if not r or r.get("src") == "repo_library" or not r.get("url"):
             done["skipped"].append(f"people.{pid}: 권리 기록(출처 URL) 없음 — 승격 안 함")
             continue
-        dest = PEOPLE_DIR / f"{pid}_mono_v01.png"
+        dest = PEOPLE_DIR / f"{pid}_mono_v{version:02d}.png"
         shutil.copyfile(proj / "assets" / "portraits" / f"{pid}.png", dest)
         name_ko, role = _entity_names(pid)
         proc = r.get("processing") or {}
         lib["people"].append({
             "person_id": pid, "name_ko": name_ko, "name_en": "", "role": role, "aliases": [], "accent_hint": "",
             "source": {"url": r["url"], "license": r["license"], "rights_status": r.get("rights_status") or "rights_clear",
-                       "credit": r.get("artist", ""), "note": f"{proj.name} 에서 승격(v5.6.0) · 원본 {proc.get('source_file', '')}"},
+                       "credit": r.get("artist", ""), "note": f"{proj.name} 에서 승격(v5.6.0) · 원본 {proc.get('source_file', '')}",
+                       **({"user_exception": r["user_exception"], "exception": r.get("exception", "")} if r.get("user_exception") else {})},
             "variants": [{"style": "mono", "pose": "front", "path": (dest.relative_to(REPO) if dest.is_relative_to(REPO) else dest).as_posix(), "generator_version": "",
                           "tool": f"{proc.get('tool', 'tools/portrait_fallback.py')} --style {proc.get('style', 'engraving')}",
                           "prompt_ref": ""}],
@@ -97,13 +99,14 @@ def main(argv: list[str] | None = None) -> int:
     ap = argparse.ArgumentParser(description=__doc__.split("\n")[0])
     ap.add_argument("cmd", choices=("promote", "check"))
     ap.add_argument("proj", type=Path)
+    ap.add_argument("--version", type=int, default=1, help="초상 변형 번호(같은 인물의 다른 사진이면 2 이상, v5.15.0 D-0160)")
     a = ap.parse_args(argv)
     proj = a.proj.resolve()
     if a.cmd == "check":
         p = pending(proj)
         print(json.dumps(p, ensure_ascii=False))
         return 1 if p["people"] or p["emblems"] else 0
-    print(json.dumps(promote(proj), ensure_ascii=False))
+    print(json.dumps(promote(proj, a.version), ensure_ascii=False))
     return 0
 
 

@@ -755,6 +755,60 @@
     }
    ],
    "usage_count": 0
+  },
+  {
+   "person_id": "lee_jae_myung",
+   "name_ko": "이재명",
+   "name_en": "",
+   "role": "대한민국 대통령",
+   "aliases": [],
+   "accent_hint": "",
+   "source": {
+    "url": "https://www.president.go.kr/greeting",
+    "license": "공공누리 제4유형(출처표시·비상업적 이용·변경 금지)",
+    "rights_status": "restricted",
+    "credit": "대통령실",
+    "note": "hormuz_korea 에서 승격(v5.15.0 D-0160) · 원본 president.go.kr profile_img.png(Last-Modified 2026-04-17, sha256·처리 이력 = 프로젝트 rights_registry processing) · 옛 v01(백악관 PD, Commons) 은 프로젝트 portraits_archive",
+    "user_exception": "U20261010",
+    "exception": "사용자 결정 D153(2026-10-10) — 개인 프로젝트, 공공누리 제4유형(변경 금지·비상업) 조건 인지 후 사용. 흑백·배경 제거·자르기 가공 포함. 배포(공개 게시) 전 재확인"
+   },
+   "variants": [
+    {
+     "style": "mono",
+     "pose": "front",
+     "path": "assets/library/people/lee_jae_myung_mono_v02.png",
+     "generator_version": "",
+     "tool": "tools/portrait_fallback.py --style v3",
+     "prompt_ref": ""
+    }
+   ],
+   "usage_count": 0
+  },
+  {
+   "person_id": "roh_moo_hyun",
+   "name_ko": "노무현",
+   "name_en": "",
+   "role": "대한민국 제16대 대통령",
+   "aliases": [],
+   "accent_hint": "",
+   "source": {
+    "url": "https://commons.wikimedia.org/wiki/File:Roh_Moo-hyun_presidential_portrait.jpg",
+    "license": "KOGL Type 1",
+    "rights_status": "rights_clear",
+    "credit": "대한민국 국가기록원",
+    "note": "hormuz_korea 에서 승격(v5.6.0) · 원본 photo_roh_moo_hyun.jpg"
+   },
+   "variants": [
+    {
+     "style": "mono",
+     "pose": "front",
+     "path": "assets/library/people/roh_moo_hyun_mono_v01.png",
+     "generator_version": "",
+     "tool": "tools/portrait_fallback.py --style v3",
+     "prompt_ref": ""
+    }
+   ],
+   "usage_count": 0
   }
  ],
  "logos": [],

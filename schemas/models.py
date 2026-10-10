@@ -108,6 +108,7 @@ class RightsStatus(str, Enum):
     LOGIN_REQUIRED = "login_required"
     PRIVATE_OR_DELETED = "private_or_deleted"
     DO_NOT_USE = "do_not_use"
+    RESTRICTED = "restricted"               # v5.15.0 D-0160 — 이용 조건 제한(변경 금지·비상업 등). 사용자 예외(user_exception)가 있을 때만 렌더
 
 
 class IntakeMode(str, Enum):
@@ -803,6 +804,8 @@ class AssetSourceRef(BaseModel):
     rights_status: RightsStatus = RightsStatus.RIGHTS_UNKNOWN
     credit: str = ""                        # 출처표시 의무 문구 (있는 경우 필수 표기)
     note: str = ""                          # nominative_use / self_made 등 메모
+    user_exception: Optional[str] = None    # v5.15.0 D-0160 — 사용자 예외 번호(schemas.emblem_models.USER_EXCEPTIONS)
+    exception: str = ""                     # 예외 사유·조건 문구
 
 
 class LibraryAssetVariant(BaseModel):

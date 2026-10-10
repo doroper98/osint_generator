@@ -13,11 +13,11 @@
  "cuts": [
   {
    "png": "p_0007.82.png",
-   "md5": "9ff1be5f39b8efb739c8f622616306b6"
+   "md5": "0b71e83e6232c3c628acf0c0d3402db5"
   },
   {
    "png": "p_0022.27.png",
-   "md5": "fe5240eafefba2d3e6be89568a486f61"
+   "md5": "2eb4c0e0d441b80bab2d31ee90d868d6"
   },
   {
    "png": "p_0028.77.png",
@@ -97,7 +97,7 @@
   },
   {
    "png": "p_0245.56.png",
-   "md5": "e35ee2bdae6a348e5b4f69c4abffb8ca"
+   "md5": "59f563f36e4d74d653340ccd1afc1c80"
   },
   {
    "png": "p_0258.61.png",
@@ -110,12 +110,12 @@
   {
    "png": "p_0288.44.png",
    "mask": true,
-   "md5_masked": "4e62e94886b84ad6d86f3b9ce50e64ff"
+   "md5_masked": "9c6cd9aac95db9545b5e8e1a8613ba2e"
   }
  ],
  "cut_detail": {
   "p_0007.82.png": {
-   "changed_px": 9277,
+   "changed_px": 9425,
    "bbox": [
     60,
     33,
@@ -123,10 +123,10 @@
     141
    ],
    "md5_old": "160bc254590c7faea19be3247a168a21",
-   "md5": "9ff1be5f39b8efb739c8f622616306b6"
+   "md5": "0b71e83e6232c3c628acf0c0d3402db5"
   },
   "p_0022.27.png": {
-   "changed_px": 8778,
+   "changed_px": 9223,
    "bbox": [
     57,
     31,
@@ -134,7 +134,7 @@
     140
    ],
    "md5_old": "8c848119b871a74dd04e88ab6e5ebb9e",
-   "md5": "fe5240eafefba2d3e6be89568a486f61"
+   "md5": "2eb4c0e0d441b80bab2d31ee90d868d6"
   },
   "p_0056.21.png": {
    "changed_px": 9385,
@@ -192,7 +192,7 @@
    "md5": "e9f2092640e31859404c78e778645a3b"
   },
   "p_0245.56.png": {
-   "changed_px": 9267,
+   "changed_px": 9380,
    "bbox": [
     65,
     77,
@@ -200,7 +200,18 @@
     185
    ],
    "md5_old": "b76a739165f99fea4cc22f2e36edd526",
-   "md5": "e35ee2bdae6a348e5b4f69c4abffb8ca"
+   "md5": "59f563f36e4d74d653340ccd1afc1c80"
+  },
+  "p_0288.44.png": {
+   "changed_px": 759,
+   "bbox": [
+    64,
+    258,
+    223,
+    266
+   ],
+   "md5_old": "4e62e94886b84ad6d86f3b9ce50e64ff",
+   "md5": "9c6cd9aac95db9545b5e8e1a8613ba2e"
   }
  },
  "changed_vs_g17": [
@@ -211,7 +222,8 @@
   "p_0087.06.png",
   "p_0193.22.png",
   "p_0207.41.png",
-  "p_0245.56.png"
+  "p_0245.56.png",
+  "p_0288.44.png"
  ],
- "same_as_g17": 17
+ "same_as_g17": 16
 }

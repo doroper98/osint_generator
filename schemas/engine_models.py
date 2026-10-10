@@ -55,6 +55,15 @@ class PersonRights(_Strict):
     rights_status: Optional[RightsStatus] = None  # v2.4.0 — commons_fetch·portrait_fallback 이 기록
     retrieved_at: Optional[str] = None
     processing: Optional[dict[str, object]] = None  # 가공 도구·파라미터·원본(C9, G4-10)
+    # v5.15.0 D-0160 — 사용자 예외(schemas.emblem_models.USER_EXCEPTIONS). restricted 자산은 예외가 있어야 렌더된다(engine.credits)
+    user_exception: Optional[str] = Field(default=None, pattern=r"^(D\d+|U\d{8})$")
+    exception: Optional[str] = None                 # 예외 사유·조건 문구(예외가 있으면 필수)
+
+    @model_validator(mode="after")
+    def _exception_text(self) -> "PersonRights":
+        if self.user_exception is not None and not self.exception:
+            raise ValueError(f"user_exception={self.user_exception} 에 exception(사유·조건) 없음")
+        return self
 
 
 class EmblemRights(_Strict):
@@ -91,6 +100,16 @@ class RightsRegistry(_Strict):
     fonts: dict[str, AssetRights] = Field(default_factory=dict)
     map: dict[str, AssetRights] = Field(default_factory=dict)
     narration: dict[str, AssetRights] = Field(default_factory=dict)
+
+    @model_validator(mode="after")
+    def _person_exceptions(self) -> "RightsRegistry":
+        from schemas.emblem_models import person_exception_ok  # noqa: PLC0415
+
+        bad = [f"{k}:{e.user_exception}" for k, e in self.people.items()
+               if e.user_exception is not None and not person_exception_ok(k, e.user_exception)]
+        if bad:
+            raise ValueError(f"사용자 예외 목록(USER_EXCEPTIONS)에 없는 인물 예외: {bad}")
+        return self
 
 
 class StageResult(_Strict):

@@ -20,7 +20,8 @@ sections:
     column: 0
     items:
       - main: 이재명
-        license_ref: lee_jae_myung
+        license: 대통령 공식 초상 · 대통령실 · 공공누리 제4유형   # v5.15.0 D-0160 — 사용자 예외 U20261010(D153), 배포 전 재확인. 이름은 직함 없이(D-0106 2-B)
+        rights: [people.lee_jae_myung]
       - main: 노무현
         license_ref: roh_moo_hyun
         license_suffix: " · 공공누리 제1유형"

@@ -192,7 +192,7 @@ last_review: 2026-09-29
 | 모델 | 산출물 | 상태 |
 |---|---|---|
 | `BundleSectionVideo` / `BundleReportVideo` / `BundleTimelineVideo` | (수신) report_bundle `video` 블록 | 유지 — 번들 모델(§3.4g) |
-| `AssetSourceRef`, `LibraryAssetVariant`, `LibraryPerson`, `LibraryLogo`, `LibraryFlag`, `AssetLibraryManifest` | `assets/library/library_manifest.json` | 유지 — 인물·CI·국기 라이브러리 인덱스 + 권리(C9). 엔티티 레지스트리의 1차 소스(§7) |
+| `AssetSourceRef`, `LibraryAssetVariant`, `LibraryPerson`, `LibraryLogo`, `LibraryFlag`, `AssetLibraryManifest` | `assets/library/library_manifest.json` | 유지 — 인물·CI·국기 라이브러리 인덱스 + 권리(C9). 엔티티 레지스트리의 1차 소스(§7). v5.15.0: `AssetSourceRef.user_exception`·`exception`(선택), `RightsStatus.restricted`(D-0160) |
 | `SafeArea`, `DesignSheet` | (쇼츠 디자인 시트) | v2.0.0 삭제(쇼츠 트랙 보관, G5) |
 
 ## 7. v2.4.0 추가 계약 (Phase 5 — 뱃지·엔티티·권리, back_and_forth D-0029)
@@ -203,7 +203,7 @@ last_review: 2026-09-29
 |---|---|---|
 | `assets/entities.yaml` | `schemas/entity_models.py` `EntitiesFile`·`Entity` | 인물·기관·국가. 라이브러리 24인(`library_manifest.json`) 자동 조인. 별칭 중복·미등재 참조 = `RegistryError`(15 P10) |
 | `assets/emblems/registry.json` | `schemas/emblem_models.py` `EmblemRegistry`·`EmblemEntry` | `decision ∈ {use, flag_fallback}` 은 코드 규칙(`decide_emblem`)과 같아야 로드된다. Restrictions 하나라도 → `flag_fallback`(D5) |
-| 프로젝트 `assets/rights_registry.json` | `schemas/engine_models.py` `RightsRegistry` | people·emblems + (선택) flags·music·fonts·map·narration(`AssetRights`). `rights_status`·`retrieved_at`·`processing` 선택 필드 추가(C3 호환) |
+| 프로젝트 `assets/rights_registry.json` | `schemas/engine_models.py` `RightsRegistry` | people·emblems + (선택) flags·music·fonts·map·narration(`AssetRights`). `rights_status`·`retrieved_at`·`processing` 선택 필드 추가(C3 호환). v5.15.0: `PersonRights.user_exception`·`exception`(선택, 사용자 예외 — D-0160), `RightsStatus` 에 `restricted` |
 | `assets/rights_bundles.yaml` | `AssetRights` | 묶음 자산 권리 원본. `fetch_data people` 이 프로젝트 레지스트리에 병합 |
 | 프로젝트 `credits.yaml` | `engine/credits.py` `Credits` | 항목 `rights: [절.키]`, 절 `auto: <절>`. 렌더가 쓰는 자산이 레지스트리에 없거나·미확인이거나·크레딧에 없으면 `RightsError` |
 | provenance `assets` | `engine/mux.py asset_usage` | `images_used`, `emblems.{used, flag_fallback}`, `badges.{suggested, used, suggested_and_used}` |

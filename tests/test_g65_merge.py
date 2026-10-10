@@ -88,6 +88,8 @@ class AutoPeopleNamesTest(unittest.TestCase):
         names = person_names()
         cred = yaml.safe_load((REPO / "projects" / "hormuz_korea" / "credits.yaml").read_text(encoding="utf-8"))
         rows = {i["license_ref"]: i["main"] for sec in cred["sections"] for i in sec.get("items", []) if "license_ref" in i}
+        rows.update({i["rights"][0].split(".", 1)[1]: i["main"] for sec in cred["sections"] for i in sec.get("items", [])
+                     if len(i.get("rights", [])) == 1 and i["rights"][0].startswith("people.")})   # v5.15.0 — 문구를 직접 적은 인물 행(D-0160)
         for pid in ("lee_jae_myung", "roh_moo_hyun"):   # hormuz 수동 행(한 줄 한 인물)과 auto 표기가 같다
             self.assertEqual(names[f"people.{pid}"], rows[pid])
 

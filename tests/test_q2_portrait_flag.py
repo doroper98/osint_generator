@@ -15,6 +15,7 @@ from pathlib import Path
 import cairo
 import numpy as np
 from PIL import Image
+from pydantic import ValidationError
 
 from engine.assets import Assets, Labels
 from engine.context import RenderCtx
@@ -181,8 +182,13 @@ class FitTest(unittest.TestCase):
                 widths[(pid, Rr)] = w
                 self.assertTrue(PT.min_width <= w <= PT.width, (pid, Rr, w))
                 self.assertTrue(_head_fits(mask, portrait_alpha_top(R, key), w, Rr), (pid, Rr))
-        self.assertLess(widths[("lee_jae_myung", 56)], PT.width)       # 사용자 지적 컷 — 줄어든다
         self.assertEqual(widths[("trump", 56)], PT.width)               # 들어가는 초상은 그대로
+        old = self.HORMUZ / "assets" / "portraits_archive" / "lee_jae_myung_v01_whitehouse.png"   # 사용자 지적(D152) 당시 사진 — 줄어든다
+        if old.exists():
+            with tempfile.TemporaryDirectory() as d:
+                (Path(d) / "assets" / "portraits").mkdir(parents=True)
+                Image.open(old).save(Path(d) / "assets" / "portraits" / "p.png")
+                self.assertLess(portrait_fit(_ctx(Path(d)), "portrait:p", 56), PT.width)
 
     def test_too_wide_head_shrinks_or_errors(self) -> None:
         """머리가 넓은 합성 초상은 폭이 줄고(정수리 자리 그대로), min_width 로도 안 들면 PortraitFitError(조용한 잘림 없음)."""
@@ -231,6 +237,54 @@ class TokensTest(unittest.TestCase):
         self.assertNotIn("set_line_width(1.5)", src)
         self.assertEqual(src.count("RING.outer_w"), 1)
         self.assertIs(badges.FW, BADGE.flag_wave)
+
+
+class RightsExceptionTest(unittest.TestCase):
+    """D-0160(사용자 결정 D153) — 인물 사용자 예외: 등록된 예외만 restricted 를 넘고, 보이게 기록된다(P6)."""
+
+    ENTRY = dict(src="president_go_kr", license="공공누리 제4유형", artist="대통령실", url="https://www.president.go.kr/greeting",
+                 rights_status="restricted", user_exception="U20261010", exception="사용자 결정 D153")
+
+    def test_registry_accepts_only_listed_exception(self) -> None:
+        from schemas.engine_models import RightsRegistry  # noqa: PLC0415
+
+        RightsRegistry.model_validate({"people": {"lee_jae_myung": self.ENTRY}})
+        with self.assertRaises(ValidationError):
+            RightsRegistry.model_validate({"people": {"trump": self.ENTRY}})            # 예외 목록 밖 인물
+        with self.assertRaises(ValidationError):
+            RightsRegistry.model_validate({"people": {"lee_jae_myung": {**self.ENTRY, "exception": None}}})   # 사유 없음
+
+    def test_credit_check_and_provenance(self) -> None:
+        """restricted + 등록 예외 = 통과·provenance 에 1건, 예외 없는 restricted = RightsError(조용히 통과 금지)."""
+        from engine.credits import RightsError, rights_exception, rights_exceptions  # noqa: PLC0415
+
+        self.assertEqual(rights_exception("people.lee_jae_myung", self.ENTRY), "U20261010")
+        self.assertIsNone(rights_exception("people.lee_jae_myung", {**self.ENTRY, "user_exception": None}))
+        self.assertIsNone(rights_exception("people.trump", self.ENTRY))
+        exc = rights_exceptions({"people.lee_jae_myung", "people.trump"},
+                                {"people": {"lee_jae_myung": self.ENTRY, "trump": {"rights_status": "rights_clear"}}})
+        self.assertEqual([(e["ref"], e["rights_status"], e["user_exception"]) for e in exc],
+                         [("people.lee_jae_myung", "restricted", "U20261010")])
+        self.assertTrue(issubclass(RightsError, Exception))
+
+    def test_library_v02_and_fetch_keep_restricted(self) -> None:
+        """라이브러리 이재명 = v02 공식 초상(restricted·예외 기록·파일 있음), fetch_data 는 라이브러리에서 받고 restricted 를 덮지 않는다."""
+        import json  # noqa: PLC0415
+
+        import tools.fetch_data as fd  # noqa: PLC0415
+        from schemas.models import AssetLibraryManifest  # noqa: PLC0415
+
+        lib = json.loads((REPO / "assets" / "library" / "library_manifest.json").read_text(encoding="utf-8"))
+        AssetLibraryManifest.model_validate(lib)
+        lee = next(p for p in lib["people"] if p["person_id"] == "lee_jae_myung")
+        self.assertEqual(lee["source"]["rights_status"], "restricted")
+        self.assertEqual(lee["source"]["user_exception"], "U20261010")
+        self.assertTrue(lee["variants"][0]["path"].endswith("lee_jae_myung_mono_v02.png"))
+        self.assertTrue((REPO / lee["variants"][0]["path"]).exists())
+        self.assertIn("lee_jae_myung", fd.LIBRARY_PEOPLE)
+        self.assertNotIn("lee_jae_myung", fd.COMMONS_PEOPLE)
+        src = (REPO / "tools" / "fetch_data.py").read_text(encoding="utf-8")
+        self.assertIn('rights_status="restricted" if src.get("user_exception")', src)
 
 
 if __name__ == "__main__":
