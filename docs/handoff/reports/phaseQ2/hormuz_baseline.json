@@ -1,0 +1,217 @@
+{
+ "schema_version": 1,
+ "role": "Phase Q2(v5.15.0) 기준선 — 사용자 결정 D148(가이드 23 §10): 인물 뱃지 V2(초상 2.04R·정수리 0.83R·얼굴 분리 그림자, 링 2.4/0.8)·국기 물결(띠 수 장치 폭 기반 14~96·진폭 0.018·정수 열). phaseG17 대비 바뀐 컷만 cut_detail. 25_END 도장 가린 md5",
+ "command": "python -m engine.render projects/hormuz_korea --preview golden",
+ "stamp_box": [
+  797.0,
+  462.2,
+  842.0,
+  471.95
+ ],
+ "stamp_box_basis": "v99.99.99 — 오른쪽 끝 고정(W − x_from_right), 폭 = adv('v99.99.99') 45px; v5.10.0 에서 두 자리 MINOR 로 넓힘(D-0148)",
+ "mask_pad_px": 2,
+ "cuts": [
+  {
+   "png": "p_0007.82.png",
+   "md5": "7571143f4a8899539bc98c67d82504d2"
+  },
+  {
+   "png": "p_0022.27.png",
+   "md5": "5ae05b82d67378ac4c4a2f3dae80aac2"
+  },
+  {
+   "png": "p_0028.77.png",
+   "md5": "e43b1075d6e0b5788d397858e9af9df4"
+  },
+  {
+   "png": "p_0038.45.png",
+   "md5": "f47e589a1ac6aa3e1cf70f34a3fb075c"
+  },
+  {
+   "png": "p_0045.03.png",
+   "md5": "dae86a6e201f8ed9d118d82790dd0af4"
+  },
+  {
+   "png": "p_0056.21.png",
+   "md5": "a1ef7f37bc89b27a5a9a775db2dfb442"
+  },
+  {
+   "png": "p_0061.25.png",
+   "md5": "1272f25f905d92d94c6771ed89707306"
+  },
+  {
+   "png": "p_0065.13.png",
+   "md5": "9882493e07e54fb5c7e4b816130716aa"
+  },
+  {
+   "png": "p_0080.70.png",
+   "md5": "e3aa94c191eb88274f18801a81efa9c9"
+  },
+  {
+   "png": "p_0087.06.png",
+   "md5": "d08ced1a09812fc0ef527b4610c5fcc0"
+  },
+  {
+   "png": "p_0105.28.png",
+   "md5": "99484bf8652887f65e8ed17085a1ad4a"
+  },
+  {
+   "png": "p_0124.25.png",
+   "md5": "87c6f3b26fcd5368a3af8f0d72ffd2a1"
+  },
+  {
+   "png": "p_0136.97.png",
+   "md5": "95eb4232cfd1c7cd29ce17837769d8c1"
+  },
+  {
+   "png": "p_0157.38.png",
+   "md5": "b1a59521a49cddf50997ed1830896bfd"
+  },
+  {
+   "png": "p_0164.59.png",
+   "md5": "add8fc255af69fb77e36c20d68cac844"
+  },
+  {
+   "png": "p_0170.52.png",
+   "md5": "247fd0c29e610c04cc1a0a25ef51ae79"
+  },
+  {
+   "png": "p_0193.22.png",
+   "md5": "b53563efd6936a1c0563279ef94bd108"
+  },
+  {
+   "png": "p_0207.41.png",
+   "md5": "5562f1d569efe3ecaac72b56da7e59ec"
+  },
+  {
+   "png": "p_0214.46.png",
+   "md5": "9d13ee6604a08d90c5ee7184fbd7e46e"
+  },
+  {
+   "png": "p_0220.96.png",
+   "md5": "a992d6d4d7f130e697ebec19e1e7e2ba"
+  },
+  {
+   "png": "p_0238.00.png",
+   "md5": "e7a2862ccd0927df321a6ecc6ad4a329"
+  },
+  {
+   "png": "p_0245.56.png",
+   "md5": "bed43d224b7e08a18c7bc241f81ebaa0"
+  },
+  {
+   "png": "p_0258.61.png",
+   "md5": "2df287c4d68935a096629ebecf61eecb"
+  },
+  {
+   "png": "p_0276.44.png",
+   "md5": "24a4dc9e0cb90ca63a8674f4a8e3e553"
+  },
+  {
+   "png": "p_0288.44.png",
+   "mask": true,
+   "md5_masked": "4e62e94886b84ad6d86f3b9ce50e64ff"
+  }
+ ],
+ "cut_detail": {
+  "p_0007.82.png": {
+   "changed_px": 10807,
+   "bbox": [
+    56,
+    29,
+    173,
+    145
+   ],
+   "md5_old": "160bc254590c7faea19be3247a168a21",
+   "md5": "7571143f4a8899539bc98c67d82504d2"
+  },
+  "p_0022.27.png": {
+   "changed_px": 10387,
+   "bbox": [
+    53,
+    27,
+    169,
+    144
+   ],
+   "md5_old": "8c848119b871a74dd04e88ab6e5ebb9e",
+   "md5": "5ae05b82d67378ac4c4a2f3dae80aac2"
+  },
+  "p_0056.21.png": {
+   "changed_px": 10870,
+   "bbox": [
+    541,
+    16,
+    658,
+    133
+   ],
+   "md5_old": "2250efba35b2fee5761ab9de4e1faf1e",
+   "md5": "a1ef7f37bc89b27a5a9a775db2dfb442"
+  },
+  "p_0080.70.png": {
+   "changed_px": 4730,
+   "bbox": [
+    196,
+    223,
+    273,
+    300
+   ],
+   "md5_old": "a91283b6135eb2df27f02ae2da754861",
+   "md5": "e3aa94c191eb88274f18801a81efa9c9"
+  },
+  "p_0087.06.png": {
+   "changed_px": 4737,
+   "bbox": [
+    196,
+    223,
+    273,
+    300
+   ],
+   "md5_old": "3537d7fcff4c01851f0c167d9e2037d1",
+   "md5": "d08ced1a09812fc0ef527b4610c5fcc0"
+  },
+  "p_0193.22.png": {
+   "changed_px": 2260,
+   "bbox": [
+    167,
+    295,
+    220,
+    348
+   ],
+   "md5_old": "d4364ebe5f294eaa3098bc438fa80862",
+   "md5": "b53563efd6936a1c0563279ef94bd108"
+  },
+  "p_0207.41.png": {
+   "changed_px": 2261,
+   "bbox": [
+    167,
+    295,
+    220,
+    348
+   ],
+   "md5_old": "d233cc113f5dbb51e0d0e0ef0a66ff52",
+   "md5": "5562f1d569efe3ecaac72b56da7e59ec"
+  },
+  "p_0245.56.png": {
+   "changed_px": 10778,
+   "bbox": [
+    61,
+    72,
+    177,
+    189
+   ],
+   "md5_old": "b76a739165f99fea4cc22f2e36edd526",
+   "md5": "bed43d224b7e08a18c7bc241f81ebaa0"
+  }
+ },
+ "changed_vs_g17": [
+  "p_0007.82.png",
+  "p_0022.27.png",
+  "p_0056.21.png",
+  "p_0080.70.png",
+  "p_0087.06.png",
+  "p_0193.22.png",
+  "p_0207.41.png",
+  "p_0245.56.png"
+ ],
+ "same_as_g17": 17
+}

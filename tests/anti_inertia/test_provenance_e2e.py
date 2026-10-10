@@ -99,7 +99,8 @@ class ProvenanceE2ETest(unittest.TestCase):
         # v5.4.0 G15 — 국경선 글로우 정규 승격(사용자 결정 2026-10-02)으로 25컷 전부 바뀐 phaseG15 기준선. 글로우 끄면 = phaseG12(기록)
         # v5.5.0 G16 — 인물 뱃지 정수리 원 안·이동 경로 고정점(사용자 지적 2026-10-02)으로 9컷 바뀐 phaseG16 기준선
         # v5.6.0 G17 — 뱃지 고정(badge_hold)·가운데 라벨 클램프로 2컷 바뀐 phaseG17 기준선(expected_deltas g17_badge_hold_label_clamp)
-        base = json.loads((REPO / "docs" / "handoff" / "reports" / "phaseG17" / "hormuz_baseline.json").read_text(encoding="utf-8"))
+        # v5.15.0 Q2 — 인물 뱃지 V2·국기 물결(사용자 결정 D148, 가이드 23 §10)로 8컷 바뀐 phaseQ2 기준선(expected_deltas q2_portrait_flag_d148)
+        base = json.loads((REPO / "docs" / "handoff" / "reports" / "phaseQ2" / "hormuz_baseline.json").read_text(encoding="utf-8"))
         self.assertEqual(prov.get("border_glow"), {"status": "adopted", "on": True})
         want = {c["png"]: c.get("md5_masked") or c["md5"] for c in base["cuts"]}
         masked = {c["png"] for c in base["cuts"] if c.get("mask")}

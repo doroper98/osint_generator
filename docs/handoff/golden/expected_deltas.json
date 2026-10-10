@@ -1585,6 +1585,120 @@
      "md5": "247fd0c29e610c04cc1a0a25ef51ae79"
     }
    }
+  },
+  "q2_portrait_flag_d148": {
+   "reason": "v5.15.0 사용자 결정 D148(2026-10-10, 가이드 23 §10 인물 뱃지 적용, back_and_forth D-0153 §5·D-0158): 인물 초상 폭 1.72R → 2.04R·정수리(알파 > 20 맨 윗줄)를 중심 위 0.83R 에(옛 head_inside_max 내림 대체)·얼굴 분리 그림자 0.16, 인물 링 바깥 어두운 2.4/안쪽 accent 0.8, 인물 뒤 국기 물결 중심 (0.16R, −0.05R)·띠 수 장치 폭 기반(14~96)·진폭 0.018·정수 열(옛 14띠 +1px 겹침의 빈 줄 사라짐). 국기·휘장 뱃지는 그대로. 전/후·차이 = docs/handoff/reports/phaseQ2/golden_delta/",
+   "decision": "사용자 결정 D148(2026-10-10)",
+   "old_rules": {
+    "초상": "폭 1.72R, 정수리 > head_inside_max 0.9 면 내림",
+    "국기 물결": "중심 (0.25R, −0.05R), 14띠(+1px 겹침), 위상 t·2.6 + i·0.5, 진폭 0.032",
+    "인물 링": "어두운 3.2 + accent 1.5(같은 원)"
+   },
+   "new_rules": {
+    "초상": "badge.portrait {width 2.04, alpha_top 0.83, alpha_thr 20, shadow 0.16·0.8px}",
+    "국기 물결": "badge.flag_wave {cx 0.16, cy −0.05, width 2.3, 띠 clamp(ceil(장치 폭), 14, 96), 위상 t·2.6 + (i/n)·7, 진폭 0.018}",
+    "인물 링": "badge.ring {outer 2.4 바깥, inner 0.8 안쪽}"
+   },
+   "cuts": [
+    "p_0007.82.png",
+    "p_0022.27.png",
+    "p_0056.21.png",
+    "p_0080.70.png",
+    "p_0087.06.png",
+    "p_0193.22.png",
+    "p_0207.41.png",
+    "p_0245.56.png"
+   ],
+   "cut_detail": {
+    "p_0007.82.png": {
+     "changed_px": 10807,
+     "bbox": [
+      56,
+      29,
+      173,
+      145
+     ],
+     "md5_old": "160bc254590c7faea19be3247a168a21",
+     "md5": "7571143f4a8899539bc98c67d82504d2"
+    },
+    "p_0022.27.png": {
+     "changed_px": 10387,
+     "bbox": [
+      53,
+      27,
+      169,
+      144
+     ],
+     "md5_old": "8c848119b871a74dd04e88ab6e5ebb9e",
+     "md5": "5ae05b82d67378ac4c4a2f3dae80aac2"
+    },
+    "p_0056.21.png": {
+     "changed_px": 10870,
+     "bbox": [
+      541,
+      16,
+      658,
+      133
+     ],
+     "md5_old": "2250efba35b2fee5761ab9de4e1faf1e",
+     "md5": "a1ef7f37bc89b27a5a9a775db2dfb442"
+    },
+    "p_0080.70.png": {
+     "changed_px": 4730,
+     "bbox": [
+      196,
+      223,
+      273,
+      300
+     ],
+     "md5_old": "a91283b6135eb2df27f02ae2da754861",
+     "md5": "e3aa94c191eb88274f18801a81efa9c9"
+    },
+    "p_0087.06.png": {
+     "changed_px": 4737,
+     "bbox": [
+      196,
+      223,
+      273,
+      300
+     ],
+     "md5_old": "3537d7fcff4c01851f0c167d9e2037d1",
+     "md5": "d08ced1a09812fc0ef527b4610c5fcc0"
+    },
+    "p_0193.22.png": {
+     "changed_px": 2260,
+     "bbox": [
+      167,
+      295,
+      220,
+      348
+     ],
+     "md5_old": "d4364ebe5f294eaa3098bc438fa80862",
+     "md5": "b53563efd6936a1c0563279ef94bd108"
+    },
+    "p_0207.41.png": {
+     "changed_px": 2261,
+     "bbox": [
+      167,
+      295,
+      220,
+      348
+     ],
+     "md5_old": "d233cc113f5dbb51e0d0e0ef0a66ff52",
+     "md5": "5562f1d569efe3ecaac72b56da7e59ec"
+    },
+    "p_0245.56.png": {
+     "changed_px": 10778,
+     "bbox": [
+      61,
+      72,
+      177,
+      189
+     ],
+     "md5_old": "b76a739165f99fea4cc22f2e36edd526",
+     "md5": "bed43d224b7e08a18c7bc241f81ebaa0"
+    }
+   }
   }
  }
 }
