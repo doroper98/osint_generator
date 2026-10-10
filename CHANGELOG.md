@@ -1,6 +1,6 @@
 <!--
 tier: 3
-last_synced_with: v5.13.0
+last_synced_with: v5.14.0
 ssot_for: [release-notes]
 depends_on: [README.md, GOAL.md]
 last_review: 2026-09-28
@@ -66,7 +66,20 @@ released 항목은 **append-only**입니다.
 
 ---
 
-## [v5.13.0] — 2026-10-10 — 품질 트랙 Q0: 기록·충돌 판정·지도 밝은 테마 시제품·유료 TTS 호출 차단 (back_and_forth D-0153) — 진행 중
+## [v5.14.0] — 2026-10-10 — 품질 트랙 Q1: cascade V2(일정한 오른쪽 아래 slot·온전한 frame 가림·cascade.surface) (back_and_forth D-0153 §4·D-0157) — 진행 중
+
+MINOR: Phase 완료 단위. 사용자 결정 D148(cascade V2 적용). JSON `schema_version` 그대로(1).
+
+---
+
+## [v5.13.0] — 2026-10-10 — 품질 트랙 Q0: 기록·충돌 판정·지도 밝은 테마 시제품·유료 TTS 호출 차단 (back_and_forth D-0153) — Q0 phase_report(R-0191), 검토 합격(D-0157)
+
+### Added
+- `script/tts/elevenlabs.require_allowed()` — 유료 TTS 차단 한 곳(plan·`eleven_one`·`tools/tts_align_probe.py`).
+- `rules geo.themes{default, dark, light}`(지도 테마 시안), `geo.prep --theme` → `assets/theme_<이름>/`, `stage_config.mercator.theme`. dark = v3 값 그대로(골든 무변경).
+
+### Changed
+- `colors.sea_label` → `geo.themes.<테마>.map.sea_label`(이관). 국경·행정선·지명 색 = 테마 토큰.
 
 MINOR: Phase 완료 단위. 사용자 결정 D148(cascade V2·인물 뱃지 적용, 지도 테마는 Q0 시제품 뒤), 충돌 판정 D149. JSON `schema_version` 그대로(1).
 
