@@ -2,7 +2,7 @@
 
 `{mp3}.align.json` 한 모양으로 두 백엔드를 통일한다. at_word(engine/timebase)는 형식만 본다.
 
-    {"alignment_source": "edge_word_boundary" | "elevenlabs_timestamps",
+    {"alignment_source": "edge_word_boundary" | "elevenlabs_timestamps" | "mms_forced_alignment",
      "characters": [...], "character_start_times_seconds": [...], "character_end_times_seconds": [...]}
 
 - ElevenLabs: with-timestamps 응답의 글자별 정렬 그대로 + 출처 필드.
@@ -70,6 +70,16 @@ def from_elevenlabs(alignment: dict) -> dict:
     return dict(alignment_source="elevenlabs_timestamps", characters=alignment["characters"],
                 character_start_times_seconds=alignment["character_start_times_seconds"],
                 character_end_times_seconds=alignment["character_end_times_seconds"])
+
+
+def from_forced_alignment(text: str, spans: list) -> dict:
+    """강제 정렬 글자 구간(script/tts/forced_align.CharSpan, 발음 텍스트 글자마다 하나) → 공통 형식(v5.16.0 D-0164 §5-3).
+    글자 수가 다르면 오류(조용히 맞추지 않는다, P6)."""
+    if len(spans) != len(text) or any(sp.char != c for sp, c in zip(spans, text)):
+        raise AlignmentError(f"강제 정렬 글자 {len(spans)}개 ↔ 발음 텍스트 {len(text)}글자 불일치: {text!r}")
+    return dict(alignment_source="mms_forced_alignment", characters=list(text),
+                character_start_times_seconds=[round(sp.start, 4) for sp in spans],
+                character_end_times_seconds=[round(sp.end, 4) for sp in spans])
 
 
 def write(mp3: Path, al: dict) -> None:

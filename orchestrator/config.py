@@ -9,6 +9,8 @@ from __future__ import annotations
 from pathlib import Path
 
 import yaml
+from typing import Literal
+
 from pydantic import BaseModel, ConfigDict, Field, field_validator, model_validator
 
 
@@ -158,6 +160,18 @@ class SupertonicConfig(BaseModel):
         return v
 
 
+class AlignmentConfig(BaseModel):
+    """v5.16.0 D-0164 §5 — 강제 정렬(torchaudio MMS_FA + uroman). 가중치는 미추적(`python tools/fetch_data.py mms_fa`), sha1 대조 뒤 로컬에서만 연다."""
+
+    model_config = ConfigDict(extra="forbid")
+
+    engine: Literal["mms_fa"]
+    url: str
+    asset_dir: str
+    assets: dict[str, str]   # 상대 경로 → sha1
+    threads: int = Field(ge=1)
+
+
 class TTSConfig(BaseModel):
     """TTS 설정 (v2.0.0). voice id·API 키는 .env 로만 (C9)."""
 
@@ -172,6 +186,7 @@ class TTSConfig(BaseModel):
     eleven_model_default: str = "eleven_multilingual_v2"
     voice_settings: VoiceSettings = Field(default_factory=VoiceSettings)
     supertonic: SupertonicConfig | None = None   # v5.11.0 D-0152 — 없으면 Supertonic 백엔드가 오류(P6)
+    alignment: AlignmentConfig | None = None     # v5.16.0 D-0164 §5 — 없으면 강제 정렬이 오류(P6)
 
 
 class CommonsConfig(BaseModel):

@@ -18,6 +18,8 @@ v2.5.5(D32 sunset 2/2): 자산 부트스트랩(v3 참조 코드 실행본)은 �
 - bgm     : 배경음악 mp3 를 git 객체(bd37b58)에서 복원 + sha1 대조 (네트워크 불필요, DECISIONS D22)
 - supertonic : 내레이션 음성 모델(Supertonic 3, HF 고정 revision)·스타일·LICENSE → assets/tts/supertonic(미추적) + sha1 대조
               (값 = config.yaml tts.supertonic, v5.11.0 D-0152 — 사용자 결정 D146). all 에 넣지 않는다(380MB)
+- mms_fa     : 강제 정렬 가중치(torchaudio MMS_FA, 약 1.26GB, CC-BY-NC 4.0) → assets/tts/mms_fa(미추적) + sha1 대조
+              (값 = config.yaml tts.alignment, v5.16.0 D-0164 — 사용자 결정 D151). all 에 넣지 않는다
 - all     : fonts ne tiles flags commons bgm (people → media 는 따로 — 런북 순서)
 
 실패는 조용히 넘기지 않는다: 받지 못한 파일이 있으면 목록을 출력하고 exit 1 (docs/handoff/15 P6).
@@ -415,9 +417,40 @@ def cmd_supertonic(root: Path, dry: bool) -> list[str]:
     return [f"supertonic {m}" for m in sa.mismatches(cfg)]
 
 
+def cmd_mms_fa(root: Path, dry: bool) -> list[str]:
+    """강제 정렬 가중치 — 없거나 sha1 이 다르면 config url 에서 받고 대조(v5.16.0 D-0164 §5-2)."""
+    from script.tts import forced_align as fa  # noqa: PLC0415
+    from script.tts.supertonic_assets import sha1_file  # noqa: PLC0415
+
+    try:
+        cfg = fa.config()
+    except fa.ForcedAlignError as e:
+        return [f"mms_fa: {e}"]
+    base = fa.asset_dir()
+    todo = [rel for rel, want in cfg.assets.items() if not (base / rel).is_file() or sha1_file(base / rel) != want]
+    if dry:
+        return [f"mms_fa → {base / rel} ({cfg.url})" for rel in todo] or [f"mms_fa: {base} 일치"]
+    for rel in todo:
+        stream_download(cfg.url, base / rel)
+    return [f"mms_fa {rel}: sha1 불일치" for rel, want in cfg.assets.items()
+            if not (base / rel).is_file() or sha1_file(base / rel) != want]
+
+
+def step_dest(step: str, root: Path) -> Path:
+    """완료 메시지에 찍을 실제 저장 위치 — 모델 자산은 v3 자료 폴더가 아니다(D-0155 지적)."""
+    if step == "supertonic":
+        from orchestrator.config import load_config  # noqa: PLC0415
+        from script.tts import supertonic_assets as sa  # noqa: PLC0415
+        return sa.asset_dir(load_config().tts.supertonic)
+    if step == "mms_fa":
+        from script.tts import forced_align as fa  # noqa: PLC0415
+        return fa.asset_dir()
+    return root
+
+
 COMMANDS = {"fonts": cmd_fonts, "ne": cmd_ne, "tiles": cmd_tiles, "flags": cmd_flags,
             "commons": cmd_commons, "people": cmd_people, "media": cmd_media, "bgm": cmd_bgm,
-            "supertonic": cmd_supertonic}
+            "supertonic": cmd_supertonic, "mms_fa": cmd_mms_fa}
 ALL = ("fonts", "ne", "tiles", "flags", "commons", "bgm")
 
 
@@ -446,7 +479,7 @@ def main(argv: list[str] | None = None) -> int:
     if failures:
         print("FAILED:\n  " + "\n  ".join(failures), file=sys.stderr)
         return 1
-    print(f"ok: {', '.join(steps)} → {root}")
+    print("ok: " + ", ".join(f"{s} → {step_dest(s, root)}" for s in steps))
     return 0
 
 

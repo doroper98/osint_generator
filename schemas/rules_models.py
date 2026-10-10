@@ -87,6 +87,12 @@ class ScriptSchemaRules(_Strict):
         return self
 
 
+class ForcedAlignRules(_Strict):
+    """v5.16.0 — 강제 정렬 신뢰도 문턱(어절 토큰 확률 평균)."""
+
+    min_score: float = Field(ge=0, le=1)
+
+
 class TTSRules(_Strict):
     forbidden_chars_regex: str
     sino_numbers_no_inner_space: bool
@@ -97,6 +103,7 @@ class TTSRules(_Strict):
     decimal_policy: str
     emphasis_must_be_substring: bool
     alignment_sources: list[str]   # v2.3.0 D34 — `{mp3}.align.json` alignment_source 등재값(P10). 등재 외 = 오류
+    forced_align: "ForcedAlignRules"   # v5.16.0 D-0164 §5
     letter_names: list[str] = Field(default_factory=list)       # v5.6.0 TTS-AP-075 — 알파벳 글자 이름(한글). 등재 약어·사전 값의 글자 연속만 합성 직전 띄운다
     acronyms: list["Acronym"] = Field(default_factory=list)      # v5.6.0 사용자 결정 2026-10-04 — 약어 읽기 등재(린트 tts-acronym)
 

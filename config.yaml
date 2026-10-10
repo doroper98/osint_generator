@@ -71,6 +71,13 @@ tts:
       onnx/unicode_indexer.json: c8133b892e49c85f47880f1ac0226f91579ea5ac
       voice_styles/M3.json: 7764333982bc4d4d27b3872ead13dfe4b0400d81
       LICENSE: e6ab935ad6e8025ce4bf68e7382bd5332f4329ea
+  alignment:                           # v5.16.0 back_and_forth D-0164 §5 — 강제 정렬(MMS_FA, wav2vec2 CTC, CPU) + uroman 로마자화. 가중치 CC-BY-NC 4.0(MMS)
+    engine: mms_fa
+    url: https://dl.fbaipublicfiles.com/mms/torchaudio/ctc_alignment_mling_uroman/model.pt
+    asset_dir: assets/tts/mms_fa       # git 미추적 — python tools/fetch_data.py mms_fa
+    assets:
+      model.pt: 0300fd9ae57a63e3bd239ae1337e32127a587214   # 1,262,047,414 B
+    threads: 4                         # torch 스레드 수(결정성·성능 — 여기 한 곳)
 
 llm:
   # v1.2.2 — 구독 LLM 브리지(`claude -p`)가 쓰는 모델의 단일 출처 (SSOT).
