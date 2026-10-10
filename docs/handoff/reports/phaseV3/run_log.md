@@ -68,3 +68,7 @@ provenance: `features_used.alignment = {sources: {mms_forced_alignment: 45}, sco
 | 25컷 나란히 시트 | `docs/handoff/reports/phaseV3/cuts_side_by_side.jpg` |
 
 청취 자료 한 줄: **음악 균형 복원 — 배경음 이득 0.47 → 0.43(음악−내레이션 −9.0 → −9.8 dB, edge 시절 합격 균형).** 사용자 청취 합격 = 이 규칙 값 승인(P11, D-0169).
+
+## 7. pytest
+
+**1493 passed · 0 failed · 0 skipped**(313 subtests, 32분 51초, 표준 `FONTCONFIG_FILE`). 1차 실행의 5개 실패(면제 적용이 lint mock 순회 4, 골든 린트 실패 단정 1)는 고친 뒤 재실행.
