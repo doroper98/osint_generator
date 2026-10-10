@@ -80,6 +80,19 @@ events:
 
 ---
 
+### 2.9 지도 테마는 장르가 정한다 (v5.18.0, 사용자 결정 D154, back_and_forth D-0161 §7·D-0171)
+연출은 지도 테마를 보통 적지 않는다. 장르 프로필(`genres/*.yaml stage.mercator.theme`)이 정한다. 바꿔야 하면
+`stage_config.mercator.theme` 와 함께 `theme_reason`(사유)을 쓴다 — 장르와 다르면 `[map-theme-override]` warning 이 provenance 에 남아
+시리즈 안 예외가 눈에 띈다. 한 영상 안에서 테마를 섞을 수 없다(지도 설정은 연출에 하나, 콘티 판 막지도도 같은 테마).
+시리즈는 연출이 아니라 `rules/series_registry.yaml` 에 적는다(연출 LLM 이 다시 쓰는 파일이라 사람이 적은 값이 사라지지 않게) — 소속 영상의 테마가 시리즈와 다르면 hard.
+director 예시(`prompts/examples/hormuz_direction.yaml`)에는 테마를 넣지 않는다(골든만 dark 고정 + 사유).
+
+| 장르 | 지도 무대 | `map_theme` 기본값 |
+|---|---|---|
+| geopolitics(지정학) | mercator(주) | light |
+| macro_monetary(경제·통화정책) | 없음(backdrop·timeline) | —(지도를 쓰면 프로필에 값을 먼저 둔다) |
+| 군사 작전·야간 사건·전황(장르 프로필 만들 때) | mercator | dark(D154) |
+
 ## 3. 결정적 사전 검사 (`checks.json`) — LLM 검수 전에 코드가 잡는 것
 | 검사 | 방법 | 기준 |
 |---|---|---|

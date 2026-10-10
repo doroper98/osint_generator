@@ -29,10 +29,17 @@ python -m geo.prep projects/<pid> --res 1080p     # → assets/res_1080p/ (480p 
 python -m geo.prep projects/<pid> --theme light   # → assets/theme_light/ (v5.13.0 시안, 기본 테마 자산은 그대로)
 ```
 
-**지도 테마(v5.13.0 D-0153 Q0-2, 시안)**: 지형 색은 준비 단계에서 래스터에 구워진다. 그래서 테마는 준비 산출물 분기다.
-- 값은 `rules geo.themes.<이름>`에만 있다. `terrain` 은 geo.prep 가 굽는 값이고, `map` 은 렌더가 읽는 국경·행정선·지명·글자 테두리 색이다.
-- 고르는 곳은 `direction stage_config.mercator.theme` 하나다. 기본(`geo.themes.default`, dark = v3 합격 값)이 아니면 `assets/theme_<이름>/` 티어를 읽는다. 없으면 오류이고, 기본 테마로 대신 그리지 않는다.
-- Q3 에서 사용자가 한 테마를 고르면 다른 테마는 삭제한다(교체형, D-0153 §2).
+**지도 테마(v5.13.0 Q0 시안 → v5.18.0 Q3 정식, 사용자 결정 D154)**: 지형 색은 준비 단계에서 래스터에 구워진다. 그래서 테마는 준비 산출물 분기다.
+- light·dark **둘 다 정식**이다(옛 "Q3 에서 하나만 남김" 은 D154 로 폐기). 값은 `rules geo.themes.<이름>`에만 있다. `terrain` 은 geo.prep 가 굽는 값,
+  `map` 은 렌더가 읽는 국경·행정선·지명·글자 테두리 색과 `coast`(해안선 분리)·`route_casing`·`border_glow`(테마별, 선택)다.
+- **고르는 순서**(D-0171): direction `stage_config.mercator.theme`(사유 `theme_reason` 필수) → 장르 프로필 `genres/*.yaml stage.mercator.theme`.
+  프로필에 값이 없으면 오류(조용히 dark 로 가지 않는다). 장르와 다르면 `[map-theme-override]` warning, provenance `map_theme`.
+  기본(`geo.themes.default`, dark)이 아니면 `assets/theme_<이름>/` 티어를 읽는다. 없으면 오류.
+- **한 영상 하나**: 지도 설정은 연출에 하나뿐이라 숏별로 바꿀 수 없다. 콘티 판 막지도도 같은 테마(`rules animatic.flat_map.themes`).
+- **시리즈**: `rules/series_registry.yaml` 에 소속·테마를 적는다. 소속 영상의 테마가 다르면 `[series-theme-mismatch]` hard.
+- **의미색 보정**: 지도 위 요소(경로·마커·국가 채움·폭발·마커 글자)만 `colors.themes.<테마>` 값 — 색상(hue)은 같고 밝기만. 카드·패널·자막·HUD·엔딩·뱃지 링은 테마 무관.
+- **해안선 ↔ 국경**(`map.coast` 가 있는 테마): 두 나라가 공유하는 변만 국경, 나머지는 해안(물빛 얇은 선). 거리 buffer 로 분류하지 않는다(가이드 23 §14).
+- **대비 검사** `[map-contrast]`: 렌더 프레임의 지도 층 합성본에서 지도 위 필수 글자 4.5:1(hard)·경로 선 3:1(warning). 국가·바다·도 이름은 보조 질감이라 측정표에만.
 
 | 입력 | 뜻 | 정본 |
 |---|---|---|
