@@ -21,7 +21,7 @@ last_review: 2026-09-29
 
 | 단계 | 명령 | 산출물 |
 |---|---|---|
-| plan | `python -m script.plan <proj> --tts edge\|elevenlabs` | `plan.json`, `tts/` |
+| plan | `python -m script.plan <proj> [--tts supertonic\|edge]`(기본 = config tts.backend_default) | `plan.json`, `tts/` |
 | assets | `python -m geo.prep <proj> [--res 1080p]` | `assets/geo.pkl`, `tiers.pkl`, `base_*.png`, `geo_report.json` |
 | direction_validate | `python -m script.lint <proj>` | 린트 결과(게이트 ① 뷰에서도 씀) |
 | validate | `python -m engine.validate <proj>` | 연출 점검(스키마·앵커·레지스트리·엔티티·슬롯·예약 영역) |

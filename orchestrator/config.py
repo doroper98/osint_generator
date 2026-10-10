@@ -163,7 +163,7 @@ class TTSConfig(BaseModel):
 
     model_config = ConfigDict(extra="forbid")
 
-    backend_default: str = "edge"
+    backend_default: str = "supertonic"   # v5.11.0 사용자 결정 D146(D127 edge 대체)
     elevenlabs_allowed: bool = False   # v5.6.0 사용자 결정(2026-10-05 "elevenlabs 음성을 쓰지 말도록 해") — False 면 script.plan --tts elevenlabs 거부
     edge_voice: str = "ko-KR-InJoonNeural"
     edge_rate: str = "-3%"

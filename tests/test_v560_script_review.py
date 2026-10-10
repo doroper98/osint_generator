@@ -291,12 +291,12 @@ class MediaInputTest(unittest.TestCase):
 
 class NoElevenLabsTest(unittest.TestCase):
     def test_elevenlabs_refused(self) -> None:
-        """사용자 결정(2026-10-05) — ElevenLabs 음성을 쓰지 않는다(PIPELINE-AP-020)."""
+        """사용자 결정(2026-10-05) — ElevenLabs 음성을 쓰지 않는다(PIPELINE-AP-020). 기본 백엔드는 v5.11.0 D146 으로 supertonic."""
         from orchestrator.config import load_config  # noqa: PLC0415
         from script.plan import build  # noqa: PLC0415
 
         cfg = load_config().tts
-        self.assertEqual((cfg.backend_default, cfg.elevenlabs_allowed), ("edge", False))
+        self.assertEqual((cfg.backend_default, cfg.elevenlabs_allowed), ("supertonic", False))
         with self.assertRaises(ValueError) as cm:
             build(REPO / "projects" / "hormuz_korea", "elevenlabs", [])
         self.assertIn("거부", str(cm.exception))

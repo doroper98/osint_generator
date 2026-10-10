@@ -96,6 +96,7 @@ class PlanSentence(_Strict):
     t0: float
     t1: float
     trim_offset: Optional[float] = None  # v2.3.0 optional(C3 호환) — 원본 mp3 앞에서 잘라낸 초. 정렬 시각 보정용
+    chunks: Optional[list[str]] = None   # v5.11.0 optional(D-0152) — Supertonic 이 문장을 나눈 조각(사이 무음 tts.supertonic.silence_sec)
 
 
 class Card(_Strict):

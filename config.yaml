@@ -44,7 +44,7 @@ engine:
 tts:
   # v2.0.0 — TTS 설정 단일 출처. 모듈 상수로 override 금지 (docs/handoff/15 P3).
   # voice id·API 키는 .env 로만 (C9). 옛 profiles(briefing/shorts)·미사용 키 3종은 폐기.
-  backend_default: edge                # v5.6.0 사용자 결정(2026-10-05) — 콘티 판·본편 모두 edge-tts
+  backend_default: supertonic          # v5.11.0 사용자 결정 D146(2026-10-10) — 콘티 판·본편 모두 Supertonic 3 M3 ×0.95(D127 edge 대체). edge 는 V4 에서 삭제, 그 전까지 --tts edge(정렬기 측정용)
   elevenlabs_allowed: false            # v5.6.0 사용자 결정(2026-10-05 "elevenlabs 음성을 쓰지 말도록 해", PIPELINE-AP-020) — script.plan 이 거부
   edge_voice: ko-KR-InJoonNeural       # v3 기준 음성 (Phase 1·4)
   edge_rate: "-3%"

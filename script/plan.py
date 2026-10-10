@@ -1,6 +1,9 @@
 """원고 → 음성 → 타임라인 CLI (v2.1.0, plan3 `__main__`, 16 §4).
 
-    python -m script.plan <proj> --tts edge|elevenlabs   → <proj>/plan.json, <proj>/tts/
+    python -m script.plan <proj> [--tts supertonic|edge|elevenlabs]   → <proj>/plan.json, <proj>/tts/
+
+기본 백엔드 = config.yaml tts.backend_default(v5.11.0 사용자 결정 D146 = supertonic). Supertonic 은 단어 시각을 내지 않아
+`.align.json` 을 V2 강제 정렬이 쓴다 — V1 plan 은 정렬 없는 캐시를 재합성하지 않는다(재합성해도 정렬이 생기지 않음).
 
 린트 위반이 있으면 음성을 만들지 않고 실패한다. 마지막 줄에 StageResult JSON(표준 출력).
 """
@@ -18,7 +21,7 @@ from orchestrator.config import load_config
 from script.lint import lint, load_claims_for, load_pronounce_dict, pronounce_tts
 from script.schema import Plan, Script
 from script.timeline import layout, sentence_rows
-from script.tts import edge, elevenlabs
+from script.tts import edge, elevenlabs, supertonic
 from script.tts.align import align_path
 from script.tts.cache import cache_key, cached, mp3_path
 from script.tts.trim import trim_to_npy
@@ -31,7 +34,7 @@ def load_script(proj: Path) -> Script:
 def build(proj: Path, tts: str, warnings: list[str] | None = None, edge_voice: str | None = None) -> Plan:
     if tts == "elevenlabs" and not load_config().tts.elevenlabs_allowed:   # 다른 단계보다 먼저(린트·합성 전에 거부)
         raise ValueError("--tts elevenlabs 거부 — 사용자 결정(2026-10-05): ElevenLabs 음성을 쓰지 않는다(config tts.elevenlabs_allowed: false). "
-                         "콘티 판·본편 모두 --tts edge")
+                         "콘티 판·본편 모두 기본 백엔드(config tts.backend_default)")
     script = load_script(proj)
     rep = lint(script, load_claims_for(proj))   # v3.2.0 — 출처는 claims.json 기준(D-0051 작업 8)
     if rep.errors:
@@ -45,6 +48,8 @@ def build(proj: Path, tts: str, warnings: list[str] | None = None, edge_voice: s
     if use_eleven and not elevenlabs.available():
         raise ValueError("--tts elevenlabs 인데 ELEVENLABS_API_KEY / ELEVENLABS_VOICE_ID 가 없다(.env)")
     vid = elevenlabs.voice_id() if use_eleven else None
+    st_cfg = supertonic.config() if tts == "supertonic" else None
+    st_salt = supertonic.cache_salt(st_cfg) if st_cfg else None
     if edge_voice == load_config().tts.edge_voice:
         edge_voice = None           # 기본 목소리 = v3 캐시 키 그대로
     jobs: list[tuple[str, Path]] = []
@@ -53,8 +58,13 @@ def build(proj: Path, tts: str, warnings: list[str] | None = None, edge_voice: s
     for x in rows:   # v5.1.0 D-0121 §D — 합성 직전 발음 사전(명시 tts 포함, 멱등). 캐시 키 = 치환 뒤 텍스트
         x["tts"] = pronounce_tts(x["tts"], pron)
     for k, x in enumerate(rows):
-        p = mp3_path(tts_dir, x["sid"], cache_key(x["tts"], vid, None if use_eleven else edge_voice))
+        p = mp3_path(tts_dir, x["sid"], cache_key(x["tts"], vid, None if use_eleven else edge_voice, st_salt))
         x["mp3"] = str(p)
+        if st_cfg is not None:
+            x["chunks"] = supertonic.chunks(x["tts"], st_cfg)
+            if not cached(p):
+                jobs.append((x["tts"], p))
+            continue
         if cached(p):
             if align_path(p).exists():
                 continue
@@ -64,13 +74,17 @@ def build(proj: Path, tts: str, warnings: list[str] | None = None, edge_voice: s
                                   rows[k + 1]["tts"] if k + 1 < len(rows) else None)
         else:
             jobs.append((x["tts"], p))
-    edge.synth_all(jobs, voice=edge_voice)
+    if st_cfg is not None:
+        supertonic.synth_all(jobs, st_cfg)
+    else:
+        edge.synth_all(jobs, voice=edge_voice)
     for x in rows:
         npy, dur, off = trim_to_npy(Path(x["mp3"]))
         x["npy"], x["dur"], x["trim_offset"] = str(npy), dur, round(off, 6)
     cards, scene_start, total = layout(rows)
     return Plan(sentences=rows, cards=cards, scene_start=scene_start, total=total,
-                voice=elevenlabs.voice_label() if use_eleven else edge.voice_label(edge_voice),
+                voice=(supertonic.voice_label(st_cfg) if st_cfg else
+                       elevenlabs.voice_label() if use_eleven else edge.voice_label(edge_voice)),
                 title=script.title, subtitle=script.subtitle, date=script.date, tts_resynthesized=resynth)
 
 
@@ -79,7 +93,7 @@ def main(argv: list[str] | None = None) -> int:
 
     ap = argparse.ArgumentParser(description="script.plan")
     ap.add_argument("proj", type=Path)
-    ap.add_argument("--tts", choices=["edge", "elevenlabs"], default="edge")
+    ap.add_argument("--tts", choices=["supertonic", "edge", "elevenlabs"], default=load_config().tts.backend_default)
     ap.add_argument("--edge-voice", default=None, help="edge 목소리 교체(기본 config tts.edge_voice) — 연출 무수정 싱크 검증(D31)")
     args = ap.parse_args(argv)
     proj = args.proj.resolve()

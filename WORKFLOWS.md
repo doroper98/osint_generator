@@ -44,7 +44,7 @@ last_review: 2026-09-30
 콘티 판에서 실사는 자리표시라 이 목록으로 확인한다. 0건이어도 막지 않는다(사용자 결정 2026-10-05) — 이유를 media_note 에 적는다.
 
 ```bash
-python -m script.plan projects/{pid} --tts edge          # 음성 = edge-tts(콘티 판·본편 모두). ElevenLabs 는 쓰지 않는다(사용자 결정 2026-10-05, config tts.elevenlabs_allowed: false — script.plan 이 거부)
+python -m script.plan projects/{pid}                     # 음성 = config tts.backend_default(v5.11.0 사용자 결정 D146 = Supertonic 3 M3 ×0.95, 콘티 판·본편 모두). 먼저 python tools/fetch_data.py supertonic. ElevenLabs 는 쓰지 않는다(config tts.elevenlabs_allowed: false — script.plan 이 거부)
 python -m audio.mix projects/{pid}                        # 음악·믹스는 전편과 같다(bed_bass 포함)
 python -m engine.render projects/{pid} --animatic         # → out/animatic.mp4 (480p·fps 24, 5분 영상 = 4코어 3분 목표)
 python -m engine.render projects/{pid} --animatic --preview auto   # (선택) prev_animatic/ 컷·시트
@@ -115,7 +115,7 @@ Command Center 단축키: `g` advance · `a` approve · `x` reject · `c` 소스
 엔진을 직접 돌릴 때(오케스트레이터는 같은 CLI 를 부른다, 15 P1):
 
 ```bash
-python -m script.plan projects/{pid} --tts edge                   # 원고 → TTS → plan.json
+python -m script.plan projects/{pid}                              # 원고 → TTS(기본 백엔드) → plan.json
 python -m geo.prep projects/{pid} [--res 1080p]                    # 지형 티어(1080p 는 별도 티어)
 python -m engine.camera_suggest projects/{pid}                     # 카메라 제안(옵션, 연출에 자동 적용 안 함)
 python -m engine.render projects/{pid} --preview auto|golden       # 프리뷰 컷·시트·checks·provenance

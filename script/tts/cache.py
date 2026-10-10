@@ -2,6 +2,7 @@
 
 v2.3.0: config 기본이 아닌 edge 목소리는 `|edge|{voice}`로 구분한다. 기본 목소리 키는 v3 와 같다(sha1(tts)) —
 이전에는 edge 목소리를 바꿔도 같은 키라 옛 목소리 mp3 를 조용히 재사용했다(15 P6).
+v5.11.0(D-0152 D147 §5): Supertonic 은 `script.tts.supertonic.cache_salt`(`|st|스타일|속도|단계|…`) — edge 키와 겹치지 않는다.
 """
 
 from __future__ import annotations
@@ -11,8 +12,11 @@ import os
 from pathlib import Path
 
 
-def cache_key(tts: str, eleven_voice_id: str | None, edge_voice: str | None = None) -> str:
-    if eleven_voice_id is not None:
+def cache_key(tts: str, eleven_voice_id: str | None, edge_voice: str | None = None,
+              supertonic_salt: str | None = None) -> str:
+    if supertonic_salt is not None:
+        salt = supertonic_salt
+    elif eleven_voice_id is not None:
         salt = "|el|" + eleven_voice_id
     elif edge_voice is not None:
         salt = "|edge|" + edge_voice
