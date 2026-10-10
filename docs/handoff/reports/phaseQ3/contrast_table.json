@@ -1,0 +1,194 @@
+{
+ "schema_version": 1,
+ "basis": "렌더 프레임 지도 층 합성본(engine.checks.measure_contrast), 25컷",
+ "themes": {
+  "dark": {
+   "required": {
+    "n": 210,
+    "lowest": [
+     {
+      "ratio": 5.33,
+      "name": "도하",
+      "cut": "war_1+2"
+     },
+     {
+      "ratio": 5.62,
+      "name": "홍콩",
+      "cut": "now_3+4"
+     },
+     {
+      "ratio": 5.67,
+      "name": "콜카타",
+      "cut": "now_3+4"
+     },
+     {
+      "ratio": 5.7,
+      "name": "콜카타",
+      "cut": "route_2+2"
+     },
+     {
+      "ratio": 5.78,
+      "name": "콜카타",
+      "cut": "END-4"
+     }
+    ]
+   },
+   "aux": {
+    "n": 140,
+    "lowest": [
+     {
+      "ratio": 1.87,
+      "name": "인천광역시",
+      "cut": "decision_0+3"
+     },
+     {
+      "ratio": 2.04,
+      "name": "인천광역시",
+      "cut": "debate_1+2.5"
+     },
+     {
+      "ratio": 2.11,
+      "name": "인천광역시",
+      "cut": "debate_0+3"
+     },
+     {
+      "ratio": 2.15,
+      "name": "강원도",
+      "cut": "debate_1+2.5"
+     },
+     {
+      "ratio": 2.16,
+      "name": "대구광역시",
+      "cut": "TITLE+2"
+     }
+    ]
+   },
+   "shape": {
+    "n": 225,
+    "routes": 8,
+    "basis": "컷·경로별 표본 중앙값",
+    "lowest": [
+     {
+      "ratio": 5.38,
+      "name": "teal",
+      "cut": "review_0+2.8"
+     },
+     {
+      "ratio": 5.45,
+      "name": "gold",
+      "cut": "now_0+3.5"
+     },
+     {
+      "ratio": 5.45,
+      "name": "gold",
+      "cut": "now_3+4"
+     },
+     {
+      "ratio": 5.47,
+      "name": "gold",
+      "cut": "END-4"
+     },
+     {
+      "ratio": 6.81,
+      "name": "허가받은 배만 통과",
+      "cut": "war_3+3"
+     }
+    ]
+   }
+  },
+  "light": {
+   "required": {
+    "n": 210,
+    "lowest": [
+     {
+      "ratio": 4.77,
+      "name": "벵갈루루",
+      "cut": "END-4"
+     },
+     {
+      "ratio": 4.8,
+      "name": "마닐라",
+      "cut": "route_3+3.5"
+     },
+     {
+      "ratio": 4.92,
+      "name": "벵갈루루",
+      "cut": "now_0+3.5"
+     },
+     {
+      "ratio": 4.94,
+      "name": "벵갈루루",
+      "cut": "review_1+2.5"
+     },
+     {
+      "ratio": 4.94,
+      "name": "벵갈루루",
+      "cut": "route_2+2"
+     }
+    ]
+   },
+   "aux": {
+    "n": 140,
+    "lowest": [
+     {
+      "ratio": 1.23,
+      "name": "남중국해",
+      "cut": "route_2+2"
+     },
+     {
+      "ratio": 1.24,
+      "name": "인도양",
+      "cut": "review_1+2.5"
+     },
+     {
+      "ratio": 1.25,
+      "name": "인도양",
+      "cut": "now_0+3.5"
+     },
+     {
+      "ratio": 1.25,
+      "name": "인도양",
+      "cut": "review_0+2.8"
+     },
+     {
+      "ratio": 1.25,
+      "name": "인도양",
+      "cut": "route_2+2"
+     }
+    ]
+   },
+   "shape": {
+    "n": 225,
+    "routes": 8,
+    "basis": "컷·경로별 표본 중앙값",
+    "lowest": [
+     {
+      "ratio": 3.33,
+      "name": "gold",
+      "cut": "route_2+2"
+     },
+     {
+      "ratio": 3.4,
+      "name": "gold",
+      "cut": "END-4"
+     },
+     {
+      "ratio": 3.47,
+      "name": "gold",
+      "cut": "now_3+4"
+     },
+     {
+      "ratio": 3.49,
+      "name": "gold",
+      "cut": "now_0+3.5"
+     },
+     {
+      "ratio": 3.56,
+      "name": "teal",
+      "cut": "review_1+2.5"
+     }
+    ]
+   }
+  }
+ }
+}

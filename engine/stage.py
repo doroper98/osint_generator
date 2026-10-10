@@ -170,7 +170,7 @@ class MercatorStage:
 
         self.border_glow = bool((config or {}).get("border_glow", BORDER_GLOW.default_on))   # v5.4.0 국경선 글로우 — 지도 무대 기본(rules border_glow.default_on)
         tg = load_rules().geo.themes.get(self.theme_name).map.border_glow
-        if tg is not None and not tg.on:   # v5.18.0 D-0161 §2 — 이 테마에선 글로우를 그리지 않는다
+        if tg is not None and not tg.enabled:   # v5.18.0 D-0161 §2 — 이 테마에선 글로우를 그리지 않는다
             self.border_glow = False
         self.theme = load_rules().geo.themes.get(self.theme_name).map   # v5.13.0 D-0153 Q0-2 — 지도 선·지명 색(engine/layers/borders·labels)
         if assets is not None and getattr(assets, "geo", None) and (getattr(assets, "theme", None) or load_rules().geo.themes.default) != self.theme_name:

@@ -1119,9 +1119,9 @@ class RouteCasing(_Strict):
 
 
 class ThemeBorderGlow(_Strict):
-    """v5.18.0 D-0161 §2 — 테마별 국경 글로우. on false = 이 테마에선 끈다(direction 이 켜도). 값이 없으면 공통 border_glow."""
+    """v5.18.0 D-0161 §2 — 테마별 국경 글로우. enabled false = 이 테마에선 끈다(direction 이 켜도). 값이 없으면 공통 border_glow."""
 
-    on: bool = True
+    enabled: bool = True
     rgb: Optional[RGB] = None
     halo: Optional[list[tuple[float, float]]] = None
     run_layers: Optional[list[tuple[float, float]]] = None

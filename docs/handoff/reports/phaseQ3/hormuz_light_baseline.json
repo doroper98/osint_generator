@@ -1,0 +1,116 @@
+{
+ "schema_version": 1,
+ "role": "Phase Q3(v5.18.0) light 기준선 — 골든 원고·연출(V3 Supertonic 플랜) + direction stage_config.mercator.theme light(사유 포함), D-0161 §5·D-0172(시안 C: 의미색 휘도 0.06·light 글로우 끔·글자 톤 짙게, 잠정). dark 골든(phaseV3)과 같은 컷·같은 시각. 25_END 도장 가린 md5",
+ "command": "호르무즈 사본 direction 에 stage_config.mercator {theme: light, theme_reason} → python -m geo.prep <사본> --theme light → python -m engine.render <사본> --preview golden",
+ "stamp_box": [
+  797.0,
+  462.2,
+  842.0,
+  471.95
+ ],
+ "stamp_box_basis": "v99.99.99 — 오른쪽 끝 고정(W − x_from_right), 폭 = adv('v99.99.99') 45px; v5.10.0 에서 두 자리 MINOR 로 넓힘(D-0148)",
+ "mask_pad_px": 2,
+ "cuts": [
+  {
+   "png": "p_0006.95.png",
+   "md5": "9a0e999a2a573f3c69c14bec7b0464cc"
+  },
+  {
+   "png": "p_0020.21.png",
+   "md5": "2c89063da1a68f1227bcbebff1b289a7"
+  },
+  {
+   "png": "p_0026.71.png",
+   "md5": "62d5d48805167a71ffdf0be35811a0f1"
+  },
+  {
+   "png": "p_0035.36.png",
+   "md5": "3aa7402e8c020c4d958d989dad37b5d7"
+  },
+  {
+   "png": "p_0041.39.png",
+   "md5": "ee9ee495f9285720ce84e3f0432bb409"
+  },
+  {
+   "png": "p_0050.86.png",
+   "md5": "47acd46b774751eadc776e85ba8ea82b"
+  },
+  {
+   "png": "p_0055.70.png",
+   "md5": "c9a1aa7608fde4c396529f39e17d0fac"
+  },
+  {
+   "png": "p_0059.02.png",
+   "md5": "6f7ceb505e36cc187f7f7b7deccc88cc"
+  },
+  {
+   "png": "p_0072.76.png",
+   "md5": "1739fb9fd333a74a489839322307ae9c"
+  },
+  {
+   "png": "p_0076.30.png",
+   "md5": "dce49d14032393e407af3a7e1adf9f32"
+  },
+  {
+   "png": "p_0091.50.png",
+   "md5": "397ff6d2c0df9362fe38cd4587fa49d6"
+  },
+  {
+   "png": "p_0108.92.png",
+   "md5": "fa49e18568941a22f3c5fa8d70608079"
+  },
+  {
+   "png": "p_0120.37.png",
+   "md5": "28c8cf7b754aeca6be81a193eeb05b67"
+  },
+  {
+   "png": "p_0138.26.png",
+   "md5": "36460f8bc8bfa40b6372515a915c56d1"
+  },
+  {
+   "png": "p_0145.33.png",
+   "md5": "881832394115d16ba09c51dcaa43082d"
+  },
+  {
+   "png": "p_0150.26.png",
+   "md5": "333f300edf59e10d5ac2d797480263a2"
+  },
+  {
+   "png": "p_0170.97.png",
+   "md5": "7c75ff717b2f8edcc1a47036f4757d17"
+  },
+  {
+   "png": "p_0183.72.png",
+   "md5": "c80932bd7a49e12b1a9ffe0b5e9f3236"
+  },
+  {
+   "png": "p_0189.96.png",
+   "md5": "329ecf70fb7823dd52ac9deb4baf0b0e"
+  },
+  {
+   "png": "p_0195.53.png",
+   "md5": "3ae03cb8e375a1aa43f9dedca2162efa"
+  },
+  {
+   "png": "p_0211.08.png",
+   "md5": "cb0ec7d3301d8d0b212e34a712713587"
+  },
+  {
+   "png": "p_0218.12.png",
+   "md5": "b14aec5ef81325e8bea75d45389e5544"
+  },
+  {
+   "png": "p_0229.62.png",
+   "md5": "cbe1a7e1dadbc4802731bd87436dd165"
+  },
+  {
+   "png": "p_0245.60.png",
+   "md5": "4679d5149022308b14e15d5ca44039d2"
+  },
+  {
+   "png": "p_0256.66.png",
+   "mask": true,
+   "md5_masked": "9ffca69db602b7edf756e5927b88a6ec"
+  }
+ ]
+}
