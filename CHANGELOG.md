@@ -1,6 +1,6 @@
 <!--
 tier: 3
-last_synced_with: v5.15.0
+last_synced_with: v5.15.1
 ssot_for: [release-notes]
 depends_on: [README.md, GOAL.md]
 last_review: 2026-09-28
@@ -63,6 +63,12 @@ released 항목은 **append-only**입니다.
 | v5.0.0 | 87912d2 | G11 GOAL G4-21·claim_kind fact/statement | pass(D-0125) |
 | v5.1.0 | 3619f2c | G12 backdrop 무대·아일랜드·축 스케일·기사 프레스 v2·발음 사전·버전 도장 | pass(D-0127) — 후속 D-0128 완료 |
 | v5.2.0 | d4703d9 | G13 배경 가독·주 아일랜드 상시·보도 인용 = 기사·card-island·라벨 반전 | pass(D-0134) — 후속 겹침 카드 시안(D-0135~D-0138) |
+
+---
+
+## [v5.15.1] — 2026-10-10 — Q2 받는 경로 수정 (back_and_forth D-0164)
+
+PATCH: 라이브러리 초상 받기 = `normalized` 변형 바이트 복사(재정규화 드리프트 제거), `fetch_data` 권리 상태 라이브러리 값 그대로(추정 금지), 초상 맞춤 preflight. 기준선·expected_deltas 무변경.
 
 ---
 

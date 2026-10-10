@@ -93,6 +93,29 @@ def _walk(o: object):  # noqa: ANN202
             yield from _walk(v)
 
 
+def portrait_fit_errors(R: RenderCtx, pid: str) -> list[str]:  # noqa: N803
+    """v5.15.1 D-0164 — 초상 머리 맞춤을 렌더 전에: 인물 뱃지 R 규칙 값(solo·group 양끝·panel)마다 portrait_fit 을 미리 부른다.
+    초상마다 한 번(R.cache). 맞지 않으면 PortraitFitError 문구(pid·R)를 오류 목록에. 파일이 없으면 자산 점검이 따로 잡는다."""
+    from engine.layers.badges import PortraitFitError, portrait_fit  # noqa: PLC0415
+    from engine.style import BADGE  # noqa: PLC0415
+
+    if BADGE.head_popout:
+        return []
+    done = R.cache.setdefault("portrait_fit_checked", set())
+    if pid in done:
+        return []
+    done.add(pid)
+    out = []
+    for Rr in sorted({BADGE.R_person_solo, *BADGE.R_person_group, BADGE.R_person_panel}):  # noqa: N806
+        try:
+            portrait_fit(R, f"portrait:{pid}", Rr)
+        except PortraitFitError as ex:
+            out.append(str(ex))
+        except Exception:  # noqa: BLE001 — 파일 없음 등은 자산 점검(keys)이 보고한다
+            return out
+    return out
+
+
 def preflight(R: RenderCtx, events: list[dict], files: bool = True) -> list[str]:  # noqa: N803
     """권리·자산 점검. 문제 목록을 돌려준다(빈 목록 = 통과).
     files=False = 콘티 판(v4.9.0 D-0108): 이미지·영상 파일과 프로젝트 권리 레지스트리(생성 자산)를 보지 않는다 —
@@ -133,6 +156,7 @@ def preflight(R: RenderCtx, events: list[dict], files: bool = True) -> list[str]
                 keys |= {f"portrait:{d['pid']}", f"flag43:{d['flag']}"}
                 if d["pid"] not in A.rights.get("people", {}):
                     errs.append(f"권리 레지스트리에 인물 없음: {d['pid']} ({e['type']} t0={e['t0']:.2f})")
+                errs += portrait_fit_errors(R, d["pid"])
             elif "flag" in d and d["flag"] is not None:
                 keys.add(f"flag11:{d['flag']}")
         for img in emblem_ids(e):   # 뱃지·패널 노드 모두(engine/refs.py)

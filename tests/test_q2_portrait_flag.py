@@ -283,8 +283,8 @@ class RightsExceptionTest(unittest.TestCase):
         self.assertTrue((REPO / lee["variants"][0]["path"]).exists())
         self.assertIn("lee_jae_myung", fd.LIBRARY_PEOPLE)
         self.assertNotIn("lee_jae_myung", fd.COMMONS_PEOPLE)
-        src = (REPO / "tools" / "fetch_data.py").read_text(encoding="utf-8")
-        self.assertIn('rights_status="restricted" if src.get("user_exception")', src)
+        r = fd.library_rights({"source": lee["source"], "variant": lee["variants"][0]})
+        self.assertEqual((r["rights_status"], r["user_exception"]), ("restricted", "U20261010"))   # 라이브러리 값 그대로(v5.15.1)
 
 
 if __name__ == "__main__":

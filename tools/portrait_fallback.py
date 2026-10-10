@@ -90,15 +90,21 @@ def process(src: Path, dest: Path, style: str = "v3") -> dict:
 
 
 def library_portrait(pid: str, dest: Path, manifest: Path | None = None) -> dict:
-    """라이브러리 가공본(첫 변형) → 머리-어깨 정규화. 권리 항목(src=repo_library)을 돌려준다."""
+    """라이브러리 가공본(첫 변형) → 머리-어깨 정규화(변형이 normalized 면 바이트 그대로 복사, v5.15.1). 권리 항목(src=repo_library)을 돌려준다."""
     manifest = manifest or REPO / "assets" / "library" / "library_manifest.json"
     lib = {p["person_id"]: p for p in json.loads(manifest.read_text(encoding="utf-8"))["people"]}
     if pid not in lib:
         raise KeyError(f"라이브러리에 없는 인물: {pid}")
     p = lib[pid]
+    v = p["variants"][0]
     dest.parent.mkdir(parents=True, exist_ok=True)
-    normalize_portrait(Image.open(REPO / p["variants"][0]["path"]).convert("RGBA")).save(dest)
-    return {"source": p["source"], "variant": p["variants"][0]}
+    if v.get("normalized"):   # v5.15.1 D-0164 — 승격된 정규화 완료본은 바이트 그대로(재정규화 = 줄 탈락·재샘플 드리프트)
+        import shutil  # noqa: PLC0415
+
+        shutil.copyfile(REPO / v["path"], dest)
+    else:
+        normalize_portrait(Image.open(REPO / v["path"]).convert("RGBA")).save(dest)
+    return {"source": p["source"], "variant": v}
 
 
 def main(argv: list[str] | None = None) -> int:

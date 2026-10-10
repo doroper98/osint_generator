@@ -99,7 +99,7 @@ D-0159 의 후보 시트(A·B·C)는 D-0160 으로 취소됐습니다. 받던 �
 | 크레딧 | "이재명" / "대통령 공식 초상 · 대통령실 · 공공누리 제4유형"(이름은 직함 없이 — D-0106 2-B, 문구는 D-0160 그대로) |
 | 점검 | `engine.credits.check_credits` 는 등록된 예외가 있는 restricted 인물만 통과시킵니다. provenance `rights.exceptions` 에 1건이 남습니다(P6) |
 | 옛 v01 | `projects/hormuz_korea/assets/portraits_archive/lee_jae_myung_v01_whitehouse.png`(삭제 안 함, 권리 기록은 새 항목 `processing.replaces` 에) |
-| 받는 경로 | `fetch_data people` 이 이재명을 라이브러리(v02)에서 받고, restricted·예외를 그대로 옮깁니다(rights_clear 로 덮지 않음) |
+| 받는 경로 | `fetch_data people` 이 이재명을 라이브러리(v02)에서 받습니다. v5.15.1(D-0164)부터 변형 `normalized: true` 면 바이트 그대로 복사하고, 권리 상태·예외는 라이브러리 값 그대로 옮깁니다(§9) |
 | 머리 맞춤 | 공식 초상은 R56·R30 모두 2.04R 그대로 들어갑니다(정수리·턱 잘림 0) |
 
 **배포(공개 게시) 전에는 이 예외를 다시 확인해야 합니다.** 공공누리 제4유형은 변경 금지·비상업 조건이고, 뱃지는 흑백·배경 제거·자르기 가공입니다(07 §3.2, 19 §3 3.22).
@@ -184,3 +184,26 @@ D-0159 의 후보 시트(A·B·C)는 D-0160 으로 취소됐습니다. 받던 �
 
 - 실패 1건 = `test_g7_cheongwadae.test_registry_entry_and_exception` — 사용자 예외 목록 전체를 고정 단정하는 테스트라, 새 예외(U20261010, D153)를 목록에 더했습니다. 고친 뒤 그 파일 단독 4 passed.
 - 기준 1445 + 14 = 1459 = 실측입니다(28분 8초). `-rs` 출력에 SKIPPED 줄이 없습니다.
+
+## 9. v5.15.1 — 받는 경로 수정(D-0164)
+
+Fable 검수에서 나온 결함 2개와 작은 것 1개를 한 커밋으로 고쳤습니다. 기준선·expected_deltas 는 바꾸지 않았습니다.
+
+| # | 결함 | 수정 |
+|---|---|---|
+| 1 | `library_portrait` 가 승격된 정규화 완료본을 다시 `normalize_portrait`(비멱등 — 끝 줄·열 탈락, 420 재샘플, 415×420 → 414×420) → 새 컨테이너 이재명 3컷 불일치(22/25) | 변형 기록 `normalized: true`(`LibraryAssetVariant`, 기본 false) → 바이트 그대로 복사. `promote` 가 적고, 기존 이재명 v02·노무현 v01 에 적음. 트럼프·하메네이(원본)는 그대로 정규화 |
+| 2 | `fetch_data` 가 권리 상태를 예외 유무로 추정(예외 없는 restricted → rights_clear) | `fetch_data.library_rights()` — 라이브러리 `rights_status` 그대로, 예외 필드는 있으면 복사 |
+| 작은 것 | `PortraitFitError` 가 첫 뱃지 그리기에서 났다("렌더 전" 문구와 다름) | `engine.project.portrait_fit_errors` 를 preflight 에서 인물마다 R(solo 56·group 30·34·panel 36)로 |
+
+**라이브러리에서 받은 프로젝트로 골든 재현**(스크래치 사본, 초상 4장을 `library_portrait` 로 다시 받음):
+
+| 초상 | 받은 파일 md5 | 저장소 프로젝트 파일과 |
+|---|---|---|
+| 이재명(v02, normalized) | `93681b132b42a2be04da323ca5a116b0` | 같음 |
+| 노무현(v01, normalized) | `f3a37ba74fb1c2e121b04819cf0b97a4` | 같음 |
+| 트럼프(원본 → 정규화) | `f2cd16bd229947837c8db5f19c401459` | 같음 |
+| 하메네이(원본 → 정규화) | `4b531c7b949e41b5f687895ef0ebf9df` | 같음 |
+
+`python -m engine.render <사본> --preview golden` → phaseQ2 기준선 **25/25**(25_END 도장 가린 md5 포함).
+
+테스트 4개 더함(`tests/test_q2_receive_path.py`): normalized 변형 바이트 복사(+ 재정규화 비멱등 재현), promote → 받기 왕복 바이트 동일, 예외 없는 restricted 유지 → 크레딧 점검 오류, 맞지 않는 초상 → preflight 오류(pid·R). `test_library_v02_and_fetch_keep_restricted` 의 소스 문자열 단정은 동작 단정으로 바꿨습니다.

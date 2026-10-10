@@ -297,6 +297,16 @@ def build_flag_pngs(root: Path) -> int:
     return n
 
 
+def library_rights(lib: dict, artist: str = "") -> dict:
+    """라이브러리 초상 → 프로젝트 권리 항목(v5.15.0 D-0160·v5.15.1 D-0164). 권리 상태·사용자 예외는 라이브러리 기록 그대로 옮긴다 —
+    예외 유무로 상태를 추정하지 않는다(예외 없는 restricted 가 rights_clear 로 덮이는 조용한 경로 차단, P6)."""
+    src = lib["source"]
+    return dict(src="repo_library", license=src["license"], artist=artist or src.get("credit", ""), url=src["url"],
+                rights_status=src.get("rights_status") or "rights_clear",
+                processing={"tool": "tools/portrait_fallback.py library", "variant": lib["variant"]["path"]},
+                **({"user_exception": src["user_exception"], "exception": src.get("exception", "")} if src.get("user_exception") else {}))
+
+
 def cmd_people(root: Path, dry: bool) -> list[str]:
     """인물 초상·휘장·국기 PNG·권리 레지스트리 (v2.4.0 D-0029 작업 4·5 — tools/commons_fetch.py·portrait_fallback.py)."""
     if dry:
@@ -309,14 +319,7 @@ def cmd_people(root: Path, dry: bool) -> list[str]:
     pm = json.loads((REPO / "assets/library/workshop/references/photo_manifest.json").read_text(encoding="utf-8"))["people"]
     for pid in LIBRARY_PEOPLE:
         lib = library_portrait(pid, root / "assets" / "portraits" / f"{pid}.png")
-        src = lib["source"]   # v5.15.0 D-0160 — 권리 상태·사용자 예외는 라이브러리 기록 그대로(restricted 를 rights_clear 로 덮지 않음)
-        record_rights(regp, "people", pid, dict(src="repo_library", license=src["license"],
-                                               artist=re.sub("<[^>]+>", "", pm.get(pid, {}).get("artist", "")) or src.get("credit", ""),
-                                               url=src["url"], rights_status="restricted" if src.get("user_exception") else "rights_clear",
-                                               processing={"tool": "tools/portrait_fallback.py library",
-                                                           "variant": lib["variant"]["path"]},
-                                               **({"user_exception": src["user_exception"], "exception": src["exception"]}
-                                                  if src.get("user_exception") else {})))
+        record_rights(regp, "people", pid, library_rights(lib, re.sub("<[^>]+>", "", pm.get(pid, {}).get("artist", ""))))
     cand = json.loads((root / "data" / "commons_v3.json").read_text(encoding="utf-8"))
     for pid, title in COMMONS_PEOPLE.items():
         c = next(x for x in cand[pid] if x["title"] == title)

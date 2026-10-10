@@ -824,6 +824,9 @@ class LibraryAssetVariant(BaseModel):
     # v1.0.0 (G4-10 개정): 가공 도구·프롬프트 기록 의무 — ChatGPT 가공 자산 추적 (계획 §2.0)
     tool: str = "procedural"                # "procedural" | "chatgpt_image" 등
     prompt_ref: str = ""                    # 프롬프트 사본 파일 경로 (ChatGPT 가공 시 필수)
+    # v5.15.1 D-0164 — 이미 뱃지용 정규화가 끝난 파일(asset_library promote 가 올린 프로젝트 초상). 받을 때 바이트 그대로 복사한다
+    # (normalize_portrait 는 멱등이 아니다 — 끝 줄·열이 빠지고 재샘플된다). 명시 > 추정: tool 문자열로 추정하지 않는다
+    normalized: bool = False
 
 
 class LibraryPerson(BaseModel):

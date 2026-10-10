@@ -82,7 +82,7 @@ def promote(proj: Path, version: int = 1) -> dict[str, list[str]]:
                        **({"user_exception": r["user_exception"], "exception": r.get("exception", "")} if r.get("user_exception") else {})},
             "variants": [{"style": "mono", "pose": "front", "path": (dest.relative_to(REPO) if dest.is_relative_to(REPO) else dest).as_posix(), "generator_version": "",
                           "tool": f"{proc.get('tool', 'tools/portrait_fallback.py')} --style {proc.get('style', 'engraving')}",
-                          "prompt_ref": ""}],
+                          "prompt_ref": "", "normalized": True}],   # v5.15.1 D-0164 — 프로젝트 초상 = 정규화 완료본
             "usage_count": 0,
         })
         done["people"].append(pid)
