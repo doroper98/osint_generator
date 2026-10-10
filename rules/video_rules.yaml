@@ -498,14 +498,20 @@ layout_480p:               # 09 §2·§4, 08 §10 — 기준 해상도 854×480.
     # 초상: 폭 width·R, 원본 알파 > alpha_thr 인 맨 윗줄(정수리)이 중심 위 alpha_top·R 에 오게 둔다(원 안 — 옛 head_inside_max 내림 방식 대체).
     #   alpha_thr 는 배치용 — 정규화(tools/portrait_fallback, 알파 > 40 bbox)와 목적이 달라 따로 둔다(가이드 §10).
     #   얼굴 분리 그림자 = 초상 알파 모양을 shadow_dy 설계 px 아래에 검정 shadow_alpha 로 먼저 깐다.
-    portrait: {width: 2.04, alpha_top: 0.83, alpha_thr: 20, shadow_alpha: 0.16, shadow_dy: 0.8}
+    #   머리 우선(D-0159, 사용자 지시 D152 "얼굴 잘림 수정"): 머리 상자가 원(R − head_margin_px) 안에 들 때까지 폭을 width → min_width 사이에서
+    #   줄인다(사진을 내리지 않고 확대율을 줄임). 머리 상자 = 정수리 ~ 턱 줄 × 머리 열 — 머리 폭 = 맨 위 head_scan × 초상 폭 줄들 중 가장 넓은 줄
+    #   (어깨 위), 턱 줄 = 정수리 + head_h_ratio × 머리 폭(사람 머리 높이 ≈ 폭의 1.3배, 보수적). 머리 열 밖(어깨)은 원에 잘려도 된다.
+    #   min_width 로도 안 들어가면 렌더 전 오류(조용한 잘림 금지, P6).
+    portrait: {width: 2.04, min_width: 1.4, alpha_top: 0.83, alpha_thr: 20, head_scan: 0.5, head_h_ratio: 1.3, head_margin_px: 1.6,
+               shadow_alpha: 0.16, shadow_dy: 0.8}
     # 국기 물결(인물 뒤): 중심 (cx, cy)·R, 폭 width·R, 원 안 클립. 세로 띠 n = clamp(ceil(장치 폭 px ÷ strip_px), strips_min, strips_max)
     #   — 출력 크기 기반(480p solo 96 상한, group 은 더 적게). 띠 i 위상 = t·speed + (i / n)·phase_span, 진폭 = amp·폭.
     #   띠 경계 = 장치 픽셀 정수 열(겹침·빈 줄 0). 그림자 = shade_alpha·(0.5 + 0.5·sin(위상 + shade_phase)), 국기 픽셀에만.
     flag_wave: {cx: 0.16, cy: -0.05, width: 2.3, alpha: 0.92, strip_px: 1.0, strips_min: 14, strips_max: 96, speed: 2.6, phase_span: 7.0, amp: 0.018,
                 shade_alpha: 0.16, shade_phase: 1.2}
-    # 링(인물 뱃지): 바깥 어두운 outer_w(원 바깥쪽), 안쪽 accent inner_w(원 안쪽) — 설계 px. 국기·휘장 뱃지 링은 그대로.
-    ring: {outer_w: 2.4, inner_w: 0.8, outer_rgb: [0.03, 0.04, 0.06], inner_alpha: 0.92}
+    # 링(모든 뱃지): 어두운 outer_w 위에 accent inner_w — 같은 원(R) 중심, 설계 px. 값 = v5.14.0 그대로(사용자 지시 D152 "테두리 두께는 이전과 동일",
+    # D-0159 — 가이드 23 §10 의 2.4/0.8 미적용). 리터럴 → 규칙 키 이관만.
+    ring: {outer_w: 3.2, inner_w: 1.5, outer_rgb: [0.03, 0.04, 0.06], inner_alpha: 0.92}
   timeline_gaps: {gap_sec: 0.5, scene_gap_sec: 1.0, lead_sec: 1.2, title_after_cold_open: true}
   fade: {in_sec: 1.2, out_sec: 1.6}
   reserved_zones: {card: {x_from_right: 260, y: [70, 200]}, subtitle: {y_from: 410}}

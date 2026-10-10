@@ -511,10 +511,20 @@ class BadgePortrait(_Strict):
     """v5.15.0 인물 초상(가이드 23 §10) — R 단위. alpha_thr 는 배치용(정규화 알파 > 40 과 별개)."""
 
     width: float = Field(gt=0)
+    min_width: float = Field(gt=0)        # v5.15.0 D-0159 — 머리 우선: 잘리면 width → min_width 사이로 줄인다
     alpha_top: float = Field(gt=0, lt=1)
     alpha_thr: int = Field(ge=0, le=255)
+    head_scan: float = Field(gt=0, le=1)      # 머리 폭을 찾는 맨 위 줄 범위(초상 폭 배수)
+    head_h_ratio: float = Field(gt=0)         # 턱 줄 = 정수리 + 이 값 × 머리 폭
+    head_margin_px: float = Field(ge=0)       # 설계 px — 머리 상자가 원(R − 이 값) 안
     shadow_alpha: float = Field(ge=0, le=1)
     shadow_dy: float = Field(ge=0)
+
+    @model_validator(mode="after")
+    def _widths(self) -> "BadgePortrait":
+        if self.min_width > self.width:
+            raise ValueError(f"badge.portrait min_width {self.min_width} > width {self.width}")
+        return self
 
 
 class BadgeFlagWave(_Strict):

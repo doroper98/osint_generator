@@ -1,6 +1,6 @@
 {
  "schema_version": 1,
- "role": "Phase Q2(v5.15.0) 기준선 — 사용자 결정 D148(가이드 23 §10): 인물 뱃지 V2(초상 2.04R·정수리 0.83R·얼굴 분리 그림자, 링 2.4/0.8)·국기 물결(띠 수 장치 폭 기반 14~96·진폭 0.018·정수 열). phaseG17 대비 바뀐 컷만 cut_detail. 25_END 도장 가린 md5",
+ "role": "Phase Q2(v5.15.0) 기준선 — 사용자 결정 D148(가이드 23 §10)·사용자 지시 D152(D-0159): 인물 뱃지 V2(초상 2.04R·정수리 0.83R·머리 우선 축소·얼굴 분리 그림자, 링 이전 두께 3.2/1.5)·국기 물결(띠 수 장치 폭 기반 14~96·진폭 0.018·정수 열). phaseG17 대비 바뀐 컷만 cut_detail. 25_END 도장 가린 md5",
  "command": "python -m engine.render projects/hormuz_korea --preview golden",
  "stamp_box": [
   797.0,
@@ -13,11 +13,11 @@
  "cuts": [
   {
    "png": "p_0007.82.png",
-   "md5": "7571143f4a8899539bc98c67d82504d2"
+   "md5": "9ff1be5f39b8efb739c8f622616306b6"
   },
   {
    "png": "p_0022.27.png",
-   "md5": "5ae05b82d67378ac4c4a2f3dae80aac2"
+   "md5": "fe5240eafefba2d3e6be89568a486f61"
   },
   {
    "png": "p_0028.77.png",
@@ -33,7 +33,7 @@
   },
   {
    "png": "p_0056.21.png",
-   "md5": "a1ef7f37bc89b27a5a9a775db2dfb442"
+   "md5": "b62f55417b12d308cc6bc1cfcdc7d862"
   },
   {
    "png": "p_0061.25.png",
@@ -45,11 +45,11 @@
   },
   {
    "png": "p_0080.70.png",
-   "md5": "e3aa94c191eb88274f18801a81efa9c9"
+   "md5": "50f167f0a760be8e72cd2517957da098"
   },
   {
    "png": "p_0087.06.png",
-   "md5": "d08ced1a09812fc0ef527b4610c5fcc0"
+   "md5": "6ea9a7e6c2a67b8437bc1069b8f0155b"
   },
   {
    "png": "p_0105.28.png",
@@ -77,11 +77,11 @@
   },
   {
    "png": "p_0193.22.png",
-   "md5": "b53563efd6936a1c0563279ef94bd108"
+   "md5": "5d34b4a9f8a5a2d0c9d372ca32aa4ca0"
   },
   {
    "png": "p_0207.41.png",
-   "md5": "5562f1d569efe3ecaac72b56da7e59ec"
+   "md5": "e9f2092640e31859404c78e778645a3b"
   },
   {
    "png": "p_0214.46.png",
@@ -97,7 +97,7 @@
   },
   {
    "png": "p_0245.56.png",
-   "md5": "bed43d224b7e08a18c7bc241f81ebaa0"
+   "md5": "e35ee2bdae6a348e5b4f69c4abffb8ca"
   },
   {
    "png": "p_0258.61.png",
@@ -115,92 +115,92 @@
  ],
  "cut_detail": {
   "p_0007.82.png": {
-   "changed_px": 10807,
+   "changed_px": 9277,
    "bbox": [
-    56,
-    29,
-    173,
-    145
+    60,
+    33,
+    169,
+    141
    ],
    "md5_old": "160bc254590c7faea19be3247a168a21",
-   "md5": "7571143f4a8899539bc98c67d82504d2"
+   "md5": "9ff1be5f39b8efb739c8f622616306b6"
   },
   "p_0022.27.png": {
-   "changed_px": 10387,
+   "changed_px": 8778,
    "bbox": [
-    53,
-    27,
-    169,
-    144
+    57,
+    31,
+    165,
+    140
    ],
    "md5_old": "8c848119b871a74dd04e88ab6e5ebb9e",
-   "md5": "5ae05b82d67378ac4c4a2f3dae80aac2"
+   "md5": "fe5240eafefba2d3e6be89568a486f61"
   },
   "p_0056.21.png": {
-   "changed_px": 10870,
+   "changed_px": 9385,
    "bbox": [
-    541,
-    16,
-    658,
-    133
+    545,
+    21,
+    654,
+    129
    ],
    "md5_old": "2250efba35b2fee5761ab9de4e1faf1e",
-   "md5": "a1ef7f37bc89b27a5a9a775db2dfb442"
+   "md5": "b62f55417b12d308cc6bc1cfcdc7d862"
   },
   "p_0080.70.png": {
-   "changed_px": 4730,
+   "changed_px": 3800,
    "bbox": [
-    196,
-    223,
-    273,
-    300
+    200,
+    227,
+    269,
+    296
    ],
    "md5_old": "a91283b6135eb2df27f02ae2da754861",
-   "md5": "e3aa94c191eb88274f18801a81efa9c9"
+   "md5": "50f167f0a760be8e72cd2517957da098"
   },
   "p_0087.06.png": {
-   "changed_px": 4737,
+   "changed_px": 3798,
    "bbox": [
-    196,
-    223,
-    273,
-    300
+    200,
+    227,
+    269,
+    296
    ],
    "md5_old": "3537d7fcff4c01851f0c167d9e2037d1",
-   "md5": "d08ced1a09812fc0ef527b4610c5fcc0"
+   "md5": "6ea9a7e6c2a67b8437bc1069b8f0155b"
   },
   "p_0193.22.png": {
-   "changed_px": 2260,
+   "changed_px": 1622,
    "bbox": [
-    167,
-    295,
-    220,
-    348
+    171,
+    300,
+    216,
+    344
    ],
    "md5_old": "d4364ebe5f294eaa3098bc438fa80862",
-   "md5": "b53563efd6936a1c0563279ef94bd108"
+   "md5": "5d34b4a9f8a5a2d0c9d372ca32aa4ca0"
   },
   "p_0207.41.png": {
-   "changed_px": 2261,
+   "changed_px": 1624,
    "bbox": [
-    167,
-    295,
-    220,
-    348
+    171,
+    300,
+    216,
+    344
    ],
    "md5_old": "d233cc113f5dbb51e0d0e0ef0a66ff52",
-   "md5": "5562f1d569efe3ecaac72b56da7e59ec"
+   "md5": "e9f2092640e31859404c78e778645a3b"
   },
   "p_0245.56.png": {
-   "changed_px": 10778,
+   "changed_px": 9267,
    "bbox": [
-    61,
-    72,
-    177,
-    189
+    65,
+    77,
+    173,
+    185
    ],
    "md5_old": "b76a739165f99fea4cc22f2e36edd526",
-   "md5": "bed43d224b7e08a18c7bc241f81ebaa0"
+   "md5": "e35ee2bdae6a348e5b4f69c4abffb8ca"
   }
  },
  "changed_vs_g17": [

@@ -1,7 +1,7 @@
 """인물 뱃지·국기 물결 V2(v5.15.0 back_and_forth D-0153 §5·D-0158, 사용자 결정 D148, 가이드 23 §10).
 
 띠 수(장치 폭 기반)·정수 열 분할(겹침·빈 줄 0)·물결 위상/진폭·작업 표면 재사용, 초상 정수리 배치(−0.83R, 알파 > 20)·한 번만 재기·
-배치 문턱 ≠ 정규화 문턱, 링(바깥 어두운·안쪽 accent), 코드 리터럴 → 규칙 키.
+배치 문턱 ≠ 정규화 문턱, 링(이전 두께 그대로, D152)·머리 우선 축소(D-0159), 코드 리터럴 → 규칙 키.
 """
 
 from __future__ import annotations
@@ -26,16 +26,22 @@ from tests.anti_inertia._ast_util import REPO
 FW, PT, RING = BADGE.flag_wave, BADGE.portrait, BADGE.ring
 
 
-def _project(d: Path, top_frac: float = 0.2, top_alpha: int = 255) -> Path:
-    """합성 초상(위 top_frac 투명, 그 아래 흰 불투명 — 맨 윗줄 알파 top_alpha) + 합성 국기(빨강 불투명 4:3)."""
+def _project(d: Path, top_frac: float = 0.2, top_alpha: int = 255, shape: str = "head") -> Path:
+    """합성 초상 + 합성 국기(빨강 불투명 4:3). shape head = 위 top_frac 투명 아래 타원 머리(폭 200/420)와 어깨(흰 불투명) — 맨 윗줄 알파 top_alpha.
+    shape rect = top_frac 아래 꽉 찬 사각형(아주 넓은 머리 — 맞출 수 없는 초상)."""
     (d / "assets" / "portraits").mkdir(parents=True)
     (d / "assets" / "flags").mkdir(parents=True)
     w, h = 420, 512
     a = np.zeros((h, w, 4), np.uint8)
     y0 = int(h * top_frac)
-    a[y0:, :, :3] = 255
-    a[y0:, :, 3] = 255
-    a[y0, :, 3] = top_alpha
+    if shape == "rect":
+        a[y0:] = 255
+    else:
+        yy, xx = np.mgrid[0:h, 0:w]
+        head = ((xx - 210) / 100) ** 2 + ((yy - (y0 + 130)) / 130) ** 2 <= 1
+        a[head | (yy >= y0 + 240)] = 255
+        a[y0, a[y0, :, 3] > 0, 3] = top_alpha
+        a[y0, 210] = (255, 255, 255, top_alpha)
     Image.fromarray(a, "RGBA").save(d / "assets" / "portraits" / "p.png")
     f = np.zeros((300, 400, 4), np.uint8)
     f[..., 0], f[..., 3] = 220, 255
@@ -142,19 +148,62 @@ class PortraitTest(unittest.TestCase):
             self.assertEqual(list(R.cache["portrait_alpha_top"]), ["portrait:p"])
             self.assertEqual(len(R.assets._sc), n_sc)   # 얼굴·국기 표면을 프레임마다 다시 만들지 않는다
 
-    def test_ring_outer_dark_inner_accent(self) -> None:
-        """링: 원 바깥쪽 어두운 outer_w, 원 안쪽 accent inner_w(설계 px)."""
+    def test_ring_same_thickness_as_before(self) -> None:
+        """링 = v5.14.0 그대로(사용자 지시 D152): 같은 원(R)에 어두운 3.2 위 accent 1.5 — R 위 픽셀은 accent, R + 1.4 는 어두움."""
+        self.assertEqual((RING.outer_w, RING.inner_w), (3.2, 1.5))
         with tempfile.TemporaryDirectory() as d:
             R = _ctx(_project(Path(d)))  # noqa: N806
             px = _badge(R, 56)
-            y_out = round(150 + 56 + RING.outer_w / 2)
-            out = px[y_out, 150, :3].astype(int)
+            out = px[round(150 + 56 + 1.4), 150, :3].astype(int)
             self.assertLess(out.sum(), 60)
-            y_in = int(150 + 56 - RING.inner_w / 2)
-            inn = px[y_in, 150, 2::-1].astype(float) / 255
-            acc = np.array(C["us"])
-            self.assertLess(float(np.abs(inn - acc * RING.inner_alpha - (1 - RING.inner_alpha) * inn).max()), 0.35)
-            self.assertGreater(float(inn[2]), float(inn[0]))   # us = 파란 accent
+            inn = px[150 + 56, 150, 2::-1].astype(float) / 255
+            self.assertGreater(float(inn[2]), float(inn[0]) + 0.2)   # us = 파란 accent
+
+
+class FitTest(unittest.TestCase):
+    PEOPLE = ("lee_jae_myung", "khamenei", "trump", "roh_moo_hyun")
+    HORMUZ = REPO / "projects" / "hormuz_korea"
+
+    @unittest.skipUnless((REPO / "projects" / "hormuz_korea" / "assets" / "portraits" / "lee_jae_myung.png").exists(),
+                         "hormuz 초상 자산 없음(projects/hormuz_korea/assets/portraits)")
+    def test_four_people_head_inside_circle(self) -> None:
+        """4명 × R56·R30: 머리 상자(정수리 ~ 턱 줄 × 머리 열)가 원(R − 여유) 안, 정수리는 여전히 중심 위 0.83R — 내리지 않고 줄인다."""
+        from engine.layers.badges import _head_fits, portrait_fit  # noqa: PLC0415
+
+        R = RenderCtx(assets=Assets(self.HORMUZ, Labels(), geo=False), tb=None, out=output_profile("480p"))  # type: ignore[arg-type]  # noqa: N806
+        widths = {}
+        for pid in self.PEOPLE:
+            key = f"portrait:{pid}"
+            R.assets.load_image(key)
+            mask = np.asarray(R.assets.img[key])[..., 3] > PT.alpha_thr
+            for Rr in (56, 30):  # noqa: N806
+                w = portrait_fit(R, key, Rr)
+                widths[(pid, Rr)] = w
+                self.assertTrue(PT.min_width <= w <= PT.width, (pid, Rr, w))
+                self.assertTrue(_head_fits(mask, portrait_alpha_top(R, key), w, Rr), (pid, Rr))
+        self.assertLess(widths[("lee_jae_myung", 56)], PT.width)       # 사용자 지적 컷 — 줄어든다
+        self.assertEqual(widths[("trump", 56)], PT.width)               # 들어가는 초상은 그대로
+
+    def test_too_wide_head_shrinks_or_errors(self) -> None:
+        """머리가 넓은 합성 초상은 폭이 줄고(정수리 자리 그대로), min_width 로도 안 들면 PortraitFitError(조용한 잘림 없음)."""
+        from engine.layers.badges import PortraitFitError, portrait_fit  # noqa: PLC0415
+
+        with tempfile.TemporaryDirectory() as d:
+            R = _ctx(_project(Path(d), top_frac=0.0, shape="rect"))  # noqa: N806 — 맨 위부터 꽉 찬 사각형 = 아주 넓은 머리
+            with self.assertRaises(PortraitFitError):
+                portrait_fit(R, "portrait:p", 56)
+        with tempfile.TemporaryDirectory() as d:
+            p = _project(Path(d))
+            a = np.zeros((512, 420, 4), np.uint8)
+            yy, xx = np.mgrid[0:512, 0:420]
+            a[((xx - 210) / 175) ** 2 + ((yy - 230) / 230) ** 2 <= 1] = 255   # 타원 머리(폭 350/420)
+            Image.fromarray(a, "RGBA").save(p / "assets" / "portraits" / "p.png")
+            R = _ctx(p)  # noqa: N806
+            w = portrait_fit(R, "portrait:p", 56)
+            self.assertTrue(PT.min_width <= w < PT.width, w)
+            px = _badge(R, 56)
+            white = np.where(px[:, 150, :3].min(axis=1) > 200)[0]
+            self.assertAlmostEqual(int(white.min()), 150 - PT.alpha_top * 56, delta=1.5)
 
 
 class TokensTest(unittest.TestCase):
@@ -168,18 +217,19 @@ class TokensTest(unittest.TestCase):
         person = next(n for n in ast.walk(ba) if isinstance(n, ast.If) and "person" in ast.unparse(n.test)
                       and "portrait" in ast.unparse(n))
         pnums = {c.value for b in person.body for c in ast.walk(b) if isinstance(c, ast.Constant) and isinstance(c.value, float)}
-        self.assertFalse(pnums & {0.032, 2.6, 0.16, 0.25, 2.3, 1.72, 0.92, 3.2, 1.5}, pnums)
+        self.assertFalse(pnums & {0.032, 2.6, 0.16, 0.25, 2.3, 1.72, 0.92}, pnums)
         self.assertNotIn("head_inside_max", BADGE.model_dump())
         self.assertEqual((PT.width, PT.alpha_top, PT.alpha_thr), (2.04, 0.83, 20))
         self.assertEqual((FW.cx, FW.cy, FW.width, FW.amp, FW.strips_min, FW.strips_max), (0.16, -0.05, 2.3, 0.018, 14, 96))
-        self.assertEqual((RING.outer_w, RING.inner_w, PT.shadow_alpha), (2.4, 0.8, 0.16))
+        self.assertEqual((RING.outer_w, RING.inner_w, PT.shadow_alpha), (3.2, 1.5, 0.16))   # 링 = 이전 그대로(D152)
 
-    def test_emblem_and_flag_badges_keep_old_ring(self) -> None:
-        """국기·휘장 뱃지 경로는 옛 링(3.2/1.5)을 그대로 쓴다 — 인물용 값을 통째로 복사하지 않음(가이드 §10)."""
+    def test_ring_one_path_for_all_badges(self) -> None:
+        """링은 모든 뱃지가 rules badge.ring 한 경로(리터럴 3.2·1.5 없음) — 값이 같아 국기·휘장 뱃지 출력은 그대로(골든 08컷 무변경)."""
         src = ast.unparse(next(n for n in ast.walk(ast.parse((REPO / "engine" / "layers" / "badges.py").read_text(encoding="utf-8")))
                                if isinstance(n, ast.FunctionDef) and n.name == "badge_at"))
-        self.assertIn("set_line_width(3.2)", src)
-        self.assertIn("set_line_width(1.5)", src)
+        self.assertNotIn("set_line_width(3.2)", src)
+        self.assertNotIn("set_line_width(1.5)", src)
+        self.assertEqual(src.count("RING.outer_w"), 1)
         self.assertIs(badges.FW, BADGE.flag_wave)
 
 

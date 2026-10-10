@@ -131,6 +131,73 @@ def portrait_alpha_top(R: RenderCtx, key: str) -> float:  # noqa: N803
     return memo[key]
 
 
+class PortraitFitError(ValueError):
+    """초상 머리가 min_width 로 줄여도 원 안에 들지 않는다 — 조용히 자르지 않는다(15 P6). 초상 정규화를 다시 한다."""
+
+
+def head_box(mask: "object") -> tuple[int, int, int, int]:
+    """초상 마스크(알파 > alpha_thr) → 머리 상자(정수리 줄, 턱 줄, 왼쪽 열, 오른쪽 열 + 1), 원본 px. 수치 = rules badge.portrait."""
+    import numpy as np  # noqa: PLC0415
+
+    h, wd = mask.shape  # type: ignore[attr-defined]
+    rows = np.nonzero(mask.any(axis=1))[0]  # type: ignore[attr-defined]
+    if not len(rows):
+        raise PortraitFitError("초상 알파가 비었다")
+    top = int(rows[0])
+    scan = mask[top:top + max(1, int(PT.head_scan * wd))]  # type: ignore[index]
+    has = scan.any(axis=1)
+    left = np.where(has, np.argmax(scan, axis=1), wd)
+    right = np.where(has, wd - np.argmax(scan[:, ::-1], axis=1), 0)
+    r = int(np.argmax(right - left))                       # 머리가 가장 넓은 줄
+    c0, c1 = int(left[r]), int(right[r])
+    return top, min(h, top + int(round(PT.head_h_ratio * (c1 - c0)))), c0, c1
+
+
+def _head_fits(mask: "object", top: float, w: float, Rr: float) -> bool:  # noqa: N803
+    """폭 w·R 로 그릴 때 머리 상자 안 초상 픽셀(정수리 ~ 턱 줄 × 머리 열)이 모두 원(R − head_margin_px) 안인가."""
+    import numpy as np  # noqa: PLC0415
+
+    h, wd = mask.shape  # type: ignore[attr-defined]
+    r0, r1, c0, c1 = head_box(mask)
+    sub = mask[r0:r1, c0:c1]  # type: ignore[index]
+    has = sub.any(axis=1)
+    if not has.any():
+        return True
+    s = w * Rr / wd                                       # 설계 px / 원본 px
+    y0 = -PT.alpha_top * Rr - top * h * s
+    rows = np.nonzero(has)[0]
+    left = c0 + np.argmax(sub[rows], axis=1)
+    right = c0 + (c1 - c0) - np.argmax(sub[rows][:, ::-1], axis=1)
+    ys = y0 + (r0 + rows + 0.5) * s
+    yy = np.maximum(np.abs(ys - 0.5 * s), np.abs(ys + 0.5 * s))
+    xs = np.maximum(np.abs(-w * Rr / 2 + left * s), np.abs(-w * Rr / 2 + right * s))
+    return bool((np.hypot(xs, yy) <= Rr - PT.head_margin_px).all())
+
+
+def portrait_fit(R: RenderCtx, key: str, Rr: float) -> float:  # noqa: N803
+    """초상 폭(R 단위) — 머리 우선(D-0159, D152): portrait.width 로 머리 상자가 원 안이면 그대로, 아니면 min_width 까지 이분 탐색으로
+    줄인다(사진을 내리지 않음). min_width 로도 안 들면 PortraitFitError. 초상·R 마다 한 번(R.cache)."""
+    import numpy as np  # noqa: PLC0415
+
+    memo = R.cache.setdefault("portrait_fit", {})
+    k = (key, round(Rr, 3))
+    if k not in memo:
+        R.assets.load_image(key)
+        mask = np.asarray(R.assets.img[key].convert("RGBA"))[..., 3] > PT.alpha_thr
+        top = portrait_alpha_top(R, key)
+        if _head_fits(mask, top, PT.width, Rr):
+            memo[k] = PT.width
+        elif not _head_fits(mask, top, PT.min_width, Rr):
+            raise PortraitFitError(f"{key} R{Rr:g}: 폭 {PT.min_width}R 로도 머리가 원 밖 — 초상 정규화(tools/portrait_fallback)를 다시 한다")
+        else:
+            lo, hi = PT.min_width, PT.width
+            for _ in range(20):
+                mid = (lo + hi) / 2
+                lo, hi = (mid, hi) if _head_fits(mask, top, mid, Rr) else (lo, mid)
+            memo[k] = math.floor(lo * 1e4) / 1e4   # 내림 — 반올림이 맞는 폭을 넘지 않게
+    return memo[k]
+
+
 def head_factor(e: dict) -> float:
     """badge_box·예약 영역의 머리 높이(R 단위). measured 면 이벤트 head_top(없으면 상한), factor 면 상한(v3)."""
     if not BADGE.head_popout:   # v5.5.0 — 머리가 원 안이면 위 예약은 원(+그림자, badge_box 의 Rr + 7)까지
@@ -260,7 +327,7 @@ def badge_at(ctx: cairo.Context, R: RenderCtx, x: float, y: float, e: dict, t: f
             ctx.clip()
             set_raster(ctx, ps, R.out.k, -pw / 2, Rr - ph + Rr * 0.02)
         else:                   # v5.15.0 V2(가이드 23 §10) — 원 안, 정수리(알파 > alpha_thr 맨 윗줄) = 중심 위 alpha_top·R
-            ps, pw, ph = R.assets.raster(key, Rr * PT.width, R.out.k)
+            ps, pw, ph = R.assets.raster(key, Rr * portrait_fit(R, key, Rr), R.out.k)
             ctx.clip()
             y0 = -PT.alpha_top * Rr - portrait_alpha_top(R, key) * ph
             shadow = cairo.SurfacePattern(ps)              # 얼굴 분리 그림자 = 초상 알파 모양, shadow_dy 아래
@@ -270,24 +337,14 @@ def badge_at(ctx: cairo.Context, R: RenderCtx, x: float, y: float, e: dict, t: f
             set_raster(ctx, ps, R.out.k, -pw / 2, y0)
         ctx.paint_with_alpha(a)
         ctx.restore()
-        ctx.new_path()          # v5.15.0 링 — 바깥 어두운 outer_w(원 바깥쪽), 안쪽 accent inner_w(원 안쪽)
-        ctx.arc(0, 0, Rr + RING.outer_w / 2, 0, 2 * math.pi)
-        ctx.set_source_rgba(*RING.outer_rgb, a)
-        ctx.set_line_width(RING.outer_w)
-        ctx.stroke()
-        ctx.arc(0, 0, Rr - RING.inner_w / 2, 0, 2 * math.pi)
-        ctx.set_source_rgba(*acc, RING.inner_alpha * a)
-        ctx.set_line_width(RING.inner_w)
-        ctx.stroke()
-    else:
-        ctx.new_path()
-        ctx.arc(0, 0, Rr, 0, 2 * math.pi)
-        ctx.set_source_rgba(0.03, 0.04, 0.06, a)
-        ctx.set_line_width(3.2)
-        ctx.stroke_preserve()
-        ctx.set_source_rgba(*acc, 0.92 * a)
-        ctx.set_line_width(1.5)
-        ctx.stroke()
+    ctx.new_path()              # 링(모든 뱃지) = 어두운 outer_w 위에 accent inner_w, 같은 원 — rules badge.ring(v5.14.0 값 그대로, D152)
+    ctx.arc(0, 0, Rr, 0, 2 * math.pi)
+    ctx.set_source_rgba(*RING.outer_rgb, a)
+    ctx.set_line_width(RING.outer_w)
+    ctx.stroke_preserve()
+    ctx.set_source_rgba(*acc, RING.inner_alpha * a)
+    ctx.set_line_width(RING.inner_w)
+    ctx.stroke()
     ctx.restore()
     la = a * smooth((lt - 0.3) / 0.35)
     if e.get("label") and la > 0.01:
