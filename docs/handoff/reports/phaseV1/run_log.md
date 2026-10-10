@@ -74,4 +74,13 @@ V1 은 `engine/` 를 고치지 않는 범위라 그대로 두었습니다. 지�
 
 바꾼 옛 테스트 1: `test_v560_script_review.NoElevenLabsTest` 의 기본 백엔드 단정 `edge` → `supertonic`(D127 → D146). 테스트 수 변화는 없습니다.
 
-__PYTEST__
+## 6. 전체 pytest
+
+`FONTCONFIG_FILE` 표준 설정, Supertonic 자산 받은 상태(f6258f9):
+
+| 시점 | passed | failed | skipped | xfail |
+|---|---|---|---|---|
+| v5.10.0 끝(S4) | 1394 | 0 | 0 | 0 |
+| V1 끝 | **1410** | **0** | **0** | 0 |
+
+기준 1394 + V0 7 + V1 9 = 1410 = 실측(24분 37초). `-rs` 출력에 SKIPPED 줄이 없습니다.
