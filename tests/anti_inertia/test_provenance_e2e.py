@@ -35,6 +35,9 @@ PREP = (
 )
 
 
+MAP_REASON = "v3 골든 기준 — 사용자 합격본(2026-09-28)은 어두운 지도, 지도 테마 두 개 정식화(D154) 이전 영상"
+
+
 def _masked_md5(p: Path, box: list[float], pad: int) -> str:
     """도장 상자(+pad)를 0 으로 가린 RGB 픽셀 md5 — 버전 도장 문자열(VERSION)과 무관한 대조(v5.1.0 D-0124)."""
     import math  # noqa: PLC0415
@@ -85,7 +88,9 @@ class ProvenanceE2ETest(unittest.TestCase):
         self.assertEqual(next(i for i in chk["items"] if i["id"] == "geo_mismatch")["count"], 0)
         self.assertEqual(prov["genre"], {"name": "geopolitics", "declared": False, "status": "approved"})   # v4.2.0 D-0081 작업 3, v4.3.0 status
         self.assertEqual(prov["stage"], {"name": "mercator", "declared": False, "shots_declared": 0, "instances": {"mercator": 1},
-                                         "configs": {}})   # D-0076 작업 7, v4.3.0 configs(무대 설정 — 지도는 없음)
+                                         "configs": {"mercator": {"theme": "dark", "theme_reason": MAP_REASON}}})   # D-0076 작업 7, v4.3.0 configs
+        # v5.18.0 D-0161 §7·D-0170 §3-4 — 장르(지정학) 기본 light, 골든은 dark 고정 + 사유 → [map-theme-override] warning 1건이 정상
+        self.assertEqual(prov["map_theme"], {"name": "dark", "declared": True, "genre_default": "light", "reason": MAP_REASON})
         self.assertNotIn("series", prov)
         self.assertNotIn("cascade", prov)   # v5.3.0 D-0139 §3 — 겹침 카드를 쓰지 않은 영상(P5)   # v4.3.0 — 데이터 레코드를 그리지 않은 영상
         self.assertEqual(prov["render"]["resolution"]["profile"], "480p")   # v3.6.0 D-0066 작업 1

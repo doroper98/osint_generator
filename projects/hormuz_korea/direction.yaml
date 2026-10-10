@@ -3,6 +3,10 @@
 # 시각은 앵커로만 쓴다. `off` 가 목록이면 앞에서부터 차례로 더한다. `{span: [A, B]}` = B − A(초).
 version: 1
 opening_exempt: v3 골든 — 사용자 합격 오프닝(제목 뒤 해협 클로즈업). 넓은 지도 오프닝 규칙(v5.6.0 RENDER-AP-016) 이전 기준 영상이라 그대로 둔다
+stage_config:   # v5.18.0 D-0170 §3-4 — 장르(지정학) 기본 테마는 light(D154). 골든은 dark 그대로 → [map-theme-override] warning 1건이 정상
+  mercator:
+    theme: dark
+    theme_reason: v3 골든 기준 — 사용자 합격본(2026-09-28)은 어두운 지도, 지도 테마 두 개 정식화(D154) 이전 영상
 places:
   hormuz: [56.35, 26.55]
   seoul: [126.98, 37.57]

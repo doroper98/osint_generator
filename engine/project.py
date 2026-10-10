@@ -369,6 +369,8 @@ def load_project(proj: Path, direction: Optional[Direction] = None, out: Optiona
     R.cache["genre"] = {"name": doc.genre_name(), "declared": doc.genre is not None,    # v4.2.0 D-0081 작업 3 — provenance genre(15 P5)
                         "status": doc.genre_profile().status,                          # v4.3.0 D-0084 작업 6 — proposed 프로필 사용 기록(P6)
                         "elements_used": used_elements(doc.events)}                   # checks genre_elements 입력(연출이 쓴 요소)
+    if uses_map:   # v5.18.0 D-0161 §7 — 지도 테마 선택 기록(provenance map_theme, 지도 무대만 — P5)
+        R.cache["map_theme"] = doc.map_theme()
     gz = gazetteer_check(doc, geo_unsourced(doc)) if uses_map else None   # v4.10.0 D-0116 — 지명 사전 대조(지도 무대만)
     R.cache["geo_check"] = {"boundary": boundary_routes(doc, load_rules().geo.boundary_names),   # v4.7.0 D-0107 D2(b) — checks [boundary-as-route]
                             "unsourced": gz["unsourced"] if gz else None,                        # [geo-unsourced] warning·provenance geo(지도 무대만)
@@ -466,6 +468,9 @@ def load_project(proj: Path, direction: Optional[Direction] = None, out: Optiona
     ign = R.cache["badge"]["R_ignored"]
     warns = [f"[badge-R-ignored] 인물 뱃지 연출 R {len(ign)}건 무시 — 크기는 보이는 인물 수로 코드가 정한다(D-0111): "
              + ", ".join(f"{g['label'] or g['pid']} R {g['R']:g}" for g in ign)] if ign else []
+    mt = R.cache.get("map_theme")
+    if mt and mt["declared"] and mt["name"] != mt["genre_default"]:   # v5.18.0 D-0161 §7 — 장르 기본값과 다른 테마(시리즈 안 예외가 보이게)
+        warns.append(f"[map-theme-override] 지도 테마 {mt['name']} — 장르 기본값 {mt['genre_default']} 과 다름: {mt['reason']}")
     warns += lint_events(events) + placement_warnings(events, A.media_assets) \
         + density_report(events, tb, plan.total)["warnings"]
     from engine.reserved import hold_pushes  # noqa: PLC0415

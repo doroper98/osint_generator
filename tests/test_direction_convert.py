@@ -46,7 +46,12 @@ class ConvertFidelityTest(unittest.TestCase):
 
     def test_example_prompt_copy_matches_project(self) -> None:
         ex = REPO / "prompts" / "examples" / "hormuz_direction.yaml"
-        self.assertEqual(load_direction_doc(ex), load_direction_doc(REPO / "projects" / "hormuz_korea" / "direction.yaml"))
+        proj = load_direction_doc(REPO / "projects" / "hormuz_korea" / "direction.yaml").model_copy(deep=True)
+        # v5.18.0 D-0170 §3-4 — 골든만 장르 기본 테마(light)를 dark 로 고정(사유 포함). 예시(director 프롬프트)에는 넣지 않는다 —
+        # 테마는 장르가 정하는 것이 기본이라, 예시가 덮어쓰기를 가르치면 안 된다(D-0161 §7)
+        reason = proj.map_theme()["reason"]
+        self.assertEqual(proj.stage_config.pop("mercator"), {"theme": "dark", "theme_reason": reason})
+        self.assertEqual(load_direction_doc(ex), proj)
 
 
 if __name__ == "__main__":

@@ -96,18 +96,22 @@ def by_w(w: float, rule: tuple[list[tuple[float, float]], float]) -> float:
     return last
 
 
-MERCATOR_CONFIG_KEYS = ("border_glow", "theme")
+MERCATOR_CONFIG_KEYS = ("border_glow", "theme", "theme_reason")   # theme_reason = v5.18.0 D-0161 §7(direction 이 테마를 고를 때 사유)
 
 
 def mercator_theme(config: Optional[dict]) -> str:
     """mercator stage_config 검사 + 지도 테마 이름(v5.13.0 D-0153 Q0-2). 키는 MERCATOR_CONFIG_KEYS 만(그 밖 = 오류, P10).
-    theme 없음 = rules geo.themes.default. 전편 MercatorStage·콘티 막지도·engine.project(자산 테마 선택)가 같이 쓴다."""
+    theme 없음 = rules geo.themes.default. 전편 MercatorStage·콘티 막지도·engine.project(자산 테마 선택)가 같이 쓴다.
+    v5.18.0(D-0161 §1): config = 장르 프로필 stage.mercator(기본 테마) 위에 direction stage_config.mercator 를 덮은 값
+    (`Direction.stage_settings`) — 한 영상에 지도 설정은 하나라 숏·장면별 테마 변경은 문법상 불가."""
     config = config or {}
     bad = sorted(set(config) - set(MERCATOR_CONFIG_KEYS))
     if bad:   # v5.3.1 border_glow, v5.13.0 theme. 그 밖 = 오류
         raise StageError(f"mercator 무대 stage_config 는 {list(MERCATOR_CONFIG_KEYS)} 만 — 받은 키 {bad}")
     if not isinstance(config.get("border_glow", False), bool):
         raise StageError("mercator stage_config.border_glow 는 true|false")
+    if not isinstance(config.get("theme_reason", ""), str):
+        raise StageError("mercator stage_config.theme_reason 은 문자열(테마를 고른 사유)")
     th = load_rules().geo.themes
     name = config.get("theme", th.default)
     if name not in th.names():

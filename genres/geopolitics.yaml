@@ -8,6 +8,7 @@ status: approved
 stage:
   primary: mercator              # 20 §2.1 지도 무대(engine.stage.MercatorStage)
   secondary: []
+  mercator: {theme: light}       # v5.18.0 사용자 결정 D154(D-0161 §1) — 지도 테마 장르 기본값: 지정학·경제 해설 = light, 군사 작전·야간·전황 = dark. 바꾸면 direction 에 사유(theme_reason) + [map-theme-override]
 color_semantics:                 # docs/handoff/09 §7 색 토큰의 쓰임 그대로(값 = rules registries.accents 토큰 이름)
   confrontation: ru              # 대립·봉쇄·거절·러시아/이란 측
   us_side: us                    # 미국 측, 호위

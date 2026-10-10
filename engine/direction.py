@@ -247,11 +247,21 @@ class Direction(_Strict):
 
     def stage_settings(self, name: str) -> Optional[dict[str, Any]]:
         """무대 설정 = 장르 프로필 stage.<이름> 기본값 위에 direction stage_config.<이름>(v4.3.0). 지도는 None."""
-        if name == "mercator":
-            return self.stage_config.get(name) or None
         prof = self.genre_profile().stage.settings().get(name)
+        if name == "mercator":   # v5.18.0 D-0161 §1 — 장르 기본 테마(stage.mercator) 위에 direction 설정. 둘 다 없으면 None
+            merged = {**(prof or {}), **self.stage_config.get(name, {})}
+            return merged or None
         base = prof.model_dump() if prof is not None and hasattr(prof, "model_dump") else dict(prof or {})
         return {**base, **self.stage_config.get(name, {})}
+
+    def map_theme(self) -> dict[str, Any]:
+        """지도 테마 선택 기록(v5.18.0 D-0161 §7, provenance map_theme) — name·declared(direction 이 골랐나)·genre_default·reason."""
+        from engine.stage import mercator_theme  # noqa: PLC0415
+
+        own = self.stage_config.get("mercator", {})
+        prof = self.genre_profile().stage.settings().get("mercator") or {}
+        return {"name": mercator_theme(self.stage_settings("mercator")), "declared": "theme" in own,
+                "genre_default": mercator_theme(prof or None), "reason": own.get("theme_reason")}
 
     def stage_configs(self) -> dict[str, dict[str, Any]]:
         names = {self.main_stage()} | {self.shot_stage(s) for s in self.shots}
@@ -281,6 +291,11 @@ class Direction(_Strict):
 
         used = {self.main_stage()} | {self.shot_stage(s) for s in self.shots}
         errs += [f"stage_config {k!r} 는 이 연출이 쓰는 무대 {sorted(used)} 밖이다" for k in self.stage_config if k not in used]
+        mc = self.stage_config.get("mercator", {})   # v5.18.0 D-0161 §7 — 테마를 직접 고르면 사유 필수(사유만 있고 테마 없음 = 오류)
+        if "theme" in mc and not str(mc.get("theme_reason") or "").strip():
+            errs.append("stage_config.mercator.theme 을 고르면 theme_reason(사유)을 쓴다 — 장르 기본값과 다르면 [map-theme-override]")
+        if "theme_reason" in mc and "theme" not in mc:
+            errs.append("stage_config.mercator.theme_reason 은 theme 을 고를 때만")
         for i, s in enumerate(self.shots):   # v4.3.0 D-0085 — 카메라 앵커 키는 숏 무대가 선언한 것만(P10)
             keys = set(getattr(stage_class(self.shot_stage(s)), "anchor_keys", ()))
             if not s.camera.keys() <= keys:

@@ -219,6 +219,8 @@ def project_provenance(P, stages: dict[str, bool]) -> dict:  # noqa: ANN001, N80
                           "creep": {"ranges": pc["creep"], "w_ratio": pc["creep_w_ratio"]} if pc["creep"] else None}
     prov["animatic"] = bool(getattr(P, "animatic", False))   # v4.9.0 D-0108 — 콘티 판 여부(전편 false, 콘티 판 true + animatic_run)
     prov["stage"] = P.R.cache.get("stage")   # v4.1.0 D-0076 작업 7 — 무대(name·declared·shots_declared·instances)
+    if P.R.cache.get("map_theme") is not None:   # v5.18.0 D-0161 §7 — 지도 테마(name·declared·genre_default·reason), 지도 무대만
+        prov["map_theme"] = P.R.cache["map_theme"]
     g = P.R.cache.get("genre") or {}
     prov["genre"] = {"name": g.get("name"), "declared": g.get("declared"), "status": g.get("status")}   # v4.2.0 D-0081 작업 3, v4.3.0 status(proposed 사용 기록)
     from genres.load import load_genre, load_order  # noqa: PLC0415
