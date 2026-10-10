@@ -105,8 +105,11 @@ class RunStageTest(unittest.TestCase):
     def test_real_cli_direction_validate(self) -> None:
         r = es.run_stage(HORMUZ, "direction_validate")
         # v5.5.0 script_grammar(LLM-AP-013) — v3 골든 원고는 미확인 마무리·연결어 부족 오류 2개를 그대로 갖는다(원고 재작성 대상 아님)
-        self.assertFalse(r.ok)
-        self.assertEqual(sorted(x.split("]")[0] + "]" for x in r.errors), ["[flow-sparse]", "[uncertain-phrase]"])
+        # v5.17.0 D-0168(D162) — 그 2개는 projects/hormuz_korea/lint_waivers.yaml 정확 일치 면제 → 통과, [waived …] 경고줄로 남는다
+        self.assertTrue(r.ok, r.errors)
+        self.assertEqual(r.errors, [])
+        self.assertEqual(sorted(w for w in r.warnings if w.startswith("[waived")),
+                         ["[waived flow-sparse - — D-0168]", "[waived uncertain-phrase now_3 — D-0168]"])
         self.assertEqual(r.stage, "lint")
         # v3.2.0 — v3 원고가 claims 로 이관돼(D51) sources 경고가 사라졌다. 라벨 집계는 artifacts 로
         self.assertEqual([w for w in r.warnings if "source" in w], [])

@@ -93,6 +93,8 @@ def load(proj: Path, changelog: str | None = None) -> list[LintWaiver]:
 
 def apply(report, waivers: list[LintWaiver], script: Script):  # noqa: ANN001, ANN201 — (LintReport, list[dict])
     """오류 중 면제와 정확 일치하는 것만 뺀 보고서와 면제 기록. 낡은 면제 = LintWaiverError."""
+    if not waivers:   # 면제 목록이 없으면 보고서를 그대로(면제 기록 없음)
+        return report, []
     used: set[int] = set()
     kept = []
     waived: list[dict] = []
