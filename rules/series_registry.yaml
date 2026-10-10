@@ -1,0 +1,6 @@
+# 영상 시리즈 레지스트리 (v5.18.0, back_and_forth D-0171, DECISIONS D165) — git 추적, 사람 결정 기록 한 곳(P3).
+# 시리즈 id → {title, map_theme, decided_by, projects}. projects 에 적는 것이 소속 선언(direction 에 적지 않는다).
+# 검사 [series-theme-mismatch](hard): 소속 프로젝트의 유효 지도 테마 ≠ 시리즈 map_theme. 시리즈 테마와 같으면 [map-theme-override] 를 내지 않는다.
+# 지금 실제 시리즈는 없다 — 첫 항목은 사용자에게 "시리즈로 묶을지" 물어 넣는다(사용자 고유 결정).
+schema_version: 1
+series: {}

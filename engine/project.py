@@ -335,9 +335,17 @@ def load_project(proj: Path, direction: Optional[Direction] = None, out: Optiona
     from engine.stage import StageError, mercator_theme  # noqa: PLC0415
 
     try:   # v5.13.0 D-0153 Q0-2 — 지도 테마 = 지형 티어 자산 분기(assets/theme_<이름>/). 자산을 읽기 전에 정한다
-        theme = mercator_theme(doc.stage_configs().get("mercator"))
+        mt = doc.map_theme(proj.name) if uses_map else None   # v5.18.0 D-0171 — direction → 장르 프로필(없으면 오류), 시리즈 소속
+        theme = mt["effective"] if mt else mercator_theme(None)
     except StageError as ex:
         raise ProjectError(f"무대 설정 오류: {ex}") from ex
+    if mt and mt["series"]:   # v5.18.0 D-0171 — [series-theme-mismatch] hard: 시리즈 테마는 사용자 결정 없이 못 바꾼다
+        from engine.direction import series_theme_error  # noqa: PLC0415
+        from rules import load_series_registry  # noqa: PLC0415
+
+        err = series_theme_error(mt, load_series_registry())
+        if err:
+            raise ProjectError(err)
     assets = Assets(proj, load_labels(proj / "labels.yaml"), None if out.k == 1 else out.name, geo=uses_map and not animatic,
                     theme=theme)
     R = RenderCtx(assets=assets, tb=tb, credits=load_credits(proj / "credits.yaml"), out=out)  # noqa: N806
@@ -369,8 +377,9 @@ def load_project(proj: Path, direction: Optional[Direction] = None, out: Optiona
     R.cache["genre"] = {"name": doc.genre_name(), "declared": doc.genre is not None,    # v4.2.0 D-0081 작업 3 — provenance genre(15 P5)
                         "status": doc.genre_profile().status,                          # v4.3.0 D-0084 작업 6 — proposed 프로필 사용 기록(P6)
                         "elements_used": used_elements(doc.events)}                   # checks genre_elements 입력(연출이 쓴 요소)
-    if uses_map:   # v5.18.0 D-0161 §7 — 지도 테마 선택 기록(provenance map_theme, 지도 무대만 — P5)
-        R.cache["map_theme"] = doc.map_theme()
+    if mt is not None:   # v5.18.0 D-0161 §7 — 지도 테마 선택 기록(provenance map_theme, 지도 무대만 — P5)
+        R.cache["map_theme"] = {k: v for k, v in mt.items() if k != "genre_default"}
+        R.cache["map_theme_warn"] = mt
     gz = gazetteer_check(doc, geo_unsourced(doc)) if uses_map else None   # v4.10.0 D-0116 — 지명 사전 대조(지도 무대만)
     R.cache["geo_check"] = {"boundary": boundary_routes(doc, load_rules().geo.boundary_names),   # v4.7.0 D-0107 D2(b) — checks [boundary-as-route]
                             "unsourced": gz["unsourced"] if gz else None,                        # [geo-unsourced] warning·provenance geo(지도 무대만)
@@ -468,9 +477,10 @@ def load_project(proj: Path, direction: Optional[Direction] = None, out: Optiona
     ign = R.cache["badge"]["R_ignored"]
     warns = [f"[badge-R-ignored] 인물 뱃지 연출 R {len(ign)}건 무시 — 크기는 보이는 인물 수로 코드가 정한다(D-0111): "
              + ", ".join(f"{g['label'] or g['pid']} R {g['R']:g}" for g in ign)] if ign else []
-    mt = R.cache.get("map_theme")
-    if mt and mt["declared"] and mt["name"] != mt["genre_default"]:   # v5.18.0 D-0161 §7 — 장르 기본값과 다른 테마(시리즈 안 예외가 보이게)
-        warns.append(f"[map-theme-override] 지도 테마 {mt['name']} — 장르 기본값 {mt['genre_default']} 과 다름: {mt['reason']}")
+    if R.cache.get("map_theme_warn"):   # v5.18.0 D-0161 §7·D-0171
+        from engine.direction import map_theme_override_warning  # noqa: PLC0415
+
+        warns += map_theme_override_warning(R.cache["map_theme_warn"])
     warns += lint_events(events) + placement_warnings(events, A.media_assets) \
         + density_report(events, tb, plan.total)["warnings"]
     from engine.reserved import hold_pushes  # noqa: PLC0415

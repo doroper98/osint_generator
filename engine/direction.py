@@ -254,14 +254,27 @@ class Direction(_Strict):
         base = prof.model_dump() if prof is not None and hasattr(prof, "model_dump") else dict(prof or {})
         return {**base, **self.stage_config.get(name, {})}
 
-    def map_theme(self) -> dict[str, Any]:
-        """지도 테마 선택 기록(v5.18.0 D-0161 §7, provenance map_theme) — name·declared(direction 이 골랐나)·genre_default·reason."""
+    def genre_map_theme(self) -> str:
+        """장르 프로필의 지도 기본 테마(v5.18.0 D-0171 §3) — 값이 없으면 오류(조용히 dark 로 가지 않는다, P6)."""
+        from engine.stage import StageError, mercator_theme  # noqa: PLC0415
+
+        prof = self.genre_profile().stage.settings().get("mercator") or {}
+        if "theme" not in prof:
+            raise StageError(f"장르 {self.genre_name()!r} 프로필에 stage.mercator.theme(지도 기본 테마)이 없다 — genres/*.yaml 에 적는다(D154)")
+        return mercator_theme(prof)
+
+    def map_theme(self, project_id: str | None = None) -> dict[str, Any]:
+        """지도 테마 선택 기록(v5.18.0 D-0161 §7·D-0171, provenance map_theme).
+        effective = direction override → 장르 프로필. source = direction|genre. series = 레지스트리 소속 시리즈 id(없으면 None)."""
         from engine.stage import mercator_theme  # noqa: PLC0415
+        from rules import load_series_registry  # noqa: PLC0415
 
         own = self.stage_config.get("mercator", {})
-        prof = self.genre_profile().stage.settings().get("mercator") or {}
-        return {"name": mercator_theme(self.stage_settings("mercator")), "declared": "theme" in own,
-                "genre_default": mercator_theme(prof or None), "reason": own.get("theme_reason")}
+        genre = self.genre_map_theme()
+        eff = mercator_theme(self.stage_settings("mercator")) if "theme" in own else genre
+        hit = load_series_registry().series_of(project_id) if project_id else None
+        return {"effective": eff, "source": "direction" if "theme" in own else "genre", "declared": "theme" in own,
+                "reason": own.get("theme_reason"), "series": hit[0] if hit else None, "genre_default": genre}
 
     def stage_configs(self) -> dict[str, dict[str, Any]]:
         names = {self.main_stage()} | {self.shot_stage(s) for s in self.shots}
@@ -533,3 +546,22 @@ def load_direction_doc(path: Path) -> Direction:
 
 __all__ = ["Direction", "DirectionError", "Shot", "Sound", "boundary_routes", "build", "geo_unsourced", "is_anchor", "load_direction_doc",
            "resolve_anchor", "shot_stages", "yaml_load"]
+
+
+def map_theme_override_warning(mt: dict[str, Any]) -> list[str]:
+    """[map-theme-override] warning(v5.18.0 D-0161 §7) — direction 이 장르 기본값과 다른 테마를 골랐을 때.
+    시리즈 소속이면 시리즈 테마가 사유라 내지 않는다(D-0171, 시리즈와 다르면 series_theme_error 가 hard)."""
+    if mt["declared"] and mt["effective"] != mt["genre_default"] and not mt["series"]:
+        return [f"[map-theme-override] 지도 테마 {mt['effective']} — 장르 기본값 {mt['genre_default']} 과 다름: {mt['reason']}"]
+    return []
+
+
+def series_theme_error(mt: dict[str, Any], registry: Any) -> str | None:
+    """[series-theme-mismatch] hard(v5.18.0 D-0171) — 시리즈 소속 영상의 유효 테마 ≠ 시리즈 map_theme 이면 오류 문구."""
+    if not mt["series"]:
+        return None
+    ser = registry.series[mt["series"]]
+    if mt["effective"] == ser.map_theme:
+        return None
+    return (f"[series-theme-mismatch] 시리즈 {mt['series']!r}({ser.title}) 테마 {ser.map_theme}({ser.decided_by}) ≠ "
+            f"이 영상 {mt['effective']}({mt['source']}) — 시리즈 테마를 바꾸려면 사용자 결정 후 rules/series_registry.yaml")

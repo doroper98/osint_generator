@@ -94,18 +94,22 @@ def draw_border_glow(ctx: cairo.Context, stage: "MercatorStage", view: View, t: 
     border_path(ctx, stage, view, lod)   # v5.18.0 — 해안을 분리한 테마는 국경(공유 변)에만 글로우
     path = ctx.copy_path()
     ctx.set_line_join(cairo.LINE_JOIN_ROUND)
-    for w, a in BG.halo:
+    tg = stage.theme.border_glow   # v5.18.0 D-0161 §2 — 테마별 글로우 값(없으면 공통)
+    rgb = tg.rgb if tg is not None and tg.rgb is not None else BG.rgb
+    halo = tg.halo if tg is not None and tg.halo is not None else BG.halo
+    run_layers = tg.run_layers if tg is not None and tg.run_layers is not None else BG.run_layers
+    for w, a in halo:
         ctx.new_path()
         ctx.append_path(path)
-        ctx.set_source_rgba(*BG.rgb, a)
+        ctx.set_source_rgba(*rgb, a)
         ctx.set_line_width(w)
         ctx.stroke()
     ctx.set_line_cap(cairo.LINE_CAP_ROUND)
     ctx.set_dash([BG.run_seg_px, BG.run_period_px - BG.run_seg_px], -BG.run_speed_px * t)
-    for w, a in BG.run_layers:
+    for w, a in run_layers:
         ctx.new_path()
         ctx.append_path(path)
-        ctx.set_source_rgba(*BG.rgb, a)
+        ctx.set_source_rgba(*rgb, a)
         ctx.set_line_width(w)
         ctx.stroke()
     ctx.restore()

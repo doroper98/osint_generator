@@ -56,7 +56,7 @@ def draw_labels(ctx: cairo.Context, stage: "MercatorStage", view: View, reserved
             continue
         x, y = view.to_screen(*sw)
         if -40 < x < W_OUT + 40 and 0 < y < H_OUT:
-            text(ctx, s.name, x, y, 11 if view.w > 30 else 12, "serif", hexc(th.sea_label), 0.62 * la, 0, "c", spacing=2.2)
+            text(ctx, s.name, x, y, 11 if view.w > 30 else 12, "serif", hexc(th.sea_label), 0.62 * la, 0, "c", spacing=2.2, contrast="aux")
             sw_ = tw(ctx, s.name, 11 if view.w > 30 else 12, "serif") + 2.2 * len(s.name)
             drawn.append(_lb((x - sw_ / 2, y - 11, x + sw_ / 2, y + 3), s.name, "sea"))
     # countries
@@ -74,7 +74,7 @@ def draw_labels(ctx: cairo.Context, stage: "MercatorStage", view: View, reserved
         w = tw(ctx, nm, size, "sansm") + 1.8 * len(nm)
         if not free(x - w / 2, y - 12, w, 16):
             continue
-        text(ctx, nm, x, y, size, "sansm", th.country_label, 0.55 * la, 2.2, "c", spacing=1.8, halo_rgb=hr)
+        text(ctx, nm, x, y, size, "sansm", th.country_label, 0.55 * la, 2.2, "c", spacing=1.8, halo_rgb=hr, contrast="aux")
         placed.append((x - w / 2, y - 12, x + w / 2, y + 4))
         drawn.append(_lb(placed[-1], nm, "country"))
     # admin-1 names (close zoom)
@@ -87,7 +87,7 @@ def draw_labels(ctx: cairo.Context, stage: "MercatorStage", view: View, reserved
                 if 20 < x < W_OUT - 20 and 60 < y < H_OUT - 70:
                     w = tw(ctx, ad["name"], 9.5, "sans")
                     if free(x - w / 2, y - 9, w, 12):
-                        text(ctx, ad["name"], x, y, 9.5, "sans", th.admin_label, 0.42 * la, 1.8, "c", halo_rgb=hr)
+                        text(ctx, ad["name"], x, y, 9.5, "sans", th.admin_label, 0.42 * la, 1.8, "c", halo_rgb=hr, contrast="aux")
                         placed.append((x - w / 2, y - 9, x + w / 2, y + 3))
                         drawn.append(_lb(placed[-1], ad["name"], "admin"))
     # cities
@@ -112,7 +112,7 @@ def draw_labels(ctx: cairo.Context, stage: "MercatorStage", view: View, reserved
         ctx.set_source_rgba(*th.city_dot.edge, th.city_dot.edge_alpha * la)
         ctx.set_line_width(0.8)
         ctx.stroke()
-        text(ctx, nm, x + 5, y + 4, size, "sansb" if cap else "sansm", th.city_label, 0.82 * la, 2.6, "l", halo_rgb=hr)
+        text(ctx, nm, x + 5, y + 4, size, "sansb" if cap else "sansm", th.city_label, 0.82 * la, 2.6, "l", halo_rgb=hr, contrast="required")
         placed.append((x - 3, y - 8, x + w + 7, y + 5))
         drawn.append(_lb(placed[-1], nm, "city"))
         n += 1

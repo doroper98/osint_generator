@@ -48,6 +48,7 @@ from functools import lru_cache
 from typing import Callable
 
 import cairo
+import numpy as np
 
 from engine.layers.media import KEN_BURNS_MAX
 from engine.media_plan import density_report, placement_warnings
@@ -62,7 +63,7 @@ QA = R_.qa_checks
 SG = R_.shot_grammar
 SAMPLE_SEC = 1.0          # 뱃지·라벨 샘플 간격
 SHADOW_PX = 7             # badge_box 가 원 둘레에 더하는 그림자 여백 — 이만큼 잘리는 것은 허용
-HARD = ("overlap", "offscreen", "glyphs", "glyph_size", "labels", "date", "subtitles", "rights", "forbidden", "stage_continuity",
+HARD = ("map_contrast", "overlap", "offscreen", "glyphs", "glyph_size", "labels", "date", "subtitles", "rights", "forbidden", "stage_continuity",
         "genre_elements", "chart_honesty", "series_limit_3", "units_visible", "as_of_visible", "boundary_as_route",
         "geo_mismatch", "timeline_rescale", "backdrop_rights", "backdrop_repeat", "island_overlap",
         "backdrop_main_missing", "island_label_clip", "cascade", "subtitle_overlap", "label_collision", "timeline_span", "route_frame", "panel_overflow", "flag_territory", "badge_over_panel", "opening_establish")   # island_label_clip v5.2.0 D-0133 §2, backdrop_main_missing v5.2.0 D-0129 §B, island_overlap v5.1.0 D-0126 Q3, geo_mismatch v4.10.0 D-0116, timeline_rescale v5.1.0 D-0121 §A, backdrop_* v5.1.0 D-0123
@@ -805,6 +806,87 @@ def check_audio(P) -> tuple[list[str], list[str], dict]:  # noqa: ANN001, N803
     return q.issues(), q.warnings(), q.model_dump()
 
 
+def _rel_lum(rgb: "np.ndarray") -> "np.ndarray":
+    """sRGB(0~1) → 상대 휘도(WCAG)."""
+    c = np.where(rgb <= 0.03928, rgb / 12.92, ((rgb + 0.055) / 1.055) ** 2.4)
+    return c[..., 0] * 0.2126 + c[..., 1] * 0.7152 + c[..., 2] * 0.0722
+
+
+def _ratio(a: float, b: float) -> float:
+    return (max(a, b) + 0.05) / (min(a, b) + 0.05)
+
+
+def measure_contrast(snap: tuple[bytes, int, int], log: list) -> list[dict]:
+    """v5.18.0 D-0161 §4 — 렌더 프레임의 실제 합성 배경 대비(가이드 23 §7: 색상 코드끼리 비교하지 않는다).
+    snap = 그 프레임의 지도 층 합성본(지형·국경·지도 이벤트·지명까지, 그 위 카드·패널·사진·전면 카드 전) — 가림이 대비를 흐리지 않게.
+    글자: 상자(장치 px, 1px 여유) 휘도의 중앙값 = 배경(글자 테두리·지형 합성), 글자색 쪽 극값(3·97 백분위) = 글자.
+    도형(경로 선): 선 점 2px 안의 선색 쪽 극값 ↔ 법선 양쪽 7px 의 3×3 중앙값. 알파 < map_contrast_min_alpha 는 재지 않는다."""
+    import numpy as np  # noqa: PLC0415
+
+    data, w, h = snap   # 지도 층 합성본(engine.render.render_frame — 카드·패널 전), RGB24 = BGRX
+    buf = np.frombuffer(data, np.uint8).reshape(h, w, 4)[:, :, :3][..., ::-1]
+    L = _rel_lum(buf.astype(np.float64) / 255.0)  # noqa: N806
+    out: list[dict] = []
+    for kind, geom, col, a, name in log:
+        if kind != "aux" and a < QA.map_contrast_min_alpha:   # 보조 지명은 처음부터 반투명(설계) — 알파로 거르지 않고 기록만
+            continue
+        fl = float(_rel_lum(np.asarray(col, np.float64)))
+        if kind == "shape":
+            px, py, nx, ny = geom
+            xi, yi = int(round(px)), int(round(py))
+            if not (9 <= xi < w - 9 and 9 <= yi < h - 9):
+                continue
+            core = L[yi - 2:yi + 3, xi - 2:xi + 3].ravel()
+            side = [L[int(round(py + s * 7 * ny)) - 1:int(round(py + s * 7 * ny)) + 2,
+                      int(round(px + s * 7 * nx)) - 1:int(round(px + s * 7 * nx)) + 2] for s in (-1, 1)]
+            bg = float(np.median(np.concatenate([x.ravel() for x in side if x.size])))
+        else:
+            x0, y0, x1, y1 = (max(0, int(geom[0]) - 1), max(0, int(geom[1]) - 1), min(w, int(geom[2]) + 2), min(h, int(geom[3]) + 2))
+            if x1 - x0 < 3 or y1 - y0 < 3:
+                continue
+            core = L[y0:y1, x0:x1].ravel()
+            bg = float(np.median(core))
+        fg = float(np.percentile(core, 3 if fl < bg else 97))
+        out.append({"kind": kind, "name": name, "ratio": round(_ratio(fg, bg), 2), "fg": round(fg, 3), "bg": round(bg, 3)})
+    return out
+
+
+def check_map_contrast(P, kind: str) -> list[str]:  # noqa: ANN001, N803
+    """[map-contrast] — required 글자 < map_contrast_text(hard) | shape 경로 < map_contrast_shape(warning). 요소마다 최저값 한 줄."""
+    lim = QA.map_contrast_text if kind == "required" else QA.map_contrast_shape
+    if kind == "shape":   # 선은 컷·경로마다 표본 중앙값(선이 해안·다른 선과 겹치는 한 점이 판정을 흔들지 않게)
+        by: dict[tuple[str, str], list[float]] = {}
+        for cut, m in P.R.cache.get("map_contrast") or []:
+            if m["kind"] == "shape":
+                by.setdefault((m["name"], cut), []).append(m["ratio"])
+        bad = sorted((float(np.median(v)), n, c) for (n, c), v in by.items() if np.median(v) < lim)
+        return [f"[map-contrast] 선 {n!r} 대비 중앙값 {r:.2f} < {lim:g} ({c})" for r, n, c in bad]
+    worst: dict[str, tuple[float, str]] = {}
+    for cut, m in P.R.cache.get("map_contrast") or []:
+        if m["kind"] == kind and m["ratio"] < lim and (m["name"] not in worst or m["ratio"] < worst[m["name"]][0]):
+            worst[m["name"]] = (m["ratio"], cut)
+    return [f"[map-contrast] 글자 {n!r} 대비 {r:.2f} < {lim:g} ({cut})" for n, (r, cut) in sorted(worst.items())]
+
+
+def contrast_summary(P) -> dict | None:  # noqa: ANN001, N803
+    """provenance map_contrast — 종류별 최저 5개(이름·값·컷)와 측정 수. 측정이 없으면 None(P5)."""
+    ms = P.R.cache.get("map_contrast") or []
+    if not ms:
+        return None
+    out: dict = {}
+    for kind in ("required", "aux"):
+        rows = sorted((m["ratio"], m["name"], cut) for cut, m in ms if m["kind"] == kind)
+        out[kind] = {"n": len(rows), "lowest": [{"ratio": r, "name": n, "cut": c} for r, n, c in rows[:5]]}
+    by: dict[tuple[str, str], list[float]] = {}
+    for cut, m in ms:
+        if m["kind"] == "shape":
+            by.setdefault((m["name"], cut), []).append(m["ratio"])
+    rows = sorted((round(float(np.median(v)), 2), n, c) for (n, c), v in by.items())
+    out["shape"] = {"n": sum(len(v) for v in by.values()), "routes": len(rows), "basis": "컷·경로별 표본 중앙값",
+                    "lowest": [{"ratio": r, "name": n, "cut": c} for r, n, c in rows[:5]]}
+    return out
+
+
 def run_checks(P, times: list[float], provenance: dict, drawn: list[tuple[str, float, str | None, str]],  # noqa: ANN001, N803
                labels: list[str] | None = None) -> dict:
     """모든 검사 → checks.json 내용. hard 합계가 0 이어야 시각 검수로 간다. drawn = 프리뷰 컷에 그린 글자(glyph_size·정직성),
@@ -852,6 +934,8 @@ def run_checks(P, times: list[float], provenance: dict, drawn: list[tuple[str, f
         "badge_over_panel": lambda: check_badge_over_panel(P),  # v5.6.0 RENDER-AP-015
         "opening_establish": lambda: check_opening_establish(P),  # v5.6.0 RENDER-AP-016
         "weapon_photo": lambda: check_weapon_photo(P),         # v5.6.0 RENDER-AP-017(warning)
+        "map_contrast": lambda: check_map_contrast(P, "required"),         # v5.18.0 D-0161 §4(hard)
+        "map_contrast_shape": lambda: check_map_contrast(P, "shape"),      # v5.18.0 D-0161 §4(warning)
     }
     res = {k: f() for k, f in run.items() if k not in skip}
     notes: dict[str, list[str]] = {}

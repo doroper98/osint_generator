@@ -47,6 +47,8 @@ def require_family(family: str) -> None:
                                " — `python tools/fetch_data.py fonts` 먼저")
 
 
+# v5.18.0 D-0161 §4 — 켜면(list) contrast= 를 준 text() 가 (종류, 장치 좌표 상자, 글자색, 알파, 문자열)을 남긴다 — checks map_contrast
+CONTRAST_LOG: list[tuple[str, tuple[float, float, float, float], tuple, float, str]] | None = None
 GLYPH_LOG: list[tuple[float, str | None, str]] | None = None   # 켜면(list) text() 가 (크기, 역할, 문자열) 을 남긴다 — checks glyph_size(v3.6.0 D-0069)
 GLYPH_MISS: list[tuple[str, str, str]] | None = None   # v4.4.0 — 켜면 text() 가 **그 글꼴**에 없는 글자를 (글꼴 이름, 글자, 문자열)로 남긴다(checks glyphs)
 
@@ -97,7 +99,7 @@ HALO_RGB = (0.02, 0.03, 0.05)   # 글자 테두리 기본색(rules geo.themes.da
 def text(ctx: cairo.Context, s: str, x: float, y: float, size: float, name: str = "sansm",
          col: tuple = (1, 1, 1), a: float = 1.0, halo: float = 3.0, anchor: str = "l",
          spacing: float = 0.0, halo_a: float = 0.8, role: str | None = None,
-         halo_rgb: tuple = HALO_RGB) -> float:
+         halo_rgb: tuple = HALO_RGB, contrast: str | None = None) -> float:
     """role = 글자 역할(규칙 qa_checks.glyph_size_exempt 의 이름). 없으면 최소 글자 검사 예외 대상이 아니다(기본 엄격, D-0069).
     halo_rgb = 글자 테두리 색(v5.13.0 D-0153 Q0-2 — 지도 지명만 테마 값을 넘긴다. 기본 = 종전 값)."""
     if a <= 0.01 or not s:
@@ -151,6 +153,9 @@ def text(ctx: cairo.Context, s: str, x: float, y: float, size: float, name: str 
         ctx.stroke_preserve()
     ctx.set_source_rgba(*col[:3], a)
     ctx.fill()
+    if contrast is not None and CONTRAST_LOG is not None:   # 지도 위 글자 대비 측정 대상(required | aux) — 설계 상자 → 장치 상자
+        xs, ys = zip(*(ctx.user_to_device(px, py) for px in (x, x + w) for py in (y - size * 0.85, y + size * 0.25)))
+        CONTRAST_LOG.append((contrast, (min(xs), min(ys), max(xs), max(ys)), tuple(col[:3]), a, s))
     return w
 
 

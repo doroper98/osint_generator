@@ -1,0 +1,90 @@
+{
+ "A_now": {
+  "required_min": 3.81,
+  "required_below_4.5": 2,
+  "shape_route_medians": [
+   [
+    2.31,
+    "gold",
+    "route_2+2"
+   ],
+   [
+    2.48,
+    "teal",
+    "review_1+2.5"
+   ],
+   [
+    2.62,
+    "gold",
+    "now_3+4"
+   ]
+  ],
+  "gold": "#7c5612"
+ },
+ "B_casing_glowoff": {
+  "required_min": 3.84,
+  "required_below_4.5": 2,
+  "shape_route_medians": [
+   [
+    2.22,
+    "gold",
+    "route_2+2"
+   ],
+   [
+    2.32,
+    "gold",
+    "now_3+4"
+   ],
+   [
+    2.4,
+    "teal",
+    "review_1+2.5"
+   ]
+  ],
+  "gold": "#7c5612"
+ },
+ "C_dark06_glowoff": {
+  "required_min": 4.94,
+  "required_below_4.5": 0,
+  "shape_route_medians": [
+   [
+    3.33,
+    "gold",
+    "route_2+2"
+   ],
+   [
+    3.47,
+    "gold",
+    "now_3+4"
+   ],
+   [
+    3.57,
+    "teal",
+    "review_1+2.5"
+   ]
+  ],
+  "gold": "#5c400d"
+ },
+ "D_casing_glowteal": {
+  "required_min": 3.84,
+  "required_below_4.5": 2,
+  "shape_route_medians": [
+   [
+    2.22,
+    "gold",
+    "route_2+2"
+   ],
+   [
+    2.32,
+    "gold",
+    "now_3+4"
+   ],
+   [
+    2.4,
+    "teal",
+    "review_1+2.5"
+   ]
+  ],
+  "gold": "#7c5612"
+ }
+}

@@ -80,6 +80,11 @@ def render_frame(P: Project, i: int) -> tuple[cairo.ImageSurface, bytearray]:  #
             R.reserved += cascade_boxes(t, e)
     if panel_a < 0.99:
         R.stage.draw_labels(ctx, view, R.reserved, 1 - panel_a)
+    from engine import typography as _ty  # noqa: PLC0415
+
+    if _ty.CONTRAST_LOG is not None:   # v5.18.0 D-0161 §4 — 지도 층 합성본(카드·패널·사진·전면 카드 전) — 대비는 이 위에서 잰다
+        surf.flush()
+        R.cache["map_snapshot"] = (bytes(buf), OP.width, OP.height)
     for e in act:
         if e["type"] == "dip" and e.get("under"):
             L.resolve(e).render(ctx, R, t, e)
@@ -187,6 +192,7 @@ def preview(P: Project, times: list[float], labels: list[str] | None = None) -> 
     kept: list[tuple[float, str]] = []
     for tt, lab in zip(times, labels or [f"t={t:.2f}" for t in times]):
         typography.GLYPH_LOG, typography.GLYPH_MISS = [], []
+        typography.CONTRAST_LOG = [] if P.R.cache.get("map_theme") is not None else None   # v5.18.0 D-0161 §4 — 지도 무대만
         try:
             s, _ = render_frame(P, min(P.n_frames - 1, int(tt * FPS)))
         except EndCardOverflowError as e:
@@ -197,7 +203,12 @@ def preview(P: Project, times: list[float], labels: list[str] | None = None) -> 
         finally:
             glog, typography.GLYPH_LOG = typography.GLYPH_LOG, None
             gmiss, typography.GLYPH_MISS = typography.GLYPH_MISS, None
+            clog, typography.CONTRAST_LOG = typography.CONTRAST_LOG, None
         drawn += [(lab, size, role, txt) for size, role, txt in glog]
+        if clog:   # v5.18.0 D-0161 §4 — 이 컷의 실제 프레임에서 지도 위 글자·선 대비
+            from engine.checks import measure_contrast  # noqa: PLC0415
+
+            P.R.cache.setdefault("map_contrast", []).extend((lab, m) for m in measure_contrast(P.R.cache.pop("map_snapshot"), clog))
         miss += [(lab, name, ch, txt) for name, ch, txt in gmiss]
         p = out / f"p_{tt:07.2f}.png"
         s.write_to_png(str(p))
@@ -211,6 +222,11 @@ def preview(P: Project, times: list[float], labels: list[str] | None = None) -> 
     prov["preview"] = {"frames": len(paths), "times": [round(t, 3) for t in times], "dir": out.name}
     P.R.cache["glyph_miss"] = miss
     checks = run_checks(P, times, prov, drawn, names)   # 17 §3 결정적 사전 검사(D-0047 작업 6)
+    from engine.checks import contrast_summary  # noqa: PLC0415
+
+    cs = contrast_summary(P)
+    if cs is not None:   # v5.18.0 D-0161 §4 — 지도 대비 측정표(종류별 최저 5개), 측정이 있을 때만(P5)
+        prov["map_contrast"] = cs
     prov["checks"] = {"hard": checks["hard"], "warnings": checks["warnings"], "passed": checks["passed"]}
     (out / "provenance.json").write_text(json.dumps(prov, ensure_ascii=False, indent=1), encoding="utf-8")
     (out / "checks.json").write_text(json.dumps(checks, ensure_ascii=False, indent=1), encoding="utf-8")

@@ -29,7 +29,8 @@ def catmull(pts: list, n: int = 10) -> np.ndarray:
     return np.array(out)
 
 
-def glow_line(ctx: cairo.Context, S_: np.ndarray, col: tuple, a: float, w: float, dash: list | None = None) -> None:  # noqa: N803
+def glow_line(ctx: cairo.Context, S_: np.ndarray, col: tuple, a: float, w: float, dash: list | None = None,  # noqa: N803
+              casing=None) -> None:  # noqa: ANN001 — RouteCasing | None(v5.18.0 D-0161 §2, 테마 지도만)
     ctx.new_path()
     ctx.move_to(*S_[0])
     for x, y in S_[1:]:
@@ -38,6 +39,10 @@ def glow_line(ctx: cairo.Context, S_: np.ndarray, col: tuple, a: float, w: float
     ctx.set_line_join(cairo.LINE_JOIN_ROUND)
     if dash:
         ctx.set_dash(dash)
+    if casing is not None:   # 선 아래 밝은 테두리 — 배경이 어두운 바다여도 선이 떨어져 보이게(가이드 23 §7 도형 3:1)
+        ctx.set_source_rgba(*casing.rgb, casing.alpha * a)
+        ctx.set_line_width(w + 2 * casing.width_add)
+        ctx.stroke_preserve()
     for wd, al in ((w * 4.5, 0.08), (w * 2.2, 0.22), (w, 0.95)):
         ctx.set_source_rgba(*col, al * a)
         ctx.set_line_width(wd)
@@ -75,6 +80,20 @@ def tanker(ctx: cairo.Context, x: float, y: float, ang: float, a: float, sc: flo
     ctx.restore()
 
 
+def log_shape(ctx: cairo.Context, pts: "np.ndarray", col: tuple, a: float, name: str, step: int = 6) -> None:
+    """경로 선 대비 표본(v5.18.0 D-0161 §4) — 다 나타난 선(a ≥ 0.95)의 꼭짓점 몇 개를 장치 좌표·법선으로 남긴다(checks map_contrast)."""
+    from engine import typography  # noqa: PLC0415
+
+    if typography.CONTRAST_LOG is None or a < 0.95 or len(pts) < 3:
+        return
+    for i in range(1, len(pts) - 1, step):
+        (x0, y0), (x1, y1) = ctx.user_to_device(*pts[i - 1]), ctx.user_to_device(*pts[i + 1])
+        px, py = ctx.user_to_device(*pts[i])
+        dx, dy = x1 - x0, y1 - y0
+        n = math.hypot(dx, dy) or 1.0
+        typography.CONTRAST_LOG.append(("shape", (px, py, -dy / n, dx / n), tuple(col[:3]), a, name))
+
+
 def draw_route(ctx: cairo.Context, R: RenderCtx, view: View, t: float, e: dict) -> None:  # noqa: N803
     a = window(t, e["t0"], e["t1"], 0.35, 0.6)
     if a <= 0.01:
@@ -86,7 +105,9 @@ def draw_route(ctx: cairo.Context, R: RenderCtx, view: View, t: float, e: dict) 
     n = max(2, int(len(S_) * prog))
     sub = S_[:n]
     col = map_c(view.stage, e["col"])   # v5.18.0 D-0161 §3
-    glow_line(ctx, sub, col, a * (0.75 if e.get("glow_only") else 1), 1.9, dash=[5, 4] if e.get("dashed") else None)
+    glow_line(ctx, sub, col, a * (0.75 if e.get("glow_only") else 1), 1.9, dash=[5, 4] if e.get("dashed") else None,
+              casing=getattr(getattr(view.stage, "theme", None), "route_casing", None))
+    log_shape(ctx, sub, col, a, e.get("label") or e.get("col", "route"))   # v5.18.0 D-0161 §4 — 도형 대비 측정 표본
     if e.get("ship") and len(sub) > 1:
         (x0, y0), (x1, y1) = sub[-2], sub[-1]
         tanker(ctx, x1, y1, math.atan2(y1 - y0, x1 - x0), a)

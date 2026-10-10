@@ -16,6 +16,7 @@ from schemas.source_models import AccountClass, OfficialAccountsFile
 
 RULES_PATH: Path = Path(__file__).resolve().parent / "video_rules.yaml"
 OFFICIAL_ACCOUNTS_PATH: Path = Path(__file__).resolve().parent / "official_accounts.yaml"
+SERIES_REGISTRY_PATH: Path = Path(__file__).resolve().parent / "series_registry.yaml"
 
 
 def load_rules(path: Path | None = None) -> VideoRules:
@@ -44,3 +45,11 @@ def classify_handle(handle: str, accounts: OfficialAccountsFile | None = None) -
     """목록에 있으면 그 account_class, 없으면 unknown(사칭 흔함 — 이름이 그럴듯해도 공식으로 보지 않는다)."""
     a = (accounts or load_official_accounts()).lookup(handle)
     return a.account_class if a else "unknown"
+
+
+def load_series_registry(path: Path | None = None):  # noqa: ANN201 — SeriesRegistry
+    """영상 시리즈 레지스트리(v5.18.0 D-0171). 파일이 없거나 형식이 틀리면 예외(P6)."""
+    from schemas.series_models import SeriesRegistry  # noqa: PLC0415
+
+    target = path or SERIES_REGISTRY_PATH
+    return SeriesRegistry.model_validate(yaml.safe_load(target.read_text(encoding="utf-8")))

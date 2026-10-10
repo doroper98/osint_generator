@@ -1434,6 +1434,11 @@ qa_checks:                 # 17 §3 — 결정적 사전 검사 임계
     - end_card     # fullcards.draw_endcard — 엔딩 카드 전부(머리 8.5, 항목 9.2, 라이선스 7.8, 날짜·안내 7.8). 규칙 min_font_px 주석의 기존 예외
     - media_meta   # 권리·출처 메타(C9): layers/media.media_tag 7.5(PHOTO·VIDEO), media_caption 출처 줄 7.8, draw_article ARTICLE 7.5·날짜 8.5·메모 7.8,
                    # draw_cutout 출처 줄 8.5, layers/post 핸들 8.5·칩 7.5·원문 8·꼬리 7.8(18 §5)
+  # v5.18.0 D-0161 §4(가이드 23 §7) — [map-contrast] 렌더 프레임의 합성 배경 대비. 필수 글자(마커 이름·부제·도시) 4.5 hard,
+  # 경로 선 3.0 warning. 국가·바다·도 이름은 보조 질감(§7 "같은 대비로 올리지 않는다") — 측정표에만
+  map_contrast_text: 4.5
+  map_contrast_shape: 3.0
+  map_contrast_min_alpha: 0.8
   label_hidden_max_ratio: 0.5   # v3.6.0 D-0068 — 마커 라벨이 카드 영역 때문에 흐려진(알파 < 0.5) 시간 ÷ 그 마커 표시 시간. 초과 = overlap hard
   planned: []             # v4.2.0 D-0081 — 예정 검사(장르 프로필 proposed 의 qa_extra 만 참조). v4.3.0: 정직성 4개가 실제 검사로 옮겨 비었다
   # v4.3.0 D-0084 작업 5·D-0087 — 차트 정직성(engine/honesty.py, 20 §5.3). 요소의 축 종류(렌더러 모듈 AXIS) → 적용 검사.

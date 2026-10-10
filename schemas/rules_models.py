@@ -1110,6 +1110,23 @@ class CityDot(_Strict):
     edge_alpha: float = Field(ge=0, le=1)
 
 
+class RouteCasing(_Strict):
+    """v5.18.0 D-0161 §2 — 경로 선 아래 밝은 테두리(지도 선 대비 보조). width_add = 선 양쪽에 더하는 폭(설계 px)."""
+
+    rgb: RGB
+    alpha: float = Field(ge=0, le=1)
+    width_add: float = Field(gt=0)
+
+
+class ThemeBorderGlow(_Strict):
+    """v5.18.0 D-0161 §2 — 테마별 국경 글로우. on false = 이 테마에선 끈다(direction 이 켜도). 값이 없으면 공통 border_glow."""
+
+    on: bool = True
+    rgb: Optional[RGB] = None
+    halo: Optional[list[tuple[float, float]]] = None
+    run_layers: Optional[list[tuple[float, float]]] = None
+
+
 class MapTheme(_Strict):
     """렌더가 읽는 지도 선·지명 색(engine/layers/borders·labels)."""
 
@@ -1124,6 +1141,8 @@ class MapTheme(_Strict):
     # v5.18.0 D-0161 §2(가이드 23 §14) — 해안선 ↔ 국경 분리. 있으면 두 나라가 공유하는 변만 국경(border), 나머지 고리는 해안(coast)으로 긋는다.
     # None = 종전(모든 고리를 국경 스타일로 — dark 골든 바이트 동일)
     coast: Optional[MapLine] = None
+    route_casing: Optional[RouteCasing] = None          # v5.18.0 — None = 없음(dark 종전)
+    border_glow: Optional[ThemeBorderGlow] = None       # v5.18.0 — None = 공통 rules border_glow(dark 종전)
 
 
 class GeoTheme(_Strict):
@@ -1344,6 +1363,9 @@ class QAChecks(_Strict):
     forbidden_components: int
     glyph_size_exempt: list[Literal["end_card", "media_meta"]]   # v3.6.0 D-0069 — 역할 레지스트리(엔진 text(role=) 와 같은 이름)
     label_hidden_max_ratio: float = Field(gt=0, le=1)   # v3.6.0 D-0068
+    map_contrast_text: float = Field(default=4.5, gt=1)    # v5.18.0 D-0161 §4 — 지도 위 필수 글자 ↔ 합성 배경(hard)
+    map_contrast_shape: float = Field(default=3.0, gt=1)   # 지도 위 경로 선 ↔ 주변(warning)
+    map_contrast_min_alpha: float = Field(default=0.8, gt=0, le=1)   # 이 알파 이상으로 다 나타난 요소만 잰다(페이드 중·카드 뒤 흐린 라벨 제외)
     planned: list[str] = Field(default_factory=list)   # v4.2.0 D-0081 — 예정 검사 id(장르 프로필 proposed qa_extra 만)
     chart_targets: dict[Literal["value", "date", "none"], list[Literal["chart_honesty", "series_limit_3", "units_visible", "as_of_visible"]]]   # v4.3.0 D-0087
     series_max: int = Field(ge=1)   # v4.3.0 — 20 §5.3 계열 수 상한
