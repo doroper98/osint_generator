@@ -1,6 +1,6 @@
 <!--
 tier: 3
-last_synced_with: v5.15.1
+last_synced_with: v5.16.0
 ssot_for: [release-notes]
 depends_on: [README.md, GOAL.md]
 last_review: 2026-09-28
@@ -66,13 +66,19 @@ released 항목은 **append-only**입니다.
 
 ---
 
+## [v5.16.0] — 2026-10-10 — 음성 트랙 V2: Supertonic 강제 정렬(MMS_FA + uroman), at_word 정렬 없음 = 오류 (back_and_forth D-0164 §5, D151) — 진행 중
+
+MINOR: Phase 완료 단위. JSON `schema_version` 그대로(1).
+
+---
+
 ## [v5.15.1] — 2026-10-10 — Q2 받는 경로 수정 (back_and_forth D-0164)
 
 PATCH: 라이브러리 초상 받기 = `normalized` 변형 바이트 복사(재정규화 드리프트 제거), `fetch_data` 권리 상태 라이브러리 값 그대로(추정 금지), 초상 맞춤 preflight. 기준선·expected_deltas 무변경.
 
 ---
 
-## [v5.15.0] — 2026-10-10 — 품질 트랙 Q2: 인물 뱃지·국기 물결(사진 2.04R·alpha-top −.83R·출력 크기 기반 strip·링 2.4/.8) (back_and_forth D-0153 §5·D-0158) — 진행 중
+## [v5.15.0] — 2026-10-10 — 품질 트랙 Q2: 인물 뱃지·국기 물결·이재명 공식 초상 (back_and_forth D-0153 §5·D-0158·D-0159·D-0160) — Q2 phase_report(R-0193), 조건부 합격(D-0164)
 
 MINOR: Phase 완료 단위. 사용자 결정 D148(인물 뱃지 적용). JSON `schema_version` 그대로(1).
 

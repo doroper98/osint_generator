@@ -1,6 +1,6 @@
 <!--
 tier: 2
-last_synced_with: v5.15.1
+last_synced_with: v5.16.0
 ssot_for: [phase-roadmap]
 depends_on: [../GOAL.md, ../CHANGELOG.md, handoff/13_IMPLEMENTATION_PLAN_FOR_CLAUDE_CODE.md, handoff/19_FABLE_ANALYSIS_AND_OPUS_EXECUTION_PLAN.md, handoff/TAGS_PENDING.md]
 last_review: 2026-09-29
