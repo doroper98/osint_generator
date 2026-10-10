@@ -207,3 +207,5 @@ Fable 검수에서 나온 결함 2개와 작은 것 1개를 한 커밋으로 고
 `python -m engine.render <사본> --preview golden` → phaseQ2 기준선 **25/25**(25_END 도장 가린 md5 포함).
 
 테스트 4개 더함(`tests/test_q2_receive_path.py`): normalized 변형 바이트 복사(+ 재정규화 비멱등 재현), promote → 받기 왕복 바이트 동일, 예외 없는 restricted 유지 → 크레딧 점검 오류, 맞지 않는 초상 → preflight 오류(pid·R). `test_library_v02_and_fetch_keep_restricted` 의 소스 문자열 단정은 동작 단정으로 바꿨습니다.
+
+전체 pytest(v5.15.1, 2165ddd): **1463 passed · 0 failed · 0 skipped**(1459 + 4, 29분 5초). `-rs` 출력에 SKIPPED 줄이 없습니다.
