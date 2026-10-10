@@ -30,6 +30,6 @@ def draw_boom(ctx: cairo.Context, R: RenderCtx, view: View, t: float, e: dict) -
     for k in range(3):
         r = 6 + 50 * ease_out((lt - k * 0.12) / 1.2)
         ctx.arc(x, y, max(r, 0.1), 0, 2 * math.pi)
-        ctx.set_source_rgba(*map_c(view.stage, "amber"), 0.6 * a * (1 - clamp01(lt / 1.6)))
+        ctx.set_source_rgba(*map_c(getattr(view, "stage", None), "amber"), 0.6 * a * (1 - clamp01(lt / 1.6)))
         ctx.set_line_width(2)
         ctx.stroke()

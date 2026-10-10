@@ -104,9 +104,9 @@ def draw_route(ctx: cairo.Context, R: RenderCtx, view: View, t: float, e: dict) 
     prog = ease_io((t - e["t0"]) / e["grow"]) if e["grow"] > 0.05 else 1
     n = max(2, int(len(S_) * prog))
     sub = S_[:n]
-    col = map_c(view.stage, e["col"])   # v5.18.0 D-0161 §3
+    col = map_c(getattr(view, "stage", None), e["col"])   # v5.18.0 D-0161 §3
     glow_line(ctx, sub, col, a * (0.75 if e.get("glow_only") else 1), 1.9, dash=[5, 4] if e.get("dashed") else None,
-              casing=getattr(getattr(view.stage, "theme", None), "route_casing", None))
+              casing=getattr(getattr(getattr(view, "stage", None), "theme", None), "route_casing", None))
     log_shape(ctx, sub, col, a, e.get("label") or e.get("col", "route"))   # v5.18.0 D-0161 §4 — 도형 대비 측정 표본
     if e.get("ship") and len(sub) > 1:
         (x0, y0), (x1, y1) = sub[-2], sub[-1]
@@ -144,6 +144,6 @@ def draw_barrier(ctx: cairo.Context, R: RenderCtx, view: View, t: float, e: dict
     x0, y0 = view.to_screen(*e["world_p0"])
     x1, y1 = view.to_screen(*e["world_p1"])
     xe, ye = x0 + (x1 - x0) * k, y0 + (y1 - y0) * k
-    glow_line(ctx, np.array([[x0, y0], [xe, ye]]), map_c(view.stage, "ru"), a, 3.2)
+    glow_line(ctx, np.array([[x0, y0], [xe, ye]]), map_c(getattr(view, "stage", None), "ru"), a, 3.2)
     if k > 0.95:
-        text(ctx, e["label"], (x0 + x1) / 2 - 12, (y0 + y1) / 2 + 4, RL.barrier_size, "sansb", map_c(view.stage, "ru"), a, 3, "r")
+        text(ctx, e["label"], (x0 + x1) / 2 - 12, (y0 + y1) / 2 + 4, RL.barrier_size, "sansb", map_c(getattr(view, "stage", None), "ru"), a, 3, "r")
