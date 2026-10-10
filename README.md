@@ -1,6 +1,6 @@
 <!--
 tier: 1
-last_synced_with: v5.11.0
+last_synced_with: v5.12.0
 ssot_for: [project-entry-point]
 depends_on: [GOAL.md, CLAUDE.md, DOCS_GOVERNANCE.md, docs/02_SYSTEM_ARCHITECTURE.md]
 last_review: 2026-09-29

@@ -1,6 +1,6 @@
 <!--
 tier: 3
-last_synced_with: v5.11.0
+last_synced_with: v5.12.0
 ssot_for: [release-notes]
 depends_on: [README.md, GOAL.md]
 last_review: 2026-09-28
@@ -66,13 +66,23 @@ released 항목은 **append-only**입니다.
 
 ---
 
-## [v5.11.0] — 2026-10-10 — 내레이션 음성 트랙 V0·V1: Supertonic 3 M3 ×0.95 자산·설정·백엔드 (back_and_forth D-0152) — 진행 중
+## [v5.12.0] — 2026-10-10 — 스케치 S5: 탐지 주석 문구·전황 화살표 부드럽게·확정 목록 (back_and_forth D-0154, 사용자 결정 D150) — 진행 중
+
+MINOR: Phase 완료 단위. 스케치 계층만. JSON `schema_version` 그대로(1).
+
+---
+
+## [v5.11.0] — 2026-10-10 — 내레이션 음성 트랙 V0·V1: Supertonic 3 M3 ×0.95 자산·설정·백엔드 (back_and_forth D-0152) — V1 phase_report(R-0189)
 
 MINOR: Phase 완료 단위. 사용자 결정 D146(Supertonic 3 남성 M3 × 속도 0.95, D127 edge-tts 대체, ElevenLabs 금지 유지), 설계 D147. JSON `schema_version` 그대로(1).
 
 ### Added
 - `python tools/fetch_data.py supertonic` — HF `Supertone/supertonic-3`(고정 revision) 모델·M3 스타일·LICENSE 를 `assets/tts/supertonic/`(미추적)에 받고 sha1 대조.
 - `config.yaml tts.supertonic`·`SupertonicConfig`(extra=forbid).
+- `script/tts/supertonic.py`·`supertonic_runtime.py`(원 helper MIT 이식, 문장 시드 고정 결정성), `script.plan --tts supertonic`(기본), 캐시 소금 `|st|…`, `PlanSentence.chunks`.
+
+### Changed
+- `config tts.backend_default: supertonic`(D146, D127 edge 대체). edge 는 V4 에서 삭제.
 
 ---
 
