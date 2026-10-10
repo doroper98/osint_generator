@@ -30,7 +30,7 @@ last_review: 2026-09-29
 | Verify Sources | `verify_sources_worker.py` `VerifySourcesWorker` | `verify_sources`(+`verify_sources_hints` 번들 힌트) | 사용자 확인된 `intake/sources.json` + 본문 | `intake/verify_draft.json` → **코드 판정** → `intake/claims.json` | SOURCE_VERIFY |
 | Research | `research_worker.py` `ResearchWorker` | `research` | manifest + sources + claims | `facts.json` | RESEARCH |
 | Script | `script_worker.py` `ScriptWorker` | `script`(+`script_draft` 번들 초안) | `facts.json` + claims + manifest | `script.yaml`(문장 sources = claim id) | SCRIPT_DRAFT |
-| Director | `director_worker.py` `DirectorWorker` | `director`(+`director_bundle` 번들 재료) | script + plan + 엔티티·미디어 레지스트리 + 지오 역량 + 이벤트 필드 표 | `direction.yaml`(+`direction.meta.json`) | DIRECTION |
+| Director | `director_worker.py` `DirectorWorker` | `director`(+`director_bundle` 번들 재료) | script + plan + 엔티티·미디어 레지스트리 + 인용 후보 + 기사 카드 후보(v5.19.0 D-0163 §2 — 확인·등록된 기사 출처 인용 문장, `script.media_table`) + 지오 역량 + 이벤트 필드 표 | `direction.yaml`(+`direction.meta.json`) | DIRECTION |
 | Visual QA | `visual_qa_worker.py` `VisualQAWorker`(vision) | `visual_qa` | `prev/sheet.jpg` + `frames.json` + checks 요약 | `prev/qa_verdict.v*.json`(`engine.qa.QAVerdict`) | PREVIEW_QA |
 | Revise Direction | `revise_direction_worker.py` `ReviseDirectionWorker` | `revise_direction` | 직전 direction + 판정 + checks + 루프 이력 | 수정 direction + changelog(`engine.qa.Revision`) | PREVIEW_QA |
 | Dummy / Dummy LLM | `dummy_worker.py`, `dummy_llm_worker.py` | `dummy` | — | 스모크 테스트용 | — |

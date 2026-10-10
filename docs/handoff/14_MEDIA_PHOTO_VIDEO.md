@@ -1,6 +1,6 @@
 <!--
 tier: 2
-last_synced_with: v1.2.2
+last_synced_with: v5.19.0
 ssot_for: [v2-media-beats]
 depends_on: [docs/handoff/00_INDEX.md, docs/handoff/15_ANTI_INERTIA_PRINCIPLES.md]
 last_review: 2026-09-27
@@ -211,6 +211,15 @@ Claude Code 과제: 필드에 `segment`, `depicts`(사건/장소/인물), `is_fi
 5. **배치**: 예약 영역(카드·날짜·자막·핵심 마커·뱃지)을 피해 자동 배치. 기본값 — 지도 위 영상은 좌측(x=40), 패널 위 영상은 중앙, 사진은 카드가 없을 때 우하단/패널 빈 공간, 기사는 카드 자리.
 6. **크레딧**: 레지스트리에서 화면 캡션·엔딩 카드·설명란 자동 생성.
 7. **자료 없음 → 넣지 않음.** 생성 이미지로 대체하지 않는다.
+
+### 10.3a 기사·사진 노출 보강 (v5.19.0, back_and_forth D-0163 §2·D-0173 §3, 사용자 결정 D156)
+사용자 지적: "기사 조판이나 기사에 들어간 사진이 영상에 적게 또는 아예 안 나오는 일이 많다." 수치는 `rules/video_rules.yaml` 이 정본이다(값을 여기 복사하지 않는다).
+- **밀도 = 규칙 키**: `rules media.density`(per_item_sec·per_scene_max·article_per_min_max·photo_target_per_min). 연출 프롬프트는 `{{RULES.media.density}}`(리터럴 금지, P3). §10.1 의 "40~60초당 1개"는 **미디어 비트(사진·영상·컷아웃)** 기준이고 기사 카드는 `total_exempt_kinds` 로 그 개수에서 뺀다.
+- **기사 카드 후보 의무**: 확인된 기사 출처를 인용하고 그 기사가 등록된 문장(`script/media_table.article_candidates`)에는 기사 카드를 쓴다 — 60초 구간당 `article_per_min_max` 까지, 넘치면 긴 문장 먼저. 안 쓰면 `[article-unused]`(warning, `media_notes.yaml` article 사유가 있으면 기록만), 상한 초과 `[article-density]`.
+- **미디어 계획 표(게이트 ①)**: 문장별 인용 출처·기사 등록 여부·사진(찾은 수/권리 통과 수/선택)·사유. 사진 목표 미달이면 사진 후보 문장마다 사유(`media_notes.yaml` photo 또는 검색 기록의 권리 통과 0)가 있어야 승인된다(P6 — 조용한 0 금지).
+- **기사 트리거**(§10.2 표의 마지막 줄) 10개는 `rules media_beats.triggers.article`. "밝혔·확인했" 은 매체 주어일 때만 기사라서 기사 출처를 인용한 문장에서만 센다.
+- **사진 소싱 풀**: `rules media_beats.sources_order`(미 국방부·DVIDS·CENTCOM PD → Commons CC → 정부 Flickr CC BY 안내), NC·ND 탈락(`sources_excluded_licenses`). `tools/media_fetch.py search "검색어" --log projects/{pid} --sid {문장}` 이 이 순서로 찾고 `media_search.json` 에 남긴다.
+- 통신사 사진(기사에 실린 사진)을 기사 카드에 쓰는 예외(선택지 B)는 사용자 결정 대기 — 그 전까지 권리 통과 사진만(A).
 
 ### 10.4 위키미디어 다운로드 운영 교훈 (라운드 7에서 실제 발생)
 - 짧은 시간에 API·업로드 서버 요청이 몰리면 **HTTP 429가 수 분간 지속**된다. 해결: 60~90초 대기 후 재시도, 요청 사이 15초 간격, 원본 URL 직접 다운로드, 비표준 폭 썸네일 금지.

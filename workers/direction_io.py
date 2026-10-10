@@ -307,6 +307,17 @@ def quote_candidates_text(pdir: Path) -> str:
     return "\n".join(f"- {r['claim_id']} · 문장 {', '.join(r['sids'])} · {r['claim']} · 원문 “{r['original']}” · {r['publisher']} · {r['date']}" for r in rows)
 
 
+def article_candidates_text(pdir: Path) -> str:
+    """v5.19.0 D-0163 §2 — 기사 카드 후보: 확인된 기사 출처를 인용하고 그 기사가 레지스트리에 등록된 원고 문장(script.media_table).
+    연출은 이 문장에 기사 카드를 쓴다(60초당 rules media.density.article_per_min_max 까지, 넘치면 긴 문장 먼저)."""
+    from script.media_table import article_candidates  # noqa: PLC0415
+
+    rows = article_candidates(pdir)
+    if not rows:
+        return "(없음 — 확인·등록된 기사 출처를 인용한 문장이 없다)"
+    return "\n".join(f"- {sid} · {', '.join(mids)}" for sid, mids in rows.items())
+
+
 def bundle_materials_text(pdir: Path) -> tuple[str, str | None]:
     """번들 재료 블록(v3.5.0 D-0063 작업 4) — `intake/bundle_materials.json` 이 있을 때만. **재료일 뿐 강제 아님**(P8).
     이전 영상의 연출은 넣지 않는다(15 P9) — 이 프로젝트 번들에서 뽑은 장소·경로·패널 데이터뿐. 없으면 ("", None)."""
@@ -354,5 +365,5 @@ def next_version(pdir: Path, stem: str, suffix: str) -> int:
     return n
 
 
-__all__ = ["quote_candidates", "quote_candidates_text", "cards_table", "check_direction", "current_version", "loop_history", "restore_version", "dump_direction_yaml", "entities_text", "event_fields_table", "geo_text", "load_plan", "documents_text", "series_records_text", "stage_text",
+__all__ = ["article_candidates_text", "quote_candidates", "quote_candidates_text", "cards_table", "check_direction", "current_version", "loop_history", "restore_version", "dump_direction_yaml", "entities_text", "event_fields_table", "geo_text", "load_plan", "documents_text", "series_records_text", "stage_text",
            "media_text", "next_version", "plan_table"]

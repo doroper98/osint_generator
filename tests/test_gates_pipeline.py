@@ -10,6 +10,8 @@ import tempfile
 import unittest
 from pathlib import Path
 
+import yaml
+
 from orchestrator.config import AppConfig, PathsConfig, ReviewGatesConfig
 from orchestrator.main import main as cli_main
 from orchestrator.pipeline import PipelineError, advance, next_action
@@ -73,6 +75,15 @@ def _v550_script(src: Path, dst: Path) -> None:
     dst.write_text(yaml.safe_dump(d, allow_unicode=True, sort_keys=False), encoding="utf-8")
 
 
+def write_media_notes(pdir: Path) -> None:
+    """v5.19.0 D-0163 §2 — 게이트 ① 미디어 계획 표 통과용 사유(사진 후보 문장마다 photo 사유). 표 자체는 test_p1_media_plan 이 본다."""
+    from script.media_table import NOTES_FILE, media_table  # noqa: PLC0415
+
+    sids = [r.sid for r in media_table(pdir).rows if r.photo_candidate and not r.selected]
+    (pdir / NOTES_FILE).write_text(yaml.safe_dump({"schema_version": 1, "sentences": {s: {"photo": "시험 픽스처 — 사진 없음"} for s in sids}},
+                                                  allow_unicode=True), encoding="utf-8")
+
+
 class _Proj(unittest.TestCase):
     def setUp(self) -> None:
         self._tmp = tempfile.TemporaryDirectory()
@@ -81,6 +92,7 @@ class _Proj(unittest.TestCase):
         self.m = new_project("p", "t", "geopolitics", cfg=self.cfg)
         _v550_script(REPO / "projects" / "hormuz_korea" / "script.yaml", self.root / "p" / "script.yaml")
         shutil.copytree(REPO / "projects" / "hormuz_korea" / "intake", self.root / "p" / "intake")   # v3.2.0 — claims.json(18 §7 게이트 ① 전 검사)
+        write_media_notes(self.root / "p")   # v5.19.0 — 게이트 ① 미디어 계획 표(D-0163 §2)
         write_animatic(self.root / "p")   # v5.2.0 — 게이트 ② 는 콘티 판 의무(PIPELINE-AP-014)
 
     def tearDown(self) -> None:
@@ -108,6 +120,7 @@ class GateTest(_Proj):
         d = load_manifest("p", self.cfg).gate_decisions[-1]
         shown = dict(d.shown)
         self.assertEqual(len(shown.pop("script_sha1")), 40)   # v5.6.0 — 승인 원고 지문(PIPELINE-AP-015)
+        self.assertTrue(shown.pop("media_plan").startswith("사진 0/"))   # v5.19.0 — 미디어 계획 표 요약(D-0163 §2)
         self.assertEqual((d.gate, d.decision, d.by, d.comment, shown), ("script_approval", "approved", "tester", "좋다", {"lint_errors": "0"}))
 
     def test_reject_script_rolls_back_with_comment(self) -> None:

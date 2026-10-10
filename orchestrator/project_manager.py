@@ -408,7 +408,9 @@ def approve_gate(
     nxt = next_state(g)
     assert nxt is not None
     if g == ProjectState.SCRIPT_APPROVAL:   # v5.6.0 — 승인한 원고의 지문(콘티 판이 이 원고로 만들어졌는지 게이트 ② 에서 대조)
-        shown = {**(shown or {}), "script_sha1": script_sha1(project_dir(manifest.project_id, cfg))}
+        pdir = project_dir(manifest.project_id, cfg)
+        shown = {**(shown or {}), "script_sha1": script_sha1(pdir),
+                 "media_plan": require_media_plan(pdir)}   # v5.19.0 D-0163 §2 — 사진 목표 미달 = 문장 단위 사유 필수(P6)
     if g == ProjectState.PREVIEW_APPROVAL:   # 콘티 판 의무(WORKFLOWS W0, PIPELINE-AP-014) — 건너뛰면 게이트 ② 승인 불가
         shown = {**(shown or {}), "animatic": require_animatic(project_dir(manifest.project_id, cfg), approved_script_sha1(manifest))}
     if chosen_version is not None:
@@ -418,6 +420,27 @@ def approve_gate(
     manifest.gate_decisions.append(GateDecision(gate=g, decision="approved", by=by, comment=comment, shown=shown or {},
                                                 chosen_version=chosen_version))
     return _apply_transition(manifest, nxt, f"{g.value} 승인 — {by}", cfg)
+
+
+class MediaPlanError(ValueError):
+    """게이트 ① 미디어 계획 표에 오류가 있다(사진 목표 미달인데 문장 단위 사유 없음 등)."""
+
+
+def require_media_plan(pdir: Path) -> str:
+    """v5.19.0 D-0163 §2·D-0173 §3 — 미디어 계획 표(script.media_table)가 통과해야 게이트 ① 승인. 우회 플래그 없음.
+    원고가 없으면(게이트 기록만 다루는 상태 기계 시험 등) 표를 만들 수 없음을 기록에 남기고 통과한다 — 원고 승인 대상이 없다."""
+    from script.media_table import MediaTableError, media_table  # noqa: PLC0415
+
+    if not (pdir / "script.yaml").exists():
+        return "원고 없음 — 미디어 계획 표 없음"
+    try:
+        t = media_table(pdir)
+    except MediaTableError as e:
+        raise MediaPlanError(f"미디어 계획 표 오류 — {e}") from e
+    if t.errors:
+        raise MediaPlanError("미디어 계획 표 미통과 — 게이트 ① 승인 불가(D-0163 §2, P6):\n" + "\n".join(t.errors[:20])
+                             + (f"\n… {len(t.errors) - 20}건 더" if len(t.errors) > 20 else ""))
+    return f"사진 {t.photo_selected}/{t.photo_target} · 기사 후보 {t.article_candidates}문장 · {t.total_sec:.0f}초({t.total_source})"
 
 
 class AnimaticMissingError(ValueError):

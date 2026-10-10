@@ -30,7 +30,10 @@ class MediaSuggestion(BaseModel):
     asset_id: Optional[str] = None
 
 
-def suggest_media(plan: Plan, script_media: dict[str, dict] | None = None) -> list[MediaSuggestion]:
+def suggest_media(plan: Plan, script_media: dict[str, dict] | None = None,
+                  article_sids: set[str] | None = None) -> list[MediaSuggestion]:
+    """article_sids(v5.19.0 D-0163 §2) = 확인된 기사 출처를 인용한 문장 — 기사 트리거("밝혔·확인했" 등)는 매체가 주어일 때만 기사라서
+    이 문장들에서만 센다. None = 원고·claims 를 모름(옛 호출) — 모든 문장에서 센다."""
     trig = load_rules().media_beats.triggers
     out: list[MediaSuggestion] = []
     for s in plan.sentences:
@@ -40,6 +43,8 @@ def suggest_media(plan: Plan, script_media: dict[str, dict] | None = None) -> li
                                        at=round(s.t0, 2), source="script", asset_id=cue.get("asset_id")))
             continue
         for kind in PRIORITY:
+            if kind == "article" and article_sids is not None and s.sid not in article_sids:
+                continue
             hit = next((w for w in trig.get(kind, []) if w in s.text), None)
             if hit:
                 out.append(MediaSuggestion(sid=s.sid, scene=s.scene, kind=kind, trigger=hit, at=round(s.t0, 2), source="trigger"))
@@ -47,9 +52,9 @@ def suggest_media(plan: Plan, script_media: dict[str, dict] | None = None) -> li
     return out
 
 
-def media_usage(plan: Plan, events: list[dict]) -> dict:
+def media_usage(plan: Plan, events: list[dict], article_sids: set[str] | None = None) -> dict:
     """provenance `media`: 제안 장면·형태, 실제 쓰인 미디어, 둘이 맞은 장면."""
-    sug = suggest_media(plan)
+    sug = suggest_media(plan, article_sids=article_sids)
     used = [{"mid": e["mid"], "kind": EVENT_OF[e["type"]], "t0": round(e["t0"], 2)} for e in events if e["type"] in EVENT_OF]
     scene_of = {s.sid: s.scene for s in plan.sentences}
     by_t = sorted((s.t0, s.scene) for s in plan.sentences)

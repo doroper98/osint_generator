@@ -136,3 +136,46 @@ class MediaRegistryFile(_Strict):
 
 class MediaAssets(RootModel[dict[str, MediaAsset]]):
     pass
+
+
+class MediaNote(_Strict):
+    """v5.19.0 D-0163 §2 — 문장 하나의 미디어 사유(사람·에이전트가 적는다, LLM 연출이 아니다).
+    photo = 사진을 고르지 못한 이유(검색어·결과·라이선스 탈락), article = 기사 카드 후보를 연출에서 쓰지 않은 이유."""
+
+    photo: Optional[str] = Field(default=None, min_length=4)
+    article: Optional[str] = Field(default=None, min_length=4)
+
+
+class MediaNotes(_Strict):
+    """`projects/<pid>/media_notes.yaml`(git 추적) — 미디어 계획 표(게이트 ①)·[article-unused] 검사가 읽는다.
+    문장 id 는 `{장면}_{순번}`(원고 기준). 원고에 없는 문장 id = 오류(낡은 사유, P6)."""
+
+    schema_version: Literal[1] = 1
+    project_photo: Optional[str] = Field(default=None, min_length=4)   # 사진 후보 문장이 하나도 없을 때의 사유(영상 전체)
+    sentences: dict[str, MediaNote] = Field(default_factory=dict)
+
+
+class MediaSearch(_Strict):
+    """`tools/media_fetch.py search --log` 한 번(풀 하나)의 결과 요약 — 찾은 수·권리 통과 수·상위 제목."""
+
+    sid: str = Field(min_length=1)
+    query: str = Field(min_length=1)
+    pool: str = Field(min_length=1)
+    on: str = Field(min_length=10)          # YYYY-MM-DD
+    found: int = Field(ge=0)
+    passed: int = Field(ge=0)
+    top: list[str] = Field(default_factory=list)   # 통과 후보 제목(최대 5)
+    rejected: list[str] = Field(default_factory=list)   # 탈락 사유 요약(라이선스·제한)
+
+    @model_validator(mode="after")
+    def _counts(self) -> "MediaSearch":
+        if self.passed > self.found:
+            raise ValueError(f"{self.sid}: 통과 {self.passed} > 찾은 수 {self.found}")
+        return self
+
+
+class MediaSearchLog(_Strict):
+    """`projects/<pid>/media_search.json`(git 추적) — 문장별 사진 검색 기록(게이트 ① 미디어 계획 표의 '찾은 수/통과 수')."""
+
+    schema_version: Literal[1] = 1
+    searches: list[MediaSearch] = Field(default_factory=list)

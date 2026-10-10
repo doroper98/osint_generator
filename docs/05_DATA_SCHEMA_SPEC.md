@@ -33,6 +33,9 @@ last_review: 2026-09-29
 | `script.yaml`, `script_labels.json` | `script.schema.Script`, `script.labels.ScriptLabels` | ScriptWorker(또는 사람) | SCRIPT_DRAFT |
 | `plan.json`, `tts/*.mp3(.align.json)` | `script.schema.Plan`(v5.16.0 optional `PlanSentence.alignment {source, score_mean, elapsed_ms}` — 정렬 출처·문장 점수·정렬 시간. `.align.json` 은 `script/tts/align` 공통 형식, MMS 는 `score_mean`·`elapsed_ms` 를 더 담는다) | `script.plan` | VOICE_TIMELINE |
 | `lint_waivers.yaml`(v5.17.0, git 추적) | `script.lint_waivers.LintWaivers`(항목 `LintWaiver`: kind·sid·text_sha1·rule_since·script_approved·reason·decided_by) — `Plan.lint_waived` optional 로 기록 | 사람(결정 기록, D-0168) | SCRIPT_DRAFT |
+| `media_notes.yaml`(v5.19.0, git 추적) | `schemas.media_models.MediaNotes`(`project_photo`, `sentences: {문장 id: MediaNote{photo, article}}`) — 원고에 없는 문장 id = 오류 | 사람·에이전트(사유 기록, D-0163 §2) | SCRIPT_APPROVAL·DIRECTION |
+| `media_search.json`(v5.19.0, git 추적) | `schemas.media_models.MediaSearchLog`(항목 `MediaSearch`: sid·query·pool·on·found·passed·top·rejected) | `tools/media_fetch.py search --log` | SCRIPT_APPROVAL |
+| (보기) 미디어 계획 표 | `script.media_table.MediaTable`(행 `MediaRow` = 원고 문장 하나, errors) — 파일로 남기지 않고 게이트 ① 화면·승인 기록 `shown.media_plan` | `orchestrator.gate_view`·`project_manager.require_media_plan` | SCRIPT_APPROVAL |
 | `rules/series_registry.yaml`(v5.18.0, git 추적) | `schemas.series_models.SeriesRegistry`(시리즈 id → title·map_theme·decided_by·projects, 한 프로젝트 한 시리즈) | 사람(결정 기록, D-0171) | DIRECTION |
 | `geo.yaml`, `labels.yaml` | `geo.prep` 설정 모델, 라벨 모델 | 사람 | ASSETS |
 | `assets/{geo.pkl, tiers.pkl, base_*.png, geo_report.json}`, `assets/res_<프로파일>/` | `schemas.engine_models.Tier` | `geo.prep` | ASSETS |

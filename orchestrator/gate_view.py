@@ -22,8 +22,7 @@ from script.labels import check_project_labels
 from script.media_suggest import suggest_media
 from script.schema import Plan, Script
 
-# 예상 길이 추정(plan.json 이 아직 없을 때): 한국어 발화 분당 글자 수(prompts/script.md 가정과 같음)
-CHARS_PER_MIN: int = 320
+from script.media_table import CHARS_PER_MIN, MediaTableError, article_sids, media_table, table_lines  # noqa: F401 — CHARS_PER_MIN 재수출(v5.19.0 이전 위치)
 
 
 def _script(pdir: Path) -> Script:
@@ -80,16 +79,27 @@ def script_gate_view(pdir: Path, runner: Callable = subprocess.run) -> tuple[str
         lines.append(f"  … 경고 {len(lint.warnings) - 20}건 더")
     lines += ["", *waiver_table(pdir)]
     lines += ["", f"미디어 후보 — 원고 media 필드 {len(media_rows)}건", *media_rows]
-    if plan is not None:   # 트리거 제안(14 §10.2, 제안만 — P8)
-        sug = suggest_media(plan)
+    if plan is not None:   # 트리거 제안(14 §10.2, 제안만 — P8). 기사 트리거는 기사 출처 인용 문장에서만(v5.19.0 D-0163 §2)
+        try:
+            arts: set[str] | None = article_sids(pdir)
+        except MediaTableError:
+            arts = None
+        sug = suggest_media(plan, article_sids=arts)
         lines.append(f"  트리거 제안 {len(sug)}건: " + ", ".join(f"{m.sid}({m.kind}·{m.trigger})" for m in sug[:12])
                      + (" …" if len(sug) > 12 else ""))
     else:
         lines.append("  트리거 제안 — plan.json 이 생기면(voice_timeline 뒤) 표시")
     if labels is not None:
         lines += ["", "검증 라벨 집계 " + json.dumps(labels.counts(), ensure_ascii=False)]
+    try:   # v5.19.0 D-0163 §2 — 미디어 계획 표(연출 전에 사용자가 본다). 오류가 있으면 게이트 ① 승인 거부(require_media_plan)
+        mt = media_table(pdir, total)
+        lines += ["", *table_lines(mt)]
+        media_errs = str(len(mt.errors))
+    except MediaTableError as e:
+        lines += ["", f"미디어 계획 표 — 오류: {e}"]
+        media_errs = "1"
     shown = {"script": str(pdir / "script.yaml"), "lint_errors": str(len(lint.errors)),
-             "lint_warnings": str(len(lint.warnings)), "est_sec": f"{total:.1f}"}
+             "lint_warnings": str(len(lint.warnings)), "est_sec": f"{total:.1f}", "media_plan_errors": media_errs}
     return "\n".join(lines), shown
 
 

@@ -31,7 +31,7 @@ from engine.layers.article import ArticleOverflowError, article_layout, validate
 from engine.layers.media import caption_width, validate_media
 from engine.layers.backdrop import backdrop_report, validate_backdrop
 from engine.media_registry import credit_line
-from engine.media_plan import density_report, media_box, placement_warnings
+from engine.media_plan import article_usage, density_report, media_box, placement_warnings
 from engine.pacing import change_times, creep_ranges, map_segments, static_windows
 from engine.layers.badges import assign_person_sizes, drop_person_R, portrait_head_top
 from engine.placement import PlacementError, resolve_places
@@ -482,7 +482,7 @@ def load_project(proj: Path, direction: Optional[Direction] = None, out: Optiona
 
         warns += map_theme_override_warning(R.cache["map_theme_warn"])
     warns += lint_events(events) + placement_warnings(events, A.media_assets) \
-        + density_report(events, tb, plan.total)["warnings"]
+        + density_report(events, tb, plan.total)["warnings"] + article_usage(proj, plan, events)["warnings"]   # v5.19.0 D-0163 §2
     from engine.reserved import hold_pushes  # noqa: PLC0415
 
     if animatic:

@@ -49,7 +49,8 @@ class DensityTest(unittest.TestCase):
     def test_a_hormuz_v3_clean(self) -> None:
         r = density_report([_ev(*m) for m in HORMUZ_MEDIA], _TB(HORMUZ_SCENES), 292.439)
         self.assertEqual(r["warnings"], [])
-        self.assertEqual((r["count"], r["sec_per_item"]), (7, 41.8))
+        # v5.19.0 D-0163 §2 — 기사 카드 2개는 미디어 비트 개수에서 뺀다(분당 상한 따로): 5개 / 292.4초 = 58.5초당 1개
+        self.assertEqual((r["count"], r["beat_count"], r["sec_per_item"]), (7, 5, 58.5))
         self.assertEqual(r["window"]["max"]["count"], 2)     # 40초 창 최대 2개(strikes→p8 33.6초)
 
     def test_b_three_in_40s_warns(self) -> None:

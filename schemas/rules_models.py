@@ -263,6 +263,24 @@ class MediaBeats(_Strict):
     triggers: dict[str, list[str]]           # v2.5.5 — 14 §10.2 트리거 → 형태 제안(제안만, P8)
     caption_bar_px: float                    # 사진·영상 캡션 바 높이(14 §4.1) — 배치 점검용
     registry: str                            # v2.5.5 — 미디어 레지스트리 경로(저장소 기준)
+    sources_order: list["PhotoSourcePool"] = Field(min_length=1)   # v5.19.0 D-0163 §2 — 사진 소싱 풀 순서(media_fetch search)
+    sources_excluded_licenses: list[str] = Field(default_factory=list)   # 라이선스 이름 조각(NC·ND) — 있으면 탈락
+
+
+class PhotoSourcePool(_Strict):
+    """v5.19.0 D-0163 §2 — 사진 소싱 풀 하나. via commons = Commons 검색 + query_suffix, manual = 안내 줄(hint)만."""
+
+    id: str = Field(min_length=1)
+    label: str = Field(min_length=1)
+    via: Literal["commons", "manual"]
+    query_suffix: str = ""
+    hint: str = ""
+
+    @model_validator(mode="after")
+    def _hint(self) -> "PhotoSourcePool":
+        if self.via == "manual" and not self.hint:
+            raise ValueError(f"사진 풀 {self.id}: manual 은 hint(사람 확인 방법)가 필요하다")
+        return self
 
 
 class MediaDensity(_Strict):
@@ -275,6 +293,10 @@ class MediaDensity(_Strict):
     window_sec: float                     # 짧은 구간 몰림 창
     window_max: int                       # 창 안 최대 개수 — 넘으면 경고
     window_exempt_kinds: list[str]
+    total_exempt_kinds: list[str]         # v5.19.0 D-0163 §2 — [media-density-total] 개수에서 뺀다(기사 = 분당 상한 따로)
+    article_per_min_max: int = Field(ge=1)    # 기사 카드 후보 문장에 쓰는 기사 카드 — 60초 구간당 상한
+    photo_target_per_min: float = Field(ge=0)   # 사진 목표(분당) — 미달이면 미디어 계획 표가 문장 단위 사유 요구
+    grammar: list[str] = Field(min_length=1)    # 연출 프롬프트 {{RULES.media.density}} 문구({자리} = 이 블록 값)
 
 
 class FlickrRules(_Strict):

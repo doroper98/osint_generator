@@ -2,6 +2,7 @@
 
     python tools/media_fetch.py <project_dir> [--only mid,mid] [--sheets]
     python tools/media_fetch.py search "P-8A Poseidon" [--limit 7]      # 후보 검색(라이선스·제한 표시) — 고르는 것은 사람
+    python tools/media_fetch.py search "Pakistan army Saudi" --log projects/<pid> --sid war_0   # 풀 순서(rules media_beats.sources_order) + 기록
 
 레지스트리(`assets/media/media_registry.json`)가 정본이다. 이 도구는 레지스트리 항목마다
   1. 원본 받기 — Commons 표준 폭 썸네일(`tool.params.thumb_w`) 또는 원본(영상). HTTP 층은 tools/commons_fetch 하나
@@ -280,17 +281,70 @@ def run(proj: Path, only: list[str] | None = None, sheets: bool = True, registry
     return report
 
 
+def _excluded(lic: str, pieces: list[str]) -> bool:
+    """라이선스 이름에 제외 조각(NC·ND — NATO BY-NC-ND 등)이 낱말로 있는가."""
+    words = re.split(r"[\s\-_/]+", lic.upper())
+    return any(p.upper() in words for p in pieces)
+
+
+def search_pools(query: str, limit: int = 7, only: str | None = None, log: Path | None = None, sid: str | None = None,
+                 searcher=None) -> list[dict]:  # noqa: ANN001 — searcher(query, limit) = commons_fetch.search 대역(테스트)
+    """v5.19.0 D-0163 §2 — rules media_beats.sources_order 순서로 후보를 찾는다(권리 통과가 쉬운 풀 먼저).
+    via commons = Commons 검색 + query_suffix(라이선스 허용·제한 없음·제외 조각 없음 = 통과), via manual = 안내 줄(조용히 건너뛰지 않는다, P6).
+    log·sid 를 주면 풀마다 결과 요약을 `media_search.json` 에 덧붙인다(찾은 수·통과 수·상위 제목·탈락 사유)."""
+    import datetime as dt  # noqa: PLC0415
+
+    from rules import load_rules  # noqa: PLC0415
+    from schemas.media_models import MediaSearch, MediaSearchLog  # noqa: PLC0415
+
+    mb = load_rules().media_beats
+    pools = [p for p in mb.sources_order if only is None or p.id == only]
+    if not pools:
+        raise MediaFetchError(f"풀 {only!r} 없음 — rules media_beats.sources_order: {[p.id for p in mb.sources_order]}")
+    find = searcher or commons_fetch.search
+    rows: list[dict] = []
+    logged: list[MediaSearch] = []
+    for rank, p in enumerate(pools, 1):
+        if p.via == "manual":
+            rows.append({"pool": p.id, "rank": rank, "label": p.label, "manual": p.hint})
+            continue
+        q = f"{query} {p.query_suffix}".strip()
+        found = find(q, limit)
+        ok, rej = [], []
+        for c in found:
+            bad = _excluded(c["lic"], mb.sources_excluded_licenses)
+            good = c["allowed"] and not bad
+            rows.append({"pool": p.id, "rank": rank, **{k: c[k] for k in ("title", "lic", "restrictions", "page")}, "allowed": good})
+            (ok if good else rej).append(c["title"] if good else f"{c['lic'] or '라이선스 없음'}"
+                                         + (" 제한" if c["restrictions"] else "") + (" NC·ND" if bad else ""))
+        logged.append(MediaSearch(sid=sid or "-", query=q, pool=p.id, on=dt.date.today().isoformat(), found=len(found), passed=len(ok),
+                                  top=ok[:5], rejected=sorted(set(rej))[:5]))
+    if log is not None:
+        from script.media_table import SEARCH_FILE  # noqa: PLC0415
+
+        path = log / SEARCH_FILE
+        doc = MediaSearchLog.model_validate_json(path.read_text(encoding="utf-8")) if path.exists() else MediaSearchLog()
+        doc.searches += logged
+        path.write_text(doc.model_dump_json(indent=1) + "\n", encoding="utf-8")
+    return rows
+
+
 def main(argv: list[str] | None = None) -> int:
     if argv is None:
         argv = sys.argv[1:]
     if argv and argv[0] == "search":
-        ap = argparse.ArgumentParser(description="Commons 후보 검색")
+        ap = argparse.ArgumentParser(description="사진 후보 검색 — rules media_beats.sources_order 풀 순서(D-0163 §2)")
         ap.add_argument("cmd")
         ap.add_argument("query")
         ap.add_argument("--limit", type=int, default=7)
+        ap.add_argument("--pool", default=None, help="풀 하나만(id). 기본 = 규칙 순서 전부")
+        ap.add_argument("--log", type=Path, default=None, help="프로젝트 폴더 — 결과 요약을 media_search.json 에(게이트 ① 미디어 계획 표)")
+        ap.add_argument("--sid", default=None, help="--log 와 함께: 문장 id({장면}_{순번})")
         args = ap.parse_args(argv)
-        for c in commons_fetch.search(args.query, args.limit):
-            print(json.dumps({k: c[k] for k in ("title", "lic", "restrictions", "allowed", "page")}, ensure_ascii=False))
+        if (args.log is None) != (args.sid is None):
+            ap.error("--log 와 --sid 는 함께 쓴다")
+        for row in search_pools(args.query, args.limit, args.pool, args.log, args.sid):
+            print(json.dumps(row, ensure_ascii=False))
         return 0
     ap = argparse.ArgumentParser(description=__doc__.split("\n")[0])
     ap.add_argument("proj", type=Path)

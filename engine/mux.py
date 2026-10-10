@@ -124,7 +124,7 @@ def project_provenance(P, stages: dict[str, bool]) -> dict:  # noqa: ANN001, N80
     """이 프로젝트의 provenance 한 벌(15 P5). mux(out/)와 preview(prev/)가 같은 함수를 쓴다(D-0041 §2).
     `stages` 는 이번 산출물에 실제로 돈 단계 — 돌지 않은 단계는 false 로 명시한다."""
     from engine.credits import credit_summary, rights_exceptions  # noqa: PLC0415
-    from engine.media_plan import density_report  # noqa: PLC0415
+    from engine.media_plan import article_usage, density_report  # noqa: PLC0415
     from engine.provenance import ai_direction_summary  # noqa: PLC0415
     from engine.provenance import build as build_prov  # noqa: PLC0415
     from engine.provenance import bundle_summary  # noqa: PLC0415
@@ -239,8 +239,12 @@ def project_provenance(P, stages: dict[str, bool]) -> dict:  # noqa: ANN001, N80
                           for r in P.R.cache["series_records"]]
     prov["camera"] = camera_summary(P.root, P.keys, P.R.stage)        # v3.3.0 — 카메라 제안 suggested/used(D-0056, 제안은 옵션)
     prov["lint_warnings"] = P.warnings                       # 연출 경고(관계선 과다·연표 겹침·미디어 배치/밀도) — 오류 아님
-    prov["media"] = {**media_usage(P.plan, P.events),        # v2.5.5 — 14 §10 제안·사용·밀도·배치(D-0036)
+    from script.media_table import article_sids  # noqa: PLC0415
+
+    arts = article_sids(P.root) if (P.root / "script.yaml").exists() else None
+    prov["media"] = {**media_usage(P.plan, P.events, arts),  # v2.5.5 — 14 §10 제안·사용·밀도·배치(D-0036)
                      "density": density_report(P.events, P.R.tb, P.plan.total),
+                     "articles": article_usage(P.root, P.plan, P.events),   # v5.19.0 D-0163 §2 — 기사 카드 후보·사용·안 쓴 사유
                      "placement": P.R.cache.get("media_placement", {})}
     labels = check_project_labels(P.root, load_script(P.root))   # v3.0.0 — 검증 라벨 집계(D-0043 §4), 도시어 없으면 None
     prov["script"] = {"labels": labels.counts() if labels is not None else None}

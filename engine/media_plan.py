@@ -11,6 +11,7 @@
 from __future__ import annotations
 
 import math
+from pathlib import Path
 
 import cairo
 
@@ -90,13 +91,16 @@ def density_report(events: list[dict], tb: Timebase, total: float) -> dict:
     """14 §10.1 밀도 경고 4종(D-0037): media-density-total · media-density-scene · media-kind-repeat · media-burst-window."""
     D = _R.media.density  # noqa: N806
     items = media_items(events, tb)
+    beats = [i for i in items if i["kind"] not in D.total_exempt_kinds]   # v5.19.0 D-0163 §2 — 기사는 미디어 비트 상한 밖(분당 상한 따로)
     lo, hi = D.per_item_sec
     warns: list[str] = []
-    per = total / len(items) if items else math.inf
-    if items and per < lo:
-        warns.append(f"[media-density-total] 과밀 — {len(items)}개 / {total:.0f}초 = {per:.1f}초당 1개 < {lo:g}초 (14 §10.1)")
+    per = total / len(beats) if beats else math.inf
+    if beats and per < lo:
+        warns.append(f"[media-density-total] 과밀 — {len(beats)}개 / {total:.0f}초 = {per:.1f}초당 1개 < {lo:g}초 "
+                     f"(14 §10.1, {D.total_exempt_kinds} 제외)")
     if per > hi:
-        warns.append(f"[media-density-total] 과소 — {len(items)}개 / {total:.0f}초 = {per:.1f}초당 1개 > {hi:g}초 (14 §10.1)")
+        warns.append(f"[media-density-total] 과소 — {len(beats)}개 / {total:.0f}초 = {per:.1f}초당 1개 > {hi:g}초 "
+                     f"(14 §10.1, {D.total_exempt_kinds} 제외)")
     by_scene: dict[str, list[str]] = {}
     for i in items:
         if i["kind"] not in D.scene_exempt_kinds:
@@ -119,7 +123,46 @@ def density_report(events: list[dict], tb: Timebase, total: float) -> dict:
     if worst["count"] > D.window_max:
         warns.append(f"[media-burst-window] {worst['t0']}초부터 {D.window_sec:g}초 안 {worst['count']}개 {worst['mids']} > "
                      f"{D.window_max} (14 §10.1 하한, D38)")
-    return {"schema_version": 1, "total_sec": round(total, 3), "items": items, "count": len(items),
-            "sec_per_item": None if not items else round(per, 1), "target_sec_per_item": [lo, hi],
+    return {"schema_version": 1, "total_sec": round(total, 3), "items": items, "count": len(items), "beat_count": len(beats),
+            "sec_per_item": None if not beats else round(per, 1), "target_sec_per_item": [lo, hi],
             "window": {"window_sec": D.window_sec, "window_max": D.window_max, "exempt": D.window_exempt_kinds, "max": worst},
             "per_scene": by_scene, "warnings": warns}
+
+
+def article_usage(proj: Path, plan, events: list[dict]) -> dict:  # noqa: ANN001 — script.schema.Plan
+    """v5.19.0 D-0163 §2 — 기사 카드 후보(확인된 기사 출처를 인용하고 그 기사가 등록된 문장, script.media_table)를 연출이 썼는가.
+
+    60초 구간(문장 시작 기준)마다 기대 수 = min(후보 문장 수, rules media.density.article_per_min_max). 기사 이벤트가 문장 시간과
+    겹치면 그 문장은 쓴 것이다. 모자라면 안 쓴 후보를 긴 문장 먼저 기대 수만큼 고르고, media_notes.yaml article 사유가 있으면 기록만,
+    없으면 `[article-unused]` 경고. 구간에 기사 카드가 상한을 넘으면 `[article-density]` 경고. 원고·claims 가 없으면 후보 없음."""
+    from script.media_table import article_candidates, load_notes  # noqa: PLC0415
+
+    D = _R.media.density  # noqa: N806
+    cands = article_candidates(proj)
+    notes = load_notes(proj).sentences
+    arts = [e for e in events if e["type"] == "article"]
+    by_bucket: dict[int, list] = {}
+    for s in plan.sentences:
+        if s.sid in cands:
+            by_bucket.setdefault(int(s.t0 // 60), []).append(s)
+    warns: list[str] = []
+    unused: list[dict] = []
+    covered = 0
+    for b, ss in sorted(by_bucket.items()):
+        hit = [s for s in ss if any(e["t0"] < s.t1 and e["t1"] > s.t0 for e in arts)]
+        covered += len(hit)
+        need = min(len(ss), D.article_per_min_max) - len(hit)
+        for s in sorted((s for s in ss if s not in hit), key=lambda s: -len(s.text))[:max(need, 0)]:
+            why = notes[s.sid].article if s.sid in notes else None
+            unused.append({"sid": s.sid, "t0": round(s.t0, 2), "mids": cands[s.sid], "reason": why})
+            if why is None:
+                warns.append(f"[article-unused] {s.sid} {s.t0:.1f}초 기사 카드 후보 {cands[s.sid]} — {b * 60}~{b * 60 + 60}초 구간 "
+                             f"{len(hit)}/{min(len(ss), D.article_per_min_max)}개. 쓰거나 media_notes.yaml sentences.{s.sid}.article 에 사유")
+    per_bucket: dict[int, int] = {}
+    for e in arts:
+        per_bucket[int(e["t0"] // 60)] = per_bucket.get(int(e["t0"] // 60), 0) + 1
+    for b, n in sorted(per_bucket.items()):
+        if n > D.article_per_min_max:
+            warns.append(f"[article-density] {b * 60}~{b * 60 + 60}초 기사 카드 {n}개 > {D.article_per_min_max} (rules media.density.article_per_min_max)")
+    return {"schema_version": 1, "candidates": len([s for ss in by_bucket.values() for s in ss]), "covered": covered,
+            "used_events": len(arts), "per_min_max": D.article_per_min_max, "unused": unused, "warnings": warns}

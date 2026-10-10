@@ -119,5 +119,5 @@ AI 상투 문구(`rules:banned_phrases`), 발음 텍스트 안의 숫자·기호
 | units_visible | hard | 화면 단위 표시(레인 이름·패널 단위·통화 기호) | `rules:data.units`, `rules:data.unit_prefixes` |
 | as_of_visible | hard | 기준 시점·출처 줄(시리즈는 그 컷에 그린 출처 줄, 패널은 추정 태그 체계) | `rules:qa_checks.chart_targets` |
 | shots | warning | 숏 유지·장면당 이동·암전 빈도·시간축 되돌아가기(이유 없는 경우) | `rules:shot_grammar` |
-| media_beats | warning | 미디어 밀도 | `rules:media.density` |
+| media_beats | warning | 미디어 밀도 + 기사 카드 후보 미사용 `[article-unused]`·`[article-density]`(v5.19.0) | `rules:media.density` |
 | media_upscaled | warning | 원본 폭 < 장치 폭(추측 보간 금지, 알리기만) | `config:engine.output` |

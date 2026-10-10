@@ -328,6 +328,16 @@ media:                     # v2.5.5 D-0037(D38) — 14 §10.1 밀도 경고. v3 
     window_sec: 40
     window_max: 2                         # 40초 안 3개(기사 제외)부터 경고
     window_exempt_kinds: [article]
+    # v5.19.0 back_and_forth D-0163 §2·D-0173 §3(P1-0) — 기사 카드는 미디어 비트 상한(per_item_sec·per_scene_max)에서 분리.
+    # D-0163 은 `media_beats.density{beat_gap_sec …}` 로 적었으나 같은 값이 이미 이 블록(D-0037, GOAL G3-12 가 가리킴)에 있어 여기에 더한다(SSOT 하나)
+    total_exempt_kinds: [article]         # [media-density-total] 개수에서 뺀다(기사는 아래 분당 상한으로 따로)
+    article_per_min_max: 2                # 기사 카드 후보 문장(확인된 기사 출처 인용)에 쓰는 기사 카드 — 60초 구간당 상한. 넘으면 긴 문장 먼저
+    photo_target_per_min: 1               # 사진 목표(분당). 미달이면 게이트 ① 미디어 계획 표가 문장 단위 사유를 요구한다(P6)
+    grammar:                              # 연출 프롬프트 {{RULES.media.density}} — {자리}는 이 블록 값(.replace, C2)
+      - "미디어 비트(사진·영상·컷아웃): {gap_lo}~{gap_hi}초에 하나, 장면당 {per_scene_max}개 이하. 사진·영상이 없으면 넣지 않는다(생성 이미지 금지)."
+      - "기사 카드는 이 상한 밖이다. 사용자 메시지 '기사 카드 후보' 문장(확인된 기사 출처를 인용한 문장)에는 기사 카드를 쓴다 — 60초 구간마다 {article_per_min_max}개까지, 후보가 넘치면 긴 문장 먼저."
+      - "후보 문장에 기사 카드를 쓰지 않으면 검사 [article-unused] 가 경고한다(사유는 사람이 media_notes.yaml 에 문장 단위로 남긴다)."
+      - "사진 목표는 분당 {photo_target_per_min}장이다. 원고 단계에서 고른 사진(문장 media)을 먼저 쓴다."
 
   flickr:                  # v4.4.0 D-0090 작업 4 — 기관 공식 Flickr(연준 이사회 등) 사진. 사진 페이지의 license 번호를 코드가 읽어 이 목록 밖이면 받지 않는다(07 §3.2·20 §8, C9)
     licenses_allowed: {"8": United States Government Work, "9": Public Domain Dedication (CC0), "10": Public Domain Mark}
@@ -350,7 +360,16 @@ media_beats:               # 14 §10
     clip: [공습, 타격, 발사, 나포, 충돌, 폭격, 격추]
     photo: [회담, 발표, 현장, 부대, 시위, 경계, 파병, 장병]
     cutout: [초계기, 구축함, 미사일, 전투기, 함정, 항공기, 잠수함, 드론]
-    article: [보도했습니다, 보도했다, 기고, 사설, 보도에 따르면]
+    # v5.19.0 D-0163 §2 — 10개. 어간으로 적는다(부분 문자열 매칭: "보도했" = 보도했다·보도했습니다). "밝혔·확인했" 은 매체 주어일 때만 기사 —
+    # 매칭은 그 문장이 확인된 기사 출처를 인용할 때만 센다(script/media_table.article_trigger)
+    article: [보도했, 전했, 밝혔, 인용, 에 따르면, 보도에 따르면, 기고, 사설, 단독, 확인했]
+  # v5.19.0 D-0163 §2 — 사진 소싱 풀(권리 통과가 쉬운 곳 먼저). `tools/media_fetch.py search` 가 이 순서로 돈다.
+  # via commons = Commons 검색(CirrusSearch) + query_suffix. via manual = 검색 API 없음 → 사람 확인 안내 줄만 낸다(조용히 건너뛰지 않는다, P6)
+  sources_order:
+    - {id: us_dod_pd, label: "미 국방부·DVIDS·CENTCOM(퍼블릭 도메인)", via: commons, query_suffix: 'hastemplate:"PD-USGov-Military"'}
+    - {id: commons_cc, label: "Wikimedia Commons CC", via: commons, query_suffix: ""}
+    - {id: gov_flickr_ccby, label: "각국 정부 Flickr CC BY 계정", via: manual, hint: "flickr.com 검색 → 라이선스 CC BY(저작자 표시) · 정부·군 공식 계정만 → 사진 페이지 URL 을 레지스트리에(media.flickr 라이선스 검사)"}
+  sources_excluded_licenses: [NC, ND]     # NATO 등 CC BY-NC-ND — 상업·변형 제한(07 §3.2). 라이선스 이름에 이 조각이 있으면 탈락
   caption_bar_px: 42
 
 placement:                 # v3.1.0 D-0047 작업 5 — 배치 슬롯(17 §2 `place:`). 좌표 계산은 코드(engine/placement.py) — 연출 LLM 은 픽셀을 다루지 않는다
