@@ -66,3 +66,7 @@ dmz_mine_2026 · hormuz-talks-2026 · hormuz_ai · hormuz_ai_cam · hormuz_camau
 ## 6. 판단(되돌릴 수 있음)
 - 장르 기본값 키 = 장르 프로필 `stage.mercator.theme`(`rules genres` 대신 — 장르 SSOT, D-0171 §3 동의).
 - YAML 1.1 에서 `on` 키가 참·거짓으로 읽혀 테마별 글로우 스위치 이름을 `enabled` 로 했습니다.
+
+## 7. pytest
+
+**1507 passed · 0 failed · 0 skipped**(313 subtests, 34분 37초). 1차 6 실패(검사 표 2·가짜 view 1·ratcliffe2026 light 자산 3 — 환경 준비 `python -m geo.prep projects/ratcliffe2026 --theme light`)를 고친 뒤 재실행.
