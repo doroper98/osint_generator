@@ -3414,3 +3414,4 @@ last_review: 2026-06-06
 - 2026-10-05 v5.6.0 인용·기사·실사 0건 원인 = 재료 미공급(PIPELINE-AP-019) — 인용 후보·기사 자동 등록·미디어 요약(막지 않음). ElevenLabs 키 있음 확인, 본편 음성 edge 였음(PIPELINE-AP-020).
 - 2026-10-05 v5.6.0 사용자 결정 D127 — ElevenLabs 음성 금지(edge 단일), script.plan 거부.
 - 2026-10-10 v5.10.0 두 자리 MINOR 도장이 hormuz 엔딩 컷 고정 가림 상자를 넘음 → 상자 v99.99.99 폭·md5_masked 재등재·재발 방지 테스트(PIPELINE-AP-021, D-0148).
+- 2026-10-11 v5.16.0 V2 강제 정렬 게이트 참값 = 음향 발화 시작(D-0165, DECISIONS D159) — edge WordBoundary 는 절대 시각이 아님(TTS-AP-082). at_word 정렬 없음 = 오류(D151).

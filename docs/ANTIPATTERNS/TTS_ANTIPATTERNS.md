@@ -658,3 +658,11 @@ last_review: 2026-06-06
 - **자동 조치**: rules `tts_risk.spoken_patterns` kind `op_name_noun_run` 경고. 원고 수정.
 - **발견 버전**: v5.5.1 · **상태**: active
 
+### TTS-AP-082 — edge-tts `WordBoundary` 를 절대 시각 참값으로 씀(문장 시작 0.1초 고정·문장 안 약 100ms 이름)
+
+- **증상(실제 현상)**: V2 강제 정렬 게이트(D-0164 §5-6, "edge 참값 ↔ 정렬 중앙값 ≤ 60ms")에서 MMS 정렬이 raw 중앙값 109ms·p90 267ms 로 미달. 851어절 중 MMS − edge 음수 0개.
+- **원리**: edge `WordBoundary` 는 (a) 문장 시작을 0.1초에 고정하고(실제 첫 소리 0.37~0.46초) (b) 쉼 앞 경계를 쉼 시작에 두며 (c) 문장 안에서도 약 100ms 이르게 보고한다. 측정: Opus 93문장(호르무즈 45 + fed 48), Fable 호르무즈 45문장(문장 시작 +285ms, 쉼 뒤 +254ms). 독립 참값(무음 뒤 발화 시작)에서 MMS 는 21/51ms.
+- **원칙**: 정렬 참값은 음향 발화 시작이다. edge 는 간격(차이)으로만 비교한다. 상수 보정은 같은 측정에서 값을 고르는 순환이라 쓰지 않는다.
+- **자동 조치**: `script/tts/align_gate`(절대 시각·간격 일치 게이트, `rules tts_rules.forced_align`), `tests/test_v2_forced_align.py`(픽스처 10문장·이동 불변). 현 골든 앵커(edge, 0.1~0.3초 이름)는 고치지 않는다 — edge 경로는 V4 에서 삭제(P2), V3 플랜 교체 때 `expected_deltas` 사유 "시각(edge 치우침 제거)".
+- **발견 버전**: v5.16.0 · **상태**: active
+

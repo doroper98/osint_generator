@@ -12,7 +12,7 @@ import unittest
 from pathlib import Path
 
 from engine.provenance import build as build_prov
-from engine.timebase import Timebase
+from engine.timebase import AlignmentMissingError, Timebase
 from script.schema import Card, Plan
 from script.tts import align
 
@@ -47,13 +47,13 @@ class AtWordAlignedTest(unittest.TestCase):
             ts = [a["t"] for a in tb.word_anchors]
             self.assertEqual(ts, sorted(ts))
 
-    def test_ratio_without_alignment(self) -> None:
+    def test_error_without_alignment(self) -> None:
+        """v5.16.0 사용자 결정 D151 — 정렬 파일 없음 = 오류(옛 비율 폴백 삭제). 비율은 '단어가 발음 텍스트에 없음'만(아래)."""
         with tempfile.TemporaryDirectory() as d:
-            p = _plan(Path(d), "ask_1", False)
-            tb = Timebase(p)
-            x = p.sentences[0]
-            self.assertAlmostEqual(tb.at_word("ask_1", "한국"), T0 + x.text.find("한국") / len(x.text) * x.dur)
-            self.assertEqual(tb.word_anchors[0]["mode"], "ratio")
+            tb = Timebase(_plan(Path(d), "ask_1", False))
+            with self.assertRaises(AlignmentMissingError):
+                tb.at_word("ask_1", "한국")
+            self.assertEqual(tb.word_anchors, [])
 
     def test_word_missing_in_tts_falls_back_with_note(self) -> None:
         with tempfile.TemporaryDirectory() as d:

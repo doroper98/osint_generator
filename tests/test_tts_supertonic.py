@@ -101,7 +101,7 @@ class PlanTest(unittest.TestCase):
                 {"text": TEXT, "tts": TEXT, "date": "2026.10.10"}]}]}, allow_unicode=True), encoding="utf-8")
         return proj
 
-    def test_plan_records_voice_chunks_and_no_alignment(self) -> None:
+    def test_plan_records_voice_chunks_and_alignment(self) -> None:
         from script import plan as plan_mod  # noqa: PLC0415
 
         with tempfile.TemporaryDirectory() as d:
@@ -117,10 +117,14 @@ class PlanTest(unittest.TestCase):
                  mock.patch.object(plan_mod, "load_claims_for", return_value=None), \
                  mock.patch.object(plan_mod.supertonic, "synth_all", side_effect=fake), \
                  mock.patch.object(plan_mod.edge, "synth_all", side_effect=AssertionError("edge 로 넘어가면 안 된다")), \
-                 mock.patch.object(plan_mod, "trim_to_npy", return_value=(proj / "x.npy", 1.0, 0.0)):
+                 mock.patch.object(plan_mod, "trim_to_npy", return_value=(proj / "x.npy", 1.0, 0.0)), \
+                 mock.patch.object(plan_mod, "forced_alignment",
+                                   return_value={"source": "mms_forced_alignment", "score_mean": 0.9, "elapsed_ms": 900}) as fa:
                 pl = plan_mod.build(proj, "supertonic")
-                again = plan_mod.build(proj, "supertonic")        # 캐시 — 정렬이 없어도 재합성하지 않는다(V1)
+                again = plan_mod.build(proj, "supertonic")        # 캐시 — 재합성하지 않는다(정렬은 V2 강제 정렬이 문장마다)
         self.assertEqual(len(seen), 1)
+        self.assertEqual(fa.call_count, 2)
+        self.assertEqual(pl.sentences[0].alignment.source, "mms_forced_alignment")   # v5.16.0 D-0164 §5-4
         self.assertEqual(pl.voice, f"supertonic-3 {CFG.voice_style} ×{CFG.speed}")
         s = pl.sentences[0]
         self.assertEqual(s.chunks, [s.tts])                                  # 발음 사전 뒤 텍스트(원유 → 워뉴)

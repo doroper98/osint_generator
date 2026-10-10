@@ -13,8 +13,7 @@ from pathlib import Path
 
 from engine.direction import build, load_direction_doc
 from engine.stage import MercatorStage
-from engine.timebase import Timebase
-from tests.direction_snapshot import snapshot, synthetic_plan
+from tests.direction_snapshot import SyntheticTimebase, snapshot, synthetic_plan
 
 REPO = Path(__file__).resolve().parent.parent
 # 변환 뒤 결정으로 바꾼 값(스냅샷 = 옛 연출). (프로젝트, 타입, label) → 바뀐 필드. 여기 없는 차이는 전부 실패
@@ -29,7 +28,7 @@ class ConvertFidelityTest(unittest.TestCase):
         for name in ("hormuz_korea", "taiwan_strait"):
             with self.subTest(project=name):
                 proj = REPO / "projects" / name
-                tb = Timebase(synthetic_plan(proj))
+                tb = SyntheticTimebase(synthetic_plan(proj))
                 keys, events, sound = build(load_direction_doc(proj / "direction.yaml"), tb, MercatorStage())
                 got = snapshot(keys, events, sound, tb)
                 want = json.loads((REPO / "tests" / "fixtures" / "direction" / f"{name}_old_synthetic.json").read_text(encoding="utf-8"))

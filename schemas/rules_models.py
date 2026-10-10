@@ -87,10 +87,21 @@ class ScriptSchemaRules(_Strict):
         return self
 
 
+class AlignGateRules(_Strict):
+    """v5.16.0 D-0165 — 정렬 게이트 기준(절대 시각·간격 일치 공통, ms)."""
+
+    median_ms: float = Field(gt=0)
+    p90_ms: float = Field(gt=0)
+
+
 class ForcedAlignRules(_Strict):
-    """v5.16.0 — 강제 정렬 신뢰도 문턱(어절 토큰 확률 평균)."""
+    """v5.16.0 — 강제 정렬 신뢰도 문턱(문장 점수 = 어절 토큰 확률 평균의 평균)과 게이트 참값 정의(D-0165 §2·§3)."""
 
     min_score: float = Field(ge=0, le=1)
+    silence_thr: float = Field(gt=0, lt=1)        # 무음 진폭 문턱(trim 과 같은 값)
+    silence_sec: float = Field(gt=0)              # 이 길이 이상 이어진 무음 뒤 첫 문턱 초과 = 발화 시작(참값)
+    match_window_sec: float = Field(gt=0)         # 참값 ↔ 정렬 어절 대응 창(±). 대응 없음 = 이 값으로 실패 계상
+    gate: AlignGateRules
 
 
 class TTSRules(_Strict):

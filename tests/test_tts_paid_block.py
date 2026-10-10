@@ -74,7 +74,8 @@ class PaidBlockTest(unittest.TestCase):
                 mock.patch.object(plan_mod, "load_claims_for", return_value=None), \
                 mock.patch.object(plan_mod.supertonic, "synth_all",
                                   side_effect=lambda jobs, cfg=None: [p.write_bytes(b"x" * 2000) for _, p in jobs]), \
-                mock.patch.object(plan_mod, "trim_to_npy", return_value=(Path(d) / "x.npy", 1.0, 0.0)):
+                mock.patch.object(plan_mod, "trim_to_npy", return_value=(Path(d) / "x.npy", 1.0, 0.0)), \
+                mock.patch.object(plan_mod, "forced_alignment", return_value={"source": "mms_forced_alignment"}):
             pl = plan_mod.build(_proj(d), plan_mod.load_config().tts.backend_default)
         post.assert_not_called()
         self.assertTrue(pl.voice.startswith("supertonic"))

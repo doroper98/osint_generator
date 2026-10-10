@@ -3,7 +3,8 @@
     python -m script.plan <proj> [--tts supertonic|edge|elevenlabs]   → <proj>/plan.json, <proj>/tts/
 
 기본 백엔드 = config.yaml tts.backend_default(v5.11.0 사용자 결정 D146 = supertonic). Supertonic 은 단어 시각을 내지 않아
-`.align.json` 을 V2 강제 정렬이 쓴다 — V1 plan 은 정렬 없는 캐시를 재합성하지 않는다(재합성해도 정렬이 생기지 않음).
+`.align.json` 을 V2 강제 정렬(script/tts/forced_align, v5.16.0 D-0164 §5-4)이 합성 직후 문장마다 쓴다. 정렬이 이미 있는
+캐시는 다시 정렬하지 않는다. 정렬 실패 = plan 실패(P6 — 비율 추정으로 넘어가지 않는다, 사용자 결정 D151).
 
 린트 위반이 있으면 음성을 만들지 않고 실패한다. 마지막 줄에 StageResult JSON(표준 출력).
 """
@@ -21,7 +22,8 @@ from orchestrator.config import load_config
 from script.lint import lint, load_claims_for, load_pronounce_dict, pronounce_tts
 from script.schema import Plan, Script
 from script.timeline import layout, sentence_rows
-from script.tts import edge, elevenlabs, supertonic
+from script.tts import align as tts_align
+from script.tts import edge, elevenlabs, forced_align, supertonic
 from script.tts.align import align_path
 from script.tts.cache import cache_key, cached, mp3_path
 from script.tts.trim import trim_to_npy
@@ -78,6 +80,11 @@ def build(proj: Path, tts: str, warnings: list[str] | None = None, edge_voice: s
     else:
         edge.synth_all(jobs, voice=edge_voice)
     for x in rows:
+        if st_cfg is not None:
+            x["alignment"] = forced_alignment(Path(x["mp3"]), x["tts"])
+        else:
+            al = tts_align.read(Path(x["mp3"]))
+            x["alignment"] = {"source": al["alignment_source"]} if al else None
         npy, dur, off = trim_to_npy(Path(x["mp3"]))
         x["npy"], x["dur"], x["trim_offset"] = str(npy), dur, round(off, 6)
     cards, scene_start, total = layout(rows)
@@ -85,6 +92,18 @@ def build(proj: Path, tts: str, warnings: list[str] | None = None, edge_voice: s
                 voice=(supertonic.voice_label(st_cfg) if st_cfg else
                        elevenlabs.voice_label() if use_eleven else edge.voice_label(edge_voice)),
                 title=script.title, subtitle=script.subtitle, date=script.date, tts_resynthesized=resynth)
+
+
+def forced_alignment(mp3: Path, pron_text: str) -> dict:
+    """Supertonic 문장 정렬 — 있으면 읽고(같은 발음 텍스트일 때만), 없으면 정렬해 쓴다. → plan row alignment."""
+    al = tts_align.read(mp3)
+    if al is None or "".join(al["characters"]) != pron_text or al["alignment_source"] != "mms_forced_alignment":
+        try:
+            al = forced_align.align_file(mp3, pron_text)
+        except (forced_align.ForcedAlignError, tts_align.AlignmentError) as ex:
+            raise ValueError(f"강제 정렬 실패 — {ex}") from ex
+        tts_align.write(mp3, al)
+    return {"source": al["alignment_source"], "score_mean": al.get("score_mean"), "elapsed_ms": al.get("elapsed_ms")}
 
 
 def main(argv: list[str] | None = None) -> int:

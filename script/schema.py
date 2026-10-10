@@ -83,6 +83,13 @@ class Script(_Strict):
         return self
 
 
+class PlanAlignment(_Strict):
+    """v5.16.0 optional(D-0164 §5-4) — 이 문장 정렬의 출처·문장 점수·정렬 시간(provenance 로 전달). edge 는 출처만."""
+    source: str
+    score_mean: Optional[float] = None
+    elapsed_ms: Optional[int] = None
+
+
 class PlanSentence(_Strict):
     sid: str
     scene: str
@@ -97,6 +104,7 @@ class PlanSentence(_Strict):
     t1: float
     trim_offset: Optional[float] = None  # v2.3.0 optional(C3 호환) — 원본 mp3 앞에서 잘라낸 초. 정렬 시각 보정용
     chunks: Optional[list[str]] = None   # v5.11.0 optional(D-0152) — Supertonic 이 문장을 나눈 조각(사이 무음 tts.supertonic.silence_sec)
+    alignment: Optional[PlanAlignment] = None   # v5.16.0 optional(D-0164 §5-4) — 정렬 출처·점수·시간
 
 
 class Card(_Strict):

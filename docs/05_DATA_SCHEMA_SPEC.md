@@ -31,7 +31,7 @@ last_review: 2026-09-29
 | `intake/claims.json` | `ClaimsFile` | `orchestrator/source_verify`(코드 판정) | SOURCE_VERIFY |
 | `facts.json` | `script.schema.Facts` | ResearchWorker | RESEARCH |
 | `script.yaml`, `script_labels.json` | `script.schema.Script`, `script.labels.ScriptLabels` | ScriptWorker(또는 사람) | SCRIPT_DRAFT |
-| `plan.json`, `tts/*.mp3(.align.json)` | `script.schema.Plan` | `script.plan` | VOICE_TIMELINE |
+| `plan.json`, `tts/*.mp3(.align.json)` | `script.schema.Plan`(v5.16.0 optional `PlanSentence.alignment {source, score_mean, elapsed_ms}` — 정렬 출처·문장 점수·정렬 시간. `.align.json` 은 `script/tts/align` 공통 형식, MMS 는 `score_mean`·`elapsed_ms` 를 더 담는다) | `script.plan` | VOICE_TIMELINE |
 | `geo.yaml`, `labels.yaml` | `geo.prep` 설정 모델, 라벨 모델 | 사람 | ASSETS |
 | `assets/{geo.pkl, tiers.pkl, base_*.png, geo_report.json}`, `assets/res_<프로파일>/` | `schemas.engine_models.Tier` | `geo.prep` | ASSETS |
 | `assets/rights_registry.json`, `credits.yaml` | `RightsRegistry`, `engine.credits.Credits` | 사람·`tools/fetch_data` | ASSETS |

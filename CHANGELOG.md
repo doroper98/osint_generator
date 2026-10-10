@@ -70,6 +70,19 @@ released 항목은 **append-only**입니다.
 
 MINOR: Phase 완료 단위. JSON `schema_version` 그대로(1).
 
+### Added
+- `script/tts/forced_align.py` — 합성 음성 ↔ 발음 텍스트 강제 정렬(MMS_FA wav2vec2 CTC + uroman, CPU). 어절 구간 → 글자 시각 로마자 길이 비례. 문장 점수(어절 점수 평균) `rules tts_rules.forced_align.min_score` 0.62 미만 = 오류(맞는 원고 93문장 최저 0.679 / 틀린 원고 93쌍 최고 0.569).
+- `config.yaml tts.alignment` — 가중치 URL·sha1·스레드. `python tools/fetch_data.py mms_fa`(가중치 CC-BY-NC 4.0, 약 1.26GB, 미추적). fetch 완료 메시지가 모델 자산의 실제 저장 위치를 찍음(D-0155).
+- `script/tts/align_gate.py` — 게이트(D-0165, DECISIONS D159): 참값 = 음향 발화 시작(순서·단조 대응, 대응 없음 = 실패 계상) + 문장 안 간격 일치(edge 상수 치우침 소거). 기준 `forced_align.gate` 중앙값 ≤ 60ms · p90 ≤ 120ms.
+- `PlanSentence.alignment {source, score_mean, elapsed_ms}`(optional) → provenance `features.alignment`(정렬을 기록한 plan 만).
+- `tests/test_v2_forced_align.py`(15) + 픽스처 10문장(`tests/fixtures/tts/align_gate`, 420KB).
+
+### Changed
+- `script.plan` — Supertonic 합성 직후 문장마다 강제 정렬 → `.align.json`(같은 발음 텍스트의 정렬은 재사용). 정렬 실패 = plan 실패.
+- `engine.timebase.at_word` — 정렬 파일 없음 = `AlignmentMissingError`(사용자 결정 D151). 비율 추정은 "단어가 발음 텍스트에 없음"만.
+- `rules tts_rules.alignment_sources` += `mms_forced_alignment`.
+- TTS-AP-082(edge WordBoundary 는 절대 시각이 아님), `docs/handoff/03` §6.3 참값 정의.
+
 ---
 
 ## [v5.15.1] — 2026-10-10 — Q2 받는 경로 수정 (back_and_forth D-0164)

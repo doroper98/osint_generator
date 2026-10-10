@@ -197,6 +197,15 @@ v3 `at_word(sid, word)`는 자막 텍스트에서 단어 위치 비율 × 문장
 3. `t0 + (start − 트림 오프셋)`을 반환한다. 트림 오프셋 = 원본 mp3 앞 무음을 잘라낸 길이(§7에서 기록해 둘 것).
 4. 못 찾으면 기존 비율 추정으로 폴백.
 
+**v5.16.0 개정(사용자 결정 D151, D-0164·D-0165, DECISIONS D159)**: 정렬 파일이 **없으면 오류**다(`engine.timebase.AlignmentMissingError`).
+비율 추정은 "단어가 발음 텍스트에 없음"(숫자를 읽기로 바꾼 자막 단어)에만 남는다. Supertonic 은 단어 시각을 내지 않으므로
+`script.plan` 이 합성 직후 문장마다 강제 정렬(`script/tts/forced_align`, MMS_FA + uroman)로 `.align.json` 을 쓴다.
+**정렬 참값의 정의**: edge `WordBoundary` 는 절대 시각이 아니다(TTS-AP-082 — 문장 시작 0.1초 고정, 쉼 앞 경계 = 쉼 시작, 문장 안 약 100ms 이름).
+참값은 **음향 발화 시작**이다 — 원본 음성(44.1k mono)에서 `|a| ≤ silence_thr`(trim 문턱과 같음)가 `silence_sec` 이상 이어진 뒤
+첫 초과 샘플, 그리고 문장 첫 소리. 참값 ↔ 정렬 어절은 순서·단조로 대응하고, 대응 없는 참값은 실패로 계상한다.
+문장 안 어절은 edge 와의 **간격 차**로 검사한다(상수 치우침이 소거된다). 수치는 `rules tts_rules.forced_align` 한 곳(P3),
+게이트 CLI = `python -m script.tts.align_gate`. 문턱 교차는 진짜 발화보다 10~20ms 늦다(참값 자체의 치우침 — 기준에는 반영하지 않음).
+
 ---
 
 ## 7. 음성 클립 후처리 (`plan3.py` `build()`)

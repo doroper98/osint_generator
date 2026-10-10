@@ -45,6 +45,10 @@ def window(t: float, t0: float, t1: float, fin: float = 0.5, fout: float = 0.5) 
     return min(smooth((t - t0) / fin) if fin > 0 else 1, smooth((t1 - t) / fout) if fout > 0 else 1)
 
 
+class AlignmentMissingError(ValueError):
+    """at_word 가 쓸 정렬 파일이 없다(D151 — 비율 추정 폴백 금지)."""
+
+
 class Timebase:
     """plan.json 에 묶인 앵커 함수. 없는 문장 id 는 KeyError(조용한 폴백 금지)."""
 
@@ -81,7 +85,8 @@ class Timebase:
         """문장 안 단어의 발음 시작 시각 (03 §6.3).
 
         정렬이 있으면 발음 텍스트에서 단어를 찾아 `t0 + start − trim_offset`(aligned).
-        정렬이 없거나 단어가 발음 텍스트에 없으면 자막 글자 비율 추정(ratio). 어느 쪽인지 word_anchors 에 남긴다.
+        단어가 발음 텍스트에 없으면(숫자·기호를 읽기로 바꾼 자막 단어) 자막 글자 비율 추정(ratio). 어느 쪽인지 word_anchors 에 남긴다.
+        정렬 파일이 없으면 오류(v5.16.0 사용자 결정 D151, D-0164 §5-3) — 비율 추정으로 대신하지 않는다(P6).
         """
         x = self.sent[sid]
         mode, t, note = self._aligned(x, word)
@@ -97,8 +102,9 @@ class Timebase:
 
     def _aligned(self, x: PlanSentence, word: str) -> tuple[WordAnchorMode, Optional[float], str]:
         al = self.alignment(x.sid)
-        if al is None:
-            return "ratio", None, "정렬 파일 없음"   # plan 단계가 정렬을 보장한다(D34) — 여기 오면 provenance 에 드러난다
+        if al is None:   # plan 단계가 정렬을 보장한다(D34) — 없으면 조용히 비율로 가지 않는다(D151)
+            raise AlignmentMissingError(f"정렬 파일 없음: 문장 {x.sid} ({x.mp3}.align.json) — at_word({word!r}) 를 비율 추정으로 "
+                                        "대신하지 않는다. `python -m script.plan` 으로 음성·정렬을 다시 만든다")
         chars = "".join(al["characters"])
         i = chars.find(word)
         if i < 0:

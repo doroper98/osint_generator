@@ -13,6 +13,14 @@ from engine.timebase import Timebase
 from script.plan import load_script
 from script.schema import Plan
 
+class SyntheticTimebase(Timebase):
+    """음성 없는 합성 plan 용 테스트 대역(v5.16.0) — at_word 를 스냅샷을 만든 때와 같은 비율 추정으로 둔다.
+    제품 Timebase 는 정렬 파일이 없으면 오류(D151)다. 여기는 연출 변환만 비교하므로 음성 시각을 흉내 내지 않는다."""
+
+    def _aligned(self, x, word):  # noqa: ANN001, ANN202
+        return "ratio", None, "정렬 파일 없음"
+
+
 GAP_SEC = 0.35
 SEC_PER_CHAR = 0.12
 

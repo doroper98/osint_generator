@@ -20,7 +20,7 @@ from engine.mux import Chapter, Description, build_description, build_srt, srt_t
 from engine.stage import MercatorStage, lat_of, ym, ymv
 from engine.registry import RegistryError, validate_events
 from engine.subtitles import emphasis_flags, split_runs
-from engine.timebase import Timebase, clamp01, ease_io, smooth, window
+from engine.timebase import AlignmentMissingError, Timebase, clamp01, ease_io, smooth, window
 from rules import load_rules
 from script.schema import Plan, Sentence
 from script.timeline import layout, split_emphasis
@@ -59,7 +59,8 @@ class TimebaseTest(unittest.TestCase):
         self.assertEqual(tb.SC("route"), 12.0)
         self.assertAlmostEqual(tb.SC_END("open"), 12.0 - 0.35)
         self.assertEqual(tb.SC_END("route"), 31.5)
-        self.assertAlmostEqual(tb.at_word("open_0", "라마바"), 1.2 + 4 / 7 * 2.0)
+        with self.assertRaises(AlignmentMissingError):   # v5.16.0 사용자 결정 D151 — 정렬 없음 = 오류(옛 비율 폴백 삭제)
+            tb.at_word("open_0", "라마바")
         with self.assertRaises(KeyError):
             tb.S("nope")
         self.assertIsNone(tb.cur_sentence(0.0))

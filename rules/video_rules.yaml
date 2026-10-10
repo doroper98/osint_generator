@@ -117,7 +117,15 @@ tts_rules:                 # 03 §4·§5
   alignment_sources: [edge_word_boundary, elevenlabs_timestamps, mms_forced_alignment]   # D34 — 단어 정렬 출처(at_word 정렬 경로). 등재 외 = 오류. mms = v5.16.0 V2(D-0164)
   # v5.16.0 D-0164 §5 — 강제 정렬: 문장 점수(어절 토큰 확률 평균의 평균)가 min_score 미만이면 오류(P6).
   # 근거 = phaseV2 run_log §3: 맞는 원고 93문장 최저 0.679 · 틀린 원고(7문장 뒤 원고) 93쌍 최고 0.569 → 사이 0.62.
-  forced_align: {min_score: 0.62}
+  # D-0165(DECISIONS D159) — 게이트 참값 = 음향 발화 시작: 원본 음성 |a| < silence_thr 가 silence_sec 이상 이어진 뒤 첫 초과 샘플
+  # (+ 문장 첫 소리). 대응 = 순서·단조, ±match_window_sec 안 가장 가까운 정렬 어절, 대응 없음 = match_window_sec 로 실패 계상.
+  # gate = 절대 시각·문장 안 간격 일치(edge 상수 치우침 소거) 둘 다 이 기준. silence_thr = script/tts/trim THRESH 와 같아야 한다(테스트).
+  forced_align:
+    min_score: 0.62
+    silence_thr: 0.012
+    silence_sec: 0.15
+    match_window_sec: 0.3
+    gate: {median_ms: 60, p90_ms: 120}
   # v5.6.0 TTS-AP-075(사용자 시청 2026-10-04 "에이에프피 → 앞프", "씨에스아이에스 → 크시스") — 붙여 쓴 글자 이름 연속은 엔진이 한 낱말로 읽는다.
   # 합성 직전(script.lint.pronounce_tts) 등재 약어(acronyms.letters)·발음 사전 값 중 글자 이름만으로 된 연속을 띄운다("에이에프피" → "에이 에프 피").
   # 아무 한글 연속에나 적용하지 않는다 — '비디오'·'오디오' 같은 낱말이 깨진다.

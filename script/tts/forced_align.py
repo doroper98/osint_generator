@@ -14,6 +14,7 @@ Supertonic 은 단어 경계를 주지 않는다. 그래서 합성 뒤 음성과
 from __future__ import annotations
 
 import subprocess
+import time
 from dataclasses import dataclass
 from functools import lru_cache
 from pathlib import Path
@@ -149,3 +150,15 @@ def sentence_score(spans: list[CharSpan], pron_text: str) -> float:
         scores.append(spans[i].score)
         pos = i + len(w)
     return float(sum(scores) / len(scores))
+
+
+def align_file(audio: Path, pron_text: str) -> dict:
+    """정렬 → `{mp3}.align.json` 공통 형식 + score_mean·elapsed_ms(plan row·provenance 용). 실패 = ForcedAlignError."""
+    from script.tts.align import from_forced_alignment  # noqa: PLC0415
+
+    t = time.perf_counter()
+    spans = align_sentence(audio, pron_text)
+    al = from_forced_alignment(pron_text, spans)
+    al["score_mean"] = round(sentence_score(spans, pron_text), 4)
+    al["elapsed_ms"] = round((time.perf_counter() - t) * 1000)
+    return al

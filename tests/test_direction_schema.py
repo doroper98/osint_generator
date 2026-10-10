@@ -49,6 +49,8 @@ class AnchorTest(unittest.TestCase):
 
     def test_word_anchor_uses_at_word(self) -> None:
         tb = self.tb
+        tb._align["s_0"] = {"alignment_source": "mms_forced_alignment", "characters": list("문장"),   # v5.16.0 D151 — 정렬 없음 = 오류
+                            "character_start_times_seconds": [0.0, 0.2], "character_end_times_seconds": [0.2, 0.4]}
         t = resolve_anchor({"word": {"sid": "s_0", "text": "장"}}, tb)
         self.assertEqual(tb.word_anchors[-1]["word"], "장")
         self.assertGreaterEqual(t, tb.S("s_0"))

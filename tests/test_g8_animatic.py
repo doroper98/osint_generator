@@ -1,7 +1,7 @@
 """G8 콘티 판(animatic) 루틴 (v4.9.0, back_and_forth D-0108, 사용자 결정 D97).
 
 합격 조건 "자산 없는 환경에서도 렌더 가능"(D-0108·D-0114)을 지키려고, 모든 테스트는 **추적 파일만** 임시 폴더로 복사한
-합성 프로젝트를 쓴다 — plan.json 은 TTS 없이 글자 수로 만든 합성 시각(정렬 없음 = ratio 앵커), 자산·미디어·tts 폴더 없음.
+합성 프로젝트를 쓴다 — plan.json 은 TTS 없이 글자 수로 만든 합성 시각, 정렬은 글자 균등 합성 `.align.json`(v5.16.0 D151 — 정렬 없음 = 오류), 자산·미디어·음성 없음.
 """
 
 from __future__ import annotations
@@ -39,11 +39,25 @@ def synthetic_project(name: str, dst: Path) -> Path:
         x["npy"] = x["mp3"] + ".npy"
         x["dur"] = round(0.8 + 0.085 * len(x["text"]), 3)
         x["trim_offset"] = 0.0
+    write_synthetic_alignment(rows)
     cards, ss, total = layout(rows)
     plan = Plan(sentences=rows, cards=cards, scene_start=ss, total=total, voice="synthetic", title=sc.title,
                 subtitle=sc.subtitle, date=sc.date)
     (dst / "plan.json").write_text(plan.model_dump_json(), encoding="utf-8")
     return dst
+
+
+def write_synthetic_alignment(rows: list[dict]) -> None:
+    """합성 plan 의 문장마다 글자 균등 정렬 `.align.json`(v5.16.0) — at_word 는 정렬 없음 = 오류(D151)라 음성 없는 합성 프로젝트도
+    정렬 파일을 둔다. 시각 = 발음 글자 위치 비율 × 문장 길이(음성 흉내가 아니라 합성 시각)."""
+    from script.tts import align as tts_align
+    from script.tts.forced_align import CharSpan
+
+    for x in rows:
+        n = len(x["tts"])
+        spans = [CharSpan(c, i / n * x["dur"], (i + 1) / n * x["dur"], 1.0) for i, c in enumerate(x["tts"])]
+        Path(x["mp3"]).parent.mkdir(parents=True, exist_ok=True)
+        tts_align.write(Path(x["mp3"]), tts_align.from_forced_alignment(x["tts"], spans))
 
 
 def no_files():  # noqa: ANN201 — 이미지·영상·지형 래스터를 읽으면 실패하게 하는 패치 묶음

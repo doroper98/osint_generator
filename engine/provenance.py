@@ -138,6 +138,12 @@ def build(plan: Plan, keys: list[CamKey], events: list[dict], repo_version: str,
     feats = features(keys, events)
     feats["at_word"] = {"aligned": sum(1 for a in anchors if a["mode"] == "aligned"),
                         "ratio": sum(1 for a in anchors if a["mode"] == "ratio")}
+    rows = [s.alignment for s in plan.sentences if s.alignment is not None]
+    if rows:   # v5.16.0 D-0164 §5-4 — plan 이 정렬을 기록했을 때만(돌지 않은 단계는 적지 않는다, P5)
+        scores = [r.score_mean for r in rows if r.score_mean is not None]
+        feats["alignment"] = {"sources": dict(sorted({r.source: sum(1 for q in rows if q.source == r.source) for r in rows}.items())),
+                              "score_mean_min": min(scores) if scores else None,
+                              "elapsed_ms_total": sum(r.elapsed_ms or 0 for r in rows)}
     return {
         "schema_version": 1,
         "engine": "engine",
