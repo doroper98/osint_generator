@@ -1,6 +1,6 @@
 <!--
 tier: 3
-last_synced_with: v5.10.0
+last_synced_with: v5.11.0
 ssot_for: [release-notes]
 depends_on: [README.md, GOAL.md]
 last_review: 2026-09-28
@@ -66,7 +66,17 @@ released 항목은 **append-only**입니다.
 
 ---
 
-## [v5.10.0] — 2026-10-10 — 스케치 스킬 트랙 S4: 스킬·문서·통합 (back_and_forth D-0147·D-0150) — 릴리즈
+## [v5.11.0] — 2026-10-10 — 내레이션 음성 트랙 V0·V1: Supertonic 3 M3 ×0.95 자산·설정·백엔드 (back_and_forth D-0152) — 진행 중
+
+MINOR: Phase 완료 단위. 사용자 결정 D146(Supertonic 3 남성 M3 × 속도 0.95, D127 edge-tts 대체, ElevenLabs 금지 유지), 설계 D147. JSON `schema_version` 그대로(1).
+
+### Added
+- `python tools/fetch_data.py supertonic` — HF `Supertone/supertonic-3`(고정 revision) 모델·M3 스타일·LICENSE 를 `assets/tts/supertonic/`(미추적)에 받고 sha1 대조.
+- `config.yaml tts.supertonic`·`SupertonicConfig`(extra=forbid).
+
+---
+
+## [v5.10.0] — 2026-10-10 — 스케치 스킬 트랙 S4: 스킬·문서·통합 (back_and_forth D-0147·D-0150) — 릴리즈 — main ff(D-0151, 95a0b91)
 
 MINOR: Phase 완료 단위. 스케치 계층만(엔진·본편 무변경). JSON `schema_version` 그대로(1).
 
