@@ -70,6 +70,18 @@ released 항목은 **append-only**입니다.
 
 MINOR: Phase 완료 단위. JSON `schema_version` 그대로(1).
 
+### Added
+- 지도 테마 고르기: direction `stage_config.mercator.theme`(+ `theme_reason` 필수) → 장르 프로필 `stage.mercator.theme`(지정학 = light). 프로필에 값 없음 = 오류.
+- provenance `map_theme {effective, source, declared, reason, series}`, `[map-theme-override]` warning, `rules/series_registry.yaml`(D-0171) + `[series-theme-mismatch]` hard.
+- `colors.themes.light`(의미색 색상 불변·휘도 0.06, D-0172 잠정) — 지도 위 요소만(`engine.style.map_c`).
+- 해안선 ↔ 국경 분리(`geo.themes.<테마>.map.coast` — 공유 변만 국경), 테마별 `border_glow`·`route_casing` 키, 콘티 판 막지도 테마(`animatic.flat_map.themes`).
+- 대비 검사 `[map-contrast]`(지도 층 합성본, 필수 글자 4.5 hard·경로 선 3 warning) + provenance `map_contrast` 측정표.
+- phaseQ3 light 기준선·dark|light 시트·시안 시트, 테스트 `test_q3_map_theme`(13)·`test_q3_light_e2e`.
+
+### Changed
+- 호르무즈 골든 direction 에 `theme: dark` + 사유(장르 기본 light, `[map-theme-override]` 1건 정상). dark 출력 바이트 동일.
+- 장르 미선언 옛 지도 프로젝트는 다음 렌더부터 light(D-0171 §3, run_log §5 목록).
+
 ---
 
 ## [v5.17.0] — 2026-10-11 — 음성 트랙 V3: 호르무즈 Supertonic + MMS 재현·사용자 청취 (back_and_forth D-0167 §3·D-0168·D-0169) — V3 phase_report(R-0199), Fable 측 합격(D-0170), 최종 = 사용자 청취
