@@ -1,6 +1,6 @@
 <!--
 tier: 3
-last_synced_with: v5.18.0
+last_synced_with: v5.19.0
 ssot_for: [release-notes]
 depends_on: [README.md, GOAL.md]
 last_review: 2026-09-28
@@ -66,7 +66,13 @@ released 항목은 **append-only**입니다.
 
 ---
 
-## [v5.18.0] — 2026-10-11 — 품질 트랙 Q3: 지도 테마 light·dark 두 개 정식·장르 기본값·의미색 밝기 보정·대비 검사 (back_and_forth D-0161·D-0170 §3, 사용자 결정 D154) — 진행 중
+## [v5.19.0] — 2026-10-11 — 영상 트랙 P1-0: 기사·사진 노출 수정 — 밀도 규칙 이관·기사 카드 후보 의무·미디어 계획 표(게이트 ①)·사진 소싱 풀 (back_and_forth D-0163 §2·D-0173 §3) — 진행 중
+
+MINOR: Phase 완료 단위. JSON `schema_version` 그대로(1).
+
+---
+
+## [v5.18.0] — 2026-10-11 — 품질 트랙 Q3: 지도 테마 light·dark 두 개 정식·장르 기본값·의미색 밝기 보정·대비 검사 (back_and_forth D-0161·D-0170 §3, 사용자 결정 D154)
 
 MINOR: Phase 완료 단위. JSON `schema_version` 그대로(1).
 
