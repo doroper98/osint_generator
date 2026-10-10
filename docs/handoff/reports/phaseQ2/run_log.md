@@ -35,29 +35,30 @@ D-0159 로 바뀐 것 세 가지입니다. ① 링 두께는 이전 그대로(�
 ## 2. 골든(D-0158 보강 2)
 
 골든 PNG 는 수정하지 않았습니다. `expected_deltas q2_portrait_flag_d148` 과 `phaseQ2/hormuz_baseline.json` 을 더했습니다.
-phaseG17 대비 바뀐 컷은 8개이고, 변화는 모두 뱃지 원 안입니다(링 두께가 그대로라 링 픽셀은 바뀌지 않음, D-0159 반영 후 재계산).
+phaseG17 대비 바뀐 컷은 9개입니다. 뱃지 8컷은 변화가 모두 원 안이고(링 두께 그대로), 엔딩 컷은 인물 사진 크레딧 줄만 바뀝니다(D-0160).
 
 | 컷 | 내용 | 바뀐 픽셀 | 상자 |
 |---|---|---|---|
-| 01 open_1 `p_0007.82` | 이재명 solo R56 | 9,277 | 60,33 – 169,141 |
-| 02 TITLE `p_0022.27` | 제목 뒤 이재명(어둡게) | 8,778 | 57,31 – 165,140 |
+| 01 open_1 `p_0007.82` | 이재명 solo R56(공식 초상) | 9,425 | 60,33 – 169,141 |
+| 02 TITLE `p_0022.27` | 제목 뒤 이재명(어둡게) | 9,223 | 57,31 – 165,140 |
 | 06 war_1 `p_0056.21` | 하메네이 solo | 9,385 | 545,21 – 654,129 |
 | 09 ask_1 `p_0080.70` | 관계 패널 트럼프 R36 | 3,800 | 200,227 – 269,296 |
 | 10 ask_2 `p_0087.06` | 같음 | 3,798 | 200,227 – 269,296 |
 | 17 past_1 `p_0193.22` | 패널 노무현(작은 뱃지) | 1,622 | 171,300 – 216,344 |
 | 18 past_3 `p_0207.41` | 같음 | 1,624 | 171,300 – 216,344 |
-| 22 decision_0 `p_0245.56` | 이재명 solo | 9,267 | 65,77 – 173,185 |
+| 22 decision_0 `p_0245.56` | 이재명 solo(공식 초상) | 9,380 | 65,77 – 173,185 |
+| 25 END `p_0288.44` | 엔딩 크레딧 인물 사진 줄(도장 가린 md5) | 759 | 64,258 – 223,266 |
 
-나머지 17컷은 phaseG17 과 같습니다. 국기만 있는 뱃지(08컷 중국·인도 등)도 그대로입니다.
+나머지 16컷은 phaseG17 과 같습니다. 국기만 있는 뱃지(08컷 중국·인도 등)도 그대로입니다.
 작업 전 렌더 25컷이 phaseG17 기준선과 같은지 먼저 확인했습니다(대조 시작점 검증).
 
 ## 3. 시트(사용자 확인용)
 
 | 파일 | 내용 |
 |---|---|
-| `hormuz_badge_cuts_before_after.jpg` | 바뀐 8컷, 480p 실크기, 왼쪽 phaseG17 · 오른쪽 phaseQ2 |
-| `hormuz_badge_faces_x4.jpg` | 같은 8컷의 바뀐 상자 4배(nearest) |
-| `badge_sizes_480p.png` | 인물 4명 × R56·R34·R30, 480p 실크기, 옛/새 |
+| `hormuz_badge_cuts_before_after.jpg` | 바뀐 9컷, 480p 실크기, 왼쪽 phaseG17 · 오른쪽 phaseQ2(이재명 = 공식 초상) |
+| `hormuz_badge_faces_x4.jpg` | 같은 9컷의 바뀐 상자 4배(nearest) |
+| `badge_sizes_480p.png` | 인물 4명 × R56·R34·R30, 480p 실크기, 옛/새 코드(이재명은 교체 전 사진 — 코드 비교용) |
 | `badge_faces_x4.png` | R56·R30 얼굴 가운데 4배, 옛/새 |
 | `golden_delta/*_old_new_diff.jpg` | 컷마다 옛·새·차이(×4) |
 
@@ -82,6 +83,29 @@ phaseG17 대비 바뀐 컷은 8개이고, 변화는 모두 뱃지 원 안입니�
 | 하메네이 | 1.8218 | 1.8013 | 1.7943 | 1.7647 |
 | 트럼프 | 2.04 | 2.04 | 2.04 | 2.04 |
 | 노무현 | 2.04 | 2.04 | 2.04 | 2.04 |
+
+### 3.2 이재명 초상 = 대통령실 공식 초상(D-0160, 사용자 결정 D153)
+
+D-0159 의 후보 시트(A·B·C)는 D-0160 으로 취소됐습니다. 받던 후보 B 는 만들다 멈췄고 저장소에 넣지 않았습니다.
+조사 중 확인한 사실: **옛 사진(v01)이 바로 후보 A(백악관 PD, Commons 크롭본)** 였습니다. 출처는 프로젝트 `rights_registry.json` 에 완전히 기록돼 있었고, 라이브러리 승격만 안 돼 있었습니다(`asset_library check` = 이재명·노무현·휘장 2). 그래서 RIGHTS-AP 는 더하지 않았습니다.
+
+| 항목 | 값 |
+|---|---|
+| 원본 | `https://www.president.go.kr/greeting` 프로필 사진 `…/type/www/img/contents/president/profile_img.png` |
+| 원본 정보 | 983×656 RGBA(배경 투명), Last-Modified 2026-04-17, sha256 `9010ae995141a55733f3f0ea6ce5f0e0b888a7ef1e8f7ea5a7861534d4825306`, 받은 때 2026-10-10 13:10 UTC |
+| 라이선스 전문 | 공공누리(KOGL) 제4유형: 출처표시, 비상업적 이용만 가능, 변형 등 2차적 저작물 작성 금지(`/copyright-policy`) |
+| 처리 | 흰 바탕 합성(rembg 입력용) → 머리 폭 × 2.4 가로 자르기(x 166~822, 세로 전체 — 원본이 어깨가 넓어 그대로면 얼굴이 작다) → `portrait_fallback.py` v3(rembg u2net_human_seg·알파 흐림 0.8·흑백·정규화 420) |
+| 권리 | `rights_status: restricted`, `user_exception: U20261010`(`USER_EXCEPTIONS` — 인물에도 같은 사전), `exception` 사유 문구. 라이브러리 `lee_jae_myung_mono_v02.png` 에 같은 기록 |
+| 크레딧 | "이재명" / "대통령 공식 초상 · 대통령실 · 공공누리 제4유형"(이름은 직함 없이 — D-0106 2-B, 문구는 D-0160 그대로) |
+| 점검 | `engine.credits.check_credits` 는 등록된 예외가 있는 restricted 인물만 통과시킵니다. provenance `rights.exceptions` 에 1건이 남습니다(P6) |
+| 옛 v01 | `projects/hormuz_korea/assets/portraits_archive/lee_jae_myung_v01_whitehouse.png`(삭제 안 함, 권리 기록은 새 항목 `processing.replaces` 에) |
+| 받는 경로 | `fetch_data people` 이 이재명을 라이브러리(v02)에서 받고, restricted·예외를 그대로 옮깁니다(rights_clear 로 덮지 않음) |
+| 머리 맞춤 | 공식 초상은 R56·R30 모두 2.04R 그대로 들어갑니다(정수리·턱 잘림 0) |
+
+**배포(공개 게시) 전에는 이 예외를 다시 확인해야 합니다.** 공공누리 제4유형은 변경 금지·비상업 조건이고, 뱃지는 흑백·배경 제거·자르기 가공입니다(07 §3.2, 19 §3 3.22).
+
+함께 승격된 것: 노무현 초상(`roh_moo_hyun_mono_v01`, KOGL Type 1)과 휘장 2개(청와대·NAVCENT). `promote` 가 프로젝트의 승격 대기 자산을 한 번에 올리기 때문입니다(C8.7 이 요구하는 상태).
+`promote --version 2` 가 노무현에게도 v02 를 붙여, 노무현만 v01 로 바로잡았습니다(판단 기록 9).
 
 ## 4. 성능(D-0158 보강 1, 가이드 §21)
 
@@ -121,10 +145,13 @@ phaseG17 대비 바뀐 컷은 8개이고, 변화는 모두 뱃지 원 안입니�
 6. 링은 사용자 지시 D152 로 이전 두께(3.2/1.5)입니다. 모든 뱃지가 `badge.ring` 한 경로를 쓰고, 값이 같아 국기·휘장 뱃지 출력은 그대로입니다(골든 08컷 무변경).
 7. D-0159 의 "정수리·턱·어깨 잘림 0" 중 어깨는 머리 열 안만 봅니다(§3.1). 원형 뱃지 구도상 어깨 바깥쪽은 잘립니다(v3 이후 같음).
 8. 얼굴 인식 의존성을 더하지 않고 실루엣 비율 규칙으로 했습니다(되돌릴 수 있음 — 규칙 키 두 개). 맞지 않는 초상은 렌더 전 오류로 드러납니다.
+9. `asset_library promote --version N` 은 이번 승격 전체에 같은 번호를 붙입니다. 이번에는 노무현을 v01 로 손으로 바로잡았습니다. 인물별 번호가 필요하면 다음에 인자를 인물 단위로 바꿉니다.
+10. 공식 초상의 가로 자르기(머리 폭 × 2.4)는 구도 맞춤입니다. 얼굴·색은 바꾸지 않았고, 처리 이력(`pre_steps`)에 좌표를 남겼습니다.
+11. 크레딧 문구는 D-0160 대로 두되, 이름 칸은 직함 없는 "이재명"(D-0106 2-B 규칙·테스트)으로, 나머지를 라이선스 칸에 적었습니다.
 
 ## 6. 테스트
 
-`tests/test_q2_portrait_flag.py` 9개입니다(요구 ≥ 8).
+`tests/test_q2_portrait_flag.py` 14개입니다(요구 ≥ 8).
 
 | 테스트 | 내용 |
 |---|---|
@@ -134,11 +161,16 @@ phaseG17 대비 바뀐 컷은 8개이고, 변화는 모두 뱃지 원 안입니�
 | `test_wave_phase_amplitude_and_surface_reuse` | 띠마다 윗변 = pad + sin(위상)·진폭(±1px), 작업 표면 하나 재사용 |
 | `test_crown_at_alpha_top` | 정수리 = 중심 위 0.83R(±1.5px), R56·R34·R30 |
 | `test_alpha_top_measured_once_and_threshold_separate` | 정수리 재기 한 번, 표면 캐시 늘지 않음, 배치 문턱 20 ≠ 정규화 40(알파 30 윗줄 = 정수리) |
-| `test_ring_outer_dark_inner_accent` | 원 바깥 어두운 링, 원 안쪽 accent(파랑) |
 | `test_flag_wave_and_person_paths_have_no_magic_numbers` | 옛 리터럴이 flag_wave·인물 경로에 없음, 규칙 값 = 가이드 |
-| `test_emblem_and_flag_badges_keep_old_ring` | 국기·휘장 링 그대로 |
+| `test_ring_one_path_for_all_badges` | 링 = 모든 뱃지 `badge.ring` 한 경로, 리터럴 없음 |
+| `test_ring_same_thickness_as_before` | 링 이전 두께 3.2/1.5(D152) |
+| `test_four_people_head_inside_circle` | 4명 × R56·R30 머리 상자 원 안, 옛 이재명 사진은 줄어듦 |
+| `test_too_wide_head_shrinks_or_errors` | 넓은 머리는 축소(정수리 자리 그대로), 못 맞추면 PortraitFitError |
+| `test_registry_accepts_only_listed_exception` | 예외 목록 밖 인물·사유 없는 예외 거부 |
+| `test_credit_check_and_provenance` | 등록 예외만 restricted 통과, provenance 1건 |
+| `test_library_v02_and_fetch_keep_restricted` | 라이브러리 v02 restricted·파일, fetch_data 라이브러리 경로·restricted 유지 |
 
-기준선 테스트 2개(`test_provenance_e2e`·`test_g12_version_stamp`)의 기준선 경로를 phaseQ2 로 바꿨습니다(수 변화 없음).
+기준선 테스트 2개(`test_provenance_e2e`·`test_g12_version_stamp`)의 기준선 경로를 phaseQ2 로 바꿨습니다. `test_g65_merge` 는 문구를 직접 적은 인물 크레딧 행도 읽게 바꿨습니다(수 변화 없음).
 
 ## 7. 전체 pytest
 
