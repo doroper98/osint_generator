@@ -15,7 +15,7 @@ sources:
     url: "https://www.mod.go.jp/j/press/news/2023/07/12c.html"
   - text: "EEZ: Marine Regions(VLIZ) EEZ 경계 · CC BY 4.0 · 한일·한중 미획정 구간은 등거리선 참고"
   - text: "서해 남북: NLL 개략 재구성(공식 좌표 아님) · 북한 해상군사분계선 1999.9.2 발표 좌표(한국일보 1999.9.3)"
-  - text: "사드 AN/TPY-2 종말 모드 약 600km · 그린파인 블록-C 최대 약 800km(공개 사양·보도)"   # 사용자 확정 대기(레이더 사양 값)
+  - text: "사드 AN/TPY-2 종말 모드 약 600km · 그린파인 블록-C 최대 약 800km(공개 사양·보도)"   # 사용자 확정(D150) — 값 유지 + 탐지 장면 주석 "추정값"
 
 shots:   # 숏 4개, 이동은 장면 전환에서만
   - {t0: 0.0, t1: 0.0, lon: 132.6, lat: 36.6, w: 37.0}     # 광역 — EEZ
@@ -46,7 +46,7 @@ track:
   bearing_deg: 270            # 일본 방위성 "오쿠시리섬 서쪽 약 250km"(奥尻島の西方約250km)
   distance_km: 250
   approx: true
-  uncertainty_km: 25          # "약" 표현 → 점 대신 반경(스케치 값) — 사용자 확정 대기
+  uncertainty_km: 25          # "약" 표현 → 점 대신 반경(스케치 값) — 사용자 확정(D150)
   flight_sec: 4440            # 일본 방위성 약 74분 × 60(sec 발표 없음)
   t0: 30.4
   t1: 38.0
@@ -61,7 +61,7 @@ track:
     tag: "일본 EEZ 밖"
     tag_color: teal
 
-sensors:   # 레이더 거리·방위 폭 = 공개 사양·보도 — 사용자 확정 대기
+sensors:   # 레이더 거리·방위 폭 = 공개 사양·보도 — 사용자 확정(D150)
   - {name: "사드 AN/TPY-2 · 성주", sub: "종말 모드 탐지 {sensor.range_km}", kind: radar, lon: 128.28, lat: 35.99, location_public: true,
      range_km: 600, range_approx: true, az_width_deg: 120, color: us, t: 19.0, side: r, label_at: [129.4, 35.25],
      el_deg: [0, 60], short: "성주", globe_name: "AN/TPY-2 · 성주", globe_label: [-10, 30, r]}   # 3D 방위·고각 = 개념값(공개 정밀 사양 없음)
@@ -87,7 +87,7 @@ eez:
   labels_end: 8.6
   regions:
     - {code: KR_JP, kind: overlap, claimants: [KR, JP], t: 4.7, end: 9.0, at: [133.6, 38.6], anchor: l,
-       label: "독도 주변 수역", sub: "일본이 영유권 주장 · 대한민국 실효 지배"}   # 독도 문구 — 사용자 확정 대기
+       label: "독도 주변 수역", sub: "일본이 영유권 주장 · 대한민국 실효 지배"}   # 독도 문구 — 사용자 확정(D150, "독도" 표현)
     - {code: KR_JP, kind: joint, color: green, t: 5.6, end: 9.0, at: [125.0, 31.2], anchor: r,
        label: "한일 공동개발구역", sub: "1974년 협정 · 경계 미획정 수역"}
     - {code: JP_RU, kind: overlap, claimants: [JP, RU], t: 6.4, end: 9.0, at: [146.4, 41.0], anchor: r,
@@ -96,7 +96,7 @@ eez:
        label: "남북 주장 중첩 수역", sub: "법적 경계 미획정", edge: false, focus: [8.6, 18.2]}   # 빗금은 처음부터, 설명 라벨은 서해 장면에서
   claim_lines:
     - {code: NLL, color: gold, t: 10.6, end: 17.6, at: [123.15, 38.32], anchor: l, approx: true, focus: [8.6, 18.2],
-       label: "NLL · 1953", sub: "유엔군사령부 설정 · 화면 선은 개략"}   # NLL 좌표 개략 — 사용자 확정 대기(본편 전 공식 좌표)
+       label: "NLL · 1953", sub: "유엔군사령부 설정 · 화면 선은 개략"}   # NLL 빗금 표현 — 사용자 확정(D150). 좌표는 개략(본편 전 공식 좌표)
     - {code: NK1999, color: ru, dash: [6, 4], t: 11.8, end: 17.6, at: [125.6, 37.05], anchor: l, vertices: true, focus: [8.6, 18.2],
        label: "북한 주장 해상군사분계선 · 1999", sub: "1999.9.2 발표 좌표",
        ext_tag: {text: "이후 '중국과의 경계까지' · 방향 미발표 — 점선은 같은 방향 연장", color: amber}}
@@ -122,7 +122,7 @@ eez:
     west_box: [123.0, 36.5, 126.8, 38.6]   # 서해 북부 — 이 안의 남북 EEZ 는 두 주장선으로 다시 나눈다(Marine Regions 남북 등거리선은 쓰지 않는다)
     west_codes: [8327, 8328]               # (남, 북)
     anchor: [126.17, 37.72]                # 한강 하구 서쪽 — 두 선의 동쪽 공통 시작점(개략)
-    # NLL(1953, 유엔군사령부) 개략 재구성 — 서해 5도와 북측 해안의 중간점 원칙. 사용자 확정 대기(본편 전 공식 좌표로 교체)
+    # NLL(1953, 유엔군사령부) 개략 재구성 — 서해 5도와 북측 해안의 중간점 원칙. 표현은 사용자 확정(D150), 좌표는 본편 전 공식 좌표로 교체
     nll_approx: [[123.0, 38.05], [124.10, 38.05], [124.62, 38.05], [124.79, 38.01], [124.86, 37.96], [124.87, 37.80],
                  [124.88, 37.70], [125.20, 37.69], [125.55, 37.70], [125.66, 37.71], [125.80, 37.69], [125.99, 37.71], [126.17, 37.72]]
     # 북한 '조선 서해 해상군사분계선'(1999.9.2) — 한국일보 1999.9.3. 2점 위도는 보도마다 1'02"·1'12" — 여기서는 1'12"
