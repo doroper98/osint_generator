@@ -19,9 +19,10 @@ class AudioRulesTest(unittest.TestCase):
         self.assertEqual(QA_SR, sr)
 
     def test_user_approved_bed_values_unchanged(self) -> None:
-        """사용자 합격 베드·덕킹(10 §3) — bed_gain 0.47·duck 0.5 는 바꾸지 않는다(D-0060 §3)."""
+        """사용자 합격 베드·덕킹(10 §3) — duck 0.5 는 바꾸지 않는다(D-0060 §3). bed_gain 은 v5.17.0 D-0169(D163)에서
+        0.47(edge InJoon 피크 정규화 기준) → 0.43(Supertonic M3 재보정 — 같은 음악/내레이션 균형 ≈ −9.8 dB)."""
         a = load_rules().audio
-        self.assertEqual((a.bed_gain, a.duck_depth), (0.47, 0.5))
+        self.assertEqual((a.bed_gain, a.duck_depth), (0.43, 0.5))
 
 
 if __name__ == "__main__":

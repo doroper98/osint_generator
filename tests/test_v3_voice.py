@@ -78,6 +78,22 @@ HORMUZ = REPO / "projects" / "hormuz_korea"
 PREP = "호르무즈 V3 산출물이 없다 — python -m script.plan projects/hormuz_korea → audio.mix → engine.render --res final → engine.mux"
 
 
+class ClipProfileTest(unittest.TestCase):
+    def test_720p_clip_follows_d0074_rule(self) -> None:
+        """v5.17.0 D-0169 ④ — 720p clip = D-0074 기준(16:9 정확·폭 64 배수·필요 장치 폭 이상 중 최소).
+        필요 폭 = 1080p 기준 990px ÷ k(2.25) × k(1.5) = 660px."""
+        from orchestrator.config import load_config  # noqa: PLC0415
+
+        prof = load_config().engine.output.profiles
+        w, h = prof["720p"].clip
+        need = 990 / (prof["1080p"].height / 480) * (prof["720p"].height / 480)
+        self.assertEqual(w * 9, h * 16)
+        self.assertEqual(w % 64, 0)
+        self.assertGreaterEqual(w, need)
+        self.assertLess(w - 64, need)          # 그보다 한 칸 작은 64 배수는 모자란다(최소)
+        self.assertEqual(list(prof["1080p"].clip), [1024, 576])
+
+
 class HormuzV3Test(unittest.TestCase):
     def test_alignment_is_mms_everywhere(self) -> None:
         from engine.project import load_plan  # noqa: PLC0415

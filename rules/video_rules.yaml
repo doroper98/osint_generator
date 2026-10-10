@@ -883,7 +883,10 @@ registries:                # 15 §3 P10 — 여기 없는 타입을 연출이 �
     - target_band         # 20 §3 macro_monetary — v4.4.0: series style band(두 레코드 사이 띠, rules stage_timeline.band)가 대신한다. 만들지 않는다(D-0090 작업 2)
 
 audio:                     # 10
-  bed_gain: 0.47
+  # v5.17.0 D-0169(DECISIONS D163) — Supertonic M3 ×0.95 기준 재보정. 옛 0.47 = edge InJoon 피크 정규화 기준(사용자 합격 균형).
+  # Supertonic 은 같은 피크에서 내레이션 RMS 가 0.84 dB 낮아 음악−내레이션이 −9.83 → −9.00(범위 밖)이 됐다. 0.43(−0.77 dB)로
+  # 목표 ≈ −9.8 dB(D103 범위 [−13, −9] 유지) 복원. 측정 = reports/phaseV3/run_log §4. 목소리가 또 바뀌면 RMS 정규화 믹서 트랙(R-0198 B)
+  bed_gain: 0.43
   duck_depth: 0.5
   duck_pre_sec: 0.25
   duck_post_sec: 0.3

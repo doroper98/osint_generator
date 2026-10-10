@@ -44,7 +44,8 @@ class BedBassRulesTest(unittest.TestCase):
             self.assertEqual(lits & vals - {44100, 10, 20, 4}, set(), rel)
 
     def test_user_values_kept(self) -> None:
-        self.assertEqual((AU.bed_gain, AU.duck_depth), (0.47, 0.5))
+        # v5.17.0 D-0169(D163) — bed_gain 0.47(edge InJoon 기준) → 0.43(Supertonic M3 재보정, 같은 음악/내레이션 균형). duck 그대로
+        self.assertEqual((AU.bed_gain, AU.duck_depth), (0.43, 0.5))
 
 
 class ProcessBedTest(unittest.TestCase):

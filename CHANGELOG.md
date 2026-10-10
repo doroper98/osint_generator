@@ -75,6 +75,12 @@ MINOR: Phase 완료 단위. JSON `schema_version` 그대로(1).
   정확 일치만 통과·낡은 면제 = 오류·면제 불가 kind = 로드 오류·승인 뒤 규칙만. plan·린트 CLI·게이트 ① 면제 표·provenance `features.lint.waived`.
   호르무즈 면제 2건(uncertain-phrase now_3, flow-sparse) — now_3 은 다음 원고 개정 때 고친다.
 - V3 도구: `tools/v3_cut_table.py`(컷 대응표·25컷 나란히 시트), `tools/click_sample.py`(앵커 클릭음 표본).
+- phaseV3 기준선(25컷, 목소리 Supertonic M3 + MMS 정렬) + `expected_deltas v3_voice_supertonic_m3`. 테스트 기준선 경로 phaseV3.
+
+### Changed
+- `rules audio.bed_gain` 0.47 → 0.43(D-0169, DECISIONS D163) — Supertonic 내레이션이 같은 피크에서 RMS 0.84 dB 낮아 음악/내레이션 균형 복원(−9.00 → −9.76 dB).
+- `config.yaml engine.output.profiles.720p.clip` null → [704, 396](D-0074 기준, 클립 있는 영상의 720p 렌더 가능).
+- 호르무즈 plan = Supertonic M3 ×0.95(전편 292.44 → 260.66초).
 
 ---
 
