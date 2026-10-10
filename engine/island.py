@@ -15,7 +15,7 @@
 
 from __future__ import annotations
 
-from dataclasses import replace
+from dataclasses import dataclass, replace
 from typing import Any, Callable, Optional
 
 import cairo
@@ -45,19 +45,53 @@ def island_slide(t: float, e: dict) -> float:
     return (1 - ease_out((t - e["t0"]) / CARD.fade_sec)) * CARD.slide_px
 
 
-def draw_frame(ctx: cairo.Context, box: Box, a: float) -> None:
-    """아일랜드 공통 상자 — 그림자·반투명 바탕·테두리."""
+@dataclass(frozen=True)
+class FrameStyle:
+    """draw_frame 선택 모양(v5.14.0 D-0153 §4 — cascade V2 전용 경로). 없으면 아일랜드 공통 값(rules island)."""
+
+    radius: float
+    edge_w: float
+    edge_rgb: tuple[float, float, float]
+    edge_alpha: float
+    fill_rgb: tuple[float, float, float]
+
+
+Occluder = tuple[Box, float, float]   # (x, y, 폭, 높이), 모서리 반경, 가림 알파(0~1)
+
+
+def draw_frame(ctx: cairo.Context, box: Box, a: float, style: Optional[FrameStyle] = None,
+               occluders: tuple[Occluder, ...] = ()) -> None:
+    """아일랜드 공통 상자 — 그림자·반투명 바탕·테두리.
+
+    style·occluders 는 cascade V2 전용(v5.14.0 D-0153 §4). occluders 가 있으면 상자(그림자 포함)를 그룹에 그린 뒤 가리는 상자마다
+    DEST_OUT(알파 = 가림 알파)으로 차례로 지운다 — 남는 알파 = Π(1 − 가림), 합집합(겹친 가림끼리 다시 열리지 않음, EVEN_ODD 아님).
+    둘 다 없으면 종전과 같은 그리기(다른 패널 출력 바이트 동일)."""
+    if occluders:
+        ctx.push_group()
+        draw_frame(ctx, box, a, style)
+        ctx.set_operator(cairo.OPERATOR_DEST_OUT)
+        for (ox, oy, ow, oh), orr, oa in occluders:
+            rrect(ctx, ox, oy, ow, oh, orr)
+            ctx.set_source_rgba(0, 0, 0, oa)
+            ctx.fill()
+        ctx.pop_group_to_source()
+        ctx.paint()
+        return
     x, y, w, h = box
-    r = ISLAND.radius
+    r = ISLAND.radius if style is None else style.radius
     for d_, al in ISLAND.shadow:
         rrect(ctx, x - d_, y - d_ + d_ / 2, w + d_ * 2, h + d_ * 2, r + d_)
         ctx.set_source_rgba(0, 0, 0, al * a)
         ctx.fill()
     rrect(ctx, x, y, w, h, r)
-    ctx.set_source_rgba(*TIMELINE.bg_rgb, ISLAND.fill_alpha * a)
+    ctx.set_source_rgba(*(TIMELINE.bg_rgb if style is None else style.fill_rgb), ISLAND.fill_alpha * a)
     ctx.fill_preserve()
-    ctx.set_source_rgba(1, 1, 1, ISLAND.edge_alpha * a)
-    ctx.set_line_width(ISLAND.edge_w)
+    if style is None:
+        ctx.set_source_rgba(1, 1, 1, ISLAND.edge_alpha * a)
+        ctx.set_line_width(ISLAND.edge_w)
+    else:
+        ctx.set_source_rgba(*style.edge_rgb, style.edge_alpha * a)
+        ctx.set_line_width(style.edge_w)
     ctx.stroke()
 
 
@@ -295,5 +329,5 @@ def label_overlap_details(rows: list[dict]) -> list[str]:
     return [f"[island-label-overlap] marker {r['label']!r} ↔ 레인 {r['lane']} 출처 줄 t={r['t0']:.2f}~{r['t1']:.2f}" for r in rows]
 
 
-__all__ = ["card_overlap", "card_overlap_details", "chart_view", "draw_frame", "draw_island", "island_alpha", "island_box", "island_boxes", "island_overlap", "island_slide", "is_main", "label_check",
+__all__ = ["FrameStyle", "card_overlap", "card_overlap_details", "chart_view", "draw_frame", "draw_island", "island_alpha", "island_box", "island_boxes", "island_overlap", "island_slide", "is_main", "label_check",
            "label_clip_details", "label_overlap_details", "main_missing", "main_missing_details"]

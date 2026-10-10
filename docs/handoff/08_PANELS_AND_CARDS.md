@@ -234,15 +234,24 @@ backdrop 무대 위에 놓이는 내용물은 전부 **아일랜드 상자** 한
 지도 고정 구간에서 날짜가 있는 사건이 셋 이상 이어지면(협상 경과·발표 순서) 카드를 늘어놓지 않고 **겹침 카드 하나**로 건다(`rules:cascade`, `engine/cascade.py`, 이벤트 `cascade`).
 어원은 라틴어 cadere(떨어지다) → 이탈리아어 cascata(층층 폭포). 화면 문법은 윈도의 '계단식 창 배열'이다.
 - **문법**(`rules direction_grammar`): 지금 문장의 사건만 앞에 크게, 언급이 지나간 사건은 뒤로 물러나 겹친다. 사건마다 국기·날짜·제목 한 줄, 부제(`line`)는 선택. 같은 순간 cascade 는 하나, 카드와 같이 두지 않는다. 연출 필드 = `items[]{at, flag, date, title, line?, accent?}`(at 오름차순, 앵커 가능).
-- **구조**: 앞 카드 = `cascade.front` 상자(accent 윗선·날짜·제목·부제). 뒤 카드 = `back_scale` 로 물러나 다음 카드 밑에 깔리고 `step` 폭만 보인다(국기 원·날짜·제목 앞부분). 덮인 부분은 그리지 않는다(반투명끼리 비침 없음). 덮이는 경계 `back_fade_px` 는 글자만 알파 그라데이션으로 가린다(자름 아님). **레일 없음**. 국기 원 = 카드 좌상단 모서리(`flag_R`, 뒤 카드는 `back_scale` 배). 상자 = 아일랜드 공통 상자(§13, `island.*`).
-- **깊이**: 앞에 쌓인 카드 수(depth, smooth)마다 `back_dy` 아래로 내려앉고 `back_dim` 만큼 어두워진다. 오래된 카드일수록 아래로 계단이 진다(위쪽은 모서리 날짜 상자와 가깝다).
-- **전환 순서**: 물러나는 카드 제목·부제는 `focus_sec` 앞 절반에 지우고(덮임 경계도 앞 절반에 다음 카드 왼쪽 끝까지 당김) → 뒤 절반에 뒤 카드 글자(`back_text_alpha`). 새 앞 카드 글자는 전환 뒤 절반 — 밀기 없는 전환 = `focus_sec`, 가장 오래된 뒤 카드가 밀려 나가는(`max_back` 초과, `shift_sec`) 전환 = max(`focus_sec`, `shift_sec`)(D-0137 §3). 두 글자가 같은 자리에서 비치는 순간 0. 새 카드는 아래에서 올라온다(폭 증가 없음).
+- **구조**(v5.14.0 V2 — 아래 §15.1): 앞 카드 = `cascade.front` 상자(accent 윗선·날짜·제목·부제). 뒤 카드 = `back_scale` 로 물러나 다음 카드 밑에 깔리고 왼쪽 `dx` 폭과 다음 카드 위로 드러난 윗띠(`dy`)가 보인다(국기 원·날짜·제목 앞부분). 덮인 부분은 그리지 않는다(앞 카드 실제 모양으로 가림, 반투명끼리 비침 없음). 덮이는 경계 `back_fade_px` 는 글자만 알파 그라데이션으로 가린다(자름 아님). **레일 없음**. 국기 원 = 카드 좌상단 모서리(`flag_R`, 뒤 카드는 `back_scale` 배). 상자 = 아일랜드 공통 상자(§13, `island.*`).
+- **깊이**: 앞에 쌓인 카드 수(depth, smooth)마다 `back_dim` 만큼 어두워진다. 위치는 깊이와 무관하다(v5.14.0 V2 — 옛 `back_dy` 내려앉음 삭제, 시간 순서대로 오른쪽 아래).
+- **전환 순서**: 물러나는 카드 제목·부제는 `focus_sec` 앞 절반에 지우고(덮임 경계도 앞 절반에 다음 카드 왼쪽 끝까지 당김) → 뒤 절반에 뒤 카드 글자(`back_text_alpha`). 새 앞 카드 글자는 전환 뒤 절반 — 밀기 없는 전환 = `focus_sec`, 가장 오래된 뒤 카드가 밀려 나가는(`max_back` 초과, `shift_sec`) 전환 = max(`focus_sec`, `shift_sec`)(D-0137 §3). 두 글자가 같은 자리에서 비치는 순간 0. 새 카드는 제자리에서 페이드로 나타난다(V2 — 슬라이드 없음, 폭 증가 없음).
 - **검사**(checks, 0.1초 표본, 문제마다 첫 시각): `[cascade-width]`(전체 폭 > `width_cap`)·`[cascade-back]`(뒤 카드 > `max_back`)·`[cascade-date]`(모서리 날짜 상자 교차)·`[cascade-overflow]`(앞 카드 글자 넘침, 뒤 카드 보이는 폭 안 날짜 넘침 — 자름·말줄임 없음, 렌더 전 오류) = `cascade` **hard**. `[cascade-label-under]` **hard** = 문장 지명(지금 보이는 마커·at_place·경로·봉쇄선 이름표)이 카드 밑. `[cascade-label-hidden]` **warning** = 문장과 무관한 배경 지명(gazetteer 나라·도·도시)이 카드 회피로 안 그려지거나 해역 이름이 깔림(`cascade_label_hidden`, provenance `cascade.hidden_labels[]`, D-0137 §2).
 - **회피**: 보이는 카드 상자는 지명 라벨·뱃지 예약 영역이다(`R.reserved`·`engine.reserved.card_zones`) — 카드가 사라지면 지명이 돌아온다(되돌릴 수 있는 배치, D-0137 §1 A).
 - **provenance**: `cascade{status, events, items, hidden_labels[]}` — 쓰인 영상에만(P5). `status` = `cascade.status`.
-- **값**: 전부 `rules cascade` 키(`x0`·`y`·`step`·`flag_R`·`front.*`·`back_scale`·`back_text_alpha`·`back_fade_px`·`back_dy`·`back_dim`·`max_back`·`focus_sec`·`shift_sec`·`width_cap`) — 사용자 합격 값(D117), C0 되돌림 금지. 최악 폭 (`max_back`+1)×`step`+`front.w` ≤ `width_cap` 은 규칙 모델이 검증한다.
+- **값**: 전부 `rules cascade` 키(`x0`·`y0`·`dx`·`dy`·`flag_R`·`front.*`·`back_scale`·`back_h_drop`·`back_text_alpha`·`back_fade_px`·`back_dim`·`max_back`·`focus_sec`·`shift_sec`·`width_cap`·`frame.*`·`surface.*`) — v5.14.0 V2 값(사용자 결정 D148, 가이드 23 §6). 옛 D117 값은 가이드 23 §5 표에 기록. 최악 폭 (`max_back`+1)×`dx`+`front.w` ≤ `width_cap` 은 규칙 모델이 검증한다.
 - **폐기 기록**: D-0135 접히는 띠(chain, 카드 + 칩 띠)와 D-0136 띠 v2 검수는 사용자 판정("프레이밍이 잘못됐다", D116)으로 대체됐다. 이벤트 이름 `chain` → `cascade`. D-0137(지명 깔림 A·hard/warning 분리·골든 승격 조건)은 cascade 에 그대로 적용했다.
 - **골든**: hormuz_korea 에는 cascade 가 없다 — 지도 무대 25컷 바이트 동일이 승격 조건(`reports/phaseG14/hormuz_cascade.json`).
+
+### 15.1 v5.14.0 — cascade V2(back_and_forth D-0153 §4·D-0157, 사용자 결정 D148, 가이드 23 §6)
+
+- **slot**: 사건 k 의 논리 slot s = k − off, 좌상단 `x = x0 + dx·s`, `y = y0 + dy·s`(22·60·64·12). 좌상단 pivot 고정, 개별 Y slide·깊이 Y 없음. 밀기(off 증가)는 모든 카드에 같은 변위 — 방향·간격 유지.
+- **크기**: 앞 카드 230×108(pad 14, 날짜·제목·부제 y 19/56/82, 날짜 x 18), 제목 18 Plex Sans KR Bold·부제 11.5·날짜 10.5 Plex Mono Medium. 뒤 카드 = scale 0.86, 높이 `(108 − back_h_drop·back) × scale`.
+- **상자**: `island.draw_frame(style, occluders)` 선택 인자 — 모서리 3·테두리 0.65(`surface.edge`)·표면 `surface.front/back` 보간. 뒤 카드 상자(그림자·바탕·테두리)는 앞쪽 모든 카드의 실제 둥근 사각형(+ `frame.occluder_pad` 0.325)으로 차례로 지운다(DEST_OUT, 남는 알파 = Π(1 − 가림) — 합집합, EVEN_ODD 단일 마스크 아님). 기본 호출(아일랜드·패널)은 종전과 바이트 동일.
+- **글자**: 상자 가림과 따로 — 다음 카드 왼쪽 끝까지(`clip_x1`, 경계 `back_fade_px` 알파 그라데이션), 앞/뒤 절반 순서 그대로.
+- **회피 상자**: `cascade_boxes` = 국기 원 상자 + 가림과 같은 기하의 보이는 영역 사각형 분해(가리는 상자는 모서리 반경만큼 줄여 보수적으로). 복원된 윗띠·왼쪽 띠가 지명 회피·검사에 들어간다.
+- 옛 v5.3.0 결함(세로 전체 클립이 상자까지 잘라 하단선이 끊김)은 `reports/phaseQ0/cascade_asis_clip.png` → `reports/phaseQ1/cascade_clip_before_after.png`.
 
 ## 16. v5.4.0 — 인물 발언 인용(quote)·통계 차트 문법 (사용자 결정 2026-10-02, v5.3.1 valdai-2026 시안 승격)
 

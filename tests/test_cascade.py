@@ -8,7 +8,7 @@ from pathlib import Path
 import cairo
 import yaml
 
-from engine.cascade import CascadeError, back_count, cascade_boxes, cascade_width, check_text, draw_cascade, layout
+from engine.cascade import CascadeError, back_count, cascade_boxes, cascade_width, check_text, draw_cascade, layout, visible_rects
 from engine.style import CASCADE
 from tests._fonts import NO_FONTS_REASON, fonts_ready
 
@@ -33,7 +33,7 @@ class CascadeGeometryTest(unittest.TestCase):
     def test_width_never_exceeds_cap(self) -> None:
         e = _event()
         self.assertLessEqual(max(cascade_width(t, e) for t in _times(e)), CASCADE.width_cap)
-        steady = CASCADE.max_back * CASCADE.step + CASCADE.front.w
+        steady = CASCADE.max_back * CASCADE.dx + CASCADE.front.w
         self.assertAlmostEqual(cascade_width(e["items"][-1]["at"] + 3.0, e), steady, places=3)
 
     def test_back_never_exceeds_max(self) -> None:
@@ -54,7 +54,8 @@ class CascadeGeometryTest(unittest.TestCase):
         self.assertAlmostEqual(sc[-1], CASCADE.back_scale)
 
     def test_front_on_top_and_back_clipped(self) -> None:
-        """정상 상태: 맨 앞 = 마지막 사건(크기 1), 뒤 카드는 다음 카드 왼쪽 끝까지만 그린다(step 폭)."""
+        """정상 상태: 맨 앞 = 마지막 사건(크기 1), 뒤 카드 글자는 다음 카드 왼쪽 끝까지(clip_x1).
+        v5.14.0 V2: 보이는 영역 = 왼쪽 dx 폭(전체 높이) + 다음 카드 위로 드러난 윗띠(전체 폭) — 상자 가림은 앞 카드 실제 모양."""
         e = _event(3)
         t = e["items"][2]["at"] + 3.0
         cards = layout(t, e)
@@ -62,8 +63,16 @@ class CascadeGeometryTest(unittest.TestCase):
         self.assertAlmostEqual(cards[-1].scale, 1.0)
         for c, nxt in zip(cards, cards[1:]):
             self.assertAlmostEqual(c.clip_x1, nxt.x)
-        boxes = cascade_boxes(t, e)
-        self.assertAlmostEqual(boxes[0][2] - cards[0].x, CASCADE.step)
+        vis = visible_rects(cards[0], cards[1:])
+        c0, c1 = cards[0], cards[1]
+        def covered(x: float, y: float) -> bool:
+            return any(b[0] <= x <= b[2] and b[1] <= y <= b[3] for b in vis)
+
+        for f in (0.01, 0.5, 0.99):
+            self.assertTrue(covered(c0.x + (c1.x - c0.x) * f, c0.y + c0.h * 0.99))     # 왼쪽 dx 폭(전체 높이)
+            self.assertTrue(covered(c0.x + c0.w * (0.4 + 0.59 * f), c0.y + 1))         # 윗띠(전체 폭)
+        self.assertFalse(covered(c1.x + 20, c1.y + 20))                               # 다음 카드 밑은 보이지 않음
+        self.assertEqual(cascade_boxes(t, e)[0], (c0.x - c0.flag_r, c0.y - c0.flag_r, c0.x + c0.flag_r, c0.y + c0.flag_r))
 
     def test_no_text_overlap_during_transition(self) -> None:
         """D-0138 ③ — 전환 중 물러나는 카드 글자와 새 카드 글자가 같은 자리에서 비치는 순간 0:
@@ -82,15 +91,16 @@ class CascadeGeometryTest(unittest.TestCase):
                 t += STEP / 5
 
     def test_depth_monotonic(self) -> None:
-        """D-0138 ② — 뒤로 갈수록(오래된 카드일수록) 깊이·내려앉음이 단조 증가, 맨 앞은 깊이 0."""
+        """D-0138 ② — 뒤로 갈수록(오래된 카드일수록) 깊이(어두움)가 단조 증가, 맨 앞은 깊이 0.
+        v5.14.0 V2: 위치는 깊이와 무관 — y = y0 + dy·slot(오래된 카드가 위, 시간 순서대로 오른쪽 아래)."""
         e = _event(5)
         cards = layout(e["items"][-1]["at"] + 3.0, e)
         depths = [c.depth for c in cards]
-        ys = [c.y for c in cards]
         self.assertTrue(all(a > b for a, b in zip(depths, depths[1:])))
-        self.assertTrue(all(a > b for a, b in zip(ys, ys[1:])))
         self.assertAlmostEqual(depths[-1], 0.0)
-        self.assertAlmostEqual(ys[0] - ys[-1], CASCADE.back_dy * depths[0])
+        for a, b in zip(cards, cards[1:]):
+            self.assertAlmostEqual(b.y - a.y, CASCADE.dy)
+            self.assertAlmostEqual(b.x - a.x, CASCADE.dx)
 
     def test_rules_validator(self) -> None:
         from schemas.rules_models import CascadeRules  # noqa: PLC0415

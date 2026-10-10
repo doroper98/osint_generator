@@ -1580,6 +1580,35 @@ class CascadeFrontRules(_Strict):
     title_size: float
     line_size: float
     accent_w: float
+    date_font: str      # v5.14.0 V2 — engine.style.FONT 키
+    title_font: str
+    line_font: str
+
+
+class CascadeFrame(_Strict):
+    """v5.14.0 V2 — 상자 모서리·테두리 폭·가림 여유(가이드 23 §6)."""
+
+    radius: float = Field(ge=0)
+    edge_w: float = Field(gt=0)
+    occluder_pad: float = Field(ge=0)
+
+
+class CascadeSurface(_Strict):
+    """v5.14.0 V2(D-0157 보강 3) — cascade 전용 표면·글자색, RGB 0~1."""
+
+    bg: RGB
+    front: RGB
+    back: RGB
+    text: RGB
+    text_sub: RGB
+    edge: RGB
+
+    @model_validator(mode="after")
+    def _unit(self) -> "CascadeSurface":
+        for k, v in self.model_dump().items():
+            if not all(0 <= c <= 1 for c in v):
+                raise ValueError(f"cascade.surface.{k} 는 RGB 0~1: {v}")
+        return self
 
 
 class QuotePairSlot(_Strict):
@@ -1642,27 +1671,32 @@ class CascadeRules(_Strict):
 
     status: Literal["prototype", "adopted"]
     x0: float
-    y: float
-    step: float
+    y0: float
+    dx: float = Field(gt=0)                # v5.14.0 V2 — 슬롯 간격(오른쪽 아래, 가이드 23 §6)
+    dy: float = Field(gt=0)
     flag_R: float
     front: CascadeFrontRules
     back_scale: float = Field(gt=0, lt=1)
+    back_h_drop: float = Field(ge=0)       # v5.14.0 V2 — 뒤 카드 높이 = (front.h − back_h_drop·back) × scale
     back_text_alpha: float = Field(gt=0, le=1)
     back_fade_px: float = Field(ge=0)      # D-0138 — 덮이는 경계 글자 알파 그라데이션 폭
-    back_dy: float = Field(ge=0)           # D-0138 — 층마다 내려앉음
     back_dim: float = Field(ge=0, lt=1)    # D-0138 — 층마다 어두워짐
     max_back: int = Field(ge=1)
     focus_sec: float = Field(gt=0)
     shift_sec: float = Field(gt=0)
     width_cap: float
+    frame: CascadeFrame                     # v5.14.0 V2
+    surface: CascadeSurface                 # v5.14.0 V2(D-0157 보강 3)
 
     @model_validator(mode="after")
     def _fits(self) -> "CascadeRules":
-        need = (self.max_back + 1) * self.step + self.front.w
+        need = (self.max_back + 1) * self.dx + self.front.w
         if need > self.width_cap:
-            raise ValueError(f"cascade: (max_back+1)×step+front.w = {need} > width_cap {self.width_cap}")
-        if self.step >= self.front.w * self.back_scale:
-            raise ValueError("cascade: step 이 뒤 카드 폭 이상이면 겹치지 않는다")
+            raise ValueError(f"cascade: (max_back+1)×dx+front.w = {need} > width_cap {self.width_cap}")
+        if self.dx >= self.front.w * self.back_scale:
+            raise ValueError("cascade: dx 가 뒤 카드 폭 이상이면 겹치지 않는다")
+        if self.dy >= (self.front.h - self.back_h_drop) * self.back_scale:
+            raise ValueError("cascade: dy 가 뒤 카드 높이 이상이면 겹치지 않는다")
         return self
 
 
