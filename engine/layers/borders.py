@@ -31,12 +31,41 @@ def path_rings(ctx: cairo.Context, view: View, rings: list, min_px: float = 1.0)
     return n
 
 
-def draw_borders(ctx: cairo.Context, stage: "MercatorStage", view: View) -> None:
-    lod = "fine" if view.w < LOD["borders_fine_below_w"] else "coarse"
+def path_lines(ctx: cairo.Context, view: View, lines: list, min_px: float = 1.0) -> int:
+    """열린 선(국경·해안 구간, v5.18.0) — path_rings 와 같되 닫지 않는다."""
+    n = 0
+    for uv, mn, mx in lines:
+        if not view.visible(mn, mx) or (mx - mn).max() * view.s < min_px:
+            continue
+        pts = view.to_screen_arr(uv)
+        ctx.move_to(*pts[0])
+        for x, y in pts[1:]:
+            ctx.line_to(x, y)
+        n += 1
+    return n
+
+
+def border_path(ctx: cairo.Context, stage: "MercatorStage", view: View, lod: str) -> None:
+    """국경 경로 — 테마에 coast 가 있으면 공유 변만(v5.18.0 D-0161 §2), 없으면 종전처럼 모든 국가 고리."""
     ctx.new_path()
+    if stage.theme.coast is not None:
+        path_lines(ctx, view, stage.line_split(lod)["border"], 0.0)
+        return
     for _k, rings in stage.bord[lod].items():
         path_rings(ctx, view, rings)
+
+
+def draw_borders(ctx: cairo.Context, stage: "MercatorStage", view: View) -> None:
+    lod = "fine" if view.w < LOD["borders_fine_below_w"] else "coarse"
     ctx.set_line_join(cairo.LINE_JOIN_ROUND)
+    co = stage.theme.coast
+    if co is not None:   # v5.18.0 D-0161 §2(가이드 23 §14) — 해안은 밝고 얇은 물빛 선, 국경 아래에 먼저
+        ctx.new_path()
+        path_lines(ctx, view, stage.line_split(lod)["coast"])
+        ctx.set_source_rgba(*co.rgb, co.alpha if co.alpha is not None else 1.0)
+        ctx.set_line_width(co.width)
+        ctx.stroke()
+    border_path(ctx, stage, view, lod)
     bo, ad_ = stage.theme.border, stage.theme.admin   # v5.13.0 D-0153 Q0-2 — 지도 테마 선 색·폭(rules geo.themes.<테마>.map)
     ba = LOD["border_alpha"]
     ctx.set_source_rgba(*bo.rgb, (ba["near"] if view.w < ba["below_w"] else ba["far"]) if bo.alpha is None else bo.alpha)
@@ -62,9 +91,7 @@ def draw_border_glow(ctx: cairo.Context, stage: "MercatorStage", view: View, t: 
     run_period_px 간격으로 선을 따라 run_speed_px/초로 천천히 흐른다(cairo 대시 오프셋). 수치는 전부 rules border_glow."""
     lod = "fine" if view.w < LOD["borders_fine_below_w"] else "coarse"
     ctx.save()
-    ctx.new_path()
-    for _k, rings in stage.bord[lod].items():
-        path_rings(ctx, view, rings)
+    border_path(ctx, stage, view, lod)   # v5.18.0 — 해안을 분리한 테마는 국경(공유 변)에만 글로우
     path = ctx.copy_path()
     ctx.set_line_join(cairo.LINE_JOIN_ROUND)
     for w, a in BG.halo:

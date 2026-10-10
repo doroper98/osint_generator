@@ -12,7 +12,7 @@ import cairo
 
 from engine.context import RenderCtx
 from engine.projection import View
-from engine.style import C, ISLAND, W_OUT
+from engine.style import C, ISLAND, W_OUT, map_c, map_halo
 from engine.timebase import ease_out, smooth, window
 from engine.typography import text, tw
 from rules import load_rules
@@ -134,7 +134,9 @@ def draw_marker(ctx: cairo.Context, R: RenderCtx, view: View, t: float, e: dict)
     lt = t - e["t0"]
     if x < -80 or x > view.vw + 80 or y < -40 or y > view.vh + 40:
         return
-    col = C["gold"] if e.get("hl") else C["white"]
+    col = map_c(view.stage, "gold") if e.get("hl") else map_c(view.stage, "white")   # v5.18.0 D-0161 §3 — 지도 테마 보정
+    halo = map_halo(view.stage)
+    hk = {} if halo is None else {"halo_rgb": halo}
     for k in range(2):
         f = ((lt * 0.5) + k / 2) % 1.0
         r = 4 + 20 * ease_out(f)
@@ -152,7 +154,7 @@ def draw_marker(ctx: cairo.Context, R: RenderCtx, view: View, t: float, e: dict)
     dx, dy, anc = _SIDE[side]
     box = marker_box(ctx, {**e, "side": side} if side != (e.get("side") or "right") else e, x + shift, y)
     la *= marker_label_alpha(box, R.zones)   # 카드 뒤 라벨은 흐린다 — 점은 사실 위치라 그대로(D-0033)
-    text(ctx, e["label"], x + dx + shift, y + dy, MK.label_size, "sansb", (1, 1, 1), la, 3.2, anc)
+    text(ctx, e["label"], x + dx + shift, y + dy, MK.label_size, "sansb", map_c(view.stage, "white"), la, 3.2, anc, **hk)
     if e.get("sub"):
-        text(ctx, e["sub"], x + dx + shift, y + dy + MK.sub_dy, MK.sub_size, "sansm", C["gold"], la, 3, anc)
+        text(ctx, e["sub"], x + dx + shift, y + dy + MK.sub_dy, MK.sub_size, "sansm", map_c(view.stage, "gold"), la, 3, anc, **hk)
     R.reserved.append(box)

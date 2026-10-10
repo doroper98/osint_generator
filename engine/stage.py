@@ -64,6 +64,44 @@ def lat_of(v: float) -> float:
     return math.degrees(2 * math.atan(math.exp(math.radians(v))) - math.pi / 2)
 
 
+def split_lines(bord: dict) -> dict[str, list]:
+    """국가 고리 → {"border": 두 나라 이상이 공유하는 변의 연속 구간, "coast": 나머지}(v5.18.0 D-0161 §2, 가이드 23 §14).
+    공유 판정 = 꼭짓점이 같은 변(방향 무관) — Natural Earth admin0 은 국경 꼭짓점을 공유한다(거리 buffer 로 분류하지 않는다, §14).
+    공유 변은 한 번만 낸다(두 나라 고리에 모두 있음). 구간 = (uv, min, max) 열린 선."""
+    from collections import Counter  # noqa: PLC0415
+
+    def key(a: np.ndarray, b: np.ndarray) -> frozenset:
+        return frozenset((tuple(np.round(a, 9)), tuple(np.round(b, 9))))
+
+    count: Counter = Counter()
+    for rings in bord.values():
+        count.update({key(a, b) for uv, _, _ in rings for a, b in zip(uv[:-1], uv[1:])})
+    out: dict[str, list] = {"border": [], "coast": []}
+    done: set = set()
+    for code in sorted(bord):
+        for uv, _, _ in bord[code]:
+            kind = []   # 변마다 "border" | "coast" | None(이미 낸 공유 변)
+            for a, b in zip(uv[:-1], uv[1:]):
+                k = key(a, b)
+                if count[k] < 2:
+                    kind.append("coast")
+                elif k in done:
+                    kind.append(None)
+                else:
+                    done.add(k)
+                    kind.append("border")
+            i = 0
+            while i < len(kind):
+                j = i
+                while j + 1 < len(kind) and kind[j + 1] == kind[i]:
+                    j += 1
+                if kind[i] is not None:
+                    seg = uv[i:j + 2]
+                    out[kind[i]].append((seg, seg.min(0), seg.max(0)))
+                i = j + 1
+    return out
+
+
 def to_uv(rings: list) -> list:
     out = []
     for r in rings:
@@ -144,6 +182,7 @@ class MercatorStage:
             tw_ = self.tiers["W"]
             self._bounds = (tw_["lon0"], ym(tw_["lat0"]), tw_["lon1"], ym(tw_["lat1"]))
         self._sea_cache: dict[str, list] = {}
+        self._split: dict[str, dict[str, list]] = {}
         if assets is not None:
             geo = assets.geo
             self.bord = {lod: {k: to_uv(v) for k, v in geo[lod].items()} for lod in ("coarse", "fine")}
@@ -174,6 +213,12 @@ class MercatorStage:
     def world_box(self, lon0: float, lat0: float, lon1: float, lat1: float) -> Bounds:
         """경위도 사각형 → 월드 사각형(카메라 제안의 경계 인자 등)."""
         return (lon0, ym(lat0), lon1, ym(lat1))
+
+    def line_split(self, lod: str) -> dict[str, list]:
+        """국경(공유 변)·해안 구간(v5.18.0 D-0161 §2) — 테마에 coast 스타일이 있을 때만 쓴다. LOD 마다 한 번 계산."""
+        if lod not in self._split:
+            self._split[lod] = split_lines(self.bord[lod])
+        return self._split[lod]
 
     # --- 배경
     def render_base(self, ctx: cairo.Context, view: "View") -> None:
@@ -259,8 +304,8 @@ class FlatMercatorStage(MercatorStage):
     경계 = 프로젝트 geo.yaml 티어 W bbox(geo.prep 의 tier_record 와 같은 값), 지오메트리 = 저장소 막지도 자료(R-0135 A).
     `bord` 는 coarse·fine 이 같은 110m 고리다(country 강조·국경선이 같은 자료)."""
 
-    def __init__(self, tier_w: dict, polygons: dict[str, list], out: Optional[Output] = None) -> None:
-        super().__init__(None, tiers={"W": tier_w}, out=out)
+    def __init__(self, tier_w: dict, polygons: dict[str, list], out: Optional[Output] = None, config: Optional[dict] = None) -> None:
+        super().__init__(None, tiers={"W": tier_w}, out=out, config=config)   # v5.18.0 — 전편과 같은 테마(theme_name·지도 위 의미색)
         rings = {k: to_uv([np.asarray(r, np.float64) for poly in v for r in poly]) for k, v in polygons.items()}
         self.bord = {"coarse": rings, "fine": rings}
         self.adm: dict = {}

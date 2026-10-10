@@ -79,6 +79,20 @@ C: dict[str, Color] = {
     "muted": hexc(_c.muted), "amber": hexc(_c.amber), "white": (1, 1, 1), "kr": hexc(_c.gold), "water": hexc(_c.water),
 }
 BADGE_BG: Color = hexc(_c.badge_bg)
+# v5.18.0 D-0161 §3 — 지도 위 요소의 테마별 의미색(없는 키 = C 공통값). 지도 무대가 아니면(카드·패널·자막 등) 쓰지 않는다
+C_THEME: dict[str, dict[str, Color]] = {th: {k: hexc(v) for k, v in m.items()} for th, m in _c.themes.items()}
+
+
+def map_c(stage, key: str) -> Color:  # noqa: ANN001 — 지금 그리는 무대(view.stage)
+    """지도 위에 직접 놓이는 요소의 색 — 그 무대가 테마 지도면 테마 보정 값(없는 키 = 공통값), 아니면 공통값(D-0161 §3).
+    무대 기준이라 아일랜드 차트(카드처럼 테마 무관) 안의 마커는 공통값이다."""
+    return C_THEME.get(getattr(stage, "theme_name", None) or "", {}).get(key, C[key])
+
+
+def map_halo(stage):  # noqa: ANN001, ANN201 — tuple | None
+    """지도 위 글자 테두리 — 테마 지도면 rules geo.themes.<테마>.map.halo, 아니면 None(= typography 기본값)."""
+    th = getattr(stage, "theme", None)
+    return tuple(th.halo) if th is not None else None
 
 _f = _RULES.fonts
 # (family, bold) — v3 FONT 표와 같은 키. 굵기 변형 이름은 fontconfig 패밀리 이름 규칙(19a §B)을 따른다.

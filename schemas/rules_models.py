@@ -1024,6 +1024,9 @@ class Colors(_Strict):
     panel_cover: Color4
     card_bg: Color4
     panel_card_bg: Color4
+    # v5.18.0 D-0161 §3 — 지도 위 요소의 의미색 테마 보정: {테마: {키: "#rrggbb"}}. 색상(hue)은 공통값과 같고 밝기·채도만 다르다(테스트).
+    # 키 = 의미색(ru·us·gold·teal·green·muted·amber·water) + white(지도 위 마커 글자). 카드·패널·자막·HUD·엔딩·뱃지는 테마 무관
+    themes: dict[str, dict[str, str]] = Field(default_factory=dict)
 
 
 class Fonts(_Strict):
@@ -1118,6 +1121,9 @@ class MapTheme(_Strict):
     city_dot: CityDot
     city_label: RGB
     halo: RGB
+    # v5.18.0 D-0161 §2(가이드 23 §14) — 해안선 ↔ 국경 분리. 있으면 두 나라가 공유하는 변만 국경(border), 나머지 고리는 해안(coast)으로 긋는다.
+    # None = 종전(모든 고리를 국경 스타일로 — dark 골든 바이트 동일)
+    coast: Optional[MapLine] = None
 
 
 class GeoTheme(_Strict):
@@ -1416,6 +1422,8 @@ class AnimaticFlatMap(_Strict):
     land: Color4
     border: Color4
     border_w: float = Field(gt=0)
+    # v5.18.0 D-0161 §7 — 콘티 판 막지도도 전편과 같은 테마: {테마: {sea, land, border}}. 없는 테마 = 위 공통값(dark)
+    themes: dict[str, dict[str, Color4]] = Field(default_factory=dict)
 
 
 class AnimaticPlaceholder(_Strict):

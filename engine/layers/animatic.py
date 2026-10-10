@@ -79,30 +79,31 @@ def flat_stage_factory(proj: Path, out: Any) -> Callable[[Optional[dict]], Any]:
     from geo.prep import load_conf  # noqa: PLC0415
 
     def make(config: Optional[dict]) -> Any:
-        mercator_theme(config)   # 전편 MercatorStage 와 같은 키 검사(v5.13.0). 막지도에는 글로우·지형 테마를 그리지 않는다(자리표시 지도)
+        mercator_theme(config)   # 전편 MercatorStage 와 같은 키 검사(v5.13.0). 막지도에는 글로우·지형을 그리지 않는다(자리표시 지도)
         conf = load_conf(proj)
         w = next((t for t in conf.tiers if t.name == "W"), None)
         if w is None:
             raise KeyError("티어 W(광역, 카메라 경계)가 없다 — geo.yaml tiers 에 name: W 를 둔다")
         tier = dict(lon0=w.bbox[0], lat0=w.bbox[1], lon1=w.bbox[2], lat1=w.bbox[3])
-        return FlatMercatorStage(tier, load_flat_polygons(conf.crimea_to_ua), out)
+        return FlatMercatorStage(tier, load_flat_polygons(conf.crimea_to_ua), out, config)   # v5.18.0 D-0161 §7 — 같은 테마
 
     return make
 
 
 def draw_flat_map(ctx: cairo.Context, stage: Any, view: View) -> None:
     """막지도 배경 — 바다 단색 → 보이는 육지 채움(국가별 고리, 짝홀 규칙) → 국경선."""
-    ctx.set_source_rgba(*FM.sea)
+    th = FM.themes.get(stage.theme_name, {})   # v5.18.0 D-0161 §7 — 전편과 같은 테마의 단색(없으면 공통값)
+    ctx.set_source_rgba(*th.get("sea", FM.sea))
     ctx.paint()
     ctx.new_path()
     for rings in stage.bord["coarse"].values():
         path_rings(ctx, view, rings)
     ctx.set_fill_rule(cairo.FILL_RULE_EVEN_ODD)
-    ctx.set_source_rgba(*FM.land)
+    ctx.set_source_rgba(*th.get("land", FM.land))
     ctx.fill_preserve()
     ctx.set_fill_rule(cairo.FILL_RULE_WINDING)
     ctx.set_line_join(cairo.LINE_JOIN_ROUND)
-    ctx.set_source_rgba(*FM.border)
+    ctx.set_source_rgba(*th.get("border", FM.border))
     ctx.set_line_width(FM.border_w)
     ctx.stroke()
 
