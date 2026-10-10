@@ -1,0 +1,145 @@
+{
+ "schema_version": 1,
+ "role": "Phase V3(v5.17.0) 기준선 — 목소리 교체 edge-tts InJoon → Supertonic-3 M3 ×0.95 + MMS 강제 정렬(D-0167 §3-3, 사용자 결정 D146·D151). 원고·연출 무변경, 모든 컷의 절대 시각이 바뀜(컷 대응표 cut_table.json). 25_END 도장 가린 md5. 옛 기준선 = phaseQ2",
+ "command": "python -m engine.render projects/hormuz_korea --preview golden (plan = python -m script.plan projects/hormuz_korea --tts supertonic)",
+ "stamp_box": [
+  797.0,
+  462.2,
+  842.0,
+  471.95
+ ],
+ "stamp_box_basis": "v99.99.99 — 오른쪽 끝 고정(W − x_from_right), 폭 = adv('v99.99.99') 45px; v5.10.0 에서 두 자리 MINOR 로 넓힘(D-0148)",
+ "mask_pad_px": 2,
+ "cuts": [
+  {
+   "png": "p_0006.95.png",
+   "md5": "36a0c81262a8409ca4bbd5cc36df03ed"
+  },
+  {
+   "png": "p_0020.21.png",
+   "md5": "05b2792f58913a9717fb9874cbeaa4ae"
+  },
+  {
+   "png": "p_0026.71.png",
+   "md5": "83506ec3ce88c11508e5f4096e6a1dd7"
+  },
+  {
+   "png": "p_0035.36.png",
+   "md5": "ac8d69e6a461e9f08e2e09b4e5ab0b19"
+  },
+  {
+   "png": "p_0041.39.png",
+   "md5": "19bbdfb97fcae88a51d82dfd62d70fa8"
+  },
+  {
+   "png": "p_0050.86.png",
+   "md5": "0bb6c560fe7b471f6e38d3830f703cb0"
+  },
+  {
+   "png": "p_0055.70.png",
+   "md5": "983f062cab2c046a440ade73984f44cc"
+  },
+  {
+   "png": "p_0059.02.png",
+   "md5": "69b3affcb8137db70cc3de9296f45d53"
+  },
+  {
+   "png": "p_0072.76.png",
+   "md5": "1a7c02380109c0bc36a93344c477e56d"
+  },
+  {
+   "png": "p_0076.30.png",
+   "md5": "a0d1767dc8cc675ef5a1b08ef9c86560"
+  },
+  {
+   "png": "p_0091.50.png",
+   "md5": "022c59506eca249b601efbfbdcd3678d"
+  },
+  {
+   "png": "p_0108.92.png",
+   "md5": "d27c7e7dd5da82c4cd31034c4e288631"
+  },
+  {
+   "png": "p_0120.37.png",
+   "md5": "8b9e0ef4ae43e6f6743e8281f193fbb6"
+  },
+  {
+   "png": "p_0138.26.png",
+   "md5": "be39a172d84c249e14927b5afa0e874e"
+  },
+  {
+   "png": "p_0145.33.png",
+   "md5": "25a2e1c3fb9fd0ed08df7b65f1f52820"
+  },
+  {
+   "png": "p_0150.26.png",
+   "md5": "4f776685968796c64debcfa009edd196"
+  },
+  {
+   "png": "p_0170.97.png",
+   "md5": "b94a41061019a58e4d43518e2ea49ac1"
+  },
+  {
+   "png": "p_0183.72.png",
+   "md5": "cd7c920e71898e930ac0cd2276d95918"
+  },
+  {
+   "png": "p_0189.96.png",
+   "md5": "2a4f53f8db2d15c94da9b0de0196b76e"
+  },
+  {
+   "png": "p_0195.53.png",
+   "md5": "de9e0a2ff32d39ab50d7b70bccddf1f1"
+  },
+  {
+   "png": "p_0211.08.png",
+   "md5": "61e33ef8904191aaf28577c057aea4c3"
+  },
+  {
+   "png": "p_0218.12.png",
+   "md5": "0d30fa81d4be735dd416cf9e00ccdc8f"
+  },
+  {
+   "png": "p_0229.62.png",
+   "md5": "52586c20a4dabc1de4b63b50b80429ee"
+  },
+  {
+   "png": "p_0245.60.png",
+   "md5": "bedf1da1cb31844b6aad4b664e612dbc"
+  },
+  {
+   "png": "p_0256.66.png",
+   "mask": true,
+   "md5_masked": "c0a85539eb7574c7151999c49548d6d3"
+  }
+ ],
+ "cut_map": {
+  "p_0007.82.png": "p_0006.95.png",
+  "p_0022.27.png": "p_0020.21.png",
+  "p_0028.77.png": "p_0026.71.png",
+  "p_0038.45.png": "p_0035.36.png",
+  "p_0045.03.png": "p_0041.39.png",
+  "p_0056.21.png": "p_0050.86.png",
+  "p_0061.25.png": "p_0055.70.png",
+  "p_0065.13.png": "p_0059.02.png",
+  "p_0080.70.png": "p_0072.76.png",
+  "p_0087.06.png": "p_0076.30.png",
+  "p_0105.28.png": "p_0091.50.png",
+  "p_0124.25.png": "p_0108.92.png",
+  "p_0136.97.png": "p_0120.37.png",
+  "p_0157.38.png": "p_0138.26.png",
+  "p_0164.59.png": "p_0145.33.png",
+  "p_0170.52.png": "p_0150.26.png",
+  "p_0193.22.png": "p_0170.97.png",
+  "p_0207.41.png": "p_0183.72.png",
+  "p_0214.46.png": "p_0189.96.png",
+  "p_0220.96.png": "p_0195.53.png",
+  "p_0238.00.png": "p_0211.08.png",
+  "p_0245.56.png": "p_0218.12.png",
+  "p_0258.61.png": "p_0229.62.png",
+  "p_0276.44.png": "p_0245.60.png",
+  "p_0288.44.png": "p_0256.66.png"
+ },
+ "voice": "supertonic-3 M3 ×0.95",
+ "total": 260.658
+}

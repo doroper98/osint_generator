@@ -80,7 +80,7 @@ class VersionStampTest(unittest.TestCase):
         """hormuz 기준선 가림 상자(D-0148, PIPELINE-AP-021) — 오른쪽 끝 고정, 폭 ≥ 'v99.99.99', 현재 도장 상자를 포함."""
         from engine.typography import adv  # noqa: PLC0415
 
-        base = json.loads((REPO / "docs/handoff/reports/phaseQ2/hormuz_baseline.json").read_text(encoding="utf-8"))
+        base = json.loads((REPO / "docs/handoff/reports/phaseV3/hormuz_baseline.json").read_text(encoding="utf-8"))
         x0, y0, x1, y1 = base["stamp_box"]
         self.assertEqual(x1, W_OUT - STAMP.x_from_right)
         self.assertGreaterEqual(x1 - x0, adv("v99.99.99", STAMP.size, STAMP.font))

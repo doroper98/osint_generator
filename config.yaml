@@ -34,8 +34,10 @@ engine:
       # clip = 영상 클립 npy 크기(16:9 정확, 필요 장치 폭 990px 이상 중 최소 — back_and_forth D-0074). 원본 webm 에서 media_fetch --res 1080p
       1080p: {width: 1920, height: 1080, fps: 24, crf: 19, preset: faster, mem_per_job_mb: 1500, clip: [1024, 576]}
       # 720p(v5.2.0, 사용자 결정 2026-09-30 hormuz-talks-2026 완성본) — k = 1.5, 854 × 1.5 = 1281 > 1280 이라 −0.25px 패드(1080p 와 같은 방식).
-      # clip null = 영상 클립은 기본 npy(이 프로파일로 media_fetch --res 하지 않음). mem 은 480p·1080p 실측 사이 보간 + 여유
-      720p: {width: 1280, height: 720, fps: 24, crf: 19, preset: faster, mem_per_job_mb: 1000, clip: null}
+      # mem 은 480p·1080p 실측 사이 보간 + 여유. clip(v5.17.0 V3, D-0167 §3-4): 옛 null("기본 npy")은 load_clip 의 프로파일별 경로
+      # 규칙(D-0074, 480p 클립을 늘려 쓰지 않음 P6)과 어긋나 클립이 있는 영상을 720p 로 못 냈다. D-0074 기준(16:9 정확·폭 64 배수·
+      # 필요 장치 폭 이상 중 최소)으로 필요 폭 990 ÷ 2.25 × 1.5 = 660px → 704×396
+      720p: {width: 1280, height: 720, fps: 24, crf: 19, preset: faster, mem_per_job_mb: 1000, clip: [704, 396]}
   trial: 480p                          # 별칭 — 트라이얼(프리뷰·검수) 프로파일
   final: 720p                          # 별칭 — 최종(배포) 프로파일. v5.5.1 사용자 결정 2026-10-04 "기준 해상도는 720p야" — 파이프라인 render·assets_final 단계가 --res final. 1080p 는 --res 1080p 로만
   render:
