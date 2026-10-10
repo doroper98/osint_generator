@@ -26,3 +26,10 @@ supersedes: [D-0153 §6, D-0149 "교체형" 판정 중 지도 테마 부분]
 
 ## 유지비(기록)
 지도 변경은 두 테마에서 확인(약 1.3배). 지형 자산은 테마별 준비(`geo.prep --theme`), 렌더 시간 동일.
+
+## 7. 시리즈·채널 일관성(사용자 동의 2026-10-10, 추가)
+- **장르 기본값이 테마를 정한다**: direction 에 `stage_config.mercator.theme` 를 쓰지 않는 것이 기본. 쓰면 provenance `map_theme.declared: true` 와 사유(`reason`)를 남기고 검사 `[map-theme-override]` **warning**(장르 기본값과 다를 때) — 시리즈 안에서 예외가 눈에 띄게.
+- **시리즈 고정**: 프로젝트가 시리즈를 선언하면(`script/series_refs` 의 시리즈 id) 같은 시리즈의 앞 영상 provenance 와 테마가 달라질 때 `[series-theme-mismatch]` **hard**(사용자 결정 없이 못 바꿈). 시리즈 테마는 시리즈 레지스트리에 한 번 적는다.
+- **한 영상 안 혼용 금지**: 숏·장면별 테마 변경 = StageError(이미 §1). 콘티 판 막지도(animatic flat_map)도 같은 테마 값을 쓴다.
+- **엔딩 카드·타이틀 카드**는 테마와 무관하게 동일(채널 서명 요소). 도장·비네팅·모서리 날짜도 동일(C0 되돌림 금지 목록).
+- 문서: `docs/handoff/17`(연출 문법) 에 "테마는 장르가 정한다, 바꾸면 사유" 한 단락, 장르 프로필 표에 `map_theme` 열.
