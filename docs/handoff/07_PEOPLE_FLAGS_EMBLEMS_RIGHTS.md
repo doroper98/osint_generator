@@ -223,3 +223,13 @@ navcent:
 `rules badge.head_popout: false` 이면 인물 컷아웃도 원(R) 하나로 clip 하고, 실측 정수리(`portrait_head_top`)가 원 꼭대기에서
 `head_inside_max`·R 보다 깊이 내려오도록 컷아웃을 아래로 민다(어깨가 더 잘린다). 머리 예약(`head_factor`)은 1.0 — 원 밖으로 나오는 머리가 없다.
 골든 재기준선 phaseG16(expected_deltas `g16_head_path`).
+
+## 10. v5.15.0 — 인물 뱃지 V2·국기 물결 (back_and_forth D-0153 §5·D-0158, 사용자 결정 D148, 가이드 23 §10)
+
+§9 의 "`head_inside_max` 만큼 아래로 민다" 배치를 바꾼다(정수리가 원 안인 원칙은 그대로). 수치는 전부 `rules layout_480p.badge.{portrait, flag_wave, ring}`.
+- **초상**: 폭 `2.04R`(옛 1.72R). 원본 알파 > `alpha_thr`(20) 맨 윗줄(정수리)을 중심 위 `0.83R` 에 둔다 — 같은 인물 픽셀의 확대·배치이고 얼굴을 다시 만들지 않는다.
+  배치용 문턱 20 은 정규화(`tools/portrait_fallback`, 알파 > 40 bbox)와 목적이 달라 따로 둔다. 얼굴 분리 그림자 = 초상 알파 모양을 0.8 설계 px 아래에 검정 0.16.
+- **국기 물결**: 중심 `(0.16R, −0.05R)`, 폭 `2.3R`, 원 안 클립. 세로 띠 수 = 장치 폭 기반(`clamp(ceil(장치 폭 ÷ strip_px), 14, 96)` — 480p solo 96, group 은 장치 폭만큼).
+  위상 `t·2.6 + (i/n)·7`, 진폭 `0.018·폭`(옛 14띠·0.032). 띠 경계 = 장치 픽셀 정수 열이라 겹침·빈 줄이 없다. 작업 표면은 국기·크기당 한 번 만들어 다시 쓴다.
+- **링**(인물만): 바깥 어두운 `2.4`(원 바깥쪽), 안쪽 accent `0.8`(원 안쪽) 설계 px. 국기·휘장 뱃지 링(3.2/1.5)과 국장 뱃지는 그대로.
+- 국기 모양·색 영역은 원본 그대로(flag-icons MIT 고지 유지). 골든 재기준선 phaseQ2(expected_deltas `q2_portrait_flag_d148`).

@@ -20,21 +20,53 @@ from engine.timebase import ease_back, smooth, window
 from engine.typography import rrect, text, tw
 
 
+FW = BADGE.flag_wave
+PT = BADGE.portrait
+RING = BADGE.ring
+
+
+def wave_strips(dev_w: int) -> int:
+    """국기 물결 세로 띠 수 — 장치 폭 기반(v5.15.0 D-0153 §5): clamp(ceil(장치 폭 ÷ strip_px), strips_min, strips_max)."""
+    return max(FW.strips_min, min(FW.strips_max, math.ceil(dev_w / FW.strip_px)))
+
+
+def strip_columns(dev_w: int, n: int) -> list[tuple[int, int]]:
+    """띠 i 의 장치 픽셀 열 [c0, c1) — 정수 경계라 겹침·빈 줄이 없다(합 = [0, dev_w))."""
+    cs = [round(i * dev_w / n) for i in range(n + 1)]
+    return [(a, b) for a, b in zip(cs, cs[1:]) if b > a]
+
+
 def flag_wave(ctx: cairo.Context, R: RenderCtx, key: str, cx: float, cy: float, wdt: float, a: float,  # noqa: N803
               t: float) -> None:
+    """인물 뒤 국기 물결. 띠마다 국기를 세로로 밀어(위상 t·speed + (i/n)·phase_span, 진폭 amp·폭) 장치 해상도 작업 표면에 그린 뒤
+    한 번에 a 로 칠한다. 작업 표면은 국기·크기당 한 번 만들어 다시 쓴다(R.cache — 매 프레임 할당 없음). 수치 = rules badge.flag_wave."""
     k_ = R.out.k
     fs, fw, fh = R.assets.raster(key, wdt, k_)
-    n = 14
-    for i in range(n):
-        dy = math.sin(t * 2.6 + i * 0.5) * wdt * 0.032
-        ctx.save()
-        ctx.rectangle(cx - fw / 2 + fw * i / n, cy - fh / 2 + dy - 1, fw / n + 1, fh + 2)
-        ctx.clip()
-        set_raster(ctx, fs, k_, cx - fw / 2, cy - fh / 2 + dy)
-        ctx.paint_with_alpha(a)
-        ctx.set_source_rgba(0, 0, 0, 0.16 * (0.5 + 0.5 * math.sin(t * 2.6 + i * 0.5 + 1.2)) * a)
-        ctx.paint()
-        ctx.restore()
+    dw, dh = fs.get_width(), fs.get_height()
+    amp = FW.amp * dw                                   # 장치 px
+    pad = math.ceil(amp) + 1
+    memo = R.cache.setdefault("flag_wave", {})
+    off = memo.get((key, dw, dh))
+    if off is None:
+        off = memo[(key, dw, dh)] = cairo.ImageSurface(cairo.FORMAT_ARGB32, dw, dh + 2 * pad)
+    oc = cairo.Context(off)
+    oc.set_operator(cairo.OPERATOR_CLEAR)
+    oc.paint()
+    n = wave_strips(dw)
+    for i, (c0, c1) in enumerate(strip_columns(dw, n)):
+        ph = t * FW.speed + i / n * FW.phase_span
+        dy = math.sin(ph) * amp
+        oc.set_operator(cairo.OPERATOR_SOURCE)
+        oc.set_source_surface(fs, 0, pad + dy)
+        oc.rectangle(c0, 0, c1 - c0, dh + 2 * pad)
+        oc.fill()
+        oc.set_operator(cairo.OPERATOR_ATOP)            # 그림자는 국기 픽셀에만
+        oc.set_source_rgba(0, 0, 0, FW.shade_alpha * (0.5 + 0.5 * math.sin(ph + FW.shade_phase)))
+        oc.rectangle(c0, 0, c1 - c0, dh + 2 * pad)
+        oc.fill()
+    off.flush()
+    set_raster(ctx, off, k_, cx - fw / 2, cy - fh / 2 - pad / k_)
+    ctx.paint_with_alpha(a)
 
 
 def resolve_kind(R: RenderCtx, e: dict) -> tuple[str, str | None]:  # noqa: N803
@@ -69,7 +101,7 @@ def _pool(e: dict) -> str:
     return "panel" if e.get("over_panel") else "stage"
 
 
-PORTRAIT_W = 1.72      # 초상 폭 = R × 이 값 — badge_at 과 같은 수(아래 그리기)
+PORTRAIT_W = 1.72      # v3 머리 내밀기(head_popout: true) 배치의 초상 폭 = R × 이 값. V2(원 안)는 rules badge.portrait.width
 PORTRAIT_FOOT = 1.02   # 초상 아래 끝 = 중심 + R × 이 값
 PORTRAIT_CLIP = 2.4    # 초상 자르기 직사각형 위 끝 = 중심 − R × 이 값
 
@@ -86,15 +118,16 @@ def portrait_head_top(img: "object") -> float:
     return round(float(min(BADGE.reserve_top_factor, PORTRAIT_CLIP, max(1.0, top))), 4)
 
 
-def portrait_top(R: RenderCtx, e: dict) -> float:  # noqa: N803
-    """그릴 때의 정수리 높이(R 단위) — 이벤트 head_top(불러올 때 실측), 없으면(인용 초상 등) 그 자리에서 잰다."""
-    if e.get("head_top") is not None:
-        return float(e["head_top"])
-    key = f"portrait:{e['pid']}"
-    memo = R.cache.setdefault("portrait_top", {})   # 프레임마다 다시 재지 않는다
+def portrait_alpha_top(R: RenderCtx, key: str) -> float:  # noqa: N803
+    """초상 원본에서 알파 > portrait.alpha_thr 인 맨 윗줄 ÷ 높이(0~1). 초상마다 한 번(R.cache) — 매 프레임 다시 재지 않는다."""
+    import numpy as np  # noqa: PLC0415
+
+    memo = R.cache.setdefault("portrait_alpha_top", {})
     if key not in memo:
         R.assets.load_image(key)
-        memo[key] = portrait_head_top(R.assets.img[key])
+        img = R.assets.img[key]
+        rows = np.where(np.asarray(img.convert("RGBA"))[..., 3].max(axis=1) > PT.alpha_thr)[0]
+        memo[key] = float(rows[0]) / img.height if len(rows) else 0.0
     return memo[key]
 
 
@@ -204,7 +237,7 @@ def badge_at(ctx: cairo.Context, R: RenderCtx, x: float, y: float, e: dict, t: f
     ctx.set_source_rgba(*BADGE_BG, a)
     ctx.paint()
     if e["kind"] == "person":
-        flag_wave(ctx, R, f"flag43:{e['flag']}", Rr * 0.25, -Rr * 0.05, Rr * 2.3, 0.92 * a, t)
+        flag_wave(ctx, R, f"flag43:{e['flag']}", Rr * FW.cx, Rr * FW.cy, Rr * FW.width, FW.alpha * a, t)
     elif kind == "flag":
         fs, fw, fh = R.assets.raster(f"flag11:{flag}", Rr * 2.1, R.out.k)
         set_raster(ctx, fs, R.out.k, -fw / 2, -fh / 2)
@@ -217,27 +250,44 @@ def badge_at(ctx: cairo.Context, R: RenderCtx, x: float, y: float, e: dict, t: f
         ctx.paint_with_alpha(a)
     ctx.restore()
     if e["kind"] == "person":
-        ps, pw, ph = R.assets.raster(f"portrait:{e['pid']}", Rr * 1.72, R.out.k)
+        key = f"portrait:{e['pid']}"
         ctx.save()
         ctx.arc(0, 0, Rr, 0, 2 * math.pi)
-        dy = 0.0
-        if BADGE.head_popout:   # v3 — 머리가 원 위로 나온다
+        if BADGE.head_popout:   # v3 — 머리가 원 위로 나온다(옛 배치 그대로)
+            ps, pw, ph = R.assets.raster(key, Rr * PORTRAIT_W, R.out.k)
             ctx.rectangle(-Rr * 0.66, -Rr * 2.4, Rr * 1.32, Rr * 2.4)
             ctx.set_fill_rule(cairo.FILL_RULE_WINDING)
-        else:                   # v5.5.0 — 원 안에만. 정수리가 head_inside_max 보다 높으면 초상을 내린다(사용자 지적 2026-10-02)
-            dy = max(0.0, portrait_top(R, e) - BADGE.head_inside_max) * Rr
-        ctx.clip()
-        set_raster(ctx, ps, R.out.k, -pw / 2, Rr - ph + Rr * 0.02 + dy)
+            ctx.clip()
+            set_raster(ctx, ps, R.out.k, -pw / 2, Rr - ph + Rr * 0.02)
+        else:                   # v5.15.0 V2(가이드 23 §10) — 원 안, 정수리(알파 > alpha_thr 맨 윗줄) = 중심 위 alpha_top·R
+            ps, pw, ph = R.assets.raster(key, Rr * PT.width, R.out.k)
+            ctx.clip()
+            y0 = -PT.alpha_top * Rr - portrait_alpha_top(R, key) * ph
+            shadow = cairo.SurfacePattern(ps)              # 얼굴 분리 그림자 = 초상 알파 모양, shadow_dy 아래
+            shadow.set_matrix(cairo.Matrix(xx=R.out.k, yy=R.out.k, x0=pw / 2 * R.out.k, y0=-(y0 + PT.shadow_dy) * R.out.k))
+            ctx.set_source_rgba(0, 0, 0, PT.shadow_alpha * a)
+            ctx.mask(shadow)
+            set_raster(ctx, ps, R.out.k, -pw / 2, y0)
         ctx.paint_with_alpha(a)
         ctx.restore()
-    ctx.new_path()
-    ctx.arc(0, 0, Rr, 0, 2 * math.pi)
-    ctx.set_source_rgba(0.03, 0.04, 0.06, a)
-    ctx.set_line_width(3.2)
-    ctx.stroke_preserve()
-    ctx.set_source_rgba(*acc, 0.92 * a)
-    ctx.set_line_width(1.5)
-    ctx.stroke()
+        ctx.new_path()          # v5.15.0 링 — 바깥 어두운 outer_w(원 바깥쪽), 안쪽 accent inner_w(원 안쪽)
+        ctx.arc(0, 0, Rr + RING.outer_w / 2, 0, 2 * math.pi)
+        ctx.set_source_rgba(*RING.outer_rgb, a)
+        ctx.set_line_width(RING.outer_w)
+        ctx.stroke()
+        ctx.arc(0, 0, Rr - RING.inner_w / 2, 0, 2 * math.pi)
+        ctx.set_source_rgba(*acc, RING.inner_alpha * a)
+        ctx.set_line_width(RING.inner_w)
+        ctx.stroke()
+    else:
+        ctx.new_path()
+        ctx.arc(0, 0, Rr, 0, 2 * math.pi)
+        ctx.set_source_rgba(0.03, 0.04, 0.06, a)
+        ctx.set_line_width(3.2)
+        ctx.stroke_preserve()
+        ctx.set_source_rgba(*acc, 0.92 * a)
+        ctx.set_line_width(1.5)
+        ctx.stroke()
     ctx.restore()
     la = a * smooth((lt - 0.3) / 0.35)
     if e.get("label") and la > 0.01:

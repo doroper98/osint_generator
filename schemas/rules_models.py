@@ -507,6 +507,46 @@ class BadgeLabelBox(_Strict):
     side_role_dy: float
 
 
+class BadgePortrait(_Strict):
+    """v5.15.0 인물 초상(가이드 23 §10) — R 단위. alpha_thr 는 배치용(정규화 알파 > 40 과 별개)."""
+
+    width: float = Field(gt=0)
+    alpha_top: float = Field(gt=0, lt=1)
+    alpha_thr: int = Field(ge=0, le=255)
+    shadow_alpha: float = Field(ge=0, le=1)
+    shadow_dy: float = Field(ge=0)
+
+
+class BadgeFlagWave(_Strict):
+    """v5.15.0 인물 뒤 국기 물결 — 띠 수는 장치 폭 기반, 하한·상한."""
+
+    cx: float
+    cy: float
+    width: float = Field(gt=0)
+    alpha: float = Field(gt=0, le=1)
+    strip_px: float = Field(gt=0)
+    strips_min: int = Field(ge=1)
+    strips_max: int = Field(ge=1)
+    speed: float
+    phase_span: float
+    amp: float = Field(ge=0, lt=0.1)
+    shade_alpha: float = Field(ge=0, le=1)
+    shade_phase: float
+
+    @model_validator(mode="after")
+    def _strips(self) -> "BadgeFlagWave":
+        if self.strips_min > self.strips_max:
+            raise ValueError(f"flag_wave strips_min {self.strips_min} > strips_max {self.strips_max}")
+        return self
+
+
+class BadgeRing(_Strict):
+    outer_w: float = Field(gt=0)
+    inner_w: float = Field(gt=0)
+    outer_rgb: RGB
+    inner_alpha: float = Field(ge=0, le=1)
+
+
 class BadgeLayout(_Strict):
     R_person_solo: float
     R_person_group: Range2
@@ -526,7 +566,9 @@ class BadgeLayout(_Strict):
     reserve_bottom_px: float
     popin_sec: float
     head_popout: bool = True          # v5.5.0 — False = 초상 머리를 원 안에만(정수리가 원 밖으로 나오지 않음)
-    head_inside_max: float = Field(default=0.9, gt=0, le=1)   # v5.5.0 — 정수리 최고 높이(중심에서 R 단위). 넘으면 초상을 내린다
+    portrait: BadgePortrait           # v5.15.0 D-0153 §5 — 인물 초상 배치(head_inside_max 대체)
+    flag_wave: BadgeFlagWave          # v5.15.0 — 인물 뒤 국기 물결
+    ring: BadgeRing                   # v5.15.0 — 인물 뱃지 링
 
 
 class TimelineGaps(_Strict):
