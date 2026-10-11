@@ -1,0 +1,2044 @@
+{
+ "schema_version": 1,
+ "engine": "engine",
+ "repo_version": "5.22.4",
+ "rules_version": "2.0.0",
+ "rules_hash": "a26b329854e5ebc45cc34514fb608ec9a6226b44",
+ "prompts": {
+  "director": "71aab4375bb0dc36c6b10433fa2499c4d3a6e277"
+ },
+ "voice": "supertonic-3 M3 ×0.95",
+ "word_anchor": "aligned",
+ "word_anchors": [
+  {
+   "sid": "open_0",
+   "word": "파키스탄군",
+   "mode": "aligned",
+   "t": 2.135,
+   "alignment_source": "mms_forced_alignment"
+  },
+  {
+   "sid": "pact_origin_2",
+   "word": "메카",
+   "mode": "aligned",
+   "t": 33.693,
+   "alignment_source": "mms_forced_alignment"
+  },
+  {
+   "sid": "pact_origin_1",
+   "word": "사우디아라비아",
+   "mode": "aligned",
+   "t": 23.798,
+   "alignment_source": "mms_forced_alignment"
+  },
+  {
+   "sid": "pact_origin_1",
+   "word": "사우디아라비아",
+   "mode": "aligned",
+   "t": 23.798,
+   "alignment_source": "mms_forced_alignment"
+  },
+  {
+   "sid": "pact_origin_1",
+   "word": "파키스탄",
+   "mode": "aligned",
+   "t": 24.821,
+   "alignment_source": "mms_forced_alignment"
+  },
+  {
+   "sid": "pact_origin_1",
+   "word": "파키스탄",
+   "mode": "aligned",
+   "t": 24.821,
+   "alignment_source": "mms_forced_alignment"
+  },
+  {
+   "sid": "pact_origin_2",
+   "word": "튀르키예",
+   "mode": "aligned",
+   "t": 32.45,
+   "alignment_source": "mms_forced_alignment"
+  },
+  {
+   "sid": "pact_origin_2",
+   "word": "튀르키예",
+   "mode": "aligned",
+   "t": 32.45,
+   "alignment_source": "mms_forced_alignment"
+  },
+  {
+   "sid": "mecca_attack_0",
+   "word": "바브엘만데브",
+   "mode": "aligned",
+   "t": 62.588,
+   "alignment_source": "mms_forced_alignment"
+  },
+  {
+   "sid": "invocation_0",
+   "word": "리야드",
+   "mode": "aligned",
+   "t": 82.946,
+   "alignment_source": "mms_forced_alignment"
+  },
+  {
+   "sid": "invocation_1",
+   "word": "발동",
+   "mode": "aligned",
+   "t": 88.064,
+   "alignment_source": "mms_forced_alignment"
+  },
+  {
+   "sid": "invocation_5",
+   "word": "튀르키예",
+   "mode": "aligned",
+   "t": 106.448,
+   "alignment_source": "mms_forced_alignment"
+  },
+  {
+   "sid": "troop_numbers_7",
+   "word": "아덴",
+   "mode": "aligned",
+   "t": 180.443,
+   "alignment_source": "mms_forced_alignment"
+  },
+  {
+   "sid": "yemen_front_0",
+   "word": "정부군",
+   "mode": "aligned",
+   "t": 195.661,
+   "alignment_source": "mms_forced_alignment"
+  },
+  {
+   "sid": "yemen_front_1",
+   "word": "모카",
+   "mode": "aligned",
+   "t": 201.421,
+   "alignment_source": "mms_forced_alignment"
+  },
+  {
+   "sid": "yemen_front_1",
+   "word": "모카",
+   "mode": "aligned",
+   "t": 201.421,
+   "alignment_source": "mms_forced_alignment"
+  },
+  {
+   "sid": "riyadh_airport_0",
+   "word": "탄도미사일",
+   "mode": "aligned",
+   "t": 210.455,
+   "alignment_source": "mms_forced_alignment"
+  },
+  {
+   "sid": "riyadh_airport_0",
+   "word": "킹칼리드",
+   "mode": "aligned",
+   "t": 211.797,
+   "alignment_source": "mms_forced_alignment"
+  },
+  {
+   "sid": "riyadh_airport_0",
+   "word": "탄도미사일",
+   "mode": "aligned",
+   "t": 210.455,
+   "alignment_source": "mms_forced_alignment"
+  },
+  {
+   "sid": "briefing_2",
+   "word": "탄도미사일",
+   "mode": "aligned",
+   "t": 303.657,
+   "alignment_source": "mms_forced_alignment"
+  },
+  {
+   "sid": "briefing_0",
+   "word": "튀르키예",
+   "mode": "aligned",
+   "t": 289.806,
+   "alignment_source": "mms_forced_alignment"
+  },
+  {
+   "sid": "briefing_0",
+   "word": "튀르키예",
+   "mode": "aligned",
+   "t": 289.806,
+   "alignment_source": "mms_forced_alignment"
+  },
+  {
+   "sid": "briefing_1",
+   "word": "이틀",
+   "mode": "aligned",
+   "t": 295.787,
+   "alignment_source": "mms_forced_alignment"
+  },
+  {
+   "sid": "briefing_2",
+   "word": "리야드",
+   "mode": "aligned",
+   "t": 302.755,
+   "alignment_source": "mms_forced_alignment"
+  },
+  {
+   "sid": "briefing_2",
+   "word": "탄도미사일",
+   "mode": "aligned",
+   "t": 303.657,
+   "alignment_source": "mms_forced_alignment"
+  },
+  {
+   "sid": "briefing_2",
+   "word": "리야드",
+   "mode": "aligned",
+   "t": 302.755,
+   "alignment_source": "mms_forced_alignment"
+  }
+ ],
+ "tts": {
+  "resynthesized": []
+ },
+ "total_sec": 325.242,
+ "sentences": 48,
+ "stages": {
+  "plan": true,
+  "geo": true,
+  "preview": true,
+  "render": false,
+  "mix": false,
+  "mux": false,
+  "ai_direction": true,
+  "visual_qa": true,
+  "bundle": false
+ },
+ "features_used": {
+  "camera_keys": 11,
+  "camera_moves": 10,
+  "camera_cuts": 1,
+  "dips": 0,
+  "dips_under": 0,
+  "badges": 15,
+  "badge_kinds": {
+   "flag": 14,
+   "person": 1
+  },
+  "panels": [],
+  "cards": 13,
+  "media": {
+   "clip": 0,
+   "photo": 5,
+   "cutout": 0,
+   "article": 9
+  },
+  "event_types": {
+   "article": 9,
+   "badge": 15,
+   "boom": 2,
+   "card": 13,
+   "cascade": 3,
+   "country": 11,
+   "marker": 14,
+   "photo": 5,
+   "quote": 1,
+   "route": 15
+  },
+  "label_lod": true,
+  "vignette": false,
+  "at_word": {
+   "aligned": 26,
+   "ratio": 0
+  },
+  "alignment": {
+   "sources": {
+    "mms_forced_alignment": 48
+   },
+   "score_mean_min": 0.6457,
+   "elapsed_ms_total": 320673
+  },
+  "prosody": {
+   "final_fall": {
+    "applied_n": 47,
+    "skipped_n": 1
+   }
+  }
+ },
+ "qa": {
+  "auto_iterations": 10,
+  "user_approved": false,
+  "reviewer": "fable (back_and_forth)",
+  "visual_qa": [
+   "revise",
+   "revise",
+   "revise",
+   "revise",
+   "revise",
+   "revise",
+   "revise"
+  ]
+ },
+ "drops": [],
+ "assets": {
+  "images_used": [
+   "flag11:ir",
+   "flag11:pk",
+   "flag11:sa",
+   "flag11:tr",
+   "flag11:ye",
+   "flag43:us",
+   "media:hormuz_transit_720.jpg",
+   "media:kkia_dod_720.jpg",
+   "media:pk_jf17_720.jpg",
+   "media:pk_soldiers_dvids_720.jpg",
+   "media:press_gulf_pact_2026_art_0005.jpg",
+   "media:riyadh_skyline_720.jpg",
+   "portrait:trump"
+  ],
+  "emblems": {
+   "used": [],
+   "flag_fallback": {}
+  },
+  "badges": {
+   "suggested": [
+    "ir",
+    "kr",
+    "pk",
+    "sa",
+    "tr",
+    "trump",
+    "us",
+    "ye"
+   ],
+   "used": [
+    "ir",
+    "pk",
+    "sa",
+    "tr",
+    "trump",
+    "ye"
+   ],
+   "suggested_and_used": [
+    "ir",
+    "pk",
+    "sa",
+    "tr",
+    "trump",
+    "ye"
+   ],
+   "suggestions": 48
+  }
+ },
+ "panels": {
+  "used": []
+ },
+ "credits": {
+  "card": {
+   "flags": 1,
+   "map": 2,
+   "media": 15,
+   "music": 1,
+   "narration": 1,
+   "people": 1
+  },
+  "description_only": {
+   "fonts": 4
+  }
+ },
+ "rights": {
+  "exceptions": [
+   {
+    "ref": "media.gulf_pact_2026_art_0005_press",
+    "rights_status": "restricted",
+    "user_exception": "U20261011",
+    "exception": "사용자 결정 D172(2026-10-11) — 보도 인용(저작권법 §28 취지), 개인 프로젝트, 공개 배포 전 재확인",
+    "license": "통신사 저작물 — 인용(Reuters)"
+   }
+  ]
+ },
+ "reserved": {
+  "avoidance": [
+   {
+    "badge": "파키스탄",
+    "t0": 24.82,
+    "t1": 60.89,
+    "strategy": [
+     "hold"
+    ],
+    "direction": [
+     "down"
+    ],
+    "max_px": 24.7,
+    "zones": [
+     "card"
+    ],
+    "frames": 865
+   },
+   {
+    "badge": "튀르키예",
+    "t0": 32.42,
+    "t1": 43.21,
+    "strategy": [
+     "push"
+    ],
+    "direction": [
+     "down"
+    ],
+    "max_px": 144.4,
+    "zones": [
+     "cascade:사우디·파키스탄 방위협정"
+    ],
+    "frames": 260
+   },
+   {
+    "badge": "예멘 정부군",
+    "t0": 195.66,
+    "t1": 209.01,
+    "strategy": [
+     "hold"
+    ],
+    "direction": [
+     "down"
+    ],
+    "max_px": 69.5,
+    "zones": [
+     "card"
+    ],
+    "frames": 320
+   },
+   {
+    "badge": "튀르키예",
+    "t0": 293.88,
+    "t1": 299.0,
+    "strategy": [
+     "push"
+    ],
+    "direction": [
+     "down"
+    ],
+    "max_px": 133.0,
+    "zones": [
+     "cascade:메카 협정 발동"
+    ],
+    "frames": 124
+   }
+  ]
+ },
+ "audio": {
+  "bgm": [
+   "music.zabriskie_patriarch"
+  ],
+  "bed_gain": 0.43,
+  "crossfades": 0
+ },
+ "end_card": {
+  "version_stamp": "v5.22.4",
+  "roll_px": 273.0,
+  "roll_px_per_sec": 42.0
+ },
+ "render": {
+  "resolution": {
+   "profile": "480p",
+   "width": 854,
+   "height": 480,
+   "fps": 24,
+   "k": 1.0,
+   "pad_x": 0.0,
+   "crf": 19,
+   "preset": "faster"
+  }
+ },
+ "badge": {
+  "R_ignored": [],
+  "head_top": [
+   {
+    "pid": "trump",
+    "head_top": 1.0276,
+    "md5": "f2cd16bd229947837c8db5f19c401459"
+   }
+  ]
+ },
+ "geo": {
+  "unsourced": [
+   {
+    "kind": "place",
+    "name": "sa_center",
+    "lonlat": [
+     45.0,
+     23.8
+    ]
+   },
+   {
+    "kind": "place",
+    "name": "kkia",
+    "lonlat": [
+     46.7,
+     24.96
+    ]
+   },
+   {
+    "kind": "place",
+    "name": "bab_el_mandeb",
+    "lonlat": [
+     43.33,
+     12.58
+    ]
+   },
+   {
+    "kind": "place",
+    "name": "mokha",
+    "lonlat": [
+     43.25,
+     13.32
+    ]
+   },
+   {
+    "kind": "path",
+    "name": "pk_aden",
+    "points": 5,
+    "ends": [
+     [
+      66.0,
+      27.8
+     ],
+     [
+      45.03,
+      12.78
+     ]
+    ]
+   },
+   {
+    "kind": "path",
+    "name": "gov_bab_mokha",
+    "points": 5,
+    "ends": [
+     [
+      45.03,
+      12.78
+     ],
+     [
+      43.25,
+      13.3
+     ]
+    ]
+   },
+   {
+    "kind": "path",
+    "name": "gov_taiz",
+    "points": 4,
+    "ends": [
+     [
+      45.03,
+      12.78
+     ],
+     [
+      44.16,
+      13.5
+     ]
+    ]
+   },
+   {
+    "kind": "path",
+    "name": "houthi_mecca",
+    "points": 4,
+    "ends": [
+     [
+      44.2,
+      15.36
+     ],
+     [
+      39.83,
+      21.42
+     ]
+    ]
+   },
+   {
+    "kind": "path",
+    "name": "houthi_kkia",
+    "points": 4,
+    "ends": [
+     [
+      44.2,
+      15.36
+     ],
+     [
+      46.7,
+      24.96
+     ]
+    ]
+   },
+   {
+    "kind": "path",
+    "name": "pk_sa",
+    "points": 5,
+    "ends": [
+     [
+      66.0,
+      27.8
+     ],
+     [
+      45.0,
+      23.8
+     ]
+    ]
+   },
+   {
+    "kind": "path",
+    "name": "tr_sa",
+    "points": 4,
+    "ends": [
+     [
+      36.0,
+      38.3
+     ],
+     [
+      45.0,
+      23.8
+     ]
+    ]
+   },
+   {
+    "kind": "path",
+    "name": "oil",
+    "points": 6,
+    "ends": [
+     [
+      50.6,
+      27.0
+     ],
+     [
+      63.0,
+      22.5
+     ]
+    ]
+   }
+  ],
+  "matched": [
+   {
+    "kind": "place",
+    "name": "taiz",
+    "lonlat": [
+     44.04,
+     13.61
+    ],
+    "gazetteer": "taizz_yem",
+    "km": 0.5,
+    "tol_km": 25.0
+   },
+   {
+    "kind": "place",
+    "name": "sanaa",
+    "lonlat": [
+     44.2,
+     15.36
+    ],
+    "gazetteer": "sanaa_yem",
+    "km": 0.6,
+    "tol_km": 25.0
+   },
+   {
+    "kind": "place",
+    "name": "riyadh",
+    "lonlat": [
+     46.72,
+     24.71
+    ],
+    "gazetteer": "riyadh_sau",
+    "km": 8.4,
+    "tol_km": 25.0
+   },
+   {
+    "kind": "place",
+    "name": "mecca",
+    "lonlat": [
+     39.83,
+     21.42
+    ],
+    "gazetteer": "makkah_sau",
+    "km": 1.8,
+    "tol_km": 25.0
+   },
+   {
+    "kind": "place",
+    "name": "aden",
+    "lonlat": [
+     45.03,
+     12.78
+    ],
+    "gazetteer": "aden_yem",
+    "km": 2.2,
+    "tol_km": 25.0
+   },
+   {
+    "kind": "place",
+    "name": "hormuz",
+    "lonlat": [
+     56.45,
+     26.55
+    ],
+    "gazetteer": "strait_of_hormuz",
+    "km": 7.5,
+    "tol_km": 40.0
+   }
+  ],
+  "mismatch": []
+ },
+ "cascade": {
+  "status": "adopted",
+  "events": 3,
+  "items": 9,
+  "hidden_labels": [
+   {
+    "name": "쿠웨이트 시",
+    "kind": "city",
+    "how": "회피",
+    "t": 19.82
+   },
+   {
+    "name": "아바즈",
+    "kind": "city",
+    "how": "회피",
+    "t": 19.82
+   },
+   {
+    "name": "바스라",
+    "kind": "city",
+    "how": "회피",
+    "t": 19.82
+   },
+   {
+    "name": "나자프",
+    "kind": "city",
+    "how": "회피",
+    "t": 19.82
+   },
+   {
+    "name": "이라크",
+    "kind": "country",
+    "how": "회피",
+    "t": 28.82
+   },
+   {
+    "name": "바그다드",
+    "kind": "city",
+    "how": "회피",
+    "t": 28.92
+   },
+   {
+    "name": "다마스쿠스",
+    "kind": "city",
+    "how": "회피",
+    "t": 29.12
+   },
+   {
+    "name": "암만",
+    "kind": "city",
+    "how": "회피",
+    "t": 29.12
+   },
+   {
+    "name": "이스라엘",
+    "kind": "country",
+    "how": "회피",
+    "t": 29.22
+   },
+   {
+    "name": "텔아비브",
+    "kind": "city",
+    "how": "회피",
+    "t": 29.22
+   },
+   {
+    "name": "지중해",
+    "kind": "sea",
+    "how": "깔림",
+    "t": 29.42
+   },
+   {
+    "name": "데켈리아 지역",
+    "kind": "country",
+    "how": "회피",
+    "t": 29.42
+   },
+   {
+    "name": "시리아",
+    "kind": "country",
+    "how": "회피",
+    "t": 29.42
+   },
+   {
+    "name": "알렉산드리아",
+    "kind": "city",
+    "how": "회피",
+    "t": 29.52
+   },
+   {
+    "name": "알레포",
+    "kind": "city",
+    "how": "회피",
+    "t": 29.62
+   },
+   {
+    "name": "튀르키예",
+    "kind": "country",
+    "how": "회피",
+    "t": 30.42
+   },
+   {
+    "name": "카이로",
+    "kind": "city",
+    "how": "회피",
+    "t": 133.41
+   },
+   {
+    "name": "아크로티리",
+    "kind": "country",
+    "how": "회피",
+    "t": 133.61
+   },
+   {
+    "name": "이집트",
+    "kind": "country",
+    "how": "회피",
+    "t": 134.01
+   },
+   {
+    "name": "요르단",
+    "kind": "country",
+    "how": "회피",
+    "t": 134.31
+   },
+   {
+    "name": "사우디아라비아",
+    "kind": "country",
+    "how": "회피",
+    "t": 140.51
+   },
+   {
+    "name": "타부크",
+    "kind": "city",
+    "how": "회피",
+    "t": 300.72
+   },
+   {
+    "name": "메디나",
+    "kind": "city",
+    "how": "회피",
+    "t": 300.92
+   },
+   {
+    "name": "아시우트",
+    "kind": "city",
+    "how": "회피",
+    "t": 301.22
+   }
+  ]
+ },
+ "quote": {
+  "status": "adopted",
+  "count": 1,
+  "speakers": [
+   "사우디 주도 연합군"
+  ]
+ },
+ "border_glow": {
+  "status": "adopted",
+  "on": true
+ },
+ "article": [
+  {
+   "mid": "gulf_pact_2026_art_0001",
+   "t0": 8.72,
+   "press": "none",
+   "theme": "dark",
+   "headline": "original"
+  },
+  {
+   "mid": "gulf_pact_2026_art_0003",
+   "t0": 51.83,
+   "press": "none",
+   "theme": "dark",
+   "headline": "original"
+  },
+  {
+   "mid": "gulf_pact_2026_art_0022",
+   "t0": 66.57,
+   "press": "none",
+   "theme": "dark",
+   "headline": "original"
+  },
+  {
+   "mid": "gulf_pact_2026_art_0014",
+   "t0": 112.01,
+   "press": "none",
+   "theme": "dark",
+   "headline": "original"
+  },
+  {
+   "mid": "gulf_pact_2026_art_0006",
+   "t0": 140.42,
+   "press": "none",
+   "theme": "dark",
+   "headline": "original"
+  },
+  {
+   "mid": "gulf_pact_2026_art_0016",
+   "t0": 158.42,
+   "press": "none",
+   "theme": "dark",
+   "headline": "original"
+  },
+  {
+   "mid": "gulf_pact_2026_art_0017",
+   "t0": 182.78,
+   "press": "none",
+   "theme": "dark",
+   "headline": "original"
+  },
+  {
+   "mid": "gulf_pact_2026_art_0005",
+   "t0": 221.82,
+   "press": "gulf_pact_2026_art_0005_press",
+   "theme": "dark",
+   "headline": "original",
+   "press_quote": "사진: Reuters via Al Jazeera"
+  },
+  {
+   "mid": "csis_0402_korea",
+   "t0": 258.43,
+   "press": "none",
+   "theme": "dark",
+   "headline": "original"
+  }
+ ],
+ "pacing": {
+  "window_sec": 45.0,
+  "min_changes": 3,
+  "static_windows": [],
+  "creep": null
+ },
+ "animatic": false,
+ "stage": {
+  "name": "mercator",
+  "declared": false,
+  "shots_declared": 0,
+  "instances": {
+   "mercator": 1
+  },
+  "configs": {
+   "mercator": {
+    "theme": "light"
+   }
+  }
+ },
+ "map_contrast_fix": {
+  "labels": {
+   "무스카트": 4.06,
+   "발사 지점 미공개": 4.04,
+   "후티 장악": 3.45
+  }
+ },
+ "map_theme": {
+  "effective": "light",
+  "source": "genre",
+  "declared": false,
+  "reason": null,
+  "series": null
+ },
+ "genre": {
+  "name": "geopolitics",
+  "declared": false,
+  "status": "approved"
+ },
+ "order": {
+  "topic": "파키스탄군의 사우디 주둔 공식 확인(2026-10-07 ISPR)과 사우디·튀르키예·파키스탄 메카 공동방위협정의 첫 발동(2026-10-05~06), 후티의 사우디 공항 공격과 이란 전쟁 속 걸프 에너지 안보, 그리고 한국",
+  "genre": "geopolitics",
+  "decisions": {
+   "topic": {
+    "value": "파키스탄군 사우디 주둔·메카 집단방위",
+    "by": "user",
+    "ref": "사용자 결정 D156(2026-10-10)"
+   },
+   "map_theme": {
+    "value": "light(장르 지정학 기본값)",
+    "by": "user",
+    "ref": "사용자 결정 D154·D156"
+   },
+   "resolution": {
+    "value": "720p",
+    "by": "user",
+    "ref": "사용자 결정 2026-10-04 \"기준 해상도는 720p야\""
+   }
+  }
+ },
+ "camera": {
+  "suggest_ran": true,
+  "suggested": 11,
+  "used": 0,
+  "given_to_director": false,
+  "from_current_direction": true,
+  "fits": 10,
+  "current_fits_false": 1
+ },
+ "lint_warnings": [
+  "[media-density-total] 과소 — 5개 / 325초 = 65.0초당 1개 > 60초 (14 §10.1, ['article'] 제외)",
+  "[media-kind-repeat] 이웃 장면 reactions→mecca_attack 같은 형태 ['article'] (14 §10.1)",
+  "[media-kind-repeat] 이웃 장면 roles→troop_numbers 같은 형태 ['article'] (14 §10.1)",
+  "[media-kind-repeat] 이웃 장면 riyadh_airport→korea 같은 형태 ['article', 'photo'] (14 §10.1)"
+ ],
+ "media": {
+  "suggested": [
+   {
+    "sid": "open_1",
+    "scene": "open",
+    "kind": "article",
+    "trigger": "확인했",
+    "at": 7.52,
+    "source": "trigger",
+    "asset_id": null
+   },
+   {
+    "sid": "pact_origin_3",
+    "scene": "pact_origin",
+    "kind": "article",
+    "trigger": "밝혔",
+    "at": 36.2,
+    "source": "trigger",
+    "asset_id": null
+   },
+   {
+    "sid": "mecca_attack_1",
+    "scene": "mecca_attack",
+    "kind": "cutout",
+    "trigger": "드론",
+    "at": 66.27,
+    "source": "trigger",
+    "asset_id": null
+   },
+   {
+    "sid": "invocation_2",
+    "scene": "invocation",
+    "kind": "article",
+    "trigger": "보도했",
+    "at": 89.83,
+    "source": "trigger",
+    "asset_id": null
+   },
+   {
+    "sid": "invocation_4",
+    "scene": "invocation",
+    "kind": "article",
+    "trigger": "밝혔",
+    "at": 99.33,
+    "source": "trigger",
+    "asset_id": null
+   },
+   {
+    "sid": "invocation_5",
+    "scene": "invocation",
+    "kind": "article",
+    "trigger": "보도했",
+    "at": 105.56,
+    "source": "trigger",
+    "asset_id": null
+   },
+   {
+    "sid": "roles_0",
+    "scene": "roles",
+    "kind": "article",
+    "trigger": "밝혔",
+    "at": 111.71,
+    "source": "trigger",
+    "asset_id": null
+   },
+   {
+    "sid": "roles_1",
+    "scene": "roles",
+    "kind": "article",
+    "trigger": "에 따르면",
+    "at": 120.26,
+    "source": "trigger",
+    "asset_id": null
+   },
+   {
+    "sid": "roles_2",
+    "scene": "roles",
+    "kind": "article",
+    "trigger": "에 따르면",
+    "at": 127.28,
+    "source": "trigger",
+    "asset_id": null
+   },
+   {
+    "sid": "troop_numbers_0",
+    "scene": "troop_numbers",
+    "kind": "article",
+    "trigger": "보도했",
+    "at": 132.81,
+    "source": "trigger",
+    "asset_id": null
+   },
+   {
+    "sid": "troop_numbers_1",
+    "scene": "troop_numbers",
+    "kind": "article",
+    "trigger": "보도했",
+    "at": 140.12,
+    "source": "trigger",
+    "asset_id": null
+   },
+   {
+    "sid": "troop_numbers_2",
+    "scene": "troop_numbers",
+    "kind": "article",
+    "trigger": "전했",
+    "at": 146.63,
+    "source": "trigger",
+    "asset_id": null
+   },
+   {
+    "sid": "troop_numbers_3",
+    "scene": "troop_numbers",
+    "kind": "article",
+    "trigger": "밝혔",
+    "at": 153.95,
+    "source": "trigger",
+    "asset_id": null
+   },
+   {
+    "sid": "troop_numbers_5",
+    "scene": "troop_numbers",
+    "kind": "article",
+    "trigger": "밝혔",
+    "at": 164.61,
+    "source": "trigger",
+    "asset_id": null
+   },
+   {
+    "sid": "troop_numbers_7",
+    "scene": "troop_numbers",
+    "kind": "article",
+    "trigger": "보도했",
+    "at": 175.43,
+    "source": "trigger",
+    "asset_id": null
+   },
+   {
+    "sid": "troop_numbers_8",
+    "scene": "troop_numbers",
+    "kind": "article",
+    "trigger": "에 따르면",
+    "at": 182.48,
+    "source": "trigger",
+    "asset_id": null
+   },
+   {
+    "sid": "riyadh_airport_0",
+    "scene": "riyadh_airport",
+    "kind": "article",
+    "trigger": "밝혔",
+    "at": 209.36,
+    "source": "trigger",
+    "asset_id": null
+   },
+   {
+    "sid": "riyadh_airport_1",
+    "scene": "riyadh_airport",
+    "kind": "article",
+    "trigger": "밝혔",
+    "at": 214.92,
+    "source": "trigger",
+    "asset_id": null
+   },
+   {
+    "sid": "riyadh_airport_2",
+    "scene": "riyadh_airport",
+    "kind": "article",
+    "trigger": "보도했",
+    "at": 221.52,
+    "source": "trigger",
+    "asset_id": null
+   },
+   {
+    "sid": "riyadh_airport_3",
+    "scene": "riyadh_airport",
+    "kind": "article",
+    "trigger": "밝혔",
+    "at": 226.67,
+    "source": "trigger",
+    "asset_id": null
+   },
+   {
+    "sid": "riyadh_airport_4",
+    "scene": "riyadh_airport",
+    "kind": "article",
+    "trigger": "밝혔",
+    "at": 230.6,
+    "source": "trigger",
+    "asset_id": null
+   },
+   {
+    "sid": "riyadh_airport_5",
+    "scene": "riyadh_airport",
+    "kind": "article",
+    "trigger": "보도했",
+    "at": 235.05,
+    "source": "trigger",
+    "asset_id": null
+   },
+   {
+    "sid": "riyadh_airport_6",
+    "scene": "riyadh_airport",
+    "kind": "article",
+    "trigger": "밝혔",
+    "at": 239.99,
+    "source": "trigger",
+    "asset_id": null
+   },
+   {
+    "sid": "riyadh_airport_7",
+    "scene": "riyadh_airport",
+    "kind": "article",
+    "trigger": "에 따르면",
+    "at": 244.91,
+    "source": "trigger",
+    "asset_id": null
+   },
+   {
+    "sid": "riyadh_airport_8",
+    "scene": "riyadh_airport",
+    "kind": "article",
+    "trigger": "보도했",
+    "at": 250.13,
+    "source": "trigger",
+    "asset_id": null
+   },
+   {
+    "sid": "korea_0",
+    "scene": "korea",
+    "kind": "article",
+    "trigger": "밝혔",
+    "at": 257.83,
+    "source": "trigger",
+    "asset_id": null
+   },
+   {
+    "sid": "korea_1",
+    "scene": "korea",
+    "kind": "article",
+    "trigger": "밝혔",
+    "at": 267.45,
+    "source": "trigger",
+    "asset_id": null
+   },
+   {
+    "sid": "korea_2",
+    "scene": "korea",
+    "kind": "article",
+    "trigger": "밝혔",
+    "at": 277.25,
+    "source": "trigger",
+    "asset_id": null
+   },
+   {
+    "sid": "briefing_1",
+    "scene": "briefing",
+    "kind": "article",
+    "trigger": "확인했",
+    "at": 293.52,
+    "source": "trigger",
+    "asset_id": null
+   },
+   {
+    "sid": "briefing_2",
+    "scene": "briefing",
+    "kind": "article",
+    "trigger": "밝혔",
+    "at": 299.43,
+    "source": "trigger",
+    "asset_id": null
+   },
+   {
+    "sid": "briefing_3",
+    "scene": "briefing",
+    "kind": "cutout",
+    "trigger": "미사일",
+    "at": 306.25,
+    "source": "trigger",
+    "asset_id": null
+   }
+  ],
+  "used": [
+   {
+    "mid": "gulf_pact_2026_art_0001",
+    "kind": "article",
+    "t0": 8.72
+   },
+   {
+    "mid": "gulf_pk_soldiers",
+    "kind": "photo",
+    "t0": 44.46
+   },
+   {
+    "mid": "gulf_pact_2026_art_0003",
+    "kind": "article",
+    "t0": 51.83
+   },
+   {
+    "mid": "gulf_pact_2026_art_0022",
+    "kind": "article",
+    "t0": 66.57
+   },
+   {
+    "mid": "gulf_riyadh_skyline",
+    "kind": "photo",
+    "t0": 80.58
+   },
+   {
+    "mid": "gulf_pact_2026_art_0014",
+    "kind": "article",
+    "t0": 112.01
+   },
+   {
+    "mid": "gulf_pk_jf17",
+    "kind": "photo",
+    "t0": 133.61
+   },
+   {
+    "mid": "gulf_pact_2026_art_0006",
+    "kind": "article",
+    "t0": 140.42
+   },
+   {
+    "mid": "gulf_pact_2026_art_0016",
+    "kind": "article",
+    "t0": 158.42
+   },
+   {
+    "mid": "gulf_pact_2026_art_0017",
+    "kind": "article",
+    "t0": 182.78
+   },
+   {
+    "mid": "gulf_kkia_aerial",
+    "kind": "photo",
+    "t0": 213.22
+   },
+   {
+    "mid": "gulf_pact_2026_art_0005",
+    "kind": "article",
+    "t0": 221.82
+   },
+   {
+    "mid": "csis_0402_korea",
+    "kind": "article",
+    "t0": 258.43
+   },
+   {
+    "mid": "hormuz_transit",
+    "kind": "photo",
+    "t0": 268.65
+   }
+  ],
+  "suggested_and_used": [
+   "korea:article",
+   "open:article",
+   "riyadh_airport:article",
+   "roles:article",
+   "troop_numbers:article"
+  ],
+  "density": {
+   "schema_version": 1,
+   "total_sec": 325.242,
+   "items": [
+    {
+     "mid": "gulf_pact_2026_art_0001",
+     "kind": "article",
+     "t0": 8.72,
+     "t1": 13.42,
+     "scene": "open"
+    },
+    {
+     "mid": "gulf_pk_soldiers",
+     "kind": "photo",
+     "t0": 44.46,
+     "t1": 51.38,
+     "scene": "pact_origin"
+    },
+    {
+     "mid": "gulf_pact_2026_art_0003",
+     "kind": "article",
+     "t0": 51.83,
+     "t1": 60.34,
+     "scene": "reactions"
+    },
+    {
+     "mid": "gulf_pact_2026_art_0022",
+     "kind": "article",
+     "t0": 66.57,
+     "t1": 72.87,
+     "scene": "mecca_attack"
+    },
+    {
+     "mid": "gulf_riyadh_skyline",
+     "kind": "photo",
+     "t0": 80.58,
+     "t1": 89.63,
+     "scene": "invocation"
+    },
+    {
+     "mid": "gulf_pact_2026_art_0014",
+     "kind": "article",
+     "t0": 112.01,
+     "t1": 120.16,
+     "scene": "roles"
+    },
+    {
+     "mid": "gulf_pk_jf17",
+     "kind": "photo",
+     "t0": 133.61,
+     "t1": 140.02,
+     "scene": "troop_numbers"
+    },
+    {
+     "mid": "gulf_pact_2026_art_0006",
+     "kind": "article",
+     "t0": 140.42,
+     "t1": 146.63,
+     "scene": "troop_numbers"
+    },
+    {
+     "mid": "gulf_pact_2026_art_0016",
+     "kind": "article",
+     "t0": 158.42,
+     "t1": 164.61,
+     "scene": "troop_numbers"
+    },
+    {
+     "mid": "gulf_pact_2026_art_0017",
+     "kind": "article",
+     "t0": 182.78,
+     "t1": 191.71,
+     "scene": "troop_numbers"
+    },
+    {
+     "mid": "gulf_kkia_aerial",
+     "kind": "photo",
+     "t0": 213.22,
+     "t1": 221.32,
+     "scene": "riyadh_airport"
+    },
+    {
+     "mid": "gulf_pact_2026_art_0005",
+     "kind": "article",
+     "t0": 221.82,
+     "t1": 226.67,
+     "scene": "riyadh_airport"
+    },
+    {
+     "mid": "csis_0402_korea",
+     "kind": "article",
+     "t0": 258.43,
+     "t1": 267.45,
+     "scene": "korea"
+    },
+    {
+     "mid": "hormuz_transit",
+     "kind": "photo",
+     "t0": 268.65,
+     "t1": 277.05,
+     "scene": "korea"
+    }
+   ],
+   "count": 14,
+   "beat_count": 5,
+   "sec_per_item": 65.0,
+   "target_sec_per_item": [
+    40.0,
+    60.0
+   ],
+   "window": {
+    "window_sec": 40.0,
+    "window_max": 2,
+    "exempt": [
+     "article"
+    ],
+    "max": {
+     "t0": 44.46,
+     "count": 2,
+     "mids": [
+      "gulf_pk_soldiers",
+      "gulf_riyadh_skyline"
+     ]
+    }
+   },
+   "per_scene": {
+    "pact_origin": [
+     "gulf_pk_soldiers"
+    ],
+    "invocation": [
+     "gulf_riyadh_skyline"
+    ],
+    "troop_numbers": [
+     "gulf_pk_jf17"
+    ],
+    "riyadh_airport": [
+     "gulf_kkia_aerial"
+    ],
+    "korea": [
+     "hormuz_transit"
+    ]
+   },
+   "warnings": [
+    "[media-density-total] 과소 — 5개 / 325초 = 65.0초당 1개 > 60초 (14 §10.1, ['article'] 제외)",
+    "[media-kind-repeat] 이웃 장면 reactions→mecca_attack 같은 형태 ['article'] (14 §10.1)",
+    "[media-kind-repeat] 이웃 장면 roles→troop_numbers 같은 형태 ['article'] (14 §10.1)",
+    "[media-kind-repeat] 이웃 장면 riyadh_airport→korea 같은 형태 ['article', 'photo'] (14 §10.1)"
+   ]
+  },
+  "articles": {
+   "schema_version": 1,
+   "candidates": 48,
+   "covered": 9,
+   "used_events": 9,
+   "per_min_max": 2,
+   "unused": [
+    {
+     "sid": "korea_1",
+     "t0": 267.45,
+     "mids": [
+      "gulf_pact_2026_art_0019"
+     ],
+     "reason": "쓰지 않음 — 같은 구간에 CSIS 기사 카드(korea_0, 258초)와 수치 카드 '69.1% → 48.5%'(275초, 출처 줄 산업통상부)가 이어진다. 이투데이 기사 카드를 더하면 카드가 세 번 연속 — 수치 카드가 같은 사실(산업통상부 5월 26일 브리핑)을 이미 보인다"
+    },
+    {
+     "sid": "briefing_3",
+     "t0": 306.25,
+     "mids": [
+      "gulf_pact_2026_art_0002",
+      "gulf_pact_2026_art_0001",
+      "gulf_pact_2026_art_0016",
+      "gulf_pact_2026_art_0014",
+      "gulf_pact_2026_art_0013",
+      "gulf_pact_2026_art_0007",
+      "gulf_pact_2026_art_0017",
+      "gulf_pact_2026_art_0005"
+     ],
+     "reason": "쓰지 않음 — 맺음 문장(같은 주에 겹친 세 사건 요약)이라 앞서 쓴 기사들의 반복이다. 겹침 카드(10.05·10.07·10.08)가 세 사건을 날짜로 다시 모은다"
+    }
+   ],
+   "warnings": []
+  },
+  "placement": {
+   "gulf_pk_soldiers": "slot:map_right_low",
+   "gulf_riyadh_skyline": "slot:map_right_low",
+   "gulf_pk_jf17": "slot:map_right_low",
+   "gulf_kkia_aerial": "slot:map_right_low",
+   "hormuz_transit": "slot:map_right_low"
+  }
+ },
+ "script": {
+  "labels": {
+   "verified": 0,
+   "corroborated": 23,
+   "unverified": 19,
+   "disputed": 6
+  }
+ },
+ "ai_direction": {
+  "origin": "ai+human_edit",
+  "human_edit_revisions": [
+   6,
+   8,
+   10
+  ],
+  "model": "claude-opus-5-5",
+  "prompt_sha1": "71aab4375bb0dc36c6b10433fa2499c4d3a6e277",
+  "direction_versions": 11,
+  "used_version": null,
+  "selected": {
+   "version": 11,
+   "by": "code",
+   "reason": "상한 2회 도달 — checks_hard·qa_hard·qa_soft 사전식 최소 (checks hard 0, 검수 hard 0, soft 4)"
+  },
+  "rounds": [
+   {
+    "version": 0,
+    "checks_hard": 0,
+    "qa_hard": 3,
+    "qa_soft": 4
+   },
+   {
+    "version": 10,
+    "checks_hard": 2,
+    "qa_hard": null,
+    "qa_soft": null
+   },
+   {
+    "version": 11,
+    "checks_hard": 0,
+    "qa_hard": 0,
+    "qa_soft": 4
+   }
+  ],
+  "revisions": [
+   {
+    "direction_version": 2,
+    "changes": 11
+   },
+   {
+    "direction_version": 3,
+    "changes": 9
+   },
+   {
+    "direction_version": 4,
+    "changes": 10
+   },
+   {
+    "direction_version": 5,
+    "changes": 1
+   },
+   {
+    "direction_version": 6,
+    "changes": 9,
+    "base_human_edit": true
+   },
+   {
+    "direction_version": 7,
+    "changes": 3
+   },
+   {
+    "direction_version": 8,
+    "changes": 7,
+    "base_human_edit": true
+   },
+   {
+    "direction_version": 9,
+    "changes": 4
+   },
+   {
+    "direction_version": 10,
+    "changes": 8,
+    "base_human_edit": true
+   },
+   {
+    "direction_version": 11,
+    "changes": 2
+   }
+  ],
+  "visual_qa": [
+   {
+    "file": "qa_verdict.v1.json",
+    "verdict": "revise",
+    "hard": 2,
+    "soft": 8
+   },
+   {
+    "file": "qa_verdict.v2.json",
+    "verdict": "revise",
+    "hard": 1,
+    "soft": 6
+   },
+   {
+    "file": "qa_verdict.v3.json",
+    "verdict": "revise",
+    "hard": 2,
+    "soft": 7
+   },
+   {
+    "file": "qa_verdict.v4.json",
+    "verdict": "revise",
+    "hard": 2,
+    "soft": 5
+   },
+   {
+    "file": "qa_verdict.v5.json",
+    "verdict": "revise",
+    "hard": 1,
+    "soft": 7
+   },
+   {
+    "file": "qa_verdict.v6.json",
+    "verdict": "revise",
+    "hard": 3,
+    "soft": 4
+   },
+   {
+    "file": "qa_verdict.v7.json",
+    "verdict": "revise",
+    "hard": 0,
+    "soft": 4
+   }
+  ]
+ },
+ "preview": {
+  "frames": 24,
+  "times": [
+   6.56,
+   13.71,
+   16.22,
+   28.91,
+   41.58,
+   54.26,
+   58.05,
+   66.52,
+   73.56,
+   88.84,
+   101.71,
+   117.93,
+   126.23,
+   150.7,
+   174.56,
+   197.67,
+   204.15,
+   223.8,
+   243.05,
+   266.51,
+   278.07,
+   298.54,
+   313.8,
+   319.24
+  ],
+  "dir": "prev"
+ },
+ "map_contrast": {
+  "required": {
+   "n": 380,
+   "lowest": [
+    {
+     "ratio": 4.5,
+     "name": "후티 장악",
+     "cut": "t=73.56"
+    },
+    {
+     "ratio": 4.54,
+     "name": "무스카트",
+     "cut": "t=298.54"
+    },
+    {
+     "ratio": 4.6,
+     "name": "무스카트",
+     "cut": "t=13.71"
+    },
+    {
+     "ratio": 4.72,
+     "name": "지다",
+     "cut": "t=223.80"
+    },
+    {
+     "ratio": 4.75,
+     "name": "무스카트",
+     "cut": "t=319.24"
+    }
+   ]
+  },
+  "aux": {
+   "n": 223,
+   "lowest": [
+    {
+     "ratio": 1.25,
+     "name": "아라비아해",
+     "cut": "t=150.70"
+    },
+    {
+     "ratio": 1.25,
+     "name": "아라비아해",
+     "cut": "t=174.56"
+    },
+    {
+     "ratio": 1.26,
+     "name": "아라비아해",
+     "cut": "t=319.24"
+    },
+    {
+     "ratio": 1.28,
+     "name": "아라비아해",
+     "cut": "t=6.56"
+    },
+    {
+     "ratio": 1.28,
+     "name": "오만만",
+     "cut": "t=28.91"
+    }
+   ]
+  },
+  "shape": {
+   "n": 170,
+   "routes": 23,
+   "basis": "컷·경로별 표본 중앙값",
+   "lowest": [
+    {
+     "ratio": 3.39,
+     "name": "한국 원유 수입 70% 경유",
+     "cut": "t=266.51"
+    },
+    {
+     "ratio": 3.41,
+     "name": "한국 원유 수입 70% 경유",
+     "cut": "t=278.07"
+    },
+    {
+     "ratio": 3.9,
+     "name": "gold",
+     "cut": "t=313.80"
+    },
+    {
+     "ratio": 3.96,
+     "name": "상호방위협정 · 2025",
+     "cut": "t=28.91"
+    },
+    {
+     "ratio": 3.96,
+     "name": "상호방위협정 · 2025",
+     "cut": "t=54.26"
+    }
+   ]
+  }
+ },
+ "checks": {
+  "hard": 0,
+  "warnings": 42,
+  "passed": true
+ },
+ "user_feedback_guards": [
+  {
+   "id": "UF-01",
+   "checks": {
+    "card_exposure": 0
+   }
+  },
+  {
+   "id": "UF-02",
+   "checks": {
+    "camera_continuity": 0
+   }
+  },
+  {
+   "id": "UF-03",
+   "checks": {
+    "route_label_cross": 0,
+    "map_contrast": 0
+   }
+  },
+  {
+   "id": "UF-04",
+   "checks": {
+    "route_label_cross": 0,
+    "route_label_overlap": 0,
+    "label_collision": 0
+   }
+  },
+  {
+   "id": "UF-05",
+   "checks": {
+    "article_backdrop": 0
+   }
+  },
+  {
+   "id": "UF-06",
+   "checks": {
+    "quote_in_script": 0
+   }
+  },
+  {
+   "id": "UF-07",
+   "checks": {
+    "route_missing_other": 0,
+    "route_missing": 0
+   }
+  },
+  {
+   "id": "UF-08",
+   "checks": {
+    "battle_geo": 0
+   }
+  },
+  {
+   "id": "UF-09",
+   "checks": {
+    "route_missing": 0
+   }
+  },
+  {
+   "id": "UF-10",
+   "checks": {
+    "portrait_unused": 0,
+    "quote_in_script": 0
+   }
+  },
+  {
+   "id": "UF-11",
+   "checks": {
+    "route_label_cross": 0,
+    "route_label_overlap": 0
+   }
+  },
+  {
+   "id": "UF-12",
+   "checks": {
+    "frame_missing_target": 0,
+    "frame_missing": 0
+   }
+  },
+  {
+   "id": "UF-16",
+   "checks": {
+    "bgm_decision": 0
+   }
+  },
+  {
+   "id": "UF-18",
+   "checks": {
+    "forbidden": 0
+   }
+  },
+  {
+   "id": "UF-19",
+   "checks": {
+    "camera_per_sentence": 0
+   }
+  },
+  {
+   "id": "UF-20",
+   "checks": {
+    "camera_continuity": 0
+   }
+  },
+  {
+   "id": "UF-25",
+   "checks": {
+    "forbidden": 0
+   }
+  },
+  {
+   "id": "UF-27",
+   "checks": {
+    "portrait_unused": 0
+   }
+  },
+  {
+   "id": "UF-30",
+   "checks": {
+    "bgm_decision": 0
+   }
+  },
+  {
+   "id": "UF-31",
+   "checks": {
+    "media_upscaled": 0
+   }
+  },
+  {
+   "id": "UF-32",
+   "checks": {
+    "boundary_as_route": 0
+   }
+  },
+  {
+   "id": "UF-34",
+   "checks": {
+    "offscreen": 0
+   }
+  },
+  {
+   "id": "UF-35",
+   "checks": {
+    "endcard_black": 0
+   }
+  },
+  {
+   "id": "UF-37",
+   "checks": {
+    "glyph_size": 0
+   }
+  },
+  {
+   "id": "UF-39",
+   "checks": {
+    "timeline_rescale": 0
+   }
+  },
+  {
+   "id": "UF-42",
+   "checks": {
+    "stage_choice": 0,
+    "backdrop_main_missing": 0
+   }
+  },
+  {
+   "id": "UF-45",
+   "checks": {
+    "backdrop_main_missing": 0
+   }
+  },
+  {
+   "id": "UF-46",
+   "checks": {
+    "cascade": 0
+   }
+  },
+  {
+   "id": "UF-54",
+   "checks": {
+    "subtitle_overlap": 0
+   }
+  },
+  {
+   "id": "UF-63",
+   "checks": {
+    "label_collision": 0
+   }
+  },
+  {
+   "id": "UF-72",
+   "checks": {
+    "timeline_span": 0
+   }
+  },
+  {
+   "id": "UF-73",
+   "checks": {
+    "route_frame": 0,
+    "label_collision": 0
+   }
+  },
+  {
+   "id": "UF-77",
+   "checks": {
+    "opening_establish": 0
+   }
+  },
+  {
+   "id": "UF-78",
+   "checks": {
+    "route_missing": 0
+   }
+  },
+  {
+   "id": "UF-80",
+   "checks": {
+    "flag_territory": 0
+   }
+  },
+  {
+   "id": "UF-81",
+   "checks": {
+    "badge_over_panel": 0
+   }
+  },
+  {
+   "id": "UF-84",
+   "checks": {
+    "camera_continuity": 0
+   }
+  },
+  {
+   "id": "UF-88",
+   "checks": {
+    "map_contrast": 0
+   }
+  },
+  {
+   "id": "UF-93",
+   "checks": {
+    "bgm_decision": 0
+   }
+  }
+ ]
+}
