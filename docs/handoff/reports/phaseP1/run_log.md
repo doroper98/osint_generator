@@ -154,3 +154,8 @@ last_review: 2026-10-11
 - 국소 대비 보정 일반화(v5.21.2 후속): 전편 preview_qa 에서 마커 부제 '후티 장악' 3.46(t=66.52) 이 새로 걸렸다(도시 지명만 보정하던 첫 판). → `typography.text(contrast="required")` 전부를 대상으로, **판정 시점 = 지도 층 완성 뒤·검사 스냅숏 직전**(`typography.flush_contrast_fix`, `engine.render.render_frame`). 그린 직후 판정은 뒤 층이 바탕을 바꾸는 마커 라벨에서 검사와 어긋났다(light 골든 35.36초 '가장 좁은 곳 약 39km' 4.25 오판 → 바이트 변화) — 시점을 맞춰 해결. 타깃+anti_inertia+골든 97 passed(dark·light 무변화). gulf 보정 = {무스카트 4.06, 후티 장악 3.46}.
 - preview_qa 첫 advance 가 연출 수정 회차(revise)를 한 번 돌려 마커 hl 을 바꿨으나(대비 문제는 그대로) 다음 회차가 "지적 없이 변경" 으로 거부 — 구현 세션이 연출을 커밋본(ab0e7c5)으로 되돌렸다(v4 보관본 삭제).
 - preview_qa(2차 advance): 시각 검수 루프 회차 2(v4·v5) — 카메라 구도·타이틀 뒤 뱃지 시각·예멘 국가 강조 삭제 등(연출 수정 LLM). 최종 v5 preview checks hard 0, 시각 검수 hard 1 = **타이틀 제목이 화면 폭을 넘음**(코드 결함) → v5.21.3 `title_fit_size`(넘칠 때만 줄임, 최소 30px 미만 오류) — 16.22초 재렌더 확인. 상태 preview_approval.
+
+## v5.21.4 — 전편 provenance 국소 대비 보정 기록 (D-0190 §3-1)
+- 렌더 청크가 `partNN.contrast_fix.json` 을 남기고 `render.json map_contrast_fix` 로 합친다(청크 기록 없음 = 오류). mux provenance 는 전편이면 render.json, 프리뷰면 같은 프로세스 기록.
+- gulf 본영상(c3cfecc1) 사후 수집: 720p 청크 4개 재렌더 → 프레임 0~7523 디코드 바이트 동일(엔딩 버전 도장 268프레임만 다름). 보정 지명 5: 후티 장악 2.79 · 9월 수송기 4대 · 로이터 보도 3.16 · 리야드 · 10월 8일 공격 (후티 주장) 4.12 · 10월 5일 전략정치국방위원회 긴급회의 4.16 · 아덴 4.39 → `out/provenance.json`·`gulf_final/provenance.json` 의 `map_contrast_fix`(source 에 사후 수집 명시).
+- 프리뷰(480p)와 전편(720p)의 보정 목록이 다르다(해상도별 글자 크기·바탕) — 기록은 각 산출물 기준.

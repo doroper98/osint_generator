@@ -266,6 +266,24 @@ def render_chunk(P: Project, st: int, en: int, out: Path) -> None:  # noqa: N803
     ff.stdin.close()
     if ff.wait() != 0:
         raise RuntimeError(f"ffmpeg 실패: {out}")
+    from engine import typography as _tyc  # noqa: PLC0415 — v5.21.4 D-0190 §3-1: 이 청크의 국소 대비 보정(이름 → 보정 전 최저 대비)
+    contrast_fix_path(out).write_text(json.dumps(_tyc.CONTRAST_FIXED, ensure_ascii=False), encoding="utf-8")
+
+
+def contrast_fix_path(part: Path) -> Path:
+    return part.with_suffix(".contrast_fix.json")
+
+
+def merge_contrast_fix(parts: list[Path]) -> dict[str, float]:
+    """청크별 보정 기록 → 이름마다 최저 대비. 청크 기록이 없으면 오류(조용히 빈 기록으로 넘기지 않는다, P6)."""
+    out: dict[str, float] = {}
+    for p in parts:
+        f = contrast_fix_path(p)
+        if not f.exists():
+            raise RuntimeError(f"청크 국소 대비 보정 기록 없음: {f}")
+        for k, v in json.loads(f.read_text(encoding="utf-8")).items():
+            out[k] = min(v, out.get(k, v))
+    return dict(sorted(out.items()))
 
 
 def chunk_ranges(n_frames: int, jobs: int) -> list[tuple[int, int]]:
@@ -334,7 +352,8 @@ def render_full(P: Project, jobs: int) -> Path:  # noqa: N803
     peak = resource.getrusage(resource.RUSAGE_CHILDREN).ru_maxrss // 1024   # 가장 큰 청크 프로세스(또는 그 ffmpeg) 피크, MB
     (outdir / f"{pre}render.json").write_text(json.dumps({"schema_version": 1, "resolution": P.R.out.record(), "jobs": len(parts),
                                                     "frames": P.n_frames, "sec": round(time.time() - t0, 1),
-                                                    "peak_child_rss_mb": peak},
+                                                    "peak_child_rss_mb": peak,
+                                                    "map_contrast_fix": {k: round(v, 2) for k, v in merge_contrast_fix(parts).items()}},
                                                    ensure_ascii=False, indent=1), encoding="utf-8")
     return final
 
