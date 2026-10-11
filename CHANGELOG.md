@@ -1,6 +1,6 @@
 <!--
 tier: 3
-last_synced_with: v6.0.3
+last_synced_with: v7.0.0
 ssot_for: [release-notes]
 depends_on: [README.md, GOAL.md]
 last_review: 2026-09-28
@@ -63,6 +63,12 @@ released 항목은 **append-only**입니다.
 | v5.0.0 | 87912d2 | G11 GOAL G4-21·claim_kind fact/statement | pass(D-0125) |
 | v5.1.0 | 3619f2c | G12 backdrop 무대·아일랜드·축 스케일·기사 프레스 v2·발음 사전·버전 도장 | pass(D-0127) — 후속 D-0128 완료 |
 | v5.2.0 | d4703d9 | G13 배경 가독·주 아일랜드 상시·보도 인용 = 기사·card-island·라벨 반전 | pass(D-0134) — 후속 겹침 카드 시안(D-0135~D-0138) |
+
+---
+
+## [v7.0.0] — 2026-10-12 — 사용자 의견 원장 게이트 경고화 + 기한 장치 (사용자 결정 D217·D218, GOAL G3 18번 개정)
+
+MAJOR(GOAL G3 18번 변경 — C5.4): `require_feedback_guards(project)` — 장치 없는 의견이 **그 영상의 의견**이면 게이트 ② 를 막지 않고 경고 줄(UF 번호·원문)을 승인 기록에 남긴다(D217 "잠금 풀어"). **앞선(다른) 영상의 의견**이 장치 없이 다음 영상 게이트에 오면 거부(D218 "재발방지를 위한 검사는 다음번 영상에서 적용해야지 당연히" — 기한 = 다음 영상 게이트 전 장치 완성). 기록 의무(C12-1)·우회 플래그 없음은 그대로. 기한 장치 두 겹: 게이트 함수 + `test_user_feedback_guards::test_open_entries_only_latest_video`(open 은 가장 최근 의견을 받은 영상 하나의 것만). CLAUDE.md C12-2·GOAL G3 18번·docs/12·WORKFLOWS 개정.
 
 ---
 

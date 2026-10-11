@@ -1,6 +1,6 @@
 <!--
 tier: 2
-last_synced_with: v6.0.3
+last_synced_with: v7.0.0
 ssot_for: [v2-badges, v2-asset-rights]
 depends_on: [docs/handoff/00_INDEX.md, docs/handoff/15_ANTI_INERTIA_PRINCIPLES.md]
 last_review: 2026-09-27
