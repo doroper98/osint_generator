@@ -276,6 +276,7 @@ shot_grammar:              # 05 §2
   # v5.21.9 사용자 의견 UF-02(D-0191 §1-1, RENDER-AP) — 조각 3차(easeInOutCubic)는 이동 한가운데서 가속도가 +12 → −12 로
   # 뒤집혀(저크 불연속) 이동 중간에 "꺾임"이 보였다. quintic = smootherstep x³(6x²−15x+10) — 가속도 0 → 0, 중간 뒤집힘 없음.
   move_ease: quintic
+  max_consecutive_move_sentences: 3   # v5.22.4 UF-19(C0 되돌리면 안 되는 것 "문장마다 카메라 이동") — 연속 3문장이 모두 이동을 시작하면 camera_per_sentence hard
   move_lead_sec: [0.6, 1.2]
   dip_total_sec: 1.0
   dip_max_per_sec: 90      # 90초당 1회 이하
@@ -1477,7 +1478,7 @@ qa_checks:                 # 17 §3 — 결정적 사전 검사 임계
   # v5.21.14 사용자 의견(2026-10-11 "아덴에 보냈다는데 사우디 방면 선만 — 오해", "미사일 궤적 선이 없다", D-0195·D-0197) — 문장에 아래 동사와
   # 그 문장이 부르는 마커가 함께 있으면 그 마커에 닿는(끝점 endpoint_tol_deg 안) 경로가 문장 구간에 있어야 한다. 없음 = route_missing warning, 다른 경로만 보임 = route_missing_other hard
   route_missing:
-    move_verbs: [보냈, 보내, 파병, 배치, 수송, 이동, 도착, 증파, 급파]
+    move_verbs: [보냈, 보내, 파병, 배치, 수송, 이동, 도착, 증파, 급파, 고립]   # 고립 = v5.22.4 UF-78(D124 ② 고립 표현엔 항로)
     attack_verbs: [공격, 발사, 타격, 요격, 폭격, 포격]
     endpoint_tol_deg: 0.6
   # v5.21.14 사용자 의견(2026-10-11 "지도에 예멘 쪽이 안 보인다", D-0199) — 문장이 부르는 나라(라벨 점)·마커가 문장 구간 내내 화면 밖이면 frame_missing warning,

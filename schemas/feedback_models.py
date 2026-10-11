@@ -19,7 +19,7 @@ class FeedbackGuard(BaseModel):
 
     model_config = ConfigDict(extra="forbid")
 
-    kind: Literal["check", "test", "rule", "code"]
+    kind: Literal["check", "test", "rule", "code", "doc"]   # doc = v5.22.4 D-0205 — 프로세스 항목만: "경로#문구"(그 문서에 문구가 있어야 한다)
     ref: str = Field(min_length=1)
 
 

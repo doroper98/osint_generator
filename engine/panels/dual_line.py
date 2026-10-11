@@ -30,6 +30,20 @@ def step_decimals(step: float) -> int:
     return max(0, -Decimal(str(step)).normalize().as_tuple().exponent)
 
 
+class DuplicateTickError(ValueError):
+    """세로축 눈금 글자가 겹친다(값이 다른 눈금이 같은 글자) — 정직성 결함(UF-57, "$6·$6·$6")."""
+
+
+def tick_labels(e: dict) -> list[tuple[float, str]]:
+    """세로축 눈금 (값, 글자). 서로 다른 눈금이 같은 글자면 DuplicateTickError — 렌더 전 오류(v5.22.4 UF-57, P6)."""
+    lo, hi, step = e["y_min"], e["y_max"], e["y_step"]
+    out = [(lo + k * step, _fmt(lo + k * step, e["y_prefix"], step_decimals(step))) for k in range(round((hi - lo) / step) + 1)]
+    labels = [s for _, s in out]
+    if len(set(labels)) != len(labels):
+        raise DuplicateTickError(f"dual_line 세로축 눈금 글자 중복 {labels} — y_step·자릿수를 고친다(UF-57)")
+    return out
+
+
 @chart
 def draw(ctx: cairo.Context, R: RenderCtx, t: float, e: dict, a: float) -> None:  # noqa: N803
     lt = t - e["t0"]
@@ -40,12 +54,11 @@ def draw(ctx: cairo.Context, R: RenderCtx, t: float, e: dict, a: float) -> None:
     def fy(v: float) -> float:
         return Y1 - (v - lo) / (hi - lo) * (Y1 - Y0)
 
-    for k in range(round((hi - lo) / e["y_step"]) + 1):
-        v = lo + k * e["y_step"]
+    for v, lab in tick_labels(e):
         ctx.set_source_rgba(*C["white"], L.grid_alpha * a)
         ctx.rectangle(X0, fy(v), X1 - X0, 1)
         ctx.fill()
-        text(ctx, _fmt(v, e["y_prefix"], step_decimals(e["y_step"])), X0 + L.tick_dx, fy(v) + L.tick_dy, L.tick_size, "sansm", C["muted"], a, 0, "r")
+        text(ctx, lab, X0 + L.tick_dx, fy(v) + L.tick_dy, L.tick_size, "sansm", C["muted"], a, 0, "r")
     n = len(e["x_labels"])
     xs = [X0 + L.x_pad + (X1 - X0 - 2 * L.x_pad) * i / (n - 1) for i in range(n)]
     for x, s_ in zip(xs, e["x_labels"]):

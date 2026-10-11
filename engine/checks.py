@@ -30,6 +30,7 @@ hard 실패가 하나라도 있으면 시각 검수 LLM 을 부르지 않고 연
 | battle_geo | warning | 전황 동사 문장에 지도 마커·경로 없음(v5.22.0 D-0200 UF-08) |
 | bgm_decision | hard | 배경음악 없음은 sound.no_music_decision(결정 번호) 필수(v5.22.2 UF-16·30·93) |
 | endcard_black | hard | 엔딩 카드 뒤~끝 프레임을 그려 평균 밝기 ≤ end_card.after_max_luma(v5.22.3 UF-35) |
+| camera_per_sentence | hard | 연속 shot_grammar.max_consecutive_move_sentences 문장이 모두 카메라 이동 시작(v5.22.4 UF-19, C0) |
 | portrait_unused | warning | 인물 이름이 나오고 초상이 있는데 그 인물 뱃지·인용 없음(v5.22.0 D-0200 UF-10) |
 | genre_elements | hard | 장르 요소(v4.2.0 D-0081 작업 3, GOAL G3-17): direction 이 쓴 이벤트·패널·뱃지·프리미티브 종류(genres.elements) ⊆ 장르 프로필 primitives.reuse ∪ new |
 | chart_honesty | hard | 차트 정직성(v4.3.0 D-0084 작업 5·D-0087, 20 §5.3): 막대 0 기준선·압축 구간 ↔ 물결 라벨·%/%p·이중 축 라벨·색·로그 척도 표기 (`engine.honesty`) |
@@ -80,7 +81,7 @@ SHADOW_PX = 7             # badge_box 가 원 둘레에 더하는 그림자 여�
 HARD = ("map_contrast", "overlap", "offscreen", "glyphs", "glyph_size", "labels", "date", "subtitles", "rights", "forbidden", "stage_continuity",
         "genre_elements", "chart_honesty", "series_limit_3", "units_visible", "as_of_visible", "boundary_as_route",
         "geo_mismatch", "timeline_rescale", "backdrop_rights", "backdrop_repeat", "island_overlap",
-        "backdrop_main_missing", "island_label_clip", "cascade", "subtitle_overlap", "label_collision", "timeline_span", "route_frame", "panel_overflow", "flag_territory", "badge_over_panel", "opening_establish", "camera_continuity", "card_exposure", "route_label_cross", "route_label_overlap", "article_backdrop", "quote_in_script", "route_missing_other", "frame_missing_target", "route_missing", "frame_missing", "bgm_decision", "endcard_black")   # island_label_clip v5.2.0 D-0133 §2, backdrop_main_missing v5.2.0 D-0129 §B, island_overlap v5.1.0 D-0126 Q3, geo_mismatch v4.10.0 D-0116, timeline_rescale v5.1.0 D-0121 §A, backdrop_* v5.1.0 D-0123
+        "backdrop_main_missing", "island_label_clip", "cascade", "subtitle_overlap", "label_collision", "timeline_span", "route_frame", "panel_overflow", "flag_territory", "badge_over_panel", "opening_establish", "camera_continuity", "card_exposure", "route_label_cross", "route_label_overlap", "article_backdrop", "quote_in_script", "route_missing_other", "frame_missing_target", "route_missing", "frame_missing", "bgm_decision", "endcard_black", "camera_per_sentence")   # island_label_clip v5.2.0 D-0133 §2, backdrop_main_missing v5.2.0 D-0129 §B, island_overlap v5.1.0 D-0126 Q3, geo_mismatch v4.10.0 D-0116, timeline_rescale v5.1.0 D-0121 §A, backdrop_* v5.1.0 D-0123
 WARN = ("shots", "media_beats", "media_upscaled", "endcard_roll", "geo_unsourced",   # endcard_roll v4.7.0 D-0106, geo_unsourced D-0107
         "static_window", "stage_choice", "card_island", "island_label_overlap", "cascade_label_hidden",
         "map_contrast_shape", "battle_geo", "portrait_unused")   # v5.21.14 D-0195·D-0199. map_contrast_shape v5.18.0 D-0161 §4   # static_window v4.11.0 D-0118, stage_choice v5.1.0 D-0123, card_island v5.2.0 D-0129 §C, island_label_overlap D-0133 §3
@@ -1026,6 +1027,23 @@ def check_endcard_black(P) -> list[str]:  # noqa: ANN001, N803
     return out
 
 
+def check_camera_per_sentence(P) -> list[str]:  # noqa: ANN001, N803
+    """v5.22.4 UF-19(C0 "문장마다 카메라 이동" 금지) — shot_grammar.max_consecutive_move_sentences 만큼 연속 문장이
+    모두 카메라 이동(move 키)을 시작하면 hard. 장면당 이동 수(shots warning)와 별개로 '문장마다' 패턴만 본다."""
+    n = SG.max_consecutive_move_sentences
+    starts = [k.t for k in P.keys if k.mode == "move"]
+    run: list[str] = []
+    for s in P.plan.sentences:
+        if any(s.t0 - 0.05 <= t < s.t1 for t in starts):
+            run.append(s.sid)
+            if len(run) >= n:
+                return [f"[camera-per-sentence] 연속 {len(run)}문장({', '.join(run[-n:])})이 모두 카메라 이동을 시작한다 — "
+                        "문장마다 카메라를 움직이지 않는다(C0). 숏을 장면 단위로 묶는다"]
+        else:
+            run = []
+    return []
+
+
 def check_stage_continuity(P) -> list[str]:  # noqa: ANN001, N803
     """무대 연속성 — engine.shots.stage_continuity 한 곳. 상세는 "[규칙 키] 설명"(D-0077: 영문 키)."""
     from engine.shots import stage_continuity  # noqa: PLC0415
@@ -1231,6 +1249,7 @@ def run_checks(P, times: list[float], provenance: dict, drawn: list[tuple[str, f
         "battle_geo": lambda: check_battle_geo(P),            # v5.22.0 D-0200 UF-08(warning)
         "bgm_decision": lambda: check_bgm_decision(P),        # v5.22.2 UF-16·30·93(hard)
         "endcard_black": lambda: check_endcard_black(P),      # v5.22.3 UF-35(hard)
+        "camera_per_sentence": lambda: check_camera_per_sentence(P),   # v5.22.4 UF-19(hard)
         "portrait_unused": lambda: check_portrait_unused(P),  # v5.22.0 D-0200 UF-10(warning)
         "genre_elements": lambda: check_genre_elements(P),
         "boundary_as_route": lambda: list((P.R.cache.get("geo_check") or {}).get("boundary") or []),

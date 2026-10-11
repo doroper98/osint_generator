@@ -413,7 +413,8 @@ def approve_gate(
                  "media_plan": require_media_plan(pdir)}   # v5.19.0 D-0163 §2 — 사진 목표 미달 = 문장 단위 사유 필수(P6)
     if g == ProjectState.PREVIEW_APPROVAL:   # 콘티 판 의무(WORKFLOWS W0, PIPELINE-AP-014) — 건너뛰면 게이트 ② 승인 불가
         shown = {**(shown or {}), "animatic": require_animatic(project_dir(manifest.project_id, cfg), approved_script_sha1(manifest)),
-                 "user_feedback": require_feedback_guards()}   # v5.22.0 D-0200 — 장치 없는 사용자 의견이 있으면 거부
+                 "user_feedback": require_feedback_guards(),   # v5.22.0 D-0200 — 장치 없는 사용자 의견이 있으면 거부
+                 "asset_library": require_asset_library(project_dir(manifest.project_id, cfg))}   # v5.22.4 UF-69(C8.7)
     if chosen_version is not None:
         if g != ProjectState.PREVIEW_APPROVAL:
             raise ValueError("chosen_version 은 게이트 ②(preview_approval)에서만 쓴다")
@@ -464,6 +465,22 @@ def approved_script_sha1(manifest: ProjectManifest) -> str | None:
         if gate == ProjectState.SCRIPT_APPROVAL.value and d.decision == "approved":
             return (d.shown or {}).get("script_sha1") or None
     return None
+
+
+class AssetLibraryPendingError(ValueError):
+    """게이트 ② 승인 전에 공용 자산으로 올리지 않은 초상·휘장이 프로젝트에 있다(v5.22.4 UF-69, CLAUDE.md C8.7)."""
+
+
+def require_asset_library(pdir: Path) -> str:
+    """`tools/asset_library.py check` 와 같은 판정 — 승격 안 된 초상·휘장이 있으면 AssetLibraryPendingError(우회 플래그 없음).
+    사용자 결정(2026-10-04) "제작한 자산은 공용 자산으로 보관해 다음 영상에서 다시 만들지 않는다"(PIPELINE-AP-016)."""
+    from tools.asset_library import pending  # noqa: PLC0415
+
+    p = pending(pdir)
+    if p["people"] or p["emblems"]:
+        raise AssetLibraryPendingError(f"공용 자산 미승격 — 초상 {p['people']} · 휘장 {p['emblems']}. "
+                                       f"`python tools/asset_library.py promote {pdir}` 로 권리 기록과 함께 올린 뒤 승인한다(C8.7)")
+    return "공용 자산 미승격 0"
 
 
 class FeedbackUnguardedError(ValueError):

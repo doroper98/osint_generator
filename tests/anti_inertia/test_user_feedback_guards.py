@@ -45,6 +45,13 @@ def _rule_exists(ref: str, raw: dict) -> bool:
     return True
 
 
+def _doc_exists(ref: str) -> bool:
+    """v5.22.4 D-0205 — 프로세스 항목 장치: "경로#문구" — 그 문서에 그 문구가 그대로 있다."""
+    path, _, frag = ref.partition("#")
+    f = REPO / path
+    return bool(frag) and f.exists() and frag in f.read_text(encoding="utf-8")
+
+
 def _code_exists(ref: str) -> bool:
     mod, _, name = ref.rpartition(".")
     try:
@@ -70,7 +77,8 @@ class UserFeedbackGuardsTest(unittest.TestCase):
                 ok = {"check": lambda r: r in engine_ids or r in CHECK_IDS,
                       "test": _test_exists,
                       "rule": lambda r: _rule_exists(r, self.raw),
-                      "code": _code_exists}[g.kind](g.ref)
+                      "code": _code_exists,
+                      "doc": _doc_exists}[g.kind](g.ref)
                 if not ok:
                     bad.append(f"{e.id} {g.kind}:{g.ref}")
         self.assertEqual(bad, [], "원장 장치가 저장소에 없다")
@@ -83,6 +91,16 @@ class UserFeedbackGuardsTest(unittest.TestCase):
                and not any(g.kind == "check" and g.ref in engine_ids for g in e.guards)
                and e.project not in ("sketch",) and not e.category.startswith("스케치")]
         self.assertEqual(bad, [])
+
+    def test_doc_guards_only_for_process_items(self) -> None:
+        """doc 장치는 프로세스 항목(분류에 '작업 순서'·'전달')만, 그리고 doc 하나만으로 보호하지 않는 항목은 다른 장치도 둔다."""
+        bad = [e.id for e in self.led.entries if any(g.kind == "doc" for g in e.guards)
+               and not any(w in e.category for w in ("작업 순서", "전달", "영상 문법"))]
+        self.assertEqual(bad, [])
+
+    def test_no_open_entries(self) -> None:
+        """D-0205 §3 — 소급 open 15건을 닫았다. 새 의견은 장치와 함께 들어온다(게이트 ② 정상 통과)."""
+        self.assertEqual([e.id for e in self.led.open_entries()], [])
 
     def test_gulf_round_all_guarded(self) -> None:
         """D-0200 §5 — gulf 재렌더 전 UF-01~12 전부 보호."""

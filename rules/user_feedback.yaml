@@ -224,8 +224,12 @@ entries:
   quote: 고정 막 구성을 다시 들여오지 않는다
   quote_kind: summary
   category: 영상 문법 — 고정 막 금지
-  guards: []
-  status: open
+  guards:
+  - kind: test
+    ref: tests/anti_inertia/test_no_legacy_imports.py::NoLegacyImportsTest::test_no_legacy_references
+  - kind: doc
+    ref: CLAUDE.md#- 고정 막 구성
+  status: guarded
   decision: C0 · KICKOFF §5
   source: CLAUDE.md C0 되돌리면 안 되는 것
 - id: UF-18
@@ -252,8 +256,14 @@ entries:
   quote: 문장마다 카메라를 움직이지 않는다
   quote_kind: summary
   category: 카메라 — 문장마다 이동 금지
-  guards: []
-  status: open
+  guards:
+  - kind: check
+    ref: camera_per_sentence
+  - kind: rule
+    ref: shot_grammar.max_consecutive_move_sentences
+  - kind: test
+    ref: tests/test_feedback_closures.py::TestCameraPerSentence::test_every_sentence_moving_is_hard
+  status: guarded
   decision: C0 · KICKOFF §5 · GOAL G4-16
   source: CLAUDE.md C0 되돌리면 안 되는 것
 - id: UF-20
@@ -356,8 +366,10 @@ entries:
   quote: LB.ua 같은 부분 발음이 어색하지 않게
   quote_kind: verbatim
   category: 발음 — 약어·도메인
-  guards: []
-  status: open
+  guards:
+  - kind: test
+    ref: tests/test_feedback_closures.py::TestPronounce::test_domain_reading
+  status: guarded
   decision: R-0118 U2
   source: R-0118 U2
 - id: UF-27
@@ -399,8 +411,10 @@ entries:
   quote: '"군사분계선"을 "군사분 계선"으로 읽는 경우가 있다'
   quote_kind: verbatim
   category: 발음 — 긴 합성어 분절
-  guards: []
-  status: open
+  guards:
+  - kind: test
+    ref: tests/test_feedback_closures.py::TestPronounce::test_mdl_split
+  status: guarded
   decision: R-0118 U5
   source: R-0118 U5
 - id: UF-30
@@ -827,8 +841,12 @@ entries:
   quote: 가격·추이·통계 내용은 적절한 유형의 차트를 시인성 좋게, 애니메이션을 가미해서 (유가 차트 세로축이 $6·$6·$6 으로 같은 값)
   quote_kind: summary
   category: 통계 차트 표현·축 눈금
-  guards: []
-  status: open
+  guards:
+  - kind: code
+    ref: engine.panels.dual_line.tick_labels
+  - kind: test
+    ref: tests/test_feedback_closures.py::TestChartTicks::test_duplicate_tick_labels_error
+  status: guarded
   decision: R-0166 · 7c69446
   source: R-0166
 - id: UF-58
@@ -1009,8 +1027,12 @@ entries:
   quote: 제작한 자산(초상·휘장)은 공용 자산으로 보관해 다음 영상에서 다시 만들지 않는다
   quote_kind: summary
   category: 작업 순서 — 자산 공용 보관
-  guards: []
-  status: open
+  guards:
+  - kind: code
+    ref: orchestrator.project_manager.require_asset_library
+  - kind: test
+    ref: tests/test_feedback_closures.py::TestAssetLibraryGate::test_pending_portrait_blocks_gate2
+  status: guarded
   decision: D120 ③ · PIPELINE-AP-016 · C8.7
   source: PIPELINE-AP-016 · DECISIONS D120
 - id: UF-70
@@ -1084,8 +1106,12 @@ entries:
   quote: 독일의 영유권이 있던 적도 없는데 갑자기 영유권 포기 이야기가 나온다, 독일 이야기가 추가돼야
   quote_kind: verbatim
   category: 원고 — 결과 전 전제 누락
-  guards: []
-  status: open
+  guards:
+  - kind: rule
+    ref: script_grammar.lines
+  - kind: test
+    ref: tests/test_v560_script_review.py::ScriptRulesTest::test_rules_reach_prompt
+  status: guarded
   decision: D122 · LLM-AP-017 · PIPELINE-AP-017
   source: LLM-AP-017 · PIPELINE-AP-017 · DECISIONS D122
 - id: UF-75
@@ -1140,8 +1166,12 @@ entries:
   quote: 육로와 함께 항로(발트해 공해 상공 경유)를 그려 고립을 직관적으로
   quote_kind: summary
   category: 지도 — 고립 표현(항로)
-  guards: []
-  status: open
+  guards:
+  - kind: check
+    ref: route_missing
+  - kind: rule
+    ref: qa_checks.route_missing.move_verbs
+  status: guarded
   decision: D124 ②
   source: DECISIONS D124
 - id: UF-79
@@ -1396,8 +1426,10 @@ entries:
   quote: V5 청취 자료를 받지 못했다(이전 감독 세션 전달 누락)
   quote_kind: summary
   category: 전달 누락
-  guards: []
-  status: open
+  guards:
+  - kind: doc
+    ref: back_and_forth/FABLE_HANDOFF.md#파일은 SendUserFile
+  status: guarded
   decision: D184
   source: DECISIONS D184
 - id: UF-95
@@ -1407,8 +1439,12 @@ entries:
   quote: 나레이션은 내가 fable 에게 선정해서 줬잖아?
   quote_kind: verbatim
   category: 작업 순서 — 결정된 음성 재질문
-  guards: []
-  status: open
+  guards:
+  - kind: doc
+    ref: CLAUDE.md#C0.2 표준 음성 — 사용자 확정, 다시 묻지 않는다
+  - kind: test
+    ref: tests/test_feedback_closures.py::TestStandardVoice::test_standard_voice_matches_c02
+  status: guarded
   decision: D185
   source: DECISIONS D185
 - id: UF-96
@@ -1418,8 +1454,12 @@ entries:
   quote: 음성 및 억양 결정한 사항도 음성과 관련한 최상위 규칙에 적어둬. 자꾸 나한테 앞으로 추가로 물어보지 말고, 내가 정한 목소리와 억양을 우리 저장소의 표준 목소리로 적용하는거야
   quote_kind: verbatim
   category: 작업 순서 — 결정된 음성 재질문
-  guards: []
-  status: open
+  guards:
+  - kind: doc
+    ref: CLAUDE.md#C0.2 표준 음성 — 사용자 확정, 다시 묻지 않는다
+  - kind: test
+    ref: tests/test_feedback_closures.py::TestStandardVoice::test_standard_voice_matches_c02
+  status: guarded
   recurs_of: UF-95
   decision: D189 · C0.2
   source: DECISIONS D189 · CLAUDE.md C0.2
