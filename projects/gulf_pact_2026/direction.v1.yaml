@@ -1,0 +1,1289 @@
+# direction.yaml — AI 연출(DirectorWorker, v3.1.0, 17 §5.3). 사람 검토 전 초안 — 승인 게이트 ②에서 판정.
+version: 1
+genre: null
+stage: null
+media_note: null
+opening_exempt: null
+stage_reason: null
+stage_config: {}
+places:
+  sa_center:
+  - 45.0
+  - 23.8
+  riyadh:
+  - 46.72
+  - 24.71
+  kkia:
+  - 46.7
+  - 24.96
+  mecca:
+  - 39.83
+  - 21.42
+  bab_el_mandeb:
+  - 43.33
+  - 12.58
+  mokha:
+  - 43.25
+  - 13.32
+  aden:
+  - 45.03
+  - 12.78
+  hormuz:
+  - 56.45
+  - 26.55
+paths:
+  pk_sa:
+  - - 66.0
+    - 27.8
+  - - 60.5
+    - 26.6
+  - - 55.0
+    - 25.4
+  - - 50.0
+    - 24.4
+  - - 45.0
+    - 23.8
+  tr_sa:
+  - - 36.0
+    - 38.3
+  - - 38.2
+    - 34.0
+  - - 41.0
+    - 29.5
+  - - 45.0
+    - 23.8
+  oil:
+  - - 50.6
+    - 27.0
+  - - 53.5
+    - 26.0
+  - - 56.5
+    - 26.55
+  - - 57.5
+    - 25.3
+  - - 59.5
+    - 23.8
+  - - 63.0
+    - 22.5
+shots:
+- at: 0.0
+  mode: cut
+  dur: 0.0
+  camera:
+    lon: 51.0
+    lat: 28.0
+    place: null
+    date: null
+    lane: null
+    w: 52.0
+  under: false
+  scene: null
+  stage: null
+  reason: null
+- at:
+    sid: open_0
+    'off': 4.8
+  mode: move
+  dur: 4.4
+  camera:
+    lon: 59.0
+    lat: 27.0
+    place: null
+    date: null
+    lane: null
+    w: 34.0
+  under: false
+  scene: null
+  stage: null
+  reason: null
+- at:
+    sid: pact_origin_2
+    'off': -0.8
+  mode: move
+  dur: 3.4
+  camera:
+    lon: 52.0
+    lat: 30.5
+    place: null
+    date: null
+    lane: null
+    w: 48.0
+  under: false
+  scene: null
+  stage: null
+  reason: null
+- at:
+    scene_start: mecca_attack
+    'off': -1.0
+  mode: move
+  dur: 3.4
+  camera:
+    lon: 43.0
+    lat: 17.0
+    place: null
+    date: null
+    lane: null
+    w: 24.0
+  under: false
+  scene: null
+  stage: null
+  reason: null
+- at:
+    scene_start: invocation
+    'off': -1.0
+  mode: move
+  dur: 3.4
+  camera:
+    lon: 52.0
+    lat: 30.5
+    place: null
+    date: null
+    lane: null
+    w: 48.0
+  under: false
+  scene: null
+  stage: null
+  reason: null
+- at:
+    scene_start: troop_numbers
+    'off': -1.0
+  mode: move
+  dur: 3.2
+  camera:
+    lon: 55.0
+    lat: 20.0
+    place: null
+    date: null
+    lane: null
+    w: 46.0
+  under: false
+  scene: null
+  stage: null
+  reason: null
+- at:
+    scene_start: yemen_front
+    'off': -1.0
+  mode: move
+  dur: 3.4
+  camera:
+    lon: 43.8
+    lat: 14.2
+    place: null
+    date: null
+    lane: null
+    w: 12.0
+  under: false
+  scene: null
+  stage: null
+  reason: null
+- at:
+    scene_start: riyadh_airport
+    'off': -1.0
+  mode: move
+  dur: 3.0
+  camera:
+    lon: 46.0
+    lat: 21.5
+    place: null
+    date: null
+    lane: null
+    w: 22.0
+  under: false
+  scene: null
+  stage: null
+  reason: null
+- at:
+    scene_start: korea
+    'off': -1.0
+  mode: move
+  dur: 3.0
+  camera:
+    lon: 55.5
+    lat: 26.5
+    place: null
+    date: null
+    lane: null
+    w: 14.0
+  under: false
+  scene: null
+  stage: null
+  reason: null
+- at:
+    scene_start: briefing
+    'off': -1.0
+  mode: move
+  dur: 3.4
+  camera:
+    lon: 51.0
+    lat: 28.5
+    place: null
+    date: null
+    lane: null
+    w: 48.0
+  under: false
+  scene: null
+  stage: null
+  reason: null
+- at:
+    sid: briefing_3
+    'off': -0.5
+  mode: move
+  dur: 9.0
+  camera:
+    lon: 51.0
+    lat: 28.5
+    place: null
+    date: null
+    lane: null
+    w: 52.5
+  under: false
+  scene: null
+  stage: null
+  reason: null
+events:
+- type: country
+  start:
+    word:
+      sid: open_0
+      text: 파키스탄군
+  end:
+    scene_end: open
+  codes:
+  - PK
+  col: gold
+  a: 0.09
+- type: badge
+  start:
+    sid: open_0
+    'off': 2.0
+  end:
+    scene_end: open
+  lon: 66.0
+  lat: 27.8
+  kind: flag
+  flag: pk
+  R: 18
+  label: 파키스탄
+  accent: gold
+- type: country
+  start:
+    word:
+      sid: open_1
+      text: 사우디아라비아
+  end:
+    scene_end: open
+  codes:
+  - SA
+  col: teal
+  a: 0.08
+- type: badge
+  start:
+    sid: open_1
+    'off': 1.4
+  end:
+    scene_end: open
+  at_place: sa_center
+  kind: flag
+  flag: sa
+  R: 18
+  label: 사우디아라비아
+  accent: teal
+- type: article
+  start:
+    sid: open_1
+    'off': 3.0
+  end:
+    scene_end: open
+    'off': 1.6
+  mid: gulf_pact_2026_art_0001
+  theme: dark
+- type: cascade
+  start:
+    sid: pact_origin_0
+    'off': 0.2
+  end:
+    sid: pact_origin_3
+    edge: end
+    'off': 0.3
+  items:
+  - at:
+      sid: pact_origin_0
+      'off': 0.3
+    flag: sa
+    date: 2025.09.17
+    title: 사우디·파키스탄 상호방위협정
+    line: 양자 전략적 상호방위협정 체결
+    accent: teal
+  - at:
+      word:
+        sid: pact_origin_2
+        text: 메카
+    flag: tr
+    date: 2026.08.07
+    title: 메카 공동방위협정
+    line: 파키스탄·사우디아라비아·튀르키예 3국
+    accent: gold
+  - at:
+      sid: pact_origin_3
+      'off': 0.3
+    flag: pk
+    date: 2026.08.07
+    title: 3국 공동성명
+    line: 한 나라에 대한 무력 공격 = 3국 모두에 대한 공격
+    accent: gold
+- type: country
+  start:
+    word:
+      sid: pact_origin_1
+      text: 사우디아라비아
+  end:
+    scene_end: reactions
+  codes:
+  - SA
+  col: gold
+  a: 0.09
+- type: badge
+  start:
+    word:
+      sid: pact_origin_1
+      text: 사우디아라비아
+  end:
+    scene_end: reactions
+  at_place: sa_center
+  kind: flag
+  flag: sa
+  R: 18
+  label: 사우디아라비아
+  accent: gold
+- type: country
+  start:
+    word:
+      sid: pact_origin_1
+      text: 파키스탄
+  end:
+    scene_end: reactions
+  codes:
+  - PK
+  col: gold
+  a: 0.09
+- type: badge
+  start:
+    word:
+      sid: pact_origin_1
+      text: 파키스탄
+  end:
+    scene_end: reactions
+  lon: 66.0
+  lat: 27.8
+  kind: flag
+  flag: pk
+  R: 18
+  label: 파키스탄
+  accent: gold
+- type: route
+  start:
+    sid: pact_origin_1
+    edge: end
+    'off': -1.6
+  end:
+    scene_end: reactions
+  pts:
+    path: pk_sa
+  grow: 1.8
+  col: gold
+  ship: false
+  dashed: true
+  label: 상호방위협정 · 2025
+- type: country
+  start:
+    word:
+      sid: pact_origin_2
+      text: 튀르키예
+  end:
+    scene_end: reactions
+  codes:
+  - TR
+  col: gold
+  a: 0.09
+- type: badge
+  start:
+    word:
+      sid: pact_origin_2
+      text: 튀르키예
+  end:
+    scene_end: reactions
+  lon: 36.0
+  lat: 38.3
+  kind: flag
+  flag: tr
+  R: 18
+  label: 튀르키예
+  accent: gold
+- type: route
+  start:
+    sid: pact_origin_2
+    edge: end
+    'off': -1.0
+  end:
+    scene_end: reactions
+  pts:
+    path: tr_sa
+  grow: 1.6
+  col: gold
+  ship: false
+  dashed: true
+  label: 메카 협정 · 2026
+- type: card
+  start:
+    sid: pact_origin_4
+    'off': 0.3
+  end:
+    scene_end: pact_origin
+    'off': 0.3
+  tag: 3국 현역 병력
+  bigs:
+  - - 약 140만 명
+    - 글로벌 파이어파워 2026 지수 기준
+  accent: gold
+  src: Global Firepower 2026
+- type: photo
+  start:
+    sid: pact_origin_4
+    'off': 1.0
+  end:
+    scene_end: pact_origin
+    'off': 0.3
+  mid: gulf_pk_soldiers
+  place: map_right_low
+- type: country
+  start:
+    sid: reactions_0
+  end:
+    scene_end: reactions
+  codes:
+  - IR
+  col: ru
+  a: 0.07
+- type: badge
+  start:
+    sid: reactions_0
+    'off': 0.1
+  end:
+    scene_end: reactions
+  lon: 54.5
+  lat: 32.5
+  kind: flag
+  flag: ir
+  R: 18
+  label: 이란
+  accent: ru
+- type: article
+  start:
+    sid: reactions_0
+    'off': 0.4
+  end:
+    sid: reactions_0
+    edge: end
+    'off': 0.6
+  mid: gulf_pact_2026_art_0003
+  theme: dark
+- type: country
+  start:
+    sid: mecca_attack_0
+    'off': 0.2
+  end:
+    scene_end: mecca_attack
+  codes:
+  - YE
+  col: ru
+  a: 0.07
+- type: marker
+  start:
+    word:
+      sid: mecca_attack_0
+      text: 바브엘만데브
+  end:
+    scene_end: mecca_attack
+  at_place: bab_el_mandeb
+  label: 바브엘만데브 해협
+  sub: 후티 장악
+  side: right
+  hl: true
+- type: marker
+  start:
+    word:
+      sid: mecca_attack_1
+      text: 메카
+  end:
+    scene_end: mecca_attack
+  at_place: mecca
+  label: 메카
+  sub: 9월 16일 드론 공격 시도 · 사우디 주장
+  side: right
+  hl: true
+- type: article
+  start:
+    sid: mecca_attack_1
+    'off': 0.3
+  end:
+    sid: mecca_attack_1
+    edge: end
+    'off': 0.4
+  mid: gulf_pact_2026_art_0022
+  theme: dark
+- type: card
+  start:
+    sid: mecca_attack_2
+    'off': 0.1
+  end:
+    scene_end: mecca_attack
+    'off': 0.6
+  tag: 후티·이란
+  lines:
+  - 메카 공격 시도를 부인
+  accent: muted
+- type: marker
+  start:
+    word:
+      sid: invocation_0
+      text: 리야드
+  end:
+    scene_end: roles
+  at_place: riyadh
+  label: 리야드
+  sub: 10월 5일 전략정치국방위원회 긴급회의
+  side: right
+  hl: true
+- type: photo
+  start:
+    sid: invocation_0
+    'off': 1.4
+  end:
+    sid: invocation_1
+    edge: end
+    'off': 0.3
+  mid: gulf_riyadh_skyline
+  place: map_right_low
+- type: country
+  start:
+    word:
+      sid: invocation_1
+      text: 발동
+  end:
+    scene_end: roles
+  codes:
+  - SA
+  - PK
+  - TR
+  col: gold
+  a: 0.1
+- type: card
+  start:
+    sid: invocation_1
+    'off': 0.2
+  end:
+    sid: invocation_1
+    edge: end
+    'off': 0.3
+  tag: 10월 5일 · 메카 협정 전략정치국방위원회
+  lines:
+  - 협정 발동 결정
+  - 집단방위 공약을 실제로 이행
+  accent: gold
+- type: card
+  start:
+    sid: invocation_3
+    'off': 0.2
+  end:
+    sid: invocation_3
+    edge: end
+    'off': 0.3
+  tag: 10월 5일 · 3국 공동성명
+  lines:
+  - 후티를 위협으로 명시하지 않음
+  accent: muted
+- type: badge
+  start:
+    sid: invocation_4
+    'off': 0.6
+  end:
+    scene_end: roles
+  lon: 66.0
+  lat: 27.8
+  kind: flag
+  flag: pk
+  R: 18
+  label: 파키스탄
+  accent: gold
+- type: route
+  start:
+    sid: invocation_4
+    'off': 1.0
+  end:
+    scene_end: roles
+  pts:
+    path: pk_sa
+  grow: 1.8
+  col: teal
+  ship: false
+  dashed: false
+  label: 합의된 군사력 즉시 배치
+- type: route
+  start:
+    sid: invocation_4
+    'off': 2.2
+  end:
+    scene_end: roles
+  pts:
+    path: tr_sa
+  grow: 1.6
+  col: teal
+  ship: false
+  dashed: false
+  label: ''
+- type: badge
+  start:
+    word:
+      sid: invocation_5
+      text: 튀르키예
+  end:
+    scene_end: invocation
+  lon: 36.0
+  lat: 38.3
+  kind: flag
+  flag: tr
+  R: 18
+  label: 튀르키예
+  role: 의회 비준 전 · 포린폴리시 보도
+  accent: muted
+- type: article
+  start:
+    sid: roles_0
+    'off': 0.3
+  end:
+    sid: roles_0
+    edge: end
+    'off': 0.4
+  mid: gulf_pact_2026_art_0014
+  theme: dark
+- type: quote
+  start:
+    sid: roles_1
+    'off': 0.3
+  end:
+    sid: roles_1
+    edge: end
+    'off': 0.6
+  flag: pk
+  speaker: 카와자 아시프
+  role: 파키스탄 국방장관
+  text: 작전 지역 주둔
+  src: Business Standard
+  date: 2026.10.06
+  accent: gold
+  pos: center
+- type: badge
+  start:
+    sid: roles_2
+    'off': 0.3
+  end:
+    scene_end: roles
+  lon: 36.0
+  lat: 38.3
+  kind: flag
+  flag: tr
+  R: 18
+  label: 튀르키예
+  role: 방어·기술 지원 · 로이터 보도
+  accent: gold
+- type: country
+  start:
+    scene_start: troop_numbers
+  end:
+    scene_end: troop_numbers
+  codes:
+  - PK
+  col: gold
+  a: 0.09
+- type: badge
+  start:
+    sid: troop_numbers_0
+    'off': 0.2
+  end:
+    scene_end: troop_numbers
+  lon: 66.0
+  lat: 27.8
+  kind: flag
+  flag: pk
+  R: 18
+  label: 파키스탄
+  accent: gold
+- type: route
+  start:
+    sid: troop_numbers_0
+    'off': 0.6
+  end:
+    scene_end: troop_numbers
+  pts:
+    path: pk_sa
+  grow: 2.0
+  col: gold
+  ship: false
+  dashed: true
+  label: ''
+- type: photo
+  start:
+    sid: troop_numbers_0
+    'off': 0.8
+  end:
+    sid: troop_numbers_0
+    edge: end
+    'off': 0.4
+  mid: gulf_pk_jf17
+  place: map_right_low
+- type: cascade
+  start:
+    sid: troop_numbers_0
+    'off': 0.2
+  end:
+    sid: troop_numbers_5
+    edge: end
+    'off': 0.4
+  items:
+  - at:
+      sid: troop_numbers_0
+      'off': 0.3
+    flag: pk
+    date: '2026.05'
+    title: 로이터 보도 — 병력 8,000명
+    line: 전투기 편대·방공체계 함께
+    accent: gold
+  - at:
+      sid: troop_numbers_1
+      'off': 0.3
+    flag: pk
+    date: 2026.10.02
+    title: 로이터 보도 — 병력 3만~4만 명
+    line: 국경 방어·드론·미사일 요격 · 익명 관리
+    accent: gold
+  - at:
+      sid: troop_numbers_4
+      'off': 0.3
+    flag: pk
+    date: 2026.10.06
+    title: 정보방송부 — 추측성 보도라며 거부
+    line: 작전 세부사항은 기밀
+    accent: muted
+- type: article
+  start:
+    sid: troop_numbers_1
+    'off': 0.3
+  end:
+    sid: troop_numbers_1
+    edge: end
+    'off': 0.5
+  mid: gulf_pact_2026_art_0006
+  theme: dark
+- type: marker
+  start:
+    sid: troop_numbers_2
+    'off': 0.2
+  end:
+    scene_end: troop_numbers
+  at_place: sa_center
+  label: 사우디 내 파키스탄군
+  sub: 좌표 비공개
+  side: left
+  hl: false
+- type: article
+  start:
+    sid: troop_numbers_4
+    'off': 0.3
+  end:
+    sid: troop_numbers_4
+    edge: end
+    'off': 0.5
+  mid: gulf_pact_2026_art_0016
+  theme: dark
+- type: quote
+  start:
+    sid: troop_numbers_6
+    'off': 0.3
+  end:
+    sid: troop_numbers_6
+    edge: end
+    'off': 0.6
+  flag: pk
+  speaker: 아흐메드 샤리프 차우드리
+  role: 파키스탄군 대변인 · 중장
+  text: 여러 역량으로
+  src: The Express Tribune · CNN 인터뷰
+  date: 2026.10.07
+  accent: gold
+  pos: center
+- type: marker
+  start:
+    word:
+      sid: troop_numbers_7
+      text: 아덴
+  end:
+    scene_end: troop_numbers
+  at_place: aden
+  label: 아덴
+  sub: 9월 수송기 4대 · 로이터 보도
+  side: right
+  hl: true
+- type: article
+  start:
+    sid: troop_numbers_8
+    'off': 0.3
+  end:
+    sid: troop_numbers_8
+    edge: end
+    'off': 0.4
+  mid: gulf_pact_2026_art_0017
+  theme: dark
+- type: country
+  start:
+    scene_start: yemen_front
+  end:
+    scene_end: yemen_front
+  codes:
+  - YE
+  col: ru
+  a: 0.06
+- type: card
+  start:
+    sid: yemen_front_0
+    'off': 0.4
+  end:
+    sid: yemen_front_0
+    edge: end
+    'off': 0.4
+  tag: 10월 초 · 탈환 공세
+  lines:
+  - 사우디 주도 연합군 · 예멘 정부군
+  - 후티 점령지 탈환 공세 시작
+  accent: teal
+- type: badge
+  start:
+    word:
+      sid: yemen_front_0
+      text: 정부군
+  end:
+    scene_end: yemen_front
+  lon: 45.8
+  lat: 15.6
+  kind: flag
+  flag: ye
+  R: 18
+  label: 예멘 정부군
+  accent: teal
+- type: marker
+  start:
+    sid: yemen_front_1
+    'off': 0.2
+  end:
+    scene_end: yemen_front
+  at_place: bab_el_mandeb
+  label: 바브엘만데브 해협
+  sub: ''
+  side: left
+  hl: false
+- type: marker
+  start:
+    word:
+      sid: yemen_front_1
+      text: 모카
+  end:
+    scene_end: yemen_front
+  at_place: mokha
+  label: 모카
+  sub: 10월 5일 정부군 도달 주장
+  side: right
+  hl: true
+- type: card
+  start:
+    sid: yemen_front_2
+    'off': 0.2
+  end:
+    scene_end: yemen_front
+    'off': 0.4
+  tag: 후티
+  lines:
+  - 정부군의 모카 도달 주장 부인
+  accent: muted
+- type: country
+  start:
+    sid: riyadh_airport_0
+    'off': 0.2
+  end:
+    scene_end: riyadh_airport
+  codes:
+  - YE
+  col: ru
+  a: 0.07
+- type: marker
+  start:
+    word:
+      sid: riyadh_airport_0
+      text: 킹칼리드
+  end:
+    scene_end: riyadh_airport
+  at_place: kkia
+  label: 킹칼리드 국제공항
+  sub: 리야드 · 10월 8일 공격 (후티 주장)
+  side: right
+  hl: true
+  icon: boom
+- type: boom
+  start:
+    sid: riyadh_airport_0
+    'off': 2.8
+  end:
+    sid: riyadh_airport_0
+    'off': 5.0
+  at_place: kkia
+- type: photo
+  start:
+    sid: riyadh_airport_0
+    edge: end
+    'off': -1.2
+  end:
+    sid: riyadh_airport_1
+    edge: end
+    'off': 0.3
+  mid: gulf_kkia_aerial
+  place: map_right_low
+- type: card
+  start:
+    sid: riyadh_airport_1
+    'off': 0.3
+  end:
+    sid: riyadh_airport_1
+    edge: end
+    'off': 0.3
+  tag: 사우디 민간항공청 · 10월 8일 공격
+  bigs:
+  - - 최소 3명
+    - 사망 · 조종사 포함 사우디인
+  accent: ru
+  src: 사우디 민간항공청
+- type: article
+  start:
+    sid: riyadh_airport_2
+    'off': 0.3
+  end:
+    sid: riyadh_airport_2
+    edge: end
+    'off': 0.5
+  mid: gulf_pact_2026_art_0005
+  theme: dark
+  press: gulf_pact_2026_art_0005_press
+- type: boom
+  start:
+    sid: riyadh_airport_2
+    edge: end
+    'off': 0.6
+  end:
+    sid: riyadh_airport_3
+    'off': 2.0
+  at_place: kkia
+- type: card
+  start:
+    sid: riyadh_airport_3
+    'off': 0.2
+  end:
+    sid: riyadh_airport_3
+    edge: end
+    'off': 0.3
+  tag: 사우디 발표 · 10월 10일 재공격
+  bigs:
+  - - 최소 12명
+    - 사망
+  accent: ru
+  src: 사우디 정부
+- type: card
+  start:
+    sid: riyadh_airport_4
+    'off': 0.2
+  end:
+    sid: riyadh_airport_4
+    edge: end
+    'off': 0.5
+  tag: 사우디 민간항공청 · 10월 10일 재공격
+  bigs:
+  - - 최소 309명
+    - 부상
+  accent: ru
+  src: 사우디 민간항공청
+- type: quote
+  start:
+    sid: riyadh_airport_6
+    'off': 0.3
+  end:
+    sid: riyadh_airport_6
+    edge: end
+    'off': 0.6
+  flag: sa
+  speaker: 사우디 주도 연합군
+  role: 연합군 성명
+  text: 전면적 전쟁범죄
+  src: Al Jazeera
+  date: 2026.10.10
+  accent: ru
+  pos: center
+- type: country
+  start:
+    sid: riyadh_airport_7
+    'off': 0.3
+  end:
+    scene_end: riyadh_airport
+  codes:
+  - SA
+  col: ru
+  a: 0.08
+- type: marker
+  start:
+    scene_start: korea
+  end:
+    scene_end: korea
+  at_place: hormuz
+  label: 호르무즈 해협
+  sub: ''
+  side: right
+  hl: true
+- type: route
+  start:
+    sid: korea_0
+    'off': 0.1
+  end:
+    scene_end: korea
+  pts:
+    path: oil
+  grow: 2.0
+  col: gold
+  ship: true
+  label: 한국 원유 수입 70% 경유
+- type: article
+  start:
+    sid: korea_0
+    'off': 0.6
+  end:
+    sid: korea_0
+    edge: end
+    'off': 0.5
+  mid: csis_0402_korea
+  theme: dark
+- type: card
+  start:
+    sid: korea_1
+    'off': 0.3
+  end:
+    sid: korea_1
+    edge: end
+    'off': 0.3
+  tag: 산업통상부 · 5월 26일 브리핑
+  bigs:
+  - - 69.1% → 48.5%
+    - 중동산 원유 비중
+  accent: ru
+  src: 산업통상부
+- type: photo
+  start:
+    sid: korea_1
+    'off': 1.2
+  end:
+    sid: korea_2
+    edge: end
+    'off': 0.3
+  mid: hormuz_transit
+  place: map_right_low
+- type: card
+  start:
+    sid: korea_2
+    'off': 0.3
+  end:
+    scene_end: korea
+    'off': 0.3
+  tag: 산업통상부 · 미주산 원유 비중
+  bigs:
+  - - 23.1% → 35.6%
+    - 지난해 → 올해 5~7월
+  accent: us
+  src: 산업통상부
+- type: country
+  start:
+    sid: briefing_0
+    'off': 0.3
+  end:
+    total: true
+  codes:
+  - SA
+  - PK
+  col: gold
+  a: 0.09
+- type: badge
+  start:
+    sid: briefing_0
+    'off': 0.5
+  end:
+    total: true
+  lon: 66.0
+  lat: 27.8
+  kind: flag
+  flag: pk
+  R: 18
+  label: 파키스탄
+  accent: gold
+- type: route
+  start:
+    sid: briefing_0
+    'off': 0.8
+  end:
+    total: true
+  pts:
+    path: pk_sa
+  grow: 1.6
+  col: gold
+  ship: false
+  dashed: true
+  label: ''
+- type: country
+  start:
+    word:
+      sid: briefing_0
+      text: 튀르키예
+  end:
+    total: true
+  codes:
+  - TR
+  col: gold
+  a: 0.09
+- type: badge
+  start:
+    word:
+      sid: briefing_0
+      text: 튀르키예
+  end:
+    total: true
+  lon: 36.0
+  lat: 38.3
+  kind: flag
+  flag: tr
+  R: 18
+  label: 튀르키예
+  accent: gold
+- type: route
+  start:
+    sid: briefing_0
+    edge: end
+    'off': -1.8
+  end:
+    total: true
+  pts:
+    path: tr_sa
+  grow: 1.4
+  col: gold
+  ship: false
+  dashed: true
+  label: 메카 협정
+- type: cascade
+  start:
+    sid: briefing_1
+    'off': 0.1
+  end:
+    total: true
+  items:
+  - at:
+      sid: briefing_1
+      'off': 0.3
+    flag: sa
+    date: 2026.10.05
+    title: 메카 협정 발동
+    accent: gold
+  - at:
+      word:
+        sid: briefing_1
+        text: 이틀
+    flag: pk
+    date: 2026.10.07
+    title: 파키스탄군, 사우디 주둔 공식 확인
+    accent: gold
+  - at:
+      word:
+        sid: briefing_2
+        text: 리야드
+    flag: sa
+    date: 2026.10.08
+    title: 리야드 공항에 탄도미사일 · 후티 주장
+    accent: ru
+- type: country
+  start:
+    word:
+      sid: briefing_2
+      text: 예멘
+  end:
+    total: true
+  codes:
+  - YE
+  col: ru
+  a: 0.07
+- type: marker
+  start:
+    word:
+      sid: briefing_2
+      text: 리야드
+  end:
+    total: true
+  at_place: kkia
+  label: 리야드 공항
+  sub: ''
+  side: right
+  hl: true
+  icon: boom
+sound:
+  bgm: null
+  intensity:
+  - - 0.0
+    - 0.55
+  - - scene_start: pact_origin
+    - 0.58
+  - - scene_start: reactions
+    - 0.6
+  - - scene_start: mecca_attack
+    - 0.7
+  - - scene_start: invocation
+    - 0.66
+  - - scene_start: roles
+    - 0.6
+  - - scene_start: troop_numbers
+    - 0.62
+  - - scene_start: yemen_front
+    - 0.7
+  - - scene_start: riyadh_airport
+    - 0.76
+  - - scene_start: korea
+    - 0.58
+  - - scene_start: briefing
+    - 0.62
+  - - total: true
+      'off':
+      - 0.5
+      - -7.0
+    - 0.6
+  - - total: true
+      'off': 0.5
+    - 0.0
+  cues:
+  - kind: boom
+    t:
+      sid: riyadh_airport_0
+      'off': 2.8
+    v: 0.5
+  - kind: boom
+    t:
+      sid: riyadh_airport_2
+      edge: end
+      'off': 0.6
+    v: 0.4
