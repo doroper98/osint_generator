@@ -11,12 +11,14 @@ from pathlib import Path
 
 import yaml
 
+from schemas.feedback_models import FeedbackLedger
 from schemas.rules_models import VideoRules
 from schemas.source_models import AccountClass, OfficialAccountsFile
 
 RULES_PATH: Path = Path(__file__).resolve().parent / "video_rules.yaml"
 OFFICIAL_ACCOUNTS_PATH: Path = Path(__file__).resolve().parent / "official_accounts.yaml"
 SERIES_REGISTRY_PATH: Path = Path(__file__).resolve().parent / "series_registry.yaml"
+USER_FEEDBACK_PATH: Path = Path(__file__).resolve().parent / "user_feedback.yaml"   # v5.22.0 D-0200 — 사용자 의견 원장(정본)
 
 
 def load_rules(path: Path | None = None) -> VideoRules:
@@ -53,3 +55,9 @@ def load_series_registry(path: Path | None = None):  # noqa: ANN201 — SeriesRe
 
     target = path or SERIES_REGISTRY_PATH
     return SeriesRegistry.model_validate(yaml.safe_load(target.read_text(encoding="utf-8")))
+
+
+def load_user_feedback(path: Path | None = None) -> FeedbackLedger:
+    """사용자 의견 원장(v5.22.0 D-0200). 파일이 없거나 형식이 틀리면 예외(P6) — 원장 없이 게이트를 통과시키지 않는다."""
+    target = path or USER_FEEDBACK_PATH
+    return FeedbackLedger.model_validate(yaml.safe_load(target.read_text(encoding="utf-8")))

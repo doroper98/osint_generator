@@ -1463,6 +1463,12 @@ class FrameMissingRules(_Strict):
     sample_sec: float = Field(gt=0)
 
 
+class BattleGeoRules(_Strict):
+    """v5.22.0 D-0200 UF-08 — 전황 동사(점령·탈환·공세 등) 문장 구간에 지도 마커·경로가 하나도 없으면 warning(battle_geo)."""
+
+    verbs: list[str] = Field(min_length=1)
+
+
 class QAChecks(_Strict):
     overlap_core_elements: int
     offscreen_clip: int
@@ -1475,6 +1481,7 @@ class QAChecks(_Strict):
     label_hidden_max_ratio: float = Field(gt=0, le=1)   # v3.6.0 D-0068
     route_missing: "RouteMissingRules"   # v5.21.14 D-0195·D-0197 — 이동·공격 문장의 경로 누락
     frame_missing: "FrameMissingRules"   # v5.21.14 D-0199 — 문장이 부르는 지명이 화면 밖
+    battle_geo: "BattleGeoRules"         # v5.22.0 D-0200 UF-08 — 전황 문장에 지명·경로 없음(warning)
     card_full_exposure_min_sec: float = Field(gt=0)   # v5.21.10 D-0191 §1-2 — 기사·인용 카드 완전 불투명 구간 하한(hard card_exposure)
     map_contrast_text: float = Field(default=4.5, gt=1)    # v5.18.0 D-0161 §4 — 지도 위 필수 글자 ↔ 합성 배경(hard)
     map_contrast_shape: float = Field(default=3.0, gt=1)   # 지도 위 경로 선 ↔ 주변(warning)

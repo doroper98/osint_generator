@@ -412,7 +412,8 @@ def approve_gate(
         shown = {**(shown or {}), "script_sha1": script_sha1(pdir),
                  "media_plan": require_media_plan(pdir)}   # v5.19.0 D-0163 §2 — 사진 목표 미달 = 문장 단위 사유 필수(P6)
     if g == ProjectState.PREVIEW_APPROVAL:   # 콘티 판 의무(WORKFLOWS W0, PIPELINE-AP-014) — 건너뛰면 게이트 ② 승인 불가
-        shown = {**(shown or {}), "animatic": require_animatic(project_dir(manifest.project_id, cfg), approved_script_sha1(manifest))}
+        shown = {**(shown or {}), "animatic": require_animatic(project_dir(manifest.project_id, cfg), approved_script_sha1(manifest)),
+                 "user_feedback": require_feedback_guards()}   # v5.22.0 D-0200 — 장치 없는 사용자 의견이 있으면 거부
     if chosen_version is not None:
         if g != ProjectState.PREVIEW_APPROVAL:
             raise ValueError("chosen_version 은 게이트 ②(preview_approval)에서만 쓴다")
@@ -463,6 +464,24 @@ def approved_script_sha1(manifest: ProjectManifest) -> str | None:
         if gate == ProjectState.SCRIPT_APPROVAL.value and d.decision == "approved":
             return (d.shown or {}).get("script_sha1") or None
     return None
+
+
+class FeedbackUnguardedError(ValueError):
+    """게이트 ② 승인 전에 재발 방지 장치가 없는(status open) 사용자 의견이 원장에 있다(v5.22.0 D-0200)."""
+
+
+def require_feedback_guards(path: Path | None = None) -> str:
+    """사용자 의견 원장(rules/user_feedback.yaml)에 장치 없는(open) 항목이 있으면 FeedbackUnguardedError — 우회 플래그 없음.
+    사용자 지시(2026-10-11) "내가 코멘트 한 사항들은 모두 기록되고 재발이 되면 안돼". 게이트 기록용 한 줄을 돌려준다."""
+    from rules import load_user_feedback  # noqa: PLC0415
+
+    led = load_user_feedback(path)
+    op = led.open_entries()
+    if op:
+        lines = "\n".join(f"  {e.id} ({e.date} {e.project} · {e.at}) \"{e.quote}\"" for e in op)
+        raise FeedbackUnguardedError(f"재발 방지 장치가 없는 사용자 의견 {len(op)}건 — 장치(검사·테스트·규칙 키)를 만들어 rules/user_feedback.yaml "
+                                     f"guards 에 적고 status guarded 로 바꾼 뒤 승인한다(CLAUDE.md C12, D-0200):\n{lines}")
+    return f"사용자 의견 {len(led.entries)}건 모두 장치 있음(최근 {led.entries[-1].id})"
 
 
 def require_animatic(pdir: Path, approved_sha1: str | None = None) -> str:

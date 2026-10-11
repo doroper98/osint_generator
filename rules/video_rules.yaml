@@ -1482,6 +1482,10 @@ qa_checks:                 # 17 §3 — 결정적 사전 검사 임계
   # v5.21.14 사용자 의견(2026-10-11 "지도에 예멘 쪽이 안 보인다", D-0199) — 문장이 부르는 나라(라벨 점)·마커가 문장 구간 내내 화면 밖이면 frame_missing warning,
   # 그 문장의 이동·공격 대상(위 동사 + 마커)이면 frame_missing_target hard
   frame_missing: {margin_px: 8, sample_sec: 0.5}
+  # v5.22.0 사용자 의견 UF-08(2026-10-11 "반군과 정부군이 어떤 도시를 점령하고 탈환했는지 — 아무것도 안 나와서 뭔지 모르겠음", D-0200) — 전황 문장에
+  # 지도 마커·경로가 하나도 없으면 battle_geo warning. UF-10("트럼프의 이미지") — 인물 이름이 나오는 문장에 쓸 수 있는 초상이 있는데 그 인물 뱃지·인용이 없으면 portrait_unused warning
+  battle_geo:
+    verbs: [점령, 탈환, 공세, 장악, 진격, 교전, 함락, 격퇴]
   overlap_core_elements: 0
   offscreen_clip: 0
   missing_glyphs: 0

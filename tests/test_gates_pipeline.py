@@ -9,6 +9,7 @@ import shutil
 import subprocess
 import tempfile
 import unittest
+from unittest import mock
 from pathlib import Path
 
 import yaml
@@ -95,8 +96,15 @@ class _Proj(unittest.TestCase):
         shutil.copytree(REPO / "projects" / "hormuz_korea" / "intake", self.root / "p" / "intake")   # v3.2.0 — claims.json(18 §7 게이트 ① 전 검사)
         write_media_notes(self.root / "p")   # v5.19.0 — 게이트 ① 미디어 계획 표(D-0163 §2)
         write_animatic(self.root / "p")   # v5.2.0 — 게이트 ② 는 콘티 판 의무(PIPELINE-AP-014)
+        # v5.22.0 D-0200 — 게이트 ② 는 사용자 의견 원장도 본다. 이 시험은 원장 상태와 무관하게(모두 보호된 원장) — 원장 차단은 test_feedback_gate
+        led = self.root / "user_feedback.yaml"
+        led.write_text("schema_version: 1\nentries:\n- {id: UF-01, date: '2026-10-11', project: p, at: t, quote: q, category: c, "
+                       "guards: [{kind: check, ref: card_exposure}], status: guarded, decision: D-0200}\n", encoding="utf-8")
+        self._uf = mock.patch("rules.USER_FEEDBACK_PATH", led)
+        self._uf.start()
 
     def tearDown(self) -> None:
+        self._uf.stop()
         self._tmp.cleanup()
 
     def to(self, *states: ProjectState) -> None:

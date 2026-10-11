@@ -27,6 +27,8 @@ hard 실패가 하나라도 있으면 시각 검수 LLM 을 부르지 않고 연
 | quote_in_script | hard | 인용(quote) text ⊂ 그 구간 문장 화면 원고(공백·문장부호 정규화, v5.21.13 D-0194) |
 | route_missing · route_missing_other | warning · hard | 이동·공격 동사(qa_checks.route_missing) + 문장이 부르는 마커 → 그 마커에 끝점이 닿는 경로가 문장 구간에 있어야 한다. 다른 경로만 보이면 hard(v5.21.14 D-0195·D-0197) |
 | frame_missing · frame_missing_target | warning · hard | 문장이 부르는 나라(라벨 점)·마커가 문장 구간 내내 화면 밖. 이동·공격 대상이면 hard(v5.21.14 D-0199) |
+| battle_geo | warning | 전황 동사 문장에 지도 마커·경로 없음(v5.22.0 D-0200 UF-08) |
+| portrait_unused | warning | 인물 이름이 나오고 초상이 있는데 그 인물 뱃지·인용 없음(v5.22.0 D-0200 UF-10) |
 | genre_elements | hard | 장르 요소(v4.2.0 D-0081 작업 3, GOAL G3-17): direction 이 쓴 이벤트·패널·뱃지·프리미티브 종류(genres.elements) ⊆ 장르 프로필 primitives.reuse ∪ new |
 | chart_honesty | hard | 차트 정직성(v4.3.0 D-0084 작업 5·D-0087, 20 §5.3): 막대 0 기준선·압축 구간 ↔ 물결 라벨·%/%p·이중 축 라벨·색·로그 척도 표기 (`engine.honesty`) |
 | series_limit_3 | hard | 한 차트(레인·패널)의 계열 ≤ qa_checks.series_max |
@@ -79,7 +81,7 @@ HARD = ("map_contrast", "overlap", "offscreen", "glyphs", "glyph_size", "labels"
         "backdrop_main_missing", "island_label_clip", "cascade", "subtitle_overlap", "label_collision", "timeline_span", "route_frame", "panel_overflow", "flag_territory", "badge_over_panel", "opening_establish", "camera_continuity", "card_exposure", "route_label_cross", "route_label_overlap", "article_backdrop", "quote_in_script", "route_missing_other", "frame_missing_target")   # island_label_clip v5.2.0 D-0133 §2, backdrop_main_missing v5.2.0 D-0129 §B, island_overlap v5.1.0 D-0126 Q3, geo_mismatch v4.10.0 D-0116, timeline_rescale v5.1.0 D-0121 §A, backdrop_* v5.1.0 D-0123
 WARN = ("shots", "media_beats", "media_upscaled", "endcard_roll", "geo_unsourced",   # endcard_roll v4.7.0 D-0106, geo_unsourced D-0107
         "static_window", "stage_choice", "card_island", "island_label_overlap", "cascade_label_hidden",
-        "map_contrast_shape", "route_missing", "frame_missing")   # v5.21.14 D-0195·D-0199. map_contrast_shape v5.18.0 D-0161 §4   # static_window v4.11.0 D-0118, stage_choice v5.1.0 D-0123, card_island v5.2.0 D-0129 §C, island_label_overlap D-0133 §3
+        "map_contrast_shape", "route_missing", "frame_missing", "battle_geo", "portrait_unused")   # v5.21.14 D-0195·D-0199. map_contrast_shape v5.18.0 D-0161 §4   # static_window v4.11.0 D-0118, stage_choice v5.1.0 D-0123, card_island v5.2.0 D-0129 §C, island_label_overlap D-0133 §3
 
 
 def missing_fonts() -> list[str]:
@@ -942,6 +944,42 @@ def story_geo_report(P) -> dict[str, list[str]]:  # noqa: ANN001, N803
     return rep
 
 
+def check_battle_geo(P) -> list[str]:  # noqa: ANN001, N803
+    """v5.22.0 D-0200 UF-08 — 전황 동사(qa_checks.battle_geo.verbs) 문장 구간에 지도 마커·경로가 하나도 없으면 warning.
+    지도 무대가 아니거나 문장 구간 전체가 가려졌으면(전면 카드·패널·기사·인용) 보지 않는다."""
+    if not _map_main(P):
+        return []
+    out = []
+    for s in P.plan.sentences:
+        if not any(v in s.text for v in QA.battle_geo.verbs):
+            continue
+        if all(_covered(P, t) or any(e["type"] in ("article", "quote") and e["t0"] <= t <= e["t1"] for e in P.events)
+               for t in np.arange(s.t0, s.t1, 0.5)):
+            continue
+        if not any(e["type"] in ("marker", "route") and e["t0"] < s.t1 and e["t1"] > s.t0 for e in P.events):
+            out.append(f"[battle-geo] {s.sid} 전황 문장인데 지도에 지명 마커·진격 경로가 없다 — 어느 도시를 누가 장악·탈환했는지 marker(날짜 부제)·route 로")
+    return out
+
+
+def check_portrait_unused(P) -> list[str]:  # noqa: ANN001, N803
+    """v5.22.0 D-0200 UF-10 — 문장에 인물 이름(엔티티 별칭)이 나오고 쓸 수 있는 초상(엔티티 portrait·라이브러리)이 있는데
+    그 문장 구간에 그 인물의 뱃지·인용이 없으면 warning(문장마다 인물 한 줄)."""
+    from engine.entities import load_entities  # noqa: PLC0415
+
+    persons = [(e.portrait or e.library, e.names) for e in load_entities().of_kind("person").values() if (e.portrait or e.library)]
+    out = []
+    for s in P.plan.sentences:
+        flat = s.text.replace(" ", "")
+        for pid, names in persons:
+            hit = next((n for n in sorted(names, key=len, reverse=True) if len(n.replace(" ", "")) >= 2 and n.replace(" ", "") in flat), None)
+            if hit is None:
+                continue
+            if any(e["t0"] < s.t1 and e["t1"] > s.t0 and f"'pid': '{pid}'" in repr(e) for e in P.events):   # 뱃지·인용·패널 노드 어디든
+                continue
+            out.append(f"[portrait-unused] {s.sid} '{hit}' 가 나오는데 초상({pid})을 쓰지 않았다 — 인물 뱃지(kind person)나 인용으로 보인다")
+    return out
+
+
 def check_stage_continuity(P) -> list[str]:  # noqa: ANN001, N803
     """무대 연속성 — engine.shots.stage_continuity 한 곳. 상세는 "[규칙 키] 설명"(D-0077: 영문 키)."""
     from engine.shots import stage_continuity  # noqa: PLC0415
@@ -1144,6 +1182,8 @@ def run_checks(P, times: list[float], provenance: dict, drawn: list[tuple[str, f
         "route_missing_other": lambda: story_geo_report(P)["route_missing_other"],     # v5.21.14 (hard — 다른 경로만 = 오해)
         "frame_missing": lambda: story_geo_report(P)["frame_missing"],                 # v5.21.14 D-0199(warning)
         "frame_missing_target": lambda: story_geo_report(P)["frame_missing_target"],   # v5.21.14 (hard — 이동·공격 대상 화면 밖)
+        "battle_geo": lambda: check_battle_geo(P),            # v5.22.0 D-0200 UF-08(warning)
+        "portrait_unused": lambda: check_portrait_unused(P),  # v5.22.0 D-0200 UF-10(warning)
         "genre_elements": lambda: check_genre_elements(P),
         "boundary_as_route": lambda: list((P.R.cache.get("geo_check") or {}).get("boundary") or []),
         "geo_unsourced": lambda: check_geo_unsourced(P),

@@ -240,6 +240,9 @@ def preview(P: Project, times: list[float], labels: list[str] | None = None) -> 
     if cs is not None:   # v5.18.0 D-0161 §4 — 지도 대비 측정표(종류별 최저 5개), 측정이 있을 때만(P5)
         prov["map_contrast"] = cs
     prov["checks"] = {"hard": checks["hard"], "warnings": checks["warnings"], "passed": checks["passed"]}
+    from engine.provenance import feedback_guards  # noqa: PLC0415
+
+    prov["user_feedback_guards"] = feedback_guards(checks)   # v5.22.0 D-0200 — 돈 사용자 의견 장치와 결과(P5)
     (out / "provenance.json").write_text(json.dumps(prov, ensure_ascii=False, indent=1), encoding="utf-8")
     (out / "checks.json").write_text(json.dumps(checks, ensure_ascii=False, indent=1), encoding="utf-8")
     (out / "frames.json").write_text(json.dumps(frames_info(P, times, names), ensure_ascii=False, indent=1), encoding="utf-8")
@@ -418,6 +421,9 @@ def render_animatic(P: Project, jobs: int) -> tuple[Path, dict]:  # noqa: N803
                             "jobs": rj["jobs"], "frames": rj["frames"], "loudnorm": {"passes": 2, **loud},
                             "bytes": final.stat().st_size}
     prov["checks"] = {"hard": checks["hard"], "warnings": checks["warnings"], "passed": checks["passed"], "profile": checks["profile"]}
+    from engine.provenance import feedback_guards  # noqa: PLC0415
+
+    prov["user_feedback_guards"] = feedback_guards(checks)   # v5.22.0 D-0200
     (outd / "animatic_provenance.json").write_text(json.dumps(prov, ensure_ascii=False, indent=1), encoding="utf-8")
     return final, prov
 

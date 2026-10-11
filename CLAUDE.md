@@ -240,6 +240,18 @@ byte-equal 원칙)다. 위반은 `tests/anti_inertia/`가 잡는다.
 `decision_request`를 올리고 감독 세션(Fable)이 결정한다(`back_and_forth/README.md` §6.4). 사용자 고유 결정
 (같은 문서 §7)은 Fable도 결정하지 않고 사용자에게 묻는다.
 
+## C12. 사용자 의견 원장 — 기록·재발 방지 의무 (v5.22.0, 사용자 지시 2026-10-11, D-0200)
+
+> 사용자 원문: **"내가 코멘트 한 사항들은 모두 기록되고 재발이 되면 안돼."**
+
+1. **수신 즉시 기록**: 사용자가 영상·화면·소리·작업 순서에 준 의견은 받은 그 자리에서 `rules/user_feedback.yaml`(정본)에 원문 그대로 새 UF 번호로 append 한다.
+   고친 뒤가 아니다. 과거 줄은 고치지 않는다(장치·상태 칸 보강만). 문서 표는 `python tools/feedback_ledger.py --write` 로 만든다.
+2. **장치 없는 의견 = 게이트 차단**: 각 의견에는 재발하면 실제로 실패를 내는 장치(checks id·테스트·규칙 키·검증 함수)를 단다.
+   장치가 없는(status open) 의견이 하나라도 있으면 `approve --gate preview_approval` 이 거부된다(`orchestrator.project_manager.require_feedback_guards`, 우회 플래그 없음).
+   장치가 실제로 있는지는 `tests/anti_inertia/test_user_feedback_guards.py` 가 강제한다. 영상마다 provenance `user_feedback_guards` 에 돈 장치와 결과가 남는다.
+3. **저장소 전체 적용**: 장치는 모든 렌더 경로(콘티 판·프리뷰·전편, 본 엔진·스케치)에 같은 규칙 키로 건다. 한 트랙에만 걸린 장치는 미보호다(UF-02 교훈).
+4. **재발 = 새 번호 + recurs_of + AP 항목 + 장치 보강**: 같은 의견이 다시 나오면 원래 장치가 왜 못 잡았는지 `docs/ANTIPATTERNS/` 에 남기고 장치를 고친다.
+
 ---
 
 본 문서를 위반하는 PR은 자동으로 차단되어야 합니다. 차단 메커니즘이 아직 없다면

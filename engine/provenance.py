@@ -40,6 +40,20 @@ def features(keys: list[CamKey], events: list[dict]) -> dict:
     }
 
 
+def feedback_guards(checks: dict) -> list[dict]:
+    """v5.22.0 D-0200 — 이번 렌더에서 돈 사용자 의견 장치(check 종류)와 결과: [{id, checks: {검사 id: 건수 | "skipped"}}].
+    원장 장치 중 본 엔진 검사만(테스트·규칙 키는 렌더에서 돌지 않는다 — 기록하지 않는다, P5)."""
+    from rules import load_user_feedback  # noqa: PLC0415
+
+    by = {i["id"]: ("skipped" if i.get("skipped") else i["count"]) for i in checks.get("items", [])}
+    out = []
+    for e in load_user_feedback().entries:
+        ran = {g.ref: by[g.ref] for g in e.guards if g.kind == "check" and g.ref in by}
+        if ran:
+            out.append({"id": e.id, "checks": ran})
+    return out
+
+
 def _versions(d: Path, stem: str, suffix: str) -> list[Path]:
     """{stem}.v{n}{suffix} 를 번호순으로(수정 기록은 v2 부터 — v1 은 연출가 초안)."""
     pat = re.compile(rf"^{re.escape(stem)}\.v(\d+){re.escape(suffix)}$")

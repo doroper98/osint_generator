@@ -253,6 +253,7 @@ python back_and_forth/check.py --me opus --next-id         # 내가 쓸 다음 �
 
 - 사용자는 이 폴더에 `D` 파일을 직접 쓸 수 있다(`from: user`). 번호는 Fable의 D 번호를 이어서 쓴다.
 - 사용자가 대화로 준 지시는 파일보다 우선한다. Opus는 그 지시를 다음 `progress`에 인용해 Fable도 알게 한다.
+- 사용자 의견(영상·화면·소리·작업 순서)은 받은 쪽(감독·구현 세션 누구든)이 그 자리에서 `rules/user_feedback.yaml` 에 원문 그대로 UF 번호로 기록한다(CLAUDE.md C12, D-0200). 장치 없는 의견이 있으면 게이트 ② 가 거부된다.
 
 ## 10. 세션 생존과 재기동 — 정본은 `docs/handoff/21_SESSION_LIVENESS_AND_RECOVERY.md`
 - 세션 안 크론은 컨테이너 회수·worker 재시작 때 소리 없이 죽는다. **fire_trigger 는 disconnected 세션을 깨우지 못한다**(2026-09-28 세 번 연속 실측). 깨우지 않고 **새로 만든다**.

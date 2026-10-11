@@ -107,6 +107,15 @@ handoff 20 §5.3 표의 아홉 규칙을 네 검사(`chart_honesty`·`series_lim
 |---|---|---|---|
 | 프리뷰 컷에 그린 글자 중 검증 라벨 문구(`[label-in-body]`) | hard(forbidden) | `rules:script_schema.labels` | 사용자 결정 D85, back_and_forth D-0096 |
 
+### 2.6 사용자 의견 원장 게이트 — v5.22.0 (D-0200)
+
+| 검사 | 등급 | 키 | 근거 |
+|---|---|---|---|
+| 원장 `rules/user_feedback.yaml` 에 장치 없는(open) 의견 | 게이트 ② 거부(`require_feedback_guards`) | `rules/user_feedback.yaml` | 사용자 지시 2026-10-11, CLAUDE.md C12 |
+| 원장 장치가 저장소에 실제로 있음·문서 표 = 생성 결과·한 트랙만 걸린 장치 없음 | 테스트 | `tests/anti_inertia/test_user_feedback_guards.py` | D-0200 §2 |
+| 영상마다 돈 장치와 결과 | provenance `user_feedback_guards` | — | P5 |
+| 전황 문장 지명·경로 없음(`battle_geo`)·초상 있는 인물 미표시(`portrait_unused`) | warning | `rules:qa_checks.battle_geo` | UF-08·UF-10 |
+
 ## 3. 시각 검수 판정 형식
 
 시각 검수 워커의 출력은 `engine.qa.QAVerdict`다. 지적(`QAIssue`)은 컷(`frame`)·등급(hard/soft)·분류·근거(evidence)를 가진다.
