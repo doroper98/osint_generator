@@ -21,7 +21,7 @@
 | V5 끝 억양(v5.20.0) | 합격 D-0180. 사용자 최종 청취 자료(전편·전/후 발췌) 전달함 — **사용자 청취 판정 대기**(그 판정이 V3·V5 최종) |
 | v5.20.1 light A | 합격 D-0183 |
 | v5.20.2 octave_clean | 합격 D-0184(관찰 3건 기록) |
-| v5.21.0 보도 인용 B | R-0211(f8fda51) **검증 중 — 미판정.** 코드 리뷰는 끝(D-0177 원칙과 일치, 판단 ③ 별도 photo 항목+press_of 수용). 남은 것: 골든 두 테마 25/25 무변화 + 전체 pytest(Opus 1548·0·0) 재현 → 합격 D 문서 + DECISIONS. 이전 감독 컨테이너의 실행 결과는 사라졌으니 다시 돌리거나, 시간이 없으면 타깃(`tests/test_b_press_quote.py` 17 passed 확인됨)+골든만 돌리고 전체 pytest 는 Opus 수치를 인용하되 그렇게 적는다 |
+| v5.21.0 보도 인용 B | R-0211(f8fda51) **검증 중 — 미판정.** 코드 리뷰는 끝(D-0177 원칙과 일치, 판단 ③ 별도 photo 항목+press_of 수용). 이전 감독 컨테이너 실측: **골든 dark 25/25·light 25/25 무변화 확인됨(f8fda51)**, 타깃 `test_b_press_quote` 17 passed. 남은 것: 전체 pytest(Opus 1548·0·0) 재현 → 합격 D 문서 + DECISIONS. 이전 감독 컨테이너의 실행 결과는 사라졌으니 다시 돌리거나, 시간이 없으면 타깃(`tests/test_b_press_quote.py` 17 passed 확인됨)+골든만 돌리고 전체 pytest 는 Opus 수치를 인용하되 그렇게 적는다 |
 | P1 사용자 영상 gulf_pact_2026 | 게이트 ① **승인됨**(D180 "대본 오케이"). P1-2 진행 중: 음성 48문장 325.24초(final_fall 47), 사진 A 5장 + B 1장(Reuters via Al Jazeera, riyadh_airport_2), 미디어 표 통과. 다음 Opus 단계: AI 연출(light) → audio.mix → **P1-3 콘티 판** → 감독에게 |
 
 ## 4. 다음 할 일(순서)
