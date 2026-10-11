@@ -1,0 +1,56 @@
+100 frames 10.3s
+Sun Oct 11 12:26:38 2026    /tmp/claude-0/-home-user-osint-generator/6c047c3a-3182-577d-991a-746d7c71bdf6/scratchpad/prof_dark.prof
+
+         2212645 function calls in 10.301 seconds
+
+   Ordered by: cumulative time
+   List reduced from 144 to 45 due to restriction <45>
+
+   ncalls  tottime  percall  cumtime  percall filename:lineno(function)
+      100    0.043    0.000   10.301    0.103 /home/user/osint_generator/engine/render.py:49(render_frame)
+      100    0.040    0.000    5.699    0.057 /home/user/osint_generator/engine/stage.py:227(render_base)
+     2744    3.429    0.001    3.429    0.001 {method 'stroke' of 'cairo.Context' objects}
+      100    0.005    0.000    3.116    0.031 /home/user/osint_generator/engine/layers/borders.py:88(draw_border_glow)
+      100    0.022    0.000    2.784    0.028 /home/user/osint_generator/engine/layers/borders.py:58(draw_borders)
+      100    0.003    0.000    2.621    0.026 /home/user/osint_generator/engine/stage.py:242(base_image)
+      200    0.006    0.000    2.560    0.013 /home/user/osint_generator/engine/stage.py:259(_tier)
+      200    0.003    0.000    2.551    0.013 /usr/local/lib/python3.13/dist-packages/PIL/Image.py:2329(resize)
+      200    2.541    0.013    2.541    0.013 {method 'resize' of 'ImagingCore' objects}
+    42800    1.535    0.000    2.353    0.000 /home/user/osint_generator/engine/layers/borders.py:20(path_rings)
+      200    0.013    0.000    1.748    0.009 /home/user/osint_generator/engine/layers/borders.py:48(border_path)
+     2788    0.026    0.000    1.256    0.000 /home/user/osint_generator/engine/typography.py:105(text)
+      100    0.001    0.000    0.880    0.009 /home/user/osint_generator/engine/panels/base.py:48(render)
+     1786    0.856    0.000    0.856    0.000 {method 'stroke_preserve' of 'cairo.Context' objects}
+      100    0.022    0.000    0.807    0.008 /home/user/osint_generator/engine/panels/timeline.py:153(draw)
+      100    0.003    0.000    0.467    0.005 /home/user/osint_generator/engine/subtitles.py:66(draw_subtitle)
+  1395444    0.349    0.000    0.349    0.000 {method 'line_to' of 'cairo.Context' objects}
+     4530    0.307    0.000    0.307    0.000 {method 'fill' of 'cairo.Context' objects}
+      100    0.007    0.000    0.251    0.003 /usr/local/lib/python3.13/dist-packages/PIL/Image.py:842(tobytes)
+    17000    0.114    0.000    0.245    0.000 /home/user/osint_generator/engine/projection.py:51(to_screen_arr)
+     6000    0.203    0.000    0.203    0.000 {method 'encode' of 'ImagingEncoder' objects}
+   334700    0.168    0.000    0.168    0.000 /home/user/osint_generator/engine/projection.py:58(visible)
+    17000    0.078    0.000    0.107    0.000 /usr/local/lib/python3.13/dist-packages/numpy/lib/_shape_base_impl.py:607(column_stack)
+      100    0.003    0.000    0.085    0.001 /home/user/osint_generator/engine/hud.py:22(draw_date)
+      500    0.072    0.000    0.072    0.000 {method 'append_path' of 'cairo.Context' objects}
+      100    0.000    0.000    0.070    0.001 /home/user/osint_generator/engine/panels/base.py:40(draw_panel_cover)
+      100    0.069    0.001    0.069    0.001 {method 'paint' of 'cairo.Context' objects}
+      100    0.001    0.000    0.061    0.001 /home/user/osint_generator/engine/panels/base.py:21(panel_title)
+      100    0.001    0.000    0.055    0.001 /usr/local/lib/python3.13/dist-packages/PIL/Image.py:3736(blend)
+      100    0.052    0.001    0.052    0.001 {built-in method PIL._imaging.blend}
+    17500    0.011    0.000    0.042    0.000 {method 'max' of 'numpy.ndarray' objects}
+      100    0.035    0.000    0.035    0.000 {method 'join' of 'bytes' objects}
+    17500    0.008    0.000    0.031    0.000 /usr/local/lib/python3.13/dist-packages/numpy/_core/_methods.py:39(_amax)
+     2786    0.003    0.000    0.028    0.000 /home/user/osint_generator/engine/typography.py:206(tw)
+     2786    0.028    0.000    0.028    0.000 {method 'text_path' of 'cairo.Context' objects}
+     2786    0.003    0.000    0.025    0.000 /home/user/osint_generator/engine/typography.py:75(adv)
+    17000    0.009    0.000    0.024    0.000 /usr/local/lib/python3.13/dist-packages/numpy/lib/_shape_base_impl.py:603(_column_stack_dispatcher)
+     3886    0.024    0.000    0.024    0.000 {method 'text_extents' of 'cairo.Context' objects}
+    17500    0.023    0.000    0.023    0.000 {method 'reduce' of 'numpy.ufunc' objects}
+     8658    0.011    0.000    0.023    0.000 /home/user/osint_generator/engine/typography.py:81(font)
+    17000    0.010    0.000    0.016    0.000 /usr/local/lib/python3.13/dist-packages/numpy/_core/shape_base.py:206(_arrays_for_stack_dispatcher)
+    34000    0.012    0.000    0.012    0.000 {built-in method numpy.array}
+      100    0.010    0.000    0.010    0.000 {method 'copy_path' of 'cairo.Context' objects}
+    41000    0.010    0.000    0.010    0.000 {method 'append' of 'list' objects}
+     2988    0.008    0.000    0.009    0.000 /home/user/osint_generator/engine/panels/timeline.py:25(_d)
+
+
