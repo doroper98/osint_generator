@@ -1,8 +1,8 @@
 """V2 강제 정렬·게이트 (v5.16.0, back_and_forth D-0164 §5·D-0165, 사용자 결정 D151, DECISIONS D159).
 
 순수 함수(가중치 없이): 출처 등재·글자 수 대조·at_word 정렬 없음 오류·가중치 없음 오류 메시지·게이트 대응 규칙(대응 없음 = 실패 계상)·
-간격 일치(상수 치우침 소거)·발화 시작 참값·문턱 = trim 문턱·plan 정렬 재사용.
-가중치가 있는 환경(`python tools/fetch_data.py mms_fa`): 픽스처 10문장 게이트(절대 시각·간격 일치)·글자 단조·무음 오류·
+발화 시작 참값(v5.23.0 V4 — edge 간격 일치 삭제)·문턱 = trim 문턱·plan 정렬 재사용.
+가중치가 있는 환경(`python tools/fetch_data.py mms_fa`): 픽스처 10문장 게이트(표준 음성, 절대 시각·재정렬 결정성)·글자 단조·무음 오류·
 신뢰도 미달 오류(다른 문장 원고)·결정성·이동 불변(앞 0.5초 무음 → 0.5초 ± 20ms).
 """
 
@@ -96,13 +96,11 @@ class PureTest(unittest.TestCase):
         # 단조: 이미 쓴 어절 뒤에서만 찾는다
         self.assertEqual(G.match([0.40, 0.41], [0.40])[1], win)
 
-    def test_interval_check_cancels_constant_bias(self) -> None:
-        edge = [0.1, 0.6, 1.0, 1.5]
-        mms = [t + 0.1 for t in edge]
-        sil = [(0.0, 0.35)]                          # 첫 어절은 쉼 뒤 → 제외
-        errs = G.interval_errors(mms, edge, sil)
-        self.assertEqual(len(errs), 2)
-        self.assertTrue(all(abs(e) < 1e-9 for e in errs))
+    def test_no_edge_mode(self) -> None:
+        """v5.23.0 V4(D-0212) — edge 간격 대조 모드는 백엔드와 함께 삭제(게이트 = 음향 발화 시작 참값만)."""
+        self.assertFalse(hasattr(G, "interval_errors"))
+        with self.assertRaises(SystemExit):
+            G.main(["x", "--edge"])
 
     def test_plan_reuses_matching_alignment(self) -> None:
         import script.plan as P  # noqa: PLC0415
@@ -129,19 +127,19 @@ class ModelTest(unittest.TestCase):
     def _mp3(self, k: int) -> tuple[Path, str]:
         return FIX / MAN[k]["mp3"], MAN[k]["tts"]
 
-    def test_fixture_gate_absolute_and_interval(self) -> None:
-        abs_err, int_err = [], []
+    def test_fixture_gate_absolute_and_realign(self) -> None:
+        """픽스처 = 표준 음성(Supertonic) + 저장된 MMS 정렬(v5.23.0 V4). 새로 정렬해도 저장값과 같고(결정성), 발화 시작 참값 게이트 합격."""
+        abs_err = []
         for s in MAN:
             mp3 = FIX / s["mp3"]
-            edge = G.word_starts_of(tts_align.read(mp3), s["tts"])
+            stored = G.word_starts_of(tts_align.read(mp3), s["tts"])
             mms = FA.word_starts(FA.align_sentence(mp3, s["tts"]), s["tts"])
-            row = G.sentence_rows(mp3, s["tts"], mms, edge)
-            abs_err += row["abs_err"]
-            int_err += row["interval_err"]
-        a, i = G.stats(abs_err), G.stats(int_err)
+            for a_, b_ in zip(stored, mms):
+                self.assertAlmostEqual(a_, b_, places=3)
+            abs_err += G.sentence_rows(mp3, mms)["abs_err"]
+        a = G.stats(abs_err)
         self.assertTrue(a.passed, a)
-        self.assertTrue(i.passed, i)
-        self.assertGreaterEqual(a.n, 15)
+        self.assertGreaterEqual(a.n, len(MAN))   # 문장마다 첫 소리 참값 ≥ 1(표준 음성은 edge 보다 긴 쉼이 적다 — 10문장 14표본)
 
     def test_char_spans_monotonic_no_overlap(self) -> None:
         mp3, text = self._mp3(0)

@@ -42,7 +42,7 @@ last_review: 2026-09-29
 최신 절차는 가장 최근 Phase의 `docs/handoff/reports/phase*/run_log.md` §0이다. 요약:
 
 - `git config core.hooksPath .githooks`, `pip install -r requirements.txt -r requirements-engine.txt`, `apt-get install ffmpeg fontconfig fonts-noto-cjk`.
-- edge-tts가 프록시 CA를 쓰도록 certifi 번들에 `/root/.ccr/ca-bundle.crt`를 덧붙인다.
+- requests(자산 내려받기)가 프록시 CA를 쓰도록 certifi 번들에 `/root/.ccr/ca-bundle.crt`를 덧붙인다(edge-tts 는 V4(D-0212)에서 삭제).
 - 자산 복원: `artifacts/phase7-v3.3.0`의 `shared/` → hormuz `tts/`·`plan.json`·`media/`(`fetch_data media`는 돌리지 않는다 — Commons 429).
 - `python tools/fetch_data.py fonts ne tiles flags bgm` → `commons people` → legacy 자산 복사 → `python -m geo.prep projects/hormuz_korea [--res 1080p]`.
 - 1080p 를 렌더하면 클립도: `python tools/media_fetch.py projects/hormuz_korea --res 1080p --no-sheets`(복원한 webm 에서, md5 는 `reports/phase11/nb28_media.json`).

@@ -62,7 +62,7 @@ HyperFrames/Remotion 문법, `docs/07/08/09` 구판)은 **v2.0.0에서 폐기**�
 | 문장 끝 억양 | 발음 텍스트가 "~니다" 로 끝나면 **끝 3글자 구간을 4반음 선형 하강**(시안 C), 그 앞은 원음 그대로. 추적기 옥타브 오류 정리 포함 | 사용자 결정 D169(시안 C) · D175 · D181 · `rules/video_rules.yaml tts_rules.prosody.final_fall`(v5.20.0·v5.20.2) |
 | 단어 정렬 | MMS 강제 정렬(CC BY-NC 4.0, 수익화와 무관하게 사용) | 사용자 결정 D151 · D171 · `config.yaml tts.alignment` |
 | 음악 대비 | 음악 베드 `audio.bed_gain` 0.43 | 사용자 승인 D169 |
-| 금지 | ElevenLabs 등 유료 TTS(`tts.elevenlabs_allowed: false`, 호출 차단). edge-tts 는 표준이 아니다(정렬기 측정용 임시 경로, V4 에서 삭제) | 사용자 결정 D127 · D146 |
+| 금지 | ElevenLabs 등 유료 TTS(`tts.elevenlabs_allowed: false`, 호출 차단). edge-tts 백엔드는 v5.23.0 V4(D-0212)에서 삭제됨(다시 넣으면 시험 실패) | 사용자 결정 D127 · D146 |
 
 이 표의 값은 **되돌리면 안 되는 것**(C0 목록)과 같은 무게다. 구현은 값을 코드 상수로 두지 않고 config·규칙 파일에서만 읽는다(C11 P3).
 ---

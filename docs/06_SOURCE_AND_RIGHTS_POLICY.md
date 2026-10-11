@@ -73,7 +73,7 @@ GOAL G4-10(v1.0.0 개정·v2.0.0 추가)이 정본이다. 실존 인물·장소�
 
 - TTS 나레이션은 **본인 목소리 또는 합성/라이선스 보이스만** 사용한다. 타인의 목소리를
   무단 복제하는 것은 법적 문제가 될 수 있다.
-- 백엔드는 `config.yaml tts`가 정한다(edge-tts·ElevenLabs, [08](08_AUDIO_AND_TTS_SPEC.md) §3). 외부 API로 원고가 나간다는 점을 전제로 한다.
+- 백엔드는 `config.yaml tts`가 정한다(표준 Supertonic 3 로컬 합성 — 원고가 밖으로 나가지 않는다. ElevenLabs 는 호출 차단, edge-tts 는 V4(D-0212)에서 삭제, [08](08_AUDIO_AND_TTS_SPEC.md) §3).
   API 키·voice id는 `.env`로만 두고 커밋하지 않는다(C9). 음성 권리는 권리 레지스트리 `narration` 절에 기록한다.
 
 ## 9. 위반 시 조치

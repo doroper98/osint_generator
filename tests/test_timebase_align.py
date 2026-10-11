@@ -78,47 +78,55 @@ class AtWordAlignedTest(unittest.TestCase):
 
 
 class AlignFormatTest(unittest.TestCase):
-    """edge WordBoundary → 공통 형식(D34)."""
+    """표준 음성(Supertonic) 강제 정렬 → 공통 형식(D34·v5.16.0 D-0164). v5.23.0 V4(D-0212): edge WordBoundary 경로 삭제로 이쪽으로 바꿈."""
 
-    WORDS = [("다음", 0.30, 0.20), ("날", 0.60, 0.10), ("독일,", 0.90, 0.30), ("영국", 1.40, 0.30)]
+    @staticmethod
+    def _spans(text: str, t0: float = 0.3, step: float = 0.1) -> list:
+        from script.tts.forced_align import CharSpan
 
-    def test_word_first_char_gets_boundary_time(self) -> None:
+        return [CharSpan(c, t0 + step * k, t0 + step * (k + 1), 0.9) for k, c in enumerate(text)]
+
+    def test_char_spans_become_alignment(self) -> None:
         text = "다음 날 독일, 영국"
-        al = align.from_word_boundaries(text, self.WORDS)
-        self.assertEqual(al["alignment_source"], "edge_word_boundary")
+        al = align.from_forced_alignment(text, self._spans(text))
+        self.assertEqual(al["alignment_source"], "mms_forced_alignment")
         self.assertEqual(len(al["characters"]), len(text))
         st = al["character_start_times_seconds"]
-        for w, t0, _ in self.WORDS:
-            self.assertAlmostEqual(st[text.find(w)], t0)
+        self.assertAlmostEqual(st[text.find("독일")], 0.3 + 0.1 * text.find("독일"))
         self.assertEqual(st, sorted(st))
-        self.assertAlmostEqual(al["character_end_times_seconds"][-1], 1.70)
+        self.assertAlmostEqual(al["character_end_times_seconds"][-1], round(0.3 + 0.1 * len(text), 4))
 
-    def test_missing_word_is_error(self) -> None:
+    def test_mismatched_spans_is_error(self) -> None:
         with self.assertRaises(align.AlignmentError):
-            align.from_word_boundaries("다음 날", [("모레", 0.1, 0.1)])
+            align.from_forced_alignment("다음 날", self._spans("모레"))
         with self.assertRaises(align.AlignmentError):
-            align.from_word_boundaries("다음 날", [])
+            align.from_forced_alignment("다음 날", [])
 
     def test_unregistered_source_is_error(self) -> None:
         with tempfile.TemporaryDirectory() as d:
             mp3 = Path(d) / "a.mp3"
             with self.assertRaises(align.AlignmentError):
                 align.write(mp3, {"alignment_source": "whisper", "characters": [], "character_start_times_seconds": []})
+            with self.assertRaises(align.AlignmentError):   # v5.23.0 V4 — edge 출처는 등재에서 빠졌다
+                align.write(mp3, {"alignment_source": "edge_word_boundary", "characters": [], "character_start_times_seconds": []})
             align.align_path(mp3).write_text(json.dumps({"characters": ["가"], "character_start_times_seconds": [0.0]}))
             with self.assertRaises(align.AlignmentError):
                 align.read(mp3)
 
-    def test_edge_alignment_drives_at_word(self) -> None:
+    def test_forced_alignment_drives_at_word(self) -> None:
         with tempfile.TemporaryDirectory() as d:
             p = _plan(Path(d), "ask_1", False)
             x = p.sentences[0]
-            words = [(w, 0.2 + 0.5 * k, 0.3) for k, w in enumerate(x.tts.split(" "))]
-            align.write(Path(x.mp3), align.from_word_boundaries(x.tts, words))
+            align.write(Path(x.mp3), align.from_forced_alignment(x.tts, self._spans(x.tts, 0.2, 0.05)))
             tb = Timebase(p)
             t = tb.at_word("ask_1", "한국")
-            k = x.tts.split(" ").index("한국이")
-            self.assertAlmostEqual(t, T0 + 0.2 + 0.5 * k - x.trim_offset, places=4)
-            self.assertEqual(tb.word_anchors[0]["alignment_source"], "edge_word_boundary")
+            self.assertAlmostEqual(t, T0 + 0.2 + 0.05 * x.tts.find("한국") - x.trim_offset, places=4)
+            self.assertEqual(tb.word_anchors[0]["alignment_source"], "mms_forced_alignment")
+
+    def test_edge_alignment_drives_at_word(self) -> None:
+        """GOAL.md G3 #4 가 부르는 옛 이름(v5.23.0 V4) — edge 경로는 삭제됐고 같은 성질(정렬이 at_word 를 정한다)을 표준 음성 정렬로 검사한다.
+        G3 개정(MAJOR, 병합 직전 감독 결정) 때 이름을 test_forced_alignment_drives_at_word 로 바꾼다."""
+        self.test_forced_alignment_drives_at_word()
 
 
 if __name__ == "__main__":

@@ -22,7 +22,7 @@ origin: claude.ai chat handoff bundle (2026-09-26 ~ 09-27), imported verbatim
 - **문장 끝 억양**: "~습니다"·"~입니다" 처럼 "~니다" 로 끝나는 문장은 끝 3글자에 걸쳐 4반음 내려 맺는다(시안 C, D169). 추적기 옥타브 오류는 정리한다(D181). 값 = `rules tts_rules.prosody.final_fall`. 명사로 끝나는 문장은 원음 그대로.
 - **정렬**: MMS 강제 정렬(D151·D171).
 - **믹스**: 음악 베드 0.43(D169).
-- **쓰지 않는 것**: ElevenLabs·유료 TTS(D127). edge-tts 는 표준이 아니다(§6 의 edge 서술은 옛 기준 — V4 에서 삭제).
+- **쓰지 않는 것**: ElevenLabs·유료 TTS(D127). edge-tts 는 V4(D-0212)에서 삭제됐다(§6.1).
 - **바꾸는 조건**: 사용자가 먼저 지적할 때만. 규칙 파일 개정(사람 승인) → 재합성. 구현·감독 세션이 스스로 바꾸지 않는다.
 
 ---
@@ -182,12 +182,9 @@ for e in emphasis:                     # 앞에서부터 처음 1회만 분할
 
 ## 6. 음성 백엔드
 
-### 6.1 edge-tts (현재 기본)
-```python
-edge_tts.Communicate(text, 'ko-KR-InJoonNeural', rate='-3%', pitch='-2Hz').save(path)
-```
-- 동시 5개(asyncio.Semaphore), 실패 시 4회 재시도.
-- v1: InJoon 기본값, v2: rate -2%, v3: rate -3%, pitch -2Hz (차분한 다큐 톤).
+### 6.1 edge-tts — 삭제됨(v5.23.0 V4, D-0212)
+v3 원본 음성 백엔드였다. 표준 음성(§0, Supertonic 3)으로 바뀐 뒤 백엔드·설정·CLI 선택지를 모두 지웠다(P2). 옛 설정값은
+`docs/handoff/reference_code/v3_hormuz_korea/`(보관)와 DECISIONS 이력에만 남는다.
 
 ### 6.2 ElevenLabs (사용자 커스텀 목소리 — 목표 기본값)
 v3 `plan3.py` `eleven_one()`에 구현 완료, 환경변수 두 개가 있으면 자동 사용:
@@ -220,10 +217,10 @@ v3 `at_word(sid, word)`는 자막 텍스트에서 단어 위치 비율 × 문장
 **v5.16.0 개정(사용자 결정 D151, D-0164·D-0165, DECISIONS D159)**: 정렬 파일이 **없으면 오류**다(`engine.timebase.AlignmentMissingError`).
 비율 추정은 "단어가 발음 텍스트에 없음"(숫자를 읽기로 바꾼 자막 단어)에만 남는다. Supertonic 은 단어 시각을 내지 않으므로
 `script.plan` 이 합성 직후 문장마다 강제 정렬(`script/tts/forced_align`, MMS_FA + uroman)로 `.align.json` 을 쓴다.
-**정렬 참값의 정의**: edge `WordBoundary` 는 절대 시각이 아니다(TTS-AP-082 — 문장 시작 0.1초 고정, 쉼 앞 경계 = 쉼 시작, 문장 안 약 100ms 이름).
+**정렬 참값의 정의**: TTS 엔진이 주는 경계 시각은 참값이 아니다(TTS-AP-082 — 옛 edge `WordBoundary` 의 실측 치우침).
 참값은 **음향 발화 시작**이다 — 원본 음성(44.1k mono)에서 `|a| ≤ silence_thr`(trim 문턱과 같음)가 `silence_sec` 이상 이어진 뒤
 첫 초과 샘플, 그리고 문장 첫 소리. 참값 ↔ 정렬 어절은 순서·단조로 대응하고, 대응 없는 참값은 실패로 계상한다.
-문장 안 어절은 edge 와의 **간격 차**로 검사한다(상수 치우침이 소거된다). 수치는 `rules tts_rules.forced_align` 한 곳(P3),
+(옛 edge 간격 차 검사는 V4(D-0212)에서 백엔드와 함께 삭제 — 그 대조표는 V2 run_log 이력.) 수치는 `rules tts_rules.forced_align` 한 곳(P3),
 게이트 CLI = `python -m script.tts.align_gate`. 문턱 교차는 진짜 발화보다 10~20ms 늦다(참값 자체의 치우침 — 기준에는 반영하지 않음).
 
 ---

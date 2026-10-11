@@ -1,6 +1,6 @@
 """Supertonic 3 백엔드(v5.11.0 back_and_forth D-0152 V1, 사용자 결정 D146·설계 D147 §1·§4·§5).
 
-edge 와 같은 계약: `synth_all([(발음 텍스트, mp3 경로), …])` → mp3. 값은 config.yaml tts.supertonic 에서만(15 P3).
+옛 edge 백엔드(V4 삭제)와 같은 계약: `synth_all([(발음 텍스트, mp3 경로), …])` → mp3. 값은 config.yaml tts.supertonic 에서만(15 P3).
 - 자산이 없거나 sha1 이 다르면 오류(받는 명령 안내). 다른 목소리로 넘어가지 않는다(P6).
 - 결정성: 문장 시드 = sha1(발음 텍스트 · 스타일 · 속도 · 단계 · seed_salt) 앞 8바이트 → numpy Generator. 같은 입력 = 같은 wav.
 - mp3 는 ffmpeg 고정 옵션(bitexact, 메타데이터 없음)으로 만든다.

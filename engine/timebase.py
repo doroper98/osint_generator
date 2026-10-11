@@ -82,7 +82,7 @@ class Timebase:
         return self.scene_start[self.scenes[i + 1]] - 0.35 if i + 1 < len(self.scenes) else self.total
 
     def alignment(self, sid: str) -> Optional[dict]:
-        """`{mp3}.align.json`(script/tts/align 공통 형식 — edge WordBoundary·ElevenLabs). 없으면 None."""
+        """`{mp3}.align.json`(script/tts/align 공통 형식 — MMS 강제 정렬·ElevenLabs). 없으면 None."""
         if sid not in self._align:
             self._align[sid] = tts_align.read(Path(self.sent[sid].mp3))
         return self._align[sid]

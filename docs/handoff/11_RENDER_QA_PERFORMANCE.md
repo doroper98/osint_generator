@@ -156,7 +156,7 @@ ts = [S('open_1')+2, title.t0+2, S('route_0')+2.5, S('route_2')+2, S('route_3')+
 ```
 python 3.11+
 pycairo, numpy, pillow, shapely(2.x), scipy
-edge-tts, requests (ElevenLabs)
+requests (자산 내려받기·ElevenLabs 차단), onnxruntime(Supertonic)·torch/torchaudio(MMS 정렬) — edge-tts 는 V4(D-0212)에서 삭제
 rembg, onnxruntime   (인물 배경 제거, 모델 u2net_human_seg 자동 다운로드)
 cairosvg             (국기 SVG → PNG)
 fonttools            (woff → otf)
@@ -180,7 +180,7 @@ fontconfig (fc-cache, fc-list)
 | 자리표시 | badge·photo·clip·cutout·article·post·card·panel·primitive → 같은 자리·크기(G7)·타이밍의 상자 + `[뱃지: 이름]` 등. 상자는 전편 기하 함수를 그대로 부른다 | `engine/layers/animatic.py` 하나 |
 | 그대로 | 자막·날짜·타이틀·엔딩 카드·마커·경로·타격 링·선박·국가 강조·시리즈·카메라·dip | — |
 | 표식 | 전체 페이드 뒤 화면 위 가운데 띠(`rules animatic.band`), mp4 메타데이터 comment(`animatic.mp4_comment`), provenance `animatic: true`·`animatic_run` | — |
-| 음성·음악 | 기존 `out/mix.f32`(edge-tts + BGM + bed_bass) 그대로, 2패스 loudnorm | `render_animatic` |
+| 음성·음악 | 기존 `out/mix.f32`(표준 음성 + BGM + bed_bass) 그대로, 2패스 loudnorm | `render_animatic` |
 | 파일 | `out/animatic.mp4`·`animatic_checks.json`·`animatic_provenance.json`·`animatic_render.json`, 프리뷰는 `prev_animatic/` — 전편 산출물·`prev/` 를 덮지 않는다 | — |
 | 자산 | 이미지·영상·지형 래스터·초상 실측·프로젝트 권리 점검을 쓰지 않는다 → 자산 없는 환경에서 렌더(plan.json·mix.f32 만 필요) | `tests/test_g8_animatic.py` |
 

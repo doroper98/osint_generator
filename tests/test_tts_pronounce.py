@@ -142,12 +142,15 @@ class TestPronounceBeforeSynth(unittest.TestCase):
         self.assertEqual(pronounce_tts("국제에너지기구 공동 방출"), "국제 에너지 기구 공동 방출")
 
     def test_explicit_tts_path_in_plan(self) -> None:
-        """script.plan.build 가 원고 명시 tts 를 사전에 통과시킨 뒤 캐시 키를 만든다(합성은 가짜)."""
+        """script.plan.build 가 원고 명시 tts 를 사전에 통과시킨 뒤 캐시 키를 만든다(합성·정렬·억양은 가짜).
+        v5.23.0 V4(D-0212): edge 백엔드 삭제로 표준 음성(Supertonic) 경로로 바꿈."""
         import yaml  # noqa: PLC0415
         from unittest import mock  # noqa: PLC0415
 
         from script import plan as plan_mod  # noqa: PLC0415
+        from script.tts import supertonic  # noqa: PLC0415
         from script.tts.cache import cache_key  # noqa: PLC0415
+        from script.tts.prosody import FinalFallRecord  # noqa: PLC0415
 
         with tempfile.TemporaryDirectory() as d:
             proj = Path(d)
@@ -158,13 +161,15 @@ class TestPronounceBeforeSynth(unittest.TestCase):
             seen: list[str] = []
             with mock.patch.object(plan_mod, "lint", return_value=mock.Mock(errors=[], warnings=[])), \
                  mock.patch.object(plan_mod, "load_claims_for", return_value=None), \
-                 mock.patch.object(plan_mod.edge, "synth_all", side_effect=lambda jobs, voice=None: seen.extend(t for t, _ in jobs)), \
+                 mock.patch.object(plan_mod.supertonic, "synth_all", side_effect=lambda jobs, cfg: seen.extend(t for t, _ in jobs)), \
+                 mock.patch.object(plan_mod, "forced_alignment", return_value={"source": "mms_forced_alignment"}), \
+                 mock.patch.object(plan_mod, "final_fall_audio", return_value=(None, FinalFallRecord(applied=False, reason="test"))), \
                  mock.patch.object(plan_mod, "trim_to_npy", return_value=(proj / "x.npy", 1.0, 0.0)):
-                pl = plan_mod.build(proj, "edge")
+                pl = plan_mod.build(proj, "supertonic")
         want = "연방 공개시장 위원회가 거부꿘을 말했습니다."
         self.assertEqual(seen, [want])
         self.assertEqual(pl.sentences[0].tts, want)
-        self.assertIn(cache_key(want, None, None), pl.sentences[0].mp3)
+        self.assertIn(cache_key(want, None, supertonic.cache_salt(supertonic.config())), pl.sentences[0].mp3)
 
     def test_idempotent_whole_dict(self) -> None:
         from script.lint import pronounce_tts  # noqa: PLC0415

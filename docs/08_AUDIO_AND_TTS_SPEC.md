@@ -17,7 +17,7 @@ last_review: 2026-09-29
 ## 1. 흐름
 
 ```
-script.yaml ── script.lint ──▶ script.plan [--tts supertonic|edge] ──▶ plan.json + tts/*.mp3(.align.json)
+script.yaml ── script.lint ──▶ script.plan [--tts supertonic] ──▶ plan.json + tts/*.mp3(.align.json)
                                                                     │
 direction.yaml(sound:) ─────────────────────────────▶ audio.mix ──▶ out/mix.f32
                                                                     │
@@ -27,7 +27,7 @@ out/video_noaudio.mp4 ───────────────────�
 | 단계 | 모듈 | 정본 |
 |---|---|---|
 | 린트(금지 문구·발음 기호·강조어·출처) | `script/lint.py` | handoff 03 §2·§4 |
-| 합성·캐시·트림·정렬 | `script/plan.py`, `script/tts/{supertonic,supertonic_runtime,supertonic_assets,edge,elevenlabs,cache,trim,align}.py` | handoff 03 §6~§8, back_and_forth D-0152 |
+| 합성·캐시·트림·정렬 | `script/plan.py`, `script/tts/{supertonic,supertonic_runtime,supertonic_assets,elevenlabs,cache,trim,align,forced_align,align_gate}.py` | handoff 03 §6~§8, back_and_forth D-0152 |
 | 믹스(베드·덕킹·효과음) | `audio/mix.py` | handoff 10 §2~§5 |
 | BGM 레지스트리 | `audio/registry.py`, `assets/audio/bgm/registry.yaml` | handoff 10 §7-1 |
 | 오디오 QA(측정 경로 하나) | `audio/qa.py` | handoff 10 §7-5 |
@@ -61,7 +61,7 @@ out/video_noaudio.mp4 ───────────────────�
 | 백엔드 | 설정 키 | 정렬 출처 |
 |---|---|---|
 | **Supertonic 3(기본, v5.11.0 사용자 결정 D146)** | `config:tts.backend_default`, `config:tts.supertonic`(스타일 M3·속도 0.95·단계·조각·시드 salt·자산 sha1) | 단어 시각 없음 → V2 강제 정렬(D-0152) |
-| edge-tts(V4 에서 삭제, 그 전까지 정렬기 측정용) | `config:tts.edge_voice`, `config:tts.edge_rate`, `config:tts.edge_pitch` | `WordBoundary` 단어 경계 |
+| ~~edge-tts~~ | V4(D-0212)에서 삭제 — 설정·모듈·CLI 선택지 없음 | — |
 | ElevenLabs(사용 금지, D127) | `config:tts.elevenlabs_allowed: false`, `config:tts.eleven_model_env`, `config:tts.voice_settings` | with-timestamps 글자 정렬 |
 
 - 정렬 출처는 등재된 것만 허용한다(`rules:tts_rules.alignment_sources`, D34). 형식은 `{mp3}.align.json` 하나다.

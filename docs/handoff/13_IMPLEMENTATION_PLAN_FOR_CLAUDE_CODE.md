@@ -77,7 +77,7 @@ origin: claude.ai chat handoff bundle (2026-09-26 ~ 09-27), imported verbatim
 
 **작업**
 - `script/lint.py`: 금지 문구(`03` §2) + `LLM_ANTIPATTERNS.md` 병합, 발음 텍스트 숫자·기호 금지, 강조어 포함 검사, **출처 누락 경고**, 문장 길이(자막 2줄) 경고.
-- `script/tts/edge.py`, `script/tts/elevenlabs.py`(with-timestamps, previous/next_text, voice_settings 0.65/0.8/0.1, 정렬 JSON 저장), 캐시 키에 목소리 id 포함.
+- `script/tts/edge.py`(V4(D-0212)에서 삭제), `script/tts/elevenlabs.py`(with-timestamps, previous/next_text, voice_settings 0.65/0.8/0.1, 정렬 JSON 저장), 캐시 키에 목소리 id 포함.
 - 트림 오프셋 기록(`trim_offset`) → `at_word()`가 정렬 데이터로 정확한 시각 계산(`03` §6.3), 없으면 비율 폴백.
 - `docs/ANTIPATTERNS/TTS_ANTIPATTERNS.md`에 TTS-AP-059~061 추가(`03` §5.4).
 - 저장소 `tts_of()` 수정(개월, 소수 표기) — 번들 경로용.

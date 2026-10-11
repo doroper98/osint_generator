@@ -23,7 +23,6 @@ MODULES: tuple[tuple[str, str], ...] = (
     ("scipy", "scipy"),
     ("yaml", "PyYAML"),
     ("pydantic", "pydantic"),
-    ("edge_tts", "edge-tts"),
     ("requests", "requests"),
     ("cairosvg", "cairosvg"),
     ("fontTools", "fonttools"),
@@ -36,7 +35,7 @@ FONT_FAMILIES: tuple[str, ...] = (
     "IBM Plex Mono",
 )
 MIN_FREE_GB: float = 5.0
-# 프록시 CA 번들(클라우드 컨테이너). 있으면 certifi 번들에 붙어 있어야 edge-tts TLS 가 통과한다(Phase 5 run_log §0, NB5).
+# 프록시 CA 번들(클라우드 컨테이너). 있으면 certifi 번들에 붙어 있어야 requests TLS(자산 내려받기)가 통과한다(Phase 5 run_log §0, NB5). edge-tts 는 v5.23.0 V4 에서 삭제
 PROXY_CA_BUNDLES: tuple[str, ...] = ("/root/.ccr/ca-bundle.crt",)
 
 

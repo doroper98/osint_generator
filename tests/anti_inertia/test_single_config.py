@@ -26,7 +26,6 @@ def _forbidden_strings() -> dict[str, str]:
     out: dict[str, str] = {
         cfg.tts.eleven_model_default: "config.yaml tts.eleven_model_default",
         cfg.llm.model: "config.yaml llm.model",
-        cfg.tts.edge_voice: "config.yaml tts.edge_voice",
     }
     if cfg.tts.supertonic is not None:   # v5.11.0 D-0152 — 모델 저장소·revision 은 config.yaml 한 곳
         out[cfg.tts.supertonic.repo] = "config.yaml tts.supertonic.repo"

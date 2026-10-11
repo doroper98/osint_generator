@@ -63,7 +63,7 @@ origin: claude.ai chat handoff bundle (2026-09-26 ~ 09-27), imported verbatim
 | `00_INDEX.md` | 이 문서. 목적, 읽는 순서, 버전, 원칙, 용어 |
 | `01_FEEDBACK_LOG_AND_PRINCIPLES.md` | 사용자 피드백 원문 전체와 해결 방식, 거기서 도출한 설계 원칙 |
 | `02_ARCHITECTURE_AND_MIGRATION.md` | 새 파이프라인 구조, 데이터 계약(스키마), 저장소의 계승/개조/폐기 판정, 목표 디렉터리 구조 |
-| `03_SCRIPT_NARRATION_TTS.md` | 원고 작성 규칙, 금지 문구, 자막/발음 텍스트 분리, 린트, 음성 백엔드(edge-tts, ElevenLabs), 타임라인 계산 |
+| `03_SCRIPT_NARRATION_TTS.md` | 원고 작성 규칙, 금지 문구, 자막/발음 텍스트 분리, 린트, 음성 백엔드(표준 Supertonic 3, ElevenLabs 차단 — edge-tts 는 V4(D-0212)에서 삭제), 타임라인 계산 |
 | `04_MAP_ENGINE.md` | 투영, 지형 타일 티어, 베이스 래스터 생성, 지오메트리 전처리(프랑스 버그), 국경·행정구역·라벨 LOD |
 | `05_CAMERA_SHOTS_TRANSITIONS.md` | 카메라 키프레임 모델, 로그 줌, 드리프트, 숏 문법, 암전 컷, 타이틀 아래 컷 |
 | `06_OVERLAYS_AND_DATA_LAYERS.md` | 마커, 경로(유조선), 호, 봉쇄선, 선박 입자, 점령지(DeepState), 타임랩스, 국가 강조 |

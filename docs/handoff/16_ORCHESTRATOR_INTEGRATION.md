@@ -133,7 +133,7 @@ projects/<slug>/
 ## 7. 콘티 판 루틴 W0 — v4.9.0 (back_and_forth D-0108) [저장소 실측 추가]
 
 콘티 판(animatic, handoff 11 §9)은 **상태가 아니다**. `DIRECTION` 상태 안에서 연출 판을 싸게 확인하는 사람 루프다(WORKFLOWS W0):
-게이트 ① 통과 → `voice_timeline`(`script.plan --tts edge`) → 연출 v1 → `audio.mix` → `engine.render --animatic` → 사용자 흐름 검토 →
+게이트 ① 통과 → `voice_timeline`(`script.plan`, 표준 음성 Supertonic — edge 는 V4(D-0212) 삭제) → 연출 v1 → `audio.mix` → `engine.render --animatic` → 사용자 흐름 검토 →
 연출 수정(렌더 이후 상태면 `reopen --to direction`, D4) 반복 → 게이트 ② 프리뷰 → 전편.
 
 - 오케스트레이터는 엔진 입력을 쓰지 않는다(15 P1). 콘티 판은 엔진 CLI 를 사람이 직접 부르며, `engine_service` 단계·상태 머신은 바꾸지 않았다.

@@ -32,7 +32,7 @@ PREP = (
     "hormuz 자산이 없다 — docs/handoff/reports/phase6_5/run_log.md §0·§4 준비 절차:\n"
     "  python tools/fetch_data.py all && python tools/fetch_data.py people media\n"
     "  (assets·media 를 projects/hormuz_korea 로 복사) && python -m geo.prep projects/hormuz_korea\n"
-    "  python -m script.plan projects/hormuz_korea --tts edge"
+    "  python -m script.plan projects/hormuz_korea   # 표준 음성 Supertonic(C0.2) — edge 는 v5.23.0 V4 삭제"
 )
 
 

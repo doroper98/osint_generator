@@ -73,7 +73,7 @@ scenes:
   "cards": [{"kind": "title", "t0": 20.33, "t1": 25.93}, {"kind": "end", "t0": 281.0, "t1": 292.0}],
   "scene_start": {"open": 1.2, "route": 26.3, "war": 49.2, "...": 0},
   "total": 292.44,
-  "voice": "edge-tts ko-KR-InJoonNeural",   // 또는 "elevenlabs"
+  "voice": "supertonic-3 M3 ×0.95",   // 표준 음성(C0.2). edge-tts 는 V4(D-0212)에서 삭제
   "title": "호르무즈와 한국", "subtitle": "한국은 왜 파병하지 않았나", "date": "2026.09.26"
 }
 ```
@@ -205,7 +205,7 @@ osint_generator/
 ├─ script/
 │  ├─ schema.py                  # Script/Scene/Sentence Pydantic
 │  ├─ lint.py                    # 금지 문구, 발음 기호, 강조어, 출처 누락
-│  ├─ tts/                       # edge.py elevenlabs.py (with-timestamps) cache.py trim.py
+│  ├─ tts/                       # supertonic*.py forced_align.py elevenlabs.py(차단) cache.py trim.py — edge.py 는 V4(D-0212) 삭제
 │  └─ timeline.py                # t0/t1, 장면 간격, 타이틀/엔딩 카드
 ├─ audio/mix.py                  # 베드·더킹·효과음·페이드·라우드니스
 ├─ assets/

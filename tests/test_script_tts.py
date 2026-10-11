@@ -53,11 +53,12 @@ class ElevenRequestTest(unittest.TestCase):
         self.assertNotEqual(cache_key("가나다", None), cache_key("가나다", "v1"))
         self.assertNotEqual(cache_key("가나다", "v1"), cache_key("가나다", "v2"))
 
-    def test_cache_key_edge_voice(self) -> None:
-        # 기본 edge 목소리 = v3 키(sha1(tts)), 교체 목소리는 다른 키 — 옛 목소리 mp3 재사용 방지
+    def test_cache_key_no_edge_branch(self) -> None:
+        # v5.23.0 V4(D-0212) — edge 목소리 키 갈래 삭제. 소금 없는 키 = sha1(tts), 세 번째 인자는 Supertonic 소금뿐
         import hashlib  # noqa: PLC0415
+        import inspect  # noqa: PLC0415
         self.assertEqual(cache_key("가나다", None), hashlib.sha1("가나다".encode()).hexdigest()[:10])
-        self.assertNotEqual(cache_key("가나다", None, "ko-KR-SunHiNeural"), cache_key("가나다", None))
+        self.assertEqual(list(inspect.signature(cache_key).parameters), ["tts", "eleven_voice_id", "supertonic_salt"])
 
 
 if __name__ == "__main__":

@@ -69,10 +69,10 @@ class SeedAndKeyTest(unittest.TestCase):
     def test_cache_key_separated(self) -> None:
         salt = st.cache_salt(CFG)
         self.assertTrue(salt.startswith(f"|st|{CFG.voice_style}|{CFG.speed}|{CFG.total_step}|"))
-        k = cache_key(TEXT, None, None, salt)
-        self.assertNotIn(k, {cache_key(TEXT, None), cache_key(TEXT, None, "ko-KR-HyunsuNeural")})   # edge 키와 겹치지 않음
+        k = cache_key(TEXT, None, salt)
+        self.assertNotIn(k, {cache_key(TEXT, None), cache_key(TEXT, "v1")})   # 소금 없는 키·ElevenLabs 키와 겹치지 않음
         for upd in ({"speed": 1.0}, {"voice_style": "M1"}, {"total_step": 8}, {"seed_salt": "v2"}, {"silence_sec": 0.5}):
-            self.assertNotEqual(k, cache_key(TEXT, None, None, st.cache_salt(CFG.model_copy(update=upd))), upd)
+            self.assertNotEqual(k, cache_key(TEXT, None, st.cache_salt(CFG.model_copy(update=upd))), upd)
 
 
 class ChunkTest(unittest.TestCase):
@@ -119,7 +119,6 @@ class PlanTest(unittest.TestCase):
             with mock.patch.object(plan_mod, "lint", return_value=mock.Mock(errors=[], warnings=[])), \
                  mock.patch.object(plan_mod, "load_claims_for", return_value=None), \
                  mock.patch.object(plan_mod.supertonic, "synth_all", side_effect=fake), \
-                 mock.patch.object(plan_mod.edge, "synth_all", side_effect=AssertionError("edge 로 넘어가면 안 된다")), \
                  mock.patch.object(plan_mod, "trim_to_npy", return_value=(proj / "x.npy", 1.0, 0.0)), \
                  mock.patch.object(plan_mod, "final_fall_audio", return_value=(None, FinalFallRecord(applied=False, reason="test"))), \
                  mock.patch.object(plan_mod, "forced_alignment",
@@ -132,7 +131,7 @@ class PlanTest(unittest.TestCase):
         self.assertEqual(pl.voice, f"supertonic-3 {CFG.voice_style} ×{CFG.speed}")
         s = pl.sentences[0]
         self.assertEqual(s.chunks, [s.tts])                                  # 발음 사전 뒤 텍스트(원유 → 워뉴)
-        self.assertIn(cache_key(s.tts, None, None, st.cache_salt(CFG)), s.mp3)
+        self.assertIn(cache_key(s.tts, None, st.cache_salt(CFG)), s.mp3)
         self.assertEqual((pl.tts_resynthesized, again.tts_resynthesized), ([], []))
 
     def test_missing_assets_fail_without_fallback(self) -> None:
@@ -144,11 +143,11 @@ class PlanTest(unittest.TestCase):
             st._engine.cache_clear()
             with mock.patch.object(plan_mod, "lint", return_value=mock.Mock(errors=[], warnings=[])), \
                  mock.patch.object(plan_mod, "load_claims_for", return_value=None), \
-                 mock.patch.object(plan_mod.supertonic, "config", return_value=bad), \
-                 mock.patch.object(plan_mod.edge, "synth_all", side_effect=AssertionError("edge 폴백 금지")):
+                 mock.patch.object(plan_mod.supertonic, "config", return_value=bad):   # 넘어갈 다른 백엔드 없음(edge 삭제 v5.23.0 V4)
                 with self.assertRaises(sa.SupertonicAssetError) as cm:
                     plan_mod.build(proj, "supertonic")
         self.assertIn(sa.FETCH_CMD, str(cm.exception))
+        self.assertFalse(hasattr(plan_mod, "edge"))
 
     def test_default_backend_and_elevenlabs_still_refused(self) -> None:
         from orchestrator.config import load_config  # noqa: PLC0415

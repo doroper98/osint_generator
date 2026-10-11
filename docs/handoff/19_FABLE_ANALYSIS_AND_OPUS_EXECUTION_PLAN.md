@@ -155,6 +155,7 @@ Opus는 "프로 다큐로 보이는가" 판정 시 아래를 기준으로 삼는
 | 3.33 | `08` 인용(quote) — 원문 직접 인용을 한국어로(인용 후보 목록) ↔ 사용자 의견(2026-10-11 "나레이션과 화면 따옴표 불일치"). | **v5.21.13 D-0194**: 인용 text ⊂ 그 구간 문장 화면 원고(정규화 부분 문자열), 검사 `quote_in_script` hard·필드 description·연출 문법. 원고가 보도를 전하면 따옴표 없는 카드. 실측: gulf 3건 중 2건 걸림(troop_numbers_6 삭제·아시프 → 보도 카드), 다른 프로젝트 quote 0. 카드 quote:true(hormuz 이재명·fed FOMC)는 범위 밖 — 목록만. |
 | 3.34 | `05`·`06` 연출 문법 — 이동·공격 문장의 경로·문장 지명 구도 규칙 없음 ↔ 사용자 의견(2026-10-11 아덴·리야드 공항 궤적·예멘 화면 밖). | **v5.21.14 D-0195·D-0197·D-0199**: `qa_checks.route_missing`(동사 목록·끝점 거리)·`frame_missing`, 검사 route_missing(warning)/route_missing_other(hard)·frame_missing(warning)/frame_missing_target(hard), MarkerEvent.label description, 연출 문법. 실측: hormuz hard 0(warning 6), gulf hard 2(아덴·리야드 공항), ratcliffe hard 1(목록만). |
 | 3.35 | `08` §9 출처 체계 — 엔딩·설명란 출처 = 원고 문장 claim 의 소스 ↔ D-0196(원고 불변, 화면에 전황 사실 추가). | **v5.21.15**: 이벤트 공통 `claims`(선택) — 화면 전용 사실의 근거 claim, 그 소스가 cited_sources 에 들어간다. 없는 id = 렌더 전 오류. 없으면 이벤트 dict 무변경(골든 동일). |
+| 3.36 | `03` §6.1·§6.3 edge-tts 서술(옛 기본 백엔드·간격 대조 게이트) ↔ 표준 음성 확정(C0.2·D185·D189). | **v5.23.0 V4(D-0212)**: edge 백엔드·설정·CLI·정렬 출처·간격 대조 삭제(P2), `03` §6.1 은 "삭제됨" 한 줄, §6.3 참값 정의만 유지. `02`·`11`·`13`·`16`·`00`·golden README 현행 안내 정리. reference_code 는 보관(실행 경로 아님). 재유입 방지 `tests/anti_inertia/test_no_edge_tts.py`. |
 
 ---
 

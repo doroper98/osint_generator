@@ -114,7 +114,7 @@ created → intake → source_verify → research → script_draft
 | fontconfig + 프로젝트 글꼴 | 글자 렌더(대체 글꼴 금지) | `tools/fetch_data.py fonts` |
 | Natural Earth · terrarium 타일 | 국경·라벨·지형 | `tools/fetch_data.py ne tiles`, 캐시 `data/geo/` |
 | 위키미디어 Commons | 인물·휘장·국기·미디어 원본 | `tools/commons_fetch.py`, `tools/media_fetch.py`(429 대책) |
-| edge-tts · ElevenLabs | 음성 합성·정렬 | `config.yaml tts`, 키는 `.env` |
+| Supertonic 3(표준, 로컬 ONNX) · MMS 강제 정렬 · ElevenLabs(호출 차단) | 음성 합성·정렬 | `config.yaml tts`, 키는 `.env`. edge-tts 는 V4(D-0212)에서 삭제 |
 | `claude` / `codex` CLI(구독) | LLM 워커 | ADDENDUM_04. API SDK 금지 |
 | Google Maps | 쓰지 않음 | 약관 검토 전 상업 고정 사용 금지(G4-11) |
 

@@ -86,7 +86,7 @@ python -m orchestrator.main command-center --project {pid}      # 또는 run_pip
 | 확인 | 왜 | 어떻게 |
 |---|---|---|
 | credits.yaml 에 음악 행 | 연출가 입력 `{music_list}` 가 크레딧 기준이라, 음악 행이 없으면 `sound.bgm: null`(무음악)로 나온다(M1) | `- music: music.<id>`(BGM 레지스트리 `assets/audio/bgm/registry.yaml`). 무음악이 의도면 그 사실을 order.yaml 에 적는다 |
-| TTS 백엔드 | 이전 Phase 명령의 `--tts edge` 를 그대로 따라 하면 config 기본값(`config.yaml tts.backend_default`)과 다른 목소리가 된다(M2) | `script.plan` 전에 `backend_default` 와 키 유무를 확인하고, 다르게 쓸 때만 `--tts` 를 준다 |
+| TTS 백엔드 | 이전 Phase 명령의 `--tts` 값을 그대로 따라 하면 config 기본값(`config.yaml tts.backend_default`)과 다른 목소리가 된다(M2). edge 백엔드는 V4(D-0212)에서 삭제 | `script.plan` 전에 `backend_default` 와 키 유무를 확인하고, 다르게 쓸 때만 `--tts` 를 준다 |
 | 매체명 라틴 표기 | 키릴·아랍 문자 매체명은 엔딩 크레딧 글꼴에 글리프가 없어 검사 오류가 난다(M4) | 소스 표기는 라틴(예: VZGLYAD.RU), 원 표기는 note 에 |
 | 제목 길이 | 긴 제목은 타이틀 카드에서 잘린다(M3) | 첫 프리뷰 전에 타이틀 카드 한 컷(`--preview` 타이틀 시각)으로 확인, 길면 부제로 나눈다 |
 | 좌표 출처 | 공개되지 않은 사건 지점을 아는 것처럼 찍으면 정확성 위반이다(M5) | 사건 지점 좌표는 출처(지명·claim 위치 수치)가 있을 때만. 없으면 marker `sub` 에 "좌표 비공개". 경계선은 `route` 로 그리지 않는다 |

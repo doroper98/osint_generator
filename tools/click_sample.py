@@ -2,7 +2,7 @@
 
 사람이 귀로 "자막·연출 앵커가 실제 발음 시작에 맞는가" 를 확인하는 자료다(Fable 은 들을 수 없다).
 - 앵커 시각 = engine.timebase.at_word 와 같은 식: `t0 + start − trim_offset`(정렬 어절 첫 글자, `.align.json`).
-- 문장 안 어절 = 원본 음성에서 edge·MMS 와 무관한 무음(`script.tts.align_gate.silences`) 밖에서 시작하는 어절,
+- 문장 안 어절 = 원본 음성에서 정렬과 무관한 무음(`script.tts.align_gate.silences`) 밖에서 시작하는 어절,
   쉼 뒤 어절 = 무음 안 또는 문장 첫 어절. 구간 안에서 문장 안 n_in(10)·쉼 뒤 n_pause(5) 를 고르게 뽑는다.
 - 클릭 = 1.5kHz 15ms 감쇠 사인. 믹스(`out/mix.f32`, 44.1k 스테레오 float32)는 손대지 않고 표본 파일만 만든다.
 

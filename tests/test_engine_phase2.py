@@ -35,7 +35,7 @@ def _plan() -> Plan:
                               segments=[["가나다 라마바", 0]], mp3="x.mp3", npy="x.npy", dur=2.0, t0=t, t1=t + 2.0))
             t += 2.5
     return Plan(sentences=sents, cards=[dict(kind="title", t0=6.0, t1=11.6), dict(kind="end", t0=20.0, t1=31.0)],
-                scene_start={"open": 1.2, "route": 12.0}, total=31.5, voice="edge-tts test", title="T", subtitle="S",
+                scene_start={"open": 1.2, "route": 12.0}, total=31.5, voice="supertonic-3 test", title="T", subtitle="S",
                 date="2026.09.26")
 
 
