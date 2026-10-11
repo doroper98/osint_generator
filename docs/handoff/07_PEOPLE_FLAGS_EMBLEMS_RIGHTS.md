@@ -1,6 +1,6 @@
 <!--
 tier: 2
-last_synced_with: v1.2.2
+last_synced_with: v5.21.0
 ssot_for: [v2-badges, v2-asset-rights]
 depends_on: [docs/handoff/00_INDEX.md, docs/handoff/15_ANTI_INERTIA_PRINCIPLES.md]
 last_review: 2026-09-27
@@ -97,6 +97,7 @@ extmetadata: LicenseShortName, Artist(HTML), Restrictions, Credit
 - **다운로드 폭은 표준 썸네일 폭(예: 960) 또는 원본**. 비표준 폭(700 등)은 썸네일 생성 요청이 되어 **HTTP 429**가 반복된다(v2에서 실제 발생 — 저장소 RIGHTS.md의 교훈과 동일). 실패 시 원본 URL로 폴백, 6회 재시도, 지수적 대기.
 - 받은 바이트는 `PIL.Image.open(BytesIO).verify()`로 검증(429 HTML이 jpg로 저장되는 사고 방지).
 - **사용자 예외 D153(개인 프로젝트, v5.15.0 D-0160)**: 이재명 초상 = 대통령실 공식 초상(공공누리 제4유형 — 출처표시·비상업·변경 금지). 허용 라이선스 밖이지만 사용자가 조건을 인지하고 정한 예외다(`USER_EXCEPTIONS["U20261010"]`, `rights_status: restricted`, 라이브러리 `lee_jae_myung_mono_v02`). 받는 경로 = `fetch_data people` → `library_portrait`: 변형이 `normalized: true`(승격된 정규화 완료본)면 **바이트 그대로 복사**, 권리 상태·예외는 라이브러리 값 그대로(v5.15.1 D-0164). **배포(공개 게시) 전에는 이 예외를 다시 확인한다.**
+- **사용자 예외 D172(보도 인용 B, v5.21.0 D-0177)**: 인용한 기사에 실린 통신사 사진 1장을 **그 기사 카드의 프레스 칸에서만** 쓴다(`USER_EXCEPTIONS["U20261011"] = {press_quote}` — 자산 id 가 아닌 **범주 예외**). 기록 = 미디어 레지스트리 photo · `rights_status: restricted` · `user_exception: U20261011` · `exception`("…공개 배포 전 재확인") · `license: "통신사 저작물 — 인용(<통신사>)"` · `press_of`(기사 mid)·`agency`·`photo_url`·md5. 조건: 권리 통과 풀(A) 검색 기록이 0건인 문장만(게이트 ① 표 `[press-quote]`), 독립 사진 비트·배경 금지(렌더 전 RightsError), 제목·썸네일 금지(G4-7), 자르기·축소 외 가공 금지(G4-10). 크레딧 3곳(카드 안 "사진: <통신사> via <매체>"·엔딩·설명란 "사진 출처(보도 인용)"), provenance `rights.exceptions`, `engine.mux` `[rights-exceptions]` 경고. 이 예외가 없는 restricted 사진은 지금처럼 거부. **배포(공개 게시) 전에는 이 예외를 다시 확인한다.**
 
 ### 3.3 이번 세션에서 쓴 인물 원본
 | 인물 | 파일 | 라이선스 | 비고 |

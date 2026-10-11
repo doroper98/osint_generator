@@ -502,6 +502,14 @@ class ArticleSource(_Strict):
     translated_note: str = Field(min_length=1)
 
 
+class ArticlePressCredit(_Strict):
+    """v5.21.0 D-0177 §3 — 보도 인용(B) 사진 카드 안 크레딧 줄(source 줄 아래)."""
+
+    size: float = Field(gt=0)
+    lead: float = Field(ge=0)
+    format: str = Field(pattern=r"\{agency\}.*\{publisher\}")
+
+
 class ArticlePressFallback(_Strict):
     """v5.2.0 D-0129 §A — 프레스 사진이 없을 때 지금 무대를 흐리는 값(배경 사진 stage_backdrop 값과 분리 — hormuz 기사 골든 불변)."""
 
@@ -524,6 +532,7 @@ class ArticleCardLayout(_Strict):
     headline: ArticleHeadline
     sub: ArticleSub
     source: ArticleSource
+    press_credit: ArticlePressCredit   # v5.21.0 D-0177
 
     @model_validator(mode="after")
     def _themes(self) -> "ArticleCardLayout":

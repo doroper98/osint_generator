@@ -27,7 +27,8 @@ class CheongwadaeEmblemTest(unittest.TestCase):
         self.assertTrue(others)
         self.assertTrue(all(reg.emblems[k].decision == "flag_fallback" and reg.emblems[k].user_exception is None for k in others))
         self.assertEqual(USER_EXCEPTIONS, {"D98": frozenset({"cheongwadae"}), "U20261004": frozenset({"nato"}),
-                                           "U20261010": frozenset({"lee_jae_myung"})})   # v5.15.0 인물 예외(사용자 결정 D153, D-0160)
+                                           "U20261010": frozenset({"lee_jae_myung"}),   # v5.15.0 인물 예외(사용자 결정 D153, D-0160)
+                                           "U20261011": frozenset({"press_quote"})})    # v5.21.0 범주 예외 보도 인용(사용자 결정 D172, D-0177)
         n = reg.emblems["nato"]   # v5.5.0 사용자 직접 지시 2026-10-04
         self.assertEqual((n.decision, n.user_exception, n.file), ("use", "U20261004", "nato.png"))
         self.assertIn("insignia", n.restrictions)

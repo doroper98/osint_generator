@@ -27,6 +27,7 @@ SRT_TAIL_SEC = 0.15
 AAC_BITRATE = "192k"
 DESCRIPTION_CREDITS_HEADING = "크레딧 (영상 밖 표기 — 폰트 등)"
 DESCRIPTION_SOURCES_HEADING = "출처 원문 (보도 · 자료 · X 게시물)"
+DESCRIPTION_PRESS_HEADING = "사진 출처 (보도 인용)"   # v5.21.0 D-0177 §3
 
 
 class Chapter(BaseModel):
@@ -97,6 +98,14 @@ def load_description(proj: Path) -> Description:
     return Description.model_validate(yaml.safe_load((proj / "description.yaml").read_text(encoding="utf-8")))
 
 
+def rights_exception_warning(prov: dict) -> str | None:
+    """`[rights-exceptions]` 경고 한 줄(v5.21.0 D-0177 §6) — provenance rights.exceptions 와 같은 목록. 없으면 None."""
+    exc = (prov.get("rights") or {}).get("exceptions") or []
+    if not exc:
+        return None
+    return f"[rights-exceptions] 공개 배포 전 재확인 {len(exc)}건: " + ", ".join(f"{x['ref']}({x['user_exception']})" for x in exc)
+
+
 def mux(proj: Path, total: float) -> tuple[Path, dict]:
     """영상 + mix → final.mp4. 음량은 2패스 loudnorm(v3.4.0 D-0061 — 측정은 audio/qa.py 한 경로). (경로, loudnorm 기록)."""
     from audio.qa import loudnorm_two_pass, mix_inputs  # noqa: PLC0415
@@ -141,7 +150,7 @@ def project_provenance(P, stages: dict[str, bool]) -> dict:  # noqa: ANN001, N80
     req = P.R.cache.get("credit_refs") or set()
     prov = build_prov(P.plan, P.keys, P.events, __version__, stages, P.R.tb.word_anchors, asset_usage(P))
     prov["credits"] = credit_summary(req)   # D-0030 §3 — 표기 위치별 종류 개수
-    exc = rights_exceptions(req, P.R.assets.rights)
+    exc = rights_exceptions(req, P.R.assets.rights, P.R.assets.media)   # v5.21.0 — 보도 인용(B) 사진 포함
     if exc:   # v5.15.0 D-0160 — restricted·사용자 예외 자산을 쓴 영상에만(P5·P6)
         prov["rights"] = {"exceptions": exc}
     prov["reserved"] = {"avoidance": avoidance_report(P)}   # D-0033 §2 — 카드 영역 때문에 비킨·흐린 뱃지
@@ -272,7 +281,7 @@ def refuse_animatic(video: Path) -> None:
 
 
 def main(argv: list[str] | None = None) -> int:
-    from engine.credits import RightsError, credit_lines, description_credits, description_sources  # noqa: PLC0415
+    from engine.credits import RightsError, credit_lines, description_credits, description_press_photos, description_sources  # noqa: PLC0415
     from engine.project import ProjectError, load_project  # noqa: PLC0415
     from schemas.engine_models import StageResult  # noqa: PLC0415
 
@@ -302,6 +311,9 @@ def main(argv: list[str] | None = None) -> int:
         dsrc = description_sources(P.R.cache.get("cited_sources"))   # v3.2.0 18 §6 — 원문 링크 전부(없으면 사유)
         if dsrc:
             desc += "\n\n" + DESCRIPTION_SOURCES_HEADING + "\n" + "\n".join(dsrc)
+        dpress = description_press_photos(req, P.R.assets.media)   # v5.21.0 D-0177 §3 — 보도 인용(B) 사진 출처 줄
+        if dpress:
+            desc += "\n\n" + DESCRIPTION_PRESS_HEADING + "\n" + "\n".join(dpress)
         (outd / "description.txt").write_text(desc, encoding="utf-8")
         prov = project_provenance(P, {"plan": True, "geo": True, "preview": (proj / "prev" / "provenance.json").exists(),
                                       "render": True, "mix": True, "mux": True, "ai_direction": False, "visual_qa": False})
@@ -315,6 +327,10 @@ def main(argv: list[str] | None = None) -> int:
         (outd / "provenance.json").write_text(json.dumps(prov, ensure_ascii=False, indent=1), encoding="utf-8")
         if issues:
             raise ProjectError("오디오 QA hard 실패:\n" + "\n".join(issues))
+        rx = rights_exception_warning(prov)
+        if rx is not None:   # v5.21.0 D-0177 §6 — 사용자 예외 자산(보도 인용·인물 예외)은 조용히 지나가지 않는다
+            warns = [*warns, rx]
+            print(rx, file=sys.stderr)
         res = StageResult(ok=True, stage="mux", provenance=prov, warnings=warns,
                           artifacts={"final": str(final), "srt": str(outd / "final.srt"),
                                      "description": str(outd / "description.txt"), "credits": str(outd / "credits.txt"), "provenance": str(outd / "provenance.json")})

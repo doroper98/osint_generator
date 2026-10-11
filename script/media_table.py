@@ -10,6 +10,8 @@
 - 사진 목표 = 러닝타임(분) × rules media.density.photo_target_per_min(내림). 선택 수(원고 문장 media 의 사진 asset_id)가 모자라면
   사진 후보 문장(트리거·검색 기록·원고 query) 마다 사유가 있어야 한다 — media_notes.yaml photo, 또는 검색 기록의 권리 통과 0.
   사유가 없으면 표의 errors → 게이트 ① 승인 거부(orchestrator.project_manager.require_media_plan, P6).
+- v5.21.0 D-0177 §4 — 보도 인용(B): media_notes.yaml sentences.<sid>.press_quote 가 있는 문장은 사진 열에 "보도 인용(B)" 와 근거
+  (검색 기록 통과 0)를 보인다. 검색 기록이 없거나 통과 후보가 있거나(A 먼저) 기사 카드 후보가 아니면 표 오류 `[press-quote]`.
 파일은 읽기만 한다.
 """
 
@@ -53,9 +55,11 @@ class MediaRow(_Strict):
     photo_trigger: Optional[str] = None
     found: int = 0
     passed: int = 0
+    searches: int = 0                     # 검색 기록 수(풀·검색어 단위, media_search.json)
     selected: Optional[str] = None        # 원고 문장 media 의 사진 asset_id(레지스트리 등록)
     reason: Optional[str] = None          # 사진 사유(media_notes photo 또는 검색 기록 요약)
     article_note: Optional[str] = None
+    press_quote: Optional[str] = None     # v5.21.0 — 보도 인용(B) 사진 사유(media_notes press_quote)
 
 
 class MediaTable(_Strict):
@@ -192,8 +196,9 @@ def build_rows(pdir: Path) -> tuple[list[MediaRow], MediaNotes]:
             reason = "검색 " + "; ".join(f"{x.pool} '{x.query}' {x.found}건·통과 0" + (f"({', '.join(x.rejected[:2])})" if x.rejected else "")
                                          for x in ss)
         rows.append(MediaRow(sid=sid, text=s.text, claims=cl, article_sources=art_src, article_mids=mids, article_unregistered=unreg,
-                             article_trigger=art_hit, photo_candidate=cand, photo_trigger=phit, found=found, passed=passed,
-                             selected=sel, reason=reason, article_note=note.article if note is not None else None))
+                             article_trigger=art_hit, photo_candidate=cand, photo_trigger=phit, found=found, passed=passed, searches=len(ss),
+                             selected=sel, reason=reason, article_note=note.article if note is not None else None,
+                             press_quote=note.press_quote if note is not None else None))
     return rows, notes
 
 
@@ -225,9 +230,25 @@ def media_table(pdir: Path, total_sec: float | None = None) -> MediaTable:
         if not cands and not notes.project_photo:
             errs.append(f"[photo-reason] 사진 {selected}/{target}장(분당 {D.photo_target_per_min:g}) — 사진 후보 문장이 없다. "
                         f"{NOTES_FILE} project_photo 에 이 영상에 사진이 없는 이유를 적는다")
+    errs += press_quote_errors(rows, pdir)
     return MediaTable(total_sec=round(total_sec, 1), total_source=src, photo_target=target, photo_selected=selected,
                       article_candidates=sum(1 for r in rows if r.article_mids), rows=rows,
                       project_photo=notes.project_photo, errors=errs)
+
+
+def press_quote_errors(rows: list[MediaRow], pdir: Path) -> list[str]:
+    """보도 인용(B)은 A(권리 통과 풀) 검색 기록이 0건일 때만, 기사 카드 후보 문장에서만(D-0177 원칙·§4)."""
+    errs: list[str] = []
+    for r in rows:
+        if r.press_quote is None:
+            continue
+        why = ("기사 카드 후보가 아니다(확인·등록된 기사 출처 인용 없음) — B 는 기사 카드 프레스 칸에서만" if not r.article_mids else
+               f"사진 검색 기록이 없다 — `tools/media_fetch.py search --log {pdir} --sid {r.sid} \"검색어\"` 로 A 풀을 먼저 찾는다"
+               if r.searches == 0 else
+               f"권리 통과 후보 {r.passed}건이 있다 — A 먼저(사용자 결정 D172)" if r.passed else None)
+        if why is not None:
+            errs.append(f"[press-quote] {r.sid}: 보도 인용(B) — {why}")
+    return errs
 
 
 def table_lines(t: MediaTable) -> list[str]:
@@ -239,8 +260,10 @@ def table_lines(t: MediaTable) -> list[str]:
            "  문장         인용 출처              기사(등록/미등록)        사진 찾음/통과/선택      사유"]
     for r in t.rows:
         art = (",".join(r.article_mids) or "-") + (f" / 미등록 {len(r.article_unregistered)}" if r.article_unregistered else "")
-        ph = f"{r.found}/{r.passed}/{r.selected or '-'}" + (f" ({r.photo_trigger})" if r.photo_trigger else "")
+        ph = f"{r.found}/{r.passed}/{'보도 인용(B)' if r.press_quote else r.selected or '-'}" + (f" ({r.photo_trigger})" if r.photo_trigger else "")
         why = r.reason or ("" if not r.photo_candidate or r.selected else "(사유 없음)")
+        if r.press_quote:
+            why = f"B: {r.press_quote} · 근거 {r.reason or '(검색 기록 없음)'}"
         out.append(f"  {r.sid:<12} {','.join(r.claims) or '(출처 없음)':<22} {art:<24} {ph:<22} {why}")
     if t.project_photo:
         out.append(f"  영상 전체 사진 사유: {t.project_photo}")
@@ -249,4 +272,4 @@ def table_lines(t: MediaTable) -> list[str]:
 
 
 __all__ = ["MediaRow", "MediaTable", "MediaTableError", "article_candidates", "article_sids", "build_rows", "estimate_total",
-           "load_notes", "load_searches", "media_table", "table_lines"]
+           "load_notes", "load_searches", "media_table", "press_quote_errors", "table_lines"]

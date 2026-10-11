@@ -1,6 +1,6 @@
 <!--
 tier: 2
-last_synced_with: v5.19.0
+last_synced_with: v5.21.0
 ssot_for: [v2-media-beats]
 depends_on: [docs/handoff/00_INDEX.md, docs/handoff/15_ANTI_INERTIA_PRINCIPLES.md]
 last_review: 2026-09-27
@@ -242,3 +242,7 @@ hormuz 사진 2건 실측 프레임 간 차이 최대 14.6 → 0.41, 8.0 → 0.2
 - 연속 같은 사진 금지, 영상 전체 서로 다른 사진 `min_photos`~`max_photos`(checks `backdrop_repeat` hard).
 - fed_policy 배경 후보(D-0126 Q5 A): 연준 이사회 Flickr — 기자회견 3장(PDM, 기존) + 에클스 빌딩 외관(US Gov Work, 8)·이사회실(PDM, 10)·아트리움(8). 라이선스 번호는 코드가 사진 페이지에서 확인(`tools/media_fetch.py fetch_flickr`).
 - 프레스 사진이 없으면 블러 무대 폴백(hormuz 기사 2건 — 권리 기록 있는 공식 사진 없음).
+
+## v5.21.0 — 통신사 사진 "보도 인용"(B) (back_and_forth D-0177, 사용자 결정 D172)
+
+원칙은 **A 먼저, B 는 그 다음**이다. 문장의 사진 후보를 소싱 풀(`media_beats.sources_order`)에서 찾고(`tools/media_fetch.py search --log`), 권리 통과가 0건일 때만 그 문장의 기사 카드에 B 를 쓴다. 군·정부 배포 사진의 전재는 원출처 PD 로 받는다(= A). B 는 인용한 기사에 실린 통신사 사진 1장이고, **그 기사 카드의 프레스 칸(`article` 이벤트 `press`)에서만** 쓴다 — 독립 사진 비트·배경 사진·다른 기사의 카드는 렌더 전 오류다. 등록은 `tools/article_register.py projects/<pid> --press-photo <기사 URL> --agency <통신사> --verified-by … --relevance … --casualty-free --write`(대표 사진 og:image 를 저장소 UA·재시도 간격으로 받거나 `--file`·`--photo-url`). 게이트 ① 표의 사진 열에는 `media_notes.yaml sentences.<sid>.press_quote` 가 있는 문장마다 "보도 인용(B)" 와 근거(검색 기록 통과 0)가 보인다 — 검색 기록이 없거나 통과 후보가 있거나 기사 카드 후보가 아니면 `[press-quote]` 오류로 게이트 ① 이 거부된다. 크레딧은 세 곳이다: 카드 안 source 줄 아래 작은 줄 "사진: <통신사> via <매체>"(`rules article_card.press_credit`), 엔딩 크레딧 사진 줄(credits.yaml `rights: [media.<사진 mid>]` — 없으면 RightsError), 설명란 "사진 출처(보도 인용)". 엔딩 마지막 줄(D85)은 그대로다. 권리 기록은 `07` §3.2(U20261011).

@@ -1,6 +1,6 @@
 <!--
 tier: 3
-last_synced_with: v5.19.0
+last_synced_with: v5.21.0
 ssot_for: [execution-procedures]
 depends_on: [README.md, HANDOFF.md, docs/15_OPERATIONS_RUNBOOK.md, docs/handoff/16_ORCHESTRATOR_INTEGRATION.md]
 last_review: 2026-09-30
@@ -16,7 +16,7 @@ last_review: 2026-09-30
 ## W0. 콘티 판(animatic) — 흐름·호흡을 먼저 싸게 (v4.9.0, back_and_forth D-0108, 사용자 결정 D97)
 
 > **순서 의무 — 자막(원고) → 콘티 → (승인 후) 본영상 (v5.6.0, 사용자 결정 2026-10-04, PIPELINE-AP-015).**
-> 1. 원고가 나오면 `python -m orchestrator.main gate-view {pid}` 원고 검토 자료(원고 전문·출처 표·린트·**린트 면제 표**(v5.17.0 D-0168)·**미디어 계획 표**(v5.19.0 D-0163 §2 — 문장별 인용 출처·기사 등록·사진 찾음/통과/선택·사유))를 **사용자에게 보내 자막 점검**을 요청한다. 사진 목표 미달인데 문장 사유가 없으면 게이트 ① 승인이 거부된다(`media_fetch.py search --log` 또는 `media_notes.yaml`).
+> 1. 원고가 나오면 `python -m orchestrator.main gate-view {pid}` 원고 검토 자료(원고 전문·출처 표·린트·**린트 면제 표**(v5.17.0 D-0168)·**미디어 계획 표**(v5.19.0 D-0163 §2 — 문장별 인용 출처·기사 등록·사진 찾음/통과/선택·사유))를 **사용자에게 보내 자막 점검**을 요청한다. 사진 목표 미달인데 문장 사유가 없으면 게이트 ① 승인이 거부된다(`media_fetch.py search --log` 또는 `media_notes.yaml`). 보도 인용(B, v5.21.0 D-0177) 문장은 사진 열에 **"보도 인용(B)"** 과 근거(검색 기록 통과 0)가 보인다 — 사용자가 게이트 ① 에서 어떤 문장이 통신사 사진을 쓰는지 본다(`media_notes.yaml sentences.<sid>.press_quote`).
 > 2. 사용자 승인 → `approve --gate script_approval` (승인 기록에 원고 지문 `script_sha1`).
 > 3. 음성 → 연출 → 콘티 판(기록에 원고 지문). 콘티 판을 보낼 때도 원고 검토 자료를 함께 보낸다.
 > 4. 게이트 ② 는 콘티 판의 원고 지문 = 승인 원고 지문일 때만 통과. 원고를 고치면 게이트 ① 부터 다시.

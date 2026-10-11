@@ -312,10 +312,18 @@ def article_candidates_text(pdir: Path) -> str:
     연출은 이 문장에 기사 카드를 쓴다(60초당 rules media.density.article_per_min_max 까지, 넘치면 긴 문장 먼저)."""
     from script.media_table import article_candidates  # noqa: PLC0415
 
+    from engine.media_registry import load_media_registry  # noqa: PLC0415
+
     rows = article_candidates(pdir)
     if not rows:
         return "(없음 — 확인·등록된 기사 출처를 인용한 문장이 없다)"
-    return "\n".join(f"- {sid} · {', '.join(mids)}" for sid, mids in rows.items())
+    # v5.21.0 D-0177 — 보도 인용(B) 사진이 등록된 기사는 그 사진 id 를 보인다(그 기사 카드의 press 칸에서만 쓸 수 있다)
+    press = {a.press_of: k for k, a in load_media_registry().items() if a.press_of is not None}
+
+    def one(m: str) -> str:
+        return m + (f"(press: {press[m]} — 보도 인용 사진, 이 기사 카드 press 칸에서만)" if m in press else "")
+
+    return "\n".join(f"- {sid} · {', '.join(one(m) for m in mids)}" for sid, mids in rows.items())
 
 
 def bundle_materials_text(pdir: Path) -> tuple[str, str | None]:

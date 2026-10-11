@@ -488,6 +488,7 @@ layout_480p:               # 09 §2·§4, 08 §10 — 기준 해상도 854×480.
     headline: {size: 30, gap: 38, max_lines: 3, quotes: true}
     sub: {size: 15, gap: 20, max_lines: 2, lead: 14}      # lead = 헤드라인 마지막 기준선 → 부제 첫 줄 위 여백
     source: {size: 13, lead: 12, format: "— {publisher}, {date}", translated_note: "헤드라인 번역"}
+    press_credit: {size: 11, lead: 8, format: "사진: {agency} via {publisher}"}   # v5.21.0 D-0177 §3 — 보도 인용(B) 사진 카드 안 작은 줄(source 줄 아래). B 사진 없는 카드는 그리지 않는다
   # v3.2.0 18 §5 — X 게시물 카드(post). 캡처 이미지·X 로고 없이 자체 조판. 수치는 18 §5 명세 그대로
   post_card:
     w: 300

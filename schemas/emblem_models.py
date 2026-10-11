@@ -40,12 +40,21 @@ USER_EXCEPTIONS: dict[str, frozenset[str]] = {
     # v5.15.0 back_and_forth D-0160(사용자 결정 D153, 2026-10-10) — 인물 초상 예외(같은 사전, 키 = 인물 id): 이재명 대통령 공식 초상
     # (대통령실, 공공누리 제4유형 — 출처표시·비상업·변경 금지). 개인 프로젝트로 조건 인지 후 사용. **배포(공개 게시) 전 재확인**.
     "U20261010": frozenset({"lee_jae_myung"}),
+    # v5.21.0 back_and_forth D-0177(사용자 결정 D172, 2026-10-11) — **범주 예외**(키 = 범주, 자산 id 가 아니다): 보도 인용(press_quote).
+    # 인용한 기사에 실린 통신사 사진 1장을 그 기사 카드의 프레스 칸에서만(저작권법 §28 취지, 개인 프로젝트). **공개 배포 전 재확인**.
+    "U20261011": frozenset({"press_quote"}),
 }
+PRESS_QUOTE = "press_quote"   # v5.21.0 — 미디어(사진) 범주 예외 이름
 
 
 def person_exception_ok(pid: str, user_exception: Optional[str]) -> bool:
     """인물 권리 항목의 사용자 예외가 USER_EXCEPTIONS 에 등록돼 있는가(D-0160). 예외 없는 restricted 는 False."""
     return user_exception is not None and pid in USER_EXCEPTIONS.get(user_exception, frozenset())
+
+
+def press_exception_ok(user_exception: Optional[str]) -> bool:
+    """미디어 사진의 사용자 예외가 보도 인용 범주(press_quote)인가(v5.21.0 D-0177). 예외 없는 restricted 사진은 False."""
+    return user_exception is not None and PRESS_QUOTE in USER_EXCEPTIONS.get(user_exception, frozenset())
 
 
 def decide_emblem(restrictions: list[str], license: str, has_file: bool,

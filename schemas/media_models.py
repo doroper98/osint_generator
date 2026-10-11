@@ -85,6 +85,13 @@ class MediaAsset(_Strict):
     sub: Optional[str] = None
     note: Optional[str] = None
     headline_original: Optional[str] = None   # v5.1.0 D-0121 §C·D-0126 Q6 A — 원문 헤드라인 verbatim(원문 언어). 없으면 번역 헤드라인 + "헤드라인 번역"
+    # v5.21.0 back_and_forth D-0177(사용자 결정 D172) — 통신사 사진 "보도 인용"(B). 인용한 기사(press_of = 기사 mid)에 실린 사진 1장,
+    # 그 기사 카드의 프레스 칸에서만. restricted + 범주 예외(schemas.emblem_models USER_EXCEPTIONS press_quote) + 크레딧 3곳 + 배포 전 재확인
+    press_of: Optional[str] = None        # 이 사진이 실린 기사(레지스트리 kind article mid)
+    agency: Optional[str] = None          # 통신사(예: Reuters) — 카드 안 "사진: <통신사> via <매체>"
+    photo_url: Optional[str] = None       # 받은 사진 원본 URL(url = 기사 페이지)
+    user_exception: Optional[str] = Field(default=None, pattern=r"^(D\d+|U\d{8})$")
+    exception: Optional[str] = None       # 예외 문구(결정 번호·근거·"공개 배포 전 재확인")
 
     @model_validator(mode="after")
     def _by_kind(self) -> "MediaAsset":
@@ -117,11 +124,34 @@ class MediaAsset(_Strict):
                 errs.append(f"segment {self.segment} 가 영상 길이 {self.duration} 밖")
             if self.verified_by.segment_checked != self.segment:
                 errs.append(f"사상자 식별 체크 구간 {self.verified_by.segment_checked} ≠ 사용 구간 {self.segment} (14 §2.2)")
+        errs += self._press_quote_errors()
         if not self.verified_by.casualty_free:
             errs.append("사상자·시신 식별 자료는 쓰지 않는다(14 §2.2)")
         if errs:
             raise ValueError("; ".join(errs))
         return self
+
+    def _press_quote_errors(self) -> list[str]:
+        """보도 인용(B) 사진의 기록 칸(D-0177 §1·§2). 사용자 예외는 보도 인용 범주만 — 다른 restricted 사진은 지금처럼 렌더 거부."""
+        from schemas.emblem_models import press_exception_ok  # noqa: PLC0415
+
+        errs: list[str] = []
+        if self.press_of is None:
+            if self.user_exception is not None or self.agency is not None:
+                errs.append("user_exception·agency 는 보도 인용 사진(press_of)만 — 미디어의 사용자 예외는 보도 인용 범주뿐(D-0177)")
+            return errs
+        if self.kind != "photo":
+            errs.append(f"보도 인용(press_of)은 사진만: kind={self.kind}")
+        if self.rights_status != "restricted":
+            errs.append(f"보도 인용 사진은 rights_status restricted 로 적는다(권리 확인 자산이 아니다): {self.rights_status}")
+        if not press_exception_ok(self.user_exception):
+            errs.append(f"보도 인용 사진의 사용자 예외가 press_quote 범주가 아니다: {self.user_exception!r}(USER_EXCEPTIONS)")
+        for f in ("agency", "photo_url", "exception", "url"):
+            if not getattr(self, f):
+                errs.append(f"보도 인용 사진 기록 없음: {f}")
+        if self.exception and "재확인" not in self.exception:
+            errs.append("보도 인용 exception 문구에 '공개 배포 전 재확인' 이 없다(D-0177 §2)")
+        return errs
 
     def credit_line(self, fmt: str) -> str:
         """화면 출처 줄 — 형식은 rules media.credit_formats(종류별). 레지스트리 값으로만 만든다(P3)."""
@@ -133,6 +163,14 @@ class MediaRegistryFile(_Strict):
     schema_version: int
     assets: dict[str, MediaAsset]
 
+    @model_validator(mode="after")
+    def _press_of_article(self) -> "MediaRegistryFile":
+        bad = [f"{k}→{a.press_of}" for k, a in self.assets.items()
+               if a.press_of is not None and (a.press_of not in self.assets or self.assets[a.press_of].kind != "article")]
+        if bad:
+            raise ValueError(f"보도 인용 사진의 press_of 가 레지스트리 기사(kind article)가 아니다: {bad}")
+        return self
+
 
 class MediaAssets(RootModel[dict[str, MediaAsset]]):
     pass
@@ -140,10 +178,12 @@ class MediaAssets(RootModel[dict[str, MediaAsset]]):
 
 class MediaNote(_Strict):
     """v5.19.0 D-0163 §2 — 문장 하나의 미디어 사유(사람·에이전트가 적는다, LLM 연출이 아니다).
-    photo = 사진을 고르지 못한 이유(검색어·결과·라이선스 탈락), article = 기사 카드 후보를 연출에서 쓰지 않은 이유."""
+    photo = 사진을 고르지 못한 이유(검색어·결과·라이선스 탈락), article = 기사 카드 후보를 연출에서 쓰지 않은 이유,
+    press_quote = 그 문장의 기사 카드에 보도 인용(B) 통신사 사진을 쓴다(v5.21.0 — 권리 통과 풀 검색 기록 0건일 때만)."""
 
     photo: Optional[str] = Field(default=None, min_length=4)
     article: Optional[str] = Field(default=None, min_length=4)
+    press_quote: Optional[str] = Field(default=None, min_length=4)   # v5.21.0 D-0177 §4 — 보도 인용(B) 사진을 쓰는 이유·사진(검색 기록 통과 0 필수)
 
 
 class MediaNotes(_Strict):

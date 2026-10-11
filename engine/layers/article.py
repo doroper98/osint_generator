@@ -6,12 +6,15 @@
 2. 덮개(theme overlay × overlay_alpha) + 글자 블록: 왼쪽 세로 선 · 세리프 헤드라인 · 산세리프 부제 · source 줄. 세로 가운데(자막 구역 위)·왼쪽 정렬.
    헤드라인 = 레지스트리 headline_original(원문 언어, 인용 부호) — 없으면 한국어 번역 headline(부호 없음) + source 줄 "헤드라인 번역"(Q6 A).
 3. 퇴장 = 덮개·글자·사진 페이드(overlay_fade_sec).
+4. v5.21.0 D-0177(사용자 결정 D172) — 보도 인용(B): 인용한 기사에 실린 통신사 사진(레지스트리 photo·restricted·press_of = 이 기사·
+   사용자 예외 press_quote)은 **그 기사 카드의 프레스 칸에서만** 쓴다. 카드 안 source 줄 아래 작은 줄 "사진: <통신사> via <매체>".
 글자·수치는 코드가 렌더한다(G4-10). 수치는 전부 `rules layout_480p.article_card`(코드 리터럴 0).
 """
 
 from __future__ import annotations
 
 from dataclasses import dataclass
+from typing import Optional
 
 import cairo
 import numpy as np
@@ -48,6 +51,8 @@ class ArticleLayout:
     rule: tuple[float, float]  # 세로 선 (위, 아래)
     box: tuple[float, float, float, float]   # 블록 (x0, y0, x1, y1)
     translated: bool
+    credit: Optional[str] = None           # v5.21.0 — 보도 인용(B) 사진 크레딧 줄(없으면 그리지 않는다)
+    credit_base: Optional[float] = None
 
 
 def article_text(e: dict) -> dict:
@@ -83,6 +88,9 @@ def article_layout(ctx: cairo.Context, e: dict) -> ArticleLayout:
     src = A.source.format.replace("{publisher}", d["pub"]).replace("{date}", source_date(d["date"]))
     if translated:
         src += f" · {A.source.translated_note}"
+    credit = press_credit_text(e, d["pub"])
+    if credit is not None and len(wrap(ctx, credit, tw_max, A.press_credit.size, "sans")) > 1:
+        raise ArticleOverflowError(f"기사 {e['mid']}: 보도 인용 크레딧 줄이 한 줄을 넘는다 — {credit!r}(rules article_card.press_credit)")
     # 상대 기준선(위 = 0)
     hb = [A.headline.size + i * A.headline.gap for i in range(len(hl))]
     y = hb[-1] + A.headline.size * DESCENT
@@ -91,10 +99,23 @@ def article_layout(ctx: cairo.Context, e: dict) -> ArticleLayout:
     y = (sb[-1] + A.sub.size * DESCENT) if sb else y
     srcb = y + A.source.lead + A.source.size
     h = srcb + A.source.size * DESCENT
+    crb = None
+    if credit is not None:
+        crb = h + A.press_credit.lead + A.press_credit.size
+        h = crb + A.press_credit.size * DESCENT
     top = (SUB_Y - h) / 2
     return ArticleLayout(x=x, text_x=text_x, top=top, headline=hl, sub=sub, source=src, hl_base=[top + v for v in hb],
                          sub_base=[top + v for v in sb], source_base=top + srcb, rule=(top + rule[0], top + rule[1]),
-                         box=(x, top, x + W_OUT * A.max_w_ratio, top + h), translated=translated)
+                         box=(x, top, x + W_OUT * A.max_w_ratio, top + h), translated=translated,
+                         credit=credit, credit_base=None if crb is None else top + crb)
+
+
+def press_credit_text(e: dict, publisher: str) -> Optional[str]:
+    """보도 인용(B) 사진이면 카드 안 크레딧 줄(rules article_card.press_credit.format), 아니면 None(A 공식 사진·블러 폴백은 줄 없음)."""
+    pa = cached_registry().get(e.get("press") or "")
+    if pa is None or pa.press_of is None:
+        return None
+    return ARTICLE.press_credit.format.replace("{agency}", pa.agency or "").replace("{publisher}", publisher)
 
 
 def article_box(ctx: cairo.Context, e: dict) -> tuple[float, float, float, float]:
@@ -111,6 +132,14 @@ def validate_press(e: dict, assets: dict | None = None):  # noqa: ANN201 — Med
     if pid not in reg:
         raise RightsError(f"프레스 사진이 미디어 레지스트리에 없음: press={pid!r} (article {e.get('mid')}) — 권리 기록 있는 공식 사진만(C9)")
     a = reg[pid]
+    if a.press_of is not None:   # v5.21.0 D-0177 — 보도 인용(B): 그 사진이 실린 기사의 카드에서만, 범주 예외 press_quote
+        from schemas.emblem_models import press_exception_ok  # noqa: PLC0415
+
+        if a.press_of != e.get("mid"):
+            raise RightsError(f"보도 인용 사진 {pid} 은 기사 {a.press_of} 의 카드에서만 쓴다(지금 article {e.get('mid')}) — 사용자 결정 D172")
+        if a.kind != "photo" or not a.file or not press_exception_ok(a.user_exception):
+            raise RightsError(f"보도 인용 사진 {pid}: kind {a.kind}·파일 {a.file!r}·예외 {a.user_exception!r} — photo·파일·press_quote 예외만(D-0177)")
+        return a
     if a.kind != "photo" or a.rights_status != "rights_clear" or not a.file:
         raise RightsError(f"프레스 사진 {pid}: kind {a.kind}·권리 {a.rights_status}·파일 {a.file!r} — photo·rights_clear·파일만(C9)")
     return a
@@ -172,6 +201,8 @@ def draw_article_text(ctx: cairo.Context, e: dict, a: float) -> None:
     for ln, y in zip(L.sub, L.sub_base):
         text(ctx, ln, L.text_x, y, A.sub.size, "sans", th.ink, a, 0, "l")
     text(ctx, L.source, L.text_x, L.source_base, A.source.size, "sans", th.muted, a, 0, "l")
+    if L.credit is not None:
+        text(ctx, L.credit, L.text_x, L.credit_base, A.press_credit.size, "sans", th.muted, a, 0, "l")
 
 
 def draw_article(ctx: cairo.Context, R: RenderCtx, t: float, e: dict) -> None:  # noqa: N803
@@ -186,9 +217,18 @@ def draw_article(ctx: cairo.Context, R: RenderCtx, t: float, e: dict) -> None:  
 def article_usage(events: list[dict]) -> list[dict]:
     """provenance article[] — 매체·프레스 사진(없으면 none)·테마·헤드라인(원문|번역)."""
     ctx = cairo.Context(cairo.ImageSurface(cairo.FORMAT_ARGB32, 1, 1))
-    return [{"mid": e["mid"], "t0": round(e["t0"], 2), "press": e.get("press") or "none", "theme": e.get("theme") or ARTICLE.theme_default,
-             "headline": "translated" if article_layout(ctx, e).translated else "original"} for e in events if e["type"] == "article"]
+    out = []
+    for e in events:
+        if e["type"] != "article":
+            continue
+        L = article_layout(ctx, e)  # noqa: N806
+        row = {"mid": e["mid"], "t0": round(e["t0"], 2), "press": e.get("press") or "none", "theme": e.get("theme") or ARTICLE.theme_default,
+               "headline": "translated" if L.translated else "original"}
+        if L.credit is not None:   # v5.21.0 — 보도 인용(B) 사진을 쓴 카드에만(P5)
+            row["press_quote"] = L.credit
+        out.append(row)
+    return out
 
 
 __all__ = ["ArticleLayout", "ArticleOverflowError", "article_box", "article_layout", "article_phase", "article_text", "article_usage",
-           "draw_article", "draw_article_text", "draw_press", "source_date", "validate_press"]
+           "draw_article", "draw_article_text", "draw_press", "press_credit_text", "source_date", "validate_press"]

@@ -70,6 +70,17 @@ released 항목은 **append-only**입니다.
 
 MINOR: 새 권리 예외 범주(press_quote). 권리 통과 풀(A) 검색 기록이 0건인 문장의 기사 카드에서만, 인용 기사에 실린 통신사 사진 1장을 restricted·크레딧 3곳·공개 배포 전 재확인으로 쓴다. 호르무즈는 B 자산 없음 — 출력 변화 0.
 
+
+### Added
+- `schemas.emblem_models.USER_EXCEPTIONS["U20261011"] = {press_quote}`(범주 예외)·`press_exception_ok`. 미디어 레지스트리 사진 칸 `press_of`·`agency`·`photo_url`·`user_exception`·`exception`(검증: photo·restricted·press_quote·"재확인" 문구·기사 참조).
+- 기사 카드: 프레스 칸이 B 사진을 받는다(그 기사에서만). source 줄 아래 "사진: <통신사> via <매체>"(`rules article_card.press_credit`). provenance `article[].press_quote`.
+- 크레딧: `rights_exception` 이 미디어 B 사진도 예외로 인정(엔딩 카드 행 필수), `description_press_photos` → 설명란 "사진 출처 (보도 인용)", `rights_exceptions(..., media)` → provenance `rights.exceptions`, mux `[rights-exceptions] 공개 배포 전 재확인 n건` 경고.
+- 게이트 ① 미디어 표: `media_notes.yaml sentences.<sid>.press_quote` → 사진 열 "보도 인용(B)" + 근거, `[press-quote]` 오류(검색 기록 없음·통과 후보 있음·기사 카드 후보 아님).
+- `tools/article_register.py --press-photo <기사 URL> --agency …`(og:image 또는 `--file`·`--photo-url`). 연출 프롬프트 기사 카드 후보 줄에 B 사진 id.
+- 테스트 `test_b_press_quote` 12.
+
+### Changed
+- 독립 사진·배경 사진 게이트가 B 사진을 거부(기사 카드 프레스 칸 전용).
 ---
 
 ## [v5.20.2] — 2026-10-11 — 문장 끝 억양 보정 구간의 추적기 옥타브 오류 정리·기록 f0 를 게이트 중앙값으로 (back_and_forth D-0180 §3)

@@ -262,22 +262,41 @@ def description_credits(rights: dict, required: set[str], rules: Optional[Credit
 
 
 def rights_exception(ref: str, entry: dict) -> Optional[str]:
-    """restricted 인물 자산의 등록된 사용자 예외 번호(v5.15.0 D-0160) — 없으면 None. 인물(people.<id>)만, restricted 만."""
-    from schemas.emblem_models import person_exception_ok  # noqa: PLC0415
+    """restricted 자산의 등록된 사용자 예외 번호 — 없으면 None. restricted 만.
+    인물(people.<id>, v5.15.0 D-0160) = 인물 id 예외, 미디어(media.<mid>, v5.21.0 D-0177) = 보도 인용 사진(press_of)의 범주 예외 press_quote."""
+    from schemas.emblem_models import person_exception_ok, press_exception_ok  # noqa: PLC0415
 
     kind, _, key = ref.partition(".")
     ue = entry.get("user_exception")
-    if kind == "people" and entry.get("rights_status") == "restricted" and person_exception_ok(key, ue):
+    if entry.get("rights_status") != "restricted":
+        return None
+    if kind == "people" and person_exception_ok(key, ue):
+        return ue
+    if kind == "media" and entry.get("press_of") and press_exception_ok(ue):
         return ue
     return None
 
 
-def rights_exceptions(required: set[str], rights: dict) -> list[dict]:
-    """provenance `rights.exceptions` — 이번 영상이 쓴 restricted·사용자 예외 자산(조용히 통과시키지 않고 보이게, 15 P6)."""
-    view = registry_view(rights, {})
+def rights_exceptions(required: set[str], rights: dict, media: Optional[dict] = None) -> list[dict]:
+    """provenance `rights.exceptions` — 이번 영상이 쓴 restricted·사용자 예외 자산(조용히 통과시키지 않고 보이게, 15 P6).
+    media = 미디어 레지스트리(dict 항목) — 보도 인용(B) 사진도 사진마다 한 건(v5.21.0 D-0177 §2)."""
+    view = registry_view(rights, media or {})
     return [{"ref": r, "rights_status": view[r].get("rights_status"), "user_exception": view[r].get("user_exception"),
              "exception": view[r].get("exception"), "license": view[r].get("license")}
             for r in sorted(required) if r in view and rights_exception(r, view[r]) is not None]
+
+
+def description_press_photos(required: set[str], media: dict) -> list[str]:
+    """설명란 '사진 출처(보도 인용)' 줄(v5.21.0 D-0177 §3) — 이번 영상이 쓴 보도 인용(B) 사진마다 통신사·매체·사진 원본 URL·예외 문구."""
+    out = []
+    for r in sorted(required):
+        kind, _, mid = r.partition(".")
+        m = media.get(mid) if kind == "media" else None
+        if not m or not m.get("press_of"):
+            continue
+        pub = (media.get(m["press_of"]) or {}).get("credit_author", m["press_of"])
+        out.append(f"사진: {m['agency']} via {pub} — {m['photo_url']} (보도 인용 · {m['user_exception']} · {m['exception']})")
+    return out
 
 
 def credit_summary(required: set[str], rules: Optional[CreditRules] = None) -> dict[str, dict[str, int]]:
