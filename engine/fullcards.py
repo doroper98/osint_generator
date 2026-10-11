@@ -39,7 +39,7 @@ Placed = tuple[int, int, float, float, list[tuple[str, str, float]]]
 
 
 class TitleOverflowError(ValueError):
-    """v5.21.3 — 타이틀 카드 제목이 title_min_size 로 줄여도 화면 폭(max_w_ratio)을 넘는다 — 원고 제목을 줄인다(조용한 잘림 금지, 15 P6)."""
+    """타이틀 카드 제목이 title_min_size 로 줄여도 화면 폭(max_w_ratio)을 넘는다 — 원고 제목을 줄인다(조용한 잘림 금지, 15 P6, v5.21.3)."""
 
 
 def title_fit_size(ctx: cairo.Context, title: str) -> float:
