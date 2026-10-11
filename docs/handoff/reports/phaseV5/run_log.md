@@ -61,3 +61,4 @@ last_review: 2026-10-11
 - 청취 자료 `c_vs_c_clean_6.mp3`(war_3·ask_0·ask_2·timeline_1·open_0·route_2 — 문장마다 C → C-clean, 66초).
 - **컨테이너 간 오디오 md5 불일치는 정상** — 꼬리 유성 판정이 ±1 LSB 에도 갈리고(D-0180 §2-1), 그 꼬리는 피크 대비 −43 dB 이하라 들리지 않는다. 영상 골든은 영향 없음.
 - pytest(v5.20.2): **1536 passed · 0 failed · 0 skipped**(313 subtests, 35분 2초, 표준 `FONTCONFIG_FILE`).
+- 게이트 정의(D-0184 §2-③): `gate_mask` 의 피크 = 문장 **샘플 |x| 최대**(20 ms RMS 피크가 아님). 같은 −30 dB 라도 RMS 피크 기준보다 엄격하다(≈ RMS 피크 −18 dB). 기준 med·기록 중앙값에만 쓰여 보정 결과에는 영향이 없다.
