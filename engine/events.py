@@ -44,6 +44,8 @@ class _Event(BaseModel):
     type: str
     t0: float
     t1: float
+    # v5.21.15 D-0196 — 화면에만 나오는 사실(원고에 없는 지명·날짜·주장)의 근거 claim id. 그 소스가 엔딩·설명란 출처에 들어간다(engine.project.cited_sources)
+    claims: Optional[list[str]] = None
 
     @model_validator(mode="after")
     def _order(self) -> "_Event":

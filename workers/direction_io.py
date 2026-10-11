@@ -23,7 +23,7 @@ from script.schema import Plan
 if TYPE_CHECKING:
     from schemas.genre_models import GenreProfile
 
-SKIP_FIELDS = {"type", "t0", "t1", "route_cross_exempt"}   # v5.21.11 D-0203 — 면제는 골든 기준 연출만, 연출가에게 보이지 않는다
+SKIP_FIELDS = {"type", "t0", "t1", "route_cross_exempt", "claims"}   # v5.21.11 D-0203 — 면제는 골든 기준 연출만, 연출가에게 보이지 않는다
 
 
 def _ann(t: object) -> str:
@@ -67,7 +67,8 @@ def event_fields_table() -> str:
         where = " (패널 — 아래 필드는 data 아래)" if key.startswith("panel:") else ""
         lines.append(f"- {key}{where}: " + "; ".join(fields))
         lines += subs
-    lines.append("- 공통: start*·end* 앵커. 사진·영상·뱃지·컷아웃·마커·카드는 place(배치 슬롯) 가능. "
+    lines.append("- 공통: start*·end* 앵커. claims: list[str](원고에 없는 사실 — 지명·날짜·주장 — 을 화면에 더하면 그 근거 claim id, 출처 줄에 들어간다). "
+                 "사진·영상·뱃지·컷아웃·마커·카드는 place(배치 슬롯) 가능. "
                  "하위 필드의 시각(at·t0·t1·t·t_show·t_join 등 float 초)에도 숫자 대신 앵커를 쓴다")
     return "\n".join(lines)
 

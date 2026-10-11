@@ -157,7 +157,7 @@ def validate_events(raw: list[dict]) -> list[dict]:
         try:
             entry = resolve(e)
             d = entry.model.model_validate(e).model_dump()
-            for k in getattr(entry.model, "DROP_NONE", ()):   # v4.3.0 — 선택 앵커 쌍(지도·시간축) 중 쓰지 않은 쪽
+            for k in ("claims", *getattr(entry.model, "DROP_NONE", ())):   # v4.3.0 — 선택 앵커 쌍(지도·시간축) 중 쓰지 않은 쪽, v5.21.15 claims(없으면 dict 무변경)
                 if d.get(k) is None:
                     d.pop(k, None)
             out.append(d)

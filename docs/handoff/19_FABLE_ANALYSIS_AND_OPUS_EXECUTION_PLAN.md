@@ -154,6 +154,7 @@ Opus는 "프로 다큐로 보이는가" 판정 시 아래를 기준으로 삼는
 | 3.32 | `08` 기사 프레스 규약 — 사진 없으면 지금 무대 블러(밝기는 지도 따라) · 카드 theme 연출 자유 ↔ 사용자 의견(2026-10-11 "기사 조판 배경이 흰색 — 통일감"). | **v5.21.12 D-0193·D-0204**: 블러 무대 평균 밝기 상한 `article_card.press_fallback.max_luma`(지도 테마 무관), 한 영상 기사 카드 theme 하나(검사 `article_backdrop` hard). dark 골든 무변경, light 기준선 2컷 갱신. |
 | 3.33 | `08` 인용(quote) — 원문 직접 인용을 한국어로(인용 후보 목록) ↔ 사용자 의견(2026-10-11 "나레이션과 화면 따옴표 불일치"). | **v5.21.13 D-0194**: 인용 text ⊂ 그 구간 문장 화면 원고(정규화 부분 문자열), 검사 `quote_in_script` hard·필드 description·연출 문법. 원고가 보도를 전하면 따옴표 없는 카드. 실측: gulf 3건 중 2건 걸림(troop_numbers_6 삭제·아시프 → 보도 카드), 다른 프로젝트 quote 0. 카드 quote:true(hormuz 이재명·fed FOMC)는 범위 밖 — 목록만. |
 | 3.34 | `05`·`06` 연출 문법 — 이동·공격 문장의 경로·문장 지명 구도 규칙 없음 ↔ 사용자 의견(2026-10-11 아덴·리야드 공항 궤적·예멘 화면 밖). | **v5.21.14 D-0195·D-0197·D-0199**: `qa_checks.route_missing`(동사 목록·끝점 거리)·`frame_missing`, 검사 route_missing(warning)/route_missing_other(hard)·frame_missing(warning)/frame_missing_target(hard), MarkerEvent.label description, 연출 문법. 실측: hormuz hard 0(warning 6), gulf hard 2(아덴·리야드 공항), ratcliffe hard 1(목록만). |
+| 3.35 | `08` §9 출처 체계 — 엔딩·설명란 출처 = 원고 문장 claim 의 소스 ↔ D-0196(원고 불변, 화면에 전황 사실 추가). | **v5.21.15**: 이벤트 공통 `claims`(선택) — 화면 전용 사실의 근거 claim, 그 소스가 cited_sources 에 들어간다. 없는 id = 렌더 전 오류. 없으면 이벤트 dict 무변경(골든 동일). |
 
 ---
 

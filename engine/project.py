@@ -260,8 +260,13 @@ def cited_sources(proj: Path, events: list[dict]) -> list:
         return []
     sources = SourcesFile.model_validate_json(sp.read_text(encoding="utf-8"))
     ids: set[str] = {e["src"] for e in events if e["type"] == "post"}
+    claims = ClaimsFile.model_validate_json(cp.read_text(encoding="utf-8")).by_id() if cp.exists() else {}
+    ev_claims = [c for e in events for c in e.get("claims") or []]   # v5.21.15 D-0196 — 화면 전용 사실의 근거
+    if (bad := sorted({c for c in ev_claims if c not in claims})):
+        raise ValueError(f"이벤트 claims 에 없는 claim id {bad} — intake/claims.json 에 등록한다(출처 없는 화면 사실 금지, C0)")
+    for cid in ev_claims:
+        ids |= set(claims[cid].source_ids)
     if cp.exists() and scp.exists():
-        claims = ClaimsFile.model_validate_json(cp.read_text(encoding="utf-8")).by_id()
         script = yaml.safe_load(scp.read_text(encoding="utf-8"))
         for sc in script.get("scenes", []):
             for sent in sc.get("sentences", []):
