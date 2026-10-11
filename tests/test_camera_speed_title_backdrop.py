@@ -85,3 +85,18 @@ class TitleBackdropTest(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class TitleOverArticleTest(unittest.TestCase):
+    """v6.0.2 D-0216 — 제목이 기사 카드 위에 뜨면 기사 글자는 가라앉고, 제목이 사라지는 동안 다시 떠오르지 않는다."""
+
+    def test_text_sinks_and_stays_down(self) -> None:
+        from engine.layers.article import title_over
+
+        R = SimpleNamespace(tb=SimpleNamespace(plan=SimpleNamespace(cards=[SimpleNamespace(kind="title", t0=13.4, t1=19.0)])))  # noqa: N806
+        self.assertEqual(title_over(R, 12.0), 0.0)
+        self.assertTrue(0.0 < title_over(R, 13.7) < 1.0)
+        self.assertEqual(title_over(R, 16.0), 1.0)
+        self.assertEqual(title_over(R, 18.8), 1.0)   # 제목 페이드 아웃 중에도 1
+        self.assertEqual(title_over(R, 21.0), 0.0)
+        self.assertEqual(title_over(SimpleNamespace(), 16.0), 0.0)

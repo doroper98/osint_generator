@@ -226,8 +226,18 @@ def draw_article(ctx: cairo.Context, R: RenderCtx, t: float, e: dict) -> None:  
     if pa <= 0.01:
         return
     draw_press(ctx, R, e, pa)
+    ta *= 1.0 - title_over(R, t)   # v6.0.2 D-0216 UF-98 — 제목 카드가 이 기사 위에 뜨면 기사 글자는 가라앉는다(바탕만 남김, 제목과 글자 겹침 없음)
     if ta > 0.01:
         draw_article_text(ctx, e, ta)
+
+
+def title_over(R: RenderCtx, t: float) -> float:  # noqa: N803
+    """기사 글자를 가라앉힐 정도 — 제목 카드가 나타나기 시작하면 0.7초(fullcards 페이드)에 걸쳐 1 까지, 그 뒤 카드 끝(+0.7초)까지 1 유지
+    (제목이 사라지는 동안 기사 글자가 다시 떠오르지 않게). 제목 카드가 없으면 0."""
+    tb = getattr(R, "tb", None)
+    if tb is None:
+        return 0.0
+    return max([min(1.0, max(0.0, (t - c.t0) / 0.7)) for c in tb.plan.cards if c.kind == "title" and t <= c.t1 + 0.7] + [0.0])
 
 
 def article_usage(events: list[dict]) -> list[dict]:
