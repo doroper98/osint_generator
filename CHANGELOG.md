@@ -1,6 +1,6 @@
 <!--
 tier: 3
-last_synced_with: v5.22.1
+last_synced_with: v5.22.2
 ssot_for: [release-notes]
 depends_on: [README.md, GOAL.md]
 last_review: 2026-09-28
@@ -63,6 +63,12 @@ released 항목은 **append-only**입니다.
 | v5.0.0 | 87912d2 | G11 GOAL G4-21·claim_kind fact/statement | pass(D-0125) |
 | v5.1.0 | 3619f2c | G12 backdrop 무대·아일랜드·축 스케일·기사 프레스 v2·발음 사전·버전 도장 | pass(D-0127) — 후속 D-0128 완료 |
 | v5.2.0 | d4703d9 | G13 배경 가독·주 아일랜드 상시·보도 인용 = 기사·card-island·라벨 반전 | pass(D-0134) — 후속 겹침 카드 시안(D-0135~D-0138) |
+
+---
+
+## [v5.22.2] — 2026-10-11 — 음악 없음은 결정 기록이 있어야만 (UF-16·30·93, D-0205 §3)
+
+PATCH: 배경음악 누락이 세 번 되풀이됐다(SK하이닉스·dmz·gulf). 연출 `sound.bgm` 이 비면(null·없음) `sound.no_music_decision`(결정 번호)이 있어야 한다 — 없으면 검사 `bgm_decision` hard. provenance `music` 에 곡 id 또는 결정 번호.
 
 ---
 
