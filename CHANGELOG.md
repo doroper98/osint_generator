@@ -1,6 +1,6 @@
 <!--
 tier: 3
-last_synced_with: v5.23.0
+last_synced_with: v6.0.0
 ssot_for: [release-notes]
 depends_on: [README.md, GOAL.md]
 last_review: 2026-09-28
@@ -63,6 +63,18 @@ released 항목은 **append-only**입니다.
 | v5.0.0 | 87912d2 | G11 GOAL G4-21·claim_kind fact/statement | pass(D-0125) |
 | v5.1.0 | 3619f2c | G12 backdrop 무대·아일랜드·축 스케일·기사 프레스 v2·발음 사전·버전 도장 | pass(D-0127) — 후속 D-0128 완료 |
 | v5.2.0 | d4703d9 | G13 배경 가독·주 아일랜드 상시·보도 인용 = 기사·card-island·라벨 반전 | pass(D-0134) — 후속 겹침 카드 시안(D-0135~D-0138) |
+
+---
+
+## [v6.0.0] — 2026-10-11 — GOAL G3 개정: 사용자 의견 원장 게이트 + 표준 음성 (D-0213, MAJOR)
+
+MAJOR(C5.4 — GOAL G3 변경): G3 합격 기준 17 → 18개. 18번 = 사용자 의견 원장(C12) — 장치 없는 의견이 있으면 게이트 ② 거부(`require_feedback_guards`), 영상마다 provenance `user_feedback_guards`, 이번 트랙에서 hard 가 된 사용자 보호 검사(card_exposure·camera_continuity·camera_per_sentence·route_label_cross·route_label_overlap·label_jump·quote_in_script·route_missing·route_missing_other·frame_missing·frame_missing_target·article_backdrop·bgm_decision·endcard_black)를 검증 방법으로 연결. 4번 = 표준 음성(Supertonic 3 + MMS 강제 정렬, C0.2) 문구·시험 이름, 옛 별칭 시험 삭제.
+
+### v5.21.0 ~ v5.23.0 묶음 요약(이 판까지 main 병합 전)
+- 보도 인용(B) 사진·국소 대비 보정·타이틀 폭 맞춤·provenance 보강(v5.21.0~v5.21.8).
+- 사용자 의견 UF-01~12(gulf_pact_2026 본영상) 반영과 hard 검사: 카메라 이동 5차 이징·연속성, 카드 완전 노출, 경로 이름표 자리·대비, 기사 카드 무대 통일, 인용 ⊂ 원고, 이동·공격 문장 경로·화면 밖 지명, 이벤트 claims(v5.21.9~v5.21.15).
+- 사용자 의견 원장 UF-01~96·게이트 ② 차단·소급 open 0(v5.22.0~v5.22.4), 전편 provenance 원장 결과(v5.22.5), 경로 이름표 전경 층·수명 고정·전 구간 비충돌(v5.22.6~v5.22.8), 빠른 묶음 병렬·국경 numpy(v5.22.9~v5.22.10).
+- V4 edge-tts 경로 삭제·미추적 산출물 의존 시험 정리·fed_timeline_demo 표준 음성(v5.23.0).
 
 ---
 

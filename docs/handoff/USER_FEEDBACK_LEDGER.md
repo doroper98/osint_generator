@@ -1,6 +1,6 @@
 <!--
 tier: 2
-last_synced_with: v5.23.0
+last_synced_with: v6.0.0
 ssot_for: [user-feedback-ledger]
 depends_on: [CLAUDE.md, docs/handoff/DECISIONS.md]
 last_review: 2026-10-11
