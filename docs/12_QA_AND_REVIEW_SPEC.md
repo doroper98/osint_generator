@@ -146,4 +146,4 @@ handoff 20 §5.3 표의 아홉 규칙을 네 검사(`chart_honesty`·`series_lim
 
 ## 7. 합격 기준
 
-v2 합격 기준 17개와 항목별 검증 방법은 [GOAL.md](../GOAL.md) G3이다(`tests/test_goal_g3.py`).
+v2 합격 기준 18개(v6.0.0 — 18번 사용자 의견 원장, D-0213)와 항목별 검증 방법은 [GOAL.md](../GOAL.md) G3이다(`tests/test_goal_g3.py`).

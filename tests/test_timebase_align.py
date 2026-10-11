@@ -123,11 +123,6 @@ class AlignFormatTest(unittest.TestCase):
             self.assertAlmostEqual(t, T0 + 0.2 + 0.05 * x.tts.find("한국") - x.trim_offset, places=4)
             self.assertEqual(tb.word_anchors[0]["alignment_source"], "mms_forced_alignment")
 
-    def test_edge_alignment_drives_at_word(self) -> None:
-        """GOAL.md G3 #4 가 부르는 옛 이름(v5.23.0 V4) — edge 경로는 삭제됐고 같은 성질(정렬이 at_word 를 정한다)을 표준 음성 정렬로 검사한다.
-        G3 개정(MAJOR, 병합 직전 감독 결정) 때 이름을 test_forced_alignment_drives_at_word 로 바꾼다."""
-        self.test_forced_alignment_drives_at_word()
-
 
 if __name__ == "__main__":
     unittest.main()

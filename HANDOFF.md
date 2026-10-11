@@ -18,7 +18,7 @@ last_review: 2026-09-29
 - **작업 브랜치: `overhaul/v2-map-engine`.** Phase 합격(Fable review pass) 뒤 Fable이 main을 fast-forward한다. PR 생성 금지(C8.5).
 - **완료**: v2 개편 Phase 0~11·G1~G13(v2.0.0~v5.2.0). 합격 커밋은 `docs/handoff/TAGS_PENDING.md`.
 - **진행**: G14 — 겹침 카드(cascade) 채택: 지도 고정 구간의 사건 경과를 겹침 카드 하나로(v5.3.0, back_and_forth D-0139, 사용자 결정 D116·판정 D117).
-- **다음**: G4 사용자 판정("슬라이드가 아니라 다큐", `docs/handoff/20` §12). 합격 기준은 `GOAL.md` G3(17개, 항목별 검증 방법).
+- **다음**: G4 사용자 판정("슬라이드가 아니라 다큐", `docs/handoff/20` §12). 합격 기준은 `GOAL.md` G3(18개 — v6.0.0 18번 사용자 의견 원장, 항목별 검증 방법).
 
 ## 2. 일하는 방식 — back_and_forth
 

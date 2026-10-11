@@ -68,11 +68,11 @@ v1 산출물 표 (이력 보존):
 | 정보전/해외 음모론 | 해외 이슈 한정. 국내 정치/인물 음모론은 범위 외 |
 | 자연재해/지진 | 일본·대만·중국·한반도, 류큐 해구, 난카이 해곡 |
 
-## G3. 합격 기준 v2 (v4.0.0 — 19 부록 C + D4 17번, 결정 D-0005·D64)
+## G3. 합격 기준 v2 (v4.0.0 — 19 부록 C + D4 17번, 결정 D-0005·D64 · v6.0.0 개정 — 18번 사용자 의견 원장·4번 표준 음성, 결정 D-0213)
 
 본 목록은 변경 시 v{X+1}로 **메이저 버전**이 올라갑니다(CLAUDE.md C5.4).
 
-아래 17개가 모두 충족되어야 v2 파이프라인 합격입니다. 수치는 규칙 키로만 가리킵니다(값의 정본은 `rules/video_rules.yaml`·`config.yaml`, 15 P3).
+아래 18개가 모두 충족되어야 v2 파이프라인 합격입니다. 수치는 규칙 키로만 가리킵니다(값의 정본은 `rules/video_rules.yaml`·`config.yaml`, 15 P3).
 "검증 방법" 열은 `tests/…::test_…`(자동 테스트), `checks:항목`(프리뷰 결정적 검사 `prev/checks.json`, `engine/checks.py`),
 `gate:…`(사람 판정 — 승인 게이트), `pending:…`(검사가 아직 없음 — 예정 Phase) 중 하나 이상입니다. `tests/test_goal_g3.py`가 이 열이 가리키는 것이 실제로 있는지 대조합니다.
 
@@ -81,7 +81,7 @@ v1 산출물 표 (이력 보존):
 | 1 | `python -m orchestrator.main command-center`가 새 상태 머신(`docs/handoff/16` §2)으로 프로젝트를 CREATED→DONE까지 진행한다. | `tests/test_state_machine.py::test_sequence_matches_16_s2` · `tests/test_gates_pipeline.py::test_engine_states_to_gate2_then_done` |
 | 2 | SCRIPT_APPROVAL·PREVIEW_APPROVAL 두 게이트에서 승인·반려(되돌림)가 동작하고 게이트 기록(`project_manifest.json` `gate_decisions` — 누가·언제·코멘트·본 것·되돌린 상태, append-only)에 남는다. (부록 C 초안의 `approval_log.json` 은 v3.0.0 에서 manifest 로 옮겨졌다 — 실측 정정) | `tests/test_gates_pipeline.py::test_approve_records_and_advances` · `tests/test_gates_pipeline.py::test_reject_script_rolls_back_with_comment` · `tests/test_gates_pipeline.py::test_reject_preview_three_targets` · `tests/test_gates_pipeline.py::test_config_two_gates_only` |
 | 3 | `script.yaml`이 `Script` 스키마를 통과하고 린트(금지 문구·발음 기호·강조어·출처)를 통과한다. 장면 수·길이는 고정되지 않는다. | `tests/test_engine_phase2.py::test_schema_rejects_missing_emphasis` · `tests/test_script_lint.py::test_banned_samples_all_detected` · `tests/test_script_lint.py::test_tts_symbols_detected` · `tests/test_script_lint.py::test_numeric_sentence_without_sources_is_error` · `tests/test_script_lint.py::test_v3_script_passes` |
-| 4 | `plan.json`이 실제 음성 길이로 계산되고, 목소리(edge/ElevenLabs)를 바꿔도 `direction`을 수정하지 않는다(문장·단어 앵커). | `tests/test_timebase_align.py::test_aligned_uses_pronunciation_start_minus_trim` · `tests/test_timebase_align.py::test_edge_alignment_drives_at_word` · `tests/test_script_tts.py::test_cache_key_salted_by_voice` · `tests/test_direction_schema.py::test_word_anchor_uses_at_word` |
+| 4 | `plan.json`이 표준 음성(Supertonic 3 + MMS 강제 정렬, CLAUDE.md C0.2)의 실제 음성 길이로 계산되고, 음성을 다시 합성해도 `direction`을 수정하지 않는다(문장·단어 앵커). 다른 백엔드(edge-tts)로 되돌아가지 않는다(v6.0.0). | `tests/test_timebase_align.py::test_aligned_uses_pronunciation_start_minus_trim` · `tests/test_timebase_align.py::test_forced_alignment_drives_at_word` · `tests/test_script_tts.py::test_cache_key_salted_by_voice` · `tests/test_direction_schema.py::test_word_anchor_uses_at_word` · `tests/test_tts_supertonic.py::test_plan_records_voice_chunks_and_alignment` · `tests/anti_inertia/test_no_edge_tts.py::test_plan_cli_rejects_edge` |
 | 5 | `direction.yaml`이 레지스트리·스키마·예약 영역 검사를 통과한다. | `tests/test_direction_schema.py::test_schema_errors` · `tests/anti_inertia/test_registry_complete.py::test_bidirectional` · `tests/test_reserved_phase6.py::test_multiple_zones_cleared` · `checks:overlap` |
 | 6 | 프리뷰가 `prev/sheet.jpg`와 `prev/checks.json`(hard 0)을 만들고, AI 연출의 시각 검수 루프는 2회 이내에 끝난다. 상한에 닿고도 남은 판정은 게이트 ② 사람 판정으로 넘긴다(D49). | `tests/test_checks.py::test_hard_fails_stage` · `tests/test_ai_direction.py::test_loop_cap` · `tests/test_ai_direction.py::test_loop_cap_with_hard_left_stays` · `gate:PREVIEW_APPROVAL` |
 | 7 | 출력 프로파일(`config:engine.output` — 트라이얼 480p·최종 1080p, D-0067 장치 변환)로 `out/final.mp4`, `final.srt`, `description.txt`(챕터·출처·크레딧)가 생성된다. 1080p 는 480p 와 같은 비율이다(`rules:golden.res_compare_mad_max`). | `tests/test_phase10_profile.py::test_aliases` · `tests/test_phase10_profile.py::test_k_1080` · `tests/test_engine_phase2.py::test_srt_and_description` · `checks:media_upscaled` |
@@ -95,6 +95,7 @@ v1 산출물 표 (이력 보존):
 | 15 | 관성 방지 테스트(`tests/anti_inertia/`)가 전부 통과한다(xfail 0). | `tests/anti_inertia/` |
 | 16 | 실패 시 옛 스타일로 폴백하지 않고 해당 상태에 멈춰 사용자에게 보고한다. | `tests/anti_inertia/test_no_silent_fallback.py::test_a_unregistered_event_type` · `tests/test_gates_pipeline.py::test_failure_and_drops_stay` · `tests/test_engine_service.py::test_drops_propagate_as_failure` |
 | 17 | 장르 확장(`docs/handoff/20`) 영상도 1~16을 만족하고 무대 연속성 검사(20 §12)를 통과한다. | `checks:stage_continuity`(v4.1.0 G1, `rules:stage`) · `checks:genre_elements`(v4.2.0 G2) · `checks:chart_honesty`(v4.3.0 G3, `rules:qa_checks.chart_targets`) · `tests/test_stage_continuity.py::test_fail_switch_without_dip` · `tests/test_stage_continuity.py::test_pass_main_secondary_round_trip_all_dip` · `gate:PREVIEW_APPROVAL` · `pending:G4` (비지정학 영상 판정) |
+| 18 | 사용자가 준 의견은 모두 원장(`rules/user_feedback.yaml`, CLAUDE.md C12)에 기록되고 의견마다 재발하면 실패하는 장치가 있다. 장치 없는 의견이 하나라도 있으면 게이트 ② 승인이 거부되고(우회 없음), 영상마다 provenance `user_feedback_guards` 에 돈 장치와 결과가 남는다(v6.0.0, D-0200·D-0213). | `tests/test_feedback_gate.py::test_open_entry_blocks` · `tests/test_feedback_gate.py::test_provenance_records_ran_checks` · `tests/anti_inertia/test_user_feedback_guards.py::test_every_guard_exists` · `tests/anti_inertia/test_user_feedback_guards.py::test_no_open_entries` · `tests/anti_inertia/test_user_feedback_guards.py::test_no_single_track_guard` · `gate:PREVIEW_APPROVAL` · `checks:card_exposure` · `checks:camera_continuity` · `checks:camera_per_sentence` · `checks:route_label_cross` · `checks:route_label_overlap` · `checks:label_jump` · `checks:quote_in_script` · `checks:route_missing` · `checks:route_missing_other` · `checks:frame_missing` · `checks:frame_missing_target` · `checks:article_backdrop` · `checks:bgm_decision` · `checks:endcard_black` |
 
 ### G3-legacy. v1 MVP 기준 34개 [legacy v1 — deprecated v4.0.0]
 

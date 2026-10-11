@@ -16,20 +16,22 @@
 - 골든: 프로젝트를 scratch 에 복사(`prev`·`out` 제외)한 뒤 `python -m engine.render <copy> --preview golden` → `docs/handoff/reports/phaseV3/hormuz_baseline.json`(dark) · `phaseQ3/hormuz_light_baseline.json`(light; direction.yaml `stage_config.mercator.theme: light` + `geo.prep <copy> --theme light`) 과 md5(`md5_masked` 는 stamp_box 가리고) 대조 → 25/25. 참고 스크립트 논리: `tests/anti_inertia/test_provenance_e2e.py` `_masked_md5`.
 - e2e 테스트는 전체 pytest 와 동시에 돌리지 않는다(`projects/hormuz_korea/prev/` 공유). 컨테이너 간 **오디오 md5 는 일치하지 않는 것이 정상**(D-0180 §2-1) — 영상 골든만 대조.
 
-## 3. 현재 상태(2026-10-11 16:40 KST)
+## 3. 현재 상태(2026-10-12 KST, v6.0.0 — 구현 opus 갱신, D-0213 §3-2)
 | 트랙 | 상태 |
 |---|---|
-| V5 끝 억양(v5.20.0) | 합격 D-0180. 사용자 최종 청취 자료(전편·전/후 발췌) 전달함 — **사용자 청취 판정 대기**(그 판정이 V3·V5 최종) |
-| v5.20.1 light A | 합격 D-0183 |
-| v5.20.2 octave_clean | 합격 D-0184(관찰 3건 기록) |
-| v5.21.0 보도 인용 B | R-0211(f8fda51) **검증 중 — 미판정.** 코드 리뷰는 끝(D-0177 원칙과 일치, 판단 ③ 별도 photo 항목+press_of 수용). 이전 감독 컨테이너 실측: **골든 dark 25/25·light 25/25 무변화 확인됨(f8fda51)**, 타깃 `test_b_press_quote` 17 passed. 남은 것: 전체 pytest(Opus 1548·0·0) 재현 → 합격 D 문서 + DECISIONS. 이전 감독 컨테이너의 실행 결과는 사라졌으니 다시 돌리거나, 시간이 없으면 타깃(`tests/test_b_press_quote.py` 17 passed 확인됨)+골든만 돌리고 전체 pytest 는 Opus 수치를 인용하되 그렇게 적는다 |
-| P1 사용자 영상 gulf_pact_2026 | 게이트 ① **승인됨**(D180 "대본 오케이"). P1-2 진행 중: 음성 48문장 325.24초(final_fall 47), 사진 A 5장 + B 1장(Reuters via Al Jazeera, riyadh_airport_2), 미디어 표 통과. 다음 Opus 단계: AI 연출(light) → audio.mix → **P1-3 콘티 판** → 감독에게 |
+| V3·V5 표준 음성 | 종결 — Supertonic 3 M3 ×0.95 + 끝 억양 시안 C + MMS 정렬 = 표준(CLAUDE.md C0.2, D185·D189) |
+| v5.21.0 보도 인용 B ~ v5.21.8 | 합격 |
+| P1 gulf_pact_2026 | 사용자 의견 UF-01~12 반영·예멘 채움 제거(D207) → `artifacts/gulf_pact_2026-v5.22.4` 사용자 전달(D208). 재렌더 없음(v5.22.5~8 은 다음 렌더부터) |
+| 사용자 의견 원장(C12) | UF-01~96 전부 guarded(open 0), 게이트 ② `require_feedback_guards`, provenance `user_feedback_guards`(프리뷰·콘티·전편) |
+| 경로 이름표 | 전경 층 회피·수명 고정·전 구간 비충돌(D209·D210), `label_jump` hard, 렌더·검사 장애물 통일(RENDER-AP-024) |
+| D-0201 | xdist `-n 4`(v5.22.9)·국경 numpy(v5.22.10) 합격 D212 |
+| V4 edge 삭제 | v5.23.0 합격 D-0213. fed_timeline_demo 표준 음성 재생성(면제 1건 D-0213) |
+| GOAL G3 개정 | **v6.0.0**(MAJOR): 18번 사용자 의견 원장 + 사용자 보호 hard 검사 연결, 4번 표준 음성 문구·시험 이름(별칭 삭제) |
 
 ## 4. 다음 할 일(순서)
-1. R-0211 판정 마무리(위). 판정문에 "B 사진 파일·레지스트리·권리 항목은 Opus 컨테이너에만 있음 — 콘티 판 검수 때 카드 프레임·provenance `rights.exceptions`·mux `[rights-exceptions]` 경고로 확인" 을 적는다.
-2. **P1-3 콘티 판 검수**: Opus 가 `out/animatic.mp4`·provenance·컨택트 시트를 보내면 ① provenance `features_used`(prosody·map_theme light·media 비트·기사 카드 press_quote) ② 경고 목록(`[article-unused]`·`[media-density]`·`[rights-exceptions]` 1건은 정상) ③ B 사진이 그 기사 카드 프레스 칸에만, 크레딧 줄 "사진: Reuters via Al Jazeera" ④ 자막·발음(숫자·기호 없음) ⑤ 길이·장면 흐름 을 보고, **사용자에게 콘티 판 영상을 보내 흐름 검토**를 요청한다(C8.6 — 건너뛰기 금지). 사용자 승인 → Opus 가 `approve --gate preview_approval`(require_animatic) → 프리뷰 25컷 QA → 전편 720p → 사용자 최종 청취.
-3. 전편 뒤: V4(edge 경로 삭제, D-0179 순서상 사용자 최종 청취 뒤) 지시 → 판정 → main 병합(감독).
-4. 보류: Q4a/Q4b/Q5/Q6/G 는 요청 시. 검증 LLM "출처 많으면 건너뜀" 문제는 P1 뒤 Opus 결정 요청으로 받는다. creaky 꼬리 연속성 패치는 사용자가 끝 거칠기를 지적할 때만(D-0184 §2-①).
+1. 병합 직전 전체 pytest 1회(C8.3) — R 보고 머리말 `full_pytest:`.
+2. 감독 main fast-forward(README §6.5). main 이 이 브랜치의 조상이 아니면 멈추고 보고(force 금지).
+3. 그 뒤: 사용자 시청 의견이 최우선. 보류 — Q4a/Q4b/Q5/Q6/G(요청 시), 검증 LLM "출처 많으면 건너뜀"(Opus 결정 요청으로), creaky 꼬리 패치(사용자 지적 때만, D-0184 §2-①), gulf 원장 후보 메모 ①41.58초 뱃지 밑 카드 ③58초 이란 채움(사용자 지적 때만).
 
 ## 5. 사용자 결정 기록(이 기간)
 D169 믹스 OK·시안 C / D171 정렬 모델 CC BY-NC 유지 / D172 통신사 사진 B / D173 light A / D174 순서(P1-1 을 V5 뒤) / D180 게이트 ① "대본 오케이". ElevenLabs 금지(D127), edge 삭제는 V4.

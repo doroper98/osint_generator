@@ -17,7 +17,7 @@ REPO = Path(__file__).resolve().parent.parent
 GOAL = (REPO / "GOAL.md").read_text(encoding="utf-8")
 TOKEN = re.compile(r"`([^`]+)`")
 KINDS = ("tests/", "checks:", "gate:", "pending:")
-GATE_COUNT = 2          # 6번(루프 상한 뒤 게이트 ②), 17번(장르 확장 사람 판정)
+GATE_COUNT = 3          # 6번(루프 상한 뒤 게이트 ②), 17번(장르 확장 사람 판정), 18번(원장 게이트 ②, v6.0.0 D-0213)
 PENDING_COUNT = 1       # 17번 비지정학 영상 판정(G4). 무대 연속성 검사는 v4.1.0 G1 에서 checks:stage_continuity
 
 
@@ -36,8 +36,8 @@ def g3_rows() -> dict[int, list[str]]:
 
 
 class G3TableTest(unittest.TestCase):
-    def test_seventeen_rows_in_order(self) -> None:
-        self.assertEqual(sorted(g3_rows()), list(range(1, 18)))
+    def test_eighteen_rows_in_order(self) -> None:   # v6.0.0 D-0213 — 18번 사용자 의견 원장
+        self.assertEqual(sorted(g3_rows()), list(range(1, 19)))
 
     def test_every_row_has_a_method(self) -> None:
         for n, toks in g3_rows().items():
