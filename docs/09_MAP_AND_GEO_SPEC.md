@@ -1,6 +1,6 @@
 <!--
 tier: 2
-last_synced_with: v5.20.0
+last_synced_with: v5.20.1
 ssot_for: [map-geo-index]
 depends_on: [docs/handoff/04_MAP_ENGINE.md, docs/handoff/05_CAMERA_SHOTS_TRANSITIONS.md, docs/handoff/06_OVERLAYS_AND_DATA_LAYERS.md, rules/video_rules.yaml, config.yaml]
 last_review: 2026-09-29
@@ -34,6 +34,7 @@ python -m geo.prep projects/<pid> --theme light   # → assets/theme_light/ (v5.
   `map` 은 렌더가 읽는 국경·행정선·지명·글자 테두리 색과 `coast`(해안선 분리)·`route_casing`·`border_glow`(테마별, 선택)다.
 - **고르는 순서**(D-0171): direction `stage_config.mercator.theme`(사유 `theme_reason` 필수) → 장르 프로필 `genres/*.yaml stage.mercator.theme`.
   프로필에 값이 없으면 오류(조용히 dark 로 가지 않는다). 장르와 다르면 `[map-theme-override]` warning, provenance `map_theme`.
+- **light 의미색(v5.20.1, 사용자 결정 D173)**: 지도 위 도형은 A(휘도 0.11, `colors.themes.light`)·공통 글로우. 글자 토큰(`white`·`gold_text`·`city_label`)만 25컷 4.5:1 최소 보정. 깊은 바다 위 경로 선 3:1 warning 은 사용자가 보고 고른 값이라 그대로 남는다.
   기본(`geo.themes.default`, dark)이 아니면 `assets/theme_<이름>/` 티어를 읽는다. 없으면 오류.
 - **한 영상 하나**: 지도 설정은 연출에 하나뿐이라 숏별로 바꿀 수 없다. 콘티 판 막지도도 같은 테마(`rules animatic.flat_map.themes`).
 - **시리즈**: `rules/series_registry.yaml` 에 소속·테마를 적는다. 소속 영상의 테마가 다르면 `[series-theme-mismatch]` hard.

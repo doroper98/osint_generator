@@ -1,6 +1,6 @@
 {
  "schema_version": 1,
- "role": "Phase Q3(v5.18.0) light 기준선 — 골든 원고·연출(V3 Supertonic 플랜) + direction stage_config.mercator.theme light(사유 포함), D-0161 §5·D-0172(시안 C: 의미색 휘도 0.06·light 글로우 끔·글자 톤 짙게, 잠정). dark 골든(phaseV3)과 같은 컷·같은 시각. 25_END 도장 가린 md5",
+ "role": "Phase Q3(v5.18.0) light 기준선 — v5.20.1 사용자 결정 D173(D-0178)로 재생성: 의미색 A(휘도 0.11)·공통 글로우·글자 토큰만 4.5 최소 보정(마커 부제 gold_text #68480f, 도시 이름 [0.054, 0.0585, 0.0675], 마커 이름 A 그대로). 골든 원고·연출(V3 Supertonic 플랜) + direction theme light. dark 골든(phaseV3)과 같은 컷·같은 시각. 25_END 도장 가린 md5. 옛 C 잠정 값은 git 이력(04daa0a)",
  "command": "호르무즈 사본 direction 에 stage_config.mercator {theme: light, theme_reason} → python -m geo.prep <사본> --theme light → python -m engine.render <사본> --preview golden",
  "stamp_box": [
   797.0,
@@ -13,104 +13,104 @@
  "cuts": [
   {
    "png": "p_0006.95.png",
-   "md5": "9a0e999a2a573f3c69c14bec7b0464cc"
+   "md5": "4623f1f821017b5b69e0d92f563a735b"
   },
   {
    "png": "p_0020.21.png",
-   "md5": "2c89063da1a68f1227bcbebff1b289a7"
+   "md5": "61f9204a10a90198b4d51361a52df9ca"
   },
   {
    "png": "p_0026.71.png",
-   "md5": "62d5d48805167a71ffdf0be35811a0f1"
+   "md5": "91a9ea0aec167d999149a50a8059e9b9"
   },
   {
    "png": "p_0035.36.png",
-   "md5": "3aa7402e8c020c4d958d989dad37b5d7"
+   "md5": "b15ad184b6fd7ccbfc560a4ecfff08d6"
   },
   {
    "png": "p_0041.39.png",
-   "md5": "ee9ee495f9285720ce84e3f0432bb409"
+   "md5": "6c1a419a38482171da7e1a04e7590e6d"
   },
   {
    "png": "p_0050.86.png",
-   "md5": "47acd46b774751eadc776e85ba8ea82b"
+   "md5": "913a43b1f4654f9d2fa8cc8b87d53545"
   },
   {
    "png": "p_0055.70.png",
-   "md5": "c9a1aa7608fde4c396529f39e17d0fac"
+   "md5": "6a019a29408f4d6321a1cf79a8a06e85"
   },
   {
    "png": "p_0059.02.png",
-   "md5": "6f7ceb505e36cc187f7f7b7deccc88cc"
+   "md5": "50e2620f4ed166250256c0d9751edc09"
   },
   {
    "png": "p_0072.76.png",
-   "md5": "1739fb9fd333a74a489839322307ae9c"
+   "md5": "550f3b5f6489dc6b6b2ddecb1fd9b1a3"
   },
   {
    "png": "p_0076.30.png",
-   "md5": "dce49d14032393e407af3a7e1adf9f32"
+   "md5": "f3b3c2334d0d4fb1f0e89b0b851a2971"
   },
   {
    "png": "p_0091.50.png",
-   "md5": "397ff6d2c0df9362fe38cd4587fa49d6"
+   "md5": "7ed99938ed5429c9baf82e4cf23bffb4"
   },
   {
    "png": "p_0108.92.png",
-   "md5": "fa49e18568941a22f3c5fa8d70608079"
+   "md5": "e2b2a0a5917c84147d737e0f2c698240"
   },
   {
    "png": "p_0120.37.png",
-   "md5": "28c8cf7b754aeca6be81a193eeb05b67"
+   "md5": "8cab1582da7ea5c79652471fc0578093"
   },
   {
    "png": "p_0138.26.png",
-   "md5": "36460f8bc8bfa40b6372515a915c56d1"
+   "md5": "0cb138b5aa76cd1c32caa249119d0c4f"
   },
   {
    "png": "p_0145.33.png",
-   "md5": "881832394115d16ba09c51dcaa43082d"
+   "md5": "8cf36aed08e8bd236265de500b336679"
   },
   {
    "png": "p_0150.26.png",
-   "md5": "333f300edf59e10d5ac2d797480263a2"
+   "md5": "c717113e052d5bfd75782e1904470272"
   },
   {
    "png": "p_0170.97.png",
-   "md5": "7c75ff717b2f8edcc1a47036f4757d17"
+   "md5": "56e73c10bd85b758d50db328e26acf43"
   },
   {
    "png": "p_0183.72.png",
-   "md5": "c80932bd7a49e12b1a9ffe0b5e9f3236"
+   "md5": "1d18a240d6d83949843cadb150ea6da4"
   },
   {
    "png": "p_0189.96.png",
-   "md5": "329ecf70fb7823dd52ac9deb4baf0b0e"
+   "md5": "db845e1b1b4b9cbc3c838eed14943a92"
   },
   {
    "png": "p_0195.53.png",
-   "md5": "3ae03cb8e375a1aa43f9dedca2162efa"
+   "md5": "a7c7c561620a4ee46e62cfad3f580486"
   },
   {
    "png": "p_0211.08.png",
-   "md5": "cb0ec7d3301d8d0b212e34a712713587"
+   "md5": "48d57d337e7ea40e4f25c365a2d1f85c"
   },
   {
    "png": "p_0218.12.png",
-   "md5": "b14aec5ef81325e8bea75d45389e5544"
+   "md5": "7e55945dac61091ec3c186d8dd4546c6"
   },
   {
    "png": "p_0229.62.png",
-   "md5": "cbe1a7e1dadbc4802731bd87436dd165"
+   "md5": "3b0e96c89a4a9c3ba3704c8ce7c7f38c"
   },
   {
    "png": "p_0245.60.png",
-   "md5": "4679d5149022308b14e15d5ca44039d2"
+   "md5": "347eba3ba5889b65871dc20ae865e85d"
   },
   {
    "png": "p_0256.66.png",
    "mask": true,
-   "md5_masked": "9ffca69db602b7edf756e5927b88a6ec"
+   "md5_masked": "b6681d06b05b0c76b1c6681e1a1837cc"
   }
  ]
 }

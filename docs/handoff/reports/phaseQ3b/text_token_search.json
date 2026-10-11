@@ -1,0 +1,171 @@
+{
+ "A": {
+  "gold_text": "#7c5612",
+  "city_label": "#1f2126",
+  "white": "#1f2125"
+ },
+ "factor": {
+  "gold_text": 0.86328125,
+  "city_label": 0.5703125,
+  "white": 1.0
+ },
+ "final": {
+  "gold_text": "#6b4a10",
+  "city_label": "#111316",
+  "white": "#1f2125"
+ },
+ "city_label_rgb": [
+  0.0684,
+  0.0741,
+  0.0855
+ ],
+ "log": [
+  {
+   "f": {
+    "gold_text": 1.0,
+    "city_label": 1.0,
+    "white": 1.0
+   },
+   "bad": {
+    "gold_text": {
+     "3월 2일 IRGC 봉쇄 선언": 4.26,
+     "가장 좁은 곳 약 39km": 3.82,
+     "청해부대 2009년~": 4.45
+    },
+    "white": {},
+    "city_label": {
+     "마닐라": 3.83,
+     "벵갈루루": 3.91,
+     "타이베이시": 4.21,
+     "홍콩": 4.17
+    }
+   }
+  },
+  {
+   "f": {
+    "gold_text": 0.5,
+    "city_label": 0.5,
+    "white": 1.0
+   },
+   "bad": {
+    "gold_text": {},
+    "white": {},
+    "city_label": {}
+   }
+  },
+  {
+   "f": {
+    "gold_text": 0.75,
+    "city_label": 0.75,
+    "white": 1.0
+   },
+   "bad": {
+    "gold_text": {},
+    "white": {},
+    "city_label": {
+     "마닐라": 4.26,
+     "벵갈루루": 4.26
+    }
+   }
+  },
+  {
+   "f": {
+    "gold_text": 0.875,
+    "city_label": 0.625,
+    "white": 1.0
+   },
+   "bad": {
+    "gold_text": {
+     "가장 좁은 곳 약 39km": 4.48
+    },
+    "white": {},
+    "city_label": {
+     "마닐라": 4.44,
+     "벵갈루루": 4.41
+    }
+   }
+  },
+  {
+   "f": {
+    "gold_text": 0.8125,
+    "city_label": 0.5625,
+    "white": 1.0
+   },
+   "bad": {
+    "gold_text": {},
+    "white": {},
+    "city_label": {}
+   }
+  },
+  {
+   "f": {
+    "gold_text": 0.84375,
+    "city_label": 0.59375,
+    "white": 1.0
+   },
+   "bad": {
+    "gold_text": {},
+    "white": {},
+    "city_label": {
+     "마닐라": 4.46,
+     "벵갈루루": 4.45
+    }
+   }
+  },
+  {
+   "f": {
+    "gold_text": 0.859375,
+    "city_label": 0.578125,
+    "white": 1.0
+   },
+   "bad": {
+    "gold_text": {},
+    "white": {},
+    "city_label": {
+     "벵갈루루": 4.49
+    }
+   }
+  },
+  {
+   "f": {
+    "gold_text": 0.8671875,
+    "city_label": 0.5703125,
+    "white": 1.0
+   },
+   "bad": {
+    "gold_text": {
+     "가장 좁은 곳 약 39km": 4.49
+    },
+    "white": {},
+    "city_label": {}
+   }
+  },
+  {
+   "f": {
+    "gold_text": 0.86328125,
+    "city_label": 0.57421875,
+    "white": 1.0
+   },
+   "bad": {
+    "gold_text": {},
+    "white": {},
+    "city_label": {
+     "벵갈루루": 4.49
+    }
+   }
+  },
+  {
+   "f": {
+    "gold_text": 0.86328125,
+    "city_label": 0.5703125,
+    "white": 1.0
+   },
+   "bad": {
+    "gold_text": {},
+    "white": {},
+    "city_label": {}
+   },
+   "final": true
+  }
+ ]
+}

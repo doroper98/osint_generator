@@ -157,6 +157,6 @@ def draw_marker(ctx: cairo.Context, R: RenderCtx, view: View, t: float, e: dict)
     text(ctx, e["label"], x + dx + shift, y + dy, MK.label_size, "sansb", map_c(view.stage, "white"), la, 3.2, anc, **hk,
          contrast="required")
     if e.get("sub"):
-        text(ctx, e["sub"], x + dx + shift, y + dy + MK.sub_dy, MK.sub_size, "sansm", map_c(view.stage, "gold"), la, 3, anc, **hk,
+        text(ctx, e["sub"], x + dx + shift, y + dy + MK.sub_dy, MK.sub_size, "sansm", map_c(view.stage, "gold_text"), la, 3, anc, **hk,
              contrast="required")
     R.reserved.append(box)

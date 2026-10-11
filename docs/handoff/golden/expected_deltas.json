@@ -1824,6 +1824,14 @@
     "p_0288.44.png": "p_0256.66.png"
    },
    "baseline": "docs/handoff/reports/phaseV3/hormuz_baseline.json"
+  },
+  "q3_light_user_a_d173": {
+   "reason": "light 기준선(phaseQ3/hormuz_light_baseline.json) 25컷 전부 — 사용자 결정 D173(D-0178): A|C 시트 비교 뒤 A(휘도 0.11) 선택, D-0172 C 잠정 대체. 도형 의미색 = A 값·light border_glow 키 삭제(공통 글로우), 글자 토큰만 25컷 4.5:1 최소 보정(이분 탐색 → 2자리 반올림 여유). dark 골든 무변화",
+   "decision": "D-0178",
+   "theme": "light",
+   "cuts": 25,
+   "baseline": "docs/handoff/reports/phaseQ3/hormuz_light_baseline.json",
+   "report": "docs/handoff/reports/phaseQ3b/run_log.md"
   }
  }
 }

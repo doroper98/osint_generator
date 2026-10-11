@@ -1,6 +1,6 @@
 <!--
 tier: 3
-last_synced_with: v5.20.0
+last_synced_with: v5.20.1
 ssot_for: [release-notes]
 depends_on: [README.md, GOAL.md]
 last_review: 2026-09-28
@@ -63,6 +63,12 @@ released 항목은 **append-only**입니다.
 | v5.0.0 | 87912d2 | G11 GOAL G4-21·claim_kind fact/statement | pass(D-0125) |
 | v5.1.0 | 3619f2c | G12 backdrop 무대·아일랜드·축 스케일·기사 프레스 v2·발음 사전·버전 도장 | pass(D-0127) — 후속 D-0128 완료 |
 | v5.2.0 | d4703d9 | G13 배경 가독·주 아일랜드 상시·보도 인용 = 기사·card-island·라벨 반전 | pass(D-0134) — 후속 겹침 카드 시안(D-0135~D-0138) |
+
+---
+
+## [v5.20.1] — 2026-10-11 — light 의미색 A 확정(사용자 결정 D173) + 글자만 대비 4.5 최소 보정 (back_and_forth D-0178)
+
+PATCH: 사용자 결정 반영. dark 출력 바이트 무변화, light 기준선 재생성(`expected_deltas q3_light_user_a_d173`).
 
 ---
 

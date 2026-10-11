@@ -83,10 +83,16 @@ BADGE_BG: Color = hexc(_c.badge_bg)
 C_THEME: dict[str, dict[str, Color]] = {th: {k: hexc(v) for k, v in m.items()} for th, m in _c.themes.items()}
 
 
+TEXT_BASE: dict[str, str] = {"gold_text": "gold"}   # v5.20.1 D-0178 — 지도 글자 전용 토큰(공통값 없음) → 이 도형 토큰으로(dark = 공통 gold, 바이트 동일)
+
+
 def map_c(stage, key: str) -> Color:  # noqa: ANN001 — 지금 그리는 무대(view.stage)
     """지도 위에 직접 놓이는 요소의 색 — 그 무대가 테마 지도면 테마 보정 값(없는 키 = 공통값), 아니면 공통값(D-0161 §3).
     무대 기준이라 아일랜드 차트(카드처럼 테마 무관) 안의 마커는 공통값이다."""
-    return C_THEME.get(getattr(stage, "theme_name", None) or "", {}).get(key, C[key])
+    th = C_THEME.get(getattr(stage, "theme_name", None) or "", {})
+    if key in th:
+        return th[key]
+    return C[key] if key in C else map_c(stage, TEXT_BASE[key])
 
 
 def map_halo(stage):  # noqa: ANN001, ANN201 — tuple | None

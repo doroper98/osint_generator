@@ -95,7 +95,7 @@ class SemanticColorTest(unittest.TestCase):
         for k, h in c.themes["light"].items():
             if k == "white":
                 continue
-            base = style.hexc(getattr(c, k))
+            base = style.hexc(getattr(c, style.TEXT_BASE.get(k, k)))   # gold_text = gold 색상(v5.20.1)
             hb, lb, _ = colorsys.rgb_to_hls(*base)
             ht, lt, _ = colorsys.rgb_to_hls(*style.hexc(h))
             self.assertAlmostEqual(hb, ht, delta=0.01, msg=k)
@@ -161,6 +161,28 @@ class FlatMapThemeTest(unittest.TestCase):
             seen[theme] = px
         np.testing.assert_allclose(seen["dark"], FM.sea[:3], atol=0.01)
         np.testing.assert_allclose(seen["light"], FM.themes["light"]["sea"][:3], atol=0.01)
+
+
+class LightUserAD173Test(unittest.TestCase):
+    """v5.20.1 사용자 결정 D173(D-0178) — light 도형 = A(휘도 0.11) 그대로, 글자 토큰만 4.5 최소 보정, 글로우 = 공통."""
+
+    A = {"ru": "#be0013", "us": "#005abc", "gold": "#7c5612", "teal": "#1a6673", "green": "#2f6a2a", "muted": "#555e6e",
+         "amber": "#885000", "water": "#005eae"}
+
+    def test_shape_tokens_are_a_and_glow_common(self) -> None:
+        light = load_rules().colors.themes["light"]
+        self.assertEqual({k: light[k] for k in self.A}, self.A)
+        self.assertIsNone(load_rules().geo.themes.light.map.border_glow)   # 키 삭제 = 공통 글로우
+
+    def test_text_tokens_keep_hue_and_dark_unchanged(self) -> None:
+        light = load_rules().colors.themes["light"]
+        for k, base in (("gold_text", "gold"), ("white", None)):
+            if base:
+                h0, _, _ = colorsys.rgb_to_hls(*style.hexc(self.A[base]))
+                h1, _, _ = colorsys.rgb_to_hls(*style.hexc(light[k]))
+                self.assertAlmostEqual(h0, h1, delta=0.02, msg=k)
+        dark = mock.Mock(theme_name="dark")
+        self.assertEqual(style.map_c(dark, "gold_text"), style.C["gold"])   # dark 바이트 그대로
 
 
 class CleanupV5191Test(unittest.TestCase):
