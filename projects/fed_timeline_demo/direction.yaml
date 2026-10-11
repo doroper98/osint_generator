@@ -40,4 +40,5 @@ events:
      label: 2026년 8월 기준, sub: 금리 3.63% · 물가 3.35%, side: left, hl: true}
 sound:
   bgm: null
+  no_music_decision: D-0084   # v5.22.2 — 데모(v4.3.0 D-0084 시간축 무대 시험)는 음악 없이 만든 고정물. 사용자 영상 아님
   intensity: [[0, 0.55], [{total: true}, 0.55]]   # 음악 없음(bgm null) — 효과음 세기만

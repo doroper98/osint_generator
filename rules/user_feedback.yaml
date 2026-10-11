@@ -209,8 +209,12 @@ entries:
   quote: 선정·커밋한 배경음악(Zabriskie)이 있는데 최종 영상이 무음 내레이션만 나온다
   quote_kind: summary
   category: 배경음악 누락
-  guards: []
-  status: open
+  guards:
+  - kind: check
+    ref: bgm_decision
+  - kind: test
+    ref: tests/test_bgm_decision.py::TestBgmDecision::test_no_music_without_decision_fails
+  status: guarded
   decision: TTS-AP-063
   source: TTS_ANTIPATTERNS §11 TTS-AP-063
 - id: UF-17
@@ -406,8 +410,12 @@ entries:
   quote: 배경음악이 없다
   quote_kind: verbatim
   category: 배경음악 누락
-  guards: []
-  status: open
+  guards:
+  - kind: check
+    ref: bgm_decision
+  - kind: test
+    ref: tests/test_bgm_decision.py::TestBgmDecision::test_no_music_without_decision_fails
+  status: guarded
   recurs_of: UF-16
   decision: R-0118 U6·M1
   source: R-0118 U6
@@ -1366,8 +1374,12 @@ entries:
   quote: 음악을 넣고 만들고, 콘티 합격. 본영상 만들어
   quote_kind: verbatim
   category: 배경음악 누락
-  guards: []
-  status: open
+  guards:
+  - kind: check
+    ref: bgm_decision
+  - kind: test
+    ref: tests/test_bgm_decision.py::TestBgmDecision::test_no_music_without_decision_fails
+  status: guarded
   recurs_of: UF-16
   decision: D184 · D-0187
   source: 'back_and_forth D-0187(from: user) · DECISIONS D184'

@@ -465,6 +465,7 @@ def load_project(proj: Path, direction: Optional[Direction] = None, out: Optiona
     R.cache["credit_refs"] = req
     b = (sound or {}).get("bgm")
     R.cache["bgm_segments"] = 0 if not b else (1 if isinstance(b, str) else len(b))   # provenance audio.crossfades
+    R.cache["music"] = {"bgm": sorted(music_ids(sound)), "no_music_decision": (sound or {}).get("no_music_decision")}   # v5.22.2 UF-16·30·93
     R.cache["media_placement"] = placement
     if not keys or cams is None:
         raise ProjectError("카메라 키가 없다")

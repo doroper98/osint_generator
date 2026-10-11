@@ -3424,3 +3424,4 @@ last_review: 2026-06-06
 - 2026-10-11 v5.21.14 이동·공격 문장 경로 누락·대상 화면 밖(사용자 의견 아덴·KKIA·예멘) → route_missing/frame_missing 검사(RENDER-AP-022, D-0195·D-0197·D-0199).
 - 2026-10-11 v5.22.0 사용자 의견 원장(rules/user_feedback.yaml UF-01~96) + 장치 존재 테스트 + 게이트 ② 차단(open 15 — 보고) + provenance user_feedback_guards, CLAUDE.md C12(D-0200).
 - 2026-10-11 v5.22.1 route_missing·frame_missing hard(D-0205 §2), 국기 뱃지 = 표시, hormuz 골든 story_geo_exempt. gulf 메카 궤적·이란 부인 뱃지.
+- 2026-10-11 v5.22.2 배경음악 누락 3회 재발(UF-16·30·93) → bgm_decision hard(음악 없음 = 결정 번호 필수).

@@ -157,7 +157,8 @@ def project_provenance(P, stages: dict[str, bool]) -> dict:  # noqa: ANN001, N80
     mus = sorted(r for r in (P.R.cache.get("credit_refs") or set()) if r.startswith("music."))
     segs = P.R.cache.get("bgm_segments", 1 if mus else 0)
     prov["audio"] = {"bgm": mus or None, "bed_gain": load_rules().audio.bed_gain,    # v3.4.0 — bgm null = 음악 없음(명시 상태, F1)
-                     "crossfades": max(0, segs - 1)}
+                     "crossfades": max(0, segs - 1),
+                     **({"no_music_decision": nd} if (nd := (P.R.cache.get("music") or {}).get("no_music_decision")) else {})}   # v5.22.2 UF-16
     if stages.get("mix") and mus:   # v4.6.0 D-0097 작업 5 — 베드 저음 보강 적용 값·측정치(믹서 기록 out/bed_stats.json). 음악 없으면 기록 없음(P5)
         from audio.qa import load_bed_stats  # noqa: PLC0415
 

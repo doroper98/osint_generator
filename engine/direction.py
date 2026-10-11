@@ -164,6 +164,8 @@ class Sound(_Strict):
     bgm: Union[str, list[BgmSegment], None]
     intensity: list[tuple[Union[float, dict[str, Any]], float]]
     cues: list[SoundCue] = Field(default_factory=list)
+    # v5.22.2 UF-16·30·93(D-0205 §3) — 음악 없음(bgm null)은 결정 번호가 있어야 한다(검사 bgm_decision hard). 배경음악 누락이 세 번 되풀이됐다
+    no_music_decision: Optional[str] = Field(default=None, pattern=r"^D-?\d{2,4}")
 
     @field_validator("bgm")
     @classmethod
@@ -459,6 +461,8 @@ def build(doc: Direction, tb: Timebase, stage: "Stage") -> tuple[list[CamKey], l
         bgm = sd.bgm if not isinstance(sd.bgm, list) else [dict(id=g.id, t=resolve_anchor(g.from_, tb)) for g in sd.bgm]
         sound = dict(bgm=bgm, intensity=[(resolve_anchor(t, tb), v) for t, v in sd.intensity],
                      cues=[dict(kind=c.kind, t=resolve_anchor(c.t, tb), v=c.v) for c in sd.cues])
+        if sd.no_music_decision:   # v5.22.2 UF-16 — 있을 때만(없으면 sound dict 무변경)
+            sound["no_music_decision"] = sd.no_music_decision
     return keys, events + dips, sound
 
 
