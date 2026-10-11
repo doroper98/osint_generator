@@ -1,0 +1,977 @@
+{
+  "schema_version": 1,
+  "claims": [
+    {
+      "text": "파키스탄·사우디아라비아·튀르키예가 8월 7일 메카 공동방위협정에 서명했다",
+      "evidence": [
+        {
+          "source_id": "src_art_0001",
+          "quote": "On August 7, Pakistan, Saudi Arabia and Turkiye formalised their longstanding strategic relationship through the Makkah Joint Defence Agreement (MJDA)",
+          "stance": "supports"
+        },
+        {
+          "source_id": "src_art_0006",
+          "quote": "Pakistan, Saudi Arabia and Turkey signed the Mecca Joint Defence Agreement on August 7",
+          "stance": "supports"
+        },
+        {
+          "source_id": "src_art_0016",
+          "quote": "Pakistan, Saudi Arabia and Türkiye formally established the Makkah Joint Defence Agreement on August 7.",
+          "stance": "supports"
+        },
+        {
+          "source_id": "src_art_0015",
+          "quote": "Leaders of Saudi Arabia, Turkiye and Pakistan signed the Mecca Joint Defence Agreement last Friday",
+          "stance": "supports"
+        },
+        {
+          "source_id": "src_art_0008",
+          "quote": "the joint defence agreement that Pakistan, Saudi Arabia and Turkiye signed in Mecca on August 7",
+          "stance": "supports"
+        },
+        {
+          "source_id": "src_art_0013",
+          "quote": "Saudi Arabia signed the Mecca Joint Defence Agreement with Turkey and Pakistan in August",
+          "stance": "supports"
+        }
+      ],
+      "event_date": "2026-08-07",
+      "contested": false,
+      "sides": null,
+      "claim_kind": "fact",
+      "speaker_source_ids": []
+    },
+    {
+      "text": "메카 공동방위협정은 3국 중 한 나라에 대한 무력 공격을 3국 모두에 대한 공격으로 간주한다고 규정한다",
+      "evidence": [
+        {
+          "source_id": "src_art_0006",
+          "quote": "under which an armed attack on one member is treated as an attack on all three",
+          "stance": "supports"
+        },
+        {
+          "source_id": "src_art_0015",
+          "quote": "stating that an armed attack on any one of the three would be regarded as an attack on all",
+          "stance": "supports"
+        },
+        {
+          "source_id": "src_art_0002",
+          "quote": "any armed attack against any one of the three states shall be regarded as an attack against them all",
+          "stance": "supports"
+        },
+        {
+          "source_id": "src_art_0014",
+          "quote": "stipulates that an armed attack against any one of them would be regarded as an attack against all",
+          "stance": "supports"
+        }
+      ],
+      "event_date": "2026-08-07",
+      "contested": false,
+      "sides": null,
+      "claim_kind": "fact",
+      "speaker_source_ids": []
+    },
+    {
+      "text": "사우디아라비아와 파키스탄이 2025년 9월 17일 양자 전략적 상호방위협정에 서명했다",
+      "evidence": [
+        {
+          "source_id": "src_art_0011",
+          "quote": "on Wednesday signed the “Strategic Mutual Defense Agreement” between the two countries",
+          "stance": "supports"
+        },
+        {
+          "source_id": "src_art_0012",
+          "quote": "A statement from the PM’s office announced the signing of the pact during a meeting at Riyadh’s Yamama Palace",
+          "stance": "supports"
+        },
+        {
+          "source_id": "src_art_0004",
+          "quote": "Saudi Arabia’s defence pact with Pakistan, which was signed in September 2025",
+          "stance": "supports"
+        }
+      ],
+      "event_date": "2025-09-17",
+      "contested": false,
+      "sides": null,
+      "claim_kind": "fact",
+      "speaker_source_ids": []
+    },
+    {
+      "text": "사우디 공공외교 차관 라에드 크림리가 협정이 역내 어느 나라에도 위협이 아니라고 밝혔다",
+      "evidence": [
+        {
+          "source_id": "src_art_0003",
+          "quote": "Rayed Krimly, said the pact is not a threat to any country in the region",
+          "stance": "supports"
+        }
+      ],
+      "event_date": "2026-08-07",
+      "contested": false,
+      "sides": null,
+      "claim_kind": "statement",
+      "speaker_source_ids": []
+    },
+    {
+      "text": "이란 의원 에브라힘 레자에이가 튀르키예·파키스탄과의 종이 협정이 사우디에 안보를 가져다주지 못할 것이라고 말했다",
+      "evidence": [
+        {
+          "source_id": "src_art_0003",
+          "quote": "In a post on X, he said: “Saudis must know that a paper agreement with Turkiye and Pakistan will not bring them security",
+          "stance": "supports"
+        }
+      ],
+      "event_date": "2026-08-07",
+      "contested": false,
+      "sides": null,
+      "claim_kind": "statement",
+      "speaker_source_ids": []
+    },
+    {
+      "text": "메카 협정 3국의 현역 병력 합계는 약 140만 명이다(2026 Global Firepower Index 기준)",
+      "evidence": [
+        {
+          "source_id": "src_art_0015",
+          "quote": "the three countries combine nearly 1.4 million active military personnel",
+          "stance": "supports"
+        },
+        {
+          "source_id": "src_art_0002",
+          "quote": "boast a combined military strength of nearly 1.4 million active troops",
+          "stance": "supports"
+        }
+      ],
+      "event_date": null,
+      "contested": false,
+      "sides": null,
+      "claim_kind": "fact",
+      "speaker_source_ids": []
+    },
+    {
+      "text": "3국 군 고위 관계자들이 9월 25일 메카를 겨냥한 공격을 규탄했다",
+      "evidence": [
+        {
+          "source_id": "src_art_0016",
+          "quote": "On September 25, senior military officials from the three countries condemned attacks targeting Makkah",
+          "stance": "supports"
+        },
+        {
+          "source_id": "src_art_0006",
+          "quote": "Their military chiefs met in Riyadh on September 25 and condemned Houthi attacks on Saudi Arabia.",
+          "stance": "supports"
+        }
+      ],
+      "event_date": "2026-09-25",
+      "contested": false,
+      "sides": null,
+      "claim_kind": "fact",
+      "speaker_source_ids": []
+    },
+    {
+      "text": "후티가 9월 메카 공격을 시도했다",
+      "evidence": [
+        {
+          "source_id": "src_art_0013",
+          "quote": "Saudi Arabia accused the Houthis of attempting an attack on Mecca",
+          "stance": "supports"
+        },
+        {
+          "source_id": "src_art_0014",
+          "quote": "condemned the attempted targeting of the holy cities of Makkah and Madina",
+          "stance": "supports"
+        },
+        {
+          "source_id": "src_art_0013",
+          "quote": "The Houthis denied the allegations, as did Iran.",
+          "stance": "contradicts"
+        }
+      ],
+      "event_date": null,
+      "contested": true,
+      "sides": [
+        {
+          "party": "사우디아라비아·메카 협정 3국",
+          "text": "후티가 메카·메디나를 겨냥한 공격을 시도했다",
+          "source_ids": [
+            "src_art_0013",
+            "src_art_0014"
+          ]
+        },
+        {
+          "party": "후티·이란",
+          "text": "혐의를 부인했다",
+          "source_ids": [
+            "src_art_0013"
+          ]
+        }
+      ],
+      "claim_kind": "fact",
+      "speaker_source_ids": []
+    },
+    {
+      "text": "후티 세력이 바브엘만데브 해협을 포함한 예멘 홍해 연안을 장악했다",
+      "evidence": [
+        {
+          "source_id": "src_art_0002",
+          "quote": "Houthi forces seized control of Yemen’s Red Sea coast, including the strategic Bab el-Mandeb strait",
+          "stance": "supports"
+        },
+        {
+          "source_id": "src_art_0013",
+          "quote": "key territory around the Bab el-Mandeb Strait that had been seized by the Houthis",
+          "stance": "supports"
+        }
+      ],
+      "event_date": null,
+      "contested": false,
+      "sides": null,
+      "claim_kind": "fact",
+      "speaker_source_ids": []
+    },
+    {
+      "text": "메카 협정의 전략정치국방위원회가 10월 5일 리야드에서 긴급회의를 열었다",
+      "evidence": [
+        {
+          "source_id": "src_art_0016",
+          "quote": "The decision was taken during an emergency meeting of the Strategic-Political and Defence Committee of the Makkah defence framework in Riyadh on October 5.",
+          "stance": "supports"
+        },
+        {
+          "source_id": "src_art_0001",
+          "quote": "The decision was taken at an emergency meeting of the Strategic-Political and Defence Committee of the alliance, held in Riyadh",
+          "stance": "supports"
+        },
+        {
+          "source_id": "src_art_0014",
+          "quote": "The Strategic Political and Defence Committee (SPDC) of the trilateral Makkah Defence Alliance held an emergency meeting in Riyadh on Monday",
+          "stance": "supports"
+        }
+      ],
+      "event_date": "2026-10-05",
+      "contested": false,
+      "sides": null,
+      "claim_kind": "fact",
+      "speaker_source_ids": []
+    },
+    {
+      "text": "3국이 10월 5일 집단방위 공약의 실제 이행(협정 발동)을 결정했다",
+      "evidence": [
+        {
+          "source_id": "src_art_0002",
+          "quote": "Pakistan, Saudi Arabia, and Turkey triggered a mutual defense pact on Monday in response to repeated Houthi strikes on Saudi infrastructure",
+          "stance": "supports"
+        },
+        {
+          "source_id": "src_art_0001",
+          "quote": "Pakistan, Saudi Arabia and Turkiye activated the practical implementation of their collective defence commitments on Monday",
+          "stance": "supports"
+        },
+        {
+          "source_id": "src_art_0016",
+          "quote": "Pakistan, Saudi Arabia and Türkiye agreed to move ahead with measures to implement their collective defence commitments",
+          "stance": "supports"
+        },
+        {
+          "source_id": "src_art_0014",
+          "quote": "Pakistan, Saudi Arabia and Turkiye have agreed to take measures for the rapid deployment of military forces in the kingdom",
+          "stance": "supports"
+        },
+        {
+          "source_id": "src_art_0013",
+          "quote": "the three parties agreed to implement its collective defence commitments earlier this week",
+          "stance": "supports"
+        }
+      ],
+      "event_date": "2026-10-05",
+      "contested": false,
+      "sides": null,
+      "claim_kind": "fact",
+      "speaker_source_ids": []
+    },
+    {
+      "text": "메카 공동방위협정 발동은 8월 서명 이후 처음이다",
+      "evidence": [
+        {
+          "source_id": "src_art_0002",
+          "quote": "mark the first time that the Mecca Joint Defense Agreement has been invoked since it was signed in August",
+          "stance": "supports"
+        }
+      ],
+      "event_date": "2026-10-05",
+      "contested": false,
+      "sides": null,
+      "claim_kind": "fact",
+      "speaker_source_ids": []
+    },
+    {
+      "text": "3국 공동성명이 합의된 군사력을 사우디에 즉시 배치한다고 밝혔다",
+      "evidence": [
+        {
+          "source_id": "src_art_0001",
+          "quote": "According to a joint statement issued on Monday night, the activation entailed immediate deployment of",
+          "stance": "supports"
+        }
+      ],
+      "event_date": "2026-10-05",
+      "contested": false,
+      "sides": null,
+      "claim_kind": "statement",
+      "speaker_source_ids": []
+    },
+    {
+      "text": "10월 5일 공동성명은 후티를 위협으로 명시하지 않았다",
+      "evidence": [
+        {
+          "source_id": "src_art_0002",
+          "quote": "did not explicitly name the Houthis as the rationale for activating the pact",
+          "stance": "supports"
+        },
+        {
+          "source_id": "src_art_0014",
+          "quote": "It also did not specifically name the Houthis as a threat",
+          "stance": "supports"
+        }
+      ],
+      "event_date": "2026-10-05",
+      "contested": false,
+      "sides": null,
+      "claim_kind": "fact",
+      "speaker_source_ids": []
+    },
+    {
+      "text": "10월 5일 공동성명은 병력 배치의 세부 내용이나 일정을 밝히지 않았다",
+      "evidence": [
+        {
+          "source_id": "src_art_0014",
+          "quote": "The statement did not give any details or schedule of troop deployment.",
+          "stance": "supports"
+        }
+      ],
+      "event_date": "2026-10-05",
+      "contested": false,
+      "sides": null,
+      "claim_kind": "fact",
+      "speaker_source_ids": []
+    },
+    {
+      "text": "튀르키예 의회는 아직 메카 공동방위협정을 비준하지 않았다",
+      "evidence": [
+        {
+          "source_id": "src_art_0002",
+          "quote": "And the Turkish parliament has yet to ratify the mutual defense pact",
+          "stance": "supports"
+        }
+      ],
+      "event_date": null,
+      "contested": false,
+      "sides": null,
+      "claim_kind": "fact",
+      "speaker_source_ids": []
+    },
+    {
+      "text": "카와자 아시프 파키스탄 국방장관이 파키스탄·튀르키예가 정찰 등 지원 역할로 사우디를 돕고 있다고 밝혔다",
+      "evidence": [
+        {
+          "source_id": "src_art_0014",
+          "quote": "right now, the Turkish and Pakistani armies are playing a supportive role,\" he said, noting that Pakistan was involved in reconnaissance",
+          "stance": "supports"
+        },
+        {
+          "source_id": "src_art_0002",
+          "quote": "Pakistani Defense Minister Khawaja Asif said on Monday that Islamabad and Ankara were already aiding Riyadh",
+          "stance": "supports"
+        }
+      ],
+      "event_date": "2026-10-05",
+      "contested": false,
+      "sides": null,
+      "claim_kind": "statement",
+      "speaker_source_ids": []
+    },
+    {
+      "text": "카와자 아시프 파키스탄 국방장관이 전투 작전에는 사우디군만 참여하고 있다고 밝혔다",
+      "evidence": [
+        {
+          "source_id": "src_art_0014",
+          "quote": "said that Pakistan and Turkiye had a \"presence in theatre\", but only Saudi troops were involved in combat operations",
+          "stance": "supports"
+        }
+      ],
+      "event_date": "2026-10-05",
+      "contested": false,
+      "sides": null,
+      "claim_kind": "statement",
+      "speaker_source_ids": []
+    },
+    {
+      "text": "파키스탄이 사우디아라비아에 병력 3만~4만 명을 배치했다",
+      "evidence": [
+        {
+          "source_id": "src_art_0006",
+          "quote": "Pakistan has deployed between 30,000 and 40,000 troops to Saudi Arabia",
+          "stance": "supports"
+        }
+      ],
+      "event_date": null,
+      "contested": true,
+      "sides": [
+        {
+          "party": "로이터(익명의 파키스탄 관리 인용)",
+          "text": "파키스탄이 국경 방어와 드론·미사일 요격을 위해 3만~4만 명을 배치했다",
+          "source_ids": [
+            "src_art_0006",
+            "src_art_0001",
+            "src_art_0016"
+          ]
+        },
+        {
+          "party": "파키스탄 정보방송부",
+          "text": "익명 소식통에 기댄 추측성 보도이며 작전 세부사항은 기밀이다",
+          "source_ids": [
+            "src_art_0001",
+            "src_art_0016"
+          ]
+        }
+      ],
+      "claim_kind": "fact",
+      "speaker_source_ids": []
+    },
+    {
+      "text": "로이터가 10월 2일 파키스탄 관리를 인용해 파키스탄이 사우디에 병력 3만~4만 명을 배치했다고 보도했다",
+      "evidence": [
+        {
+          "source_id": "src_art_0001",
+          "quote": "a Reuters report published on October 2, which said Pakistan had deployed between 30,000 and 40,000 troops to Saudi Arabia",
+          "stance": "supports"
+        },
+        {
+          "source_id": "src_art_0016",
+          "quote": "a Reuters report claimed that Pakistan had deployed between 30,000 and 40,000 troops to Saudi Arabia",
+          "stance": "supports"
+        },
+        {
+          "source_id": "src_art_0006",
+          "quote": "according to a Pakistani official cited by Reuters",
+          "stance": "supports"
+        }
+      ],
+      "event_date": "2026-10-02",
+      "contested": false,
+      "sides": null,
+      "claim_kind": "statement",
+      "speaker_source_ids": []
+    },
+    {
+      "text": "익명의 파키스탄 관리가 로이터에 파키스탄이 예멘 전투 파병을 결정하지 않았다고 밝혔다",
+      "evidence": [
+        {
+          "source_id": "src_art_0006",
+          "quote": "The official said Pakistan has not decided to send its troops into Yemen to take part in combat operations.",
+          "stance": "supports"
+        },
+        {
+          "source_id": "src_art_0016",
+          "quote": "also said Islamabad had not decided to deploy troops to Yemen for combat operations",
+          "stance": "supports"
+        }
+      ],
+      "event_date": "2026-10-02",
+      "contested": false,
+      "sides": null,
+      "claim_kind": "statement",
+      "speaker_source_ids": []
+    },
+    {
+      "text": "파키스탄 정보방송부가 10월 6일 로이터의 병력 배치 보도를 거부했다",
+      "evidence": [
+        {
+          "source_id": "src_art_0001",
+          "quote": "the Ministry of Information and Broadcasting on Tuesday had rejected what it described as “speculative” reporting by Reuters on the pact",
+          "stance": "supports"
+        },
+        {
+          "source_id": "src_art_0016",
+          "quote": "Pakistan’s Ministry of Information and Broadcasting has rejected a Reuters report about the country’s military deployment",
+          "stance": "supports"
+        }
+      ],
+      "event_date": "2026-10-06",
+      "contested": false,
+      "sides": null,
+      "claim_kind": "fact",
+      "speaker_source_ids": []
+    },
+    {
+      "text": "파키스탄 정부가 사우디 배치의 세부 내용을 공개하지 않겠다고 밝혔다",
+      "evidence": [
+        {
+          "source_id": "src_art_0016",
+          "quote": "The ministry said operational details related to the implementation of the collective defence arrangement remain confidential.",
+          "stance": "supports"
+        },
+        {
+          "source_id": "src_art_0002",
+          "quote": "Pakistan said it will not release the details of its deployment",
+          "stance": "supports"
+        }
+      ],
+      "event_date": null,
+      "contested": false,
+      "sides": null,
+      "claim_kind": "statement",
+      "speaker_source_ids": []
+    },
+    {
+      "text": "파키스탄군 대변인(DG ISPR) 아흐메드 샤리프 차우드리 중장이 10월 7일 CNN 인터뷰에서 파키스탄군이 사우디에 여러 역할로 주둔하고 있다고 밝혔다",
+      "evidence": [
+        {
+          "source_id": "src_art_0001",
+          "quote": "Ahmed Sharif Chaudhry said on Wednesday that Pakistani troops were present in Saudi Arabia in \"multiple capabilities\"",
+          "stance": "supports"
+        },
+        {
+          "source_id": "src_art_0001",
+          "quote": "he said: \"I do confirm that the forces of Pakistan are already there",
+          "stance": "supports"
+        },
+        {
+          "source_id": "src_art_0007",
+          "quote": "Lt Gen Chaudhry said the Pakistani personnel deployed in Saudi Arabia under the Makkah agreement belonged to different domains",
+          "stance": "supports"
+        }
+      ],
+      "event_date": "2026-10-07",
+      "contested": false,
+      "sides": null,
+      "claim_kind": "statement",
+      "speaker_source_ids": []
+    },
+    {
+      "text": "파키스탄군이 사우디아라비아에 주둔하고 있다",
+      "evidence": [
+        {
+          "source_id": "src_art_0001",
+          "quote": "Director General ISPR Lieutenant General Ahmed Sharif Chaudhry has confirmed the presence of Pakistani troops in Saudi Arabia",
+          "stance": "supports"
+        },
+        {
+          "source_id": "src_art_0007",
+          "quote": "has confirmed that Pakistani troops are stationed in Saudi Arabia",
+          "stance": "supports"
+        }
+      ],
+      "event_date": "2026-10-07",
+      "contested": false,
+      "sides": null,
+      "claim_kind": "fact",
+      "speaker_source_ids": []
+    },
+    {
+      "text": "파키스탄이 4월부터 사우디에 병력 8,000명을 배치했다",
+      "evidence": [
+        {
+          "source_id": "src_art_0004",
+          "quote": "Pakistan has deployed 8,000 troops",
+          "stance": "supports"
+        }
+      ],
+      "event_date": null,
+      "contested": true,
+      "sides": [
+        {
+          "party": "로이터(Middle East Eye 인용, 5월 보도)",
+          "text": "4월 초부터 병력 8,000명을 배치했다",
+          "source_ids": [
+            "src_art_0004"
+          ]
+        }
+      ],
+      "claim_kind": "fact",
+      "speaker_source_ids": []
+    },
+    {
+      "text": "파키스탄이 사우디에 JF-17 위주 약 16대 규모 전투기 편대를 배치했다",
+      "evidence": [
+        {
+          "source_id": "src_art_0004",
+          "quote": "Pakistan has deployed a squadron of around 16 aircraft, mostly JF-17 warplanes",
+          "stance": "supports"
+        }
+      ],
+      "event_date": null,
+      "contested": true,
+      "sides": [
+        {
+          "party": "로이터(Middle East Eye 인용, 5월 보도)",
+          "text": "JF-17 위주 약 16대 편대를 배치했다",
+          "source_ids": [
+            "src_art_0004"
+          ]
+        }
+      ],
+      "claim_kind": "fact",
+      "speaker_source_ids": []
+    },
+    {
+      "text": "파키스탄이 사우디에 중국산 HQ-9 방공체계를 배치했다",
+      "evidence": [
+        {
+          "source_id": "src_art_0004",
+          "quote": "In addition, it has deployed an HQ-9 Chinese air defence system.",
+          "stance": "supports"
+        }
+      ],
+      "event_date": null,
+      "contested": true,
+      "sides": [
+        {
+          "party": "로이터(Middle East Eye 인용, 5월 보도)",
+          "text": "HQ-9 방공체계를 배치했다",
+          "source_ids": [
+            "src_art_0004"
+          ]
+        }
+      ],
+      "claim_kind": "fact",
+      "speaker_source_ids": []
+    },
+    {
+      "text": "파키스탄 관리가 파키스탄이 지난달 아덴에 방공체계 등을 실은 수송기 4대를 보냈다고 밝혔다",
+      "evidence": [
+        {
+          "source_id": "src_art_0006",
+          "quote": "A Pakistani official said Islamabad sent four cargo aircraft to Aden last month carrying air-defense systems",
+          "stance": "supports"
+        }
+      ],
+      "event_date": null,
+      "contested": false,
+      "sides": null,
+      "claim_kind": "statement",
+      "speaker_source_ids": []
+    },
+    {
+      "text": "파키스탄 정보방송부가 10월 8일 파키스탄 공군의 후티 공격 투입 가능성을 다룬 뉴욕타임스 보도를 거부했다",
+      "evidence": [
+        {
+          "source_id": "src_art_0017",
+          "quote": "has rejected a report by The New York Times suggesting that Pakistan could use its air force against Houthi forces",
+          "stance": "supports"
+        }
+      ],
+      "event_date": "2026-10-08",
+      "contested": false,
+      "sides": null,
+      "claim_kind": "fact",
+      "speaker_source_ids": []
+    },
+    {
+      "text": "튀르키예가 사우디에 군사 지원을 제공했다",
+      "evidence": [
+        {
+          "source_id": "src_art_0013",
+          "quote": "Turkey has sent defensive and technical support",
+          "stance": "supports"
+        },
+        {
+          "source_id": "src_art_0006",
+          "quote": "Turkey has also provided military support",
+          "stance": "supports"
+        }
+      ],
+      "event_date": null,
+      "contested": false,
+      "sides": null,
+      "claim_kind": "fact",
+      "speaker_source_ids": []
+    },
+    {
+      "text": "사우디 주도 연합군·예멘 정부군이 10월 초 후티 점령지 탈환 공세를 시작했다",
+      "evidence": [
+        {
+          "source_id": "src_art_0002",
+          "quote": "Saudi-led coalition forces in Yemen launched a counteroffensive on Monday",
+          "stance": "supports"
+        },
+        {
+          "source_id": "src_art_0005",
+          "quote": "the Yemeni government launched an offensive against the group on Monday",
+          "stance": "supports"
+        },
+        {
+          "source_id": "src_art_0014",
+          "quote": "launched a major military campaign on Sunday to recapture territory held by the Houthis",
+          "stance": "supports"
+        }
+      ],
+      "event_date": null,
+      "contested": false,
+      "sides": null,
+      "claim_kind": "fact",
+      "speaker_source_ids": []
+    },
+    {
+      "text": "예멘 정부군이 10월 5일 모카에 도달해 후티를 해협에서 밀어냈다",
+      "evidence": [
+        {
+          "source_id": "src_art_0013",
+          "quote": "said they had reached Mokha on Monday and driven the Houthis back from the strait",
+          "stance": "supports"
+        },
+        {
+          "source_id": "src_art_0013",
+          "quote": "although the Houthis dispute those claims",
+          "stance": "contradicts"
+        }
+      ],
+      "event_date": "2026-10-05",
+      "contested": true,
+      "sides": [
+        {
+          "party": "예멘 정부군",
+          "text": "모카에 도달해 후티를 해협에서 밀어냈다",
+          "source_ids": [
+            "src_art_0013"
+          ]
+        },
+        {
+          "party": "후티",
+          "text": "정부군 주장을 부인한다",
+          "source_ids": [
+            "src_art_0013"
+          ]
+        }
+      ],
+      "claim_kind": "fact",
+      "speaker_source_ids": []
+    },
+    {
+      "text": "예멘 정부군이 바브엘만데브 인근 주요 도시 여러 곳을 탈환했다",
+      "evidence": [
+        {
+          "source_id": "src_art_0002",
+          "quote": "Yemeni officials said the forces successfully recaptured several key towns near Bab el-Mandeb",
+          "stance": "supports"
+        }
+      ],
+      "event_date": null,
+      "contested": true,
+      "sides": [
+        {
+          "party": "예멘 정부 관리",
+          "text": "바브엘만데브 인근 주요 도시 여러 곳을 탈환했다",
+          "source_ids": [
+            "src_art_0002"
+          ]
+        }
+      ],
+      "claim_kind": "fact",
+      "speaker_source_ids": []
+    },
+    {
+      "text": "후티 지지자들이 10월 7일 사나에서 튀르키예·파키스탄의 사우디 지원에 반대하는 무장 집회를 열었다",
+      "evidence": [
+        {
+          "source_id": "src_art_0013",
+          "quote": "Houthi supporters take part in an armed rally against the involvement of Turkey and Pakistan with Saudi Arabia",
+          "stance": "supports"
+        }
+      ],
+      "event_date": "2026-10-07",
+      "contested": false,
+      "sides": null,
+      "claim_kind": "fact",
+      "speaker_source_ids": []
+    },
+    {
+      "text": "이번 주 초 후티의 사우디 공항 공격으로 3명이 숨졌다",
+      "evidence": [
+        {
+          "source_id": "src_art_0013",
+          "quote": "after earlier attacks on Saudi Arabia killed three and injured 36",
+          "stance": "supports"
+        },
+        {
+          "source_id": "src_art_0017",
+          "quote": "killing three people at Saudi",
+          "stance": "supports"
+        },
+        {
+          "source_id": "src_art_0005",
+          "quote": "Saudi Arabia said Houthi attacks on Abha and King Khalid airports had killed three civilians and injured 36 others",
+          "stance": "supports"
+        }
+      ],
+      "event_date": null,
+      "contested": false,
+      "sides": null,
+      "claim_kind": "fact",
+      "speaker_source_ids": []
+    },
+    {
+      "text": "후티가 10월 8일 탄도미사일로 리야드 킹칼리드 국제공항을 공격했다고 밝혔다",
+      "evidence": [
+        {
+          "source_id": "src_art_0017",
+          "quote": "Yemen’s Houthi group said on Thursday it had attacked King Khalid International Airport in Riyadh with a ballistic missile",
+          "stance": "supports"
+        },
+        {
+          "source_id": "src_art_0013",
+          "quote": "The Houthis said they targeted King Khalid International Airport on Thursday",
+          "stance": "supports"
+        },
+        {
+          "source_id": "src_art_0005",
+          "quote": "the Houthis claimed to have launched a ballistic missile towards the airport in Riyadh on Thursday",
+          "stance": "supports"
+        }
+      ],
+      "event_date": "2026-10-08",
+      "contested": false,
+      "sides": null,
+      "claim_kind": "statement",
+      "speaker_source_ids": []
+    },
+    {
+      "text": "사우디 민간항공청이 10월 8일 킹칼리드 공항 공격으로 조종사를 포함한 사우디인 3명이 숨졌다고 밝혔다",
+      "evidence": [
+        {
+          "source_id": "src_art_0005",
+          "quote": "Houthi attacks on King Khalid airport on Thursday killed at least three Saudi citizens, including a pilot, according to GACA",
+          "stance": "supports"
+        }
+      ],
+      "event_date": "2026-10-08",
+      "contested": false,
+      "sides": null,
+      "claim_kind": "statement",
+      "speaker_source_ids": []
+    },
+    {
+      "text": "후티가 10월 10일 리야드 킹칼리드 국제공항을 공격했다",
+      "evidence": [
+        {
+          "source_id": "src_art_0005",
+          "quote": "in an attack by Yemen’s Houthis on the King Khalid International airport near its capital, Riyadh",
+          "stance": "supports"
+        }
+      ],
+      "event_date": "2026-10-10",
+      "contested": false,
+      "sides": null,
+      "claim_kind": "fact",
+      "speaker_source_ids": []
+    },
+    {
+      "text": "후티 미디어국장이 10월 10일 공격 후 리야드 국제공항을 폐쇄시켰다고 밝혔다",
+      "evidence": [
+        {
+          "source_id": "src_art_0005",
+          "quote": "The head of the Houthi media office said in a post on X after Saturday’s attack that the group had “shut down Riyadh international airport”",
+          "stance": "supports"
+        }
+      ],
+      "event_date": "2026-10-10",
+      "contested": false,
+      "sides": null,
+      "claim_kind": "statement",
+      "speaker_source_ids": []
+    },
+    {
+      "text": "사우디가 10월 10일 리야드 공항 공격으로 최소 12명이 숨졌다고 밝혔다",
+      "evidence": [
+        {
+          "source_id": "src_art_0005",
+          "quote": "Saudi Arabia has said that at least 12 people have been killed",
+          "stance": "supports"
+        }
+      ],
+      "event_date": "2026-10-10",
+      "contested": false,
+      "sides": null,
+      "claim_kind": "statement",
+      "speaker_source_ids": []
+    },
+    {
+      "text": "사우디 민간항공청이 10월 10일 리야드 공항 공격으로 최소 309명이 다쳤다고 밝혔다",
+      "evidence": [
+        {
+          "source_id": "src_art_0005",
+          "quote": "At the latest count, at least 309 people were wounded, it said.",
+          "stance": "supports"
+        }
+      ],
+      "event_date": "2026-10-10",
+      "contested": false,
+      "sides": null,
+      "claim_kind": "statement",
+      "speaker_source_ids": []
+    },
+    {
+      "text": "10월 10일 리야드 공항 공격 사망자 중 미국 시민 1명이 있다",
+      "evidence": [
+        {
+          "source_id": "src_art_0005",
+          "quote": "The dead also included one person each from the United States",
+          "stance": "supports"
+        },
+        {
+          "source_id": "src_art_0005",
+          "quote": "He confirmed that a US citizen had died in the attack.",
+          "stance": "supports"
+        }
+      ],
+      "event_date": "2026-10-10",
+      "contested": false,
+      "sides": null,
+      "claim_kind": "fact",
+      "speaker_source_ids": []
+    },
+    {
+      "text": "사우디 주도 연합군이 10월 10일 공항 공격을 전면적 전쟁범죄라고 불렀다",
+      "evidence": [
+        {
+          "source_id": "src_art_0005",
+          "quote": "The Saudi-led coalition fighting in Yemen called the attack a “full-fledged war crime”",
+          "stance": "supports"
+        }
+      ],
+      "event_date": "2026-10-10",
+      "contested": false,
+      "sides": null,
+      "claim_kind": "statement",
+      "speaker_source_ids": []
+    },
+    {
+      "text": "후티가 민항기들에 사우디 영공을 피하라고 밝혔다",
+      "evidence": [
+        {
+          "source_id": "src_art_0005",
+          "quote": "The Houthis have said airliners should avoid Saudi airspace",
+          "stance": "supports"
+        }
+      ],
+      "event_date": null,
+      "contested": false,
+      "sides": null,
+      "claim_kind": "statement",
+      "speaker_source_ids": []
+    },
+    {
+      "text": "트럼프 대통령은 지금까지 후티에 대한 미국의 직접 타격 요청을 거절해 왔다",
+      "evidence": [
+        {
+          "source_id": "src_art_0013",
+          "quote": "Trump has thus far declined requests for direct U.S. strikes against the Houthis",
+          "stance": "supports"
+        }
+      ],
+      "event_date": null,
+      "contested": false,
+      "sides": null,
+      "claim_kind": "fact",
+      "speaker_source_ids": []
+    }
+  ],
+  "summary": "메카 공동방위협정 서명(8월 7일)·상호방위 조항·10월 5일 리야드 긴급회의와 협정 첫 발동은 여러 매체가 일치하며, 파키스탄군의 사우디 주둔 자체도 파키스탄군 대변인이 직접 확인했다. 반면 병력 규모(로이터의 3만~4만 명, 5월의 8,000명·JF-17·HQ-9)는 익명 관리를 인용한 로이터 보도뿐이고 파키스탄 정부는 이를 추측성이라며 거부했으며, 예멘 정부군의 전과와 메카 공격 시도는 양측 주장이 엇갈린다. 공세 개시일은 소스마다 일요일·월요일로 다르고, 리야드 공항 사상자 수는 사우디 당국 발표뿐이며, CSIS(src_art_0010)는 한국 경제 영향을 다룬 글이라 이 주제의 근거로 쓰지 않았다."
+}

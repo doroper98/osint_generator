@@ -2040,6 +2040,501 @@
    "sub": "2003년 7월 1일부터 러시아 시민이 간소화 통행문서로 리투아니아를 …",
    "note": "헤드라인 번역 · 원문 영어",
    "headline_original": "Brussels committed to transit deal"
+  },
+  "gulf_pact_2026_art_0001": {
+   "kind": "article",
+   "title": "The Express Tribune 2026-10-07 — DG ISPR confirms Pakistani deployment in Saudi Arabia under Makkah pact",
+   "license": "헤드라인 번역·요지 자체 조판(원문 인용 15단어 미만, 기사 화면 캡처·로고 없음, 14 §9)",
+   "author": "The Express Tribune",
+   "credit_author": "The Express Tribune",
+   "date": "2026-10-07",
+   "url": "https://tribune.com.pk/story/2633533/makkah-defence-alliance-dg-ispr-says-pakistani-troops-present-in-saudi-arabia",
+   "caption": "The Express Tribune",
+   "file_note": "2026. 10. 07",
+   "depicts": [
+    "파키스탄·사우디아라비아·튀르키예가 8월 7일 메카 공동방위협정에 서명했다"
+   ],
+   "is_file_photo": false,
+   "verified_by": {
+    "by": "code(tools/article_register — sources.json 확인 기록·claims 대조)",
+    "on": "2026-10-11",
+    "casualty_free": true,
+    "relevance": "gulf_pact_2026 원고 claim 근거 기사"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-10-11",
+   "tool": {
+    "name": "article_typeset",
+    "params": {
+     "translation": true
+    }
+   },
+   "headline": "ISPR 사무총장, 메카 협정에 따른 사우디 내 파키스탄군 배치 확인",
+   "sub": "파키스탄·사우디아라비아·튀르키예가 8월 7일 메카 공동방위협정에 서명했다",
+   "note": "헤드라인 번역 · 원문 영어",
+   "headline_original": "DG ISPR confirms Pakistani deployment in Saudi Arabia under Makkah pact"
+  },
+  "gulf_pact_2026_art_0002": {
+   "kind": "article",
+   "title": "Foreign Policy 2026-10-06 — Pakistan, Saudi Arabia, Turkey Trigger Mutual Defense Pact Over Houthi Attacks",
+   "license": "헤드라인 번역·요지 자체 조판(원문 인용 15단어 미만, 기사 화면 캡처·로고 없음, 14 §9)",
+   "author": "Foreign Policy",
+   "credit_author": "Foreign Policy",
+   "date": "2026-10-06",
+   "url": "https://foreignpolicy.com/2026/10/06/saudi-arabia-turkey-pakistan-mutual-defense-pact-houthi-yemen-attacks/",
+   "caption": "Foreign Policy",
+   "file_note": "2026. 10. 06",
+   "depicts": [
+    "메카 공동방위협정은 3국 중 한 나라에 대한 무력 공격을 3국 모두에 …"
+   ],
+   "is_file_photo": false,
+   "verified_by": {
+    "by": "code(tools/article_register — sources.json 확인 기록·claims 대조)",
+    "on": "2026-10-11",
+    "casualty_free": true,
+    "relevance": "gulf_pact_2026 원고 claim 근거 기사"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-10-11",
+   "tool": {
+    "name": "article_typeset",
+    "params": {
+     "translation": true
+    }
+   },
+   "headline": "파키스탄·사우디·튀르키예, 후티 공격에 상호방위협정 발동",
+   "sub": "메카 공동방위협정은 3국 중 한 나라에 대한 무력 공격을 3국 모두에 …",
+   "note": "헤드라인 번역 · 원문 영어",
+   "headline_original": "Pakistan, Saudi Arabia, Turkey Trigger Mutual Defense Pact Over Houthi Attacks"
+  },
+  "gulf_pact_2026_art_0003": {
+   "kind": "article",
+   "title": "Al Jazeera 2026-08-07 — Saudi Arabia, Pakistan and Turkiye sign defence deal amid regional turmoil",
+   "license": "헤드라인 번역·요지 자체 조판(원문 인용 15단어 미만, 기사 화면 캡처·로고 없음, 14 §9)",
+   "author": "Al Jazeera",
+   "credit_author": "Al Jazeera",
+   "date": "2026-08-07",
+   "url": "https://www.aljazeera.com/news/2026/8/7/saudi-%E2%81%A0arabia-pakistan-and-turkiye-sign-defence-deal-amid-regional-turmoil",
+   "caption": "Al Jazeera",
+   "file_note": "2026. 08. 07",
+   "depicts": [
+    "사우디 공공외교 차관 라에드 크림리가 협정이 역내 어느 나라에도 위협이…"
+   ],
+   "is_file_photo": false,
+   "verified_by": {
+    "by": "code(tools/article_register — sources.json 확인 기록·claims 대조)",
+    "on": "2026-10-11",
+    "casualty_free": true,
+    "relevance": "gulf_pact_2026 원고 claim 근거 기사"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-10-11",
+   "tool": {
+    "name": "article_typeset",
+    "params": {
+     "translation": true
+    }
+   },
+   "headline": "사우디·파키스탄·튀르키예, 역내 혼란 속 방위 협정 체결",
+   "sub": "사우디 공공외교 차관 라에드 크림리가 협정이 역내 어느 나라에도 위협이…",
+   "note": "헤드라인 번역 · 원문 영어",
+   "headline_original": "Saudi Arabia, Pakistan and Turkiye sign defence deal amid regional turmoil"
+  },
+  "gulf_pact_2026_art_0004": {
+   "kind": "article",
+   "title": "Middle East Eye 2026-05-18 — Pakistan deployed 8,000 troops, a Chinese air defence system and warplanes to Saudi Arabia: Report",
+   "license": "헤드라인 번역·요지 자체 조판(원문 인용 15단어 미만, 기사 화면 캡처·로고 없음, 14 §9)",
+   "author": "Middle East Eye",
+   "credit_author": "Middle East Eye",
+   "date": "2026-05-18",
+   "url": "https://www.middleeasteye.net/news/pakistan-deployed-8000-troops-chinese-air-defence-and-warplanes-saudi-arabia-report",
+   "caption": "Middle East Eye",
+   "file_note": "2026. 05. 18",
+   "depicts": [
+    "사우디아라비아와 파키스탄이 2025년 9월 17일 양자 전략적 상호방위…"
+   ],
+   "is_file_photo": false,
+   "verified_by": {
+    "by": "code(tools/article_register — sources.json 확인 기록·claims 대조)",
+    "on": "2026-10-11",
+    "casualty_free": true,
+    "relevance": "gulf_pact_2026 원고 claim 근거 기사"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-10-11",
+   "tool": {
+    "name": "article_typeset",
+    "params": {
+     "translation": true
+    }
+   },
+   "headline": "\"파키스탄, 사우디에 병력 8천 명·중국제 방공체계·전투기 배치\" 보도",
+   "sub": "사우디아라비아와 파키스탄이 2025년 9월 17일 양자 전략적 상호방위…",
+   "note": "헤드라인 번역 · 원문 영어",
+   "headline_original": "Pakistan deployed 8,000 troops, a Chinese air defence system and warplanes to Saudi Arabia: Report"
+  },
+  "gulf_pact_2026_art_0005": {
+   "kind": "article",
+   "title": "Al Jazeera 2026-10-10 — Saudi Arabia says 12 killed, 300 wounded in Houthi attack on Riyadh airport",
+   "license": "헤드라인 번역·요지 자체 조판(원문 인용 15단어 미만, 기사 화면 캡처·로고 없음, 14 §9)",
+   "author": "Al Jazeera",
+   "credit_author": "Al Jazeera",
+   "date": "2026-10-10",
+   "url": "https://www.aljazeera.com/news/2026/10/10/attack-on-airport-in-saudi-capital-riyadh-leaves-several-injured",
+   "caption": "Al Jazeera",
+   "file_note": "2026. 10. 10",
+   "depicts": [
+    "사우디 주도 연합군·예멘 정부군이 10월 초 후티 점령지 탈환 공세를 …"
+   ],
+   "is_file_photo": false,
+   "verified_by": {
+    "by": "code(tools/article_register — sources.json 확인 기록·claims 대조)",
+    "on": "2026-10-11",
+    "casualty_free": true,
+    "relevance": "gulf_pact_2026 원고 claim 근거 기사"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-10-11",
+   "tool": {
+    "name": "article_typeset",
+    "params": {
+     "translation": true
+    }
+   },
+   "headline": "사우디 \"리야드 공항 후티 공격으로 12명 사망·300명 부상\"",
+   "sub": "사우디 주도 연합군·예멘 정부군이 10월 초 후티 점령지 탈환 공세를 …",
+   "note": "헤드라인 번역 · 원문 영어",
+   "headline_original": "Saudi Arabia says 12 killed, 300 wounded in Houthi attack on Riyadh airport"
+  },
+  "gulf_pact_2026_art_0006": {
+   "kind": "article",
+   "title": "Khaama Press 2026-10-03 — Pakistan Deploys Up to 40,000 Troops to Saudi Arabia: Reuters",
+   "license": "헤드라인 번역·요지 자체 조판(원문 인용 15단어 미만, 기사 화면 캡처·로고 없음, 14 §9)",
+   "author": "Khaama Press",
+   "credit_author": "Khaama Press",
+   "date": "2026-10-03",
+   "url": "https://www.khaama.com/pakistan-deploys-up-to-40000-troops-to-saudi-arabia-reuters/",
+   "caption": "Khaama Press",
+   "file_note": "2026. 10. 03",
+   "depicts": [
+    "파키스탄·사우디아라비아·튀르키예가 8월 7일 메카 공동방위협정에 서명했다"
+   ],
+   "is_file_photo": false,
+   "verified_by": {
+    "by": "code(tools/article_register — sources.json 확인 기록·claims 대조)",
+    "on": "2026-10-11",
+    "casualty_free": true,
+    "relevance": "gulf_pact_2026 원고 claim 근거 기사"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-10-11",
+   "tool": {
+    "name": "article_typeset",
+    "params": {
+     "translation": true
+    }
+   },
+   "headline": "로이터 \"파키스탄, 사우디에 최대 4만 명 배치\"",
+   "sub": "파키스탄·사우디아라비아·튀르키예가 8월 7일 메카 공동방위협정에 서명했다",
+   "note": "헤드라인 번역 · 원문 영어",
+   "headline_original": "Pakistan Deploys Up to 40,000 Troops to Saudi Arabia: Reuters"
+  },
+  "gulf_pact_2026_art_0007": {
+   "kind": "article",
+   "title": "The Nation 2026-10-07 — DG ISPR confirms Pakistani troops have been stationed in Saudi Arabia for decades",
+   "license": "헤드라인 번역·요지 자체 조판(원문 인용 15단어 미만, 기사 화면 캡처·로고 없음, 14 §9)",
+   "author": "The Nation",
+   "credit_author": "The Nation",
+   "date": "2026-10-07",
+   "url": "https://www.nation.com.pk/07-Oct-2026/dg-ispr-confirms-pakistani-troops-stationed-saudi-arabia-decades",
+   "caption": "The Nation",
+   "file_note": "2026. 10. 07",
+   "depicts": [
+    "파키스탄군 대변인(DG ISPR) 아흐메드 샤리프 차우드리 중장이 10…"
+   ],
+   "is_file_photo": false,
+   "verified_by": {
+    "by": "code(tools/article_register — sources.json 확인 기록·claims 대조)",
+    "on": "2026-10-11",
+    "casualty_free": true,
+    "relevance": "gulf_pact_2026 원고 claim 근거 기사"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-10-11",
+   "tool": {
+    "name": "article_typeset",
+    "params": {
+     "translation": true
+    }
+   },
+   "headline": "ISPR 사무총장 \"파키스탄군, 수십 년째 사우디 주둔\"",
+   "sub": "파키스탄군 대변인(DG ISPR) 아흐메드 샤리프 차우드리 중장이 10…",
+   "note": "헤드라인 번역 · 원문 영어",
+   "headline_original": "DG ISPR confirms Pakistani troops have been stationed in Saudi Arabia for decades"
+  },
+  "gulf_pact_2026_art_0008": {
+   "kind": "article",
+   "title": "Al Jazeera 2026-08-31 — Pakistan, Saudi Arabia, Turkiye meet: What's next for their defence pact?",
+   "license": "헤드라인 번역·요지 자체 조판(원문 인용 15단어 미만, 기사 화면 캡처·로고 없음, 14 §9)",
+   "author": "Al Jazeera",
+   "credit_author": "Al Jazeera",
+   "date": "2026-08-31",
+   "url": "https://www.aljazeera.com/news/2026/8/31/pakistan-saudi-arabia-turkiye-meet-whats-next-for-their-defence-pact",
+   "caption": "Al Jazeera",
+   "file_note": "2026. 08. 31",
+   "depicts": [
+    "파키스탄·사우디아라비아·튀르키예가 8월 7일 메카 공동방위협정에 서명했다"
+   ],
+   "is_file_photo": false,
+   "verified_by": {
+    "by": "code(tools/article_register — sources.json 확인 기록·claims 대조)",
+    "on": "2026-10-11",
+    "casualty_free": true,
+    "relevance": "gulf_pact_2026 원고 claim 근거 기사"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-10-11",
+   "tool": {
+    "name": "article_typeset",
+    "params": {
+     "translation": true
+    }
+   },
+   "headline": "파키스탄·사우디·튀르키예 회동 — 방위 협정의 다음 단계는",
+   "sub": "파키스탄·사우디아라비아·튀르키예가 8월 7일 메카 공동방위협정에 서명했다",
+   "note": "헤드라인 번역 · 원문 영어",
+   "headline_original": "Pakistan, Saudi Arabia, Turkiye meet: What's next for their defence pact?"
+  },
+  "gulf_pact_2026_art_0011": {
+   "kind": "article",
+   "title": "ARY News 2025-09-17 — Pakistan-Saudi Arabia strategic alliance: Aggressors warned 'strike one, face both'",
+   "license": "헤드라인 번역·요지 자체 조판(원문 인용 15단어 미만, 기사 화면 캡처·로고 없음, 14 §9)",
+   "author": "ARY News",
+   "credit_author": "ARY News",
+   "date": "2025-09-17",
+   "url": "https://arynews.tv/pakistan-and-saudi-arabia-sign-defense-agreement",
+   "caption": "ARY News",
+   "file_note": "2025. 09. 17",
+   "depicts": [
+    "사우디아라비아와 파키스탄이 2025년 9월 17일 양자 전략적 상호방위…"
+   ],
+   "is_file_photo": false,
+   "verified_by": {
+    "by": "code(tools/article_register — sources.json 확인 기록·claims 대조)",
+    "on": "2026-10-11",
+    "casualty_free": true,
+    "relevance": "gulf_pact_2026 원고 claim 근거 기사"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-10-11",
+   "tool": {
+    "name": "article_typeset",
+    "params": {
+     "translation": true
+    }
+   },
+   "headline": "파키스탄·사우디 전략 동맹 \"하나를 치면 둘을 상대한다\"",
+   "sub": "사우디아라비아와 파키스탄이 2025년 9월 17일 양자 전략적 상호방위…",
+   "note": "헤드라인 번역 · 원문 영어",
+   "headline_original": "Pakistan-Saudi Arabia strategic alliance: Aggressors warned 'strike one, face both'"
+  },
+  "gulf_pact_2026_art_0012": {
+   "kind": "article",
+   "title": "Asia News Network (Dawn) 2025-09-18 — Pakistan and Saudi Arabia sign defence pact pledging joint response to aggression",
+   "license": "헤드라인 번역·요지 자체 조판(원문 인용 15단어 미만, 기사 화면 캡처·로고 없음, 14 §9)",
+   "author": "Asia News Network (Dawn)",
+   "credit_author": "Asia News Network (Dawn)",
+   "date": "2025-09-18",
+   "url": "https://asianews.network/pakistan-and-saudi-arabia-sign-defence-pact-pledging-joint-response-to-aggression/",
+   "caption": "Asia News Network (Dawn)",
+   "file_note": "2025. 09. 18",
+   "depicts": [
+    "사우디아라비아와 파키스탄이 2025년 9월 17일 양자 전략적 상호방위…"
+   ],
+   "is_file_photo": false,
+   "verified_by": {
+    "by": "code(tools/article_register — sources.json 확인 기록·claims 대조)",
+    "on": "2026-10-11",
+    "casualty_free": true,
+    "relevance": "gulf_pact_2026 원고 claim 근거 기사"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-10-11",
+   "tool": {
+    "name": "article_typeset",
+    "params": {
+     "translation": true
+    }
+   },
+   "headline": "파키스탄·사우디, 침략에 공동 대응 약속하는 방위 협정 서명",
+   "sub": "사우디아라비아와 파키스탄이 2025년 9월 17일 양자 전략적 상호방위…",
+   "note": "헤드라인 번역 · 원문 영어",
+   "headline_original": "Pakistan and Saudi Arabia sign defence pact pledging joint response to aggression"
+  },
+  "gulf_pact_2026_art_0013": {
+   "kind": "article",
+   "title": "TIME 2026-10-08 — Houthi Attacks on Saudi Airports Kill 3 Amid Escalating War in Yemen",
+   "license": "헤드라인 번역·요지 자체 조판(원문 인용 15단어 미만, 기사 화면 캡처·로고 없음, 14 §9)",
+   "author": "TIME",
+   "credit_author": "TIME",
+   "date": "2026-10-08",
+   "url": "https://time.com/article/2026/10/08/saudi-arabia-yemen-houthi-rebels-airport-attacks-war/",
+   "caption": "TIME",
+   "file_note": "2026. 10. 08",
+   "depicts": [
+    "파키스탄·사우디아라비아·튀르키예가 8월 7일 메카 공동방위협정에 서명했다"
+   ],
+   "is_file_photo": false,
+   "verified_by": {
+    "by": "code(tools/article_register — sources.json 확인 기록·claims 대조)",
+    "on": "2026-10-11",
+    "casualty_free": true,
+    "relevance": "gulf_pact_2026 원고 claim 근거 기사"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-10-11",
+   "tool": {
+    "name": "article_typeset",
+    "params": {
+     "translation": true
+    }
+   },
+   "headline": "후티의 사우디 공항 공격으로 3명 사망 — 예멘 전쟁 격화",
+   "sub": "파키스탄·사우디아라비아·튀르키예가 8월 7일 메카 공동방위협정에 서명했다",
+   "note": "헤드라인 번역 · 원문 영어",
+   "headline_original": "Houthi Attacks on Saudi Airports Kill 3 Amid Escalating War in Yemen"
+  },
+  "gulf_pact_2026_art_0014": {
+   "kind": "article",
+   "title": "Business Standard 2026-10-06 — Pak, Saudi, Turkey agree on rapid force deployment amid Houthi attacks",
+   "license": "헤드라인 번역·요지 자체 조판(원문 인용 15단어 미만, 기사 화면 캡처·로고 없음, 14 §9)",
+   "author": "Business Standard",
+   "credit_author": "Business Standard",
+   "date": "2026-10-06",
+   "url": "https://www.business-standard.com/amp/world-news/pak-saudi-turkey-agree-on-rapid-force-deployment-amid-houthi-attacks-126100600055_1.html",
+   "caption": "Business Standard",
+   "file_note": "2026. 10. 06",
+   "depicts": [
+    "메카 공동방위협정은 3국 중 한 나라에 대한 무력 공격을 3국 모두에 …"
+   ],
+   "is_file_photo": false,
+   "verified_by": {
+    "by": "code(tools/article_register — sources.json 확인 기록·claims 대조)",
+    "on": "2026-10-11",
+    "casualty_free": true,
+    "relevance": "gulf_pact_2026 원고 claim 근거 기사"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-10-11",
+   "tool": {
+    "name": "article_typeset",
+    "params": {
+     "translation": true
+    }
+   },
+   "headline": "파키스탄·사우디·튀르키예, 후티 공격 속 신속 병력 배치 합의",
+   "sub": "메카 공동방위협정은 3국 중 한 나라에 대한 무력 공격을 3국 모두에 …",
+   "note": "헤드라인 번역 · 원문 영어",
+   "headline_original": "Pak, Saudi, Turkey agree on rapid force deployment amid Houthi attacks"
+  },
+  "gulf_pact_2026_art_0015": {
+   "kind": "article",
+   "title": "Al Jazeera 2026-08-11 — What are Saudi Arabia, Turkiye and Pakistan's joint military capabilities?",
+   "license": "헤드라인 번역·요지 자체 조판(원문 인용 15단어 미만, 기사 화면 캡처·로고 없음, 14 §9)",
+   "author": "Al Jazeera",
+   "credit_author": "Al Jazeera",
+   "date": "2026-08-11",
+   "url": "https://www.aljazeera.com/news/2026/8/11/what-are-saudi-arabia-turkiye-and-pakistans-joint-military-capabilities",
+   "caption": "Al Jazeera",
+   "file_note": "2026. 08. 11",
+   "depicts": [
+    "파키스탄·사우디아라비아·튀르키예가 8월 7일 메카 공동방위협정에 서명했다"
+   ],
+   "is_file_photo": false,
+   "verified_by": {
+    "by": "code(tools/article_register — sources.json 확인 기록·claims 대조)",
+    "on": "2026-10-11",
+    "casualty_free": true,
+    "relevance": "gulf_pact_2026 원고 claim 근거 기사"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-10-11",
+   "tool": {
+    "name": "article_typeset",
+    "params": {
+     "translation": true
+    }
+   },
+   "headline": "사우디·튀르키예·파키스탄의 합동 군사력은",
+   "sub": "파키스탄·사우디아라비아·튀르키예가 8월 7일 메카 공동방위협정에 서명했다",
+   "note": "헤드라인 번역 · 원문 영어",
+   "headline_original": "What are Saudi Arabia, Turkiye and Pakistan's joint military capabilities?"
+  },
+  "gulf_pact_2026_art_0016": {
+   "kind": "article",
+   "title": "Minute Mirror 2026-10-06 — Pakistan rejects Reuters report on Saudi troop deployment",
+   "license": "헤드라인 번역·요지 자체 조판(원문 인용 15단어 미만, 기사 화면 캡처·로고 없음, 14 §9)",
+   "author": "Minute Mirror",
+   "credit_author": "Minute Mirror",
+   "date": "2026-10-06",
+   "url": "https://minutemirror.com.pk/pakistan-rejects-reuters-report-on-saudi-troop-deployment-640378/",
+   "caption": "Minute Mirror",
+   "file_note": "2026. 10. 06",
+   "depicts": [
+    "파키스탄·사우디아라비아·튀르키예가 8월 7일 메카 공동방위협정에 서명했다"
+   ],
+   "is_file_photo": false,
+   "verified_by": {
+    "by": "code(tools/article_register — sources.json 확인 기록·claims 대조)",
+    "on": "2026-10-11",
+    "casualty_free": true,
+    "relevance": "gulf_pact_2026 원고 claim 근거 기사"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-10-11",
+   "tool": {
+    "name": "article_typeset",
+    "params": {
+     "translation": true
+    }
+   },
+   "headline": "파키스탄, 사우디 병력 배치 로이터 보도 반박",
+   "sub": "파키스탄·사우디아라비아·튀르키예가 8월 7일 메카 공동방위협정에 서명했다",
+   "note": "헤드라인 번역 · 원문 영어",
+   "headline_original": "Pakistan rejects Reuters report on Saudi troop deployment"
+  },
+  "gulf_pact_2026_art_0017": {
+   "kind": "article",
+   "title": "ARY News 2026-10-08 — Pakistan rejects report on use of air force against Houthis",
+   "license": "헤드라인 번역·요지 자체 조판(원문 인용 15단어 미만, 기사 화면 캡처·로고 없음, 14 §9)",
+   "author": "ARY News",
+   "credit_author": "ARY News",
+   "date": "2026-10-08",
+   "url": "https://arynews.tv/pakistan-rejects-report-on-use-of-air-force-against-houthis",
+   "caption": "ARY News",
+   "file_note": "2026. 10. 08",
+   "depicts": [
+    "파키스탄 정보방송부가 10월 8일 파키스탄 공군의 후티 공격 투입 가능…"
+   ],
+   "is_file_photo": false,
+   "verified_by": {
+    "by": "code(tools/article_register — sources.json 확인 기록·claims 대조)",
+    "on": "2026-10-11",
+    "casualty_free": true,
+    "relevance": "gulf_pact_2026 원고 claim 근거 기사"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-10-11",
+   "tool": {
+    "name": "article_typeset",
+    "params": {
+     "translation": true
+    }
+   },
+   "headline": "파키스탄, 후티 상대 공군 투입 보도 부인",
+   "sub": "파키스탄 정보방송부가 10월 8일 파키스탄 공군의 후티 공격 투입 가능…",
+   "note": "헤드라인 번역 · 원문 영어",
+   "headline_original": "Pakistan rejects report on use of air force against Houthis"
   }
  }
 }

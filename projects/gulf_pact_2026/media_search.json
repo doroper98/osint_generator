@@ -1,0 +1,206 @@
+{
+ "schema_version": 1,
+ "searches": [
+  {
+   "sid": "troop_numbers_0",
+   "query": "JF-17 Thunder Pakistan Air Force hastemplate:\"PD-USGov-Military\"",
+   "pool": "us_dod_pd",
+   "on": "2026-10-11",
+   "found": 0,
+   "passed": 0,
+   "top": [],
+   "rejected": []
+  },
+  {
+   "sid": "troop_numbers_0",
+   "query": "JF-17 Thunder Pakistan Air Force",
+   "pool": "commons_cc",
+   "on": "2026-10-11",
+   "found": 6,
+   "passed": 1,
+   "top": [
+    "File:Pakistan Air Force JF-17 at Paris Air Show 2015.jpg"
+   ],
+   "rejected": [
+    "CC BY-SA 4.0",
+    "GFDL 1.2"
+   ]
+  },
+  {
+   "sid": "troop_numbers_2",
+   "query": "Patriot missile Saudi Arabia hastemplate:\"PD-USGov-Military\"",
+   "pool": "us_dod_pd",
+   "on": "2026-10-11",
+   "found": 2,
+   "passed": 2,
+   "top": [
+    "File:Explosive ordnance disposal technicians inspect the remains of an Iraqi Scud missile that was shot down by an intercepting Patriot missile during Operation Desert Storm - DPLA - 881132fa351187295532e1fefc86aa47.jpeg",
+    "File:ISN 339's Guantanamo detainee assessment.pdf"
+   ],
+   "rejected": []
+  },
+  {
+   "sid": "troop_numbers_2",
+   "query": "Patriot missile Saudi Arabia",
+   "pool": "commons_cc",
+   "on": "2026-10-11",
+   "found": 6,
+   "passed": 6,
+   "top": [
+    "File:BALLISTIC MISSILE DEFENSE IN THE MIDDLE EAST (IA ballisticmissile1094562291).pdf",
+    "File:Bahrain’s Crown Prince signs the purchase of Patriot missile.jpg",
+    "File:Explosive ordnance disposal technicians inspect the remains of an Iraqi Scud missile that was shot down by an intercepting Patriot missile during Operation Desert Storm - DPLA - 881132fa351187295532e1fefc86aa47.jpeg",
+    "File:Missile defense certification examination of the U.S. Navy Aegis warship and U.S. Army patriot crew certification process (IA missiledefensece109453879).pdf",
+    "File:The Patriot missile system - a review and analysis of its acquisition process (IA thepatriotmissil1094530869).pdf"
+   ],
+   "rejected": []
+  },
+  {
+   "sid": "troop_numbers_3",
+   "query": "Pakistan Army soldiers hastemplate:\"PD-USGov-Military\"",
+   "pool": "us_dod_pd",
+   "on": "2026-10-11",
+   "found": 6,
+   "passed": 6,
+   "top": [
+    "File:A Pakistani detainee explains his plight as a Taliban member to US Army (USA) Soldiers with the 65 Military Police Company, 187 Battalion, 10th Mountain Division, in the prison at S - DPLA - a76eee0a1715a95c21fb731b008c4222.jpeg",
+    "File:Pakistani soldiers hustle to unload U.S. medical supplies DVIDS11297.jpg",
+    "File:The Iraqi Army, Organization and Tactics.pdf",
+    "File:U.S. Army soldiers and Afghan border police walk a snowy ridgeline as they leave Observation Point 12 along the Afghanistan-Pakistan border to a waiting UH-60 Black Hawk helicopter in the Kunar province of Afgh 130121-A-ZQ422-0109.jpg",
+    "File:U.S. Soldiers with Security Force Assistance Teams Seven and Nine, Texas Army National Guard, provide security outside an Afghan Border Police checkpoint near the Afghanistan-Pakistan border in Spin Boldak 130401-A-MX357-081.jpg"
+   ],
+   "rejected": []
+  },
+  {
+   "sid": "troop_numbers_3",
+   "query": "Pakistan Army soldiers",
+   "pool": "commons_cc",
+   "on": "2026-10-11",
+   "found": 6,
+   "passed": 5,
+   "top": [
+    "File:Action by Sepoy Khudadad Khan VC Ypres.jpg",
+    "File:Khudadad khan vc1915.jpg",
+    "File:M45 Quadmount-1965 Indo-Pakistani War.jpg",
+    "File:Pakistan army in kargil.jpg",
+    "File:Pakistani Soldiers in a captured Indian army jeep.jpg"
+   ],
+   "rejected": [
+    "CC BY-SA 4.0"
+   ]
+  },
+  {
+   "sid": "riyadh_airport_0",
+   "query": "King Khalid International Airport hastemplate:\"PD-USGov-Military\"",
+   "pool": "us_dod_pd",
+   "on": "2026-10-11",
+   "found": 6,
+   "passed": 6,
+   "top": [
+    "File:110406-F-DQ383-004.JPG (5595115805).jpg",
+    "File:A C-21A Learjet aircraft arrives at Riyadh Air Base, transporting MAJ. GEN. Gunther Greindl, an Austrian officer en route to Kuwait. Greindl will command a peacekeeping force in the - DPLA - 113084d759f16866415b490a8b49bfa3.jpeg",
+    "File:Defense.gov photo essay 070117-D-7203T-012.jpg",
+    "File:Defense.gov photo essay 110406-F-DQ383-004.jpg",
+    "File:Defense.gov photo essay 110406-F-DQ383-007.jpg"
+   ],
+   "rejected": []
+  },
+  {
+   "sid": "riyadh_airport_0",
+   "query": "King Khalid International Airport",
+   "pool": "commons_cc",
+   "on": "2026-10-11",
+   "found": 6,
+   "passed": 4,
+   "top": [
+    "File:King Khalid International Airport, Riyadh Saudi Arabia - panoramio.jpg",
+    "File:King Khalid International Airport, Riyadh Saudi Arabia - panoramio (1).jpg",
+    "File:Riyadh-airport.jpg",
+    "File:Trump at King Khalid International Airport.jpg"
+   ],
+   "rejected": [
+    "CC BY-SA 4.0",
+    "Public domain 제한"
+   ]
+  },
+  {
+   "sid": "riyadh_airport_10",
+   "query": "Houthi Yemen hastemplate:\"PD-USGov-Military\"",
+   "pool": "us_dod_pd",
+   "on": "2026-10-11",
+   "found": 2,
+   "passed": 2,
+   "top": [
+    "File:140128 U ISN037 HEARING TRANSCRIPT DETAINEE SESSION PUBLIC.pdf",
+    "File:CENTCOM Forces Launch Large Scale Operation Against Iran-Backed Houthis in Yemen (955450).webm"
+   ],
+   "rejected": []
+  },
+  {
+   "sid": "riyadh_airport_10",
+   "query": "Houthi Yemen",
+   "pool": "commons_cc",
+   "on": "2026-10-11",
+   "found": 6,
+   "passed": 6,
+   "top": [
+    "File:Houthi movement (orthographic projection).svg",
+    "File:Houthis demonstration in Yemen.jpg",
+    "File:Traffic police, Sanaa.webp",
+    "File:US striking Houthi positions in Yemen.webm",
+    "File:Yemen Houthi 200 rials 2025 01.jpg"
+   ],
+   "rejected": []
+  },
+  {
+   "sid": "briefing_2",
+   "query": "Yemen Houthi missile hastemplate:\"PD-USGov-Military\"",
+   "pool": "us_dod_pd",
+   "on": "2026-10-11",
+   "found": 0,
+   "passed": 0,
+   "top": [],
+   "rejected": []
+  },
+  {
+   "sid": "briefing_2",
+   "query": "Yemen Houthi missile",
+   "pool": "commons_cc",
+   "on": "2026-10-11",
+   "found": 6,
+   "passed": 6,
+   "top": [
+    "File:2024 missile strikes against Yemen.png",
+    "File:2024 missile strikes against Yemen.svg",
+    "File:INSURGENCY IN YEMEN- HOUTHI AND INSURGENT THREATS TO MARITIME OPERATIONS (IA insurgencyinyeme1094561208).pdf",
+    "File:Letter to Secretary Hegseth regarding Yemen strikes - April 24 2025.pdf",
+    "File:Mehr infographic - Yemeni missile attacks on Saudi Arabia.jpg"
+   ],
+   "rejected": []
+  },
+  {
+   "sid": "briefing_3",
+   "query": "Riyadh skyline hastemplate:\"PD-USGov-Military\"",
+   "pool": "us_dod_pd",
+   "on": "2026-10-11",
+   "found": 0,
+   "passed": 0,
+   "top": [],
+   "rejected": []
+  },
+  {
+   "sid": "briefing_3",
+   "query": "Riyadh skyline",
+   "pool": "commons_cc",
+   "on": "2026-10-11",
+   "found": 6,
+   "passed": 1,
+   "top": [
+    "File:Riyadh Skyline New.jpg"
+   ],
+   "rejected": [
+    "CC BY-SA 4.0"
+   ]
+  }
+ ]
+}

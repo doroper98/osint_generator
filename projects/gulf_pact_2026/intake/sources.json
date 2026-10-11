@@ -1,0 +1,389 @@
+{
+ "schema_version": 1,
+ "sources": [
+  {
+   "id": "src_art_0001",
+   "url": "https://tribune.com.pk/story/2633533/makkah-defence-alliance-dg-ispr-says-pakistani-troops-present-in-saudi-arabia",
+   "retrieved_at": "2026-10-11",
+   "lang": "en",
+   "verification": {
+    "status": "corroborated",
+    "checks": [
+     "claims:8"
+    ],
+    "notes": ""
+   },
+   "confirmed_by": "opus(대행 — D-0179·사용자 주제 결정 D156, 원문 URL·매체·날짜 대조)",
+   "confirmed_at": "2026-10-11T03:48:30.934586Z",
+   "note": "",
+   "type": "article",
+   "publisher": "The Express Tribune",
+   "headline_original": "DG ISPR confirms Pakistani deployment in Saudi Arabia under Makkah pact",
+   "published_at": "2026-10-07",
+   "key_facts": [
+    "DG ISPR confirms Pakistani deployment in Saudi Arabia under Makkah pact"
+   ],
+   "headline_ko": "ISPR 사무총장, 메카 협정에 따른 사우디 내 파키스탄군 배치 확인"
+  },
+  {
+   "id": "src_art_0002",
+   "url": "https://foreignpolicy.com/2026/10/06/saudi-arabia-turkey-pakistan-mutual-defense-pact-houthi-yemen-attacks/",
+   "retrieved_at": "2026-10-11",
+   "lang": "en",
+   "verification": {
+    "status": "corroborated",
+    "checks": [
+     "claims:11"
+    ],
+    "notes": ""
+   },
+   "confirmed_by": "opus(대행 — D-0179·사용자 주제 결정 D156, 원문 URL·매체·날짜 대조)",
+   "confirmed_at": "2026-10-11T03:48:31.468135Z",
+   "note": "",
+   "type": "article",
+   "publisher": "Foreign Policy",
+   "headline_original": "Pakistan, Saudi Arabia, Turkey Trigger Mutual Defense Pact Over Houthi Attacks",
+   "published_at": "2026-10-06",
+   "key_facts": [
+    "Pakistan, Saudi Arabia, Turkey Trigger Mutual Defense Pact Over Houthi Attacks"
+   ],
+   "headline_ko": "파키스탄·사우디·튀르키예, 후티 공격에 상호방위협정 발동"
+  },
+  {
+   "id": "src_art_0003",
+   "url": "https://www.aljazeera.com/news/2026/8/7/saudi-%E2%81%A0arabia-pakistan-and-turkiye-sign-defence-deal-amid-regional-turmoil",
+   "retrieved_at": "2026-10-11",
+   "lang": "en",
+   "verification": {
+    "status": "unverified",
+    "checks": [
+     "claims:2"
+    ],
+    "notes": ""
+   },
+   "confirmed_by": "opus(대행 — D-0179·사용자 주제 결정 D156, 원문 URL·매체·날짜 대조)",
+   "confirmed_at": "2026-10-11T03:48:32.054689Z",
+   "note": "",
+   "type": "article",
+   "publisher": "Al Jazeera",
+   "headline_original": "Saudi Arabia, Pakistan and Turkiye sign defence deal amid regional turmoil",
+   "published_at": "2026-08-07",
+   "key_facts": [
+    "Saudi Arabia, Pakistan and Turkiye sign defence deal amid regional turmoil"
+   ],
+   "headline_ko": "사우디·파키스탄·튀르키예, 역내 혼란 속 방위 협정 체결"
+  },
+  {
+   "id": "src_art_0004",
+   "url": "https://www.middleeasteye.net/news/pakistan-deployed-8000-troops-chinese-air-defence-and-warplanes-saudi-arabia-report",
+   "retrieved_at": "2026-10-11",
+   "lang": "en",
+   "verification": {
+    "status": "corroborated",
+    "checks": [
+     "claims:4"
+    ],
+    "notes": ""
+   },
+   "confirmed_by": "opus(대행 — D-0179·사용자 주제 결정 D156, 원문 URL·매체·날짜 대조)",
+   "confirmed_at": "2026-10-11T03:48:32.587121Z",
+   "note": "",
+   "type": "article",
+   "publisher": "Middle East Eye",
+   "headline_original": "Pakistan deployed 8,000 troops, a Chinese air defence system and warplanes to Saudi Arabia: Report",
+   "published_at": "2026-05-18",
+   "key_facts": [
+    "Pakistan deployed 8,000 troops, a Chinese air defence system and warplanes to Saudi Arabia: Report"
+   ],
+   "headline_ko": "\"파키스탄, 사우디에 병력 8천 명·중국제 방공체계·전투기 배치\" 보도"
+  },
+  {
+   "id": "src_art_0005",
+   "url": "https://www.aljazeera.com/news/2026/10/10/attack-on-airport-in-saudi-capital-riyadh-leaves-several-injured",
+   "retrieved_at": "2026-10-11",
+   "lang": "en",
+   "verification": {
+    "status": "corroborated",
+    "checks": [
+     "claims:11"
+    ],
+    "notes": ""
+   },
+   "confirmed_by": "opus(대행 — D-0179·사용자 주제 결정 D156, 원문 URL·매체·날짜 대조)",
+   "confirmed_at": "2026-10-11T03:48:33.144777Z",
+   "note": "",
+   "type": "article",
+   "publisher": "Al Jazeera",
+   "headline_original": "Saudi Arabia says 12 killed, 300 wounded in Houthi attack on Riyadh airport",
+   "published_at": "2026-10-10",
+   "key_facts": [
+    "Saudi Arabia says 12 killed, 300 wounded in Houthi attack on Riyadh airport"
+   ],
+   "headline_ko": "사우디 \"리야드 공항 후티 공격으로 12명 사망·300명 부상\""
+  },
+  {
+   "id": "src_art_0006",
+   "url": "https://www.khaama.com/pakistan-deploys-up-to-40000-troops-to-saudi-arabia-reuters/",
+   "retrieved_at": "2026-10-11",
+   "lang": "en",
+   "verification": {
+    "status": "corroborated",
+    "checks": [
+     "claims:8"
+    ],
+    "notes": ""
+   },
+   "confirmed_by": "opus(대행 — D-0179·사용자 주제 결정 D156, 원문 URL·매체·날짜 대조)",
+   "confirmed_at": "2026-10-11T03:48:33.685312Z",
+   "note": "",
+   "type": "article",
+   "publisher": "Khaama Press",
+   "headline_original": "Pakistan Deploys Up to 40,000 Troops to Saudi Arabia: Reuters",
+   "published_at": "2026-10-03",
+   "key_facts": [
+    "Pakistan Deploys Up to 40,000 Troops to Saudi Arabia: Reuters"
+   ],
+   "headline_ko": "로이터 \"파키스탄, 사우디에 최대 4만 명 배치\""
+  },
+  {
+   "id": "src_art_0007",
+   "url": "https://www.nation.com.pk/07-Oct-2026/dg-ispr-confirms-pakistani-troops-stationed-saudi-arabia-decades",
+   "retrieved_at": "2026-10-11",
+   "lang": "en",
+   "verification": {
+    "status": "corroborated",
+    "checks": [
+     "claims:2"
+    ],
+    "notes": ""
+   },
+   "confirmed_by": "opus(대행 — D-0179·사용자 주제 결정 D156, 원문 URL·매체·날짜 대조)",
+   "confirmed_at": "2026-10-11T03:48:34.301242Z",
+   "note": "",
+   "type": "article",
+   "publisher": "The Nation",
+   "headline_original": "DG ISPR confirms Pakistani troops have been stationed in Saudi Arabia for decades",
+   "published_at": "2026-10-07",
+   "key_facts": [
+    "DG ISPR confirms Pakistani troops have been stationed in Saudi Arabia for decades"
+   ],
+   "headline_ko": "ISPR 사무총장 \"파키스탄군, 수십 년째 사우디 주둔\""
+  },
+  {
+   "id": "src_art_0008",
+   "url": "https://www.aljazeera.com/news/2026/8/31/pakistan-saudi-arabia-turkiye-meet-whats-next-for-their-defence-pact",
+   "retrieved_at": "2026-10-11",
+   "lang": "en",
+   "verification": {
+    "status": "corroborated",
+    "checks": [
+     "claims:1"
+    ],
+    "notes": ""
+   },
+   "confirmed_by": "opus(대행 — D-0179·사용자 주제 결정 D156, 원문 URL·매체·날짜 대조)",
+   "confirmed_at": "2026-10-11T03:48:34.854914Z",
+   "note": "",
+   "type": "article",
+   "publisher": "Al Jazeera",
+   "headline_original": "Pakistan, Saudi Arabia, Turkiye meet: What's next for their defence pact?",
+   "published_at": "2026-08-31",
+   "key_facts": [
+    "Pakistan, Saudi Arabia, Turkiye meet: What's next for their defence pact?"
+   ],
+   "headline_ko": "파키스탄·사우디·튀르키예 회동 — 방위 협정의 다음 단계는"
+  },
+  {
+   "id": "src_art_0010",
+   "url": "https://www.csis.org/analysis/impact-iran-conflict-south-korea-numbers",
+   "retrieved_at": "2026-10-11",
+   "lang": "en",
+   "verification": {
+    "status": "unverified",
+    "checks": [
+     "claims:0"
+    ],
+    "notes": ""
+   },
+   "confirmed_by": "opus(대행 — D-0179·사용자 주제 결정 D156, 원문 URL·매체·날짜 대조)",
+   "confirmed_at": "2026-10-11T03:48:35.434898Z",
+   "note": "",
+   "type": "article",
+   "publisher": "CSIS",
+   "headline_original": "The Impact of the Iran Conflict on South Korea: By the Numbers",
+   "published_at": "2026-04-02",
+   "key_facts": [
+    "The Impact of the Iran Conflict on South Korea: By the Numbers"
+   ],
+   "headline_ko": "이란 분쟁이 한국에 미친 영향 — 숫자로 보기"
+  },
+  {
+   "id": "src_art_0011",
+   "url": "https://arynews.tv/pakistan-and-saudi-arabia-sign-defense-agreement",
+   "retrieved_at": "2026-10-11",
+   "lang": "en",
+   "verification": {
+    "status": "corroborated",
+    "checks": [
+     "claims:1"
+    ],
+    "notes": ""
+   },
+   "confirmed_by": "opus(대행 — D-0179·사용자 주제 결정 D156, 원문 URL·매체·날짜 대조)",
+   "confirmed_at": "2026-10-11T03:48:36.009385Z",
+   "note": "",
+   "type": "article",
+   "publisher": "ARY News",
+   "headline_original": "Pakistan-Saudi Arabia strategic alliance: Aggressors warned 'strike one, face both'",
+   "published_at": "2025-09-17",
+   "key_facts": [
+    "Pakistan-Saudi Arabia strategic alliance: Aggressors warned 'strike one, face both'"
+   ],
+   "headline_ko": "파키스탄·사우디 전략 동맹 \"하나를 치면 둘을 상대한다\""
+  },
+  {
+   "id": "src_art_0012",
+   "url": "https://asianews.network/pakistan-and-saudi-arabia-sign-defence-pact-pledging-joint-response-to-aggression/",
+   "retrieved_at": "2026-10-11",
+   "lang": "en",
+   "verification": {
+    "status": "corroborated",
+    "checks": [
+     "claims:1"
+    ],
+    "notes": ""
+   },
+   "confirmed_by": "opus(대행 — D-0179·사용자 주제 결정 D156, 원문 URL·매체·날짜 대조)",
+   "confirmed_at": "2026-10-11T03:48:36.558028Z",
+   "note": "",
+   "type": "article",
+   "publisher": "Asia News Network (Dawn)",
+   "headline_original": "Pakistan and Saudi Arabia sign defence pact pledging joint response to aggression",
+   "published_at": "2025-09-18",
+   "key_facts": [
+    "Pakistan and Saudi Arabia sign defence pact pledging joint response to aggression"
+   ],
+   "headline_ko": "파키스탄·사우디, 침략에 공동 대응 약속하는 방위 협정 서명"
+  },
+  {
+   "id": "src_art_0013",
+   "url": "https://time.com/article/2026/10/08/saudi-arabia-yemen-houthi-rebels-airport-attacks-war/",
+   "retrieved_at": "2026-10-11",
+   "lang": "en",
+   "verification": {
+    "status": "corroborated",
+    "checks": [
+     "claims:10"
+    ],
+    "notes": ""
+   },
+   "confirmed_by": "opus(대행 — D-0179·사용자 주제 결정 D156, 원문 URL·매체·날짜 대조)",
+   "confirmed_at": "2026-10-11T03:48:37.168702Z",
+   "note": "",
+   "type": "article",
+   "publisher": "TIME",
+   "headline_original": "Houthi Attacks on Saudi Airports Kill 3 Amid Escalating War in Yemen",
+   "published_at": "2026-10-08",
+   "key_facts": [
+    "Houthi Attacks on Saudi Airports Kill 3 Amid Escalating War in Yemen"
+   ],
+   "headline_ko": "후티의 사우디 공항 공격으로 3명 사망 — 예멘 전쟁 격화"
+  },
+  {
+   "id": "src_art_0014",
+   "url": "https://www.business-standard.com/amp/world-news/pak-saudi-turkey-agree-on-rapid-force-deployment-amid-houthi-attacks-126100600055_1.html",
+   "retrieved_at": "2026-10-11",
+   "lang": "en",
+   "verification": {
+    "status": "corroborated",
+    "checks": [
+     "claims:9"
+    ],
+    "notes": ""
+   },
+   "confirmed_by": "opus(대행 — D-0179·사용자 주제 결정 D156, 원문 URL·매체·날짜 대조)",
+   "confirmed_at": "2026-10-11T03:48:37.733331Z",
+   "note": "",
+   "type": "article",
+   "publisher": "Business Standard",
+   "headline_original": "Pak, Saudi, Turkey agree on rapid force deployment amid Houthi attacks",
+   "published_at": "2026-10-06",
+   "key_facts": [
+    "Pak, Saudi, Turkey agree on rapid force deployment amid Houthi attacks"
+   ],
+   "headline_ko": "파키스탄·사우디·튀르키예, 후티 공격 속 신속 병력 배치 합의"
+  },
+  {
+   "id": "src_art_0015",
+   "url": "https://www.aljazeera.com/news/2026/8/11/what-are-saudi-arabia-turkiye-and-pakistans-joint-military-capabilities",
+   "retrieved_at": "2026-10-11",
+   "lang": "en",
+   "verification": {
+    "status": "corroborated",
+    "checks": [
+     "claims:3"
+    ],
+    "notes": ""
+   },
+   "confirmed_by": "opus(대행 — D-0179·사용자 주제 결정 D156, 원문 URL·매체·날짜 대조)",
+   "confirmed_at": "2026-10-11T03:48:38.263355Z",
+   "note": "",
+   "type": "article",
+   "publisher": "Al Jazeera",
+   "headline_original": "What are Saudi Arabia, Turkiye and Pakistan's joint military capabilities?",
+   "published_at": "2026-08-11",
+   "key_facts": [
+    "What are Saudi Arabia, Turkiye and Pakistan's joint military capabilities?"
+   ],
+   "headline_ko": "사우디·튀르키예·파키스탄의 합동 군사력은"
+  },
+  {
+   "id": "src_art_0016",
+   "url": "https://minutemirror.com.pk/pakistan-rejects-reuters-report-on-saudi-troop-deployment-640378/",
+   "retrieved_at": "2026-10-11",
+   "lang": "en",
+   "verification": {
+    "status": "corroborated",
+    "checks": [
+     "claims:8"
+    ],
+    "notes": ""
+   },
+   "confirmed_by": "opus(대행 — D-0179·사용자 주제 결정 D156, 원문 URL·매체·날짜 대조)",
+   "confirmed_at": "2026-10-11T03:48:38.837104Z",
+   "note": "",
+   "type": "article",
+   "publisher": "Minute Mirror",
+   "headline_original": "Pakistan rejects Reuters report on Saudi troop deployment",
+   "published_at": "2026-10-06",
+   "key_facts": [
+    "Pakistan rejects Reuters report on Saudi troop deployment"
+   ],
+   "headline_ko": "파키스탄, 사우디 병력 배치 로이터 보도 반박"
+  },
+  {
+   "id": "src_art_0017",
+   "url": "https://arynews.tv/pakistan-rejects-report-on-use-of-air-force-against-houthis",
+   "retrieved_at": "2026-10-11",
+   "lang": "en",
+   "verification": {
+    "status": "corroborated",
+    "checks": [
+     "claims:3"
+    ],
+    "notes": ""
+   },
+   "confirmed_by": "opus(대행 — D-0179·사용자 주제 결정 D156, 원문 URL·매체·날짜 대조)",
+   "confirmed_at": "2026-10-11T03:48:39.385168Z",
+   "note": "",
+   "type": "article",
+   "publisher": "ARY News",
+   "headline_original": "Pakistan rejects report on use of air force against Houthis",
+   "published_at": "2026-10-08",
+   "key_facts": [
+    "Pakistan rejects report on use of air force against Houthis"
+   ],
+   "headline_ko": "파키스탄, 후티 상대 공군 투입 보도 부인"
+  }
+ ]
+}

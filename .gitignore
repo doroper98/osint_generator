@@ -281,3 +281,14 @@ projects/kaliningrad-suwalki/direction.meta.json
 # 내레이션 음성 모델(Supertonic 3, 380MB) — 커밋 금지. 받기·sha1 대조: python tools/fetch_data.py supertonic (v5.11.0 D-0152)
 assets/tts/supertonic/
 assets/tts/mms_fa/
+# v5.20.0 P1 영상(D-0163·D-0179) — 입력·원고·주장·미디어 사유만 추적. 기사 본문(intake/bodies)·LLM 호출 기록(본문 포함)·런타임 산출물은 추적하지 않는다
+projects/gulf_pact_2026/llm_calls/
+projects/gulf_pact_2026/03_tasks/
+projects/gulf_pact_2026/01_intake/
+projects/gulf_pact_2026/project_manifest.json
+projects/gulf_pact_2026/plan.json
+projects/gulf_pact_2026/tts/
+projects/gulf_pact_2026/assets/
+projects/gulf_pact_2026/media/
+projects/gulf_pact_2026/prev/
+projects/gulf_pact_2026/out/

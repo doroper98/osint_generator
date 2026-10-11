@@ -1,0 +1,373 @@
+{
+  "schema_version": 1,
+  "labels": {
+    "open_0": {
+      "status": "corroborated",
+      "label": null,
+      "claim_ids": [
+        "clm_0024"
+      ]
+    },
+    "open_1": {
+      "status": "corroborated",
+      "label": null,
+      "claim_ids": [
+        "clm_0024",
+        "clm_0025"
+      ]
+    },
+    "pact_origin_0": {
+      "status": "corroborated",
+      "label": null,
+      "claim_ids": [
+        "clm_0003"
+      ]
+    },
+    "pact_origin_1": {
+      "status": "corroborated",
+      "label": null,
+      "claim_ids": [
+        "clm_0003"
+      ]
+    },
+    "pact_origin_2": {
+      "status": "corroborated",
+      "label": null,
+      "claim_ids": [
+        "clm_0001"
+      ]
+    },
+    "pact_origin_3": {
+      "status": "corroborated",
+      "label": null,
+      "claim_ids": [
+        "clm_0002"
+      ]
+    },
+    "pact_origin_4": {
+      "status": "corroborated",
+      "label": null,
+      "claim_ids": [
+        "clm_0006"
+      ]
+    },
+    "reactions_0": {
+      "status": "unverified",
+      "label": "<미검증>",
+      "claim_ids": [
+        "clm_0004"
+      ]
+    },
+    "reactions_1": {
+      "status": "unverified",
+      "label": "<미검증>",
+      "claim_ids": [
+        "clm_0005"
+      ]
+    },
+    "mecca_attack_0": {
+      "status": "corroborated",
+      "label": null,
+      "claim_ids": [
+        "clm_0009"
+      ]
+    },
+    "mecca_attack_1": {
+      "status": "corroborated",
+      "label": null,
+      "claim_ids": [
+        "clm_0007"
+      ]
+    },
+    "mecca_attack_2": {
+      "status": "disputed",
+      "label": "<논쟁>",
+      "claim_ids": [
+        "clm_0008"
+      ]
+    },
+    "mecca_attack_3": {
+      "status": "disputed",
+      "label": "<논쟁>",
+      "claim_ids": [
+        "clm_0008"
+      ]
+    },
+    "invocation_0": {
+      "status": "corroborated",
+      "label": null,
+      "claim_ids": [
+        "clm_0010"
+      ]
+    },
+    "invocation_1": {
+      "status": "corroborated",
+      "label": null,
+      "claim_ids": [
+        "clm_0011"
+      ]
+    },
+    "invocation_2": {
+      "status": "unverified",
+      "label": "<미검증>",
+      "claim_ids": [
+        "clm_0012"
+      ]
+    },
+    "invocation_3": {
+      "status": "corroborated",
+      "label": null,
+      "claim_ids": [
+        "clm_0014"
+      ]
+    },
+    "invocation_4": {
+      "status": "unverified",
+      "label": "<미검증>",
+      "claim_ids": [
+        "clm_0013"
+      ]
+    },
+    "invocation_5": {
+      "status": "unverified",
+      "label": "<미검증>",
+      "claim_ids": [
+        "clm_0015"
+      ]
+    },
+    "invocation_6": {
+      "status": "unverified",
+      "label": "<미검증>",
+      "claim_ids": [
+        "clm_0016"
+      ]
+    },
+    "roles_0": {
+      "status": "corroborated",
+      "label": null,
+      "claim_ids": [
+        "clm_0017"
+      ]
+    },
+    "roles_1": {
+      "status": "unverified",
+      "label": "<미검증>",
+      "claim_ids": [
+        "clm_0018"
+      ]
+    },
+    "roles_2": {
+      "status": "corroborated",
+      "label": null,
+      "claim_ids": [
+        "clm_0031"
+      ]
+    },
+    "troop_numbers_0": {
+      "status": "unverified",
+      "label": "<미검증>",
+      "claim_ids": [
+        "clm_0026",
+        "clm_0027",
+        "clm_0028"
+      ]
+    },
+    "troop_numbers_1": {
+      "status": "disputed",
+      "label": "<논쟁>",
+      "claim_ids": [
+        "clm_0020",
+        "clm_0019"
+      ]
+    },
+    "troop_numbers_2": {
+      "status": "disputed",
+      "label": "<논쟁>",
+      "claim_ids": [
+        "clm_0019",
+        "clm_0020"
+      ]
+    },
+    "troop_numbers_3": {
+      "status": "corroborated",
+      "label": null,
+      "claim_ids": [
+        "clm_0021"
+      ]
+    },
+    "troop_numbers_4": {
+      "status": "corroborated",
+      "label": null,
+      "claim_ids": [
+        "clm_0022"
+      ]
+    },
+    "troop_numbers_5": {
+      "status": "corroborated",
+      "label": null,
+      "claim_ids": [
+        "clm_0023"
+      ]
+    },
+    "troop_numbers_6": {
+      "status": "corroborated",
+      "label": null,
+      "claim_ids": [
+        "clm_0024"
+      ]
+    },
+    "troop_numbers_7": {
+      "status": "unverified",
+      "label": "<미검증>",
+      "claim_ids": [
+        "clm_0029"
+      ]
+    },
+    "troop_numbers_8": {
+      "status": "unverified",
+      "label": "<미검증>",
+      "claim_ids": [
+        "clm_0030"
+      ]
+    },
+    "yemen_front_0": {
+      "status": "corroborated",
+      "label": null,
+      "claim_ids": [
+        "clm_0032"
+      ]
+    },
+    "yemen_front_1": {
+      "status": "disputed",
+      "label": "<논쟁>",
+      "claim_ids": [
+        "clm_0033"
+      ]
+    },
+    "yemen_front_2": {
+      "status": "disputed",
+      "label": "<논쟁>",
+      "claim_ids": [
+        "clm_0033"
+      ]
+    },
+    "yemen_front_3": {
+      "status": "unverified",
+      "label": "<미검증>",
+      "claim_ids": [
+        "clm_0035"
+      ]
+    },
+    "riyadh_airport_0": {
+      "status": "corroborated",
+      "label": null,
+      "claim_ids": [
+        "clm_0036"
+      ]
+    },
+    "riyadh_airport_1": {
+      "status": "corroborated",
+      "label": null,
+      "claim_ids": [
+        "clm_0037"
+      ]
+    },
+    "riyadh_airport_2": {
+      "status": "unverified",
+      "label": "<미검증>",
+      "claim_ids": [
+        "clm_0038",
+        "clm_0037"
+      ]
+    },
+    "riyadh_airport_3": {
+      "status": "unverified",
+      "label": "<미검증>",
+      "claim_ids": [
+        "clm_0039"
+      ]
+    },
+    "riyadh_airport_4": {
+      "status": "unverified",
+      "label": "<미검증>",
+      "claim_ids": [
+        "clm_0040"
+      ]
+    },
+    "riyadh_airport_5": {
+      "status": "unverified",
+      "label": "<미검증>",
+      "claim_ids": [
+        "clm_0041"
+      ]
+    },
+    "riyadh_airport_6": {
+      "status": "unverified",
+      "label": "<미검증>",
+      "claim_ids": [
+        "clm_0042"
+      ]
+    },
+    "riyadh_airport_7": {
+      "status": "unverified",
+      "label": "<미검증>",
+      "claim_ids": [
+        "clm_0043"
+      ]
+    },
+    "riyadh_airport_8": {
+      "status": "unverified",
+      "label": "<미검증>",
+      "claim_ids": [
+        "clm_0044"
+      ]
+    },
+    "riyadh_airport_9": {
+      "status": "unverified",
+      "label": "<미검증>",
+      "claim_ids": [
+        "clm_0045"
+      ]
+    },
+    "riyadh_airport_10": {
+      "status": "unverified",
+      "label": "<미검증>",
+      "claim_ids": [
+        "clm_0046"
+      ]
+    },
+    "briefing_0": {
+      "status": "corroborated",
+      "label": null,
+      "claim_ids": [
+        "clm_0003",
+        "clm_0001"
+      ]
+    },
+    "briefing_1": {
+      "status": "corroborated",
+      "label": null,
+      "claim_ids": [
+        "clm_0011",
+        "clm_0024"
+      ]
+    },
+    "briefing_2": {
+      "status": "corroborated",
+      "label": null,
+      "claim_ids": [
+        "clm_0032",
+        "clm_0036"
+      ]
+    },
+    "briefing_3": {
+      "status": "corroborated",
+      "label": null,
+      "claim_ids": [
+        "clm_0011",
+        "clm_0024",
+        "clm_0036"
+      ]
+    }
+  }
+}

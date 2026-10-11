@@ -1,0 +1,18 @@
+# 미디어 사유(D-0163 §2, P1-0) — 게이트 ① 시점. 사진 선택·등록은 P1-2(게이트 ① 승인 뒤 자산 단계, D-0179 §1-4)에서 한다.
+# 아래 "후보" 는 media_search.json 의 실제 검색 결과(2026-10-11, 풀 순서 us_dod_pd → commons_cc)다.
+schema_version: 1
+sentences:
+  troop_numbers_0:
+    photo: "P1-2 에서 선택 — 후보 Commons 'Pakistan Air Force JF-17 at Paris Air Show 2015'(통과 1). 국방부 PD 0건. 다른 5건은 CC BY-SA·GFDL 탈락"
+  troop_numbers_2:
+    photo: "P1-2 에서 선택 — 통과 후보는 걸프 패트리엇 일반 자료(바레인 구매 서명 등)라 관련성 낮음. 요격 장면 PD 를 다시 찾는다"
+  troop_numbers_3:
+    photo: "P1-2 에서 선택 — 후보 DVIDS 'Pakistani soldiers unload U.S. medical supplies'(PD). 예멘 파병 장면은 아님 — 자료사진 표기로만"
+  riyadh_airport_0:
+    photo: "P1-2 에서 선택 — 후보 Commons 'King Khalid International Airport, Riyadh'(panoramio, 통과)·국방부 'Riyadh Air Base'. 공격 현장 사진은 통신사뿐(D172 B 구현 뒤 검토)"
+  riyadh_airport_10:
+    photo: "P1-2 에서 선택 — 후보 CENTCOM 'Operation Against Iran-Backed Houthis in Yemen' 영상(PD). 문장은 트럼프의 거절이라 영상 비트 적합성 검토"
+  briefing_2:
+    photo: "사진 없음이 맞다 — 통과 6건이 모두 지도·도식(2024 missile strikes against Yemen). 이 문장은 지도 무대로"
+  briefing_3:
+    photo: "사진 없음이 맞다 — 'Riyadh Skyline' 은 CC BY-SA 탈락, 통과 1건은 일반 도시 사진. 맺음 문장은 지도 무대로"

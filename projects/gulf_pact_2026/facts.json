@@ -1,0 +1,526 @@
+{
+  "schema_version": 1,
+  "facts": [
+    {
+      "id": "f_bilateral_pact_2025",
+      "text": "사우디아라비아와 파키스탄은 2025년 9월 17일 양자 전략적 상호방위협정에 서명했다.",
+      "date": "2025.09.17",
+      "place": null,
+      "actors": [
+        "사우디아라비아",
+        "파키스탄"
+      ],
+      "numbers": [],
+      "source_ids": [
+        "clm_0003"
+      ],
+      "confidence": "high",
+      "contested": false,
+      "sides": null
+    },
+    {
+      "id": "f_makkah_pact_signed",
+      "text": "파키스탄·사우디아라비아·튀르키예 3국은 8월 7일 메카 공동방위협정에 서명했다. 협정은 한 나라에 대한 무력 공격을 3국 모두에 대한 공격으로 간주한다고 규정한다.",
+      "date": "2026.08.07",
+      "place": "메카",
+      "actors": [
+        "파키스탄",
+        "사우디아라비아",
+        "튀르키예"
+      ],
+      "numbers": [
+        "3국"
+      ],
+      "source_ids": [
+        "clm_0001",
+        "clm_0002"
+      ],
+      "confidence": "high",
+      "contested": false,
+      "sides": null
+    },
+    {
+      "id": "f_pact_reactions",
+      "text": "알자지라에 따르면 사우디 공공외교 차관 라에드 크림리는 협정이 역내 어느 나라에도 위협이 아니라고 밝혔고, 이란 의원 에브라힘 레자에이는 튀르키예·파키스탄과의 종이 협정이 사우디에 안보를 가져다주지 못할 것이라고 말했다.",
+      "date": "2026.08.07",
+      "place": null,
+      "actors": [
+        "라에드 크림리",
+        "에브라힘 레자에이"
+      ],
+      "numbers": [],
+      "source_ids": [
+        "clm_0004",
+        "clm_0005"
+      ],
+      "confidence": "low",
+      "contested": false,
+      "sides": null
+    },
+    {
+      "id": "f_combined_troops",
+      "text": "2026 Global Firepower Index 기준으로 메카 협정 3국의 현역 병력 합계는 약 140만 명이다.",
+      "date": "2026",
+      "place": null,
+      "actors": [
+        "파키스탄",
+        "사우디아라비아",
+        "튀르키예"
+      ],
+      "numbers": [
+        "약 140만 명"
+      ],
+      "source_ids": [
+        "clm_0006"
+      ],
+      "confidence": "high",
+      "contested": false,
+      "sides": null
+    },
+    {
+      "id": "f_mecca_attack_dispute",
+      "text": "3국 군 고위 관계자들은 9월 25일 메카를 겨냥한 공격을 규탄했다. 사우디와 협정 3국은 후티가 메카·메디나를 겨냥한 공격을 시도했다고 주장했고, 후티와 이란은 혐의를 부인했다.",
+      "date": "2026.09.25",
+      "place": "메카",
+      "actors": [
+        "사우디아라비아",
+        "메카 협정 3국",
+        "후티",
+        "이란"
+      ],
+      "numbers": [],
+      "source_ids": [
+        "clm_0007",
+        "clm_0008"
+      ],
+      "confidence": "medium",
+      "contested": true,
+      "sides": [
+        "사우디아라비아·메카 협정 3국: 후티가 메카·메디나를 겨냥한 공격을 시도했다",
+        "후티·이란: 혐의를 부인했다"
+      ]
+    },
+    {
+      "id": "f_houthi_red_sea",
+      "text": "후티 세력은 바브엘만데브 해협을 포함한 예멘 홍해 연안을 장악했다.",
+      "date": "2026",
+      "place": "바브엘만데브 해협",
+      "actors": [
+        "후티"
+      ],
+      "numbers": [],
+      "source_ids": [
+        "clm_0009"
+      ],
+      "confidence": "high",
+      "contested": false,
+      "sides": null
+    },
+    {
+      "id": "f_pact_invoked",
+      "text": "메카 협정의 전략정치국방위원회는 10월 5일 리야드에서 긴급회의를 열고 집단방위 공약의 실제 이행, 즉 협정 발동을 결정했다.",
+      "date": "2026.10.05",
+      "place": "리야드",
+      "actors": [
+        "메카 협정 전략정치국방위원회"
+      ],
+      "numbers": [],
+      "source_ids": [
+        "clm_0010",
+        "clm_0011"
+      ],
+      "confidence": "high",
+      "contested": false,
+      "sides": null
+    },
+    {
+      "id": "f_first_invocation",
+      "text": "포린폴리시는 이번 발동이 8월 서명 이후 처음이라고 보도했다.",
+      "date": "2026.10.05",
+      "place": null,
+      "actors": [
+        "Foreign Policy"
+      ],
+      "numbers": [],
+      "source_ids": [
+        "clm_0012"
+      ],
+      "confidence": "low",
+      "contested": false,
+      "sides": null
+    },
+    {
+      "id": "f_statement_no_houthi",
+      "text": "10월 5일 3국 공동성명은 후티를 위협으로 명시하지 않았다.",
+      "date": "2026.10.05",
+      "place": null,
+      "actors": [
+        "메카 협정 3국"
+      ],
+      "numbers": [],
+      "source_ids": [
+        "clm_0014"
+      ],
+      "confidence": "high",
+      "contested": false,
+      "sides": null
+    },
+    {
+      "id": "f_statement_deploy",
+      "text": "익스프레스 트리뷴은 공동성명이 합의된 군사력을 사우디에 즉시 배치한다고 밝혔다고 보도했고, 비즈니스 스탠더드는 성명이 배치 세부 내용이나 일정은 밝히지 않았다고 보도했다.",
+      "date": "2026.10.05",
+      "place": null,
+      "actors": [
+        "메카 협정 3국"
+      ],
+      "numbers": [],
+      "source_ids": [
+        "clm_0013",
+        "clm_0015"
+      ],
+      "confidence": "low",
+      "contested": false,
+      "sides": null
+    },
+    {
+      "id": "f_turkey_ratification",
+      "text": "포린폴리시는 튀르키예 의회가 아직 메카 공동방위협정을 비준하지 않았다고 보도했다.",
+      "date": "2026.10",
+      "place": null,
+      "actors": [
+        "튀르키예 의회"
+      ],
+      "numbers": [],
+      "source_ids": [
+        "clm_0016"
+      ],
+      "confidence": "low",
+      "contested": false,
+      "sides": null
+    },
+    {
+      "id": "f_asif_support_role",
+      "text": "카와자 아시프 파키스탄 국방장관은 파키스탄과 튀르키예가 정찰 등 지원 역할로 사우디를 돕고 있다고 밝혔다.",
+      "date": "2026.10.05",
+      "place": null,
+      "actors": [
+        "카와자 아시프"
+      ],
+      "numbers": [],
+      "source_ids": [
+        "clm_0017"
+      ],
+      "confidence": "high",
+      "contested": false,
+      "sides": null
+    },
+    {
+      "id": "f_asif_combat",
+      "text": "비즈니스 스탠더드에 따르면 아시프 장관은 전투 작전에는 사우디군만 참여하고 있다고 말했다.",
+      "date": "2026.10.05",
+      "place": null,
+      "actors": [
+        "카와자 아시프"
+      ],
+      "numbers": [],
+      "source_ids": [
+        "clm_0018"
+      ],
+      "confidence": "low",
+      "contested": false,
+      "sides": null
+    },
+    {
+      "id": "f_reuters_report",
+      "text": "로이터는 10월 2일 파키스탄 관리를 인용해 파키스탄이 사우디에 병력 3만~4만 명을 배치했다고 보도했다. 같은 익명 관리는 예멘 전투 파병은 결정하지 않았다고 밝혔다.",
+      "date": "2026.10.02",
+      "place": null,
+      "actors": [
+        "로이터",
+        "익명의 파키스탄 관리"
+      ],
+      "numbers": [
+        "3만~4만 명"
+      ],
+      "source_ids": [
+        "clm_0020",
+        "clm_0021"
+      ],
+      "confidence": "high",
+      "contested": false,
+      "sides": null
+    },
+    {
+      "id": "f_troop_number_dispute",
+      "text": "병력 규모를 두고 로이터는 익명의 파키스탄 관리를 인용해 국경 방어와 드론·미사일 요격을 위해 3만~4만 명이 배치됐다고 보도했고, 파키스탄 정보방송부는 10월 6일 이를 익명 소식통에 기댄 추측성 보도라며 거부하고 배치 세부 내용은 공개하지 않겠다고 밝혔다.",
+      "date": "2026.10.06",
+      "place": null,
+      "actors": [
+        "로이터",
+        "파키스탄 정보방송부"
+      ],
+      "numbers": [
+        "3만~4만 명"
+      ],
+      "source_ids": [
+        "clm_0019",
+        "clm_0022",
+        "clm_0023"
+      ],
+      "confidence": "medium",
+      "contested": true,
+      "sides": [
+        "로이터(익명의 파키스탄 관리 인용): 파키스탄이 국경 방어와 드론·미사일 요격을 위해 3만~4만 명을 배치했다",
+        "파키스탄 정보방송부: 익명 소식통에 기댄 추측성 보도이며 작전 세부사항은 기밀이다"
+      ]
+    },
+    {
+      "id": "f_ispr_confirm",
+      "text": "파키스탄군 대변인 아흐메드 샤리프 차우드리 중장은 10월 7일 CNN 인터뷰에서 파키스탄군이 사우디에 여러 역할로 주둔하고 있다고 공식 확인했다.",
+      "date": "2026.10.07",
+      "place": null,
+      "actors": [
+        "아흐메드 샤리프 차우드리(DG ISPR)",
+        "파키스탄군"
+      ],
+      "numbers": [],
+      "source_ids": [
+        "clm_0024",
+        "clm_0025"
+      ],
+      "confidence": "high",
+      "contested": false,
+      "sides": null
+    },
+    {
+      "id": "f_aden_aircraft",
+      "text": "칸마 프레스가 전한 로이터 보도에 따르면 한 파키스탄 관리는 파키스탄이 9월 방공체계 등을 실은 수송기 4대를 아덴에 보냈다고 밝혔다.",
+      "date": "2026.09",
+      "place": "아덴",
+      "actors": [
+        "익명의 파키스탄 관리"
+      ],
+      "numbers": [
+        "4대"
+      ],
+      "source_ids": [
+        "clm_0029"
+      ],
+      "confidence": "low",
+      "contested": false,
+      "sides": null
+    },
+    {
+      "id": "f_paf_nyt_denial",
+      "text": "ARY 뉴스에 따르면 파키스탄 정보방송부는 10월 8일 파키스탄 공군의 후티 공격 투입 가능성을 다룬 뉴욕타임스 보도를 거부했다.",
+      "date": "2026.10.08",
+      "place": null,
+      "actors": [
+        "파키스탄 정보방송부",
+        "뉴욕타임스"
+      ],
+      "numbers": [],
+      "source_ids": [
+        "clm_0030"
+      ],
+      "confidence": "low",
+      "contested": false,
+      "sides": null
+    },
+    {
+      "id": "f_turkey_support",
+      "text": "튀르키예도 사우디에 군사 지원을 제공했다.",
+      "date": "2026.10",
+      "place": null,
+      "actors": [
+        "튀르키예"
+      ],
+      "numbers": [],
+      "source_ids": [
+        "clm_0031"
+      ],
+      "confidence": "high",
+      "contested": false,
+      "sides": null
+    },
+    {
+      "id": "f_offensive",
+      "text": "사우디 주도 연합군과 예멘 정부군은 10월 초 후티 점령지 탈환 공세를 시작했다.",
+      "date": "2026.10",
+      "place": "예멘",
+      "actors": [
+        "사우디 주도 연합군",
+        "예멘 정부군"
+      ],
+      "numbers": [],
+      "source_ids": [
+        "clm_0032"
+      ],
+      "confidence": "high",
+      "contested": false,
+      "sides": null
+    },
+    {
+      "id": "f_mocha_dispute",
+      "text": "예멘 정부군은 10월 5일 모카에 도달해 후티를 해협에서 밀어냈다고 주장했고, 후티는 이를 부인했다.",
+      "date": "2026.10.05",
+      "place": "모카",
+      "actors": [
+        "예멘 정부군",
+        "후티"
+      ],
+      "numbers": [],
+      "source_ids": [
+        "clm_0033"
+      ],
+      "confidence": "medium",
+      "contested": true,
+      "sides": [
+        "예멘 정부군: 모카에 도달해 후티를 해협에서 밀어냈다",
+        "후티: 정부군 주장을 부인한다"
+      ]
+    },
+    {
+      "id": "f_sanaa_rally",
+      "text": "타임에 따르면 후티 지지자들은 10월 7일 사나에서 튀르키예·파키스탄의 사우디 지원에 반대하는 무장 집회를 열었다.",
+      "date": "2026.10.07",
+      "place": "사나",
+      "actors": [
+        "후티 지지자"
+      ],
+      "numbers": [],
+      "source_ids": [
+        "clm_0035"
+      ],
+      "confidence": "low",
+      "contested": false,
+      "sides": null
+    },
+    {
+      "id": "f_kkia_1008",
+      "text": "후티는 10월 8일 탄도미사일로 리야드 킹칼리드 국제공항을 공격했다고 밝혔고, 이번 주 초 후티의 사우디 공항 공격으로 3명이 숨졌다.",
+      "date": "2026.10.08",
+      "place": "리야드 킹칼리드 국제공항",
+      "actors": [
+        "후티"
+      ],
+      "numbers": [
+        "3명"
+      ],
+      "source_ids": [
+        "clm_0036",
+        "clm_0037"
+      ],
+      "confidence": "high",
+      "contested": false,
+      "sides": null
+    },
+    {
+      "id": "f_kkia_1008_victims",
+      "text": "알자지라에 따르면 사우디 민간항공청은 10월 8일 공격 사망자 3명이 조종사를 포함한 사우디인이라고 밝혔다.",
+      "date": "2026.10.08",
+      "place": "리야드 킹칼리드 국제공항",
+      "actors": [
+        "사우디 민간항공청"
+      ],
+      "numbers": [
+        "3명"
+      ],
+      "source_ids": [
+        "clm_0038"
+      ],
+      "confidence": "low",
+      "contested": false,
+      "sides": null
+    },
+    {
+      "id": "f_riyadh_1010",
+      "text": "알자지라에 따르면 후티는 10월 10일 리야드 킹칼리드 국제공항을 다시 공격했고, 후티 미디어국장은 공항을 폐쇄시켰다고 주장했다.",
+      "date": "2026.10.10",
+      "place": "리야드 킹칼리드 국제공항",
+      "actors": [
+        "후티",
+        "후티 미디어국장"
+      ],
+      "numbers": [],
+      "source_ids": [
+        "clm_0039",
+        "clm_0040"
+      ],
+      "confidence": "low",
+      "contested": false,
+      "sides": null
+    },
+    {
+      "id": "f_riyadh_1010_casualties",
+      "text": "사우디는 10월 10일 공격으로 최소 12명이 숨졌다고 밝혔고, 사우디 민간항공청은 최소 309명이 다쳤다고 밝혔다. 알자지라는 사망자 중 미국 시민 1명이 있다고 보도했다.",
+      "date": "2026.10.10",
+      "place": "리야드 킹칼리드 국제공항",
+      "actors": [
+        "사우디아라비아",
+        "사우디 민간항공청"
+      ],
+      "numbers": [
+        "최소 12명",
+        "최소 309명",
+        "1명"
+      ],
+      "source_ids": [
+        "clm_0041",
+        "clm_0042",
+        "clm_0043"
+      ],
+      "confidence": "low",
+      "contested": false,
+      "sides": null
+    },
+    {
+      "id": "f_coalition_war_crime",
+      "text": "사우디 주도 연합군은 10월 10일 공항 공격을 전면적 전쟁범죄라고 불렀다.",
+      "date": "2026.10.10",
+      "place": null,
+      "actors": [
+        "사우디 주도 연합군"
+      ],
+      "numbers": [],
+      "source_ids": [
+        "clm_0044"
+      ],
+      "confidence": "low",
+      "contested": false,
+      "sides": null
+    },
+    {
+      "id": "f_houthi_airspace",
+      "text": "알자지라에 따르면 후티는 민항기들에 사우디 영공을 피하라고 경고했다.",
+      "date": "2026.10",
+      "place": null,
+      "actors": [
+        "후티"
+      ],
+      "numbers": [],
+      "source_ids": [
+        "clm_0045"
+      ],
+      "confidence": "low",
+      "contested": false,
+      "sides": null
+    },
+    {
+      "id": "f_trump_no_strike",
+      "text": "타임은 트럼프 대통령이 지금까지 후티에 대한 미국의 직접 타격 요청을 거절해 왔다고 보도했다.",
+      "date": "2026.10",
+      "place": null,
+      "actors": [
+        "트럼프 대통령"
+      ],
+      "numbers": [],
+      "source_ids": [
+        "clm_0046"
+      ],
+      "confidence": "low",
+      "contested": false,
+      "sides": null
+    }
+  ]
+}

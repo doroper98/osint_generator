@@ -52,3 +52,36 @@ last_review: 2026-10-11
 
 ### 5. pytest
 전체 1차(c63b189): 1516 passed · 3 failed · 0 skipped(313 subtests, 34분 45초). 3 실패 = 같은 원인 — 새 함수 이름 `article_usage` 가 mux 안의 `engine.layers.article.article_usage` 와 겹쳤다. `article_candidate_usage` 로 바꾼 뒤(21825e0) 그 3개(dark 골든 e2e `test_provenance_e2e`, light e2e `test_q3_light_e2e`, `test_g8_animatic`)와 관련 묶음 재실행 **39 passed**. 합계 **1519 passed · 0 failed · 0 skipped**. dark 25/25·light 25/25 기준선 무변화.
+
+## P1-1 출처 → 검증 → 원고 → 게이트 ① 자료 (v5.20.0, D-0179)
+
+### 1. 순서와 결과
+| 단계 | 명령 | 결과 |
+|---|---|---|
+| 프로젝트 | `orchestrator.main new-project gulf_pact_2026 --category geopolitics --duration-min 5` + `order.yaml`(D156·D-0163 §4·§5 지침) | 장르 지정학(light 기본값) |
+| 출처 | `add-source --kind article --fetch --lang en`(웹 검색으로 원문 URL 확인) | **16건**(파키스탄 3·걸프/중동 4·서방 4·남아시아 3·CSIS 1·ARY 1). 실패·교체: The Week(차단 페이지 → ARY·Dawn 으로 교체), Gulf Business·Arab News(403), Mehr(연결 끊김 → Minute Mirror 로) |
+| 확인 | `confirm-source --by "opus(대행 …)"` | 16/16(사용자 주제 결정 D156 대행 — URL·매체·날짜 대조) |
+| 검증 | `plan-intake` → `submit-intake` → `verify-sources` ×2 | 2차 채택: claim 46(corroborated 20 · unverified 23 · disputed 3, fact 29 · statement 17). 1차(42건)는 `scratchpad` 보관 |
+| 원고 | `build-research` → `build-script` | 11장면 51문장(아래 수정 뒤), 글자 수 추정 459.6초 — 호르무즈 실측 비율(260.66/344.8 = 0.756)로 환산 **약 347초(5분 47초)** |
+| 린트 | `lint-script` | 오류 0 · 경고 1(`[flow-overuse]` 연결어 76% > 70%) |
+| 미디어 | `media_fetch.py search --log` 7문장 · `media_notes.yaml` 7행 · `article_register.py --write`(15건) | 표 판정 통과 — 사진 0/7(선택은 P1-2), 기사 카드 후보 51문장 |
+| 게이트 ① 자료 | `gate-view` → `phaseP1/gulf_pact_gate1.txt` | 상태 `script_approval` — Fable 사실 대조 대기 |
+
+### 2. 원고를 손으로 고친 곳(워커 출력 뒤, 최소 수정)
+| 문장 | 수정 | 이유 |
+|---|---|---|
+| troop_numbers_0(새 문장) | "앞서 5월 로이터는 파키스탄이 병력 8,000명과 전투기 편대, 방공체계를 사우디에 보냈다고 보도했습니다." (clm_0026·0027·0028) | order "배치 규모는 두 수치를 같은 무게로 나란히" — 워커 원고에 5월 8,000명이 빠져 3만~4만만 있었다 |
+| troop_numbers_1 | "이에 앞서 10월 2일" → "그리고 10월 2일" | 새 문장 뒤 시간 순서 |
+| troop_numbers_4·5 | 출처에서 clm_0019(분쟁 사실) 제거 | 린트 `[disputed-claim]` — 이 두 문장은 정보부 반박(clm_0022·0023)을 말한다 |
+| pact_origin_1·2 | "…협정에 서명했습니다" → "…협정을 맺었습니다" | TTS-AP-074(에 + 서 → '에서' 결합) |
+| troop_numbers_8 | 뉴욕타임스 → 뉴욕 타임스 | TTS-AP-072 |
+| riyadh_airport_8 | "불렀습니다" → "밝혔습니다" | unverified 귀속 표현 |
+| troop_numbers_7 | 칸마 프레스 → 카마 프레스 | 매체명 표기(Khaama) |
+`script_labels.json` 은 수정 뒤 `compute_labels` 로 다시 계산했습니다.
+
+### 3. Fable 사실 대조 때 볼 것
+- **한국 연결 고리 없음**: 검증을 두 번 돌려도 CSIS(src_art_0010, 원유 수입 70% 호르무즈 경유·2026-04 기준) 에서 claim 이 나오지 않았다(다른 15건과 주제가 달라 검증 LLM 이 건너뜀). 원고에 한국 단락이 없다 — D-0163 §4 "재사용 가능" 수준이라 막지는 않았다.
+- **길이**: 약 5분 47초(추정). "5분 내외" 보다 조금 길다.
+- 배치 규모: 5월 8,000명(MEE 가 전한 로이터) / 10월 3만~4만 명(Khaama 가 전한 로이터) / 정보부 "추측성 보도" — 세 갈래 모두 원고에 있다. 로이터 원문은 직접 확보하지 못했다(재인용).
+- 사상자: 10월 6~7일 공항 공격(타임, 3명), 10월 8일(알자지라 GACA, 3명), 10월 10일(사우디 12명 · GACA 309명 부상) — 날짜별로 따로 귀속돼 있다.
+- 2025-09-17 양자 협정 조문 "한쪽에 대한 침략 = 양쪽" 은 ARY 기사 본문에만 있다(공동성명 원문 미확보).
