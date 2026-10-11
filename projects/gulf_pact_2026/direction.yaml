@@ -91,11 +91,11 @@ shots:
   scene: null
   stage: null
   reason: null
-- at:
+- at:   # D-0216 UF-97 — 오프닝 이동을 7초로 늘림(옛 4.8초 뒤 4.4초 = 오프닝 zoom 0.399/초 "급격"), 기사 카드(8.7초) 전에 끝남
     sid: open_0
-    'off': 4.8
+    'off': 0.3
   mode: move
-  dur: 4.4
+  dur: 7.0
   camera:
     lon: 57.0
     lat: 26.5
@@ -258,7 +258,8 @@ events:
       sid: open_0
       text: 파키스탄군
   end:
-    scene_end: open
+    sid: open_1   # D-0216 UF-98 — 기사 카드(8.7초)가 덮은 뒤 끝남(제목이 사라질 때 옛 오프닝 뱃지가 다시 비치지 않게)
+    'off': 2.2
   codes:
   - PK
   col: gold
@@ -268,7 +269,8 @@ events:
     sid: open_0
     'off': 2.0
   end:
-    scene_end: open
+    sid: open_1   # D-0216 UF-98 — 기사 카드(8.7초)가 덮은 뒤 끝남(제목이 사라질 때 옛 오프닝 뱃지가 다시 비치지 않게)
+    'off': 2.2
   lon: 66.0
   lat: 27.8
   kind: flag
@@ -281,7 +283,8 @@ events:
     sid: open_1
     'off': 0.1
   end:
-    scene_end: open
+    sid: open_1   # D-0216 UF-98 — 기사 카드(8.7초)가 덮은 뒤 끝남(제목이 사라질 때 옛 오프닝 뱃지가 다시 비치지 않게)
+    'off': 2.2
   codes:
   - SA
   col: teal
@@ -291,7 +294,8 @@ events:
     sid: open_1
     'off': 0.3
   end:
-    scene_end: open
+    sid: open_1   # D-0216 UF-98 — 기사 카드(8.7초)가 덮은 뒤 끝남(제목이 사라질 때 옛 오프닝 뱃지가 다시 비치지 않게)
+    'off': 2.2
   at_place: sa_center
   kind: flag
   flag: sa
@@ -302,10 +306,9 @@ events:
   start:
     sid: open_1
     'off': 1.2
-  end:
-    sid: open_1
+  end:   # D-0216 UF-98 — 제목을 이 기사 카드 위에 띄운다(카드 → 지도 → 어둠 → 제목 깜박임 제거). 제목과 함께 사라진다
+    card: title
     edge: end
-    'off': 0.7
   mid: gulf_pact_2026_art_0001
   theme: dark
 - type: cascade
