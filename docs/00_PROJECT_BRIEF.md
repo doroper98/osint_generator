@@ -1,6 +1,6 @@
 <!--
 tier: 2
-last_synced_with: v6.0.2
+last_synced_with: v6.0.3
 ssot_for: [project-brief]
 depends_on: [../README.md, ../GOAL.md]
 last_review: 2026-09-29

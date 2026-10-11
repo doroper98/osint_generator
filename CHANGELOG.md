@@ -1,6 +1,6 @@
 <!--
 tier: 3
-last_synced_with: v6.0.2
+last_synced_with: v6.0.3
 ssot_for: [release-notes]
 depends_on: [README.md, GOAL.md]
 last_review: 2026-09-28
@@ -63,6 +63,12 @@ released 항목은 **append-only**입니다.
 | v5.0.0 | 87912d2 | G11 GOAL G4-21·claim_kind fact/statement | pass(D-0125) |
 | v5.1.0 | 3619f2c | G12 backdrop 무대·아일랜드·축 스케일·기사 프레스 v2·발음 사전·버전 도장 | pass(D-0127) — 후속 D-0128 완료 |
 | v5.2.0 | d4703d9 | G13 배경 가독·주 아일랜드 상시·보도 인용 = 기사·card-island·라벨 반전 | pass(D-0134) — 후속 겹침 카드 시안(D-0135~D-0138) |
+
+---
+
+## [v6.0.3] — 2026-10-12 — 제목 바탕 규칙 정리 + UF-02 재발 AP (D-0216 2단계)
+
+PATCH: 제목 바탕 규칙(오프닝 기사 카드가 있으면 그 위에 제목, 카드는 흐리게 유지)을 문서·규칙·연출 프롬프트에. RENDER-AP(UF-02 재발 — 연속성만 재고 속도는 안 잼)·opening_establish dur 판정 기록. 의견 원장 게이트 경고화(D217·D218)는 GOAL G3 18행 변경이라 v7.0.0(MAJOR)으로 분리.
 
 ---
 
