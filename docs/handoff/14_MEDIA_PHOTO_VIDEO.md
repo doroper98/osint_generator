@@ -1,6 +1,6 @@
 <!--
 tier: 2
-last_synced_with: v5.21.10
+last_synced_with: v5.21.11
 ssot_for: [v2-media-beats]
 depends_on: [docs/handoff/00_INDEX.md, docs/handoff/15_ANTI_INERTIA_PRINCIPLES.md]
 last_review: 2026-09-27

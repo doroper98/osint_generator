@@ -1,6 +1,6 @@
 <!--
 tier: 3
-last_synced_with: v5.21.10
+last_synced_with: v5.21.11
 ssot_for: [release-notes]
 depends_on: [README.md, GOAL.md]
 last_review: 2026-09-28
@@ -63,6 +63,12 @@ released 항목은 **append-only**입니다.
 | v5.0.0 | 87912d2 | G11 GOAL G4-21·claim_kind fact/statement | pass(D-0125) |
 | v5.1.0 | 3619f2c | G12 backdrop 무대·아일랜드·축 스케일·기사 프레스 v2·발음 사전·버전 도장 | pass(D-0127) — 후속 D-0128 완료 |
 | v5.2.0 | d4703d9 | G13 배경 가독·주 아일랜드 상시·보도 인용 = 기사·card-island·라벨 반전 | pass(D-0134) — 후속 겹침 카드 시안(D-0135~D-0138) |
+
+---
+
+## [v5.21.11] — 2026-10-11 — 경로 이름표 시인성: 선에서 띄운 자리·light 짙은 글자·선 교차/겹침 hard (D-0191 §1-3·D-0192·D-0199·D-0203)
+
+PATCH: 사용자 "선 위의 글씨 시인성"(38·101·275초). 경로 이름표 자리를 렌더·검사 공용 함수로 고른다(옛 자리 우선, 선·지명·뱃지·자막과 걸리면 선에서 수직으로 띄운 후보). light 지도는 짙은 글자 + 밝은 halo + 경로 색 막대. 검사 `route_label_cross`(경로 선 ↔ 이름표·마커 글자)·`route_label_overlap` hard, 이름표 대비 required. 골든 1컷(p_0059.02) 갱신, hormuz 골든 마커 한 개만 면제(D-0203).
 
 ---
 

@@ -1,6 +1,6 @@
 <!--
 tier: 2
-last_synced_with: v5.21.10
+last_synced_with: v5.21.11
 ssot_for: [agent-prompts-template]
 depends_on: [03_AGENT_ARCHITECTURE.md, ../CLAUDE.md]
 last_review: 2026-09-29
