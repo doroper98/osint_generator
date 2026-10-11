@@ -1,0 +1,1081 @@
+{
+  "schema_version": 1,
+  "claims": [
+    {
+      "claim_id": "clm_0001",
+      "text": "한국은 원유 수입의 70%를 호르무즈 해협을 거쳐 들여온다",
+      "source_ids": [
+        "src_art_0010"
+      ],
+      "status": "unverified",
+      "contested": false,
+      "checks": [
+        "quote_match:src_art_0010",
+        "independent_origins:1"
+      ],
+      "attributed_only": false,
+      "claim_kind": "fact",
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0002",
+      "text": "이란 분쟁 중 코스피가 43년 역사상 최악의 단일 거래일을 기록했다",
+      "source_ids": [
+        "src_art_0010"
+      ],
+      "status": "unverified",
+      "contested": false,
+      "checks": [
+        "quote_match:src_art_0010",
+        "independent_origins:1"
+      ],
+      "attributed_only": false,
+      "claim_kind": "fact",
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0003",
+      "text": "이란 분쟁 중 원화 가치가 17년 만의 최저치를 기록했다",
+      "source_ids": [
+        "src_art_0010"
+      ],
+      "status": "unverified",
+      "contested": false,
+      "checks": [
+        "quote_match:src_art_0010",
+        "independent_origins:1"
+      ],
+      "attributed_only": false,
+      "claim_kind": "fact",
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0004",
+      "text": "한국 국적 선박 26척이 페르시아만에 발이 묶였다(2026년 4월 2일 CSIS 기준)",
+      "source_ids": [
+        "src_art_0010"
+      ],
+      "status": "unverified",
+      "contested": false,
+      "checks": [
+        "quote_match:src_art_0010",
+        "independent_origins:1"
+      ],
+      "attributed_only": false,
+      "claim_kind": "fact",
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0005",
+      "text": "분쟁 이전인 2026년 2월 한국 국적 선박 33척이 걸프 해역을 통과했다",
+      "source_ids": [
+        "src_art_0010"
+      ],
+      "status": "unverified",
+      "contested": false,
+      "checks": [
+        "quote_match:src_art_0010",
+        "independent_origins:1"
+      ],
+      "attributed_only": false,
+      "claim_kind": "fact",
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0006",
+      "text": "OECD가 한국의 성장률 전망을 0.4%포인트 낮췄다",
+      "source_ids": [
+        "src_art_0010"
+      ],
+      "status": "unverified",
+      "contested": false,
+      "checks": [
+        "quote_match:src_art_0010",
+        "independent_origins:1"
+      ],
+      "attributed_only": false,
+      "claim_kind": "fact",
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0007",
+      "text": "OECD가 한국의 물가상승률 전망을 2.7%로 올렸다",
+      "source_ids": [
+        "src_art_0010"
+      ],
+      "status": "unverified",
+      "contested": false,
+      "checks": [
+        "quote_match:src_art_0010",
+        "independent_origins:1"
+      ],
+      "attributed_only": false,
+      "claim_kind": "fact",
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0008",
+      "text": "한국 정부가 170억 달러 규모의 추가경정예산을 편성했다",
+      "source_ids": [
+        "src_art_0010"
+      ],
+      "status": "unverified",
+      "contested": false,
+      "checks": [
+        "quote_match:src_art_0010",
+        "independent_origins:1"
+      ],
+      "attributed_only": false,
+      "claim_kind": "fact",
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0009",
+      "text": "한국이 3월 12일 IEA의 4억 배럴 공동 비축유 방출에 2250만 배럴을 내놓았다",
+      "source_ids": [
+        "src_art_0010"
+      ],
+      "status": "unverified",
+      "contested": false,
+      "event_date": "2026-03-12",
+      "checks": [
+        "quote_match:src_art_0010",
+        "quote_match:src_art_0010",
+        "independent_origins:1"
+      ],
+      "attributed_only": false,
+      "claim_kind": "fact",
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0010",
+      "text": "IEA 방출 이후 한국 정부 비축유가 7760만 배럴(실제 소비 기준 약 26일분)로 줄었다",
+      "source_ids": [
+        "src_art_0010"
+      ],
+      "status": "unverified",
+      "contested": false,
+      "checks": [
+        "quote_match:src_art_0010",
+        "independent_origins:1"
+      ],
+      "attributed_only": false,
+      "claim_kind": "fact",
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0011",
+      "text": "한국은 IEA 기준(순수입 기준)으로 208일분의 전략 비축유를 보유하고 있다",
+      "source_ids": [
+        "src_art_0010"
+      ],
+      "status": "unverified",
+      "contested": false,
+      "checks": [
+        "quote_match:src_art_0010",
+        "independent_origins:1"
+      ],
+      "attributed_only": false,
+      "claim_kind": "fact",
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0012",
+      "text": "한국이 3월 18일 아랍에미리트에서 원유 2400만 배럴을 긴급 확보했다",
+      "source_ids": [
+        "src_art_0010"
+      ],
+      "status": "unverified",
+      "contested": false,
+      "event_date": "2026-03-18",
+      "checks": [
+        "quote_match:src_art_0010",
+        "quote_match:src_art_0010",
+        "independent_origins:1"
+      ],
+      "attributed_only": false,
+      "claim_kind": "fact",
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0013",
+      "text": "한국 정부가 나프타 수출을 금지하고 경제안보 품목으로 지정했다",
+      "source_ids": [
+        "src_art_0010"
+      ],
+      "status": "unverified",
+      "contested": false,
+      "checks": [
+        "quote_match:src_art_0010",
+        "independent_origins:1"
+      ],
+      "attributed_only": false,
+      "claim_kind": "fact",
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0014",
+      "text": "한국은 헬륨의 64.7%를 카타르에서 들여왔다",
+      "source_ids": [
+        "src_art_0010"
+      ],
+      "status": "unverified",
+      "contested": false,
+      "checks": [
+        "quote_match:src_art_0010",
+        "independent_origins:1"
+      ],
+      "attributed_only": false,
+      "claim_kind": "fact",
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0015",
+      "text": "이란 분쟁 이후 헬륨 가격이 40% 넘게 올랐다",
+      "source_ids": [
+        "src_art_0010"
+      ],
+      "status": "unverified",
+      "contested": false,
+      "checks": [
+        "quote_match:src_art_0010",
+        "independent_origins:1"
+      ],
+      "attributed_only": false,
+      "claim_kind": "fact",
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0016",
+      "text": "한국반도체산업협회가 단기 헬륨 공급은 충분하다고 밝혔다",
+      "source_ids": [
+        "src_art_0010"
+      ],
+      "status": "unverified",
+      "contested": false,
+      "checks": [
+        "quote_match:src_art_0010",
+        "independent_origins:1",
+        "attributed:src_art_0010"
+      ],
+      "attributed_only": true,
+      "claim_kind": "statement",
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0017",
+      "text": "2026년 5~7월 한국의 전체 원유 수입 중 중동산 비중이 48.5%로 낮아졌다",
+      "source_ids": [
+        "src_art_0019"
+      ],
+      "status": "unverified",
+      "contested": false,
+      "checks": [
+        "quote_match:src_art_0019",
+        "independent_origins:1"
+      ],
+      "attributed_only": false,
+      "claim_kind": "fact",
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0018",
+      "text": "2025년 한국의 중동산 원유 수입 비중은 69.1%였다",
+      "source_ids": [
+        "src_art_0019"
+      ],
+      "status": "unverified",
+      "contested": false,
+      "checks": [
+        "quote_match:src_art_0019",
+        "independent_origins:1"
+      ],
+      "attributed_only": false,
+      "claim_kind": "fact",
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0019",
+      "text": "한국 원유 수입 중 미주 지역 비중이 지난해 23.1%에서 2026년 5~7월 35.6%로 늘었다",
+      "source_ids": [
+        "src_art_0019"
+      ],
+      "status": "unverified",
+      "contested": false,
+      "checks": [
+        "quote_match:src_art_0019",
+        "independent_origins:1"
+      ],
+      "attributed_only": false,
+      "claim_kind": "fact",
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0020",
+      "text": "한국 원유 수입 중 미국산 비중이 2026년 4월 24.6%에 이르렀다",
+      "source_ids": [
+        "src_art_0019"
+      ],
+      "status": "unverified",
+      "contested": false,
+      "checks": [
+        "quote_match:src_art_0019",
+        "independent_origins:1"
+      ],
+      "attributed_only": false,
+      "claim_kind": "fact",
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0021",
+      "text": "산업통상부가 2026년 5~7월 원유 도입 물량을 예년의 85% 내외 수준으로 확보했다고 밝혔다",
+      "source_ids": [
+        "src_art_0019"
+      ],
+      "status": "unverified",
+      "contested": false,
+      "event_date": "2026-05-26",
+      "checks": [
+        "quote_match:src_art_0019",
+        "independent_origins:1",
+        "attributed:src_art_0019"
+      ],
+      "attributed_only": true,
+      "claim_kind": "statement",
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0022",
+      "text": "정부 비축유 스왑 제도로 1500만 배럴이 시장에 공급됐다(2026년 5월 26일 기준)",
+      "source_ids": [
+        "src_art_0019"
+      ],
+      "status": "unverified",
+      "contested": false,
+      "checks": [
+        "quote_match:src_art_0019",
+        "independent_origins:1"
+      ],
+      "attributed_only": false,
+      "claim_kind": "fact",
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0023",
+      "text": "한국 정부가 IEA와 합의한 690만 배럴 비축유 공동 방출에 신중한 입장을 보였다",
+      "source_ids": [
+        "src_art_0019"
+      ],
+      "status": "unverified",
+      "contested": false,
+      "event_date": "2026-05-26",
+      "checks": [
+        "quote_match:src_art_0019",
+        "independent_origins:1"
+      ],
+      "attributed_only": false,
+      "claim_kind": "fact",
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0024",
+      "text": "양기욱 산업통상부 산업자원안보실장이 원유 수입선 다변화를 반드시 추진해야 한다고 강조했다",
+      "source_ids": [
+        "src_art_0019"
+      ],
+      "status": "unverified",
+      "contested": false,
+      "event_date": "2026-05-26",
+      "checks": [
+        "quote_match:src_art_0019",
+        "independent_origins:1",
+        "attributed:src_art_0019"
+      ],
+      "attributed_only": true,
+      "claim_kind": "statement",
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0025",
+      "text": "사우디아라비아·파키스탄·튀르키예가 2026년 8월 7일 메카에서 공동 방위협정(메카 협정)에 서명했다",
+      "source_ids": [
+        "src_art_0018",
+        "src_art_0020"
+      ],
+      "status": "corroborated",
+      "contested": false,
+      "event_date": "2026-08-07",
+      "checks": [
+        "quote_match:src_art_0018",
+        "quote_match:src_art_0020",
+        "independent_origins:2"
+      ],
+      "attributed_only": false,
+      "claim_kind": "fact",
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0026",
+      "text": "메카 협정 최고위원회가 10월 5일 리야드 긴급회의에서 파키스탄·튀르키예 병력의 사우디 배치에 합의했다",
+      "source_ids": [
+        "src_art_0018"
+      ],
+      "status": "unverified",
+      "contested": false,
+      "event_date": "2026-10-05",
+      "checks": [
+        "quote_match:src_art_0018",
+        "independent_origins:1"
+      ],
+      "attributed_only": false,
+      "claim_kind": "fact",
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0027",
+      "text": "메카 협정 공동성명은 배치 병력의 규모나 역할을 명시하지 않았다",
+      "source_ids": [
+        "src_art_0018"
+      ],
+      "status": "unverified",
+      "contested": false,
+      "event_date": "2026-10-05",
+      "checks": [
+        "quote_match:src_art_0018",
+        "independent_origins:1"
+      ],
+      "attributed_only": false,
+      "claim_kind": "fact",
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0028",
+      "text": "사우디 주도 연합군 대변인 투르키 알말리키 소장이 전투기 100대가 예멘 정부군 반격을 지원하고 있다고 밝혔다",
+      "source_ids": [
+        "src_art_0018"
+      ],
+      "status": "unverified",
+      "contested": false,
+      "checks": [
+        "quote_match:src_art_0018",
+        "independent_origins:1",
+        "attributed:src_art_0018"
+      ],
+      "attributed_only": true,
+      "claim_kind": "statement",
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0029",
+      "text": "파키스탄 카와자 아시프 국방장관이 파키스탄군이 이미 역할을 하고 있다고 밝혔다",
+      "source_ids": [
+        "src_art_0018"
+      ],
+      "status": "unverified",
+      "contested": false,
+      "event_date": "2026-10-05",
+      "checks": [
+        "quote_match:src_art_0018",
+        "independent_origins:1",
+        "attributed:src_art_0018"
+      ],
+      "attributed_only": true,
+      "claim_kind": "statement",
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0030",
+      "text": "튀르키예군이 사우디아라비아에 주둔하고 있다",
+      "source_ids": [
+        "src_art_0018"
+      ],
+      "status": "disputed",
+      "contested": true,
+      "sides": [
+        {
+          "party": "파키스탄 국방장관 카와자 아시프",
+          "text": "튀르키예군도 주둔하고 있다",
+          "source_ids": [
+            "src_art_0018"
+          ]
+        },
+        {
+          "party": "튀르키예 정부",
+          "text": "배치를 공개적으로 확인하지 않았다",
+          "source_ids": [
+            "src_art_0018"
+          ]
+        }
+      ],
+      "checks": [
+        "quote_match:src_art_0018",
+        "independent_origins:0",
+        "attributed:src_art_0018"
+      ],
+      "attributed_only": true,
+      "claim_kind": "fact",
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0031",
+      "text": "파키스탄 카와자 아시프 국방장관이 튀르키예군도 주둔하고 있다고 밝혔다",
+      "source_ids": [
+        "src_art_0018"
+      ],
+      "status": "unverified",
+      "contested": false,
+      "event_date": "2026-10-05",
+      "checks": [
+        "quote_match:src_art_0018",
+        "independent_origins:1",
+        "attributed:src_art_0018"
+      ],
+      "attributed_only": true,
+      "claim_kind": "statement",
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0032",
+      "text": "파키스탄은 1967년부터 사우디 군 인력을 훈련시켜 왔다",
+      "source_ids": [
+        "src_art_0018"
+      ],
+      "status": "unverified",
+      "contested": false,
+      "checks": [
+        "quote_match:src_art_0018",
+        "independent_origins:1"
+      ],
+      "attributed_only": false,
+      "claim_kind": "fact",
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0033",
+      "text": "1985년 6월 기밀 해제된 CIA 평가는 사우디군에 복무 중인 파키스탄인을 1만3000~1만4000명으로 추정했다",
+      "source_ids": [
+        "src_art_0018"
+      ],
+      "status": "unverified",
+      "contested": false,
+      "checks": [
+        "quote_match:src_art_0018",
+        "independent_origins:1"
+      ],
+      "attributed_only": false,
+      "claim_kind": "fact",
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0034",
+      "text": "파키스탄 의회가 2015년 4월 예멘 분쟁 중립을 만장일치로 결의했다",
+      "source_ids": [
+        "src_art_0018"
+      ],
+      "status": "unverified",
+      "contested": false,
+      "checks": [
+        "quote_match:src_art_0018",
+        "independent_origins:1"
+      ],
+      "attributed_only": false,
+      "claim_kind": "fact",
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0035",
+      "text": "파키스탄과 사우디아라비아가 2025년 9월 전략적 상호방위협정에 서명했다",
+      "source_ids": [
+        "src_art_0018",
+        "src_art_0021"
+      ],
+      "status": "corroborated",
+      "contested": false,
+      "checks": [
+        "quote_match:src_art_0018",
+        "quote_match:src_art_0021",
+        "independent_origins:2"
+      ],
+      "attributed_only": false,
+      "claim_kind": "fact",
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0036",
+      "text": "파키스탄은 이전부터 사우디아라비아에 군 병력을 주둔시켜 왔다",
+      "source_ids": [
+        "src_art_0018"
+      ],
+      "status": "unverified",
+      "contested": false,
+      "checks": [
+        "quote_match:src_art_0018",
+        "independent_origins:1"
+      ],
+      "attributed_only": false,
+      "claim_kind": "fact",
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0037",
+      "text": "파키스탄 전투기가 2026년 4월 사우디아라비아에 배치됐다",
+      "source_ids": [
+        "src_art_0018",
+        "src_art_0021"
+      ],
+      "status": "corroborated",
+      "contested": false,
+      "checks": [
+        "quote_match:src_art_0018",
+        "quote_match:src_art_0021",
+        "independent_origins:2"
+      ],
+      "attributed_only": false,
+      "claim_kind": "fact",
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0038",
+      "text": "파키스탄은 사우디 주둔 병력 규모를 공개하지 않았다",
+      "source_ids": [
+        "src_art_0018"
+      ],
+      "status": "unverified",
+      "contested": false,
+      "checks": [
+        "quote_match:src_art_0018",
+        "independent_origins:1"
+      ],
+      "attributed_only": false,
+      "claim_kind": "fact",
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0039",
+      "text": "파키스탄이 이란 전쟁 중 사우디아라비아에 병력 약 8000명을 배치했다",
+      "source_ids": [
+        "src_art_0021"
+      ],
+      "status": "disputed",
+      "contested": true,
+      "sides": [
+        {
+          "party": "익명 보안 관리 3명·정부 소식통 2명(로이터 보도, Daily Star 전재)",
+          "text": "병력 약 8000명이 배치됐다",
+          "source_ids": [
+            "src_art_0021"
+          ]
+        },
+        {
+          "party": "파키스탄 정부",
+          "text": "사우디 주둔 병력 규모를 공개하지 않았다",
+          "source_ids": [
+            "src_art_0018"
+          ]
+        }
+      ],
+      "checks": [
+        "quote_match:src_art_0021",
+        "quote_match:src_art_0021",
+        "independent_origins:1",
+        "attributed:src_art_0021"
+      ],
+      "attributed_only": false,
+      "claim_kind": "fact",
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0040",
+      "text": "파키스탄이 JF-17 위주의 전투기 약 16대 규모 1개 편대를 사우디아라비아에 배치했다",
+      "source_ids": [
+        "src_art_0021"
+      ],
+      "status": "unverified",
+      "contested": true,
+      "sides": [
+        {
+          "party": "익명 보안 관리·정부 소식통(로이터 보도, Daily Star 전재)",
+          "text": "전투기 약 16대 1개 편대가 배치됐다",
+          "source_ids": [
+            "src_art_0021"
+          ]
+        }
+      ],
+      "checks": [
+        "quote_match:src_art_0021",
+        "independent_origins:0",
+        "attributed:src_art_0021"
+      ],
+      "attributed_only": true,
+      "claim_kind": "fact",
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0041",
+      "text": "파키스탄이 중국제 HQ-9 방공 체계를 사우디아라비아에 배치했다",
+      "source_ids": [
+        "src_art_0021"
+      ],
+      "status": "unverified",
+      "contested": true,
+      "sides": [
+        {
+          "party": "익명 보안 관리·정부 소식통(로이터 보도, Daily Star 전재)",
+          "text": "HQ-9 방공 체계가 배치됐다",
+          "source_ids": [
+            "src_art_0021"
+          ]
+        }
+      ],
+      "checks": [
+        "quote_match:src_art_0021",
+        "independent_origins:0",
+        "attributed:src_art_0021"
+      ],
+      "attributed_only": true,
+      "claim_kind": "fact",
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0042",
+      "text": "파키스탄-사우디 방위협정은 파키스탄군 최대 8만 명의 사우디 배치 가능성을 담고 있다",
+      "source_ids": [
+        "src_art_0021"
+      ],
+      "status": "unverified",
+      "contested": true,
+      "sides": [
+        {
+          "party": "협정문을 본 익명 정부 소식통(로이터 보도, Daily Star 전재)",
+          "text": "최대 8만 명 배치 가능성을 규정한다",
+          "source_ids": [
+            "src_art_0021"
+          ]
+        }
+      ],
+      "checks": [
+        "quote_match:src_art_0021",
+        "independent_origins:0",
+        "attributed:src_art_0021"
+      ],
+      "attributed_only": true,
+      "claim_kind": "fact",
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0043",
+      "text": "파키스탄이 미국과 이란 사이의 휴전 중재를 도왔다",
+      "source_ids": [
+        "src_art_0021"
+      ],
+      "status": "unverified",
+      "contested": false,
+      "checks": [
+        "quote_match:src_art_0021",
+        "independent_origins:1"
+      ],
+      "attributed_only": false,
+      "claim_kind": "fact",
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0044",
+      "text": "이슬라마바드가 지금까지 유일한 미-이란 평화회담을 개최했다(2026년 5월 18일 기준)",
+      "source_ids": [
+        "src_art_0021"
+      ],
+      "status": "unverified",
+      "contested": false,
+      "checks": [
+        "quote_match:src_art_0021",
+        "independent_origins:1"
+      ],
+      "attributed_only": false,
+      "claim_kind": "fact",
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0045",
+      "text": "사우디아라비아가 이란에 비공개 공습을 여러 차례 감행했다",
+      "source_ids": [
+        "src_art_0021"
+      ],
+      "status": "unverified",
+      "contested": true,
+      "sides": [
+        {
+          "party": "로이터 보도",
+          "text": "사우디가 이란에 비공개 공습을 여러 차례 감행했다",
+          "source_ids": [
+            "src_art_0021"
+          ]
+        }
+      ],
+      "checks": [
+        "quote_match:src_art_0021",
+        "independent_origins:1"
+      ],
+      "attributed_only": false,
+      "claim_kind": "fact",
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0046",
+      "text": "파키스탄이 9월 예멘 정부(아덴)에 무기를 실은 수송기 4대를 보냈다",
+      "source_ids": [
+        "src_art_0020"
+      ],
+      "status": "unverified",
+      "contested": true,
+      "sides": [
+        {
+          "party": "익명 파키스탄 정부 관리(로이터 보도, Middle East Eye 인용)",
+          "text": "방공 체계·경포·드론·대드론 체계를 아덴에 보냈다",
+          "source_ids": [
+            "src_art_0020"
+          ]
+        }
+      ],
+      "checks": [
+        "quote_match:src_art_0020",
+        "quote_match:src_art_0020",
+        "independent_origins:1"
+      ],
+      "attributed_only": false,
+      "claim_kind": "fact",
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0047",
+      "text": "후티가 10월 1일 타이즈 일대 정부군 지역과 아덴을 잇는 다리를 파괴했다",
+      "source_ids": [
+        "src_art_0020"
+      ],
+      "status": "unverified",
+      "contested": false,
+      "event_date": "2026-10-01",
+      "checks": [
+        "quote_match:src_art_0020",
+        "independent_origins:1"
+      ],
+      "attributed_only": false,
+      "claim_kind": "fact",
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0048",
+      "text": "후티가 사우디아라비아가 24시간 동안 94차례 공습했다고 밝혔다",
+      "source_ids": [
+        "src_art_0020"
+      ],
+      "status": "unverified",
+      "contested": false,
+      "event_date": "2026-10-01",
+      "checks": [
+        "quote_match:src_art_0020",
+        "independent_origins:1",
+        "attributed:src_art_0020"
+      ],
+      "attributed_only": true,
+      "claim_kind": "statement",
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0049",
+      "text": "사우디아라비아가 타이즈의 '통합 군사 체계'를 27차례 공습했다고 밝혔다",
+      "source_ids": [
+        "src_art_0020"
+      ],
+      "status": "unverified",
+      "contested": false,
+      "event_date": "2026-10-01",
+      "checks": [
+        "quote_match:src_art_0020",
+        "independent_origins:1",
+        "attributed:src_art_0020"
+      ],
+      "attributed_only": true,
+      "claim_kind": "statement",
+      "notes": "",
+      "direct_quotes": [
+        {
+          "source_id": "src_art_0020",
+          "text": "integrated military system"
+        }
+      ]
+    },
+    {
+      "claim_id": "clm_0050",
+      "text": "후티가 메디나의 타이바 전력 배전소를 드론으로 공격했다",
+      "source_ids": [
+        "src_art_0020"
+      ],
+      "status": "disputed",
+      "contested": true,
+      "sides": [
+        {
+          "party": "사우디 주도 연합군",
+          "text": "드론이 타이바 전력 배전소를 타격했고 후티의 소행이다",
+          "source_ids": [
+            "src_art_0020"
+          ]
+        },
+        {
+          "party": "후티",
+          "text": "관여를 부인했다",
+          "source_ids": [
+            "src_art_0020"
+          ]
+        }
+      ],
+      "event_date": "2026-10-01",
+      "checks": [
+        "quote_match:src_art_0020",
+        "quote_match:src_art_0020",
+        "independent_origins:0",
+        "attributed:src_art_0020"
+      ],
+      "attributed_only": true,
+      "claim_kind": "fact",
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0051",
+      "text": "후티가 홍해에서 사우디 선박에 대한 봉쇄를 시작했다",
+      "source_ids": [
+        "src_art_0020"
+      ],
+      "status": "unverified",
+      "contested": false,
+      "checks": [
+        "quote_match:src_art_0020",
+        "independent_origins:1"
+      ],
+      "attributed_only": false,
+      "claim_kind": "fact",
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0052",
+      "text": "후티가 사우디 동서 송유관을 공격했다",
+      "source_ids": [
+        "src_art_0018"
+      ],
+      "status": "unverified",
+      "contested": false,
+      "checks": [
+        "quote_match:src_art_0018",
+        "independent_origins:1"
+      ],
+      "attributed_only": false,
+      "claim_kind": "fact",
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0053",
+      "text": "사우디 당국이 10월 5일 저녁 국내 공항 두 곳이 공격받아 최소 3명이 다쳤다고 밝혔다",
+      "source_ids": [
+        "src_art_0018"
+      ],
+      "status": "unverified",
+      "contested": false,
+      "event_date": "2026-10-05",
+      "checks": [
+        "quote_match:src_art_0018",
+        "independent_origins:1",
+        "attributed:src_art_0018"
+      ],
+      "attributed_only": true,
+      "claim_kind": "statement",
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0054",
+      "text": "무함마드 빈 살만 왕세자가 9월 29일 리야드에서 만수르 빈 자이드 UAE 부통령을 맞았다",
+      "source_ids": [
+        "src_art_0020"
+      ],
+      "status": "unverified",
+      "contested": false,
+      "event_date": "2026-09-29",
+      "checks": [
+        "quote_match:src_art_0020",
+        "independent_origins:1"
+      ],
+      "attributed_only": false,
+      "claim_kind": "fact",
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0055",
+      "text": "이샤크 다르 파키스탄 부총리 겸 외무장관이 메카 협정에 공격적 의제가 없다고 밝혔다",
+      "source_ids": [
+        "src_art_0018"
+      ],
+      "status": "unverified",
+      "contested": false,
+      "event_date": "2026-10-02",
+      "checks": [
+        "quote_match:src_art_0018",
+        "independent_origins:1",
+        "attributed:src_art_0018"
+      ],
+      "attributed_only": true,
+      "claim_kind": "statement",
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0056",
+      "text": "파키스탄 정보부가 X 게시물에서 성지와 사우디 안보에 대한 공약은 협상 대상이 아니라고 밝혔다",
+      "source_ids": [
+        "src_art_0018"
+      ],
+      "status": "unverified",
+      "contested": false,
+      "event_date": "2026-10-06",
+      "checks": [
+        "quote_match:src_art_0018",
+        "independent_origins:1",
+        "attributed:src_art_0018"
+      ],
+      "attributed_only": true,
+      "claim_kind": "statement",
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0057",
+      "text": "이란 외무부 바가이 대변인이 파키스탄군의 예멘전 배치 보도가 사실이 아니기를 바란다고 밝혔다",
+      "source_ids": [
+        "src_art_0018"
+      ],
+      "status": "unverified",
+      "contested": false,
+      "event_date": "2026-10-04",
+      "checks": [
+        "quote_match:src_art_0018",
+        "independent_origins:1",
+        "attributed:src_art_0018"
+      ],
+      "attributed_only": true,
+      "claim_kind": "statement",
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0058",
+      "text": "예멘 정부군이 최근 잃은 영토 탈환에 목표를 한정하지 않겠다고 밝혔다",
+      "source_ids": [
+        "src_art_0018"
+      ],
+      "status": "unverified",
+      "contested": false,
+      "checks": [
+        "quote_match:src_art_0018",
+        "independent_origins:1",
+        "attributed:src_art_0018"
+      ],
+      "attributed_only": true,
+      "claim_kind": "statement",
+      "notes": ""
+    }
+  ]
+}

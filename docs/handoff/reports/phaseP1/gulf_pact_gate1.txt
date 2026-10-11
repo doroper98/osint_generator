@@ -2,69 +2,67 @@
 
 장면 목록
   open       문장  2  예상   18.0초
-  pact_origin 문장  5  예상   42.4초
-  reactions  문장  2  예상   25.7초
-  mecca_attack 문장  4  예상   30.6초
-  invocation 문장  7  예상   58.1초
-  roles      문장  3  예상   27.9초
-  troop_numbers 문장  9  예상   93.8초
-  yemen_front 문장  4  예상   36.6초
-  riyadh_airport 문장 11  예상   84.9초
-  briefing   문장  4  예상   41.6초
-  합계 51문장 · 예상 459.6초 (글자 수 추정 320자/분)
+  pact_origin 문장  5  예상   43.5초
+  reactions  문장  1  예상   12.9초
+  mecca_attack 문장  3  예상   24.6초
+  invocation 문장  6  예상   47.1초
+  roles      문장  3  예상   30.0초
+  troop_numbers 문장  9  예상   88.1초
+  yemen_front 문장  3  예상   23.2초
+  riyadh_airport 문장  9  예상   70.5초
+  korea      문장  3  예상   38.4초
+  briefing   문장  4  예상   37.3초
+  합계 48문장 · 예상 433.7초 (글자 수 추정 320자/분)
 
 원고 전문(자막) · [검증 라벨]
   open_0       10월 7일, 파키스탄군 대변인 아흐메드 샤리프 차우드리 중장이 CNN 인터뷰에 나섰습니다.
   open_1       그리고 파키스탄군이 사우디아라비아에 여러 역할로 주둔하고 있다고 공식 확인했습니다.
   pact_origin_0 이 주둔의 출발점은 2025년 9월 17일이었습니다.
   pact_origin_1 그날 사우디아라비아와 파키스탄은 양자 전략적 상호방위협정을 맺었습니다.
-  pact_origin_2 이어서 올해 8월 7일, 파키스탄·사우디아라비아·튀르키예 3국이 메카 공동방위협정을 맺었습니다.
-  pact_origin_3 특히 협정은 한 나라에 대한 무력 공격을 3국 모두에 대한 공격으로 간주합니다.
+  pact_origin_2 올해 8월 7일, 파키스탄·사우디아라비아·튀르키예 3국이 메카 공동방위협정을 맺었습니다.
+  pact_origin_3 3국 공동성명은 한 나라에 대한 무력 공격을 3국 모두에 대한 공격으로 간주한다고 밝혔습니다.
   pact_origin_4 이렇게 묶인 3국의 현역 병력은 글로벌 파이어파워 2026 지수 기준 약 140만 명입니다.
-  reactions_0  이에 대해 알자지라에 따르면, 사우디 공공외교 차관 라에드 크림리는 협정이 역내 어느 나라에도 위협이 아니라고 밝혔습니다.  [<미검증>]
-  reactions_1  반면 이란 의원 에브라힘 레자에이는 튀르키예·파키스탄과의 종이 협정이 사우디에 안보를 가져다주지 못할 것이라고 말했습니다.  [<미검증>]
-  mecca_attack_0 한편 예멘의 후티 세력은 바브엘만데브 해협을 포함한 홍해 연안을 장악했습니다.
-  mecca_attack_1 그런데 9월 25일, 3국 군 고위 관계자들은 메카를 겨냥한 공격을 규탄했습니다.
-  mecca_attack_2 사우디와 협정 3국은 후티가 메카와 메디나를 겨냥한 공격을 시도했다고 주장했습니다.  [<논쟁>]
-  mecca_attack_3 반면 후티와 이란은 이 혐의를 부인했습니다.  [<논쟁>]
+  reactions_0  한편 이란 의원 에브라힘 레자에이는 튀르키예·파키스탄과의 종이 협정이 사우디에 안보를 가져다주지 못할 것이라고 말했습니다.  [<미검증>]
+  mecca_attack_0 예멘의 후티 세력은 바브엘만데브 해협을 포함한 홍해 연안을 장악했습니다.
+  mecca_attack_1 9월 25일, 사우디는 후티가 메카를 겨냥한 공격을 시도했다고 비난했고, 3국 군 수뇌부도 메카를 겨냥한 공격을 규탄했습니다.  [<논쟁>]
+  mecca_attack_2 후티와 이란은 이를 부인했습니다.  [<논쟁>]
   invocation_0 이후 10월 5일, 메카 협정의 전략정치국방위원회가 리야드에서 긴급회의를 열었습니다.
   invocation_1 그리고 집단방위 공약을 실제로 이행하는 협정 발동을 결정했습니다.
-  invocation_2 특히 포린폴리시는 이번 발동이 8월 서명 이후 처음이라고 보도했습니다.  [<미검증>]
+  invocation_2 포린폴리시는 이번 발동이 8월 서명 이후 처음이라고 보도했습니다.  [<미검증>]
   invocation_3 다만 같은 날 나온 3국 공동성명은 후티를 위협으로 명시하지 않았습니다.
-  invocation_4 또한 익스프레스 트리뷴은 성명이 합의된 군사력을 사우디에 즉시 배치한다고 밝혔다고 보도했습니다.  [<미검증>]
-  invocation_5 반면 비즈니스 스탠더드는 성명이 배치 세부 내용이나 일정은 밝히지 않았다고 보도했습니다.  [<미검증>]
-  invocation_6 한편 포린폴리시는 튀르키예 의회가 아직 이 협정을 비준하지 않았다고 보도했습니다.  [<미검증>]
-  roles_0      이에 카와자 아시프 파키스탄 국방장관은 파키스탄과 튀르키예가 정찰 등 지원 역할로 사우디를 돕고 있다고 밝혔습니다.
+  invocation_4 익스프레스 트리뷴에 따르면, 성명은 합의된 군사력을 사우디에 즉시 배치한다고 밝혔습니다.  [<미검증>]
+  invocation_5 포린폴리시는 튀르키예 의회가 아직 이 협정을 비준하지 않았다고 보도했습니다.  [<미검증>]
+  roles_0      이에 대해 카와자 아시프 파키스탄 국방장관은 파키스탄과 튀르키예가 정찰 등 지원 역할로 사우디를 돕고 있다고 밝혔습니다.
   roles_1      다만 비즈니스 스탠더드에 따르면, 아시프 장관은 전투 작전에는 사우디군만 참여하고 있다고 말했습니다.  [<미검증>]
-  roles_2      그리고 튀르키예도 사우디에 군사 지원을 제공했습니다.
+  roles_2      로이터에 따르면 튀르키예도 사우디에 방어·기술 지원을 보냈습니다.
   troop_numbers_0 앞서 5월 로이터는 파키스탄이 병력 8,000명과 전투기 편대, 방공체계를 사우디에 보냈다고 보도했습니다.  [<미검증>]
   troop_numbers_1 그리고 10월 2일, 로이터는 파키스탄이 사우디에 병력 3만~4만 명을 배치했다고 보도했습니다.  [<논쟁>]
   troop_numbers_2 로이터는 익명의 파키스탄 관리를 인용해 이 병력이 국경 방어와 드론·미사일 요격을 맡았다고 전했습니다.  [<논쟁>]
-  troop_numbers_3 또한 같은 관리는 예멘 전투 파병은 결정하지 않았다고 밝혔습니다.
+  troop_numbers_3 같은 관리는 예멘 전투 파병은 결정하지 않았다고 밝혔습니다.
   troop_numbers_4 반면 파키스탄 정보방송부는 10월 6일 이를 익명 소식통에 기댄 추측성 보도라며 거부했습니다.
   troop_numbers_5 그러면서 작전 세부사항은 기밀이라며 배치 내용은 공개하지 않겠다고 밝혔습니다.
-  troop_numbers_6 이어서 10월 7일, 앞서 본 군 대변인의 CNN 인터뷰로 주둔 사실이 공식 확인됐습니다.
-  troop_numbers_7 게다가 카마 프레스가 전한 로이터 보도에 따르면, 한 파키스탄 관리는 9월 방공체계 등을 실은 수송기 4대를 아덴에 보냈다고 밝혔습니다.  [<미검증>]
-  troop_numbers_8 한편 ARY 뉴스에 따르면, 정보방송부는 10월 8일 파키스탄 공군의 후티 공격 투입 가능성을 다룬 뉴욕 타임스 보도를 거부했습니다.  [<미검증>]
+  troop_numbers_6 10월 7일, 앞서 본 군 대변인의 CNN 인터뷰로 주둔 사실이 공식 확인됐습니다.
+  troop_numbers_7 로이터는 파키스탄이 9월 방공체계와 드론 등을 실은 수송기 4대를 예멘 아덴에 보냈다고 보도했습니다.  [<미검증>]
+  troop_numbers_8 ARY 뉴스에 따르면, 정보방송부는 10월 8일 파키스탄 공군의 후티 공격 투입 가능성을 다룬 뉴욕 타임스 보도를 거부했습니다.  [<미검증>]
   yemen_front_0 한편 예멘에서는 사우디 주도 연합군과 예멘 정부군이 10월 초 후티 점령지 탈환 공세를 시작했습니다.
   yemen_front_1 예멘 정부군은 10월 5일 모카에 도달해 후티를 해협에서 밀어냈다고 주장했습니다.  [<논쟁>]
   yemen_front_2 반면 후티는 정부군의 이 주장을 부인했습니다.  [<논쟁>]
-  yemen_front_3 그리고 타임에 따르면, 후티 지지자들은 10월 7일 사나에서 튀르키예·파키스탄의 사우디 지원에 반대하는 무장 집회를 열었습니다.  [<미검증>]
-  riyadh_airport_0 이어서 후티는 10월 8일 탄도미사일로 리야드 킹칼리드 국제공항을 공격했다고 밝혔습니다.
-  riyadh_airport_1 이 공항 공격으로 3명이 숨졌습니다.
-  riyadh_airport_2 알자지라에 따르면, 사우디 민간항공청은 사망자 3명이 조종사를 포함한 사우디인이라고 밝혔습니다.  [<미검증>]
-  riyadh_airport_3 그 뒤 알자지라는 후티가 10월 10일 같은 공항을 다시 공격했다고 보도했습니다.  [<미검증>]
-  riyadh_airport_4 그러면서 후티 미디어국장은 공항을 폐쇄시켰다고 주장했습니다.  [<미검증>]
-  riyadh_airport_5 이에 대해 사우디는 이 공격으로 최소 12명이 숨졌다고 밝혔습니다.  [<미검증>]
-  riyadh_airport_6 또한 사우디 민간항공청은 최소 309명이 다쳤다고 밝혔습니다.  [<미검증>]
-  riyadh_airport_7 특히 알자지라는 사망자 가운데 미국 시민 1명이 있다고 보도했습니다.  [<미검증>]
-  riyadh_airport_8 이에 사우디 주도 연합군은 공항 공격을 전면적 전쟁범죄라고 밝혔습니다.  [<미검증>]
-  riyadh_airport_9 한편 알자지라에 따르면, 후티는 민항기들에 사우디 영공을 피하라고 경고했습니다.  [<미검증>]
-  riyadh_airport_10 그리고 타임은 트럼프 대통령이 지금까지 후티에 대한 미국의 직접 타격 요청을 거절해 왔다고 보도했습니다.  [<미검증>]
-  briefing_0   2025년 양자 협정에서 출발해 올해 8월 튀르키예까지 묶은 3국 집단방위 체제, 메카 협정.
+  riyadh_airport_0 후티는 10월 8일 탄도미사일로 리야드 킹칼리드 국제공항을 공격했다고 밝혔습니다.
+  riyadh_airport_1 사우디 민간항공청은 이 공격으로 조종사를 포함한 사우디인 최소 3명이 숨졌다고 밝혔습니다.  [<미검증>]
+  riyadh_airport_2 그 뒤 알자지라는 후티가 10월 10일 같은 공항을 다시 공격했다고 보도했습니다.  [<미검증>]
+  riyadh_airport_3 사우디는 이 공격으로 최소 12명이 숨졌다고 밝혔습니다.  [<미검증>]
+  riyadh_airport_4 사우디 민간항공청은 최소 309명이 다쳤다고 밝혔습니다.  [<미검증>]
+  riyadh_airport_5 이에 대해 알자지라는 사망자 가운데 미국 시민 1명이 있다고 보도했습니다.  [<미검증>]
+  riyadh_airport_6 사우디 주도 연합군은 공항 공격을 전면적 전쟁범죄라고 밝혔습니다.  [<미검증>]
+  riyadh_airport_7 알자지라에 따르면, 후티는 민항기들에 사우디 영공을 피하라고 경고했습니다.  [<미검증>]
+  riyadh_airport_8 타임은 트럼프 대통령이 지금까지 후티에 대한 미국의 직접 타격 요청을 거절해 왔다고 보도했습니다.  [<미검증>]
+  korea_0      미국 CSIS, 전략국제문제연구소는 올해 4월 분석에서 한국 원유 수입의 70%가 호르무즈 해협을 지난다고 밝혔습니다.  [<미검증>]
+  korea_1      이후 산업통상부는 지난해 69.1%였던 중동산 원유 비중이 올해 5~7월 48.5%로 내려갔다고 밝혔습니다.  [<미검증>]
+  korea_2      또한 미주산 원유 비중은 지난해 23.1%에서 35.6%로 늘었다고 밝혔습니다.  [<미검증>]
+  briefing_0   2025년 양자 협정에서 시작해 올해 튀르키예까지 묶은 집단방위 체제, 메카 협정.
   briefing_1   그 협정이 10월 5일 발동됐고, 이틀 뒤 파키스탄군은 사우디 주둔을 공식 확인했습니다.
   briefing_2   동시에 예멘에서는 탈환 공세가 시작됐고, 후티는 리야드 공항을 탄도미사일로 공격했다고 밝혔습니다.
-  briefing_3   집단방위 발동과 파키스탄군 주둔, 수도 공항을 향한 미사일이 맞물리며 걸프의 긴장은 한층 뜨겁게 달아오르고 있습니다.
+  briefing_3   집단방위 발동과 파키스탄군 주둔, 그리고 수도 공항을 향한 미사일이 같은 주에 겹쳤습니다.
 
 출처 표
   open_0       clm_0024
@@ -74,19 +72,16 @@
   pact_origin_2 clm_0001
   pact_origin_3 clm_0002
   pact_origin_4 clm_0006
-  reactions_0  clm_0004
-  reactions_1  clm_0005
+  reactions_0  clm_0005
   mecca_attack_0 clm_0009
-  mecca_attack_1 clm_0007
+  mecca_attack_1 clm_0008, clm_0007
   mecca_attack_2 clm_0008
-  mecca_attack_3 clm_0008
   invocation_0 clm_0010
   invocation_1 clm_0011
   invocation_2 clm_0012
   invocation_3 clm_0014
   invocation_4 clm_0013
-  invocation_5 clm_0015
-  invocation_6 clm_0016
+  invocation_5 clm_0016
   roles_0      clm_0017
   roles_1      clm_0018
   roles_2      clm_0031
@@ -97,39 +92,38 @@
   troop_numbers_4 clm_0022
   troop_numbers_5 clm_0023
   troop_numbers_6 clm_0024
-  troop_numbers_7 clm_0029
+  troop_numbers_7 clm_0051
   troop_numbers_8 clm_0030
   yemen_front_0 clm_0032
   yemen_front_1 clm_0033
   yemen_front_2 clm_0033
-  yemen_front_3 clm_0035
-  riyadh_airport_0 clm_0036
-  riyadh_airport_1 clm_0037
-  riyadh_airport_2 clm_0038, clm_0037
-  riyadh_airport_3 clm_0039
-  riyadh_airport_4 clm_0040
-  riyadh_airport_5 clm_0041
-  riyadh_airport_6 clm_0042
-  riyadh_airport_7 clm_0043
-  riyadh_airport_8 clm_0044
-  riyadh_airport_9 clm_0045
-  riyadh_airport_10 clm_0046
+  riyadh_airport_0 clm_0037
+  riyadh_airport_1 clm_0038
+  riyadh_airport_2 clm_0039
+  riyadh_airport_3 clm_0041
+  riyadh_airport_4 clm_0042
+  riyadh_airport_5 clm_0043
+  riyadh_airport_6 clm_0044
+  riyadh_airport_7 clm_0045
+  riyadh_airport_8 clm_0046
+  korea_0      clm_0047
+  korea_1      clm_0049, clm_0048
+  korea_2      clm_0050
   briefing_0   clm_0003, clm_0001
   briefing_1   clm_0011, clm_0024
-  briefing_2   clm_0032, clm_0036
-  briefing_3   clm_0011, clm_0024, clm_0036
+  briefing_2   clm_0032, clm_0037
+  briefing_3   clm_0011, clm_0024, clm_0037
 
-린트 — 오류 0 · 경고 1
-  경고 [flow-overuse] -: 연결어 문장 76% > 70% — 남발도 어색하다 — 
+린트 — 오류 0 · 경고 0
 
 린트 면제 표 — 없음
 
 미디어 후보 — 원고 media 필드 0건
   트리거 제안 — plan.json 이 생기면(voice_timeline 뒤) 표시
 
-검증 라벨 집계 {"verified": 0, "corroborated": 25, "unverified": 20, "disputed": 6}
+검증 라벨 집계 {"verified": 0, "corroborated": 23, "unverified": 19, "disputed": 6}
 
-미디어 계획 표 — 사진 0/7장(분당 1, 460초 추정) · 기사 카드 후보 51문장(60초당 2개까지 쓴다)
+미디어 계획 표 — 사진 0/7장(분당 1, 434초 추정) · 기사 카드 후보 48문장(60초당 2개까지 쓴다)
   문장         인용 출처              기사(등록/미등록)        사진 찾음/통과/선택      사유
   open_0       clm_0024               gulf_pact_2026_art_0001,gulf_pact_2026_art_0007 0/0/-                  
   open_1       clm_0024,clm_0025      gulf_pact_2026_art_0001,gulf_pact_2026_art_0007 0/0/-                  
@@ -138,19 +132,16 @@
   pact_origin_2 clm_0001               gulf_pact_2026_art_0001,gulf_pact_2026_art_0006,gulf_pact_2026_art_0016,gulf_pact_2026_art_0015,gulf_pact_2026_art_0008,gulf_pact_2026_art_0013 0/0/-                  
   pact_origin_3 clm_0002               gulf_pact_2026_art_0006,gulf_pact_2026_art_0015,gulf_pact_2026_art_0002,gulf_pact_2026_art_0014 0/0/-                  
   pact_origin_4 clm_0006               gulf_pact_2026_art_0015,gulf_pact_2026_art_0002 0/0/-                  
-  reactions_0  clm_0004               gulf_pact_2026_art_0003  0/0/-                  
-  reactions_1  clm_0005               gulf_pact_2026_art_0003  0/0/-                  
+  reactions_0  clm_0005               gulf_pact_2026_art_0003  0/0/-                  
   mecca_attack_0 clm_0009               gulf_pact_2026_art_0002,gulf_pact_2026_art_0013 0/0/-                  
-  mecca_attack_1 clm_0007               gulf_pact_2026_art_0016,gulf_pact_2026_art_0006 0/0/-                  
+  mecca_attack_1 clm_0008,clm_0007      gulf_pact_2026_art_0013,gulf_pact_2026_art_0014,gulf_pact_2026_art_0016,gulf_pact_2026_art_0006 0/0/-                  
   mecca_attack_2 clm_0008               gulf_pact_2026_art_0013,gulf_pact_2026_art_0014 0/0/-                  
-  mecca_attack_3 clm_0008               gulf_pact_2026_art_0013,gulf_pact_2026_art_0014 0/0/-                  
   invocation_0 clm_0010               gulf_pact_2026_art_0016,gulf_pact_2026_art_0001,gulf_pact_2026_art_0014 0/0/-                  
   invocation_1 clm_0011               gulf_pact_2026_art_0002,gulf_pact_2026_art_0001,gulf_pact_2026_art_0016,gulf_pact_2026_art_0014,gulf_pact_2026_art_0013 0/0/-                  
   invocation_2 clm_0012               gulf_pact_2026_art_0002  0/0/-                  
   invocation_3 clm_0014               gulf_pact_2026_art_0002,gulf_pact_2026_art_0014 0/0/-                  
   invocation_4 clm_0013               gulf_pact_2026_art_0001  0/0/-                  
-  invocation_5 clm_0015               gulf_pact_2026_art_0014  0/0/-                  
-  invocation_6 clm_0016               gulf_pact_2026_art_0002  0/0/-                  
+  invocation_5 clm_0016               gulf_pact_2026_art_0002  0/0/-                  
   roles_0      clm_0017               gulf_pact_2026_art_0014,gulf_pact_2026_art_0002 0/0/-                  
   roles_1      clm_0018               gulf_pact_2026_art_0014  0/0/-                  
   roles_2      clm_0031               gulf_pact_2026_art_0013,gulf_pact_2026_art_0006 0/0/-                  
@@ -161,25 +152,25 @@
   troop_numbers_4 clm_0022               gulf_pact_2026_art_0001,gulf_pact_2026_art_0016 0/0/-                  
   troop_numbers_5 clm_0023               gulf_pact_2026_art_0016,gulf_pact_2026_art_0002 0/0/-                  
   troop_numbers_6 clm_0024               gulf_pact_2026_art_0001,gulf_pact_2026_art_0007 0/0/-                  
-  troop_numbers_7 clm_0029               gulf_pact_2026_art_0006  0/0/-                  
+  troop_numbers_7 clm_0051               gulf_pact_2026_art_0020  6/4/- (드론)             사진 없음이 맞다 — 통과 4건이 모두 PDF 보고서(CRS·인권 보고서), 국방부 PD 0건. 아덴 수송 장면 실사 없음 — 지도 무대(아덴 마커)로
   troop_numbers_8 clm_0030               gulf_pact_2026_art_0017  0/0/-                  
   yemen_front_0 clm_0032               gulf_pact_2026_art_0002,gulf_pact_2026_art_0005,gulf_pact_2026_art_0014 0/0/-                  
   yemen_front_1 clm_0033               gulf_pact_2026_art_0013  0/0/-                  
   yemen_front_2 clm_0033               gulf_pact_2026_art_0013  0/0/-                  
-  yemen_front_3 clm_0035               gulf_pact_2026_art_0013  0/0/-                  
-  riyadh_airport_0 clm_0036               gulf_pact_2026_art_0013,gulf_pact_2026_art_0017,gulf_pact_2026_art_0005 12/10/- (미사일)          P1-2 에서 선택 — 후보 Commons 'King Khalid International Airport, Riyadh'(panoramio, 통과)·국방부 'Riyadh Air Base'. 공격 현장 사진은 통신사뿐(D172 B 구현 뒤 검토)
-  riyadh_airport_1 clm_0037               gulf_pact_2026_art_0017,gulf_pact_2026_art_0013,gulf_pact_2026_art_0005 0/0/-                  
-  riyadh_airport_2 clm_0038,clm_0037      gulf_pact_2026_art_0005,gulf_pact_2026_art_0017,gulf_pact_2026_art_0013 0/0/-                  
-  riyadh_airport_3 clm_0039               gulf_pact_2026_art_0005  0/0/-                  
-  riyadh_airport_4 clm_0040               gulf_pact_2026_art_0005  0/0/-                  
-  riyadh_airport_5 clm_0041               gulf_pact_2026_art_0005  0/0/-                  
-  riyadh_airport_6 clm_0042               gulf_pact_2026_art_0005  0/0/-                  
-  riyadh_airport_7 clm_0043               gulf_pact_2026_art_0005  0/0/-                  
-  riyadh_airport_8 clm_0044               gulf_pact_2026_art_0005  0/0/-                  
-  riyadh_airport_9 clm_0045               gulf_pact_2026_art_0005  0/0/-                  
-  riyadh_airport_10 clm_0046               gulf_pact_2026_art_0013  8/8/- (타격)             P1-2 에서 선택 — 후보 CENTCOM 'Operation Against Iran-Backed Houthis in Yemen' 영상(PD). 문장은 트럼프의 거절이라 영상 비트 적합성 검토
+  riyadh_airport_0 clm_0037               gulf_pact_2026_art_0017,gulf_pact_2026_art_0013,gulf_pact_2026_art_0005 12/10/- (미사일)          P1-2 에서 선택 — 후보 Commons 'King Khalid International Airport, Riyadh'(panoramio, 통과)·국방부 'Riyadh Air Base'. 공격 현장 사진은 통신사뿐(D172 B 구현 뒤 검토)
+  riyadh_airport_1 clm_0038               gulf_pact_2026_art_0005  0/0/-                  
+  riyadh_airport_2 clm_0039               gulf_pact_2026_art_0005  0/0/-                  
+  riyadh_airport_3 clm_0041               gulf_pact_2026_art_0005  0/0/-                  
+  riyadh_airport_4 clm_0042               gulf_pact_2026_art_0005  0/0/-                  
+  riyadh_airport_5 clm_0043               gulf_pact_2026_art_0005  0/0/-                  
+  riyadh_airport_6 clm_0044               gulf_pact_2026_art_0005  0/0/-                  
+  riyadh_airport_7 clm_0045               gulf_pact_2026_art_0005  0/0/-                  
+  riyadh_airport_8 clm_0046               gulf_pact_2026_art_0013  8/8/- (타격)             P1-2 에서 선택 — 후보 CENTCOM 'Operation Against Iran-Backed Houthis in Yemen' 영상(PD). 문장은 트럼프의 거절이라 영상 비트 적합성 검토
+  korea_0      clm_0047               csis_0402_korea          0/0/-                  
+  korea_1      clm_0049,clm_0048      gulf_pact_2026_art_0019  0/0/-                  
+  korea_2      clm_0050               gulf_pact_2026_art_0019  0/0/-                  
   briefing_0   clm_0003,clm_0001      gulf_pact_2026_art_0011,gulf_pact_2026_art_0012,gulf_pact_2026_art_0004,gulf_pact_2026_art_0001,gulf_pact_2026_art_0006,gulf_pact_2026_art_0016,gulf_pact_2026_art_0015,gulf_pact_2026_art_0008,gulf_pact_2026_art_0013 0/0/-                  
   briefing_1   clm_0011,clm_0024      gulf_pact_2026_art_0002,gulf_pact_2026_art_0001,gulf_pact_2026_art_0016,gulf_pact_2026_art_0014,gulf_pact_2026_art_0013,gulf_pact_2026_art_0007 0/0/-                  
-  briefing_2   clm_0032,clm_0036      gulf_pact_2026_art_0002,gulf_pact_2026_art_0005,gulf_pact_2026_art_0014,gulf_pact_2026_art_0013,gulf_pact_2026_art_0017 6/6/- (미사일)            사진 없음이 맞다 — 통과 6건이 모두 지도·도식(2024 missile strikes against Yemen). 이 문장은 지도 무대로
-  briefing_3   clm_0011,clm_0024,clm_0036 gulf_pact_2026_art_0002,gulf_pact_2026_art_0001,gulf_pact_2026_art_0016,gulf_pact_2026_art_0014,gulf_pact_2026_art_0013,gulf_pact_2026_art_0007,gulf_pact_2026_art_0017,gulf_pact_2026_art_0005 6/1/- (미사일)            사진 없음이 맞다 — 'Riyadh Skyline' 은 CC BY-SA 탈락, 통과 1건은 일반 도시 사진. 맺음 문장은 지도 무대로
+  briefing_2   clm_0032,clm_0037      gulf_pact_2026_art_0002,gulf_pact_2026_art_0005,gulf_pact_2026_art_0014,gulf_pact_2026_art_0017,gulf_pact_2026_art_0013 6/6/- (미사일)            사진 없음이 맞다 — 통과 6건이 모두 지도·도식(2024 missile strikes against Yemen). 이 문장은 지도 무대로
+  briefing_3   clm_0011,clm_0024,clm_0037 gulf_pact_2026_art_0002,gulf_pact_2026_art_0001,gulf_pact_2026_art_0016,gulf_pact_2026_art_0014,gulf_pact_2026_art_0013,gulf_pact_2026_art_0007,gulf_pact_2026_art_0017,gulf_pact_2026_art_0005 6/1/- (미사일)            사진 없음이 맞다 — 'Riyadh Skyline' 은 CC BY-SA 탈락, 통과 1건은 일반 도시 사진. 맺음 문장은 지도 무대로
   표 판정 — 통과

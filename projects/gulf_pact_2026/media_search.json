@@ -124,7 +124,7 @@
    ]
   },
   {
-   "sid": "riyadh_airport_10",
+   "sid": "riyadh_airport_8",
    "query": "Houthi Yemen hastemplate:\"PD-USGov-Military\"",
    "pool": "us_dod_pd",
    "on": "2026-10-11",
@@ -137,7 +137,7 @@
    "rejected": []
   },
   {
-   "sid": "riyadh_airport_10",
+   "sid": "riyadh_airport_8",
    "query": "Houthi Yemen",
    "pool": "commons_cc",
    "on": "2026-10-11",
@@ -199,6 +199,34 @@
     "File:Riyadh Skyline New.jpg"
    ],
    "rejected": [
+    "CC BY-SA 4.0"
+   ]
+  },
+  {
+   "sid": "troop_numbers_7",
+   "query": "Pakistan air defence drone hastemplate:\"PD-USGov-Military\"",
+   "pool": "us_dod_pd",
+   "on": "2026-10-11",
+   "found": 0,
+   "passed": 0,
+   "top": [],
+   "rejected": []
+  },
+  {
+   "sid": "troop_numbers_7",
+   "query": "Pakistan air defence drone",
+   "pool": "commons_cc",
+   "on": "2026-10-11",
+   "found": 6,
+   "passed": 4,
+   "top": [
+    "File:RL31354 (IA RL31354-crs).pdf",
+    "File:Remotely effective- unmanned aerial vehicles, the information revolution in military affairs, and the rise of the drone in Southeast Asia (IA remotelyeffectiv1094550518).pdf",
+    "File:Report on the Situation with Human Rights in Certain States 2011.pdf",
+    "File:Unmanned aircraft systems - a logical choice for homeland security support (IA unmannedircrafts1094510587).pdf"
+   ],
+   "rejected": [
+    "CC BY 2.5 제한",
     "CC BY-SA 4.0"
    ]
   }

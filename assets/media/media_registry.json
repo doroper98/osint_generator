@@ -2535,6 +2535,72 @@
    "sub": "파키스탄 정보방송부가 10월 8일 파키스탄 공군의 후티 공격 투입 가능…",
    "note": "헤드라인 번역 · 원문 영어",
    "headline_original": "Pakistan rejects report on use of air force against Houthis"
+  },
+  "gulf_pact_2026_art_0019": {
+   "kind": "article",
+   "title": "이투데이 2026-05-26 — 중동산 원유 비중 사상 첫 50% 아래로",
+   "license": "헤드라인 번역·요지 자체 조판(원문 인용 15단어 미만, 기사 화면 캡처·로고 없음, 14 §9)",
+   "author": "이투데이",
+   "credit_author": "이투데이",
+   "date": "2026-05-26",
+   "url": "https://www.etoday.co.kr/news/view/2587839",
+   "caption": "이투데이",
+   "file_note": "2026. 05. 26",
+   "depicts": [
+    "2026년 5~7월 한국의 전체 원유 수입 중 중동산 비중이 48.5%…"
+   ],
+   "is_file_photo": false,
+   "verified_by": {
+    "by": "code(tools/article_register — sources.json 확인 기록·claims 대조)",
+    "on": "2026-10-11",
+    "casualty_free": true,
+    "relevance": "gulf_pact_2026 원고 claim 근거 기사"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-10-11",
+   "tool": {
+    "name": "article_typeset",
+    "params": {
+     "translation": true
+    }
+   },
+   "headline": "중동산 원유 비중 사상 첫 50% 아래로",
+   "sub": "2026년 5~7월 한국의 전체 원유 수입 중 중동산 비중이 48.5%…",
+   "note": "헤드라인 번역 · 원문 영어",
+   "headline_original": "중동산 원유 비중 사상 첫 50% 아래로"
+  },
+  "gulf_pact_2026_art_0020": {
+   "kind": "article",
+   "title": "Middle East Eye 2026-10-02 — Pakistan sent four planeloads of weapons to Saudi-backed government in Yemen: Report",
+   "license": "헤드라인 번역·요지 자체 조판(원문 인용 15단어 미만, 기사 화면 캡처·로고 없음, 14 §9)",
+   "author": "Middle East Eye",
+   "credit_author": "Middle East Eye",
+   "date": "2026-10-02",
+   "url": "https://www.middleeasteye.net/news/pakistan-sent-four-planeloads-weapons-saudi-backed-government-yemen-report",
+   "caption": "Middle East Eye",
+   "file_note": "2026. 10. 02",
+   "depicts": [
+    "파키스탄이 9월 예멘 정부(아덴)에 무기를 실은 수송기 4대를 보냈다"
+   ],
+   "is_file_photo": false,
+   "verified_by": {
+    "by": "code(tools/article_register — sources.json 확인 기록·claims 대조)",
+    "on": "2026-10-11",
+    "casualty_free": true,
+    "relevance": "gulf_pact_2026 원고 claim 근거 기사"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-10-11",
+   "tool": {
+    "name": "article_typeset",
+    "params": {
+     "translation": true
+    }
+   },
+   "headline": "\"파키스탄, 예멘 사우디 지원 정부에 무기 수송기 4대 보내\" 보도",
+   "sub": "파키스탄이 9월 예멘 정부(아덴)에 무기를 실은 수송기 4대를 보냈다",
+   "note": "헤드라인 번역 · 원문 영어",
+   "headline_original": "Pakistan sent four planeloads of weapons to Saudi-backed government in Yemen: Report"
   }
  }
 }

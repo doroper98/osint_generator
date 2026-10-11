@@ -1,988 +1,1078 @@
 {
-  "schema_version": 1,
-  "claims": [
+ "schema_version": 1,
+ "claims": [
+  {
+   "claim_id": "clm_0001",
+   "text": "파키스탄·사우디아라비아·튀르키예가 8월 7일 메카 공동방위협정에 서명했다",
+   "source_ids": [
+    "src_art_0001",
+    "src_art_0006",
+    "src_art_0016",
+    "src_art_0015",
+    "src_art_0008",
+    "src_art_0013"
+   ],
+   "status": "corroborated",
+   "contested": false,
+   "event_date": "2026-08-07",
+   "checks": [
+    "quote_match:src_art_0001",
+    "quote_match:src_art_0006",
+    "quote_match:src_art_0016",
+    "quote_match:src_art_0015",
+    "quote_match:src_art_0008",
+    "quote_match:src_art_0013",
+    "independent_origins:5"
+   ],
+   "attributed_only": false,
+   "claim_kind": "fact",
+   "notes": ""
+  },
+  {
+   "claim_id": "clm_0002",
+   "text": "메카 공동방위협정은 3국 중 한 나라에 대한 무력 공격을 3국 모두에 대한 공격으로 간주한다고 규정한다",
+   "source_ids": [
+    "src_art_0006",
+    "src_art_0015",
+    "src_art_0002",
+    "src_art_0014"
+   ],
+   "status": "corroborated",
+   "contested": false,
+   "event_date": "2026-08-07",
+   "checks": [
+    "quote_match:src_art_0006",
+    "quote_match:src_art_0015",
+    "quote_match:src_art_0002",
+    "quote_match:src_art_0014",
+    "independent_origins:4"
+   ],
+   "attributed_only": false,
+   "claim_kind": "fact",
+   "notes": ""
+  },
+  {
+   "claim_id": "clm_0003",
+   "text": "사우디아라비아와 파키스탄이 2025년 9월 17일 양자 전략적 상호방위협정에 서명했다",
+   "source_ids": [
+    "src_art_0011",
+    "src_art_0012",
+    "src_art_0004"
+   ],
+   "status": "corroborated",
+   "contested": false,
+   "event_date": "2025-09-17",
+   "checks": [
+    "quote_match:src_art_0011",
+    "quote_match:src_art_0012",
+    "quote_match:src_art_0004",
+    "independent_origins:3"
+   ],
+   "attributed_only": false,
+   "claim_kind": "fact",
+   "notes": ""
+  },
+  {
+   "claim_id": "clm_0004",
+   "text": "사우디 공공외교 차관 라에드 크림리가 협정이 역내 어느 나라에도 위협이 아니라고 밝혔다",
+   "source_ids": [
+    "src_art_0003"
+   ],
+   "status": "unverified",
+   "contested": false,
+   "event_date": "2026-08-07",
+   "checks": [
+    "quote_match:src_art_0003",
+    "independent_origins:1",
+    "attributed:src_art_0003"
+   ],
+   "attributed_only": true,
+   "claim_kind": "statement",
+   "notes": ""
+  },
+  {
+   "claim_id": "clm_0005",
+   "text": "이란 의원 에브라힘 레자에이가 튀르키예·파키스탄과의 종이 협정이 사우디에 안보를 가져다주지 못할 것이라고 말했다",
+   "source_ids": [
+    "src_art_0003"
+   ],
+   "status": "unverified",
+   "contested": false,
+   "event_date": "2026-08-07",
+   "checks": [
+    "quote_match:src_art_0003",
+    "independent_origins:1",
+    "attributed:src_art_0003"
+   ],
+   "attributed_only": true,
+   "claim_kind": "statement",
+   "notes": ""
+  },
+  {
+   "claim_id": "clm_0006",
+   "text": "메카 협정 3국의 현역 병력 합계는 약 140만 명이다(2026 Global Firepower Index 기준)",
+   "source_ids": [
+    "src_art_0015",
+    "src_art_0002"
+   ],
+   "status": "corroborated",
+   "contested": false,
+   "checks": [
+    "quote_match:src_art_0015",
+    "quote_match:src_art_0002",
+    "independent_origins:2"
+   ],
+   "attributed_only": false,
+   "claim_kind": "fact",
+   "notes": ""
+  },
+  {
+   "claim_id": "clm_0007",
+   "text": "3국 군 고위 관계자들이 9월 25일 메카를 겨냥한 공격을 규탄했다",
+   "source_ids": [
+    "src_art_0016",
+    "src_art_0006"
+   ],
+   "status": "corroborated",
+   "contested": false,
+   "event_date": "2026-09-25",
+   "checks": [
+    "quote_match:src_art_0016",
+    "quote_match:src_art_0006",
+    "independent_origins:2"
+   ],
+   "attributed_only": false,
+   "claim_kind": "fact",
+   "notes": ""
+  },
+  {
+   "claim_id": "clm_0008",
+   "text": "후티가 9월 메카 공격을 시도했다",
+   "source_ids": [
+    "src_art_0013",
+    "src_art_0014"
+   ],
+   "status": "disputed",
+   "contested": true,
+   "sides": [
     {
-      "claim_id": "clm_0001",
-      "text": "파키스탄·사우디아라비아·튀르키예가 8월 7일 메카 공동방위협정에 서명했다",
-      "source_ids": [
-        "src_art_0001",
-        "src_art_0006",
-        "src_art_0016",
-        "src_art_0015",
-        "src_art_0008",
-        "src_art_0013"
-      ],
-      "status": "corroborated",
-      "contested": false,
-      "event_date": "2026-08-07",
-      "checks": [
-        "quote_match:src_art_0001",
-        "quote_match:src_art_0006",
-        "quote_match:src_art_0016",
-        "quote_match:src_art_0015",
-        "quote_match:src_art_0008",
-        "quote_match:src_art_0013",
-        "independent_origins:5"
-      ],
-      "attributed_only": false,
-      "claim_kind": "fact",
-      "notes": ""
+     "party": "사우디아라비아·메카 협정 3국",
+     "text": "후티가 메카·메디나를 겨냥한 공격을 시도했다",
+     "source_ids": [
+      "src_art_0013",
+      "src_art_0014"
+     ]
     },
     {
-      "claim_id": "clm_0002",
-      "text": "메카 공동방위협정은 3국 중 한 나라에 대한 무력 공격을 3국 모두에 대한 공격으로 간주한다고 규정한다",
-      "source_ids": [
-        "src_art_0006",
-        "src_art_0015",
-        "src_art_0002",
-        "src_art_0014"
-      ],
-      "status": "corroborated",
-      "contested": false,
-      "event_date": "2026-08-07",
-      "checks": [
-        "quote_match:src_art_0006",
-        "quote_match:src_art_0015",
-        "quote_match:src_art_0002",
-        "quote_match:src_art_0014",
-        "independent_origins:4"
-      ],
-      "attributed_only": false,
-      "claim_kind": "fact",
-      "notes": ""
-    },
-    {
-      "claim_id": "clm_0003",
-      "text": "사우디아라비아와 파키스탄이 2025년 9월 17일 양자 전략적 상호방위협정에 서명했다",
-      "source_ids": [
-        "src_art_0011",
-        "src_art_0012",
-        "src_art_0004"
-      ],
-      "status": "corroborated",
-      "contested": false,
-      "event_date": "2025-09-17",
-      "checks": [
-        "quote_match:src_art_0011",
-        "quote_match:src_art_0012",
-        "quote_match:src_art_0004",
-        "independent_origins:3"
-      ],
-      "attributed_only": false,
-      "claim_kind": "fact",
-      "notes": ""
-    },
-    {
-      "claim_id": "clm_0004",
-      "text": "사우디 공공외교 차관 라에드 크림리가 협정이 역내 어느 나라에도 위협이 아니라고 밝혔다",
-      "source_ids": [
-        "src_art_0003"
-      ],
-      "status": "unverified",
-      "contested": false,
-      "event_date": "2026-08-07",
-      "checks": [
-        "quote_match:src_art_0003",
-        "independent_origins:1",
-        "attributed:src_art_0003"
-      ],
-      "attributed_only": true,
-      "claim_kind": "statement",
-      "notes": ""
-    },
-    {
-      "claim_id": "clm_0005",
-      "text": "이란 의원 에브라힘 레자에이가 튀르키예·파키스탄과의 종이 협정이 사우디에 안보를 가져다주지 못할 것이라고 말했다",
-      "source_ids": [
-        "src_art_0003"
-      ],
-      "status": "unverified",
-      "contested": false,
-      "event_date": "2026-08-07",
-      "checks": [
-        "quote_match:src_art_0003",
-        "independent_origins:1",
-        "attributed:src_art_0003"
-      ],
-      "attributed_only": true,
-      "claim_kind": "statement",
-      "notes": ""
-    },
-    {
-      "claim_id": "clm_0006",
-      "text": "메카 협정 3국의 현역 병력 합계는 약 140만 명이다(2026 Global Firepower Index 기준)",
-      "source_ids": [
-        "src_art_0015",
-        "src_art_0002"
-      ],
-      "status": "corroborated",
-      "contested": false,
-      "checks": [
-        "quote_match:src_art_0015",
-        "quote_match:src_art_0002",
-        "independent_origins:2"
-      ],
-      "attributed_only": false,
-      "claim_kind": "fact",
-      "notes": ""
-    },
-    {
-      "claim_id": "clm_0007",
-      "text": "3국 군 고위 관계자들이 9월 25일 메카를 겨냥한 공격을 규탄했다",
-      "source_ids": [
-        "src_art_0016",
-        "src_art_0006"
-      ],
-      "status": "corroborated",
-      "contested": false,
-      "event_date": "2026-09-25",
-      "checks": [
-        "quote_match:src_art_0016",
-        "quote_match:src_art_0006",
-        "independent_origins:2"
-      ],
-      "attributed_only": false,
-      "claim_kind": "fact",
-      "notes": ""
-    },
-    {
-      "claim_id": "clm_0008",
-      "text": "후티가 9월 메카 공격을 시도했다",
-      "source_ids": [
-        "src_art_0013",
-        "src_art_0014"
-      ],
-      "status": "disputed",
-      "contested": true,
-      "sides": [
-        {
-          "party": "사우디아라비아·메카 협정 3국",
-          "text": "후티가 메카·메디나를 겨냥한 공격을 시도했다",
-          "source_ids": [
-            "src_art_0013",
-            "src_art_0014"
-          ]
-        },
-        {
-          "party": "후티·이란",
-          "text": "혐의를 부인했다",
-          "source_ids": [
-            "src_art_0013"
-          ]
-        }
-      ],
-      "checks": [
-        "quote_match:src_art_0013",
-        "quote_match:src_art_0014",
-        "quote_match:src_art_0013",
-        "independent_origins:2"
-      ],
-      "attributed_only": false,
-      "claim_kind": "fact",
-      "notes": ""
-    },
-    {
-      "claim_id": "clm_0009",
-      "text": "후티 세력이 바브엘만데브 해협을 포함한 예멘 홍해 연안을 장악했다",
-      "source_ids": [
-        "src_art_0002",
-        "src_art_0013"
-      ],
-      "status": "corroborated",
-      "contested": false,
-      "checks": [
-        "quote_match:src_art_0002",
-        "quote_match:src_art_0013",
-        "independent_origins:2"
-      ],
-      "attributed_only": false,
-      "claim_kind": "fact",
-      "notes": ""
-    },
-    {
-      "claim_id": "clm_0010",
-      "text": "메카 협정의 전략정치국방위원회가 10월 5일 리야드에서 긴급회의를 열었다",
-      "source_ids": [
-        "src_art_0016",
-        "src_art_0001",
-        "src_art_0014"
-      ],
-      "status": "corroborated",
-      "contested": false,
-      "event_date": "2026-10-05",
-      "checks": [
-        "quote_match:src_art_0016",
-        "quote_match:src_art_0001",
-        "quote_match:src_art_0014",
-        "independent_origins:3"
-      ],
-      "attributed_only": false,
-      "claim_kind": "fact",
-      "notes": ""
-    },
-    {
-      "claim_id": "clm_0011",
-      "text": "3국이 10월 5일 집단방위 공약의 실제 이행(협정 발동)을 결정했다",
-      "source_ids": [
-        "src_art_0002",
-        "src_art_0001",
-        "src_art_0016",
-        "src_art_0014",
-        "src_art_0013"
-      ],
-      "status": "corroborated",
-      "contested": false,
-      "event_date": "2026-10-05",
-      "checks": [
-        "quote_match:src_art_0002",
-        "quote_match:src_art_0001",
-        "quote_match:src_art_0016",
-        "quote_match:src_art_0014",
-        "quote_match:src_art_0013",
-        "independent_origins:5"
-      ],
-      "attributed_only": false,
-      "claim_kind": "fact",
-      "notes": ""
-    },
-    {
-      "claim_id": "clm_0012",
-      "text": "메카 공동방위협정 발동은 8월 서명 이후 처음이다",
-      "source_ids": [
-        "src_art_0002"
-      ],
-      "status": "unverified",
-      "contested": false,
-      "event_date": "2026-10-05",
-      "checks": [
-        "quote_match:src_art_0002",
-        "independent_origins:1"
-      ],
-      "attributed_only": false,
-      "claim_kind": "fact",
-      "notes": ""
-    },
-    {
-      "claim_id": "clm_0013",
-      "text": "3국 공동성명이 합의된 군사력을 사우디에 즉시 배치한다고 밝혔다",
-      "source_ids": [
-        "src_art_0001"
-      ],
-      "status": "unverified",
-      "contested": false,
-      "event_date": "2026-10-05",
-      "checks": [
-        "quote_match:src_art_0001",
-        "independent_origins:1",
-        "attributed:src_art_0001"
-      ],
-      "attributed_only": true,
-      "claim_kind": "statement",
-      "notes": ""
-    },
-    {
-      "claim_id": "clm_0014",
-      "text": "10월 5일 공동성명은 후티를 위협으로 명시하지 않았다",
-      "source_ids": [
-        "src_art_0002",
-        "src_art_0014"
-      ],
-      "status": "corroborated",
-      "contested": false,
-      "event_date": "2026-10-05",
-      "checks": [
-        "quote_match:src_art_0002",
-        "quote_match:src_art_0014",
-        "independent_origins:2"
-      ],
-      "attributed_only": false,
-      "claim_kind": "fact",
-      "notes": ""
-    },
-    {
-      "claim_id": "clm_0015",
-      "text": "10월 5일 공동성명은 병력 배치의 세부 내용이나 일정을 밝히지 않았다",
-      "source_ids": [
-        "src_art_0014"
-      ],
-      "status": "unverified",
-      "contested": false,
-      "event_date": "2026-10-05",
-      "checks": [
-        "quote_match:src_art_0014",
-        "independent_origins:1"
-      ],
-      "attributed_only": false,
-      "claim_kind": "fact",
-      "notes": ""
-    },
-    {
-      "claim_id": "clm_0016",
-      "text": "튀르키예 의회는 아직 메카 공동방위협정을 비준하지 않았다",
-      "source_ids": [
-        "src_art_0002"
-      ],
-      "status": "unverified",
-      "contested": false,
-      "checks": [
-        "quote_match:src_art_0002",
-        "independent_origins:1"
-      ],
-      "attributed_only": false,
-      "claim_kind": "fact",
-      "notes": ""
-    },
-    {
-      "claim_id": "clm_0017",
-      "text": "카와자 아시프 파키스탄 국방장관이 파키스탄·튀르키예가 정찰 등 지원 역할로 사우디를 돕고 있다고 밝혔다",
-      "source_ids": [
-        "src_art_0014",
-        "src_art_0002"
-      ],
-      "status": "corroborated",
-      "contested": false,
-      "event_date": "2026-10-05",
-      "checks": [
-        "quote_match:src_art_0014",
-        "quote_match:src_art_0002",
-        "independent_origins:2",
-        "attributed:src_art_0014",
-        "attributed:src_art_0002"
-      ],
-      "attributed_only": true,
-      "claim_kind": "statement",
-      "notes": ""
-    },
-    {
-      "claim_id": "clm_0018",
-      "text": "카와자 아시프 파키스탄 국방장관이 전투 작전에는 사우디군만 참여하고 있다고 밝혔다",
-      "source_ids": [
-        "src_art_0014"
-      ],
-      "status": "unverified",
-      "contested": false,
-      "event_date": "2026-10-05",
-      "checks": [
-        "quote_match:src_art_0014",
-        "independent_origins:1",
-        "attributed:src_art_0014"
-      ],
-      "attributed_only": true,
-      "claim_kind": "statement",
-      "notes": "",
-      "direct_quotes": [
-        {
-          "source_id": "src_art_0014",
-          "text": "presence in theatre"
-        }
-      ]
-    },
-    {
-      "claim_id": "clm_0019",
-      "text": "파키스탄이 사우디아라비아에 병력 3만~4만 명을 배치했다",
-      "source_ids": [
-        "src_art_0006"
-      ],
-      "status": "disputed",
-      "contested": true,
-      "sides": [
-        {
-          "party": "로이터(익명의 파키스탄 관리 인용)",
-          "text": "파키스탄이 국경 방어와 드론·미사일 요격을 위해 3만~4만 명을 배치했다",
-          "source_ids": [
-            "src_art_0006",
-            "src_art_0001",
-            "src_art_0016"
-          ]
-        },
-        {
-          "party": "파키스탄 정보방송부",
-          "text": "익명 소식통에 기댄 추측성 보도이며 작전 세부사항은 기밀이다",
-          "source_ids": [
-            "src_art_0001",
-            "src_art_0016"
-          ]
-        }
-      ],
-      "checks": [
-        "quote_match:src_art_0006",
-        "independent_origins:1"
-      ],
-      "attributed_only": false,
-      "claim_kind": "fact",
-      "notes": ""
-    },
-    {
-      "claim_id": "clm_0020",
-      "text": "로이터가 10월 2일 파키스탄 관리를 인용해 파키스탄이 사우디에 병력 3만~4만 명을 배치했다고 보도했다",
-      "source_ids": [
-        "src_art_0001",
-        "src_art_0016",
-        "src_art_0006"
-      ],
-      "status": "corroborated",
-      "contested": false,
-      "event_date": "2026-10-02",
-      "checks": [
-        "quote_match:src_art_0001",
-        "quote_match:src_art_0016",
-        "quote_match:src_art_0006",
-        "independent_origins:3",
-        "attributed:src_art_0001",
-        "attributed:src_art_0016",
-        "attributed:src_art_0006"
-      ],
-      "attributed_only": true,
-      "claim_kind": "statement",
-      "notes": ""
-    },
-    {
-      "claim_id": "clm_0021",
-      "text": "익명의 파키스탄 관리가 로이터에 파키스탄이 예멘 전투 파병을 결정하지 않았다고 밝혔다",
-      "source_ids": [
-        "src_art_0006",
-        "src_art_0016"
-      ],
-      "status": "corroborated",
-      "contested": false,
-      "event_date": "2026-10-02",
-      "checks": [
-        "quote_match:src_art_0006",
-        "quote_match:src_art_0016",
-        "independent_origins:2",
-        "attributed:src_art_0006",
-        "attributed:src_art_0016"
-      ],
-      "attributed_only": true,
-      "claim_kind": "statement",
-      "notes": ""
-    },
-    {
-      "claim_id": "clm_0022",
-      "text": "파키스탄 정보방송부가 10월 6일 로이터의 병력 배치 보도를 거부했다",
-      "source_ids": [
-        "src_art_0001",
-        "src_art_0016"
-      ],
-      "status": "corroborated",
-      "contested": false,
-      "event_date": "2026-10-06",
-      "checks": [
-        "quote_match:src_art_0001",
-        "quote_match:src_art_0016",
-        "independent_origins:2"
-      ],
-      "attributed_only": false,
-      "claim_kind": "fact",
-      "notes": ""
-    },
-    {
-      "claim_id": "clm_0023",
-      "text": "파키스탄 정부가 사우디 배치의 세부 내용을 공개하지 않겠다고 밝혔다",
-      "source_ids": [
-        "src_art_0016",
-        "src_art_0002"
-      ],
-      "status": "corroborated",
-      "contested": false,
-      "checks": [
-        "quote_match:src_art_0016",
-        "quote_match:src_art_0002",
-        "independent_origins:2",
-        "attributed:src_art_0016",
-        "attributed:src_art_0002"
-      ],
-      "attributed_only": true,
-      "claim_kind": "statement",
-      "notes": ""
-    },
-    {
-      "claim_id": "clm_0024",
-      "text": "파키스탄군 대변인(DG ISPR) 아흐메드 샤리프 차우드리 중장이 10월 7일 CNN 인터뷰에서 파키스탄군이 사우디에 여러 역할로 주둔하고 있다고 밝혔다",
-      "source_ids": [
-        "src_art_0001",
-        "src_art_0007"
-      ],
-      "status": "corroborated",
-      "contested": false,
-      "event_date": "2026-10-07",
-      "checks": [
-        "quote_match:src_art_0001",
-        "quote_match:src_art_0001",
-        "quote_match:src_art_0007",
-        "independent_origins:2",
-        "attributed:src_art_0001",
-        "attributed:src_art_0001",
-        "attributed:src_art_0007"
-      ],
-      "attributed_only": true,
-      "claim_kind": "statement",
-      "notes": "",
-      "direct_quotes": [
-        {
-          "source_id": "src_art_0001",
-          "text": "multiple capabilities"
-        }
-      ]
-    },
-    {
-      "claim_id": "clm_0025",
-      "text": "파키스탄군이 사우디아라비아에 주둔하고 있다",
-      "source_ids": [
-        "src_art_0001",
-        "src_art_0007"
-      ],
-      "status": "corroborated",
-      "contested": false,
-      "event_date": "2026-10-07",
-      "checks": [
-        "quote_match:src_art_0001",
-        "quote_match:src_art_0007",
-        "independent_origins:2"
-      ],
-      "attributed_only": false,
-      "claim_kind": "fact",
-      "notes": ""
-    },
-    {
-      "claim_id": "clm_0026",
-      "text": "파키스탄이 4월부터 사우디에 병력 8,000명을 배치했다",
-      "source_ids": [
-        "src_art_0004"
-      ],
-      "status": "unverified",
-      "contested": true,
-      "sides": [
-        {
-          "party": "로이터(Middle East Eye 인용, 5월 보도)",
-          "text": "4월 초부터 병력 8,000명을 배치했다",
-          "source_ids": [
-            "src_art_0004"
-          ]
-        }
-      ],
-      "checks": [
-        "quote_match:src_art_0004",
-        "independent_origins:1"
-      ],
-      "attributed_only": false,
-      "claim_kind": "fact",
-      "notes": ""
-    },
-    {
-      "claim_id": "clm_0027",
-      "text": "파키스탄이 사우디에 JF-17 위주 약 16대 규모 전투기 편대를 배치했다",
-      "source_ids": [
-        "src_art_0004"
-      ],
-      "status": "unverified",
-      "contested": true,
-      "sides": [
-        {
-          "party": "로이터(Middle East Eye 인용, 5월 보도)",
-          "text": "JF-17 위주 약 16대 편대를 배치했다",
-          "source_ids": [
-            "src_art_0004"
-          ]
-        }
-      ],
-      "checks": [
-        "quote_match:src_art_0004",
-        "independent_origins:1"
-      ],
-      "attributed_only": false,
-      "claim_kind": "fact",
-      "notes": ""
-    },
-    {
-      "claim_id": "clm_0028",
-      "text": "파키스탄이 사우디에 중국산 HQ-9 방공체계를 배치했다",
-      "source_ids": [
-        "src_art_0004"
-      ],
-      "status": "unverified",
-      "contested": true,
-      "sides": [
-        {
-          "party": "로이터(Middle East Eye 인용, 5월 보도)",
-          "text": "HQ-9 방공체계를 배치했다",
-          "source_ids": [
-            "src_art_0004"
-          ]
-        }
-      ],
-      "checks": [
-        "quote_match:src_art_0004",
-        "independent_origins:1"
-      ],
-      "attributed_only": false,
-      "claim_kind": "fact",
-      "notes": ""
-    },
-    {
-      "claim_id": "clm_0029",
-      "text": "파키스탄 관리가 파키스탄이 지난달 아덴에 방공체계 등을 실은 수송기 4대를 보냈다고 밝혔다",
-      "source_ids": [
-        "src_art_0006"
-      ],
-      "status": "unverified",
-      "contested": false,
-      "checks": [
-        "quote_match:src_art_0006",
-        "independent_origins:1",
-        "attributed:src_art_0006"
-      ],
-      "attributed_only": true,
-      "claim_kind": "statement",
-      "notes": ""
-    },
-    {
-      "claim_id": "clm_0030",
-      "text": "파키스탄 정보방송부가 10월 8일 파키스탄 공군의 후티 공격 투입 가능성을 다룬 뉴욕타임스 보도를 거부했다",
-      "source_ids": [
-        "src_art_0017"
-      ],
-      "status": "unverified",
-      "contested": false,
-      "event_date": "2026-10-08",
-      "checks": [
-        "quote_match:src_art_0017",
-        "independent_origins:1"
-      ],
-      "attributed_only": false,
-      "claim_kind": "fact",
-      "notes": ""
-    },
-    {
-      "claim_id": "clm_0031",
-      "text": "튀르키예가 사우디에 군사 지원을 제공했다",
-      "source_ids": [
-        "src_art_0013",
-        "src_art_0006"
-      ],
-      "status": "corroborated",
-      "contested": false,
-      "checks": [
-        "quote_match:src_art_0013",
-        "quote_match:src_art_0006",
-        "independent_origins:2"
-      ],
-      "attributed_only": false,
-      "claim_kind": "fact",
-      "notes": ""
-    },
-    {
-      "claim_id": "clm_0032",
-      "text": "사우디 주도 연합군·예멘 정부군이 10월 초 후티 점령지 탈환 공세를 시작했다",
-      "source_ids": [
-        "src_art_0002",
-        "src_art_0005",
-        "src_art_0014"
-      ],
-      "status": "corroborated",
-      "contested": false,
-      "checks": [
-        "quote_match:src_art_0002",
-        "quote_match:src_art_0005",
-        "quote_match:src_art_0014",
-        "independent_origins:3"
-      ],
-      "attributed_only": false,
-      "claim_kind": "fact",
-      "notes": ""
-    },
-    {
-      "claim_id": "clm_0033",
-      "text": "예멘 정부군이 10월 5일 모카에 도달해 후티를 해협에서 밀어냈다",
-      "source_ids": [
-        "src_art_0013"
-      ],
-      "status": "disputed",
-      "contested": true,
-      "sides": [
-        {
-          "party": "예멘 정부군",
-          "text": "모카에 도달해 후티를 해협에서 밀어냈다",
-          "source_ids": [
-            "src_art_0013"
-          ]
-        },
-        {
-          "party": "후티",
-          "text": "정부군 주장을 부인한다",
-          "source_ids": [
-            "src_art_0013"
-          ]
-        }
-      ],
-      "event_date": "2026-10-05",
-      "checks": [
-        "quote_match:src_art_0013",
-        "quote_match:src_art_0013",
-        "independent_origins:0",
-        "attributed:src_art_0013"
-      ],
-      "attributed_only": true,
-      "claim_kind": "fact",
-      "notes": ""
-    },
-    {
-      "claim_id": "clm_0034",
-      "text": "예멘 정부군이 바브엘만데브 인근 주요 도시 여러 곳을 탈환했다",
-      "source_ids": [
-        "src_art_0002"
-      ],
-      "status": "unverified",
-      "contested": true,
-      "sides": [
-        {
-          "party": "예멘 정부 관리",
-          "text": "바브엘만데브 인근 주요 도시 여러 곳을 탈환했다",
-          "source_ids": [
-            "src_art_0002"
-          ]
-        }
-      ],
-      "checks": [
-        "quote_match:src_art_0002",
-        "independent_origins:0",
-        "attributed:src_art_0002"
-      ],
-      "attributed_only": true,
-      "claim_kind": "fact",
-      "notes": ""
-    },
-    {
-      "claim_id": "clm_0035",
-      "text": "후티 지지자들이 10월 7일 사나에서 튀르키예·파키스탄의 사우디 지원에 반대하는 무장 집회를 열었다",
-      "source_ids": [
-        "src_art_0013"
-      ],
-      "status": "unverified",
-      "contested": false,
-      "event_date": "2026-10-07",
-      "checks": [
-        "quote_match:src_art_0013",
-        "independent_origins:1"
-      ],
-      "attributed_only": false,
-      "claim_kind": "fact",
-      "notes": ""
-    },
-    {
-      "claim_id": "clm_0036",
-      "text": "이번 주 초 후티의 사우디 공항 공격으로 3명이 숨졌다",
-      "source_ids": [
-        "src_art_0013",
-        "src_art_0017",
-        "src_art_0005"
-      ],
-      "status": "corroborated",
-      "contested": false,
-      "checks": [
-        "quote_match:src_art_0013",
-        "quote_match:src_art_0017",
-        "quote_match:src_art_0005",
-        "independent_origins:2",
-        "attributed:src_art_0005"
-      ],
-      "attributed_only": false,
-      "claim_kind": "fact",
-      "notes": ""
-    },
-    {
-      "claim_id": "clm_0037",
-      "text": "후티가 10월 8일 탄도미사일로 리야드 킹칼리드 국제공항을 공격했다고 밝혔다",
-      "source_ids": [
-        "src_art_0017",
-        "src_art_0013",
-        "src_art_0005"
-      ],
-      "status": "corroborated",
-      "contested": false,
-      "event_date": "2026-10-08",
-      "checks": [
-        "quote_match:src_art_0017",
-        "quote_match:src_art_0013",
-        "quote_match:src_art_0005",
-        "independent_origins:3",
-        "attributed:src_art_0017",
-        "attributed:src_art_0013",
-        "attributed:src_art_0005"
-      ],
-      "attributed_only": true,
-      "claim_kind": "statement",
-      "notes": ""
-    },
-    {
-      "claim_id": "clm_0038",
-      "text": "사우디 민간항공청이 10월 8일 킹칼리드 공항 공격으로 조종사를 포함한 사우디인 3명이 숨졌다고 밝혔다",
-      "source_ids": [
-        "src_art_0005"
-      ],
-      "status": "unverified",
-      "contested": false,
-      "event_date": "2026-10-08",
-      "checks": [
-        "quote_match:src_art_0005",
-        "independent_origins:1",
-        "attributed:src_art_0005"
-      ],
-      "attributed_only": true,
-      "claim_kind": "statement",
-      "notes": ""
-    },
-    {
-      "claim_id": "clm_0039",
-      "text": "후티가 10월 10일 리야드 킹칼리드 국제공항을 공격했다",
-      "source_ids": [
-        "src_art_0005"
-      ],
-      "status": "unverified",
-      "contested": false,
-      "event_date": "2026-10-10",
-      "checks": [
-        "quote_match:src_art_0005",
-        "independent_origins:1"
-      ],
-      "attributed_only": false,
-      "claim_kind": "fact",
-      "notes": ""
-    },
-    {
-      "claim_id": "clm_0040",
-      "text": "후티 미디어국장이 10월 10일 공격 후 리야드 국제공항을 폐쇄시켰다고 밝혔다",
-      "source_ids": [
-        "src_art_0005"
-      ],
-      "status": "unverified",
-      "contested": false,
-      "event_date": "2026-10-10",
-      "checks": [
-        "quote_match:src_art_0005",
-        "independent_origins:1",
-        "attributed:src_art_0005"
-      ],
-      "attributed_only": true,
-      "claim_kind": "statement",
-      "notes": "",
-      "direct_quotes": [
-        {
-          "source_id": "src_art_0005",
-          "text": "shut down Riyadh international airport"
-        }
-      ]
-    },
-    {
-      "claim_id": "clm_0041",
-      "text": "사우디가 10월 10일 리야드 공항 공격으로 최소 12명이 숨졌다고 밝혔다",
-      "source_ids": [
-        "src_art_0005"
-      ],
-      "status": "unverified",
-      "contested": false,
-      "event_date": "2026-10-10",
-      "checks": [
-        "quote_match:src_art_0005",
-        "independent_origins:1",
-        "attributed:src_art_0005"
-      ],
-      "attributed_only": true,
-      "claim_kind": "statement",
-      "notes": ""
-    },
-    {
-      "claim_id": "clm_0042",
-      "text": "사우디 민간항공청이 10월 10일 리야드 공항 공격으로 최소 309명이 다쳤다고 밝혔다",
-      "source_ids": [
-        "src_art_0005"
-      ],
-      "status": "unverified",
-      "contested": false,
-      "event_date": "2026-10-10",
-      "checks": [
-        "quote_match:src_art_0005",
-        "independent_origins:1",
-        "attributed:src_art_0005"
-      ],
-      "attributed_only": true,
-      "claim_kind": "statement",
-      "notes": ""
-    },
-    {
-      "claim_id": "clm_0043",
-      "text": "10월 10일 리야드 공항 공격 사망자 중 미국 시민 1명이 있다",
-      "source_ids": [
-        "src_art_0005"
-      ],
-      "status": "unverified",
-      "contested": false,
-      "event_date": "2026-10-10",
-      "checks": [
-        "quote_match:src_art_0005",
-        "quote_match:src_art_0005",
-        "independent_origins:1"
-      ],
-      "attributed_only": false,
-      "claim_kind": "fact",
-      "notes": ""
-    },
-    {
-      "claim_id": "clm_0044",
-      "text": "사우디 주도 연합군이 10월 10일 공항 공격을 전면적 전쟁범죄라고 불렀다",
-      "source_ids": [
-        "src_art_0005"
-      ],
-      "status": "unverified",
-      "contested": false,
-      "event_date": "2026-10-10",
-      "checks": [
-        "quote_match:src_art_0005",
-        "independent_origins:1",
-        "attributed:src_art_0005"
-      ],
-      "attributed_only": true,
-      "claim_kind": "statement",
-      "notes": "",
-      "direct_quotes": [
-        {
-          "source_id": "src_art_0005",
-          "text": "full-fledged war crime"
-        }
-      ]
-    },
-    {
-      "claim_id": "clm_0045",
-      "text": "후티가 민항기들에 사우디 영공을 피하라고 밝혔다",
-      "source_ids": [
-        "src_art_0005"
-      ],
-      "status": "unverified",
-      "contested": false,
-      "checks": [
-        "quote_match:src_art_0005",
-        "independent_origins:1",
-        "attributed:src_art_0005"
-      ],
-      "attributed_only": true,
-      "claim_kind": "statement",
-      "notes": ""
-    },
-    {
-      "claim_id": "clm_0046",
-      "text": "트럼프 대통령은 지금까지 후티에 대한 미국의 직접 타격 요청을 거절해 왔다",
-      "source_ids": [
-        "src_art_0013"
-      ],
-      "status": "unverified",
-      "contested": false,
-      "checks": [
-        "quote_match:src_art_0013",
-        "independent_origins:1"
-      ],
-      "attributed_only": false,
-      "claim_kind": "fact",
-      "notes": ""
+     "party": "후티·이란",
+     "text": "혐의를 부인했다",
+     "source_ids": [
+      "src_art_0013"
+     ]
     }
-  ]
+   ],
+   "checks": [
+    "quote_match:src_art_0013",
+    "quote_match:src_art_0014",
+    "quote_match:src_art_0013",
+    "independent_origins:2"
+   ],
+   "attributed_only": false,
+   "claim_kind": "fact",
+   "notes": ""
+  },
+  {
+   "claim_id": "clm_0009",
+   "text": "후티 세력이 바브엘만데브 해협을 포함한 예멘 홍해 연안을 장악했다",
+   "source_ids": [
+    "src_art_0002",
+    "src_art_0013"
+   ],
+   "status": "corroborated",
+   "contested": false,
+   "checks": [
+    "quote_match:src_art_0002",
+    "quote_match:src_art_0013",
+    "independent_origins:2"
+   ],
+   "attributed_only": false,
+   "claim_kind": "fact",
+   "notes": ""
+  },
+  {
+   "claim_id": "clm_0010",
+   "text": "메카 협정의 전략정치국방위원회가 10월 5일 리야드에서 긴급회의를 열었다",
+   "source_ids": [
+    "src_art_0016",
+    "src_art_0001",
+    "src_art_0014"
+   ],
+   "status": "corroborated",
+   "contested": false,
+   "event_date": "2026-10-05",
+   "checks": [
+    "quote_match:src_art_0016",
+    "quote_match:src_art_0001",
+    "quote_match:src_art_0014",
+    "independent_origins:3"
+   ],
+   "attributed_only": false,
+   "claim_kind": "fact",
+   "notes": ""
+  },
+  {
+   "claim_id": "clm_0011",
+   "text": "3국이 10월 5일 집단방위 공약의 실제 이행(협정 발동)을 결정했다",
+   "source_ids": [
+    "src_art_0002",
+    "src_art_0001",
+    "src_art_0016",
+    "src_art_0014",
+    "src_art_0013"
+   ],
+   "status": "corroborated",
+   "contested": false,
+   "event_date": "2026-10-05",
+   "checks": [
+    "quote_match:src_art_0002",
+    "quote_match:src_art_0001",
+    "quote_match:src_art_0016",
+    "quote_match:src_art_0014",
+    "quote_match:src_art_0013",
+    "independent_origins:5"
+   ],
+   "attributed_only": false,
+   "claim_kind": "fact",
+   "notes": ""
+  },
+  {
+   "claim_id": "clm_0012",
+   "text": "메카 공동방위협정 발동은 8월 서명 이후 처음이다",
+   "source_ids": [
+    "src_art_0002"
+   ],
+   "status": "unverified",
+   "contested": false,
+   "event_date": "2026-10-05",
+   "checks": [
+    "quote_match:src_art_0002",
+    "independent_origins:1"
+   ],
+   "attributed_only": false,
+   "claim_kind": "fact",
+   "notes": ""
+  },
+  {
+   "claim_id": "clm_0013",
+   "text": "3국 공동성명이 합의된 군사력을 사우디에 즉시 배치한다고 밝혔다",
+   "source_ids": [
+    "src_art_0001"
+   ],
+   "status": "unverified",
+   "contested": false,
+   "event_date": "2026-10-05",
+   "checks": [
+    "quote_match:src_art_0001",
+    "independent_origins:1",
+    "attributed:src_art_0001"
+   ],
+   "attributed_only": true,
+   "claim_kind": "statement",
+   "notes": ""
+  },
+  {
+   "claim_id": "clm_0014",
+   "text": "10월 5일 공동성명은 후티를 위협으로 명시하지 않았다",
+   "source_ids": [
+    "src_art_0002",
+    "src_art_0014"
+   ],
+   "status": "corroborated",
+   "contested": false,
+   "event_date": "2026-10-05",
+   "checks": [
+    "quote_match:src_art_0002",
+    "quote_match:src_art_0014",
+    "independent_origins:2"
+   ],
+   "attributed_only": false,
+   "claim_kind": "fact",
+   "notes": ""
+  },
+  {
+   "claim_id": "clm_0015",
+   "text": "10월 5일 공동성명은 병력 배치의 세부 내용이나 일정을 밝히지 않았다",
+   "source_ids": [
+    "src_art_0014"
+   ],
+   "status": "unverified",
+   "contested": false,
+   "event_date": "2026-10-05",
+   "checks": [
+    "quote_match:src_art_0014",
+    "independent_origins:1"
+   ],
+   "attributed_only": false,
+   "claim_kind": "fact",
+   "notes": ""
+  },
+  {
+   "claim_id": "clm_0016",
+   "text": "튀르키예 의회는 아직 메카 공동방위협정을 비준하지 않았다",
+   "source_ids": [
+    "src_art_0002"
+   ],
+   "status": "unverified",
+   "contested": false,
+   "checks": [
+    "quote_match:src_art_0002",
+    "independent_origins:1"
+   ],
+   "attributed_only": false,
+   "claim_kind": "fact",
+   "notes": ""
+  },
+  {
+   "claim_id": "clm_0017",
+   "text": "카와자 아시프 파키스탄 국방장관이 파키스탄·튀르키예가 정찰 등 지원 역할로 사우디를 돕고 있다고 밝혔다",
+   "source_ids": [
+    "src_art_0014",
+    "src_art_0002"
+   ],
+   "status": "corroborated",
+   "contested": false,
+   "event_date": "2026-10-05",
+   "checks": [
+    "quote_match:src_art_0014",
+    "quote_match:src_art_0002",
+    "independent_origins:2",
+    "attributed:src_art_0014",
+    "attributed:src_art_0002"
+   ],
+   "attributed_only": true,
+   "claim_kind": "statement",
+   "notes": ""
+  },
+  {
+   "claim_id": "clm_0018",
+   "text": "카와자 아시프 파키스탄 국방장관이 전투 작전에는 사우디군만 참여하고 있다고 밝혔다",
+   "source_ids": [
+    "src_art_0014"
+   ],
+   "status": "unverified",
+   "contested": false,
+   "event_date": "2026-10-05",
+   "checks": [
+    "quote_match:src_art_0014",
+    "independent_origins:1",
+    "attributed:src_art_0014"
+   ],
+   "attributed_only": true,
+   "claim_kind": "statement",
+   "notes": "",
+   "direct_quotes": [
+    {
+     "source_id": "src_art_0014",
+     "text": "presence in theatre"
+    }
+   ]
+  },
+  {
+   "claim_id": "clm_0019",
+   "text": "파키스탄이 사우디아라비아에 병력 3만~4만 명을 배치했다",
+   "source_ids": [
+    "src_art_0006"
+   ],
+   "status": "disputed",
+   "contested": true,
+   "sides": [
+    {
+     "party": "로이터(익명의 파키스탄 관리 인용)",
+     "text": "파키스탄이 국경 방어와 드론·미사일 요격을 위해 3만~4만 명을 배치했다",
+     "source_ids": [
+      "src_art_0006",
+      "src_art_0001",
+      "src_art_0016"
+     ]
+    },
+    {
+     "party": "파키스탄 정보방송부",
+     "text": "익명 소식통에 기댄 추측성 보도이며 작전 세부사항은 기밀이다",
+     "source_ids": [
+      "src_art_0001",
+      "src_art_0016"
+     ]
+    }
+   ],
+   "checks": [
+    "quote_match:src_art_0006",
+    "independent_origins:1"
+   ],
+   "attributed_only": false,
+   "claim_kind": "fact",
+   "notes": ""
+  },
+  {
+   "claim_id": "clm_0020",
+   "text": "로이터가 10월 2일 파키스탄 관리를 인용해 파키스탄이 사우디에 병력 3만~4만 명을 배치했다고 보도했다",
+   "source_ids": [
+    "src_art_0001",
+    "src_art_0016",
+    "src_art_0006"
+   ],
+   "status": "corroborated",
+   "contested": false,
+   "event_date": "2026-10-02",
+   "checks": [
+    "quote_match:src_art_0001",
+    "quote_match:src_art_0016",
+    "quote_match:src_art_0006",
+    "independent_origins:3",
+    "attributed:src_art_0001",
+    "attributed:src_art_0016",
+    "attributed:src_art_0006"
+   ],
+   "attributed_only": true,
+   "claim_kind": "statement",
+   "notes": ""
+  },
+  {
+   "claim_id": "clm_0021",
+   "text": "익명의 파키스탄 관리가 로이터에 파키스탄이 예멘 전투 파병을 결정하지 않았다고 밝혔다",
+   "source_ids": [
+    "src_art_0006",
+    "src_art_0016"
+   ],
+   "status": "corroborated",
+   "contested": false,
+   "event_date": "2026-10-02",
+   "checks": [
+    "quote_match:src_art_0006",
+    "quote_match:src_art_0016",
+    "independent_origins:2",
+    "attributed:src_art_0006",
+    "attributed:src_art_0016"
+   ],
+   "attributed_only": true,
+   "claim_kind": "statement",
+   "notes": ""
+  },
+  {
+   "claim_id": "clm_0022",
+   "text": "파키스탄 정보방송부가 10월 6일 로이터의 병력 배치 보도를 거부했다",
+   "source_ids": [
+    "src_art_0001",
+    "src_art_0016"
+   ],
+   "status": "corroborated",
+   "contested": false,
+   "event_date": "2026-10-06",
+   "checks": [
+    "quote_match:src_art_0001",
+    "quote_match:src_art_0016",
+    "independent_origins:2"
+   ],
+   "attributed_only": false,
+   "claim_kind": "fact",
+   "notes": ""
+  },
+  {
+   "claim_id": "clm_0023",
+   "text": "파키스탄 정부가 사우디 배치의 세부 내용을 공개하지 않겠다고 밝혔다",
+   "source_ids": [
+    "src_art_0016",
+    "src_art_0002"
+   ],
+   "status": "corroborated",
+   "contested": false,
+   "checks": [
+    "quote_match:src_art_0016",
+    "quote_match:src_art_0002",
+    "independent_origins:2",
+    "attributed:src_art_0016",
+    "attributed:src_art_0002"
+   ],
+   "attributed_only": true,
+   "claim_kind": "statement",
+   "notes": ""
+  },
+  {
+   "claim_id": "clm_0024",
+   "text": "파키스탄군 대변인(DG ISPR) 아흐메드 샤리프 차우드리 중장이 10월 7일 CNN 인터뷰에서 파키스탄군이 사우디에 여러 역할로 주둔하고 있다고 밝혔다",
+   "source_ids": [
+    "src_art_0001",
+    "src_art_0007"
+   ],
+   "status": "corroborated",
+   "contested": false,
+   "event_date": "2026-10-07",
+   "checks": [
+    "quote_match:src_art_0001",
+    "quote_match:src_art_0001",
+    "quote_match:src_art_0007",
+    "independent_origins:2",
+    "attributed:src_art_0001",
+    "attributed:src_art_0001",
+    "attributed:src_art_0007"
+   ],
+   "attributed_only": true,
+   "claim_kind": "statement",
+   "notes": "",
+   "direct_quotes": [
+    {
+     "source_id": "src_art_0001",
+     "text": "multiple capabilities"
+    }
+   ]
+  },
+  {
+   "claim_id": "clm_0025",
+   "text": "파키스탄군이 사우디아라비아에 주둔하고 있다",
+   "source_ids": [
+    "src_art_0001",
+    "src_art_0007"
+   ],
+   "status": "corroborated",
+   "contested": false,
+   "event_date": "2026-10-07",
+   "checks": [
+    "quote_match:src_art_0001",
+    "quote_match:src_art_0007",
+    "independent_origins:2"
+   ],
+   "attributed_only": false,
+   "claim_kind": "fact",
+   "notes": ""
+  },
+  {
+   "claim_id": "clm_0026",
+   "text": "파키스탄이 4월부터 사우디에 병력 8,000명을 배치했다",
+   "source_ids": [
+    "src_art_0004"
+   ],
+   "status": "unverified",
+   "contested": true,
+   "sides": [
+    {
+     "party": "로이터(Middle East Eye 인용, 5월 보도)",
+     "text": "4월 초부터 병력 8,000명을 배치했다",
+     "source_ids": [
+      "src_art_0004"
+     ]
+    }
+   ],
+   "checks": [
+    "quote_match:src_art_0004",
+    "independent_origins:1"
+   ],
+   "attributed_only": false,
+   "claim_kind": "fact",
+   "notes": ""
+  },
+  {
+   "claim_id": "clm_0027",
+   "text": "파키스탄이 사우디에 JF-17 위주 약 16대 규모 전투기 편대를 배치했다",
+   "source_ids": [
+    "src_art_0004"
+   ],
+   "status": "unverified",
+   "contested": true,
+   "sides": [
+    {
+     "party": "로이터(Middle East Eye 인용, 5월 보도)",
+     "text": "JF-17 위주 약 16대 편대를 배치했다",
+     "source_ids": [
+      "src_art_0004"
+     ]
+    }
+   ],
+   "checks": [
+    "quote_match:src_art_0004",
+    "independent_origins:1"
+   ],
+   "attributed_only": false,
+   "claim_kind": "fact",
+   "notes": ""
+  },
+  {
+   "claim_id": "clm_0028",
+   "text": "파키스탄이 사우디에 중국산 HQ-9 방공체계를 배치했다",
+   "source_ids": [
+    "src_art_0004"
+   ],
+   "status": "unverified",
+   "contested": true,
+   "sides": [
+    {
+     "party": "로이터(Middle East Eye 인용, 5월 보도)",
+     "text": "HQ-9 방공체계를 배치했다",
+     "source_ids": [
+      "src_art_0004"
+     ]
+    }
+   ],
+   "checks": [
+    "quote_match:src_art_0004",
+    "independent_origins:1"
+   ],
+   "attributed_only": false,
+   "claim_kind": "fact",
+   "notes": ""
+  },
+  {
+   "claim_id": "clm_0029",
+   "text": "파키스탄 관리가 파키스탄이 지난달 아덴에 방공체계 등을 실은 수송기 4대를 보냈다고 밝혔다",
+   "source_ids": [
+    "src_art_0006"
+   ],
+   "status": "unverified",
+   "contested": false,
+   "checks": [
+    "quote_match:src_art_0006",
+    "independent_origins:1",
+    "attributed:src_art_0006"
+   ],
+   "attributed_only": true,
+   "claim_kind": "statement",
+   "notes": ""
+  },
+  {
+   "claim_id": "clm_0030",
+   "text": "파키스탄 정보방송부가 10월 8일 파키스탄 공군의 후티 공격 투입 가능성을 다룬 뉴욕타임스 보도를 거부했다",
+   "source_ids": [
+    "src_art_0017"
+   ],
+   "status": "unverified",
+   "contested": false,
+   "event_date": "2026-10-08",
+   "checks": [
+    "quote_match:src_art_0017",
+    "independent_origins:1"
+   ],
+   "attributed_only": false,
+   "claim_kind": "fact",
+   "notes": ""
+  },
+  {
+   "claim_id": "clm_0031",
+   "text": "튀르키예가 사우디에 군사 지원을 제공했다",
+   "source_ids": [
+    "src_art_0013",
+    "src_art_0006"
+   ],
+   "status": "corroborated",
+   "contested": false,
+   "checks": [
+    "quote_match:src_art_0013",
+    "quote_match:src_art_0006",
+    "independent_origins:2"
+   ],
+   "attributed_only": false,
+   "claim_kind": "fact",
+   "notes": ""
+  },
+  {
+   "claim_id": "clm_0032",
+   "text": "사우디 주도 연합군·예멘 정부군이 10월 초 후티 점령지 탈환 공세를 시작했다",
+   "source_ids": [
+    "src_art_0002",
+    "src_art_0005",
+    "src_art_0014"
+   ],
+   "status": "corroborated",
+   "contested": false,
+   "checks": [
+    "quote_match:src_art_0002",
+    "quote_match:src_art_0005",
+    "quote_match:src_art_0014",
+    "independent_origins:3"
+   ],
+   "attributed_only": false,
+   "claim_kind": "fact",
+   "notes": ""
+  },
+  {
+   "claim_id": "clm_0033",
+   "text": "예멘 정부군이 10월 5일 모카에 도달해 후티를 해협에서 밀어냈다",
+   "source_ids": [
+    "src_art_0013"
+   ],
+   "status": "disputed",
+   "contested": true,
+   "sides": [
+    {
+     "party": "예멘 정부군",
+     "text": "모카에 도달해 후티를 해협에서 밀어냈다",
+     "source_ids": [
+      "src_art_0013"
+     ]
+    },
+    {
+     "party": "후티",
+     "text": "정부군 주장을 부인한다",
+     "source_ids": [
+      "src_art_0013"
+     ]
+    }
+   ],
+   "event_date": "2026-10-05",
+   "checks": [
+    "quote_match:src_art_0013",
+    "quote_match:src_art_0013",
+    "independent_origins:0",
+    "attributed:src_art_0013"
+   ],
+   "attributed_only": true,
+   "claim_kind": "fact",
+   "notes": ""
+  },
+  {
+   "claim_id": "clm_0034",
+   "text": "예멘 정부군이 바브엘만데브 인근 주요 도시 여러 곳을 탈환했다",
+   "source_ids": [
+    "src_art_0002"
+   ],
+   "status": "unverified",
+   "contested": true,
+   "sides": [
+    {
+     "party": "예멘 정부 관리",
+     "text": "바브엘만데브 인근 주요 도시 여러 곳을 탈환했다",
+     "source_ids": [
+      "src_art_0002"
+     ]
+    }
+   ],
+   "checks": [
+    "quote_match:src_art_0002",
+    "independent_origins:0",
+    "attributed:src_art_0002"
+   ],
+   "attributed_only": true,
+   "claim_kind": "fact",
+   "notes": ""
+  },
+  {
+   "claim_id": "clm_0035",
+   "text": "후티 지지자들이 10월 7일 사나에서 튀르키예·파키스탄의 사우디 지원에 반대하는 무장 집회를 열었다",
+   "source_ids": [
+    "src_art_0013"
+   ],
+   "status": "unverified",
+   "contested": false,
+   "event_date": "2026-10-07",
+   "checks": [
+    "quote_match:src_art_0013",
+    "independent_origins:1"
+   ],
+   "attributed_only": false,
+   "claim_kind": "fact",
+   "notes": ""
+  },
+  {
+   "claim_id": "clm_0036",
+   "text": "이번 주 초 후티의 사우디 공항 공격으로 3명이 숨졌다",
+   "source_ids": [
+    "src_art_0013",
+    "src_art_0017",
+    "src_art_0005"
+   ],
+   "status": "corroborated",
+   "contested": false,
+   "checks": [
+    "quote_match:src_art_0013",
+    "quote_match:src_art_0017",
+    "quote_match:src_art_0005",
+    "independent_origins:2",
+    "attributed:src_art_0005"
+   ],
+   "attributed_only": false,
+   "claim_kind": "fact",
+   "notes": ""
+  },
+  {
+   "claim_id": "clm_0037",
+   "text": "후티가 10월 8일 탄도미사일로 리야드 킹칼리드 국제공항을 공격했다고 밝혔다",
+   "source_ids": [
+    "src_art_0017",
+    "src_art_0013",
+    "src_art_0005"
+   ],
+   "status": "corroborated",
+   "contested": false,
+   "event_date": "2026-10-08",
+   "checks": [
+    "quote_match:src_art_0017",
+    "quote_match:src_art_0013",
+    "quote_match:src_art_0005",
+    "independent_origins:3",
+    "attributed:src_art_0017",
+    "attributed:src_art_0013",
+    "attributed:src_art_0005"
+   ],
+   "attributed_only": true,
+   "claim_kind": "statement",
+   "notes": ""
+  },
+  {
+   "claim_id": "clm_0038",
+   "text": "사우디 민간항공청이 10월 8일 킹칼리드 공항 공격으로 조종사를 포함한 사우디인 3명이 숨졌다고 밝혔다",
+   "source_ids": [
+    "src_art_0005"
+   ],
+   "status": "unverified",
+   "contested": false,
+   "event_date": "2026-10-08",
+   "checks": [
+    "quote_match:src_art_0005",
+    "independent_origins:1",
+    "attributed:src_art_0005"
+   ],
+   "attributed_only": true,
+   "claim_kind": "statement",
+   "notes": ""
+  },
+  {
+   "claim_id": "clm_0039",
+   "text": "후티가 10월 10일 리야드 킹칼리드 국제공항을 공격했다",
+   "source_ids": [
+    "src_art_0005"
+   ],
+   "status": "unverified",
+   "contested": false,
+   "event_date": "2026-10-10",
+   "checks": [
+    "quote_match:src_art_0005",
+    "independent_origins:1"
+   ],
+   "attributed_only": false,
+   "claim_kind": "fact",
+   "notes": ""
+  },
+  {
+   "claim_id": "clm_0040",
+   "text": "후티 미디어국장이 10월 10일 공격 후 리야드 국제공항을 폐쇄시켰다고 밝혔다",
+   "source_ids": [
+    "src_art_0005"
+   ],
+   "status": "unverified",
+   "contested": false,
+   "event_date": "2026-10-10",
+   "checks": [
+    "quote_match:src_art_0005",
+    "independent_origins:1",
+    "attributed:src_art_0005"
+   ],
+   "attributed_only": true,
+   "claim_kind": "statement",
+   "notes": "",
+   "direct_quotes": [
+    {
+     "source_id": "src_art_0005",
+     "text": "shut down Riyadh international airport"
+    }
+   ]
+  },
+  {
+   "claim_id": "clm_0041",
+   "text": "사우디가 10월 10일 리야드 공항 공격으로 최소 12명이 숨졌다고 밝혔다",
+   "source_ids": [
+    "src_art_0005"
+   ],
+   "status": "unverified",
+   "contested": false,
+   "event_date": "2026-10-10",
+   "checks": [
+    "quote_match:src_art_0005",
+    "independent_origins:1",
+    "attributed:src_art_0005"
+   ],
+   "attributed_only": true,
+   "claim_kind": "statement",
+   "notes": ""
+  },
+  {
+   "claim_id": "clm_0042",
+   "text": "사우디 민간항공청이 10월 10일 리야드 공항 공격으로 최소 309명이 다쳤다고 밝혔다",
+   "source_ids": [
+    "src_art_0005"
+   ],
+   "status": "unverified",
+   "contested": false,
+   "event_date": "2026-10-10",
+   "checks": [
+    "quote_match:src_art_0005",
+    "independent_origins:1",
+    "attributed:src_art_0005"
+   ],
+   "attributed_only": true,
+   "claim_kind": "statement",
+   "notes": ""
+  },
+  {
+   "claim_id": "clm_0043",
+   "text": "10월 10일 리야드 공항 공격 사망자 중 미국 시민 1명이 있다",
+   "source_ids": [
+    "src_art_0005"
+   ],
+   "status": "unverified",
+   "contested": false,
+   "event_date": "2026-10-10",
+   "checks": [
+    "quote_match:src_art_0005",
+    "quote_match:src_art_0005",
+    "independent_origins:1"
+   ],
+   "attributed_only": false,
+   "claim_kind": "fact",
+   "notes": ""
+  },
+  {
+   "claim_id": "clm_0044",
+   "text": "사우디 주도 연합군이 10월 10일 공항 공격을 전면적 전쟁범죄라고 불렀다",
+   "source_ids": [
+    "src_art_0005"
+   ],
+   "status": "unverified",
+   "contested": false,
+   "event_date": "2026-10-10",
+   "checks": [
+    "quote_match:src_art_0005",
+    "independent_origins:1",
+    "attributed:src_art_0005"
+   ],
+   "attributed_only": true,
+   "claim_kind": "statement",
+   "notes": "",
+   "direct_quotes": [
+    {
+     "source_id": "src_art_0005",
+     "text": "full-fledged war crime"
+    }
+   ]
+  },
+  {
+   "claim_id": "clm_0045",
+   "text": "후티가 민항기들에 사우디 영공을 피하라고 밝혔다",
+   "source_ids": [
+    "src_art_0005"
+   ],
+   "status": "unverified",
+   "contested": false,
+   "checks": [
+    "quote_match:src_art_0005",
+    "independent_origins:1",
+    "attributed:src_art_0005"
+   ],
+   "attributed_only": true,
+   "claim_kind": "statement",
+   "notes": ""
+  },
+  {
+   "claim_id": "clm_0046",
+   "text": "트럼프 대통령은 지금까지 후티에 대한 미국의 직접 타격 요청을 거절해 왔다",
+   "source_ids": [
+    "src_art_0013"
+   ],
+   "status": "unverified",
+   "contested": false,
+   "checks": [
+    "quote_match:src_art_0013",
+    "independent_origins:1"
+   ],
+   "attributed_only": false,
+   "claim_kind": "fact",
+   "notes": ""
+  },
+  {
+   "claim_id": "clm_0047",
+   "text": "한국은 원유 수입의 70%를 호르무즈 해협을 거쳐 들여온다",
+   "source_ids": [
+    "src_art_0010"
+   ],
+   "status": "unverified",
+   "contested": false,
+   "checks": [
+    "quote_match:src_art_0010",
+    "independent_origins:1"
+   ],
+   "attributed_only": false,
+   "claim_kind": "fact",
+   "notes": " [v5.20.0 D-0181 §2-3 보강 출처 검증(부분 실행) clm_0001 → clm_0047]"
+  },
+  {
+   "claim_id": "clm_0048",
+   "text": "2026년 5~7월 한국의 전체 원유 수입 중 중동산 비중이 48.5%로 낮아졌다",
+   "source_ids": [
+    "src_art_0019"
+   ],
+   "status": "unverified",
+   "contested": false,
+   "checks": [
+    "quote_match:src_art_0019",
+    "independent_origins:1"
+   ],
+   "attributed_only": false,
+   "claim_kind": "fact",
+   "notes": " [v5.20.0 D-0181 §2-3 보강 출처 검증(부분 실행) clm_0017 → clm_0048]"
+  },
+  {
+   "claim_id": "clm_0049",
+   "text": "2025년 한국의 중동산 원유 수입 비중은 69.1%였다",
+   "source_ids": [
+    "src_art_0019"
+   ],
+   "status": "unverified",
+   "contested": false,
+   "checks": [
+    "quote_match:src_art_0019",
+    "independent_origins:1"
+   ],
+   "attributed_only": false,
+   "claim_kind": "fact",
+   "notes": " [v5.20.0 D-0181 §2-3 보강 출처 검증(부분 실행) clm_0018 → clm_0049]"
+  },
+  {
+   "claim_id": "clm_0050",
+   "text": "한국 원유 수입 중 미주 지역 비중이 지난해 23.1%에서 2026년 5~7월 35.6%로 늘었다",
+   "source_ids": [
+    "src_art_0019"
+   ],
+   "status": "unverified",
+   "contested": false,
+   "checks": [
+    "quote_match:src_art_0019",
+    "independent_origins:1"
+   ],
+   "attributed_only": false,
+   "claim_kind": "fact",
+   "notes": " [v5.20.0 D-0181 §2-3 보강 출처 검증(부분 실행) clm_0019 → clm_0050]"
+  },
+  {
+   "claim_id": "clm_0051",
+   "text": "파키스탄이 9월 예멘 정부(아덴)에 무기를 실은 수송기 4대를 보냈다",
+   "source_ids": [
+    "src_art_0020"
+   ],
+   "status": "unverified",
+   "contested": true,
+   "sides": [
+    {
+     "party": "익명 파키스탄 정부 관리(로이터 보도, Middle East Eye 인용)",
+     "text": "방공 체계·경포·드론·대드론 체계를 아덴에 보냈다",
+     "source_ids": [
+      "src_art_0020"
+     ]
+    }
+   ],
+   "checks": [
+    "quote_match:src_art_0020",
+    "quote_match:src_art_0020",
+    "independent_origins:1"
+   ],
+   "attributed_only": false,
+   "claim_kind": "fact",
+   "notes": " [v5.20.0 D-0181 §2-3 보강 출처 검증(부분 실행) clm_0046 → clm_0051]"
+  }
+ ]
 }
