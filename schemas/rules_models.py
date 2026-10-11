@@ -105,6 +105,24 @@ class ForcedAlignRules(_Strict):
     gate: AlignGateRules
 
 
+class FinalFallRules(_Strict):
+    """v5.20.0 D-0175 — 문장 끝 억양 보정(사용자 결정 D169 시안 C). 값의 정본은 rules tts_rules.prosody.final_fall."""
+
+    enabled: bool
+    suffix: str = Field(min_length=1)          # 발음 텍스트가 이것(+문장부호)으로 끝날 때만
+    span_chars: int = Field(ge=1)              # 끝에서 몇 글자 구간(습니다 = 3)
+    semitones: float = Field(gt=0)             # 구간 끝까지 선형으로 내리는 반음
+    pre_sec: float = Field(ge=0)               # 구간 첫 글자 시작보다 이만큼 앞에서
+    crossfade_sec: float = Field(gt=0)         # 원음 → 합성음 전환
+    f0_floor_hz: float = Field(gt=0)
+    f0_ceil_hz: float = Field(gt=0)
+    frame_ms: float = Field(gt=0)
+
+
+class ProsodyRules(_Strict):
+    final_fall: FinalFallRules
+
+
 class TTSRules(_Strict):
     forbidden_chars_regex: str
     sino_numbers_no_inner_space: bool
@@ -116,6 +134,7 @@ class TTSRules(_Strict):
     emphasis_must_be_substring: bool
     alignment_sources: list[str]   # v2.3.0 D34 — `{mp3}.align.json` alignment_source 등재값(P10). 등재 외 = 오류
     forced_align: "ForcedAlignRules"   # v5.16.0 D-0164 §5
+    prosody: "ProsodyRules"   # v5.20.0 D-0175 — 문장 끝 억양 보정
     letter_names: list[str] = Field(default_factory=list)       # v5.6.0 TTS-AP-075 — 알파벳 글자 이름(한글). 등재 약어·사전 값의 글자 연속만 합성 직전 띄운다
     acronyms: list["Acronym"] = Field(default_factory=list)      # v5.6.0 사용자 결정 2026-10-04 — 약어 읽기 등재(린트 tts-acronym)
 

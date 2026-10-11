@@ -21,6 +21,7 @@ from script.tts import supertonic as st
 from script.tts import supertonic_assets as sa
 from script.tts.align import align_path
 from script.tts.cache import cache_key
+from script.tts.prosody import FinalFallRecord  # v5.20.0 — 끝 억양 보정 대역
 from script.tts.supertonic_runtime import TextToSpeech, chunk_text
 
 CFG = st.config()
@@ -118,6 +119,7 @@ class PlanTest(unittest.TestCase):
                  mock.patch.object(plan_mod.supertonic, "synth_all", side_effect=fake), \
                  mock.patch.object(plan_mod.edge, "synth_all", side_effect=AssertionError("edge 로 넘어가면 안 된다")), \
                  mock.patch.object(plan_mod, "trim_to_npy", return_value=(proj / "x.npy", 1.0, 0.0)), \
+                 mock.patch.object(plan_mod, "final_fall_audio", return_value=(None, FinalFallRecord(applied=False, reason="test"))), \
                  mock.patch.object(plan_mod, "forced_alignment",
                                    return_value={"source": "mms_forced_alignment", "score_mean": 0.9, "elapsed_ms": 900}) as fa:
                 pl = plan_mod.build(proj, "supertonic")

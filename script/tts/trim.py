@@ -24,9 +24,10 @@ def decode(mp3: Path) -> np.ndarray:
     return np.frombuffer(raw, np.int16).astype(np.float32) / 32768
 
 
-def trim(a: np.ndarray) -> tuple[np.ndarray, int]:
-    """(트림·페이드된 음성, 앞에서 잘라낸 샘플 수)."""
-    idx = np.where(np.abs(a) > THRESH)[0]
+def trim(a: np.ndarray, ref: np.ndarray | None = None) -> tuple[np.ndarray, int]:
+    """(트림·페이드된 음성, 앞에서 잘라낸 샘플 수). ref = 자를 자리를 정하는 원음(v5.20.0 — 끝 억양 보정 음성도 원음과 같은 자리에서 자른다:
+    합성 꼬리의 잡음이 문턱을 넘어 길이·타임라인이 바뀌지 않게)."""
+    idx = np.where(np.abs(a if ref is None else ref) > THRESH)[0]
     if len(idx) == 0:
         raise ValueError("음성에 소리가 없다")
     start = max(0, idx[0] - int(PRE_SEC * SR))
@@ -37,9 +38,9 @@ def trim(a: np.ndarray) -> tuple[np.ndarray, int]:
     return a, int(start)
 
 
-def trim_to_npy(mp3: Path) -> tuple[Path, float, float]:
-    """→ (npy 경로, 트림 후 길이 초, trim_offset 초)."""
-    a, start = trim(decode(mp3))
+def trim_to_npy(mp3: Path, audio: np.ndarray | None = None) -> tuple[Path, float, float]:
+    """→ (npy 경로, 트림 후 길이 초, trim_offset 초). audio = 디코드 뒤 보정한 음성(v5.20.0 문장 끝 억양, 원본과 같은 길이) — 없으면 mp3 디코드."""
+    a, start = trim(decode(mp3)) if audio is None else trim(audio, ref=decode(mp3))
     npy = mp3.with_suffix(".npy")
     np.save(npy, a)
     return npy, len(a) / SR, start / SR

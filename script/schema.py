@@ -14,6 +14,8 @@ from pydantic import BaseModel, ConfigDict, Field, field_validator, model_valida
 DATE_RE = re.compile(r"^\d{4}(\.\d{2}(\.\d{2})?)?$")  # rules script_schema.date_formats
 
 
+from script.tts.prosody import FinalFallRecord  # noqa: E402 — v5.20.0 plan row prosody 기록 모델
+
 class _Strict(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
@@ -90,6 +92,11 @@ class PlanAlignment(_Strict):
     elapsed_ms: Optional[int] = None
 
 
+class PlanProsody(_Strict):
+    """v5.20.0 optional(D-0175) — 이 문장 음성에 적용한 운율 보정 기록(provenance features.prosody 로 집계)."""
+    final_fall: FinalFallRecord
+
+
 class PlanSentence(_Strict):
     sid: str
     scene: str
@@ -105,6 +112,7 @@ class PlanSentence(_Strict):
     trim_offset: Optional[float] = None  # v2.3.0 optional(C3 호환) — 원본 mp3 앞에서 잘라낸 초. 정렬 시각 보정용
     chunks: Optional[list[str]] = None   # v5.11.0 optional(D-0152) — Supertonic 이 문장을 나눈 조각(사이 무음 tts.supertonic.silence_sec)
     alignment: Optional[PlanAlignment] = None   # v5.16.0 optional(D-0164 §5-4) — 정렬 출처·점수·시간
+    prosody: Optional[PlanProsody] = None       # v5.20.0 optional(D-0175) — 문장 끝 억양 보정 기록
 
 
 class Card(_Strict):

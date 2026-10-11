@@ -146,6 +146,9 @@ def build(plan: Plan, keys: list[CamKey], events: list[dict], repo_version: str,
         feats["alignment"] = {"sources": dict(sorted({r.source: sum(1 for q in rows if q.source == r.source) for r in rows}.items())),
                               "score_mean_min": min(scores) if scores else None,
                               "elapsed_ms_total": sum(r.elapsed_ms or 0 for r in rows)}
+    ff = [s.prosody.final_fall for s in plan.sentences if s.prosody is not None]
+    if ff:   # v5.20.0 D-0175 — 문장 끝 억양 보정이 돌았을 때만(P5)
+        feats["prosody"] = {"final_fall": {"applied_n": sum(r.applied for r in ff), "skipped_n": sum(not r.applied for r in ff)}}
     return {
         "schema_version": 1,
         "engine": "engine",

@@ -15,6 +15,7 @@ from unittest import mock
 import yaml
 
 from script.tts import elevenlabs
+from script.tts.prosody import FinalFallRecord  # v5.20.0 — 끝 억양 보정 대역
 from tests.anti_inertia._ast_util import REPO
 
 KEYS = {"ELEVENLABS_API_KEY": "test-key-not-real", "ELEVENLABS_VOICE_ID": "voice-test"}
@@ -75,6 +76,7 @@ class PaidBlockTest(unittest.TestCase):
                 mock.patch.object(plan_mod.supertonic, "synth_all",
                                   side_effect=lambda jobs, cfg=None: [p.write_bytes(b"x" * 2000) for _, p in jobs]), \
                 mock.patch.object(plan_mod, "trim_to_npy", return_value=(Path(d) / "x.npy", 1.0, 0.0)), \
+                mock.patch.object(plan_mod, "final_fall_audio", return_value=(None, FinalFallRecord(applied=False, reason="test"))), \
                 mock.patch.object(plan_mod, "forced_alignment", return_value={"source": "mms_forced_alignment"}):
             pl = plan_mod.build(_proj(d), plan_mod.load_config().tts.backend_default)
         post.assert_not_called()

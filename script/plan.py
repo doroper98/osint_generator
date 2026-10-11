@@ -19,15 +19,16 @@ from pathlib import Path
 import yaml
 
 from orchestrator.config import load_config
+from rules import load_rules
 from script import lint_waivers
 from script.lint import lint, load_claims_for, load_pronounce_dict, pronounce_tts
 from script.schema import Plan, Script
 from script.timeline import layout, sentence_rows
 from script.tts import align as tts_align
-from script.tts import edge, elevenlabs, forced_align, supertonic
+from script.tts import edge, elevenlabs, forced_align, prosody, supertonic
 from script.tts.align import align_path
 from script.tts.cache import cache_key, cached, mp3_path
-from script.tts.trim import trim_to_npy
+from script.tts.trim import decode, trim_to_npy
 
 
 def load_script(proj: Path) -> Script:
@@ -81,13 +82,17 @@ def build(proj: Path, tts: str, warnings: list[str] | None = None, edge_voice: s
         supertonic.synth_all(jobs, st_cfg)
     else:
         edge.synth_all(jobs, voice=edge_voice)
+    ff = load_rules().tts_rules.prosody.final_fall
     for x in rows:
+        audio = None
         if st_cfg is not None:
             x["alignment"] = forced_alignment(Path(x["mp3"]), x["tts"])
-        else:
+            audio, rec = final_fall_audio(Path(x["mp3"]), x["tts"], x["sid"], ff)   # v5.20.0 D-0175 — 트림 앞, npy 가 제품 음성
+            x["prosody"] = {"final_fall": rec.model_dump()}
+        else:   # edge·elevenlabs 정렬은 절대 시각이 아니다(TTS-AP-082) — 보정하지 않는다(기록 없음 = 돌지 않은 단계, P5)
             al = tts_align.read(Path(x["mp3"]))
             x["alignment"] = {"source": al["alignment_source"]} if al else None
-        npy, dur, off = trim_to_npy(Path(x["mp3"]))
+        npy, dur, off = trim_to_npy(Path(x["mp3"]), audio)
         x["npy"], x["dur"], x["trim_offset"] = str(npy), dur, round(off, 6)
     cards, scene_start, total = layout(rows)
     return Plan(sentences=rows, cards=cards, scene_start=scene_start, total=total,
@@ -95,6 +100,14 @@ def build(proj: Path, tts: str, warnings: list[str] | None = None, edge_voice: s
                        elevenlabs.voice_label() if use_eleven else edge.voice_label(edge_voice)),
                 title=script.title, subtitle=script.subtitle, date=script.date, tts_resynthesized=resynth,
                 lint_waived=waived or None)
+
+
+def final_fall_audio(mp3: Path, pron_text: str, sid: str, cfg):  # noqa: ANN001, ANN201 — (np.ndarray, FinalFallRecord)
+    """문장 끝 억양 보정(v5.20.0 D-0175) — 원본 mp3 디코드(정렬과 같은 시각 축)에 적용. mp3·.align.json 은 바꾸지 않는다."""
+    try:
+        return prosody.final_fall(decode(mp3), tts_align.read(mp3) or {}, pron_text, cfg)
+    except prosody.ProsodyError as ex:
+        raise ValueError(f"{sid}: 문장 끝 억양 보정 실패 — {ex}") from ex
 
 
 def forced_alignment(mp3: Path, pron_text: str) -> dict:

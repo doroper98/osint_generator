@@ -1,6 +1,6 @@
 <!--
 tier: 2
-last_synced_with: v1.2.2
+last_synced_with: v5.20.0
 ssot_for: [v2-script-rules, v2-tts-rules]
 depends_on: [docs/handoff/00_INDEX.md, docs/handoff/15_ANTI_INERTIA_PRINCIPLES.md]
 last_review: 2026-09-27
@@ -225,6 +225,11 @@ a = a[max(0, idx[0] - 0.03s) : idx[-1] + 0.12s]     # 앞 30ms, 뒤 120ms 여유
 np.save(npy); dur = len(a)/44100
 ```
 정렬 사용 시 `trim_offset = (idx[0] - 0.03s)/SR`를 plan.json에 기록해야 한다(현재 미기록 → 추가 과제).
+
+**문장 끝 억양 보정(v5.20.0, 사용자 결정 D169 — back_and_forth D-0175).** 사용자 청취: "'~습니다' 가 너무 중간톤 — '~니다' 로 가며 아래로."
+Supertonic 음성은 디코드 뒤·트림 앞에 끝 3글자("습니다"·"입니다") 구간을 끝까지 선형으로 내린다(WORLD 보코더, `script/tts/prosody.final_fall`).
+구간 밖 샘플은 원음 그대로이고, 트림 자리는 원음 기준이라 길이·타임라인·정렬 시각이 바뀌지 않는다. mp3 캐시·`.align.json` 은 그대로, npy 가 제품 음성이다.
+값(반음·구간 글자 수·전환 길이·f0 범위)은 `rules tts_rules.prosody.final_fall` 한 곳이다(P3). 기록은 plan row `prosody.final_fall` → provenance `features_used.prosody`.
 
 ---
 

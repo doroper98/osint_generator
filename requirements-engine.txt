@@ -22,3 +22,4 @@ svgelements>=1.9   # v5.7.0 D-0140 S0 - sketch/ SVG georef (already used by proj
 torch>=2.2
 torchaudio>=2.2
 uroman>=1.3
+pyworld>=0.3   # v5.20.0 D-0175 - sentence-final pitch fall (WORLD vocoder, MIT). Required for supertonic plans (no fallback)

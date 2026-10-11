@@ -129,6 +129,12 @@ tts_rules:                 # 03 §4·§5
     silence_sec: 0.15
     match_window_sec: 0.3
     gate: {median_ms: 60, p90_ms: 120}
+  # v5.20.0 back_and_forth D-0175 — 문장 끝 억양 보정(사용자 결정 D169 시안 C: "~습니다 가 중간톤 — '~니다' 로 가며 아래로").
+  # 발음 텍스트가 suffix(+문장부호)로 끝나면 끝 span_chars 글자 구간(첫 글자 시작 − pre_sec ~ 마지막 유성 프레임)의 f0 를 semitones 만큼 선형으로 내린다.
+  # WORLD 보코더(pyworld, MIT) — 구간만 다시 합성·crossfade_sec 로 전환, 구간 밖 샘플은 원음 그대로. script/tts/prosody.final_fall
+  prosody:
+    final_fall: {enabled: true, suffix: "니다", span_chars: 3, semitones: 4.0, pre_sec: 0.03, crossfade_sec: 0.03,
+                 f0_floor_hz: 60, f0_ceil_hz: 260, frame_ms: 5}
   # v5.6.0 TTS-AP-075(사용자 시청 2026-10-04 "에이에프피 → 앞프", "씨에스아이에스 → 크시스") — 붙여 쓴 글자 이름 연속은 엔진이 한 낱말로 읽는다.
   # 합성 직전(script.lint.pronounce_tts) 등재 약어(acronyms.letters)·발음 사전 값 중 글자 이름만으로 된 연속을 띄운다("에이에프피" → "에이 에프 피").
   # 아무 한글 연속에나 적용하지 않는다 — '비디오'·'오디오' 같은 낱말이 깨진다.
