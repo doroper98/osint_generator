@@ -30,6 +30,7 @@ entries:
   - {kind: rule, ref: shot_grammar.move_ease}
   - {kind: rule, ref: sketch.checks.max_d3_per_frame}
   - {kind: test, ref: tests/test_camera_continuity.py::TestContinuity::test_sketch_sk_c1_same_measure}
+  - {kind: check, ref: camera_speed}
   status: guarded
   decision: D-0191 §1-1 · D-0202 · RENDER-AP-018 · 재발 — 원 항목 UF-84(스케치 멈칫)·UF-59(이동 방향 틀어짐)
 - id: UF-03

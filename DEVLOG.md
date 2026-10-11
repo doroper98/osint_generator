@@ -3436,3 +3436,5 @@ last_review: 2026-06-06
 - 2026-10-11 v5.23.0 V4 edge-tts 경로 삭제(D-0212) — 모듈·설정·CLI·정렬 출처·align_gate --edge·의존성, 시험 표준 음성 전환, 재유입 방지 시험, 골든 무변화. D-0212 §3 미추적 산출물 의존 시험 정리.
 - 2026-10-12 v6.0.0 GOAL G3 개정(MAJOR, D-0213): 18번 사용자 의견 원장 게이트·사용자 보호 hard 검사 연결, 4번 표준 음성, 별칭 시험 삭제. FABLE_HANDOFF §3·§4 갱신.
 - 2026-10-12 v6.0.1 병합 전 전체 pytest 3 실패(PIPELINE-AP-022) → forced_align --realign(옛 음성 보관본 정렬만 MMS, realigned_from)·정렬 출처 등록부 빠른 시험, ratcliffe2026·fed_policy_2026 재정렬(앵커 +0.11~0.29초).
+- 2026-10-12 v6.0.2 UF-97·98(D-0216 1단계): hard camera_speed(오프닝·일반 상한, 스케치 공용)·title_backdrop, 기사 카드 위 제목(글자 흐리게 유지), opening_establish 이동 길이(dur) 판정 수정, gulf 오프닝 손질·전달(D219). RENDER-AP-025(UF-02 재발 — 속도 미측정).
+- 2026-10-12 v6.0.3 제목 바탕 규칙(오프닝 기사 카드 위에 제목) — docs/handoff/05 §3.2·rules direction_grammar(연출·수정 프롬프트), UF-02 장치에 camera_speed 보강.
