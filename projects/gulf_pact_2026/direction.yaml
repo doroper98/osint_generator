@@ -118,12 +118,12 @@ shots:
   mode: move
   dur: 3.4
   camera:
-    lon: 43.0
-    lat: 15.5
+    lon: 42.0
+    lat: 17.0
     place: null
     date: null
     lane: null
-    w: 28.0
+    w: 30.0
   under: false
   scene: null
   stage: null
@@ -198,19 +198,19 @@ shots:
   mode: move
   dur: 3.0
   camera:
-    lon: 55.5
+    lon: 56.5
     lat: 26.5
     place: null
     date: null
     lane: null
-    w: 14.0
+    w: 16.0
   under: false
   scene: null
   stage: null
   reason: null
 - at:
     sid: briefing_0
-    'off': -2.0
+    'off': 0.0
   mode: move
   dur: 2.6
   camera:
@@ -277,8 +277,9 @@ events:
     sid: open_1
     'off': 3.0
   end:
-    scene_end: open
-    'off': 1.6
+    sid: open_1
+    edge: end
+    'off': 0.2
   mid: gulf_pact_2026_art_0001
   theme: dark
 - type: cascade
@@ -397,8 +398,8 @@ events:
       text: 튀르키예
   end:
     scene_end: reactions
-  lon: 36.0
-  lat: 38.3
+  lon: 41.0
+  lat: 39.5
   kind: flag
   flag: tr
   R: 18
@@ -472,16 +473,6 @@ events:
     'off': 0.6
   mid: gulf_pact_2026_art_0003
   theme: dark
-- type: country
-  start:
-    sid: mecca_attack_0
-    'off': 0.2
-  end:
-    scene_end: mecca_attack
-  codes:
-  - YE
-  col: ru
-  a: 0.07
 - type: marker
   start:
     word:
@@ -496,9 +487,9 @@ events:
   hl: true
 - type: marker
   start:
-    word:
-      sid: mecca_attack_1
-      text: 메카
+    sid: mecca_attack_0
+    edge: end
+    'off': -1.0
   end:
     scene_end: mecca_attack
   at_place: mecca
@@ -533,11 +524,12 @@ events:
       sid: invocation_0
       text: 리야드
   end:
-    scene_end: roles
+    sid: roles_1
+    'off': 0.0
   at_place: riyadh
   label: 리야드
   sub: 10월 5일 전략정치국방위원회 긴급회의
-  side: right
+  side: left
   hl: true
 - type: photo
   start:
@@ -605,7 +597,8 @@ events:
     sid: invocation_4
     'off': 1.0
   end:
-    scene_end: roles
+    sid: roles_1
+    'off': 0.0
   pts:
     path: pk_sa
   grow: 1.8
@@ -618,7 +611,8 @@ events:
     sid: invocation_4
     'off': 2.2
   end:
-    scene_end: roles
+    sid: roles_1
+    'off': 0.0
   pts:
     path: tr_sa
   grow: 1.6
@@ -650,7 +644,7 @@ events:
     edge: end
     'off': 0.4
   mid: gulf_pact_2026_art_0014
-  theme: dark
+  theme: light
 - type: quote
   start:
     sid: roles_1
@@ -828,15 +822,6 @@ events:
     'off': 0.4
   mid: gulf_pact_2026_art_0017
   theme: dark
-- type: country
-  start:
-    scene_start: yemen_front
-  end:
-    scene_end: yemen_front
-  codes:
-  - YE
-  col: ru
-  a: 0.06
 - type: card
   start:
     sid: yemen_front_0
@@ -1079,7 +1064,7 @@ events:
     sid: korea_1
     'off': 1.2
   end:
-    sid: korea_2
+    sid: korea_1
     edge: end
     'off': 0.3
   mid: hormuz_transit
@@ -1111,7 +1096,7 @@ events:
 - type: badge
   start:
     sid: briefing_0
-    'off': 0.5
+    'off': 2.8
   end:
     total: true
   lon: 66.0
@@ -1152,8 +1137,8 @@ events:
       text: 튀르키예
   end:
     total: true
-  lon: 36.0
-  lat: 38.3
+  lon: 41.0
+  lat: 39.5
   kind: flag
   flag: tr
   R: 18
@@ -1178,7 +1163,9 @@ events:
     sid: briefing_1
     'off': 0.1
   end:
-    total: true
+    sid: briefing_3
+    edge: end
+    'off': 0.3
   items:
   - at:
       sid: briefing_1
@@ -1220,7 +1207,9 @@ events:
       sid: briefing_2
       text: 리야드
   end:
-    total: true
+    sid: briefing_3
+    edge: end
+    'off': 0.3
   at_place: kkia
   label: 리야드 공항
   sub: ''

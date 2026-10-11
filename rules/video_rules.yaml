@@ -436,7 +436,7 @@ layout_480p:               # 09 §2·§4, 08 §10 — 기준 해상도 854×480.
   # v4.11.0 back_and_forth D-0118 §3(사용자 위임 D103, G7 480p 판정 대신) — 2차 표: 자막 21 → 22, card.line_size 15 → 16. 그 밖 무변경(표 3 유지)
   subtitle: {size: 22, last_line_y: 452, line_gap: 26, halo: 5.0, halo_alpha: 0.92, emphasis_color: gold}   # v4.5.0 D85 — 검증 라벨 접두(label_style) 폐지
   min_font_px: 9.5         # 화면 높이 2% 규칙(엔딩 카드 예외)
-  title_card: {dur_sec: 5.6, title_size: 46, subtitle_size: 18, rule_w: 220}
+  title_card: {dur_sec: 5.6, title_size: 46, subtitle_size: 18, rule_w: 220, max_w_ratio: 0.9, title_min_size: 30}   # v5.21.3 — 제목 폭 > W × max_w_ratio 일 때만 줄임, title_min_size 미만이면 오류
   end_card:
     dur_sec: 11.0
     item_size: 9.2

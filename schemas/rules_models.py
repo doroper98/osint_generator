@@ -380,6 +380,8 @@ class TitleCardLayout(_Strict):
     title_size: float
     subtitle_size: float
     rule_w: float
+    max_w_ratio: float = Field(gt=0, le=1)   # v5.21.3 — 제목 최대 폭(화면 폭 비율)
+    title_min_size: float = Field(gt=0)      # v5.21.3 — 줄여도 이 크기 미만이면 TitleOverflowError(조용한 잘림 금지, P6)
 
 
 class EndCardNotice(_Strict):

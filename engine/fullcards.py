@@ -38,6 +38,28 @@ class EndCardOverflowError(RuntimeError):
 Placed = tuple[int, int, float, float, list[tuple[str, str, float]]]
 
 
+class TitleOverflowError(ValueError):
+    """v5.21.3 — 타이틀 카드 제목이 title_min_size 로 줄여도 화면 폭(max_w_ratio)을 넘는다 — 원고 제목을 줄인다(조용한 잘림 금지, 15 P6)."""
+
+
+def title_fit_size(ctx: cairo.Context, title: str) -> float:
+    """제목 글자 크기 — 폭이 W × max_w_ratio 안이면 title_size 그대로(종전 바이트), 넘을 때만 비례로 줄인다."""
+    from engine.typography import tw  # noqa: PLC0415
+
+    size = TITLE_CARD.title_size
+    room = W_OUT * TITLE_CARD.max_w_ratio
+    w = tw(ctx, title, size, "disp")
+    if w <= room:
+        return size
+    fit = size * room / w
+    while fit >= TITLE_CARD.title_min_size and tw(ctx, title, fit, "disp") > room:   # 글자 폭은 크기에 정확히 비례하지 않는다(힌팅) — 0.5px 씩
+        fit -= 0.5
+    if fit < TITLE_CARD.title_min_size:
+        raise TitleOverflowError(f"타이틀 제목 {title!r} 폭 {w:.0f}px — {TITLE_CARD.title_min_size:g}px 로 줄여도 {room:.0f}px 를 넘는다. "
+                                 "원고 title 을 줄인다(rules layout_480p.title_card)")
+    return fit
+
+
 def endcard_layout(secs: list[tuple[str, list[tuple[str, str]]]], place: list[int]) -> tuple[list[Placed], list[float]]:
     """절 배치와 열마다 마지막 기준선(글자를 그린 마지막 y — 라이선스 줄이 있으면 그 줄). 빈 열은 TOP_Y 이전(0)."""
     yy = [float(TOP_Y), float(TOP_Y)]
@@ -210,7 +232,7 @@ def draw_fullcards(ctx: cairo.Context, R: RenderCtx, t: float) -> None:  # noqa:
             ctx.set_source(g)
             ctx.paint()
             k = ease_out(lt / 1.0)
-            text(ctx, plan.title, W_OUT / 2, 232 - (1 - k) * 10, TITLE_CARD.title_size, "disp", (1, 1, 1),
+            text(ctx, plan.title, W_OUT / 2, 232 - (1 - k) * 10, title_fit_size(ctx, plan.title), "disp", (1, 1, 1),
                  a * smooth((lt - 0.1) / 0.6), 0, "c")
             ctx.set_source_rgba(*C["gold"], 0.95 * a)
             lw = TITLE_CARD.rule_w * ease_io((lt - 0.5) / 0.9)
