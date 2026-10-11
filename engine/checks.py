@@ -841,12 +841,13 @@ def measure_contrast(snap: tuple[bytes, int, int], log: list) -> list[dict]:
             side = [L[int(round(py + s * 7 * ny)) - 1:int(round(py + s * 7 * ny)) + 2,
                       int(round(px + s * 7 * nx)) - 1:int(round(px + s * 7 * nx)) + 2] for s in (-1, 1)]
             bg = float(np.median(np.concatenate([x.ravel() for x in side if x.size])))
-        else:
-            x0, y0, x1, y1 = (max(0, int(geom[0]) - 1), max(0, int(geom[1]) - 1), min(w, int(geom[2]) + 2), min(h, int(geom[3]) + 2))
-            if x1 - x0 < 3 or y1 - y0 < 3:
-                continue
-            core = L[y0:y1, x0:x1].ravel()
-            bg = float(np.median(core))
+        else:   # v5.21.2 — 글자 대비는 engine.contrast 한 경로(국소 보정과 같은 식)
+            from engine.contrast import text_box_ratio  # noqa: PLC0415
+
+            m = text_box_ratio(L, geom, col)
+            if m is not None:
+                out.append({"kind": kind, "name": name, **m})
+            continue
         fg = float(np.percentile(core, 3 if fl < bg else 97))
         out.append({"kind": kind, "name": name, "ratio": round(_ratio(fg, bg), 2), "fg": round(fg, 3), "bg": round(bg, 3)})
     return out

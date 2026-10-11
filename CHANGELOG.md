@@ -70,6 +70,11 @@ released 항목은 **append-only**입니다.
 
 PATCH: 실제 바탕 대비가 4.5 미만인 지명만 halo 를 키워 다시 그린다(전역 색·halo 무변경, D173 보존). gulf '무스카트' 4.06(light, 산지·바다 음영 위).
 
+
+### Fixed
+- `engine/contrast.py` — 글자 대비 측정 한 경로(검사 `measure_contrast` 글자 분기와 국소 보정이 같은 함수).
+- `engine/layers/labels._fix_contrast` — 도시 지명의 실제 바탕 대비 < `qa_checks.map_contrast_text` 이면 그 글자만 `geo.themes.<테마>.map.label_contrast_fix` halo 로 다시 그림. provenance `map_contrast_fix.labels`.
+- 테스트 `test_label_contrast_fix` 5.
 ---
 
 ## [v5.21.1] — 2026-10-11 — 연출 필드 표에 badge flag·quote text 제약 표시 (LLM-AP-018)

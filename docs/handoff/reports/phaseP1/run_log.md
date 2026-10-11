@@ -141,3 +141,9 @@ last_review: 2026-10-11
 | 콘티 판 | `out/animatic.mp4` 22,725,077 B · md5 e8eab45540ae5204f1da7d55a0bae25b · 7805 프레임 · checks hard 0 · warning 15 · 자리표시 article 9·badge 13·cascade 3·photo 5·quote 3 |
 | 남은 hard(전편) | `[map-contrast]` 무스카트 4.06 < 4.5(t=101.71, light) — 콘티 판은 검사 생략. 전편 전에 해결 필요 |
 | 린트 | `script.lint` 경고 0 · 라벨 corroborated 23·unverified 19·disputed 6 |
+
+## D-0186 처리 (v5.21.2)
+- 지명 국소 대비 보정 — gulf 101.71초 '무스카트' 4.06 → 보정 후 `[map-contrast]` hard 0, provenance `map_contrast_fix.labels = {무스카트: 4.06}`(보정 전 값).
+- [article-unused] korea_1·briefing_3 사유 `media_notes.yaml`(같은 키 중복을 손으로 합침 — YAML 은 중복 키를 조용히 덮는다).
+- 겹침 카드 왼쪽: 콘티 판 원본 프레임 `gulf_animatic/frame_38s·148s·305s.png`, 전편 렌더 `full_0038.00·0148.00·0305.00.png` — 맨 뒤 카드 x ≈ 22px, 화면 안. 시트의 "[사건: 2026.0" 은 자리표시 글자가 뒤 카드 보이는 폭보다 넓은 것.
+- 67·113초 흐림 = 기사 카드 프레스 사진 없음 → 블러 무대 폴백(press_lead 1초).

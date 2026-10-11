@@ -1190,6 +1190,13 @@ class ThemeBorderGlow(_Strict):
     run_layers: Optional[list[tuple[float, float]]] = None
 
 
+class LabelContrastFix(_Strict):
+    """v5.21.2 D-0186 §2-1 — 국소 대비 보정: 그린 지명의 실제 바탕 대비가 qa_checks.map_contrast_text 미만이면 이 halo 로 다시 그린다."""
+
+    halo: float = Field(gt=0)
+    halo_a: float = Field(gt=0, le=1)
+
+
 class MapTheme(_Strict):
     """렌더가 읽는 지도 선·지명 색(engine/layers/borders·labels)."""
 
@@ -1206,6 +1213,7 @@ class MapTheme(_Strict):
     coast: Optional[MapLine] = None
     route_casing: Optional[RouteCasing] = None          # v5.18.0 — None = 없음(dark 종전)
     border_glow: Optional[ThemeBorderGlow] = None       # v5.18.0 — None = 공통 rules border_glow(dark 종전)
+    label_contrast_fix: Optional[LabelContrastFix] = None   # v5.21.2 — None = 보정 없음
 
 
 class GeoTheme(_Strict):

@@ -18,6 +18,7 @@ sentences:
     photo: 사진 없음이 맞다 — 통과 6건이 모두 지도·도식(2024 missile strikes against Yemen). 이 문장은 지도 무대로
   briefing_3:
     photo: 사진 없음이 맞다 — 'Riyadh Skyline' 은 CC BY-SA 탈락, 통과 1건(Riyadh Skyline New)은 invocation_0 의 리야드 사진으로 쓴다. 맺음 문장은 지도 무대로
+    article: 쓰지 않음 — 맺음 문장(같은 주에 겹친 세 사건 요약)이라 앞서 쓴 기사들의 반복이다. 겹침 카드(10.05·10.07·10.08)가 세 사건을 날짜로 다시 모은다
   troop_numbers_7:
     photo: 사진 없음이 맞다 — 통과 4건이 모두 PDF 보고서(CRS·인권 보고서), 국방부 PD 0건. 아덴 수송 장면 실사 없음 — 지도 무대(아덴 마커)로
   mecca_attack_1:
@@ -28,3 +29,5 @@ sentences:
     photo: 고르지 않음 — 통과 후보 6건은 18세기 모카 판화·항구 도면·문서라 2026 공세와 무관(관련성 탈락). 지도 무대(모카·바브엘만데브)로
   riyadh_airport_2:
     press_quote: Reuters 사진(Al Jazeera 기사 게재) — 공항 터미널 너머 연기. A 풀 검색 권리 통과 0(DoD 0건, Commons 문서 2건)
+  korea_1:
+    article: 쓰지 않음 — 같은 구간에 CSIS 기사 카드(korea_0, 258초)와 수치 카드 '69.1% → 48.5%'(275초, 출처 줄 산업통상부)가 이어진다. 이투데이 기사 카드를 더하면 카드가 세 번 연속 — 수치 카드가 같은 사실(산업통상부 5월 26일 브리핑)을 이미 보인다

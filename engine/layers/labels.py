@@ -18,6 +18,9 @@ from engine.stage import MERCATOR_LOD as LOD
 from engine.stage import by_w
 from engine.style import H_OUT, W_OUT, hexc
 from engine.typography import text, tw
+from rules import load_rules
+
+QA = load_rules().qa_checks
 
 if TYPE_CHECKING:
     from engine.stage import MercatorStage
@@ -34,6 +37,28 @@ def _lb(box: tuple, name: str, kind: str) -> LabelBox:
     b = LabelBox(box)
     b.name, b.kind = name, kind
     return b
+
+
+def _fix_contrast(ctx: cairo.Context, stage: "MercatorStage", nm: str, x: float, y: float, w: float, size: float, fnt: str,
+                  th, a: float, hr: tuple) -> None:  # noqa: ANN001 — schemas.rules_models.MapTheme
+    """v5.21.2 D-0186 §2-1 — 국소 대비 보정. 방금 그린 지명의 실제 바탕 대비(검사와 같은 식, engine.contrast)가
+    qa_checks.map_contrast_text 미만이면 그 글자만 테마 label_contrast_fix halo 로 다시 그린다. 검사가 재지 않는 알파(< min_alpha)는 건드리지 않는다.
+    통과한 글자는 그대로라 골든 컷 바이트가 바뀌지 않는다. 보정한 글자는 stage.label_contrast_fixed(이름 → 보정 전 최저 대비)에 남는다."""
+    from engine import typography as ty  # noqa: PLC0415
+    from engine.contrast import surface_text_ratio  # noqa: PLC0415
+
+    fix = getattr(th, "label_contrast_fix", None)
+    if fix is None or a < QA.map_contrast_min_alpha:
+        return
+    xs, ys = zip(*(ctx.user_to_device(px, py) for px in (x, x + w) for py in (y - size * 0.85, y + size * 0.25)))
+    r = surface_text_ratio(ctx, (min(xs), min(ys), max(xs), max(ys)), th.city_label)
+    if r is None or r >= QA.map_contrast_text:
+        return
+    if ty.CONTRAST_LOG:   # 보정 전 측정 항목은 지우고, 다시 그린 글자가 새로 기록된다
+        ty.CONTRAST_LOG.pop()
+    text(ctx, nm, x, y, size, fnt, th.city_label, a, fix.halo, "l", halo_a=fix.halo_a, halo_rgb=hr, contrast="required")
+    fixed = stage.__dict__.setdefault("label_contrast_fixed", {})
+    fixed[nm] = min(r, fixed.get(nm, r))
 
 
 def draw_labels(ctx: cairo.Context, stage: "MercatorStage", view: View, reserved: list, la: float) -> list:
@@ -113,6 +138,7 @@ def draw_labels(ctx: cairo.Context, stage: "MercatorStage", view: View, reserved
         ctx.set_line_width(0.8)
         ctx.stroke()
         text(ctx, nm, x + 5, y + 4, size, "sansb" if cap else "sansm", th.city_label, 0.82 * la, 2.6, "l", halo_rgb=hr, contrast="required")
+        _fix_contrast(ctx, stage, nm, x + 5, y + 4, w, size, "sansb" if cap else "sansm", th, 0.82 * la, hr)
         placed.append((x - 3, y - 8, x + w + 7, y + 5))
         drawn.append(_lb(placed[-1], nm, "city"))
         n += 1

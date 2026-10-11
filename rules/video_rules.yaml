@@ -889,6 +889,7 @@ geo:                       # D29(back_and_forth D-0019) — 지오 자산 단계
         city_dot: {fill: [0.95, 0.96, 0.98], edge: [0.0, 0.0, 0.0], edge_alpha: 0.6}
         city_label: [0.93, 0.94, 0.97]
         halo: [0.02, 0.03, 0.05]        # 지명 글자 테두리(engine.typography.text 기본값과 같음)
+        label_contrast_fix: {halo: 4.2, halo_a: 1.0}   # v5.21.2 D-0186 §2-1 — 국소 보정(dark 골든은 대상 글자 0 — 바이트 무변화)
     light:
       terrain:
         land_stops: [[0, "#f3f3f1"], [400, "#ececea"], [1500, "#dfdfdc"], [4000, "#d2d2ce"]]   # 밝은 회색 높이 톤(§13, 시안 실측 육지 225~246)
@@ -908,6 +909,7 @@ geo:                       # D29(back_and_forth D-0019) — 지오 자산 단계
         city_dot: {fill: [0.16, 0.17, 0.19], edge: [1.0, 1.0, 1.0], edge_alpha: 0.7}
         city_label: [0.054, 0.0585, 0.0675]
         halo: [0.97, 0.97, 0.96]
+        label_contrast_fix: {halo: 4.2, halo_a: 1.0}   # v5.21.2 D-0186 §2-1 — 실제 바탕 대비가 qa_checks.map_contrast_text 미만인 지명만 이 halo 로 다시 그린다(국소, 전역 값 무변경)
         # v5.18.0 D-0161 §2(가이드 23 §14 "밝고 얇은 coast/water 스타일") — 국경 = 두 나라 공유 변만, 해안 = 나머지(물빛·가늘게)
         coast: {rgb: [0.42, 0.55, 0.66], width: 0.45, alpha: 0.85}
 
