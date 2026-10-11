@@ -1,6 +1,6 @@
 <!--
 tier: 3
-last_synced_with: v5.21.11
+last_synced_with: v5.21.12
 ssot_for: [release-notes]
 depends_on: [README.md, GOAL.md]
 last_review: 2026-09-28
@@ -63,6 +63,12 @@ released 항목은 **append-only**입니다.
 | v5.0.0 | 87912d2 | G11 GOAL G4-21·claim_kind fact/statement | pass(D-0125) |
 | v5.1.0 | 3619f2c | G12 backdrop 무대·아일랜드·축 스케일·기사 프레스 v2·발음 사전·버전 도장 | pass(D-0127) — 후속 D-0128 완료 |
 | v5.2.0 | d4703d9 | G13 배경 가독·주 아일랜드 상시·보도 인용 = 기사·card-island·라벨 반전 | pass(D-0134) — 후속 겹침 카드 시안(D-0135~D-0138) |
+
+---
+
+## [v5.21.12] — 2026-10-11 — 기사 카드 무대 통일: 사진 없는 카드 배경 밝기 상한 + 영상 안 카드 테마 하나 (D-0193)
+
+PATCH: 사용자 "기사 조판의 배경이 흰색 — 통일감". 프레스 사진이 없을 때 블러 무대의 평균 밝기를 `article_card.press_fallback.max_luma` 로 묶어 지도 테마와 무관하게 같은 어두운 무대로. 한 영상 안 기사 카드 테마가 둘 이상이면 검사 `article_backdrop` hard. dark 골든 기사 2장(0.066·0.070)은 상한 아래라 무변경.
 
 ---
 
