@@ -25,6 +25,8 @@ hard 실패가 하나라도 있으면 시각 검수 LLM 을 부르지 않고 연
 | route_label_overlap | hard | 경로 이름표 ↔ 해역 이름·다른 이름표·뱃지·마커 겹침 또는 화면 밖(v5.21.11 D-0192·D-0199). 대비는 map_contrast(이름표 required) |
 | article_backdrop | hard | 한 영상 기사 카드 theme 하나(v5.21.12 D-0193). 사진 없는 카드 블러 무대 밝기 상한은 그리기(`fallback_gain`, press_fallback.max_luma) |
 | quote_in_script | hard | 인용(quote) text ⊂ 그 구간 문장 화면 원고(공백·문장부호 정규화, v5.21.13 D-0194) |
+| route_missing · route_missing_other | warning · hard | 이동·공격 동사(qa_checks.route_missing) + 문장이 부르는 마커 → 그 마커에 끝점이 닿는 경로가 문장 구간에 있어야 한다. 다른 경로만 보이면 hard(v5.21.14 D-0195·D-0197) |
+| frame_missing · frame_missing_target | warning · hard | 문장이 부르는 나라(라벨 점)·마커가 문장 구간 내내 화면 밖. 이동·공격 대상이면 hard(v5.21.14 D-0199) |
 | genre_elements | hard | 장르 요소(v4.2.0 D-0081 작업 3, GOAL G3-17): direction 이 쓴 이벤트·패널·뱃지·프리미티브 종류(genres.elements) ⊆ 장르 프로필 primitives.reuse ∪ new |
 | chart_honesty | hard | 차트 정직성(v4.3.0 D-0084 작업 5·D-0087, 20 §5.3): 막대 0 기준선·압축 구간 ↔ 물결 라벨·%/%p·이중 축 라벨·색·로그 척도 표기 (`engine.honesty`) |
 | series_limit_3 | hard | 한 차트(레인·패널)의 계열 ≤ qa_checks.series_max |
@@ -74,10 +76,10 @@ SHADOW_PX = 7             # badge_box 가 원 둘레에 더하는 그림자 여�
 HARD = ("map_contrast", "overlap", "offscreen", "glyphs", "glyph_size", "labels", "date", "subtitles", "rights", "forbidden", "stage_continuity",
         "genre_elements", "chart_honesty", "series_limit_3", "units_visible", "as_of_visible", "boundary_as_route",
         "geo_mismatch", "timeline_rescale", "backdrop_rights", "backdrop_repeat", "island_overlap",
-        "backdrop_main_missing", "island_label_clip", "cascade", "subtitle_overlap", "label_collision", "timeline_span", "route_frame", "panel_overflow", "flag_territory", "badge_over_panel", "opening_establish", "camera_continuity", "card_exposure", "route_label_cross", "route_label_overlap", "article_backdrop", "quote_in_script")   # island_label_clip v5.2.0 D-0133 §2, backdrop_main_missing v5.2.0 D-0129 §B, island_overlap v5.1.0 D-0126 Q3, geo_mismatch v4.10.0 D-0116, timeline_rescale v5.1.0 D-0121 §A, backdrop_* v5.1.0 D-0123
+        "backdrop_main_missing", "island_label_clip", "cascade", "subtitle_overlap", "label_collision", "timeline_span", "route_frame", "panel_overflow", "flag_territory", "badge_over_panel", "opening_establish", "camera_continuity", "card_exposure", "route_label_cross", "route_label_overlap", "article_backdrop", "quote_in_script", "route_missing_other", "frame_missing_target")   # island_label_clip v5.2.0 D-0133 §2, backdrop_main_missing v5.2.0 D-0129 §B, island_overlap v5.1.0 D-0126 Q3, geo_mismatch v4.10.0 D-0116, timeline_rescale v5.1.0 D-0121 §A, backdrop_* v5.1.0 D-0123
 WARN = ("shots", "media_beats", "media_upscaled", "endcard_roll", "geo_unsourced",   # endcard_roll v4.7.0 D-0106, geo_unsourced D-0107
         "static_window", "stage_choice", "card_island", "island_label_overlap", "cascade_label_hidden",
-        "map_contrast_shape")   # map_contrast_shape v5.18.0 D-0161 §4   # static_window v4.11.0 D-0118, stage_choice v5.1.0 D-0123, card_island v5.2.0 D-0129 §C, island_label_overlap D-0133 §3
+        "map_contrast_shape", "route_missing", "frame_missing")   # v5.21.14 D-0195·D-0199. map_contrast_shape v5.18.0 D-0161 §4   # static_window v4.11.0 D-0118, stage_choice v5.1.0 D-0123, card_island v5.2.0 D-0129 §C, island_label_overlap D-0133 §3
 
 
 def missing_fonts() -> list[str]:
@@ -873,6 +875,73 @@ def check_quote_in_script(P) -> list[str]:  # noqa: ANN001, N803
     return out
 
 
+def _story_markers(P, s) -> tuple[list[dict], bool]:  # noqa: ANN001, N803
+    """문장 s 가 이름으로 부르는(라벨이 원고에 있는) 지도 마커들과, 문장에 이동·공격 동사가 있는지."""
+    RM = QA.route_missing  # noqa: N806
+    verb = any(v in s.text for v in RM.move_verbs + RM.attack_verbs)
+    ms = [e for e in P.events if e["type"] == "marker" and e.get("label") and "world" in e and not e.get("in_island")
+          and e["t0"] < s.t1 and e["t1"] > s.t0 and e["label"].replace(" ", "") in s.text.replace(" ", "")]
+    return ms, verb
+
+
+def story_geo_report(P) -> dict[str, list[str]]:  # noqa: ANN001, N803
+    """v5.21.14 D-0195·D-0197·D-0199 — 문장 단위 지리 정합.
+    route_missing(warning)/route_missing_other(hard): 이동·공격 동사 + 문장이 부르는 마커가 있는데 그 마커에 끝점이 닿는 경로가 문장 구간에 없음
+    (다른 경로만 보이면 hard — 화면이 사실 방향과 어긋나 오해).
+    frame_missing(warning)/frame_missing_target(hard): 문장이 부르는 나라(라벨 점)·마커가 문장 구간 표본 시각 모두 화면 밖(이동·공격 대상이면 hard).
+    지도 무대가 아니거나 문장 구간 내내 지도가 가려졌으면(전면 카드·패널·암전·기사·인용) 보지 않는다."""
+    if "story_geo" in P.R.cache:
+        return P.R.cache["story_geo"]
+    RM, FM = QA.route_missing, QA.frame_missing  # noqa: N806
+    rep: dict[str, list[str]] = {"route_missing": [], "route_missing_other": [], "frame_missing": [], "frame_missing_target": []}
+    if not _map_main(P) or P.cams is None:
+        P.R.cache["story_geo"] = rep
+        return rep
+    names = {}
+    lab = getattr(getattr(P.R.stage, "assets", None), "labels", None)
+    for k, m, mw in getattr(P.R.stage, "countries", []):
+        if mw is not None:
+            names[(lab.ko.get(k, m["ko"]) if lab is not None else m["ko"])] = mw
+    for s in P.plan.sentences:
+        ms, verb = _story_markers(P, s)
+        routes = [e for e in P.events if e["type"] == "route" and not e.get("in_island") and e["t0"] < s.t1 and e["t1"] > s.t0]
+        targets = set()
+        if verb:
+            for m in ms:
+                mx, my = m["world"]
+                hit = any(min(math.hypot(r["world_pts"][j][0] - mx, r["world_pts"][j][1] - my) for j in (0, -1)) <= RM.endpoint_tol_deg
+                          for r in routes)
+                if hit:
+                    continue
+                targets.add(m["label"])
+                if routes:
+                    rep["route_missing_other"].append(f"[route-missing] {s.sid} 이동·공격 문장의 마커 {m['label']!r} 에 닿는 경로가 없고 다른 경로만 보인다 — "
+                                                      "사실 방향과 화면이 어긋난다. 그 마커로 가는 route 를 더하고 다른 경로는 낮춘다")
+                else:
+                    rep["route_missing"].append(f"[route-missing] {s.sid} 이동·공격 문장의 마커 {m['label']!r} 에 닿는 경로가 없다 — route 를 더한다")
+        # 화면 안 여부(문장 구간 표본)
+        ts = [t for t in np.arange(s.t0, s.t1, FM.sample_sec) if not _covered(P, t)
+              and not any(e["type"] in ("article", "quote") and e["t0"] <= t <= e["t1"] for e in P.events)]
+        if not ts:
+            continue
+        want = {m["label"]: tuple(m["world"]) for m in ms}
+        flat = s.text.replace(" ", "")
+        want.update({nm: tuple(w) for nm, w in names.items() if len(nm) >= 2 and nm.replace(" ", "") in flat and nm not in want})
+        for nm, (wx, wy) in want.items():
+            seen = False
+            for t in ts:
+                v = View(P.R.stage, P.cams[min(P.n_frames - 1, int(t * FPS))])
+                x, y = v.to_screen(wx, wy)
+                if FM.margin_px <= x <= W_OUT - FM.margin_px and FM.margin_px <= y <= H_OUT - FM.margin_px:
+                    seen = True
+                    break
+            if not seen:
+                key = "frame_missing_target" if nm in targets or (verb and nm in {m["label"] for m in ms}) else "frame_missing"
+                rep[key].append(f"[frame-missing] {s.sid} 문장이 부르는 {nm!r} 가 문장 구간 내내 화면 밖 — 카메라 구도(w·중심)를 넓혀 함께 담는다")
+    P.R.cache["story_geo"] = rep
+    return rep
+
+
 def check_stage_continuity(P) -> list[str]:  # noqa: ANN001, N803
     """무대 연속성 — engine.shots.stage_continuity 한 곳. 상세는 "[규칙 키] 설명"(D-0077: 영문 키)."""
     from engine.shots import stage_continuity  # noqa: PLC0415
@@ -1071,6 +1140,10 @@ def run_checks(P, times: list[float], provenance: dict, drawn: list[tuple[str, f
         "route_label_overlap": lambda: route_label_report(P)["overlap"],  # v5.21.11 D-0192·D-0199
         "article_backdrop": lambda: check_article_backdrop(P),           # v5.21.12 D-0193
         "quote_in_script": lambda: check_quote_in_script(P),             # v5.21.13 D-0194
+        "route_missing": lambda: story_geo_report(P)["route_missing"],                 # v5.21.14 D-0195·D-0197(warning)
+        "route_missing_other": lambda: story_geo_report(P)["route_missing_other"],     # v5.21.14 (hard — 다른 경로만 = 오해)
+        "frame_missing": lambda: story_geo_report(P)["frame_missing"],                 # v5.21.14 D-0199(warning)
+        "frame_missing_target": lambda: story_geo_report(P)["frame_missing_target"],   # v5.21.14 (hard — 이동·공격 대상 화면 밖)
         "genre_elements": lambda: check_genre_elements(P),
         "boundary_as_route": lambda: list((P.R.cache.get("geo_check") or {}).get("boundary") or []),
         "geo_unsourced": lambda: check_geo_unsourced(P),

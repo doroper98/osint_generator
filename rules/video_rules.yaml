@@ -241,6 +241,7 @@ pronounce:
 direction_grammar:         # v4.7.0 back_and_forth D-0104 D2(a) — 연출 문법(사람 승인 = D-0104, 15 P11). 연출·수정 프롬프트 {{RULES.direction_grammar}}
   - 인물이 발언 주체인 문장("~는 ~라고 말했습니다")에는 그 인물의 초상 뱃지(엔티티 레지스트리에 초상이 있을 때) 또는 그 발언을 전한 기사 카드(미디어 레지스트리 기사)를 건다. 텍스트 카드만으로 대신하지 않는다.
   - 원고 문장에 media 큐가 있으면 그 미디어를 우선 쓴다.
+  - '이동·공격 문장(보냈·배치·수송·공격·발사 등)의 목적지·표적 마커에는 그 마커로 가는 경로(route)를 같은 문장에 건다 — 다른 경로만 보이면 오해를 부른다. 문장이 부르는 나라·지점은 그 문장 동안 화면 안에(카메라 w·중심), 이동·공격 대상이 화면 밖이면 hard(v5.21.14 사용자 의견, 검사 [route-missing]·[frame-missing]).'
   - '인용(quote) 문구는 그 인용이 걸린 문장의 화면 원고에 있는 말을 그대로 쓴다 — 내레이션이 말하지 않는 문구·원고와 다른 번역은 인용으로 걸지 않는다. 원고가 보도를 전하면 따옴표 없는 카드로(v5.21.13 사용자 의견, 검사 [quote-in-script] hard).'
   - '한 영상 안 기사 카드(article) theme 은 하나로 통일한다(dark 권장) — 카드마다 dark·light 를 섞지 않는다(v5.21.12 사용자 의견, 검사 [article-backdrop] hard).'
   - '마커 라벨·부제는 그 마커를 지나는 경로 선의 반대쪽 side 로 둔다 — 경로 선이 글자를 지나가면 안 된다(v5.21.11 사용자 의견, 검사 [route-label-cross] hard). 경로 이름표 자리는 엔진이 선에서 띄워 고른다 — 이름표를 짧게 쓴다.'
@@ -1472,6 +1473,15 @@ qa_checks:                 # 17 §3 — 결정적 사전 검사 임계
   # v5.21.10 사용자 의견(2026-10-11 "기사 화면이 나왔는데 0.5초도 안 돼서 사라진다", D-0191 §1-2) — 기사(프레스 단독·페이드 뺀 글자 구간)·인용(페이드 뺀 구간)
   # 완전 노출 하한. 문장이 짧으면 연출이 다음 문장까지 늘리거나 앞당긴다. 검사 card_exposure hard
   card_full_exposure_min_sec: 2.5
+  # v5.21.14 사용자 의견(2026-10-11 "아덴에 보냈다는데 사우디 방면 선만 — 오해", "미사일 궤적 선이 없다", D-0195·D-0197) — 문장에 아래 동사와
+  # 그 문장이 부르는 마커가 함께 있으면 그 마커에 닿는(끝점 endpoint_tol_deg 안) 경로가 문장 구간에 있어야 한다. 없음 = route_missing warning, 다른 경로만 보임 = route_missing_other hard
+  route_missing:
+    move_verbs: [보냈, 보내, 파병, 배치, 수송, 이동, 도착, 증파, 급파]
+    attack_verbs: [공격, 발사, 타격, 요격, 폭격, 포격]
+    endpoint_tol_deg: 0.6
+  # v5.21.14 사용자 의견(2026-10-11 "지도에 예멘 쪽이 안 보인다", D-0199) — 문장이 부르는 나라(라벨 점)·마커가 문장 구간 내내 화면 밖이면 frame_missing warning,
+  # 그 문장의 이동·공격 대상(위 동사 + 마커)이면 frame_missing_target hard
+  frame_missing: {margin_px: 8, sample_sec: 0.5}
   overlap_core_elements: 0
   offscreen_clip: 0
   missing_glyphs: 0

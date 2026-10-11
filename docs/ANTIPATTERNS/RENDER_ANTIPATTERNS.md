@@ -227,3 +227,11 @@ last_review: 2026-05-23
 - **원칙**: 기사 카드 무대는 지도 테마와 무관하게 하나의 모습, 한 영상 안 카드 theme 하나.
 - **자동 조치**: `press_fallback.max_luma`(0.075, `fallback_gain`), 검사 `article_backdrop` hard, 연출 문법 한 줄. 테스트 `test_article_backdrop`.
 - **발견 버전**: v5.21.12 · **상태**: active
+
+## RENDER-AP-022 — 이동·공격 문장인데 그 목적지로 가는 선이 없거나 대상이 화면 밖
+
+- **증상(실제 현상)**: gulf_pact_2026 본영상 사용자 의견(2026-10-11) 3건 — "아덴에 보냈다는데 사우디 방면 선만 있어 오해"(troop_numbers_7), "미사일 발사 궤적 선이라도"(riyadh_airport_0), "지도에 예멘 쪽이 안 보인다"(briefing_2).
+- **원리**: 연출 문법·검사가 문장의 동사(보냈·공격)와 화면 요소(경로·카메라 구도)의 관계를 보지 않았다. 마커만 있고 경로가 없거나, 다른 문장의 경로가 남아 사실 방향과 반대로 읽혔다.
+- **원칙**: 이동·공격 문장의 목적지·표적에는 그곳에 닿는 선이 그 문장에 있다. 문장이 부르는 대상은 그 문장 동안 화면 안.
+- **자동 조치**: 규칙 `qa_checks.route_missing`·`frame_missing`, 검사 route_missing·route_missing_other(hard)·frame_missing·frame_missing_target(hard), 필드 description·연출 문법. 테스트 `test_story_geo`.
+- **발견 버전**: v5.21.14 · **상태**: active

@@ -73,7 +73,7 @@ class MarkerEvent(_Event):
     lat: Optional[float] = None
     date: Optional[str] = None
     lane: Optional[str] = None
-    label: str
+    label: str = Field(description="이동·공격 문장(보냈·배치·공격·발사 등)의 목적지·표적이면 이 마커에 닿는 route 도 같은 문장에 건다(검사 route_missing)")
     sub: str = ""
     side: Literal["right", "left", "top", "bottom"] = "right"
     hl: bool = False

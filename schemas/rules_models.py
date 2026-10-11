@@ -1448,6 +1448,21 @@ class AudioRules(_Strict):
     sfx: SfxRules
 
 
+class RouteMissingRules(_Strict):
+    """v5.21.14 D-0195·D-0197 — 문장에 이동·공격 동사 + 그 문장이 부르는 마커가 있으면 그 마커에 닿는 경로가 문장 구간에 있어야 한다."""
+
+    move_verbs: list[str] = Field(min_length=1)
+    attack_verbs: list[str] = Field(min_length=1)
+    endpoint_tol_deg: float = Field(gt=0)     # 경로 끝점 ↔ 마커 월드 거리(경도·메르카토르 도)
+
+
+class FrameMissingRules(_Strict):
+    """v5.21.14 D-0199 — 문장이 부르는 나라(라벨 점)·마커가 문장 구간 표본 시각 모두에서 화면 밖이면."""
+
+    margin_px: float = Field(ge=0)            # 화면 가장자리 안쪽 여백(이만큼 안에 들어와야 '보인다')
+    sample_sec: float = Field(gt=0)
+
+
 class QAChecks(_Strict):
     overlap_core_elements: int
     offscreen_clip: int
@@ -1458,6 +1473,8 @@ class QAChecks(_Strict):
     forbidden_components: int
     glyph_size_exempt: list[Literal["end_card", "media_meta"]]   # v3.6.0 D-0069 — 역할 레지스트리(엔진 text(role=) 와 같은 이름)
     label_hidden_max_ratio: float = Field(gt=0, le=1)   # v3.6.0 D-0068
+    route_missing: "RouteMissingRules"   # v5.21.14 D-0195·D-0197 — 이동·공격 문장의 경로 누락
+    frame_missing: "FrameMissingRules"   # v5.21.14 D-0199 — 문장이 부르는 지명이 화면 밖
     card_full_exposure_min_sec: float = Field(gt=0)   # v5.21.10 D-0191 §1-2 — 기사·인용 카드 완전 불투명 구간 하한(hard card_exposure)
     map_contrast_text: float = Field(default=4.5, gt=1)    # v5.18.0 D-0161 §4 — 지도 위 필수 글자 ↔ 합성 배경(hard)
     map_contrast_shape: float = Field(default=3.0, gt=1)   # 지도 위 경로 선 ↔ 주변(warning)
