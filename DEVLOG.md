@@ -3416,3 +3416,4 @@ last_review: 2026-06-06
 - 2026-10-10 v5.10.0 두 자리 MINOR 도장이 hormuz 엔딩 컷 고정 가림 상자를 넘음 → 상자 v99.99.99 폭·md5_masked 재등재·재발 방지 테스트(PIPELINE-AP-021, D-0148).
 - 2026-10-11 v5.16.0 V2 강제 정렬 게이트 참값 = 음향 발화 시작(D-0165, DECISIONS D159) — edge WordBoundary 는 절대 시각이 아님(TTS-AP-082). at_word 정렬 없음 = 오류(D151).
 - 2026-10-11 v5.21.1 gulf AI 연출가가 person 뱃지 flag 누락·인용문 따옴표로 두 번 거부 → 필드 표 제약 description(LLM-AP-018).
+- 2026-10-11 v5.21.9 카메라 이동 한가운데 꺾임 재발(UF-02) — 조각 3차 이징 가속도 뒤집힘, 스케치에만 있던 연속성 검사 → 5차 이징·본 엔진 camera_continuity hard(RENDER-AP-018, D-0202).

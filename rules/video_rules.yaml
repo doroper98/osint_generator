@@ -268,6 +268,9 @@ shot_grammar:              # 05 §2
   # 폭을 로그로 움직이면 지도 위 점들의 화면 경로가 휘는 곡선이 된다(흐름 방향이 이동 중 돈다). fixed_point = 중심을 폭 w 에 비례해 움직여
   # 한 고정점을 중심으로 한 확대·축소 + 평행이동(닮음 변환)이 되게 한다 → 모든 점이 직선으로 흐른다. 폭이 거의 같으면(순수 이동) linear 와 같다.
   move_path: fixed_point
+  # v5.21.9 사용자 의견 UF-02(D-0191 §1-1, RENDER-AP) — 조각 3차(easeInOutCubic)는 이동 한가운데서 가속도가 +12 → −12 로
+  # 뒤집혀(저크 불연속) 이동 중간에 "꺾임"이 보였다. quintic = smootherstep x³(6x²−15x+10) — 가속도 0 → 0, 중간 뒤집힘 없음.
+  move_ease: quintic
   move_lead_sec: [0.6, 1.2]
   dip_total_sec: 1.0
   dip_max_per_sec: 90      # 90초당 1회 이하
@@ -1899,6 +1902,7 @@ sketch:                    # v5.7.0 back_and_forth D-0140(D130) — 스케치 �
   checks:                  # 스케치 결정적 검사(sketch/common/checks.py, D-0140 §4) — 값 결정 D-0141(R-0174 실측)
     max_dlogw_per_frame: 0.07    # SK-C1 연속 프레임 |Δ ln w| — 하드 컷·대점프(검토본 최대 0.0623)
     max_d2logw_per_frame: 0.01   # SK-C1 |Δ² ln w|, |Δ² x|/w, |Δ² y|/w — 멈칫(0.03 대) 차단, 검토본 ≤ 0.004
+    max_d3_per_frame: 0.002      # v5.21.9 D-0191 §1-1 |Δ³ ln w|·|Δ³ x|/w·|Δ³ y|/w — 이동 중간 꺾임. 조각 3차 실측 gulf 0.0068·hormuz 0.0037, 5차 ≤ 0.0004
     georef_residual_deg: 0.01    # SK-G1 눈금 적합 최대 잔차(천왕성 현재 0.0084)
     georef_city_deg: 0.07        # SK-G1 도시 검산 — spec fronts.city_check 도시와 가장 가까운 참고 SVG 원 기호(정합 변환) 거리 상한(천왕성 스탈린그라드 0.0645 = 지도 기호 배치 차·칼라치 0.0348, D-0147 A)
     horizon_tol_km: 0.5          # SK-H6 패널 값(정수 km 반올림) 허용 폭

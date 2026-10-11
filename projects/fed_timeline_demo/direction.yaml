@@ -19,8 +19,8 @@ stage_config:
 shots:
   - {at: 0, mode: cut, dur: 0, camera: {date: "2020-08-01", w: 1300}}
   - {at: {scene_start: low, off: -0.2}, mode: move, dur: 3.0, camera: {date: "2021-06-01", w: 1300}}     # v5.1.0 D-0121 §A — 축 스케일 유지, 중심 이동(pan)만(옛 w 1400 = 비율 1.08 '흔들림')
-  - {at: {scene_start: peak, off: -0.3}, mode: move, dur: 2.2, camera: {date: "2022-06-15", w: 40}}      # 핀 확대 — 일 단위 눈금(LOD)
-  - {at: {sid: high_0, off: 1.2}, mode: move, dur: 3.0, camera: {date: "2024-11-01", w: 1300}}         # 2023년 8월 ~ 2025년 10월(빈 달)을 한 화면에
+  - {at: {scene_start: peak, off: -0.3}, mode: move, dur: 4.0, camera: {date: "2022-06-15", w: 40}}      # 핀 확대 — 일 단위 눈금(LOD). v5.21.9 2.2 → 4.0초: 32배 줌을 2.2초에 하면 |Δ ln w| 0.12 > 0.07(camera_continuity hard)
+  - {at: {sid: high_0, off: 1.2}, mode: move, dur: 4.0, camera: {date: "2024-11-01", w: 1300}}   # v5.21.9 3.0 → 4.0초(같은 32배 줌 아웃, camera_continuity)         # 2023년 8월 ~ 2025년 10월(빈 달)을 한 화면에
   - {at: {scene_start: now, off: -0.3}, mode: move, dur: 3.4, camera: {date: "2022-11-15", w: 2830},
      reason: "마지막 장면 — 두 시리즈 전체를 한 화면에(끝 물러나기)"}
 events:

@@ -257,6 +257,7 @@ class ShotGrammar(_Strict):
     auto_transition: AutoTransition
     scene_attach_lead_sec: float = Field(ge=0)
     w_guide: dict[str, float | Range2]
+    move_ease: Literal["cubic", "quintic"]   # v5.21.9 D-0191 §1-1 — 카메라 이동 이징(cubic = 조각 3차, 중간 가속도 뒤집힘)
     move_path: Literal["linear", "fixed_point"] = "linear"   # v5.5.0 — 이동+줌 경로(fixed_point = 한 고정점 기준 줌, 지도 흐름이 직선)
 
 
@@ -2651,6 +2652,7 @@ class SketchChecks(_Strict):
 
     max_dlogw_per_frame: float = Field(gt=0)
     max_d2logw_per_frame: float = Field(gt=0)
+    max_d3_per_frame: float = Field(gt=0)   # v5.21.9 D-0191 §1-1 — |Δ³| 꺾임(본 엔진 camera_continuity 도 같은 키)
     georef_residual_deg: float = Field(gt=0)
     georef_city_deg: float = Field(ge=0)
     horizon_tol_km: float = Field(ge=0)

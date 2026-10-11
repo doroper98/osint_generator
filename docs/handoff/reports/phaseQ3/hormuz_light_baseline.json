@@ -105,7 +105,8 @@
   },
   {
    "png": "p_0245.60.png",
-   "md5": "347eba3ba5889b65871dc20ae865e85d"
+   "md5": "26920c6854fcac4e92dc49342a04781b",
+   "superseded": {"md5": "347eba3ba5889b65871dc20ae865e85d", "by": "v5.21.9", "reason": "UF-02·D-0202 — 카메라 이징 5차(shot_grammar.move_ease), 엔딩 풀백 한가운데 카메라 차 0.025 px"}
   },
   {
    "png": "p_0256.66.png",

@@ -1,7 +1,7 @@
 """숏 목록 → 카메라 (x, y, w) — 스케치 공통(D-0140 §3).
 
 x = 경도, y = 메르카토르 y(engine.stage.ym), w = 화면 가로 폭(경도 °). engine.projection.View 가 그대로 받는다.
-숏 안에서는 느린 푸시인(rules sketch.camera.push_in[kind]), 숏 사이 이동은 ease_io 로 위치·log w 를 보간한다.
+숏 안에서는 느린 푸시인(rules sketch.camera.push_in[kind]), 숏 사이 이동은 rules shot_grammar.move_ease(본 엔진과 같은 이징, v5.21.9 D-0191 §1-1)로 위치·log w 를 보간한다.
 **이동은 앞 숏이 끝난 상태(푸시인까지 들어간 w)에서 시작한다** — 원래 w 에서 다시 시작하면 전환 첫 프레임에
 줌이 push_in 만큼 튄다(멈칫 사고, docs/handoff/22 §2.6). 원본: 4d9dc65 `sketch_d1.camera`·`uranus_sketch.camera`.
 """
@@ -14,10 +14,12 @@ from dataclasses import dataclass
 import numpy as np
 
 from engine.stage import ym
-from engine.timebase import clamp01, ease_io, smooth
+from engine.timebase import clamp01, ease_io, ease_quintic, smooth
+from rules import load_rules
 from sketch.common.spec import Shot
 
 EPS = 1e-6
+_EASE = {"cubic": ease_io, "quintic": ease_quintic}[load_rules().shot_grammar.move_ease]
 
 
 @dataclass(frozen=True)
@@ -37,7 +39,7 @@ class CameraPath:
         else:
             prev = sh[i - 1]
             px, py, pw = prev.lon, ym(prev.lat), prev.w * (1 - self.push_in)   # 앞 숏의 끝 상태
-        k = ease_io(clamp01((t - cur.t0) / max(EPS, cur.t1 - cur.t0))) if cur.t1 > cur.t0 else 1.0
+        k = _EASE(clamp01((t - cur.t0) / max(EPS, cur.t1 - cur.t0))) if cur.t1 > cur.t0 else 1.0
         x = px + (cur.lon - px) * k
         y = py + (ym(cur.lat) - py) * k
         w = math.exp(math.log(pw) + (math.log(cur.w) - math.log(pw)) * k)

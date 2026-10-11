@@ -19,6 +19,7 @@ hard 실패가 하나라도 있으면 시각 검수 LLM 을 부르지 않고 연
 | rights | hard | 권리 점검(load_project 의 check_credits·validate_media)이 통과했으면 0 |
 | forbidden | hard | 도장·비네팅·모서리 브랜드: 레지스트리 밖 이벤트 타입 0, vignette 끔, 모서리 요소 = 날짜뿐. v4.5.0(D85): 프리뷰 컷에 그린 글자 중 검증 라벨 문구(`script_schema.labels`) 0 `[label-in-body]` |
 | stage_continuity | hard | 무대 연속성(v4.1.0 D-0076·D-0077, GOAL G3-17): 보조 무대 ≤ stage.max_secondary, 무대 전환은 dip 만, 같은 무대 안 먼 cut 금지, 전환 ≤ stage.continuity.max_switches (`engine.shots.stage_continuity`) |
+| camera_continuity | hard | 카메라 연속성(v5.21.9 D-0191 §1-1): `engine.camera.continuity` 1·2·3차 차분 ≤ rules sketch.checks(스케치 SK-C1 과 같은 식·임계), 컷 키 제외 |
 | genre_elements | hard | 장르 요소(v4.2.0 D-0081 작업 3, GOAL G3-17): direction 이 쓴 이벤트·패널·뱃지·프리미티브 종류(genres.elements) ⊆ 장르 프로필 primitives.reuse ∪ new |
 | chart_honesty | hard | 차트 정직성(v4.3.0 D-0084 작업 5·D-0087, 20 §5.3): 막대 0 기준선·압축 구간 ↔ 물결 라벨·%/%p·이중 축 라벨·색·로그 척도 표기 (`engine.honesty`) |
 | series_limit_3 | hard | 한 차트(레인·패널)의 계열 ≤ qa_checks.series_max |
@@ -44,6 +45,7 @@ hard 실패가 하나라도 있으면 시각 검수 LLM 을 부르지 않고 연
 
 from __future__ import annotations
 
+import math
 from functools import lru_cache
 from typing import Callable
 
@@ -66,7 +68,7 @@ SHADOW_PX = 7             # badge_box 가 원 둘레에 더하는 그림자 여�
 HARD = ("map_contrast", "overlap", "offscreen", "glyphs", "glyph_size", "labels", "date", "subtitles", "rights", "forbidden", "stage_continuity",
         "genre_elements", "chart_honesty", "series_limit_3", "units_visible", "as_of_visible", "boundary_as_route",
         "geo_mismatch", "timeline_rescale", "backdrop_rights", "backdrop_repeat", "island_overlap",
-        "backdrop_main_missing", "island_label_clip", "cascade", "subtitle_overlap", "label_collision", "timeline_span", "route_frame", "panel_overflow", "flag_territory", "badge_over_panel", "opening_establish")   # island_label_clip v5.2.0 D-0133 §2, backdrop_main_missing v5.2.0 D-0129 §B, island_overlap v5.1.0 D-0126 Q3, geo_mismatch v4.10.0 D-0116, timeline_rescale v5.1.0 D-0121 §A, backdrop_* v5.1.0 D-0123
+        "backdrop_main_missing", "island_label_clip", "cascade", "subtitle_overlap", "label_collision", "timeline_span", "route_frame", "panel_overflow", "flag_territory", "badge_over_panel", "opening_establish", "camera_continuity")   # island_label_clip v5.2.0 D-0133 §2, backdrop_main_missing v5.2.0 D-0129 §B, island_overlap v5.1.0 D-0126 Q3, geo_mismatch v4.10.0 D-0116, timeline_rescale v5.1.0 D-0121 §A, backdrop_* v5.1.0 D-0123
 WARN = ("shots", "media_beats", "media_upscaled", "endcard_roll", "geo_unsourced",   # endcard_roll v4.7.0 D-0106, geo_unsourced D-0107
         "static_window", "stage_choice", "card_island", "island_label_overlap", "cascade_label_hidden",
         "map_contrast_shape")   # map_contrast_shape v5.18.0 D-0161 §4   # static_window v4.11.0 D-0118, stage_choice v5.1.0 D-0123, card_island v5.2.0 D-0129 §C, island_label_overlap D-0133 §3
@@ -720,6 +722,27 @@ def check_shots(P) -> list[str]:  # noqa: ANN001, N803
     return shot_issues(P.keys, P.plan.sentences, P.events, P.R.tb.total) + timeline_backtrack(P.shots)   # v4.3.0 시간축 되돌아가기
 
 
+def check_camera_continuity(P) -> list[str]:  # noqa: ANN001, N803
+    """카메라 연속성(v5.21.9 D-0191 §1-1, 사용자 의견 UF-02) — 스케치 SK-C1 과 같은 측정(engine.camera.continuity)·같은 임계
+    (rules sketch.checks max_dlogw·max_d2logw·max_d3). 컷 키(암전 컷 포함)에 걸친 차분은 뺀다. 종류마다 최댓값 한 줄."""
+    from engine.camera import continuity  # noqa: PLC0415
+
+    if P.cams is None:
+        return []
+    th = R_.sketch.checks
+    cuts = sorted({math.ceil(k.t * FPS - 1e-9) for k in P.keys if k.mode == "cut"})
+    lim = {1: th.max_dlogw_per_frame, 2: th.max_d2logw_per_frame, 3: th.max_d3_per_frame}
+    out = []
+    for k, v in continuity(P.cams, cuts).items():
+        o = int(k[1])
+        bad = np.flatnonzero(v > lim[o])
+        if bad.size:
+            i = int(bad[np.argmax(v[bad])])
+            out.append(f"[camera-continuity] |Δ{o} {k[3:]}| {v[i]:.4f} > {lim[o]} — t={i / FPS:.2f}s 외 {bad.size - 1}프레임"
+                       f"{' (이동 중간 꺾임 — rules shot_grammar.move_ease)' if o == 3 else ''}")
+    return out
+
+
 def check_stage_continuity(P) -> list[str]:  # noqa: ANN001, N803
     """무대 연속성 — engine.shots.stage_continuity 한 곳. 상세는 "[규칙 키] 설명"(D-0077: 영문 키)."""
     from engine.shots import stage_continuity  # noqa: PLC0415
@@ -912,6 +935,7 @@ def run_checks(P, times: list[float], provenance: dict, drawn: list[tuple[str, f
         "rights": lambda: [],   # load_project 가 권리 점검(check_credits·validate_media)에서 실패하면 여기까지 오지 않는다
         "forbidden": lambda: check_forbidden(P, provenance) + check_label_glyphs(drawn),
         "stage_continuity": lambda: check_stage_continuity(P),
+        "camera_continuity": lambda: check_camera_continuity(P),   # v5.21.9 D-0191 §1-1
         "genre_elements": lambda: check_genre_elements(P),
         "boundary_as_route": lambda: list((P.R.cache.get("geo_check") or {}).get("boundary") or []),
         "geo_unsourced": lambda: check_geo_unsourced(P),

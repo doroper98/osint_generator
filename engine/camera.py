@@ -1,7 +1,7 @@
 """카메라 키프레임 (v2.1.0, 19 부록 D `CAM, cam, dip, build_camera`).
 
 장면당 이동 1회, 먼 거리는 암전 컷(05 §2). v3 의 `CUT_TARGET` 큐 방식은 순서 실수 위험이 있어
-`dip(t, lon, lat, w)` 인자형으로 바꿨다(19 §3.10). 보간: 위치 선형, 폭 로그, ease_io. 도착 후 드리프트.
+`dip(t, lon, lat, w)` 인자형으로 바꿨다(19 §3.10). 보간: 위치 선형, 폭 로그, 이징 rules shot_grammar.move_ease(v5.21.9 quintic). 도착 후 드리프트.
 """
 
 from __future__ import annotations
@@ -13,7 +13,7 @@ import numpy as np
 from pydantic import BaseModel, ConfigDict
 
 from engine.pacing import creep_factor
-from engine.timebase import ease_io
+from engine.timebase import ease_io, ease_quintic
 from rules import load_rules
 
 if TYPE_CHECKING:
@@ -21,6 +21,7 @@ if TYPE_CHECKING:
 
 _DRIFT = load_rules().shot_grammar.drift  # amount 0.03, tau 9.0 (v3 값, rules SSOT)
 _PATH = load_rules().shot_grammar.move_path   # v5.5.0 — 이동+줌 경로(rules shot_grammar.move_path)
+_EASE = {"cubic": ease_io, "quintic": ease_quintic}[load_rules().shot_grammar.move_ease]   # v5.21.9 D-0191 §1-1
 _W_SAME = np.finfo(float).eps ** 0.5           # 폭이 사실상 같으면 순수 이동(진행률 비례)
 
 
@@ -63,7 +64,7 @@ def build_camera(keys: list[CamKey], n_frames: int, fps: int,
             v = cur.copy()
             da = t
         else:
-            e = ease_io((t - act.t) / act.dur) if act.dur > 0 else 1.0
+            e = _EASE((t - act.t) / act.dur) if act.dur > 0 else 1.0
             w = math.exp(math.log(frm[2]) + (math.log(act.w) - math.log(frm[2])) * e)
             f = e
             if _PATH == "fixed_point" and not math.isclose(act.w, frm[2], rel_tol=_W_SAME):
@@ -75,6 +76,27 @@ def build_camera(keys: list[CamKey], n_frames: int, fps: int,
         if creep:
             v[2] *= creep_factor(t, 0.0 if act is None else act.t + act.dur, creep)
         out[i] = v
+    return out
+
+
+def continuity(track: "np.ndarray", cut_frames: Sequence[int] = ()) -> dict[str, "np.ndarray"]:
+    """카메라 연속성 측정(v5.21.9 D-0191 §1-1) — 프레임 (x, y, w) 배열에서 ln w·x/w·y/w 의 1·2·3차 차분 절댓값.
+
+    SK-C1(sketch.common.checks.check_camera)과 같은 식에 3차(저크)를 더했다. 3차는 이징의 가속도 뒤집힘
+    (조각 3차식 한가운데 +12 → −12)을 잡는다 — 1·2차 임계로는 보이지 않던 꺾임. cut_frames(컷 키 프레임)
+    앞뒤로 차분 창이 걸치는 값은 0 으로 둔다(컷은 의도된 불연속).
+    """
+    w = track[:, 2]
+    lw = np.log(w)
+    out: dict[str, np.ndarray] = {"d1 ln w": np.abs(np.diff(lw))}
+    for o in (2, 3):
+        out[f"d{o} ln w"] = np.abs(np.diff(lw, o))
+        for k in ("x", "y"):
+            out[f"d{o} {k}/w"] = np.abs(np.diff(track[:, 0 if k == "x" else 1], o)) / w[1:len(w) - o + 1]
+    for k, v in out.items():
+        o = int(k[1])
+        for c in cut_frames:   # 차분 i 는 프레임 i..i+o 를 쓴다 → 컷 프레임 c 를 포함하는 i = c-o..c-1
+            v[max(0, c - o):max(0, c)] = 0
     return out
 
 

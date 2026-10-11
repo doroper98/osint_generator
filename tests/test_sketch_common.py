@@ -16,9 +16,9 @@ from pydantic import ValidationError
 
 from engine.stage import ym
 from engine.style import FONT, FPS
-from engine.timebase import clamp01, ease_io, smooth
+from engine.timebase import clamp01, smooth
 from rules import load_rules
-from sketch.common.camera import CameraPath
+from sketch.common.camera import _EASE, CameraPath
 from sketch.common.checks import CHECK_IDS, CheckReport, SketchCheckError, check_camera
 from sketch.common.geodesy import EARTH_KM, bearing, dest, gc_dist, gc_path, horizon_altitude, sector
 from sketch.common.spec import SketchSpec, Shot
@@ -39,7 +39,7 @@ def _shots(rows: list[tuple[float, float, float, float, float]]) -> tuple[Shot, 
 
 
 def _orig_camera(t: float, push: float) -> tuple[float, float, float]:
-    """4d9dc65 sketch_d1.camera() 원문 그대로(대조용)."""
+    """4d9dc65 sketch_d1.camera() 원문 그대로(대조용). 이징만 rules shot_grammar.move_ease(v5.21.9 D-0191 §1-1 — 원문은 ease_io)."""
     S = MISSILE_SHOTS
     i = max(j for j, s in enumerate(S) if t >= s[0])
     cur = S[i]
@@ -48,7 +48,7 @@ def _orig_camera(t: float, push: float) -> tuple[float, float, float]:
     else:
         prev = S[i - 1]
         px, py, pw = prev[2], ym(prev[3]), prev[4] * (1 - push)
-    k = ease_io(clamp01((t - cur[0]) / max(1e-6, cur[1] - cur[0]))) if cur[1] > cur[0] else 1.0
+    k = _EASE(clamp01((t - cur[0]) / max(1e-6, cur[1] - cur[0]))) if cur[1] > cur[0] else 1.0
     x = px + (cur[2] - px) * k
     y = py + (ym(cur[3]) - py) * k
     w = math.exp(math.log(pw) + (math.log(cur[4]) - math.log(pw)) * k)
@@ -134,7 +134,7 @@ class _RestartPath(CameraPath):
         cur = self.shots[i]
         if i > 0 and cur.t0 <= t < cur.t1:
             prev = self.shots[i - 1]
-            k = ease_io(clamp01((t - cur.t0) / (cur.t1 - cur.t0)))
+            k = _EASE(clamp01((t - cur.t0) / (cur.t1 - cur.t0)))
             lw_fixed = math.log(prev.w * (1 - self.push_in)) * (1 - k) + math.log(cur.w) * k
             lw_old = math.log(prev.w) * (1 - k) + math.log(cur.w) * k
             w *= math.exp(lw_old - lw_fixed)
@@ -176,7 +176,9 @@ class CameraCheckTest(unittest.TestCase):
         base = reviewed_paths()["missile"]
         r = self._run(_RestartPath(base.shots, base.duration_sec, base.push_in, base.hold_min_sec))
         self.assertTrue(r.hard)
-        self.assertTrue(all("Δ² ln w" in f.message for f in r.hard), [f.message for f in r.hard])
+        msgs = [f.message for f in r.hard]
+        self.assertTrue(any("Δ² ln w" in m for m in msgs), msgs)   # 멈칫 = 2차. v5.21.9 같은 튐이 3차(Δ³)에도 걸린다 — 1차는 아님
+        self.assertTrue(all("Δ² ln w" in m or "Δ³ ln w" in m for m in msgs), msgs)
         with self.assertRaises(SketchCheckError):
             r.raise_if_hard()
 

@@ -16,6 +16,7 @@ from typing import Optional
 import numpy as np
 from pydantic import BaseModel, ConfigDict, Field, ValidationError
 
+from engine.camera import continuity
 from engine.style import W_OUT
 from schemas.rules_models import SketchChecks
 from sketch.common.spec import CheckFinding, CheckRecord, MediaItem
@@ -73,27 +74,24 @@ class CheckReport:
 
 def check_camera(report: CheckReport, track: np.ndarray, fps: int, th: SketchChecks) -> dict[str, float]:
     """SK-C1 카메라 연속성(D-0141) — 프레임 (x, y, w) 배열(n×3)에서
-    |Δ ln w| ≤ max_dlogw_per_frame, |Δ² ln w|·|Δ² x|/w·|Δ² y|/w ≤ max_d2logw_per_frame. 숏 경계 예외 없음.
-    1차 = 하드 컷·대점프, 2차 = 속도 급변(멈칫 — 앞 숏 원래 w 에서 이동을 다시 시작한 결함). 실측 최대값을 돌려준다."""
+    |Δ ln w| ≤ max_dlogw_per_frame, |Δ² ln w|·|Δ² x|/w·|Δ² y|/w ≤ max_d2logw_per_frame,
+    |Δ³ …| ≤ max_d3_per_frame(v5.21.9 D-0191 §1-1 — 이징 가속도 뒤집힘 = 이동 중간 꺾임). 숏 경계 예외 없음.
+    1차 = 하드 컷·대점프, 2차 = 속도 급변(멈칫 — 앞 숏 원래 w 에서 이동을 다시 시작한 결함), 3차 = 꺾임.
+    측정은 본 엔진 검사와 같은 함수(engine.camera.continuity). 실측 최대값을 돌려준다."""
     report.ran_check("SK-C1")
-    x, y, w = track[:, 0], track[:, 1], track[:, 2]
-    lw = np.log(w)
-    d1 = np.abs(np.diff(lw))
-    d2 = {"ln w": np.abs(np.diff(lw, 2)),
-          "x/w": np.abs(np.diff(x, 2)) / w[1:-1],
-          "y/w": np.abs(np.diff(y, 2)) / w[1:-1]}
-    worst = {"dlogw": float(d1.max(initial=0))} | {f"d2 {k}": float(v.max(initial=0)) for k, v in d2.items()}
-    bad = np.flatnonzero(d1 > th.max_dlogw_per_frame)
-    if bad.size:
-        i = int(bad[np.argmax(d1[bad])])
-        report.add("SK-C1", f"|Δ ln w| {d1[i]:.4f} > {th.max_dlogw_per_frame} — 프레임 {i}→{i + 1}"
-                            f"(t={i / fps:.2f}s) 외 {bad.size - 1}곳")
-    for k, v in d2.items():
-        bad = np.flatnonzero(v > th.max_d2logw_per_frame)
-        if bad.size:
-            i = int(bad[np.argmax(v[bad])]) + 1
-            report.add("SK-C1", f"|Δ² {k}| {v[i - 1]:.4f} > {th.max_d2logw_per_frame} — 프레임 {i}(t={i / fps:.2f}s) "
-                                f"외 {bad.size - 1}곳(속도 급변·멈칫)")
+    m = continuity(track)
+    worst = {"dlogw": float(m["d1 ln w"].max(initial=0))} | {k: float(v.max(initial=0)) for k, v in m.items() if k[1] != "1"}
+    lim = {1: th.max_dlogw_per_frame, 2: th.max_d2logw_per_frame, 3: th.max_d3_per_frame}
+    what = {1: "", 2: "(속도 급변·멈칫)", 3: "(이동 중간 꺾임)"}
+    for k, v in m.items():
+        o = int(k[1])
+        bad = np.flatnonzero(v > lim[o])
+        if not bad.size:
+            continue
+        i = int(bad[np.argmax(v[bad])])
+        label = "Δ ln w" if o == 1 else f"Δ{'²' if o == 2 else '³'} {k[3:]}"
+        report.add("SK-C1", f"|{label}| {v[i]:.4f} > {lim[o]} — 프레임 {i}→{i + o}(t={i / fps:.2f}s) "
+                            f"외 {bad.size - 1}곳{what[o]}")
     return worst
 
 

@@ -195,3 +195,11 @@ last_review: 2026-05-23
 - **원칙**: 무기체계 이름이 나오는 문장엔 그 무기의 실사 사진(권리 기록된 자료사진)을 우선.
 - **자동 조치**: 규칙 `weapon_photo.terms`, 검사 `weapon_photo` warning(권리 있는 실사가 없을 수 있다 — 사람이 판단). direction_grammar 한 줄.
 - **발견 버전**: v5.6.0 · **상태**: active
+
+## RENDER-AP-018 — 지도 이동 한가운데서 "딱 꺾이는" 카메라(교훈이 스케치 트랙에만 배선된 재발)
+
+- **증상(실제 현상)**: gulf_pact_2026 본영상 사용자 의견(2026-10-11, UF-02) — "지도의 전환이 이전에 내가 코멘트 했었는데 왜 부드럽게 이동하지 않고 중간에 딱 꺾이는 지점이 있지?". v5.5.0(2026-10-02, 이동 경로 휨)에 이은 같은 영역 재지적.
+- **원리**: 이동 이징이 조각 3차(easeInOutCubic)라 이동 한가운데서 가속도가 +12 → −12 로 불연속 — 3차 차분(저크)이 튄다(gulf 0.0068, 288.4초). 멈칫(2차 차분) 교훈은 D-0141 에서 스케치 SK-C1 으로만 검사했고 본 엔진 checks 에는 없었다. 1·2차 임계로는 이 꺾임이 보이지 않는다.
+- **원칙**: 카메라 이동은 속도·가속도가 모두 연속(5차 이상)이다. 같은 교훈은 모든 렌더 트랙(본 엔진·스케치)에 같은 키·같은 측정 함수로 배선한다.
+- **자동 조치**: 규칙 `shot_grammar.move_ease: quintic`(engine/camera·sketch/common/camera 둘 다), `engine.camera.continuity` 한 함수(1·2·3차), 본 엔진 검사 `camera_continuity` hard·스케치 SK-C1 3차 — 임계 `sketch.checks.max_dlogw/max_d2logw/max_d3_per_frame`. 테스트 `test_camera_continuity`(두 트랙 배선 포함). 남은 것: 스케치 3D 지구본 카메라(ease_io, 3D 검사는 화면 px 2차만).
+- **발견 버전**: v5.21.9 · **상태**: active

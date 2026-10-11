@@ -28,6 +28,12 @@ def ease_io(x: float) -> float:
     return 4 * x ** 3 if x < .5 else 1 - (-2 * x + 2) ** 3 / 2
 
 
+def ease_quintic(x: float) -> float:
+    """5차 smootherstep — 가속도가 0 에서 출발해 0 으로 끝나고 중간에 뒤집히지 않는다(v5.21.9 D-0191 §1-1, 카메라 이동)."""
+    x = clamp01(x)
+    return x ** 3 * (x * (6 * x - 15) + 10)
+
+
 def ease_out(x: float) -> float:
     x = clamp01(x)
     return 1 - (1 - x) ** 3
