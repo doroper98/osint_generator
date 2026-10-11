@@ -1,6 +1,6 @@
 <!--
 tier: 3
-last_synced_with: v5.21.8
+last_synced_with: v5.21.9
 ssot_for: [release-notes]
 depends_on: [README.md, GOAL.md]
 last_review: 2026-09-28
@@ -63,6 +63,12 @@ released 항목은 **append-only**입니다.
 | v5.0.0 | 87912d2 | G11 GOAL G4-21·claim_kind fact/statement | pass(D-0125) |
 | v5.1.0 | 3619f2c | G12 backdrop 무대·아일랜드·축 스케일·기사 프레스 v2·발음 사전·버전 도장 | pass(D-0127) — 후속 D-0128 완료 |
 | v5.2.0 | d4703d9 | G13 배경 가독·주 아일랜드 상시·보도 인용 = 기사·card-island·라벨 반전 | pass(D-0134) — 후속 겹침 카드 시안(D-0135~D-0138) |
+
+---
+
+## [v5.21.9] — 2026-10-11 — 카메라 이동 중간 꺾임 제거 + 본 엔진 카메라 연속성 검사 (D-0191 §1-1, 사용자 의견 UF-02, RENDER-AP)
+
+PATCH: 이동 이징이 조각 3차식(easeInOutCubic)이라 이동 한가운데서 가속도가 +→− 로 뒤집혔다(사용자 "중간에 딱 꺾인다"). 가속도가 연속인 5차 smootherstep 으로(`shot_grammar.move_ease`). SK-C1(1·2차 차분) + 3차 차분(급가속 변화) 검사를 본 엔진 checks `camera_continuity` hard 로 — 값은 sketch 와 같은 `rules sketch.checks` 키.
 
 ---
 
