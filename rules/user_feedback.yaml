@@ -1490,6 +1490,7 @@ entries:
   guards:
   - {kind: check, ref: title_backdrop}
   - {kind: test, ref: tests/test_camera_speed_title_backdrop.py::TitleBackdropTest::test_card_map_title_flicker_fails}
+  - {kind: test, ref: tests/test_camera_speed_title_backdrop.py::TitleBackdropTest::test_direction_grammar_line}
   status: guarded
   decision: D-0216
   source: 감독 세션 대화 2026-10-12

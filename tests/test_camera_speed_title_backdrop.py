@@ -8,6 +8,7 @@ from __future__ import annotations
 
 import inspect
 import unittest
+from pathlib import Path
 from types import SimpleNamespace
 
 import numpy as np
@@ -81,6 +82,14 @@ class TitleBackdropTest(unittest.TestCase):
 
     def test_title_over_map_passes(self) -> None:
         self.assertEqual(C.check_title_backdrop(_P(_track(30, 30, 0, 0.1, 25), 13.42, [])), [])   # 골든 모양(지도 → 제목)
+
+    def test_direction_grammar_line(self) -> None:
+        """v6.0.3 D-0216 2단계 — 제목 바탕 규칙(오프닝 기사 카드 위에 제목)이 연출 문법 한 줄로 연출·수정 프롬프트에 간다(P3)."""
+        lines = [g for g in load_rules().direction_grammar if "[title-backdrop]" in g]
+        self.assertEqual(len(lines), 1)
+        self.assertIn("{card: title, edge: end}", lines[0])
+        for f in ("director.md", "revise_direction.md"):
+            self.assertIn("{{RULES.direction_grammar}}", (Path(__file__).resolve().parents[1] / "prompts" / f).read_text(encoding="utf-8"))
 
 
 if __name__ == "__main__":
