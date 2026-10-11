@@ -64,12 +64,18 @@ def ai_direction_summary(root: Path) -> dict | None:
         iss = v.get("issues", [])
         qa.append({"file": p.name, "verdict": v.get("verdict"), "hard": sum(1 for i in iss if i.get("severity") == "hard"),
                    "soft": sum(1 for i in iss if i.get("severity") == "soft")})
-    revs = [{"direction_version": r.get("direction_version"), "changes": len(r.get("changelog", []))}
-            for r in (json.loads(p.read_text(encoding="utf-8")) for p in _versions(root / "prev", "revision", ".json"))]
+    raw = [json.loads(p.read_text(encoding="utf-8")) for p in _versions(root / "prev", "revision", ".json")]
+    revs = [{"direction_version": r.get("direction_version"), "changes": len(r.get("changelog", [])),
+             **({"base_human_edit": True} if r.get("base_human_edit") else {})} for r in raw]
     used = next((int(v.stem.rsplit(".v", 1)[1]) for v in reversed(vers) if v.read_bytes() == cur), None)
+    # v5.21.5 D-0190 §3-2 — 쓰인 판의 계보(그 판 번호 이하 수정)에 사람 손질 바탕이 있으면 사람 손질이 섞인 연출이다
+    upto = used if used is not None else max((r.get("direction_version") or 0 for r in raw), default=0)
+    human = sorted(r["direction_version"] for r in raw if r.get("base_human_edit") and (r.get("direction_version") or 0) <= upto)
+    edited = edited or bool(human)
     loop_p = root / "prev" / "qa_loop.json"
     loop = json.loads(loop_p.read_text(encoding="utf-8")) if loop_p.exists() else {}
-    return {"origin": "ai+human_edit" if edited else "ai", "model": meta.get("model"), "prompt_sha1": meta.get("prompt_sha1"),
+    return {"origin": "ai+human_edit" if edited else "ai", **({"human_edit_revisions": human} if human else {}),
+            "model": meta.get("model"), "prompt_sha1": meta.get("prompt_sha1"),
             "direction_versions": len(vers), "used_version": used, "selected": loop.get("selected"),
             "rounds": [{k: r.get(k) for k in ("version", "checks_hard", "qa_hard", "qa_soft")} for r in loop.get("rounds", [])],
             "revisions": revs, "visual_qa": qa}

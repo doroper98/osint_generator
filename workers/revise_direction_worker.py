@@ -44,6 +44,12 @@ def latest(pdir: Path, stem: str, suffix: str) -> Path | None:
     return max(hits)[1] if hits else None
 
 
+
+def base_is_human_edit(pdir: Path) -> bool:
+    """v5.21.5 D-0190 §3-2 — 지금 direction.yaml 이 어느 보관본(direction.v{n}.yaml)과도 바이트가 다르면 사람이 고친 판."""
+    cur = (pdir / "direction.yaml").read_bytes()
+    return not any(v.read_bytes() == cur for v in pdir.glob("direction.v*.yaml"))
+
 class ReviseDirectionWorker(BaseLLMWorker):
     worker_name = "revise_direction"
     task_type = "revise_direction"
@@ -61,6 +67,8 @@ class ReviseDirectionWorker(BaseLLMWorker):
 
     def build_user_prompt(self, args: argparse.Namespace, task: TaskQueueItem) -> str:
         pdir = self.project_dir(args)
+        # v5.21.5 D-0190 §3-2 — 수정 바탕이 어느 보관본과도 바이트가 다르면 사람이 고친 판이다(손질 흔적을 revision 기록에 남긴다, P5)
+        self._base_human_edit = base_is_human_edit(pdir)
         doc = load_direction_doc(pdir / "direction.yaml")
         v = self._verdict(pdir)
         return (load_prompt("revise_direction_user", self.rules)
@@ -102,6 +110,7 @@ class ReviseDirectionWorker(BaseLLMWorker):
             self._validate_output_path(args, task, p)
         shutil.copyfile(pdir / "direction.yaml", pdir / f"direction.v{n}.yaml")
         rev.write_text(json.dumps({"schema_version": 1, "direction_version": n,
+                                   "base_human_edit": bool(getattr(self, "_base_human_edit", False)),
                                    "changelog": [c.model_dump() for c in parsed.changelog]}, ensure_ascii=False, indent=1),
                        encoding="utf-8")
 
