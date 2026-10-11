@@ -167,6 +167,16 @@ def _paint_device(ctx: cairo.Context, surf: cairo.ImageSurface, a: float) -> Non
     ctx.restore()
 
 
+def fallback_gain(im: Image.Image) -> float:
+    """블러 무대 밝기 배율 — 1 − dim, 단 결과 평균 밝기(Rec.709)가 press_fallback.max_luma 를 넘으면 그 상한에 맞춘다
+    (v5.21.12 D-0193 — 지도 테마와 무관하게 같은 어두운 무대)."""
+    F = ARTICLE.press_fallback  # noqa: N806
+    a = np.asarray(im.convert("RGB"), dtype=np.float32) / 255.0
+    m = float((0.2126 * a[..., 0] + 0.7152 * a[..., 1] + 0.0722 * a[..., 2]).mean())
+    g = 1 - F.dim
+    return min(g, F.max_luma / m) if m * g > F.max_luma else g
+
+
 def draw_press(ctx: cairo.Context, R: RenderCtx, e: dict, a: float) -> None:  # noqa: N803
     """프레스 사진(화면 덮기, 선명) 또는 블러 무대 폴백(지금 표면을 블러·dim)."""
     k = R.out.k
@@ -184,7 +194,7 @@ def draw_press(ctx: cairo.Context, R: RenderCtx, e: dict, a: float) -> None:  # 
     arr = np.ndarray((H, W, 4), np.uint8, buffer=tgt.get_data()).copy()
     im = Image.fromarray(arr[..., [2, 1, 0]])
     im = im.filter(ImageFilter.GaussianBlur(ARTICLE.press_fallback.blur_px * k))
-    im = ImageEnhance.Brightness(im).enhance(1 - ARTICLE.press_fallback.dim)
+    im = ImageEnhance.Brightness(im).enhance(fallback_gain(im))
     surf, _buf = surf_from_pil(im)
     _paint_device(ctx, surf, a)
 

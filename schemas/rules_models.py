@@ -527,6 +527,7 @@ class ArticlePressFallback(_Strict):
 
     blur_px: float = Field(gt=0)
     dim: float = Field(ge=0, le=1)
+    max_luma: float = Field(gt=0, le=1)   # v5.21.12 D-0193 — 블러·dim 뒤 평균 밝기(Rec.709) 상한. 지도 테마와 무관하게 같은 어두운 무대
 
 
 class ArticleCardLayout(_Strict):

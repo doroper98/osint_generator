@@ -219,3 +219,11 @@ last_review: 2026-05-23
 - **원칙**: 지도 위 글자는 어떤 선도 지나가지 않는다. 밝은 지도에서 색 글자 대신 짙은 글자 + 밝은 halo, 색은 보조 표시로.
 - **자동 조치**: `engine.layers.routes.place_route_label`(렌더·검사 공용, 마커·뱃지 뒤 `flush_route_labels`), 규칙 `layout_480p.route_label` 자리 키·`geo.themes.light.map.route_label`, 검사 `route_label_cross`·`route_label_overlap` hard, 이름표 `contrast="required"`, 연출 문법 한 줄. 테스트 `test_route_label_place`.
 - **발견 버전**: v5.21.11 · **상태**: active
+
+## RENDER-AP-021 — 같은 영상 안 기사 카드 배경이 흰색·검은색으로 갈림
+
+- **증상(실제 현상)**: gulf_pact_2026 본영상 사용자 의견(2026-10-11) — "기사 조판의 배경이 흰색인 문제. 통일감 문제"(113초). 67·113초 카드 뒤가 밝게, 160·260초는 어둡게 보였다.
+- **원리**: 사진 없는 카드는 지금 무대를 블러·dim 하는데, 밝은 지도에선 평균 밝기 0.37(어두운 지도 0.07)이 남는다. 카드 theme 도 연출가가 카드마다 dark·light 를 골랐다(113초 light = 흰 덮개).
+- **원칙**: 기사 카드 무대는 지도 테마와 무관하게 하나의 모습, 한 영상 안 카드 theme 하나.
+- **자동 조치**: `press_fallback.max_luma`(0.075, `fallback_gain`), 검사 `article_backdrop` hard, 연출 문법 한 줄. 테스트 `test_article_backdrop`.
+- **발견 버전**: v5.21.12 · **상태**: active

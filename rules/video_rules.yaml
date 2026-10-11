@@ -241,6 +241,7 @@ pronounce:
 direction_grammar:         # v4.7.0 back_and_forth D-0104 D2(a) — 연출 문법(사람 승인 = D-0104, 15 P11). 연출·수정 프롬프트 {{RULES.direction_grammar}}
   - 인물이 발언 주체인 문장("~는 ~라고 말했습니다")에는 그 인물의 초상 뱃지(엔티티 레지스트리에 초상이 있을 때) 또는 그 발언을 전한 기사 카드(미디어 레지스트리 기사)를 건다. 텍스트 카드만으로 대신하지 않는다.
   - 원고 문장에 media 큐가 있으면 그 미디어를 우선 쓴다.
+  - '한 영상 안 기사 카드(article) theme 은 하나로 통일한다(dark 권장) — 카드마다 dark·light 를 섞지 않는다(v5.21.12 사용자 의견, 검사 [article-backdrop] hard).'
   - '마커 라벨·부제는 그 마커를 지나는 경로 선의 반대쪽 side 로 둔다 — 경로 선이 글자를 지나가면 안 된다(v5.21.11 사용자 의견, 검사 [route-label-cross] hard). 경로 이름표 자리는 엔진이 선에서 띄워 고른다 — 이름표를 짧게 쓴다.'
   - '기사 카드(article)·인용(quote)은 글자가 다 보이는 시간이 2.5초 이상이어야 한다(기사는 프레스 단독 1초 + 페이드 0.5초씩을 빼고, 즉 t0~t1 4.5초 이상) — 문장이 짧으면 end 를 다음 문장까지 늘리거나 start 를 앞당긴다(v5.21.10 사용자 의견, 검사 [card-exposure] hard).'
   - 경계선(군사분계선·국경·NLL 등)을 route 로 그리지 않는다 — 지도 경계선이 이미 있다(v4.7.0 D-0107, 검사 [boundary-as-route] hard).
@@ -487,7 +488,9 @@ layout_480p:               # 09 §2·§4, 08 §10 — 기준 해상도 854×480.
       dark: {overlay: [0.0, 0.0, 0.0], ink: [0.97, 0.965, 0.95], muted: [0.62, 0.64, 0.68], rule: [0.91, 0.72, 0.38]}
       light: {overlay: [1.0, 1.0, 1.0], ink: [0.07, 0.075, 0.09], muted: [0.36, 0.37, 0.41], rule: [0.07, 0.075, 0.09]}
     press_lead_sec: 1.0       # 프레스 사진(또는 블러 무대) 단독
-    press_fallback: {blur_px: 18, dim: 0.55}   # v5.2.0 D-0129 §A — 프레스 사진 없을 때 무대 블러. G12 stage_backdrop 값 그대로(배경 사진 값과 분리 — hormuz 기사 골든 15_review_0·19_debate_0 불변)
+    # v5.21.12 사용자 의견(2026-10-11 "기사 조판의 배경이 흰색 — 통일감", D-0193): 밝은 지도를 흐리면 평균 밝기 0.37(흰 화면), 어두운 지도 0.07.
+    # max_luma = 블러·dim 뒤 평균 밝기 상한 — 넘으면 그만큼 더 어둡게(dark 골든 기사 0.066·0.070 은 아래라 무변경). 한 영상 기사 카드 theme 하나(검사 article_backdrop hard)
+    press_fallback: {blur_px: 18, dim: 0.55, max_luma: 0.075}   # v5.2.0 D-0129 §A — 프레스 사진 없을 때 무대 블러. G12 stage_backdrop 값 그대로(배경 사진 값과 분리 — hormuz 기사 골든 15_review_0·19_debate_0 불변)
     overlay_alpha: 0.82
     overlay_fade_sec: 0.5
     x_left_ratio: 0.11

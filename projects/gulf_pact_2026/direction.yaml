@@ -643,7 +643,7 @@ events:
     edge: end
     'off': 0.4
   mid: gulf_pact_2026_art_0014
-  theme: light
+  theme: dark
 - type: quote
   start:
     sid: roles_1

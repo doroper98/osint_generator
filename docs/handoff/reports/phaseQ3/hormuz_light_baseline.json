@@ -70,7 +70,8 @@
   },
   {
    "png": "p_0145.33.png",
-   "md5": "8cf36aed08e8bd236265de500b336679"
+   "md5": "95de891e4a48fc888231176994492d5e",
+   "superseded": {"md5": "8cf36aed08e8bd236265de500b336679", "by": "v5.21.12", "reason": "UF-05·D-0204 — 사진 없는 기사 카드 블러 무대 밝기 상한(press_fallback.max_luma)"}
   },
   {
    "png": "p_0150.26.png",
@@ -86,7 +87,8 @@
   },
   {
    "png": "p_0189.96.png",
-   "md5": "db845e1b1b4b9cbc3c838eed14943a92"
+   "md5": "0bc436f7fb564e371868c79616a62d29",
+   "superseded": {"md5": "db845e1b1b4b9cbc3c838eed14943a92", "by": "v5.21.12", "reason": "UF-05·D-0204 — 사진 없는 기사 카드 블러 무대 밝기 상한(press_fallback.max_luma)"}
   },
   {
    "png": "p_0195.53.png",
