@@ -273,7 +273,7 @@ class QuoteEvent(_Event):
     flag: str                          # 인물 뱃지 바탕 국기 / pid 없을 때 국기 원
     speaker: str = Field(min_length=1)
     role: Optional[str] = None
-    text: str = Field(min_length=1, description="따옴표(“”\"「」)를 넣지 않는다 — 코드가 그린다")   # v5.21.1 LLM-AP-018
+    text: str = Field(min_length=1, description="따옴표(“”\"「」)를 넣지 않는다 — 코드가 그린다. 이 인용이 걸린 문장의 화면 원고에 있는 문구를 그대로(원고에 없는 말·다른 번역 금지, 검사 quote_in_script)")   # v5.21.1 LLM-AP-018
     src: Optional[str] = None          # 매체(예: 로이터)
     date: Optional[str] = None         # 화면 날짜(예: 2026. 10. 01)
     accent: Accent = "gold"

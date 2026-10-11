@@ -644,7 +644,7 @@ events:
     'off': 0.4
   mid: gulf_pact_2026_art_0014
   theme: dark
-- type: quote
+- type: card
   start:
     sid: roles_1
     'off': 0.3
@@ -652,14 +652,11 @@ events:
     sid: roles_1
     edge: end
     'off': 0.6
-  flag: pk
-  speaker: 카와자 아시프
-  role: 파키스탄 국방장관
-  text: 작전 지역 주둔
-  src: Business Standard
-  date: 2026.10.06
+  tag: 아시프 국방장관 · 보도
+  lines:
+  - 전투 작전에는 사우디군만 참여
   accent: gold
-  pos: center
+  src: Business Standard · 2026.10.06
 - type: badge
   start:
     sid: roles_2
@@ -783,22 +780,6 @@ events:
     'off': 0.5
   mid: gulf_pact_2026_art_0016
   theme: dark
-- type: quote
-  start:
-    sid: troop_numbers_6
-    'off': 0.3
-  end:
-    sid: troop_numbers_6
-    edge: end
-    'off': 0.6
-  flag: pk
-  speaker: 아흐메드 샤리프 차우드리
-  role: 파키스탄군 대변인 · 중장
-  text: 여러 역량으로
-  src: The Express Tribune · CNN 인터뷰
-  date: 2026.10.07
-  accent: gold
-  pos: center
 - type: marker
   start:
     word:

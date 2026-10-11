@@ -24,6 +24,7 @@ hard 실패가 하나라도 있으면 시각 검수 LLM 을 부르지 않고 연
 | route_label_cross | hard | 경로 선 ↔ 경로 이름표·마커 라벨/부제 글자 교차(v5.21.11 D-0191 §1-3·D-0192) — 이름표 자리는 렌더와 같은 `route_label_layout` |
 | route_label_overlap | hard | 경로 이름표 ↔ 해역 이름·다른 이름표·뱃지·마커 겹침 또는 화면 밖(v5.21.11 D-0192·D-0199). 대비는 map_contrast(이름표 required) |
 | article_backdrop | hard | 한 영상 기사 카드 theme 하나(v5.21.12 D-0193). 사진 없는 카드 블러 무대 밝기 상한은 그리기(`fallback_gain`, press_fallback.max_luma) |
+| quote_in_script | hard | 인용(quote) text ⊂ 그 구간 문장 화면 원고(공백·문장부호 정규화, v5.21.13 D-0194) |
 | genre_elements | hard | 장르 요소(v4.2.0 D-0081 작업 3, GOAL G3-17): direction 이 쓴 이벤트·패널·뱃지·프리미티브 종류(genres.elements) ⊆ 장르 프로필 primitives.reuse ∪ new |
 | chart_honesty | hard | 차트 정직성(v4.3.0 D-0084 작업 5·D-0087, 20 §5.3): 막대 0 기준선·압축 구간 ↔ 물결 라벨·%/%p·이중 축 라벨·색·로그 척도 표기 (`engine.honesty`) |
 | series_limit_3 | hard | 한 차트(레인·패널)의 계열 ≤ qa_checks.series_max |
@@ -50,6 +51,7 @@ hard 실패가 하나라도 있으면 시각 검수 LLM 을 부르지 않고 연
 from __future__ import annotations
 
 import math
+import re
 from functools import lru_cache
 from typing import Callable
 
@@ -72,7 +74,7 @@ SHADOW_PX = 7             # badge_box 가 원 둘레에 더하는 그림자 여�
 HARD = ("map_contrast", "overlap", "offscreen", "glyphs", "glyph_size", "labels", "date", "subtitles", "rights", "forbidden", "stage_continuity",
         "genre_elements", "chart_honesty", "series_limit_3", "units_visible", "as_of_visible", "boundary_as_route",
         "geo_mismatch", "timeline_rescale", "backdrop_rights", "backdrop_repeat", "island_overlap",
-        "backdrop_main_missing", "island_label_clip", "cascade", "subtitle_overlap", "label_collision", "timeline_span", "route_frame", "panel_overflow", "flag_territory", "badge_over_panel", "opening_establish", "camera_continuity", "card_exposure", "route_label_cross", "route_label_overlap", "article_backdrop")   # island_label_clip v5.2.0 D-0133 §2, backdrop_main_missing v5.2.0 D-0129 §B, island_overlap v5.1.0 D-0126 Q3, geo_mismatch v4.10.0 D-0116, timeline_rescale v5.1.0 D-0121 §A, backdrop_* v5.1.0 D-0123
+        "backdrop_main_missing", "island_label_clip", "cascade", "subtitle_overlap", "label_collision", "timeline_span", "route_frame", "panel_overflow", "flag_territory", "badge_over_panel", "opening_establish", "camera_continuity", "card_exposure", "route_label_cross", "route_label_overlap", "article_backdrop", "quote_in_script")   # island_label_clip v5.2.0 D-0133 §2, backdrop_main_missing v5.2.0 D-0129 §B, island_overlap v5.1.0 D-0126 Q3, geo_mismatch v4.10.0 D-0116, timeline_rescale v5.1.0 D-0121 §A, backdrop_* v5.1.0 D-0123
 WARN = ("shots", "media_beats", "media_upscaled", "endcard_roll", "geo_unsourced",   # endcard_roll v4.7.0 D-0106, geo_unsourced D-0107
         "static_window", "stage_choice", "card_island", "island_label_overlap", "cascade_label_hidden",
         "map_contrast_shape")   # map_contrast_shape v5.18.0 D-0161 §4   # static_window v4.11.0 D-0118, stage_choice v5.1.0 D-0123, card_island v5.2.0 D-0129 §C, island_label_overlap D-0133 §3
@@ -852,6 +854,25 @@ def check_article_backdrop(P) -> list[str]:  # noqa: ANN001, N803
             + " — 한 영상 안 기사 카드 theme 은 하나"]
 
 
+def _norm_quote(s: str) -> str:
+    """공백·문장부호를 뗀 비교용 글자열(한글·영숫자만)."""
+    return re.sub(r"[^0-9A-Za-z가-힣]", "", s)
+
+
+def check_quote_in_script(P) -> list[str]:  # noqa: ANN001, N803
+    """인용 ⊂ 화면 원고(v5.21.13 D-0194, 사용자 의견 "나레이션과 화면 따옴표 불일치") — quote 이벤트 text 가 인용이 걸린
+    문장들(t0~t1 과 겹치는 문장)의 화면 원고 text 안에 그대로 있어야 한다(정규화 뒤 부분 문자열). 번역 인용도 원고와 같은 번역."""
+    out = []
+    for e in P.events:
+        if e["type"] != "quote":
+            continue
+        ss = [s for s in P.plan.sentences if s.t0 < e["t1"] and s.t1 > e["t0"]]
+        if _norm_quote(e["text"]) not in "".join(_norm_quote(s.text) for s in ss):
+            out.append(f"[quote-in-script] 인용 {e.get('speaker')!r} “{e['text']}” 가 그 문장 원고({', '.join(s.sid for s in ss) or '없음'})에 없다 — "
+                       "내레이션이 말하는 문구를 그대로 쓰거나, 인용 대신 따옴표 없는 카드로")
+    return out
+
+
 def check_stage_continuity(P) -> list[str]:  # noqa: ANN001, N803
     """무대 연속성 — engine.shots.stage_continuity 한 곳. 상세는 "[규칙 키] 설명"(D-0077: 영문 키)."""
     from engine.shots import stage_continuity  # noqa: PLC0415
@@ -1049,6 +1070,7 @@ def run_checks(P, times: list[float], provenance: dict, drawn: list[tuple[str, f
         "route_label_cross": lambda: route_label_report(P)["cross"],      # v5.21.11 D-0191 §1-3·D-0192
         "route_label_overlap": lambda: route_label_report(P)["overlap"],  # v5.21.11 D-0192·D-0199
         "article_backdrop": lambda: check_article_backdrop(P),           # v5.21.12 D-0193
+        "quote_in_script": lambda: check_quote_in_script(P),             # v5.21.13 D-0194
         "genre_elements": lambda: check_genre_elements(P),
         "boundary_as_route": lambda: list((P.R.cache.get("geo_check") or {}).get("boundary") or []),
         "geo_unsourced": lambda: check_geo_unsourced(P),
