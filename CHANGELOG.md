@@ -66,7 +66,7 @@ released 항목은 **append-only**입니다.
 
 ---
 
-## [v5.20.0] — 2026-10-11 — 음성 트랙 V5: 문장 끝 억양 보정(끝 3글자 4반음 선형 하강, 사용자 결정 D169 시안 C) (back_and_forth D-0175) — 진행 중
+## [v5.20.0] — 2026-10-11 — 음성 트랙 V5: 문장 끝 억양 보정(끝 3글자 4반음 선형 하강, 사용자 결정 D169 시안 C) (back_and_forth D-0175)
 
 MINOR: 새 단계(script/tts/prosody). JSON `schema_version` 그대로(1).
 

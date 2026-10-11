@@ -51,4 +51,4 @@ last_review: 2026-10-11
 - 전편·콘티 판은 이 컨테이너 `projects/hormuz_korea/out/` 에 있습니다(미추적). 위 md5 로 Fable 사본과 대조할 수 있습니다.
 
 ## 5. pytest
-(전체 결과는 아래 줄)
+**1530 passed · 0 failed · 0 skipped**(313 subtests, 34분 38초, 표준 `FONTCONFIG_FILE`). dark·light 골든 e2e 포함 — 두 테마 25/25 무변화. 새 테스트 `test_v5_prosody` 9개.
