@@ -413,6 +413,7 @@ class EndCardLayout(_Strict):
     version_stamp: EndCardVersionStamp
     bottom_margin: float = Field(ge=0)   # v4.5.0 D-0098 — 크레딧 마지막 기준선과 하단 구분선(H−44) 사이 최소 여백
     hold_black_after: bool = True        # v4.4.0 dmz_mine_2026(v4.7.0 병합) — 카드 뒤 검정 유지(지도가 다시 드러나지 않게)
+    after_max_luma: float = Field(gt=0, le=1)   # v5.22.3 UF-35 — 카드 퇴장 뒤~영상 끝 프레임 평균 밝기 상한(endcard_black hard)
     # v4.7.0 D-0106 1-C — 넘치면 롤(속도 상한 넘으면 오류)
     scroll_top: float
     scroll_bottom: float

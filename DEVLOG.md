@@ -3425,3 +3425,4 @@ last_review: 2026-06-06
 - 2026-10-11 v5.22.0 사용자 의견 원장(rules/user_feedback.yaml UF-01~96) + 장치 존재 테스트 + 게이트 ② 차단(open 15 — 보고) + provenance user_feedback_guards, CLAUDE.md C12(D-0200).
 - 2026-10-11 v5.22.1 route_missing·frame_missing hard(D-0205 §2), 국기 뱃지 = 표시, hormuz 골든 story_geo_exempt. gulf 메카 궤적·이란 부인 뱃지.
 - 2026-10-11 v5.22.2 배경음악 누락 3회 재발(UF-16·30·93) → bgm_decision hard(음악 없음 = 결정 번호 필수).
+- 2026-10-11 v5.22.3 엔딩 뒤 지도 재노출(UF-35) → endcard_black hard(프레임 실측).

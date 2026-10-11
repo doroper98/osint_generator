@@ -484,8 +484,14 @@ entries:
   quote: 엔딩 크레딧이 사라지는 전환에서 뒤의 지도가 다시 보인다
   quote_kind: summary
   category: 엔딩 카드 뒤 검정 유지
-  guards: []
-  status: open
+  guards:
+  - kind: check
+    ref: endcard_black
+  - kind: rule
+    ref: layout_480p.end_card.after_max_luma
+  - kind: test
+    ref: tests/test_endcard_black.py::TestHormuz::test_regression_detected
+  status: guarded
   decision: D95 · D96
   source: R-0122 U15 · DECISIONS D95
 - id: UF-36

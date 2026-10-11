@@ -460,6 +460,7 @@ layout_480p:               # 09 §2·§4, 08 §10 — 기준 해상도 854×480.
     bottom_margin: 8
     # v4.4.0 dmz_mine_2026(v4.7.0 병합) — 카드가 사라진 뒤 영상 끝까지 검정 유지(끝 전환에 지도가 다시 보이던 것, R-0122 U15)
     hold_black_after: true
+    after_max_luma: 0.03   # v5.22.3 UF-35(D-0205 §3) — 카드가 사라진 뒤~끝 프레임 평균 밝기(Rec.709) 상한. 넘으면 endcard_black hard
     # v4.7.0 back_and_forth D-0106 1-C — 크레딧 마지막 기준선이 한도(H−44 − bottom_margin)를 넘으면 롤: 앞 hold_in 멈춤 → 목록 전체가 위로 → 뒤 hold_out 멈춤.
     # 롤 거리 = 마지막 기준선 − (scroll_bottom − scroll_fade_px), 속도 = 거리 ÷ (dur_sec − hold_in − hold_out). 속도 > scroll_max_px_per_sec = EndCardOverflowError·[endcard-overflow] hard,
     # 상한 안 롤 = checks warning [endcard-roll] + provenance end_card.roll_px. 60 px/s = 480p 14px 줄 초당 약 4줄(D-0106)

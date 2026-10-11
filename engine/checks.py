@@ -29,6 +29,7 @@ hard 실패가 하나라도 있으면 시각 검수 LLM 을 부르지 않고 연
 | frame_missing · frame_missing_target | hard · hard(v5.22.1, 국기 뱃지 = 표시, 골든 story_geo_exempt) | 문장이 부르는 나라(라벨 점)·마커가 문장 구간 내내 화면 밖. 이동·공격 대상이면 hard(v5.21.14 D-0199) |
 | battle_geo | warning | 전황 동사 문장에 지도 마커·경로 없음(v5.22.0 D-0200 UF-08) |
 | bgm_decision | hard | 배경음악 없음은 sound.no_music_decision(결정 번호) 필수(v5.22.2 UF-16·30·93) |
+| endcard_black | hard | 엔딩 카드 뒤~끝 프레임을 그려 평균 밝기 ≤ end_card.after_max_luma(v5.22.3 UF-35) |
 | portrait_unused | warning | 인물 이름이 나오고 초상이 있는데 그 인물 뱃지·인용 없음(v5.22.0 D-0200 UF-10) |
 | genre_elements | hard | 장르 요소(v4.2.0 D-0081 작업 3, GOAL G3-17): direction 이 쓴 이벤트·패널·뱃지·프리미티브 종류(genres.elements) ⊆ 장르 프로필 primitives.reuse ∪ new |
 | chart_honesty | hard | 차트 정직성(v4.3.0 D-0084 작업 5·D-0087, 20 §5.3): 막대 0 기준선·압축 구간 ↔ 물결 라벨·%/%p·이중 축 라벨·색·로그 척도 표기 (`engine.honesty`) |
@@ -79,7 +80,7 @@ SHADOW_PX = 7             # badge_box 가 원 둘레에 더하는 그림자 여�
 HARD = ("map_contrast", "overlap", "offscreen", "glyphs", "glyph_size", "labels", "date", "subtitles", "rights", "forbidden", "stage_continuity",
         "genre_elements", "chart_honesty", "series_limit_3", "units_visible", "as_of_visible", "boundary_as_route",
         "geo_mismatch", "timeline_rescale", "backdrop_rights", "backdrop_repeat", "island_overlap",
-        "backdrop_main_missing", "island_label_clip", "cascade", "subtitle_overlap", "label_collision", "timeline_span", "route_frame", "panel_overflow", "flag_territory", "badge_over_panel", "opening_establish", "camera_continuity", "card_exposure", "route_label_cross", "route_label_overlap", "article_backdrop", "quote_in_script", "route_missing_other", "frame_missing_target", "route_missing", "frame_missing", "bgm_decision")   # island_label_clip v5.2.0 D-0133 §2, backdrop_main_missing v5.2.0 D-0129 §B, island_overlap v5.1.0 D-0126 Q3, geo_mismatch v4.10.0 D-0116, timeline_rescale v5.1.0 D-0121 §A, backdrop_* v5.1.0 D-0123
+        "backdrop_main_missing", "island_label_clip", "cascade", "subtitle_overlap", "label_collision", "timeline_span", "route_frame", "panel_overflow", "flag_territory", "badge_over_panel", "opening_establish", "camera_continuity", "card_exposure", "route_label_cross", "route_label_overlap", "article_backdrop", "quote_in_script", "route_missing_other", "frame_missing_target", "route_missing", "frame_missing", "bgm_decision", "endcard_black")   # island_label_clip v5.2.0 D-0133 §2, backdrop_main_missing v5.2.0 D-0129 §B, island_overlap v5.1.0 D-0126 Q3, geo_mismatch v4.10.0 D-0116, timeline_rescale v5.1.0 D-0121 §A, backdrop_* v5.1.0 D-0123
 WARN = ("shots", "media_beats", "media_upscaled", "endcard_roll", "geo_unsourced",   # endcard_roll v4.7.0 D-0106, geo_unsourced D-0107
         "static_window", "stage_choice", "card_island", "island_label_overlap", "cascade_label_hidden",
         "map_contrast_shape", "battle_geo", "portrait_unused")   # v5.21.14 D-0195·D-0199. map_contrast_shape v5.18.0 D-0161 §4   # static_window v4.11.0 D-0118, stage_choice v5.1.0 D-0123, card_island v5.2.0 D-0129 §C, island_label_overlap D-0133 §3
@@ -998,6 +999,33 @@ def check_bgm_decision(P) -> list[str]:  # noqa: ANN001, N803
             "사용자 결정으로 뺐으면 sound.no_music_decision 에 결정 번호를 적는다"]
 
 
+def endcard_black_samples(P) -> list[float]:  # noqa: ANN001, N803
+    """엔딩 카드 글자가 다 빠진 뒤~영상 끝 표본 시각(카드 끝 직후·가운데·끝 직전). 카드가 끝까지 이어지면 빈 목록."""
+    end = next((c for c in P.R.tb.plan.cards if c.kind == "end"), None)
+    total = P.plan.total
+    if end is None or end.t1 >= total - 1.0 / FPS:
+        return []
+    a, b = end.t1 + 1.0 / FPS, total - 1.0 / FPS
+    return sorted({round(a, 4), round((a + b) / 2, 4), round(b, 4)})
+
+
+def check_endcard_black(P) -> list[str]:  # noqa: ANN001, N803
+    """v5.22.3 UF-35(D-0205 §3, dmz U15 "엔딩 카드가 사라질 때 지도가 다시 보인다") — 카드 퇴장 뒤~끝 프레임을 실제로 그려
+    평균 밝기(Rec.709)가 end_card.after_max_luma 를 넘으면 hard. 규칙 키(hold_black_after)만으로는 회귀를 못 잡는다."""
+    from engine.render import render_frame  # noqa: PLC0415
+    from engine.style import END_CARD  # noqa: PLC0415
+
+    out = []
+    for t in endcard_black_samples(P):
+        i = min(P.n_frames - 1, int(round(t * FPS)))
+        surf, buf = render_frame(P, i)
+        a = np.frombuffer(buf, np.uint8).reshape(surf.get_height(), surf.get_width(), 4)[..., :3].astype(np.float32) / 255.0
+        luma = float((0.0722 * a[..., 0] + 0.7152 * a[..., 1] + 0.2126 * a[..., 2]).mean())   # cairo RGB24 = BGRX
+        if luma > END_CARD.after_max_luma:
+            out.append(f"[endcard-black] t={t:.2f} 엔딩 카드 뒤 평균 밝기 {luma:.3f} > {END_CARD.after_max_luma} — 끝까지 검정이어야 한다(지도가 다시 보임)")
+    return out
+
+
 def check_stage_continuity(P) -> list[str]:  # noqa: ANN001, N803
     """무대 연속성 — engine.shots.stage_continuity 한 곳. 상세는 "[규칙 키] 설명"(D-0077: 영문 키)."""
     from engine.shots import stage_continuity  # noqa: PLC0415
@@ -1202,6 +1230,7 @@ def run_checks(P, times: list[float], provenance: dict, drawn: list[tuple[str, f
         "frame_missing_target": lambda: story_geo_report(P)["frame_missing_target"],   # v5.21.14 (hard — 이동·공격 대상 화면 밖)
         "battle_geo": lambda: check_battle_geo(P),            # v5.22.0 D-0200 UF-08(warning)
         "bgm_decision": lambda: check_bgm_decision(P),        # v5.22.2 UF-16·30·93(hard)
+        "endcard_black": lambda: check_endcard_black(P),      # v5.22.3 UF-35(hard)
         "portrait_unused": lambda: check_portrait_unused(P),  # v5.22.0 D-0200 UF-10(warning)
         "genre_elements": lambda: check_genre_elements(P),
         "boundary_as_route": lambda: list((P.R.cache.get("geo_check") or {}).get("boundary") or []),
