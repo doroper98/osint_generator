@@ -1,6 +1,6 @@
 <!--
 tier: 3
-last_synced_with: v5.21.3
+last_synced_with: v5.21.4
 ssot_for: [release-notes]
 depends_on: [README.md, GOAL.md]
 last_review: 2026-09-28
@@ -63,6 +63,12 @@ released 항목은 **append-only**입니다.
 | v5.0.0 | 87912d2 | G11 GOAL G4-21·claim_kind fact/statement | pass(D-0125) |
 | v5.1.0 | 3619f2c | G12 backdrop 무대·아일랜드·축 스케일·기사 프레스 v2·발음 사전·버전 도장 | pass(D-0127) — 후속 D-0128 완료 |
 | v5.2.0 | d4703d9 | G13 배경 가독·주 아일랜드 상시·보도 인용 = 기사·card-island·라벨 반전 | pass(D-0134) — 후속 겹침 카드 시안(D-0135~D-0138) |
+
+---
+
+## [v5.21.4] — 2026-10-11 — 전편 provenance 에 국소 대비 보정 기록 (D-0190 §3-1, P5)
+
+PATCH: 보정은 렌더 청크(다른 프로세스)에서 일어나 mux provenance 가 못 봤다. 청크가 보정 목록을 남기고 render.json 이 합쳐 provenance `map_contrast_fix` 로 옮긴다.
 
 ---
 
