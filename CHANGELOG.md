@@ -1,6 +1,6 @@
 <!--
 tier: 3
-last_synced_with: v5.22.6
+last_synced_with: v5.22.7
 ssot_for: [release-notes]
 depends_on: [README.md, GOAL.md]
 last_review: 2026-09-28
@@ -63,6 +63,12 @@ released 항목은 **append-only**입니다.
 | v5.0.0 | 87912d2 | G11 GOAL G4-21·claim_kind fact/statement | pass(D-0125) |
 | v5.1.0 | 3619f2c | G12 backdrop 무대·아일랜드·축 스케일·기사 프레스 v2·발음 사전·버전 도장 | pass(D-0127) — 후속 D-0128 완료 |
 | v5.2.0 | d4703d9 | G13 배경 가독·주 아일랜드 상시·보도 인용 = 기사·card-island·라벨 반전 | pass(D-0134) — 후속 겹침 카드 시안(D-0135~D-0138) |
+
+---
+
+## [v5.22.7] — 2026-10-11 — 경로 이름표 수명 중 이동 금지 (D209)
+
+PATCH: 경로 이름표 자리는 나타나는 순간(그 순간 이미 있는 장애물만 피해서) 정하고 수명 내내 같은 후보로 고정(`route_label_slots`, 렌더·검사 공용). 나중에 나타나는 전경 층(인용·카드)에 가리면 그 자리에서 흐린다. 검사 `label_jump` hard(규칙 `qa_checks.label_jump_px`). label_collision 의 전경↔이름표 대조(v5.22.6)는 흐림으로 대체.
 
 ---
 
