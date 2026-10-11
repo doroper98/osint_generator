@@ -1,6 +1,6 @@
 <!--
 tier: 3
-last_synced_with: v5.21.0
+last_synced_with: v5.21.1
 ssot_for: [release-notes]
 depends_on: [README.md, GOAL.md]
 last_review: 2026-09-28
@@ -63,6 +63,12 @@ released 항목은 **append-only**입니다.
 | v5.0.0 | 87912d2 | G11 GOAL G4-21·claim_kind fact/statement | pass(D-0125) |
 | v5.1.0 | 3619f2c | G12 backdrop 무대·아일랜드·축 스케일·기사 프레스 v2·발음 사전·버전 도장 | pass(D-0127) — 후속 D-0128 완료 |
 | v5.2.0 | d4703d9 | G13 배경 가독·주 아일랜드 상시·보도 인용 = 기사·card-island·라벨 반전 | pass(D-0134) — 후속 겹침 카드 시안(D-0135~D-0138) |
+
+---
+
+## [v5.21.1] — 2026-10-11 — 연출 필드 표에 badge flag·quote text 제약 표시 (LLM-AP-018)
+
+PATCH: gulf_pact_2026 AI 연출가가 person 뱃지 flag 누락·인용문 따옴표로 두 번 거부된 것 — 검증기 제약이 필드 표에 보이지 않았다(LLM-AP-011 과 같은 클래스).
 
 ---
 
