@@ -1,6 +1,6 @@
 <!--
 tier: 3
-last_synced_with: v5.22.7
+last_synced_with: v5.22.8
 ssot_for: [release-notes]
 depends_on: [README.md, GOAL.md]
 last_review: 2026-09-28
@@ -63,6 +63,12 @@ released 항목은 **append-only**입니다.
 | v5.0.0 | 87912d2 | G11 GOAL G4-21·claim_kind fact/statement | pass(D-0125) |
 | v5.1.0 | 3619f2c | G12 backdrop 무대·아일랜드·축 스케일·기사 프레스 v2·발음 사전·버전 도장 | pass(D-0127) — 후속 D-0128 완료 |
 | v5.2.0 | d4703d9 | G13 배경 가독·주 아일랜드 상시·보도 인용 = 기사·card-island·라벨 반전 | pass(D-0134) — 후속 겹침 카드 시안(D-0135~D-0138) |
+
+---
+
+## [v5.22.8] — 2026-10-11 — 경로 이름표 자리: 수명 전체 비충돌 후보 (D210)
+
+PATCH: `route_label_slots` 가 이름표 수명 전체를 `qa_checks.label_slot_sample_sec`(0.25초) 간격으로 훑어 모든 표본에서 안 겹치는 후보를 고른다. 없을 때만 겹침이 가장 적은 후보로 고정하고 겹치는 구간을 그 자리에서 흐린다(`slot_fade`, 0.25초 램프). 붙잡기 렌더는 배경을 그리지 않는다. 골든 dark·light 바이트 동일, gulf 29.73초 겹침 해소.
 
 ---
 
