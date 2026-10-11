@@ -203,3 +203,11 @@ last_review: 2026-05-23
 - **원칙**: 카메라 이동은 속도·가속도가 모두 연속(5차 이상)이다. 같은 교훈은 모든 렌더 트랙(본 엔진·스케치)에 같은 키·같은 측정 함수로 배선한다.
 - **자동 조치**: 규칙 `shot_grammar.move_ease: quintic`(engine/camera·sketch/common/camera 둘 다), `engine.camera.continuity` 한 함수(1·2·3차), 본 엔진 검사 `camera_continuity` hard·스케치 SK-C1 3차 — 임계 `sketch.checks.max_dlogw/max_d2logw/max_d3_per_frame`. 테스트 `test_camera_continuity`(두 트랙 배선 포함). 남은 것: 스케치 3D 지구본 카메라(ease_io, 3D 검사는 화면 px 2차만).
 - **발견 버전**: v5.21.9 · **상태**: active
+
+## RENDER-AP-019 — 기사 카드가 읽기도 전에 사라짐(완전 노출 0.4초)
+
+- **증상(실제 현상)**: gulf_pact_2026 본영상 사용자 의견(2026-10-11) — "첫 오프닝에서 화면 전환에 너무 급해. 기사 화면이 나왔는데 0.5초도 안 돼서 사라지는 것 같아". 첫 기사 카드(art_0001) t0 10.52 ~ t1 12.92 — 프레스 단독 1초·페이드 0.5초씩을 빼면 글자가 다 보이는 시간 0.40초.
+- **원리**: 기사 카드 길이에 하한이 없었다. 연출가가 문장 끝(+0.2초)까지만 걸었고, 바로 뒤에 제목 카드가 있어 늘릴 자리가 없었다. 검사·연출 문법 어디에도 "읽을 시간"이 없었다.
+- **원칙**: 기사·인용 카드는 글자가 다 보이는 시간이 2.5초 이상. 문장이 짧으면 다음 문장까지 늘리거나 시작을 앞당긴다.
+- **자동 조치**: 규칙 `qa_checks.card_full_exposure_min_sec`(2.5), 검사 `card_exposure` hard(구간 = 그리기 알파와 같은 함수 `article_full_span`·`quote_full_span`), 연출 문법 한 줄. 테스트 `test_card_exposure`. gulf: art_0001 시작을 open_1 +1.2초·끝을 제목 카드 시작(문장 끝 +0.7)으로 → 2.70초, 사우디 강조·뱃지를 open_1 시작으로 당김.
+- **발견 버전**: v5.21.10 · **상태**: active

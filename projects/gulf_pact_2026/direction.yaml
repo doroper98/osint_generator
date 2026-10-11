@@ -251,9 +251,8 @@ events:
   accent: gold
 - type: country
   start:
-    word:
-      sid: open_1
-      text: 사우디아라비아
+    sid: open_1
+    'off': 0.1
   end:
     scene_end: open
   codes:
@@ -263,7 +262,7 @@ events:
 - type: badge
   start:
     sid: open_1
-    'off': 1.4
+    'off': 0.3
   end:
     scene_end: open
   at_place: sa_center
@@ -275,11 +274,11 @@ events:
 - type: article
   start:
     sid: open_1
-    'off': 3.0
+    'off': 1.2
   end:
     sid: open_1
     edge: end
-    'off': 0.2
+    'off': 0.7
   mid: gulf_pact_2026_art_0001
   theme: dark
 - type: cascade

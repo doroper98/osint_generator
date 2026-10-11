@@ -145,6 +145,12 @@ def validate_press(e: dict, assets: dict | None = None):  # noqa: ANN201 — Med
     return a
 
 
+def article_full_span(e: dict) -> tuple[float, float]:
+    """글자(덮개) 완전 불투명 구간 — article_phase 두 번째 알파가 1 인 구간(v5.21.10 D-0191 §1-2, 검사 card_exposure)."""
+    A = ARTICLE  # noqa: N806
+    return e["t0"] + A.press_lead_sec + A.overlay_fade_sec, e["t1"] - A.overlay_fade_sec
+
+
 def article_phase(t: float, e: dict) -> tuple[float, float]:
     """(사진·블러 판 알파, 덮개·글자 알파)."""
     A = ARTICLE  # noqa: N806

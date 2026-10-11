@@ -57,6 +57,11 @@ def quote_box(ctx: cairo.Context, e: dict) -> tuple[float, float, float, float]:
             max([px + pr + 7] + [b for _, b in xs]), max(bottom, py + pr + 7))
 
 
+def quote_full_span(e: dict) -> tuple[float, float]:
+    """완전 불투명 구간 — quote_alpha 가 1 인 구간(v5.21.10 D-0191 §1-2, 검사 card_exposure)."""
+    return e["t0"] + Q.fade_sec, e["t1"] - Q.fade_sec
+
+
 def quote_alpha(t: float, e: dict) -> float:
     return window(t, e["t0"], e["t1"], Q.fade_sec, Q.fade_sec)
 

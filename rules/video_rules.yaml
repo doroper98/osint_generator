@@ -241,6 +241,7 @@ pronounce:
 direction_grammar:         # v4.7.0 back_and_forth D-0104 D2(a) — 연출 문법(사람 승인 = D-0104, 15 P11). 연출·수정 프롬프트 {{RULES.direction_grammar}}
   - 인물이 발언 주체인 문장("~는 ~라고 말했습니다")에는 그 인물의 초상 뱃지(엔티티 레지스트리에 초상이 있을 때) 또는 그 발언을 전한 기사 카드(미디어 레지스트리 기사)를 건다. 텍스트 카드만으로 대신하지 않는다.
   - 원고 문장에 media 큐가 있으면 그 미디어를 우선 쓴다.
+  - '기사 카드(article)·인용(quote)은 글자가 다 보이는 시간이 2.5초 이상이어야 한다(기사는 프레스 단독 1초 + 페이드 0.5초씩을 빼고, 즉 t0~t1 4.5초 이상) — 문장이 짧으면 end 를 다음 문장까지 늘리거나 start 를 앞당긴다(v5.21.10 사용자 의견, 검사 [card-exposure] hard).'
   - 경계선(군사분계선·국경·NLL 등)을 route 로 그리지 않는다 — 지도 경계선이 이미 있다(v4.7.0 D-0107, 검사 [boundary-as-route] hard).
   - 화면에 조약·협정·작전 같은 고유 명칭이 나오는데 내레이션이 그 뜻을 풀지 않으면, 연도 카드(precedent) 패널의 footnote(1~2줄·근거 claim 필수)로 짧게 설명한다 — 자막 구역 위, 카드 아래(v5.6.0 사용자 요청 2026-10-05 "해결 조약 풋노트", 검사 [panel-footnote]).
   - 연도 단위 경과(수십~수백 년)는 연도 카드(precedent, 4장 이하)로, 월 눈금 타임라인(timeline)은 36개월 이하만(v5.6.0 RENDER-AP-011, 검사 [timeline-span]).
@@ -1460,6 +1461,9 @@ animatic:                  # v4.9.0 back_and_forth D-0108(사용자 결정 D97) 
   cost_target_sec_per_300s: 180   # 5분 영상 콘티 판 = 4코어 3분 이내("저렴"의 정의, 실측은 reports/phaseG8/run_log.md)
 
 qa_checks:                 # 17 §3 — 결정적 사전 검사 임계
+  # v5.21.10 사용자 의견(2026-10-11 "기사 화면이 나왔는데 0.5초도 안 돼서 사라진다", D-0191 §1-2) — 기사(프레스 단독·페이드 뺀 글자 구간)·인용(페이드 뺀 구간)
+  # 완전 노출 하한. 문장이 짧으면 연출이 다음 문장까지 늘리거나 앞당긴다. 검사 card_exposure hard
+  card_full_exposure_min_sec: 2.5
   overlap_core_elements: 0
   offscreen_clip: 0
   missing_glyphs: 0
