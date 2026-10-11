@@ -124,3 +124,20 @@ last_review: 2026-10-11
 - korea_1: "5월 26일 브리핑에서 중동산 원유 비중이 지난해 69.1%에서 48.5%로 줄었다" — 원문이 48.5% 에 기간을 달지 않음. clm_0048 텍스트에서 "2026년 5~7월" 삭제(notes 에 사유). korea_2: "미주산 … 지난해 23.1%에서 올해 5~7월 35.6%"(기간은 원문 그대로).
 - 길이 추정 5분 30초(330.3초), 린트 0·0, 기사 등록 +1(TIME 9/16), 미디어 표 통과(mecca_attack_1 '드론' 트리거 — 검색 기록 + 사유).
 - 권장(riyadh_airport_1 두 번째 출처 The Week·CNBC 10/9)은 하지 않았다 — 단일 출처(AJ·GACA 인용) 그대로, 사용자 알림 목록에 유지.
+
+## P1-2·P1-3 — gulf_pact_2026 음성·사진·연출·콘티 판 (v5.20.2~v5.21.1)
+
+| 단계 | 결과 |
+|---|---|
+| 게이트 ① | 사용자 "대본 오케이"(DECISIONS D180) → `approve --gate script_approval`, script_sha1 023c5a3d… |
+| 음성 | `script.plan --tts supertonic` 48문장 · **325.24초** · final_fall 47 적용 · 1 건너뜀(briefing_0 명사 종결 "메카 협정.") · octave_fixed 892 프레임 · MMS 정렬 게이트 통과. 첫 실행은 B 규칙 키 편집과 겹쳐 규칙 검증 오류로 끝났고(PIPELINE-AP-010 같은 클래스) 합성 캐시로 재실행 |
+| 사진(A) | 5장 — `gulf_pk_jf17`(U.S. Air Force PD)·`gulf_pk_soldiers`(DVIDS PD)·`gulf_riyadh_skyline`(Commons PD)·`gulf_kkia_aerial`(U.S. Air Force PD)·`hormuz_transit`(공용 재사용). 탈락 사유는 `media_notes.yaml` |
+| 사진(B) | 1장 — `gulf_pact_2026_art_0005_press`(Reuters via Al Jazeera, 공항 터미널 너머 연기, 사상자 없음). riyadh_airport_2 A 검색 통과 0(DoD 0·Commons 문서 2 → v5.21.0 mime 제외) |
+| 자산 준비 | 국기 PNG 48(flag-icons 23개국)·`record_bundles`·라이브러리 초상 4(trump·khamenei·netanyahu·putin)·`asset_library check` 0·credits.yaml(기사 카드 행 + auto people·music) |
+| AI 연출 | 연출가 5회째 통과. 거부 원인: ① person 뱃지 flag·인용문 따옴표 → v5.21.1 필드 표 제약(LLM-AP-018) ② tr 미등재 → entities 8개국 ③ 프로젝트 초상·크레딧 행 없음(환경). 실패한 4회는 모두 재요청 1/1 을 환경 오류에 썼다 |
+| 수정 회차 | v1(연출가) → [cascade-overflow] 문구 11곳 구현 세션 축약 → 회차 1(v2)·2(v3), 상한 2 → v3 선택(hard 3) |
+| 구현 세션 손질 | v3 뒤 콘티 판 hard 2건: 뱃지 '사우디아라비아'(pact_origin) at_place → lon 45.0·lat 26.5(자막 겹침), 마커 '사우디 내 파키스탄군' 시작 troop_numbers_2 → troop_numbers_6(겹침 카드 밑) |
+| audio.mix | 325.7초 · peak 0.833. 연출 `sound.bgm: null`(음악 없음 — 연출가 선택) |
+| 콘티 판 | `out/animatic.mp4` 22,725,077 B · md5 e8eab45540ae5204f1da7d55a0bae25b · 7805 프레임 · checks hard 0 · warning 15 · 자리표시 article 9·badge 13·cascade 3·photo 5·quote 3 |
+| 남은 hard(전편) | `[map-contrast]` 무스카트 4.06 < 4.5(t=101.71, light) — 콘티 판은 검사 생략. 전편 전에 해결 필요 |
+| 린트 | `script.lint` 경고 0 · 라벨 corroborated 23·unverified 19·disputed 6 |

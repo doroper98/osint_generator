@@ -1,0 +1,358 @@
+{
+ "schema_version": 1,
+ "hard": 0,
+ "warnings": 15,
+ "passed": true,
+ "profile": "animatic",
+ "skipped": [
+  "as_of_visible",
+  "chart_honesty",
+  "glyph_size",
+  "glyphs",
+  "labels",
+  "media_upscaled",
+  "rights",
+  "series_limit_3",
+  "units_visible"
+ ],
+ "thresholds": {
+  "overlap_core_elements": 0,
+  "offscreen_clip": 0,
+  "missing_glyphs": 0,
+  "labels_per_frame_max": 18,
+  "subtitle_lines_max": 2,
+  "rights_missing": 0,
+  "forbidden_components": 0,
+  "glyph_size_exempt": [
+   "end_card",
+   "media_meta"
+  ],
+  "label_hidden_max_ratio": 0.5,
+  "map_contrast_text": 4.5,
+  "map_contrast_shape": 3.0,
+  "map_contrast_min_alpha": 0.8,
+  "planned": [],
+  "chart_targets": {
+   "value": [
+    "chart_honesty",
+    "series_limit_3",
+    "units_visible",
+    "as_of_visible"
+   ],
+   "date": [
+    "chart_honesty"
+   ],
+   "none": []
+  },
+  "series_max": 3,
+  "visual_qa_loop_max": 2,
+  "empty_exempt": [
+   "article_press_lead"
+  ],
+  "loop_pick_order": [
+   "checks_hard",
+   "qa_hard",
+   "qa_soft"
+  ]
+ },
+ "items": [
+  {
+   "id": "overlap",
+   "severity": "hard",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "offscreen",
+   "severity": "hard",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "shots",
+   "severity": "warning",
+   "count": 1,
+   "details": [
+    "장면 korea 카메라 이동 2 > 1"
+   ]
+  },
+  {
+   "id": "media_beats",
+   "severity": "warning",
+   "count": 6,
+   "details": [
+    "[media-density-total] 과소 — 5개 / 325초 = 65.0초당 1개 > 60초 (14 §10.1, ['article'] 제외)",
+    "[media-kind-repeat] 이웃 장면 reactions→mecca_attack 같은 형태 ['article'] (14 §10.1)",
+    "[media-kind-repeat] 이웃 장면 roles→troop_numbers 같은 형태 ['article'] (14 §10.1)",
+    "[media-kind-repeat] 이웃 장면 riyadh_airport→korea 같은 형태 ['article', 'photo'] (14 §10.1)",
+    "[article-unused] korea_1 267.4초 기사 카드 후보 ['gulf_pact_2026_art_0019'] — 240~300초 구간 1/2개. 쓰거나 media_notes.yaml sentences.korea_1.article 에 사유",
+    "[article-unused] briefing_3 306.2초 기사 카드 후보 ['gulf_pact_2026_art_0002', 'gulf_pact_2026_art_0001', 'gulf_pact_2026_art_0016', 'gulf_pact_2026_art_0014', 'gulf_pact_2026_art_0013', 'gulf_pact_2026_art_0007', 'gulf_pact_2026_art_0017', 'gulf_pact_2026_art_0005'] — 300~360초 구간 0/1개. 쓰거나 media_notes.yaml sentences.briefing_3.article 에 사유"
+   ]
+  },
+  {
+   "id": "endcard_roll",
+   "severity": "warning",
+   "count": 1,
+   "details": [
+    "[endcard-roll] 크레딧이 넘쳐 롤 227px · 34.9 px/s(상한 60)"
+   ]
+  },
+  {
+   "id": "date",
+   "severity": "hard",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "subtitles",
+   "severity": "hard",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "forbidden",
+   "severity": "hard",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "stage_continuity",
+   "severity": "hard",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "genre_elements",
+   "severity": "hard",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "boundary_as_route",
+   "severity": "hard",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "geo_unsourced",
+   "severity": "warning",
+   "count": 7,
+   "details": [
+    "[geo-unsourced] place sa_center [45.0, 23.8] — 지명 사전에 없는 이름(또는 경로)이라 좌표를 대조하지 못함",
+    "[geo-unsourced] place kkia [46.7, 24.96] — 지명 사전에 없는 이름(또는 경로)이라 좌표를 대조하지 못함",
+    "[geo-unsourced] place bab_el_mandeb [43.33, 12.58] — 지명 사전에 없는 이름(또는 경로)이라 좌표를 대조하지 못함",
+    "[geo-unsourced] place mokha [43.25, 13.32] — 지명 사전에 없는 이름(또는 경로)이라 좌표를 대조하지 못함",
+    "[geo-unsourced] path pk_sa 5점 [66.0, 27.8]→[45.0, 23.8] — 지명 사전에 없는 이름(또는 경로)이라 좌표를 대조하지 못함",
+    "[geo-unsourced] path tr_sa 4점 [36.0, 38.3]→[45.0, 23.8] — 지명 사전에 없는 이름(또는 경로)이라 좌표를 대조하지 못함",
+    "[geo-unsourced] path oil 6점 [50.6, 27.0]→[63.0, 22.5] — 지명 사전에 없는 이름(또는 경로)이라 좌표를 대조하지 못함"
+   ]
+  },
+  {
+   "id": "geo_mismatch",
+   "severity": "hard",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "static_window",
+   "severity": "warning",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "timeline_rescale",
+   "severity": "hard",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "backdrop_rights",
+   "severity": "hard",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "backdrop_repeat",
+   "severity": "hard",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "stage_choice",
+   "severity": "warning",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "island_overlap",
+   "severity": "hard",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "backdrop_main_missing",
+   "severity": "hard",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "card_island",
+   "severity": "warning",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "island_label_clip",
+   "severity": "hard",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "island_label_overlap",
+   "severity": "warning",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "cascade",
+   "severity": "hard",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "cascade_label_hidden",
+   "severity": "warning",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "subtitle_overlap",
+   "severity": "hard",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "label_collision",
+   "severity": "hard",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "timeline_span",
+   "severity": "hard",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "route_frame",
+   "severity": "hard",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "panel_overflow",
+   "severity": "hard",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "flag_territory",
+   "severity": "hard",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "badge_over_panel",
+   "severity": "hard",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "opening_establish",
+   "severity": "hard",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "weapon_photo",
+   "severity": "warning",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "map_contrast",
+   "severity": "hard",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "map_contrast_shape",
+   "severity": "warning",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "as_of_visible",
+   "severity": "hard",
+   "count": 0,
+   "details": [],
+   "skipped": true
+  },
+  {
+   "id": "chart_honesty",
+   "severity": "hard",
+   "count": 0,
+   "details": [],
+   "skipped": true
+  },
+  {
+   "id": "glyph_size",
+   "severity": "hard",
+   "count": 0,
+   "details": [],
+   "skipped": true
+  },
+  {
+   "id": "glyphs",
+   "severity": "hard",
+   "count": 0,
+   "details": [],
+   "skipped": true
+  },
+  {
+   "id": "labels",
+   "severity": "hard",
+   "count": 0,
+   "details": [],
+   "skipped": true
+  },
+  {
+   "id": "media_upscaled",
+   "severity": "warning",
+   "count": 0,
+   "details": [],
+   "skipped": true
+  },
+  {
+   "id": "rights",
+   "severity": "hard",
+   "count": 0,
+   "details": [],
+   "skipped": true
+  },
+  {
+   "id": "series_limit_3",
+   "severity": "hard",
+   "count": 0,
+   "details": [],
+   "skipped": true
+  },
+  {
+   "id": "units_visible",
+   "severity": "hard",
+   "count": 0,
+   "details": [],
+   "skipped": true
+  }
+ ]
+}

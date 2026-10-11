@@ -333,7 +333,8 @@ events:
       text: 사우디아라비아
   end:
     scene_end: reactions
-  at_place: sa_center
+  lon: 45.0
+  lat: 26.5
   kind: flag
   flag: sa
   R: 18
@@ -770,7 +771,7 @@ events:
   theme: dark
 - type: marker
   start:
-    sid: troop_numbers_2
+    sid: troop_numbers_6
     'off': 0.2
   end:
     scene_end: troop_numbers
