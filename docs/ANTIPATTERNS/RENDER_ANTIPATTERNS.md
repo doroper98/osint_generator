@@ -235,3 +235,12 @@ last_review: 2026-05-23
 - **원칙**: 이동·공격 문장의 목적지·표적에는 그곳에 닿는 선이 그 문장에 있다. 문장이 부르는 대상은 그 문장 동안 화면 안.
 - **자동 조치**: 규칙 `qa_checks.route_missing`·`frame_missing`, 검사 route_missing·route_missing_other(hard)·frame_missing·frame_missing_target(hard), 필드 description·연출 문법. 테스트 `test_story_geo`.
 - **발견 버전**: v5.21.14 · **상태**: active
+
+## RENDER-AP-023 — 인용 카드 국기 뱃지가 경로 이름표를 덮음
+
+- **증상(실제 현상)**: gulf_pact_2026 v5.22.4 본영상 240~245초(감독 관찰, 사용자 지적 아님) — 인용 "전면적 전쟁범죄"의 사우디 국기 뱃지가 궤적 이름표 "탄도미사일 궤적 · 개략" 끝을 덮었다. route_label_overlap·label_collision 모두 0.
+- **원리**: 이름표 장애물은 지도 층(마커·뱃지·해역 이름·자막)만 보았다. 인용·카드 같은 전경 층은 지도 위에 그려지지만 장애물 목록에 없었다.
+- **원칙**: 지도 이름표는 그 순간 보이는 전경 상자(인용·카드·게시물·도형·겹침 카드)도 피한다. 기사 카드는 화면 전체 덮개라 제외.
+- **자동 조치**: `engine.layers.routes.foreground_boxes` 를 `label_obstacles`(렌더·route_label_overlap 공용)에 추가, label_collision 은 전경 상자 ↔ 경로·봉쇄선 이름표 대조. 테스트 `test_route_label_foreground`. 골든 dark·light 무변화.
+- **남은 점**: 인용이 나타날 때 이름표가 다른 자리로 옮겨 간다(인용 덮개가 어두워지는 동안). 감독 판단 대기.
+- **발견 버전**: v5.22.6 · **상태**: active

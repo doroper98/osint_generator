@@ -423,9 +423,15 @@ def check_label_collision(P) -> list[str]:  # noqa: ANN001, N803
                 rk = ("line", nm)
                 if not any(e["type"] == "marker" and e.get("label") == nm for _, e, _ in live):
                     live.append((rk, {"type": "route/barrier", "label": nm}, lb))
+            from engine.layers.routes import foreground_boxes  # noqa: PLC0415 — v5.22.6 D208 전경 층(인용·카드) ↔ 이름표
+
+            live += [(("fg", n), {"type": "foreground", "label": f"전경 상자 {n}"}, fb)
+                     for n, fb in enumerate(foreground_boxes(ctx, P.events, t))]
         for i in range(len(live)):
             for j in range(i + 1, len(live)):
                 (ka, ea, ba), (kb, eb, bb) = live[i], live[j]
+                if "foreground" in (ea["type"], eb["type"]) and "route/barrier" not in (ea["type"], eb["type"]):
+                    continue   # 전경 상자는 경로·봉쇄선 이름표와만 대조(마커·뱃지가 카드 밑에 깔리는 것은 card_zones 회피·cascade 검사 몫)
                 if "route/barrier" in (ea["type"], eb["type"]):   # 이름표 ↔ 마커는 마커 글자 영역만(점·맥동 고리는 선 위에 있는 게 정상)
                     ba, bb = _text_part(ea, ba), _text_part(eb, bb)
                 if (ka, kb) not in seen and _overlap_px(ba, bb) > SUB_TOL_PX:

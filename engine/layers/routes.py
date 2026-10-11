@@ -265,6 +265,18 @@ def label_obstacles(ctx: cairo.Context, view: View, events: list[dict], t: float
                 out.append(marker_box(ctx, e, x, y, with_sub=True))
     if hasattr(view.stage, "seas"):
         out += [b for *_, b in sea_labels(ctx, view.stage, view)]
+    out += foreground_boxes(ctx, events, t)
+    return out
+
+
+def foreground_boxes(ctx: cairo.Context, events: list[dict], t: float) -> list[Box]:
+    """v5.22.6 D208 — 지도 위 전경 층 상자: 인용(초상·국기 뱃지 ~ 매체 줄)·카드·게시물·도형·겹침 카드(card_zones 와 같은 문턱).
+    기사 카드는 화면 전체 덮개라 넣지 않는다(지도 이름표가 비킬 자리가 없다). 렌더·검사(route_label_overlap·label_collision) 공용."""
+    from engine.quote import quote_alpha, quote_box  # noqa: PLC0415
+    from engine.reserved import RES, card_zones  # noqa: PLC0415
+
+    out = [z.box for z in card_zones(ctx, events, t)]
+    out += [quote_box(ctx, e) for e in events if e["type"] == "quote" and quote_alpha(t, e) > RES.min_zone_alpha]
     return out
 
 
