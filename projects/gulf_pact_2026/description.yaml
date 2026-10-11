@@ -1,0 +1,29 @@
+# 『걸프의 새 방패 — 파키스탄군은 왜 사우디에 있나』 유튜브 설명문 (v5.20.2). chapters.at = 장면 id 또는 TITLE.
+schema_version: 1
+headline: 걸프의 새 방패 — 메카 집단방위 협정 발동과 파키스탄군의 사우디 주둔
+summary: 2026년 10월 7일, 파키스탄군 대변인은 파키스탄군이 사우디아라비아에 주둔하고 있다고 공식 확인했습니다. 2025년 사우디·파키스탄 양자 협정에서 시작해 튀르키예까지 묶은 메카 공동방위협정이 10월 5일 처음 발동된 과정, 기관마다 다른 배치 규모 보도와 파키스탄 정부의 반박, 예멘 탈환 공세와 후티의 리야드 공항 공격, 그리고 한국의 원유 수입과의 연결을 출처와 기준 시점과 함께 지도로 정리했습니다.
+chapters:
+- at: open
+  label: 파키스탄군 대변인의 확인
+- at: TITLE
+  label: 타이틀
+- at: pact_origin
+  label: 양자 협정에서 메카 협정으로
+- at: reactions
+  label: 이란의 반응
+- at: mecca_attack
+  label: 메카 공격 시도 논란
+- at: invocation
+  label: 협정의 첫 발동
+- at: roles
+  label: 파키스탄과 튀르키예의 역할
+- at: troop_numbers
+  label: 엇갈리는 배치 규모 보도
+- at: yemen_front
+  label: 예멘 탈환 공세
+- at: riyadh_airport
+  label: 리야드 공항 공격
+- at: korea
+  label: 한국의 원유 수입
+- at: briefing
+  label: 같은 주에 겹친 일들

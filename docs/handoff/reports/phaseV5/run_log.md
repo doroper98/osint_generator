@@ -60,3 +60,4 @@ last_review: 2026-10-11
 - 정리된 문장 39/45(프레임 792 — 들리지 않는 꼬리 포함 전체 유성 프레임 기준), 그대로인 6문장은 npy 바이트 동일(C = C-clean). 바뀐 39문장도 첫 차이 샘플이 구간 시작 뒤 — 구간 밖 바이트 동일.
 - 청취 자료 `c_vs_c_clean_6.mp3`(war_3·ask_0·ask_2·timeline_1·open_0·route_2 — 문장마다 C → C-clean, 66초).
 - **컨테이너 간 오디오 md5 불일치는 정상** — 꼬리 유성 판정이 ±1 LSB 에도 갈리고(D-0180 §2-1), 그 꼬리는 피크 대비 −43 dB 이하라 들리지 않는다. 영상 골든은 영향 없음.
+- pytest(v5.20.2): **1536 passed · 0 failed · 0 skipped**(313 subtests, 35분 2초, 표준 `FONTCONFIG_FILE`).
