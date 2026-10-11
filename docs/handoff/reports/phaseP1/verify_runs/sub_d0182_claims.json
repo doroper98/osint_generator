@@ -1,0 +1,525 @@
+{
+  "schema_version": 1,
+  "claims": [
+    {
+      "claim_id": "clm_0001",
+      "text": "후티가 9월 15일 저녁 메카를 향해 드론을 발사했다",
+      "source_ids": [
+        "src_art_0022"
+      ],
+      "status": "disputed",
+      "contested": true,
+      "sides": [
+        {
+          "party": "사우디 주도 연합군(투르키 알말리키 대변인)",
+          "text": "후티가 메카를 향해 드론을 발사했고 사우디 방공군이 격추했다",
+          "source_ids": [
+            "src_art_0022"
+          ]
+        },
+        {
+          "party": "후티(야히아 사레아 군 대변인)",
+          "text": "성지에 대한 위협은 없으며 사우디의 주장은 거짓 비난이다",
+          "source_ids": [
+            "src_art_0022"
+          ]
+        }
+      ],
+      "event_date": "2026-09-15",
+      "checks": [
+        "quote_match:src_art_0022",
+        "quote_match:src_art_0022",
+        "quote_match:src_art_0022",
+        "independent_origins:0",
+        "attributed:src_art_0022"
+      ],
+      "attributed_only": true,
+      "claim_kind": "fact",
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0002",
+      "text": "사우디 주도 연합군 투르키 알말리키 대변인이 후티가 9월 15일 저녁 메카를 향해 드론을 발사했고 사우디 방공군이 격추했다고 밝혔다",
+      "source_ids": [
+        "src_art_0022"
+      ],
+      "status": "unverified",
+      "contested": false,
+      "event_date": "2026-09-16",
+      "checks": [
+        "quote_match:src_art_0022",
+        "independent_origins:1",
+        "attributed:src_art_0022"
+      ],
+      "attributed_only": true,
+      "claim_kind": "statement",
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0003",
+      "text": "알말리키 대변인이 두 성원과 순례객의 안전은 레드라인이라고 밝혔다",
+      "source_ids": [
+        "src_art_0022"
+      ],
+      "status": "unverified",
+      "contested": false,
+      "event_date": "2026-09-16",
+      "checks": [
+        "quote_match:src_art_0022",
+        "independent_origins:1",
+        "attributed:src_art_0022"
+      ],
+      "attributed_only": true,
+      "claim_kind": "statement",
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0004",
+      "text": "후티 군 대변인 야히아 사레아가 텔레그램에서 예멘발 성지 위협은 없다고 밝혔다",
+      "source_ids": [
+        "src_art_0022"
+      ],
+      "status": "unverified",
+      "contested": false,
+      "event_date": "2026-09-16",
+      "checks": [
+        "quote_match:src_art_0022",
+        "independent_origins:1",
+        "attributed:src_art_0022"
+      ],
+      "attributed_only": true,
+      "claim_kind": "statement",
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0005",
+      "text": "이란 외무부 에스마일 바가이 대변인이 이슬람 성지에 대한 공격은 규탄받을 행위라고 밝혔다",
+      "source_ids": [
+        "src_art_0022"
+      ],
+      "status": "unverified",
+      "contested": false,
+      "checks": [
+        "quote_match:src_art_0022",
+        "independent_origins:1",
+        "attributed:src_art_0022"
+      ],
+      "attributed_only": true,
+      "claim_kind": "statement",
+      "notes": "",
+      "direct_quotes": [
+        {
+          "source_id": "src_art_0022",
+          "text": "any aggression against Islamic holy sites"
+        },
+        {
+          "source_id": "src_art_0022",
+          "text": "a condemned act,"
+        }
+      ]
+    },
+    {
+      "claim_id": "clm_0006",
+      "text": "후티가 2017년 7월 예멘에서 미사일을 발사했으며 타이프의 킹파흐드 공군기지를 겨냥했다고 밝혔다",
+      "source_ids": [
+        "src_art_0022"
+      ],
+      "status": "unverified",
+      "contested": false,
+      "checks": [
+        "quote_match:src_art_0022",
+        "independent_origins:1",
+        "attributed:src_art_0022"
+      ],
+      "attributed_only": true,
+      "claim_kind": "statement",
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0007",
+      "text": "셰바즈 샤리프 파키스탄 총리가 모든 당사자에게 자제를 촉구했다",
+      "source_ids": [
+        "src_art_0022"
+      ],
+      "status": "unverified",
+      "contested": false,
+      "checks": [
+        "quote_match:src_art_0022",
+        "independent_origins:1",
+        "attributed:src_art_0022"
+      ],
+      "attributed_only": true,
+      "claim_kind": "statement",
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0008",
+      "text": "셰바즈 샤리프 파키스탄 총리가 9월 16일 이번 공격 의혹을 용서할 수 없는 수치스러운 행위라고 밝혔다",
+      "source_ids": [
+        "src_art_0022"
+      ],
+      "status": "unverified",
+      "contested": false,
+      "event_date": "2026-09-16",
+      "checks": [
+        "quote_match:src_art_0022",
+        "independent_origins:1",
+        "attributed:src_art_0022"
+      ],
+      "attributed_only": true,
+      "claim_kind": "statement",
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0009",
+      "text": "파키스탄이 사우디아라비아·튀르키예와 공동방위협정을 체결했다",
+      "source_ids": [
+        "src_art_0022"
+      ],
+      "status": "unverified",
+      "contested": false,
+      "checks": [
+        "quote_match:src_art_0022",
+        "independent_origins:1"
+      ],
+      "attributed_only": false,
+      "claim_kind": "fact",
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0010",
+      "text": "사우디 정부가 올해 170만 명 이상이 하지 순례를 했다고 밝혔다",
+      "source_ids": [
+        "src_art_0022"
+      ],
+      "status": "unverified",
+      "contested": false,
+      "checks": [
+        "quote_match:src_art_0022",
+        "independent_origins:1",
+        "attributed:src_art_0022"
+      ],
+      "attributed_only": true,
+      "claim_kind": "statement",
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0011",
+      "text": "후티가 사우디 항공기가 이번 주 450회 이상 공습했다고 주장했다",
+      "source_ids": [
+        "src_art_0022"
+      ],
+      "status": "unverified",
+      "contested": false,
+      "checks": [
+        "quote_match:src_art_0022",
+        "independent_origins:1",
+        "attributed:src_art_0022"
+      ],
+      "attributed_only": true,
+      "claim_kind": "statement",
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0012",
+      "text": "후티가 예멘 상공에서 사우디 주도 연합군 F-15를 격추했다고 증거 없이 주장했다",
+      "source_ids": [
+        "src_art_0022"
+      ],
+      "status": "unverified",
+      "contested": false,
+      "checks": [
+        "quote_match:src_art_0022",
+        "independent_origins:1",
+        "attributed:src_art_0022"
+      ],
+      "attributed_only": true,
+      "claim_kind": "statement",
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0013",
+      "text": "후티가 페림섬을 장악했다",
+      "source_ids": [
+        "src_art_0022"
+      ],
+      "status": "unverified",
+      "contested": false,
+      "checks": [
+        "quote_match:src_art_0022",
+        "quote_match:src_art_0022",
+        "independent_origins:1"
+      ],
+      "attributed_only": false,
+      "claim_kind": "fact",
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0014",
+      "text": "후티가 홍해 연안 항구 모카를 장악했다",
+      "source_ids": [
+        "src_art_0022"
+      ],
+      "status": "unverified",
+      "contested": false,
+      "checks": [
+        "quote_match:src_art_0022",
+        "quote_match:src_art_0022",
+        "independent_origins:1"
+      ],
+      "attributed_only": false,
+      "claim_kind": "fact",
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0015",
+      "text": "영국 해사무역작전센터(UKMTO)가 9월 14일 선박 한 척이 미상의 발사체에 맞았다고 밝혔다",
+      "source_ids": [
+        "src_art_0022"
+      ],
+      "status": "unverified",
+      "contested": false,
+      "event_date": "2026-09-14",
+      "checks": [
+        "quote_match:src_art_0022",
+        "independent_origins:1",
+        "attributed:src_art_0022"
+      ],
+      "attributed_only": true,
+      "claim_kind": "statement",
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0016",
+      "text": "브렌트유 가격이 9월 셋째 주 초 배럴당 100달러를 넘었다",
+      "source_ids": [
+        "src_art_0022"
+      ],
+      "status": "unverified",
+      "contested": false,
+      "checks": [
+        "quote_match:src_art_0022",
+        "independent_origins:1"
+      ],
+      "attributed_only": false,
+      "claim_kind": "fact",
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0017",
+      "text": "브렌트유 가격이 9월 16일 약 3% 하락했다",
+      "source_ids": [
+        "src_art_0022"
+      ],
+      "status": "unverified",
+      "contested": false,
+      "event_date": "2026-09-16",
+      "checks": [
+        "quote_match:src_art_0022",
+        "independent_origins:1"
+      ],
+      "attributed_only": false,
+      "claim_kind": "fact",
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0018",
+      "text": "브렌트유 가격이 9월 16일 하락 후에도 배럴당 105달러 위에 머물렀다",
+      "source_ids": [
+        "src_art_0022"
+      ],
+      "status": "unverified",
+      "contested": false,
+      "event_date": "2026-09-16",
+      "checks": [
+        "quote_match:src_art_0022",
+        "independent_origins:1"
+      ],
+      "attributed_only": false,
+      "claim_kind": "fact",
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0019",
+      "text": "미 하원이 대이란 군사행동을 끝내는 전쟁권한결의안을 찬성 220표, 반대 204표로 통과시켰다",
+      "source_ids": [
+        "src_art_0022"
+      ],
+      "status": "unverified",
+      "contested": false,
+      "checks": [
+        "quote_match:src_art_0022",
+        "independent_origins:1"
+      ],
+      "attributed_only": false,
+      "claim_kind": "fact",
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0020",
+      "text": "전쟁권한결의안 표결에서 공화당 의원 7명이 찬성했다",
+      "source_ids": [
+        "src_art_0022"
+      ],
+      "status": "unverified",
+      "contested": false,
+      "checks": [
+        "quote_match:src_art_0022",
+        "independent_origins:1"
+      ],
+      "attributed_only": false,
+      "claim_kind": "fact",
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0021",
+      "text": "공화당 밀러-믹스·넌·메이스 하원의원 3명이 이번 표결에서 찬성으로 표를 바꿨다",
+      "source_ids": [
+        "src_art_0022"
+      ],
+      "status": "unverified",
+      "contested": false,
+      "checks": [
+        "quote_match:src_art_0022",
+        "quote_match:src_art_0022",
+        "independent_origins:1"
+      ],
+      "attributed_only": false,
+      "claim_kind": "fact",
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0022",
+      "text": "잭 넌 하원의원이 이란은 책임을 져야 한다고 밝혔다",
+      "source_ids": [
+        "src_art_0022"
+      ],
+      "status": "unverified",
+      "contested": false,
+      "checks": [
+        "quote_match:src_art_0022",
+        "independent_origins:1",
+        "attributed:src_art_0022"
+      ],
+      "attributed_only": true,
+      "claim_kind": "statement",
+      "notes": "",
+      "direct_quotes": [
+        {
+          "source_id": "src_art_0022",
+          "text": "must be held accountable"
+        }
+      ]
+    },
+    {
+      "claim_id": "clm_0023",
+      "text": "주리야드 미국대사관이 9월 16일부로 미국 공무원의 예멘 국경 인근 이동을 금지했다",
+      "source_ids": [
+        "src_art_0022"
+      ],
+      "status": "unverified",
+      "contested": false,
+      "event_date": "2026-09-16",
+      "checks": [
+        "quote_match:src_art_0022",
+        "independent_origins:1"
+      ],
+      "attributed_only": false,
+      "claim_kind": "fact",
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0024",
+      "text": "미국 정부 직원은 예멘 국경 20마일 이내로 이동할 수 없다",
+      "source_ids": [
+        "src_art_0022"
+      ],
+      "status": "unverified",
+      "contested": false,
+      "event_date": "2026-09-16",
+      "checks": [
+        "quote_match:src_art_0022",
+        "independent_origins:1"
+      ],
+      "attributed_only": false,
+      "claim_kind": "fact",
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0025",
+      "text": "주리야드 미국대사관이 9월 15일 사우디 여행 재고를 권고하는 여행 경보를 냈다",
+      "source_ids": [
+        "src_art_0022"
+      ],
+      "status": "unverified",
+      "contested": false,
+      "event_date": "2026-09-15",
+      "checks": [
+        "quote_match:src_art_0022",
+        "independent_origins:1"
+      ],
+      "attributed_only": false,
+      "claim_kind": "fact",
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0026",
+      "text": "J.D. 밴스 부통령이 미국이 상황을 계속 모니터링하겠다고 말했다",
+      "source_ids": [
+        "src_art_0022"
+      ],
+      "status": "unverified",
+      "contested": false,
+      "event_date": "2026-09-14",
+      "checks": [
+        "quote_match:src_art_0022",
+        "independent_origins:1",
+        "attributed:src_art_0022"
+      ],
+      "attributed_only": true,
+      "claim_kind": "statement",
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0027",
+      "text": "트럼프 대통령이 후티와 대화했다고 주장했다",
+      "source_ids": [
+        "src_art_0022"
+      ],
+      "status": "unverified",
+      "contested": false,
+      "checks": [
+        "quote_match:src_art_0022",
+        "independent_origins:1",
+        "attributed:src_art_0022"
+      ],
+      "attributed_only": true,
+      "claim_kind": "statement",
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0028",
+      "text": "후티 대변인이 9월 14일 바브엘만데브 해협은 사우디를 제외한 모든 나라에 통항이 자유롭다고 밝혔다",
+      "source_ids": [
+        "src_art_0022"
+      ],
+      "status": "unverified",
+      "contested": false,
+      "event_date": "2026-09-14",
+      "checks": [
+        "quote_match:src_art_0022",
+        "independent_origins:1",
+        "attributed:src_art_0022"
+      ],
+      "attributed_only": true,
+      "claim_kind": "statement",
+      "notes": "",
+      "direct_quotes": [
+        {
+          "source_id": "src_art_0022",
+          "text": "is free for navigation for all countries except for Saudi Arabia."
+        }
+      ]
+    }
+  ]
+}

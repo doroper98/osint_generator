@@ -1002,7 +1002,7 @@
   },
   {
    "claim_id": "clm_0048",
-   "text": "2026년 5~7월 한국의 전체 원유 수입 중 중동산 비중이 48.5%로 낮아졌다",
+   "text": "한국의 전체 원유 수입 중 중동산 비중이 48.5%로 낮아졌다",
    "source_ids": [
     "src_art_0019"
    ],
@@ -1014,7 +1014,7 @@
    ],
    "attributed_only": false,
    "claim_kind": "fact",
-   "notes": " [v5.20.0 D-0181 §2-3 보강 출처 검증(부분 실행) clm_0017 → clm_0048]"
+   "notes": " [v5.20.0 D-0181 §2-3 보강 출처 검증(부분 실행) clm_0017 → clm_0048] [v5.20.1 D-0182 ②: 원문(이투데이 5/26)은 48.5% 에 기간을 달지 않았다 — \"2026년 5~7월\" 삭제]"
   },
   {
    "claim_id": "clm_0049",
@@ -1073,6 +1073,42 @@
    "attributed_only": false,
    "claim_kind": "fact",
    "notes": " [v5.20.0 D-0181 §2-3 보강 출처 검증(부분 실행) clm_0046 → clm_0051]"
+  },
+  {
+   "claim_id": "clm_0052",
+   "text": "사우디 주도 연합군 투르키 알말리키 대변인이 후티가 9월 15일 저녁 메카를 향해 드론을 발사했고 사우디 방공군이 격추했다고 밝혔다",
+   "source_ids": [
+    "src_art_0022"
+   ],
+   "status": "unverified",
+   "contested": false,
+   "event_date": "2026-09-16",
+   "checks": [
+    "quote_match:src_art_0022",
+    "independent_origins:1",
+    "attributed:src_art_0022"
+   ],
+   "attributed_only": true,
+   "claim_kind": "statement",
+   "notes": " [v5.20.1 D-0182 보강 출처(TIME 9/16) 부분 검증 clm_0002 → clm_0052]"
+  },
+  {
+   "claim_id": "clm_0053",
+   "text": "후티 군 대변인 야히아 사레아가 텔레그램에서 예멘발 성지 위협은 없다고 밝혔다",
+   "source_ids": [
+    "src_art_0022"
+   ],
+   "status": "unverified",
+   "contested": false,
+   "event_date": "2026-09-16",
+   "checks": [
+    "quote_match:src_art_0022",
+    "independent_origins:1",
+    "attributed:src_art_0022"
+   ],
+   "attributed_only": true,
+   "claim_kind": "statement",
+   "notes": " [v5.20.1 D-0182 보강 출처(TIME 9/16) 부분 검증 clm_0004 → clm_0053]"
   }
  ]
 }

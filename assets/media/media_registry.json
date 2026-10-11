@@ -2601,6 +2601,39 @@
    "sub": "파키스탄이 9월 예멘 정부(아덴)에 무기를 실은 수송기 4대를 보냈다",
    "note": "헤드라인 번역 · 원문 영어",
    "headline_original": "Pakistan sent four planeloads of weapons to Saudi-backed government in Yemen: Report"
+  },
+  "gulf_pact_2026_art_0022": {
+   "kind": "article",
+   "title": "TIME 2026-09-16 — Saudi Arabia Declares Mecca a 'Red Line' as Houthis Deny Targeting Holy Site",
+   "license": "헤드라인 번역·요지 자체 조판(원문 인용 15단어 미만, 기사 화면 캡처·로고 없음, 14 §9)",
+   "author": "TIME",
+   "credit_author": "TIME",
+   "date": "2026-09-16",
+   "url": "https://time.com/article/2026/09/16/saudi-arabia-declares-mecca-a-red-line-as-houthis-deny-targeting-holy-site/",
+   "caption": "TIME",
+   "file_note": "2026. 09. 16",
+   "depicts": [
+    "사우디 주도 연합군 투르키 알말리키 대변인이 후티가 9월 15일 저녁 …"
+   ],
+   "is_file_photo": false,
+   "verified_by": {
+    "by": "code(tools/article_register — sources.json 확인 기록·claims 대조)",
+    "on": "2026-10-11",
+    "casualty_free": true,
+    "relevance": "gulf_pact_2026 원고 claim 근거 기사"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-10-11",
+   "tool": {
+    "name": "article_typeset",
+    "params": {
+     "translation": true
+    }
+   },
+   "headline": "사우디 \"메카는 레드라인\" — 후티는 성지 공격 부인",
+   "sub": "사우디 주도 연합군 투르키 알말리키 대변인이 후티가 9월 15일 저녁 …",
+   "note": "헤드라인 번역 · 원문 영어",
+   "headline_original": "Saudi Arabia Declares Mecca a 'Red Line' as Houthis Deny Targeting Holy Site"
   }
  }
 }

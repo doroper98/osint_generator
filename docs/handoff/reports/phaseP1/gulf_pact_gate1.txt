@@ -4,15 +4,15 @@
   open       문장  2  예상   18.0초
   pact_origin 문장  5  예상   43.5초
   reactions  문장  1  예상   12.9초
-  mecca_attack 문장  3  예상   24.6초
+  mecca_attack 문장  3  예상   25.3초
   invocation 문장  6  예상   47.1초
   roles      문장  3  예상   30.0초
   troop_numbers 문장  9  예상   88.1초
   yemen_front 문장  3  예상   23.2초
   riyadh_airport 문장  9  예상   70.5초
-  korea      문장  3  예상   38.4초
+  korea      문장  3  예상   40.9초
   briefing   문장  4  예상   37.3초
-  합계 48문장 · 예상 433.7초 (글자 수 추정 320자/분)
+  합계 48문장 · 예상 436.9초 (글자 수 추정 320자/분)
 
 원고 전문(자막) · [검증 라벨]
   open_0       10월 7일, 파키스탄군 대변인 아흐메드 샤리프 차우드리 중장이 CNN 인터뷰에 나섰습니다.
@@ -24,7 +24,7 @@
   pact_origin_4 이렇게 묶인 3국의 현역 병력은 글로벌 파이어파워 2026 지수 기준 약 140만 명입니다.
   reactions_0  한편 이란 의원 에브라힘 레자에이는 튀르키예·파키스탄과의 종이 협정이 사우디에 안보를 가져다주지 못할 것이라고 말했습니다.  [<미검증>]
   mecca_attack_0 예멘의 후티 세력은 바브엘만데브 해협을 포함한 홍해 연안을 장악했습니다.
-  mecca_attack_1 9월 25일, 사우디는 후티가 메카를 겨냥한 공격을 시도했다고 비난했고, 3국 군 수뇌부도 메카를 겨냥한 공격을 규탄했습니다.  [<논쟁>]
+  mecca_attack_1 9월 16일, 사우디는 후티가 메카를 겨냥한 드론 공격을 시도했다고 비난했고, 25일에는 3국 군 수뇌부도 메카 공격을 규탄했습니다.  [<논쟁>]
   mecca_attack_2 후티와 이란은 이를 부인했습니다.  [<논쟁>]
   invocation_0 이후 10월 5일, 메카 협정의 전략정치국방위원회가 리야드에서 긴급회의를 열었습니다.
   invocation_1 그리고 집단방위 공약을 실제로 이행하는 협정 발동을 결정했습니다.
@@ -57,8 +57,8 @@
   riyadh_airport_7 알자지라에 따르면, 후티는 민항기들에 사우디 영공을 피하라고 경고했습니다.  [<미검증>]
   riyadh_airport_8 타임은 트럼프 대통령이 지금까지 후티에 대한 미국의 직접 타격 요청을 거절해 왔다고 보도했습니다.  [<미검증>]
   korea_0      미국 CSIS, 전략국제문제연구소는 올해 4월 분석에서 한국 원유 수입의 70%가 호르무즈 해협을 지난다고 밝혔습니다.  [<미검증>]
-  korea_1      이후 산업통상부는 지난해 69.1%였던 중동산 원유 비중이 올해 5~7월 48.5%로 내려갔다고 밝혔습니다.  [<미검증>]
-  korea_2      또한 미주산 원유 비중은 지난해 23.1%에서 35.6%로 늘었다고 밝혔습니다.  [<미검증>]
+  korea_1      이후 산업통상부는 5월 26일 브리핑에서 중동산 원유 비중이 지난해 69.1%에서 48.5%로 줄었다고 밝혔습니다.  [<미검증>]
+  korea_2      또한 미주산 원유 비중은 지난해 23.1%에서 올해 5~7월 35.6%로 늘었다고 밝혔습니다.  [<미검증>]
   briefing_0   2025년 양자 협정에서 시작해 올해 튀르키예까지 묶은 집단방위 체제, 메카 협정.
   briefing_1   그 협정이 10월 5일 발동됐고, 이틀 뒤 파키스탄군은 사우디 주둔을 공식 확인했습니다.
   briefing_2   동시에 예멘에서는 탈환 공세가 시작됐고, 후티는 리야드 공항을 탄도미사일로 공격했다고 밝혔습니다.
@@ -74,8 +74,8 @@
   pact_origin_4 clm_0006
   reactions_0  clm_0005
   mecca_attack_0 clm_0009
-  mecca_attack_1 clm_0008, clm_0007
-  mecca_attack_2 clm_0008
+  mecca_attack_1 clm_0052, clm_0008, clm_0007
+  mecca_attack_2 clm_0053, clm_0008
   invocation_0 clm_0010
   invocation_1 clm_0011
   invocation_2 clm_0012
@@ -123,7 +123,7 @@
 
 검증 라벨 집계 {"verified": 0, "corroborated": 23, "unverified": 19, "disputed": 6}
 
-미디어 계획 표 — 사진 0/7장(분당 1, 434초 추정) · 기사 카드 후보 48문장(60초당 2개까지 쓴다)
+미디어 계획 표 — 사진 0/7장(분당 1, 437초 추정) · 기사 카드 후보 48문장(60초당 2개까지 쓴다)
   문장         인용 출처              기사(등록/미등록)        사진 찾음/통과/선택      사유
   open_0       clm_0024               gulf_pact_2026_art_0001,gulf_pact_2026_art_0007 0/0/-                  
   open_1       clm_0024,clm_0025      gulf_pact_2026_art_0001,gulf_pact_2026_art_0007 0/0/-                  
@@ -134,8 +134,8 @@
   pact_origin_4 clm_0006               gulf_pact_2026_art_0015,gulf_pact_2026_art_0002 0/0/-                  
   reactions_0  clm_0005               gulf_pact_2026_art_0003  0/0/-                  
   mecca_attack_0 clm_0009               gulf_pact_2026_art_0002,gulf_pact_2026_art_0013 0/0/-                  
-  mecca_attack_1 clm_0008,clm_0007      gulf_pact_2026_art_0013,gulf_pact_2026_art_0014,gulf_pact_2026_art_0016,gulf_pact_2026_art_0006 0/0/-                  
-  mecca_attack_2 clm_0008               gulf_pact_2026_art_0013,gulf_pact_2026_art_0014 0/0/-                  
+  mecca_attack_1 clm_0052,clm_0008,clm_0007 gulf_pact_2026_art_0022,gulf_pact_2026_art_0013,gulf_pact_2026_art_0014,gulf_pact_2026_art_0016,gulf_pact_2026_art_0006 8/3/- (드론)             P1-2 에서 선택 — 후보 Commons 'Kaaba during the Hajj - 1886'(PD, 옛 사진 — 자료사진 표기 필요). 현대 메카 사진은 모두 CC BY-SA 탈락, 국방부 풀은 무관 문서뿐. 드론 요격 장면 실사 없음 — 지도 무대(메카 마커)가 기본
+  mecca_attack_2 clm_0053,clm_0008      gulf_pact_2026_art_0022,gulf_pact_2026_art_0013,gulf_pact_2026_art_0014 0/0/-                  
   invocation_0 clm_0010               gulf_pact_2026_art_0016,gulf_pact_2026_art_0001,gulf_pact_2026_art_0014 0/0/-                  
   invocation_1 clm_0011               gulf_pact_2026_art_0002,gulf_pact_2026_art_0001,gulf_pact_2026_art_0016,gulf_pact_2026_art_0014,gulf_pact_2026_art_0013 0/0/-                  
   invocation_2 clm_0012               gulf_pact_2026_art_0002  0/0/-                  

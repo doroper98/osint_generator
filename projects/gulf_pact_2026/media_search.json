@@ -229,6 +229,36 @@
     "CC BY 2.5 제한",
     "CC BY-SA 4.0"
    ]
+  },
+  {
+   "sid": "mecca_attack_1",
+   "query": "Masjid al-Haram Mecca hastemplate:\"PD-USGov-Military\"",
+   "pool": "us_dod_pd",
+   "on": "2026-10-11",
+   "found": 2,
+   "passed": 2,
+   "top": [
+    "File:ISN 00678, Fawz Bin Namen's Guantanamo detainee assessment.pdf",
+    "File:ISN 00744, Abdul Azia's Guantanamo detainee assessment.pdf"
+   ],
+   "rejected": []
+  },
+  {
+   "sid": "mecca_attack_1",
+   "query": "Masjid al-Haram Mecca",
+   "pool": "commons_cc",
+   "on": "2026-10-11",
+   "found": 6,
+   "passed": 1,
+   "top": [
+    "File:Kaaba during the Hajj - 1886.jpg"
+   ],
+   "rejected": [
+    "CC BY-SA 2.5",
+    "CC BY-SA 3.0",
+    "CC BY-SA 3.0 igo",
+    "CC BY-SA 4.0"
+   ]
   }
  ]
 }
