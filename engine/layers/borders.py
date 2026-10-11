@@ -4,9 +4,10 @@ v4.1.0: MercatorStage.render_base 가 부른다. 선은 무대가 미리 월드 
 
 from __future__ import annotations
 
-import cairo
-
 from typing import TYPE_CHECKING
+
+import cairo
+import numpy as np
 
 from engine.projection import View
 from engine.stage import MERCATOR_LOD as LOD
@@ -17,32 +18,54 @@ if TYPE_CHECKING:
     from engine.stage import MercatorStage
 
 
-def path_rings(ctx: cairo.Context, view: View, rings: list, min_px: float = 1.0) -> int:
-    n = 0
-    for uv, mn, mx in rings:
-        if not view.visible(mn, mx) or (mx - mn).max() * view.s < min_px:
-            continue
-        pts = view.to_screen_arr(uv)
-        ctx.move_to(*pts[0])
-        for x, y in pts[1:]:
+_PACKS: dict[int, tuple] = {}
+
+
+def _pack(items: list) -> tuple:
+    """(uv, mn, mx) 목록의 묶음 — 상자 배열·크기·점 수·이어 붙인 점(v5.22.10 D-0201 결정 2). 무대 데이터는 고정이라 목록마다 한 번.
+    목록 객체를 함께 보관해 id 재사용을 막는다."""
+    pk = _PACKS.get(id(items))
+    if pk is None or pk[0] is not items:
+        mn = np.array([m for _, m, _ in items], dtype=float).reshape(-1, 2)
+        mx = np.array([m for _, _, m in items], dtype=float).reshape(-1, 2)
+        n = np.array([len(uv) for uv, _, _ in items])
+        pk = (items, mn, mx, (mx - mn).max(axis=1) if len(items) else np.zeros(0), n,
+              np.concatenate([uv for uv, _, _ in items]) if len(items) else np.zeros((0, 2)), np.concatenate([[0], np.cumsum(n)]))
+        _PACKS[id(items)] = pk
+    return pk
+
+
+def _emit(ctx: cairo.Context, view: View, items: list, min_px: float, close: bool) -> int:
+    """보이는 고리·선을 한꺼번에 화면 좌표로 바꿔 cairo 경로에 넣는다. 고르는 조건(view.visible·크기)·점·순서는 종전 한 개씩과 같다
+    (같은 float64 비교·곱셈 — 골든 바이트 동일로 증명)."""
+    if not items:
+        return 0
+    _, mn, mx, ext, _, uv, off = _pack(items)
+    vis = ~((mx[:, 0] < view.x0) | (mn[:, 0] > view.x0 + view.w) | (mx[:, 1] < view.y1 - view.h) | (mn[:, 1] > view.y1))
+    vis &= ~(ext * view.s < min_px)
+    idx = np.flatnonzero(vis)
+    if not len(idx):
+        return 0
+    pts = view.to_screen_arr(np.concatenate([uv[off[k]:off[k + 1]] for k in idx])).tolist()
+    p = 0
+    for k in idx:
+        m = int(off[k + 1] - off[k])
+        ctx.move_to(*pts[p])
+        for x, y in pts[p + 1:p + m]:
             ctx.line_to(x, y)
-        ctx.close_path()
-        n += 1
-    return n
+        if close:
+            ctx.close_path()
+        p += m
+    return len(idx)
+
+
+def path_rings(ctx: cairo.Context, view: View, rings: list, min_px: float = 1.0) -> int:
+    return _emit(ctx, view, rings, min_px, True)
 
 
 def path_lines(ctx: cairo.Context, view: View, lines: list, min_px: float = 1.0) -> int:
     """열린 선(국경·해안 구간, v5.18.0) — path_rings 와 같되 닫지 않는다."""
-    n = 0
-    for uv, mn, mx in lines:
-        if not view.visible(mn, mx) or (mx - mn).max() * view.s < min_px:
-            continue
-        pts = view.to_screen_arr(uv)
-        ctx.move_to(*pts[0])
-        for x, y in pts[1:]:
-            ctx.line_to(x, y)
-        n += 1
-    return n
+    return _emit(ctx, view, lines, min_px, False)
 
 
 def border_path(ctx: cairo.Context, stage: "MercatorStage", view: View, lod: str) -> None:
