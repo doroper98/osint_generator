@@ -1,5 +1,5 @@
 ---
-last_synced_with: v5.22.10
+last_synced_with: v5.23.0
 ---
 
 # gulf_pact_2026 — 예멘 채움 제거(D207)·게이트 ② 재승인 근거·원장 후보 메모

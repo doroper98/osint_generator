@@ -1,6 +1,6 @@
 <!--
 tier: 3
-last_synced_with: v5.22.10
+last_synced_with: v5.23.0
 ssot_for: [release-notes]
 depends_on: [README.md, GOAL.md]
 last_review: 2026-09-28
@@ -63,6 +63,13 @@ released 항목은 **append-only**입니다.
 | v5.0.0 | 87912d2 | G11 GOAL G4-21·claim_kind fact/statement | pass(D-0125) |
 | v5.1.0 | 3619f2c | G12 backdrop 무대·아일랜드·축 스케일·기사 프레스 v2·발음 사전·버전 도장 | pass(D-0127) — 후속 D-0128 완료 |
 | v5.2.0 | d4703d9 | G13 배경 가독·주 아일랜드 상시·보도 인용 = 기사·card-island·라벨 반전 | pass(D-0134) — 후속 겹침 카드 시안(D-0135~D-0138) |
+
+---
+
+## [v5.23.0] — 2026-10-11 — V4: edge-tts 경로 삭제 (D-0212)
+
+MINOR(트랙 완료): 표준 음성(Supertonic 3 M3 ×0.95 + MMS 강제 정렬, C0.2) 확정 뒤 edge-tts 경로를 플래그가 아니라 삭제로 끝냈다(P2). `script/tts/edge.py`·`tools/edge_word_probe.py`·`config.yaml tts.edge_*`·`script.plan --tts edge`/`--edge-voice`·`requirements-engine.txt edge-tts`·`check_env` edge 항목·정렬 출처 `edge_word_boundary`·`align_gate --edge`(간격 대조)·캐시 키 `|edge|` 갈래 삭제. edge 를 쓰던 시험은 표준 음성 경로로 바꿈(align_gate 픽스처 10문장 = hormuz 표준 음성 캐시). 재유입 방지 `tests/anti_inertia/test_no_edge_tts.py`. 현행 문서 안내 정리(reference_code 보관). 골든 dark·light 25/25 무변화.
+PATCH(같은 판, D-0212 §3): 미추적 프로젝트 산출물에 기대던 빠른 묶음 시험 정리 — geo_prep 테마 시험 임시 프로젝트, 미디어 계획 시험 plan 픽스처(`tests/fixtures/plans/hormuz_korea.plan.json`). 미추적 파일을 모두 치운 상태에서 빠른 묶음 1540 passed.
 
 ---
 
