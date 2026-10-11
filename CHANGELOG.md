@@ -1,6 +1,6 @@
 <!--
 tier: 3
-last_synced_with: v5.22.3
+last_synced_with: v5.22.4
 ssot_for: [release-notes]
 depends_on: [README.md, GOAL.md]
 last_review: 2026-09-28
@@ -63,6 +63,12 @@ released 항목은 **append-only**입니다.
 | v5.0.0 | 87912d2 | G11 GOAL G4-21·claim_kind fact/statement | pass(D-0125) |
 | v5.1.0 | 3619f2c | G12 backdrop 무대·아일랜드·축 스케일·기사 프레스 v2·발음 사전·버전 도장 | pass(D-0127) — 후속 D-0128 완료 |
 | v5.2.0 | d4703d9 | G13 배경 가독·주 아일랜드 상시·보도 인용 = 기사·card-island·라벨 반전 | pass(D-0134) — 후속 겹침 카드 시안(D-0135~D-0138) |
+
+---
+
+## [v5.22.4] — 2026-10-11 — 원장 소급 open 11건 닫기 (D-0205 §3)
+
+PATCH: 발음 사전(LB.ua·군사분계선) + 시험, 차트 세로축 눈금 글자 중복 = 렌더 전 오류, 문장마다 카메라 이동 검사(camera_per_sentence hard), 게이트 ② 공용 자산 점검(require_asset_library), route_missing 동사에 '고립', 원장 장치 종류 `doc`(프로세스 항목 — 문서 문구 존재를 테스트가 확인) + 표준 음성 값 시험(C0.2). 원장 open 0.
 
 ---
 
