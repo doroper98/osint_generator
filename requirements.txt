@@ -44,4 +44,5 @@ Pillow>=10.0
 # Dev / test
 pytest>=8.0
 pytest-asyncio>=0.23
+pytest-xdist>=3.5   # v5.22.9 D-0201 — 빠른 묶음 -m "not slow" -n 4
 ruff>=0.4

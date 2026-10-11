@@ -153,7 +153,7 @@ git commit -m "v4.1.0: 요지"                         # 첫 줄 prefix = VERSIO
 ## W7. Phase 완료 체크리스트
 
 - [ ] 지침(back_and_forth D)의 합격표 전부 충족, 증거 파일은 `docs/handoff/reports/phase*/`
-- [ ] 검증 C8.3(D187): 변경마다 타깃 + `tests/anti_inertia`(골든 dark·light) — 전체 `pytest` failed 0 · xfail 0(D-0053 삭제 조정 기준선)은 하루 1회·main 병합 직전. 빠른 묶음 `python -m pytest -q -m "not slow"`
+- [ ] 검증 C8.3(D187): 변경마다 타깃 + `tests/anti_inertia`(골든 dark·light) — 전체 `pytest` failed 0 · xfail 0(D-0053 삭제 조정 기준선)은 하루 1회·main 병합 직전. 빠른 묶음 `python -m pytest -q -m "not slow" -n 4`(pytest-xdist, v5.22.9 D-0201 — 느린 묶음·골든 e2e 는 직렬)
 - [ ] 영상 영향이면 프리뷰 시트 + provenance, 무변경이면 hormuz 25컷 md5
 - [ ] 새 Antipattern 기록
 - [ ] CHANGELOG 버전 절, Tier 1·2 `last_synced_with`(`tests/test_docs_sync.py`)

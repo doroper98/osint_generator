@@ -29,6 +29,7 @@ dependencies = [
 dev = [
   "pytest>=8.0",
   "pytest-asyncio>=0.23",
+  "pytest-xdist>=3.5",
   "ruff>=0.4",
 ]
 
@@ -47,5 +48,5 @@ asyncio_mode = "auto"
 testpaths = ["tests"]
 addopts = "--strict-markers"
 markers = [
-  "slow: 느린 e2e·렌더·골든·CLI 서브프로세스 테스트(CLAUDE.md C8.3, 사용자 결정 D187) — 빠른 묶음은 -m \"not slow\"",
+  "slow: 느린 e2e·렌더·골든·CLI 서브프로세스 테스트(CLAUDE.md C8.3, 사용자 결정 D187) — 빠른 묶음은 -m \"not slow\" -n 4(pytest-xdist, v5.22.9 D-0201)",
 ]
