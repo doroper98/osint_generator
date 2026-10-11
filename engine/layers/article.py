@@ -113,7 +113,7 @@ def article_layout(ctx: cairo.Context, e: dict) -> ArticleLayout:
 def press_credit_text(e: dict, publisher: str) -> Optional[str]:
     """보도 인용(B) 사진이면 카드 안 크레딧 줄(rules article_card.press_credit.format), 아니면 None(A 공식 사진·블러 폴백은 줄 없음)."""
     pa = cached_registry().get(e.get("press") or "")
-    if pa is None or pa.press_of is None:
+    if pa is None or getattr(pa, "press_of", None) is None:
         return None
     return ARTICLE.press_credit.format.replace("{agency}", pa.agency or "").replace("{publisher}", publisher)
 
@@ -132,7 +132,7 @@ def validate_press(e: dict, assets: dict | None = None):  # noqa: ANN201 — Med
     if pid not in reg:
         raise RightsError(f"프레스 사진이 미디어 레지스트리에 없음: press={pid!r} (article {e.get('mid')}) — 권리 기록 있는 공식 사진만(C9)")
     a = reg[pid]
-    if a.press_of is not None:   # v5.21.0 D-0177 — 보도 인용(B): 그 사진이 실린 기사의 카드에서만, 범주 예외 press_quote
+    if getattr(a, "press_of", None) is not None:   # v5.21.0 D-0177 — 보도 인용(B): 그 사진이 실린 기사의 카드에서만, 범주 예외 press_quote
         from schemas.emblem_models import press_exception_ok  # noqa: PLC0415
 
         if a.press_of != e.get("mid"):

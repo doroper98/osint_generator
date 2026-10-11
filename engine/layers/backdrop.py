@@ -33,7 +33,7 @@ def validate_backdrop(e: dict, assets: dict | None = None):  # noqa: ANN201 — 
     a = reg[img]
     if a.kind != BACKDROP.kind:
         raise RightsError(f"배경 사진 종류 불일치: {img}.kind={a.kind} ≠ {BACKDROP.kind} ({where})")
-    if a.press_of is not None:   # v5.21.0 D-0177 — 보도 인용(B) 사진은 독립 비트·배경 금지(기사 카드 프레스 칸에서만)
+    if getattr(a, "press_of", None) is not None:   # v5.21.0 D-0177 — 보도 인용(B) 사진은 독립 비트·배경 금지(기사 카드 프레스 칸에서만)
         raise RightsError(f"기사 {a.press_of} 의 보도 인용 사진({a.agency})은 기사 카드 프레스 칸(article press)에서만 — 독립 사진·배경 금지(사용자 결정 D172)")
     if a.rights_status != "rights_clear":
         raise RightsError(f"권리 미확인 배경 사진({a.rights_status}): {img} ({where}) — 렌더 금지(C9)")
