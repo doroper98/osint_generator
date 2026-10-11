@@ -65,7 +65,7 @@ class FlipRuleTest(unittest.TestCase):
     def test_non_island_marker_path_untouched(self) -> None:
         """지도·시간축 무대 마커(in_island 없음)는 island_label 을 부르지 않는다 — 골든 경로 무변경."""
         surf = cairo.ImageSurface(cairo.FORMAT_ARGB32, 200, 100)
-        view = NS(to_screen=lambda *w: (190.0, 50.0), vw=200, vh=100)
+        view = NS(to_screen=lambda *w: (190.0, 50.0), vw=200, vh=100, stage=NS())   # v5.19.1 — 대역도 무대를 준다(테마 없는 무대 = 공통색)
         R = NS(zones=[], reserved=[])  # noqa: N806
         e = _mk("오른쪽 끝 긴 라벨")
         del e["in_island"]
@@ -88,7 +88,7 @@ class LabelCheckTest(unittest.TestCase):
         return [isl, marker], chart
 
     def _run(self, events: list[dict], chart: dict, y: float = 150.0) -> dict:
-        view = NS(to_screen=lambda *w: (self._x, y), vw=540.0, vh=298.0)
+        view = NS(to_screen=lambda *w: (self._x, y), vw=540.0, vh=298.0, stage=NS())
         with mock.patch.object(isl_mod, "chart_view", return_value=view), \
              mock.patch("engine.layers.series.source_line", return_value="미국 노동통계국 · 2026년 8월 기준"):
             return label_check(events, chart)

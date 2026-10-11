@@ -14,7 +14,7 @@ from engine.timebase import window
 
 def draw_country(ctx: cairo.Context, R: RenderCtx, view: View, t: float, e: dict) -> None:  # noqa: N803
     a = window(t, e["t0"], e["t1"], 0.8, 0.6)
-    col = map_c(getattr(view, "stage", None), e["col"])   # v5.18.0 D-0161 §3
+    col = map_c(view.stage, e["col"])   # v5.18.0 D-0161 §3
     if a <= 0.01:
         return
     lod = "fine" if view.w < LOD["borders_fine_below_w"] else "coarse"

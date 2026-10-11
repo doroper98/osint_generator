@@ -96,6 +96,7 @@ def _walk(o: object):  # noqa: ANN202
 def portrait_fit_errors(R: RenderCtx, pid: str) -> list[str]:  # noqa: N803
     """v5.15.1 D-0164 — 초상 머리 맞춤을 렌더 전에: 인물 뱃지 R 규칙 값(solo·group 양끝·panel)마다 portrait_fit 을 미리 부른다.
     초상마다 한 번(R.cache). 맞지 않으면 PortraitFitError 문구(pid·R)를 오류 목록에. 파일이 없으면 자산 점검이 따로 잡는다."""
+    from engine.assets import AssetError  # noqa: PLC0415
     from engine.layers.badges import PortraitFitError, portrait_fit  # noqa: PLC0415
     from engine.style import BADGE  # noqa: PLC0415
 
@@ -111,7 +112,7 @@ def portrait_fit_errors(R: RenderCtx, pid: str) -> list[str]:  # noqa: N803
             portrait_fit(R, f"portrait:{pid}", Rr)
         except PortraitFitError as ex:
             out.append(str(ex))
-        except Exception:  # noqa: BLE001 — 파일 없음 등은 자산 점검(keys)이 보고한다
+        except AssetError:   # v5.19.1 — 파일 없음·알 수 없는 키만(자산 점검 keys 가 따로 보고한다). 그 밖의 예외는 그대로 올린다(P6)
             return out
     return out
 

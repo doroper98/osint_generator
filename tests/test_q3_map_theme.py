@@ -163,5 +163,32 @@ class FlatMapThemeTest(unittest.TestCase):
         np.testing.assert_allclose(seen["light"], FM.themes["light"]["sea"][:3], atol=0.01)
 
 
+class CleanupV5191Test(unittest.TestCase):
+    """v5.19.1(D-0173 §2 메모 → Fable 지시) — 조용한 경로 두 개를 막았다."""
+
+    def test_view_without_stage_is_error(self) -> None:
+        from types import SimpleNamespace as NS  # noqa: PLC0415
+
+        from engine.layers.markers import draw_marker  # noqa: PLC0415
+
+        surf = cairo.ImageSurface(cairo.FORMAT_ARGB32, 200, 100)
+        e = {"type": "marker", "t0": 0.0, "t1": 9.0, "world": (0.0, 0.0), "label": "도하"}
+        with self.assertRaisesRegex(AttributeError, "stage"):   # 무대 없는 view 가 공통색으로 조용히 넘어가지 않는다(P6)
+            draw_marker(cairo.Context(surf), NS(zones=[], reserved=[]), NS(to_screen=lambda *w: (50.0, 50.0), vw=200, vh=100), 5.0, e)
+
+    def test_portrait_fit_errors_only_swallow_asset_error(self) -> None:
+        from types import SimpleNamespace as NS  # noqa: PLC0415
+
+        from engine import project  # noqa: PLC0415
+        from engine.assets import AssetError  # noqa: PLC0415
+        from engine.layers import badges  # noqa: PLC0415
+
+        with mock.patch.object(project, "BADGE", create=True), mock.patch("engine.style.BADGE.head_popout", False):
+            with mock.patch.object(badges, "portrait_fit", side_effect=AssetError("자산 없음")):
+                self.assertEqual(project.portrait_fit_errors(NS(cache={}), "x"), [])   # 파일 없음 = 자산 점검이 보고
+            with mock.patch.object(badges, "portrait_fit", side_effect=ValueError("다른 오류")), self.assertRaises(ValueError):
+                project.portrait_fit_errors(NS(cache={}), "y")
+
+
 if __name__ == "__main__":
     unittest.main()
