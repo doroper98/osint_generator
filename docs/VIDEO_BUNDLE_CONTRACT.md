@@ -1,6 +1,6 @@
 <!--
 tier: 2
-last_synced_with: v5.21.13
+last_synced_with: v5.21.14
 ssot_for: [video-bundle-contract]
 depends_on: [05_DATA_SCHEMA_SPEC.md]
 last_review: 2026-09-29

@@ -1,6 +1,6 @@
 <!--
 tier: 3
-last_synced_with: v5.21.13
+last_synced_with: v5.21.14
 ssot_for: [release-notes]
 depends_on: [README.md, GOAL.md]
 last_review: 2026-09-28
@@ -63,6 +63,12 @@ released 항목은 **append-only**입니다.
 | v5.0.0 | 87912d2 | G11 GOAL G4-21·claim_kind fact/statement | pass(D-0125) |
 | v5.1.0 | 3619f2c | G12 backdrop 무대·아일랜드·축 스케일·기사 프레스 v2·발음 사전·버전 도장 | pass(D-0127) — 후속 D-0128 완료 |
 | v5.2.0 | d4703d9 | G13 배경 가독·주 아일랜드 상시·보도 인용 = 기사·card-island·라벨 반전 | pass(D-0134) — 후속 겹침 카드 시안(D-0135~D-0138) |
+
+---
+
+## [v5.21.14] — 2026-10-11 — 이동·공격 문장의 경로 누락·화면 밖 지명 검사 (D-0195·D-0197·D-0199)
+
+PATCH: 사용자 "아덴에 보냈다는데 사우디 방면 선만 보여 오해", "미사일 궤적 선이 없다", "예멘이 화면 밖". 이동·공격 동사(규칙 키)와 그 문장이 부르는 마커가 함께 있는데 그 마커에 닿는 경로가 문장 구간에 없으면 `route_missing` warning, 다른 경로만 보이면 `route_missing_other` hard. 문장이 부르는 나라·마커가 문장 구간 내내 화면 밖이면 `frame_missing` warning, 이동·공격 대상이면 `frame_missing_target` hard. 필드 표 description·연출 문법.
 
 ---
 
