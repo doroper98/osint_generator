@@ -259,6 +259,111 @@
     "CC BY-SA 3.0 igo",
     "CC BY-SA 4.0"
    ]
+  },
+  {
+   "sid": "yemen_front_1",
+   "query": "Mocha Yemen port hastemplate:\"PD-USGov-Military\"",
+   "pool": "us_dod_pd",
+   "on": "2026-10-11",
+   "found": 0,
+   "passed": 0,
+   "top": [],
+   "rejected": []
+  },
+  {
+   "sid": "yemen_front_1",
+   "query": "Mocha Yemen port",
+   "pool": "commons_cc",
+   "on": "2026-10-11",
+   "found": 6,
+   "passed": 6,
+   "top": [
+    "File:A voyage in the Indian Ocean and to Bengal, undertaken in the years 1789 and 1790. Containing an account of the Sechelles Islands and Trincomale ... To which is added, a voyage in t (IA b22041084 0001).pdf",
+    "File:Mokha panorama (Delcampe, anonym).jpg",
+    "File:Plan du port de Mocha au Yemen en 1737.jpg",
+    "File:Schedule K. Classification of foreign ports by geographic trade area and country. (IA schedulekclassif19541971unse).pdf",
+    "File:Southwest Arabia Taiz, Sheet 1.png"
+   ],
+   "rejected": []
+  },
+  {
+   "sid": "invocation_0",
+   "query": "Riyadh city hastemplate:\"PD-USGov-Military\"",
+   "pool": "us_dod_pd",
+   "on": "2026-10-11",
+   "found": 6,
+   "passed": 6,
+   "top": [
+    "File:Brig. GEN. John Leide, director of intelligence, U.S. Central Command, poses for a photograph at the headquarters building in Riyadh in the aftermath of Operation Desert Storm DF-ST-92-09299.jpeg",
+    "File:Hagel departs Riyadh, Saudi Arabia, 2013.jpg",
+    "File:Map by the US Army Map Service - Riyadh - asia 1m - txu-pclmaps-oclc-6622985-riyadh-ng-38.jpg",
+    "File:NG 38-16 Ar Riyad, Saudi Arabia (GeoPDF) (Riyadh) - PCL Map Collection - ng-38-16-ar riyad-saudi arabia.pdf",
+    "File:Riyadh-airport.jpg"
+   ],
+   "rejected": []
+  },
+  {
+   "sid": "invocation_0",
+   "query": "Riyadh city",
+   "pool": "commons_cc",
+   "on": "2026-10-11",
+   "found": 6,
+   "passed": 2,
+   "top": [
+    "File:Boulevard Riyadh City.jpg",
+    "File:Riyadh, Saudi Arabia's capital and largest city (iss072e445326).jpg"
+   ],
+   "rejected": [
+    "CC BY-SA 4.0"
+   ]
+  },
+  {
+   "sid": "riyadh_airport_1",
+   "query": "Riyadh airport terminal hastemplate:\"PD-USGov-Military\"",
+   "pool": "us_dod_pd",
+   "on": "2026-10-11",
+   "found": 0,
+   "passed": 0,
+   "top": [],
+   "rejected": []
+  },
+  {
+   "sid": "riyadh_airport_1",
+   "query": "Riyadh airport terminal",
+   "pool": "commons_cc",
+   "on": "2026-10-11",
+   "found": 6,
+   "passed": 3,
+   "top": [
+    "File:Saudi Arabian Airlines SV B777 aircraft tails, Riyadh King Khalid International Airport, Saudi Arabia - 20081028.jpg",
+    "File:Secretary Pompeo Speaks at Press Conference in Riyadh, Saudi Arabia (32875239468).jpg",
+    "File:Secretary Pompeo Speaks at Press Conference in Riyadh, Saudi Arabia (32875245568).jpg"
+   ],
+   "rejected": [
+    "GODL-India"
+   ]
+  },
+  {
+   "sid": "riyadh_airport_2",
+   "query": "Riyadh airport Houthi missile attack 2026 hastemplate:\"PD-USGov-Military\"",
+   "pool": "us_dod_pd",
+   "on": "2026-10-11",
+   "found": 0,
+   "passed": 0,
+   "top": [],
+   "rejected": []
+  },
+  {
+   "sid": "riyadh_airport_2",
+   "query": "Riyadh airport Houthi missile attack 2026",
+   "pool": "commons_cc",
+   "on": "2026-10-11",
+   "found": 2,
+   "passed": 0,
+   "top": [],
+   "rejected": [
+    "문서·도식(application/pdf)"
+   ]
   }
  ]
 }

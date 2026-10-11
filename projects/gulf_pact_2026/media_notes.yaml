@@ -1,22 +1,30 @@
-# 미디어 사유(D-0163 §2, P1-0) — 게이트 ① 시점. 사진 선택·등록은 P1-2(게이트 ① 승인 뒤 자산 단계, D-0179 §1-4)에서 한다.
-# 아래 "후보" 는 media_search.json 의 실제 검색 결과(2026-10-11, 풀 순서 us_dod_pd → commons_cc)다.
+# gulf_pact_2026 미디어 사유(게이트 ① 미디어 계획 표·[article-unused]). P1-2 사진 선택 결과(v5.21.0) — 승인 원고의 media 칸은 고치지 않고
+# 레지스트리에 등록한 사진을 연출에 넘긴다(연출이 문장에 배치). A 5장 = gulf_pk_jf17·gulf_pk_soldiers·gulf_riyadh_skyline·gulf_kkia_aerial·hormuz_transit(공용 재사용)
 schema_version: 1
 sentences:
   troop_numbers_0:
-    photo: "P1-2 에서 선택 — 후보 Commons 'Pakistan Air Force JF-17 at Paris Air Show 2015'(통과 1). 국방부 PD 0건. 다른 5건은 CC BY-SA·GFDL 탈락"
+    photo: A 선택 — gulf_pk_jf17(파키스탄 공군 JF-17, 2015 파리 에어쇼, U.S. Air Force PD) 등록·연출 제공. 국방부 검색 0건, 다른 5건은 CC BY-SA·GFDL 탈락
   troop_numbers_2:
-    photo: "P1-2 에서 선택 — 통과 후보는 걸프 패트리엇 일반 자료(바레인 구매 서명 등)라 관련성 낮음. 요격 장면 PD 를 다시 찾는다"
+    photo: 고르지 않음 — 통과 후보는 걸프 패트리엇 일반 자료(바레인 구매 서명·1991 스커드 잔해)라 사우디 배치 문장과 관련성 낮음. 지도 무대로
   troop_numbers_3:
-    photo: "P1-2 에서 선택 — 후보 DVIDS 'Pakistani soldiers unload U.S. medical supplies'(PD). 예멘 파병 장면은 아님 — 자료사진 표기로만"
+    photo: A 선택 — gulf_pk_soldiers(파키스탄군 병사, 2005 지진 구호, DVIDS PD) 등록·연출 제공. 예멘 파병 장면이 아니라 자료사진 표기
   riyadh_airport_0:
-    photo: "P1-2 에서 선택 — 후보 Commons 'King Khalid International Airport, Riyadh'(panoramio, 통과)·국방부 'Riyadh Air Base'. 공격 현장 사진은 통신사뿐(D172 B 구현 뒤 검토)"
+    photo: A 선택 — gulf_kkia_aerial(킹칼리드 국제공항 항공 사진, 2006, U.S. Air Force PD) 등록·연출 제공. panoramio 후보는 공항으로 알아볼 수 없어 탈락
+  riyadh_airport_1:
+    photo: A 는 gulf_kkia_aerial(riyadh_airport_0 과 같은 사진). Saudia 꼬리날개 사진(CC BY 2.0)은 항공사 로고가 화면 중심이라 쓰지 않음. 사망 문장이라 피해 사진 없음
   riyadh_airport_8:
-    photo: "P1-2 에서 선택 — 후보 CENTCOM 'Operation Against Iran-Backed Houthis in Yemen' 영상(PD). 문장은 트럼프의 거절이라 영상 비트 적합성 검토"
+    photo: 고르지 않음 — 통과 후보 CENTCOM 후티 타격 영상(2024)은 "트럼프가 직접 타격 요청을 거절해 왔다" 문장과 사실 방향이 어긋난다(오해 소지). 기사 카드로
   briefing_2:
-    photo: "사진 없음이 맞다 — 통과 6건이 모두 지도·도식(2024 missile strikes against Yemen). 이 문장은 지도 무대로"
+    photo: 사진 없음이 맞다 — 통과 6건이 모두 지도·도식(2024 missile strikes against Yemen). 이 문장은 지도 무대로
   briefing_3:
-    photo: "사진 없음이 맞다 — 'Riyadh Skyline' 은 CC BY-SA 탈락, 통과 1건은 일반 도시 사진. 맺음 문장은 지도 무대로"
+    photo: 사진 없음이 맞다 — 'Riyadh Skyline' 은 CC BY-SA 탈락, 통과 1건(Riyadh Skyline New)은 invocation_0 의 리야드 사진으로 쓴다. 맺음 문장은 지도 무대로
   troop_numbers_7:
-    photo: "사진 없음이 맞다 — 통과 4건이 모두 PDF 보고서(CRS·인권 보고서), 국방부 PD 0건. 아덴 수송 장면 실사 없음 — 지도 무대(아덴 마커)로"
+    photo: 사진 없음이 맞다 — 통과 4건이 모두 PDF 보고서(CRS·인권 보고서), 국방부 PD 0건. 아덴 수송 장면 실사 없음 — 지도 무대(아덴 마커)로
   mecca_attack_1:
-    photo: "P1-2 에서 선택 — 후보 Commons 'Kaaba during the Hajj - 1886'(PD, 옛 사진 — 자료사진 표기 필요). 현대 메카 사진은 모두 CC BY-SA 탈락, 국방부 풀은 무관 문서뿐. 드론 요격 장면 실사 없음 — 지도 무대(메카 마커)가 기본"
+    photo: 고르지 않음 — 유일한 통과 후보 'Kaaba during the Hajj - 1886'(PD)은 140년 전 사진이라 2026 공격 시도 문장과 시점 차가 커 오해 소지. 현대 메카 사진은 모두 CC BY-SA 탈락 — 지도 무대(메카 마커)
+  invocation_0:
+    photo: A 선택 — gulf_riyadh_skyline(리야드 시가지, 2009, Commons PD) 등록·연출 제공. 다른 통과 후보는 미 국방부 인사 방문·지도
+  yemen_front_1:
+    photo: 고르지 않음 — 통과 후보 6건은 18세기 모카 판화·항구 도면·문서라 2026 공세와 무관(관련성 탈락). 지도 무대(모카·바브엘만데브)로
+  riyadh_airport_2:
+    press_quote: Reuters 사진(Al Jazeera 기사 게재) — 공항 터미널 너머 연기. A 풀 검색 권리 통과 0(DoD 0건, Commons 문서 2건)

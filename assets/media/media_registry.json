@@ -2634,6 +2634,202 @@
    "sub": "사우디 주도 연합군 투르키 알말리키 대변인이 후티가 9월 15일 저녁 …",
    "note": "헤드라인 번역 · 원문 영어",
    "headline_original": "Saudi Arabia Declares Mecca a 'Red Line' as Houthis Deny Targeting Holy Site"
+  },
+  "gulf_pk_jf17": {
+   "kind": "photo",
+   "title": "File:Pakistan Air Force JF-17 at Paris Air Show 2015.jpg",
+   "license": "Public domain",
+   "author": "U.S. Air Forces in Europe and Air Forces Africa (USAFE AFAFRICA)",
+   "credit_author": "U.S. Air Force",
+   "date": "2015-06-16",
+   "url": "https://commons.wikimedia.org/wiki/File:Pakistan_Air_Force_JF-17_at_Paris_Air_Show_2015.jpg",
+   "caption": "파키스탄 공군 JF-17 전투기",
+   "file_note": "자료사진 · 2015. 06",
+   "depicts": [
+    "파키스탄 공군",
+    "JF-17 전투기"
+   ],
+   "is_file_photo": true,
+   "verified_by": {
+    "by": "구현 세션 육안 확인(2026-10-11, 사상자·시신 없음) — 콘티 판 사용자 검토 대기",
+    "on": "2026-10-11",
+    "casualty_free": true,
+    "relevance": "troop_numbers_0 '전투기 편대' — 파키스탄 공군 JF-17(2015 파리 에어쇼)"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-10-11",
+   "tool": {
+    "name": "media_fetch.photo",
+    "params": {
+     "source": "pk_jf17_src.jpg",
+     "thumb_w": 1280,
+     "crop": [
+      720,
+      450
+     ],
+     "color": 0.82,
+     "contrast": 1.06,
+     "jpeg_quality": 92
+    }
+   },
+   "source_hash": "f8c03787be4f93fa30ff17b1bfdcbd8e",
+   "file": "pk_jf17_720.jpg"
+  },
+  "gulf_pk_soldiers": {
+   "kind": "photo",
+   "title": "File:Pakistani soldiers hustle to unload U.S. medical supplies DVIDS11297.jpg",
+   "license": "Public domain",
+   "author": "U.S. Department of Defense (DVIDS 11297)",
+   "credit_author": "U.S. DoD",
+   "date": "2005-10-14",
+   "url": "https://commons.wikimedia.org/wiki/File:Pakistani_soldiers_hustle_to_unload_U.S._medical_supplies_DVIDS11297.jpg",
+   "caption": "구호품을 내리는 파키스탄군 병사들",
+   "file_note": "자료사진 · 2005. 10",
+   "depicts": [
+    "파키스탄군 병사",
+    "구호품 하역"
+   ],
+   "is_file_photo": true,
+   "verified_by": {
+    "by": "구현 세션 육안 확인(2026-10-11, 사상자·시신 없음) — 콘티 판 사용자 검토 대기",
+    "on": "2026-10-11",
+    "casualty_free": true,
+    "relevance": "troop_numbers_1·3 파키스탄군 병력 문장 — 파키스탄군 병사(2005 지진 구호, 배치 장면 아님)"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-10-11",
+   "tool": {
+    "name": "media_fetch.photo",
+    "params": {
+     "source": "pk_soldiers_dvids_src.jpg",
+     "thumb_w": 960,
+     "crop": [
+      720,
+      450
+     ],
+     "color": 0.82,
+     "contrast": 1.06,
+     "jpeg_quality": 92
+    }
+   },
+   "source_hash": "19b315d280e5b67280e12150b4567315",
+   "file": "pk_soldiers_dvids_720.jpg"
+  },
+  "gulf_riyadh_skyline": {
+   "kind": "photo",
+   "title": "File:Riyadh Skyline New.jpg",
+   "license": "Public domain",
+   "author": "mo-- (Wikimedia Commons)",
+   "credit_author": "Wikimedia Commons",
+   "date": "2009-05-07",
+   "url": "https://commons.wikimedia.org/wiki/File:Riyadh_Skyline_New.jpg",
+   "caption": "사우디아라비아 수도 리야드",
+   "file_note": "자료사진 · 2009. 05",
+   "depicts": [
+    "리야드 시가지",
+    "킹덤 센터"
+   ],
+   "is_file_photo": true,
+   "verified_by": {
+    "by": "구현 세션 육안 확인(2026-10-11, 사상자·시신 없음) — 콘티 판 사용자 검토 대기",
+    "on": "2026-10-11",
+    "casualty_free": true,
+    "relevance": "invocation_0 리야드 긴급회의 — 리야드 시가지"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-10-11",
+   "tool": {
+    "name": "media_fetch.photo",
+    "params": {
+     "source": "riyadh_skyline_src.jpg",
+     "thumb_w": 960,
+     "crop": [
+      720,
+      450
+     ],
+     "color": 0.82,
+     "contrast": 1.06,
+     "jpeg_quality": 92
+    }
+   },
+   "source_hash": "1b089252071fdfa1a07ffb96c3c595eb",
+   "file": "riyadh_skyline_720.jpg"
+  },
+  "gulf_kkia_aerial": {
+   "kind": "photo",
+   "title": "File:Riyadh-airport.jpg",
+   "license": "Public domain",
+   "author": "U.S. Air Force Air Mobility Command",
+   "credit_author": "U.S. Air Force",
+   "date": "2006-08-15",
+   "url": "https://commons.wikimedia.org/wiki/File:Riyadh-airport.jpg",
+   "caption": "리야드 킹칼리드 국제공항",
+   "file_note": "자료사진 · 2006. 08",
+   "depicts": [
+    "킹칼리드 국제공항",
+    "리야드"
+   ],
+   "is_file_photo": true,
+   "verified_by": {
+    "by": "구현 세션 육안 확인(2026-10-11, 사상자·시신 없음) — 콘티 판 사용자 검토 대기",
+    "on": "2026-10-11",
+    "casualty_free": true,
+    "relevance": "riyadh_airport_0·1 공격 대상 공항 — 공항 항공 사진(피해 장면 아님)"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-10-11",
+   "tool": {
+    "name": "media_fetch.photo",
+    "params": {
+     "source": "kkia_dod_src.jpg",
+     "thumb_w": 960,
+     "crop": [
+      720,
+      450
+     ],
+     "color": 0.82,
+     "contrast": 1.06,
+     "jpeg_quality": 92
+    }
+   },
+   "source_hash": "cc6b51a6da8a950aa39f563ce254c6a6",
+   "file": "kkia_dod_720.jpg"
+  },
+  "gulf_pact_2026_art_0005_press": {
+   "kind": "photo",
+   "title": "Reuters photo — Al Jazeera 2026-10-10 — Saudi Arabia says 12 killed, 300 wounded in Houthi attack on Riyadh airport",
+   "license": "통신사 저작물 — 인용(Reuters)",
+   "author": "Reuters",
+   "credit_author": "Reuters",
+   "date": "2026-10-10",
+   "url": "https://www.aljazeera.com/news/2026/10/10/attack-on-airport-in-saudi-capital-riyadh-leaves-several-injured",
+   "caption": "Reuters 사진",
+   "file_note": "2026. 10. 10",
+   "depicts": [
+    "riyadh_airport_2 리야드 킹칼리드 공항 재공격 — 공항 터미널 너머 연기(Reuters, Al Jazeera 게재)"
+   ],
+   "is_file_photo": false,
+   "verified_by": {
+    "by": "구현 세션 육안 확인(2026-10-11, 사상자·시신 없음 — 공항 터미널 진입로와 연기) — 콘티 판 사용자 검토 대기",
+    "on": "2026-10-11",
+    "casualty_free": true,
+    "relevance": "riyadh_airport_2 리야드 킹칼리드 공항 재공격 — 공항 터미널 너머 연기(Reuters, Al Jazeera 게재)"
+   },
+   "rights_status": "restricted",
+   "retrieved_at": "2026-10-11T07:31:24+00:00",
+   "tool": {
+    "name": "press_quote",
+    "params": {
+     "edit": "crop_scale_only"
+    }
+   },
+   "source_hash": "7c996c877ca223175e8e942f0c55b774",
+   "file": "press_gulf_pact_2026_art_0005.jpg",
+   "press_of": "gulf_pact_2026_art_0005",
+   "agency": "Reuters",
+   "photo_url": "https://www.aljazeera.com/wp-content/uploads/2026/10/reuters_6ac79e5d-1791467101.jpg",
+   "user_exception": "U20261011",
+   "exception": "사용자 결정 D172(2026-10-11) — 보도 인용(저작권법 §28 취지), 개인 프로젝트, 공개 배포 전 재확인"
   }
  }
 }
