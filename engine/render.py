@@ -43,6 +43,9 @@ def log(msg: str) -> None:
     print(msg, file=sys.stderr, flush=True)
 
 
+QA_CONTRAST = load_rules().qa_checks
+
+
 def render_frame(P: Project, i: int) -> tuple[cairo.ImageSurface, bytearray]:  # noqa: N803
     """한 프레임. 모든 레이어는 설계 좌표(854×480)로 그리고, 장치 해상도는 여기서 한 번 건 변환(translate pad_x · scale k)이
     맡는다 — `px()` 의 전역 적용(v3.6.0 D-0067 A). k=1 이면 변환을 걸지 않는다(480p 항등)."""
@@ -52,6 +55,10 @@ def render_frame(P: Project, i: int) -> tuple[cairo.ImageSurface, bytearray]:  #
     view = View(R.stage, P.cams[i])
     L = P.layers   # noqa: N806 — 전편 FULL_LAYERS · 콘티 판 ANIMATIC_LAYERS(v4.9.0 D-0108, 진입 = load_project)
     R.reserved.clear()
+    from engine import typography as _tyf  # noqa: PLC0415 — v5.21.2 D-0186 국소 대비 보정(지도 테마의 label_contrast_fix)
+    fix = getattr(getattr(R.stage, "theme", None), "label_contrast_fix", None)
+    _tyf.CONTRAST_FIX = None if fix is None else (fix, QA_CONTRAST.map_contrast_text, QA_CONTRAST.map_contrast_min_alpha)
+    _tyf.CONTRAST_PENDING.clear()
     buf = bytearray(OP.width * OP.height * 4)   # 배경은 무대가 채운다(render_base — 지형 래스터를 이 버퍼에 그대로 복사)
     surf = cairo.ImageSurface.create_for_data(buf, cairo.FORMAT_RGB24, OP.width, OP.height, OP.width * 4)
     ctx = cairo.Context(surf)
@@ -82,6 +89,7 @@ def render_frame(P: Project, i: int) -> tuple[cairo.ImageSurface, bytearray]:  #
         R.stage.draw_labels(ctx, view, R.reserved, 1 - panel_a)
     from engine import typography as _ty  # noqa: PLC0415
 
+    _ty.flush_contrast_fix(ctx)   # v5.21.2 D-0186 §2-1 — 지도 층 완성 뒤·검사 스냅숏 전에 required 글자 국소 대비 보정
     if _ty.CONTRAST_LOG is not None:   # v5.18.0 D-0161 §4 — 지도 층 합성본(카드·패널·사진·전면 카드 전) — 대비는 이 위에서 잰다
         surf.flush()
         R.cache["map_snapshot"] = (bytes(buf), OP.width, OP.height)

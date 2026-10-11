@@ -228,7 +228,7 @@ def project_provenance(P, stages: dict[str, bool]) -> dict:  # noqa: ANN001, N80
                           "creep": {"ranges": pc["creep"], "w_ratio": pc["creep_w_ratio"]} if pc["creep"] else None}
     prov["animatic"] = bool(getattr(P, "animatic", False))   # v4.9.0 D-0108 — 콘티 판 여부(전편 false, 콘티 판 true + animatic_run)
     prov["stage"] = P.R.cache.get("stage")   # v4.1.0 D-0076 작업 7 — 무대(name·declared·shots_declared·instances)
-    lcf = getattr(P.R.stage, "label_contrast_fixed", None)
+    from engine.typography import CONTRAST_FIXED as lcf  # noqa: PLC0415
     if lcf:   # v5.21.2 D-0186 §2-1 — 국소 대비 보정을 받은 지명(이름 → 보정 전 최저 대비). 보정이 없으면 기록 없음(P5)
         prov["map_contrast_fix"] = {"labels": {k: round(v, 2) for k, v in sorted(lcf.items())}}
     if P.R.cache.get("map_theme") is not None:   # v5.18.0 D-0161 §7 — 지도 테마(name·declared·genre_default·reason), 지도 무대만

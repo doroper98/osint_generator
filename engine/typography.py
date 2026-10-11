@@ -49,6 +49,12 @@ def require_family(family: str) -> None:
 
 # v5.18.0 D-0161 §4 — 켜면(list) contrast= 를 준 text() 가 (종류, 장치 좌표 상자, 글자색, 알파, 문자열)을 남긴다 — checks map_contrast
 CONTRAST_LOG: list[tuple[str, tuple[float, float, float, float], tuple, float, str]] | None = None
+# v5.21.2 D-0186 §2-1 — 국소 대비 보정. (테마 label_contrast_fix, 문턱 map_contrast_text, 최소 알파 map_contrast_min_alpha) 를 렌더가 프레임마다 건다.
+# contrast="required" 글자를 그린 직후 실제 바탕 대비가 문턱 미만이면 그 글자만 fix halo 로 다시 그린다. CONTRAST_FIXED = 이름 → 보정 전 최저 대비
+CONTRAST_FIX: tuple | None = None
+CONTRAST_FIXED: dict[str, float] = {}
+CONTRAST_PENDING: list[tuple] = []   # 이번 프레임의 required 글자(장치 상자·행렬·검사 기록 항목·다시 그릴 인자) — flush_contrast_fix 가 비운다
+_FIXING = False
 GLYPH_LOG: list[tuple[float, str | None, str]] | None = None   # 켜면(list) text() 가 (크기, 역할, 문자열) 을 남긴다 — checks glyph_size(v3.6.0 D-0069)
 GLYPH_MISS: list[tuple[str, str, str]] | None = None   # v4.4.0 — 켜면 text() 가 **그 글꼴**에 없는 글자를 (글꼴 이름, 글자, 문자열)로 남긴다(checks glyphs)
 
@@ -104,6 +110,7 @@ def text(ctx: cairo.Context, s: str, x: float, y: float, size: float, name: str 
     halo_rgb = 글자 테두리 색(v5.13.0 D-0153 Q0-2 — 지도 지명만 테마 값을 넘긴다. 기본 = 종전 값)."""
     if a <= 0.01 or not s:
         return 0
+    x_arg = x
     if GLYPH_LOG is not None:
         GLYPH_LOG.append((size, role, s))
     if name in MONO and HANGUL.search(s):
@@ -156,7 +163,44 @@ def text(ctx: cairo.Context, s: str, x: float, y: float, size: float, name: str 
     if contrast is not None and CONTRAST_LOG is not None:   # 지도 위 글자 대비 측정 대상(required | aux) — 설계 상자 → 장치 상자
         xs, ys = zip(*(ctx.user_to_device(px, py) for px in (x, x + w) for py in (y - size * 0.85, y + size * 0.25)))
         CONTRAST_LOG.append((contrast, (min(xs), min(ys), max(xs), max(ys)), tuple(col[:3]), a, s))
+    if contrast == "required" and CONTRAST_FIX is not None and not _FIXING and a >= CONTRAST_FIX[2]:
+        xs, ys = zip(*(ctx.user_to_device(px, py) for px in (x, x + w) for py in (y - size * 0.85, y + size * 0.25)))
+        CONTRAST_PENDING.append(((min(xs), min(ys), max(xs), max(ys)), ctx.get_matrix(), CONTRAST_LOG[-1] if CONTRAST_LOG else None,
+                                 (s, x_arg, y, size, name, col, a, anchor, spacing, halo_rgb)))
     return w
+
+
+def flush_contrast_fix(ctx: cairo.Context) -> None:
+    """v5.21.2 D-0186 §2-1 — 지도 층이 다 그려진 뒤(검사 스냅숏 직전) 미뤄 둔 required 글자를 실제 바탕에서 잰다(검사와 같은 식·같은 시점,
+    engine.contrast). 문턱 미만인 글자만 fix halo 로 그 위에 다시 그리고, 보정 전 측정 항목은 검사 기록에서 뺀다(다시 그린 글자가 새로 기록).
+    통과한 글자는 손대지 않는다(골든 바이트 무변화)."""
+    global _FIXING
+    from engine.contrast import surface_text_ratio  # noqa: PLC0415
+
+    pend = list(CONTRAST_PENDING)
+    CONTRAST_PENDING.clear()
+    if CONTRAST_FIX is None or not pend:
+        return
+    fix, lim, _ = CONTRAST_FIX
+    bad = []
+    for box, mat, logged, args in pend:
+        r = surface_text_ratio(ctx, box, args[5])
+        if r is not None and r < lim:
+            bad.append((r, mat, logged, args))
+    if not bad:
+        return
+    m0 = ctx.get_matrix()
+    _FIXING = True
+    try:
+        for r, mat, logged, (s, x, y, size, name, col, a, anchor, spacing, halo_rgb) in bad:
+            if logged is not None and CONTRAST_LOG and logged in CONTRAST_LOG:
+                CONTRAST_LOG.remove(logged)
+            ctx.set_matrix(mat)
+            text(ctx, s, x, y, size, name, col, a, fix.halo, anchor, spacing, fix.halo_a, halo_rgb=halo_rgb, contrast="required")
+            CONTRAST_FIXED[s] = min(r, CONTRAST_FIXED.get(s, r))
+    finally:
+        _FIXING = False
+        ctx.set_matrix(m0)
 
 
 def tw(ctx: cairo.Context, s: str, size: float, name: str) -> float:
