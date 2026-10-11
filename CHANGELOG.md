@@ -1,6 +1,6 @@
 <!--
 tier: 3
-last_synced_with: v5.22.9
+last_synced_with: v5.22.10
 ssot_for: [release-notes]
 depends_on: [README.md, GOAL.md]
 last_review: 2026-09-28
@@ -63,6 +63,12 @@ released 항목은 **append-only**입니다.
 | v5.0.0 | 87912d2 | G11 GOAL G4-21·claim_kind fact/statement | pass(D-0125) |
 | v5.1.0 | 3619f2c | G12 backdrop 무대·아일랜드·축 스케일·기사 프레스 v2·발음 사전·버전 도장 | pass(D-0127) — 후속 D-0128 완료 |
 | v5.2.0 | d4703d9 | G13 배경 가독·주 아일랜드 상시·보도 인용 = 기사·card-island·라벨 반전 | pass(D-0134) — 후속 겹침 카드 시안(D-0135~D-0138) |
+
+---
+
+## [v5.22.10] — 2026-10-11 — 국경 경로 일괄 생성(numpy) (D-0201 결정 2)
+
+PATCH: `path_rings`·`path_lines` 가 고리 상자를 미리 묶어(목록마다 한 번) 보이는 고리를 한꺼번에 고르고 한 번에 화면 좌표로 바꾼다. cairo 에 넘기는 점·순서·닫힘은 종전과 같다(경로 비교 76,638건 동일, 골든 dark·light 25/25 바이트 동일). 프레임 시간 hormuz(dark) −10%, gulf(light) −9%.
 
 ---
 
