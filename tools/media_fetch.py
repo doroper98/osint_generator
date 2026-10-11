@@ -208,7 +208,8 @@ def fetch_variant(v: SourceVariant, media: Path, restore_from: Path | None = Non
 
 
 def run(proj: Path, only: list[str] | None = None, sheets: bool = True, registry: dict | None = None,
-        restore_from: Path | None = None, tries: int | None = None, variant: str | None = None, res: str | None = None) -> dict:
+        restore_from: Path | None = None, tries: int | None = None, variant: str | None = None, res: str | None = None,
+        getter=None) -> dict:  # noqa: ANN001 — getter = 보도 인용 사진 받기 대역(테스트)
     """res = 기본이 아닌 출력 프로파일(v4.0.0 D-0074, NB28): 영상만 같은 segment·fps·pix_fmt 로 그 프로파일의 clip 크기로
     media/res_<이름>/{file}.npy 에 뽑는다(사진·컷아웃은 원본에서 장치 해상도로 렌더 때 리샘플하므로 대상 아님). 480p npy 는 건드리지 않는다."""
     reg = registry if registry is not None else load_media_registry()
@@ -234,6 +235,16 @@ def run(proj: Path, only: list[str] | None = None, sheets: bool = True, registry
         if a.kind == "article" or (res is not None and a.kind != "video"):
             if a.kind == "article":
                 report["assets"][mid] = {"kind": "article", "files": []}
+            continue
+        if a.press_of is not None:   # v5.21.7 D-0189 §1 — 보도 인용(B): 가공 없음, photo_url 원본 그대로가 화면 파일
+            try:
+                fetch_press(a, media, getter)
+                report["assets"][mid] = {"kind": "press_photo", "source": a.photo_url, "source_md5": a.source_hash,
+                                         "files": {str(a.file): md5(media / str(a.file))}}
+                print(f"ok {mid}: {a.file}", flush=True)
+            except MediaFetchError as ex:
+                failed.append((mid, str(ex)))
+                print(f"FAIL {mid}: {ex}", file=sys.stderr, flush=True)
             continue
         try:
             var = next((v for v in a.source_variants if v.source == variant), None) if variant else None
@@ -279,6 +290,26 @@ def run(proj: Path, only: list[str] | None = None, sheets: bool = True, registry
         raise MediaFetchError("미디어 수집 실패 — 남은 항목:\n" + "\n".join(f"  {m}: {e}" for m, e in failed)
                               + f"\n재실행: python tools/media_fetch.py {proj} --only {left}")
     return report
+
+
+def fetch_press(a: MediaAsset, media: Path, getter=None) -> Path:  # noqa: ANN001 — getter(url) -> bytes = commons_fetch.http_get 대역(테스트)
+    """보도 인용(B) 사진 재수집(v5.21.7 D-0189 §1) — 프로젝트 media/ 에 있고 md5 가 맞으면 그대로, 없으면 photo_url 을 저장소 UA·재시도로
+    받아 source_hash 와 대조한다. 받지 못하거나 다르면 MediaFetchError(재수집 불가 — 조용히 넘기지 않는다, P6)."""
+    dest = media / str(a.file)
+    if dest.exists() and md5(dest) == a.source_hash:
+        return dest
+    get = getter or commons_fetch.http_get
+    try:
+        data = get(str(a.photo_url))
+    except Exception as ex:  # noqa: BLE001 — 아래 한 문구로
+        raise MediaFetchError(f"보도 인용 — 재수집 불가: {a.photo_url} 를 받지 못했다({ex}). 원본은 등록한 컨테이너의 프로젝트 media/{a.file}") from ex
+    h = hashlib.md5(data).hexdigest()
+    if h != a.source_hash:
+        raise MediaFetchError(f"보도 인용 — 재수집 불가: {a.photo_url} 원본 md5 {h} ≠ 레지스트리 {a.source_hash}"
+                              f"(매체가 사진을 바꿨다). 원본은 등록한 컨테이너의 프로젝트 media/{a.file} — 사람 확인")
+    dest.parent.mkdir(parents=True, exist_ok=True)
+    dest.write_bytes(data)
+    return dest
 
 
 def _excluded(lic: str, pieces: list[str]) -> bool:

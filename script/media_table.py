@@ -82,13 +82,30 @@ def sentence_ids(sc: Script) -> list[tuple[str, object]]:
     return [(f"{scene.id}_{k}", s) for scene in sc.scenes for k, s in enumerate(scene.sentences)]
 
 
+class UniqueKeyLoader(yaml.SafeLoader):
+    """v5.21.7 D-0190 §3-4 — 같은 매핑에 같은 키가 두 번이면 오류(YAML 기본은 뒤 값으로 조용히 덮는다 — 사유가 사라진다, P6)."""
+
+
+def _unique_mapping(loader: yaml.SafeLoader, node: yaml.MappingNode, deep: bool = False) -> dict:
+    seen: set = set()
+    for k, _ in node.value:
+        key = loader.construct_object(k, deep=deep)
+        if key in seen:
+            raise yaml.constructor.ConstructorError(None, None, f"같은 키가 두 번: {key!r}", k.start_mark)
+        seen.add(key)
+    return loader.construct_mapping(node, deep=deep)
+
+
+UniqueKeyLoader.add_constructor(yaml.resolver.BaseResolver.DEFAULT_MAPPING_TAG, _unique_mapping)
+
+
 def load_notes(pdir: Path, sids: set[str] | None = None) -> MediaNotes:
     """media_notes.yaml(없으면 빈 것). sids 를 주면 원고에 없는 문장 id = MediaTableError(낡은 사유)."""
     p = pdir / NOTES_FILE
     if not p.exists():
         return MediaNotes()
     try:
-        doc = MediaNotes.model_validate(yaml.safe_load(p.read_text(encoding="utf-8")) or {})
+        doc = MediaNotes.model_validate(yaml.load(p.read_text(encoding="utf-8"), Loader=UniqueKeyLoader) or {})   # noqa: S506 — SafeLoader 파생
     except (ValueError, yaml.YAMLError) as ex:
         raise MediaTableError(f"{p}: {ex}") from ex
     stale = sorted(set(doc.sentences) - sids) if sids is not None else []
