@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+import shutil
+import tempfile
 import unittest
 from pathlib import Path
 from unittest import mock
@@ -23,7 +25,14 @@ class ProjectThemeTest(unittest.TestCase):
             calls.append((res, theme))
             return {"tiers": {}}
 
-        proj = REPO / "projects" / "gulf_pact_2026"
+        # v5.23.0 D-0212 §3 — 미추적 산출물(assets/geo.pkl)에 기대지 않게 임시 프로젝트(추적 파일 direction·order 만 복사, prep 은 가짜)
+        tmp = tempfile.TemporaryDirectory()
+        self.addCleanup(tmp.cleanup)
+        proj = Path(tmp.name) / "gulf_pact_2026"
+        (proj / "assets").mkdir(parents=True)
+        for f in ("direction.yaml", "order.yaml"):
+            shutil.copy(REPO / "projects" / "gulf_pact_2026" / f, proj / f)
+        (proj / "assets" / "geo.pkl").write_bytes(b"")   # --theme 는 기본 자산 뒤라는 선행 조건만 만족(내용은 prep 가짜가 안 읽음)
         with mock.patch.object(GP, "prep", side_effect=fake), mock.patch("sys.stdout"):
             self.assertEqual(GP.main([str(proj), "--res", "final"]), 0)
             self.assertEqual(calls, [("720p", None), ("720p", "light")])

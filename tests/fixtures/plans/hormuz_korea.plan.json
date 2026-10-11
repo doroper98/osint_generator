@@ -1,0 +1,2020 @@
+{
+ "sentences": [
+  {
+   "sid": "open_0",
+   "scene": "open",
+   "date": "2026.09.18",
+   "text": "9월 18일, 이재명 대통령이 기자회견을 열었습니다.",
+   "tts": "구월 십팔일, 이재명 대통령이 기자회견을 열었습니다.",
+   "segments": [
+    [
+     "9월 18일, 이재명 대통령이 기자회견을 열었습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/hormuz_korea/tts/open_0_50f7d7ebbe.mp3",
+   "npy": "/home/user/osint_generator/projects/hormuz_korea/tts/open_0_50f7d7ebbe.npy",
+   "dur": 3.2460544217687075,
+   "t0": 1.2,
+   "t1": 4.446054421768707,
+   "trim_offset": 0.437732,
+   "chunks": [
+    "구월 십팔일, 이재명 대통령이 기자회견을 열었습니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.841,
+    "elapsed_ms": 18886
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      3.235,
+      3.79
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 112.07,
+     "f0_end_hz": 68.11,
+     "octave_fixed_n": 36
+    }
+   }
+  },
+  {
+   "sid": "open_1",
+   "scene": "open",
+   "date": "2026.09.18",
+   "text": "전쟁에 개입하는 파병은 하지 않겠다는 발표였습니다.",
+   "tts": "전쟁에 개입하는 파병은 하지 않겠다는 발표였습니다.",
+   "segments": [
+    [
+     "전쟁에 개입하는 ",
+     0
+    ],
+    [
+     "파병은 하지 않겠다",
+     1
+    ],
+    [
+     "는 발표였습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/hormuz_korea/tts/open_1_d6624b91b8.mp3",
+   "npy": "/home/user/osint_generator/projects/hormuz_korea/tts/open_1_d6624b91b8.npy",
+   "dur": 2.905170068027211,
+   "t0": 4.946054421768707,
+   "t1": 7.851224489795918,
+   "trim_offset": 0.442993,
+   "chunks": [
+    "전쟁에 개입하는 파병은 하지 않겠다는 발표였습니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.9029,
+    "elapsed_ms": 750
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      2.875,
+      3.305
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 94.08,
+     "f0_end_hz": 66.49,
+     "octave_fixed_n": 4
+    }
+   }
+  },
+  {
+   "sid": "open_2",
+   "scene": "open",
+   "date": "2026.09.18",
+   "text": "한국 선박과 국민을 보호하는 최소한의 활동만 이어가겠다고 했습니다.",
+   "tts": "한국 선박과 국민을 보호하는 최소한의 활동만 이어가겠다고 했습니다.",
+   "segments": [
+    [
+     "한국 선박과 국민을 보호하는 ",
+     0
+    ],
+    [
+     "최소한의 활동",
+     1
+    ],
+    [
+     "만 이어가겠다고 했습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/hormuz_korea/tts/open_2_1ec4c29b07.mp3",
+   "npy": "/home/user/osint_generator/projects/hormuz_korea/tts/open_2_1ec4c29b07.npy",
+   "dur": 4.084263038548753,
+   "t0": 8.351224489795918,
+   "t1": 12.43548752834467,
+   "trim_offset": 0.595941,
+   "chunks": [
+    "한국 선박과 국민을 보호하는 최소한의 활동만 이어가겠다고 했습니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.9544,
+    "elapsed_ms": 837
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      4.225,
+      4.665
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 89.49,
+     "f0_end_hz": 66.67,
+     "octave_fixed_n": 8
+    }
+   }
+  },
+  {
+   "sid": "open_3",
+   "scene": "open",
+   "date": "2026.09.18",
+   "text": "미국이 동맹국들에 해협 방어를 요구한 지 여섯 달 만에 나온 결론입니다.",
+   "tts": "미국이 동맹국들에 해협 방어를 요구한 지 여섯 달 만에 나온 결론입니다.",
+   "segments": [
+    [
+     "미국이 동맹국들에 해협 방어를 요구한 지 여섯 달 만에 나온 결론입니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/hormuz_korea/tts/open_3_d36c9689bf.mp3",
+   "npy": "/home/user/osint_generator/projects/hormuz_korea/tts/open_3_d36c9689bf.npy",
+   "dur": 4.578253968253969,
+   "t0": 12.93548752834467,
+   "t1": 17.513741496598637,
+   "trim_offset": 0.556168,
+   "chunks": [
+    "미국이 동맹국들에 해협 방어를 요구한 지 여섯 달 만에 나온 결론입니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.9197,
+    "elapsed_ms": 797
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      4.73,
+      5.235
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 77.19,
+     "f0_end_hz": 109.05,
+     "octave_fixed_n": 49
+    }
+   }
+  },
+  {
+   "sid": "route_0",
+   "scene": "route",
+   "date": "2025",
+   "text": "호르무즈 해협은 페르시아만에서 먼바다로 나가는 유일한 바닷길입니다.",
+   "tts": "호르무즈 해협은 페르시아만에서 먼바다로 나가는 유일한 바닷길입니다.",
+   "segments": [
+    [
+     "호르무즈 해협은 페르시아만에서 먼바다로 나가는 ",
+     0
+    ],
+    [
+     "유일한 바닷길",
+     1
+    ],
+    [
+     "입니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/hormuz_korea/tts/route_0_ab7af5b46a.mp3",
+   "npy": "/home/user/osint_generator/projects/hormuz_korea/tts/route_0_ab7af5b46a.npy",
+   "dur": 4.078662131519274,
+   "t0": 24.213741496598637,
+   "t1": 28.29240362811791,
+   "trim_offset": 0.533311,
+   "chunks": [
+    "호르무즈 해협은 페르시아만에서 먼바다로 나가는 유일한 바닷길입니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.913,
+    "elapsed_ms": 894
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      4.135,
+      4.735
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 92.84,
+     "f0_end_hz": 69.54,
+     "octave_fixed_n": 24
+    }
+   }
+  },
+  {
+   "sid": "route_1",
+   "scene": "route",
+   "date": "2025",
+   "text": "지난해 한국이 수입한 원유의 61%가 이 해협을 지났습니다.",
+   "tts": "지난해 한국이 수입한 워뉴의 육십일 퍼센트가 이 해협을 지났습니다.",
+   "segments": [
+    [
+     "지난해 한국이 수입한 원유의 ",
+     0
+    ],
+    [
+     "61%",
+     1
+    ],
+    [
+     "가 이 해협을 지났습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/hormuz_korea/tts/route_1_4f6a268aae.mp3",
+   "npy": "/home/user/osint_generator/projects/hormuz_korea/tts/route_1_4f6a268aae.npy",
+   "dur": 4.064149659863945,
+   "t0": 28.79240362811791,
+   "t1": 32.85655328798185,
+   "trim_offset": 0.413515,
+   "chunks": [
+    "지난해 한국이 수입한 워뉴의 육십일 퍼센트가 이 해협을 지났습니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.7781,
+    "elapsed_ms": 790
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      3.995,
+      4.685
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 99.56,
+     "f0_end_hz": 71.14,
+     "octave_fixed_n": 1
+    }
+   }
+  },
+  {
+   "sid": "route_2",
+   "scene": "route",
+   "date": "2025",
+   "text": "플라스틱의 원료인 나프타도 54%가 같은 길로 들어왔습니다.",
+   "tts": "플라스틱의 원료인 나프타도 오십사 퍼센트가 같은 길로 들어왔습니다.",
+   "segments": [
+    [
+     "플라스틱의 원료인 나프타도 ",
+     0
+    ],
+    [
+     "54%",
+     1
+    ],
+    [
+     "가 같은 길로 들어왔습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/hormuz_korea/tts/route_2_6566664759.mp3",
+   "npy": "/home/user/osint_generator/projects/hormuz_korea/tts/route_2_6566664759.npy",
+   "dur": 4.036575963718821,
+   "t0": 33.35655328798185,
+   "t1": 37.39312925170067,
+   "trim_offset": 0.611134,
+   "chunks": [
+    "플라스틱의 원료인 나프타도 오십사 퍼센트가 같은 길로 들어왔습니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.7785,
+    "elapsed_ms": 774
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      4.15,
+      4.775
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 118.43,
+     "f0_end_hz": 67.88,
+     "octave_fixed_n": 40
+    }
+   }
+  },
+  {
+   "sid": "route_3",
+   "scene": "route",
+   "date": "2025",
+   "text": "유조선은 해협을 나와 인도양을 건너고, 믈라카 해협을 거쳐 한국 남해안에 닿습니다.",
+   "tts": "유조선은 해협을 나와 인도양을 건너고, 믈라카 해협을 거쳐 한국 남해안에 닿습니다.",
+   "segments": [
+    [
+     "유조선은 해협을 나와 인도양을 건너고, 믈라카 해협을 거쳐 한국 남해안에 닿습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/hormuz_korea/tts/route_3_5d54e06814.mp3",
+   "npy": "/home/user/osint_generator/projects/hormuz_korea/tts/route_3_5d54e06814.npy",
+   "dur": 5.187278911564626,
+   "t0": 37.89312925170067,
+   "t1": 43.0804081632653,
+   "trim_offset": 0.494467,
+   "chunks": [
+    "유조선은 해협을 나와 인도양을 건너고, 믈라카 해협을 거쳐 한국 남해안에 닿습니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.9021,
+    "elapsed_ms": 890
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      5.195,
+      6.005
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 85.36,
+     "f0_end_hz": 133.64,
+     "octave_fixed_n": 9
+    }
+   }
+  },
+  {
+   "sid": "war_0",
+   "scene": "war",
+   "date": "2026.02.28",
+   "text": "올해 2월 28일, 미국과 이스라엘이 이란을 공습했습니다.",
+   "tts": "올해 이월 이십팔일, 미국과 이스라엘이 이란을 공습했습니다.",
+   "segments": [
+    [
+     "올해 2월 28일, 미국과 이스라엘이 이란을 공습했습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/hormuz_korea/tts/war_0_896f1a630c.mp3",
+   "npy": "/home/user/osint_generator/projects/hormuz_korea/tts/war_0_896f1a630c.npy",
+   "dur": 3.7839455782312927,
+   "t0": 44.5804081632653,
+   "t1": 48.364353741496586,
+   "trim_offset": 0.494422,
+   "chunks": [
+    "올해 이월 이십팔일, 미국과 이스라엘이 이란을 공습했습니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.7101,
+    "elapsed_ms": 764
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      3.81,
+      4.58
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 89.07,
+     "f0_end_hz": 71.44,
+     "octave_fixed_n": 0
+    }
+   }
+  },
+  {
+   "sid": "war_1",
+   "scene": "war",
+   "date": "2026.02.28",
+   "text": "이 공격으로 이란의 최고지도자 알리 하메네이가 숨졌습니다.",
+   "tts": "이 공격으로 이란의 최고지도자 알리 하메네이가 숨졌습니다.",
+   "segments": [
+    [
+     "이 공격으로 이란의 최고지도자 알리 하메네이가 숨졌습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/hormuz_korea/tts/war_1_bd60b516a3.mp3",
+   "npy": "/home/user/osint_generator/projects/hormuz_korea/tts/war_1_bd60b516a3.npy",
+   "dur": 3.8366666666666664,
+   "t0": 48.864353741496586,
+   "t1": 52.70102040816325,
+   "trim_offset": 0.501655,
+   "chunks": [
+    "이 공격으로 이란의 최고지도자 알리 하메네이가 숨졌습니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.9133,
+    "elapsed_ms": 767
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      3.81,
+      4.46
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 117.64,
+     "f0_end_hz": 71.09,
+     "octave_fixed_n": 1
+    }
+   }
+  },
+  {
+   "sid": "war_2",
+   "scene": "war",
+   "date": "2026.03.02",
+   "text": "이란은 곧바로 호르무즈 해협을 닫았습니다.",
+   "tts": "이란은 곧바로 호르무즈 해협을 닫았습니다.",
+   "segments": [
+    [
+     "이란은 곧바로 호르무즈 ",
+     0
+    ],
+    [
+     "해협을 닫았습니다",
+     1
+    ],
+    [
+     ".",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/hormuz_korea/tts/war_2_381c033509.mp3",
+   "npy": "/home/user/osint_generator/projects/hormuz_korea/tts/war_2_381c033509.npy",
+   "dur": 2.3146485260770975,
+   "t0": 53.20102040816325,
+   "t1": 55.51566893424035,
+   "trim_offset": 0.320907,
+   "chunks": [
+    "이란은 곧바로 호르무즈 해협을 닫았습니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.8909,
+    "elapsed_ms": 697
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      2.14,
+      2.81
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 104.92,
+     "f0_end_hz": 68.81,
+     "octave_fixed_n": 53
+    }
+   }
+  },
+  {
+   "sid": "war_3",
+   "scene": "war",
+   "date": "2026.03",
+   "text": "이란이 허가한 배만 지나갈 수 있었고, 대부분 중국과 인도로 가는 유조선이었습니다.",
+   "tts": "이란이 허가한 배만 지나갈 수 있었고, 대부분 중국과 인도로 가는 유조선이었습니다.",
+   "segments": [
+    [
+     "이란이 허가한 배만 지나갈 수 있었고, 대부분 중국과 인도로 가는 유조선이었습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/hormuz_korea/tts/war_3_3ebefd680a.mp3",
+   "npy": "/home/user/osint_generator/projects/hormuz_korea/tts/war_3_3ebefd680a.npy",
+   "dur": 5.02984126984127,
+   "t0": 56.01566893424035,
+   "t1": 61.04551020408162,
+   "trim_offset": 0.461406,
+   "chunks": [
+    "이란이 허가한 배만 지나갈 수 있었고, 대부분 중국과 인도로 가는 유조선이었습니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.9828,
+    "elapsed_ms": 994
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      4.985,
+      5.65
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 98.35,
+     "f0_end_hz": 70.07,
+     "octave_fixed_n": 47
+    }
+   }
+  },
+  {
+   "sid": "ask_0",
+   "scene": "ask",
+   "date": "2026.03.15",
+   "text": "3월 15일, 트럼프 대통령은 이 해협으로 석유를 받는 나라들이 직접 지키라고 요구했습니다.",
+   "tts": "삼월 십오일, 트럼프 대통령은 이 해협으로 석유를 받는 나라들이 직접 지키라고 요구했습니다.",
+   "segments": [
+    [
+     "3월 15일, 트럼프 대통령은 이 해협으로 석유를 받는 나라들이 직접 지키라고 요구했습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/hormuz_korea/tts/ask_0_36e71466f0.mp3",
+   "npy": "/home/user/osint_generator/projects/hormuz_korea/tts/ask_0_36e71466f0.npy",
+   "dur": 5.715419501133787,
+   "t0": 62.54551020408162,
+   "t1": 68.2609297052154,
+   "trim_offset": 0.521769,
+   "chunks": [
+    "삼월 십오일, 트럼프 대통령은 이 해협으로 석유를 받는 나라들이 직접 지키라고 요구했습니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.8558,
+    "elapsed_ms": 1040
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      5.71,
+      6.465
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 105.46,
+     "f0_end_hz": 76.16,
+     "octave_fixed_n": 14
+    }
+   }
+  },
+  {
+   "sid": "ask_1",
+   "scene": "ask",
+   "date": "2026.03.16",
+   "text": "다음 날 독일, 영국, 일본, 호주, 그리고 한국이 이 요구를 거절했습니다.",
+   "tts": "다음 날 독일, 영국, 일본, 호주, 그리고 한국이 이 요구를 거절했습니다.",
+   "segments": [
+    [
+     "다음 날 독일, 영국, 일본, 호주, 그리고 한국이 이 요구를 ",
+     0
+    ],
+    [
+     "거절",
+     1
+    ],
+    [
+     "했습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/hormuz_korea/tts/ask_1_44c9a40a20.mp3",
+   "npy": "/home/user/osint_generator/projects/hormuz_korea/tts/ask_1_44c9a40a20.npy",
+   "dur": 5.03469387755102,
+   "t0": 68.7609297052154,
+   "t1": 73.79562358276642,
+   "trim_offset": 0.33195,
+   "chunks": [
+    "다음 날 독일, 영국, 일본, 호주, 그리고 한국이 이 요구를 거절했습니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.9813,
+    "elapsed_ms": 1006
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      4.955,
+      5.26
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 124.63,
+     "f0_end_hz": 64.63,
+     "octave_fixed_n": 0
+    }
+   }
+  },
+  {
+   "sid": "ask_2",
+   "scene": "ask",
+   "date": "2026.03.16",
+   "text": "독일 국방장관은 우리가 시작한 전쟁이 아니라고 말했습니다.",
+   "tts": "독일 국방장관은 우리가 시작한 전쟁이 아니라고 말했습니다.",
+   "segments": [
+    [
+     "독일 국방장관은 우리가 시작한 전쟁이 아니라고 말했습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/hormuz_korea/tts/ask_2_aa3eb5f52c.mp3",
+   "npy": "/home/user/osint_generator/projects/hormuz_korea/tts/ask_2_aa3eb5f52c.npy",
+   "dur": 3.733469387755102,
+   "t0": 74.29562358276642,
+   "t1": 78.02909297052153,
+   "trim_offset": 0.459524,
+   "chunks": [
+    "독일 국방장관은 우리가 시작한 전쟁이 아니라고 말했습니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.9708,
+    "elapsed_ms": 778
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      3.69,
+      4.32
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 96.05,
+     "f0_end_hz": 72.31,
+     "octave_fixed_n": 16
+    }
+   }
+  },
+  {
+   "sid": "ask_3",
+   "scene": "ask",
+   "date": "2026.03.17",
+   "text": "트럼프 대통령은 동맹들의 결정을 매우 어리석은 실수라고 비판했습니다.",
+   "tts": "트럼프 대통령은 동맹들의 결정을 매우 어리석은 실수라고 비판했습니다.",
+   "segments": [
+    [
+     "트럼프 대통령은 동맹들의 결정을 매우 어리석은 실수라고 비판했습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/hormuz_korea/tts/ask_3_30ea366c21.mp3",
+   "npy": "/home/user/osint_generator/projects/hormuz_korea/tts/ask_3_30ea366c21.npy",
+   "dur": 4.231768707482993,
+   "t0": 78.52909297052153,
+   "t1": 82.76086167800453,
+   "trim_offset": 0.555397,
+   "chunks": [
+    "트럼프 대통령은 동맹들의 결정을 매우 어리석은 실수라고 비판했습니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.9579,
+    "elapsed_ms": 805
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      4.275,
+      4.715
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 103.86,
+     "f0_end_hz": 65.4,
+     "octave_fixed_n": 6
+    }
+   }
+  },
+  {
+   "sid": "ask_4",
+   "scene": "ask",
+   "date": "2026.03.21",
+   "text": "3월 21일, 한국은 영국, 프랑스, 일본 등 일곱 나라의 공동성명에 이름을 올렸습니다.",
+   "tts": "삼월 이십일일, 한국은 영국, 프랑스, 일본 등 일곱 나라의 공동성명에 이름을 올렸습니다.",
+   "segments": [
+    [
+     "3월 21일, 한국은 영국, 프랑스, 일본 등 일곱 나라의 공동성명에 이름을 올렸습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/hormuz_korea/tts/ask_4_dadfb496aa.mp3",
+   "npy": "/home/user/osint_generator/projects/hormuz_korea/tts/ask_4_dadfb496aa.npy",
+   "dur": 6.24,
+   "t0": 83.26086167800453,
+   "t1": 89.50086167800453,
+   "trim_offset": 0.393016,
+   "chunks": [
+    "삼월 이십일일, 한국은 영국, 프랑스, 일본 등 일곱 나라의 공동성명에 이름을 올렸습니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.8814,
+    "elapsed_ms": 991
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      6.17,
+      6.81
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 93.42,
+     "f0_end_hz": 72.11,
+     "octave_fixed_n": 7
+    }
+   }
+  },
+  {
+   "sid": "ask_5",
+   "scene": "ask",
+   "date": "2026.03.21",
+   "text": "이란의 공격을 규탄하고, 항행의 자유를 지키는 노력에 함께한다는 내용이었습니다.",
+   "tts": "이란의 공격을 규탄하고, 항행의 자유를 지키는 노력에 함께한다는 내용이었습니다.",
+   "segments": [
+    [
+     "이란의 공격을 규탄하고, ",
+     0
+    ],
+    [
+     "항행의 자유",
+     1
+    ],
+    [
+     "를 지키는 노력에 함께한다는 내용이었습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/hormuz_korea/tts/ask_5_54c4dd210a.mp3",
+   "npy": "/home/user/osint_generator/projects/hormuz_korea/tts/ask_5_54c4dd210a.npy",
+   "dur": 5.104036281179138,
+   "t0": 90.00086167800453,
+   "t1": 95.10489795918366,
+   "trim_offset": 0.530567,
+   "chunks": [
+    "이란의 공격을 규탄하고, 항행의 자유를 지키는 노력에 함께한다는 내용이었습니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.9392,
+    "elapsed_ms": 979
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      5.18,
+      5.95
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 88.84,
+     "f0_end_hz": 79.3,
+     "octave_fixed_n": 23
+    }
+   }
+  },
+  {
+   "sid": "timeline_0",
+   "scene": "timeline",
+   "date": "2026.04",
+   "text": "그 뒤 여섯 달 동안 전쟁과 협상이 번갈아 이어졌습니다.",
+   "tts": "그 뒤 여섯 달 동안 전쟁과 협상이 번갈아 이어졌습니다.",
+   "segments": [
+    [
+     "그 뒤 여섯 달 동안 전쟁과 협상이 번갈아 이어졌습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/hormuz_korea/tts/timeline_0_62df63cea5.mp3",
+   "npy": "/home/user/osint_generator/projects/hormuz_korea/tts/timeline_0_62df63cea5.npy",
+   "dur": 3.426485260770975,
+   "t0": 96.60489795918366,
+   "t1": 100.03138321995463,
+   "trim_offset": 0.341542,
+   "chunks": [
+    "그 뒤 여섯 달 동안 전쟁과 협상이 번갈아 이어졌습니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.9449,
+    "elapsed_ms": 889
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      3.27,
+      3.685
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 92.38,
+     "f0_end_hz": 69.01,
+     "octave_fixed_n": 0
+    }
+   }
+  },
+  {
+   "sid": "timeline_1",
+   "scene": "timeline",
+   "date": "2026.04.07",
+   "text": "4월 7일, 해협을 열기 위한 무력 사용 결의안은 러시아와 중국의 거부권에 막혔습니다.",
+   "tts": "사월 칠일, 해협을 열기 위한 무력 사용 결의안은 러시아와 중국의 거부꿘에 막혔습니다.",
+   "segments": [
+    [
+     "4월 7일, 해협을 열기 위한 무력 사용 결의안은 러시아와 중국의 거부권에 막혔습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/hormuz_korea/tts/timeline_1_587a3fcb38.mp3",
+   "npy": "/home/user/osint_generator/projects/hormuz_korea/tts/timeline_1_587a3fcb38.npy",
+   "dur": 5.891836734693878,
+   "t0": 100.53138321995463,
+   "t1": 106.42321995464852,
+   "trim_offset": 0.452381,
+   "chunks": [
+    "사월 칠일, 해협을 열기 위한 무력 사용 결의안은 러시아와 중국의 거부꿘에 막혔습니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.9214,
+    "elapsed_ms": 1035
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      5.865,
+      6.33
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 107.81,
+     "f0_end_hz": 67.27,
+     "octave_fixed_n": 19
+    }
+   }
+  },
+  {
+   "sid": "timeline_2",
+   "scene": "timeline",
+   "date": "2026.04.13",
+   "text": "4월 13일, 미국은 이란 항구를 드나드는 배를 막는 해상 봉쇄에 들어갔습니다.",
+   "tts": "사월 십삼일, 미국은 이란 항구를 드나드는 배를 막는 해상 봉쇄에 들어갔습니다.",
+   "segments": [
+    [
+     "4월 13일, 미국은 이란 항구를 드나드는 배를 막는 해상 봉쇄에 들어갔습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/hormuz_korea/tts/timeline_2_892526f88f.mp3",
+   "npy": "/home/user/osint_generator/projects/hormuz_korea/tts/timeline_2_892526f88f.npy",
+   "dur": 4.917981859410431,
+   "t0": 106.92321995464852,
+   "t1": 111.84120181405895,
+   "trim_offset": 0.427438,
+   "chunks": [
+    "사월 십삼일, 미국은 이란 항구를 드나드는 배를 막는 해상 봉쇄에 들어갔습니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.855,
+    "elapsed_ms": 1074
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      4.875,
+      5.655
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 95.86,
+     "f0_end_hz": 70.96,
+     "octave_fixed_n": 13
+    }
+   }
+  },
+  {
+   "sid": "timeline_3",
+   "scene": "timeline",
+   "date": "2026.06.17",
+   "text": "6월 17일에는 미국과 이란이 전쟁을 끝내는 양해각서에 서명했습니다.",
+   "tts": "유월 십칠일에는 미국과 이란이 전쟁을 끝내는 양해각서에 서명했습니다.",
+   "segments": [
+    [
+     "6월 17일에는 미국과 이란이 전쟁을 끝내는 양해각서에 서명했습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/hormuz_korea/tts/timeline_3_7a1b57de10.mp3",
+   "npy": "/home/user/osint_generator/projects/hormuz_korea/tts/timeline_3_7a1b57de10.npy",
+   "dur": 4.724897959183673,
+   "t0": 112.34120181405895,
+   "t1": 117.06609977324263,
+   "trim_offset": 0.464467,
+   "chunks": [
+    "유월 십칠일에는 미국과 이란이 전쟁을 끝내는 양해각서에 서명했습니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.8951,
+    "elapsed_ms": 923
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      4.72,
+      5.415
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 115.58,
+     "f0_end_hz": 71.14,
+     "octave_fixed_n": 6
+    }
+   }
+  },
+  {
+   "sid": "timeline_4",
+   "scene": "timeline",
+   "date": "2026.07.08",
+   "text": "하지만 7월 8일, 해협에서 상선들이 공격받고 미국이 다시 이란을 공습하면서 휴전은 무너졌습니다.",
+   "tts": "하지만 칠월 팔일, 해협에서 상선들이 공격받고 미국이 다시 이란을 공습하면서 휴전은 무너졌습니다.",
+   "segments": [
+    [
+     "하지만 7월 8일, 해협에서 상선들이 공격받고 미국이 다시 이란을 공습하면서 ",
+     0
+    ],
+    [
+     "휴전은 무너졌습니다",
+     1
+    ],
+    [
+     ".",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/hormuz_korea/tts/timeline_4_c8acdf1b18.mp3",
+   "npy": "/home/user/osint_generator/projects/hormuz_korea/tts/timeline_4_c8acdf1b18.npy",
+   "dur": 6.454739229024943,
+   "t0": 117.56609977324263,
+   "t1": 124.02083900226756,
+   "trim_offset": 0.628231,
+   "chunks": [
+    "하지만 칠월 팔일, 해협에서 상선들이 공격받고 미국이 다시 이란을 공습하면서 휴전은 무너졌습니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.9168,
+    "elapsed_ms": 1159
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      6.555,
+      7.235
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 136.5,
+     "f0_end_hz": 70.88,
+     "octave_fixed_n": 9
+    }
+   }
+  },
+  {
+   "sid": "timeline_5",
+   "scene": "timeline",
+   "date": "2026.08.25",
+   "text": "8월 25일, 미국은 해협 통항로의 기뢰를 모두 제거했다고 밝혔습니다.",
+   "tts": "팔월 이십오일, 미국은 해협 통항로의 기뢰를 모두 제거했다고 밝혔습니다.",
+   "segments": [
+    [
+     "8월 25일, 미국은 해협 통항로의 기뢰를 모두 제거했다고 밝혔습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/hormuz_korea/tts/timeline_5_88a13e6ad3.mp3",
+   "npy": "/home/user/osint_generator/projects/hormuz_korea/tts/timeline_5_88a13e6ad3.npy",
+   "dur": 4.632426303854875,
+   "t0": 124.52083900226756,
+   "t1": 129.15326530612245,
+   "trim_offset": 0.440408,
+   "chunks": [
+    "팔월 이십오일, 미국은 해협 통항로의 기뢰를 모두 제거했다고 밝혔습니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.7961,
+    "elapsed_ms": 964
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      4.625,
+      5.05
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 92.58,
+     "f0_end_hz": 69.04,
+     "octave_fixed_n": 2
+    }
+   }
+  },
+  {
+   "sid": "cost_0",
+   "scene": "cost",
+   "date": "2026.06.11",
+   "text": "국제해사기구는 6월 11일까지 선박 공격 46건과 선원 14명의 죽음을 확인했습니다.",
+   "tts": "국제해사기구는 유월 십일일까지 선박 공격 사십육 건과 선원 열네 명의 죽음을 확인했습니다.",
+   "segments": [
+    [
+     "국제해사기구는 6월 11일까지 선박 공격 ",
+     0
+    ],
+    [
+     "46건",
+     1
+    ],
+    [
+     "과 선원 ",
+     0
+    ],
+    [
+     "14명",
+     1
+    ],
+    [
+     "의 죽음을 확인했습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/hormuz_korea/tts/cost_0_d32d06e6f0.mp3",
+   "npy": "/home/user/osint_generator/projects/hormuz_korea/tts/cost_0_d32d06e6f0.npy",
+   "dur": 6.103151927437642,
+   "t0": 130.65326530612245,
+   "t1": 136.7564172335601,
+   "trim_offset": 0.540771,
+   "chunks": [
+    "국제해사기구는 유월 십일일까지 선박 공격 사십육 건과 선원 열네 명의 죽음을 확인했습니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.7813,
+    "elapsed_ms": 1123
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      6.17,
+      6.65
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 88.4,
+     "f0_end_hz": 63.99,
+     "octave_fixed_n": 3
+    }
+   }
+  },
+  {
+   "sid": "cost_1",
+   "scene": "cost",
+   "date": "2026.06.11",
+   "text": "배 천여 척과 선원 2만 명이 걸프 안쪽에 발이 묶였습니다.",
+   "tts": "배 천여 척과 선원 이만 명이 걸프 안쪽에 발이 묶였습니다.",
+   "segments": [
+    [
+     "배 천여 척과 선원 2만 명이 걸프 안쪽에 발이 묶였습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/hormuz_korea/tts/cost_1_3ed2717c35.mp3",
+   "npy": "/home/user/osint_generator/projects/hormuz_korea/tts/cost_1_3ed2717c35.npy",
+   "dur": 3.77421768707483,
+   "t0": 137.2564172335601,
+   "t1": 141.03063492063492,
+   "trim_offset": 0.40161,
+   "chunks": [
+    "배 천여 척과 선원 이만 명이 걸프 안쪽에 발이 묶였습니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.9057,
+    "elapsed_ms": 811
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      3.685,
+      4.405
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 85.39,
+     "f0_end_hz": 78.2,
+     "octave_fixed_n": 14
+    }
+   }
+  },
+  {
+   "sid": "review_0",
+   "scene": "review",
+   "date": "2026.09.03",
+   "text": "9월 초, 국내 방송사들은 정부가 연내 파병을 준비하고 있다고 보도했습니다.",
+   "tts": "구월 초, 국내 방송사들은 정부가 연내 파병을 준비하고 있다고 보도했습니다.",
+   "segments": [
+    [
+     "9월 초, 국내 방송사들은 정부가 연내 파병을 준비하고 있다고 보도했습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/hormuz_korea/tts/review_0_c876bd889d.mp3",
+   "npy": "/home/user/osint_generator/projects/hormuz_korea/tts/review_0_c876bd889d.npy",
+   "dur": 4.724965986394558,
+   "t0": 142.53063492063492,
+   "t1": 147.25560090702947,
+   "trim_offset": 0.46,
+   "chunks": [
+    "구월 초, 국내 방송사들은 정부가 연내 파병을 준비하고 있다고 보도했습니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.9587,
+    "elapsed_ms": 986
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      4.73,
+      5.345
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 109.52,
+     "f0_end_hz": 91.8,
+     "octave_fixed_n": 34
+    }
+   }
+  },
+  {
+   "sid": "review_1",
+   "scene": "review",
+   "date": "2026.09.03",
+   "text": "해상초계기와 군수지원함 같은 선택지가 거론됐습니다.",
+   "tts": "해상초계기와 군수지원함 같은 선택지가 거론됐습니다.",
+   "segments": [
+    [
+     "해상초계기와 군수지원함 같은 선택지가 거론됐습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/hormuz_korea/tts/review_1_b7f0dc36af.mp3",
+   "npy": "/home/user/osint_generator/projects/hormuz_korea/tts/review_1_b7f0dc36af.npy",
+   "dur": 3.4800226757369614,
+   "t0": 147.75560090702947,
+   "t1": 151.23562358276644,
+   "trim_offset": 0.525238,
+   "chunks": [
+    "해상초계기와 군수지원함 같은 선택지가 거론됐습니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.9289,
+    "elapsed_ms": 753
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      3.53,
+      4.16
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 119.94,
+     "f0_end_hz": 68.88,
+     "octave_fixed_n": 29
+    }
+   }
+  },
+  {
+   "sid": "review_2",
+   "scene": "review",
+   "date": "2026.09.04",
+   "text": "대통령실은 군사적 방안을 포함해 검토하고 있지만, 결정된 것은 없다고 밝혔습니다.",
+   "tts": "대통령실은 군사적 방안을 포함해 검토하고 있지만, 결정된 것은 없다고 밝혔습니다.",
+   "segments": [
+    [
+     "대통령실은 군사적 방안을 포함해 검토하고 있지만, 결정된 것은 없다고 밝혔습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/hormuz_korea/tts/review_2_c29b850112.mp3",
+   "npy": "/home/user/osint_generator/projects/hormuz_korea/tts/review_2_c29b850112.npy",
+   "dur": 5.363333333333333,
+   "t0": 151.73562358276644,
+   "t1": 157.09895691609978,
+   "trim_offset": 0.434422,
+   "chunks": [
+    "대통령실은 군사적 방안을 포함해 검토하고 있지만, 결정된 것은 없다고 밝혔습니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.9241,
+    "elapsed_ms": 960
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      5.35,
+      5.945
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 86.72,
+     "f0_end_hz": 74.05,
+     "octave_fixed_n": 32
+    }
+   }
+  },
+  {
+   "sid": "review_3",
+   "scene": "review",
+   "date": "2026.09.04",
+   "text": "실제로 보낸다면 2009년 청해부대 이후 한반도 밖으로 나가는 첫 해상 파견이 될 수 있었습니다.",
+   "tts": "실제로 보낸다면 이천구 년 청해부대 이후 한반도 밖으로 나가는 첫 해상 파견이 될 수 있었습니다.",
+   "segments": [
+    [
+     "실제로 보낸다면 2009년 청해부대 이후 한반도 밖으로 나가는 첫 해상 파견이 될 수 있었습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/hormuz_korea/tts/review_3_6d712f9774.mp3",
+   "npy": "/home/user/osint_generator/projects/hormuz_korea/tts/review_3_6d712f9774.npy",
+   "dur": 5.8074149659863945,
+   "t0": 157.59895691609978,
+   "t1": 163.40637188208618,
+   "trim_offset": 0.543061,
+   "chunks": [
+    "실제로 보낸다면 이천구 년 청해부대 이후 한반도 밖으로 나가는 첫 해상 파견이 될 수 있었습니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.9582,
+    "elapsed_ms": 1008
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      5.85,
+      6.28
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 98.42,
+     "f0_end_hz": 68.17,
+     "octave_fixed_n": 3
+    }
+   }
+  },
+  {
+   "sid": "past_0",
+   "scene": "past",
+   "date": "2004",
+   "text": "한국이 이런 결정을 내려야 했던 것은 처음이 아닙니다.",
+   "tts": "한국이 이런 결정을 내려야 했던 것은 처음이 아닙니다.",
+   "segments": [
+    [
+     "한국이 이런 결정을 내려야 했던 것은 처음이 아닙니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/hormuz_korea/tts/past_0_af15b5131a.mp3",
+   "npy": "/home/user/osint_generator/projects/hormuz_korea/tts/past_0_af15b5131a.npy",
+   "dur": 3.059614512471655,
+   "t0": 164.90637188208618,
+   "t1": 167.96598639455783,
+   "trim_offset": 0.524376,
+   "chunks": [
+    "한국이 이런 결정을 내려야 했던 것은 처음이 아닙니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.9112,
+    "elapsed_ms": 735
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      2.97,
+      3.77
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 83.52,
+     "f0_end_hz": 71.25,
+     "octave_fixed_n": 48
+    }
+   }
+  },
+  {
+   "sid": "past_1",
+   "scene": "past",
+   "date": "2004",
+   "text": "2004년 노무현 정부는 이라크 아르빌에 자이툰 부대를 보냈습니다.",
+   "tts": "이천사 년 노무현 정부는 이라크 아르빌에 자이툰 부대를 보냈습니다.",
+   "segments": [
+    [
+     "2004년 노무현 정부는 이라크 아르빌에 자이툰 부대를 보냈습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/hormuz_korea/tts/past_1_b30d9c2edc.mp3",
+   "npy": "/home/user/osint_generator/projects/hormuz_korea/tts/past_1_b30d9c2edc.npy",
+   "dur": 4.031632653061225,
+   "t0": 168.46598639455783,
+   "t1": 172.49761904761905,
+   "trim_offset": 0.46585,
+   "chunks": [
+    "이천사 년 노무현 정부는 이라크 아르빌에 자이툰 부대를 보냈습니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.9096,
+    "elapsed_ms": 809
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      4.035,
+      4.56
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 88.53,
+     "f0_end_hz": 70.58,
+     "octave_fixed_n": 0
+    }
+   }
+  },
+  {
+   "sid": "past_2",
+   "scene": "past",
+   "date": "2004",
+   "text": "북핵 6자회담에서 미국의 지지를 지키려는 판단이었지만, 국내 여론은 싸늘했습니다.",
+   "tts": "북핵 육자회담에서 미국의 지지를 지키려는 판단이었지만, 국내 여론은 싸늘했습니다.",
+   "segments": [
+    [
+     "북핵 6자회담에서 미국의 지지를 지키려는 판단이었지만, 국내 여론은 싸늘했습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/hormuz_korea/tts/past_2_00e639b20d.mp3",
+   "npy": "/home/user/osint_generator/projects/hormuz_korea/tts/past_2_00e639b20d.npy",
+   "dur": 5.218412698412698,
+   "t0": 172.99761904761905,
+   "t1": 178.21603174603175,
+   "trim_offset": 0.564127,
+   "chunks": [
+    "북핵 육자회담에서 미국의 지지를 지키려는 판단이었지만, 국내 여론은 싸늘했습니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.9053,
+    "elapsed_ms": 974
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      5.305,
+      6.135
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 115.91,
+     "f0_end_hz": 71.8,
+     "octave_fixed_n": 18
+    }
+   }
+  },
+  {
+   "sid": "past_3",
+   "scene": "past",
+   "date": "2020.01",
+   "text": "2020년에는 청해부대의 작전 구역을 호르무즈까지 넓히되, 지휘권은 한국군이 갖는 방식을 택했습니다.",
+   "tts": "이천이십 년에는 청해부대의 작전 구역을 호르무즈까지 넓히되, 지휘권은 한국군이 갖는 방식을 택했습니다.",
+   "segments": [
+    [
+     "2020년에는 청해부대의 작전 구역을 호르무즈까지 넓히되, ",
+     0
+    ],
+    [
+     "지휘권은 한국군",
+     1
+    ],
+    [
+     "이 갖는 방식을 택했습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/hormuz_korea/tts/past_3_dea1622945.mp3",
+   "npy": "/home/user/osint_generator/projects/hormuz_korea/tts/past_3_dea1622945.npy",
+   "dur": 6.742131519274376,
+   "t0": 178.71603174603175,
+   "t1": 185.45816326530613,
+   "trim_offset": 0.552608,
+   "chunks": [
+    "이천이십 년에는 청해부대의 작전 구역을 호르무즈까지 넓히되, 지휘권은 한국군이 갖는 방식을 택했습니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.829,
+    "elapsed_ms": 1157
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      6.835,
+      7.305
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 97.72,
+     "f0_end_hz": 60.93,
+     "octave_fixed_n": 1
+    }
+   }
+  },
+  {
+   "sid": "debate_0",
+   "scene": "debate",
+   "date": "2026.09.07",
+   "text": "9월 7일, 정부는 전투가 격해지고 반대 여론이 커지자 계획을 다시 조정하기 시작했습니다.",
+   "tts": "구월 칠일, 정부는 전투가 격해지고 반대 여론이 커지자 계획을 다시 조정하기 시작했습니다.",
+   "segments": [
+    [
+     "9월 7일, 정부는 전투가 격해지고 반대 여론이 커지자 계획을 다시 조정하기 시작했습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/hormuz_korea/tts/debate_0_23170cfdc3.mp3",
+   "npy": "/home/user/osint_generator/projects/hormuz_korea/tts/debate_0_23170cfdc3.npy",
+   "dur": 5.574104308390023,
+   "t0": 186.95816326530613,
+   "t1": 192.53226757369615,
+   "trim_offset": 0.501429,
+   "chunks": [
+    "구월 칠일, 정부는 전투가 격해지고 반대 여론이 커지자 계획을 다시 조정하기 시작했습니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.945,
+    "elapsed_ms": 1028
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      5.6,
+      6.405
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 108.53,
+     "f0_end_hz": 71.99,
+     "octave_fixed_n": 53
+    }
+   }
+  },
+  {
+   "sid": "debate_1",
+   "scene": "debate",
+   "date": "2026.09.08",
+   "text": "다음 날 서울 미국대사관 근처에서는 대학생들이 파병 반대 집회를 열었습니다.",
+   "tts": "다음 날 서울 미국대사관 근처에서는 대학생들이 파병 반대 집회를 열었습니다.",
+   "segments": [
+    [
+     "다음 날 서울 미국대사관 근처에서는 대학생들이 파병 반대 집회를 열었습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/hormuz_korea/tts/debate_1_7519d72ba6.mp3",
+   "npy": "/home/user/osint_generator/projects/hormuz_korea/tts/debate_1_7519d72ba6.npy",
+   "dur": 4.845215419501134,
+   "t0": 193.03226757369615,
+   "t1": 197.87748299319728,
+   "trim_offset": 0.485986,
+   "chunks": [
+    "다음 날 서울 미국대사관 근처에서는 대학생들이 파병 반대 집회를 열었습니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.9242,
+    "elapsed_ms": 962
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      4.86,
+      5.31
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 114.48,
+     "f0_end_hz": 64.11,
+     "octave_fixed_n": 11
+    }
+   }
+  },
+  {
+   "sid": "debate_2",
+   "scene": "debate",
+   "date": "2026.09.08",
+   "text": "파병을 지지하는 쪽은 호르무즈가 곧 한국의 경제 안보라고 말합니다.",
+   "tts": "파병을 지지하는 쪽은 호르무즈가 곧 한국의 경제 안보라고 말합니다.",
+   "segments": [
+    [
+     "파병을 지지하는 쪽은 호르무즈가 곧 한국의 ",
+     0
+    ],
+    [
+     "경제 안보",
+     1
+    ],
+    [
+     "라고 말합니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/hormuz_korea/tts/debate_2_e9cafd9bf9.mp3",
+   "npy": "/home/user/osint_generator/projects/hormuz_korea/tts/debate_2_e9cafd9bf9.npy",
+   "dur": 4.265895691609978,
+   "t0": 198.37748299319728,
+   "t1": 202.64337868480726,
+   "trim_offset": 0.486871,
+   "chunks": [
+    "파병을 지지하는 쪽은 호르무즈가 곧 한국의 경제 안보라고 말합니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.9265,
+    "elapsed_ms": 810
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      4.255,
+      4.95
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 85.67,
+     "f0_end_hz": 68.51,
+     "octave_fixed_n": 28
+    }
+   }
+  },
+  {
+   "sid": "debate_3",
+   "scene": "debate",
+   "date": "2026.09.10",
+   "text": "반대하는 쪽은 비전투 부대라도 미사일과 드론이 오가는 곳에서는 표적이 될 수 있다고 봅니다.",
+   "tts": "반대하는 쪽은 비전투 부대라도 미사일과 드론이 오가는 곳에서는 표적이 될 수 있다고 봅니다.",
+   "segments": [
+    [
+     "반대하는 쪽은 비전투 부대라도 미사일과 드론이 오가는 곳에서는 ",
+     0
+    ],
+    [
+     "표적",
+     1
+    ],
+    [
+     "이 될 수 있다고 봅니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/hormuz_korea/tts/debate_3_11be4a5d43.mp3",
+   "npy": "/home/user/osint_generator/projects/hormuz_korea/tts/debate_3_11be4a5d43.npy",
+   "dur": 5.434943310657596,
+   "t0": 203.14337868480726,
+   "t1": 208.57832199546485,
+   "trim_offset": 0.471565,
+   "chunks": [
+    "반대하는 쪽은 비전투 부대라도 미사일과 드론이 오가는 곳에서는 표적이 될 수 있다고 봅니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.9638,
+    "elapsed_ms": 887
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      5.39,
+      5.815
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 92.05,
+     "f0_end_hz": 108.89,
+     "octave_fixed_n": 23
+    }
+   }
+  },
+  {
+   "sid": "debate_4",
+   "scene": "debate",
+   "date": "2026.09.10",
+   "text": "미국의 방공 미사일 재고가 줄고 있다는 점도 반대 논리의 근거가 됐습니다.",
+   "tts": "미국의 방공 미사일 재고가 줄고 있다는 점도 반대 논리의 근거가 됐습니다.",
+   "segments": [
+    [
+     "미국의 방공 미사일 재고가 줄고 있다는 점도 반대 논리의 근거가 됐습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/hormuz_korea/tts/debate_4_53f4592c68.mp3",
+   "npy": "/home/user/osint_generator/projects/hormuz_korea/tts/debate_4_53f4592c68.npy",
+   "dur": 4.546394557823129,
+   "t0": 209.07832199546485,
+   "t1": 213.62471655328798,
+   "trim_offset": 0.427279,
+   "chunks": [
+    "미국의 방공 미사일 재고가 줄고 있다는 점도 반대 논리의 근거가 됐습니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.9173,
+    "elapsed_ms": 854
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      4.5,
+      4.945
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 96.71,
+     "f0_end_hz": 62.32,
+     "octave_fixed_n": 0
+    }
+   }
+  },
+  {
+   "sid": "decision_0",
+   "scene": "decision",
+   "date": "2026.09.18",
+   "text": "그리고 9월 18일, 이재명 대통령은 전쟁에 들어가는 파병은 없다고 분명히 했습니다.",
+   "tts": "그리고 구월 십팔일, 이재명 대통령은 전쟁에 들어가는 파병은 없다고 분명히 했습니다.",
+   "segments": [
+    [
+     "그리고 9월 18일, 이재명 대통령은 전쟁에 들어가는 ",
+     0
+    ],
+    [
+     "파병은 없다",
+     1
+    ],
+    [
+     "고 분명히 했습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/hormuz_korea/tts/decision_0_6f2c616a59.mp3",
+   "npy": "/home/user/osint_generator/projects/hormuz_korea/tts/decision_0_6f2c616a59.npy",
+   "dur": 5.135714285714286,
+   "t0": 215.12471655328798,
+   "t1": 220.26043083900225,
+   "trim_offset": 0.471224,
+   "chunks": [
+    "그리고 구월 십팔일, 이재명 대통령은 전쟁에 들어가는 파병은 없다고 분명히 했습니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.9198,
+    "elapsed_ms": 924
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      5.145,
+      5.88
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 116.63,
+     "f0_end_hz": 74.77,
+     "octave_fixed_n": 12
+    }
+   }
+  },
+  {
+   "sid": "decision_1",
+   "scene": "decision",
+   "date": "2026.09.18",
+   "text": "대신 분쟁의 주변부에서 한국군이 맡을 역할은 열어 두었습니다.",
+   "tts": "대신 분쟁의 주변부에서 한국군이 맡을 역할은 열어 두었습니다.",
+   "segments": [
+    [
+     "대신 분쟁의 주변부에서 한국군이 맡을 역할은 열어 두었습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/hormuz_korea/tts/decision_1_13368590db.mp3",
+   "npy": "/home/user/osint_generator/projects/hormuz_korea/tts/decision_1_13368590db.npy",
+   "dur": 3.8634467120181406,
+   "t0": 220.76043083900225,
+   "t1": 224.6238775510204,
+   "trim_offset": 0.378662,
+   "chunks": [
+    "대신 분쟁의 주변부에서 한국군이 맡을 역할은 열어 두었습니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.9424,
+    "elapsed_ms": 766
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      3.785,
+      4.46
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 98.25,
+     "f0_end_hz": 75.14,
+     "octave_fixed_n": 23
+    }
+   }
+  },
+  {
+   "sid": "now_0",
+   "scene": "now",
+   "date": "2026.09",
+   "text": "미군은 호위 작전으로 원유 10억 배럴을 해협 밖으로 내보냈다고 밝혔습니다.",
+   "tts": "미군은 호위 작전으로 워뉴 십억 배럴을 해협 밖으로 내보냈다고 밝혔습니다.",
+   "segments": [
+    [
+     "미군은 호위 작전으로 원유 ",
+     0
+    ],
+    [
+     "10억 배럴",
+     1
+    ],
+    [
+     "을 해협 밖으로 내보냈다고 밝혔습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/hormuz_korea/tts/now_0_a16dc098af.mp3",
+   "npy": "/home/user/osint_generator/projects/hormuz_korea/tts/now_0_a16dc098af.npy",
+   "dur": 4.35344671201814,
+   "t0": 226.1238775510204,
+   "t1": 230.47732426303855,
+   "trim_offset": 0.534512,
+   "chunks": [
+    "미군은 호위 작전으로 워뉴 십억 배럴을 해협 밖으로 내보냈다고 밝혔습니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.9286,
+    "elapsed_ms": 975
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      4.49,
+      5.015
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 85.57,
+     "f0_end_hz": 105.42,
+     "octave_fixed_n": 27
+    }
+   }
+  },
+  {
+   "sid": "now_1",
+   "scene": "now",
+   "date": "2026.09",
+   "text": "전쟁은 아직 끝나지 않았고, 해협의 통행도 정상으로 돌아오지 않았습니다.",
+   "tts": "전쟁은 아직 끝나지 않았고, 해협의 통행도 정상으로 돌아오지 않았습니다.",
+   "segments": [
+    [
+     "전쟁은 아직 끝나지 않았고, 해협의 통행도 정상으로 돌아오지 않았습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/hormuz_korea/tts/now_1_476e8b7175.mp3",
+   "npy": "/home/user/osint_generator/projects/hormuz_korea/tts/now_1_476e8b7175.npy",
+   "dur": 4.479705215419501,
+   "t0": 230.97732426303855,
+   "t1": 235.45702947845805,
+   "trim_offset": 0.540771,
+   "chunks": [
+    "전쟁은 아직 끝나지 않았고, 해협의 통행도 정상으로 돌아오지 않았습니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.9195,
+    "elapsed_ms": 1088
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      4.525,
+      5.31
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 104.16,
+     "f0_end_hz": 70.74,
+     "octave_fixed_n": 35
+    }
+   }
+  },
+  {
+   "sid": "now_2",
+   "scene": "now",
+   "date": "2026.09",
+   "text": "지난해 기준 원유 수입의 61%가 이 해협에 기대고 있다는 사실도 그대로입니다.",
+   "tts": "지난해 기준 워뉴 수입의 육십일 퍼센트가 이 해협에 기대고 있다는 사실도 그대로입니다.",
+   "segments": [
+    [
+     "지난해 기준 원유 수입의 61%가 이 해협에 기대고 있다는 사실도 그대로입니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/hormuz_korea/tts/now_2_f4f1e23468.mp3",
+   "npy": "/home/user/osint_generator/projects/hormuz_korea/tts/now_2_f4f1e23468.npy",
+   "dur": 5.140929705215419,
+   "t0": 235.95702947845805,
+   "t1": 241.09795918367348,
+   "trim_offset": 0.53898,
+   "chunks": [
+    "지난해 기준 워뉴 수입의 육십일 퍼센트가 이 해협에 기대고 있다는 사실도 그대로입니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.8165,
+    "elapsed_ms": 873
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      5.22,
+      5.81
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 89.65,
+     "f0_end_hz": 72.09,
+     "octave_fixed_n": 11
+    }
+   }
+  },
+  {
+   "sid": "now_3",
+   "scene": "now",
+   "date": "2026.09",
+   "text": "청해부대가 어디까지 움직일지, 국회가 이 문제를 어떻게 다룰지는 아직 정해지지 않았습니다.",
+   "tts": "청해부대가 어디까지 움직일지, 국회가 이 문제를 어떻게 다룰지는 아직 정해지지 않았습니다.",
+   "segments": [
+    [
+     "청해부대가 어디까지 움직일지, 국회가 이 문제를 어떻게 다룰지는 아직 정해지지 않았습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/hormuz_korea/tts/now_3_57c4c797ba.mp3",
+   "npy": "/home/user/osint_generator/projects/hormuz_korea/tts/now_3_57c4c797ba.npy",
+   "dur": 5.859750566893424,
+   "t0": 241.59795918367348,
+   "t1": 247.4577097505669,
+   "trim_offset": 0.518027,
+   "chunks": [
+    "청해부대가 어디까지 움직일지, 국회가 이 문제를 어떻게 다룰지는 아직 정해지지 않았습니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.953,
+    "elapsed_ms": 947
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      5.925,
+      6.425
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 89.43,
+     "f0_end_hz": 104.36,
+     "octave_fixed_n": 0
+    }
+   }
+  }
+ ],
+ "cards": [
+  {
+   "kind": "title",
+   "t0": 18.213741496598637,
+   "t1": 23.813741496598638
+  },
+  {
+   "kind": "end",
+   "t0": 249.15770975056688,
+   "t1": 260.1577097505669
+  }
+ ],
+ "scene_start": {
+  "open": 1.2,
+  "route": 24.213741496598637,
+  "war": 44.5804081632653,
+  "ask": 62.54551020408162,
+  "timeline": 96.60489795918366,
+  "cost": 130.65326530612245,
+  "review": 142.53063492063492,
+  "past": 164.90637188208618,
+  "debate": 186.95816326530613,
+  "decision": 215.12471655328798,
+  "now": 226.1238775510204
+ },
+ "total": 260.6577097505669,
+ "voice": "supertonic-3 M3 ×0.95",
+ "title": "호르무즈와 한국",
+ "subtitle": "한국은 왜 파병하지 않았나",
+ "date": "2026.09.26",
+ "tts_resynthesized": [],
+ "lint_waived": [
+  {
+   "kind": "flow-sparse",
+   "sid": "-",
+   "decided_by": "D-0168"
+  },
+  {
+   "kind": "uncertain-phrase",
+   "sid": "now_3",
+   "decided_by": "D-0168"
+  }
+ ]
+}

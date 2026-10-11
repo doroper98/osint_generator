@@ -27,12 +27,14 @@ from workers.prompt_loader import load_prompt
 
 REPO = Path(__file__).resolve().parent.parent
 HORMUZ = REPO / "projects" / "hormuz_korea"
+# v5.23.0 D-0212 §3 — plan.json 은 미추적 산출물(artifacts 복원)이라 추적 픽스처로 고정(골든 표준 음성 판, 시각만 쓴다 — mp3 경로는 읽지 않는다)
+PLAN_FIXTURE = REPO / "tests" / "fixtures" / "plans" / "hormuz_korea.plan.json"
 
 
 def _copy(dst: Path) -> Path:
     (dst / "intake").mkdir(parents=True)
-    for f in ("script.yaml", "plan.json"):
-        shutil.copy(HORMUZ / f, dst / f)
+    shutil.copy(HORMUZ / "script.yaml", dst / "script.yaml")
+    shutil.copy(PLAN_FIXTURE, dst / "plan.json")
     for f in ("claims.json", "sources.json"):
         shutil.copy(HORMUZ / "intake" / f, dst / "intake" / f)
     return dst
