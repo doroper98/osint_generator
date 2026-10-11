@@ -499,6 +499,7 @@ layout_480p:               # 09 §2·§4, 08 §10 — 기준 해상도 854×480.
     press_lead_sec: 1.0       # 프레스 사진(또는 블러 무대) 단독
     # v5.21.12 사용자 의견(2026-10-11 "기사 조판의 배경이 흰색 — 통일감", D-0193): 밝은 지도를 흐리면 평균 밝기 0.37(흰 화면), 어두운 지도 0.07.
     # max_luma = 블러·dim 뒤 평균 밝기 상한 — 넘으면 그만큼 더 어둡게(dark 골든 기사 0.066·0.070 은 아래라 무변경). 한 영상 기사 카드 theme 하나(검사 article_backdrop hard)
+    title_sink: {alpha: 0.35, blur_px: 1.5}   # v6.0.2 D-0216 UF-98 — 제목 카드가 이 기사 위에 뜨면 기사 글자를 지우지 않고 흐리게(불투명도·블러) 제목 뒤에 남긴다
     press_fallback: {blur_px: 18, dim: 0.55, max_luma: 0.075}   # v5.2.0 D-0129 §A — 프레스 사진 없을 때 무대 블러. G12 stage_backdrop 값 그대로(배경 사진 값과 분리 — hormuz 기사 골든 15_review_0·19_debate_0 불변)
     overlay_alpha: 0.82
     overlay_fade_sec: 0.5

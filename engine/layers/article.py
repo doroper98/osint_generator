@@ -226,9 +226,31 @@ def draw_article(ctx: cairo.Context, R: RenderCtx, t: float, e: dict) -> None:  
     if pa <= 0.01:
         return
     draw_press(ctx, R, e, pa)
-    ta *= 1.0 - title_over(R, t)   # v6.0.2 D-0216 UF-98 — 제목 카드가 이 기사 위에 뜨면 기사 글자는 가라앉는다(바탕만 남김, 제목과 글자 겹침 없음)
-    if ta > 0.01:
-        draw_article_text(ctx, e, ta)
+    over = title_over(R, t)   # v6.0.2 D-0216 UF-98 — 제목 카드가 이 기사 위에 뜨면 기사 글자는 흐리게(블러·불투명도) 제목 뒤에 남는다
+    sharp, soft = ta * (1.0 - over), ta * over * ARTICLE.title_sink.alpha
+    if sharp > 0.01:
+        draw_article_text(ctx, e, sharp)
+    if soft > 0.01:
+        _paint_device(ctx, _sunk_text(ctx, R, e), soft)
+
+
+def _sunk_text(ctx: cairo.Context, R: RenderCtx, e: dict) -> cairo.ImageSurface:  # noqa: N803
+    """기사 글자를 장치 해상도 표면에 그리고 title_sink.blur_px 로 블러(이벤트마다 한 번 — 글자는 이 구간에서 움직이지 않는다)."""
+    cache = R.cache.setdefault("article_sunk", {})
+    key = id(e)
+    if key not in cache:
+        tgt = ctx.get_target()
+        W, H = tgt.get_width(), tgt.get_height()  # noqa: N806
+        surf = cairo.ImageSurface(cairo.FORMAT_ARGB32, W, H)
+        c2 = cairo.Context(surf)
+        c2.set_matrix(ctx.get_matrix())
+        draw_article_text(c2, e, 1.0)
+        surf.flush()
+        arr = np.ndarray((H, W, 4), np.uint8, buffer=surf.get_data()).copy()   # 미리 곱한 BGRA — 블러도 미리 곱한 채로(가장자리 색 번짐 없음)
+        im = Image.fromarray(arr, "RGBA").filter(ImageFilter.GaussianBlur(ARTICLE.title_sink.blur_px * R.out.k))
+        buf = bytearray(np.asarray(im).tobytes())
+        cache[key] = (cairo.ImageSurface.create_for_data(buf, cairo.FORMAT_ARGB32, W, H, W * 4), buf)
+    return cache[key][0]
 
 
 def title_over(R: RenderCtx, t: float) -> float:  # noqa: N803

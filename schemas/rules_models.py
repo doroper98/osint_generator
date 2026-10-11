@@ -534,6 +534,13 @@ class ArticlePressCredit(_Strict):
     format: str = Field(pattern=r"\{agency\}.*\{publisher\}")
 
 
+class ArticleTitleSink(_Strict):
+    """v6.0.2 D-0216 UF-98 — 제목 카드가 기사 카드 위에 뜰 때 기사 글자를 남기는 정도(불투명도 배수·블러 px, 설계 좌표)."""
+
+    alpha: float = Field(gt=0, le=1)
+    blur_px: float = Field(ge=0)
+
+
 class ArticlePressFallback(_Strict):
     """v5.2.0 D-0129 §A — 프레스 사진이 없을 때 지금 무대를 흐리는 값(배경 사진 stage_backdrop 값과 분리 — hormuz 기사 골든 불변)."""
 
@@ -548,6 +555,7 @@ class ArticleCardLayout(_Strict):
     theme_default: Literal["dark", "light"]
     themes: dict[Literal["dark", "light"], ArticleTheme]
     press_lead_sec: float = Field(ge=0)
+    title_sink: "ArticleTitleSink"   # v6.0.2 D-0216 UF-98 — 제목 카드 아래 기사 글자 가라앉힘
     press_fallback: ArticlePressFallback   # v5.2.0 D-0129 §A
     overlay_alpha: float = Field(gt=0, le=1)
     overlay_fade_sec: float = Field(gt=0)
