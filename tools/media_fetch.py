@@ -313,9 +313,10 @@ def search_pools(query: str, limit: int = 7, only: str | None = None, log: Path 
         ok, rej = [], []
         for c in found:
             bad = _excluded(c["lic"], mb.sources_excluded_licenses)
-            good = c["allowed"] and not bad
+            doc = c.get("mime", "") in mb.sources_excluded_mimes   # v5.21.0 — 문서·도식은 사진 후보 밖(통과 수에 넣지 않는다)
+            good = c["allowed"] and not bad and not doc
             rows.append({"pool": p.id, "rank": rank, **{k: c[k] for k in ("title", "lic", "restrictions", "page")}, "allowed": good})
-            (ok if good else rej).append(c["title"] if good else f"{c['lic'] or '라이선스 없음'}"
+            (ok if good else rej).append(c["title"] if good else f"문서·도식({c['mime']})" if doc else f"{c['lic'] or '라이선스 없음'}"
                                          + (" 제한" if c["restrictions"] else "") + (" NC·ND" if bad else ""))
         logged.append(MediaSearch(sid=sid or "-", query=q, pool=p.id, on=dt.date.today().isoformat(), found=len(found), passed=len(ok),
                                   top=ok[:5], rejected=sorted(set(rej))[:5]))
@@ -324,7 +325,8 @@ def search_pools(query: str, limit: int = 7, only: str | None = None, log: Path 
 
         path = log / SEARCH_FILE
         doc = MediaSearchLog.model_validate_json(path.read_text(encoding="utf-8")) if path.exists() else MediaSearchLog()
-        doc.searches += logged
+        again = {(x.sid, x.query, x.pool) for x in logged}   # v5.21.0 — 같은 문장·검색어·풀을 다시 찾으면 최신 기록이 대체한다
+        doc.searches = [x for x in doc.searches if (x.sid, x.query, x.pool) not in again] + logged
         path.write_text(doc.model_dump_json(indent=1) + "\n", encoding="utf-8")
     return rows
 

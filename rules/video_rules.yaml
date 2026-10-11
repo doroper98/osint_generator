@@ -380,6 +380,7 @@ media_beats:               # 14 §10
     - {id: commons_cc, label: "Wikimedia Commons CC", via: commons, query_suffix: ""}
     - {id: gov_flickr_ccby, label: "각국 정부 Flickr CC BY 계정", via: manual, hint: "flickr.com 검색 → 라이선스 CC BY(저작자 표시) · 정부·군 공식 계정만 → 사진 페이지 URL 을 레지스트리에(media.flickr 라이선스 검사)"}
   sources_excluded_licenses: [NC, ND]     # NATO 등 CC BY-NC-ND — 상업·변형 제한(07 §3.2). 라이선스 이름에 이 조각이 있으면 탈락
+  sources_excluded_mimes: [application/pdf, image/svg+xml]   # v5.21.0 D-0177 — 문서·도식은 사진 후보가 아니다(권리 통과 수에 넣지 않는다 — B 조건 "통과 0" 의 분모)
   caption_bar_px: 42
 
 placement:                 # v3.1.0 D-0047 작업 5 — 배치 슬롯(17 §2 `place:`). 좌표 계산은 코드(engine/placement.py) — 연출 LLM 은 픽셀을 다루지 않는다

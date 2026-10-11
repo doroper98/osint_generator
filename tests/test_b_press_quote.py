@@ -183,6 +183,26 @@ class GateTableTest(_Proj):
         self.assertRegex(self._errs()[0], "기사 카드 후보가 아니다")
 
 
+class SearchPassCountTest(unittest.TestCase):
+    def test_documents_not_counted_and_relog_replaces(self) -> None:
+        """B 조건 '권리 통과 0' 의 분모 — 문서(pdf)·도식(svg)은 사진 후보가 아니다. 같은 문장·검색어·풀 재검색은 최신이 대체."""
+        from tools.media_fetch import search_pools  # noqa: PLC0415
+
+        def fake(q: str, limit: int) -> list[dict]:
+            return [{"title": "File:R.pdf", "lic": "Public domain", "restrictions": [], "allowed": True, "page": "r", "mime": "application/pdf"},
+                    {"title": "File:M.svg", "lic": "Public domain", "restrictions": [], "allowed": True, "page": "m", "mime": "image/svg+xml"}]
+
+        def photo(q: str, limit: int) -> list[dict]:
+            return [{"title": "File:P.jpg", "lic": "Public domain", "restrictions": [], "allowed": True, "page": "p", "mime": "image/jpeg"}]
+
+        with tempfile.TemporaryDirectory() as d:
+            search_pools("airport", 5, log=Path(d), sid="s_0", searcher=photo)
+            search_pools("airport", 5, log=Path(d), sid="s_0", searcher=fake)
+            log = json.loads((Path(d) / MT.SEARCH_FILE).read_text(encoding="utf-8"))["searches"]
+        self.assertEqual([(s["pool"], s["found"], s["passed"]) for s in log], [("us_dod_pd", 2, 0), ("commons_cc", 2, 0)])
+        self.assertEqual(log[1]["rejected"], ["문서·도식(application/pdf)", "문서·도식(image/svg+xml)"])
+
+
 class RegisterToolTest(unittest.TestCase):
     def test_entry_fields_and_og_image(self) -> None:
         mid, e, name = AR.press_photo_entry({"art_a": _article()}, ART_URL, "AFP", b"abc", "https://img/x.jpg", ".jpg", "사용자", "현장",

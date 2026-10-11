@@ -296,6 +296,7 @@ class MediaBeats(_Strict):
     registry: str                            # v2.5.5 — 미디어 레지스트리 경로(저장소 기준)
     sources_order: list["PhotoSourcePool"] = Field(min_length=1)   # v5.19.0 D-0163 §2 — 사진 소싱 풀 순서(media_fetch search)
     sources_excluded_licenses: list[str] = Field(default_factory=list)   # 라이선스 이름 조각(NC·ND) — 있으면 탈락
+    sources_excluded_mimes: list[str] = Field(default_factory=list)      # v5.21.0 — 문서·도식 mime(pdf·svg) — 통과 수 밖
 
 
 class PhotoSourcePool(_Strict):
