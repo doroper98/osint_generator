@@ -51,4 +51,4 @@ last_review: 2026-10-11
 - 정부 Flickr 풀은 검색 API 키가 없어 안내 줄만 냅니다. 찾은 사진은 레지스트리 URL 을 통해 기존 `media.flickr` 라이선스 검사를 탑니다.
 
 ### 5. pytest
-(전체 실행 결과는 아래 줄에 적는다)
+전체 1차(c63b189): 1516 passed · 3 failed · 0 skipped(313 subtests, 34분 45초). 3 실패 = 같은 원인 — 새 함수 이름 `article_usage` 가 mux 안의 `engine.layers.article.article_usage` 와 겹쳤다. `article_candidate_usage` 로 바꾼 뒤(21825e0) 그 3개(dark 골든 e2e `test_provenance_e2e`, light e2e `test_q3_light_e2e`, `test_g8_animatic`)와 관련 묶음 재실행 **39 passed**. 합계 **1519 passed · 0 failed · 0 skipped**. dark 25/25·light 25/25 기준선 무변화.
