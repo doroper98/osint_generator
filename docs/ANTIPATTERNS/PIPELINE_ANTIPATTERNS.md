@@ -184,3 +184,11 @@ last_review: 2026-05-19
 - **원칙**: 바뀌는 문자열을 가리는 상자는 그 문자열이 가질 수 있는 최대 폭으로 잡고, 숫자의 근거를 기준선에 적는다.
 - **자동 조치**: 기준선 `stamp_box` 를 `adv("v99.99.99")` 폭(45)으로 넓히고 `stamp_box_basis` 키에 근거를 적었다. `md5_masked` 를 다시 등재했다(5.9.0·5.10.0 두 렌더가 같은 값). `tests/test_g12_version_stamp.py::test_baseline_mask_box_covers_any_version` 가 오른쪽 끝·최소 폭·현재 도장 상자 포함을 단정한다(back_and_forth D-0148).
 - **발견 버전**: v5.10.0 · **상태**: resolved
+
+## PIPELINE-AP-022 — 경로 삭제(V4) 감사가 빠른 묶음만 보고 slow 시험의 실제 프로젝트 옛 데이터를 놓침
+
+- **증상(실제 현상)**: v5.23.0 V4(edge-tts 삭제) 뒤 병합 직전 전체 pytest 에서 3 실패(`test_g5_endcard_overflow` 2·`test_g5_labels_endcard` 1). ratcliffe2026 이 artifacts 에서 복원한 옛 edge 음성 plan 이라 `.align.json` 출처 `edge_word_boundary` 가 등록부에서 빠지자 단어 앵커 8개가 오류. 빠른 묶음(-m "not slow")·감독 빠른 묶음 모두 통과해 보이지 않았다.
+- **원리**: 삭제 감사가 코드·추적 파일과 빠른 묶음만 보았다. slow 시험이 부르는 실제 프로젝트의 미추적 산출물(복원본)은 삭제한 형식의 데이터를 그대로 들고 있었다.
+- **원칙**: 형식·출처를 지우는 변경은 그 형식을 담은 데이터(복원 산출물 포함)를 찾아 옮기는 단계와, 그 데이터를 보는 빠른 시험을 함께 낸다.
+- **자동 조치**: `python -m script.tts.forced_align --realign <proj>`(음성·길이·voice 라벨 그대로, 정렬만 MMS, `realigned_from` 기록), 빠른 시험 `tests/test_alignment_sources_registry.py`(모든 프로젝트 정렬 출처 ⊆ 등록부 + 재정렬 함수 가짜 정렬 검사). ratcliffe2026(38)·fed_policy_2026(48) 재정렬 — 앵커 +0.11~+0.29초(옛 edge 상수 치우침, TTS-AP-082).
+- **발견 버전**: v6.0.0 · **상태**: active

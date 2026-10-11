@@ -86,10 +86,11 @@ class Script(_Strict):
 
 
 class PlanAlignment(_Strict):
-    """v5.16.0 optional(D-0164 §5-4) — 이 문장 정렬의 출처·문장 점수·정렬 시간(provenance 로 전달). edge 는 출처만."""
+    """v5.16.0 optional(D-0164 §5-4) — 이 문장 정렬의 출처·문장 점수·정렬 시간(provenance 로 전달)."""
     source: str
     score_mean: Optional[float] = None
     elapsed_ms: Optional[int] = None
+    realigned_from: Optional[str] = None   # v6.0.1 optional(D-0214) — 옛 음성 보관본을 MMS 로 다시 정렬했을 때 옛 출처(음성은 그대로)
 
 
 class PlanProsody(_Strict):

@@ -162,3 +162,59 @@ def align_file(audio: Path, pron_text: str) -> dict:
     al["score_mean"] = round(sentence_score(spans, pron_text), 4)
     al["elapsed_ms"] = round((time.perf_counter() - t) * 1000)
     return al
+
+
+def realign_project(proj: Path) -> dict:
+    """v6.0.1 D-0214 — 옛 음성 보관본(V4 이전 edge 등) 프로젝트의 `.align.json` 만 MMS 강제 정렬로 다시 쓴다.
+    음성(mp3·npy)·plan 길이·voice 라벨은 그대로(정직하게 옛 음성), 정렬 파일에 `realigned_from`(옛 출처) 기록,
+    plan row `alignment` 도 같은 값으로. 이미 MMS 정렬인 문장은 건너뛴다(멱등). 정렬 실패 = ForcedAlignError(P6)."""
+    import json  # noqa: PLC0415
+
+    from script.schema import Plan  # noqa: PLC0415
+    from script.tts import align as tts_align  # noqa: PLC0415
+
+    pp = proj / "plan.json"
+    plan = Plan.model_validate_json(pp.read_text(encoding="utf-8"))
+    done, kept = [], []
+    rows = []
+    for s in plan.sentences:
+        mp3 = Path(s.mp3)
+        ap = tts_align.align_path(mp3)
+        old = json.loads(ap.read_text(encoding="utf-8")).get("alignment_source") if ap.exists() else None
+        if old == "mms_forced_alignment":
+            kept.append(s.sid)
+            rows.append(s.model_dump())
+            continue
+        al = align_file(mp3, s.tts)
+        al["realigned_from"] = old or "none"
+        tts_align.write(mp3, al)
+        row = s.model_dump()
+        row["alignment"] = {"source": al["alignment_source"], "score_mean": al["score_mean"], "elapsed_ms": al["elapsed_ms"],
+                            "realigned_from": al["realigned_from"]}
+        rows.append(row)
+        done.append(s.sid)
+    new = Plan.model_validate({**plan.model_dump(), "sentences": rows})
+    pp.write_text(json.dumps(new.model_dump(), ensure_ascii=False, indent=1), encoding="utf-8")
+    return {"project": proj.name, "voice": plan.voice, "realigned": len(done), "kept": len(kept)}
+
+
+def main(argv: list[str] | None = None) -> int:
+    import argparse  # noqa: PLC0415
+    import json  # noqa: PLC0415
+    import sys  # noqa: PLC0415
+
+    ap = argparse.ArgumentParser(description="script.tts.forced_align")
+    ap.add_argument("--realign", type=Path, nargs="+", required=True,
+                    help="옛 음성 보관본 프로젝트의 정렬만 MMS 로 다시(v6.0.1 D-0214) — 음성·길이·voice 라벨은 그대로")
+    args = ap.parse_args(argv)
+    try:
+        for p in args.realign:
+            print(json.dumps(realign_project(p.resolve()), ensure_ascii=False))
+    except (ForcedAlignError, ValueError, OSError) as ex:
+        print(f"재정렬 실패: {ex}", file=sys.stderr)
+        return 1
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

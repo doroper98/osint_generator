@@ -44,6 +44,7 @@ last_review: 2026-09-29
 - `git config core.hooksPath .githooks`, `pip install -r requirements.txt -r requirements-engine.txt`, `apt-get install ffmpeg fontconfig fonts-noto-cjk`.
 - requests(자산 내려받기)가 프록시 CA를 쓰도록 certifi 번들에 `/root/.ccr/ca-bundle.crt`를 덧붙인다(edge-tts 는 V4(D-0212)에서 삭제).
 - 자산 복원: `artifacts/phase7-v3.3.0`의 `shared/` → hormuz `tts/`·`plan.json`·`media/`(`fetch_data media`는 돌리지 않는다 — Commons 429).
+- 옛 음성(V4 이전 edge) 보관본을 복원한 프로젝트(ratcliffe2026·fed_policy_2026)는 `python -m script.tts.forced_align --realign projects/<pid>` 로 정렬만 MMS 로(v6.0.1 D-0214).
 - `python tools/fetch_data.py fonts ne tiles flags bgm` → `commons people` → legacy 자산 복사 → `python -m geo.prep projects/hormuz_korea [--res 1080p]`.
 - 1080p 를 렌더하면 클립도: `python tools/media_fetch.py projects/hormuz_korea --res 1080p --no-sheets`(복원한 webm 에서, md5 는 `reports/phase11/nb28_media.json`).
 - 기준선: `pytest`(failed 0·xfail 0), `python -m engine.render projects/hormuz_korea --preview golden`(25컷).

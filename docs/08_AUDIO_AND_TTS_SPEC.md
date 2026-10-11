@@ -61,7 +61,7 @@ out/video_noaudio.mp4 ───────────────────�
 | 백엔드 | 설정 키 | 정렬 출처 |
 |---|---|---|
 | **Supertonic 3(기본, v5.11.0 사용자 결정 D146)** | `config:tts.backend_default`, `config:tts.supertonic`(스타일 M3·속도 0.95·단계·조각·시드 salt·자산 sha1) | 단어 시각 없음 → V2 강제 정렬(D-0152) |
-| ~~edge-tts~~ | V4(D-0212)에서 삭제 — 설정·모듈·CLI 선택지 없음 | — |
+| ~~edge-tts~~ | V4(D-0212)에서 삭제 — 설정·모듈·CLI 선택지 없음. 옛 음성 보관본 프로젝트(복원 산출물)는 `python -m script.tts.forced_align --realign projects/<pid>` 로 정렬만 MMS(v6.0.1 D-0214, 음성·voice 라벨 그대로, `realigned_from` 기록) | — |
 | ElevenLabs(사용 금지, D127) | `config:tts.elevenlabs_allowed: false`, `config:tts.eleven_model_env`, `config:tts.voice_settings` | with-timestamps 글자 정렬 |
 
 - 정렬 출처는 등재된 것만 허용한다(`rules:tts_rules.alignment_sources`, D34). 형식은 `{mp3}.align.json` 하나다.
