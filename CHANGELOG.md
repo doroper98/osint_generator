@@ -1,6 +1,6 @@
 <!--
 tier: 3
-last_synced_with: v5.21.6
+last_synced_with: v5.21.7
 ssot_for: [release-notes]
 depends_on: [README.md, GOAL.md]
 last_review: 2026-09-28
@@ -63,6 +63,12 @@ released 항목은 **append-only**입니다.
 | v5.0.0 | 87912d2 | G11 GOAL G4-21·claim_kind fact/statement | pass(D-0125) |
 | v5.1.0 | 3619f2c | G12 backdrop 무대·아일랜드·축 스케일·기사 프레스 v2·발음 사전·버전 도장 | pass(D-0127) — 후속 D-0128 완료 |
 | v5.2.0 | d4703d9 | G13 배경 가독·주 아일랜드 상시·보도 인용 = 기사·card-island·라벨 반전 | pass(D-0134) — 후속 겹침 카드 시안(D-0135~D-0138) |
+
+---
+
+## [v5.21.7] — 2026-10-11 — media_fetch 가 보도 인용(B) 사진을 다시 받는다 · media_notes 중복 키 = 오류 (D-0189 §1, D-0190 §3-4)
+
+PATCH: B 항목은 `photo_url` 을 저장소 UA·재시도로 받아 `source_hash` 와 대조한다(받지 못하거나 다르면 "보도 인용 — 재수집 불가" 오류, KeyError 아님). gulf B `photo_url` 을 실제로 받은 주소(`?resize=1280%2C960`)로 정정. `media_notes.yaml` 같은 문장 키 두 번 = 오류(YAML 이 조용히 덮던 것).
 
 ---
 

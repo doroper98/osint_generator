@@ -1,6 +1,6 @@
 <!--
 tier: 3
-last_synced_with: v5.21.6
+last_synced_with: v5.21.7
 ssot_for: [execution-procedures]
 depends_on: [README.md, HANDOFF.md, docs/15_OPERATIONS_RUNBOOK.md, docs/handoff/16_ORCHESTRATOR_INTEGRATION.md]
 last_review: 2026-09-30

@@ -1,6 +1,6 @@
 <!--
 tier: 2
-last_synced_with: v5.21.6
+last_synced_with: v5.21.7
 ssot_for: [orchestrator-command-center-layout, method-b]
 depends_on: [02_SYSTEM_ARCHITECTURE.md]
 last_review: 2026-09-29
