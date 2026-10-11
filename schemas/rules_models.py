@@ -105,6 +105,17 @@ class ForcedAlignRules(_Strict):
     gate: AlignGateRules
 
 
+class OctaveCleanRules(_Strict):
+    """v5.20.2 D-0180 §3 — 끝 억양 구간의 추적기 옥타브 오류 정리(게이트 프레임 중앙값 기준 /2·×2)."""
+
+    enabled: bool
+    ratio_hi: float = Field(gt=1)
+    ratio_lo: float = Field(gt=0, lt=1)
+    gate_db: float = Field(lt=0)               # 문장 피크 대비 RMS 문턱(들리는 프레임)
+    rms_ms: float = Field(gt=0)                # RMS 창
+    record_frames: int = Field(ge=1)           # 기록 f0 = 게이트 프레임 첫/마지막 n 개 중앙값
+
+
 class FinalFallRules(_Strict):
     """v5.20.0 D-0175 — 문장 끝 억양 보정(사용자 결정 D169 시안 C). 값의 정본은 rules tts_rules.prosody.final_fall."""
 
@@ -117,6 +128,7 @@ class FinalFallRules(_Strict):
     f0_floor_hz: float = Field(gt=0)
     f0_ceil_hz: float = Field(gt=0)
     frame_ms: float = Field(gt=0)
+    octave_clean: OctaveCleanRules             # v5.20.2 D-0180 §3
 
 
 class ProsodyRules(_Strict):

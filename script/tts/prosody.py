@@ -41,8 +41,9 @@ class FinalFallRecord(BaseModel):
     reason: Optional[str] = None
     region_sec: Optional[tuple[float, float]] = None
     semitones: Optional[float] = None
-    f0_start_hz: Optional[float] = None
-    f0_end_hz: Optional[float] = None
+    f0_start_hz: Optional[float] = None   # v5.20.2 — 구간 게이트 프레임 첫 n 개 중앙값(원음 f0, 옥타브 정리 뒤)
+    f0_end_hz: Optional[float] = None     # v5.20.2 — 구간 게이트 프레임 마지막 n 개 중앙값(보정 뒤 f0)
+    octave_fixed_n: Optional[int] = None  # v5.20.2 D-0180 §3 — 옥타브 오류로 /2·×2 한 구간 프레임 수
 
 
 def _pyworld():  # noqa: ANN202 — module
@@ -59,6 +60,42 @@ def span_start_index(pron_text: str, cfg: FinalFallRules) -> Optional[int]:
     if not body.endswith(cfg.suffix) or len(body) < cfg.span_chars:
         return None
     return len(body) - cfg.span_chars
+
+
+def gate_mask(x: np.ndarray, f0: np.ndarray, t: np.ndarray, gate_db: float, rms_ms: float) -> np.ndarray:
+    """들리는 유성 프레임 — f0 > 0 이고 프레임 중심 rms_ms 창 RMS ≥ 문장 피크 × 10^(gate_db/20)(v5.20.2 D-0180 §2-2)."""
+    peak = float(np.max(np.abs(x))) if len(x) else 0.0
+    half = max(1, int(round(rms_ms / 2000 * SR)))
+    c = np.cumsum(np.concatenate([[0.0], x.astype(np.float64) ** 2]))
+    idx = np.clip(np.round(t * SR).astype(int), 0, len(x))
+    lo, hi = np.clip(idx - half, 0, len(x)), np.clip(idx + half, 0, len(x))
+    rms = np.sqrt((c[hi] - c[lo]) / np.maximum(hi - lo, 1))
+    return (f0 > 0) & (rms >= peak * 10.0 ** (gate_db / 20.0))
+
+
+def clean_octaves(f0: np.ndarray, s0: int, e: int, med: float, ratio_hi: float, ratio_lo: float) -> tuple[np.ndarray, int]:
+    """구간 s0..e 의 유성 프레임만 — med×ratio_hi 보다 높으면 /2, med×ratio_lo 보다 낮으면 ×2(범위 안에 들 때까지). 구간 밖 그대로."""
+    out = f0.copy()
+    n = 0
+    for k in range(s0, e + 1):
+        v = out[k]
+        if v <= 0:
+            continue
+        while v > ratio_hi * med:
+            v /= 2.0
+        while v < ratio_lo * med:
+            v *= 2.0
+        if v != out[k]:
+            out[k] = v
+            n += 1
+    return out, n
+
+
+def _edge_median(vals: np.ndarray, n: int, last: bool) -> Optional[float]:
+    if len(vals) == 0:
+        return None
+    sel = vals[-n:] if last else vals[:n]
+    return round(float(np.median(sel)), 2)
 
 
 def final_fall(audio: np.ndarray, align: dict, pron_text: str, cfg: FinalFallRules) -> tuple[np.ndarray, FinalFallRecord]:
@@ -84,6 +121,11 @@ def final_fall(audio: np.ndarray, align: dict, pron_text: str, cfg: FinalFallRul
     s0 = min(int(np.searchsorted(t, t_start)), e - MIN_FRAMES)
     if s0 < 0:
         return audio, FinalFallRecord(applied=False, reason="구간이 너무 짧다")
+    oc = cfg.octave_clean
+    gate = gate_mask(x, f0, t, oc.gate_db, oc.rms_ms)
+    fixed = 0
+    if oc.enabled and gate.any():   # v5.20.2 D-0180 §3 — 추적기 옥타브 오류가 합성에 들어가지 않게(엔벨로프도 정리된 f0 로)
+        f0, fixed = clean_octaves(f0, s0, e, float(np.median(f0[gate])), oc.ratio_hi, oc.ratio_lo)
     sp = pw.cheaptrick(x, f0, t, SR)
     ap = pw.d4c(x, f0, t, SR)
     f0n = f0.copy()
@@ -101,9 +143,11 @@ def final_fall(audio: np.ndarray, align: dict, pron_text: str, cfg: FinalFallRul
     out = audio.copy()   # 구간 앞 = 원음 바이트 그대로
     w = np.clip(np.arange(len(x) - cs, dtype=np.float64) / cf, 0.0, 1.0)
     out[cs:] = (x[cs:] * (1.0 - w) + y[cs:] * w).astype(audio.dtype)
-    s_hz = next((float(f0[k]) for k in range(s0, e + 1) if f0[k] > 0), None)
+    g = np.flatnonzero(gate[s0:e + 1]) + s0   # 구간 안 들리는 유성 프레임
+    n_rec = oc.record_frames
     return out, FinalFallRecord(applied=True, region_sec=(round(float(t[s0]), 4), round(float(t[e]), 4)), semitones=cfg.semitones,
-                                f0_start_hz=round(s_hz, 2) if s_hz else None, f0_end_hz=round(float(f0n[e]), 2))
+                                f0_start_hz=_edge_median(f0[g], n_rec, last=False), f0_end_hz=_edge_median(f0n[g], n_rec, last=True),
+                                octave_fixed_n=fixed)
 
 
-__all__ = ["FinalFallRecord", "ProsodyError", "final_fall", "span_start_index"]
+__all__ = ["FinalFallRecord", "ProsodyError", "clean_octaves", "final_fall", "gate_mask", "span_start_index"]

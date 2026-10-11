@@ -92,12 +92,48 @@ class FallTest(unittest.TestCase):
         self.assertEqual((s0, len(a0)), (s1, len(a1)))   # trim_offset·길이 그대로 → 정렬 시각·게이트(음향 발화 시작) 영향 0
 
 
+class OctaveCleanTest(unittest.TestCase):
+    """v5.20.2 D-0180 §3 — 끝 구간 추적기 옥타브 오류 정리·기록 f0 = 게이트 중앙값."""
+
+    OC = CFG.octave_clean
+
+    def test_clean_halves_doubles_and_leaves_rest(self) -> None:
+        f0 = np.array([100.0, 210.0, 0.0, 100.0, 48.0, 104.0, 230.0])
+        out, n = prosody.clean_octaves(f0, 1, 5, 104.0, self.OC.ratio_hi, self.OC.ratio_lo)
+        np.testing.assert_allclose(out, [100.0, 105.0, 0.0, 100.0, 96.0, 104.0, 230.0])   # 구간 1..5 만, 무성 0 그대로, 밖(230) 그대로
+        self.assertEqual(n, 2)
+
+    def test_gate_excludes_quiet_and_unvoiced(self) -> None:
+        x = _vowel()
+        t = np.arange(0, len(x) / SR, CFG.frame_ms / 1000)
+        f0 = np.where((t > 0.3) & (t < 1.2), 120.0, 0.0)
+        g = prosody.gate_mask(x.astype(np.float64), f0, t, self.OC.gate_db, self.OC.rms_ms)
+        self.assertFalse(g[t < 0.15].any())      # 무음 앞부분
+        self.assertTrue(g[(t > 0.5) & (t < 1.0)].all())
+        self.assertFalse(g[t > 1.25].any())       # 무성(f0 0)
+
+    def test_record_is_gated_median_and_fall_audible(self) -> None:
+        _, rec = final_fall(_vowel(), _align(), TEXT, CFG)
+        self.assertIsInstance(rec.octave_fixed_n, int)
+        st = 12 * np.log2(rec.f0_end_hz / rec.f0_start_hz)
+        self.assertLess(st, -1.0)                 # 들리는 끝 음이 내려간다(구간 끝 = 마지막 유성 프레임이라 −4 전부는 아님)
+        self.assertGreater(st, -CFG.semitones - 0.5)
+
+    def test_disabled_keeps_v5_20_0_path(self) -> None:
+        cfg = CFG.model_copy(deep=True)
+        cfg.octave_clean.enabled = False
+        y1, r1 = final_fall(_vowel(), _align(), TEXT, cfg)
+        y2, _ = final_fall(_vowel(), _align(), TEXT, CFG)
+        self.assertEqual(r1.octave_fixed_n, 0)
+        self.assertEqual(y1.tobytes(), y2.tobytes())   # 깨끗한 합성 신호 = 고칠 프레임 없음 → 바이트 동일
+
+
 class RuleSourceTest(unittest.TestCase):
     def test_no_rule_values_in_module(self) -> None:
         src = (REPO / "script" / "tts" / "prosody.py").read_text(encoding="utf-8")
         code = "\n".join(line.split("#")[0] for line in src.splitlines() if not line.lstrip().startswith(("#", '"', "-", "    -")))
         body = code[code.index("SR = "):]   # docstring 뒤 코드만
-        for v in ('"니다"', "4.0", "0.03", "260", "60.0", "harvest(x, SR, f0_floor=6"):
+        for v in ('"니다"', "4.0", "0.03", "260", "60.0", "harvest(x, SR, f0_floor=6", "1.5", "0.6", "-30", "20 /", "[:10]", "[-10:]"):
             self.assertNotIn(v, body, f"규칙 값 {v} 가 모듈 상수 — rules tts_rules.prosody.final_fall 에서(P3)")
         self.assertTrue(re.search(r"cfg\.semitones", body) and re.search(r"cfg\.suffix", body))
 

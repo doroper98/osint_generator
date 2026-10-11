@@ -1,6 +1,6 @@
 <!--
 tier: 2
-last_synced_with: v5.20.0
+last_synced_with: v5.20.2
 ssot_for: [v2-script-rules, v2-tts-rules]
 depends_on: [docs/handoff/00_INDEX.md, docs/handoff/15_ANTI_INERTIA_PRINCIPLES.md]
 last_review: 2026-09-27
@@ -230,6 +230,8 @@ np.save(npy); dur = len(a)/44100
 Supertonic 음성은 디코드 뒤·트림 앞에 끝 3글자("습니다"·"입니다") 구간을 끝까지 선형으로 내린다(WORLD 보코더, `script/tts/prosody.final_fall`).
 구간 밖 샘플은 원음 그대로이고, 트림 자리는 원음 기준이라 길이·타임라인·정렬 시각이 바뀌지 않는다. mp3 캐시·`.align.json` 은 그대로, npy 가 제품 음성이다.
 값(반음·구간 글자 수·전환 길이·f0 범위)은 `rules tts_rules.prosody.final_fall` 한 곳이다(P3). 기록은 plan row `prosody.final_fall` → provenance `features_used.prosody`.
+v5.20.2(D-0180 §3): 구간 안 추적기 옥타브 오류(문장 게이트 중앙값의 1.5배 초과·0.6배 미만)는 /2·×2 로 정리한 뒤 합성한다(`octave_clean`). 기록 f0 는 구간의 들리는 프레임 첫/마지막 10개 중앙값.
+컨테이너가 다르면 들리지 않는 꼬리(피크 대비 −43 dB 이하)의 유성 판정이 갈려 오디오 md5 가 다를 수 있다 — 정상(영상 골든 무관).
 
 ---
 

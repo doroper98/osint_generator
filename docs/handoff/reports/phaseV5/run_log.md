@@ -52,3 +52,11 @@ last_review: 2026-10-11
 
 ## 5. pytest
 **1530 passed · 0 failed · 0 skipped**(313 subtests, 34분 38초, 표준 `FONTCONFIG_FILE`). dark·light 골든 e2e 포함 — 두 테마 25/25 무변화. 새 테스트 `test_v5_prosody` 9개.
+
+## v5.20.2 — 끝 구간 옥타브 오류 정리·기록 f0 복구 (D-0180 §3)
+- 규칙 `tts_rules.prosody.final_fall.octave_clean{enabled, ratio_hi 1.5, ratio_lo 0.6, gate_db −30, rms_ms 20, record_frames 10}`(D-0180 의 고정값 20 ms·10 프레임도 규칙으로 — 모듈 상수 0). harvest+stonemask 뒤·cheaptrick/d4c 앞에서 구간 유성 프레임만 /2·×2, 기준 = 문장 전체 게이트 프레임 f0 중앙값.
+- 기록: `octave_fixed_n` 추가, `f0_start_hz`·`f0_end_hz` = 구간 게이트 프레임 첫/마지막 10개 중앙값(`final_fall_table.md` 재생성).
+- 호르무즈: 260.66초 그대로, **프리뷰 phaseV3 25/25**, mix·콘티 판·전편 720p·mux 통과. audio_qa −14.11 LUFS · TP −1.61 · 내레이션 −17.50 · 음악−내레이션 −9.75(네 판정 통과, 문장 RMS 변화 ≤ 0.03 dB).
+- 정리된 문장 39/45(프레임 792 — 들리지 않는 꼬리 포함 전체 유성 프레임 기준), 그대로인 6문장은 npy 바이트 동일(C = C-clean). 바뀐 39문장도 첫 차이 샘플이 구간 시작 뒤 — 구간 밖 바이트 동일.
+- 청취 자료 `c_vs_c_clean_6.mp3`(war_3·ask_0·ask_2·timeline_1·open_0·route_2 — 문장마다 C → C-clean, 66초).
+- **컨테이너 간 오디오 md5 불일치는 정상** — 꼬리 유성 판정이 ±1 LSB 에도 갈리고(D-0180 §2-1), 그 꼬리는 피크 대비 −43 dB 이하라 들리지 않는다. 영상 골든은 영향 없음.
