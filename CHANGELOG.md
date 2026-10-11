@@ -1,6 +1,6 @@
 <!--
 tier: 3
-last_synced_with: v6.0.1
+last_synced_with: v6.0.2
 ssot_for: [release-notes]
 depends_on: [README.md, GOAL.md]
 last_review: 2026-09-28
@@ -63,6 +63,12 @@ released 항목은 **append-only**입니다.
 | v5.0.0 | 87912d2 | G11 GOAL G4-21·claim_kind fact/statement | pass(D-0125) |
 | v5.1.0 | 3619f2c | G12 backdrop 무대·아일랜드·축 스케일·기사 프레스 v2·발음 사전·버전 도장 | pass(D-0127) — 후속 D-0128 완료 |
 | v5.2.0 | d4703d9 | G13 배경 가독·주 아일랜드 상시·보도 인용 = 기사·card-island·라벨 반전 | pass(D-0134) — 후속 겹침 카드 시안(D-0135~D-0138) |
+
+---
+
+## [v6.0.2] — 2026-10-12 — 카메라 속도 상한·제목 바탕 검사 + gulf 오프닝 손질 (UF-97·98, D-0216 1단계)
+
+PATCH: hard `camera_speed`(`engine.camera.speed` — 화면 폭 기준 중심 이동 속도·|d ln w/dt|, 본 엔진·스케치 공용, 제목 카드 전 오프닝은 더 낮은 상한, 규칙 `shot_grammar.camera_speed`), hard `title_backdrop`(제목 카드 직전 1초 장면 = 제목 바탕). gulf_pact_2026 오프닝: 제목을 오프닝 기사 카드 위에, 0~8.5초 카메라 이동을 7초로 늘림.
 
 ---
 

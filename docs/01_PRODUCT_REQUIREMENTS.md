@@ -1,6 +1,6 @@
 <!--
 tier: 2
-last_synced_with: v6.0.1
+last_synced_with: v6.0.2
 ssot_for: [product-requirements]
 depends_on: [00_PROJECT_BRIEF.md, ../GOAL.md]
 last_review: 2026-09-29
