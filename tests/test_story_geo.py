@@ -96,7 +96,10 @@ class TestFrameMissing(unittest.TestCase):
 
         from tests.anti_inertia._ast_util import REPO
         files = subprocess.run(["git", "ls-files", "projects/*/direction*.yaml"], cwd=REPO, capture_output=True, text=True, check=True).stdout.split()
-        hits = [f for f in files if "story_geo_exempt" in (REPO / f).read_text(encoding="utf-8")]
+        import re
+
+        # 값이 있는 면제만 센다 — AI 검수 루프 판은 모든 필드를 직렬화해 `story_geo_exempt: null` 을 남긴다(면제 아님)
+        hits = [f for f in files if re.search(r"^story_geo_exempt:[ \t]*(?!null[ \t]*$)\S", (REPO / f).read_text(encoding="utf-8"), re.M)]
         self.assertEqual(hits, ["projects/hormuz_korea/direction.yaml"])
         P = _P(S, [_mk("아덴", 120.0, 12.8)])
         P.R.cache["story_geo_exempt"] = {"reason": "r", "decision": "D-0205"}
