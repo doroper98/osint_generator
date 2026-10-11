@@ -1,6 +1,6 @@
 <!--
 tier: 3
-last_synced_with: v5.20.2
+last_synced_with: v5.21.0
 ssot_for: [release-notes]
 depends_on: [README.md, GOAL.md]
 last_review: 2026-09-28
@@ -63,6 +63,12 @@ released 항목은 **append-only**입니다.
 | v5.0.0 | 87912d2 | G11 GOAL G4-21·claim_kind fact/statement | pass(D-0125) |
 | v5.1.0 | 3619f2c | G12 backdrop 무대·아일랜드·축 스케일·기사 프레스 v2·발음 사전·버전 도장 | pass(D-0127) — 후속 D-0128 완료 |
 | v5.2.0 | d4703d9 | G13 배경 가독·주 아일랜드 상시·보도 인용 = 기사·card-island·라벨 반전 | pass(D-0134) — 후속 겹침 카드 시안(D-0135~D-0138) |
+
+---
+
+## [v5.21.0] — 2026-10-11 — 통신사 사진 "보도 인용"(B) — 기사 카드 프레스 칸 전용 사용자 예외 U20261011 (사용자 결정 D172, back_and_forth D-0177)
+
+MINOR: 새 권리 예외 범주(press_quote). 권리 통과 풀(A) 검색 기록이 0건인 문장의 기사 카드에서만, 인용 기사에 실린 통신사 사진 1장을 restricted·크레딧 3곳·공개 배포 전 재확인으로 쓴다. 호르무즈는 B 자산 없음 — 출력 변화 0.
 
 ---
 
