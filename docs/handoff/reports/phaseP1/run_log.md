@@ -147,3 +147,7 @@ last_review: 2026-10-11
 - [article-unused] korea_1·briefing_3 사유 `media_notes.yaml`(같은 키 중복을 손으로 합침 — YAML 은 중복 키를 조용히 덮는다).
 - 겹침 카드 왼쪽: 콘티 판 원본 프레임 `gulf_animatic/frame_38s·148s·305s.png`, 전편 렌더 `full_0038.00·0148.00·0305.00.png` — 맨 뒤 카드 x ≈ 22px, 화면 안. 시트의 "[사건: 2026.0" 은 자리표시 글자가 뒤 카드 보이는 폭보다 넓은 것.
 - 67·113초 흐림 = 기사 카드 프레스 사진 없음 → 블러 무대 폴백(press_lead 1초).
+
+## D-0187 본영상 (v5.21.2)
+- 음악: 연출 `sound.bgm: null` → `music.zabriskie_patriarch`(사용자 D-0187 "음악을 넣고 만들고", bed 0.43). 구현 세션 손질 — provenance `ai_direction.origin: ai+human_edit`. `audio.mix` 325.7초 · peak 0.927.
+- D-0189 §2: `gulf_pk_soldiers` 레지스트리 해시를 Commons 960 썸네일 md5 `77d34b0b…` 로 정정(등록 때 원본 1024px 파일 해시 `19b315d2…` 를 적었고, media_fetch 는 thumb_w 960 썸네일을 받는다). 썸네일로 다시 받아 가공본 재생성.
