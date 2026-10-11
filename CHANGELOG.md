@@ -1,6 +1,6 @@
 <!--
 tier: 3
-last_synced_with: v5.21.1
+last_synced_with: v5.21.2
 ssot_for: [release-notes]
 depends_on: [README.md, GOAL.md]
 last_review: 2026-09-28
@@ -63,6 +63,12 @@ released 항목은 **append-only**입니다.
 | v5.0.0 | 87912d2 | G11 GOAL G4-21·claim_kind fact/statement | pass(D-0125) |
 | v5.1.0 | 3619f2c | G12 backdrop 무대·아일랜드·축 스케일·기사 프레스 v2·발음 사전·버전 도장 | pass(D-0127) — 후속 D-0128 완료 |
 | v5.2.0 | d4703d9 | G13 배경 가독·주 아일랜드 상시·보도 인용 = 기사·card-island·라벨 반전 | pass(D-0134) — 후속 겹침 카드 시안(D-0135~D-0138) |
+
+---
+
+## [v5.21.2] — 2026-10-11 — 지명 국소 대비 보정 (back_and_forth D-0186 §2-1)
+
+PATCH: 실제 바탕 대비가 4.5 미만인 지명만 halo 를 키워 다시 그린다(전역 색·halo 무변경, D173 보존). gulf '무스카트' 4.06(light, 산지·바다 음영 위).
 
 ---
 
