@@ -398,3 +398,13 @@ last_review: 2026-05-22
 - **원칙**: "포기·반환·철회·상실"을 말하면 그 전에 "보유·소유·지배"했던 사실과 시기를 쓴다. 근거 claim 이 없으면 출처를 더 모아 claim 을 만든다(근거 없는 연결 금지).
 - **자동 조치**: `rules script_grammar` 줄 추가(원고 프롬프트에 그대로 들어감, 테스트 `test_rules_reach_prompt`). kaliningrad 원고 v3 = 프로이센 대관식 도시·전간기 동프로이센 2문장(clm_0066·0067). 기계적 린트는 없다(의미 판단) — 게이트 ① 원고 검토에서 사람이 본다.
 - **발견 버전**: v5.6.0 · **상태**: active
+
+## LLM-AP-018 — 연출가가 person 뱃지 flag 를 빼고 인용문에 따옴표를 넣어 렌더 전 검증에서 두 번 거부
+- **증상 (symptom)**: v5.21.0 gulf_pact_2026 AI 연출가 1차 출력이 `[62] badge kind=person 에 필요한 필드 없음: ['flag']`, 재요청 출력이 `[4]·[65] quote text 에 따옴표를 넣지 않는다` 로 거부 — 재요청 1/1 소진, 연출 단계 실패(799초).
+- **재현 (reproduction)**: `python tools/ai_direction_run.py projects/gulf_pact_2026` (direction.yaml 없음) — 연출 프롬프트 필드 표에 `flag: Optional[str]`·`text*: str` 만 있음.
+- **원인 (root cause)**: LLM-AP-011 과 같은 클래스 — 필드 표가 검증기(`BadgeEvent._kind_fields`·`QuoteEvent._no_marks`) 제약을 보이지 않았다. 인용 후보 줄은 원문을 “ ” 로 감싸 보여 준다(따옴표째 옮기기 쉬움).
+- **우회 (workaround, 그 세션)**: 없음 — 구조 조치 후 재실행.
+- **구조적 조치 (structural fix)**: `engine/events.py` BadgeEvent pid·flag·img, QuoteEvent text 에 제약 description(필드 표에 괄호로 자동 표시, 코드가 정본).
+- **회귀 테스트 (regression_test)**: `tests/test_llm_ap018_field_notes.py`.
+- **연관**: LLM-AP-011. 같은 클래스가 세 번째 나오면 검증기 메시지를 필드 표에 모으는 일반 조치를 검토한다.
+- **상태 (status)**: active

@@ -164,9 +164,9 @@ class BadgeEvent(_Event):
     date: Optional[str] = None
     lane: Optional[str] = None
     kind: Literal["person", "flag", "emblem"]
-    pid: Optional[str] = None
-    flag: Optional[str] = None
-    img: Optional[str] = None
+    pid: Optional[str] = Field(default=None, description="kind person 이면 필수")
+    flag: Optional[str] = Field(default=None, description="kind person·flag 이면 필수 — person 은 초상 바탕 국기 ISO 2자")   # v5.21.1 LLM-AP-018
+    img: Optional[str] = Field(default=None, description="kind emblem 이면 필수")
     R: Optional[float] = None        # v4.8.0 D-0101 §1 — 없으면 인물은 적응 크기, 국기·휘장은 rules badge.R_other(옛 기본 30 리터럴)
     label: str = ""
     role: Optional[str] = None
@@ -263,7 +263,7 @@ class QuoteEvent(_Event):
     flag: str                          # 인물 뱃지 바탕 국기 / pid 없을 때 국기 원
     speaker: str = Field(min_length=1)
     role: Optional[str] = None
-    text: str = Field(min_length=1)
+    text: str = Field(min_length=1, description="따옴표(“”\"「」)를 넣지 않는다 — 코드가 그린다")   # v5.21.1 LLM-AP-018
     src: Optional[str] = None          # 매체(예: 로이터)
     date: Optional[str] = None         # 화면 날짜(예: 2026. 10. 01)
     accent: Accent = "gold"
