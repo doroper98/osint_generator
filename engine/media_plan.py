@@ -129,7 +129,7 @@ def density_report(events: list[dict], tb: Timebase, total: float) -> dict:
             "per_scene": by_scene, "warnings": warns}
 
 
-def article_usage(proj: Path, plan, events: list[dict]) -> dict:  # noqa: ANN001 — script.schema.Plan
+def article_candidate_usage(proj: Path, plan, events: list[dict]) -> dict:  # noqa: ANN001 — script.schema.Plan
     """v5.19.0 D-0163 §2 — 기사 카드 후보(확인된 기사 출처를 인용하고 그 기사가 등록된 문장, script.media_table)를 연출이 썼는가.
 
     60초 구간(문장 시작 기준)마다 기대 수 = min(후보 문장 수, rules media.density.article_per_min_max). 기사 이벤트가 문장 시간과

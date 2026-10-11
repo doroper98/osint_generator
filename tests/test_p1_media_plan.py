@@ -17,7 +17,7 @@ from unittest import mock
 
 import yaml
 
-from engine.media_plan import article_usage, density_report
+from engine.media_plan import article_candidate_usage, density_report
 from rules import load_rules
 from orchestrator.config import AppConfig, PathsConfig
 from script import media_table as MT
@@ -89,13 +89,13 @@ class ArticleUsageTest(_Proj):
         self.assertEqual(MT.article_candidates(self.proj), {})      # 확인 안 된 출처 = 후보 아님
 
     def test_unused_warns_and_reason_records(self) -> None:
-        r = article_usage(self.proj, self.plan, [])
+        r = article_candidate_usage(self.proj, self.plan, [])
         first = [s for s in self.plan.sentences if s.t0 < 60]
         self.assertEqual(sum("[article-unused]" in w for w in r["warnings"] if " 0~60초" in w), 2)
         longest = max(first, key=lambda s: len(s.text)).sid
         self.assertTrue(any(w.startswith(f"[article-unused] {longest} ") for w in r["warnings"]))   # 긴 문장 먼저
         self._notes({"sentences": {longest: {"article": "테스트 사유 — 지도 장면 유지"}}})
-        r2 = article_usage(self.proj, self.plan, [])
+        r2 = article_candidate_usage(self.proj, self.plan, [])
         self.assertFalse(any(w.startswith(f"[article-unused] {longest} ") for w in r2["warnings"]))
         self.assertIn({"sid": longest, "reason": "테스트 사유 — 지도 장면 유지"},
                       [{"sid": u["sid"], "reason": u["reason"]} for u in r2["unused"]])
@@ -103,9 +103,9 @@ class ArticleUsageTest(_Proj):
     def test_used_cards_clear_bucket_and_density_cap(self) -> None:
         cands = MT.article_candidates(self.proj)
         first = [s.sid for s in self.plan.sentences if s.t0 < 60 and s.sid in cands]
-        r = article_usage(self.proj, self.plan, [self._art(first[0]), self._art(first[1])])
+        r = article_candidate_usage(self.proj, self.plan, [self._art(first[0]), self._art(first[1])])
         self.assertFalse([w for w in r["warnings"] if " 0~60초" in w])
-        r = article_usage(self.proj, self.plan, [self._art(x) for x in first[:3]])
+        r = article_candidate_usage(self.proj, self.plan, [self._art(x) for x in first[:3]])
         self.assertTrue([w for w in r["warnings"] if w.startswith("[article-density] 0~60초")])
 
     def test_articles_outside_beat_count(self) -> None:
