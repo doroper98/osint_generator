@@ -3427,3 +3427,4 @@ last_review: 2026-06-06
 - 2026-10-11 v5.22.2 배경음악 누락 3회 재발(UF-16·30·93) → bgm_decision hard(음악 없음 = 결정 번호 필수).
 - 2026-10-11 v5.22.3 엔딩 뒤 지도 재노출(UF-35) → endcard_black hard(프레임 실측).
 - 2026-10-11 v5.22.4 원장 소급 open 11건 닫기(D-0205 §3): 발음 사전·차트 눈금 중복 오류·camera_per_sentence hard·게이트 ② 공용 자산·doc 장치·표준 음성 시험 → 미보호 0.
+- 2026-10-11 v5.22.5 전편 provenance 에 user_feedback_guards 없음(D208 감독 지적, P5) → mux 가 프리뷰 검사·장치 결과를 출처·연출 지문 대조와 함께 옮김, 불일치는 [preview-stale] 경고.

@@ -54,6 +54,29 @@ def feedback_guards(checks: dict) -> list[dict]:
     return out
 
 
+def direction_sha1(root: Path) -> str | None:
+    """연출 파일 지문(v5.22.5 D208) — 프리뷰가 남기고 mux 가 대조한다. 연출 파일이 없으면 None."""
+    dp = root / "direction.yaml"
+    return hashlib.sha1(dp.read_bytes()).hexdigest() if dp.exists() else None
+
+
+def preview_carry(root: Path) -> dict | None:
+    """v5.22.5 D208 — 전편 provenance 에 옮겨 적을 프리뷰 검사 결과: {source, direction_sha1, from_current_direction,
+    checks, user_feedback_guards}. 전편 렌더는 검사를 다시 돌리지 않으므로 게이트 ② 앞 프리뷰(prev/)의 결과를 출처와 함께 싣는다.
+    프리뷰가 연출 지문을 남기지 않았으면 from_current_direction = None(대조 불가 — 숨기지 않고 그대로 적는다, P6).
+    프리뷰가 돌지 않았으면 None(기록 없음, P5)."""
+    pp = root / "prev" / "provenance.json"
+    if not pp.exists():
+        return None
+    pv = json.loads(pp.read_text(encoding="utf-8"))
+    if "checks" not in pv:
+        return None
+    psha = (pv.get("preview") or {}).get("direction_sha1")
+    return {"source": "prev/provenance.json", "direction_sha1": psha,
+            "from_current_direction": None if psha is None else psha == direction_sha1(root),
+            "checks": pv["checks"], "user_feedback_guards": pv.get("user_feedback_guards", [])}
+
+
 def _versions(d: Path, stem: str, suffix: str) -> list[Path]:
     """{stem}.v{n}{suffix} 를 번호순으로(수정 기록은 v2 부터 — v1 은 연출가 초안)."""
     pat = re.compile(rf"^{re.escape(stem)}\.v(\d+){re.escape(suffix)}$")

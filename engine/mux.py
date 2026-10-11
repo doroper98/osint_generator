@@ -331,6 +331,16 @@ def main(argv: list[str] | None = None) -> int:
                                             encoding="utf-8")
         prov["audio"] = {**prov["audio"], "loudnorm": {"passes": 2, **loud}, "qa": {"hard": issues, "warnings": warns,
                                                  **{k: qa[k] for k in ("final_loudness", "music_under_narration_db", "mix_peak", "bed_bass_ratio_db", "bed_bass_rise_db")}}}
+        from engine.provenance import preview_carry  # noqa: PLC0415
+
+        pc = preview_carry(proj)   # v5.22.5 D208 — 프리뷰 검사·사용자 의견 장치 결과(출처·연출 지문 대조와 함께, P5)
+        if pc is not None:
+            prov["checks"] = {"source": pc["source"], "direction_sha1": pc["direction_sha1"],
+                              "from_current_direction": pc["from_current_direction"], **pc["checks"]}
+            prov["user_feedback_guards"] = pc["user_feedback_guards"]
+            if pc["from_current_direction"] is not True:
+                warns = [*warns, f"[preview-stale] 프리뷰 검사 연출 지문이 현재 연출과 다르거나 없음 ({pc['direction_sha1']}) — "
+                                 "전편 provenance checks 는 그 프리뷰 기준"]
         (outd / "provenance.json").write_text(json.dumps(prov, ensure_ascii=False, indent=1), encoding="utf-8")
         if issues:
             raise ProjectError("오디오 QA hard 실패:\n" + "\n".join(issues))

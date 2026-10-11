@@ -231,7 +231,10 @@ def preview(P: Project, times: list[float], labels: list[str] | None = None) -> 
           for i, (p, n, t) in enumerate(zip(paths, names, times))],
          COLS, out / "sheet.jpg")
     prov = project_provenance(P, PREVIEW_STAGES)
-    prov["preview"] = {"frames": len(paths), "times": [round(t, 3) for t in times], "dir": out.name}
+    from engine.provenance import direction_sha1  # noqa: PLC0415
+
+    prov["preview"] = {"frames": len(paths), "times": [round(t, 3) for t in times], "dir": out.name,
+                       "direction_sha1": direction_sha1(P.root)}   # v5.22.5 D208 — mux 가 전편 연출과 대조
     P.R.cache["glyph_miss"] = miss
     checks = run_checks(P, times, prov, drawn, names)   # 17 §3 결정적 사전 검사(D-0047 작업 6)
     from engine.checks import contrast_summary  # noqa: PLC0415
