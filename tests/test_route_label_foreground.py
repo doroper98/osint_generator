@@ -41,3 +41,35 @@ class TestForeground(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class TestFixedSlot(unittest.TestCase):
+    """v5.22.7 D209 — 이름표는 나타날 때 정한 후보 그대로, 나중에 나타난 전경 층에 가리면 흐린다."""
+
+    def test_fade_only_under_foreground(self) -> None:
+        from engine.layers.routes import label_fade
+
+        qb = quote_box(CTX, QUOTE)
+        inside = (qb[0] + 5, qb[1] + 5, qb[0] + 60, qb[1] + 20)
+        outside = (qb[2] + 40, qb[1], qb[2] + 100, qb[1] + 15)
+        self.assertEqual(label_fade(CTX, [QUOTE], 13.0, outside), 1.0)
+        self.assertEqual(label_fade(CTX, [QUOTE], 13.0, inside), 0.0)   # 완전 불투명 구간 = 완전히 흐림
+        self.assertEqual(label_fade(CTX, [QUOTE], 9.0, inside), 1.0)    # 인용 전
+
+    def test_slot_ignores_new_obstacles(self) -> None:
+        from engine.layers.routes import pick_route_label, slot_route_label
+
+        qb = quote_box(CTX, QUOTE)
+        cx, cy = (qb[0] + qb[2]) / 2, (qb[1] + qb[3]) / 2
+        S = np.linspace((cx - 330, cy + 30), (cx + 330, cy - 30), 80)  # noqa: N806
+        k, first = pick_route_label(CTX, LIGHT, "탄도미사일 궤적 · 개략", S, [], [S])
+        later = slot_route_label(CTX, LIGHT, "탄도미사일 궤적 · 개략", S, k, foreground_boxes(CTX, [QUOTE], 13.0), [S])
+        self.assertEqual(later[:3], first[:3])   # 장애물이 나중에 생겨도 자리는 그대로(통과 여부만 바뀐다)
+        self.assertFalse(later[3])
+
+    def test_label_jump_registered_hard(self) -> None:
+        from engine.checks import HARD
+        from rules import load_rules
+
+        self.assertIn("label_jump", HARD)
+        self.assertGreater(load_rules().qa_checks.label_jump_px, 0)

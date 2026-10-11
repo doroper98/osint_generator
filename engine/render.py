@@ -50,6 +50,10 @@ def render_frame(P: Project, i: int) -> tuple[cairo.ImageSurface, bytearray]:  #
     """한 프레임. 모든 레이어는 설계 좌표(854×480)로 그리고, 장치 해상도는 여기서 한 번 건 변환(translate pad_x · scale k)이
     맡는다 — `px()` 의 전역 적용(v3.6.0 D-0067 A). k=1 이면 변환을 걸지 않는다(480p 항등)."""
     R = P.R  # noqa: N806
+    if "route_label_slots" not in R.cache:   # v5.22.7 D209 — 경로 이름표 자리는 나타나는 순간 고정(검사와 같은 함수, 프로세스마다 같은 값).
+        from engine.checks import route_label_slots  # noqa: PLC0415 — 그 순간 프레임의 지도 층을 먼저 그려 보므로 이 프레임 상태를 만들기 전에
+
+        route_label_slots(P)
     OP = R.out  # noqa: N806
     t = i / FPS
     view = View(R.stage, P.cams[i])
@@ -76,7 +80,7 @@ def render_frame(P: Project, i: int) -> tuple[cairo.ImageSurface, bytearray]:  #
     for e in P.events:   # v5.1.0 D-0123 — backdrop 배경 사진: crossfade 로 끝 뒤 crossfade_sec 까지 남는다(act 창 밖)
         if e["type"] == "backdrop" and e["t0"] <= t <= e["t1"] + BACKDROP.crossfade_sec:
             L.resolve(e).render(ctx, R, view, t, e)
-    R.cache["route_labels_pending"] = []   # v5.21.11 D-0191 §1-3 — 경로 라벨은 마커·뱃지가 자리를 잡은 뒤 고른다(flush_route_labels)
+    R.cache["route_labels_pending"] = []   # v5.21.11 D-0191 §1-3 — 경로 라벨은 마커·뱃지가 자리를 잡은 뒤 그린다(flush_route_labels)
     for typ in MAP_LAYER_ORDER:
         for e in act:
             if e["type"] == typ and not e.get("in_island"):   # v5.1.0 D-0126 — 차트 아일랜드 안 이벤트는 island 렌더러가 상자 안에 그린다

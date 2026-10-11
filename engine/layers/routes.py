@@ -198,19 +198,38 @@ def place_route_label(ctx: cairo.Context, stage, label: str, S_: "np.ndarray", o
     """경로 라벨 자리 → (가운데 x, 기준선 y, 상자, 통과). 통과 = 어떤 경로 선도 상자를 지나지 않고, 장애물(마커·뱃지·겹침 카드·해역 이름)과
     겹치지 않고, 화면 안. 후보 0 이 통과하면 옛 자리 그대로. 통과 후보가 없으면 걸림이 가장 적은 후보(검사가 hard 로 잡는다).
     렌더(flush_route_labels)와 검사(route_label_cross·overlap)가 같은 함수다."""
+    return pick_route_label(ctx, stage, label, S_, obstacles, lines)[1]
+
+
+def _bad(b: Box, obstacles: list[Box], lines: list["np.ndarray"]) -> int:
+    pad = RL.screen_pad
+    bad = sum(segs_cross_box(L_, b, RL.line_clear_px) for L_ in lines) * 2 + sum(_overlap(b, o) for o in obstacles)
+    return bad + (0 if (b[0] >= pad and b[2] <= W_OUT - pad and b[1] >= pad and b[3] <= H_OUT - RL.bottom_pad) else 1)
+
+
+def pick_route_label(ctx: cairo.Context, stage, label: str, S_: "np.ndarray", obstacles: list[Box],  # noqa: ANN001, N803
+                     lines: list["np.ndarray"]) -> tuple[int, tuple[float, float, Box, bool]]:
+    """place_route_label + 고른 후보 번호 k(v5.22.7 D209 — 나타나는 순간 고른 k 를 수명 내내 쓴다, `route_label_slots`)."""
     _, W = label_extent(ctx, stage, label)  # noqa: N806
     best: tuple[int, int, float, float, Box] | None = None
-    pad = RL.screen_pad
     for k, (cx, by) in enumerate(label_candidates(S_, W)):
         b = _box(cx, by, W)
-        bad = sum(segs_cross_box(L_, b, RL.line_clear_px) for L_ in lines) * 2 + sum(_overlap(b, o) for o in obstacles)
-        bad += 0 if (b[0] >= pad and b[2] <= W_OUT - pad and b[1] >= pad and b[3] <= H_OUT - RL.bottom_pad) else 1
+        bad = _bad(b, obstacles, lines)
         if bad == 0:
-            return cx, by, b, True
+            return k, (cx, by, b, True)
         if best is None or bad < best[0]:
             best = (bad, k, cx, by, b)
     assert best is not None
-    return best[2], best[3], best[4], False
+    return best[1], (best[2], best[3], best[4], False)
+
+
+def slot_route_label(ctx: cairo.Context, stage, label: str, S_: "np.ndarray", k: int, obstacles: list[Box],  # noqa: ANN001, N803
+                     lines: list["np.ndarray"]) -> tuple[float, float, Box, bool]:
+    """고정 후보 k 의 지금 자리(카메라를 따라 선과 함께 움직인다) → (가운데 x, 기준선 y, 상자, 통과). 통과 = 지금 장애물·선과 안 겹침."""
+    _, W = label_extent(ctx, stage, label)  # noqa: N806
+    cx, by = label_candidates(S_, W)[k]
+    b = _box(cx, by, W)
+    return cx, by, b, _bad(b, obstacles, lines) == 0
 
 
 def draw_route_label(ctx: cairo.Context, view: View, e: dict, S_: "np.ndarray", col: tuple, la: float,  # noqa: N803
@@ -247,7 +266,8 @@ def route_lines(view: View, events: list[dict], t: float) -> list["np.ndarray"]:
     return out
 
 
-def label_obstacles(ctx: cairo.Context, view: View, events: list[dict], t: float, reserved: list[Box], tb: object = None) -> list[Box]:
+def label_obstacles(ctx: cairo.Context, view: View, events: list[dict], t: float, reserved: list[Box], tb: object = None,
+                    foreground: bool = True) -> list[Box]:
     """경로 라벨이 피할 상자 — 예약 상자(뱃지·마커 라벨·겹침 카드) + 마커 부제까지의 글자 상자 + 해역 이름 + 그 순간 자막 줄(line_gap 여유).
     렌더·검사 공용."""
     from engine.layers.labels import sea_labels  # noqa: PLC0415
@@ -265,7 +285,8 @@ def label_obstacles(ctx: cairo.Context, view: View, events: list[dict], t: float
                 out.append(marker_box(ctx, e, x, y, with_sub=True))
     if hasattr(view.stage, "seas"):
         out += [b for *_, b in sea_labels(ctx, view.stage, view)]
-    out += foreground_boxes(ctx, events, t)
+    if foreground:   # v5.22.7 D209 — 자리 고르는 순간에만 전경 층을 피한다. 나중에 나타난 전경 층은 흐림(label_fade)
+        out += foreground_boxes(ctx, events, t)
     return out
 
 
@@ -275,24 +296,49 @@ def foreground_boxes(ctx: cairo.Context, events: list[dict], t: float) -> list[B
     from engine.quote import quote_alpha, quote_box  # noqa: PLC0415
     from engine.reserved import RES, card_zones  # noqa: PLC0415
 
-    out = [z.box for z in card_zones(ctx, events, t)]
-    out += [quote_box(ctx, e) for e in events if e["type"] == "quote" and quote_alpha(t, e) > RES.min_zone_alpha]
+    return [b for b, _ in foreground_zones(ctx, events, t)]
+
+
+def foreground_zones(ctx: cairo.Context, events: list[dict], t: float) -> list[tuple[Box, float]]:
+    """foreground_boxes 의 (상자, 그 순간 불투명도) — 이름표 흐림(label_fade)이 쓴다."""
+    from engine.quote import quote_alpha, quote_box  # noqa: PLC0415
+    from engine.reserved import RES, card_zones  # noqa: PLC0415
+
+    out = [(z.box, z.a) for z in card_zones(ctx, events, t)]
+    out += [(quote_box(ctx, e), qa) for e in events if e["type"] == "quote" and (qa := quote_alpha(t, e)) > RES.min_zone_alpha]
     return out
 
 
+def label_fade(ctx: cairo.Context, events: list[dict], t: float, b: Box) -> float:
+    """v5.22.7 D209 — 이름표 상자를 덮는 전경 층이 있으면 그 불투명도만큼 그 자리에서 흐린다(자리를 옮기지 않는다)."""
+    return 1.0 - max([a for fb, a in foreground_zones(ctx, events, t) if _overlap(b, fb)] + [0.0])
+
+
+class LabelCapture(Exception):
+    """route_label_slots 가 나타나는 순간 프레임의 렌더 예약 상자를 받으려고 render_frame 을 flush 에서 멈춘다(오류 아님)."""
+
+
 def flush_route_labels(ctx: cairo.Context, R: RenderCtx, view: View, events: list[dict], t: float) -> None:  # noqa: N803
-    """지연된 경로 라벨을 그린다 — 장애물 = 이번 프레임 예약 상자(마커·뱃지·겹침 카드) + 해역 이름 + 먼저 놓인 경로 라벨.
-    그린 상자는 R.reserved 에 올려 배경 지명(나라·도시)이 피한다."""
+    """지연된 경로 라벨을 그린다 — 자리는 나타나는 순간 고른 후보(R.cache route_label_slots = engine.checks.route_label_slots, v5.22.7 D209)
+    그대로, 나중에 나타난 전경 층에 가리면 흐린다. 그린 상자는 R.reserved 에 올려 배경 지명(나라·도시)이 피한다."""
+    cap = R.cache.get("route_label_capture")
+    if cap is not None:   # route_label_slots 의 붙잡기 — 이 프레임 렌더 예약 상자만 받고 나머지 그리기는 멈춘다
+        cap["reserved"] = list(R.reserved)
+        R.cache["route_labels_pending"] = None
+        raise LabelCapture
     pend = R.cache.get("route_labels_pending") or []
     R.cache["route_labels_pending"] = None
     if not pend:
         return
-    obstacles = label_obstacles(ctx, view, events, t, list(R.reserved), getattr(R, "tb", None))
-    lines = route_lines(view, events, t)
+    slots = R.cache.get("route_label_slots") or {}
     for e, S_, col, la in pend:  # noqa: N806
-        placed = place_route_label(ctx, view.stage, e["label"], S_, obstacles, lines)
-        obstacles.append(placed[2])
-        draw_route_label(ctx, view, e, S_, col, la, placed)
+        k = slots.get(id(e))
+        if k is None:   # 프레임 격자에서 한 번도 보이지 않은 이름표(나타나는 순간이 없다) — 보이면 오류(조용한 대체 금지, P6)
+            if la > 0.01:
+                raise RuntimeError(f"경로 이름표 {e['label']!r} t={t:.3f} 고정 자리 없음(route_label_slots) — 이름표 수명이 한 프레임보다 짧다")
+            continue
+        placed = slot_route_label(ctx, view.stage, e["label"], S_, k, [], [])
+        draw_route_label(ctx, view, e, S_, col, la * label_fade(ctx, events, t, placed[2]), placed)
         R.reserved.append(placed[2])
 
 
