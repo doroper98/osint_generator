@@ -352,8 +352,10 @@ def check_opening_establish(P) -> list[str]:  # noqa: ANN001, N803
         if b.t > op.max_sec:
             break
         if b.w <= k0.w / op.min_zoom:
-            if b.t - a.t < op.min_move_sec:
-                return [f"[opening-establish] 들어가는 이동 {b.t - a.t:.1f}초 < {op.min_move_sec}초 — 천천히 들어간다"]
+            # v6.0.2 D-0216 — 이동 길이 = 그 키의 dur(이동 키 t 는 시작 시각). 옛 식 b.t − a.t 는 앞 키부터 이동 시작까지의 머무름을 쟀다
+            took = b.dur if b.mode == "move" else 0.0
+            if took < op.min_move_sec:
+                return [f"[opening-establish] 들어가는 이동 {took:.1f}초 < {op.min_move_sec}초 — 천천히 들어간다"]
             return []
     return [f"[opening-establish] {op.max_sec}초 안에 {op.min_zoom}배 이상 들어가지 않는다(첫 폭 {k0.w:.1f}°) — 전체 지도에서 대상 지역으로 들어가는 오프닝"]
 

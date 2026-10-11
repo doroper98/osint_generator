@@ -229,8 +229,10 @@ class UserViewingRulesTest(unittest.TestCase):
         from engine.camera import CamKey  # noqa: PLC0415
         from engine.checks import check_opening_establish  # noqa: PLC0415
 
-        K = lambda t, w: CamKey(t=t, x=0, y=0, w=w)  # noqa: E731
-        self.assertEqual(check_opening_establish(self._P([], [K(0, 40), K(3, 40), K(9, 10)])), [])     # 넓게 → 6초 동안 들어감
+        K = lambda t, w, dur=3.0: CamKey(t=t, x=0, y=0, w=w, dur=dur)  # noqa: E731
+        self.assertEqual(check_opening_establish(self._P([], [K(0, 40), K(3, 40), K(9, 10, 6.0)])), [])   # 넓게 → 6초 동안 들어감(v6.0.2: 이동 길이 = dur)
+        self.assertEqual(check_opening_establish(self._P([], [K(0, 88, 0.0), K(1.5, 34, 7.0)])), [])      # D-0216 — 일찍 시작해 7초 동안(옛 식은 1.5초로 잘못 잼)
+        self.assertTrue(check_opening_establish(self._P([], [K(0, 88, 0.0), K(6.0, 20, 2.0)])))            # 늦게 시작해도 2초 만에 = 너무 빠름
         self.assertTrue(check_opening_establish(self._P([], [K(0, 9), K(20, 10)])))                    # 처음부터 좁음
         self.assertTrue(check_opening_establish(self._P([], [K(0, 40), K(5, 40), K(6, 10)])))          # 너무 빨리 들어감
         self.assertEqual(check_opening_establish(self._P([], [K(0, 9)], exempt="골든")), [])
