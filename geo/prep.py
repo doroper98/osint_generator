@@ -170,6 +170,26 @@ def prep(proj: Path, cache: Path = CACHE, res: str | None = None, k: float = 1.0
     return rep
 
 
+
+def project_theme(proj: Path) -> str | None:
+    """v5.21.6 D-0190 §3-3 — 프로젝트 지도 테마(engine.direction.map_theme 와 같은 순서): direction.yaml stage_config.mercator.theme →
+    주문(order.yaml) 장르 프로필 stage.mercator.theme. 주문이 없으면 None(테마 자산을 따로 만들지 않는다 — 기본 테마 프로젝트)."""
+    import yaml  # noqa: PLC0415
+
+    from engine.stage import mercator_theme  # noqa: PLC0415
+    from genres.load import load_genre, load_order  # noqa: PLC0415
+
+    dp = proj / "direction.yaml"
+    if dp.exists():
+        own = ((yaml.safe_load(dp.read_text(encoding="utf-8")) or {}).get("stage_config") or {}).get("mercator") or {}
+        if "theme" in own:
+            return mercator_theme(own)
+    order = load_order(proj)
+    if order is None:
+        return None
+    prof = load_genre(order.genre).stage.settings().get("mercator") or {}
+    return mercator_theme(prof) if "theme" in prof else None
+
 def main(argv: list[str] | None = None) -> int:
     from schemas.engine_models import StageResult  # noqa: PLC0415
 
@@ -187,9 +207,14 @@ def main(argv: list[str] | None = None) -> int:
         rname = None if prof.height == load_rules().layout_480p.base.h else name   # v5.5.1 — 기본 자산 = 설계 해상도(k=1)
         if args.theme is not None and not (proj / "assets" / "geo.pkl").exists():
             raise ValueError(f"테마 {args.theme} 자산은 기본 자산(geo.pkl) 뒤에 — `python -m geo.prep {proj}` 먼저")
-        rep = prep(proj, res=rname, k=prof.height / load_rules().layout_480p.base.h, theme=args.theme)
+        k = prof.height / load_rules().layout_480p.base.h
+        rep = prep(proj, res=rname, k=k, theme=args.theme)
+        reps = [rep]
+        extra = project_theme(proj) if args.theme is None else None
+        if extra is not None and extra != load_rules().geo.themes.default:   # v5.21.6 D-0190 §3-3 — 프로젝트 테마 자산도 같은 해상도로
+            reps.append(prep(proj, res=rname, k=k, theme=extra))
         drops = [dict(stage="geo", tier=n, land_miss=r["land_miss"]["drops"], px2=r["land_miss"]["px2"])
-                 for n, r in rep["tiers"].items() if r["land_miss"]["drops"]]
+                 for rp in reps for n, r in rp["tiers"].items() if r["land_miss"]["drops"]]
         res = StageResult(ok=not drops, stage="geo", artifacts={"assets": str(assets_dir(proj, rname, args.theme)),
                                                                 "report": str(assets_dir(proj, rname, args.theme) / "geo_report.json")},
                           drops=drops)
