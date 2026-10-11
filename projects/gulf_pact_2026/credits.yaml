@@ -5,6 +5,31 @@ sections:
 - title: 보도
   column: 0
   auto: sources
+- title: 기사 카드
+  column: 0
+  items:
+  - main: 헤드라인 번역·요지 자체 조판(위 보도)
+    license: 기사 화면 캡처·로고 없음
+    rights:
+    - media.gulf_pact_2026_art_0001
+    - media.gulf_pact_2026_art_0002
+    - media.gulf_pact_2026_art_0003
+    - media.gulf_pact_2026_art_0004
+    - media.gulf_pact_2026_art_0005
+    - media.gulf_pact_2026_art_0006
+    - media.gulf_pact_2026_art_0007
+    - media.gulf_pact_2026_art_0008
+    - media.gulf_pact_2026_art_0011
+    - media.gulf_pact_2026_art_0012
+    - media.gulf_pact_2026_art_0013
+    - media.gulf_pact_2026_art_0014
+    - media.gulf_pact_2026_art_0015
+    - media.gulf_pact_2026_art_0016
+    - media.gulf_pact_2026_art_0017
+    - media.gulf_pact_2026_art_0019
+    - media.gulf_pact_2026_art_0020
+    - media.gulf_pact_2026_art_0022
+    - media.csis_0402_korea
 - title: 사진
   column: 1
   items:
@@ -45,7 +70,13 @@ sections:
     license: flag-icons · MIT
     rights:
     - flags.flag_icons
-- title: 음악 · 음성
+- title: 인물 사진
+  column: 1
+  auto: people
+- title: 음악
+  column: 1
+  auto: music
+- title: 음성
   column: 1
   items:
   - main: 내레이션
