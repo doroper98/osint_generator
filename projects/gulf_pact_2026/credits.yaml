@@ -1,0 +1,50 @@
+# 『걸프의 새 방패 — 파키스탄군은 왜 사우디에 있나』 엔딩 크레딧 (v5.21.0). 보도 = 인용 소스(auto: sources).
+# 사진 행은 연출이 실제로 쓴 미디어만 남긴다(쓰지 않은 행 = 권리 항목 없음 오류는 아니지만 표기와 사용을 맞춘다).
+schema_version: 1
+sections:
+- title: 보도
+  column: 0
+  auto: sources
+- title: 사진
+  column: 1
+  items:
+  - main: 파키스탄 공군 JF-17 (2015)
+    license: U.S. Air Force · Public domain
+    rights:
+    - media.gulf_pk_jf17
+  - main: 파키스탄군 병사들 (2005)
+    license: U.S. DoD(DVIDS) · Public domain
+    rights:
+    - media.gulf_pk_soldiers
+  - main: 리야드 시가지 (2009)
+    license: Wikimedia Commons · Public domain
+    rights:
+    - media.gulf_riyadh_skyline
+  - main: 리야드 킹칼리드 국제공항 (2006)
+    license: U.S. Air Force · Public domain
+    rights:
+    - media.gulf_kkia_aerial
+  - main: 호르무즈 해협 통과 미 해군 (2023)
+    license: U.S. Navy · Public domain
+    rights:
+    - media.hormuz_transit
+- title: 글꼴
+  column: 1
+  auto: fonts
+- title: 지도
+  column: 1
+  auto: map
+- title: 국기
+  column: 1
+  items:
+  - main: 국기
+    license: flag-icons · MIT
+    rights:
+    - flags.flag_icons
+- title: 음악 · 음성
+  column: 1
+  items:
+  - main: 내레이션
+    license: AI 음성 합성
+    rights:
+    - narration.tts
