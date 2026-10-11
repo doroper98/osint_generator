@@ -1,6 +1,6 @@
 <!--
 tier: 3
-last_synced_with: v6.0.0
+last_synced_with: v6.0.1
 ssot_for: [release-notes]
 depends_on: [README.md, GOAL.md]
 last_review: 2026-09-28
@@ -63,6 +63,12 @@ released 항목은 **append-only**입니다.
 | v5.0.0 | 87912d2 | G11 GOAL G4-21·claim_kind fact/statement | pass(D-0125) |
 | v5.1.0 | 3619f2c | G12 backdrop 무대·아일랜드·축 스케일·기사 프레스 v2·발음 사전·버전 도장 | pass(D-0127) — 후속 D-0128 완료 |
 | v5.2.0 | d4703d9 | G13 배경 가독·주 아일랜드 상시·보도 인용 = 기사·card-island·라벨 반전 | pass(D-0134) — 후속 겹침 카드 시안(D-0135~D-0138) |
+
+---
+
+## [v6.0.1] — 2026-10-12 — 옛 음성 보관본 MMS 재정렬 + 정렬 출처 등록부 시험 (D-0214)
+
+PATCH: `python -m script.tts.forced_align --realign <proj>` — 기존 음성(V4 이전 edge 보관본)은 그대로 두고 `.align.json` 만 MMS 강제 정렬로 다시 쓴다(`realigned_from` 기록, plan voice 라벨·길이 그대로). ratcliffe2026·fed_policy_2026 재정렬. 프로젝트 정렬 출처가 등록부 안인지 보는 빠른 묶음 시험(PIPELINE-AP 감사 빈틈).
 
 ---
 
