@@ -35,6 +35,8 @@ def features(keys: list[CamKey], events: list[dict]) -> dict:
         "event_types": dict(sorted(by.items())),
         "label_lod": True,   # draw_labels 는 패널이 화면을 덮지 않은 모든 프레임에서 w 별 LOD 로 호출된다
         "vignette": False,   # 비네트 없음(라운드 6) — 엔진에 이식하지 않았다(부록 D)
+        **({"route_cross_exempt": ex} if (ex := [{"label": e.get("label"), **e["route_cross_exempt"]} for e in events
+                                                  if e.get("route_cross_exempt")]) else {}),   # v5.21.11 D-0203 — 적용된 면제(P5)
     }
 
 

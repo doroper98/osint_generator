@@ -9,9 +9,9 @@ import numpy as np
 
 from engine.context import RenderCtx
 from engine.projection import View
-from engine.style import C, map_c
+from engine.style import H_OUT, W_OUT, C, map_c, map_halo
 from engine.timebase import ease_io, ease_out, smooth, window
-from engine.typography import text
+from engine.typography import text, tw
 from rules import load_rules
 
 RL = load_rules().layout_480p.route_label   # v4.8.0 D-0101 §3 — 항로·봉쇄선 라벨 글자(옛 리터럴 11.5·12.5)
@@ -122,8 +122,166 @@ def draw_route(ctx: cairo.Context, R: RenderCtx, view: View, t: float, e: dict) 
         ctx.set_source_rgba(*col, a)
         ctx.fill()
     if e.get("label") and prog >= 0.99:
-        x, y = S_[len(S_) // 2]
-        text(ctx, e["label"], x, y - 11, RL.route_size, "sansb", col, a * smooth((t - e["t0"] - e["grow"]) / 0.4), 3, "c")
+        la = a * smooth((t - e["t0"] - e["grow"]) / 0.4)
+        pend = R.cache.get("route_labels_pending")
+        if pend is None or e.get("in_island"):   # 아일랜드 안(상자 좌표)·지연 목록 없는 호출 = 그 자리에서(옛 동작)
+            draw_route_label(ctx, view, e, S_, col, la, place_route_label(ctx, view.stage, e["label"], S_, [], [S_]))
+        else:
+            pend.append((e, S_, col, la))   # v5.21.11 — 마커·뱃지가 자리를 잡은 뒤 flush_route_labels 가 자리를 고른다
+
+
+# ---------------------------------------------------------------- v5.21.11 경로 라벨 자리(D-0191 §1-3·D-0192)
+Box = tuple[float, float, float, float]
+
+
+def label_style(stage):  # noqa: ANN001, ANN201 — RouteLabelTheme | None
+    th = getattr(stage, "theme", None)
+    return getattr(th, "route_label", None) if th is not None else None
+
+
+def label_extent(ctx: cairo.Context, stage, label: str) -> tuple[float, float]:  # noqa: ANN001
+    """(글자 폭, 색 표시 포함 전체 폭)."""
+    w = tw(ctx, label, RL.route_size, "sansb")
+    st = label_style(stage)
+    extra = st.mark_w + st.mark_gap if st is not None and st.style == "ink" and st.mark_w > 0 else 0.0
+    return w, w + extra
+
+
+def _box(cx: float, by: float, W: float) -> Box:  # noqa: N803
+    return (cx - W / 2, by - RL.route_size, cx + W / 2, by + RL.route_size * 0.3)
+
+
+def segs_cross_box(pts: "np.ndarray", box: Box, pad: float = 0.0) -> bool:
+    """꺾은선이 상자(pad 만큼 넓힌)를 지나가나 — Liang–Barsky 선분 자르기."""
+    if len(pts) < 2:
+        return False
+    x0, y0, x1, y1 = box[0] - pad, box[1] - pad, box[2] + pad, box[3] + pad
+    P0, P1 = pts[:-1], pts[1:]  # noqa: N806
+    d = P1 - P0
+    lo = np.zeros(len(d))
+    hi = np.ones(len(d))
+    ok = np.ones(len(d), bool)
+    for p_, q_ in ((-d[:, 0], P0[:, 0] - x0), (d[:, 0], x1 - P0[:, 0]), (-d[:, 1], P0[:, 1] - y0), (d[:, 1], y1 - P0[:, 1])):
+        par = np.abs(p_) < 1e-12
+        ok &= ~(par & (q_ < 0))
+        with np.errstate(divide="ignore", invalid="ignore"):
+            r = np.where(par, 0.0, q_ / np.where(par, 1.0, p_))
+        lo = np.where(~par & (p_ < 0), np.maximum(lo, r), lo)
+        hi = np.where(~par & (p_ > 0), np.minimum(hi, r), hi)
+    return bool(np.any(ok & (lo <= hi)))
+
+
+def _overlap(a: Box, b: Box) -> bool:
+    return a[0] < b[2] and a[2] > b[0] and a[1] < b[3] and a[3] > b[1]
+
+
+def label_candidates(S_: "np.ndarray", W: float) -> list[tuple[float, float]]:  # noqa: N803
+    """(가운데 x, 기준선 y) 후보 — 0 = 옛 자리(가운데 점 위 legacy_dy), 그 뒤 place_fracs 마다 선의 양쪽 수직 방향."""
+    x, y = S_[len(S_) // 2]
+    out = [(float(x), float(y - RL.legacy_dy))]
+    h = RL.route_size * 1.3
+    for f in RL.place_fracs:
+        i = min(len(S_) - 2, max(1, int(round(f * (len(S_) - 1)))))
+        (ax, ay), (bx, by_), (px, py) = S_[i - 1], S_[i + 1], S_[i]
+        tx, ty = bx - ax, by_ - ay
+        n = math.hypot(tx, ty) or 1.0
+        nx, ny = -ty / n, tx / n
+        reach = RL.line_gap + abs(nx) * W / 2 + abs(ny) * h / 2   # 상자 가운데 ↔ 선 거리 = 간격 + 상자 반폭의 법선 성분
+        for sg in ((-1.0, 1.0) if ny > 0 else (1.0, -1.0)):   # 위쪽(화면 y 감소) 먼저 — 라벨은 선 위가 읽기 자연스럽다
+            cx, cy = px + sg * nx * reach, py + sg * ny * reach
+            out.append((float(cx), float(cy + RL.route_size * 0.35)))   # 상자 세로 가운데 → 기준선
+    return out
+
+
+def place_route_label(ctx: cairo.Context, stage, label: str, S_: "np.ndarray", obstacles: list[Box],  # noqa: ANN001, N803
+                      lines: list["np.ndarray"]) -> tuple[float, float, Box, bool]:
+    """경로 라벨 자리 → (가운데 x, 기준선 y, 상자, 통과). 통과 = 어떤 경로 선도 상자를 지나지 않고, 장애물(마커·뱃지·겹침 카드·해역 이름)과
+    겹치지 않고, 화면 안. 후보 0 이 통과하면 옛 자리 그대로. 통과 후보가 없으면 걸림이 가장 적은 후보(검사가 hard 로 잡는다).
+    렌더(flush_route_labels)와 검사(route_label_cross·overlap)가 같은 함수다."""
+    _, W = label_extent(ctx, stage, label)  # noqa: N806
+    best: tuple[int, int, float, float, Box] | None = None
+    pad = RL.screen_pad
+    for k, (cx, by) in enumerate(label_candidates(S_, W)):
+        b = _box(cx, by, W)
+        bad = sum(segs_cross_box(L_, b, RL.line_clear_px) for L_ in lines) * 2 + sum(_overlap(b, o) for o in obstacles)
+        bad += 0 if (b[0] >= pad and b[2] <= W_OUT - pad and b[1] >= pad and b[3] <= H_OUT - RL.bottom_pad) else 1
+        if bad == 0:
+            return cx, by, b, True
+        if best is None or bad < best[0]:
+            best = (bad, k, cx, by, b)
+    assert best is not None
+    return best[2], best[3], best[4], False
+
+
+def draw_route_label(ctx: cairo.Context, view: View, e: dict, S_: "np.ndarray", col: tuple, la: float,  # noqa: N803
+                     placed: tuple[float, float, Box, bool]) -> None:
+    """dark(color) = 경로 색 글자(종전). light(ink) = 테마 글자 톤 + 테마 halo, 경로 색은 글자 앞 짧은 막대(D-0191 §1-3)."""
+    cx, by, b, _ = placed
+    st = label_style(view.stage)
+    if st is None or st.style == "color":
+        text(ctx, e["label"], cx, by, RL.route_size, "sansb", col, la, 3, "c", contrast="required")
+        return
+    x0 = b[0]
+    if st.mark_w > 0:
+        my = by - RL.route_size * 0.35
+        ctx.save()
+        ctx.rectangle(x0, my - st.mark_h / 2, st.mark_w, st.mark_h)
+        ctx.set_source_rgba(*col, la)
+        ctx.fill()
+        ctx.restore()
+        x0 += st.mark_w + st.mark_gap
+    halo = map_halo(view.stage)
+    text(ctx, e["label"], x0, by, RL.route_size, "sansb", map_c(view.stage, "white"), la, st.halo or 3, "l",
+         **({} if halo is None else {"halo_rgb": halo}), contrast="required")
+
+
+def route_lines(view: View, events: list[dict], t: float) -> list["np.ndarray"]:
+    """지금 화면에 그려진 경로 선(자라는 중이면 자란 부분) — 라벨 교차 판정 대상(자기 선·남의 선)."""
+    out = []
+    for e in events:
+        if e["type"] != "route" or e.get("in_island") or not e["t0"] <= t <= e["t1"] or window(t, e["t0"], e["t1"], 0.35, 0.6) <= 0.01:
+            continue
+        S_ = view.to_screen_arr(e["curve"] if "curve" in e else catmull(e["world_pts"], 12))  # noqa: N806
+        prog = ease_io((t - e["t0"]) / e["grow"]) if e["grow"] > 0.05 else 1
+        out.append(S_[:max(2, int(len(S_) * prog))])
+    return out
+
+
+def label_obstacles(ctx: cairo.Context, view: View, events: list[dict], t: float, reserved: list[Box], tb: object = None) -> list[Box]:
+    """경로 라벨이 피할 상자 — 예약 상자(뱃지·마커 라벨·겹침 카드) + 마커 부제까지의 글자 상자 + 해역 이름 + 그 순간 자막 줄(line_gap 여유).
+    렌더·검사 공용."""
+    from engine.layers.labels import sea_labels  # noqa: PLC0415
+    from engine.layers.markers import marker_box  # noqa: PLC0415
+    from engine.subtitles import subtitle_boxes  # noqa: PLC0415
+
+    out = list(reserved)
+    if tb is not None:
+        g = RL.line_gap
+        out += [(a - g, b - g, c + g, d + g) for a, b, c, d in subtitle_boxes(ctx, tb, t)]
+    for e in events:
+        if e["type"] == "marker" and e.get("label") and not e.get("in_island") and e["t0"] <= t <= e["t1"]:
+            x, y = view.to_screen(*e["world"])
+            if -80 <= x <= W_OUT + 80 and -40 <= y <= H_OUT + 40:
+                out.append(marker_box(ctx, e, x, y, with_sub=True))
+    if hasattr(view.stage, "seas"):
+        out += [b for *_, b in sea_labels(ctx, view.stage, view)]
+    return out
+
+
+def flush_route_labels(ctx: cairo.Context, R: RenderCtx, view: View, events: list[dict], t: float) -> None:  # noqa: N803
+    """지연된 경로 라벨을 그린다 — 장애물 = 이번 프레임 예약 상자(마커·뱃지·겹침 카드) + 해역 이름 + 먼저 놓인 경로 라벨.
+    그린 상자는 R.reserved 에 올려 배경 지명(나라·도시)이 피한다."""
+    pend = R.cache.get("route_labels_pending") or []
+    R.cache["route_labels_pending"] = None
+    if not pend:
+        return
+    obstacles = label_obstacles(ctx, view, events, t, list(R.reserved), getattr(R, "tb", None))
+    lines = route_lines(view, events, t)
+    for e, S_, col, la in pend:  # noqa: N806
+        placed = place_route_label(ctx, view.stage, e["label"], S_, obstacles, lines)
+        obstacles.append(placed[2])
+        draw_route_label(ctx, view, e, S_, col, la, placed)
+        R.reserved.append(placed[2])
 
 
 def draw_tanker_loop(ctx: cairo.Context, R: RenderCtx, view: View, t: float, e: dict) -> None:  # noqa: N803

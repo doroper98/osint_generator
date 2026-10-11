@@ -23,7 +23,7 @@ from script.schema import Plan
 if TYPE_CHECKING:
     from schemas.genre_models import GenreProfile
 
-SKIP_FIELDS = {"type", "t0", "t1"}
+SKIP_FIELDS = {"type", "t0", "t1", "route_cross_exempt"}   # v5.21.11 D-0203 — 면제는 골든 기준 연출만, 연출가에게 보이지 않는다
 
 
 def _ann(t: object) -> str:

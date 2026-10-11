@@ -211,3 +211,11 @@ last_review: 2026-05-23
 - **원칙**: 기사·인용 카드는 글자가 다 보이는 시간이 2.5초 이상. 문장이 짧으면 다음 문장까지 늘리거나 시작을 앞당긴다.
 - **자동 조치**: 규칙 `qa_checks.card_full_exposure_min_sec`(2.5), 검사 `card_exposure` hard(구간 = 그리기 알파와 같은 함수 `article_full_span`·`quote_full_span`), 연출 문법 한 줄. 테스트 `test_card_exposure`. gulf: art_0001 시작을 open_1 +1.2초·끝을 제목 카드 시작(문장 끝 +0.7)으로 → 2.70초, 사우디 강조·뱃지를 open_1 시작으로 당김.
 - **발견 버전**: v5.21.10 · **상태**: active
+
+## RENDER-AP-020 — 경로 선이 자기 이름표·마커 부제를 지나가 글자가 안 읽힘
+
+- **증상(실제 현상)**: gulf_pact_2026 본영상 사용자 의견(2026-10-11) 3건 — 38초 '상호방위협정 · 2025'(금색 글자가 밝은 지도·자기 선과 겹침), 101초 '합의된 군사력 즉시 배치'(선 바로 위·해역 이름과 겹침, 마커 부제 끝을 선이 지나감), 275초. hormuz 골든 59초 '허가받은 배만 통과'도 같은 결함이었다.
+- **원리**: 경로 이름표가 곡선 가운데 점 위 11px 고정이었다 — 선의 기울기·다른 선·지명·뱃지를 보지 않았다. 마커·뱃지보다 먼저 그려 장애물을 알 수 없었다. 이름표 대비·선 교차 검사가 없었다(대비 검사는 지명만 required).
+- **원칙**: 지도 위 글자는 어떤 선도 지나가지 않는다. 밝은 지도에서 색 글자 대신 짙은 글자 + 밝은 halo, 색은 보조 표시로.
+- **자동 조치**: `engine.layers.routes.place_route_label`(렌더·검사 공용, 마커·뱃지 뒤 `flush_route_labels`), 규칙 `layout_480p.route_label` 자리 키·`geo.themes.light.map.route_label`, 검사 `route_label_cross`·`route_label_overlap` hard, 이름표 `contrast="required"`, 연출 문법 한 줄. 테스트 `test_route_label_place`.
+- **발견 버전**: v5.21.11 · **상태**: active

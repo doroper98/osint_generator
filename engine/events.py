@@ -53,11 +53,20 @@ class _Event(BaseModel):
 
 
 # ------------------------------------------------------------------ 지도 레이어
+class RouteCrossExempt(BaseModel):
+    """v5.21.11 D-0203 — 골든 기준 연출 한 이벤트만 route_label_cross 면제(사용자 합격본). 연출가 필드 표에 없다(SKIP_FIELDS)."""
+
+    model_config = ConfigDict(extra="forbid")
+
+    reason: str = Field(min_length=1)
+    decision: str = Field(pattern=r"^D-\d{4}$")
+
+
 class MarkerEvent(_Event):
     """지점 마커. 지도 앵커 lon·lat, 또는 시간축 핀 앵커 date(YYYY-MM-DD)·lane(레인 id) — 둘 중 하나(v4.3.0 D-0084 작업 4·D-0085).
     어느 무대 앵커인지는 attach_world 가 무대에 물어 검사한다(다른 무대의 키 = 오류)."""
 
-    DROP_NONE: ClassVar[tuple[str, ...]] = ("lon", "lat", "date", "lane")   # 쓰지 않은 무대의 앵커 쌍은 dict 에 남기지 않는다(지도 이벤트 dict = v4.2.0 과 같음)
+    DROP_NONE: ClassVar[tuple[str, ...]] = ("lon", "lat", "date", "lane", "route_cross_exempt")   # 쓰지 않은 무대의 앵커 쌍은 dict 에 남기지 않는다(지도 이벤트 dict = v4.2.0 과 같음)
 
     type: Literal["marker"]
     lon: Optional[float] = None
@@ -69,6 +78,7 @@ class MarkerEvent(_Event):
     side: Literal["right", "left", "top", "bottom"] = "right"
     hl: bool = False
     icon: Literal["dot", "boom"] = "dot"
+    route_cross_exempt: Optional[RouteCrossExempt] = None   # v5.21.11 D-0203 — 골든 기준 프로젝트만(테스트가 강제)
 
     @model_validator(mode="after")
     def _anchor(self) -> "MarkerEvent":

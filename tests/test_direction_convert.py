@@ -37,6 +37,8 @@ class ConvertFidelityTest(unittest.TestCase):
                         hit = [e for e in want["events_by_type"][typ] if e.get("label") == label]
                         self.assertEqual(len(hit), 1, label)
                         hit[0].update(upd)
+                ex = [e.pop("route_cross_exempt") for evs in got["events_by_type"].values() for e in evs if "route_cross_exempt" in e]
+                self.assertEqual(len(ex), 1 if name == "hormuz_korea" else 0)   # v5.21.11 D-0203 — 골든 마커 한 개 면제(메타, 화면 무관)
                 self.assertEqual(got["keys"], want["keys"])
                 self.assertEqual(sorted(got["events_by_type"]), sorted(want["events_by_type"]))
                 for typ in want["events_by_type"]:
@@ -51,6 +53,9 @@ class ConvertFidelityTest(unittest.TestCase):
         # 테마는 장르가 정하는 것이 기본이라, 예시가 덮어쓰기를 가르치면 안 된다(D-0161 §7)
         reason = proj.map_theme()["reason"]
         self.assertEqual(proj.stage_config.pop("mercator"), {"theme": "dark", "theme_reason": reason})
+        # v5.21.11 D-0203 — 골든 마커 한 개의 route_cross_exempt 도 예시에 넣지 않는다(연출가가 면제를 배우면 안 된다)
+        exempt = [e.pop("route_cross_exempt") for e in proj.events if "route_cross_exempt" in e]
+        self.assertEqual(len(exempt), 1)
         self.assertEqual(load_direction_doc(ex), proj)
 
 

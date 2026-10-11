@@ -21,6 +21,8 @@ hard 실패가 하나라도 있으면 시각 검수 LLM 을 부르지 않고 연
 | stage_continuity | hard | 무대 연속성(v4.1.0 D-0076·D-0077, GOAL G3-17): 보조 무대 ≤ stage.max_secondary, 무대 전환은 dip 만, 같은 무대 안 먼 cut 금지, 전환 ≤ stage.continuity.max_switches (`engine.shots.stage_continuity`) |
 | camera_continuity | hard | 카메라 연속성(v5.21.9 D-0191 §1-1): `engine.camera.continuity` 1·2·3차 차분 ≤ rules sketch.checks(스케치 SK-C1 과 같은 식·임계), 컷 키 제외 |
 | card_exposure | hard | 기사·인용 카드 완전 노출 ≥ qa_checks.card_full_exposure_min_sec(v5.21.10 D-0191 §1-2) — `article_full_span`·`quote_full_span`(그리기와 같은 구간) |
+| route_label_cross | hard | 경로 선 ↔ 경로 이름표·마커 라벨/부제 글자 교차(v5.21.11 D-0191 §1-3·D-0192) — 이름표 자리는 렌더와 같은 `route_label_layout` |
+| route_label_overlap | hard | 경로 이름표 ↔ 해역 이름·다른 이름표·뱃지·마커 겹침 또는 화면 밖(v5.21.11 D-0192·D-0199). 대비는 map_contrast(이름표 required) |
 | genre_elements | hard | 장르 요소(v4.2.0 D-0081 작업 3, GOAL G3-17): direction 이 쓴 이벤트·패널·뱃지·프리미티브 종류(genres.elements) ⊆ 장르 프로필 primitives.reuse ∪ new |
 | chart_honesty | hard | 차트 정직성(v4.3.0 D-0084 작업 5·D-0087, 20 §5.3): 막대 0 기준선·압축 구간 ↔ 물결 라벨·%/%p·이중 축 라벨·색·로그 척도 표기 (`engine.honesty`) |
 | series_limit_3 | hard | 한 차트(레인·패널)의 계열 ≤ qa_checks.series_max |
@@ -69,7 +71,7 @@ SHADOW_PX = 7             # badge_box 가 원 둘레에 더하는 그림자 여�
 HARD = ("map_contrast", "overlap", "offscreen", "glyphs", "glyph_size", "labels", "date", "subtitles", "rights", "forbidden", "stage_continuity",
         "genre_elements", "chart_honesty", "series_limit_3", "units_visible", "as_of_visible", "boundary_as_route",
         "geo_mismatch", "timeline_rescale", "backdrop_rights", "backdrop_repeat", "island_overlap",
-        "backdrop_main_missing", "island_label_clip", "cascade", "subtitle_overlap", "label_collision", "timeline_span", "route_frame", "panel_overflow", "flag_territory", "badge_over_panel", "opening_establish", "camera_continuity", "card_exposure")   # island_label_clip v5.2.0 D-0133 §2, backdrop_main_missing v5.2.0 D-0129 §B, island_overlap v5.1.0 D-0126 Q3, geo_mismatch v4.10.0 D-0116, timeline_rescale v5.1.0 D-0121 §A, backdrop_* v5.1.0 D-0123
+        "backdrop_main_missing", "island_label_clip", "cascade", "subtitle_overlap", "label_collision", "timeline_span", "route_frame", "panel_overflow", "flag_territory", "badge_over_panel", "opening_establish", "camera_continuity", "card_exposure", "route_label_cross", "route_label_overlap")   # island_label_clip v5.2.0 D-0133 §2, backdrop_main_missing v5.2.0 D-0129 §B, island_overlap v5.1.0 D-0126 Q3, geo_mismatch v4.10.0 D-0116, timeline_rescale v5.1.0 D-0121 §A, backdrop_* v5.1.0 D-0123
 WARN = ("shots", "media_beats", "media_upscaled", "endcard_roll", "geo_unsourced",   # endcard_roll v4.7.0 D-0106, geo_unsourced D-0107
         "static_window", "stage_choice", "card_island", "island_label_overlap", "cascade_label_hidden",
         "map_contrast_shape")   # map_contrast_shape v5.18.0 D-0161 §4   # static_window v4.11.0 D-0118, stage_choice v5.1.0 D-0123, card_island v5.2.0 D-0129 §C, island_label_overlap D-0133 §3
@@ -449,13 +451,7 @@ def _place_label_boxes(ctx: cairo.Context, P, v: View, t: float) -> list[tuple[s
             if -80 <= x <= W_OUT + 80 and -40 <= y <= H_OUT + 40:
                 out.append((e["label"], marker_box(ctx, e, x, y)))
         elif e["type"] == "route":
-            prog = ease_io((t - e["t0"]) / e["grow"]) if e["grow"] > 0.05 else 1
-            if prog < 0.99 or window(t, e["t0"], e["t1"], 0.35, 0.6) <= 0.01:
-                continue
-            S_ = v.to_screen_arr(e.get("curve") if "curve" in e else catmull(e["world_pts"], 12))  # noqa: N806
-            x, y = S_[len(S_) // 2]
-            w = tw(ctx, e["label"], RL.route_size, "sansb")
-            out.append((e["label"], (x - w / 2, y - 11 - RL.route_size, x + w / 2, y - 11 + RL.route_size * 0.3)))
+            continue   # v5.21.11 — 경로 이름표는 렌더와 같은 자리 고르기(route_label_layout)로 아래에서 한꺼번에
         else:
             if ease_out((t - e["t0"]) / 0.8) <= 0.95:
                 continue
@@ -464,7 +460,84 @@ def _place_label_boxes(ctx: cairo.Context, P, v: View, t: float) -> list[tuple[s
             xr, yb = (x0 + x1) / 2 - 12, (y0 + y1) / 2 + 4
             w = tw(ctx, e["label"], RL.barrier_size, "sansb")
             out.append((e["label"], (xr - w, yb - RL.barrier_size, xr, yb + RL.barrier_size * 0.3)))
+    out += [(e["label"], placed[2]) for e, placed, _ in route_label_layout(P, ctx, v, t)]
     return out
+
+
+def route_label_layout(P, ctx: cairo.Context, v: View, t: float) -> list[tuple[dict, tuple, list]]:  # noqa: ANN001, N803
+    """시각 t 에 보이는 경로 이름표 자리(v5.21.11 D-0191 §1-3) — 렌더 flush_route_labels 와 같은 함수·같은 장애물 순서.
+    예약 상자 = 뱃지(place_over)·마커 라벨·겹침 카드. → [(이벤트, (x, y, 상자, 통과), 그 순간 경로 선들)]"""
+    from engine.cascade import cascade_boxes  # noqa: PLC0415
+    from engine.layers.markers import marker_box  # noqa: PLC0415
+    from engine.layers.routes import catmull, label_obstacles, place_route_label, route_lines  # noqa: PLC0415
+    from engine.timebase import ease_io, window  # noqa: PLC0415
+
+    act = [e for e in P.events if e["t0"] - 0.05 <= t <= e["t1"] + 0.05]
+    labs = [e for e in act if e["type"] == "route" and e.get("label") and not e.get("in_island")
+            and (ease_io((t - e["t0"]) / e["grow"]) if e["grow"] > 0.05 else 1) >= 0.99 and window(t, e["t0"], e["t1"], 0.35, 0.6) > 0.01]
+    if not labs:
+        return []
+    reserved: list = []
+    for e in act:
+        if e["type"] == "badge" and not e.get("over_panel") and not e.get("in_island") and (r := place_over(P, ctx, e, t)) is not None:
+            reserved.append(r[1])
+        elif e["type"] == "marker" and not e.get("in_island") and e["t0"] <= t <= e["t1"]:
+            x, y = v.to_screen(*e["world"])
+            reserved.append(marker_box(ctx, e, x, y))
+        elif e["type"] == "cascade":
+            reserved += cascade_boxes(t, e)
+    obstacles = label_obstacles(ctx, v, act, t, reserved, P.R.tb)
+    lines = route_lines(v, act, t)
+    out = []
+    for e in labs:
+        S_ = v.to_screen_arr(e["curve"] if "curve" in e else catmull(e["world_pts"], 12))  # noqa: N806
+        placed = place_route_label(ctx, v.stage, e["label"], S_, obstacles, lines)
+        obstacles.append(placed[2])
+        out.append((e, placed, lines))
+    return out
+
+
+def route_label_report(P) -> dict[str, list[str]]:  # noqa: ANN001, N803
+    """v5.21.11 D-0191 §1-3·D-0192 — 표본 시각마다 경로 이름표 자리를 렌더와 같게 골라
+    cross: 경로 선(자기·남의)이 이름표 글자 상자를 지나감 + 마커 라벨·부제 글자를 경로 선이 지나감,
+    overlap: 이름표가 해역 이름·다른 이름표·뱃지·마커와 겹침(어느 후보로도 피하지 못함). 쌍마다 첫 시각 한 줄. 결과는 캐시."""
+    if "route_label" in P.R.cache:
+        return P.R.cache["route_label"]
+    from engine.layers.markers import marker_text_boxes  # noqa: PLC0415
+    from engine.layers.routes import RL, route_lines, segs_cross_box  # noqa: PLC0415
+
+    ctx = cairo.Context(cairo.ImageSurface(cairo.FORMAT_ARGB32, 1, 1))
+    rep: dict[str, list[str]] = {"cross": [], "overlap": []}
+    seen: set = set()
+    routes = [e for e in P.events if e["type"] == "route" and not e.get("in_island")]
+    lo = min((e["t0"] for e in routes), default=0.0)
+    hi = max((e["t1"] for e in routes), default=0.0)
+    t = lo
+    while routes and t < hi:
+        if not _covered(P, t):
+            v = View(P.R.stage, P.cams[min(P.n_frames - 1, int(t * FPS))])
+            for e, (_, _, b, ok), lines in route_label_layout(P, ctx, v, t):
+                if any(segs_cross_box(L_, b, RL.line_clear_px) for L_ in lines) and ("x", id(e)) not in seen:
+                    seen.add(("x", id(e)))
+                    rep["cross"].append(f"[route-label-cross] 경로 이름표 {e['label']!r} 를 경로 선이 지나감 t={t:.2f} — 어느 자리 후보로도 선을 피하지 못함. "
+                                        "라벨을 줄이거나 경로·카메라 구도를 바꾼다")
+                elif not ok and ("o", id(e)) not in seen:
+                    seen.add(("o", id(e)))
+                    rep["overlap"].append(f"[route-label-overlap] 경로 이름표 {e['label']!r} 가 지명·뱃지·마커·다른 이름표와 겹치거나 화면 밖 t={t:.2f} — "
+                                          "라벨을 줄이거나 겹치는 요소의 시간·자리를 바꾼다")
+            lines = route_lines(v, P.events, t)
+            for e in P.events:
+                if e["type"] != "marker" or e.get("in_island") or not e.get("label") or e.get("route_cross_exempt") or not e["t0"] + 0.3 <= t <= e["t1"] - 0.3:
+                    continue
+                x, y = v.to_screen(*e["world"])
+                if not (-80 <= x <= W_OUT + 80 and -40 <= y <= H_OUT + 40):
+                    continue
+                if any(segs_cross_box(L_, tb, 0.0) for L_ in lines for tb in marker_text_boxes(ctx, e, x, y)) and ("m", id(e)) not in seen:
+                    seen.add(("m", id(e)))
+                    rep["cross"].append(f"[route-label-cross] 마커 {e['label']!r} 라벨·부제 글자를 경로 선이 지나감 t={t:.2f} — 마커 side 를 바꾸거나 부제를 줄인다")
+        t += COLLIDE_STEP_SEC
+    P.R.cache["route_label"] = rep
+    return rep
 
 
 def cascade_label_report(P) -> dict:  # noqa: ANN001, N803
@@ -957,6 +1030,8 @@ def run_checks(P, times: list[float], provenance: dict, drawn: list[tuple[str, f
         "stage_continuity": lambda: check_stage_continuity(P),
         "camera_continuity": lambda: check_camera_continuity(P),   # v5.21.9 D-0191 §1-1
         "card_exposure": lambda: check_card_exposure(P),           # v5.21.10 D-0191 §1-2
+        "route_label_cross": lambda: route_label_report(P)["cross"],      # v5.21.11 D-0191 §1-3·D-0192
+        "route_label_overlap": lambda: route_label_report(P)["overlap"],  # v5.21.11 D-0192·D-0199
         "genre_elements": lambda: check_genre_elements(P),
         "boundary_as_route": lambda: list((P.R.cache.get("geo_check") or {}).get("boundary") or []),
         "geo_unsourced": lambda: check_geo_unsourced(P),

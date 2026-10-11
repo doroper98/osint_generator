@@ -94,6 +94,7 @@ events:
   sub: 가장 좁은 곳 약 39km
   side: right
   hl: true
+  route_cross_exempt: {reason: "v3 사용자 합격본(2026-09-28) — 부제 끝을 유조선 경로가 지나감. 고치면 골든 4컷이 바뀐다", decision: D-0203}
 - type: route
   start: {sid: route_1, off: 0.6}
   end: {scene_end: route}

@@ -36,6 +36,20 @@ def _lb(box: tuple, name: str, kind: str) -> LabelBox:
     return b
 
 
+def sea_labels(ctx: cairo.Context, stage: "MercatorStage", view: View) -> list[tuple[str, float, float, float, tuple]]:
+    """지금 보이는 해역 이름(이름, x, y, 크기, 상자). 해역 이름은 다른 글자를 피하지 않는다 — 경로 라벨이 이 상자를 피한다(v5.21.11 D-0192)."""
+    out = []
+    for s, sw in stage.seas:
+        if not (s.wmin <= view.w <= s.wmax):
+            continue
+        x, y = view.to_screen(*sw)
+        if -40 < x < W_OUT + 40 and 0 < y < H_OUT:
+            size = 11 if view.w > 30 else 12
+            sw_ = tw(ctx, s.name, size, "serif") + 2.2 * len(s.name)
+            out.append((s.name, x, y, size, (x - sw_ / 2, y - 11, x + sw_ / 2, y + 3)))
+    return out
+
+
 def draw_labels(ctx: cairo.Context, stage: "MercatorStage", view: View, reserved: list, la: float) -> list:
     A = stage.assets  # noqa: N806
     lab = A.labels
@@ -51,14 +65,9 @@ def draw_labels(ctx: cairo.Context, stage: "MercatorStage", view: View, reserved
         return True
 
     # seas
-    for s, sw in stage.seas:
-        if not (s.wmin <= view.w <= s.wmax):
-            continue
-        x, y = view.to_screen(*sw)
-        if -40 < x < W_OUT + 40 and 0 < y < H_OUT:
-            text(ctx, s.name, x, y, 11 if view.w > 30 else 12, "serif", hexc(th.sea_label), 0.62 * la, 0, "c", spacing=2.2, contrast="aux")
-            sw_ = tw(ctx, s.name, 11 if view.w > 30 else 12, "serif") + 2.2 * len(s.name)
-            drawn.append(_lb((x - sw_ / 2, y - 11, x + sw_ / 2, y + 3), s.name, "sea"))
+    for name, x, y, size, box in sea_labels(ctx, stage, view):
+        text(ctx, name, x, y, size, "serif", hexc(th.sea_label), 0.62 * la, 0, "c", spacing=2.2, contrast="aux")
+        drawn.append(_lb(box, name, "sea"))
     # countries
     thr = by_w(view.w, LOD["country_rank_max"])
     for k, m, mw in stage.countries:

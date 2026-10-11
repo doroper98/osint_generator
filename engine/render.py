@@ -76,6 +76,7 @@ def render_frame(P: Project, i: int) -> tuple[cairo.ImageSurface, bytearray]:  #
     for e in P.events:   # v5.1.0 D-0123 — backdrop 배경 사진: crossfade 로 끝 뒤 crossfade_sec 까지 남는다(act 창 밖)
         if e["type"] == "backdrop" and e["t0"] <= t <= e["t1"] + BACKDROP.crossfade_sec:
             L.resolve(e).render(ctx, R, view, t, e)
+    R.cache["route_labels_pending"] = []   # v5.21.11 D-0191 §1-3 — 경로 라벨은 마커·뱃지가 자리를 잡은 뒤 고른다(flush_route_labels)
     for typ in MAP_LAYER_ORDER:
         for e in act:
             if e["type"] == typ and not e.get("in_island"):   # v5.1.0 D-0126 — 차트 아일랜드 안 이벤트는 island 렌더러가 상자 안에 그린다
@@ -85,6 +86,9 @@ def render_frame(P: Project, i: int) -> tuple[cairo.ImageSurface, bytearray]:  #
             from engine.cascade import cascade_boxes  # noqa: PLC0415
 
             R.reserved += cascade_boxes(t, e)
+    from engine.layers.routes import flush_route_labels  # noqa: PLC0415
+
+    flush_route_labels(ctx, R, view, act, t)   # 그린 라벨 상자는 R.reserved 로 — 배경 지명이 피한다
     if panel_a < 0.99:
         R.stage.draw_labels(ctx, view, R.reserved, 1 - panel_a)
     from engine import typography as _ty  # noqa: PLC0415

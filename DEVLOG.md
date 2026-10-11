@@ -3418,3 +3418,4 @@ last_review: 2026-06-06
 - 2026-10-11 v5.21.1 gulf AI 연출가가 person 뱃지 flag 누락·인용문 따옴표로 두 번 거부 → 필드 표 제약 description(LLM-AP-018).
 - 2026-10-11 v5.21.9 카메라 이동 한가운데 꺾임 재발(UF-02) — 조각 3차 이징 가속도 뒤집힘, 스케치에만 있던 연속성 검사 → 5차 이징·본 엔진 camera_continuity hard(RENDER-AP-018, D-0202).
 - 2026-10-11 v5.21.10 gulf 첫 기사 카드 완전 노출 0.40초(사용자 의견) → card_exposure hard ≥ 2.5초(RENDER-AP-019, D-0191 §1-2).
+- 2026-10-11 v5.21.11 경로 선이 이름표·마커 부제를 지나감·밝은 지도 금색 글자(사용자 의견 38·101·275초) → 자리 고르기·light 짙은 글자·route_label_cross/overlap hard(RENDER-AP-020, D-0191 §1-3·D-0192).

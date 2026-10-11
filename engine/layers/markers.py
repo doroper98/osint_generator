@@ -126,6 +126,22 @@ def island_label_rect(ctx: cairo.Context, e: dict, x: float, y: float, vw: float
     return x0, by - MK.label_size, x1, bot, how
 
 
+def marker_text_boxes(ctx: cairo.Context, e: dict, x: float, y: float) -> list[tuple[float, float, float, float]]:
+    """라벨·부제 글자 줄 상자(그리기와 같은 기준점·정렬, 점·고리 제외) — v5.21.11 D-0192 경로 선 ↔ 마커 글자 교차 검사."""
+    side = e.get("side") or "right"
+    dx, dy, anc = _SIDE[side]
+    sx = x + dx + center_clamp(ctx, e, x)
+    out = []
+    for txt, size, font, oy in ((e.get("label"), MK.label_size, "sansb", 0.0), (e.get("sub"), MK.sub_size, "sansm", MK.sub_dy)):
+        if not txt:
+            continue
+        w = tw(ctx, txt, size, font)
+        x0 = sx - (w if anc == "r" else w / 2 if anc == "c" else 0)
+        by = y + dy + oy
+        out.append((x0, by - size * 0.86, x0 + w, by + size * 0.22))
+    return out
+
+
 def draw_marker(ctx: cairo.Context, R: RenderCtx, view: View, t: float, e: dict) -> None:  # noqa: N803
     a = window(t, e["t0"], e["t1"], 0.35, 0.5)
     if a <= 0.01:

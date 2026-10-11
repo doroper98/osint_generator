@@ -241,6 +241,7 @@ pronounce:
 direction_grammar:         # v4.7.0 back_and_forth D-0104 D2(a) — 연출 문법(사람 승인 = D-0104, 15 P11). 연출·수정 프롬프트 {{RULES.direction_grammar}}
   - 인물이 발언 주체인 문장("~는 ~라고 말했습니다")에는 그 인물의 초상 뱃지(엔티티 레지스트리에 초상이 있을 때) 또는 그 발언을 전한 기사 카드(미디어 레지스트리 기사)를 건다. 텍스트 카드만으로 대신하지 않는다.
   - 원고 문장에 media 큐가 있으면 그 미디어를 우선 쓴다.
+  - '마커 라벨·부제는 그 마커를 지나는 경로 선의 반대쪽 side 로 둔다 — 경로 선이 글자를 지나가면 안 된다(v5.21.11 사용자 의견, 검사 [route-label-cross] hard). 경로 이름표 자리는 엔진이 선에서 띄워 고른다 — 이름표를 짧게 쓴다.'
   - '기사 카드(article)·인용(quote)은 글자가 다 보이는 시간이 2.5초 이상이어야 한다(기사는 프레스 단독 1초 + 페이드 0.5초씩을 빼고, 즉 t0~t1 4.5초 이상) — 문장이 짧으면 end 를 다음 문장까지 늘리거나 start 를 앞당긴다(v5.21.10 사용자 의견, 검사 [card-exposure] hard).'
   - 경계선(군사분계선·국경·NLL 등)을 route 로 그리지 않는다 — 지도 경계선이 이미 있다(v4.7.0 D-0107, 검사 [boundary-as-route] hard).
   - 화면에 조약·협정·작전 같은 고유 명칭이 나오는데 내레이션이 그 뜻을 풀지 않으면, 연도 카드(precedent) 패널의 footnote(1~2줄·근거 claim 필수)로 짧게 설명한다 — 자막 구역 위, 카드 아래(v5.6.0 사용자 요청 2026-10-05 "해결 조약 풋노트", 검사 [panel-footnote]).
@@ -471,7 +472,9 @@ layout_480p:               # 09 §2·§4, 08 §10 — 기준 해상도 854×480.
   media_caption: {pad_x: 10, caption_size: 12, caption_dy: 18, credit_size: 9, credit_dy: 34, tag_size: 9, tag_h: 16, tag_dy: 12,
                   cutout_caption_size: 12, cutout_credit_size: 9}
   marker: {label_size: 13, sub_size: 12, sub_dy: 16}
-  route_label: {route_size: 12.5, barrier_size: 12.5}
+  # v5.21.11 사용자 의견(2026-10-11 38·101·275초 "선 위의 글씨 시인성", D-0191 §1-3·D-0192) — 경로 선이 자기 라벨을 지나가지 않게
+  # 선에서 수직으로 line_gap 띄운 자리를 곡선 위 place_fracs 순서·양쪽으로 시도. 후보 0 = 옛 자리(가운데 점 위 legacy_dy). 검사 route_label_cross·route_label_overlap hard
+  route_label: {route_size: 12.5, barrier_size: 12.5, legacy_dy: 11, line_gap: 5, line_clear_px: 1.5, place_fracs: [0.5, 0.42, 0.58, 0.34, 0.66, 0.26, 0.74], screen_pad: 6, bottom_pad: 72}   # bottom_pad = 자막 구역(도시 이름과 같은 하단 여백)
   # v5.1.0 back_and_forth D-0121 §C(사용자 결정 D107) — 기사 프레스 규약 v2. 옛 오른쪽·가운데 기사 카드(v4.8.0 D-0101 §2) 경로는 삭제(P2).
   # 순서: 프레스 사진 단독 press_lead_sec(없으면 지금 무대를 press_fallback.blur_px·dim 으로 블러 — 사진을 지어내지 않는다, G4-10·P6)
   #   → 덮개(theme overlay × overlay_alpha)·글자 overlay_fade_sec 페이드 인 → 끝에서 같은 시간 페이드 아웃.
@@ -913,6 +916,7 @@ geo:                       # D29(back_and_forth D-0019) — 지오 자산 단계
         city_dot: {fill: [0.16, 0.17, 0.19], edge: [1.0, 1.0, 1.0], edge_alpha: 0.7}
         city_label: [0.054, 0.0585, 0.0675]
         halo: [0.97, 0.97, 0.96]
+        route_label: {style: ink, halo: 3.4, mark_w: 12, mark_h: 3, mark_gap: 5}   # v5.21.11 D-0191 §1-3 — 밝은 지도: 짙은 글자 + 밝은 halo, 경로 색은 글자 앞 짧은 막대
         label_contrast_fix: {halo: 4.2, halo_a: 1.0}   # v5.21.2 D-0186 §2-1 — 실제 바탕 대비가 qa_checks.map_contrast_text 미만인 지명만 이 halo 로 다시 그린다(국소, 전역 값 무변경)
         # v5.18.0 D-0161 §2(가이드 23 §14 "밝고 얇은 coast/water 스타일") — 국경 = 두 나라 공유 변만, 해안 = 나머지(물빛·가늘게)
         coast: {rgb: [0.42, 0.55, 0.66], width: 0.45, alpha: 0.85}

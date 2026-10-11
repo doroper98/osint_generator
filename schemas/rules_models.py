@@ -471,6 +471,14 @@ class MarkerLayout(_Strict):
 class RouteLabelLayout(_Strict):
     route_size: float
     barrier_size: float
+    # v5.21.11 D-0191 §1-3·D-0192 — 경로 라벨 자리: 선에서 수직으로 line_gap 만큼 띄운 상자, 곡선 위 place_fracs 순서로 시도.
+    # 후보 0 = 옛 자리(가운데 점 위 legacy_dy) — 선·지명·뱃지와 안 걸리면 그대로(골든 보존)
+    legacy_dy: float
+    line_gap: float = Field(ge=0)          # 선 ↔ 글자 상자 최소 거리(px)
+    line_clear_px: float = Field(ge=0)     # 교차 판정 여유(상자를 이만큼 넓혀 잰다)
+    place_fracs: list[float] = Field(min_length=1)
+    screen_pad: float = Field(ge=0)        # 화면 가장자리 여백
+    bottom_pad: float = Field(ge=0)        # 화면 아래 여백(자막 구역)
 
 
 class ArticleTheme(_Strict):
@@ -1193,6 +1201,17 @@ class ThemeBorderGlow(_Strict):
     run_layers: Optional[list[tuple[float, float]]] = None
 
 
+class RouteLabelTheme(_Strict):
+    """v5.21.11 D-0191 §1-3·D-0192 — 경로 라벨 글자 모양. color = 경로 색 글자(dark 종전), ink = 테마 글자 톤 + 테마 halo,
+    경로 색은 글자 앞 짧은 색 표시(mark)로만."""
+
+    style: Literal["color", "ink"]
+    halo: Optional[float] = None           # ink: 글자 테두리 두께(없으면 color 와 같은 3)
+    mark_w: float = Field(default=0, ge=0)
+    mark_h: float = Field(default=0, ge=0)
+    mark_gap: float = Field(default=0, ge=0)
+
+
 class LabelContrastFix(_Strict):
     """v5.21.2 D-0186 §2-1 — 국소 대비 보정: 그린 지명의 실제 바탕 대비가 qa_checks.map_contrast_text 미만이면 이 halo 로 다시 그린다."""
 
@@ -1217,6 +1236,7 @@ class MapTheme(_Strict):
     route_casing: Optional[RouteCasing] = None          # v5.18.0 — None = 없음(dark 종전)
     border_glow: Optional[ThemeBorderGlow] = None       # v5.18.0 — None = 공통 rules border_glow(dark 종전)
     label_contrast_fix: Optional[LabelContrastFix] = None   # v5.21.2 — None = 보정 없음
+    route_label: Optional[RouteLabelTheme] = None            # v5.21.11 — None = color(dark 종전)
 
 
 class GeoTheme(_Strict):
