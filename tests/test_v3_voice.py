@@ -8,6 +8,7 @@ V3 기준선 25컷 픽셀 대조는 `tests/anti_inertia/test_provenance_e2e.py`(
 
 from __future__ import annotations
 
+import pytest
 import json
 import unittest
 from pathlib import Path
@@ -94,6 +95,7 @@ class ClipProfileTest(unittest.TestCase):
         self.assertEqual(list(prof["1080p"].clip), [1024, 576])
 
 
+@pytest.mark.slow   # C8.3(D187) — 느린 묶음(빠른 묶음 -m "not slow" 밖)
 class HormuzV3Test(unittest.TestCase):
     def test_alignment_is_mms_everywhere(self) -> None:
         from engine.project import load_plan  # noqa: PLC0415

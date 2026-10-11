@@ -6,6 +6,7 @@
 
 from __future__ import annotations
 
+import pytest
 import copy
 import json
 import shutil
@@ -340,6 +341,7 @@ class CliTest(unittest.TestCase):
 
 @unittest.skipUnless((PROJ / "assets" / "tiers.pkl").is_file(),
                      "d1_missile_sketch 지형 자산 없음 — `python -m geo.prep projects/d1_missile_sketch`(phaseS1 run_log §0)")
+@pytest.mark.slow   # C8.3(D187) — 느린 묶음(빠른 묶음 -m "not slow" 밖)
 class RenderFramesTest(unittest.TestCase):
     def test_frames_provenance(self) -> None:
         with tempfile.TemporaryDirectory() as d:

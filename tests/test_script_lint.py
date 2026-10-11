@@ -8,6 +8,7 @@
 
 from __future__ import annotations
 
+import pytest
 import unittest
 from pathlib import Path
 
@@ -62,6 +63,7 @@ def lint(script: Script):  # noqa: ANN201 — 출처 규칙 밖 검사용: 테�
     return _lint_full(script, {"테스트 출처": "verified"})
 
 
+@pytest.mark.slow   # C8.3(D187) — 느린 묶음(빠른 묶음 -m "not slow" 밖)
 class ScriptLintTest(unittest.TestCase):
     def test_banned_samples_all_detected(self) -> None:
         self.assertEqual(len(BANNED_SAMPLES), 12)

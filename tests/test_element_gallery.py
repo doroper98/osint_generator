@@ -6,6 +6,7 @@
 
 from __future__ import annotations
 
+import pytest
 import json
 import tempfile
 import unittest
@@ -47,6 +48,7 @@ class ElementExamplesTest(unittest.TestCase):
                 self.assertEqual(a, b)
 
 
+@pytest.mark.slow   # C8.3(D187) — 느린 묶음(빠른 묶음 -m "not slow" 밖)
 class ElementGalleryRenderTest(unittest.TestCase):
     def test_full_gallery_renders(self) -> None:
         proj = REPO / "projects" / "hormuz_korea"

@@ -8,6 +8,7 @@
 
 from __future__ import annotations
 
+import pytest
 import unittest
 from pathlib import Path
 
@@ -87,6 +88,7 @@ class MeasureTest(unittest.TestCase):
 
 
 @unittest.skipIf(not _HAS_HORMUZ or _MISSING, _WHY_HORMUZ if not _HAS_HORMUZ else f"글꼴 없음 {_MISSING}")
+@pytest.mark.slow   # C8.3(D187) — 느린 묶음(빠른 묶음 -m "not slow" 밖)
 class HormuzScaleTest(unittest.TestCase):
     @classmethod
     def setUpClass(cls) -> None:

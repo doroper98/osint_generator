@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import pytest
 import asyncio
 import json
 import shutil
@@ -106,6 +107,7 @@ class _Proj(unittest.TestCase):
         self.to(*PRE_GATE)
 
 
+@pytest.mark.slow   # C8.3(D187) — 느린 묶음(빠른 묶음 -m "not slow" 밖)
 class GateTest(_Proj):
     def test_gate_blocks_plain_transition(self) -> None:
         self.to_gate1()
@@ -167,6 +169,7 @@ class GateTest(_Proj):
             ReviewGatesConfig(require_human_approval={"script_review": True})
 
 
+@pytest.mark.slow   # C8.3(D187) — 느린 묶음(빠른 묶음 -m "not slow" 밖)
 class PipelineTest(_Proj):
     def _to_voice(self) -> None:
         self.to_gate1()
@@ -208,6 +211,7 @@ class PipelineTest(_Proj):
         self.assertIn("승인 대기", next_action("script_approval"))
 
 
+@pytest.mark.slow   # C8.3(D187) — 느린 묶음(빠른 묶음 -m "not slow" 밖)
 class GateViewTest(_Proj):
     @unittest.skipUnless(fonts_ready(), NO_FONTS_REASON)   # 게이트 ① 뷰 = 린트 서브프로세스(자막 줄 수 = 글자 폭) — NB27
     def test_script_gate_view_sections(self) -> None:
@@ -244,6 +248,7 @@ class ProjectPathsTest(_Proj):
         self.assertFalse(st["plan"])
 
 
+@pytest.mark.slow   # C8.3(D187) — 느린 묶음(빠른 묶음 -m "not slow" 밖)
 class CliTest(_Proj):
     def test_cli_approve_reject(self) -> None:
         self.to_gate1()
@@ -259,6 +264,7 @@ class CliTest(_Proj):
                                    "--comment", "x"]), 1)
 
 
+@pytest.mark.slow   # C8.3(D187) — 느린 묶음(빠른 묶음 -m "not slow" 밖)
 class CommandCenterKeysTest(_Proj):
     def test_approve_key_and_gate_panel(self) -> None:
         from orchestrator.tui_app import CommandCenterApp  # noqa: PLC0415
@@ -320,6 +326,7 @@ if __name__ == "__main__":
     unittest.main()
 
 
+@pytest.mark.slow   # C8.3(D187) — 느린 묶음(빠른 묶음 -m "not slow" 밖)
 class ChosenVersionTest(_Proj):
     """D-0049 쟁점 3 — 게이트 ② 에서 사람이 다른 AI 판을 고르면 direction.yaml 복원 + 기록."""
 
@@ -349,6 +356,7 @@ class ChosenVersionTest(_Proj):
         self.assertEqual((rec2.selected.version, rec2.selected.by), (1, "human"))  # type: ignore[union-attr]
 
 
+@pytest.mark.slow   # C8.3(D187) — 느린 묶음(빠른 묶음 -m "not slow" 밖)
 class AnimaticGateTest(_Proj):
     """PIPELINE-AP-014 — 콘티 판 없이 게이트 ② 승인 불가(우회 플래그 없음, 사용자 결정 2026-10-01)."""
 

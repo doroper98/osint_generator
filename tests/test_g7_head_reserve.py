@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import pytest
 import unittest
 from pathlib import Path
 from unittest import mock
@@ -21,6 +22,7 @@ def portraits() -> list[Path]:
     return sorted(REPO.glob("projects/*/assets/portraits/*.png")) + sorted((REPO / "assets/library/people").glob("*.png"))
 
 
+@pytest.mark.slow   # C8.3(D187) — 느린 묶음(빠른 묶음 -m "not slow" 밖)
 class HeadReserveTest(unittest.TestCase):
     def test_rules(self) -> None:
         self.assertEqual((B.head_reserve, B.edge_nudge, B.reserve_top_factor), ("measured", True, 2.2))

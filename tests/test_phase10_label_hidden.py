@@ -6,6 +6,7 @@
 
 from __future__ import annotations
 
+import pytest
 import unittest
 from pathlib import Path
 from types import SimpleNamespace as NS
@@ -45,6 +46,7 @@ class RatioRuleTest(unittest.TestCase):
 
 
 @unittest.skipIf(not _HAS or checks.missing_fonts(), "hormuz 자산·글꼴 없음(run_log §0)")
+@pytest.mark.slow   # C8.3(D187) — 느린 묶음(빠른 묶음 -m "not slow" 밖)
 class HormuzRegressionTest(unittest.TestCase):
     def test_hormuz_zero(self) -> None:
         """v3 합격본(D36 hide 전략 포함)은 hard 0 — 사용자 합격 영상과 임계가 충돌하지 않는다(D-0068 요건 2)."""

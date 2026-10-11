@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import pytest
 import json
 import unittest
 from pathlib import Path
@@ -25,6 +26,7 @@ def _credits(auto: bool) -> Credits:
                                                       "items": [{"main": "내레이션", "rights": ["narration.tts"]}]}]})
 
 
+@pytest.mark.slow   # C8.3(D187) — 느린 묶음(빠른 묶음 -m "not slow" 밖)
 class SourceCreditsTest(unittest.TestCase):
     def test_labels(self) -> None:
         a, b, c = _sources()

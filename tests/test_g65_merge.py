@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import pytest
 import unittest
 
 from rules import load_rules
@@ -107,6 +108,7 @@ if __name__ == "__main__":
     unittest.main()
 
 
+@pytest.mark.slow   # C8.3(D187) — 느린 묶음(빠른 묶음 -m "not slow" 밖)
 class ReopenTest(unittest.TestCase):
     """D4 — 렌더 이후 → direction 되돌림(사유 필수, manifest.reopens 에 사유·연출 판 번호)."""
 

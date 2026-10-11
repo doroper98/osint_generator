@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import pytest
 import hashlib
 import json
 import shutil
@@ -23,6 +24,7 @@ def _md5(p: Path) -> str:
 
 
 @unittest.skipUnless((HORMUZ / "plan.json").exists(), _NO_PLAN)
+@pytest.mark.slow   # C8.3(D187) — 느린 묶음(빠른 묶음 -m "not slow" 밖)
 class CameraSuggestHormuzTest(unittest.TestCase):
     @classmethod
     def setUpClass(cls) -> None:
@@ -119,6 +121,7 @@ class CameraSuggestHormuzTest(unittest.TestCase):
 
 
 @unittest.skipUnless((HORMUZ / "plan.json").exists(), _NO_PLAN)
+@pytest.mark.slow   # C8.3(D187) — 느린 묶음(빠른 묶음 -m "not slow" 밖)
 class SuggestWiringTest(unittest.TestCase):
     """제안은 옵션(P8): 연출가 입력에 '제안값'으로만, 사람 연출 무변경, provenance 는 suggested/used 를 가른다."""
 

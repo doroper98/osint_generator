@@ -8,6 +8,7 @@
 
 from __future__ import annotations
 
+import pytest
 import hashlib
 import json
 import os
@@ -46,6 +47,7 @@ def light_project(dst: Path) -> Path:
     return dst
 
 
+@pytest.mark.slow   # C8.3(D187) — 느린 묶음(빠른 묶음 -m "not slow" 밖)
 class LightE2ETest(unittest.TestCase):
     def test_light_preview_matches_baseline(self) -> None:
         if not (SRC / "assets" / "geo.pkl").exists() or not (SRC / "plan.json").exists():

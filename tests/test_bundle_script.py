@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import pytest
 import argparse
 import json
 import re
@@ -95,6 +96,7 @@ class DraftRulesTest(unittest.TestCase):
             _draft(_bundle([{"section_id": "s1", "heading": "h"}]))
 
 
+@pytest.mark.slow   # C8.3(D187) — 느린 묶음(빠른 묶음 -m "not slow" 밖)
 class CorpusDraftTest(unittest.TestCase):
     def test_corpus_drafts_pass_script_and_scenes_differ(self) -> None:
         """코퍼스 전부: 초안 YAML(주석 포함)이 Script 그대로 통과(P4), 장면 수 ≠ 섹션 수가 다수(12막 1:1 금지)."""

@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import pytest
 import shutil
 import tempfile
 import unittest
@@ -18,6 +19,7 @@ from tools.migrate_v3_claims import ALL, SCENE_SOURCES, migrate
 REPO = Path(__file__).resolve().parent.parent
 
 
+@pytest.mark.slow   # C8.3(D187) — 느린 묶음(빠른 묶음 -m "not slow" 밖)
 class V3ClaimsMigrationTest(unittest.TestCase):
     def _load(self, proj: Path) -> tuple[Script, ClaimsFile, SourcesFile]:
         s = Script.model_validate(yaml.safe_load((proj / "script.yaml").read_text(encoding="utf-8")))

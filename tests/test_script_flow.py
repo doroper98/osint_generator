@@ -8,6 +8,7 @@ D-0043)을 만들고 state 를 research → script_draft 로 전이하는지 검
 
 from __future__ import annotations
 
+import pytest
 import argparse
 import json
 
@@ -53,6 +54,7 @@ class _ScriptHarness(_ResearchHarness):
         )
 
 
+@pytest.mark.slow   # C8.3(D187) — 느린 묶음(빠른 묶음 -m "not slow" 밖)
 class TestBuildScriptCLI(_ScriptHarness):
     def test_creates_script_and_advances_state(self) -> None:
         self._advance_to_research_in_progress()

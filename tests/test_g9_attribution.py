@@ -8,6 +8,7 @@ from __future__ import annotations
 from datetime import date
 from pathlib import Path
 
+import pytest
 import yaml
 
 from orchestrator import source_intake as si
@@ -68,6 +69,7 @@ class JudgeReportedTest(_Proj):
         self.assertEqual(sorted(k for k in cl.checks if k.startswith("attributed:")), sorted([f"attributed:{a1}", f"attributed:{a2}"]))
 
 
+@pytest.mark.slow   # C8.3(D187) — 느린 묶음(빠른 묶음 -m "not slow" 밖)
 class ProjectImpactTest(_Proj):
     def test_fed_policy_attribution_warnings_cleared(self) -> None:
         """R-0110 의 원고 린트 경고 8("…라고 보도했습니다")이 0 이 된다."""

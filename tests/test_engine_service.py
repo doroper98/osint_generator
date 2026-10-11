@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import pytest
 import ast
 import json
 import subprocess
@@ -94,6 +95,7 @@ class ParseTest(unittest.TestCase):
         self.assertEqual(r.drops, [{"stage": "geo", "tier": "W"}])
 
 
+@pytest.mark.slow   # C8.3(D187) — 느린 묶음(빠른 묶음 -m "not slow" 밖)
 class RunStageTest(unittest.TestCase):
     def test_fake_runner(self) -> None:
         fr = FakeRunner(0, _ok("preview", artifacts={"prev/p_0001.00.png": "x"}))

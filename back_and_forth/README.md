@@ -145,6 +145,11 @@ python back_and_forth/check.py --me opus --next-id         # 내가 쓸 다음 �
 
 ### 6.3 phase_report 필수 항목 (KICKOFF §7)
 1. 변경 요약(커밋 목록) 2. 테스트 결과(기준선 대비) 3. 프리뷰 컨택트 시트 경로(영상 영향 Phase)
+- **검증 명령(C8.3(D187) — 정본 CLAUDE.md C8.3, 값 복사 금지)**:
+  - 변경마다: 관련 테스트 파일 + `python -m pytest -q tests/anti_inertia` (골든 dark·light e2e 포함)
+  - 골든 25컷만: `python -m pytest -q tests/anti_inertia/test_provenance_e2e.py tests/anti_inertia/test_q3_light_e2e.py` (dark·light — 영향 테마만 골라도 된다)
+  - 빠른 묶음: `python -m pytest -q -m "not slow"` (느린 e2e·렌더·CLI 는 `@pytest.mark.slow`, `--strict-markers`)
+  - 전체: `python -m pytest -q` — **하루 1회**(그날 첫 보고 또는 야간)와 **main 병합 직전**만. 보고서 머리말에 `full_pytest: <날짜> <커밋> <passed/failed>` 한 줄
    — 테스트 기준선은 **삭제 조정 기준선**이다(D-0053): 합격 = passed ≥ (직전 기준 − P2로 삭제한 옛 테스트 수) + 새 테스트 요구치, failed 0·xfail 0. 삭제 목록을 표로 적는다.
 4. provenance 요약 5. 다음 Phase 계획 — 그리고 **이번 Phase의 DECISIONS 새 행 요약**.
 

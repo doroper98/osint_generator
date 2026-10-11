@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import pytest
 import shutil
 import tempfile
 import unittest
@@ -39,6 +40,7 @@ class NullBgmMixTest(unittest.TestCase):
         self.assertEqual(s.music_ids(), set())
 
 
+@pytest.mark.slow   # C8.3(D187) — 느린 묶음(빠른 묶음 -m "not slow" 밖)
 class MusicListTest(unittest.TestCase):
     def test_list_from_credits_and_empty_notice(self) -> None:
         from workers.direction_io import music_list_text  # noqa: PLC0415

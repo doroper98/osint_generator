@@ -5,6 +5,7 @@
 
 from __future__ import annotations
 
+import pytest
 import json
 import unittest
 from pathlib import Path
@@ -19,6 +20,7 @@ REPO = Path(__file__).resolve().parent.parent
 PROJ = REPO / "projects" / "fed_timeline_demo"
 
 
+@pytest.mark.slow   # C8.3(D187) — 느린 묶음(빠른 묶음 -m "not slow" 밖)
 class DemoInputsTest(unittest.TestCase):
     def test_direction_is_timeline_macro_monetary(self) -> None:
         d = load_direction_doc(PROJ / "direction.yaml")
@@ -42,6 +44,7 @@ class DemoInputsTest(unittest.TestCase):
         self.assertIn("투자 권유가 아닌 정보 제공 목적", json.dumps(cr, ensure_ascii=False))   # 20 §5.2
 
 
+@pytest.mark.slow   # C8.3(D187) — 느린 묶음(빠른 묶음 -m "not slow" 밖)
 class DemoPreviewTest(unittest.TestCase):
     def test_preview_checks_and_provenance(self) -> None:
         missing = [p for p in ("plan.json", "tts", "assets/rights_registry.json") if not (PROJ / p).exists()]

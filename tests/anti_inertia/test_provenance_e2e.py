@@ -11,6 +11,7 @@ Phase 1~6.5 provenance 전부 8), 패널 relation(옛 refusal). 19 부록 B·15 
 
 from __future__ import annotations
 
+import pytest
 import hashlib
 import json
 import subprocess
@@ -52,6 +53,7 @@ def _masked_md5(p: Path, box: list[float], pad: int) -> str:
     return hashlib.md5(a.tobytes()).hexdigest()
 
 
+@pytest.mark.slow   # C8.3(D187) — 느린 묶음(빠른 묶음 -m "not slow" 밖)
 class ProvenanceE2ETest(unittest.TestCase):
     def test_hormuz_preview_provenance(self) -> None:
         proj = REPO / "projects" / "hormuz_korea"

@@ -6,6 +6,7 @@
 
 from __future__ import annotations
 
+import pytest
 import hashlib
 import json
 import shutil
@@ -118,6 +119,7 @@ class PlaceholderLabelTest(unittest.TestCase):
         self.assertIs(resolve_animatic("badge").render, PLACEHOLDERS["badge"])
 
 
+@pytest.mark.slow   # C8.3(D187) — 느린 묶음(빠른 묶음 -m "not slow" 밖)
 class NoAssetRenderTest(_Hormuz):
     def test_renders_without_assets(self) -> None:
         """자산 없는 환경(추적 파일 + 합성 plan)에서 로드·렌더 — 이미지·영상·타일 파일 접근 0(패치가 읽으면 실패)."""
@@ -232,6 +234,7 @@ class CrimeaFlatMapTest(unittest.TestCase):
         self.assertEqual(owner(load_flat_polygons(True)), {"UA"})
 
 
+@pytest.mark.slow   # C8.3(D187) — 느린 묶음(빠른 묶음 -m "not slow" 밖)
 class AnimaticRunTest(unittest.TestCase):
     """render_animatic 전 과정(짧은 fed_timeline_demo 합성 + 합성 믹스) — mp4·provenance·deliver 거부."""
 

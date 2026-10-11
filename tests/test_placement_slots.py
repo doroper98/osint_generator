@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import pytest
 import unittest
 
 import numpy as np
@@ -124,6 +125,7 @@ REPO_HZ = __import__("pathlib").Path(__file__).resolve().parent.parent / "projec
 
 
 @unittest.skipUnless((REPO_HZ / "plan.json").exists(), "hormuz_korea plan.json(로컬 생성물) 없음")
+@pytest.mark.slow   # C8.3(D187) — 느린 묶음(빠른 묶음 -m "not slow" 밖)
 class CheckDirectionPlaceTest(unittest.TestCase):
     """연출 워커의 저장 전 점검은 렌더와 같은 경로 — place 로 둔 뱃지는 좌표 없이도 통과해야 한다(v3.1.0 hormuz_ai 실측 버그)."""
 

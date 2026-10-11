@@ -8,6 +8,7 @@
 
 from __future__ import annotations
 
+import pytest
 import unittest
 from pathlib import Path
 from types import SimpleNamespace as NS
@@ -141,6 +142,7 @@ class BodyDrawsNoLabelTest(unittest.TestCase):
 PROJECTS = {"fed_policy_2026": True, "ratcliffe2026": True, "hormuz_korea": False}
 
 
+@pytest.mark.slow   # C8.3(D187) — 느린 묶음(빠른 묶음 -m "not slow" 밖)
 class ProjectPreviewNoLabelTest(unittest.TestCase):
     """실프로젝트 — 라벨 문장이 있는 영상(fed_policy·랫클리프)도 본문 text() 에 라벨 0, 엔딩 카드 안내 줄은 n>0 일 때만."""
 

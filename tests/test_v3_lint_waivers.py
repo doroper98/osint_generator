@@ -7,6 +7,7 @@
 
 from __future__ import annotations
 
+import pytest
 import shutil
 import tempfile
 import unittest
@@ -28,6 +29,7 @@ def _waiver(script, kind: str, sid: str, **kw) -> dict:  # noqa: ANN001
             "script_approved": "2026-09-28", "reason": "테스트", "decided_by": "D-0168", **kw}
 
 
+@pytest.mark.slow   # C8.3(D187) — 느린 묶음(빠른 묶음 -m "not slow" 밖)
 class WaiverTest(unittest.TestCase):
     def setUp(self) -> None:
         self.tmp = tempfile.TemporaryDirectory()

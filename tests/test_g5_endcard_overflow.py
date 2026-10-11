@@ -8,6 +8,7 @@
 
 from __future__ import annotations
 
+import pytest
 import unittest
 from pathlib import Path
 from types import SimpleNamespace as NS
@@ -43,6 +44,7 @@ class RuleTest(unittest.TestCase):
         self.assertEqual(LIMIT, 428)
 
 
+@pytest.mark.slow   # C8.3(D187) — 느린 묶음(빠른 묶음 -m "not slow" 밖)
 class OverflowTest(unittest.TestCase):
     def test_fake_overflow_raises(self) -> None:
         secs = _fake_secs(16)                     # 한 열에 절 16개(각 제목 15 + 23×3 + 간격 10) → 롤 속도 상한 초과(v4.7.0 D-0106: 상한 안 넘침은 롤)
@@ -78,6 +80,7 @@ class OverflowTest(unittest.TestCase):
         self.assertEqual(lasts["fed_policy_2026"], [395, 466])          # v5.1.0 G12 — AI 재연출(시리즈 레코드 2)·배경 사진 3장·트럼프 항목: 오른쪽 열 롤 60px(9.2 px/s, 상한 안 — D-0106 [endcard-roll] warning). v4.6.0 실측 418·420
 
 
+@pytest.mark.slow   # C8.3(D187) — 느린 묶음(빠른 묶음 -m "not slow" 밖)
 class UniqueLineTest(unittest.TestCase):
     def test_same_line_once(self) -> None:
         from engine.credits import _unique  # noqa: PLC0415

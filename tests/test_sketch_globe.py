@@ -6,6 +6,7 @@
 
 from __future__ import annotations
 
+import pytest
 import json
 import math
 import shutil
@@ -178,6 +179,7 @@ class CrossfadeTest(unittest.TestCase):
 
 @unittest.skipUnless((PROJ / "globe_tex" / "assets" / "tiers.pkl").is_file() and (PROJ / "assets" / "tiers.pkl").is_file(),
                      "d1 지형·지구본 텍스처 자산 없음 — `python -m geo.prep projects/d1_missile_sketch` + `…/globe_tex`(phaseS0 run_log §0)")
+@pytest.mark.slow   # C8.3(D187) — 느린 묶음(빠른 묶음 -m "not slow" 밖)
 class GlobeFramesTest(unittest.TestCase):
     def test_globe_frames_provenance(self) -> None:
         with tempfile.TemporaryDirectory() as d:

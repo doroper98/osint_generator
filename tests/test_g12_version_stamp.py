@@ -8,6 +8,7 @@
 
 from __future__ import annotations
 
+import pytest
 import json
 import unittest
 from pathlib import Path
@@ -44,6 +45,7 @@ def _drawn(lt: float, roll: tuple[float, float] = (0.0, 0.0)) -> list[tuple[str,
     return calls
 
 
+@pytest.mark.slow   # C8.3(D187) — 느린 묶음(빠른 묶음 -m "not slow" 밖)
 class VersionStampTest(unittest.TestCase):
     def test_string_is_version_file(self) -> None:
         want = "v" + (REPO / "VERSION").read_text(encoding="utf-8").strip()

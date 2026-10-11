@@ -7,6 +7,7 @@
 
 from __future__ import annotations
 
+import pytest
 import hashlib
 import subprocess
 import tempfile
@@ -38,6 +39,7 @@ def _mp3_seconds(p: Path) -> float:
 
 
 @unittest.skipUnless(HAS_ASSETS, SKIP)
+@pytest.mark.slow   # C8.3(D187) — 느린 묶음(빠른 묶음 -m "not slow" 밖)
 class SynthTest(unittest.TestCase):
     def test_deterministic_wav_and_mp3(self) -> None:
         w1, sr, parts = st.synth_wav(TEXT, CFG)

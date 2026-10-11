@@ -110,6 +110,7 @@ origin: claude.ai chat handoff bundle (2026-09-26 ~ 09-27), imported verbatim
 
 ### P12. 변경은 한 번에 하나, 결과는 영상으로 확인
 - 단계마다 프리뷰 컨택트 시트 + provenance를 사용자에게 보여 준다. 코드 리뷰만으로 "적용됨"을 판정하지 않는다.
+- 결과 확인의 테스트 몫은 C8.3(D187): 변경마다 타깃 + `tests/anti_inertia` + 영향 테마 골든 25컷, 전체 pytest 는 하루 1회·main 병합 직전.
 
 ---
 

@@ -8,6 +8,7 @@
 
 from __future__ import annotations
 
+import pytest
 import json
 import subprocess
 import tempfile
@@ -123,6 +124,7 @@ class PureTest(unittest.TestCase):
 
 
 @unittest.skipUnless(HAS, SKIP)
+@pytest.mark.slow   # C8.3(D187) — 느린 묶음(빠른 묶음 -m "not slow" 밖)
 class ModelTest(unittest.TestCase):
     def _mp3(self, k: int) -> tuple[Path, str]:
         return FIX / MAN[k]["mp3"], MAN[k]["tts"]
