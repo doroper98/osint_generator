@@ -1,0 +1,10 @@
+# 린트 면제 목록 — 결정 기록(git 추적). back_and_forth D-0168 형식, DECISIONS D213. 정확 일치만 통과, 낡은 면제 = 오류.
+schema_version: 1
+waivers:
+  - kind: flow-sparse
+    sid: "-"
+    text_sha1: 3b52a607c32437a35e870bb77e5818ab86aa4d5f
+    rule_since: v5.5.0
+    script_approved: 2026-09-29
+    reason: "데모 원고 flow-sparse(v4.3.0 G3 시간축 실증, 2026-09-29) — V4 표준 음성 재생성용. 데모라 사용자 기준선 아님(D-0213 §2-2)"
+    decided_by: D-0213

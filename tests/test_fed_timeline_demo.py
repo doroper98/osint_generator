@@ -1,6 +1,7 @@
 """시간축 실증 프로젝트 fed_timeline_demo (v4.3.0, back_and_forth D-0084 작업 6·9, D-0086·D-0088).
 
-연출·원고는 입력 파일 검사(자산 없이), 프리뷰는 plan.json·tts 가 있을 때(artifacts/phaseG3-v4.3.0 에서 복원 — 없으면 환경 오류로 실패).
+연출·원고는 입력 파일 검사(자산 없이), 프리뷰는 plan.json·tts 가 있을 때 — 표준 음성으로 `python -m script.plan projects/fed_timeline_demo`
+(v5.23.0 D-0213: 원고 flow-sparse 는 lint_waivers.yaml 면제 1건, 옛 edge 음성 plan 은 쓰지 않는다). assets 는 artifacts/phaseG3-v4.3.0 에서 복원.
 """
 
 from __future__ import annotations
@@ -49,13 +50,14 @@ class DemoPreviewTest(unittest.TestCase):
     def test_preview_checks_and_provenance(self) -> None:
         missing = [p for p in ("plan.json", "tts", "assets/rights_registry.json") if not (PROJ / p).exists()]
         if missing:
-            raise RuntimeError(f"fed_timeline_demo 자산 없음 {missing} — artifacts/phaseG3-v4.3.0 복원(run_log §0)")
+            raise RuntimeError(f"fed_timeline_demo 자산 없음 {missing} — assets 는 artifacts/phaseG3-v4.3.0 복원(run_log §0), plan·tts 는 `python -m script.plan projects/fed_timeline_demo`(표준 음성)")
         from engine.render import main  # noqa: PLC0415
 
         self.assertEqual(main([str(PROJ), "--preview", "auto"]), 0)
         chk = json.loads((PROJ / "prev" / "checks.json").read_text(encoding="utf-8"))
         self.assertEqual((chk["hard"], len(chk["items"])), (0, 61))   # v5.22.7 label_jump. v5.22.4 camera_per_sentence. v5.22.3 endcard_black. v5.22.2 bgm_decision. v5.22.0 +2 warning. v5.21.14 story geo 4. v5.21.13 quote_in_script(hard). v5.21.12 article_backdrop(hard). v5.21.11 route_label 2(hard). v5.21.10 card_exposure(hard). v5.21.9 camera_continuity(hard).   # v5.18.0 map_contrast·map_contrast_shape(지도 무대 아님 = 0건)   # v5.6.0 flag_territory·badge_over_panel·opening_establish(hard)·weapon_photo(warning), panel_overflow(hard)·route_frame(hard)·timeline_span(hard)·label_collision(hard), v5.3.1 subtitle_overlap, v5.3.0 D-0139 cascade(hard)·cascade_label_hidden(warning), v5.2.0 D-0133 island_label_clip(hard)·island_label_overlap(warning), D-0129 backdrop_main_missing(hard)·card_island(warning), v5.1.0 D-0123·D-0126 backdrop 2·island_overlap·stage_choice, D-0121 §A timeline_rescale, v4.11.0 D-0118 static_window, v4.10.0 D-0116 geo_mismatch, v4.7.0 D-0106 endcard_roll(warning), D-0107 boundary_as_route·geo_unsourced 추가
         prov = json.loads((PROJ / "prev" / "provenance.json").read_text(encoding="utf-8"))
+        self.assertTrue(prov["voice"].startswith("supertonic"), prov["voice"])   # v5.23.0 D-0213 — 표준 음성(C0.2), edge 음성 plan 금지
         self.assertEqual(prov["stage"]["name"], "timeline")
         self.assertEqual(prov["genre"], {"name": "macro_monetary", "declared": True, "status": "proposed"})
         self.assertEqual({s["series_id"] for s in prov["series"]}, {"FEDFUNDS", "CPIAUCSL"})
