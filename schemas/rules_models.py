@@ -1486,6 +1486,7 @@ class QAChecks(_Strict):
     battle_geo: "BattleGeoRules"         # v5.22.0 D-0200 UF-08 — 전황 문장에 지명·경로 없음(warning)
     card_full_exposure_min_sec: float = Field(gt=0)   # v5.21.10 D-0191 §1-2 — 기사·인용 카드 완전 불투명 구간 하한(hard card_exposure)
     label_jump_px: float = Field(gt=0)   # v5.22.7 D209 — 경로 이름표 수명 중 자리 이동 상한(hard label_jump)
+    label_slot_sample_sec: float = Field(gt=0)   # v5.22.7 D210 — 이름표 수명 표본 간격(route_label_slots)
     map_contrast_text: float = Field(default=4.5, gt=1)    # v5.18.0 D-0161 §4 — 지도 위 필수 글자 ↔ 합성 배경(hard)
     map_contrast_shape: float = Field(default=3.0, gt=1)   # 지도 위 경로 선 ↔ 주변(warning)
     map_contrast_min_alpha: float = Field(default=0.8, gt=0, le=1)   # 이 알파 이상으로 다 나타난 요소만 잰다(페이드 중·카드 뒤 흐린 라벨 제외)

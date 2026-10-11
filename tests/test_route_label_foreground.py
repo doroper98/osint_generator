@@ -73,3 +73,22 @@ class TestFixedSlot(unittest.TestCase):
 
         self.assertIn("label_jump", HARD)
         self.assertGreater(load_rules().qa_checks.label_jump_px, 0)
+
+
+class TestLifetimeSlot(unittest.TestCase):
+    """v5.22.7 D210 — 수명 전체 비충돌 후보가 없을 때만 겹치는 구간을 그 자리에서 흐린다(0.25초 램프)."""
+
+    def test_slot_fade_spans(self) -> None:
+        from engine.layers.routes import slot_fade
+
+        e = {"label": "x"}
+        fades = {id(e): [(10.0, 12.0)]}
+        self.assertEqual(slot_fade(fades, e, 9.0), 1.0)
+        self.assertEqual(slot_fade(fades, e, 11.0), 0.0)
+        self.assertTrue(0.0 < slot_fade(fades, e, 10.1) < 1.0)   # 튀지 않게 램프
+        self.assertEqual(slot_fade({}, e, 11.0), 1.0)
+
+    def test_sample_rule(self) -> None:
+        from rules import load_rules
+
+        self.assertGreater(load_rules().qa_checks.label_slot_sample_sec, 0)

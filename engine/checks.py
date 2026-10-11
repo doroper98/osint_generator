@@ -500,57 +500,84 @@ def _label_shown(e: dict, t: float) -> bool:
             and window(t, e["t0"], e["t1"], 0.35, 0.6) > 0.01)
 
 
-def route_label_slots(P) -> dict[int, int]:  # noqa: ANN001, N803
-    """v5.22.7 D209 — 경로 이름표마다 고정 후보 번호 {id(이벤트): k}. 이름표가 처음 보이는 프레임(격자, 글자 불투명도 > 0.01)에
-    그 순간 이미 있는 장애물(예약 상자·마커 글자·해역 이름·자막·전경 층·먼저 자리 잡은 이름표)만 피해 고르고, 수명 내내 그 후보를 쓴다.
-    렌더(flush_route_labels)·검사 공용. 나타나는 순간 통과 후보가 없던 이름표는 P.R.cache["route_label_slot_fail"] 에 남긴다(검사가 hard)."""
-    if "route_label_slots" in P.R.cache:
-        return P.R.cache["route_label_slots"]
-    import math  # noqa: PLC0415
-
-    from engine.layers.routes import catmull, label_obstacles, pick_route_label, route_lines, slot_route_label  # noqa: PLC0415
-    from engine.timebase import smooth, window  # noqa: PLC0415
-
-    ctx = cairo.Context(cairo.ImageSurface(cairo.FORMAT_ARGB32, 1, 1))
-    routes = [e for e in P.events if e["type"] == "route" and e.get("label") and not e.get("in_island")]
-    anchors = []
-    for n, e in enumerate(routes):
-        for i in range(max(0, math.floor(e["t0"] * FPS)), min(P.n_frames - 1, math.ceil(e["t1"] * FPS)) + 1):
-            t = i / FPS
-            if _label_shown(e, t) and window(t, e["t0"], e["t1"], 0.35, 0.6) * smooth((t - e["t0"] - e["grow"]) / 0.4) > 0.01:
-                anchors.append((i, n, e))
-                break
+def _capture_reserved(P, i: int) -> list:  # noqa: ANN001, N803
+    """프레임 i 렌더의 예약 상자(뱃지·마커·겹침 카드) — render_frame 을 이름표 flush 에서 멈춰 R.reserved 를 그대로 받는다
+    (검사 근사 아님, RENDER-AP-024). 배경은 그리지 않고 지도 글자 대비 기록도 끈다. 프레임마다 한 번(P.R.cache)."""
+    memo = P.R.cache.setdefault("route_label_capture_memo", {})
+    if i in memo:
+        return memo[i]
     from engine import typography  # noqa: PLC0415
     from engine.layers.routes import LabelCapture  # noqa: PLC0415
     from engine.render import render_frame  # noqa: PLC0415
 
+    cap: dict = {}
+    P.R.cache["route_label_capture"], clog, typography.CONTRAST_LOG = cap, typography.CONTRAST_LOG, None
+    try:
+        render_frame(P, i)
+    except LabelCapture:
+        pass
+    finally:
+        P.R.cache["route_label_capture"], typography.CONTRAST_LOG = None, clog
+    memo[i] = cap.get("reserved", [])
+    return memo[i]
+
+
+def route_label_slots(P) -> dict[int, int]:  # noqa: ANN001, N803
+    """v5.22.7 D209·D210 — 경로 이름표마다 고정 후보 번호 {id(이벤트): k}. 렌더(flush_route_labels)·검사 공용, 결정적.
+    이름표 수명(글자 불투명도 > 0.01 인 프레임 격자) 전체를 qa_checks.label_slot_sample_sec 간격으로 훑어, 모든 표본에서
+    선·예약 상자·마커 글자·해역 이름·자막·전경 층·먼저 자리 잡은 이름표와 안 겹치는 후보 중 앞 번호를 고른다.
+    그런 후보가 없으면 겹치는 표본이 가장 적은 후보로 고정하고, 겹치는 구간은 그 자리에서 흐린다
+    (P.R.cache["route_label_fades"] = {id: [(시작, 끝)]}, 렌더 slot_fade·검사가 같은 값)."""
+    if "route_label_slots" in P.R.cache:
+        return P.R.cache["route_label_slots"]
+    import math  # noqa: PLC0415
+
+    from engine.layers.routes import catmull, label_candidates, label_extent, label_obstacles, route_lines, slot_route_label  # noqa: PLC0415
+    from engine.layers.routes import _bad, _box  # noqa: PLC0415
+    from engine.timebase import smooth, window  # noqa: PLC0415
+
+    ctx = cairo.Context(cairo.ImageSurface(cairo.FORMAT_ARGB32, 1, 1))
+    routes = [e for e in P.events if e["type"] == "route" and e.get("label") and not e.get("in_island")]
+    step = max(1, round(QA.label_slot_sample_sec * FPS))
+    lives = []
+    for n, e in enumerate(routes):
+        fr = [i for i in range(max(0, math.floor(e["t0"] * FPS)), min(P.n_frames - 1, math.ceil(e["t1"] * FPS)) + 1)
+              if _label_shown(e, i / FPS) and window(i / FPS, e["t0"], e["t1"], 0.35, 0.6) * smooth((i / FPS - e["t0"] - e["grow"]) / 0.4) > 0.01]
+        if fr:
+            lives.append((fr[0], n, e, sorted(set(fr[::step]) | {fr[-1]})))
     slots: dict[int, int] = {}
-    P.R.cache["route_label_slots"] = slots   # render_frame 이 다시 부르지 않게 먼저 둔다(아래 붙잡기 렌더)
-    fails: list[tuple[dict, float]] = []
-    for i, _, e in sorted(anchors, key=lambda a: (a[0], a[1])):
-        t = i / FPS
-        v = View(P.R.stage, P.cams[i])
-        act = [x for x in P.events if x["t0"] - 0.05 <= t <= x["t1"] + 0.05]
-        cap: dict = {}   # 그 프레임 렌더의 예약 상자(뱃지·마커·겹침 카드) — 렌더가 실제로 쓴 상자 그대로(검사 근사 아님)
-        P.R.cache["route_label_capture"], clog, typography.CONTRAST_LOG = cap, typography.CONTRAST_LOG, None
-        try:
-            render_frame(P, i)
-        except LabelCapture:
-            pass
-        finally:
-            P.R.cache["route_label_capture"], typography.CONTRAST_LOG = None, clog
-        obstacles = label_obstacles(ctx, v, act, t, cap["reserved"], P.R.tb)
-        lines = route_lines(v, act, t)
-        for o in routes:   # 먼저 자리 잡은 이름표(지금 보이는 것)
-            if id(o) in slots and _label_shown(o, t):
-                So = v.to_screen_arr(o["curve"] if "curve" in o else catmull(o["world_pts"], 12))  # noqa: N806
-                obstacles.append(slot_route_label(ctx, v.stage, o["label"], So, slots[id(o)], [], [])[2])
-        S_ = v.to_screen_arr(e["curve"] if "curve" in e else catmull(e["world_pts"], 12))  # noqa: N806
-        k, placed = pick_route_label(ctx, v.stage, e["label"], S_, obstacles, lines)
+    fades: dict[int, list[tuple[float, float]]] = {}
+    P.R.cache["route_label_slots"] = slots   # render_frame(붙잡기)이 다시 부르지 않게 먼저 둔다
+    P.R.cache["route_label_fades"] = fades
+    half = step / FPS
+    for _, _, e, samples in sorted(lives, key=lambda a: (a[0], a[1])):
+        _, W = label_extent(ctx, P.R.stage, e["label"])  # noqa: N806
+        bad_at: list[list[bool]] = []
+        for i in samples:
+            t = i / FPS
+            v = View(P.R.stage, P.cams[i])
+            act = [x for x in P.events if x["t0"] - 0.05 <= t <= x["t1"] + 0.05]
+            obstacles = label_obstacles(ctx, v, act, t, _capture_reserved(P, i), P.R.tb)
+            lines = route_lines(v, act, t)
+            for o in routes:   # 먼저 자리 잡은 이름표(지금 보이는 것)
+                if id(o) in slots and _label_shown(o, t):
+                    So = v.to_screen_arr(o["curve"] if "curve" in o else catmull(o["world_pts"], 12))  # noqa: N806
+                    obstacles.append(slot_route_label(ctx, v.stage, o["label"], So, slots[id(o)], [], [])[2])
+            S_ = v.to_screen_arr(e["curve"] if "curve" in e else catmull(e["world_pts"], 12))  # noqa: N806
+            bad_at.append([_bad(_box(cx, by, W), obstacles, lines) > 0 for cx, by in label_candidates(S_, W)])
+        n_bad = [sum(row[k] for row in bad_at) for k in range(len(bad_at[0]))]
+        k = min(range(len(n_bad)), key=lambda q: (n_bad[q], q))
         slots[id(e)] = k
-        if not placed[3]:
-            fails.append((e, t))
-    P.R.cache["route_label_slot_fail"] = fails
+        spans: list[tuple[float, float]] = []
+        for i, row in zip(samples, bad_at):
+            if row[k]:
+                t = i / FPS
+                if spans and t - half <= spans[-1][1] + 1e-9:
+                    spans[-1] = (spans[-1][0], t + half)
+                else:
+                    spans.append((t - half, t + half))
+        if spans:
+            fades[id(e)] = spans
     return slots
 
 
@@ -626,11 +653,10 @@ def route_label_report(P) -> dict[str, list[str]]:  # noqa: ANN001, N803
     ctx = cairo.Context(cairo.ImageSurface(cairo.FORMAT_ARGB32, 1, 1))
     rep: dict[str, list[str]] = {"cross": [], "overlap": []}
     seen: set = set()
+    from engine.layers.routes import slot_fade  # noqa: PLC0415
+
     route_label_slots(P)
-    for e, ta in P.R.cache["route_label_slot_fail"]:   # v5.22.7 D209 — 나타나는 순간 이미 있던 장애물(전경 층 포함)을 어느 후보로도 못 피함
-        seen.add(("o", id(e)))
-        rep["overlap"].append(f"[route-label-overlap] 경로 이름표 {e['label']!r} 가 나타나는 순간(t={ta:.2f}) 선·지명·뱃지·마커·카드와 겹치거나 화면 밖 — "
-                              "라벨을 줄이거나 겹치는 요소의 시간·자리를 바꾼다")
+    fades = P.R.cache["route_label_fades"]
     routes = [e for e in P.events if e["type"] == "route" and not e.get("in_island")]
     lo = min((e["t0"] for e in routes), default=0.0)
     hi = max((e["t1"] for e in routes), default=0.0)
@@ -639,6 +665,8 @@ def route_label_report(P) -> dict[str, list[str]]:  # noqa: ANN001, N803
         if not _covered(P, t):
             v = View(P.R.stage, P.cams[min(P.n_frames - 1, int(t * FPS))])
             for e, (_, _, b, ok), lines in route_label_layout(P, ctx, v, t):
+                if slot_fade(fades, e, t) < 0.5:   # v5.22.7 D210 — 수명 전체에 안 겹치는 자리가 없어 그 구간 흐림(겹침은 보이지 않는다)
+                    continue
                 if any(segs_cross_box(L_, b, RL.line_clear_px) for L_ in lines) and ("x", id(e)) not in seen:
                     seen.add(("x", id(e)))
                     rep["cross"].append(f"[route-label-cross] 경로 이름표 {e['label']!r} 를 경로 선이 지나감 t={t:.2f} — 어느 자리 후보로도 선을 피하지 못함. "

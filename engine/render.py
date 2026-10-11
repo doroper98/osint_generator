@@ -72,13 +72,15 @@ def render_frame(P: Project, i: int) -> tuple[cairo.ImageSurface, bytearray]:  #
     act = [e for e in P.events if e["t0"] - 0.05 <= t <= e["t1"] + 0.05]
     panel_a = max([window(t, e["t0"], e["t1"], PANEL.fade_sec, PANEL.fade_sec) for e in act if e["type"] == "panel"] + [0])
     R.zones = card_zones(ctx, P.events, t)   # 카드 RESERVED — 지도 레이어가 먼저 그려지므로 미리(D-0033). 앞뒤 lead 포함(글자 측정만, 그리지 않음)
-    R.stage.render_base(ctx, view)           # 무대 배경: 지형 래스터 + 국경(v4.1.0 D-0076 — MercatorStage = v3 순서 그대로)
-    if getattr(R.stage, "border_glow", False):   # v5.4.0 국경선 글로우(정규 — 지도 기본, stage_config.mercator.border_glow: false 로 끔)
+    capture = R.cache.get("route_label_capture") is not None   # v5.22.7 D210 — 이름표 자리 고르기의 예약 상자 붙잡기: 배경(예약 없음)은 그리지 않는다
+    if not capture:
+        R.stage.render_base(ctx, view)           # 무대 배경: 지형 래스터 + 국경(v4.1.0 D-0076 — MercatorStage = v3 순서 그대로)
+    if getattr(R.stage, "border_glow", False) and not capture:   # v5.4.0 국경선 글로우(정규 — 지도 기본, stage_config.mercator.border_glow: false 로 끔)
         from engine.layers.borders import draw_border_glow  # noqa: PLC0415
 
         draw_border_glow(ctx, R.stage, view, t)
     for e in P.events:   # v5.1.0 D-0123 — backdrop 배경 사진: crossfade 로 끝 뒤 crossfade_sec 까지 남는다(act 창 밖)
-        if e["type"] == "backdrop" and e["t0"] <= t <= e["t1"] + BACKDROP.crossfade_sec:
+        if e["type"] == "backdrop" and e["t0"] <= t <= e["t1"] + BACKDROP.crossfade_sec and not capture:
             L.resolve(e).render(ctx, R, view, t, e)
     R.cache["route_labels_pending"] = []   # v5.21.11 D-0191 §1-3 — 경로 라벨은 마커·뱃지가 자리를 잡은 뒤 그린다(flush_route_labels)
     for typ in MAP_LAYER_ORDER:

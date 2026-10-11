@@ -309,6 +309,12 @@ def foreground_zones(ctx: cairo.Context, events: list[dict], t: float) -> list[t
     return out
 
 
+def slot_fade(fades: dict, e: dict, t: float) -> float:
+    """v5.22.7 D210 — 수명 전체에서 안 겹치는 자리가 없던 이름표: 겹치는 구간(route_label_slots 가 정한 [시작, 끝])에서 그 자리 그대로 흐린다.
+    구간 가장자리 RL 고정 0.25초로 나고 든다(튀지 않게)."""
+    return 1.0 - max([window(t, a, b, 0.25, 0.25) for a, b in fades.get(id(e), [])] + [0.0])
+
+
 def label_fade(ctx: cairo.Context, events: list[dict], t: float, b: Box) -> float:
     """v5.22.7 D209 — 이름표 상자를 덮는 전경 층이 있으면 그 불투명도만큼 그 자리에서 흐린다(자리를 옮기지 않는다)."""
     return 1.0 - max([a for fb, a in foreground_zones(ctx, events, t) if _overlap(b, fb)] + [0.0])
@@ -338,7 +344,8 @@ def flush_route_labels(ctx: cairo.Context, R: RenderCtx, view: View, events: lis
                 raise RuntimeError(f"경로 이름표 {e['label']!r} t={t:.3f} 고정 자리 없음(route_label_slots) — 이름표 수명이 한 프레임보다 짧다")
             continue
         placed = slot_route_label(ctx, view.stage, e["label"], S_, k, [], [])
-        draw_route_label(ctx, view, e, S_, col, la * label_fade(ctx, events, t, placed[2]), placed)
+        fade = label_fade(ctx, events, t, placed[2]) * slot_fade(R.cache.get("route_label_fades") or {}, e, t)
+        draw_route_label(ctx, view, e, S_, col, la * fade, placed)
         R.reserved.append(placed[2])
 
 
