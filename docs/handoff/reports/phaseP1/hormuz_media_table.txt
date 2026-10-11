@@ -1,0 +1,62 @@
+미디어 계획 표 — 사진 0/4장(분당 1, 261초 실측) · 기사 카드 후보 43문장(60초당 2개까지 쓴다)
+  문장         인용 출처              기사(등록/미등록)        사진 찾음/통과/선택      사유
+  open_0       clm_0001               reuters_0904,herald_0907 / 미등록 3 0/0/-                  
+  open_1       clm_0002               reuters_0904,herald_0907 / 미등록 3 0/0/- (발표)             (사유 없음)
+  open_2       clm_0003               reuters_0904,herald_0907 / 미등록 3 0/0/-                  
+  open_3       clm_0004               reuters_0904,herald_0907 / 미등록 3 0/0/-                  
+  route_0      clm_0005               reuters_0904             0/0/-                  
+  route_1      clm_0006               reuters_0904             0/0/-                  
+  route_2      clm_0007               reuters_0904             0/0/-                  
+  route_3      clm_0008               reuters_0904             0/0/-                  
+  war_0        clm_0009               reuters_0904,herald_0907 / 미등록 3 0/0/- (공습)             (사유 없음)
+  war_1        clm_0010               reuters_0904,herald_0907 / 미등록 3 0/0/-                  
+  war_2        clm_0011               reuters_0904,herald_0907 / 미등록 3 0/0/-                  
+  war_3        clm_0012               reuters_0904,herald_0907 / 미등록 3 0/0/-                  
+  ask_0        clm_0013               reuters_0904,herald_0907 / 미등록 3 0/0/-                  
+  ask_1        clm_0014               reuters_0904,herald_0907 / 미등록 3 0/0/-                  
+  ask_2        clm_0015               reuters_0904,herald_0907 / 미등록 3 0/0/-                  
+  ask_3        clm_0016               reuters_0904,herald_0907 / 미등록 3 0/0/-                  
+  ask_4        clm_0017               reuters_0904,herald_0907 / 미등록 3 0/0/-                  
+  ask_5        clm_0018               reuters_0904,herald_0907 / 미등록 3 0/0/-                  
+  timeline_0   clm_0019               reuters_0904,herald_0907 / 미등록 3 0/0/-                  
+  timeline_1   clm_0020               reuters_0904,herald_0907 / 미등록 3 0/0/-                  
+  timeline_2   clm_0021               reuters_0904,herald_0907 / 미등록 3 0/0/-                  
+  timeline_3   clm_0022               reuters_0904,herald_0907 / 미등록 3 0/0/-                  
+  timeline_4   clm_0023               reuters_0904,herald_0907 / 미등록 3 0/0/- (공습)             (사유 없음)
+  timeline_5   clm_0024               reuters_0904,herald_0907 / 미등록 3 0/0/-                  
+  cost_0       clm_0025               - / 미등록 1                0/0/-                  
+  cost_1       clm_0026               - / 미등록 1                0/0/-                  
+  review_0     clm_0027               reuters_0904             0/0/- (파병)             (사유 없음)
+  review_1     clm_0028               reuters_0904             0/0/- (초계기)            (사유 없음)
+  review_2     clm_0029               reuters_0904             0/0/-                  
+  review_3     clm_0030               reuters_0904             0/0/- (부대)             (사유 없음)
+  past_0       clm_0031               reuters_0904,herald_0907 / 미등록 3 0/0/-                  
+  past_1       clm_0032               reuters_0904,herald_0907 / 미등록 3 0/0/- (부대)             (사유 없음)
+  past_2       clm_0033               reuters_0904,herald_0907 / 미등록 3 0/0/- (회담)             (사유 없음)
+  past_3       clm_0034               reuters_0904,herald_0907 / 미등록 3 0/0/- (부대)             (사유 없음)
+  debate_0     clm_0035               herald_0907 / 미등록 2      0/0/-                  
+  debate_1     clm_0036               herald_0907 / 미등록 2      0/0/- (파병)             (사유 없음)
+  debate_2     clm_0037               herald_0907 / 미등록 2      0/0/- (파병)             (사유 없음)
+  debate_3     clm_0038               herald_0907 / 미등록 2      0/0/- (부대)             (사유 없음)
+  debate_4     clm_0039               herald_0907 / 미등록 2      0/0/- (미사일)            (사유 없음)
+  decision_0   clm_0040               reuters_0904,herald_0907 / 미등록 3 0/0/- (파병)             (사유 없음)
+  decision_1   clm_0041               reuters_0904,herald_0907 / 미등록 3 0/0/-                  
+  now_0        clm_0042               reuters_0904,herald_0907 / 미등록 3 0/0/-                  
+  now_1        clm_0043               reuters_0904,herald_0907 / 미등록 3 0/0/-                  
+  now_2        clm_0044               reuters_0904,herald_0907 / 미등록 3 0/0/-                  
+  now_3        clm_0045               reuters_0904,herald_0907 / 미등록 3 0/0/- (부대)             (사유 없음)
+  오류 [photo-reason] open_1: 사진 후보 문장(발표) — 검색 기록·사유 없음. `tools/media_fetch.py search --log projects/hormuz_korea --sid open_1 "검색어"` 또는 media_notes.yaml sentences.open_1.photo
+  오류 [photo-reason] war_0: 사진 후보 문장(공습) — 검색 기록·사유 없음. `tools/media_fetch.py search --log projects/hormuz_korea --sid war_0 "검색어"` 또는 media_notes.yaml sentences.war_0.photo
+  오류 [photo-reason] timeline_4: 사진 후보 문장(공습) — 검색 기록·사유 없음. `tools/media_fetch.py search --log projects/hormuz_korea --sid timeline_4 "검색어"` 또는 media_notes.yaml sentences.timeline_4.photo
+  오류 [photo-reason] review_0: 사진 후보 문장(파병) — 검색 기록·사유 없음. `tools/media_fetch.py search --log projects/hormuz_korea --sid review_0 "검색어"` 또는 media_notes.yaml sentences.review_0.photo
+  오류 [photo-reason] review_1: 사진 후보 문장(초계기) — 검색 기록·사유 없음. `tools/media_fetch.py search --log projects/hormuz_korea --sid review_1 "검색어"` 또는 media_notes.yaml sentences.review_1.photo
+  오류 [photo-reason] review_3: 사진 후보 문장(부대) — 검색 기록·사유 없음. `tools/media_fetch.py search --log projects/hormuz_korea --sid review_3 "검색어"` 또는 media_notes.yaml sentences.review_3.photo
+  오류 [photo-reason] past_1: 사진 후보 문장(부대) — 검색 기록·사유 없음. `tools/media_fetch.py search --log projects/hormuz_korea --sid past_1 "검색어"` 또는 media_notes.yaml sentences.past_1.photo
+  오류 [photo-reason] past_2: 사진 후보 문장(회담) — 검색 기록·사유 없음. `tools/media_fetch.py search --log projects/hormuz_korea --sid past_2 "검색어"` 또는 media_notes.yaml sentences.past_2.photo
+  오류 [photo-reason] past_3: 사진 후보 문장(부대) — 검색 기록·사유 없음. `tools/media_fetch.py search --log projects/hormuz_korea --sid past_3 "검색어"` 또는 media_notes.yaml sentences.past_3.photo
+  오류 [photo-reason] debate_1: 사진 후보 문장(파병) — 검색 기록·사유 없음. `tools/media_fetch.py search --log projects/hormuz_korea --sid debate_1 "검색어"` 또는 media_notes.yaml sentences.debate_1.photo
+  오류 [photo-reason] debate_2: 사진 후보 문장(파병) — 검색 기록·사유 없음. `tools/media_fetch.py search --log projects/hormuz_korea --sid debate_2 "검색어"` 또는 media_notes.yaml sentences.debate_2.photo
+  오류 [photo-reason] debate_3: 사진 후보 문장(부대) — 검색 기록·사유 없음. `tools/media_fetch.py search --log projects/hormuz_korea --sid debate_3 "검색어"` 또는 media_notes.yaml sentences.debate_3.photo
+  오류 [photo-reason] debate_4: 사진 후보 문장(미사일) — 검색 기록·사유 없음. `tools/media_fetch.py search --log projects/hormuz_korea --sid debate_4 "검색어"` 또는 media_notes.yaml sentences.debate_4.photo
+  오류 [photo-reason] decision_0: 사진 후보 문장(파병) — 검색 기록·사유 없음. `tools/media_fetch.py search --log projects/hormuz_korea --sid decision_0 "검색어"` 또는 media_notes.yaml sentences.decision_0.photo
+  오류 [photo-reason] now_3: 사진 후보 문장(부대) — 검색 기록·사유 없음. `tools/media_fetch.py search --log projects/hormuz_korea --sid now_3 "검색어"` 또는 media_notes.yaml sentences.now_3.photo

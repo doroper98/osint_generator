@@ -1,0 +1,51 @@
+{
+ "schema_version": 1,
+ "searches": [
+  {
+   "sid": "now_3",
+   "query": "Korean navy Cheonghae unit hastemplate:\"PD-USGov-Military\"",
+   "pool": "us_dod_pd",
+   "on": "2026-10-10",
+   "found": 0,
+   "passed": 0,
+   "top": [],
+   "rejected": []
+  },
+  {
+   "sid": "now_3",
+   "query": "Korean navy Cheonghae unit",
+   "pool": "commons_cc",
+   "on": "2026-10-10",
+   "found": 5,
+   "passed": 0,
+   "top": [],
+   "rejected": [
+    "CC BY-SA 2.0"
+   ]
+  },
+  {
+   "sid": "past_1",
+   "query": "Zaytun division Erbil hastemplate:\"PD-USGov-Military\"",
+   "pool": "us_dod_pd",
+   "on": "2026-10-10",
+   "found": 0,
+   "passed": 0,
+   "top": [],
+   "rejected": []
+  },
+  {
+   "sid": "past_1",
+   "query": "Zaytun division Erbil",
+   "pool": "commons_cc",
+   "on": "2026-10-11",
+   "found": 5,
+   "passed": 1,
+   "top": [
+    "File:Fallen Peshmerga warriors honored during memorial service DVIDS301213.jpg"
+   ],
+   "rejected": [
+    "CC BY-SA 4.0"
+   ]
+  }
+ ]
+}
