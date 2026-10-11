@@ -100,6 +100,19 @@ def continuity(track: "np.ndarray", cut_frames: Sequence[int] = ()) -> dict[str,
     return out
 
 
+def speed(track: "np.ndarray", cut_frames: Sequence[int] = (), fps: float = 24.0) -> dict[str, "np.ndarray"]:
+    """카메라 속도(v6.0.2 UF-97 D-0216) — 프레임 (x, y, w) 배열에서 프레임 i→i+1 사이
+    pan = 중심 이동 거리 ÷ 평균 w × fps(화면 폭/초), zoom = |Δ ln w| × fps(/초). 컷 키 프레임으로 들어가는 차분은 0.
+    본 엔진 camera_speed 와 스케치 SK-C1 이 같은 함수·같은 규칙 키(shot_grammar.camera_speed)."""
+    x, y, w = track[:, 0], track[:, 1], track[:, 2]
+    pan = np.hypot(np.diff(x), np.diff(y)) / ((w[1:] + w[:-1]) / 2) * fps
+    zoom = np.abs(np.diff(np.log(w))) * fps
+    for c in cut_frames:
+        if 0 < c <= len(pan):
+            pan[c - 1] = zoom[c - 1] = 0.0
+    return {"pan": pan, "zoom": zoom}
+
+
 class Director:
     """연출층 도우미 — v3 상단의 `cam()`·`ev()`·`dip()` 호출을 한 객체로 모은다.
 

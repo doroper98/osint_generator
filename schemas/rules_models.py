@@ -243,6 +243,15 @@ class AutoTransition(_Strict):
     dip_if_w_ratio_over: float
 
 
+class CameraSpeedRules(_Strict):
+    """v6.0.2 UF-97 D-0216 — 카메라 속도 상한. pan = 화면 중심 이동(화면 폭/초), zoom = |d ln w/dt|(/초). opening_* = 제목 카드 전."""
+
+    max_pan_w_per_sec: float = Field(gt=0)
+    max_zoom_per_sec: float = Field(gt=0)
+    opening_max_pan_w_per_sec: float = Field(gt=0)
+    opening_max_zoom_per_sec: float = Field(gt=0)
+
+
 class ShotGrammar(_Strict):
     camera_moves_per_scene_max: int
     shot_min_hold_sec: float
@@ -257,6 +266,7 @@ class ShotGrammar(_Strict):
     auto_transition: AutoTransition
     scene_attach_lead_sec: float = Field(ge=0)
     w_guide: dict[str, float | Range2]
+    camera_speed: "CameraSpeedRules"   # v6.0.2 UF-97 D-0216 — 카메라 속도 상한(hard camera_speed)
     max_consecutive_move_sentences: int = Field(ge=1)   # v5.22.4 UF-19(C0 "문장마다 카메라 이동" 금지) — 이 수만큼 연속 문장이 모두 이동을 시작하면 camera_per_sentence hard
     move_ease: Literal["cubic", "quintic"]   # v5.21.9 D-0191 §1-1 — 카메라 이동 이징(cubic = 조각 3차, 중간 가속도 뒤집힘)
     move_path: Literal["linear", "fixed_point"] = "linear"   # v5.5.0 — 이동+줌 경로(fixed_point = 한 고정점 기준 줌, 지도 흐름이 직선)

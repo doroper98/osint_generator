@@ -32,6 +32,8 @@ hard 실패가 하나라도 있으면 시각 검수 LLM 을 부르지 않고 연
 | endcard_black | hard | 엔딩 카드 뒤~끝 프레임을 그려 평균 밝기 ≤ end_card.after_max_luma(v5.22.3 UF-35) |
 | camera_per_sentence | hard | 연속 shot_grammar.max_consecutive_move_sentences 문장이 모두 카메라 이동 시작(v5.22.4 UF-19, C0) |
 | label_jump | hard | 경로 이름표가 보이는 중에 자리를 옮김(한 프레임 사이 상대 위치 변화 > qa_checks.label_jump_px, v5.22.7 D209) — 자리는 `route_label_slots`(나타나는 순간 고정) |
+| camera_speed | hard | 카메라 pan(화면 폭/초)·zoom(|d ln w/dt|) > rules shot_grammar.camera_speed(제목 카드 전 오프닝은 더 낮은 상한) — `engine.camera.speed`, 스케치 SK-C1 같은 함수(v6.0.2 UF-97·D-0216) |
+| title_backdrop | hard | 제목 카드 직전 1초 장면 ≠ 제목 바탕(기사 카드·암전·지도) — 카드 → 지도 → 제목 깜박임(v6.0.2 UF-98·D-0216) |
 | portrait_unused | warning | 인물 이름이 나오고 초상이 있는데 그 인물 뱃지·인용 없음(v5.22.0 D-0200 UF-10) |
 | genre_elements | hard | 장르 요소(v4.2.0 D-0081 작업 3, GOAL G3-17): direction 이 쓴 이벤트·패널·뱃지·프리미티브 종류(genres.elements) ⊆ 장르 프로필 primitives.reuse ∪ new |
 | chart_honesty | hard | 차트 정직성(v4.3.0 D-0084 작업 5·D-0087, 20 §5.3): 막대 0 기준선·압축 구간 ↔ 물결 라벨·%/%p·이중 축 라벨·색·로그 척도 표기 (`engine.honesty`) |
@@ -82,7 +84,7 @@ SHADOW_PX = 7             # badge_box 가 원 둘레에 더하는 그림자 여�
 HARD = ("map_contrast", "overlap", "offscreen", "glyphs", "glyph_size", "labels", "date", "subtitles", "rights", "forbidden", "stage_continuity",
         "genre_elements", "chart_honesty", "series_limit_3", "units_visible", "as_of_visible", "boundary_as_route",
         "geo_mismatch", "timeline_rescale", "backdrop_rights", "backdrop_repeat", "island_overlap",
-        "backdrop_main_missing", "island_label_clip", "cascade", "subtitle_overlap", "label_collision", "timeline_span", "route_frame", "panel_overflow", "flag_territory", "badge_over_panel", "opening_establish", "camera_continuity", "card_exposure", "route_label_cross", "route_label_overlap", "article_backdrop", "quote_in_script", "route_missing_other", "frame_missing_target", "route_missing", "frame_missing", "bgm_decision", "endcard_black", "camera_per_sentence", "label_jump")   # island_label_clip v5.2.0 D-0133 §2, backdrop_main_missing v5.2.0 D-0129 §B, island_overlap v5.1.0 D-0126 Q3, geo_mismatch v4.10.0 D-0116, timeline_rescale v5.1.0 D-0121 §A, backdrop_* v5.1.0 D-0123
+        "backdrop_main_missing", "island_label_clip", "cascade", "subtitle_overlap", "label_collision", "timeline_span", "route_frame", "panel_overflow", "flag_territory", "badge_over_panel", "opening_establish", "camera_continuity", "card_exposure", "route_label_cross", "route_label_overlap", "article_backdrop", "quote_in_script", "route_missing_other", "frame_missing_target", "route_missing", "frame_missing", "bgm_decision", "endcard_black", "camera_per_sentence", "label_jump", "camera_speed", "title_backdrop")   # island_label_clip v5.2.0 D-0133 §2, backdrop_main_missing v5.2.0 D-0129 §B, island_overlap v5.1.0 D-0126 Q3, geo_mismatch v4.10.0 D-0116, timeline_rescale v5.1.0 D-0121 §A, backdrop_* v5.1.0 D-0123
 WARN = ("shots", "media_beats", "media_upscaled", "endcard_roll", "geo_unsourced",   # endcard_roll v4.7.0 D-0106, geo_unsourced D-0107
         "static_window", "stage_choice", "card_island", "island_label_overlap", "cascade_label_hidden",
         "map_contrast_shape", "battle_geo", "portrait_unused")   # v5.21.14 D-0195·D-0199. map_contrast_shape v5.18.0 D-0161 §4   # static_window v4.11.0 D-0118, stage_choice v5.1.0 D-0123, card_island v5.2.0 D-0129 §C, island_label_overlap D-0133 §3
@@ -967,6 +969,61 @@ def check_camera_continuity(P) -> list[str]:  # noqa: ANN001, N803
     return out
 
 
+def check_camera_speed(P) -> list[str]:  # noqa: ANN001, N803
+    """카메라 속도 상한(v6.0.2 UF-97·D-0216, recurs_of UF-02 — camera_continuity 는 매끄러움만 재고 빠르기는 재지 않았다).
+    engine.camera.speed(스케치 SK-C1 과 같은 함수)로 pan·zoom 을 재고 rules shot_grammar.camera_speed 를 넘으면 hard.
+    제목 카드 전(오프닝)은 opening_* 상한. 종류·구간마다 최댓값 한 줄. 지도(mercator) 무대만 — 시간축 무대의 w·x 는 날짜 폭이라
+    화면 이동의 뜻이 다르다(값 근거가 지도 영상 실측)."""
+    from engine.camera import speed  # noqa: PLC0415
+
+    if P.cams is None or getattr(P.R.stage, "name", None) != "mercator":
+        return []
+    lim = R_.shot_grammar.camera_speed
+    cuts = sorted({math.ceil(k.t * FPS - 1e-9) for k in P.keys if k.mode == "cut"})
+    sp = speed(np.asarray(P.cams, dtype=float), cuts, FPS)
+    title = next((c.t0 for c in P.plan.cards if c.kind == "title"), None)
+    n_open = 0 if title is None else min(len(sp["pan"]), int(title * FPS))
+    out = []
+    for kind, gen, opn, unit in (("pan", lim.max_pan_w_per_sec, lim.opening_max_pan_w_per_sec, "화면 폭/초"),
+                                 ("zoom", lim.max_zoom_per_sec, lim.opening_max_zoom_per_sec, "/초")):
+        v = sp[kind]
+        for lo, hi, cap, where in ((0, n_open, opn, "오프닝(제목 카드 전)"), (n_open, len(v), gen, "")):
+            seg = v[lo:hi]
+            bad = np.flatnonzero(seg > cap)
+            if bad.size:
+                i = lo + int(bad[np.argmax(seg[bad])])
+                out.append(f"[camera-speed] {where}카메라 {kind} {v[i]:.3f}{unit} > {cap} — t={(i + 1) / FPS:.2f}s 외 {bad.size - 1}프레임 "
+                           "— 이동을 길게(dur)·나눠서·이동 폭을 줄인다(rules shot_grammar.camera_speed)")
+    return out
+
+
+def _title_backdrop(P, t: float) -> str:  # noqa: ANN001, N803
+    """시각 t 에 화면 바탕 — 'black'(암전) · 'article:<mid>'(기사 카드가 화면을 덮음) · 'map'."""
+    for e in P.events:
+        if e["type"] == "dip" and e["t0"] <= t <= e["t1"]:
+            return "black"
+    for e in P.events:
+        if e["type"] == "article" and e["t0"] <= t <= e["t1"]:
+            return f"article:{e.get('mid')}"
+    return "map"
+
+
+def check_title_backdrop(P) -> list[str]:  # noqa: ANN001, N803
+    """제목 카드 바탕(v6.0.2 UF-98·D-0216) — 제목 카드 바로 앞 1초 동안의 장면은 그 제목의 바탕(제목이 다 나온 순간의 장면)과 같아야 한다.
+    오프닝 기사 카드 → 지도(깜박임) → 어둡게 → 제목 같은 끼어든 장면 = hard. 바탕 판정은 0.1초 간격."""
+    out = []
+    for c in P.plan.cards:
+        if c.kind != "title":
+            continue
+        base = _title_backdrop(P, c.t0 + 0.7)   # 제목 덮개가 다 나온 순간(fullcards 페이드 0.7초)
+        seen = [(round(c.t0 - 1.0 + 0.1 * k, 2), _title_backdrop(P, c.t0 - 1.0 + 0.1 * k)) for k in range(11)]
+        bad = [(t, b) for t, b in seen if t >= 0 and b != base]
+        if bad:
+            out.append(f"[title-backdrop] 제목 카드(t={c.t0:.2f}) 바탕 {base!r} 인데 직전 1초에 {bad[0][1]!r}(t={bad[0][0]:.2f}) 장면이 끼어든다 "
+                       "— 오프닝 기사 카드가 있으면 그 카드를 제목 끝까지 두어 제목을 그 위에 띄운다(D-0216)")
+    return out
+
+
 def check_card_exposure(P) -> list[str]:  # noqa: ANN001, N803
     """기사·인용 카드 완전 노출(v5.21.10 D-0191 §1-2) — 그리기와 같은 구간 함수(article_full_span·quote_full_span)로
     완전 불투명 구간 < qa_checks.card_full_exposure_min_sec 이면 카드마다 한 줄."""
@@ -1391,6 +1448,8 @@ def run_checks(P, times: list[float], provenance: dict, drawn: list[tuple[str, f
         "endcard_black": lambda: check_endcard_black(P),      # v5.22.3 UF-35(hard)
         "camera_per_sentence": lambda: check_camera_per_sentence(P),   # v5.22.4 UF-19(hard)
         "label_jump": lambda: check_label_jump(P),   # v5.22.7 D209(hard)
+        "camera_speed": lambda: check_camera_speed(P),   # v6.0.2 UF-97 D-0216(hard)
+        "title_backdrop": lambda: check_title_backdrop(P),   # v6.0.2 UF-98 D-0216(hard)
         "portrait_unused": lambda: check_portrait_unused(P),  # v5.22.0 D-0200 UF-10(warning)
         "genre_elements": lambda: check_genre_elements(P),
         "boundary_as_route": lambda: list((P.R.cache.get("geo_check") or {}).get("boundary") or []),

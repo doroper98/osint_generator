@@ -16,7 +16,7 @@ from typing import Optional
 import numpy as np
 from pydantic import BaseModel, ConfigDict, Field, ValidationError
 
-from engine.camera import continuity
+from engine.camera import continuity, speed
 from engine.style import W_OUT
 from schemas.rules_models import SketchChecks
 from sketch.common.spec import CheckFinding, CheckRecord, MediaItem
@@ -92,6 +92,17 @@ def check_camera(report: CheckReport, track: np.ndarray, fps: int, th: SketchChe
         label = "Δ ln w" if o == 1 else f"Δ{'²' if o == 2 else '³'} {k[3:]}"
         report.add("SK-C1", f"|{label}| {v[i]:.4f} > {lim[o]} — 프레임 {i}→{i + o}(t={i / fps:.2f}s) "
                             f"외 {bad.size - 1}곳{what[o]}")
+    from rules import load_rules  # noqa: PLC0415 — v6.0.2 UF-97 D-0216 — 속도 상한(본 엔진 camera_speed 와 같은 함수·같은 키)
+
+    cs = load_rules().shot_grammar.camera_speed
+    sp = speed(track, (), fps)
+    for kind, cap in (("pan", cs.max_pan_w_per_sec), ("zoom", cs.max_zoom_per_sec)):
+        worst[f"speed {kind}"] = float(sp[kind].max(initial=0))
+        bad = np.flatnonzero(sp[kind] > cap)
+        if bad.size:
+            i = int(bad[np.argmax(sp[kind][bad])])
+            report.add("SK-C1", f"카메라 {kind} {sp[kind][i]:.3f}/s > {cap} — t={(i + 1) / fps:.2f}s 외 {bad.size - 1}곳(속도 상한, "
+                                "rules shot_grammar.camera_speed)")
     return worst
 
 
