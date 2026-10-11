@@ -56,6 +56,8 @@ class ConvertFidelityTest(unittest.TestCase):
         # v5.21.11 D-0203 — 골든 마커 한 개의 route_cross_exempt 도 예시에 넣지 않는다(연출가가 면제를 배우면 안 된다)
         exempt = [e.pop("route_cross_exempt") for e in proj.events if "route_cross_exempt" in e]
         self.assertEqual(len(exempt), 1)
+        self.assertEqual(proj.story_geo_exempt["decision"], "D-0205")   # v5.22.1 — 골든 면제도 예시에 넣지 않는다
+        proj.story_geo_exempt = None
         self.assertEqual(load_direction_doc(ex), proj)
 
 

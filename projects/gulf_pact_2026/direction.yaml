@@ -41,6 +41,7 @@ paths:
   pk_aden: [[66.0, 27.8], [62.0, 21.5], [55.5, 15.6], [49.5, 13.0], [45.03, 12.78]]   # D-0195 — 9월 수송기 4대(로이터), 항로 개략
   gov_bab_mokha: [[45.03, 12.78], [44.3, 12.72], [43.5, 12.66], [43.3, 13.0], [43.25, 13.3]]   # D-0196 — 정부군 진격(주장) 개략: 아덴 → 바브엘만데브 → 모카
   gov_taiz: [[45.03, 12.78], [44.7, 13.05], [44.38, 13.32], [44.16, 13.5]]   # D-0196 — 아덴 방면 → 타이즈(알와지이야 작전) 개략
+  houthi_mecca: [[44.2, 15.36], [42.7, 17.6], [41.1, 19.7], [39.83, 21.42]]   # D-0205 — 사우디 주장: 후티 드론 메카 겨냥 시도(경로 개략)
   houthi_kkia: [[44.2, 15.36], [44.9, 18.5], [45.8, 21.8], [46.7, 24.96]]   # D-0197 — 사나 일대(발사 지점 미공개·개략) → 킹칼리드 국제공항
   pk_sa:
   - - 66.0
@@ -520,7 +521,7 @@ events:
   at_place: mecca
   label: 메카
   sub: 9월 16일 드론 공격 시도 · 사우디 주장
-  side: right
+  side: left
   hl: true
 - type: article
   start:
@@ -528,10 +529,36 @@ events:
     'off': 0.3
   end:
     sid: mecca_attack_1
-    edge: end
-    'off': 0.4
+    'off': 6.6
   mid: gulf_pact_2026_art_0022
   theme: dark
+- type: route
+  start:
+    sid: mecca_attack_1
+    'off': 6.9
+  end:
+    scene_end: mecca_attack
+  pts:
+    path: houthi_mecca
+  grow: 1.6
+  col: ru
+  dashed: true
+  label: 드론 공격 시도 · 사우디 주장
+- type: badge
+  start:
+    sid: mecca_attack_2
+    'off': 0.1
+  end:
+    scene_end: mecca_attack
+    'off': 0.6
+  over_panel: true
+  screen:
+  - 640
+  - 230
+  kind: flag
+  flag: ir
+  label: 이란 · 부인
+  accent: muted
 - type: card
   start:
     sid: mecca_attack_2

@@ -2,6 +2,7 @@
 # 옛 direction.py 를 변환기(tools/direction_to_yaml.py, 551d48a — 변환 뒤 삭제)로 옮겼다(앵커 식·더한 순서 보존 → 옛 연출과 dict 단위 동일).
 # 시각은 앵커로만 쓴다. `off` 가 목록이면 앞에서부터 차례로 더한다. `{span: [A, B]}` = B − A(초).
 version: 1
+story_geo_exempt: {reason: "v3 사용자 합격본(2026-09-28) — 문장이 부르는 이스라엘·이란·인도·중국이 일부 컷에서 화면 밖(frame_missing 6). 고치면 골든 컷이 바뀐다", decision: D-0205}
 opening_exempt: v3 골든 — 사용자 합격 오프닝(제목 뒤 해협 클로즈업). 넓은 지도 오프닝 규칙(v5.6.0 RENDER-AP-016) 이전 기준 영상이라 그대로 둔다
 stage_config:   # v5.18.0 D-0170 §3-4 — 장르(지정학) 기본 테마는 light(D154). 골든은 dark 그대로 → [map-theme-override] warning 1건이 정상
   mercator:

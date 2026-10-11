@@ -42,8 +42,9 @@ class TestRouteMissing(unittest.TestCase):
     def test_registered(self) -> None:
         self.assertIn("route_missing_other", HARD)
         self.assertIn("frame_missing_target", HARD)
-        self.assertIn("route_missing", WARN)
-        self.assertIn("frame_missing", WARN)
+        self.assertIn("route_missing", HARD)   # v5.22.1 D-0205 — 둘 다 hard
+        self.assertIn("frame_missing", HARD)
+        self.assertNotIn("route_missing", WARN)
         self.assertIn("route_missing", MarkerEvent.model_fields["label"].description)
 
     def test_gulf_aden_other_route_only_is_hard(self) -> None:
@@ -80,6 +81,26 @@ class TestFrameMissing(unittest.TestCase):
     def test_onscreen_passes(self) -> None:
         r = story_geo_report(_P(S, [_mk("아덴", 45.0, 20.0), _rt((40.0, 22.0), (45.0, 20.0))]))
         self.assertEqual(r["frame_missing"] + r["frame_missing_target"], [])
+
+    def test_flag_badge_counts_as_shown(self) -> None:
+        """v5.22.1 D-0205 — 이란이 화면 밖이어도 이란 국기 뱃지가 문장 구간에 있으면 표시."""
+        P = _P([_s("m_2", 1.0, 3.0, "후티와 이란은 이를 부인했습니다.")], [])
+        P.R.stage.countries = [("IR", {"ko": "이란"}, (53.0, 32.0))]
+        self.assertEqual(len(story_geo_report(P)["frame_missing"]), 1)
+        P2 = _P([_s("m_2", 1.0, 3.0, "후티와 이란은 이를 부인했습니다.")], [{"type": "badge", "flag": "ir", "t0": 1.1, "t1": 4.0}])
+        P2.R.stage.countries = P.R.stage.countries
+        self.assertEqual(story_geo_report(P2)["frame_missing"], [])
+
+    def test_exempt_only_golden(self) -> None:
+        import subprocess
+
+        from tests.anti_inertia._ast_util import REPO
+        files = subprocess.run(["git", "ls-files", "projects/*/direction*.yaml"], cwd=REPO, capture_output=True, text=True, check=True).stdout.split()
+        hits = [f for f in files if "story_geo_exempt" in (REPO / f).read_text(encoding="utf-8")]
+        self.assertEqual(hits, ["projects/hormuz_korea/direction.yaml"])
+        P = _P(S, [_mk("아덴", 120.0, 12.8)])
+        P.R.cache["story_geo_exempt"] = {"reason": "r", "decision": "D-0205"}
+        self.assertEqual(sum(len(v) for v in story_geo_report(P).values()), 0)
 
     def test_rule_keys(self) -> None:
         q = load_rules().qa_checks

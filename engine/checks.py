@@ -25,8 +25,8 @@ hard 실패가 하나라도 있으면 시각 검수 LLM 을 부르지 않고 연
 | route_label_overlap | hard | 경로 이름표 ↔ 해역 이름·다른 이름표·뱃지·마커 겹침 또는 화면 밖(v5.21.11 D-0192·D-0199). 대비는 map_contrast(이름표 required) |
 | article_backdrop | hard | 한 영상 기사 카드 theme 하나(v5.21.12 D-0193). 사진 없는 카드 블러 무대 밝기 상한은 그리기(`fallback_gain`, press_fallback.max_luma) |
 | quote_in_script | hard | 인용(quote) text ⊂ 그 구간 문장 화면 원고(공백·문장부호 정규화, v5.21.13 D-0194) |
-| route_missing · route_missing_other | warning · hard | 이동·공격 동사(qa_checks.route_missing) + 문장이 부르는 마커 → 그 마커에 끝점이 닿는 경로가 문장 구간에 있어야 한다. 다른 경로만 보이면 hard(v5.21.14 D-0195·D-0197) |
-| frame_missing · frame_missing_target | warning · hard | 문장이 부르는 나라(라벨 점)·마커가 문장 구간 내내 화면 밖. 이동·공격 대상이면 hard(v5.21.14 D-0199) |
+| route_missing · route_missing_other | hard · hard(v5.22.1 D-0205 — 둘 다 hard) | 이동·공격 동사(qa_checks.route_missing) + 문장이 부르는 마커 → 그 마커에 끝점이 닿는 경로가 문장 구간에 있어야 한다. 다른 경로만 보이면 hard(v5.21.14 D-0195·D-0197) |
+| frame_missing · frame_missing_target | hard · hard(v5.22.1, 국기 뱃지 = 표시, 골든 story_geo_exempt) | 문장이 부르는 나라(라벨 점)·마커가 문장 구간 내내 화면 밖. 이동·공격 대상이면 hard(v5.21.14 D-0199) |
 | battle_geo | warning | 전황 동사 문장에 지도 마커·경로 없음(v5.22.0 D-0200 UF-08) |
 | portrait_unused | warning | 인물 이름이 나오고 초상이 있는데 그 인물 뱃지·인용 없음(v5.22.0 D-0200 UF-10) |
 | genre_elements | hard | 장르 요소(v4.2.0 D-0081 작업 3, GOAL G3-17): direction 이 쓴 이벤트·패널·뱃지·프리미티브 종류(genres.elements) ⊆ 장르 프로필 primitives.reuse ∪ new |
@@ -78,10 +78,10 @@ SHADOW_PX = 7             # badge_box 가 원 둘레에 더하는 그림자 여�
 HARD = ("map_contrast", "overlap", "offscreen", "glyphs", "glyph_size", "labels", "date", "subtitles", "rights", "forbidden", "stage_continuity",
         "genre_elements", "chart_honesty", "series_limit_3", "units_visible", "as_of_visible", "boundary_as_route",
         "geo_mismatch", "timeline_rescale", "backdrop_rights", "backdrop_repeat", "island_overlap",
-        "backdrop_main_missing", "island_label_clip", "cascade", "subtitle_overlap", "label_collision", "timeline_span", "route_frame", "panel_overflow", "flag_territory", "badge_over_panel", "opening_establish", "camera_continuity", "card_exposure", "route_label_cross", "route_label_overlap", "article_backdrop", "quote_in_script", "route_missing_other", "frame_missing_target")   # island_label_clip v5.2.0 D-0133 §2, backdrop_main_missing v5.2.0 D-0129 §B, island_overlap v5.1.0 D-0126 Q3, geo_mismatch v4.10.0 D-0116, timeline_rescale v5.1.0 D-0121 §A, backdrop_* v5.1.0 D-0123
+        "backdrop_main_missing", "island_label_clip", "cascade", "subtitle_overlap", "label_collision", "timeline_span", "route_frame", "panel_overflow", "flag_territory", "badge_over_panel", "opening_establish", "camera_continuity", "card_exposure", "route_label_cross", "route_label_overlap", "article_backdrop", "quote_in_script", "route_missing_other", "frame_missing_target", "route_missing", "frame_missing")   # island_label_clip v5.2.0 D-0133 §2, backdrop_main_missing v5.2.0 D-0129 §B, island_overlap v5.1.0 D-0126 Q3, geo_mismatch v4.10.0 D-0116, timeline_rescale v5.1.0 D-0121 §A, backdrop_* v5.1.0 D-0123
 WARN = ("shots", "media_beats", "media_upscaled", "endcard_roll", "geo_unsourced",   # endcard_roll v4.7.0 D-0106, geo_unsourced D-0107
         "static_window", "stage_choice", "card_island", "island_label_overlap", "cascade_label_hidden",
-        "map_contrast_shape", "route_missing", "frame_missing", "battle_geo", "portrait_unused")   # v5.21.14 D-0195·D-0199. map_contrast_shape v5.18.0 D-0161 §4   # static_window v4.11.0 D-0118, stage_choice v5.1.0 D-0123, card_island v5.2.0 D-0129 §C, island_label_overlap D-0133 §3
+        "map_contrast_shape", "battle_geo", "portrait_unused")   # v5.21.14 D-0195·D-0199. map_contrast_shape v5.18.0 D-0161 §4   # static_window v4.11.0 D-0118, stage_choice v5.1.0 D-0123, card_island v5.2.0 D-0129 §C, island_label_overlap D-0133 §3
 
 
 def missing_fonts() -> list[str]:
@@ -899,11 +899,17 @@ def story_geo_report(P) -> dict[str, list[str]]:  # noqa: ANN001, N803
     if not _map_main(P) or P.cams is None:
         P.R.cache["story_geo"] = rep
         return rep
+    if P.R.cache.get("story_geo_exempt"):   # v5.22.1 D-0205 — 골든 기준 연출(사용자 합격본)만, 사유·결정 번호와 함께(테스트가 범위 강제)
+        P.R.cache["story_geo"] = rep
+        return rep
     names = {}
+    codes: dict[str, str] = {}
     lab = getattr(getattr(P.R.stage, "assets", None), "labels", None)
     for k, m, mw in getattr(P.R.stage, "countries", []):
         if mw is not None:
-            names[(lab.ko.get(k, m["ko"]) if lab is not None else m["ko"])] = mw
+            nm = lab.ko.get(k, m["ko"]) if lab is not None else m["ko"]
+            names[nm] = mw
+            codes[nm] = str(k).lower()
     for s in P.plan.sentences:
         ms, verb = _story_markers(P, s)
         routes = [e for e in P.events if e["type"] == "route" and not e.get("in_island") and e["t0"] < s.t1 and e["t1"] > s.t0]
@@ -929,8 +935,9 @@ def story_geo_report(P) -> dict[str, list[str]]:  # noqa: ANN001, N803
         want = {m["label"]: tuple(m["world"]) for m in ms}
         flat = s.text.replace(" ", "")
         want.update({nm: tuple(w) for nm, w in names.items() if len(nm) >= 2 and nm.replace(" ", "") in flat and nm not in want})
+        flags = {str(e.get("flag")).lower() for e in P.events if e["type"] in ("badge", "quote") and e.get("flag") and e["t0"] < s.t1 and e["t1"] > s.t0}
         for nm, (wx, wy) in want.items():
-            seen = False
+            seen = codes.get(nm) in flags   # v5.22.1 D-0205 — 그 나라 국기 뱃지가 문장 구간에 보이면 표시로 인정
             for t in ts:
                 v = View(P.R.stage, P.cams[min(P.n_frames - 1, int(t * FPS))])
                 x, y = v.to_screen(wx, wy)

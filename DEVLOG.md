@@ -3423,3 +3423,4 @@ last_review: 2026-06-06
 - 2026-10-11 v5.21.13 인용 문구가 내레이션에 없음(사용자 의견 troop_numbers_6) → quote_in_script hard(LLM-AP, D-0194).
 - 2026-10-11 v5.21.14 이동·공격 문장 경로 누락·대상 화면 밖(사용자 의견 아덴·KKIA·예멘) → route_missing/frame_missing 검사(RENDER-AP-022, D-0195·D-0197·D-0199).
 - 2026-10-11 v5.22.0 사용자 의견 원장(rules/user_feedback.yaml UF-01~96) + 장치 존재 테스트 + 게이트 ② 차단(open 15 — 보고) + provenance user_feedback_guards, CLAUDE.md C12(D-0200).
+- 2026-10-11 v5.22.1 route_missing·frame_missing hard(D-0205 §2), 국기 뱃지 = 표시, hormuz 골든 story_geo_exempt. gulf 메카 궤적·이란 부인 뱃지.

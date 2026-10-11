@@ -93,7 +93,7 @@ entries:
   - {kind: rule, ref: qa_checks.route_missing.move_verbs}
   - {kind: test, ref: tests/test_story_geo.py::TestRouteMissing::test_gulf_aden_other_route_only_is_hard}
   status: guarded
-  decision: D-0195 · RENDER-AP-022
+  decision: D-0195 · RENDER-AP-022 · D-0205(route_missing hard)
 - id: UF-08
   date: '2026-10-11'
   project: gulf_pact_2026
@@ -152,7 +152,7 @@ entries:
   - {kind: check, ref: frame_missing}
   - {kind: test, ref: tests/test_story_geo.py::TestFrameMissing::test_target_offscreen_is_hard}
   status: guarded
-  decision: D-0199 · RENDER-AP-022
+  decision: D-0199 · RENDER-AP-022 · D-0205(frame_missing hard, 국기 뱃지 = 표시)
 # ---- 소급(D-0200 §3, 2026-10-11): DECISIONS·ANTIPATTERNS·CLAUDE.md 의 사용자 의견·지적·지시. 원문이 없는 항목은 quote_kind summary.
 #      UF-02(카메라 꺾임)의 원 항목 = UF-84(스케치 멈칫)·UF-59(valdai 이동 방향 틀어짐) — 번호가 뒤라 recurs_of 로는 잇지 못해 여기 적는다.
 - id: UF-13
