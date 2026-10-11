@@ -1109,6 +1109,61 @@
    "attributed_only": true,
    "claim_kind": "statement",
    "notes": " [v5.20.1 D-0182 보강 출처(TIME 9/16) 부분 검증 clm_0004 → clm_0053]"
+  },
+  {
+   "claim_id": "clm_0054",
+   "text": "후티는 9월 초부터 모카와 바브엘만데브 해협 주변을 장악했다",
+   "source_ids": [
+    "src_art_0023",
+    "src_art_0024"
+   ],
+   "status": "corroborated",
+   "contested": false,
+   "event_date": "2026-09-01",
+   "checks": [
+    "quote_match:src_art_0023",
+    "quote_match:src_art_0024",
+    "independent_origins:2"
+   ],
+   "attributed_only": false,
+   "claim_kind": "fact",
+   "notes": " [v5.21.15 D-0196 화면 전용(전황 마커)]"
+  },
+  {
+   "claim_id": "clm_0055",
+   "text": "예멘 정부군은 10월 5일 바브엘만데브 해협과 모카를 장악했다고 주장했다(독립 확인 안 됨)",
+   "source_ids": [
+    "src_art_0023"
+   ],
+   "status": "unverified",
+   "event_date": "2026-10-05",
+   "checks": [
+    "quote_match:src_art_0023",
+    "independent_origins:1",
+    "attributed:src_art_0023"
+   ],
+   "notes": " [v5.21.15 D-0196 화면 전용 — 주장]",
+   "contested": false,
+   "attributed_only": true,
+   "claim_kind": "statement"
+  },
+  {
+   "claim_id": "clm_0056",
+   "text": "예멘 정부군 측은 10월 6일 타이즈주 알와지이야 탈환 작전을 시작했다",
+   "source_ids": [
+    "src_art_0024"
+   ],
+   "status": "unverified",
+   "event_date": "2026-10-06",
+   "checks": [
+    "quote_match:src_art_0024",
+    "independent_origins:1",
+    "attributed:src_art_0024"
+   ],
+   "notes": " [v5.21.15 D-0196 화면 전용 — D-0196 의 10.7 은 기사 날짜, 작전은 'Tuesday' = 10.6]",
+   "contested": false,
+   "attributed_only": true,
+   "claim_kind": "statement"
   }
  ]
 }

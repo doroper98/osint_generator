@@ -497,6 +497,44 @@
     "Saudi Arabia Declares Mecca a 'Red Line' as Houthis Deny Targeting Holy Site"
    ],
    "headline_ko": "사우디 \"메카는 레드라인\" — 후티는 성지 공격 부인"
+  },
+  {
+   "id": "src_art_0023",
+   "url": "https://www.thenationalnews.com/news/gulf/2026/10/05/yemen-government-forces-claim-bab-al-mandeb-gains-as-saudi-coalition-says-100-jets-join-houthi-offensive/",
+   "retrieved_at": "2026-10-11",
+   "lang": "en",
+   "confirmed_by": "opus(대행 — D-0196 화면 전황, 원문 URL·매체·날짜·문구 대조)",
+   "confirmed_at": "2026-10-11T14:11:33.021416Z",
+   "note": "",
+   "type": "article",
+   "publisher": "The National",
+   "headline_original": "Yemeni forces claim control of Bab Al Mandeb strait and Mokha in major offensive against Houthis",
+   "published_at": "2026-10-05",
+   "key_facts": [
+    "Yemeni government forces said on Monday that they secured control of the Bab Al Mandeb strait",
+    "took control of the city after fierce fighting with Houthi forces",
+    "had been held by the Houthis since early September",
+    "The claims could not immediately be independently verified and have not been confirmed by the Houthis."
+   ],
+   "headline_ko": "예멘 정부군, 바브엘만데브 해협·모카 장악 주장"
+  },
+  {
+   "id": "src_art_0024",
+   "url": "https://www.aljazeera.com/news/2026/10/7/yemeni-forces-launch-offensive-to-retake-houthi-held-al-waziiya-in-taiz",
+   "retrieved_at": "2026-10-11",
+   "lang": "en",
+   "confirmed_by": "opus(대행 — D-0196 화면 전황, 원문 URL·매체·날짜·문구 대조)",
+   "confirmed_at": "2026-10-11T14:11:33.021416Z",
+   "note": "기사 날짜 10.7(수), 작전 개시 = 'on Tuesday' = 10.6",
+   "type": "article",
+   "publisher": "Al Jazeera",
+   "headline_original": "Yemeni forces launch offensive to retake Houthi-held al-Waziiya in Taiz",
+   "published_at": "2026-10-07",
+   "key_facts": [
+    "The offensive on the district of al-Waziiya in Taiz governorate on Tuesday",
+    "The Houthis had seized Mocha and areas around the Bab al-Mandeb Strait"
+   ],
+   "headline_ko": "예멘 정부군, 타이즈 알와지이야 탈환 작전 개시"
   }
  ]
 }
