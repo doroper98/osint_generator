@@ -1,6 +1,6 @@
 <!--
 tier: 3
-last_synced_with: v5.22.2
+last_synced_with: v5.22.3
 ssot_for: [release-notes]
 depends_on: [README.md, GOAL.md]
 last_review: 2026-09-28
@@ -63,6 +63,12 @@ released 항목은 **append-only**입니다.
 | v5.0.0 | 87912d2 | G11 GOAL G4-21·claim_kind fact/statement | pass(D-0125) |
 | v5.1.0 | 3619f2c | G12 backdrop 무대·아일랜드·축 스케일·기사 프레스 v2·발음 사전·버전 도장 | pass(D-0127) — 후속 D-0128 완료 |
 | v5.2.0 | d4703d9 | G13 배경 가독·주 아일랜드 상시·보도 인용 = 기사·card-island·라벨 반전 | pass(D-0134) — 후속 겹침 카드 시안(D-0135~D-0138) |
+
+---
+
+## [v5.22.3] — 2026-10-11 — 엔딩 카드 뒤 검정 유지 검사 (UF-35, D-0205 §3)
+
+PATCH: 사용자 지적(dmz U15 "엔딩 카드가 사라질 때 지도가 다시 보인다")의 장치가 규칙 키(hold_black_after)뿐이었다. 엔딩 카드 퇴장 구간~영상 끝 프레임을 실제로 그려 평균 밝기가 `layout_480p.end_card.after_max_luma` 를 넘으면 `endcard_black` hard.
 
 ---
 
