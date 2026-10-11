@@ -54,6 +54,8 @@ out/video_noaudio.mp4 ───────────────────�
 
 ## 3. 음성 백엔드
 
+> **표준 음성(사용자 확정 2026-10-11, CLAUDE.md C0.2 · handoff 03 §0)**: Supertonic 3 M3 ×0.95 + "~니다" 끝 3글자 4반음 하강(`rules tts_rules.prosody.final_fall`). 영상마다 다시 묻지 않는다. 변경은 사용자 지적 → 규칙 개정만.
+
 설정은 `config:tts` 한 곳이다(15 P3). API 키·voice id는 `.env`로만 받는다(C9).
 
 | 백엔드 | 설정 키 | 정렬 출처 |
