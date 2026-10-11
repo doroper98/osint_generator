@@ -40,3 +40,6 @@ dark: 값 변경 0 — phaseV3 25/25 그대로(전체 pytest dark e2e).
 ## 4. 기준선·시트
 - `phaseQ3/hormuz_light_baseline.json` 25컷 재생성(옛 C 값은 git 04daa0a), `expected_deltas.q3_light_user_a_d173`.
 - `phaseQ3/hormuz_dark_vs_light.jpg` 갱신(dark 골든 | light A).
+
+## 5. pytest
+전체 1차(04109af): 1529 passed · **3 failed** · 0 skipped — 셋 다 `expected_deltas.json` 새 항목이 계약을 어김(old_*/new_* 쌍 없음, `cuts` 가 정수). `old_rules`·`new_rules`(바뀐 규칙 값)를 넣고 `cuts` → `cut_count` 로 고친 뒤 그 3개 + expected_deltas·golden_compare 를 읽는 테스트 전부 **43 passed**. 합계 **1532 passed · 0 failed · 0 skipped**(dark·light 골든 e2e 포함).

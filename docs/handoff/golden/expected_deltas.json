@@ -1829,9 +1829,50 @@
    "reason": "light 기준선(phaseQ3/hormuz_light_baseline.json) 25컷 전부 — 사용자 결정 D173(D-0178): A|C 시트 비교 뒤 A(휘도 0.11) 선택, D-0172 C 잠정 대체. 도형 의미색 = A 값·light border_glow 키 삭제(공통 글로우), 글자 토큰만 25컷 4.5:1 최소 보정(이분 탐색 → 2자리 반올림 여유). dark 골든 무변화",
    "decision": "D-0178",
    "theme": "light",
-   "cuts": 25,
    "baseline": "docs/handoff/reports/phaseQ3/hormuz_light_baseline.json",
-   "report": "docs/handoff/reports/phaseQ3b/run_log.md"
+   "report": "docs/handoff/reports/phaseQ3b/run_log.md",
+   "old_rules": {
+    "colors.themes.light": {
+     "ru": "#90000e",
+     "us": "#00448d",
+     "gold": "#5c400d",
+     "teal": "#134c56",
+     "green": "#234f20",
+     "muted": "#3f4652",
+     "amber": "#663c00",
+     "water": "#004682",
+     "white": "#0e0f11"
+    },
+    "geo.themes.light.map.city_label": [
+     0.05,
+     0.05,
+     0.06
+    ],
+    "geo.themes.light.map.border_glow": {
+     "enabled": false
+    }
+   },
+   "new_rules": {
+    "colors.themes.light": {
+     "ru": "#be0013",
+     "us": "#005abc",
+     "gold": "#7c5612",
+     "teal": "#1a6673",
+     "green": "#2f6a2a",
+     "muted": "#555e6e",
+     "amber": "#885000",
+     "water": "#005eae",
+     "white": "#1f2125",
+     "gold_text": "#68480f"
+    },
+    "geo.themes.light.map.city_label": [
+     0.054,
+     0.0585,
+     0.0675
+    ],
+    "geo.themes.light.map.border_glow": null
+   },
+   "cut_count": 25
   }
  }
 }
