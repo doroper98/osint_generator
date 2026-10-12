@@ -189,9 +189,8 @@ def geo_text(pdir: Path) -> str:
     wmax = min(fr.w_max, max_view_w(st))
     _, ymin, _, ymax = st.bounds
     return (f"국가 지오메트리 권역 bbox {g.get('bbox')}. 지형 티어(카메라 경계 = W): {tiers}. "
-            f"카메라 w(화면 폭, 경도 도)는 {fr.w_min:g}~{wmax:.1f} — W 경계를 넘는 키는 렌더가 잘라 이동 중간에 화면이 꺾인다(검사 [camera-bounds] hard). "
-            f"중심 경도는 {lon0:g}+w/2 ~ {lon1:g}−w/2, 중심 위도는 화면 위·아래(높이 = w×480/854, 메르카토르)가 W 안"
-            f"(메르카토르 y {ymin:.2f}~{ymax:.2f}).")
+            f"카메라 w(화면 폭, 경도 도)는 {fr.w_min:g}~{wmax:.1f}. "
+            f"카메라 경계: 중심 경도 {lon0:g}+w/2 ~ {lon1:g}−w/2, 화면 위·아래(높이 = w×480/854)가 메르카토르 y {ymin:.2f}~{ymax:.2f} 안.")
 
 
 def series_records_text(pdir: Path) -> str:
@@ -225,8 +224,8 @@ def stage_text(pdir: Path, genre: "GenreProfile | None") -> str:
     lane_rows = "; ".join(f"{ln.id}({ln.label}, {ln.kind})" for ln in lanes)
     island = (" — 차트는 차트 아일랜드(island 이벤트, 카메라 = stage: timeline 숏)로 띄운다" if genre.stage.primary == "backdrop" else "")
     return (f"(지도 무대 아님) 주 무대 {genre.stage.primary}{island}. 장르 프로필 기본 레인: {lane_rows}.\n"
-            f"stage_config.timeline 의 start·end(YYYY-MM-DD)는 레코드 구간을 덮게 정한다. 카메라 w = 화면이 덮는 일수 — w ≤ start~end 일수, "
-            f"중심 날짜 ± w/2 가 start~end 안(밖이면 렌더가 잘라 이동 중간에 꺾인다, 검사 [camera-bounds] hard, v7.1.0). 끝 조망은 도착 뒤 드리프트로 3% 좁아진다.\n"
+            f"stage_config.timeline 의 start·end(YYYY-MM-DD)는 레코드 구간을 덮게 정한다. 카메라 w = 화면이 덮는 일수.\n"
+            f"카메라 경계: w ≤ start~end 일수, 중심 날짜 ± w/2 가 start~end 안.\n"
             f"데이터 레코드(series 이벤트 series_id 는 이 id 만):\n{series_records_text(pdir)}{documents_text(pdir)}")
 
 

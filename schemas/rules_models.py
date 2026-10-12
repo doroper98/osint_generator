@@ -1563,6 +1563,7 @@ class FramingRules(_Strict):
     w_min: float = Field(gt=0)
     w_max: float = Field(gt=0)
     w_steps: int = Field(ge=2)
+    bound_pad: float = Field(gt=0)   # v7.1.0 D-0220 — 제안 w 상한 여유(경계 안 키만)
     center_grid: int = Field(ge=1)
     date_reserve_chars: float = Field(gt=0)
     cover_samples: int = Field(ge=2)

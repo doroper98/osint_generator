@@ -93,9 +93,6 @@ def default_reserve(width: float = W_OUT, height: float = H_OUT, card: bool = Fa
     return out
 
 
-_BOUND_PAD = 0.02   # 경계 폭 상한 여유(월드 단위) — View 의 0.01 여유보다 커서 제안 키가 잘리지 않는다(v7.1.0 D-0220)
-
-
 def _hit(a: Box, b: Box) -> bool:
     return a[0] < b[2] and b[0] < a[2] and a[1] < b[3] and b[1] < a[3]
 
@@ -151,7 +148,7 @@ def frame_points(points: list[FramePoint], reserve: Optional[list[Box]] = None, 
     k = height / BASE_H
     hi = FR.w_max
     if bounds is not None:   # v7.1.0 UF-99 D-0220 — 경계 안 키만 제안(View 와 같은 폭 상한). 클램프되는 키 = 화면 꺾임(camera_bounds)
-        hi = min(hi, bounds[2] - bounds[0] - _BOUND_PAD, (bounds[3] - bounds[1] - _BOUND_PAD) * width / height)
+        hi = min(hi, bounds[2] - bounds[0] - FR.bound_pad, (bounds[3] - bounds[1] - FR.bound_pad) * width / height)
     lo = min(max(FR.w_min, w_min or 0.0), hi)
     ws = [math.exp(math.log(lo) + (math.log(hi) - math.log(lo)) * i / (FR.w_steps - 1)) for i in range(FR.w_steps)]
     safe_x0, safe_y0 = FR.margin_px * k, FR.top_px * k
