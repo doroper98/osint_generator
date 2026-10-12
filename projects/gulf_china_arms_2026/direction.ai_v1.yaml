@@ -1,0 +1,827 @@
+# direction.yaml — AI 연출(DirectorWorker, v3.1.0, 17 §5.3). 사람 검토 전 초안 — 승인 게이트 ②에서 판정.
+version: 1
+genre: null
+stage: null
+media_note: 인용 0건 — 원문 따옴표로 확인된 발언 후보가 없다. 영상·컷아웃 0건 — 레지스트리에 없다. 사진은 JF-17·천궁-II 2장뿐이라 HQ-9·패트리어트·사드·윙룽 II 문장은 사진 없이 카드로 둔다. 기사 카드는 60초 구간마다 2개까지라, 미들이스트아이(us_arms_0)·ARY(pact)·코리아
+  타임스(korea_2)·리포트 이라크(korea_3) 기사는 쓰지 않았다
+story_geo_exempt: null
+opening_exempt: null
+stage_reason: null
+stage_config: {}
+places:
+  kaab:
+  - 50.15
+  - 26.27
+paths:
+  pk_sa:
+  - - 67.8
+    - 26.6
+  - - 64.0
+    - 25.3
+  - - 60.0
+    - 25.0
+  - - 57.6
+    - 25.7
+  - - 55.8
+    - 26.3
+  - - 53.0
+    - 26.4
+  - - 50.15
+    - 26.27
+shots:
+- at: 0.0
+  mode: cut
+  dur: 0.0
+  camera:
+    lon: 62.0
+    lat: 27.0
+    place: null
+    date: null
+    lane: null
+    w: 58.0
+  under: false
+  scene: null
+  stage: null
+  reason: null
+- at:
+    sid: open_0
+    'off': 0.2
+  mode: move
+  dur: 6.0
+  camera:
+    lon: 57.0
+    lat: 25.5
+    place: null
+    date: null
+    lane: null
+    w: 38.0
+  under: false
+  scene: null
+  stage: null
+  reason: null
+- at:
+    scene_start: official
+    'off': -1.2
+  mode: move
+  dur: 3.2
+  camera:
+    lon: 59.5
+    lat: 27.0
+    place: null
+    date: null
+    lane: null
+    w: 26.0
+  under: false
+  scene: null
+  stage: null
+  reason: null
+- at:
+    scene_start: us_arms
+    'off': -1.0
+  mode: move
+  dur: 3.0
+  camera:
+    lon: 50.5
+    lat: 25.0
+    place: null
+    date: null
+    lane: null
+    w: 25.0
+  under: false
+  scene: null
+  stage: null
+  reason: null
+- at:
+    scene_start: korea
+    'off': -0.8
+  mode: move
+  dur: 3.0
+  camera:
+    lon: 48.5
+    lat: 28.0
+    place: null
+    date: null
+    lane: null
+    w: 28.0
+  under: false
+  scene: null
+  stage: null
+  reason: null
+- at:
+    sid: briefing_4
+    'off': -0.5
+  mode: move
+  dur: 9.0
+  camera:
+    lon: 70.5
+    lat: 27.4
+    place: null
+    date: null
+    lane: null
+    w: 80.0
+  under: false
+  scene: null
+  stage: null
+  reason: null
+events:
+- type: country
+  start:
+    word:
+      sid: open_0
+      text: 사우디아라비아
+  end:
+    scene_end: open
+  codes:
+  - SA
+  col: green
+  a: 0.08
+- type: badge
+  start:
+    word:
+      sid: open_0
+      text: 사우디아라비아
+    'off': 0.3
+  end:
+    scene_end: open
+  lon: 48.5
+  lat: 23.5
+  kind: flag
+  flag: sa
+  R: 18
+  label: 사우디아라비아
+  accent: green
+- type: card
+  start:
+    sid: open_0
+    'off': 2.5
+  end:
+    sid: open_0
+    edge: end
+    'off': 0.3
+  tag: 5월 18일 · 로이터 보도
+  lines:
+  - 사우디아라비아에 중국산 방공체계
+  accent: ru
+- type: country
+  start:
+    word:
+      sid: open_1
+      text: 파키스탄군
+  end:
+    scene_end: open
+  codes:
+  - PK
+  col: teal
+  a: 0.08
+- type: badge
+  start:
+    word:
+      sid: open_1
+      text: 파키스탄군
+    'off': 0.2
+  end:
+    scene_end: open
+  lon: 69.5
+  lat: 30.5
+  kind: flag
+  flag: pk
+  R: 18
+  label: 파키스탄
+  accent: teal
+- type: card
+  start:
+    sid: open_1
+    'off': 0.4
+  end:
+    sid: open_1
+    edge: end
+    'off': 0.3
+  tag: 로이터 인용 소식통
+  lines:
+  - 운용은 사우디군이 아니라 파키스탄군
+  accent: teal
+- type: card
+  start:
+    sid: open_2
+    'off': 0.1
+  end:
+    sid: open_2
+    edge: end
+    'off': 0.3
+  tag: 로이터 인용 소식통
+  lines:
+  - 비용은 사우디가 댄다
+  accent: green
+- type: article
+  start:
+    sid: open_3
+    'off': 0.2
+  end:
+    card: title
+    edge: end
+  mid: gulf_china_arms_2026_art_0002
+  theme: dark
+- type: country
+  start:
+    scene_start: what
+  end:
+    scene_end: pact
+  codes:
+  - SA
+  col: green
+  a: 0.07
+- type: country
+  start:
+    scene_start: what
+  end:
+    scene_end: pact
+  codes:
+  - PK
+  col: teal
+  a: 0.07
+- type: badge
+  start:
+    scene_start: what
+    'off': 0.2
+  end:
+    scene_end: pact
+  lon: 48.5
+  lat: 23.5
+  kind: flag
+  flag: sa
+  R: 18
+  label: 사우디아라비아
+  accent: green
+- type: badge
+  start:
+    scene_start: what
+    'off': 0.2
+  end:
+    scene_end: pact
+  lon: 69.5
+  lat: 30.5
+  kind: flag
+  flag: pk
+  R: 18
+  label: 파키스탄
+  accent: teal
+- type: card
+  start:
+    sid: what_0
+    'off': 0.4
+  end:
+    sid: what_1
+    edge: end
+    'off': 0.2
+  tag: 배치 규모
+  bigs:
+  - - 약 8,000명
+    - 병력
+  - - 약 16대
+    - 전투기
+  accent: teal
+  src: 로이터 보도
+- type: route
+  start:
+    sid: what_1
+    'off': 0.4
+  end:
+    scene_end: what
+  pts:
+    path: pk_sa
+  grow:
+    span:
+    - sid: what_1
+      'off': 0.4
+    - sid: what_1
+      edge: end
+      'off': -0.5
+  col: teal
+  ship: false
+  label: 4월 초부터
+- type: photo
+  start:
+    sid: what_1
+    'off': 0.8
+  end:
+    sid: what_1
+    edge: end
+    'off': 0.2
+  mid: gulf_pk_jf17
+  place: map_left
+- type: article
+  start:
+    sid: what_2
+    'off': 0.2
+  end:
+    sid: what_2
+    edge: end
+    'off': 0.3
+  mid: gulf_china_arms_2026_art_0011
+  theme: dark
+- type: card
+  start:
+    sid: what_3
+    'off': 0.3
+  end:
+    sid: what_3
+    edge: end
+    'off': 0.3
+  tag: 로이터 보도
+  lines:
+  - 여기에 중국산 HQ-9 방공체계
+  accent: ru
+- type: card
+  start:
+    sid: what_4
+    'off': 0.2
+  end:
+    scene_end: what
+    'off': 0.3
+  tag: 안보 관리 두 명
+  lines:
+  - 무인기 2개 대대도 함께
+  accent: teal
+- type: article
+  start:
+    sid: official_1
+    'off': 0.1
+  end:
+    sid: official_1
+    'off': 5.1
+  mid: gulf_china_arms_2026_art_0003
+  theme: dark
+- type: route
+  start:
+    sid: official_1
+    'off': 5.1
+  end:
+    scene_end: official
+  pts:
+    path: pk_sa
+  grow:
+    span:
+    - sid: official_1
+      'off': 5.1
+    - sid: official_1
+      edge: end
+      'off': 0.3
+  col: teal
+  ship: false
+  label: 전투기 도착
+- type: marker
+  start:
+    sid: official_1
+    'off': 5.0
+  end:
+    scene_end: official
+  at_place: kaab
+  label: 킹압둘아지즈 공군기지
+  sub: 동부주 · 4월 11일 도착 발표
+  side: left
+  hl: true
+- type: article
+  start:
+    sid: official_2
+    'off': 0.2
+  end:
+    sid: official_2
+    edge: end
+    'off': 0.3
+  mid: gulf_pact_2026_art_0001
+  theme: dark
+- type: card
+  start:
+    sid: official_3
+    'off': 0.3
+  end:
+    sid: official_3
+    edge: end
+    'off': 0.5
+  tag: HQ-9 · JF-17 배치
+  lines:
+  - 두 나라 정부가 확인하지 않은 보도
+  accent: muted
+- type: card
+  start:
+    sid: pact_0
+    'off': 0.4
+  end:
+    sid: pact_0
+    edge: end
+    'off': 0.3
+  tag: 로이터 보도
+  lines:
+  - 2025년 9월 상호방위협정에 따른 배치
+  accent: teal
+- type: card
+  start:
+    sid: pact_1
+    'off': 0.2
+  end:
+    sid: pact_1
+    edge: end
+    'off': 0.3
+  tag: 2025년 9월 · 두 나라 발표
+  lines:
+  - 한쪽에 대한 공격을
+  - 양국 모두에 대한 공격으로 간주
+  accent: teal
+- type: card
+  start:
+    sid: pact_2
+    'off': 0.2
+  end:
+    sid: pact_2
+    edge: end
+    'off': 0.3
+  tag: 협정 전문 비공개
+  bigs:
+  - - 최대 8만 명
+    - 배치 가능성
+  accent: muted
+  src: 로이터 소식통
+- type: card
+  start:
+    sid: pact_3
+    'off': 0.3
+  end:
+    scene_end: pact
+    'off': 0.3
+  tag: 소식통 설명
+  lines:
+  - 사람과 장비 — 파키스탄
+  - 돈 — 사우디
+  accent: gold
+- type: country
+  start:
+    scene_start: us_arms
+  end:
+    scene_end: scale
+  codes:
+  - SA
+  col: green
+  a: 0.08
+- type: badge
+  start:
+    scene_start: us_arms
+    'off': 0.3
+  end:
+    scene_end: scale
+  lon: 45.5
+  lat: 23.0
+  kind: flag
+  flag: sa
+  R: 18
+  label: 사우디아라비아
+  accent: green
+- type: card
+  start:
+    sid: us_arms_0
+    'off': 0.4
+  end:
+    sid: us_arms_0
+    edge: end
+    'off': 0.3
+  tag: 사우디 방공 · 미들이스트아이
+  lines:
+  - 미국산 패트리어트
+  - 미국산 사드
+  accent: us
+- type: card
+  start:
+    sid: us_arms_1
+    'off': 0.2
+  end:
+    sid: us_arms_1
+    edge: end
+    'off': 0.3
+  tag: 로이터 보도대로라면
+  lines:
+  - 그 옆에 중국산 HQ-9
+  accent: ru
+- type: route
+  start:
+    sid: us_arms_2
+    'off': 0.3
+  end:
+    scene_end: us_arms
+  pts:
+    path: pk_sa
+  grow: 2.5
+  col: teal
+  ship: false
+  label: 동맹국 군대
+- type: card
+  start:
+    sid: us_arms_2
+    'off': 0.3
+  end:
+    scene_end: us_arms
+    'off': 0.4
+  tag: 다른 점
+  lines:
+  - 사우디가 직접 산 것이 아니라
+  - 동맹국 군대가 들여와 운용
+  - 비용은 사우디
+  accent: gold
+- type: card
+  start:
+    sid: scale_0
+    'off': 3.2
+  end:
+    sid: scale_0
+    edge: end
+    'off': 0.3
+  tag: 10월 2일 · 로이터 보도
+  bigs:
+  - - 3만~4만 명
+    - 파키스탄 병력
+  accent: teal
+- type: article
+  start:
+    sid: scale_1
+    'off': 0.2
+  end:
+    sid: scale_1
+    edge: end
+    'off': 0.4
+  mid: gulf_pact_2026_art_0016
+  theme: dark
+- type: country
+  start:
+    word:
+      sid: korea_0
+      text: UAE
+  end:
+    scene_end: korea
+  codes:
+  - AE
+  col: gold
+  a: 0.1
+- type: photo
+  start:
+    sid: korea_0
+    'off': 2.0
+  end:
+    sid: korea_0
+    edge: end
+    'off': 0.3
+  mid: kr_msam_battery
+  place: map_left
+- type: cascade
+  start:
+    sid: korea_0
+    'off': 3.5
+  end:
+    sid: korea_3
+    edge: end
+    'off': 0.4
+  items:
+  - at:
+      word:
+        sid: korea_0
+        text: UAE
+    flag: ae
+    date: '2022.01'
+    title: UAE · 천궁-II 수출 계약
+    line: 약 35억 달러 · 디펜스 뉴스
+    accent: gold
+  - at:
+      word:
+        sid: korea_2
+        text: 사우디와
+    flag: sa
+    date: '2024.02'
+    title: 사우디 · 계약 공개
+    line: 32억 달러 · 코리아 타임스
+    accent: gold
+  - at:
+      word:
+        sid: korea_3
+        text: 이라크와도
+    flag: iq
+    date: '2024.09'
+    title: 이라크 · 중거리 지대공미사일
+    line: 28억 달러 · LIG넥스원 발표
+    accent: gold
+- type: article
+  start:
+    sid: korea_1
+    'off': -0.1
+  end:
+    sid: korea_1
+    edge: end
+    'off': 0.8
+  mid: gulf_china_arms_2026_art_0009
+  theme: dark
+- type: country
+  start:
+    word:
+      sid: korea_2
+      text: 사우디와
+  end:
+    scene_end: korea
+  codes:
+  - SA
+  col: gold
+  a: 0.1
+- type: country
+  start:
+    word:
+      sid: korea_3
+      text: 이라크와도
+  end:
+    scene_end: korea
+  codes:
+  - IQ
+  col: gold
+  a: 0.1
+- type: article
+  start:
+    sid: korea_4
+    'off': 0.2
+  end:
+    sid: korea_4
+    'off': 5.2
+  mid: gulf_china_arms_2026_art_0012
+  theme: dark
+- type: card
+  start:
+    sid: korea_4
+    'off': 5.4
+  end:
+    sid: korea_4
+    edge: end
+    'off': 0.4
+  tag: 요격탄 1발 가격
+  bigs:
+  - - 약 110만 달러
+    - 천궁-II
+  - - 약 370만 달러
+    - 패트리어트 PAC-3
+  accent: gold
+  src: 더프린트 · 뉴욕타임스 인용
+- type: card
+  start:
+    sid: korea_5
+    'off': 0.4
+  end:
+    scene_end: korea
+    'off': 0.5
+  tag: 사우디 하늘의 방공체계
+  lines:
+  - 미국산 — 패트리어트·사드
+  - 한국산 — 천궁-II · 계약대로라면
+  - 중국산 — HQ-9 · 로이터 보도대로라면
+  accent: gold
+- type: country
+  start:
+    scene_start: briefing
+  end:
+    total: true
+  codes:
+  - SA
+  col: green
+  a: 0.08
+- type: article
+  start:
+    sid: briefing_0
+    'off': 3.6
+  end:
+    sid: briefing_0
+    edge: end
+    'off': 0.3
+  mid: gulf_china_arms_2026_art_0014
+  theme: dark
+- type: country
+  start:
+    sid: briefing_1
+    'off': 0.4
+  end:
+    total: true
+  codes:
+  - PK
+  col: teal
+  a: 0.08
+- type: route
+  start:
+    sid: briefing_1
+    'off': 0.4
+  end:
+    total: true
+  pts:
+    path: pk_sa
+  grow: 2.5
+  col: teal
+  ship: false
+  label: 동맹국 군대
+- type: marker
+  start:
+    sid: briefing_1
+    'off': 0.4
+  end:
+    total: true
+  at_place: kaab
+  label: 킹압둘아지즈 공군기지
+  sub: 전투기 도착 · 공식 발표
+  side: left
+  hl: true
+- type: card
+  start:
+    sid: briefing_1
+    'off': 0.2
+  end:
+    sid: briefing_1
+    edge: end
+    'off': 0.2
+  tag: 보도대로라면 이번에는
+  lines:
+  - 사우디가 사들인 것이 아니라
+  - 동맹국 군대가 들여와 운용
+  accent: teal
+- type: panel
+  start:
+    sid: briefing_2
+    'off': -0.2
+  end:
+    sid: briefing_3
+    edge: end
+    'off': 0.4
+  kind: versus
+  data:
+    title: 확인된 것과 보도로만 알려진 것
+    sides:
+    - title: 공식 발표로 확인
+      src: 사우디 국방부 4월 11일 · 파키스탄군 공보처장 10월 7일
+      items:
+      - text: 파키스탄군의 사우디 주둔
+        t:
+          sid: briefing_2
+          'off': 0.5
+      - text: 전투기 도착
+        t:
+          sid: briefing_2
+          'off': 3.0
+    - title: 로이터 보도로만
+      src: 로이터 · 익명 소식통
+      items:
+      - text: HQ-9 · JF-17
+        t:
+          sid: briefing_3
+          'off': 0.4
+      - text: 사우디의 비용 부담
+        t:
+          sid: briefing_3
+          'off': 3.5
+- type: country
+  start:
+    word:
+      sid: briefing_4
+      text: 중국산
+  end:
+    total: true
+  codes:
+  - CN
+  col: ru
+  a: 0.07
+- type: card
+  start:
+    sid: briefing_4
+    'off': 0.3
+  end:
+    total: true
+  tag: 로이터 보도대로라면
+  lines:
+  - 미국산 패트리어트·사드를 갖춘 사우디 하늘
+  - 중국산 체계가 동맹국 군대를 통해
+  accent: gold
+sound:
+  bgm: music.zabriskie_mario_bava   # 사용자 D227 "음악은 이번에 새로 구한 음악을 적용" · UF-100 합격곡(rules audio.bgm_default 첫째) — 연출 워커 null(입력 음악 목록 비어 있음) 대체
+  intensity:
+  - - 0.0
+    - 0.55
+  - - scene_start: what
+    - 0.6
+  - - scene_start: official
+    - 0.58
+  - - scene_start: pact
+    - 0.62
+  - - scene_start: us_arms
+    - 0.64
+  - - scene_start: scale
+    - 0.66
+  - - scene_start: korea
+    - 0.6
+  - - scene_start: briefing
+    - 0.58
+  - - total: true
+      'off':
+      - 0.5
+      - -7.0
+    - 0.55
+  - - total: true
+      'off': 0.5
+    - 0.0
+  cues: []
+  no_music_decision: null
