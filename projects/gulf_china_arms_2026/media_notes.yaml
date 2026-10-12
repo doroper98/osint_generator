@@ -1,0 +1,17 @@
+# gulf_china_arms_2026 미디어 사유(게이트 ① 미디어 계획 표) — v7.2.0 D-0223. 사진은 연출 전 레지스트리에 권리와 함께 등록한다(공용 재사용 우선, C8.7).
+schema_version: 1
+sentences:
+  what_0:
+    photo: A 선택 — JF-17(파키스탄 공군, 2015 파리 에어쇼, Commons Public domain = gulf_pact_2026 의 gulf_pk_jf17 와 같은 사진) 재사용. 다른 후보는 CC BY-SA·GFDL 탈락, 'User countries' 지도는 사진 아님
+  what_1:
+    photo: A 는 what_0 과 같은 JF-17 사진(같은 장면 연속). 다른 후보 GFDL 탈락
+  what_2:
+    photo: A 는 what_0 과 같은 JF-17 사진. Chengdu 표기 후보는 CC BY-SA 2.0·GFDL 탈락
+  official_0:
+    photo: 고르지 않음 — 문장 머리('공식 발표로 확인된 것도 있습니다'). 통과 후보는 다란 공항 1960년대 사진 등이라 2026 도착 장면과 시점이 달라 오해 소지. 지도 무대로
+  official_1:
+    photo: 고르지 않음 — 통과 후보는 다란 공항 1960년대 사진·터미널 야경(공군기지와 같은 부지지만 2026 도착 장면과 시점·대상이 달라 오해 소지). 지도 무대(킹압둘아지즈 공군기지 마커)로
+  korea_3:
+    photo: A 선택 — 'M-SAM Block-2 battery'(Commons, 공공누리 제1유형 KOGL Type 1) — 천궁-II 포대 자료사진. 이라크 배치 장면이 아니라 자료사진 표기
+  briefing_1:
+    photo: 사진 없음이 맞다 — 통과 후보 12건은 1915·1965·1999 파키스탄군 역사 사진이라 2026 사우디 주둔과 무관(관련성 탈락). 맺음 문장은 지도 무대로

@@ -1,0 +1,243 @@
+{
+  "schema_version": 1,
+  "labels": {
+    "open_0": {
+      "status": "corroborated",
+      "label": null,
+      "claim_ids": [
+        "clm_0006"
+      ]
+    },
+    "open_1": {
+      "status": "corroborated",
+      "label": null,
+      "claim_ids": [
+        "clm_0007"
+      ]
+    },
+    "open_2": {
+      "status": "corroborated",
+      "label": null,
+      "claim_ids": [
+        "clm_0007"
+      ]
+    },
+    "open_3": {
+      "status": "unverified",
+      "label": "<미검증>",
+      "claim_ids": [
+        "clm_0009"
+      ]
+    },
+    "what_0": {
+      "status": "corroborated",
+      "label": null,
+      "claim_ids": [
+        "clm_0001",
+        "clm_0003"
+      ]
+    },
+    "what_1": {
+      "status": "corroborated",
+      "label": null,
+      "claim_ids": [
+        "clm_0003",
+        "clm_0004"
+      ]
+    },
+    "what_2": {
+      "status": "unverified",
+      "label": "<미검증>",
+      "claim_ids": [
+        "clm_0039"
+      ]
+    },
+    "what_3": {
+      "status": "corroborated",
+      "label": null,
+      "claim_ids": [
+        "clm_0006"
+      ]
+    },
+    "what_4": {
+      "status": "unverified",
+      "label": "<미검증>",
+      "claim_ids": [
+        "clm_0008"
+      ]
+    },
+    "official_0": {
+      "status": "unverified",
+      "label": "<미검증>",
+      "claim_ids": [
+        "clm_0005"
+      ]
+    },
+    "official_1": {
+      "status": "unverified",
+      "label": "<미검증>",
+      "claim_ids": [
+        "clm_0005"
+      ]
+    },
+    "official_2": {
+      "status": "unverified",
+      "label": "<미검증>",
+      "claim_ids": [
+        "clm_0032"
+      ]
+    },
+    "official_3": {
+      "status": "unverified",
+      "label": "<미검증>",
+      "claim_ids": [
+        "clm_0006",
+        "clm_0009"
+      ]
+    },
+    "pact_0": {
+      "status": "corroborated",
+      "label": null,
+      "claim_ids": [
+        "clm_0012",
+        "clm_0001"
+      ]
+    },
+    "pact_1": {
+      "status": "corroborated",
+      "label": null,
+      "claim_ids": [
+        "clm_0013"
+      ]
+    },
+    "pact_2": {
+      "status": "unverified",
+      "label": "<미검증>",
+      "claim_ids": [
+        "clm_0010"
+      ]
+    },
+    "pact_3": {
+      "status": "corroborated",
+      "label": null,
+      "claim_ids": [
+        "clm_0007"
+      ]
+    },
+    "us_arms_0": {
+      "status": "unverified",
+      "label": "<미검증>",
+      "claim_ids": [
+        "clm_0020"
+      ]
+    },
+    "us_arms_1": {
+      "status": "unverified",
+      "label": "<미검증>",
+      "claim_ids": [
+        "clm_0006",
+        "clm_0020"
+      ]
+    },
+    "us_arms_2": {
+      "status": "corroborated",
+      "label": null,
+      "claim_ids": [
+        "clm_0007"
+      ]
+    },
+    "scale_0": {
+      "status": "corroborated",
+      "label": null,
+      "claim_ids": [
+        "clm_0026"
+      ]
+    },
+    "scale_1": {
+      "status": "unverified",
+      "label": "<미검증>",
+      "claim_ids": [
+        "clm_0029",
+        "clm_0031"
+      ]
+    },
+    "korea_0": {
+      "status": "corroborated",
+      "label": null,
+      "claim_ids": [
+        "clm_0033"
+      ]
+    },
+    "korea_1": {
+      "status": "unverified",
+      "label": "<미검증>",
+      "claim_ids": [
+        "clm_0034"
+      ]
+    },
+    "korea_2": {
+      "status": "unverified",
+      "label": "<미검증>",
+      "claim_ids": [
+        "clm_0035",
+        "clm_0036"
+      ]
+    },
+    "korea_3": {
+      "status": "corroborated",
+      "label": null,
+      "claim_ids": [
+        "clm_0037"
+      ]
+    },
+    "korea_4": {
+      "status": "unverified",
+      "label": "<미검증>",
+      "claim_ids": [
+        "clm_0040"
+      ]
+    },
+    "korea_5": {
+      "status": "unverified",
+      "label": "<미검증>",
+      "claim_ids": [
+        "clm_0020",
+        "clm_0035",
+        "clm_0006"
+      ]
+    },
+    "briefing_0": {
+      "status": "corroborated",
+      "label": null,
+      "claim_ids": [
+        "clm_0006",
+        "clm_0007"
+      ]
+    },
+    "briefing_1": {
+      "status": "unverified",
+      "label": "<미검증>",
+      "claim_ids": [
+        "clm_0032",
+        "clm_0005"
+      ]
+    },
+    "briefing_2": {
+      "status": "corroborated",
+      "label": null,
+      "claim_ids": [
+        "clm_0006",
+        "clm_0007"
+      ]
+    },
+    "briefing_3": {
+      "status": "unverified",
+      "label": "<미검증>",
+      "claim_ids": [
+        "clm_0020",
+        "clm_0006",
+        "clm_0007"
+      ]
+    }
+  }
+}

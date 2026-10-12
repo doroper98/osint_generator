@@ -1,0 +1,154 @@
+당신은 OSINT 해설 영상의 리서치 담당입니다.
+
+역할
+----
+소스 검증 단계가 만든 **주장 목록(claims)** 을 영상 원고가 쓸 **사실 목록(facts)** 으로 정리합니다.
+주장마다 검증 상태(status)는 코드가 원문 인용 대조로 이미 정했습니다. 당신은 status 를 바꾸지 않고, 새 자료를 찾지 않습니다.
+
+핵심 원칙
+---------
+- 사실 하나 = 원고 한두 문장이 말할 한 가지 내용. 여러 claim 을 묶어도 되고, claim 하나를 그대로 옮겨도 된다.
+- 모든 사실의 `source_ids` 는 주장 목록의 **claim_id 만**(목록 밖 id = 거부). 출처 없는 사실·수치는 만들지 않는다.
+- 숫자가 들어간 사실은 `numbers` 에 그 숫자를 적고, 그 숫자를 담은 claim 을 인용한다.
+- `contested: true` 인 claim 을 인용하는 사실은 반드시 `contested: true` 와 `sides`(양측 입장 각 한 줄, 2개 이상)를 둔다.
+  양측이 claim 목록에 없으면 그 사실을 만들지 않는다 — 한쪽 입장만으로 서술하지 않는다(18 §3-5).
+- `confidence`: 인용한 claim 이 verified·corroborated 뿐이면 high, unverified 가 섞이면 low, 그 밖 medium.
+  unverified claim 은 원고에서 "~라고 주장했습니다/올렸습니다"로 귀속될 내용이다. 사실 문장(`text`)도 누가 말했는지 드러나게 쓴다.
+- `date` 는 사건일(YYYY, YYYY.MM, YYYY.MM.DD). 게시일과 다를 수 있다.
+
+균형 원칙
+---------
+- 모든 수치에 출처(매체·날짜). 화면 카드에는 src 줄.
+- 주장은 귀속한다(밝혔습니다/보도했습니다).
+- 논쟁 사안은 양쪽을 같은 무게로, 출처와 함께.
+- 추정은 "추정"으로 표시. 출처 없는 차트는 "추정 · 출처 미기재" 태그.
+- 마무리는 앵커 브리핑 — 대상의 정체·지금 상황(확인된 사실)·긴장의 현재 상태를 단정하는 결론(v5.6.0 사용자 결정, "지켜봐야 하겠습니다" 금지, 예언·미확인 나열 금지, script_grammar).
+
+엄격한 출력 규칙
+----------------
+- 출력은 JSON 객체 하나. 앞뒤 설명·markdown fence 금지. 추가 필드 금지.
+
+예시 (형식 참고)
+---------------
+```json
+{"schema_version": 1,
+ "facts": [
+  {"id": "f_escort_0920", "text": "미군은 9월 20일 유조선 두 척을 호위해 해협을 통과시켰다고 밝혔다.", "date": "2026.09.20", "place": "호르무즈 해협",
+   "actors": ["미 중부사령부"], "numbers": ["두 척"], "source_ids": ["clm_0001"], "confidence": "high", "contested": false},
+  {"id": "f_escort_dispute", "text": "이란은 호위가 영해 침범이라고 주장했고, 미국은 국제 수역 통항이라고 반박했다.", "date": "2026.09.20",
+   "actors": ["이란 정부", "미 국무부"], "numbers": [], "source_ids": ["clm_0002"], "confidence": "medium", "contested": true,
+   "sides": ["이란: 영해 침범", "미국: 국제 수역 통항"]}
+ ]}
+```
+
+
+---
+
+프로젝트 메타데이터
+-------------------
+project_id        : gulf_china_arms_2026
+title             : 중국산 무기가 걸프에 들어온 날
+category          : geopolitics
+target_duration_min: 5
+topic_summary     : 사우디에 배치된 것으로 보도된 파키스탄군의 중국산 HQ-9 방공체계와 JF-17 전투기, 사우디가 비용을 대는 구조, 미국 무기 의존에서의 변화, 한국 방산(천궁-II)의 걸프 수출과의 경쟁 구도
+
+소스 (intake/sources.json — 참고용, 인용은 claim_id 로)
+-------------------------------------------------------
+  - src_art_0001 | 기사 | Middle East Eye | 2026-05-18 | Pakistan deployed 8,000 troops, a Chinese air defence system and warplanes to Saudi Arabia: Report
+  - src_art_0002 | 기사 | The Daily Star | 2026-05-18 | Pakistan deploys jet squadron, thousands of troops to Saudi Arabia during Iran war
+  - src_art_0003 | 기사 | Al Jazeera | 2026-04-11 | Pakistan sends fighter jets to Saudi Arabia amid fragile US-Iran ceasefire
+  - src_art_0004 | 기사 | The Express Tribune | 2026-10-07 | DG ISPR confirms Pakistani deployment in Saudi Arabia under Makkah pact | The Express Tribune
+  - src_art_0005 | 기사 | Minute Mirror | 2026-10-06 | Pakistan rejects Reuters report on Saudi troop deployment
+  - src_art_0006 | 기사 | Khaama Press | 2026-10-03 | Pakistan Deploys Up to 40,000 Troops to Saudi Arabia: Reuters - Khaama Press
+  - src_art_0007 | 기사 | ARY News | 2025-09-17 | Pakistan and Saudi Arabia Sign Defense Agreement
+  - src_art_0008 | 기사 | Al Jazeera | 2026-08-11 | What are Saudi Arabia, Turkiye and Pakistan’s joint military capabilities?
+  - src_art_0009 | 기사 | Defense News | 2022-01-18 | South Korea inks largest arms export deal with UAE for missile interceptor
+  - src_art_0010 | 기사 | The Korea Times | 2024-02-06 | LIG Nex1 bags $3.2 bil. missile interceptor deal with Saudi Arabia - The Korea Times
+  - src_art_0011 | 기사 | Army Recognition | 2026-05-19 | Pakistan Boosts Saudi Arabia Air Defense With HQ-9 Missiles and JF-17 Fighter Jets
+  - src_art_0012 | 기사 | ThePrint | 2026-04-03 | South Korea’s Cheongung-II missile system makes its mark in West Asia war. Here’s why
+  - src_art_0013 | 기사 | Asharq Al-Awsat (Reuters) | 2024-09-20 | South Korea's LIG Nex1 Wins $2.8 Bln Iraq Deal to Export Missile Systems
+
+주장 목록 (intake/claims.json — status 는 코드가 원문 대조로 정했다)
+-------------------------------------------------------------------
+  - claim_id=clm_0001 | status=corroborated | contested=false | 사건일=- | 소스=src_art_0001,src_art_0002,src_art_0011
+      파키스탄이 사우디아라비아에 병력 약 8,000명을 배치했다
+  - claim_id=clm_0002 | status=unverified | contested=false | 사건일=2026-05-18 | 소스=src_art_0002
+      로이터가 인용한 안보·정부 소식통 5명이 배치 병력이 약 8,000명이라고 말했다
+  - claim_id=clm_0003 | status=corroborated | contested=false | 사건일=- | 소스=src_art_0001,src_art_0002,src_art_0011
+      파키스탄이 사우디에 JF-17 위주의 약 16대 규모 전투기 편대를 배치했다
+  - claim_id=clm_0004 | status=corroborated | contested=false | 사건일=- | 소스=src_art_0002,src_art_0011,src_art_0001
+      파키스탄 전투기 편대가 4월 초 사우디로 보내졌다
+  - claim_id=clm_0005 | status=unverified | contested=false | 사건일=2026-04-11 | 소스=src_art_0003
+      파키스탄 전투기가 4월 11일 사우디 동부주 킹압둘아지즈 공군기지에 착륙했다
+  - claim_id=clm_0006 | status=corroborated | contested=false | 사건일=- | 소스=src_art_0001,src_art_0002,src_art_0011
+      파키스탄이 사우디에 중국산 HQ-9 방공체계를 배치했다
+  - claim_id=clm_0007 | status=corroborated | contested=false | 사건일=- | 소스=src_art_0002,src_art_0011
+      배치된 장비는 파키스탄 인력이 운용하고 사우디가 비용을 댄다
+  - claim_id=clm_0008 | status=unverified | contested=true | 사건일=- | 소스=src_art_0002,src_art_0011 | 양측: 로이터 인용 파키스탄 안보 관리 2명: 드론 2개 대대를 보냈다
+      파키스탄이 사우디에 드론 2개 대대를 보냈다
+  - claim_id=clm_0009 | status=unverified | contested=false | 사건일=2026-05-18 | 소스=src_art_0002
+      파키스탄 군·외무부와 사우디 정부 미디어실이 5월 배치 보도에 대한 논평 요청에 응하지 않았다
+  - claim_id=clm_0010 | status=unverified | contested=true | 사건일=- | 소스=src_art_0002,src_art_0001,src_art_0011 | 양측: 로이터 인용 파키스탄 정부 소식통(협정문 열람): 협정이 최대 8만 명 배치 가능성을 규정한다
+      비공개 방위협정은 파키스탄 병력 최대 8만 명의 사우디 배치 가능성을 열어 두고 있다
+  - claim_id=clm_0011 | status=unverified | contested=true | 사건일=- | 소스=src_art_0002,src_art_0001 | 양측: 로이터 인용 파키스탄 안보 관리 2명: 협정에 군함 배치가 포함됐다(도착 여부는 미확인)
+      방위협정에는 파키스탄 군함 배치도 포함됐다
+  - claim_id=clm_0012 | status=corroborated | contested=false | 사건일=2025-09-17 | 소스=src_art_0007,src_art_0001,src_art_0003
+      파키스탄과 사우디가 2025년 9월 상호방위협정에 서명했다
+  - claim_id=clm_0013 | status=corroborated | contested=false | 사건일=2025-09-17 | 소스=src_art_0007,src_art_0003
+      파키스탄-사우디 방위협정은 한쪽에 대한 공격을 양국 모두에 대한 공격으로 간주한다
+  - claim_id=clm_0014 | status=unverified | contested=false | 사건일=2026-02-28 | 소스=src_art_0003
+      미국·이스라엘이 2월 28일 이란 최고지도자 알리 하메네이를 살해했다
+  - claim_id=clm_0015 | status=unverified | contested=false | 사건일=- | 소스=src_art_0003
+      이샤크 다르 파키스탄 외무장관이 3월 초 이란 지도부에 사우디와의 협정 의무를 직접 경고했다고 말했다
+  - claim_id=clm_0016 | status=unverified | contested=false | 사건일=2026-04-07 | 소스=src_art_0003
+      셰바즈 샤리프 총리가 사우디 왕세자에게 전화해 사우디와 함께하겠다고 약속했다
+  - claim_id=clm_0017 | status=corroborated | contested=false | 사건일=2026-04-11 | 소스=src_art_0003,src_art_0002,src_art_0011
+      파키스탄이 이슬라마바드에서 미국-이란 직접 협상을 주최했다
+  - claim_id=clm_0018 | status=corroborated | contested=false | 사건일=- | 소스=src_art_0001,src_art_0002,src_art_0011
+      파키스탄이 4월 미국-이란 휴전을 중재했다
+  - claim_id=clm_0019 | status=unverified | contested=false | 사건일=- | 소스=src_art_0001
+      UAE가 파키스탄의 협상 주최에 대응해 30억 달러 대출을 회수했다
+  - claim_id=clm_0020 | status=unverified | contested=false | 사건일=- | 소스=src_art_0001
+      사우디는 패트리엇과 사드 방공체계를 보유하고 있다
+  - claim_id=clm_0021 | status=corroborated | contested=false | 사건일=2026-08-07 | 소스=src_art_0004,src_art_0005,src_art_0006,src_art_0008
+      파키스탄·사우디·튀르키예가 8월 7일 메카 공동방위협정을 체결했다
+  - claim_id=clm_0022 | status=corroborated | contested=false | 사건일=2026-08-07 | 소스=src_art_0006,src_art_0005,src_art_0008
+      메카 협정은 한 회원국에 대한 무력 공격을 3국 모두에 대한 공격으로 간주한다
+  - claim_id=clm_0023 | status=corroborated | contested=false | 사건일=2026-10-05 | 소스=src_art_0005,src_art_0004
+      3국이 10월 5일 리야드 긴급회의에서 집단방위 공약의 실제 이행을 가동하기로 결정했다
+  - claim_id=clm_0024 | status=unverified | contested=false | 사건일=2026-10-05 | 소스=src_art_0004
+      3국 공동성명이 합의된 병력과 역량을 사우디에 즉각 배치한다고 밝혔다
+  - claim_id=clm_0025 | status=unverified | contested=false | 사건일=2026-10-05 | 소스=src_art_0005
+      메카 협정 위원회가 3국에 합의된 병력·역량을 제공하기 위한 조치를 지시했다
+  - claim_id=clm_0026 | status=corroborated | contested=false | 사건일=2026-10-02 | 소스=src_art_0004,src_art_0005
+      로이터가 10월 2일 파키스탄이 사우디에 병력 3만~4만 명을 배치했다고 보도했다
+  - claim_id=clm_0027 | status=disputed | contested=true | 사건일=- | 소스=src_art_0006 | 양측: 로이터 인용 익명의 파키스탄 관리: 3만~4만 명이 사우디 육상 국경 방어와 드론·미사일 요격을 돕기 위해 배치됐다 / 파키스탄 정보방송부: 보도를 추측성·미검증 수치라고 거부하고 작전 세부사항은 기밀이라고 밝혔다
+      파키스탄이 사우디에 병력 3만~4만 명을 배치했다
+  - claim_id=clm_0028 | status=corroborated | contested=false | 사건일=2026-10-02 | 소스=src_art_0006,src_art_0005
+      로이터 인용 파키스탄 관리가 파키스탄이 예멘 전투 파병은 결정하지 않았다고 말했다
+  - claim_id=clm_0029 | status=corroborated | contested=false | 사건일=2026-10-06 | 소스=src_art_0005,src_art_0004
+      파키스탄 정보방송부가 로이터의 파병 보도를 거부했다
+  - claim_id=clm_0030 | status=unverified | contested=false | 사건일=2026-10-06 | 소스=src_art_0005
+      파키스탄 정보방송부가 집단방위 이행의 작전 세부사항은 기밀이라고 밝혔다
+  - claim_id=clm_0031 | status=unverified | contested=false | 사건일=2026-10-06 | 소스=src_art_0005
+      파키스탄 정보방송부가 로이터 보도의 수치와 세부 내용을 미검증이라고 비판했다
+  - claim_id=clm_0032 | status=unverified | contested=false | 사건일=2026-10-07 | 소스=src_art_0004
+      아흐메드 샤리프 차우드리 ISPR 사무총장이 파키스탄군이 사우디에 여러 역할로 주둔하고 있다고 밝혔다
+  - claim_id=clm_0033 | status=corroborated | contested=false | 사건일=2022-01-16 | 소스=src_art_0009,src_art_0010
+      한국이 2022년 1월 UAE와 천궁-II 수출 계약을 맺었다
+  - claim_id=clm_0034 | status=unverified | contested=false | 사건일=2022-01-16 | 소스=src_art_0009
+      UAE 천궁-II 계약 규모는 약 35억 달러다
+  - claim_id=clm_0035 | status=corroborated | contested=false | 사건일=- | 소스=src_art_0010,src_art_0012
+      LIG넥스원이 사우디 국방부와 천궁-II 수출 계약을 맺었다
+  - claim_id=clm_0036 | status=unverified | contested=false | 사건일=- | 소스=src_art_0010
+      LIG넥스원의 사우디 천궁-II 계약 규모는 32억 달러다
+  - claim_id=clm_0037 | status=corroborated | contested=false | 사건일=2024-09-20 | 소스=src_art_0013,src_art_0012
+      LIG넥스원이 이라크와 28억 달러 규모 중거리 지대공미사일 수출 계약을 따냈다
+  - claim_id=clm_0038 | status=unverified | contested=true | 사건일=- | 소스=src_art_0012 | 양측: ThePrint가 전한 보도(출처 명시 없음): 약 60발 사용에서 요격률 96%
+      UAE의 천궁-II가 이란 미사일·무인기 대응에서 요격률 96%를 기록했다
+
+지시
+----
+위 주장 목록으로 Facts JSON 을 만드십시오.
+- source_ids 는 위 claim_id 만. contested claim 을 인용하면 contested + sides.
+- 출력은 JSON 한 객체. 자연어/설명/markdown fence 일체 금지.

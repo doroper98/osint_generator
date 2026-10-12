@@ -1,0 +1,304 @@
+{
+  "schema_version": 1,
+  "sources": [
+    {
+      "id": "src_art_0001",
+      "url": "https://www.middleeasteye.net/news/pakistan-deployed-8000-troops-chinese-air-defence-and-warplanes-saudi-arabia-report",
+      "retrieved_at": "2026-10-12",
+      "lang": "ko",
+      "verification": {
+        "status": "corroborated",
+        "checks": [
+          "claims:10"
+        ],
+        "notes": ""
+      },
+      "confirmed_by": "opus(D-0223 — 사용자 위임 D227, URL·매체·게시일 대조)",
+      "confirmed_at": "2026-10-12T14:07:37.522891Z",
+      "note": "",
+      "type": "article",
+      "publisher": "Middle East Eye",
+      "headline_original": "Pakistan deployed 8,000 troops, a Chinese air defence system and warplanes to Saudi Arabia: Report",
+      "published_at": "2026-05-18",
+      "key_facts": [
+        "Pakistan deployed 8,000 troops, a Chinese air defence system and warplanes to Saudi Arabia: Report"
+      ]
+    },
+    {
+      "id": "src_art_0002",
+      "url": "https://www.thedailystar.net/news/world/news/pakistan-deploys-jet-squadron-thousands-troops-saudi-arabia-during-iran-war-4178736",
+      "retrieved_at": "2026-10-12",
+      "lang": "ko",
+      "verification": {
+        "status": "corroborated",
+        "checks": [
+          "claims:12"
+        ],
+        "notes": ""
+      },
+      "confirmed_by": "opus(D-0223 — 사용자 위임 D227, URL·매체·게시일 대조)",
+      "confirmed_at": "2026-10-12T14:07:38.103821Z",
+      "note": "",
+      "type": "article",
+      "publisher": "The Daily Star",
+      "headline_original": "Pakistan deploys jet squadron, thousands of troops to Saudi Arabia during Iran war",
+      "published_at": "2026-05-18",
+      "key_facts": [
+        "Pakistan deploys jet squadron, thousands of troops to Saudi Arabia during Iran war"
+      ]
+    },
+    {
+      "id": "src_art_0003",
+      "url": "https://www.aljazeera.com/news/2026/4/11/pakistan-sends-fighter-jets-to-saudi-arabia-amid-fragile-us-iran-ceasefire",
+      "retrieved_at": "2026-10-12",
+      "lang": "ko",
+      "verification": {
+        "status": "corroborated",
+        "checks": [
+          "claims:7"
+        ],
+        "notes": ""
+      },
+      "confirmed_by": "opus(D-0223 — 사용자 위임 D227, URL·매체·게시일 대조)",
+      "confirmed_at": "2026-10-12T14:07:38.799986Z",
+      "note": "",
+      "type": "article",
+      "publisher": "Al Jazeera",
+      "headline_original": "Pakistan sends fighter jets to Saudi Arabia amid fragile US-Iran ceasefire",
+      "published_at": "2026-04-11",
+      "key_facts": [
+        "Pakistan sends fighter jets to Saudi Arabia amid fragile US-Iran ceasefire"
+      ]
+    },
+    {
+      "id": "src_art_0004",
+      "url": "https://tribune.com.pk/story/2633533/makkah-defence-alliance-dg-ispr-says-pakistani-troops-present-in-saudi-arabia",
+      "retrieved_at": "2026-10-12",
+      "lang": "ko",
+      "verification": {
+        "status": "corroborated",
+        "checks": [
+          "claims:6"
+        ],
+        "notes": ""
+      },
+      "confirmed_by": "opus(D-0223 — 사용자 위임 D227, URL·매체·게시일 대조)",
+      "confirmed_at": "2026-10-12T14:07:39.437575Z",
+      "note": "",
+      "type": "article",
+      "publisher": "The Express Tribune",
+      "headline_original": "DG ISPR confirms Pakistani deployment in Saudi Arabia under Makkah pact | The Express Tribune",
+      "published_at": "2026-10-07",
+      "key_facts": [
+        "DG ISPR confirms Pakistani deployment in Saudi Arabia under Makkah pact | The Express Tribune"
+      ]
+    },
+    {
+      "id": "src_art_0005",
+      "url": "https://minutemirror.com.pk/pakistan-rejects-reuters-report-on-saudi-troop-deployment-640378/",
+      "retrieved_at": "2026-10-12",
+      "lang": "ko",
+      "verification": {
+        "status": "corroborated",
+        "checks": [
+          "claims:9"
+        ],
+        "notes": ""
+      },
+      "confirmed_by": "opus(D-0223 — 사용자 위임 D227, URL·매체·게시일 대조)",
+      "confirmed_at": "2026-10-12T14:07:40.045537Z",
+      "note": "",
+      "type": "article",
+      "publisher": "Minute Mirror",
+      "headline_original": "Pakistan rejects Reuters report on Saudi troop deployment",
+      "published_at": "2026-10-06",
+      "key_facts": [
+        "Pakistan rejects Reuters report on Saudi troop deployment"
+      ]
+    },
+    {
+      "id": "src_art_0006",
+      "url": "https://www.khaama.com/pakistan-deploys-up-to-40000-troops-to-saudi-arabia-reuters/",
+      "retrieved_at": "2026-10-12",
+      "lang": "ko",
+      "verification": {
+        "status": "corroborated",
+        "checks": [
+          "claims:4"
+        ],
+        "notes": ""
+      },
+      "confirmed_by": "opus(D-0223 — 사용자 위임 D227, URL·매체·게시일 대조)",
+      "confirmed_at": "2026-10-12T14:07:40.649302Z",
+      "note": "",
+      "type": "article",
+      "publisher": "Khaama Press",
+      "headline_original": "Pakistan Deploys Up to 40,000 Troops to Saudi Arabia: Reuters - Khaama Press",
+      "published_at": "2026-10-03",
+      "key_facts": [
+        "Pakistan Deploys Up to 40,000 Troops to Saudi Arabia: Reuters - Khaama Press"
+      ]
+    },
+    {
+      "id": "src_art_0007",
+      "url": "https://arynews.tv/pakistan-and-saudi-arabia-sign-defense-agreement",
+      "retrieved_at": "2026-10-12",
+      "lang": "ko",
+      "verification": {
+        "status": "corroborated",
+        "checks": [
+          "claims:2"
+        ],
+        "notes": ""
+      },
+      "confirmed_by": "opus(D-0223 — 사용자 위임 D227, URL·매체·게시일 대조)",
+      "confirmed_at": "2026-10-12T14:07:41.273559Z",
+      "note": "",
+      "type": "article",
+      "publisher": "ARY News",
+      "headline_original": "Pakistan and Saudi Arabia Sign Defense Agreement",
+      "published_at": "2025-09-17",
+      "key_facts": [
+        "Pakistan and Saudi Arabia Sign Defense Agreement"
+      ]
+    },
+    {
+      "id": "src_art_0008",
+      "url": "https://www.aljazeera.com/news/2026/8/11/what-are-saudi-arabia-turkiye-and-pakistans-joint-military-capabilities",
+      "retrieved_at": "2026-10-12",
+      "lang": "ko",
+      "verification": {
+        "status": "corroborated",
+        "checks": [
+          "claims:2"
+        ],
+        "notes": ""
+      },
+      "confirmed_by": "opus(D-0223 — 사용자 위임 D227, URL·매체·게시일 대조)",
+      "confirmed_at": "2026-10-12T14:07:42.014974Z",
+      "note": "",
+      "type": "article",
+      "publisher": "Al Jazeera",
+      "headline_original": "What are Saudi Arabia, Turkiye and Pakistan’s joint military capabilities?",
+      "published_at": "2026-08-11",
+      "key_facts": [
+        "What are Saudi Arabia, Turkiye and Pakistan’s joint military capabilities?"
+      ]
+    },
+    {
+      "id": "src_art_0009",
+      "url": "https://www.defensenews.com/industry/2022/01/18/south-korea-inks-largest-arms-export-deal-with-uae-for-missile-interceptor/",
+      "retrieved_at": "2026-10-12",
+      "lang": "ko",
+      "verification": {
+        "status": "corroborated",
+        "checks": [
+          "claims:2"
+        ],
+        "notes": ""
+      },
+      "confirmed_by": "opus(D-0223 — 사용자 위임 D227, URL·매체·게시일 대조)",
+      "confirmed_at": "2026-10-12T14:07:42.763153Z",
+      "note": "",
+      "type": "article",
+      "publisher": "Defense News",
+      "headline_original": "South Korea inks largest arms export deal with UAE for missile interceptor",
+      "published_at": "2022-01-18",
+      "key_facts": [
+        "South Korea inks largest arms export deal with UAE for missile interceptor"
+      ]
+    },
+    {
+      "id": "src_art_0010",
+      "url": "https://www.koreatimes.co.kr/amp/southkorea/defense/20240206/lig-nex1-bags-32-bil-missile-interceptor-deal-with-saudi-arabia",
+      "retrieved_at": "2026-10-12",
+      "lang": "ko",
+      "verification": {
+        "status": "corroborated",
+        "checks": [
+          "claims:3"
+        ],
+        "notes": ""
+      },
+      "confirmed_by": "opus(D-0223 — 사용자 위임 D227, URL·매체·게시일 대조)",
+      "confirmed_at": "2026-10-12T14:07:43.541521Z",
+      "note": "",
+      "type": "article",
+      "publisher": "The Korea Times",
+      "headline_original": "LIG Nex1 bags $3.2 bil. missile interceptor deal with Saudi Arabia - The Korea Times",
+      "published_at": "2024-02-06",
+      "key_facts": [
+        "LIG Nex1 bags $3.2 bil. missile interceptor deal with Saudi Arabia - The Korea Times"
+      ]
+    },
+    {
+      "id": "src_art_0011",
+      "url": "https://www.armyrecognition.com/news/army-news/2026/pakistan-boosts-saudi-arabia-air-defense-with-hq-9-missiles-and-jf-17-fighter-jets",
+      "retrieved_at": "2026-10-12",
+      "lang": "ko",
+      "verification": {
+        "status": "corroborated",
+        "checks": [
+          "claims:9"
+        ],
+        "notes": ""
+      },
+      "confirmed_by": "opus(D-0223 — 사용자 위임 D227, URL·매체·게시일 대조)",
+      "confirmed_at": "2026-10-12T14:07:44.291378Z",
+      "note": "",
+      "type": "article",
+      "publisher": "Army Recognition",
+      "headline_original": "Pakistan Boosts Saudi Arabia Air Defense With HQ-9 Missiles and JF-17 Fighter Jets",
+      "published_at": "2026-05-19",
+      "key_facts": [
+        "Pakistan Boosts Saudi Arabia Air Defense With HQ-9 Missiles and JF-17 Fighter Jets"
+      ]
+    },
+    {
+      "id": "src_art_0012",
+      "url": "https://theprint.in/defence/south-koreas-cheongung-ii-missile-system-makes-its-mark-in-west-asia-war-heres-why/2896010/",
+      "retrieved_at": "2026-10-12",
+      "lang": "ko",
+      "verification": {
+        "status": "corroborated",
+        "checks": [
+          "claims:3"
+        ],
+        "notes": ""
+      },
+      "confirmed_by": "opus(D-0223 — 사용자 위임 D227, URL·매체·게시일 대조)",
+      "confirmed_at": "2026-10-12T14:07:44.987657Z",
+      "note": "",
+      "type": "article",
+      "publisher": "ThePrint",
+      "headline_original": "South Korea’s Cheongung-II missile system makes its mark in West Asia war. Here’s why",
+      "published_at": "2026-04-03",
+      "key_facts": [
+        "South Korea’s Cheongung-II missile system makes its mark in West Asia war. Here’s why"
+      ]
+    },
+    {
+      "id": "src_art_0013",
+      "url": "https://english.aawsat.com/arab-world/5063171-south-koreas-lig-nex1-wins-28-bln-iraq-deal-export-missile-systems",
+      "retrieved_at": "2026-10-12",
+      "lang": "ko",
+      "verification": {
+        "status": "corroborated",
+        "checks": [
+          "claims:1"
+        ],
+        "notes": ""
+      },
+      "confirmed_by": "opus(D-0223 — 사용자 위임 D227, URL·매체·게시일 대조)",
+      "confirmed_at": "2026-10-12T14:07:45.644849Z",
+      "note": "",
+      "type": "article",
+      "publisher": "Asharq Al-Awsat (Reuters)",
+      "headline_original": "South Korea's LIG Nex1 Wins $2.8 Bln Iraq Deal to Export Missile Systems",
+      "published_at": "2024-09-20",
+      "key_facts": [
+        "South Korea's LIG Nex1 Wins $2.8 Bln Iraq Deal to Export Missile Systems"
+      ]
+    }
+  ]
+}

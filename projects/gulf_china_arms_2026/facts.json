@@ -1,0 +1,445 @@
+{
+  "schema_version": 1,
+  "facts": [
+    {
+      "id": "f_pact_2025",
+      "text": "파키스탄과 사우디아라비아는 2025년 9월 상호방위협정에 서명했고, 협정은 한쪽에 대한 공격을 양국 모두에 대한 공격으로 간주한다.",
+      "date": "2025.09.17",
+      "place": null,
+      "actors": [
+        "파키스탄 정부",
+        "사우디아라비아 정부"
+      ],
+      "numbers": [],
+      "source_ids": [
+        "clm_0012",
+        "clm_0013"
+      ],
+      "confidence": "high",
+      "contested": false,
+      "sides": null
+    },
+    {
+      "id": "f_khamenei_0228",
+      "text": "알자지라는 미국과 이스라엘이 2월 28일 이란 최고지도자 알리 하메네이를 살해했다고 보도했다.",
+      "date": "2026.02.28",
+      "place": null,
+      "actors": [
+        "미국",
+        "이스라엘",
+        "알리 하메네이"
+      ],
+      "numbers": [],
+      "source_ids": [
+        "clm_0014"
+      ],
+      "confidence": "low",
+      "contested": false,
+      "sides": null
+    },
+    {
+      "id": "f_dar_warning",
+      "text": "이샤크 다르 파키스탄 외무장관은 3월 초 이란 지도부에 사우디와의 협정 의무를 직접 경고했다고 말했다.",
+      "date": "2026.03",
+      "place": null,
+      "actors": [
+        "이샤크 다르"
+      ],
+      "numbers": [],
+      "source_ids": [
+        "clm_0015"
+      ],
+      "confidence": "low",
+      "contested": false,
+      "sides": null
+    },
+    {
+      "id": "f_sharif_call",
+      "text": "알자지라에 따르면 셰바즈 샤리프 파키스탄 총리는 사우디 왕세자에게 전화해 사우디와 함께하겠다고 약속했다.",
+      "date": "2026.04.07",
+      "place": null,
+      "actors": [
+        "셰바즈 샤리프",
+        "사우디 왕세자"
+      ],
+      "numbers": [],
+      "source_ids": [
+        "clm_0016"
+      ],
+      "confidence": "low",
+      "contested": false,
+      "sides": null
+    },
+    {
+      "id": "f_jets_april",
+      "text": "파키스탄은 4월 초 JF-17 위주의 약 16대 규모 전투기 편대를 사우디에 보낸 것으로 여러 매체가 보도했다.",
+      "date": "2026.04",
+      "place": null,
+      "actors": [
+        "파키스탄 공군"
+      ],
+      "numbers": [
+        "약 16대"
+      ],
+      "source_ids": [
+        "clm_0003",
+        "clm_0004"
+      ],
+      "confidence": "high",
+      "contested": false,
+      "sides": null
+    },
+    {
+      "id": "f_jets_landing_0411",
+      "text": "알자지라는 파키스탄 전투기가 4월 11일 사우디 동부주 킹압둘아지즈 공군기지에 착륙했다고 보도했다.",
+      "date": "2026.04.11",
+      "place": "사우디 동부주 킹압둘아지즈 공군기지",
+      "actors": [
+        "파키스탄 공군"
+      ],
+      "numbers": [],
+      "source_ids": [
+        "clm_0005"
+      ],
+      "confidence": "low",
+      "contested": false,
+      "sides": null
+    },
+    {
+      "id": "f_islamabad_talks",
+      "text": "파키스탄은 이슬라마바드에서 미국-이란 직접 협상을 주최하고 4월 미국-이란 휴전을 중재했다.",
+      "date": "2026.04.11",
+      "place": "이슬라마바드",
+      "actors": [
+        "파키스탄 정부",
+        "미국",
+        "이란"
+      ],
+      "numbers": [],
+      "source_ids": [
+        "clm_0017",
+        "clm_0018"
+      ],
+      "confidence": "high",
+      "contested": false,
+      "sides": null
+    },
+    {
+      "id": "f_uae_loan",
+      "text": "Middle East Eye는 UAE가 파키스탄의 협상 주최에 대응해 30억 달러 대출을 회수했다고 보도했다.",
+      "date": "2026",
+      "place": null,
+      "actors": [
+        "UAE",
+        "파키스탄 정부"
+      ],
+      "numbers": [
+        "30억 달러"
+      ],
+      "source_ids": [
+        "clm_0019"
+      ],
+      "confidence": "low",
+      "contested": false,
+      "sides": null
+    },
+    {
+      "id": "f_troops_8000",
+      "text": "파키스탄은 사우디아라비아에 병력 약 8,000명을 배치한 것으로 여러 매체가 보도했다.",
+      "date": "2026.05",
+      "place": null,
+      "actors": [
+        "파키스탄군"
+      ],
+      "numbers": [
+        "약 8,000명"
+      ],
+      "source_ids": [
+        "clm_0001"
+      ],
+      "confidence": "high",
+      "contested": false,
+      "sides": null
+    },
+    {
+      "id": "f_troops_8000_sourcing",
+      "text": "8,000명이라는 수치는 로이터가 인용한 안보·정부 소식통 5명의 말이며, 파키스탄 군·외무부와 사우디 정부 미디어실은 논평 요청에 응하지 않았다고 데일리스타가 전했다.",
+      "date": "2026.05.18",
+      "place": null,
+      "actors": [
+        "로이터",
+        "파키스탄군",
+        "파키스탄 외무부",
+        "사우디 정부 미디어실"
+      ],
+      "numbers": [
+        "5명",
+        "약 8,000명"
+      ],
+      "source_ids": [
+        "clm_0002",
+        "clm_0009"
+      ],
+      "confidence": "low",
+      "contested": false,
+      "sides": null
+    },
+    {
+      "id": "f_hq9_deploy",
+      "text": "파키스탄은 사우디에 중국산 HQ-9 방공체계를 배치했으며, 배치 장비는 파키스탄 인력이 운용하고 비용은 사우디가 대는 것으로 보도됐다.",
+      "date": null,
+      "place": null,
+      "actors": [
+        "파키스탄군",
+        "사우디아라비아 정부"
+      ],
+      "numbers": [],
+      "source_ids": [
+        "clm_0006",
+        "clm_0007"
+      ],
+      "confidence": "high",
+      "contested": false,
+      "sides": null
+    },
+    {
+      "id": "f_saudi_us_systems",
+      "text": "Middle East Eye는 사우디가 미국산 패트리엇과 사드 방공체계를 보유하고 있다고 전했다.",
+      "date": null,
+      "place": null,
+      "actors": [
+        "사우디아라비아"
+      ],
+      "numbers": [],
+      "source_ids": [
+        "clm_0020"
+      ],
+      "confidence": "low",
+      "contested": false,
+      "sides": null
+    },
+    {
+      "id": "f_mecca_pact",
+      "text": "파키스탄·사우디·튀르키예는 8월 7일 메카 공동방위협정을 체결했고, 협정은 한 회원국에 대한 무력 공격을 3국 모두에 대한 공격으로 간주한다.",
+      "date": "2026.08.07",
+      "place": "메카",
+      "actors": [
+        "파키스탄",
+        "사우디아라비아",
+        "튀르키예"
+      ],
+      "numbers": [
+        "3국"
+      ],
+      "source_ids": [
+        "clm_0021",
+        "clm_0022"
+      ],
+      "confidence": "high",
+      "contested": false,
+      "sides": null
+    },
+    {
+      "id": "f_riyadh_meeting",
+      "text": "3국은 10월 5일 리야드 긴급회의에서 집단방위 공약의 실제 이행을 가동하기로 결정했다.",
+      "date": "2026.10.05",
+      "place": "리야드",
+      "actors": [
+        "파키스탄",
+        "사우디아라비아",
+        "튀르키예"
+      ],
+      "numbers": [],
+      "source_ids": [
+        "clm_0023"
+      ],
+      "confidence": "high",
+      "contested": false,
+      "sides": null
+    },
+    {
+      "id": "f_joint_statement",
+      "text": "익스프레스 트리뷴은 3국 공동성명이 합의된 병력과 역량을 사우디에 즉각 배치한다고 밝혔다고 보도했고, 미닛 미러는 메카 협정 위원회가 이를 위한 조치를 지시했다고 전했다.",
+      "date": "2026.10.05",
+      "place": null,
+      "actors": [
+        "메카 협정 위원회",
+        "파키스탄",
+        "사우디아라비아",
+        "튀르키예"
+      ],
+      "numbers": [],
+      "source_ids": [
+        "clm_0024",
+        "clm_0025"
+      ],
+      "confidence": "low",
+      "contested": false,
+      "sides": null
+    },
+    {
+      "id": "f_reuters_report_1002",
+      "text": "로이터는 10월 2일 파키스탄이 사우디에 병력 3만~4만 명을 배치했다고 보도했다.",
+      "date": "2026.10.02",
+      "place": null,
+      "actors": [
+        "로이터"
+      ],
+      "numbers": [
+        "3만~4만 명"
+      ],
+      "source_ids": [
+        "clm_0026"
+      ],
+      "confidence": "high",
+      "contested": false,
+      "sides": null
+    },
+    {
+      "id": "f_troops_40000_dispute",
+      "text": "로이터가 인용한 익명의 파키스탄 관리는 3만~4만 명이 사우디 국경 방어와 드론·미사일 요격 지원을 위해 배치됐다고 말했고, 파키스탄 정보방송부는 이 보도를 추측성·미검증 수치라며 거부했다.",
+      "date": "2026.10.06",
+      "place": null,
+      "actors": [
+        "로이터",
+        "파키스탄 정보방송부"
+      ],
+      "numbers": [
+        "3만~4만 명"
+      ],
+      "source_ids": [
+        "clm_0027",
+        "clm_0029"
+      ],
+      "confidence": "medium",
+      "contested": true,
+      "sides": [
+        "로이터 인용 익명의 파키스탄 관리: 3만~4만 명이 사우디 육상 국경 방어와 드론·미사일 요격 지원을 위해 배치됐다",
+        "파키스탄 정보방송부: 추측성·미검증 수치라며 거부, 작전 세부사항은 기밀"
+      ]
+    },
+    {
+      "id": "f_no_yemen",
+      "text": "로이터가 인용한 파키스탄 관리는 파키스탄이 예멘 전투 파병은 결정하지 않았다고 말했다.",
+      "date": "2026.10.02",
+      "place": null,
+      "actors": [
+        "파키스탄 관리"
+      ],
+      "numbers": [],
+      "source_ids": [
+        "clm_0028"
+      ],
+      "confidence": "high",
+      "contested": false,
+      "sides": null
+    },
+    {
+      "id": "f_ispr_confirm",
+      "text": "아흐메드 샤리프 차우드리 ISPR 사무총장은 파키스탄군이 사우디에 여러 역할로 주둔하고 있다고 밝혔다.",
+      "date": "2026.10.07",
+      "place": null,
+      "actors": [
+        "아흐메드 샤리프 차우드리",
+        "ISPR"
+      ],
+      "numbers": [],
+      "source_ids": [
+        "clm_0032"
+      ],
+      "confidence": "low",
+      "contested": false,
+      "sides": null
+    },
+    {
+      "id": "f_kr_uae_contract",
+      "text": "한국은 2022년 1월 UAE와 천궁-II 수출 계약을 맺었다.",
+      "date": "2022.01.16",
+      "place": "UAE",
+      "actors": [
+        "대한민국",
+        "UAE"
+      ],
+      "numbers": [],
+      "source_ids": [
+        "clm_0033"
+      ],
+      "confidence": "high",
+      "contested": false,
+      "sides": null
+    },
+    {
+      "id": "f_kr_uae_value",
+      "text": "Defense News는 UAE 천궁-II 계약 규모를 약 35억 달러로 보도했다.",
+      "date": "2022.01.16",
+      "place": null,
+      "actors": [
+        "대한민국",
+        "UAE"
+      ],
+      "numbers": [
+        "약 35억 달러"
+      ],
+      "source_ids": [
+        "clm_0034"
+      ],
+      "confidence": "low",
+      "contested": false,
+      "sides": null
+    },
+    {
+      "id": "f_kr_saudi_contract",
+      "text": "LIG넥스원은 사우디 국방부와 천궁-II 수출 계약을 맺었다.",
+      "date": null,
+      "place": null,
+      "actors": [
+        "LIG넥스원",
+        "사우디 국방부"
+      ],
+      "numbers": [],
+      "source_ids": [
+        "clm_0035"
+      ],
+      "confidence": "high",
+      "contested": false,
+      "sides": null
+    },
+    {
+      "id": "f_kr_saudi_value",
+      "text": "코리아타임스는 LIG넥스원의 사우디 천궁-II 계약 규모를 32억 달러로 보도했다.",
+      "date": null,
+      "place": null,
+      "actors": [
+        "LIG넥스원"
+      ],
+      "numbers": [
+        "32억 달러"
+      ],
+      "source_ids": [
+        "clm_0036"
+      ],
+      "confidence": "low",
+      "contested": false,
+      "sides": null
+    },
+    {
+      "id": "f_kr_iraq_contract",
+      "text": "LIG넥스원은 이라크와 28억 달러 규모의 중거리 지대공미사일 수출 계약을 따냈다.",
+      "date": "2024.09.20",
+      "place": "이라크",
+      "actors": [
+        "LIG넥스원",
+        "이라크"
+      ],
+      "numbers": [
+        "28억 달러"
+      ],
+      "source_ids": [
+        "clm_0037"
+      ],
+      "confidence": "high",
+      "contested": false,
+      "sides": null
+    }
+  ]
+}

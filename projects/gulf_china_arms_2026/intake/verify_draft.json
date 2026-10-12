@@ -1,0 +1,799 @@
+{
+  "schema_version": 1,
+  "claims": [
+    {
+      "text": "파키스탄이 사우디아라비아에 병력 약 8,000명을 배치했다",
+      "evidence": [
+        {
+          "source_id": "src_art_0001",
+          "quote": "Pakistan has deployed 8,000 troops, a fighter jet squadron and a Chinese air defence system to Saudi Arabia",
+          "stance": "supports"
+        },
+        {
+          "source_id": "src_art_0002",
+          "quote": "Pakistan has deployed 8,000 troops, a squadron of fighter jets and an air defence system to Saudi Arabia under a mutual defence pact",
+          "stance": "supports"
+        },
+        {
+          "source_id": "src_art_0011",
+          "quote": "Pakistan has deployed around 8,000 troops, JF-17 fighter jets, drones, and Chinese-made HQ-9 air defense systems to Saudi Arabia",
+          "stance": "supports"
+        }
+      ],
+      "event_date": null,
+      "contested": false,
+      "sides": null,
+      "claim_kind": "fact",
+      "speaker_source_ids": []
+    },
+    {
+      "text": "로이터가 인용한 안보·정부 소식통 5명이 배치 병력이 약 8,000명이라고 말했다",
+      "evidence": [
+        {
+          "source_id": "src_art_0002",
+          "quote": "All five sources said the deployment includes around 8,000 troops, with a pledge to send more if needed",
+          "stance": "supports"
+        }
+      ],
+      "event_date": "2026-05-18",
+      "contested": false,
+      "sides": null,
+      "claim_kind": "statement",
+      "speaker_source_ids": []
+    },
+    {
+      "text": "파키스탄이 사우디에 JF-17 위주의 약 16대 규모 전투기 편대를 배치했다",
+      "evidence": [
+        {
+          "source_id": "src_art_0001",
+          "quote": "Pakistan has deployed a squadron of around 16 aircraft, mostly JF-17 warplanes",
+          "stance": "supports"
+        },
+        {
+          "source_id": "src_art_0002",
+          "quote": "Pakistan has deployed a full squadron of around 16 aircraft, mostly JF-17 fighters made jointly with China",
+          "stance": "supports"
+        },
+        {
+          "source_id": "src_art_0011",
+          "quote": "The deployment reportedly includes a full squadron of around 16 JF-17 Thunder multirole fighter aircraft jointly produced by Pakistan and China.",
+          "stance": "supports"
+        }
+      ],
+      "event_date": null,
+      "contested": false,
+      "sides": null,
+      "claim_kind": "fact",
+      "speaker_source_ids": []
+    },
+    {
+      "text": "파키스탄 전투기 편대가 4월 초 사우디로 보내졌다",
+      "evidence": [
+        {
+          "source_id": "src_art_0002",
+          "quote": "mostly JF-17 fighters made jointly with China, which were sent to Saudi Arabia in early April",
+          "stance": "supports"
+        },
+        {
+          "source_id": "src_art_0011",
+          "quote": "The aircraft were transferred to Saudi Arabia in early April",
+          "stance": "supports"
+        },
+        {
+          "source_id": "src_art_0001",
+          "quote": "The deployments, which enhance the number of Pakistani troops and military assets in the kingdom, began in early April",
+          "stance": "supports"
+        }
+      ],
+      "event_date": null,
+      "contested": false,
+      "sides": null,
+      "claim_kind": "fact",
+      "speaker_source_ids": []
+    },
+    {
+      "text": "파키스탄 전투기가 4월 11일 사우디 동부주 킹압둘아지즈 공군기지에 착륙했다",
+      "evidence": [
+        {
+          "source_id": "src_art_0003",
+          "quote": "landed at King Abdulaziz Air Base in Saudi Arabia",
+          "stance": "supports"
+        },
+        {
+          "source_id": "src_art_0003",
+          "quote": "Pakistan has deployed fighter jets to Saudi Arabia",
+          "stance": "supports"
+        }
+      ],
+      "event_date": "2026-04-11",
+      "contested": false,
+      "sides": null,
+      "claim_kind": "fact",
+      "speaker_source_ids": []
+    },
+    {
+      "text": "파키스탄이 사우디에 중국산 HQ-9 방공체계를 배치했다",
+      "evidence": [
+        {
+          "source_id": "src_art_0001",
+          "quote": "In addition, it has deployed an HQ-9 Chinese air defence system.",
+          "stance": "supports"
+        },
+        {
+          "source_id": "src_art_0002",
+          "quote": "as well as a Chinese HQ-9 air defence system",
+          "stance": "supports"
+        },
+        {
+          "source_id": "src_art_0011",
+          "quote": "a Chinese HQ-9 long-range air defense system operated by Pakistani personnel but financed by Saudi Arabia",
+          "stance": "supports"
+        }
+      ],
+      "event_date": null,
+      "contested": false,
+      "sides": null,
+      "claim_kind": "fact",
+      "speaker_source_ids": []
+    },
+    {
+      "text": "배치된 장비는 파키스탄 인력이 운용하고 사우디가 비용을 댄다",
+      "evidence": [
+        {
+          "source_id": "src_art_0002",
+          "quote": "The equipment is operated by Pakistani personnel and financed by Saudi Arabia",
+          "stance": "supports"
+        },
+        {
+          "source_id": "src_art_0011",
+          "quote": "operated by Pakistani personnel but financed by Saudi Arabia",
+          "stance": "supports"
+        }
+      ],
+      "event_date": null,
+      "contested": false,
+      "sides": null,
+      "claim_kind": "fact",
+      "speaker_source_ids": []
+    },
+    {
+      "text": "파키스탄이 사우디에 드론 2개 대대를 보냈다",
+      "evidence": [
+        {
+          "source_id": "src_art_0002",
+          "quote": "Two of the security officials said Pakistan had also sent two squadrons of drones.",
+          "stance": "supports"
+        },
+        {
+          "source_id": "src_art_0011",
+          "quote": "Pakistan is also said to have deployed two squadrons of unmanned aerial vehicles",
+          "stance": "supports"
+        }
+      ],
+      "event_date": null,
+      "contested": true,
+      "sides": [
+        {
+          "party": "로이터 인용 파키스탄 안보 관리 2명",
+          "text": "드론 2개 대대를 보냈다",
+          "source_ids": [
+            "src_art_0002",
+            "src_art_0011"
+          ]
+        }
+      ],
+      "claim_kind": "fact",
+      "speaker_source_ids": []
+    },
+    {
+      "text": "파키스탄 군·외무부와 사우디 정부 미디어실이 5월 배치 보도에 대한 논평 요청에 응하지 않았다",
+      "evidence": [
+        {
+          "source_id": "src_art_0002",
+          "quote": "Pakistan's military and foreign office and Saudi Arabia's government media office did not respond to requests for comment on the deployment.",
+          "stance": "supports"
+        }
+      ],
+      "event_date": "2026-05-18",
+      "contested": false,
+      "sides": null,
+      "claim_kind": "fact",
+      "speaker_source_ids": []
+    },
+    {
+      "text": "비공개 방위협정은 파키스탄 병력 최대 8만 명의 사우디 배치 가능성을 열어 두고 있다",
+      "evidence": [
+        {
+          "source_id": "src_art_0002",
+          "quote": "said it provides for the possibility of up to 80,000 Pakistani troops being deployed to Saudi Arabia",
+          "stance": "supports"
+        },
+        {
+          "source_id": "src_art_0001",
+          "quote": "Reuters reported that the agreement left open the possibility of deploying 80,000 Pakistani troops to Saudi Arabia",
+          "stance": "supports"
+        },
+        {
+          "source_id": "src_art_0011",
+          "quote": "reportedly allows for the deployment of up to 80,000 Pakistani troops",
+          "stance": "supports"
+        }
+      ],
+      "event_date": null,
+      "contested": true,
+      "sides": [
+        {
+          "party": "로이터 인용 파키스탄 정부 소식통(협정문 열람)",
+          "text": "협정이 최대 8만 명 배치 가능성을 규정한다",
+          "source_ids": [
+            "src_art_0002",
+            "src_art_0001"
+          ]
+        }
+      ],
+      "claim_kind": "fact",
+      "speaker_source_ids": []
+    },
+    {
+      "text": "방위협정에는 파키스탄 군함 배치도 포함됐다",
+      "evidence": [
+        {
+          "source_id": "src_art_0002",
+          "quote": "Two of the security officials said the agreement also involved the deployment of Pakistani warships.",
+          "stance": "supports"
+        },
+        {
+          "source_id": "src_art_0001",
+          "quote": "The agreement also involves the deployment of Pakistani warships, although Reuters could not verify if they had reached the kingdom.",
+          "stance": "supports"
+        }
+      ],
+      "event_date": null,
+      "contested": true,
+      "sides": [
+        {
+          "party": "로이터 인용 파키스탄 안보 관리 2명",
+          "text": "협정에 군함 배치가 포함됐다(도착 여부는 미확인)",
+          "source_ids": [
+            "src_art_0002",
+            "src_art_0001"
+          ]
+        }
+      ],
+      "claim_kind": "fact",
+      "speaker_source_ids": []
+    },
+    {
+      "text": "파키스탄과 사우디가 2025년 9월 상호방위협정에 서명했다",
+      "evidence": [
+        {
+          "source_id": "src_art_0007",
+          "quote": "Mohammed bin Salman bin Abdulaziz Al Saud on Wednesday signed the",
+          "stance": "supports"
+        },
+        {
+          "source_id": "src_art_0001",
+          "quote": "which was signed in September 2025",
+          "stance": "supports"
+        },
+        {
+          "source_id": "src_art_0003",
+          "quote": "a collective defence agreement signed in September 2025",
+          "stance": "supports"
+        }
+      ],
+      "event_date": "2025-09-17",
+      "contested": false,
+      "sides": null,
+      "claim_kind": "fact",
+      "speaker_source_ids": []
+    },
+    {
+      "text": "파키스탄-사우디 방위협정은 한쪽에 대한 공격을 양국 모두에 대한 공격으로 간주한다",
+      "evidence": [
+        {
+          "source_id": "src_art_0007",
+          "quote": "The agreement states that any aggression against either country shall be considered an aggression against both",
+          "stance": "supports"
+        },
+        {
+          "source_id": "src_art_0003",
+          "quote": "which commits each country to treat an attack on the other as an attack on itself.",
+          "stance": "supports"
+        }
+      ],
+      "event_date": "2025-09-17",
+      "contested": false,
+      "sides": null,
+      "claim_kind": "fact",
+      "speaker_source_ids": []
+    },
+    {
+      "text": "미국·이스라엘이 2월 28일 이란 최고지도자 알리 하메네이를 살해했다",
+      "evidence": [
+        {
+          "source_id": "src_art_0003",
+          "quote": "following the US-Israeli killing of Supreme Leader Ali Khamenei on 28 February",
+          "stance": "supports"
+        }
+      ],
+      "event_date": "2026-02-28",
+      "contested": false,
+      "sides": null,
+      "claim_kind": "fact",
+      "speaker_source_ids": []
+    },
+    {
+      "text": "이샤크 다르 파키스탄 외무장관이 3월 초 이란 지도부에 사우디와의 협정 의무를 직접 경고했다고 말했다",
+      "evidence": [
+        {
+          "source_id": "src_art_0003",
+          "quote": "Foreign Minister Ishaq Dar said he personally warned Iranian leaders that Islamabad was bound by its obligations to Riyadh",
+          "stance": "supports"
+        }
+      ],
+      "event_date": null,
+      "contested": false,
+      "sides": null,
+      "claim_kind": "statement",
+      "speaker_source_ids": []
+    },
+    {
+      "text": "셰바즈 샤리프 총리가 사우디 왕세자에게 전화해 사우디와 함께하겠다고 약속했다",
+      "evidence": [
+        {
+          "source_id": "src_art_0003",
+          "quote": "Sharif called the crown prince to pledge Pakistan would stand",
+          "stance": "supports"
+        }
+      ],
+      "event_date": "2026-04-07",
+      "contested": false,
+      "sides": null,
+      "claim_kind": "statement",
+      "speaker_source_ids": []
+    },
+    {
+      "text": "파키스탄이 이슬라마바드에서 미국-이란 직접 협상을 주최했다",
+      "evidence": [
+        {
+          "source_id": "src_art_0003",
+          "quote": "Pakistan was hosting direct negotiations between the United States and Iran in Islamabad",
+          "stance": "supports"
+        },
+        {
+          "source_id": "src_art_0002",
+          "quote": "Islamabad hosted the only round of US-Iranian peace talks so far",
+          "stance": "supports"
+        },
+        {
+          "source_id": "src_art_0011",
+          "quote": "Islamabad reportedly hosted the only direct round of U.S.-Iran peace talks to date",
+          "stance": "supports"
+        }
+      ],
+      "event_date": "2026-04-11",
+      "contested": false,
+      "sides": null,
+      "claim_kind": "fact",
+      "speaker_source_ids": []
+    },
+    {
+      "text": "파키스탄이 4월 미국-이란 휴전을 중재했다",
+      "evidence": [
+        {
+          "source_id": "src_art_0001",
+          "quote": "Islamabad mediated a ceasefire between the US and Iran in April.",
+          "stance": "supports"
+        },
+        {
+          "source_id": "src_art_0002",
+          "quote": "helping to broker a ceasefire between Washington and Tehran that has held for the past six weeks",
+          "stance": "supports"
+        },
+        {
+          "source_id": "src_art_0011",
+          "quote": "helped broker a fragile ceasefire that has remained in place for approximately 6 weeks",
+          "stance": "supports"
+        }
+      ],
+      "event_date": null,
+      "contested": false,
+      "sides": null,
+      "claim_kind": "fact",
+      "speaker_source_ids": []
+    },
+    {
+      "text": "UAE가 파키스탄의 협상 주최에 대응해 30억 달러 대출을 회수했다",
+      "evidence": [
+        {
+          "source_id": "src_art_0001",
+          "quote": "after the UAE pulled a $3bn loan to Pakistan in response to its hosting of the talks",
+          "stance": "supports"
+        }
+      ],
+      "event_date": null,
+      "contested": false,
+      "sides": null,
+      "claim_kind": "fact",
+      "speaker_source_ids": []
+    },
+    {
+      "text": "사우디는 패트리엇과 사드 방공체계를 보유하고 있다",
+      "evidence": [
+        {
+          "source_id": "src_art_0001",
+          "quote": "Saudi Arabia has Patriot and Thaad air defence systems.",
+          "stance": "supports"
+        }
+      ],
+      "event_date": null,
+      "contested": false,
+      "sides": null,
+      "claim_kind": "fact",
+      "speaker_source_ids": []
+    },
+    {
+      "text": "파키스탄·사우디·튀르키예가 8월 7일 메카 공동방위협정을 체결했다",
+      "evidence": [
+        {
+          "source_id": "src_art_0004",
+          "quote": "On August 7, Pakistan, Saudi Arabia and Turkiye formalised their longstanding strategic relationship through the Makkah Joint Defence Agreement",
+          "stance": "supports"
+        },
+        {
+          "source_id": "src_art_0005",
+          "quote": "Pakistan, Saudi Arabia and Türkiye formally established the Makkah Joint Defence Agreement on August 7",
+          "stance": "supports"
+        },
+        {
+          "source_id": "src_art_0006",
+          "quote": "Pakistan, Saudi Arabia and Turkey signed the Mecca Joint Defence Agreement on August 7",
+          "stance": "supports"
+        },
+        {
+          "source_id": "src_art_0008",
+          "quote": "Leaders of Saudi Arabia, Turkiye and Pakistan signed the Mecca Joint Defence Agreement last Friday",
+          "stance": "supports"
+        }
+      ],
+      "event_date": "2026-08-07",
+      "contested": false,
+      "sides": null,
+      "claim_kind": "fact",
+      "speaker_source_ids": []
+    },
+    {
+      "text": "메카 협정은 한 회원국에 대한 무력 공격을 3국 모두에 대한 공격으로 간주한다",
+      "evidence": [
+        {
+          "source_id": "src_art_0006",
+          "quote": "under which an armed attack on one member is treated as an attack on all three",
+          "stance": "supports"
+        },
+        {
+          "source_id": "src_art_0005",
+          "quote": "It also establishes the principle that an armed attack against one member would be treated as an attack against all three",
+          "stance": "supports"
+        },
+        {
+          "source_id": "src_art_0008",
+          "quote": "an armed attack on any one of the three would be regarded as an attack on all",
+          "stance": "supports"
+        }
+      ],
+      "event_date": "2026-08-07",
+      "contested": false,
+      "sides": null,
+      "claim_kind": "fact",
+      "speaker_source_ids": []
+    },
+    {
+      "text": "3국이 10월 5일 리야드 긴급회의에서 집단방위 공약의 실제 이행을 가동하기로 결정했다",
+      "evidence": [
+        {
+          "source_id": "src_art_0005",
+          "quote": "an emergency meeting of the Strategic-Political and Defence Committee of the Makkah defence framework in Riyadh on October 5",
+          "stance": "supports"
+        },
+        {
+          "source_id": "src_art_0004",
+          "quote": "Pakistan, Saudi Arabia and Turkiye activated the practical implementation of their collective defence commitments on Monday.",
+          "stance": "supports"
+        },
+        {
+          "source_id": "src_art_0004",
+          "quote": "The decision was taken at an emergency meeting of the Strategic-Political and Defence Committee of the alliance, held in Riyadh",
+          "stance": "supports"
+        }
+      ],
+      "event_date": "2026-10-05",
+      "contested": false,
+      "sides": null,
+      "claim_kind": "fact",
+      "speaker_source_ids": []
+    },
+    {
+      "text": "3국 공동성명이 합의된 병력과 역량을 사우디에 즉각 배치한다고 밝혔다",
+      "evidence": [
+        {
+          "source_id": "src_art_0004",
+          "quote": "According to a joint statement issued on Monday night, the activation entailed immediate deployment of",
+          "stance": "supports"
+        }
+      ],
+      "event_date": "2026-10-05",
+      "contested": false,
+      "sides": null,
+      "claim_kind": "statement",
+      "speaker_source_ids": []
+    },
+    {
+      "text": "메카 협정 위원회가 3국에 합의된 병력·역량을 제공하기 위한 조치를 지시했다",
+      "evidence": [
+        {
+          "source_id": "src_art_0005",
+          "quote": "The committee directed the three countries to take necessary steps for providing agreed military forces and capabilities",
+          "stance": "supports"
+        }
+      ],
+      "event_date": "2026-10-05",
+      "contested": false,
+      "sides": null,
+      "claim_kind": "fact",
+      "speaker_source_ids": []
+    },
+    {
+      "text": "로이터가 10월 2일 파키스탄이 사우디에 병력 3만~4만 명을 배치했다고 보도했다",
+      "evidence": [
+        {
+          "source_id": "src_art_0004",
+          "quote": "a Reuters report published on October 2, which said Pakistan had deployed between 30,000 and 40,000 troops to Saudi Arabia",
+          "stance": "supports"
+        },
+        {
+          "source_id": "src_art_0005",
+          "quote": "a Reuters report claimed that Pakistan had deployed between 30,000 and 40,000 troops to Saudi Arabia",
+          "stance": "supports"
+        }
+      ],
+      "event_date": "2026-10-02",
+      "contested": false,
+      "sides": null,
+      "claim_kind": "statement",
+      "speaker_source_ids": []
+    },
+    {
+      "text": "파키스탄이 사우디에 병력 3만~4만 명을 배치했다",
+      "evidence": [
+        {
+          "source_id": "src_art_0006",
+          "quote": "Pakistan has deployed between 30,000 and 40,000 troops to Saudi Arabia",
+          "stance": "supports"
+        }
+      ],
+      "event_date": null,
+      "contested": true,
+      "sides": [
+        {
+          "party": "로이터 인용 익명의 파키스탄 관리",
+          "text": "3만~4만 명이 사우디 육상 국경 방어와 드론·미사일 요격을 돕기 위해 배치됐다",
+          "source_ids": [
+            "src_art_0006",
+            "src_art_0004",
+            "src_art_0005"
+          ]
+        },
+        {
+          "party": "파키스탄 정보방송부",
+          "text": "보도를 추측성·미검증 수치라고 거부하고 작전 세부사항은 기밀이라고 밝혔다",
+          "source_ids": [
+            "src_art_0005",
+            "src_art_0004"
+          ]
+        }
+      ],
+      "claim_kind": "fact",
+      "speaker_source_ids": []
+    },
+    {
+      "text": "로이터 인용 파키스탄 관리가 파키스탄이 예멘 전투 파병은 결정하지 않았다고 말했다",
+      "evidence": [
+        {
+          "source_id": "src_art_0006",
+          "quote": "The official said Pakistan has not decided to send its troops into Yemen to take part in combat operations.",
+          "stance": "supports"
+        },
+        {
+          "source_id": "src_art_0005",
+          "quote": "also said Islamabad had not decided to deploy troops to Yemen for combat operations.",
+          "stance": "supports"
+        }
+      ],
+      "event_date": "2026-10-02",
+      "contested": false,
+      "sides": null,
+      "claim_kind": "statement",
+      "speaker_source_ids": []
+    },
+    {
+      "text": "파키스탄 정보방송부가 로이터의 파병 보도를 거부했다",
+      "evidence": [
+        {
+          "source_id": "src_art_0005",
+          "quote": "Ministry of Information and Broadcasting has rejected a Reuters report",
+          "stance": "supports"
+        },
+        {
+          "source_id": "src_art_0004",
+          "quote": "the Ministry of Information and Broadcasting on Tuesday had rejected what it described as",
+          "stance": "supports"
+        }
+      ],
+      "event_date": "2026-10-06",
+      "contested": false,
+      "sides": null,
+      "claim_kind": "fact",
+      "speaker_source_ids": []
+    },
+    {
+      "text": "파키스탄 정보방송부가 집단방위 이행의 작전 세부사항은 기밀이라고 밝혔다",
+      "evidence": [
+        {
+          "source_id": "src_art_0005",
+          "quote": "The ministry said operational details related to the implementation of the collective defence arrangement remain confidential.",
+          "stance": "supports"
+        }
+      ],
+      "event_date": "2026-10-06",
+      "contested": false,
+      "sides": null,
+      "claim_kind": "statement",
+      "speaker_source_ids": []
+    },
+    {
+      "text": "파키스탄 정보방송부가 로이터 보도의 수치와 세부 내용을 미검증이라고 비판했다",
+      "evidence": [
+        {
+          "source_id": "src_art_0005",
+          "quote": "The ministry criticised what it called unverified figures and details",
+          "stance": "supports"
+        }
+      ],
+      "event_date": "2026-10-06",
+      "contested": false,
+      "sides": null,
+      "claim_kind": "statement",
+      "speaker_source_ids": []
+    },
+    {
+      "text": "아흐메드 샤리프 차우드리 ISPR 사무총장이 파키스탄군이 사우디에 여러 역할로 주둔하고 있다고 밝혔다",
+      "evidence": [
+        {
+          "source_id": "src_art_0004",
+          "quote": "Lieutenant General Ahmed Sharif Chaudhry said on Wednesday that Pakistani troops were present in Saudi Arabia in",
+          "stance": "supports"
+        }
+      ],
+      "event_date": "2026-10-07",
+      "contested": false,
+      "sides": null,
+      "claim_kind": "statement",
+      "speaker_source_ids": []
+    },
+    {
+      "text": "한국이 2022년 1월 UAE와 천궁-II 수출 계약을 맺었다",
+      "evidence": [
+        {
+          "source_id": "src_art_0009",
+          "quote": "the contract for the Cheongung II KM-SAM weapons was singed Jan. 16",
+          "stance": "supports"
+        },
+        {
+          "source_id": "src_art_0010",
+          "quote": "following a deal with the United Arab Emirates (UAE) in January 2022",
+          "stance": "supports"
+        }
+      ],
+      "event_date": "2022-01-16",
+      "contested": false,
+      "sides": null,
+      "claim_kind": "fact",
+      "speaker_source_ids": []
+    },
+    {
+      "text": "UAE 천궁-II 계약 규모는 약 35억 달러다",
+      "evidence": [
+        {
+          "source_id": "src_art_0009",
+          "quote": "Valued about $3.5 billion",
+          "stance": "supports"
+        }
+      ],
+      "event_date": "2022-01-16",
+      "contested": false,
+      "sides": null,
+      "claim_kind": "fact",
+      "speaker_source_ids": []
+    },
+    {
+      "text": "LIG넥스원이 사우디 국방부와 천궁-II 수출 계약을 맺었다",
+      "evidence": [
+        {
+          "source_id": "src_art_0010",
+          "quote": "LIG Nex1 inked the contract with the Saudi defense ministry to sell Cheongung M-SAM II in November",
+          "stance": "supports"
+        },
+        {
+          "source_id": "src_art_0012",
+          "quote": "It has long-term contracts with Iraq, Saudi Arabia and the UAE.",
+          "stance": "supports"
+        }
+      ],
+      "event_date": null,
+      "contested": false,
+      "sides": null,
+      "claim_kind": "fact",
+      "speaker_source_ids": []
+    },
+    {
+      "text": "LIG넥스원의 사우디 천궁-II 계약 규모는 32억 달러다",
+      "evidence": [
+        {
+          "source_id": "src_art_0010",
+          "quote": "Korean defense firm LIG Nex1 has clinched a $3.2 billion deal to export mid-range surface-air-to missiles (M-SAM II) to Saudi Arabia",
+          "stance": "supports"
+        }
+      ],
+      "event_date": null,
+      "contested": false,
+      "sides": null,
+      "claim_kind": "fact",
+      "speaker_source_ids": []
+    },
+    {
+      "text": "LIG넥스원이 이라크와 28억 달러 규모 중거리 지대공미사일 수출 계약을 따냈다",
+      "evidence": [
+        {
+          "source_id": "src_art_0013",
+          "quote": "South Korea's LIG Nex1 Wins $2.8 Bln Iraq Deal to Export Missile Systems",
+          "stance": "supports"
+        },
+        {
+          "source_id": "src_art_0012",
+          "quote": "It has long-term contracts with Iraq, Saudi Arabia and the UAE.",
+          "stance": "supports"
+        }
+      ],
+      "event_date": "2024-09-20",
+      "contested": false,
+      "sides": null,
+      "claim_kind": "fact",
+      "speaker_source_ids": []
+    },
+    {
+      "text": "UAE의 천궁-II가 이란 미사일·무인기 대응에서 요격률 96%를 기록했다",
+      "evidence": [
+        {
+          "source_id": "src_art_0012",
+          "quote": "has reportedly seen a 96 per cent interception rate in the 60-odd interceptors used by the United Arab Emirates (UAE) against Iranian missiles",
+          "stance": "supports"
+        }
+      ],
+      "event_date": null,
+      "contested": true,
+      "sides": [
+        {
+          "party": "ThePrint가 전한 보도(출처 명시 없음)",
+          "text": "약 60발 사용에서 요격률 96%",
+          "source_ids": [
+            "src_art_0012"
+          ]
+        }
+      ],
+      "claim_kind": "fact",
+      "speaker_source_ids": []
+    }
+  ],
+  "summary": "5월 로이터발 8,000명·JF-17 약 16대·HQ-9 배치는 MEE·Daily Star·Army Recognition이 일치하지만 모두 로이터의 익명 소식통 보도에 기대며 파키스탄 정부는 당시 논평하지 않았다. 사우디-파키스탄 양자협정(2025년 9월)과 메카 3국 협정(8월 7일), 10월 5일 리야드 긴급회의 결정은 복수 매체가 맞는다. 10월 로이터의 3만~4만 명 보도는 익명 관리 한 명의 주장으로 파키스탄 정보방송부가 추측성이라며 거부했고, ISPR은 '여러 역할'로 주둔 중이라고만 밝혀 규모는 다툼으로 남는다."
+}

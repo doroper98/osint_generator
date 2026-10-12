@@ -1,0 +1,18 @@
+{
+  "schema_version": 1,
+  "call_id": "llm_20261012_141508_e888",
+  "task_id": "script-gulf_china_arms_2026",
+  "worker": "script",
+  "backend": "claude",
+  "model": "claude-opus-5-5",
+  "mode": "response",
+  "system_prompt_hash": "sha256:43c6da923e1bfd312ef58b58b8eda23fd3bf95cdb90e408ea22ef6c81e635328",
+  "user_prompt_path": "llm_calls/llm_20261012_141508_e888.prompt.txt",
+  "raw_response_path": "llm_calls/llm_20261012_141508_e888.raw.txt",
+  "parsed_status": "ok",
+  "started_at": "2026-10-12T14:15:08.641280Z",
+  "completed_at": "2026-10-12T14:16:54.769461Z",
+  "exit_code": 0,
+  "retry_index": 0,
+  "error_message": null
+}

@@ -1,0 +1,67 @@
+{
+  "schema_version": 2,
+  "project_id": "gulf_china_arms_2026",
+  "title": "중국산 무기가 걸프에 들어온 날",
+  "category": "geopolitics",
+  "created_at": "2026-10-12T14:03:44.154918Z",
+  "updated_at": "2026-10-12T14:23:10.316873Z",
+  "current_state": "script_approval",
+  "target_duration_min": 5,
+  "topic_summary": "사우디에 배치된 것으로 보도된 파키스탄군의 중국산 HQ-9 방공체계와 JF-17 전투기, 사우디가 비용을 대는 구조, 미국 무기 의존에서의 변화, 한국 방산(천궁-II)의 걸프 수출과의 경쟁 구도",
+  "initial_links": [],
+  "paths": {
+    "sources": "intake/sources.json",
+    "claims": "intake/claims.json",
+    "screenshots": "intake/screenshots",
+    "script": "script.yaml",
+    "script_labels": "script_labels.json",
+    "plan": "plan.json",
+    "tts": "tts",
+    "assets": "assets",
+    "media": "media",
+    "direction": "direction.yaml",
+    "prev": "prev",
+    "prev_sheet": "prev/sheet.jpg",
+    "prev_provenance": "prev/provenance.json",
+    "out": "out",
+    "final": "out/final.mp4",
+    "provenance": "out/provenance.json"
+  },
+  "render_mode_status": {},
+  "gate_decisions": [],
+  "stage_records": [],
+  "final_outputs": {},
+  "state_history": [
+    {
+      "from_state": "created",
+      "to_state": "intake",
+      "transitioned_at": "2026-10-12T14:04:48.237209Z",
+      "reason": "plan-intake 시작"
+    },
+    {
+      "from_state": "intake",
+      "to_state": "source_verify",
+      "transitioned_at": "2026-10-12T14:07:46.253098Z",
+      "reason": "CLI submit-intake"
+    },
+    {
+      "from_state": "source_verify",
+      "to_state": "research",
+      "transitioned_at": "2026-10-12T14:15:03.332760Z",
+      "reason": "ResearchWorker 성공(facts.json)"
+    },
+    {
+      "from_state": "research",
+      "to_state": "script_draft",
+      "transitioned_at": "2026-10-12T14:16:55.023336Z",
+      "reason": "ScriptWorker 성공"
+    },
+    {
+      "from_state": "script_draft",
+      "to_state": "script_approval",
+      "transitioned_at": "2026-10-12T14:23:10.316801Z",
+      "reason": "D-0223 원고 — opus 사실 대조·재작성(워커 초안 script.worker_draft.yaml) 뒤 감독 검수(사용자 위임 D227)"
+    }
+  ],
+  "reopens": []
+}

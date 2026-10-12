@@ -1,0 +1,806 @@
+{
+  "schema_version": 1,
+  "claims": [
+    {
+      "claim_id": "clm_0001",
+      "text": "파키스탄이 사우디아라비아에 병력 약 8,000명을 배치했다",
+      "source_ids": [
+        "src_art_0001",
+        "src_art_0002",
+        "src_art_0011"
+      ],
+      "status": "corroborated",
+      "contested": false,
+      "checks": [
+        "quote_match:src_art_0001",
+        "quote_match:src_art_0002",
+        "quote_match:src_art_0011",
+        "independent_origins:3"
+      ],
+      "attributed_only": false,
+      "claim_kind": "fact",
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0002",
+      "text": "로이터가 인용한 안보·정부 소식통 5명이 배치 병력이 약 8,000명이라고 말했다",
+      "source_ids": [
+        "src_art_0002"
+      ],
+      "status": "unverified",
+      "contested": false,
+      "event_date": "2026-05-18",
+      "checks": [
+        "quote_match:src_art_0002",
+        "independent_origins:1",
+        "attributed:src_art_0002"
+      ],
+      "attributed_only": true,
+      "claim_kind": "statement",
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0003",
+      "text": "파키스탄이 사우디에 JF-17 위주의 약 16대 규모 전투기 편대를 배치했다",
+      "source_ids": [
+        "src_art_0001",
+        "src_art_0002",
+        "src_art_0011"
+      ],
+      "status": "corroborated",
+      "contested": false,
+      "checks": [
+        "quote_match:src_art_0001",
+        "quote_match:src_art_0002",
+        "quote_match:src_art_0011",
+        "independent_origins:3"
+      ],
+      "attributed_only": false,
+      "claim_kind": "fact",
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0004",
+      "text": "파키스탄 전투기 편대가 4월 초 사우디로 보내졌다",
+      "source_ids": [
+        "src_art_0002",
+        "src_art_0011",
+        "src_art_0001"
+      ],
+      "status": "corroborated",
+      "contested": false,
+      "checks": [
+        "quote_match:src_art_0002",
+        "quote_match:src_art_0011",
+        "quote_match:src_art_0001",
+        "independent_origins:3"
+      ],
+      "attributed_only": false,
+      "claim_kind": "fact",
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0005",
+      "text": "파키스탄 전투기가 4월 11일 사우디 동부주 킹압둘아지즈 공군기지에 착륙했다",
+      "source_ids": [
+        "src_art_0003"
+      ],
+      "status": "unverified",
+      "contested": false,
+      "event_date": "2026-04-11",
+      "checks": [
+        "quote_match:src_art_0003",
+        "quote_match:src_art_0003",
+        "independent_origins:1"
+      ],
+      "attributed_only": false,
+      "claim_kind": "fact",
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0006",
+      "text": "파키스탄이 사우디에 중국산 HQ-9 방공체계를 배치했다",
+      "source_ids": [
+        "src_art_0001",
+        "src_art_0002",
+        "src_art_0011"
+      ],
+      "status": "corroborated",
+      "contested": false,
+      "checks": [
+        "quote_match:src_art_0001",
+        "quote_match:src_art_0002",
+        "quote_match:src_art_0011",
+        "independent_origins:3"
+      ],
+      "attributed_only": false,
+      "claim_kind": "fact",
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0007",
+      "text": "배치된 장비는 파키스탄 인력이 운용하고 사우디가 비용을 댄다",
+      "source_ids": [
+        "src_art_0002",
+        "src_art_0011"
+      ],
+      "status": "corroborated",
+      "contested": false,
+      "checks": [
+        "quote_match:src_art_0002",
+        "quote_match:src_art_0011",
+        "independent_origins:2"
+      ],
+      "attributed_only": false,
+      "claim_kind": "fact",
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0008",
+      "text": "파키스탄이 사우디에 드론 2개 대대를 보냈다",
+      "source_ids": [
+        "src_art_0002",
+        "src_art_0011"
+      ],
+      "status": "unverified",
+      "contested": true,
+      "sides": [
+        {
+          "party": "로이터 인용 파키스탄 안보 관리 2명",
+          "text": "드론 2개 대대를 보냈다",
+          "source_ids": [
+            "src_art_0002",
+            "src_art_0011"
+          ]
+        }
+      ],
+      "checks": [
+        "quote_match:src_art_0002",
+        "quote_match:src_art_0011",
+        "independent_origins:0",
+        "attributed:src_art_0002",
+        "attributed:src_art_0011"
+      ],
+      "attributed_only": true,
+      "claim_kind": "fact",
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0009",
+      "text": "파키스탄 군·외무부와 사우디 정부 미디어실이 5월 배치 보도에 대한 논평 요청에 응하지 않았다",
+      "source_ids": [
+        "src_art_0002"
+      ],
+      "status": "unverified",
+      "contested": false,
+      "event_date": "2026-05-18",
+      "checks": [
+        "quote_match:src_art_0002",
+        "independent_origins:1"
+      ],
+      "attributed_only": false,
+      "claim_kind": "fact",
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0010",
+      "text": "비공개 방위협정은 파키스탄 병력 최대 8만 명의 사우디 배치 가능성을 열어 두고 있다",
+      "source_ids": [
+        "src_art_0002",
+        "src_art_0001",
+        "src_art_0011"
+      ],
+      "status": "unverified",
+      "contested": true,
+      "sides": [
+        {
+          "party": "로이터 인용 파키스탄 정부 소식통(협정문 열람)",
+          "text": "협정이 최대 8만 명 배치 가능성을 규정한다",
+          "source_ids": [
+            "src_art_0002",
+            "src_art_0001"
+          ]
+        }
+      ],
+      "checks": [
+        "quote_match:src_art_0002",
+        "quote_match:src_art_0001",
+        "quote_match:src_art_0011",
+        "independent_origins:2",
+        "attributed:src_art_0002"
+      ],
+      "attributed_only": false,
+      "claim_kind": "fact",
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0011",
+      "text": "방위협정에는 파키스탄 군함 배치도 포함됐다",
+      "source_ids": [
+        "src_art_0002",
+        "src_art_0001"
+      ],
+      "status": "unverified",
+      "contested": true,
+      "sides": [
+        {
+          "party": "로이터 인용 파키스탄 안보 관리 2명",
+          "text": "협정에 군함 배치가 포함됐다(도착 여부는 미확인)",
+          "source_ids": [
+            "src_art_0002",
+            "src_art_0001"
+          ]
+        }
+      ],
+      "checks": [
+        "quote_match:src_art_0002",
+        "quote_match:src_art_0001",
+        "independent_origins:1",
+        "attributed:src_art_0002"
+      ],
+      "attributed_only": false,
+      "claim_kind": "fact",
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0012",
+      "text": "파키스탄과 사우디가 2025년 9월 상호방위협정에 서명했다",
+      "source_ids": [
+        "src_art_0007",
+        "src_art_0001",
+        "src_art_0003"
+      ],
+      "status": "corroborated",
+      "contested": false,
+      "event_date": "2025-09-17",
+      "checks": [
+        "quote_match:src_art_0007",
+        "quote_match:src_art_0001",
+        "quote_match:src_art_0003",
+        "independent_origins:3"
+      ],
+      "attributed_only": false,
+      "claim_kind": "fact",
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0013",
+      "text": "파키스탄-사우디 방위협정은 한쪽에 대한 공격을 양국 모두에 대한 공격으로 간주한다",
+      "source_ids": [
+        "src_art_0007",
+        "src_art_0003"
+      ],
+      "status": "corroborated",
+      "contested": false,
+      "event_date": "2025-09-17",
+      "checks": [
+        "quote_match:src_art_0007",
+        "quote_match:src_art_0003",
+        "independent_origins:2"
+      ],
+      "attributed_only": false,
+      "claim_kind": "fact",
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0014",
+      "text": "미국·이스라엘이 2월 28일 이란 최고지도자 알리 하메네이를 살해했다",
+      "source_ids": [
+        "src_art_0003"
+      ],
+      "status": "unverified",
+      "contested": false,
+      "event_date": "2026-02-28",
+      "checks": [
+        "quote_match:src_art_0003",
+        "independent_origins:1"
+      ],
+      "attributed_only": false,
+      "claim_kind": "fact",
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0015",
+      "text": "이샤크 다르 파키스탄 외무장관이 3월 초 이란 지도부에 사우디와의 협정 의무를 직접 경고했다고 말했다",
+      "source_ids": [
+        "src_art_0003"
+      ],
+      "status": "unverified",
+      "contested": false,
+      "checks": [
+        "quote_match:src_art_0003",
+        "independent_origins:1",
+        "attributed:src_art_0003"
+      ],
+      "attributed_only": true,
+      "claim_kind": "statement",
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0016",
+      "text": "셰바즈 샤리프 총리가 사우디 왕세자에게 전화해 사우디와 함께하겠다고 약속했다",
+      "source_ids": [
+        "src_art_0003"
+      ],
+      "status": "unverified",
+      "contested": false,
+      "event_date": "2026-04-07",
+      "checks": [
+        "quote_match:src_art_0003",
+        "independent_origins:1",
+        "attributed:src_art_0003"
+      ],
+      "attributed_only": true,
+      "claim_kind": "statement",
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0017",
+      "text": "파키스탄이 이슬라마바드에서 미국-이란 직접 협상을 주최했다",
+      "source_ids": [
+        "src_art_0003",
+        "src_art_0002",
+        "src_art_0011"
+      ],
+      "status": "corroborated",
+      "contested": false,
+      "event_date": "2026-04-11",
+      "checks": [
+        "quote_match:src_art_0003",
+        "quote_match:src_art_0002",
+        "quote_match:src_art_0011",
+        "independent_origins:3"
+      ],
+      "attributed_only": false,
+      "claim_kind": "fact",
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0018",
+      "text": "파키스탄이 4월 미국-이란 휴전을 중재했다",
+      "source_ids": [
+        "src_art_0001",
+        "src_art_0002",
+        "src_art_0011"
+      ],
+      "status": "corroborated",
+      "contested": false,
+      "checks": [
+        "quote_match:src_art_0001",
+        "quote_match:src_art_0002",
+        "quote_match:src_art_0011",
+        "independent_origins:3"
+      ],
+      "attributed_only": false,
+      "claim_kind": "fact",
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0019",
+      "text": "UAE가 파키스탄의 협상 주최에 대응해 30억 달러 대출을 회수했다",
+      "source_ids": [
+        "src_art_0001"
+      ],
+      "status": "unverified",
+      "contested": false,
+      "checks": [
+        "quote_match:src_art_0001",
+        "independent_origins:1"
+      ],
+      "attributed_only": false,
+      "claim_kind": "fact",
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0020",
+      "text": "사우디는 패트리엇과 사드 방공체계를 보유하고 있다",
+      "source_ids": [
+        "src_art_0001"
+      ],
+      "status": "unverified",
+      "contested": false,
+      "checks": [
+        "quote_match:src_art_0001",
+        "independent_origins:1"
+      ],
+      "attributed_only": false,
+      "claim_kind": "fact",
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0021",
+      "text": "파키스탄·사우디·튀르키예가 8월 7일 메카 공동방위협정을 체결했다",
+      "source_ids": [
+        "src_art_0004",
+        "src_art_0005",
+        "src_art_0006",
+        "src_art_0008"
+      ],
+      "status": "corroborated",
+      "contested": false,
+      "event_date": "2026-08-07",
+      "checks": [
+        "quote_match:src_art_0004",
+        "quote_match:src_art_0005",
+        "quote_match:src_art_0006",
+        "quote_match:src_art_0008",
+        "independent_origins:4"
+      ],
+      "attributed_only": false,
+      "claim_kind": "fact",
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0022",
+      "text": "메카 협정은 한 회원국에 대한 무력 공격을 3국 모두에 대한 공격으로 간주한다",
+      "source_ids": [
+        "src_art_0006",
+        "src_art_0005",
+        "src_art_0008"
+      ],
+      "status": "corroborated",
+      "contested": false,
+      "event_date": "2026-08-07",
+      "checks": [
+        "quote_match:src_art_0006",
+        "quote_match:src_art_0005",
+        "quote_match:src_art_0008",
+        "independent_origins:3"
+      ],
+      "attributed_only": false,
+      "claim_kind": "fact",
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0023",
+      "text": "3국이 10월 5일 리야드 긴급회의에서 집단방위 공약의 실제 이행을 가동하기로 결정했다",
+      "source_ids": [
+        "src_art_0005",
+        "src_art_0004"
+      ],
+      "status": "corroborated",
+      "contested": false,
+      "event_date": "2026-10-05",
+      "checks": [
+        "quote_match:src_art_0005",
+        "quote_match:src_art_0004",
+        "quote_match:src_art_0004",
+        "independent_origins:2"
+      ],
+      "attributed_only": false,
+      "claim_kind": "fact",
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0024",
+      "text": "3국 공동성명이 합의된 병력과 역량을 사우디에 즉각 배치한다고 밝혔다",
+      "source_ids": [
+        "src_art_0004"
+      ],
+      "status": "unverified",
+      "contested": false,
+      "event_date": "2026-10-05",
+      "checks": [
+        "quote_match:src_art_0004",
+        "independent_origins:1",
+        "attributed:src_art_0004"
+      ],
+      "attributed_only": true,
+      "claim_kind": "statement",
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0025",
+      "text": "메카 협정 위원회가 3국에 합의된 병력·역량을 제공하기 위한 조치를 지시했다",
+      "source_ids": [
+        "src_art_0005"
+      ],
+      "status": "unverified",
+      "contested": false,
+      "event_date": "2026-10-05",
+      "checks": [
+        "quote_match:src_art_0005",
+        "independent_origins:1"
+      ],
+      "attributed_only": false,
+      "claim_kind": "fact",
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0026",
+      "text": "로이터가 10월 2일 파키스탄이 사우디에 병력 3만~4만 명을 배치했다고 보도했다",
+      "source_ids": [
+        "src_art_0004",
+        "src_art_0005"
+      ],
+      "status": "corroborated",
+      "contested": false,
+      "event_date": "2026-10-02",
+      "checks": [
+        "quote_match:src_art_0004",
+        "quote_match:src_art_0005",
+        "independent_origins:2",
+        "attributed:src_art_0004",
+        "attributed:src_art_0005"
+      ],
+      "attributed_only": true,
+      "claim_kind": "statement",
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0027",
+      "text": "파키스탄이 사우디에 병력 3만~4만 명을 배치했다",
+      "source_ids": [
+        "src_art_0006"
+      ],
+      "status": "disputed",
+      "contested": true,
+      "sides": [
+        {
+          "party": "로이터 인용 익명의 파키스탄 관리",
+          "text": "3만~4만 명이 사우디 육상 국경 방어와 드론·미사일 요격을 돕기 위해 배치됐다",
+          "source_ids": [
+            "src_art_0006",
+            "src_art_0004",
+            "src_art_0005"
+          ]
+        },
+        {
+          "party": "파키스탄 정보방송부",
+          "text": "보도를 추측성·미검증 수치라고 거부하고 작전 세부사항은 기밀이라고 밝혔다",
+          "source_ids": [
+            "src_art_0005",
+            "src_art_0004"
+          ]
+        }
+      ],
+      "checks": [
+        "quote_match:src_art_0006",
+        "independent_origins:1"
+      ],
+      "attributed_only": false,
+      "claim_kind": "fact",
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0028",
+      "text": "로이터 인용 파키스탄 관리가 파키스탄이 예멘 전투 파병은 결정하지 않았다고 말했다",
+      "source_ids": [
+        "src_art_0006",
+        "src_art_0005"
+      ],
+      "status": "corroborated",
+      "contested": false,
+      "event_date": "2026-10-02",
+      "checks": [
+        "quote_match:src_art_0006",
+        "quote_match:src_art_0005",
+        "independent_origins:2",
+        "attributed:src_art_0006",
+        "attributed:src_art_0005"
+      ],
+      "attributed_only": true,
+      "claim_kind": "statement",
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0029",
+      "text": "파키스탄 정보방송부가 로이터의 파병 보도를 거부했다",
+      "source_ids": [
+        "src_art_0005",
+        "src_art_0004"
+      ],
+      "status": "corroborated",
+      "contested": false,
+      "event_date": "2026-10-06",
+      "checks": [
+        "quote_match:src_art_0005",
+        "quote_match:src_art_0004",
+        "independent_origins:2"
+      ],
+      "attributed_only": false,
+      "claim_kind": "fact",
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0030",
+      "text": "파키스탄 정보방송부가 집단방위 이행의 작전 세부사항은 기밀이라고 밝혔다",
+      "source_ids": [
+        "src_art_0005"
+      ],
+      "status": "unverified",
+      "contested": false,
+      "event_date": "2026-10-06",
+      "checks": [
+        "quote_match:src_art_0005",
+        "independent_origins:1",
+        "attributed:src_art_0005"
+      ],
+      "attributed_only": true,
+      "claim_kind": "statement",
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0031",
+      "text": "파키스탄 정보방송부가 로이터 보도의 수치와 세부 내용을 미검증이라고 비판했다",
+      "source_ids": [
+        "src_art_0005"
+      ],
+      "status": "unverified",
+      "contested": false,
+      "event_date": "2026-10-06",
+      "checks": [
+        "quote_match:src_art_0005",
+        "independent_origins:1",
+        "attributed:src_art_0005"
+      ],
+      "attributed_only": true,
+      "claim_kind": "statement",
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0032",
+      "text": "아흐메드 샤리프 차우드리 ISPR 사무총장이 파키스탄군이 사우디에 여러 역할로 주둔하고 있다고 밝혔다",
+      "source_ids": [
+        "src_art_0004"
+      ],
+      "status": "unverified",
+      "contested": false,
+      "event_date": "2026-10-07",
+      "checks": [
+        "quote_match:src_art_0004",
+        "independent_origins:1",
+        "attributed:src_art_0004"
+      ],
+      "attributed_only": true,
+      "claim_kind": "statement",
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0033",
+      "text": "한국이 2022년 1월 UAE와 천궁-II 수출 계약을 맺었다",
+      "source_ids": [
+        "src_art_0009",
+        "src_art_0010"
+      ],
+      "status": "corroborated",
+      "contested": false,
+      "event_date": "2022-01-16",
+      "checks": [
+        "quote_match:src_art_0009",
+        "quote_match:src_art_0010",
+        "independent_origins:2"
+      ],
+      "attributed_only": false,
+      "claim_kind": "fact",
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0034",
+      "text": "UAE 천궁-II 계약 규모는 약 35억 달러다",
+      "source_ids": [
+        "src_art_0009"
+      ],
+      "status": "unverified",
+      "contested": false,
+      "event_date": "2022-01-16",
+      "checks": [
+        "quote_match:src_art_0009",
+        "independent_origins:1"
+      ],
+      "attributed_only": false,
+      "claim_kind": "fact",
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0035",
+      "text": "LIG넥스원이 사우디 국방부와 천궁-II 수출 계약을 맺었다",
+      "source_ids": [
+        "src_art_0010",
+        "src_art_0012"
+      ],
+      "status": "corroborated",
+      "contested": false,
+      "checks": [
+        "quote_match:src_art_0010",
+        "quote_match:src_art_0012",
+        "independent_origins:2"
+      ],
+      "attributed_only": false,
+      "claim_kind": "fact",
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0036",
+      "text": "LIG넥스원의 사우디 천궁-II 계약 규모는 32억 달러다",
+      "source_ids": [
+        "src_art_0010"
+      ],
+      "status": "unverified",
+      "contested": false,
+      "checks": [
+        "quote_match:src_art_0010",
+        "independent_origins:1"
+      ],
+      "attributed_only": false,
+      "claim_kind": "fact",
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0037",
+      "text": "LIG넥스원이 이라크와 28억 달러 규모 중거리 지대공미사일 수출 계약을 따냈다",
+      "source_ids": [
+        "src_art_0013",
+        "src_art_0012"
+      ],
+      "status": "corroborated",
+      "contested": false,
+      "event_date": "2024-09-20",
+      "checks": [
+        "quote_match:src_art_0013",
+        "quote_match:src_art_0012",
+        "independent_origins:2"
+      ],
+      "attributed_only": false,
+      "claim_kind": "fact",
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0038",
+      "text": "UAE의 천궁-II가 이란 미사일·무인기 대응에서 요격률 96%를 기록했다",
+      "source_ids": [
+        "src_art_0012"
+      ],
+      "status": "unverified",
+      "contested": true,
+      "sides": [
+        {
+          "party": "ThePrint가 전한 보도(출처 명시 없음)",
+          "text": "약 60발 사용에서 요격률 96%",
+          "source_ids": [
+            "src_art_0012"
+          ]
+        }
+      ],
+      "checks": [
+        "quote_match:src_art_0012",
+        "independent_origins:1"
+      ],
+      "attributed_only": false,
+      "claim_kind": "fact",
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0039",
+      "text": "JF-17은 파키스탄항공단지(PAC)와 중국 청두항공기공업그룹이 공동 개발했다",
+      "source_ids": [
+        "src_art_0011"
+      ],
+      "status": "unverified",
+      "contested": false,
+      "checks": [
+        "quote_match:src_art_0011",
+        "independent_origins:1"
+      ],
+      "attributed_only": false,
+      "claim_kind": "fact",
+      "notes": "opus 추가(D-0223, 검증 워커 누락 보완) — 인용: The JF-17 Thunder, developed jointly by Pakistan Aeronautical Complex and China’s Chengdu Aircraft Industry Group"
+    },
+    {
+      "claim_id": "clm_0040",
+      "text": "더프린트는 뉴욕타임스를 인용해 천궁-II 요격탄 1발이 약 110만 달러, 패트리엇 PAC-3 미사일은 1발에 약 370만 달러라고 전했다",
+      "source_ids": [
+        "src_art_0012"
+      ],
+      "status": "unverified",
+      "contested": false,
+      "checks": [
+        "quote_match:src_art_0012",
+        "independent_origins:1"
+      ],
+      "attributed_only": true,
+      "claim_kind": "fact",
+      "notes": "opus 추가(D-0223) — 2차 인용(원출처 NYT, 원문 미확인) → 반드시 귀속. 인용: Every missile used by the Cheongung-II battery costs around $1.1 million whereas the Patriot PAC-3 missiles cost about $3.7 million each"
+    }
+  ]
+}

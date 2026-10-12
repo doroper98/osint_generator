@@ -1,0 +1,32 @@
+# 『중국산 무기가 걸프에 들어온 날』 엔딩 크레딧 (v7.2.0). 보도 = 인용 소스(auto: sources). 기사 카드·사진 행은 연출이 쓴 미디어만 채운다.
+schema_version: 1
+sections:
+- title: 보도
+  column: 0
+  auto: sources
+- title: 글꼴
+  column: 1
+  auto: fonts
+- title: 지도
+  column: 1
+  auto: map
+- title: 국기
+  column: 1
+  items:
+  - main: 국기
+    license: flag-icons · MIT
+    rights:
+    - flags.flag_icons
+- title: 인물 사진
+  column: 1
+  auto: people
+- title: 음악
+  column: 1
+  auto: music
+- title: 음성
+  column: 1
+  items:
+  - main: 내레이션
+    license: AI 음성 합성
+    rights:
+    - narration.tts

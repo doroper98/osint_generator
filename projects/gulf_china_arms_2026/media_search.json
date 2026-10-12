@@ -1,0 +1,186 @@
+{
+ "schema_version": 1,
+ "searches": [
+  {
+   "sid": "what_0",
+   "query": "JF-17 Thunder hastemplate:\"PD-USGov-Military\"",
+   "pool": "us_dod_pd",
+   "on": "2026-10-12",
+   "found": 2,
+   "passed": 0,
+   "top": [],
+   "rejected": [
+    "문서·도식(application/pdf)"
+   ]
+  },
+  {
+   "sid": "what_0",
+   "query": "JF-17 Thunder",
+   "pool": "commons_cc",
+   "on": "2026-10-12",
+   "found": 7,
+   "passed": 1,
+   "top": [
+    "File:JF-17 User countries.png"
+   ],
+   "rejected": [
+    "CC BY-SA 4.0",
+    "GFDL 1.2"
+   ]
+  },
+  {
+   "sid": "what_1",
+   "query": "JF-17 Pakistan Air Force hastemplate:\"PD-USGov-Military\"",
+   "pool": "us_dod_pd",
+   "on": "2026-10-12",
+   "found": 2,
+   "passed": 0,
+   "top": [],
+   "rejected": [
+    "문서·도식(application/pdf)"
+   ]
+  },
+  {
+   "sid": "what_1",
+   "query": "JF-17 Pakistan Air Force",
+   "pool": "commons_cc",
+   "on": "2026-10-12",
+   "found": 7,
+   "passed": 1,
+   "top": [
+    "File:Pakistan Air Force JF-17 at Paris Air Show 2015.jpg"
+   ],
+   "rejected": [
+    "CC BY-SA 4.0",
+    "GFDL 1.2"
+   ]
+  },
+  {
+   "sid": "what_2",
+   "query": "JF-17 Chengdu hastemplate:\"PD-USGov-Military\"",
+   "pool": "us_dod_pd",
+   "on": "2026-10-12",
+   "found": 2,
+   "passed": 0,
+   "top": [],
+   "rejected": [
+    "문서·도식(application/pdf)"
+   ]
+  },
+  {
+   "sid": "what_2",
+   "query": "JF-17 Chengdu",
+   "pool": "commons_cc",
+   "on": "2026-10-12",
+   "found": 7,
+   "passed": 1,
+   "top": [
+    "File:JF-17C in the Azerbaijani service 03.jpg"
+   ],
+   "rejected": [
+    "CC BY-SA 2.0",
+    "CC BY-SA 4.0",
+    "GFDL 1.2"
+   ]
+  },
+  {
+   "sid": "official_0",
+   "query": "King Abdulaziz Air Base hastemplate:\"PD-USGov-Military\"",
+   "pool": "us_dod_pd",
+   "on": "2026-10-12",
+   "found": 7,
+   "passed": 6,
+   "top": [
+    "File:DHA SEL Staff Recognition at Andrew Rader (9174919).jpg",
+    "File:DHA SEL Staff Recognition at Andrew Rader (9174938).jpg",
+    "File:DHA SEL Staff Recognition at Andrew Rader (9174945).jpg",
+    "File:Michael L. Gragg (4).jpg",
+    "File:NICoE Deputy Earns DOD’s Highest Civilian Award (7548966).jpg"
+   ],
+   "rejected": [
+    "문서·도식(image/svg+xml)"
+   ]
+  },
+  {
+   "sid": "official_0",
+   "query": "King Abdulaziz Air Base",
+   "pool": "commons_cc",
+   "on": "2026-10-12",
+   "found": 7,
+   "passed": 5,
+   "top": [
+    "File:Dhahran Airport, 1952.jpg",
+    "File:Dhahran Airport, 1960s 04.jpg",
+    "File:Dhahran Airport, 1960s 07.jpg",
+    "File:Dhahran Airport Terminal nighttime.png",
+    "File:Saudi dhahran airport.jpg"
+   ],
+   "rejected": [
+    "CC BY-SA 4.0 제한"
+   ]
+  },
+  {
+   "sid": "korea_3",
+   "query": "Cheongung KM-SAM hastemplate:\"PD-USGov-Military\"",
+   "pool": "us_dod_pd",
+   "on": "2026-10-12",
+   "found": 0,
+   "passed": 0,
+   "top": [],
+   "rejected": []
+  },
+  {
+   "sid": "korea_3",
+   "query": "Cheongung KM-SAM",
+   "pool": "commons_cc",
+   "on": "2026-10-12",
+   "found": 7,
+   "passed": 2,
+   "top": [
+    "File:A scale model of the KM-SAM Block 2 missile.jpg",
+    "File:M-SAM Block-2 battery.jpg"
+   ],
+   "rejected": [
+    "CC BY-SA 3.0",
+    "CC BY-SA 4.0",
+    "문서·도식(image/svg+xml)"
+   ]
+  },
+  {
+   "sid": "briefing_1",
+   "query": "Pakistan Army soldiers hastemplate:\"PD-USGov-Military\"",
+   "pool": "us_dod_pd",
+   "on": "2026-10-12",
+   "found": 7,
+   "passed": 6,
+   "top": [
+    "File:A Pakistani detainee explains his plight as a Taliban member to US Army (USA) Soldiers with the 65 Military Police Company, 187 Battalion, 10th Mountain Division, in the prison at S - DPLA - a76eee0a1715a95c21fb731b008c4222.jpeg",
+    "File:Pakistani soldiers hustle to unload U.S. medical supplies DVIDS11297.jpg",
+    "File:U.S. Army soldiers and Afghan border police walk a snowy ridgeline as they leave Observation Point 12 along the Afghanistan-Pakistan border to a waiting UH-60 Black Hawk helicopter in the Kunar province of Afgh 130121-A-ZQ422-0109.jpg",
+    "File:U.S. Soldiers with Security Force Assistance Teams Seven and Nine, Texas Army National Guard, provide security outside an Afghan Border Police checkpoint near the Afghanistan-Pakistan border in Spin Boldak 130401-A-MX357-081.jpg",
+    "File:U.S. Soldiers with Security Force Assistance Teams Seven and Nine, Texas Army National Guard, provide security outside an Afghan Border Police checkpoint near the Afghanistan-Pakistan border in Spin Boldak 130401-A-MX357-091.jpg"
+   ],
+   "rejected": [
+    "문서·도식(application/pdf)"
+   ]
+  },
+  {
+   "sid": "briefing_1",
+   "query": "Pakistan Army soldiers",
+   "pool": "commons_cc",
+   "on": "2026-10-12",
+   "found": 7,
+   "passed": 6,
+   "top": [
+    "File:Action by Sepoy Khudadad Khan VC Ypres.jpg",
+    "File:Khudadad khan vc1915.jpg",
+    "File:M45 Quadmount-1965 Indo-Pakistani War.jpg",
+    "File:Pakistan army in kargil.jpg",
+    "File:Pakistani Soldiers in a captured Indian army jeep.jpg"
+   ],
+   "rejected": [
+    "CC BY-SA 4.0"
+   ]
+  }
+ ]
+}

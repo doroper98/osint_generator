@@ -1,0 +1,27 @@
+{
+  "schema_version": 1,
+  "project_id": "gulf_china_arms_2026",
+  "task_id": "verify_sources__gulf_china_arms_2026",
+  "worker": "verify_sources",
+  "status": "completed",
+  "started_at": "2026-10-12T14:10:54.939757Z",
+  "completed_at": "2026-10-12T14:13:53.698593Z",
+  "outputs": [
+    "intake/verify_draft.json",
+    "llm_calls/llm_20261012_141054_7469.json"
+  ],
+  "warnings": [],
+  "errors": [],
+  "scene_refs": [],
+  "source_refs": [],
+  "asset_refs": [],
+  "qa_status": "pass",
+  "risk_flags": [],
+  "worker_provenance": {
+    "prompt_name": "verify_sources",
+    "prompt_sha1": "befe45609d4d49154111016690c2c7a745c1d106",
+    "rules_hash": "957a898c06125f043ef391596605d06fa242b834",
+    "genre": null,
+    "genre_declared": null
+  }
+}
