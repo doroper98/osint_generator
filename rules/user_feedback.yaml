@@ -1522,3 +1522,13 @@ entries:
   recurs_of: UF-02
   decision: D-0220 · RENDER-AP-026
   source: 구현 세션·감독 세션 사용자 대화 2026-10-12(같은 원문)
+- id: UF-100
+  date: '2026-10-12'
+  project: 공용 자산(BGM)
+  at: BGM 후보 11곡 청음 페이지(조사 세션 session_016LZpu31BdRz1XzfpDrzbJA)
+  quote: 1번만 합격. 약간 박진감이 느껴지는 부분에서 점수를 줬어.
+  quote_kind: verbatim
+  category: 음악 — 배경음악 선정(박진감)
+  status: open
+  decision: 감독 기록 — 합격 Mario Bava Sleeps In a Little Later Than He Expected To(Chris Zabriskie, Vendaface, CC BY 4.0), 2~11위 불합격
+  source: BGM 조사 세션 사용자 대화 2026-10-12(조사 세션이 원문 전달)
