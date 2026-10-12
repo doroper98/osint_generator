@@ -374,7 +374,26 @@ def cmd_bgm(root: Path, dry: bool) -> list[str]:
     got = hashlib.sha1(dest.read_bytes()).hexdigest()
     if got != BGM_SHA1:
         return [f"bgm sha1 불일치: {got} != {BGM_SHA1}"]
-    return []
+    return _bgm_from_urls()
+
+
+def _bgm_from_urls() -> list[str]:
+    """v7.2.0 D-0222 — 레지스트리 source_url 이 있는 available 곡(예: music.zabriskie_mario_bava)을 받아 sha1 대조."""
+    import hashlib  # noqa: PLC0415
+
+    from audio.registry import BGM_DIR, load_registry  # noqa: PLC0415
+
+    errs = []
+    for k, t in load_registry().tracks.items():
+        if not t.available or t.source_url is None:
+            continue
+        dest = BGM_DIR / t.file
+        if not dest.exists():
+            stream_download(t.source_url, dest)
+        got = hashlib.sha1(dest.read_bytes()).hexdigest()
+        if got != t.sha1:
+            errs.append(f"{k} sha1 불일치: {got} != {t.sha1} — {dest}")
+    return errs
 
 
 HF_RESOLVE = "https://huggingface.co/{repo}/resolve/{rev}/{path}"

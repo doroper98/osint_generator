@@ -259,7 +259,11 @@ def music_list_text(pdir: Path) -> str:
     from audio.registry import track  # noqa: PLC0415
     from engine.credits import load_credits  # noqa: PLC0415
 
+    from rules import load_rules  # noqa: PLC0415
+
+    order = load_rules().audio.bgm_default   # v7.2.0 D-0222 — 권장 순서(첫째 = 사용자 합격곡, UF-100)
     ids = [it.music for sec in load_credits(pdir / "credits.yaml").sections for it in sec.items if it.music]
+    ids = sorted(dict.fromkeys(ids), key=lambda i: order.index(i) if i in order else len(order))
     if not ids:
         return "(없음 — 이 프로젝트엔 음악 크레딧이 없다. sound.bgm 은 null, intensity·cues 만 쓴다)"
     rows = []

@@ -3440,3 +3440,4 @@ last_review: 2026-06-06
 - 2026-10-12 v6.0.3 제목 바탕 규칙(오프닝 기사 카드 위에 제목) — docs/handoff/05 §3.2·rules direction_grammar(연출·수정 프롬프트), UF-02 장치에 camera_speed 보강.
 - 2026-10-12 v7.0.1 camera_speed 무대별 성분(시간축 zoom 만, D-0218 A), fed_timeline_demo 확대·축소 5.2초. main ff(D-0219).
 - 2026-10-12 v7.1.0 UF-99 카메라 꺾임 세 번째 재발(RENDER-AP-026) — 원인 = 렌더 View 경계 클램프(요청 w 88·72·84 > gulf 경계 54), 검사는 클램프 전 궤적을 쟀음. 화면 궤적 측정(screen_track)·hard camera_bounds·제안/연출 입력 경계 안·스케치 SK-C1 같은 식. 영상 재렌더 없음(사용자 지시).
+- 2026-10-12 v7.2.0 UF-100 합격 BGM Mario Bava 등록(사용자가 들은 미러 파일 sha1 02ceb4e7, CC BY 4.0 작가 페이지 근거), BGM 등록 실측 하한(audio.bgm_measure·rules audio.bgm_floor — 조사 세션 측정식 재현: 22050 Hz 모노·n_fft 4096), 기본 BGM 순서, Drone in D 사용 금지, Patriarch 표기 앨범 보강.

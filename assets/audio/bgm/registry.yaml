@@ -12,10 +12,11 @@ tracks:
     author: Chris Zabriskie
     license: CC BY 4.0
     url: "https://chriszabriskie.com"
-    attribution: "The Life and Death of a Certain K. Zabriskie, Patriarch by Chris Zabriskie — Licensed under CC BY 4.0 — https://chriszabriskie.com"
+    attribution: "\"The Life and Death of a Certain K. Zabriskie, Patriarch\" by Chris Zabriskie / From the album Vendaface / Licensed under Creative Commons Attribution 4.0 / creativecommons.org/licenses/by/4.0/ / chriszabriskie.com"   # v7.2.0 D-0222 — 작가 요청 형식(앨범 포함, https://chriszabriskie.com/use/ 2026-10-12 확인)
     source: YouTube 오디오 보관함
     mood: []                                           # 실측·출처 기록 없음(추측 금지)
-    bpm: null                                          # 실측 도구 없음(librosa 미설치) — 추측 금지
+    bpm: null                                          # 템포 숫자는 반복 음형 주기라 BPM 으로 적지 않는다(조사 세션: 온셋 주기 0.88초)
+    measured: {beat_clarity: 7.12, onsets_per_min: 328.7, voice_band: 0.029}   # v7.2.0 audio.bgm_measure(0~360초) — 기준 곡
     available: true
   music.zabriskie_take_off:
     file: "Take Off and Shoot a Zero - Chris Zabriskie.mp3"
@@ -43,3 +44,19 @@ tracks:
     mood: []
     bpm: null
     available: false
+    unavailable_reason: "사용 금지 — 작가(incompetech)가 Content ID 사전 등록을 공지(v7.2.0 D-0222). 파일도 없음"
+  music.zabriskie_mario_bava:   # v7.2.0 사용자 청취 합격(UF-100, D-0222) — 새 영상 기본 BGM 첫째(rules audio.bgm_default)
+    file: "Mario Bava Sleeps In a Little Later Than He Expected To - Chris Zabriskie.mp3"
+    sha1: 02ceb4e748b003fb7447ccd74b0ccf4fad64d3fb     # 사용자가 청취한 파일(조사 세션 청음 페이지와 같은 바이트)
+    duration_sec: 511.269                              # ffprobe 실측
+    name: "Mario Bava Sleeps In a Little Later Than He Expected To"
+    author: Chris Zabriskie
+    license: CC BY 4.0
+    url: "https://chriszabriskie.com"
+    attribution: "\"Mario Bava Sleeps In a Little Later Than He Expected To\" by Chris Zabriskie / From the album Vendaface / Licensed under Creative Commons Attribution 4.0 / creativecommons.org/licenses/by/4.0/ / chriszabriskie.com"   # 작가 요청 형식(https://chriszabriskie.com/use/ 2026-10-12 확인)
+    source: "archive.org 미러(chris-zabriskie-complete-discography) — 작가 배포처 Bandcamp 는 이 환경에서 403(받기 불가). 라이선스 근거는 작가 공식 페이지"
+    source_url: "https://archive.org/download/chris-zabriskie-complete-discography/Chris%20Zabriskie%20-%20Vendaface/Chris%20Zabriskie%20-%20Vendaface%20-%2002%20Mario%20Bava%20Sleeps%20In%20a%20Little%20Later%20Than%20He%20Expected%20To.mp3"
+    mood: []                                           # 분위기 낱말은 추측 금지 — 실측은 measured
+    bpm: null                                          # 3.25초 주기 반복 음형(조사 세션) — BPM 으로 적지 않는다
+    measured: {beat_clarity: 6.55, onsets_per_min: 473.5, voice_band: 0.088}   # audio.bgm_measure(0~360초) 실측
+    available: true

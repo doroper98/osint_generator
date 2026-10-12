@@ -21,7 +21,7 @@ class RegistryParityTest(unittest.TestCase):
     def test_rights_md_attribution_verbatim(self) -> None:
         """사용 곡 표기 문구 = RIGHTS.md '작가 표준 표기' 그대로(줄바꿈만 합침)."""
         md = (BGM_DIR / "RIGHTS.md").read_text(encoding="utf-8")
-        m = re.search(r"작가 표준 표기: \"(.+?)\"", md, re.S)
+        m = re.search(r"작가 표준 표기[^:]*: `(.+?)`", md, re.S)   # v7.2.0 — 표기 안에 따옴표가 있어 백틱으로 감싼다
         assert m is not None
         self.assertEqual(" ".join(m.group(1).split()), track(USED).attribution)
 

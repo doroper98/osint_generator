@@ -1444,8 +1444,22 @@ class BedBass(_Strict):
     norm_ref: float = Field(ge=0, le=1)   # D-0102 2-C — 정규화 기준 = 처리 전 피크^(1−k) × 처리 후 피크^k
 
 
+class BgmFloor(_Strict):
+    """v7.2.0 UF-100 D-0222 — BGM 등록 실측 하한(audio.bgm_measure)."""
+
+    beat_clarity_min: float = Field(gt=0)      # 템포그램 명확도(시간 평균 템포그램의 최대 ÷ 평균, 0 지연 제외)
+    onsets_per_min_min: float = Field(gt=0)    # 온셋 밀도(librosa onset_detect 개수 ÷ 분)
+    voice_band_max: float = Field(gt=0, lt=1)  # 내레이션 대역 파워 비중 상한
+    voice_band_hz: tuple[float, float]
+    window_sec: float = Field(gt=0)            # 측정 구간 0~window_sec(영상은 곡을 0초부터 5~6분 쓴다)
+    sr: int = Field(gt=0)
+    n_fft: int = Field(gt=0)
+
+
 class AudioRules(_Strict):
     bed_gain: float
+    bgm_floor: BgmFloor
+    bgm_default: list[str] = Field(min_length=1)
     duck_depth: float
     duck_pre_sec: float
     duck_post_sec: float

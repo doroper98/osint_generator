@@ -44,6 +44,13 @@ duck = convolve(duck, box(0.35초))               # 부드러운 램프
 저장소 `hyperframes/briefing/assets/audio/bgm/The Life and Death of a Certain K. Zabriskie, Patriarch - Chris Zabriskie.mp3` (YouTube 오디오 보관함, **CC BY 4.0**, 931초). 출처 표기 의무: 영상 엔딩 + 유튜브 설명란("Music: … — Chris Zabriskie (CC BY 4.0)").
 같은 폴더 RIGHTS.md에 미사용 CC BY 곡 2개(Take Off and Shoot a Zero, Drone in D)가 더 있다.
 
+### 3.1a 새 영상 기본 BGM·등록 하한 (v7.2.0, 사용자 의견 UF-100, D-0222)
+- 사용자 청취 판정(2026-10-12): "1번만 합격. 약간 박진감이 느껴지는 부분에서 점수를 줬어." → 새 영상 권장 순서 `rules audio.bgm_default`(첫째 `music.zabriskie_mario_bava`, 둘째 Patriarch). 연출 입력 음악 목록이 이 순서로 나온다.
+- 등록 하한 `rules audio.bgm_floor`(잠정, 합격 1곡 근거): 박 명확도(템포그램 최대/평균)·온셋 밀도·300~3000 Hz 비중, 0~360초. 측정 = `audio.bgm_measure`(librosa). 레지스트리 available 곡은 `measured` 기록 필수·하한 통과, 재측정 = 기록값(`python -m audio.bgm_measure --check`).
+- 잔잔한 드론 계열은 불합격(명확도 3.2~4.3) — 사용자가 말한 "박진감"은 뚜렷한 맥박과 촘촘한 움직임이다.
+- 음량(`music_under_narration_db`·`bed_gain`)은 새 곡으로 첫 콘티 판에서 재측정한다. 값 변경은 결정 요청.
+- Drone in D 는 사용 금지(작가 Content ID 사전 등록 공지).
+
 ### 3.2 처리
 ```python
 bg = ffmpeg 디코드(f32le, 2ch, 44.1k)

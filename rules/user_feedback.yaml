@@ -1529,6 +1529,16 @@ entries:
   quote: 1번만 합격. 약간 박진감이 느껴지는 부분에서 점수를 줬어.
   quote_kind: verbatim
   category: 음악 — 배경음악 선정(박진감)
-  status: open
+  guards:
+  - {kind: rule, ref: audio.bgm_floor}
+  - {kind: rule, ref: audio.bgm_default}
+  - {kind: code, ref: audio.bgm_measure.measure}
+  - {kind: code, ref: audio.bgm_measure.check_registry}
+  - {kind: test, ref: tests/test_bgm_floor.py::FloorTest::test_available_tracks_pass_floor}
+  - {kind: test, ref: tests/test_bgm_floor.py::FloorTest::test_rejected_candidates_fail_floor}
+  - {kind: test, ref: tests/test_bgm_floor.py::FloorTest::test_registry_rejects_below_floor}
+  - {kind: test, ref: tests/test_bgm_floor.py::FloorTest::test_default_first_is_user_pass}
+  - {kind: test, ref: tests/test_bgm_floor.py::RemeasureTest::test_measure_matches_record}
+  status: guarded
   decision: 감독 기록 — 합격 Mario Bava Sleeps In a Little Later Than He Expected To(Chris Zabriskie, Vendaface, CC BY 4.0), 2~11위 불합격
   source: BGM 조사 세션 사용자 대화 2026-10-12(조사 세션이 원문 전달)

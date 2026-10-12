@@ -967,6 +967,11 @@ audio:                     # 10
   # Supertonic 은 같은 피크에서 내레이션 RMS 가 0.84 dB 낮아 음악−내레이션이 −9.83 → −9.00(범위 밖)이 됐다. 0.43(−0.77 dB)로
   # 목표 ≈ −9.8 dB(D103 범위 [−13, −9] 유지) 복원. 측정 = reports/phaseV3/run_log §4. 목소리가 또 바뀌면 RMS 정규화 믹서 트랙(R-0198 B)
   bed_gain: 0.43
+  # v7.2.0 UF-100 D-0222 — BGM 등록 실측 하한(잠정 — 사용자 청취 합격 1곡 근거: "1번만 합격. 약간 박진감이 느껴지는 부분에서 점수를 줬어.").
+  # 측정 = audio.bgm_measure(librosa, 모노 sr·n_fft 아래 값, 0~window_sec). 레지스트리 available 곡이 못 넘으면 실패(audio.registry.bgm_path·시험).
+  # 실측(2026-10-12): Mario Bava 명확도 6.55·온셋 분당 473.5·300~3000 Hz 8.8 % / Patriarch(기준 곡) 7.12·328.7·2.9 % / 불합격 후보 명확도 3.2~4.3·온셋 25~302.
+  bgm_floor: {beat_clarity_min: 6.0, onsets_per_min_min: 300.0, voice_band_max: 0.10, voice_band_hz: [300, 3000], window_sec: 360, sr: 22050, n_fft: 4096}
+  bgm_default: [music.zabriskie_mario_bava, music.zabriskie_patriarch]   # v7.2.0 D-0222 — 새 영상 sound.bgm 권장 순서(첫째 = 사용자 합격곡 UF-100)
   duck_depth: 0.5
   duck_pre_sec: 0.25
   duck_post_sec: 0.3

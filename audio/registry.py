@@ -14,6 +14,8 @@ from typing import Literal, Optional
 import yaml
 from pydantic import BaseModel, ConfigDict, Field, model_validator
 
+from audio.bgm_measure import BgmMeasure, floor_failures
+
 REPO = Path(__file__).resolve().parent.parent
 BGM_DIR = REPO / "assets" / "audio" / "bgm"
 REGISTRY = BGM_DIR / "registry.yaml"
@@ -39,11 +41,18 @@ class BgmTrack(BaseModel):
     mood: list[str] = Field(default_factory=list)
     bpm: Optional[float] = None
     available: bool
+    measured: Optional[BgmMeasure] = None          # v7.2.0 UF-100 D-0222 — audio.bgm_measure 실측(0~360초). available 곡 필수·하한 통과
+    source_url: Optional[str] = None               # 파일을 받은 곳(fetch_data bgm 이 sha1 대조로 복원)
+    unavailable_reason: Optional[str] = None       # available false 인 사유(사용 금지 등)
 
     @model_validator(mode="after")
     def _measured(self) -> "BgmTrack":
         if self.available and (self.sha1 is None or self.duration_sec is None):
             raise ValueError(f"{self.file}: available 인 곡은 sha1·duration_sec 실측값이 있어야 한다")
+        if self.available and self.measured is None:
+            raise ValueError(f"{self.file}: available 인 곡은 measured(audio.bgm_measure 실측)가 있어야 한다 — UF-100 등록 하한")
+        if self.available and (bad := floor_failures(self.measured)):   # type: ignore[arg-type]
+            raise ValueError(f"{self.file}: BGM 등록 하한 미달 {bad} — rules audio.bgm_floor(UF-100)")
         return self
 
 
