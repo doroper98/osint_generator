@@ -79,7 +79,7 @@ python -m orchestrator.main command-center --project {pid}      # 또는 run_pip
 상태 흐름(`schemas/models.py ProjectState`, docs/handoff/16 §2):
 `created → intake → source_verify → research → script_draft → script_approval★ → voice_timeline → assets → direction → preview_qa → preview_approval★ → render → audio_mix → deliver → done`.
 ★ 두 곳이 사용자 승인 게이트다. `direction` 과 `preview_approval★` 사이에 **콘티 판(W0) 사용자 흐름 검토가 필수**다 — 콘티 판 기록 없이는 게이트 ② 승인이 거부된다.
-게이트 ② 는 **사용자 의견 원장**(`rules/user_feedback.yaml`)에 장치 없는(open) 의견이 있어도 거부된다(v5.22.0 D-0200, CLAUDE.md C12). 사용자 의견을 받으면 그 자리에서 원장에 원문 그대로 적고 장치(검사·테스트·규칙 키)를 단다 → `python tools/feedback_ledger.py --write`.
+게이트 ② 는 **사용자 의견 원장**(`rules/user_feedback.yaml`)을 본다(CLAUDE.md C12). 사용자 의견을 받으면 그 자리에서 원장에 원문 그대로 적는다 → `python tools/feedback_ledger.py --write`. 그 영상은 고쳐서 먼저 보낸다 — 그 영상의 장치 없는(open) 의견은 승인 기록에 경고 줄로 남고, 장치(검사·테스트·규칙 키)는 영상 전달 뒤 첫 작업으로 단다. 앞선 영상의 의견이 장치 없이 다음 영상 게이트 ② 에 오면 거부된다(v7.0.0, 사용자 결정 D217·D218).
 
 ### W1.1 새 프로젝트 준비 체크리스트 (v4.7.0, back_and_forth D-0104 D3 — dmz_mine_2026 누락 M1~M5)
 

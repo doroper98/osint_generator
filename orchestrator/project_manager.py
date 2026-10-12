@@ -413,7 +413,7 @@ def approve_gate(
                  "media_plan": require_media_plan(pdir)}   # v5.19.0 D-0163 §2 — 사진 목표 미달 = 문장 단위 사유 필수(P6)
     if g == ProjectState.PREVIEW_APPROVAL:   # 콘티 판 의무(WORKFLOWS W0, PIPELINE-AP-014) — 건너뛰면 게이트 ② 승인 불가
         shown = {**(shown or {}), "animatic": require_animatic(project_dir(manifest.project_id, cfg), approved_script_sha1(manifest)),
-                 "user_feedback": require_feedback_guards(),   # v5.22.0 D-0200 — 장치 없는 사용자 의견이 있으면 거부
+                 "user_feedback": require_feedback_guards(project=manifest.project_id),   # v7.0.0 D217·D218 — 이 영상 의견 open = 경고, 앞선 영상 의견 open = 거부
                  "asset_library": require_asset_library(project_dir(manifest.project_id, cfg))}   # v5.22.4 UF-69(C8.7)
     if chosen_version is not None:
         if g != ProjectState.PREVIEW_APPROVAL:
@@ -484,20 +484,28 @@ def require_asset_library(pdir: Path) -> str:
 
 
 class FeedbackUnguardedError(ValueError):
-    """게이트 ② 승인 전에 재발 방지 장치가 없는(status open) 사용자 의견이 원장에 있다(v5.22.0 D-0200)."""
+    """게이트 ② 승인 전에 기한이 지난(앞선 영상의) 장치 없는 사용자 의견이 원장에 있다(v5.22.0 D-0200, v7.0.0 D218)."""
 
 
-def require_feedback_guards(path: Path | None = None) -> str:
-    """사용자 의견 원장(rules/user_feedback.yaml)에 장치 없는(open) 항목이 있으면 FeedbackUnguardedError — 우회 플래그 없음.
-    사용자 지시(2026-10-11) "내가 코멘트 한 사항들은 모두 기록되고 재발이 되면 안돼". 게이트 기록용 한 줄을 돌려준다."""
+def require_feedback_guards(path: Path | None = None, project: str | None = None) -> str:
+    """사용자 의견 원장(rules/user_feedback.yaml) 장치 확인 — 게이트 기록용 한 줄을 돌려준다.
+    v7.0.0 사용자 결정 D217("잠금 풀어")·D218("재발방지를 위한 검사는 다음번 영상에서 적용해야지 당연히"):
+    - 장치 없는(open) 의견이 **이 영상(project)** 의 의견이면 거부하지 않고 경고 줄로 남긴다 — 그 영상은 고쳐서 먼저 보낸다.
+    - 장치 없는 의견이 **다른(앞선) 영상** 의 의견이면 FeedbackUnguardedError — 기한(다음 영상 게이트 전 장치 완성)이 지났다.
+    기록 의무(C12-1)는 그대로. 우회 플래그 없음. project 를 모르면(None) 모든 open 을 기한 지난 것으로 본다."""
     from rules import load_user_feedback  # noqa: PLC0415
 
     led = load_user_feedback(path)
     op = led.open_entries()
+    line = lambda e: f"  {e.id} ({e.date} {e.project} · {e.at}) \"{e.quote}\""  # noqa: E731
+    late = [e for e in op if e.project != project]
+    if late:
+        raise FeedbackUnguardedError(f"재발 방지 장치 기한이 지난 사용자 의견 {len(late)}건(앞선 영상 의견 — 다음 영상 게이트 전 장치 완성, D218) — "
+                                     f"장치(검사·테스트·규칙 키)를 만들어 rules/user_feedback.yaml guards 에 적고 status guarded 로 바꾼 뒤 "
+                                     "승인한다(CLAUDE.md C12):\n" + "\n".join(line(e) for e in late))
     if op:
-        lines = "\n".join(f"  {e.id} ({e.date} {e.project} · {e.at}) \"{e.quote}\"" for e in op)
-        raise FeedbackUnguardedError(f"재발 방지 장치가 없는 사용자 의견 {len(op)}건 — 장치(검사·테스트·규칙 키)를 만들어 rules/user_feedback.yaml "
-                                     f"guards 에 적고 status guarded 로 바꾼 뒤 승인한다(CLAUDE.md C12, D-0200):\n{lines}")
+        return (f"경고: 이 영상 의견 {len(op)}건 장치 없음 — 영상 전달 뒤 첫 작업으로 장치(D217·D218): "
+                + " · ".join(f"{e.id} \"{e.quote[:40]}\"" for e in op))
     return f"사용자 의견 {len(led.entries)}건 모두 장치 있음(최근 {led.entries[-1].id})"
 
 

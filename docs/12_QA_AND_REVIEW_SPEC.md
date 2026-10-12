@@ -111,7 +111,8 @@ handoff 20 §5.3 표의 아홉 규칙을 네 검사(`chart_honesty`·`series_lim
 
 | 검사 | 등급 | 키 | 근거 |
 |---|---|---|---|
-| 원장 `rules/user_feedback.yaml` 에 장치 없는(open) 의견 | 게이트 ② 거부(`require_feedback_guards`) | `rules/user_feedback.yaml` | 사용자 지시 2026-10-11, CLAUDE.md C12 |
+| 원장 `rules/user_feedback.yaml` 에 장치 없는(open) 의견 | **그 영상** 의견 = 게이트 ② 경고 줄(UF 번호·원문), **앞선 영상** 의견 = 게이트 ② 거부(기한 지남) — `require_feedback_guards(project)`, v7.0.0 | `rules/user_feedback.yaml` | 사용자 지시 2026-10-11·사용자 결정 D217·D218, CLAUDE.md C12-2 |
+| open 의견이 가장 최근 의견을 받은 영상 하나의 것만 | 테스트(기한 장치 두 번째 겹) | `tests/anti_inertia/test_user_feedback_guards.py::test_open_entries_only_latest_video` | D218 |
 | 원장 장치가 저장소에 실제로 있음·문서 표 = 생성 결과·한 트랙만 걸린 장치 없음 | 테스트 | `tests/anti_inertia/test_user_feedback_guards.py` | D-0200 §2 |
 | 영상마다 돈 장치와 결과 | provenance `user_feedback_guards`(프리뷰·콘티 판은 직접, 전편은 mux 가 `prev/` 결과를 출처·연출 지문 대조와 함께 옮김 — v5.22.5 D208, 지문 불일치는 `[preview-stale]` 경고) | — | P5 |
 | 전황 문장 지명·경로 없음(`battle_geo`)·초상 있는 인물 미표시(`portrait_unused`) | warning | `rules:qa_checks.battle_geo` | UF-08·UF-10 |

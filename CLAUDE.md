@@ -246,8 +246,9 @@ byte-equal 원칙)다. 위반은 `tests/anti_inertia/`가 잡는다.
 
 1. **수신 즉시 기록**: 사용자가 영상·화면·소리·작업 순서에 준 의견은 받은 그 자리에서 `rules/user_feedback.yaml`(정본)에 원문 그대로 새 UF 번호로 append 한다.
    고친 뒤가 아니다. 과거 줄은 고치지 않는다(장치·상태 칸 보강만). 문서 표는 `python tools/feedback_ledger.py --write` 로 만든다.
-2. **장치 없는 의견 = 게이트 차단**: 각 의견에는 재발하면 실제로 실패를 내는 장치(checks id·테스트·규칙 키·검증 함수)를 단다.
-   장치가 없는(status open) 의견이 하나라도 있으면 `approve --gate preview_approval` 이 거부된다(`orchestrator.project_manager.require_feedback_guards`, 우회 플래그 없음).
+2. **장치 기한 = 다음 영상 게이트 전**(v7.0.0, 사용자 결정 D217 "잠금 풀어"·D218 "재발방지를 위한 검사는 다음번 영상에서 적용해야지 당연히"): 각 의견에는 재발하면 실제로 실패를 내는 장치(checks id·테스트·규칙 키·검증 함수)를 단다.
+   의견을 받은 **그 영상**은 고쳐서 먼저 보낸다 — 그 영상의 장치 없는(status open) 의견은 게이트 ② 를 막지 않고 경고 줄(UF 번호·원문)로 승인 기록에 남는다. 장치는 영상 전달 뒤 첫 작업으로 단다.
+   **앞선 영상**의 의견이 장치 없이 다음 영상의 `approve --gate preview_approval` 에 오면 거부된다(`orchestrator.project_manager.require_feedback_guards`, 우회 플래그 없음). 기록 의무(1)는 그대로다.
    장치가 실제로 있는지는 `tests/anti_inertia/test_user_feedback_guards.py` 가 강제한다. 영상마다 provenance `user_feedback_guards` 에 돈 장치와 결과가 남는다.
 3. **저장소 전체 적용**: 장치는 모든 렌더 경로(콘티 판·프리뷰·전편, 본 엔진·스케치)에 같은 규칙 키로 건다. 한 트랙에만 걸린 장치는 미보호다(UF-02 교훈).
 4. **재발 = 새 번호 + recurs_of + AP 항목 + 장치 보강**: 같은 의견이 다시 나오면 원래 장치가 왜 못 잡았는지 `docs/ANTIPATTERNS/` 에 남기고 장치를 고친다.

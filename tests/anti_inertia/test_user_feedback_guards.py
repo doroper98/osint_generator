@@ -98,9 +98,13 @@ class UserFeedbackGuardsTest(unittest.TestCase):
                and not any(w in e.category for w in ("작업 순서", "전달", "영상 문법"))]
         self.assertEqual(bad, [])
 
-    def test_no_open_entries(self) -> None:
-        """D-0205 §3 — 소급 open 15건을 닫았다. 새 의견은 장치와 함께 들어온다(게이트 ② 정상 통과)."""
-        self.assertEqual([e.id for e in self.led.open_entries()], [])
+    def test_open_entries_only_latest_video(self) -> None:
+        """v7.0.0 D217·D218 기한 장치 — open 은 허용하되 **가장 최근 의견을 받은 영상 하나** 의 것만.
+        앞선 영상 의견이 open 인 채 다른 영상 의견이 새로 들어오면(= 두 번째 영상으로 넘어감) 실패.
+        게이트 쪽은 require_feedback_guards 가 다른 영상 open 을 거부한다(같은 기한, 두 겹)."""
+        latest = self.led.entries[-1].project
+        late = [e.id for e in self.led.open_entries() if e.project != latest]
+        self.assertEqual(late, [], "앞선 영상 의견의 장치 기한(다음 영상 게이트 전)이 지났다 — CLAUDE.md C12-2")
 
     def test_gulf_round_all_guarded(self) -> None:
         """D-0200 §5 — gulf 재렌더 전 UF-01~12 전부 보호."""
