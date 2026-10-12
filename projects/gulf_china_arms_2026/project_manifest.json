@@ -4,8 +4,8 @@
   "title": "중국산 무기가 걸프에 들어온 날",
   "category": "geopolitics",
   "created_at": "2026-10-12T14:03:44.154918Z",
-  "updated_at": "2026-10-12T14:23:10.316873Z",
-  "current_state": "script_approval",
+  "updated_at": "2026-10-12T14:35:50.017346Z",
+  "current_state": "voice_timeline",
   "target_duration_min": 5,
   "topic_summary": "사우디에 배치된 것으로 보도된 파키스탄군의 중국산 HQ-9 방공체계와 JF-17 전투기, 사우디가 비용을 대는 구조, 미국 무기 의존에서의 변화, 한국 방산(천궁-II)의 걸프 수출과의 경쟁 구도",
   "initial_links": [],
@@ -28,7 +28,26 @@
     "provenance": "out/provenance.json"
   },
   "render_mode_status": {},
-  "gate_decisions": [],
+  "gate_decisions": [
+    {
+      "gate": "script_approval",
+      "decision": "approved",
+      "by": "fable",
+      "at": "2026-10-12T14:35:50.017251Z",
+      "comment": "사용자 위임 D227(취침, 검토 생략 — 아침 본영상 시청). 감독 Fable 조건부 승인(D-0223 게이트 ①): ① '처음은 아님'+근거(Defense News 2022-03-09 윙룽 II 2017 주문)·'보도대로라면 동맹국 군대가 들여와 운용하는 길' ② 제목 '날'→'길' ③ 린트 경고 6 수용 — 반영 완료",
+      "rollback_to": null,
+      "shown": {
+        "script": "/home/user/osint_generator/projects/gulf_china_arms_2026/script.yaml",
+        "lint_errors": "0",
+        "lint_warnings": "6",
+        "est_sec": "342.4",
+        "media_plan_errors": "0",
+        "script_sha1": "20582dfb1ec7a544bc3f80eebb619af51140f650",
+        "media_plan": "사진 0/5 · 기사 후보 18문장 · 342초(chars)"
+      },
+      "chosen_version": null
+    }
+  ],
   "stage_records": [],
   "final_outputs": {},
   "state_history": [
@@ -61,6 +80,12 @@
       "to_state": "script_approval",
       "transitioned_at": "2026-10-12T14:23:10.316801Z",
       "reason": "D-0223 원고 — opus 사실 대조·재작성(워커 초안 script.worker_draft.yaml) 뒤 감독 검수(사용자 위임 D227)"
+    },
+    {
+      "from_state": "script_approval",
+      "to_state": "voice_timeline",
+      "transitioned_at": "2026-10-12T14:35:50.017301Z",
+      "reason": "script_approval 승인 — fable"
     }
   ],
   "reopens": []

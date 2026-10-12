@@ -801,6 +801,22 @@
       "attributed_only": true,
       "claim_kind": "fact",
       "notes": "opus 추가(D-0223) — 2차 인용(원출처 NYT, 원문 미확인) → 반드시 귀속. 인용: Every missile used by the Cheongung-II battery costs around $1.1 million whereas the Patriot PAC-3 missiles cost about $3.7 million each"
+    },
+    {
+      "claim_id": "clm_0041",
+      "text": "사우디는 2017년 중국산 윙룽 II 무인기를 주문했다",
+      "source_ids": [
+        "src_art_0014"
+      ],
+      "status": "unverified",
+      "contested": false,
+      "checks": [
+        "quote_match:src_art_0014",
+        "independent_origins:1"
+      ],
+      "attributed_only": false,
+      "claim_kind": "fact",
+      "notes": "opus 추가(D-0223 감독 조건 1 — '처음은 아님' 근거) — 인용: In 2017, Saudi Arabia ordered Chinese-made Wing Loong II drones"
     }
   ]
 }
