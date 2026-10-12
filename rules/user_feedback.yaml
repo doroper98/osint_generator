@@ -1497,3 +1497,14 @@ entries:
   status: guarded
   decision: D-0216
   source: 감독 세션 대화 2026-10-12
+- id: UF-99
+  date: '2026-10-12'
+  project: gulf_pact_2026
+  at: v6.0.2 지도 카메라 이동(시각 미지정)
+  quote: 여전히 지도에서의 카메라 무빙에 있어서 한번 꺾이는 지점이 있어. 이거 이전에도 코멘트 했고 계속 코멘트 하는데 개선이 안되네? 영상을 새로 제작할 필요는 없는데, 규칙 점검해서 다시는 발생하지 않도록 적어놔
+  quote_kind: verbatim
+  category: 카메라 연속성(재발)
+  status: open
+  recurs_of: UF-02
+  decision: 조사 중(사용자 직접, 2026-10-12)
+  source: 구현 세션 사용자 대화 2026-10-12
