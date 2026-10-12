@@ -4,7 +4,7 @@
   "title": "중국산 무기가 걸프에 들어온 날",
   "category": "geopolitics",
   "created_at": "2026-10-12T14:03:44.154918Z",
-  "updated_at": "2026-10-12T14:45:36.187041Z",
+  "updated_at": "2026-10-12T14:56:03.639220Z",
   "current_state": "direction",
   "target_duration_min": 5,
   "topic_summary": "사우디에 배치된 것으로 보도된 파키스탄군의 중국산 HQ-9 방공체계와 JF-17 전투기, 사우디가 비용을 대는 구조, 미국 무기 의존에서의 변화, 한국 방산(천궁-II)의 걸프 수출과의 경쟁 구도",
@@ -87,6 +87,20 @@
       "errors": [],
       "drops": 0,
       "log": "logs/stages/03_assets_final.json"
+    },
+    {
+      "state": "direction",
+      "stage": "director",
+      "ok": false,
+      "at": "2026-10-12T14:56:03.639200Z",
+      "artifacts": {
+        "out0": "llm_calls/llm_20261012_145204_8ab6.json"
+      },
+      "errors": [
+        "check_parsed: 크레딧·권리 점검 실패:\n크레딧 '국기' 이 가리키는 권리 항목 없음: flags.flag_icons\n크레딧 '내레이션' 이 가리키는 권리 항목 없음: narration.tts\n권리 레지스트리 fonts 절이 비었다 — 렌더가 쓰는 자산의 권리 기록 없음\n권리 레지스트리 map 절이 비었다 — 렌더가 쓰는 자산의 권리 기록 없음\n엔딩 크레딧 누락: media.gulf_china_arms_2026_art_0002\n엔딩 크레딧 누락: media.gulf_china_arms_2026_art_0009\n엔딩 크레딧 누락: media.gulf_china_arms_2026_art_0011\n엔딩 크레딧 누락: media.gulf_china_arms_2026_art_0012\n엔딩 크레딧 누락: media.gulf_china_arms_2026_art_0014\n엔딩 크레딧 누락: media.gulf_pact_2026_art_0001\n엔딩 크레딧 누락: media.gulf_pact_2026_art_0011\n엔딩 크레딧 누락: media.gulf_pact_2026_art_0016\n엔딩 크레딧 누락: media.gulf_pk_jf17\n엔딩 크레딧 누락: media.kr_msam_battery\n권리 레지스트리 narration 절이 비었다 — 렌더가 쓰는 자산의 권리 기록 없음"
+      ],
+      "drops": 0,
+      "log": "logs/stages/04_director.json"
     }
   ],
   "final_outputs": {},

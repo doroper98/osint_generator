@@ -4,6 +4,38 @@ sections:
 - title: 보도
   column: 0
   auto: sources
+- title: 기사 카드
+  column: 0
+  items:
+  - main: 헤드라인 번역·요지 자체 조판(위 보도)
+    license: 기사 화면 캡처·로고 없음
+    rights:
+    - media.gulf_china_arms_2026_art_0002
+    - media.gulf_china_arms_2026_art_0003
+    - media.gulf_china_arms_2026_art_0009
+    - media.gulf_china_arms_2026_art_0010
+    - media.gulf_china_arms_2026_art_0011
+    - media.gulf_china_arms_2026_art_0012
+    - media.gulf_china_arms_2026_art_0013
+    - media.gulf_china_arms_2026_art_0014
+    - media.gulf_pact_2026_art_0001
+    - media.gulf_pact_2026_art_0004
+    - media.gulf_pact_2026_art_0006
+    - media.gulf_pact_2026_art_0007
+    - media.gulf_pact_2026_art_0011
+    - media.gulf_pact_2026_art_0015
+    - media.gulf_pact_2026_art_0016
+- title: 사진
+  column: 1
+  items:
+  - main: 파키스탄 공군 JF-17 (2015)
+    license: U.S. Air Force · Public domain
+    rights:
+    - media.gulf_pk_jf17
+  - main: 천궁-II(M-SAM 블록2) 포대 (2021)
+    license: 방위사업청 · 공공누리 제1유형
+    rights:
+    - media.kr_msam_battery
 - title: 글꼴
   column: 1
   auto: fonts
