@@ -1,6 +1,6 @@
 <!--
 tier: 3
-last_synced_with: v7.0.1
+last_synced_with: v7.1.0
 ssot_for: [release-notes]
 depends_on: [README.md, GOAL.md]
 last_review: 2026-09-28
@@ -63,6 +63,12 @@ released 항목은 **append-only**입니다.
 | v5.0.0 | 87912d2 | G11 GOAL G4-21·claim_kind fact/statement | pass(D-0125) |
 | v5.1.0 | 3619f2c | G12 backdrop 무대·아일랜드·축 스케일·기사 프레스 v2·발음 사전·버전 도장 | pass(D-0127) — 후속 D-0128 완료 |
 | v5.2.0 | d4703d9 | G13 배경 가독·주 아일랜드 상시·보도 인용 = 기사·card-island·라벨 반전 | pass(D-0134) — 후속 겹침 카드 시안(D-0135~D-0138) |
+
+---
+
+## [v7.1.0] — 2026-10-12 — 카메라 검사는 화면에 그려진 뷰를 잰다 + hard camera_bounds (UF-99, D-0220)
+
+MINOR(새 hard 검사): 카메라 꺾임 재발(UF-99, recurs_of UF-02·UF-97)의 원인 = 렌더 `View` 의 무대 경계 클램프. 요청 궤적이 경계 밖이면 화면은 경계에 멈췄다가 이동 중간에 한 프레임 만에 출발·정지·방향 반전한다. 기존 검사는 클램프 전 요청 궤적(P.cams)만 재서 늘 통과했다. `engine.camera.screen_track`(렌더와 같은 View)로 `camera_continuity`·`camera_speed`·스케치 SK-C1 을 화면 궤적 기준으로 교체, 새 hard `camera_bounds`(요청 ≠ 화면 = 실패), 카메라 제안(`frame_points`)은 경계 안 키만. fed_timeline_demo 키를 경계 안으로. 영상 재렌더 없음(사용자 지시).
 
 ---
 
