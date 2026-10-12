@@ -281,7 +281,11 @@ shot_grammar:              # 05 §2
   # pan = 화면 중심 이동(화면 폭/초), zoom = |d ln w/dt|(/초). 전체 상한 = 사용자 검토 영상 실측 최대 바로 위(골든 hormuz pan 0.475·zoom 1.014,
   # gulf v5.22.4 pan 0.461·zoom 1.246 — 이 둘은 지적 없음). 오프닝(제목 카드 전) 상한 = 다른 영상은 모두 정지 밀기(zoom ≤ 0.003),
   # gulf v5.22.4 오프닝 zoom 0.399 가 "급격"(UF-97), 같은 폭을 7초 5차 이징으로 늘리면 약 0.26.
-  camera_speed: {max_pan_w_per_sec: 0.5, max_zoom_per_sec: 1.3, opening_max_pan_w_per_sec: 0.15, opening_max_zoom_per_sec: 0.3}
+  # v7.0.1 D-0218 A — stages = 무대마다 재는 성분. zoom 은 무대와 무관한 화면 확대 빠르기라 시간축에도 건다.
+  # 시간축 pan 은 빼 둔다: 중심 선형·w 로그 보간이라 축소+이동에서 화면 기준 pan 이 커진다(fed_timeline_demo 축소+870일 이동 = pan 1.13,
+  # 상한 0.5 를 맞추려면 약 10초). 보간을 바꾸는 길은 지도 골든에도 닿아 별도 단계.
+  camera_speed: {max_pan_w_per_sec: 0.5, max_zoom_per_sec: 1.3, opening_max_pan_w_per_sec: 0.15, opening_max_zoom_per_sec: 0.3,
+                 stages: {mercator: [pan, zoom], timeline: [zoom]}}
   max_consecutive_move_sentences: 3   # v5.22.4 UF-19(C0 되돌리면 안 되는 것 "문장마다 카메라 이동") — 연속 3문장이 모두 이동을 시작하면 camera_per_sentence hard
   move_lead_sec: [0.6, 1.2]
   dip_total_sec: 1.0

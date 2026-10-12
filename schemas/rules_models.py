@@ -250,6 +250,7 @@ class CameraSpeedRules(_Strict):
     max_zoom_per_sec: float = Field(gt=0)
     opening_max_pan_w_per_sec: float = Field(gt=0)
     opening_max_zoom_per_sec: float = Field(gt=0)
+    stages: dict[str, list[Literal["pan", "zoom"]]]   # v7.0.1 D-0218 — 무대마다 재는 성분(없는 무대 = 검사 안 함)
 
 
 class ShotGrammar(_Strict):

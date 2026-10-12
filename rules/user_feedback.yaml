@@ -1477,6 +1477,8 @@ entries:
   - {kind: rule, ref: shot_grammar.camera_speed}
   - {kind: test, ref: tests/test_camera_speed_title_backdrop.py::CameraSpeedTest::test_gulf_v5224_opening_fails_slowed_passes}
   - {kind: test, ref: tests/test_camera_speed_title_backdrop.py::CameraSpeedTest::test_registered_and_shared_with_sketch}
+  - {kind: test, ref: tests/test_camera_speed_title_backdrop.py::CameraSpeedTest::test_timeline_stage_zoom_only}
+  - {kind: rule, ref: shot_grammar.camera_speed.stages}
   status: guarded
   recurs_of: UF-02
   decision: D-0216

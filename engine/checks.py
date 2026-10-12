@@ -974,13 +974,14 @@ def check_camera_continuity(P) -> list[str]:  # noqa: ANN001, N803
 def check_camera_speed(P) -> list[str]:  # noqa: ANN001, N803
     """카메라 속도 상한(v6.0.2 UF-97·D-0216, recurs_of UF-02 — camera_continuity 는 매끄러움만 재고 빠르기는 재지 않았다).
     engine.camera.speed(스케치 SK-C1 과 같은 함수)로 pan·zoom 을 재고 rules shot_grammar.camera_speed 를 넘으면 hard.
-    제목 카드 전(오프닝)은 opening_* 상한. 종류·구간마다 최댓값 한 줄. 지도(mercator) 무대만 — 시간축 무대의 w·x 는 날짜 폭이라
-    화면 이동의 뜻이 다르다(값 근거가 지도 영상 실측)."""
+    제목 카드 전(오프닝)은 opening_* 상한. 종류·구간마다 최댓값 한 줄. 무대마다 재는 성분은 rules camera_speed.stages
+    (v7.0.1 D-0218 A — 지도 = pan·zoom, 시간축 = zoom 만, 없는 무대 = 검사 안 함)."""
     from engine.camera import speed  # noqa: PLC0415
 
-    if P.cams is None or getattr(P.R.stage, "name", None) != "mercator":
-        return []
     lim = R_.shot_grammar.camera_speed
+    kinds = lim.stages.get(getattr(P.R.stage, "name", None), [])
+    if P.cams is None or not kinds:
+        return []
     cuts = sorted({math.ceil(k.t * FPS - 1e-9) for k in P.keys if k.mode == "cut"})
     sp = speed(np.asarray(P.cams, dtype=float), cuts, FPS)
     title = next((c.t0 for c in P.plan.cards if c.kind == "title"), None)
@@ -988,6 +989,8 @@ def check_camera_speed(P) -> list[str]:  # noqa: ANN001, N803
     out = []
     for kind, gen, opn, unit in (("pan", lim.max_pan_w_per_sec, lim.opening_max_pan_w_per_sec, "화면 폭/초"),
                                  ("zoom", lim.max_zoom_per_sec, lim.opening_max_zoom_per_sec, "/초")):
+        if kind not in kinds:
+            continue
         v = sp[kind]
         for lo, hi, cap, where in ((0, n_open, opn, "오프닝(제목 카드 전)"), (n_open, len(v), gen, "")):
             seg = v[lo:hi]

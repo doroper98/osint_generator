@@ -59,6 +59,30 @@ class CameraSpeedTest(unittest.TestCase):
         self.assertEqual(C.check_camera_speed(_P(_track(88, 34, 20.0, 4.4, 30), 13.4)), [])   # 제목 뒤 같은 이동 = 일반 상한 안
         self.assertTrue(C.check_camera_speed(_P(_track(88, 8, 20.0, 1.0, 30), 13.4)))       # 1초 11배 줌 = 일반 상한 위반
 
+    def test_timeline_stage_zoom_only(self) -> None:
+        """v7.0.1 D-0218 A — 시간축 무대는 zoom 상한만(pan 은 지도 무대만), 규칙에 없는 무대는 검사 안 함."""
+        self.assertEqual(CS.stages["timeline"], ["zoom"])
+        P = _P(_track(1300, 40, 20.0, 4.0, 40), 12.1)   # noqa: N806 — fed_timeline_demo 옛 확대(4초 32배)
+        P.R.stage.name = "timeline"
+        out = C.check_camera_speed(P)
+        self.assertTrue(out and all("zoom" in o for o in out), out)
+        P.cams = _track(1300, 40, 20.0, 5.2, 40)
+        self.assertEqual(C.check_camera_speed(P), [])
+        P.cams[:, 0] = np.linspace(0, 40 * 30, len(P.cams))   # 화면 기준 빠른 pan — 시간축은 재지 않음
+        self.assertEqual(C.check_camera_speed(P), [])
+        P.R.stage.name = "other"
+        P.cams = _track(1300, 40, 20.0, 1.0, 40)
+        self.assertEqual(C.check_camera_speed(P), [])
+
+    def test_fed_timeline_demo_passes(self) -> None:
+        from engine.project import load_project  # noqa: PLC0415
+
+        pd = Path(__file__).resolve().parents[1] / "projects" / "fed_timeline_demo"
+        if not (pd / "plan.json").exists():
+            self.skipTest("fed_timeline_demo plan 없음")
+        P = load_project(pd)   # noqa: N806
+        self.assertEqual(C.check_camera_speed(P), [])
+
     def test_registered_and_shared_with_sketch(self) -> None:
         self.assertIn("camera_speed", C.HARD)
         self.assertIn("title_backdrop", C.HARD)
