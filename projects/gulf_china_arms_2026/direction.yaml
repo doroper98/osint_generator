@@ -641,18 +641,16 @@ events:
     line: 약 35억 달러 · 디펜스 뉴스
     accent: gold
   - at:
-      word:
-        sid: korea_2
-        text: 사우디와
+      sid: korea_2
+      'off': 0.3
     flag: sa
     date: '2024.02'
     title: 사우디 · 계약 공개
     line: 32억 달러 · 코리아 타임스
     accent: gold
   - at:
-      word:
-        sid: korea_3
-        text: 이라크와도
+      sid: korea_3
+      'off': 0.3
     flag: iq
     date: '2024.09'
     title: 이라크 · 지대공미사일

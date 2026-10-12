@@ -4,8 +4,8 @@
   "title": "중국산 무기가 걸프에 들어온 날",
   "category": "geopolitics",
   "created_at": "2026-10-12T14:03:44.154918Z",
-  "updated_at": "2026-10-12T15:02:56.479620Z",
-  "current_state": "preview_qa",
+  "updated_at": "2026-10-12T15:23:21.864093Z",
+  "current_state": "render",
   "target_duration_min": 5,
   "topic_summary": "사우디에 배치된 것으로 보도된 파키스탄군의 중국산 HQ-9 방공체계와 JF-17 전투기, 사우디가 비용을 대는 구조, 미국 무기 의존에서의 변화, 한국 방산(천궁-II)의 걸프 수출과의 경쟁 구도",
   "initial_links": [],
@@ -44,6 +44,27 @@
         "media_plan_errors": "0",
         "script_sha1": "20582dfb1ec7a544bc3f80eebb619af51140f650",
         "media_plan": "사진 0/5 · 기사 후보 18문장 · 342초(chars)"
+      },
+      "chosen_version": null
+    },
+    {
+      "gate": "preview_approval",
+      "decision": "approved",
+      "by": "fable",
+      "at": "2026-10-12T15:23:21.863982Z",
+      "comment": "사용자 위임 D227 — 감독 시트 18컷 확인. 관찰 반영: 169.8초 카드 = 사우디(korea_2 시작), 빈 상자 = 0.2~0.3초 페이드(정상)",
+      "rollback_to": null,
+      "shown": {
+        "sheet": "/home/user/osint_generator/projects/gulf_china_arms_2026/prev/sheet.jpg",
+        "cuts": "18",
+        "provenance": "/home/user/osint_generator/projects/gulf_china_arms_2026/prev/provenance.json",
+        "drops": "0",
+        "media_used": "quote 0 · article 8 · real 2",
+        "quote_candidates": "0",
+        "camera_suggest": "4",
+        "animatic": "out/animatic.mp4 · 256.872초 · direction 372c35379834eaace5c8b45deb0c86403a31bc31 · script 20582dfb1e",
+        "user_feedback": "사용자 의견 100건 모두 장치 있음(최근 UF-100)",
+        "asset_library": "공용 자산 미승격 0"
       },
       "chosen_version": null
     }
@@ -209,6 +230,18 @@
       "to_state": "preview_qa",
       "transitioned_at": "2026-10-12T15:02:56.479527Z",
       "reason": "engine direction_validate, validate, camera_suggest ok"
+    },
+    {
+      "from_state": "preview_qa",
+      "to_state": "preview_approval",
+      "transitioned_at": "2026-10-12T15:23:12.737981Z",
+      "reason": "감독 Fable 콘티 판·프리뷰 시트 검수 합격(D-0223, 사용자 위임 D227) — 손질본 hard 0, AI 검수 루프 대신 감독 검수"
+    },
+    {
+      "from_state": "preview_approval",
+      "to_state": "render",
+      "transitioned_at": "2026-10-12T15:23:21.864051Z",
+      "reason": "preview_approval 승인 — fable"
     }
   ],
   "reopens": []
