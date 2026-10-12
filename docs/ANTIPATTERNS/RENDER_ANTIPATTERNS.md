@@ -261,3 +261,12 @@ last_review: 2026-05-23
 - **자동 조치**: `engine.camera.speed`(본 엔진·스케치 공용 함수), 검사 `camera_speed` hard(일반 상한·오프닝 상한, `rules shot_grammar.camera_speed`), 스케치 SK-C1 같은 함수·같은 일반 상한. 테스트 `tests/test_camera_speed_title_backdrop.py::CameraSpeedTest`. UF-02 장치 칸에 `camera_speed` 보강. 함께 찾은 결함: `opening_establish` 가 이동 길이 대신 키 사이 간격을 재던 것 → 이동 키 `dur` 로 판정(v6.0.2).
 - **남은 것**: 시간축 무대(fed_timeline_demo)는 아직 지도 무대만 적용 — 감독 판단 대기(R 보고).
 - **발견 버전**: v6.0.2 · **상태**: active
+
+## RENDER-AP-026 — 검사가 렌더 직전 중간값을 재서 화면의 결함을 못 봄(재는 것 ≠ 보이는 것) — 카메라 꺾임 세 번째 재발(UF-99)
+
+- **증상(실제 현상)**: v6.0.2 gulf_pact_2026 전달본 — 사용자 "여전히 지도에서의 카메라 무빙에 있어서 한번 꺾이는 지점이 있어. 이거 이전에도 코멘트 했고 계속 코멘트 하는데 개선이 안되네?"(UF-99, recurs_of UF-02·UF-97). 감독 광류 실측(D-0220): 29.71·61.67·132.50·288.62·300.38초에 고정점이 화면 왼쪽 끝으로 튀고, 줌이 한 프레임 만에 멈추거나 시작, 가로 흐름 방향 반전. 이 판은 `camera_continuity`·`camera_speed`·`opening_establish`·SK-C1 을 모두 통과했다.
+- **원리**: 연출 키가 무대(티어 W, gulf 경도 폭 54도)보다 넓은 w(88·72·84)를 요청했다. 렌더 `engine/projection.py View` 가 경계로 잘라(클램프) 화면은 경계에 멈춰 있다가, 요청 궤적이 경계 안으로 들어오는 순간 이동 중간 속도로 출발한다 — 클램프는 연속이지만 미분이 끊기는 함수다. 카메라 검사는 모두 클램프 전 요청 궤적(`P.cams`)을 쟀다. 요청 궤적은 매끄러웠으므로 통과했다.
+- **경과(같은 의견 세 번)**: UF-02(꺾임) → D-0202 5차 이징(요청 궤적의 가속도 뒤집힘 제거) → UF-97(빠름) → D-0216 속도 상한(요청 궤적) → UF-99. 고친 것은 매번 요청 궤적이었고 결함은 렌더 단계에 있었다. 연출 입력(`workers/direction_io.geo_text`)이 고정 문구 "카메라 w 2.5~96" 으로 경계보다 넓은 w 를 허용한 것이 원인 제공.
+- **원칙**: 검사는 **화면에 그려진 것**을 잰다. 렌더 단계의 보정(클램프·스냅)이 걸리면 실패한다 — 렌더가 조용히 고치는 것은 P6 의 조용한 폴백이다. 재발 의견을 받으면 "장치가 잰 값"과 "사용자가 본 값"이 같은지부터 실측한다.
+- **자동 조치**: `engine.camera.screen_track`·`bounds_excess`·`max_view_w`(렌더와 같은 View), hard `camera_bounds`(`rules qa_checks.camera_bounds_rel_tol`, 지도·시간축·차트 아일랜드), `camera_continuity`·`camera_speed`·스케치 SK-C1 을 화면 궤적으로 교체, 제안 `frame_points`·연출 입력 `geo_text`(w 상한 = 무대 경계)·`rules direction_grammar` 는 경계 안 키만. 시험 `tests/test_camera_bounds.py`(gulf v6.0.2 키 고정 자료 — 실측 시각 실패, 요청 궤적 통과·화면 궤적 실패, 볼록성, 제안, 스케치). 골든 hormuz dark·light 무변화(클램프 0).
+- **발견 버전**: v7.0.1 · **상태**: active

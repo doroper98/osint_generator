@@ -107,6 +107,14 @@ handoff 20 §5.3 표의 아홉 규칙을 네 검사(`chart_honesty`·`series_lim
 |---|---|---|---|
 | 프리뷰 컷에 그린 글자 중 검증 라벨 문구(`[label-in-body]`) | hard(forbidden) | `rules:script_schema.labels` | 사용자 결정 D85, back_and_forth D-0096 |
 
+### 2.5a 카메라 화면 궤적·무대 경계 — v7.1.0 (UF-99, D-0220)
+
+| 검사 | 등급 | 키 | 근거 |
+|---|---|---|---|
+| 요청 카메라가 무대 경계 밖이라 렌더 View 가 자름(지도·시간축·차트 아일랜드) | hard `camera_bounds` | `rules:qa_checks.camera_bounds_rel_tol` | UF-99 — 잘린 동안 화면이 멈췄다가 이동 중간에 한 프레임 만에 꺾임 |
+| 카메라 연속성·속도는 **화면 궤적**(`engine.camera.screen_track`)으로 | hard `camera_continuity`·`camera_speed` | `rules:sketch.checks`·`rules:shot_grammar.camera_speed` | RENDER-AP-026(재는 것 ≠ 보이는 것) |
+| 스케치 같은 식 | SK-C1 | 같은 키 | C12-3 |
+
 ### 2.6 사용자 의견 원장 게이트 — v5.22.0 (D-0200)
 
 | 검사 | 등급 | 키 | 근거 |

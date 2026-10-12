@@ -31,6 +31,7 @@ entries:
   - {kind: rule, ref: sketch.checks.max_d3_per_frame}
   - {kind: test, ref: tests/test_camera_continuity.py::TestContinuity::test_sketch_sk_c1_same_measure}
   - {kind: check, ref: camera_speed}
+  - {kind: check, ref: camera_bounds}
   status: guarded
   decision: D-0191 §1-1 · D-0202 · RENDER-AP-018 · 재발 — 원 항목 UF-84(스케치 멈칫)·UF-59(이동 방향 틀어짐)
 - id: UF-03
@@ -1479,6 +1480,7 @@ entries:
   - {kind: test, ref: tests/test_camera_speed_title_backdrop.py::CameraSpeedTest::test_registered_and_shared_with_sketch}
   - {kind: test, ref: tests/test_camera_speed_title_backdrop.py::CameraSpeedTest::test_timeline_stage_zoom_only}
   - {kind: rule, ref: shot_grammar.camera_speed.stages}
+  - {kind: check, ref: camera_bounds}
   status: guarded
   recurs_of: UF-02
   decision: D-0216
@@ -1504,7 +1506,19 @@ entries:
   quote: 여전히 지도에서의 카메라 무빙에 있어서 한번 꺾이는 지점이 있어. 이거 이전에도 코멘트 했고 계속 코멘트 하는데 개선이 안되네? 영상을 새로 제작할 필요는 없는데, 규칙 점검해서 다시는 발생하지 않도록 적어놔
   quote_kind: verbatim
   category: 카메라 연속성(재발)
-  status: open
+  guards:
+  - {kind: check, ref: camera_bounds}
+  - {kind: check, ref: camera_continuity}
+  - {kind: check, ref: SK-C1}
+  - {kind: rule, ref: qa_checks.camera_bounds_rel_tol}
+  - {kind: code, ref: engine.camera.screen_track}
+  - {kind: test, ref: tests/test_camera_bounds.py::GulfClampTest::test_camera_bounds_fails_at_measured_times}
+  - {kind: test, ref: tests/test_camera_bounds.py::GulfClampTest::test_requested_track_passed_screen_track_fails}
+  - {kind: test, ref: tests/test_camera_bounds.py::ConvexityTest::test_in_bounds_keys_never_clamp}
+  - {kind: test, ref: tests/test_camera_bounds.py::SuggestTest::test_frame_points_in_bounds}
+  - {kind: test, ref: tests/test_camera_bounds.py::DirectorInputTest::test_geo_text_max_w_from_bounds}
+  - {kind: test, ref: tests/test_camera_bounds.py::SketchTest::test_sk_c1_bounds_same_rule}
+  status: guarded
   recurs_of: UF-02
-  decision: D-0220
+  decision: D-0220 · RENDER-AP-026
   source: 구현 세션·감독 세션 사용자 대화 2026-10-12(같은 원문)

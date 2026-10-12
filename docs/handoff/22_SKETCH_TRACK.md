@@ -26,6 +26,7 @@ last_review: 2026-10-10
 | D133 | SK-R1 허용 라이선스 = `rights.allowed_licenses`. 목록 밖·항목 없음 = hard |
 | D134 | 커밋 트레일러 허용, 모델 식별자 금지는 코드·문서·산출물에 적용 |
 | D135 | 3D 구간 SK-C1 = 기준점 화면 궤적 2차 차분 + 초점 거리 Δ ln f |
+| D222 | SK-C1 은 **화면 궤적**(`engine.camera.screen_track`, 렌더와 같은 View)을 잰다 + 경계(geo.yaml 티어 W, `sketch.common.camera.bounds_stage`) 밖 프레임 = 실패 — 본 엔진 `camera_bounds` 와 같은 식·같은 키(v7.1.0 UF-99, D-0220) |
 | D136 | 비행 사실 수치 = 발표값만(SK-H1). 기하 계산값(수평선 패널)은 허용 + provenance `numbers_computed` |
 | D137 | 2D→3D 이음새 = 검토본 기하 유지, 회귀 임계 `checks.seam_px` |
 | D138 | 전황 강 색 = `campaign.river.rgb`(검토본 RGB 그대로) |

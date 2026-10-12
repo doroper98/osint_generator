@@ -156,6 +156,7 @@ Opus는 "프로 다큐로 보이는가" 판정 시 아래를 기준으로 삼는
 | 3.34 | `05`·`06` 연출 문법 — 이동·공격 문장의 경로·문장 지명 구도 규칙 없음 ↔ 사용자 의견(2026-10-11 아덴·리야드 공항 궤적·예멘 화면 밖). | **v5.21.14 D-0195·D-0197·D-0199**: `qa_checks.route_missing`(동사 목록·끝점 거리)·`frame_missing`, 검사 route_missing(warning)/route_missing_other(hard)·frame_missing(warning)/frame_missing_target(hard), MarkerEvent.label description, 연출 문법. 실측: hormuz hard 0(warning 6), gulf hard 2(아덴·리야드 공항), ratcliffe hard 1(목록만). |
 | 3.35 | `08` §9 출처 체계 — 엔딩·설명란 출처 = 원고 문장 claim 의 소스 ↔ D-0196(원고 불변, 화면에 전황 사실 추가). | **v5.21.15**: 이벤트 공통 `claims`(선택) — 화면 전용 사실의 근거 claim, 그 소스가 cited_sources 에 들어간다. 없는 id = 렌더 전 오류. 없으면 이벤트 dict 무변경(골든 동일). |
 | 3.36 | `03` §6.1·§6.3 edge-tts 서술(옛 기본 백엔드·간격 대조 게이트) ↔ 표준 음성 확정(C0.2·D185·D189). | **v5.23.0 V4(D-0212)**: edge 백엔드·설정·CLI·정렬 출처·간격 대조 삭제(P2), `03` §6.1 은 "삭제됨" 한 줄, §6.3 참값 정의만 유지. `02`·`11`·`13`·`16`·`00`·golden README 현행 안내 정리. reference_code 는 보관(실행 경로 아님). 재유입 방지 `tests/anti_inertia/test_no_edge_tts.py`. |
+| 3.37 | `05` §3.2 제목 바탕(오프닝 기사 카드 위 제목) · `15` P12 검사 대상 · `22` SK-C1 ↔ 사용자 의견 UF-98(제목 직전 지도 깜박임)·UF-99(카메라 꺾임 세 번째 재발). | **v6.0.3**: 제목 바탕 규칙(`rules direction_grammar` [title-backdrop]). **v7.1.0(D-0220)**: 카메라 검사 = 화면 궤적(렌더와 같은 View), hard `camera_bounds`, 연출 입력 w 상한 = 무대 경계(옛 고정 '2.5~96' 삭제), 스케치 SK-C1 같은 식. RENDER-AP-025·026. |
 
 ---
 

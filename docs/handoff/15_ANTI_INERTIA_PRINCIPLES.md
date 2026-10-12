@@ -111,6 +111,7 @@ origin: claude.ai chat handoff bundle (2026-09-26 ~ 09-27), imported verbatim
 ### P12. 변경은 한 번에 하나, 결과는 영상으로 확인
 - 단계마다 프리뷰 컨택트 시트 + provenance를 사용자에게 보여 준다. 코드 리뷰만으로 "적용됨"을 판정하지 않는다.
 - 결과 확인의 테스트 몫은 C8.3(D187): 변경마다 타깃 + `tests/anti_inertia` + 영향 테마 골든 25컷, 전체 pytest 는 하루 1회·main 병합 직전.
+- **검사는 화면에 그려진 것을 잰다(v7.1.0, UF-99·D-0220, RENDER-AP-026).** 렌더 직전 중간값(요청 카메라 `P.cams` 등)을 재면, 렌더 단계의 보정(무대 경계 클램프)이 만든 결함이 보이지 않는다. 카메라 검사는 `engine.camera.screen_track`(렌더와 같은 `View`)을 재고, 렌더 보정이 걸리면 실패한다(`rules qa_checks.camera_bounds_rel_tol`, hard `camera_bounds`). 렌더가 조용히 고치는 것도 P6 의 조용한 폴백이다.
 
 ---
 

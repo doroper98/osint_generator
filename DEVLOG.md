@@ -3438,3 +3438,5 @@ last_review: 2026-06-06
 - 2026-10-12 v6.0.1 병합 전 전체 pytest 3 실패(PIPELINE-AP-022) → forced_align --realign(옛 음성 보관본 정렬만 MMS, realigned_from)·정렬 출처 등록부 빠른 시험, ratcliffe2026·fed_policy_2026 재정렬(앵커 +0.11~0.29초).
 - 2026-10-12 v6.0.2 UF-97·98(D-0216 1단계): hard camera_speed(오프닝·일반 상한, 스케치 공용)·title_backdrop, 기사 카드 위 제목(글자 흐리게 유지), opening_establish 이동 길이(dur) 판정 수정, gulf 오프닝 손질·전달(D219). RENDER-AP-025(UF-02 재발 — 속도 미측정).
 - 2026-10-12 v6.0.3 제목 바탕 규칙(오프닝 기사 카드 위에 제목) — docs/handoff/05 §3.2·rules direction_grammar(연출·수정 프롬프트), UF-02 장치에 camera_speed 보강.
+- 2026-10-12 v7.0.1 camera_speed 무대별 성분(시간축 zoom 만, D-0218 A), fed_timeline_demo 확대·축소 5.2초. main ff(D-0219).
+- 2026-10-12 v7.1.0 UF-99 카메라 꺾임 세 번째 재발(RENDER-AP-026) — 원인 = 렌더 View 경계 클램프(요청 w 88·72·84 > gulf 경계 54), 검사는 클램프 전 궤적을 쟀음. 화면 궤적 측정(screen_track)·hard camera_bounds·제안/연출 입력 경계 안·스케치 SK-C1 같은 식. 영상 재렌더 없음(사용자 지시).
