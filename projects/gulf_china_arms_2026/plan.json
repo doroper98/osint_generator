@@ -1,0 +1,1559 @@
+{
+ "sentences": [
+  {
+   "sid": "open_0",
+   "scene": "open",
+   "date": "2026.05.18",
+   "text": "올해 5월 18일, 로이터는 사우디아라비아에 중국산 방공체계가 들어갔다고 보도했습니다.",
+   "tts": "올해 오월 십팔일, 로이터는 사우디아라비아에 중국산 방공체계가 들어갔다고 보도했습니다.",
+   "segments": [
+    [
+     "올해 5월 18일, 로이터는 사우디아라비아에 ",
+     0
+    ],
+    [
+     "중국산 방공체계",
+     1
+    ],
+    [
+     "가 들어갔다고 보도했습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/gulf_china_arms_2026/tts/open_0_8c63a02c21.mp3",
+   "npy": "/home/user/osint_generator/projects/gulf_china_arms_2026/tts/open_0_8c63a02c21.npy",
+   "dur": 5.855079365079365,
+   "t0": 1.2,
+   "t1": 7.055079365079365,
+   "trim_offset": 0.326259,
+   "chunks": [
+    "올해 오월 십팔일, 로이터는 사우디아라비아에 중국산 방공체계가 들어갔다고 보도했습니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.7755,
+    "elapsed_ms": 23421,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      5.665,
+      6.405
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 85.78,
+     "f0_end_hz": 66.54,
+     "octave_fixed_n": 9
+    }
+   }
+  },
+  {
+   "sid": "open_1",
+   "scene": "open",
+   "date": "2026.05.18",
+   "text": "로이터가 인용한 소식통들에 따르면 이 체계를 운용하는 것은 사우디군이 아니라 파키스탄군입니다.",
+   "tts": "로이터가 인용한 소식통들에 따르면 이 체계를 운용하는 것은 사우디군이 아니라 파키스탄군입니다.",
+   "segments": [
+    [
+     "로이터가 인용한 소식통들에 따르면 이 체계를 운용하는 것은 사우디군이 아니라 ",
+     0
+    ],
+    [
+     "파키스탄군",
+     1
+    ],
+    [
+     "입니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/gulf_china_arms_2026/tts/open_1_f688e088be.mp3",
+   "npy": "/home/user/osint_generator/projects/gulf_china_arms_2026/tts/open_1_f688e088be.npy",
+   "dur": 6.297777777777778,
+   "t0": 7.555079365079365,
+   "t1": 13.852857142857143,
+   "trim_offset": 0.462925,
+   "chunks": [
+    "로이터가 인용한 소식통들에 따르면 이 체계를 운용하는 것은 사우디군이 아니라 파키스탄군입니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.9691,
+    "elapsed_ms": 1030,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      6.22,
+      6.905
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 82.76,
+     "f0_end_hz": 86.16,
+     "octave_fixed_n": 34
+    }
+   }
+  },
+  {
+   "sid": "open_2",
+   "scene": "open",
+   "date": "2026.05.18",
+   "text": "그리고 비용은 사우디가 댄다고 소식통들은 말했습니다.",
+   "tts": "그리고 비용은 사우디가 댄다고 소식통들은 말했습니다.",
+   "segments": [
+    [
+     "그리고 ",
+     0
+    ],
+    [
+     "비용은 사우디",
+     1
+    ],
+    [
+     "가 댄다고 소식통들은 말했습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/gulf_china_arms_2026/tts/open_2_7708071441.mp3",
+   "npy": "/home/user/osint_generator/projects/gulf_china_arms_2026/tts/open_2_7708071441.npy",
+   "dur": 3.0159410430839,
+   "t0": 14.352857142857143,
+   "t1": 17.368798185941042,
+   "trim_offset": 0.43644,
+   "chunks": [
+    "그리고 비용은 사우디가 댄다고 소식통들은 말했습니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.9585,
+    "elapsed_ms": 793,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      3.005,
+      3.605
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 110.69,
+     "f0_end_hz": 70.28,
+     "octave_fixed_n": 26
+    }
+   }
+  },
+  {
+   "sid": "open_3",
+   "scene": "open",
+   "date": "2026.05.18",
+   "text": "로이터는 파키스탄 군과 외무부, 사우디 정부 미디어실이 논평 요청에 답하지 않았다고 전했습니다.",
+   "tts": "로이터는 파키스탄 군과 외무부, 사우디 정부 미디어실이 논평 요청에 답하지 않았다고 전했습니다.",
+   "segments": [
+    [
+     "로이터는 파키스탄 군과 외무부, 사우디 정부 미디어실이 논평 요청에 답하지 않았다고 전했습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/gulf_china_arms_2026/tts/open_3_e311da1c24.mp3",
+   "npy": "/home/user/osint_generator/projects/gulf_china_arms_2026/tts/open_3_e311da1c24.npy",
+   "dur": 6.11750566893424,
+   "t0": 17.868798185941042,
+   "t1": 23.98630385487528,
+   "trim_offset": 0.43678,
+   "chunks": [
+    "로이터는 파키스탄 군과 외무부, 사우디 정부 미디어실이 논평 요청에 답하지 않았다고 전했습니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.9371,
+    "elapsed_ms": 1044,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      6.115,
+      6.855
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 85.84,
+     "f0_end_hz": 69.7,
+     "octave_fixed_n": 21
+    }
+   }
+  },
+  {
+   "sid": "what_0",
+   "scene": "what",
+   "date": "2026.05.18",
+   "text": "먼저 로이터 보도에 따르면 배치 규모는 병력 약 8,000명과 전투기 약 16대입니다.",
+   "tts": "먼저 로이터 보도에 따르면 배치 규모는 병력 약 팔천 명과 전투기 약 열여섯 대입니다.",
+   "segments": [
+    [
+     "먼저 로이터 보도에 따르면 배치 규모는 병력 ",
+     0
+    ],
+    [
+     "약 8,000명",
+     1
+    ],
+    [
+     "과 전투기 약 16대입니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/gulf_china_arms_2026/tts/what_0_c5c0a24501.mp3",
+   "npy": "/home/user/osint_generator/projects/gulf_china_arms_2026/tts/what_0_c5c0a24501.npy",
+   "dur": 5.400702947845805,
+   "t0": 30.68630385487528,
+   "t1": 36.087006802721085,
+   "trim_offset": 0.55898,
+   "chunks": [
+    "먼저 로이터 보도에 따르면 배치 규모는 병력 약 팔천 명과 전투기 약 열여섯 대입니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.9588,
+    "elapsed_ms": 1211,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      5.505,
+      6.145
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 81.2,
+     "f0_end_hz": 68.97,
+     "octave_fixed_n": 5
+    }
+   }
+  },
+  {
+   "sid": "what_1",
+   "scene": "what",
+   "date": "2026.04",
+   "text": "이 보도는 전투기 대부분이 JF-17이고, 4월 초부터 사우디로 건너갔다고 전했습니다.",
+   "tts": "이 보도는 전투기 대부분이 제이에프 세븐틴이고, 사월 초부터 사우디로 건너갔다고 전했습니다.",
+   "segments": [
+    [
+     "이 보도는 전투기 대부분이 ",
+     0
+    ],
+    [
+     "JF-17",
+     1
+    ],
+    [
+     "이고, 4월 초부터 사우디로 건너갔다고 전했습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/gulf_china_arms_2026/tts/what_1_26a90bce2f.mp3",
+   "npy": "/home/user/osint_generator/projects/gulf_china_arms_2026/tts/what_1_26a90bce2f.npy",
+   "dur": 5.714013605442177,
+   "t0": 36.587006802721085,
+   "t1": 42.30102040816326,
+   "trim_offset": 0.489252,
+   "chunks": [
+    "이 보도는 전투기 대부분이 제이에프 세븐틴이고, 사월 초부터 사우디로 건너갔다고 전했습니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.9663,
+    "elapsed_ms": 1179,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      5.775,
+      6.44
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 88.26,
+     "f0_end_hz": 86.53,
+     "octave_fixed_n": 29
+    }
+   }
+  },
+  {
+   "sid": "what_2",
+   "scene": "what",
+   "date": "2026.05.19",
+   "text": "군사 전문 매체 아미 레코그니션은 JF-17이 파키스탄항공단지와 중국 청두항공기공업그룹이 함께 개발한 전투기라고 전했습니다.",
+   "tts": "군사 전문 매체 아미 레코그니션은 제이에프 세븐틴이 파키스탄 항공단지와 중국 청두 항공기 공업그룹이 함께 개발한 전투기라고 전했습니다.",
+   "segments": [
+    [
+     "군사 전문 매체 아미 레코그니션은 JF-17이 파키스탄항공단지와 ",
+     0
+    ],
+    [
+     "중국",
+     1
+    ],
+    [
+     " 청두항공기공업그룹이 함께 개발한 전투기라고 전했습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/gulf_china_arms_2026/tts/what_2_d27c3cd974.mp3",
+   "npy": "/home/user/osint_generator/projects/gulf_china_arms_2026/tts/what_2_d27c3cd974.npy",
+   "dur": 9.658843537414967,
+   "t0": 42.80102040816326,
+   "t1": 52.45986394557823,
+   "trim_offset": 0.355079,
+   "chunks": [
+    "군사 전문 매체 아미 레코그니션은 제이에프 세븐틴이 파키스탄 항공단지와 중국 청두 항공기 공업그룹이 함께 개발한 전투기라고 전했습니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.9601,
+    "elapsed_ms": 2049,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      9.57,
+      10.225
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 90.09,
+     "f0_end_hz": 125.6,
+     "octave_fixed_n": 28
+    }
+   }
+  },
+  {
+   "sid": "what_3",
+   "scene": "what",
+   "date": "2026.05.18",
+   "text": "여기에 중국산 HQ-9 방공체계가 더해졌다고 로이터는 보도했습니다.",
+   "tts": "여기에 중국산 에이치큐 나인 방공체계가 더해졌다고 로이터는 보도했습니다.",
+   "segments": [
+    [
+     "여기에 중국산 ",
+     0
+    ],
+    [
+     "HQ-9",
+     1
+    ],
+    [
+     " 방공체계가 더해졌다고 로이터는 보도했습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/gulf_china_arms_2026/tts/what_3_1603be07c3.mp3",
+   "npy": "/home/user/osint_generator/projects/gulf_china_arms_2026/tts/what_3_1603be07c3.npy",
+   "dur": 4.466734693877551,
+   "t0": 52.95986394557823,
+   "t1": 57.426598639455776,
+   "trim_offset": 0.599002,
+   "chunks": [
+    "여기에 중국산 에이치큐 나인 방공체계가 더해졌다고 로이터는 보도했습니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.8877,
+    "elapsed_ms": 950,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      4.545,
+      5.265
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 84.07,
+     "f0_end_hz": 72.97,
+     "octave_fixed_n": 28
+    }
+   }
+  },
+  {
+   "sid": "what_4",
+   "scene": "what",
+   "date": "2026.05.18",
+   "text": "또한 안보 관리 두 명은 무인기 2개 대대도 함께 보냈다고 말했습니다.",
+   "tts": "또한 안보 관리 두 명은 무인기 두 개 대대도 함께 보냈다고 말했습니다.",
+   "segments": [
+    [
+     "또한 안보 관리 두 명은 무인기 2개 대대도 함께 보냈다고 말했습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/gulf_china_arms_2026/tts/what_4_88f62743ee.mp3",
+   "npy": "/home/user/osint_generator/projects/gulf_china_arms_2026/tts/what_4_88f62743ee.npy",
+   "dur": 4.014353741496599,
+   "t0": 57.926598639455776,
+   "t1": 61.940952380952375,
+   "trim_offset": 0.482812,
+   "chunks": [
+    "또한 안보 관리 두 명은 무인기 두 개 대대도 함께 보냈다고 말했습니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.9272,
+    "elapsed_ms": 881,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      4.035,
+      4.645
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 93.99,
+     "f0_end_hz": 80.45,
+     "octave_fixed_n": 37
+    }
+   }
+  },
+  {
+   "sid": "official_0",
+   "scene": "official",
+   "date": "2026.04.11",
+   "text": "공식 발표로 확인된 것도 있습니다.",
+   "tts": "공식 발표로 확인된 것도 있습니다.",
+   "segments": [
+    [
+     "공식 발표",
+     1
+    ],
+    [
+     "로 확인된 것도 있습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/gulf_china_arms_2026/tts/official_0_5ede2acd23.mp3",
+   "npy": "/home/user/osint_generator/projects/gulf_china_arms_2026/tts/official_0_5ede2acd23.npy",
+   "dur": 1.8382993197278912,
+   "t0": 63.440952380952375,
+   "t1": 65.27925170068026,
+   "trim_offset": 0.475828,
+   "chunks": [
+    "공식 발표로 확인된 것도 있습니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.9719,
+    "elapsed_ms": 655,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      1.805,
+      2.455
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 115.13,
+     "f0_end_hz": 65.87,
+     "octave_fixed_n": 42
+    }
+   }
+  },
+  {
+   "sid": "official_1",
+   "scene": "official",
+   "date": "2026.04.11",
+   "text": "알자지라에 따르면 사우디 국방부는 4월 11일 파키스탄 전투기가 동부주 킹압둘아지즈 공군기지에 도착했다고 발표했습니다.",
+   "tts": "알자지라에 따르면 사우디 국방부는 사월 십일일 파키스탄 전투기가 동부주 킹압둘아지즈 공군기지에 도착했다고 발표했습니다.",
+   "segments": [
+    [
+     "알자지라에 따르면 사우디 국방부는 4월 11일 파키스탄 전투기가 동부주 ",
+     0
+    ],
+    [
+     "킹압둘아지즈 공군기지",
+     1
+    ],
+    [
+     "에 도착했다고 발표했습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/gulf_china_arms_2026/tts/official_1_aee392e21f.mp3",
+   "npy": "/home/user/osint_generator/projects/gulf_china_arms_2026/tts/official_1_aee392e21f.npy",
+   "dur": 8.040839002267573,
+   "t0": 65.77925170068026,
+   "t1": 73.82009070294784,
+   "trim_offset": 0.505828,
+   "chunks": [
+    "알자지라에 따르면 사우디 국방부는 사월 십일일 파키스탄 전투기가 동부주 킹압둘아지즈 공군기지에 도착했다고 발표했습니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.9617,
+    "elapsed_ms": 1695,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      8.065,
+      8.53
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 90.06,
+     "f0_end_hz": 85.08,
+     "octave_fixed_n": 13
+    }
+   }
+  },
+  {
+   "sid": "official_2",
+   "scene": "official",
+   "date": "2026.10.07",
+   "text": "이어서 10월 7일에는 파키스탄군 공보처장이 파키스탄군이 사우디에 여러 역할로 주둔하고 있다고 밝혔습니다.",
+   "tts": "이어서 시월 칠일에는 파키스탄군 공보처장이 파키스탄군이 사우디에 여러 역할로 주둔하고 있다고 밝혔습니다.",
+   "segments": [
+    [
+     "이어서 10월 7일에는 파키스탄군 공보처장이 파키스탄군이 사우디에 여러 역할로 주둔하고 있다고 밝혔습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/gulf_china_arms_2026/tts/official_2_3991ff1fa4.mp3",
+   "npy": "/home/user/osint_generator/projects/gulf_china_arms_2026/tts/official_2_3991ff1fa4.npy",
+   "dur": 6.86968253968254,
+   "t0": 74.32009070294784,
+   "t1": 81.18977324263038,
+   "trim_offset": 0.587868,
+   "chunks": [
+    "이어서 시월 칠일에는 파키스탄군 공보처장이 파키스탄군이 사우디에 여러 역할로 주둔하고 있다고 밝혔습니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.9473,
+    "elapsed_ms": 1153,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      6.98,
+      7.645
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 108.14,
+     "f0_end_hz": 70.73,
+     "octave_fixed_n": 7
+    }
+   }
+  },
+  {
+   "sid": "official_3",
+   "scene": "official",
+   "date": "2026.10.07",
+   "text": "그렇지만 HQ-9과 JF-17이 배치됐다는 내용은 두 나라 정부가 확인하지 않은 보도로 남아 있습니다.",
+   "tts": "그렇지만 에이치큐 나인과 제이에프 세븐틴이 배치됐다는 내용은 두 나라 정부가 확인하지 않은 보도로 남아 있습니다.",
+   "segments": [
+    [
+     "그렇지만 HQ-9과 JF-17이 배치됐다는 내용은 두 나라 정부가 확인하지 않은 보도로 남아 있습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/gulf_china_arms_2026/tts/official_3_47d3395bde.mp3",
+   "npy": "/home/user/osint_generator/projects/gulf_china_arms_2026/tts/official_3_47d3395bde.npy",
+   "dur": 7.028344671201814,
+   "t0": 81.68977324263038,
+   "t1": 88.71811791383219,
+   "trim_offset": 0.529501,
+   "chunks": [
+    "그렇지만 에이치큐 나인과 제이에프 세븐틴이 배치됐다는 내용은 두 나라 정부가 확인하지 않은 보도로 남아 있습니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.8981,
+    "elapsed_ms": 1209,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      7.09,
+      7.78
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 112.65,
+     "f0_end_hz": 69.96,
+     "octave_fixed_n": 25
+    }
+   }
+  },
+  {
+   "sid": "pact_0",
+   "scene": "pact",
+   "date": "2025.09.17",
+   "text": "로이터는 이 배치가 2025년 9월 두 나라가 서명한 상호방위협정에 따른 것이라고 보도했습니다.",
+   "tts": "로이터는 이 배치가 이천이십오년 구월 두 나라가 서명한 상호방위협정에 따른 것이라고 보도했습니다.",
+   "segments": [
+    [
+     "로이터는 이 배치가 2025년 9월 두 나라가 서명한 ",
+     0
+    ],
+    [
+     "상호방위협정",
+     1
+    ],
+    [
+     "에 따른 것이라고 보도했습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/gulf_china_arms_2026/tts/pact_0_466f617091.mp3",
+   "npy": "/home/user/osint_generator/projects/gulf_china_arms_2026/tts/pact_0_466f617091.npy",
+   "dur": 6.200544217687074,
+   "t0": 90.21811791383219,
+   "t1": 96.41866213151926,
+   "trim_offset": 0.529683,
+   "chunks": [
+    "로이터는 이 배치가 이천이십오년 구월 두 나라가 서명한 상호방위협정에 따른 것이라고 보도했습니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.9054,
+    "elapsed_ms": 1017,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      6.225,
+      6.675
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 85.32,
+     "f0_end_hz": 89.15,
+     "octave_fixed_n": 2
+    }
+   }
+  },
+  {
+   "sid": "pact_1",
+   "scene": "pact",
+   "date": "2025.09.17",
+   "text": "당시 두 나라는 한쪽에 대한 공격을 양국 모두에 대한 공격으로 간주한다고 밝혔습니다.",
+   "tts": "당시 두 나라는 한쪽에 대한 공격을 양국 모두에 대한 공격으로 간주한다고 밝혔습니다.",
+   "segments": [
+    [
+     "당시 두 나라는 한쪽에 대한 공격을 양국 모두에 대한 공격으로 간주한다고 밝혔습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/gulf_china_arms_2026/tts/pact_1_1f9c09087f.mp3",
+   "npy": "/home/user/osint_generator/projects/gulf_china_arms_2026/tts/pact_1_1f9c09087f.npy",
+   "dur": 5.692380952380953,
+   "t0": 96.91866213151926,
+   "t1": 102.61104308390021,
+   "trim_offset": 0.418413,
+   "chunks": [
+    "당시 두 나라는 한쪽에 대한 공격을 양국 모두에 대한 공격으로 간주한다고 밝혔습니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.9707,
+    "elapsed_ms": 1062,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      5.62,
+      6.04
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 85.68,
+     "f0_end_hz": 64.54,
+     "octave_fixed_n": 0
+    }
+   }
+  },
+  {
+   "sid": "pact_2",
+   "scene": "pact",
+   "date": "2026.05.18",
+   "text": "다만 협정 전문은 공개되지 않았고, 로이터 소식통은 최대 8만 명 배치 가능성까지 열려 있다고 말했습니다.",
+   "tts": "다만 협정 전문은 공개되지 않았고, 로이터 소식통은 최대 팔만 명 배치 가능성까지 열려 있다고 말했습니다.",
+   "segments": [
+    [
+     "다만 협정 전문은 공개되지 않았고, 로이터 소식통은 최대 8만 명 배치 가능성까지 열려 있다고 말했습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/gulf_china_arms_2026/tts/pact_2_afca250223.mp3",
+   "npy": "/home/user/osint_generator/projects/gulf_china_arms_2026/tts/pact_2_afca250223.npy",
+   "dur": 6.910816326530612,
+   "t0": 103.11104308390021,
+   "t1": 110.02185941043082,
+   "trim_offset": 0.473764,
+   "chunks": [
+    "다만 협정 전문은 공개되지 않았고, 로이터 소식통은 최대 팔만 명 배치 가능성까지 열려 있다고 말했습니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.9518,
+    "elapsed_ms": 1246,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      6.89,
+      7.385
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 84.37,
+     "f0_end_hz": 65.56,
+     "octave_fixed_n": 0
+    }
+   }
+  },
+  {
+   "sid": "pact_3",
+   "scene": "pact",
+   "date": "2026.05.18",
+   "text": "정리하면 사람과 장비는 파키스탄이, 돈은 사우디가 대는 구조라고 소식통들은 설명했습니다.",
+   "tts": "정리하면 사람과 장비는 파키스탄이, 돈은 사우디가 대는 구조라고 소식통들은 설명했습니다.",
+   "segments": [
+    [
+     "정리하면 사람과 장비는 파키스탄이, ",
+     0
+    ],
+    [
+     "돈은 사우디",
+     1
+    ],
+    [
+     "가 대는 구조라고 소식통들은 설명했습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/gulf_china_arms_2026/tts/pact_3_3084d92ac0.mp3",
+   "npy": "/home/user/osint_generator/projects/gulf_china_arms_2026/tts/pact_3_3084d92ac0.npy",
+   "dur": 5.745873015873016,
+   "t0": 110.52185941043082,
+   "t1": 116.26773242630384,
+   "trim_offset": 0.538912,
+   "chunks": [
+    "정리하면 사람과 장비는 파키스탄이, 돈은 사우디가 대는 구조라고 소식통들은 설명했습니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.9474,
+    "elapsed_ms": 1090,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      5.89,
+      6.485
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 84.3,
+     "f0_end_hz": 66.82,
+     "octave_fixed_n": 9
+    }
+   }
+  },
+  {
+   "sid": "us_arms_0",
+   "scene": "us_arms",
+   "date": "2026.05.18",
+   "text": "한편 미들이스트아이는 사우디가 미국산 패트리어트와 사드 방공체계를 갖고 있다고 전했습니다.",
+   "tts": "한편 미들 이스트 아이는 사우디가 미국산 패트리어트와 사드 방공체계를 갖고 있다고 전했습니다.",
+   "segments": [
+    [
+     "한편 미들이스트아이는 사우디가 미국산 ",
+     0
+    ],
+    [
+     "패트리어트",
+     1
+    ],
+    [
+     "와 ",
+     0
+    ],
+    [
+     "사드",
+     1
+    ],
+    [
+     " 방공체계를 갖고 있다고 전했습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/gulf_china_arms_2026/tts/us_arms_0_2acf0c138d.mp3",
+   "npy": "/home/user/osint_generator/projects/gulf_china_arms_2026/tts/us_arms_0_2acf0c138d.npy",
+   "dur": 5.864036281179138,
+   "t0": 117.76773242630384,
+   "t1": 123.63176870748298,
+   "trim_offset": 0.477891,
+   "chunks": [
+    "한편 미들 이스트 아이는 사우디가 미국산 패트리어트와 사드 방공체계를 갖고 있다고 전했습니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.9153,
+    "elapsed_ms": 1212,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      5.89,
+      6.67
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 86.3,
+     "f0_end_hz": 73.42,
+     "octave_fixed_n": 10
+    }
+   }
+  },
+  {
+   "sid": "us_arms_1",
+   "scene": "us_arms",
+   "date": "2026.05.18",
+   "text": "로이터 보도대로라면 그 옆에 중국산 HQ-9이 놓인 것입니다.",
+   "tts": "로이터 보도대로라면 그 옆에 중국산 에이치큐 나인이 놓인 것입니다.",
+   "segments": [
+    [
+     "로이터 보도대로라면 그 옆에 중국산 HQ-9이 놓인 것입니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/gulf_china_arms_2026/tts/us_arms_1_6225e81193.mp3",
+   "npy": "/home/user/osint_generator/projects/gulf_china_arms_2026/tts/us_arms_1_6225e81193.npy",
+   "dur": 4.065918367346939,
+   "t0": 124.13176870748298,
+   "t1": 128.1976870748299,
+   "trim_offset": 0.581927,
+   "chunks": [
+    "로이터 보도대로라면 그 옆에 중국산 에이치큐 나인이 놓인 것입니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.9,
+    "elapsed_ms": 1074,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      4.135,
+      4.845
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 91.62,
+     "f0_end_hz": 71.23,
+     "octave_fixed_n": 20
+    }
+   }
+  },
+  {
+   "sid": "us_arms_2",
+   "scene": "us_arms",
+   "date": "2026.05.18",
+   "text": "게다가 사우디가 이 체계를 직접 산 것이 아니라, 동맹국 군대가 들여와 운용하고 사우디가 비용을 대는 방식이라는 점이 다릅니다.",
+   "tts": "게다가 사우디가 이 체계를 직접 산 것이 아니라, 동맹국 군대가 들여와 운용하고 사우디가 비용을 대는 방식이라는 점이 다릅니다.",
+   "segments": [
+    [
+     "게다가 사우디가 이 체계를 직접 산 것이 아니라, 동맹국 군대가 들여와 운용하고 사우디가 비용을 대는 방식이라는 점이 다릅니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/gulf_china_arms_2026/tts/us_arms_2_7ac9ab7e4d.mp3",
+   "npy": "/home/user/osint_generator/projects/gulf_china_arms_2026/tts/us_arms_2_7ac9ab7e4d.npy",
+   "dur": 8.309297052154195,
+   "t0": 128.6976870748299,
+   "t1": 137.0069841269841,
+   "trim_offset": 0.517982,
+   "chunks": [
+    "게다가 사우디가 이 체계를 직접 산 것이 아니라, 동맹국 군대가 들여와 운용하고 사우디가 비용을 대는 방식이라는 점이 다릅니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.9641,
+    "elapsed_ms": 1510,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      8.26,
+      9.23
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 92.8,
+     "f0_end_hz": 69.34,
+     "octave_fixed_n": 25
+    }
+   }
+  },
+  {
+   "sid": "scale_0",
+   "scene": "scale",
+   "date": "2026.10.02",
+   "text": "규모를 두고는 보도와 정부 입장이 맞섰습니다. 10월 2일 로이터는 파키스탄 병력이 3만에서 4만 명에 이른다고 보도했습니다.",
+   "tts": "규모를 두고는 보도와 정부 입장이 맞섰습니다. 시월 이일 로이터는 파키스탄 병력이 삼만에서 사만 명에 이른다고 보도했습니다.",
+   "segments": [
+    [
+     "규모를 두고는 보도와 정부 입장이 맞섰습니다. 10월 2일 로이터는 파키스탄 병력이 ",
+     0
+    ],
+    [
+     "3만에서 4만 명",
+     1
+    ],
+    [
+     "에 이른다고 보도했습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/gulf_china_arms_2026/tts/scale_0_4b507512e4.mp3",
+   "npy": "/home/user/osint_generator/projects/gulf_china_arms_2026/tts/scale_0_4b507512e4.npy",
+   "dur": 8.185192743764173,
+   "t0": 138.5069841269841,
+   "t1": 146.69217687074826,
+   "trim_offset": 0.538866,
+   "chunks": [
+    "규모를 두고는 보도와 정부 입장이 맞섰습니다. 시월 이일 로이터는 파키스탄 병력이 삼만에서 사만 명에 이른다고 보도했습니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.9408,
+    "elapsed_ms": 1322,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      8.23,
+      8.735
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 91.78,
+     "f0_end_hz": 66.79,
+     "octave_fixed_n": 1
+    }
+   }
+  },
+  {
+   "sid": "scale_1",
+   "scene": "scale",
+   "date": "2026.10.06",
+   "text": "반면 파키스탄 정보방송부는 이 보도를 거부하며, 수치와 세부 내용이 검증되지 않았다고 반박했습니다.",
+   "tts": "반면 파키스탄 정보방송부는 이 보도를 거부하며, 수치와 세부 내용이 검증되지 않았다고 반박했습니다.",
+   "segments": [
+    [
+     "반면 파키스탄 정보방송부는 이 보도를 거부하며, 수치와 세부 내용이 검증되지 않았다고 반박했습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/gulf_china_arms_2026/tts/scale_1_4428ee5782.mp3",
+   "npy": "/home/user/osint_generator/projects/gulf_china_arms_2026/tts/scale_1_4428ee5782.npy",
+   "dur": 6.416893424036282,
+   "t0": 147.19217687074826,
+   "t1": 153.60907029478454,
+   "trim_offset": 0.530181,
+   "chunks": [
+    "반면 파키스탄 정보방송부는 이 보도를 거부하며, 수치와 세부 내용이 검증되지 않았다고 반박했습니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.9567,
+    "elapsed_ms": 1170,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      6.415,
+      7.295
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 97.19,
+     "f0_end_hz": 70.21,
+     "octave_fixed_n": 0
+    }
+   }
+  },
+  {
+   "sid": "korea_0",
+   "scene": "korea",
+   "date": "2022.01.16",
+   "text": "걸프에는 한국산 방공체계도 들어가 있습니다. 한국은 2022년 1월 UAE와 천궁-II 수출 계약을 맺었습니다.",
+   "tts": "걸프에는 한국산 방공체계도 들어가 있습니다. 한국은 이천이십이년 일월 아랍에미리트와 천궁 투 수출 계약을 맺었습니다.",
+   "segments": [
+    [
+     "걸프에는 한국산 방공체계도 들어가 있습니다. 한국은 2022년 1월 UAE와 ",
+     0
+    ],
+    [
+     "천궁-II",
+     1
+    ],
+    [
+     " 수출 계약을 맺었습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/gulf_china_arms_2026/tts/korea_0_88af593d83.mp3",
+   "npy": "/home/user/osint_generator/projects/gulf_china_arms_2026/tts/korea_0_88af593d83.npy",
+   "dur": 7.831632653061225,
+   "t0": 155.10907029478454,
+   "t1": 162.94070294784578,
+   "trim_offset": 0.484807,
+   "chunks": [
+    "걸프에는 한국산 방공체계도 들어가 있습니다. 한국은 이천이십이년 일월 아랍에미리트와 천궁 투 수출 계약을 맺었습니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.8799,
+    "elapsed_ms": 1371,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      7.85,
+      8.47
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 131.38,
+     "f0_end_hz": 68.27,
+     "octave_fixed_n": 26
+    }
+   }
+  },
+  {
+   "sid": "korea_1",
+   "scene": "korea",
+   "date": "2022.01.18",
+   "text": "당시 디펜스 뉴스는 계약 규모를 약 35억 달러로 보도했습니다.",
+   "tts": "당시 디펜스 뉴스는 계약 규모를 약 삼십오억 딸러로 보도했습니다.",
+   "segments": [
+    [
+     "당시 디펜스 뉴스는 계약 규모를 약 35억 달러로 보도했습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/gulf_china_arms_2026/tts/korea_1_51dc6fe016.mp3",
+   "npy": "/home/user/osint_generator/projects/gulf_china_arms_2026/tts/korea_1_51dc6fe016.npy",
+   "dur": 3.8900680272108845,
+   "t0": 163.44070294784578,
+   "t1": 167.33077097505665,
+   "trim_offset": 0.509206,
+   "chunks": [
+    "당시 디펜스 뉴스는 계약 규모를 약 삼십오억 딸러로 보도했습니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.8641,
+    "elapsed_ms": 895,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      3.925,
+      4.58
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 116.41,
+     "f0_end_hz": 106.64,
+     "octave_fixed_n": 21
+    }
+   }
+  },
+  {
+   "sid": "korea_2",
+   "scene": "korea",
+   "date": "2024.02.06",
+   "text": "이어서 2024년 2월에는 사우디와 맺은 계약이 공개됐고, 코리아 타임스는 규모를 32억 달러로 보도했습니다.",
+   "tts": "이어서 이천이십사년 이월에는 사우디와 맺은 계약이 공개됐고, 코리아 타임스는 규모를 삼십이억 딸러로 보도했습니다.",
+   "segments": [
+    [
+     "이어서 2024년 2월에는 사우디와 맺은 계약이 공개됐고, 코리아 타임스는 규모를 32억 달러로 보도했습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/gulf_china_arms_2026/tts/korea_2_a8f1fff3de.mp3",
+   "npy": "/home/user/osint_generator/projects/gulf_china_arms_2026/tts/korea_2_a8f1fff3de.npy",
+   "dur": 7.379886621315193,
+   "t0": 167.83077097505665,
+   "t1": 175.21065759637185,
+   "trim_offset": 0.506122,
+   "chunks": [
+    "이어서 이천이십사년 이월에는 사우디와 맺은 계약이 공개됐고, 코리아 타임스는 규모를 삼십이억 딸러로 보도했습니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.8284,
+    "elapsed_ms": 1465,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      7.41,
+      8.015
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 88.49,
+     "f0_end_hz": 68.81,
+     "octave_fixed_n": 25
+    }
+   }
+  },
+  {
+   "sid": "korea_3",
+   "scene": "korea",
+   "date": "2024.09.20",
+   "text": "같은 해 9월 LIG넥스원은 이라크와도 28억 달러 규모의 중거리 지대공미사일 수출 계약을 따냈다고 밝혔습니다.",
+   "tts": "같은 해 구월 엘아이지 넥스원은 이라크와도 이십팔억 딸러 규모의 중거리 지대공미사일 수출 계약을 따냈다고 밝혔습니다.",
+   "segments": [
+    [
+     "같은 해 9월 LIG넥스원은 이라크와도 28억 달러 규모의 중거리 지대공미사일 수출 계약을 따냈다고 밝혔습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/gulf_china_arms_2026/tts/korea_3_a752d5a97d.mp3",
+   "npy": "/home/user/osint_generator/projects/gulf_china_arms_2026/tts/korea_3_a752d5a97d.npy",
+   "dur": 7.749591836734694,
+   "t0": 175.71065759637185,
+   "t1": 183.46024943310653,
+   "trim_offset": 0.506122,
+   "chunks": [
+    "같은 해 구월 엘아이지 넥스원은 이라크와도 이십팔억 딸러 규모의 중거리 지대공미사일 수출 계약을 따냈다고 밝혔습니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.8445,
+    "elapsed_ms": 1257,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      7.815,
+      8.42
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 90.56,
+     "f0_end_hz": 107.4,
+     "octave_fixed_n": 38
+    }
+   }
+  },
+  {
+   "sid": "korea_4",
+   "scene": "korea",
+   "date": "2026.04.03",
+   "text": "가격도 비교 대상입니다. 더프린트는 뉴욕타임스를 인용해 천궁-II 요격탄은 1발에 약 110만 달러, 패트리어트 PAC-3는 약 370만 달러라고 전했습니다.",
+   "tts": "가격도 비교 대상입니다. 더 프린트는 뉴욕 타임스를 인용해 천궁 투 요격탄은 한 발에 약 백십만 딸러, 패트리어트 팩 쓰리는 약 삼백칠십만 딸러라고 전했습니다.",
+   "segments": [
+    [
+     "가격도 비교 대상입니다. 더프린트는 뉴욕타임스를 인용해 천궁-II 요격탄은 1발에 약 ",
+     0
+    ],
+    [
+     "110만 달러",
+     1
+    ],
+    [
+     ", 패트리어트 PAC-3는 약 370만 달러라고 전했습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/gulf_china_arms_2026/tts/korea_4_ede7169925.mp3",
+   "npy": "/home/user/osint_generator/projects/gulf_china_arms_2026/tts/korea_4_ede7169925.npy",
+   "dur": 10.707165532879818,
+   "t0": 183.96024943310653,
+   "t1": 194.66741496598635,
+   "trim_offset": 0.494512,
+   "chunks": [
+    "가격도 비교 대상입니다. 더 프린트는 뉴욕 타임스를 인용해 천궁 투 요격탄은 한 발에 약 백십만 딸러, 패트리어트 팩 쓰리는 약 삼백칠십만 딸러라고 전했습니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.901,
+    "elapsed_ms": 1796,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      10.735,
+      11.355
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 87.94,
+     "f0_end_hz": 80.21,
+     "octave_fixed_n": 31
+    }
+   }
+  },
+  {
+   "sid": "korea_5",
+   "scene": "korea",
+   "date": "2026.10.12",
+   "text": "계약대로라면 사우디 하늘에는 미국산과 한국산, 그리고 로이터 보도대로라면 중국산 방공체계가 함께 서게 됩니다.",
+   "tts": "계약대로라면 사우디 하늘에는 미국산과 한국산, 그리고 로이터 보도대로라면 중국산 방공체계가 함께 서게 됩니다.",
+   "segments": [
+    [
+     "계약대로라면 사우디 하늘에는 미국산과 한국산, 그리고 로이터 보도대로라면 중국산 방공체계가 함께 서게 됩니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/gulf_china_arms_2026/tts/korea_5_3f0bdd63d5.mp3",
+   "npy": "/home/user/osint_generator/projects/gulf_china_arms_2026/tts/korea_5_3f0bdd63d5.npy",
+   "dur": 7.771383219954648,
+   "t0": 195.16741496598635,
+   "t1": 202.938798185941,
+   "trim_offset": 0.554195,
+   "chunks": [
+    "계약대로라면 사우디 하늘에는 미국산과 한국산, 그리고 로이터 보도대로라면 중국산 방공체계가 함께 서게 됩니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.9649,
+    "elapsed_ms": 1286,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      7.775,
+      8.69
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 86.51,
+     "f0_end_hz": 74.4,
+     "octave_fixed_n": 25
+    }
+   }
+  },
+  {
+   "sid": "briefing_0",
+   "scene": "briefing",
+   "date": "2017",
+   "text": "중국산 무기가 걸프에 들어온 것이 처음은 아닙니다. 디펜스 뉴스에 따르면 사우디는 2017년 중국산 윙룽 II 무인기를 주문했습니다.",
+   "tts": "중국산 무기가 걸프에 들어온 것이 처음은 아닙니다. 디펜스 뉴스에 따르면 사우디는 이천십칠년 중국산 윙룽 투 무인기를 주문했습니다.",
+   "segments": [
+    [
+     "중국산 무기가 걸프에 들어온 것이 ",
+     0
+    ],
+    [
+     "처음은 아닙니다",
+     1
+    ],
+    [
+     ". 디펜스 뉴스에 따르면 사우디는 2017년 중국산 윙룽 II 무인기를 주문했습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/gulf_china_arms_2026/tts/briefing_0_fbbfbed582.mp3",
+   "npy": "/home/user/osint_generator/projects/gulf_china_arms_2026/tts/briefing_0_fbbfbed582.npy",
+   "dur": 8.856530612244898,
+   "t0": 204.438798185941,
+   "t1": 213.29532879818592,
+   "trim_offset": 0.413197,
+   "chunks": [
+    "중국산 무기가 걸프에 들어온 것이 처음은 아닙니다. 디펜스 뉴스에 따르면 사우디는 이천십칠년 중국산 윙룽 투 무인기를 주문했습니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.8926,
+    "elapsed_ms": 1516,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      8.79,
+      9.42
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 98.33,
+     "f0_end_hz": 66.13,
+     "octave_fixed_n": 21
+    }
+   }
+  },
+  {
+   "sid": "briefing_1",
+   "scene": "briefing",
+   "date": "2026.10.12",
+   "text": "다만 보도대로라면 이번에는 사우디가 사들인 것이 아니라, 동맹국 군대가 들여와 운용하는 길이라는 점이 다릅니다.",
+   "tts": "다만 보도대로라면 이번에는 사우디가 사들인 것이 아니라, 동맹국 군대가 들여와 운용하는 길이라는 점이 다릅니다.",
+   "segments": [
+    [
+     "다만 보도대로라면 이번에는 사우디가 사들인 것이 아니라, ",
+     0
+    ],
+    [
+     "동맹국 군대",
+     1
+    ],
+    [
+     "가 들여와 운용하는 길이라는 점이 다릅니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/gulf_china_arms_2026/tts/briefing_1_406b5f8fd6.mp3",
+   "npy": "/home/user/osint_generator/projects/gulf_china_arms_2026/tts/briefing_1_406b5f8fd6.npy",
+   "dur": 7.131428571428572,
+   "t0": 213.79532879818592,
+   "t1": 220.9267573696145,
+   "trim_offset": 0.52932,
+   "chunks": [
+    "다만 보도대로라면 이번에는 사우디가 사들인 것이 아니라, 동맹국 군대가 들여와 운용하는 길이라는 점이 다릅니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.9596,
+    "elapsed_ms": 1508,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      7.09,
+      8.02
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 90.34,
+     "f0_end_hz": 74.37,
+     "octave_fixed_n": 2
+    }
+   }
+  },
+  {
+   "sid": "briefing_2",
+   "scene": "briefing",
+   "date": "2026.10.12",
+   "text": "공식 발표로 확인된 것은 파키스탄군의 사우디 주둔과 전투기 도착입니다.",
+   "tts": "공식 발표로 확인된 것은 파키스탄군의 사우디 주둔과 전투기 도착입니다.",
+   "segments": [
+    [
+     "공식 발표로 확인된 것은 파키스탄군의 사우디 주둔과 전투기 도착입니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/gulf_china_arms_2026/tts/briefing_2_8560f68bd9.mp3",
+   "npy": "/home/user/osint_generator/projects/gulf_china_arms_2026/tts/briefing_2_8560f68bd9.npy",
+   "dur": 4.680090702947846,
+   "t0": 221.4267573696145,
+   "t1": 226.10684807256234,
+   "trim_offset": 0.413061,
+   "chunks": [
+    "공식 발표로 확인된 것은 파키스탄군의 사우디 주둔과 전투기 도착입니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.9762,
+    "elapsed_ms": 905,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      4.615,
+      5.43
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 83.43,
+     "f0_end_hz": 71.58,
+     "octave_fixed_n": 12
+    }
+   }
+  },
+  {
+   "sid": "briefing_3",
+   "scene": "briefing",
+   "date": "2026.10.12",
+   "text": "반면 HQ-9과 JF-17, 그리고 사우디의 비용 부담은 지금도 익명 소식통을 인용한 로이터 보도로만 알려져 있습니다.",
+   "tts": "반면 에이치큐 나인과 제이에프 세븐틴, 그리고 사우디의 비용 부담은 지금도 익명 소식통을 인용한 로이터 보도로만 알려져 있습니다.",
+   "segments": [
+    [
+     "반면 HQ-9과 JF-17, 그리고 사우디의 비용 부담은 지금도 익명 소식통을 인용한 로이터 보도로만 알려져 있습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/gulf_china_arms_2026/tts/briefing_3_00a154a98d.mp3",
+   "npy": "/home/user/osint_generator/projects/gulf_china_arms_2026/tts/briefing_3_00a154a98d.npy",
+   "dur": 8.657414965986394,
+   "t0": 226.60684807256234,
+   "t1": 235.26426303854873,
+   "trim_offset": 0.540771,
+   "chunks": [
+    "반면 에이치큐 나인과 제이에프 세븐틴, 그리고 사우디의 비용 부담은 지금도 익명 소식통을 인용한 로이터 보도로만 알려져 있습니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.9205,
+    "elapsed_ms": 1790,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      8.715,
+      9.525
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 89.18,
+     "f0_end_hz": 70.02,
+     "octave_fixed_n": 4
+    }
+   }
+  },
+  {
+   "sid": "briefing_4",
+   "scene": "briefing",
+   "date": "2026.10.12",
+   "text": "로이터 보도대로라면, 미국산 패트리어트와 사드를 갖춘 사우디 하늘에 중국산 체계가 동맹국 군대를 통해 들어선 것입니다.",
+   "tts": "로이터 보도대로라면, 미국산 패트리어트와 사드를 갖춘 사우디 하늘에 중국산 체계가 동맹국 군대를 통해 들어선 것입니다.",
+   "segments": [
+    [
+     "로이터 보도대로라면, 미국산 패트리어트와 사드를 갖춘 사우디 하늘에 중국산 체계가 동맹국 군대를 통해 들어선 것입니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/gulf_china_arms_2026/tts/briefing_4_a0083b06e3.mp3",
+   "npy": "/home/user/osint_generator/projects/gulf_china_arms_2026/tts/briefing_4_a0083b06e3.npy",
+   "dur": 7.907732426303855,
+   "t0": 235.76426303854873,
+   "t1": 243.67199546485259,
+   "trim_offset": 0.482948,
+   "chunks": [
+    "로이터 보도대로라면, 미국산 패트리어트와 사드를 갖춘 사우디 하늘에 중국산 체계가 동맹국 군대를 통해 들어선 것입니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.917,
+    "elapsed_ms": 1395,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      7.98,
+      8.665
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 99.49,
+     "f0_end_hz": 71.92,
+     "octave_fixed_n": 9
+    }
+   }
+  }
+ ],
+ "cards": [
+  {
+   "kind": "title",
+   "t0": 24.68630385487528,
+   "t1": 30.28630385487528
+  },
+  {
+   "kind": "end",
+   "t0": 245.37199546485257,
+   "t1": 256.3719954648526
+  }
+ ],
+ "scene_start": {
+  "open": 1.2,
+  "what": 30.68630385487528,
+  "official": 63.440952380952375,
+  "pact": 90.21811791383219,
+  "us_arms": 117.76773242630384,
+  "scale": 138.5069841269841,
+  "korea": 155.10907029478454,
+  "briefing": 204.438798185941
+ },
+ "total": 256.8719954648526,
+ "voice": "supertonic-3 M3 ×0.95",
+ "title": "중국산 무기가 걸프에 들어온 길",
+ "subtitle": "파키스탄군의 HQ-9·JF-17 배치 보도와 사우디의 비용, 그리고 천궁-II",
+ "date": "2026.10.12",
+ "tts_resynthesized": [],
+ "lint_waived": null
+}

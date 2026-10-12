@@ -4,8 +4,8 @@
   "title": "중국산 무기가 걸프에 들어온 날",
   "category": "geopolitics",
   "created_at": "2026-10-12T14:03:44.154918Z",
-  "updated_at": "2026-10-12T14:35:50.017346Z",
-  "current_state": "voice_timeline",
+  "updated_at": "2026-10-12T14:41:37.355508Z",
+  "current_state": "assets",
   "target_duration_min": 5,
   "topic_summary": "사우디에 배치된 것으로 보도된 파키스탄군의 중국산 HQ-9 방공체계와 JF-17 전투기, 사우디가 비용을 대는 구조, 미국 무기 의존에서의 변화, 한국 방산(천궁-II)의 걸프 수출과의 경쟁 구도",
   "initial_links": [],
@@ -48,7 +48,21 @@
       "chosen_version": null
     }
   ],
-  "stage_records": [],
+  "stage_records": [
+    {
+      "state": "voice_timeline",
+      "stage": "plan",
+      "ok": true,
+      "at": "2026-10-12T14:41:37.353476Z",
+      "artifacts": {
+        "plan": "/home/user/osint_generator/projects/gulf_china_arms_2026/plan.json",
+        "tts": "/home/user/osint_generator/projects/gulf_china_arms_2026/tts"
+      },
+      "errors": [],
+      "drops": 0,
+      "log": "logs/stages/01_plan.json"
+    }
+  ],
   "final_outputs": {},
   "state_history": [
     {
@@ -86,6 +100,12 @@
       "to_state": "voice_timeline",
       "transitioned_at": "2026-10-12T14:35:50.017301Z",
       "reason": "script_approval 승인 — fable"
+    },
+    {
+      "from_state": "voice_timeline",
+      "to_state": "assets",
+      "transitioned_at": "2026-10-12T14:41:37.355427Z",
+      "reason": "engine plan ok"
     }
   ],
   "reopens": []
