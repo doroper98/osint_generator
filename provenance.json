@@ -1,0 +1,1231 @@
+{
+ "schema_version": 1,
+ "engine": "engine",
+ "repo_version": "7.2.0",
+ "rules_version": "2.0.0",
+ "rules_hash": "957a898c06125f043ef391596605d06fa242b834",
+ "prompts": {
+  "director": "bc97e8d8c6e2f4d65d8bb44ee85a1f38b6aee138"
+ },
+ "voice": "supertonic-3 M3 ×0.95",
+ "word_anchor": "mixed",
+ "word_anchors": [
+  {
+   "sid": "open_0",
+   "word": "사우디아라비아",
+   "mode": "aligned",
+   "t": 3.3,
+   "alignment_source": "mms_forced_alignment"
+  },
+  {
+   "sid": "open_0",
+   "word": "사우디아라비아",
+   "mode": "aligned",
+   "t": 3.3,
+   "alignment_source": "mms_forced_alignment"
+  },
+  {
+   "sid": "open_1",
+   "word": "파키스탄군",
+   "mode": "aligned",
+   "t": 12.616,
+   "alignment_source": "mms_forced_alignment"
+  },
+  {
+   "sid": "open_1",
+   "word": "파키스탄군",
+   "mode": "aligned",
+   "t": 12.616,
+   "alignment_source": "mms_forced_alignment"
+  },
+  {
+   "sid": "korea_0",
+   "word": "UAE",
+   "mode": "ratio",
+   "t": 159.909,
+   "alignment_source": "mms_forced_alignment",
+   "note": "단어가 발음 텍스트에 없음"
+  },
+  {
+   "sid": "korea_0",
+   "word": "UAE",
+   "mode": "ratio",
+   "t": 159.909,
+   "alignment_source": "mms_forced_alignment",
+   "note": "단어가 발음 텍스트에 없음"
+  },
+  {
+   "sid": "korea_2",
+   "word": "사우디와",
+   "mode": "aligned",
+   "t": 169.949,
+   "alignment_source": "mms_forced_alignment"
+  },
+  {
+   "sid": "korea_3",
+   "word": "이라크와도",
+   "mode": "aligned",
+   "t": 177.968,
+   "alignment_source": "mms_forced_alignment"
+  },
+  {
+   "sid": "briefing_4",
+   "word": "중국산",
+   "mode": "aligned",
+   "t": 240.49,
+   "alignment_source": "mms_forced_alignment"
+  }
+ ],
+ "tts": {
+  "resynthesized": []
+ },
+ "total_sec": 256.872,
+ "sentences": 33,
+ "stages": {
+  "plan": true,
+  "geo": true,
+  "preview": true,
+  "render": true,
+  "mix": true,
+  "mux": true,
+  "ai_direction": true,
+  "visual_qa": false,
+  "bundle": false
+ },
+ "features_used": {
+  "camera_keys": 8,
+  "camera_moves": 7,
+  "camera_cuts": 1,
+  "dips": 0,
+  "dips_under": 0,
+  "badges": 6,
+  "badge_kinds": {
+   "flag": 6
+  },
+  "panels": [
+   "versus"
+  ],
+  "cards": 19,
+  "media": {
+   "clip": 0,
+   "photo": 2,
+   "cutout": 0,
+   "article": 8
+  },
+  "event_types": {
+   "article": 8,
+   "badge": 6,
+   "card": 19,
+   "cascade": 1,
+   "country": 11,
+   "marker": 2,
+   "panel": 1,
+   "photo": 2,
+   "route": 6
+  },
+  "label_lod": true,
+  "vignette": false,
+  "at_word": {
+   "aligned": 7,
+   "ratio": 2
+  },
+  "alignment": {
+   "sources": {
+    "mms_forced_alignment": 33
+   },
+   "score_mean_min": 0.7755,
+   "elapsed_ms_total": 63157
+  },
+  "prosody": {
+   "final_fall": {
+    "applied_n": 33,
+    "skipped_n": 0
+   }
+  }
+ },
+ "qa": {
+  "auto_iterations": 0,
+  "user_approved": false,
+  "reviewer": "fable (back_and_forth)",
+  "visual_qa": []
+ },
+ "drops": [],
+ "assets": {
+  "images_used": [
+   "flag11:ae",
+   "flag11:iq",
+   "flag11:pk",
+   "flag11:sa",
+   "media:msam_720.jpg",
+   "media:pk_jf17_720.jpg"
+  ],
+  "emblems": {
+   "used": [],
+   "flag_fallback": {}
+  },
+  "badges": {
+   "suggested": [
+    "ae",
+    "cn",
+    "iq",
+    "kr",
+    "mnd_korea",
+    "pk",
+    "sa"
+   ],
+   "used": [
+    "pk",
+    "sa"
+   ],
+   "suggested_and_used": [
+    "pk",
+    "sa"
+   ],
+   "suggestions": 27
+  }
+ },
+ "panels": {
+  "used": [
+   {
+    "kind": "versus",
+    "title": "확인된 것과 보도로만 알려진 것",
+    "t0": 221.23,
+    "prov_tag": null
+   }
+  ]
+ },
+ "credits": {
+  "card": {
+   "flags": 1,
+   "map": 2,
+   "media": 10,
+   "music": 1,
+   "narration": 1
+  },
+  "description_only": {
+   "fonts": 4
+  }
+ },
+ "reserved": {
+  "avoidance": [
+   {
+    "badge": "파키스탄",
+    "t0": 30.89,
+    "t1": 117.42,
+    "strategy": [
+     "hold"
+    ],
+    "direction": [
+     "down"
+    ],
+    "max_px": 57.2,
+    "zones": [
+     "card"
+    ],
+    "frames": 2076
+   }
+  ]
+ },
+ "audio": {
+  "bgm": [
+   "music.zabriskie_mario_bava"
+  ],
+  "bed_gain": 0.43,
+  "crossfades": 0,
+  "bed_bass": {
+   "applied": {
+    "shelf": {
+     "freq_hz": 110.0,
+     "gain_db": 5.0,
+     "q": 0.7
+    },
+    "sub": {
+     "band_hz": [
+      55.0,
+      220.0
+     ],
+     "out_lp_hz": 110.0,
+     "filter_order": 4,
+     "gain": 0.35,
+     "env_attack_sec": 0.03,
+     "env_release_sec": 0.25,
+     "env_block_sec": 0.001
+    },
+    "swell": {
+     "sec": 2.5,
+     "depth": 0.35
+    },
+    "norm_ref": 0.4
+   },
+   "ratio_db": {
+    "before": 3.11,
+    "after": 8.14
+   },
+   "rise_db": 5.03,
+   "swell_at": [
+    30.686,
+    63.441,
+    90.218,
+    117.768,
+    138.507,
+    155.109,
+    204.439
+   ],
+   "bands_hz": {
+    "bass": [
+     30.0,
+     120.0
+    ],
+    "mid": [
+     200.0,
+     2000.0
+    ]
+   }
+  },
+  "loudnorm": {
+   "passes": 2,
+   "pass1": {
+    "input_i": -15.89,
+    "input_tp": -0.98,
+    "input_lra": 4.3,
+    "input_thresh": -26.25,
+    "target_offset": 0.18
+   },
+   "pass2": {
+    "output_i": -14.02,
+    "output_tp": -1.5,
+    "normalization_type": "dynamic"
+   },
+   "post_limiter_dbfs": -2.0
+  },
+  "qa": {
+   "hard": [],
+   "warnings": [],
+   "final_loudness": {
+    "I": -14.1,
+    "TP": -1.41,
+    "LRA": 4.3
+   },
+   "music_under_narration_db": -11.9,
+   "mix_peak": 0.874,
+   "bed_bass_ratio_db": 8.14,
+   "bed_bass_rise_db": 5.03
+  }
+ },
+ "end_card": {
+  "version_stamp": "v7.2.0",
+  "roll_px": 158.0,
+  "roll_px_per_sec": 24.31
+ },
+ "render": {
+  "resolution": {
+   "profile": "720p",
+   "width": 1280,
+   "height": 720,
+   "fps": 24,
+   "k": 1.5,
+   "pad_x": -0.5,
+   "crf": 19,
+   "preset": "faster"
+  }
+ },
+ "badge": {
+  "R_ignored": [],
+  "head_top": []
+ },
+ "geo": {
+  "unsourced": [
+   {
+    "kind": "place",
+    "name": "kaab",
+    "lonlat": [
+     50.15,
+     26.27
+    ]
+   },
+   {
+    "kind": "path",
+    "name": "pk_sa",
+    "points": 7,
+    "ends": [
+     [
+      67.8,
+      26.6
+     ],
+     [
+      50.15,
+      26.27
+     ]
+    ]
+   },
+   {
+    "kind": "path",
+    "name": "cn_pk",
+    "points": 5,
+    "ends": [
+     [
+      104.07,
+      30.67
+     ],
+     [
+      72.4,
+      33.87
+     ]
+    ]
+   }
+  ],
+  "matched": [],
+  "mismatch": []
+ },
+ "cascade": {
+  "status": "adopted",
+  "events": 1,
+  "items": 3,
+  "hidden_labels": [
+   {
+    "name": "요르단",
+    "kind": "country",
+    "how": "회피",
+    "t": 160.01
+   },
+   {
+    "name": "암만",
+    "kind": "city",
+    "how": "회피",
+    "t": 160.01
+   },
+   {
+    "name": "나자프",
+    "kind": "city",
+    "how": "회피",
+    "t": 168.21
+   },
+   {
+    "name": "쿠웨이트",
+    "kind": "country",
+    "how": "회피",
+    "t": 176.11
+   }
+  ]
+ },
+ "border_glow": {
+  "status": "adopted",
+  "on": true
+ },
+ "article": [
+  {
+   "mid": "gulf_china_arms_2026_art_0002",
+   "t0": 18.07,
+   "press": "none",
+   "theme": "dark",
+   "headline": "original"
+  },
+  {
+   "mid": "gulf_china_arms_2026_art_0011",
+   "t0": 43.0,
+   "press": "none",
+   "theme": "dark",
+   "headline": "original"
+  },
+  {
+   "mid": "gulf_china_arms_2026_art_0003",
+   "t0": 65.88,
+   "press": "none",
+   "theme": "dark",
+   "headline": "original"
+  },
+  {
+   "mid": "gulf_pact_2026_art_0001",
+   "t0": 74.52,
+   "press": "none",
+   "theme": "dark",
+   "headline": "original"
+  },
+  {
+   "mid": "gulf_pact_2026_art_0016",
+   "t0": 147.39,
+   "press": "none",
+   "theme": "dark",
+   "headline": "original"
+  },
+  {
+   "mid": "gulf_china_arms_2026_art_0009",
+   "t0": 163.34,
+   "press": "none",
+   "theme": "dark",
+   "headline": "original"
+  },
+  {
+   "mid": "gulf_china_arms_2026_art_0012",
+   "t0": 184.16,
+   "press": "none",
+   "theme": "dark",
+   "headline": "original"
+  },
+  {
+   "mid": "gulf_china_arms_2026_art_0014",
+   "t0": 208.04,
+   "press": "none",
+   "theme": "dark",
+   "headline": "original"
+  }
+ ],
+ "pacing": {
+  "window_sec": 45.0,
+  "min_changes": 3,
+  "static_windows": [],
+  "creep": null
+ },
+ "animatic": false,
+ "stage": {
+  "name": "mercator",
+  "declared": false,
+  "shots_declared": 0,
+  "instances": {
+   "mercator": 1
+  },
+  "configs": {
+   "mercator": {
+    "theme": "light"
+   }
+  }
+ },
+ "map_contrast_fix": {
+  "labels": {
+   "동부주 · 4월 11일 도착 발표": 4.28,
+   "전투기 도착 · 공식 발표": 4.38,
+   "첸나이": 4.39
+  }
+ },
+ "map_theme": {
+  "effective": "light",
+  "source": "genre",
+  "declared": false,
+  "reason": null,
+  "series": null
+ },
+ "genre": {
+  "name": "geopolitics",
+  "declared": false,
+  "status": "approved"
+ },
+ "order": {
+  "topic": "사우디에 배치됐다고 보도된 파키스탄군의 중국산 HQ-9 방공체계와 JF-17 전투기, 사우디가 비용을 대는 구조, 미국 무기 의존에서의 변화, 그리고 한국 방산(천궁-II)의 걸프 수출과의 경쟁 구도",
+  "genre": "geopolitics",
+  "decisions": {
+   "topic": {
+    "value": "중국산 무기의 걸프 진입(파키스탄군 경유)·한국 천궁-II 경쟁",
+    "by": "user",
+    "ref": "사용자 결정 D227(2026-10-12)"
+   },
+   "map_theme": {
+    "value": "light",
+    "by": "user",
+    "ref": "사용자 지정 D227·D154"
+   },
+   "bgm": {
+    "value": "music.zabriskie_mario_bava",
+    "by": "user",
+    "ref": "사용자 D227 \"음악은 이번에 새로 구한 음악을 적용하고\"·UF-100"
+   },
+   "resolution": {
+    "value": "720p",
+    "by": "user",
+    "ref": "사용자 결정 2026-10-04 \"기준 해상도는 720p야\""
+   },
+   "gates": {
+    "value": "게이트 ①·② 감독 위임(이번 1회)",
+    "by": "user",
+    "ref": "D227"
+   }
+  }
+ },
+ "camera": {
+  "suggest_ran": true,
+  "suggested": 4,
+  "used": 0,
+  "given_to_director": false,
+  "from_current_direction": false,
+  "fits": 4,
+  "current_fits_false": 3
+ },
+ "lint_warnings": [
+  "[media-density-total] 과소 — 2개 / 257초 = 128.4초당 1개 > 60초 (14 §10.1, ['article'] 제외)",
+  "[media-kind-repeat] 이웃 장면 open→what 같은 형태 ['article'] (14 §10.1)",
+  "[media-kind-repeat] 이웃 장면 what→official 같은 형태 ['article'] (14 §10.1)",
+  "[media-kind-repeat] 이웃 장면 scale→korea 같은 형태 ['article'] (14 §10.1)",
+  "[media-kind-repeat] 이웃 장면 korea→briefing 같은 형태 ['article'] (14 §10.1)"
+ ],
+ "media": {
+  "suggested": [
+   {
+    "sid": "open_0",
+    "scene": "open",
+    "kind": "article",
+    "trigger": "보도했",
+    "at": 1.2,
+    "source": "trigger",
+    "asset_id": null
+   },
+   {
+    "sid": "open_1",
+    "scene": "open",
+    "kind": "article",
+    "trigger": "인용",
+    "at": 7.56,
+    "source": "trigger",
+    "asset_id": null
+   },
+   {
+    "sid": "open_3",
+    "scene": "open",
+    "kind": "article",
+    "trigger": "전했",
+    "at": 17.87,
+    "source": "trigger",
+    "asset_id": null
+   },
+   {
+    "sid": "what_0",
+    "scene": "what",
+    "kind": "article",
+    "trigger": "에 따르면",
+    "at": 30.69,
+    "source": "trigger",
+    "asset_id": null
+   },
+   {
+    "sid": "what_1",
+    "scene": "what",
+    "kind": "article",
+    "trigger": "전했",
+    "at": 36.59,
+    "source": "trigger",
+    "asset_id": null
+   },
+   {
+    "sid": "what_2",
+    "scene": "what",
+    "kind": "article",
+    "trigger": "전했",
+    "at": 42.8,
+    "source": "trigger",
+    "asset_id": null
+   },
+   {
+    "sid": "what_3",
+    "scene": "what",
+    "kind": "article",
+    "trigger": "보도했",
+    "at": 52.96,
+    "source": "trigger",
+    "asset_id": null
+   },
+   {
+    "sid": "official_0",
+    "scene": "official",
+    "kind": "photo",
+    "trigger": "발표",
+    "at": 63.44,
+    "source": "trigger",
+    "asset_id": null
+   },
+   {
+    "sid": "official_1",
+    "scene": "official",
+    "kind": "article",
+    "trigger": "에 따르면",
+    "at": 65.78,
+    "source": "trigger",
+    "asset_id": null
+   },
+   {
+    "sid": "official_2",
+    "scene": "official",
+    "kind": "article",
+    "trigger": "밝혔",
+    "at": 74.32,
+    "source": "trigger",
+    "asset_id": null
+   },
+   {
+    "sid": "pact_0",
+    "scene": "pact",
+    "kind": "article",
+    "trigger": "보도했",
+    "at": 90.22,
+    "source": "trigger",
+    "asset_id": null
+   },
+   {
+    "sid": "pact_1",
+    "scene": "pact",
+    "kind": "article",
+    "trigger": "밝혔",
+    "at": 96.92,
+    "source": "trigger",
+    "asset_id": null
+   },
+   {
+    "sid": "us_arms_0",
+    "scene": "us_arms",
+    "kind": "article",
+    "trigger": "전했",
+    "at": 117.77,
+    "source": "trigger",
+    "asset_id": null
+   },
+   {
+    "sid": "scale_0",
+    "scene": "scale",
+    "kind": "article",
+    "trigger": "보도했",
+    "at": 138.51,
+    "source": "trigger",
+    "asset_id": null
+   },
+   {
+    "sid": "korea_1",
+    "scene": "korea",
+    "kind": "article",
+    "trigger": "보도했",
+    "at": 163.44,
+    "source": "trigger",
+    "asset_id": null
+   },
+   {
+    "sid": "korea_2",
+    "scene": "korea",
+    "kind": "article",
+    "trigger": "보도했",
+    "at": 167.83,
+    "source": "trigger",
+    "asset_id": null
+   },
+   {
+    "sid": "korea_3",
+    "scene": "korea",
+    "kind": "article",
+    "trigger": "밝혔",
+    "at": 175.71,
+    "source": "trigger",
+    "asset_id": null
+   },
+   {
+    "sid": "korea_4",
+    "scene": "korea",
+    "kind": "article",
+    "trigger": "전했",
+    "at": 183.96,
+    "source": "trigger",
+    "asset_id": null
+   },
+   {
+    "sid": "briefing_0",
+    "scene": "briefing",
+    "kind": "article",
+    "trigger": "에 따르면",
+    "at": 204.44,
+    "source": "trigger",
+    "asset_id": null
+   },
+   {
+    "sid": "briefing_2",
+    "scene": "briefing",
+    "kind": "cutout",
+    "trigger": "전투기",
+    "at": 221.43,
+    "source": "trigger",
+    "asset_id": null
+   },
+   {
+    "sid": "briefing_3",
+    "scene": "briefing",
+    "kind": "article",
+    "trigger": "인용",
+    "at": 226.61,
+    "source": "trigger",
+    "asset_id": null
+   }
+  ],
+  "used": [
+   {
+    "mid": "gulf_china_arms_2026_art_0002",
+    "kind": "article",
+    "t0": 18.07
+   },
+   {
+    "mid": "gulf_pk_jf17",
+    "kind": "photo",
+    "t0": 37.39
+   },
+   {
+    "mid": "gulf_china_arms_2026_art_0011",
+    "kind": "article",
+    "t0": 43.0
+   },
+   {
+    "mid": "gulf_china_arms_2026_art_0003",
+    "kind": "article",
+    "t0": 65.88
+   },
+   {
+    "mid": "gulf_pact_2026_art_0001",
+    "kind": "article",
+    "t0": 74.52
+   },
+   {
+    "mid": "gulf_pact_2026_art_0016",
+    "kind": "article",
+    "t0": 147.39
+   },
+   {
+    "mid": "kr_msam_battery",
+    "kind": "photo",
+    "t0": 155.31
+   },
+   {
+    "mid": "gulf_china_arms_2026_art_0009",
+    "kind": "article",
+    "t0": 163.34
+   },
+   {
+    "mid": "gulf_china_arms_2026_art_0012",
+    "kind": "article",
+    "t0": 184.16
+   },
+   {
+    "mid": "gulf_china_arms_2026_art_0014",
+    "kind": "article",
+    "t0": 208.04
+   }
+  ],
+  "suggested_and_used": [
+   "briefing:article",
+   "korea:article",
+   "official:article",
+   "open:article",
+   "scale:article",
+   "what:article"
+  ],
+  "density": {
+   "schema_version": 1,
+   "total_sec": 256.872,
+   "items": [
+    {
+     "mid": "gulf_china_arms_2026_art_0002",
+     "kind": "article",
+     "t0": 18.07,
+     "t1": 30.29,
+     "scene": "open"
+    },
+    {
+     "mid": "gulf_pk_jf17",
+     "kind": "photo",
+     "t0": 37.39,
+     "t1": 42.5,
+     "scene": "what"
+    },
+    {
+     "mid": "gulf_china_arms_2026_art_0011",
+     "kind": "article",
+     "t0": 43.0,
+     "t1": 47.8,
+     "scene": "what"
+    },
+    {
+     "mid": "gulf_china_arms_2026_art_0003",
+     "kind": "article",
+     "t0": 65.88,
+     "t1": 70.88,
+     "scene": "official"
+    },
+    {
+     "mid": "gulf_pact_2026_art_0001",
+     "kind": "article",
+     "t0": 74.52,
+     "t1": 81.49,
+     "scene": "official"
+    },
+    {
+     "mid": "gulf_pact_2026_art_0016",
+     "kind": "article",
+     "t0": 147.39,
+     "t1": 154.01,
+     "scene": "scale"
+    },
+    {
+     "mid": "kr_msam_battery",
+     "kind": "photo",
+     "t0": 155.31,
+     "t1": 158.41,
+     "scene": "korea"
+    },
+    {
+     "mid": "gulf_china_arms_2026_art_0009",
+     "kind": "article",
+     "t0": 163.34,
+     "t1": 168.13,
+     "scene": "korea"
+    },
+    {
+     "mid": "gulf_china_arms_2026_art_0012",
+     "kind": "article",
+     "t0": 184.16,
+     "t1": 189.16,
+     "scene": "korea"
+    },
+    {
+     "mid": "gulf_china_arms_2026_art_0014",
+     "kind": "article",
+     "t0": 208.04,
+     "t1": 213.6,
+     "scene": "briefing"
+    }
+   ],
+   "count": 10,
+   "beat_count": 2,
+   "sec_per_item": 128.4,
+   "target_sec_per_item": [
+    40.0,
+    60.0
+   ],
+   "window": {
+    "window_sec": 40.0,
+    "window_max": 2,
+    "exempt": [
+     "article"
+    ],
+    "max": {
+     "t0": 37.39,
+     "count": 1,
+     "mids": [
+      "gulf_pk_jf17"
+     ]
+    }
+   },
+   "per_scene": {
+    "what": [
+     "gulf_pk_jf17"
+    ],
+    "korea": [
+     "kr_msam_battery"
+    ]
+   },
+   "warnings": [
+    "[media-density-total] 과소 — 2개 / 257초 = 128.4초당 1개 > 60초 (14 §10.1, ['article'] 제외)",
+    "[media-kind-repeat] 이웃 장면 open→what 같은 형태 ['article'] (14 §10.1)",
+    "[media-kind-repeat] 이웃 장면 what→official 같은 형태 ['article'] (14 §10.1)",
+    "[media-kind-repeat] 이웃 장면 scale→korea 같은 형태 ['article'] (14 §10.1)",
+    "[media-kind-repeat] 이웃 장면 korea→briefing 같은 형태 ['article'] (14 §10.1)"
+   ]
+  },
+  "articles": {
+   "schema_version": 1,
+   "candidates": 33,
+   "covered": 9,
+   "used_events": 8,
+   "per_min_max": 2,
+   "unused": [],
+   "warnings": []
+  },
+  "placement": {
+   "gulf_pk_jf17": "slot:map_left",
+   "kr_msam_battery": "slot:map_left"
+  }
+ },
+ "script": {
+  "labels": {
+   "verified": 0,
+   "corroborated": 15,
+   "unverified": 18,
+   "disputed": 0
+  }
+ },
+ "ai_direction": {
+  "origin": "ai+human_edit",
+  "model": "claude-opus-5-5",
+  "prompt_sha1": "bc97e8d8c6e2f4d65d8bb44ee85a1f38b6aee138",
+  "direction_versions": 1,
+  "used_version": null,
+  "selected": null,
+  "rounds": [],
+  "revisions": [],
+  "visual_qa": []
+ },
+ "checks": {
+  "source": "prev/provenance.json",
+  "direction_sha1": "372c35379834eaace5c8b45deb0c86403a31bc31",
+  "from_current_direction": true,
+  "hard": 0,
+  "warnings": 17,
+  "passed": true
+ },
+ "user_feedback_guards": [
+  {
+   "id": "UF-01",
+   "checks": {
+    "card_exposure": 0
+   }
+  },
+  {
+   "id": "UF-02",
+   "checks": {
+    "camera_continuity": 0,
+    "camera_speed": 0,
+    "camera_bounds": 0
+   }
+  },
+  {
+   "id": "UF-03",
+   "checks": {
+    "route_label_cross": 0,
+    "map_contrast": 0
+   }
+  },
+  {
+   "id": "UF-04",
+   "checks": {
+    "route_label_cross": 0,
+    "route_label_overlap": 0,
+    "label_collision": 0
+   }
+  },
+  {
+   "id": "UF-05",
+   "checks": {
+    "article_backdrop": 0
+   }
+  },
+  {
+   "id": "UF-06",
+   "checks": {
+    "quote_in_script": 0
+   }
+  },
+  {
+   "id": "UF-07",
+   "checks": {
+    "route_missing_other": 0,
+    "route_missing": 0
+   }
+  },
+  {
+   "id": "UF-08",
+   "checks": {
+    "battle_geo": 0
+   }
+  },
+  {
+   "id": "UF-09",
+   "checks": {
+    "route_missing": 0
+   }
+  },
+  {
+   "id": "UF-10",
+   "checks": {
+    "portrait_unused": 0,
+    "quote_in_script": 0
+   }
+  },
+  {
+   "id": "UF-11",
+   "checks": {
+    "route_label_cross": 0,
+    "route_label_overlap": 0
+   }
+  },
+  {
+   "id": "UF-12",
+   "checks": {
+    "frame_missing_target": 0,
+    "frame_missing": 0
+   }
+  },
+  {
+   "id": "UF-16",
+   "checks": {
+    "bgm_decision": 0
+   }
+  },
+  {
+   "id": "UF-18",
+   "checks": {
+    "forbidden": 0
+   }
+  },
+  {
+   "id": "UF-19",
+   "checks": {
+    "camera_per_sentence": 0
+   }
+  },
+  {
+   "id": "UF-20",
+   "checks": {
+    "camera_continuity": 0
+   }
+  },
+  {
+   "id": "UF-25",
+   "checks": {
+    "forbidden": 0
+   }
+  },
+  {
+   "id": "UF-27",
+   "checks": {
+    "portrait_unused": 0
+   }
+  },
+  {
+   "id": "UF-30",
+   "checks": {
+    "bgm_decision": 0
+   }
+  },
+  {
+   "id": "UF-31",
+   "checks": {
+    "media_upscaled": 0
+   }
+  },
+  {
+   "id": "UF-32",
+   "checks": {
+    "boundary_as_route": 0
+   }
+  },
+  {
+   "id": "UF-34",
+   "checks": {
+    "offscreen": 0
+   }
+  },
+  {
+   "id": "UF-35",
+   "checks": {
+    "endcard_black": 0
+   }
+  },
+  {
+   "id": "UF-37",
+   "checks": {
+    "glyph_size": 0
+   }
+  },
+  {
+   "id": "UF-39",
+   "checks": {
+    "timeline_rescale": 0
+   }
+  },
+  {
+   "id": "UF-42",
+   "checks": {
+    "stage_choice": 0,
+    "backdrop_main_missing": 0
+   }
+  },
+  {
+   "id": "UF-45",
+   "checks": {
+    "backdrop_main_missing": 0
+   }
+  },
+  {
+   "id": "UF-46",
+   "checks": {
+    "cascade": 0
+   }
+  },
+  {
+   "id": "UF-54",
+   "checks": {
+    "subtitle_overlap": 0
+   }
+  },
+  {
+   "id": "UF-63",
+   "checks": {
+    "label_collision": 0
+   }
+  },
+  {
+   "id": "UF-72",
+   "checks": {
+    "timeline_span": 0
+   }
+  },
+  {
+   "id": "UF-73",
+   "checks": {
+    "route_frame": 0,
+    "label_collision": 0
+   }
+  },
+  {
+   "id": "UF-77",
+   "checks": {
+    "opening_establish": 0
+   }
+  },
+  {
+   "id": "UF-78",
+   "checks": {
+    "route_missing": 0
+   }
+  },
+  {
+   "id": "UF-80",
+   "checks": {
+    "flag_territory": 0
+   }
+  },
+  {
+   "id": "UF-81",
+   "checks": {
+    "badge_over_panel": 0
+   }
+  },
+  {
+   "id": "UF-84",
+   "checks": {
+    "camera_continuity": 0
+   }
+  },
+  {
+   "id": "UF-88",
+   "checks": {
+    "map_contrast": 0
+   }
+  },
+  {
+   "id": "UF-93",
+   "checks": {
+    "bgm_decision": 0
+   }
+  },
+  {
+   "id": "UF-97",
+   "checks": {
+    "camera_speed": 0,
+    "camera_bounds": 0
+   }
+  },
+  {
+   "id": "UF-98",
+   "checks": {
+    "title_backdrop": 0
+   }
+  },
+  {
+   "id": "UF-99",
+   "checks": {
+    "camera_bounds": 0,
+    "camera_continuity": 0
+   }
+  }
+ ]
+}
