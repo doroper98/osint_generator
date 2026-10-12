@@ -2830,6 +2830,310 @@
    "photo_url": "https://www.aljazeera.com/wp-content/uploads/2026/10/reuters_6ac79e5d-1791467101.jpg?resize=1280%2C960",
    "user_exception": "U20261011",
    "exception": "사용자 결정 D172(2026-10-11) — 보도 인용(저작권법 §28 취지), 개인 프로젝트, 공개 배포 전 재확인"
+  },
+  "kr_msam_battery": {
+   "kind": "photo",
+   "title": "File:M-SAM Block-2 battery.jpg",
+   "license": "KOGL Type 1",
+   "author": "방위사업청 - Defense Acquisition Program Administration (DAPA)",
+   "credit_author": "방위사업청",
+   "date": "2021-10-15",
+   "url": "https://commons.wikimedia.org/wiki/File:M-SAM_Block-2_battery.jpg",
+   "caption": "천궁-II(M-SAM 블록2) 포대 — 다기능 레이더·수직 발사대·교전통제소",
+   "file_note": "자료사진 · 2021. 10",
+   "depicts": [
+    "천궁-II",
+    "M-SAM 블록2 포대"
+   ],
+   "is_file_photo": true,
+   "verified_by": {
+    "by": "구현 세션 육안 확인(2026-10-12, 사상자·시신 없음) — D-0223 감독 콘티 판 검수 대기",
+    "on": "2026-10-12",
+    "casualty_free": true,
+    "relevance": "korea_3 '중거리 지대공미사일 수출 계약' — 천궁-II 포대 장비(방위사업청 사진, 공공누리 제1유형 출처 표시)"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-10-12",
+   "tool": {
+    "name": "media_fetch.photo",
+    "params": {
+     "source": "msam_src.jpg",
+     "thumb_w": 1280,
+     "crop": [
+      720,
+      450
+     ],
+     "color": 0.82,
+     "contrast": 1.06,
+     "jpeg_quality": 92
+    }
+   },
+   "source_hash": "18092272b5827137f9b34f07d65fd3e4",
+   "file": "msam_720.jpg"
+  },
+  "gulf_china_arms_2026_art_0002": {
+   "kind": "article",
+   "title": "The Daily Star 2026-05-18 — Pakistan deploys jet squadron, thousands of troops to Saudi Arabia during Iran war",
+   "license": "헤드라인 번역·요지 자체 조판(원문 인용 15단어 미만, 기사 화면 캡처·로고 없음, 14 §9)",
+   "author": "The Daily Star",
+   "credit_author": "The Daily Star",
+   "date": "2026-05-18",
+   "url": "https://www.thedailystar.net/news/world/news/pakistan-deploys-jet-squadron-thousands-troops-saudi-arabia-during-iran-war-4178736",
+   "caption": "The Daily Star",
+   "file_note": "2026. 05. 18",
+   "depicts": [
+    "파키스탄이 사우디아라비아에 병력 약 8,000명을 배치했다"
+   ],
+   "is_file_photo": false,
+   "verified_by": {
+    "by": "code(tools/article_register — sources.json 확인 기록·claims 대조)",
+    "on": "2026-10-12",
+    "casualty_free": true,
+    "relevance": "gulf_china_arms_2026 원고 claim 근거 기사"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-10-12",
+   "tool": {
+    "name": "article_typeset",
+    "params": {
+     "translation": true
+    }
+   },
+   "headline": "파키스탄, 이란 전쟁 중 사우디에 전투기 대대·병력 수천 명 배치",
+   "sub": "파키스탄이 사우디아라비아에 병력 약 8,000명을 배치했다",
+   "note": "헤드라인 번역 · 원문 영어",
+   "headline_original": "Pakistan deploys jet squadron, thousands of troops to Saudi Arabia during Iran war"
+  },
+  "gulf_china_arms_2026_art_0003": {
+   "kind": "article",
+   "title": "Al Jazeera 2026-04-11 — Pakistan sends fighter jets to Saudi Arabia amid fragile US-Iran ceasefire",
+   "license": "헤드라인 번역·요지 자체 조판(원문 인용 15단어 미만, 기사 화면 캡처·로고 없음, 14 §9)",
+   "author": "Al Jazeera",
+   "credit_author": "Al Jazeera",
+   "date": "2026-04-11",
+   "url": "https://www.aljazeera.com/news/2026/4/11/pakistan-sends-fighter-jets-to-saudi-arabia-amid-fragile-us-iran-ceasefire",
+   "caption": "Al Jazeera",
+   "file_note": "2026. 04. 11",
+   "depicts": [
+    "파키스탄 전투기가 4월 11일 사우디 동부주 킹압둘아지즈 공군기지에 착…"
+   ],
+   "is_file_photo": false,
+   "verified_by": {
+    "by": "code(tools/article_register — sources.json 확인 기록·claims 대조)",
+    "on": "2026-10-12",
+    "casualty_free": true,
+    "relevance": "gulf_china_arms_2026 원고 claim 근거 기사"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-10-12",
+   "tool": {
+    "name": "article_typeset",
+    "params": {
+     "translation": true
+    }
+   },
+   "headline": "파키스탄, 미-이란 휴전 불안 속 사우디에 전투기 파견",
+   "sub": "파키스탄 전투기가 4월 11일 사우디 동부주 킹압둘아지즈 공군기지에 착…",
+   "note": "헤드라인 번역 · 원문 영어",
+   "headline_original": "Pakistan sends fighter jets to Saudi Arabia amid fragile US-Iran ceasefire"
+  },
+  "gulf_china_arms_2026_art_0009": {
+   "kind": "article",
+   "title": "Defense News 2022-01-18 — South Korea inks largest arms export deal with UAE for missile interceptor",
+   "license": "헤드라인 번역·요지 자체 조판(원문 인용 15단어 미만, 기사 화면 캡처·로고 없음, 14 §9)",
+   "author": "Defense News",
+   "credit_author": "Defense News",
+   "date": "2022-01-18",
+   "url": "https://www.defensenews.com/industry/2022/01/18/south-korea-inks-largest-arms-export-deal-with-uae-for-missile-interceptor/",
+   "caption": "Defense News",
+   "file_note": "2022. 01. 18",
+   "depicts": [
+    "한국이 2022년 1월 UAE와 천궁-II 수출 계약을 맺었다"
+   ],
+   "is_file_photo": false,
+   "verified_by": {
+    "by": "code(tools/article_register — sources.json 확인 기록·claims 대조)",
+    "on": "2026-10-12",
+    "casualty_free": true,
+    "relevance": "gulf_china_arms_2026 원고 claim 근거 기사"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-10-12",
+   "tool": {
+    "name": "article_typeset",
+    "params": {
+     "translation": true
+    }
+   },
+   "headline": "한국, UAE와 역대 최대 방산 수출 계약 — 요격 미사일",
+   "sub": "한국이 2022년 1월 UAE와 천궁-II 수출 계약을 맺었다",
+   "note": "헤드라인 번역 · 원문 영어",
+   "headline_original": "South Korea inks largest arms export deal with UAE for missile interceptor"
+  },
+  "gulf_china_arms_2026_art_0010": {
+   "kind": "article",
+   "title": "The Korea Times 2024-02-06 — LIG Nex1 bags $3.2 bil. missile interceptor deal with Saudi Arabia",
+   "license": "헤드라인 번역·요지 자체 조판(원문 인용 15단어 미만, 기사 화면 캡처·로고 없음, 14 §9)",
+   "author": "The Korea Times",
+   "credit_author": "The Korea Times",
+   "date": "2024-02-06",
+   "url": "https://www.koreatimes.co.kr/amp/southkorea/defense/20240206/lig-nex1-bags-32-bil-missile-interceptor-deal-with-saudi-arabia",
+   "caption": "The Korea Times",
+   "file_note": "2024. 02. 06",
+   "depicts": [
+    "한국이 2022년 1월 UAE와 천궁-II 수출 계약을 맺었다"
+   ],
+   "is_file_photo": false,
+   "verified_by": {
+    "by": "code(tools/article_register — sources.json 확인 기록·claims 대조)",
+    "on": "2026-10-12",
+    "casualty_free": true,
+    "relevance": "gulf_china_arms_2026 원고 claim 근거 기사"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-10-12",
+   "tool": {
+    "name": "article_typeset",
+    "params": {
+     "translation": true
+    }
+   },
+   "headline": "LIG넥스원, 사우디와 32억 달러 요격 미사일 계약",
+   "sub": "한국이 2022년 1월 UAE와 천궁-II 수출 계약을 맺었다",
+   "note": "헤드라인 번역 · 원문 영어",
+   "headline_original": "LIG Nex1 bags $3.2 bil. missile interceptor deal with Saudi Arabia"
+  },
+  "gulf_china_arms_2026_art_0011": {
+   "kind": "article",
+   "title": "Army Recognition 2026-05-19 — Pakistan Boosts Saudi Arabia Air Defense With HQ-9 Missiles and JF-17 Fighter Jets",
+   "license": "헤드라인 번역·요지 자체 조판(원문 인용 15단어 미만, 기사 화면 캡처·로고 없음, 14 §9)",
+   "author": "Army Recognition",
+   "credit_author": "Army Recognition",
+   "date": "2026-05-19",
+   "url": "https://www.armyrecognition.com/news/army-news/2026/pakistan-boosts-saudi-arabia-air-defense-with-hq-9-missiles-and-jf-17-fighter-jets",
+   "caption": "Army Recognition",
+   "file_note": "2026. 05. 19",
+   "depicts": [
+    "파키스탄이 사우디아라비아에 병력 약 8,000명을 배치했다"
+   ],
+   "is_file_photo": false,
+   "verified_by": {
+    "by": "code(tools/article_register — sources.json 확인 기록·claims 대조)",
+    "on": "2026-10-12",
+    "casualty_free": true,
+    "relevance": "gulf_china_arms_2026 원고 claim 근거 기사"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-10-12",
+   "tool": {
+    "name": "article_typeset",
+    "params": {
+     "translation": true
+    }
+   },
+   "headline": "파키스탄, HQ-9 미사일·JF-17 전투기로 사우디 방공 보강",
+   "sub": "파키스탄이 사우디아라비아에 병력 약 8,000명을 배치했다",
+   "note": "헤드라인 번역 · 원문 영어",
+   "headline_original": "Pakistan Boosts Saudi Arabia Air Defense With HQ-9 Missiles and JF-17 Fighter Jets"
+  },
+  "gulf_china_arms_2026_art_0012": {
+   "kind": "article",
+   "title": "ThePrint 2026-04-03 — South Korea’s Cheongung-II missile system makes its mark in West Asia war. Here’s why",
+   "license": "헤드라인 번역·요지 자체 조판(원문 인용 15단어 미만, 기사 화면 캡처·로고 없음, 14 §9)",
+   "author": "ThePrint",
+   "credit_author": "ThePrint",
+   "date": "2026-04-03",
+   "url": "https://theprint.in/defence/south-koreas-cheongung-ii-missile-system-makes-its-mark-in-west-asia-war-heres-why/2896010/",
+   "caption": "ThePrint",
+   "file_note": "2026. 04. 03",
+   "depicts": [
+    "LIG넥스원이 사우디 국방부와 천궁-II 수출 계약을 맺었다"
+   ],
+   "is_file_photo": false,
+   "verified_by": {
+    "by": "code(tools/article_register — sources.json 확인 기록·claims 대조)",
+    "on": "2026-10-12",
+    "casualty_free": true,
+    "relevance": "gulf_china_arms_2026 원고 claim 근거 기사"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-10-12",
+   "tool": {
+    "name": "article_typeset",
+    "params": {
+     "translation": true
+    }
+   },
+   "headline": "한국 천궁-II, 서아시아 전쟁에서 존재감 — 그 이유",
+   "sub": "LIG넥스원이 사우디 국방부와 천궁-II 수출 계약을 맺었다",
+   "note": "헤드라인 번역 · 원문 영어",
+   "headline_original": "South Korea’s Cheongung-II missile system makes its mark in West Asia war. Here’s why"
+  },
+  "gulf_china_arms_2026_art_0013": {
+   "kind": "article",
+   "title": "Asharq Al-Awsat (Reuters) 2024-09-20 — South Korea's LIG Nex1 Wins $2.8 Bln Iraq Deal to Export Missile Systems",
+   "license": "헤드라인 번역·요지 자체 조판(원문 인용 15단어 미만, 기사 화면 캡처·로고 없음, 14 §9)",
+   "author": "Asharq Al-Awsat (Reuters)",
+   "credit_author": "Asharq Al-Awsat (Reuters)",
+   "date": "2024-09-20",
+   "url": "https://english.aawsat.com/arab-world/5063171-south-koreas-lig-nex1-wins-28-bln-iraq-deal-export-missile-systems",
+   "caption": "Asharq Al-Awsat (Reuters)",
+   "file_note": "2024. 09. 20",
+   "depicts": [
+    "LIG넥스원이 이라크와 28억 달러 규모 중거리 지대공미사일 수출 계약…"
+   ],
+   "is_file_photo": false,
+   "verified_by": {
+    "by": "code(tools/article_register — sources.json 확인 기록·claims 대조)",
+    "on": "2026-10-12",
+    "casualty_free": true,
+    "relevance": "gulf_china_arms_2026 원고 claim 근거 기사"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-10-12",
+   "tool": {
+    "name": "article_typeset",
+    "params": {
+     "translation": true
+    }
+   },
+   "headline": "LIG넥스원, 이라크에 28억 달러 미사일 체계 수출 계약",
+   "sub": "LIG넥스원이 이라크와 28억 달러 규모 중거리 지대공미사일 수출 계약…",
+   "note": "헤드라인 번역 · 원문 영어",
+   "headline_original": "South Korea's LIG Nex1 Wins $2.8 Bln Iraq Deal to Export Missile Systems"
+  },
+  "gulf_china_arms_2026_art_0014": {
+   "kind": "article",
+   "title": "Defense News 2022-03-09 — Chinese and Saudi firms create joint venture to make military drones in the kingdom",
+   "license": "헤드라인 번역·요지 자체 조판(원문 인용 15단어 미만, 기사 화면 캡처·로고 없음, 14 §9)",
+   "author": "Defense News",
+   "credit_author": "Defense News",
+   "date": "2022-03-09",
+   "url": "https://www.defensenews.com/unmanned/2022/03/09/chinese-and-saudi-firms-create-joint-venture-to-make-military-drones-in-the-kingdom/",
+   "caption": "Defense News",
+   "file_note": "2022. 03. 09",
+   "depicts": [
+    "사우디는 2017년 중국산 윙룽 II 무인기를 주문했다"
+   ],
+   "is_file_photo": false,
+   "verified_by": {
+    "by": "code(tools/article_register — sources.json 확인 기록·claims 대조)",
+    "on": "2026-10-12",
+    "casualty_free": true,
+    "relevance": "gulf_china_arms_2026 원고 claim 근거 기사"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-10-12",
+   "tool": {
+    "name": "article_typeset",
+    "params": {
+     "translation": true
+    }
+   },
+   "headline": "중국·사우디 기업, 사우디에서 군용 무인기 만드는 합작사 설립",
+   "sub": "사우디는 2017년 중국산 윙룽 II 무인기를 주문했다",
+   "note": "헤드라인 번역 · 원문 영어",
+   "headline_original": "Chinese and Saudi firms create joint venture to make military drones in the kingdom"
   }
  }
 }
