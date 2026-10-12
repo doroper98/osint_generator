@@ -1,0 +1,514 @@
+{
+ "schema_version": 1,
+ "hard": 0,
+ "warnings": 13,
+ "passed": true,
+ "profile": "animatic",
+ "skipped": [
+  "as_of_visible",
+  "chart_honesty",
+  "glyph_size",
+  "glyphs",
+  "labels",
+  "media_upscaled",
+  "rights",
+  "series_limit_3",
+  "units_visible"
+ ],
+ "thresholds": {
+  "overlap_core_elements": 0,
+  "offscreen_clip": 0,
+  "missing_glyphs": 0,
+  "labels_per_frame_max": 18,
+  "subtitle_lines_max": 2,
+  "rights_missing": 0,
+  "forbidden_components": 0,
+  "glyph_size_exempt": [
+   "end_card",
+   "media_meta"
+  ],
+  "label_hidden_max_ratio": 0.5,
+  "route_missing": {
+   "move_verbs": [
+    "보냈",
+    "보내",
+    "파병",
+    "배치",
+    "수송",
+    "이동",
+    "도착",
+    "증파",
+    "급파",
+    "고립"
+   ],
+   "attack_verbs": [
+    "공격",
+    "발사",
+    "타격",
+    "요격",
+    "폭격",
+    "포격"
+   ],
+   "endpoint_tol_deg": 0.6
+  },
+  "frame_missing": {
+   "margin_px": 8.0,
+   "sample_sec": 0.5
+  },
+  "battle_geo": {
+   "verbs": [
+    "점령",
+    "탈환",
+    "공세",
+    "장악",
+    "진격",
+    "교전",
+    "함락",
+    "격퇴"
+   ]
+  },
+  "card_full_exposure_min_sec": 2.5,
+  "label_jump_px": 4.0,
+  "camera_bounds_rel_tol": 0.001,
+  "label_slot_sample_sec": 0.25,
+  "map_contrast_text": 4.5,
+  "map_contrast_shape": 3.0,
+  "map_contrast_min_alpha": 0.8,
+  "planned": [],
+  "chart_targets": {
+   "value": [
+    "chart_honesty",
+    "series_limit_3",
+    "units_visible",
+    "as_of_visible"
+   ],
+   "date": [
+    "chart_honesty"
+   ],
+   "none": []
+  },
+  "series_max": 3,
+  "visual_qa_loop_max": 2,
+  "empty_exempt": [
+   "article_press_lead"
+  ],
+  "loop_pick_order": [
+   "checks_hard",
+   "qa_hard",
+   "qa_soft"
+  ]
+ },
+ "items": [
+  {
+   "id": "overlap",
+   "severity": "hard",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "offscreen",
+   "severity": "hard",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "shots",
+   "severity": "warning",
+   "count": 1,
+   "details": [
+    "장면 korea 카메라 이동 2 > 1"
+   ]
+  },
+  {
+   "id": "media_beats",
+   "severity": "warning",
+   "count": 5,
+   "details": [
+    "[media-density-total] 과소 — 2개 / 257초 = 128.4초당 1개 > 60초 (14 §10.1, ['article'] 제외)",
+    "[media-kind-repeat] 이웃 장면 open→what 같은 형태 ['article'] (14 §10.1)",
+    "[media-kind-repeat] 이웃 장면 what→official 같은 형태 ['article'] (14 §10.1)",
+    "[media-kind-repeat] 이웃 장면 scale→korea 같은 형태 ['article'] (14 §10.1)",
+    "[media-kind-repeat] 이웃 장면 korea→briefing 같은 형태 ['article'] (14 §10.1)"
+   ]
+  },
+  {
+   "id": "endcard_roll",
+   "severity": "warning",
+   "count": 1,
+   "details": [
+    "[endcard-roll] 크레딧이 넘쳐 롤 158px · 24.3 px/s(상한 60)"
+   ]
+  },
+  {
+   "id": "date",
+   "severity": "hard",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "subtitles",
+   "severity": "hard",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "forbidden",
+   "severity": "hard",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "stage_continuity",
+   "severity": "hard",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "camera_continuity",
+   "severity": "hard",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "card_exposure",
+   "severity": "hard",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "route_label_cross",
+   "severity": "hard",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "route_label_overlap",
+   "severity": "hard",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "article_backdrop",
+   "severity": "hard",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "quote_in_script",
+   "severity": "hard",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "route_missing",
+   "severity": "hard",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "route_missing_other",
+   "severity": "hard",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "frame_missing",
+   "severity": "hard",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "frame_missing_target",
+   "severity": "hard",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "battle_geo",
+   "severity": "warning",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "bgm_decision",
+   "severity": "hard",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "endcard_black",
+   "severity": "hard",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "camera_per_sentence",
+   "severity": "hard",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "label_jump",
+   "severity": "hard",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "camera_speed",
+   "severity": "hard",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "camera_bounds",
+   "severity": "hard",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "title_backdrop",
+   "severity": "hard",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "portrait_unused",
+   "severity": "warning",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "genre_elements",
+   "severity": "hard",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "boundary_as_route",
+   "severity": "hard",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "geo_unsourced",
+   "severity": "warning",
+   "count": 3,
+   "details": [
+    "[geo-unsourced] place kaab [50.15, 26.27] — 지명 사전에 없는 이름(또는 경로)이라 좌표를 대조하지 못함",
+    "[geo-unsourced] path pk_sa 7점 [67.8, 26.6]→[50.15, 26.27] — 지명 사전에 없는 이름(또는 경로)이라 좌표를 대조하지 못함",
+    "[geo-unsourced] path cn_pk 5점 [104.07, 30.67]→[72.4, 33.87] — 지명 사전에 없는 이름(또는 경로)이라 좌표를 대조하지 못함"
+   ]
+  },
+  {
+   "id": "geo_mismatch",
+   "severity": "hard",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "static_window",
+   "severity": "warning",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "timeline_rescale",
+   "severity": "hard",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "backdrop_rights",
+   "severity": "hard",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "backdrop_repeat",
+   "severity": "hard",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "stage_choice",
+   "severity": "warning",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "island_overlap",
+   "severity": "hard",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "backdrop_main_missing",
+   "severity": "hard",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "card_island",
+   "severity": "warning",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "island_label_clip",
+   "severity": "hard",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "island_label_overlap",
+   "severity": "warning",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "cascade",
+   "severity": "hard",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "cascade_label_hidden",
+   "severity": "warning",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "subtitle_overlap",
+   "severity": "hard",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "label_collision",
+   "severity": "hard",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "timeline_span",
+   "severity": "hard",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "route_frame",
+   "severity": "hard",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "panel_overflow",
+   "severity": "hard",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "flag_territory",
+   "severity": "hard",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "badge_over_panel",
+   "severity": "hard",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "opening_establish",
+   "severity": "hard",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "weapon_photo",
+   "severity": "warning",
+   "count": 3,
+   "details": [
+    "[weapon-photo] us_arms_0 '패트리어트' — 무기체계 실사 사진(권리 기록된 자료사진)이 없다",
+    "[weapon-photo] korea_4 '패트리어트' — 무기체계 실사 사진(권리 기록된 자료사진)이 없다",
+    "[weapon-photo] briefing_4 '패트리어트' — 무기체계 실사 사진(권리 기록된 자료사진)이 없다"
+   ]
+  },
+  {
+   "id": "map_contrast",
+   "severity": "hard",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "map_contrast_shape",
+   "severity": "warning",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "as_of_visible",
+   "severity": "hard",
+   "count": 0,
+   "details": [],
+   "skipped": true
+  },
+  {
+   "id": "chart_honesty",
+   "severity": "hard",
+   "count": 0,
+   "details": [],
+   "skipped": true
+  },
+  {
+   "id": "glyph_size",
+   "severity": "hard",
+   "count": 0,
+   "details": [],
+   "skipped": true
+  },
+  {
+   "id": "glyphs",
+   "severity": "hard",
+   "count": 0,
+   "details": [],
+   "skipped": true
+  },
+  {
+   "id": "labels",
+   "severity": "hard",
+   "count": 0,
+   "details": [],
+   "skipped": true
+  },
+  {
+   "id": "media_upscaled",
+   "severity": "warning",
+   "count": 0,
+   "details": [],
+   "skipped": true
+  },
+  {
+   "id": "rights",
+   "severity": "hard",
+   "count": 0,
+   "details": [],
+   "skipped": true
+  },
+  {
+   "id": "series_limit_3",
+   "severity": "hard",
+   "count": 0,
+   "details": [],
+   "skipped": true
+  },
+  {
+   "id": "units_visible",
+   "severity": "hard",
+   "count": 0,
+   "details": [],
+   "skipped": true
+  }
+ ]
+}
