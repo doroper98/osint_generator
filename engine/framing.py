@@ -93,6 +93,9 @@ def default_reserve(width: float = W_OUT, height: float = H_OUT, card: bool = Fa
     return out
 
 
+_BOUND_PAD = 0.02   # 경계 폭 상한 여유(월드 단위) — View 의 0.01 여유보다 커서 제안 키가 잘리지 않는다(v7.1.0 D-0220)
+
+
 def _hit(a: Box, b: Box) -> bool:
     return a[0] < b[2] and b[0] < a[2] and a[1] < b[3] and b[1] < a[3]
 
@@ -146,8 +149,11 @@ def frame_points(points: list[FramePoint], reserve: Optional[list[Box]] = None, 
     if not points:
         raise ValueError("frame_points: 장소가 없다")
     k = height / BASE_H
-    lo = max(FR.w_min, w_min or 0.0)
-    ws = [math.exp(math.log(lo) + (math.log(FR.w_max) - math.log(lo)) * i / (FR.w_steps - 1)) for i in range(FR.w_steps)]
+    hi = FR.w_max
+    if bounds is not None:   # v7.1.0 UF-99 D-0220 — 경계 안 키만 제안(View 와 같은 폭 상한). 클램프되는 키 = 화면 꺾임(camera_bounds)
+        hi = min(hi, bounds[2] - bounds[0] - _BOUND_PAD, (bounds[3] - bounds[1] - _BOUND_PAD) * width / height)
+    lo = min(max(FR.w_min, w_min or 0.0), hi)
+    ws = [math.exp(math.log(lo) + (math.log(hi) - math.log(lo)) * i / (FR.w_steps - 1)) for i in range(FR.w_steps)]
     safe_x0, safe_y0 = FR.margin_px * k, FR.top_px * k
     safe_x1, safe_y1 = width - FR.margin_px * k, _L.reserved_zones.subtitle.y_from * k - FR.margin_px * k
     last = ""
@@ -160,6 +166,9 @@ def frame_points(points: list[FramePoint], reserve: Optional[list[Box]] = None, 
         # 중심 y 구간: 화면 y = (c_y + h/2 - y_p) * s 가 [safe_y0 + up, safe_y1 - down]
         cv_lo = max(p.y - h / 2 + (safe_y0 + p.up * k) / s for p in points)
         cv_hi = min(p.y - h / 2 + (safe_y1 - p.down * k) / s for p in points)
+        if bounds is not None:   # v7.1.0 D-0220 — 중심 ± w/2 가 경계 안(View 가 자르지 않는 중심만)
+            cx_lo, cx_hi = max(cx_lo, bounds[0] + w / 2), min(cx_hi, bounds[2] - w / 2)
+            cv_lo, cv_hi = max(cv_lo, bounds[1] + h / 2), min(cv_hi, bounds[3] - h / 2)
         if cx_lo > cx_hi or cv_lo > cv_hi:
             last = f"w {w:.1f}: 장소가 한 화면에 들어가지 않는다"
             continue
@@ -175,8 +184,12 @@ def frame_points(points: list[FramePoint], reserve: Optional[list[Box]] = None, 
             last = f"w {w:.1f}: {why}"
     cx = sum(p.x for p in points) / len(points)
     cv = sum(p.y for p in points) / len(points)
-    _, boxes, _ = place(points, *_canon(stage, cx, cv), FR.w_max, width=width, height=height, reserve=reserve, bounds=bounds)
-    return FrameResult(cx, cv, FR.w_max, False, _to480(boxes, k), last)
+    if bounds is not None:   # v7.1.0 D-0220 — 실패 틀도 경계 안(제안을 그대로 받아도 클램프 0)
+        hh = hi * height / width
+        cx = min(max(cx, bounds[0] + hi / 2), bounds[2] - hi / 2)
+        cv = min(max(cv, bounds[1] + hh / 2), bounds[3] - hh / 2)
+    _, boxes, _ = place(points, *_canon(stage, cx, cv), hi, width=width, height=height, reserve=reserve, bounds=bounds)
+    return FrameResult(cx, cv, round(hi, 4), False, _to480(boxes, k), last)
 
 
 def _canon(stage: object, x: float, y: float) -> tuple[float, float]:

@@ -38,7 +38,7 @@ def _track(w0: float, w1: float, t0: float, dur: float, total: float) -> np.ndar
 def _P(track: np.ndarray, title_t0: float | None, events: list | None = None) -> SimpleNamespace:  # noqa: N802
     cards = [SimpleNamespace(kind="title", t0=title_t0, t1=title_t0 + 5.6)] if title_t0 is not None else []
     return SimpleNamespace(cams=track, keys=[], plan=SimpleNamespace(cards=cards), events=events or [],
-                           R=SimpleNamespace(stage=SimpleNamespace(name="mercator")))
+                           R=SimpleNamespace(stage=SimpleNamespace(bounds=(-1e9, -1e9, 1e9, 1e9), name="mercator")))   # 경계 없는 합성 무대(v7.1.0 화면 궤적)
 
 
 class CameraSpeedTest(unittest.TestCase):

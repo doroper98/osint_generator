@@ -51,7 +51,7 @@ def run(raw: dict, rights: dict | None = None) -> CheckReport:
         return r
     with tempfile.TemporaryDirectory() as d:
         proj = Path(d)
-        for f in ("fronts.json", "ref_operation_uranus.svg", "RIGHTS.json"):
+        for f in ("fronts.json", "ref_operation_uranus.svg", "RIGHTS.json", "geo.yaml"):   # geo.yaml = 카메라 경계(v7.1.0 D-0220)
             shutil.copy(PROJ / f, proj / f)
         if rights is not None:
             (proj / "RIGHTS.json").write_text(json.dumps(rights), encoding="utf-8")

@@ -34,6 +34,7 @@ hard 실패가 하나라도 있으면 시각 검수 LLM 을 부르지 않고 연
 | label_jump | hard | 경로 이름표가 보이는 중에 자리를 옮김(한 프레임 사이 상대 위치 변화 > qa_checks.label_jump_px, v5.22.7 D209) — 자리는 `route_label_slots`(나타나는 순간 고정) |
 | camera_speed | hard | 카메라 pan(화면 폭/초)·zoom(|d ln w/dt|) > rules shot_grammar.camera_speed(제목 카드 전 오프닝은 더 낮은 상한) — `engine.camera.speed`, 스케치 SK-C1 같은 함수(v6.0.2 UF-97·D-0216) |
 | title_backdrop | hard | 제목 카드 직전 1초 장면 ≠ 제목 바탕(기사 카드·암전·지도) — 카드 → 지도 → 제목 깜박임(v6.0.2 UF-98·D-0216) |
+| camera_bounds | hard | 요청 카메라가 무대 경계 밖이라 렌더 View 가 잘랐다 — 화면이 멈췄다가 이동 중간에 꺾임(지도·시간축·차트 아일랜드). camera_continuity·camera_speed 는 화면 궤적(`engine.camera.screen_track`)을 잰다(v7.1.0 UF-99·D-0220) |
 | portrait_unused | warning | 인물 이름이 나오고 초상이 있는데 그 인물 뱃지·인용 없음(v5.22.0 D-0200 UF-10) |
 | genre_elements | hard | 장르 요소(v4.2.0 D-0081 작업 3, GOAL G3-17): direction 이 쓴 이벤트·패널·뱃지·프리미티브 종류(genres.elements) ⊆ 장르 프로필 primitives.reuse ∪ new |
 | chart_honesty | hard | 차트 정직성(v4.3.0 D-0084 작업 5·D-0087, 20 §5.3): 막대 0 기준선·압축 구간 ↔ 물결 라벨·%/%p·이중 축 라벨·색·로그 척도 표기 (`engine.honesty`) |
@@ -84,7 +85,7 @@ SHADOW_PX = 7             # badge_box 가 원 둘레에 더하는 그림자 여�
 HARD = ("map_contrast", "overlap", "offscreen", "glyphs", "glyph_size", "labels", "date", "subtitles", "rights", "forbidden", "stage_continuity",
         "genre_elements", "chart_honesty", "series_limit_3", "units_visible", "as_of_visible", "boundary_as_route",
         "geo_mismatch", "timeline_rescale", "backdrop_rights", "backdrop_repeat", "island_overlap",
-        "backdrop_main_missing", "island_label_clip", "cascade", "subtitle_overlap", "label_collision", "timeline_span", "route_frame", "panel_overflow", "flag_territory", "badge_over_panel", "opening_establish", "camera_continuity", "card_exposure", "route_label_cross", "route_label_overlap", "article_backdrop", "quote_in_script", "route_missing_other", "frame_missing_target", "route_missing", "frame_missing", "bgm_decision", "endcard_black", "camera_per_sentence", "label_jump", "camera_speed", "title_backdrop")   # island_label_clip v5.2.0 D-0133 §2, backdrop_main_missing v5.2.0 D-0129 §B, island_overlap v5.1.0 D-0126 Q3, geo_mismatch v4.10.0 D-0116, timeline_rescale v5.1.0 D-0121 §A, backdrop_* v5.1.0 D-0123
+        "backdrop_main_missing", "island_label_clip", "cascade", "subtitle_overlap", "label_collision", "timeline_span", "route_frame", "panel_overflow", "flag_territory", "badge_over_panel", "opening_establish", "camera_continuity", "card_exposure", "route_label_cross", "route_label_overlap", "article_backdrop", "quote_in_script", "route_missing_other", "frame_missing_target", "route_missing", "frame_missing", "bgm_decision", "endcard_black", "camera_per_sentence", "label_jump", "camera_speed", "title_backdrop", "camera_bounds")   # island_label_clip v5.2.0 D-0133 §2, backdrop_main_missing v5.2.0 D-0129 §B, island_overlap v5.1.0 D-0126 Q3, geo_mismatch v4.10.0 D-0116, timeline_rescale v5.1.0 D-0121 §A, backdrop_* v5.1.0 D-0123
 WARN = ("shots", "media_beats", "media_upscaled", "endcard_roll", "geo_unsourced",   # endcard_roll v4.7.0 D-0106, geo_unsourced D-0107
         "static_window", "stage_choice", "card_island", "island_label_overlap", "cascade_label_hidden",
         "map_contrast_shape", "battle_geo", "portrait_unused")   # v5.21.14 D-0195·D-0199. map_contrast_shape v5.18.0 D-0161 §4   # static_window v4.11.0 D-0118, stage_choice v5.1.0 D-0123, card_island v5.2.0 D-0129 §C, island_label_overlap D-0133 §3
@@ -952,8 +953,9 @@ def check_shots(P) -> list[str]:  # noqa: ANN001, N803
 
 def check_camera_continuity(P) -> list[str]:  # noqa: ANN001, N803
     """카메라 연속성(v5.21.9 D-0191 §1-1, 사용자 의견 UF-02) — 스케치 SK-C1 과 같은 측정(engine.camera.continuity)·같은 임계
-    (rules sketch.checks max_dlogw·max_d2logw·max_d3). 컷 키(암전 컷 포함)에 걸친 차분은 뺀다. 종류마다 최댓값 한 줄."""
-    from engine.camera import continuity  # noqa: PLC0415
+    (rules sketch.checks max_dlogw·max_d2logw·max_d3). 컷 키(암전 컷 포함)에 걸친 차분은 뺀다. 종류마다 최댓값 한 줄.
+    v7.1.0 UF-99 D-0220: **화면 궤적**(engine.camera.screen_track — 렌더와 같은 View 클램프 뒤)을 잰다. 요청 궤적은 경계에서 잘리면 화면과 다르다."""
+    from engine.camera import continuity, screen_track  # noqa: PLC0415
 
     if P.cams is None:
         return []
@@ -961,7 +963,7 @@ def check_camera_continuity(P) -> list[str]:  # noqa: ANN001, N803
     cuts = sorted({math.ceil(k.t * FPS - 1e-9) for k in P.keys if k.mode == "cut"})
     lim = {1: th.max_dlogw_per_frame, 2: th.max_d2logw_per_frame, 3: th.max_d3_per_frame}
     out = []
-    for k, v in continuity(P.cams, cuts).items():
+    for k, v in continuity(screen_track(P.R.stage, np.asarray(P.cams, dtype=float)), cuts).items():
         o = int(k[1])
         bad = np.flatnonzero(v > lim[o])
         if bad.size:
@@ -976,14 +978,14 @@ def check_camera_speed(P) -> list[str]:  # noqa: ANN001, N803
     engine.camera.speed(스케치 SK-C1 과 같은 함수)로 pan·zoom 을 재고 rules shot_grammar.camera_speed 를 넘으면 hard.
     제목 카드 전(오프닝)은 opening_* 상한. 종류·구간마다 최댓값 한 줄. 무대마다 재는 성분은 rules camera_speed.stages
     (v7.0.1 D-0218 A — 지도 = pan·zoom, 시간축 = zoom 만, 없는 무대 = 검사 안 함)."""
-    from engine.camera import speed  # noqa: PLC0415
+    from engine.camera import screen_track, speed  # noqa: PLC0415
 
     lim = R_.shot_grammar.camera_speed
     kinds = lim.stages.get(getattr(P.R.stage, "name", None), [])
     if P.cams is None or not kinds:
         return []
     cuts = sorted({math.ceil(k.t * FPS - 1e-9) for k in P.keys if k.mode == "cut"})
-    sp = speed(np.asarray(P.cams, dtype=float), cuts, FPS)
+    sp = speed(screen_track(P.R.stage, np.asarray(P.cams, dtype=float)), cuts, FPS)   # v7.1.0 D-0220 — 화면 궤적
     title = next((c.t0 for c in P.plan.cards if c.kind == "title"), None)
     n_open = 0 if title is None else min(len(sp["pan"]), int(title * FPS))
     out = []
@@ -999,6 +1001,40 @@ def check_camera_speed(P) -> list[str]:  # noqa: ANN001, N803
                 i = lo + int(bad[np.argmax(seg[bad])])
                 out.append(f"[camera-speed] {where}카메라 {kind} {v[i]:.3f}{unit} > {cap} — t={(i + 1) / FPS:.2f}s 외 {bad.size - 1}프레임 "
                            "— 이동을 길게(dur)·나눠서·이동 폭을 줄인다(rules shot_grammar.camera_speed)")
+    return out
+
+
+def _clamp_spans(d: "np.ndarray", tol: float) -> list[tuple[int, int, str]]:
+    """프레임별 클램프 비율(n×3) → 넘는 구간 [(첫 프레임, 끝 프레임, 잘린 성분)]."""
+    bad = np.flatnonzero(d.max(axis=1) > tol)
+    out = []
+    for g in (np.split(bad, np.flatnonzero(np.diff(bad) > 1) + 1) if bad.size else []):
+        comp = "·".join(n for j, n in enumerate("xyw") if d[g, j].max() > tol)
+        out.append((int(g[0]), int(g[-1]), comp))
+    return out
+
+
+def check_camera_bounds(P) -> list[str]:  # noqa: ANN001, N803
+    """카메라 무대 경계(v7.1.0 UF-99 D-0220, recurs_of UF-02·UF-97) — 요청 궤적이 무대 경계 밖이라 렌더 View 가 잘랐으면 hard.
+    잘린 동안 화면은 경계에 멈춰 있다가 요청 궤적이 경계 안으로 들어오는 순간 이동 중간 속도로 한 프레임 만에 출발·정지·방향을 바꾼다
+    (사용자에게 "딱 꺾이는 지점"). 지도 무대·시간축 무대·차트 아일랜드 카메라 모두. 구간마다 한 줄(시각·잘린 성분·허용 최대 w)."""
+    from engine.camera import bounds_excess, max_view_w  # noqa: PLC0415
+
+    if P.cams is None:
+        return []
+    tol = R_.qa_checks.camera_bounds_rel_tol
+    tracks = [("", P.R.stage, np.asarray(P.cams, dtype=float))]
+    chart = getattr(P.R, "cache", {}).get("island_chart") if hasattr(P.R, "cache") else None
+    if chart is not None:
+        tracks.append(("차트 아일랜드 ", chart["stage"], np.asarray(chart["cams"], dtype=float)))
+    out = []
+    for name, st, tr in tracks:
+        d = bounds_excess(st, tr)
+        wmax = max_view_w(st)
+        for a, b, comp in _clamp_spans(d, tol):
+            out.append(f"[camera-bounds] {name}카메라가 무대 경계 밖 — t={a / FPS:.2f}~{b / FPS:.2f}s 잘린 성분 {comp}"
+                       f"(요청 w 최대 {tr[a:b + 1, 2].max():.1f}, 허용 최대 w {wmax:.1f}). 렌더가 경계에서 잘라 화면이 멈췄다가 "
+                       "이동 중간에 꺾인다 — 키를 경계 안(w ≤ 허용 최대, 중심 ± w/2 가 경계 안)으로 고른다(rules qa_checks.camera_bounds_rel_tol)")
     return out
 
 
@@ -1454,6 +1490,7 @@ def run_checks(P, times: list[float], provenance: dict, drawn: list[tuple[str, f
         "camera_per_sentence": lambda: check_camera_per_sentence(P),   # v5.22.4 UF-19(hard)
         "label_jump": lambda: check_label_jump(P),   # v5.22.7 D209(hard)
         "camera_speed": lambda: check_camera_speed(P),   # v6.0.2 UF-97 D-0216(hard)
+        "camera_bounds": lambda: check_camera_bounds(P),   # v7.1.0 UF-99 D-0220(hard)
         "title_backdrop": lambda: check_title_backdrop(P),   # v6.0.2 UF-98 D-0216(hard)
         "portrait_unused": lambda: check_portrait_unused(P),  # v5.22.0 D-0200 UF-10(warning)
         "genre_elements": lambda: check_genre_elements(P),

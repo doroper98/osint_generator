@@ -77,8 +77,9 @@ class TestContinuity(unittest.TestCase):
         from engine.checks import HARD, check_camera_continuity
         self.assertIn("camera_continuity", HARD)
         keys = [C.cam(0.0, 50.0, 25.0, 30.0, 0, "cut"), C.cam(2.0, 46.0, 24.0, 10.0, 2.6)]
-        good = SimpleNamespace(cams=_track(ease_quintic), keys=keys)
-        bad = SimpleNamespace(cams=_track(ease_io), keys=keys)
+        R = SimpleNamespace(stage=SimpleNamespace(bounds=(-1e9, -1e9, 1e9, 1e9), name="mercator"))   # noqa: N806 — 경계 없는 합성 무대(v7.1.0 화면 궤적 측정)
+        good = SimpleNamespace(cams=_track(ease_quintic), keys=keys, R=R)
+        bad = SimpleNamespace(cams=_track(ease_io), keys=keys, R=R)
         self.assertEqual(check_camera_continuity(good), [])
         out = check_camera_continuity(bad)
         self.assertTrue(out and all(s.startswith("[camera-continuity]") for s in out))
@@ -88,11 +89,11 @@ class TestContinuity(unittest.TestCase):
     def test_sketch_sk_c1_same_measure(self) -> None:
         """스케치 SK-C1 도 3차를 본다(교훈을 한 트랙에만 배선하지 않는다)."""
         rep = CheckReport()
-        worst = check_camera(rep, _track(ease_io), FPS, TH)
+        worst = check_camera(rep, _track(ease_io), FPS, TH, SimpleNamespace(bounds=(-1e9, -1e9, 1e9, 1e9), name="mercator"))
         self.assertIn("d3 ln w", worst)
         self.assertTrue(any("꺾임" in f.message for f in rep.hard))
         rep2 = CheckReport()
-        check_camera(rep2, _track(ease_quintic), FPS, TH)
+        check_camera(rep2, _track(ease_quintic), FPS, TH, SimpleNamespace(bounds=(-1e9, -1e9, 1e9, 1e9), name="mercator"))
         self.assertEqual(rep2.hard, [])
 
     def test_sketch_camera_uses_rule(self) -> None:

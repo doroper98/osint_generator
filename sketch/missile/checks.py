@@ -24,7 +24,7 @@ import numpy as np
 
 from engine.style import FPS, Output
 from rules import load_rules
-from sketch.common.camera import CameraPath
+from sketch.common.camera import CameraPath, bounds_stage
 from sketch.common.checks import CheckReport, check_camera, check_end_card, check_label_overlap, check_rights
 from sketch.common.geodesy import dest, gc_dist, horizon_altitude, to_local
 from sketch.missile.globe import CameraPath3D, Keys, visible
@@ -103,7 +103,7 @@ def check_spec(report: CheckReport, spec: MissileSpec, project: Path) -> Numbers
         report.add("SK-H5", f"approx 층({', '.join(c.code for c in approx)})이 있는데 엔딩 자료(sources)에 '{word}' 이 없다")
     cam = SK.camera
     path = CameraPath(tuple(spec.shots), spec.duration_sec, cam.push_in[spec.kind], cam.hold_min_sec)
-    check_camera(report, path.track(FPS), FPS, th)
+    check_camera(report, path.track(FPS), FPS, th, bounds_stage(project))   # v7.1.0 D-0220 — 화면 궤적·경계
     check_rights(report, project / MEDIA_DIR, spec.media, SK.rights.allowed_licenses)
     Ln, Nt = SK.text.end_line, SK.text.end_note
     check_end_card(report, [s.text for s in spec.sources], Ln.x, Ln.y0, Ln.dy, Ln.size, Ln.font, Nt.y)
@@ -188,7 +188,7 @@ def check_camera_3d(report: CheckReport, ts: list[float], S: np.ndarray, V: np.n
     return worst
 
 
-def check_globe_spec(report: CheckReport, spec: MissileSpec, out: Output) -> dict[str, float]:
+def check_globe_spec(report: CheckReport, spec: MissileSpec, out: Output, stage: object) -> dict[str, float]:
     """렌더 전 3D 검사 — SK-C1(2D 이어받기 구간 + 3D 기준점 궤적), SK-H6(패널 주석)."""
     g = spec.globe
     assert g is not None
@@ -196,7 +196,7 @@ def check_globe_spec(report: CheckReport, spec: MissileSpec, out: Output) -> dic
     flat = CameraPath(tuple(spec.shots), spec.duration_sec, cam.push_in[spec.kind], cam.hold_min_sec)
     rate = SK.globe.handoff_rate
     n2 = [i / FPS for i in range(int(g.duration_sec * FPS)) if i / FPS < g.t_2d]
-    worst = check_camera(report, np.array([flat.at(g.handoff_2d_t + t * rate) for t in n2]), FPS, SK.checks) if len(n2) > 2 else {}
+    worst = check_camera(report, np.array([flat.at(g.handoff_2d_t + t * rate) for t in n2]), FPS, SK.checks, stage) if len(n2) > 2 else {}
     worst |= check_camera_3d(report, *globe_anchor_track(spec, globe_path(spec, out), FPS), out.width)
     report.ran_check("SK-H6")
     if not g.panel.note.strip():

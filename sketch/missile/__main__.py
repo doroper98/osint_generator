@@ -15,6 +15,7 @@ from pathlib import Path
 
 from pydantic import ValidationError
 
+from sketch.common.camera import bounds_stage
 from sketch.common.checks import CheckReport, SketchCheckError, spec_errors
 from sketch.common.cli import base_parser, parse_frames
 from sketch.common.render import base_provenance, render_video, sha1_file, write_frames, write_provenance
@@ -72,7 +73,7 @@ def main(argv: list[str] | None = None) -> int:
         if spec.globe is None:
             print("spec 에 globe 블록이 없다 — 3D 전환편을 만들 수 없다", file=sys.stderr)
             return FAIL
-        check_globe_spec(report, spec, output_profile(args.res))
+        check_globe_spec(report, spec, output_profile(args.res), bounds_stage(project))
     for f in report.hard + report.warnings:
         print(f"{f.id} {f.message}", file=sys.stderr)
     if args.check:

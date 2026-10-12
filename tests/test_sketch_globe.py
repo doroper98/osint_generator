@@ -21,6 +21,7 @@ import numpy as np
 import yaml
 
 from engine.style import FPS, output_profile
+from sketch.common.camera import bounds_stage
 from sketch.common.checks import CheckReport
 from sketch.common.geodesy import EARTH_KM, dest, gc_dist, horizon_altitude, to_local
 from sketch.common.render import CrossfadeScene
@@ -119,11 +120,11 @@ class H6HorizonTest(unittest.TestCase):
     def test_note_required(self) -> None:
         sp = spec()
         r = CheckReport()
-        check_globe_spec(r, sp, output_profile("trial"))
+        check_globe_spec(r, sp, output_profile("trial"), bounds_stage(PROJ))
         self.assertEqual(r.hard, [])
         sp.globe.panel.note = "  "
         r = CheckReport()
-        check_globe_spec(r, sp, output_profile("trial"))
+        check_globe_spec(r, sp, output_profile("trial"), bounds_stage(PROJ))
         self.assertEqual([f.id for f in r.hard], ["SK-H6"])
 
     def test_panel_values_match_formula(self) -> None:

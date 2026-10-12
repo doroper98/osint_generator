@@ -49,6 +49,7 @@ def run_checks(raw: dict, media_dir: Path | None = None) -> CheckReport:
     with tempfile.TemporaryDirectory() as d:
         proj = Path(d)
         shutil.copytree(media_dir or PROJ / "media", proj / "media")
+        shutil.copy(PROJ / "geo.yaml", proj / "geo.yaml")   # 카메라 경계(v7.1.0 D-0220)
         check_spec(r, spec, proj)
     return r
 

@@ -16,7 +16,7 @@ from typing import Optional
 import numpy as np
 from pydantic import BaseModel, ConfigDict, Field, ValidationError
 
-from engine.camera import continuity, speed
+from engine.camera import bounds_excess, continuity, max_view_w, screen_track, speed
 from engine.style import W_OUT
 from schemas.rules_models import SketchChecks
 from sketch.common.spec import CheckFinding, CheckRecord, MediaItem
@@ -72,13 +72,24 @@ class CheckReport:
             raise SketchCheckError(self.hard)
 
 
-def check_camera(report: CheckReport, track: np.ndarray, fps: int, th: SketchChecks) -> dict[str, float]:
+def check_camera(report: CheckReport, track: np.ndarray, fps: int, th: SketchChecks, stage: object) -> dict[str, float]:
     """SK-C1 카메라 연속성(D-0141) — 프레임 (x, y, w) 배열(n×3)에서
     |Δ ln w| ≤ max_dlogw_per_frame, |Δ² ln w|·|Δ² x|/w·|Δ² y|/w ≤ max_d2logw_per_frame,
     |Δ³ …| ≤ max_d3_per_frame(v5.21.9 D-0191 §1-1 — 이징 가속도 뒤집힘 = 이동 중간 꺾임). 숏 경계 예외 없음.
     1차 = 하드 컷·대점프, 2차 = 속도 급변(멈칫 — 앞 숏 원래 w 에서 이동을 다시 시작한 결함), 3차 = 꺾임.
-    측정은 본 엔진 검사와 같은 함수(engine.camera.continuity). 실측 최대값을 돌려준다."""
+    측정은 본 엔진 검사와 같은 함수(engine.camera.continuity). 실측 최대값을 돌려준다.
+    v7.1.0 UF-99 D-0220: 요청 궤적이 아니라 **화면 궤적**(engine.camera.screen_track — 렌더와 같은 View 클램프 뒤)을 재고,
+    무대(stage — sketch.common.camera.bounds_stage) 경계에 잘리는 프레임이 있으면 실패(본 엔진 camera_bounds 와 같은 식·같은 키)."""
     report.ran_check("SK-C1")
+    from rules import load_rules  # noqa: PLC0415
+
+    tol = load_rules().qa_checks.camera_bounds_rel_tol
+    d = bounds_excess(stage, track)
+    bad_b = np.flatnonzero(d.max(axis=1) > tol)
+    if bad_b.size:
+        report.add("SK-C1", f"카메라가 무대 경계 밖 — 첫 t={bad_b[0] / fps:.2f}s 외 {bad_b.size - 1}프레임(요청 w 최대 "
+                            f"{track[bad_b, 2].max():.2f}, 허용 최대 w {max_view_w(stage):.2f}) — 렌더가 잘라 이동 중간에 꺾인다(qa_checks.camera_bounds_rel_tol)")
+    track = screen_track(stage, track)
     m = continuity(track)
     worst = {"dlogw": float(m["d1 ln w"].max(initial=0))} | {k: float(v.max(initial=0)) for k, v in m.items() if k[1] != "1"}
     lim = {1: th.max_dlogw_per_frame, 2: th.max_d2logw_per_frame, 3: th.max_d3_per_frame}

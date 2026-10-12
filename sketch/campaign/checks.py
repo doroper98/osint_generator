@@ -26,7 +26,7 @@ from rules import load_rules
 from sketch.campaign.fronts import FrontData
 from sketch.campaign.pockets import build_polygon
 from sketch.campaign.spec import CampaignSpec
-from sketch.common.camera import CameraPath
+from sketch.common.camera import CameraPath, bounds_stage
 from sketch.common.checks import CheckReport, check_camera, check_end_card, check_label_overlap, check_rights, check_rights_files
 from sketch.common.numbers import unit_numbers
 from sketch.common.svg_georef import circle_centers, coef_to_ll
@@ -151,7 +151,7 @@ def check_spec(report: CheckReport, spec: CampaignSpec, project: Path) -> FrontD
     # SK-C1
     cam = SK.camera
     path = CameraPath(tuple(spec.shots), spec.duration_sec, cam.push_in[spec.kind], cam.hold_min_sec)
-    check_camera(report, path.track(FPS), FPS, th)
+    check_camera(report, path.track(FPS), FPS, th, bounds_stage(project))   # v7.1.0 D-0220 — 화면 궤적·경계
     # SK-R1 — 참고 작전도(데이터 파일, D139) + media
     ref = spec.fronts.reference
     check_rights_files(report, project / ref.rights, [(ref.file, project / ref.file)], SK.rights.allowed_licenses)

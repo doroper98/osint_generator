@@ -10,6 +10,7 @@ import math
 import subprocess
 import sys
 import unittest
+from types import SimpleNamespace
 
 import yaml
 from pydantic import ValidationError
@@ -163,7 +164,7 @@ class CameraCheckTest(unittest.TestCase):
 
     def _run(self, cam: CameraPath) -> CheckReport:
         r = CheckReport()
-        check_camera(r, cam.track(FPS), FPS, self.th)
+        check_camera(r, cam.track(FPS), FPS, self.th, SimpleNamespace(bounds=(-1e9, -1e9, 1e9, 1e9), name="mercator"))   # 경계 없는 무대 — 경계는 tests/test_camera_bounds
         return r
 
     def test_reviewed_cameras_pass(self) -> None:

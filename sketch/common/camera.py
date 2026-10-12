@@ -10,10 +10,11 @@ from __future__ import annotations
 
 import math
 from dataclasses import dataclass
+from pathlib import Path
 
 import numpy as np
 
-from engine.stage import ym
+from engine.stage import MercatorStage, ym
 from engine.timebase import clamp01, ease_io, ease_quintic, smooth
 from rules import load_rules
 from sketch.common.spec import Shot
@@ -51,3 +52,14 @@ class CameraPath:
         """프레임마다 (x, y, w) 배열(n×3, 검사 SK-C1 입력). 프레임 i 의 시각 = i / fps."""
         n = int(self.duration_sec * fps)
         return np.array([self.at(i / fps) for i in range(n)])
+
+
+def bounds_stage(project: Path) -> MercatorStage:
+    """카메라 경계만 아는 지도 무대(v7.1.0 UF-99 D-0220) — 경계 = 프로젝트 geo.yaml 티어 W bbox(tiers.pkl·콘티 판 막지도와 같은 값).
+    지형 자산 없이 SK-C1 이 화면 궤적(engine.camera.screen_track)과 경계 클램프(camera_bounds 와 같은 식)를 잰다."""
+    from geo.prep import load_conf  # noqa: PLC0415
+
+    w = next((t for t in load_conf(project).tiers if t.name == "W"), None)
+    if w is None:
+        raise KeyError("티어 W(광역, 카메라 경계)가 없다 — geo.yaml tiers 에 name: W 를 둔다")
+    return MercatorStage(None, tiers={"W": dict(lon0=w.bbox[0], lat0=w.bbox[1], lon1=w.bbox[2], lat1=w.bbox[3])})

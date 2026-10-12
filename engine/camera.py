@@ -113,6 +113,38 @@ def speed(track: "np.ndarray", cut_frames: Sequence[int] = (), fps: float = 24.0
     return {"pan": pan, "zoom": zoom}
 
 
+def screen_track(stage: "Stage", track: "np.ndarray", viewport: "tuple[float, float] | None" = None) -> "np.ndarray":
+    """화면에 실제로 그려진 카메라(v7.1.0 UF-99 D-0220) — 프레임마다 렌더와 같은 `engine.projection.View`(무대 경계 클램프)를
+    거친 뒤의 (중심 x, 중심 y, w). 카메라 검사(camera_continuity·camera_speed·스케치 SK-C1)는 이 궤적을 잰다 —
+    요청 궤적(build_camera 출력)은 경계에서 잘리면 화면과 달라진다(재는 것 ≠ 보이는 것, RENDER-AP-026)."""
+    from engine.projection import View  # noqa: PLC0415
+
+    out = np.empty((len(track), 3))
+    for i, c in enumerate(track):
+        v = View(stage, c, viewport)
+        out[i] = (v.x0 + v.w / 2, v.y1 - v.h / 2, v.w)
+    return out
+
+
+def bounds_excess(stage: "Stage", track: "np.ndarray", viewport: "tuple[float, float] | None" = None) -> "np.ndarray":
+    """요청 궤적과 화면 궤적의 차이 ÷ 요청 w(프레임 × [x, y, w]) — 0 이 아니면 그 프레임에서 렌더가 카메라를 무대 경계로 잘랐다.
+    세로 척도를 무대가 고정하는 무대(시간축, y_px_per_unit)의 y 는 무대가 정하는 값이라 0 으로 둔다(카메라가 고르는 성분이 아니다)."""
+    tr = np.asarray(track, dtype=float)
+    d = np.abs(screen_track(stage, tr, viewport) - tr) / tr[:, 2:3]
+    if getattr(stage, "y_px_per_unit", None) is not None:
+        d[:, 1] = 0.0
+    return d
+
+
+def max_view_w(stage: "Stage", viewport: "tuple[float, float] | None" = None) -> float:
+    """이 무대에서 클램프 없이 쓸 수 있는 최대 w(View 와 같은 식)."""
+    from engine.projection import View  # noqa: PLC0415
+
+    xmin, ymin, xmax, ymax = stage.bounds
+    big = View(stage, np.array([(xmin + xmax) / 2, (ymin + ymax) / 2, float("inf")]), viewport)
+    return float(big.w)
+
+
 class Director:
     """연출층 도우미 — v3 상단의 `cam()`·`ev()`·`dip()` 호출을 한 객체로 모은다.
 
