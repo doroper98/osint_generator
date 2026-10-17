@@ -37,11 +37,13 @@ entities:
     flag: ru
     role_default: 러시아 대통령
     accent: ru
+    rights: people.putin   # v7.3.0 diesel_road_2026 — 엔딩 크레딧 인물 행 이름(공용 초상)
   zelensky:
     kind: person
     names: [젤렌스키, 젤렌스키 대통령, 볼로디미르 젤렌스키]
     flag: ua
     role_default: 우크라이나 대통령
+    rights: people.zelensky   # v7.3.0 diesel_road_2026 — 엔딩 크레딧 인물 행 이름(공용 초상)
   khamenei:
     kind: person
     names: [하메네이, 알리 하메네이]

@@ -1363,8 +1363,8 @@ events:
   end:
     scene_end: act3
   at_place: kharg
-  label: 하르그 원유 터미널
-  sub: ''
+  label: 하르그섬
+  sub: 이란 원유 수출 관문
   side: left
   hl: false
   icon: boom
@@ -1995,6 +1995,22 @@ events:
   label: 노박
   role: 러시아 부총리
   accent: ru
+- type: flight
+  start:
+    sid: act3_10
+    'off': 0.2
+  end:
+    sid: act3_10
+    edge: end
+    'off': 0.2
+  kind: jet
+  origin:
+    lon: 50.5
+    lat: 27.5
+  lon: 50.32
+  lat: 29.24
+  col: us
+  impact: true
 sound:
   bgm: music.zabriskie_mario_bava
   intensity:
