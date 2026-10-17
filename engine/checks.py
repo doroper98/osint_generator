@@ -1154,6 +1154,9 @@ def story_geo_report(P) -> dict[str, list[str]]:  # noqa: ANN001, N803
     for s in P.plan.sentences:
         ms, verb = _story_markers(P, s)
         routes = [e for e in P.events if e["type"] == "route" and not e.get("in_island") and e["t0"] < s.t1 and e["t1"] > s.t0]
+        # v7.3.0 D-0206 — flight(출발 → 착탄)도 그 문장의 경로다. 끝점 = world_origin·world(착탄 마커 자리)
+        routes += [{"world_pts": [e["world_origin"], e["world"]]} for e in P.events
+                   if e["type"] == "flight" and "world_origin" in e and e["t0"] < s.t1 and e["t1"] > s.t0]
         targets = set()
         if verb:
             for m in ms:
