@@ -1542,3 +1542,25 @@ entries:
   status: guarded
   decision: 감독 기록 — 합격 Mario Bava Sleeps In a Little Later Than He Expected To(Chris Zabriskie, Vendaface, CC BY 4.0), 2~11위 불합격
   source: BGM 조사 세션 사용자 대화 2026-10-12(조사 세션이 원문 전달)
+- id: UF-101
+  date: '2026-10-17'
+  project: diesel_road_2026
+  at: 기획 단계(감독 세션 대화, 원고 전) — 인물 등장
+  quote: 영상에 인물이 필요하면 인물 등장씬을 적극적으로 작동시켜.
+  quote_kind: verbatim
+  category: 인물 — 등장 빈도(소극적 사용 금지)
+  guards: []
+  status: open
+  decision: 감독 기록 — 장치 후보 = 인물 발언·결정 문장(quote 후보)에 person 뱃지·quote 이벤트 미사용 시 경고 [person-unused](article-unused 와 같은 방식). 장치는 이 영상 전달 뒤 첫 작업
+  source: 감독 세션(Fable) 사용자 대화 2026-10-17
+- id: UF-102
+  date: '2026-10-17'
+  project: diesel_road_2026
+  at: 기획 단계(감독 세션 대화, 원고 전) — 기사 카드
+  quote: 기사도 적극적으로 조판하고.
+  quote_kind: verbatim
+  category: 기사 카드 — 조판 빈도(후보 문장에 적극 사용)
+  guards: []
+  status: open
+  decision: 감독 기록 — 기존 [article-unused](check article_unused)·article_per_min_max 가 있으나 '적극'의 하한(분당 기사 카드 하한)은 없음. 장치 후보 = media.density.article_per_min_min(후보 문장이 있는데 미달이면 경고). 이 영상 전달 뒤 첫 작업
+  source: 감독 세션(Fable) 사용자 대화 2026-10-17
