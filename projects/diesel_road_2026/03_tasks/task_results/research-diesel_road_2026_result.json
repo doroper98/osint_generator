@@ -1,0 +1,27 @@
+{
+  "schema_version": 1,
+  "project_id": "diesel_road_2026",
+  "task_id": "research-diesel_road_2026",
+  "worker": "research",
+  "status": "completed",
+  "started_at": "2026-10-17T14:36:47.273731Z",
+  "completed_at": "2026-10-17T14:38:25.749135Z",
+  "outputs": [
+    "facts.json",
+    "llm_calls/llm_20261017_143647_7802.json"
+  ],
+  "warnings": [],
+  "errors": [],
+  "scene_refs": [],
+  "source_refs": [],
+  "asset_refs": [],
+  "qa_status": "pass",
+  "risk_flags": [],
+  "worker_provenance": {
+    "prompt_name": "research",
+    "prompt_sha1": "dbfcaef84fef93b98eb48d75c1887110eec83db6",
+    "rules_hash": "f8c68106a6f78135c2b8e21f4018695207364e60",
+    "genre": null,
+    "genre_declared": null
+  }
+}
