@@ -3442,3 +3442,4 @@ last_review: 2026-06-06
 - 2026-10-12 v7.1.0 UF-99 카메라 꺾임 세 번째 재발(RENDER-AP-026) — 원인 = 렌더 View 경계 클램프(요청 w 88·72·84 > gulf 경계 54), 검사는 클램프 전 궤적을 쟀음. 화면 궤적 측정(screen_track)·hard camera_bounds·제안/연출 입력 경계 안·스케치 SK-C1 같은 식. 영상 재렌더 없음(사용자 지시).
 - 2026-10-12 v7.2.0 UF-100 합격 BGM Mario Bava 등록(사용자가 들은 미러 파일 sha1 02ceb4e7, CC BY 4.0 작가 페이지 근거), BGM 등록 실측 하한(audio.bgm_measure·rules audio.bgm_floor — 조사 세션 측정식 재현: 22050 Hz 모노·n_fft 4096), 기본 BGM 순서, Drone in D 사용 금지, Patriarch 표기 앨범 보강.
 - 2026-10-13 v7.2.0 gulf_china_arms_2026 전편 합격(D-0224). 감독 비차단 관찰 기록만(수정 보류): 250초 엔딩 카드 뒤로 앞 카드 잔상이 반투명하게 비침.
+- 2026-10-17 v7.2.0 main 병합(사용자 지시 "해") — 병합 전 전체 pytest 1698 passed·336 subtests(19분 45초, -n 4), main 5fa37c1→40daaea fast-forward.
