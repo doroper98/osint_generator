@@ -65,18 +65,24 @@ def _icon(ctx: cairo.Context, kind: str, rgb: tuple) -> None:
 
 
 def inset_box(e: dict, x: float, y: float) -> tuple[float, float, float, float]:
-    """표적 화면 점(x, y) 기준 인셋 상자(x0, y0, w, h) — side 방향으로 gap_px 떨어진 자리."""
+    """표적 화면 점(x, y) 기준 인셋 원의 바깥 정사각(x0, y0, 지름, 지름) — side 방향으로 gap_px 떨어진 자리(UF-103 원형)."""
     I = F.inset  # noqa: N806
-    w = I.w_px
-    h = w * I.h_ratio
+    d = I.w_px
     side = (e.get("inset") or {}).get("side", "up")
     if side == "up":
-        return x - w / 2, y - I.gap_px - h, w, h
+        return x - d / 2, y - I.gap_px - d, d, d
     if side == "down":
-        return x - w / 2, y + I.gap_px, w, h
+        return x - d / 2, y + I.gap_px, d, d
     if side == "left":
-        return x - I.gap_px - w, y - h / 2, w, h
-    return x + I.gap_px, y - h / 2, w, h
+        return x - I.gap_px - d, y - d / 2, d, d
+    return x + I.gap_px, y - d / 2, d, d
+
+
+def circle_path(ctx: cairo.Context, box: tuple[float, float, float, float]) -> None:
+    """인셋 원(UF-103) — 상자에 내접."""
+    x, y, w, h = box
+    ctx.new_path()
+    ctx.arc(x + w / 2, y + h / 2, min(w, h) / 2, 0, 2 * math.pi)
 
 
 def inset_alpha(t: float, e: dict) -> float:
@@ -139,4 +145,4 @@ def draw_flight(ctx: cairo.Context, R: RenderCtx, view: View, t: float, e: dict,
         if ia > 0:
             box = inset_box(e, *end)
             (inset_drawer or draw_inset)(ctx, R, box, ia, e)
-            R.reserved.append((box[0], box[1] - F.inset.caption_dy - F.inset.caption_size, box[0] + box[2], box[1] + box[3]))
+            R.reserved.append((box[0], box[1], box[0] + box[2], box[1] + box[3] + F.inset.caption_dy))

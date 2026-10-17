@@ -331,7 +331,16 @@ def draw_flight(ctx: cairo.Context, R: RenderCtx, view: View, t: float, e: dict)
     """비행(v7.3.0 D-0206) = 전편과 같은 기하(발광·점선·아이콘·착탄 링). 위성 인셋만 같은 자리·타이밍의 상자 `[인셋: mid]`(사진 미로드)."""
     from engine.layers.flight import draw_flight as full  # noqa: PLC0415
 
-    full(ctx, R, view, t, e, lambda c, _R, b, a, ev: box(c, b[0], b[1], b[2], b[3], [label("inset", ev["inset"]["mid"])], a))
+    from engine.layers.flight import circle_path  # noqa: PLC0415
+
+    def inset(c: cairo.Context, _R: RenderCtx, b: tuple, a: float, ev: dict) -> None:  # noqa: N803 — UF-103 원형 자리표시
+        if a <= 0.01:
+            return
+        circle_path(c, b)
+        _stroke(c, a)
+        _lines(c, [label("inset", ev["inset"]["mid"])], b[0] + b[2] / 2, b[1] + b[3] / 2, a)
+
+    full(ctx, R, view, t, e, inset)
 
 
 PLACEHOLDERS: dict[str, Callable[..., Any]] = {

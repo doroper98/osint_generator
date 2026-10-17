@@ -180,19 +180,24 @@ FL_INSET = load_rules().flight.inset   # v7.3.0 D-0206 — 위성 인셋 상자 
 
 
 def draw_inset(ctx: cairo.Context, R: RenderCtx, box: tuple[float, float, float, float], a: float, e: dict) -> None:  # noqa: N803
-    """비행 이벤트의 위성 인셋(v7.3.0 D-0206, engine/layers/flight 가 부른다) — 레지스트리 kind inset 파일을 상자 폭에 맞춰 가운데 자름.
-    흔들림·회전 없음(위성 타일은 정지). 상자 위에 출처 줄(credit_formats.inset)."""
+    """비행 이벤트의 위성 인셋(v7.3.0 D-0206, engine/layers/flight 가 부른다) — 레지스트리 kind inset 파일을 정사각 가운데 자름 →
+    원형 클립(UF-103 "동그랗게", 사각 금지). 흔들림·회전 없음(위성 타일은 정지). 원 아래 가운데에 출처 줄(credit_formats.inset)."""
+    from engine.layers.flight import circle_path  # noqa: PLC0415
+
     x, y, w, h = box
     m = R.assets.media_assets[e["inset"]["mid"]]
     fs, fw, fh = R.assets.raster(f"media:{m.file}", w, R.out.k)
+    if fh < h:   # 가로로 긴 타일 → 높이를 지름에 맞춘다(정사각 가운데 자름)
+        fs, fw, fh = R.assets.raster(f"media:{m.file}", w * h / fh, R.out.k)
     ctx.save()
-    ctx.rectangle(x, y, w, h)
+    circle_path(ctx, box)
     ctx.clip()
     set_raster(ctx, fs, R.out.k, x + (w - fw) / 2, y + (h - fh) / 2)
     ctx.paint_with_alpha(a)
     ctx.restore()
-    ctx.rectangle(x, y, w, h)
+    circle_path(ctx, box)
     ctx.set_source_rgba(1, 1, 1, FL_INSET.frame.alpha * a)
     ctx.set_line_width(FL_INSET.frame.width)
     ctx.stroke()
-    text(ctx, credit_line(m), x, y - FL_INSET.caption_dy, FL_INSET.caption_size, "monom", C["muted"], a, FL_INSET.caption_halo, "l", role="media_meta")
+    text(ctx, credit_line(m), x + w / 2, y + h + FL_INSET.caption_dy, FL_INSET.caption_size, "monom", C["muted"], a, FL_INSET.caption_halo, "c",
+         role="media_meta")

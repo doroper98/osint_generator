@@ -1571,7 +1571,11 @@ entries:
   quote: 위성사진은 네모낳게 표시하지 말고 동그랗게 표시해
   quote_kind: verbatim
   category: 인셋 — 모양(원형 마스크, 사각 금지)
-  guards: []
-  status: open
+  guards:
+  - {kind: rule, ref: flight.inset.shape}
+  - {kind: test, ref: tests/test_v730_flight.py::InsetCircleUF103Test::test_full_render_circle}
+  - {kind: test, ref: tests/test_v730_flight.py::InsetCircleUF103Test::test_animatic_placeholder_circle}
+  - {kind: test, ref: tests/test_v730_flight.py::InsetCircleUF103Test::test_shape_token_circle_only}
+  status: guarded
   decision: 감독 기록 — 장치 = rules flight.inset.shape 토큰(circle 고정) + 렌더러가 원형 클립만 그리는 테스트(네 모서리 픽셀이 바탕색) + 콘티 판 동일. 구현 세션이 v7.3.0 inset 렌더러와 함께 장치를 달고 guarded 로 올린다
   source: 감독 세션(Fable) 사용자 대화 2026-10-17

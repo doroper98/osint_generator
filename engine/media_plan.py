@@ -123,10 +123,22 @@ def density_report(events: list[dict], tb: Timebase, total: float) -> dict:
     if worst["count"] > D.window_max:
         warns.append(f"[media-burst-window] {worst['t0']}초부터 {D.window_sec:g}초 안 {worst['count']}개 {worst['mids']} > "
                      f"{D.window_max} (14 §10.1 하한, D38)")
+    # v7.3.0 사용자 결정 D232 U2 — 위성 인셋(flight.inset)은 미디어 비트 상한 밖, 자기 상한(장면당·간격)만
+    insets = sorted(((e["t0"], e["inset"]["mid"]) for e in events if e["type"] == "flight" and e.get("inset")))
+    by_scene_inset: dict[str, list[str]] = {}
+    for t0, mid in insets:
+        sc = next((s for s in reversed(tb.scenes) if tb.SC(s) <= t0 + 1e-6), tb.scenes[0])
+        by_scene_inset.setdefault(sc, []).append(mid)
+    for sc, mids in by_scene_inset.items():
+        if len(mids) > D.inset_per_scene_max:
+            warns.append(f"[inset-density] 장면 {sc}: 인셋 {mids} > {D.inset_per_scene_max} (D232 U2)")
+    for (ta, ma), (tb_, mb) in zip(insets, insets[1:]):
+        if tb_ - ta < D.inset_min_gap_sec:
+            warns.append(f"[inset-density] {ma}({ta:.1f}초) → {mb}({tb_:.1f}초) 간격 < {D.inset_min_gap_sec:g}초 (D232 U2)")
     return {"schema_version": 1, "total_sec": round(total, 3), "items": items, "count": len(items), "beat_count": len(beats),
             "sec_per_item": None if not beats else round(per, 1), "target_sec_per_item": [lo, hi],
             "window": {"window_sec": D.window_sec, "window_max": D.window_max, "exempt": D.window_exempt_kinds, "max": worst},
-            "per_scene": by_scene, "warnings": warns}
+            "per_scene": by_scene, "insets": [m for _, m in insets], "warnings": warns}
 
 
 def article_candidate_usage(proj: Path, plan, events: list[dict]) -> dict:  # noqa: ANN001 — script.schema.Plan

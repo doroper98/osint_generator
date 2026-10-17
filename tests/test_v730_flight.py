@@ -111,5 +111,53 @@ class InsetKindTest(unittest.TestCase):
         self.assertIs(validate_media({"type": "inset", "mid": "s", "t0": 0}, reg), reg["s"])
 
 
+class InsetCircleUF103Test(unittest.TestCase):
+    """UF-103 — "위성사진은 네모낳게 표시하지 말고 동그랗게 표시해": 원 바깥 네 모서리는 바탕 그대로, 중심만 그린다(전편·콘티 판)."""
+
+    BOX = (10.0, 10.0, F.inset.w_px, F.inset.w_px)
+
+    def _check(self, draw: object) -> None:
+        surf = cairo.ImageSurface(cairo.FORMAT_ARGB32, 140, 160)
+        draw(cairo.Context(surf))
+        surf.flush()
+        stride, data = surf.get_stride(), bytes(surf.get_data())
+        alpha = lambda x, y: data[int(y) * stride + int(x) * 4 + 3]  # noqa: E731
+        x, y, w, h = self.BOX
+        for cx, cy in ((x + 2, y + 2), (x + w - 3, y + 2), (x + 2, y + h - 3), (x + w - 3, y + h - 3)):
+            self.assertEqual(alpha(cx, cy), 0, f"모서리 ({cx}, {cy}) 에 그림이 있다 — 사각 인셋(UF-103 위반)")
+        self.assertGreater(alpha(x + w / 2, y + h / 2), 0)
+
+    def test_shape_token_circle_only(self) -> None:
+        self.assertEqual(F.inset.shape, "circle")
+
+    def test_full_render_circle(self) -> None:
+        from engine.layers.media import draw_inset  # noqa: PLC0415
+
+        def raster(key: str, w: float, k: float) -> tuple:
+            img = cairo.ImageSurface(cairo.FORMAT_ARGB32, int(w), int(w * 0.72))
+            c = cairo.Context(img)
+            c.set_source_rgb(0.3, 0.5, 0.2)
+            c.paint()
+            return img, img.get_width(), img.get_height()
+
+        m = types.SimpleNamespace(file="x.png", kind="inset", file_note="위성 · 2026. 10", credit_author="NASA GIBS/HLS", license="pd",
+                                  credit_line=lambda fmt: "위성")
+        R = types.SimpleNamespace(assets=types.SimpleNamespace(media_assets={"s": m}, raster=raster), out=types.SimpleNamespace(k=1.0))  # noqa: N806
+        with mock.patch("engine.layers.media.credit_line", return_value=""):
+            self._check(lambda ctx: draw_inset(ctx, R, self.BOX, 1.0, {"inset": {"mid": "s"}}))
+
+    def test_animatic_placeholder_circle(self) -> None:
+        from engine.layers import animatic  # noqa: PLC0415
+
+        captured: dict = {}
+
+        def fake_full(ctx: cairo.Context, R: object, view: object, t: float, e: dict, drawer: object) -> None:  # noqa: N803
+            captured["d"] = drawer
+
+        with mock.patch("engine.layers.flight.draw_flight", fake_full):
+            animatic.draw_flight(None, None, None, 0.0, {})
+        self._check(lambda ctx: captured["d"](ctx, None, self.BOX, 1.0, {"inset": {"mid": "inset_ryazan"}}))
+
+
 if __name__ == "__main__":
     unittest.main()

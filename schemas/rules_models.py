@@ -310,6 +310,11 @@ class MediaBeats(_Strict):
     sources_order: list["PhotoSourcePool"] = Field(min_length=1)   # v5.19.0 D-0163 §2 — 사진 소싱 풀 순서(media_fetch search)
     sources_excluded_licenses: list[str] = Field(default_factory=list)   # 라이선스 이름 조각(NC·ND) — 있으면 탈락
     sources_excluded_mimes: list[str] = Field(default_factory=list)      # v5.21.0 — 문서·도식 mime(pdf·svg) — 통과 수 밖
+    inset_licenses: dict[str, "InsetLicense"] = Field(default_factory=dict)   # v7.3.0 D232 U1·D234 — 위성 인셋 라이선스 허용 목록
+
+
+class InsetLicense(_Strict):
+    private_only: bool   # 비공개 시청 한정(사용자 결정 D234) — 레지스트리 scope: private_only 필수
 
 
 class PhotoSourcePool(_Strict):
@@ -341,6 +346,9 @@ class MediaDensity(_Strict):
     total_exempt_kinds: list[str]         # v5.19.0 D-0163 §2 — [media-density-total] 개수에서 뺀다(기사 = 분당 상한 따로)
     article_per_min_max: int = Field(ge=1)    # 기사 카드 후보 문장에 쓰는 기사 카드 — 60초 구간당 상한
     photo_target_per_min: float = Field(ge=0)   # 사진 목표(분당) — 미달이면 미디어 계획 표가 문장 단위 사유 요구
+    inset_show_sec: Range2                      # v7.3.0 D232 U2 — 위성 인셋
+    inset_per_scene_max: int = Field(ge=1)
+    inset_min_gap_sec: float = Field(ge=0)
     grammar: list[str] = Field(min_length=1)    # 연출 프롬프트 {{RULES.media.density}} 문구({자리} = 이 블록 값)
 
 
@@ -1943,8 +1951,8 @@ class FlightIcon(_Strict):
 
 
 class FlightInsetRules(_Strict):
+    shape: Literal["circle"]   # UF-103 — 원형만(사각 금지)
     w_px: float = Field(gt=0)
-    h_ratio: float = Field(gt=0)
     gap_px: float = Field(ge=0)
     lead_sec: float = Field(ge=0)
     hold_sec: float = Field(gt=0)
@@ -2065,6 +2073,7 @@ class DataRules(_Strict):
     sources_allowed: list[str] = Field(min_length=1)
     frequencies: list[Literal["monthly", "release"]] = Field(min_length=1)   # release = v4.4.0 scatter
     transforms: dict[str, str] = Field(min_length=1)
+    source_kinds: list[Literal["fetched", "press_cited"]] = Field(min_length=1)   # v7.3.0 D232 U4
     series_dir: str
 
 

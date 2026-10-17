@@ -92,7 +92,8 @@ def _media_density(rules: VideoRules) -> str:
     """미디어 밀도 문법(v5.19.0 D-0163 §2) — rules media.density.grammar 의 {자리}를 같은 블록 값으로(.replace, C2)."""
     d = rules.media.density
     vals = {"{gap_lo}": f"{d.per_item_sec[0]:g}", "{gap_hi}": f"{d.per_item_sec[1]:g}", "{per_scene_max}": str(d.per_scene_max),
-            "{article_per_min_max}": str(d.article_per_min_max), "{photo_target_per_min}": f"{d.photo_target_per_min:g}"}
+            "{article_per_min_max}": str(d.article_per_min_max), "{photo_target_per_min}": f"{d.photo_target_per_min:g}",
+            "{inset_per_scene_max}": str(d.inset_per_scene_max), "{inset_min_gap_sec}": f"{d.inset_min_gap_sec:g}"}
     out = []
     for line in d.grammar:
         for k, v in vals.items():

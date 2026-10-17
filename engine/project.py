@@ -150,6 +150,10 @@ def preflight(R: RenderCtx, events: list[dict], files: bool = True) -> list[str]
                 except (RightsError, ArticleOverflowError) as ex:
                     errs.append(str(ex))
             continue
+        if e["type"] == "panel" and e.get("kind") == "dual_line":   # v7.3.0 D232 U4 — 레코드 대조(보도 인용값 포함)
+            from engine.panels.dual_line import record_errors  # noqa: PLC0415
+
+            errs += record_errors(e)
         if e["type"] == "quote":   # v5.3.1 인용(시안) — 글자 넘침은 렌더 전 오류(P6)
             from engine.quote import QuoteError, quote_lines  # noqa: PLC0415
 

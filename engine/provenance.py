@@ -35,12 +35,22 @@ def features(keys: list[CamKey], events: list[dict]) -> dict:
         "event_types": dict(sorted(by.items())),
         "label_lod": True,   # draw_labels 는 패널이 화면을 덮지 않은 모든 프레임에서 w 별 LOD 로 호출된다
         "vignette": False,   # 비네트 없음(라운드 6) — 엔진에 이식하지 않았다(부록 D)
+        "private_only_assets": private_only_assets(events),   # v7.3.0 사용자 결정 D234 — 비공개 시청 한정 자산(있으면 공개용 산출물이 아니다)
         **({"flight": {"count": len(fl), "kinds": dict(collections.Counter(e["kind"] for e in fl)),
                        "insets": sorted(e["inset"]["mid"] for e in fl if e.get("inset"))}}
            if (fl := [e for e in events if e["type"] == "flight"]) else {}),   # v7.3.0 D-0206 §4 — 비행·인셋 사용 수(없으면 기록 없음, P5)
         **({"route_cross_exempt": ex} if (ex := [{"label": e.get("label"), **e["route_cross_exempt"]} for e in events
                                                   if e.get("route_cross_exempt")]) else {}),   # v5.21.11 D-0203 — 적용된 면제(P5)
     }
+
+
+def private_only_assets(events: list[dict]) -> list[str]:
+    """v7.3.0 D234 — 이 연출이 쓰는 미디어 중 scope private_only(비공개 시청 한정)인 mid. 비어 있지 않으면 공개 배포 금지."""
+    from engine.media_registry import cached_registry  # noqa: PLC0415
+
+    reg = cached_registry()
+    mids = {e.get("mid") for e in events} | {e["inset"]["mid"] for e in events if e["type"] == "flight" and e.get("inset")}
+    return sorted(m for m in mids if m in reg and reg[m].scope == "private_only")
 
 
 def feedback_guards(checks: dict) -> list[dict]:

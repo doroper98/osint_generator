@@ -47,6 +47,24 @@ class SeriesTransform(_Strict):
         return self
 
 
+class ValueCitation(_Strict):
+    """v7.3.0 D232 U4 — 보도 인용값 하나의 출처(press_cited). 값 날짜마다 하나. note = 환산·범위·'미만' 등 화면 주석."""
+
+    date: date                     # 값 날짜(레코드 values 와 같은 날짜)
+    outlet: str = Field(min_length=1)   # 매체·보고서(예: "IEA OMR 2026-05", "Vortexa via Bloomberg")
+    pub_date: date                 # 인용 보도·보고서 날짜
+    url: str = Field(min_length=1)
+    note: Optional[str] = None     # 예: "환산(2.85 Mt)", "4 미만(로이터 산정)", "범위 1.4~1.5 중간"
+    open: bool = False             # 상한·하한 표기 값("4 미만") — 패널에 빈 점(open marker)으로 그린다
+
+    @field_validator("url")
+    @classmethod
+    def _https(cls, v: str) -> str:
+        if urlparse(v).scheme != "https":
+            raise ValueError(f"cited url 은 https: {v!r}")
+        return v
+
+
 class MissingValue(_Strict):
     """원자료에 값이 없는 날짜(D-0086 A). 그리지도 채우지도 않는다(보간 금지) — 화면에는 끊김 + "자료 없음" 표시."""
 
@@ -79,6 +97,7 @@ class SeriesRecord(_Strict):
     frequency = release, as_of = 발표 달(released). CSV 헤더 `column,value`."""
 
     kind: Literal["series", "scatter"] = "series"
+    source_kind: Literal["fetched", "press_cited"] = "fetched"   # v7.3.0 D232 U4 — press_cited = 보도 인용값(코드가 받지 않음, cited 필수)
 
     series_id: str
     source: str                                  # 출처 줄(예: "FRED(세인트루이스 연은) · 원출처 연준 이사회 H.15")
@@ -95,6 +114,7 @@ class SeriesRecord(_Strict):
     values: list[tuple[date, float]] = Field(default_factory=list)   # series: 2개 이상(_dates)
     columns: list[ScatterColumn] = Field(default_factory=list)       # v4.4.0 scatter 전용
     released: Optional[date] = None                                  # v4.4.0 scatter 전용 — 발표일
+    cited: list[ValueCitation] = Field(default_factory=list)         # v7.3.0 press_cited 전용 — 값 날짜마다 하나
 
     @field_validator("series_id")
     @classmethod
@@ -127,14 +147,24 @@ class SeriesRecord(_Strict):
             raise ValueError(f"frequency {v!r} 는 rules data.frequencies 에 없다: {ok}")
         return v
 
-    @field_validator("source_url")
-    @classmethod
-    def _source(cls, v: str) -> str:
-        u = urlparse(v)
+    @model_validator(mode="after")
+    def _source(self) -> "SeriesRecord":
+        """fetched = source_url 도메인 ∈ sources_allowed(코드가 받는 곳). press_cited = 값마다 cited·transform·license press_cited(D232 U4)."""
+        u = urlparse(self.source_url)
+        if self.source_kind == "press_cited":
+            if u.scheme != "https":
+                raise ValueError(f"source_url 은 https: {self.source_url!r}")
+            if self.transform.op != "press_cited" or self.license != "press_cited":
+                raise ValueError("press_cited 레코드는 transform.op·license 가 press_cited(코드가 받지 않은 값)")
+            if sorted(c.date for c in self.cited) != [d for d, _ in self.values]:
+                raise ValueError(f"press_cited 값마다 cited 하나(날짜 일치): values {[str(d) for d, _ in self.values]} ↔ cited {[str(c.date) for c in self.cited]}")
+            return self
         ok = load_rules().data.sources_allowed
         if u.scheme != "https" or u.hostname not in ok:
             raise ValueError(f"source_url 도메인 {u.hostname!r}(https) 는 rules data.sources_allowed 에 없다: {ok}")
-        return v
+        if self.cited or self.transform.op == "press_cited" or self.license == "press_cited":
+            raise ValueError("cited·transform/license press_cited 는 source_kind press_cited 레코드만")
+        return self
 
     @field_validator("as_of")
     @classmethod
@@ -215,10 +245,13 @@ class SeriesRecord(_Strict):
     def between(self, d0: date, d1: date) -> list[tuple[date, float]]:
         return [(d, v) for d, v in self.values if d0 <= d <= d1]
 
+    def citation(self, d: date) -> Optional[ValueCitation]:
+        return next((c for c in self.cited if c.date == d), None)
+
     def as_of_label(self) -> str:
         """화면 표기 — "YYYY년 M월 기준"(20 §5.1)."""
         y, m = (int(x) for x in self.as_of.split("-"))
         return f"{y}년 {m}월 기준"
 
 
-__all__ = ["MissingValue", "ScatterColumn", "SeriesRecord", "SeriesTransform"]
+__all__ = ["MissingValue", "ScatterColumn", "SeriesRecord", "SeriesTransform", "ValueCitation"]
