@@ -1564,3 +1564,14 @@ entries:
   status: open
   decision: 감독 기록 — 기존 [article-unused](check article_unused)·article_per_min_max 가 있으나 '적극'의 하한(분당 기사 카드 하한)은 없음. 장치 후보 = media.density.article_per_min_min(후보 문장이 있는데 미달이면 경고). 이 영상 전달 뒤 첫 작업
   source: 감독 세션(Fable) 사용자 대화 2026-10-17
+- id: UF-103
+  date: '2026-10-17'
+  project: diesel_road_2026
+  at: 기획 단계(감독 세션 대화, 콘티 전) — 위성 인셋 모양
+  quote: 위성사진은 네모낳게 표시하지 말고 동그랗게 표시해
+  quote_kind: verbatim
+  category: 인셋 — 모양(원형 마스크, 사각 금지)
+  guards: []
+  status: open
+  decision: 감독 기록 — 장치 = rules flight.inset.shape 토큰(circle 고정) + 렌더러가 원형 클립만 그리는 테스트(네 모서리 픽셀이 바탕색) + 콘티 판 동일. 구현 세션이 v7.3.0 inset 렌더러와 함께 장치를 달고 guarded 로 올린다
+  source: 감독 세션(Fable) 사용자 대화 2026-10-17

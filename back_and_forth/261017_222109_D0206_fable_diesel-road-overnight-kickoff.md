@@ -120,3 +120,8 @@ supersedes: []
 - **U1**: 위성 인셋은 **구글맵급 상업 타일 허용, 비공개 시청 한정**. 미디어 레지스트리 항목에 `scope: private_only`, `license: "Esri World Imagery (Maxar et al.) — 비공개 시청 한정, 사용자 결정 D234"` 처럼 적고 출처 줄은 "위성 · YYYY · Esri/Maxar"(구글이면 "Google/Maxar"). 공개 전환 시 교체 의무를 레지스트리 주석에 남긴다. 권리 허용 목록에는 이 라이선스를 `private_only` 플래그와 함께 추가하고, provenance 에 `private_only_assets: [...]` 를 기록한다(공개용 산출물이 아님을 코드가 말하게).
 - 구현 경로 우선순위: ① `https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}`(z 16~17, 타일 4~9장 모자이크, 키 불필요) — 호스트 허용 여부를 curl 로 먼저 확인 ② 환경 시크릿 `GOOGLE_MAPS_API_KEY` 가 있고 maps.googleapis.com 이 열려 있으면 Static Maps(`maptype=satellite`, zoom 15~16, 640×640, scale 2) ③ 둘 다 안 되면 기존 NASA HLS 3장(U1 원안) 으로 진행하고 아침 보고에 "상업 타일 호스트 미허용" 명기.
 - 대상 5곳(랴잔·키리시·볼고그라드·라스라판·하르그섬) + 가능하면 노보쿠이비셰프스크·사라토프. 이미지를 Read 로 보고 시설이 식별되는지 확인한 뒤 등록. 밀도는 U2 값 안에서 장면당 ≤3.
+
+## 9. 추가 지시(UF-103, 2026-10-17 22:50 KST) — 위성 인셋은 원형
+- 사용자 원문: "위성사진은 네모낳게 표시하지 말고 동그랗게 표시해."
+- 구현: 위성 인셋(`flight.inset` 및 kind inset 의 `cutout`)은 **원형 마스크**로만 그린다. 규칙 토큰 `flight.inset.shape: circle`(다른 값 없음 — 사각형 금지), 지름 = `inset.w_px`, 테두리 = 가는 흰 선(기존 상자 선 알파 재사용), 출처 줄은 원 아래 가운데 정렬. 콘티 판 자리표시도 원형. 위성 타일은 정사각 크롭 뒤 원으로 잘라 중심에 시설이 오게 한다.
+- 장치(UF-103 guarded 로 올릴 것): 렌더 테스트 — 인셋 프레임에서 원 바깥 네 모서리 픽셀이 바탕색과 같고 중심은 다르다(전편·콘티 판 둘 다). 원장 `guards` 에 rule·test 를 적고 status guarded.
