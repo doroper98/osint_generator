@@ -1910,6 +1910,75 @@
       "attributed_only": false,
       "claim_kind": "fact",
       "notes": ""
+    },
+    {
+      "claim_id": "clm_0108",
+      "text": "러시아 극동은 현지 정제로 휘발유 수요의 55~60%, 경유 수요의 60~65%를 채운다(The Insider)",
+      "source_ids": [
+        "src_art_0035"
+      ],
+      "status": "unverified",
+      "contested": false,
+      "event_date": "2026-09-01",
+      "checks": [
+        "independent_origins:1",
+        "supervisor_source:D-0226"
+      ],
+      "attributed_only": false,
+      "claim_kind": "fact",
+      "notes": "D-0226 ② 감독 제공 출처, 구현 환경 원문 대조 불가"
+    },
+    {
+      "claim_id": "clm_0109",
+      "text": "하바롭스크주에는 NNK 하바롭스크 정유소(연 500만t)와 로스네프트 콤소몰스크 정유소(연 800만t)가 있다",
+      "source_ids": [
+        "src_art_0036",
+        "src_doc_0001"
+      ],
+      "status": "unverified",
+      "contested": false,
+      "event_date": "2026-03-01",
+      "checks": [
+        "independent_origins:1",
+        "supervisor_source:D-0226"
+      ],
+      "attributed_only": false,
+      "claim_kind": "fact",
+      "notes": "D-0226 ② 감독 제공 출처, 구현 환경 원문 대조 불가"
+    },
+    {
+      "claim_id": "clm_0110",
+      "text": "극동 연료 부족은 5월 정유소 피격 뒤 시작돼 여름 중반 안정됐다(EastRussia)",
+      "source_ids": [
+        "src_art_0037"
+      ],
+      "status": "unverified",
+      "contested": false,
+      "event_date": "2026-07-15",
+      "checks": [
+        "independent_origins:1",
+        "supervisor_source:D-0226"
+      ],
+      "attributed_only": false,
+      "claim_kind": "fact",
+      "notes": "D-0226 ② 감독 제공 출처, 구현 환경 원문 대조 불가"
+    },
+    {
+      "claim_id": "clm_0111",
+      "text": "2026년 1~8월 한국 경유 수출량은 1억2982만 배럴로 전년 대비 3.4% 줄었다(한국경제)",
+      "source_ids": [
+        "src_art_0018"
+      ],
+      "status": "unverified",
+      "contested": false,
+      "event_date": "2026-10-04",
+      "checks": [
+        "independent_origins:1",
+        "supervisor_source:D-0226"
+      ],
+      "attributed_only": false,
+      "claim_kind": "fact",
+      "notes": "D-0226 ② 감독 제공 출처, 구현 환경 원문 대조 불가"
     }
   ]
 }

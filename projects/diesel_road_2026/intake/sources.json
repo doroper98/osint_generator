@@ -1022,6 +1022,78 @@
       "key_facts": [
         "Global diesel exports in September 2026 were 700 kb/d lower year on year, as a 1.3 mb/d loss from Russia and the Middle East was only partly offset by other sources"
       ]
+    },
+    {
+      "id": "src_art_0035",
+      "url": "https://theins.press/en/news/286687",
+      "retrieved_at": "2026-10-18",
+      "lang": "en",
+      "verification": {
+        "status": "unverified",
+        "checks": [
+          "claims:1"
+        ],
+        "notes": ""
+      },
+      "confirmed_by": "fable(D-0226 감독 검색 — 구현 환경에서 원문 접근 불가, URL·매체·게시일은 감독 확인)",
+      "confirmed_at": "2026-10-17T15:10:46.114017Z",
+      "note": "D-0226 ② 감독 제공 출처",
+      "type": "article",
+      "publisher": "The Insider",
+      "headline_original": "Russia's Far East depends on fuel deliveries from other regions",
+      "headline_ko": "러시아 극동, 현지 정제로 연료 수요 다 못 채워",
+      "published_at": "2026-09-01",
+      "key_facts": [
+        "Local refining covers 55-60% of gasoline demand and 60-65% of diesel demand in Russia's Far East"
+      ]
+    },
+    {
+      "id": "src_art_0036",
+      "url": "https://baikal24.ru/text/01-03-2026/020/",
+      "retrieved_at": "2026-10-18",
+      "lang": "ru",
+      "verification": {
+        "status": "unverified",
+        "checks": [
+          "claims:1"
+        ],
+        "notes": ""
+      },
+      "confirmed_by": "fable(D-0226 감독 검색 — 구현 환경에서 원문 접근 불가, URL·매체·게시일은 감독 확인)",
+      "confirmed_at": "2026-10-17T15:10:46.114017Z",
+      "note": "D-0226 ② 감독 제공 출처",
+      "type": "article",
+      "publisher": "Baikal24",
+      "headline_original": "Khabarovsk Krai refineries: NNK Khabarovsk and Rosneft Komsomolsk",
+      "headline_ko": "하바롭스크주 정유소 — NNK 하바롭스크·로스네프트 콤소몰스크",
+      "published_at": "2026-03-01",
+      "key_facts": [
+        "Khabarovsk Krai hosts NNK's Khabarovsk refinery (5 million t/yr) and Rosneft's Komsomolsk refinery (8 million t/yr)"
+      ]
+    },
+    {
+      "id": "src_art_0037",
+      "url": "https://www.eastrussia.ru/news/situatsiya-s-benzinom-i-dizelem-na-dalnem-vostoke-postepenno-stabiliziruetsya/",
+      "retrieved_at": "2026-10-18",
+      "lang": "ru",
+      "verification": {
+        "status": "unverified",
+        "checks": [
+          "claims:1"
+        ],
+        "notes": ""
+      },
+      "confirmed_by": "fable(D-0226 감독 검색 — 구현 환경에서 원문 접근 불가, URL·매체·게시일은 감독 확인)",
+      "confirmed_at": "2026-10-17T15:10:46.114017Z",
+      "note": "D-0226 ② 감독 제공 출처",
+      "type": "article",
+      "publisher": "EastRussia",
+      "headline_original": "Situation with gasoline and diesel in the Far East is gradually stabilizing",
+      "headline_ko": "극동 휘발유·경유 상황 점차 안정",
+      "published_at": "2026-07-15",
+      "key_facts": [
+        "Fuel shortages in the Far East began after refinery strikes in May and stabilized by mid-summer"
+      ]
     }
   ]
 }
