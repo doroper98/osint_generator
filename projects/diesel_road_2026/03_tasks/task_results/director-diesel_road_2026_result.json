@@ -1,0 +1,28 @@
+{
+  "schema_version": 1,
+  "project_id": "diesel_road_2026",
+  "task_id": "director-diesel_road_2026",
+  "worker": "director",
+  "status": "failed",
+  "started_at": "2026-10-17T16:23:26.127495Z",
+  "completed_at": "2026-10-17T16:34:30.974667Z",
+  "outputs": [
+    "llm_calls/llm_20261017_162326_43e4.json"
+  ],
+  "warnings": [],
+  "errors": [
+    "check_parsed: 이벤트 검증 실패(렌더 시작 전):\n[18] flight: 1 validation error for FlightEvent\n  Value error, [flight-too-short] t1 - t0 = 3.46초 < 비행 2.4 + 착탄 1.6 = 4.00초 (잘라 그리지 않는다, P6) [type=value_error, input_value={'type': 'flight', 't0': ... 'teal', 'impact': True}, input_type=dict]\n    For further information visit https://errors.pydantic.dev/2.13/v/value_error"
+  ],
+  "scene_refs": [],
+  "source_refs": [],
+  "asset_refs": [],
+  "qa_status": "fail",
+  "risk_flags": [],
+  "worker_provenance": {
+    "prompt_name": "director",
+    "prompt_sha1": "f93d5fe89da5b7c9fb47d897604520337fcdc8fc",
+    "rules_hash": "f8c68106a6f78135c2b8e21f4018695207364e60",
+    "genre": null,
+    "genre_declared": null
+  }
+}
