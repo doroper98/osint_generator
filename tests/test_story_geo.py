@@ -57,6 +57,13 @@ class TestRouteMissing(unittest.TestCase):
         r = story_geo_report(_P(S, [_mk("아덴", 45.0, 12.8), _rt((67.0, 25.0), (45.2, 12.9))]))
         self.assertEqual(r["route_missing"] + r["route_missing_other"], [])
 
+    def test_flight_to_marker_passes(self) -> None:
+        """v7.3.0 D-0206 — 출발점에서 마커로 가는 flight 는 그 문장의 경로다(diesel_road_2026 act1_3 키리시)."""
+        s = [_s("act1_3", 1.0, 5.0, "우크라이나 국방부는 최근 키리시의 정유소를 타격했다고 밝혔습니다.")]
+        fl = {"type": "flight", "world_origin": (34.6, 50.6), "world": (32.02, 59.45), "t0": 1.5, "t1": 7.0}
+        r = story_geo_report(_P(s, [_mk("키리시", 32.02, 59.45), fl], cam=(33.0, 55.0, 30.0)))
+        self.assertEqual(r["route_missing"] + r["route_missing_other"], [])
+
     def test_no_routes_is_warning(self) -> None:
         r = story_geo_report(_P(S, [_mk("아덴", 45.0, 12.8)]))
         self.assertEqual((len(r["route_missing"]), len(r["route_missing_other"])), (1, 0))

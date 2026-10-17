@@ -1,0 +1,13 @@
+# 요소 예시 (v7.3.0 back_and_forth D-0206) — 레지스트리 모델을 그대로 통과한다(15 P4). tests/fixtures/preview/flight.yaml 와 같은 event(test_element_examples). 좌표·시각은 예시(hormuz_korea 갤러리 시각).
+schema_version: 1
+key: flight
+source: projects/diesel_road_2026/direction.yaml (첫 사용 예) — 시각은 hormuz_korea 갤러리 시각
+event:
+  type: flight
+  t0: 48.0
+  t1: 53.0
+  kind: missile
+  origin: {lon: 54.0, lat: 27.4}
+  lon: 50.32
+  lat: 29.24
+  col: amber

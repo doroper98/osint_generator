@@ -1,6 +1,6 @@
 <!--
 tier: 2
-last_synced_with: v7.2.0
+last_synced_with: v7.3.0
 ssot_for: [v2-media-beats]
 depends_on: [docs/handoff/00_INDEX.md, docs/handoff/15_ANTI_INERTIA_PRINCIPLES.md]
 last_review: 2026-09-27
@@ -246,3 +246,12 @@ hormuz 사진 2건 실측 프레임 간 차이 최대 14.6 → 0.41, 8.0 → 0.2
 ## v5.21.0 — 통신사 사진 "보도 인용"(B) (back_and_forth D-0177, 사용자 결정 D172)
 
 원칙은 **A 먼저, B 는 그 다음**이다. 문장의 사진 후보를 소싱 풀(`media_beats.sources_order`)에서 찾고(`tools/media_fetch.py search --log`), 권리 통과가 0건일 때만 그 문장의 기사 카드에 B 를 쓴다. 군·정부 배포 사진의 전재는 원출처 PD 로 받는다(= A). B 는 인용한 기사에 실린 통신사 사진 1장이고, **그 기사 카드의 프레스 칸(`article` 이벤트 `press`)에서만** 쓴다 — 독립 사진 비트·배경 사진·다른 기사의 카드는 렌더 전 오류다. 등록은 `tools/article_register.py projects/<pid> --press-photo <기사 URL> --agency <통신사> --verified-by … --relevance … --casualty-free --write`(대표 사진 og:image 를 저장소 UA·재시도 간격으로 받거나 `--file`·`--photo-url`). 게이트 ① 표의 사진 열에는 `media_notes.yaml sentences.<sid>.press_quote` 가 있는 문장마다 "보도 인용(B)" 와 근거(검색 기록 통과 0)가 보인다 — 검색 기록이 없거나 통과 후보가 있거나 기사 카드 후보가 아니면 `[press-quote]` 오류로 게이트 ① 이 거부된다. 크레딧은 세 곳이다: 카드 안 source 줄 아래 작은 줄 "사진: <통신사> via <매체>"(`rules article_card.press_credit`), 엔딩 크레딧 사진 줄(credits.yaml `rights: [media.<사진 mid>]` — 없으면 RightsError), 설명란 "사진 출처(보도 인용)". 엔딩 마지막 줄(D85)은 그대로다. 권리 기록은 `07` §3.2(U20261011).
+
+## v7.3.0 — 위성 인셋 `inset` (back_and_forth D-0206·D-0225, 사용자 결정 D232 U1·U2·D234·UF-103)
+
+- 미디어 레지스트리 kind `inset` — `flight.inset.mid` 로만 쓴다(정유소·터미널 등 타격 지점 위성 사진). 권리 게이트는 다른 미디어와 같다(`validate_media`).
+- 라이선스는 `rules media_beats.inset_licenses` 한 곳: NASA GIBS(공공 저작물)·Copernicus Sentinel(무료·공개) + **비공개 시청 한정** 상업 타일(Esri World Imagery, D234).
+  private_only 라이선스면 레지스트리 `scope: private_only` 필수이고 provenance `features_used.private_only_assets` 에 남는다. 공개 전환 전 NASA/Sentinel 로 교체 의무.
+- 모양은 **원형만**(UF-103 "위성사진은 네모낳게 표시하지 말고 동그랗게 표시해", `flight.inset.shape: circle`). 정사각 가운데 자름 → 원 클립, 출처 줄은 원 아래 가운데(`credit_formats.inset`).
+- 밀도는 미디어 비트 상한 밖, 자기 상한만: 장면당 `media.density.inset_per_scene_max`, 간격 `inset_min_gap_sec`(`[inset-density]` 경고, D232 U2).
+- 시설이 식별되지 않는 타일은 등록하지 않는다(자료가 없으면 지어내지 않는다).

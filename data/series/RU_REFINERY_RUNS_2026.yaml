@@ -1,0 +1,43 @@
+series_id: RU_REFINERY_RUNS_2026
+source_kind: press_cited
+source: IEA·블룸버그·로이터 보도 인용
+source_url: https://www.hydrocarbonprocessing.com/news/2026/10/russias-oil-refining-volumes-down-14-yy-in-january-september/
+retrieved_at: '2026-10-17'
+transform:
+  op: press_cited
+  formula: 보도 인용값(매체·날짜)
+as_of: 2026-09
+revision_note: 러시아 정제 처리량 — 보도 인용값. 빈 달은 인용값이 없어 선을 끊는다(보간 없음)
+unit: mb/d
+frequency: monthly
+license: press_cited
+license_note: 보도 인용값(사실) — 매체·날짜 표기
+missing:
+- date: '2026-05-01'
+  note: 보도 인용값 없음
+- date: '2026-08-01'
+  note: 보도 인용값 없음
+cited:
+- date: '2026-03-01'
+  outlet: IEA 석유시장보고서
+  pub_date: '2026-03-12'
+  url: https://iea.blob.core.windows.net/assets/a25ddf53-cd6c-4910-ac90-16bfd28399e7/-12MAR2026_OilMarketReport.pdf
+- date: '2026-04-01'
+  outlet: IEA 석유시장보고서
+  pub_date: '2026-05-13'
+  url: https://iea.blob.core.windows.net/assets/2b89a47b-34a2-40e0-90ff-68f7ccd80715/-13MAY2026__OilMarketReport_publicversion.pdf
+- date: '2026-06-01'
+  outlet: IEA 커멘터리
+  pub_date: '2026-09-17'
+  url: https://www.iea.org/commentaries/russian-refining-sector-struggles-amid-intensifying-ukrainian-attacks
+  note: 20여 년 만의 최저
+- date: '2026-07-01'
+  outlet: 모스크바타임스(블룸버그·EA 애널리틱스 인용)
+  pub_date: '2026-08-03'
+  url: https://www.themoscowtimes.com/2026/08/03/russian-oil-refining-falls-to-24-year-low-after-ukrainian-drone-strikes-bloomberg-a93404
+- date: '2026-09-01'
+  outlet: 하이드로카본 프로세싱(로이터 산정 인용)
+  pub_date: '2026-10-01'
+  url: https://www.hydrocarbonprocessing.com/news/2026/10/russias-oil-refining-volumes-down-14-yy-in-january-september/
+  note: 4 미만(로이터 산정) · 게시월 기준 날짜
+  open: true

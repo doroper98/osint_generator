@@ -158,6 +158,49 @@ class BoomEvent(_Event):
     lat: float
 
 
+class FlightOrigin(BaseModel):
+    """출발 위치 — 공격국 영토 안 개략 중심(사용자 결정 D232 U3-a). 점·라벨로 그리지 않는다(발광만)."""
+
+    model_config = ConfigDict(extra="forbid")
+
+    lon: float
+    lat: float
+
+
+class FlightInset(BaseModel):
+    """착탄 지점 위성 인셋 — 미디어 레지스트리 kind inset 만(load_project 가 검사)."""
+
+    model_config = ConfigDict(extra="forbid")
+
+    mid: str = Field(min_length=1)
+    side: Literal["right", "left", "up", "down"] = "up"
+
+
+class FlightEvent(_Event):
+    """v7.3.0 back_and_forth D-0206 — 출발 발광 → 비행(아이콘·점선 꼬리선) → 착탄 링(boom 과 같은 링) → 위성 인셋(선택).
+    착탄 시각 = t0 + rules flight.dur_sec(코드 계산 — 연출은 쓰지 않는다, P8). 비행 시간은 거리와 무관(개략 표현)."""
+
+    DROP_NONE: ClassVar[tuple[str, ...]] = ("inset",)
+
+    type: Literal["flight"]
+    kind: Literal["drone", "missile", "jet"]
+    origin: FlightOrigin
+    lon: float = Field(description="표적 경도")
+    lat: float = Field(description="표적 위도")
+    col: Accent = "amber"
+    impact: bool = True
+    inset: Optional[FlightInset] = None
+
+    @model_validator(mode="after")
+    def _long_enough(self) -> "FlightEvent":
+        F = load_rules().flight  # noqa: N806
+        need = F.dur_sec + F.impact_sec + (F.inset.hold_sec if self.inset else 0.0)
+        if self.t1 - self.t0 < need:
+            raise ValueError(f"[flight-too-short] t1 - t0 = {self.t1 - self.t0:.2f}초 < 비행 {F.dur_sec} + 착탄 {F.impact_sec}"
+                             f"{f' + 인셋 {F.inset.hold_sec}' if self.inset else ''} = {need:.2f}초 (잘라 그리지 않는다, P6)")
+        return self
+
+
 class CountryEvent(_Event):
     type: Literal["country"]
     codes: list[str] = Field(min_length=1)
@@ -634,8 +677,18 @@ class PanelGantt(_Chart):
 class DualSeries(_Strict):
     label: str
     col: ColorName
-    values: list[float] = Field(min_length=2)
+    values: list[Optional[float]] = Field(min_length=2)   # v7.3.0 D232 U4 — null = 그 달 값 없음(선을 끊는다, 보간 금지)
     decimals: int = Field(default=2, ge=0, le=3)
+    record: Optional[str] = None   # v7.3.0 — 데이터 레코드 series_id(data/series). 있으면 load_project 가 값·빈 달을 레코드와 대조(20 §5.1 데이터에서 직접)
+    open_idx: list[int] = Field(default_factory=list)   # v7.3.0 — 상·하한 표기 값("4 미만") 자리 = 빈 점(레코드 cited.open 과 대조)
+
+    @model_validator(mode="after")
+    def _present(self) -> "DualSeries":
+        if sum(v is not None for v in self.values) < 2:
+            raise ValueError(f"dual_line 계열 {self.label!r}: 값이 있는 점이 2개 이상이어야 한다")
+        if any(not 0 <= i < len(self.values) or self.values[i] is None for i in self.open_idx):
+            raise ValueError(f"dual_line 계열 {self.label!r}: open_idx 가 값 있는 점이 아니다")
+        return self
 
 
 class PanelDualLine(_Chart):
@@ -656,7 +709,7 @@ class PanelDualLine(_Chart):
         for s in self.series:
             if len(s.values) != len(self.x_labels):
                 raise ValueError(f"dual_line 계열 {s.label!r} 값 {len(s.values)}개 ≠ x 라벨 {len(self.x_labels)}개")
-            if not all(self.y_min <= v <= self.y_max for v in s.values):
+            if not all(self.y_min <= v <= self.y_max for v in s.values if v is not None):
                 raise ValueError(f"dual_line 계열 {s.label!r} 값이 y 범위 [{self.y_min}, {self.y_max}] 밖")
         return self
 

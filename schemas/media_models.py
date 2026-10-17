@@ -12,7 +12,7 @@ from typing import Literal, Optional
 
 from pydantic import BaseModel, ConfigDict, Field, RootModel, model_validator
 
-MediaKind = Literal["photo", "video", "cutout", "article"]   # video = clip 이벤트
+MediaKind = Literal["photo", "video", "cutout", "article", "inset"]   # video = clip 이벤트, inset = flight.inset 위성 타일(v7.3.0 D-0206)
 RightsStatus = Literal["rights_clear", "restricted", "unverified"]
 FILE_PHOTO_PREFIXES: tuple[str, ...] = ("자료사진", "자료 영상")   # 14 §2.3 저널리즘 표기
 
@@ -92,6 +92,8 @@ class MediaAsset(_Strict):
     photo_url: Optional[str] = None       # 받은 사진 원본 URL(url = 기사 페이지)
     user_exception: Optional[str] = Field(default=None, pattern=r"^(D\d+|U\d{8})$")
     exception: Optional[str] = None       # 예외 문구(결정 번호·근거·"공개 배포 전 재확인")
+    # v7.3.0 사용자 결정 D234 — 비공개 시청 한정 자산(상업 위성 타일). rules media_beats.inset_licenses 의 private_only 라이선스면 필수
+    scope: Optional[Literal["private_only"]] = None
 
     @model_validator(mode="after")
     def _by_kind(self) -> "MediaAsset":
@@ -125,11 +127,27 @@ class MediaAsset(_Strict):
             if self.verified_by.segment_checked != self.segment:
                 errs.append(f"사상자 식별 체크 구간 {self.verified_by.segment_checked} ≠ 사용 구간 {self.segment} (14 §2.2)")
         errs += self._press_quote_errors()
+        errs += self._inset_license_errors()
         if not self.verified_by.casualty_free:
             errs.append("사상자·시신 식별 자료는 쓰지 않는다(14 §2.2)")
         if errs:
             raise ValueError("; ".join(errs))
         return self
+
+    def _inset_license_errors(self) -> list[str]:
+        """v7.3.0 D232 U1·D234 — 위성 인셋 라이선스는 rules media_beats.inset_licenses 한 곳. private_only 라이선스 ↔ scope private_only."""
+        from rules import load_rules  # noqa: PLC0415
+
+        allowed = load_rules().media_beats.inset_licenses
+        errs: list[str] = []
+        if self.kind == "inset":
+            if self.license not in allowed:
+                return [f"위성 인셋 라이선스가 허용 목록 밖: {self.license!r} (rules media_beats.inset_licenses)"]
+            if allowed[self.license].private_only != (self.scope == "private_only"):
+                errs.append(f"라이선스 {self.license!r} 의 private_only={allowed[self.license].private_only} 인데 scope={self.scope!r} (사용자 결정 D234)")
+        elif self.scope is not None:
+            errs.append("scope private_only 는 위성 인셋(kind inset)만 — 그 밖 자산은 비공개 예외가 없다(D234)")
+        return errs
 
     def _press_quote_errors(self) -> list[str]:
         """보도 인용(B) 사진의 기록 칸(D-0177 §1·§2). 사용자 예외는 보도 인용 범주만 — 다른 restricted 사진은 지금처럼 렌더 거부."""

@@ -1,0 +1,27 @@
+{
+  "schema_version": 1,
+  "project_id": "diesel_road_2026",
+  "task_id": "intake-plan-diesel_road_2026",
+  "worker": "intake_planner",
+  "status": "completed",
+  "started_at": "2026-10-17T13:43:51.408151Z",
+  "completed_at": "2026-10-17T13:44:42.739902Z",
+  "outputs": [
+    "01_intake/intake_plan.json",
+    "llm_calls/llm_20261017_134351_c82d.json"
+  ],
+  "warnings": [],
+  "errors": [],
+  "scene_refs": [],
+  "source_refs": [],
+  "asset_refs": [],
+  "qa_status": "pass",
+  "risk_flags": [],
+  "worker_provenance": {
+    "prompt_name": "intake_planner",
+    "prompt_sha1": "a6d7952653d4b5e4a6c185a5a9e25d4494d0d81e",
+    "rules_hash": "99d88b9ec4967dacfda5625bd8bc464b3c48e7d2",
+    "genre": null,
+    "genre_declared": null
+  }
+}

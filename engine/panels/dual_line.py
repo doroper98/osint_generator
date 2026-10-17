@@ -44,6 +44,42 @@ def tick_labels(e: dict) -> list[tuple[float, str]]:
     return out
 
 
+def present_runs(vals: list) -> list[list[int]]:
+    """값이 이어진 구간(인덱스 목록, 점 2개 이상) — 빈 값(None)에서 끊는다(v7.3.0 D232 U4, 보간 금지)."""
+    runs: list[list[int]] = [[]]
+    for i, v in enumerate(vals):
+        if v is None:
+            runs.append([])
+        else:
+            runs[-1].append(i)
+    return [r for r in runs if len(r) >= 2]
+
+
+def record_errors(e: dict) -> list[str]:
+    """v7.3.0 D232 U4 — record 를 단 계열의 값은 데이터 레코드와 같아야 한다(20 §5.1 데이터에서 직접): 값 있는 점 = 레코드 값(순서대로),
+    빈 점(null) 수 = 그 사이 레코드 빈 달, open_idx = 레코드 cited.open. 어기면 렌더 전 오류(P6)."""
+    from data.series import SeriesError, load_series  # noqa: PLC0415
+
+    errs: list[str] = []
+    for ser in e["series"]:
+        if not ser.get("record"):
+            continue
+        try:
+            rec = load_series(ser["record"])
+        except SeriesError as ex:
+            errs.append(str(ex))
+            continue
+        got = [v for v in ser["values"] if v is not None]
+        want = [v for _, v in rec.values]
+        if got != want:
+            errs.append(f"dual_line 계열 {ser['label']!r} 값 {got} ≠ 레코드 {rec.series_id} {want} (값은 레코드에서만, 20 §5.1)")
+        opens = [k for k, (d, _) in enumerate(rec.values) if (c := rec.citation(d)) is not None and c.open]
+        idx = [i for i, v in enumerate(ser["values"]) if v is not None]
+        if sorted(idx.index(i) for i in ser.get("open_idx", []) if i in idx) != opens:
+            errs.append(f"dual_line 계열 {ser['label']!r} open_idx ≠ 레코드 {rec.series_id} cited.open")
+    return errs
+
+
 @chart
 def draw(ctx: cairo.Context, R: RenderCtx, t: float, e: dict, a: float) -> None:  # noqa: N803
     lt = t - e["t0"]
@@ -72,24 +108,37 @@ def draw(ctx: cairo.Context, R: RenderCtx, t: float, e: dict, a: float) -> None:
             text(ctx, s_, x, Y1 + L.x_label_dy, L.x_label_size, "sansm", C["muted"], a, 0, "c")
     for si, ser in enumerate(e["series"]):
         col = C[ser["col"]]
-        pts = [(xs[i], fy(y)) for i, y in enumerate(ser["values"])]
         prog = ease_io((lt - L.draw_start_sec - si * L.draw_step_sec) / L.draw_sec)
         if prog <= 0:
             continue
-        dense = []
-        for i in range(len(pts) - 1):
-            for s in np.linspace(0, 1, L.samples, endpoint=False):
-                dense.append((pts[i][0] + (pts[i + 1][0] - pts[i][0]) * s, pts[i][1] + (pts[i + 1][1] - pts[i][1]) * s))
-        dense.append(pts[-1])
-        sub = dense[:max(2, int(len(dense) * prog))]
-        glow_line(ctx, np.array(sub), col, a, L.line_width)
-        for i, p in enumerate(pts):
-            if len(sub) >= i * L.samples + 1:
-                ctx.arc(p[0], p[1], L.point_r, 0, 2 * math.pi)
+        reach = X0 + L.x_pad + (X1 - X0 - 2 * L.x_pad) * prog   # 그려진 끝 x(왼쪽 → 오른쪽)
+        vals = ser["values"]
+        for run in present_runs(vals):   # v7.3.0 D232 U4 — 빈 달(null)에서 선을 끊는다(보간 금지)
+            pts = [(xs[i], fy(vals[i])) for i in run]
+            dense = []
+            for i in range(len(pts) - 1):
+                for s in np.linspace(0, 1, L.samples, endpoint=False):
+                    dense.append((pts[i][0] + (pts[i + 1][0] - pts[i][0]) * s, pts[i][1] + (pts[i + 1][1] - pts[i][1]) * s))
+            dense.append(pts[-1])
+            sub = [q for q in dense if q[0] <= reach]
+            if len(sub) >= 2:
+                glow_line(ctx, np.array(sub), col, a, L.line_width)
+        last = None
+        for i, v in enumerate(vals):
+            if v is None or xs[i] > reach:
+                continue
+            p = (xs[i], fy(v))
+            last = p
+            ctx.arc(p[0], p[1], L.point_r, 0, 2 * math.pi)
+            if i in ser.get("open_idx", []):   # 상·하한 표기 값("4 미만") = 빈 점(테두리만)
+                ctx.set_source_rgba(*col, a)
+                ctx.set_line_width(L.line_width)
+                ctx.stroke()
+            else:
                 ctx.set_source_rgba(*col, a)
                 ctx.fill()
-                dy = L.value_dy_above if si == 0 else L.value_dy_below
-                text(ctx, _fmt(ser["values"][i], "", ser["decimals"]), p[0], p[1] + dy, L.value_size, "sansb", col, a,
-                     L.value_halo, "c")
-        text(ctx, ser["label"], X1 + L.name_dx, pts[-1][1] + L.name_dy, L.name_size, "sansb", col,
-             a * clamp01(prog * 3 - 2), L.value_halo, "l")
+            dy = L.value_dy_above if si == 0 else L.value_dy_below
+            text(ctx, _fmt(v, "", ser["decimals"]), p[0], p[1] + dy, L.value_size, "sansb", col, a, L.value_halo, "c")
+        if last is not None:
+            text(ctx, ser["label"], X1 + L.name_dx, last[1] + L.name_dy, L.name_size, "sansb", col,
+                 a * clamp01(prog * 3 - 2), L.value_halo, "l")

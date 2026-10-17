@@ -37,11 +37,13 @@ entities:
     flag: ru
     role_default: 러시아 대통령
     accent: ru
+    rights: people.putin   # v7.3.0 diesel_road_2026 — 엔딩 크레딧 인물 행 이름(공용 초상)
   zelensky:
     kind: person
     names: [젤렌스키, 젤렌스키 대통령, 볼로디미르 젤렌스키]
     flag: ua
     role_default: 우크라이나 대통령
+    rights: people.zelensky   # v7.3.0 diesel_road_2026 — 엔딩 크레딧 인물 행 이름(공용 초상)
   khamenei:
     kind: person
     names: [하메네이, 알리 하메네이]
@@ -131,6 +133,39 @@ entities:
     role_default: 리투아니아 대통령
     accent: us
     rights: people.nauseda
+  # diesel_road_2026 — 초상 = 위키미디어 공용(PD-USGov·CC BY 4.0·KOGL 제1유형) 판화 가공(tools/portrait_fallback.py --style engraving)
+  bessent:
+    kind: person
+    names: [베선트, 베선트 장관, 스콧 베선트, Scott Bessent]
+    flag: us
+    portrait: bessent
+    role_default: 미국 재무장관
+    accent: us
+    rights: people.bessent
+  kozhemyako:
+    kind: person
+    names: [코제먀코, 코제먀코 지사, 올레크 코제먀코, Oleg Kozhemyako]
+    flag: ru
+    portrait: kozhemyako
+    role_default: 러시아 연해주 주지사
+    accent: ru
+    rights: people.kozhemyako
+  novak:
+    kind: person
+    names: [노박, 노박 부총리, 알렉산드르 노박, Alexander Novak]
+    flag: ru
+    portrait: novak
+    role_default: 러시아 부총리
+    accent: ru
+    rights: people.novak
+  kim_jung_kwan:
+    kind: person
+    names: [김정관, 김정관 장관, Kim Jung-kwan]
+    flag: kr
+    portrait: kim_jung_kwan
+    role_default: 대한민국 산업통상부 장관
+    accent: gold
+    rights: people.kim_jung_kwan
   # ---------------------------------------------------------------- 기관
   navcent:
     kind: org

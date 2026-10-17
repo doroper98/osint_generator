@@ -1,0 +1,507 @@
+{
+  "schema_version": 2,
+  "project_id": "diesel_road_2026",
+  "title": "경유의 길 — 사흘에 한 번",
+  "category": "geopolitics",
+  "created_at": "2026-10-17T13:36:28.700647Z",
+  "updated_at": "2026-10-17T19:23:39.547992Z",
+  "current_state": "done",
+  "target_duration_min": 10,
+  "topic_summary": "우크라이나의 러시아 정유소 타격과 러시아 경유 부족, 한국산 경유의 블라디보스토크행, 걸프 에너지 시설 타격, 미국의 러시아 경유 거래와 에너지 휴전 붕괴",
+  "initial_links": [],
+  "paths": {
+    "sources": "intake/sources.json",
+    "claims": "intake/claims.json",
+    "screenshots": "intake/screenshots",
+    "script": "script.yaml",
+    "script_labels": "script_labels.json",
+    "plan": "plan.json",
+    "tts": "tts",
+    "assets": "assets",
+    "media": "media",
+    "direction": "direction.yaml",
+    "prev": "prev",
+    "prev_sheet": "prev/sheet.jpg",
+    "prev_provenance": "prev/provenance.json",
+    "out": "out",
+    "final": "out/final.mp4",
+    "provenance": "out/provenance.json"
+  },
+  "render_mode_status": {},
+  "gate_decisions": [
+    {
+      "gate": "script_approval",
+      "decision": "approved",
+      "by": "fable",
+      "at": "2026-10-17T15:19:46.746236Z",
+      "comment": "사용자 위임 D232 · Fable 판정 D-0226",
+      "rollback_to": null,
+      "shown": {
+        "script": "/home/user/osint_generator/projects/diesel_road_2026/script.yaml",
+        "lint_errors": "0",
+        "lint_warnings": "1",
+        "est_sec": "837.0",
+        "media_plan_errors": "0",
+        "script_sha1": "8096f994db6b0f32c349596c35e679fc22a21644",
+        "media_plan": "사진 0/13 · 기사 후보 78문장 · 837초(chars)"
+      },
+      "chosen_version": null
+    },
+    {
+      "gate": "preview_approval",
+      "decision": "approved",
+      "by": "fable",
+      "at": "2026-10-17T19:05:55.888775Z",
+      "comment": "사용자 위임 D232 · Fable 판정 D-0227",
+      "rollback_to": null,
+      "shown": {
+        "sheet": "/home/user/osint_generator/projects/diesel_road_2026/prev/sheet.jpg",
+        "cuts": "14",
+        "provenance": "/home/user/osint_generator/projects/diesel_road_2026/prev/provenance.json",
+        "drops": "0",
+        "media_used": "quote 0 · article 19 · real 0",
+        "quote_candidates": "0",
+        "camera_suggest": "6",
+        "qa_rounds": "3",
+        "qa_selected": "3",
+        "animatic": "out/animatic.mp4 · 585.436초 · direction 2759c136e12a7a6572929d36597bd39f7c7220d4 · script 8096f994db",
+        "user_feedback": "경고: 이 영상 의견 2건 장치 없음 — 영상 전달 뒤 첫 작업으로 장치(D217·D218): UF-101 \"영상에 인물이 필요하면 인물 등장씬을 적극적으로 작동시켜.\" · UF-102 \"기사도 적극적으로 조판하고.\"",
+        "asset_library": "공용 자산 미승격 0"
+      },
+      "chosen_version": null
+    }
+  ],
+  "stage_records": [
+    {
+      "state": "voice_timeline",
+      "stage": "plan",
+      "ok": true,
+      "at": "2026-10-17T15:45:15.753272Z",
+      "artifacts": {
+        "plan": "/home/user/osint_generator/projects/diesel_road_2026/plan.json",
+        "tts": "/home/user/osint_generator/projects/diesel_road_2026/tts"
+      },
+      "errors": [],
+      "drops": 0,
+      "log": "logs/stages/01_plan.json"
+    },
+    {
+      "state": "assets",
+      "stage": "assets",
+      "ok": true,
+      "at": "2026-10-17T15:47:05.107932Z",
+      "artifacts": {
+        "assets": "/home/user/osint_generator/projects/diesel_road_2026/assets",
+        "report": "/home/user/osint_generator/projects/diesel_road_2026/assets/geo_report.json"
+      },
+      "errors": [],
+      "drops": 0,
+      "log": "logs/stages/02_assets.json"
+    },
+    {
+      "state": "assets",
+      "stage": "assets_final",
+      "ok": true,
+      "at": "2026-10-17T15:50:15.233728Z",
+      "artifacts": {
+        "assets": "/home/user/osint_generator/projects/diesel_road_2026/assets/res_720p",
+        "report": "/home/user/osint_generator/projects/diesel_road_2026/assets/res_720p/geo_report.json"
+      },
+      "errors": [],
+      "drops": 0,
+      "log": "logs/stages/03_assets_final.json"
+    },
+    {
+      "state": "direction",
+      "stage": "director",
+      "ok": false,
+      "at": "2026-10-17T16:06:59.698454Z",
+      "artifacts": {},
+      "errors": [
+        "director 입력 오류: FileNotFoundError: [Errno 2] No such file or directory: '/home/user/osint_generator/projects/diesel_road_2026/labels.yaml'"
+      ],
+      "drops": 0,
+      "log": "logs/stages/04_director.json"
+    },
+    {
+      "state": "direction",
+      "stage": "director",
+      "ok": false,
+      "at": "2026-10-17T16:34:30.996925Z",
+      "artifacts": {
+        "out0": "llm_calls/llm_20261017_162326_43e4.json"
+      },
+      "errors": [
+        "check_parsed: 이벤트 검증 실패(렌더 시작 전):\n[18] flight: 1 validation error for FlightEvent\n  Value error, [flight-too-short] t1 - t0 = 3.46초 < 비행 2.4 + 착탄 1.6 = 4.00초 (잘라 그리지 않는다, P6) [type=value_error, input_value={'type': 'flight', 't0': ... 'teal', 'impact': True}, input_type=dict]\n    For further information visit https://errors.pydantic.dev/2.13/v/value_error"
+      ],
+      "drops": 0,
+      "log": "logs/stages/05_director.json"
+    },
+    {
+      "state": "direction",
+      "stage": "direction_validate",
+      "ok": true,
+      "at": "2026-10-17T16:54:49.002649Z",
+      "artifacts": {
+        "script": "/home/user/osint_generator/projects/diesel_road_2026/script.yaml",
+        "label_counts": "{\"verified\": 6, \"corroborated\": 9, \"unverified\": 68, \"disputed\": 4}"
+      },
+      "errors": [],
+      "drops": 0,
+      "log": "logs/stages/06_direction_validate.json"
+    },
+    {
+      "state": "direction",
+      "stage": "validate",
+      "ok": true,
+      "at": "2026-10-17T16:57:11.142701Z",
+      "artifacts": {
+        "direction": "/home/user/osint_generator/projects/diesel_road_2026/direction.yaml",
+        "summary": "{\"camera_keys\": 9, \"events\": 126, \"frames\": 14050}"
+      },
+      "errors": [],
+      "drops": 0,
+      "log": "logs/stages/07_validate.json"
+    },
+    {
+      "state": "direction",
+      "stage": "camera_suggest",
+      "ok": true,
+      "at": "2026-10-17T16:59:35.816228Z",
+      "artifacts": {
+        "camera_suggest": "/home/user/osint_generator/projects/diesel_road_2026/prev/camera_suggest.json"
+      },
+      "errors": [],
+      "drops": 0,
+      "log": "logs/stages/08_camera_suggest.json"
+    },
+    {
+      "state": "preview_qa",
+      "stage": "preview",
+      "ok": false,
+      "at": "2026-10-17T17:11:30.471563Z",
+      "artifacts": {
+        "prev/p_0012.02.png": "/home/user/osint_generator/projects/diesel_road_2026/prev/p_0012.02.png",
+        "prev/p_0026.44.png": "/home/user/osint_generator/projects/diesel_road_2026/prev/p_0026.44.png",
+        "prev/p_0034.41.png": "/home/user/osint_generator/projects/diesel_road_2026/prev/p_0034.41.png",
+        "prev/p_0070.42.png": "/home/user/osint_generator/projects/diesel_road_2026/prev/p_0070.42.png",
+        "prev/p_0114.18.png": "/home/user/osint_generator/projects/diesel_road_2026/prev/p_0114.18.png",
+        "prev/p_0209.16.png": "/home/user/osint_generator/projects/diesel_road_2026/prev/p_0209.16.png",
+        "prev/p_0291.59.png": "/home/user/osint_generator/projects/diesel_road_2026/prev/p_0291.59.png",
+        "prev/p_0384.65.png": "/home/user/osint_generator/projects/diesel_road_2026/prev/p_0384.65.png",
+        "prev/p_0425.84.png": "/home/user/osint_generator/projects/diesel_road_2026/prev/p_0425.84.png",
+        "prev/p_0484.90.png": "/home/user/osint_generator/projects/diesel_road_2026/prev/p_0484.90.png",
+        "prev/p_0521.99.png": "/home/user/osint_generator/projects/diesel_road_2026/prev/p_0521.99.png",
+        "prev/p_0560.74.png": "/home/user/osint_generator/projects/diesel_road_2026/prev/p_0560.74.png",
+        "prev/p_0574.85.png": "/home/user/osint_generator/projects/diesel_road_2026/prev/p_0574.85.png",
+        "prev/p_0579.44.png": "/home/user/osint_generator/projects/diesel_road_2026/prev/p_0579.44.png",
+        "sheet": "/home/user/osint_generator/projects/diesel_road_2026/prev/sheet.jpg",
+        "provenance": "/home/user/osint_generator/projects/diesel_road_2026/prev/provenance.json",
+        "checks": "/home/user/osint_generator/projects/diesel_road_2026/prev/checks.json",
+        "frames": "/home/user/osint_generator/projects/diesel_road_2026/prev/frames.json"
+      },
+      "errors": [
+        "checks hard offscreen: 마커 키리시 t=124.0 화면 밖 55px (상자 [80, -55, 150, -13])",
+        "checks hard offscreen: 마커 울산 t=552.9 화면 밖 32px (상자 [828, 300, 886, 342])",
+        "checks hard route_missing: [route-missing] act3_1 이동·공격 문장의 마커 '호르무즈 해협' 에 닿는 경로가 없다 — route 를 더한다",
+        "checks hard route_missing: [route-missing] act3_10 이동·공격 문장의 마커 '하르그섬' 에 닿는 경로가 없다 — route 를 더한다",
+        "checks hard frame_missing: [frame-missing] act1_13 문장이 부르는 '러시아' 가 문장 구간 내내 화면 밖 — 카메라 구도(w·중심)를 넓혀 함께 담는다",
+        "checks hard frame_missing: [frame-missing] act2_0 문장이 부르는 '러시아' 가 문장 구간 내내 화면 밖 — 카메라 구도(w·중심)를 넓혀 함께 담는다",
+        "checks hard frame_missing: [frame-missing] act2_3 문장이 부르는 '러시아' 가 문장 구간 내내 화면 밖 — 카메라 구도(w·중심)를 넓혀 함께 담는다",
+        "checks hard frame_missing: [frame-missing] act2_7 문장이 부르는 '러시아' 가 문장 구간 내내 화면 밖 — 카메라 구도(w·중심)를 넓혀 함께 담는다",
+        "checks hard frame_missing: [frame-missing] act2_9 문장이 부르는 '러시아' 가 문장 구간 내내 화면 밖 — 카메라 구도(w·중심)를 넓혀 함께 담는다",
+        "checks hard frame_missing: [frame-missing] act2_28 문장이 부르는 '우크라이나' 가 문장 구간 내내 화면 밖 — 카메라 구도(w·중심)를 넓혀 함께 담는다",
+        "checks hard frame_missing: [frame-missing] act3_2 문장이 부르는 '이란' 가 문장 구간 내내 화면 밖 — 카메라 구도(w·중심)를 넓혀 함께 담는다",
+        "checks hard frame_missing: [frame-missing] act3_3 문장이 부르는 '인도' 가 문장 구간 내내 화면 밖 — 카메라 구도(w·중심)를 넓혀 함께 담는다",
+        "checks hard frame_missing: [frame-missing] act3_3 문장이 부르는 '이스라엘' 가 문장 구간 내내 화면 밖 — 카메라 구도(w·중심)를 넓혀 함께 담는다",
+        "checks hard frame_missing: [frame-missing] act3_4 문장이 부르는 '이스라엘' 가 문장 구간 내내 화면 밖 — 카메라 구도(w·중심)를 넓혀 함께 담는다",
+        "checks hard frame_missing: [frame-missing] act3_4 문장이 부르는 '이란' 가 문장 구간 내내 화면 밖 — 카메라 구도(w·중심)를 넓혀 함께 담는다",
+        "checks hard frame_missing: [frame-missing] act3_7 문장이 부르는 '아랍에미리트' 가 문장 구간 내내 화면 밖 — 카메라 구도(w·중심)를 넓혀 함께 담는다",
+        "checks hard frame_missing: [frame-missing] act3_7 문장이 부르는 '이란' 가 문장 구간 내내 화면 밖 — 카메라 구도(w·중심)를 넓혀 함께 담는다",
+        "checks hard frame_missing: [frame-missing] act3_9 문장이 부르는 '이라크' 가 문장 구간 내내 화면 밖 — 카메라 구도(w·중심)를 넓혀 함께 담는다",
+        "checks hard frame_missing: [frame-missing] act3_10 문장이 부르는 '이란' 가 문장 구간 내내 화면 밖 — 카메라 구도(w·중심)를 넓혀 함께 담는다",
+        "checks hard frame_missing: [frame-missing] act4_1 문장이 부르는 '러시아' 가 문장 구간 내내 화면 밖 — 카메라 구도(w·중심)를 넓혀 함께 담는다",
+        "checks hard frame_missing: [frame-missing] act4_4 문장이 부르는 '러시아' 가 문장 구간 내내 화면 밖 — 카메라 구도(w·중심)를 넓혀 함께 담는다",
+        "checks hard frame_missing: [frame-missing] act4_8 문장이 부르는 '러시아' 가 문장 구간 내내 화면 밖 — 카메라 구도(w·중심)를 넓혀 함께 담는다",
+        "checks hard frame_missing: [frame-missing] act4_11 문장이 부르는 '러시아' 가 문장 구간 내내 화면 밖 — 카메라 구도(w·중심)를 넓혀 함께 담는다",
+        "checks hard frame_missing: [frame-missing] ending_2 문장이 부르는 '우크라이나' 가 문장 구간 내내 화면 밖 — 카메라 구도(w·중심)를 넓혀 함께 담는다",
+        "checks hard subtitle_overlap: [subtitle-overlap] marker '사라토프' t=64.42 상자 (569, 374, 651, 416) 가 자막 글자와 겹침 — 자리(place·side·lon/lat)를 옮긴다",
+        "checks hard subtitle_overlap: [subtitle-overlap] marker '울산' t=222.93 상자 (329, 371, 387, 413) 가 자막 글자와 겹침 — 자리(place·side·lon/lat)를 옮긴다",
+        "checks hard subtitle_overlap: [subtitle-overlap] marker '여수 앞바다' t=245.88 상자 (182, 412, 334, 454) 가 자막 글자와 겹침 — 자리(place·side·lon/lat)를 옮긴다",
+        "checks hard subtitle_overlap: [subtitle-overlap] marker '푸자이라 항' t=395.35 상자 (674, 381, 794, 423) 가 자막 글자와 겹침 — 자리(place·side·lon/lat)를 옮긴다",
+        "checks hard subtitle_overlap: [subtitle-overlap] marker '동서 송유관 펌프장' t=402.03 상자 (88, 410, 198, 467) 가 자막 글자와 겹침 — 자리(place·side·lon/lat)를 옮긴다",
+        "checks hard subtitle_overlap: [subtitle-overlap] marker '하르키우주' t=512.65 상자 (345, 369, 482, 427) 가 자막 글자와 겹침 — 자리(place·side·lon/lat)를 옮긴다",
+        "checks hard subtitle_overlap: [subtitle-overlap] marker '호르무즈 해협' t=554.15 상자 (159, 397, 268, 439) 가 자막 글자와 겹침 — 자리(place·side·lon/lat)를 옮긴다",
+        "checks hard label_collision: [label-collision] marker '사라토프' ↔ marker '시즈란' t=123.50 — 지도 글자·뱃지가 겹침. side·place·sub 길이를 바꾸거나 한쪽을 먼저 끝낸다",
+        "checks hard opening_establish: [opening-establish] 25.0초 안에 2.5배 이상 들어가지 않는다(첫 폭 80.0°) — 전체 지도에서 대상 지역으로 들어가는 오프닝",
+        "checks hard map_contrast: [map-contrast] 글자 '울산' 대비 3.53 < 4.5 (t=560.74)"
+      ],
+      "drops": 0,
+      "log": "logs/stages/09_preview.json"
+    },
+    {
+      "state": "preview_qa",
+      "stage": "revise_direction",
+      "ok": true,
+      "at": "2026-10-17T17:20:32.887977Z",
+      "artifacts": {
+        "out0": "direction.yaml",
+        "out1": "llm_calls/llm_20261017_171131_a7ad.json"
+      },
+      "errors": [],
+      "drops": 0,
+      "log": "logs/stages/10_revise_direction.json"
+    },
+    {
+      "state": "preview_qa",
+      "stage": "validate",
+      "ok": true,
+      "at": "2026-10-17T17:22:39.373258Z",
+      "artifacts": {
+        "direction": "/home/user/osint_generator/projects/diesel_road_2026/direction.yaml",
+        "summary": "{\"camera_keys\": 9, \"events\": 127, \"frames\": 14050}"
+      },
+      "errors": [],
+      "drops": 0,
+      "log": "logs/stages/11_validate.json"
+    },
+    {
+      "state": "preview_qa",
+      "stage": "preview",
+      "ok": false,
+      "at": "2026-10-17T17:26:47.724401Z",
+      "artifacts": {
+        "prev/p_0012.02.png": "/home/user/osint_generator/projects/diesel_road_2026/prev/p_0012.02.png",
+        "prev/p_0026.44.png": "/home/user/osint_generator/projects/diesel_road_2026/prev/p_0026.44.png",
+        "prev/p_0034.41.png": "/home/user/osint_generator/projects/diesel_road_2026/prev/p_0034.41.png",
+        "prev/p_0070.42.png": "/home/user/osint_generator/projects/diesel_road_2026/prev/p_0070.42.png",
+        "prev/p_0114.18.png": "/home/user/osint_generator/projects/diesel_road_2026/prev/p_0114.18.png",
+        "prev/p_0209.16.png": "/home/user/osint_generator/projects/diesel_road_2026/prev/p_0209.16.png",
+        "prev/p_0291.59.png": "/home/user/osint_generator/projects/diesel_road_2026/prev/p_0291.59.png",
+        "prev/p_0384.65.png": "/home/user/osint_generator/projects/diesel_road_2026/prev/p_0384.65.png",
+        "prev/p_0425.84.png": "/home/user/osint_generator/projects/diesel_road_2026/prev/p_0425.84.png",
+        "prev/p_0484.90.png": "/home/user/osint_generator/projects/diesel_road_2026/prev/p_0484.90.png",
+        "prev/p_0521.99.png": "/home/user/osint_generator/projects/diesel_road_2026/prev/p_0521.99.png",
+        "prev/p_0560.74.png": "/home/user/osint_generator/projects/diesel_road_2026/prev/p_0560.74.png",
+        "prev/p_0574.85.png": "/home/user/osint_generator/projects/diesel_road_2026/prev/p_0574.85.png",
+        "prev/p_0579.44.png": "/home/user/osint_generator/projects/diesel_road_2026/prev/p_0579.44.png",
+        "sheet": "/home/user/osint_generator/projects/diesel_road_2026/prev/sheet.jpg",
+        "provenance": "/home/user/osint_generator/projects/diesel_road_2026/prev/provenance.json",
+        "checks": "/home/user/osint_generator/projects/diesel_road_2026/prev/checks.json",
+        "frames": "/home/user/osint_generator/projects/diesel_road_2026/prev/frames.json"
+      },
+      "errors": [
+        "checks hard route_missing_other: [route-missing] act3_10 이동·공격 문장의 마커 '하르그섬' 에 닿는 경로가 없고 다른 경로만 보인다 — 사실 방향과 화면이 어긋난다. 그 마커로 가는 route 를 더하고 다른 경로는 낮춘다",
+        "checks hard frame_missing: [frame-missing] act2_0 문장이 부르는 '러시아' 가 문장 구간 내내 화면 밖 — 카메라 구도(w·중심)를 넓혀 함께 담는다",
+        "checks hard frame_missing: [frame-missing] act2_3 문장이 부르는 '러시아' 가 문장 구간 내내 화면 밖 — 카메라 구도(w·중심)를 넓혀 함께 담는다",
+        "checks hard frame_missing: [frame-missing] act2_7 문장이 부르는 '러시아' 가 문장 구간 내내 화면 밖 — 카메라 구도(w·중심)를 넓혀 함께 담는다",
+        "checks hard frame_missing: [frame-missing] act2_9 문장이 부르는 '러시아' 가 문장 구간 내내 화면 밖 — 카메라 구도(w·중심)를 넓혀 함께 담는다",
+        "checks hard frame_missing: [frame-missing] act2_28 문장이 부르는 '우크라이나' 가 문장 구간 내내 화면 밖 — 카메라 구도(w·중심)를 넓혀 함께 담는다",
+        "checks hard frame_missing: [frame-missing] act3_3 문장이 부르는 '인도' 가 문장 구간 내내 화면 밖 — 카메라 구도(w·중심)를 넓혀 함께 담는다",
+        "checks hard frame_missing: [frame-missing] act3_3 문장이 부르는 '이스라엘' 가 문장 구간 내내 화면 밖 — 카메라 구도(w·중심)를 넓혀 함께 담는다",
+        "checks hard frame_missing: [frame-missing] act3_4 문장이 부르는 '이스라엘' 가 문장 구간 내내 화면 밖 — 카메라 구도(w·중심)를 넓혀 함께 담는다",
+        "checks hard frame_missing: [frame-missing] act4_4 문장이 부르는 '러시아' 가 문장 구간 내내 화면 밖 — 카메라 구도(w·중심)를 넓혀 함께 담는다",
+        "checks hard frame_missing: [frame-missing] act4_8 문장이 부르는 '러시아' 가 문장 구간 내내 화면 밖 — 카메라 구도(w·중심)를 넓혀 함께 담는다",
+        "checks hard frame_missing: [frame-missing] act4_11 문장이 부르는 '러시아' 가 문장 구간 내내 화면 밖 — 카메라 구도(w·중심)를 넓혀 함께 담는다",
+        "checks hard frame_missing: [frame-missing] ending_2 문장이 부르는 '우크라이나' 가 문장 구간 내내 화면 밖 — 카메라 구도(w·중심)를 넓혀 함께 담는다",
+        "checks hard camera_bounds: [camera-bounds] 카메라가 무대 경계 밖 — t=0.00~6.62s 잘린 성분 x·y(요청 w 최대 96.0, 허용 최대 w 116.8). 렌더가 경계에서 잘라 화면이 멈췄다가 이동 중간에 꺾인다 — 키를 경계 안(w ≤ 허용 최대, 중심 ± w/2 가 경계 안)으로 고른다(rules qa_checks.camera_bounds_rel_tol)",
+        "checks hard camera_bounds: [camera-bounds] 카메라가 무대 경계 밖 — t=120.88~146.79s 잘린 성분 x(요청 w 최대 96.0, 허용 최대 w 116.8). 렌더가 경계에서 잘라 화면이 멈췄다가 이동 중간에 꺾인다 — 키를 경계 안(w ≤ 허용 최대, 중심 ± w/2 가 경계 안)으로 고른다(rules qa_checks.camera_bounds_rel_tol)",
+        "checks hard camera_bounds: [camera-bounds] 카메라가 무대 경계 밖 — t=196.00~353.17s 잘린 성분 x(요청 w 최대 31.0, 허용 최대 w 116.8). 렌더가 경계에서 잘라 화면이 멈췄다가 이동 중간에 꺾인다 — 키를 경계 안(w ≤ 허용 최대, 중심 ± w/2 가 경계 안)으로 고른다(rules qa_checks.camera_bounds_rel_tol)",
+        "checks hard camera_bounds: [camera-bounds] 카메라가 무대 경계 밖 — t=456.54~549.58s 잘린 성분 x(요청 w 최대 40.0, 허용 최대 w 116.8). 렌더가 경계에서 잘라 화면이 멈췄다가 이동 중간에 꺾인다 — 키를 경계 안(w ≤ 허용 최대, 중심 ± w/2 가 경계 안)으로 고른다(rules qa_checks.camera_bounds_rel_tol)",
+        "checks hard subtitle_overlap: [subtitle-overlap] marker '호르무즈 해협' t=554.15 상자 (154, 397, 263, 439) 가 자막 글자와 겹침 — 자리(place·side·lon/lat)를 옮긴다",
+        "checks hard label_collision: [label-collision] marker '울산' ↔ marker '여수 앞바다' t=246.00 — 지도 글자·뱃지가 겹침. side·place·sub 길이를 바꾸거나 한쪽을 먼저 끝낸다",
+        "checks hard label_collision: [label-collision] marker '호르무즈 해협' ↔ marker '사우스파르스' t=370.50 — 지도 글자·뱃지가 겹침. side·place·sub 길이를 바꾸거나 한쪽을 먼저 끝낸다"
+      ],
+      "drops": 0,
+      "log": "logs/stages/12_preview.json"
+    },
+    {
+      "state": "preview_qa",
+      "stage": "revise_direction",
+      "ok": true,
+      "at": "2026-10-17T17:38:20.813855Z",
+      "artifacts": {
+        "out0": "direction.yaml",
+        "out1": "llm_calls/llm_20261017_173319_6697.json"
+      },
+      "errors": [],
+      "drops": 0,
+      "log": "logs/stages/13_revise_direction.json"
+    },
+    {
+      "state": "preview_qa",
+      "stage": "validate",
+      "ok": true,
+      "at": "2026-10-17T17:40:24.645443Z",
+      "artifacts": {
+        "direction": "/home/user/osint_generator/projects/diesel_road_2026/direction.yaml",
+        "summary": "{\"camera_keys\": 9, \"events\": 127, \"frames\": 14050}"
+      },
+      "errors": [],
+      "drops": 0,
+      "log": "logs/stages/14_validate.json"
+    },
+    {
+      "state": "preview_qa",
+      "stage": "preview",
+      "ok": false,
+      "at": "2026-10-17T17:44:40.954305Z",
+      "artifacts": {
+        "prev/p_0012.02.png": "/home/user/osint_generator/projects/diesel_road_2026/prev/p_0012.02.png",
+        "prev/p_0026.44.png": "/home/user/osint_generator/projects/diesel_road_2026/prev/p_0026.44.png",
+        "prev/p_0034.41.png": "/home/user/osint_generator/projects/diesel_road_2026/prev/p_0034.41.png",
+        "prev/p_0070.42.png": "/home/user/osint_generator/projects/diesel_road_2026/prev/p_0070.42.png",
+        "prev/p_0114.18.png": "/home/user/osint_generator/projects/diesel_road_2026/prev/p_0114.18.png",
+        "prev/p_0209.16.png": "/home/user/osint_generator/projects/diesel_road_2026/prev/p_0209.16.png",
+        "prev/p_0291.59.png": "/home/user/osint_generator/projects/diesel_road_2026/prev/p_0291.59.png",
+        "prev/p_0384.65.png": "/home/user/osint_generator/projects/diesel_road_2026/prev/p_0384.65.png",
+        "prev/p_0425.84.png": "/home/user/osint_generator/projects/diesel_road_2026/prev/p_0425.84.png",
+        "prev/p_0484.90.png": "/home/user/osint_generator/projects/diesel_road_2026/prev/p_0484.90.png",
+        "prev/p_0521.99.png": "/home/user/osint_generator/projects/diesel_road_2026/prev/p_0521.99.png",
+        "prev/p_0560.74.png": "/home/user/osint_generator/projects/diesel_road_2026/prev/p_0560.74.png",
+        "prev/p_0574.85.png": "/home/user/osint_generator/projects/diesel_road_2026/prev/p_0574.85.png",
+        "prev/p_0579.44.png": "/home/user/osint_generator/projects/diesel_road_2026/prev/p_0579.44.png",
+        "sheet": "/home/user/osint_generator/projects/diesel_road_2026/prev/sheet.jpg",
+        "provenance": "/home/user/osint_generator/projects/diesel_road_2026/prev/provenance.json",
+        "checks": "/home/user/osint_generator/projects/diesel_road_2026/prev/checks.json",
+        "frames": "/home/user/osint_generator/projects/diesel_road_2026/prev/frames.json"
+      },
+      "errors": [
+        "checks hard route_missing_other: [route-missing] act3_10 이동·공격 문장의 마커 '하르그섬' 에 닿는 경로가 없고 다른 경로만 보인다 — 사실 방향과 화면이 어긋난다. 그 마커로 가는 route 를 더하고 다른 경로는 낮춘다",
+        "checks hard frame_missing: [frame-missing] act2_0 문장이 부르는 '러시아' 가 문장 구간 내내 화면 밖 — 카메라 구도(w·중심)를 넓혀 함께 담는다",
+        "checks hard frame_missing: [frame-missing] act2_3 문장이 부르는 '러시아' 가 문장 구간 내내 화면 밖 — 카메라 구도(w·중심)를 넓혀 함께 담는다",
+        "checks hard frame_missing: [frame-missing] act2_7 문장이 부르는 '러시아' 가 문장 구간 내내 화면 밖 — 카메라 구도(w·중심)를 넓혀 함께 담는다",
+        "checks hard frame_missing: [frame-missing] act2_9 문장이 부르는 '러시아' 가 문장 구간 내내 화면 밖 — 카메라 구도(w·중심)를 넓혀 함께 담는다",
+        "checks hard frame_missing: [frame-missing] act2_28 문장이 부르는 '우크라이나' 가 문장 구간 내내 화면 밖 — 카메라 구도(w·중심)를 넓혀 함께 담는다",
+        "checks hard frame_missing: [frame-missing] act3_3 문장이 부르는 '인도' 가 문장 구간 내내 화면 밖 — 카메라 구도(w·중심)를 넓혀 함께 담는다",
+        "checks hard frame_missing: [frame-missing] act3_3 문장이 부르는 '이스라엘' 가 문장 구간 내내 화면 밖 — 카메라 구도(w·중심)를 넓혀 함께 담는다",
+        "checks hard frame_missing: [frame-missing] act3_4 문장이 부르는 '이스라엘' 가 문장 구간 내내 화면 밖 — 카메라 구도(w·중심)를 넓혀 함께 담는다",
+        "checks hard frame_missing: [frame-missing] act4_4 문장이 부르는 '러시아' 가 문장 구간 내내 화면 밖 — 카메라 구도(w·중심)를 넓혀 함께 담는다",
+        "checks hard frame_missing: [frame-missing] act4_8 문장이 부르는 '러시아' 가 문장 구간 내내 화면 밖 — 카메라 구도(w·중심)를 넓혀 함께 담는다",
+        "checks hard frame_missing: [frame-missing] act4_11 문장이 부르는 '러시아' 가 문장 구간 내내 화면 밖 — 카메라 구도(w·중심)를 넓혀 함께 담는다",
+        "checks hard frame_missing: [frame-missing] ending_2 문장이 부르는 '우크라이나' 가 문장 구간 내내 화면 밖 — 카메라 구도(w·중심)를 넓혀 함께 담는다",
+        "checks hard camera_speed: [camera-speed] 오프닝(제목 카드 전)카메라 pan 0.159화면 폭/초 > 0.15 — t=4.08s 외 26프레임 — 이동을 길게(dur)·나눠서·이동 폭을 줄인다(rules shot_grammar.camera_speed)",
+        "checks hard subtitle_overlap: [subtitle-overlap] marker '호르무즈 해협' t=554.15 상자 (127, 386, 210, 429) 가 자막 글자와 겹침 — 자리(place·side·lon/lat)를 옮긴다"
+      ],
+      "drops": 0,
+      "log": "logs/stages/15_preview.json"
+    },
+    {
+      "state": "audio_mix",
+      "stage": "mix",
+      "ok": true,
+      "at": "2026-10-17T19:17:34.093026Z",
+      "artifacts": {
+        "mix": "/home/user/osint_generator/projects/diesel_road_2026/out/mix.f32",
+        "bed_stats": "/home/user/osint_generator/projects/diesel_road_2026/out/bed_stats.json"
+      },
+      "errors": [],
+      "drops": 0,
+      "log": "logs/stages/16_mix.json"
+    },
+    {
+      "state": "deliver",
+      "stage": "deliver",
+      "ok": true,
+      "at": "2026-10-17T19:23:39.543610Z",
+      "artifacts": {
+        "final": "/home/user/osint_generator/projects/diesel_road_2026/out/final.mp4",
+        "srt": "/home/user/osint_generator/projects/diesel_road_2026/out/final.srt",
+        "description": "/home/user/osint_generator/projects/diesel_road_2026/out/description.txt",
+        "credits": "/home/user/osint_generator/projects/diesel_road_2026/out/credits.txt",
+        "provenance": "/home/user/osint_generator/projects/diesel_road_2026/out/provenance.json"
+      },
+      "errors": [],
+      "drops": 0,
+      "log": "logs/stages/17_deliver.json"
+    }
+  ],
+  "final_outputs": {},
+  "state_history": [
+    {
+      "from_state": "created",
+      "to_state": "intake",
+      "transitioned_at": "2026-10-17T13:43:49.239533Z",
+      "reason": "plan-intake 시작"
+    },
+    {
+      "from_state": "intake",
+      "to_state": "source_verify",
+      "transitioned_at": "2026-10-17T13:47:40.920273Z",
+      "reason": "CLI submit-intake"
+    },
+    {
+      "from_state": "source_verify",
+      "to_state": "research",
+      "transitioned_at": "2026-10-17T14:38:25.770945Z",
+      "reason": "ResearchWorker 성공(facts.json)"
+    },
+    {
+      "from_state": "research",
+      "to_state": "script_draft",
+      "transitioned_at": "2026-10-17T14:39:36.817491Z",
+      "reason": "기존 script.yaml 재사용"
+    },
+    {
+      "from_state": "script_draft",
+      "to_state": "script_approval",
+      "transitioned_at": "2026-10-17T14:44:02.690503Z",
+      "reason": "원고 확정(린트 오류 0) — 게이트 ① 감독 위임 D232"
+    },
+    {
+      "from_state": "script_approval",
+      "to_state": "voice_timeline",
+      "transitioned_at": "2026-10-17T15:19:46.746298Z",
+      "reason": "script_approval 승인 — fable"
+    },
+    {
+      "from_state": "voice_timeline",
+      "to_state": "assets",
+      "transitioned_at": "2026-10-17T15:45:15.756839Z",
+      "reason": "engine plan ok"
+    },
+    {
+      "from_state": "assets",
+      "to_state": "direction",
+      "transitioned_at": "2026-10-17T15:50:15.236324Z",
+      "reason": "engine assets, assets_final ok"
+    },
+    {
+      "from_state": "direction",
+      "to_state": "preview_qa",
+      "transitioned_at": "2026-10-17T16:59:35.820132Z",
+      "reason": "engine direction_validate, validate, camera_suggest ok"
+    },
+    {
+      "from_state": "preview_qa",
+      "to_state": "preview_approval",
+      "transitioned_at": "2026-10-17T19:05:12.634467Z",
+      "reason": "프리뷰 검수 루프 3회 + 수동 수정 — 콘티 판 checks hard 0(R-0238). 프리뷰 checks 는 act3_4 첫 0.2초 frame_missing 1건(기사 카드 0.2초 늦은 시작) — 감독 판정 D-0227 승인"
+    },
+    {
+      "from_state": "preview_approval",
+      "to_state": "render",
+      "transitioned_at": "2026-10-17T19:05:55.888873Z",
+      "reason": "preview_approval 승인 — fable"
+    },
+    {
+      "from_state": "render",
+      "to_state": "audio_mix",
+      "transitioned_at": "2026-10-17T19:15:08.922919Z",
+      "reason": "720p 전편 엔진 렌더 완료(engine.render --res 720p --jobs 4, 14050프레임, out/render.json) — 게이트 ② 전 감독 지시로 선행 렌더"
+    },
+    {
+      "from_state": "audio_mix",
+      "to_state": "deliver",
+      "transitioned_at": "2026-10-17T19:17:34.095418Z",
+      "reason": "engine mix ok"
+    },
+    {
+      "from_state": "deliver",
+      "to_state": "done",
+      "transitioned_at": "2026-10-17T19:23:39.547901Z",
+      "reason": "engine deliver ok"
+    }
+  ],
+  "reopens": []
+}

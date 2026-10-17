@@ -1,0 +1,27 @@
+{
+  "schema_version": 1,
+  "project_id": "diesel_road_2026",
+  "task_id": "verify_sources__diesel_road_2026",
+  "worker": "verify_sources",
+  "status": "completed",
+  "started_at": "2026-10-17T14:08:18.508752Z",
+  "completed_at": "2026-10-17T14:12:16.647020Z",
+  "outputs": [
+    "intake/verify_draft.json",
+    "llm_calls/llm_20261017_140818_e9e8.json"
+  ],
+  "warnings": [],
+  "errors": [],
+  "scene_refs": [],
+  "source_refs": [],
+  "asset_refs": [],
+  "qa_status": "pass",
+  "risk_flags": [],
+  "worker_provenance": {
+    "prompt_name": "verify_sources",
+    "prompt_sha1": "befe45609d4d49154111016690c2c7a745c1d106",
+    "rules_hash": "d59a7595a14caa18424f14de74bd49a9ad63b4b9",
+    "genre": null,
+    "genre_declared": null
+  }
+}

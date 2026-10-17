@@ -30,6 +30,7 @@ import numpy as np
 from PIL import Image, ImageDraw, ImageEnhance, ImageFont
 
 REPO = Path(__file__).resolve().parent.parent
+INSET_LIBRARY = REPO / "assets" / "library" / "insets"   # v7.3.0 — 위성 인셋 공용 보관본(정사각 원본 png, 권리 = 미디어 레지스트리)
 if str(REPO) not in sys.path:
     sys.path.insert(0, str(REPO))
 
@@ -104,6 +105,15 @@ def fetch_source(a: MediaAsset, media: Path, restore_from: Path | None = None, t
         dest.parent.mkdir(parents=True, exist_ok=True)
         dest.write_bytes((restore_from / str(prm["source"])).read_bytes())
         print(f"restore {a.title} ← {restore_from}", flush=True)
+        return dest
+    if a.kind == "inset":   # v7.3.0 D-0206 — 위성 인셋: 공용 보관본(assets/library/insets) → 없으면 기록된 요청 URL(NASA GIBS WMS)
+        lib = INSET_LIBRARY / str(prm["source"])
+        dest.parent.mkdir(parents=True, exist_ok=True)
+        if lib.exists():
+            dest.write_bytes(lib.read_bytes())
+            print(f"library {a.title} ← {lib.relative_to(REPO)}", flush=True)
+        else:
+            dest.write_bytes(commons_fetch.http_get(str(prm["request_url"])))
         return dest
     if a.url and FLICKR_PAGE_RE.match(a.url):   # v4.4.0 — 기관 공식 Flickr(Commons 가 아님)
         fetch_flickr(a, dest)
@@ -266,6 +276,11 @@ def run(proj: Path, only: list[str] | None = None, sheets: bool = True, registry
             elif a.kind == "cutout":
                 Image.open(src).verify()
                 process_cutout(src, media / str(a.file), prm)
+                files = [str(a.file)]
+            elif a.kind == "inset":   # v7.3.0 — 가공 없음(원형 클립은 렌더러, UF-103). 원본이 화면 파일
+                Image.open(src).verify()
+                if src.name != str(a.file):
+                    (media / str(a.file)).write_bytes(src.read_bytes())
                 files = [str(a.file)]
             else:
                 dur = probe_duration(src)

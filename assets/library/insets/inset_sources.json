@@ -1,0 +1,288 @@
+{
+ "ryazan": {
+  "file": "inset_ryazan.png",
+  "source": "NASA GIBS WMS (gibs.earthdata.nasa.gov/wms/epsg4326/best)",
+  "layer": "HLS_S30_Nadir_BRDF_Adjusted_Reflectance",
+  "time": "2026-10-07",
+  "bbox_lat_lon": [
+   54.543,
+   39.802,
+   54.592999999999996,
+   39.852
+  ],
+  "request_px": [
+   512,
+   512
+  ],
+  "crop": "center crop to 512x369 (0.72 ratio of inset box), no other processing",
+  "rights": "NASA GIBS imagery: public domain (HLS = NASA-processed Landsat 8/9 + Sentinel-2, via LP DAAC); credit 'NASA GIBS / HLS'",
+  "fetched": "2026-10-17",
+  "copied_from": "projects/strike_demo_2026/inset_ryazan.png",
+  "aspect_note": "bbox is equal degrees in lat and lon (not aspect-corrected) - image is horizontally stretched by 1/cos(lat)"
+ },
+ "ras_laffan": {
+  "file": "inset_ras_laffan.png",
+  "source": "NASA GIBS WMS (gibs.earthdata.nasa.gov/wms/epsg4326/best)",
+  "layer": "HLS_S30_Nadir_BRDF_Adjusted_Reflectance",
+  "time": "2026-10-05",
+  "bbox_lat_lon": [
+   25.880000000000003,
+   51.535000000000004,
+   25.93,
+   51.585
+  ],
+  "request_px": [
+   512,
+   512
+  ],
+  "crop": "center crop to 512x369 (0.72 ratio of inset box), no other processing",
+  "rights": "NASA GIBS imagery: public domain (HLS = NASA-processed Landsat 8/9 + Sentinel-2, via LP DAAC); credit 'NASA GIBS / HLS'",
+  "fetched": "2026-10-17",
+  "copied_from": "projects/strike_demo_2026/inset_ras_laffan.png",
+  "aspect_note": "bbox is equal degrees in lat and lon (not aspect-corrected) - image is horizontally stretched by 1/cos(lat)"
+ },
+ "kharg": {
+  "file": "inset_kharg.png",
+  "source": "NASA GIBS WMS (gibs.earthdata.nasa.gov/wms/epsg4326/best)",
+  "layer": "HLS_S30_Nadir_BRDF_Adjusted_Reflectance",
+  "time": "2026-09-25",
+  "bbox_lat_lon": [
+   29.21,
+   50.300000000000004,
+   29.259999999999998,
+   50.35
+  ],
+  "request_px": [
+   512,
+   512
+  ],
+  "crop": "center crop to 512x369 (0.72 ratio of inset box), no other processing",
+  "rights": "NASA GIBS imagery: public domain (HLS = NASA-processed Landsat 8/9 + Sentinel-2, via LP DAAC); credit 'NASA GIBS / HLS'",
+  "fetched": "2026-10-17",
+  "copied_from": "projects/strike_demo_2026/inset_kharg.png",
+  "aspect_note": "bbox is equal degrees in lat and lon (not aspect-corrected) - image is horizontally stretched by 1/cos(lat)"
+ },
+ "kirishi": {
+  "file": "inset_kirishi.png",
+  "source": "NASA GIBS WMS (gibs.earthdata.nasa.gov/wms/epsg4326/best)",
+  "layer": "HLS_S30_Nadir_BRDF_Adjusted_Reflectance",
+  "time": "2026-10-01",
+  "bbox_lat_lon": [
+   59.462,
+   32.0228,
+   59.512,
+   32.1212
+  ],
+  "center_lat_lon": [
+   59.487,
+   32.072
+  ],
+  "subject": "Kirishi refinery (KINEF), Leningrad Oblast - tank farm and process units visible",
+  "url": "https://gibs.earthdata.nasa.gov/wms/epsg4326/best/wms.cgi?SERVICE=WMS&REQUEST=GetMap&VERSION=1.3.0&LAYERS=HLS_S30_Nadir_BRDF_Adjusted_Reflectance&CRS=EPSG:4326&BBOX=59.462,32.0228,59.512,32.1212&WIDTH=512&HEIGHT=512&FORMAT=image/png&TIME=2026-10-01",
+  "request_px": [
+   512,
+   512
+  ],
+  "crop": "center crop to 512x369 (0.72 ratio of inset box), no other processing",
+  "aspect_note": "lon span = lat span / cos(lat) (aspect-corrected, ~5.6 km square before crop)",
+  "date_note": "latest cloud-free HLS S30 date found in 2026 scan; not tied to a specific strike date (no before/after claim)",
+  "rights": "NASA GIBS imagery: public domain (HLS = NASA-processed Landsat 8/9 + Sentinel-2, via LP DAAC); credit 'NASA GIBS / HLS'",
+  "fetched": "2026-10-17"
+ },
+ "volgograd": {
+  "file": "inset_volgograd.png",
+  "source": "NASA GIBS WMS (gibs.earthdata.nasa.gov/wms/epsg4326/best)",
+  "layer": "HLS_S30_Nadir_BRDF_Adjusted_Reflectance",
+  "time": "2026-10-10",
+  "bbox_lat_lon": [
+   48.473,
+   44.5843,
+   48.523,
+   44.6597
+  ],
+  "center_lat_lon": [
+   48.498,
+   44.622
+  ],
+  "subject": "Volgograd refinery (Lukoil), Krasnoarmeysky district - tank farm and process units visible",
+  "url": "https://gibs.earthdata.nasa.gov/wms/epsg4326/best/wms.cgi?SERVICE=WMS&REQUEST=GetMap&VERSION=1.3.0&LAYERS=HLS_S30_Nadir_BRDF_Adjusted_Reflectance&CRS=EPSG:4326&BBOX=48.473,44.5843,48.523,44.6597&WIDTH=512&HEIGHT=512&FORMAT=image/png&TIME=2026-10-10",
+  "request_px": [
+   512,
+   512
+  ],
+  "crop": "center crop to 512x369 (0.72 ratio of inset box), no other processing",
+  "aspect_note": "lon span = lat span / cos(lat) (aspect-corrected, ~5.6 km square before crop)",
+  "date_note": "latest cloud-free HLS S30 date found in 2026 scan; not tied to a specific strike date (no before/after claim)",
+  "rights": "NASA GIBS imagery: public domain (HLS = NASA-processed Landsat 8/9 + Sentinel-2, via LP DAAC); credit 'NASA GIBS / HLS'",
+  "fetched": "2026-10-17"
+ },
+ "ryazan_esri": {
+  "file": "inset_ryazan_esri.png",
+  "source": "Esri World Imagery (server.arcgisonline.com World_Imagery MapServer tiles)",
+  "center_lat_lon": [
+   54.5624,
+   39.7496
+  ],
+  "zoom": 14,
+  "tiles": [
+   "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/14/5215/9999",
+   "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/14/5215/10000",
+   "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/14/5215/10001",
+   "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/14/5215/10002",
+   "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/14/5216/9999",
+   "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/14/5216/10000",
+   "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/14/5216/10001",
+   "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/14/5216/10002",
+   "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/14/5217/9999",
+   "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/14/5217/10000",
+   "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/14/5217/10001",
+   "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/14/5217/10002",
+   "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/14/5218/9999",
+   "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/14/5218/10000",
+   "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/14/5218/10001",
+   "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/14/5218/10002"
+  ],
+  "request_url": "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/14/5216/10001",
+  "crop": "16-tile mosaic, square center crop 640x640 px at facility point, resized to 512x512 (Lanczos), no other processing",
+  "ground_m_per_px": 5.54,
+  "ground_width_km": 3.55,
+  "rights": "Esri World Imagery (Maxar et al.) — private viewing only (user decision D234); replace with NASA GIBS/Sentinel before any public release",
+  "scope": "private_only",
+  "fetched": "2026-10-17",
+  "md5": "da580e57aad9f0aa00b637edef343b9c",
+  "capture_date": "2024-09-26",
+  "capture_date_source": "Esri World_Imagery MapServer identify SRC_DATE2"
+ },
+ "kirishi_esri": {
+  "file": "inset_kirishi_esri.png",
+  "source": "Esri World Imagery (server.arcgisonline.com World_Imagery MapServer tiles)",
+  "center_lat_lon": [
+   59.4856,
+   32.078
+  ],
+  "zoom": 14,
+  "tiles": [
+   "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/14/4803/9650",
+   "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/14/4803/9651",
+   "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/14/4803/9652",
+   "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/14/4803/9653",
+   "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/14/4804/9650",
+   "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/14/4804/9651",
+   "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/14/4804/9652",
+   "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/14/4804/9653",
+   "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/14/4805/9650",
+   "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/14/4805/9651",
+   "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/14/4805/9652",
+   "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/14/4805/9653"
+  ],
+  "request_url": "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/14/4804/9651",
+  "crop": "12-tile mosaic, square center crop 640x640 px at facility point, resized to 512x512 (Lanczos), no other processing",
+  "ground_m_per_px": 4.85,
+  "ground_width_km": 3.1,
+  "rights": "Esri World Imagery (Maxar et al.) — private viewing only (user decision D234); replace with NASA GIBS/Sentinel before any public release",
+  "scope": "private_only",
+  "fetched": "2026-10-17",
+  "md5": "8a669bdccf4d3a543230762aee101cc6",
+  "capture_date": "2024-09-10",
+  "capture_date_source": "Esri World_Imagery MapServer identify SRC_DATE2"
+ },
+ "volgograd_esri": {
+  "file": "inset_volgograd_esri.png",
+  "source": "Esri World Imagery (server.arcgisonline.com World_Imagery MapServer tiles)",
+  "center_lat_lon": [
+   48.4928,
+   44.63
+  ],
+  "zoom": 14,
+  "tiles": [
+   "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/14/5660/10221",
+   "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/14/5660/10222",
+   "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/14/5660/10223",
+   "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/14/5660/10224",
+   "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/14/5661/10221",
+   "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/14/5661/10222",
+   "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/14/5661/10223",
+   "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/14/5661/10224",
+   "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/14/5662/10221",
+   "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/14/5662/10222",
+   "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/14/5662/10223",
+   "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/14/5662/10224"
+  ],
+  "request_url": "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/14/5661/10223",
+  "crop": "12-tile mosaic, square center crop 640x640 px at facility point, resized to 512x512 (Lanczos), no other processing",
+  "ground_m_per_px": 6.33,
+  "ground_width_km": 4.05,
+  "rights": "Esri World Imagery (Maxar et al.) — private viewing only (user decision D234); replace with NASA GIBS/Sentinel before any public release",
+  "scope": "private_only",
+  "fetched": "2026-10-17",
+  "md5": "fc281d140cfd3796c69a4de3acd7fced",
+  "capture_date": "2025-05-28",
+  "capture_date_source": "Esri World_Imagery MapServer identify SRC_DATE2"
+ },
+ "ras_laffan_esri": {
+  "file": "inset_ras_laffan_esri.png",
+  "source": "Esri World Imagery (server.arcgisonline.com World_Imagery MapServer tiles)",
+  "center_lat_lon": [
+   25.906,
+   51.528
+  ],
+  "zoom": 14,
+  "tiles": [
+   "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/14/6969/10535",
+   "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/14/6969/10536",
+   "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/14/6969/10537",
+   "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/14/6969/10538",
+   "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/14/6970/10535",
+   "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/14/6970/10536",
+   "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/14/6970/10537",
+   "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/14/6970/10538",
+   "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/14/6971/10535",
+   "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/14/6971/10536",
+   "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/14/6971/10537",
+   "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/14/6971/10538"
+  ],
+  "request_url": "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/14/6970/10537",
+  "crop": "12-tile mosaic, square center crop 640x640 px at facility point, resized to 512x512 (Lanczos), no other processing",
+  "ground_m_per_px": 8.59,
+  "ground_width_km": 5.5,
+  "rights": "Esri World Imagery (Maxar et al.) — private viewing only (user decision D234); replace with NASA GIBS/Sentinel before any public release",
+  "scope": "private_only",
+  "fetched": "2026-10-17",
+  "md5": "0f812b11e9b417b31252e07f34b9860a",
+  "capture_date": "2024-01-21",
+  "capture_date_source": "Esri World_Imagery MapServer identify SRC_DATE2"
+ },
+ "kharg_esri": {
+  "file": "inset_kharg_esri.png",
+  "source": "Esri World Imagery (server.arcgisonline.com World_Imagery MapServer tiles)",
+  "center_lat_lon": [
+   29.24,
+   50.3147
+  ],
+  "zoom": 13,
+  "tiles": [
+   "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/13/3398/5239",
+   "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/13/3398/5240",
+   "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/13/3398/5241",
+   "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/13/3398/5242",
+   "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/13/3399/5239",
+   "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/13/3399/5240",
+   "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/13/3399/5241",
+   "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/13/3399/5242",
+   "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/13/3400/5239",
+   "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/13/3400/5240",
+   "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/13/3400/5241",
+   "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/13/3400/5242"
+  ],
+  "request_url": "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/13/3399/5240",
+  "crop": "12-tile mosaic, square center crop 640x640 px at facility point, resized to 512x512 (Lanczos), no other processing",
+  "ground_m_per_px": 16.67,
+  "ground_width_km": 10.67,
+  "rights": "Esri World Imagery (Maxar et al.) — private viewing only (user decision D234); replace with NASA GIBS/Sentinel before any public release",
+  "scope": "private_only",
+  "fetched": "2026-10-17",
+  "md5": "cb64c8d3f92589cb94ea5805e2a44170",
+  "capture_date": "2024-10-14",
+  "capture_date_source": "Esri World_Imagery MapServer identify SRC_DATE2"
+ }
+}

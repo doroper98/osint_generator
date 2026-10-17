@@ -1,0 +1,1949 @@
+# direction.yaml — AI 연출(DirectorWorker, v3.1.0, 17 §5.3). 사람 검토 전 초안 — 승인 게이트 ②에서 판정. 구현 세션 보강(D-0225·D-0226: dark·위성 인셋 3·시리즈 패널 3·flight 길이 보정).
+version: 1
+genre: null
+stage: null
+media_note: '실사(photo·clip·cutout) 0건 — 미디어 레지스트리에 사진·영상 후보가 없다. 인용(quote) 0건 — 인용 후보 없음. 인물·휘장 뱃지 0건 — 이 프로젝트에 초상·휘장·국기 자산이 없어 발언 문장은 기사 카드로 건다. | 구현 세션 보강(D-0225·D-0226):
+  dark 테마, 위성 인셋 3곳(랴잔·키리시·라스라판 — flight.inset), 시리즈 패널 3개(press_cited 레코드 대조), 시즈란 flight 길이 보정. 하르그는 marker/boom 만(D-0225 §2.4).'
+story_geo_exempt: null
+opening_exempt: null
+stage_reason: null
+stage_config:
+  mercator:
+    theme: dark
+    theme_reason: 타격 중심 군사 전황 — D154 장르 예외, D232 U8
+places:
+  ryazan:
+  - 39.74
+  - 54.62
+  kirishi:
+  - 32.02
+  - 59.45
+  saratov:
+  - 46.03
+  - 51.53
+  syzran:
+  - 48.47
+  - 53.16
+  khabarovsk:
+  - 135.07
+  - 48.48
+  komsomolsk:
+  - 137.0
+  - 50.55
+  ulsan:
+  - 129.31
+  - 35.54
+  vladivostok:
+  - 131.9
+  - 43.1
+  niigata:
+  - 139.04
+  - 37.92
+  yeosu_off:
+  - 127.75
+  - 34.55
+  seoul:
+  - 126.98
+  - 37.57
+  hormuz:
+  - 56.35
+  - 26.55
+  south_pars:
+  - 52.6
+  - 27.48
+  ras_laffan:
+  - 51.53
+  - 25.92
+  fujairah:
+  - 56.33
+  - 25.12
+  pump_station:
+  - 45.2
+  - 24.6
+  kharg:
+  - 50.32
+  - 29.24
+  kharkiv_gas:
+  - 36.6
+  - 49.6
+  poltava_gas:
+  - 33.9
+  - 49.8
+paths:
+  leila:
+  - - 129.45
+    - 35.5
+  - - 130.1
+    - 36.6
+  - - 130.9
+    - 39.2
+  - - 131.6
+    - 41.9
+  - - 131.88
+    - 43.0
+  niigata_decl:
+  - - 129.5
+    - 35.55
+  - - 131.8
+    - 36.4
+  - - 135.2
+    - 37.3
+  - - 138.95
+    - 37.9
+  cheongcheon:
+  - - 127.75
+    - 34.55
+  - - 128.7
+    - 34.45
+  - - 129.7
+    - 35.1
+  - - 130.5
+    - 37.2
+  - - 131.3
+    - 40.2
+  - - 131.85
+    - 42.9
+shots:
+- at: 0.0
+  mode: cut
+  dur: 0.0
+  camera:
+    lon: 62.0
+    lat: 50.0
+    place: null
+    date: null
+    lane: null
+    w: 80.0
+  under: false
+  scene: null
+  stage: null
+  reason: null
+- at:
+    sid: cold_0
+    'off': -0.4
+  mode: move
+  dur: 6.5
+  camera:
+    lon: 40.0
+    lat: 55.0
+    place: null
+    date: null
+    lane: null
+    w: 34.0
+  under: false
+  scene: null
+  stage: null
+  reason: null
+- at:
+    sid: act1_12
+    'off': -0.6
+  mode: move
+  dur: 3.4
+  camera:
+    lon: 67.0
+    lat: 41.0
+    place: null
+    date: null
+    lane: null
+    w: 90.0
+  under: false
+  scene: null
+  stage: null
+  reason: null
+- at:
+    scene_start: act2
+    'off': -0.55
+  mode: dip
+  dur: 3.0
+  camera:
+    lon: 132.9
+    lat: 47.5
+    place: null
+    date: null
+    lane: null
+    w: 22.0
+  under: false
+  scene: null
+  stage: null
+  reason: null
+- at:
+    sid: act2_7
+    'off': -0.6
+  mode: move
+  dur: 3.0
+  camera:
+    lon: 130.9
+    lat: 39.0
+    place: null
+    date: null
+    lane: null
+    w: 26.0
+  under: false
+  scene: null
+  stage: null
+  reason: null
+- at:
+    scene_start: act3
+    'off': -0.55
+  mode: dip
+  dur: 3.0
+  camera:
+    lon: 51.0
+    lat: 28.0
+    place: null
+    date: null
+    lane: null
+    w: 18.0
+  under: false
+  scene: null
+  stage: null
+  reason: null
+- at:
+    scene_start: act4
+    'off': -0.55
+  mode: dip
+  dur: 3.0
+  camera:
+    lon: 37.0
+    lat: 52.3
+    place: null
+    date: null
+    lane: null
+    w: 26.0
+  under: false
+  scene: null
+  stage: null
+  reason: null
+- at:
+    scene_start: ending
+    'off': -0.55
+  mode: dip
+  dur: 3.0
+  camera:
+    lon: 84.0
+    lat: 42.0
+    place: null
+    date: null
+    lane: null
+    w: 94.0
+  under: false
+  scene: null
+  stage: null
+  reason: null
+- at:
+    sid: ending_1
+    'off': -0.5
+  mode: move
+  dur: 9.0
+  camera:
+    lon: 84.0
+    lat: 42.0
+    place: null
+    date: null
+    lane: null
+    w: 96.0
+  under: false
+  scene: null
+  stage: null
+  reason: null
+events:
+- type: country
+  start:
+    sid: cold_0
+    'off': 0.2
+  end:
+    scene_end: cold
+  codes:
+  - RU
+  col: ru
+  a: 0.05
+- type: marker
+  start:
+    sid: cold_0
+    'off': 0.3
+  end:
+    scene_end: cold
+  at_place: ryazan
+  label: 랴잔
+  sub: 정유소 · 10월 15일 새벽
+  side: right
+  hl: true
+  icon: boom
+- type: flight
+  start:
+    sid: cold_0
+    'off': 0.3
+  end:
+    sid: cold_1
+    edge: end
+    'off': 0.3
+  kind: drone
+  origin:
+    lon: 34.6
+    lat: 50.6
+  lon: 39.74
+  lat: 54.62
+  col: teal
+  impact: true
+  inset:
+    mid: inset_ryazan_esri
+- type: card
+  start:
+    sid: cold_1
+    'off': 0.1
+  end:
+    sid: cold_1
+    edge: end
+    'off': 0.3
+  tag: 러시아 국방부
+  lines:
+  - 격추한 무인기의 파편이 불을 냈다
+  accent: ru
+- type: country
+  start:
+    sid: cold_2
+    'off': 0.1
+  end:
+    scene_end: cold
+  codes:
+  - UA
+  col: teal
+  a: 0.06
+- type: card
+  start:
+    sid: cold_2
+    'off': 0.1
+  end:
+    sid: cold_2
+    edge: end
+    'off': 0.3
+  tag: 우크라이나 당국자
+  lines:
+  - 이번 공격을 확인
+  accent: teal
+- type: card
+  start:
+    sid: cold_3
+    'off': 0.1
+  end:
+    sid: cold_4
+    'off': -1.0
+  tag: 에너지 휴전 · 10월 11일 발표
+  lines:
+  - 나흘 전 트럼프 대통령이 발표한 에너지 휴전
+  - 이 공격으로 끝났다
+  accent: us
+- type: article
+  start:
+    sid: cold_4
+    'off': -1.0
+  end:
+    sid: cold_4
+    edge: end
+    'off': 0.9
+  mid: diesel_road_2026_art_0032
+  theme: dark
+- type: article
+  start:
+    sid: cold_5
+    'off': 0.5
+  end:
+    card: title
+    edge: end
+  mid: diesel_road_2026_art_0001
+  theme: dark
+- type: marker
+  start:
+    sid: act1_0
+    'off': 0.2
+  end:
+    scene_end: act1
+  at_place: ryazan
+  label: 랴잔
+  sub: 정유소
+  side: right
+  hl: false
+- type: card
+  start:
+    sid: act1_0
+    'off': 0.3
+  end:
+    sid: act1_0
+    edge: end
+    'off': 0.3
+  tag: 국제에너지기구 · 올해 1~8월
+  lines:
+  - 우크라이나, 사흘에 한 번꼴로
+  - 러시아 정유소 타격
+  accent: teal
+- type: card
+  start:
+    sid: act1_1
+    'off': 0.1
+  end:
+    sid: act1_1
+    edge: end
+    'off': 0.2
+  tag: 국제에너지기구 · 표적
+  lines:
+  - 원유를 캐는 유전이 아니라
+  - 원유를 경유·휘발유로 바꾸는 정유소
+  accent: teal
+- type: article
+  start:
+    sid: act1_2
+    'off': -0.1
+  end:
+    sid: act1_2
+    edge: end
+    'off': 0.4
+  mid: diesel_road_2026_art_0005
+  theme: dark
+- type: flight
+  start:
+    word:
+      sid: act1_3
+      text: 키리시
+  end:
+    sid: act1_4
+    edge: end
+    'off': 0.0
+  kind: drone
+  origin:
+    lon: 34.6
+    lat: 50.6
+  lon: 32.02
+  lat: 59.45
+  col: teal
+  impact: true
+  inset:
+    mid: inset_kirishi_esri
+- type: marker
+  start:
+    word:
+      sid: act1_3
+      text: 키리시
+    'off': 0.6
+  end:
+    scene_end: act1
+  at_place: kirishi
+  label: 키리시
+  sub: 정유소
+  side: right
+  hl: false
+  icon: boom
+- type: flight
+  start:
+    word:
+      sid: act1_3
+      text: 사라토프
+  end:
+    sid: act1_3
+    edge: end
+    'off': 1.0
+  kind: drone
+  origin:
+    lon: 34.6
+    lat: 50.6
+  lon: 46.03
+  lat: 51.53
+  col: teal
+  impact: true
+- type: marker
+  start:
+    word:
+      sid: act1_3
+      text: 사라토프
+    'off': 0.6
+  end:
+    scene_end: act1
+  at_place: saratov
+  label: 사라토프
+  sub: 정유소
+  side: right
+  hl: false
+  icon: boom
+- type: flight
+  start:
+    word:
+      sid: act1_3
+      text: 시즈란
+  end:
+    sid: act1_3
+    edge: end
+    'off': 1.6
+  kind: drone
+  origin:
+    lon: 34.6
+    lat: 50.6
+  lon: 48.47
+  lat: 53.16
+  col: teal
+  impact: true
+- type: marker
+  start:
+    word:
+      sid: act1_3
+      text: 시즈란
+    'off': 0.6
+  end:
+    scene_end: act1
+  at_place: syzran
+  label: 시즈란
+  sub: 정유소
+  side: right
+  hl: false
+  icon: boom
+- type: card
+  start:
+    sid: act1_4
+    'off': 0.2
+  end:
+    sid: act1_4
+    edge: end
+    'off': 0.2
+  tag: 국제에너지기구 · 6월
+  bigs:
+  - - 하루 380만 배럴
+    - 러시아 정제 처리량 · 20여 년 만에 최저
+  accent: ru
+- type: card
+  start:
+    sid: act1_5
+    'off': 0.1
+  end:
+    sid: act1_5
+    edge: end
+    'off': 0.2
+  tag: 국제에너지기구
+  bigs:
+  - - 약 30% 감소
+    - 1년 전 대비 정제 처리량
+  accent: ru
+- type: card
+  start:
+    sid: act1_6
+    'off': 0.2
+  end:
+    sid: act1_6
+    edge: end
+    'off': 0.2
+  tag: 러시아 월 경유 생산 · 산정치
+  bigs:
+  - - 750만 t
+    - 3월
+  - - 약 590만 t
+    - 5월
+  accent: ru
+- type: card
+  start:
+    sid: act1_7
+    'off': 0.1
+  end:
+    sid: act1_7
+    edge: end
+    'off': 0.2
+  tag: 두 달 만에
+  bigs:
+  - - 약 20%
+    - 사라진 러시아 경유 생산
+  accent: ru
+- type: article
+  start:
+    sid: act1_8
+    'off': -0.1
+  end:
+    sid: act1_8
+    edge: end
+    'off': 0.3
+  mid: diesel_road_2026_art_0007
+  theme: dark
+- type: card
+  start:
+    sid: act1_9
+    'off': 0.2
+  end:
+    sid: act1_9
+    edge: end
+    'off': 0.2
+  tag: 국제에너지기구 추정
+  bigs:
+  - - 30% 가까이
+    - 올해 러시아 경유 생산 감소
+  accent: ru
+- type: card
+  start:
+    sid: act1_10
+    'off': 0.2
+  end:
+    sid: act1_10
+    edge: end
+    'off': 0.2
+  tag: 러시아 · 7월 8일부터
+  lines:
+  - 경유 수출 전면 금지
+  - 정유사까지 포함
+  accent: ru
+- type: card
+  start:
+    sid: act1_11
+    'off': 0.2
+  end:
+    sid: act1_11
+    edge: end
+    'off': 0.2
+  tag: 보르텍사 자료 · 10월 초
+  bigs:
+  - - 하루 약 14만 6천 배럴
+    - 러시아 경유 해상 수출
+  accent: ru
+- type: card
+  start:
+    sid: act1_12
+    'off': 0.2
+  end:
+    sid: act1_12
+    edge: end
+    'off': 0.3
+  tag: 러시아
+  lines:
+  - 연료를 사들이기 시작
+  accent: ru
+- type: card
+  start:
+    sid: act1_13
+    'off': 0.2
+  end:
+    sid: act1_13
+    edge: end
+    'off': 0.2
+  tag: 크레아 · 8월
+  lines:
+  - 러시아 석유제품 수입 사상 최대
+  accent: ru
+- type: country
+  start:
+    sid: act1_14
+    'off': 0.1
+  end:
+    sid: act1_14
+    edge: end
+    'off': 0.5
+  codes:
+  - IN
+  col: teal
+  a: 0.14
+- type: card
+  start:
+    sid: act1_14
+    'off': 0.2
+  end:
+    sid: act1_14
+    edge: end
+    'off': 0.3
+  tag: 크레아 · 8월 수입분
+  bigs:
+  - - 70%
+    - 인도가 공급 · 대부분 휘발유
+  accent: teal
+- type: article
+  start:
+    sid: act1_15
+    'off': -0.1
+  end:
+    sid: act1_16
+    edge: end
+    'off': 0.5
+  mid: diesel_road_2026_art_0011
+  theme: dark
+- type: country
+  start:
+    sid: act2_0
+    'off': 0.2
+  end:
+    sid: act2_7
+    'off': -0.6
+  codes:
+  - RU
+  col: ru
+  a: 0.06
+- type: card
+  start:
+    sid: act2_1
+    'off': 0.3
+  end:
+    sid: act2_1
+    edge: end
+    'off': 0.2
+  tag: 극동 · 현지 정제로 채우는 수요
+  bigs:
+  - - 55~60%
+    - 휘발유
+  - - 60~65%
+    - 경유
+  accent: ru
+- type: marker
+  start:
+    word:
+      sid: act2_2
+      text: 하바롭스크
+  end:
+    sid: act2_7
+    'off': -0.6
+  at_place: khabarovsk
+  label: 하바롭스크 정유소
+  sub: NNK · 연 500만 t
+  side: left
+  hl: false
+- type: marker
+  start:
+    word:
+      sid: act2_2
+      text: 콤소몰스크
+  end:
+    sid: act2_7
+    'off': -0.6
+  at_place: komsomolsk
+  label: 콤소몰스크 정유소
+  sub: 로스네프트 · 연 800만 t
+  side: right
+  hl: true
+- type: card
+  start:
+    sid: act2_3
+    'off': 0.2
+  end:
+    sid: act2_3
+    edge: end
+    'off': 0.2
+  tag: 극동 연료 부족
+  lines:
+  - 5월 정유소 피격 뒤 시작
+  - 여름 중반에야 안정
+  accent: ru
+- type: card
+  start:
+    sid: act2_4
+    'off': 0.2
+  end:
+    sid: act2_4
+    edge: end
+    'off': 0.2
+  tag: 로스네프트
+  lines:
+  - 콤소몰스크나아무레 정유소
+  - 극동 시장의 주요 연료 공급처
+  accent: ru
+- type: article
+  start:
+    sid: act2_5
+    'off': -0.1
+  end:
+    sid: act2_6
+    edge: end
+    'off': 0.3
+  mid: diesel_road_2026_art_0012
+  theme: dark
+- type: card
+  start:
+    sid: act2_7
+    'off': 0.3
+  end:
+    sid: act2_7
+    edge: end
+    'off': 0.2
+  tag: 7월 말
+  bigs:
+  - - 약 3만 t
+    - 한국 → 러시아 정제 연료
+  accent: gold
+- type: article
+  start:
+    sid: act2_8
+    'off': -0.1
+  end:
+    sid: act2_8
+    edge: end
+    'off': 0.3
+  mid: diesel_road_2026_art_0002
+  theme: dark
+- type: card
+  start:
+    sid: act2_9
+    'off': 0.2
+  end:
+    sid: act2_9
+    edge: end
+    'off': 0.2
+  tag: 7~8월 한국발 운송
+  bigs:
+  - - 7척 · 14회
+    - 유조선 → 러시아 극동
+  accent: gold
+- type: card
+  start:
+    sid: act2_10
+    'off': 0.1
+  end:
+    sid: act2_10
+    edge: end
+    'off': 0.2
+  tag: 제재 대상
+  lines:
+  - 그 가운데 3척
+  - 영국·유럽연합 제재 대상
+  accent: ru
+- type: marker
+  start:
+    word:
+      sid: act2_11
+      text: 울산에서
+  end:
+    scene_end: act2
+  at_place: ulsan
+  label: 울산
+  sub: ''
+  side: left
+  hl: true
+- type: route
+  start:
+    word:
+      sid: act2_11
+      text: 울산에서
+    'off': 0.2
+  end:
+    scene_end: act2
+  pts:
+    path: leila
+  grow: 2.2
+  col: ru
+  ship: true
+  label: ''
+- type: marker
+  start:
+    word:
+      sid: act2_11
+      text: 블라디보스토크로
+  end:
+    scene_end: act2
+  at_place: vladivostok
+  label: 블라디보스토크
+  sub: ''
+  side: right
+  hl: true
+- type: card
+  start:
+    sid: act2_11
+    'off': 0.4
+  end:
+    sid: act2_11
+    edge: end
+    'off': 0.2
+  tag: 레일라호 · 제재 대상
+  lines:
+  - 울산 → 블라디보스토크, 두 차례
+  - 경유 약 5만 7천 t
+  accent: ru
+- type: route
+  start:
+    word:
+      sid: act2_12
+      text: 일본
+  end:
+    sid: act2_13
+    edge: end
+    'off': 0.2
+  pts:
+    path: niigata_decl
+  grow: 1.6
+  col: muted
+  ship: false
+  dashed: true
+  label: 신고
+- type: marker
+  start:
+    word:
+      sid: act2_12
+      text: 니가타
+  end:
+    sid: act2_13
+    edge: end
+    'off': 0.2
+  at_place: niigata
+  label: 니가타
+  sub: 신고 목적지
+  side: right
+  hl: false
+- type: card
+  start:
+    sid: act2_13
+    'off': 0.3
+  end:
+    sid: act2_13
+    edge: end
+    'off': 0.2
+  tag: 아스토리아호 · 8월 1일
+  lines:
+  - 울산에서 약 1만 1천 t
+  - 신고 목적지 일본 → 실제 블라디보스토크
+  accent: ru
+- type: marker
+  start:
+    word:
+      sid: act2_14
+      text: 여수
+  end:
+    scene_end: act2
+  at_place: yeosu_off
+  label: 여수 앞바다
+  sub: 선박 간 환적 · 근사 위치
+  side: left
+  hl: false
+- type: card
+  start:
+    sid: act2_14
+    'off': 0.3
+  end:
+    sid: act2_14
+    edge: end
+    'off': 0.2
+  tag: 청천호
+  lines:
+  - 항구에 들르지 않고 여수 앞바다에서
+  - 다른 유조선으로부터 약 2만 6천 t
+  accent: ru
+- type: route
+  start:
+    sid: act2_15
+    'off': 0.3
+  end:
+    scene_end: act2
+  pts:
+    path: cheongcheon
+  grow: 2.6
+  col: ru
+  ship: true
+  label: ''
+- type: card
+  start:
+    sid: act2_15
+    'off': 0.3
+  end:
+    sid: act2_15
+    edge: end
+    'off': 0.2
+  tag: 청천호 · 신고와 실제
+  lines:
+  - 신고 목적지 싱가포르
+  - 실제로는 블라디보스토크행
+  accent: ru
+- type: card
+  start:
+    sid: act2_16
+    'off': 0.2
+  end:
+    sid: act2_16
+    edge: end
+    'off': 0.2
+  tag: 케이플러가 확인한 구매자
+  lines:
+  - 로스네프트 · NNK
+  - 두 회사 모두 극동에 정유소
+  accent: ru
+- type: card
+  start:
+    sid: act2_17
+    'off': 0.1
+  end:
+    sid: act2_17
+    edge: end
+    'off': 0.0
+  tag: 분명하지 않은 것
+  lines:
+  - 연료의 소유주와 판매자
+  accent: muted
+- type: panel
+  start:
+    sid: act2_18
+    'off': -0.3
+  end:
+    sid: act2_19
+    edge: end
+    'off': 0.4
+  kind: versus
+  data:
+    title: 8월 러시아 해상 석유제품 수입 중 한국산
+    sides:
+    - title: 케이플러 자료
+      src: 가디언 인용 · 10월 6일
+      items:
+      - text: 러시아 해상 석유제품 수입의 31%
+        t:
+          word:
+            sid: act2_18
+            text: 31%
+      - text: 약 11만 2천 t
+        t:
+          word:
+            sid: act2_18
+            text: 11만
+    - title: 크레아 자료
+      src: 크레아
+      items:
+      - text: 약 1만 8천 t
+        t:
+          sid: act2_19
+          'off': 0.3
+- type: marker
+  start:
+    sid: act2_20
+    'off': 0.2
+  end:
+    scene_end: act2
+  at_place: seoul
+  label: 서울
+  sub: ''
+  side: left
+  hl: false
+- type: card
+  start:
+    sid: act2_20
+    'off': 0.2
+  end:
+    sid: act2_20
+    edge: end
+    'off': 0.2
+  tag: 정부 수출 제한 · 중동 전쟁 이후
+  lines:
+  - 휘발유·경유·등유 수출
+  - 전년 같은 달의 100% 이내
+  accent: gold
+- type: card
+  start:
+    sid: act2_21
+    'off': 0.2
+  end:
+    sid: act2_21
+    edge: end
+    'off': 0.2
+  tag: 올해 1~8월 경유 수출량
+  bigs:
+  - - 1억 2,982만 배럴
+    - 1년 전보다 3.4% 감소
+  accent: gold
+- type: card
+  start:
+    sid: act2_22
+    'off': 0.2
+  end:
+    sid: act2_22
+    edge: end
+    'off': 0.2
+  tag: 정유업계 요구
+  lines:
+  - 국내에 충분히 공급하고도 물량이 남는다
+  - 수출 빗장을 풀자
+  accent: gold
+- type: article
+  start:
+    sid: act2_23
+    'off': -0.1
+  end:
+    sid: act2_23
+    edge: end
+    'off': 0.3
+  mid: diesel_road_2026_art_0015
+  theme: dark
+- type: article
+  start:
+    sid: act2_24
+    'off': 0.1
+  end:
+    sid: act2_25
+    edge: end
+    'off': 0.3
+  mid: diesel_road_2026_art_0013
+  theme: dark
+- type: card
+  start:
+    sid: act2_26
+    'off': 0.2
+  end:
+    sid: act2_26
+    edge: end
+    'off': 0.2
+  tag: 국가안보실 관계자
+  lines:
+  - 대러 수출통제 품목 1,402개
+  - 경유 같은 정제유는 들어 있지 않다
+  accent: gold
+- type: card
+  start:
+    sid: act2_27
+    'off': 0.2
+  end:
+    sid: act2_27
+    edge: end
+    'off': 0.2
+  tag: 정부 · 10월 8일
+  lines:
+  - 수출통제 이행 중
+  - 위반 확인되면 법에 따라 조치
+  accent: gold
+- type: card
+  start:
+    sid: act2_28
+    'off': 0.2
+  end:
+    sid: act2_28
+    edge: end
+    'off': 0.2
+  tag: 정부 발표 · 10월 8일
+  lines:
+  - 주우크라이나 대사 소환
+  accent: gold
+- type: card
+  start:
+    sid: act2_29
+    'off': 0.2
+  end:
+    scene_end: act2
+    'off': -0.1
+  tag: 겹친 갈등
+  lines:
+  - 북한군 포로 송환 공개를 둘러싼 갈등
+  - 여기에 연료 논란
+  accent: muted
+- type: country
+  start:
+    sid: act3_0
+    'off': 0.3
+  end:
+    sid: act3_1
+    edge: end
+  codes:
+  - SA
+  - AE
+  - QA
+  - KW
+  - BH
+  - OM
+  col: gold
+  a: 0.07
+- type: card
+  start:
+    sid: act3_0
+    'off': 0.3
+  end:
+    sid: act3_0
+    edge: end
+    'off': 0.2
+  tag: 국제에너지기구
+  lines:
+  - 세계 경유의 또 다른 큰 공급처
+  - 걸프 지역도 전쟁 한가운데
+  accent: gold
+- type: marker
+  start:
+    word:
+      sid: act3_1
+      text: 호르무즈
+  end:
+    scene_end: act3
+  at_place: hormuz
+  label: 호르무즈 해협
+  sub: ''
+  side: right
+  hl: true
+- type: card
+  start:
+    sid: act3_1
+    'off': 0.3
+  end:
+    sid: act3_1
+    edge: end
+    'off': 0.2
+  tag: 2월 28일 개전 뒤
+  lines:
+  - 호르무즈 해협 경유 수송 크게 줄어
+  accent: ru
+- type: marker
+  start:
+    word:
+      sid: act3_2
+      text: 사우스파르스
+  end:
+    scene_end: act3
+  at_place: south_pars
+  label: 사우스파르스
+  sub: 이란 최대 가스전 · 3월 18일 공습
+  side: right
+  hl: false
+  icon: boom
+- type: boom
+  start:
+    word:
+      sid: act3_2
+      text: 사우스파르스
+    'off': 0.4
+  end:
+    word:
+      sid: act3_2
+      text: 사우스파르스
+    'off': 2.6
+  at_place: south_pars
+- type: flight
+  start:
+    sid: act3_3
+    'off': 0.1
+  end:
+    sid: act3_4
+    edge: end
+    'off': 0.3
+  kind: jet
+  origin:
+    lon: 34.9
+    lat: 31.6
+  lon: 52.6
+  lat: 27.48
+  col: us
+  impact: true
+- type: card
+  start:
+    sid: act3_3
+    'off': 0.2
+  end:
+    sid: act3_3
+    edge: end
+    'off': 0.2
+  tag: 보도
+  lines:
+  - 이스라엘의 공습
+  accent: us
+- type: card
+  start:
+    sid: act3_4
+    'off': 0.1
+  end:
+    sid: act3_4
+    edge: end
+    'off': 0.2
+  tag: 이란 주장
+  lines:
+  - 미국과 이스라엘이 함께 공격
+  accent: ru
+- type: marker
+  start:
+    word:
+      sid: act3_5
+      text: 라스라판
+  end:
+    scene_end: act3
+  at_place: ras_laffan
+  label: 라스라판
+  sub: LNG 설비 · 콜드박스 2기 파손
+  side: left
+  hl: false
+- type: article
+  start:
+    sid: act3_6
+    'off': -0.1
+  end:
+    sid: act3_6
+    edge: end
+    'off': 0.3
+  mid: diesel_road_2026_art_0021
+  theme: dark
+- type: flight
+  start:
+    sid: act3_7
+    'off': 0.4
+  end:
+    sid: act3_7
+    edge: end
+    'off': 0.5
+  kind: missile
+  origin:
+    lon: 55.2
+    lat: 27.3
+  lon: 56.33
+  lat: 25.12
+  col: ru
+  impact: true
+- type: marker
+  start:
+    word:
+      sid: act3_7
+      text: 푸자이라
+  end:
+    scene_end: act3
+  at_place: fujairah
+  label: 푸자이라 항
+  sub: 적어도 19번 피격
+  side: right
+  hl: false
+- type: marker
+  start:
+    sid: act3_8
+    'off': 0.2
+  end:
+    scene_end: act3
+  at_place: pump_station
+  label: 동서 송유관 펌프장
+  sub: 근사 위치
+  side: bottom
+  hl: false
+  icon: boom
+- type: flight
+  start:
+    sid: act3_8
+    'off': 0.3
+  end:
+    sid: act3_9
+    edge: end
+    'off': 0.3
+  kind: drone
+  origin:
+    lon: 45.0
+    lat: 31.0
+  lon: 45.2
+  lat: 24.6
+  col: ru
+  impact: true
+- type: card
+  start:
+    sid: act3_8
+    'off': 0.3
+  end:
+    sid: act3_8
+    edge: end
+    'off': 0.2
+  tag: 사우디 동서 송유관 · 9월 10일
+  lines:
+  - 무인기, 펌프장 타격
+  accent: ru
+- type: country
+  start:
+    word:
+      sid: act3_9
+      text: 이라크에서
+  end:
+    sid: act3_9
+    edge: end
+    'off': 0.5
+  codes:
+  - IQ
+  col: ru
+  a: 0.1
+- type: card
+  start:
+    sid: act3_9
+    'off': 0.2
+  end:
+    sid: act3_9
+    edge: end
+    'off': 0.2
+  tag: 미국 관리 · 사우디
+  lines:
+  - 무인기는 이라크에서 날아왔다
+  - 사우디, 다음 날 송유관 가동 중단
+  accent: ru
+- type: marker
+  start:
+    word:
+      sid: act3_10
+      text: 하르그섬
+  end:
+    scene_end: act3
+  at_place: kharg
+  label: 하르그섬
+  sub: 이란 원유 수출 관문
+  side: left
+  hl: false
+  icon: boom
+- type: boom
+  start:
+    word:
+      sid: act3_10
+      text: 하르그섬
+    'off': 0.5
+  end:
+    word:
+      sid: act3_10
+      text: 하르그섬
+    'off': 2.7
+  at_place: kharg
+- type: article
+  start:
+    sid: act3_11
+    'off': -0.3
+  end:
+    sid: act3_11
+    edge: end
+    'off': 0.3
+  mid: diesel_road_2026_art_0025
+  theme: dark
+- type: card
+  start:
+    sid: act3_12
+    'off': 0.2
+  end:
+    sid: act3_12
+    edge: end
+    'off': 0.2
+  tag: 걸프 정부들의 설명
+  lines:
+  - 피해는 요격된 무기의 파편 탓
+  accent: muted
+- type: card
+  start:
+    sid: act3_13
+    'off': 0.1
+  end:
+    sid: act3_13
+    edge: end
+    'off': 0.2
+  tag: 그러나
+  lines:
+  - 파편으로 보기 어려울 만큼 정밀
+  - 피해 자체가 목적
+  accent: ru
+- type: card
+  start:
+    sid: act3_14
+    'off': 0.2
+  end:
+    sid: act3_14
+    edge: end
+    'off': 0.2
+  tag: 개전 이후 걸프 기반시설
+  bigs:
+  - - 84곳 이상
+    - 공격받은 시설
+  - - 135번 넘게
+    - 공격 횟수
+  accent: ru
+- type: card
+  start:
+    sid: act3_15
+    'off': 0.2
+  end:
+    sid: act3_15
+    edge: end
+    'off': 0.2
+  tag: 7월 · 호르무즈 통과 중동산 경유 수출
+  bigs:
+  - - 하루 16만 5천 배럴
+    - 7월
+  accent: ru
+- type: card
+  start:
+    sid: act3_16
+    'off': 0.1
+  end:
+    scene_end: act3
+    'off': -0.1
+  tag: 전쟁 전
+  bigs:
+  - - 하루 약 80만 배럴
+    - 전쟁 전 호르무즈 통과 경유 수출
+  accent: muted
+- type: country
+  start:
+    sid: act4_0
+    'off': 0.1
+  end:
+    sid: act4_7
+    edge: end
+  codes:
+  - RU
+  col: ru
+  a: 0.05
+- type: card
+  start:
+    sid: act4_0
+    'off': 0.2
+  end:
+    sid: act4_0
+    edge: end
+    'off': 0.3
+  tag: 미국 · 2025년 10월 22일
+  lines:
+  - 로스네프트 제재 대상 지정
+  accent: us
+- type: card
+  start:
+    sid: act4_1
+    'off': 0.2
+  end:
+    sid: act4_1
+    edge: end
+    'off': 0.2
+  tag: 미 재무부 · 3월 12일
+  lines:
+  - 이미 배에 실린 러시아산 석유 거래
+  - 한시적 허용
+  accent: us
+- type: article
+  start:
+    sid: act4_2
+    'off': -0.1
+  end:
+    sid: act4_3
+    edge: end
+    'off': 0.3
+  mid: diesel_road_2026_art_0026
+  theme: dark
+- type: card
+  start:
+    sid: act4_4
+    'off': 0.1
+  end:
+    sid: act4_4
+    edge: end
+    'off': 0.2
+  tag: 미 재무부 일반허가 · 10월 9일
+  lines:
+  - 러시아산 경유 거래 허용
+  - 2027년 4월 7일까지
+  accent: us
+- type: article
+  start:
+    sid: act4_5
+    'off': -0.2
+  end:
+    sid: act4_5
+    edge: end
+    'off': 0.3
+  mid: diesel_road_2026_art_0028
+  theme: dark
+- type: article
+  start:
+    sid: act4_6
+    'off': -0.1
+  end:
+    sid: act4_6
+    edge: end
+    'off': 0.3
+  mid: diesel_road_2026_art_0033
+  theme: dark
+- type: article
+  start:
+    sid: act4_7
+    'off': -0.1
+  end:
+    sid: act4_7
+    edge: end
+    'off': 0.3
+  mid: diesel_road_2026_art_0030
+  theme: dark
+- type: flight
+  start:
+    sid: act4_8
+    'off': 0.3
+  end:
+    sid: act4_8
+    edge: end
+    'off': 0.5
+  kind: drone
+  origin:
+    lon: 38.6
+    lat: 51.3
+  lon: 36.6
+  lat: 49.6
+  col: ru
+  impact: true
+- type: marker
+  start:
+    word:
+      sid: act4_8
+      text: 하르키우주
+  end:
+    scene_end: act4
+  at_place: kharkiv_gas
+  label: 하르키우주
+  sub: 가스 생산 시설 · 근사 위치
+  side: bottom
+  hl: false
+  icon: boom
+- type: card
+  start:
+    sid: act4_8
+    'off': 0.6
+  end:
+    sid: act4_8
+    edge: end
+    'off': 0.2
+  tag: 휴전 발표 다음 날 밤
+  lines:
+  - 러시아 무인기, 가스 생산 시설 공격
+  accent: ru
+- type: flight
+  start:
+    sid: act4_9
+    'off': 0.3
+  end:
+    sid: act4_9
+    edge: end
+    'off': 0.5
+  kind: drone
+  origin:
+    lon: 38.6
+    lat: 51.3
+  lon: 33.9
+  lat: 49.8
+  col: ru
+  impact: true
+- type: marker
+  start:
+    word:
+      sid: act4_9
+      text: 폴타바주
+  end:
+    scene_end: act4
+  at_place: poltava_gas
+  label: 폴타바주
+  sub: 가스 생산 시설 · 근사 위치
+  side: left
+  hl: false
+  icon: boom
+- type: card
+  start:
+    sid: act4_9
+    'off': 0.6
+  end:
+    sid: act4_9
+    edge: end
+    'off': 0.2
+  tag: 14일 밤
+  lines:
+  - 가스 생산 시설, 무인기 공격으로 불타
+  accent: ru
+- type: flight
+  start:
+    sid: act4_10
+    'off': 0.3
+  end:
+    sid: act4_10
+    edge: end
+    'off': 0.5
+  kind: drone
+  origin:
+    lon: 34.6
+    lat: 50.6
+  lon: 39.74
+  lat: 54.62
+  col: teal
+  impact: true
+- type: marker
+  start:
+    word:
+      sid: act4_10
+      text: 랴잔을
+  end:
+    scene_end: act4
+  at_place: ryazan
+  label: 랴잔
+  sub: 정유소 · 15일 새벽
+  side: right
+  hl: true
+  icon: boom
+- type: card
+  start:
+    sid: act4_11
+    'off': 0.2
+  end:
+    sid: act4_11
+    edge: end
+    'off': 0.2
+  tag: 우크라이나 당국자
+  lines:
+  - 그 주 러시아의 공격이 먼저 휴전을 어겼다
+  accent: teal
+- type: article
+  start:
+    sid: act4_12
+    'off': -0.1
+  end:
+    sid: act4_12
+    edge: end
+    'off': 0.3
+  mid: diesel_road_2026_art_0027
+  theme: dark
+- type: article
+  start:
+    sid: act4_13
+    'off': -0.1
+  end:
+    sid: act4_13
+    edge: end
+    'off': 0.3
+  mid: diesel_road_2026_art_0034
+  theme: dark
+- type: marker
+  start:
+    word:
+      sid: ending_0
+      text: 정유소를
+  end:
+    total: true
+  at_place: ryazan
+  label: 랴잔
+  sub: ''
+  side: right
+  hl: false
+- type: marker
+  start:
+    word:
+      sid: ending_0
+      text: 울산을
+  end:
+    total: true
+  at_place: ulsan
+  label: 울산
+  sub: ''
+  side: right
+  hl: true
+- type: marker
+  start:
+    word:
+      sid: ending_0
+      text: 호르무즈에서
+  end:
+    total: true
+  at_place: hormuz
+  label: 호르무즈 해협
+  sub: ''
+  side: right
+  hl: false
+- type: card
+  start:
+    word:
+      sid: ending_0
+      text: 워싱턴의
+  end:
+    sid: ending_0
+    edge: end
+    'off': 0.3
+  tag: 워싱턴
+  lines:
+  - 경유 거래
+  accent: us
+- type: card
+  start:
+    sid: ending_1
+    'off': 0.2
+  end:
+    sid: ending_1
+    edge: end
+    'off': 0.3
+  tag: 지금
+  lines:
+  - '미국: 2027년 4월까지 러시아산 경유 거래 허용'
+  - '한국 정부: 선적 사례 확인 중'
+  accent: gold
+- type: card
+  start:
+    sid: ending_2
+    'off': 0.2
+  end:
+    total: true
+  tag: 휴전 발표 나흘 만에
+  lines:
+  - 우크라이나 → 정유소
+  - 러시아 → 가스 시설
+  accent: ru
+- type: flight
+  start:
+    sid: act3_5
+    'off': 0.2
+  end:
+    sid: act3_6
+    edge: end
+    'off': 0.0
+  kind: missile
+  origin:
+    lon: 55.2
+    lat: 27.3
+  lon: 51.53
+  lat: 25.92
+  col: ru
+  impact: true
+  inset:
+    mid: inset_ras_laffan_esri
+- type: panel
+  start:
+    sid: act1_4
+    'off': -0.2
+  end:
+    sid: act1_5
+    edge: end
+    'off': 0.3
+  kind: dual_line
+  title: 러시아 정제 처리량
+  subtitle: 하루 백만 배럴 · 보도 인용(IEA·블룸버그·로이터)
+  provenance:
+    verification: estimated
+    sources:
+    - IEA·블룸버그·로이터 보도 인용
+  y_min: 3
+  y_max: 6
+  y_step: 1
+  unit: mb/d
+  x_labels:
+  - 3월
+  - 4월
+  - 5월
+  - 6월
+  - 7월
+  - 8월
+  - 9월
+  series:
+  - label: 러시아
+    col: ru
+    values:
+    - 5.1
+    - 4.7
+    - null
+    - 3.8
+    - 3.6
+    - null
+    - 3.9
+    decimals: 1
+    record: RU_REFINERY_RUNS_2026
+    open_idx:
+    - 6
+- type: panel
+  start:
+    sid: act1_11
+    'off': -0.2
+  end:
+    sid: act1_12
+    edge: end
+    'off': 0.3
+  kind: dual_line
+  title: 러시아 경유 해상 수출
+  subtitle: 하루 천 배럴 · 보도 인용(LSEG·보르텍사·S&P) · 2·7월 환산
+  provenance:
+    verification: estimated
+    sources:
+    - LSEG·보르텍사·S&P 보도 인용
+  y_min: 0
+  y_max: 1000
+  y_step: 250
+  unit: kb/d
+  x_labels:
+  - 1월
+  - 2월
+  - 3월
+  - 4월
+  - 5월
+  - 6월
+  - 7월
+  - 8월
+  - 9월
+  - 10월 초
+  series:
+  - label: 러시아
+    col: ru
+    values:
+    - 963
+    - 760
+    - null
+    - null
+    - 740
+    - null
+    - 171
+    - 150
+    - 144
+    - 146
+    decimals: 0
+    record: RU_DIESEL_SEABORNE_EXPORTS_2026
+    open_idx: []
+- type: panel
+  start:
+    sid: act3_0
+    'off': -0.2
+  end:
+    sid: act3_1
+    edge: end
+    'off': 0.3
+  kind: dual_line
+  title: 걸프 경유 순수출
+  subtitle: 하루 천 배럴 · 보도 인용(IEA) · 9월은 언론 집계
+  provenance:
+    verification: estimated
+    sources:
+    - IEA 석유시장보고서·언론 집계 인용
+  y_min: 0
+  y_max: 1600
+  y_step: 400
+  unit: kb/d
+  x_labels:
+  - 2월
+  - 3월
+  - 4월
+  - 5월
+  - 6월
+  - 7월
+  - 8월
+  - 9월
+  series:
+  - label: 걸프
+    col: gold
+    values:
+    - 1450
+    - null
+    - null
+    - null
+    - null
+    - null
+    - 390
+    - 670
+    decimals: 0
+    record: GULF_DIESEL_NET_EXPORTS_2026
+    open_idx: []
+sound:
+  bgm: music.zabriskie_mario_bava
+  intensity:
+  - - 0.0
+    - 0.58
+  - - scene_start: act1
+    - 0.6
+  - - scene_start: act2
+    - 0.58
+  - - scene_start: act3
+    - 0.7
+  - - scene_start: act4
+    - 0.64
+  - - scene_start: ending
+    - 0.56
+  - - total: true
+      'off':
+      - 0.5
+      - -7.0
+    - 0.5
+  - - total: true
+      'off': 0.5
+    - 0.0
+  cues:
+  - kind: boom
+    t:
+      sid: cold_0
+      'off': 0.8
+    v: 0.45
+  - kind: boom
+    t:
+      word:
+        sid: act3_2
+        text: 사우스파르스
+      'off': 0.4
+    v: 0.4
+  - kind: boom
+    t:
+      word:
+        sid: act3_10
+        text: 하르그섬
+      'off': 0.5
+    v: 0.35
+  no_music_decision: null

@@ -136,6 +136,11 @@ def preflight(R: RenderCtx, events: list[dict], files: bool = True) -> list[str]
                     validate_backdrop(e, A.media_assets)
                 except RightsError as ex:
                     errs.append(str(ex))
+            if e["type"] == "flight" and e.get("inset"):   # v7.3.0 D-0206 — 위성 인셋 권리(콘티 판도 레지스트리는 본다)
+                try:
+                    validate_media({"type": "inset", "mid": e["inset"]["mid"], "t0": e["t0"]}, A.media_assets)
+                except RightsError as ex:
+                    errs.append(str(ex))
             if e["type"] in ("photo", "clip", "cutout", "article"):
                 try:
                     validate_media(e, A.media_assets)
@@ -145,6 +150,10 @@ def preflight(R: RenderCtx, events: list[dict], files: bool = True) -> list[str]
                 except (RightsError, ArticleOverflowError) as ex:
                     errs.append(str(ex))
             continue
+        if e["type"] == "panel" and e.get("kind") == "dual_line":   # v7.3.0 D232 U4 — 레코드 대조(보도 인용값 포함)
+            from engine.panels.dual_line import record_errors  # noqa: PLC0415
+
+            errs += record_errors(e)
         if e["type"] == "quote":   # v5.3.1 인용(시안) — 글자 넘침은 렌더 전 오류(P6)
             from engine.quote import QuoteError, quote_lines  # noqa: PLC0415
 
@@ -175,6 +184,11 @@ def preflight(R: RenderCtx, events: list[dict], files: bool = True) -> list[str]
         if e["type"] == "backdrop":   # v5.1.0 D-0123 — 배경 사진 권리 게이트(레지스트리 photo·rights_clear) + 파일
             try:
                 keys.add(f"media:{validate_backdrop(e, A.media_assets).file}")
+            except RightsError as ex:
+                errs.append(str(ex))
+        if e["type"] == "flight" and e.get("inset"):   # v7.3.0 D-0206 — 위성 인셋 권리 게이트 + 파일
+            try:
+                keys.add(f"media:{validate_media({'type': 'inset', 'mid': e['inset']['mid'], 't0': e['t0']}, A.media_assets).file}")
             except RightsError as ex:
                 errs.append(str(ex))
         if e["type"] in ("photo", "clip", "cutout", "article"):

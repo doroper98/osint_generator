@@ -1,0 +1,137 @@
+{
+ "schema_version": 1,
+ "searches": [
+  {
+   "sid": "cold_1",
+   "query": "Ryazan oil refinery hastemplate:\"PD-USGov-Military\"",
+   "pool": "us_dod_pd",
+   "on": "2026-10-17",
+   "found": 0,
+   "passed": 0,
+   "top": [],
+   "rejected": []
+  },
+  {
+   "sid": "cold_1",
+   "query": "Ryazan oil refinery",
+   "pool": "commons_cc",
+   "on": "2026-10-17",
+   "found": 4,
+   "passed": 1,
+   "top": [
+    "File:NASA FIRMS 2025-09-05 Ryazan.png"
+   ],
+   "rejected": [
+    "CC BY-SA 4.0",
+    "문서·도식(application/pdf)"
+   ]
+  },
+  {
+   "sid": "act1_3",
+   "query": "Kirishi refinery hastemplate:\"PD-USGov-Military\"",
+   "pool": "us_dod_pd",
+   "on": "2026-10-17",
+   "found": 0,
+   "passed": 0,
+   "top": [],
+   "rejected": []
+  },
+  {
+   "sid": "act1_3",
+   "query": "Kirishi refinery",
+   "pool": "commons_cc",
+   "on": "2026-10-17",
+   "found": 6,
+   "passed": 3,
+   "top": [
+    "File:NASA FIRMS 2025-09-14 Kinef.png",
+    "File:NASA FIRMS 2025-10-04 Kinef.png",
+    "File:NASA FIRMS 2026-03-26 Kinef.png"
+   ],
+   "rejected": [
+    "CC BY-SA 3.0",
+    "CC BY-SA 4.0"
+   ]
+  },
+  {
+   "sid": "act3_2",
+   "query": "South Pars gas field hastemplate:\"PD-USGov-Military\"",
+   "pool": "us_dod_pd",
+   "on": "2026-10-17",
+   "found": 6,
+   "passed": 0,
+   "top": [],
+   "rejected": [
+    "문서·도식(application/pdf)"
+   ]
+  },
+  {
+   "sid": "act3_2",
+   "query": "South Pars gas field",
+   "pool": "commons_cc",
+   "on": "2026-10-17",
+   "found": 6,
+   "passed": 3,
+   "top": [
+    "File:South Pars gas field.gif",
+    "File:Third platform of Phase 14 of South Pars Dome Gas-Condensate field 01.jpg",
+    "File:Third platform of Phase 14 of South Pars Dome Gas-Condensate field 08.jpg"
+   ],
+   "rejected": [
+    "CC BY-SA 3.0",
+    "CC BY-SA 4.0"
+   ]
+  },
+  {
+   "sid": "act3_7",
+   "query": "Port of Fujairah hastemplate:\"PD-USGov-Military\"",
+   "pool": "us_dod_pd",
+   "on": "2026-10-17",
+   "found": 0,
+   "passed": 0,
+   "top": [],
+   "rejected": []
+  },
+  {
+   "sid": "act3_7",
+   "query": "Port of Fujairah",
+   "pool": "commons_cc",
+   "on": "2026-10-17",
+   "found": 6,
+   "passed": 0,
+   "top": [],
+   "rejected": [
+    "CC BY-SA 4.0"
+   ]
+  },
+  {
+   "sid": "act3_8",
+   "query": "East-West Crude Oil Pipeline hastemplate:\"PD-USGov-Military\"",
+   "pool": "us_dod_pd",
+   "on": "2026-10-17",
+   "found": 1,
+   "passed": 0,
+   "top": [],
+   "rejected": [
+    "문서·도식(application/pdf)"
+   ]
+  },
+  {
+   "sid": "act3_8",
+   "query": "East-West Crude Oil Pipeline",
+   "pool": "commons_cc",
+   "on": "2026-10-17",
+   "found": 6,
+   "passed": 2,
+   "top": [
+    "File:Crude oil, condensate, and petroleum products transported through the Strait of Hormuz in 2014 through 2018 (48097472312).png",
+    "File:Crude oil, condensate, and petroleum products transported through the Strait of Hormuz in 2014 through 2018 (48097472312) (cropped).png"
+   ],
+   "rejected": [
+    "Attribution",
+    "문서·도식(application/pdf)",
+    "문서·도식(image/svg+xml)"
+   ]
+  }
+ ]
+}

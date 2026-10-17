@@ -396,7 +396,7 @@ class StageSet:
 def attach_world(events: list[dict], stage: Stage, chart_stage: Optional[Stage] = None) -> None:
     """이벤트의 앵커 좌표 → 월드 좌표(제자리). 레이어·검사기는 이 값과 View 만 쓴다(D-0076 작업 3).
     world = 한 점(lon·lat 또는 시간축 date·lane — v4.3.0, 앵커 키는 무대가 검사: 다른 무대의 키 = StageError, P10),
-    world_pts = 경로(pts), world_p0·world_p1 = 봉쇄선 양 끝."""
+    world_pts = 경로(pts), world_p0·world_p1 = 봉쇄선 양 끝, world_origin = 비행 출발(v7.3.0)."""
     for e in events:
         if e.get("lon") is not None and e.get("lat") is not None:
             e["world"] = stage.to_world(lon=e["lon"], lat=e["lat"])
@@ -404,6 +404,8 @@ def attach_world(events: list[dict], stage: Stage, chart_stage: Optional[Stage] 
             e["world"] = (chart_stage or stage).to_world(date=e["date"], lane=e["lane"])
         if e["type"] in ("route", "tanker_loop") and e.get("pts"):
             e["world_pts"] = [stage.to_world(lon=lo, lat=la) for lo, la in e["pts"]]
+        if e["type"] == "flight":   # v7.3.0 D-0206 — 출발 발광 위치(개략)
+            e["world_origin"] = stage.to_world(lon=e["origin"]["lon"], lat=e["origin"]["lat"])
         if e["type"] == "barrier":
             e["world_p0"] = stage.to_world(lon=e["p0"][0], lat=e["p0"][1])
             e["world_p1"] = stage.to_world(lon=e["p1"][0], lat=e["p1"][1])

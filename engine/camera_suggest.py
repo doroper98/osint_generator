@@ -79,6 +79,9 @@ def _points(events: list[dict], t0: float, t1: float, lead: float = 0.0) -> list
             out.append(box_point(*e["world"], badge_box(ctx, e, 0.0, 0.0), ref))
         elif e["type"] == "cutout":
             out.append(plain_point(*e["world"], ref))
+        elif e["type"] == "flight":   # v7.3.0 D-0206 §4 — 출발 발광과 표적이 한 화면에(출발은 예약 상자 회피 없음)
+            out.append(plain_point(*e["world"], ref))
+            out.append(plain_point(*e["world_origin"], f"{ref}#origin", avoid_reserve=False))
         elif e["type"] in ("route", "tanker_loop") and e.get("pts"):
             for i in (0, -1):
                 p = e["world_pts"][i]

@@ -310,6 +310,11 @@ class MediaBeats(_Strict):
     sources_order: list["PhotoSourcePool"] = Field(min_length=1)   # v5.19.0 D-0163 §2 — 사진 소싱 풀 순서(media_fetch search)
     sources_excluded_licenses: list[str] = Field(default_factory=list)   # 라이선스 이름 조각(NC·ND) — 있으면 탈락
     sources_excluded_mimes: list[str] = Field(default_factory=list)      # v5.21.0 — 문서·도식 mime(pdf·svg) — 통과 수 밖
+    inset_licenses: dict[str, "InsetLicense"] = Field(default_factory=dict)   # v7.3.0 D232 U1·D234 — 위성 인셋 라이선스 허용 목록
+
+
+class InsetLicense(_Strict):
+    private_only: bool   # 비공개 시청 한정(사용자 결정 D234) — 레지스트리 scope: private_only 필수
 
 
 class PhotoSourcePool(_Strict):
@@ -341,6 +346,9 @@ class MediaDensity(_Strict):
     total_exempt_kinds: list[str]         # v5.19.0 D-0163 §2 — [media-density-total] 개수에서 뺀다(기사 = 분당 상한 따로)
     article_per_min_max: int = Field(ge=1)    # 기사 카드 후보 문장에 쓰는 기사 카드 — 60초 구간당 상한
     photo_target_per_min: float = Field(ge=0)   # 사진 목표(분당) — 미달이면 미디어 계획 표가 문장 단위 사유 요구
+    inset_show_sec: Range2                      # v7.3.0 D232 U2 — 위성 인셋
+    inset_per_scene_max: int = Field(ge=1)
+    inset_min_gap_sec: float = Field(ge=0)
     grammar: list[str] = Field(min_length=1)    # 연출 프롬프트 {{RULES.media.density}} 문구({자리} = 이 블록 값)
 
 
@@ -1906,6 +1914,69 @@ class QuoteCenterRules(_Strict):
     lower: QuotePairSlot
 
 
+class FlightTrail(_Strict):
+    width: float = Field(gt=0)
+    dash: tuple[float, float]
+    alpha: float = Field(ge=0, le=1)
+    fade_sec: float = Field(gt=0)
+
+
+class FlightOriginGlow(_Strict):
+    r_px: float = Field(gt=0)
+    alpha: float = Field(ge=0, le=1)
+    pulse_sec: float = Field(gt=0)
+    out_sec: float = Field(gt=0)
+    fade_in_sec: float = Field(gt=0)
+    breath: float = Field(ge=0, le=1)
+
+
+class FlightLine(_Strict):
+    width: float = Field(gt=0)
+    alpha: float = Field(ge=0, le=1)
+
+
+class FlightIcon(_Strict):
+    size_px: dict[Literal["drone", "missile", "jet"], float]
+    halo: float = Field(ge=0)
+    halo_alpha: float = Field(ge=0, le=1)
+    body_line: FlightLine
+    shapes: dict[Literal["drone", "missile", "jet"], list[tuple[float, float]]]
+    body_lines: dict[Literal["drone", "missile", "jet"], list[tuple[tuple[float, float], tuple[float, float]]]] = Field(default_factory=dict)
+
+    @model_validator(mode="after")
+    def _kinds(self) -> "FlightIcon":
+        if set(self.size_px) != set(self.shapes) or any(len(v) < 3 for v in self.shapes.values()):
+            raise ValueError("flight.icon: size_px 와 shapes 의 종류가 같아야 하고 다각형은 꼭짓점 3개 이상")
+        return self
+
+
+class FlightInsetRules(_Strict):
+    shape: Literal["circle"]   # UF-103 — 원형만(사각 금지)
+    w_px: float = Field(gt=0)
+    gap_px: float = Field(ge=0)
+    lead_sec: float = Field(ge=0)
+    hold_sec: float = Field(gt=0)
+    fade: tuple[float, float]
+    frame: FlightLine
+    caption_dy: float
+    caption_size: float = Field(gt=0)
+    caption_halo: float = Field(ge=0)
+
+
+class FlightRules(_Strict):
+    """v7.3.0 back_and_forth D-0206 — 비행 이벤트(flight). 설계 px(480p). engine/layers/flight.py 만 읽는다."""
+
+    dur_sec: float = Field(gt=0)
+    impact_sec: float = Field(gt=0)
+    bulge_ratio: float
+    samples: int = Field(ge=2)
+    heading_du: float = Field(gt=0, lt=1)
+    trail: FlightTrail
+    origin: FlightOriginGlow
+    icon: FlightIcon
+    inset: FlightInsetRules
+
+
 class BorderGlowRules(_Strict):
     """v5.3.1 국경선 글로우(시안 — 사용자 제안 2026-10-02, valdai-2026 한정). 설계 px."""
 
@@ -2002,6 +2073,7 @@ class DataRules(_Strict):
     sources_allowed: list[str] = Field(min_length=1)
     frequencies: list[Literal["monthly", "release"]] = Field(min_length=1)   # release = v4.4.0 scatter
     transforms: dict[str, str] = Field(min_length=1)
+    source_kinds: list[Literal["fetched", "press_cited"]] = Field(min_length=1)   # v7.3.0 D232 U4
     series_dir: str
 
 
@@ -2825,6 +2897,7 @@ class VideoRules(_Strict):
     island: IslandRules                  # v5.1.0 — D-0123 §1·D-0126
     cascade: CascadeRules                # v5.2.0 — 겹침 카드(사용자 재구성 2026-10-01, v5.3.0 D-0139 채택)
     quote_center: QuoteCenterRules       # v5.3.1 — 인물 발언 중앙 인용(시안, valdai-2026 한정)
+    flight: FlightRules                  # v7.3.0 — 비행·착탄·위성 인셋(D-0206)
     border_glow: BorderGlowRules         # v5.3.1 — 국경선 글로우(시안, direction stage_config.mercator.border_glow)
     data: DataRules                # v4.3.0 — D-0084 작업 1
     genre_prompt: GenrePromptRules  # v4.4.0 — D-0090 작업 1

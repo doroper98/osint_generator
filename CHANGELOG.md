@@ -1,6 +1,6 @@
 <!--
 tier: 3
-last_synced_with: v7.2.0
+last_synced_with: v7.3.0
 ssot_for: [release-notes]
 depends_on: [README.md, GOAL.md]
 last_review: 2026-09-28
@@ -63,6 +63,12 @@ released 항목은 **append-only**입니다.
 | v5.0.0 | 87912d2 | G11 GOAL G4-21·claim_kind fact/statement | pass(D-0125) |
 | v5.1.0 | 3619f2c | G12 backdrop 무대·아일랜드·축 스케일·기사 프레스 v2·발음 사전·버전 도장 | pass(D-0127) — 후속 D-0128 완료 |
 | v5.2.0 | d4703d9 | G13 배경 가독·주 아일랜드 상시·보도 인용 = 기사·card-island·라벨 반전 | pass(D-0134) — 후속 겹침 카드 시안(D-0135~D-0138) |
+
+---
+
+## [v7.3.0] — 2026-10-17 — 새 이벤트 `flight`(비행·꼬리선·착탄 링) + 원형 위성 인셋 + 보도 인용 시리즈(press_cited) (D-0206·D-0225)
+
+MINOR(새 이벤트 타입): 사용자 요청 "어떤 국가의 대략적인 위치에서 표적으로 날아가는 애니메이션(경로 선이 뒤에 남는)" → 이벤트 `flight`(드론·미사일·전투기 아이콘 11/13/14px, 출발 발광·점선 = 개략 표현, 착탄 링 = boom 그대로). 위성 인셋(미디어 kind `inset`, **원형** — UF-103)과 라이선스 허용 목록(NASA GIBS·Sentinel, 비공개 한정 상업 타일 `scope: private_only` — D232 U1·D234), 인셋 밀도 분리(`[inset-density]`, U2), 데이터 레코드 `press_cited`(보도 인용값, 값마다 출처, 빈 달 끊기 — U4)·단위 mb/d·kb/d·dual_line 빈 달 끊기·빈 점. 골든 25컷 불변.
 
 ---
 
