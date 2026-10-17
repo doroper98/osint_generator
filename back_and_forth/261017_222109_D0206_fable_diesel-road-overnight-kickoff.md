@@ -112,3 +112,11 @@ supersedes: []
 - GIBS 추가 인셋 실패 → 기존 3장만.
 - 원고 10분 초과 → U5 1부만 전편.
 - 전체 pytest 실패를 07:30 까지 못 고침 → main 병합 보류, 브랜치만 푸시, R 에 실패 목록.
+
+---
+
+## 8. 추가 지시(D234, 2026-10-17 22:40 KST) — U1·U6 변경
+- **U6**: `flight.icon.size_px: {drone: 11, missile: 13, jet: 14}`(계획값). §2.1 의 16~19 는 무효.
+- **U1**: 위성 인셋은 **구글맵급 상업 타일 허용, 비공개 시청 한정**. 미디어 레지스트리 항목에 `scope: private_only`, `license: "Esri World Imagery (Maxar et al.) — 비공개 시청 한정, 사용자 결정 D234"` 처럼 적고 출처 줄은 "위성 · YYYY · Esri/Maxar"(구글이면 "Google/Maxar"). 공개 전환 시 교체 의무를 레지스트리 주석에 남긴다. 권리 허용 목록에는 이 라이선스를 `private_only` 플래그와 함께 추가하고, provenance 에 `private_only_assets: [...]` 를 기록한다(공개용 산출물이 아님을 코드가 말하게).
+- 구현 경로 우선순위: ① `https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}`(z 16~17, 타일 4~9장 모자이크, 키 불필요) — 호스트 허용 여부를 curl 로 먼저 확인 ② 환경 시크릿 `GOOGLE_MAPS_API_KEY` 가 있고 maps.googleapis.com 이 열려 있으면 Static Maps(`maptype=satellite`, zoom 15~16, 640×640, scale 2) ③ 둘 다 안 되면 기존 NASA HLS 3장(U1 원안) 으로 진행하고 아침 보고에 "상업 타일 호스트 미허용" 명기.
+- 대상 5곳(랴잔·키리시·볼고그라드·라스라판·하르그섬) + 가능하면 노보쿠이비셰프스크·사라토프. 이미지를 Read 로 보고 시설이 식별되는지 확인한 뒤 등록. 밀도는 U2 값 안에서 장면당 ≤3.
