@@ -176,3 +176,20 @@ stroke 4px (#ff4d5e, 0.3a) + 1.4px (0.95a)
 
 ## 9. 국가 강조와 레이어 순서
 `04` §8 참조. 렌더 순서(v3 `LAYER`): `country → ships → route → tanker_loop → barrier → boom → marker → badge`. 마커·뱃지가 RESERVED를 채운 뒤 라벨 LOD가 그려진다.
+
+## v7.3.0 — 비행 이벤트 `flight` (back_and_forth D-0206·D-0225, 사용자 결정 D232·D234·UF-103)
+
+"어느 나라 대략적 위치에서 표적으로 날아가는 애니메이션, 경로 선이 뒤에 남는" 표현(사용자 요청 2026-10-17). 렌더러 `engine/layers/flight.py`, 수치 `rules flight`.
+
+| 단계 | 그림 | 근거 |
+|---|---|---|
+| 출발 전 `origin.pulse_sec` | 출발 위치에 방사형 발광(점·라벨 없음) | U3-a — 발사 지점은 공개되지 않는다(개략) |
+| t0 → t0 + `dur_sec` | 2차 베지어 비행, 아이콘(drone·missile·jet, 11/13/14px, 진행 방향 회전) + 점선 꼬리선 | 비행 시간은 거리와 무관(속도에서 사실을 읽지 못하게) |
+| 착탄 | `draw_boom` 과 같은 링(새 모양 금지) | v3 합격 문법 |
+| 착탄 뒤 | 위성 인셋(선택, 원형 — UF-103) `hold_sec` 동안 | 미디어 레지스트리 kind inset |
+
+- 레이어 순서: `boom` 다음, `cutout` 앞(`engine.registry.MAP_LAYER_ORDER`).
+- 이벤트가 `dur_sec + impact_sec (+ inset.hold_sec)` 보다 짧으면 `[flight-too-short]` 검증 오류(잘라 그리지 않는다, P6).
+- 엔딩 카드 맨 아래 한 줄(D85 방식)로 "비행 경로·출발 위치는 개략 표현" 을 알린다(연출·크레딧 몫).
+- 콘티 판은 같은 기하, 인셋만 원형 자리표시 `[인셋: mid]`.
+- `arc`(탄도 궤적·고도 단면)는 여전히 planned — `flight` 는 평면 개략 비행이다.

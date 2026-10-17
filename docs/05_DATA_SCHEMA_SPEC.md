@@ -1,6 +1,6 @@
 <!--
 tier: 2
-last_synced_with: v7.2.0
+last_synced_with: v7.3.0
 ssot_for: [json-contracts-overview]
 depends_on: [../schemas/models.py, ../schemas/source_models.py, ../schemas/engine_models.py, ../script/schema.py, ../engine/direction.py, ../engine/qa.py, ../orchestrator/config.py]
 last_review: 2026-09-29
@@ -257,3 +257,11 @@ last_review: 2026-09-29
 
 
 > v5.6.0 추가(optional, `schema_version` 그대로): `Direction.opening_exempt`(넓은 지도 오프닝 면제 사유, RENDER-AP-016) · `Direction.media_note`(인용·기사·실사 0건 이유, PIPELINE-AP-019) · `PanelPrecedent.footnote{lines, t0, sources}`(연도 카드 주석) · `Claim.direct_quotes`.
+
+## 11. v7.3.0 추가 계약 (비행·위성 인셋·보도 인용 시리즈, back_and_forth D-0206·D-0225)
+
+- `engine/events.py:FlightEvent` — `type: flight`, `kind: drone|missile|jet`, `origin{lon, lat}`(개략), `lon·lat`(표적), `col`(accent), `impact`, `inset{mid, side}`(선택). 착탄 시각은 코드 계산.
+- `schemas/media_models.py:MediaAsset` — `kind` 에 `inset`, 선택 필드 `scope: private_only`(D234). kind inset 은 `rules media_beats.inset_licenses` 라이선스만.
+- `schemas/data_models.py:SeriesRecord` — `source_kind: fetched|press_cited`, `cited[]`(`ValueCitation{date, outlet, pub_date, url, note, open}`). press_cited 는 값마다 cited·transform/license `press_cited`(보간 금지 — 빈 달은 missing).
+- `engine/events.py:DualSeries` — `values` 에 null 허용(선을 끊는다), `record`(레코드 대조), `open_idx`(상·하한 표기 값 = 빈 점).
+- 모두 optional 추가라 `schema_version` 은 그대로(C3).
