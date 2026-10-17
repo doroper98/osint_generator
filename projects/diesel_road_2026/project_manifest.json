@@ -4,8 +4,8 @@
   "title": "경유의 길 — 사흘에 한 번",
   "category": "geopolitics",
   "created_at": "2026-10-17T13:36:28.700647Z",
-  "updated_at": "2026-10-17T14:44:02.690594Z",
-  "current_state": "script_approval",
+  "updated_at": "2026-10-17T15:19:46.746353Z",
+  "current_state": "voice_timeline",
   "target_duration_min": 10,
   "topic_summary": "우크라이나의 러시아 정유소 타격과 러시아 경유 부족, 한국산 경유의 블라디보스토크행, 걸프 에너지 시설 타격, 미국의 러시아 경유 거래와 에너지 휴전 붕괴",
   "initial_links": [],
@@ -28,7 +28,26 @@
     "provenance": "out/provenance.json"
   },
   "render_mode_status": {},
-  "gate_decisions": [],
+  "gate_decisions": [
+    {
+      "gate": "script_approval",
+      "decision": "approved",
+      "by": "fable",
+      "at": "2026-10-17T15:19:46.746236Z",
+      "comment": "사용자 위임 D232 · Fable 판정 D-0226",
+      "rollback_to": null,
+      "shown": {
+        "script": "/home/user/osint_generator/projects/diesel_road_2026/script.yaml",
+        "lint_errors": "0",
+        "lint_warnings": "1",
+        "est_sec": "837.0",
+        "media_plan_errors": "0",
+        "script_sha1": "8096f994db6b0f32c349596c35e679fc22a21644",
+        "media_plan": "사진 0/13 · 기사 후보 78문장 · 837초(chars)"
+      },
+      "chosen_version": null
+    }
+  ],
   "stage_records": [],
   "final_outputs": {},
   "state_history": [
@@ -61,6 +80,12 @@
       "to_state": "script_approval",
       "transitioned_at": "2026-10-17T14:44:02.690503Z",
       "reason": "원고 확정(린트 오류 0) — 게이트 ① 감독 위임 D232"
+    },
+    {
+      "from_state": "script_approval",
+      "to_state": "voice_timeline",
+      "transitioned_at": "2026-10-17T15:19:46.746298Z",
+      "reason": "script_approval 승인 — fable"
     }
   ],
   "reopens": []
