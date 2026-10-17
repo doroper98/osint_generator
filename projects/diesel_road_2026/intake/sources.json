@@ -693,8 +693,8 @@
       "confirmed_at": "2026-10-17T13:47:34.574242Z",
       "note": "1차 문서(제목은 보도 기준 요약)",
       "type": "document",
-      "issuer": "U.S. Treasury OFAC",
-      "title": "Russia-related General License 135 — Authorizing Certain Transactions Involving Russian-Origin Diesel Fuel",
+      "issuer": "OFAC",
+      "title": "General License 135(러시아산 경유)",
       "published_at": "2026-10-09",
       "key_facts": [
         "OFAC General License 135 authorizes transactions involving the sale, delivery and import of Russian-origin diesel fuel",
@@ -946,8 +946,8 @@
       "confirmed_at": "2026-10-17T13:53:12.189438Z",
       "note": "",
       "type": "document",
-      "issuer": "U.S. Department of the Treasury",
-      "title": "Treasury Sanctions Major Russian Oil Companies, Calls on Moscow to Immediately Agree to Ceasefire",
+      "issuer": "미 재무부",
+      "title": "로스네프트·루코일 제재 발표",
       "published_at": "2025-10-22",
       "key_facts": [
         "On October 22, 2025, the US Treasury (OFAC) designated Rosneft and Lukoil, Russia's largest oil companies, as sanctioned (SDN) under E.O. 14024",
@@ -970,8 +970,8 @@
       "confirmed_at": "2026-10-17T13:53:12.908179Z",
       "note": "pub-date 는 OFAC 발급일(3/12) — 전재 기사 게시일은 미확인",
       "type": "document",
-      "issuer": "U.S. Treasury OFAC (Hellenic Shipping News 전재 보도)",
-      "title": "US issues General License 134 (GL 134) on Russian oil cargoes",
+      "issuer": "OFAC (Hellenic Shipping News 전재)",
+      "title": "General License 134",
       "published_at": "2026-03-12",
       "key_facts": [
         "On March 12, 2026, OFAC issued General License 134 authorizing the sale and delivery of Russian-origin crude oil and petroleum products already loaded on vessels, including cargoes of sanctioned entities",
@@ -995,7 +995,7 @@
       "note": "보고서 요약 페이지(게시일 미표기)",
       "type": "document",
       "issuer": "Wood Mackenzie",
-      "title": "Neftegazholding (NNK) — asset report",
+      "title": "NNK 자산 보고서",
       "key_facts": [
         "NNK (Neftegazholding) owns the Khabarovsk refinery in Russia's Far East"
       ]
@@ -1017,7 +1017,7 @@
       "note": "",
       "type": "document",
       "issuer": "IEA",
-      "title": "Oil Market Report - October 2026",
+      "title": "Oil Market Report 2026-10",
       "published_at": "2026-10-14",
       "key_facts": [
         "Global diesel exports in September 2026 were 700 kb/d lower year on year, as a 1.3 mb/d loss from Russia and the Middle East was only partly offset by other sources"

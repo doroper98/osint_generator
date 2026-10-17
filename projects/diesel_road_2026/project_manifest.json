@@ -4,8 +4,8 @@
   "title": "경유의 길 — 사흘에 한 번",
   "category": "geopolitics",
   "created_at": "2026-10-17T13:36:28.700647Z",
-  "updated_at": "2026-10-17T19:05:55.889147Z",
-  "current_state": "render",
+  "updated_at": "2026-10-17T19:23:39.547992Z",
+  "current_state": "done",
   "target_duration_min": 10,
   "topic_summary": "우크라이나의 러시아 정유소 타격과 러시아 경유 부족, 한국산 경유의 블라디보스토크행, 걸프 에너지 시설 타격, 미국의 러시아 경유 거래와 에너지 휴전 붕괴",
   "initial_links": [],
@@ -385,6 +385,35 @@
       ],
       "drops": 0,
       "log": "logs/stages/15_preview.json"
+    },
+    {
+      "state": "audio_mix",
+      "stage": "mix",
+      "ok": true,
+      "at": "2026-10-17T19:17:34.093026Z",
+      "artifacts": {
+        "mix": "/home/user/osint_generator/projects/diesel_road_2026/out/mix.f32",
+        "bed_stats": "/home/user/osint_generator/projects/diesel_road_2026/out/bed_stats.json"
+      },
+      "errors": [],
+      "drops": 0,
+      "log": "logs/stages/16_mix.json"
+    },
+    {
+      "state": "deliver",
+      "stage": "deliver",
+      "ok": true,
+      "at": "2026-10-17T19:23:39.543610Z",
+      "artifacts": {
+        "final": "/home/user/osint_generator/projects/diesel_road_2026/out/final.mp4",
+        "srt": "/home/user/osint_generator/projects/diesel_road_2026/out/final.srt",
+        "description": "/home/user/osint_generator/projects/diesel_road_2026/out/description.txt",
+        "credits": "/home/user/osint_generator/projects/diesel_road_2026/out/credits.txt",
+        "provenance": "/home/user/osint_generator/projects/diesel_road_2026/out/provenance.json"
+      },
+      "errors": [],
+      "drops": 0,
+      "log": "logs/stages/17_deliver.json"
     }
   ],
   "final_outputs": {},
@@ -454,6 +483,24 @@
       "to_state": "render",
       "transitioned_at": "2026-10-17T19:05:55.888873Z",
       "reason": "preview_approval 승인 — fable"
+    },
+    {
+      "from_state": "render",
+      "to_state": "audio_mix",
+      "transitioned_at": "2026-10-17T19:15:08.922919Z",
+      "reason": "720p 전편 엔진 렌더 완료(engine.render --res 720p --jobs 4, 14050프레임, out/render.json) — 게이트 ② 전 감독 지시로 선행 렌더"
+    },
+    {
+      "from_state": "audio_mix",
+      "to_state": "deliver",
+      "transitioned_at": "2026-10-17T19:17:34.095418Z",
+      "reason": "engine mix ok"
+    },
+    {
+      "from_state": "deliver",
+      "to_state": "done",
+      "transitioned_at": "2026-10-17T19:23:39.547901Z",
+      "reason": "engine deliver ok"
     }
   ],
   "reopens": []
