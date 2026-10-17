@@ -131,7 +131,7 @@ shots:
     sid: cold_0
     'off': -0.4
   mode: move
-  dur: 6.5
+  dur: 9.0
   camera:
     lon: 41.0
     lat: 54.2
@@ -229,12 +229,12 @@ shots:
   mode: dip
   dur: 3.0
   camera:
-    lon: 84.5
+    lon: 76.0
     lat: 42.0
     place: null
     date: null
     lane: null
-    w: 94.0
+    w: 100.0
   under: false
   scene: null
   stage: null
@@ -245,12 +245,12 @@ shots:
   mode: move
   dur: 9.0
   camera:
-    lon: 84.5
+    lon: 76.0
     lat: 42.0
     place: null
     date: null
     lane: null
-    w: 96.0
+    w: 102.0
   under: false
   scene: null
   stage: null
@@ -1103,18 +1103,16 @@ events:
   - 수출통제 이행 중
   - 위반 확인되면 법에 따라 조치
   accent: gold
-- type: card
+- type: article
   start:
     sid: act2_28
-    'off': 0.2
+    'off': -0.1
   end:
     sid: act2_28
     edge: end
-    'off': 0.2
-  tag: 정부 발표 · 10월 8일
-  lines:
-  - 주우크라이나 대사 소환
-  accent: gold
+    'off': 0.3
+  mid: diesel_road_2026_art_0016
+  theme: dark
 - type: card
   start:
     sid: act2_29
@@ -1221,30 +1219,26 @@ events:
   lat: 27.48
   col: us
   impact: true
-- type: card
+- type: article
   start:
     sid: act3_3
-    'off': 0.2
+    'off': -0.1
   end:
     sid: act3_3
     edge: end
     'off': 0.2
-  tag: 보도
-  lines:
-  - 이스라엘의 공습
-  accent: us
-- type: card
+  mid: diesel_road_2026_art_0022
+  theme: dark
+- type: article
   start:
     sid: act3_4
-    'off': 0.1
+    'off': -0.1
   end:
     sid: act3_4
     edge: end
-    'off': 0.2
-  tag: 이란 주장
-  lines:
-  - 미국과 이스라엘이 함께 공격
-  accent: ru
+    'off': 0.3
+  mid: diesel_road_2026_art_0023
+  theme: dark
 - type: marker
   start:
     word:
@@ -1369,8 +1363,8 @@ events:
   end:
     scene_end: act3
   at_place: kharg
-  label: 하르그섬
-  sub: 이란 원유 수출 관문
+  label: 하르그 원유 터미널
+  sub: ''
   side: left
   hl: false
   icon: boom
@@ -1502,7 +1496,7 @@ events:
     sid: act4_2
     'off': -0.1
   end:
-    sid: act4_3
+    sid: act4_2
     edge: end
     'off': 0.3
   mid: diesel_road_2026_art_0026
@@ -1675,16 +1669,6 @@ events:
   accent: teal
 - type: article
   start:
-    sid: act4_12
-    'off': -0.1
-  end:
-    sid: act4_12
-    edge: end
-    'off': 0.3
-  mid: diesel_road_2026_art_0027
-  theme: dark
-- type: article
-  start:
     sid: act4_13
     'off': -0.1
   end:
@@ -1716,18 +1700,6 @@ events:
   label: 울산
   sub: ''
   side: left
-  hl: false
-- type: marker
-  start:
-    word:
-      sid: ending_0
-      text: 호르무즈에서
-  end:
-    total: true
-  at_place: hormuz
-  label: 호르무즈 해협
-  sub: ''
-  side: top
   hl: false
 - type: card
   start:
@@ -1930,6 +1902,99 @@ events:
   col: muted
   ship: true
   label: 경유 수송
+- type: badge
+  start:
+    sid: act2_0
+    'off': 0.2
+  end:
+    sid: act2_3
+    edge: end
+    'off': 0.2
+  lon: 135.07
+  lat: 48.48
+  kind: flag
+  flag: ru
+  R: 17.0
+  label: 러시아
+  accent: ru
+- type: badge
+  start:
+    sid: act2_7
+    'off': 0.2
+  end:
+    sid: act2_9
+    edge: end
+    'off': 0.2
+  lon: 132.9
+  lat: 42.8
+  kind: flag
+  flag: ru
+  R: 17.0
+  label: 러시아
+  accent: ru
+- type: badge
+  start:
+    sid: act4_3
+    'off': 0.1
+  end:
+    sid: act4_3
+    edge: end
+    'off': 0.2
+  lon: 37.6
+  lat: 55.75
+  kind: person
+  pid: putin
+  flag: ru
+  label: 푸틴
+  role: 러시아 대통령
+  accent: ru
+- type: badge
+  start:
+    sid: act4_4
+    'off': 0.1
+  end:
+    sid: act4_11
+    edge: end
+    'off': 0.2
+  lon: 39.2
+  lat: 51.7
+  kind: flag
+  flag: ru
+  R: 17.0
+  label: 러시아
+  accent: ru
+- type: badge
+  start:
+    sid: act4_6
+    'off': 0.1
+  end:
+    sid: act4_6
+    edge: end
+    'off': 0.2
+  lon: 30.5
+  lat: 50.45
+  kind: person
+  pid: zelensky
+  flag: ua
+  label: 젤렌스키
+  role: 우크라이나 대통령
+  accent: teal
+- type: badge
+  start:
+    sid: act4_12
+    'off': 0.1
+  end:
+    sid: act4_12
+    edge: end
+    'off': 0.3
+  lon: 37.6
+  lat: 55.75
+  kind: person
+  pid: novak
+  flag: ru
+  label: 노박
+  role: 러시아 부총리
+  accent: ru
 sound:
   bgm: music.zabriskie_mario_bava
   intensity:
