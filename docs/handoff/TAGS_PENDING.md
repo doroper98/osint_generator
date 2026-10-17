@@ -48,3 +48,4 @@ last_review: 2026-09-27
 | v6.0.1 | 6e320da4 | 사용자 영상 gulf_pact_2026 전달(v5.22.4, 의견 12건 반영)·사용자 의견 원장 C12(UF-01~96 전부 장치)·표준 음성 C0.2·V4 edge 삭제·GOAL G3 개정(D-0191~D-0215) | 미푸시 |
 | v7.0.1 | 1101dece | 사용자 영상 gulf_pact_2026 오프닝 보완 전달(v6.0.2)·제목 바탕 규칙·원장 게이트 경고화(G3 18번, D217·D218)·camera_speed 무대별 성분(D-0216~D-0219) | 미푸시 |
 | v7.1.0 | 83e0cf55 | 카메라 검사 화면 궤적 교체·hard camera_bounds(UF-99, D-0220·D-0221)·BGM 청취 판정 UF-100 기록 | 미푸시 |
+| v7.2.0 | 40daaea | BGM Mario Bava 등록·bgm_floor(UF-100)·gulf_china_arms_2026 전달(D-0222~D-0224) | 미푸시 |
