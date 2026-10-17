@@ -131,7 +131,7 @@ entities:
     role_default: 리투아니아 대통령
     accent: us
     rights: people.nauseda
-  # diesel_road_2026 — 초상 = 위키미디어 공용(PD-USGov·CC BY 4.0·CC BY-SA 4.0·KOGL 제1유형) 판화 가공(tools/portrait_fallback.py --style engraving)
+  # diesel_road_2026 — 초상 = 위키미디어 공용(PD-USGov·CC BY 4.0·KOGL 제1유형) 판화 가공(tools/portrait_fallback.py --style engraving)
   bessent:
     kind: person
     names: [베선트, 베선트 장관, 스콧 베선트, Scott Bessent]
@@ -156,13 +156,6 @@ entities:
     role_default: 러시아 부총리
     accent: ru
     rights: people.novak
-  vlasiuk:
-    kind: person
-    names: [블라시우크, 블라시우크 특사, 블라디슬라프 블라시우크, Vladyslav Vlasiuk]
-    flag: ua
-    portrait: vlasiuk
-    role_default: 우크라이나 대통령 제재 담당 특사
-    rights: people.vlasiuk
   kim_jung_kwan:
     kind: person
     names: [김정관, 김정관 장관, Kim Jung-kwan]
