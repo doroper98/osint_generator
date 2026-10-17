@@ -4,8 +4,8 @@
   "title": "경유의 길 — 사흘에 한 번",
   "category": "geopolitics",
   "created_at": "2026-10-17T13:36:28.700647Z",
-  "updated_at": "2026-10-17T16:34:30.996950Z",
-  "current_state": "direction",
+  "updated_at": "2026-10-17T16:59:35.820245Z",
+  "current_state": "preview_qa",
   "target_duration_min": 10,
   "topic_summary": "우크라이나의 러시아 정유소 타격과 러시아 경유 부족, 한국산 경유의 블라디보스토크행, 걸프 에너지 시설 타격, 미국의 러시아 경유 거래와 에너지 휴전 붕괴",
   "initial_links": [],
@@ -113,6 +113,44 @@
       ],
       "drops": 0,
       "log": "logs/stages/05_director.json"
+    },
+    {
+      "state": "direction",
+      "stage": "direction_validate",
+      "ok": true,
+      "at": "2026-10-17T16:54:49.002649Z",
+      "artifacts": {
+        "script": "/home/user/osint_generator/projects/diesel_road_2026/script.yaml",
+        "label_counts": "{\"verified\": 6, \"corroborated\": 9, \"unverified\": 68, \"disputed\": 4}"
+      },
+      "errors": [],
+      "drops": 0,
+      "log": "logs/stages/06_direction_validate.json"
+    },
+    {
+      "state": "direction",
+      "stage": "validate",
+      "ok": true,
+      "at": "2026-10-17T16:57:11.142701Z",
+      "artifacts": {
+        "direction": "/home/user/osint_generator/projects/diesel_road_2026/direction.yaml",
+        "summary": "{\"camera_keys\": 9, \"events\": 126, \"frames\": 14050}"
+      },
+      "errors": [],
+      "drops": 0,
+      "log": "logs/stages/07_validate.json"
+    },
+    {
+      "state": "direction",
+      "stage": "camera_suggest",
+      "ok": true,
+      "at": "2026-10-17T16:59:35.816228Z",
+      "artifacts": {
+        "camera_suggest": "/home/user/osint_generator/projects/diesel_road_2026/prev/camera_suggest.json"
+      },
+      "errors": [],
+      "drops": 0,
+      "log": "logs/stages/08_camera_suggest.json"
     }
   ],
   "final_outputs": {},
@@ -164,6 +202,12 @@
       "to_state": "direction",
       "transitioned_at": "2026-10-17T15:50:15.236324Z",
       "reason": "engine assets, assets_final ok"
+    },
+    {
+      "from_state": "direction",
+      "to_state": "preview_qa",
+      "transitioned_at": "2026-10-17T16:59:35.820132Z",
+      "reason": "engine direction_validate, validate, camera_suggest ok"
     }
   ],
   "reopens": []
