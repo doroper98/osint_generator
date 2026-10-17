@@ -229,12 +229,12 @@ shots:
   mode: dip
   dur: 3.0
   camera:
-    lon: 76.0
-    lat: 42.0
+    lon: 80.0
+    lat: 40.0
     place: null
     date: null
     lane: null
-    w: 100.0
+    w: 104.0
   under: false
   scene: null
   stage: null
@@ -245,12 +245,12 @@ shots:
   mode: move
   dur: 9.0
   camera:
-    lon: 76.0
-    lat: 42.0
+    lon: 80.0
+    lat: 40.0
     place: null
     date: null
     lane: null
-    w: 102.0
+    w: 104.0
   under: false
   scene: null
   stage: null
@@ -1222,21 +1222,21 @@ events:
 - type: article
   start:
     sid: act3_3
-    'off': -0.1
+    'off': -1.2
   end:
     sid: act3_3
     edge: end
-    'off': 0.2
+    'off': 0.1
   mid: diesel_road_2026_art_0022
   theme: dark
 - type: article
   start:
     sid: act3_4
-    'off': -0.1
+    'off': 0.2
   end:
     sid: act3_4
     edge: end
-    'off': 0.3
+    'off': 1.0
   mid: diesel_road_2026_art_0023
   theme: dark
 - type: marker
@@ -1741,7 +1741,7 @@ events:
 - type: flight
   start:
     sid: act3_5
-    'off': 0.2
+    'off': 0.9
   end:
     sid: act3_6
     edge: end
@@ -1910,8 +1910,8 @@ events:
     sid: act2_3
     edge: end
     'off': 0.2
-  lon: 135.07
-  lat: 48.48
+  lon: 128.5
+  lat: 50.5
   kind: flag
   flag: ru
   R: 17.0
@@ -1920,7 +1920,7 @@ events:
 - type: badge
   start:
     sid: act2_7
-    'off': 0.2
+    'off': 2.6
   end:
     sid: act2_9
     edge: end
@@ -1987,8 +1987,8 @@ events:
     sid: act4_12
     edge: end
     'off': 0.3
-  lon: 37.6
-  lat: 55.75
+  lon: 36.0
+  lat: 57.5
   kind: person
   pid: novak
   flag: ru
