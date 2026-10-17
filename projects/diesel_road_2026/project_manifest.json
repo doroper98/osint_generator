@@ -4,8 +4,8 @@
   "title": "경유의 길 — 사흘에 한 번",
   "category": "geopolitics",
   "created_at": "2026-10-17T13:36:28.700647Z",
-  "updated_at": "2026-10-17T17:44:40.954329Z",
-  "current_state": "preview_qa",
+  "updated_at": "2026-10-17T19:05:55.889147Z",
+  "current_state": "render",
   "target_duration_min": 10,
   "topic_summary": "우크라이나의 러시아 정유소 타격과 러시아 경유 부족, 한국산 경유의 블라디보스토크행, 걸프 에너지 시설 타격, 미국의 러시아 경유 거래와 에너지 휴전 붕괴",
   "initial_links": [],
@@ -44,6 +44,29 @@
         "media_plan_errors": "0",
         "script_sha1": "8096f994db6b0f32c349596c35e679fc22a21644",
         "media_plan": "사진 0/13 · 기사 후보 78문장 · 837초(chars)"
+      },
+      "chosen_version": null
+    },
+    {
+      "gate": "preview_approval",
+      "decision": "approved",
+      "by": "fable",
+      "at": "2026-10-17T19:05:55.888775Z",
+      "comment": "사용자 위임 D232 · Fable 판정 D-0227",
+      "rollback_to": null,
+      "shown": {
+        "sheet": "/home/user/osint_generator/projects/diesel_road_2026/prev/sheet.jpg",
+        "cuts": "14",
+        "provenance": "/home/user/osint_generator/projects/diesel_road_2026/prev/provenance.json",
+        "drops": "0",
+        "media_used": "quote 0 · article 19 · real 0",
+        "quote_candidates": "0",
+        "camera_suggest": "6",
+        "qa_rounds": "3",
+        "qa_selected": "3",
+        "animatic": "out/animatic.mp4 · 585.436초 · direction 2759c136e12a7a6572929d36597bd39f7c7220d4 · script 8096f994db",
+        "user_feedback": "경고: 이 영상 의견 2건 장치 없음 — 영상 전달 뒤 첫 작업으로 장치(D217·D218): UF-101 \"영상에 인물이 필요하면 인물 등장씬을 적극적으로 작동시켜.\" · UF-102 \"기사도 적극적으로 조판하고.\"",
+        "asset_library": "공용 자산 미승격 0"
       },
       "chosen_version": null
     }
@@ -419,6 +442,18 @@
       "to_state": "preview_qa",
       "transitioned_at": "2026-10-17T16:59:35.820132Z",
       "reason": "engine direction_validate, validate, camera_suggest ok"
+    },
+    {
+      "from_state": "preview_qa",
+      "to_state": "preview_approval",
+      "transitioned_at": "2026-10-17T19:05:12.634467Z",
+      "reason": "프리뷰 검수 루프 3회 + 수동 수정 — 콘티 판 checks hard 0(R-0238). 프리뷰 checks 는 act3_4 첫 0.2초 frame_missing 1건(기사 카드 0.2초 늦은 시작) — 감독 판정 D-0227 승인"
+    },
+    {
+      "from_state": "preview_approval",
+      "to_state": "render",
+      "transitioned_at": "2026-10-17T19:05:55.888873Z",
+      "reason": "preview_approval 승인 — fable"
     }
   ],
   "reopens": []
