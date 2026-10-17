@@ -14,6 +14,11 @@ instructions:
   - 인물 발언 문장마다 인용 후보, 기사 출처 문장마다 기사 카드 후보(UF-101·102). 발음 텍스트 숫자·기호 금지, banned_phrases 0.
   - "엔딩 카드 맨 아래 가장 작은 글씨: '비행 경로·출발 위치는 개략 표현 · 51%·31%는 우크라이나 측 발표로 독립 검증 전'(D-0225 §2.3). 31% 는 가디언이 인용한 Kpler 집계이며 우크라이나 제재 담당관이 인용 — 원고에서는 Kpler 귀속."
   - "주 무대 메르카토르(울산~블라디보스토크~시베리아~서부 러시아~우크라이나), 보조 무대 걸프(암전 1회 진입·1회 복귀)."
+  - "연출 메모(감독 D-0226 ⑤): 인물 뱃지·quote — 젤렌스키(cold_4 '이제 끝났다'), 트럼프(act4_2·act4_7), 푸틴(act4_2 공동), 베선트(act4_5), 노박(act4_12), 이재명(act4_13 '영원한 적도 영원한 우방도 없다'), 강유정(act2_24 — 허용 라이선스 초상 없음 → 직함 카드), 블라시우크(act2_23 — 초상 불사용 → 직함 카드), 알카비(act3_6 — 초상 없음 → 직함 카드). 라이브러리 초상: trump·putin·zelensky·lee_jae_myung·netanyahu·khamenei·bessent·novak·kozhemyako."
+  - "타격 문법(D-0225 §2.4): 1막 카메라 region(w 20~30) 고정, 정유소 타격 문장마다 flight(icon drone, origin = 우크라이나 북동부 개략 한 점으로 통일) + 맞은 자리 marker(icon boom) 유지. 3막 이란 → 라스라판·푸자이라·펌프장 flight(icon missile, origin 이란 남부 해안 개략). 사우스파르스는 boom 만, 하르그는 marker 만. 4막 러시아 → 하르키우·폴타바 flight(drone). '사흘에 한 번' 집계 문장 1회만 몽타주."
+  - "위성 인셋(원형, 미디어 레지스트리 kind inset, 비공개 시청 한정): 랴잔 inset_ryazan_esri(cold_0), 키리시 inset_kirishi_esri(act1_3), 라스라판 inset_ras_laffan_esri(act3_5), 하르그 inset_kharg_esri(act3_10). 볼고그라드는 원고에 없으므로 쓰지 않는다. 인셋은 flight.inset 으로만."
+  - "시리즈 패널: RU_REFINERY_RUNS_2026·RU_DIESEL_SEABORNE_EXPORTS_2026(1막 끝 부근), GULF_DIESEL_NET_EXPORTS_2026(3막 끝 부근). 출처 줄에 '보도 인용'. 경유 생산 3~5월(750만 t → 약 590만 t)은 카드."
+  - "기사 카드: 60초당 2장 상한 안에서 각 막 핵심 보도(가디언 계열·AP·로이터·IEA·한경·경향·키이우 인디펜던트·알자지라·코리아중앙데일리) 우선. 무대: 주 무대 메르카토르 dark, 걸프는 보조 무대(암전 1회 진입·1회 복귀)."
 data:
   documents: []
   notes:
