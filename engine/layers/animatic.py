@@ -327,12 +327,20 @@ def draw_quote(ctx: cairo.Context, R: RenderCtx, t: float, e: dict) -> None:  # 
     box(ctx, x0, y0, x1 - x0, y1 - y0, [label("quote", e["speaker"]), *lines], a)
 
 
+def draw_flight(ctx: cairo.Context, R: RenderCtx, view: View, t: float, e: dict) -> None:  # noqa: N803
+    """비행(v7.3.0 D-0206) = 전편과 같은 기하(발광·점선·아이콘·착탄 링). 위성 인셋만 같은 자리·타이밍의 상자 `[인셋: mid]`(사진 미로드)."""
+    from engine.layers.flight import draw_flight as full  # noqa: PLC0415
+
+    full(ctx, R, view, t, e, lambda c, _R, b, a, ev: box(c, b[0], b[1], b[2], b[3], [label("inset", ev["inset"]["mid"])], a))
+
+
 PLACEHOLDERS: dict[str, Callable[..., Any]] = {
     "badge": draw_badge, "photo": draw_photo, "clip": draw_clip, "cutout": draw_cutout, "article": draw_article,
     "post": draw_post, "primitive": draw_primitive,   # card·panel 은 v5.6.0 부터 실제로 그린다(PIPELINE-AP-018 — 승인할 수 있는 콘티 판)
     "backdrop": draw_backdrop,   # v5.1.0 D-0123
     "cascade": draw_cascade,         # v5.2.0 겹침 카드(v5.3.0 D-0139 채택)
     "quote": draw_quote,             # v5.3.1 인물 발언 중앙 인용(시안)
+    "flight": draw_flight,           # v7.3.0 D-0206 — 기하는 전편과 같고 위성 인셋만 자리표시
 }
 
 

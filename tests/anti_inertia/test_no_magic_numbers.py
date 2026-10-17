@@ -26,6 +26,7 @@ DATA_DRIVEN_MODULES: dict[str, frozenset[float]] = {   # 모듈 → 추가 허�
     "engine/shots.py": frozenset(),
     "engine/stage_timeline.py": frozenset({12, 4}),
     "engine/layers/series.py": frozenset({12}),
+    "engine/layers/flight.py": frozenset(),         # v7.3.0 D-0206 — 수치는 rules flight
     "engine/honesty.py": frozenset(),     # v4.3.0 — 달력 상수(12달). 레이어 수치는 rules stage_timeline.series  # v4.3.0 — 달력 상수(12달 · 4분기). 무대 수치는 rules stage_timeline
     "engine/camera_suggest.py": frozenset({4}),     # round(·, 4) 보고 자릿수
     "audio/mix.py": frozenset({44100, 10, 20}),     # SR 코덱 상수 — rules audio.sample_rate 와 일치 테스트(test_audio_rules) · dB 정의(10^(dB/20), v4.6.0 셸프)

@@ -99,8 +99,8 @@ class PlaceholderLabelTest(unittest.TestCase):
 
         kinds = load_rules().animatic.placeholder.kinds
         self.assertEqual(set(kinds), {"person", "flag", "emblem", "photo", "clip", "cutout", "article", "post", "primitive",
-                                        "backdrop", "island", "press", "cascade", "quote"})   # v5.6.0 패널·카드는 실제 렌더(PIPELINE-AP-018), v5.3.1 인용 시안, v5.1.0 D-0123·D-0126 배경·아일랜드, v5.1.0 D-0121 §C 프레스, v5.2.0 겹침 카드
-        self.assertEqual(set(PLACEHOLDERS), {"badge", "photo", "clip", "cutout", "article", "post", "primitive", "backdrop", "cascade", "quote"})
+                                        "backdrop", "island", "press", "cascade", "quote", "inset"})   # v7.3.0 D-0206 위성 인셋, v5.6.0 패널·카드는 실제 렌더(PIPELINE-AP-018), v5.3.1 인용 시안, v5.1.0 D-0123·D-0126 배경·아일랜드, v5.1.0 D-0121 §C 프레스, v5.2.0 겹침 카드
+        self.assertEqual(set(PLACEHOLDERS), {"badge", "photo", "clip", "cutout", "article", "post", "primitive", "backdrop", "cascade", "quote", "flight"})   # flight = v7.3.0(기하는 전편, 인셋만 자리표시)
         self.assertEqual((label("person", "김정은"), label("flag", "KR"), label("emblem", "청와대")),
                          ("[뱃지: 김정은]", "[국기: KR]", "[휘장: 청와대]"))
         self.assertTrue(label("photo", "가" * 80).endswith("…]"))

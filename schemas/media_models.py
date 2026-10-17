@@ -12,7 +12,7 @@ from typing import Literal, Optional
 
 from pydantic import BaseModel, ConfigDict, Field, RootModel, model_validator
 
-MediaKind = Literal["photo", "video", "cutout", "article"]   # video = clip 이벤트
+MediaKind = Literal["photo", "video", "cutout", "article", "inset"]   # video = clip 이벤트, inset = flight.inset 위성 타일(v7.3.0 D-0206)
 RightsStatus = Literal["rights_clear", "restricted", "unverified"]
 FILE_PHOTO_PREFIXES: tuple[str, ...] = ("자료사진", "자료 영상")   # 14 §2.3 저널리즘 표기
 

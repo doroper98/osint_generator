@@ -316,6 +316,7 @@ pacing:                    # v4.11.0 back_and_forth D-0118 §1(사용자 위임 
       - post
       - country            # 강조·하이라이트(국가)
       - boom               # 강조(타격 링)
+      - flight             # v7.3.0 비행·착탄
       - camera
     creep: {enabled: true, w_ratio: 0.96, min_window_sec: 45}   # 느린 푸시인 — 표시된 창에서만 w 를 창 길이에 걸쳐 4 % 선형 축소, 창 뒤 유지(다음 숏 이동이 흡수). shot_grammar.drift 와 곱한다
     ladder: "같은 뷰가 {window_sec}초를 넘으면 뷰를 바꾸지 말고 문장의 내용을 따라 ① 마커·라벨 등장 ② 관계선 하나 ③ 뱃지·카드 ④ 강조 ⑤ 그래도 없으면 숏 이동 순으로 변화를 준다. 이유 없는 카메라 이동 금지. 검사 [static-window]: 지도 무대의 어떤 {window_sec}초 창이든 변화({change_kinds})가 {min_changes}개 미만이면 경고한다. 표시된 창에는 엔진이 느린 푸시인(창 길이에 걸쳐 w × {w_ratio})을 건다 — 연출이 줌을 넣지 않는다."
@@ -386,6 +387,7 @@ media_beats:               # 14 §10
     photo: "{file_note} · {credit_author} · {license}"
     video: "{file_note} · {credit_author} · {license}"
     cutout: "{file_note} · {credit_author}"
+    inset: "{file_note} · {credit_author}"   # v7.3.0 D-0206 — 위성 인셋 출처 줄(예: "위성 · 2026. 10 · NASA GIBS/HLS")
   registry: assets/media/media_registry.json
   triggers:                               # 14 §10.2 — 문장 내용 → 형태 제안(suggest_media, 제안만 P8)
     clip: [공습, 타격, 발사, 나포, 충돌, 폭격, 격추]
@@ -948,8 +950,8 @@ credits:                   # D-0030(D35) — 권리 레지스트리 종류별 �
   music_description: 'Music: "{name}" — {author} ({license})'          # 설명란 footer 의 {music} 자리(v3 description.yaml 문구와 같은 결과)
 
 registries:                # 15 §3 P10 — 여기 없는 타입을 연출이 쓰면 오류, 있는데 렌더러가 없으면 오류
-  event_types: [marker, route, tanker_loop, barrier, ships, boom, country, badge, card, panel, dip, photo, clip, cutout, article, post, primitive, series, backdrop, island, cascade, quote]   # island = v5.1.0 D-0126 Q1(차트 아일랜드 — 뷰포트 카메라 = stage: timeline 숏), backdrop = v5.1.0 D-0121 §B·D-0123(backdrop 무대 배경 사진, 미디어 레지스트리 photo), post = v3.2.0 복귀(D26, 18 §5), primitive = v4.2.0 D-0081(id → registries.primitives), series = v4.3.0 D-0084(시간축 무대, 데이터 레코드), cascade = v5.3.0 D-0139(겹침 카드, 사용자 결정 D116·D117), quote = v5.4.0 정규(인물 발언 인용, 사용자 결정 2026-10-02)
-  event_types_planned: [occupied, arc, channel, shield, tl, particles, flash, dots, movers, line, arrow]   # v1/v2 이식 후보(미구현 = 사용 불가)
+  event_types: [marker, route, tanker_loop, barrier, ships, boom, country, badge, card, panel, dip, photo, clip, cutout, article, post, primitive, series, backdrop, island, cascade, quote, flight]   # flight = v7.3.0 D-0206(비행·꼬리선·착탄 링·위성 인셋, 사용자 결정 D232). island = v5.1.0 D-0126 Q1(차트 아일랜드 — 뷰포트 카메라 = stage: timeline 숏), backdrop = v5.1.0 D-0121 §B·D-0123(backdrop 무대 배경 사진, 미디어 레지스트리 photo), post = v3.2.0 복귀(D26, 18 §5), primitive = v4.2.0 D-0081(id → registries.primitives), series = v4.3.0 D-0084(시간축 무대, 데이터 레코드), cascade = v5.3.0 D-0139(겹침 카드, 사용자 결정 D116·D117), quote = v5.4.0 정규(인물 발언 인용, 사용자 결정 2026-10-02)
+  event_types_planned: [occupied, arc, channel, shield, tl, particles, flash, dots, line, arrow]   # v1/v2 이식 후보(미구현 = 사용 불가). movers = v7.3.0 flight 로 대체(D-0206 §1-2)
   panel_kinds: [relation, statement, timeline, precedent, versus, dots, gantt, dual_line, fork, checklist, network]   # relation = v3 refusal 일반화, 뒤 6종 = v2 차트 이식(D-0032)
   panel_kinds_planned: []
   badge_kinds: [person, flag, emblem]
@@ -1236,6 +1238,38 @@ border_glow:               # v5.4.0 정규(사용자 결정 2026-10-02 — v5.3.
   run_period_px: 320                          # 조각 사이 간격(한 주기)
   run_speed_px: 20                            # 초당 이동(설계 px) — "천천히"
   run_layers: [[6.0, 0.045], [3.2, 0.09], [1.4, 0.24]]   # 바깥 → 안 [선 폭, 알파], 둥근 끝
+flight:                    # v7.3.0 back_and_forth D-0206·D-0225(사용자 결정 D232 U3·D234 U6) — 비행 이벤트(engine/layers/flight.draw_flight). 설계 px(480p)
+  # 개략 표현: 비행 시간은 거리와 무관하게 고정, 꼬리선은 점선, 출발 위치는 점·라벨 없는 발광(U3-a). 착탄 링 = effects.draw_boom 그대로(새 링 모양 금지)
+  dur_sec: 2.4             # 출발(t0) → 착탄. 연출은 착탄 시각을 쓰지 않는다(코드 계산, P8)
+  impact_sec: 1.6          # 착탄 링 수명 = effects.draw_boom 의 링 수명(같은 값 — tests/engine/test_flight 가 대조)
+  bulge_ratio: 0.18        # 2차 베지어 제어점 = 중점 + 법선 × 화면 거리 × 이 값
+  samples: 32              # 꼬리선 베지어 분할 수
+  heading_du: 0.01         # 진행 방향(접선) 계산용 매개변수 간격
+  trail: {width: 1.6, dash: [6, 5], alpha: 0.85, fade_sec: 1.4}   # 점선 = 개략. 착탄 뒤 fade_sec 에 걸쳐 알파 → 0
+  origin: {r_px: 22, alpha: 0.28, pulse_sec: 1.6, out_sec: 0.4, fade_in_sec: 0.5, breath: 0.25}   # 방사형 발광(점·라벨 없음). 출발 전 pulse_sec 동안 숨 쉬고 출발 뒤 out_sec 에 사라짐
+  icon:
+    size_px: {drone: 11, missile: 13, jet: 14}   # 긴 변(사용자 결정 D234 U6 — "작게 해도 좋을 것 같아")
+    halo: 2.0
+    halo_alpha: 0.8
+    body_line: {width: 0.9, alpha: 0.55}         # 드론 동체 구분선(날개와 동체를 나눠 화살표로 안 보이게)
+    shapes:                                      # 머리 = −y, 진행 방향으로 회전. 긴 변(y 폭)을 size_px 로 정규화. 시험본 projects/strike_demo_2026/render_demo.py
+      drone: [[0, -7.4], [0.9, -6.4], [0.9, -3.4], [4.6, 3.6], [5.4, 3.4], [5.4, 5.9], [4.2, 5.9], [0.9, 5.3], [0.9, 6.8], [1.7, 7.0], [1.7, 7.5],
+              [-1.7, 7.5], [-1.7, 7.0], [-0.9, 6.8], [-0.9, 5.3], [-4.2, 5.9], [-5.4, 5.9], [-5.4, 3.4], [-4.6, 3.6], [-0.9, -3.4], [-0.9, -6.4]]   # 샤헤드-136/게란-2 상면 실루엣
+      missile: [[0, -7], [1.2, -5.5], [1.2, -0.5], [3.2, 0.5], [3.2, 1.3], [1.2, 1.0], [1.2, 4.5], [3.4, 6.2], [3.4, 7], [1.2, 6.6], [1.2, 7.2],
+                [-1.2, 7.2], [-1.2, 6.6], [-3.4, 7], [-3.4, 6.2], [-1.2, 4.5], [-1.2, 1.0], [-3.2, 1.3], [-3.2, 0.5], [-1.2, -0.5], [-1.2, -5.5]]   # 순항미사일 상면
+      jet: [[0, -7], [2, -2], [7, 2], [2, 3], [1.5, 6], [3, 7], [-3, 7], [-1.5, 6], [-2, 3], [-7, 2], [-2, -2]]   # 후퇴익 + 꼬리
+    body_lines: {drone: [[[0.9, -3.4], [0.9, 5.3]], [[-0.9, 5.3], [-0.9, -3.4]]]}
+  inset:                   # 위성 인셋(flight.inset.mid — 미디어 레지스트리 kind inset, 사용자 결정 D232 U2)
+    w_px: 118              # 상자 폭
+    h_ratio: 0.72          # 높이 ÷ 폭(위성 타일 가운데 자름 비율과 같다)
+    gap_px: 10             # 표적 점에서 상자까지
+    lead_sec: 0.2          # 착탄 이 시간 전부터 나타남
+    hold_sec: 3.0          # 착탄 링 뒤 머무는 시간
+    fade: [0.35, 0.45]     # in/out
+    frame: {width: 1.0, alpha: 0.55}
+    caption_dy: 5          # 상자 위 출처 줄 기준선 간격
+    caption_size: 8.5      # 출처 줄 글자(layout_480p.min_font_px 이상)
+    caption_halo: 2.4      # 출처 줄 글자 테두리(컷아웃 출처 줄과 같은 값)
 island:                    # v5.1.0 back_and_forth D-0123 §1·D-0126(Q1~Q4 A) — backdrop 무대 위 내용물 상자(아일랜드) 공통 규칙. engine/island.py. 설계 px(480p)
   # 연출은 픽셀을 다루지 않는다 — 차트 아일랜드는 box(boxes 이름)만 고른다. 등장 = 슬라이드 layout_480p.card.slide_px + 페이드 card.fade_sec(카드 규칙 재사용)
   # 겹침(checks island_overlap hard, Q3 A): 같은 순간 보이는 아일랜드 제자리 상자(그림자·슬라이드 경로 제외)끼리 교차 > 0, 자막 구역(reserved_zones.subtitle) 교차.
@@ -1473,7 +1507,7 @@ animatic:                  # v4.9.0 back_and_forth D-0108(사용자 결정 D97) 
     max_chars: 30          # 한 줄 글자 수 상한(넘으면 … — 자리표시 문구만, 자막·카드 문구 아님)
     cutout_h_ratio: 0.4    # 컷아웃 높이 ÷ 폭 — 레지스트리에 비율이 없다(tool.params width 만). 파일을 열지 않으려고 쓰는 근사(p8 실측 134/360 = 0.37)
     kinds: {person: 뱃지, flag: 국기, emblem: 휘장, photo: 사진, clip: 영상, cutout: 컷아웃, article: 기사, post: 게시물,
-            primitive: 요소, backdrop: 배경, island: 아일랜드, press: 프레스, cascade: 사건, quote: 인용}   # backdrop = v5.1.0 D-0123 §3 — 회색 판 + [배경: id]
+            primitive: 요소, backdrop: 배경, island: 아일랜드, press: 프레스, cascade: 사건, quote: 인용, inset: 인셋}   # backdrop = v5.1.0 D-0123 §3 — 회색 판 + [배경: id]
   band:                    # 화면 위 가운데 얇은 띠 — 배포 사고 방지 표식(모서리는 날짜만 규칙 유지)
     text: "콘티 판 · 검토용 · 배포 금지"
     font: sansb

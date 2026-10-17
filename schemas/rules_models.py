@@ -1906,6 +1906,69 @@ class QuoteCenterRules(_Strict):
     lower: QuotePairSlot
 
 
+class FlightTrail(_Strict):
+    width: float = Field(gt=0)
+    dash: tuple[float, float]
+    alpha: float = Field(ge=0, le=1)
+    fade_sec: float = Field(gt=0)
+
+
+class FlightOriginGlow(_Strict):
+    r_px: float = Field(gt=0)
+    alpha: float = Field(ge=0, le=1)
+    pulse_sec: float = Field(gt=0)
+    out_sec: float = Field(gt=0)
+    fade_in_sec: float = Field(gt=0)
+    breath: float = Field(ge=0, le=1)
+
+
+class FlightLine(_Strict):
+    width: float = Field(gt=0)
+    alpha: float = Field(ge=0, le=1)
+
+
+class FlightIcon(_Strict):
+    size_px: dict[Literal["drone", "missile", "jet"], float]
+    halo: float = Field(ge=0)
+    halo_alpha: float = Field(ge=0, le=1)
+    body_line: FlightLine
+    shapes: dict[Literal["drone", "missile", "jet"], list[tuple[float, float]]]
+    body_lines: dict[Literal["drone", "missile", "jet"], list[tuple[tuple[float, float], tuple[float, float]]]] = Field(default_factory=dict)
+
+    @model_validator(mode="after")
+    def _kinds(self) -> "FlightIcon":
+        if set(self.size_px) != set(self.shapes) or any(len(v) < 3 for v in self.shapes.values()):
+            raise ValueError("flight.icon: size_px 와 shapes 의 종류가 같아야 하고 다각형은 꼭짓점 3개 이상")
+        return self
+
+
+class FlightInsetRules(_Strict):
+    w_px: float = Field(gt=0)
+    h_ratio: float = Field(gt=0)
+    gap_px: float = Field(ge=0)
+    lead_sec: float = Field(ge=0)
+    hold_sec: float = Field(gt=0)
+    fade: tuple[float, float]
+    frame: FlightLine
+    caption_dy: float
+    caption_size: float = Field(gt=0)
+    caption_halo: float = Field(ge=0)
+
+
+class FlightRules(_Strict):
+    """v7.3.0 back_and_forth D-0206 — 비행 이벤트(flight). 설계 px(480p). engine/layers/flight.py 만 읽는다."""
+
+    dur_sec: float = Field(gt=0)
+    impact_sec: float = Field(gt=0)
+    bulge_ratio: float
+    samples: int = Field(ge=2)
+    heading_du: float = Field(gt=0, lt=1)
+    trail: FlightTrail
+    origin: FlightOriginGlow
+    icon: FlightIcon
+    inset: FlightInsetRules
+
+
 class BorderGlowRules(_Strict):
     """v5.3.1 국경선 글로우(시안 — 사용자 제안 2026-10-02, valdai-2026 한정). 설계 px."""
 
@@ -2825,6 +2888,7 @@ class VideoRules(_Strict):
     island: IslandRules                  # v5.1.0 — D-0123 §1·D-0126
     cascade: CascadeRules                # v5.2.0 — 겹침 카드(사용자 재구성 2026-10-01, v5.3.0 D-0139 채택)
     quote_center: QuoteCenterRules       # v5.3.1 — 인물 발언 중앙 인용(시안, valdai-2026 한정)
+    flight: FlightRules                  # v7.3.0 — 비행·착탄·위성 인셋(D-0206)
     border_glow: BorderGlowRules         # v5.3.1 — 국경선 글로우(시안, direction stage_config.mercator.border_glow)
     data: DataRules                # v4.3.0 — D-0084 작업 1
     genre_prompt: GenrePromptRules  # v4.4.0 — D-0090 작업 1

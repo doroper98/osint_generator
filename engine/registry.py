@@ -24,6 +24,7 @@ from engine.layers.backdrop import draw_backdrop
 from engine.layers.badges import draw_badge, draw_over_panel
 from engine.layers.dip import draw_dip
 from engine.layers.effects import draw_boom, draw_ships
+from engine.layers.flight import draw_flight
 from engine.layers.markers import draw_marker
 from engine.layers.article import draw_article
 from engine.layers.media import draw_clip, draw_cutout, draw_photo
@@ -57,6 +58,7 @@ REGISTRY: dict[str, Entry] = {
     "tanker_loop": Entry(ev.TankerLoopEvent, draw_tanker_loop, "map"),
     "barrier": Entry(ev.BarrierEvent, draw_barrier, "map"),
     "boom": Entry(ev.BoomEvent, draw_boom, "map"),
+    "flight": Entry(ev.FlightEvent, draw_flight, "map"),     # v7.3.0 D-0206 — 비행·꼬리선·착탄 링·위성 인셋
     "cutout": Entry(ev.CutoutEvent, draw_cutout, "map"),
     "marker": Entry(ev.MarkerEvent, draw_marker, "map"),
     "series": Entry(ev.SeriesEvent, draw_series, "map"),     # v4.3.0 D-0084 작업 4 — 시간축 무대 전용(데이터 레코드에서 직접)
@@ -92,7 +94,7 @@ for _pid in load_rules().registries.primitives:
     REGISTRY[f"primitive:{_pid}"] = Entry(event_model(_pid, module(_pid).SCHEMA), make_renderer(_pid), "primitive")
 
 # v3 LAYER 순서(render3 L950) — 지도 레이어는 타입 순서대로, 같은 타입 안에서는 이벤트 순서대로 그린다.
-MAP_LAYER_ORDER: tuple[str, ...] = ("island", "country", "ships", "route", "tanker_loop", "barrier", "boom", "cutout", "series", "marker", "badge")
+MAP_LAYER_ORDER: tuple[str, ...] = ("island", "country", "ships", "route", "tanker_loop", "barrier", "boom", "flight", "cutout", "series", "marker", "badge")
 
 
 def dispatch_panel(ctx: object, R: object, t: float, e: dict) -> None:  # noqa: N803

@@ -158,6 +158,49 @@ class BoomEvent(_Event):
     lat: float
 
 
+class FlightOrigin(BaseModel):
+    """출발 위치 — 공격국 영토 안 개략 중심(사용자 결정 D232 U3-a). 점·라벨로 그리지 않는다(발광만)."""
+
+    model_config = ConfigDict(extra="forbid")
+
+    lon: float
+    lat: float
+
+
+class FlightInset(BaseModel):
+    """착탄 지점 위성 인셋 — 미디어 레지스트리 kind inset 만(load_project 가 검사)."""
+
+    model_config = ConfigDict(extra="forbid")
+
+    mid: str = Field(min_length=1)
+    side: Literal["right", "left", "up", "down"] = "up"
+
+
+class FlightEvent(_Event):
+    """v7.3.0 back_and_forth D-0206 — 출발 발광 → 비행(아이콘·점선 꼬리선) → 착탄 링(boom 과 같은 링) → 위성 인셋(선택).
+    착탄 시각 = t0 + rules flight.dur_sec(코드 계산 — 연출은 쓰지 않는다, P8). 비행 시간은 거리와 무관(개략 표현)."""
+
+    DROP_NONE: ClassVar[tuple[str, ...]] = ("inset",)
+
+    type: Literal["flight"]
+    kind: Literal["drone", "missile", "jet"]
+    origin: FlightOrigin
+    lon: float = Field(description="표적 경도")
+    lat: float = Field(description="표적 위도")
+    col: Accent = "amber"
+    impact: bool = True
+    inset: Optional[FlightInset] = None
+
+    @model_validator(mode="after")
+    def _long_enough(self) -> "FlightEvent":
+        F = load_rules().flight  # noqa: N806
+        need = F.dur_sec + F.impact_sec + (F.inset.hold_sec if self.inset else 0.0)
+        if self.t1 - self.t0 < need:
+            raise ValueError(f"[flight-too-short] t1 - t0 = {self.t1 - self.t0:.2f}초 < 비행 {F.dur_sec} + 착탄 {F.impact_sec}"
+                             f"{f' + 인셋 {F.inset.hold_sec}' if self.inset else ''} = {need:.2f}초 (잘라 그리지 않는다, P6)")
+        return self
+
+
 class CountryEvent(_Event):
     type: Literal["country"]
     codes: list[str] = Field(min_length=1)

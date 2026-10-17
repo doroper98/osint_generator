@@ -27,7 +27,8 @@ from engine.typography import rrect, text, tw
 MC = load_rules().layout_480p.media_caption   # v4.8.0 D-0101 §3 — 사진·영상 캡션 바·태그·컷아웃 캡션 글자(옛 리터럴)
 BAR = load_rules().media_beats.caption_bar_px   # 캡션 바 높이(media_plan 상자 계산과 같은 값)
 
-EVENT_KIND: dict[str, str] = {"photo": "photo", "clip": "video", "cutout": "cutout", "article": "article"}   # 이벤트 → 레지스트리 kind
+EVENT_KIND: dict[str, str] = {"photo": "photo", "clip": "video", "cutout": "cutout", "article": "article",
+                              "inset": "inset"}   # 이벤트 → 레지스트리 kind. inset = flight.inset(v7.3.0 D-0206, 이벤트 타입 아님)
 
 
 def validate_media(e: dict, assets: dict | None = None):  # noqa: ANN201 — schemas.media_models.MediaAsset
@@ -173,3 +174,25 @@ def draw_cutout(ctx: cairo.Context, R: RenderCtx, view: View, t: float, e: dict)
     text(ctx, m.caption, x, y + fh / 2 + MC.caption_dy, MC.cutout_caption_size, "sansb", (1, 1, 1), la, 3, "c")
     text(ctx, credit_line(m), x, y + fh / 2 + MC.credit_dy, MC.cutout_credit_size, "monom", C["muted"], la, 2.4, "c", role="media_meta")
     R.reserved.append((x - fw / 2, y - fh / 2, x + fw / 2, y + fh / 2 + MC.credit_dy + 4))
+
+
+FL_INSET = load_rules().flight.inset   # v7.3.0 D-0206 — 위성 인셋 상자 토큰
+
+
+def draw_inset(ctx: cairo.Context, R: RenderCtx, box: tuple[float, float, float, float], a: float, e: dict) -> None:  # noqa: N803
+    """비행 이벤트의 위성 인셋(v7.3.0 D-0206, engine/layers/flight 가 부른다) — 레지스트리 kind inset 파일을 상자 폭에 맞춰 가운데 자름.
+    흔들림·회전 없음(위성 타일은 정지). 상자 위에 출처 줄(credit_formats.inset)."""
+    x, y, w, h = box
+    m = R.assets.media_assets[e["inset"]["mid"]]
+    fs, fw, fh = R.assets.raster(f"media:{m.file}", w, R.out.k)
+    ctx.save()
+    ctx.rectangle(x, y, w, h)
+    ctx.clip()
+    set_raster(ctx, fs, R.out.k, x + (w - fw) / 2, y + (h - fh) / 2)
+    ctx.paint_with_alpha(a)
+    ctx.restore()
+    ctx.rectangle(x, y, w, h)
+    ctx.set_source_rgba(1, 1, 1, FL_INSET.frame.alpha * a)
+    ctx.set_line_width(FL_INSET.frame.width)
+    ctx.stroke()
+    text(ctx, credit_line(m), x, y - FL_INSET.caption_dy, FL_INSET.caption_size, "monom", C["muted"], a, FL_INSET.caption_halo, "l", role="media_meta")
