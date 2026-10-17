@@ -1,0 +1,119 @@
+{
+ "ryazan": {
+  "file": "inset_ryazan.png",
+  "source": "NASA GIBS WMS (gibs.earthdata.nasa.gov/wms/epsg4326/best)",
+  "layer": "HLS_S30_Nadir_BRDF_Adjusted_Reflectance",
+  "time": "2026-10-07",
+  "bbox_lat_lon": [
+   54.543,
+   39.802,
+   54.592999999999996,
+   39.852
+  ],
+  "request_px": [
+   512,
+   512
+  ],
+  "crop": "center crop to 512x369 (0.72 ratio of inset box), no other processing",
+  "rights": "NASA GIBS imagery: public domain (HLS = NASA-processed Landsat 8/9 + Sentinel-2, via LP DAAC); credit 'NASA GIBS / HLS'",
+  "fetched": "2026-10-17",
+  "copied_from": "projects/strike_demo_2026/inset_ryazan.png",
+  "aspect_note": "bbox is equal degrees in lat and lon (not aspect-corrected) - image is horizontally stretched by 1/cos(lat)"
+ },
+ "ras_laffan": {
+  "file": "inset_ras_laffan.png",
+  "source": "NASA GIBS WMS (gibs.earthdata.nasa.gov/wms/epsg4326/best)",
+  "layer": "HLS_S30_Nadir_BRDF_Adjusted_Reflectance",
+  "time": "2026-10-05",
+  "bbox_lat_lon": [
+   25.880000000000003,
+   51.535000000000004,
+   25.93,
+   51.585
+  ],
+  "request_px": [
+   512,
+   512
+  ],
+  "crop": "center crop to 512x369 (0.72 ratio of inset box), no other processing",
+  "rights": "NASA GIBS imagery: public domain (HLS = NASA-processed Landsat 8/9 + Sentinel-2, via LP DAAC); credit 'NASA GIBS / HLS'",
+  "fetched": "2026-10-17",
+  "copied_from": "projects/strike_demo_2026/inset_ras_laffan.png",
+  "aspect_note": "bbox is equal degrees in lat and lon (not aspect-corrected) - image is horizontally stretched by 1/cos(lat)"
+ },
+ "kharg": {
+  "file": "inset_kharg.png",
+  "source": "NASA GIBS WMS (gibs.earthdata.nasa.gov/wms/epsg4326/best)",
+  "layer": "HLS_S30_Nadir_BRDF_Adjusted_Reflectance",
+  "time": "2026-09-25",
+  "bbox_lat_lon": [
+   29.21,
+   50.300000000000004,
+   29.259999999999998,
+   50.35
+  ],
+  "request_px": [
+   512,
+   512
+  ],
+  "crop": "center crop to 512x369 (0.72 ratio of inset box), no other processing",
+  "rights": "NASA GIBS imagery: public domain (HLS = NASA-processed Landsat 8/9 + Sentinel-2, via LP DAAC); credit 'NASA GIBS / HLS'",
+  "fetched": "2026-10-17",
+  "copied_from": "projects/strike_demo_2026/inset_kharg.png",
+  "aspect_note": "bbox is equal degrees in lat and lon (not aspect-corrected) - image is horizontally stretched by 1/cos(lat)"
+ },
+ "kirishi": {
+  "file": "inset_kirishi.png",
+  "source": "NASA GIBS WMS (gibs.earthdata.nasa.gov/wms/epsg4326/best)",
+  "layer": "HLS_S30_Nadir_BRDF_Adjusted_Reflectance",
+  "time": "2026-10-01",
+  "bbox_lat_lon": [
+   59.462,
+   32.0228,
+   59.512,
+   32.1212
+  ],
+  "center_lat_lon": [
+   59.487,
+   32.072
+  ],
+  "subject": "Kirishi refinery (KINEF), Leningrad Oblast - tank farm and process units visible",
+  "url": "https://gibs.earthdata.nasa.gov/wms/epsg4326/best/wms.cgi?SERVICE=WMS&REQUEST=GetMap&VERSION=1.3.0&LAYERS=HLS_S30_Nadir_BRDF_Adjusted_Reflectance&CRS=EPSG:4326&BBOX=59.462,32.0228,59.512,32.1212&WIDTH=512&HEIGHT=512&FORMAT=image/png&TIME=2026-10-01",
+  "request_px": [
+   512,
+   512
+  ],
+  "crop": "center crop to 512x369 (0.72 ratio of inset box), no other processing",
+  "aspect_note": "lon span = lat span / cos(lat) (aspect-corrected, ~5.6 km square before crop)",
+  "date_note": "latest cloud-free HLS S30 date found in 2026 scan; not tied to a specific strike date (no before/after claim)",
+  "rights": "NASA GIBS imagery: public domain (HLS = NASA-processed Landsat 8/9 + Sentinel-2, via LP DAAC); credit 'NASA GIBS / HLS'",
+  "fetched": "2026-10-17"
+ },
+ "volgograd": {
+  "file": "inset_volgograd.png",
+  "source": "NASA GIBS WMS (gibs.earthdata.nasa.gov/wms/epsg4326/best)",
+  "layer": "HLS_S30_Nadir_BRDF_Adjusted_Reflectance",
+  "time": "2026-10-10",
+  "bbox_lat_lon": [
+   48.473,
+   44.5843,
+   48.523,
+   44.6597
+  ],
+  "center_lat_lon": [
+   48.498,
+   44.622
+  ],
+  "subject": "Volgograd refinery (Lukoil), Krasnoarmeysky district - tank farm and process units visible",
+  "url": "https://gibs.earthdata.nasa.gov/wms/epsg4326/best/wms.cgi?SERVICE=WMS&REQUEST=GetMap&VERSION=1.3.0&LAYERS=HLS_S30_Nadir_BRDF_Adjusted_Reflectance&CRS=EPSG:4326&BBOX=48.473,44.5843,48.523,44.6597&WIDTH=512&HEIGHT=512&FORMAT=image/png&TIME=2026-10-10",
+  "request_px": [
+   512,
+   512
+  ],
+  "crop": "center crop to 512x369 (0.72 ratio of inset box), no other processing",
+  "aspect_note": "lon span = lat span / cos(lat) (aspect-corrected, ~5.6 km square before crop)",
+  "date_note": "latest cloud-free HLS S30 date found in 2026 scan; not tied to a specific strike date (no before/after claim)",
+  "rights": "NASA GIBS imagery: public domain (HLS = NASA-processed Landsat 8/9 + Sentinel-2, via LP DAAC); credit 'NASA GIBS / HLS'",
+  "fetched": "2026-10-17"
+ }
+}
