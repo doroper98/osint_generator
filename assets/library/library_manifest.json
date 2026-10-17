@@ -811,6 +811,114 @@
     }
    ],
    "usage_count": 0
+  },
+  {
+   "person_id": "bessent",
+   "name_ko": "베선트",
+   "name_en": "",
+   "role": "미국 재무장관",
+   "aliases": [],
+   "accent_hint": "",
+   "source": {
+    "url": "https://commons.wikimedia.org/wiki/File:Scott_Bessent_2025_Official_Portrait.jpg",
+    "license": "Public domain",
+    "rights_status": "rights_clear",
+    "credit": "Treasury Department",
+    "note": "diesel_road_2026 에서 승격(v5.6.0) · 원본 bessent_src.jpg"
+   },
+   "variants": [
+    {
+     "style": "mono",
+     "pose": "front",
+     "path": "assets/library/people/bessent_mono_v01.png",
+     "generator_version": "",
+     "tool": "tools/portrait_fallback.py --style engraving",
+     "prompt_ref": "",
+     "normalized": true
+    }
+   ],
+   "usage_count": 0
+  },
+  {
+   "person_id": "kim_jung_kwan",
+   "name_ko": "김정관",
+   "name_en": "",
+   "role": "대한민국 산업통상부 장관",
+   "aliases": [],
+   "accent_hint": "",
+   "source": {
+    "url": "https://commons.wikimedia.org/wiki/File:Kim_Jung-kwan%27s_portrait_(2026.07).jpg",
+    "license": "KOGL Type 1",
+    "rights_status": "rights_clear",
+    "credit": "대한민국 국회",
+    "note": "diesel_road_2026 에서 승격(v5.6.0) · 원본 kim_jung_kwan_src.jpg"
+   },
+   "variants": [
+    {
+     "style": "mono",
+     "pose": "front",
+     "path": "assets/library/people/kim_jung_kwan_mono_v01.png",
+     "generator_version": "",
+     "tool": "tools/portrait_fallback.py --style engraving",
+     "prompt_ref": "",
+     "normalized": true
+    }
+   ],
+   "usage_count": 0
+  },
+  {
+   "person_id": "kozhemyako",
+   "name_ko": "코제먀코",
+   "name_en": "",
+   "role": "러시아 연해주 주지사",
+   "aliases": [],
+   "accent_hint": "",
+   "source": {
+    "url": "https://commons.wikimedia.org/wiki/File:%D0%9E%D0%BB%D0%B5%D0%B3_%D0%9A%D0%BE%D0%B6%D0%B5%D0%BC%D1%8F%D0%BA%D0%BE.jpg",
+    "license": "CC BY 4.0",
+    "rights_status": "rights_clear",
+    "credit": "kremlin.ru",
+    "note": "diesel_road_2026 에서 승격(v5.6.0) · 원본 kozhemyako_src_crop.jpg"
+   },
+   "variants": [
+    {
+     "style": "mono",
+     "pose": "front",
+     "path": "assets/library/people/kozhemyako_mono_v01.png",
+     "generator_version": "",
+     "tool": "tools/portrait_fallback.py --style engraving",
+     "prompt_ref": "",
+     "normalized": true
+    }
+   ],
+   "usage_count": 0
+  },
+  {
+   "person_id": "novak",
+   "name_ko": "노박",
+   "name_en": "",
+   "role": "러시아 부총리",
+   "aliases": [],
+   "accent_hint": "",
+   "source": {
+    "url": "https://commons.wikimedia.org/wiki/File:Alexander_Novak_(2019-11-06).jpg",
+    "license": "CC BY 4.0",
+    "rights_status": "rights_clear",
+    "credit": "duma.gov.ru",
+    "note": "diesel_road_2026 에서 승격(v5.6.0) · 원본 novak_src.jpg"
+   },
+   "variants": [
+    {
+     "style": "mono",
+     "pose": "front",
+     "path": "assets/library/people/novak_mono_v01.png",
+     "generator_version": "",
+     "tool": "tools/portrait_fallback.py --style engraving",
+     "prompt_ref": "",
+     "normalized": true
+    }
+   ],
+   "usage_count": 0
   }
  ],
  "logos": [],
