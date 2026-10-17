@@ -3134,6 +3134,371 @@
    "sub": "사우디는 2017년 중국산 윙룽 II 무인기를 주문했다",
    "note": "헤드라인 번역 · 원문 영어",
    "headline_original": "Chinese and Saudi firms create joint venture to make military drones in the kingdom"
+  },
+  "inset_ryazan_esri": {
+   "kind": "inset",
+   "title": "Esri World Imagery — Ryazan refinery (Rosneft) (2024-09-26)",
+   "license": "Esri World Imagery (Maxar et al.) — 비공개 시청 한정, 사용자 결정 D234",
+   "author": "Esri, Maxar, Earthstar Geographics, and the GIS User Community",
+   "credit_author": "Esri/Maxar",
+   "date": "2024-09-26",
+   "url": "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/14/5216/10001",
+   "caption": "랴잔 정유소",
+   "file_note": "자료사진 · 위성 · 2024. 09",
+   "depicts": [
+    "랴잔 정유소",
+    "Ryazan refinery (Rosneft)"
+   ],
+   "is_file_photo": true,
+   "verified_by": {
+    "by": "구현 세션 육안 확인(시설 식별, 사람·사상자 없음) — 공개 전환 시 NASA GIBS/Sentinel 로 교체 의무(D234)",
+    "on": "2026-10-17",
+    "casualty_free": true,
+    "relevance": "diesel_road_2026 랴잔 정유소 타격 문장 — 피격 전 자료 영상(촬영 2024-09-26, 피해 모습 아님)"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-10-17",
+   "tool": {
+    "name": "inset_fetch.esri",
+    "params": {
+     "source": "inset_ryazan_esri.png",
+     "request_url": "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/14/5216/10001",
+     "zoom": 14,
+     "center_lat_lon": [
+      54.5624,
+      39.7496
+     ],
+     "crop": "16-tile mosaic, square center crop 640x640 px at facility point, resized to 512x512 (Lanczos), no other processing"
+    }
+   },
+   "source_hash": "da580e57aad9f0aa00b637edef343b9c",
+   "file": "inset_ryazan_esri.png",
+   "scope": "private_only"
+  },
+  "inset_ryazan_hls": {
+   "kind": "inset",
+   "title": "NASA GIBS HLS S30 — Ryazan refinery (Rosneft) (2026-10-07)",
+   "license": "NASA GIBS (public domain)",
+   "author": "NASA GIBS / HLS (Landsat 8/9 + Sentinel-2, LP DAAC)",
+   "credit_author": "NASA GIBS/HLS",
+   "date": "2026-10-07",
+   "url": "https://gibs.earthdata.nasa.gov/wms/epsg4326/best/wms.cgi",
+   "caption": "랴잔 정유소",
+   "file_note": "위성 · 2026. 10",
+   "depicts": [
+    "랴잔 정유소",
+    "Ryazan refinery (Rosneft)"
+   ],
+   "is_file_photo": false,
+   "verified_by": {
+    "by": "구현 세션(재기동 2·3) 육안 확인 — 공개용 대체본(Esri 비공개본 교체용)",
+    "on": "2026-10-17",
+    "casualty_free": true,
+    "relevance": "diesel_road_2026 랴잔 정유소 — 공개 전환 시 Esri 인셋 대체(30m 해상도)"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-10-17",
+   "tool": {
+    "name": "gibs_hls",
+    "params": {
+     "source": "inset_ryazan.png",
+     "request_url": "https://gibs.earthdata.nasa.gov/wms/epsg4326/best/wms.cgi?SERVICE=WMS&REQUEST=GetMap&VERSION=1.1.1&LAYERS=HLS_S30_Nadir_BRDF_Adjusted_Reflectance&SRS=EPSG:4326&FORMAT=image/png&WIDTH=512&HEIGHT=512&TIME=2026-10-07&BBOX=39.802,54.543,39.852,54.593"
+    }
+   },
+   "source_hash": "e4bf39133517ce3973bc1ca036f002f6",
+   "file": "inset_ryazan.png"
+  },
+  "inset_kirishi_esri": {
+   "kind": "inset",
+   "title": "Esri World Imagery — Kirishi refinery (KINEF) (2024-09-10)",
+   "license": "Esri World Imagery (Maxar et al.) — 비공개 시청 한정, 사용자 결정 D234",
+   "author": "Esri, Maxar, Earthstar Geographics, and the GIS User Community",
+   "credit_author": "Esri/Maxar",
+   "date": "2024-09-10",
+   "url": "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/14/4804/9651",
+   "caption": "키리시 정유소",
+   "file_note": "자료사진 · 위성 · 2024. 09",
+   "depicts": [
+    "키리시 정유소",
+    "Kirishi refinery (KINEF)"
+   ],
+   "is_file_photo": true,
+   "verified_by": {
+    "by": "구현 세션 육안 확인(시설 식별, 사람·사상자 없음) — 공개 전환 시 NASA GIBS/Sentinel 로 교체 의무(D234)",
+    "on": "2026-10-17",
+    "casualty_free": true,
+    "relevance": "diesel_road_2026 키리시 정유소 타격 문장 — 피격 전 자료 영상(촬영 2024-09-10, 피해 모습 아님)"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-10-17",
+   "tool": {
+    "name": "inset_fetch.esri",
+    "params": {
+     "source": "inset_kirishi_esri.png",
+     "request_url": "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/14/4804/9651",
+     "zoom": 14,
+     "center_lat_lon": [
+      59.4856,
+      32.078
+     ],
+     "crop": "12-tile mosaic, square center crop 640x640 px at facility point, resized to 512x512 (Lanczos), no other processing"
+    }
+   },
+   "source_hash": "8a669bdccf4d3a543230762aee101cc6",
+   "file": "inset_kirishi_esri.png",
+   "scope": "private_only"
+  },
+  "inset_kirishi_hls": {
+   "kind": "inset",
+   "title": "NASA GIBS HLS S30 — Kirishi refinery (KINEF) (2026-10-01)",
+   "license": "NASA GIBS (public domain)",
+   "author": "NASA GIBS / HLS (Landsat 8/9 + Sentinel-2, LP DAAC)",
+   "credit_author": "NASA GIBS/HLS",
+   "date": "2026-10-01",
+   "url": "https://gibs.earthdata.nasa.gov/wms/epsg4326/best/wms.cgi",
+   "caption": "키리시 정유소",
+   "file_note": "위성 · 2026. 10",
+   "depicts": [
+    "키리시 정유소",
+    "Kirishi refinery (KINEF)"
+   ],
+   "is_file_photo": false,
+   "verified_by": {
+    "by": "구현 세션(재기동 2·3) 육안 확인 — 공개용 대체본(Esri 비공개본 교체용)",
+    "on": "2026-10-17",
+    "casualty_free": true,
+    "relevance": "diesel_road_2026 키리시 정유소 — 공개 전환 시 Esri 인셋 대체(30m 해상도)"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-10-17",
+   "tool": {
+    "name": "gibs_hls",
+    "params": {
+     "source": "inset_kirishi.png",
+     "request_url": "https://gibs.earthdata.nasa.gov/wms/epsg4326/best/wms.cgi?SERVICE=WMS&REQUEST=GetMap&VERSION=1.1.1&LAYERS=HLS_S30_Nadir_BRDF_Adjusted_Reflectance&SRS=EPSG:4326&FORMAT=image/png&WIDTH=512&HEIGHT=512&TIME=2026-10-01&BBOX=32.0228,59.462,32.1212,59.512"
+    }
+   },
+   "source_hash": "5437102916a0c952db2f10303dbe4d5e",
+   "file": "inset_kirishi.png"
+  },
+  "inset_volgograd_esri": {
+   "kind": "inset",
+   "title": "Esri World Imagery — Volgograd refinery (Lukoil) (2025-05-28)",
+   "license": "Esri World Imagery (Maxar et al.) — 비공개 시청 한정, 사용자 결정 D234",
+   "author": "Esri, Maxar, Earthstar Geographics, and the GIS User Community",
+   "credit_author": "Esri/Maxar",
+   "date": "2025-05-28",
+   "url": "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/14/5661/10223",
+   "caption": "볼고그라드 정유소",
+   "file_note": "자료사진 · 위성 · 2025. 05",
+   "depicts": [
+    "볼고그라드 정유소",
+    "Volgograd refinery (Lukoil)"
+   ],
+   "is_file_photo": true,
+   "verified_by": {
+    "by": "구현 세션 육안 확인(시설 식별, 사람·사상자 없음) — 공개 전환 시 NASA GIBS/Sentinel 로 교체 의무(D234)",
+    "on": "2026-10-17",
+    "casualty_free": true,
+    "relevance": "diesel_road_2026 볼고그라드 정유소 타격 문장 — 피격 전 자료 영상(촬영 2025-05-28, 피해 모습 아님)"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-10-17",
+   "tool": {
+    "name": "inset_fetch.esri",
+    "params": {
+     "source": "inset_volgograd_esri.png",
+     "request_url": "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/14/5661/10223",
+     "zoom": 14,
+     "center_lat_lon": [
+      48.4928,
+      44.63
+     ],
+     "crop": "12-tile mosaic, square center crop 640x640 px at facility point, resized to 512x512 (Lanczos), no other processing"
+    }
+   },
+   "source_hash": "fc281d140cfd3796c69a4de3acd7fced",
+   "file": "inset_volgograd_esri.png",
+   "scope": "private_only"
+  },
+  "inset_volgograd_hls": {
+   "kind": "inset",
+   "title": "NASA GIBS HLS S30 — Volgograd refinery (Lukoil) (2026-10-10)",
+   "license": "NASA GIBS (public domain)",
+   "author": "NASA GIBS / HLS (Landsat 8/9 + Sentinel-2, LP DAAC)",
+   "credit_author": "NASA GIBS/HLS",
+   "date": "2026-10-10",
+   "url": "https://gibs.earthdata.nasa.gov/wms/epsg4326/best/wms.cgi",
+   "caption": "볼고그라드 정유소",
+   "file_note": "위성 · 2026. 10",
+   "depicts": [
+    "볼고그라드 정유소",
+    "Volgograd refinery (Lukoil)"
+   ],
+   "is_file_photo": false,
+   "verified_by": {
+    "by": "구현 세션(재기동 2·3) 육안 확인 — 공개용 대체본(Esri 비공개본 교체용)",
+    "on": "2026-10-17",
+    "casualty_free": true,
+    "relevance": "diesel_road_2026 볼고그라드 정유소 — 공개 전환 시 Esri 인셋 대체(30m 해상도)"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-10-17",
+   "tool": {
+    "name": "gibs_hls",
+    "params": {
+     "source": "inset_volgograd.png",
+     "request_url": "https://gibs.earthdata.nasa.gov/wms/epsg4326/best/wms.cgi?SERVICE=WMS&REQUEST=GetMap&VERSION=1.1.1&LAYERS=HLS_S30_Nadir_BRDF_Adjusted_Reflectance&SRS=EPSG:4326&FORMAT=image/png&WIDTH=512&HEIGHT=512&TIME=2026-10-10&BBOX=44.5843,48.473,44.6597,48.523"
+    }
+   },
+   "source_hash": "61a7d41fba228cf70c5b36f43f62af2d",
+   "file": "inset_volgograd.png"
+  },
+  "inset_ras_laffan_esri": {
+   "kind": "inset",
+   "title": "Esri World Imagery — Ras Laffan Industrial City (QatarEnergy LNG) (2024-01-21)",
+   "license": "Esri World Imagery (Maxar et al.) — 비공개 시청 한정, 사용자 결정 D234",
+   "author": "Esri, Maxar, Earthstar Geographics, and the GIS User Community",
+   "credit_author": "Esri/Maxar",
+   "date": "2024-01-21",
+   "url": "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/14/6970/10537",
+   "caption": "라스라판 산업단지",
+   "file_note": "자료사진 · 위성 · 2024. 01",
+   "depicts": [
+    "라스라판 산업단지",
+    "Ras Laffan Industrial City (QatarEnergy LNG)"
+   ],
+   "is_file_photo": true,
+   "verified_by": {
+    "by": "구현 세션 육안 확인(시설 식별, 사람·사상자 없음) — 공개 전환 시 NASA GIBS/Sentinel 로 교체 의무(D234)",
+    "on": "2026-10-17",
+    "casualty_free": true,
+    "relevance": "diesel_road_2026 라스라판 산업단지 타격 문장 — 피격 전 자료 영상(촬영 2024-01-21, 피해 모습 아님)"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-10-17",
+   "tool": {
+    "name": "inset_fetch.esri",
+    "params": {
+     "source": "inset_ras_laffan_esri.png",
+     "request_url": "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/14/6970/10537",
+     "zoom": 14,
+     "center_lat_lon": [
+      25.906,
+      51.528
+     ],
+     "crop": "12-tile mosaic, square center crop 640x640 px at facility point, resized to 512x512 (Lanczos), no other processing"
+    }
+   },
+   "source_hash": "0f812b11e9b417b31252e07f34b9860a",
+   "file": "inset_ras_laffan_esri.png",
+   "scope": "private_only"
+  },
+  "inset_ras_laffan_hls": {
+   "kind": "inset",
+   "title": "NASA GIBS HLS S30 — Ras Laffan Industrial City (QatarEnergy LNG) (2026-10-05)",
+   "license": "NASA GIBS (public domain)",
+   "author": "NASA GIBS / HLS (Landsat 8/9 + Sentinel-2, LP DAAC)",
+   "credit_author": "NASA GIBS/HLS",
+   "date": "2026-10-05",
+   "url": "https://gibs.earthdata.nasa.gov/wms/epsg4326/best/wms.cgi",
+   "caption": "라스라판 산업단지",
+   "file_note": "위성 · 2026. 10",
+   "depicts": [
+    "라스라판 산업단지",
+    "Ras Laffan Industrial City (QatarEnergy LNG)"
+   ],
+   "is_file_photo": false,
+   "verified_by": {
+    "by": "구현 세션(재기동 2·3) 육안 확인 — 공개용 대체본(Esri 비공개본 교체용)",
+    "on": "2026-10-17",
+    "casualty_free": true,
+    "relevance": "diesel_road_2026 라스라판 산업단지 — 공개 전환 시 Esri 인셋 대체(30m 해상도)"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-10-17",
+   "tool": {
+    "name": "gibs_hls",
+    "params": {
+     "source": "inset_ras_laffan.png",
+     "request_url": "https://gibs.earthdata.nasa.gov/wms/epsg4326/best/wms.cgi?SERVICE=WMS&REQUEST=GetMap&VERSION=1.1.1&LAYERS=HLS_S30_Nadir_BRDF_Adjusted_Reflectance&SRS=EPSG:4326&FORMAT=image/png&WIDTH=512&HEIGHT=512&TIME=2026-10-05&BBOX=51.535,25.88,51.585,25.93"
+    }
+   },
+   "source_hash": "39ad7e73f4c03c953e5ec127e6f34693",
+   "file": "inset_ras_laffan.png"
+  },
+  "inset_kharg_esri": {
+   "kind": "inset",
+   "title": "Esri World Imagery — Kharg Island oil terminal (2024-10-14)",
+   "license": "Esri World Imagery (Maxar et al.) — 비공개 시청 한정, 사용자 결정 D234",
+   "author": "Esri, Maxar, Earthstar Geographics, and the GIS User Community",
+   "credit_author": "Esri/Maxar",
+   "date": "2024-10-14",
+   "url": "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/13/3399/5240",
+   "caption": "하르그섬 원유 터미널",
+   "file_note": "자료사진 · 위성 · 2024. 10",
+   "depicts": [
+    "하르그섬 원유 터미널",
+    "Kharg Island oil terminal"
+   ],
+   "is_file_photo": true,
+   "verified_by": {
+    "by": "구현 세션 육안 확인(시설 식별, 사람·사상자 없음) — 공개 전환 시 NASA GIBS/Sentinel 로 교체 의무(D234)",
+    "on": "2026-10-17",
+    "casualty_free": true,
+    "relevance": "diesel_road_2026 하르그섬 원유 터미널 타격 문장 — 피격 전 자료 영상(촬영 2024-10-14, 피해 모습 아님)"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-10-17",
+   "tool": {
+    "name": "inset_fetch.esri",
+    "params": {
+     "source": "inset_kharg_esri.png",
+     "request_url": "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/13/3399/5240",
+     "zoom": 13,
+     "center_lat_lon": [
+      29.24,
+      50.3147
+     ],
+     "crop": "12-tile mosaic, square center crop 640x640 px at facility point, resized to 512x512 (Lanczos), no other processing"
+    }
+   },
+   "source_hash": "cb64c8d3f92589cb94ea5805e2a44170",
+   "file": "inset_kharg_esri.png",
+   "scope": "private_only"
+  },
+  "inset_kharg_hls": {
+   "kind": "inset",
+   "title": "NASA GIBS HLS S30 — Kharg Island oil terminal (2026-09-25)",
+   "license": "NASA GIBS (public domain)",
+   "author": "NASA GIBS / HLS (Landsat 8/9 + Sentinel-2, LP DAAC)",
+   "credit_author": "NASA GIBS/HLS",
+   "date": "2026-09-25",
+   "url": "https://gibs.earthdata.nasa.gov/wms/epsg4326/best/wms.cgi",
+   "caption": "하르그섬 원유 터미널",
+   "file_note": "위성 · 2026. 09",
+   "depicts": [
+    "하르그섬 원유 터미널",
+    "Kharg Island oil terminal"
+   ],
+   "is_file_photo": false,
+   "verified_by": {
+    "by": "구현 세션(재기동 2·3) 육안 확인 — 공개용 대체본(Esri 비공개본 교체용)",
+    "on": "2026-10-17",
+    "casualty_free": true,
+    "relevance": "diesel_road_2026 하르그섬 원유 터미널 — 공개 전환 시 Esri 인셋 대체(30m 해상도)"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-10-17",
+   "tool": {
+    "name": "gibs_hls",
+    "params": {
+     "source": "inset_kharg.png",
+     "request_url": "https://gibs.earthdata.nasa.gov/wms/epsg4326/best/wms.cgi?SERVICE=WMS&REQUEST=GetMap&VERSION=1.1.1&LAYERS=HLS_S30_Nadir_BRDF_Adjusted_Reflectance&SRS=EPSG:4326&FORMAT=image/png&WIDTH=512&HEIGHT=512&TIME=2026-09-25&BBOX=50.3,29.21,50.35,29.26"
+    }
+   },
+   "source_hash": "e5f8905bb5308a50bb0be5dbc0bab85b",
+   "file": "inset_kharg.png"
   }
  }
 }
