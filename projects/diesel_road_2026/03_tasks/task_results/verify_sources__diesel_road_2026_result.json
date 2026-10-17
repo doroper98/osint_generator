@@ -1,0 +1,28 @@
+{
+  "schema_version": 1,
+  "project_id": "diesel_road_2026",
+  "task_id": "verify_sources__diesel_road_2026",
+  "worker": "verify_sources",
+  "status": "failed",
+  "started_at": "2026-10-17T13:58:28.441422Z",
+  "completed_at": "2026-10-17T14:02:59.581262Z",
+  "outputs": [
+    "llm_calls/llm_20261017_135828_5ea1.json"
+  ],
+  "warnings": [],
+  "errors": [
+    "check_parsed: 3 validation errors for VideoRules\nmedia.density.inset_show_sec\n  Extra inputs are not permitted [type=extra_forbidden, input_value=[2.5, 4.0], input_type=list]\n    For further information visit https://errors.pydantic.dev/2.13/v/extra_forbidden\nmedia.density.inset_per_scene_max\n  Extra inputs are not permitted [type=extra_forbidden, input_value=4, input_type=int]\n    For further information visit https://errors.pydantic.dev/2.13/v/extra_forbidden\nmedia.density.inset_min_gap_sec\n  Extra inputs are not permitted [type=extra_forbidden, input_value=8, input_type=int]\n    For further information visit https://errors.pydantic.dev/2.13/v/extra_forbidden"
+  ],
+  "scene_refs": [],
+  "source_refs": [],
+  "asset_refs": [],
+  "qa_status": "fail",
+  "risk_flags": [],
+  "worker_provenance": {
+    "prompt_name": "verify_sources",
+    "prompt_sha1": "befe45609d4d49154111016690c2c7a745c1d106",
+    "rules_hash": "d59a7595a14caa18424f14de74bd49a9ad63b4b9",
+    "genre": null,
+    "genre_declared": null
+  }
+}

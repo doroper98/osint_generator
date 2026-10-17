@@ -1,0 +1,1461 @@
+{
+  "schema_version": 1,
+  "claims": [
+    {
+      "text": "가디언 분석에 따르면 2026년 7~8월 한국 항구에서 연료(주로 경유) 17만6천t 이상이 선적됐다",
+      "evidence": [
+        {
+          "source_id": "src_art_0001",
+          "quote": "found more than 176,000 tonnes of fuel, mostly diesel, were loaded at South Korean ports in July and August 2026",
+          "stance": "supports"
+        },
+        {
+          "source_id": "src_art_0002",
+          "quote": "South Korea Shipped 176,000 Tons of Fuel to Russia",
+          "stance": "supports"
+        },
+        {
+          "source_id": "src_art_0003",
+          "quote": "South Korea shipped 176,000 metric tons of fuel to Russia",
+          "stance": "supports"
+        }
+      ],
+      "event_date": null,
+      "contested": false,
+      "sides": null,
+      "claim_kind": "fact",
+      "speaker_source_ids": []
+    },
+    {
+      "text": "유조선 7척이 러시아 극동으로 14차례 운항했다",
+      "evidence": [
+        {
+          "source_id": "src_art_0001",
+          "quote": "Seven tankers made 14 voyages to Russia's Far East",
+          "stance": "supports"
+        }
+      ],
+      "event_date": null,
+      "contested": false,
+      "sides": null,
+      "claim_kind": "fact",
+      "speaker_source_ids": []
+    },
+    {
+      "text": "운항에 쓰인 유조선 중 3척은 영국·EU 제재 대상이다",
+      "evidence": [
+        {
+          "source_id": "src_art_0001",
+          "quote": "Three of the tankers are under UK and EU sanctions",
+          "stance": "supports"
+        },
+        {
+          "source_id": "src_art_0003",
+          "quote": "some of it was transported by tankers subject to sanctions",
+          "stance": "supports"
+        }
+      ],
+      "event_date": null,
+      "contested": false,
+      "sides": null,
+      "claim_kind": "fact",
+      "speaker_source_ids": []
+    },
+    {
+      "text": "제재 대상 유조선 1척이 한국 해역에서 선박 간 환적으로 화물을 받았다",
+      "evidence": [
+        {
+          "source_id": "src_art_0001",
+          "quote": "One sanctioned tanker received its cargo through a ship-to-ship transfer in South Korean waters",
+          "stance": "supports"
+        }
+      ],
+      "event_date": null,
+      "contested": false,
+      "sides": null,
+      "claim_kind": "fact",
+      "speaker_source_ids": []
+    },
+    {
+      "text": "한국의 대러 제재·수출통제 품목은 주로 산업기계·전자제품·차량으로 구성된다",
+      "evidence": [
+        {
+          "source_id": "src_art_0001",
+          "quote": "Seoul's Russia sanctions mainly cover industrial equipment, electronics and vehicles",
+          "stance": "supports"
+        },
+        {
+          "source_id": "src_art_0014",
+          "quote": "대러 수출통제 품목은 주로 산업기계와 전자제품, 차량 등으로 구성된다",
+          "stance": "supports"
+        }
+      ],
+      "event_date": null,
+      "contested": false,
+      "sides": null,
+      "claim_kind": "fact",
+      "speaker_source_ids": []
+    },
+    {
+      "text": "대러 수출통제 대상 1402개 품목에 경유·항공유 등 정제유는 포함돼 있지 않다",
+      "evidence": [
+        {
+          "source_id": "src_art_0013",
+          "quote": "대러 수출통제 대상 품목 1402개에 경유·항공유 등 정제유는 포함돼 있지 않다고 국가안보실 관계자가 설명했다",
+          "stance": "supports"
+        }
+      ],
+      "event_date": null,
+      "contested": false,
+      "sides": null,
+      "claim_kind": "fact",
+      "speaker_source_ids": []
+    },
+    {
+      "text": "제재 대상 유조선 레일라호가 울산에서 블라디보스토크로 두 차례 운항해 경유 약 5만7천t을 날랐다",
+      "evidence": [
+        {
+          "source_id": "src_art_0002",
+          "quote": "the sanctioned tanker Layla made two trips from Ulsan to Vladivostok delivering about 57,000 tonnes of diesel",
+          "stance": "supports"
+        },
+        {
+          "source_id": "src_art_0013",
+          "quote": "가디언은 제재 대상 유조선 레일라호가 7월 19일과 8월 10일 두 차례 울산에서 블라디보스토크로 출항해 경유 약 5만7000t을 날랐다고 보도했다",
+          "stance": "supports"
+        }
+      ],
+      "event_date": null,
+      "contested": false,
+      "sides": null,
+      "claim_kind": "fact",
+      "speaker_source_ids": []
+    },
+    {
+      "text": "레일라호는 두 번째 운항 때 목적지를 일본 니가타로 신고했다",
+      "evidence": [
+        {
+          "source_id": "src_art_0002",
+          "quote": "on the second trip listed Niigata, Japan as its destination",
+          "stance": "supports"
+        }
+      ],
+      "event_date": null,
+      "contested": false,
+      "sides": null,
+      "claim_kind": "fact",
+      "speaker_source_ids": []
+    },
+    {
+      "text": "유조선 아스토리아호가 8월 1일 울산에서 약 1만1천t을 싣고 목적지를 일본으로 신고한 뒤 블라디보스토크로 갔다",
+      "evidence": [
+        {
+          "source_id": "src_art_0002",
+          "quote": "The tanker Astoria loaded nearly 11,000 tonnes in Ulsan on August 1, listed Japan, then went to Vladivostok",
+          "stance": "supports"
+        }
+      ],
+      "event_date": "2026-08-01",
+      "contested": false,
+      "sides": null,
+      "claim_kind": "fact",
+      "speaker_source_ids": []
+    },
+    {
+      "text": "유조선 청천호가 여수 인근에서 셀레스테I호로부터 약 2만6천t을 환적받고 목적지를 싱가포르로 신고한 뒤 블라디보스토크로 향했다",
+      "evidence": [
+        {
+          "source_id": "src_art_0002",
+          "quote": "The tanker Chongchon took about 26,000 tonnes from the tanker Celeste I in a ship-to-ship transfer near Yeosu, listed Singapore, then headed to Vladivostok",
+          "stance": "supports"
+        }
+      ],
+      "event_date": null,
+      "contested": false,
+      "sides": null,
+      "claim_kind": "fact",
+      "speaker_source_ids": []
+    },
+    {
+      "text": "러시아의 8월 해상 석유제품 수입량은 36만8천t이다(Kpler 데이터)",
+      "evidence": [
+        {
+          "source_id": "src_art_0002",
+          "quote": "Russia imported 368,000 tonnes of petroleum products by sea in August",
+          "stance": "supports"
+        },
+        {
+          "source_id": "src_art_0010",
+          "quote": "Russia's oil product imports reached a record 172,000 tonnes in August",
+          "stance": "contradicts"
+        }
+      ],
+      "event_date": null,
+      "contested": true,
+      "sides": [
+        {
+          "party": "Kpler 데이터(UNITED24 인용)",
+          "text": "8월 해상 석유제품 수입 36만8천t",
+          "source_ids": [
+            "src_art_0002"
+          ]
+        },
+        {
+          "party": "CREA",
+          "text": "8월 석유제품 수입 17만2천t(사상 최대)",
+          "source_ids": [
+            "src_art_0010"
+          ]
+        }
+      ],
+      "claim_kind": "fact",
+      "speaker_source_ids": []
+    },
+    {
+      "text": "한국이 8월 러시아 해상 석유제품 수입의 약 11만2천t(31%)을 공급했다(Kpler 데이터)",
+      "evidence": [
+        {
+          "source_id": "src_art_0002",
+          "quote": "South Korea supplied about 112,000 tonnes, or 31%, per Kpler data",
+          "stance": "supports"
+        },
+        {
+          "source_id": "src_art_0010",
+          "quote": "South Korea supplied a further 18,000 tonnes of oil products to Russia in August, mostly gasoil, CREA said",
+          "stance": "contradicts"
+        }
+      ],
+      "event_date": null,
+      "contested": true,
+      "sides": [
+        {
+          "party": "Kpler 데이터(UNITED24 인용)",
+          "text": "한국이 8월 약 11만2천t(31%) 공급",
+          "source_ids": [
+            "src_art_0002"
+          ]
+        },
+        {
+          "party": "CREA",
+          "text": "한국이 8월 1만8천t 공급",
+          "source_ids": [
+            "src_art_0010"
+          ]
+        }
+      ],
+      "claim_kind": "fact",
+      "speaker_source_ids": []
+    },
+    {
+      "text": "인도가 8월 러시아 석유제품 수입의 70%를 공급했다(CREA)",
+      "evidence": [
+        {
+          "source_id": "src_art_0010",
+          "quote": "India supplied 70 per cent of Russia's oil product imports in August, including 120,000 tonnes of gasoline",
+          "stance": "supports"
+        }
+      ],
+      "event_date": null,
+      "contested": false,
+      "sides": null,
+      "claim_kind": "fact",
+      "speaker_source_ids": []
+    },
+    {
+      "text": "한국발 연료의 소유·판매 주체는 불분명하다",
+      "evidence": [
+        {
+          "source_id": "src_art_0002",
+          "quote": "It remains unclear who owned and sold the fuel",
+          "stance": "supports"
+        }
+      ],
+      "event_date": null,
+      "contested": false,
+      "sides": null,
+      "claim_kind": "fact",
+      "speaker_source_ids": []
+    },
+    {
+      "text": "Kpler 데이터상 구매자에 러시아 국영 석유사 로스네프트가 포함됐다",
+      "evidence": [
+        {
+          "source_id": "src_art_0003",
+          "quote": "Kpler data showed that buyers included Rosneft, Russia's state-controlled oil company",
+          "stance": "supports"
+        }
+      ],
+      "event_date": null,
+      "contested": false,
+      "sides": null,
+      "claim_kind": "fact",
+      "speaker_source_ids": []
+    },
+    {
+      "text": "로스네프트는 영국·미국·EU·호주의 제재 대상이다",
+      "evidence": [
+        {
+          "source_id": "src_art_0003",
+          "quote": "which is sanctioned by the UK, US, EU and Australia",
+          "stance": "supports"
+        }
+      ],
+      "event_date": null,
+      "contested": false,
+      "sides": null,
+      "claim_kind": "fact",
+      "speaker_source_ids": []
+    },
+    {
+      "text": "또 다른 구매자 NNK의 소유주 에두아르드 후다이나토프와 NNK-Oil은 영국 제재 대상이다",
+      "evidence": [
+        {
+          "source_id": "src_art_0003",
+          "quote": "Another buyer was NNK, whose owner Eduard Khudainatov and NNK-Oil are under UK sanctions",
+          "stance": "supports"
+        }
+      ],
+      "event_date": null,
+      "contested": false,
+      "sides": null,
+      "claim_kind": "fact",
+      "speaker_source_ids": []
+    },
+    {
+      "text": "CREA 분석가 아이작 레비가 이 선적을 충격적이라고 밝혔다",
+      "evidence": [
+        {
+          "source_id": "src_art_0003",
+          "quote": "CREA analyst Isaac Levi called the shipments shocking",
+          "stance": "supports"
+        }
+      ],
+      "event_date": null,
+      "contested": false,
+      "sides": null,
+      "claim_kind": "statement",
+      "speaker_source_ids": []
+    },
+    {
+      "text": "2026년 7월 말 한국에서 러시아로 정제유 약 3만t이 선적됐다(로이터)",
+      "evidence": [
+        {
+          "source_id": "src_art_0004",
+          "quote": "Reuters: traders shipped nearly 30,000 tonnes of refined fuel from South Korea to Russia in late July 2026, according to shiptracker data and a trade source",
+          "stance": "supports"
+        }
+      ],
+      "event_date": null,
+      "contested": false,
+      "sides": null,
+      "claim_kind": "fact",
+      "speaker_source_ids": []
+    },
+    {
+      "text": "최소 2척의 단거리 유조선이 울산에서 선적해 러시아 극동으로 향했다(Kpler·Vortexa 데이터)",
+      "evidence": [
+        {
+          "source_id": "src_art_0004",
+          "quote": "Kpler and Vortexa data indicate at least two short-range tankers loaded at Ulsan and headed for Russia's Far East",
+          "stance": "supports"
+        }
+      ],
+      "event_date": null,
+      "contested": false,
+      "sides": null,
+      "claim_kind": "fact",
+      "speaker_source_ids": []
+    },
+    {
+      "text": "한국 산업통상부가 8월 로이터 보도에 대해 논평을 거부했다",
+      "evidence": [
+        {
+          "source_id": "src_art_0004",
+          "quote": "South Korea's trade ministry declined to comment",
+          "stance": "supports"
+        }
+      ],
+      "event_date": null,
+      "contested": false,
+      "sides": null,
+      "claim_kind": "fact",
+      "speaker_source_ids": []
+    },
+    {
+      "text": "2026년 1~8월 우크라이나군은 평균 3일에 한 번꼴로 러시아 정유소 타격에 성공했다(IEA)",
+      "evidence": [
+        {
+          "source_id": "src_art_0005",
+          "quote": "Ukrainian forces successfully struck Russian refineries once every 3 days on average in the first 8 months of 2026",
+          "stance": "supports"
+        }
+      ],
+      "event_date": null,
+      "contested": false,
+      "sides": null,
+      "claim_kind": "fact",
+      "speaker_source_ids": []
+    },
+    {
+      "text": "6월 러시아 정유 처리량이 하루 380만 배럴로 20여 년 만의 최저, 전년 대비 약 30% 감소했다(IEA)",
+      "evidence": [
+        {
+          "source_id": "src_art_0005",
+          "quote": "In June, Russian refinery throughput fell to 3.8 mb/d, its lowest level in more than 20 years and roughly 30% below a year earlier",
+          "stance": "supports"
+        }
+      ],
+      "event_date": null,
+      "contested": false,
+      "sides": null,
+      "claim_kind": "fact",
+      "speaker_source_ids": []
+    },
+    {
+      "text": "러시아 경유 생산이 약 30% 줄어든 것으로 추정된다(IEA 추정)",
+      "evidence": [
+        {
+          "source_id": "src_art_0005",
+          "quote": "Diesel production is estimated to have fallen by nearly 30%, prompting the government to restrict fuel exports",
+          "stance": "supports"
+        }
+      ],
+      "event_date": null,
+      "contested": false,
+      "sides": null,
+      "claim_kind": "fact",
+      "speaker_source_ids": []
+    },
+    {
+      "text": "러시아 경유 생산이 3월 월 750만t에서 약 590만t으로 줄었다(로이터 계산)",
+      "evidence": [
+        {
+          "source_id": "src_art_0006",
+          "quote": "Russia's diesel production fell from 7.5 million tonnes a month in March to about 5.9 million tonnes",
+          "stance": "supports"
+        }
+      ],
+      "event_date": null,
+      "contested": false,
+      "sides": null,
+      "claim_kind": "fact",
+      "speaker_source_ids": []
+    },
+    {
+      "text": "러시아 6대 경유 생산 정유소 중 3곳이 드론 공격 뒤 생산을 크게 줄이거나 가동을 멈췄다(로이터)",
+      "evidence": [
+        {
+          "source_id": "src_art_0007",
+          "quote": "three of Russia's six biggest diesel-producing refineries are sharply reducing output or fully shut down after Ukrainian drone attacks",
+          "stance": "supports"
+        }
+      ],
+      "event_date": null,
+      "contested": false,
+      "sides": null,
+      "claim_kind": "fact",
+      "speaker_source_ids": []
+    },
+    {
+      "text": "러시아가 2026년 7월 8일부터 생산자에도 적용되는 경유 전면 수출 금지를 시행했다",
+      "evidence": [
+        {
+          "source_id": "src_art_0009",
+          "quote": "Russia imposed a full ban on diesel exports that also applies to producers, effective July 8, 2026",
+          "stance": "supports"
+        }
+      ],
+      "event_date": "2026-07-08",
+      "contested": false,
+      "sides": null,
+      "claim_kind": "fact",
+      "speaker_source_ids": []
+    },
+    {
+      "text": "러시아가 연료 수입을 시작했다",
+      "evidence": [
+        {
+          "source_id": "src_art_0009",
+          "quote": "Russia started importing fuel",
+          "stance": "supports"
+        },
+        {
+          "source_id": "src_art_0004",
+          "quote": "Russia imports fuel from South Korea as Ukrainian strikes hit refineries",
+          "stance": "supports"
+        },
+        {
+          "source_id": "src_art_0010",
+          "quote": "Russia imports record fuel from India as Ukraine strikes hit refineries",
+          "stance": "supports"
+        }
+      ],
+      "event_date": null,
+      "contested": false,
+      "sides": null,
+      "claim_kind": "fact",
+      "speaker_source_ids": []
+    },
+    {
+      "text": "10월 첫 10일 러시아 해상 석유제품 수출이 7년 만의 최저로 떨어졌다(Vortexa·블룸버그)",
+      "evidence": [
+        {
+          "source_id": "src_art_0008",
+          "quote": "Russia's seaborne oil-product exports fell to a seven-year low in the first 10 days of October",
+          "stance": "supports"
+        }
+      ],
+      "event_date": null,
+      "contested": false,
+      "sides": null,
+      "claim_kind": "fact",
+      "speaker_source_ids": []
+    },
+    {
+      "text": "10월 초 러시아 경유·가스오일 해상 수출은 하루 약 14만6천 배럴이었다",
+      "evidence": [
+        {
+          "source_id": "src_art_0008",
+          "quote": "Diesel and gasoil shipments in early October were about 146,000 barrels a day",
+          "stance": "supports"
+        }
+      ],
+      "event_date": null,
+      "contested": false,
+      "sides": null,
+      "claim_kind": "fact",
+      "speaker_source_ids": []
+    },
+    {
+      "text": "러시아 정유 능력의 51% 이상이 마비됐다",
+      "evidence": [
+        {
+          "source_id": "src_art_0011",
+          "quote": "Ukraine's Defense Minister said over 51% of Russia's oil refining capacity has been disabled",
+          "stance": "supports"
+        }
+      ],
+      "event_date": null,
+      "contested": true,
+      "sides": [
+        {
+          "party": "우크라이나 국방부",
+          "text": "러시아 정유 능력 51% 이상 마비",
+          "source_ids": [
+            "src_art_0011"
+          ]
+        }
+      ],
+      "claim_kind": "fact",
+      "speaker_source_ids": []
+    },
+    {
+      "text": "우크라이나 국방장관이 러시아 정유 능력의 51% 이상을 마비시켰다고 밝혔다",
+      "evidence": [
+        {
+          "source_id": "src_art_0011",
+          "quote": "Ukraine's Defense Minister said over 51% of Russia's oil refining capacity has been disabled",
+          "stance": "supports"
+        }
+      ],
+      "event_date": null,
+      "contested": false,
+      "sides": null,
+      "claim_kind": "statement",
+      "speaker_source_ids": []
+    },
+    {
+      "text": "콤소몰스크나아무레 로스네프트 정유소에서 화재가 났다",
+      "evidence": [
+        {
+          "source_id": "src_art_0012",
+          "quote": "A fire broke out at Rosneft's refinery in Komsomolsk-on-Amur, Khabarovsk Krai",
+          "stance": "supports"
+        }
+      ],
+      "event_date": null,
+      "contested": false,
+      "sides": null,
+      "claim_kind": "fact",
+      "speaker_source_ids": []
+    },
+    {
+      "text": "콤소몰스크 정유소 화재 원인은 공식 설명되지 않았다",
+      "evidence": [
+        {
+          "source_id": "src_art_0012",
+          "quote": "The cause of the fire was not officially explained",
+          "stance": "supports"
+        }
+      ],
+      "event_date": null,
+      "contested": false,
+      "sides": null,
+      "claim_kind": "fact",
+      "speaker_source_ids": []
+    },
+    {
+      "text": "콤소몰스크 정유소의 설계 처리 능력은 연 800만t이다",
+      "evidence": [
+        {
+          "source_id": "src_doc_0001",
+          "quote": "The project capacity of the Komsomolsk refinery is 8 million tons of oil per year",
+          "stance": "supports"
+        }
+      ],
+      "event_date": null,
+      "contested": false,
+      "sides": null,
+      "claim_kind": "fact",
+      "speaker_source_ids": []
+    },
+    {
+      "text": "콤소몰스크 정유소는 극동 시장의 주요 석유제품 공급처다",
+      "evidence": [
+        {
+          "source_id": "src_doc_0001",
+          "quote": "The refinery is one of the main suppliers of oil products to the Far East market",
+          "stance": "supports"
+        }
+      ],
+      "event_date": null,
+      "contested": false,
+      "sides": null,
+      "claim_kind": "fact",
+      "speaker_source_ids": []
+    },
+    {
+      "text": "한국산 연료 수출이 러시아의 연료난 대응을 도왔다",
+      "evidence": [
+        {
+          "source_id": "src_art_0015",
+          "quote": "Ukraine's sanctions commissioner Vladyslav Vlasiuk said South Korean fuel exports helped Russia cope with a fuel crunch",
+          "stance": "supports"
+        },
+        {
+          "source_id": "src_art_0013",
+          "quote": "강유정 청와대 수석대변인은 우크라이나 측 주장이 사실과 다르며 부적절하다고 밝혔다",
+          "stance": "contradicts"
+        }
+      ],
+      "event_date": null,
+      "contested": true,
+      "sides": [
+        {
+          "party": "우크라이나 제재 담당관 블라시우크",
+          "text": "한국산 연료 수출이 러시아의 연료난 대응을 도왔다",
+          "source_ids": [
+            "src_art_0015"
+          ]
+        },
+        {
+          "party": "한국 청와대",
+          "text": "우크라이나 측 주장은 사실과 다르며 부적절하다",
+          "source_ids": [
+            "src_art_0013",
+            "src_art_0015"
+          ]
+        }
+      ],
+      "claim_kind": "fact",
+      "speaker_source_ids": []
+    },
+    {
+      "text": "블라시우크 우크라이나 제재 담당관이 한국산 연료 수출이 러시아의 연료난 대응을 도왔다고 밝혔다",
+      "evidence": [
+        {
+          "source_id": "src_art_0015",
+          "quote": "Ukraine's sanctions commissioner Vladyslav Vlasiuk said South Korean fuel exports helped Russia cope with a fuel crunch",
+          "stance": "supports"
+        },
+        {
+          "source_id": "src_art_0015",
+          "quote": "Vlasiuk said the shipments began precisely when Ukrainian strikes on Russian refineries reduced refining volumes",
+          "stance": "supports"
+        }
+      ],
+      "event_date": null,
+      "contested": false,
+      "sides": null,
+      "claim_kind": "statement",
+      "speaker_source_ids": []
+    },
+    {
+      "text": "강유정 청와대 수석대변인이 우크라이나 측 주장이 사실과 다르며 부적절하다고 밝혔다",
+      "evidence": [
+        {
+          "source_id": "src_art_0013",
+          "quote": "강유정 청와대 수석대변인은 우크라이나 측 주장이 사실과 다르며 부적절하다고 밝혔다",
+          "stance": "supports"
+        },
+        {
+          "source_id": "src_art_0015",
+          "quote": "Presidential spokesperson Kang Yu-jung called the remarks inaccurate and inappropriate",
+          "stance": "supports"
+        }
+      ],
+      "event_date": null,
+      "contested": false,
+      "sides": null,
+      "claim_kind": "statement",
+      "speaker_source_ids": []
+    },
+    {
+      "text": "청와대가 해당 선적을 거래 주체·원산지·최종 구매자가 확인되지 않은 개별 거래라고 밝혔다",
+      "evidence": [
+        {
+          "source_id": "src_art_0013",
+          "quote": "청와대는 거래 주체와 원산지, 최종 구매자 등 핵심 사실관계가 확인되지 않은 개별 거래라고 했다",
+          "stance": "supports"
+        }
+      ],
+      "event_date": null,
+      "contested": false,
+      "sides": null,
+      "claim_kind": "statement",
+      "speaker_source_ids": []
+    },
+    {
+      "text": "한국 정부가 가디언 보도 선적 사례의 사실관계를 확인 중이며 위반이 확인되면 조치할 계획이다",
+      "evidence": [
+        {
+          "source_id": "src_art_0013",
+          "quote": "정부는 사실관계와 수출통제 관련 사항을 확인하고 있으며 문제가 확인되면 필요한 조치를 취할 예정",
+          "stance": "supports"
+        },
+        {
+          "source_id": "src_art_0014",
+          "quote": "가디언 보도에서 언급된 선적 사례 관련 추가 정보를 확인하고 있으며 위반이 확인되면 법에 따라 조치할 계획",
+          "stance": "supports"
+        }
+      ],
+      "event_date": null,
+      "contested": false,
+      "sides": null,
+      "claim_kind": "fact",
+      "speaker_source_ids": []
+    },
+    {
+      "text": "외교부·산업통상부·관세청이 10월 8일 공동 참고자료에서 대러 수출통제를 이행하고 있다고 밝혔다",
+      "evidence": [
+        {
+          "source_id": "src_art_0014",
+          "quote": "외교부·산업통상부·관세청은 8일 공동 참고자료에서 대러 수출통제를 이행하고 있다고 밝혔다",
+          "stance": "supports"
+        }
+      ],
+      "event_date": "2026-10-08",
+      "contested": false,
+      "sides": null,
+      "claim_kind": "statement",
+      "speaker_source_ids": []
+    },
+    {
+      "text": "한국은 대러 전략물자 수출을 전면 불허하고 1402개 품목을 상황허가 대상으로 지정했다",
+      "evidence": [
+        {
+          "source_id": "src_art_0014",
+          "quote": "전략물자 수출은 전면 불허하고 1402개 품목은 상황허가 대상으로 지정했다",
+          "stance": "supports"
+        }
+      ],
+      "event_date": null,
+      "contested": false,
+      "sides": null,
+      "claim_kind": "fact",
+      "speaker_source_ids": []
+    },
+    {
+      "text": "한국 정부가 주우크라이나 대사를 소환하기로 했다",
+      "evidence": [
+        {
+          "source_id": "src_art_0016",
+          "quote": "The Foreign Ministry announced on Thursday that South Korea will recall its ambassador to Ukraine",
+          "stance": "supports"
+        }
+      ],
+      "event_date": "2026-10-08",
+      "contested": false,
+      "sides": null,
+      "claim_kind": "fact",
+      "speaker_source_ids": []
+    },
+    {
+      "text": "대사 소환은 우크라이나의 북한군 포로 2명 송환 공개를 둘러싼 갈등 뒤에 나왔다",
+      "evidence": [
+        {
+          "source_id": "src_art_0016",
+          "quote": "The recall follows a dispute over Ukraine's disclosure of the transfer of two North Korean prisoners of war",
+          "stance": "supports"
+        }
+      ],
+      "event_date": null,
+      "contested": false,
+      "sides": null,
+      "claim_kind": "fact",
+      "speaker_source_ids": []
+    },
+    {
+      "text": "2026년 1~8월 한국 석유제품 수출액은 426억 달러로 전년 대비 40.7% 늘었다",
+      "evidence": [
+        {
+          "source_id": "src_art_0017",
+          "quote": "1~8월 석유제품 수출액은 426억달러로 전년 대비 40.7% 늘었다",
+          "stance": "supports"
+        }
+      ],
+      "event_date": null,
+      "contested": false,
+      "sides": null,
+      "claim_kind": "fact",
+      "speaker_source_ids": []
+    },
+    {
+      "text": "한국 정부는 휘발유·경유·등유 수출량을 전년 수준 이내로 관리하고 있다",
+      "evidence": [
+        {
+          "source_id": "src_art_0017",
+          "quote": "정부는 중동 사태 이후 휘발유·경유·등유를 수출 통제 품목으로 관리하며 수출 물량을 지난해 수준으로 묶어 두고 있다",
+          "stance": "supports"
+        },
+        {
+          "source_id": "src_art_0018",
+          "quote": "정부는 휘발유·경유·등유의 월별 수출량을 전년 동월의 100% 이내로 관리하고",
+          "stance": "supports"
+        }
+      ],
+      "event_date": null,
+      "contested": false,
+      "sides": null,
+      "claim_kind": "fact",
+      "speaker_source_ids": []
+    },
+    {
+      "text": "항공유는 한국 정부의 수출 관리 대상에서 빠졌다",
+      "evidence": [
+        {
+          "source_id": "src_art_0018",
+          "quote": "항공유는 관리 대상에서 빠졌다",
+          "stance": "supports"
+        }
+      ],
+      "event_date": null,
+      "contested": false,
+      "sides": null,
+      "claim_kind": "fact",
+      "speaker_source_ids": []
+    },
+    {
+      "text": "2026년 1~8월 한국 항공유 수출액은 97억8천만 달러로 전년 동기 대비 86.8% 늘었다",
+      "evidence": [
+        {
+          "source_id": "src_art_0018",
+          "quote": "1~8월 항공유 수출액은 97억8000만달러로 작년 동기 대비 86.8% 급증했다",
+          "stance": "supports"
+        }
+      ],
+      "event_date": null,
+      "contested": false,
+      "sides": null,
+      "claim_kind": "fact",
+      "speaker_source_ids": []
+    },
+    {
+      "text": "7월 호르무즈 해협 경유 중동 경유(디젤) 수출은 하루 16만5천 배럴로 4개월 만의 최고였다(Kpler)",
+      "evidence": [
+        {
+          "source_id": "src_art_0019",
+          "quote": "Middle East diesel exports through the Strait of Hormuz rose to a four-month high of 165,000 b/d in July",
+          "stance": "supports"
+        }
+      ],
+      "event_date": null,
+      "contested": false,
+      "sides": null,
+      "claim_kind": "fact",
+      "speaker_source_ids": []
+    },
+    {
+      "text": "분쟁 전 호르무즈 경유 중동 디젤 수출은 하루 약 80만 배럴이었다",
+      "evidence": [
+        {
+          "source_id": "src_art_0019",
+          "quote": "That is a fraction of the roughly 800,000 b/d seen before the conflict",
+          "stance": "supports"
+        }
+      ],
+      "event_date": null,
+      "contested": false,
+      "sides": null,
+      "claim_kind": "fact",
+      "speaker_source_ids": []
+    },
+    {
+      "text": "2월 28일 개전 이후 걸프 지역 인프라 최소 84곳이 최소 135차례 드론·미사일 공격을 받았다(로이터 집계)",
+      "evidence": [
+        {
+          "source_id": "src_art_0020",
+          "quote": "Reuters counted at least 135 drone and missile attacks on at least 84 infrastructure sites in the Gulf since the war began on February 28",
+          "stance": "supports"
+        }
+      ],
+      "event_date": null,
+      "contested": false,
+      "sides": null,
+      "claim_kind": "fact",
+      "speaker_source_ids": []
+    },
+    {
+      "text": "이란 드론·미사일이 푸자이라 항을 최소 19차례 겨냥했다",
+      "evidence": [
+        {
+          "source_id": "src_art_0020",
+          "quote": "Iranian drones and missiles targeted the port of Fujairah at least 19 times",
+          "stance": "supports"
+        }
+      ],
+      "event_date": null,
+      "contested": false,
+      "sides": null,
+      "claim_kind": "fact",
+      "speaker_source_ids": []
+    },
+    {
+      "text": "공격 뒤 피해를 요격 잔해 탓으로 돌린 정부 공식 발표가 최소 34건이었다(로이터 집계)",
+      "evidence": [
+        {
+          "source_id": "src_art_0020",
+          "quote": "Reuters counted at least 34 official government statements after attacks that attributed the damage to intercepted munitions or falling debris",
+          "stance": "supports"
+        }
+      ],
+      "event_date": null,
+      "contested": false,
+      "sides": null,
+      "claim_kind": "fact",
+      "speaker_source_ids": []
+    },
+    {
+      "text": "공격으로 카타르 라스라판 LNG 시설의 콜드박스 2기가 손상됐다",
+      "evidence": [
+        {
+          "source_id": "src_art_0020",
+          "quote": "Strikes damaged two cold boxes at Qatar's Ras Laffan LNG facility",
+          "stance": "supports"
+        }
+      ],
+      "event_date": null,
+      "contested": false,
+      "sides": null,
+      "claim_kind": "fact",
+      "speaker_source_ids": []
+    },
+    {
+      "text": "라스라판의 LNG 트레인 14기 중 2기(연 1300만t, 능력의 약 17%)가 가동 불능이 됐다",
+      "evidence": [
+        {
+          "source_id": "src_art_0021",
+          "quote": "Two of 14 LNG trains, equal to 13 million tonnes a year or about 17 percent of capacity, were knocked out",
+          "stance": "supports"
+        }
+      ],
+      "event_date": null,
+      "contested": false,
+      "sides": null,
+      "claim_kind": "fact",
+      "speaker_source_ids": []
+    },
+    {
+      "text": "카타르에너지 CEO 사드 알카비가 라스라판 복구에 3~5년이 걸린다고 밝혔다",
+      "evidence": [
+        {
+          "source_id": "src_art_0021",
+          "quote": "QatarEnergy CEO Saad al-Kaabi said repairs at Ras Laffan would take 3-5 years",
+          "stance": "supports"
+        }
+      ],
+      "event_date": null,
+      "contested": false,
+      "sides": null,
+      "claim_kind": "statement",
+      "speaker_source_ids": []
+    },
+    {
+      "text": "이스라엘이 2026년 3월 18일 이란 사우스파르스 가스전 시설을 타격했다",
+      "evidence": [
+        {
+          "source_id": "src_art_0022",
+          "quote": "Israel struck gas facilities at Iran's South Pars field on March 18, 2026",
+          "stance": "supports"
+        },
+        {
+          "source_id": "src_art_0023",
+          "quote": "Iran said the United States and Israel struck the South Pars gas field",
+          "stance": "supports"
+        }
+      ],
+      "event_date": "2026-03-18",
+      "contested": false,
+      "sides": null,
+      "claim_kind": "fact",
+      "speaker_source_ids": []
+    },
+    {
+      "text": "미국도 사우스파르스 가스전 타격에 가담했다",
+      "evidence": [
+        {
+          "source_id": "src_art_0023",
+          "quote": "Iran said the United States and Israel struck the South Pars gas field",
+          "stance": "supports"
+        }
+      ],
+      "event_date": "2026-03-18",
+      "contested": true,
+      "sides": [
+        {
+          "party": "이란",
+          "text": "미국과 이스라엘이 사우스파르스를 타격했다",
+          "source_ids": [
+            "src_art_0023"
+          ]
+        }
+      ],
+      "claim_kind": "fact",
+      "speaker_source_ids": []
+    },
+    {
+      "text": "이란이 걸프 전역 에너지 시설에 대한 보복을 경고했다",
+      "evidence": [
+        {
+          "source_id": "src_art_0022",
+          "quote": "Iran warned of retaliation against energy facilities across the Gulf",
+          "stance": "supports"
+        }
+      ],
+      "event_date": "2026-03-18",
+      "contested": false,
+      "sides": null,
+      "claim_kind": "fact",
+      "speaker_source_ids": []
+    },
+    {
+      "text": "9월 10일 드론이 사우디 동서 송유관 펌프장을 타격했다",
+      "evidence": [
+        {
+          "source_id": "src_art_0024",
+          "quote": "Drones struck pumping stations on Saudi Arabia's East-West pipeline on September 10",
+          "stance": "supports"
+        },
+        {
+          "source_id": "src_art_0020",
+          "quote": "disabled a pumping station along a Saudi pipeline",
+          "stance": "supports"
+        }
+      ],
+      "event_date": "2026-09-10",
+      "contested": false,
+      "sides": null,
+      "claim_kind": "fact",
+      "speaker_source_ids": []
+    },
+    {
+      "text": "사우디 송유관 공격 드론은 이라크에서 발사됐다",
+      "evidence": [
+        {
+          "source_id": "src_art_0024",
+          "quote": "A US official said the drones were launched from Iraq",
+          "stance": "supports"
+        }
+      ],
+      "event_date": "2026-09-10",
+      "contested": true,
+      "sides": [
+        {
+          "party": "미국 관리",
+          "text": "드론은 이라크에서 발사됐다",
+          "source_ids": [
+            "src_art_0024"
+          ]
+        }
+      ],
+      "claim_kind": "fact",
+      "speaker_source_ids": []
+    },
+    {
+      "text": "사우디가 9월 11일 예방 조치로 동서 송유관을 폐쇄했다",
+      "evidence": [
+        {
+          "source_id": "src_art_0024",
+          "quote": "Saudi Arabia shut the pipeline as a precaution on September 11",
+          "stance": "supports"
+        }
+      ],
+      "event_date": "2026-09-11",
+      "contested": false,
+      "sides": null,
+      "claim_kind": "fact",
+      "speaker_source_ids": []
+    },
+    {
+      "text": "미국이 하르그섬의 군사 목표물을 타격했다",
+      "evidence": [
+        {
+          "source_id": "src_art_0025",
+          "quote": "The US struck military targets on Kharg Island",
+          "stance": "supports"
+        }
+      ],
+      "event_date": null,
+      "contested": false,
+      "sides": null,
+      "claim_kind": "fact",
+      "speaker_source_ids": []
+    },
+    {
+      "text": "트럼프 대통령이 하르그섬 석유 인프라를 겨냥하지 않기로 했다고 밝혔다",
+      "evidence": [
+        {
+          "source_id": "src_art_0025",
+          "quote": "Trump said he chose not to target the island's oil infrastructure",
+          "stance": "supports"
+        }
+      ],
+      "event_date": null,
+      "contested": false,
+      "sides": null,
+      "claim_kind": "statement",
+      "speaker_source_ids": []
+    },
+    {
+      "text": "이란 매체가 하르그섬 석유 인프라에 피해가 없다고 보도했다",
+      "evidence": [
+        {
+          "source_id": "src_art_0025",
+          "quote": "Iranian media reported no damage to Kharg oil infrastructure",
+          "stance": "supports"
+        }
+      ],
+      "event_date": null,
+      "contested": false,
+      "sides": null,
+      "claim_kind": "statement",
+      "speaker_source_ids": []
+    },
+    {
+      "text": "미 재무부 OFAC 일반허가 135호는 러시아산 경유의 판매·인도·수입 거래를 허용한다",
+      "evidence": [
+        {
+          "source_id": "src_doc_0002",
+          "quote": "OFAC General License 135 authorizes transactions involving the sale, delivery and import of Russian-origin diesel fuel",
+          "stance": "supports"
+        }
+      ],
+      "event_date": null,
+      "contested": false,
+      "sides": null,
+      "claim_kind": "fact",
+      "speaker_source_ids": []
+    },
+    {
+      "text": "OFAC 일반허가 135호의 효력은 2027년 4월 7일 미 동부시간 0시 1분까지다",
+      "evidence": [
+        {
+          "source_id": "src_doc_0002",
+          "quote": "The authorization runs through 12:01 a.m. eastern daylight time, April 7, 2027",
+          "stance": "supports"
+        }
+      ],
+      "event_date": null,
+      "contested": false,
+      "sides": null,
+      "claim_kind": "fact",
+      "speaker_source_ids": []
+    },
+    {
+      "text": "트럼프 대통령이 러시아가 경유 30만t 이상을 즉시, 11월 50만t, 이후 100만t을 공급할 것이라고 밝혔다",
+      "evidence": [
+        {
+          "source_id": "src_art_0026",
+          "quote": "Trump said Russia will immediately supply more than 300,000 tons of diesel, followed by 500,000 tons in November and 1 million tons immediately thereafter",
+          "stance": "supports"
+        }
+      ],
+      "event_date": null,
+      "contested": false,
+      "sides": null,
+      "claim_kind": "statement",
+      "speaker_source_ids": []
+    },
+    {
+      "text": "트럼프 대통령이 9월 러시아 제재법에 서명했다",
+      "evidence": [
+        {
+          "source_id": "src_art_0026",
+          "quote": "The move comes after he signed a Russia sanctions law last month",
+          "stance": "supports"
+        }
+      ],
+      "event_date": null,
+      "contested": false,
+      "sides": null,
+      "claim_kind": "fact",
+      "speaker_source_ids": []
+    },
+    {
+      "text": "노바크 러시아 부총리가 경유 수출이 월 300만~350만t까지 늘 수 있다고 밝혔다",
+      "evidence": [
+        {
+          "source_id": "src_art_0027",
+          "quote": "Deputy Prime Minister Alexander Novak said Russia's diesel exports could rise to 3-3.5 million tonnes per month",
+          "stance": "supports"
+        }
+      ],
+      "event_date": null,
+      "contested": false,
+      "sides": null,
+      "claim_kind": "statement",
+      "speaker_source_ids": []
+    },
+    {
+      "text": "베선트 미 재무장관이 폭스뉴스에 모든 법적 권한으로 경유 거래를 이행하겠다고 밝혔다",
+      "evidence": [
+        {
+          "source_id": "src_art_0028",
+          "quote": "Treasury Secretary Scott Bessent told Fox News the administration would carry out the diesel deal with all legal authorities it has",
+          "stance": "supports"
+        }
+      ],
+      "event_date": null,
+      "contested": false,
+      "sides": null,
+      "claim_kind": "statement",
+      "speaker_source_ids": []
+    },
+    {
+      "text": "미국 양당 의원들이 트럼프 대통령에게 러시아 경유 거래 철회를 촉구했다",
+      "evidence": [
+        {
+          "source_id": "src_art_0028",
+          "quote": "Lawmakers from both parties urged Trump to reverse the deal",
+          "stance": "supports"
+        }
+      ],
+      "event_date": null,
+      "contested": false,
+      "sides": null,
+      "claim_kind": "fact",
+      "speaker_source_ids": []
+    },
+    {
+      "text": "카네기 국제평화재단의 세르게이 바쿨렌코가 에너지 인프라 공격 휴전 없이는 경유 합의가 보여주기에 가깝다고 주장했다",
+      "evidence": [
+        {
+          "source_id": "src_art_0029",
+          "quote": "Sergey Vakulenko argues that without a ceasefire on attacks on energy infrastructure the diesel agreement is largely for show",
+          "stance": "supports"
+        }
+      ],
+      "event_date": null,
+      "contested": false,
+      "sides": null,
+      "claim_kind": "statement",
+      "speaker_source_ids": []
+    },
+    {
+      "text": "경유 합의의 이론상 가치는 6개월간 약 500만t 판매 기준 약 70억 달러다(카네기 추정)",
+      "evidence": [
+        {
+          "source_id": "src_art_0029",
+          "quote": "In theory the diesel deal is worth about $7 billion based on about 5 million tons of diesel sold over six months",
+          "stance": "supports"
+        }
+      ],
+      "event_date": null,
+      "contested": false,
+      "sides": null,
+      "claim_kind": "fact",
+      "speaker_source_ids": []
+    },
+    {
+      "text": "트럼프 대통령이 러시아·우크라이나가 즉시 발효되는 에너지 휴전에 합의했다고 밝혔다",
+      "evidence": [
+        {
+          "source_id": "src_art_0030",
+          "quote": "Trump wrote that effective immediately there is an energy ceasefire in the war between Russia and Ukraine and both parties have agreed",
+          "stance": "supports"
+        }
+      ],
+      "event_date": null,
+      "contested": false,
+      "sides": null,
+      "claim_kind": "statement",
+      "speaker_source_ids": []
+    },
+    {
+      "text": "러시아 정부는 트럼프의 에너지 휴전 발표에 논평하지 않았다",
+      "evidence": [
+        {
+          "source_id": "src_art_0030",
+          "quote": "Moscow had not commented on the announcement",
+          "stance": "supports"
+        }
+      ],
+      "event_date": null,
+      "contested": false,
+      "sides": null,
+      "claim_kind": "fact",
+      "speaker_source_ids": []
+    },
+    {
+      "text": "젤렌스키 대통령이 러시아가 에너지 휴전에 동의하면 우크라이나도 동의하겠다고 밝혔다",
+      "evidence": [
+        {
+          "source_id": "src_art_0030",
+          "quote": "Zelensky said if Russians agree to an energy ceasefire, Ukraine will agree",
+          "stance": "supports"
+        }
+      ],
+      "event_date": null,
+      "contested": false,
+      "sides": null,
+      "claim_kind": "statement",
+      "speaker_source_ids": []
+    },
+    {
+      "text": "러시아가 10월 11~12일 밤 하르키우주 나프토가스 가스 생산 인프라를 제트 드론으로 공격했다",
+      "evidence": [
+        {
+          "source_id": "src_art_0031",
+          "quote": "On the night of 11-12 October Russia attacked Naftogaz gas production infrastructure in Kharkiv Oblast with a jet-powered drone",
+          "stance": "supports"
+        }
+      ],
+      "event_date": "2026-10-12",
+      "contested": false,
+      "sides": null,
+      "claim_kind": "fact",
+      "speaker_source_ids": []
+    },
+    {
+      "text": "러시아 드론이 10월 14~15일 밤 폴타바주 나프토가스 가스 생산시설을 공격해 화재와 피해가 났다",
+      "evidence": [
+        {
+          "source_id": "src_art_0031",
+          "quote": "A Russian drone attacked a Naftogaz gas production facility in Poltava Oblast on the night of 14-15 October, causing a fire and damage",
+          "stance": "supports"
+        }
+      ],
+      "event_date": "2026-10-15",
+      "contested": false,
+      "sides": null,
+      "claim_kind": "fact",
+      "speaker_source_ids": []
+    },
+    {
+      "text": "우크라이나가 로스네프트 랴잔 정유소를 타격해 짧은 에너지 휴전이 끝났다",
+      "evidence": [
+        {
+          "source_id": "src_art_0032",
+          "quote": "Ukraine hit Rosneft's Ryazan refinery overnight, ending a brief energy truce",
+          "stance": "supports"
+        }
+      ],
+      "event_date": null,
+      "contested": false,
+      "sides": null,
+      "claim_kind": "fact",
+      "speaker_source_ids": []
+    },
+    {
+      "text": "러시아 국방부가 드론 파편으로 화재가 났다고 밝혔다",
+      "evidence": [
+        {
+          "source_id": "src_art_0032",
+          "quote": "Russia's Defense Ministry said drone fragments sparked a fire",
+          "stance": "supports"
+        }
+      ],
+      "event_date": null,
+      "contested": false,
+      "sides": null,
+      "claim_kind": "statement",
+      "speaker_source_ids": []
+    },
+    {
+      "text": "우크라이나 당국자가 그 주 러시아의 공격이 에너지 휴전을 위반했다고 밝혔다",
+      "evidence": [
+        {
+          "source_id": "src_art_0032",
+          "quote": "A Ukrainian official said Russian strikes that week violated the energy truce",
+          "stance": "supports"
+        }
+      ],
+      "event_date": null,
+      "contested": false,
+      "sides": null,
+      "claim_kind": "statement",
+      "speaker_source_ids": []
+    },
+    {
+      "text": "젤렌스키 대통령이 \"끝났다(We're done)\"고 말했다",
+      "evidence": [
+        {
+          "source_id": "src_art_0032",
+          "quote": "Zelensky said: We're done",
+          "stance": "supports"
+        }
+      ],
+      "event_date": null,
+      "contested": false,
+      "sides": null,
+      "claim_kind": "statement",
+      "speaker_source_ids": []
+    },
+    {
+      "text": "트럼프 대통령이 젤렌스키 대통령에게 러시아 정유소 공격 중단을 요구했다",
+      "evidence": [
+        {
+          "source_id": "src_art_0033",
+          "quote": "Trump demanded Zelensky halt attacks on Russian refineries, saying he better damn well stop",
+          "stance": "supports"
+        }
+      ],
+      "event_date": null,
+      "contested": false,
+      "sides": null,
+      "claim_kind": "statement",
+      "speaker_source_ids": []
+    },
+    {
+      "text": "트럼프 대통령이 전쟁을 끝내려면 우크라이나인들이 젤렌스키를 교체해야 한다는 취지로 말했다",
+      "evidence": [
+        {
+          "source_id": "src_art_0033",
+          "quote": "Trump suggested Ukrainians should replace Zelensky if they want an end to the war",
+          "stance": "supports"
+        }
+      ],
+      "event_date": null,
+      "contested": false,
+      "sides": null,
+      "claim_kind": "statement",
+      "speaker_source_ids": []
+    },
+    {
+      "text": "이재명 대통령이 10월 13일 국무회의에서 러시아와의 관계 관리도 중요하다고 말했다",
+      "evidence": [
+        {
+          "source_id": "src_art_0034",
+          "quote": "이재명 대통령은 13일 국무회의에서 북극항로 개척을 보고받으며 러시아와의 관계 관리도 중요하다고 말했다",
+          "stance": "supports"
+        }
+      ],
+      "event_date": "2026-10-13",
+      "contested": false,
+      "sides": null,
+      "claim_kind": "statement",
+      "speaker_source_ids": []
+    }
+  ],
+  "summary": "한국발 연료 17만6천t 대러 선적과 제재 유조선 동원은 Kyiv Independent·UNITED24·Ukrainian News가 일치하게 전하지만 모두 가디언 분석을 옮긴 것이라 원출처는 하나이며, 8월 러시아 수입량·한국 공급량은 Kpler(36만8천t·11만2천t)와 CREA(17만2천t·1만8천t) 수치가 정면으로 어긋난다. 한국 연료가 러시아 연료난을 덜었다는 것은 우크라이나 블라시우크 담당관의 주장이고 청와대는 사실과 다르다고 반박했으며, 정유 능력 51% 마비도 우크라이나 측 주장으로 독립 검증되지 않았다. 러시아 정유 타격·경유 수출 금지·한국의 휘발유·경유 수출 관리와 항공유 제외, 에너지 휴전 붕괴는 기사·공문 원문으로 확인된다."
+}

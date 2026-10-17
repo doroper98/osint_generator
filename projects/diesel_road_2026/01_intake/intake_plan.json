@@ -1,0 +1,263 @@
+{
+  "schema_version": 1,
+  "project_id": "diesel_road_2026",
+  "topic": "우크라이나의 정유소 타격에서 한국산 경유의 블라디보스토크행, 걸프 에너지 시설 타격, 미·러 경유 거래와 에너지 휴전 붕괴까지 이어지는 경유 공급망 추적",
+  "category": "geopolitics",
+  "target_duration_min": 10,
+  "orchestrator_assessment": "본 주제는 우크라이나의 러시아 정유소 타격, 러시아 경유 수급, 한국산 경유의 러시아 극동 유입, 걸프 에너지 시설 타격, 미국의 러시아 경유 거래, 에너지 휴전 붕괴를 하나의 흐름으로 묶습니다. 그래서 각 연결 고리마다 인과관계를 과장할 위험이 큽니다. 정유소 타격 영상은 대부분 X/Telegram 출처라서 권리 확인과 위치·시점 검증이 어렵습니다. 한국산 경유 선적과 미·러 거래 관련 주장은 세관·선박추적 등 1차 데이터로 교차검증하지 못하면 <미검증> 라벨이 필수입니다.",
+  "required_items": [
+    {
+      "item_id": "refinery_strike_official_sources",
+      "label": "정유소 타격 공식 발표",
+      "description": "우크라이나 총참모부·SBU·국방부의 러시아 정유소 타격 발표와, 러시아 국방부·지방정부의 피해 및 요격 발표 원문입니다.",
+      "why_needed": "영상의 출발점인 타격 사건의 날짜·대상·규모를 양측 1차 출처로 확정하기 위해 필요합니다.",
+      "priority": "must_use",
+      "expected_input_types": [
+        "url",
+        "text",
+        "image"
+      ],
+      "default_mode": "link_provide",
+      "user_options": [
+        "link_provide",
+        "ai_delegate",
+        "mixed",
+        "must_use",
+        "reference_only"
+      ],
+      "ai_delegate_task": "우크라이나 총참모부·SBU 공식 채널과 러시아 국방부·주지사 발표에서 정유소 타격 관련 성명을 날짜별로 수집하고, 타격 대상 정유소명·위치·주장된 피해 규모를 표로 정리합니다.",
+      "risk_notice": "양측 발표 모두 선전 목적이 섞일 수 있습니다. 피해 규모와 가동 중단 기간은 위성영상이나 업계 데이터로 별도 검증해야 합니다.",
+      "status": "pending"
+    },
+    {
+      "item_id": "refinery_strike_footage",
+      "label": "타격 현장 영상·이미지",
+      "description": "정유소 화재·드론 타격 장면을 담은 현지 영상과 사진, 그리고 화재 감지 위성 데이터(FIRMS 등)입니다.",
+      "why_needed": "타격의 실재성과 규모를 시각적으로 보여주는 핵심 장면 자료로 필요합니다.",
+      "priority": "high",
+      "expected_input_types": [
+        "video",
+        "image",
+        "url"
+      ],
+      "default_mode": "mixed",
+      "user_options": [
+        "file_upload",
+        "link_provide",
+        "gdrive_provide",
+        "ai_delegate",
+        "mixed",
+        "reference_only",
+        "skip"
+      ],
+      "ai_delegate_task": "X·Telegram에 공개된 타격 영상의 원 게시자와 최초 게시 시각을 추적합니다. 지오로케이션과 NASA FIRMS 화재 데이터로 위치·시점을 교차검증하고, 사용 가능한 자료 후보 목록과 권리 상태를 함께 보고합니다.",
+      "risk_notice": "X/Telegram 영상은 저작권자 확인이 어렵고, 과거 영상의 재활용이나 조작 가능성이 있습니다. 지오로케이션 검증 전에는 사용하지 말고, 권리 미확인 시 reference_only로 처리해야 합니다.",
+      "status": "pending"
+    },
+    {
+      "item_id": "russia_diesel_shortage_data",
+      "label": "러시아 경유 부족 지표",
+      "description": "러시아 국내 경유 도매가격(SPIMEX), 경유 수출 금지·제한 조치, 정유 가동률 관련 통계와 보도입니다.",
+      "why_needed": "정유소 타격이 실제 러시아 경유 수급에 어떤 영향을 줬는지 수치로 보여주기 위해 필요합니다.",
+      "priority": "high",
+      "expected_input_types": [
+        "url",
+        "pdf",
+        "text"
+      ],
+      "default_mode": "ai_delegate",
+      "user_options": [
+        "ai_delegate",
+        "link_provide",
+        "mixed",
+        "reference_only",
+        "skip"
+      ],
+      "ai_delegate_task": "러시아 정부의 경유·휘발유 수출 제한 고시, SPIMEX 가격 추이, Reuters·Bloomberg·Kommersant 등의 정유 가동률 보도를 수집합니다. 그 결과를 시계열 그래프용 데이터로 정리합니다.",
+      "risk_notice": "러시아 정부 통계는 공개가 제한되거나 지연될 수 있습니다. 언론 추정치는 출처별로 구분해 표기해야 합니다.",
+      "status": "pending"
+    },
+    {
+      "item_id": "korean_diesel_vladivostok_trade",
+      "label": "한국산 경유 블라디보스토크행",
+      "description": "한국에서 러시아 극동(블라디보스토크 등)으로 향한 경유 수출의 관세청 무역통계, 선박 이동 기록, 관련 보도입니다.",
+      "why_needed": "영상의 핵심 연결고리인 한국산 경유의 러시아 유입을 실제 데이터로 입증하기 위해 필요합니다.",
+      "priority": "must_use",
+      "expected_input_types": [
+        "url",
+        "pdf",
+        "text",
+        "image"
+      ],
+      "default_mode": "mixed",
+      "user_options": [
+        "link_provide",
+        "file_upload",
+        "ai_delegate",
+        "mixed",
+        "must_use",
+        "reference_only"
+      ],
+      "ai_delegate_task": "관세청 수출입무역통계(HS 2710 경유 품목, 대러 수출)를 월별로 추출하고, AIS 선박추적 기반 보도와 국내외 언론 기사를 수집합니다. 직접 수출, 제3국 경유, 단순 추정을 구분해 정리합니다.",
+      "risk_notice": "특정 기업·선박이 제재를 위반했다고 단정하면 명예훼손 위험이 있습니다. 직접 증거가 없는 우회수출 주장은 <미검증> 라벨이 필요합니다.",
+      "status": "pending"
+    },
+    {
+      "item_id": "gulf_energy_facility_strikes",
+      "label": "걸프 에너지 시설 타격",
+      "description": "걸프 지역 정유·석유 시설 타격 사건의 공식 발표, 피해 보고, 국제유가 반응 자료입니다.",
+      "why_needed": "러시아 경유 부족과 걸프 공급 차질이 겹쳐 국제 경유 시장이 압박받는 구조를 설명하기 위해 필요합니다.",
+      "priority": "high",
+      "expected_input_types": [
+        "url",
+        "text",
+        "image",
+        "video"
+      ],
+      "default_mode": "link_provide",
+      "user_options": [
+        "link_provide",
+        "ai_delegate",
+        "mixed",
+        "reference_only",
+        "skip"
+      ],
+      "ai_delegate_task": "걸프 에너지 시설 타격 관련 해당국 정부·국영석유사 공식 발표와 공격 주체 측 주장을 수집합니다. 같은 기간 경유 크랙스프레드와 브렌트유 가격 반응도 함께 정리합니다.",
+      "risk_notice": "공격 주체의 귀속(attribution)은 주장이 엇갈리는 경우가 많습니다. 공식 확인 전에는 '주장'으로 표기해야 합니다.",
+      "status": "pending"
+    },
+    {
+      "item_id": "us_russia_diesel_deal_energy_truce",
+      "label": "미·러 경유 거래와 에너지 휴전",
+      "description": "미국의 러시아 경유 거래 관련 정부 발표·제재 조치(OFAC 라이선스 등)와, 에너지 시설 상호 타격 중단 합의 및 붕괴 경위에 대한 공식 성명입니다.",
+      "why_needed": "영상의 결말부인 에너지 휴전 붕괴의 원인과 미국의 역할을 1차 출처로 확정하기 위해 필요합니다.",
+      "priority": "must_use",
+      "expected_input_types": [
+        "url",
+        "pdf",
+        "text"
+      ],
+      "default_mode": "link_provide",
+      "user_options": [
+        "link_provide",
+        "ai_delegate",
+        "mixed",
+        "must_use",
+        "reference_only"
+      ],
+      "ai_delegate_task": "백악관·국무부·재무부(OFAC), 크렘린, 우크라이나 대통령실의 에너지 휴전 관련 성명과 발표를 수집합니다. 미국의 러시아산 정제유 관련 제재 예외·거래 보도를 정리하고, 휴전 합의부터 위반 주장, 붕괴까지를 타임라인으로 구성합니다.",
+      "risk_notice": "휴전 위반 책임에 대해서는 각국 주장이 상충합니다. 미·러 거래의 구체적 조건이 공식 확인되지 않은 경우 <미검증> 라벨이 필요합니다.",
+      "status": "pending"
+    },
+    {
+      "item_id": "map_coordinates_energy_routes",
+      "label": "지도용 좌표·에너지 경로",
+      "description": "타격 정유소, 블라디보스토크·나홋카 항, 한국 수출항, 걸프 시설의 좌표와 해상 운송 경로입니다.",
+      "why_needed": "우크라이나에서 러시아, 한국, 극동, 걸프로 이어지는 경유의 길을 지도 장면으로 시각화하기 위해 필요합니다.",
+      "priority": "high",
+      "expected_input_types": [
+        "geojson",
+        "text",
+        "url"
+      ],
+      "default_mode": "ai_delegate",
+      "user_options": [
+        "ai_delegate",
+        "file_upload",
+        "direct_provide",
+        "mixed",
+        "skip"
+      ],
+      "ai_delegate_task": "언급된 정유소·항만·시설의 좌표를 공개 지리 데이터로 확정해 GeoJSON으로 생성합니다. 한국에서 블라디보스토크까지의 해상 경로와 걸프 주요 운송 경로를 라인 피처로 작성합니다.",
+      "risk_notice": "",
+      "status": "pending"
+    },
+    {
+      "item_id": "osint_expert_analysis",
+      "label": "OSINT·전문가 분석",
+      "description": "정유소 타격 지오로케이션, 선박 추적, 에너지 시장에 대한 OSINT 분석가 및 에너지 애널리스트의 견해입니다.",
+      "why_needed": "공식 발표만으로 부족한 검증 근거와 해석을 보강하기 위해 필요합니다.",
+      "priority": "normal",
+      "expected_input_types": [
+        "url",
+        "text",
+        "image"
+      ],
+      "default_mode": "ai_delegate",
+      "user_options": [
+        "ai_delegate",
+        "link_provide",
+        "mixed",
+        "reference_only",
+        "skip"
+      ],
+      "ai_delegate_task": "신뢰도가 확인된 OSINT 분석가의 정유소 타격 지오로케이션 게시물과 에너지 분석기관(IEA, Kpler, Vortexa 등)의 경유 시장 논평을 수집합니다. 인용 가능 여부를 함께 표기합니다.",
+      "risk_notice": "X 게시물과 이미지는 작성자 권리를 확인해야 합니다. 개인 분석가의 주장은 단일 출처로 사실 단정하지 말고 교차검증해야 합니다.",
+      "status": "pending"
+    },
+    {
+      "item_id": "historical_context",
+      "label": "과거 유사 사례",
+      "description": "과거 에너지 인프라 공격과 제재 우회 사례(예: 2019년 아브카이크 공격, 대러 정제유 제재 이후 우회 무역)입니다.",
+      "why_needed": "현재 사건이 갖는 의미와 시장 영향을 역사적 맥락에서 비교 설명하기 위해 필요합니다.",
+      "priority": "low",
+      "expected_input_types": [
+        "url",
+        "text"
+      ],
+      "default_mode": "ai_delegate",
+      "user_options": [
+        "ai_delegate",
+        "direct_provide",
+        "link_provide",
+        "skip"
+      ],
+      "ai_delegate_task": "에너지 시설 공격이 국제 정제유 시장에 미친 과거 사례와, 대러 제재 이후 정제유 우회 무역 사례를 신뢰 가능한 출처 기반으로 2~3건 요약합니다.",
+      "risk_notice": "",
+      "status": "pending"
+    },
+    {
+      "item_id": "korea_domestic_impact",
+      "label": "국내 영향·제작 관점",
+      "description": "한국 정유업계·경유 가격·대러 수출 규제 등 국내 영향과, 사용자가 영상에서 강조하고 싶은 관점입니다.",
+      "why_needed": "한국 시청자에게 이 사건이 갖는 의미와 영상의 서사 방향을 정하기 위해 필요합니다.",
+      "priority": "normal",
+      "expected_input_types": [
+        "text",
+        "url"
+      ],
+      "default_mode": "direct_provide",
+      "user_options": [
+        "direct_provide",
+        "link_provide",
+        "mixed",
+        "ai_delegate",
+        "skip"
+      ],
+      "ai_delegate_task": "오피넷 국내 경유 가격 추이, 산업통상자원부의 대러 수출 통제 품목 공고, 국내 정유사 실적 관련 보도를 수집해 요약합니다.",
+      "risk_notice": "",
+      "status": "pending"
+    },
+    {
+      "item_id": "unverified_claims",
+      "label": "미검증 주장 분리",
+      "description": "한국산 경유의 러시아군 유입설, 미·러 비밀 거래설, 휴전 붕괴 배후설 등 SNS와 일부 매체에서 유포되는 미확인 주장입니다.",
+      "why_needed": "영상에서 확인된 사실과 주장을 명확히 구분해 허위정보 확산을 막기 위해 필요합니다.",
+      "priority": "normal",
+      "expected_input_types": [
+        "url",
+        "text"
+      ],
+      "default_mode": "reference_only",
+      "user_options": [
+        "reference_only",
+        "ai_delegate",
+        "mixed",
+        "skip"
+      ],
+      "ai_delegate_task": "주제 관련 미확인 주장을 수집해 최초 출처, 확산 경로, 반박 또는 검증 근거를 정리합니다. 각 주장의 검증 상태(확인, 부분확인, 미확인, 반박됨)를 분류합니다.",
+      "risk_notice": "영상에 노출할 경우 반드시 <미검증> 라벨과 반박 근거를 병기해야 합니다. 특정 국가·기업·인물을 단정적으로 지목하면 명예훼손 위험이 있습니다.",
+      "status": "pending"
+    }
+  ]
+}

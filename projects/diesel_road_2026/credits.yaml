@@ -1,0 +1,40 @@
+# 『경유의 길 — 사흘에 한 번』 엔딩 크레딧 (v7.3.0). 보도 = 인용 소스(auto: sources). 기사 카드·사진 행은 연출이 쓴 미디어만 채운다(연출 단계에서 rights 보강).
+schema_version: 1
+sections:
+- title: 보도
+  column: 0
+  auto: sources
+- title: 기사 카드
+  column: 0
+  items:
+  - main: 헤드라인 번역·요지 자체 조판(위 보도)
+    license: 기사 화면 캡처·로고 없음
+    rights: []
+- title: 글꼴
+  column: 1
+  auto: fonts
+- title: 지도
+  column: 1
+  auto: map
+- title: 국기
+  column: 1
+  items:
+  - main: 국기
+    license: flag-icons · MIT
+    rights:
+    - flags.flag_icons
+- title: 인물 사진
+  column: 1
+  auto: people
+- title: 음악
+  column: 1
+  items:
+  - music: music.zabriskie_mario_bava   # D232 · rules audio.bgm_default 첫 곡 — 제목·라이선스 줄은 BGM 레지스트리
+- title: 음성
+  column: 1
+  items:
+  - main: 내레이션
+    license: AI 음성 합성
+    rights:
+    - narration.tts
+
