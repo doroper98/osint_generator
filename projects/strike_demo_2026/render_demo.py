@@ -182,11 +182,11 @@ def vignette(ctx):
 LEN = 8.0
 EVENTS = [
     dict(kind="drone", col=TEAL, ox=90, oy=330, tx=540, ty=245, label="랴잔 정유소", sub="우크라이나 드론 · 러시아 처리량의 약 5%(로이터)",
-         date="2026.10.15", inset_note="위성 · 2026. 10 · NASA HLS(Sentinel-2/Landsat)"),
+         date="2026.10.15", inset_png=str(OUT / "inset_ryazan.png"), inset_note="위성 · 2026. 10 · NASA GIBS HLS S30"),
     dict(kind="missile", col=RU, ox=110, oy=350, tx=560, ty=250, label="라스라판 LNG", sub="이란 미사일 · 콜드박스 2기 손상(로이터)",
-         date="2026.03", inset_note="위성 · 2026. 03 · NASA HLS(Sentinel-2/Landsat)"),
+         date="2026.03", inset_png=str(OUT / "inset_ras_laffan.png"), inset_note="위성 · 2026. 10 · NASA GIBS HLS S30"),
     dict(kind="jet", col=AMBER, ox=80, oy=370, tx=530, ty=240, label="하르그섬", sub="미군 공습(군사 표적) · 석유 시설 미타격",
-         date="2026.04", inset_note="위성 · 2026. 04 · NASA HLS(Sentinel-2/Landsat)"),
+         date="2026.04", inset_png=str(OUT / "inset_kharg.png"), inset_note="위성 · 2026. 09 · NASA GIBS HLS S30"),
 ]
 for i, ev in enumerate(EVENTS):
     ev["start"] = 1.5 + i * LEN; ev["t0"] = ev["start"] + 1.8; ev["t1"] = ev["start"] + LEN - 0.3
@@ -218,7 +218,7 @@ def frame(t):
         a = window(t, TOTAL - 3.0, TOTAL, 0.5, 0.6)
         ctx.set_source_rgba(0, 0, 0, 0.85*a); ctx.rectangle(0, 0, W, H); ctx.fill()
         text(ctx, "시험본 · 본편 아님", 60*K, 190*K, 15, a=a, bold=True, halo=0)
-        text(ctx, "비행 경로·출발 위치는 개략 표현. 위성 타일은 권리 확인(Sentinel-2·NASA) 뒤 삽입 예정.", 60*K, 215*K, 10.5, a=0.9*a, halo=0)
+        text(ctx, "비행 경로·출발 위치는 개략 표현. 위성 타일: NASA GIBS HLS S30(공공 저작물, 촬영 2026.09~10 — 타격 전후 비교 아님).", 60*K, 215*K, 10.5, a=0.9*a, halo=0)
         text(ctx, "출처: 로이터 집계(랴잔·라스라판) · CNN 2026.04.07(하르그섬) · 아이콘·링·꼬리선은 코드 벡터", 60*K, 232*K, 9.5, a=0.8*a, halo=0)
     return surf
 
