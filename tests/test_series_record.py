@@ -146,6 +146,9 @@ class CommittedSeriesTest(unittest.TestCase):
             with self.subTest(p.name):
                 r = load_series_file(p)
                 self.assertIn(r.license, load_rules().data.licenses_allowed)
+                if r.source_kind == "press_cited":   # v7.3.0 D232 U4 — 보도 인용값은 코드가 받지 않는다(raw/ 없음), 값마다 cited 가 재현 근거
+                    self.assertEqual(len(r.cited), len(r.values))
+                    continue
                 raw = f"{r.series_id}.htm" if r.kind == "scatter" else f"{r.series_id}.csv"   # v4.4.0 scatter 원자료 = SEP HTML
                 self.assertTrue((p.parent / "raw" / raw).exists(), "raw/ 원자료 필수(재현)")
 

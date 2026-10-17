@@ -1,0 +1,40 @@
+series_id: GULF_DIESEL_NET_EXPORTS_2026
+source_kind: press_cited
+source: IEA 석유시장보고서 인용·언론 집계
+source_url: https://finance.biggo.com/news/8ace27a2-d047-41fb-940d-9411147b3411
+retrieved_at: '2026-10-17'
+transform:
+  op: press_cited
+  formula: 보도 인용값(매체·날짜)
+as_of: 2026-09
+revision_note: 걸프 경유 순수출 — 보도 인용값. 빈 달은 인용값이 없어 선을 끊는다(보간 없음)
+unit: kb/d
+frequency: monthly
+license: press_cited
+license_note: 보도 인용값(사실) — 매체·날짜 표기
+missing:
+- date: '2026-03-01'
+  note: 보도 인용값 없음
+- date: '2026-04-01'
+  note: 보도 인용값 없음
+- date: '2026-05-01'
+  note: 보도 인용값 없음
+- date: '2026-06-01'
+  note: 보도 인용값 없음
+- date: '2026-07-01'
+  note: 보도 인용값 없음
+cited:
+- date: '2026-02-01'
+  outlet: IEA 석유시장보고서
+  pub_date: '2026-09-11'
+  url: https://www.iea.org/reports/oil-market-report-september-2026
+  note: 범위 1.4~1.5 mb/d 중간
+- date: '2026-08-01'
+  outlet: IEA 석유시장보고서
+  pub_date: '2026-09-11'
+  url: https://www.iea.org/reports/oil-market-report-september-2026
+- date: '2026-09-01'
+  outlet: 언론 집계(빅고 파이낸스 · IEA 10월 보고서 역산과 일치)
+  pub_date: '2026-10-14'
+  url: https://finance.biggo.com/news/8ace27a2-d047-41fb-940d-9411147b3411
+  note: ≈ 언론 집계 5개국

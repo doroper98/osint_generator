@@ -1,0 +1,56 @@
+series_id: RU_DIESEL_SEABORNE_EXPORTS_2026
+source_kind: press_cited
+source: LSEG·보르텍사·S&P 글로벌 보도 인용
+source_url: https://www.bloomberg.com/news/articles/2026-10-16/russian-fuel-flows-fell-in-early-october-before-diesel-ban-eased
+retrieved_at: '2026-10-17'
+transform:
+  op: press_cited
+  formula: 보도 인용값(매체·날짜)
+as_of: 2026-10
+revision_note: 러시아 경유 해상 수출 — 보도 인용값. 빈 달은 인용값이 없어 선을 끊는다(보간 없음)
+unit: kb/d
+frequency: monthly
+license: press_cited
+license_note: 보도 인용값(사실) — 매체·날짜 표기
+missing:
+- date: '2026-03-01'
+  note: 보도 인용값 없음
+- date: '2026-04-01'
+  note: 보도 인용값 없음
+- date: '2026-06-01'
+  note: 보도 인용값 없음
+cited:
+- date: '2026-01-01'
+  outlet: 하이드로카본 프로세싱(LSEG 인용)
+  pub_date: '2026-02-01'
+  url: https://www.hydrocarbonprocessing.com/news/2026/02/global-diesel-flows-further-reshuffle-on-eu-sanctions-discounted-russian-exports/
+  note: 게시월 기준 날짜
+- date: '2026-02-01'
+  outlet: 하이드로카본 프로세싱(LSEG 인용)
+  pub_date: '2026-03-01'
+  url: https://www.hydrocarbonprocessing.com/news/2026/03/russias-seaborne-diesel-exports-drop-21-in-february-mm/
+  note: 환산(2.85 Mt, 7.45 bbl/t) · 게시월 기준 날짜
+- date: '2026-05-01'
+  outlet: 보르텍사
+  pub_date: '2026-09-01'
+  url: https://www.vortexa.com/insights/russia-meets-record-gasoline-imports
+  note: 게시월 기준 날짜
+- date: '2026-07-01'
+  outlet: 디 인사이더(S&P 글로벌 인용)
+  pub_date: '2026-09-01'
+  url: https://theins.press/en/news/297795
+  note: 환산(713 kt, 7.45 bbl/t) · 게시월 기준 날짜
+- date: '2026-08-01'
+  outlet: 보르텍사
+  pub_date: '2026-09-01'
+  url: https://www.vortexa.com/insights/russia-meets-record-gasoline-imports
+  note: 게시월 기준 날짜
+- date: '2026-09-01'
+  outlet: 보르텍사 via 블룸버그
+  pub_date: '2026-10-16'
+  url: https://www.bloomberg.com/news/articles/2026-10-16/russian-fuel-flows-fell-in-early-october-before-diesel-ban-eased
+- date: '2026-10-01'
+  outlet: 보르텍사 via 블룸버그
+  pub_date: '2026-10-16'
+  url: https://www.bloomberg.com/news/articles/2026-10-16/russian-fuel-flows-fell-in-early-october-before-diesel-ban-eased
+  note: 10월 초
