@@ -230,7 +230,7 @@ shots:
   dur: 3.0
   camera:
     lon: 80.0
-    lat: 40.0
+    lat: 45.0
     place: null
     date: null
     lane: null
@@ -246,7 +246,7 @@ shots:
   dur: 9.0
   camera:
     lon: 80.0
-    lat: 40.0
+    lat: 45.0
     place: null
     date: null
     lane: null
