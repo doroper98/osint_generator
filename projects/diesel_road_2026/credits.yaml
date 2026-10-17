@@ -9,7 +9,24 @@ sections:
   items:
   - main: 헤드라인 번역·요지 자체 조판(위 보도)
     license: 기사 화면 캡처·로고 없음
-    rights: []
+    rights:
+    - media.diesel_road_2026_art_0001
+    - media.diesel_road_2026_art_0002
+    - media.diesel_road_2026_art_0005
+    - media.diesel_road_2026_art_0007
+    - media.diesel_road_2026_art_0011
+    - media.diesel_road_2026_art_0012
+    - media.diesel_road_2026_art_0013
+    - media.diesel_road_2026_art_0015
+    - media.diesel_road_2026_art_0021
+    - media.diesel_road_2026_art_0025
+    - media.diesel_road_2026_art_0026
+    - media.diesel_road_2026_art_0027
+    - media.diesel_road_2026_art_0028
+    - media.diesel_road_2026_art_0030
+    - media.diesel_road_2026_art_0032
+    - media.diesel_road_2026_art_0033
+    - media.diesel_road_2026_art_0034
 - title: 글꼴
   column: 1
   auto: fonts

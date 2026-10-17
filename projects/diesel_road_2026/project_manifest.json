@@ -4,7 +4,7 @@
   "title": "경유의 길 — 사흘에 한 번",
   "category": "geopolitics",
   "created_at": "2026-10-17T13:36:28.700647Z",
-  "updated_at": "2026-10-17T16:06:59.698474Z",
+  "updated_at": "2026-10-17T16:34:30.996950Z",
   "current_state": "direction",
   "target_duration_min": 10,
   "topic_summary": "우크라이나의 러시아 정유소 타격과 러시아 경유 부족, 한국산 경유의 블라디보스토크행, 걸프 에너지 시설 타격, 미국의 러시아 경유 거래와 에너지 휴전 붕괴",
@@ -99,6 +99,20 @@
       ],
       "drops": 0,
       "log": "logs/stages/04_director.json"
+    },
+    {
+      "state": "direction",
+      "stage": "director",
+      "ok": false,
+      "at": "2026-10-17T16:34:30.996925Z",
+      "artifacts": {
+        "out0": "llm_calls/llm_20261017_162326_43e4.json"
+      },
+      "errors": [
+        "check_parsed: 이벤트 검증 실패(렌더 시작 전):\n[18] flight: 1 validation error for FlightEvent\n  Value error, [flight-too-short] t1 - t0 = 3.46초 < 비행 2.4 + 착탄 1.6 = 4.00초 (잘라 그리지 않는다, P6) [type=value_error, input_value={'type': 'flight', 't0': ... 'teal', 'impact': True}, input_type=dict]\n    For further information visit https://errors.pydantic.dev/2.13/v/value_error"
+      ],
+      "drops": 0,
+      "log": "logs/stages/05_director.json"
     }
   ],
   "final_outputs": {},
