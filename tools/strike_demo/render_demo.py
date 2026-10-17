@@ -9,7 +9,9 @@ from pathlib import Path
 
 import cairo
 
-OUT = Path(__file__).parent
+OUT = Path(__file__).parent / "out"
+OUT.mkdir(exist_ok=True)
+INSETS = Path(__file__).resolve().parents[2] / "assets" / "library" / "insets"
 W, H = 1280, 720
 K = H / 480.0                      # 설계 px(480p) → 장치 px
 FPS = 30
@@ -182,11 +184,11 @@ def vignette(ctx):
 LEN = 8.0
 EVENTS = [
     dict(kind="drone", col=TEAL, ox=90, oy=330, tx=540, ty=245, label="랴잔 정유소", sub="우크라이나 드론 · 러시아 처리량의 약 5%(로이터)",
-         date="2026.10.15", inset_png=str(OUT / "inset_ryazan.png"), inset_note="위성 · 2026. 10 · NASA GIBS HLS S30"),
+         date="2026.10.15", inset_png=str(INSETS / "inset_ryazan.png"), inset_note="위성 · 2026. 10 · NASA GIBS HLS S30"),
     dict(kind="missile", col=RU, ox=110, oy=350, tx=560, ty=250, label="라스라판 LNG", sub="이란 미사일 · 콜드박스 2기 손상(로이터)",
-         date="2026.03", inset_png=str(OUT / "inset_ras_laffan.png"), inset_note="위성 · 2026. 10 · NASA GIBS HLS S30"),
+         date="2026.03", inset_png=str(INSETS / "inset_ras_laffan.png"), inset_note="위성 · 2026. 10 · NASA GIBS HLS S30"),
     dict(kind="jet", col=AMBER, ox=80, oy=370, tx=530, ty=240, label="하르그섬", sub="미군 공습(군사 표적) · 석유 시설 미타격",
-         date="2026.04", inset_png=str(OUT / "inset_kharg.png"), inset_note="위성 · 2026. 09 · NASA GIBS HLS S30"),
+         date="2026.04", inset_png=str(INSETS / "inset_kharg.png"), inset_note="위성 · 2026. 09 · NASA GIBS HLS S30"),
 ]
 for i, ev in enumerate(EVENTS):
     ev["start"] = 1.5 + i * LEN; ev["t0"] = ev["start"] + 1.8; ev["t1"] = ev["start"] + LEN - 0.3

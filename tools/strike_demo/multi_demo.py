@@ -13,7 +13,9 @@ import render_demo as R
 from render_demo import (AMBER, BG, FLIGHT, INK, K, MONO, TEAL, W, H, FPS, clamp01, draw_boom, draw_flight, draw_inset,
                          ease_out, text, vignette, window)
 
-OUT = Path(__file__).parent
+OUT = Path(__file__).parent / "out"
+OUT.mkdir(exist_ok=True)
+INSETS = Path(__file__).resolve().parents[2] / "assets" / "library" / "insets"
 FLIGHT["icon"]["size"] = {"drone": 16, "missile": 18, "jet": 19}   # 지도 위 크기 감(계획값 11~14 와 시험값 24~30 사이)
 FLIGHT["origin"]["r_px"] = 30; FLIGHT["origin"]["alpha"] = 0.45
 
@@ -30,7 +32,7 @@ EVENTS = []
 for i, s in enumerate(SITES):
     t0 = T_TITLE + 1.6 + i * GAP
     EVENTS.append(dict(kind="drone", col=TEAL, ox=ORIGIN[0], oy=ORIGIN[1], tx=s["x"], ty=s["y"], label=s["name"], sub=s["sub"],
-                       t0=t0, t1=999.0, inset_png=str(OUT / s["inset"]) if s.get("inset") else None, inset_note=s.get("note", "")))
+                       t0=t0, t1=999.0, inset_png=str(INSETS / s["inset"]) if s.get("inset") else None, inset_note=s.get("note", "")))
 T_A_END = EVENTS[-1]["t0"] + FLIGHT["dur_sec"] + 3.0
 T_B = T_A_END + 1.0          # B 구간 시작(암전 뒤)
 B_STAGGER = 0.9
