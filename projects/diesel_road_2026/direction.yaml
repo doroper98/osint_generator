@@ -1,4 +1,4 @@
-# direction.yaml — AI 연출(DirectorWorker, v3.1.0, 17 §5.3). 사람 검토 전 초안 — 승인 게이트 ②에서 판정. 구현 세션 보강(D-0225·D-0226: dark·위성 인셋 3·시리즈 패널 3·flight 길이 보정).
+# direction.yaml — AI 연출 수정본(ReviseDirectionWorker, v3.1.0, 17 §5.5). changelog 는 prev/revision.v*.json.
 version: 1
 genre: null
 stage: null
@@ -103,17 +103,26 @@ paths:
     - 40.2
   - - 131.85
     - 42.9
+  hormuz_flow:
+  - - 50.6
+    - 26.9
+  - - 53.0
+    - 26.6
+  - - 55.0
+    - 26.3
+  - - 56.35
+    - 26.55
 shots:
 - at: 0.0
   mode: cut
   dur: 0.0
   camera:
-    lon: 62.0
-    lat: 50.0
+    lon: 71.0
+    lat: 43.0
     place: null
     date: null
     lane: null
-    w: 80.0
+    w: 96.0
   under: false
   scene: null
   stage: null
@@ -124,12 +133,12 @@ shots:
   mode: move
   dur: 6.5
   camera:
-    lon: 40.0
-    lat: 55.0
+    lon: 41.0
+    lat: 54.2
     place: null
     date: null
     lane: null
-    w: 34.0
+    w: 38.0
   under: false
   scene: null
   stage: null
@@ -140,12 +149,12 @@ shots:
   mode: move
   dur: 3.4
   camera:
-    lon: 67.0
-    lat: 41.0
+    lon: 71.0
+    lat: 43.0
     place: null
     date: null
     lane: null
-    w: 90.0
+    w: 96.0
   under: false
   scene: null
   stage: null
@@ -172,12 +181,12 @@ shots:
   mode: move
   dur: 3.0
   camera:
-    lon: 130.9
-    lat: 39.0
+    lon: 128.0
+    lat: 37.1
     place: null
     date: null
     lane: null
-    w: 26.0
+    w: 31.0
   under: false
   scene: null
   stage: null
@@ -189,11 +198,11 @@ shots:
   dur: 3.0
   camera:
     lon: 51.0
-    lat: 28.0
+    lat: 27.2
     place: null
     date: null
     lane: null
-    w: 18.0
+    w: 27.0
   under: false
   scene: null
   stage: null
@@ -204,12 +213,12 @@ shots:
   mode: dip
   dur: 3.0
   camera:
-    lon: 37.0
-    lat: 52.3
+    lon: 42.0
+    lat: 52.2
     place: null
     date: null
     lane: null
-    w: 26.0
+    w: 40.0
   under: false
   scene: null
   stage: null
@@ -220,7 +229,7 @@ shots:
   mode: dip
   dur: 3.0
   camera:
-    lon: 84.0
+    lon: 84.5
     lat: 42.0
     place: null
     date: null
@@ -236,7 +245,7 @@ shots:
   mode: move
   dur: 9.0
   camera:
-    lon: 84.0
+    lon: 84.5
     lat: 42.0
     place: null
     date: null
@@ -425,7 +434,8 @@ events:
       text: 키리시
     'off': 0.6
   end:
-    scene_end: act1
+    sid: act1_12
+    'off': -0.6
   at_place: kirishi
   label: 키리시
   sub: 정유소
@@ -456,7 +466,8 @@ events:
       text: 사라토프
     'off': 0.6
   end:
-    scene_end: act1
+    sid: act1_12
+    'off': -0.6
   at_place: saratov
   label: 사라토프
   sub: 정유소
@@ -487,7 +498,8 @@ events:
       text: 시즈란
     'off': 0.6
   end:
-    scene_end: act1
+    sid: act1_12
+    'off': -0.6
   at_place: syzran
   label: 시즈란
   sub: 정유소
@@ -799,7 +811,8 @@ events:
       sid: act2_11
       text: 울산에서
   end:
-    scene_end: act2
+    sid: act2_14
+    'off': 0.0
   at_place: ulsan
   label: 울산
   sub: ''
@@ -1176,7 +1189,7 @@ events:
     scene_end: act3
   at_place: south_pars
   label: 사우스파르스
-  sub: 이란 최대 가스전 · 3월 18일 공습
+  sub: 이란 최대 가스전
   side: right
   hl: false
   icon: boom
@@ -1291,7 +1304,7 @@ events:
   at_place: pump_station
   label: 동서 송유관 펌프장
   sub: 근사 위치
-  side: bottom
+  side: left
   hl: false
   icon: boom
 - type: flight
@@ -1563,7 +1576,7 @@ events:
   at_place: kharkiv_gas
   label: 하르키우주
   sub: 가스 생산 시설 · 근사 위치
-  side: bottom
+  side: right
   hl: false
   icon: boom
 - type: card
@@ -1702,8 +1715,8 @@ events:
   at_place: ulsan
   label: 울산
   sub: ''
-  side: right
-  hl: true
+  side: left
+  hl: false
 - type: marker
   start:
     word:
@@ -1714,7 +1727,7 @@ events:
   at_place: hormuz
   label: 호르무즈 해협
   sub: ''
-  side: right
+  side: top
   hl: false
 - type: card
   start:
@@ -1903,6 +1916,20 @@ events:
     decimals: 0
     record: GULF_DIESEL_NET_EXPORTS_2026
     open_idx: []
+- type: route
+  start:
+    word:
+      sid: act3_1
+      text: 호르무즈
+    'off': 0.2
+  end:
+    scene_end: act3
+  pts:
+    path: hormuz_flow
+  grow: 2.0
+  col: muted
+  ship: true
+  label: 경유 수송
 sound:
   bgm: music.zabriskie_mario_bava
   intensity:
