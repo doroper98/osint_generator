@@ -4,8 +4,8 @@
   "title": "경유의 길 — 사흘에 한 번",
   "category": "geopolitics",
   "created_at": "2026-10-17T13:36:28.700647Z",
-  "updated_at": "2026-10-17T15:19:46.746353Z",
-  "current_state": "voice_timeline",
+  "updated_at": "2026-10-17T15:50:15.236408Z",
+  "current_state": "direction",
   "target_duration_min": 10,
   "topic_summary": "우크라이나의 러시아 정유소 타격과 러시아 경유 부족, 한국산 경유의 블라디보스토크행, 걸프 에너지 시설 타격, 미국의 러시아 경유 거래와 에너지 휴전 붕괴",
   "initial_links": [],
@@ -48,7 +48,47 @@
       "chosen_version": null
     }
   ],
-  "stage_records": [],
+  "stage_records": [
+    {
+      "state": "voice_timeline",
+      "stage": "plan",
+      "ok": true,
+      "at": "2026-10-17T15:45:15.753272Z",
+      "artifacts": {
+        "plan": "/home/user/osint_generator/projects/diesel_road_2026/plan.json",
+        "tts": "/home/user/osint_generator/projects/diesel_road_2026/tts"
+      },
+      "errors": [],
+      "drops": 0,
+      "log": "logs/stages/01_plan.json"
+    },
+    {
+      "state": "assets",
+      "stage": "assets",
+      "ok": true,
+      "at": "2026-10-17T15:47:05.107932Z",
+      "artifacts": {
+        "assets": "/home/user/osint_generator/projects/diesel_road_2026/assets",
+        "report": "/home/user/osint_generator/projects/diesel_road_2026/assets/geo_report.json"
+      },
+      "errors": [],
+      "drops": 0,
+      "log": "logs/stages/02_assets.json"
+    },
+    {
+      "state": "assets",
+      "stage": "assets_final",
+      "ok": true,
+      "at": "2026-10-17T15:50:15.233728Z",
+      "artifacts": {
+        "assets": "/home/user/osint_generator/projects/diesel_road_2026/assets/res_720p",
+        "report": "/home/user/osint_generator/projects/diesel_road_2026/assets/res_720p/geo_report.json"
+      },
+      "errors": [],
+      "drops": 0,
+      "log": "logs/stages/03_assets_final.json"
+    }
+  ],
   "final_outputs": {},
   "state_history": [
     {
@@ -86,6 +126,18 @@
       "to_state": "voice_timeline",
       "transitioned_at": "2026-10-17T15:19:46.746298Z",
       "reason": "script_approval 승인 — fable"
+    },
+    {
+      "from_state": "voice_timeline",
+      "to_state": "assets",
+      "transitioned_at": "2026-10-17T15:45:15.756839Z",
+      "reason": "engine plan ok"
+    },
+    {
+      "from_state": "assets",
+      "to_state": "direction",
+      "transitioned_at": "2026-10-17T15:50:15.236324Z",
+      "reason": "engine assets, assets_final ok"
     }
   ],
   "reopens": []

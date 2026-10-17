@@ -1,0 +1,4170 @@
+{
+ "sentences": [
+  {
+   "sid": "cold_0",
+   "scene": "cold",
+   "date": "2026.10.15",
+   "text": "AP통신에 따르면 10월 15일 새벽, 러시아 랴잔의 정유소에 불길이 올랐습니다.",
+   "tts": "에이 피 통신에 따르면 시월 십오일 새벽, 러시아 랴잔의 정유소에 불길이 올랐습니다.",
+   "segments": [
+    [
+     "AP통신에 따르면 10월 15일 새벽, 러시아 ",
+     0
+    ],
+    [
+     "랴잔",
+     1
+    ],
+    [
+     "의 정유소에 불길이 올랐습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/diesel_road_2026/tts/cold_0_91f046db2e.mp3",
+   "npy": "/home/user/osint_generator/projects/diesel_road_2026/tts/cold_0_91f046db2e.npy",
+   "dur": 5.390294784580499,
+   "t0": 1.2,
+   "t1": 6.590294784580499,
+   "trim_offset": 0.502041,
+   "chunks": [
+    "에이 피 통신에 따르면 시월 십오일 새벽, 러시아 랴잔의 정유소에 불길이 올랐습니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.8707,
+    "elapsed_ms": 31898,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      5.425,
+      5.95
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 116.03,
+     "f0_end_hz": 66.51,
+     "octave_fixed_n": 21
+    }
+   }
+  },
+  {
+   "sid": "cold_1",
+   "scene": "cold",
+   "date": "2026.10.15",
+   "text": "러시아 국방부는 격추한 무인기의 파편이 불을 냈다고 밝혔습니다.",
+   "tts": "러시아 국방부는 격추한 무인기의 파편이 불을 냈다고 밝혔습니다.",
+   "segments": [
+    [
+     "러시아 국방부는 격추한 무인기의 파편이 불을 냈다고 밝혔습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/diesel_road_2026/tts/cold_1_803a8620c8.mp3",
+   "npy": "/home/user/osint_generator/projects/diesel_road_2026/tts/cold_1_803a8620c8.npy",
+   "dur": 3.878798185941043,
+   "t0": 7.090294784580499,
+   "t1": 10.969092970521542,
+   "trim_offset": 0.517483,
+   "chunks": [
+    "러시아 국방부는 격추한 무인기의 파편이 불을 냈다고 밝혔습니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.9203,
+    "elapsed_ms": 991,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      3.96,
+      4.59
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 86.75,
+     "f0_end_hz": 67.05,
+     "octave_fixed_n": 34
+    }
+   }
+  },
+  {
+   "sid": "cold_2",
+   "scene": "cold",
+   "date": "2026.10.15",
+   "text": "반면 우크라이나 당국자는 이번 공격을 확인했다고 AP통신은 전했습니다.",
+   "tts": "반면 우크라이나 당국자는 이번 공격을 확인했다고 에이 피 통신은 전했습니다.",
+   "segments": [
+    [
+     "반면 우크라이나 당국자는 이번 공격을 확인했다고 AP통신은 전했습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/diesel_road_2026/tts/cold_2_950c11fd88.mp3",
+   "npy": "/home/user/osint_generator/projects/diesel_road_2026/tts/cold_2_950c11fd88.npy",
+   "dur": 4.7464172335600905,
+   "t0": 11.469092970521542,
+   "t1": 16.21551020408163,
+   "trim_offset": 0.459705,
+   "chunks": [
+    "반면 우크라이나 당국자는 이번 공격을 확인했다고 에이 피 통신은 전했습니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.8821,
+    "elapsed_ms": 1273,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      4.745,
+      5.425
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 110.32,
+     "f0_end_hz": 82.86,
+     "octave_fixed_n": 48
+    }
+   }
+  },
+  {
+   "sid": "cold_3",
+   "scene": "cold",
+   "date": "2026.10.11",
+   "text": "AP통신은 이 공격으로 나흘 전 트럼프 대통령이 발표한 에너지 휴전이 끝났다고 보도했습니다.",
+   "tts": "에이 피 통신은 이 공격으로 나흘 전 트럼프 대통령이 발표한 에너지 휴전이 끝났다고 보도했습니다.",
+   "segments": [
+    [
+     "AP통신은 이 공격으로 나흘 전 트럼프 대통령이 발표한 ",
+     0
+    ],
+    [
+     "에너지 휴전",
+     1
+    ],
+    [
+     "이 끝났다고 보도했습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/diesel_road_2026/tts/cold_3_009709b25f.mp3",
+   "npy": "/home/user/osint_generator/projects/diesel_road_2026/tts/cold_3_009709b25f.npy",
+   "dur": 6.226009070294785,
+   "t0": 16.71551020408163,
+   "t1": 22.941519274376418,
+   "trim_offset": 0.535873,
+   "chunks": [
+    "에이 피 통신은 이 공격으로 나흘 전 트럼프 대통령이 발표한 에너지 휴전이 끝났다고 보도했습니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.895,
+    "elapsed_ms": 1341,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      6.275,
+      6.895
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 86.55,
+     "f0_end_hz": 92.64,
+     "octave_fixed_n": 41
+    }
+   }
+  },
+  {
+   "sid": "cold_4",
+   "scene": "cold",
+   "date": "2026.10.15",
+   "text": "젤렌스키 대통령은 \"이제 끝났다\"고 말했습니다.",
+   "tts": "젤렌스키 대통령은 이제 끝났다고 말했습니다.",
+   "segments": [
+    [
+     "젤렌스키 대통령은 \"이제 끝났다\"고 말했습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/diesel_road_2026/tts/cold_4_5144dce3d4.mp3",
+   "npy": "/home/user/osint_generator/projects/diesel_road_2026/tts/cold_4_5144dce3d4.npy",
+   "dur": 2.651609977324263,
+   "t0": 23.441519274376418,
+   "t1": 26.09312925170068,
+   "trim_offset": 0.556961,
+   "chunks": [
+    "젤렌스키 대통령은 이제 끝났다고 말했습니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.9146,
+    "elapsed_ms": 1010,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      2.7,
+      3.285
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 83.37,
+     "f0_end_hz": 70.23,
+     "octave_fixed_n": 21
+    }
+   }
+  },
+  {
+   "sid": "cold_5",
+   "scene": "cold",
+   "date": "2026.10.06",
+   "text": "그리고 이 전쟁이 만든 경유 부족은 한국의 울산항까지 닿아 있었습니다.",
+   "tts": "그리고 이 전쟁이 만든 경유 부족은 한국의 울산항까지 닿아 있었습니다.",
+   "segments": [
+    [
+     "그리고 이 전쟁이 만든 경유 부족은 한국의 ",
+     0
+    ],
+    [
+     "울산항",
+     1
+    ],
+    [
+     "까지 닿아 있었습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/diesel_road_2026/tts/cold_5_f2d4ffe179.mp3",
+   "npy": "/home/user/osint_generator/projects/diesel_road_2026/tts/cold_5_f2d4ffe179.npy",
+   "dur": 4.313650793650794,
+   "t0": 26.59312925170068,
+   "t1": 30.906780045351475,
+   "trim_offset": 0.508367,
+   "chunks": [
+    "그리고 이 전쟁이 만든 경유 부족은 한국의 울산항까지 닿아 있었습니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.91,
+    "elapsed_ms": 1110,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      4.345,
+      4.795
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 90.27,
+     "f0_end_hz": 65.67,
+     "octave_fixed_n": 0
+    }
+   }
+  },
+  {
+   "sid": "act1_0",
+   "scene": "act1",
+   "date": "2026.09.17",
+   "text": "국제에너지기구에 따르면 올해 첫 여덟 달 동안 우크라이나는 사흘에 한 번꼴로 러시아 정유소를 맞혔습니다.",
+   "tts": "국제 에너지 기구에 따르면 올해 첫 여덟 달 동안 우크라이나는 사흘에 한 번꼴로 러시아 정유소를 맞혔습니다.",
+   "segments": [
+    [
+     "국제에너지기구에 따르면 올해 첫 여덟 달 동안 우크라이나는 ",
+     0
+    ],
+    [
+     "사흘에 한 번",
+     1
+    ],
+    [
+     "꼴로 러시아 정유소를 맞혔습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/diesel_road_2026/tts/act1_0_2e7f8e9a5c.mp3",
+   "npy": "/home/user/osint_generator/projects/diesel_road_2026/tts/act1_0_2e7f8e9a5c.npy",
+   "dur": 6.838503401360544,
+   "t0": 37.60678004535147,
+   "t1": 44.44528344671201,
+   "trim_offset": 0.471134,
+   "chunks": [
+    "국제 에너지 기구에 따르면 올해 첫 여덟 달 동안 우크라이나는 사흘에 한 번꼴로 러시아 정유소를 맞혔습니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.8862,
+    "elapsed_ms": 1450,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      6.85,
+      7.57
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 108.26,
+     "f0_end_hz": 83.58,
+     "octave_fixed_n": 42
+    }
+   }
+  },
+  {
+   "sid": "act1_1",
+   "scene": "act1",
+   "date": "2026.09.17",
+   "text": "국제에너지기구에 따르면 표적은 원유를 캐는 유전이 아니라, 원유를 경유와 휘발유로 바꾸는 정유소였습니다.",
+   "tts": "국제 에너지 기구에 따르면 표적은 워뉴를 캐는 유전이 아니라, 워뉴를 경유와 휘발유로 바꾸는 정유소였습니다.",
+   "segments": [
+    [
+     "국제에너지기구에 따르면 표적은 원유를 캐는 유전이 아니라, 원유를 경유와 휘발유로 바꾸는 정유소였습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/diesel_road_2026/tts/act1_1_c2a709e211.mp3",
+   "npy": "/home/user/osint_generator/projects/diesel_road_2026/tts/act1_1_c2a709e211.npy",
+   "dur": 6.947777777777778,
+   "t0": 44.94528344671201,
+   "t1": 51.89306122448979,
+   "trim_offset": 0.544603,
+   "chunks": [
+    "국제 에너지 기구에 따르면 표적은 워뉴를 캐는 유전이 아니라, 워뉴를 경유와 휘발유로 바꾸는 정유소였습니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.9254,
+    "elapsed_ms": 1458,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      6.985,
+      7.59
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 88.46,
+     "f0_end_hz": 114.77,
+     "octave_fixed_n": 32
+    }
+   }
+  },
+  {
+   "sid": "act1_2",
+   "scene": "act1",
+   "date": "2026.09.17",
+   "text": "특히 크게 부서지면 수리에 6~8개월이 걸리는 분해·개질 같은 2차 설비를 맞히는 일이 늘었다고 국제에너지기구는 밝혔습니다.",
+   "tts": "특히 크게 부서지면 수리에 육에서 팔 개월이 걸리는 분해 개질 같은 이차 설비를 맞히는 일이 늘었다고 국제 에너지 기구는 밝혔습니다.",
+   "segments": [
+    [
+     "특히 크게 부서지면 수리에 ",
+     0
+    ],
+    [
+     "6~8개월",
+     1
+    ],
+    [
+     "이 걸리는 분해·개질 같은 2차 설비를 맞히는 일이 늘었다고 국제에너지기구는 밝혔습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/diesel_road_2026/tts/act1_2_5582a2132e.mp3",
+   "npy": "/home/user/osint_generator/projects/diesel_road_2026/tts/act1_2_5582a2132e.npy",
+   "dur": 8.31845804988662,
+   "t0": 52.39306122448979,
+   "t1": 60.711519274376414,
+   "trim_offset": 0.474104,
+   "chunks": [
+    "특히 크게 부서지면 수리에 육에서 팔 개월이 걸리는 분해 개질 같은 이차 설비를 맞히는 일이 늘었다고 국제 에너지 기구는 밝혔습니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.9279,
+    "elapsed_ms": 1647,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      8.345,
+      9.005
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 82.36,
+     "f0_end_hz": 116.45,
+     "octave_fixed_n": 28
+    }
+   }
+  },
+  {
+   "sid": "act1_3",
+   "scene": "act1",
+   "date": "2026.10.04",
+   "text": "우크라이나 국방부는 최근 키리시와 사라토프, 시즈란 등의 정유소를 타격했다고 밝혔습니다.",
+   "tts": "우크라이나 국방부는 최근 키리시와 사라토프, 시즈란 등의 정유소를 타격했다고 밝혔습니다.",
+   "segments": [
+    [
+     "우크라이나 국방부는 최근 ",
+     0
+    ],
+    [
+     "키리시",
+     1
+    ],
+    [
+     "와 사라토프, 시즈란 등의 정유소를 타격했다고 밝혔습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/diesel_road_2026/tts/act1_3_e7eedd27eb.mp3",
+   "npy": "/home/user/osint_generator/projects/diesel_road_2026/tts/act1_3_e7eedd27eb.npy",
+   "dur": 5.7371428571428575,
+   "t0": 61.211519274376414,
+   "t1": 66.94866213151927,
+   "trim_offset": 0.537098,
+   "chunks": [
+    "우크라이나 국방부는 최근 키리시와 사라토프, 시즈란 등의 정유소를 타격했다고 밝혔습니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.8957,
+    "elapsed_ms": 1338,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      5.855,
+      6.505
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 87.07,
+     "f0_end_hz": 72.43,
+     "octave_fixed_n": 8
+    }
+   }
+  },
+  {
+   "sid": "act1_4",
+   "scene": "act1",
+   "date": "2026.06",
+   "text": "국제에너지기구에 따르면 6월 러시아의 정제 처리량은 하루 380만 배럴로, 20여 년 만에 가장 적었습니다.",
+   "tts": "국제 에너지 기구에 따르면 유월 러시아의 정제 처리량은 하루 삼백팔십만 배럴로, 이십여 년 만에 가장 적었습니다.",
+   "segments": [
+    [
+     "국제에너지기구에 따르면 6월 러시아의 정제 처리량은 하루 ",
+     0
+    ],
+    [
+     "380만 배럴",
+     1
+    ],
+    [
+     "로, 20여 년 만에 가장 적었습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/diesel_road_2026/tts/act1_4_0910628b0b.mp3",
+   "npy": "/home/user/osint_generator/projects/diesel_road_2026/tts/act1_4_0910628b0b.npy",
+   "dur": 7.42453514739229,
+   "t0": 67.44866213151927,
+   "t1": 74.87319727891156,
+   "trim_offset": 0.482676,
+   "chunks": [
+    "국제 에너지 기구에 따르면 유월 러시아의 정제 처리량은 하루 삼백팔십만 배럴로, 이십여 년 만에 가장 적었습니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.8033,
+    "elapsed_ms": 1567,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      7.39,
+      7.825
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 104.75,
+     "f0_end_hz": 64.93,
+     "octave_fixed_n": 15
+    }
+   }
+  },
+  {
+   "sid": "act1_5",
+   "scene": "act1",
+   "date": "2026.06",
+   "text": "국제에너지기구는 1년 전보다 약 30% 줄어든 양이라고 밝혔습니다.",
+   "tts": "국제 에너지 기구는 일 년 전보다 약 삼십 퍼센트 줄어든 양이라고 밝혔습니다.",
+   "segments": [
+    [
+     "국제에너지기구는 1년 전보다 ",
+     0
+    ],
+    [
+     "약 30%",
+     1
+    ],
+    [
+     " 줄어든 양이라고 밝혔습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/diesel_road_2026/tts/act1_5_c2c1218eb1.mp3",
+   "npy": "/home/user/osint_generator/projects/diesel_road_2026/tts/act1_5_c2c1218eb1.npy",
+   "dur": 4.772993197278912,
+   "t0": 75.37319727891156,
+   "t1": 80.14619047619047,
+   "trim_offset": 0.482721,
+   "chunks": [
+    "국제 에너지 기구는 일 년 전보다 약 삼십 퍼센트 줄어든 양이라고 밝혔습니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.8488,
+    "elapsed_ms": 1172,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      4.795,
+      5.575
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 91.73,
+     "f0_end_hz": 71.93,
+     "octave_fixed_n": 26
+    }
+   }
+  },
+  {
+   "sid": "act1_6",
+   "scene": "act1",
+   "date": "2026.05.29",
+   "text": "로이터 산정에 따르면 3월 월 750만 t이던 러시아 경유 생산은 5월 약 590만 t으로 떨어졌습니다.",
+   "tts": "로이터 산정에 따르면 삼월 월 칠백오십만 톤이던 러시아 경유 생산은 오월 약 오백구십만 톤으로 떨어졌습니다.",
+   "segments": [
+    [
+     "로이터 산정에 따르면 3월 월 750만 t이던 러시아 경유 생산은 5월 ",
+     0
+    ],
+    [
+     "약 590만 t",
+     1
+    ],
+    [
+     "으로 떨어졌습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/diesel_road_2026/tts/act1_6_d0c1b1d15d.mp3",
+   "npy": "/home/user/osint_generator/projects/diesel_road_2026/tts/act1_6_d0c1b1d15d.npy",
+   "dur": 7.168662131519274,
+   "t0": 80.64619047619047,
+   "t1": 87.81485260770974,
+   "trim_offset": 0.367211,
+   "chunks": [
+    "로이터 산정에 따르면 삼월 월 칠백오십만 톤이던 러시아 경유 생산은 오월 약 오백구십만 톤으로 떨어졌습니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.8434,
+    "elapsed_ms": 1668,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      7.1,
+      7.84
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 87.6,
+     "f0_end_hz": 68.72,
+     "octave_fixed_n": 23
+    }
+   }
+  },
+  {
+   "sid": "act1_7",
+   "scene": "act1",
+   "date": "2026.05.29",
+   "text": "두 달 만에 약 20%가 사라진 셈이라고 로이터는 전했습니다.",
+   "tts": "두 달 만에 약 이십 퍼센트가 사라진 셈이라고 로이터는 전했습니다.",
+   "segments": [
+    [
+     "두 달 만에 약 20%가 사라진 셈이라고 로이터는 전했습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/diesel_road_2026/tts/act1_7_aa5b184feb.mp3",
+   "npy": "/home/user/osint_generator/projects/diesel_road_2026/tts/act1_7_aa5b184feb.npy",
+   "dur": 3.8693650793650796,
+   "t0": 88.31485260770974,
+   "t1": 92.18421768707482,
+   "trim_offset": 0.504036,
+   "chunks": [
+    "두 달 만에 약 이십 퍼센트가 사라진 셈이라고 로이터는 전했습니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.8669,
+    "elapsed_ms": 1418,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      3.935,
+      4.61
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 85.4,
+     "f0_end_hz": 95.47,
+     "octave_fixed_n": 29
+    }
+   }
+  },
+  {
+   "sid": "act1_8",
+   "scene": "act1",
+   "date": "2026.09.15",
+   "text": "이어서 9월에는 러시아의 6대 경유 생산 정유소 가운데 세 곳이 생산을 크게 줄이거나 멈췄다고 로이터는 보도했습니다.",
+   "tts": "이어서 구월에는 러시아의 육대 경유 생산 정유소 가운데 세 곳이 생산을 크게 줄이거나 멈췄다고 로이터는 보도했습니다.",
+   "segments": [
+    [
+     "이어서 9월에는 러시아의 6대 경유 생산 정유소 가운데 ",
+     0
+    ],
+    [
+     "세 곳",
+     1
+    ],
+    [
+     "이 생산을 크게 줄이거나 멈췄다고 로이터는 보도했습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/diesel_road_2026/tts/act1_8_ea42b8cf86.mp3",
+   "npy": "/home/user/osint_generator/projects/diesel_road_2026/tts/act1_8_ea42b8cf86.npy",
+   "dur": 7.707868480725623,
+   "t0": 92.68421768707482,
+   "t1": 100.39208616780044,
+   "trim_offset": 0.529864,
+   "chunks": [
+    "이어서 구월에는 러시아의 육대 경유 생산 정유소 가운데 세 곳이 생산을 크게 줄이거나 멈췄다고 로이터는 보도했습니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.94,
+    "elapsed_ms": 1711,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      7.785,
+      8.425
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 98.74,
+     "f0_end_hz": 99.86,
+     "octave_fixed_n": 9
+    }
+   }
+  },
+  {
+   "sid": "act1_9",
+   "scene": "act1",
+   "date": "2026.09.17",
+   "text": "국제에너지기구는 올해 러시아의 경유 생산이 30% 가까이 줄었다고 추정했다고 밝혔습니다.",
+   "tts": "국제 에너지 기구는 올해 러시아의 경유 생산이 삼십 퍼센트 가까이 줄었다고 추정했다고 밝혔습니다.",
+   "segments": [
+    [
+     "국제에너지기구는 올해 러시아의 경유 생산이 30% 가까이 줄었다고 추정했다고 밝혔습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/diesel_road_2026/tts/act1_9_b674829a7d.mp3",
+   "npy": "/home/user/osint_generator/projects/diesel_road_2026/tts/act1_9_b674829a7d.npy",
+   "dur": 6.224126984126984,
+   "t0": 100.89208616780044,
+   "t1": 107.11621315192743,
+   "trim_offset": 0.593651,
+   "chunks": [
+    "국제 에너지 기구는 올해 러시아의 경유 생산이 삼십 퍼센트 가까이 줄었다고 추정했다고 밝혔습니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.8002,
+    "elapsed_ms": 1627,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      6.355,
+      6.855
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 89.99,
+     "f0_end_hz": 67.94,
+     "octave_fixed_n": 20
+    }
+   }
+  },
+  {
+   "sid": "act1_10",
+   "scene": "act1",
+   "date": "2026.07.08",
+   "text": "그러자 러시아는 7월 8일부터 정유사까지 포함한 경유 수출 전면 금지에 들어갔습니다.",
+   "tts": "그러자 러시아는 칠월 팔일부터 정유사까지 포함한 경유 수출 전면 금지에 들어갔습니다.",
+   "segments": [
+    [
+     "그러자 러시아는 7월 8일부터 정유사까지 포함한 ",
+     0
+    ],
+    [
+     "경유 수출 전면 금지",
+     1
+    ],
+    [
+     "에 들어갔습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/diesel_road_2026/tts/act1_10_e5a5acf5af.mp3",
+   "npy": "/home/user/osint_generator/projects/diesel_road_2026/tts/act1_10_e5a5acf5af.npy",
+   "dur": 5.4178231292517,
+   "t0": 107.61621315192743,
+   "t1": 113.03403628117913,
+   "trim_offset": 0.497619,
+   "chunks": [
+    "그러자 러시아는 칠월 팔일부터 정유사까지 포함한 경유 수출 전면 금지에 들어갔습니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.9107,
+    "elapsed_ms": 1325,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      5.46,
+      6.245
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 104.94,
+     "f0_end_hz": 70.94,
+     "octave_fixed_n": 15
+    }
+   }
+  },
+  {
+   "sid": "act1_11",
+   "scene": "act1",
+   "date": "2026.10.16",
+   "text": "블룸버그가 인용한 보르텍사 자료에 따르면 10월 초 경유 해상 수출이 하루 약 14만 6천 배럴이었습니다.",
+   "tts": "블룸버그가 인용한 보르텍사 자료에 따르면 시월 초 경유 해상 수출이 하루 약 십사만 육천 배럴이었습니다.",
+   "segments": [
+    [
+     "블룸버그가 인용한 보르텍사 자료에 따르면 10월 초 경유 해상 수출이 하루 ",
+     0
+    ],
+    [
+     "약 14만 6천 배럴",
+     1
+    ],
+    [
+     "이었습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/diesel_road_2026/tts/act1_11_a32ff80c64.mp3",
+   "npy": "/home/user/osint_generator/projects/diesel_road_2026/tts/act1_11_a32ff80c64.npy",
+   "dur": 6.530657596371882,
+   "t0": 113.53403628117913,
+   "t1": 120.06469387755101,
+   "trim_offset": 0.587664,
+   "chunks": [
+    "블룸버그가 인용한 보르텍사 자료에 따르면 시월 초 경유 해상 수출이 하루 약 십사만 육천 배럴이었습니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.8589,
+    "elapsed_ms": 1450,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      6.6,
+      7.445
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 128.36,
+     "f0_end_hz": 71.73,
+     "octave_fixed_n": 8
+    }
+   }
+  },
+  {
+   "sid": "act1_12",
+   "scene": "act1",
+   "date": "2026.07.08",
+   "text": "게다가 러시아는 연료를 사들이기 시작했습니다.",
+   "tts": "게다가 러시아는 연료를 사들이기 시작했습니다.",
+   "segments": [
+    [
+     "게다가 러시아는 연료를 사들이기 시작했습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/diesel_road_2026/tts/act1_12_f4d79525f3.mp3",
+   "npy": "/home/user/osint_generator/projects/diesel_road_2026/tts/act1_12_f4d79525f3.npy",
+   "dur": 2.5021541950113377,
+   "t0": 120.56469387755101,
+   "t1": 123.06684807256235,
+   "trim_offset": 0.405147,
+   "chunks": [
+    "게다가 러시아는 연료를 사들이기 시작했습니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.9632,
+    "elapsed_ms": 744,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      2.425,
+      3.255
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 87.55,
+     "f0_end_hz": 86.27,
+     "octave_fixed_n": 23
+    }
+   }
+  },
+  {
+   "sid": "act1_13",
+   "scene": "act1",
+   "date": "2026.08",
+   "text": "에너지·청정대기연구센터 크레아는 8월 러시아의 석유제품 수입이 사상 최대였다고 밝혔습니다.",
+   "tts": "에너지 청정대기연구센터 크레아는 팔월 러시아의 석유제품 수입이 사상 최대였다고 밝혔습니다.",
+   "segments": [
+    [
+     "에너지·청정대기연구센터 크레아는 8월 러시아의 석유제품 수입이 ",
+     0
+    ],
+    [
+     "사상 최대",
+     1
+    ],
+    [
+     "였다고 밝혔습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/diesel_road_2026/tts/act1_13_af7de8a7b7.mp3",
+   "npy": "/home/user/osint_generator/projects/diesel_road_2026/tts/act1_13_af7de8a7b7.npy",
+   "dur": 6.186213151927437,
+   "t0": 123.56684807256235,
+   "t1": 129.75306122448978,
+   "trim_offset": 0.517596,
+   "chunks": [
+    "에너지 청정대기연구센터 크레아는 팔월 러시아의 석유제품 수입이 사상 최대였다고 밝혔습니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.8972,
+    "elapsed_ms": 1382,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      6.225,
+      6.795
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 96.0,
+     "f0_end_hz": 70.13,
+     "octave_fixed_n": 30
+    }
+   }
+  },
+  {
+   "sid": "act1_14",
+   "scene": "act1",
+   "date": "2026.08",
+   "text": "크레아에 따르면 그 70%를 인도가 공급했고, 대부분 휘발유였습니다.",
+   "tts": "크레아에 따르면 그 칠십 퍼센트를 인도가 공급했고, 대부분 휘발유였습니다.",
+   "segments": [
+    [
+     "크레아에 따르면 그 70%를 ",
+     0
+    ],
+    [
+     "인도",
+     1
+    ],
+    [
+     "가 공급했고, 대부분 휘발유였습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/diesel_road_2026/tts/act1_14_076869e93a.mp3",
+   "npy": "/home/user/osint_generator/projects/diesel_road_2026/tts/act1_14_076869e93a.npy",
+   "dur": 4.310453514739229,
+   "t0": 130.25306122448978,
+   "t1": 134.56351473922902,
+   "trim_offset": 0.553265,
+   "chunks": [
+    "크레아에 따르면 그 칠십 퍼센트를 인도가 공급했고, 대부분 휘발유였습니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.8474,
+    "elapsed_ms": 5289,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      4.35,
+      4.98
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 89.98,
+     "f0_end_hz": 70.34,
+     "octave_fixed_n": 32
+    }
+   }
+  },
+  {
+   "sid": "act1_15",
+   "scene": "act1",
+   "date": "2026.10.04",
+   "text": "한편 우크라이나 국방부는 러시아 정제 능력의 51% 이상이 마비됐다고 발표했습니다.",
+   "tts": "한편 우크라이나 국방부는 러시아 정제 능력의 오십일 퍼센트 이상이 마비됐다고 발표했습니다.",
+   "segments": [
+    [
+     "한편 우크라이나 국방부는 러시아 정제 능력의 ",
+     0
+    ],
+    [
+     "51% 이상",
+     1
+    ],
+    [
+     "이 마비됐다고 발표했습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/diesel_road_2026/tts/act1_15_7e1e49289a.mp3",
+   "npy": "/home/user/osint_generator/projects/diesel_road_2026/tts/act1_15_7e1e49289a.npy",
+   "dur": 5.844399092970521,
+   "t0": 135.06351473922902,
+   "t1": 140.90791383219954,
+   "trim_offset": 0.540249,
+   "chunks": [
+    "한편 우크라이나 국방부는 러시아 정제 능력의 오십일 퍼센트 이상이 마비됐다고 발표했습니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.8049,
+    "elapsed_ms": 5493,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      5.89,
+      6.57
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 95.84,
+     "f0_end_hz": 65.11,
+     "octave_fixed_n": 37
+    }
+   }
+  },
+  {
+   "sid": "act1_16",
+   "scene": "act1",
+   "date": "2026.10.05",
+   "text": "다만 AP통신은 이 수치를 독립적으로 검증할 수 없다고 전했습니다.",
+   "tts": "다만 에이 피 통신은 이 수치를 독립적으로 검증할 수 없다고 전했습니다.",
+   "segments": [
+    [
+     "다만 AP통신은 이 수치를 독립적으로 검증할 수 없다고 전했습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/diesel_road_2026/tts/act1_16_42cdf90081.mp3",
+   "npy": "/home/user/osint_generator/projects/diesel_road_2026/tts/act1_16_42cdf90081.npy",
+   "dur": 4.436621315192744,
+   "t0": 141.40791383219954,
+   "t1": 145.8445351473923,
+   "trim_offset": 0.408163,
+   "chunks": [
+    "다만 에이 피 통신은 이 수치를 독립적으로 검증할 수 없다고 전했습니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.8505,
+    "elapsed_ms": 4895,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      4.395,
+      5.06
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 92.71,
+     "f0_end_hz": 84.73,
+     "octave_fixed_n": 41
+    }
+   }
+  },
+  {
+   "sid": "act2_0",
+   "scene": "act2",
+   "date": "2026.08",
+   "text": "이제 러시아의 동쪽 끝, 극동으로 가 보겠습니다.",
+   "tts": "이제 러시아의 동쪽 끝, 극동으로 가 보겠습니다.",
+   "segments": [
+    [
+     "이제 러시아의 동쪽 끝, ",
+     0
+    ],
+    [
+     "극동",
+     1
+    ],
+    [
+     "으로 가 보겠습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/diesel_road_2026/tts/act2_0_e83b6f1f66.mp3",
+   "npy": "/home/user/osint_generator/projects/diesel_road_2026/tts/act2_0_e83b6f1f66.npy",
+   "dur": 3.012108843537415,
+   "t0": 147.3445351473923,
+   "t1": 150.3566439909297,
+   "trim_offset": 0.427755,
+   "chunks": [
+    "이제 러시아의 동쪽 끝, 극동으로 가 보겠습니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.8903,
+    "elapsed_ms": 918,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      2.925,
+      3.615
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 92.53,
+     "f0_end_hz": 70.77,
+     "octave_fixed_n": 21
+    }
+   }
+  },
+  {
+   "sid": "act2_1",
+   "scene": "act2",
+   "date": "2026.09",
+   "text": "디인사이더에 따르면 극동은 현지 정제로 휘발유 수요의 55~60%, 경유 수요의 60~65%만 채우고, 나머지는 다른 지역에서 들여옵니다.",
+   "tts": "디인사이더에 따르면 극동은 현지 정제로 휘발유 수요의 오십오에서 육십 퍼센트, 경유 수요의 육십에서 육십오 퍼센트만 채우고, 나머지는 다른 지역에서 들여옵니다.",
+   "segments": [
+    [
+     "디인사이더에 따르면 극동은 현지 정제로 휘발유 수요의 55~60%, 경유 수요의 ",
+     0
+    ],
+    [
+     "60~65%",
+     1
+    ],
+    [
+     "만 채우고, 나머지는 다른 지역에서 들여옵니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/diesel_road_2026/tts/act2_1_e525249144.mp3",
+   "npy": "/home/user/osint_generator/projects/diesel_road_2026/tts/act2_1_e525249144.npy",
+   "dur": 10.82795918367347,
+   "t0": 150.8566439909297,
+   "t1": 161.68460317460318,
+   "trim_offset": 0.436349,
+   "chunks": [
+    "디인사이더에 따르면 극동은 현지 정제로 휘발유 수요의 오십오에서 육십 퍼센트, 경유 수요의 육십에서 육십오 퍼센트만 채우고, 나머지는 다른 지역에서 들여옵니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.8001,
+    "elapsed_ms": 1951,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      10.82,
+      11.44
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 81.77,
+     "f0_end_hz": 70.35,
+     "octave_fixed_n": 7
+    }
+   }
+  },
+  {
+   "sid": "act2_2",
+   "scene": "act2",
+   "date": "2026.03.01",
+   "text": "바이칼24에 따르면 하바롭스크주에는 NNK의 하바롭스크 정유소(연 500만 t)와 로스네프트의 콤소몰스크 정유소(연 800만 t)가 있습니다.",
+   "tts": "바이칼 이십사에 따르면 하바롭스크주에는 엔엔케이의 하바롭스크 정유소, 연 오백만 톤과 로스네프트의 콤소몰스크 정유소, 연 팔백만 톤이 있습니다.",
+   "segments": [
+    [
+     "바이칼24에 따르면 ",
+     0
+    ],
+    [
+     "하바롭스크",
+     1
+    ],
+    [
+     "주에는 NNK의 하바롭스크 정유소(연 500만 t)와 로스네프트의 콤소몰스크 정유소(연 800만 t)가 있습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/diesel_road_2026/tts/act2_2_32bf145735.mp3",
+   "npy": "/home/user/osint_generator/projects/diesel_road_2026/tts/act2_2_32bf145735.npy",
+   "dur": 9.881269841269841,
+   "t0": 162.18460317460318,
+   "t1": 172.06587301587302,
+   "trim_offset": 0.543696,
+   "chunks": [
+    "바이칼 이십사에 따르면 하바롭스크주에는 엔엔케이의 하바롭스크 정유소, 연 오백만 톤과 로스네프트의 콤소몰스크 정유소, 연 팔백만 톤이 있습니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.9343,
+    "elapsed_ms": 2024,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      9.945,
+      10.795
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 124.97,
+     "f0_end_hz": 65.1,
+     "octave_fixed_n": 8
+    }
+   }
+  },
+  {
+   "sid": "act2_3",
+   "scene": "act2",
+   "date": "2026.07",
+   "text": "이스트러시아에 따르면 극동의 연료 부족은 5월 정유소 피격 뒤 시작됐고, 여름 중반에야 안정됐습니다.",
+   "tts": "이스트러시아에 따르면 극동의 연료 부족은 오월 정유소 피격 뒤 시작됐고, 여름 중반에야 안정됐습니다.",
+   "segments": [
+    [
+     "이스트러시아에 따르면 극동의 ",
+     0
+    ],
+    [
+     "연료 부족",
+     1
+    ],
+    [
+     "은 5월 정유소 피격 뒤 시작됐고, 여름 중반에야 안정됐습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/diesel_road_2026/tts/act2_3_620af390a6.mp3",
+   "npy": "/home/user/osint_generator/projects/diesel_road_2026/tts/act2_3_620af390a6.npy",
+   "dur": 6.623945578231292,
+   "t0": 172.56587301587302,
+   "t1": 179.1898185941043,
+   "trim_offset": 0.598957,
+   "chunks": [
+    "이스트러시아에 따르면 극동의 연료 부족은 오월 정유소 피격 뒤 시작됐고, 여름 중반에야 안정됐습니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.9074,
+    "elapsed_ms": 1600,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      6.715,
+      7.425
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 96.81,
+     "f0_end_hz": 69.28,
+     "octave_fixed_n": 8
+    }
+   }
+  },
+  {
+   "sid": "act2_4",
+   "scene": "act2",
+   "date": "2026.10.17",
+   "text": "로스네프트에 따르면 콤소몰스크나아무레 정유소는 극동 시장의 주요 연료 공급처입니다.",
+   "tts": "로스네프트에 따르면 콤소몰스크나아무레 정유소는 극동 시장의 주요 연료 공급처입니다.",
+   "segments": [
+    [
+     "로스네프트에 따르면 ",
+     0
+    ],
+    [
+     "콤소몰스크나아무레",
+     1
+    ],
+    [
+     " 정유소는 극동 시장의 주요 연료 공급처입니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/diesel_road_2026/tts/act2_4_14e2cbf84c.mp3",
+   "npy": "/home/user/osint_generator/projects/diesel_road_2026/tts/act2_4_14e2cbf84c.npy",
+   "dur": 5.427868480725624,
+   "t0": 179.6898185941043,
+   "t1": 185.11768707482995,
+   "trim_offset": 0.531746,
+   "chunks": [
+    "로스네프트에 따르면 콤소몰스크나아무레 정유소는 극동 시장의 주요 연료 공급처입니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.9358,
+    "elapsed_ms": 1194,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      5.545,
+      5.9
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 80.39,
+     "f0_end_hz": 104.09,
+     "octave_fixed_n": 0
+    }
+   }
+  },
+  {
+   "sid": "act2_5",
+   "scene": "act2",
+   "date": "2026.08.11",
+   "text": "8월 11일 이 정유소에서 불이 났다고 우크라이나 매체들이 보도했습니다.",
+   "tts": "팔월 십일일 이 정유소에서 불이 났다고 우크라이나 매체들이 보도했습니다.",
+   "segments": [
+    [
+     "8월 11일 이 정유소에서 불이 났다고 우크라이나 매체들이 보도했습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/diesel_road_2026/tts/act2_5_a7f786c806.mp3",
+   "npy": "/home/user/osint_generator/projects/diesel_road_2026/tts/act2_5_a7f786c806.npy",
+   "dur": 4.471337868480726,
+   "t0": 185.61768707482995,
+   "t1": 190.08902494331068,
+   "trim_offset": 0.448163,
+   "chunks": [
+    "팔월 십일일 이 정유소에서 불이 났다고 우크라이나 매체들이 보도했습니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.8627,
+    "elapsed_ms": 1162,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      4.38,
+      5.14
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 87.48,
+     "f0_end_hz": 73.35,
+     "octave_fixed_n": 4
+    }
+   }
+  },
+  {
+   "sid": "act2_6",
+   "scene": "act2",
+   "date": "2026.08.11",
+   "text": "다만 화재 원인에 대한 공식 설명은 나오지 않았다고 이 매체들은 전했습니다.",
+   "tts": "다만 화재 원인에 대한 공식 설명은 나오지 않았다고 이 매체들은 전했습니다.",
+   "segments": [
+    [
+     "다만 화재 원인에 대한 공식 설명은 나오지 않았다고 이 매체들은 전했습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/diesel_road_2026/tts/act2_6_e898172b83.mp3",
+   "npy": "/home/user/osint_generator/projects/diesel_road_2026/tts/act2_6_e898172b83.npy",
+   "dur": 4.554988662131519,
+   "t0": 190.58902494331068,
+   "t1": 195.14401360544218,
+   "trim_offset": 0.376735,
+   "chunks": [
+    "다만 화재 원인에 대한 공식 설명은 나오지 않았다고 이 매체들은 전했습니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.9651,
+    "elapsed_ms": 1155,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      4.525,
+      4.855
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 86.66,
+     "f0_end_hz": 72.74,
+     "octave_fixed_n": 1
+    }
+   }
+  },
+  {
+   "sid": "act2_7",
+   "scene": "act2",
+   "date": "2026.08.07",
+   "text": "로이터는 7월 말 한국에서 러시아로 정제 연료 약 3만 t이 실려 갔다고 보도했습니다.",
+   "tts": "로이터는 칠월 말 한국에서 러시아로 정제 연료 약 삼만 톤이 실려 갔다고 보도했습니다.",
+   "segments": [
+    [
+     "로이터는 7월 말 한국에서 러시아로 정제 연료 ",
+     0
+    ],
+    [
+     "약 3만 t",
+     1
+    ],
+    [
+     "이 실려 갔다고 보도했습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/diesel_road_2026/tts/act2_7_46207a3194.mp3",
+   "npy": "/home/user/osint_generator/projects/diesel_road_2026/tts/act2_7_46207a3194.npy",
+   "dur": 5.448798185941043,
+   "t0": 195.64401360544218,
+   "t1": 201.0928117913832,
+   "trim_offset": 0.533197,
+   "chunks": [
+    "로이터는 칠월 말 한국에서 러시아로 정제 연료 약 삼만 톤이 실려 갔다고 보도했습니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.9422,
+    "elapsed_ms": 1495,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      5.515,
+      6.04
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 85.9,
+     "f0_end_hz": 80.1,
+     "octave_fixed_n": 24
+    }
+   }
+  },
+  {
+   "sid": "act2_8",
+   "scene": "act2",
+   "date": "2026.10.06",
+   "text": "이어서 10월 6일 영국 가디언은 7~8월 한국 항구에서 17만 6천 t이 넘는 연료가 실렸고, 대부분 경유였다고 보도했습니다.",
+   "tts": "이어서 시월 육일 영국 가디언은 칠월과 팔월 한국 항구에서 십칠만 육천 톤이 넘는 연료가 실렸고, 대부분 경유였다고 보도했습니다.",
+   "segments": [
+    [
+     "이어서 10월 6일 영국 가디언은 7~8월 한국 항구에서 ",
+     0
+    ],
+    [
+     "17만 6천 t",
+     1
+    ],
+    [
+     "이 넘는 연료가 실렸고, 대부분 경유였다고 보도했습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/diesel_road_2026/tts/act2_8_9c31b811cf.mp3",
+   "npy": "/home/user/osint_generator/projects/diesel_road_2026/tts/act2_8_9c31b811cf.npy",
+   "dur": 8.696235827664399,
+   "t0": 201.5928117913832,
+   "t1": 210.2890476190476,
+   "trim_offset": 0.46746,
+   "chunks": [
+    "이어서 시월 육일 영국 가디언은 칠월과 팔월 한국 항구에서 십칠만 육천 톤이 넘는 연료가 실렸고, 대부분 경유였다고 보도했습니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.9057,
+    "elapsed_ms": 2236,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      8.65,
+      9.2
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 111.18,
+     "f0_end_hz": 76.44,
+     "octave_fixed_n": 20
+    }
+   }
+  },
+  {
+   "sid": "act2_9",
+   "scene": "act2",
+   "date": "2026.10.06",
+   "text": "가디언에 따르면 유조선 일곱 척이 열네 번에 걸쳐 러시아 극동으로 날랐습니다.",
+   "tts": "가디언에 따르면 유조선 일곱 척이 열네 번에 걸쳐 러시아 극동으로 날랐습니다.",
+   "segments": [
+    [
+     "가디언에 따르면 유조선 ",
+     0
+    ],
+    [
+     "일곱 척",
+     1
+    ],
+    [
+     "이 열네 번에 걸쳐 러시아 극동으로 날랐습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/diesel_road_2026/tts/act2_9_388adadeba.mp3",
+   "npy": "/home/user/osint_generator/projects/diesel_road_2026/tts/act2_9_388adadeba.npy",
+   "dur": 4.952698412698413,
+   "t0": 210.7890476190476,
+   "t1": 215.74174603174603,
+   "trim_offset": 0.43644,
+   "chunks": [
+    "가디언에 따르면 유조선 일곱 척이 열네 번에 걸쳐 러시아 극동으로 날랐습니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.9441,
+    "elapsed_ms": 1206,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      4.865,
+      5.525
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 97.2,
+     "f0_end_hz": 63.83,
+     "octave_fixed_n": 8
+    }
+   }
+  },
+  {
+   "sid": "act2_10",
+   "scene": "act2",
+   "date": "2026.10.06",
+   "text": "그 가운데 세 척은 영국과 유럽연합의 제재 대상이었습니다.",
+   "tts": "그 가운데 세 척은 영국과 유럽연합의 제재 대상이었습니다.",
+   "segments": [
+    [
+     "그 가운데 세 척은 영국과 유럽연합의 ",
+     0
+    ],
+    [
+     "제재 대상",
+     1
+    ],
+    [
+     "이었습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/diesel_road_2026/tts/act2_10_21a540df55.mp3",
+   "npy": "/home/user/osint_generator/projects/diesel_road_2026/tts/act2_10_21a540df55.npy",
+   "dur": 3.6236507936507936,
+   "t0": 216.24174603174603,
+   "t1": 219.86539682539683,
+   "trim_offset": 0.462766,
+   "chunks": [
+    "그 가운데 세 척은 영국과 유럽연합의 제재 대상이었습니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.9399,
+    "elapsed_ms": 872,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      3.605,
+      4.165
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 85.71,
+     "f0_end_hz": 88.32,
+     "octave_fixed_n": 31
+    }
+   }
+  },
+  {
+   "sid": "act2_11",
+   "scene": "act2",
+   "date": "2026.10.06",
+   "text": "가디언은 제재 대상 레일라호가 울산에서 블라디보스토크로 두 차례 경유 약 5만 7천 t을 날랐다고 보도했습니다.",
+   "tts": "가디언은 제재 대상 레일라호가 울산에서 블라디보스토크로 두 차례 경유 약 오만 칠천 톤을 날랐다고 보도했습니다.",
+   "segments": [
+    [
+     "가디언은 제재 대상 ",
+     0
+    ],
+    [
+     "레일라호",
+     1
+    ],
+    [
+     "가 울산에서 블라디보스토크로 두 차례 경유 약 5만 7천 t을 날랐다고 보도했습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/diesel_road_2026/tts/act2_11_ce8f1a0fa7.mp3",
+   "npy": "/home/user/osint_generator/projects/diesel_road_2026/tts/act2_11_ce8f1a0fa7.npy",
+   "dur": 7.310498866213152,
+   "t0": 220.36539682539683,
+   "t1": 227.67589569160998,
+   "trim_offset": 0.381519,
+   "chunks": [
+    "가디언은 제재 대상 레일라호가 울산에서 블라디보스토크로 두 차례 경유 약 오만 칠천 톤을 날랐다고 보도했습니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.9382,
+    "elapsed_ms": 1578,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      7.23,
+      7.685
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 94.92,
+     "f0_end_hz": 65.98,
+     "octave_fixed_n": 0
+    }
+   }
+  },
+  {
+   "sid": "act2_12",
+   "scene": "act2",
+   "date": "2026.10.06",
+   "text": "가디언은 두 번째 항해 때 신고한 목적지가 일본 니가타였다고 전했습니다.",
+   "tts": "가디언은 두 번째 항해 때 신고한 목적지가 일본 니가타였다고 전했습니다.",
+   "segments": [
+    [
+     "가디언은 두 번째 항해 때 신고한 목적지가 일본 ",
+     0
+    ],
+    [
+     "니가타",
+     1
+    ],
+    [
+     "였다고 전했습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/diesel_road_2026/tts/act2_12_bf051c0867.mp3",
+   "npy": "/home/user/osint_generator/projects/diesel_road_2026/tts/act2_12_bf051c0867.npy",
+   "dur": 4.571791383219955,
+   "t0": 228.17589569160998,
+   "t1": 232.74768707482994,
+   "trim_offset": 0.361678,
+   "chunks": [
+    "가디언은 두 번째 항해 때 신고한 목적지가 일본 니가타였다고 전했습니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.9522,
+    "elapsed_ms": 1108,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      4.47,
+      5.04
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 93.29,
+     "f0_end_hz": 68.05,
+     "octave_fixed_n": 3
+    }
+   }
+  },
+  {
+   "sid": "act2_13",
+   "scene": "act2",
+   "date": "2026.08.01",
+   "text": "가디언에 따르면 아스토리아호도 8월 1일 울산에서 약 1만 1천 t을 싣고 일본을 목적지로 적었지만, 블라디보스토크로 갔습니다.",
+   "tts": "가디언에 따르면 아스토리아호도 팔월 일일 울산에서 약 만 천 톤을 싣고 일본을 목적지로 적었지만, 블라디보스토크로 갔습니다.",
+   "segments": [
+    [
+     "가디언에 따르면 ",
+     0
+    ],
+    [
+     "아스토리아호",
+     1
+    ],
+    [
+     "도 8월 1일 울산에서 약 1만 1천 t을 싣고 일본을 목적지로 적었지만, 블라디보스토크로 갔습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/diesel_road_2026/tts/act2_13_0a666e0cbf.mp3",
+   "npy": "/home/user/osint_generator/projects/diesel_road_2026/tts/act2_13_0a666e0cbf.npy",
+   "dur": 8.345034013605442,
+   "t0": 233.24768707482994,
+   "t1": 241.59272108843538,
+   "trim_offset": 0.413197,
+   "chunks": [
+    "가디언에 따르면 아스토리아호도 팔월 일일 울산에서 약 만 천 톤을 싣고 일본을 목적지로 적었지만, 블라디보스토크로 갔습니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.9478,
+    "elapsed_ms": 1815,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      8.31,
+      8.975
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 91.61,
+     "f0_end_hz": 66.21,
+     "octave_fixed_n": 29
+    }
+   }
+  },
+  {
+   "sid": "act2_14",
+   "scene": "act2",
+   "date": "2026.10.06",
+   "text": "또한 가디언에 따르면 청천호는 항구에 들르지 않고 여수 앞바다에서 다른 유조선으로부터 약 2만 6천 t을 옮겨 실었습니다.",
+   "tts": "또한 가디언에 따르면 청천호는 항구에 들르지 않고 여수 앞바다에서 다른 유조선으로부터 약 이만 육천 톤을 옮겨 실었습니다.",
+   "segments": [
+    [
+     "또한 가디언에 따르면 ",
+     0
+    ],
+    [
+     "청천호",
+     1
+    ],
+    [
+     "는 항구에 들르지 않고 여수 앞바다에서 다른 유조선으로부터 약 2만 6천 t을 옮겨 실었습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/diesel_road_2026/tts/act2_14_976e478234.mp3",
+   "npy": "/home/user/osint_generator/projects/diesel_road_2026/tts/act2_14_976e478234.npy",
+   "dur": 7.973083900226757,
+   "t0": 242.09272108843538,
+   "t1": 250.06580498866214,
+   "trim_offset": 0.497075,
+   "chunks": [
+    "또한 가디언에 따르면 청천호는 항구에 들르지 않고 여수 앞바다에서 다른 유조선으로부터 약 이만 육천 톤을 옮겨 실었습니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.9441,
+    "elapsed_ms": 1994,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      8.01,
+      8.38
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 120.06,
+     "f0_end_hz": 78.63,
+     "octave_fixed_n": 9
+    }
+   }
+  },
+  {
+   "sid": "act2_15",
+   "scene": "act2",
+   "date": "2026.10.06",
+   "text": "이후 목적지를 싱가포르로 적은 뒤 블라디보스토크로 향했다고 가디언은 전했습니다.",
+   "tts": "이후 목적지를 싱가포르로 적은 뒤 블라디보스토크로 향했다고 가디언은 전했습니다.",
+   "segments": [
+    [
+     "이후 목적지를 ",
+     0
+    ],
+    [
+     "싱가포르",
+     1
+    ],
+    [
+     "로 적은 뒤 블라디보스토크로 향했다고 가디언은 전했습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/diesel_road_2026/tts/act2_15_47bced6b61.mp3",
+   "npy": "/home/user/osint_generator/projects/diesel_road_2026/tts/act2_15_47bced6b61.npy",
+   "dur": 4.989251700680272,
+   "t0": 250.56580498866214,
+   "t1": 255.55505668934242,
+   "trim_offset": 0.391927,
+   "chunks": [
+    "이후 목적지를 싱가포르로 적은 뒤 블라디보스토크로 향했다고 가디언은 전했습니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.9688,
+    "elapsed_ms": 1284,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      4.92,
+      5.34
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 140.14,
+     "f0_end_hz": 66.91,
+     "octave_fixed_n": 3
+    }
+   }
+  },
+  {
+   "sid": "act2_16",
+   "scene": "act2",
+   "date": "2026.10.06",
+   "text": "가디언에 따르면 케이플러가 확인한 구매자는 로스네프트와 NNK이고, 두 회사는 극동에 정유소를 가지고 있습니다.",
+   "tts": "케이플러가 확인한 구매자는 로스네프트와 엔엔케이이고, 두 회사는 극동 정유소를 가지고 있습니다.",
+   "segments": [
+    [
+     "가디언에 따르면 케이플러가 확인한 구매자는 ",
+     0
+    ],
+    [
+     "로스네프트와 NNK",
+     1
+    ],
+    [
+     "이고, 두 회사는 극동에 정유소를 가지고 있습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/diesel_road_2026/tts/act2_16_0306583e03.mp3",
+   "npy": "/home/user/osint_generator/projects/diesel_road_2026/tts/act2_16_0306583e03.npy",
+   "dur": 6.265056689342404,
+   "t0": 256.05505668934245,
+   "t1": 262.3201133786849,
+   "trim_offset": 0.506395,
+   "chunks": [
+    "케이플러가 확인한 구매자는 로스네프트와 엔엔케이이고, 두 회사는 극동 정유소를 가지고 있습니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.9669,
+    "elapsed_ms": 1326,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      6.28,
+      6.945
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 107.08,
+     "f0_end_hz": 70.84,
+     "octave_fixed_n": 43
+    }
+   }
+  },
+  {
+   "sid": "act2_17",
+   "scene": "act2",
+   "date": "2026.10.06",
+   "text": "다만 연료의 소유주와 판매자는 분명하지 않다고 가디언은 전했습니다.",
+   "tts": "다만 연료의 소유주와 판매자는 분명하지 않다고 가디언은 전했습니다.",
+   "segments": [
+    [
+     "다만 연료의 소유주와 판매자는 분명하지 않다고 가디언은 전했습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/diesel_road_2026/tts/act2_17_c00d66470c.mp3",
+   "npy": "/home/user/osint_generator/projects/diesel_road_2026/tts/act2_17_c00d66470c.npy",
+   "dur": 4.181700680272109,
+   "t0": 262.8201133786849,
+   "t1": 267.001814058957,
+   "trim_offset": 0.461587,
+   "chunks": [
+    "다만 연료의 소유주와 판매자는 분명하지 않다고 가디언은 전했습니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.9348,
+    "elapsed_ms": 1199,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      4.175,
+      4.835
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 89.96,
+     "f0_end_hz": 79.17,
+     "octave_fixed_n": 38
+    }
+   }
+  },
+  {
+   "sid": "act2_18",
+   "scene": "act2",
+   "date": "2026.08",
+   "text": "가디언이 인용한 케이플러 자료에 따르면 8월 러시아 해상 석유제품 수입의 31%, 약 11만 2천 t이 한국산이었습니다.",
+   "tts": "가디언이 인용한 케이플러 자료에 따르면 팔월 러시아 해상 석유제품 수입의 삼십일 퍼센트, 약 십일만 이천 톤이 한국산이었습니다.",
+   "segments": [
+    [
+     "가디언이 인용한 케이플러 자료에 따르면 8월 러시아 해상 석유제품 수입의 31%, ",
+     0
+    ],
+    [
+     "약 11만 2천 t",
+     1
+    ],
+    [
+     "이 한국산이었습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/diesel_road_2026/tts/act2_18_56ddd83209.mp3",
+   "npy": "/home/user/osint_generator/projects/diesel_road_2026/tts/act2_18_56ddd83209.npy",
+   "dur": 8.585464852607709,
+   "t0": 267.501814058957,
+   "t1": 276.0872789115647,
+   "trim_offset": 0.424671,
+   "chunks": [
+    "가디언이 인용한 케이플러 자료에 따르면 팔월 러시아 해상 석유제품 수입의 삼십일 퍼센트, 약 십일만 이천 톤이 한국산이었습니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.7794,
+    "elapsed_ms": 1637,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      8.425,
+      9.33
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 85.24,
+     "f0_end_hz": 80.65,
+     "octave_fixed_n": 26
+    }
+   }
+  },
+  {
+   "sid": "act2_19",
+   "scene": "act2",
+   "date": "2026.08",
+   "text": "반면 크레아에 따르면 8월 한국산은 약 1만 8천 t이었습니다.",
+   "tts": "반면 크레아에 따르면 팔월 한국산은 약 만 팔천 톤이었습니다.",
+   "segments": [
+    [
+     "반면 크레아에 따르면 8월 한국산은 ",
+     0
+    ],
+    [
+     "약 1만 8천 t",
+     1
+    ],
+    [
+     "이었습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/diesel_road_2026/tts/act2_19_c2cf2e1424.mp3",
+   "npy": "/home/user/osint_generator/projects/diesel_road_2026/tts/act2_19_c2cf2e1424.npy",
+   "dur": 3.8931746031746033,
+   "t0": 276.5872789115647,
+   "t1": 280.4804535147393,
+   "trim_offset": 0.482948,
+   "chunks": [
+    "반면 크레아에 따르면 팔월 한국산은 약 만 팔천 톤이었습니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.9215,
+    "elapsed_ms": 1405,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      3.915,
+      4.365
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 121.01,
+     "f0_end_hz": 79.32,
+     "octave_fixed_n": 7
+    }
+   }
+  },
+  {
+   "sid": "act2_20",
+   "scene": "act2",
+   "date": "2026.10.04",
+   "text": "한편 한국경제에 따르면 정부는 중동 전쟁 이후 휘발유·경유·등유 수출을 전년 같은 달의 100% 이내로 묶었습니다.",
+   "tts": "한편 한국경제에 따르면 정부는 중동 전쟁 이후 휘발유 경유 등유 수출을 전년 같은달의 백 퍼센트 이내로 묶었습니다.",
+   "segments": [
+    [
+     "한편 한국경제에 따르면 정부는 중동 전쟁 이후 휘발유·경유·등유 수출을 전년 같은 달의 ",
+     0
+    ],
+    [
+     "100% 이내",
+     1
+    ],
+    [
+     "로 묶었습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/diesel_road_2026/tts/act2_20_01fbf27ec4.mp3",
+   "npy": "/home/user/osint_generator/projects/diesel_road_2026/tts/act2_20_01fbf27ec4.npy",
+   "dur": 7.577868480725623,
+   "t0": 280.9804535147393,
+   "t1": 288.5583219954649,
+   "trim_offset": 0.471202,
+   "chunks": [
+    "한편 한국경제에 따르면 정부는 중동 전쟁 이후 휘발유 경유 등유 수출을 전년 같은달의 백 퍼센트 이내로 묶었습니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.8964,
+    "elapsed_ms": 1795,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      7.57,
+      8.23
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 86.23,
+     "f0_end_hz": 62.87,
+     "octave_fixed_n": 32
+    }
+   }
+  },
+  {
+   "sid": "act2_21",
+   "scene": "act2",
+   "date": "2026.10.04",
+   "text": "한국경제에 따르면 올해 1~8월 경유 수출량은 1억 2,982만 배럴로 1년 전보다 3.4% 줄었습니다.",
+   "tts": "한국경제에 따르면 올해 일월부터 팔월까지 경유 수출량은 일억 이천구백팔십이만 배럴로 일 년 전보다 삼 점 사 퍼센트 줄었습니다.",
+   "segments": [
+    [
+     "한국경제에 따르면 올해 1~8월 경유 수출량은 1억 2,982만 배럴로 1년 전보다 ",
+     0
+    ],
+    [
+     "3.4%",
+     1
+    ],
+    [
+     " 줄었습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/diesel_road_2026/tts/act2_21_a4915b3520.mp3",
+   "npy": "/home/user/osint_generator/projects/diesel_road_2026/tts/act2_21_a4915b3520.npy",
+   "dur": 8.96077097505669,
+   "t0": 289.0583219954649,
+   "t1": 298.01909297052157,
+   "trim_offset": 0.480431,
+   "chunks": [
+    "한국경제에 따르면 올해 일월부터 팔월까지 경유 수출량은 일억 이천구백팔십이만 배럴로 일 년 전보다 삼 점 사 퍼센트 줄었습니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.7405,
+    "elapsed_ms": 1929,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      8.945,
+      9.545
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 86.02,
+     "f0_end_hz": 80.6,
+     "octave_fixed_n": 39
+    }
+   }
+  },
+  {
+   "sid": "act2_22",
+   "scene": "act2",
+   "date": "2026.09.06",
+   "text": "그러자 정유업계는 국내에 충분히 공급하고도 물량이 남는다며 수출 빗장을 풀자고 요구했다고 경향신문은 보도했습니다.",
+   "tts": "그러자 정유업계는 국내에 충분히 공급하고도 물량이 남는다며 수출 빗장을 풀자고 요구했다고 경향신문은 보도했습니다.",
+   "segments": [
+    [
+     "그러자 정유업계는 국내에 충분히 공급하고도 ",
+     0
+    ],
+    [
+     "물량이 남는다",
+     1
+    ],
+    [
+     "며 수출 빗장을 풀자고 요구했다고 경향신문은 보도했습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/diesel_road_2026/tts/act2_22_aa079fb679.mp3",
+   "npy": "/home/user/osint_generator/projects/diesel_road_2026/tts/act2_22_aa079fb679.npy",
+   "dur": 7.5922448979591834,
+   "t0": 298.51909297052157,
+   "t1": 306.11133786848075,
+   "trim_offset": 0.494671,
+   "chunks": [
+    "그러자 정유업계는 국내에 충분히 공급하고도 물량이 남는다며 수출 빗장을 풀자고 요구했다고 경향신문은 보도했습니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.9369,
+    "elapsed_ms": 1621,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      7.61,
+      8.44
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 89.5,
+     "f0_end_hz": 81.5,
+     "octave_fixed_n": 4
+    }
+   }
+  },
+  {
+   "sid": "act2_23",
+   "scene": "act2",
+   "date": "2026.10.07",
+   "text": "그런데 10월 7일 우크라이나의 블라디슬라프 블라시우크 제재 담당관은 한국산 연료가 러시아의 연료난을 덜어 줬다고 주장했습니다.",
+   "tts": "그런데 시월 칠일 우크라이나의 블라디슬라프 블라시우크 제재 담당관은 한국산 연료가 러시아의 연료난을 덜어 줬다고 주장했습니다.",
+   "segments": [
+    [
+     "그런데 10월 7일 우크라이나의 블라디슬라프 ",
+     0
+    ],
+    [
+     "블라시우크",
+     1
+    ],
+    [
+     " 제재 담당관은 한국산 연료가 러시아의 연료난을 덜어 줬다고 주장했습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/diesel_road_2026/tts/act2_23_c19253845a.mp3",
+   "npy": "/home/user/osint_generator/projects/diesel_road_2026/tts/act2_23_c19253845a.npy",
+   "dur": 8.31734693877551,
+   "t0": 306.61133786848075,
+   "t1": 314.9286848072563,
+   "trim_offset": 0.633923,
+   "chunks": [
+    "그런데 시월 칠일 우크라이나의 블라디슬라프 블라시우크 제재 담당관은 한국산 연료가 러시아의 연료난을 덜어 줬다고 주장했습니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.9081,
+    "elapsed_ms": 1894,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      8.5,
+      9.1
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 99.84,
+     "f0_end_hz": 117.04,
+     "octave_fixed_n": 38
+    }
+   }
+  },
+  {
+   "sid": "act2_24",
+   "scene": "act2",
+   "date": "2026.10.07",
+   "text": "이에 대해 강유정 청와대 수석대변인은 \"사실과 다르며 부적절하다\"고 반박했습니다.",
+   "tts": "이에 대해 강유정 청와대 수석대변인은 사실과 다르며 부적절하다고 반박했습니다.",
+   "segments": [
+    [
+     "이에 대해 강유정 청와대 수석대변인은 \"",
+     0
+    ],
+    [
+     "사실과 다르며 부적절",
+     1
+    ],
+    [
+     "하다\"고 반박했습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/diesel_road_2026/tts/act2_24_9218e23be3.mp3",
+   "npy": "/home/user/osint_generator/projects/diesel_road_2026/tts/act2_24_9218e23be3.npy",
+   "dur": 5.084444444444444,
+   "t0": 315.4286848072563,
+   "t1": 320.5131292517007,
+   "trim_offset": 0.471746,
+   "chunks": [
+    "이에 대해 강유정 청와대 수석대변인은 사실과 다르며 부적절하다고 반박했습니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.9556,
+    "elapsed_ms": 1304,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      5.07,
+      5.495
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 99.37,
+     "f0_end_hz": 65.22,
+     "octave_fixed_n": 0
+    }
+   }
+  },
+  {
+   "sid": "act2_25",
+   "scene": "act2",
+   "date": "2026.10.07",
+   "text": "청와대는 거래 주체와 원산지, 최종 구매자가 확인되지 않은 개별 거래라고 설명했습니다.",
+   "tts": "청와대는 거래 주체와 원산지, 최종 구매자가 확인되지 않은 개별 거래라고 설명했습니다.",
+   "segments": [
+    [
+     "청와대는 거래 주체와 원산지, 최종 구매자가 확인되지 않은 개별 거래라고 설명했습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/diesel_road_2026/tts/act2_25_0d86dabf02.mp3",
+   "npy": "/home/user/osint_generator/projects/diesel_road_2026/tts/act2_25_0d86dabf02.npy",
+   "dur": 5.925215419501134,
+   "t0": 321.0131292517007,
+   "t1": 326.93834467120183,
+   "trim_offset": 0.394331,
+   "chunks": [
+    "청와대는 거래 주체와 원산지, 최종 구매자가 확인되지 않은 개별 거래라고 설명했습니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.9126,
+    "elapsed_ms": 1426,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      5.89,
+      6.445
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 84.42,
+     "f0_end_hz": 69.43,
+     "octave_fixed_n": 32
+    }
+   }
+  },
+  {
+   "sid": "act2_26",
+   "scene": "act2",
+   "date": "2026.10.07",
+   "text": "국가안보실 관계자는 대러 수출통제 품목 1,402개에 경유 같은 정제유는 들어 있지 않다고 밝혔습니다.",
+   "tts": "국가안보실 관계자는 대러 수출통제 품목 천사백두 개에 경유 같은 정제유는 들어 있지 않다고 밝혔습니다.",
+   "segments": [
+    [
+     "국가안보실 관계자는 대러 수출통제 품목 1,402개에 경유 같은 ",
+     0
+    ],
+    [
+     "정제유",
+     1
+    ],
+    [
+     "는 들어 있지 않다고 밝혔습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/diesel_road_2026/tts/act2_26_f0c5ebdb27.mp3",
+   "npy": "/home/user/osint_generator/projects/diesel_road_2026/tts/act2_26_f0c5ebdb27.npy",
+   "dur": 6.62875283446712,
+   "t0": 327.43834467120183,
+   "t1": 334.0670975056689,
+   "trim_offset": 0.532426,
+   "chunks": [
+    "국가안보실 관계자는 대러 수출통제 품목 천사백두 개에 경유 같은 정제유는 들어 있지 않다고 밝혔습니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.9146,
+    "elapsed_ms": 1608,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      6.7,
+      7.48
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 87.26,
+     "f0_end_hz": 117.39,
+     "octave_fixed_n": 23
+    }
+   }
+  },
+  {
+   "sid": "act2_27",
+   "scene": "act2",
+   "date": "2026.10.08",
+   "text": "이어서 10월 8일 정부는 수출통제를 이행하고 있으며, 위반이 확인되면 법에 따라 조치하겠다고 밝혔습니다.",
+   "tts": "이어서 시월 팔일 정부는 수출통제를 이행하고 있으며, 위반이 확인되면 법에 따라 조치하겠다고 밝혔습니다.",
+   "segments": [
+    [
+     "이어서 10월 8일 정부는 수출통제를 이행하고 있으며, 위반이 확인되면 법에 따라 조치하겠다고 밝혔습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/diesel_road_2026/tts/act2_27_a68b0d27a6.mp3",
+   "npy": "/home/user/osint_generator/projects/diesel_road_2026/tts/act2_27_a68b0d27a6.npy",
+   "dur": 6.488321995464853,
+   "t0": 334.5670975056689,
+   "t1": 341.05541950113377,
+   "trim_offset": 0.610499,
+   "chunks": [
+    "이어서 시월 팔일 정부는 수출통제를 이행하고 있으며, 위반이 확인되면 법에 따라 조치하겠다고 밝혔습니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.9517,
+    "elapsed_ms": 1577,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      6.66,
+      7.44
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 88.32,
+     "f0_end_hz": 75.76,
+     "octave_fixed_n": 4
+    }
+   }
+  },
+  {
+   "sid": "act2_28",
+   "scene": "act2",
+   "date": "2026.10.08",
+   "text": "같은 날 정부는 주우크라이나 대사를 불러들이기로 했다고 발표했습니다.",
+   "tts": "같은 날 정부는 주우크라이나 대사를 불러들이기로 했다고 발표했습니다.",
+   "segments": [
+    [
+     "같은 날 정부는 주우크라이나 ",
+     0
+    ],
+    [
+     "대사",
+     1
+    ],
+    [
+     "를 불러들이기로 했다고 발표했습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/diesel_road_2026/tts/act2_28_25e091f999.mp3",
+   "npy": "/home/user/osint_generator/projects/diesel_road_2026/tts/act2_28_25e091f999.npy",
+   "dur": 4.172380952380952,
+   "t0": 341.55541950113377,
+   "t1": 345.7278004535147,
+   "trim_offset": 0.392925,
+   "chunks": [
+    "같은 날 정부는 주우크라이나 대사를 불러들이기로 했다고 발표했습니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.9583,
+    "elapsed_ms": 5110,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      4.09,
+      4.79
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 117.69,
+     "f0_end_hz": 71.54,
+     "octave_fixed_n": 40
+    }
+   }
+  },
+  {
+   "sid": "act2_29",
+   "scene": "act2",
+   "date": "2026.10.08",
+   "text": "코리아중앙데일리는 북한군 포로 송환 공개를 둘러싼 갈등에 연료 논란이 겹쳤다고 보도했습니다.",
+   "tts": "코리아중앙데일리는 북한군 포로 송환 공개를 둘러싼 갈등에 연료 논란이 겹쳤다고 보도했습니다.",
+   "segments": [
+    [
+     "코리아중앙데일리는 북한군 포로 송환 공개를 둘러싼 갈등에 연료 논란이 겹쳤다고 보도했습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/diesel_road_2026/tts/act2_29_9d54bbec51.mp3",
+   "npy": "/home/user/osint_generator/projects/diesel_road_2026/tts/act2_29_9d54bbec51.npy",
+   "dur": 6.027482993197279,
+   "t0": 346.2278004535147,
+   "t1": 352.255283446712,
+   "trim_offset": 0.45966,
+   "chunks": [
+    "코리아중앙데일리는 북한군 포로 송환 공개를 둘러싼 갈등에 연료 논란이 겹쳤다고 보도했습니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.9436,
+    "elapsed_ms": 1465,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      5.96,
+      6.605
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 94.73,
+     "f0_end_hz": 69.07,
+     "octave_fixed_n": 37
+    }
+   }
+  },
+  {
+   "sid": "act3_0",
+   "scene": "act3",
+   "date": "2026.08.28",
+   "text": "한편 국제에너지기구에 따르면 세계 경유의 또 다른 큰 공급처인 걸프 지역도 전쟁 한가운데 있었습니다.",
+   "tts": "한편 국제 에너지 기구에 따르면 세계 경유의 또 다른 큰 공급처인 걸프 지역도 전쟁 한가운데 있었습니다.",
+   "segments": [
+    [
+     "한편 국제에너지기구에 따르면 세계 경유의 또 다른 큰 공급처인 ",
+     0
+    ],
+    [
+     "걸프",
+     1
+    ],
+    [
+     " 지역도 전쟁 한가운데 있었습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/diesel_road_2026/tts/act3_0_611e3bb42c.mp3",
+   "npy": "/home/user/osint_generator/projects/diesel_road_2026/tts/act3_0_611e3bb42c.npy",
+   "dur": 6.55,
+   "t0": 353.755283446712,
+   "t1": 360.305283446712,
+   "trim_offset": 0.462177,
+   "chunks": [
+    "한편 국제 에너지 기구에 따르면 세계 경유의 또 다른 큰 공급처인 걸프 지역도 전쟁 한가운데 있었습니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.9371,
+    "elapsed_ms": 1422,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      6.56,
+      6.985
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 84.57,
+     "f0_end_hz": 82.73,
+     "octave_fixed_n": 4
+    }
+   }
+  },
+  {
+   "sid": "act3_1",
+   "scene": "act3",
+   "date": "2026.02.28",
+   "text": "미스에 따르면 2월 28일 전쟁이 시작된 뒤, 호르무즈 해협을 지나는 경유 수송도 크게 줄었습니다.",
+   "tts": "미스에 따르면 이월 이십팔일 전쟁이 시작된 뒤, 호르무즈 해협을 지나는 경유 수송도 크게 줄었습니다.",
+   "segments": [
+    [
+     "미스에 따르면 2월 28일 전쟁이 시작된 뒤, 호르무즈 해협을 지나는 경유 수송도 크게 줄었습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/diesel_road_2026/tts/act3_1_43a9a6d03c.mp3",
+   "npy": "/home/user/osint_generator/projects/diesel_road_2026/tts/act3_1_43a9a6d03c.npy",
+   "dur": 5.957256235827664,
+   "t0": 360.805283446712,
+   "t1": 366.7625396825397,
+   "trim_offset": 0.559796,
+   "chunks": [
+    "미스에 따르면 이월 이십팔일 전쟁이 시작된 뒤, 호르무즈 해협을 지나는 경유 수송도 크게 줄었습니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.8668,
+    "elapsed_ms": 5496,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      6.0,
+      6.7
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 87.16,
+     "f0_end_hz": 68.39,
+     "octave_fixed_n": 3
+    }
+   }
+  },
+  {
+   "sid": "act3_2",
+   "scene": "act3",
+   "date": "2026.03.18",
+   "text": "3월 18일에는 이란 최대 가스전인 사우스파르스의 시설이 공습을 받았다고 외신들이 보도했습니다.",
+   "tts": "삼월 십팔일에는 이란 최대 가스전인 사우스파르스의 시설이 공습을 받았다고 외신들이 보도했습니다.",
+   "segments": [
+    [
+     "3월 18일에는 이란 최대 가스전인 ",
+     0
+    ],
+    [
+     "사우스파르스",
+     1
+    ],
+    [
+     "의 시설이 공습을 받았다고 외신들이 보도했습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/diesel_road_2026/tts/act3_2_935fca1f53.mp3",
+   "npy": "/home/user/osint_generator/projects/diesel_road_2026/tts/act3_2_935fca1f53.npy",
+   "dur": 6.066417233560091,
+   "t0": 367.2625396825397,
+   "t1": 373.3289569160998,
+   "trim_offset": 0.541111,
+   "chunks": [
+    "삼월 십팔일에는 이란 최대 가스전인 사우스파르스의 시설이 공습을 받았다고 외신들이 보도했습니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.8754,
+    "elapsed_ms": 5633,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      6.11,
+      6.525
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 106.11,
+     "f0_end_hz": 63.77,
+     "octave_fixed_n": 2
+    }
+   }
+  },
+  {
+   "sid": "act3_3",
+   "scene": "act3",
+   "date": "2026.03.18",
+   "text": "인도 비즈니스투데이 등은 이스라엘의 공습이라고 보도했습니다.",
+   "tts": "인도 비즈니스투데이 등은 이스라엘의 공습이라고 보도했습니다.",
+   "segments": [
+    [
+     "인도 비즈니스투데이 등은 이스라엘의 공습이라고 보도했습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/diesel_road_2026/tts/act3_3_35dcacd419.mp3",
+   "npy": "/home/user/osint_generator/projects/diesel_road_2026/tts/act3_3_35dcacd419.npy",
+   "dur": 3.451111111111111,
+   "t0": 373.8289569160998,
+   "t1": 377.2800680272109,
+   "trim_offset": 0.467029,
+   "chunks": [
+    "인도 비즈니스투데이 등은 이스라엘의 공습이라고 보도했습니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.9369,
+    "elapsed_ms": 1379,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      3.475,
+      4.14
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 143.73,
+     "f0_end_hz": 136.94,
+     "octave_fixed_n": 33
+    }
+   }
+  },
+  {
+   "sid": "act3_4",
+   "scene": "act3",
+   "date": "2026.03.18",
+   "text": "반면 이란은 미국과 이스라엘이 함께 공격했다고 주장했습니다.",
+   "tts": "반면 이란은 미국과 이스라엘이 함께 공격했다고 주장했습니다.",
+   "segments": [
+    [
+     "반면 이란은 미국과 이스라엘이 함께 공격했다고 주장했습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/diesel_road_2026/tts/act3_4_f74086c10a.mp3",
+   "npy": "/home/user/osint_generator/projects/diesel_road_2026/tts/act3_4_f74086c10a.npy",
+   "dur": 3.8603628117913833,
+   "t0": 377.7800680272109,
+   "t1": 381.6404308390023,
+   "trim_offset": 0.55542,
+   "chunks": [
+    "반면 이란은 미국과 이스라엘이 함께 공격했다고 주장했습니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.9479,
+    "elapsed_ms": 1470,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      3.935,
+      4.365
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 88.85,
+     "f0_end_hz": 61.9,
+     "octave_fixed_n": 2
+    }
+   }
+  },
+  {
+   "sid": "act3_5",
+   "scene": "act3",
+   "date": "2026.10.15",
+   "text": "로이터는 카타르 라스라판의 액화천연가스 설비에서 콜드박스 두 기가 부서졌다고 보도했습니다.",
+   "tts": "로이터는 카타르 라스라판의 액화천연가스 설비에서 콜드박스 두 기가 부서졌다고 보도했습니다.",
+   "segments": [
+    [
+     "로이터는 카타르 ",
+     0
+    ],
+    [
+     "라스라판",
+     1
+    ],
+    [
+     "의 액화천연가스 설비에서 콜드박스 두 기가 부서졌다고 보도했습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/diesel_road_2026/tts/act3_5_07029812b3.mp3",
+   "npy": "/home/user/osint_generator/projects/diesel_road_2026/tts/act3_5_07029812b3.npy",
+   "dur": 5.449546485260771,
+   "t0": 382.1404308390023,
+   "t1": 387.5899773242631,
+   "trim_offset": 0.575873,
+   "chunks": [
+    "로이터는 카타르 라스라판의 액화천연가스 설비에서 콜드박스 두 기가 부서졌다고 보도했습니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.9427,
+    "elapsed_ms": 1452,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      5.575,
+      6.13
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 102.7,
+     "f0_end_hz": 63.61,
+     "octave_fixed_n": 7
+    }
+   }
+  },
+  {
+   "sid": "act3_6",
+   "scene": "act3",
+   "date": "2026.03.19",
+   "text": "카타르에너지의 사드 알카비 최고경영자는 복구에 3년에서 5년이 걸린다고 말했습니다.",
+   "tts": "카타르에너지의 사드 알카비 최고경영자는 복구에 삼 년에서 오 년이 걸린다고 말했습니다.",
+   "segments": [
+    [
+     "카타르에너지의 사드 알카비 최고경영자는 복구에 ",
+     0
+    ],
+    [
+     "3년에서 5년",
+     1
+    ],
+    [
+     "이 걸린다고 말했습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/diesel_road_2026/tts/act3_6_5af9dd2126.mp3",
+   "npy": "/home/user/osint_generator/projects/diesel_road_2026/tts/act3_6_5af9dd2126.npy",
+   "dur": 5.557800453514739,
+   "t0": 388.0899773242631,
+   "t1": 393.64777777777783,
+   "trim_offset": 0.564036,
+   "chunks": [
+    "카타르에너지의 사드 알카비 최고경영자는 복구에 삼 년에서 오 년이 걸린다고 말했습니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.8601,
+    "elapsed_ms": 1276,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      5.63,
+      6.45
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 118.22,
+     "f0_end_hz": 72.03,
+     "octave_fixed_n": 28
+    }
+   }
+  },
+  {
+   "sid": "act3_7",
+   "scene": "act3",
+   "date": "2026.10.15",
+   "text": "아랍에미리트의 푸자이라 항은 이란의 무인기와 미사일 공격을 적어도 19번 받았다고 로이터는 전했습니다.",
+   "tts": "아랍에미리트의 푸자이라 항은 이란의 무인기와 미사일 공격을 적어도 열아홉 번 받았다고 로이터는 전했습니다.",
+   "segments": [
+    [
+     "아랍에미리트의 푸자이라 항은 이란의 무인기와 미사일 공격을 ",
+     0
+    ],
+    [
+     "적어도 19번",
+     1
+    ],
+    [
+     " 받았다고 로이터는 전했습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/diesel_road_2026/tts/act3_7_61648603d5.mp3",
+   "npy": "/home/user/osint_generator/projects/diesel_road_2026/tts/act3_7_61648603d5.npy",
+   "dur": 6.885532879818594,
+   "t0": 394.14777777777783,
+   "t1": 401.0333106575964,
+   "trim_offset": 0.46,
+   "chunks": [
+    "아랍에미리트의 푸자이라 항은 이란의 무인기와 미사일 공격을 적어도 열아홉 번 받았다고 로이터는 전했습니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.9317,
+    "elapsed_ms": 1848,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      6.885,
+      7.655
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 89.59,
+     "f0_end_hz": 79.4,
+     "octave_fixed_n": 35
+    }
+   }
+  },
+  {
+   "sid": "act3_8",
+   "scene": "act3",
+   "date": "2026.09.10",
+   "text": "9월 10일에는 무인기가 사우디 동서 송유관의 펌프장을 타격했습니다.",
+   "tts": "구월 십일일에는 무인기가 사우디 동서 송유관의 펌프장을 타격했습니다.",
+   "segments": [
+    [
+     "9월 10일에는 무인기가 사우디 동서 송유관의 ",
+     0
+    ],
+    [
+     "펌프장",
+     1
+    ],
+    [
+     "을 타격했습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/diesel_road_2026/tts/act3_8_01bfa97e5e.mp3",
+   "npy": "/home/user/osint_generator/projects/diesel_road_2026/tts/act3_8_01bfa97e5e.npy",
+   "dur": 4.540090702947846,
+   "t0": 401.5333106575964,
+   "t1": 406.07340136054427,
+   "trim_offset": 0.436213,
+   "chunks": [
+    "구월 십일일에는 무인기가 사우디 동서 송유관의 펌프장을 타격했습니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.896,
+    "elapsed_ms": 1130,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      4.47,
+      5.17
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 96.9,
+     "f0_end_hz": 69.65,
+     "octave_fixed_n": 9
+    }
+   }
+  },
+  {
+   "sid": "act3_9",
+   "scene": "act3",
+   "date": "2026.09.11",
+   "text": "미국 관리는 이 무인기가 이라크에서 날아왔다고 말했고, 사우디는 다음 날 송유관을 멈췄습니다.",
+   "tts": "미국 관리는 이 무인기가 이라크에서 날아왔다고 말했고, 사우디는 다음 날 송유관을 멈췄습니다.",
+   "segments": [
+    [
+     "미국 관리는 이 무인기가 이라크에서 날아왔다고 말했고, 사우디는 다음 날 송유관을 멈췄습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/diesel_road_2026/tts/act3_9_e30a19d8fe.mp3",
+   "npy": "/home/user/osint_generator/projects/diesel_road_2026/tts/act3_9_e30a19d8fe.npy",
+   "dur": 6.058458049886621,
+   "t0": 406.57340136054427,
+   "t1": 412.6318594104309,
+   "trim_offset": 0.506961,
+   "chunks": [
+    "미국 관리는 이 무인기가 이라크에서 날아왔다고 말했고, 사우디는 다음 날 송유관을 멈췄습니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.951,
+    "elapsed_ms": 1868,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      6.095,
+      6.77
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 100.84,
+     "f0_end_hz": 60.08,
+     "octave_fixed_n": 20
+    }
+   }
+  },
+  {
+   "sid": "act3_10",
+   "scene": "act3",
+   "date": "2026.03.14",
+   "text": "한편 말레이메일에 따르면, 이란 원유 수출의 관문인 하르그섬에서는 미군이 군사 목표를 공격했습니다.",
+   "tts": "한편 말레이메일에 따르면, 이란 워뉴 수출의 관문인 하르그섬에서는 미군이 군사 목표를 공격했습니다.",
+   "segments": [
+    [
+     "한편 말레이메일에 따르면, 이란 원유 수출의 관문인 ",
+     0
+    ],
+    [
+     "하르그섬",
+     1
+    ],
+    [
+     "에서는 미군이 군사 목표를 공격했습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/diesel_road_2026/tts/act3_10_75a574d022.mp3",
+   "npy": "/home/user/osint_generator/projects/diesel_road_2026/tts/act3_10_75a574d022.npy",
+   "dur": 6.7581632653061225,
+   "t0": 413.1318594104309,
+   "t1": 419.890022675737,
+   "trim_offset": 0.494354,
+   "chunks": [
+    "한편 말레이메일에 따르면, 이란 워뉴 수출의 관문인 하르그섬에서는 미군이 군사 목표를 공격했습니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.9142,
+    "elapsed_ms": 1780,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      6.79,
+      7.455
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 82.23,
+     "f0_end_hz": 72.75,
+     "octave_fixed_n": 32
+    }
+   }
+  },
+  {
+   "sid": "act3_11",
+   "scene": "act3",
+   "date": "2026.03.14",
+   "text": "트럼프 대통령은 이 섬의 석유 시설은 공격하지 않기로 했다고 밝혔습니다.",
+   "tts": "트럼프 대통령은 이 섬의 석유 시설은 공격하지 않기로 했다고 밝혔습니다.",
+   "segments": [
+    [
+     "트럼프 대통령은 이 섬의 석유 시설은 공격하지 않기로 했다고 밝혔습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/diesel_road_2026/tts/act3_11_114a02de20.mp3",
+   "npy": "/home/user/osint_generator/projects/diesel_road_2026/tts/act3_11_114a02de20.npy",
+   "dur": 4.496258503401361,
+   "t0": 420.390022675737,
+   "t1": 424.88628117913834,
+   "trim_offset": 0.411179,
+   "chunks": [
+    "트럼프 대통령은 이 섬의 석유 시설은 공격하지 않기로 했다고 밝혔습니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.9168,
+    "elapsed_ms": 4859,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      4.465,
+      4.82
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 143.44,
+     "f0_end_hz": 111.22,
+     "octave_fixed_n": 6
+    }
+   }
+  },
+  {
+   "sid": "act3_12",
+   "scene": "act3",
+   "date": "2026.10.15",
+   "text": "로이터에 따르면 걸프 정부들은 피해를 요격된 무기의 파편 탓으로 돌려 왔습니다.",
+   "tts": "로이터에 따르면 걸프 정부들은 피해를 요격된 무기의 파편 탓으로 돌려 왔습니다.",
+   "segments": [
+    [
+     "로이터에 따르면 걸프 정부들은 피해를 요격된 무기의 파편 탓으로 돌려 왔습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/diesel_road_2026/tts/act3_12_4eab19b8eb.mp3",
+   "npy": "/home/user/osint_generator/projects/diesel_road_2026/tts/act3_12_4eab19b8eb.npy",
+   "dur": 4.628208616780046,
+   "t0": 425.38628117913834,
+   "t1": 430.0144897959184,
+   "trim_offset": 0.52907,
+   "chunks": [
+    "로이터에 따르면 걸프 정부들은 피해를 요격된 무기의 파편 탓으로 돌려 왔습니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.9259,
+    "elapsed_ms": 1319,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      4.7,
+      5.36
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 89.03,
+     "f0_end_hz": 67.99,
+     "octave_fixed_n": 30
+    }
+   }
+  },
+  {
+   "sid": "act3_13",
+   "scene": "act3",
+   "date": "2026.10.15",
+   "text": "그렇지만 공격은 파편으로 보기 어려울 만큼 정밀했고, 피해 자체가 목적이었다고 로이터는 보도했습니다.",
+   "tts": "그렇지만 공격은 파편으로 보기 어려울 만큼 정밀했고, 피해 자체가 목적이었다고 로이터는 보도했습니다.",
+   "segments": [
+    [
+     "그렇지만 공격은 파편으로 보기 어려울 만큼 정밀했고, ",
+     0
+    ],
+    [
+     "피해 자체가 목적",
+     1
+    ],
+    [
+     "이었다고 로이터는 보도했습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/diesel_road_2026/tts/act3_13_6d5f5f70c4.mp3",
+   "npy": "/home/user/osint_generator/projects/diesel_road_2026/tts/act3_13_6d5f5f70c4.npy",
+   "dur": 6.441360544217687,
+   "t0": 430.5144897959184,
+   "t1": 436.95585034013607,
+   "trim_offset": 0.52941,
+   "chunks": [
+    "그렇지만 공격은 파편으로 보기 어려울 만큼 정밀했고, 피해 자체가 목적이었다고 로이터는 보도했습니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.9387,
+    "elapsed_ms": 1786,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      6.465,
+      6.94
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 107.47,
+     "f0_end_hz": 91.48,
+     "octave_fixed_n": 4
+    }
+   }
+  },
+  {
+   "sid": "act3_14",
+   "scene": "act3",
+   "date": "2026.10.15",
+   "text": "로이터에 따르면 개전 이후 걸프의 기반시설 84곳 이상이 135번 넘게 공격받았습니다.",
+   "tts": "로이터에 따르면 개전 이후 걸프의 기반시설 여든네 곳 이상이 백서른다섯 번 넘게 공격받았습니다.",
+   "segments": [
+    [
+     "로이터에 따르면 개전 이후 걸프의 기반시설 ",
+     0
+    ],
+    [
+     "84곳 이상",
+     1
+    ],
+    [
+     "이 135번 넘게 공격받았습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/diesel_road_2026/tts/act3_14_99cd94079e.mp3",
+   "npy": "/home/user/osint_generator/projects/diesel_road_2026/tts/act3_14_99cd94079e.npy",
+   "dur": 6.268163265306122,
+   "t0": 437.45585034013607,
+   "t1": 443.72401360544217,
+   "trim_offset": 0.357256,
+   "chunks": [
+    "로이터에 따르면 개전 이후 걸프의 기반시설 여든네 곳 이상이 백서른다섯 번 넘게 공격받았습니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.9154,
+    "elapsed_ms": 1552,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      6.16,
+      6.71
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 106.7,
+     "f0_end_hz": 93.52,
+     "octave_fixed_n": 49
+    }
+   }
+  },
+  {
+   "sid": "act3_15",
+   "scene": "act3",
+   "date": "2026.08.28",
+   "text": "그 결과 7월 호르무즈를 지난 중동산 경유 수출은 하루 16만 5천 배럴에 그쳤다고 미스는 보도했습니다.",
+   "tts": "그 결과 칠월 호르무즈를 지난 중동산 경유 수출은 하루 십육만 오천 배럴에 그쳤다고 미스는 보도했습니다.",
+   "segments": [
+    [
+     "그 결과 7월 호르무즈를 지난 중동산 경유 수출은 하루 ",
+     0
+    ],
+    [
+     "16만 5천 배럴",
+     1
+    ],
+    [
+     "에 그쳤다고 미스는 보도했습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/diesel_road_2026/tts/act3_15_7ef5dba856.mp3",
+   "npy": "/home/user/osint_generator/projects/diesel_road_2026/tts/act3_15_7ef5dba856.npy",
+   "dur": 6.44750566893424,
+   "t0": 444.22401360544217,
+   "t1": 450.6715192743764,
+   "trim_offset": 0.494376,
+   "chunks": [
+    "그 결과 칠월 호르무즈를 지난 중동산 경유 수출은 하루 십육만 오천 배럴에 그쳤다고 미스는 보도했습니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.8912,
+    "elapsed_ms": 1696,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      6.485,
+      7.115
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 93.54,
+     "f0_end_hz": 71.79,
+     "octave_fixed_n": 33
+    }
+   }
+  },
+  {
+   "sid": "act3_16",
+   "scene": "act3",
+   "date": "2026.08.28",
+   "text": "미스는 전쟁 전 하루 약 80만 배럴에 크게 못 미치는 양이라고 전했습니다.",
+   "tts": "미스는 전쟁 전 하루 약 팔십만 배럴에 크게 못 미치는 양이라고 전했습니다.",
+   "segments": [
+    [
+     "미스는 전쟁 전 하루 약 80만 배럴에 크게 못 미치는 양이라고 전했습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/diesel_road_2026/tts/act3_16_7549c21a10.mp3",
+   "npy": "/home/user/osint_generator/projects/diesel_road_2026/tts/act3_16_7549c21a10.npy",
+   "dur": 4.409569160997733,
+   "t0": 451.1715192743764,
+   "t1": 455.5810884353741,
+   "trim_offset": 0.555986,
+   "chunks": [
+    "미스는 전쟁 전 하루 약 팔십만 배럴에 크게 못 미치는 양이라고 전했습니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.9024,
+    "elapsed_ms": 1207,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      4.515,
+      5.065
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 84.7,
+     "f0_end_hz": 72.93,
+     "octave_fixed_n": 6
+    }
+   }
+  },
+  {
+   "sid": "act4_0",
+   "scene": "act4",
+   "date": "2025.10.22",
+   "text": "미국은 2025년 10월 22일 로스네프트를 제재 대상에 올렸습니다.",
+   "tts": "미국은 이천이십오년 시월 이십이일 로스네프트를 제재 대상에 올렸습니다.",
+   "segments": [
+    [
+     "미국은 2025년 10월 22일 ",
+     0
+    ],
+    [
+     "로스네프트",
+     1
+    ],
+    [
+     "를 제재 대상에 올렸습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/diesel_road_2026/tts/act4_0_07e6d052d1.mp3",
+   "npy": "/home/user/osint_generator/projects/diesel_road_2026/tts/act4_0_07e6d052d1.npy",
+   "dur": 4.423786848072562,
+   "t0": 457.0810884353741,
+   "t1": 461.50487528344667,
+   "trim_offset": 0.53585,
+   "chunks": [
+    "미국은 이천이십오년 시월 이십이일 로스네프트를 제재 대상에 올렸습니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.7446,
+    "elapsed_ms": 1029,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      4.495,
+      5.08
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 98.71,
+     "f0_end_hz": 68.24,
+     "octave_fixed_n": 8
+    }
+   }
+  },
+  {
+   "sid": "act4_1",
+   "scene": "act4",
+   "date": "2026.03.12",
+   "text": "그런데 올해 3월 12일 미 재무부는 이미 배에 실린 러시아산 석유의 거래를 한시적으로 허용했습니다.",
+   "tts": "그런데 올해 삼월 십이일 미 재무부는 이미 배에 실린 러시아산 석유의 거래를 한시적으로 허용했습니다.",
+   "segments": [
+    [
+     "그런데 올해 3월 12일 미 재무부는 이미 배에 실린 러시아산 석유의 거래를 ",
+     0
+    ],
+    [
+     "한시적으로 허용",
+     1
+    ],
+    [
+     "했습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/diesel_road_2026/tts/act4_1_47d1cb72a3.mp3",
+   "npy": "/home/user/osint_generator/projects/diesel_road_2026/tts/act4_1_47d1cb72a3.npy",
+   "dur": 6.28702947845805,
+   "t0": 462.00487528344667,
+   "t1": 468.29190476190473,
+   "trim_offset": 0.501224,
+   "chunks": [
+    "그런데 올해 삼월 십이일 미 재무부는 이미 배에 실린 러시아산 석유의 거래를 한시적으로 허용했습니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.8117,
+    "elapsed_ms": 1304,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      6.35,
+      6.93
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 82.26,
+     "f0_end_hz": 70.56,
+     "octave_fixed_n": 26
+    }
+   }
+  },
+  {
+   "sid": "act4_2",
+   "scene": "act4",
+   "date": "2026.10.09",
+   "text": "그리고 10월 9일, 트럼프 대통령은 푸틴 대통령과의 경유 거래를 발표했습니다.",
+   "tts": "그리고 시월 구일, 트럼프 대통령은 푸틴 대통령과의 경유 거래를 발표했습니다.",
+   "segments": [
+    [
+     "그리고 10월 9일, 트럼프 대통령은 푸틴 대통령과의 ",
+     0
+    ],
+    [
+     "경유 거래",
+     1
+    ],
+    [
+     "를 발표했습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/diesel_road_2026/tts/act4_2_884539d311.mp3",
+   "npy": "/home/user/osint_generator/projects/diesel_road_2026/tts/act4_2_884539d311.npy",
+   "dur": 4.764399092970521,
+   "t0": 468.79190476190473,
+   "t1": 473.55630385487524,
+   "trim_offset": 0.336259,
+   "chunks": [
+    "그리고 시월 구일, 트럼프 대통령은 푸틴 대통령과의 경유 거래를 발표했습니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.9334,
+    "elapsed_ms": 1143,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      4.645,
+      5.05
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 86.69,
+     "f0_end_hz": 65.73,
+     "octave_fixed_n": 4
+    }
+   }
+  },
+  {
+   "sid": "act4_3",
+   "scene": "act4",
+   "date": "2026.10.09",
+   "text": "트럼프 대통령은 러시아가 경유 30만 t 이상을 즉시, 11월에 50만 t, 이어서 100만 t을 공급한다고 밝혔습니다.",
+   "tts": "트럼프 대통령은 러시아가 경유 삼십만 톤 이상을 즉시, 십일월에 오십만 톤, 이어서 백만 톤을 공급한다고 밝혔습니다.",
+   "segments": [
+    [
+     "트럼프 대통령은 러시아가 경유 ",
+     0
+    ],
+    [
+     "30만 t 이상",
+     1
+    ],
+    [
+     "을 즉시, 11월에 50만 t, 이어서 100만 t을 공급한다고 밝혔습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/diesel_road_2026/tts/act4_3_510483db31.mp3",
+   "npy": "/home/user/osint_generator/projects/diesel_road_2026/tts/act4_3_510483db31.npy",
+   "dur": 7.480521541950114,
+   "t0": 474.05630385487524,
+   "t1": 481.53682539682535,
+   "trim_offset": 0.4861,
+   "chunks": [
+    "트럼프 대통령은 러시아가 경유 삼십만 톤 이상을 즉시, 십일월에 오십만 톤, 이어서 백만 톤을 공급한다고 밝혔습니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.8546,
+    "elapsed_ms": 1808,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      7.555,
+      8.17
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 93.8,
+     "f0_end_hz": 73.07,
+     "octave_fixed_n": 8
+    }
+   }
+  },
+  {
+   "sid": "act4_4",
+   "scene": "act4",
+   "date": "2026.10.09",
+   "text": "같은 날 미 재무부는 2027년 4월 7일까지 러시아산 경유 거래를 허용하는 일반허가를 냈습니다.",
+   "tts": "같은 날 미 재무부는 이천이십칠년 사월 칠일까지 러시아산 경유 거래를 허용하는 일반허가를 냈습니다.",
+   "segments": [
+    [
+     "같은 날 미 재무부는 ",
+     0
+    ],
+    [
+     "2027년 4월 7일",
+     1
+    ],
+    [
+     "까지 러시아산 경유 거래를 허용하는 일반허가를 냈습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/diesel_road_2026/tts/act4_4_27b79b6085.mp3",
+   "npy": "/home/user/osint_generator/projects/diesel_road_2026/tts/act4_4_27b79b6085.npy",
+   "dur": 6.609115646258504,
+   "t0": 482.03682539682535,
+   "t1": 488.64594104308384,
+   "trim_offset": 0.393107,
+   "chunks": [
+    "같은 날 미 재무부는 이천이십칠년 사월 칠일까지 러시아산 경유 거래를 허용하는 일반허가를 냈습니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.8998,
+    "elapsed_ms": 1751,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      6.56,
+      7.1
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 88.28,
+     "f0_end_hz": 73.94,
+     "octave_fixed_n": 24
+    }
+   }
+  },
+  {
+   "sid": "act4_5",
+   "scene": "act4",
+   "date": "2026.10.11",
+   "text": "베선트 재무장관은 가진 모든 법적 권한으로 이 거래를 하겠다고 말했습니다.",
+   "tts": "베선트 재무장관은 가진 모든 법적 권한으로 이 거래를 하겠다고 말했습니다.",
+   "segments": [
+    [
+     "베선트 재무장관은 가진 ",
+     0
+    ],
+    [
+     "모든 법적 권한",
+     1
+    ],
+    [
+     "으로 이 거래를 하겠다고 말했습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/diesel_road_2026/tts/act4_5_dc20d60d42.mp3",
+   "npy": "/home/user/osint_generator/projects/diesel_road_2026/tts/act4_5_dc20d60d42.npy",
+   "dur": 4.496530612244898,
+   "t0": 489.14594104308384,
+   "t1": 493.64247165532873,
+   "trim_offset": 0.557211,
+   "chunks": [
+    "베선트 재무장관은 가진 모든 법적 권한으로 이 거래를 하겠다고 말했습니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.9462,
+    "elapsed_ms": 1418,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      4.59,
+      5.19
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 99.14,
+     "f0_end_hz": 78.94,
+     "octave_fixed_n": 39
+    }
+   }
+  },
+  {
+   "sid": "act4_6",
+   "scene": "act4",
+   "date": "2026.10.10",
+   "text": "키이우 인디펜던트에 따르면 트럼프 대통령은 젤렌스키 대통령에게 러시아 정유소 공격을 멈추라고 요구했습니다.",
+   "tts": "키이우 인디펜던트에 따르면 트럼프 대통령은 젤렌스키 대통령에게 러시아 정유소 공격을 멈추라고 요구했습니다.",
+   "segments": [
+    [
+     "키이우 인디펜던트에 따르면 트럼프 대통령은 젤렌스키 대통령에게 러시아 정유소 공격을 멈추라고 요구했습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/diesel_road_2026/tts/act4_6_26170f4872.mp3",
+   "npy": "/home/user/osint_generator/projects/diesel_road_2026/tts/act4_6_26170f4872.npy",
+   "dur": 7.1059637188208615,
+   "t0": 494.14247165532873,
+   "t1": 501.2484353741496,
+   "trim_offset": 0.482744,
+   "chunks": [
+    "키이우 인디펜던트에 따르면 트럼프 대통령은 젤렌스키 대통령에게 러시아 정유소 공격을 멈추라고 요구했습니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.93,
+    "elapsed_ms": 1764,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      7.04,
+      7.82
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 86.59,
+     "f0_end_hz": 72.69,
+     "octave_fixed_n": 0
+    }
+   }
+  },
+  {
+   "sid": "act4_7",
+   "scene": "act4",
+   "date": "2026.10.11",
+   "text": "이어서 10월 11일, 트럼프 대통령은 양측이 동의한 에너지 휴전이 즉시 발효된다고 발표했습니다.",
+   "tts": "이어서 시월 십일일, 트럼프 대통령은 양측이 동의한 에너지 휴전이 즉시 발효된다고 발표했습니다.",
+   "segments": [
+    [
+     "이어서 10월 11일, 트럼프 대통령은 양측이 동의한 ",
+     0
+    ],
+    [
+     "에너지 휴전",
+     1
+    ],
+    [
+     "이 즉시 발효된다고 발표했습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/diesel_road_2026/tts/act4_7_6cf4d6f758.mp3",
+   "npy": "/home/user/osint_generator/projects/diesel_road_2026/tts/act4_7_6cf4d6f758.npy",
+   "dur": 5.995895691609977,
+   "t0": 501.7484353741496,
+   "t1": 507.7443310657596,
+   "trim_offset": 0.464263,
+   "chunks": [
+    "이어서 시월 십일일, 트럼프 대통령은 양측이 동의한 에너지 휴전이 즉시 발효된다고 발표했습니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.858,
+    "elapsed_ms": 1500,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      5.98,
+      6.635
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 93.34,
+     "f0_end_hz": 68.6,
+     "octave_fixed_n": 20
+    }
+   }
+  },
+  {
+   "sid": "act4_8",
+   "scene": "act4",
+   "date": "2026.10.12",
+   "text": "우크라이나 매체에 따르면 발표 다음 날 밤, 러시아 무인기가 하르키우주의 가스 생산 시설을 공격했습니다.",
+   "tts": "우크라이나 매체에 따르면 발표 다음 날 밤, 러시아 무인기가 하르키우주의 가스 생산 시설을 공격했습니다.",
+   "segments": [
+    [
+     "우크라이나 매체에 따르면 발표 다음 날 밤, 러시아 무인기가 ",
+     0
+    ],
+    [
+     "하르키우주",
+     1
+    ],
+    [
+     "의 가스 생산 시설을 공격했습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/diesel_road_2026/tts/act4_8_75e2885836.mp3",
+   "npy": "/home/user/osint_generator/projects/diesel_road_2026/tts/act4_8_75e2885836.npy",
+   "dur": 6.911020408163266,
+   "t0": 508.2443310657596,
+   "t1": 515.1553514739228,
+   "trim_offset": 0.537619,
+   "chunks": [
+    "우크라이나 매체에 따르면 발표 다음 날 밤, 러시아 무인기가 하르키우주의 가스 생산 시설을 공격했습니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.9474,
+    "elapsed_ms": 6758,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      6.99,
+      7.395
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 118.26,
+     "f0_end_hz": 65.43,
+     "octave_fixed_n": 0
+    }
+   }
+  },
+  {
+   "sid": "act4_9",
+   "scene": "act4",
+   "date": "2026.10.15",
+   "text": "이어 14일 밤에는 폴타바주의 가스 생산 시설이 무인기 공격으로 불탔다고 이 매체는 전했습니다.",
+   "tts": "이어 십사일 밤에는 폴타바주의 가스 생산 시설이 무인기 공격으로 불탔다고 이 매체는 전했습니다.",
+   "segments": [
+    [
+     "이어 14일 밤에는 ",
+     0
+    ],
+    [
+     "폴타바주",
+     1
+    ],
+    [
+     "의 가스 생산 시설이 무인기 공격으로 불탔다고 이 매체는 전했습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/diesel_road_2026/tts/act4_9_526777c924.mp3",
+   "npy": "/home/user/osint_generator/projects/diesel_road_2026/tts/act4_9_526777c924.npy",
+   "dur": 5.993174603174603,
+   "t0": 515.6553514739228,
+   "t1": 521.6485260770974,
+   "trim_offset": 0.500522,
+   "chunks": [
+    "이어 십사일 밤에는 폴타바주의 가스 생산 시설이 무인기 공격으로 불탔다고 이 매체는 전했습니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.9425,
+    "elapsed_ms": 1761,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      6.03,
+      6.65
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 129.8,
+     "f0_end_hz": 68.24,
+     "octave_fixed_n": 31
+    }
+   }
+  },
+  {
+   "sid": "act4_10",
+   "scene": "act4",
+   "date": "2026.10.15",
+   "text": "그리고 15일 새벽, 우크라이나는 다시 랴잔을 쳤다고 AP통신은 보도했습니다.",
+   "tts": "그리고 십오일 새벽, 우크라이나는 다시 랴잔을 쳤다고 에이 피 통신은 보도했습니다.",
+   "segments": [
+    [
+     "그리고 15일 새벽, 우크라이나는 다시 ",
+     0
+    ],
+    [
+     "랴잔",
+     1
+    ],
+    [
+     "을 쳤다고 AP통신은 보도했습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/diesel_road_2026/tts/act4_10_c880784281.mp3",
+   "npy": "/home/user/osint_generator/projects/diesel_road_2026/tts/act4_10_c880784281.npy",
+   "dur": 4.864263038548753,
+   "t0": 522.1485260770974,
+   "t1": 527.0127891156461,
+   "trim_offset": 0.52737,
+   "chunks": [
+    "그리고 십오일 새벽, 우크라이나는 다시 랴잔을 쳤다고 에이 피 통신은 보도했습니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.8658,
+    "elapsed_ms": 1139,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      4.9,
+      5.565
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 103.23,
+     "f0_end_hz": 73.21,
+     "octave_fixed_n": 4
+    }
+   }
+  },
+  {
+   "sid": "act4_11",
+   "scene": "act4",
+   "date": "2026.10.15",
+   "text": "우크라이나 당국자는 그 주 러시아의 공격이 먼저 휴전을 어겼다고 말했습니다.",
+   "tts": "우크라이나 당국자는 그 주 러시아의 공격이 먼저 휴전을 어겼다고 말했습니다.",
+   "segments": [
+    [
+     "우크라이나 당국자는 그 주 러시아의 공격이 먼저 휴전을 어겼다고 말했습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/diesel_road_2026/tts/act4_11_afd13bb88e.mp3",
+   "npy": "/home/user/osint_generator/projects/diesel_road_2026/tts/act4_11_afd13bb88e.npy",
+   "dur": 4.751814058956916,
+   "t0": 527.5127891156461,
+   "t1": 532.264603174603,
+   "trim_offset": 0.497324,
+   "chunks": [
+    "우크라이나 당국자는 그 주 러시아의 공격이 먼저 휴전을 어겼다고 말했습니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.9564,
+    "elapsed_ms": 1304,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      4.76,
+      5.43
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 97.89,
+     "f0_end_hz": 67.05,
+     "octave_fixed_n": 0
+    }
+   }
+  },
+  {
+   "sid": "act4_12",
+   "scene": "act4",
+   "date": "2026.10.13",
+   "text": "그사이 러시아의 노박 부총리는 경유 수출이 월 300만에서 350만 t까지 늘 수 있다고 말했습니다.",
+   "tts": "그사이 러시아의 노박 부총리는 경유 수출이 월 삼백만에서 삼백오십만 톤까지 늘 수 있다고 말했습니다.",
+   "segments": [
+    [
+     "그사이 러시아의 노박 부총리는 경유 수출이 월 300만에서 ",
+     0
+    ],
+    [
+     "350만 t",
+     1
+    ],
+    [
+     "까지 늘 수 있다고 말했습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/diesel_road_2026/tts/act4_12_ca251cc6b8.mp3",
+   "npy": "/home/user/osint_generator/projects/diesel_road_2026/tts/act4_12_ca251cc6b8.npy",
+   "dur": 6.654308390022676,
+   "t0": 532.764603174603,
+   "t1": 539.4189115646258,
+   "trim_offset": 0.459683,
+   "chunks": [
+    "그사이 러시아의 노박 부총리는 경유 수출이 월 삼백만에서 삼백오십만 톤까지 늘 수 있다고 말했습니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.8871,
+    "elapsed_ms": 1662,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      6.71,
+      7.175
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 90.24,
+     "f0_end_hz": 133.72,
+     "octave_fixed_n": 17
+    }
+   }
+  },
+  {
+   "sid": "act4_13",
+   "scene": "act4",
+   "date": "2026.10.13",
+   "text": "한편 이재명 대통령은 10월 13일 국무회의에서 \"영원한 적도 영원한 우방도 없다\"며 러시아와의 관계 관리도 중요하다고 말했습니다.",
+   "tts": "한편 이재명 대통령은 시월 십삼일 국무회의에서 영원한 적도 영원한 우방도 없다며 러시아와의 관계 관리도 중요하다고 말했습니다.",
+   "segments": [
+    [
+     "한편 이재명 대통령은 10월 13일 국무회의에서 \"",
+     0
+    ],
+    [
+     "영원한 적도 영원한 우방도 없다",
+     1
+    ],
+    [
+     "\"며 러시아와의 관계 관리도 중요하다고 말했습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/diesel_road_2026/tts/act4_13_82563106a2.mp3",
+   "npy": "/home/user/osint_generator/projects/diesel_road_2026/tts/act4_13_82563106a2.npy",
+   "dur": 8.735056689342404,
+   "t0": 539.9189115646258,
+   "t1": 548.6539682539682,
+   "trim_offset": 0.38619,
+   "chunks": [
+    "한편 이재명 대통령은 시월 십삼일 국무회의에서 영원한 적도 영원한 우방도 없다며 러시아와의 관계 관리도 중요하다고 말했습니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.8952,
+    "elapsed_ms": 2337,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      8.62,
+      8.985
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 87.16,
+     "f0_end_hz": 57.44,
+     "octave_fixed_n": 2
+    }
+   }
+  },
+  {
+   "sid": "ending_0",
+   "scene": "ending",
+   "date": "2026.10.17",
+   "text": "사흘에 한 번 정유소를 맞힌 무인기, 울산을 떠난 유조선, 호르무즈에서 막힌 경유, 그리고 워싱턴의 경유 거래.",
+   "tts": "사흘에 한 번 정유소를 맞힌 무인기, 울산을 떠난 유조선, 호르무즈에서 막힌 경유, 그리고 워싱턴의 경유 거래.",
+   "segments": [
+    [
+     "사흘에 한 번 정유소를 맞힌 무인기, 울산을 떠난 유조선, 호르무즈에서 막힌 경유, 그리고 워싱턴의 경유 거래.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/diesel_road_2026/tts/ending_0_b5795f43b1.mp3",
+   "npy": "/home/user/osint_generator/projects/diesel_road_2026/tts/ending_0_b5795f43b1.npy",
+   "dur": 6.880408163265306,
+   "t0": 550.1539682539682,
+   "t1": 557.0343764172335,
+   "trim_offset": 0.617664,
+   "chunks": [
+    "사흘에 한 번 정유소를 맞힌 무인기, 울산을 떠난 유조선, 호르무즈에서 막힌 경유, 그리고 워싱턴의 경유 거래."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.9163,
+    "elapsed_ms": 1710,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": false,
+     "reason": "'니다' 로 끝나지 않는다",
+     "region_sec": null,
+     "semitones": null,
+     "f0_start_hz": null,
+     "f0_end_hz": null,
+     "octave_fixed_n": null
+    }
+   }
+  },
+  {
+   "sid": "ending_1",
+   "scene": "ending",
+   "date": "2026.10.17",
+   "text": "지금 미국은 2027년 4월까지 러시아산 경유 거래를 허용했고, 한국 정부는 선적 사례를 확인하고 있습니다.",
+   "tts": "지금 미국은 이천이십칠년 사월까지 러시아산 경유 거래를 허용했고, 한국 정부는 선적 사례를 확인하고 있습니다.",
+   "segments": [
+    [
+     "지금 미국은 2027년 4월까지 러시아산 경유 거래를 허용했고, 한국 정부는 선적 사례를 확인하고 있습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/diesel_road_2026/tts/ending_1_956e9b0d27.mp3",
+   "npy": "/home/user/osint_generator/projects/diesel_road_2026/tts/ending_1_956e9b0d27.npy",
+   "dur": 7.2621541950113375,
+   "t0": 557.5343764172335,
+   "t1": 564.7965306122449,
+   "trim_offset": 0.480862,
+   "chunks": [
+    "지금 미국은 이천이십칠년 사월까지 러시아산 경유 거래를 허용했고, 한국 정부는 선적 사례를 확인하고 있습니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.8994,
+    "elapsed_ms": 1606,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      7.265,
+      7.915
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 88.42,
+     "f0_end_hz": 114.32,
+     "octave_fixed_n": 13
+    }
+   }
+  },
+  {
+   "sid": "ending_2",
+   "scene": "ending",
+   "date": "2026.10.17",
+   "text": "그렇지만 휴전 발표 나흘 만에 우크라이나는 정유소를, 러시아는 가스 시설을 다시 쳤다고 양측 보도는 전했습니다.",
+   "tts": "그렇지만 휴전 발표 나흘 만에 우크라이나는 정유소를, 러시아는 가스 시설을 다시 쳤다고 양측 보도는 전했습니다.",
+   "segments": [
+    [
+     "그렇지만 휴전 발표 나흘 만에 우크라이나는 정유소를, 러시아는 가스 시설을 다시 쳤다고 양측 보도는 전했습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/diesel_road_2026/tts/ending_2_2721a6898a.mp3",
+   "npy": "/home/user/osint_generator/projects/diesel_road_2026/tts/ending_2_2721a6898a.npy",
+   "dur": 6.939795918367347,
+   "t0": 565.2965306122449,
+   "t1": 572.2363265306122,
+   "trim_offset": 0.49449,
+   "chunks": [
+    "그렇지만 휴전 발표 나흘 만에 우크라이나는 정유소를, 러시아는 가스 시설을 다시 쳤다고 양측 보도는 전했습니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.9443,
+    "elapsed_ms": 1489,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      6.97,
+      7.66
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 93.84,
+     "f0_end_hz": 70.86,
+     "octave_fixed_n": 9
+    }
+   }
+  }
+ ],
+ "cards": [
+  {
+   "kind": "title",
+   "t0": 31.606780045351474,
+   "t1": 37.20678004535147
+  },
+  {
+   "kind": "end",
+   "t0": 573.9363265306123,
+   "t1": 584.9363265306123
+  }
+ ],
+ "scene_start": {
+  "cold": 1.2,
+  "act1": 37.60678004535147,
+  "act2": 147.3445351473923,
+  "act3": 353.755283446712,
+  "act4": 457.0810884353741,
+  "ending": 550.1539682539682
+ },
+ "total": 585.4363265306123,
+ "voice": "supertonic-3 M3 ×0.95",
+ "title": "경유의 길 — 사흘에 한 번",
+ "subtitle": "우크라이나의 정유소 타격, 울산발 유조선, 걸프의 불길, 그리고 워싱턴의 경유 거래",
+ "date": "2026.10.17",
+ "tts_resynthesized": [],
+ "lint_waived": null
+}
