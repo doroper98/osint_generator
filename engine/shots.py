@@ -40,6 +40,11 @@ class _Key(Protocol):
     mode: str
 
 
+def min_hold_sec() -> float:
+    """숏 최소 머무름(rules shot_grammar.shot_min_hold_sec) — 숏 수치는 이 모듈에서만 읽는다(D-0047 §0-4). cutaway_churn(v7.4.0 UF-110)이 쓴다."""
+    return SG.shot_min_hold_sec
+
+
 def choose_transition(a: tuple[float, float, float], b: tuple[float, float, float]) -> Literal["dip", "move"]:
     """a·b = (x, y, w) — x 경도, y = ym(위도)(카메라 내부 좌표), w 화면 폭(도)."""
     at = SG.auto_transition

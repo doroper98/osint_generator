@@ -1099,14 +1099,17 @@ def transition_camera(transitions: list, sentences: list, keys: list) -> list[st
 
 def cutaway_churn(events: list[dict]) -> list[str]:
     """v7.4.0 D-0229 §2.3(UF-110) — 전면 컷어웨이(qa_checks.cutaway_full_types)가 끝난 뒤 지도로 돌아온 시간이
-    shot_grammar.shot_min_hold_sec 미만인데 다음 전면 컷어웨이가 시작하면 hard. 붙어 있는(간격 ≤ 0) 둘은 한 장면이라 통과."""
+    shot_grammar 의 최소 머무름 초 미만인데 다음 전면 컷어웨이가 시작하면 hard. 붙어 있는(간격 ≤ 0) 둘은 한 장면이라 통과."""
+    from engine.shots import min_hold_sec  # noqa: PLC0415
+
+    min_hold = min_hold_sec()
     full = sorted((e for e in events if e["type"] in QA.cutaway_full_types), key=lambda e: e["t0"])
     out = []
     for a, b in zip(full, full[1:]):
         gap = b["t0"] - a["t1"]
-        if 0 < gap < SG.shot_min_hold_sec:
+        if 0 < gap < min_hold:
             out.append(f"[cutaway-churn] {a['type']} {a.get('mid') or ''}(~{a['t1']:.1f}) → 지도 {gap:.1f}초 → {b['type']} {b.get('mid') or ''}"
-                       f"({b['t0']:.1f}~) — 지도 복귀 < {SG.shot_min_hold_sec}초. 같은 문장 묶음이면 한 이벤트로 합치고, 아니면 지도에 머문다(UF-110)")
+                       f"({b['t0']:.1f}~) — 지도 복귀 < {min_hold}초. 같은 문장 묶음이면 한 이벤트로 합치고, 아니면 지도에 머문다(UF-110)")
     return out
 
 
