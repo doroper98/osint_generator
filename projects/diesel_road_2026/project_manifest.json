@@ -4,8 +4,8 @@
   "title": "경유의 길 — 사흘에 한 번",
   "category": "geopolitics",
   "created_at": "2026-10-17T13:36:28.700647Z",
-  "updated_at": "2026-10-18T17:37:32.418167Z",
-  "current_state": "done",
+  "updated_at": "2026-10-18T19:22:47.895466Z",
+  "current_state": "render",
   "target_duration_min": 10,
   "topic_summary": "우크라이나의 러시아 정유소 타격과 러시아 경유 부족, 한국산 경유의 블라디보스토크행, 걸프 에너지 시설 타격, 미국의 러시아 경유 거래와 에너지 휴전 붕괴",
   "initial_links": [],
@@ -151,6 +151,27 @@
       "by": "fable",
       "at": "2026-10-18T16:33:28.652163Z",
       "comment": "사용자 지시 2026-10-18 '바로 영상' · 감독 사전 위임 D-0243 · 전편 1차 검토 수정 반영",
+      "rollback_to": null,
+      "shown": {
+        "sheet": "/home/user/osint_generator/projects/diesel_road_2026/prev/sheet.jpg",
+        "cuts": "16",
+        "provenance": "/home/user/osint_generator/projects/diesel_road_2026/prev/provenance.json",
+        "drops": "0",
+        "media_used": "quote 2 · article 15 · real 5",
+        "quote_candidates": "2",
+        "camera_suggest": "18",
+        "animatic": "out/animatic.mp4 · 976.939초 · direction 1b0a7331af5a45c241084ee5f939fbeb4779af52 · script 5089819985",
+        "user_feedback": "경고: 이 영상 의견 2건 장치 없음 — 영상 전달 뒤 첫 작업으로 장치(D217·D218): UF-116 \"콜드 오픈을 이렇게 바꿀께. 전장과는 조금 떨어져 있는 조용하던 10월 \" · UF-119 \"그리고 사진이 두장만 쓰이는거야? 뭐 더 추가 해야 될 사진은 없고? 몇\"",
+        "asset_library": "공용 자산 미승격 0"
+      },
+      "chosen_version": null
+    },
+    {
+      "gate": "preview_approval",
+      "decision": "approved",
+      "by": "fable",
+      "at": "2026-10-18T19:22:47.895327Z",
+      "comment": "사용자 지시 2026-10-18 '바로 영상' · 감독 사전 위임 D-0243 · D-0244 국기 잘림 수정 반영",
       "rollback_to": null,
       "shown": {
         "sheet": "/home/user/osint_generator/projects/diesel_road_2026/prev/sheet.jpg",
@@ -860,6 +881,44 @@
       "errors": [],
       "drops": 0,
       "log": "logs/stages/44_deliver.json"
+    },
+    {
+      "state": "direction",
+      "stage": "direction_validate",
+      "ok": true,
+      "at": "2026-10-18T19:16:54.862472Z",
+      "artifacts": {
+        "script": "/home/user/osint_generator/projects/diesel_road_2026/script.yaml",
+        "label_counts": "{\"verified\": 9, \"corroborated\": 15, \"unverified\": 130, \"disputed\": 5}"
+      },
+      "errors": [],
+      "drops": 0,
+      "log": "logs/stages/45_direction_validate.json"
+    },
+    {
+      "state": "direction",
+      "stage": "validate",
+      "ok": true,
+      "at": "2026-10-18T19:19:15.271927Z",
+      "artifacts": {
+        "direction": "/home/user/osint_generator/projects/diesel_road_2026/direction.yaml",
+        "summary": "{\"camera_keys\": 39, \"events\": 186, \"frames\": 23446}"
+      },
+      "errors": [],
+      "drops": 0,
+      "log": "logs/stages/46_validate.json"
+    },
+    {
+      "state": "direction",
+      "stage": "camera_suggest",
+      "ok": true,
+      "at": "2026-10-18T19:21:31.129981Z",
+      "artifacts": {
+        "camera_suggest": "/home/user/osint_generator/projects/diesel_road_2026/prev/camera_suggest.json"
+      },
+      "errors": [],
+      "drops": 0,
+      "log": "logs/stages/47_camera_suggest.json"
     }
   ],
   "final_outputs": {},
@@ -1109,6 +1168,30 @@
       "to_state": "done",
       "transitioned_at": "2026-10-18T17:37:32.418109Z",
       "reason": "engine deliver ok"
+    },
+    {
+      "from_state": "done",
+      "to_state": "direction",
+      "transitioned_at": "2026-10-18T19:14:48.660255Z",
+      "reason": "reopen → direction — fable: 전편 v2 감독 검토 — 블라디보스토크 국기·트럼프 뱃지 위 가장자리 → 화면 안쪽 육지([badge-clipped], D-0244)"
+    },
+    {
+      "from_state": "direction",
+      "to_state": "preview_qa",
+      "transitioned_at": "2026-10-18T19:21:31.133081Z",
+      "reason": "engine direction_validate, validate, camera_suggest ok"
+    },
+    {
+      "from_state": "preview_qa",
+      "to_state": "preview_approval",
+      "transitioned_at": "2026-10-18T19:21:31.803601Z",
+      "reason": "콘티 판 v2.1 hard 0(음성 불변) · 수정 연출 프리뷰 checks hard 0 — D-0244 국기 잘림 수정, D-0243 사전 위임"
+    },
+    {
+      "from_state": "preview_approval",
+      "to_state": "render",
+      "transitioned_at": "2026-10-18T19:22:47.895408Z",
+      "reason": "preview_approval 승인 — fable"
     }
   ],
   "rollbacks": [
@@ -1144,6 +1227,14 @@
       "by": "fable",
       "at": "2026-10-18T16:24:22.615544Z",
       "reason": "전편 1차 검토 — 블라디보스토크 국기 바다→육지(D-0240 §4), 프레스 사진 출처 줄 가독(덮개 위)",
+      "direction_version": 1
+    },
+    {
+      "from_state": "done",
+      "to_state": "direction",
+      "by": "fable",
+      "at": "2026-10-18T19:14:48.660228Z",
+      "reason": "전편 v2 감독 검토 — 블라디보스토크 국기·트럼프 뱃지 위 가장자리 → 화면 안쪽 육지([badge-clipped], D-0244)",
       "direction_version": 1
     }
   ]
