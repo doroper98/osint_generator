@@ -1762,8 +1762,10 @@ entries:
   quote: '콜드 오픈을 이렇게 바꿀께. 전장과는 조금 떨어져 있는 조용하던 10월 15일 새벽, 모스크바에서 남동쪽으로 약 300km 떨어진 도시 라쟌의 정유소에 불길이 올랐습니다. 러시아 국방부는 라쟌 정유소(?)를 향하는 우크라이나의 무인기를 격추했으나 그 파편이 불을 냈다고 밝혔습니다. 이 공격으로 나흘 전 트럼프 대통령이 발표한 에너지 휴전이 끝났다고 xxx 가 이야기 했고, 젤렌스키 대통령은 "휴전은 이제 끝났다"고 말했습니다. 그리고 이 전쟁이 만든 경유 부족은 한국의 울산항까지 닿아 있었습니다.'
   quote_kind: verbatim
   category: 원고 — 콜드 오픈 문장(사용자 개고본 채택, 장면 묘사 한 구절 + 사실 + 양측 + 연결)
-  guards: []
-  status: open
+  guards:
+  - {kind: code, ref: orchestrator.project_manager.require_animatic}
+  - {kind: test, ref: tests/test_gates_pipeline.py::AnimaticGateTest::test_script_changed_after_approval_blocks_gate2}
+  status: guarded
   decision: "감독 기록 — 사용자 개고본을 cold 장면으로 채택. 보정 2건: 거리 '약 300km' 는 가제티어 좌표 계산 184km 라 '약 200km'(지리 사실), 표기는 외래어 표기법 '랴잔'. 'xxx' 자리는 UF-117 방침(보도 귀속은 크레딧)으로 비운다. 장치 = 원고 지문 대조(게이트 ① 승인 기록)로 충분, 별도 장치 없음"
   source: 감독 세션(Fable) 사용자 대화 2026-10-18
 - id: UF-117
@@ -1801,8 +1803,10 @@ entries:
   quote: 그리고 사진이 두장만 쓰이는거야? 뭐 더 추가 해야 될 사진은 없고? 몇가지 더 추가해도 좋을거 같긴 해. 암튼 계속 진행해
   quote_kind: verbatim
   category: 미디어 — 사진 수 하한(권리 통과 사진을 적극 찾아 장면마다 실물감 확보, UF-102 와 짝)
-  guards: []
-  status: open
+  guards:
+  - {kind: check, ref: media_unused}
+  - {kind: test, ref: tests/test_v740_media_unused.py::MediaUnusedTest::test_a_one_missing}
+  status: guarded
   decision: "감독 기록 — v2 에서 공개 도메인·CC0·CC BY 사진 5~8장 추가 탐색(위키미디어 공용·미 정부·NASA): 울산 정유단지·블라디보스토크항·하바롭스크 정유소·라스라판·하르그섬·푸자이라·호르무즈 유조선·러시아 정유소 화재. 장치 후보 = 장르 프로필 media_beats 사진 하한(권리 통과 후보가 있는데 안 쓰면 warning→hard). 장치는 v2 전달 뒤 첫 작업"
   source: 감독 세션(Fable) 사용자 대화 2026-10-18
 - id: UF-120
