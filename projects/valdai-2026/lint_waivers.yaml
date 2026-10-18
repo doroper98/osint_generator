@@ -1,0 +1,52 @@
+# 린트 면제 목록 — 결정 기록(git 추적). back_and_forth D-0168, DECISIONS D162. 정확 일치만 통과, 낡은 면제 = 오류.
+schema_version: 1
+waivers:
+  - kind: transition-bridge
+    sid: nato_letter_0
+    text_sha1: ae3dafac28dda1bae67bea674d718c5a7a40dcf5
+    rule_since: v7.4.0
+    script_approved: 2026-10-02
+    reason: "D-0230 — v7.4.0 이전 원고, 재발 방지 장치는 v7.4.0 이후 원고부터"
+    decided_by: D-0230
+  - kind: transition-bridge
+    sid: nato_response_0
+    text_sha1: 8e2d30544351ad2d2f10f14b131ae2e5261f5efd
+    rule_since: v7.4.0
+    script_approved: 2026-10-02
+    reason: "D-0230 — v7.4.0 이전 원고, 재발 방지 장치는 v7.4.0 이후 원고부터"
+    decided_by: D-0230
+  - kind: transition-bridge
+    sid: geography_0
+    text_sha1: 6d48d157b7b412ce1ae53ba454eefed3b52decd7
+    rule_since: v7.4.0
+    script_approved: 2026-10-02
+    reason: "D-0230 — v7.4.0 이전 원고, 재발 방지 장치는 v7.4.0 이후 원고부터"
+    decided_by: D-0230
+  - kind: transition-bridge
+    sid: diesel_0
+    text_sha1: fafeeeda871cf38f4a0550d471ebec6a784e59d1
+    rule_since: v7.4.0
+    script_approved: 2026-10-02
+    reason: "D-0230 — v7.4.0 이전 원고, 재발 방지 장치는 v7.4.0 이후 원고부터"
+    decided_by: D-0230
+  - kind: transition-bridge
+    sid: russia_domestic_0
+    text_sha1: 7db9c08cb9c44a1a13e4d32808fbe8cdabb53049
+    rule_since: v7.4.0
+    script_approved: 2026-10-02
+    reason: "D-0230 — v7.4.0 이전 원고, 재발 방지 장치는 v7.4.0 이후 원고부터"
+    decided_by: D-0230
+  - kind: transition-bridge
+    sid: refinery_0
+    text_sha1: 4e9a9fa40f5f6948e24c2277f9b10cf59cf53d13
+    rule_since: v7.4.0
+    script_approved: 2026-10-02
+    reason: "D-0230 — v7.4.0 이전 원고, 재발 방지 장치는 v7.4.0 이후 원고부터"
+    decided_by: D-0230
+  - kind: transition-bridge
+    sid: open_questions_0
+    text_sha1: 0626445359e390518c65965e4189e1ccf7984b58
+    rule_since: v7.4.0
+    script_approved: 2026-10-02
+    reason: "D-0230 — v7.4.0 이전 원고, 재발 방지 장치는 v7.4.0 이후 원고부터"
+    decided_by: D-0230

@@ -76,8 +76,8 @@ class TransitionRules(_Strict):
     bridge_pause_sec: float = Field(gt=0)        # bridge 문장 앞 내레이션 공백(음악만) — script.timeline.layout 이 넣는다
     camera_move_min_sec: float = Field(gt=0)     # 무대·시대 점프 지점 카메라 이동 하한(checks transition-camera)
     date_badge_xfade_sec: float = Field(gt=0)    # bridge 문장에서 날짜 배지를 옛 날짜 → 새 날짜로 교차 페이드
-    jump_days: int = Field(gt=0)                 # 이웃 문장 날짜 배지가 이 이상 뛰면 시점 전환
-    window: int = Field(ge=0)                    # 전환 지점 ±window 문장 안에 bridge 문장이 있어야 한다
+    jump_days: int = Field(gt=0)                 # 이웃 장면 대표 날짜(문장 날짜 중앙값) 차가 이 이상이면 시점 전환(D-0230 B)
+    in_scene_jump_days: int = Field(gt=0)        # 장면 안 문장 날짜가 장면 중앙값과 이 이상 차이 나면 warning [transition-in-scene](role background 제외)
 
 
 class ScriptSchemaRules(_Strict):

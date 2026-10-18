@@ -45,8 +45,9 @@ class Sentence(_Strict):
     sources: list[str] = Field(default_factory=list)
     media: Optional[MediaCue] = None   # v2.5.5 optional(C3 호환) — 14 §10.3-1
     # v7.4.0 D-0229 §2.2·§2.9(UF-104·105·115) optional — 문장의 구조 역할. intro = 막 도입(막전), outro = 막 정리(막후),
-    # bridge = 시점(시간·무대) 전환 고지 문장(앞에 rules transition.bridge_pause_sec 호흡). 린트 [transition-bridge]·[act-frame]
-    role: Optional[Literal["intro", "outro", "bridge"]] = None
+    # bridge = 시점(시간·무대) 전환 고지 문장(앞에 rules transition.bridge_pause_sec 호흡). 린트 [transition-bridge]·[act-frame].
+    # background = 회고·배경 문장(장면 날짜와 멀어도 [transition-in-scene] 경고 없음, D-0230 §2)
+    role: Optional[Literal["intro", "outro", "bridge", "background"]] = None
 
     @field_validator("date")
     @classmethod
@@ -121,7 +122,7 @@ class PlanSentence(_Strict):
     chunks: Optional[list[str]] = None   # v5.11.0 optional(D-0152) — Supertonic 이 문장을 나눈 조각(사이 무음 tts.supertonic.silence_sec)
     alignment: Optional[PlanAlignment] = None   # v5.16.0 optional(D-0164 §5-4) — 정렬 출처·점수·시간
     prosody: Optional[PlanProsody] = None       # v5.20.0 optional(D-0175) — 문장 끝 억양 보정 기록
-    role: Optional[Literal["intro", "outro", "bridge"]] = None   # v7.4.0 optional(D-0229 §2.2) — 원고 Sentence.role 그대로
+    role: Optional[Literal["intro", "outro", "bridge", "background"]] = None   # v7.4.0 optional(D-0229 §2.2) — 원고 Sentence.role 그대로
 
 
 class Card(_Strict):

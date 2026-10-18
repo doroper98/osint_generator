@@ -4,12 +4,18 @@ from __future__ import annotations
 
 import unittest
 
+from pathlib import Path
+
+import yaml
+
 from rules import load_rules
-from script.lint import transition_points
+from script import lint_waivers
+from script.lint import lint, transition_issues, transition_points
 from script.schema import Script
 from script.timeline import layout, sentence_rows
 
 T = load_rules().transition
+REPO = Path(__file__).resolve().parent.parent
 
 
 def _script(bridge: bool) -> Script:
@@ -21,6 +27,18 @@ def _script(bridge: bool) -> Script:
                                                         s("2026.06.13", "다.")])]))
 
 
+def _two(stage_b: str, date_b: str, role_a: "str | None" = None, role_b: "str | None" = None, extra_b: "dict | None" = None) -> Script:
+    s = lambda d, t, r=None: dict(date=d, text=t, sources=["c1"], **({"role": r} if r else {}))  # noqa: E731
+    b = [s(date_b, "나.", role_b), s(date_b, "다.")] + ([extra_b] if extra_b else [])
+    return Script.model_validate(dict(title="t", subtitle="s", date="2026.10.18", scenes=[
+        dict(id="a", stage="러시아", sentences=[s("2026.10.01", "가."), s("2026.10.01", "가가.", role_a)]),
+        dict(id="b", stage=stage_b, sentences=b)]))
+
+
+def _errs(sc: Script) -> list[str]:
+    return [i.sid for i in transition_issues(sc) if i.severity == "error"]
+
+
 class TransitionPointTest(unittest.TestCase):
     def test_stage_and_date_jump(self) -> None:
         pts = transition_points(_script(True))
@@ -28,6 +46,39 @@ class TransitionPointTest(unittest.TestCase):
 
     def test_within_scene_small_jump_no_point(self) -> None:
         self.assertEqual(transition_points(_script(True))[0][0], 2)   # act1 안의 하루 차이는 전환이 아니다
+
+
+class BridgeLintTest(unittest.TestCase):
+    """D-0230 §5 (a)~(e)."""
+
+    def test_a_stage_change_hard(self) -> None:
+        self.assertEqual(_errs(_two("걸프", "2026.10.02")), ["b_0"])
+
+    def test_b_median_date_jump_hard(self) -> None:
+        self.assertEqual(_errs(_two("러시아", "2026.11.05")), ["b_0"])
+        self.assertEqual(_errs(_two("러시아", "2026.10.20")), [])   # 19일 = 전환 아님
+
+    def test_c_bridge_passes(self) -> None:
+        self.assertEqual(_errs(_two("걸프", "2026.06.13", role_b="bridge")), [])
+        self.assertEqual(_errs(_two("걸프", "2026.06.13", role_a="bridge")), [])   # 앞 장면 마지막 문장도 된다
+        self.assertIn("transition-bridge", [i.kind for i in lint(_two("걸프", "2026.06.13"), check_sources=False).errors])
+
+    def test_d_in_scene_jump_warning(self) -> None:
+        old = dict(date="2004.01", text="2004년에도 비슷했습니다.", sources=["c1"])
+        w = [i for i in transition_issues(_two("러시아", "2026.10.02", extra_b=old)) if i.kind == "transition-in-scene"]
+        self.assertEqual([i.severity for i in w], ["warning"])
+        w = [i for i in transition_issues(_two("러시아", "2026.10.02", extra_b=dict(old, role="background"))) if i.kind == "transition-in-scene"]
+        self.assertEqual(w, [])
+
+    def test_e_old_project_waived(self) -> None:
+        proj = REPO / "projects" / "hormuz_korea"
+        sc = Script.model_validate(yaml.safe_load((proj / "script.yaml").read_text(encoding="utf-8")))
+        rep = lint(sc, check_sources=False)
+        self.assertTrue(any(i.kind == "transition-bridge" for i in rep.errors))
+        kept, waived = lint_waivers.apply(type(rep)(issues=[i for i in rep.issues if i.kind == "transition-bridge"]),
+                                          [w for w in lint_waivers.load(proj) if w.kind == "transition-bridge"], sc)
+        self.assertEqual(kept.errors, [])
+        self.assertTrue(waived and all(x["decided_by"] == "D-0230" for x in waived))   # plan.lint_waived → provenance
 
 
 class TimelinePauseTest(unittest.TestCase):

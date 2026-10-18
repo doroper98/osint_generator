@@ -39,7 +39,7 @@ import cairo
 from pydantic import BaseModel, ConfigDict
 
 from rules import load_rules
-from script.schema import Script
+from script.schema import Scene, Script
 
 Severity = Literal["error", "warning"]
 NUMERIC = re.compile(r"\d")   # 숫자·날짜가 있는 자막 문장
@@ -326,38 +326,50 @@ def badge_day(d: str) -> "datetime.date":
     return datetime.date(p[0], p[1] if len(p) > 1 else 1, p[2] if len(p) > 2 else 1)
 
 
+def scene_day(sc: "Scene") -> "datetime.date":
+    """장면 대표 날짜 — 문장 날짜 중앙값(짝수면 앞쪽 가운데)."""
+    ds = sorted(badge_day(s.date) for s in sc.sentences)
+    return ds[(len(ds) - 1) // 2]
+
+
 def transition_points(script: Script) -> list[tuple[int, list[str], str]]:
-    """시점 전환 지점(v7.4.0 D-0229 §2.2) — (문장 번호 i, 종류, 설명). i = 새 시점의 첫 문장(원고 전체 순번).
-    stage = 이웃 장면의 stage(이야기 무대)가 둘 다 있고 다름, date_jump = 이웃 문장 날짜 배지 차이 ≥ rules transition.jump_days."""
+    """시점 전환 지점(v7.4.0 D-0230 B — 장면 경계) — (뒤 장면 첫 문장의 원고 전체 순번, 종류, 설명).
+    stage = 이웃 장면의 stage(이야기 무대)가 둘 다 있고 다름, date_jump = 장면 대표 날짜 차 ≥ rules transition.jump_days."""
     jd = load_rules().transition.jump_days
-    flat = [(sc, s) for sc in script.scenes for s in sc.sentences]
-    out = []
-    for i in range(1, len(flat)):
-        (pa, a), (pb, b) = flat[i - 1], flat[i]
+    out, i = [], 0
+    for pa, pb in zip(script.scenes, script.scenes[1:]):
+        i += len(pa.sentences)
         kind, why = [], []
-        if pa.id != pb.id and pa.stage and pb.stage and pa.stage != pb.stage:
+        if pa.stage and pb.stage and pa.stage != pb.stage:
             kind.append("stage")
             why.append(f"무대 {pa.stage}→{pb.stage}")
-        days = abs((badge_day(b.date) - badge_day(a.date)).days)
+        days = abs((scene_day(pb) - scene_day(pa)).days)
         if days >= jd:
             kind.append("date_jump")
-            why.append(f"날짜 {a.date}→{b.date}({days}일)")
+            why.append(f"장면 날짜 {scene_day(pa)}→{scene_day(pb)}({days}일)")
         if kind:
             out.append((i, kind, ", ".join(why)))
     return out
 
 
 def transition_issues(script: Script) -> list[LintIssue]:
-    """[transition-bridge] 오류 — 전환 지점 ±window 문장 안에 role: bridge 문장이 없다(UF-105)."""
-    w = load_rules().transition.window
+    """[transition-bridge] 오류 — 전환 경계의 앞 장면 마지막·뒤 장면 첫 문장에 role: bridge 가 없다(UF-105, D-0230).
+    [transition-in-scene] 경고 — 장면 안 문장 날짜가 장면 중앙값과 in_scene_jump_days 이상(role: background 제외)."""
+    T = load_rules().transition  # noqa: N806
     flat = [(f"{sc.id}_{k}", s) for sc in script.scenes for k, s in enumerate(sc.sentences)]
     out = []
     for i, _kind, why in transition_points(script):
-        near = flat[max(0, i - 1 - w + 1):i + w]   # 전환 앞 문장(i-1)·새 시점 첫 문장(i) 기준 ±window
-        if not any(s.role == "bridge" for _, s in near):
+        if not any(s.role == "bridge" for _, s in flat[i - 1:i + 1]):
             sid, s = flat[i]
             out.append(LintIssue(kind="transition-bridge", severity="error", sid=sid, text=s.text,
-                                 detail=f"시점 전환({why}) 앞뒤 {w}문장 안에 role: bridge 문장이 없다 — 시점이 바뀐다고 알리는 한 문장을 둔다(rules transition, UF-105)"))
+                                 detail=f"시점 전환({why}) — 앞 장면 마지막·이 장면 첫 문장 중 하나를 role: bridge(시점이 바뀐다고 알리는 문장)로(rules transition, UF-105)"))
+    for sc in script.scenes:
+        mid = scene_day(sc)
+        for k, s in enumerate(sc.sentences):
+            gap = abs((badge_day(s.date) - mid).days)
+            if gap >= T.in_scene_jump_days and s.role != "background":
+                out.append(LintIssue(kind="transition-in-scene", severity="warning", sid=f"{sc.id}_{k}", text=s.text,
+                                     detail=f"장면 {sc.id} 날짜 {mid} 와 {gap}일 떨어진 문장 — 회고·배경이면 role: background, 아니면 장면을 나누고 bridge 로(D-0230 §2)"))
     return out
 
 
@@ -442,6 +454,7 @@ def lint(script: Script, claims: "dict[str, str] | None" = None, *, check_source
                 add("tense-present", "warning", f"{s.date} 의 일인데 현재형으로 끝남 — 과거의 사건·상태는 과거형으로(script_grammar)")
             total += 1
             flow += starts_with_connective(s.text, sg.connectives)
+    out += transition_issues(script)   # v7.4.0 D-0229 §2.2(UF-105)·D-0230
     if total >= 4:   # v5.5.0 — 문장 흐름: 연결어로 앞 문장을 받는 문장 비율
         r_ = flow / total
         if r_ < sg.connective_min_ratio:
