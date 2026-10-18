@@ -1667,3 +1667,25 @@ entries:
   status: open
   decision: "감독 실측 — engine/cards.py 가 bigs(큰 숫자)를 'disp'(GmarketSans)로 그리고 단위 t 도 같은 글꼴에 들어가 십자형이 됨. v2: 큰 숫자의 단위 꼬리(t, kb/d 등 라틴 단위)는 sans(IBM Plex Sans KR, 꼬리 있는 t)로 분리해 그린다 — 사용자 선택지 ① '끝이 구부러진 t'. 규칙 후보 = fonts.unit_font: sans + 검사(display 글꼴 문자열에 라틴 단위 기호 금지). 장치는 v2 전달 뒤 첫 작업(C12 2)"
   source: 감독 세션(Fable) 사용자 대화 2026-10-18
+- id: UF-112
+  date: '2026-10-18'
+  project: diesel_road_2026
+  at: "2막 act2_11~act2_13(220~240초) — 레일라호·아스토리아호 항로: 울산→블라디보스토크 직선(path leila) + 울산→니가타 점선(niigata_decl) 두 줄"
+  quote: 울산에서 니가타(?) 로 가려다가 블라디보스토크로 가려던 항로는 바로 울산->블라디보스토크로 항로를 연결하지 말고 니가타 인근에서 꺾여서 블라디보스토크로 가는 형태로 바꿔.
+  quote_kind: verbatim
+  category: 경로 — 신고 목적지와 실제 목적지가 다른 항해는 한 줄로(신고지 부근에서 꺾이는 굴절 경로), 직선 두 줄 병기 금지
+  guards: []
+  status: open
+  decision: "감독 기록 — v2: path leila·astoria 를 울산 → 니가타 앞바다(꺾임점, 신고 라벨) → 블라디보스토크 한 줄로 바꾸고, 꺾임점까지는 muted 점선(신고), 꺾임 뒤는 ru 실선(실제)로 색만 바꾼다. 규칙 후보 = route 에 declared_to 필드(신고 목적지) → 렌더러가 굴절 경로 자동 생성. 장치는 v2 전달 뒤 첫 작업(C12 2)"
+  source: 감독 세션(Fable) 사용자 대화 2026-10-18
+- id: UF-113
+  date: '2026-10-18'
+  project: diesel_road_2026
+  at: "2막 act2_9~act2_10(210~220초) — '유조선 일곱 척이 열네 번' · '그 가운데 세 척은 영국·EU 제재 대상' 문장, 그래픽 없음(카드만)"
+  quote: 그리고 유조선 열 네번 중 세척이 제재 대상이라고 하면 화면에 조판을 띄워서 몇 척중 몇적은 제재 대상임을 그래픽으로 보여주면 좋겠어.
+  quote_kind: verbatim
+  category: 데이터 그래픽 — "N 중 M" 비율 문장은 점 패널(dots)로 조판(말로만 끝내지 않음)
+  guards: []
+  status: open
+  decision: "감독 기록 — v2: act2_9~act2_10 에 dots 패널(7척 = 점 7, 그중 3 강조 = 제재 대상, 큰 숫자 '3 / 7', 부제 '열네 번 항해 · 가디언'). 사실 주의: 제재 대상은 '일곱 척 중 세 척'(열네 번은 항해 횟수) — 그래픽은 척수 기준. 규칙 후보 = 원고 린트가 'N 중 M' 문형을 찾으면 연출에 dots·versus 패널 없을 때 warning. 장치는 v2 전달 뒤 첫 작업(C12 2)"
+  source: 감독 세션(Fable) 사용자 대화 2026-10-18
