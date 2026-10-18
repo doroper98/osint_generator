@@ -24,6 +24,7 @@ released 항목은 **append-only**입니다.
 - v7.4.0(D-0238, UF-118): 검사 `media_unused`(hard) — 프로젝트가 등재한 권리 통과 사진({pid}_ 접두 kind photo)이 연출 어디에도 없으면 실패, media_notes.yaml `drop`(mid·사유)만 예외. 골든 e2e 검사 72항목. UF-117·118 장치 기입.
 - v7.4.0(D-0229 §4.3): rules data.units 에 "건"·"척"(점 패널 "몇 척 중 몇 척"). 미디어 레지스트리 diesel_road_2026 사진 3장 추가(하바롭스크 정유소 CC BY 3.0·라스라판 LNG CC BY 2.0·블라디보스토크 항 PD, 모두 자료사진, D-0239 UF-119).
 - v7.4.0(D-0240): 위성 인셋 안전 영역(rules flight.inset.safe_margin_px·side_order — 고른 자리가 날짜 배지 위·자막 띠 아래로 잘리면 다음 자리) + 검사 `inset_clipped`(hard). 기사 카드 공식 사진(press) 자료사진 출처 줄(rules article_card.press_photo_credit) + 검사 `press_credit`(hard). 국기 뱃지는 카드·인용·마커에 붙을 때만(rules layout_480p.badge.flag_requires_anchor) + 검사 `badge_orphan`(warning). 골든 e2e 75항목.
+- v7.4.0(D-0241·D-0242, UF-120~125): 숏 mode `drift`(등속 궤도 훑기) + 검사 `static_camera`(20초 정지·[drift-too-fast]) hard, `route_speed`(grow ≤ 45px/초) hard(골든 story_geo_exempt 면제), `sea_only_frame`(육지 비율 ≥ 0.35, 숏 allow_sea 사유 예외) hard, `unit_ton_glyph`(화면 무게 단위 ton) hard. 콘티 판 = 본 지도(막지도 FlatMercatorStage 삭제, RENDER-AP-027), 국가 폴리곤은 geo/country_polygons.py. banned_phrases 제도 주어 의인화 동사(UF-124). 골든 e2e 79항목.
 
 ### Changed
 -

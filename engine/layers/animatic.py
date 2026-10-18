@@ -6,7 +6,8 @@ animatic = animation + -matic. 1930년대 디즈니가 스토리보드를 라이
 진입은 `engine.project.load_project(animatic=True)` 한 곳(15 P2 — 플래그 분기는 진입에서 끝난다). 이 모듈은 레이어 선택
 `ANIMATIC_LAYERS`(engine.registry.LayerSet)를 내놓고, render_frame 은 전편과 같은 순서로 그린다.
 
-- 지도: `engine.stage.FlatMercatorStage` 의 배경 = `draw_flat_map`(육지·바다 단색 + 국경선, 라벨 없음). 카메라·dip 그대로.
+- 지도: 전편과 같은 본 MercatorStage(지형·행정선·도시·도로·강·테마). v7.4.0 back_and_forth D-0241 §2(사용자 의견 UF-121 "행정구역과 도시들과
+  주요 도로가 표현 되게 해놨자나. 그거 왜적용 안하지?") — 막지도(FlatMercatorStage, D-0108) 삭제(15 P2). 지도 자산(geo.prep)이 있어야 렌더한다.
 - 자리표시(`rules animatic.placeholder.kinds`): badge(인물·국기·휘장)·photo·clip·cutout·article·post·primitive 는
   같은 자리·크기(G7 값)·타이밍(팝인·페이드·슬라이드)의 상자 + `[종류: 이름]`. 상자 계산은 전편 레이어의 기하 함수를 그대로 부른다
   (badge_R·place_badge·media_box·article_layout·post_box·card_geom·primitive_box) — 자리를 따로 계산하지 않는다.
@@ -15,7 +16,7 @@ animatic = animation + -matic. 1930년대 디즈니가 스토리보드를 라이
   코드가 글자로 그리는 요소라 파일이 필요 없다 → 전편 렌더러 그대로(숫자·문구·도식을 콘티 판에서 승인). 패널 안 인물·국기
   뱃지만 `R.cache["badge_placeholder"]`(= 이 모듈 `_badge_at`)로 자리표시.
 - 표식: 전체 페이드 뒤 화면 위 가운데 띠(`rules animatic.band`) — 암전 중에도 보인다.
-이미지·영상·타일 파일을 읽지 않는다(자산 없는 환경에서 렌더 가능, D-0108 합격 조건).
+사진·영상 파일은 읽지 않는다(자리표시). 지도 타일·geo.pkl 은 전편과 같이 읽는다(v7.4.0 D-0241).
 """
 
 from __future__ import annotations
@@ -39,73 +40,6 @@ from engine.typography import rrect, text, tw
 REPO = Path(__file__).resolve().parents[2]
 PH = ANIMATIC.placeholder
 BAND = ANIMATIC.band
-FM = ANIMATIC.flat_map
-
-
-# ------------------------------------------------------------------ 막지도
-def load_flat_polygons(crimea_to_ua: bool) -> dict[str, list]:
-    """저장소 막지도 자료(tools/build_flat_map.py) → 국가 키 → 폴리곤 [[바깥, 구멍…]…]. crimea_to_ua 면 크림을 RU → UA(04 §3.2)."""
-    doc = json.loads((REPO / FM.data).read_text(encoding="utf-8"))
-    polys: dict[str, list] = doc["countries"]
-    if crimea_to_ua:
-        from shapely.geometry import MultiPolygon, Polygon  # noqa: PLC0415
-        from shapely.ops import unary_union  # noqa: PLC0415
-
-        from geo.prep_geometry import CRIMEA_GAP, polys as flat  # noqa: PLC0415
-
-        def geom(v: list) -> Any:
-            return MultiPolygon([Polygon(p[0], p[1:]) for p in v]).buffer(0)
-
-        def back(g: Any) -> list:
-            return [[[list(c) for c in q.exterior.coords], *[[list(c) for c in r.coords] for r in q.interiors]] for q in flat(g)]
-
-        cr = geom(doc["crimea"])
-        polys = dict(polys, UA=back(unary_union([geom(polys["UA"]), cr])), RU=back(geom(polys["RU"]).difference(cr.buffer(CRIMEA_GAP))))
-    return polys
-
-
-def flat_map_source() -> dict:
-    """provenance animatic_run.flat_map — 막지도 자료 파일과 원본 기록(C9)."""
-    import hashlib  # noqa: PLC0415
-
-    p = REPO / FM.data
-    doc = json.loads(p.read_text(encoding="utf-8"))
-    return {"data": FM.data, "md5": hashlib.md5(p.read_bytes()).hexdigest(), **{k: doc["source"][k] for k in ("countries", "license")}}
-
-
-def flat_stage_factory(proj: Path, out: Any) -> Callable[[Optional[dict]], Any]:
-    """StageSet modes["mercator"] — 경계 = 프로젝트 geo.yaml 티어 W bbox(tiers.pkl 과 같은 값, geo.prep tier_record)."""
-    from engine.stage import FlatMercatorStage, mercator_theme  # noqa: PLC0415
-    from geo.prep import load_conf  # noqa: PLC0415
-
-    def make(config: Optional[dict]) -> Any:
-        mercator_theme(config)   # 전편 MercatorStage 와 같은 키 검사(v5.13.0). 막지도에는 글로우·지형을 그리지 않는다(자리표시 지도)
-        conf = load_conf(proj)
-        w = next((t for t in conf.tiers if t.name == "W"), None)
-        if w is None:
-            raise KeyError("티어 W(광역, 카메라 경계)가 없다 — geo.yaml tiers 에 name: W 를 둔다")
-        tier = dict(lon0=w.bbox[0], lat0=w.bbox[1], lon1=w.bbox[2], lat1=w.bbox[3])
-        return FlatMercatorStage(tier, load_flat_polygons(conf.crimea_to_ua), out, config)   # v5.18.0 D-0161 §7 — 같은 테마
-
-    return make
-
-
-def draw_flat_map(ctx: cairo.Context, stage: Any, view: View) -> None:
-    """막지도 배경 — 바다 단색 → 보이는 육지 채움(국가별 고리, 짝홀 규칙) → 국경선."""
-    th = FM.themes.get(stage.theme_name, {})   # v5.18.0 D-0161 §7 — 전편과 같은 테마의 단색(없으면 공통값)
-    ctx.set_source_rgba(*th.get("sea", FM.sea))
-    ctx.paint()
-    ctx.new_path()
-    for rings in stage.bord["coarse"].values():
-        path_rings(ctx, view, rings)
-    ctx.set_fill_rule(cairo.FILL_RULE_EVEN_ODD)
-    ctx.set_source_rgba(*th.get("land", FM.land))
-    ctx.fill_preserve()
-    ctx.set_fill_rule(cairo.FILL_RULE_WINDING)
-    ctx.set_line_join(cairo.LINE_JOIN_ROUND)
-    ctx.set_source_rgba(*th.get("border", FM.border))
-    ctx.set_line_width(FM.border_w)
-    ctx.stroke()
 
 
 # ------------------------------------------------------------------ 자리표시
@@ -363,5 +297,5 @@ def resolve_animatic(e: dict | str) -> Entry:
 
 ANIMATIC_LAYERS = LayerSet("animatic", resolve_animatic, draw_over_panel, draw_band)
 
-__all__ = ["ANIMATIC_LAYERS", "PLACEHOLDERS", "draw_band", "draw_flat_map", "flat_map_source", "flat_stage_factory", "label", "load_flat_polygons",
+__all__ = ["ANIMATIC_LAYERS", "PLACEHOLDERS", "draw_band", "label",
            "resolve_animatic"]

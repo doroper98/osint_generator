@@ -115,10 +115,11 @@ def _registered_stage(v: Optional[str]) -> Optional[str]:
 
 class Shot(_Strict):
     at: Union[float, dict[str, Any]]
-    mode: Literal["cut", "move", "dip"]
+    mode: Literal["cut", "move", "dip", "drift"]   # drift = v7.4.0 D-0241 §1(UF-120) — 등속 궤도 훑기(이징 없음, rules camera.drift_speed_max)
     dur: float = 3.0
     camera: Camera
     under: bool = False
+    allow_sea: Optional[str] = None   # v7.4.0 D-0242 — 이 숏부터 다음 숏까지 바다만 보이는 프레임을 허용하는 사유(해협·항로 설명). 없으면 [sea-only-frame] 검사
     scene: Optional[str] = None   # 읽는 사람용 표시(검증 안 함)
     stage: Optional[str] = None   # v4.1.0 D-0077 — 이 숏의 무대(없으면 최상위 stage)
     reason: Optional[str] = None  # v4.3.0 D-0084 작업 3 — 시간축에서 왼쪽으로 되돌아가는 이유(있으면 timeline_backtrack 경고 없음, 20 §6)

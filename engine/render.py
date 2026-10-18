@@ -412,7 +412,7 @@ def render_animatic(P: Project, jobs: int) -> tuple[Path, dict]:  # noqa: N803
                    check=True)
     rj = json.loads((outd / "animatic_render.json").read_text(encoding="utf-8"))
     kinds: dict[str, int] = {}
-    from engine.layers.animatic import PLACEHOLDERS, flat_map_source  # noqa: PLC0415
+    from engine.layers.animatic import PLACEHOLDERS  # noqa: PLC0415
 
     for e in P.events:
         if e["type"] in PLACEHOLDERS:
@@ -420,7 +420,7 @@ def render_animatic(P: Project, jobs: int) -> tuple[Path, dict]:  # noqa: N803
     prov["animatic"] = True
     prov["animatic_run"] = {"output": f"out/{AN.output}", "profile": P.R.out.name, "fps": FPS, "preset": AN.preset,
                             "band": AN.band.text, "placeholders": dict(sorted(kinds.items())),
-                            "flat_map": flat_map_source() if "mercator" in P.R.cache["stage"]["instances"] else None,
+                            "map": "mercator(본 지도, D-0241)" if "mercator" in P.R.cache["stage"]["instances"] else None,
                             "voice": P.plan.voice, "checks_skipped": checks["skipped"],
                             # v5.2.0 — 어느 연출 판으로 만든 콘티 판인지(게이트 ② 기록, orchestrator.project_manager.require_animatic)
                             "direction_sha1": hashlib.sha1((P.root / "direction.yaml").read_bytes()).hexdigest()

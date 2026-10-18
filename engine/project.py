@@ -375,8 +375,8 @@ def load_project(proj: Path, direction: Optional[Direction] = None, out: Optiona
                  animatic: bool = False) -> Project:
     """렌더 입력 한 벌. direction 을 주면 direction.yaml 대신 그것으로(연출 워커의 저장 전 점검 — 렌더와 같은 경로, 15 P8).
     out = 출력 프로파일(v3.6.0, None = config engine.output.default). 설계 좌표·연출·검사는 프로파일과 무관하다.
-    animatic = 콘티 판(v4.9.0 back_and_forth D-0108) — **플래그 분기는 여기 한 곳**: 프로파일 rules animatic.profile, 지도 = 막지도
-    (FlatMercatorStage, 지형 자산 없음), 레이어 = ANIMATIC_LAYERS(자리표시), 이미지·영상 파일·초상 실측·권리 점검(check_credits) 건너뜀."""
+    animatic = 콘티 판(v4.9.0 back_and_forth D-0108) — **플래그 분기는 여기 한 곳**: 프로파일 rules animatic.profile, 지도 = 전편과 같은
+    본 MercatorStage(v7.4.0 D-0241 §2·UF-121 — 막지도 삭제), 레이어 = ANIMATIC_LAYERS(자리표시), 이미지·영상 파일·초상 실측·권리 점검(check_credits) 건너뜀."""
     proj = proj.resolve()
     plan = load_plan(proj)
     tb = Timebase(plan)
@@ -402,7 +402,7 @@ def load_project(proj: Path, direction: Optional[Direction] = None, out: Optiona
         err = series_theme_error(mt, load_series_registry())
         if err:
             raise ProjectError(err)
-    assets = Assets(proj, load_labels(proj / "labels.yaml"), None if out.k == 1 else out.name, geo=uses_map and not animatic,
+    assets = Assets(proj, load_labels(proj / "labels.yaml"), None if out.k == 1 else out.name, geo=uses_map,
                     theme=theme)
     R = RenderCtx(assets=assets, tb=tb, credits=load_credits(proj / "credits.yaml"), out=out)  # noqa: N806
     from engine.source_note import source_notes  # noqa: PLC0415
@@ -412,12 +412,11 @@ def load_project(proj: Path, direction: Optional[Direction] = None, out: Optiona
     R.cache["source_notes"] = source_notes(proj)   # v5.6.0 — 참조 출처 화면 표기(sid → 링크 줄, rules source_note)
     modes = {}
     if animatic:
-        from engine.layers.animatic import _badge_at, flat_stage_factory  # noqa: PLC0415
+        from engine.layers.animatic import _badge_at  # noqa: PLC0415
 
         R.cache["badge_placeholder"] = _badge_at   # v5.6.0 PIPELINE-AP-018 — 패널은 실제로 그리고 그 안 뱃지만 자리표시
 
         R.cache["missing_license"] = AN.missing_license   # 권리 레지스트리 없는 환경의 엔딩 카드(fullcards.project_credit_sections)
-        modes = {"mercator": flat_stage_factory(proj, out)}
     try:
         stages = StageSet(assets, out, doc.stage_configs(), modes)   # v4.1.0 D-0076·D-0077 — 무대는 이름마다 한 번만. 설정 v4.3.0
         R.stage = stages.get(doc.main_stage())

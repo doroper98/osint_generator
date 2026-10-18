@@ -56,6 +56,8 @@ opening:                  # v5.6.0 사용자 요청(2026-10-05 "지리를 잘 �
   min_move_sec: 4.0         # 들어가는 이동은 4초 이상(천천히)
 weapon_photo:             # v5.6.0 사용자 요청(2026-10-05 "무기체계가 나올 때는 웬만하면 실사 이미지", RENDER-AP-017) — 문장에 이름이 나오는데 그 문장 동안 사진·영상·컷아웃이 없으면 warning(권리 있는 실사가 없을 수 있다)
   terms: [이스칸데르, 오레시니크, 킨잘, 칼리브르, 지르콘, 사르마트, 토폴, 야르스, S-400, S-300, S-500, 패트리어트, 사드, THAAD, 하이마스, HIMARS, 에이태킴스, ATACMS, 토마호크, 타우러스, 스톰 섀도, 샤헤드, F-35, F-16, Su-35, Su-57, 레오파르트, 에이브럼스, K2 전차, K9 자주포, 천무]
+route_speed:              # v7.4.0 back_and_forth D-0241 §4(UF-123 "니가타에서 블라디보스토크로 가는 라인이 너무 빨라") — 경로 grow 속도 상한(설계 px/초, 480p). 넘으면 [route-too-fast] hard
+  grow_speed_max_px_s: 45
 route_frame:              # v5.6.0 사용자 지적(2026-10-04 "철도 훈련 장면의 철도 구간이 프레임 밖", RENDER-AP-012) — 다 그려진 경로 곡선이 화면 밖으로 이 비율 넘게 나가면 hard
   max_out: 0.25
 source_note:              # v5.6.0 사용자 결정(2026-10-04) — 참조 출처(위키백과 등)는 내레이션에서 "~에 따르면"으로 읽지 않고, 그 문장 동안 화면 아래에 아주 작게 링크만(글자 크기 = end_card.version_stamp.size)
@@ -366,6 +368,15 @@ stage:                     # v4.1.0 D-0076 작업 5·D-0077 — 무대 연속성
     max_switches: 2        # 무대가 바뀌는 지점 수 상한 — 보조 무대에 한 번 들어갔다 나오기(20 §2.2 "짧은 삽입"). 넘으면 장면마다 새 캔버스(슬라이드)
 
 camera:                    # v3.3.0 D-0056 — 카메라 자동화 보조(05 §7). 전환 임계는 shot_grammar.auto_transition(05 §7-2, 한 곳)
+  # v7.4.0 back_and_forth D-0241 §1(사용자 의견 UF-120 "지도가 한곳만 비추고 있어서 굉장히 지루해… 다른 영상 만들때도 지켜야 할 규칙") —
+  # 어떤 static_max_sec 창에서도 화면 카메라(center·w)가 static_eps 안에 머물고 새 화면 요소도 나타나지 않으면 [static-camera] hard.
+  # 바탕 움직임 = 숏 mode drift(등속 궤도 훑기, 이징 없음) — 속도 상한 drift_speed_max(넘으면 [static-camera] 의 [drift-too-fast] hard)
+  static_max_sec: 20
+  static_eps: {w_rel: 0.01, center_rel: 0.005}
+  drift_speed_max: {pan_w_per_sec: 0.02, zoom_per_sec: 0.01}
+  # v7.4.0 D-0242(UF-125 "동해 바다 지나가면서 바다만 보이는 형태면 곤란") — 지도 프레임의 육지 비율 하한. 미만 = [sea-only-frame] hard(숏 allow_sea 사유 구간만 예외)
+  land_min_ratio: 0.35
+  land_sample_sec: 1.0
   framing:                 # frame_points — 장면 장소가 전부 보이는 최소 w 와 중심(05 §2.1·§7-1). px 는 480p 기준(09 §2 스케일 k = H/480)
     margin_px: 12          # 화면 가장자리 여백(좌우·아래 자막 위)
     top_px: 8              # 위 여백(날짜 배지는 예약 영역 상자로 따로 피한다)
@@ -959,6 +970,8 @@ geo:                       # D29(back_and_forth D-0019) — 지오 자산 단계
   # dark = v3 사용자 합격 값 그대로(geo/prep_tiers 상수·engine/layers 리터럴·colors.sea_label 에서 이관, 출력 바이트 동일).
   # light = 가이드 23 §13·§15 시안 값(Q0 시제품 — 사용자 결정 뒤 Q3 에서 한 테마만 남긴다, D-0153 §2).
   map_layers_default: [roads, rivers]   # v7.4.0 D-0231 — 지도 레이어 기본 켬. 끄려면 direction stage_config.mercator.map_layers + map_layers_reason(골든 hormuz = [])
+  # v7.4.0 D-0241 §2 — 막지도 삭제 뒤에도 남는 국가 폴리곤 자료(NE 110m, tools/build_flat_map.py). 국기 뱃지 영토(flag_territory)·바다만 보이는 프레임(sea_only_frame) 육지 마스크
+  country_polygons: data/geo_flat/ne_110m_countries.json
   river_major_scalerank_max: 5   # v7.4.0 D-0229 §2.1-2 — NE 강 scalerank ≤ 5 = 큰 강(볼가·아무르·유프라테스·티그리스·네바), 그 밖 = 작은 강
   themes:
     default: dark
@@ -1415,7 +1428,9 @@ genre_prompt:              # v4.4.0 D-0090 작업 1 — 장르 프롬프트 층(
       - "정책 금리 계단·목표 범위 띠는 color_by: change(인상·인하·동결 색을 코드가 레코드 변화로 정한다). 시장 금리·물가 선은 fixed."   # v4.4.0 D-0091 ②
 
 data:                      # v4.3.0 D-0084 작업 1 — 데이터 레코드(docs/handoff/20 §5.1, schemas/data_models.py:SeriesRecord). 이 목록 밖 값 = 로드 오류(15 P6)
-  units: ["%", "%p", "bp", "억 달러", "지수", "명", "원", "달러/갤런", "mb/d", "kb/d", "건", "척"]   # 건·척 = v7.4.0 D-0229 §4.3(점 패널 "몇 척 중 몇 척", UF-113). mb/d·kb/d = v7.3.0 D232 U4(하루 백만·천 배럴, 정제 처리량·경유 수출). v5.3.1 달러/갤런 = 미국 경유 소매가(EIA GASDESW, valdai-2026). 화면 단위(20 §5.3 "단위를 화면에 표시")
+  units: ["%", "%p", "bp", "억 달러", "지수", "명", "원", "달러/갤런", "mb/d", "kb/d", "건", "척", "ton"]   # 건·척 = v7.4.0 D-0229 §4.3(점 패널 "몇 척 중 몇 척", UF-113). mb/d·kb/d = v7.3.0 D232 U4(하루 백만·천 배럴, 정제 처리량·경유 수출). v5.3.1 달러/갤런 = 미국 경유 소매가(EIA GASDESW, valdai-2026). 화면 단위(20 §5.3 "단위를 화면에 표시")
+  # v7.4.0 D-0241 §3(UF-122 "십자가 처럼 보이는 t를 쓰지 말고 ton으로") — 화면 무게 단위는 ton. 숫자 뒤 t 가 화면 문자열에 남으면 [unit-ton-glyph] hard
+  unit_ton_pattern: '(?<![A-Za-z])(\d|[만천억백])\s?t(?![A-Za-z])'
   licenses_allowed: [us_gov_public_domain, cc_by_4, press_cited]   # 재배포 가능한 공개 라이선스만(20 §5.1 "시리즈마다 이용 조건 확인"). press_cited = v7.3.0 D232 U4 — 보도 인용값(값 자체는 사실 인용, 값마다 cited 필수)
   unit_prefixes: ["$", "₩", "€", "¥"]                    # v4.3.0 D-0087 보정 1 — 값 앞 통화 기호도 단위 표시로 인정(dual_line y_prefix)
   sources_allowed: [fred.stlouisfed.org, www.federalreserve.gov]   # source_url 도메인(tools/fetch_series.py 가 받는 곳). federalreserve.gov = v4.4.0 SEP 점도표(D-0090 작업 2)
@@ -1571,14 +1586,7 @@ animatic:                  # v4.9.0 back_and_forth D-0108(사용자 결정 D97) 
   output: animatic.mp4     # out/animatic.mp4 (영상 + out/mix.f32 음성·음악). out/video_noaudio.mp4·final.mp4 는 건드리지 않는다
   preset: veryfast         # 콘티 판 인코딩만(전편 preset 은 config 그대로)
   mp4_comment: "animatic — 콘티 판 · 검토용 · 배포 금지"   # mp4 메타데이터 comment — engine.mux(deliver)가 이 표식을 보면 거부
-  flat_map:                # 막지도 — 육지·바다 단색 + 국경선. 타일·지형·라벨 없음(자료: tools/build_flat_map.py, R-0135 A)
-    data: data/geo_flat/ne_110m_countries.json
-    sea: [0.055, 0.086, 0.125, 1.0]
-    land: [0.16, 0.19, 0.22, 1.0]
-    border: [0.82, 0.86, 0.92, 0.42]
-    border_w: 0.75
-    themes:                # v5.18.0 D-0161 §7 — 전편과 같은 테마의 막지도(값 = geo.themes.light 육지·바다·국경의 단색 근사)
-      light: {sea: [0.72, 0.76, 0.80, 1.0], land: [0.93, 0.93, 0.92, 1.0], border: [0.212, 0.212, 0.212, 0.9]}
+  # flat_map(막지도) — v7.4.0 D-0241 §2(UF-121) 삭제. 콘티 판도 본 지도
   placeholder:             # 요소와 같은 자리·크기(G7 값)·타이밍(팝인·페이드)의 상자 + `[종류: 이름]`
     fill: [0.09, 0.11, 0.15, 0.78]
     stroke: [0.91, 0.72, 0.38, 0.95]

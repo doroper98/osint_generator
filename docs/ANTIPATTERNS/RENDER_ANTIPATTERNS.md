@@ -270,3 +270,19 @@ last_review: 2026-05-23
 - **원칙**: 검사는 **화면에 그려진 것**을 잰다. 렌더 단계의 보정(클램프·스냅)이 걸리면 실패한다 — 렌더가 조용히 고치는 것은 P6 의 조용한 폴백이다. 재발 의견을 받으면 "장치가 잰 값"과 "사용자가 본 값"이 같은지부터 실측한다.
 - **자동 조치**: `engine.camera.screen_track`·`bounds_excess`·`max_view_w`(렌더와 같은 View), hard `camera_bounds`(`rules qa_checks.camera_bounds_rel_tol`, 지도·시간축·차트 아일랜드), `camera_continuity`·`camera_speed`·스케치 SK-C1 을 화면 궤적으로 교체, 제안 `frame_points`·연출 입력 `geo_text`(w 상한 = 무대 경계)·`rules direction_grammar` 는 경계 안 키만. 시험 `tests/test_camera_bounds.py`(gulf v6.0.2 키 고정 자료 — 실측 시각 실패, 요청 궤적 통과·화면 궤적 실패, 볼록성, 제안, 스케치). 골든 hormuz dark·light 무변화(클램프 0).
 - **발견 버전**: v7.0.1 · **상태**: active
+
+## RENDER-AP-027 — 콘티 판 막지도가 사용자의 지도 판단을 왜곡함(UF-106 → UF-121 재발)
+
+- **증상(실제 현상)**: v7.4.0 diesel_road_2026 콘티 판 v2 — 사용자 "지도를 밝은 테마에서는 행정구역과 도시들과 주요 도로가 표현 되게 해놨자나. 그거 왜적용 안하지?"(UF-121, recurs_of UF-106). 전편 엔진에는 도로·강·행정선·도시 라벨이 들어갔으나, 콘티 판은 v4.9.0 D-0108 막지도(FlatMercatorStage — 육지·바다 단색 + 국경선, 라벨 없음)로 렌더됐다.
+- **원리**: 콘티 판은 "흐름만 싸게 보는 판"으로 설계됐지만, 사용자는 콘티 판으로 지도 표현까지 판단한다. 두 판의 지도가 달라 "적용된 기능이 결과물에 나타나지 않는다"(15 관성)는 인상이 생겼다. 장치(도로·강 레이어)는 전편 경로에만 걸려 있었다 — 한 트랙에만 걸린 장치는 미보호다(C12-3, UF-02 교훈).
+- **원칙**: 사용자가 판단하는 판은 전편과 같은 무대로 그린다. 콘티 판의 차이는 해상도·자리표시(사진·영상)·표식 띠뿐이다.
+- **자동 조치**: 막지도 코드 삭제(FlatMercatorStage·draw_flat_map·flat_stage_factory·rules animatic.flat_map — 15 P2). `load_project(animatic=True)` 는 본 MercatorStage + geo 자산. 국가 폴리곤 자료(NE 110m)는 검사용으로 `geo/country_polygons.py`·`rules geo.country_polygons` 에 남김. 시험 `tests/test_g8_animatic.py::AnimaticMapRenderTest`(콘티 판 무대 = MercatorStage, geo.pkl 지오메트리 읽음).
+- **발견 버전**: v7.4.0 · **상태**: active
+
+## RENDER-AP-028 — 글꼴 교체로 사용자 지적(십자형 t)을 풀려 했으나 기준은 표기였음(UF-111 → UF-122 재발)
+
+- **증상(실제 현상)**: v7.4.0 diesel_road_2026 콘티 판 v2 — 사용자 "오른쪽 상단 아일랜드에 십자가 처럼 보이는 t를 쓰지 말고 ton으로 표기 하라고 했자나."(UF-122, recurs_of UF-111). UF-111 장치는 단위 글자만 다른 글꼴(rules fonts.unit_font)로 그려 t 모양을 바꿨다 — 표기는 여전히 t.
+- **원리**: 의견 문장의 표면("십자가처럼 보인다")을 글꼴 문제로 읽었고, 사용자의 기준(화면 표기 = ton)을 놓쳤다. 장치가 "어떻게 보이나"를 고쳤고 "무엇을 쓰나"는 열어 두었다.
+- **원칙**: 사용자 의견의 장치는 문장의 요구를 그대로(표기·단어·값) 검사한다. 모양 보정은 보조일 뿐이다.
+- **자동 조치**: `rules data.units` 에 ton, `rules data.unit_ton_pattern`, 검사 `unit_ton_glyph` hard(연출 화면 문자열 — 카드·패널·마커·경로 이름표). 시험 `tests/test_v740_static_camera.py::UnitTonTest`. 자막(원고)의 t 는 UF-122 범위 밖(오른쪽 위 아일랜드 지적) — 감독 결정 D-0241 §3.
+- **발견 버전**: v7.4.0 · **상태**: active

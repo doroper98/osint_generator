@@ -4,8 +4,8 @@
   "title": "경유의 길 — 사흘에 한 번",
   "category": "geopolitics",
   "created_at": "2026-10-17T13:36:28.700647Z",
-  "updated_at": "2026-10-18T11:47:20.958527Z",
-  "current_state": "voice_timeline",
+  "updated_at": "2026-10-18T12:23:03.653444Z",
+  "current_state": "direction",
   "target_duration_min": 10,
   "topic_summary": "우크라이나의 러시아 정유소 타격과 러시아 경유 부족, 한국산 경유의 블라디보스토크행, 걸프 에너지 시설 타격, 미국의 러시아 경유 거래와 에너지 휴전 붕괴",
   "initial_links": [],
@@ -559,6 +559,69 @@
       "errors": [],
       "drops": 0,
       "log": "logs/stages/24_camera_suggest.json"
+    },
+    {
+      "state": "voice_timeline",
+      "stage": "plan",
+      "ok": false,
+      "at": "2026-10-18T11:48:29.271463Z",
+      "artifacts": {},
+      "errors": [
+        "1 validation error for VideoRules\nanimatic.flat_map\n  Field required [type=missing, input_value={'profile': '480p', 'outp...rget_sec_per_300s': 180}, input_type=dict]\n    For further information visit https://errors.pydantic.dev/2.13/v/missing"
+      ],
+      "drops": 0,
+      "log": "logs/stages/25_plan.json"
+    },
+    {
+      "state": "voice_timeline",
+      "stage": "plan",
+      "ok": false,
+      "at": "2026-10-18T11:48:54.957063Z",
+      "artifacts": {},
+      "errors": [
+        "1 validation error for VideoRules\ngeo.country_polygons\n  Extra inputs are not permitted [type=extra_forbidden, input_value='data/geo_flat/ne_110m_countries.json', input_type=str]\n    For further information visit https://errors.pydantic.dev/2.13/v/extra_forbidden"
+      ],
+      "drops": 0,
+      "log": "logs/stages/26_plan.json"
+    },
+    {
+      "state": "voice_timeline",
+      "stage": "plan",
+      "ok": true,
+      "at": "2026-10-18T12:20:47.284981Z",
+      "artifacts": {
+        "plan": "/home/user/osint_generator/projects/diesel_road_2026/plan.json",
+        "tts": "/home/user/osint_generator/projects/diesel_road_2026/tts"
+      },
+      "errors": [],
+      "drops": 0,
+      "log": "logs/stages/27_plan.json"
+    },
+    {
+      "state": "assets",
+      "stage": "assets",
+      "ok": true,
+      "at": "2026-10-18T12:21:40.609906Z",
+      "artifacts": {
+        "assets": "/home/user/osint_generator/projects/diesel_road_2026/assets",
+        "report": "/home/user/osint_generator/projects/diesel_road_2026/assets/geo_report.json"
+      },
+      "errors": [],
+      "drops": 0,
+      "log": "logs/stages/28_assets.json"
+    },
+    {
+      "state": "assets",
+      "stage": "assets_final",
+      "ok": true,
+      "at": "2026-10-18T12:23:03.650894Z",
+      "artifacts": {
+        "assets": "/home/user/osint_generator/projects/diesel_road_2026/assets/res_720p",
+        "report": "/home/user/osint_generator/projects/diesel_road_2026/assets/res_720p/geo_report.json"
+      },
+      "errors": [],
+      "drops": 0,
+      "log": "logs/stages/29_assets_final.json"
     }
   ],
   "final_outputs": {},
@@ -718,6 +781,18 @@
       "to_state": "voice_timeline",
       "transitioned_at": "2026-10-18T11:47:20.958476Z",
       "reason": "script_approval 승인 — user"
+    },
+    {
+      "from_state": "voice_timeline",
+      "to_state": "assets",
+      "transitioned_at": "2026-10-18T12:20:47.287842Z",
+      "reason": "engine plan ok"
+    },
+    {
+      "from_state": "assets",
+      "to_state": "direction",
+      "transitioned_at": "2026-10-18T12:23:03.653379Z",
+      "reason": "engine assets, assets_final ok"
     }
   ],
   "rollbacks": [

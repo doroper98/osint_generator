@@ -40,6 +40,10 @@ hard 실패가 하나라도 있으면 시각 검수 LLM 을 부르지 않고 연
 | inset_overlap | warning | 위성 인셋(원+출처 줄)이 마커·경로 이름표·카드 자리·날짜와 겹침 `[inset-overlap]`(v7.4.0 UF-107·D-0229 §2.7) |
 | tempo_density | warning | 1분 창 사실(귀속) 문장 > tempo.fact_sentences_per_min_max `[tempo-density]`(v7.4.0 UF-115·D-0229 §2.9, script.lint.tempo_density) |
 | transition_camera | hard | 시점 전환(plan transitions) 호흡~bridge 문장 사이 카메라 이동 < transition.camera_move_min_sec `[transition-camera]`(v7.4.0 UF-105·D-0229 §2.2) |
+| static_camera | hard | 20초 창 안에서 카메라가 멈추고 새 화면 요소도 없음 `[static-camera]`·drift 속도 초과 `[drift-too-fast]`(v7.4.0 D-0241 §1, UF-120) |
+| route_speed | hard | 경로 grow 평균 속도 > rules route_speed.grow_speed_max_px_s `[route-too-fast]`(v7.4.0 D-0241 §4, UF-123) |
+| sea_only_frame | hard | 지도 프레임 육지 비율 < rules camera.land_min_ratio `[sea-only-frame]`, 숏 allow_sea 사유 구간 예외(v7.4.0 D-0242, UF-125) |
+| unit_ton_glyph | hard | 화면 문자열에 숫자 뒤 t `[unit-ton-glyph]` — ton 으로(v7.4.0 D-0241 §3, UF-122) |
 | press_credit | hard | 기사 카드 press 가 공식 사진이면 자료사진 출처 줄 필수 `[press-credit-missing]`(v7.4.0 D-0240 §3) |
 | inset_clipped | hard | 위성 인셋 원+출처 줄이 안전 영역(날짜 배지 아래·자막 띠 위) 밖 `[inset-clipped]` — side_order 대체 자리까지 모두 밖일 때(v7.4.0 D-0240 §2) |
 | media_unused | hard | 프로젝트가 등재한 권리 통과 사진({pid}_ 접두 kind photo)이 연출 어디에도 없음 `[media-unused]` — media_notes drop 사유만 예외(v7.4.0 UF-118·D-0238) |
@@ -96,7 +100,7 @@ SHADOW_PX = 7             # badge_box 가 원 둘레에 더하는 그림자 여�
 HARD = ("map_contrast", "overlap", "offscreen", "glyphs", "glyph_size", "labels", "date", "subtitles", "rights", "forbidden", "stage_continuity",
         "genre_elements", "chart_honesty", "series_limit_3", "units_visible", "as_of_visible", "boundary_as_route",
         "geo_mismatch", "timeline_rescale", "backdrop_rights", "backdrop_repeat", "island_overlap",
-        "backdrop_main_missing", "island_label_clip", "cascade", "subtitle_overlap", "label_collision", "timeline_span", "route_frame", "panel_overflow", "flag_territory", "badge_over_panel", "opening_establish", "camera_continuity", "card_exposure", "route_label_cross", "route_label_overlap", "article_backdrop", "quote_in_script", "route_missing_other", "frame_missing_target", "route_missing", "frame_missing", "bgm_decision", "endcard_black", "camera_per_sentence", "label_jump", "camera_speed", "title_backdrop", "camera_bounds", "cutaway_churn", "unit_glyph_font", "transition_camera", "media_unused", "inset_clipped", "press_credit")   # cutaway_churn v7.4.0 D-0229 §2.3, island_label_clip v5.2.0 D-0133 §2, backdrop_main_missing v5.2.0 D-0129 §B, island_overlap v5.1.0 D-0126 Q3, geo_mismatch v4.10.0 D-0116, timeline_rescale v5.1.0 D-0121 §A, backdrop_* v5.1.0 D-0123
+        "backdrop_main_missing", "island_label_clip", "cascade", "subtitle_overlap", "label_collision", "timeline_span", "route_frame", "panel_overflow", "flag_territory", "badge_over_panel", "opening_establish", "camera_continuity", "card_exposure", "route_label_cross", "route_label_overlap", "article_backdrop", "quote_in_script", "route_missing_other", "frame_missing_target", "route_missing", "frame_missing", "bgm_decision", "endcard_black", "camera_per_sentence", "label_jump", "camera_speed", "title_backdrop", "camera_bounds", "cutaway_churn", "unit_glyph_font", "transition_camera", "media_unused", "inset_clipped", "press_credit", "static_camera", "route_speed", "sea_only_frame", "unit_ton_glyph")   # cutaway_churn v7.4.0 D-0229 §2.3, island_label_clip v5.2.0 D-0133 §2, backdrop_main_missing v5.2.0 D-0129 §B, island_overlap v5.1.0 D-0126 Q3, geo_mismatch v4.10.0 D-0116, timeline_rescale v5.1.0 D-0121 §A, backdrop_* v5.1.0 D-0123
 WARN = ("shots", "media_beats", "media_upscaled", "endcard_roll", "geo_unsourced",   # endcard_roll v4.7.0 D-0106, geo_unsourced D-0107
         "static_window", "stage_choice", "card_island", "island_label_overlap", "cascade_label_hidden",
         "map_contrast_shape", "battle_geo", "portrait_unused", "ratio_graphic", "inset_overlap", "tempo_density", "article_press_missing", "badge_orphan")   # ratio_graphic v7.4.0 D-0229 §2.6   # v5.21.14 D-0195·D-0199. map_contrast_shape v5.18.0 D-0161 §4   # static_window v4.11.0 D-0118, stage_choice v5.1.0 D-0123, card_island v5.2.0 D-0129 §C, island_label_overlap D-0133 §3
@@ -298,9 +302,9 @@ def _land_polygons() -> dict:
     """국가 코드 → shapely 지오메트리(저장소 막지도 자료 110m, 콘티 판과 같은 자료)."""
     from shapely.geometry import MultiPolygon, Polygon  # noqa: PLC0415
 
-    from engine.layers.animatic import load_flat_polygons  # noqa: PLC0415
+    from geo.country_polygons import load_country_polygons  # noqa: PLC0415
 
-    return {k: MultiPolygon([Polygon(q[0], q[1:]) for q in v]).buffer(0) for k, v in load_flat_polygons(False).items()}
+    return {k: MultiPolygon([Polygon(q[0], q[1:]) for q in v]).buffer(0) for k, v in load_country_polygons(False).items()}
 
 
 def _map_main(P) -> bool:  # noqa: ANN001, N803
@@ -1118,6 +1122,175 @@ def ratio_graphic(sentences: list, events: list[dict]) -> list[str]:
     return out
 
 
+NEW_ELEMENT_TYPES = ("card", "photo", "clip", "cutout", "route", "panel", "flight", "badge", "article", "marker", "quote", "cascade", "boom",
+                     "post", "primitive", "backdrop", "island", "ships", "barrier", "country")   # [static-camera] — 등장하면 화면이 바뀐 것
+
+
+def static_windows(times: list[float], track: list[tuple[float, float, float]], starts: list[float],
+                   covered: Callable[[float], bool]) -> list[tuple[float, float]]:
+    """v7.4.0 D-0241 §1(UF-120) — 화면 카메라(center x·y·w)가 rules camera.static_eps 안에 머물고 새 요소 등장(starts)도 없는
+    rules camera.static_max_sec 이상 구간 [(시작, 끝)]. 지도가 가려진 시각(covered)은 구간을 끊는다."""
+    C = R_.camera  # noqa: N806
+    out: list[tuple[float, float]] = []
+    i0 = None
+    for i, t in enumerate(times):
+        if covered(t) or any(times[max(0, i - 1)] < s <= t for s in starts):
+            i0 = None if covered(t) else i
+            continue
+        if i0 is None:
+            i0 = i
+            continue
+        x0, y0, w0 = track[i0]
+        x, y, w = track[i]
+        if abs(w - w0) / w0 > C.static_eps.w_rel or math.hypot(x - x0, y - y0) / w0 > C.static_eps.center_rel:
+            i0 = i
+            continue
+        if t - times[i0] >= C.static_max_sec and (not out or out[-1][0] != times[i0]):
+            out.append((times[i0], t))
+        elif out and out[-1][0] == times[i0]:
+            out[-1] = (times[i0], t)
+    return out
+
+
+def check_static_camera(P) -> list[str]:  # noqa: ANN001, N803
+    """v7.4.0 D-0241 §1 — [static-camera] hard(정지 구간) + [drift-too-fast] hard(drift 숏 속도 > rules camera.drift_speed_max)."""
+    from engine.camera import screen_track, speed  # noqa: PLC0415
+
+    if P.cams is None:
+        return []
+    C = R_.camera  # noqa: N806
+    step = 0.5
+    times = [round(k * step, 3) for k in range(int(P.plan.total / step))]
+    idx = [min(P.n_frames - 1, int(t * FPS)) for t in times]
+    tr = screen_track(P.R.stage, P.cams[idx])
+    starts = sorted(e["t0"] for e in P.events if e["type"] in NEW_ELEMENT_TYPES)
+    out = [f"[static-camera] {a:.1f}~{b:.1f}초({b - a:.0f}초) 카메라가 멈추고 새 화면 요소도 없다 — 숏 mode drift(느린 궤도 훑기)·카드·사진으로 "
+           f"화면을 바꾼다(rules camera.static_max_sec {C.static_max_sec:g}, UF-120)"
+           for a, b in static_windows(times, [tuple(x) for x in tr], starts, lambda t: _covered(P, t) or P.R.tb.in_fullcard(t))]
+    full = screen_track(P.R.stage, P.cams)
+    sp = speed(full, (), FPS)
+    for k in P.keys:
+        if k.mode != "drift":
+            continue
+        a, b = int(k.t * FPS), min(len(sp["pan"]), int((k.t + k.dur) * FPS))
+        if b <= a:
+            continue
+        pan, zoom = float(sp["pan"][a:b].max()), float(sp["zoom"][a:b].max())
+        if pan > C.drift_speed_max.pan_w_per_sec * 1.02 or zoom > C.drift_speed_max.zoom_per_sec * 1.02:
+            out.append(f"[drift-too-fast] drift t={k.t:.1f}~{k.t + k.dur:.1f}초 pan {pan:.3f}화면 폭/초·zoom {zoom:.3f}/초 > "
+                       f"{C.drift_speed_max.pan_w_per_sec}·{C.drift_speed_max.zoom_per_sec} — dur 를 늘리거나 이동 폭을 줄인다")
+    return out
+
+
+def route_speeds(P) -> list[tuple[dict, float, float]]:  # noqa: ANN001, N803
+    """경로마다 (이벤트, 화면 길이 px, 평균 grow 속도 px/초) — 길이는 grow 가 끝나는 순간의 카메라로 잰다(설계 480p 좌표)."""
+    out = []
+    for e in P.events:
+        if e["type"] != "route" or e.get("in_island") or not e.get("world_pts") or e.get("grow", 0) <= 0.05:
+            continue
+        t = min(P.plan.total, e["t0"] + e["grow"])
+        v = View(P.R.stage, P.cams[min(P.n_frames - 1, int(t * FPS))])
+        pts = [v.to_screen(*p) for p in e["world_pts"]]
+        n = sum(math.dist(pts[i], pts[i + 1]) for i in range(len(pts) - 1))
+        out.append((e, n, n / e["grow"]))
+    return out
+
+
+def check_route_speed(P) -> list[str]:  # noqa: ANN001, N803
+    """v7.4.0 D-0241 §4(UF-123) — 경로 grow 평균 속도 > rules route_speed.grow_speed_max_px_s 면 hard.
+    골든 기준 연출(story_geo_exempt — 사용자 합격본만, tests/test_story_geo 가 범위 강제)은 보지 않는다(합격 경로 75~217px/초, 바꾸면 골든 컷이 바뀐다)."""
+    if P.cams is None or P.R.cache.get("story_geo_exempt"):
+        return []
+    lim = R_.route_speed.grow_speed_max_px_s
+    return [f"[route-too-fast] 경로 {e.get('label') or 'route'!r} t={e['t0']:.1f} 화면 {n:.0f}px 를 {e['grow']:.1f}초에 — {v:.0f}px/초 > {lim:g}. "
+            f"grow ≥ {n / lim:.1f}초로(문장이 짧으면 end 를 다음 문장까지)"
+            for e, n, v in route_speeds(P) if v > lim]
+
+
+@lru_cache(maxsize=4)
+def _land_world(stage_key: tuple, to_world: Callable, from_world: Callable) -> object:  # noqa: ANN001
+    from shapely.geometry import box  # noqa: PLC0415
+    from shapely.ops import transform, unary_union  # noqa: PLC0415
+
+    land = unary_union(list(_land_polygons().values()))
+    if stage_key:   # 무대 경계(월드) → 경위도 상자로 먼저 자른다(극지방 투영 불가·속도)
+        a, b = from_world(stage_key[0] - 1, stage_key[1] - 1), from_world(stage_key[2] + 1, stage_key[3] + 1)   # 월드 여백 1
+        land = land.intersection(box(a["lon"], a["lat"], b["lon"], b["lat"]))
+    else:
+        land = land.intersection(box(-180, -80, 180, 84))   # 메르카토르는 극지방을 그리지 않는다
+    return transform(lambda xs, ys, zs=None: tuple(zip(*(to_world(lon=x, lat=y) for x, y in zip(xs, ys)))), land)
+
+
+def sea_ok_windows(P) -> list[tuple[float, float]]:  # noqa: ANN001, N803
+    """숏 allow_sea(사유) 구간 — 그 숏 시각부터 다음 숏까지(v7.4.0 D-0242)."""
+    from engine.direction import load_direction_doc, resolve_anchor  # noqa: PLC0415
+
+    p = P.root / "direction.yaml"
+    if not p.exists():
+        return []
+    shots = sorted(((resolve_anchor(s.at, P.R.tb), s.allow_sea) for s in load_direction_doc(p).shots), key=lambda x: x[0])
+    return [(t, shots[i + 1][0] if i + 1 < len(shots) else P.plan.total) for i, (t, why) in enumerate(shots) if why]
+
+
+def land_ratios(P) -> list[tuple[float, float]]:  # noqa: ANN001, N803
+    """지도 프레임 육지 비율 [(t, 비율)] — rules camera.land_sample_sec 간격, 지도가 가려진 시각·기사·인용 전면 시각은 뺀다."""
+    from shapely.geometry import box  # noqa: PLC0415
+
+    st = P.R.stage
+    land = _land_world(tuple(getattr(st, "bounds", ()) or ()), st.to_world, st.from_world)
+    out = []
+    t = 0.0
+    while t < P.plan.total:
+        if not (_covered(P, t) or any(e["type"] in ("article", "quote") and e["t0"] <= t <= e["t1"] for e in P.events)):
+            v = View(st, P.cams[min(P.n_frames - 1, int(t * FPS))])
+            r = box(v.x0, v.y1 - v.h, v.x0 + v.w, v.y1)
+            out.append((round(t, 2), land.intersection(r).area / r.area))
+        t += R_.camera.land_sample_sec
+    return out
+
+
+def check_sea_only(P) -> list[str]:  # noqa: ANN001, N803
+    """v7.4.0 D-0242(UF-125) — 지도 프레임 육지 비율 < rules camera.land_min_ratio 면 hard(숏 allow_sea 사유 구간 제외). 연속 구간은 한 줄."""
+    if not _map_main(P) or P.cams is None:
+        return []
+    lim, ok = R_.camera.land_min_ratio, sea_ok_windows(P)
+    bad = [(t, r) for t, r in land_ratios(P) if r < lim and not any(a <= t < b for a, b in ok)]
+    out, run = [], []
+    for t, r in bad + [(math.inf, 1.0)]:
+        if run and t - run[-1][0] > R_.camera.land_sample_sec * 1.5:
+            out.append(f"[sea-only-frame] {run[0][0]:.0f}~{run[-1][0]:.0f}초 육지 비율 최소 {min(x[1] for x in run):.2f} < {lim:g} — 해안선 쪽으로 "
+                       "중심을 옮기거나(육지·도시 라벨이 화면 한쪽에) 바다가 주제면 그 숏에 allow_sea 사유")
+            run = []
+        if t != math.inf:
+            run.append((t, r))
+    return out
+
+
+def unit_ton_hits(events: list[dict]) -> list[tuple[str, str]]:
+    """v7.4.0 D-0241 §3(UF-122) — 연출 문자열(카드·패널·마커·경로 이름표)에 숫자 뒤 t(rules data.unit_ton_pattern)가 남은 곳 [(이벤트 종류, 문자열)]."""
+    pat = R_.data.unit_ton_pattern
+    if not pat:
+        return []
+    rx = re.compile(pat)
+    skip = {"type", "mid", "pid", "img", "flag", "press", "src", "col", "accent", "side", "kind", "icon", "theme", "place"}
+    out: list[tuple[str, str]] = []
+
+    def walk(o: object, typ: str) -> None:
+        if isinstance(o, dict):
+            for k, v in o.items():
+                if k not in skip:
+                    walk(v, typ)
+        elif isinstance(o, (list, tuple)):
+            for v in o:
+                walk(v, typ)
+        elif isinstance(o, str) and rx.search(o):
+            out.append((typ, o))
+
+    for e in events:
+        walk(e, e["type"])
+    return out
+
+
 def badge_orphans(events: list[dict]) -> list[str]:
     """v7.4.0 D-0240 §4 — 국기 뱃지(kind flag)가 카드·인용(시간 겹침 ≥ 절반)이나 같은 시각 마커(rules layout_480p.badge.anchor_marker_deg 안)에
     붙지 않고 홀로 뜨면 warning. 규칙 flag_requires_anchor 가 꺼져 있으면 보지 않는다."""
@@ -1709,6 +1882,10 @@ def run_checks(P, times: list[float], provenance: dict, drawn: list[tuple[str, f
         "media_unused": lambda: check_media_unused(P),   # v7.4.0 UF-118 D-0238(hard)
         "inset_clipped": lambda: check_inset_clipped(P),   # v7.4.0 D-0240 §2(hard)
         "press_credit": lambda: check_press_credit(P, times, drawn),   # v7.4.0 D-0240 §3(hard)
+        "static_camera": lambda: check_static_camera(P),   # v7.4.0 D-0241 §1(hard, UF-120)
+        "route_speed": lambda: check_route_speed(P),   # v7.4.0 D-0241 §4(hard, UF-123)
+        "sea_only_frame": lambda: check_sea_only(P),   # v7.4.0 D-0242(hard, UF-125)
+        "unit_ton_glyph": lambda: [f"[unit-ton-glyph] {k}: {s!r} — 화면 무게 단위는 ton(UF-122)" for k, s in unit_ton_hits(P.events)],   # v7.4.0 D-0241 §3(hard)
         "ratio_graphic": lambda: ratio_graphic(P.plan.sentences, P.events),   # v7.4.0 UF-113 D-0229 §2.6(warning)
         "inset_overlap": lambda: check_inset_overlap(P),   # v7.4.0 UF-107 D-0229 §2.7(warning)
         "article_press_missing": lambda: check_article_press_missing(P),   # v7.4.0 UF-109 D-0229 §6(warning)

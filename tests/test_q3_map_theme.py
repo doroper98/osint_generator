@@ -19,7 +19,7 @@ import yaml
 
 from engine import style
 from engine.direction import load_direction_doc, map_theme_override_warning, series_theme_error
-from engine.stage import FlatMercatorStage, StageError, split_lines, to_uv
+from engine.stage import StageError, split_lines, to_uv
 from rules import load_rules
 from schemas.series_models import SeriesRegistry
 
@@ -143,24 +143,6 @@ class ContrastMeasureTest(unittest.TestCase):
         self.assertLess(bad["ratio"], QA.map_contrast_text)
         faded = measure_contrast(self._snap(0.95, 0.05), [("required", box, (0.05, 0.05, 0.05), 0.3, "c")])
         self.assertEqual(faded, [])   # 페이드 중(알파 < min) 은 재지 않는다
-
-
-class FlatMapThemeTest(unittest.TestCase):
-    def test_animatic_flat_map_uses_same_theme(self) -> None:
-        from engine.layers.animatic import draw_flat_map  # noqa: PLC0415
-        from engine.projection import View  # noqa: PLC0415
-
-        FM = load_rules().animatic.flat_map  # noqa: N806
-        tier = {"lon0": 40.0, "lat0": 5.0, "lon1": 80.0, "lat1": 40.0}
-        seen = {}
-        for theme in ("dark", "light"):
-            st = FlatMercatorStage(tier, {}, None, {"theme": theme})
-            surf = cairo.ImageSurface(cairo.FORMAT_RGB24, 32, 18)
-            draw_flat_map(cairo.Context(surf), st, View(st, (60.0, 20.0, 30.0)))
-            px = np.frombuffer(surf.get_data(), np.uint8).reshape(18, surf.get_stride() // 4, 4)[5, 5, 2::-1] / 255
-            seen[theme] = px
-        np.testing.assert_allclose(seen["dark"], FM.sea[:3], atol=0.01)
-        np.testing.assert_allclose(seen["light"], FM.themes["light"]["sea"][:3], atol=0.01)
 
 
 class LightUserAD173Test(unittest.TestCase):

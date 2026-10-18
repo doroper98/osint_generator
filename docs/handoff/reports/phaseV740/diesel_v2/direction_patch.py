@@ -76,8 +76,8 @@ d["shots"] = [
     {"at": 0.0, "mode": "cut", "dur": 0.0, "camera": cam(46.0, 52.0, 40.0)},
     {"at": {"sid": "cold_0", "off": 0.5}, "mode": "move", "dur": 11.0, "camera": cam(39.0, 54.9, 12.0), "reason": "랴잔 근접(모스크바·랴잔·M5 도로)"},
     {"at": {"sid": "cold_1", "off": -0.5}, "mode": "move", "dur": 6.5, "camera": cam(38.5, 54.0, 30.0), "reason": "러시아·우크라이나 한 화면(출발지와 함께)"},
-    {"at": {"sid": "cold_4", "off": -0.4}, "mode": "dip", "dur": 2.6, "camera": cam(129.6, 36.3, 14.0), "reason": "무대 전환 — 울산"},
-    {"at": {"sid": "cold_4", "off": 2.3}, "mode": "move", "dur": 6.0, "camera": cam(129.35, 35.6, 8.0), "reason": "울산항 근접 — 느린 이동 뒤 타이틀(§4.1)"},
+    {"at": {"sid": "cold_4", "off": -0.4}, "mode": "dip", "dur": 2.6, "camera": cam(128.0, 36.0, 6.5), "reason": "무대 전환 — 울산"},
+    {"at": {"sid": "cold_4", "off": 2.3}, "mode": "move", "dur": 6.0, "camera": cam(128.5, 35.75, 6.0), "reason": "울산항 근접 — 느린 이동 뒤 타이틀(§4.1)"},
     {"at": {"card": "title", "off": 2.9}, "mode": "dip", "dur": 3.0, "camera": cam(42.0, 55.4, 38.0), "under": True},
     {"at": {"sid": "act1_13", "off": -0.6}, "mode": "move", "dur": 4.5, "camera": cam(42.2, 55.3, 40.0), "reason": "키리시·사라토프·시즈란"},
     {"at": {"sid": "act1_14", "off": 0.0}, "mode": "move", "dur": 5.0, "camera": cam(42.0, 55.4, 38.0)},
@@ -87,9 +87,9 @@ d["shots"] = [
     {"at": {"sid": "act2_11", "off": 0.0}, "mode": "move", "dur": 6.0, "camera": cam(131.0, 46.0, 24.0)},
     {"at": {"sid": "act2_13", "off": -0.6}, "mode": "move", "dur": 4.5, "camera": cam(131.0, 38.4, 26.0)},
     {"at": {"sid": "act2_23", "off": -0.5}, "mode": "move", "dur": 4.5, "camera": cam(131.2, 39.3, 21.0), "reason": "니가타 꺾임점까지"},
-    {"at": {"sid": "act2_29", "off": -0.4}, "mode": "move", "dur": 4.0, "camera": cam(128.3, 34.75, 8.0), "reason": "여수 앞바다 근접"},
-    {"at": {"sid": "act2_29", "off": 4.0}, "mode": "move", "dur": 4.5, "camera": cam(130.6, 39.0, 26.0)},
-    {"at": {"scene_start": "act3", "off": -0.8}, "mode": "move", "dur": 4.5, "camera": cam(127.4, 37.3, 9.0)},
+    {"at": {"sid": "act2_29", "off": -0.4}, "mode": "move", "dur": 4.0, "camera": cam(127.6, 35.1, 8.0), "reason": "여수 앞바다 근접", "allow_sea": "여수 앞바다 유조선 간 옮겨 싣기 — 바다가 주제(D-0242 예외)"},
+    {"at": {"sid": "act2_29", "off": 4.0}, "mode": "move", "dur": 4.5, "camera": cam(127.0, 38.6, 26.0), "allow_sea": "청천호 항로(동해) 를 따라 넓히는 숏 — 바다가 주제(D-0242 예외)"},
+    {"at": {"scene_start": "act3", "off": -0.55}, "mode": "dip", "dur": 3.0, "camera": cam(127.5, 36.9, 7.0)},
     {"at": {"scene_start": "act4", "off": -0.55}, "mode": "dip", "dur": 3.0, "camera": cam(50.5, 27.5, 26.0)},
     {"at": {"sid": "act4_3", "off": -0.4}, "mode": "move", "dur": 4.5, "camera": cam(50.6, 28.8, 9.0), "reason": "하르그섬 근접"},
     {"at": {"sid": "act4_5", "off": -0.3}, "mode": "move", "dur": 5.0, "camera": cam(44.5, 29.5, 24.0), "reason": "이스라엘·이란·사우스파르스 한 화면"},
@@ -105,11 +105,11 @@ d["shots"] = [
 
 # 8) 문장이 부르는 나라가 화면 밖일 때(frame_missing) — 그 나라 국기 뱃지(rules: 국기 뱃지 = 표시)
 FLAGS = [("act2_2", "ru", "러시아", 134.5, 46.6, "act2_3", 0.2),   # 발언 카드(철도 관계자·업계 전문가)에 붙은 국기
-         ("act2_14", "ru", "러시아", 134.4, 41.9, "act2_17", 0.2),   # 블라디보스토크 마커 곁(anchor_marker_deg 안)
+         ("act2_14", "ru", "러시아", 133.9, 42.2, "act2_17", 0.2),   # 블라디보스토크 마커 곁(anchor_marker_deg 안)
          ("act2_31", "ru", "러시아", 133.6, 43.7, "act2_32", 0.2),   # 구매자 카드(로스네프트·NNK)에 붙은 국기
          ("act3_1", "ua", "우크라이나", 129.6, 38.9, None, 0.2), ("act3_15", "ru", "러시아", 129.6, 38.9, None, 0.2),
-         ("act3_17", "ua", "우크라이나", 129.6, 38.9, "act3_21", 0.2), ("act3_18", "ru", "러시아", 124.6, 36.9, None, 0.2),
-         ("act3_27", "ua", "우크라이나", 129.6, 38.9, None, 0.2), ("act5_24", "ru", "러시아", 38.6, 51.4, None, 0.5), ("act3_28", "kp", "북한", 126.6, 38.25, None, 0.2)]
+         
+         ("act3_20", "ua", "우크라이나", 129.6, 38.9, None, 0.2), ("act3_21", "ua", "우크라이나", 129.6, 38.9, None, 0.2), ("act3_27", "ua", "우크라이나", 129.6, 38.9, None, 0.2), ("act5_24", "ru", "러시아", 38.0, 51.0, None, 0.5), ("act3_28", "kp", "북한", 126.6, 38.25, None, 0.2)]
 for f in FLAGS:
     sid, cc, lab, lon, lat, upto, off = f
     upto = upto or sid
@@ -196,6 +196,101 @@ for e in ev:
     if e["type"] == "panel" and e.get("kind") == "fork":
         for br in e["data"]["branches"]:
             br["head"] = {"겨누는 것": "제재 대상", "겨누지 않는 것": "비제재 대상"}.get(br["head"], br["head"])
+
+# 12) D-0241 §3(UF-122) — 화면 무게 단위 ton(카드·패널·이름표). 자막(원고)은 그대로
+import json  # noqa: E402
+import re  # noqa: E402
+
+TON = re.compile(r"(?<![A-Za-z])(\d|[만천억백])\s?t(?![A-Za-z])")
+SKIP = {"type", "mid", "pid", "img", "flag", "press", "src", "col", "accent", "side", "kind", "icon", "theme", "place", "at_place"}
+
+
+def ton(o):
+    if isinstance(o, dict):
+        return {k: (v if k in SKIP else ton(v)) for k, v in o.items()}
+    if isinstance(o, list):
+        return [ton(v) for v in o]
+    return TON.sub(lambda m: m.group(1) + " ton", o) if isinstance(o, str) else o
+
+
+ev[:] = [ton(e) for e in ev]
+
+# 13) D-0241 §1·D-0242(UF-120·125) — 정지 구간에 drift(등속 궤도 훑기). 3막은 해안선을 따라(육지·도시 라벨이 화면 왼쪽에)
+plan = json.loads((P.parent / "plan.json").read_text(encoding="utf-8"))
+T0 = {s["sid"]: s["t0"] for s in plan["sentences"]}
+T1 = {s["sid"]: s["t1"] for s in plan["sentences"]}
+
+
+def drift_path(name, pts):
+    """pts = [(sid, lon, lat, w)] — 첫 점은 move 로 도착, 이후 drift(구간 dur = 다음 점 문장 시작까지)."""
+    shots = []
+    for i, (sid, lon, lat, w) in enumerate(pts[1:], 1):
+        a = T0[pts[i - 1][0]] if i > 1 else T0[pts[0][0]]
+        b = T0[sid] if sid in T0 else T1[sid[:-4]]
+        shots.append({"at": {"sid": pts[i - 1][0], "off": 0.0}, "mode": "drift", "dur": round(b - a, 2), "camera": cam(lon, lat, w),
+                      "reason": f"{name} — 느린 궤도 훑기(UF-120)"})
+    return shots
+
+
+def cam_at(pts, t):
+    ts = [T0[p[0]] if p[0] in T0 else T1[p[0][:-4]] for p in pts]
+    if t <= ts[0]:
+        return pts[0][1:]
+    for i in range(1, len(pts)):
+        if t <= ts[i]:
+            u = (t - ts[i - 1]) / (ts[i] - ts[i - 1])
+            return tuple(pts[i - 1][k] + (pts[i][k] - pts[i - 1][k]) * u for k in (1, 2, 3))
+    return pts[-1][1:]
+
+
+ACT1 = [("act1_3", 46.0, 53.6, 36.0), ("act1_12", 40.6, 55.0, 32.0)]   # 사라토프 → 볼가강 → 랴잔 방향
+ACT3 = [("act3_3", 128.4, 36.0, 7.0), ("act3_9", 127.9, 37.8, 7.0), ("act3_14", 126.6, 39.2, 7.0), ("act3_19", 126.7, 40.0, 7.0),
+        ("act3_25", 128.9, 41.9, 7.0), ("act3_27", 129.6, 42.4, 7.0), ("act3_29_end", 131.0, 43.3, 7.0)]   # 울산·포항 → 강릉 → 원산 → 함흥 → 청진 → 나진 → 블라디보스토크
+ACT5 = [("act5_1", 37.3, 54.0, 30.5), ("act5_23", 39.2, 54.2, 29.5)]   # 키이우 쪽 → 하르키우 → 모스크바 쪽(우크라이나·러시아 라벨 유지)
+for name, pts in (("1막 러시아 서부", ACT1), ("3막 동해안", ACT3), ("5막 우크라이나·러시아 서부", ACT5)):
+    d["shots"].append({"at": {"sid": pts[0][0], "off": -4.5}, "mode": "move", "dur": 4.0, "camera": cam(*pts[0][1:]), "reason": f"{name} drift 시작점"})
+    d["shots"] += drift_path(name, [(pts[0][0], *pts[0][1:])] + [(p[0], *p[1:]) for p in pts[1:]])
+# 3막 서울 마커는 drift 전까지, 3막 뱃지는 그 순간 카메라 자리(국기 = 동쪽 바다, 휘장 = 서쪽 육지)
+for e in ev:
+    if e["type"] == "marker" and e.get("at_place") == "seoul":
+        e["end"] = {"sid": "act3_2", "edge": "end", "off": 0.3}
+    s0 = sid_of(e)
+    if e["type"] == "badge" and s0 and s0.startswith("act3_"):
+        e["end"] = {"sid": s0, "edge": "end", "off": 0.3}   # 문장 하나만(카메라가 움직인다)
+        lon, lat, w = cam_at(ACT3, T0[s0] + 1.0)
+        if e.get("kind") == "flag":
+            e.update(lon=round(lon + 0.33 * w, 2), lat=round(lat + 0.05 * w, 2))
+        else:
+            e.update(lon=round(lon - 0.3 * w, 2), lat=round(lat + 0.08 * w, 2))
+
+# 14) D-0241 §4(UF-123) — 경로 grow 속도 ≤ 45px/초(목표 40) — 화면 길이 실측(프리뷰 [route-too-fast] 표)으로 grow, 모자라면 end 를 늘린다
+for e in ev:
+    if e["type"] == "route" and e.get("label") == "철도":
+        e["start"] = {"sid": "act2_2", "off": 0.3}   # 철도 문장 묶음(act2_2~5) 동안 넓은 화면에서 천천히 — 근접 숏(act2_6) 전에 끝
+GROW = {"철도": 13.0, "7월 말 · 약 3만 ton": 9.0, "레일라호 · 7월·8월": 10.5, "레일라호 · 두 번째": 18.3, "아스토리아호": 13.5, "청천호": 12.0,
+        "한국 항구 → 극동": 9.0, "동서 송유관": 11.0}
+for e in ev:
+    if e["type"] != "route":
+        continue
+    g = GROW.get(e.get("label") or "", 2.6 if sid_of(e) == "ending_0" else None)
+    if g is None:
+        continue
+    e["grow"] = g
+    s = e["start"]
+    sid = s.get("sid") or (s.get("word") or {}).get("sid")
+    need = T0[sid] + (s.get("off") or 0.0) + g + 1.0
+    from_end = e["end"]
+    if isinstance(from_end, dict) and "sid" in from_end:
+        cur = (T1 if from_end.get("edge") == "end" else T0)[from_end["sid"]] + from_end.get("off", 0.0)
+        if cur < need:
+            e["end"] = {"sid": sid, "off": round(need - T0[sid], 2)}
+ev[:] = [e for e in ev if not (e["type"] == "route" and e.get("label") == "한국 항구 → 극동")]   # 막 정리 문장(act2_35)엔 새 요소 없이(D-0229 §4.4)
+for e in ev:
+    if e["type"] == "article" and e.get("mid") == "diesel_road_2026_art_0015":
+        e["start"] = {"sid": "act3_17", "off": 0.0}   # 우크라이나 쪽 시각(act3_17~19)을 기사 한 장으로
+if not find(lambda e: e["type"] == "card" and sid_of(e) == "act3_21"):
+    ev.append({"type": "card", "start": {"sid": "act3_21", "off": 0.2}, "end": {"sid": "act3_21", "edge": "end", "off": 0.4},
+               "tag": "강유정 청와대 수석대변인", "lines": ["우크라이나 측 주장은 사실과 다르고 부적절"], "accent": "gold"})
 
 P.write_text(yaml.safe_dump(d, allow_unicode=True, sort_keys=False, width=200), encoding="utf-8")
 print("events", len(ev))

@@ -1392,6 +1392,7 @@ class GeoRules(_Strict):
     gazetteer: GazetteerRules                         # v4.10.0 D-0116 — checks [geo-mismatch]
     themes: GeoThemes                                 # v5.13.0 D-0153 Q0-2 — 지도 테마(시안)
     map_layers_default: list[Literal["roads", "rivers"]]   # v7.4.0 D-0231 — stage_config.mercator.map_layers 기본값
+    country_polygons: str = "data/geo_flat/ne_110m_countries.json"   # v7.4.0 D-0241 §2 — 국가 폴리곤 자료(flag_territory·sea_only_frame)
     river_major_scalerank_max: int = Field(ge=0)      # v7.4.0 D-0229 §2.1-2 — NE 강 scalerank 이 값 이하 = 큰 강(geo.prep_geometry.load_rivers)
 
 
@@ -1690,22 +1691,31 @@ class FramingRules(_Strict):
     point_px: PxBox
 
 
+class StaticEps(_Strict):
+    w_rel: float = Field(gt=0)
+    center_rel: float = Field(gt=0)
+
+
+class DriftSpeedMax(_Strict):
+    pan_w_per_sec: float = Field(gt=0)
+    zoom_per_sec: float = Field(gt=0)
+
+
 class CameraRules(_Strict):
-    """v3.3.0 D-0056 — 카메라 자동화 보조(05 §7)."""
+    """v3.3.0 D-0056 — 카메라 자동화 보조(05 §7). v7.4.0 D-0241·D-0242 — 정지 카메라·drift·육지 비율."""
 
     framing: FramingRules
+    static_max_sec: float = Field(default=20.0, gt=0)
+    static_eps: StaticEps = Field(default_factory=lambda: StaticEps(w_rel=0.01, center_rel=0.005))
+    drift_speed_max: DriftSpeedMax = Field(default_factory=lambda: DriftSpeedMax(pan_w_per_sec=0.02, zoom_per_sec=0.01))
+    land_min_ratio: float = Field(default=0.35, ge=0, le=1)
+    land_sample_sec: float = Field(default=1.0, gt=0)
 
 
-class AnimaticFlatMap(_Strict):
-    """막지도 — 육지·바다 단색 + 경계선(타일·지형·라벨 없음). data = 저장소 추적 자료(tools/build_flat_map.py)."""
+class RouteSpeed(_Strict):
+    """v7.4.0 D-0241 §4(UF-123) — 경로 grow 속도 상한(설계 px/초)."""
 
-    data: str
-    sea: Color4
-    land: Color4
-    border: Color4
-    border_w: float = Field(gt=0)
-    # v5.18.0 D-0161 §7 — 콘티 판 막지도도 전편과 같은 테마: {테마: {sea, land, border}}. 없는 테마 = 위 공통값(dark)
-    themes: dict[str, dict[str, Color4]] = Field(default_factory=dict)
+    grow_speed_max_px_s: float = Field(gt=0)
 
 
 class AnimaticPlaceholder(_Strict):
@@ -1744,7 +1754,6 @@ class AnimaticRules(_Strict):
     output: str                        # out/ 아래 파일 이름
     preset: str                        # x264 preset(콘티 판 인코딩만)
     mp4_comment: str                   # mp4 메타데이터 표식 — deliver(engine.mux)가 보면 거부
-    flat_map: AnimaticFlatMap
     placeholder: AnimaticPlaceholder
     band: AnimaticBand
     missing_license: str               # 권리 레지스트리(생성 자산)가 없는 환경의 엔딩 카드 license_ref 자리 문구(전편은 오류 그대로)
@@ -2167,6 +2176,7 @@ class DataRules(_Strict):
 
     units: list[str] = Field(min_length=1)
     licenses_allowed: list[str] = Field(min_length=1)
+    unit_ton_pattern: str = ""   # v7.4.0 D-0241 §3(UF-122) — 화면 문자열에 남으면 [unit-ton-glyph] hard(빈 값 = 검사 안 함)
     unit_prefixes: list[str] = Field(min_length=1)   # v4.3.0 D-0087 보정 1
     sources_allowed: list[str] = Field(min_length=1)
     frequencies: list[Literal["monthly", "release"]] = Field(min_length=1)   # release = v4.4.0 scatter
@@ -2964,6 +2974,7 @@ class VideoRules(_Strict):
     script_vocab: ScriptVocab              # v7.4.0 D-0229 §2.8(UF-108·114) — 원고 어휘 린트
     source_note: SourceNote                # v5.6.0 — 참조 출처 화면 표기
     route_frame: RouteFrame = Field(default_factory=RouteFrame)   # v5.6.0 RENDER-AP-012
+    route_speed: RouteSpeed = Field(default_factory=lambda: RouteSpeed(grow_speed_max_px_s=45.0))   # v7.4.0 D-0241 §4
     opening: OpeningRules                  # v5.6.0 RENDER-AP-016
     weapon_photo: WeaponPhotoRules         # v5.6.0 RENDER-AP-017
     script_schema: ScriptSchemaRules

@@ -234,9 +234,9 @@ shots:
   mode: dip
   dur: 2.6
   camera:
-    lon: 129.6
-    lat: 36.3
-    w: 14.0
+    lon: 128.0
+    lat: 36.0
+    w: 6.5
   reason: 무대 전환 — 울산
 - at:
     sid: cold_4
@@ -244,9 +244,9 @@ shots:
   mode: move
   dur: 6.0
   camera:
-    lon: 129.35
-    lat: 35.6
-    w: 8.0
+    lon: 128.5
+    lat: 35.75
+    w: 6.0
   reason: 울산항 근접 — 느린 이동 뒤 타이틀(§4.1)
 - at:
     card: title
@@ -341,28 +341,30 @@ shots:
   mode: move
   dur: 4.0
   camera:
-    lon: 128.3
-    lat: 34.75
+    lon: 127.6
+    lat: 35.1
     w: 8.0
   reason: 여수 앞바다 근접
+  allow_sea: 여수 앞바다 유조선 간 옮겨 싣기 — 바다가 주제(D-0242 예외)
 - at:
     sid: act2_29
     'off': 4.0
   mode: move
   dur: 4.5
   camera:
-    lon: 130.6
-    lat: 39.0
+    lon: 127.0
+    lat: 38.6
     w: 26.0
+  allow_sea: 청천호 항로(동해) 를 따라 넓히는 숏 — 바다가 주제(D-0242 예외)
 - at:
     scene_start: act3
-    'off': -0.8
-  mode: move
-  dur: 4.5
+    'off': -0.55
+  mode: dip
+  dur: 3.0
   camera:
-    lon: 127.4
-    lat: 37.3
-    w: 9.0
+    lon: 127.5
+    lat: 36.9
+    w: 7.0
 - at:
     scene_start: act4
     'off': -0.55
@@ -468,6 +470,116 @@ shots:
     lon: 89.0
     lat: 43.5
     w: 94.0
+- at:
+    sid: act1_3
+    'off': -4.5
+  mode: move
+  dur: 4.0
+  camera:
+    lon: 46.0
+    lat: 53.6
+    w: 36.0
+  reason: 1막 러시아 서부 drift 시작점
+- at:
+    sid: act1_3
+    'off': 0.0
+  mode: drift
+  dur: 58.31
+  camera:
+    lon: 40.6
+    lat: 55.0
+    w: 32.0
+  reason: 1막 러시아 서부 — 느린 궤도 훑기(UF-120)
+- at:
+    sid: act3_3
+    'off': -4.5
+  mode: move
+  dur: 4.0
+  camera:
+    lon: 128.4
+    lat: 36.0
+    w: 7.0
+  reason: 3막 동해안 drift 시작점
+- at:
+    sid: act3_3
+    'off': 0.0
+  mode: drift
+  dur: 42.41
+  camera:
+    lon: 127.9
+    lat: 37.8
+    w: 7.0
+  reason: 3막 동해안 — 느린 궤도 훑기(UF-120)
+- at:
+    sid: act3_9
+    'off': 0.0
+  mode: drift
+  dur: 37.59
+  camera:
+    lon: 126.6
+    lat: 39.2
+    w: 7.0
+  reason: 3막 동해안 — 느린 궤도 훑기(UF-120)
+- at:
+    sid: act3_14
+    'off': 0.0
+  mode: drift
+  dur: 32.59
+  camera:
+    lon: 126.7
+    lat: 40.0
+    w: 7.0
+  reason: 3막 동해안 — 느린 궤도 훑기(UF-120)
+- at:
+    sid: act3_19
+    'off': 0.0
+  mode: drift
+  dur: 34.3
+  camera:
+    lon: 128.9
+    lat: 41.9
+    w: 7.0
+  reason: 3막 동해안 — 느린 궤도 훑기(UF-120)
+- at:
+    sid: act3_25
+    'off': 0.0
+  mode: drift
+  dur: 12.77
+  camera:
+    lon: 129.6
+    lat: 42.4
+    w: 7.0
+  reason: 3막 동해안 — 느린 궤도 훑기(UF-120)
+- at:
+    sid: act3_27
+    'off': 0.0
+  mode: drift
+  dur: 16.19
+  camera:
+    lon: 131.0
+    lat: 43.3
+    w: 7.0
+  reason: 3막 동해안 — 느린 궤도 훑기(UF-120)
+- at:
+    sid: act5_1
+    'off': -4.5
+  mode: move
+  dur: 4.0
+  camera:
+    lon: 37.3
+    lat: 54.0
+    w: 30.5
+  reason: 5막 우크라이나·러시아 서부 drift 시작점
+- at:
+    sid: act5_1
+    'off': 0.0
+  mode: drift
+  dur: 126.73
+  camera:
+    lon: 39.2
+    lat: 54.2
+    w: 29.5
+  reason: 5막 우크라이나·러시아 서부 — 느린 궤도 훑기(UF-120)
 events:
 - type: country
   start:
@@ -795,9 +907,9 @@ events:
     'off': 0.5
   tag: 러시아 경유 생산 · 월간
   bigs:
-  - - 750만 t
+  - - 750만 ton
     - 3월
-  - - 약 590만 t
+  - - 약 590만 ton
     - 5월
   accent: ru
 - type: card
@@ -970,15 +1082,15 @@ events:
   accent: muted
 - type: route
   start:
-    sid: act2_5
-    'off': 0.2
+    sid: act2_2
+    'off': 0.3
   end:
     sid: act2_5
     edge: end
     'off': 0.6
   pts:
     path: rail_fe
-  grow: 2.5
+  grow: 13.0
   col: teal
   ship: false
   dashed: true
@@ -1098,10 +1210,10 @@ events:
     'off': 0.3
   pts:
     path: ulsan_vlad
-  grow: 3.0
+  grow: 9.0
   col: gold
   ship: true
-  label: 7월 말 · 약 3만 t
+  label: 7월 말 · 약 3만 ton
 - type: card
   start:
     sid: act2_15
@@ -1146,7 +1258,7 @@ events:
     'off': 0.5
   tag: 7~8월 한국 항구 선적
   bigs:
-  - - 17만 6천 t 이상
+  - - 17만 6천 ton 이상
     - 대부분 경유
   accent: gold
 - type: route
@@ -1154,12 +1266,11 @@ events:
     sid: act2_23
     'off': 0.3
   end:
-    sid: act2_24
-    edge: end
-    'off': 0.4
+    sid: act2_23
+    'off': 11.8
   pts:
     path: layla1
-  grow: 2.4
+  grow: 10.5
   col: ru
   ship: true
   label: 레일라호 · 7월·8월
@@ -1173,7 +1284,7 @@ events:
     'off': 0.5
   tag: 레일라호 두 차례
   bigs:
-  - - 약 5만 7천 t
+  - - 약 5만 7천 ton
     - 실어 나른 경유
   accent: ru
 - type: route
@@ -1181,12 +1292,11 @@ events:
     sid: act2_25
     'off': 0.3
   end:
-    sid: act2_26
-    edge: end
-    'off': 0.6
+    sid: act2_25
+    'off': 19.6
   pts:
     path: layla2
-  grow: 3.0
+  grow: 18.3
   col: ru
   ship: true
   label: 레일라호 · 두 번째
@@ -1228,7 +1338,7 @@ events:
     'off': 0.5
   tag: 아스토리아호 · 8월 1일 울산
   bigs:
-  - - 약 1만 1천 t
+  - - 약 1만 1천 ton
     - 선적량
   accent: teal
 - type: route
@@ -1237,11 +1347,10 @@ events:
     'off': 0.3
   end:
     sid: act2_28
-    edge: end
-    'off': 0.8
+    'off': 14.8
   pts:
     path: astoria
-  grow: 2.4
+  grow: 13.5
   col: teal
   ship: true
   label: 아스토리아호
@@ -1270,7 +1379,7 @@ events:
     'off': 0.5
   tag: 청천호 · 여수 앞바다
   bigs:
-  - - 약 2만 6천 t
+  - - 약 2만 6천 ton
     - 옮겨 받은 연료
   accent: teal
 - type: route
@@ -1279,11 +1388,10 @@ events:
     'off': 1.5
   end:
     sid: act2_30
-    edge: end
-    'off': 0.8
+    'off': 14.5
   pts:
     path: cheong
-  grow: 2.6
+  grow: 12.0
   col: teal
   ship: true
   label: 청천호
@@ -1333,35 +1441,25 @@ events:
         t:
           sid: act2_33
           'off': 0.5
-      - text: 약 11만 2천 t
+      - text: 약 11만 2천 ton
         t:
           sid: act2_33
           'off': 3.5
     - title: 크레아
       src: 크레아 집계
       items:
-      - text: 약 1만 8천 t
+      - text: 약 1만 8천 ton
         t:
           sid: act2_34
           'off': 0.5
-- type: route
-  start:
-    sid: act2_35
-    'off': 0.2
-  end:
-    scene_end: act2
-  pts:
-    path: ulsan_vlad
-  grow: 1.8
-  col: gold
-  ship: true
-  label: 한국 항구 → 극동
 - type: marker
   start:
     sid: act3_0
     'off': 0.2
   end:
-    scene_end: act3
+    sid: act3_2
+    edge: end
+    'off': 0.3
   at_place: seoul
   label: 서울
   side: right
@@ -1442,10 +1540,10 @@ events:
     subtitle: 러시아산 석유의 운송·보험·금융 서비스를 묶는 제도
     origin: 가격 상한제
     branches:
-    - head: 겨누는 것
+    - head: 제재 대상
       body: 러시아가 파는 석유
       col: ru
-    - head: 겨누지 않는 것
+    - head: 비제재 대상
       body: 러시아가 사들이는 연료
       col: muted
 - type: card
@@ -1532,9 +1630,9 @@ events:
   end:
     sid: act3_15
     edge: end
-    'off': 0.5
-  lon: 125.6
-  lat: 37.0
+    'off': 0.3
+  lon: 124.53
+  lat: 39.96
   kind: emblem
   img: cheongwadae
   label: 청와대
@@ -1567,8 +1665,8 @@ events:
   accent: muted
 - type: article
   start:
-    sid: act3_18
-    'off': 0.2
+    sid: act3_17
+    'off': 0.0
   end:
     sid: act3_19
     edge: end
@@ -1594,9 +1692,9 @@ events:
   end:
     sid: act3_22
     edge: end
-    'off': 0.5
-  lon: 125.6
-  lat: 37.0
+    'off': 0.3
+  lon: 125.91
+  lat: 41.69
   kind: emblem
   img: cheongwadae
   label: 청와대
@@ -1878,7 +1976,7 @@ events:
   bigs:
   - - 14기 중 2기
     - 멈춤
-  - - 연 1,300만 t
+  - - 연 1,300만 ton
     - 생산 능력의 약 17%
   accent: ru
 - type: article
@@ -1931,7 +2029,7 @@ events:
     'off': 0.5
   pts:
     path: ew_pipeline
-  grow: 1.5
+  grow: 11.0
   col: muted
   ship: false
   label: 동서 송유관
@@ -2208,7 +2306,7 @@ events:
     'off': 0.5
   tag: 노바크 러시아 부총리
   bigs:
-  - - 월 300만~350만 t
+  - - 월 300만~350만 ton
     - 늘 수 있는 경유 수출
   accent: ru
 - type: badge
@@ -2249,7 +2347,7 @@ events:
   tag: 카네기 국제평화재단 추정
   bigs:
   - - 약 70억 달러
-    - 이론상 가치 · 6개월 약 500만 t 기준
+    - 이론상 가치 · 6개월 약 500만 ton 기준
   accent: muted
 - type: article
   start:
@@ -2654,7 +2752,7 @@ events:
     total: true
   pts:
     path: ulsan_vlad
-  grow: 1.5
+  grow: 2.6
   col: gold
   ship: true
 - type: card
@@ -2788,8 +2886,8 @@ events:
   kind: flag
   flag: ru
   label: 러시아
-  lon: 134.4
-  lat: 41.9
+  lon: 133.9
+  lat: 42.2
   start:
     sid: act2_14
     'off': 0.2
@@ -2816,8 +2914,8 @@ events:
   kind: flag
   flag: ua
   label: 우크라이나
-  lon: 129.6
-  lat: 38.9
+  lon: 130.71
+  lat: 36.35
   start:
     sid: act3_1
     'off': 0.2
@@ -2830,8 +2928,8 @@ events:
   kind: flag
   flag: ru
   label: 러시아
-  lon: 129.6
-  lat: 38.9
+  lon: 128.94
+  lat: 39.75
   start:
     sid: act3_15
     'off': 0.2
@@ -2844,10 +2942,24 @@ events:
   kind: flag
   flag: ua
   label: 우크라이나
-  lon: 129.6
-  lat: 38.9
+  lon: 129.55
+  lat: 40.82
   start:
-    sid: act3_17
+    sid: act3_20
+    'off': 0.2
+  end:
+    sid: act3_20
+    edge: end
+    'off': 0.3
+  accent: teal
+- type: badge
+  kind: flag
+  flag: ua
+  label: 우크라이나
+  lon: 129.84
+  lat: 41.07
+  start:
+    sid: act3_21
     'off': 0.2
   end:
     sid: act3_21
@@ -2856,24 +2968,10 @@ events:
   accent: teal
 - type: badge
   kind: flag
-  flag: ru
-  label: 러시아
-  lon: 124.6
-  lat: 36.9
-  start:
-    sid: act3_18
-    'off': 0.2
-  end:
-    sid: act3_18
-    edge: end
-    'off': 0.3
-  accent: ru
-- type: badge
-  kind: flag
   flag: ua
   label: 우크라이나
-  lon: 129.6
-  lat: 38.9
+  lon: 132.0
+  lat: 42.81
   start:
     sid: act3_27
     'off': 0.2
@@ -2886,8 +2984,8 @@ events:
   kind: flag
   flag: ru
   label: 러시아
-  lon: 38.6
-  lat: 51.4
+  lon: 38.0
+  lat: 51.0
   start:
     sid: act5_24
     'off': 0.5
@@ -2900,8 +2998,8 @@ events:
   kind: flag
   flag: kp
   label: 북한
-  lon: 126.6
-  lat: 38.25
+  lon: 132.36
+  lat: 43.04
   start:
     sid: act3_28
     'off': 0.2
@@ -2923,6 +3021,18 @@ events:
   - - 약 6,500km
     - 거리
   accent: teal
+- type: card
+  start:
+    sid: act3_21
+    'off': 0.2
+  end:
+    sid: act3_21
+    edge: end
+    'off': 0.4
+  tag: 강유정 청와대 수석대변인
+  lines:
+  - 우크라이나 측 주장은 사실과 다르고 부적절
+  accent: gold
 sound:
   bgm: music.zabriskie_mario_bava
   intensity:
