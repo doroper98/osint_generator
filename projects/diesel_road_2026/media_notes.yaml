@@ -1,0 +1,50 @@
+# diesel_road_2026 미디어 사유(게이트 ① 미디어 계획 표) — 원고 v2.1 문장 번호(v7.4.0 D-0235). v1 판은 media_notes.v1.yaml.
+# 검색 기록은 media_search.json(2026-10-18, tools/media_fetch.py search — us_dod_pd → commons_cc 순).
+schema_version: 1
+sentences:
+  cold_2:
+    photo: A 후보(UF-109) — 'President Donald J Trump makes an announcement on Trump Accounts in the Oval Office, October 7, 2026'(백악관 공식, Public domain). 휴전 발표(10월 11일) 당일 사진은 공용에 없다 → 같은 달 공식 사진을 자료사진으로, AP 기사 카드(art_0032) 프레스 칸 또는 트럼프 인물 뱃지로
+  act1_0:
+    photo: 고르지 않음 — 막 도입 문장(호흡). 통과 후보는 젤렌스키 연설 사진(CC0)뿐이라 문장과 무관. 지도 country 강조·날짜 배지만
+  act1_1:
+    photo: 고르지 않음 — 질문형 도입 문장. 통과 후보 'Zelenskyy and Frederiksen inspected Ukrainian long-range drones'(2024-11, CC0)는 시찰 장면이라 '정유소를 노린 드론'과 오해 소지. 지도 flight(drone)로
+  act1_7:
+    photo: A 후보 — 'Fire at the Moscow Oil Refinery on June 18, 2026'(CC0) 자료사진. 문장은 일반 서술(공장이 타격받음)이고 사진은 모스크바 정유소 6월 화재 → 캡션에 장소·날짜, 자료사진 표기. 연출에서 쓰면 등록
+  act1_8:
+    photo: 고르지 않음 — 통과 후보는 'Cracker USA 1944'(옛 도식)·논문 도식(CC BY 4.0). 사진 아님 → 설비 구분은 카드(1차·2차 설비)로
+  act1_11:
+    photo: 고르지 않음 — 'refinery damage drone Russia' 통과 후보 0. 수치 문장(54건·14건·6건)은 점 패널로
+  act1_13:
+    photo: 고르지 않음 — 통과 후보는 NASA FIRMS 화재 탐지 지도(키리시, 사진 아님)·무관 사진. 키리시·사라토프·시즈란은 지도 marker·flight 로
+  act1_24:
+    photo: 고르지 않음 — 우크라이나 국방부 발표 문장. 통과 후보는 2022 브리핑 영상·러시아 국방부 위성사진(무관). 발표 카드(우크라이나 국방부)와 AP 기사 카드로
+  act2_4:
+    photo: 고르지 않음 — 통과 후보는 메드베데프 옴스크 방문(2010)·NASA FIRMS 지도. 발언 문장이라 지도 marker(옴스크)·물량 화살표로
+  act3_19:
+    photo: 고르지 않음 — 블라시우크 위원 사진(CC BY 3.0) 통과하나 초상 자산(공용 라이브러리) 제작은 이번 범위 밖 → 발언 카드(블라시우크 · 대통령실 제재 담당 위원)로
+  act4_3:
+    photo: A 후보 — 'Third platform of Phase 14 of South Pars Dome Gas-Condensate field'(CC BY 4.0) 자료사진. 피격 장면 아님(시설 자료사진 표기). 연출에서 쓰면 등록
+  act4_11:
+    photo: 고르지 않음 — 'Fujairah port' 통과 후보 0(v1 검색도 CC BY-SA 6장 탈락). 지도 flight(missile·drone)로
+  act4_12:
+    photo: 고르지 않음 — 통과 후보는 EIA 호르무즈 물동량 그래프(사진 아님). 펌프장 피격 사진 없음 → 지도 flight(drone)로
+  act4_13:
+    photo: 고르지 않음 — 통과 후보는 2026 쿠르디스탄 지역 이란 공격 사진(PD). 장소·주체가 달라(사우디 펌프장·이라크발 드론) 오해 소지 → 지도 flight 출발점(이라크)으로
+  act4_15:
+    photo: A 후보 — 'U S forces Execute large-scale Precision Strike on Kharg Island, Iran (999553).webm'(미 국방부, Public domain) 실영상. 사용 구간·사상자 식별 체크 후 등록. 실패하면 지도 marker(boom)
+  act4_18:
+    photo: 고르지 않음 — 로이터 조사 결과 문장. 로이터 기사 카드로(사진 캡처 금지)
+  act5_22:
+    photo: 고르지 않음 — 통과 후보는 2022 국방부 회의 사진(PD)으로 시점이 다르다. 젤렌스키 인물 뱃지(공용 라이브러리 zelensky_mono_v01)로
+  act5_25:
+    photo: 고르지 않음 — 통과 후보는 NASA FIRMS 랴잔 화재 탐지 지도(2025-09, 사진 아님). 랴잔 가스 플레어 사진은 CC BY-SA(허용 목록 밖) 탈락. 랴잔 위성 인셋(자료사진)으로
+  ending_0:
+    photo: 고르지 않음 — 맺음 요약 문장. 앞 장면의 지도 마커(랴잔·울산·라스라판·워싱턴)를 다시 불러 모은다
+  cold_1:
+    photo: 고르지 않음 — 러시아 국방부 발표 문장. v1 검색(media_search.v1.json cold_1 'Ryazan oil refinery') 통과 후보는 NASA FIRMS 화재 탐지 지도(사진 아님)뿐. 랴잔 Esri 위성 인셋(자료사진)이 맡는다
+  act1_3:
+    photo: 고르지 않음 — 수치 문장(사흘에 한 번). v1 검색(act1_3 'Kirishi') 통과 후보는 NASA FIRMS 지도(사진 아님). 지도 위 타격 마커 누적으로
+  act4_2:
+    photo: 고르지 않음 — 집계 수치 문장(84곳·135회). 개별 현장 사진은 장소를 특정해 오해 소지 → 걸프 지도 country 강조와 수치 카드로
+  ending_2:
+    photo: 고르지 않음 — 맺음 문장(전망). 지도 무대(랴잔 마커 유지)로
