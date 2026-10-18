@@ -4,8 +4,8 @@
   "title": "경유의 길 — 사흘에 한 번",
   "category": "geopolitics",
   "created_at": "2026-10-17T13:36:28.700647Z",
-  "updated_at": "2026-10-18T06:58:10.424527Z",
-  "current_state": "voice_timeline",
+  "updated_at": "2026-10-18T07:09:01.127995Z",
+  "current_state": "assets",
   "target_duration_min": 10,
   "topic_summary": "우크라이나의 러시아 정유소 타격과 러시아 경유 부족, 한국산 경유의 블라디보스토크행, 걸프 에너지 시설 타격, 미국의 러시아 경유 거래와 에너지 휴전 붕괴",
   "initial_links": [],
@@ -450,6 +450,19 @@
       "errors": [],
       "drops": 0,
       "log": "logs/stages/17_deliver.json"
+    },
+    {
+      "state": "voice_timeline",
+      "stage": "plan",
+      "ok": true,
+      "at": "2026-10-18T07:09:01.125736Z",
+      "artifacts": {
+        "plan": "/home/user/osint_generator/projects/diesel_road_2026/plan.json",
+        "tts": "/home/user/osint_generator/projects/diesel_road_2026/tts"
+      },
+      "errors": [],
+      "drops": 0,
+      "log": "logs/stages/18_plan.json"
     }
   ],
   "final_outputs": {},
@@ -573,6 +586,12 @@
       "to_state": "voice_timeline",
       "transitioned_at": "2026-10-18T06:58:10.424476Z",
       "reason": "script_approval 승인 — user"
+    },
+    {
+      "from_state": "voice_timeline",
+      "to_state": "assets",
+      "transitioned_at": "2026-10-18T07:09:01.127947Z",
+      "reason": "engine plan ok"
     }
   ],
   "rollbacks": [
