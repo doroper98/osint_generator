@@ -373,6 +373,24 @@ def transition_issues(script: Script) -> list[LintIssue]:
     return out
 
 
+def vocab_issues(script: Script) -> list[LintIssue]:
+    """v7.4.0 D-0229 §2.8 — [verb-target-mismatch] 오류(UF-114), [contrast-conjunction] 경고(UF-108). 값 = rules script_vocab."""
+    V = load_rules().script_vocab  # noqa: N806
+    flat = [(f"{sc.id}_{k}", s) for sc in script.scenes for k, s in enumerate(sc.sentences)]
+    out = []
+    for j, (sid, s) in enumerate(flat):
+        hv = next((v for v in V.hit_verbs if v in s.text), None)
+        ft = next((n for n in V.fixed_targets if n in s.text), None)
+        if hv and ft and not any(n in s.text for n in V.moving_targets):
+            out.append(LintIssue(kind="verb-target-mismatch", severity="error", sid=sid, text=s.text,
+                                 detail=f"고정 시설 '{ft}' 에 '{hv}…' — 고정 표적은 '타격했다·때렸다', '맞히다'는 이동 표적에만(UF-114)"))
+        head = next((h for h in V.contrast_heads if starts_with_connective(s.text, [h])), None)
+        if head and j > 0 and any(v in flat[j - 1][1].text for v in V.statement_verbs):
+            out.append(LintIssue(kind="contrast-conjunction", severity="warning", sid=sid, text=s.text,
+                                 detail=f"앞 문장이 발표·주장인데 '{head}' 로 시작 — {V.contrast_hint}(UF-108)"))
+    return out
+
+
 def lint(script: Script, claims: "dict[str, str] | None" = None, *, check_sources: bool = True,
          noted: "set[str] | None" = None) -> LintReport:
     """claims = {claim_id: status}(claims.json). check_sources=False 는 출처 검사를 끈다 — 프롬프트 예시처럼
@@ -455,6 +473,7 @@ def lint(script: Script, claims: "dict[str, str] | None" = None, *, check_source
             total += 1
             flow += starts_with_connective(s.text, sg.connectives)
     out += transition_issues(script)   # v7.4.0 D-0229 §2.2(UF-105)·D-0230
+    out += vocab_issues(script)        # v7.4.0 D-0229 §2.8(UF-108·114)
     if total >= 4:   # v5.5.0 — 문장 흐름: 연결어로 앞 문장을 받는 문장 비율
         r_ = flow / total
         if r_ < sg.connective_min_ratio:

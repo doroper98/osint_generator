@@ -70,6 +70,17 @@ class ScriptGrammar(_Strict):
     lint_waivable: list[str] = Field(min_length=1)   # v5.17.0 D-0168 — 프로젝트 면제 목록에 올릴 수 있는 린트 kind(문체·흐름만)
 
 
+class ScriptVocab(_Strict):
+    """v7.4.0 D-0229 §2.8(UF-108·UF-114) — 원고 어휘 린트 값."""
+
+    hit_verbs: list[str] = Field(min_length=1)          # '맞히다' 활용 — 이동 표적에만
+    fixed_targets: list[str] = Field(min_length=1)      # 고정 시설 명사 → [verb-target-mismatch] 오류(타격했다·때렸다)
+    moving_targets: list[str] = Field(min_length=1)     # 이동 표적 명사(있으면 허용)
+    contrast_heads: list[str] = Field(min_length=1)     # 대조 접속어 문장 머리
+    statement_verbs: list[str] = Field(min_length=1)    # 앞 문장이 발표·주장이면 [contrast-conjunction] 경고
+    contrast_hint: str = Field(min_length=1)
+
+
 class TransitionRules(_Strict):
     """v7.4.0 D-0229 §2.2(UF-105) — 시점(시간·무대) 전환 장치. 원고 bridge 문장 + 호흡 + 느린 카메라 + 날짜 배지 xfade."""
 
@@ -2920,6 +2931,7 @@ class VideoRules(_Strict):
     direction_grammar: list[str] = Field(min_length=1)   # v4.7.0 D-0104 D2(a) — 연출 문법(프롬프트 {{RULES.direction_grammar}})
     script_grammar: ScriptGrammar          # v5.5.0 — 원고 서술 규약
     transition: TransitionRules            # v7.4.0 D-0229 §2.2(UF-105) — 시점 전환 장치
+    script_vocab: ScriptVocab              # v7.4.0 D-0229 §2.8(UF-108·114) — 원고 어휘 린트
     source_note: SourceNote                # v5.6.0 — 참조 출처 화면 표기
     route_frame: RouteFrame = Field(default_factory=RouteFrame)   # v5.6.0 RENDER-AP-012
     opening: OpeningRules                  # v5.6.0 RENDER-AP-016
