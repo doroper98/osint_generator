@@ -4621,6 +4621,87 @@
    "sub": "이재명 대통령이 13일 국무회의에서 러시아와의 관계 관리도 중요하다고 …",
    "note": "헤드라인 번역 · 원문 영어",
    "headline_original": "李대통령 \"북극항로 개척, 러시아와의 관계 관리도 중요\""
+  },
+  "diesel_road_2026_trump_1006": {
+   "kind": "photo",
+   "title": "File:Donald Trump boards on the South Lawn of the White House on October 6, 2026 - 14.jpg",
+   "license": "Public domain",
+   "author": "Official White House Photo by Molly Riley",
+   "credit_author": "The White House",
+   "date": "2026-10-06 15:15:48",
+   "url": "https://commons.wikimedia.org/wiki/File:Donald_Trump_boards_on_the_South_Lawn_of_the_White_House_on_October_6,_2026_-_14.jpg",
+   "caption": "백악관 남쪽 잔디밭의 트럼프 대통령",
+   "file_note": "자료사진 · 2026. 10. 06",
+   "depicts": [
+    "도널드 트럼프 대통령",
+    "백악관 남쪽 잔디밭",
+    "기자단"
+   ],
+   "is_file_photo": true,
+   "verified_by": {
+    "by": "opus 구현 세션 — Commons extmetadata 라이선스(Public domain, PD-USGov 백악관 공식)·설명문 대조(UF-109, D-0229 §4.1). 실사용 판정은 게이트 ②",
+    "on": "2026-10-18",
+    "casualty_free": true,
+    "relevance": "cold 장면 에너지 휴전 발표 문장 — 휴전 발표(10월 11일) 당일 사진은 공용에 없어 같은 주 백악관 공식 사진을 자료사진으로(AP 기사 카드 프레스 칸)"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-10-18",
+   "tool": {
+    "name": "media_fetch.photo",
+    "params": {
+     "source": "diesel_road_2026_trump_1006.jpg",
+     "thumb_w": 1600,
+     "crop": [
+      720,
+      450
+     ],
+     "color": 0.9,
+     "contrast": 1.04,
+     "jpeg_quality": 92
+    }
+   },
+   "source_hash": "61449fb0c87b29cb62a9de0b77cfc7db",
+   "file": "diesel_road_2026_trump_1006_720.jpg"
+  },
+  "diesel_road_2026_moscow_fire_0618": {
+   "kind": "photo",
+   "title": "File:Fire at the Moscow Oil Refinery on June 18, 2026 (20260618 132423).jpg",
+   "license": "CC0",
+   "author": "Rotafinus",
+   "credit_author": "Rotafinus (CC0)",
+   "date": "2026-06-18 13:24:23",
+   "url": "https://commons.wikimedia.org/wiki/File:Fire_at_the_Moscow_Oil_Refinery_on_June_18,_2026_(20260618_132423).jpg",
+   "caption": "모스크바 정유소 화재 연기",
+   "file_note": "자료사진 · 2026. 06. 18",
+   "depicts": [
+    "모스크바 정유소 화재(2026.06.18)",
+    "검은 연기"
+   ],
+   "is_file_photo": true,
+   "verified_by": {
+    "by": "opus 구현 세션 — Commons extmetadata 라이선스(CC0)·설명문 대조. 실사용 판정은 게이트 ②",
+    "on": "2026-10-18",
+    "casualty_free": true,
+    "relevance": "act1 '경유·휘발유를 만드는 공장이 타격을 받은 것' 문장 — 같은 해 러시아 정유소 화재(모스크바, 6월) 자료사진. 문장의 특정 공격 장면 아님"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-10-18",
+   "tool": {
+    "name": "media_fetch.photo",
+    "params": {
+     "source": "diesel_road_2026_moscow_fire_0618.jpg",
+     "thumb_w": 1600,
+     "crop": [
+      720,
+      450
+     ],
+     "color": 0.82,
+     "contrast": 1.06,
+     "jpeg_quality": 92
+    }
+   },
+   "source_hash": "69a0a748cd0b6d1bb40c7ff7ca5fbfc6",
+   "file": "diesel_road_2026_moscow_fire_0618_720.jpg"
   }
  }
 }
