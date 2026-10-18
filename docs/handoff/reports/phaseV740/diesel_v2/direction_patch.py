@@ -105,7 +105,7 @@ d["shots"] = [
 
 # 8) 문장이 부르는 나라가 화면 밖일 때(frame_missing) — 그 나라 국기 뱃지(rules: 국기 뱃지 = 표시)
 FLAGS = [("act2_2", "ru", "러시아", 134.5, 46.6, "act2_3", 0.2),   # 발언 카드(철도 관계자·업계 전문가)에 붙은 국기
-         ("act2_14", "ru", "러시아", 133.6, 43.7, "act2_17", 0.2),   # 블라디보스토크 마커 곁 연해주 육지(D-0240 §4 — 바다 위 금지)
+         ("act2_14", "ru", "러시아", 133.6, 42.9, "act2_17", 0.2),   # 블라디보스토크 마커 곁 연해주 육지(D-0240 §4 — 바다 위 금지). D-0244: 43.4 도 화면 위끝(y 19) → 같은 경도 연해주 해안 육지 42.9(y 41, 위 가장자리 보정 없음)
          ("act2_31", "ru", "러시아", 133.6, 43.7, "act2_32", 0.2),   # 구매자 카드(로스네프트·NNK)에 붙은 국기
          ("act3_1", "ua", "우크라이나", 129.6, 38.9, None, 0.2), ("act3_15", "ru", "러시아", 129.6, 38.9, None, 0.2),
          
@@ -138,7 +138,7 @@ for e in ev:
     if e["type"] == "marker" and e.get("at_place") in ("khabarovsk_ref", "komsomolsk_ref"):
         e["side"] = "left"
     if e["type"] == "badge" and e.get("pid") == "trump" and sid_of(e) == "act4_4":
-        e.update(lon=48.6, lat=30.6)
+        e.update(lon=48.2, lat=30.3)   # D-0244 [badge-clipped] — 위 가장자리 보정에 기대지 않게(쿠웨이트·바스라 육지)
     if e["type"] == "marker" and e.get("at_place") == "moscow" and sid_of(e) == "cold_0":
         e["end"] = {"sid": "cold_0", "edge": "end", "off": 0.3}
     if e["type"] == "marker" and e.get("at_place") in ("khabarovsk_ref", "komsomolsk_ref"):

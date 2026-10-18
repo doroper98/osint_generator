@@ -1857,8 +1857,8 @@ events:
     sid: act4_4
     edge: end
     'off': 0.5
-  lon: 48.6
-  lat: 30.6
+  lon: 48.2
+  lat: 30.3
   kind: person
   pid: trump
   flag: us
@@ -2887,7 +2887,7 @@ events:
   flag: ru
   label: 러시아
   lon: 133.6
-  lat: 43.7
+  lat: 42.9
   start:
     sid: act2_14
     'off': 0.2

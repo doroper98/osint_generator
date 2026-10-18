@@ -26,6 +26,7 @@ released 항목은 **append-only**입니다.
 - v7.4.0(D-0240): 위성 인셋 안전 영역(rules flight.inset.safe_margin_px·side_order — 고른 자리가 날짜 배지 위·자막 띠 아래로 잘리면 다음 자리) + 검사 `inset_clipped`(hard). 기사 카드 공식 사진(press) 자료사진 출처 줄(rules article_card.press_photo_credit) + 검사 `press_credit`(hard). 국기 뱃지는 카드·인용·마커에 붙을 때만(rules layout_480p.badge.flag_requires_anchor) + 검사 `badge_orphan`(warning). 골든 e2e 75항목.
 - v7.4.0(D-0241·D-0242, UF-120~125): 숏 mode `drift`(등속 궤도 훑기) + 검사 `static_camera`(20초 정지·[drift-too-fast]) hard, `route_speed`(grow ≤ 45px/초) hard(골든 story_geo_exempt 면제), `sea_only_frame`(육지 비율 ≥ 0.35, 숏 allow_sea 사유 예외) hard, `unit_ton_glyph`(화면 무게 단위 ton) hard. 콘티 판 = 본 지도(막지도 FlatMercatorStage 삭제, RENDER-AP-027), 국가 폴리곤은 geo/country_polygons.py. banned_phrases 제도 주어 의인화 동사(UF-124). 골든 e2e 79항목.
 - v7.4.0(D-0240 후속): 위성 인셋 기본 = rules media_beats.inset_preferred_license(Esri), 그 밖 타일은 flight.inset.fallback_reason 필수([inset-fallback-reason] load_project 오류), 연출 입력 목록에 "대체 타일" 표시. camera_suggest 가 drift 숏을 받는다.
+- v7.4.0(D-0244): 검사 `badge_clipped`(hard) — 지도 뱃지 원이 안전 영역(인셋 여백·자막 띠 위·날짜 배지 상자 밖)을 벗어나거나 위 가장자리 보정(edge_nudge)에 기대 붙으면 실패. 골든 0. diesel v2 블라디보스토크 국기(133.6, 42.9)·트럼프 뱃지(48.2, 30.3) 앵커를 화면 안쪽 육지로 옮김.
 
 ### Changed
 -

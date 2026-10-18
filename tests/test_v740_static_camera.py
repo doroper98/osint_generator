@@ -1,5 +1,5 @@
 """v7.4.0 back_and_forth D-0241·D-0242(사용자 의견 UF-120·122·123·125) — 정지 카메라 [static-camera]·drift 등속 이동·항로 속도 [route-too-fast]·
-바다만 보이는 프레임 [sea-only-frame]·화면 단위 [unit-ton-glyph]."""
+바다만 보이는 프레임 [sea-only-frame]·화면 단위 [unit-ton-glyph]. D-0244 — 뱃지 원 안전 영역 [badge-clipped]."""
 
 from __future__ import annotations
 
@@ -89,6 +89,32 @@ class SeaOnlyTest(unittest.TestCase):
         self.assertLess(ratio(134.5, 40.5, 7.0), lim)       # 동해 한가운데
         self.assertGreater(ratio(128.4, 36.0, 7.0), lim)    # 울산·포항 해안선 서쪽
         self.assertIn("sea_only_frame", C.HARD)
+
+
+class BadgeClippedTest(unittest.TestCase):
+    """D-0244 — 앵커가 화면 위끝에 걸쳐 위 가장자리 보정(edge_nudge)으로만 화면 안에 붙은 국기 = hard. 안쪽 국기·날짜 배지 위 국기."""
+
+    def _run(self, sx: float, sy: float) -> list[str]:
+        P = _fake_project(np.tile([90.0, 40.0, 20.0], (24 * 12, 1)), [], 12.0)   # noqa: N806
+        from engine.projection import View
+
+        v = View(P.R.stage, tuple(P.cams[0]))
+        wx = v.x0 + sx / 854 * v.w
+        wy = v.y1 - sy / 854 * v.w
+        P.events.append({"type": "badge", "kind": "flag", "flag": "ru", "label": "러시아", "world": (wx, wy), "t0": 1.0, "t1": 10.0})
+        return C.check_badge_clipped(P)
+
+    def test_inside_ok(self) -> None:
+        self.assertEqual(self._run(427.0, 200.0), [])
+        self.assertIn("badge_clipped", C.HARD)
+
+    def test_top_edge_nudge_is_hard(self) -> None:   # 디젤 v2 act2_14 원래 자리(앵커 y≈3) 재현
+        hits = self._run(427.0, 3.0)
+        self.assertEqual(len(hits), 1)
+        self.assertIn("위 가장자리 보정", hits[0])
+
+    def test_on_date_badge_is_hard(self) -> None:
+        self.assertEqual(len(self._run(800.0, 60.0)), 1)
 
 
 class BannedPersonifyTest(unittest.TestCase):

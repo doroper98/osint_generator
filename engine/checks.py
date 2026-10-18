@@ -46,6 +46,7 @@ hard 실패가 하나라도 있으면 시각 검수 LLM 을 부르지 않고 연
 | unit_ton_glyph | hard | 화면 문자열에 숫자 뒤 t `[unit-ton-glyph]` — ton 으로(v7.4.0 D-0241 §3, UF-122) |
 | press_credit | hard | 기사 카드 press 가 공식 사진이면 자료사진 출처 줄 필수 `[press-credit-missing]`(v7.4.0 D-0240 §3) |
 | inset_clipped | hard | 위성 인셋 원+출처 줄이 안전 영역(날짜 배지 아래·자막 띠 위) 밖 `[inset-clipped]` — side_order 대체 자리까지 모두 밖일 때(v7.4.0 D-0240 §2) |
+| badge_clipped | hard | 지도 뱃지 원이 안전 영역(인셋과 같은 여백 — 화면 가장자리·자막 띠 위·날짜 배지 상자 밖) 밖 `[badge-clipped]` — 또는 위 가장자리 보정(edge_nudge)에 기대 붙음 — place_badge 뒤(v7.4.0 D-0244) |
 | media_unused | hard | 프로젝트가 등재한 권리 통과 사진({pid}_ 접두 kind photo)이 연출 어디에도 없음 `[media-unused]` — media_notes drop 사유만 예외(v7.4.0 UF-118·D-0238) |
 | badge_orphan | warning | 국기 뱃지가 카드·인용·마커에 붙지 않고 홀로 뜸 `[badge-orphan]`(v7.4.0 D-0240 §4) |
 | article_press_missing | warning | 인물 발언·발표 문장 구간 기사 카드에 press 사진 없음 `[article-press-missing]`(v7.4.0 UF-109·D-0229 §6) |
@@ -100,7 +101,7 @@ SHADOW_PX = 7             # badge_box 가 원 둘레에 더하는 그림자 여�
 HARD = ("map_contrast", "overlap", "offscreen", "glyphs", "glyph_size", "labels", "date", "subtitles", "rights", "forbidden", "stage_continuity",
         "genre_elements", "chart_honesty", "series_limit_3", "units_visible", "as_of_visible", "boundary_as_route",
         "geo_mismatch", "timeline_rescale", "backdrop_rights", "backdrop_repeat", "island_overlap",
-        "backdrop_main_missing", "island_label_clip", "cascade", "subtitle_overlap", "label_collision", "timeline_span", "route_frame", "panel_overflow", "flag_territory", "badge_over_panel", "opening_establish", "camera_continuity", "card_exposure", "route_label_cross", "route_label_overlap", "article_backdrop", "quote_in_script", "route_missing_other", "frame_missing_target", "route_missing", "frame_missing", "bgm_decision", "endcard_black", "camera_per_sentence", "label_jump", "camera_speed", "title_backdrop", "camera_bounds", "cutaway_churn", "unit_glyph_font", "transition_camera", "media_unused", "inset_clipped", "press_credit", "static_camera", "route_speed", "sea_only_frame", "unit_ton_glyph")   # cutaway_churn v7.4.0 D-0229 §2.3, island_label_clip v5.2.0 D-0133 §2, backdrop_main_missing v5.2.0 D-0129 §B, island_overlap v5.1.0 D-0126 Q3, geo_mismatch v4.10.0 D-0116, timeline_rescale v5.1.0 D-0121 §A, backdrop_* v5.1.0 D-0123
+        "backdrop_main_missing", "island_label_clip", "cascade", "subtitle_overlap", "label_collision", "timeline_span", "route_frame", "panel_overflow", "flag_territory", "badge_over_panel", "opening_establish", "camera_continuity", "card_exposure", "route_label_cross", "route_label_overlap", "article_backdrop", "quote_in_script", "route_missing_other", "frame_missing_target", "route_missing", "frame_missing", "bgm_decision", "endcard_black", "camera_per_sentence", "label_jump", "camera_speed", "title_backdrop", "camera_bounds", "cutaway_churn", "unit_glyph_font", "transition_camera", "media_unused", "inset_clipped", "press_credit", "static_camera", "route_speed", "sea_only_frame", "unit_ton_glyph", "badge_clipped")   # cutaway_churn v7.4.0 D-0229 §2.3, island_label_clip v5.2.0 D-0133 §2, backdrop_main_missing v5.2.0 D-0129 §B, island_overlap v5.1.0 D-0126 Q3, geo_mismatch v4.10.0 D-0116, timeline_rescale v5.1.0 D-0121 §A, backdrop_* v5.1.0 D-0123
 WARN = ("shots", "media_beats", "media_upscaled", "endcard_roll", "geo_unsourced",   # endcard_roll v4.7.0 D-0106, geo_unsourced D-0107
         "static_window", "stage_choice", "card_island", "island_label_overlap", "cascade_label_hidden",
         "map_contrast_shape", "battle_geo", "portrait_unused", "ratio_graphic", "inset_overlap", "tempo_density", "article_press_missing", "badge_orphan")   # ratio_graphic v7.4.0 D-0229 §2.6   # v5.21.14 D-0195·D-0199. map_contrast_shape v5.18.0 D-0161 §4   # static_window v4.11.0 D-0118, stage_choice v5.1.0 D-0123, card_island v5.2.0 D-0129 §C, island_label_overlap D-0133 §3
@@ -1337,6 +1338,46 @@ def check_inset_clipped(P) -> list[str]:  # noqa: ANN001, N803
     return out
 
 
+def check_badge_clipped(P) -> list[str]:  # noqa: ANN001, N803
+    """v7.4.0 D-0244 — 지도 뱃지 원(R)이 안전 영역(인셋과 같은 여백 flight.inset.safe_margin_px: 화면 가장자리·자막 띠 위·날짜 배지 상자와
+    겹치지 않음)을 벗어나거나, 위 가장자리 보정(edge_nudge 아래로)에 기대 화면 안에 붙어 있으면 hard — 앵커가 화면 위끝에 걸치면 보정이
+    앵커 위치에 따라 꺼져 원이 반쯤 잘린다(offscreen 이 통과시킨 결함). 윗변은 날짜 배지 상자만 막고 좌우 보정은 허용한다 — 골든 v3
+    인물 뱃지(상단·좌측 가장자리, 사용자 합격)가 그렇게 놓였기 때문. 위치는 렌더러와 같은 place_badge(가장자리 보정·카드 회피·고정 이동) 뒤.
+    0.25초 간격+끝 프레임, 알파 > 0.5, 뱃지마다 첫 시각 한 줄."""
+    from engine.layers.badges import badge_box, badge_R, edge_nudge, place_badge, screen_xy  # noqa: PLC0415
+    from engine.framing import default_reserve  # noqa: PLC0415
+    from engine.layers.flight import F as FL  # noqa: PLC0415
+    from engine.reserved import card_zones  # noqa: PLC0415
+    from engine.style import BADGE  # noqa: PLC0415
+    from engine.timebase import window  # noqa: PLC0415
+
+    if not _map_main(P):
+        return []
+    m = FL.inset.safe_margin_px
+    sx0, sy0, sx1, sy1 = m, m, W_OUT - m, R_.layout_480p.reserved_zones.subtitle.y_from - m
+    db = default_reserve()[0]
+    db = (db[0] - m, db[1], db[2], db[3] + m)
+    ctx = cairo.Context(cairo.ImageSurface(cairo.FORMAT_ARGB32, 1, 1))
+    out: list[str] = []
+    for e in P.events:
+        if e["type"] != "badge" or e.get("over_panel"):
+            continue
+        ts = [e["t0"] + k * 0.25 for k in range(int((e["t1"] - e["t0"]) / 0.25) + 1)] + [e["t1"] - 1.0 / FPS]   # 끝 프레임까지(D-0244: 끝에 걸림)
+        for t in ts:
+            if window(t, e["t0"], e["t1"], BADGE.fade_in_sec, BADGE.fade_out_sec) > 0.5 and not _covered(P, t):
+                v = View(P.R.stage, P.cams[min(P.n_frames - 1, int(t * FPS))])
+                x, y = screen_xy(e, v)
+                dx, dy, ka = place_badge(ctx, e, x, y, t, card_zones(ctx, P.events, t))
+                ey = edge_nudge(badge_box(ctx, e, x, y, t), x, y)[1]   # 위 가장자리에서 아래로 민 보정 = 앵커가 화면 위끝에 걸침(D-0244)
+                cx, cy, r = x + dx, y + dy, badge_R(e, t)
+                on_date = cx + r > db[0] and cy - r < db[3]
+                if ka > 0.5 and (cx - r < sx0 or cy - r < sy0 or cx + r > sx1 or cy + r > sy1 or on_date or (ey > 0 and cy - ey - r < sy0)):
+                    out.append(f"[badge-clipped] 뱃지 {e.get('flag') or e.get('kind')} '{e.get('label', '')}' t={t:.1f} 원이 안전 영역 밖"
+                               f"{'(위 가장자리 보정에 기댐)' if ey > 0 and cy - ey - r < sy0 else ''}(중심 {cx:.0f},{cy:.0f} R {r:.0f}, 영역 {tuple(round(q) for q in (sx0, sy0, sx1, sy1))}, 날짜 배지 {tuple(round(q) for q in db)}) — 앵커를 화면 안쪽 육지로 옮기거나 구도를 넓힌다")
+                    break
+    return out
+
+
 def check_press_credit(P, times: list[float], drawn: list[tuple[str, float, str | None, str]]) -> list[str]:  # noqa: ANN001, N803
     """v7.4.0 D-0240 §3 — 기사 카드 press 가 공식 사진(A)이면 자료사진 출처 줄이 있어야 한다(G4 자료사진 표기). 출처 줄을 만들 수 없거나
     (규칙 article_card.press_photo_credit 없음) 프레스 사진이 보이는 프리뷰 컷에 그 줄이 그려지지 않았으면 hard."""
@@ -1881,6 +1922,7 @@ def run_checks(P, times: list[float], provenance: dict, drawn: list[tuple[str, f
         "unit_glyph_font": lambda: check_unit_glyph_font(P),  # v7.4.0 UF-111 D-0229 §2.4(hard)
         "media_unused": lambda: check_media_unused(P),   # v7.4.0 UF-118 D-0238(hard)
         "inset_clipped": lambda: check_inset_clipped(P),   # v7.4.0 D-0240 §2(hard)
+        "badge_clipped": lambda: check_badge_clipped(P),   # v7.4.0 D-0244(hard)
         "press_credit": lambda: check_press_credit(P, times, drawn),   # v7.4.0 D-0240 §3(hard)
         "static_camera": lambda: check_static_camera(P),   # v7.4.0 D-0241 §1(hard, UF-120)
         "route_speed": lambda: check_route_speed(P),   # v7.4.0 D-0241 §4(hard, UF-123)
