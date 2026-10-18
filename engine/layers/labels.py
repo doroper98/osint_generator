@@ -107,7 +107,7 @@ def draw_labels(ctx: cairo.Context, stage: "MercatorStage", view: View, reserved
     cand = (A.plc_rank <= rk) | (A.plc_cap & (A.plc_rank <= rk + 2))
     cr = load_rules().labels   # v7.4.0 D-0229 §2.1(UF-106) — 수도 상시 표기(폭 LOD 무관, 화면당 상한은 그대로)
     if cr.capital_always and (cr.capital_always_max_w is None or view.w <= cr.capital_always_max_w):
-        cand = cand | A.plc_cap
+        cand = cand | A.plc_cap0   # 나라 수도만(1급 행정 중심 제외)
     m = (xs > 12) & (xs < W_OUT - 12) & (ys > 58) & (ys < H_OUT - 72) & cand
     idx = np.where(m)[0]
     idx = idx[np.lexsort((-A.plc_pop[idx], A.plc_rank[idx]))][:40]

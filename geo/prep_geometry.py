@@ -152,6 +152,7 @@ def load_places(ne_dir: Path, bb: BaseGeometry) -> list[dict]:
             continue
         out.append(dict(ko=ko, lon=x, lat=y, rank=p.get("SCALERANK", p.get("scalerank", 9)),
                         cap=("capital" in (p.get("FEATURECLA") or "").lower()) or p.get("ADM0CAP") == 1,
+                        cap0=(p.get("FEATURECLA") or "").lower().startswith("admin-0 capital") or p.get("ADM0CAP") == 1,   # v7.4.0 — 나라 수도만(labels.capital_always)
                         iso=p.get("ADM0_A3") or p.get("SOV_A3"), pop=p.get("POP_MAX") or 0))
     return out
 

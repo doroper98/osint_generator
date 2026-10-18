@@ -1190,7 +1190,7 @@ class LabelRules(_Strict):
     city_max_per_frame: int
     country_rank_thr: dict[int, int]
     city_rank_thr: dict[int, int]
-    # v7.4.0 D-0229 §2.1(UF-106) — 수도(plc_cap)는 폭 LOD(city_rank_max)와 무관하게 도시 후보에 넣는다. 화면당 상한(city_labels_max)은 그대로.
+    # v7.4.0 D-0229 §2.1(UF-106) — 나라 수도(plc_cap0, NE Admin-0 capital)는 폭 LOD(city_rank_max)와 무관하게 도시 후보에 넣는다. 화면당 상한(city_labels_max)은 그대로.
     # capital_always_max_w = 상시 표기를 이 폭(도) 이하로 제한(None = 폭 무관). 골든이 바뀌면 60 으로 제한(D-0229 §2.1-1)
     capital_always: bool = False
     capital_always_max_w: Optional[float] = None

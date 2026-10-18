@@ -99,6 +99,18 @@ class CapitalAlwaysTest(unittest.TestCase):
     def test_rule_on(self) -> None:
         self.assertTrue(load_rules().labels.capital_always)
 
+    def test_only_national_capitals(self) -> None:
+        """1급 행정 중심(NE Admin-1 capital — 담맘·푸자이라 등)은 상시 표기 대상이 아니다(cap0 = 나라 수도만)."""
+        from geo.prep_geometry import load_places  # noqa: PLC0415
+        from shapely.geometry import box  # noqa: PLC0415
+
+        if not (NE / "ne_10m_populated_places.geojson").exists():
+            self.fail("Natural Earth 도시 파일 없음 — `python -m geo.prep <프로젝트>` 가 받는다")
+        pl = {p["ko"]: p for p in load_places(NE, box(44, 20, 62, 32))}
+        self.assertTrue(pl["도하"]["cap0"])
+        self.assertFalse(pl["담맘"]["cap0"])
+        self.assertTrue(pl["담맘"]["cap"])   # 기존 cap(rank+2 가산)은 그대로
+
 
 if __name__ == "__main__":
     unittest.main()
