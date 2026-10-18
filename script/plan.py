@@ -21,7 +21,7 @@ import yaml
 from orchestrator.config import load_config
 from rules import load_rules
 from script import lint_waivers
-from script.lint import lint, load_claims_for, load_pronounce_dict, pronounce_tts, transition_points
+from script.lint import lint, load_claims_for, load_pronounce_dict, pronounce_tts, tempo_density, transition_points
 from script.schema import Plan, Script
 from script.timeline import layout, sentence_rows
 from script.tts import align as tts_align
@@ -93,7 +93,13 @@ def build(proj: Path, tts: str, warnings: list[str] | None = None) -> Plan:
         npy, dur, off = trim_to_npy(Path(x["mp3"]), audio)
         x["npy"], x["dur"], x["trim_offset"] = str(npy), dur, round(off, 6)
     transitions: list = []
-    cards, scene_start, total = layout(rows, transitions)
+    from genres.load import load_order  # noqa: PLC0415
+
+    order = load_order(proj)
+    gap = load_rules().tempo.sentence_gap_sec if order is not None and order.tempo == "breath" else None   # v7.4.0 D-0229 §2.9
+    cards, scene_start, total = layout(rows, transitions, gap)
+    if warnings is not None:
+        warnings.extend(tempo_density(rows))
     kinds = {rows[i]["sid"]: k for i, k, _ in transition_points(script)}   # v7.4.0 D-0229 §2.2 — 전환 종류(무대·날짜)
     order = [x["sid"] for x in rows]
     for tr in transitions:   # bridge 가 경계의 뒤 장면 첫 문장(같은 sid)이거나 앞 장면 마지막 문장(다음 sid)

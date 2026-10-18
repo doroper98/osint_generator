@@ -40,10 +40,11 @@ def sentence_rows(script: Script) -> list[dict]:
     return rows
 
 
-def layout(rows: list[dict], transitions: "list[PlanTransition] | None" = None) -> tuple[list[Card], dict[str, float], float]:
+def layout(rows: list[dict], transitions: "list[PlanTransition] | None" = None,
+           gap_sec: "float | None" = None) -> tuple[list[Card], dict[str, float], float]:
     """rows 에 t0·t1 을 채우고 (cards, scene_start, total) 를 돌려준다. rows 에 dur 가 있어야 한다.
     v7.4.0 D-0229 §2.2(UF-105): role == bridge 문장 앞에 rules transition.bridge_pause_sec 호흡(내레이션 공백, 음악만)을 넣고
-    transitions 목록(주면)에 기록한다 — provenance transitions[]."""
+    transitions 목록(주면)에 기록한다 — provenance transitions[]. gap_sec = 문장 간격(None = timeline_gaps.gap_sec; order tempo: breath = rules tempo, §2.9)."""
     L = load_rules().layout_480p  # noqa: N806
     g = L.timeline_gaps
     bp = load_rules().transition.bridge_pause_sec
@@ -67,7 +68,7 @@ def layout(rows: list[dict], transitions: "list[PlanTransition] | None" = None) 
             t += bp
         x["t0"] = t
         x["t1"] = t + x["dur"]
-        t = x["t1"] + g.gap_sec
+        t = x["t1"] + (g.gap_sec if gap_sec is None else gap_sec)
     t += END_LEAD
     cards.append(Card(kind="end", t0=t, t1=t + L.end_card.dur_sec))
     return cards, scene_start, t + L.end_card.dur_sec + END_TAIL

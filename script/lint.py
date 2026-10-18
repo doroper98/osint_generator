@@ -373,6 +373,38 @@ def transition_issues(script: Script) -> list[LintIssue]:
     return out
 
 
+def act_frame_issues(script: Script) -> list[LintIssue]:
+    """v7.4.0 D-0229 §2.9(UF-104·115) — [act-frame] 오류: 막(kind act)의 도입(intro·bridge)·정리(outro) 문장 수가 rules tempo 하한 미만."""
+    T = load_rules().tempo  # noqa: N806
+    out = []
+    for sc in script.scenes:
+        if sc.kind != "act":
+            continue
+        n_in = sum(s.role in ("intro", "bridge") for s in sc.sentences)
+        n_out = sum(s.role == "outro" for s in sc.sentences)
+        if n_in < T.act_intro_min or n_out < T.act_outro_min:
+            out.append(LintIssue(kind="act-frame", severity="error", sid=f"{sc.id}_0", text=sc.sentences[0].text,
+                                 detail=f"막 {sc.id}: 도입(intro·bridge) {n_in} < {T.act_intro_min} 또는 정리(outro) {n_out} < {T.act_outro_min} — "
+                                        "막전(왜 지금 이 이야기인가)·막후(무엇이 바뀌었나) 문장을 둔다(rules tempo, UF-104·115)"))
+    return out
+
+
+def tempo_density(rows: list) -> list[str]:
+    """v7.4.0 D-0229 §2.9(UF-115) — 1분 창(문장 시작 기준)마다 사실 문장(script_schema.attribution_markers 귀속) 수 > tempo 상한이면 경고 한 줄씩.
+    rows = 타임라인 행(t0·text·sid — plan row dict 또는 PlanSentence)."""
+    R = load_rules()  # noqa: N806
+    lim, marks = R.tempo.fact_sentences_per_min_max, R.script_schema.attribution_markers
+    g = (lambda r, k: r[k]) if rows and isinstance(rows[0], dict) else getattr  # noqa: E731
+    facts = [(g(r, "t0"), g(r, "sid")) for r in rows if _attributed(g(r, "text"), marks)]
+    out, last_end = [], -1.0
+    for i, (t0, sid) in enumerate(facts):
+        n = sum(1 for t, _ in facts[i:] if t < t0 + 60.0)
+        if n > lim and t0 >= last_end:
+            out.append(f"[tempo-density] {sid}(t={t0:.0f}s) 부터 1분에 사실 문장 {n} > {lim} — 사이에 '왜'·정리 문장이나 호흡을(UF-115)")
+            last_end = t0 + 60.0
+    return out
+
+
 def vocab_issues(script: Script) -> list[LintIssue]:
     """v7.4.0 D-0229 §2.8 — [verb-target-mismatch] 오류(UF-114), [contrast-conjunction] 경고(UF-108). 값 = rules script_vocab."""
     V = load_rules().script_vocab  # noqa: N806
@@ -474,6 +506,7 @@ def lint(script: Script, claims: "dict[str, str] | None" = None, *, check_source
             flow += starts_with_connective(s.text, sg.connectives)
     out += transition_issues(script)   # v7.4.0 D-0229 §2.2(UF-105)·D-0230
     out += vocab_issues(script)        # v7.4.0 D-0229 §2.8(UF-108·114)
+    out += act_frame_issues(script)    # v7.4.0 D-0229 §2.9(UF-104·115)
     if total >= 4:   # v5.5.0 — 문장 흐름: 연결어로 앞 문장을 받는 문장 비율
         r_ = flow / total
         if r_ < sg.connective_min_ratio:

@@ -49,6 +49,8 @@ class Order(_Strict):
     data: OrderData = Field(default_factory=OrderData)
     media: OrderMedia
     decisions: dict[str, OrderDecision] = Field(default_factory=dict)
+    # v7.4.0 D-0229 §2.9(UF-115) — breath = 문장 간격 rules tempo.sentence_gap_sec(그 밖 = layout_480p.timeline_gaps.gap_sec, 골든 불변)
+    tempo: Literal["default", "breath"] = "default"
 
     @model_validator(mode="after")
     def _genre_exists(self) -> "Order":

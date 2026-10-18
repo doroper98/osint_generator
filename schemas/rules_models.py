@@ -81,6 +81,15 @@ class ScriptVocab(_Strict):
     contrast_hint: str = Field(min_length=1)
 
 
+class TempoRules(_Strict):
+    """v7.4.0 D-0229 §2.9(UF-104·UF-115 "호흡을 천천히, 막전 막후 설명을 충실히") — 템포·막 구조."""
+
+    fact_sentences_per_min_max: int = Field(gt=0)   # 1분 창 안 사실(출처 귀속) 문장 상한 — 넘으면 warning [tempo-density]
+    act_intro_min: int = Field(ge=0)                # 막(kind act)마다 role intro(+bridge) 문장 하한 — 미만 [act-frame] 오류
+    act_outro_min: int = Field(ge=0)                # 막마다 role outro 문장 하한
+    sentence_gap_sec: float = Field(gt=0)           # order.yaml tempo: breath 인 프로젝트의 문장 간격(그 밖 = layout_480p.timeline_gaps.gap_sec — 골든 불변)
+
+
 class TransitionRules(_Strict):
     """v7.4.0 D-0229 §2.2(UF-105) — 시점(시간·무대) 전환 장치. 원고 bridge 문장 + 호흡 + 느린 카메라 + 날짜 배지 xfade."""
 
@@ -2931,6 +2940,7 @@ class VideoRules(_Strict):
     direction_grammar: list[str] = Field(min_length=1)   # v4.7.0 D-0104 D2(a) — 연출 문법(프롬프트 {{RULES.direction_grammar}})
     script_grammar: ScriptGrammar          # v5.5.0 — 원고 서술 규약
     transition: TransitionRules            # v7.4.0 D-0229 §2.2(UF-105) — 시점 전환 장치
+    tempo: TempoRules                      # v7.4.0 D-0229 §2.9(UF-104·115) — 템포·막 구조
     script_vocab: ScriptVocab              # v7.4.0 D-0229 §2.8(UF-108·114) — 원고 어휘 린트
     source_note: SourceNote                # v5.6.0 — 참조 출처 화면 표기
     route_frame: RouteFrame = Field(default_factory=RouteFrame)   # v5.6.0 RENDER-AP-012

@@ -1,0 +1,10 @@
+# 린트 면제 목록 — 결정 기록(git 추적). back_and_forth D-0168, DECISIONS D162. 정확 일치만 통과, 낡은 면제 = 오류.
+schema_version: 1
+waivers:
+  - kind: act-frame
+    sid: open_0
+    text_sha1: 15b772757c28c6f611f09ea84ede285acd4e13d5
+    rule_since: v7.4.0
+    script_approved: 2026-09-27
+    reason: "D-0230 — v7.4.0 이전 원고, 재발 방지 장치는 v7.4.0 이후 원고부터"
+    decided_by: D-0230
