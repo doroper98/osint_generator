@@ -191,5 +191,11 @@ if not find(lambda e: e["type"] == "card" and e.get("tag") == "콤소몰스크�
 a5 = next(e for e in ev if e["type"] == "article" and e.get("mid") == "diesel_road_2026_art_0005")
 a5.update(start={"sid": "act1_8", "off": 0.1}, end={"sid": "act1_9", "edge": "end", "off": 0.4})
 
+# 11) D-0241 §5(UF-124) — 가격 상한제 갈래 패널: 의인화 동사 대신 제재 대상·비제재 대상
+for e in ev:
+    if e["type"] == "panel" and e.get("kind") == "fork":
+        for br in e["data"]["branches"]:
+            br["head"] = {"겨누는 것": "제재 대상", "겨누지 않는 것": "비제재 대상"}.get(br["head"], br["head"])
+
 P.write_text(yaml.safe_dump(d, allow_unicode=True, sort_keys=False, width=200), encoding="utf-8")
 print("events", len(ev))
