@@ -2,20 +2,20 @@
  "schema_version": 1,
  "searches": [
   {
-   "sid": "cold_1",
+   "sid": "act5_25",
    "query": "Ryazan oil refinery hastemplate:\"PD-USGov-Military\"",
    "pool": "us_dod_pd",
-   "on": "2026-10-17",
+   "on": "2026-10-18",
    "found": 0,
    "passed": 0,
    "top": [],
    "rejected": []
   },
   {
-   "sid": "cold_1",
+   "sid": "act5_25",
    "query": "Ryazan oil refinery",
    "pool": "commons_cc",
-   "on": "2026-10-17",
+   "on": "2026-10-18",
    "found": 4,
    "passed": 1,
    "top": [
@@ -27,38 +27,21 @@
    ]
   },
   {
-   "sid": "act1_3",
-   "query": "Kirishi refinery hastemplate:\"PD-USGov-Military\"",
+   "sid": "cold_2",
+   "query": "Trump energy ceasefire hastemplate:\"PD-USGov-Military\"",
    "pool": "us_dod_pd",
-   "on": "2026-10-17",
+   "on": "2026-10-18",
    "found": 0,
    "passed": 0,
    "top": [],
    "rejected": []
   },
   {
-   "sid": "act1_3",
-   "query": "Kirishi refinery",
+   "sid": "cold_2",
+   "query": "Trump energy ceasefire",
    "pool": "commons_cc",
-   "on": "2026-10-17",
-   "found": 6,
-   "passed": 3,
-   "top": [
-    "File:NASA FIRMS 2025-09-14 Kinef.png",
-    "File:NASA FIRMS 2025-10-04 Kinef.png",
-    "File:NASA FIRMS 2026-03-26 Kinef.png"
-   ],
-   "rejected": [
-    "CC BY-SA 3.0",
-    "CC BY-SA 4.0"
-   ]
-  },
-  {
-   "sid": "act3_2",
-   "query": "South Pars gas field hastemplate:\"PD-USGov-Military\"",
-   "pool": "us_dod_pd",
-   "on": "2026-10-17",
-   "found": 6,
+   "on": "2026-10-18",
+   "found": 7,
    "passed": 0,
    "top": [],
    "rejected": [
@@ -66,71 +49,28 @@
    ]
   },
   {
-   "sid": "act3_2",
-   "query": "South Pars gas field",
-   "pool": "commons_cc",
-   "on": "2026-10-17",
-   "found": 6,
-   "passed": 3,
-   "top": [
-    "File:South Pars gas field.gif",
-    "File:Third platform of Phase 14 of South Pars Dome Gas-Condensate field 01.jpg",
-    "File:Third platform of Phase 14 of South Pars Dome Gas-Condensate field 08.jpg"
-   ],
-   "rejected": [
-    "CC BY-SA 3.0",
-    "CC BY-SA 4.0"
-   ]
-  },
-  {
-   "sid": "act3_7",
-   "query": "Port of Fujairah hastemplate:\"PD-USGov-Military\"",
+   "sid": "act1_0",
+   "query": "Russian oil refinery drone attack hastemplate:\"PD-USGov-Military\"",
    "pool": "us_dod_pd",
-   "on": "2026-10-17",
+   "on": "2026-10-18",
    "found": 0,
    "passed": 0,
    "top": [],
    "rejected": []
   },
   {
-   "sid": "act3_7",
-   "query": "Port of Fujairah",
+   "sid": "act1_0",
+   "query": "Russian oil refinery drone attack",
    "pool": "commons_cc",
-   "on": "2026-10-17",
-   "found": 6,
-   "passed": 0,
-   "top": [],
-   "rejected": [
-    "CC BY-SA 4.0"
-   ]
-  },
-  {
-   "sid": "act3_8",
-   "query": "East-West Crude Oil Pipeline hastemplate:\"PD-USGov-Military\"",
-   "pool": "us_dod_pd",
-   "on": "2026-10-17",
-   "found": 1,
-   "passed": 0,
-   "top": [],
-   "rejected": [
-    "문서·도식(application/pdf)"
-   ]
-  },
-  {
-   "sid": "act3_8",
-   "query": "East-West Crude Oil Pipeline",
-   "pool": "commons_cc",
-   "on": "2026-10-17",
-   "found": 6,
+   "on": "2026-10-18",
+   "found": 7,
    "passed": 2,
    "top": [
-    "File:Crude oil, condensate, and petroleum products transported through the Strait of Hormuz in 2014 through 2018 (48097472312).png",
-    "File:Crude oil, condensate, and petroleum products transported through the Strait of Hormuz in 2014 through 2018 (48097472312) (cropped).png"
+    "File:Address by the President of Ukraine on the Fourth Anniversary of the Beginning of Russia’s Full-Scale Invasion of Ukraine. (55113242776).jpg",
+    "File:New Year's Greetings by President of Ukraine Volodymyr Zelenskyy. (55016291992).jpg"
    ],
    "rejected": [
-    "Attribution",
-    "문서·도식(application/pdf)",
-    "문서·도식(image/svg+xml)"
+    "문서·도식(application/pdf)"
    ]
   }
  ]
