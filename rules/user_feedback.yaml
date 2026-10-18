@@ -1788,3 +1788,14 @@ entries:
   status: open
   decision: "감독 기록 — 장치 = 검사 [media-unused] hard: 프로젝트 미디어 레지스트리의 권리 통과 사진(kind photo·press)이 provenance media_used 에 없으면 실패(명시 drop 사유 없이는 통과 불가). 연출 v2 에 두 사진 자리 지정(D-0238). 장치는 콘티 전(C 단계)에 단다"
   source: 감독 세션(Fable) 사용자 대화 2026-10-18
+- id: UF-119
+  date: '2026-10-18'
+  project: diesel_road_2026
+  at: v2 C 단계(연출 중) — 등재 사진이 2장뿐
+  quote: 그리고 사진이 두장만 쓰이는거야? 뭐 더 추가 해야 될 사진은 없고? 몇가지 더 추가해도 좋을거 같긴 해. 암튼 계속 진행해
+  quote_kind: verbatim
+  category: 미디어 — 사진 수 하한(권리 통과 사진을 적극 찾아 장면마다 실물감 확보, UF-102 와 짝)
+  guards: []
+  status: open
+  decision: "감독 기록 — v2 에서 공개 도메인·CC0·CC BY 사진 5~8장 추가 탐색(위키미디어 공용·미 정부·NASA): 울산 정유단지·블라디보스토크항·하바롭스크 정유소·라스라판·하르그섬·푸자이라·호르무즈 유조선·러시아 정유소 화재. 장치 후보 = 장르 프로필 media_beats 사진 하한(권리 통과 후보가 있는데 안 쓰면 warning→hard). 장치는 v2 전달 뒤 첫 작업"
+  source: 감독 세션(Fable) 사용자 대화 2026-10-18
