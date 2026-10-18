@@ -269,6 +269,30 @@ def load_pronounce_dict(path: Path | None = None) -> dict[str, str]:
     return {str(k): str(v) for k, v in raw.items() if isinstance(k, str) and not k.startswith("_")}
 
 
+def attribution_mode(proj: "Path | None", script: Script) -> str:
+    """v7.4.0 D-0233(UF-117) — 보도 귀속 방식: order.yaml attribution_mode → 없으면 rules script_schema.attribution_mode
+    (원고 날짜 ≥ attribution_credits_since 일 때만, 아니면 narration — 옛 원고·골든 불변)."""
+    ss = load_rules().script_schema
+    if proj is not None:
+        from genres.load import load_order  # noqa: PLC0415
+
+        order = load_order(proj)
+        if order is not None and order.attribution_mode is not None:
+            return order.attribution_mode
+    since = ss.attribution_credits_since
+    if since and badge_day(script.date) < badge_day(since):
+        return "narration"
+    return ss.attribution_mode
+
+
+def load_claim_kinds(proj: Path) -> "dict[str, str]":
+    """claims.json → {claim_id: claim_kind}(fact | statement). 없으면 {}."""
+    from schemas.source_models import ClaimsFile  # noqa: PLC0415
+
+    p = proj / "intake" / "claims.json"
+    return {c.claim_id: c.claim_kind for c in ClaimsFile.model_validate_json(p.read_text(encoding="utf-8")).claims} if p.exists() else {}
+
+
 def load_claims_for(proj: Path) -> "dict | None":
     """프로젝트의 claims.json → {claim_id: status}. 없으면 None(그때 sources 가 있는 문장은 source-unknown 오류)."""
     from script.labels import CLAIMS_RELPATH, claim_statuses  # noqa: PLC0415
@@ -424,7 +448,7 @@ def vocab_issues(script: Script) -> list[LintIssue]:
 
 
 def lint(script: Script, claims: "dict[str, str] | None" = None, *, check_sources: bool = True,
-         noted: "set[str] | None" = None) -> LintReport:
+         noted: "set[str] | None" = None, mode: str = "narration", kinds: "dict[str, str] | None" = None) -> LintReport:
     """claims = {claim_id: status}(claims.json). check_sources=False 는 출처 검사를 끈다 — 프롬프트 예시처럼
     claims.json 이 없는 원고 조각에만(파리티 테스트)."""
     r = load_rules()
@@ -476,7 +500,14 @@ def lint(script: Script, claims: "dict[str, str] | None" = None, *, check_source
                 if unknown:
                     add("source-unknown", "error", f"claims.json 밖 id {unknown}" if claims is not None else
                         f"claims.json 이 없다 — sources {unknown} 를 확인할 수 없다(18 §3-6)")
-                if claims is not None and any(claims.get(c) == "unverified" and c not in (noted or set()) for c in s.sources) \
+                keep = claims is not None and any(claims.get(c) == "disputed" or (kinds or {}).get(c) == "statement" for c in s.sources)
+                if mode == "credits":   # v7.4.0 D-0233(UF-117) — 귀속은 당사자 발언·논쟁 수치만 요구, 보도 귀속은 크레딧으로
+                    if keep and not any(m in s.text for m in attrib):
+                        add("attribution", "warning", "당사자 발언·논쟁 수치 claim 인용 — 말한 쪽·자료 이름(귀속 표현) 없음(credits 모드)")
+                    pm = next((m for m in r.script_schema.press_markers if m in s.text), None)
+                    if pm and not keep:
+                        add("press-attribution", "warning", f"보도 귀속 {pm!r} — credits 모드: 평서로 쓰고 출처는 엔딩 크레딧 '보도 출처'(UF-117). 분석·추정·전망이면 '~는 분석했습니다' 형태로")
+                elif claims is not None and any(claims.get(c) == "unverified" and c not in (noted or set()) for c in s.sources) \
                         and not any(m in s.text for m in attrib):
                     add("attribution", "warning", "unverified claim 인용 — 귀속 표현(~라고 주장했습니다/보도했습니다, rules script_schema.attribution_markers) 없음")
             n = subtitle_lines(s.text)
@@ -532,7 +563,8 @@ def main(argv: list[str] | None = None) -> int:
 
     try:
         script = Script.model_validate(yaml.safe_load(path.read_text(encoding="utf-8")))
-        rep = lint(script, load_claims_for(path.parent), noted=noted_claims(path.parent))
+        rep = lint(script, load_claims_for(path.parent), noted=noted_claims(path.parent),
+                   mode=attribution_mode(path.parent, script), kinds=load_claim_kinds(path.parent))
         from script import lint_waivers  # noqa: PLC0415 — v5.17.0 D-0168(plan 과 같은 면제 적용)
 
         rep, waived = lint_waivers.apply(rep, lint_waivers.load(path.parent), script)

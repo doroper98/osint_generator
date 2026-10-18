@@ -7,7 +7,7 @@
 
 from __future__ import annotations
 
-from typing import Literal
+from typing import Literal, Optional
 
 from pydantic import BaseModel, ConfigDict, Field, model_validator
 
@@ -51,6 +51,8 @@ class Order(_Strict):
     decisions: dict[str, OrderDecision] = Field(default_factory=dict)
     # v7.4.0 D-0229 §2.9(UF-115) — breath = 문장 간격 rules tempo.sentence_gap_sec(그 밖 = layout_480p.timeline_gaps.gap_sec, 골든 불변)
     tempo: Literal["default", "breath"] = "default"
+    # v7.4.0 D-0233(UF-117) — 보도 귀속 방식. None = rules script_schema(원고 날짜 기준 기본값)
+    attribution_mode: Optional[Literal["credits", "narration"]] = None
 
     @model_validator(mode="after")
     def _genre_exists(self) -> "Order":

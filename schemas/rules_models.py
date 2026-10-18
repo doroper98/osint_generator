@@ -110,6 +110,12 @@ class ScriptSchemaRules(_Strict):
     labels: dict[str, Optional[str]]          # v3.0.0 — 도시어 claim status → 라벨 문구(D-0043)
     label_strength_order: list[str]           # 약한 것부터(한 문장에 여러 claim 이면 가장 약한 것)
     attribution_markers: list[str] = Field(min_length=1)   # v3.2.0 — unverified 인용 문장의 귀속 표현(린트 경고)
+    # v7.4.0 D-0233(UF-117, D243) — 보도 귀속 방식. credits = 보도·보고서 출처는 엔딩 크레딧 장면별 '보도 출처'로(자막·내레이션은 평서),
+    # 귀속을 남기는 것 = 당사자 발언(claim_kind statement)·논쟁 수치(status disputed)·분석·추정·전망. narration = 옛 방식(문장마다 귀속).
+    # 프로젝트 order.yaml attribution_mode 가 정한다. 없으면 원고 날짜 ≥ attribution_credits_since 면 attribution_mode, 아니면 narration(옛 원고·골든 불변)
+    attribution_mode: Literal["credits", "narration"] = "narration"
+    attribution_credits_since: Optional[str] = None
+    press_markers: list[str] = Field(default_factory=list)   # credits 모드에서 자막에 남으면 [press-attribution] 경고
 
     @model_validator(mode="after")
     def _label_keys(self) -> "ScriptSchemaRules":

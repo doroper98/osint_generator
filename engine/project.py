@@ -8,6 +8,8 @@
 
 from __future__ import annotations
 
+import re
+
 import json
 from dataclasses import dataclass, field
 from pathlib import Path
@@ -290,6 +292,40 @@ def cited_sources(proj: Path, events: list[dict]) -> list:
     return [s for s in sources.sources if s.id in ids]
 
 
+def press_by_scene(proj: Path) -> list[tuple[str, list[str]]]:
+    """v7.4.0 D-0233(UF-117) — 엔딩 크레딧 '보도 출처'(credits auto: press): 원고 장면 순서로 (장면 이름, [매체·기관]).
+    장면 문장 claim 의 소스 → 기사 매체·자료 기관·게시물 계정, 장면 안 중복 제거(첫 등장 순). 장면 이름 = 콜드 오픈·N막·마무리(kind)."""
+    import yaml  # noqa: PLC0415
+
+    from schemas.source_models import ClaimsFile, SourcesFile  # noqa: PLC0415
+
+    sp, cp, scp = proj / "intake" / "sources.json", proj / "intake" / "claims.json", proj / "script.yaml"
+    if not (sp.exists() and cp.exists() and scp.exists()):
+        return []
+    src = SourcesFile.model_validate_json(sp.read_text(encoding="utf-8")).by_id()
+    claims = ClaimsFile.model_validate_json(cp.read_text(encoding="utf-8")).by_id()
+
+    def name(s) -> str:  # noqa: ANN001 — 괄호 꼬리('(NY1 전재)')는 뗀다
+        n = s.publisher if s.type == "article" else s.issuer if s.type == "document" else s.account_name
+        return re.sub(r"\s*\([^)]*\)\s*$", "", n).strip()
+
+    out, n_act = [], 0
+    for sc in yaml.safe_load(scp.read_text(encoding="utf-8")).get("scenes", []):
+        kind = sc.get("kind", "act")
+        n_act += kind == "act"
+        label = {"cold": "콜드 오픈", "ending": "마무리"}.get(kind, f"{n_act}막")
+        names: list[str] = []
+        for sent in sc.get("sentences", []):
+            for cid in sent.get("sources") or []:
+                for sid in (claims[cid].source_ids if cid in claims else []):
+                    nm = name(src[sid]) if sid in src else None
+                    if not nm or any(nm.startswith(x) for x in names):   # 'Carnegie Endowment for …' ⊃ 'Carnegie Endowment'
+                        continue
+                    names = [x for x in names if not x.startswith(nm)] + [nm]
+        out.append((label, names))
+    return out
+
+
 def _attach_posts(proj: Path, R: RenderCtx, events: list[dict]) -> None:  # noqa: N803
     posts = [e for e in events if e["type"] == "post"]
     if not posts:
@@ -473,6 +509,7 @@ def load_project(proj: Path, direction: Optional[Direction] = None, out: Optiona
     R.cache["series_records"] = [load_series(s) for s in series_ids]   # v4.3.0 — 엔딩 카드 auto: series(레코드 출처·라이선스·기준 시점)
     R.cache["sentence_labels"] = sentence_labels(proj)       # v4.5.0 D85 — 엔딩 카드 마지막 줄 건수만(자막 접두 폐지, C9)
     R.cache["cited_sources"] = cited_sources(proj, events)   # v3.2.0 18 §6 — 엔딩 카드 '보도 · 자료'·설명란 원문 링크
+    R.cache["press_by_scene"] = press_by_scene(proj)         # v7.4.0 D-0233 — 엔딩 카드 '보도 출처'(credits auto: press)
     if not animatic:   # 콘티 판은 권리 점검을 건너뛴다(D-0108 — provenance animatic.checks_skipped 'rights'). deliver 는 콘티 판을 거부한다
         check_credits(R.credits, A.rights, A.media, req,          # D-0029 작업 7 — 누락·미확인·미표기 자산은 RightsError
                       cited_ids={s.id for s in R.cache["cited_sources"]}, series_ids=set(series_ids))

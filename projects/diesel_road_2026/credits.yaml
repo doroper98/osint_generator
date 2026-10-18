@@ -1,9 +1,9 @@
-# 『경유의 길 — 사흘에 한 번』 엔딩 크레딧 (v7.3.0). 보도 = 인용 소스(auto: sources). 기사 카드·사진 행은 연출이 쓴 미디어만 채운다(연출 단계에서 rights 보강).
+# 『경유의 길 — 사흘에 한 번』 엔딩 크레딧 (v7.3.0→v7.4.0). 보도 출처 = 장면별 인용 매체(auto: press, D-0233). 기사 카드·사진 행은 연출이 쓴 미디어만 채운다(연출 단계에서 rights 보강).
 schema_version: 1
 sections:
-- title: 보도
+- title: 보도 출처
   column: 0
-  auto: sources
+  auto: press   # v7.4.0 D-0233(UF-117) — 장면별 매체·기관(자막·내레이션의 보도 귀속 대신). 원문 링크 전부는 설명란
 - title: 기사 카드
   column: 0
   items:

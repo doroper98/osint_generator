@@ -1,6 +1,7 @@
 # 『경유의 길 — 사흘에 한 번』 주문 (v7.2.0→v7.3.0→v7.4.0 v2, D-0229) — 감독 지시 D-0225·사용자 결정 D232(2026-10-17 밤, 게이트 ①·② 감독 위임).
 schema_version: 1
 tempo: breath   # v7.4.0 D-0229 §2.9(UF-115) — 문장 간격 rules tempo.sentence_gap_sec
+attribution_mode: credits   # v7.4.0 D-0233(UF-117) — 보도 출처는 엔딩 크레딧 장면별, 자막·내레이션은 평서
 topic: 우크라이나의 러시아 정유소 타격과 러시아 경유 부족, 한국산 경유의 블라디보스토크행, 걸프 에너지 시설 타격, 미국의 러시아 경유 거래와 에너지 휴전 붕괴
 genre: geopolitics
 invariant_layer: docs/handoff/20 §1.1

@@ -72,7 +72,7 @@ class CreditSection(_Strict):
     # v7.4.0 D-0229 §2.10(D237 비차단 관찰 "엔딩 표기 전용 칸") — notice = 두 열 흐름 밖, 하단 구분선 바로 위 전용 한 줄(전체 폭)
     slot: Literal["column", "notice"] = "column"
     items: list[CreditItem] = Field(default_factory=list)
-    auto: Optional[RightsSection | Literal["sources", "series"]] = None   # v2.4.0 — 레지스트리 절 자동 나열, v3.2.0 sources = 인용 소스,
+    auto: Optional[RightsSection | Literal["sources", "series", "press"]] = None   # press = v7.4.0 D-0233 장면별 보도 출처(UF-117)   # v2.4.0 — 레지스트리 절 자동 나열, v3.2.0 sources = 인용 소스,
     # v4.3.0 series = 이번 영상이 그린 데이터 레코드(data/series — 출처·라이선스 표기 원문·기준 시점, D-0084 작업 6)
 
     @model_validator(mode="after")
@@ -165,17 +165,28 @@ def _unique(items: list[tuple[str, str]]) -> list[tuple[str, str]]:
 
 def credit_sections(cr: Credits, rights: dict, media: Optional[dict] = None,
                     used: Optional[set[str]] = None, cited: Optional[list] = None,
-                    series: Optional[list] = None, missing_license: Optional[str] = None) -> list[tuple[str, list[tuple[str, str]]]]:
-    """missing_license = 콘티 판(v4.9.0 D-0108)만 — 권리 레지스트리에 없는 license_ref 를 오류 대신 이 문구로. 전편은 None(RightsError)."""
-    return [(title, _unique(items)) for title, items in _credit_sections(cr, rights, media, used, cited, series, missing_license)]
+                    series: Optional[list] = None, missing_license: Optional[str] = None,
+                    press: Optional[list] = None) -> list[tuple[str, list[tuple[str, str]]]]:
+    """missing_license = 콘티 판(v4.9.0 D-0108)만 — 권리 레지스트리에 없는 license_ref 를 오류 대신 이 문구로. 전편은 None(RightsError).
+    press = v7.4.0 장면별 보도 출처 [(장면 이름, [매체·기관])](engine.project.press_by_scene)."""
+    return [(title, _unique(items)) for title, items in _credit_sections(cr, rights, media, used, cited, series, missing_license, press)]
+
+
+def press_items(press: Optional[list]) -> list[tuple[str, str]]:
+    """v7.4.0 D-0233(UF-117) — 장면 한 줄: '1막 · 국제에너지기구 · 로이터 · …'(매체·기관 이름만, URL 없음). 열 폭을 넘으면 줄바꿈(fullcards)."""
+    return [(" · ".join([label, *names]), "") for label, names in press or [] if names]
 
 
 def _credit_sections(cr: Credits, rights: dict, media: Optional[dict] = None,
                      used: Optional[set[str]] = None, cited: Optional[list] = None,
-                     series: Optional[list] = None, missing_license: Optional[str] = None) -> list[tuple[str, list[tuple[str, str]]]]:
+                     series: Optional[list] = None, missing_license: Optional[str] = None,
+                     press: Optional[list] = None) -> list[tuple[str, list[tuple[str, str]]]]:
     view = registry_view(rights, media or {})
     out = []
     for sec in cr.sections:
+        if sec.auto == "press":
+            out.append((sec.title, press_items(press)))
+            continue
         if sec.auto == "sources":
             out.append((sec.title, _source_items(cited)))
             continue
@@ -208,9 +219,9 @@ def _credit_sections(cr: Credits, rights: dict, media: Optional[dict] = None,
 
 
 def credit_lines(cr: Credits, rights: dict, media: Optional[dict] = None, used: Optional[set[str]] = None,
-                 cited: Optional[list] = None, series: Optional[list] = None) -> list[str]:
+                 cited: Optional[list] = None, series: Optional[list] = None, press: Optional[list] = None) -> list[str]:
     return [f"{sec}: {' / '.join(m + (' — ' + l if l else '') for m, l in items)}"
-            for sec, items in credit_sections(cr, rights, media, used, cited, series)]
+            for sec, items in credit_sections(cr, rights, media, used, cited, series, press=press)]
 
 
 def required_refs(events: list[dict], rights: dict, emblem_flag: Callable[[str], Optional[str]],
@@ -328,7 +339,7 @@ def check_credits(cr: Credits, rights: dict, media: dict, required: set[str], ru
     covered: set[str] = set()
     src_covered: set[str] = set()
     for sec in cr.sections:
-        if sec.auto == "sources":
+        if sec.auto in ("sources", "press"):   # press = v7.4.0 D-0233 — 인용 소스를 장면별 매체·기관 이름으로(원문 링크 전부는 설명란)
             src_covered |= set(cited_ids or ())
             continue
         if sec.auto == "series":

@@ -21,7 +21,7 @@ import yaml
 from orchestrator.config import load_config
 from rules import load_rules
 from script import lint_waivers
-from script.lint import lint, load_claims_for, load_pronounce_dict, pronounce_tts, tempo_density, transition_points
+from script.lint import attribution_mode, lint, load_claim_kinds, load_claims_for, load_pronounce_dict, pronounce_tts, tempo_density, transition_points
 from script.schema import Plan, Script
 from script.timeline import layout, sentence_rows
 from script.tts import align as tts_align
@@ -41,7 +41,7 @@ def build(proj: Path, tts: str, warnings: list[str] | None = None) -> Plan:
     if tts == "elevenlabs":
         elevenlabs.require_allowed()   # 다른 단계보다 먼저(린트·합성 전에 거부) — 공통 함수(D-0153 Q0)
     script = load_script(proj)
-    rep = lint(script, load_claims_for(proj))   # v3.2.0 — 출처는 claims.json 기준(D-0051 작업 8)
+    rep = lint(script, load_claims_for(proj), mode=attribution_mode(proj, script), kinds=load_claim_kinds(proj))   # v3.2.0 — 출처는 claims.json 기준(D-0051 작업 8). v7.4.0 D-0233 귀속 방식
     rep, waived = lint_waivers.apply(rep, lint_waivers.load(proj), script)   # v5.17.0 D-0168 — 정확 일치 면제만
     if rep.errors:
         raise ValueError("원고 린트 위반:\n" + "\n".join(i.line() for i in rep.errors))

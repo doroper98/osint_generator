@@ -313,7 +313,7 @@ def main(argv: list[str] | None = None) -> int:
         (outd / "final.srt").write_text(build_srt(P.plan), encoding="utf-8")
         (outd / "credits.txt").write_text("\n".join(credit_lines(P.R.credits, P.R.assets.rights, P.R.assets.media,
                                                                   P.R.cache.get("credit_refs"), P.R.cache.get("cited_sources"),
-                                                                  P.R.cache.get("series_records"))) + "\n",
+                                                                  P.R.cache.get("series_records"), P.R.cache.get("press_by_scene"))) + "\n",
                                           encoding="utf-8")
         req = P.R.cache.get("credit_refs") or set()
         desc = build_description(P.plan, load_description(proj), sorted(r for r in req if r.startswith("music.")))

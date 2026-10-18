@@ -153,7 +153,8 @@ def project_credit_sections(R: RenderCtx) -> list[tuple[str, list[tuple[str, str
     if R.credits is None:
         raise RuntimeError("엔딩 카드에 크레딧 데이터가 없다(projects/<p>/credits.yaml)")
     secs = credit_sections(R.credits, R.assets.rights, R.assets.media, R.cache.get("credit_refs"), R.cache.get("cited_sources"),
-                           R.cache.get("series_records"), missing_license=R.cache.get("missing_license"))   # v4.9.0 콘티 판만
+                           R.cache.get("series_records"), missing_license=R.cache.get("missing_license"),
+                           press=R.cache.get("press_by_scene"))   # v4.9.0 콘티 판만
     return [x for x, s in zip(secs, R.credits.sections) if s.slot == "column"]   # v7.4.0 — notice 칸은 두 열 밖(notice_lines)
 
 
@@ -169,7 +170,8 @@ def notice_reserve(R: RenderCtx) -> float:  # noqa: N803
 def notice_line(R: RenderCtx) -> str | None:  # noqa: N803
     """v7.4.0 D-0229 §2.10 — slot: notice 절을 한 줄로("항목 · 라이선스 줄" 을 · 로 잇는다). 없으면 None."""
     secs = credit_sections(R.credits, R.assets.rights, R.assets.media, R.cache.get("credit_refs"), R.cache.get("cited_sources"),
-                           R.cache.get("series_records"), missing_license=R.cache.get("missing_license"))
+                           R.cache.get("series_records"), missing_license=R.cache.get("missing_license"),
+                           press=R.cache.get("press_by_scene"))
     parts = [p for (_t, items), s in zip(secs, R.credits.sections) if s.slot == "notice" for m, lic in items for p in (m, lic) if p]
     return " · ".join(parts) or None
 
