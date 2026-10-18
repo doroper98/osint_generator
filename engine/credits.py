@@ -69,6 +69,8 @@ class CreditItem(_Strict):
 class CreditSection(_Strict):
     title: str
     column: Literal[0, 1]
+    # v7.4.0 D-0229 §2.10(D237 비차단 관찰 "엔딩 표기 전용 칸") — notice = 두 열 흐름 밖, 하단 구분선 바로 위 전용 한 줄(전체 폭)
+    slot: Literal["column", "notice"] = "column"
     items: list[CreditItem] = Field(default_factory=list)
     auto: Optional[RightsSection | Literal["sources", "series"]] = None   # v2.4.0 — 레지스트리 절 자동 나열, v3.2.0 sources = 인용 소스,
     # v4.3.0 series = 이번 영상이 그린 데이터 레코드(data/series — 출처·라이선스 표기 원문·기준 시점, D-0084 작업 6)
