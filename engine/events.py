@@ -122,6 +122,17 @@ class SeriesEvent(_Event):
         return [self.series_id] + ([self.upper_id] if self.upper_id else [])
 
 
+class DeclaredLeg(BaseModel):
+    """v7.4.0 D-0229 §2.5(UF-112) — 신고 목적지와 실제 목적지가 다른 항해(굴절 항로). pts 의 bend_index 번째 점이 꺾임점(신고지 앞바다).
+    꺾임점까지 = muted 점선 + label, 뒤 = 이벤트 col 실선. 꺾임점은 연출이 pts(path)에 직접 준다 — 항적을 지어내지 않는다."""
+
+    model_config = ConfigDict(extra="forbid")
+
+    label: str = Field(min_length=1)          # 예 "신고: 니가타"
+    bend_index: int = Field(ge=1)
+    place: Optional[str | LonLat] = None      # 신고지(지명 사전 이름 또는 lon/lat) — 기록용
+
+
 class RouteEvent(_Event):
     type: Literal["route"]
     pts: list[LonLat] = Field(min_length=2)
@@ -131,6 +142,13 @@ class RouteEvent(_Event):
     dashed: bool = False
     glow_only: bool = False
     label: str = ""
+    declared: Optional[DeclaredLeg] = None   # v7.4.0 D-0229 §2.5(UF-112)
+
+    @model_validator(mode="after")
+    def _bend(self) -> "RouteEvent":
+        if self.declared is not None and not (1 <= self.declared.bend_index <= len(self.pts) - 2):
+            raise ValueError(f"route declared.bend_index {self.declared.bend_index} 는 안쪽 점(1~{len(self.pts) - 2}) — 꺾임점은 출발·도착 사이")
+        return self
 
 
 class TankerLoopEvent(_Event):

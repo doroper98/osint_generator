@@ -14,6 +14,7 @@ from engine.timebase import ease_io, ease_out, smooth, window
 from engine.typography import text, tw
 from rules import load_rules
 
+DECLARED_SAMPLES = 12   # 꼭짓점 사이 곡선 표본 수(catmull n) — 굴절 항로의 꺾임점 = bend_index × 이 값(v7.4.0)
 RL = load_rules().layout_480p.route_label   # v4.8.0 D-0101 §3 — 항로·봉쇄선 라벨 글자(옛 리터럴 11.5·12.5)
 
 
@@ -99,14 +100,27 @@ def draw_route(ctx: cairo.Context, R: RenderCtx, view: View, t: float, e: dict) 
     if a <= 0.01:
         return
     if "curve" not in e:
-        e["curve"] = catmull(e["world_pts"], 12)   # 경로 꼭짓점의 월드 좌표(engine.stage.attach_world) → 곡선
+        e["curve"] = catmull(e["world_pts"], DECLARED_SAMPLES)   # 경로 꼭짓점의 월드 좌표(engine.stage.attach_world) → 곡선
     S_ = view.to_screen_arr(e["curve"])  # noqa: N806
     prog = ease_io((t - e["t0"]) / e["grow"]) if e["grow"] > 0.05 else 1
     n = max(2, int(len(S_) * prog))
     sub = S_[:n]
     col = map_c(view.stage, e["col"])   # v5.18.0 D-0161 §3
-    glow_line(ctx, sub, col, a * (0.75 if e.get("glow_only") else 1), 1.9, dash=[5, 4] if e.get("dashed") else None,
-              casing=getattr(getattr(view.stage, "theme", None), "route_casing", None))   # 테마 없는 무대(시간축·아일랜드) = 테두리 없음
+    casing = getattr(getattr(view.stage, "theme", None), "route_casing", None)   # 테마 없는 무대(시간축·아일랜드) = 테두리 없음
+    dec = e.get("declared")
+    if dec:   # v7.4.0 D-0229 §2.5(UF-112) — 굴절 항로: 꺾임점까지 신고(muted 점선), 뒤는 실제(col 실선)
+        kb = dec["bend_index"] * DECLARED_SAMPLES + 1
+        mu = map_c(view.stage, "muted")
+        glow_line(ctx, sub[:kb], mu, a, 1.9, dash=[5, 4], casing=casing)
+        if n > kb:
+            glow_line(ctx, sub[kb - 1:], col, a * (0.75 if e.get("glow_only") else 1), 1.9, casing=casing)
+        if n >= kb:
+            bx, by = S_[kb - 1]
+            text(ctx, dec["label"], bx + 7, by - 7, RL.route_size, "sansm", mu, a * smooth((n - kb) / DECLARED_SAMPLES + 0.5), 3, "l",
+                 **({} if map_halo(view.stage) is None else {"halo_rgb": map_halo(view.stage)}), contrast="required")
+    else:
+        glow_line(ctx, sub, col, a * (0.75 if e.get("glow_only") else 1), 1.9, dash=[5, 4] if e.get("dashed") else None,
+                  casing=casing)
     log_shape(ctx, sub, col, a, e.get("label") or e.get("col", "route"))   # v5.18.0 D-0161 §4 — 도형 대비 측정 표본
     if e.get("ship") and len(sub) > 1:
         (x0, y0), (x1, y1) = sub[-2], sub[-1]
