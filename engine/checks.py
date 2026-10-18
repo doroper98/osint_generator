@@ -40,7 +40,10 @@ hard 실패가 하나라도 있으면 시각 검수 LLM 을 부르지 않고 연
 | inset_overlap | warning | 위성 인셋(원+출처 줄)이 마커·경로 이름표·카드 자리·날짜와 겹침 `[inset-overlap]`(v7.4.0 UF-107·D-0229 §2.7) |
 | tempo_density | warning | 1분 창 사실(귀속) 문장 > tempo.fact_sentences_per_min_max `[tempo-density]`(v7.4.0 UF-115·D-0229 §2.9, script.lint.tempo_density) |
 | transition_camera | hard | 시점 전환(plan transitions) 호흡~bridge 문장 사이 카메라 이동 < transition.camera_move_min_sec `[transition-camera]`(v7.4.0 UF-105·D-0229 §2.2) |
+| press_credit | hard | 기사 카드 press 가 공식 사진이면 자료사진 출처 줄 필수 `[press-credit-missing]`(v7.4.0 D-0240 §3) |
+| inset_clipped | hard | 위성 인셋 원+출처 줄이 안전 영역(날짜 배지 아래·자막 띠 위) 밖 `[inset-clipped]` — side_order 대체 자리까지 모두 밖일 때(v7.4.0 D-0240 §2) |
 | media_unused | hard | 프로젝트가 등재한 권리 통과 사진({pid}_ 접두 kind photo)이 연출 어디에도 없음 `[media-unused]` — media_notes drop 사유만 예외(v7.4.0 UF-118·D-0238) |
+| badge_orphan | warning | 국기 뱃지가 카드·인용·마커에 붙지 않고 홀로 뜸 `[badge-orphan]`(v7.4.0 D-0240 §4) |
 | article_press_missing | warning | 인물 발언·발표 문장 구간 기사 카드에 press 사진 없음 `[article-press-missing]`(v7.4.0 UF-109·D-0229 §6) |
 | camera_bounds | hard | 요청 카메라가 무대 경계 밖이라 렌더 View 가 잘랐다 — 화면이 멈췄다가 이동 중간에 꺾임(지도·시간축·차트 아일랜드). camera_continuity·camera_speed 는 화면 궤적(`engine.camera.screen_track`)을 잰다(v7.1.0 UF-99·D-0220) |
 | portrait_unused | warning | 인물 이름이 나오고 초상이 있는데 그 인물 뱃지·인용 없음(v5.22.0 D-0200 UF-10) |
@@ -93,10 +96,10 @@ SHADOW_PX = 7             # badge_box 가 원 둘레에 더하는 그림자 여�
 HARD = ("map_contrast", "overlap", "offscreen", "glyphs", "glyph_size", "labels", "date", "subtitles", "rights", "forbidden", "stage_continuity",
         "genre_elements", "chart_honesty", "series_limit_3", "units_visible", "as_of_visible", "boundary_as_route",
         "geo_mismatch", "timeline_rescale", "backdrop_rights", "backdrop_repeat", "island_overlap",
-        "backdrop_main_missing", "island_label_clip", "cascade", "subtitle_overlap", "label_collision", "timeline_span", "route_frame", "panel_overflow", "flag_territory", "badge_over_panel", "opening_establish", "camera_continuity", "card_exposure", "route_label_cross", "route_label_overlap", "article_backdrop", "quote_in_script", "route_missing_other", "frame_missing_target", "route_missing", "frame_missing", "bgm_decision", "endcard_black", "camera_per_sentence", "label_jump", "camera_speed", "title_backdrop", "camera_bounds", "cutaway_churn", "unit_glyph_font", "transition_camera", "media_unused")   # cutaway_churn v7.4.0 D-0229 §2.3, island_label_clip v5.2.0 D-0133 §2, backdrop_main_missing v5.2.0 D-0129 §B, island_overlap v5.1.0 D-0126 Q3, geo_mismatch v4.10.0 D-0116, timeline_rescale v5.1.0 D-0121 §A, backdrop_* v5.1.0 D-0123
+        "backdrop_main_missing", "island_label_clip", "cascade", "subtitle_overlap", "label_collision", "timeline_span", "route_frame", "panel_overflow", "flag_territory", "badge_over_panel", "opening_establish", "camera_continuity", "card_exposure", "route_label_cross", "route_label_overlap", "article_backdrop", "quote_in_script", "route_missing_other", "frame_missing_target", "route_missing", "frame_missing", "bgm_decision", "endcard_black", "camera_per_sentence", "label_jump", "camera_speed", "title_backdrop", "camera_bounds", "cutaway_churn", "unit_glyph_font", "transition_camera", "media_unused", "inset_clipped", "press_credit")   # cutaway_churn v7.4.0 D-0229 §2.3, island_label_clip v5.2.0 D-0133 §2, backdrop_main_missing v5.2.0 D-0129 §B, island_overlap v5.1.0 D-0126 Q3, geo_mismatch v4.10.0 D-0116, timeline_rescale v5.1.0 D-0121 §A, backdrop_* v5.1.0 D-0123
 WARN = ("shots", "media_beats", "media_upscaled", "endcard_roll", "geo_unsourced",   # endcard_roll v4.7.0 D-0106, geo_unsourced D-0107
         "static_window", "stage_choice", "card_island", "island_label_overlap", "cascade_label_hidden",
-        "map_contrast_shape", "battle_geo", "portrait_unused", "ratio_graphic", "inset_overlap", "tempo_density", "article_press_missing")   # ratio_graphic v7.4.0 D-0229 §2.6   # v5.21.14 D-0195·D-0199. map_contrast_shape v5.18.0 D-0161 §4   # static_window v4.11.0 D-0118, stage_choice v5.1.0 D-0123, card_island v5.2.0 D-0129 §C, island_label_overlap D-0133 §3
+        "map_contrast_shape", "battle_geo", "portrait_unused", "ratio_graphic", "inset_overlap", "tempo_density", "article_press_missing", "badge_orphan")   # ratio_graphic v7.4.0 D-0229 §2.6   # v5.21.14 D-0195·D-0199. map_contrast_shape v5.18.0 D-0161 §4   # static_window v4.11.0 D-0118, stage_choice v5.1.0 D-0123, card_island v5.2.0 D-0129 §C, island_label_overlap D-0133 §3
 
 
 def missing_fonts() -> list[str]:
@@ -1115,6 +1118,77 @@ def ratio_graphic(sentences: list, events: list[dict]) -> list[str]:
     return out
 
 
+def badge_orphans(events: list[dict]) -> list[str]:
+    """v7.4.0 D-0240 §4 — 국기 뱃지(kind flag)가 카드·인용(시간 겹침 ≥ 절반)이나 같은 시각 마커(rules layout_480p.badge.anchor_marker_deg 안)에
+    붙지 않고 홀로 뜨면 warning. 규칙 flag_requires_anchor 가 꺼져 있으면 보지 않는다."""
+    B = R_.layout_480p.badge  # noqa: N806
+    if not B.flag_requires_anchor:
+        return []
+    out = []
+    for b in events:
+        if b["type"] != "badge" or b.get("kind") != "flag" or b.get("over_panel"):
+            continue
+        dur = max(1e-6, b["t1"] - b["t0"])
+        held = any(c["type"] in ("card", "quote") and min(b["t1"], c["t1"]) - max(b["t0"], c["t0"]) >= dur / 2 for c in events)
+        bw = b.get("world")   # 무대 월드 좌표(투영은 무대만, 15 P1) — 메르카토르 월드 단위 ≈ 경도 1°
+        near = bw is not None and any(
+            m["type"] == "marker" and m["t0"] < b["t1"] and m["t1"] > b["t0"] and m.get("world") is not None
+            and math.dist(m["world"], bw) <= B.anchor_marker_deg for m in events)
+        if not (held or near):
+            out.append(f"[badge-orphan] 국기 뱃지 {b.get('label')!r}({str(b.get('flag')).upper()}) t={b['t0']:.1f} — 카드·인용·마커에 붙지 않고 홀로 뜬다. "
+                       "빼고 country 강조·지명 라벨로 채운다(rules layout_480p.badge.flag_requires_anchor)")
+    return out
+
+
+def check_inset_clipped(P) -> list[str]:  # noqa: ANN001, N803
+    """v7.4.0 D-0240 §2 — 위성 인셋 원+출처 줄이 안전 영역(날짜 배지 아래·자막 띠 위·좌우 여백, engine.layers.flight.inset_safe)을
+    벗어나면 hard(side_order 대체 자리까지 다 벗어남). 0.5초 간격, 인셋마다 첫 시각 한 줄."""
+    from engine.layers.flight import inset_alpha, inset_box, inset_fits  # noqa: PLC0415
+
+    if not _map_main(P):
+        return []
+    out: list[str] = []
+    for e in P.events:
+        if e["type"] != "flight" or not e.get("inset"):
+            continue
+        t = e["t0"]
+        while t <= e["t1"]:
+            if inset_alpha(t, e) > 0.5:
+                v = View(P.R.stage, P.cams[min(P.n_frames - 1, int(t * FPS))])
+                box = inset_box(e, *v.to_screen(*e["world"]))
+                if not inset_fits(box):
+                    out.append(f"[inset-clipped] 인셋 {e['inset'].get('mid')} t={t:.1f} 원·출처 줄이 안전 영역 밖(상자 {tuple(round(x) for x in box)}) — "
+                               "카메라 구도를 넓히거나 표적이 화면 가장자리에 오지 않게 한다(rules flight.inset.side_order 대체 자리도 모두 밖)")
+                    break
+            t += 0.5
+    return out
+
+
+def check_press_credit(P, times: list[float], drawn: list[tuple[str, float, str | None, str]]) -> list[str]:  # noqa: ANN001, N803
+    """v7.4.0 D-0240 §3 — 기사 카드 press 가 공식 사진(A)이면 자료사진 출처 줄이 있어야 한다(G4 자료사진 표기). 출처 줄을 만들 수 없거나
+    (규칙 article_card.press_photo_credit 없음) 프레스 사진이 보이는 프리뷰 컷에 그 줄이 그려지지 않았으면 hard."""
+    from engine.layers.article import article_phase, press_photo_credit_text  # noqa: PLC0415
+    from engine.media_registry import cached_registry  # noqa: PLC0415
+    from engine.style import ARTICLE  # noqa: PLC0415
+
+    out: list[str] = []
+    for e in P.events:
+        if e["type"] != "article" or not e.get("press"):
+            continue
+        a = cached_registry().get(e["press"])
+        if a is None or a.press_of is not None:
+            continue
+        s = press_photo_credit_text(e) if ARTICLE.press_photo_credit is not None else None
+        if not s:
+            out.append(f"[press-credit-missing] 기사 {e['mid']} press {e['press']} — 자료사진 출처 줄을 만들 수 없다(rules article_card.press_photo_credit)")
+            continue
+        for t in times:
+            if article_phase(t, e)[0] > 0.5 and not any(lab == f"t={t:.2f}" and txt == s for lab, _, _, txt in drawn):
+                out.append(f"[press-credit-missing] 기사 {e['mid']} t={t:.2f} press 사진에 출처 줄 {s!r} 이 그려지지 않았다")
+                break
+    return out
+
+
 def check_inset_overlap(P) -> list[str]:  # noqa: ANN001, N803
     """v7.4.0 D-0229 §2.7·§2.10(UF-107, v1 관찰 "인셋 출처 줄과 마커 라벨 겹침") — 위성 인셋 원+출처 줄이 마커·경로 이름표나
     (카드가 떠 있을 때) 카드 자리·날짜 배지와 겹치면 warning. 0.5초 간격, 인셋마다 첫 시각 한 줄. 자리는 inset.side(대각 포함)로 옮긴다."""
@@ -1633,9 +1707,12 @@ def run_checks(P, times: list[float], provenance: dict, drawn: list[tuple[str, f
         "transition_camera": lambda: transition_camera(P.plan.transitions, P.plan.sentences, P.keys),   # v7.4.0 UF-105 D-0229 §2.2(hard)
         "unit_glyph_font": lambda: check_unit_glyph_font(P),  # v7.4.0 UF-111 D-0229 §2.4(hard)
         "media_unused": lambda: check_media_unused(P),   # v7.4.0 UF-118 D-0238(hard)
+        "inset_clipped": lambda: check_inset_clipped(P),   # v7.4.0 D-0240 §2(hard)
+        "press_credit": lambda: check_press_credit(P, times, drawn),   # v7.4.0 D-0240 §3(hard)
         "ratio_graphic": lambda: ratio_graphic(P.plan.sentences, P.events),   # v7.4.0 UF-113 D-0229 §2.6(warning)
         "inset_overlap": lambda: check_inset_overlap(P),   # v7.4.0 UF-107 D-0229 §2.7(warning)
         "article_press_missing": lambda: check_article_press_missing(P),   # v7.4.0 UF-109 D-0229 §6(warning)
+        "badge_orphan": lambda: badge_orphans(P.events),   # v7.4.0 D-0240 §4(warning)
         "tempo_density": lambda: tempo_density(P.plan.sentences),   # v7.4.0 UF-115 D-0229 §2.9(warning, script.lint 와 같은 함수)
         "portrait_unused": lambda: check_portrait_unused(P),  # v5.22.0 D-0200 UF-10(warning)
         "genre_elements": lambda: check_genre_elements(P),

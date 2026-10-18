@@ -264,9 +264,9 @@ shots:
   mode: move
   dur: 4.5
   camera:
-    lon: 40.3
-    lat: 54.8
-    w: 36.0
+    lon: 42.2
+    lat: 55.3
+    w: 40.0
   reason: 키리시·사라토프·시즈란
 - at:
     sid: act1_14
@@ -278,14 +278,15 @@ shots:
     lat: 55.4
     w: 38.0
 - at:
-    scene_start: act2
-    'off': -0.55
+    sid: act2_0
+    'off': 0.8
   mode: dip
   dur: 3.0
   camera:
     lon: 130.5
     lat: 47.0
     w: 26.0
+  reason: 연결 문장 첫머리까지 러시아 전체(라벨) — 극동으로 옮긴다
 - at:
     sid: act2_6
     'off': -0.5
@@ -297,10 +298,20 @@ shots:
     w: 10.0
   reason: 하바롭스크·콤소몰스크 정유소 근접
 - at:
-    sid: act2_10
-    'off': -3.0
+    sid: act2_9
+    'off': 0.0
   mode: move
-  dur: 5.0
+  dur: 6.0
+  camera:
+    lon: 85.8
+    lat: 45.5
+    w: 115.6
+  reason: 콤소몰스크–우크라이나 약 6,500km — 거리를 한 화면에
+- at:
+    sid: act2_11
+    'off': 0.0
+  mode: move
+  dur: 6.0
   camera:
     lon: 131.0
     lat: 46.0
@@ -312,7 +323,7 @@ shots:
   dur: 4.5
   camera:
     lon: 131.0
-    lat: 38.0
+    lat: 38.4
     w: 26.0
 - at:
     sid: act2_23
@@ -340,8 +351,8 @@ shots:
   mode: move
   dur: 4.5
   camera:
-    lon: 130.2
-    lat: 38.4
+    lon: 130.6
+    lat: 39.0
     w: 26.0
 - at:
     scene_start: act3
@@ -511,7 +522,7 @@ events:
   col: teal
   impact: true
   inset:
-    mid: inset_ryazan_hls
+    mid: inset_ryazan_esri
     side: down_left
     hold_until:
       sid: cold_3
@@ -551,12 +562,12 @@ events:
   a: 0.05
 - type: article
   start:
-    sid: act1_0
+    sid: act1_8
     'off': 0.1
   end:
-    sid: act1_1
+    sid: act1_9
     edge: end
-    'off': 0.2
+    'off': 0.4
   mid: diesel_road_2026_art_0005
   theme: dark
 - type: card
@@ -635,31 +646,6 @@ events:
   accent: ru
 - type: card
   start:
-    sid: act1_8
-    'off': 0.2
-  end:
-    sid: act1_8
-    edge: end
-    'off': 0.5
-  tag: 국제에너지기구
-  lines:
-  - '드론 표적: 분해·개질 같은 2차 설비'
-  accent: ru
-- type: card
-  start:
-    sid: act1_9
-    'off': 0.1
-  end:
-    sid: act1_9
-    edge: end
-    'off': 0.5
-  tag: 국제에너지기구
-  bigs:
-  - - 6~8개월
-    - 2차 설비 교체에 걸릴 수 있는 시간
-  accent: ru
-- type: card
-  start:
     sid: act1_10
     'off': 0.1
   end:
@@ -724,8 +710,8 @@ events:
   col: teal
   impact: true
   inset:
-    mid: inset_kirishi_hls
-    side: right
+    mid: inset_kirishi_esri
+    side: down_right
 - type: marker
   start:
     word:
@@ -1040,19 +1026,6 @@ events:
     'off': 0.3
   mid: diesel_road_2026_art_0012
   theme: dark
-- type: card
-  start:
-    sid: act2_10
-    'off': 0.2
-  end:
-    sid: act2_10
-    edge: end
-    'off': 0.5
-  tag: 콤소몰스크나아무레
-  bigs:
-  - - 약 6,500km
-    - 우크라이나에서 떨어진 거리
-  accent: ru
 - type: marker
   start:
     sid: act2_11
@@ -1113,7 +1086,7 @@ events:
     scene_end: act2
   at_place: vladivostok
   label: 블라디보스토크
-  side: right
+  side: left
   hl: true
 - type: route
   start:
@@ -1776,7 +1749,7 @@ events:
   col: us
   impact: true
   inset:
-    mid: inset_kharg_hls
+    mid: inset_kharg_esri
     side: down_left
 - type: badge
   start:
@@ -1889,7 +1862,7 @@ events:
   col: ru
   impact: true
   inset:
-    mid: inset_ras_laffan_hls
+    mid: inset_ras_laffan_esri
     side: left
   claims:
   - clm_0066
@@ -2584,7 +2557,7 @@ events:
   col: teal
   impact: true
   inset:
-    mid: inset_ryazan_hls
+    mid: inset_ryazan_esri
     side: left
 - type: card
   start:
@@ -2800,37 +2773,23 @@ events:
 - type: badge
   kind: flag
   flag: ru
-  label: 러시아 극동
-  lon: 141.5
-  lat: 50.0
+  label: 러시아
+  lon: 134.5
+  lat: 46.6
   start:
-    sid: act2_0
+    sid: act2_2
     'off': 0.2
   end:
-    sid: act2_5
+    sid: act2_3
     edge: end
     'off': 0.3
   accent: ru
 - type: badge
   kind: flag
-  flag: ua
-  label: 우크라이나에서 약 6,500km
-  lon: 138.2
-  lat: 44.6
-  start:
-    sid: act2_10
-    'off': 0.3
-  end:
-    sid: act2_10
-    edge: end
-    'off': 0.3
-  accent: teal
-- type: badge
-  kind: flag
   flag: ru
   label: 러시아
-  lon: 136.0
-  lat: 40.5
+  lon: 134.4
+  lat: 41.9
   start:
     sid: act2_14
     'off': 0.2
@@ -2843,8 +2802,8 @@ events:
   kind: flag
   flag: ru
   label: 러시아
-  lon: 134.4
-  lat: 42.4
+  lon: 133.6
+  lat: 43.7
   start:
     sid: act2_31
     'off': 0.2
@@ -2950,6 +2909,19 @@ events:
     sid: act3_28
     edge: end
     'off': 0.3
+  accent: teal
+- type: card
+  start:
+    sid: act2_10
+    'off': 0.2
+  end:
+    sid: act2_10
+    edge: end
+    'off': 0.5
+  tag: 콤소몰스크나아무레 – 우크라이나
+  bigs:
+  - - 약 6,500km
+    - 거리
   accent: teal
 sound:
   bgm: music.zabriskie_mario_bava

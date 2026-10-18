@@ -20,25 +20,27 @@ A, B = f"{PID}_trump_1006", f"{PID}_moscow_fire_0618"
 class MediaUnusedTest(unittest.TestCase):
     def setUp(self) -> None:
         self.reg = load_media_registry()
+        self.others = [{"type": "photo", "mid": m, "t0": 30, "t1": 35} for m, a in self.reg.items()
+                       if m.startswith(PID + "_") and a.kind == "photo" and m not in (A, B)]   # 이 프로젝트의 나머지 등재 사진은 배치된 것으로
 
     def test_hard(self) -> None:
         self.assertIn("media_unused", HARD)
 
     def test_a_one_missing(self) -> None:
-        ev = [{"type": "article", "mid": f"{PID}_art_0032", "press": A, "t0": 0, "t1": 5}]
+        ev = [{"type": "article", "mid": f"{PID}_art_0032", "press": A, "t0": 0, "t1": 5}, *self.others]
         out = media_unused(PID, ev, self.reg, {})
         self.assertEqual(len(out), 1)
         self.assertIn(B, out[0])
 
     def test_b_drop_reason(self) -> None:
-        ev = [{"type": "article", "mid": f"{PID}_art_0032", "press": A, "t0": 0, "t1": 5}]
+        ev = [{"type": "article", "mid": f"{PID}_art_0032", "press": A, "t0": 0, "t1": 5}, *self.others]
         self.assertEqual(media_unused(PID, ev, self.reg, {B: "장소 특정 문장만 남아 오해 소지"}), [])
         with self.assertRaises(ValueError):   # 사유 없는 drop 은 스키마가 막는다
             MediaNotes.model_validate({"drop": [{"mid": B, "reason": ""}]})
 
     def test_c_both_used(self) -> None:
         ev = [{"type": "article", "mid": f"{PID}_art_0032", "press": A, "t0": 0, "t1": 5},
-              {"type": "photo", "mid": B, "t0": 20, "t1": 25}]
+              {"type": "photo", "mid": B, "t0": 20, "t1": 25}, *self.others]
         self.assertEqual(media_unused(PID, ev, self.reg, {}), [])
 
     def test_d_old_projects(self) -> None:

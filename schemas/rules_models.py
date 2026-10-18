@@ -572,6 +572,13 @@ class ArticleSource(_Strict):
     translated_note: str = Field(min_length=1)
 
 
+class ArticlePressPhotoCredit(_Strict):
+    """v7.4.0 D-0240 §3 — 공식 사진(A) 프레스 바탕의 자료사진 출처 줄(화면 왼쪽 아래, 자막 띠 위)."""
+
+    size: float = Field(gt=0)
+    y_above_subtitle: float = Field(ge=0)
+
+
 class ArticlePressCredit(_Strict):
     """v5.21.0 D-0177 §3 — 보도 인용(B) 사진 카드 안 크레딧 줄(source 줄 아래)."""
 
@@ -612,6 +619,7 @@ class ArticleCardLayout(_Strict):
     sub: ArticleSub
     source: ArticleSource
     press_credit: ArticlePressCredit   # v5.21.0 D-0177
+    press_photo_credit: Optional[ArticlePressPhotoCredit] = None   # v7.4.0 D-0240 §3 — 없으면 그리지 않는다(옛 규칙 파일)
 
     @model_validator(mode="after")
     def _themes(self) -> "ArticleCardLayout":
@@ -723,6 +731,8 @@ class BadgeLayout(_Strict):
     R_person_panel: float
     R_flag: Range2
     R_other: float
+    flag_requires_anchor: bool = False   # v7.4.0 D-0240 §4 — 국기 뱃지는 카드·인용·마커에 붙을 때만([badge-orphan])
+    anchor_marker_deg: float = Field(default=3.0, gt=0)
     resize_sec: float
     fade_in_sec: float
     fade_out_sec: float
@@ -2047,6 +2057,8 @@ class FlightInsetRules(_Strict):
     # v7.4.0 D-0229 §2.7(UF-107 "라잔 타격 설명이 나오는데 라잔 위성사진이 좀 보이면") — inset.place 를 준 인셋은 착탄 문장부터
     # 그 장소 이름을 말하는 연속 문장 끝까지 유지(engine.direction.build). inset.hold_until 명시가 우선
     hold_same_place: bool = False
+    safe_margin_px: float = Field(default=0.0, ge=0)   # v7.4.0 D-0240 §2 — 안전 영역 여백(날짜 배지 아래·자막 띠 위)
+    side_order: list[Literal["right", "left", "up", "down", "up_left", "up_right", "down_left", "down_right"]] = Field(default_factory=list)
 
 
 class FlightRules(_Strict):

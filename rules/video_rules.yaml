@@ -569,6 +569,8 @@ layout_480p:               # 09 §2·§4, 08 §10 — 기준 해상도 854×480.
     sub: {size: 15, gap: 20, max_lines: 2, lead: 14}      # lead = 헤드라인 마지막 기준선 → 부제 첫 줄 위 여백
     source: {size: 13, lead: 12, format: "— {publisher}, {date}", translated_note: "헤드라인 번역"}
     press_credit: {size: 11, lead: 8, format: "사진: {agency} via {publisher}"}   # v5.21.0 D-0177 §3 — 보도 인용(B) 사진 카드 안 작은 줄(source 줄 아래). B 사진 없는 카드는 그리지 않는다
+    # v7.4.0 D-0240 §3 — 공식 사진(A) 프레스 바탕의 자료사진 출처 줄(media_beats.credit_formats.photo 조립). 화면 왼쪽 아래, 자막 띠 위 y_above_subtitle px. G4 자료사진 표기
+    press_photo_credit: {size: 10, y_above_subtitle: 8}
   # v3.2.0 18 §5 — X 게시물 카드(post). 캡처 이미지·X 로고 없이 자체 조판. 수치는 18 §5 명세 그대로
   post_card:
     w: 300
@@ -602,6 +604,10 @@ layout_480p:               # 09 §2·§4, 08 §10 — 기준 해상도 854×480.
     R_person_panel: 36
     R_flag: [17, 24]
     R_other: 30                   # 국기·휘장 뱃지 연출 R 없을 때(v3 기본 — 옛 badge_at 리터럴)
+    # v7.4.0 D-0240 §4(감독 육안 "바다 위에 홀로 뜬 국기 뱃지") — 국기 뱃지는 카드·인용(시간 겹침 ≥ 절반)이나 마커(anchor_marker_deg 안, 같은 시각)에
+    # 붙을 때만. 아니면 [badge-orphan] warning. 빈 지도 구간은 country 강조 + 지명 라벨로
+    flag_requires_anchor: true
+    anchor_marker_deg: 3.0
     resize_sec: 0.6
     fade_in_sec: 0.01             # draw_badge window(옛 리터럴)
     fade_out_sec: 0.45
@@ -1339,6 +1345,10 @@ flight:                    # v7.3.0 back_and_forth D-0206·D-0225(사용자 결�
     caption_size: 8.5      # 출처 줄 글자(layout_480p.min_font_px 이상)
     caption_halo: 2.4      # 출처 줄 글자 테두리(컷아웃 출처 줄과 같은 값)
     hold_same_place: true  # v7.4.0 D-0229 §2.7(UF-107) — inset.place 이름을 말하는 연속 문장 끝까지 유지(명시 hold_until 우선)
+    # v7.4.0 D-0240 §2(감독 육안 "키리시 인셋 원이 위 가장자리에 걸려 잘린다") — 인셋 원+출처 줄은 안전 영역(날짜 배지 아래·자막 띠 위·좌우 여백) 안에 전부.
+    # 연출이 고른 side 가 벗어나면 side_order 순서로 첫 맞는 자리(결정적). 어느 자리도 안 맞으면 [inset-clipped] hard
+    safe_margin_px: 6
+    side_order: [up_right, up_left, down_right, down_left, right, left, up, down]
 island:                    # v5.1.0 back_and_forth D-0123 §1·D-0126(Q1~Q4 A) — backdrop 무대 위 내용물 상자(아일랜드) 공통 규칙. engine/island.py. 설계 px(480p)
   # 연출은 픽셀을 다루지 않는다 — 차트 아일랜드는 box(boxes 이름)만 고른다. 등장 = 슬라이드 layout_480p.card.slide_px + 페이드 card.fade_sec(카드 규칙 재사용)
   # 겹침(checks island_overlap hard, Q3 A): 같은 순간 보이는 아일랜드 제자리 상자(그림자·슬라이드 경로 제외)끼리 교차 > 0, 자막 구역(reserved_zones.subtitle) 교차.

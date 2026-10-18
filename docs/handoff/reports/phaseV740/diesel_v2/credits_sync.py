@@ -2,7 +2,7 @@
 import re, sys
 from pathlib import Path
 import yaml
-sys.path.insert(0, str(Path(__file__).resolve().parents[3]))
+sys.path.insert(0, str(Path(__file__).resolve().parents[4]))
 from engine.media_registry import load_media_registry
 from engine.refs import emblem_ids
 from engine.entities import load_emblem_registry
