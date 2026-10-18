@@ -40,6 +40,7 @@ hard 실패가 하나라도 있으면 시각 검수 LLM 을 부르지 않고 연
 | inset_overlap | warning | 위성 인셋(원+출처 줄)이 마커·경로 이름표·카드 자리·날짜와 겹침 `[inset-overlap]`(v7.4.0 UF-107·D-0229 §2.7) |
 | tempo_density | warning | 1분 창 사실(귀속) 문장 > tempo.fact_sentences_per_min_max `[tempo-density]`(v7.4.0 UF-115·D-0229 §2.9, script.lint.tempo_density) |
 | transition_camera | hard | 시점 전환(plan transitions) 호흡~bridge 문장 사이 카메라 이동 < transition.camera_move_min_sec `[transition-camera]`(v7.4.0 UF-105·D-0229 §2.2) |
+| media_unused | hard | 프로젝트가 등재한 권리 통과 사진({pid}_ 접두 kind photo)이 연출 어디에도 없음 `[media-unused]` — media_notes drop 사유만 예외(v7.4.0 UF-118·D-0238) |
 | article_press_missing | warning | 인물 발언·발표 문장 구간 기사 카드에 press 사진 없음 `[article-press-missing]`(v7.4.0 UF-109·D-0229 §6) |
 | camera_bounds | hard | 요청 카메라가 무대 경계 밖이라 렌더 View 가 잘랐다 — 화면이 멈췄다가 이동 중간에 꺾임(지도·시간축·차트 아일랜드). camera_continuity·camera_speed 는 화면 궤적(`engine.camera.screen_track`)을 잰다(v7.1.0 UF-99·D-0220) |
 | portrait_unused | warning | 인물 이름이 나오고 초상이 있는데 그 인물 뱃지·인용 없음(v5.22.0 D-0200 UF-10) |
@@ -92,7 +93,7 @@ SHADOW_PX = 7             # badge_box 가 원 둘레에 더하는 그림자 여�
 HARD = ("map_contrast", "overlap", "offscreen", "glyphs", "glyph_size", "labels", "date", "subtitles", "rights", "forbidden", "stage_continuity",
         "genre_elements", "chart_honesty", "series_limit_3", "units_visible", "as_of_visible", "boundary_as_route",
         "geo_mismatch", "timeline_rescale", "backdrop_rights", "backdrop_repeat", "island_overlap",
-        "backdrop_main_missing", "island_label_clip", "cascade", "subtitle_overlap", "label_collision", "timeline_span", "route_frame", "panel_overflow", "flag_territory", "badge_over_panel", "opening_establish", "camera_continuity", "card_exposure", "route_label_cross", "route_label_overlap", "article_backdrop", "quote_in_script", "route_missing_other", "frame_missing_target", "route_missing", "frame_missing", "bgm_decision", "endcard_black", "camera_per_sentence", "label_jump", "camera_speed", "title_backdrop", "camera_bounds", "cutaway_churn", "unit_glyph_font", "transition_camera")   # cutaway_churn v7.4.0 D-0229 §2.3, island_label_clip v5.2.0 D-0133 §2, backdrop_main_missing v5.2.0 D-0129 §B, island_overlap v5.1.0 D-0126 Q3, geo_mismatch v4.10.0 D-0116, timeline_rescale v5.1.0 D-0121 §A, backdrop_* v5.1.0 D-0123
+        "backdrop_main_missing", "island_label_clip", "cascade", "subtitle_overlap", "label_collision", "timeline_span", "route_frame", "panel_overflow", "flag_territory", "badge_over_panel", "opening_establish", "camera_continuity", "card_exposure", "route_label_cross", "route_label_overlap", "article_backdrop", "quote_in_script", "route_missing_other", "frame_missing_target", "route_missing", "frame_missing", "bgm_decision", "endcard_black", "camera_per_sentence", "label_jump", "camera_speed", "title_backdrop", "camera_bounds", "cutaway_churn", "unit_glyph_font", "transition_camera", "media_unused")   # cutaway_churn v7.4.0 D-0229 §2.3, island_label_clip v5.2.0 D-0133 §2, backdrop_main_missing v5.2.0 D-0129 §B, island_overlap v5.1.0 D-0126 Q3, geo_mismatch v4.10.0 D-0116, timeline_rescale v5.1.0 D-0121 §A, backdrop_* v5.1.0 D-0123
 WARN = ("shots", "media_beats", "media_upscaled", "endcard_roll", "geo_unsourced",   # endcard_roll v4.7.0 D-0106, geo_unsourced D-0107
         "static_window", "stage_choice", "card_island", "island_label_overlap", "cascade_label_hidden",
         "map_contrast_shape", "battle_geo", "portrait_unused", "ratio_graphic", "inset_overlap", "tempo_density", "article_press_missing")   # ratio_graphic v7.4.0 D-0229 §2.6   # v5.21.14 D-0195·D-0199. map_contrast_shape v5.18.0 D-0161 §4   # static_window v4.11.0 D-0118, stage_choice v5.1.0 D-0123, card_island v5.2.0 D-0129 §C, island_label_overlap D-0133 §3
@@ -1305,6 +1306,27 @@ def check_battle_geo(P) -> list[str]:  # noqa: ANN001, N803
     return out
 
 
+def media_unused(pid: str, events: list[dict], registry: dict, drops: dict[str, str]) -> list[str]:
+    """v7.4.0 D-0238(UF-118 "사진을 고른거 같은데 그 사진들이 누락되지 않고 영상에 잘 쓰이게 챙겨") — 이 프로젝트가 등재한
+    권리 통과 사진(레지스트리 mid 가 `{pid}_` 로 시작하는 kind photo, rights_status rights_clear·restricted)이 어느 이벤트에도
+    없으면 hard. media_notes.yaml drop(mid·사유)만 예외."""
+    out = []
+    for mid, a in registry.items():
+        if not mid.startswith(f"{pid}_") or a.kind != "photo" or a.rights_status == "unverified" or mid in drops:
+            continue
+        if not any(f"'{mid}'" in repr(e) for e in events):   # photo mid·기사 카드 press 어디든
+            out.append(f"[media-unused] 등재한 사진 {mid}({a.caption}) 이 연출에 없다 — 배치하거나 media_notes.yaml drop 에 사유(UF-118)")
+    return out
+
+
+def check_media_unused(P) -> list[str]:  # noqa: ANN001, N803
+    from engine.media_registry import load_media_registry  # noqa: PLC0415
+    from script.media_table import load_notes  # noqa: PLC0415
+
+    drops = {d.mid: d.reason for d in load_notes(P.root).drop}
+    return media_unused(P.root.name, P.events, load_media_registry(), drops)
+
+
 def check_article_press_missing(P) -> list[str]:  # noqa: ANN001, N803
     """v7.4.0 D-0229 §6(UF-109 "트럼프가 에너지 휴전이 끝났다고 말하는 기사의 사진을 넣어") — 인물(엔티티 person 이름)의 발언·발표
     문장(rules script_vocab.statement_verbs) 구간에 뜬 기사 카드에 press 사진이 없으면 warning. 사진이 권리상 없으면 R 에 사유(블러 무대)."""
@@ -1610,6 +1632,7 @@ def run_checks(P, times: list[float], provenance: dict, drawn: list[tuple[str, f
         "cutaway_churn": lambda: cutaway_churn(P.events),     # v7.4.0 UF-110 D-0229 §2.3(hard)
         "transition_camera": lambda: transition_camera(P.plan.transitions, P.plan.sentences, P.keys),   # v7.4.0 UF-105 D-0229 §2.2(hard)
         "unit_glyph_font": lambda: check_unit_glyph_font(P),  # v7.4.0 UF-111 D-0229 §2.4(hard)
+        "media_unused": lambda: check_media_unused(P),   # v7.4.0 UF-118 D-0238(hard)
         "ratio_graphic": lambda: ratio_graphic(P.plan.sentences, P.events),   # v7.4.0 UF-113 D-0229 §2.6(warning)
         "inset_overlap": lambda: check_inset_overlap(P),   # v7.4.0 UF-107 D-0229 §2.7(warning)
         "article_press_missing": lambda: check_article_press_missing(P),   # v7.4.0 UF-109 D-0229 §6(warning)

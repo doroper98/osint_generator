@@ -1773,8 +1773,12 @@ entries:
   quote: 자막에 전반적으로 ~의 보도에 따르면, 혹은 그런 뉘앙스의 말이 너무 많아. 그냥 영상 맨 마지막 크레딧에 그 말을 한 소스를 붙여주고 자막과 나레이션에는 ~했습니다. ~합니다. 라는 투의 말투로 바꾸면 안될까?
   quote_kind: verbatim
   category: 원고 문체 — 보도 출처 귀속("~에 따르면·~는 보도했다")은 내레이션에서 빼고 크레딧(장면별 출처)으로; 당사자 발언·논쟁·추정은 귀속 유지
-  guards: []
-  status: open
+  guards:
+  - {kind: rule, ref: script_schema.attribution_mode}
+  - {kind: rule, ref: script_schema.press_markers}
+  - {kind: test, ref: tests/test_v740_attribution_mode.py::CreditsModeTest::test_a_press_attribution_warns}
+  - {kind: test, ref: tests/test_v740_attribution_mode.py::CreditsModeTest::test_f_press_prefix_on_kept_sentence}
+  status: guarded
   decision: "감독 결정(D243) — 사실 문장은 평서('~했습니다'), 출처는 (1) 카드·패널 출처 줄(기존) (2) 엔딩 크레딧 장면별 '보도 출처' 블록 (3) description.yaml 전체 목록. 귀속을 남기는 경우: 당사자 발언·주장(정부·당국·기업·인물), 양측 병기 논쟁 수치, 분석·추정·전망. 린트 [attribution] 은 그 세 부류에만. 장치 = rules script_schema.attribution_mode: credits + 린트 재정의 + 크레딧 sources 슬롯 테스트(v2 전달 뒤)"
   source: 감독 세션(Fable) 사용자 대화 2026-10-18
 - id: UF-118
@@ -1784,8 +1788,10 @@ entries:
   quote: 사진을 고른거 같은데 그 사진들이 누락되지 않고 영상에잘 쓰이게 챙겨
   quote_kind: verbatim
   category: 미디어 — 권리 통과 사진은 반드시 연출에 배치되고 전편에 실제로 나와야 함(등재만 하고 빠뜨리지 않음)
-  guards: []
-  status: open
+  guards:
+  - {kind: check, ref: media_unused}
+  - {kind: test, ref: tests/test_v740_media_unused.py::MediaUnusedTest::test_a_one_missing}
+  status: guarded
   decision: "감독 기록 — 장치 = 검사 [media-unused] hard: 프로젝트 미디어 레지스트리의 권리 통과 사진(kind photo·press)이 provenance media_used 에 없으면 실패(명시 drop 사유 없이는 통과 불가). 연출 v2 에 두 사진 자리 지정(D-0238). 장치는 콘티 전(C 단계)에 단다"
   source: 감독 세션(Fable) 사용자 대화 2026-10-18
 - id: UF-119
