@@ -45,6 +45,7 @@ from pydantic import BaseModel, ConfigDict, Field, field_validator, model_valida
 from engine.camera import CamKey, cam
 from engine.shots import ShotStage
 from engine.timebase import Timebase
+from rules import load_rules
 
 if TYPE_CHECKING:
     from collections.abc import Callable
@@ -422,6 +423,25 @@ def island_keys(doc: Direction, tb: Timebase, chart_stage: "Stage") -> list[CamK
     return keys
 
 
+def hold_same_place(d: dict, tb: Timebase) -> None:
+    """v7.4.0 D-0229 §2.7(UF-107) — inset.place 가 있고 hold_until 이 없으면, 착탄 시각의 문장부터 그 장소 이름을 말하는 연속 문장의
+    마지막 끝까지 인셋을 유지한다(rules flight.inset.hold_same_place). 이벤트 t1 이 짧으면 그 끝까지 늘린다(규칙이 정한 유지 — 연출 구성 변경 아님)."""
+    ins = d.get("inset")
+    F = load_rules().flight  # noqa: N806
+    if not ins or ins.get("hold_until") is not None or not ins.get("place") or not F.inset.hold_same_place:
+        return
+    th = d["t0"] + F.dur_sec
+    order = [s for s in tb.order if tb.sent[s].t1 >= th]
+    end = None
+    for s in order:
+        if ins["place"] not in tb.sent[s].text:
+            break
+        end = tb.sent[s].t1
+    if end is not None:
+        ins["hold_until"] = end
+        d["t1"] = max(d["t1"], end + F.inset.fade[1])
+
+
 def build(doc: Direction, tb: Timebase, stage: "Stage") -> tuple[list[CamKey], list[dict], Optional[dict]]:
     """Direction → (카메라 키, 이벤트 dict, sound dict). 옛 Director 와 같은 모양.
     카메라 앵커(lon·lat)는 stage.to_world 로만 월드 좌표가 된다(v4.1.0 D-0076 작업 3). 이벤트의 앵커는 그대로 두고
@@ -454,6 +474,8 @@ def build(doc: Direction, tb: Timebase, stage: "Stage") -> tuple[list[CamKey], l
                 d.update({dk: _resolve(dv, tb, doc) for dk, dv in v.items()})
                 continue
             d[k] = _resolve(v, tb, doc)
+        if d["type"] == "flight":
+            hold_same_place(d, tb)
         events.append(d)
     sound = None
     if doc.sound is not None:

@@ -2016,6 +2016,9 @@ class FlightInsetRules(_Strict):
     caption_dy: float
     caption_size: float = Field(gt=0)
     caption_halo: float = Field(ge=0)
+    # v7.4.0 D-0229 §2.7(UF-107 "라잔 타격 설명이 나오는데 라잔 위성사진이 좀 보이면") — inset.place 를 준 인셋은 착탄 문장부터
+    # 그 장소 이름을 말하는 연속 문장 끝까지 유지(engine.direction.build). inset.hold_until 명시가 우선
+    hold_same_place: bool = False
 
 
 class FlightRules(_Strict):

@@ -1308,6 +1308,7 @@ flight:                    # v7.3.0 back_and_forth D-0206·D-0225(사용자 결�
     caption_dy: 11         # 원 아래 출처 줄 기준선 간격(가운데 정렬)
     caption_size: 8.5      # 출처 줄 글자(layout_480p.min_font_px 이상)
     caption_halo: 2.4      # 출처 줄 글자 테두리(컷아웃 출처 줄과 같은 값)
+    hold_same_place: true  # v7.4.0 D-0229 §2.7(UF-107) — inset.place 이름을 말하는 연속 문장 끝까지 유지(명시 hold_until 우선)
 island:                    # v5.1.0 back_and_forth D-0123 §1·D-0126(Q1~Q4 A) — backdrop 무대 위 내용물 상자(아일랜드) 공통 규칙. engine/island.py. 설계 px(480p)
   # 연출은 픽셀을 다루지 않는다 — 차트 아일랜드는 box(boxes 이름)만 고른다. 등장 = 슬라이드 layout_480p.card.slide_px + 페이드 card.fade_sec(카드 규칙 재사용)
   # 겹침(checks island_overlap hard, Q3 A): 같은 순간 보이는 아일랜드 제자리 상자(그림자·슬라이드 경로 제외)끼리 교차 > 0, 자막 구역(reserved_zones.subtitle) 교차.

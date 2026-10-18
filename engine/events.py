@@ -191,7 +191,9 @@ class FlightInset(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
     mid: str = Field(min_length=1)
-    side: Literal["right", "left", "up", "down"] = "up"
+    side: Literal["right", "left", "up", "down", "up_left", "up_right", "down_left", "down_right"] = "up"   # 대각 = v7.4.0(카드·마커 피하기)
+    hold_until: Optional[float] = None   # v7.4.0 D-0229 §2.7(UF-107) — 인셋을 이 시각(앵커)까지 유지. 이벤트 t1 ≥ hold_until
+    place: Optional[str] = None          # v7.4.0 — 같은 장소를 말하는 문장 동안 유지(rules flight.inset.hold_same_place). 자막에 나오는 이름 그대로
 
 
 class FlightEvent(_Event):
@@ -212,6 +214,8 @@ class FlightEvent(_Event):
     @model_validator(mode="after")
     def _long_enough(self) -> "FlightEvent":
         F = load_rules().flight  # noqa: N806
+        if self.inset is not None and self.inset.hold_until is not None and self.inset.hold_until > self.t1:
+            raise ValueError(f"[flight-inset-hold] inset.hold_until {self.inset.hold_until:.2f} > 이벤트 t1 {self.t1:.2f} — end 를 hold_until 뒤로")
         need = F.dur_sec + F.impact_sec + (F.inset.hold_sec if self.inset else 0.0)
         if self.t1 - self.t0 < need:
             raise ValueError(f"[flight-too-short] t1 - t0 = {self.t1 - self.t0:.2f}초 < 비행 {F.dur_sec} + 착탄 {F.impact_sec}"

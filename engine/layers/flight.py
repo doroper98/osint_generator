@@ -69,6 +69,10 @@ def inset_box(e: dict, x: float, y: float) -> tuple[float, float, float, float]:
     I = F.inset  # noqa: N806
     d = I.w_px
     side = (e.get("inset") or {}).get("side", "up")
+    if "_" in side:   # v7.4.0 — 대각(가까운 모서리가 표적에서 gap_px)
+        v, h = side.split("_")
+        g = I.gap_px / math.sqrt(2)
+        return (x - g - d if h == "left" else x + g), (y - g - d if v == "up" else y + g), d, d
     if side == "up":
         return x - d / 2, y - I.gap_px - d, d, d
     if side == "down":
@@ -87,7 +91,8 @@ def circle_path(ctx: cairo.Context, box: tuple[float, float, float, float]) -> N
 
 def inset_alpha(t: float, e: dict) -> float:
     th = hit_time(e)
-    return window(t, th - F.inset.lead_sec, th + F.inset.hold_sec + F.impact_sec, *F.inset.fade)
+    end = (e.get("inset") or {}).get("hold_until")   # v7.4.0 D-0229 §2.7 — 명시·같은 장소 유지
+    return window(t, th - F.inset.lead_sec, max(th + F.inset.hold_sec + F.impact_sec, end or 0.0), *F.inset.fade)
 
 
 InsetDrawer = Callable[[cairo.Context, RenderCtx, tuple[float, float, float, float], float, dict], None]
