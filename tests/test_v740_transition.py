@@ -109,5 +109,22 @@ class TimelinePauseTest(unittest.TestCase):
         self.assertEqual(a[2], b[2])
 
 
+class TransitionCameraTest(unittest.TestCase):
+    def test_fast_move_at_transition_hard(self) -> None:
+        import types  # noqa: PLC0415
+
+        from engine.camera import cam  # noqa: PLC0415
+        from engine.checks import transition_camera  # noqa: PLC0415
+        from script.schema import PlanTransition  # noqa: PLC0415
+
+        tr = [PlanTransition(sid="b_0", pause_t0=10.0, pause_sec=T.bridge_pause_sec, kind=["stage"])]
+        sents = [types.SimpleNamespace(sid="b_0", t0=11.5, t1=15.0)]
+        fast = [cam(10.5, 0, 0, 20, 2.0, "move")]
+        slow = [cam(10.5, 0, 0, 20, T.camera_move_min_sec + 0.5, "move")]
+        self.assertEqual(len(transition_camera(tr, sents, fast)), 1)
+        self.assertEqual(transition_camera(tr, sents, slow), [])
+        self.assertEqual(transition_camera([tr[0].model_copy(update={"kind": []})], sents, fast), [])
+
+
 if __name__ == "__main__":
     unittest.main()
