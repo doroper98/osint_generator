@@ -4,8 +4,8 @@
   "title": "경유의 길 — 사흘에 한 번",
   "category": "geopolitics",
   "created_at": "2026-10-17T13:36:28.700647Z",
-  "updated_at": "2026-10-18T13:24:21.309294Z",
-  "current_state": "direction",
+  "updated_at": "2026-10-18T14:33:25.394128Z",
+  "current_state": "render",
   "target_duration_min": 10,
   "topic_summary": "우크라이나의 러시아 정유소 타격과 러시아 경유 부족, 한국산 경유의 블라디보스토크행, 걸프 에너지 시설 타격, 미국의 러시아 경유 거래와 에너지 휴전 붕괴",
   "initial_links": [],
@@ -121,6 +121,27 @@
         "media_plan_errors": "0",
         "script_sha1": "50898199852355b7b27f36c732de2e9468fb8452",
         "media_plan": "사진 0/16 · 기사 후보 103문장 · 976초(plan)"
+      },
+      "chosen_version": null
+    },
+    {
+      "gate": "preview_approval",
+      "decision": "approved",
+      "by": "fable",
+      "at": "2026-10-18T14:33:25.394028Z",
+      "comment": "사용자 지시 2026-10-18 '바로 영상' · 감독 사전 위임 D-0243",
+      "rollback_to": null,
+      "shown": {
+        "sheet": "/home/user/osint_generator/projects/diesel_road_2026/prev/sheet.jpg",
+        "cuts": "16",
+        "provenance": "/home/user/osint_generator/projects/diesel_road_2026/prev/provenance.json",
+        "drops": "0",
+        "media_used": "quote 2 · article 15 · real 5",
+        "quote_candidates": "2",
+        "camera_suggest": "18",
+        "animatic": "out/animatic.mp4 · 976.939초 · direction 1b0a7331af5a45c241084ee5f939fbeb4779af52 · script 5089819985",
+        "user_feedback": "경고: 이 영상 의견 2건 장치 없음 — 영상 전달 뒤 첫 작업으로 장치(D217·D218): UF-116 \"콜드 오픈을 이렇게 바꿀께. 전장과는 조금 떨어져 있는 조용하던 10월 \" · UF-119 \"그리고 사진이 두장만 쓰이는거야? 뭐 더 추가 해야 될 사진은 없고? 몇\"",
+        "asset_library": "공용 자산 미승격 0"
       },
       "chosen_version": null
     }
@@ -660,6 +681,44 @@
       ],
       "drops": 0,
       "log": "logs/stages/32_camera_suggest.json"
+    },
+    {
+      "state": "direction",
+      "stage": "direction_validate",
+      "ok": true,
+      "at": "2026-10-18T14:26:34.921722Z",
+      "artifacts": {
+        "script": "/home/user/osint_generator/projects/diesel_road_2026/script.yaml",
+        "label_counts": "{\"verified\": 9, \"corroborated\": 15, \"unverified\": 130, \"disputed\": 5}"
+      },
+      "errors": [],
+      "drops": 0,
+      "log": "logs/stages/33_direction_validate.json"
+    },
+    {
+      "state": "direction",
+      "stage": "validate",
+      "ok": true,
+      "at": "2026-10-18T14:29:21.570715Z",
+      "artifacts": {
+        "direction": "/home/user/osint_generator/projects/diesel_road_2026/direction.yaml",
+        "summary": "{\"camera_keys\": 39, \"events\": 186, \"frames\": 23446}"
+      },
+      "errors": [],
+      "drops": 0,
+      "log": "logs/stages/34_validate.json"
+    },
+    {
+      "state": "direction",
+      "stage": "camera_suggest",
+      "ok": true,
+      "at": "2026-10-18T14:31:53.699252Z",
+      "artifacts": {
+        "camera_suggest": "/home/user/osint_generator/projects/diesel_road_2026/prev/camera_suggest.json"
+      },
+      "errors": [],
+      "drops": 0,
+      "log": "logs/stages/35_camera_suggest.json"
     }
   ],
   "final_outputs": {},
@@ -831,6 +890,24 @@
       "to_state": "direction",
       "transitioned_at": "2026-10-18T12:23:03.653379Z",
       "reason": "engine assets, assets_final ok"
+    },
+    {
+      "from_state": "direction",
+      "to_state": "preview_qa",
+      "transitioned_at": "2026-10-18T14:31:53.702130Z",
+      "reason": "engine direction_validate, validate, camera_suggest ok"
+    },
+    {
+      "from_state": "preview_qa",
+      "to_state": "preview_approval",
+      "transitioned_at": "2026-10-18T14:32:02.775473Z",
+      "reason": "콘티 판 v2.1(본 지도 480p) checks hard 0 · 프리뷰 checks hard 0 — 사용자 지시 '바로 영상'(D-0243): 검토 대기 없이 감독 사전 위임"
+    },
+    {
+      "from_state": "preview_approval",
+      "to_state": "render",
+      "transitioned_at": "2026-10-18T14:33:25.394087Z",
+      "reason": "preview_approval 승인 — fable"
     }
   ],
   "rollbacks": [
