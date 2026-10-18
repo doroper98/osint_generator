@@ -2501,7 +2501,7 @@
       ],
       "attributed_only": false,
       "claim_kind": "fact",
-      "notes": "D-0229 §3.2 추가(검색 요약 대조)"
+      "notes": "D-0229 §3.2 추가(검색 요약 대조); D-0232 §1 — AP 값(약 300km)이 지리(랴잔–모스크바 약 180~200km)와 어긋나고 원문 대조 불가 → 원고에서 삭제"
     },
     {
       "claim_id": "clm_0141",
@@ -2509,17 +2509,16 @@
       "source_ids": [
         "src_doc_0006"
       ],
-      "status": "verified",
+      "status": "unverified",
       "contested": false,
       "event_date": "2026-10-14",
       "checks": [
         "quote_match:src_doc_0006",
-        "independent_origins:1",
-        "official:src_doc_0006"
+        "independent_origins:1"
       ],
       "attributed_only": false,
       "claim_kind": "fact",
-      "notes": "D-0229 §3.2 추가(검색 요약 대조)"
+      "notes": "D-0229 §3.2 추가(검색 요약 대조); D-0232 §4 감독 조정 — judge 는 공식 문서(src_doc_0006)라 verified 로 올렸으나 덧붙인 근거는 검색 요약(원문 미열람)이라 unverified"
     },
     {
       "claim_id": "clm_0142",
@@ -2527,17 +2526,16 @@
       "source_ids": [
         "src_doc_0006"
       ],
-      "status": "verified",
+      "status": "unverified",
       "contested": false,
       "event_date": "2026-10-14",
       "checks": [
         "quote_match:src_doc_0006",
-        "independent_origins:1",
-        "official:src_doc_0006"
+        "independent_origins:1"
       ],
       "attributed_only": false,
       "claim_kind": "fact",
-      "notes": "D-0229 §3.2 추가(검색 요약 대조)"
+      "notes": "D-0229 §3.2 추가(검색 요약 대조); D-0232 §4 감독 조정 — judge 는 공식 문서(src_doc_0006)라 verified 로 올렸으나 덧붙인 근거는 검색 요약(원문 미열람)이라 unverified"
     },
     {
       "claim_id": "clm_0143",
@@ -2545,17 +2543,16 @@
       "source_ids": [
         "src_doc_0006"
       ],
-      "status": "verified",
+      "status": "unverified",
       "contested": false,
       "event_date": "2026-10-14",
       "checks": [
         "quote_match:src_doc_0006",
-        "independent_origins:1",
-        "official:src_doc_0006"
+        "independent_origins:1"
       ],
       "attributed_only": false,
       "claim_kind": "fact",
-      "notes": "D-0229 §3.2 추가(검색 요약 대조)"
+      "notes": "D-0229 §3.2 추가(검색 요약 대조); D-0232 §4 감독 조정 — judge 는 공식 문서(src_doc_0006)라 verified 로 올렸으나 덧붙인 근거는 검색 요약(원문 미열람)이라 unverified"
     },
     {
       "claim_id": "clm_0144",
