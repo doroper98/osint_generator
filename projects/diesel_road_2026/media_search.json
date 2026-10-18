@@ -72,6 +72,110 @@
    "rejected": [
     "문서·도식(application/pdf)"
    ]
+  },
+  {
+   "sid": "act1_1",
+   "query": "Ukrainian long-range drone hastemplate:\"PD-USGov-Military\"",
+   "pool": "us_dod_pd",
+   "on": "2026-10-18",
+   "found": 3,
+   "passed": 0,
+   "top": [],
+   "rejected": [
+    "문서·도식(application/pdf)"
+   ]
+  },
+  {
+   "sid": "act1_1",
+   "query": "Ukrainian long-range drone",
+   "pool": "commons_cc",
+   "on": "2026-10-18",
+   "found": 7,
+   "passed": 7,
+   "top": [
+    "File:Volodymyr Zelenskyy and Mette Frederiksen Inspected Ukrainian Long-Range Drones Procured with Denmark's Support on 19 November 2024 - 10.jpg",
+    "File:Volodymyr Zelenskyy and Mette Frederiksen Inspected Ukrainian Long-Range Drones Procured with Denmark's Support on 19 November 2024 - 12.jpg",
+    "File:Volodymyr Zelenskyy and Mette Frederiksen Inspected Ukrainian Long-Range Drones Procured with Denmark's Support on 19 November 2024 - 13.jpg",
+    "File:Volodymyr Zelenskyy and Mette Frederiksen Inspected Ukrainian Long-Range Drones Procured with Denmark's Support on 19 November 2024 - 5.jpg",
+    "File:Volodymyr Zelenskyy and Mette Frederiksen Inspected Ukrainian Long-Range Drones Procured with Denmark's Support on 19 November 2024 - 6.jpg"
+   ],
+   "rejected": []
+  },
+  {
+   "sid": "act1_7",
+   "query": "oil refinery fire Russia hastemplate:\"PD-USGov-Military\"",
+   "pool": "us_dod_pd",
+   "on": "2026-10-18",
+   "found": 2,
+   "passed": 0,
+   "top": [],
+   "rejected": [
+    "문서·도식(application/pdf)"
+   ]
+  },
+  {
+   "sid": "act1_7",
+   "query": "oil refinery fire Russia",
+   "pool": "commons_cc",
+   "on": "2026-10-18",
+   "found": 7,
+   "passed": 7,
+   "top": [
+    "File:Fire at the Moscow Oil Refinery on June 18, 2026 (20260618 131954).jpg",
+    "File:Fire at the Moscow Oil Refinery on June 18, 2026 (20260618 132232).jpg",
+    "File:Fire at the Moscow Oil Refinery on June 18, 2026 (20260618 132321).jpg",
+    "File:Fire at the Moscow Oil Refinery on June 18, 2026 (20260618 132423).jpg",
+    "File:Fire at the Moscow Oil Refinery on June 18, 2026 (20260618 132807).jpg"
+   ],
+   "rejected": []
+  },
+  {
+   "sid": "act1_8",
+   "query": "fluid catalytic cracking unit hastemplate:\"PD-USGov-Military\"",
+   "pool": "us_dod_pd",
+   "on": "2026-10-18",
+   "found": 0,
+   "passed": 0,
+   "top": [],
+   "rejected": []
+  },
+  {
+   "sid": "act1_8",
+   "query": "fluid catalytic cracking unit",
+   "pool": "commons_cc",
+   "on": "2026-10-18",
+   "found": 7,
+   "passed": 2,
+   "top": [
+    "File:Cracker USA 1944.png",
+    "File:Processes-12-00061-g001.png"
+   ],
+   "rejected": [
+    "CC BY-SA 4.0",
+    "문서·도식(application/pdf)"
+   ]
+  },
+  {
+   "sid": "act1_11",
+   "query": "refinery damage drone Russia hastemplate:\"PD-USGov-Military\"",
+   "pool": "us_dod_pd",
+   "on": "2026-10-18",
+   "found": 0,
+   "passed": 0,
+   "top": [],
+   "rejected": []
+  },
+  {
+   "sid": "act1_11",
+   "query": "refinery damage drone Russia",
+   "pool": "commons_cc",
+   "on": "2026-10-18",
+   "found": 4,
+   "passed": 0,
+   "top": [],
+   "rejected": [
+    "문서·도식(application/pdf)"
+   ]
   }
  ]
 }
