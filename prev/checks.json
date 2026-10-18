@@ -365,6 +365,12 @@
    "details": []
   },
   {
+   "id": "badge_clipped",
+   "severity": "hard",
+   "count": 0,
+   "details": []
+  },
+  {
    "id": "press_credit",
    "severity": "hard",
    "count": 0,

@@ -472,22 +472,6 @@
  "reserved": {
   "avoidance": [
    {
-    "badge": "트럼프",
-    "t0": 625.25,
-    "t1": 630.38,
-    "strategy": [
-     "edge"
-    ],
-    "direction": [
-     "down"
-    ],
-    "max_px": 22.8,
-    "zones": [
-     "screen"
-    ],
-    "frames": 124
-   },
-   {
     "badge": "노바크",
     "t0": 808.66,
     "t1": 815.01,
@@ -502,22 +486,6 @@
      "card"
     ],
     "frames": 152
-   },
-   {
-    "badge": "러시아",
-    "t0": 283.46,
-    "t1": 305.88,
-    "strategy": [
-     "edge"
-    ],
-    "direction": [
-     "down"
-    ],
-    "max_px": 34.7,
-    "zones": [
-     "screen"
-    ],
-    "frames": 539
    },
    {
     "badge": "러시아",
@@ -1320,7 +1288,7 @@
   "given_to_director": false,
   "from_current_direction": true,
   "fits": 18,
-  "current_fits_false": 6
+  "current_fits_false": 5
  },
  "lint_warnings": [
   "[map-theme-override] 지도 테마 dark — 장르 기본값 light 과 다름: 타격 중심 군사 전황 — D154 장르 예외, D232 U8",
@@ -2127,7 +2095,7 @@
  },
  "checks": {
   "source": "prev/provenance.json",
-  "direction_sha1": "0b592e170093648c2cb6b49bb66b0ca1c53fce35",
+  "direction_sha1": "c8e3440c01715eb764fae422029edb2a3ed90b54",
   "from_current_direction": true,
   "hard": 0,
   "warnings": 75,
