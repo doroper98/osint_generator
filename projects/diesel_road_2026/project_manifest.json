@@ -4,8 +4,8 @@
   "title": "경유의 길 — 사흘에 한 번",
   "category": "geopolitics",
   "created_at": "2026-10-17T13:36:28.700647Z",
-  "updated_at": "2026-10-17T19:23:39.547992Z",
-  "current_state": "done",
+  "updated_at": "2026-10-18T05:34:37.952503Z",
+  "current_state": "script_approval",
   "target_duration_min": 10,
   "topic_summary": "우크라이나의 러시아 정유소 타격과 러시아 경유 부족, 한국산 경유의 블라디보스토크행, 걸프 에너지 시설 타격, 미국의 러시아 경유 거래와 에너지 휴전 붕괴",
   "initial_links": [],
@@ -501,7 +501,28 @@
       "to_state": "done",
       "transitioned_at": "2026-10-17T19:23:39.547901Z",
       "reason": "engine deliver ok"
+    },
+    {
+      "from_state": "done",
+      "to_state": "script_draft",
+      "transitioned_at": "2026-10-18T05:29:21.787179Z",
+      "reason": "reopen → script_draft — user: v2 트랙(D-0229) — 사용자 의견 UF-104~117 반영 원고 v2.1 로 다시 제작"
+    },
+    {
+      "from_state": "script_draft",
+      "to_state": "script_approval",
+      "transitioned_at": "2026-10-18T05:34:37.952421Z",
+      "reason": "원고 v2.1 확정(린트 오류 0) — D-0234 수정본 7b532e20"
     }
   ],
-  "reopens": []
+  "reopens": [
+    {
+      "from_state": "done",
+      "to_state": "script_draft",
+      "by": "user",
+      "at": "2026-10-18T05:29:21.787153Z",
+      "reason": "v2 트랙(D-0229) — 사용자 의견 UF-104~117 반영 원고 v2.1 로 다시 제작",
+      "direction_version": 3
+    }
+  ]
 }
