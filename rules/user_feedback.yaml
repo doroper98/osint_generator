@@ -1656,3 +1656,14 @@ entries:
   status: open
   decision: "감독 기록 — v2 오프닝 재배치: cold_3 AP 기사 카드(+프레스 사진)를 cold_4 젤렌스키 인용까지 한 장으로 유지 → cold_5 는 지도로 복귀해 울산 경로 암시 → 타이틀. 규칙 후보 = 컷어웨이 뒤 지도 복귀 ≥ shot_min_hold_sec, 그 안에 또 컷어웨이면 검사 [cutaway-churn] hard(붙어 있으면 한 장으로 합친다). 장치는 v2 전달 뒤 첫 작업(C12 2)"
   source: 감독 세션(Fable) 사용자 대화 2026-10-18
+- id: UF-111
+  date: '2026-10-18'
+  project: diesel_road_2026
+  at: "1막 act1_6 오른쪽 상단 카드(러시아 월 경유 생산 · 750만 t / 약 590만 t) — 큰 숫자(display 글꼴 GmarketSans)의 t 가 십자 모양"
+  quote: 오른쪽 상단 아일랜드에 경유 t 을 표기 할때 끝이 구부러진 t 를 쓰던지, 아니면 영어로 Ton 이라고 써. 십자가 같은 t 를 쓰니까 이상해.
+  quote_kind: verbatim
+  category: 타이포 — 단위 기호 t 는 꼬리가 구부러진 글꼴로만(display 글꼴의 십자형 t 금지) 또는 단위를 글자로 풀어 씀
+  guards: []
+  status: open
+  decision: "감독 실측 — engine/cards.py 가 bigs(큰 숫자)를 'disp'(GmarketSans)로 그리고 단위 t 도 같은 글꼴에 들어가 십자형이 됨. v2: 큰 숫자의 단위 꼬리(t, kb/d 등 라틴 단위)는 sans(IBM Plex Sans KR, 꼬리 있는 t)로 분리해 그린다 — 사용자 선택지 ① '끝이 구부러진 t'. 규칙 후보 = fonts.unit_font: sans + 검사(display 글꼴 문자열에 라틴 단위 기호 금지). 장치는 v2 전달 뒤 첫 작업(C12 2)"
+  source: 감독 세션(Fable) 사용자 대화 2026-10-18
