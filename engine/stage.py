@@ -137,7 +137,25 @@ def by_w(w: float, rule: tuple[list[tuple[float, float]], float]) -> float:
     return last
 
 
-MERCATOR_CONFIG_KEYS = ("border_glow", "theme", "theme_reason")   # theme_reason = v5.18.0 D-0161 §7(direction 이 테마를 고를 때 사유)
+MERCATOR_CONFIG_KEYS = ("border_glow", "theme", "theme_reason", "map_layers", "map_layers_reason")   # theme_reason = v5.18.0 D-0161 §7(direction 이 테마를 고를 때 사유). map_layers = v7.4.0 D-0231
+
+
+MAP_LAYERS = ("roads", "rivers")   # v7.4.0 D-0231 — 켜고 끌 수 있는 지도 레이어(레지스트리, 그 밖 = 오류 P10)
+
+
+def map_layers(config: Optional[dict]) -> tuple[str, ...]:
+    """v7.4.0 D-0231 — 이 영상에 켠 지도 레이어. stage_config.mercator.map_layers(목록) 없으면 rules geo.map_layers_default.
+    기본과 다르게 고르면 map_layers_reason(사유) 필수."""
+    config = config or {}
+    default = tuple(load_rules().geo.map_layers_default)
+    if "map_layers" not in config:
+        return default
+    v = config["map_layers"]
+    if not isinstance(v, list) or any(x not in MAP_LAYERS for x in v):
+        raise StageError(f"mercator stage_config.map_layers 는 {list(MAP_LAYERS)} 의 부분 목록 — 받은 값 {v!r}")
+    if tuple(v) != default and not str(config.get("map_layers_reason", "")).strip():
+        raise StageError("mercator stage_config.map_layers 를 기본과 다르게 쓰면 map_layers_reason(사유)이 필요하다(D-0231)")
+    return tuple(v)
 
 
 def mercator_theme(config: Optional[dict]) -> str:
@@ -153,6 +171,7 @@ def mercator_theme(config: Optional[dict]) -> str:
         raise StageError("mercator stage_config.border_glow 는 true|false")
     if not isinstance(config.get("theme_reason", ""), str):
         raise StageError("mercator stage_config.theme_reason 은 문자열(테마를 고른 사유)")
+    map_layers(config)   # v7.4.0 D-0231 — 값 검사(없는 레이어 = 오류)
     th = load_rules().geo.themes
     name = config.get("theme", th.default)
     if name not in th.names():
@@ -169,6 +188,8 @@ class MercatorStage:
     def __init__(self, assets: "Optional[Assets]" = None, *, tiers: Optional[dict] = None, out: Optional[Output] = None,
                  config: Optional[dict] = None) -> None:
         self.theme_name = mercator_theme(config)
+        self.map_layers = map_layers(config)   # v7.4.0 D-0231 — 도로·강 켜기(골든 hormuz = [])
+        self.map_layers_reason = (config or {}).get("map_layers_reason")
         from engine.style import BORDER_GLOW  # noqa: PLC0415 — style → stage 순환 회피
 
         self.border_glow = bool((config or {}).get("border_glow", BORDER_GLOW.default_on))   # v5.4.0 국경선 글로우 — 지도 무대 기본(rules border_glow.default_on)
@@ -243,8 +264,10 @@ class MercatorStage:
         from engine.layers.rivers import draw_rivers  # noqa: PLC0415
         from engine.layers.roads import draw_roads  # noqa: PLC0415
 
-        draw_rivers(ctx, self, view)   # v7.4.0 D-0229 §2.1-2 — 지형 → 강 → 도로 → 국경·행정선
-        draw_roads(ctx, self, view)
+        if "rivers" in self.map_layers:   # v7.4.0 D-0229 §2.1-2·D-0231 — 지형 → 강 → 도로 → 국경·행정선
+            draw_rivers(ctx, self, view)
+        if "roads" in self.map_layers:
+            draw_roads(ctx, self, view)
         draw_borders(ctx, self, view)
 
     def _inside(self, view: "View", T: dict, m: float = MERCATOR_LOD["tier_inside_margin"]) -> bool:  # noqa: N803

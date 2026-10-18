@@ -207,7 +207,7 @@ def build(plan: Plan, keys: list[CamKey], events: list[dict], repo_version: str,
     feats = features(keys, events)
     feats["at_word"] = {"aligned": sum(1 for a in anchors if a["mode"] == "aligned"),
                         "ratio": sum(1 for a in anchors if a["mode"] == "ratio")}
-    feats["map_layers"] = map_layers(keys)   # v7.4.0 D-0229 §5 — 도로·강이 켜지는 폭의 카메라 키 수, 수도 상시 표기
+    feats["map_layers"] = map_layers(keys)   # v7.4.0 D-0229 §5 — 도로·강이 켜지는 폭의 카메라 키 수, 수도 상시 표기(켠 레이어·사유는 project_provenance)
     if plan.transitions:   # v7.4.0 D-0229 §2.2 — 시점 전환(bridge 호흡)이 있었을 때만(P5)
         feats["transitions"] = [t.model_dump() for t in plan.transitions]
     if plan.lint_waived:   # v5.17.0 D-0168 — 면제로 통과한 린트(없으면 쓰지 않는다, P5)

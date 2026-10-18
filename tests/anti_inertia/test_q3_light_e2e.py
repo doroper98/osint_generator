@@ -28,6 +28,8 @@ LIGHT = """stage_config:   # Q3 light e2e(D-0161 §5) — 원본과 이 블록�
   mercator:
     theme: light
     theme_reason: Q3 light 기준선(D-0161 §5) — 골든 원고·연출의 밝은 지도 판
+    map_layers: []
+    map_layers_reason: v3 골든 사용자 합격본 — D-0231
 """
 
 

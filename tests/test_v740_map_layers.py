@@ -74,6 +74,26 @@ class LodRenderTest(unittest.TestCase):
         self.assertEqual(_ink("dark", 60.0, draw_rivers), 0)
 
 
+class MapLayersConfigTest(unittest.TestCase):
+    """D-0231 — stage_config.mercator.map_layers: 기본 = rules geo.map_layers_default, 기본과 다르면 사유 필수, 없는 레이어 = 오류."""
+
+    def test_default_and_off(self) -> None:
+        self.assertEqual(MercatorStage(tiers=TIERS).map_layers, tuple(load_rules().geo.map_layers_default))
+        self.assertEqual(MercatorStage(tiers=TIERS, config={"map_layers": [], "map_layers_reason": "골든"}).map_layers, ())
+
+    def test_errors(self) -> None:
+        with self.assertRaises(StageError):
+            MercatorStage(tiers=TIERS, config={"map_layers": []})   # 사유 없음
+        with self.assertRaises(StageError):
+            MercatorStage(tiers=TIERS, config={"map_layers": ["railways"], "map_layers_reason": "x"})
+
+    def test_golden_off(self) -> None:
+        import yaml  # noqa: PLC0415
+
+        m = yaml.safe_load((REPO / "projects/hormuz_korea/direction.yaml").read_text(encoding="utf-8"))["stage_config"]["mercator"]
+        self.assertEqual(m["map_layers"], [])
+
+
 class ThemeTokenParityTest(unittest.TestCase):
     def test_same_key_sets(self) -> None:
         th = load_rules().geo.themes

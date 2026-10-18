@@ -237,6 +237,11 @@ def project_provenance(P, stages: dict[str, bool]) -> dict:  # noqa: ANN001, N80
         prov["map_contrast_fix"] = {"labels": {k: round(v, 2) for k, v in sorted(lcf.items())}}
     if P.R.cache.get("map_theme") is not None:   # v5.18.0 D-0161 §7 — 지도 테마(name·declared·genre_default·reason), 지도 무대만
         prov["map_theme"] = P.R.cache["map_theme"]
+    ml = getattr(P.R.stage, "map_layers", None)
+    if ml is not None and isinstance(prov.get("features_used", {}).get("map_layers"), dict):   # v7.4.0 D-0231 — 실제 켠 지도 레이어와 사유
+        f = prov["features_used"]["map_layers"]
+        f.update({k: (f.get(k, 0) if k in ml else 0) for k in ("roads", "rivers")},   # 끈 레이어는 돌지 않았다(P5)
+                 enabled=list(ml), reason=getattr(P.R.stage, "map_layers_reason", None))
     g = P.R.cache.get("genre") or {}
     prov["genre"] = {"name": g.get("name"), "declared": g.get("declared"), "status": g.get("status")}   # v4.2.0 D-0081 작업 3, v4.3.0 status(proposed 사용 기록)
     from genres.load import load_genre, load_order  # noqa: PLC0415

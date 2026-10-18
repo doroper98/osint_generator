@@ -945,6 +945,7 @@ geo:                       # D29(back_and_forth D-0019) — 지오 자산 단계
   # (dark = assets/, 그 밖 = assets/theme_<이름>/). 지도 선·지명 색(map)은 렌더가 읽는다. 고르기 = direction stage_config.mercator.theme.
   # dark = v3 사용자 합격 값 그대로(geo/prep_tiers 상수·engine/layers 리터럴·colors.sea_label 에서 이관, 출력 바이트 동일).
   # light = 가이드 23 §13·§15 시안 값(Q0 시제품 — 사용자 결정 뒤 Q3 에서 한 테마만 남긴다, D-0153 §2).
+  map_layers_default: [roads, rivers]   # v7.4.0 D-0231 — 지도 레이어 기본 켬. 끄려면 direction stage_config.mercator.map_layers + map_layers_reason(골든 hormuz = [])
   river_major_scalerank_max: 5   # v7.4.0 D-0229 §2.1-2 — NE 강 scalerank ≤ 5 = 큰 강(볼가·아무르·유프라테스·티그리스·네바), 그 밖 = 작은 강
   themes:
     default: dark

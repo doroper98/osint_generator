@@ -8,6 +8,8 @@ stage_config:   # v5.18.0 D-0170 §3-4 — 장르(지정학) 기본 테마는 li
   mercator:
     theme: dark
     theme_reason: v3 골든 기준 — 사용자 합격본(2026-09-28)은 어두운 지도, 지도 테마 두 개 정식화(D154) 이전 영상
+    map_layers: []
+    map_layers_reason: v3 골든 사용자 합격본 — D-0231
 places:
   hormuz: [56.35, 26.55]
   seoul: [126.98, 37.57]
