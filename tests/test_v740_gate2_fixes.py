@@ -53,5 +53,18 @@ class BadgeOrphanTest(unittest.TestCase):
         self.assertEqual(badge_orphans([self._flag(), marker]), [])
 
 
+class InsetPreferredTest(unittest.TestCase):
+    def test_hls_needs_reason(self) -> None:   # D-0240 후속 — 기본 = Esri, GIBS(HLS) 는 fallback_reason 필수
+        from engine.events import FlightInset
+        from engine.media_registry import load_media_registry
+        from rules import load_rules
+
+        pref = load_rules().media_beats.inset_preferred_license
+        reg = load_media_registry()
+        self.assertTrue(reg["inset_ryazan_esri"].license.startswith(pref))
+        self.assertFalse(reg["inset_ryazan_hls"].license.startswith(pref))
+        self.assertEqual(FlightInset(mid="inset_ryazan_hls", fallback_reason="Esri 타일 없음").fallback_reason, "Esri 타일 없음")
+
+
 if __name__ == "__main__":
     unittest.main()

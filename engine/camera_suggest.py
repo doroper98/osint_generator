@@ -40,7 +40,7 @@ class ShotSuggest(_Strict):
     t_end: float
     scene: str
     current: CamValue
-    current_mode: Literal["move", "cut"]
+    current_mode: Literal["move", "cut", "drift"]   # drift = v7.4.0 D-0241 §1
     suggested: Optional[CamValue] = None       # None = 제안 없음(장소 없음·화면이 덮임)
     suggested_transition: Optional[Literal["move", "dip"]] = None
     fits: bool = False                         # 제안 카메라에서 장소 전부 안전 영역 안·예약 영역 밖

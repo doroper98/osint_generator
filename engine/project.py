@@ -140,7 +140,11 @@ def preflight(R: RenderCtx, events: list[dict], files: bool = True) -> list[str]
                     errs.append(str(ex))
             if e["type"] == "flight" and e.get("inset"):   # v7.3.0 D-0206 — 위성 인셋 권리(콘티 판도 레지스트리는 본다)
                 try:
-                    validate_media({"type": "inset", "mid": e["inset"]["mid"], "t0": e["t0"]}, A.media_assets)
+                    ia = validate_media({"type": "inset", "mid": e["inset"]["mid"], "t0": e["t0"]}, A.media_assets)
+                    pref = load_rules().media_beats.inset_preferred_license
+                    if pref and not ia.license.startswith(pref) and not e["inset"].get("fallback_reason"):   # v7.4.0 D-0240 후속
+                        errs.append(f"[inset-fallback-reason] 인셋 {e['inset']['mid']} 라이선스 {ia.license!r} — 기본 타일({pref})이 아니면 "
+                                    "flight.inset.fallback_reason 에 사유(rules media_beats.inset_preferred_license)")
                 except RightsError as ex:
                     errs.append(str(ex))
             if e["type"] in ("photo", "clip", "cutout", "article"):

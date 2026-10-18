@@ -447,6 +447,9 @@ media_beats:               # 14 §10
   # v7.3.0 사용자 결정 D232 U1·D234 — 위성 인셋(kind inset) 라이선스 허용 목록(한 곳). 목록 밖 = 레지스트리 로드 오류(RightsError).
   # private_only: true = 비공개 시청 한정(사용자 결정 D234) — 레지스트리 항목에 scope: private_only 필수, provenance private_only_assets 에 기록.
   # 공개 전환 시 private_only 인셋은 NASA GIBS/Sentinel 타일로 교체할 의무가 있다(교체 전 공개 금지).
+  # v7.4.0 back_and_forth D-0240 §1 후속(감독 지시) — 위성 인셋 기본 = 이 라이선스로 시작하는 타일(Esri, D234 U1). 그 밖(NASA GIBS 등)은
+  # 연출 flight.inset.fallback_reason(사유) 없으면 load_project 오류 [inset-fallback-reason](AI 초안이 저해상 GIBS 를 고른 사고)
+  inset_preferred_license: "Esri World Imagery"
   inset_licenses:
     "NASA GIBS (public domain)": {private_only: false}
     "Copernicus Sentinel data (free, full and open)": {private_only: false}

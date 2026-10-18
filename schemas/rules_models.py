@@ -347,6 +347,7 @@ class MediaBeats(_Strict):
     sources_order: list["PhotoSourcePool"] = Field(min_length=1)   # v5.19.0 D-0163 §2 — 사진 소싱 풀 순서(media_fetch search)
     sources_excluded_licenses: list[str] = Field(default_factory=list)   # 라이선스 이름 조각(NC·ND) — 있으면 탈락
     sources_excluded_mimes: list[str] = Field(default_factory=list)      # v5.21.0 — 문서·도식 mime(pdf·svg) — 통과 수 밖
+    inset_preferred_license: str = ""   # v7.4.0 D-0240 후속 — 위성 인셋 기본 라이선스 접두(그 밖은 fallback_reason 필수)
     inset_licenses: dict[str, "InsetLicense"] = Field(default_factory=dict)   # v7.3.0 D232 U1·D234 — 위성 인셋 라이선스 허용 목록
 
 

@@ -194,6 +194,7 @@ class FlightInset(BaseModel):
     side: Literal["right", "left", "up", "down", "up_left", "up_right", "down_left", "down_right"] = "up"   # 대각 = v7.4.0(카드·마커 피하기)
     hold_until: Optional[float] = None   # v7.4.0 D-0229 §2.7(UF-107) — 인셋을 이 시각(앵커)까지 유지. 이벤트 t1 ≥ hold_until
     place: Optional[str] = None          # v7.4.0 — 같은 장소를 말하는 문장 동안 유지(rules flight.inset.hold_same_place). 자막에 나오는 이름 그대로
+    fallback_reason: Optional[str] = None   # v7.4.0 D-0240 후속 — 기본(rules media_beats.inset_preferred_license)이 아닌 타일을 쓰는 사유
 
 
 class FlightEvent(_Event):
