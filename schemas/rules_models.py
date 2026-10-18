@@ -1567,6 +1567,7 @@ class QAChecks(_Strict):
     frame_missing: "FrameMissingRules"   # v5.21.14 D-0199 — 문장이 부르는 지명이 화면 밖
     battle_geo: "BattleGeoRules"         # v5.22.0 D-0200 UF-08 — 전황 문장에 지명·경로 없음(warning)
     card_full_exposure_min_sec: float = Field(gt=0)   # v5.21.10 D-0191 §1-2 — 기사·인용 카드 완전 불투명 구간 하한(hard card_exposure)
+    cutaway_full_types: list[str] = Field(min_length=1)   # v7.4.0 D-0229 §2.3(UF-110) — 화면 전체를 덮는 컷어웨이 이벤트(hard cutaway_churn). 지도 복귀 ≥ shot_min_hold_sec
     label_jump_px: float = Field(gt=0)   # v5.22.7 D209 — 경로 이름표 수명 중 자리 이동 상한(hard label_jump)
     camera_bounds_rel_tol: float = Field(gt=0)   # v7.1.0 UF-99 D-0220 — 요청 ≠ 화면 카메라(경계 클램프) 허용 오차 ÷ w(hard camera_bounds)
     label_slot_sample_sec: float = Field(gt=0)   # v5.22.7 D210 — 이름표 수명 표본 간격(route_label_slots)

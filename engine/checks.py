@@ -34,6 +34,7 @@ hard 실패가 하나라도 있으면 시각 검수 LLM 을 부르지 않고 연
 | label_jump | hard | 경로 이름표가 보이는 중에 자리를 옮김(한 프레임 사이 상대 위치 변화 > qa_checks.label_jump_px, v5.22.7 D209) — 자리는 `route_label_slots`(나타나는 순간 고정) |
 | camera_speed | hard | 카메라 pan(화면 폭/초)·zoom(|d ln w/dt|) > rules shot_grammar.camera_speed(제목 카드 전 오프닝은 더 낮은 상한) — `engine.camera.speed`, 스케치 SK-C1 같은 함수(v6.0.2 UF-97·D-0216) |
 | title_backdrop | hard | 제목 카드 직전 1초 장면 ≠ 제목 바탕(기사 카드·암전·지도) — 카드 → 지도 → 제목 깜박임(v6.0.2 UF-98·D-0216) |
+| cutaway_churn | hard | 전면 컷어웨이(qa_checks.cutaway_full_types) 끝 → 지도 < shot_min_hold_sec → 다음 전면 컷어웨이 `[cutaway-churn]`(v7.4.0 UF-110·D-0229 §2.3) |
 | camera_bounds | hard | 요청 카메라가 무대 경계 밖이라 렌더 View 가 잘랐다 — 화면이 멈췄다가 이동 중간에 꺾임(지도·시간축·차트 아일랜드). camera_continuity·camera_speed 는 화면 궤적(`engine.camera.screen_track`)을 잰다(v7.1.0 UF-99·D-0220) |
 | portrait_unused | warning | 인물 이름이 나오고 초상이 있는데 그 인물 뱃지·인용 없음(v5.22.0 D-0200 UF-10) |
 | genre_elements | hard | 장르 요소(v4.2.0 D-0081 작업 3, GOAL G3-17): direction 이 쓴 이벤트·패널·뱃지·프리미티브 종류(genres.elements) ⊆ 장르 프로필 primitives.reuse ∪ new |
@@ -85,7 +86,7 @@ SHADOW_PX = 7             # badge_box 가 원 둘레에 더하는 그림자 여�
 HARD = ("map_contrast", "overlap", "offscreen", "glyphs", "glyph_size", "labels", "date", "subtitles", "rights", "forbidden", "stage_continuity",
         "genre_elements", "chart_honesty", "series_limit_3", "units_visible", "as_of_visible", "boundary_as_route",
         "geo_mismatch", "timeline_rescale", "backdrop_rights", "backdrop_repeat", "island_overlap",
-        "backdrop_main_missing", "island_label_clip", "cascade", "subtitle_overlap", "label_collision", "timeline_span", "route_frame", "panel_overflow", "flag_territory", "badge_over_panel", "opening_establish", "camera_continuity", "card_exposure", "route_label_cross", "route_label_overlap", "article_backdrop", "quote_in_script", "route_missing_other", "frame_missing_target", "route_missing", "frame_missing", "bgm_decision", "endcard_black", "camera_per_sentence", "label_jump", "camera_speed", "title_backdrop", "camera_bounds")   # island_label_clip v5.2.0 D-0133 §2, backdrop_main_missing v5.2.0 D-0129 §B, island_overlap v5.1.0 D-0126 Q3, geo_mismatch v4.10.0 D-0116, timeline_rescale v5.1.0 D-0121 §A, backdrop_* v5.1.0 D-0123
+        "backdrop_main_missing", "island_label_clip", "cascade", "subtitle_overlap", "label_collision", "timeline_span", "route_frame", "panel_overflow", "flag_territory", "badge_over_panel", "opening_establish", "camera_continuity", "card_exposure", "route_label_cross", "route_label_overlap", "article_backdrop", "quote_in_script", "route_missing_other", "frame_missing_target", "route_missing", "frame_missing", "bgm_decision", "endcard_black", "camera_per_sentence", "label_jump", "camera_speed", "title_backdrop", "camera_bounds", "cutaway_churn")   # cutaway_churn v7.4.0 D-0229 §2.3, island_label_clip v5.2.0 D-0133 §2, backdrop_main_missing v5.2.0 D-0129 §B, island_overlap v5.1.0 D-0126 Q3, geo_mismatch v4.10.0 D-0116, timeline_rescale v5.1.0 D-0121 §A, backdrop_* v5.1.0 D-0123
 WARN = ("shots", "media_beats", "media_upscaled", "endcard_roll", "geo_unsourced",   # endcard_roll v4.7.0 D-0106, geo_unsourced D-0107
         "static_window", "stage_choice", "card_island", "island_label_overlap", "cascade_label_hidden",
         "map_contrast_shape", "battle_geo", "portrait_unused")   # v5.21.14 D-0195·D-0199. map_contrast_shape v5.18.0 D-0161 §4   # static_window v4.11.0 D-0118, stage_choice v5.1.0 D-0123, card_island v5.2.0 D-0129 §C, island_label_overlap D-0133 §3
@@ -1065,6 +1066,19 @@ def check_title_backdrop(P) -> list[str]:  # noqa: ANN001, N803
     return out
 
 
+def cutaway_churn(events: list[dict]) -> list[str]:
+    """v7.4.0 D-0229 §2.3(UF-110) — 전면 컷어웨이(qa_checks.cutaway_full_types)가 끝난 뒤 지도로 돌아온 시간이
+    shot_grammar.shot_min_hold_sec 미만인데 다음 전면 컷어웨이가 시작하면 hard. 붙어 있는(간격 ≤ 0) 둘은 한 장면이라 통과."""
+    full = sorted((e for e in events if e["type"] in QA.cutaway_full_types), key=lambda e: e["t0"])
+    out = []
+    for a, b in zip(full, full[1:]):
+        gap = b["t0"] - a["t1"]
+        if 0 < gap < SG.shot_min_hold_sec:
+            out.append(f"[cutaway-churn] {a['type']} {a.get('mid') or ''}(~{a['t1']:.1f}) → 지도 {gap:.1f}초 → {b['type']} {b.get('mid') or ''}"
+                       f"({b['t0']:.1f}~) — 지도 복귀 < {SG.shot_min_hold_sec}초. 같은 문장 묶음이면 한 이벤트로 합치고, 아니면 지도에 머문다(UF-110)")
+    return out
+
+
 def check_card_exposure(P) -> list[str]:  # noqa: ANN001, N803
     """기사·인용 카드 완전 노출(v5.21.10 D-0191 §1-2) — 그리기와 같은 구간 함수(article_full_span·quote_full_span)로
     완전 불투명 구간 < qa_checks.card_full_exposure_min_sec 이면 카드마다 한 줄."""
@@ -1495,6 +1509,7 @@ def run_checks(P, times: list[float], provenance: dict, drawn: list[tuple[str, f
         "camera_speed": lambda: check_camera_speed(P),   # v6.0.2 UF-97 D-0216(hard)
         "camera_bounds": lambda: check_camera_bounds(P),   # v7.1.0 UF-99 D-0220(hard)
         "title_backdrop": lambda: check_title_backdrop(P),   # v6.0.2 UF-98 D-0216(hard)
+        "cutaway_churn": lambda: cutaway_churn(P.events),     # v7.4.0 UF-110 D-0229 §2.3(hard)
         "portrait_unused": lambda: check_portrait_unused(P),  # v5.22.0 D-0200 UF-10(warning)
         "genre_elements": lambda: check_genre_elements(P),
         "boundary_as_route": lambda: list((P.R.cache.get("geo_check") or {}).get("boundary") or []),
