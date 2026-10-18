@@ -4,8 +4,8 @@
   "title": "경유의 길 — 사흘에 한 번",
   "category": "geopolitics",
   "created_at": "2026-10-17T13:36:28.700647Z",
-  "updated_at": "2026-10-18T07:13:42.758382Z",
-  "current_state": "direction",
+  "updated_at": "2026-10-18T08:19:40.640952Z",
+  "current_state": "preview_qa",
   "target_duration_min": 10,
   "topic_summary": "우크라이나의 러시아 정유소 타격과 러시아 경유 부족, 한국산 경유의 블라디보스토크행, 걸프 에너지 시설 타격, 미국의 러시아 경유 거래와 에너지 휴전 붕괴",
   "initial_links": [],
@@ -489,6 +489,58 @@
       "errors": [],
       "drops": 0,
       "log": "logs/stages/20_assets_final.json"
+    },
+    {
+      "state": "direction",
+      "stage": "director",
+      "ok": false,
+      "at": "2026-10-18T07:51:38.364859Z",
+      "artifacts": {
+        "out0": "llm_calls/llm_20261018_073432_a522.json"
+      },
+      "errors": [
+        "check_parsed: 렌더 전 점검 실패:\n권리 레지스트리에 인물 없음: zelensky (badge t0=23.19)\n권리 레지스트리에 휘장 없음: cheongwadae\n권리 레지스트리에 휘장 없음: cheongwadae\n권리 레지스트리에 인물 없음: trump (badge t0=624.53)\n권리 레지스트리에 인물 없음: bessent (badge t0=785.60)\n권리 레지스트리에 인물 없음: novak (badge t0=807.94)\n권리 레지스트리에 인물 없음: bessent (badge t0=814.89)\n권리 레지스트리에 인물 없음: trump (panel t0=836.85)\n권리 레지스트리에 인물 없음: zelensky (panel t0=836.85)\n권리 레지스트리에 인물 없음: trump (quote t0=843.53)\n권리 레지스트리에 인물 없음: trump (badge t0=861.64)\n권리 레지스트리에 인물 없음: zelensky (quote t0=890.90)\n권리 레지스트리에 인물 없음: zelensky (badge t0=895.67)\n권리 레지스트리에 인물 없음: zelensky (badge t0=921.47)\n자산 없음: /home/user/osint_generator/projects/diesel_road_2026/assets/emblems/cheongwadae.png (키 emblem:cheongwadae)\n자산 없음: /home/user/osint_generator/projects/diesel_road_2026/assets/flags/ru_1x1.png (키 flag11:ru)\n자산 없음: /home/user/osint_generator/projects/diesel_road_2026/assets/flags/us_1x1.png (키 flag11:us)\n자산 없음: /home/user/osint_generator/projects/diesel_road_2026/assets/flags/ru_4x3.png (키 flag43:ru)\n자산 없음: /home/user/osint_generator/projects/diesel_road_2026/assets/flags/ua_4x3.png (키 flag43:ua)\n자산 없음: /home/user/osint_generator/projects/diesel_road_2026/assets/flags/us_4x3.png (키 flag43:us)\n자산 없음: /home/user/osint_generator/projects/diesel_road_2026/assets/portraits/bessent.png (키 portrait:bessent)\n자산 없음: /home/user/osint_generator/projects/diesel_road_2026/assets/portraits/novak.png (키 portrait:novak)\n자산 없음: /home/user/osint_generator/projects/diesel_road_2026/assets/portraits/trump.png (키 portrait:trump)\n자산 없음: /home/user/osint_generator/projects/diesel_road_2026/assets/portraits/zelensky.png (키 portrait:zelensky)"
+      ],
+      "drops": 0,
+      "log": "logs/stages/21_director.json"
+    },
+    {
+      "state": "direction",
+      "stage": "direction_validate",
+      "ok": true,
+      "at": "2026-10-18T08:15:11.801731Z",
+      "artifacts": {
+        "script": "/home/user/osint_generator/projects/diesel_road_2026/script.yaml",
+        "label_counts": "{\"verified\": 9, \"corroborated\": 15, \"unverified\": 130, \"disputed\": 5}"
+      },
+      "errors": [],
+      "drops": 0,
+      "log": "logs/stages/22_direction_validate.json"
+    },
+    {
+      "state": "direction",
+      "stage": "validate",
+      "ok": true,
+      "at": "2026-10-18T08:17:25.034369Z",
+      "artifacts": {
+        "direction": "/home/user/osint_generator/projects/diesel_road_2026/direction.yaml",
+        "summary": "{\"camera_keys\": 10, \"events\": 179, \"frames\": 23429}"
+      },
+      "errors": [],
+      "drops": 0,
+      "log": "logs/stages/23_validate.json"
+    },
+    {
+      "state": "direction",
+      "stage": "camera_suggest",
+      "ok": true,
+      "at": "2026-10-18T08:19:40.637505Z",
+      "artifacts": {
+        "camera_suggest": "/home/user/osint_generator/projects/diesel_road_2026/prev/camera_suggest.json"
+      },
+      "errors": [],
+      "drops": 0,
+      "log": "logs/stages/24_camera_suggest.json"
     }
   ],
   "final_outputs": {},
@@ -624,6 +676,12 @@
       "to_state": "direction",
       "transitioned_at": "2026-10-18T07:13:42.758300Z",
       "reason": "engine assets, assets_final ok"
+    },
+    {
+      "from_state": "direction",
+      "to_state": "preview_qa",
+      "transitioned_at": "2026-10-18T08:19:40.640876Z",
+      "reason": "engine direction_validate, validate, camera_suggest ok"
     }
   ],
   "rollbacks": [

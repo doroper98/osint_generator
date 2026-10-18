@@ -4,14 +4,14 @@
   "task_id": "director-diesel_road_2026",
   "worker": "director",
   "status": "failed",
-  "started_at": "2026-10-17T16:23:26.127495Z",
-  "completed_at": "2026-10-17T16:34:30.974667Z",
+  "started_at": "2026-10-18T07:34:32.385048Z",
+  "completed_at": "2026-10-18T07:51:38.337388Z",
   "outputs": [
-    "llm_calls/llm_20261017_162326_43e4.json"
+    "llm_calls/llm_20261018_073432_a522.json"
   ],
   "warnings": [],
   "errors": [
-    "check_parsed: 이벤트 검증 실패(렌더 시작 전):\n[18] flight: 1 validation error for FlightEvent\n  Value error, [flight-too-short] t1 - t0 = 3.46초 < 비행 2.4 + 착탄 1.6 = 4.00초 (잘라 그리지 않는다, P6) [type=value_error, input_value={'type': 'flight', 't0': ... 'teal', 'impact': True}, input_type=dict]\n    For further information visit https://errors.pydantic.dev/2.13/v/value_error"
+    "check_parsed: 렌더 전 점검 실패:\n권리 레지스트리에 인물 없음: zelensky (badge t0=23.19)\n권리 레지스트리에 휘장 없음: cheongwadae\n권리 레지스트리에 휘장 없음: cheongwadae\n권리 레지스트리에 인물 없음: trump (badge t0=624.53)\n권리 레지스트리에 인물 없음: bessent (badge t0=785.60)\n권리 레지스트리에 인물 없음: novak (badge t0=807.94)\n권리 레지스트리에 인물 없음: bessent (badge t0=814.89)\n권리 레지스트리에 인물 없음: trump (panel t0=836.85)\n권리 레지스트리에 인물 없음: zelensky (panel t0=836.85)\n권리 레지스트리에 인물 없음: trump (quote t0=843.53)\n권리 레지스트리에 인물 없음: trump (badge t0=861.64)\n권리 레지스트리에 인물 없음: zelensky (quote t0=890.90)\n권리 레지스트리에 인물 없음: zelensky (badge t0=895.67)\n권리 레지스트리에 인물 없음: zelensky (badge t0=921.47)\n자산 없음: /home/user/osint_generator/projects/diesel_road_2026/assets/emblems/cheongwadae.png (키 emblem:cheongwadae)\n자산 없음: /home/user/osint_generator/projects/diesel_road_2026/assets/flags/ru_1x1.png (키 flag11:ru)\n자산 없음: /home/user/osint_generator/projects/diesel_road_2026/assets/flags/us_1x1.png (키 flag11:us)\n자산 없음: /home/user/osint_generator/projects/diesel_road_2026/assets/flags/ru_4x3.png (키 flag43:ru)\n자산 없음: /home/user/osint_generator/projects/diesel_road_2026/assets/flags/ua_4x3.png (키 flag43:ua)\n자산 없음: /home/user/osint_generator/projects/diesel_road_2026/assets/flags/us_4x3.png (키 flag43:us)\n자산 없음: /home/user/osint_generator/projects/diesel_road_2026/assets/portraits/bessent.png (키 portrait:bessent)\n자산 없음: /home/user/osint_generator/projects/diesel_road_2026/assets/portraits/novak.png (키 portrait:novak)\n자산 없음: /home/user/osint_generator/projects/diesel_road_2026/assets/portraits/trump.png (키 portrait:trump)\n자산 없음: /home/user/osint_generator/projects/diesel_road_2026/assets/portraits/zelensky.png (키 portrait:zelensky)"
   ],
   "scene_refs": [],
   "source_refs": [],
@@ -20,8 +20,8 @@
   "risk_flags": [],
   "worker_provenance": {
     "prompt_name": "director",
-    "prompt_sha1": "f93d5fe89da5b7c9fb47d897604520337fcdc8fc",
-    "rules_hash": "f8c68106a6f78135c2b8e21f4018695207364e60",
+    "prompt_sha1": "f314c2ac5c415a5d2f34c8ffea831ed3d9e90703",
+    "rules_hash": "764a5271d92d868cec46efda268a4d1ae21e005b",
     "genre": null,
     "genre_declared": null
   }
