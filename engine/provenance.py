@@ -44,6 +44,17 @@ def features(keys: list[CamKey], events: list[dict]) -> dict:
     }
 
 
+def map_layers(keys: list[CamKey]) -> dict:
+    """v7.4.0 D-0229 §2.1·§5 — 카메라 키 폭(w)으로 본 지도 레이어 사용: roads·rivers = 그 레이어가 보이기 시작하는 폭(engine.stage.MERCATOR_LOD
+    roads_fade·rivers_fade) 아래 키 수, capitals = rules labels.capital_always. 키 폭은 지도 무대 기준(다른 무대 키도 세므로 상한값)."""
+    from engine.stage import MERCATOR_LOD as LOD  # noqa: PLC0415
+
+    rf, vf = LOD["roads_fade"], LOD["rivers_fade"]
+    return {"roads": sum(1 for k in keys if k.w < max(rf["w"], rf["motorway_w"])),
+            "rivers": sum(1 for k in keys if k.w < max(vf["major_w"], vf["minor_w"])),
+            "capitals": bool(load_rules().labels.capital_always)}
+
+
 def private_only_assets(events: list[dict]) -> list[str]:
     """v7.3.0 D234 — 이 연출이 쓰는 미디어 중 scope private_only(비공개 시청 한정)인 mid. 비어 있지 않으면 공개 배포 금지."""
     from engine.media_registry import cached_registry  # noqa: PLC0415
@@ -196,6 +207,9 @@ def build(plan: Plan, keys: list[CamKey], events: list[dict], repo_version: str,
     feats = features(keys, events)
     feats["at_word"] = {"aligned": sum(1 for a in anchors if a["mode"] == "aligned"),
                         "ratio": sum(1 for a in anchors if a["mode"] == "ratio")}
+    feats["map_layers"] = map_layers(keys)   # v7.4.0 D-0229 §5 — 도로·강이 켜지는 폭의 카메라 키 수, 수도 상시 표기
+    if plan.transitions:   # v7.4.0 D-0229 §2.2 — 시점 전환(bridge 호흡)이 있었을 때만(P5)
+        feats["transitions"] = [t.model_dump() for t in plan.transitions]
     if plan.lint_waived:   # v5.17.0 D-0168 — 면제로 통과한 린트(없으면 쓰지 않는다, P5)
         feats["lint"] = {"waived": plan.lint_waived}
     rows = [s.alignment for s in plan.sentences if s.alignment is not None]
