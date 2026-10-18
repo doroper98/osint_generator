@@ -25,7 +25,9 @@ from pydantic import ValidationError
 
 from orchestrator.config import AppConfig, load_config, project_dir
 from orchestrator.errors import ManifestCorruptError, ManifestVersionError
-from orchestrator.state_machine import GATES, ROLLBACKS, coerce, is_rollback, next_state, validate_reopen, validate_transition
+from orchestrator.state_machine import (
+    GATES, ROLLBACKS, coerce, is_rollback, next_state, validate_reopen, validate_script_fix_rollback, validate_transition,
+)
 from schemas.models import (
     MANIFEST_SCHEMA_VERSION,
     Category,
@@ -34,6 +36,7 @@ from schemas.models import (
     ProjectManifest,
     ProjectState,
     ReopenRecord,
+    RollbackRecord,
     StateTransition,
 )
 
@@ -328,11 +331,14 @@ def transition_state(
 
 
 def _apply_transition(
-    manifest: ProjectManifest, next_state: ProjectState | str, reason: str, cfg: AppConfig, reopen: bool = False
+    manifest: ProjectManifest, next_state: ProjectState | str, reason: str, cfg: AppConfig, reopen: bool = False,
+    script_fix: bool = False,
 ) -> ProjectManifest:
     target = coerce(next_state)
     if reopen:
         validate_reopen(manifest.current_state, target)
+    elif script_fix:
+        validate_script_fix_rollback(manifest.current_state, target)
     else:
         validate_transition(manifest.current_state, target)
     if target == ProjectState.SCRIPT_APPROVAL:   # v3.2.0 18 §7 — claim id 없는 주장 문장이 있으면 게이트 ① 전에 차단
@@ -373,6 +379,26 @@ def reopen(
     manifest.reopens.append(ReopenRecord(from_state=coerce(manifest.current_state), to_state=tgt, by=by, reason=reason,
                                          direction_version=ver))
     return _apply_transition(manifest, tgt, f"reopen → {tgt.value} — {by}: {reason}", cfg, reopen=True)
+
+
+def rollback(
+    manifest: ProjectManifest,
+    to: ProjectState | str,
+    by: str,
+    reason: str,
+    cfg: Optional[AppConfig] = None,
+) -> ProjectManifest:
+    """게이트 ① 승인 뒤 원고 사실 수정 → script_draft(v7.4.0 back_and_forth D-0237, D246). 사유 필수, manifest.rollbacks 에
+    사유·되돌리는 시점의 원고 지문. 그 뒤 게이트 ① 을 다시 승인해야 콘티 판·게이트 ② 가 통과한다(approved_script_sha1 대조)."""
+    cfg = cfg or load_config()
+    tgt = coerce(to)
+    validate_script_fix_rollback(manifest.current_state, tgt)
+    if not reason.strip():
+        raise ValueError("rollback 사유(reason)가 비었다 — 원고의 무엇을 왜 고치는지 적는다")
+    fp = script_sha1(project_dir(manifest.project_id, cfg)) or None
+    manifest.rollbacks.append(RollbackRecord(from_state=coerce(manifest.current_state), to_state=tgt, by=by, reason=reason,
+                                             script_fingerprint_before=fp))
+    return _apply_transition(manifest, tgt, f"rollback → {tgt.value} — {by}: {reason}", cfg, script_fix=True)
 
 
 def record_stage(manifest: ProjectManifest, record: StageRecord, cfg: Optional[AppConfig] = None) -> ProjectManifest:

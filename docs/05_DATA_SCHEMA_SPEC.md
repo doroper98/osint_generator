@@ -78,6 +78,8 @@ last_review: 2026-09-29
 | render_mode_status | dict[str, str] | debug/preview/final 별 상태 |
 | gate_decisions | list[`GateDecision`] | v3.0.0 — 승인 게이트 기록(gate·decision·by·at·comment·rollback_to·shown, v3.1.0 optional `chosen_version` = 게이트 ② 에서 고른 AI 연출 판). 옛 approval_status 대체 |
 | stage_records | list[`StageRecord`] | v3.0.0 — 엔진 단계 실행 요약(전체 StageResult 는 logs/stages/) |
+| reopens | list[`ReopenRecord`] | v4.7.0 D-0104 D4 — 렌더 이후 되돌림(from·to·by·at·reason·direction_version, 선택) |
+| rollbacks | list[`RollbackRecord`] | v7.4.0 D-0237 — 게이트 ① 승인 뒤 원고 사실 수정 되돌림(렌더 전 단계 → script_draft; from·to·by·at·reason·script_fingerprint_before, 선택). 그 뒤 게이트 ① 재승인 |
 | final_outputs | dict[str, str] | 최종 산출물 경로 |
 
 ### 3.2 `TaskQueue` / `TaskQueueItem`

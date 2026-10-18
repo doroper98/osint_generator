@@ -23,6 +23,7 @@
 - gate-view --project {pid}                  : 승인 게이트 화면 텍스트 (16 §5)
 - approve --project {pid} --gate G [--comment]: 게이트 승인 → 다음 상태
 - reject --project {pid} --gate G --to S --comment C : 게이트 반려 → 16 §2 역전이
+- rollback --project {pid} --to script_draft --reason R : 게이트 ① 승인 뒤 원고 사실 수정(렌더 전, v7.4.0 D-0237)
 - version                                   : 현재 버전 출력
 """
 
@@ -240,6 +241,12 @@ def build_parser() -> argparse.ArgumentParser:
     rop.add_argument("--reason", required=True)
     rop.add_argument("--by", default="user")
 
+    rbp = sub.add_parser("rollback", help="게이트 ① 승인 뒤 원고 사실 수정 → script_draft (사유 필수, v7.4.0 D-0237)")
+    rbp.add_argument("--project", required=True)
+    rbp.add_argument("--to", required=True, choices=["script_draft"])
+    rbp.add_argument("--reason", required=True)
+    rbp.add_argument("--by", default="user")
+
     sub.add_parser("version", help="버전 출력")
 
     return parser
@@ -386,6 +393,8 @@ def main(argv: list[str] | None = None) -> int:
         return _cmd_pipeline(args)
     if args.cmd == "reopen":
         return _cmd_reopen(args)
+    if args.cmd == "rollback":
+        return _cmd_rollback(args)
 
     parser.error("unknown command")
     return 2
@@ -408,6 +417,27 @@ def _cmd_reopen(args: argparse.Namespace) -> int:
         return 2
     rec = manifest.reopens[-1]
     print(f"reopen: {before} → {manifest.current_state} (연출 판 v{rec.direction_version})")
+    print(f"next   : {next_action(manifest.current_state)}")
+    return 0
+
+
+def _cmd_rollback(args: argparse.Namespace) -> int:
+    """rollback — 게이트 ① 승인 뒤 원고 사실 수정 → script_draft(v7.4.0 D-0237). manifest.rollbacks 에 사유·원고 지문."""
+    from orchestrator.errors import ManifestError
+    from orchestrator.pipeline import next_action
+    from orchestrator.project_manager import load_manifest, rollback
+
+    try:
+        before = load_manifest(args.project).current_state
+        manifest = rollback(load_manifest(args.project), args.to, by=args.by, reason=args.reason)
+    except (FileNotFoundError, ManifestError) as e:
+        print(f"error: {e}", file=sys.stderr)
+        return 1
+    except ValueError as e:
+        print(f"error: {e}", file=sys.stderr)
+        return 2
+    rec = manifest.rollbacks[-1]
+    print(f"rollback: {before} → {manifest.current_state} (원고 지문 {str(rec.script_fingerprint_before)[:10]})")
     print(f"next   : {next_action(manifest.current_state)}")
     return 0
 
