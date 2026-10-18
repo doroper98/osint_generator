@@ -318,6 +318,49 @@ def ends_present(text: str) -> bool:
     return True
 
 
+def badge_day(d: str) -> "datetime.date":
+    """날짜 배지 문자열(YYYY / YYYY.MM / YYYY.MM.DD) → 날짜(빠진 월·일 = 1)."""
+    import datetime  # noqa: PLC0415
+
+    p = [int(x) for x in d.split(".")]
+    return datetime.date(p[0], p[1] if len(p) > 1 else 1, p[2] if len(p) > 2 else 1)
+
+
+def transition_points(script: Script) -> list[tuple[int, list[str], str]]:
+    """시점 전환 지점(v7.4.0 D-0229 §2.2) — (문장 번호 i, 종류, 설명). i = 새 시점의 첫 문장(원고 전체 순번).
+    stage = 이웃 장면의 stage(이야기 무대)가 둘 다 있고 다름, date_jump = 이웃 문장 날짜 배지 차이 ≥ rules transition.jump_days."""
+    jd = load_rules().transition.jump_days
+    flat = [(sc, s) for sc in script.scenes for s in sc.sentences]
+    out = []
+    for i in range(1, len(flat)):
+        (pa, a), (pb, b) = flat[i - 1], flat[i]
+        kind, why = [], []
+        if pa.id != pb.id and pa.stage and pb.stage and pa.stage != pb.stage:
+            kind.append("stage")
+            why.append(f"무대 {pa.stage}→{pb.stage}")
+        days = abs((badge_day(b.date) - badge_day(a.date)).days)
+        if days >= jd:
+            kind.append("date_jump")
+            why.append(f"날짜 {a.date}→{b.date}({days}일)")
+        if kind:
+            out.append((i, kind, ", ".join(why)))
+    return out
+
+
+def transition_issues(script: Script) -> list[LintIssue]:
+    """[transition-bridge] 오류 — 전환 지점 ±window 문장 안에 role: bridge 문장이 없다(UF-105)."""
+    w = load_rules().transition.window
+    flat = [(f"{sc.id}_{k}", s) for sc in script.scenes for k, s in enumerate(sc.sentences)]
+    out = []
+    for i, _kind, why in transition_points(script):
+        near = flat[max(0, i - 1 - w + 1):i + w]   # 전환 앞 문장(i-1)·새 시점 첫 문장(i) 기준 ±window
+        if not any(s.role == "bridge" for _, s in near):
+            sid, s = flat[i]
+            out.append(LintIssue(kind="transition-bridge", severity="error", sid=sid, text=s.text,
+                                 detail=f"시점 전환({why}) 앞뒤 {w}문장 안에 role: bridge 문장이 없다 — 시점이 바뀐다고 알리는 한 문장을 둔다(rules transition, UF-105)"))
+    return out
+
+
 def lint(script: Script, claims: "dict[str, str] | None" = None, *, check_sources: bool = True,
          noted: "set[str] | None" = None) -> LintReport:
     """claims = {claim_id: status}(claims.json). check_sources=False 는 출처 검사를 끈다 — 프롬프트 예시처럼

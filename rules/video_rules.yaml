@@ -82,8 +82,17 @@ script_grammar:            # v5.5.0 사용자 결정(2026-10-02, 개정 2026-10-
   # v5.17.0 D-0168(DECISIONS D162) — projects/<pid>/lint_waivers.yaml 에 올릴 수 있는 kind. 문체·흐름 휴리스틱만.
   # AI 상투 문구(banned_phrases, C0)·출처·수치·발음(tts-*)·참조 출처 규칙은 면제 불가(목록 밖 = 로드 오류).
   lint_waivable: [uncertain-phrase, flow-sparse, flow-overuse, tense-present]
+# v7.4.0 back_and_forth D-0229 §2.2(UF-105 "시점을 건너뛰는 섹션이 나오면 천천히 전환·호흡·시점 변경 설명") — 시점 전환 장치.
+# 전환 = 이웃 장면의 stage(이야기 무대) 가 다름, 또는 이웃 문장 날짜 배지가 jump_days 이상 뜀. 전환 지점 ±window 문장 안에 role: bridge 문장이 없으면
+# 린트 [transition-bridge] 오류. bridge 문장 앞에는 bridge_pause_sec 호흡(음악만, script.timeline), 날짜 배지는 xfade(engine.hud), 카메라 이동 ≥ camera_move_min_sec(checks).
+transition:
+  bridge_pause_sec: 1.5
+  camera_move_min_sec: 4.0
+  date_badge_xfade_sec: 0.6
+  jump_days: 30
+  window: 1
 script_schema:             # 02 §2.1 요약 — 프롬프트 예시는 tests/anti_inertia/test_prompt_schema_parity 로 검증
-  sentence_fields: [date, text, tts, emphasis, sources, media]
+  sentence_fields: [date, text, tts, emphasis, sources, media, role]   # role = v7.4.0 D-0229(intro·outro·bridge)
   date_formats: ["YYYY", "YYYY.MM", "YYYY.MM.DD"]
   subtitle_max_lines: 2
   subtitle_wrap_px_480p: 700

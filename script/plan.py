@@ -21,7 +21,7 @@ import yaml
 from orchestrator.config import load_config
 from rules import load_rules
 from script import lint_waivers
-from script.lint import lint, load_claims_for, load_pronounce_dict, pronounce_tts
+from script.lint import lint, load_claims_for, load_pronounce_dict, pronounce_tts, transition_points
 from script.schema import Plan, Script
 from script.timeline import layout, sentence_rows
 from script.tts import align as tts_align
@@ -92,12 +92,19 @@ def build(proj: Path, tts: str, warnings: list[str] | None = None) -> Plan:
             x["alignment"] = {"source": al["alignment_source"]} if al else None
         npy, dur, off = trim_to_npy(Path(x["mp3"]), audio)
         x["npy"], x["dur"], x["trim_offset"] = str(npy), dur, round(off, 6)
-    cards, scene_start, total = layout(rows)
+    transitions: list = []
+    cards, scene_start, total = layout(rows, transitions)
+    kinds = {rows[i]["sid"]: k for i, k, _ in transition_points(script)}   # v7.4.0 D-0229 §2.2 — 전환 종류(무대·날짜)
+    w = load_rules().transition.window
+    order = [x["sid"] for x in rows]
+    for tr in transitions:
+        j = order.index(tr.sid)
+        tr.kind = sorted({k for s_, ks in kinds.items() if abs(order.index(s_) - j) <= w for k in ks})
     return Plan(sentences=rows, cards=cards, scene_start=scene_start, total=total,
                 voice=(supertonic.voice_label(st_cfg) if st_cfg else
                        elevenlabs.voice_label()),
                 title=script.title, subtitle=script.subtitle, date=script.date, tts_resynthesized=resynth,
-                lint_waived=waived or None)
+                lint_waived=waived or None, transitions=transitions)
 
 
 def final_fall_audio(mp3: Path, pron_text: str, sid: str, cfg):  # noqa: ANN001, ANN201 — (np.ndarray, FinalFallRecord)

@@ -44,6 +44,9 @@ class Sentence(_Strict):
     emphasis: list[str] = Field(default_factory=list)
     sources: list[str] = Field(default_factory=list)
     media: Optional[MediaCue] = None   # v2.5.5 optional(C3 호환) — 14 §10.3-1
+    # v7.4.0 D-0229 §2.2·§2.9(UF-104·105·115) optional — 문장의 구조 역할. intro = 막 도입(막전), outro = 막 정리(막후),
+    # bridge = 시점(시간·무대) 전환 고지 문장(앞에 rules transition.bridge_pause_sec 호흡). 린트 [transition-bridge]·[act-frame]
+    role: Optional[Literal["intro", "outro", "bridge"]] = None
 
     @field_validator("date")
     @classmethod
@@ -68,6 +71,10 @@ class Scene(_Strict):
     # v3.4.0 D-0060 작업 4(10 §7-2) — 장면 음악 강도 힌트(0~1, 선택). 연출가(LLM)가 sound.intensity 를 만들 때 읽는 입력일 뿐,
     # 코드는 direction 에 자동 주입하지 않는다(P8).
     music_intensity: Optional[float] = Field(default=None, ge=0, le=1)
+    # v7.4.0 D-0229 §2.2(UF-105) optional — 이야기 무대(지리·전장 이름, 예 "러시아"·"걸프"). 앞 장면과 다르면 무대 전환 = 린트 [transition-bridge]
+    stage: Optional[str] = None
+    # v7.4.0 D-0229 §2.9(UF-104·115) optional — 장면 종류. act(기본) 만 [act-frame](도입·정리 문장 수)을 본다. cold = 콜드 오픈, ending = 마무리
+    kind: Literal["cold", "act", "ending"] = "act"
 
 
 class Script(_Strict):
@@ -114,12 +121,22 @@ class PlanSentence(_Strict):
     chunks: Optional[list[str]] = None   # v5.11.0 optional(D-0152) — Supertonic 이 문장을 나눈 조각(사이 무음 tts.supertonic.silence_sec)
     alignment: Optional[PlanAlignment] = None   # v5.16.0 optional(D-0164 §5-4) — 정렬 출처·점수·시간
     prosody: Optional[PlanProsody] = None       # v5.20.0 optional(D-0175) — 문장 끝 억양 보정 기록
+    role: Optional[Literal["intro", "outro", "bridge"]] = None   # v7.4.0 optional(D-0229 §2.2) — 원고 Sentence.role 그대로
 
 
 class Card(_Strict):
     kind: Literal["title", "end"]
     t0: float
     t1: float
+
+
+class PlanTransition(_Strict):
+    """v7.4.0 D-0229 §2.2(UF-105) — 시점 전환 한 곳. bridge 문장 앞에 넣은 호흡(음악만) 구간."""
+
+    sid: str                  # bridge 문장
+    pause_t0: float           # 호흡 시작(앞 문장 끝 + 문장 간격)
+    pause_sec: float          # rules transition.bridge_pause_sec
+    kind: list[Literal["stage", "date_jump"]] = Field(default_factory=list)   # 린트가 본 전환 종류(없으면 원고가 명시한 bridge)
 
 
 class Plan(_Strict):
@@ -133,6 +150,7 @@ class Plan(_Strict):
     date: str
     tts_resynthesized: list[str] = Field(default_factory=list)  # v2.3.0 optional — 정렬이 없어 다시 합성한 문장 id(D34)
     lint_waived: Optional[list[dict[str, str]]] = None  # v5.17.0 optional(D-0168) — 면제로 통과한 린트 [{kind, sid, decided_by}]
+    transitions: list[PlanTransition] = Field(default_factory=list)   # v7.4.0 optional(D-0229 §2.2) — provenance transitions[]
 
 
 class Fact(_Strict):
