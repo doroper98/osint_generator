@@ -1,0 +1,632 @@
+{
+ "schema_version": 1,
+ "hard": 0,
+ "warnings": 68,
+ "passed": true,
+ "profile": "animatic",
+ "skipped": [
+  "as_of_visible",
+  "chart_honesty",
+  "glyph_size",
+  "glyphs",
+  "labels",
+  "media_upscaled",
+  "rights",
+  "series_limit_3",
+  "units_visible"
+ ],
+ "thresholds": {
+  "overlap_core_elements": 0,
+  "offscreen_clip": 0,
+  "missing_glyphs": 0,
+  "labels_per_frame_max": 18,
+  "subtitle_lines_max": 2,
+  "rights_missing": 0,
+  "forbidden_components": 0,
+  "glyph_size_exempt": [
+   "end_card",
+   "media_meta"
+  ],
+  "label_hidden_max_ratio": 0.5,
+  "route_missing": {
+   "move_verbs": [
+    "보냈",
+    "보내",
+    "파병",
+    "배치",
+    "수송",
+    "이동",
+    "도착",
+    "증파",
+    "급파",
+    "고립"
+   ],
+   "attack_verbs": [
+    "공격",
+    "발사",
+    "타격",
+    "요격",
+    "폭격",
+    "포격"
+   ],
+   "endpoint_tol_deg": 0.6
+  },
+  "frame_missing": {
+   "margin_px": 8.0,
+   "sample_sec": 0.5
+  },
+  "battle_geo": {
+   "verbs": [
+    "점령",
+    "탈환",
+    "공세",
+    "장악",
+    "진격",
+    "교전",
+    "함락",
+    "격퇴"
+   ]
+  },
+  "card_full_exposure_min_sec": 2.5,
+  "ratio_patterns": [
+   "(\\d+|[일이삼사오육칠팔구십백천만]+|한|두|세|네|다섯|여섯|일곱|여덟|아홉|열|스무|스물)\\s*(척|곳|건|명|개|대|기)\\s*(중|가운데)",
+   "(중|가운데)\\s*(\\d+|[일이삼사오육칠팔구십백천만]+|한|두|세|네|다섯|여섯|일곱|여덟|아홉|열)\\s*(척|곳|건|명|개|대|기)"
+  ],
+  "ratio_graphic_kinds": [
+   "dots",
+   "versus"
+  ],
+  "cutaway_full_types": [
+   "article",
+   "backdrop"
+  ],
+  "label_jump_px": 4.0,
+  "camera_bounds_rel_tol": 0.001,
+  "label_slot_sample_sec": 0.25,
+  "map_contrast_text": 4.5,
+  "map_contrast_shape": 3.0,
+  "map_contrast_min_alpha": 0.8,
+  "planned": [],
+  "chart_targets": {
+   "value": [
+    "chart_honesty",
+    "series_limit_3",
+    "units_visible",
+    "as_of_visible"
+   ],
+   "date": [
+    "chart_honesty"
+   ],
+   "none": []
+  },
+  "series_max": 3,
+  "visual_qa_loop_max": 2,
+  "empty_exempt": [
+   "article_press_lead"
+  ],
+  "loop_pick_order": [
+   "checks_hard",
+   "qa_hard",
+   "qa_soft"
+  ]
+ },
+ "items": [
+  {
+   "id": "overlap",
+   "severity": "hard",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "offscreen",
+   "severity": "hard",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "shots",
+   "severity": "warning",
+   "count": 12,
+   "details": [
+    "숏 t=0.0→1.7 머무름 1.7s < 6.0s",
+    "숏 t=1.7→11.3 머무름 -1.4s < 6.0s",
+    "숏 t=26.9→29.6 머무름 2.7s < 6.0s",
+    "숏 t=116.0→123.3 머무름 2.7s < 6.0s",
+    "숏 t=364.0→368.4 머무름 0.4s < 6.0s",
+    "숏 t=899.7→909.4 머무름 5.3s < 6.0s",
+    "숏 t=909.4→914.4 머무름 0.5s < 6.0s",
+    "장면 cold 카메라 이동 3 > 1",
+    "장면 act1 카메라 이동 2 > 1",
+    "장면 act2 카메라 이동 7 > 1",
+    "장면 act4 카메라 이동 5 > 1",
+    "장면 act5 카메라 이동 3 > 1"
+   ]
+  },
+  {
+   "id": "media_beats",
+   "severity": "warning",
+   "count": 21,
+   "details": [
+    "[media-density-total] 과소 — 5개 / 976초 = 195.2초당 1개 > 60초 (14 §10.1, ['article'] 제외)",
+    "[media-density-scene] 장면 act2: ['diesel_road_2026_khabarovsk_ref_2005', 'diesel_road_2026_vladivostok_port_1992'] > 1 (14 §10.1, ['article'] 제외)",
+    "[media-density-scene] 장면 act4: ['diesel_road_2026_ras_laffan_lng_2012', 'hormuz_transit'] > 1 (14 §10.1, ['article'] 제외)",
+    "[media-kind-repeat] 이웃 장면 cold→act1 같은 형태 ['article'] (14 §10.1)",
+    "[media-kind-repeat] 이웃 장면 act1→act2 같은 형태 ['article', 'photo'] (14 §10.1)",
+    "[media-kind-repeat] 이웃 장면 act2→act3 같은 형태 ['article'] (14 §10.1)",
+    "[media-kind-repeat] 이웃 장면 act3→act4 같은 형태 ['article'] (14 §10.1)",
+    "[media-kind-repeat] 이웃 장면 act4→act5 같은 형태 ['article'] (14 §10.1)",
+    "[article-unused] act1_7 77.1초 기사 카드 후보 ['diesel_road_2026_art_0005'] — 60~120초 구간 0/2개. 쓰거나 media_notes.yaml sentences.act1_7.article 에 사유",
+    "[article-unused] act1_13 116.6초 기사 카드 후보 ['diesel_road_2026_art_0011'] — 60~120초 구간 0/2개. 쓰거나 media_notes.yaml sentences.act1_13.article 에 사유",
+    "[article-unused] act1_19 153.0초 기사 카드 후보 ['diesel_road_2026_art_0007'] — 120~180초 구간 0/2개. 쓰거나 media_notes.yaml sentences.act1_19.article 에 사유",
+    "[article-unused] act1_22 170.0초 기사 카드 후보 ['diesel_road_2026_art_0010', 'diesel_road_2026_art_0009', 'diesel_road_2026_art_0004'] — 120~180초 구간 0/2개. 쓰거나 media_notes.yaml sentences.act1_22.article 에 사유",
+    "[article-unused] act2_14 283.3초 기사 카드 후보 ['diesel_road_2026_art_0004'] — 240~300초 구간 1/2개. 쓰거나 media_notes.yaml sentences.act2_14.article 에 사유",
+    "[article-unused] act2_23 333.5초 기사 카드 후보 ['diesel_road_2026_art_0002'] — 300~360초 구간 1/2개. 쓰거나 media_notes.yaml sentences.act2_23.article 에 사유",
+    "[article-unused] act2_33 387.2초 기사 카드 후보 ['diesel_road_2026_art_0002', 'diesel_road_2026_art_0010'] — 360~420초 구간 0/2개. 쓰거나 media_notes.yaml sentences.act2_33.article 에 사유",
+    "[article-unused] act2_29 364.4초 기사 카드 후보 ['diesel_road_2026_art_0002'] — 360~420초 구간 0/2개. 쓰거나 media_notes.yaml sentences.act2_29.article 에 사유",
+    "[article-unused] act3_21 546.6초 기사 카드 후보 ['diesel_road_2026_art_0013', 'diesel_road_2026_art_0015'] — 540~600초 구간 0/2개. 쓰거나 media_notes.yaml sentences.act3_21.article 에 사유",
+    "[article-unused] act3_29 591.4초 기사 카드 후보 ['diesel_road_2026_art_0001', 'diesel_road_2026_art_0016'] — 540~600초 구간 0/2개. 쓰거나 media_notes.yaml sentences.act3_29.article 에 사유",
+    "[article-unused] act4_10 655.3초 기사 카드 후보 ['diesel_road_2026_art_0021'] — 600~660초 구간 1/2개. 쓰거나 media_notes.yaml sentences.act4_10.article 에 사유",
+    "[article-unused] act4_21 721.8초 기사 카드 후보 ['diesel_road_2026_art_0019'] — 720~780초 구간 0/1개. 쓰거나 media_notes.yaml sentences.act4_21.article 에 사유"
+   ]
+  },
+  {
+   "id": "endcard_roll",
+   "severity": "warning",
+   "count": 1,
+   "details": [
+    "[endcard-roll] 크레딧이 넘쳐 롤 239px · 36.8 px/s(상한 60)"
+   ]
+  },
+  {
+   "id": "date",
+   "severity": "hard",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "subtitles",
+   "severity": "hard",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "forbidden",
+   "severity": "hard",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "stage_continuity",
+   "severity": "hard",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "camera_continuity",
+   "severity": "hard",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "card_exposure",
+   "severity": "hard",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "route_label_cross",
+   "severity": "hard",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "route_label_overlap",
+   "severity": "hard",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "article_backdrop",
+   "severity": "hard",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "quote_in_script",
+   "severity": "hard",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "route_missing",
+   "severity": "hard",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "route_missing_other",
+   "severity": "hard",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "frame_missing",
+   "severity": "hard",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "frame_missing_target",
+   "severity": "hard",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "battle_geo",
+   "severity": "warning",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "bgm_decision",
+   "severity": "hard",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "endcard_black",
+   "severity": "hard",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "camera_per_sentence",
+   "severity": "hard",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "label_jump",
+   "severity": "hard",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "camera_speed",
+   "severity": "hard",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "camera_bounds",
+   "severity": "hard",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "title_backdrop",
+   "severity": "hard",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "cutaway_churn",
+   "severity": "hard",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "transition_camera",
+   "severity": "hard",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "unit_glyph_font",
+   "severity": "hard",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "media_unused",
+   "severity": "hard",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "ratio_graphic",
+   "severity": "warning",
+   "count": 2,
+   "details": [
+    "[ratio-without-graphic] act1_19 'N 중 M' 문장인데 그 구간에 ['dots', 'versus']·series 그래픽이 없다 — 점 패널로 조판(UF-113): 이어서 9월에는 러시아의 6대 경유 생산 정유소 가운데 세 곳이 생산을 ",
+    "[ratio-without-graphic] act4_10 'N 중 M' 문장인데 그 구간에 ['dots', 'versus']·series 그래픽이 없다 — 점 패널로 조판(UF-113): 라스라판의 LNG 생산 라인 14기 가운데 2기가 멈춰 연 1,300만 "
+   ]
+  },
+  {
+   "id": "inset_overlap",
+   "severity": "warning",
+   "count": 5,
+   "details": [
+    "[inset-overlap] 위성 인셋 inset_ryazan_hls t=11.2 가 '랴잔 정유소' 와 겹침 — inset.side 를 빈 쪽(대각 포함)으로",
+    "[inset-overlap] 위성 인셋 inset_kirishi_hls t=120.9 가 '키리시' 와 겹침 — inset.side 를 빈 쪽(대각 포함)으로",
+    "[inset-overlap] 위성 인셋 inset_kharg_hls t=621.8 가 '하르그섬' 와 겹침 — inset.side 를 빈 쪽(대각 포함)으로",
+    "[inset-overlap] 위성 인셋 inset_ras_laffan_hls t=652.5 가 '라스라판' 와 겹침 — inset.side 를 빈 쪽(대각 포함)으로",
+    "[inset-overlap] 위성 인셋 inset_ryazan_hls t=912.6 가 '랴잔 정유소' 와 겹침 — inset.side 를 빈 쪽(대각 포함)으로"
+   ]
+  },
+  {
+   "id": "article_press_missing",
+   "severity": "warning",
+   "count": 2,
+   "details": [
+    "[article-press-missing] 기사 diesel_road_2026_art_0026 — act5_7 인물 발언·발표 문장인데 press 사진 없음(공식 사진·보도 인용 사진, UF-109)",
+    "[article-press-missing] 기사 diesel_road_2026_art_0034 — act5_29 인물 발언·발표 문장인데 press 사진 없음(공식 사진·보도 인용 사진, UF-109)"
+   ]
+  },
+  {
+   "id": "tempo_density",
+   "severity": "warning",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "portrait_unused",
+   "severity": "warning",
+   "count": 7,
+   "details": [
+    "[portrait-unused] cold_2 '트럼프 대통령' 가 나오는데 초상(trump)을 쓰지 않았다 — 인물 뱃지(kind person)나 인용으로 보인다",
+    "[portrait-unused] cold_3 '젤렌스키 대통령' 가 나오는데 초상(zelensky)을 쓰지 않았다 — 인물 뱃지(kind person)나 인용으로 보인다",
+    "[portrait-unused] act5_7 '트럼프 대통령' 가 나오는데 초상(trump)을 쓰지 않았다 — 인물 뱃지(kind person)나 인용으로 보인다",
+    "[portrait-unused] act5_19 '트럼프 대통령' 가 나오는데 초상(trump)을 쓰지 않았다 — 인물 뱃지(kind person)나 인용으로 보인다",
+    "[portrait-unused] act5_27 '트럼프 대통령' 가 나오는데 초상(trump)을 쓰지 않았다 — 인물 뱃지(kind person)나 인용으로 보인다",
+    "[portrait-unused] act5_29 '이재명 대통령' 가 나오는데 초상(lee_jae_myung)을 쓰지 않았다 — 인물 뱃지(kind person)나 인용으로 보인다",
+    "[portrait-unused] act5_30 '이재명 대통령' 가 나오는데 초상(lee_jae_myung)을 쓰지 않았다 — 인물 뱃지(kind person)나 인용으로 보인다"
+   ]
+  },
+  {
+   "id": "genre_elements",
+   "severity": "hard",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "boundary_as_route",
+   "severity": "hard",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "geo_unsourced",
+   "severity": "warning",
+   "count": 17,
+   "details": [
+    "[geo-unsourced] place kirishi [32.02, 59.45] — 지명 사전에 없는 이름(또는 경로)이라 좌표를 대조하지 못함",
+    "[geo-unsourced] place khabarovsk_ref [135.1, 48.43] — 지명 사전에 없는 이름(또는 경로)이라 좌표를 대조하지 못함",
+    "[geo-unsourced] place komsomolsk_ref [136.98, 50.56] — 지명 사전에 없는 이름(또는 경로)이라 좌표를 대조하지 못함",
+    "[geo-unsourced] place primorye [133.6, 44.4] — 지명 사전에 없는 이름(또는 경로)이라 좌표를 대조하지 못함",
+    "[geo-unsourced] place yeosu_off [127.82, 34.52] — 지명 사전에 없는 이름(또는 경로)이라 좌표를 대조하지 못함",
+    "[geo-unsourced] place south_pars [52.6, 27.5] — 지명 사전에 없는 이름(또는 경로)이라 좌표를 대조하지 못함",
+    "[geo-unsourced] place ras_laffan [51.53, 25.92] — 지명 사전에 없는 이름(또는 경로)이라 좌표를 대조하지 못함",
+    "[geo-unsourced] place fujairah [56.36, 25.12] — 지명 사전에 없는 이름(또는 경로)이라 좌표를 대조하지 못함",
+    "[geo-unsourced] place pump_station [44.5, 24.6] — 지명 사전에 없는 이름(또는 경로)이라 좌표를 대조하지 못함",
+    "[geo-unsourced] place gulf_label [51.5, 29.6] — 지명 사전에 없는 이름(또는 경로)이라 좌표를 대조하지 못함",
+    "[geo-unsourced] path rail_fe 11점 [128.47, 50.92]→[131.89, 43.12] — 지명 사전에 없는 이름(또는 경로)이라 좌표를 대조하지 못함",
+    "[geo-unsourced] path ulsan_vlad 7점 [129.45, 35.5]→[131.92, 43.08] — 지명 사전에 없는 이름(또는 경로)이라 좌표를 대조하지 못함",
+    "[geo-unsourced] path layla1 7점 [129.5, 35.45]→[131.93, 43.07] — 지명 사전에 없는 이름(또는 경로)이라 좌표를 대조하지 못함",
+    "[geo-unsourced] path layla2 10점 [129.5, 35.45]→[131.93, 43.07] — 지명 사전에 없는 이름(또는 경로)이라 좌표를 대조하지 못함",
+    "[geo-unsourced] path astoria 8점 [129.5, 35.45]→[131.93, 43.07] — 지명 사전에 없는 이름(또는 경로)이라 좌표를 대조하지 못함",
+    "[geo-unsourced] path cheong 10점 [127.85, 34.48]→[131.93, 43.07] — 지명 사전에 없는 이름(또는 경로)이라 좌표를 대조하지 못함",
+    "[geo-unsourced] path ew_pipeline 5점 [49.68, 25.93]→[38.1, 24.1] — 지명 사전에 없는 이름(또는 경로)이라 좌표를 대조하지 못함"
+   ]
+  },
+  {
+   "id": "geo_mismatch",
+   "severity": "hard",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "static_window",
+   "severity": "warning",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "timeline_rescale",
+   "severity": "hard",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "backdrop_rights",
+   "severity": "hard",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "backdrop_repeat",
+   "severity": "hard",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "stage_choice",
+   "severity": "warning",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "island_overlap",
+   "severity": "hard",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "backdrop_main_missing",
+   "severity": "hard",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "card_island",
+   "severity": "warning",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "island_label_clip",
+   "severity": "hard",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "island_label_overlap",
+   "severity": "warning",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "cascade",
+   "severity": "hard",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "cascade_label_hidden",
+   "severity": "warning",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "subtitle_overlap",
+   "severity": "hard",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "label_collision",
+   "severity": "hard",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "timeline_span",
+   "severity": "hard",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "route_frame",
+   "severity": "hard",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "panel_overflow",
+   "severity": "hard",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "flag_territory",
+   "severity": "hard",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "badge_over_panel",
+   "severity": "hard",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "opening_establish",
+   "severity": "hard",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "weapon_photo",
+   "severity": "warning",
+   "count": 1,
+   "details": [
+    "[weapon-photo] act4_11 '사드' — 무기체계 실사 사진(권리 기록된 자료사진)이 없다"
+   ]
+  },
+  {
+   "id": "map_contrast",
+   "severity": "hard",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "map_contrast_shape",
+   "severity": "warning",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "as_of_visible",
+   "severity": "hard",
+   "count": 0,
+   "details": [],
+   "skipped": true
+  },
+  {
+   "id": "chart_honesty",
+   "severity": "hard",
+   "count": 0,
+   "details": [],
+   "skipped": true
+  },
+  {
+   "id": "glyph_size",
+   "severity": "hard",
+   "count": 0,
+   "details": [],
+   "skipped": true
+  },
+  {
+   "id": "glyphs",
+   "severity": "hard",
+   "count": 0,
+   "details": [],
+   "skipped": true
+  },
+  {
+   "id": "labels",
+   "severity": "hard",
+   "count": 0,
+   "details": [],
+   "skipped": true
+  },
+  {
+   "id": "media_upscaled",
+   "severity": "warning",
+   "count": 0,
+   "details": [],
+   "skipped": true
+  },
+  {
+   "id": "rights",
+   "severity": "hard",
+   "count": 0,
+   "details": [],
+   "skipped": true
+  },
+  {
+   "id": "series_limit_3",
+   "severity": "hard",
+   "count": 0,
+   "details": [],
+   "skipped": true
+  },
+  {
+   "id": "units_visible",
+   "severity": "hard",
+   "count": 0,
+   "details": [],
+   "skipped": true
+  }
+ ]
+}
