@@ -116,6 +116,7 @@ class ScriptSchemaRules(_Strict):
     attribution_mode: Literal["credits", "narration"] = "narration"
     attribution_credits_since: Optional[str] = None
     press_markers: list[str] = Field(default_factory=list)   # credits 모드에서 자막에 남으면 [press-attribution] 경고
+    press_relay_verbs: list[str] = Field(default_factory=list)   # v7.4.0 D-0234 — 당사자 발언 문장의 매체 접두 판정(발언 동사)
 
     @model_validator(mode="after")
     def _label_keys(self) -> "ScriptSchemaRules":

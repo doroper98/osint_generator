@@ -312,6 +312,17 @@ def starts_with_connective(text: str, connectives: list[str]) -> bool:
     return any(text.startswith(c) and (len(text) == len(c) or text[len(c)] in " ,") for c in connectives)
 
 
+def _press_relayed(text: str, markers: list[str], verbs: list[str]) -> bool:
+    """v7.4.0 D-0234 — 귀속을 남기는 문장에 매체 전달이 겹쳤는가.
+
+    발언 동사가 따로 있거나("X에 따르면 Y는 … 말했다", "X는 Y가 … 말했다고 전했다"),
+    서로 다른 매체 표지가 둘 이상이면("X가 인용한 Y 자료에 따르면") 매체 접두로 본다.
+    """
+    found = [m for m in markers if m in text]
+    found = [m for m in found if not any(m != o and m in o for o in found)]
+    return any(v in text for v in verbs) or len(found) >= 2
+
+
 def _attributed(text: str, markers: list[str]) -> bool:
     return any(m.lower() in text.lower() for m in markers)
 
@@ -507,6 +518,8 @@ def lint(script: Script, claims: "dict[str, str] | None" = None, *, check_source
                     pm = next((m for m in r.script_schema.press_markers if m in s.text), None)
                     if pm and not keep:
                         add("press-attribution", "warning", f"보도 귀속 {pm!r} — credits 모드: 평서로 쓰고 출처는 엔딩 크레딧 '보도 출처'(UF-117). 분석·추정·전망이면 '~는 분석했습니다' 형태로")
+                    elif pm and _press_relayed(s.text, r.script_schema.press_markers, r.script_schema.press_relay_verbs):
+                        add("press-attribution", "warning", f"당사자 발언·논쟁 문장의 매체 접두 {pm!r} — 발언자·자료 이름만 남기고 매체는 엔딩 크레딧으로(D-0234)")
                 elif claims is not None and any(claims.get(c) == "unverified" and c not in (noted or set()) for c in s.sources) \
                         and not any(m in s.text for m in attrib):
                     add("attribution", "warning", "unverified claim 인용 — 귀속 표현(~라고 주장했습니다/보도했습니다, rules script_schema.attribution_markers) 없음")

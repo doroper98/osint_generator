@@ -42,6 +42,21 @@ class CreditsModeTest(unittest.TestCase):
     def test_c_disputed_keeps_source_name(self) -> None:
         rep = lint(_sc("케이플러 자료에 따르면 한국산은 11만 2천 t이었습니다."), {"c1": "disputed"}, mode="credits", kinds={"c1": "fact"})
         self.assertEqual(_kinds(rep), [])
+        for text in ("케이플러 자료로는 한국산이 11만 2천 t이었습니다.", "크레아 집계로는 한국산이 1만 8천 t이었습니다."):   # D-0234 표기
+            rep = lint(_sc(text), {"c1": "disputed"}, mode="credits", kinds={"c1": "fact"})
+            self.assertEqual(_kinds(rep), [], text)
+            self.assertFalse([i for i in rep.issues if i.kind == "disputed-claim"], text)
+
+    def test_f_press_prefix_on_kept_sentence(self) -> None:   # D-0234 — ① 부류라도 매체 접두는 경고, 발언자만 남긴다
+        st = {"c1": "statement"}
+        for text in ("AP통신에 따르면 트럼프 대통령은 경유를 공급할 것이라고 말했습니다.",
+                     "AP통신은 젤렌스키 대통령이 배신감을 느낀다고 말했다고 전했습니다."):
+            self.assertEqual(_kinds(lint(_sc(text), {"c1": "unverified"}, mode="credits", kinds=st)), ["press-attribution"], text)
+        rep = lint(_sc("가디언이 인용한 케이플러 자료에 따르면 한국산은 11만 2천 t이었습니다."), {"c1": "disputed"}, mode="credits", kinds={"c1": "fact"})
+        self.assertEqual(_kinds(rep), ["press-attribution"])
+        for text in ("트럼프 대통령은 경유를 공급할 것이라고 말했습니다.",
+                     "AP통신은 이 수치를 독립적으로 검증할 수 없다고 전했습니다."):   # 매체가 발언 주체면 그대로
+            self.assertEqual(_kinds(lint(_sc(text), {"c1": "unverified"}, mode="credits", kinds=st)), [], text)
 
 
 class PressCreditTest(unittest.TestCase):

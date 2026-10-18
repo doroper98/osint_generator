@@ -133,11 +133,12 @@ script_schema:             # 02 §2.1 요약 — 프롬프트 예시는 tests/an
     disputed: "<논쟁>"          # v3.2.0 D-0054 — 양측 주장 대립(한쪽이 논파된 것처럼 읽히는 "<반박됨>" 정정)
   label_strength_order: [disputed, unverified, corroborated, verified]
   # v3.2.0 D-0051 작업 8 — unverified claim 을 인용하는 문장은 누가 말했는지 귀속한다(18 §3-3). 자막에 이 중 하나가 없으면 린트 경고
-  attribution_markers: ["주장했", "주장합니다", "주장이", "올렸", "빗댄", "빗댔", "반박했", "부인했", "일축했", "규탄", "강조했", "경고했", "답했", "밝혔", "따르면", "전했", "말했", "발표했", "보도했", "주장하", "라고 했", "확인되지 않", "claimed", "claims", "said", "says", "called", "alleged", "according to"]   # "확인되지 않" = 미확인임을 스스로 밝히는 문장(e2e 실측). "보도했" = v4.10.0 D-0116(G4 보류 D84 — 매체 귀속 "~라고 보도했습니다"). 영어 = 검증 인용의 귀속 판정(D-0054 B, 대소문자 무시)
+  attribution_markers: ["주장했", "주장합니다", "주장이", "올렸", "빗댄", "빗댔", "반박했", "부인했", "일축했", "규탄", "강조했", "경고했", "답했", "밝혔", "따르면", "전했", "말했", "발표했", "보도했", "주장하", "라고 했", "자료로는", "집계로는", "확인되지 않", "claimed", "claims", "said", "says", "called", "alleged", "according to"]   # "확인되지 않" = 미확인임을 스스로 밝히는 문장(e2e 실측). "보도했" = v4.10.0 D-0116(G4 보류 D84 — 매체 귀속 "~라고 보도했습니다"). "자료로는"·"집계로는" = v7.4.0 D-0234(논쟁 수치의 자료 이름 — "케이플러 자료로는 …, 크레아 집계로는 …"). 영어 = 검증 인용의 귀속 판정(D-0054 B, 대소문자 무시)
   # v7.4.0 back_and_forth D-0233(사용자 의견 UF-117 "~의 보도에 따르면 같은 말이 너무 많아… 크레딧에 소스를 붙이고 자막과 나레이션에는 ~했습니다", D243)
   attribution_mode: credits             # 보도 출처는 엔딩 크레딧 장면별 '보도 출처'(credits auto: press). 당사자 발언·논쟁 수치·분석/추정/전망만 귀속
   attribution_credits_since: "2026.10.18"   # order.yaml 에 attribution_mode 가 없으면 원고 날짜가 이 날 이후일 때만 credits(옛 원고·골든 = narration)
   press_markers: ["에 따르면", "보도했", "전했", "인용한", "분석에 따르면", "보도에 따르면"]   # credits 모드 자막에 남으면 [press-attribution] 경고(당사자 발언·논쟁 문장 제외)
+  press_relay_verbs: ["말했", "밝혔", "발표했", "주장했", "경고했", "강조했", "답했"]   # v7.4.0 D-0234 — 당사자 발언·논쟁 문장에도 매체 접두("X에 따르면 Y는 … 말했다", "X는 Y가 … 말했다고 전했다", "X가 인용한 Y 자료에 따르면")가 붙으면 [press-attribution] 경고. 발언자만 남긴다
 
 verification:              # v3.2.0 back_and_forth D-0052(D50) — 교차 확인 = 인용 대조. LLM 은 claim 후보·인용·stance, 판정은 코드(orchestrator/source_verify.py)
   quote_max_chars: 160     # 인용 상한(저작권상 짧게). 인용은 소스 본문의 연속 부분 문자열(공백 정규화 후) — 불일치 = 근거 폐기 + drops[]
