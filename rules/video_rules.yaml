@@ -892,6 +892,7 @@ fonts:                     # 09 §1
   mono: "IBM Plex Mono"
   mono_hangul_fallback: sans
   display_space_advance: 0.3
+  unit_font: sans            # v7.4.0 D-0229 §2.4(UF-111 "십자가 같은 t") — display(큰 숫자) 끝 라틴 단위(t·kb/d·mb/d·bbl)는 IBM Plex Sans KR 같은 굵기로. %·$ 는 그대로
 
 labels:                    # 04 §6·§7
   border_lod_w: 22

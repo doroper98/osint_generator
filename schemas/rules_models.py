@@ -1150,6 +1150,7 @@ class Fonts(_Strict):
     mono: str
     mono_hangul_fallback: str
     display_space_advance: float
+    unit_font: Optional[Literal["sans"]] = None   # v7.4.0 D-0229 §2.4(UF-111) — display 숫자 뒤 라틴 단위(t·kb/d)를 이 글꼴로(GmarketSans 십자형 t 금지)
 
 
 class LabelRules(_Strict):

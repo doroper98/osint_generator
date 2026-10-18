@@ -102,6 +102,7 @@ def map_halo(stage):  # noqa: ANN001, ANN201 — tuple | None
 
 _f = _RULES.fonts
 # (family, bold) — v3 FONT 표와 같은 키. 굵기 변형 이름은 fontconfig 패밀리 이름 규칙(19a §B)을 따른다.
+UNIT_FONT = _f.unit_font   # v7.4.0 D-0229 §2.4(UF-111) — display 숫자 뒤 라틴 단위 꼬리 글꼴(None = 나누지 않음)
 FONT: dict[str, tuple[str, int]] = {
     "sans": (_f.sans, 0), "sansm": (f"{_f.sans} Medium", 0), "sansb": (f"{_f.sans} SemiBold", 0), "sansbb": (_f.sans, 1),
     "disp": (f"{_f.display}Bold", 0), "dispm": (f"{_f.display}Medium", 0),
