@@ -1212,6 +1212,30 @@ class MapLine(_Strict):
     dash: list[float] = Field(default_factory=list)            # [] = 실선
 
 
+class RoadStyle(_Strict):
+    """v7.4.0 D-0229 §2.1-2 — 도로 한 등급(단일 stroke, casing·glow 없음 — 가이드 23 §15). 설계 px(480p)."""
+
+    rgb: RGB
+    width: float = Field(gt=0)
+    alpha: float = Field(gt=0, le=1)
+
+
+class MapRoads(_Strict):
+    motorway: RoadStyle
+    trunk: RoadStyle
+    primary: RoadStyle
+
+
+class MapRivers(_Strict):
+    """v7.4.0 D-0229 §2.1-2 — 강(큰 강 = NE scalerank ≤ geo.river_major_scalerank_max). 설계 px(480p)."""
+
+    rgb: RGB
+    width_major: float = Field(gt=0)
+    width_minor: float = Field(gt=0)
+    alpha_major: float = Field(gt=0, le=1)
+    alpha_minor: float = Field(gt=0, le=1)
+
+
 class CityDot(_Strict):
     fill: RGB
     edge: RGB
@@ -1264,6 +1288,8 @@ class MapTheme(_Strict):
     city_dot: CityDot
     city_label: RGB
     halo: RGB
+    roads: MapRoads      # v7.4.0 D-0229 §2.1-2(UF-106) — 두 테마 모두 채운다(키 집합 동일, tests/test_v740_map_layers)
+    rivers: MapRivers
     # v5.18.0 D-0161 §2(가이드 23 §14) — 해안선 ↔ 국경 분리. 있으면 두 나라가 공유하는 변만 국경(border), 나머지 고리는 해안(coast)으로 긋는다.
     # None = 종전(모든 고리를 국경 스타일로 — dark 골든 바이트 동일)
     coast: Optional[MapLine] = None
@@ -1307,6 +1333,7 @@ class GeoRules(_Strict):
     boundary_names: list[str] = Field(min_length=1)   # v4.7.0 D-0107 D2(b) — checks [boundary-as-route]
     gazetteer: GazetteerRules                         # v4.10.0 D-0116 — checks [geo-mismatch]
     themes: GeoThemes                                 # v5.13.0 D-0153 Q0-2 — 지도 테마(시안)
+    river_major_scalerank_max: int = Field(ge=0)      # v7.4.0 D-0229 §2.1-2 — NE 강 scalerank 이 값 이하 = 큰 강(geo.prep_geometry.load_rivers)
 
 
 class CreditRules(_Strict):

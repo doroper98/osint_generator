@@ -121,6 +121,9 @@ MERCATOR_LOD: dict[str, Any] = {
     "tier_blend_ppd": {"from": 26, "span": 18},                     # 상세 티어 블렌딩 smooth((W_OUT/w − 26)/18)
     "tier_inside_margin": 0.05,                                     # 상세 티어는 화면이 티어 안(여백 0.05도)일 때만
     "city_labels_max": 18,
+    # v7.4.0 D-0229 §2.1-2(UF-106) — 도로: w < 14° 에서 나타나 span 5° 뒤 완전(motorway 는 22° 부터). 강: 큰 강 40°, 작은 강 12° 부터 span 6°
+    "roads_fade": {"w": 14, "motorway_w": 22, "span": 5},
+    "rivers_fade": {"major_w": 40, "minor_w": 12, "span": 6},
     "sea_labels": "labels.yaml seas[].wmin ≤ w ≤ wmax",
 }
 
@@ -194,6 +197,10 @@ class MercatorStage:
                         for k, v in geo["admin1"].items()}
             self.countries = [(k, m, None if m["lx"] is None else self.to_world(lon=m["lx"], lat=m["ly"])) for k, m in geo["meta"].items()]
             self.seas = [(s, self.to_world(lon=s.lon, lat=s.lat)) for s in assets.labels.seas]
+            if "roads" not in geo or "rivers" not in geo:   # v7.4.0 D-0229 §2.1-2 — 옛 geo.pkl 로 조용히 도로·강 없이 그리지 않는다(P6)
+                raise StageError("geo.pkl 에 roads·rivers 가 없다 — `python -m geo.prep <프로젝트>` 로 다시 만든다(v7.4.0)")
+            self.roads = {lod: {c: to_uv(v) for c, v in geo["roads"][lod].items()} for lod in ("coarse", "fine")}
+            self.rivers = {lod: {c: to_uv(v) for c, v in geo["rivers"][lod].items()} for lod in ("coarse", "fine")}
             plc = geo["places"]
             self.plc_x = np.array([p["lon"] for p in plc])
             self.plc_y = ymv(np.array([p["lat"] for p in plc]))
@@ -233,6 +240,11 @@ class MercatorStage:
         surf.flush()
         surf.get_data()[:] = im.tobytes("raw", "BGRX")
         surf.mark_dirty()
+        from engine.layers.rivers import draw_rivers  # noqa: PLC0415
+        from engine.layers.roads import draw_roads  # noqa: PLC0415
+
+        draw_rivers(ctx, self, view)   # v7.4.0 D-0229 §2.1-2 — 지형 → 강 → 도로 → 국경·행정선
+        draw_roads(ctx, self, view)
         draw_borders(ctx, self, view)
 
     def _inside(self, view: "View", T: dict, m: float = MERCATOR_LOD["tier_inside_margin"]) -> bool:  # noqa: N803
