@@ -4,7 +4,7 @@
   "title": "경유의 길 — 사흘에 한 번",
   "category": "geopolitics",
   "created_at": "2026-10-17T13:36:28.700647Z",
-  "updated_at": "2026-10-18T06:17:38.982007Z",
+  "updated_at": "2026-10-18T06:58:10.424527Z",
   "current_state": "voice_timeline",
   "target_duration_min": 10,
   "topic_summary": "우크라이나의 러시아 정유소 타격과 러시아 경유 부족, 한국산 경유의 블라디보스토크행, 걸프 에너지 시설 타격, 미국의 러시아 경유 거래와 에너지 휴전 붕괴",
@@ -85,6 +85,24 @@
         "media_plan_errors": "0",
         "script_sha1": "0c1a1ffc58c75d9db0c104a44f39d205fabda23f",
         "media_plan": "사진 0/9 · 기사 후보 103문장 · 585초(plan)"
+      },
+      "chosen_version": null
+    },
+    {
+      "gate": "script_approval",
+      "decision": "approved",
+      "by": "user",
+      "at": "2026-10-18T06:58:10.424414Z",
+      "comment": "사용자 재승인 2026-10-18 · 하르그 3/13 수정 · D245",
+      "rollback_to": null,
+      "shown": {
+        "script": "/home/user/osint_generator/projects/diesel_road_2026/script.yaml",
+        "lint_errors": "0",
+        "lint_warnings": "1",
+        "est_sec": "799.6",
+        "media_plan_errors": "0",
+        "script_sha1": "703e6823e8aae282b991f080cb84185e4c04a1d2",
+        "media_plan": "사진 0/16 · 기사 후보 103문장 · 976초(plan)"
       },
       "chosen_version": null
     }
@@ -537,6 +555,34 @@
       "to_state": "voice_timeline",
       "transitioned_at": "2026-10-18T06:17:38.981961Z",
       "reason": "script_approval 승인 — user"
+    },
+    {
+      "from_state": "voice_timeline",
+      "to_state": "script_draft",
+      "transitioned_at": "2026-10-18T06:48:42.118378Z",
+      "reason": "rollback → script_draft — user: 승인 뒤 원고 사실 수정 — 하르그 3/13, D-0236"
+    },
+    {
+      "from_state": "script_draft",
+      "to_state": "script_approval",
+      "transitioned_at": "2026-10-18T06:50:39.680502Z",
+      "reason": "원고 v2.2 확정(하르그 3/13 수정, 린트 오류 0)"
+    },
+    {
+      "from_state": "script_approval",
+      "to_state": "voice_timeline",
+      "transitioned_at": "2026-10-18T06:58:10.424476Z",
+      "reason": "script_approval 승인 — user"
+    }
+  ],
+  "rollbacks": [
+    {
+      "from_state": "voice_timeline",
+      "to_state": "script_draft",
+      "by": "user",
+      "at": "2026-10-18T06:48:42.118333Z",
+      "reason": "승인 뒤 원고 사실 수정 — 하르그 3/13, D-0236",
+      "script_fingerprint_before": "703e6823e8aae282b991f080cb84185e4c04a1d2"
     }
   ],
   "reopens": [

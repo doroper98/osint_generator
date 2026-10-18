@@ -22,15 +22,15 @@ sentences:
     photo: 고르지 않음 — 통과 후보는 메드베데프 옴스크 방문(2010)·NASA FIRMS 지도. 발언 문장이라 지도 marker(옴스크)·물량 화살표로
   act3_19:
     photo: 고르지 않음 — 블라시우크 위원 사진(CC BY 3.0) 통과하나 초상 자산(공용 라이브러리) 제작은 이번 범위 밖 → 발언 카드(블라시우크 · 대통령실 제재 담당 위원)로
-  act4_3:
+  act4_5:
     photo: A 후보 — 'Third platform of Phase 14 of South Pars Dome Gas-Condensate field'(CC BY 4.0) 자료사진. 피격 장면 아님(시설 자료사진 표기). 연출에서 쓰면 등록
-  act4_11:
-    photo: 고르지 않음 — 'Fujairah port' 통과 후보 0(v1 검색도 CC BY-SA 6장 탈락). 지도 flight(missile·drone)로
-  act4_12:
-    photo: 고르지 않음 — 통과 후보는 EIA 호르무즈 물동량 그래프(사진 아님). 펌프장 피격 사진 없음 → 지도 flight(drone)로
   act4_13:
-    photo: 고르지 않음 — 통과 후보는 2026 쿠르디스탄 지역 이란 공격 사진(PD). 장소·주체가 달라(사우디 펌프장·이라크발 드론) 오해 소지 → 지도 flight 출발점(이라크)으로
+    photo: 고르지 않음 — 'Fujairah port' 통과 후보 0(v1 검색도 CC BY-SA 6장 탈락). 지도 flight(missile·drone)로
+  act4_14:
+    photo: 고르지 않음 — 통과 후보는 EIA 호르무즈 물동량 그래프(사진 아님). 펌프장 피격 사진 없음 → 지도 flight(drone)로
   act4_15:
+    photo: 고르지 않음 — 통과 후보는 2026 쿠르디스탄 지역 이란 공격 사진(PD). 장소·주체가 달라(사우디 펌프장·이라크발 드론) 오해 소지 → 지도 flight 출발점(이라크)으로
+  act4_3:
     photo: A 후보 — 'U S forces Execute large-scale Precision Strike on Kharg Island, Iran (999553).webm'(미 국방부, Public domain) 실영상. 사용 구간·사상자 식별 체크 후 등록. 실패하면 지도 marker(boom)
   act4_18:
     photo: 고르지 않음 — 로이터 조사 결과 문장. 로이터 기사 카드로(사진 캡처 금지)

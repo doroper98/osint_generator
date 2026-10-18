@@ -285,7 +285,7 @@
    ]
   },
   {
-   "sid": "act4_3",
+   "sid": "act4_5",
    "query": "South Pars gas field hastemplate:\"PD-USGov-Military\"",
    "pool": "us_dod_pd",
    "on": "2026-10-18",
@@ -297,7 +297,7 @@
    ]
   },
   {
-   "sid": "act4_3",
+   "sid": "act4_5",
    "query": "South Pars gas field",
    "pool": "commons_cc",
    "on": "2026-10-18",
@@ -315,7 +315,7 @@
    ]
   },
   {
-   "sid": "act4_11",
+   "sid": "act4_13",
    "query": "Fujairah port hastemplate:\"PD-USGov-Military\"",
    "pool": "us_dod_pd",
    "on": "2026-10-18",
@@ -325,7 +325,7 @@
    "rejected": []
   },
   {
-   "sid": "act4_11",
+   "sid": "act4_13",
    "query": "Fujairah port",
    "pool": "commons_cc",
    "on": "2026-10-18",
@@ -337,7 +337,7 @@
    ]
   },
   {
-   "sid": "act4_12",
+   "sid": "act4_14",
    "query": "East-West pipeline Saudi Arabia hastemplate:\"PD-USGov-Military\"",
    "pool": "us_dod_pd",
    "on": "2026-10-18",
@@ -349,7 +349,7 @@
    ]
   },
   {
-   "sid": "act4_12",
+   "sid": "act4_14",
    "query": "East-West pipeline Saudi Arabia",
    "pool": "commons_cc",
    "on": "2026-10-18",
@@ -366,7 +366,7 @@
    ]
   },
   {
-   "sid": "act4_13",
+   "sid": "act4_15",
    "query": "drone Iraq militia hastemplate:\"PD-USGov-Military\"",
    "pool": "us_dod_pd",
    "on": "2026-10-18",
@@ -376,7 +376,7 @@
    "rejected": []
   },
   {
-   "sid": "act4_13",
+   "sid": "act4_15",
    "query": "drone Iraq militia",
    "pool": "commons_cc",
    "on": "2026-10-18",
@@ -392,7 +392,7 @@
    "rejected": []
   },
   {
-   "sid": "act4_15",
+   "sid": "act4_3",
    "query": "Kharg Island hastemplate:\"PD-USGov-Military\"",
    "pool": "us_dod_pd",
    "on": "2026-10-18",
@@ -405,7 +405,7 @@
    "rejected": []
   },
   {
-   "sid": "act4_15",
+   "sid": "act4_3",
    "query": "Kharg Island",
    "pool": "commons_cc",
    "on": "2026-10-18",

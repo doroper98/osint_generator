@@ -35,3 +35,5 @@ decisions:
   bgm: {value: music.zabriskie_mario_bava, by: user, ref: D232 · rules audio.bgm_default 첫 곡}
   resolution: {value: 720p, by: user, ref: 사용자 결정 2026-10-04 "기준 해상도는 720p야"}
   gates: {value: 게이트 ①·② 감독 위임(이번 1회), by: user, ref: D232}
+  gates_v2: {value: "v2 트랙 — 게이트 ① 사용자, 게이트 ② 감독", by: user, ref: "D-0229 · D244"}
+  script_fix_rollback: {value: "승인 뒤 원고 사실 수정 — 하르그섬 타격 3월 13일(act4_3·4 이동), 게이트 ① 재승인", by: user, ref: "D-0236 · D245 · D-0237"}
