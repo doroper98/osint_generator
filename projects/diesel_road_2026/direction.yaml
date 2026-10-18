@@ -2886,8 +2886,8 @@ events:
   kind: flag
   flag: ru
   label: 러시아
-  lon: 133.9
-  lat: 42.2
+  lon: 133.6
+  lat: 43.7
   start:
     sid: act2_14
     'off': 0.2

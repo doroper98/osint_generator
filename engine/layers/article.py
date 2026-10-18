@@ -140,7 +140,7 @@ def draw_press_photo_credit(ctx: cairo.Context, e: dict, a: float) -> None:
         return
     y = load_rules().layout_480p.reserved_zones.subtitle.y_from - PC.y_above_subtitle
     th = ARTICLE.themes[e.get("theme") or ARTICLE.theme_default]
-    text(ctx, s, W_OUT * ARTICLE.x_left_ratio, y, PC.size, "sans", th.muted, a, 2.4, "l", role="media_meta")
+    text(ctx, s, W_OUT * ARTICLE.x_left_ratio, y, PC.size, "sans", th.ink, a * 0.85, 2.4, "l", role="media_meta")   # 덮개 위에서도 읽히게(muted 는 너무 흐림)
 
 
 def validate_press(e: dict, assets: dict | None = None):  # noqa: ANN201 — MediaAsset | None
@@ -246,13 +246,13 @@ def draw_article(ctx: cairo.Context, R: RenderCtx, t: float, e: dict) -> None:  
     if pa <= 0.01:
         return
     draw_press(ctx, R, e, pa)
-    draw_press_photo_credit(ctx, e, pa)   # v7.4.0 D-0240 §3 — 자료사진 표기(공식 사진 바탕일 때만)
     over = title_over(R, t)   # v6.0.2 D-0216 UF-98 — 제목 카드가 이 기사 위에 뜨면 기사 글자는 흐리게(블러·불투명도) 제목 뒤에 남는다
     sharp, soft = ta * (1.0 - over), ta * over * ARTICLE.title_sink.alpha
     if sharp > 0.01:
         draw_article_text(ctx, e, sharp)
     if soft > 0.01:
         _paint_device(ctx, _sunk_text(ctx, R, e), soft)
+    draw_press_photo_credit(ctx, e, pa * (1.0 - over))   # v7.4.0 D-0240 §3 — 자료사진 표기(공식 사진 바탕일 때만, 덮개 위에)
 
 
 def _sunk_text(ctx: cairo.Context, R: RenderCtx, e: dict) -> cairo.ImageSurface:  # noqa: N803
