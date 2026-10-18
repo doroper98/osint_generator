@@ -1892,3 +1892,14 @@ entries:
   status: guarded
   decision: "감독 결정(D-0242) — drift 경로는 해안선을 따라(울산·포항 → 강릉 → 원산 → 함흥·청진 → 나진 → 블라디보스토크) 폭 w 6~8 로 해안과 도시 라벨이 항상 한쪽에 있게 설계. 규칙 camera.land_min_ratio 0.35 + 검사 [sea-only-frame] hard(모든 카메라 이동·정지 프레임에서 육지 화소 비율 < 0.35 이면 실패, 지도 무대 전체 적용). 콘티·전편 같은 검사"
   source: 감독 세션(Fable) 사용자 대화 2026-10-18
+- id: UF-126
+  date: '2026-10-19'
+  project: diesel_road_2026
+  at: 전편 v2 교체본(artifacts 3e3d4f9b, md5 36289c32) 시청 — 사용자 질문
+  quote: 그래프들 왜 다 사라졌어?
+  quote_kind: verbatim
+  category: 데이터 그래프 — 순서 지침(order.yaml "시리즈 패널")에 명시된 시리즈 패널(dual_line 3종)이 v2 연출 재생성에서 통째로 빠짐. v1 에 있던 러시아 정제 처리량·러시아 경유 해상 수출·걸프 경유 순수출 그래프가 v2 전편에 없다
+  guards: []
+  status: open
+  decision: "감독 결정(D-0245) — (1) 그 영상: v1 연출(track_v1/direction.yaml)의 dual_line 3종을 v2 원고 문장에 다시 앵커해 복원, 프리뷰 hard 0 → 게이트 ② 재기록(D-0243 위임) → 720p 재렌더 → artifacts 교체('v2 교체 2: 그래프 복원'). main 병합은 그 뒤. (2) 장치: [series-unused] hard — order.yaml 시리즈 패널·data/series 에 프로젝트가 지정한 series_id 가 연출의 어느 패널 series.record 에도 없으면 실패(drops 사유만 예외). [panel-dropped] hard — 이전 승인 연출(track_v*/direction.yaml·direction.v1.yaml)에 있던 데이터 패널(record 를 가진 dual_line·dots·versus·gantt·timeline)이 새 연출에 없고 drops 사유도 없으면 실패. 두 장치 모두 콘티·프리뷰·전편·스케치 같은 규칙 키. 원인: 연출 초안이 order.yaml 지침을 따르지 않았고, [media-unused](UF-118)가 사진만 보고 데이터 시리즈는 안 봤다(같은 부류의 누락)"
+  source: 감독 세션(Fable) 사용자 대화 2026-10-19
