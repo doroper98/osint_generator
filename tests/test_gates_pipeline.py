@@ -59,7 +59,7 @@ def write_animatic(pdir: Path, total_sec: float = 292.44, animatic: bool = True)
 
 
 def _v550_script(src: Path, dst: Path) -> None:
-    """기준 원고(v3)를 v5.5.0 서술 규약에 맞춘 사본 — 미확인 마무리를 확인된 사실로, 문장 둘에 하나는 연결어로(게이트 ① 차단 방지).
+    """기준 원고(v3)를 v5.5.0 서술 규약(+ v7.4.0 막 구조·전환 role)에 맞춘 사본 — 미확인 마무리를 확인된 사실로, 문장 둘에 하나는 연결어로(게이트 ① 차단 방지).
     기준 원고 자체는 고치지 않는다(골든)."""
     import yaml  # noqa: PLC0415
 
@@ -74,6 +74,11 @@ def _v550_script(src: Path, dst: Path) -> None:
                 if s.get("tts"):
                     s["tts"] = "또한 " + s["tts"]
             k += 1
+        if sc.get("kind", "act") == "act":   # v7.4.0 D-0229 §2.9·D-0230 — 막 도입 2(bridge 포함)·정리 1, 장면 경계 bridge
+            if len(sc["sentences"]) >= 3:
+                sc["sentences"][0]["role"], sc["sentences"][1]["role"], sc["sentences"][-1]["role"] = "bridge", "intro", "outro"
+            else:   # 두 문장 장면 — 막 구조를 갖출 수 없어 마무리 장면으로(사본 한정)
+                sc["kind"], sc["sentences"][0]["role"], sc["sentences"][-1]["role"] = "ending", "bridge", "outro"
     dst.write_text(yaml.safe_dump(d, allow_unicode=True, sort_keys=False), encoding="utf-8")
 
 

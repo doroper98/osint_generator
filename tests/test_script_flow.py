@@ -28,10 +28,10 @@ VALID_SCRIPT_JSON = json.dumps(
         "subtitle": "테스트 주제",
         "date": "2026.09.18",
         "scenes": [
-            {"id": "intro", "sentences": [
+            {"id": "intro", "kind": "cold", "sentences": [   # v7.4.0 — 두 장면 조각(막 구조 [act-frame] 는 막 kind act 에만)
                 {"date": "2026.09.18", "text": "이 사건이 왜 중요한지 살펴봅니다."},
             ]},
-            {"id": "facts", "sentences": [
+            {"id": "facts", "kind": "ending", "sentences": [
                 {"date": "2026.09.18", "text": "공식 기관 두 곳이 사건을 확인했습니다.", "sources": ["clm_0001"]},
                 {"date": "2026.09.18", "text": "그런데 한 매체는 배후가 따로 있다고 주장했습니다.",
                  "sources": ["clm_0002"]},

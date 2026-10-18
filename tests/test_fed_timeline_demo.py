@@ -35,7 +35,8 @@ class DemoInputsTest(unittest.TestCase):
     def test_script_numbers_match_records(self) -> None:
         sc = Script.model_validate(yaml.safe_load((PROJ / "script.yaml").read_text(encoding="utf-8")))
         # v5.5.0 script_grammar — 이전 데모 원고는 연결어 부족(flow-sparse) 하나만 걸린다(숫자·출처 규칙은 그대로 통과)
-        self.assertEqual([i.kind for i in lint(sc).errors], ["flow-sparse"])
+        # v7.4.0 D-0230 §3 — transition-bridge·act-frame 은 옛 원고 면제(lint_waivers.yaml rule_since v7.4.0)
+        self.assertEqual([i.kind for i in lint(sc).errors if i.kind not in ("transition-bridge", "act-frame")], ["flow-sparse"])
         self.assertTrue(8 <= sum(len(s.sentences) for s in sc.scenes) <= 10)
         self.assertTrue(all(src.startswith("series:") for s in sc.scenes for x in s.sentences for src in x.sources))
 
