@@ -22,6 +22,7 @@ released 항목은 **append-only**입니다.
 - v7.4.0(D-0234): credits 모드 [press-attribution] 이 당사자 발언·논쟁 문장의 매체 접두("X에 따르면 Y는 … 말했다", "X는 Y가 … 말했다고 전했다", "X가 인용한 Y 자료에 따르면")도 잡는다(rules script_schema.press_relay_verbs). 귀속 표지에 "자료로는"·"집계로는" 추가.
 - v7.4.0(D-0237): `orchestrator rollback --to script_draft --reason` — 게이트 ① 승인 뒤 렌더 전 단계(voice_timeline·assets·direction·preview_qa)에서 원고 사실 수정으로 되돌림. manifest `rollbacks[]`(원고 지문 포함), 게이트 집합 불변. 시험 tests/test_v740_rollback_script_draft.py.
 - v7.4.0(D-0238, UF-118): 검사 `media_unused`(hard) — 프로젝트가 등재한 권리 통과 사진({pid}_ 접두 kind photo)이 연출 어디에도 없으면 실패, media_notes.yaml `drop`(mid·사유)만 예외. 골든 e2e 검사 72항목. UF-117·118 장치 기입.
+- v7.4.0(D-0229 §4.3): rules data.units 에 "건"·"척"(점 패널 "몇 척 중 몇 척"). 미디어 레지스트리 diesel_road_2026 사진 3장 추가(하바롭스크 정유소 CC BY 3.0·라스라판 LNG CC BY 2.0·블라디보스토크 항 PD, 모두 자료사진, D-0239 UF-119).
 
 ### Changed
 -

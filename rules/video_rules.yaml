@@ -1404,7 +1404,7 @@ genre_prompt:              # v4.4.0 D-0090 작업 1 — 장르 프롬프트 층(
       - "정책 금리 계단·목표 범위 띠는 color_by: change(인상·인하·동결 색을 코드가 레코드 변화로 정한다). 시장 금리·물가 선은 fixed."   # v4.4.0 D-0091 ②
 
 data:                      # v4.3.0 D-0084 작업 1 — 데이터 레코드(docs/handoff/20 §5.1, schemas/data_models.py:SeriesRecord). 이 목록 밖 값 = 로드 오류(15 P6)
-  units: ["%", "%p", "bp", "억 달러", "지수", "명", "원", "달러/갤런", "mb/d", "kb/d"]   # mb/d·kb/d = v7.3.0 D232 U4(하루 백만·천 배럴, 정제 처리량·경유 수출). v5.3.1 달러/갤런 = 미국 경유 소매가(EIA GASDESW, valdai-2026). 화면 단위(20 §5.3 "단위를 화면에 표시")
+  units: ["%", "%p", "bp", "억 달러", "지수", "명", "원", "달러/갤런", "mb/d", "kb/d", "건", "척"]   # 건·척 = v7.4.0 D-0229 §4.3(점 패널 "몇 척 중 몇 척", UF-113). mb/d·kb/d = v7.3.0 D232 U4(하루 백만·천 배럴, 정제 처리량·경유 수출). v5.3.1 달러/갤런 = 미국 경유 소매가(EIA GASDESW, valdai-2026). 화면 단위(20 §5.3 "단위를 화면에 표시")
   licenses_allowed: [us_gov_public_domain, cc_by_4, press_cited]   # 재배포 가능한 공개 라이선스만(20 §5.1 "시리즈마다 이용 조건 확인"). press_cited = v7.3.0 D232 U4 — 보도 인용값(값 자체는 사실 인용, 값마다 cited 필수)
   unit_prefixes: ["$", "₩", "€", "¥"]                    # v4.3.0 D-0087 보정 1 — 값 앞 통화 기호도 단위 표시로 인정(dual_line y_prefix)
   sources_allowed: [fred.stlouisfed.org, www.federalreserve.gov]   # source_url 도메인(tools/fetch_series.py 가 받는 곳). federalreserve.gov = v4.4.0 SEP 점도표(D-0090 작업 2)
