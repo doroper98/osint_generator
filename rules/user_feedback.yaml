@@ -1549,8 +1549,10 @@ entries:
   quote: 영상에 인물이 필요하면 인물 등장씬을 적극적으로 작동시켜.
   quote_kind: verbatim
   category: 인물 — 등장 빈도(소극적 사용 금지)
-  guards: []
-  status: open
+  guards:
+  - {kind: check, ref: portrait_unused}
+  - {kind: test, ref: tests/test_feedback_guard_checks.py::TestPortraitUnused::test_name_without_badge_warns}
+  status: guarded
   decision: 감독 기록 — 장치 후보 = 인물 발언·결정 문장(quote 후보)에 person 뱃지·quote 이벤트 미사용 시 경고 [person-unused](article-unused 와 같은 방식). 장치는 이 영상 전달 뒤 첫 작업
   source: 감독 세션(Fable) 사용자 대화 2026-10-17
 - id: UF-102
@@ -1560,8 +1562,11 @@ entries:
   quote: 기사도 적극적으로 조판하고.
   quote_kind: verbatim
   category: 기사 카드 — 조판 빈도(후보 문장에 적극 사용)
-  guards: []
-  status: open
+  guards:
+  - {kind: check, ref: media_beats}
+  - {kind: rule, ref: media.density.article_per_min_max}
+  - {kind: test, ref: tests/test_p1_media_plan.py::ArticleUsageTest::test_unused_warns_and_reason_records}
+  status: guarded
   decision: 감독 기록 — 기존 [article-unused](check article_unused)·article_per_min_max 가 있으나 '적극'의 하한(분당 기사 카드 하한)은 없음. 장치 후보 = media.density.article_per_min_min(후보 문장이 있는데 미달이면 경고). 이 영상 전달 뒤 첫 작업
   source: 감독 세션(Fable) 사용자 대화 2026-10-17
 - id: UF-103
@@ -1586,8 +1591,12 @@ entries:
   quote: 내용의 나열은 충실한데, 그 이유라던지, 왜 그런행위가 일어나고 있는지에 대한 설명이 너무 부족해서 개연성을 인식하기가 힘들어. 그런 설명이 좀 보완 되면 좋겠어. 아무래도 영상을 길게 만드는 요인이긴 하지만, 필수적인 내용이므로 보완해.
   quote_kind: verbatim
   category: 원고 — 인과·동기 설명(사실 나열만으로는 개연성 부족, 길이보다 설명 우선)
-  guards: []
-  status: open
+  guards:
+  - {kind: check, ref: tempo_density}
+  - {kind: rule, ref: tempo.act_intro_min}
+  - {kind: code, ref: script.lint.act_frame_issues}
+  - {kind: test, ref: tests/test_v740_tempo.py::ActFrameTest::test_missing_frame_hard}
+  status: guarded
   decision: 감독 기록 — 사실 문장마다 "왜"가 따라붙는 구조로 원고 규칙 보강 예정(사건·행위 문장 뒤 동기·원인 문장 의무, 길이 상한보다 우선). 장치는 diesel_road_2026 v2 전달 뒤 첫 작업으로 단다(C12 2)
   source: 감독 세션(Fable) 사용자 대화 2026-10-18
 - id: UF-105
@@ -1597,8 +1606,13 @@ entries:
   quote: 시점을 건너뛰는 그런 섹션이 나오면, 좀 천천히 전환을 한다던지, 혹은 설명에 잠시 호흡을 가다듬는 구간이 있다거나 혹은 시점이 변경된다는 설명을 해주거나 하면 좋겠어. 이를테면 이란-이스라멜/미국 전쟁이야기가 나오는건 시점이 바뀌는것이니 그런 장치가 작동 되면 좋을거 같아.
   quote_kind: verbatim
   category: 연출 — 시점 전환(시간·무대 점프)에 느린 전환·호흡 구간·전환 고지 문장 의무
-  guards: []
-  status: open
+  guards:
+  - {kind: check, ref: transition_camera}
+  - {kind: rule, ref: transition.bridge_pause_sec}
+  - {kind: code, ref: script.lint.transition_issues}
+  - {kind: test, ref: tests/test_v740_transition.py::BridgeLintTest::test_a_stage_change_hard}
+  - {kind: test, ref: tests/test_v740_transition.py::TimelinePauseTest::test_bridge_pause_inserted}
+  status: guarded
   decision: 감독 기록 — 무대 전환·시간 점프 이벤트에 전환 고지(내레이션 한 문장 + 날짜 배지 갱신) + 느린 전환 + 호흡 간격 규칙 예정. 장치는 diesel_road_2026 v2 전달 뒤 첫 작업으로 단다(C12 2)
   source: 감독 세션(Fable) 사용자 대화 2026-10-18
 - id: UF-106
@@ -1608,8 +1622,13 @@ entries:
   quote: "지도 관련해서 도로와 국가 내 행정구역, 주요 수도 표기에 대한 장치를 보완해두지 않았어? white theme 지도에만 적용 되는거야? 이번 지도에도 적용을 하면 좋겠어."
   quote_kind: verbatim
   category: 지도 — 도로·행정구역 선·수도 표기가 dark 테마 영상에서도 보여야 함(테마 무관, 넓은 숏에서도 수도는 표기)
-  guards: []
-  status: open
+  guards:
+  - {kind: rule, ref: labels.capital_always}
+  - {kind: rule, ref: geo.themes.dark.map.roads}
+  - {kind: rule, ref: geo.themes.light.map.rivers}
+  - {kind: test, ref: tests/test_v740_map_layers.py::LodRenderTest::test_roads_near_on_far_off}
+  - {kind: test, ref: tests/test_v740_map_layers.py::GeoPklTest::test_old_geo_pkl_is_error}
+  status: guarded
   decision: "감독 실측 — 행정구역 선·도명·도시·수도 표기는 두 테마 공통 구현이나 카메라 폭 LOD(행정선 w<24°, 도명 w<8.5°)에 묶여 이번 영상(숏 폭 22~104°)에서 거의 안 보였음. 도로·강은 품질 가이드 23 §15 시안에만 있고 엔진 미구현. v2: 수도 상시 표기 + 타격지 근접 숏 + 도로·강 레이어(Natural Earth, 공개 도메인) 추가 예정. 장치는 v2 전달 뒤 첫 작업으로 단다(C12 2)"
   source: 감독 세션(Fable) 사용자 대화 2026-10-18
 - id: UF-107
@@ -1619,8 +1638,11 @@ entries:
   quote: 오프닝에 라잔 타격 설명이 나오는데, 라잔 위성사진이 좀 보이면 좋겠고
   quote_kind: verbatim
   category: 인셋 — 타격지 설명이 이어지는 동안 위성 인셋 유지(비행 구간에만 두지 않음)
-  guards: []
-  status: open
+  guards:
+  - {kind: check, ref: inset_overlap}
+  - {kind: rule, ref: flight.inset.hold_same_place}
+  - {kind: test, ref: tests/test_v740_inset_hold.py::SamePlaceTest::test_extends_over_consecutive_mentions}
+  status: guarded
   decision: 감독 기록 — v2 에서 랴잔 인셋을 cold_0 착탄부터 cold_3 끝까지 유지(마커·카드와 겹치지 않는 자리). 규칙 후보 = 같은 장소를 말하는 연속 문장 동안 인셋 유지. 장치는 v2 전달 뒤 첫 작업(C12 2)
   source: 감독 세션(Fable) 사용자 대화 2026-10-18(화면 캡처 2장 첨부)
 - id: UF-108
@@ -1630,8 +1652,11 @@ entries:
   quote: 이 아래 설명에 "반면"으로 시작 하고 있는데, 반면 보다는 "이에 대해" 라는 접속사를 쓰는게 어때?
   quote_kind: verbatim
   category: 원고 — 접속사 선택(양측 입장 병기는 "반면"이 아니라 "이에 대해")
-  guards: []
-  status: open
+  guards:
+  - {kind: rule, ref: script_vocab.contrast_heads}
+  - {kind: code, ref: script.lint.vocab_issues}
+  - {kind: test, ref: tests/test_v740_script_vocab.py::ContrastTest::test_after_statement_warns}
+  status: guarded
   decision: 감독 기록 — v2 원고 cold_2 를 "이에 대해 우크라이나 당국자는…" 으로 고친다. 규칙 후보 = 한쪽 발표 뒤 상대측 반응 문장은 "이에 대해"·"한편" 계열, "반면"은 수치·성질 대조에만. 장치는 v2 전달 뒤 첫 작업(C12 2)
   source: 감독 세션(Fable) 사용자 대화 2026-10-18
 - id: UF-109
@@ -1641,8 +1666,10 @@ entries:
   quote: 그리고 트럼프가 에너지 휴전이 끝났다고 말하는 기사의 사진을 넣어.
   quote_kind: verbatim
   category: 미디어 — 보도 문장에 기사 카드 + 프레스 사진(인물 발언·발표 보도는 카드만으로 끝내지 않음)
-  guards: []
-  status: open
+  guards:
+  - {kind: check, ref: article_press_missing}
+  - {kind: test, ref: tests/test_v740_article_press.py::PressTest::test_statement_without_press_warns}
+  status: guarded
   decision: 감독 기록 — v2 에서 cold_3 에 AP 기사 카드(art_0032)를 당겨 넣고 press 사진을 단다. AP 사진은 권리상 쓸 수 없으므로 공개 도메인 공식 사진(백악관 발표 장면, 위키미디어 공용 경유)으로 권리 기록과 함께 등재. 장치는 v2 전달 뒤 첫 작업(C12 2)
   source: 감독 세션(Fable) 사용자 대화 2026-10-18
 - id: UF-110
@@ -1652,8 +1679,11 @@ entries:
   quote: 23초 부터 30초 나오는 구간의 영상에 화면 전환이 너무 성급해. 기사 나왔다가 지도 나왔다가 또 기사 조판 나왔다가...
   quote_kind: verbatim
   category: 연출 — 전면 컷어웨이(기사·사진) 사이 지도 복귀가 짧으면 안 됨(연속 컷어웨이는 하나로 합치고, 지도 복귀는 최소 유지 시간)
-  guards: []
-  status: open
+  guards:
+  - {kind: check, ref: cutaway_churn}
+  - {kind: rule, ref: qa_checks.cutaway_full_types}
+  - {kind: test, ref: tests/test_v740_cutaway_churn.py::V1FixtureTest::test_v1_opening_fails}
+  status: guarded
   decision: "감독 기록 — v2 오프닝 재배치: cold_3 AP 기사 카드(+프레스 사진)를 cold_4 젤렌스키 인용까지 한 장으로 유지 → cold_5 는 지도로 복귀해 울산 경로 암시 → 타이틀. 규칙 후보 = 컷어웨이 뒤 지도 복귀 ≥ shot_min_hold_sec, 그 안에 또 컷어웨이면 검사 [cutaway-churn] hard(붙어 있으면 한 장으로 합친다). 장치는 v2 전달 뒤 첫 작업(C12 2)"
   source: 감독 세션(Fable) 사용자 대화 2026-10-18
 - id: UF-111
@@ -1663,8 +1693,11 @@ entries:
   quote: 오른쪽 상단 아일랜드에 경유 t 을 표기 할때 끝이 구부러진 t 를 쓰던지, 아니면 영어로 Ton 이라고 써. 십자가 같은 t 를 쓰니까 이상해.
   quote_kind: verbatim
   category: 타이포 — 단위 기호 t 는 꼬리가 구부러진 글꼴로만(display 글꼴의 십자형 t 금지) 또는 단위를 글자로 풀어 씀
-  guards: []
-  status: open
+  guards:
+  - {kind: check, ref: unit_glyph_font}
+  - {kind: rule, ref: fonts.unit_font}
+  - {kind: test, ref: tests/test_v740_unit_font.py::RenderTest::test_unit_glyph_drawn_with_sans}
+  status: guarded
   decision: "감독 실측 — engine/cards.py 가 bigs(큰 숫자)를 'disp'(GmarketSans)로 그리고 단위 t 도 같은 글꼴에 들어가 십자형이 됨. v2: 큰 숫자의 단위 꼬리(t, kb/d 등 라틴 단위)는 sans(IBM Plex Sans KR, 꼬리 있는 t)로 분리해 그린다 — 사용자 선택지 ① '끝이 구부러진 t'. 규칙 후보 = fonts.unit_font: sans + 검사(display 글꼴 문자열에 라틴 단위 기호 금지). 장치는 v2 전달 뒤 첫 작업(C12 2)"
   source: 감독 세션(Fable) 사용자 대화 2026-10-18
 - id: UF-112
@@ -1674,8 +1707,10 @@ entries:
   quote: 울산에서 니가타(?) 로 가려다가 블라디보스토크로 가려던 항로는 바로 울산->블라디보스토크로 항로를 연결하지 말고 니가타 인근에서 꺾여서 블라디보스토크로 가는 형태로 바꿔.
   quote_kind: verbatim
   category: 경로 — 신고 목적지와 실제 목적지가 다른 항해는 한 줄로(신고지 부근에서 꺾이는 굴절 경로), 직선 두 줄 병기 금지
-  guards: []
-  status: open
+  guards:
+  - {kind: code, ref: engine.layers.routes.draw_route}
+  - {kind: test, ref: tests/test_v740_route_declared.py::DrawTest::test_dashed_then_solid_with_label_near_bend}
+  status: guarded
   decision: "감독 기록 — v2: path leila·astoria 를 울산 → 니가타 앞바다(꺾임점, 신고 라벨) → 블라디보스토크 한 줄로 바꾸고, 꺾임점까지는 muted 점선(신고), 꺾임 뒤는 ru 실선(실제)로 색만 바꾼다. 규칙 후보 = route 에 declared_to 필드(신고 목적지) → 렌더러가 굴절 경로 자동 생성. 장치는 v2 전달 뒤 첫 작업(C12 2)"
   source: 감독 세션(Fable) 사용자 대화 2026-10-18
 - id: UF-113
@@ -1685,8 +1720,11 @@ entries:
   quote: 그리고 유조선 열 네번 중 세척이 제재 대상이라고 하면 화면에 조판을 띄워서 몇 척중 몇적은 제재 대상임을 그래픽으로 보여주면 좋겠어.
   quote_kind: verbatim
   category: 데이터 그래픽 — "N 중 M" 비율 문장은 점 패널(dots)로 조판(말로만 끝내지 않음)
-  guards: []
-  status: open
+  guards:
+  - {kind: check, ref: ratio_graphic}
+  - {kind: rule, ref: qa_checks.ratio_patterns}
+  - {kind: test, ref: tests/test_v740_dots_ratio.py::RatioCheckTest::test_warns_without_graphic}
+  status: guarded
   decision: "감독 기록 — v2: act2_9~act2_10 에 dots 패널(7척 = 점 7, 그중 3 강조 = 제재 대상, 큰 숫자 '3 / 7', 부제 '열네 번 항해 · 가디언'). 사실 주의: 제재 대상은 '일곱 척 중 세 척'(열네 번은 항해 횟수) — 그래픽은 척수 기준. 규칙 후보 = 원고 린트가 'N 중 M' 문형을 찾으면 연출에 dots·versus 패널 없을 때 warning. 장치는 v2 전달 뒤 첫 작업(C12 2)"
   source: 감독 세션(Fable) 사용자 대화 2026-10-18
 - id: UF-114
@@ -1696,8 +1734,11 @@ entries:
   quote: 처음 오프닝 쯤에 드론이 정유소를 "맞혔다"는 표현을 쓰는데, 좀 이상해. 이동하는걸 격추했을때 맞혔다고 쓰는거지, 정유소 처럼 고정된 물체를 타격 했을때는 타격했다. 혹은 떄렸다는 표현을 쓰는거야. 바꿔.
   quote_kind: verbatim
   category: 원고 어휘 — 고정 시설(정유소·공장·기지·설비)에는 "타격했다·때렸다", "맞히다"는 이동 표적(항공기·미사일·차량)에만
-  guards: []
-  status: open
+  guards:
+  - {kind: rule, ref: script_vocab.fixed_targets}
+  - {kind: code, ref: script.lint.vocab_issues}
+  - {kind: test, ref: tests/test_v740_script_vocab.py::VerbTargetTest::test_fixed_target_hard}
+  status: guarded
   decision: "감독 기록 — v2 원고: act1_0 '…정유소를 타격했습니다', act1_2 '…2차 설비를 때리는 일이 늘었다'로 고치고 전편의 '맞히다' 용례를 전수 점검. 규칙 후보 = 원고 린트 [verb-target-mismatch]: '맞히/맞혔' + 고정 시설 명사(정유소·공장·기지·설비·펌프장·터미널·발전소) = hard. 장치는 v2 전달 뒤 첫 작업(C12 2)"
   source: 감독 세션(Fable) 사용자 대화 2026-10-18
 - id: UF-115
@@ -1707,7 +1748,10 @@ entries:
   quote: 전반적으로 내용이 좀 많은데, 그걸 9분에 우겨 넣으려고 했어서 그런지 너무 성급하고 급해. 그냥 영상 길이를 늘리더라도 호흡을 천천히, 그리고 막전 막후 설명을 충실히 넣어서 이해하면서 장면이 넘어가도록 해.
   quote_kind: verbatim
   category: 템포 — 길이 상한보다 호흡 우선(막 사이 전후 맥락 설명, 장면 전환마다 이해 시간 확보). 10분 상한(D234 U5) 해제
-  guards: []
-  status: open
+  guards:
+  - {kind: check, ref: tempo_density}
+  - {kind: rule, ref: tempo.fact_sentences_per_min_max}
+  - {kind: test, ref: tests/test_v740_tempo.py::DensityTest::test_over_limit_warns}
+  status: guarded
   decision: "감독 기록 — 사용자 결정으로 diesel_road_2026 길이 상한(10분, D234 U5) 해제. v2 원고: 막마다 도입(막전: 왜 이 이야기로 가는가)·정리(막후: 무엇이 바뀌었나) 문장 추가, 문장 사이 간격·전환 호흡 규칙(UF-105)과 함께 적용. 규칙 후보 = tempo: 문장당 최소 간격, 막 전환 최소 호흡 초, 분당 사실 문장 상한. 장치는 v2 전달 뒤 첫 작업(C12 2)"
   source: 감독 세션(Fable) 사용자 대화 2026-10-18
