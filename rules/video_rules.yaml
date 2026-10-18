@@ -725,6 +725,7 @@ panels:                    # D-0032 — 패널 기하·타이밍. 코드에 리�
       note_label: {x: 542, y: 276, size: 10.5, spacing: 0.6}
       note_value: {x: 542, y: 306, size: 22}
       note_caption: {x: 542, y: 328, size: 12}
+      few: {max_total: 20, y: 250, x0: 262, x1: 500, spacing: 34, radius: 12}   # v7.4.0 D-0229 §2.6(UF-113) — "7척 중 3척" 같은 적은 점은 한 줄 큰 점(왼쪽 영역)
     gantt:
       x: [250, 810]
       axis_y: 368
@@ -1568,6 +1569,11 @@ qa_checks:                 # 17 §3 — 결정적 사전 검사 임계
   # v5.21.10 사용자 의견(2026-10-11 "기사 화면이 나왔는데 0.5초도 안 돼서 사라진다", D-0191 §1-2) — 기사(프레스 단독·페이드 뺀 글자 구간)·인용(페이드 뺀 구간)
   # 완전 노출 하한. 문장이 짧으면 연출이 다음 문장까지 늘리거나 앞당긴다. 검사 card_exposure hard
   card_full_exposure_min_sec: 2.5
+  # v7.4.0 D-0229 §2.6(UF-113 "몇 척중 몇척은 제재 대상임을 그래픽으로") — 문장에 "N 척 중·가운데 M" 문형이 있는데 그 문장 구간에 dots·versus 패널·series 가 없으면 warning ratio_graphic
+  ratio_patterns:
+    - '(\d+|[일이삼사오육칠팔구십백천만]+|한|두|세|네|다섯|여섯|일곱|여덟|아홉|열|스무|스물)\s*(척|곳|건|명|개|대|기)\s*(중|가운데)'
+    - '(중|가운데)\s*(\d+|[일이삼사오육칠팔구십백천만]+|한|두|세|네|다섯|여섯|일곱|여덟|아홉|열)\s*(척|곳|건|명|개|대|기)'
+  ratio_graphic_kinds: [dots, versus]
   cutaway_full_types: [article, backdrop]   # v7.4.0 D-0229 §2.3(UF-110 "기사 나왔다가 지도 나왔다가 또 기사") — 전면 컷어웨이. 끝난 뒤 shot_grammar.shot_min_hold_sec 안에 다음 전면 = hard cutaway_churn(사진·영상은 상자 배치라 지도가 보인다)
   label_jump_px: 4.0   # v5.22.7 D209 — 경로 이름표가 보이는 중 한 프레임 사이 (이름표 가운데 − 가장 가까운 경로 점) 변화 상한, 넘으면 hard label_jump
   # v7.1.0 UF-99 D-0220 — 원칙: 카메라 검사는 화면에 그려진 뷰를 잰다(engine.camera.screen_track — 렌더와 같은 View).

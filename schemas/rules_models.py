@@ -947,6 +947,16 @@ class DotsRules(_Strict):
     note_label: TextAt
     note_value: TextAt
     note_caption: TextAt
+    few: "DotsFew"   # v7.4.0 D-0229 §2.6 — 점 수가 적을 때(N 중 M) 한 줄 큰 점
+
+
+class DotsFew(_Strict):
+    max_total: int = Field(ge=1)   # total 이 이 이하면 한 줄
+    y: float                       # 줄 중심 y(설계 px)
+    x0: float                      # 첫 점 중심 x
+    x1: float                      # 줄 오른쪽 끝(점 간격 = min(spacing, (x1 − x0)/(n − 1)))
+    spacing: float
+    radius: float
 
 
 class GanttRules(_Strict):
@@ -1568,6 +1578,8 @@ class QAChecks(_Strict):
     frame_missing: "FrameMissingRules"   # v5.21.14 D-0199 — 문장이 부르는 지명이 화면 밖
     battle_geo: "BattleGeoRules"         # v5.22.0 D-0200 UF-08 — 전황 문장에 지명·경로 없음(warning)
     card_full_exposure_min_sec: float = Field(gt=0)   # v5.21.10 D-0191 §1-2 — 기사·인용 카드 완전 불투명 구간 하한(hard card_exposure)
+    ratio_patterns: list[str] = Field(min_length=1)       # v7.4.0 D-0229 §2.6(UF-113) — "N 중 M" 문형(warning ratio_graphic)
+    ratio_graphic_kinds: list[str] = Field(min_length=1)  # 그 문장 구간에 있어야 할 패널 종류(series 이벤트도 인정)
     cutaway_full_types: list[str] = Field(min_length=1)   # v7.4.0 D-0229 §2.3(UF-110) — 화면 전체를 덮는 컷어웨이 이벤트(hard cutaway_churn). 지도 복귀 ≥ shot_min_hold_sec
     label_jump_px: float = Field(gt=0)   # v5.22.7 D209 — 경로 이름표 수명 중 자리 이동 상한(hard label_jump)
     camera_bounds_rel_tol: float = Field(gt=0)   # v7.1.0 UF-99 D-0220 — 요청 ≠ 화면 카메라(경계 클램프) 허용 오차 ÷ w(hard camera_bounds)

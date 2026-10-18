@@ -36,6 +36,7 @@ hard 실패가 하나라도 있으면 시각 검수 LLM 을 부르지 않고 연
 | title_backdrop | hard | 제목 카드 직전 1초 장면 ≠ 제목 바탕(기사 카드·암전·지도) — 카드 → 지도 → 제목 깜박임(v6.0.2 UF-98·D-0216) |
 | cutaway_churn | hard | 전면 컷어웨이(qa_checks.cutaway_full_types) 끝 → 지도 < shot_min_hold_sec → 다음 전면 컷어웨이 `[cutaway-churn]`(v7.4.0 UF-110·D-0229 §2.3) |
 | unit_glyph_font | hard | display 글꼴로 그린 문자열에 라틴 소문자(단위 t 십자형) `[unit-glyph-font]` — 단위 꼬리는 rules fonts.unit_font(v7.4.0 UF-111·D-0229 §2.4) |
+| ratio_graphic | warning | "N 척 중 M" 문장 구간에 dots·versus 패널·series 없음 `[ratio-without-graphic]`(v7.4.0 UF-113·D-0229 §2.6) |
 | camera_bounds | hard | 요청 카메라가 무대 경계 밖이라 렌더 View 가 잘랐다 — 화면이 멈췄다가 이동 중간에 꺾임(지도·시간축·차트 아일랜드). camera_continuity·camera_speed 는 화면 궤적(`engine.camera.screen_track`)을 잰다(v7.1.0 UF-99·D-0220) |
 | portrait_unused | warning | 인물 이름이 나오고 초상이 있는데 그 인물 뱃지·인용 없음(v5.22.0 D-0200 UF-10) |
 | genre_elements | hard | 장르 요소(v4.2.0 D-0081 작업 3, GOAL G3-17): direction 이 쓴 이벤트·패널·뱃지·프리미티브 종류(genres.elements) ⊆ 장르 프로필 primitives.reuse ∪ new |
@@ -90,7 +91,7 @@ HARD = ("map_contrast", "overlap", "offscreen", "glyphs", "glyph_size", "labels"
         "backdrop_main_missing", "island_label_clip", "cascade", "subtitle_overlap", "label_collision", "timeline_span", "route_frame", "panel_overflow", "flag_territory", "badge_over_panel", "opening_establish", "camera_continuity", "card_exposure", "route_label_cross", "route_label_overlap", "article_backdrop", "quote_in_script", "route_missing_other", "frame_missing_target", "route_missing", "frame_missing", "bgm_decision", "endcard_black", "camera_per_sentence", "label_jump", "camera_speed", "title_backdrop", "camera_bounds", "cutaway_churn", "unit_glyph_font")   # cutaway_churn v7.4.0 D-0229 §2.3, island_label_clip v5.2.0 D-0133 §2, backdrop_main_missing v5.2.0 D-0129 §B, island_overlap v5.1.0 D-0126 Q3, geo_mismatch v4.10.0 D-0116, timeline_rescale v5.1.0 D-0121 §A, backdrop_* v5.1.0 D-0123
 WARN = ("shots", "media_beats", "media_upscaled", "endcard_roll", "geo_unsourced",   # endcard_roll v4.7.0 D-0106, geo_unsourced D-0107
         "static_window", "stage_choice", "card_island", "island_label_overlap", "cascade_label_hidden",
-        "map_contrast_shape", "battle_geo", "portrait_unused")   # v5.21.14 D-0195·D-0199. map_contrast_shape v5.18.0 D-0161 §4   # static_window v4.11.0 D-0118, stage_choice v5.1.0 D-0123, card_island v5.2.0 D-0129 §C, island_label_overlap D-0133 §3
+        "map_contrast_shape", "battle_geo", "portrait_unused", "ratio_graphic")   # ratio_graphic v7.4.0 D-0229 §2.6   # v5.21.14 D-0195·D-0199. map_contrast_shape v5.18.0 D-0161 §4   # static_window v4.11.0 D-0118, stage_choice v5.1.0 D-0123, card_island v5.2.0 D-0129 §C, island_label_overlap D-0133 §3
 
 
 def missing_fonts() -> list[str]:
@@ -1080,6 +1081,19 @@ def cutaway_churn(events: list[dict]) -> list[str]:
     return out
 
 
+def ratio_graphic(sentences: list, events: list[dict]) -> list[str]:
+    """v7.4.0 D-0229 §2.6(UF-113) — "N 척 중 M 척" 문장 구간에 비율 그래픽(qa_checks.ratio_graphic_kinds 패널·series)이 없으면 warning."""
+    pats = [re.compile(p) for p in QA.ratio_patterns]
+    out = []
+    for s in sentences:
+        if not any(p.search(s.text) for p in pats):
+            continue
+        if not any(e["t0"] < s.t1 and e["t1"] > s.t0 and (e["type"] == "series" or (e["type"] == "panel" and e.get("kind") in QA.ratio_graphic_kinds))
+                   for e in events):
+            out.append(f"[ratio-without-graphic] {s.sid} 'N 중 M' 문장인데 그 구간에 {QA.ratio_graphic_kinds}·series 그래픽이 없다 — 점 패널로 조판(UF-113): {s.text[:40]}")
+    return out
+
+
 def check_unit_glyph_font(P) -> list[str]:  # noqa: ANN001, N803
     """v7.4.0 D-0229 §2.4(UF-111) — display 글꼴(GmarketSans)로 그린 문자열에 라틴 소문자가 남으면 hard(십자형 t).
     단위 꼬리는 typography.unit_split 이 rules fonts.unit_font 로 떼어 그린다. 기록 = 프리뷰 컷마다 typography.DISP_LATIN."""
@@ -1522,6 +1536,7 @@ def run_checks(P, times: list[float], provenance: dict, drawn: list[tuple[str, f
         "title_backdrop": lambda: check_title_backdrop(P),   # v6.0.2 UF-98 D-0216(hard)
         "cutaway_churn": lambda: cutaway_churn(P.events),     # v7.4.0 UF-110 D-0229 §2.3(hard)
         "unit_glyph_font": lambda: check_unit_glyph_font(P),  # v7.4.0 UF-111 D-0229 §2.4(hard)
+        "ratio_graphic": lambda: ratio_graphic(P.plan.sentences, P.events),   # v7.4.0 UF-113 D-0229 §2.6(warning)
         "portrait_unused": lambda: check_portrait_unused(P),  # v5.22.0 D-0200 UF-10(warning)
         "genre_elements": lambda: check_genre_elements(P),
         "boundary_as_route": lambda: list((P.R.cache.get("geo_check") or {}).get("boundary") or []),

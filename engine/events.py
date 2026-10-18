@@ -662,13 +662,22 @@ class PanelDots(_Chart):
 
     kind: Literal["dots"]
     highlight: int = Field(ge=1, le=100)
-    big: str                       # 큰 숫자(예: "1")
+    # v7.4.0 D-0229 §2.6(UF-113 "몇 척 중 몇 척") — total = 그릴 점 수(None = 격자 100칸). panels.charts.dots.few.max_total 이하면 한 줄 큰 점.
+    total: Optional[int] = Field(default=None, ge=1, le=100)
+    accent: ColorName = "ru"       # 강조점·큰 숫자 색(v7.4.0 — 기본 ru = 옛 출력)
+    big: str                       # 큰 숫자(예: "1", 분수 "3 / 7")
     unit: str = ""                 # 큰 숫자 옆 단위(예: "%")
     caption: str
     detail: str = ""
     note_label: str = ""
     note_value: str = ""
     note_caption: str = ""
+
+    @model_validator(mode="after")
+    def _hl(self) -> "PanelDots":
+        if self.total is not None and self.highlight > self.total:
+            raise ValueError(f"dots highlight {self.highlight} > total {self.total}")
+        return self
 
 
 class GanttTask(_Strict):
