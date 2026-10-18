@@ -891,6 +891,8 @@ labels:                    # 04 §6·§7
   city_max_per_frame: 18
   country_rank_thr: {60: 2, 30: 4, 12: 6, 0: 9}
   city_rank_thr: {60: 1, 25: 2, 12: 4, 5: 6, 0: 8}
+  capital_always: true        # v7.4.0 D-0229 §2.1(UF-106) — 수도는 폭 LOD 와 무관하게 도시 후보(화면당 상한 city_labels_max 는 그대로)
+  capital_always_max_w: null  # 상시 표기 폭 상한(도). null = 폭 무관
 
 geo:                       # D29(back_and_forth D-0019) — 지오 자산 단계(geo.prep)
   land_miss_allow_px2: 16  # 국가 면적(deg²) × 티어 ppd² 가 이 값 미만이면 land-miss 를 small 로 허용(4×4 px). 이상 = drop
