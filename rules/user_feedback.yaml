@@ -1956,8 +1956,11 @@ entries:
   quote: 기사 조판과 자막 나래이션이 다름
   quote_kind: verbatim
   category: 출처 일치 — 내레이션이 이름을 댄 매체(가디언)와 화면 기사 카드의 매체(Kyiv Independent)가 다름. 기사 카드는 그 문장이 인용한 보도여야 함
-  guards: []
-  status: open
+  guards:
+  - {kind: check, ref: article_outlet}
+  - {kind: rule, ref: qa_checks.outlet_names}
+  - {kind: test, ref: tests/test_v740_outlet_glyph.py::OutletMismatchTest::test_current_diesel_fails}
+  status: guarded
   decision: 감독 지시(D-0250) — 그 영상 먼저 고치고, 장치는 영상 전달 뒤
   source: 감독 세션(Fable) 사용자 대화 2026-10-19
 - id: UF-131
@@ -1967,7 +1970,11 @@ entries:
   quote: 특수문자 에러
   quote_kind: verbatim
   category: 글리프 누락 — 카드 큰 숫자 글꼴에 없는 문자(U+2212). 기존 glyphs 검사는 프로젝트 글꼴 합집합만 보고, 실제 그린 글꼴 대조는 프리뷰 컷 시각에만 돌아 이 카드를 놓침
-  guards: []
-  status: open
+  guards:
+  - {kind: check, ref: glyphs}
+  - {kind: rule, ref: fonts.glyph_fallback}
+  - {kind: code, ref: engine.render.glyph_sweep}
+  - {kind: test, ref: tests/test_v740_outlet_glyph.py::GlyphFallbackTest::test_minus_in_display_font}
+  status: guarded
   decision: 감독 지시(D-0250) — 그 영상 먼저 고치고, 장치는 영상 전달 뒤
   source: 감독 세션(Fable) 사용자 대화 2026-10-19

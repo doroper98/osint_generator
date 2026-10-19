@@ -83,6 +83,12 @@ MINOR(새 레이어·이벤트 필드·검사·롤백 명령). diesel_road_2026 
 - v7.4.0(D-0231 §4): 렌더 컨테이너 환경 실측 표 `docs/handoff/reports/phaseV740/environment.md`.
 - v7.4.0(C12): UF-116~125 장치 기입 — 원장 125개 미보호 0.
 
+- v7.4.0(D-0245·UF-126): 검사 `series_unused`·`panel_dropped` hard — order.yaml data.series 구조 필드·이전 승인 연출(track_v*)의 데이터 패널 누락, Direction.drops(record·사유)만 예외. diesel v1 시리즈 패널 3종 복원.
+- v7.4.0(D-0246·UF-127): 발음 사전 rules tts_rules.short_key_boundary(한글 짧은 키 낱말 경계)·tensification_traps(…유+가 예외 생성), 린트 tts-tensification. TTS-AP-083.
+- v7.4.0(D-0247·UF-128): dual_line 빈 달 점선 보간(rules panels.charts.dual_line.gap_policy·interpolated_style·gap_note), chart_honesty [interp-*] hard, provenance interpolated_idx.
+- v7.4.0(D-0248·D-0249·UF-129): 검사 `card_over_panel` hard(rules qa_checks.card_over_panel cover_types·cover_types_on_data_panels).
+- v7.4.0(D-0250·UF-130·131): 검사 `article_outlet` hard(rules qa_checks.outlet_names), rules fonts.glyph_fallback + 프리뷰·콘티 판 glyph_sweep.
+
 ### Changed
 - 콘티 판 지도 = 전편과 같은 본 MercatorStage(막지도 FlatMercatorStage 삭제, D-0241 §2·UF-121).
 - 골든 hormuz 는 도로·강 끔(stage_config.mercator.map_layers [], D-0231) — main 대비 25컷 중 24컷 바이트 동일, 1컷은 버전 도장만.
