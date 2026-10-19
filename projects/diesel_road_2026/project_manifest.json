@@ -4,8 +4,8 @@
   "title": "경유의 길 — 사흘에 한 번",
   "category": "geopolitics",
   "created_at": "2026-10-17T13:36:28.700647Z",
-  "updated_at": "2026-10-19T05:50:48.802215Z",
-  "current_state": "audio_mix",
+  "updated_at": "2026-10-19T06:09:17.193385Z",
+  "current_state": "done",
   "target_duration_min": 10,
   "topic_summary": "우크라이나의 러시아 정유소 타격과 러시아 경유 부족, 한국산 경유의 블라디보스토크행, 걸프 에너지 시설 타격, 미국의 러시아 경유 거래와 에너지 휴전 붕괴",
   "initial_links": [],
@@ -1131,6 +1131,35 @@
       "errors": [],
       "drops": 0,
       "log": "logs/stages/60_render.json"
+    },
+    {
+      "state": "audio_mix",
+      "stage": "mix",
+      "ok": true,
+      "at": "2026-10-19T05:56:41.845293Z",
+      "artifacts": {
+        "mix": "/home/user/osint_generator/projects/diesel_road_2026/out/mix.f32",
+        "bed_stats": "/home/user/osint_generator/projects/diesel_road_2026/out/bed_stats.json"
+      },
+      "errors": [],
+      "drops": 0,
+      "log": "logs/stages/61_mix.json"
+    },
+    {
+      "state": "deliver",
+      "stage": "deliver",
+      "ok": true,
+      "at": "2026-10-19T06:09:17.186958Z",
+      "artifacts": {
+        "final": "/home/user/osint_generator/projects/diesel_road_2026/out/final.mp4",
+        "srt": "/home/user/osint_generator/projects/diesel_road_2026/out/final.srt",
+        "description": "/home/user/osint_generator/projects/diesel_road_2026/out/description.txt",
+        "credits": "/home/user/osint_generator/projects/diesel_road_2026/out/credits.txt",
+        "provenance": "/home/user/osint_generator/projects/diesel_road_2026/out/provenance.json"
+      },
+      "errors": [],
+      "drops": 0,
+      "log": "logs/stages/62_deliver.json"
     }
   ],
   "final_outputs": {},
@@ -1494,6 +1523,18 @@
       "to_state": "audio_mix",
       "transitioned_at": "2026-10-19T05:50:48.802131Z",
       "reason": "engine render ok"
+    },
+    {
+      "from_state": "audio_mix",
+      "to_state": "deliver",
+      "transitioned_at": "2026-10-19T05:56:41.849491Z",
+      "reason": "engine mix ok"
+    },
+    {
+      "from_state": "deliver",
+      "to_state": "done",
+      "transitioned_at": "2026-10-19T06:09:17.193298Z",
+      "reason": "engine deliver ok"
     }
   ],
   "rollbacks": [
