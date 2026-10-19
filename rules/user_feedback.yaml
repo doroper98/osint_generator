@@ -1949,3 +1949,25 @@ entries:
   status: guarded
   decision: "감독 지시(D-0248) — 그 영상: 그래프 3구간에서 패널과 교차하는 카드류를 연출에서 패널 앞에 끝내거나 뒤에 시작(자동 이동·숨김 없음, P8), 그래프 3컷으로 확인, D-0246·D-0247 과 같은 재렌더. 장치: [card-over-panel] hard(qa_checks.card_over_panel {min_overlap_sec 0.3, panel_pad_px 4}, 모든 무대·모든 패널 kind, 제자리 상자 교차 > 0 · 시간 겹침 > 0.3초, 날짜 배지·자막 제외), 전 렌더 경로 같은 키, 테스트, director 프롬프트 규칙 경유, RENDER-AP 신규"
   source: 감독 세션(Fable) 사용자 대화 2026-10-19
+- id: UF-130
+  date: '2026-10-19'
+  project: diesel_road_2026
+  at: 전편 v2 교체 3(md5 554f4f85) 7:23~7:26 — 기사 카드 art_0001(Kyiv Independent 제목) 위에 act3_5「가디언도 …」·act3_6「그래서 가디언은 …」 내레이션(스크린샷 2장)
+  quote: 기사 조판과 자막 나래이션이 다름
+  quote_kind: verbatim
+  category: 출처 일치 — 내레이션이 이름을 댄 매체(가디언)와 화면 기사 카드의 매체(Kyiv Independent)가 다름. 기사 카드는 그 문장이 인용한 보도여야 함
+  guards: []
+  status: open
+  decision: 감독 지시(D-0250) — 그 영상 먼저 고치고, 장치는 영상 전달 뒤
+  source: 감독 세션(Fable) 사용자 대화 2026-10-19
+- id: UF-131
+  date: '2026-10-19'
+  project: diesel_road_2026
+  at: 전편 v2 교체 3(md5 554f4f85) 8:01 — act3_11 카드 「올해 1~8월 한국 경유 수출」 큰 숫자 "−3.4%" 의 U+2212(마이너스 기호)가 네모(□×)로 그려짐(스크린샷 1장)
+  quote: 특수문자 에러
+  quote_kind: verbatim
+  category: 글리프 누락 — 카드 큰 숫자 글꼴에 없는 문자(U+2212). 기존 glyphs 검사는 프로젝트 글꼴 합집합만 보고, 실제 그린 글꼴 대조는 프리뷰 컷 시각에만 돌아 이 카드를 놓침
+  guards: []
+  status: open
+  decision: 감독 지시(D-0250) — 그 영상 먼저 고치고, 장치는 영상 전달 뒤
+  source: 감독 세션(Fable) 사용자 대화 2026-10-19
