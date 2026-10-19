@@ -192,6 +192,13 @@ class Sound(_Strict):
         return {s.id for s in self.segments()}
 
 
+class DirectionDrop(_Strict):
+    """v7.4.0 D-0245(UF-126) — 연출이 일부러 빼는 데이터 시리즈(record)와 사유. 조용한 드롭 금지(P6)의 유일한 예외 통로."""
+
+    record: str = Field(min_length=1)
+    reason: str = Field(min_length=4)
+
+
 class Direction(_Strict):
     """direction.yaml 최상위 모델(17 §2)."""
 
@@ -208,6 +215,8 @@ class Direction(_Strict):
     shots: list[Shot] = Field(min_length=1)
     events: list[dict[str, Any]]
     sound: Optional[Sound] = None
+    # v7.4.0 D-0245(UF-126) — 지정 시리즈·이전 승인 데이터 패널을 일부러 뺄 때의 사유(record, reason). 이것만 [series-unused]·[panel-dropped] 예외
+    drops: list["DirectionDrop"] = Field(default_factory=list)
 
     @field_validator("stage")
     @classmethod

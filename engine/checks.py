@@ -47,6 +47,9 @@ hard 실패가 하나라도 있으면 시각 검수 LLM 을 부르지 않고 연
 | press_credit | hard | 기사 카드 press 가 공식 사진이면 자료사진 출처 줄 필수 `[press-credit-missing]`(v7.4.0 D-0240 §3) |
 | inset_clipped | hard | 위성 인셋 원+출처 줄이 안전 영역(날짜 배지 아래·자막 띠 위) 밖 `[inset-clipped]` — side_order 대체 자리까지 모두 밖일 때(v7.4.0 D-0240 §2) |
 | badge_clipped | hard | 지도 뱃지 원이 안전 영역(인셋과 같은 여백 — 화면 가장자리·자막 띠 위·날짜 배지 상자 밖) 밖 `[badge-clipped]` — 또는 위 가장자리 보정(edge_nudge)에 기대 붙음 — place_badge 뒤(v7.4.0 D-0244) |
+| series_unused | hard | 주문 order.yaml data.series 의 시리즈를 그리는 패널이 없다 `[series-unused]` — direction drops(record·사유)만 예외(v7.4.0 D-0245·UF-126) |
+| panel_dropped | hard | 이전 승인 연출(track_v*/direction.yaml)의 데이터 패널 레코드가 새 연출에 없다 `[panel-dropped]` — drops 사유만 예외(v7.4.0 D-0245·UF-126) |
+| card_over_panel | hard | 패널(모든 kind)이 페이드 뺀 구간에 떠 있는 동안 카드·계단식 카드·기사·인용·프리미티브가 패널 상자를 덮는다(사진·영상·컷아웃은 골든 v3 의도 배치라 제외, 결정 요청) `[card-over-panel]`(rules qa_checks.card_over_panel, v7.4.0 D-0248·UF-129) |
 | media_unused | hard | 프로젝트가 등재한 권리 통과 사진({pid}_ 접두 kind photo)이 연출 어디에도 없음 `[media-unused]` — media_notes drop 사유만 예외(v7.4.0 UF-118·D-0238) |
 | badge_orphan | warning | 국기 뱃지가 카드·인용·마커에 붙지 않고 홀로 뜸 `[badge-orphan]`(v7.4.0 D-0240 §4) |
 | article_press_missing | warning | 인물 발언·발표 문장 구간 기사 카드에 press 사진 없음 `[article-press-missing]`(v7.4.0 UF-109·D-0229 §6) |
@@ -101,7 +104,7 @@ SHADOW_PX = 7             # badge_box 가 원 둘레에 더하는 그림자 여�
 HARD = ("map_contrast", "overlap", "offscreen", "glyphs", "glyph_size", "labels", "date", "subtitles", "rights", "forbidden", "stage_continuity",
         "genre_elements", "chart_honesty", "series_limit_3", "units_visible", "as_of_visible", "boundary_as_route",
         "geo_mismatch", "timeline_rescale", "backdrop_rights", "backdrop_repeat", "island_overlap",
-        "backdrop_main_missing", "island_label_clip", "cascade", "subtitle_overlap", "label_collision", "timeline_span", "route_frame", "panel_overflow", "flag_territory", "badge_over_panel", "opening_establish", "camera_continuity", "card_exposure", "route_label_cross", "route_label_overlap", "article_backdrop", "quote_in_script", "route_missing_other", "frame_missing_target", "route_missing", "frame_missing", "bgm_decision", "endcard_black", "camera_per_sentence", "label_jump", "camera_speed", "title_backdrop", "camera_bounds", "cutaway_churn", "unit_glyph_font", "transition_camera", "media_unused", "inset_clipped", "press_credit", "static_camera", "route_speed", "sea_only_frame", "unit_ton_glyph", "badge_clipped")   # cutaway_churn v7.4.0 D-0229 §2.3, island_label_clip v5.2.0 D-0133 §2, backdrop_main_missing v5.2.0 D-0129 §B, island_overlap v5.1.0 D-0126 Q3, geo_mismatch v4.10.0 D-0116, timeline_rescale v5.1.0 D-0121 §A, backdrop_* v5.1.0 D-0123
+        "backdrop_main_missing", "island_label_clip", "cascade", "subtitle_overlap", "label_collision", "timeline_span", "route_frame", "panel_overflow", "flag_territory", "badge_over_panel", "opening_establish", "camera_continuity", "card_exposure", "route_label_cross", "route_label_overlap", "article_backdrop", "quote_in_script", "route_missing_other", "frame_missing_target", "route_missing", "frame_missing", "bgm_decision", "endcard_black", "camera_per_sentence", "label_jump", "camera_speed", "title_backdrop", "camera_bounds", "cutaway_churn", "unit_glyph_font", "transition_camera", "media_unused", "inset_clipped", "press_credit", "static_camera", "route_speed", "sea_only_frame", "unit_ton_glyph", "badge_clipped", "series_unused", "panel_dropped", "card_over_panel")   # cutaway_churn v7.4.0 D-0229 §2.3, island_label_clip v5.2.0 D-0133 §2, backdrop_main_missing v5.2.0 D-0129 §B, island_overlap v5.1.0 D-0126 Q3, geo_mismatch v4.10.0 D-0116, timeline_rescale v5.1.0 D-0121 §A, backdrop_* v5.1.0 D-0123
 WARN = ("shots", "media_beats", "media_upscaled", "endcard_roll", "geo_unsourced",   # endcard_roll v4.7.0 D-0106, geo_unsourced D-0107
         "static_window", "stage_choice", "card_island", "island_label_overlap", "cascade_label_hidden",
         "map_contrast_shape", "battle_geo", "portrait_unused", "ratio_graphic", "inset_overlap", "tempo_density", "article_press_missing", "badge_orphan")   # ratio_graphic v7.4.0 D-0229 §2.6   # v5.21.14 D-0195·D-0199. map_contrast_shape v5.18.0 D-0161 §4   # static_window v4.11.0 D-0118, stage_choice v5.1.0 D-0123, card_island v5.2.0 D-0129 §C, island_label_overlap D-0133 §3
@@ -1381,6 +1384,124 @@ def check_badge_clipped(P) -> list[str]:  # noqa: ANN001, N803
     return out
 
 
+# v7.4.0 D-0245(UF-126 "그래프들 왜 다 사라졌어?") — 지정 시리즈·이전 승인 데이터 패널의 조용한 드롭 금지(P6)
+def data_records(events: list[dict]) -> set[str]:
+    """연출 이벤트가 그리는 데이터 레코드 id — 패널 series[].record·record, series 레이어 series_id."""
+    out: set[str] = set()
+    for e in events:
+        if e.get("type") not in ("panel", "series"):
+            continue
+        for k in ("record", "series_id"):
+            if isinstance(e.get(k), str):
+                out.add(e[k])
+        for ser in e.get("series") or []:
+            if isinstance(ser, dict) and ser.get("record"):
+                out.add(ser["record"])
+    return out
+
+
+def order_series(proj: "Path | None") -> list[str]:
+    """프로젝트 주문 order.yaml data.series(구조 필드) — 연출이 패널로 그려야 하는 시리즈. 주문이 없으면 []."""
+    if proj is None:
+        return []
+    from genres.load import load_order  # noqa: PLC0415
+
+    o = load_order(proj)
+    return list(o.data.series) if o is not None else []
+
+
+def prior_panel_records(proj: "Path | None") -> set[str]:
+    """이전 승인 연출(track_v*/direction.yaml)의 데이터 패널 레코드. 연출 초안(direction.v1.yaml 등)은 승인본이 아니라 보지 않는다."""
+    import yaml  # noqa: PLC0415
+
+    if proj is None:
+        return set()
+    out: set[str] = set()
+    for f in sorted(proj.glob("track_v*/direction.yaml")):
+        out |= data_records([e for e in yaml.safe_load(f.read_text(encoding="utf-8")).get("events", []) if e.get("type") == "panel"])
+    return out
+
+
+def _dropped(drops: list[dict]) -> set[str]:
+    return {d["record"] for d in drops or [] if d.get("record") and (d.get("reason") or "").strip()}
+
+
+def series_unused(want: list[str], events: list[dict], drops: list[dict]) -> list[str]:
+    have, skip = data_records(events), _dropped(drops)
+    return [r for r in want if r not in have and r not in skip]
+
+
+def panels_dropped(prior: set[str], events: list[dict], drops: list[dict]) -> list[str]:
+    have, skip = data_records(events), _dropped(drops)
+    return sorted(r for r in prior if r not in have and r not in skip)
+
+
+def check_series_unused(P) -> list[str]:  # noqa: ANN001, N803
+    """[series-unused] hard — order.yaml data.series 의 시리즈가 연출 어느 패널에도 없다(direction drops 사유만 예외)."""
+    miss = series_unused(order_series(P.root), P.events, P.R.cache.get("direction_drops", []))
+    return [f"[series-unused] 주문 시리즈 {r} 를 그리는 패널이 없다 — 패널(dual_line 등 series.record)로 그리거나 direction.yaml drops 에 "
+            f"record·사유를 적는다(UF-126)" for r in miss]
+
+
+def check_panel_dropped(P) -> list[str]:  # noqa: ANN001, N803
+    """[panel-dropped] hard — 이전 승인 연출(track_v*)에 있던 데이터 패널 레코드가 새 연출에 없다(direction drops 사유만 예외)."""
+    miss = panels_dropped(prior_panel_records(P.root), P.events, P.R.cache.get("direction_drops", []))
+    return [f"[panel-dropped] 이전 승인 연출의 데이터 패널 {r} 가 새 연출에 없다 — 다시 넣거나 direction.yaml drops 에 사유(UF-126)" for r in miss]
+
+
+# v7.4.0 D-0248 — 패널 위 화면 요소(카드 계열·기사·인용). 사진·영상·컷아웃은 골든 v3 가 패널 위에 의도적으로 둔다(hormuz strikes·rok_iraq, 사용자 합격)
+# → 제외하고 감독 결정 요청(R-0254). 골든은 손대지 않는다(D-0248 §2(d))
+COVER_TYPES = ("card", "cascade", "article", "quote", "primitive")
+
+
+def panel_box() -> tuple[float, float, float, float]:
+    """패널 상자(설계 좌표) — 화면 가운데 panel.min_screen_use 폭, 제목 위 ~ 자막 띠 위. 모든 kind 공통(보수값)."""
+    pl = R_.layout_480p.panel
+    m = W_OUT * (1 - pl.min_screen_use) / 2
+    return m, pl.title_y - pl.title_size, W_OUT - m, R_.layout_480p.reserved_zones.subtitle.y_from
+
+
+def cards_over_panel(events: list[dict], boxes: "Callable[[dict], list[tuple] | None]") -> list[tuple[dict, dict, float]]:
+    """(덮는 요소, 패널, 겹친 시작 시각). boxes(e) = 그 요소의 제자리 화면 상자들(None = 화면 전체 덮개로 본다)."""
+    cfg = R_.qa_checks.card_over_panel
+    if cfg is None:
+        return []
+    fade = R_.layout_480p.panel.fade_sec
+    pad = cfg.panel_pad_px
+    px0, py0, px1, py1 = panel_box()
+    out = []
+    for p in (e for e in events if e["type"] == "panel"):
+        a, b = p["t0"] + fade, p["t1"] - fade
+        for e in events:
+            if e["type"] not in COVER_TYPES:
+                continue
+            ov = min(b, e["t1"]) - max(a, e["t0"])
+            if ov <= cfg.min_overlap_sec:
+                continue
+            bx = boxes(e)
+            if bx is None or any(x0 < px1 + pad and x1 > px0 - pad and y0 < py1 + pad and y1 > py0 - pad for x0, y0, x1, y1 in bx):
+                out.append((e, p, max(a, e["t0"])))
+    return out
+
+
+def check_card_over_panel(P) -> list[str]:  # noqa: ANN001, N803
+    """[card-over-panel] hard(v7.4.0 D-0248·UF-129) — 패널이 떠 있는 동안 카드·기사·사진 등이 패널 상자를 덮는다. 연출에서 패널 앞에 끝내거나 뒤에 시작."""
+    from engine.cascade import cascade_boxes  # noqa: PLC0415
+    from engine.reserved import card_box  # noqa: PLC0415
+
+    ctx = cairo.Context(cairo.ImageSurface(cairo.FORMAT_ARGB32, 1, 1))
+
+    def boxes(e: dict) -> "list[tuple] | None":
+        if e["type"] in ("card", "primitive"):
+            return [tuple(card_box(ctx, e))]
+        if e["type"] == "cascade":
+            return [tuple(b) for t in (e["t0"] + 1.0, (e["t0"] + e["t1"]) / 2) for b in cascade_boxes(t, e)]
+        return None   # 기사·인용 = 화면 큰 덮개(제자리 상자 계산 없이 겹침으로 본다)
+
+    return [f"[card-over-panel] {e['type']} {e.get('tag') or e.get('mid') or e.get('title') or ''!s} t={t:.1f} — 패널 {p.get('kind')} {p.get('title')!r} 위. "
+            "패널 앞에 끝내거나 뒤에 시작한다(UF-129)" for e, p, t in cards_over_panel(P.events, boxes)]
+
+
 def check_press_credit(P, times: list[float], drawn: list[tuple[str, float, str | None, str]]) -> list[str]:  # noqa: ANN001, N803
     """v7.4.0 D-0240 §3 — 기사 카드 press 가 공식 사진(A)이면 자료사진 출처 줄이 있어야 한다(G4 자료사진 표기). 출처 줄을 만들 수 없거나
     (규칙 article_card.press_photo_credit 없음) 프레스 사진이 보이는 프리뷰 컷에 그 줄이 그려지지 않았으면 hard."""
@@ -1926,6 +2047,9 @@ def run_checks(P, times: list[float], provenance: dict, drawn: list[tuple[str, f
         "media_unused": lambda: check_media_unused(P),   # v7.4.0 UF-118 D-0238(hard)
         "inset_clipped": lambda: check_inset_clipped(P),   # v7.4.0 D-0240 §2(hard)
         "badge_clipped": lambda: check_badge_clipped(P),   # v7.4.0 D-0244(hard)
+        "series_unused": lambda: check_series_unused(P),   # v7.4.0 D-0245(UF-126, hard)
+        "panel_dropped": lambda: check_panel_dropped(P),   # v7.4.0 D-0245(UF-126, hard)
+        "card_over_panel": lambda: check_card_over_panel(P),   # v7.4.0 D-0248(UF-129, hard)
         "press_credit": lambda: check_press_credit(P, times, drawn),   # v7.4.0 D-0240 §3(hard)
         "static_camera": lambda: check_static_camera(P),   # v7.4.0 D-0241 §1(hard, UF-120)
         "route_speed": lambda: check_route_speed(P),   # v7.4.0 D-0241 §4(hard, UF-123)

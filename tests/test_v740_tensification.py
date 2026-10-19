@@ -40,5 +40,22 @@ class TensificationTrapTest(unittest.TestCase):
         self.assertEqual(L.apply_dict("60달러", mp), "60딸러")
 
 
+class TensificationLintTest(unittest.TestCase):
+    def _script(self, text: str):  # noqa: ANN202
+        from script.schema import Script
+
+        return Script.model_validate({"title": "t", "subtitle": "s", "date": "2026.10.18",
+                                      "scenes": [{"id": "x", "kind": "cold", "sentences": [{"date": "2026.10.18", "text": text}]}]})
+
+    def test_lint_passes_with_traps_and_fails_without(self) -> None:
+        sc = self._script("한국 항구에서 실린 경유가 들어간 셈입니다.")
+        self.assertEqual(L.tensification_issues(sc), [])
+        R = load_rules()  # noqa: N806
+        no_guard = R.model_copy(update={"tts_rules": R.tts_rules.model_copy(update={"short_key_boundary": None})})
+        with mock.patch.object(L, "load_rules", return_value=no_guard), \
+                mock.patch.object(L, "load_pronounce_dict", return_value={"유가": "유까"}):
+            self.assertEqual([i.kind for i in L.tensification_issues(sc)], ["tts-tensification"])   # 장치가 없으면 hard(게이트 ① 린트)
+
+
 if __name__ == "__main__":
     unittest.main()

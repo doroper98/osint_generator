@@ -1632,8 +1632,16 @@ class BattleGeoRules(_Strict):
     verbs: list[str] = Field(min_length=1)
 
 
+class CardOverPanel(_Strict):
+    """v7.4.0 D-0248(UF-129) — 패널 위 카드 겹침 검사 임계."""
+
+    min_overlap_sec: float = Field(gt=0)
+    panel_pad_px: float = Field(ge=0)
+
+
 class QAChecks(_Strict):
     overlap_core_elements: int
+    card_over_panel: Optional[CardOverPanel] = None   # v7.4.0 D-0248(UF-129)
     offscreen_clip: int
     missing_glyphs: int
     labels_per_frame_max: int

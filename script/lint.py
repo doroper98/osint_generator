@@ -280,6 +280,12 @@ def load_pronounce_dict(path: Path | None = None) -> dict[str, str]:
     return out
 
 
+def load_pronounce_dict_file() -> dict[str, str]:
+    """사전 파일 항목만(규칙 생성 항목 제외) — tensification_entries 가 명사 자체 읽기를 찾을 때."""
+    raw = json.loads(pronounce_dict_path().read_text(encoding="utf-8"))
+    return {str(k): str(v) for k, v in raw.items() if isinstance(k, str) and not k.startswith("_")}
+
+
 def tensification_entries(file_map: dict[str, str] | None = None) -> dict[str, str]:
     """rules tts_rules.tensification_traps → 발음 사전 항목 {명사+조사: spoken}. 사전의 "유가"(油價 → 유까) 치환이 '…유 + 조사 가' 를
     바꾸지 못하게 더 긴 key 로 막는다(apply_dict 최장 일치, TTS-AP-069·083). 손으로 명사별 항목을 넣지 않는다(P3)."""
@@ -429,6 +435,25 @@ def transition_issues(script: Script) -> list[LintIssue]:
     return out
 
 
+def tensification_issues(script: Script) -> list[LintIssue]:
+    """v7.4.0 D-0246(UF-127) — [tts-tensification] 오류: 발음 텍스트(명시 tts 또는 text)에 rules tts_rules.tensification_traps 의 명사 + 조사가 있는데
+    합성 직전 사전(pronounce_tts) 결과에 그 예외 읽기가 없거나 '명사 + 까' 가 생기면 실패(사전이 실제로 막는지 검증)."""
+    tt = load_rules().tts_rules.tensification_traps
+    if tt is None:
+        return []
+    ent = tensification_entries(load_pronounce_dict_file())
+    out = []
+    for sc in script.scenes:
+        for i, s in enumerate(sc.sentences):
+            src = s.tts or s.text
+            res = pronounce_tts(src)
+            bad = [k for k, v in ent.items() if k in src and v not in res] + [f"{n}까" for n in tt.suffix_nouns if f"{n}까" in res and f"{n}까" not in src]
+            if bad:
+                out.append(LintIssue(kind="tts-tensification", severity="error", sid=f"{sc.id}_{i}", text=src,
+                                     detail=f"'…유 + 조사' 가 사전 '유가'(油價) 치환에 걸렸다 {sorted(set(bad))} — rules tts_rules.tensification_traps·short_key_boundary(UF-127)"))
+    return out
+
+
 def act_frame_issues(script: Script) -> list[LintIssue]:
     """v7.4.0 D-0229 §2.9(UF-104·115) — [act-frame] 오류: 막(kind act)의 도입(intro·bridge)·정리(outro) 문장 수가 rules tempo 하한 미만."""
     T = load_rules().tempo  # noqa: N806
@@ -572,6 +597,7 @@ def lint(script: Script, claims: "dict[str, str] | None" = None, *, check_source
     out += transition_issues(script)   # v7.4.0 D-0229 §2.2(UF-105)·D-0230
     out += vocab_issues(script)        # v7.4.0 D-0229 §2.8(UF-108·114)
     out += act_frame_issues(script)    # v7.4.0 D-0229 §2.9(UF-104·115)
+    out += tensification_issues(script)   # v7.4.0 D-0246(UF-127)
     if total >= 4:   # v5.5.0 — 문장 흐름: 연결어로 앞 문장을 받는 문장 비율
         r_ = flow / total
         if r_ < sg.connective_min_ratio:

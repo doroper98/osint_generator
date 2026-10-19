@@ -319,6 +319,8 @@ direction_grammar:         # v4.7.0 back_and_forth D-0104 D2(a) — 연출 문�
   - 지도 고정 구간에서 날짜가 있는 사건이 셋 이상 이어지면(협상 경과·발표 순서) 카드를 늘어놓지 않고 **겹침 카드(cascade) 하나**로 건다 — 지금 문장의 사건만 앞에 크게, 언급이 지나간 사건은 뒤로 물러나 겹친다. 사건마다 국기·날짜·제목 한 줄, 부제는 선택. 같은 순간 cascade 는 하나, 카드와 같이 두지 않는다(v5.3.0 D-0139, 사용자 결정 D116·D117, 검사 [cascade-*] hard).
   - '인물의 **직접 인용**(원문 기사에서 따옴표로 확인된 발언 = 입력의 "인용 후보" 목록, v5.6.0)은 카드가 아니라 **인용(quote)** 으로 건다 — 원문(영어 등)은 뜻을 바꾸지 않고 한국어로 옮긴다 — 초상(pid, 없으면 flag) + 화면 가운데 따옴표 인용문 + 아래 작은 이름·직함·매체·날짜. 기자의 요약·간접 화법("~라고 말했다"를 줄인 문구)에는 따옴표를 쓰지 않는다 — 카드(quote: false). A 의 인용과 그에 맞서는 B 의 인용을 함께 보일 때는 같은 순간 A = pos upper(왼쪽 위), B = pos lower(오른쪽 아래). 인용 중에는 같은 인물의 지도 뱃지를 겹쳐 두지 않는다(v5.4.0, 사용자 결정 2026-10-02, 검사 [quote-overflow]·[subtitle-overlap] hard).'
   - '가격·추이·통계 문장에는 알맞은 차트를 건다 — 시간에 따른 변화 = 선 차트(panel dual_line, 출처 있는 실측값, 촘촘한 날짜 라벨은 x_label_rotate), 전체 대비 비율 = 도트(panel dots), 단일 지표 = 큰 숫자 카드(bigs). 값은 출처가 있는 것만, 주장 수치는 주장 주체를 패널 문구에 적는다(v5.4.0, 사용자 지시 2026-10-02, 검사 정직성 4종 hard).'
+  - '주문(order.yaml) data.series 에 있는 시리즈는 반드시 데이터 패널(dual_line 등 series[].record)로 그린다. 이전 승인 연출(track_v*)의 데이터 패널도 그대로 이어 간다. 일부러 빼려면 direction drops 에 {record, reason} 을 적는다(사용자 의견 UF-126, 검사 [series-unused]·[panel-dropped] hard).'
+  - '패널(그래프·도표)이 떠 있는 동안에는 오른쪽 상단 카드·계단식 카드·기사·사진·인용·뱃지를 두지 않는다 — 패널 앞에 끝내거나 뒤에 시작한다. 같은 수치는 패널 점·자막이 맡는다(사용자 의견 UF-129, 검사 [card-over-panel] hard).'
 
 shot_grammar:              # 05 §2
   camera_moves_per_scene_max: 1
@@ -1636,6 +1638,11 @@ animatic:                  # v4.9.0 back_and_forth D-0108(사용자 결정 D97) 
   cost_target_sec_per_300s: 180   # 5분 영상 콘티 판 = 4코어 3분 이내("저렴"의 정의, 실측은 reports/phaseG8/run_log.md)
 
 qa_checks:                 # 17 §3 — 결정적 사전 검사 임계
+  # v7.4.0 D-0248(사용자 의견 UF-129 "그래프 넣는 씬에서 오른쪽 상단 아일랜드가 그래프를 가리지 않도록 해") — 패널(모든 kind)이 페이드 뺀 구간에 떠 있는 동안
+  # 카드·계단식 카드·기사·인용·프리미티브의 제자리 상자가 패널 상자(+panel_pad_px)와 겹치고 시간 겹침 > min_overlap_sec 이면 [card-over-panel] hard.
+  # 사진·영상·컷아웃은 제외 — 골든 v3 가 패널 위에 의도적으로 둔다(hormuz strikes·rok_iraq). 감독 결정 요청(R-0254)
+  # 패널 상자 = 화면 가운데 panel.min_screen_use 폭 × (제목 위 ~ 자막 띠 위). 날짜 배지·자막·패널 자체 뱃지(over_panel)는 제외
+  card_over_panel: {min_overlap_sec: 0.3, panel_pad_px: 4}
   # v5.21.10 사용자 의견(2026-10-11 "기사 화면이 나왔는데 0.5초도 안 돼서 사라진다", D-0191 §1-2) — 기사(프레스 단독·페이드 뺀 글자 구간)·인용(페이드 뺀 구간)
   # 완전 노출 하한. 문장이 짧으면 연출이 다음 문장까지 늘리거나 앞당긴다. 검사 card_exposure hard
   card_full_exposure_min_sec: 2.5

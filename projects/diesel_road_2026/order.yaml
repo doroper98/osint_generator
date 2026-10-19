@@ -22,6 +22,7 @@ instructions:
   - "시리즈 패널: RU_REFINERY_RUNS_2026·RU_DIESEL_SEABORNE_EXPORTS_2026(1막 끝 부근), GULF_DIESEL_NET_EXPORTS_2026(3막 끝 부근). 출처 줄에 '보도 인용'. 경유 생산 3~5월(750만 t → 약 590만 t)은 카드."
   - "기사 카드: 60초당 2장 상한 안에서 각 막 핵심 보도(가디언 계열·AP·로이터·IEA·한경·경향·키이우 인디펜던트·알자지라·코리아중앙데일리) 우선. 무대: 주 무대 메르카토르 dark, 걸프는 보조 무대(암전 1회 진입·1회 복귀)."
 data:
+  series: [RU_REFINERY_RUNS_2026, RU_DIESEL_SEABORNE_EXPORTS_2026, GULF_DIESEL_NET_EXPORTS_2026]   # v7.4.0 D-0245(UF-126) — 구조 필드, [series-unused] 가 대조
   documents: []
   notes:
     - 시리즈 3개(press_cited) — ru_refinery_runs_2026(mb/d)·ru_diesel_seaborne_exports_2026(kb/d)·gulf_diesel_net_exports_2026(kb/d). 값·출처는 D-0225 §4 표가 정본. 결측 달 보간 금지.

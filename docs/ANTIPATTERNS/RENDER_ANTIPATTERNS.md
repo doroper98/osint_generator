@@ -294,3 +294,11 @@ last_review: 2026-05-23
 - **원칙**: 뱃지 앵커는 화면 안쪽에 둔다. 위 가장자리 보정에 기댄 배치는 실패로 본다(좌우 보정은 골든 v3 인물 뱃지가 쓰므로 허용).
 - **자동 조치**: 검사 `badge_clipped` hard(뱃지 원 안전 영역 + 위 가장자리 보정 의존). 시험 `tests/test_v740_static_camera.py::BadgeClippedTest`. 골든 0.
 - **발견 버전**: v7.4.0 · **상태**: active
+
+## RENDER-AP-030 — 지도 무대 패널 위 카드 겹침을 잡는 검사가 없었다(island 검사는 backdrop 전용)
+
+- **증상(실제 현상)**: v7.4.0 diesel_road_2026 그래프 복원 프리뷰 — 오른쪽 상단 카드(act1_15·act4_21·act4_22)가 dual_line 패널 제목·출처 줄(걸프 "호르무즈 통과량과 다른 집계")을 가렸다. 사용자 "그래프 넣는 씬에서 오른쪽 상단 아일랜드가 그래프를 가리지 않도록 해"(UF-129). checks hard 0 으로 통과했다.
+- **원리**: island_overlap·card_island 는 backdrop 무대 아일랜드 전용, badge_over_panel 은 versus 패널 + 뱃지만 본다. 지도 무대 패널 위 카드는 어떤 검사의 대상도 아니었다.
+- **원칙**: 패널(모든 kind)이 떠 있는 동안 카드·계단식 카드·기사·인용은 패널 상자를 덮지 않는다(사진·영상·컷아웃은 골든 v3 의도 배치라 검사 밖 — 감독 결정 요청). 연출이 패널 앞에 끝내거나 뒤에 시작한다(자동 이동·숨김 없음, P8).
+- **자동 조치**: 검사 `card_over_panel` hard(rules qa_checks.card_over_panel {min_overlap_sec 0.3, panel_pad_px 4}), director 프롬프트 규칙(rules direction_grammar). 시험 `tests/test_v740_card_over_panel.py`.
+- **발견 버전**: v7.4.0 · **상태**: active
