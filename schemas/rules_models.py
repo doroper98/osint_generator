@@ -172,6 +172,13 @@ class ProsodyRules(_Strict):
     final_fall: FinalFallRules
 
 
+class ShortKeyBoundary(_Strict):
+    """v7.4.0 D-0246 보충 — 한글 짧은 사전 키(≤ max_len 음절)는 어절 경계(앞 글자가 한글 음절 아님) 또는 수사 음절 뒤에서만 치환."""
+
+    max_len: int = Field(ge=1)
+    allow_after: str = ""
+
+
 class TensificationTraps(_Strict):
     """v7.4.0 D-0246(UF-127) — '…유 + 조사' 가 발음 사전 "유가"(油價) 치환에 걸리지 않게 하는 예외 항목의 원천(합성 직전 사전에 생성)."""
 
@@ -195,6 +202,7 @@ class TTSRules(_Strict):
     letter_names: list[str] = Field(default_factory=list)       # v5.6.0 TTS-AP-075 — 알파벳 글자 이름(한글). 등재 약어·사전 값의 글자 연속만 합성 직전 띄운다
     acronyms: list["Acronym"] = Field(default_factory=list)      # v5.6.0 사용자 결정 2026-10-04 — 약어 읽기 등재(린트 tts-acronym)
     tensification_traps: Optional[TensificationTraps] = None    # v7.4.0 D-0246(UF-127) — 발음 사전 '…유가' 예외 항목 원천
+    short_key_boundary: Optional[ShortKeyBoundary] = None       # v7.4.0 D-0246 보충 — 짧은 사전 키 낱말 경계
 
 
 class Acronym(_Strict):

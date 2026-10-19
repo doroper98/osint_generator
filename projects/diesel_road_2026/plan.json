@@ -2998,26 +2998,26 @@
    "scene": "act2",
    "date": "2026.10.06",
    "text": "정유소가 모자란 극동의 빈자리에, 한국 항구에서 실린 경유가 들어간 셈입니다.",
-   "tts": "정유소가 모자란 극동의 빈자리에, 한국 항구에서 실린 경유까 들어간 셈입니다.",
+   "tts": "정유소가 모자란 극동의 빈자리에, 한국 항구에서 실린 경유가 들어간 셈입니다.",
    "segments": [
     [
      "정유소가 모자란 극동의 빈자리에, 한국 항구에서 실린 경유가 들어간 셈입니다.",
      0
     ]
    ],
-   "mp3": "/home/user/osint_generator/projects/diesel_road_2026/tts/act2_35_32fd620eea.mp3",
-   "npy": "/home/user/osint_generator/projects/diesel_road_2026/tts/act2_35_32fd620eea.npy",
-   "dur": 5.207165532879818,
+   "mp3": "/home/user/osint_generator/projects/diesel_road_2026/tts/act2_35_a173458334.mp3",
+   "npy": "/home/user/osint_generator/projects/diesel_road_2026/tts/act2_35_a173458334.npy",
+   "dur": 5.186213151927437,
    "t0": 399.9771428571424,
-   "t1": 405.1843083900222,
-   "trim_offset": 0.498707,
+   "t1": 405.16335600906984,
+   "trim_offset": 0.538866,
    "chunks": [
-    "정유소가 모자란 극동의 빈자리에, 한국 항구에서 실린 경유까 들어간 셈입니다."
+    "정유소가 모자란 극동의 빈자리에, 한국 항구에서 실린 경유가 들어간 셈입니다."
    ],
    "alignment": {
     "source": "mms_forced_alignment",
-    "score_mean": 0.9576,
-    "elapsed_ms": 1260,
+    "score_mean": 0.9422,
+    "elapsed_ms": 173547,
     "realigned_from": null
    },
    "prosody": {
@@ -3025,13 +3025,13 @@
      "applied": true,
      "reason": null,
      "region_sec": [
-      5.175,
-      5.75
+      5.22,
+      5.78
      ],
      "semitones": 4.0,
-     "f0_start_hz": 103.63,
-     "f0_end_hz": 70.84,
-     "octave_fixed_n": 12
+     "f0_start_hz": 88.61,
+     "f0_end_hz": 66.27,
+     "octave_fixed_n": 28
     }
    },
    "role": "outro"
@@ -3051,8 +3051,8 @@
    "mp3": "/home/user/osint_generator/projects/diesel_road_2026/tts/act3_0_7a7fdc97ce.mp3",
    "npy": "/home/user/osint_generator/projects/diesel_road_2026/tts/act3_0_7a7fdc97ce.npy",
    "dur": 2.2239002267573698,
-   "t0": 408.58430839002216,
-   "t1": 410.80820861677955,
+   "t0": 408.5633560090698,
+   "t1": 410.7872562358272,
    "trim_offset": 0.529887,
    "chunks": [
     "시점은 다시 시월, 서울로 옮겨 옵니다."
@@ -3094,8 +3094,8 @@
    "mp3": "/home/user/osint_generator/projects/diesel_road_2026/tts/act3_1_a0ffd86dc8.mp3",
    "npy": "/home/user/osint_generator/projects/diesel_road_2026/tts/act3_1_a0ffd86dc8.npy",
    "dur": 4.59671201814059,
-   "t0": 411.70820861677953,
-   "t1": 416.3049206349201,
+   "t0": 411.6872562358272,
+   "t1": 416.28396825396777,
    "trim_offset": 0.480816,
    "chunks": [
     "가디언 보도가 나오자 한국 정부와 우크라이나 사이에 논쟁이 붙었습니다."
@@ -3137,8 +3137,8 @@
    "mp3": "/home/user/osint_generator/projects/diesel_road_2026/tts/act3_2_b242496206.mp3",
    "npy": "/home/user/osint_generator/projects/diesel_road_2026/tts/act3_2_b242496206.npy",
    "dur": 4.708458049886621,
-   "t0": 417.2049206349201,
-   "t1": 421.91337868480673,
+   "t0": 417.18396825396775,
+   "t1": 421.8924263038544,
    "trim_offset": 0.510113,
    "chunks": [
     "쟁점은 이 선적이 법에 어긋났는지, 그리고 제재의 취지를 거슬렀는지입니다."
@@ -3180,8 +3180,8 @@
    "mp3": "/home/user/osint_generator/projects/diesel_road_2026/tts/act3_3_44a081dde6.mp3",
    "npy": "/home/user/osint_generator/projects/diesel_road_2026/tts/act3_3_44a081dde6.npy",
    "dur": 7.0469160997732425,
-   "t0": 422.8133786848067,
-   "t1": 429.86029478457993,
+   "t0": 422.79242630385437,
+   "t1": 429.8393424036276,
    "trim_offset": 0.41059,
    "chunks": [
     "먼저 외교부는 상업용 경유와 항공유 같은 석유 정제제품은 대러 수출통제 품목이 아니라고 밝혔습니다."
@@ -3223,8 +3223,8 @@
    "mp3": "/home/user/osint_generator/projects/diesel_road_2026/tts/act3_4_4e83e8b617.mp3",
    "npy": "/home/user/osint_generator/projects/diesel_road_2026/tts/act3_4_4e83e8b617.npy",
    "dur": 6.52687074829932,
-   "t0": 430.7602947845799,
-   "t1": 437.2871655328792,
+   "t0": 430.7393424036276,
+   "t1": 437.2662131519269,
    "trim_offset": 0.477891,
    "chunks": [
     "정부는 군사용으로 쓰일 수 있는 천사백두 개 품목을 상황허가 대상으로 묶어 관리하고 있다고 밝혔습니다."
@@ -3266,8 +3266,8 @@
    "mp3": "/home/user/osint_generator/projects/diesel_road_2026/tts/act3_5_93b0766fa3.mp3",
    "npy": "/home/user/osint_generator/projects/diesel_road_2026/tts/act3_5_93b0766fa3.npy",
    "dur": 6.0042630385487525,
-   "t0": 438.1871655328792,
-   "t1": 444.19142857142793,
+   "t0": 438.16621315192685,
+   "t1": 444.1704761904756,
    "trim_offset": 0.555079,
    "chunks": [
     "가디언도 한국의 독자 제재가 주로 산업장비와 전자제품, 차량을 겨냥한다고 분석했습니다."
@@ -3309,8 +3309,8 @@
    "mp3": "/home/user/osint_generator/projects/diesel_road_2026/tts/act3_6_8f971ac383.mp3",
    "npy": "/home/user/osint_generator/projects/diesel_road_2026/tts/act3_6_8f971ac383.npy",
    "dur": 5.0731292517006805,
-   "t0": 445.0914285714279,
-   "t1": 450.1645578231286,
+   "t0": 445.0704761904756,
+   "t1": 450.14360544217624,
    "trim_offset": 0.532426,
    "chunks": [
     "그래서 가디언은 이번 선적이 한국 법을 어긴 것은 아닌 것으로 보인다고 분석했습니다."
@@ -3352,8 +3352,8 @@
    "mp3": "/home/user/osint_generator/projects/diesel_road_2026/tts/act3_7_89e000f80c.mp3",
    "npy": "/home/user/osint_generator/projects/diesel_road_2026/tts/act3_7_89e000f80c.npy",
    "dur": 6.238344671201814,
-   "t0": 451.06455782312855,
-   "t1": 457.30290249433034,
+   "t0": 451.0436054421762,
+   "t1": 457.281950113378,
    "trim_offset": 0.541224,
    "chunks": [
     "주요 칠 개국의 가격 상한제는 러시아산 석유의 운송과 보험, 금융 서비스를 묶는 제도입니다."
@@ -3395,8 +3395,8 @@
    "mp3": "/home/user/osint_generator/projects/diesel_road_2026/tts/act3_8_74eb1ecd44.mp3",
    "npy": "/home/user/osint_generator/projects/diesel_road_2026/tts/act3_8_74eb1ecd44.npy",
    "dur": 6.115759637188209,
-   "t0": 458.2029024943303,
-   "t1": 464.3186621315185,
+   "t0": 458.181950113378,
+   "t1": 464.2977097505662,
    "trim_offset": 0.393265,
    "chunks": [
     "즉 이 제도에서 제재 대상은 러시아가 파는 석유이고, 러시아가 사들이는 연료는 비제재 대상입니다."
@@ -3438,8 +3438,8 @@
    "mp3": "/home/user/osint_generator/projects/diesel_road_2026/tts/act3_9_ee703a3eb9.mp3",
    "npy": "/home/user/osint_generator/projects/diesel_road_2026/tts/act3_9_ee703a3eb9.npy",
    "dur": 7.9655328798185945,
-   "t0": 465.2186621315185,
-   "t1": 473.18419501133707,
+   "t0": 465.19770975056616,
+   "t1": 473.16324263038473,
    "trim_offset": 0.485986,
    "chunks": [
     "또한 한국 정유사들은 이천이십사 년 경유 이억 백육십육만 배럴을 수출해 천구백구십이 년 통계 이후 최대를 기록했습니다."
@@ -3481,8 +3481,8 @@
    "mp3": "/home/user/osint_generator/projects/diesel_road_2026/tts/act3_10_f9b69231b1.mp3",
    "npy": "/home/user/osint_generator/projects/diesel_road_2026/tts/act3_10_f9b69231b1.npy",
    "dur": 4.522766439909297,
-   "t0": 474.08419501133704,
-   "t1": 478.6069614512463,
+   "t0": 474.0632426303847,
+   "t1": 478.586009070294,
    "trim_offset": 0.562132,
    "chunks": [
     "정유업계 관계자는 국내에 충분히 공급하고도 물량이 남는다고 말했습니다."
@@ -3524,8 +3524,8 @@
    "mp3": "/home/user/osint_generator/projects/diesel_road_2026/tts/act3_11_7bae8d8ffa.mp3",
    "npy": "/home/user/osint_generator/projects/diesel_road_2026/tts/act3_11_7bae8d8ffa.npy",
    "dur": 8.312743764172335,
-   "t0": 479.5069614512463,
-   "t1": 487.81970521541865,
+   "t0": 479.48600907029396,
+   "t1": 487.7987528344663,
    "trim_offset": 0.415306,
    "chunks": [
     "올해 일월부터 팔월까지 한국의 경유 수출량은 일억 이천구백팔십이만 배럴로 일 년 전보다 삼 점 사 퍼센트 줄었습니다."
@@ -3567,8 +3567,8 @@
    "mp3": "/home/user/osint_generator/projects/diesel_road_2026/tts/act3_12_14851808b7.mp3",
    "npy": "/home/user/osint_generator/projects/diesel_road_2026/tts/act3_12_14851808b7.npy",
    "dur": 5.501269841269841,
-   "t0": 488.7197052154186,
-   "t1": 494.2209750566885,
+   "t0": 488.6987528344663,
+   "t1": 494.20002267573614,
    "trim_offset": 0.555646,
    "chunks": [
     "다만 정부는 휘발유, 경유, 등유 수출 물량을 지난해 수준 안으로 묶어 관리하고 있습니다."
@@ -3610,8 +3610,8 @@
    "mp3": "/home/user/osint_generator/projects/diesel_road_2026/tts/act3_13_6914c2d561.mp3",
    "npy": "/home/user/osint_generator/projects/diesel_road_2026/tts/act3_13_6914c2d561.npy",
    "dur": 6.789546485260771,
-   "t0": 495.12097505668845,
-   "t1": 501.9105215419492,
+   "t0": 495.1000226757361,
+   "t1": 501.88956916099687,
    "trim_offset": 0.341587,
    "chunks": [
     "그런데 정부는 실제 항로와 신고한 목적국이 다른지 더 살펴 국내법 위반 여부를 가리겠다고 밝혔습니다."
@@ -3653,8 +3653,8 @@
    "mp3": "/home/user/osint_generator/projects/diesel_road_2026/tts/act3_14_527e73f395.mp3",
    "npy": "/home/user/osint_generator/projects/diesel_road_2026/tts/act3_14_527e73f395.npy",
    "dur": 6.288684807256236,
-   "t0": 502.8105215419492,
-   "t1": 509.0992063492054,
+   "t0": 502.78956916099685,
+   "t1": 509.0782539682531,
    "trim_offset": 0.540862,
    "chunks": [
     "다만 정부는 신고지로 곧장 가지 않았다는 사실만으로 허위 신고를 단정하기는 어렵다고도 밝혔습니다."
@@ -3686,26 +3686,26 @@
    "scene": "act3",
    "date": "2026.10.07",
    "text": "한편 청와대 국가안보실은 무역통계상 한국에서 러시아로 경유와 휘발유, 제트유가 수출된 기록은 없다고 밝혔습니다.",
-   "tts": "한편 청와대 국가안보실은 무역통계상 한국에서 러시아로 경유와 휘발유, 제트유까 수출된 기록은 없다고 밝혔습니다.",
+   "tts": "한편 청와대 국가안보실은 무역통계상 한국에서 러시아로 경유와 휘발유, 제트유가 수출된 기록은 없다고 밝혔습니다.",
    "segments": [
     [
      "한편 청와대 국가안보실은 무역통계상 한국에서 러시아로 경유와 휘발유, 제트유가 수출된 기록은 없다고 밝혔습니다.",
      0
     ]
    ],
-   "mp3": "/home/user/osint_generator/projects/diesel_road_2026/tts/act3_15_01e3eba267.mp3",
-   "npy": "/home/user/osint_generator/projects/diesel_road_2026/tts/act3_15_01e3eba267.npy",
-   "dur": 7.938888888888889,
-   "t0": 509.9992063492054,
-   "t1": 517.9380952380943,
-   "trim_offset": 0.597324,
+   "mp3": "/home/user/osint_generator/projects/diesel_road_2026/tts/act3_15_7876a18b98.mp3",
+   "npy": "/home/user/osint_generator/projects/diesel_road_2026/tts/act3_15_7876a18b98.npy",
+   "dur": 7.916099773242631,
+   "t0": 509.97825396825306,
+   "t1": 517.8943537414957,
+   "trim_offset": 0.403583,
    "chunks": [
-    "한편 청와대 국가안보실은 무역통계상 한국에서 러시아로 경유와 휘발유, 제트유까 수출된 기록은 없다고 밝혔습니다."
+    "한편 청와대 국가안보실은 무역통계상 한국에서 러시아로 경유와 휘발유, 제트유가 수출된 기록은 없다고 밝혔습니다."
    ],
    "alignment": {
     "source": "mms_forced_alignment",
-    "score_mean": 0.9403,
-    "elapsed_ms": 1559,
+    "score_mean": 0.9273,
+    "elapsed_ms": 2150,
     "realigned_from": null
    },
    "prosody": {
@@ -3713,13 +3713,13 @@
      "applied": true,
      "reason": null,
      "region_sec": [
-      8.085,
-      8.875
+      7.925,
+      8.26
      ],
      "semitones": 4.0,
-     "f0_start_hz": 83.39,
-     "f0_end_hz": 119.77,
-     "octave_fixed_n": 31
+     "f0_start_hz": 87.35,
+     "f0_end_hz": 79.37,
+     "octave_fixed_n": 0
     }
    },
    "role": null
@@ -3739,8 +3739,8 @@
    "mp3": "/home/user/osint_generator/projects/diesel_road_2026/tts/act3_16_40dcb5979e.mp3",
    "npy": "/home/user/osint_generator/projects/diesel_road_2026/tts/act3_16_40dcb5979e.npy",
    "dur": 4.314807256235827,
-   "t0": 518.8380952380943,
-   "t1": 523.1529024943301,
+   "t0": 518.7943537414957,
+   "t1": 523.1091609977315,
    "trim_offset": 0.413379,
    "chunks": [
     "다만 연료의 소유주나 판매자는 한국 항만 기록에 나오지 않습니다."
@@ -3782,8 +3782,8 @@
    "mp3": "/home/user/osint_generator/projects/diesel_road_2026/tts/act3_17_a0e7699b2a.mp3",
    "npy": "/home/user/osint_generator/projects/diesel_road_2026/tts/act3_17_a0e7699b2a.npy",
    "dur": 2.0814739229024943,
-   "t0": 524.05290249433,
-   "t1": 526.1343764172326,
+   "t0": 524.0091609977314,
+   "t1": 526.090634920634,
    "trim_offset": 0.438571,
    "chunks": [
     "그렇지만 우크라이나의 시각은 달랐습니다."
@@ -3825,8 +3825,8 @@
    "mp3": "/home/user/osint_generator/projects/diesel_road_2026/tts/act3_18_32bf0663ae.mp3",
    "npy": "/home/user/osint_generator/projects/diesel_road_2026/tts/act3_18_32bf0663ae.npy",
    "dur": 7.467414965986395,
-   "t0": 527.0343764172326,
-   "t1": 534.501791383219,
+   "t0": 526.990634920634,
+   "t1": 534.4580498866204,
    "trim_offset": 0.505034,
    "chunks": [
     "우크라이나 대통령실의 블라시우크 제재 담당 위원은 한국산 연료가 러시아의 연료난 대처를 도왔다고 주장했습니다."
@@ -3868,8 +3868,8 @@
    "mp3": "/home/user/osint_generator/projects/diesel_road_2026/tts/act3_19_28e2232cd9.mp3",
    "npy": "/home/user/osint_generator/projects/diesel_road_2026/tts/act3_19_28e2232cd9.npy",
    "dur": 6.5423129251700685,
-   "t0": 535.401791383219,
-   "t1": 541.9441043083891,
+   "t0": 535.3580498866204,
+   "t1": 541.9003628117905,
    "trim_offset": 0.518005,
    "chunks": [
     "블라시우크 위원은 선적이 정유소 타격으로 러시아의 정제량이 줄어든 바로 그때 시작됐다고 말했습니다."
@@ -3911,8 +3911,8 @@
    "mp3": "/home/user/osint_generator/projects/diesel_road_2026/tts/act3_20_7646e3c161.mp3",
    "npy": "/home/user/osint_generator/projects/diesel_road_2026/tts/act3_20_7646e3c161.npy",
    "dur": 3.5897052154195013,
-   "t0": 542.8441043083891,
-   "t1": 546.4338095238086,
+   "t0": 542.8003628117905,
+   "t1": 546.39006802721,
    "trim_offset": 0.618934,
    "chunks": [
     "우크라이나가 문제 삼은 것은 법 조항보다 그 시점이었습니다."
@@ -3954,8 +3954,8 @@
    "mp3": "/home/user/osint_generator/projects/diesel_road_2026/tts/act3_21_042d3060b6.mp3",
    "npy": "/home/user/osint_generator/projects/diesel_road_2026/tts/act3_21_042d3060b6.npy",
    "dur": 6.517278911564626,
-   "t0": 547.3338095238086,
-   "t1": 553.8510884353732,
+   "t0": 547.2900680272099,
+   "t1": 553.8073469387746,
    "trim_offset": 0.4661,
    "chunks": [
     "이에 대해 강유정 청와대 수석대변인은 우크라이나 측 주장이 사실과 다르고 부적절하다고 반박했습니다."
@@ -3997,8 +3997,8 @@
    "mp3": "/home/user/osint_generator/projects/diesel_road_2026/tts/act3_22_b464f73b38.mp3",
    "npy": "/home/user/osint_generator/projects/diesel_road_2026/tts/act3_22_b464f73b38.npy",
    "dur": 5.930634920634921,
-   "t0": 554.7510884353732,
-   "t1": 560.6817233560081,
+   "t0": 554.7073469387745,
+   "t1": 560.6379818594095,
    "trim_offset": 0.399683,
    "chunks": [
     "청와대는 거래 주체와 원산지, 최종 구매자가 아직 가려지지 않은 개별 거래라고 밝혔습니다."
@@ -4040,8 +4040,8 @@
    "mp3": "/home/user/osint_generator/projects/diesel_road_2026/tts/act3_23_28b05c0a7a.mp3",
    "npy": "/home/user/osint_generator/projects/diesel_road_2026/tts/act3_23_28b05c0a7a.npy",
    "dur": 1.9567120181405895,
-   "t0": 561.5817233560081,
-   "t1": 563.5384353741487,
+   "t0": 561.5379818594095,
+   "t1": 563.49469387755,
    "trim_offset": 0.485805,
    "chunks": [
     "논쟁의 또 다른 축은 구매자였습니다."
@@ -4083,8 +4083,8 @@
    "mp3": "/home/user/osint_generator/projects/diesel_road_2026/tts/act3_24_0b9b7a8324.mp3",
    "npy": "/home/user/osint_generator/projects/diesel_road_2026/tts/act3_24_0b9b7a8324.npy",
    "dur": 4.360272108843537,
-   "t0": 564.4384353741486,
-   "t1": 568.7987074829922,
+   "t0": 564.39469387755,
+   "t1": 568.7549659863936,
    "trim_offset": 0.403243,
    "chunks": [
     "특히 로스네프트는 영국과 미국, 유럽연합, 호주의 제재 대상입니다."
@@ -4126,8 +4126,8 @@
    "mp3": "/home/user/osint_generator/projects/diesel_road_2026/tts/act3_25_50e34c790c.mp3",
    "npy": "/home/user/osint_generator/projects/diesel_road_2026/tts/act3_25_50e34c790c.npy",
    "dur": 5.004829931972789,
-   "t0": 569.6987074829922,
-   "t1": 574.703537414965,
+   "t0": 569.6549659863936,
+   "t1": 574.6597959183664,
    "trim_offset": 0.335873,
    "chunks": [
     "미국 재무부는 이천이십오 년 시월 이십이일 로스네프트를 제재 대상에 올렸습니다."
@@ -4169,8 +4169,8 @@
    "mp3": "/home/user/osint_generator/projects/diesel_road_2026/tts/act3_26_76df4e19c5.mp3",
    "npy": "/home/user/osint_generator/projects/diesel_road_2026/tts/act3_26_76df4e19c5.npy",
    "dur": 5.967482993197279,
-   "t0": 575.603537414965,
-   "t1": 581.5710204081622,
+   "t0": 575.5597959183664,
+   "t1": 581.5272789115636,
    "trim_offset": 0.511633,
    "chunks": [
     "미국 재무부는 제재 대상과 중대한 거래를 돕는 외국 금융기관도 제재받을 수 있다고 경고했습니다."
@@ -4212,8 +4212,8 @@
    "mp3": "/home/user/osint_generator/projects/diesel_road_2026/tts/act3_27_ca148e927d.mp3",
    "npy": "/home/user/osint_generator/projects/diesel_road_2026/tts/act3_27_ca148e927d.npy",
    "dur": 3.2629931972789117,
-   "t0": 582.4710204081622,
-   "t1": 585.7340136054411,
+   "t0": 582.4272789115636,
+   "t1": 585.6902721088425,
    "trim_offset": 0.563855,
    "chunks": [
     "외교 갈등은 주우크라이나 대사 소환으로까지 번졌습니다."
@@ -4255,8 +4255,8 @@
    "mp3": "/home/user/osint_generator/projects/diesel_road_2026/tts/act3_28_b607124ea3.mp3",
    "npy": "/home/user/osint_generator/projects/diesel_road_2026/tts/act3_28_b607124ea3.npy",
    "dur": 4.613628117913832,
-   "t0": 586.634013605441,
-   "t1": 591.2476417233548,
+   "t0": 586.5902721088424,
+   "t1": 591.2039002267562,
    "trim_offset": 0.463832,
    "chunks": [
     "이 소환은 북한군 포로 이송 공개를 둘러싼 갈등에 뒤이은 것이기도 했습니다."
@@ -4298,8 +4298,8 @@
    "mp3": "/home/user/osint_generator/projects/diesel_road_2026/tts/act3_29_247040360c.mp3",
    "npy": "/home/user/osint_generator/projects/diesel_road_2026/tts/act3_29_247040360c.npy",
    "dur": 6.509863945578231,
-   "t0": 592.1476417233548,
-   "t1": 598.657505668933,
+   "t0": 592.1039002267562,
+   "t1": 598.6137641723344,
    "trim_offset": 0.425556,
    "chunks": [
     "법을 어긴 것은 아니라는 한국 정부와, 제재의 구멍이라는 우크라이나의 입장은 지금도 맞서 있습니다."
@@ -4341,8 +4341,8 @@
    "mp3": "/home/user/osint_generator/projects/diesel_road_2026/tts/act4_0_eb978c36ab.mp3",
    "npy": "/home/user/osint_generator/projects/diesel_road_2026/tts/act4_0_eb978c36ab.npy",
    "dur": 3.8773469387755104,
-   "t0": 602.057505668933,
-   "t1": 605.9348526077085,
+   "t0": 602.0137641723344,
+   "t1": 605.8911111111099,
    "trim_offset": 0.603741,
    "chunks": [
     "이번에는 시점을 올해 이월 말, 무대를 페르시아만으로 옮깁니다."
@@ -4384,8 +4384,8 @@
    "mp3": "/home/user/osint_generator/projects/diesel_road_2026/tts/act4_1_0dfbc8744b.mp3",
    "npy": "/home/user/osint_generator/projects/diesel_road_2026/tts/act4_1_0dfbc8744b.npy",
    "dur": 3.8563945578231293,
-   "t0": 606.8348526077085,
-   "t1": 610.6912471655316,
+   "t0": 606.7911111111099,
+   "t1": 610.647505668933,
    "trim_offset": 0.601542,
    "chunks": [
     "같은 경유를 두고, 그곳에서는 또 다른 전쟁이 벌어지고 있었습니다."
@@ -4427,8 +4427,8 @@
    "mp3": "/home/user/osint_generator/projects/diesel_road_2026/tts/act4_2_029b7d0b2e.mp3",
    "npy": "/home/user/osint_generator/projects/diesel_road_2026/tts/act4_2_029b7d0b2e.npy",
    "dur": 7.189727891156463,
-   "t0": 611.5912471655316,
-   "t1": 618.7809750566881,
+   "t0": 611.547505668933,
+   "t1": 618.7372335600895,
    "trim_offset": 0.396576,
    "chunks": [
     "이월 이십팔일 개전 뒤 걸프의 기반시설 최소 여든네 곳이 드론과 미사일 공격을 백삼십오 회 넘게 받았습니다."
@@ -4478,8 +4478,8 @@
    "mp3": "/home/user/osint_generator/projects/diesel_road_2026/tts/act4_3_477c4b343e.mp3",
    "npy": "/home/user/osint_generator/projects/diesel_road_2026/tts/act4_3_477c4b343e.npy",
    "dur": 4.473174603174603,
-   "t0": 619.6809750566881,
-   "t1": 624.1541496598627,
+   "t0": 619.6372335600895,
+   "t1": 624.1104081632641,
    "trim_offset": 0.406848,
    "chunks": [
     "삼월 십삼일에는 미국이 이란 하르그섬의 군사 목표물을 타격했습니다."
@@ -4521,8 +4521,8 @@
    "mp3": "/home/user/osint_generator/projects/diesel_road_2026/tts/act4_4_b8f3dea60f.mp3",
    "npy": "/home/user/osint_generator/projects/diesel_road_2026/tts/act4_4_b8f3dea60f.npy",
    "dur": 4.858004535147392,
-   "t0": 625.0541496598627,
-   "t1": 629.9121541950101,
+   "t0": 625.0104081632641,
+   "t1": 629.8684126984115,
    "trim_offset": 0.439705,
    "chunks": [
     "다만 트럼프 대통령은 하르그섬의 석유 시설은 겨냥하지 않기로 했다고 말했습니다."
@@ -4572,8 +4572,8 @@
    "mp3": "/home/user/osint_generator/projects/diesel_road_2026/tts/act4_5_a6575c5853.mp3",
    "npy": "/home/user/osint_generator/projects/diesel_road_2026/tts/act4_5_a6575c5853.npy",
    "dur": 4.830884353741497,
-   "t0": 630.8121541950101,
-   "t1": 635.6430385487515,
+   "t0": 630.7684126984115,
+   "t1": 635.5992970521529,
    "trim_offset": 0.519274,
    "chunks": [
     "삼월 십팔일에는 이스라엘이 이란의 사우스파르스 가스전 시설을 타격했습니다."
@@ -4615,8 +4615,8 @@
    "mp3": "/home/user/osint_generator/projects/diesel_road_2026/tts/act4_6_4e3c1a9f9a.mp3",
    "npy": "/home/user/osint_generator/projects/diesel_road_2026/tts/act4_6_4e3c1a9f9a.npy",
    "dur": 4.060294784580499,
-   "t0": 636.5430385487515,
-   "t1": 640.603333333332,
+   "t0": 636.4992970521529,
+   "t1": 640.5595918367334,
    "trim_offset": 0.541474,
    "chunks": [
     "이에 대해 이란은 미국과 이스라엘이 함께 공격했다고 주장했습니다."
@@ -4658,8 +4658,8 @@
    "mp3": "/home/user/osint_generator/projects/diesel_road_2026/tts/act4_7_77d3a7a6c4.mp3",
    "npy": "/home/user/osint_generator/projects/diesel_road_2026/tts/act4_7_77d3a7a6c4.npy",
    "dur": 4.063106575963719,
-   "t0": 641.503333333332,
-   "t1": 645.5664399092957,
+   "t0": 641.4595918367334,
+   "t1": 645.5226984126971,
    "trim_offset": 0.573583,
    "chunks": [
     "이어서 이란은 걸프 전역의 에너지 시설에 보복하겠다고 경고했습니다."
@@ -4701,8 +4701,8 @@
    "mp3": "/home/user/osint_generator/projects/diesel_road_2026/tts/act4_8_0152d5f708.mp3",
    "npy": "/home/user/osint_generator/projects/diesel_road_2026/tts/act4_8_0152d5f708.npy",
    "dur": 3.03140589569161,
-   "t0": 646.4664399092957,
-   "t1": 649.4978458049873,
+   "t0": 646.4226984126971,
+   "t1": 649.4541043083887,
    "trim_offset": 0.401565,
    "chunks": [
     "그 뒤 걸프의 에너지 시설이 차례로 표적이 됐습니다."
@@ -4752,8 +4752,8 @@
    "mp3": "/home/user/osint_generator/projects/diesel_road_2026/tts/act4_9_df53ee8a11.mp3",
    "npy": "/home/user/osint_generator/projects/diesel_road_2026/tts/act4_9_df53ee8a11.npy",
    "dur": 4.733333333333333,
-   "t0": 650.3978458049872,
-   "t1": 655.1311791383206,
+   "t0": 650.3541043083886,
+   "t1": 655.087437641722,
    "trim_offset": 0.471293,
    "chunks": [
     "또한 카타르 라스라판의 엘엔지 시설은 공격으로 콜드박스 두 기가 손상됐습니다."
@@ -4795,8 +4795,8 @@
    "mp3": "/home/user/osint_generator/projects/diesel_road_2026/tts/act4_10_95727b442f.mp3",
    "npy": "/home/user/osint_generator/projects/diesel_road_2026/tts/act4_10_95727b442f.npy",
    "dur": 8.076802721088436,
-   "t0": 656.0311791383206,
-   "t1": 664.107981859409,
+   "t0": 655.987437641722,
+   "t1": 664.0642403628104,
    "trim_offset": 0.474376,
    "chunks": [
     "라스라판의 엘엔지 생산 라인 열네 기 가운데 두 기가 멈춰 연 천삼백만 톤, 생산 능력의 약 십칠 퍼센트가 묶였습니다."
@@ -4838,8 +4838,8 @@
    "mp3": "/home/user/osint_generator/projects/diesel_road_2026/tts/act4_11_5449cbf778.mp3",
    "npy": "/home/user/osint_generator/projects/diesel_road_2026/tts/act4_11_5449cbf778.npy",
    "dur": 5.652086167800453,
-   "t0": 665.007981859409,
-   "t1": 670.6600680272095,
+   "t0": 664.9642403628104,
+   "t1": 670.6163265306109,
    "trim_offset": 0.517596,
    "chunks": [
     "카타르에너지의 사드 알카아비 최고경영자는 복구에 삼에서 오 년이 걸린다고 말했습니다."
@@ -4881,8 +4881,8 @@
    "mp3": "/home/user/osint_generator/projects/diesel_road_2026/tts/act4_12_e8edd5c5d7.mp3",
    "npy": "/home/user/osint_generator/projects/diesel_road_2026/tts/act4_12_e8edd5c5d7.npy",
    "dur": 3.998843537414966,
-   "t0": 671.5600680272095,
-   "t1": 675.5589115646244,
+   "t0": 671.5163265306109,
+   "t1": 675.5151700680258,
    "trim_offset": 0.531701,
    "chunks": [
     "카타르 가스 수출 능력의 일부가 몇 년 동안 묶이게 된 셈입니다."
@@ -4924,8 +4924,8 @@
    "mp3": "/home/user/osint_generator/projects/diesel_road_2026/tts/act4_13_1591dfd150.mp3",
    "npy": "/home/user/osint_generator/projects/diesel_road_2026/tts/act4_13_1591dfd150.npy",
    "dur": 5.52437641723356,
-   "t0": 676.4589115646244,
-   "t1": 681.983287981858,
+   "t0": 676.4151700680258,
+   "t1": 681.9395464852594,
    "trim_offset": 0.46932,
    "chunks": [
     "한편 아랍에미리트의 푸자이라항은 이란의 드론과 미사일에 최소 열아홉 차례 겨냥됐습니다."
@@ -4967,8 +4967,8 @@
    "mp3": "/home/user/osint_generator/projects/diesel_road_2026/tts/act4_14_bd0ce920a4.mp3",
    "npy": "/home/user/osint_generator/projects/diesel_road_2026/tts/act4_14_bd0ce920a4.npy",
    "dur": 4.774149659863945,
-   "t0": 682.883287981858,
-   "t1": 687.6574376417219,
+   "t0": 682.8395464852593,
+   "t1": 687.6136961451233,
    "trim_offset": 0.406803,
    "chunks": [
     "구월 십일에는 드론이 사우디아라비아 동서 송유관의 펌프장을 타격했습니다."
@@ -5010,8 +5010,8 @@
    "mp3": "/home/user/osint_generator/projects/diesel_road_2026/tts/act4_15_15f974f502.mp3",
    "npy": "/home/user/osint_generator/projects/diesel_road_2026/tts/act4_15_15f974f502.npy",
    "dur": 3.6192743764172337,
-   "t0": 688.5574376417219,
-   "t1": 692.1767120181391,
+   "t0": 688.5136961451233,
+   "t1": 692.1329705215405,
    "trim_offset": 0.414807,
    "chunks": [
     "미국 당국자는 이 드론이 이라크에서 날아왔다고 말했습니다."
@@ -5053,8 +5053,8 @@
    "mp3": "/home/user/osint_generator/projects/diesel_road_2026/tts/act4_16_419de9cd25.mp3",
    "npy": "/home/user/osint_generator/projects/diesel_road_2026/tts/act4_16_419de9cd25.npy",
    "dur": 3.944126984126984,
-   "t0": 693.0767120181391,
-   "t1": 697.0208390022661,
+   "t0": 693.0329705215405,
+   "t1": 696.9770975056675,
    "trim_offset": 0.529569,
    "chunks": [
     "이어서 사우디는 다음 날 예방 조치로 동서 송유관을 멈췄습니다."
@@ -5096,8 +5096,8 @@
    "mp3": "/home/user/osint_generator/projects/diesel_road_2026/tts/act4_17_e35e9dfad6.mp3",
    "npy": "/home/user/osint_generator/projects/diesel_road_2026/tts/act4_17_e35e9dfad6.npy",
    "dur": 5.541836734693877,
-   "t0": 697.9208390022661,
-   "t1": 703.46267573696,
+   "t0": 697.8770975056675,
+   "t1": 703.4189342403614,
    "trim_offset": 0.472041,
    "chunks": [
     "걸프 각국 정부는 최소 서른네 차례 피해를 요격 탄약이나 떨어진 잔해 탓으로 돌렸습니다."
@@ -5139,8 +5139,8 @@
    "mp3": "/home/user/osint_generator/projects/diesel_road_2026/tts/act4_18_191661843f.mp3",
    "npy": "/home/user/osint_generator/projects/diesel_road_2026/tts/act4_18_191661843f.npy",
    "dur": 5.092267573696145,
-   "t0": 704.36267573696,
-   "t1": 709.4549433106562,
+   "t0": 704.3189342403614,
+   "t1": 709.4112018140576,
    "trim_offset": 0.494671,
    "chunks": [
     "이에 대해 로이터는 피해가 낙하 잔해가 아니라 의도된 정밀 타격이었다고 보도했습니다."
@@ -5182,8 +5182,8 @@
    "mp3": "/home/user/osint_generator/projects/diesel_road_2026/tts/act4_19_a1a876a003.mp3",
    "npy": "/home/user/osint_generator/projects/diesel_road_2026/tts/act4_19_a1a876a003.npy",
    "dur": 3.3677551020408165,
-   "t0": 710.3549433106562,
-   "t1": 713.722698412697,
+   "t0": 710.3112018140575,
+   "t1": 713.6789569160984,
    "trim_offset": 0.446122,
    "chunks": [
     "그렇다면 걸프의 불길은 어떻게 경유 시장으로 번졌을까요."
@@ -5222,8 +5222,8 @@
    "mp3": "/home/user/osint_generator/projects/diesel_road_2026/tts/act4_20_0c84101460.mp3",
    "npy": "/home/user/osint_generator/projects/diesel_road_2026/tts/act4_20_0c84101460.npy",
    "dur": 6.981519274376417,
-   "t0": 714.622698412697,
-   "t1": 721.6042176870734,
+   "t0": 714.5789569160984,
+   "t1": 721.5604761904748,
    "trim_offset": 0.511769,
    "chunks": [
     "호르무즈를 지나는 석유제품은 하루 육십칠만 칠천 배럴로, 전쟁 전 삼백육십만 배럴에 크게 못 미쳤습니다."
@@ -5265,8 +5265,8 @@
    "mp3": "/home/user/osint_generator/projects/diesel_road_2026/tts/act4_21_5c13be24ee.mp3",
    "npy": "/home/user/osint_generator/projects/diesel_road_2026/tts/act4_21_5c13be24ee.npy",
    "dur": 6.058027210884354,
-   "t0": 722.5042176870734,
-   "t1": 728.5622448979577,
+   "t0": 722.4604761904748,
+   "t1": 728.5185034013591,
    "trim_offset": 0.471723,
    "chunks": [
     "칠월 호르무즈를 지난 경유는 하루 십육만 오천 배럴로, 분쟁 전 약 팔십만 배럴의 일부였습니다."
@@ -5308,8 +5308,8 @@
    "mp3": "/home/user/osint_generator/projects/diesel_road_2026/tts/act4_22_3a23d23010.mp3",
    "npy": "/home/user/osint_generator/projects/diesel_road_2026/tts/act4_22_3a23d23010.npy",
    "dur": 4.923718820861678,
-   "t0": 729.4622448979577,
-   "t1": 734.3859637188194,
+   "t0": 729.4185034013591,
+   "t1": 734.3422222222208,
    "trim_offset": 0.462472,
    "chunks": [
     "그 결과 삼분기 세계 경유 공급은 일 년 전보다 하루 백칠십만 배럴 줄었습니다."
@@ -5351,8 +5351,8 @@
    "mp3": "/home/user/osint_generator/projects/diesel_road_2026/tts/act4_23_90d399ffb0.mp3",
    "npy": "/home/user/osint_generator/projects/diesel_road_2026/tts/act4_23_90d399ffb0.npy",
    "dur": 3.977981859410431,
-   "t0": 735.2859637188194,
-   "t1": 739.2639455782298,
+   "t0": 735.2422222222208,
+   "t1": 739.2202040816312,
    "trim_offset": 0.49737,
    "chunks": [
     "구월 경유 정제마진은 배럴당 약 구십오 딸러로 사상 최고였습니다."
@@ -5394,8 +5394,8 @@
    "mp3": "/home/user/osint_generator/projects/diesel_road_2026/tts/act4_24_7882bb2c7f.mp3",
    "npy": "/home/user/osint_generator/projects/diesel_road_2026/tts/act4_24_7882bb2c7f.npy",
    "dur": 7.922108843537415,
-   "t0": 740.1639455782298,
-   "t1": 748.0860544217672,
+   "t0": 740.1202040816312,
+   "t1": 748.0423129251686,
    "trim_offset": 0.377551,
    "chunks": [
     "한국 워뉴 수입의 중동산 비중도 지난해 육십구 점 일 퍼센트에서 올해 오에서 칠월 사십팔 점 오 퍼센트로 내려갔습니다."
@@ -5437,8 +5437,8 @@
    "mp3": "/home/user/osint_generator/projects/diesel_road_2026/tts/act4_25_837aa44985.mp3",
    "npy": "/home/user/osint_generator/projects/diesel_road_2026/tts/act4_25_837aa44985.npy",
    "dur": 8.940725623582766,
-   "t0": 748.9860544217672,
-   "t1": 757.92678004535,
+   "t0": 748.9423129251686,
+   "t1": 757.8830385487514,
    "trim_offset": 0.557664,
    "chunks": [
     "러시아의 정유소와 걸프의 수출항이 함께 흔들리자, 국제 에너지 기구는 경유 부족이 이천이십칠 년까지 이어질 수 있다고 밝혔습니다."
@@ -5480,8 +5480,8 @@
    "mp3": "/home/user/osint_generator/projects/diesel_road_2026/tts/act4_26_905c083836.mp3",
    "npy": "/home/user/osint_generator/projects/diesel_road_2026/tts/act4_26_905c083836.npy",
    "dur": 2.584013605442177,
-   "t0": 758.82678004535,
-   "t1": 761.4107936507921,
+   "t0": 758.7830385487514,
+   "t1": 761.3670521541935,
    "trim_offset": 0.306803,
    "chunks": [
     "그리고 이 경유 부족은 워싱턴으로 이어집니다."
@@ -5523,8 +5523,8 @@
    "mp3": "/home/user/osint_generator/projects/diesel_road_2026/tts/act5_0_f2f247540b.mp3",
    "npy": "/home/user/osint_generator/projects/diesel_road_2026/tts/act5_0_f2f247540b.npy",
    "dur": 3.749863945578231,
-   "t0": 764.8107936507921,
-   "t1": 768.5606575963703,
+   "t0": 764.7670521541935,
+   "t1": 768.5169160997717,
    "trim_offset": 0.530454,
    "chunks": [
     "마지막으로 시점을 지난주로, 무대를 워싱턴으로 옮깁니다."
@@ -5566,8 +5566,8 @@
    "mp3": "/home/user/osint_generator/projects/diesel_road_2026/tts/act5_1_0ef67f6afa.mp3",
    "npy": "/home/user/osint_generator/projects/diesel_road_2026/tts/act5_1_0ef67f6afa.npy",
    "dur": 3.054557823129252,
-   "t0": 769.4606575963703,
-   "t1": 772.5152154194996,
+   "t0": 769.4169160997717,
+   "t1": 772.4714739229009,
    "trim_offset": 0.495737,
    "chunks": [
     "미국은 지난해 러시아 석유회사들을 제재한 나라입니다."
@@ -5609,8 +5609,8 @@
    "mp3": "/home/user/osint_generator/projects/diesel_road_2026/tts/act5_2_5c13c2bc38.mp3",
    "npy": "/home/user/osint_generator/projects/diesel_road_2026/tts/act5_2_5c13c2bc38.npy",
    "dur": 2.804784580498866,
-   "t0": 773.4152154194995,
-   "t1": 776.2199999999984,
+   "t0": 773.3714739229009,
+   "t1": 776.1762585033998,
    "trim_offset": 0.554195,
    "chunks": [
     "그런데 올해 미국의 선택은 거꾸로 움직였습니다."
@@ -5652,8 +5652,8 @@
    "mp3": "/home/user/osint_generator/projects/diesel_road_2026/tts/act5_3_aa18b9fab9.mp3",
    "npy": "/home/user/osint_generator/projects/diesel_road_2026/tts/act5_3_aa18b9fab9.npy",
    "dur": 8.100090702947846,
-   "t0": 777.1199999999984,
-   "t1": 785.2200907029462,
+   "t0": 777.0762585033998,
+   "t1": 785.1763492063476,
    "trim_offset": 0.379478,
    "chunks": [
     "미국 재무부는 삼월 십이일 이미 배에 실린 러시아산 워뉴와 석유제품의 거래를 허용하는 일반허가 백삼십사 호를 냈습니다."
@@ -5695,8 +5695,8 @@
    "mp3": "/home/user/osint_generator/projects/diesel_road_2026/tts/act5_4_7a929e741e.mp3",
    "npy": "/home/user/osint_generator/projects/diesel_road_2026/tts/act5_4_7a929e741e.npy",
    "dur": 4.130022675736962,
-   "t0": 786.1200907029462,
-   "t1": 790.2501133786832,
+   "t0": 786.0763492063476,
+   "t1": 790.2063718820846,
    "trim_offset": 0.545261,
    "chunks": [
     "베선트 재무장관은 이 허가를 좁게 설계한 단기 조치라고 말했습니다."
@@ -5746,8 +5746,8 @@
    "mp3": "/home/user/osint_generator/projects/diesel_road_2026/tts/act5_5_1f485dae7c.mp3",
    "npy": "/home/user/osint_generator/projects/diesel_road_2026/tts/act5_5_1f485dae7c.npy",
    "dur": 6.441473922902494,
-   "t0": 791.1501133786832,
-   "t1": 797.5915873015856,
+   "t0": 791.1063718820845,
+   "t1": 797.547845804987,
    "trim_offset": 0.500476,
    "chunks": [
     "이어서 재무부는 러시아산 경유의 판매와 운송, 수입을 허용하는 일반허가 백삼십오 호를 내놨습니다."
@@ -5789,8 +5789,8 @@
    "mp3": "/home/user/osint_generator/projects/diesel_road_2026/tts/act5_6_b5d8818175.mp3",
    "npy": "/home/user/osint_generator/projects/diesel_road_2026/tts/act5_6_b5d8818175.npy",
    "dur": 3.060657596371882,
-   "t0": 798.4915873015856,
-   "t1": 801.5522448979575,
+   "t0": 798.447845804987,
+   "t1": 801.5085034013589,
    "trim_offset": 0.499161,
    "chunks": [
     "이 허가는 이천이십칠 년 사월 칠일까지 유효합니다."
@@ -5832,8 +5832,8 @@
    "mp3": "/home/user/osint_generator/projects/diesel_road_2026/tts/act5_7_222a9b3e24.mp3",
    "npy": "/home/user/osint_generator/projects/diesel_road_2026/tts/act5_7_222a9b3e24.npy",
    "dur": 5.105374149659864,
-   "t0": 802.4522448979575,
-   "t1": 807.5576190476173,
+   "t0": 802.4085034013589,
+   "t1": 807.5138775510187,
    "trim_offset": 0.482698,
    "chunks": [
     "트럼프 대통령은 러시아가 경유 삼십만 톤 이상을 즉시 공급할 것이라고 말했습니다."
@@ -5875,8 +5875,8 @@
    "mp3": "/home/user/osint_generator/projects/diesel_road_2026/tts/act5_8_f92e6e3cb2.mp3",
    "npy": "/home/user/osint_generator/projects/diesel_road_2026/tts/act5_8_f92e6e3cb2.npy",
    "dur": 6.05312925170068,
-   "t0": 808.4576190476173,
-   "t1": 814.5107482993179,
+   "t0": 808.4138775510187,
+   "t1": 814.4670068027193,
    "trim_offset": 0.628413,
    "chunks": [
     "노바크 러시아 부총리는 경유 수출이 월 삼백만에서 삼백오십만 톤까지 늘 수 있다고 말했습니다."
@@ -5918,8 +5918,8 @@
    "mp3": "/home/user/osint_generator/projects/diesel_road_2026/tts/act5_9_7bb1244eeb.mp3",
    "npy": "/home/user/osint_generator/projects/diesel_road_2026/tts/act5_9_7bb1244eeb.npy",
    "dur": 4.968412698412698,
-   "t0": 815.4107482993179,
-   "t1": 820.3791609977307,
+   "t0": 815.3670068027193,
+   "t1": 820.335419501132,
    "trim_offset": 0.273492,
    "chunks": [
     "베선트 재무장관은 가진 모든 법적 권한으로 이 거래를 이행하겠다고 말했습니다."
@@ -5961,8 +5961,8 @@
    "mp3": "/home/user/osint_generator/projects/diesel_road_2026/tts/act5_10_ea9c4aa150.mp3",
    "npy": "/home/user/osint_generator/projects/diesel_road_2026/tts/act5_10_ea9c4aa150.npy",
    "dur": 6.834875283446712,
-   "t0": 821.2791609977306,
-   "t1": 828.1140362811774,
+   "t0": 821.235419501132,
+   "t1": 828.0702947845788,
    "trim_offset": 0.552517,
    "chunks": [
     "카네기 국제평화재단은 이 거래의 이론상 가치를 육 개월 약 오백만 톤 기준 약 칠십억 딸러로 추정했습니다."
@@ -6004,8 +6004,8 @@
    "mp3": "/home/user/osint_generator/projects/diesel_road_2026/tts/act5_11_f53759c669.mp3",
    "npy": "/home/user/osint_generator/projects/diesel_road_2026/tts/act5_11_f53759c669.npy",
    "dur": 4.443673469387755,
-   "t0": 829.0140362811774,
-   "t1": 833.4577097505651,
+   "t0": 828.9702947845788,
+   "t1": 833.4139682539665,
    "trim_offset": 0.401633,
    "chunks": [
     "이에 대해 미국 공화 민주 양당 의원들은 거래를 철회하라고 촉구했습니다."
@@ -6047,8 +6047,8 @@
    "mp3": "/home/user/osint_generator/projects/diesel_road_2026/tts/act5_12_086bcc9af0.mp3",
    "npy": "/home/user/osint_generator/projects/diesel_road_2026/tts/act5_12_086bcc9af0.npy",
    "dur": 2.5115646258503403,
-   "t0": 834.357709750565,
-   "t1": 836.8692743764154,
+   "t0": 834.3139682539664,
+   "t1": 836.8255328798168,
    "trim_offset": 0.466032,
    "chunks": [
     "미국은 왜 러시아 경유에 문을 열었을까요."
@@ -6087,8 +6087,8 @@
    "mp3": "/home/user/osint_generator/projects/diesel_road_2026/tts/act5_13_612640e17f.mp3",
    "npy": "/home/user/osint_generator/projects/diesel_road_2026/tts/act5_13_612640e17f.npy",
    "dur": 5.28092970521542,
-   "t0": 837.7692743764154,
-   "t1": 843.0502040816308,
+   "t0": 837.7255328798168,
+   "t1": 843.0064625850322,
    "trim_offset": 0.515805,
    "chunks": [
     "트럼프 대통령은 젤렌스키 대통령에게 러시아 정유소 공격을 멈추라고 요구했습니다."
@@ -6130,8 +6130,8 @@
    "mp3": "/home/user/osint_generator/projects/diesel_road_2026/tts/act5_14_3aedbf9d43.mp3",
    "npy": "/home/user/osint_generator/projects/diesel_road_2026/tts/act5_14_3aedbf9d43.npy",
    "dur": 6.2070294784580495,
-   "t0": 843.9502040816308,
-   "t1": 850.1572335600888,
+   "t0": 843.9064625850322,
+   "t1": 850.1134920634902,
    "trim_offset": 0.575397,
    "chunks": [
     "앞서 트럼프 대통령은 우크라이나의 러시아 정유소 공격이 경유 부족을 일으킨다고 주장했습니다."
@@ -6181,8 +6181,8 @@
    "mp3": "/home/user/osint_generator/projects/diesel_road_2026/tts/act5_15_8c79ee4a6a.mp3",
    "npy": "/home/user/osint_generator/projects/diesel_road_2026/tts/act5_15_8c79ee4a6a.npy",
    "dur": 6.721337868480726,
-   "t0": 851.0572335600888,
-   "t1": 857.7785714285695,
+   "t0": 851.0134920634902,
+   "t1": 857.7348299319709,
    "trim_offset": 0.422426,
    "chunks": [
     "한편 미국의 경유 평균 가격은 갤런당 육 점 이육 딸러로, 연초보다 팔십 퍼센트 가까이 올랐습니다."
@@ -6224,8 +6224,8 @@
    "mp3": "/home/user/osint_generator/projects/diesel_road_2026/tts/act5_16_4dbfd5260b.mp3",
    "npy": "/home/user/osint_generator/projects/diesel_road_2026/tts/act5_16_4dbfd5260b.npy",
    "dur": 2.5828344671201813,
-   "t0": 858.6785714285695,
-   "t1": 861.2614058956897,
+   "t0": 858.6348299319709,
+   "t1": 861.2176643990911,
    "trim_offset": 0.577574,
    "chunks": [
     "경유값은 미국 국내 정치의 문제가 됐습니다."
@@ -6267,8 +6267,8 @@
    "mp3": "/home/user/osint_generator/projects/diesel_road_2026/tts/act5_17_5027b5ebe3.mp3",
    "npy": "/home/user/osint_generator/projects/diesel_road_2026/tts/act5_17_5027b5ebe3.npy",
    "dur": 5.368775510204082,
-   "t0": 862.1614058956897,
-   "t1": 867.5301814058937,
+   "t0": 862.117664399091,
+   "t1": 867.4864399092951,
    "trim_offset": 0.471088,
    "chunks": [
     "트럼프 대통령은 중간선거를 앞두고 경유값 상승을 정유소 공격 탓으로 돌려 왔습니다."
@@ -6310,8 +6310,8 @@
    "mp3": "/home/user/osint_generator/projects/diesel_road_2026/tts/act5_18_5716abfa08.mp3",
    "npy": "/home/user/osint_generator/projects/diesel_road_2026/tts/act5_18_5716abfa08.npy",
    "dur": 2.8920861678004535,
-   "t0": 868.4301814058937,
-   "t1": 871.3222675736941,
+   "t0": 868.3864399092951,
+   "t1": 871.2785260770955,
    "trim_offset": 0.494512,
    "chunks": [
     "그리고 그 해법으로 꺼낸 것이 에너지 휴전이었습니다."
@@ -6361,8 +6361,8 @@
    "mp3": "/home/user/osint_generator/projects/diesel_road_2026/tts/act5_19_0ac3b61e2e.mp3",
    "npy": "/home/user/osint_generator/projects/diesel_road_2026/tts/act5_19_0ac3b61e2e.npy",
    "dur": 4.83843537414966,
-   "t0": 872.2222675736941,
-   "t1": 877.0607029478438,
+   "t0": 872.1785260770955,
+   "t1": 877.0169614512452,
    "trim_offset": 0.564127,
    "chunks": [
     "이어서 시월 십일일, 트럼프 대통령은 즉시 에너지 휴전이 발효된다고 밝혔습니다."
@@ -6404,8 +6404,8 @@
    "mp3": "/home/user/osint_generator/projects/diesel_road_2026/tts/act5_20_08995a970b.mp3",
    "npy": "/home/user/osint_generator/projects/diesel_road_2026/tts/act5_20_08995a970b.npy",
    "dur": 5.885056689342403,
-   "t0": 877.9607029478437,
-   "t1": 883.8457596371861,
+   "t0": 877.9169614512451,
+   "t1": 883.8020181405875,
    "trim_offset": 0.392018,
    "chunks": [
     "백악관 당국자는 첫 단계가 두 나라가 서로의 정유소를 공격하지 않는 것이라고 밝혔습니다."
@@ -6447,8 +6447,8 @@
    "mp3": "/home/user/osint_generator/projects/diesel_road_2026/tts/act5_21_dea7810423.mp3",
    "npy": "/home/user/osint_generator/projects/diesel_road_2026/tts/act5_21_dea7810423.npy",
    "dur": 5.672063492063492,
-   "t0": 884.7457596371861,
-   "t1": 890.4178231292495,
+   "t0": 884.7020181405875,
+   "t1": 890.3740816326509,
    "trim_offset": 0.55229,
    "chunks": [
     "이에 대해 우크라이나는 러시아의 정유망이 훨씬 커서 맞교환은 불공평하다고 반발했습니다."
@@ -6490,8 +6490,8 @@
    "mp3": "/home/user/osint_generator/projects/diesel_road_2026/tts/act5_22_82c5c21f95.mp3",
    "npy": "/home/user/osint_generator/projects/diesel_road_2026/tts/act5_22_82c5c21f95.npy",
    "dur": 3.976780045351474,
-   "t0": 891.3178231292495,
-   "t1": 895.294603174601,
+   "t0": 891.2740816326509,
+   "t1": 895.2508616780024,
    "trim_offset": 0.552517,
    "chunks": [
     "젤렌스키 대통령은 휴전 발표를 처음 듣는 소식이라고 말했습니다."
@@ -6533,8 +6533,8 @@
    "mp3": "/home/user/osint_generator/projects/diesel_road_2026/tts/act5_23_813ea4b099.mp3",
    "npy": "/home/user/osint_generator/projects/diesel_road_2026/tts/act5_23_813ea4b099.npy",
    "dur": 5.886122448979592,
-   "t0": 896.194603174601,
-   "t1": 902.0807256235805,
+   "t0": 896.1508616780023,
+   "t1": 902.0369841269819,
    "trim_offset": 0.587279,
    "chunks": [
     "젤렌스키 대통령은 러시아가 에너지 시설 공격을 멈추면 우크라이나도 멈추겠다고 말했습니다."
@@ -6576,8 +6576,8 @@
    "mp3": "/home/user/osint_generator/projects/diesel_road_2026/tts/act5_24_b643dee270.mp3",
    "npy": "/home/user/osint_generator/projects/diesel_road_2026/tts/act5_24_b643dee270.npy",
    "dur": 6.687687074829932,
-   "t0": 902.9807256235805,
-   "t1": 909.6684126984104,
+   "t0": 902.9369841269819,
+   "t1": 909.6246712018118,
    "trim_offset": 0.537596,
    "chunks": [
     "하지만 우크라이나 당국은 러시아가 그 주에도 하르키우와 폴타바의 가스 시설을 공격했다고 밝혔습니다."
@@ -6619,8 +6619,8 @@
    "mp3": "/home/user/osint_generator/projects/diesel_road_2026/tts/act5_25_7259ceefac.mp3",
    "npy": "/home/user/osint_generator/projects/diesel_road_2026/tts/act5_25_7259ceefac.npy",
    "dur": 3.9665532879818595,
-   "t0": 910.5684126984104,
-   "t1": 914.5349659863922,
+   "t0": 910.5246712018118,
+   "t1": 914.4912244897936,
    "trim_offset": 0.47127,
    "chunks": [
     "그리고 시월 십오일, 우크라이나는 랴잔 정유소를 다시 타격했습니다."
@@ -6662,8 +6662,8 @@
    "mp3": "/home/user/osint_generator/projects/diesel_road_2026/tts/act5_26_8476575aa5.mp3",
    "npy": "/home/user/osint_generator/projects/diesel_road_2026/tts/act5_26_8476575aa5.npy",
    "dur": 5.660385487528345,
-   "t0": 915.4349659863922,
-   "t1": 921.0953514739206,
+   "t0": 915.3912244897936,
+   "t1": 921.051609977322,
    "trim_offset": 0.482721,
    "chunks": [
     "크렘린궁은 우크라이나의 에너지 시설 공격이 미국의 평화 노력에 어긋난다고 말했습니다."
@@ -6705,8 +6705,8 @@
    "mp3": "/home/user/osint_generator/projects/diesel_road_2026/tts/act5_27_e9d1712029.mp3",
    "npy": "/home/user/osint_generator/projects/diesel_road_2026/tts/act5_27_e9d1712029.npy",
    "dur": 4.227278911564626,
-   "t0": 921.9953514739206,
-   "t1": 926.2226303854852,
+   "t0": 921.9516099773219,
+   "t1": 926.1788888888866,
    "trim_offset": 0.517619,
    "chunks": [
     "젤렌스키 대통령은 트럼프 대통령에게 배신감을 느낀다고 말했습니다."
@@ -6748,8 +6748,8 @@
    "mp3": "/home/user/osint_generator/projects/diesel_road_2026/tts/act5_28_a9dfc5cf6f.mp3",
    "npy": "/home/user/osint_generator/projects/diesel_road_2026/tts/act5_28_a9dfc5cf6f.npy",
    "dur": 1.6256916099773242,
-   "t0": 927.1226303854852,
-   "t1": 928.7483219954626,
+   "t0": 927.0788888888866,
+   "t1": 928.704580498864,
    "trim_offset": 0.342222,
    "chunks": [
     "휴전은 나흘 만에 끝났습니다."
@@ -6791,8 +6791,8 @@
    "mp3": "/home/user/osint_generator/projects/diesel_road_2026/tts/act5_29_66896f01e2.mp3",
    "npy": "/home/user/osint_generator/projects/diesel_road_2026/tts/act5_29_66896f01e2.npy",
    "dur": 5.905963718820861,
-   "t0": 929.6483219954625,
-   "t1": 935.5542857142834,
+   "t0": 929.6045804988639,
+   "t1": 935.5105442176848,
    "trim_offset": 0.44805,
    "chunks": [
     "그 사이 이재명 대통령은 십삼일 국무회의에서 러시아와의 관계 관리도 중요하다고 말했습니다."
@@ -6834,8 +6834,8 @@
    "mp3": "/home/user/osint_generator/projects/diesel_road_2026/tts/act5_30_fca82a48c5.mp3",
    "npy": "/home/user/osint_generator/projects/diesel_road_2026/tts/act5_30_fca82a48c5.npy",
    "dur": 4.166575963718821,
-   "t0": 936.4542857142834,
-   "t1": 940.6208616780023,
+   "t0": 936.4105442176848,
+   "t1": 940.5771201814036,
    "trim_offset": 0.577098,
    "chunks": [
     "이재명 대통령은 외교에는 영원한 적도 영원한 우방도 없다고 말했습니다."
@@ -6877,8 +6877,8 @@
    "mp3": "/home/user/osint_generator/projects/diesel_road_2026/tts/ending_0_7782ceb28a.mp3",
    "npy": "/home/user/osint_generator/projects/diesel_road_2026/tts/ending_0_7782ceb28a.npy",
    "dur": 7.5285487528344675,
-   "t0": 942.5208616780022,
-   "t1": 950.0494104308367,
+   "t0": 942.4771201814036,
+   "t1": 950.0056689342381,
    "trim_offset": 0.484649,
    "chunks": [
     "사흘에 한 번 타격당한 러시아의 정유소, 울산을 떠난 유조선, 불붙은 걸프의 수출항, 그리고 워싱턴의 경유 거래."
@@ -6917,8 +6917,8 @@
    "mp3": "/home/user/osint_generator/projects/diesel_road_2026/tts/ending_1_f763bff5a3.mp3",
    "npy": "/home/user/osint_generator/projects/diesel_road_2026/tts/ending_1_f763bff5a3.npy",
    "dur": 3.099795918367347,
-   "t0": 950.9494104308367,
-   "t1": 954.049206349204,
+   "t0": 950.9056689342381,
+   "t1": 954.0054648526054,
    "trim_offset": 0.60102,
    "chunks": [
     "네 장면은 모두 모자란 경유 한 가지로 이어져 있습니다."
@@ -6960,8 +6960,8 @@
    "mp3": "/home/user/osint_generator/projects/diesel_road_2026/tts/ending_2_b0da7688a3.mp3",
    "npy": "/home/user/osint_generator/projects/diesel_road_2026/tts/ending_2_b0da7688a3.npy",
    "dur": 8.390226757369614,
-   "t0": 954.949206349204,
-   "t1": 963.3394331065737,
+   "t0": 954.9054648526054,
+   "t1": 963.295691609975,
    "trim_offset": 0.544694,
    "chunks": [
     "국제 에너지 기구는 그 부족이 이천이십칠 년까지 이어질 수 있다고 내다봤고, 경유를 둘러싼 거래와 타격은 지금도 계속되고 있습니다."
@@ -6997,20 +6997,20 @@
   },
   {
    "kind": "end",
-   "t0": 965.4394331065737,
-   "t1": 976.4394331065737
+   "t0": 965.3956916099751,
+   "t1": 976.3956916099751
   }
  ],
  "scene_start": {
   "cold": 1.2,
   "act1": 38.6754648526077,
   "act2": 205.4251247165534,
-  "act3": 407.08430839002216,
-  "act4": 600.557505668933,
-  "act5": 763.3107936507921,
-  "ending": 942.5208616780022
+  "act3": 407.0633560090698,
+  "act4": 600.5137641723344,
+  "act5": 763.2670521541935,
+  "ending": 942.4771201814036
  },
- "total": 976.9394331065737,
+ "total": 976.8956916099751,
  "voice": "supertonic-3 M3 ×0.95",
  "title": "경유의 길 — 사흘에 한 번",
  "subtitle": "우크라이나의 정유소 타격, 울산발 유조선, 걸프의 불길, 그리고 워싱턴의 경유 거래",
@@ -7037,7 +7037,7 @@
   },
   {
    "sid": "act3_0",
-   "pause_t0": 407.084308,
+   "pause_t0": 407.063356,
    "pause_sec": 1.5,
    "kind": [
     "date_jump",
@@ -7046,7 +7046,7 @@
   },
   {
    "sid": "act4_0",
-   "pause_t0": 600.557506,
+   "pause_t0": 600.513764,
    "pause_sec": 1.5,
    "kind": [
     "date_jump",
@@ -7055,7 +7055,7 @@
   },
   {
    "sid": "act5_0",
-   "pause_t0": 763.310794,
+   "pause_t0": 763.267052,
    "pause_sec": 1.5,
    "kind": [
     "date_jump",

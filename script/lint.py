@@ -181,7 +181,15 @@ def apply_dict(text: str, mapping: dict[str, str] | None = None) -> str:
     keys = sorted((k for k in (mapping or {}) if not k.startswith("_") and k), key=len, reverse=True)
     if not keys:
         return text
-    pat = re.compile("|".join(re.escape(k) for k in keys))
+    sk = load_rules().tts_rules.short_key_boundary   # v7.4.0 D-0246 보충 — 한글 짧은 키는 어절 경계(또는 수사 음절) 뒤에서만
+    allow = sk.allow_after if sk else ""
+
+    def _alt(k: str) -> str:
+        if sk and len(k) <= sk.max_len and all("가" <= c <= "힣" for c in k):
+            return f"(?:(?<![가-힣])|(?<=[{re.escape(allow)}])){re.escape(k)}" if allow else f"(?<![가-힣]){re.escape(k)}"
+        return re.escape(k)
+
+    pat = re.compile("|".join(_alt(k) for k in keys))
     return pat.sub(lambda m: (mapping or {})[m.group(0)], text)
 
 
@@ -266,18 +274,20 @@ def load_pronounce_dict(path: Path | None = None) -> dict[str, str]:
     raw = json.loads(p.read_text(encoding="utf-8"))
     if not isinstance(raw, dict):
         raise ValueError(f"{p}: 발음 사전은 JSON 객체여야 한다")
-    out = tensification_entries()   # v7.4.0 D-0246(UF-127) — 규칙에서 생성한 예외 항목(파일 항목이 같은 key 면 파일이 이긴다)
-    out.update({str(k): str(v) for k, v in raw.items() if isinstance(k, str) and not k.startswith("_")})
+    file_map = {str(k): str(v) for k, v in raw.items() if isinstance(k, str) and not k.startswith("_")}
+    out = tensification_entries(file_map)   # v7.4.0 D-0246(UF-127) — 규칙에서 생성한 예외 항목(파일 항목이 같은 key 면 파일이 이긴다)
+    out.update(file_map)
     return out
 
 
-def tensification_entries() -> dict[str, str]:
+def tensification_entries(file_map: dict[str, str] | None = None) -> dict[str, str]:
     """rules tts_rules.tensification_traps → 발음 사전 항목 {명사+조사: spoken}. 사전의 "유가"(油價 → 유까) 치환이 '…유 + 조사 가' 를
     바꾸지 못하게 더 긴 key 로 막는다(apply_dict 최장 일치, TTS-AP-069·083). 손으로 명사별 항목을 넣지 않는다(P3)."""
     tt = load_rules().tts_rules.tensification_traps
     if tt is None:
         return {}
-    return {f"{n}{p}": tt.spoken.replace("{noun}", n).replace("{particle}", p) for n in tt.suffix_nouns for p in tt.particles}
+    fm = file_map or {}   # 명사 자체에 사전 항목이 있으면(원유 → 워뉴) 그 읽기를 쓴다 — 예외가 명사 읽기를 지우지 않게
+    return {f"{n}{p}": tt.spoken.replace("{noun}", fm.get(n, n)).replace("{particle}", p) for n in tt.suffix_nouns for p in tt.particles}
 
 
 def attribution_mode(proj: "Path | None", script: Script) -> str:
