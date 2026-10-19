@@ -204,6 +204,13 @@ class MediaNote(_Strict):
     press_quote: Optional[str] = Field(default=None, min_length=4)   # v5.21.0 D-0177 §4 — 보도 인용(B) 사진을 쓰는 이유·사진(검색 기록 통과 0 필수)
 
 
+class MediaDrop(_Strict):
+    """v7.4.0 D-0238(UF-118) — 등재한 권리 통과 사진을 연출에서 빼는 명시 사유. 사유 없는 누락 = [media-unused] hard."""
+
+    mid: str = Field(min_length=1)
+    reason: str = Field(min_length=4)
+
+
 class MediaNotes(_Strict):
     """`projects/<pid>/media_notes.yaml`(git 추적) — 미디어 계획 표(게이트 ①)·[article-unused] 검사가 읽는다.
     문장 id 는 `{장면}_{순번}`(원고 기준). 원고에 없는 문장 id = 오류(낡은 사유, P6)."""
@@ -211,6 +218,7 @@ class MediaNotes(_Strict):
     schema_version: Literal[1] = 1
     project_photo: Optional[str] = Field(default=None, min_length=4)   # 사진 후보 문장이 하나도 없을 때의 사유(영상 전체)
     sentences: dict[str, MediaNote] = Field(default_factory=dict)
+    drop: list[MediaDrop] = Field(default_factory=list)   # v7.4.0 D-0238 — 등재 사진을 쓰지 않는 명시 사유(UF-118)
 
 
 class MediaSearch(_Strict):

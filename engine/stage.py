@@ -121,6 +121,9 @@ MERCATOR_LOD: dict[str, Any] = {
     "tier_blend_ppd": {"from": 26, "span": 18},                     # 상세 티어 블렌딩 smooth((W_OUT/w − 26)/18)
     "tier_inside_margin": 0.05,                                     # 상세 티어는 화면이 티어 안(여백 0.05도)일 때만
     "city_labels_max": 18,
+    # v7.4.0 D-0229 §2.1-2(UF-106) — 도로: w < 14° 에서 나타나 span 5° 뒤 완전(motorway 는 22° 부터). 강: 큰 강 40°, 작은 강 12° 부터 span 6°
+    "roads_fade": {"w": 14, "motorway_w": 22, "span": 5},
+    "rivers_fade": {"major_w": 40, "minor_w": 12, "span": 6},
     "sea_labels": "labels.yaml seas[].wmin ≤ w ≤ wmax",
 }
 
@@ -134,7 +137,25 @@ def by_w(w: float, rule: tuple[list[tuple[float, float]], float]) -> float:
     return last
 
 
-MERCATOR_CONFIG_KEYS = ("border_glow", "theme", "theme_reason")   # theme_reason = v5.18.0 D-0161 §7(direction 이 테마를 고를 때 사유)
+MERCATOR_CONFIG_KEYS = ("border_glow", "theme", "theme_reason", "map_layers", "map_layers_reason")   # theme_reason = v5.18.0 D-0161 §7(direction 이 테마를 고를 때 사유). map_layers = v7.4.0 D-0231
+
+
+MAP_LAYERS = ("roads", "rivers")   # v7.4.0 D-0231 — 켜고 끌 수 있는 지도 레이어(레지스트리, 그 밖 = 오류 P10)
+
+
+def map_layers(config: Optional[dict]) -> tuple[str, ...]:
+    """v7.4.0 D-0231 — 이 영상에 켠 지도 레이어. stage_config.mercator.map_layers(목록) 없으면 rules geo.map_layers_default.
+    기본과 다르게 고르면 map_layers_reason(사유) 필수."""
+    config = config or {}
+    default = tuple(load_rules().geo.map_layers_default)
+    if "map_layers" not in config:
+        return default
+    v = config["map_layers"]
+    if not isinstance(v, list) or any(x not in MAP_LAYERS for x in v):
+        raise StageError(f"mercator stage_config.map_layers 는 {list(MAP_LAYERS)} 의 부분 목록 — 받은 값 {v!r}")
+    if tuple(v) != default and not str(config.get("map_layers_reason", "")).strip():
+        raise StageError("mercator stage_config.map_layers 를 기본과 다르게 쓰면 map_layers_reason(사유)이 필요하다(D-0231)")
+    return tuple(v)
 
 
 def mercator_theme(config: Optional[dict]) -> str:
@@ -150,6 +171,7 @@ def mercator_theme(config: Optional[dict]) -> str:
         raise StageError("mercator stage_config.border_glow 는 true|false")
     if not isinstance(config.get("theme_reason", ""), str):
         raise StageError("mercator stage_config.theme_reason 은 문자열(테마를 고른 사유)")
+    map_layers(config)   # v7.4.0 D-0231 — 값 검사(없는 레이어 = 오류)
     th = load_rules().geo.themes
     name = config.get("theme", th.default)
     if name not in th.names():
@@ -166,6 +188,8 @@ class MercatorStage:
     def __init__(self, assets: "Optional[Assets]" = None, *, tiers: Optional[dict] = None, out: Optional[Output] = None,
                  config: Optional[dict] = None) -> None:
         self.theme_name = mercator_theme(config)
+        self.map_layers = map_layers(config)   # v7.4.0 D-0231 — 도로·강 켜기(골든 hormuz = [])
+        self.map_layers_reason = (config or {}).get("map_layers_reason")
         from engine.style import BORDER_GLOW  # noqa: PLC0415 — style → stage 순환 회피
 
         self.border_glow = bool((config or {}).get("border_glow", BORDER_GLOW.default_on))   # v5.4.0 국경선 글로우 — 지도 무대 기본(rules border_glow.default_on)
@@ -194,6 +218,10 @@ class MercatorStage:
                         for k, v in geo["admin1"].items()}
             self.countries = [(k, m, None if m["lx"] is None else self.to_world(lon=m["lx"], lat=m["ly"])) for k, m in geo["meta"].items()]
             self.seas = [(s, self.to_world(lon=s.lon, lat=s.lat)) for s in assets.labels.seas]
+            if "roads" not in geo or "rivers" not in geo:   # v7.4.0 D-0229 §2.1-2 — 옛 geo.pkl 로 조용히 도로·강 없이 그리지 않는다(P6)
+                raise StageError("geo.pkl 에 roads·rivers 가 없다 — `python -m geo.prep <프로젝트>` 로 다시 만든다(v7.4.0)")
+            self.roads = {lod: {c: to_uv(v) for c, v in geo["roads"][lod].items()} for lod in ("coarse", "fine")}
+            self.rivers = {lod: {c: to_uv(v) for c, v in geo["rivers"][lod].items()} for lod in ("coarse", "fine")}
             plc = geo["places"]
             self.plc_x = np.array([p["lon"] for p in plc])
             self.plc_y = ymv(np.array([p["lat"] for p in plc]))
@@ -233,6 +261,13 @@ class MercatorStage:
         surf.flush()
         surf.get_data()[:] = im.tobytes("raw", "BGRX")
         surf.mark_dirty()
+        from engine.layers.rivers import draw_rivers  # noqa: PLC0415
+        from engine.layers.roads import draw_roads  # noqa: PLC0415
+
+        if "rivers" in self.map_layers:   # v7.4.0 D-0229 §2.1-2·D-0231 — 지형 → 강 → 도로 → 국경·행정선
+            draw_rivers(ctx, self, view)
+        if "roads" in self.map_layers:
+            draw_roads(ctx, self, view)
         draw_borders(ctx, self, view)
 
     def _inside(self, view: "View", T: dict, m: float = MERCATOR_LOD["tier_inside_margin"]) -> bool:  # noqa: N803
@@ -296,49 +331,6 @@ class MercatorStage:
                 lo, la = rng.uniform(box[0], box[1]), rng.uniform(box[2], box[3])
                 p = Point(lo, la)
                 if not any(L.contains(p) for L in land):
-                    pts.append((lo, la, rng.uniform(0, 1)))
-            self._sea_cache[key] = [(*self.to_world(lon=lo, lat=la), ph) for lo, la, ph in pts]
-        return self._sea_cache[key]
-
-
-class FlatMercatorStage(MercatorStage):
-    """지도 무대의 **막지도 모드**(v4.9.0 back_and_forth D-0108, 콘티 판). 좌표·경계·카메라 클램프는 MercatorStage 그대로,
-    배경은 육지·바다 단색 + 국경선(`engine.layers.animatic.draw_flat_map`), 라벨 없음. 자산(티어 래스터·geo.pkl)을 읽지 않는다 —
-    경계 = 프로젝트 geo.yaml 티어 W bbox(geo.prep 의 tier_record 와 같은 값), 지오메트리 = 저장소 막지도 자료(R-0135 A).
-    `bord` 는 coarse·fine 이 같은 110m 고리다(country 강조·국경선이 같은 자료)."""
-
-    def __init__(self, tier_w: dict, polygons: dict[str, list], out: Optional[Output] = None, config: Optional[dict] = None) -> None:
-        super().__init__(None, tiers={"W": tier_w}, out=out, config=config)   # v5.18.0 — 전편과 같은 테마(theme_name·지도 위 의미색)
-        rings = {k: to_uv([np.asarray(r, np.float64) for poly in v for r in poly]) for k, v in polygons.items()}
-        self.bord = {"coarse": rings, "fine": rings}
-        self.adm: dict = {}
-        self.countries: list = []
-        self.seas: list = []
-        self.polygons = polygons
-        self.land_uv = [(uv, mn, mx) for k, v in polygons.items() for uv, mn, mx in to_uv([np.asarray(p[0], np.float64) for p in v])]
-
-    def render_base(self, ctx: cairo.Context, view: "View") -> None:
-        from engine.layers.animatic import draw_flat_map  # noqa: PLC0415 — layers → stage 순환 회피
-
-        draw_flat_map(ctx, self, view)
-
-    def draw_labels(self, ctx: cairo.Context, view: "View", reserved: list, alpha: float = 1.0) -> None:
-        """막지도에는 라벨이 없다(D-0108 — 타일·지형·라벨 없음)."""
-
-    def sea_points(self, box: tuple[float, float, float, float], n: int, seed: int) -> list[tuple[float, float, float]]:
-        """선박 점 — MercatorStage 와 같은 난수 절차, 육지 판정만 막지도 폴리곤으로."""
-        key = f"ships:{box}:{n}:{seed}"
-        if key not in self._sea_cache:
-            from shapely.geometry import Point, Polygon  # noqa: PLC0415
-            from shapely.prepared import prep  # noqa: PLC0415
-
-            land = [prep(Polygon(p[0])) for v in self.polygons.values() for p in v if len(p[0]) > 3]
-            rng = np.random.default_rng(seed)
-            pts = []
-            while len(pts) < n:
-                lo, la = rng.uniform(box[0], box[1]), rng.uniform(box[2], box[3])
-                pt = Point(lo, la)
-                if not any(L.contains(pt) for L in land):
                     pts.append((lo, la, rng.uniform(0, 1)))
             self._sea_cache[key] = [(*self.to_world(lon=lo, lat=la), ph) for lo, la, ph in pts]
         return self._sea_cache[key]
@@ -411,5 +403,5 @@ def attach_world(events: list[dict], stage: Stage, chart_stage: Optional[Stage] 
             e["world_p1"] = stage.to_world(lon=e["p1"][0], lat=e["p1"][1])
 
 
-__all__ = ["MERCATOR_LOD", "FlatMercatorStage", "MercatorStage", "STAGE_CLASSES", "Stage", "StageError", "StageSet", "attach_world", "by_w",
+__all__ = ["MERCATOR_LOD", "MercatorStage", "STAGE_CLASSES", "Stage", "StageError", "StageSet", "attach_world", "by_w",
            "lat_of", "make_stage", "stage_class", "to_uv", "ym", "ymv"]

@@ -7,7 +7,7 @@ transform:
   op: press_cited
   formula: 보도 인용값(매체·날짜)
 as_of: 2026-09
-revision_note: 러시아 정제 처리량 — 보도 인용값. 빈 달은 인용값이 없어 선을 끊는다(보간 없음)
+revision_note: 러시아 정제 처리량 — 보도 인용값. 빈 달은 인용값이 없다(값 null 유지). 렌더에서 점선 보간(값 라벨 없음, v7.4.0 D-0247·UF-128)
 unit: mb/d
 frequency: monthly
 license: press_cited

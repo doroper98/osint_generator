@@ -55,6 +55,27 @@ def present_runs(vals: list) -> list[list[int]]:
     return [r for r in runs if len(r) >= 2]
 
 
+def gap_pairs(vals: list) -> list[tuple[int, int]]:
+    """v7.4.0 D-0247(UF-128) — 보간할 빈 구간: 실측 두 점 (i, j) 사이에 빈 값(None)이 하나 이상(j - i > 1). 양 끝 바깥은 없다(외삽 금지)."""
+    idx = [i for i, v in enumerate(vals) if v is not None]
+    return [(i, j) for i, j in zip(idx, idx[1:]) if j - i > 1]
+
+
+def interpolated_idx(e: dict) -> list[list[int]]:
+    """계열마다 보간으로 채운 인덱스(provenance panels[].interpolated_idx, P5). gap_policy break 면 빈 목록."""
+    if L.gap_policy != "interpolate":
+        return [[] for _ in e["series"]]
+    return [[k for i, j in gap_pairs(ser["values"]) for k in range(i + 1, j)] for ser in e["series"]]
+
+
+def gap_subtitle(e: dict) -> str | None:
+    """출처 줄 + 보간 표기(rules gap_note) — 보간 구간이 있을 때만 코드가 붙인다(연출이 손으로 쓰지 않는다)."""
+    sub = e.get("subtitle")
+    if L.gap_policy != "interpolate" or not L.gap_note or not any(interpolated_idx(e)):
+        return sub
+    return f"{sub} · {L.gap_note}" if sub else L.gap_note
+
+
 def record_errors(e: dict) -> list[str]:
     """v7.3.0 D232 U4 — record 를 단 계열의 값은 데이터 레코드와 같아야 한다(20 §5.1 데이터에서 직접): 값 있는 점 = 레코드 값(순서대로),
     빈 점(null) 수 = 그 사이 레코드 빈 달, open_idx = 레코드 cited.open. 어기면 렌더 전 오류(P6)."""
@@ -113,7 +134,14 @@ def draw(ctx: cairo.Context, R: RenderCtx, t: float, e: dict, a: float) -> None:
             continue
         reach = X0 + L.x_pad + (X1 - X0 - 2 * L.x_pad) * prog   # 그려진 끝 x(왼쪽 → 오른쪽)
         vals = ser["values"]
-        for run in present_runs(vals):   # v7.3.0 D232 U4 — 빈 달(null)에서 선을 끊는다(보간 금지)
+        if L.gap_policy == "interpolate":   # v7.4.0 D-0247(UF-128) — 빈 달은 실측 두 점 사이 점선(연하게·점·값 라벨 없음)
+            ist = L.interpolated_style
+            for i, j in gap_pairs(vals):
+                seg = [(xs[i] + (xs[j] - xs[i]) * u, fy(vals[i]) + (fy(vals[j]) - fy(vals[i])) * u) for u in np.linspace(0, 1, L.samples)]
+                sub = [q for q in seg if q[0] <= reach]
+                if len(sub) >= 2:
+                    glow_line(ctx, np.array(sub), col, a * ist.alpha, L.line_width, dash=list(ist.dash))
+        for run in present_runs(vals):   # 실측 구간(실선) — 빈 달 자리는 위 점선이 잇는다(break 정책이면 끊긴다)
             pts = [(xs[i], fy(vals[i])) for i in run]
             dense = []
             for i in range(len(pts) - 1):

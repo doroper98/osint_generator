@@ -56,7 +56,7 @@ def _script(texts: list[str], tts: list[str | None] | None = None, sources: bool
             d["sources"] = ["테스트 출처"]
         sents.append(d)
     return Script.model_validate({"title": "t", "subtitle": "s", "date": "2026.09.18",
-                                  "scenes": [{"id": "x", "sentences": sents}]})
+                                  "scenes": [{"id": "x", "kind": "cold", "sentences": sents}]})   # v7.4.0 — 한 문장 조각: 막 구조([act-frame], 시험 test_v740_*)는 보지 않는다
 
 
 def lint(script: Script):  # noqa: ANN201 — 출처 규칙 밖 검사용: 테스트 출처를 claims 안으로 둔다
@@ -80,7 +80,8 @@ class ScriptLintTest(unittest.TestCase):
 
         rep = _lint_full(script, load_claims_for(REPO / "projects/hormuz_korea"))   # v3.2.0 — claims 이관본(D51)
         # v5.5.0 script_grammar(사용자 결정 2026-10-02) 이전 원고 — 기준 원고는 고치지 않는다. 새 두 항목(미확인 서술 1·흐름 부족)만 걸린다
-        self.assertEqual(sorted({i.kind for i in rep.errors}), ["flow-sparse", "uncertain-phrase"])
+        # v7.4.0 D-0230 §3 — transition-bridge·act-frame 도 걸리고 lint_waivers.yaml(rule_since v7.4.0)이 면제한다
+        self.assertEqual(sorted({i.kind for i in rep.errors}), ["act-frame", "flow-sparse", "transition-bridge", "uncertain-phrase"])
         self.assertEqual([i.sid for i in rep.errors if i.kind == "uncertain-phrase"], ["now_3"])
         self.assertEqual([i.line() for i in rep.warnings if i.kind in ("source-missing", "attribution")], [])
 

@@ -45,6 +45,7 @@ from pydantic import BaseModel, ConfigDict, Field, field_validator, model_valida
 from engine.camera import CamKey, cam
 from engine.shots import ShotStage
 from engine.timebase import Timebase
+from rules import load_rules
 
 if TYPE_CHECKING:
     from collections.abc import Callable
@@ -114,10 +115,11 @@ def _registered_stage(v: Optional[str]) -> Optional[str]:
 
 class Shot(_Strict):
     at: Union[float, dict[str, Any]]
-    mode: Literal["cut", "move", "dip"]
+    mode: Literal["cut", "move", "dip", "drift"]   # drift = v7.4.0 D-0241 §1(UF-120) — 등속 궤도 훑기(이징 없음, rules camera.drift_speed_max)
     dur: float = 3.0
     camera: Camera
     under: bool = False
+    allow_sea: Optional[str] = None   # v7.4.0 D-0242 — 이 숏부터 다음 숏까지 바다만 보이는 프레임을 허용하는 사유(해협·항로 설명). 없으면 [sea-only-frame] 검사
     scene: Optional[str] = None   # 읽는 사람용 표시(검증 안 함)
     stage: Optional[str] = None   # v4.1.0 D-0077 — 이 숏의 무대(없으면 최상위 stage)
     reason: Optional[str] = None  # v4.3.0 D-0084 작업 3 — 시간축에서 왼쪽으로 되돌아가는 이유(있으면 timeline_backtrack 경고 없음, 20 §6)
@@ -190,6 +192,13 @@ class Sound(_Strict):
         return {s.id for s in self.segments()}
 
 
+class DirectionDrop(_Strict):
+    """v7.4.0 D-0245(UF-126) — 연출이 일부러 빼는 데이터 시리즈(record)와 사유. 조용한 드롭 금지(P6)의 유일한 예외 통로."""
+
+    record: str = Field(min_length=1)
+    reason: str = Field(min_length=4)
+
+
 class Direction(_Strict):
     """direction.yaml 최상위 모델(17 §2)."""
 
@@ -206,6 +215,8 @@ class Direction(_Strict):
     shots: list[Shot] = Field(min_length=1)
     events: list[dict[str, Any]]
     sound: Optional[Sound] = None
+    # v7.4.0 D-0245(UF-126) — 지정 시리즈·이전 승인 데이터 패널을 일부러 뺄 때의 사유(record, reason). 이것만 [series-unused]·[panel-dropped] 예외
+    drops: list["DirectionDrop"] = Field(default_factory=list)
 
     @field_validator("stage")
     @classmethod
@@ -422,6 +433,25 @@ def island_keys(doc: Direction, tb: Timebase, chart_stage: "Stage") -> list[CamK
     return keys
 
 
+def hold_same_place(d: dict, tb: Timebase) -> None:
+    """v7.4.0 D-0229 §2.7(UF-107) — inset.place 가 있고 hold_until 이 없으면, 착탄 시각의 문장부터 그 장소 이름을 말하는 연속 문장의
+    마지막 끝까지 인셋을 유지한다(rules flight.inset.hold_same_place). 이벤트 t1 이 짧으면 그 끝까지 늘린다(규칙이 정한 유지 — 연출 구성 변경 아님)."""
+    ins = d.get("inset")
+    F = load_rules().flight  # noqa: N806
+    if not ins or ins.get("hold_until") is not None or not ins.get("place") or not F.inset.hold_same_place:
+        return
+    th = d["t0"] + F.dur_sec
+    order = [s for s in tb.order if tb.sent[s].t1 >= th]
+    end = None
+    for s in order:
+        if ins["place"] not in tb.sent[s].text:
+            break
+        end = tb.sent[s].t1
+    if end is not None:
+        ins["hold_until"] = end
+        d["t1"] = max(d["t1"], end + F.inset.fade[1])
+
+
 def build(doc: Direction, tb: Timebase, stage: "Stage") -> tuple[list[CamKey], list[dict], Optional[dict]]:
     """Direction → (카메라 키, 이벤트 dict, sound dict). 옛 Director 와 같은 모양.
     카메라 앵커(lon·lat)는 stage.to_world 로만 월드 좌표가 된다(v4.1.0 D-0076 작업 3). 이벤트의 앵커는 그대로 두고
@@ -454,6 +484,8 @@ def build(doc: Direction, tb: Timebase, stage: "Stage") -> tuple[list[CamKey], l
                 d.update({dk: _resolve(dv, tb, doc) for dk, dv in v.items()})
                 continue
             d[k] = _resolve(v, tb, doc)
+        if d["type"] == "flight":
+            hold_same_place(d, tb)
         events.append(d)
     sound = None
     if doc.sound is not None:

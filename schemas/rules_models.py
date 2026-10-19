@@ -70,6 +70,36 @@ class ScriptGrammar(_Strict):
     lint_waivable: list[str] = Field(min_length=1)   # v5.17.0 D-0168 — 프로젝트 면제 목록에 올릴 수 있는 린트 kind(문체·흐름만)
 
 
+class ScriptVocab(_Strict):
+    """v7.4.0 D-0229 §2.8(UF-108·UF-114) — 원고 어휘 린트 값."""
+
+    hit_verbs: list[str] = Field(min_length=1)          # '맞히다' 활용 — 이동 표적에만
+    fixed_targets: list[str] = Field(min_length=1)      # 고정 시설 명사 → [verb-target-mismatch] 오류(타격했다·때렸다)
+    moving_targets: list[str] = Field(min_length=1)     # 이동 표적 명사(있으면 허용)
+    contrast_heads: list[str] = Field(min_length=1)     # 대조 접속어 문장 머리
+    statement_verbs: list[str] = Field(min_length=1)    # 앞 문장이 발표·주장이면 [contrast-conjunction] 경고
+    contrast_hint: str = Field(min_length=1)
+
+
+class TempoRules(_Strict):
+    """v7.4.0 D-0229 §2.9(UF-104·UF-115 "호흡을 천천히, 막전 막후 설명을 충실히") — 템포·막 구조."""
+
+    fact_sentences_per_min_max: int = Field(gt=0)   # 1분 창 안 사실(출처 귀속) 문장 상한 — 넘으면 warning [tempo-density]
+    act_intro_min: int = Field(ge=0)                # 막(kind act)마다 role intro(+bridge) 문장 하한 — 미만 [act-frame] 오류
+    act_outro_min: int = Field(ge=0)                # 막마다 role outro 문장 하한
+    sentence_gap_sec: float = Field(gt=0)           # order.yaml tempo: breath 인 프로젝트의 문장 간격(그 밖 = layout_480p.timeline_gaps.gap_sec — 골든 불변)
+
+
+class TransitionRules(_Strict):
+    """v7.4.0 D-0229 §2.2(UF-105) — 시점(시간·무대) 전환 장치. 원고 bridge 문장 + 호흡 + 느린 카메라 + 날짜 배지 xfade."""
+
+    bridge_pause_sec: float = Field(gt=0)        # bridge 문장 앞 내레이션 공백(음악만) — script.timeline.layout 이 넣는다
+    camera_move_min_sec: float = Field(gt=0)     # 무대·시대 점프 지점 카메라 이동 하한(checks transition-camera)
+    date_badge_xfade_sec: float = Field(gt=0)    # bridge 문장에서 날짜 배지를 옛 날짜 → 새 날짜로 교차 페이드
+    jump_days: int = Field(gt=0)                 # 이웃 장면 대표 날짜(문장 날짜 중앙값) 차가 이 이상이면 시점 전환(D-0230 B)
+    in_scene_jump_days: int = Field(gt=0)        # 장면 안 문장 날짜가 장면 중앙값과 이 이상 차이 나면 warning [transition-in-scene](role background 제외)
+
+
 class ScriptSchemaRules(_Strict):
     sentence_fields: list[str]
     date_formats: list[str]
@@ -80,6 +110,13 @@ class ScriptSchemaRules(_Strict):
     labels: dict[str, Optional[str]]          # v3.0.0 — 도시어 claim status → 라벨 문구(D-0043)
     label_strength_order: list[str]           # 약한 것부터(한 문장에 여러 claim 이면 가장 약한 것)
     attribution_markers: list[str] = Field(min_length=1)   # v3.2.0 — unverified 인용 문장의 귀속 표현(린트 경고)
+    # v7.4.0 D-0233(UF-117, D243) — 보도 귀속 방식. credits = 보도·보고서 출처는 엔딩 크레딧 장면별 '보도 출처'로(자막·내레이션은 평서),
+    # 귀속을 남기는 것 = 당사자 발언(claim_kind statement)·논쟁 수치(status disputed)·분석·추정·전망. narration = 옛 방식(문장마다 귀속).
+    # 프로젝트 order.yaml attribution_mode 가 정한다. 없으면 원고 날짜 ≥ attribution_credits_since 면 attribution_mode, 아니면 narration(옛 원고·골든 불변)
+    attribution_mode: Literal["credits", "narration"] = "narration"
+    attribution_credits_since: Optional[str] = None
+    press_markers: list[str] = Field(default_factory=list)   # credits 모드에서 자막에 남으면 [press-attribution] 경고
+    press_relay_verbs: list[str] = Field(default_factory=list)   # v7.4.0 D-0234 — 당사자 발언 문장의 매체 접두 판정(발언 동사)
 
     @model_validator(mode="after")
     def _label_keys(self) -> "ScriptSchemaRules":
@@ -135,6 +172,21 @@ class ProsodyRules(_Strict):
     final_fall: FinalFallRules
 
 
+class ShortKeyBoundary(_Strict):
+    """v7.4.0 D-0246 보충 — 한글 짧은 사전 키(≤ max_len 음절)는 어절 경계(앞 글자가 한글 음절 아님) 또는 수사 음절 뒤에서만 치환."""
+
+    max_len: int = Field(ge=1)
+    allow_after: str = ""
+
+
+class TensificationTraps(_Strict):
+    """v7.4.0 D-0246(UF-127) — '…유 + 조사' 가 발음 사전 "유가"(油價) 치환에 걸리지 않게 하는 예외 항목의 원천(합성 직전 사전에 생성)."""
+
+    suffix_nouns: list[str] = Field(min_length=1)
+    particles: list[str] = Field(min_length=1)
+    spoken: str = "{noun}{particle}"
+
+
 class TTSRules(_Strict):
     forbidden_chars_regex: str
     sino_numbers_no_inner_space: bool
@@ -149,6 +201,8 @@ class TTSRules(_Strict):
     prosody: "ProsodyRules"   # v5.20.0 D-0175 — 문장 끝 억양 보정
     letter_names: list[str] = Field(default_factory=list)       # v5.6.0 TTS-AP-075 — 알파벳 글자 이름(한글). 등재 약어·사전 값의 글자 연속만 합성 직전 띄운다
     acronyms: list["Acronym"] = Field(default_factory=list)      # v5.6.0 사용자 결정 2026-10-04 — 약어 읽기 등재(린트 tts-acronym)
+    tensification_traps: Optional[TensificationTraps] = None    # v7.4.0 D-0246(UF-127) — 발음 사전 '…유가' 예외 항목 원천
+    short_key_boundary: Optional[ShortKeyBoundary] = None       # v7.4.0 D-0246 보충 — 짧은 사전 키 낱말 경계
 
 
 class Acronym(_Strict):
@@ -310,6 +364,7 @@ class MediaBeats(_Strict):
     sources_order: list["PhotoSourcePool"] = Field(min_length=1)   # v5.19.0 D-0163 §2 — 사진 소싱 풀 순서(media_fetch search)
     sources_excluded_licenses: list[str] = Field(default_factory=list)   # 라이선스 이름 조각(NC·ND) — 있으면 탈락
     sources_excluded_mimes: list[str] = Field(default_factory=list)      # v5.21.0 — 문서·도식 mime(pdf·svg) — 통과 수 밖
+    inset_preferred_license: str = ""   # v7.4.0 D-0240 후속 — 위성 인셋 기본 라이선스 접두(그 밖은 fallback_reason 필수)
     inset_licenses: dict[str, "InsetLicense"] = Field(default_factory=dict)   # v7.3.0 D232 U1·D234 — 위성 인셋 라이선스 허용 목록
 
 
@@ -535,6 +590,13 @@ class ArticleSource(_Strict):
     translated_note: str = Field(min_length=1)
 
 
+class ArticlePressPhotoCredit(_Strict):
+    """v7.4.0 D-0240 §3 — 공식 사진(A) 프레스 바탕의 자료사진 출처 줄(화면 왼쪽 아래, 자막 띠 위)."""
+
+    size: float = Field(gt=0)
+    y_above_subtitle: float = Field(ge=0)
+
+
 class ArticlePressCredit(_Strict):
     """v5.21.0 D-0177 §3 — 보도 인용(B) 사진 카드 안 크레딧 줄(source 줄 아래)."""
 
@@ -575,6 +637,7 @@ class ArticleCardLayout(_Strict):
     sub: ArticleSub
     source: ArticleSource
     press_credit: ArticlePressCredit   # v5.21.0 D-0177
+    press_photo_credit: Optional[ArticlePressPhotoCredit] = None   # v7.4.0 D-0240 §3 — 없으면 그리지 않는다(옛 규칙 파일)
 
     @model_validator(mode="after")
     def _themes(self) -> "ArticleCardLayout":
@@ -686,6 +749,8 @@ class BadgeLayout(_Strict):
     R_person_panel: float
     R_flag: Range2
     R_other: float
+    flag_requires_anchor: bool = False   # v7.4.0 D-0240 §4 — 국기 뱃지는 카드·인용·마커에 붙을 때만([badge-orphan])
+    anchor_marker_deg: float = Field(default=3.0, gt=0)
     resize_sec: float
     fade_in_sec: float
     fade_out_sec: float
@@ -937,6 +1002,16 @@ class DotsRules(_Strict):
     note_label: TextAt
     note_value: TextAt
     note_caption: TextAt
+    few: "DotsFew"   # v7.4.0 D-0229 §2.6 — 점 수가 적을 때(N 중 M) 한 줄 큰 점
+
+
+class DotsFew(_Strict):
+    max_total: int = Field(ge=1)   # total 이 이 이하면 한 줄
+    y: float                       # 줄 중심 y(설계 px)
+    x0: float                      # 첫 점 중심 x
+    x1: float                      # 줄 오른쪽 끝(점 간격 = min(spacing, (x1 − x0)/(n − 1)))
+    spacing: float
+    radius: float
 
 
 class GanttRules(_Strict):
@@ -971,6 +1046,14 @@ class GanttRules(_Strict):
     today_label_halo: float
 
 
+class InterpolatedStyle(_Strict):
+    """v7.4.0 D-0247 — 보간 구간 선 스타일(실측과 구분): 점선·알파 배율·점 표식(false 여야 정직성 통과)."""
+
+    dash: list[float] = Field(min_length=2)
+    alpha: float = Field(gt=0, lt=1)
+    point: bool = False
+
+
 class DualLineRules(_Strict):
     x: Range2
     y: Range2                      # 위 y, 아래 y
@@ -997,6 +1080,9 @@ class DualLineRules(_Strict):
     name_dx: float
     name_dy: float
     name_size: float
+    gap_policy: Literal["interpolate", "break"] = "break"   # v7.4.0 D-0247(UF-128) — 빈 달(null) 처리
+    interpolated_style: Optional[InterpolatedStyle] = None
+    gap_note: str = ""                                     # 보간 구간이 있으면 출처 줄 끝에 코드가 붙이는 문구
 
 
 class ForkRules(_Strict):
@@ -1140,6 +1226,8 @@ class Fonts(_Strict):
     mono: str
     mono_hangul_fallback: str
     display_space_advance: float
+    unit_font: Optional[Literal["sans"]] = None   # v7.4.0 D-0229 §2.4(UF-111) — display 숫자 뒤 라틴 단위(t·kb/d)를 이 글꼴로(GmarketSans 십자형 t 금지)
+    glyph_fallback: dict[str, str] = Field(default_factory=dict)   # v7.4.0 D-0250(UF-131) — 글꼴 키 → 그 글꼴에 없는 글자를 그릴 글꼴 키
 
 
 class LabelRules(_Strict):
@@ -1149,6 +1237,10 @@ class LabelRules(_Strict):
     city_max_per_frame: int
     country_rank_thr: dict[int, int]
     city_rank_thr: dict[int, int]
+    # v7.4.0 D-0229 §2.1(UF-106) — 나라 수도(plc_cap0, NE Admin-0 capital)는 폭 LOD(city_rank_max)와 무관하게 도시 후보에 넣는다. 화면당 상한(city_labels_max)은 그대로.
+    # capital_always_max_w = 상시 표기를 이 폭(도) 이하로 제한(None = 폭 무관). 골든이 바뀌면 60 으로 제한(D-0229 §2.1-1)
+    capital_always: bool = False
+    capital_always_max_w: Optional[float] = None
 
 
 class GazetteerRules(_Strict):
@@ -1208,6 +1300,30 @@ class MapLine(_Strict):
     dash: list[float] = Field(default_factory=list)            # [] = 실선
 
 
+class RoadStyle(_Strict):
+    """v7.4.0 D-0229 §2.1-2 — 도로 한 등급(단일 stroke, casing·glow 없음 — 가이드 23 §15). 설계 px(480p)."""
+
+    rgb: RGB
+    width: float = Field(gt=0)
+    alpha: float = Field(gt=0, le=1)
+
+
+class MapRoads(_Strict):
+    motorway: RoadStyle
+    trunk: RoadStyle
+    primary: RoadStyle
+
+
+class MapRivers(_Strict):
+    """v7.4.0 D-0229 §2.1-2 — 강(큰 강 = NE scalerank ≤ geo.river_major_scalerank_max). 설계 px(480p)."""
+
+    rgb: RGB
+    width_major: float = Field(gt=0)
+    width_minor: float = Field(gt=0)
+    alpha_major: float = Field(gt=0, le=1)
+    alpha_minor: float = Field(gt=0, le=1)
+
+
 class CityDot(_Strict):
     fill: RGB
     edge: RGB
@@ -1260,6 +1376,8 @@ class MapTheme(_Strict):
     city_dot: CityDot
     city_label: RGB
     halo: RGB
+    roads: MapRoads      # v7.4.0 D-0229 §2.1-2(UF-106) — 두 테마 모두 채운다(키 집합 동일, tests/test_v740_map_layers)
+    rivers: MapRivers
     # v5.18.0 D-0161 §2(가이드 23 §14) — 해안선 ↔ 국경 분리. 있으면 두 나라가 공유하는 변만 국경(border), 나머지 고리는 해안(coast)으로 긋는다.
     # None = 종전(모든 고리를 국경 스타일로 — dark 골든 바이트 동일)
     coast: Optional[MapLine] = None
@@ -1303,6 +1421,9 @@ class GeoRules(_Strict):
     boundary_names: list[str] = Field(min_length=1)   # v4.7.0 D-0107 D2(b) — checks [boundary-as-route]
     gazetteer: GazetteerRules                         # v4.10.0 D-0116 — checks [geo-mismatch]
     themes: GeoThemes                                 # v5.13.0 D-0153 Q0-2 — 지도 테마(시안)
+    map_layers_default: list[Literal["roads", "rivers"]]   # v7.4.0 D-0231 — stage_config.mercator.map_layers 기본값
+    country_polygons: str = "data/geo_flat/ne_110m_countries.json"   # v7.4.0 D-0241 §2 — 국가 폴리곤 자료(flag_territory·sea_only_frame)
+    river_major_scalerank_max: int = Field(ge=0)      # v7.4.0 D-0229 §2.1-2 — NE 강 scalerank 이 값 이하 = 큰 강(geo.prep_geometry.load_rivers)
 
 
 class CreditRules(_Strict):
@@ -1512,8 +1633,27 @@ class BattleGeoRules(_Strict):
     verbs: list[str] = Field(min_length=1)
 
 
+class OutletNames(_Strict):
+    """v7.4.0 D-0250(UF-130) — 매체 표기(원고 문장에서 찾는 이름)와 url 도메인."""
+
+    names: list[str] = Field(min_length=1)
+    domains: list[str] = Field(default_factory=list)
+
+
+class CardOverPanel(_Strict):
+    """v7.4.0 D-0248(UF-129) — 패널 위 카드 겹침 검사 임계."""
+
+    min_overlap_sec: float = Field(gt=0)
+    panel_pad_px: float = Field(ge=0)
+    cover_types: list[str] = Field(min_length=1)               # 모든 패널 위 덮개(D-0249)
+    cover_types_on_data_panels: list[str] = Field(default_factory=list)   # 데이터 패널(series record) 위에서만 더 세는 덮개
+
+
 class QAChecks(_Strict):
     overlap_core_elements: int
+    card_over_panel: Optional[CardOverPanel] = None   # v7.4.0 D-0248(UF-129)
+    outlet_min_overlap_sec: float = 0.5               # v7.4.0 D-0250(UF-130)
+    outlet_names: dict[str, OutletNames] = Field(default_factory=dict)
     offscreen_clip: int
     missing_glyphs: int
     labels_per_frame_max: int
@@ -1526,6 +1666,9 @@ class QAChecks(_Strict):
     frame_missing: "FrameMissingRules"   # v5.21.14 D-0199 — 문장이 부르는 지명이 화면 밖
     battle_geo: "BattleGeoRules"         # v5.22.0 D-0200 UF-08 — 전황 문장에 지명·경로 없음(warning)
     card_full_exposure_min_sec: float = Field(gt=0)   # v5.21.10 D-0191 §1-2 — 기사·인용 카드 완전 불투명 구간 하한(hard card_exposure)
+    ratio_patterns: list[str] = Field(min_length=1)       # v7.4.0 D-0229 §2.6(UF-113) — "N 중 M" 문형(warning ratio_graphic)
+    ratio_graphic_kinds: list[str] = Field(min_length=1)  # 그 문장 구간에 있어야 할 패널 종류(series 이벤트도 인정)
+    cutaway_full_types: list[str] = Field(min_length=1)   # v7.4.0 D-0229 §2.3(UF-110) — 화면 전체를 덮는 컷어웨이 이벤트(hard cutaway_churn). 지도 복귀 ≥ shot_min_hold_sec
     label_jump_px: float = Field(gt=0)   # v5.22.7 D209 — 경로 이름표 수명 중 자리 이동 상한(hard label_jump)
     camera_bounds_rel_tol: float = Field(gt=0)   # v7.1.0 UF-99 D-0220 — 요청 ≠ 화면 카메라(경계 클램프) 허용 오차 ÷ w(hard camera_bounds)
     label_slot_sample_sec: float = Field(gt=0)   # v5.22.7 D210 — 이름표 수명 표본 간격(route_label_slots)
@@ -1597,22 +1740,31 @@ class FramingRules(_Strict):
     point_px: PxBox
 
 
+class StaticEps(_Strict):
+    w_rel: float = Field(gt=0)
+    center_rel: float = Field(gt=0)
+
+
+class DriftSpeedMax(_Strict):
+    pan_w_per_sec: float = Field(gt=0)
+    zoom_per_sec: float = Field(gt=0)
+
+
 class CameraRules(_Strict):
-    """v3.3.0 D-0056 — 카메라 자동화 보조(05 §7)."""
+    """v3.3.0 D-0056 — 카메라 자동화 보조(05 §7). v7.4.0 D-0241·D-0242 — 정지 카메라·drift·육지 비율."""
 
     framing: FramingRules
+    static_max_sec: float = Field(default=20.0, gt=0)
+    static_eps: StaticEps = Field(default_factory=lambda: StaticEps(w_rel=0.01, center_rel=0.005))
+    drift_speed_max: DriftSpeedMax = Field(default_factory=lambda: DriftSpeedMax(pan_w_per_sec=0.02, zoom_per_sec=0.01))
+    land_min_ratio: float = Field(default=0.35, ge=0, le=1)
+    land_sample_sec: float = Field(default=1.0, gt=0)
 
 
-class AnimaticFlatMap(_Strict):
-    """막지도 — 육지·바다 단색 + 경계선(타일·지형·라벨 없음). data = 저장소 추적 자료(tools/build_flat_map.py)."""
+class RouteSpeed(_Strict):
+    """v7.4.0 D-0241 §4(UF-123) — 경로 grow 속도 상한(설계 px/초)."""
 
-    data: str
-    sea: Color4
-    land: Color4
-    border: Color4
-    border_w: float = Field(gt=0)
-    # v5.18.0 D-0161 §7 — 콘티 판 막지도도 전편과 같은 테마: {테마: {sea, land, border}}. 없는 테마 = 위 공통값(dark)
-    themes: dict[str, dict[str, Color4]] = Field(default_factory=dict)
+    grow_speed_max_px_s: float = Field(gt=0)
 
 
 class AnimaticPlaceholder(_Strict):
@@ -1651,7 +1803,6 @@ class AnimaticRules(_Strict):
     output: str                        # out/ 아래 파일 이름
     preset: str                        # x264 preset(콘티 판 인코딩만)
     mp4_comment: str                   # mp4 메타데이터 표식 — deliver(engine.mux)가 보면 거부
-    flat_map: AnimaticFlatMap
     placeholder: AnimaticPlaceholder
     band: AnimaticBand
     missing_license: str               # 권리 레지스트리(생성 자산)가 없는 환경의 엔딩 카드 license_ref 자리 문구(전편은 오류 그대로)
@@ -1961,6 +2112,11 @@ class FlightInsetRules(_Strict):
     caption_dy: float
     caption_size: float = Field(gt=0)
     caption_halo: float = Field(ge=0)
+    # v7.4.0 D-0229 §2.7(UF-107 "라잔 타격 설명이 나오는데 라잔 위성사진이 좀 보이면") — inset.place 를 준 인셋은 착탄 문장부터
+    # 그 장소 이름을 말하는 연속 문장 끝까지 유지(engine.direction.build). inset.hold_until 명시가 우선
+    hold_same_place: bool = False
+    safe_margin_px: float = Field(default=0.0, ge=0)   # v7.4.0 D-0240 §2 — 안전 영역 여백(날짜 배지 아래·자막 띠 위)
+    side_order: list[Literal["right", "left", "up", "down", "up_left", "up_right", "down_left", "down_right"]] = Field(default_factory=list)
 
 
 class FlightRules(_Strict):
@@ -2069,6 +2225,7 @@ class DataRules(_Strict):
 
     units: list[str] = Field(min_length=1)
     licenses_allowed: list[str] = Field(min_length=1)
+    unit_ton_pattern: str = ""   # v7.4.0 D-0241 §3(UF-122) — 화면 문자열에 남으면 [unit-ton-glyph] hard(빈 값 = 검사 안 함)
     unit_prefixes: list[str] = Field(min_length=1)   # v4.3.0 D-0087 보정 1
     sources_allowed: list[str] = Field(min_length=1)
     frequencies: list[Literal["monthly", "release"]] = Field(min_length=1)   # release = v4.4.0 scatter
@@ -2861,8 +3018,12 @@ class VideoRules(_Strict):
     balance_principles: list[str]
     direction_grammar: list[str] = Field(min_length=1)   # v4.7.0 D-0104 D2(a) — 연출 문법(프롬프트 {{RULES.direction_grammar}})
     script_grammar: ScriptGrammar          # v5.5.0 — 원고 서술 규약
+    transition: TransitionRules            # v7.4.0 D-0229 §2.2(UF-105) — 시점 전환 장치
+    tempo: TempoRules                      # v7.4.0 D-0229 §2.9(UF-104·115) — 템포·막 구조
+    script_vocab: ScriptVocab              # v7.4.0 D-0229 §2.8(UF-108·114) — 원고 어휘 린트
     source_note: SourceNote                # v5.6.0 — 참조 출처 화면 표기
     route_frame: RouteFrame = Field(default_factory=RouteFrame)   # v5.6.0 RENDER-AP-012
+    route_speed: RouteSpeed = Field(default_factory=lambda: RouteSpeed(grow_speed_max_px_s=45.0))   # v7.4.0 D-0241 §4
     opening: OpeningRules                  # v5.6.0 RENDER-AP-016
     weapon_photo: WeaponPhotoRules         # v5.6.0 RENDER-AP-017
     script_schema: ScriptSchemaRules

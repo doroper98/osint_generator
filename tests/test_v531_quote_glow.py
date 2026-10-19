@@ -164,11 +164,12 @@ class UserFeedbackFixesTest(unittest.TestCase):
 class ScriptGrammarTest(unittest.TestCase):
     """v5.5.0 사용자 결정(2026-10-02) — 엇갈린 수치·미확인 서술 금지, 문장 흐름(연결어) — LLM-AP-013."""
 
+    # v7.4.0 — 장면 하나짜리 시험 원고는 kind cold([act-frame] 막 구조 검사 밖, 이 시험은 문장 규칙만 본다)
     def _script(self, texts: list[str]) -> object:
         from script.schema import Script  # noqa: PLC0415
 
         return Script.model_validate({"schema_version": 1, "title": "t", "subtitle": "s", "date": "2026.10.02", "scenes": [
-            {"id": "a", "sentences": [{"date": "2026.10.02", "text": t, "emphasis": [], "sources": ["clm_0001"]} for t in texts]}]})
+            {"id": "a", "kind": "cold", "sentences": [{"date": "2026.10.02", "text": t, "emphasis": [], "sources": ["clm_0001"]} for t in texts]}]})
 
     def test_flow_and_uncertain(self) -> None:
         from script.lint import lint  # noqa: PLC0415

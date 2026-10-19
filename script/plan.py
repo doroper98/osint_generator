@@ -21,7 +21,7 @@ import yaml
 from orchestrator.config import load_config
 from rules import load_rules
 from script import lint_waivers
-from script.lint import lint, load_claims_for, load_pronounce_dict, pronounce_tts
+from script.lint import attribution_mode, lint, load_claim_kinds, load_claims_for, load_pronounce_dict, pronounce_tts, tempo_density, transition_points
 from script.schema import Plan, Script
 from script.timeline import layout, sentence_rows
 from script.tts import align as tts_align
@@ -41,7 +41,7 @@ def build(proj: Path, tts: str, warnings: list[str] | None = None) -> Plan:
     if tts == "elevenlabs":
         elevenlabs.require_allowed()   # 다른 단계보다 먼저(린트·합성 전에 거부) — 공통 함수(D-0153 Q0)
     script = load_script(proj)
-    rep = lint(script, load_claims_for(proj))   # v3.2.0 — 출처는 claims.json 기준(D-0051 작업 8)
+    rep = lint(script, load_claims_for(proj), mode=attribution_mode(proj, script), kinds=load_claim_kinds(proj))   # v3.2.0 — 출처는 claims.json 기준(D-0051 작업 8). v7.4.0 D-0233 귀속 방식
     rep, waived = lint_waivers.apply(rep, lint_waivers.load(proj), script)   # v5.17.0 D-0168 — 정확 일치 면제만
     if rep.errors:
         raise ValueError("원고 린트 위반:\n" + "\n".join(i.line() for i in rep.errors))
@@ -92,12 +92,24 @@ def build(proj: Path, tts: str, warnings: list[str] | None = None) -> Plan:
             x["alignment"] = {"source": al["alignment_source"]} if al else None
         npy, dur, off = trim_to_npy(Path(x["mp3"]), audio)
         x["npy"], x["dur"], x["trim_offset"] = str(npy), dur, round(off, 6)
-    cards, scene_start, total = layout(rows)
+    transitions: list = []
+    from genres.load import load_order  # noqa: PLC0415
+
+    order = load_order(proj)
+    gap = load_rules().tempo.sentence_gap_sec if order is not None and order.tempo == "breath" else None   # v7.4.0 D-0229 §2.9
+    cards, scene_start, total = layout(rows, transitions, gap)
+    if warnings is not None:
+        warnings.extend(tempo_density(rows))
+    kinds = {rows[i]["sid"]: k for i, k, _ in transition_points(script)}   # v7.4.0 D-0229 §2.2 — 전환 종류(무대·날짜)
+    order = [x["sid"] for x in rows]
+    for tr in transitions:   # bridge 가 경계의 뒤 장면 첫 문장(같은 sid)이거나 앞 장면 마지막 문장(다음 sid)
+        j = order.index(tr.sid)
+        tr.kind = sorted({k for s_, ks in kinds.items() if order.index(s_) in (j, j + 1) for k in ks})
     return Plan(sentences=rows, cards=cards, scene_start=scene_start, total=total,
                 voice=(supertonic.voice_label(st_cfg) if st_cfg else
                        elevenlabs.voice_label()),
                 title=script.title, subtitle=script.subtitle, date=script.date, tts_resynthesized=resynth,
-                lint_waived=waived or None)
+                lint_waived=waived or None, transitions=transitions)
 
 
 def final_fall_audio(mp3: Path, pron_text: str, sid: str, cfg):  # noqa: ANN001, ANN201 — (np.ndarray, FinalFallRecord)

@@ -15,7 +15,7 @@ CPI = ["series:CPIAUCSL"]
 
 def script(text: str, date: str, sources: list[str]) -> Script:
     return Script.model_validate({"schema_version": 1, "title": "t", "subtitle": "s", "date": "2026.09.29",
-                                  "scenes": [{"id": "a", "sentences": [{"date": date, "text": text, "emphasis": [], "sources": sources}]}]})
+                                  "scenes": [{"id": "a", "kind": "cold", "sentences": [{"date": date, "text": text, "emphasis": [], "sources": sources}]}]})
 
 
 def kinds(sc: Script) -> list[str]:

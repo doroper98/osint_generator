@@ -1,5 +1,16 @@
 # 감독(Fable 역할) 세션 인수인계 — 2026-10-11 (v5.21.0)
 
+## 0. 2026-10-19 갱신 — 승계 규칙(사용자 결정 D256)과 현재 상태
+- **승계 규칙**: 감독 세션의 컨텍스트 사용량이 95% 에 이르거나 사용 한도가 차단되면, 감독은 `create_session(model: claude-opus-5-5, title "감독(fable) 승계 — diesel_road_2026 v2", prompt: 이 문서 §0 를 읽고 이어받으라)` 로 **별도 감독 세션**을 연다. 역할 이름은 그대로 `fable`. 구현 세션(아래)은 바꾸지 않는다. 새 감독은 이 문서 → `back_and_forth/README.md` → `CLAUDE.md` → `docs/handoff/15` → DECISIONS D238~ 순으로 읽는다.
+- **현재 트랙**: diesel_road_2026 v2(브랜치 `claude/diesel-road-v2`, 버전 v7.4.0). 구현 세션 = cloud session `session_012yN5MN9eH1tBnNrQ1D8sBG`(Opus). 아티팩트 `artifacts/diesel_road_2026-v7.4.0`(교체본 2 대기). main 병합 보류 중(D-0245 §1).
+- **열린 D**: D-0245(그래프 3종 복원, [series-unused]·[panel-dropped] hard), D-0246(발음 '유가' 경음화 — 발음 사전 "경유 가", tensification_traps 규칙 키, 린트 hard, TTS-AP-083), D-0247(dual_line 빈 달 점선 보간, 모든 영상). 구현 순서: 사전+보간 → 재합성·믹스 → 프리뷰 hard 0 → 콘티 판 재렌더(의무) → 게이트 ②(D-0243 위임) → 720p → artifacts 교체 2 → R → 장치(UF-126·127·128 guarded) → E 단계(빠른 묶음+영향 느린 노드, 골든 화소 비교, DEVLOG·CHANGELOG, `merge --no-ff`, PR 없음) → 최종 R.
+- **사용자에게 할 일**: 교체본 2 가 오면 final.mp4(part00+part01 결합, MD5SUMS 대조)·그래프 3컷·두 문장 wav 를 한 줄로 전달. 병합이 끝나면 커밋·테스트 수 한 줄 보고.
+- **예약 점검**: 감독 세션에 send_later 로 45~60분 간격 점검이 걸려 있다. 승계 시 새 세션에서 같은 점검을 다시 건다(옛 세션 트리거는 update_trigger enabled=false).
+- **2026-10-19 02:45Z 승계 시점 상태(사용자 지시 "fable 한도 94%")**: 구현 세션은 8ab77fe2(짧은 사전 키 낱말 경계 + act2_35·act3_15 재합성, 두 문장만 변경 확인)까지 push, 테스트 작성 중. 남은 것: 믹스 → 프리뷰 hard 0 → 콘티 판 재렌더(~40분) → 게이트 ②(D-0243 위임) → 720p(~70분) → QA → artifacts 교체 3 → R(wav·MMS 간격 표·그래프 3컷). **artifacts 2e1fba69(md5 6d24abca, 그래프 복원만)는 사용자에게 보내지 않는다**(발음·보간·카드 겹침 미반영). 열린 D: D-0245·D-0246(+D258 보충)·D-0247·D-0248. 원장 UF-126~129 open(장치는 영상 전달 뒤). 옛 감독 세션(`session_016v5HgxdsPNKcUYQ94ZkAoo`)의 점검 트리거 `trig_01AookPVpgqVkk2F5AqWvu5W`(03:43Z)는 새 감독이 자기 점검을 건 뒤 옛 감독이 끈다. **구현 세션은 R 을 `send_message` 로 옛 감독 세션 id 에 보내고 있다 — 새 감독은 첫 메시지로 구현 세션에 새 session_id 를 알리고, 이후 R 은 새 id 로 받도록 한다.**
+- **승계 세션(2026-10-19 02:49Z 생성)**: `session_01CLMApgWisjaB6TYfe7EUdx`(Opus 5.5, 사용자 요청 '높음' 노력). 구현 세션에는 옛 감독이 이미 새 id 를 알렸다(보고는 새 id 로).
+- **새 감독이 처음 할 일(순서)**: (1) 이 문서·README·CLAUDE.md·DECISIONS D238~D258 읽기 (2) `git fetch`·브랜치 확인 (3) 구현 세션에 send_message("감독 승계, 이후 보고는 이 세션으로") (4) send_later 로 45~60분 점검 예약(점검 문구는 옛 트리거와 같은 틀: fetch → 진척 → 교체 3 이 artifacts 에 있으면 결합·md5·그래프 3컷·두 문장 프레임·wav 확인 후 사용자에게 한 줄 전달 → 장치·E 단계·merge --no-ff 확인) (5) 옛 감독 세션에 send_message("승계 완료, 트리거 꺼도 됨") (6) 사용자에게 한 줄 보고.
+- **원장**: UF-126·127·128 status open — 장치가 달리면 guarded 로(구현 세션이 올림). `python tools/feedback_ledger.py --write`.
+
 새 감독 세션은 이 문서를 먼저 읽고, 그 다음 `back_and_forth/README.md`·`CLAUDE.md`·`docs/handoff/15`·`docs/handoff/DECISIONS.md`(D169~D181)를 읽는다.
 사용자 사정(세션 한도)으로 감독 역할이 이 세션으로 옮겨졌다. **역할 이름은 그대로 "fable"** 이다(`check.py --me fable`, 문서 `from: fable`).
 

@@ -38,7 +38,7 @@ class EndCardRollTest(unittest.TestCase):
         from engine import fullcards  # noqa: PLC0415
 
         place = [1] * len(secs)
-        R = NS(tb=NS(plan=NS(date="2026.09.29"), order=[]), credits=NS(sections=[NS(column=c) for c in place]),  # noqa: N806
+        R = NS(tb=NS(plan=NS(date="2026.09.29"), order=[]), credits=NS(sections=[NS(column=c, slot="column") for c in place]),  # noqa: N806
                assets=NS(rights={}, media={}), cache={})
         ctx = cairo.Context(cairo.ImageSurface(cairo.FORMAT_ARGB32, 854, 480))
         with mock.patch.object(fullcards, "credit_sections", return_value=secs):

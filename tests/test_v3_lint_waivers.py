@@ -37,21 +37,26 @@ class WaiverTest(unittest.TestCase):
         shutil.copy(HORMUZ / "script.yaml", self.proj / "script.yaml")
         self.script = load_script(self.proj)
         self.rep = lint(self.script, load_claims_for(HORMUZ))
-        self.assertEqual({(i.kind, i.sid) for i in self.rep.errors}, {("uncertain-phrase", "now_3"), ("flow-sparse", "-")})
+        # v7.4.0 D-0230 §3 — transition-bridge·act-frame 은 옛 원고 면제(실제 목록의 rule_since v7.4.0 행). 시험이 쓰는 목록에 그대로 붙인다
+        real = yaml.safe_load((HORMUZ / LW.FILE).read_text(encoding="utf-8"))["waivers"]
+        self.v740 = [w for w in real if w["rule_since"] == "v7.4.0"]
+        new = {(w["kind"], w["sid"]) for w in self.v740}
+        self.assertEqual({w["kind"] for w in self.v740}, {"transition-bridge", "act-frame"})
+        self.assertEqual({(i.kind, i.sid) for i in self.rep.errors} - new, {("uncertain-phrase", "now_3"), ("flow-sparse", "-")})
 
     def tearDown(self) -> None:
         self.tmp.cleanup()
 
     def _write(self, waivers: list[dict]) -> None:
-        (self.proj / LW.FILE).write_text(yaml.safe_dump({"schema_version": 1, "waivers": waivers}, allow_unicode=True),
+        (self.proj / LW.FILE).write_text(yaml.safe_dump({"schema_version": 1, "waivers": waivers + self.v740}, allow_unicode=True),
                                          encoding="utf-8")
 
     def test_exact_match_passes(self) -> None:
         self._write([_waiver(self.script, "uncertain-phrase", "now_3"), _waiver(self.script, "flow-sparse", "-")])
         rep, waived = LW.apply(self.rep, LW.load(self.proj), self.script)
         self.assertEqual(rep.errors, [])
-        self.assertEqual(waived, [{"kind": "flow-sparse", "sid": "-", "decided_by": "D-0168"},
-                                  {"kind": "uncertain-phrase", "sid": "now_3", "decided_by": "D-0168"}])
+        self.assertEqual([w for w in waived if w["decided_by"] == "D-0168"], [{"kind": "flow-sparse", "sid": "-", "decided_by": "D-0168"},
+                                                                          {"kind": "uncertain-phrase", "sid": "now_3", "decided_by": "D-0168"}])
         self.assertEqual(len(rep.warnings), len(self.rep.warnings))   # 경고는 그대로 남는다
 
     def test_error_outside_list_still_fails(self) -> None:
@@ -84,7 +89,7 @@ class WaiverTest(unittest.TestCase):
     def test_hormuz_real_list(self) -> None:
         rep, waived = LW.apply(self.rep, LW.load(HORMUZ), self.script)
         self.assertEqual(rep.errors, [])
-        self.assertEqual({x["decided_by"] for x in waived}, {"D-0168"})
+        self.assertEqual({x["decided_by"] for x in waived}, {"D-0168", "D-0230"})
 
 
 class ProvenanceTest(unittest.TestCase):

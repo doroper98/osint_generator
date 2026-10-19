@@ -31,7 +31,8 @@ from rules import load_rules
 
 REPO = Path(__file__).resolve().parent.parent
 CACHE = REPO / "data" / "geo"
-NE_FILES = ("ne_10m_admin_0_countries", "ne_10m_admin_1_states_provinces", "ne_10m_populated_places")
+NE_FILES = ("ne_10m_admin_0_countries", "ne_10m_admin_1_states_provinces", "ne_10m_populated_places",
+            "ne_10m_roads", "ne_10m_rivers_lake_centerlines")   # 도로·강 = v7.4.0 D-0229 §2.1-2(UF-106)
 DOWNLOAD_WORKERS = 8
 
 

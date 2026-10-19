@@ -192,3 +192,19 @@ last_review: 2026-05-19
 - **원칙**: 형식·출처를 지우는 변경은 그 형식을 담은 데이터(복원 산출물 포함)를 찾아 옮기는 단계와, 그 데이터를 보는 빠른 시험을 함께 낸다.
 - **자동 조치**: `python -m script.tts.forced_align --realign <proj>`(음성·길이·voice 라벨 그대로, 정렬만 MMS, `realigned_from` 기록), 빠른 시험 `tests/test_alignment_sources_registry.py`(모든 프로젝트 정렬 출처 ⊆ 등록부 + 재정렬 함수 가짜 정렬 검사). ratcliffe2026(38)·fed_policy_2026(48) 재정렬 — 앵커 +0.11~+0.29초(옛 edge 상수 치우침, TTS-AP-082).
 - **발견 버전**: v6.0.0 · **상태**: active
+
+## PIPELINE-AP-023 — 순서 지침의 시리즈 지정을 연출 초안이 버렸고 검사가 없었다(UF-118 사진 장치의 부류 누락)
+
+- **증상(실제 현상)**: v7.4.0 diesel_road_2026 전편 v2 — 사용자 "그래프들 왜 다 사라졌어?"(UF-126). v1 연출의 dual_line 3종(러시아 정제 처리량·경유 해상 수출·걸프 경유 순수출)이 v2 연출 재생성(AI director)에서 통째로 빠졌고 provenance drops 는 [] 였다.
+- **원리**: 순서 지침 order.yaml 이 시리즈 패널을 자유 문장(instructions)으로만 적었고, 어떤 검사도 지침의 시리즈와 연출 패널을 대조하지 않았다. 같은 부류의 사진 누락에는 [media-unused](UF-118)를 달았지만 데이터 시리즈에는 장치가 없었다(장치를 사례에 걸고 부류에 걸지 않음).
+- **원칙**: 연출이 그려야 할 데이터는 주문의 구조 필드(order.yaml data.series)로 적고 검사가 대조한다. 이전 승인 연출(track_v*)의 데이터 패널은 새 연출에도 있어야 한다. 빼려면 direction drops {record, reason} — 조용한 드롭 금지(P6).
+- **자동 조치**: 검사 `series_unused`·`panel_dropped` hard(engine/checks.py, 콘티·프리뷰·전편 같은 run_checks), Direction.drops, director 프롬프트 규칙(rules direction_grammar 경유). 재현 시험 `tests/anti_inertia/test_series_panels_kept.py`(v2 초안 = 두 검사 실패, 복원본 = 0).
+- **발견 버전**: v7.4.0 · **상태**: active
+
+## PIPELINE-AP-024 — 2차 보도 기사 카드를 원 매체(가디언)를 말하는 문장에 붙였다
+
+- **증상(실제 현상)**: v7.4.0 diesel_road_2026 교체 3 — 사용자 "기사 조판과 자막 나래이션이 다름"(UF-130). act3_5~6 「가디언도 …」「그래서 가디언은 …」 구간에 Kyiv Independent 기사 카드(art_0001), act2_19 「이후 가디언이 …」 구간에 UNITED24 기사 카드(art_0002). 둘 다 가디언 보도를 인용한 2차 보도다.
+- **원리**: 가디언 원문은 컨테이너에서 열람·권리 기록이 불가해(프록시 403) 2차 보도를 기사 카드로 등재했고, 연출이 내용이 같은 문장에 붙였다. 카드의 매체와 문장이 말하는 매체를 대조하는 검사가 없었다(article_press_missing·press_credit 은 출처 줄 유무만 본다).
+- **원칙**: 문장이 매체를 이름으로 말하면 그 구간 기사 카드는 그 매체의 기사여야 한다. 2차 보도 카드는 매체 이름이 없는 문장(내용 문장)으로 옮긴다. 원 매체 기사를 확보할 수 없으면 카드를 뺀다.
+- **자동 조치**: 검사 `article_outlet` hard `[article-outlet-mismatch]`(rules qa_checks.outlet_names·outlet_min_overlap_sec). 시험 `tests/test_v740_outlet_glyph.py`(현재 diesel 연출 2건 재현). 사용자 결정 D262 로 이 영상은 재렌더 없음(artifacts README 알려진 문제).
+- **발견 버전**: v7.4.0 · **상태**: active

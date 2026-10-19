@@ -1,0 +1,115 @@
+# 린트 면제 목록 — 결정 기록(git 추적). back_and_forth D-0168, DECISIONS D162. 정확 일치만 통과, 낡은 면제 = 오류.
+schema_version: 1
+waivers:
+  - kind: transition-bridge
+    sid: pact_origin_0
+    text_sha1: 8130b7d10509afe98a61916b9af6f2e7c1e8b562
+    rule_since: v7.4.0
+    script_approved: 2026-10-11
+    reason: "D-0230 — v7.4.0 이전 원고, 재발 방지 장치는 v7.4.0 이후 원고부터"
+    decided_by: D-0230
+  - kind: transition-bridge
+    sid: reactions_0
+    text_sha1: 79c79e965e31d9fff7924051ea4486f3961c1982
+    rule_since: v7.4.0
+    script_approved: 2026-10-11
+    reason: "D-0230 — v7.4.0 이전 원고, 재발 방지 장치는 v7.4.0 이후 원고부터"
+    decided_by: D-0230
+  - kind: transition-bridge
+    sid: mecca_attack_0
+    text_sha1: d12c88c020a417fb43a4135eda0fceacbb294e8d
+    rule_since: v7.4.0
+    script_approved: 2026-10-11
+    reason: "D-0230 — v7.4.0 이전 원고, 재발 방지 장치는 v7.4.0 이후 원고부터"
+    decided_by: D-0230
+  - kind: transition-bridge
+    sid: korea_0
+    text_sha1: 944a5c10fe124afbe35ae046c563da065a7d6696
+    rule_since: v7.4.0
+    script_approved: 2026-10-11
+    reason: "D-0230 — v7.4.0 이전 원고, 재발 방지 장치는 v7.4.0 이후 원고부터"
+    decided_by: D-0230
+  - kind: transition-bridge
+    sid: briefing_0
+    text_sha1: 55579ca798190d734bff096148b6d3d25cccd4ad
+    rule_since: v7.4.0
+    script_approved: 2026-10-11
+    reason: "D-0230 — v7.4.0 이전 원고, 재발 방지 장치는 v7.4.0 이후 원고부터"
+    decided_by: D-0230
+  - kind: act-frame
+    sid: open_0
+    text_sha1: 2e0ad62117a84521977b5a7750e9724d151263af
+    rule_since: v7.4.0
+    script_approved: 2026-10-11
+    reason: "D-0230 — v7.4.0 이전 원고, 재발 방지 장치는 v7.4.0 이후 원고부터"
+    decided_by: D-0230
+  - kind: act-frame
+    sid: pact_origin_0
+    text_sha1: 8130b7d10509afe98a61916b9af6f2e7c1e8b562
+    rule_since: v7.4.0
+    script_approved: 2026-10-11
+    reason: "D-0230 — v7.4.0 이전 원고, 재발 방지 장치는 v7.4.0 이후 원고부터"
+    decided_by: D-0230
+  - kind: act-frame
+    sid: reactions_0
+    text_sha1: 79c79e965e31d9fff7924051ea4486f3961c1982
+    rule_since: v7.4.0
+    script_approved: 2026-10-11
+    reason: "D-0230 — v7.4.0 이전 원고, 재발 방지 장치는 v7.4.0 이후 원고부터"
+    decided_by: D-0230
+  - kind: act-frame
+    sid: mecca_attack_0
+    text_sha1: d12c88c020a417fb43a4135eda0fceacbb294e8d
+    rule_since: v7.4.0
+    script_approved: 2026-10-11
+    reason: "D-0230 — v7.4.0 이전 원고, 재발 방지 장치는 v7.4.0 이후 원고부터"
+    decided_by: D-0230
+  - kind: act-frame
+    sid: invocation_0
+    text_sha1: cd53962e570ae762eec3035709dccbd8eabcf684
+    rule_since: v7.4.0
+    script_approved: 2026-10-11
+    reason: "D-0230 — v7.4.0 이전 원고, 재발 방지 장치는 v7.4.0 이후 원고부터"
+    decided_by: D-0230
+  - kind: act-frame
+    sid: roles_0
+    text_sha1: a6eb39b6e6a6988b2765985380452341fa3ae61e
+    rule_since: v7.4.0
+    script_approved: 2026-10-11
+    reason: "D-0230 — v7.4.0 이전 원고, 재발 방지 장치는 v7.4.0 이후 원고부터"
+    decided_by: D-0230
+  - kind: act-frame
+    sid: troop_numbers_0
+    text_sha1: cf6119c068f9ad5dbfce7c96eb50e3905f64fef0
+    rule_since: v7.4.0
+    script_approved: 2026-10-11
+    reason: "D-0230 — v7.4.0 이전 원고, 재발 방지 장치는 v7.4.0 이후 원고부터"
+    decided_by: D-0230
+  - kind: act-frame
+    sid: yemen_front_0
+    text_sha1: 285df35e42f76cb63375ec867559e98cae4b09af
+    rule_since: v7.4.0
+    script_approved: 2026-10-11
+    reason: "D-0230 — v7.4.0 이전 원고, 재발 방지 장치는 v7.4.0 이후 원고부터"
+    decided_by: D-0230
+  - kind: act-frame
+    sid: riyadh_airport_0
+    text_sha1: 499518ececcdb85292acce268b026a82d1c608c8
+    rule_since: v7.4.0
+    script_approved: 2026-10-11
+    reason: "D-0230 — v7.4.0 이전 원고, 재발 방지 장치는 v7.4.0 이후 원고부터"
+    decided_by: D-0230
+  - kind: act-frame
+    sid: korea_0
+    text_sha1: 944a5c10fe124afbe35ae046c563da065a7d6696
+    rule_since: v7.4.0
+    script_approved: 2026-10-11
+    reason: "D-0230 — v7.4.0 이전 원고, 재발 방지 장치는 v7.4.0 이후 원고부터"
+    decided_by: D-0230
+  - kind: act-frame
+    sid: briefing_0
+    text_sha1: 55579ca798190d734bff096148b6d3d25cccd4ad
+    rule_since: v7.4.0
+    script_approved: 2026-10-11
+    reason: "D-0230 — v7.4.0 이전 원고, 재발 방지 장치는 v7.4.0 이후 원고부터"
+    decided_by: D-0230

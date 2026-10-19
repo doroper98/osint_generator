@@ -1,4 +1,5 @@
 # 패널 예시 (v2.5.0, D-0032 작업 5) — 레지스트리 모델을 그대로 통과한다(15 P4). 수치·문구는 예시다.
+# v7.4.0 D-0247(UF-128) — null = 값 없는 주. 렌더가 실측 사이를 점선으로 보간한다(값 라벨 없음, 출처 줄 끝 '빈 달 보간').
 schema_version: 1
 key: panel:dual_line
 source: v2 render2 P_dual 이식 예시
@@ -19,6 +20,7 @@ event:
   y_prefix: $
   x_labels:
   - 8월 1주
+  - 8월 2주
   - 8월 3주
   - 8월 5주
   series:
@@ -26,11 +28,13 @@ event:
     col: gold
     values:
     - 88.4
+    - null
     - 91.2
     - 89.7
   - label: WTI
     col: us
     values:
     - 84.1
+    - null
     - 86.9
     - 85.3

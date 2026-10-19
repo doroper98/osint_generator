@@ -16,11 +16,12 @@ from engine.context import RenderCtx
 from engine.layers.effects import draw_boom
 from engine.layers.media import draw_inset
 from engine.projection import View
-from engine.style import map_c
+from engine.style import W_OUT, map_c
 from engine.timebase import ease_out, window
 from rules import load_rules
 
-F = load_rules().flight
+_R = load_rules()
+F = _R.flight
 
 Pt = tuple[float, float]
 
@@ -64,11 +65,36 @@ def _icon(ctx: cairo.Context, kind: str, rgb: tuple) -> None:
         ctx.stroke()
 
 
+def inset_safe() -> tuple[float, float, float, float]:
+    """v7.4.0 D-0240 §2 — 인셋 원+출처 줄이 들어가야 하는 안전 영역(x0, y0, x1, y1): 날짜 배지 아래·자막 띠 위·좌우 여백."""
+    m = F.inset.safe_margin_px
+    db = _R.hud.date_badge
+    return m, db.underline_y + 2 + m, W_OUT - m, _R.layout_480p.reserved_zones.subtitle.y_from - m
+
+
+def inset_fits(box: tuple[float, float, float, float]) -> bool:
+    x0, y0, x1, y1 = inset_safe()
+    x, y, w, h = box
+    return x >= x0 and y >= y0 and x + w <= x1 and y + h + F.inset.caption_dy + F.inset.caption_size <= y1
+
+
 def inset_box(e: dict, x: float, y: float) -> tuple[float, float, float, float]:
-    """표적 화면 점(x, y) 기준 인셋 원의 바깥 정사각(x0, y0, 지름, 지름) — side 방향으로 gap_px 떨어진 자리(UF-103 원형)."""
+    """표적 화면 점(x, y) 기준 인셋 원의 바깥 정사각(x0, y0, 지름, 지름) — side 방향으로 gap_px 떨어진 자리(UF-103 원형).
+    v7.4.0 D-0240 §2 — 고른 side 가 안전 영역을 벗어나면 rules flight.inset.side_order 순서로 첫 맞는 자리(없으면 고른 자리 — [inset-clipped])."""
+    side = (e.get("inset") or {}).get("side", "up")
+    first = _inset_box_at(side, x, y)
+    if inset_fits(first):
+        return first
+    return next((b for s in F.inset.side_order if inset_fits(b := _inset_box_at(s, x, y))), first)
+
+
+def _inset_box_at(side: str, x: float, y: float) -> tuple[float, float, float, float]:
     I = F.inset  # noqa: N806
     d = I.w_px
-    side = (e.get("inset") or {}).get("side", "up")
+    if "_" in side:   # v7.4.0 — 대각(가까운 모서리가 표적에서 gap_px)
+        v, h = side.split("_")
+        g = I.gap_px / math.sqrt(2)
+        return (x - g - d if h == "left" else x + g), (y - g - d if v == "up" else y + g), d, d
     if side == "up":
         return x - d / 2, y - I.gap_px - d, d, d
     if side == "down":
@@ -87,7 +113,8 @@ def circle_path(ctx: cairo.Context, box: tuple[float, float, float, float]) -> N
 
 def inset_alpha(t: float, e: dict) -> float:
     th = hit_time(e)
-    return window(t, th - F.inset.lead_sec, th + F.inset.hold_sec + F.impact_sec, *F.inset.fade)
+    end = (e.get("inset") or {}).get("hold_until")   # v7.4.0 D-0229 §2.7 — 명시·같은 장소 유지
+    return window(t, th - F.inset.lead_sec, max(th + F.inset.hold_sec + F.impact_sec, end or 0.0), *F.inset.fade)
 
 
 InsetDrawer = Callable[[cairo.Context, RenderCtx, tuple[float, float, float, float], float, dict], None]

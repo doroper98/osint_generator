@@ -322,7 +322,7 @@
       "verification": {
         "status": "verified",
         "checks": [
-          "claims:2"
+          "claims:3"
         ],
         "notes": ""
       },
@@ -480,7 +480,7 @@
       "verification": {
         "status": "corroborated",
         "checks": [
-          "claims:3"
+          "claims:4"
         ],
         "notes": ""
       },
@@ -1008,19 +1008,24 @@
       "verification": {
         "status": "verified",
         "checks": [
-          "claims:2"
+          "claims:5"
         ],
         "notes": ""
       },
       "confirmed_by": "opus(D-0225 — 사용자 위임 D232, URL·매체·게시일 대조)",
       "confirmed_at": "2026-10-17T13:53:14.311964Z",
-      "note": "",
+      "note": " | D-0232 §4: v7.4.0 에서 덧붙인 key_facts 5개(3분기 −1.7mb/d·정제마진 95달러·2027년까지 등)는 IEA 사이트 차단으로 검색 요약에서 옮김(원문 미열람) — 그 근거 claim(clm_0141~0143)은 unverified",
       "type": "document",
       "issuer": "IEA",
       "title": "Oil Market Report 2026-10",
       "published_at": "2026-10-14",
       "key_facts": [
-        "Global diesel exports in September 2026 were 700 kb/d lower year on year, as a 1.3 mb/d loss from Russia and the Middle East was only partly offset by other sources"
+        "Global diesel exports in September 2026 were 700 kb/d lower year on year, as a 1.3 mb/d loss from Russia and the Middle East was only partly offset by other sources",
+        "Middle East export disruptions plus lower Russian and some Asian supply cut global diesel/gasoil availability by 1.5 mb/d y-o-y in 2Q26 and 1.7 mb/d in 3Q26",
+        "Combined Middle East and Russia diesel export losses were 1.3 mb/d in September",
+        "Diesel refining margins hit record highs of almost $95/bbl in September",
+        "Restricted middle distillate supply is \"likely to persist well into 2027\"",
+        "Russia's easing of diesel export curbs unlikely to materially alter global gasoil balance because Russian refining capacity is the constraint"
       ]
     },
     {
@@ -1093,6 +1098,536 @@
       "published_at": "2026-07-15",
       "key_facts": [
         "Fuel shortages in the Far East began after refinery strikes in May and stabilized by mid-summer"
+      ]
+    },
+    {
+      "id": "src_art_0038",
+      "url": "https://www.pravda.com.ua/eng/news/2026/09/11/8052995/",
+      "retrieved_at": "2026-10-18",
+      "lang": "en",
+      "verification": {
+        "status": "corroborated",
+        "checks": [
+          "claims:3"
+        ],
+        "notes": ""
+      },
+      "confirmed_by": "opus(D-0229 — 검색 요약·URL·매체·게시일 대조. 원문 열람 불가: 세션 프록시가 뉴스 호스트 차단 403)",
+      "confirmed_at": "2026-10-18T01:30:00Z",
+      "note": "IEA 석유시장보고서 9월호를 블룸버그 인용으로 보도; 원문 대조 전(검색 요약)",
+      "type": "article",
+      "publisher": "Ukrainska Pravda",
+      "headline_original": "Russia could lose 30% of oil refining capacity for 18 months – IEA report",
+      "published_at": "2026-09-11",
+      "key_facts": [
+        "IEA cut its baseline for Russian refining over the next 18 months to about 4 million barrels per day, roughly 30% below pre-invasion levels",
+        "drones are now hitting secondary processing units, and replacing them could take about six to eight months; sanctions limit access to replacement equipment",
+        "Russian refineries were reportedly hit at least 22 times in August, the highest monthly count of the war",
+        "IEA cut its 2026 Russian oil supply forecast by 125,000 b/d to 8.7 million b/d"
+      ]
+    },
+    {
+      "id": "src_art_0039",
+      "url": "https://www.washingtonpost.com/investigations/interactive/2026/10/11/how-ukraine-uses-precision-drone-strikes-hobble-russian-oil-refineries/",
+      "retrieved_at": "2026-10-18",
+      "lang": "en",
+      "verification": {
+        "status": "corroborated",
+        "checks": [
+          "claims:3"
+        ],
+        "notes": ""
+      },
+      "confirmed_by": "opus(D-0229 — 검색 요약·URL·매체·게시일 대조. 원문 열람 불가: 세션 프록시가 뉴스 호스트 차단 403)",
+      "confirmed_at": "2026-10-18T01:30:00Z",
+      "note": "원문 대조 전(검색 요약)",
+      "type": "article",
+      "publisher": "The Washington Post",
+      "headline_original": "How Ukraine uses precision drone strikes to hobble Russian oil refineries",
+      "published_at": "2026-10-11",
+      "key_facts": [
+        "Of 54 strikes with visible damage examined by three refinery experts: 22 appeared to damage only desalting and distillation units (ELOU-AVT), 14 only secondary processing units, 6 both",
+        "At least two-thirds of the 36 major Russian refineries tracked by S&P Global Energy were hit between April 1 and Aug. 31",
+        "The day after the Feb. 24, 2022 invasion the EU banned export of atmospheric-vacuum distillation and secondary processing equipment to Russia; the US followed days later",
+        "Eurasia Group analyst: 'the problem is the frequency of attacks is shorter than the time needed for repair'"
+      ]
+    },
+    {
+      "id": "src_art_0040",
+      "url": "https://carnegieendowment.org/russia-eurasia/politika/2026/06/russia-new-refinery-strike",
+      "retrieved_at": "2026-10-18",
+      "lang": "en",
+      "verification": {
+        "status": "unverified",
+        "checks": [
+          "claims:1"
+        ],
+        "notes": ""
+      },
+      "confirmed_by": "opus(D-0229 — 검색 요약·URL·매체·게시일 대조. 원문 열람 불가: 세션 프록시가 뉴스 호스트 차단 403)",
+      "confirmed_at": "2026-10-18T01:30:00Z",
+      "note": "게시일 일자 미확인(2026년 6월); 원문 대조 전(검색 요약)",
+      "type": "article",
+      "publisher": "Carnegie Endowment",
+      "headline_original": "Russian Oil Sector Battered but Not Broken by Ukrainian Air Attacks",
+      "published_at": "2026-06-01",
+      "key_facts": [
+        "After Kyiv shifted from export infrastructure to refineries, oil became harder to refine inside Russia and crude exports rose",
+        "drones are unlikely to destroy whole refineries but can damage compressors and control units that take months rather than weeks to repair"
+      ]
+    },
+    {
+      "id": "src_art_0041",
+      "url": "https://www.pravda.com.ua/eng/news/2026/04/03/8028627",
+      "retrieved_at": "2026-10-18",
+      "lang": "en",
+      "verification": {
+        "status": "unverified",
+        "checks": [
+          "claims:1"
+        ],
+        "notes": ""
+      },
+      "confirmed_by": "opus(D-0229 — 검색 요약·URL·매체·게시일 대조. 원문 열람 불가: 세션 프록시가 뉴스 호스트 차단 403)",
+      "confirmed_at": "2026-10-18T01:30:00Z",
+      "note": "The Insider 인용 보도; 원문 대조 전(검색 요약)",
+      "type": "article",
+      "publisher": "Ukrainska Pravda",
+      "headline_original": "Part of Russia's Far East left without petrol",
+      "published_at": "2026-04-03",
+      "key_facts": [
+        "An oil and gas market expert told The Insider that local refining meets only 55–60% of gasoline demand and 60–65% of diesel demand in the Far Eastern fuel market",
+        "fuel is sourced elsewhere, e.g. from the Omsk refinery, which also supplies the Far East; redistribution after drone damage in European Russia leaves less for the east",
+        "Okhotsk district (Khabarovsk Krai) ran out of petrol; sales limited to about 20 litres a day; diesel still sold"
+      ]
+    },
+    {
+      "id": "src_art_0042",
+      "url": "https://interfax.com/newsroom/top-stories/118175/",
+      "retrieved_at": "2026-10-18",
+      "lang": "en",
+      "verification": {
+        "status": "unverified",
+        "checks": [
+          "claims:1"
+        ],
+        "notes": ""
+      },
+      "confirmed_by": "opus(D-0229 — 검색 요약·URL·매체·게시일 대조. 원문 열람 불가: 세션 프록시가 뉴스 호스트 차단 403)",
+      "confirmed_at": "2026-10-18T01:30:00Z",
+      "note": "게시일 미확인 — 검색 시점(약 116일 전) 기준 추정; 원문 대조 전(검색 요약)",
+      "type": "article",
+      "publisher": "Interfax",
+      "headline_original": "Unloading of petroleum products in Far East proceeding without restrictions, Russian Railways ready for increase in fuel shipments",
+      "published_at": "2026-06-24",
+      "key_facts": [
+        "Far Eastern Railway official: Primorye is the main point for unloading petroleum products",
+        "'There are only two refineries in the Far Eastern Federal District'"
+      ]
+    },
+    {
+      "id": "src_art_0043",
+      "url": "https://rg.ru/2026/08/12/reg-dfo/situacii-s-toplivom-na-dalnem-vostoke-chto-proishodit-sejchas.html",
+      "retrieved_at": "2026-10-18",
+      "lang": "ru",
+      "verification": {
+        "status": "unverified",
+        "checks": [
+          "claims:2"
+        ],
+        "notes": ""
+      },
+      "confirmed_by": "opus(D-0229 — 검색 요약·URL·매체·게시일 대조. 원문 열람 불가: 세션 프록시가 뉴스 호스트 차단 403)",
+      "confirmed_at": "2026-10-18T01:30:00Z",
+      "note": "원문 대조 전(검색 요약)",
+      "type": "article",
+      "publisher": "Rossiyskaya Gazeta",
+      "headline_original": "Ситуация с топливом на Дальнем Востоке: Что происходит сейчас",
+      "published_at": "2026-08-12",
+      "key_facts": [
+        "В Приморье для грузовиков лимиты: 100 литров дизтоплива в городе и 200 литров на трассе",
+        "Власти объясняют меры борьбой со спекуляцией и перепродажей, а не реальным дефицитом",
+        "В Амурской области на АЗС ННК дизель до 100 л в населённых пунктах и до 200 л на трассе"
+      ]
+    },
+    {
+      "id": "src_art_0044",
+      "url": "https://novayagazeta.ru/articles/2026/08/11/v-komsomolske-na-amure-zagorelsia-odin-iz-kliuchevykh-npz-dalnego-vostoka-eto-v-6500-kilometrakh-ot-ukrainy-news",
+      "retrieved_at": "2026-10-18",
+      "lang": "ru",
+      "verification": {
+        "status": "unverified",
+        "checks": [
+          "claims:1"
+        ],
+        "notes": ""
+      },
+      "confirmed_by": "opus(D-0229 — 검색 요약·URL·매체·게시일 대조. 원문 열람 불가: 세션 프록시가 뉴스 호스트 차단 403)",
+      "confirmed_at": "2026-10-18T01:30:00Z",
+      "note": "원문 대조 전(검색 요약)",
+      "type": "article",
+      "publisher": "Novaya Gazeta",
+      "headline_original": "В Комсомольске-на-Амуре загорелся один из ключевых НПЗ Дальнего Востока — это в 6500 километрах от Украины",
+      "published_at": "2026-08-11",
+      "key_facts": [
+        "11 августа на Комсомольском НПЗ произошло возгорание; по словам властей края — разгерметизация колонны одного из цехов",
+        "НПЗ находится в 6500 км от Украины (заголовок)",
+        "по оценке EA Analytics нефтепереработка в России упала до 3,6 млн баррелей в сутки — минимум с мая 2002 года (MT Russian)"
+      ]
+    },
+    {
+      "id": "src_art_0045",
+      "url": "https://www.marinelink.com/news/russia-imports-petroleum-products-south-543504",
+      "retrieved_at": "2026-10-18",
+      "lang": "en",
+      "verification": {
+        "status": "unverified",
+        "checks": [
+          "claims:1"
+        ],
+        "notes": ""
+      },
+      "confirmed_by": "opus(D-0229 — 검색 요약·URL·매체·게시일 대조. 원문 열람 불가: 세션 프록시가 뉴스 호스트 차단 403)",
+      "confirmed_at": "2026-10-18T01:30:00Z",
+      "note": "로이터 보도 전재; 원문 대조 전(검색 요약)",
+      "type": "article",
+      "publisher": "MarineLink",
+      "headline_original": "Russia Imports Petroleum Products From South Korea to Ease Fuel Crises",
+      "published_at": "2026-08-07",
+      "key_facts": [
+        "In late July Russia received nearly 30,000 metric tons of petroleum products from South Korea",
+        "Kpler and Vortexa data: at least two small-class tankers loaded at Ulsan for delivery to the Russian Far East",
+        "Kpler: previous comparable shipment from Northeast Asia to Russia was in February 2022"
+      ]
+    },
+    {
+      "id": "src_art_0046",
+      "url": "https://www.spnews.co.kr/news/articleView.html?idxno=111427",
+      "retrieved_at": "2026-10-18",
+      "lang": "ko",
+      "verification": {
+        "status": "corroborated",
+        "checks": [
+          "claims:3"
+        ],
+        "notes": ""
+      },
+      "confirmed_by": "opus(D-0229 — 검색 요약·URL·매체·게시일 대조. 원문 열람 불가: 세션 프록시가 뉴스 호스트 차단 403)",
+      "confirmed_at": "2026-10-18T01:30:00Z",
+      "note": "외교부·산업통상부·관세청 공동 참고자료 보도; 원문 대조 전(검색 요약)",
+      "type": "article",
+      "publisher": "SPN 서울평양뉴스",
+      "headline_original": "정부 \"석유제품은 러시아 제재 품목 아냐...위반시 법에 의거해 조치\"",
+      "published_at": "2026-10-08",
+      "key_facts": [
+        "외교부: \"가디언 보도에서 언급된 상업용 경유, 항공유 등 석유 정제제품은 우리의 대러 수출통제 품목에 해당하지 않는다\"",
+        "대외무역법에 따라 전략물자 수출을 전면 통제하고, 군사용으로 사용될 가능성이 있는 1402개 품목에 대해 '상황허가 대상'으로 지정하는 등 엄격한 대러 수출통제를 실시하고 있다.",
+        "정부는 선박의 실제 운항 경로와 신고서상 목적국 상이 여부를 추가로 검토해 국내법 위반 여부를 판단할 예정이다.",
+        "선박이 신고서상 최종 목적국으로 바로 이동하지 않고 다른 국가로 이동했다는 사실만으로 목적지 허위 신고 혐의가 있다고 단정하기는 어렵다.",
+        "대러 수출액: 2021년 100억 달러 → 2022년 63억 → 2023년 61억 → 2024년 45억 → 지난해 40억 달러"
+      ]
+    },
+    {
+      "id": "src_art_0047",
+      "url": "https://www.newspim.com/news/view/20261007001609",
+      "retrieved_at": "2026-10-18",
+      "lang": "ko",
+      "verification": {
+        "status": "corroborated",
+        "checks": [
+          "claims:2"
+        ],
+        "notes": ""
+      },
+      "confirmed_by": "opus(D-0229 — 검색 요약·URL·매체·게시일 대조. 원문 열람 불가: 세션 프록시가 뉴스 호스트 차단 403)",
+      "confirmed_at": "2026-10-18T01:30:00Z",
+      "note": "청와대 서면브리핑 보도; 원문 대조 전(검색 요약)",
+      "type": "article",
+      "publisher": "뉴스핌",
+      "headline_original": "靑, 우크라 '대러 유류 지원' 주장 반박…\"사실과 다르고 부적절\"",
+      "published_at": "2026-10-07",
+      "key_facts": [
+        "강유정 청와대 수석대변인(10월 7일 서면브리핑): 거래 주체와 원산지, 최종 구매자 등 핵심 사실관계가 확인되지 않은 개별 거래를 근거로 한국이 대러 제재에 어긋나는 행동을 한 것처럼 말한 것은 사실과 다르고 부적절하다.",
+        "정부는 현재 관계기관을 통해 사실관계와 수출 통제 관련 사항을 면밀히 확인하고 있으며, 우크라이나 측이 충분한 사실 확인 없이 한국 정책을 왜곡하지 말 것을 요구.",
+        "국가안보실 관계자: 대러 수출통제 대상 1,402개 품목에 경유·항공유 등 정제유는 포함되지 않으며, 무역통계상 한국에서 러시아로 경유, 휘발유, 제트유 등은 수출되지 않고 있다."
+      ]
+    },
+    {
+      "id": "src_art_0048",
+      "url": "https://www.paulweiss.com/insights/client-memos/in-first-major-escalation-of-russian-sanctions-during-the-second-trump-administration-treasury-announces-new-sanctions-on-major-russian-oil-companies-and-urges-immediate-ceasefire",
+      "retrieved_at": "2026-10-18",
+      "lang": "en",
+      "verification": {
+        "status": "unverified",
+        "checks": [
+          "claims:1"
+        ],
+        "notes": ""
+      },
+      "confirmed_by": "opus(D-0229 — 검색 요약·URL·매체·게시일 대조. 원문 열람 불가: 세션 프록시가 뉴스 호스트 차단 403)",
+      "confirmed_at": "2026-10-18T01:30:00Z",
+      "note": "로펌 고객 메모(미 재무부 보도자료 원문 미확인); 원문 대조 전(검색 요약)",
+      "type": "article",
+      "publisher": "Paul, Weiss",
+      "headline_original": "In First Major Escalation of Russian Sanctions During the Second Trump Administration, Treasury Announces New Sanctions on Major Russian Oil Companies and Urges Immediate Ceasefire",
+      "published_at": "2025-10-23",
+      "key_facts": [
+        "On October 22, 2025 OFAC designated Rosneft and Lukoil (plus 34 Russia-based subsidiaries) under E.O. 14024, adding them to the SDN List; previously they were under sectoral sanctions only.",
+        "Treasury warned that foreign financial institutions conducting or facilitating significant transactions involving EO 14024-blocked persons risk sanctions (e.g., restrictions on U.S. correspondent accounts).",
+        "50 percent rule: entities owned 50% or more by Rosneft/Lukoil are also blocked."
+      ]
+    },
+    {
+      "id": "src_art_0049",
+      "url": "https://www.skuld.com/topics/legal/sanctions/russia/the-price-cap-on-russian-oil-and-petroleum-products/",
+      "retrieved_at": "2026-10-18",
+      "lang": "en",
+      "verification": {
+        "status": "unverified",
+        "checks": [
+          "claims:1"
+        ],
+        "notes": ""
+      },
+      "confirmed_by": "opus(D-0229 — 검색 요약·URL·매체·게시일 대조. 원문 열람 불가: 세션 프록시가 뉴스 호스트 차단 403)",
+      "confirmed_at": "2026-10-18T01:30:00Z",
+      "note": "P&I 보험사 해설 — 2023년 기준; 원문 대조 전(검색 요약)",
+      "type": "article",
+      "publisher": "Skuld",
+      "headline_original": "The price cap on Russian oil and petroleum products",
+      "published_at": "2023-02-05",
+      "key_facts": [
+        "The price cap covers crude oil and petroleum products of Russian origin; it restricts services (maritime transport to third countries, brokering, financing, insurance) for cargoes bought above the cap.",
+        "Original caps: crude USD 60/bbl; products USD 45 (discount to crude) and USD 100 (premium to crude)."
+      ]
+    },
+    {
+      "id": "src_art_0050",
+      "url": "https://www.nbcnews.com/world/ukraine/trump-russia-ukraine-agree-energy-ceasefire-zelenskyy-diesel-rcna602766",
+      "retrieved_at": "2026-10-18",
+      "lang": "en",
+      "verification": {
+        "status": "unverified",
+        "checks": [
+          "claims:3"
+        ],
+        "notes": ""
+      },
+      "confirmed_by": "opus(D-0229 — 검색 요약·URL·매체·게시일 대조. 원문 열람 불가: 세션 프록시가 뉴스 호스트 차단 403)",
+      "confirmed_at": "2026-10-18T01:30:00Z",
+      "note": "원문 대조 전(검색 요약)",
+      "type": "article",
+      "publisher": "NBC News",
+      "headline_original": "Trump claims 'energy ceasefire,' but Ukraine says Russia keeps striking its energy facilities",
+      "published_at": "2026-10-11",
+      "key_facts": [
+        "Trump post (same text carried by Fox, CBS, Time): \"Effective immediately, there is an ENERGY CEASEFIRE\" ... \"Both parties have agreed\" ... \"Do not break it!\"",
+        "Zelenskyy said the announcement \"was news for me\" and reported Russian strikes on energy infrastructure incl. a power plant in Kharkiv",
+        "Kremlin spokesman Dmitry Peskov: \"contacts are ongoing\"",
+        "Ceasefire followed an Oct. 9 deal in which Trump announced Russia agreed to supply global markets with more than 4.8 million tons of diesel",
+        "Average US diesel price Monday $6.26/gallon, nearly 80% higher than at the start of the year (AAA)"
+      ]
+    },
+    {
+      "id": "src_art_0051",
+      "url": "https://www.axios.com/2026/10/11/russia-ukraine-oil-energy-ceasefire-trump-putin-zelensky",
+      "retrieved_at": "2026-10-18",
+      "lang": "en",
+      "verification": {
+        "status": "unverified",
+        "checks": [
+          "claims:3"
+        ],
+        "notes": ""
+      },
+      "confirmed_by": "opus(D-0229 — 검색 요약·URL·매체·게시일 대조. 원문 열람 불가: 세션 프록시가 뉴스 호스트 차단 403)",
+      "confirmed_at": "2026-10-18T01:30:00Z",
+      "note": "원문 대조 전(검색 요약)",
+      "type": "article",
+      "publisher": "Axios",
+      "headline_original": "Trump bears down on Zelensky as Russia keeps up attacks on Ukraine",
+      "published_at": "2026-10-11",
+      "key_facts": [
+        "Announcement came after days of pressure from Trump for Ukraine to halt attacks on Russian oil refineries; Trump blames those strikes for a rise in diesel prices ahead of the midterms",
+        "Per a White House official, the proposal would initially require both countries to stop attacking oil refineries",
+        "Ukraine objected that 'refinery for refinery' would be unequal given Russia's much larger refining network",
+        "Zelensky: Ukraine would halt refinery strikes if Moscow stopped attacking Ukraine's energy infrastructure; any deal needs \"real guarantees\""
+      ]
+    },
+    {
+      "id": "src_art_0052",
+      "url": "https://www.kttc.com/2026/10/15/ukraine-resumes-attacks-russian-oil-refineries-zelenskyy-says-he-feels-betrayed-by-trump/",
+      "retrieved_at": "2026-10-18",
+      "lang": "en",
+      "verification": {
+        "status": "unverified",
+        "checks": [
+          "claims:2"
+        ],
+        "notes": ""
+      },
+      "confirmed_by": "opus(D-0229 — 검색 요약·URL·매체·게시일 대조. 원문 열람 불가: 세션 프록시가 뉴스 호스트 차단 403)",
+      "confirmed_at": "2026-10-18T01:30:00Z",
+      "note": "AP 보도 전재(KTTC); 원문 대조 전(검색 요약)",
+      "type": "article",
+      "publisher": "Associated Press",
+      "headline_original": "Ukraine resumes attacks on Russian oil refineries, as Zelenskyy says he feels betrayed by Trump",
+      "published_at": "2026-10-15",
+      "key_facts": [
+        "Ukraine attacked a Russian oil refinery, abandoning a brief truce involving energy-related targets that it said Moscow did not heed",
+        "Drone strike started a fire at the refinery about 300 kilometers (180 miles) southeast of Moscow in the Ryazan region",
+        "Zelenskyy complained Ukraine was denied the usual Western intelligence on Russian ballistic missile strikes and limits were placed on its use of Starlink terminals",
+        "Senior Ukrainian official (anonymous) confirmed the Ryazan refinery was hit; Russia's Defense Ministry said it downed 4 Flamingo missiles and 69 drones, debris sparked a fire; AP could not independently verify"
+      ]
+    },
+    {
+      "id": "src_art_0053",
+      "url": "https://www.aljazeera.com/news/2026/10/15/russia-says-ukraine-resumes-attacks-on-oil-refineries",
+      "retrieved_at": "2026-10-18",
+      "lang": "en",
+      "verification": {
+        "status": "unverified",
+        "checks": [
+          "claims:2"
+        ],
+        "notes": ""
+      },
+      "confirmed_by": "opus(D-0229 — 검색 요약·URL·매체·게시일 대조. 원문 열람 불가: 세션 프록시가 뉴스 호스트 차단 403)",
+      "confirmed_at": "2026-10-18T01:30:00Z",
+      "note": "원문 대조 전(검색 요약)",
+      "type": "article",
+      "publisher": "Al Jazeera",
+      "headline_original": "Russia says Ukraine resumes attacks on oil refineries",
+      "published_at": "2026-10-15",
+      "key_facts": [
+        "The Kremlin said Ukraine's targeting of Russian energy infrastructure ran counter to US peace efforts",
+        "Ryazan refinery is owned by Rosneft and accounts for almost 5% of Russia's refining throughput (figure attributed to Reuters in search summaries)",
+        "Zelensky on lifting restrictions: \"We're done\" (also reported by Meduza and Ground News aggregation)"
+      ]
+    },
+    {
+      "id": "src_art_0054",
+      "url": "https://euromaidanpress.com/2026/09/22/trump-demanded-zelenskyy-stop-hitting-russian-refineries-for-the-second-time-in-a-week/",
+      "retrieved_at": "2026-10-18",
+      "lang": "en",
+      "verification": {
+        "status": "unverified",
+        "checks": [
+          "claims:1"
+        ],
+        "notes": ""
+      },
+      "confirmed_by": "opus(D-0229 — 검색 요약·URL·매체·게시일 대조. 원문 열람 불가: 세션 프록시가 뉴스 호스트 차단 403)",
+      "confirmed_at": "2026-10-18T01:30:00Z",
+      "note": "Axios 보도(익명 1인) 인용; 원문 대조 전(검색 요약)",
+      "type": "article",
+      "publisher": "Euromaidan Press",
+      "headline_original": "Trump demanded Zelenskyy stop hitting Russian refineries—for the second time in a week",
+      "published_at": "2026-09-22",
+      "key_facts": [
+        "On Sunday Sept 20 Trump said he told Zelenskyy to stop strikes on Russian refineries, claiming they are \"causing a shortage of diesel\"",
+        "Trump framed the diesel shortage as coming from the Russia-Ukraine war rather than the Middle East",
+        "Detail of the call relies on an Axios report citing one unnamed person; 'diesel' was mentioned many times"
+      ]
+    },
+    {
+      "id": "src_art_0055",
+      "url": "https://www.cnbc.com/2026/09/30/iran-war-strait-hormuz-gulf-oil-fuel.html",
+      "retrieved_at": "2026-10-18",
+      "lang": "en",
+      "verification": {
+        "status": "unverified",
+        "checks": [
+          "claims:1"
+        ],
+        "notes": ""
+      },
+      "confirmed_by": "opus(D-0229 — 검색 요약·URL·매체·게시일 대조. 원문 열람 불가: 세션 프록시가 뉴스 호스트 차단 403)",
+      "confirmed_at": "2026-10-18T01:30:00Z",
+      "note": "Kpler 인용; 원문 대조 전(검색 요약)",
+      "type": "article",
+      "publisher": "CNBC",
+      "headline_original": "Crude oil exports through the Strait of Hormuz hit prewar levels, but fuel shipments remain constrained",
+      "published_at": "2026-09-30",
+      "key_facts": [
+        "Refined products shipped through Hormuz at a seven-day average of 677,000 bpd vs 3.6 million bpd before the war (Kpler)",
+        "Crude transiting Hormuz reached a seven-day average of 13.5 million bpd, matching the prewar baseline"
+      ]
+    },
+    {
+      "id": "src_art_0056",
+      "url": "https://www.news1.kr/amp/economy/idustry-trade/6177874",
+      "retrieved_at": "2026-10-18",
+      "lang": "ko",
+      "verification": {
+        "status": "unverified",
+        "checks": [
+          "claims:1"
+        ],
+        "notes": ""
+      },
+      "confirmed_by": "opus(D-0229 — 검색 요약·URL·매체·게시일 대조. 원문 열람 불가: 세션 프록시가 뉴스 호스트 차단 403)",
+      "confirmed_at": "2026-10-18T01:30:00Z",
+      "note": "게시일 일자 미확인(2026년 8월); 원문 대조 전(검색 요약)",
+      "type": "article",
+      "publisher": "뉴스1",
+      "headline_original": "중동 전쟁이 바꾼 원유 지도…\"미국산 늘고, 중동산 20%p↓\"",
+      "published_at": "2026-08-01",
+      "key_facts": [
+        "미국과 이란 전쟁 발발 직후 지난 5~7월 국내 원유 중동 의존도가 48.5%로 낮아졌다. 이는 지난해 69.1% 대비 약 20%p 감소한 규모",
+        "중동 48.5% △미주 35.6% △아시아 7.4% △아프리카 8.3% △유럽 0.3%; 미주산은 지난해 23.1%에서 35.6%로",
+        "2024년 중동산 비중 71.5%, 원유 수입량 10억3000만 배럴"
+      ]
+    },
+    {
+      "id": "src_art_0057",
+      "url": "https://www.khan.co.kr/en/article/202610131637007",
+      "retrieved_at": "2026-10-18",
+      "lang": "en",
+      "verification": {
+        "status": "unverified",
+        "checks": [
+          "claims:1"
+        ],
+        "notes": ""
+      },
+      "confirmed_by": "opus(D-0229 — 검색 요약·URL·매체·게시일 대조. 원문 열람 불가: 세션 프록시가 뉴스 호스트 차단 403)",
+      "confirmed_at": "2026-10-18T01:30:00Z",
+      "note": "제목 미확보; 원문 대조 전(검색 요약)",
+      "type": "article",
+      "publisher": "경향신문",
+      "headline_original": "(title not retrieved)",
+      "published_at": "2026-10-13",
+      "key_facts": [
+        "Seoul restricted petroleum product exports on March 13: monthly exports of gasoline, diesel, kerosene capped within 100% of the same month a year earlier; domestic supply at 90% or more",
+        "Korea diesel production fell to 22,849,000 barrels in April, recovering to 30,561,000 barrels in August",
+        "Clean product exports down 5% in the first eight months of 2026 to 264.5 million barrels (KNOC data)",
+        "2025 clean product exports were 412 million barrels; 2024 diesel exports 2억166만 배럴, 1992년 통계 이후 최대"
+      ]
+    },
+    {
+      "id": "src_art_0058",
+      "url": "https://www.koreajoongangdaily.com/korea/ukraine-slams-south-korea-over-fuel-shipments-to-russia-as-seoul-pushes-back/12910185",
+      "retrieved_at": "2026-10-18",
+      "lang": "en",
+      "verification": {
+        "status": "disputed",
+        "checks": [
+          "claims:1"
+        ],
+        "notes": ""
+      },
+      "confirmed_by": "opus(D-0229 — 검색 요약·URL·매체·게시일 대조. 원문 열람 불가: 세션 프록시가 뉴스 호스트 차단 403)",
+      "confirmed_at": "2026-10-18T01:30:00Z",
+      "note": "게시일 일자 미확인(2026년 10월); 원문 대조 전(검색 요약)",
+      "type": "article",
+      "publisher": "Korea JoongAng Daily",
+      "headline_original": "Ukraine slams South Korea over fuel shipments to Russia as Seoul pushes back",
+      "published_at": "2026-10-08",
+      "key_facts": [
+        "South Korea's presidential office called Ukraine's claims 'inaccurate and inappropriate'",
+        "Statistics for Aug 2025–Aug 2026 show no direct shipments of these fuel types from South Korea to Russia; authorities investigating possible misdeclaration of final destination",
+        "Chinese trader Evo Petrochemicals named as main exporter; cargoes believed sourced mainly from South Korea, Japan and China"
       ]
     }
   ]

@@ -1,0 +1,101 @@
+# 린트 면제 목록 — 결정 기록(git 추적). back_and_forth D-0168, DECISIONS D162. 정확 일치만 통과, 낡은 면제 = 오류.
+schema_version: 1
+waivers:
+  - kind: transition-bridge
+    sid: official_0
+    text_sha1: f0f90ae669e362b0dd1aee80e404945a52cdd6c3
+    rule_since: v7.4.0
+    script_approved: 2026-10-12
+    reason: "D-0230 — v7.4.0 이전 원고, 재발 방지 장치는 v7.4.0 이후 원고부터"
+    decided_by: D-0230
+  - kind: transition-bridge
+    sid: pact_0
+    text_sha1: 06c86f4c37f67cb419c0f83030421b4142d8facd
+    rule_since: v7.4.0
+    script_approved: 2026-10-12
+    reason: "D-0230 — v7.4.0 이전 원고, 재발 방지 장치는 v7.4.0 이후 원고부터"
+    decided_by: D-0230
+  - kind: transition-bridge
+    sid: us_arms_0
+    text_sha1: 3181b19b6801994dd77ca050bc99b61995f90596
+    rule_since: v7.4.0
+    script_approved: 2026-10-12
+    reason: "D-0230 — v7.4.0 이전 원고, 재발 방지 장치는 v7.4.0 이후 원고부터"
+    decided_by: D-0230
+  - kind: transition-bridge
+    sid: scale_0
+    text_sha1: 68a27bdbedb4573780453d1a6fc55d3931314038
+    rule_since: v7.4.0
+    script_approved: 2026-10-12
+    reason: "D-0230 — v7.4.0 이전 원고, 재발 방지 장치는 v7.4.0 이후 원고부터"
+    decided_by: D-0230
+  - kind: transition-bridge
+    sid: korea_0
+    text_sha1: b20ba2bc1db127d7e055370417b15ba2bd381b39
+    rule_since: v7.4.0
+    script_approved: 2026-10-12
+    reason: "D-0230 — v7.4.0 이전 원고, 재발 방지 장치는 v7.4.0 이후 원고부터"
+    decided_by: D-0230
+  - kind: transition-bridge
+    sid: briefing_0
+    text_sha1: 7f952ad48f910de4aa3211bd856ea2a12b4e5966
+    rule_since: v7.4.0
+    script_approved: 2026-10-12
+    reason: "D-0230 — v7.4.0 이전 원고, 재발 방지 장치는 v7.4.0 이후 원고부터"
+    decided_by: D-0230
+  - kind: act-frame
+    sid: open_0
+    text_sha1: b10e6878b3aa68512e6b1cd333df593d45111bbe
+    rule_since: v7.4.0
+    script_approved: 2026-10-12
+    reason: "D-0230 — v7.4.0 이전 원고, 재발 방지 장치는 v7.4.0 이후 원고부터"
+    decided_by: D-0230
+  - kind: act-frame
+    sid: what_0
+    text_sha1: 2985d29866d5e7cb0fadf6b6d914a6a4caebefbe
+    rule_since: v7.4.0
+    script_approved: 2026-10-12
+    reason: "D-0230 — v7.4.0 이전 원고, 재발 방지 장치는 v7.4.0 이후 원고부터"
+    decided_by: D-0230
+  - kind: act-frame
+    sid: official_0
+    text_sha1: f0f90ae669e362b0dd1aee80e404945a52cdd6c3
+    rule_since: v7.4.0
+    script_approved: 2026-10-12
+    reason: "D-0230 — v7.4.0 이전 원고, 재발 방지 장치는 v7.4.0 이후 원고부터"
+    decided_by: D-0230
+  - kind: act-frame
+    sid: pact_0
+    text_sha1: 06c86f4c37f67cb419c0f83030421b4142d8facd
+    rule_since: v7.4.0
+    script_approved: 2026-10-12
+    reason: "D-0230 — v7.4.0 이전 원고, 재발 방지 장치는 v7.4.0 이후 원고부터"
+    decided_by: D-0230
+  - kind: act-frame
+    sid: us_arms_0
+    text_sha1: 3181b19b6801994dd77ca050bc99b61995f90596
+    rule_since: v7.4.0
+    script_approved: 2026-10-12
+    reason: "D-0230 — v7.4.0 이전 원고, 재발 방지 장치는 v7.4.0 이후 원고부터"
+    decided_by: D-0230
+  - kind: act-frame
+    sid: scale_0
+    text_sha1: 68a27bdbedb4573780453d1a6fc55d3931314038
+    rule_since: v7.4.0
+    script_approved: 2026-10-12
+    reason: "D-0230 — v7.4.0 이전 원고, 재발 방지 장치는 v7.4.0 이후 원고부터"
+    decided_by: D-0230
+  - kind: act-frame
+    sid: korea_0
+    text_sha1: b20ba2bc1db127d7e055370417b15ba2bd381b39
+    rule_since: v7.4.0
+    script_approved: 2026-10-12
+    reason: "D-0230 — v7.4.0 이전 원고, 재발 방지 장치는 v7.4.0 이후 원고부터"
+    decided_by: D-0230
+  - kind: act-frame
+    sid: briefing_0
+    text_sha1: 7f952ad48f910de4aa3211bd856ea2a12b4e5966
+    rule_since: v7.4.0
+    script_approved: 2026-10-12
+    reason: "D-0230 — v7.4.0 이전 원고, 재발 방지 장치는 v7.4.0 이후 원고부터"
+    decided_by: D-0230

@@ -123,6 +123,26 @@ def article_box(ctx: cairo.Context, e: dict) -> tuple[float, float, float, float
     return article_layout(ctx, e).box
 
 
+def press_photo_credit_text(e: dict) -> Optional[str]:
+    """v7.4.0 D-0240 §3 — 공식 사진(A, press_of 없음) 프레스 바탕의 출처 줄(rules media_beats.credit_formats.photo). 없으면 None."""
+    from engine.media_registry import credit_line  # noqa: PLC0415
+
+    pa = cached_registry().get(e.get("press") or "")
+    if pa is None or getattr(pa, "press_of", None) is not None:
+        return None
+    return credit_line(pa)
+
+
+def draw_press_photo_credit(ctx: cairo.Context, e: dict, a: float) -> None:
+    PC = ARTICLE.press_photo_credit  # noqa: N806
+    s = press_photo_credit_text(e) if PC is not None else None
+    if s is None:
+        return
+    y = load_rules().layout_480p.reserved_zones.subtitle.y_from - PC.y_above_subtitle
+    th = ARTICLE.themes[e.get("theme") or ARTICLE.theme_default]
+    text(ctx, s, W_OUT * ARTICLE.x_left_ratio, y, PC.size, "sans", th.ink, a * 0.85, 2.4, "l", role="media_meta")   # 덮개 위에서도 읽히게(muted 는 너무 흐림)
+
+
 def validate_press(e: dict, assets: dict | None = None):  # noqa: ANN201 — MediaAsset | None
     """프레스 사진 권리 게이트 — 없으면 None(블러 무대 폴백). 있으면 레지스트리 photo·rights_clear·파일(기사 자체 사진 금지 — 레지스트리 밖)."""
     pid = e.get("press")
@@ -232,6 +252,7 @@ def draw_article(ctx: cairo.Context, R: RenderCtx, t: float, e: dict) -> None:  
         draw_article_text(ctx, e, sharp)
     if soft > 0.01:
         _paint_device(ctx, _sunk_text(ctx, R, e), soft)
+    draw_press_photo_credit(ctx, e, pa * (1.0 - over))   # v7.4.0 D-0240 §3 — 자료사진 표기(공식 사진 바탕일 때만, 덮개 위에)
 
 
 def _sunk_text(ctx: cairo.Context, R: RenderCtx, e: dict) -> cairo.ImageSurface:  # noqa: N803
@@ -279,4 +300,4 @@ def article_usage(events: list[dict]) -> list[dict]:
 
 
 __all__ = ["ArticleLayout", "ArticleOverflowError", "article_box", "article_layout", "article_phase", "article_text", "article_usage",
-           "draw_article", "draw_article_text", "draw_press", "press_credit_text", "source_date", "validate_press"]
+           "draw_article", "draw_article_text", "draw_press", "draw_press_photo_credit", "press_credit_text", "press_photo_credit_text", "source_date", "validate_press"]

@@ -61,15 +61,14 @@ def write_synthetic_alignment(rows: list[dict]) -> None:
         tts_align.write(Path(x["mp3"]), tts_align.from_forced_alignment(x["tts"], spans))
 
 
-def no_files():  # noqa: ANN201 — 이미지·영상·지형 래스터를 읽으면 실패하게 하는 패치 묶음
+def no_files():  # noqa: ANN201 — 사진·영상 파일을 읽으면 실패하게 하는 패치 묶음(v7.4.0 — 지도 자산은 읽는다)
     def boom(*a, **k):  # noqa: ANN002, ANN003, ANN202
         raise AssertionError("콘티 판이 자산 파일을 읽었다")
 
     from engine.assets import Assets
-    from engine.stage import MercatorStage
 
     return [mock.patch.object(Assets, n, boom) for n in ("load_image", "load_clip", "original", "raster", "scaled", "source_width")] \
-        + [mock.patch.object(MercatorStage, "base_image", boom), mock.patch.object(Assets, "_load_geo", boom)]
+        + []   # v7.4.0 D-0241 §2 — 지도 타일·geo.pkl 은 콘티 판도 읽는다(본 지도). 사진·영상만 자리표시
 
 
 class _Hormuz(unittest.TestCase):
@@ -78,8 +77,12 @@ class _Hormuz(unittest.TestCase):
 
     @classmethod
     def setUpClass(cls) -> None:
+        src = REPO / "projects" / "hormuz_korea" / "assets"
+        if not (src / "geo.pkl").exists():   # v7.4.0 D-0241 §2 — 콘티 판도 본 지도: 지도 자산(geo.prep) 필요
+            raise unittest.SkipTest("projects/hormuz_korea/assets 지도 자산 없음 — python -m geo.prep projects/hormuz_korea")
         cls.tmp = tempfile.TemporaryDirectory()
         cls.proj = synthetic_project("hormuz_korea", Path(cls.tmp.name) / "hormuz_korea")
+        shutil.copytree(src, cls.proj / "assets", ignore=shutil.ignore_patterns("portraits", "emblems", "flags", "flags_svg", "res_*"))
 
     @classmethod
     def tearDownClass(cls) -> None:
@@ -120,19 +123,20 @@ class PlaceholderLabelTest(unittest.TestCase):
 
 
 @pytest.mark.slow   # C8.3(D187) — 느린 묶음(빠른 묶음 -m "not slow" 밖)
-class NoAssetRenderTest(_Hormuz):
-    def test_renders_without_assets(self) -> None:
-        """자산 없는 환경(추적 파일 + 합성 plan)에서 로드·렌더 — 이미지·영상·타일 파일 접근 0(패치가 읽으면 실패)."""
+class AnimaticMapRenderTest(_Hormuz):
+    def test_renders_on_main_map(self) -> None:
+        """v7.4.0 D-0241 §2(UF-121) — 콘티 판 지도 = 전편과 같은 본 MercatorStage(막지도 삭제). 사진·영상 파일은 읽지 않는다(자리표시)."""
         from engine.render import render_frame
-        from engine.stage import FlatMercatorStage
+        from engine.stage import MercatorStage
 
-        self.assertFalse((self.proj / "assets").exists() or (self.proj / "media").exists())
+        self.assertFalse((self.proj / "media").exists())
         pats = no_files()
         for p in pats:
             p.start()
         try:
             P = self.load()  # noqa: N806
-            self.assertIsInstance(P.R.stage, FlatMercatorStage)
+            self.assertIs(type(P.R.stage), MercatorStage)
+            self.assertTrue(P.R.stage.bord)   # geo.pkl 지오메트리(국경·행정선)를 실제로 읽었다
             self.assertTrue(P.animatic)
             kinds = {e["type"] for e in P.events}
             self.assertTrue({"badge", "photo", "clip", "cutout", "card", "panel"} <= kinds)   # 요소 종류가 실제로 지나간다
@@ -157,7 +161,7 @@ class NoAssetRenderTest(_Hormuz):
             typography.require_family.cache_clear()
 
     def test_camera_bounds_equal_geo_yaml_tier(self) -> None:
-        """막지도 경계 = geo.yaml 티어 W bbox(geo.prep tier_record 와 같은 값) — 카메라 클램프가 전편과 같다."""
+        """콘티 판 경계 = geo.yaml 티어 W bbox(geo.prep tier_record 와 같은 값) — 카메라 클램프가 전편과 같다."""
         from engine.stage import ym
         from geo.prep import load_conf
 
@@ -218,12 +222,12 @@ class NoAssetRenderTest(_Hormuz):
             profile_skips(P)
 
 
-class CrimeaFlatMapTest(unittest.TestCase):
+class CrimeaCountryPolygonsTest(unittest.TestCase):
     def test_crimea_to_ua(self) -> None:
         """110m 국가 파일은 크림을 RU 에 넣는다 — crimea_to_ua 면 UA 로(04 §3.2)."""
         from shapely.geometry import MultiPolygon, Point, Polygon
 
-        from engine.layers.animatic import load_flat_polygons
+        from geo.country_polygons import load_country_polygons as load_flat_polygons
 
         pt = Point(34.1, 45.0)
 

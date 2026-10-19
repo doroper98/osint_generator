@@ -53,6 +53,13 @@ REOPENS: dict[ProjectState, frozenset[ProjectState]] = {
     for s in (ProjectState.RENDER, ProjectState.AUDIO_MIX, ProjectState.DELIVER, ProjectState.DONE)
 }
 
+# v7.4.0 back_and_forth D-0237(사용자 결정 D246) — 게이트 ① 승인 뒤, 렌더 전 단계에서 원고 사실 오류를 찾았을 때의 되돌림(`rollback`, 사유 필수).
+# 게이트 반려(ROLLBACKS)·렌더 뒤 reopen 과 다른 길이다. 게이트가 아니므로 GATES 에 넣지 않는다 → 게이트 ① 재승인(원고 지문) → 콘티 판 순서 그대로.
+SCRIPT_FIX_ROLLBACKS: dict[ProjectState, frozenset[ProjectState]] = {
+    s: frozenset({ProjectState.SCRIPT_DRAFT})
+    for s in (ProjectState.VOICE_TIMELINE, ProjectState.ASSETS, ProjectState.DIRECTION, ProjectState.PREVIEW_QA)
+}
+
 # 사용자 승인 게이트(16 §5). 게이트에서 앞으로 가는 전이는 승인 기록이 있어야 한다(project_manager).
 GATES: frozenset[ProjectState] = frozenset(ROLLBACKS)
 
@@ -106,6 +113,14 @@ def validate_transition(current: ProjectState | str, target: ProjectState | str)
             f"잘못된 상태 전이: '{cur.value}' → '{tgt.value}'. "
             f"허용된 다음 상태: {allowed_str}"
         )
+
+
+def validate_script_fix_rollback(current: ProjectState | str, target: ProjectState | str) -> None:
+    """승인 뒤 원고 수정 되돌림이 허용되지 않으면 ValueError(v7.4.0 D-0237). 렌더 전 단계 → script_draft 만."""
+    cur, tgt = coerce(current), coerce(target)
+    if tgt not in SCRIPT_FIX_ROLLBACKS.get(cur, frozenset()):
+        froms = ", ".join(sorted(x.value for x in SCRIPT_FIX_ROLLBACKS))
+        raise ValueError(f"rollback 은 렌더 전 단계({froms})에서 script_draft 로만 간다: '{cur.value}' → '{tgt.value}'")
 
 
 def validate_reopen(current: ProjectState | str, target: ProjectState | str) -> None:

@@ -37,10 +37,10 @@ class CamKey(BaseModel):
     y: float
     w: float
     dur: float = 3.0
-    mode: Literal["move", "cut"] = "move"
+    mode: Literal["move", "cut", "drift"] = "move"   # drift = v7.4.0 D-0241 §1 — 등속(이징 없음) 궤도 훑기
 
 
-def cam(t: float, x: float, y: float, w: float, dur: float = 3.0, mode: Literal["move", "cut"] = "move") -> CamKey:
+def cam(t: float, x: float, y: float, w: float, dur: float = 3.0, mode: Literal["move", "cut", "drift"] = "move") -> CamKey:
     """월드 좌표 카메라 키. 앵커(경위도 등)는 호출하는 쪽이 stage.to_world 로 바꿔 넘긴다."""
     return CamKey(t=t, x=x, y=y, w=w, dur=dur, mode=mode)
 
@@ -64,10 +64,11 @@ def build_camera(keys: list[CamKey], n_frames: int, fps: int,
             v = cur.copy()
             da = t
         else:
-            e = _EASE((t - act.t) / act.dur) if act.dur > 0 else 1.0
+            u = min(1.0, (t - act.t) / act.dur) if act.dur > 0 else 1.0
+            e = u if act.mode == "drift" else (_EASE(u) if act.dur > 0 else 1.0)   # drift = 등속(v7.4.0 D-0241 §1)
             w = math.exp(math.log(frm[2]) + (math.log(act.w) - math.log(frm[2])) * e)
             f = e
-            if _PATH == "fixed_point" and not math.isclose(act.w, frm[2], rel_tol=_W_SAME):
+            if act.mode != "drift" and _PATH == "fixed_point" and not math.isclose(act.w, frm[2], rel_tol=_W_SAME):
                 f = (w - frm[2]) / (act.w - frm[2])   # v5.5.0 — 중심을 폭에 비례로 → 고정점 기준 닮음 변환(지도 흐름 직선)
             v = np.array([frm[0] + (act.x - frm[0]) * f, frm[1] + (act.y - frm[1]) * f, w])
             da = t - (act.t + act.dur)

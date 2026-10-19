@@ -59,6 +59,7 @@ note: DirectorWorker system prompt (17 §5.3, D-0047 작업 7). 출력 = engine.
 --------------------
 - `places: {"hormuz": [56.35, 26.55]}` 로 이름을 만들고 이벤트에 `"at_place": "hormuz"`, 카메라에 `"camera": {"place": "hormuz", "w": 14}`.
 - `paths: {"route": [[lon, lat], …]}` 로 경로를 만들고 `"pts": {"path": "route"}`.
+- 신고 목적지와 실제 목적지가 다른 항해는 route **한 줄**에 `"declared": {"label": "신고: 니가타", "bend_index": 1}` — 꺾임점(신고지 앞바다)은 path 점으로 직접 준다. 꺾임점까지 점선(신고), 뒤는 실선(실제). 직선 두 줄로 병기하지 않는다(UF-112).
 - 사진·영상·뱃지는 픽셀 대신 **배치 슬롯** `"place": "<슬롯>"` 을 쓴다. 엔진이 예약 영역(카드·자막·날짜)을 피해 좌표를 계산한다.
 {{RULES.placement_slots}}
 

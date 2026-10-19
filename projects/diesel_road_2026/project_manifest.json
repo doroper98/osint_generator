@@ -4,7 +4,7 @@
   "title": "경유의 길 — 사흘에 한 번",
   "category": "geopolitics",
   "created_at": "2026-10-17T13:36:28.700647Z",
-  "updated_at": "2026-10-17T19:23:39.547992Z",
+  "updated_at": "2026-10-19T06:09:17.193385Z",
   "current_state": "done",
   "target_duration_min": 10,
   "topic_summary": "우크라이나의 러시아 정유소 타격과 러시아 경유 부족, 한국산 경유의 블라디보스토크행, 걸프 에너지 시설 타격, 미국의 러시아 경유 거래와 에너지 휴전 붕괴",
@@ -66,6 +66,165 @@
         "qa_selected": "3",
         "animatic": "out/animatic.mp4 · 585.436초 · direction 2759c136e12a7a6572929d36597bd39f7c7220d4 · script 8096f994db",
         "user_feedback": "경고: 이 영상 의견 2건 장치 없음 — 영상 전달 뒤 첫 작업으로 장치(D217·D218): UF-101 \"영상에 인물이 필요하면 인물 등장씬을 적극적으로 작동시켜.\" · UF-102 \"기사도 적극적으로 조판하고.\"",
+        "asset_library": "공용 자산 미승격 0"
+      },
+      "chosen_version": null
+    },
+    {
+      "gate": "script_approval",
+      "decision": "approved",
+      "by": "user",
+      "at": "2026-10-18T06:17:38.981909Z",
+      "comment": "사용자 승인 2026-10-18 · 감독 전달 D-0235",
+      "rollback_to": null,
+      "shown": {
+        "script": "/home/user/osint_generator/projects/diesel_road_2026/script.yaml",
+        "lint_errors": "0",
+        "lint_warnings": "1",
+        "est_sec": "759.1",
+        "media_plan_errors": "0",
+        "script_sha1": "0c1a1ffc58c75d9db0c104a44f39d205fabda23f",
+        "media_plan": "사진 0/9 · 기사 후보 103문장 · 585초(plan)"
+      },
+      "chosen_version": null
+    },
+    {
+      "gate": "script_approval",
+      "decision": "approved",
+      "by": "user",
+      "at": "2026-10-18T06:58:10.424414Z",
+      "comment": "사용자 재승인 2026-10-18 · 하르그 3/13 수정 · D245",
+      "rollback_to": null,
+      "shown": {
+        "script": "/home/user/osint_generator/projects/diesel_road_2026/script.yaml",
+        "lint_errors": "0",
+        "lint_warnings": "1",
+        "est_sec": "799.6",
+        "media_plan_errors": "0",
+        "script_sha1": "703e6823e8aae282b991f080cb84185e4c04a1d2",
+        "media_plan": "사진 0/16 · 기사 후보 103문장 · 976초(plan)"
+      },
+      "chosen_version": null
+    },
+    {
+      "gate": "script_approval",
+      "decision": "approved",
+      "by": "user",
+      "at": "2026-10-18T11:47:20.958417Z",
+      "comment": "사용자 재승인 2026-10-18 · act3_8 제재 대상 어휘 · D249",
+      "rollback_to": null,
+      "shown": {
+        "script": "/home/user/osint_generator/projects/diesel_road_2026/script.yaml",
+        "lint_errors": "0",
+        "lint_warnings": "1",
+        "est_sec": "799.6",
+        "media_plan_errors": "0",
+        "script_sha1": "50898199852355b7b27f36c732de2e9468fb8452",
+        "media_plan": "사진 0/16 · 기사 후보 103문장 · 976초(plan)"
+      },
+      "chosen_version": null
+    },
+    {
+      "gate": "preview_approval",
+      "decision": "approved",
+      "by": "fable",
+      "at": "2026-10-18T14:33:25.394028Z",
+      "comment": "사용자 지시 2026-10-18 '바로 영상' · 감독 사전 위임 D-0243",
+      "rollback_to": null,
+      "shown": {
+        "sheet": "/home/user/osint_generator/projects/diesel_road_2026/prev/sheet.jpg",
+        "cuts": "16",
+        "provenance": "/home/user/osint_generator/projects/diesel_road_2026/prev/provenance.json",
+        "drops": "0",
+        "media_used": "quote 2 · article 15 · real 5",
+        "quote_candidates": "2",
+        "camera_suggest": "18",
+        "animatic": "out/animatic.mp4 · 976.939초 · direction 1b0a7331af5a45c241084ee5f939fbeb4779af52 · script 5089819985",
+        "user_feedback": "경고: 이 영상 의견 2건 장치 없음 — 영상 전달 뒤 첫 작업으로 장치(D217·D218): UF-116 \"콜드 오픈을 이렇게 바꿀께. 전장과는 조금 떨어져 있는 조용하던 10월 \" · UF-119 \"그리고 사진이 두장만 쓰이는거야? 뭐 더 추가 해야 될 사진은 없고? 몇\"",
+        "asset_library": "공용 자산 미승격 0"
+      },
+      "chosen_version": null
+    },
+    {
+      "gate": "preview_approval",
+      "decision": "approved",
+      "by": "fable",
+      "at": "2026-10-18T16:33:28.652163Z",
+      "comment": "사용자 지시 2026-10-18 '바로 영상' · 감독 사전 위임 D-0243 · 전편 1차 검토 수정 반영",
+      "rollback_to": null,
+      "shown": {
+        "sheet": "/home/user/osint_generator/projects/diesel_road_2026/prev/sheet.jpg",
+        "cuts": "16",
+        "provenance": "/home/user/osint_generator/projects/diesel_road_2026/prev/provenance.json",
+        "drops": "0",
+        "media_used": "quote 2 · article 15 · real 5",
+        "quote_candidates": "2",
+        "camera_suggest": "18",
+        "animatic": "out/animatic.mp4 · 976.939초 · direction 1b0a7331af5a45c241084ee5f939fbeb4779af52 · script 5089819985",
+        "user_feedback": "경고: 이 영상 의견 2건 장치 없음 — 영상 전달 뒤 첫 작업으로 장치(D217·D218): UF-116 \"콜드 오픈을 이렇게 바꿀께. 전장과는 조금 떨어져 있는 조용하던 10월 \" · UF-119 \"그리고 사진이 두장만 쓰이는거야? 뭐 더 추가 해야 될 사진은 없고? 몇\"",
+        "asset_library": "공용 자산 미승격 0"
+      },
+      "chosen_version": null
+    },
+    {
+      "gate": "preview_approval",
+      "decision": "approved",
+      "by": "fable",
+      "at": "2026-10-18T19:22:47.895327Z",
+      "comment": "사용자 지시 2026-10-18 '바로 영상' · 감독 사전 위임 D-0243 · D-0244 국기 잘림 수정 반영",
+      "rollback_to": null,
+      "shown": {
+        "sheet": "/home/user/osint_generator/projects/diesel_road_2026/prev/sheet.jpg",
+        "cuts": "16",
+        "provenance": "/home/user/osint_generator/projects/diesel_road_2026/prev/provenance.json",
+        "drops": "0",
+        "media_used": "quote 2 · article 15 · real 5",
+        "quote_candidates": "2",
+        "camera_suggest": "18",
+        "animatic": "out/animatic.mp4 · 976.939초 · direction 1b0a7331af5a45c241084ee5f939fbeb4779af52 · script 5089819985",
+        "user_feedback": "경고: 이 영상 의견 2건 장치 없음 — 영상 전달 뒤 첫 작업으로 장치(D217·D218): UF-116 \"콜드 오픈을 이렇게 바꿀께. 전장과는 조금 떨어져 있는 조용하던 10월 \" · UF-119 \"그리고 사진이 두장만 쓰이는거야? 뭐 더 추가 해야 될 사진은 없고? 몇\"",
+        "asset_library": "공용 자산 미승격 0"
+      },
+      "chosen_version": null
+    },
+    {
+      "gate": "preview_approval",
+      "decision": "approved",
+      "by": "fable",
+      "at": "2026-10-19T00:34:30.678930Z",
+      "comment": "사용자 지시 2026-10-18 '바로 영상' · 감독 사전 위임 D-0243 · D-0245 그래프 복원(UF-126) 반영",
+      "rollback_to": null,
+      "shown": {
+        "sheet": "/home/user/osint_generator/projects/diesel_road_2026/prev/sheet.jpg",
+        "cuts": "3",
+        "provenance": "/home/user/osint_generator/projects/diesel_road_2026/prev/provenance.json",
+        "drops": "0",
+        "media_used": "quote 2 · article 15 · real 5",
+        "quote_candidates": "2",
+        "camera_suggest": "18",
+        "animatic": "out/animatic.mp4 · 976.939초 · direction 1b0a7331af5a45c241084ee5f939fbeb4779af52 · script 5089819985",
+        "user_feedback": "경고: 이 영상 의견 1건 장치 없음 — 영상 전달 뒤 첫 작업으로 장치(D217·D218): UF-126 \"그래프들 왜 다 사라졌어?\"",
+        "asset_library": "공용 자산 미승격 0"
+      },
+      "chosen_version": null
+    },
+    {
+      "gate": "preview_approval",
+      "decision": "approved",
+      "by": "fable",
+      "at": "2026-10-19T04:00:32.355533Z",
+      "comment": "사용자 지시 2026-10-18 '바로 영상' · 감독 사전 위임 D-0243 · D-0245~0248 그래프 복원·보간·카드 겹침·발음 수정 반영",
+      "rollback_to": null,
+      "shown": {
+        "sheet": "/home/user/osint_generator/projects/diesel_road_2026/prev/sheet.jpg",
+        "cuts": "3",
+        "provenance": "/home/user/osint_generator/projects/diesel_road_2026/prev/provenance.json",
+        "drops": "0",
+        "media_used": "quote 2 · article 15 · real 5",
+        "quote_candidates": "2",
+        "camera_suggest": "17",
+        "animatic": "out/animatic.mp4 · 976.896초 · direction cb9faba1b6cd0b5895fe3cabe3d3ae1f2ef2dd31 · script 5089819985",
+        "user_feedback": "경고: 이 영상 의견 4건 장치 없음 — 영상 전달 뒤 첫 작업으로 장치(D217·D218): UF-126 \"그래프들 왜 다 사라졌어?\" · UF-127 \"조사로서 -가 가 붙었는데 경유까, 제트유까 하고 발음 함. 재발 방지 \" · UF-128 \"그리고 그래프가 중간에 끊기지 않도록 중간 보간을 해서 그래프를 표기하도\" · UF-129 \"그리고 그래프 넣는 씬에서 오른쪽 상단 아일랜드가 그래프를 가리지 않도록\"",
         "asset_library": "공용 자산 미승격 0"
       },
       "chosen_version": null
@@ -414,6 +573,593 @@
       "errors": [],
       "drops": 0,
       "log": "logs/stages/17_deliver.json"
+    },
+    {
+      "state": "voice_timeline",
+      "stage": "plan",
+      "ok": true,
+      "at": "2026-10-18T07:09:01.125736Z",
+      "artifacts": {
+        "plan": "/home/user/osint_generator/projects/diesel_road_2026/plan.json",
+        "tts": "/home/user/osint_generator/projects/diesel_road_2026/tts"
+      },
+      "errors": [],
+      "drops": 0,
+      "log": "logs/stages/18_plan.json"
+    },
+    {
+      "state": "assets",
+      "stage": "assets",
+      "ok": true,
+      "at": "2026-10-18T07:10:52.264723Z",
+      "artifacts": {
+        "assets": "/home/user/osint_generator/projects/diesel_road_2026/assets",
+        "report": "/home/user/osint_generator/projects/diesel_road_2026/assets/geo_report.json"
+      },
+      "errors": [],
+      "drops": 0,
+      "log": "logs/stages/19_assets.json"
+    },
+    {
+      "state": "assets",
+      "stage": "assets_final",
+      "ok": true,
+      "at": "2026-10-18T07:13:42.755486Z",
+      "artifacts": {
+        "assets": "/home/user/osint_generator/projects/diesel_road_2026/assets/res_720p",
+        "report": "/home/user/osint_generator/projects/diesel_road_2026/assets/res_720p/geo_report.json"
+      },
+      "errors": [],
+      "drops": 0,
+      "log": "logs/stages/20_assets_final.json"
+    },
+    {
+      "state": "direction",
+      "stage": "director",
+      "ok": false,
+      "at": "2026-10-18T07:51:38.364859Z",
+      "artifacts": {
+        "out0": "llm_calls/llm_20261018_073432_a522.json"
+      },
+      "errors": [
+        "check_parsed: 렌더 전 점검 실패:\n권리 레지스트리에 인물 없음: zelensky (badge t0=23.19)\n권리 레지스트리에 휘장 없음: cheongwadae\n권리 레지스트리에 휘장 없음: cheongwadae\n권리 레지스트리에 인물 없음: trump (badge t0=624.53)\n권리 레지스트리에 인물 없음: bessent (badge t0=785.60)\n권리 레지스트리에 인물 없음: novak (badge t0=807.94)\n권리 레지스트리에 인물 없음: bessent (badge t0=814.89)\n권리 레지스트리에 인물 없음: trump (panel t0=836.85)\n권리 레지스트리에 인물 없음: zelensky (panel t0=836.85)\n권리 레지스트리에 인물 없음: trump (quote t0=843.53)\n권리 레지스트리에 인물 없음: trump (badge t0=861.64)\n권리 레지스트리에 인물 없음: zelensky (quote t0=890.90)\n권리 레지스트리에 인물 없음: zelensky (badge t0=895.67)\n권리 레지스트리에 인물 없음: zelensky (badge t0=921.47)\n자산 없음: /home/user/osint_generator/projects/diesel_road_2026/assets/emblems/cheongwadae.png (키 emblem:cheongwadae)\n자산 없음: /home/user/osint_generator/projects/diesel_road_2026/assets/flags/ru_1x1.png (키 flag11:ru)\n자산 없음: /home/user/osint_generator/projects/diesel_road_2026/assets/flags/us_1x1.png (키 flag11:us)\n자산 없음: /home/user/osint_generator/projects/diesel_road_2026/assets/flags/ru_4x3.png (키 flag43:ru)\n자산 없음: /home/user/osint_generator/projects/diesel_road_2026/assets/flags/ua_4x3.png (키 flag43:ua)\n자산 없음: /home/user/osint_generator/projects/diesel_road_2026/assets/flags/us_4x3.png (키 flag43:us)\n자산 없음: /home/user/osint_generator/projects/diesel_road_2026/assets/portraits/bessent.png (키 portrait:bessent)\n자산 없음: /home/user/osint_generator/projects/diesel_road_2026/assets/portraits/novak.png (키 portrait:novak)\n자산 없음: /home/user/osint_generator/projects/diesel_road_2026/assets/portraits/trump.png (키 portrait:trump)\n자산 없음: /home/user/osint_generator/projects/diesel_road_2026/assets/portraits/zelensky.png (키 portrait:zelensky)"
+      ],
+      "drops": 0,
+      "log": "logs/stages/21_director.json"
+    },
+    {
+      "state": "direction",
+      "stage": "direction_validate",
+      "ok": true,
+      "at": "2026-10-18T08:15:11.801731Z",
+      "artifacts": {
+        "script": "/home/user/osint_generator/projects/diesel_road_2026/script.yaml",
+        "label_counts": "{\"verified\": 9, \"corroborated\": 15, \"unverified\": 130, \"disputed\": 5}"
+      },
+      "errors": [],
+      "drops": 0,
+      "log": "logs/stages/22_direction_validate.json"
+    },
+    {
+      "state": "direction",
+      "stage": "validate",
+      "ok": true,
+      "at": "2026-10-18T08:17:25.034369Z",
+      "artifacts": {
+        "direction": "/home/user/osint_generator/projects/diesel_road_2026/direction.yaml",
+        "summary": "{\"camera_keys\": 10, \"events\": 179, \"frames\": 23429}"
+      },
+      "errors": [],
+      "drops": 0,
+      "log": "logs/stages/23_validate.json"
+    },
+    {
+      "state": "direction",
+      "stage": "camera_suggest",
+      "ok": true,
+      "at": "2026-10-18T08:19:40.637505Z",
+      "artifacts": {
+        "camera_suggest": "/home/user/osint_generator/projects/diesel_road_2026/prev/camera_suggest.json"
+      },
+      "errors": [],
+      "drops": 0,
+      "log": "logs/stages/24_camera_suggest.json"
+    },
+    {
+      "state": "voice_timeline",
+      "stage": "plan",
+      "ok": false,
+      "at": "2026-10-18T11:48:29.271463Z",
+      "artifacts": {},
+      "errors": [
+        "1 validation error for VideoRules\nanimatic.flat_map\n  Field required [type=missing, input_value={'profile': '480p', 'outp...rget_sec_per_300s': 180}, input_type=dict]\n    For further information visit https://errors.pydantic.dev/2.13/v/missing"
+      ],
+      "drops": 0,
+      "log": "logs/stages/25_plan.json"
+    },
+    {
+      "state": "voice_timeline",
+      "stage": "plan",
+      "ok": false,
+      "at": "2026-10-18T11:48:54.957063Z",
+      "artifacts": {},
+      "errors": [
+        "1 validation error for VideoRules\ngeo.country_polygons\n  Extra inputs are not permitted [type=extra_forbidden, input_value='data/geo_flat/ne_110m_countries.json', input_type=str]\n    For further information visit https://errors.pydantic.dev/2.13/v/extra_forbidden"
+      ],
+      "drops": 0,
+      "log": "logs/stages/26_plan.json"
+    },
+    {
+      "state": "voice_timeline",
+      "stage": "plan",
+      "ok": true,
+      "at": "2026-10-18T12:20:47.284981Z",
+      "artifacts": {
+        "plan": "/home/user/osint_generator/projects/diesel_road_2026/plan.json",
+        "tts": "/home/user/osint_generator/projects/diesel_road_2026/tts"
+      },
+      "errors": [],
+      "drops": 0,
+      "log": "logs/stages/27_plan.json"
+    },
+    {
+      "state": "assets",
+      "stage": "assets",
+      "ok": true,
+      "at": "2026-10-18T12:21:40.609906Z",
+      "artifacts": {
+        "assets": "/home/user/osint_generator/projects/diesel_road_2026/assets",
+        "report": "/home/user/osint_generator/projects/diesel_road_2026/assets/geo_report.json"
+      },
+      "errors": [],
+      "drops": 0,
+      "log": "logs/stages/28_assets.json"
+    },
+    {
+      "state": "assets",
+      "stage": "assets_final",
+      "ok": true,
+      "at": "2026-10-18T12:23:03.650894Z",
+      "artifacts": {
+        "assets": "/home/user/osint_generator/projects/diesel_road_2026/assets/res_720p",
+        "report": "/home/user/osint_generator/projects/diesel_road_2026/assets/res_720p/geo_report.json"
+      },
+      "errors": [],
+      "drops": 0,
+      "log": "logs/stages/29_assets_final.json"
+    },
+    {
+      "state": "direction",
+      "stage": "direction_validate",
+      "ok": true,
+      "at": "2026-10-18T13:19:30.771940Z",
+      "artifacts": {
+        "script": "/home/user/osint_generator/projects/diesel_road_2026/script.yaml",
+        "label_counts": "{\"verified\": 9, \"corroborated\": 15, \"unverified\": 130, \"disputed\": 5}"
+      },
+      "errors": [],
+      "drops": 0,
+      "log": "logs/stages/30_direction_validate.json"
+    },
+    {
+      "state": "direction",
+      "stage": "validate",
+      "ok": true,
+      "at": "2026-10-18T13:21:56.955237Z",
+      "artifacts": {
+        "direction": "/home/user/osint_generator/projects/diesel_road_2026/direction.yaml",
+        "summary": "{\"camera_keys\": 39, \"events\": 186, \"frames\": 23446}"
+      },
+      "errors": [],
+      "drops": 0,
+      "log": "logs/stages/31_validate.json"
+    },
+    {
+      "state": "direction",
+      "stage": "camera_suggest",
+      "ok": false,
+      "at": "2026-10-18T13:24:21.309265Z",
+      "artifacts": {},
+      "errors": [
+        "1 validation error for ShotSuggest\ncurrent_mode\n  Input should be 'move' or 'cut' [type=literal_error, input_value='drift', input_type=str]\n    For further information visit https://errors.pydantic.dev/2.13/v/literal_error"
+      ],
+      "drops": 0,
+      "log": "logs/stages/32_camera_suggest.json"
+    },
+    {
+      "state": "direction",
+      "stage": "direction_validate",
+      "ok": true,
+      "at": "2026-10-18T14:26:34.921722Z",
+      "artifacts": {
+        "script": "/home/user/osint_generator/projects/diesel_road_2026/script.yaml",
+        "label_counts": "{\"verified\": 9, \"corroborated\": 15, \"unverified\": 130, \"disputed\": 5}"
+      },
+      "errors": [],
+      "drops": 0,
+      "log": "logs/stages/33_direction_validate.json"
+    },
+    {
+      "state": "direction",
+      "stage": "validate",
+      "ok": true,
+      "at": "2026-10-18T14:29:21.570715Z",
+      "artifacts": {
+        "direction": "/home/user/osint_generator/projects/diesel_road_2026/direction.yaml",
+        "summary": "{\"camera_keys\": 39, \"events\": 186, \"frames\": 23446}"
+      },
+      "errors": [],
+      "drops": 0,
+      "log": "logs/stages/34_validate.json"
+    },
+    {
+      "state": "direction",
+      "stage": "camera_suggest",
+      "ok": true,
+      "at": "2026-10-18T14:31:53.699252Z",
+      "artifacts": {
+        "camera_suggest": "/home/user/osint_generator/projects/diesel_road_2026/prev/camera_suggest.json"
+      },
+      "errors": [],
+      "drops": 0,
+      "log": "logs/stages/35_camera_suggest.json"
+    },
+    {
+      "state": "render",
+      "stage": "render",
+      "ok": true,
+      "at": "2026-10-18T15:23:10.279634Z",
+      "artifacts": {
+        "video_noaudio": "/home/user/osint_generator/projects/diesel_road_2026/out/video_noaudio.mp4"
+      },
+      "errors": [],
+      "drops": 0,
+      "log": "logs/stages/36_render.json"
+    },
+    {
+      "state": "audio_mix",
+      "stage": "mix",
+      "ok": true,
+      "at": "2026-10-18T15:29:04.378567Z",
+      "artifacts": {
+        "mix": "/home/user/osint_generator/projects/diesel_road_2026/out/mix.f32",
+        "bed_stats": "/home/user/osint_generator/projects/diesel_road_2026/out/bed_stats.json"
+      },
+      "errors": [],
+      "drops": 0,
+      "log": "logs/stages/37_mix.json"
+    },
+    {
+      "state": "deliver",
+      "stage": "deliver",
+      "ok": true,
+      "at": "2026-10-18T15:39:32.508962Z",
+      "artifacts": {
+        "final": "/home/user/osint_generator/projects/diesel_road_2026/out/final.mp4",
+        "srt": "/home/user/osint_generator/projects/diesel_road_2026/out/final.srt",
+        "description": "/home/user/osint_generator/projects/diesel_road_2026/out/description.txt",
+        "credits": "/home/user/osint_generator/projects/diesel_road_2026/out/credits.txt",
+        "provenance": "/home/user/osint_generator/projects/diesel_road_2026/out/provenance.json"
+      },
+      "errors": [],
+      "drops": 0,
+      "log": "logs/stages/38_deliver.json"
+    },
+    {
+      "state": "direction",
+      "stage": "direction_validate",
+      "ok": true,
+      "at": "2026-10-18T16:26:50.350593Z",
+      "artifacts": {
+        "script": "/home/user/osint_generator/projects/diesel_road_2026/script.yaml",
+        "label_counts": "{\"verified\": 9, \"corroborated\": 15, \"unverified\": 130, \"disputed\": 5}"
+      },
+      "errors": [],
+      "drops": 0,
+      "log": "logs/stages/39_direction_validate.json"
+    },
+    {
+      "state": "direction",
+      "stage": "validate",
+      "ok": true,
+      "at": "2026-10-18T16:29:28.324071Z",
+      "artifacts": {
+        "direction": "/home/user/osint_generator/projects/diesel_road_2026/direction.yaml",
+        "summary": "{\"camera_keys\": 39, \"events\": 186, \"frames\": 23446}"
+      },
+      "errors": [],
+      "drops": 0,
+      "log": "logs/stages/40_validate.json"
+    },
+    {
+      "state": "direction",
+      "stage": "camera_suggest",
+      "ok": true,
+      "at": "2026-10-18T16:32:01.731888Z",
+      "artifacts": {
+        "camera_suggest": "/home/user/osint_generator/projects/diesel_road_2026/prev/camera_suggest.json"
+      },
+      "errors": [],
+      "drops": 0,
+      "log": "logs/stages/41_camera_suggest.json"
+    },
+    {
+      "state": "render",
+      "stage": "render",
+      "ok": true,
+      "at": "2026-10-18T17:21:23.005548Z",
+      "artifacts": {
+        "video_noaudio": "/home/user/osint_generator/projects/diesel_road_2026/out/video_noaudio.mp4"
+      },
+      "errors": [],
+      "drops": 0,
+      "log": "logs/stages/42_render.json"
+    },
+    {
+      "state": "audio_mix",
+      "stage": "mix",
+      "ok": true,
+      "at": "2026-10-18T17:27:06.305555Z",
+      "artifacts": {
+        "mix": "/home/user/osint_generator/projects/diesel_road_2026/out/mix.f32",
+        "bed_stats": "/home/user/osint_generator/projects/diesel_road_2026/out/bed_stats.json"
+      },
+      "errors": [],
+      "drops": 0,
+      "log": "logs/stages/43_mix.json"
+    },
+    {
+      "state": "deliver",
+      "stage": "deliver",
+      "ok": true,
+      "at": "2026-10-18T17:37:32.414514Z",
+      "artifacts": {
+        "final": "/home/user/osint_generator/projects/diesel_road_2026/out/final.mp4",
+        "srt": "/home/user/osint_generator/projects/diesel_road_2026/out/final.srt",
+        "description": "/home/user/osint_generator/projects/diesel_road_2026/out/description.txt",
+        "credits": "/home/user/osint_generator/projects/diesel_road_2026/out/credits.txt",
+        "provenance": "/home/user/osint_generator/projects/diesel_road_2026/out/provenance.json"
+      },
+      "errors": [],
+      "drops": 0,
+      "log": "logs/stages/44_deliver.json"
+    },
+    {
+      "state": "direction",
+      "stage": "direction_validate",
+      "ok": true,
+      "at": "2026-10-18T19:16:54.862472Z",
+      "artifacts": {
+        "script": "/home/user/osint_generator/projects/diesel_road_2026/script.yaml",
+        "label_counts": "{\"verified\": 9, \"corroborated\": 15, \"unverified\": 130, \"disputed\": 5}"
+      },
+      "errors": [],
+      "drops": 0,
+      "log": "logs/stages/45_direction_validate.json"
+    },
+    {
+      "state": "direction",
+      "stage": "validate",
+      "ok": true,
+      "at": "2026-10-18T19:19:15.271927Z",
+      "artifacts": {
+        "direction": "/home/user/osint_generator/projects/diesel_road_2026/direction.yaml",
+        "summary": "{\"camera_keys\": 39, \"events\": 186, \"frames\": 23446}"
+      },
+      "errors": [],
+      "drops": 0,
+      "log": "logs/stages/46_validate.json"
+    },
+    {
+      "state": "direction",
+      "stage": "camera_suggest",
+      "ok": true,
+      "at": "2026-10-18T19:21:31.129981Z",
+      "artifacts": {
+        "camera_suggest": "/home/user/osint_generator/projects/diesel_road_2026/prev/camera_suggest.json"
+      },
+      "errors": [],
+      "drops": 0,
+      "log": "logs/stages/47_camera_suggest.json"
+    },
+    {
+      "state": "render",
+      "stage": "render",
+      "ok": true,
+      "at": "2026-10-18T20:08:40.352468Z",
+      "artifacts": {
+        "video_noaudio": "/home/user/osint_generator/projects/diesel_road_2026/out/video_noaudio.mp4"
+      },
+      "errors": [],
+      "drops": 0,
+      "log": "logs/stages/48_render.json"
+    },
+    {
+      "state": "audio_mix",
+      "stage": "mix",
+      "ok": true,
+      "at": "2026-10-18T20:14:18.142321Z",
+      "artifacts": {
+        "mix": "/home/user/osint_generator/projects/diesel_road_2026/out/mix.f32",
+        "bed_stats": "/home/user/osint_generator/projects/diesel_road_2026/out/bed_stats.json"
+      },
+      "errors": [],
+      "drops": 0,
+      "log": "logs/stages/49_mix.json"
+    },
+    {
+      "state": "deliver",
+      "stage": "deliver",
+      "ok": true,
+      "at": "2026-10-18T20:24:24.425087Z",
+      "artifacts": {
+        "final": "/home/user/osint_generator/projects/diesel_road_2026/out/final.mp4",
+        "srt": "/home/user/osint_generator/projects/diesel_road_2026/out/final.srt",
+        "description": "/home/user/osint_generator/projects/diesel_road_2026/out/description.txt",
+        "credits": "/home/user/osint_generator/projects/diesel_road_2026/out/credits.txt",
+        "provenance": "/home/user/osint_generator/projects/diesel_road_2026/out/provenance.json"
+      },
+      "errors": [],
+      "drops": 0,
+      "log": "logs/stages/50_deliver.json"
+    },
+    {
+      "state": "direction",
+      "stage": "direction_validate",
+      "ok": true,
+      "at": "2026-10-19T00:28:26.278618Z",
+      "artifacts": {
+        "script": "/home/user/osint_generator/projects/diesel_road_2026/script.yaml",
+        "label_counts": "{\"verified\": 9, \"corroborated\": 15, \"unverified\": 130, \"disputed\": 5}"
+      },
+      "errors": [],
+      "drops": 0,
+      "log": "logs/stages/51_direction_validate.json"
+    },
+    {
+      "state": "direction",
+      "stage": "validate",
+      "ok": true,
+      "at": "2026-10-19T00:30:50.158787Z",
+      "artifacts": {
+        "direction": "/home/user/osint_generator/projects/diesel_road_2026/direction.yaml",
+        "summary": "{\"camera_keys\": 39, \"events\": 186, \"frames\": 23446}"
+      },
+      "errors": [],
+      "drops": 0,
+      "log": "logs/stages/52_validate.json"
+    },
+    {
+      "state": "direction",
+      "stage": "camera_suggest",
+      "ok": true,
+      "at": "2026-10-19T00:33:12.819654Z",
+      "artifacts": {
+        "camera_suggest": "/home/user/osint_generator/projects/diesel_road_2026/prev/camera_suggest.json"
+      },
+      "errors": [],
+      "drops": 0,
+      "log": "logs/stages/53_camera_suggest.json"
+    },
+    {
+      "state": "render",
+      "stage": "render",
+      "ok": true,
+      "at": "2026-10-19T01:22:05.549615Z",
+      "artifacts": {
+        "video_noaudio": "/home/user/osint_generator/projects/diesel_road_2026/out/video_noaudio.mp4"
+      },
+      "errors": [],
+      "drops": 0,
+      "log": "logs/stages/54_render.json"
+    },
+    {
+      "state": "audio_mix",
+      "stage": "mix",
+      "ok": true,
+      "at": "2026-10-19T01:27:54.281197Z",
+      "artifacts": {
+        "mix": "/home/user/osint_generator/projects/diesel_road_2026/out/mix.f32",
+        "bed_stats": "/home/user/osint_generator/projects/diesel_road_2026/out/bed_stats.json"
+      },
+      "errors": [],
+      "drops": 0,
+      "log": "logs/stages/55_mix.json"
+    },
+    {
+      "state": "deliver",
+      "stage": "deliver",
+      "ok": true,
+      "at": "2026-10-19T01:37:34.660837Z",
+      "artifacts": {
+        "final": "/home/user/osint_generator/projects/diesel_road_2026/out/final.mp4",
+        "srt": "/home/user/osint_generator/projects/diesel_road_2026/out/final.srt",
+        "description": "/home/user/osint_generator/projects/diesel_road_2026/out/description.txt",
+        "credits": "/home/user/osint_generator/projects/diesel_road_2026/out/credits.txt",
+        "provenance": "/home/user/osint_generator/projects/diesel_road_2026/out/provenance.json"
+      },
+      "errors": [],
+      "drops": 0,
+      "log": "logs/stages/56_deliver.json"
+    },
+    {
+      "state": "direction",
+      "stage": "direction_validate",
+      "ok": true,
+      "at": "2026-10-19T03:52:57.927491Z",
+      "artifacts": {
+        "script": "/home/user/osint_generator/projects/diesel_road_2026/script.yaml",
+        "label_counts": "{\"verified\": 9, \"corroborated\": 15, \"unverified\": 130, \"disputed\": 5}"
+      },
+      "errors": [],
+      "drops": 0,
+      "log": "logs/stages/57_direction_validate.json"
+    },
+    {
+      "state": "direction",
+      "stage": "validate",
+      "ok": true,
+      "at": "2026-10-19T03:55:55.659179Z",
+      "artifacts": {
+        "direction": "/home/user/osint_generator/projects/diesel_road_2026/direction.yaml",
+        "summary": "{\"camera_keys\": 39, \"events\": 186, \"frames\": 23445}"
+      },
+      "errors": [],
+      "drops": 0,
+      "log": "logs/stages/58_validate.json"
+    },
+    {
+      "state": "direction",
+      "stage": "camera_suggest",
+      "ok": true,
+      "at": "2026-10-19T03:58:52.343675Z",
+      "artifacts": {
+        "camera_suggest": "/home/user/osint_generator/projects/diesel_road_2026/prev/camera_suggest.json"
+      },
+      "errors": [],
+      "drops": 0,
+      "log": "logs/stages/59_camera_suggest.json"
+    },
+    {
+      "state": "render",
+      "stage": "render",
+      "ok": true,
+      "at": "2026-10-19T05:50:48.662206Z",
+      "artifacts": {
+        "video_noaudio": "/home/user/osint_generator/projects/diesel_road_2026/out/video_noaudio.mp4"
+      },
+      "errors": [],
+      "drops": 0,
+      "log": "logs/stages/60_render.json"
+    },
+    {
+      "state": "audio_mix",
+      "stage": "mix",
+      "ok": true,
+      "at": "2026-10-19T05:56:41.845293Z",
+      "artifacts": {
+        "mix": "/home/user/osint_generator/projects/diesel_road_2026/out/mix.f32",
+        "bed_stats": "/home/user/osint_generator/projects/diesel_road_2026/out/bed_stats.json"
+      },
+      "errors": [],
+      "drops": 0,
+      "log": "logs/stages/61_mix.json"
+    },
+    {
+      "state": "deliver",
+      "stage": "deliver",
+      "ok": true,
+      "at": "2026-10-19T06:09:17.186958Z",
+      "artifacts": {
+        "final": "/home/user/osint_generator/projects/diesel_road_2026/out/final.mp4",
+        "srt": "/home/user/osint_generator/projects/diesel_road_2026/out/final.srt",
+        "description": "/home/user/osint_generator/projects/diesel_road_2026/out/description.txt",
+        "credits": "/home/user/osint_generator/projects/diesel_road_2026/out/credits.txt",
+        "provenance": "/home/user/osint_generator/projects/diesel_road_2026/out/provenance.json"
+      },
+      "errors": [],
+      "drops": 0,
+      "log": "logs/stages/62_deliver.json"
     }
   ],
   "final_outputs": {},
@@ -501,7 +1247,354 @@
       "to_state": "done",
       "transitioned_at": "2026-10-17T19:23:39.547901Z",
       "reason": "engine deliver ok"
+    },
+    {
+      "from_state": "done",
+      "to_state": "script_draft",
+      "transitioned_at": "2026-10-18T05:29:21.787179Z",
+      "reason": "reopen → script_draft — user: v2 트랙(D-0229) — 사용자 의견 UF-104~117 반영 원고 v2.1 로 다시 제작"
+    },
+    {
+      "from_state": "script_draft",
+      "to_state": "script_approval",
+      "transitioned_at": "2026-10-18T05:34:37.952421Z",
+      "reason": "원고 v2.1 확정(린트 오류 0) — D-0234 수정본 7b532e20"
+    },
+    {
+      "from_state": "script_approval",
+      "to_state": "voice_timeline",
+      "transitioned_at": "2026-10-18T06:17:38.981961Z",
+      "reason": "script_approval 승인 — user"
+    },
+    {
+      "from_state": "voice_timeline",
+      "to_state": "script_draft",
+      "transitioned_at": "2026-10-18T06:48:42.118378Z",
+      "reason": "rollback → script_draft — user: 승인 뒤 원고 사실 수정 — 하르그 3/13, D-0236"
+    },
+    {
+      "from_state": "script_draft",
+      "to_state": "script_approval",
+      "transitioned_at": "2026-10-18T06:50:39.680502Z",
+      "reason": "원고 v2.2 확정(하르그 3/13 수정, 린트 오류 0)"
+    },
+    {
+      "from_state": "script_approval",
+      "to_state": "voice_timeline",
+      "transitioned_at": "2026-10-18T06:58:10.424476Z",
+      "reason": "script_approval 승인 — user"
+    },
+    {
+      "from_state": "voice_timeline",
+      "to_state": "assets",
+      "transitioned_at": "2026-10-18T07:09:01.127947Z",
+      "reason": "engine plan ok"
+    },
+    {
+      "from_state": "assets",
+      "to_state": "direction",
+      "transitioned_at": "2026-10-18T07:13:42.758300Z",
+      "reason": "engine assets, assets_final ok"
+    },
+    {
+      "from_state": "direction",
+      "to_state": "preview_qa",
+      "transitioned_at": "2026-10-18T08:19:40.640876Z",
+      "reason": "engine direction_validate, validate, camera_suggest ok"
+    },
+    {
+      "from_state": "preview_qa",
+      "to_state": "script_draft",
+      "transitioned_at": "2026-10-18T11:40:52.977538Z",
+      "reason": "rollback → script_draft — user: 사용자 어휘 지적 UF-124 — act3_8 제재 대상·비제재 대상(D-0241 §5)"
+    },
+    {
+      "from_state": "script_draft",
+      "to_state": "script_approval",
+      "transitioned_at": "2026-10-18T11:43:14.941952Z",
+      "reason": "원고 v2.3 확정(act3_8 어휘, 린트 오류 0)"
+    },
+    {
+      "from_state": "script_approval",
+      "to_state": "voice_timeline",
+      "transitioned_at": "2026-10-18T11:47:20.958476Z",
+      "reason": "script_approval 승인 — user"
+    },
+    {
+      "from_state": "voice_timeline",
+      "to_state": "assets",
+      "transitioned_at": "2026-10-18T12:20:47.287842Z",
+      "reason": "engine plan ok"
+    },
+    {
+      "from_state": "assets",
+      "to_state": "direction",
+      "transitioned_at": "2026-10-18T12:23:03.653379Z",
+      "reason": "engine assets, assets_final ok"
+    },
+    {
+      "from_state": "direction",
+      "to_state": "preview_qa",
+      "transitioned_at": "2026-10-18T14:31:53.702130Z",
+      "reason": "engine direction_validate, validate, camera_suggest ok"
+    },
+    {
+      "from_state": "preview_qa",
+      "to_state": "preview_approval",
+      "transitioned_at": "2026-10-18T14:32:02.775473Z",
+      "reason": "콘티 판 v2.1(본 지도 480p) checks hard 0 · 프리뷰 checks hard 0 — 사용자 지시 '바로 영상'(D-0243): 검토 대기 없이 감독 사전 위임"
+    },
+    {
+      "from_state": "preview_approval",
+      "to_state": "render",
+      "transitioned_at": "2026-10-18T14:33:25.394087Z",
+      "reason": "preview_approval 승인 — fable"
+    },
+    {
+      "from_state": "render",
+      "to_state": "audio_mix",
+      "transitioned_at": "2026-10-18T15:23:10.283443Z",
+      "reason": "engine render ok"
+    },
+    {
+      "from_state": "audio_mix",
+      "to_state": "deliver",
+      "transitioned_at": "2026-10-18T15:29:04.381940Z",
+      "reason": "engine mix ok"
+    },
+    {
+      "from_state": "deliver",
+      "to_state": "done",
+      "transitioned_at": "2026-10-18T15:39:32.512373Z",
+      "reason": "engine deliver ok"
+    },
+    {
+      "from_state": "done",
+      "to_state": "direction",
+      "transitioned_at": "2026-10-18T16:24:22.615592Z",
+      "reason": "reopen → direction — fable: 전편 1차 검토 — 블라디보스토크 국기 바다→육지(D-0240 §4), 프레스 사진 출처 줄 가독(덮개 위)"
+    },
+    {
+      "from_state": "direction",
+      "to_state": "preview_qa",
+      "transitioned_at": "2026-10-18T16:32:01.735102Z",
+      "reason": "engine direction_validate, validate, camera_suggest ok"
+    },
+    {
+      "from_state": "preview_qa",
+      "to_state": "preview_approval",
+      "transitioned_at": "2026-10-18T16:32:02.469334Z",
+      "reason": "콘티 판 v2.1 hard 0(음성 불변) · 수정 연출 프리뷰 checks hard 0 — D-0243 사전 위임"
+    },
+    {
+      "from_state": "preview_approval",
+      "to_state": "render",
+      "transitioned_at": "2026-10-18T16:33:28.652222Z",
+      "reason": "preview_approval 승인 — fable"
+    },
+    {
+      "from_state": "render",
+      "to_state": "audio_mix",
+      "transitioned_at": "2026-10-18T17:21:23.105820Z",
+      "reason": "engine render ok"
+    },
+    {
+      "from_state": "audio_mix",
+      "to_state": "deliver",
+      "transitioned_at": "2026-10-18T17:27:06.308936Z",
+      "reason": "engine mix ok"
+    },
+    {
+      "from_state": "deliver",
+      "to_state": "done",
+      "transitioned_at": "2026-10-18T17:37:32.418109Z",
+      "reason": "engine deliver ok"
+    },
+    {
+      "from_state": "done",
+      "to_state": "direction",
+      "transitioned_at": "2026-10-18T19:14:48.660255Z",
+      "reason": "reopen → direction — fable: 전편 v2 감독 검토 — 블라디보스토크 국기·트럼프 뱃지 위 가장자리 → 화면 안쪽 육지([badge-clipped], D-0244)"
+    },
+    {
+      "from_state": "direction",
+      "to_state": "preview_qa",
+      "transitioned_at": "2026-10-18T19:21:31.133081Z",
+      "reason": "engine direction_validate, validate, camera_suggest ok"
+    },
+    {
+      "from_state": "preview_qa",
+      "to_state": "preview_approval",
+      "transitioned_at": "2026-10-18T19:21:31.803601Z",
+      "reason": "콘티 판 v2.1 hard 0(음성 불변) · 수정 연출 프리뷰 checks hard 0 — D-0244 국기 잘림 수정, D-0243 사전 위임"
+    },
+    {
+      "from_state": "preview_approval",
+      "to_state": "render",
+      "transitioned_at": "2026-10-18T19:22:47.895408Z",
+      "reason": "preview_approval 승인 — fable"
+    },
+    {
+      "from_state": "render",
+      "to_state": "audio_mix",
+      "transitioned_at": "2026-10-18T20:08:40.470816Z",
+      "reason": "engine render ok"
+    },
+    {
+      "from_state": "audio_mix",
+      "to_state": "deliver",
+      "transitioned_at": "2026-10-18T20:14:18.145221Z",
+      "reason": "engine mix ok"
+    },
+    {
+      "from_state": "deliver",
+      "to_state": "done",
+      "transitioned_at": "2026-10-18T20:24:24.429085Z",
+      "reason": "engine deliver ok"
+    },
+    {
+      "from_state": "done",
+      "to_state": "direction",
+      "transitioned_at": "2026-10-19T00:26:19.981581Z",
+      "reason": "reopen → direction — fable: UF-126 그래프 누락 — v1 시리즈 패널(dual_line) 3종 복원(D-0245)"
+    },
+    {
+      "from_state": "direction",
+      "to_state": "preview_qa",
+      "transitioned_at": "2026-10-19T00:33:12.823430Z",
+      "reason": "engine direction_validate, validate, camera_suggest ok"
+    },
+    {
+      "from_state": "preview_qa",
+      "to_state": "preview_approval",
+      "transitioned_at": "2026-10-19T00:33:13.514089Z",
+      "reason": "콘티 판 v2.1 hard 0(음성·원고 불변) · 그래프 3종 복원 연출 프리뷰 checks hard 0 — D-0245, D-0243 사전 위임"
+    },
+    {
+      "from_state": "preview_approval",
+      "to_state": "render",
+      "transitioned_at": "2026-10-19T00:34:30.678989Z",
+      "reason": "preview_approval 승인 — fable"
+    },
+    {
+      "from_state": "render",
+      "to_state": "audio_mix",
+      "transitioned_at": "2026-10-19T01:22:05.658117Z",
+      "reason": "engine render ok"
+    },
+    {
+      "from_state": "audio_mix",
+      "to_state": "deliver",
+      "transitioned_at": "2026-10-19T01:27:54.285139Z",
+      "reason": "engine mix ok"
+    },
+    {
+      "from_state": "deliver",
+      "to_state": "done",
+      "transitioned_at": "2026-10-19T01:37:34.664405Z",
+      "reason": "engine deliver ok"
+    },
+    {
+      "from_state": "done",
+      "to_state": "direction",
+      "transitioned_at": "2026-10-19T03:48:43.001696Z",
+      "reason": "reopen → direction — fable: UF-127 발음(경유가·제트유가 재합성)·UF-128 그래프 점선 보간·UF-129 그래프 위 카드 0 — D-0246~0248"
+    },
+    {
+      "from_state": "direction",
+      "to_state": "preview_qa",
+      "transitioned_at": "2026-10-19T03:58:52.348765Z",
+      "reason": "engine direction_validate, validate, camera_suggest ok"
+    },
+    {
+      "from_state": "preview_qa",
+      "to_state": "preview_approval",
+      "transitioned_at": "2026-10-19T03:58:53.219646Z",
+      "reason": "콘티 판 재렌더(재합성 타임라인) · 프리뷰 checks hard 0 — D-0246~0248, D-0243 사전 위임"
+    },
+    {
+      "from_state": "preview_approval",
+      "to_state": "render",
+      "transitioned_at": "2026-10-19T04:00:32.355612Z",
+      "reason": "preview_approval 승인 — fable"
+    },
+    {
+      "from_state": "render",
+      "to_state": "audio_mix",
+      "transitioned_at": "2026-10-19T05:50:48.802131Z",
+      "reason": "engine render ok"
+    },
+    {
+      "from_state": "audio_mix",
+      "to_state": "deliver",
+      "transitioned_at": "2026-10-19T05:56:41.849491Z",
+      "reason": "engine mix ok"
+    },
+    {
+      "from_state": "deliver",
+      "to_state": "done",
+      "transitioned_at": "2026-10-19T06:09:17.193298Z",
+      "reason": "engine deliver ok"
     }
   ],
-  "reopens": []
+  "rollbacks": [
+    {
+      "from_state": "voice_timeline",
+      "to_state": "script_draft",
+      "by": "user",
+      "at": "2026-10-18T06:48:42.118333Z",
+      "reason": "승인 뒤 원고 사실 수정 — 하르그 3/13, D-0236",
+      "script_fingerprint_before": "703e6823e8aae282b991f080cb84185e4c04a1d2"
+    },
+    {
+      "from_state": "preview_qa",
+      "to_state": "script_draft",
+      "by": "user",
+      "at": "2026-10-18T11:40:52.977499Z",
+      "reason": "사용자 어휘 지적 UF-124 — act3_8 제재 대상·비제재 대상(D-0241 §5)",
+      "script_fingerprint_before": "50898199852355b7b27f36c732de2e9468fb8452"
+    }
+  ],
+  "reopens": [
+    {
+      "from_state": "done",
+      "to_state": "script_draft",
+      "by": "user",
+      "at": "2026-10-18T05:29:21.787153Z",
+      "reason": "v2 트랙(D-0229) — 사용자 의견 UF-104~117 반영 원고 v2.1 로 다시 제작",
+      "direction_version": 3
+    },
+    {
+      "from_state": "done",
+      "to_state": "direction",
+      "by": "fable",
+      "at": "2026-10-18T16:24:22.615544Z",
+      "reason": "전편 1차 검토 — 블라디보스토크 국기 바다→육지(D-0240 §4), 프레스 사진 출처 줄 가독(덮개 위)",
+      "direction_version": 1
+    },
+    {
+      "from_state": "done",
+      "to_state": "direction",
+      "by": "fable",
+      "at": "2026-10-18T19:14:48.660228Z",
+      "reason": "전편 v2 감독 검토 — 블라디보스토크 국기·트럼프 뱃지 위 가장자리 → 화면 안쪽 육지([badge-clipped], D-0244)",
+      "direction_version": 1
+    },
+    {
+      "from_state": "done",
+      "to_state": "direction",
+      "by": "fable",
+      "at": "2026-10-19T00:26:19.981555Z",
+      "reason": "UF-126 그래프 누락 — v1 시리즈 패널(dual_line) 3종 복원(D-0245)",
+      "direction_version": 1
+    },
+    {
+      "from_state": "done",
+      "to_state": "direction",
+      "by": "fable",
+      "at": "2026-10-19T03:48:43.001667Z",
+      "reason": "UF-127 발음(경유가·제트유가 재합성)·UF-128 그래프 점선 보간·UF-129 그래프 위 카드 0 — D-0246~0248",
+      "direction_version": 1
+    }
+  ]
 }

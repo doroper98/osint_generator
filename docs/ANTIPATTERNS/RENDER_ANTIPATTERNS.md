@@ -270,3 +270,43 @@ last_review: 2026-05-23
 - **원칙**: 검사는 **화면에 그려진 것**을 잰다. 렌더 단계의 보정(클램프·스냅)이 걸리면 실패한다 — 렌더가 조용히 고치는 것은 P6 의 조용한 폴백이다. 재발 의견을 받으면 "장치가 잰 값"과 "사용자가 본 값"이 같은지부터 실측한다.
 - **자동 조치**: `engine.camera.screen_track`·`bounds_excess`·`max_view_w`(렌더와 같은 View), hard `camera_bounds`(`rules qa_checks.camera_bounds_rel_tol`, 지도·시간축·차트 아일랜드), `camera_continuity`·`camera_speed`·스케치 SK-C1 을 화면 궤적으로 교체, 제안 `frame_points`·연출 입력 `geo_text`(w 상한 = 무대 경계)·`rules direction_grammar` 는 경계 안 키만. 시험 `tests/test_camera_bounds.py`(gulf v6.0.2 키 고정 자료 — 실측 시각 실패, 요청 궤적 통과·화면 궤적 실패, 볼록성, 제안, 스케치). 골든 hormuz dark·light 무변화(클램프 0).
 - **발견 버전**: v7.0.1 · **상태**: active
+
+## RENDER-AP-027 — 콘티 판 막지도가 사용자의 지도 판단을 왜곡함(UF-106 → UF-121 재발)
+
+- **증상(실제 현상)**: v7.4.0 diesel_road_2026 콘티 판 v2 — 사용자 "지도를 밝은 테마에서는 행정구역과 도시들과 주요 도로가 표현 되게 해놨자나. 그거 왜적용 안하지?"(UF-121, recurs_of UF-106). 전편 엔진에는 도로·강·행정선·도시 라벨이 들어갔으나, 콘티 판은 v4.9.0 D-0108 막지도(FlatMercatorStage — 육지·바다 단색 + 국경선, 라벨 없음)로 렌더됐다.
+- **원리**: 콘티 판은 "흐름만 싸게 보는 판"으로 설계됐지만, 사용자는 콘티 판으로 지도 표현까지 판단한다. 두 판의 지도가 달라 "적용된 기능이 결과물에 나타나지 않는다"(15 관성)는 인상이 생겼다. 장치(도로·강 레이어)는 전편 경로에만 걸려 있었다 — 한 트랙에만 걸린 장치는 미보호다(C12-3, UF-02 교훈).
+- **원칙**: 사용자가 판단하는 판은 전편과 같은 무대로 그린다. 콘티 판의 차이는 해상도·자리표시(사진·영상)·표식 띠뿐이다.
+- **자동 조치**: 막지도 코드 삭제(FlatMercatorStage·draw_flat_map·flat_stage_factory·rules animatic.flat_map — 15 P2). `load_project(animatic=True)` 는 본 MercatorStage + geo 자산. 국가 폴리곤 자료(NE 110m)는 검사용으로 `geo/country_polygons.py`·`rules geo.country_polygons` 에 남김. 시험 `tests/test_g8_animatic.py::AnimaticMapRenderTest`(콘티 판 무대 = MercatorStage, geo.pkl 지오메트리 읽음).
+- **발견 버전**: v7.4.0 · **상태**: active
+
+## RENDER-AP-028 — 글꼴 교체로 사용자 지적(십자형 t)을 풀려 했으나 기준은 표기였음(UF-111 → UF-122 재발)
+
+- **증상(실제 현상)**: v7.4.0 diesel_road_2026 콘티 판 v2 — 사용자 "오른쪽 상단 아일랜드에 십자가 처럼 보이는 t를 쓰지 말고 ton으로 표기 하라고 했자나."(UF-122, recurs_of UF-111). UF-111 장치는 단위 글자만 다른 글꼴(rules fonts.unit_font)로 그려 t 모양을 바꿨다 — 표기는 여전히 t.
+- **원리**: 의견 문장의 표면("십자가처럼 보인다")을 글꼴 문제로 읽었고, 사용자의 기준(화면 표기 = ton)을 놓쳤다. 장치가 "어떻게 보이나"를 고쳤고 "무엇을 쓰나"는 열어 두었다.
+- **원칙**: 사용자 의견의 장치는 문장의 요구를 그대로(표기·단어·값) 검사한다. 모양 보정은 보조일 뿐이다.
+- **자동 조치**: `rules data.units` 에 ton, `rules data.unit_ton_pattern`, 검사 `unit_ton_glyph` hard(연출 화면 문자열 — 카드·패널·마커·경로 이름표). 시험 `tests/test_v740_static_camera.py::UnitTonTest`. 자막(원고)의 t 는 UF-122 범위 밖(오른쪽 위 아일랜드 지적) — 감독 결정 D-0241 §3.
+- **발견 버전**: v7.4.0 · **상태**: active
+
+## RENDER-AP-029 — 가장자리 보정이 화면 위끝 국기를 "통과"시킴(offscreen 검사의 사각)
+
+- **증상(실제 현상)**: v7.4.0 diesel_road_2026 전편 v2 — 블라디보스토크 러시아 국기(act2_14~17)가 화면 위 가장자리에 걸려 보임(감독 D-0244). 앵커가 화면 y≈3 에 있어 edge_nudge 가 원을 34px 끌어내려 붙였다. offscreen 검사는 보정 뒤 상자만 보아 통과.
+- **원리**: edge_nudge 는 앵커가 화면 안일 때만 켜진다. 앵커가 위끝에 걸치면 카메라·해상도 반올림에 따라 보정이 꺼져 원이 반쯤 잘린다. 보정 뒤 위치만 보는 검사는 이 경계를 못 본다.
+- **원칙**: 뱃지 앵커는 화면 안쪽에 둔다. 위 가장자리 보정에 기댄 배치는 실패로 본다(좌우 보정은 골든 v3 인물 뱃지가 쓰므로 허용).
+- **자동 조치**: 검사 `badge_clipped` hard(뱃지 원 안전 영역 + 위 가장자리 보정 의존). 시험 `tests/test_v740_static_camera.py::BadgeClippedTest`. 골든 0.
+- **발견 버전**: v7.4.0 · **상태**: active
+
+## RENDER-AP-030 — 지도 무대 패널 위 카드 겹침을 잡는 검사가 없었다(island 검사는 backdrop 전용)
+
+- **증상(실제 현상)**: v7.4.0 diesel_road_2026 그래프 복원 프리뷰 — 오른쪽 상단 카드(act1_15·act4_21·act4_22)가 dual_line 패널 제목·출처 줄(걸프 "호르무즈 통과량과 다른 집계")을 가렸다. 사용자 "그래프 넣는 씬에서 오른쪽 상단 아일랜드가 그래프를 가리지 않도록 해"(UF-129). checks hard 0 으로 통과했다.
+- **원리**: island_overlap·card_island 는 backdrop 무대 아일랜드 전용, badge_over_panel 은 versus 패널 + 뱃지만 본다. 지도 무대 패널 위 카드는 어떤 검사의 대상도 아니었다.
+- **원칙**: 패널(모든 kind)이 떠 있는 동안 카드·계단식 카드·기사·인용은 패널 상자를 덮지 않는다(사진·영상·컷아웃은 골든 v3 의도 배치라 검사 밖 — 감독 결정 요청). 연출이 패널 앞에 끝내거나 뒤에 시작한다(자동 이동·숨김 없음, P8).
+- **자동 조치**: 검사 `card_over_panel` hard(rules qa_checks.card_over_panel {min_overlap_sec 0.3, panel_pad_px 4}), director 프롬프트 규칙(rules direction_grammar). 시험 `tests/test_v740_card_over_panel.py`.
+- **발견 버전**: v7.4.0 · **상태**: active
+
+## RENDER-AP-031 — 큰 숫자 글꼴에 없는 '−'(U+2212)가 네모로, 글리프 검사는 표본 시각에서만 실제 글꼴 대조 (recurs_of fed_policy_2026 v1 '−' 사고)
+
+- **증상(실제 현상)**: v7.4.0 diesel_road_2026 교체 3 — act3_11 카드 '−3.4%' 가 네모로 나왔다. 사용자 "특수문자 에러"(UF-131).
+- **원리**: `glyphs` 검사의 문자열 대조는 프로젝트 글꼴 **합집합**(IBM Plex 에 U+2212 가 있어 통과)이고, 실제 그린 글꼴 대조(glyph_miss)는 프리뷰 컷 시각에서만 돌아 이 카드 시각이 표본에 없었다. v4.4.0 의 실제 글꼴 대조 장치가 표본 의존이라 같은 부류가 재발했다.
+- **원칙**: 글꼴에 없는 글자는 같은 굵기 대체 글꼴로 그린다(원고·데이터 불변). 글리프 대조는 표본 시각과 상관없이 위험 문자열을 가진 모든 이벤트를 실제로 그려 본다.
+- **자동 조치**: rules `fonts.glyph_fallback {disp: sansbb, dispm: sansb}`(typography.fallback_runs), 프리뷰·콘티 판 `glyph_sweep`(공통 cmap 밖 글자를 가진 이벤트마다 한 프레임, 파일 저장 없음) → checks glyphs hard. 시험 `tests/test_v740_outlet_glyph.py::GlyphFallbackTest`.
+- **발견 버전**: v7.4.0 · **상태**: active

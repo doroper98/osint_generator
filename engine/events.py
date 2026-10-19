@@ -122,6 +122,17 @@ class SeriesEvent(_Event):
         return [self.series_id] + ([self.upper_id] if self.upper_id else [])
 
 
+class DeclaredLeg(BaseModel):
+    """v7.4.0 D-0229 §2.5(UF-112) — 신고 목적지와 실제 목적지가 다른 항해(굴절 항로). pts 의 bend_index 번째 점이 꺾임점(신고지 앞바다).
+    꺾임점까지 = muted 점선 + label, 뒤 = 이벤트 col 실선. 꺾임점은 연출이 pts(path)에 직접 준다 — 항적을 지어내지 않는다."""
+
+    model_config = ConfigDict(extra="forbid")
+
+    label: str = Field(min_length=1)          # 예 "신고: 니가타"
+    bend_index: int = Field(ge=1)
+    place: Optional[str | LonLat] = None      # 신고지(지명 사전 이름 또는 lon/lat) — 기록용
+
+
 class RouteEvent(_Event):
     type: Literal["route"]
     pts: list[LonLat] = Field(min_length=2)
@@ -131,6 +142,13 @@ class RouteEvent(_Event):
     dashed: bool = False
     glow_only: bool = False
     label: str = ""
+    declared: Optional[DeclaredLeg] = None   # v7.4.0 D-0229 §2.5(UF-112)
+
+    @model_validator(mode="after")
+    def _bend(self) -> "RouteEvent":
+        if self.declared is not None and not (1 <= self.declared.bend_index <= len(self.pts) - 2):
+            raise ValueError(f"route declared.bend_index {self.declared.bend_index} 는 안쪽 점(1~{len(self.pts) - 2}) — 꺾임점은 출발·도착 사이")
+        return self
 
 
 class TankerLoopEvent(_Event):
@@ -173,7 +191,10 @@ class FlightInset(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
     mid: str = Field(min_length=1)
-    side: Literal["right", "left", "up", "down"] = "up"
+    side: Literal["right", "left", "up", "down", "up_left", "up_right", "down_left", "down_right"] = "up"   # 대각 = v7.4.0(카드·마커 피하기)
+    hold_until: Optional[float] = None   # v7.4.0 D-0229 §2.7(UF-107) — 인셋을 이 시각(앵커)까지 유지. 이벤트 t1 ≥ hold_until
+    place: Optional[str] = None          # v7.4.0 — 같은 장소를 말하는 문장 동안 유지(rules flight.inset.hold_same_place). 자막에 나오는 이름 그대로
+    fallback_reason: Optional[str] = None   # v7.4.0 D-0240 후속 — 기본(rules media_beats.inset_preferred_license)이 아닌 타일을 쓰는 사유
 
 
 class FlightEvent(_Event):
@@ -194,6 +215,8 @@ class FlightEvent(_Event):
     @model_validator(mode="after")
     def _long_enough(self) -> "FlightEvent":
         F = load_rules().flight  # noqa: N806
+        if self.inset is not None and self.inset.hold_until is not None and self.inset.hold_until > self.t1:
+            raise ValueError(f"[flight-inset-hold] inset.hold_until {self.inset.hold_until:.2f} > 이벤트 t1 {self.t1:.2f} — end 를 hold_until 뒤로")
         need = F.dur_sec + F.impact_sec + (F.inset.hold_sec if self.inset else 0.0)
         if self.t1 - self.t0 < need:
             raise ValueError(f"[flight-too-short] t1 - t0 = {self.t1 - self.t0:.2f}초 < 비행 {F.dur_sec} + 착탄 {F.impact_sec}"
@@ -644,13 +667,22 @@ class PanelDots(_Chart):
 
     kind: Literal["dots"]
     highlight: int = Field(ge=1, le=100)
-    big: str                       # 큰 숫자(예: "1")
+    # v7.4.0 D-0229 §2.6(UF-113 "몇 척 중 몇 척") — total = 그릴 점 수(None = 격자 100칸). panels.charts.dots.few.max_total 이하면 한 줄 큰 점.
+    total: Optional[int] = Field(default=None, ge=1, le=100)
+    accent: ColorName = "ru"       # 강조점·큰 숫자 색(v7.4.0 — 기본 ru = 옛 출력)
+    big: str                       # 큰 숫자(예: "1", 분수 "3 / 7")
     unit: str = ""                 # 큰 숫자 옆 단위(예: "%")
     caption: str
     detail: str = ""
     note_label: str = ""
     note_value: str = ""
     note_caption: str = ""
+
+    @model_validator(mode="after")
+    def _hl(self) -> "PanelDots":
+        if self.total is not None and self.highlight > self.total:
+            raise ValueError(f"dots highlight {self.highlight} > total {self.total}")
+        return self
 
 
 class GanttTask(_Strict):
@@ -677,7 +709,7 @@ class PanelGantt(_Chart):
 class DualSeries(_Strict):
     label: str
     col: ColorName
-    values: list[Optional[float]] = Field(min_length=2)   # v7.3.0 D232 U4 — null = 그 달 값 없음(선을 끊는다, 보간 금지)
+    values: list[Optional[float]] = Field(min_length=2)   # v7.3.0 D232 U4 — null = 그 달 값 없음. v7.4.0 D-0247 — 렌더는 실측 사이 점선 보간(rules dual_line.gap_policy, 값 라벨 없음)
     decimals: int = Field(default=2, ge=0, le=3)
     record: Optional[str] = None   # v7.3.0 — 데이터 레코드 series_id(data/series). 있으면 load_project 가 값·빈 달을 레코드와 대조(20 §5.1 데이터에서 직접)
     open_idx: list[int] = Field(default_factory=list)   # v7.3.0 — 상·하한 표기 값("4 미만") 자리 = 빈 점(레코드 cited.open 과 대조)

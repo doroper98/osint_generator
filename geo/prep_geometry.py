@@ -3,6 +3,7 @@
     python -m geo.prep_geometry --bbox 20,-20,150,60 --admin1 KR,IR --ne-dir data/geo/ne --out assets/geo.pkl [--crimea-to-ua]
 
 출력 geo.pkl: coarse(tol 0.03)·fine(0.005)·meta·admin1(0.006)·places — 02 §2.5 계약.
+v7.4.0(D-0229 §2.1-2, UF-106): roads·rivers(Natural Earth 10m, 공개 도메인) — {coarse, fine} × 등급별 선 목록.
 """
 
 from __future__ import annotations
@@ -23,6 +24,10 @@ FINE_TOL = 0.005
 ADMIN1_TOL = 0.006
 CRIMEA_NAMES = ("Autonomous Republic of Crimea", "Sevastopol")  # 04 §3.2, 유엔 총회 결의 68/262
 CRIMEA_GAP = 0.001
+# v7.4.0 D-0229 §2.1-2 — NE ne_10m_roads 의 type 열 → 도로 등급(Unknown·Ferry·Track 등은 넣지 않는다). 등급별 스타일 = rules geo.themes.<테마>.map.roads
+ROAD_CLASS = {"Major Highway": "motorway", "Secondary Highway": "trunk", "Road": "primary"}
+ROAD_CLASSES = ("motorway", "trunk", "primary")
+RIVER_CLASSES = ("major", "minor")
 
 
 def polys(g: BaseGeometry | None) -> list:
@@ -147,7 +152,57 @@ def load_places(ne_dir: Path, bb: BaseGeometry) -> list[dict]:
             continue
         out.append(dict(ko=ko, lon=x, lat=y, rank=p.get("SCALERANK", p.get("scalerank", 9)),
                         cap=("capital" in (p.get("FEATURECLA") or "").lower()) or p.get("ADM0CAP") == 1,
+                        cap0=(p.get("FEATURECLA") or "").lower().startswith("admin-0 capital") or p.get("ADM0CAP") == 1,   # v7.4.0 — 나라 수도만(labels.capital_always)
                         iso=p.get("ADM0_A3") or p.get("SOV_A3"), pop=p.get("POP_MAX") or 0))
+    return out
+
+
+def lines(g: BaseGeometry, tol: float) -> list[np.ndarray]:
+    """열린 선(LineString·MultiLineString, 교차 결과의 GeometryCollection 포함) → 점 배열 목록(2점 미만 버림)."""
+    out: list[np.ndarray] = []
+    if g is None or g.is_empty:
+        return out
+    if g.geom_type == "LineString":
+        a = np.asarray(g.simplify(tol).coords, np.float32)[:, :2]
+        return [a] if len(a) >= 2 else []
+    for x in getattr(g, "geoms", []):
+        out += lines(x, tol)
+    return out
+
+
+def load_roads(ne_dir: Path, bb: BaseGeometry) -> dict:
+    """도로 — {coarse|fine: {motorway|trunk|primary: [선]}}. 열 = NE `type`(ROAD_CLASS 매핑)."""
+    rd = _read(ne_dir, "ne_10m_roads")
+    out = {lod: {c: [] for c in ROAD_CLASSES} for lod in ("coarse", "fine")}
+    for f in rd["features"]:
+        c = ROAD_CLASS.get(f["properties"].get("type"))
+        if c is None:
+            continue
+        g = shape(f["geometry"])
+        if not g.intersects(bb):
+            continue
+        g = g.intersection(bb)
+        out["coarse"][c] += lines(g, COARSE_TOL)
+        out["fine"][c] += lines(g, FINE_TOL)
+    return out
+
+
+def load_rivers(ne_dir: Path, bb: BaseGeometry, major_scalerank_max: int) -> dict:
+    """강 — {coarse|fine: {major|minor: [선]}, scalerank: {major|minor: [정수]}}. 큰 강 = NE scalerank ≤ major_scalerank_max(rules)."""
+    rv = _read(ne_dir, "ne_10m_rivers_lake_centerlines")
+    out: dict = {lod: {c: [] for c in RIVER_CLASSES} for lod in ("coarse", "fine")}
+    out["scalerank"] = {c: [] for c in RIVER_CLASSES}
+    for f in rv["features"]:
+        g = shape(f["geometry"])
+        if not g.intersects(bb):
+            continue
+        sr = int(f["properties"].get("scalerank") or 9)
+        c = "major" if sr <= major_scalerank_max else "minor"
+        g = g.intersection(bb)
+        co, fi = lines(g, COARSE_TOL), lines(g, FINE_TOL)
+        out["coarse"][c] += co
+        out["fine"][c] += fi
+        out["scalerank"][c] += [sr] * len(fi)
     return out
 
 
@@ -163,8 +218,15 @@ def build_geo(ne_dir: Path, bbox: tuple[float, float, float, float], admin1: set
                meta=META,
                admin1={k: [dict(name=a["name"], lx=a["lx"], ly=a["ly"], rings=rings(a["g"], ADMIN1_TOL)) for a in v]
                        for k, v in ADM.items()},
-               places=load_places(ne_dir, bb))
+               places=load_places(ne_dir, bb),
+               roads=load_roads(ne_dir, bb), rivers=load_rivers(ne_dir, bb, river_major_scalerank_max()))
     return geo, G
+
+
+def river_major_scalerank_max() -> int:
+    from rules import load_rules  # noqa: PLC0415
+
+    return load_rules().geo.river_major_scalerank_max
 
 
 def main(argv: list[str] | None = None) -> int:

@@ -13,7 +13,7 @@ from pathlib import Path
 
 REPO = Path(__file__).resolve().parent.parent
 MEASURED_SLOW = [   # (모듈, 클래스) — 실측 25초 이상
-    ("tests.test_g8_animatic", "NoAssetRenderTest"),
+    ("tests.test_g8_animatic", "AnimaticMapRenderTest"),   # v7.4.0 D-0241 — 막지도 NoAssetRenderTest 를 본 지도 렌더로 교체
     ("tests.test_gates_pipeline", "CliTest"),
     ("tests.test_gates_pipeline", "CommandCenterKeysTest"),
     ("tests.test_gates_pipeline", "GateTest"),

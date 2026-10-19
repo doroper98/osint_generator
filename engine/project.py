@@ -8,6 +8,8 @@
 
 from __future__ import annotations
 
+import re
+
 import json
 from dataclasses import dataclass, field
 from pathlib import Path
@@ -138,7 +140,11 @@ def preflight(R: RenderCtx, events: list[dict], files: bool = True) -> list[str]
                     errs.append(str(ex))
             if e["type"] == "flight" and e.get("inset"):   # v7.3.0 D-0206 — 위성 인셋 권리(콘티 판도 레지스트리는 본다)
                 try:
-                    validate_media({"type": "inset", "mid": e["inset"]["mid"], "t0": e["t0"]}, A.media_assets)
+                    ia = validate_media({"type": "inset", "mid": e["inset"]["mid"], "t0": e["t0"]}, A.media_assets)
+                    pref = load_rules().media_beats.inset_preferred_license
+                    if pref and not ia.license.startswith(pref) and not e["inset"].get("fallback_reason"):   # v7.4.0 D-0240 후속
+                        errs.append(f"[inset-fallback-reason] 인셋 {e['inset']['mid']} 라이선스 {ia.license!r} — 기본 타일({pref})이 아니면 "
+                                    "flight.inset.fallback_reason 에 사유(rules media_beats.inset_preferred_license)")
                 except RightsError as ex:
                     errs.append(str(ex))
             if e["type"] in ("photo", "clip", "cutout", "article"):
@@ -151,9 +157,12 @@ def preflight(R: RenderCtx, events: list[dict], files: bool = True) -> list[str]
                     errs.append(str(ex))
             continue
         if e["type"] == "panel" and e.get("kind") == "dual_line":   # v7.3.0 D232 U4 — 레코드 대조(보도 인용값 포함)
-            from engine.panels.dual_line import record_errors  # noqa: PLC0415
+            from engine.panels.dual_line import gap_subtitle, interpolated_idx, record_errors  # noqa: PLC0415
 
             errs += record_errors(e)
+            e["interpolated_idx"] = interpolated_idx(e)   # v7.4.0 D-0247 — provenance·정직성 검사
+            if (gs := gap_subtitle(e)) != e.get("subtitle"):
+                e["subtitle_render"] = gs
         if e["type"] == "quote":   # v5.3.1 인용(시안) — 글자 넘침은 렌더 전 오류(P6)
             from engine.quote import QuoteError, quote_lines  # noqa: PLC0415
 
@@ -290,6 +299,40 @@ def cited_sources(proj: Path, events: list[dict]) -> list:
     return [s for s in sources.sources if s.id in ids]
 
 
+def press_by_scene(proj: Path) -> list[tuple[str, list[str]]]:
+    """v7.4.0 D-0233(UF-117) — 엔딩 크레딧 '보도 출처'(credits auto: press): 원고 장면 순서로 (장면 이름, [매체·기관]).
+    장면 문장 claim 의 소스 → 기사 매체·자료 기관·게시물 계정, 장면 안 중복 제거(첫 등장 순). 장면 이름 = 콜드 오픈·N막·마무리(kind)."""
+    import yaml  # noqa: PLC0415
+
+    from schemas.source_models import ClaimsFile, SourcesFile  # noqa: PLC0415
+
+    sp, cp, scp = proj / "intake" / "sources.json", proj / "intake" / "claims.json", proj / "script.yaml"
+    if not (sp.exists() and cp.exists() and scp.exists()):
+        return []
+    src = SourcesFile.model_validate_json(sp.read_text(encoding="utf-8")).by_id()
+    claims = ClaimsFile.model_validate_json(cp.read_text(encoding="utf-8")).by_id()
+
+    def name(s) -> str:  # noqa: ANN001 — 괄호 꼬리('(NY1 전재)')는 뗀다
+        n = s.publisher if s.type == "article" else s.issuer if s.type == "document" else s.account_name
+        return re.sub(r"\s*\([^)]*\)\s*$", "", n).strip()
+
+    out, n_act = [], 0
+    for sc in yaml.safe_load(scp.read_text(encoding="utf-8")).get("scenes", []):
+        kind = sc.get("kind", "act")
+        n_act += kind == "act"
+        label = {"cold": "콜드 오픈", "ending": "마무리"}.get(kind, f"{n_act}막")
+        names: list[str] = []
+        for sent in sc.get("sentences", []):
+            for cid in sent.get("sources") or []:
+                for sid in (claims[cid].source_ids if cid in claims else []):
+                    nm = name(src[sid]) if sid in src else None
+                    if not nm or any(nm.startswith(x) for x in names):   # 'Carnegie Endowment for …' ⊃ 'Carnegie Endowment'
+                        continue
+                    names = [x for x in names if not x.startswith(nm)] + [nm]
+        out.append((label, names))
+    return out
+
+
 def _attach_posts(proj: Path, R: RenderCtx, events: list[dict]) -> None:  # noqa: N803
     posts = [e for e in events if e["type"] == "post"]
     if not posts:
@@ -339,8 +382,8 @@ def load_project(proj: Path, direction: Optional[Direction] = None, out: Optiona
                  animatic: bool = False) -> Project:
     """렌더 입력 한 벌. direction 을 주면 direction.yaml 대신 그것으로(연출 워커의 저장 전 점검 — 렌더와 같은 경로, 15 P8).
     out = 출력 프로파일(v3.6.0, None = config engine.output.default). 설계 좌표·연출·검사는 프로파일과 무관하다.
-    animatic = 콘티 판(v4.9.0 back_and_forth D-0108) — **플래그 분기는 여기 한 곳**: 프로파일 rules animatic.profile, 지도 = 막지도
-    (FlatMercatorStage, 지형 자산 없음), 레이어 = ANIMATIC_LAYERS(자리표시), 이미지·영상 파일·초상 실측·권리 점검(check_credits) 건너뜀."""
+    animatic = 콘티 판(v4.9.0 back_and_forth D-0108) — **플래그 분기는 여기 한 곳**: 프로파일 rules animatic.profile, 지도 = 전편과 같은
+    본 MercatorStage(v7.4.0 D-0241 §2·UF-121 — 막지도 삭제), 레이어 = ANIMATIC_LAYERS(자리표시), 이미지·영상 파일·초상 실측·권리 점검(check_credits) 건너뜀."""
     proj = proj.resolve()
     plan = load_plan(proj)
     tb = Timebase(plan)
@@ -366,7 +409,7 @@ def load_project(proj: Path, direction: Optional[Direction] = None, out: Optiona
         err = series_theme_error(mt, load_series_registry())
         if err:
             raise ProjectError(err)
-    assets = Assets(proj, load_labels(proj / "labels.yaml"), None if out.k == 1 else out.name, geo=uses_map and not animatic,
+    assets = Assets(proj, load_labels(proj / "labels.yaml"), None if out.k == 1 else out.name, geo=uses_map,
                     theme=theme)
     R = RenderCtx(assets=assets, tb=tb, credits=load_credits(proj / "credits.yaml"), out=out)  # noqa: N806
     from engine.source_note import source_notes  # noqa: PLC0415
@@ -376,12 +419,11 @@ def load_project(proj: Path, direction: Optional[Direction] = None, out: Optiona
     R.cache["source_notes"] = source_notes(proj)   # v5.6.0 — 참조 출처 화면 표기(sid → 링크 줄, rules source_note)
     modes = {}
     if animatic:
-        from engine.layers.animatic import _badge_at, flat_stage_factory  # noqa: PLC0415
+        from engine.layers.animatic import _badge_at  # noqa: PLC0415
 
         R.cache["badge_placeholder"] = _badge_at   # v5.6.0 PIPELINE-AP-018 — 패널은 실제로 그리고 그 안 뱃지만 자리표시
 
         R.cache["missing_license"] = AN.missing_license   # 권리 레지스트리 없는 환경의 엔딩 카드(fullcards.project_credit_sections)
-        modes = {"mercator": flat_stage_factory(proj, out)}
     try:
         stages = StageSet(assets, out, doc.stage_configs(), modes)   # v4.1.0 D-0076·D-0077 — 무대는 이름마다 한 번만. 설정 v4.3.0
         R.stage = stages.get(doc.main_stage())
@@ -395,6 +437,7 @@ def load_project(proj: Path, direction: Optional[Direction] = None, out: Optiona
     R.cache["stage"] = {"name": R.stage.name, "declared": doc.stage is not None,          # provenance stage(15 P5)
                         "shots_declared": sum(1 for s in doc.shots if s.stage is not None), "instances": dict(stages.created),
                         "configs": {k: json.loads(json.dumps(v, default=str)) for k, v in doc.stage_configs().items()}}   # v4.3.0
+    R.cache["direction_drops"] = [d.model_dump() for d in doc.drops]   # v7.4.0 D-0245 — [series-unused]·[panel-dropped] 예외
     R.cache["genre"] = {"name": doc.genre_name(), "declared": doc.genre is not None,    # v4.2.0 D-0081 작업 3 — provenance genre(15 P5)
                         "status": doc.genre_profile().status,                          # v4.3.0 D-0084 작업 6 — proposed 프로필 사용 기록(P6)
                         "elements_used": used_elements(doc.events)}                   # checks genre_elements 입력(연출이 쓴 요소)
@@ -473,6 +516,7 @@ def load_project(proj: Path, direction: Optional[Direction] = None, out: Optiona
     R.cache["series_records"] = [load_series(s) for s in series_ids]   # v4.3.0 — 엔딩 카드 auto: series(레코드 출처·라이선스·기준 시점)
     R.cache["sentence_labels"] = sentence_labels(proj)       # v4.5.0 D85 — 엔딩 카드 마지막 줄 건수만(자막 접두 폐지, C9)
     R.cache["cited_sources"] = cited_sources(proj, events)   # v3.2.0 18 §6 — 엔딩 카드 '보도 · 자료'·설명란 원문 링크
+    R.cache["press_by_scene"] = press_by_scene(proj)         # v7.4.0 D-0233 — 엔딩 카드 '보도 출처'(credits auto: press)
     if not animatic:   # 콘티 판은 권리 점검을 건너뛴다(D-0108 — provenance animatic.checks_skipped 'rights'). deliver 는 콘티 판을 거부한다
         check_credits(R.credits, A.rights, A.media, req,          # D-0029 작업 7 — 누락·미확인·미표기 자산은 RightsError
                       cited_ids={s.id for s in R.cache["cited_sources"]}, series_ids=set(series_ids))

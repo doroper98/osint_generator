@@ -35,7 +35,8 @@ class DemoInputsTest(unittest.TestCase):
     def test_script_numbers_match_records(self) -> None:
         sc = Script.model_validate(yaml.safe_load((PROJ / "script.yaml").read_text(encoding="utf-8")))
         # v5.5.0 script_grammar — 이전 데모 원고는 연결어 부족(flow-sparse) 하나만 걸린다(숫자·출처 규칙은 그대로 통과)
-        self.assertEqual([i.kind for i in lint(sc).errors], ["flow-sparse"])
+        # v7.4.0 D-0230 §3 — transition-bridge·act-frame 은 옛 원고 면제(lint_waivers.yaml rule_since v7.4.0)
+        self.assertEqual([i.kind for i in lint(sc).errors if i.kind not in ("transition-bridge", "act-frame")], ["flow-sparse"])
         self.assertTrue(8 <= sum(len(s.sentences) for s in sc.scenes) <= 10)
         self.assertTrue(all(src.startswith("series:") for s in sc.scenes for x in s.sentences for src in x.sources))
 
@@ -55,7 +56,7 @@ class DemoPreviewTest(unittest.TestCase):
 
         self.assertEqual(main([str(PROJ), "--preview", "auto"]), 0)
         chk = json.loads((PROJ / "prev" / "checks.json").read_text(encoding="utf-8"))
-        self.assertEqual((chk["hard"], len(chk["items"])), (0, 64))   # v7.1.0 camera_bounds. v6.0.2 camera_speed·title_backdrop. v5.22.7 label_jump. v5.22.4 camera_per_sentence. v5.22.3 endcard_black. v5.22.2 bgm_decision. v5.22.0 +2 warning. v5.21.14 story geo 4. v5.21.13 quote_in_script(hard). v5.21.12 article_backdrop(hard). v5.21.11 route_label 2(hard). v5.21.10 card_exposure(hard). v5.21.9 camera_continuity(hard).   # v5.18.0 map_contrast·map_contrast_shape(지도 무대 아님 = 0건)   # v5.6.0 flag_territory·badge_over_panel·opening_establish(hard)·weapon_photo(warning), panel_overflow(hard)·route_frame(hard)·timeline_span(hard)·label_collision(hard), v5.3.1 subtitle_overlap, v5.3.0 D-0139 cascade(hard)·cascade_label_hidden(warning), v5.2.0 D-0133 island_label_clip(hard)·island_label_overlap(warning), D-0129 backdrop_main_missing(hard)·card_island(warning), v5.1.0 D-0123·D-0126 backdrop 2·island_overlap·stage_choice, D-0121 §A timeline_rescale, v4.11.0 D-0118 static_window, v4.10.0 D-0116 geo_mismatch, v4.7.0 D-0106 endcard_roll(warning), D-0107 boundary_as_route·geo_unsourced 추가
+        self.assertEqual((chk["hard"], len(chk["items"])), (0, 84))   # v7.4.0 새 검사 20(D-0229~D-0248 — 영상 기준 개정, 데모 hard 0 유지). v7.1.0 camera_bounds. v6.0.2 camera_speed·title_backdrop. v5.22.7 label_jump. v5.22.4 camera_per_sentence. v5.22.3 endcard_black. v5.22.2 bgm_decision. v5.22.0 +2 warning. v5.21.14 story geo 4. v5.21.13 quote_in_script(hard). v5.21.12 article_backdrop(hard). v5.21.11 route_label 2(hard). v5.21.10 card_exposure(hard). v5.21.9 camera_continuity(hard).   # v5.18.0 map_contrast·map_contrast_shape(지도 무대 아님 = 0건)   # v5.6.0 flag_territory·badge_over_panel·opening_establish(hard)·weapon_photo(warning), panel_overflow(hard)·route_frame(hard)·timeline_span(hard)·label_collision(hard), v5.3.1 subtitle_overlap, v5.3.0 D-0139 cascade(hard)·cascade_label_hidden(warning), v5.2.0 D-0133 island_label_clip(hard)·island_label_overlap(warning), D-0129 backdrop_main_missing(hard)·card_island(warning), v5.1.0 D-0123·D-0126 backdrop 2·island_overlap·stage_choice, D-0121 §A timeline_rescale, v4.11.0 D-0118 static_window, v4.10.0 D-0116 geo_mismatch, v4.7.0 D-0106 endcard_roll(warning), D-0107 boundary_as_route·geo_unsourced 추가
         prov = json.loads((PROJ / "prev" / "provenance.json").read_text(encoding="utf-8"))
         self.assertTrue(prov["voice"].startswith("supertonic"), prov["voice"])   # v5.23.0 D-0213 — 표준 음성(C0.2), edge 음성 plan 금지
         self.assertEqual(prov["stage"]["name"], "timeline")

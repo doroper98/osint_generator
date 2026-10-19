@@ -1,6 +1,6 @@
 <!--
 tier: 2
-last_synced_with: v7.3.0
+last_synced_with: v7.4.0
 ssot_for: [system-architecture, component-boundaries]
 depends_on: [03_AGENT_ARCHITECTURE.md, 05_DATA_SCHEMA_SPEC.md, ADDENDUM_01_ORCHESTRATOR_COMMAND_CENTER_LAYOUT.md]
 last_review: 2026-09-29
@@ -92,7 +92,7 @@ created → intake → source_verify → research → script_draft
   → render → audio_mix → deliver → done
 ```
 
-역전이(반려, 사유 필수): script_approval → script_draft / preview_approval → direction · script_draft · assets.
+역전이(반려, 사유 필수): script_approval → script_draft / preview_approval → direction · script_draft · assets. 승인 뒤 원고 사실 수정(`rollback`, 사유 필수, v7.4.0 D-0237): voice_timeline · assets · direction · preview_qa → script_draft → 게이트 ① 재승인.
 게이트에서 나가는 전이는 `approve` / `reject` 로만 한다. 엔진 상태(voice_timeline~deliver)는 `advance` 가
 `orchestrator/engine_service.py`(엔진 CLI 어댑터)로 단계를 돌리고, 실패·drops 면 그 상태에 머문다.
 전이 규칙은 `orchestrator/state_machine.py`, 진행은 `orchestrator/pipeline.py` 가 강제한다. 임의 점프 금지.

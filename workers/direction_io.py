@@ -18,6 +18,7 @@ from pydantic import BaseModel
 from engine.direction import Direction, DirectionError
 from engine.entities import load_entities
 from engine.registry import REGISTRY, RegistryError
+from rules import load_rules
 from script.schema import Plan
 
 if TYPE_CHECKING:
@@ -136,6 +137,8 @@ def entities_text(pdir: Path) -> str:
     return "\n".join(rows) + f"\n- 국기(flag) 코드: {', '.join(flags) or '(프로젝트 국기 없음)'}"
 
 
+_INSET_PREF = load_rules().media_beats.inset_preferred_license
+
 def media_text(pdir: Path | None = None) -> str:
     """미디어 레지스트리 + (v3.2.0) 이 프로젝트에서 post 카드로 쓸 수 있는 X 게시물(사용자 확인·검증된 것만, 18 §5)."""
     from engine.media_registry import load_media_registry  # noqa: PLC0415
@@ -156,6 +159,8 @@ def media_text(pdir: Path | None = None) -> str:
     rows = [f"- {mid}: {a.kind} · {a.caption} · {a.file_note}" + (f" · {'·'.join(a.depicts)}" if own and a.kind != "article" else "")
             + (f" · 헤드라인 「{a.headline}」" if a.kind == "article" and a.headline else "")   # v5.6.0 — 어떤 기사인지 보고 고른다
             + (f" · 구간 {a.segment}" if a.segment else "")
+            + (" · 대체 타일 — 기본(Esri) 인셋을 먼저, 쓰면 inset.fallback_reason 필수"   # v7.4.0 D-0240 후속
+               if a.kind == "inset" and _INSET_PREF and not a.license.startswith(_INSET_PREF) else "")
             for mid, a in reg.items()]
     sp = pdir / "intake" / "sources.json" if pdir is not None else None
     if sp is not None and sp.exists():

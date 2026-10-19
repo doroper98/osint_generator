@@ -213,6 +213,19 @@ class ReopenRecord(BaseModel):
     direction_version: Optional[int] = None   # 되돌리는 시점의 최신 연출 판 번호(direction.v{N}.yaml 의 N, 없으면 None)
 
 
+class RollbackRecord(BaseModel):
+    """게이트 ① 승인 뒤 원고 사실 수정 되돌림 기록(v7.4.0 back_and_forth D-0237, D246). append-only."""
+
+    model_config = ConfigDict(extra="forbid", use_enum_values=True)
+
+    from_state: ProjectState
+    to_state: ProjectState
+    by: str = Field(min_length=1)
+    at: datetime = Field(default_factory=utc_now)
+    reason: str = Field(min_length=1)
+    script_fingerprint_before: Optional[str] = None   # 되돌리는 시점의 원고 지문(script_sha1) — 없으면 원고 파일 없음
+
+
 class ProjectManifest(VersionedModel):
     schema_version: Literal[2] = MANIFEST_SCHEMA_VERSION  # type: ignore[assignment]
     project_id: str
@@ -233,6 +246,7 @@ class ProjectManifest(VersionedModel):
     stage_records: list[StageRecord] = Field(default_factory=list)     # v3.0.0 — engine_service 실행 기록
     final_outputs: dict[str, str] = Field(default_factory=dict)
     state_history: list[StateTransition] = Field(default_factory=list)
+    rollbacks: list[RollbackRecord] = Field(default_factory=list)      # v7.4.0 D-0237 — 승인 뒤 원고 수정 되돌림(선택 필드, schema_version 2 유지)
     reopens: list[ReopenRecord] = Field(default_factory=list)          # v4.7.0 D-0104 D4 — 렌더 이후 연출 되돌림(선택 필드, schema_version 2 유지)
 
 

@@ -1,6 +1,6 @@
 <!--
 tier: 3
-last_synced_with: v7.3.0
+last_synced_with: v7.4.0
 ssot_for: [release-notes]
 depends_on: [README.md, GOAL.md]
 last_review: 2026-09-28
@@ -63,6 +63,40 @@ released 항목은 **append-only**입니다.
 | v5.0.0 | 87912d2 | G11 GOAL G4-21·claim_kind fact/statement | pass(D-0125) |
 | v5.1.0 | 3619f2c | G12 backdrop 무대·아일랜드·축 스케일·기사 프레스 v2·발음 사전·버전 도장 | pass(D-0127) — 후속 D-0128 완료 |
 | v5.2.0 | d4703d9 | G13 배경 가독·주 아일랜드 상시·보도 인용 = 기사·card-island·라벨 반전 | pass(D-0134) — 후속 겹침 카드 시안(D-0135~D-0138) |
+
+---
+
+## [v7.4.0] — 2026-10-18 — diesel_road_2026 v2: 지도 도로·강·수도 상시, 시점 전환 장치, 컷어웨이 급전환·단위 글꼴 검사, 굴절 항로, 점 패널, 원고 어휘·템포 린트 (UF-104~115, D-0229·D-0230)
+
+MINOR(새 레이어·이벤트 필드·검사·롤백 명령). diesel_road_2026 v2 전편 합격(D251)·교체(D-0244, final.mp4 md5 36289c32). main 병합 D-0244 §3.
+
+### Added
+- v7.4.0(D-0229): diesel_road_2026 v2 트랙 — 지도 도로·강 레이어, 수도 상시 표기, 시점 전환 장치, 컷어웨이 급전환 검사, 단위 글꼴, 굴절 항로, 원고 어휘·템포 린트(UF-104~115).
+- v7.4.0(D-0234): credits 모드 [press-attribution] 이 당사자 발언·논쟁 문장의 매체 접두("X에 따르면 Y는 … 말했다", "X는 Y가 … 말했다고 전했다", "X가 인용한 Y 자료에 따르면")도 잡는다(rules script_schema.press_relay_verbs). 귀속 표지에 "자료로는"·"집계로는" 추가.
+- v7.4.0(D-0237): `orchestrator rollback --to script_draft --reason` — 게이트 ① 승인 뒤 렌더 전 단계(voice_timeline·assets·direction·preview_qa)에서 원고 사실 수정으로 되돌림. manifest `rollbacks[]`(원고 지문 포함), 게이트 집합 불변. 시험 tests/test_v740_rollback_script_draft.py.
+- v7.4.0(D-0238, UF-118): 검사 `media_unused`(hard) — 프로젝트가 등재한 권리 통과 사진({pid}_ 접두 kind photo)이 연출 어디에도 없으면 실패, media_notes.yaml `drop`(mid·사유)만 예외. 골든 e2e 검사 72항목. UF-117·118 장치 기입.
+- v7.4.0(D-0229 §4.3): rules data.units 에 "건"·"척"(점 패널 "몇 척 중 몇 척"). 미디어 레지스트리 diesel_road_2026 사진 3장 추가(하바롭스크 정유소 CC BY 3.0·라스라판 LNG CC BY 2.0·블라디보스토크 항 PD, 모두 자료사진, D-0239 UF-119).
+- v7.4.0(D-0240): 위성 인셋 안전 영역(rules flight.inset.safe_margin_px·side_order — 고른 자리가 날짜 배지 위·자막 띠 아래로 잘리면 다음 자리) + 검사 `inset_clipped`(hard). 기사 카드 공식 사진(press) 자료사진 출처 줄(rules article_card.press_photo_credit) + 검사 `press_credit`(hard). 국기 뱃지는 카드·인용·마커에 붙을 때만(rules layout_480p.badge.flag_requires_anchor) + 검사 `badge_orphan`(warning). 골든 e2e 75항목.
+- v7.4.0(D-0241·D-0242, UF-120~125): 숏 mode `drift`(등속 궤도 훑기) + 검사 `static_camera`(20초 정지·[drift-too-fast]) hard, `route_speed`(grow ≤ 45px/초) hard(골든 story_geo_exempt 면제), `sea_only_frame`(육지 비율 ≥ 0.35, 숏 allow_sea 사유 예외) hard, `unit_ton_glyph`(화면 무게 단위 ton) hard. 콘티 판 = 본 지도(막지도 FlatMercatorStage 삭제, RENDER-AP-027), 국가 폴리곤은 geo/country_polygons.py. banned_phrases 제도 주어 의인화 동사(UF-124). 골든 e2e 79항목.
+- v7.4.0(D-0240 후속): 위성 인셋 기본 = rules media_beats.inset_preferred_license(Esri), 그 밖 타일은 flight.inset.fallback_reason 필수([inset-fallback-reason] load_project 오류), 연출 입력 목록에 "대체 타일" 표시. camera_suggest 가 drift 숏을 받는다.
+- v7.4.0(D-0244): 검사 `badge_clipped`(hard) — 지도 뱃지 원이 안전 영역(인셋 여백·자막 띠 위·날짜 배지 상자 밖)을 벗어나거나 위 가장자리 보정(edge_nudge)에 기대 붙으면 실패. 골든 0. diesel v2 블라디보스토크 국기(133.6, 42.9)·트럼프 뱃지(48.2, 30.3) 앵커를 화면 안쪽 육지로 옮김.
+- v7.4.0(D-0231 §4): 렌더 컨테이너 환경 실측 표 `docs/handoff/reports/phaseV740/environment.md`.
+- v7.4.0(C12): UF-116~125 장치 기입 — 원장 125개 미보호 0.
+
+- v7.4.0(D-0245·UF-126): 검사 `series_unused`·`panel_dropped` hard — order.yaml data.series 구조 필드·이전 승인 연출(track_v*)의 데이터 패널 누락, Direction.drops(record·사유)만 예외. diesel v1 시리즈 패널 3종 복원.
+- v7.4.0(D-0246·UF-127): 발음 사전 rules tts_rules.short_key_boundary(한글 짧은 키 낱말 경계)·tensification_traps(…유+가 예외 생성), 린트 tts-tensification. TTS-AP-083.
+- v7.4.0(D-0247·UF-128): dual_line 빈 달 점선 보간(rules panels.charts.dual_line.gap_policy·interpolated_style·gap_note), chart_honesty [interp-*] hard, provenance interpolated_idx.
+- v7.4.0(D-0248·D-0249·UF-129): 검사 `card_over_panel` hard(rules qa_checks.card_over_panel cover_types·cover_types_on_data_panels).
+- v7.4.0(D-0250·UF-130·131): 검사 `article_outlet` hard(rules qa_checks.outlet_names), rules fonts.glyph_fallback + 프리뷰·콘티 판 glyph_sweep.
+
+### Changed
+- 콘티 판 지도 = 전편과 같은 본 MercatorStage(막지도 FlatMercatorStage 삭제, D-0241 §2·UF-121).
+- 골든 hormuz 는 도로·강 끔(stage_config.mercator.map_layers [], D-0231) — main 대비 25컷 중 24컷 바이트 동일, 1컷은 버전 도장만.
+
+### Fixed
+- 병합 전 전체 pytest 빠른 묶음 회귀 6건(검사 표·숏 수치 단일 경로·느린 표식·크림 고정 자료·연출 변환 스냅숏).
+
+<!-- 이전 진행 메모: MINOR(새 레이어·이벤트 필드·검사): 진행 중 — 항목은 [Unreleased] 와 back_and_forth R 보고에 쌓는다. `[transition-bridge]` 는 장면 경계 판정(D-0230 B), v7.4.0 이전 원고는 `lint_waivers.yaml` 면제(D-0230 §3). -->
 
 ---
 

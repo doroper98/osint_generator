@@ -37,6 +37,8 @@ class ConvertFidelityTest(unittest.TestCase):
                         hit = [e for e in want["events_by_type"][typ] if e.get("label") == label]
                         self.assertEqual(len(hit), 1, label)
                         hit[0].update(upd)
+                for e in got["events_by_type"].get("route", []):   # v7.4.0 D-0229 §2.5 — 굴절 항로 선택 필드(골든 미사용 = None)
+                    self.assertIsNone(e.pop("declared", None))
                 ex = [e.pop("route_cross_exempt") for evs in got["events_by_type"].values() for e in evs if "route_cross_exempt" in e]
                 self.assertEqual(len(ex), 1 if name == "hormuz_korea" else 0)   # v5.21.11 D-0203 — 골든 마커 한 개 면제(메타, 화면 무관)
                 self.assertEqual(got["keys"], want["keys"])
@@ -52,7 +54,10 @@ class ConvertFidelityTest(unittest.TestCase):
         # v5.18.0 D-0170 §3-4 — 골든만 장르 기본 테마(light)를 dark 로 고정(사유 포함). 예시(director 프롬프트)에는 넣지 않는다 —
         # 테마는 장르가 정하는 것이 기본이라, 예시가 덮어쓰기를 가르치면 안 된다(D-0161 §7)
         reason = proj.map_theme()["reason"]
-        self.assertEqual(proj.stage_config.pop("mercator"), {"theme": "dark", "theme_reason": reason})
+        mer = proj.stage_config.pop("mercator")
+        self.assertEqual(mer.pop("map_layers"), [])   # v7.4.0 D-0231 — 골든만 도로·강 끔(사유 포함). 예시에는 넣지 않는다(기본 = 켬)
+        self.assertIn("D-0231", mer.pop("map_layers_reason"))
+        self.assertEqual(mer, {"theme": "dark", "theme_reason": reason})
         # v5.21.11 D-0203 — 골든 마커 한 개의 route_cross_exempt 도 예시에 넣지 않는다(연출가가 면제를 배우면 안 된다)
         exempt = [e.pop("route_cross_exempt") for e in proj.events if "route_cross_exempt" in e]
         self.assertEqual(len(exempt), 1)

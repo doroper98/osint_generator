@@ -2,20 +2,20 @@
  "schema_version": 1,
  "searches": [
   {
-   "sid": "cold_1",
+   "sid": "act5_25",
    "query": "Ryazan oil refinery hastemplate:\"PD-USGov-Military\"",
    "pool": "us_dod_pd",
-   "on": "2026-10-17",
+   "on": "2026-10-18",
    "found": 0,
    "passed": 0,
    "top": [],
    "rejected": []
   },
   {
-   "sid": "cold_1",
+   "sid": "act5_25",
    "query": "Ryazan oil refinery",
    "pool": "commons_cc",
-   "on": "2026-10-17",
+   "on": "2026-10-18",
    "found": 4,
    "passed": 1,
    "top": [
@@ -27,38 +27,21 @@
    ]
   },
   {
-   "sid": "act1_3",
-   "query": "Kirishi refinery hastemplate:\"PD-USGov-Military\"",
+   "sid": "cold_2",
+   "query": "Trump energy ceasefire hastemplate:\"PD-USGov-Military\"",
    "pool": "us_dod_pd",
-   "on": "2026-10-17",
+   "on": "2026-10-18",
    "found": 0,
    "passed": 0,
    "top": [],
    "rejected": []
   },
   {
-   "sid": "act1_3",
-   "query": "Kirishi refinery",
+   "sid": "cold_2",
+   "query": "Trump energy ceasefire",
    "pool": "commons_cc",
-   "on": "2026-10-17",
-   "found": 6,
-   "passed": 3,
-   "top": [
-    "File:NASA FIRMS 2025-09-14 Kinef.png",
-    "File:NASA FIRMS 2025-10-04 Kinef.png",
-    "File:NASA FIRMS 2026-03-26 Kinef.png"
-   ],
-   "rejected": [
-    "CC BY-SA 3.0",
-    "CC BY-SA 4.0"
-   ]
-  },
-  {
-   "sid": "act3_2",
-   "query": "South Pars gas field hastemplate:\"PD-USGov-Military\"",
-   "pool": "us_dod_pd",
-   "on": "2026-10-17",
-   "found": 6,
+   "on": "2026-10-18",
+   "found": 7,
    "passed": 0,
    "top": [],
    "rejected": [
@@ -66,16 +49,156 @@
    ]
   },
   {
-   "sid": "act3_2",
-   "query": "South Pars gas field",
+   "sid": "act1_0",
+   "query": "Russian oil refinery drone attack hastemplate:\"PD-USGov-Military\"",
+   "pool": "us_dod_pd",
+   "on": "2026-10-18",
+   "found": 0,
+   "passed": 0,
+   "top": [],
+   "rejected": []
+  },
+  {
+   "sid": "act1_0",
+   "query": "Russian oil refinery drone attack",
    "pool": "commons_cc",
-   "on": "2026-10-17",
-   "found": 6,
-   "passed": 3,
+   "on": "2026-10-18",
+   "found": 7,
+   "passed": 2,
    "top": [
-    "File:South Pars gas field.gif",
-    "File:Third platform of Phase 14 of South Pars Dome Gas-Condensate field 01.jpg",
-    "File:Third platform of Phase 14 of South Pars Dome Gas-Condensate field 08.jpg"
+    "File:Address by the President of Ukraine on the Fourth Anniversary of the Beginning of Russia’s Full-Scale Invasion of Ukraine. (55113242776).jpg",
+    "File:New Year's Greetings by President of Ukraine Volodymyr Zelenskyy. (55016291992).jpg"
+   ],
+   "rejected": [
+    "문서·도식(application/pdf)"
+   ]
+  },
+  {
+   "sid": "act1_1",
+   "query": "Ukrainian long-range drone hastemplate:\"PD-USGov-Military\"",
+   "pool": "us_dod_pd",
+   "on": "2026-10-18",
+   "found": 3,
+   "passed": 0,
+   "top": [],
+   "rejected": [
+    "문서·도식(application/pdf)"
+   ]
+  },
+  {
+   "sid": "act1_1",
+   "query": "Ukrainian long-range drone",
+   "pool": "commons_cc",
+   "on": "2026-10-18",
+   "found": 7,
+   "passed": 7,
+   "top": [
+    "File:Volodymyr Zelenskyy and Mette Frederiksen Inspected Ukrainian Long-Range Drones Procured with Denmark's Support on 19 November 2024 - 10.jpg",
+    "File:Volodymyr Zelenskyy and Mette Frederiksen Inspected Ukrainian Long-Range Drones Procured with Denmark's Support on 19 November 2024 - 12.jpg",
+    "File:Volodymyr Zelenskyy and Mette Frederiksen Inspected Ukrainian Long-Range Drones Procured with Denmark's Support on 19 November 2024 - 13.jpg",
+    "File:Volodymyr Zelenskyy and Mette Frederiksen Inspected Ukrainian Long-Range Drones Procured with Denmark's Support on 19 November 2024 - 5.jpg",
+    "File:Volodymyr Zelenskyy and Mette Frederiksen Inspected Ukrainian Long-Range Drones Procured with Denmark's Support on 19 November 2024 - 6.jpg"
+   ],
+   "rejected": []
+  },
+  {
+   "sid": "act1_7",
+   "query": "oil refinery fire Russia hastemplate:\"PD-USGov-Military\"",
+   "pool": "us_dod_pd",
+   "on": "2026-10-18",
+   "found": 2,
+   "passed": 0,
+   "top": [],
+   "rejected": [
+    "문서·도식(application/pdf)"
+   ]
+  },
+  {
+   "sid": "act1_7",
+   "query": "oil refinery fire Russia",
+   "pool": "commons_cc",
+   "on": "2026-10-18",
+   "found": 7,
+   "passed": 7,
+   "top": [
+    "File:Fire at the Moscow Oil Refinery on June 18, 2026 (20260618 131954).jpg",
+    "File:Fire at the Moscow Oil Refinery on June 18, 2026 (20260618 132232).jpg",
+    "File:Fire at the Moscow Oil Refinery on June 18, 2026 (20260618 132321).jpg",
+    "File:Fire at the Moscow Oil Refinery on June 18, 2026 (20260618 132423).jpg",
+    "File:Fire at the Moscow Oil Refinery on June 18, 2026 (20260618 132807).jpg"
+   ],
+   "rejected": []
+  },
+  {
+   "sid": "act1_8",
+   "query": "fluid catalytic cracking unit hastemplate:\"PD-USGov-Military\"",
+   "pool": "us_dod_pd",
+   "on": "2026-10-18",
+   "found": 0,
+   "passed": 0,
+   "top": [],
+   "rejected": []
+  },
+  {
+   "sid": "act1_8",
+   "query": "fluid catalytic cracking unit",
+   "pool": "commons_cc",
+   "on": "2026-10-18",
+   "found": 7,
+   "passed": 2,
+   "top": [
+    "File:Cracker USA 1944.png",
+    "File:Processes-12-00061-g001.png"
+   ],
+   "rejected": [
+    "CC BY-SA 4.0",
+    "문서·도식(application/pdf)"
+   ]
+  },
+  {
+   "sid": "act1_11",
+   "query": "refinery damage drone Russia hastemplate:\"PD-USGov-Military\"",
+   "pool": "us_dod_pd",
+   "on": "2026-10-18",
+   "found": 0,
+   "passed": 0,
+   "top": [],
+   "rejected": []
+  },
+  {
+   "sid": "act1_11",
+   "query": "refinery damage drone Russia",
+   "pool": "commons_cc",
+   "on": "2026-10-18",
+   "found": 4,
+   "passed": 0,
+   "top": [],
+   "rejected": [
+    "문서·도식(application/pdf)"
+   ]
+  },
+  {
+   "sid": "act1_13",
+   "query": "Kirishi refinery hastemplate:\"PD-USGov-Military\"",
+   "pool": "us_dod_pd",
+   "on": "2026-10-18",
+   "found": 0,
+   "passed": 0,
+   "top": [],
+   "rejected": []
+  },
+  {
+   "sid": "act1_13",
+   "query": "Kirishi refinery",
+   "pool": "commons_cc",
+   "on": "2026-10-18",
+   "found": 7,
+   "passed": 4,
+   "top": [
+    "File:NASA FIRMS 2025-09-14 Kinef.png",
+    "File:NASA FIRMS 2025-10-04 Kinef.png",
+    "File:NASA FIRMS 2026-03-26 Kinef.png",
+    "File:Победитель кубка России 2024.jpg"
    ],
    "rejected": [
     "CC BY-SA 3.0",
@@ -83,32 +206,10 @@
    ]
   },
   {
-   "sid": "act3_7",
-   "query": "Port of Fujairah hastemplate:\"PD-USGov-Military\"",
+   "sid": "act1_24",
+   "query": "Ministry of Defence of Ukraine briefing hastemplate:\"PD-USGov-Military\"",
    "pool": "us_dod_pd",
-   "on": "2026-10-17",
-   "found": 0,
-   "passed": 0,
-   "top": [],
-   "rejected": []
-  },
-  {
-   "sid": "act3_7",
-   "query": "Port of Fujairah",
-   "pool": "commons_cc",
-   "on": "2026-10-17",
-   "found": 6,
-   "passed": 0,
-   "top": [],
-   "rejected": [
-    "CC BY-SA 4.0"
-   ]
-  },
-  {
-   "sid": "act3_8",
-   "query": "East-West Crude Oil Pipeline hastemplate:\"PD-USGov-Military\"",
-   "pool": "us_dod_pd",
-   "on": "2026-10-17",
+   "on": "2026-10-18",
    "found": 1,
    "passed": 0,
    "top": [],
@@ -117,11 +218,142 @@
    ]
   },
   {
-   "sid": "act3_8",
-   "query": "East-West Crude Oil Pipeline",
+   "sid": "act1_24",
+   "query": "Ministry of Defence of Ukraine briefing",
    "pool": "commons_cc",
-   "on": "2026-10-17",
+   "on": "2026-10-18",
+   "found": 7,
+   "passed": 2,
+   "top": [
+    "File:Briefing 11.03.2022 21.00.ogv",
+    "File:Спутниковый снимок Минобороны России к брифингу по вопросам катастрофы рейса MH17 (ЗРК \"БУК-М1\", Зарощенское, 17 июля 2014).jpg"
+   ],
+   "rejected": [
+    "문서·도식(application/pdf)"
+   ]
+  },
+  {
+   "sid": "act2_4",
+   "query": "Omsk refinery hastemplate:\"PD-USGov-Military\"",
+   "pool": "us_dod_pd",
+   "on": "2026-10-18",
+   "found": 0,
+   "passed": 0,
+   "top": [],
+   "rejected": []
+  },
+  {
+   "sid": "act2_4",
+   "query": "Omsk refinery",
+   "pool": "commons_cc",
+   "on": "2026-10-18",
+   "found": 7,
+   "passed": 3,
+   "top": [
+    "File:Dmitry Medvedev in Omsk (2010-02-12) 01.jpg",
+    "File:Dmitry Medvedev in Omsk (2010-02-12) 02.jpg",
+    "File:NASA FIRMS 2024-08-28 Omsk Refinery.png"
+   ],
+   "rejected": [
+    "CC BY-SA 3.0",
+    "CC BY-SA 4.0"
+   ]
+  },
+  {
+   "sid": "act3_19",
+   "query": "Vladyslav Vlasiuk hastemplate:\"PD-USGov-Military\"",
+   "pool": "us_dod_pd",
+   "on": "2026-10-18",
+   "found": 0,
+   "passed": 0,
+   "top": [],
+   "rejected": []
+  },
+  {
+   "sid": "act3_19",
+   "query": "Vladyslav Vlasiuk",
+   "pool": "commons_cc",
+   "on": "2026-10-18",
+   "found": 3,
+   "passed": 2,
+   "top": [
+    "File:Vladyslav Vlasiuk img-blue4.jpg",
+    "File:Vladyslav Vlasiuk photo.jpg"
+   ],
+   "rejected": [
+    "CC BY-SA 4.0"
+   ]
+  },
+  {
+   "sid": "act4_5",
+   "query": "South Pars gas field hastemplate:\"PD-USGov-Military\"",
+   "pool": "us_dod_pd",
+   "on": "2026-10-18",
    "found": 6,
+   "passed": 0,
+   "top": [],
+   "rejected": [
+    "문서·도식(application/pdf)"
+   ]
+  },
+  {
+   "sid": "act4_5",
+   "query": "South Pars gas field",
+   "pool": "commons_cc",
+   "on": "2026-10-18",
+   "found": 7,
+   "passed": 4,
+   "top": [
+    "File:South Pars gas field.gif",
+    "File:Third platform of Phase 14 of South Pars Dome Gas-Condensate field 01.jpg",
+    "File:Third platform of Phase 14 of South Pars Dome Gas-Condensate field 06.jpg",
+    "File:Third platform of Phase 14 of South Pars Dome Gas-Condensate field 08.jpg"
+   ],
+   "rejected": [
+    "CC BY-SA 3.0",
+    "CC BY-SA 4.0"
+   ]
+  },
+  {
+   "sid": "act4_13",
+   "query": "Fujairah port hastemplate:\"PD-USGov-Military\"",
+   "pool": "us_dod_pd",
+   "on": "2026-10-18",
+   "found": 0,
+   "passed": 0,
+   "top": [],
+   "rejected": []
+  },
+  {
+   "sid": "act4_13",
+   "query": "Fujairah port",
+   "pool": "commons_cc",
+   "on": "2026-10-18",
+   "found": 7,
+   "passed": 0,
+   "top": [],
+   "rejected": [
+    "CC BY-SA 4.0"
+   ]
+  },
+  {
+   "sid": "act4_14",
+   "query": "East-West pipeline Saudi Arabia hastemplate:\"PD-USGov-Military\"",
+   "pool": "us_dod_pd",
+   "on": "2026-10-18",
+   "found": 2,
+   "passed": 0,
+   "top": [],
+   "rejected": [
+    "문서·도식(application/pdf)"
+   ]
+  },
+  {
+   "sid": "act4_14",
+   "query": "East-West pipeline Saudi Arabia",
+   "pool": "commons_cc",
+   "on": "2026-10-18",
+   "found": 7,
    "passed": 2,
    "top": [
     "File:Crude oil, condensate, and petroleum products transported through the Strait of Hormuz in 2014 through 2018 (48097472312).png",
@@ -132,6 +364,187 @@
     "문서·도식(application/pdf)",
     "문서·도식(image/svg+xml)"
    ]
+  },
+  {
+   "sid": "act4_15",
+   "query": "drone Iraq militia hastemplate:\"PD-USGov-Military\"",
+   "pool": "us_dod_pd",
+   "on": "2026-10-18",
+   "found": 0,
+   "passed": 0,
+   "top": [],
+   "rejected": []
+  },
+  {
+   "sid": "act4_15",
+   "query": "drone Iraq militia",
+   "pool": "commons_cc",
+   "on": "2026-10-18",
+   "found": 7,
+   "passed": 7,
+   "top": [
+    "File:2026 Iranian drone attacks Kurdistan Region video.webm",
+    "File:Blast from an Iranian attack on the Kurdistan Region.png",
+    "File:Burning industrial building Kurdistan Region April 2026 after Iranian attacks.png",
+    "File:Burnt out vehicle Kurdistan Region March 2026 after Iranian attacks.png",
+    "File:Destroyed glass civilians areas Kurdistan Region after Iranian attacks.png"
+   ],
+   "rejected": []
+  },
+  {
+   "sid": "act4_3",
+   "query": "Kharg Island hastemplate:\"PD-USGov-Military\"",
+   "pool": "us_dod_pd",
+   "on": "2026-10-18",
+   "found": 2,
+   "passed": 2,
+   "top": [
+    "File:CENTCOM Disables Non-Compliant Vessel in Arabian Gulf (1008989).webm",
+    "File:U S forces Execute large-scale Precision Strike on Kharg Island, Iran (999553).webm"
+   ],
+   "rejected": []
+  },
+  {
+   "sid": "act4_3",
+   "query": "Kharg Island",
+   "pool": "commons_cc",
+   "on": "2026-10-18",
+   "found": 7,
+   "passed": 7,
+   "top": [
+    "File:Khalk.jpg",
+    "File:Kharg Island.webp",
+    "File:Kharg Island in 2018 (26).jpg",
+    "File:Kharg Island in 2018 (34).jpg",
+    "File:Kharg Island in 2020 (02).jpg"
+   ],
+   "rejected": []
+  },
+  {
+   "sid": "act5_22",
+   "query": "Volodymyr Zelensky hastemplate:\"PD-USGov-Military\"",
+   "pool": "us_dod_pd",
+   "on": "2026-10-18",
+   "found": 7,
+   "passed": 7,
+   "top": [
+    "File:220908-D-TT977-0104 (52342589361).jpg",
+    "File:220908-D-TT977-0215 (52342605086).jpg",
+    "File:221012-D-TT977-0058 (52422468891).jpg",
+    "File:221012-D-TT977-0092 (52421961102).jpg",
+    "File:Oleksii Reznikov at the 13th Ukraine Defense Contact Group at NATO Headquarters, Brussels, Belgium, June 15, 2023 - 230615-D-XI929-1006.jpg"
+   ],
+   "rejected": []
+  },
+  {
+   "sid": "act5_22",
+   "query": "Volodymyr Zelensky",
+   "pool": "commons_cc",
+   "on": "2026-10-18",
+   "found": 7,
+   "passed": 6,
+   "top": [
+    "File:Volodymyr Zelensky 2019 presidential inauguration 33.jpg",
+    "File:Volodymyr Zelensky 2019 presidential inauguration 35.jpg",
+    "File:Volodymyr Zelensky Official portrait.jpg",
+    "File:Volodymyr Zelensky Official portrait (cropped).jpg",
+    "File:Volodymyr Zelensky with Gitanas Nausėda - 2019.jpg"
+   ],
+   "rejected": [
+    "CC BY-SA 4.0"
+   ]
+  },
+  {
+   "sid": "cold_2",
+   "query": "Donald Trump official portrait 2025 hastemplate:\"PD-USGov-Military\"",
+   "pool": "us_dod_pd",
+   "on": "2026-10-18",
+   "found": 7,
+   "passed": 7,
+   "top": [
+    "File:Michael T. Powers Official Portrait.png",
+    "File:Official 2026 Portrait of Desiree Sayles.png",
+    "File:The Inaugural Parade in Capital One Arena (8838350).jpg",
+    "File:The Inaugural Parade in Capital One Arena (8838351).jpg",
+    "File:U S Army Bands support the 60th Presidential Inauguration (8837330).jpg"
+   ],
+   "rejected": []
+  },
+  {
+   "sid": "cold_2",
+   "query": "Donald Trump official portrait 2025",
+   "pool": "commons_cc",
+   "on": "2026-10-18",
+   "found": 7,
+   "passed": 5,
+   "top": [
+    "File:2024 United States Presidential Election Biden Out cartoon.png",
+    "File:January 2025 Official Presidential Portrait of Donald J. Trump.jpg",
+    "File:Official Presidential Portrait of President Donald J. Trump (2025).jpg",
+    "File:Official Presidential Portrait of President Donald J. Trump (2025) (3x4 close cropped).jpg",
+    "File:President-Donald-Trump-Official-Presidential-Portrait.png"
+   ],
+   "rejected": [
+    "Public domain 제한"
+   ]
+  },
+  {
+   "sid": "cold_2",
+   "query": "Donald Trump October 2026 hastemplate:\"PD-USGov-Military\"",
+   "pool": "us_dod_pd",
+   "on": "2026-10-18",
+   "found": 7,
+   "passed": 7,
+   "top": [
+    "File:Lethal Kinetic Strike, Oct 16, 2025 (987840).webm",
+    "File:Lethal Kinetic Strike, Oct 21, 2025 (987843).webm",
+    "File:Lethal Kinetic Strike, Oct 22, 2025 (987844).webm",
+    "File:Lethal Kinetic Strike, Oct 24, 2025 (987846).webm",
+    "File:Lethal Kinetic Strike, Oct 27, 2025 (987848).webm"
+   ],
+   "rejected": []
+  },
+  {
+   "sid": "cold_2",
+   "query": "Donald Trump October 2026",
+   "pool": "commons_cc",
+   "on": "2026-10-18",
+   "found": 7,
+   "passed": 7,
+   "top": [
+    "File:Donald Trump at Joint Base Andrews, Maryland on Monday, October 5, 2026 - 4.jpg",
+    "File:Donald Trump boards on the South Lawn of the White House on October 6, 2026 - 14.jpg",
+    "File:President Donald J Trump makes an announcement on Trump Accounts in the Oval Office, October 7, 2026 (P20261007JB-0566).jpg",
+    "File:President Donald J Trump makes an announcement on Trump Accounts in the Oval Office, October 7, 2026 (P20261007JB-0811).jpg",
+    "File:President Donald J Trump makes an announcement on Trump Accounts in the Oval Office, October 7, 2026 (P20261007JB-0903).jpg"
+   ],
+   "rejected": []
+  },
+  {
+   "sid": "cold_2",
+   "query": "President Trump Oval Office October 2026 hastemplate:\"PD-USGov-Military\"",
+   "pool": "us_dod_pd",
+   "on": "2026-10-18",
+   "found": 0,
+   "passed": 0,
+   "top": [],
+   "rejected": []
+  },
+  {
+   "sid": "cold_2",
+   "query": "President Trump Oval Office October 2026",
+   "pool": "commons_cc",
+   "on": "2026-10-18",
+   "found": 7,
+   "passed": 7,
+   "top": [
+    "File:President Donald J Trump makes an announcement on Trump Accounts in the Oval Office, October 7, 2026 (P20261007JB-0566).jpg",
+    "File:President Donald J Trump makes an announcement on Trump Accounts in the Oval Office, October 7, 2026 (P20261007JB-0811).jpg",
+    "File:President Donald J Trump makes an announcement on Trump Accounts in the Oval Office, October 7, 2026 (P20261007JB-0903).jpg",
+    "File:President Donald J Trump makes an announcement on Trump Accounts in the Oval Office, October 7, 2026 (P20261007JB-1142).jpg",
+    "File:President Donald J Trump makes an announcement on Trump Accounts in the Oval Office, October 7, 2026 (P20261007JB-1227).jpg"
+   ],
+   "rejected": []
   }
  ]
 }

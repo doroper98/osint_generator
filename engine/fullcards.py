@@ -19,7 +19,7 @@ from engine.context import RenderCtx
 from engine.credits import credit_sections
 from engine.style import END_CARD, TITLE_CARD, C, H_OUT, W_OUT
 from engine.timebase import ease_io, ease_out, smooth, window
-from engine.typography import text
+from engine.typography import _M, adv, text, wrap
 
 ENDCARD_NOTE = "수치와 인용은 제작 시점의 공개 보도에 근거합니다"
 NOTICE = END_CARD.notice_unverified
@@ -28,6 +28,10 @@ VERSION_FILE = Path(__file__).resolve().parent.parent / "VERSION"
 COLS_X = (64, 456)      # 크레딧 두 열의 왼쪽 x
 TOP_Y = 158             # 크레딧 첫 절 제목 기준선
 RULE_Y = H_OUT - 44     # 하단 구분선(날짜·안내 줄 위)
+COL_W = (COLS_X[1] - COLS_X[0] - 16, W_OUT - 64 - COLS_X[1])   # v7.4.0 — 열마다 글자 폭 한도(옆 열과 16px 띄움)
+ITEM_LINE = 12          # v7.4.0 — 줄바꿈한 크레딧 항목의 줄 간격
+NOTICE_DY = 4           # v7.4.0 — 표기 전용 줄 기준선 = 하단 구분선 − 이 값(구분선 바로 위)
+NOTICE_H = 12           # v7.4.0 — 표기 전용 줄이 있으면 크레딧 열 아래 한도를 이만큼 올린다(겹침 방지)
 
 
 class EndCardOverflowError(RuntimeError):
@@ -60,8 +64,16 @@ def title_fit_size(ctx: cairo.Context, title: str) -> float:
     return fit
 
 
+def item_lines(m: str, ci: int) -> list[str]:
+    """크레딧 항목 글자를 열 폭(COL_W) 안으로 줄바꿈(v7.4.0 D-0229 §2.10 — 긴 항목이 옆 열에 붙던 것). 폭 안이면 한 줄 그대로."""
+    if adv(m, END_CARD.item_size, "sans") <= COL_W[ci]:
+        return [m]
+    return wrap(_M, m, COL_W[ci], END_CARD.item_size, "sans")
+
+
 def endcard_layout(secs: list[tuple[str, list[tuple[str, str]]]], place: list[int]) -> tuple[list[Placed], list[float]]:
-    """절 배치와 열마다 마지막 기준선(글자를 그린 마지막 y — 라이선스 줄이 있으면 그 줄). 빈 열은 TOP_Y 이전(0)."""
+    """절 배치와 열마다 마지막 기준선(글자를 그린 마지막 y — 라이선스 줄이 있으면 그 줄). 빈 열은 TOP_Y 이전(0).
+    v7.4.0: 열 폭을 넘는 항목은 줄을 바꾼다(줄마다 ITEM_LINE px 아래) — rows 의 m 은 줄바꿈 문자로 이은 글자."""
     yy = [float(TOP_Y), float(TOP_Y)]
     last = [0.0, 0.0]
     out: list[Placed] = []
@@ -72,7 +84,9 @@ def endcard_layout(secs: list[tuple[str, list[tuple[str, str]]]], place: list[in
         last[ci] = head
         rows = []
         for m, lic in items:
-            rows.append((m, lic, y))
+            ls = item_lines(m, ci)
+            rows.append(("\n".join(ls), lic, y))
+            y += ITEM_LINE * (len(ls) - 1)
             last[ci] = y + 11 if lic else y
             y += 23 if lic else 14
         out.append((si, ci, COLS_X[ci], head, rows))
@@ -80,27 +94,27 @@ def endcard_layout(secs: list[tuple[str, list[tuple[str, str]]]], place: list[in
     return out, last
 
 
-def endcard_roll(secs: list[tuple[str, list[tuple[str, str]]]], place: list[int]) -> tuple[float, float]:
+def endcard_roll(secs: list[tuple[str, list[tuple[str, str]]]], place: list[int], reserve: float = 0.0) -> tuple[float, float]:
     """(롤 거리 px, 롤 속도 px/s). 두 열 마지막 기준선이 한도(H−44 − bottom_margin) 안이면 (0, 0) — 롤 없음.
     넘치면 마지막 줄이 아래 페이드 구역 위(scroll_bottom − scroll_fade_px)에 멈출 만큼 흐른다(D-0106 1-C)."""
     E = END_CARD  # noqa: N806
     _, last = endcard_layout(secs, place)
-    if max(last) <= RULE_Y - E.bottom_margin:
+    if max(last) <= RULE_Y - E.bottom_margin - reserve:   # reserve = 표기 전용 줄 높이(v7.4.0, notice_reserve)
         return 0.0, 0.0
-    dist = max(last) - (E.scroll_bottom - E.scroll_fade_px)
+    dist = max(last) - (E.scroll_bottom - E.scroll_fade_px - reserve)
     return dist, dist / (E.dur_sec - E.scroll_hold_in_sec - E.scroll_hold_out_sec)
 
 
-def endcard_overflow(secs: list[tuple[str, list[tuple[str, str]]]], place: list[int]) -> list[str]:
+def endcard_overflow(secs: list[tuple[str, list[tuple[str, str]]]], place: list[int], reserve: float = 0.0) -> list[str]:
     """롤 속도가 상한을 넘으면 그 사실 한 줄(읽을 수 없는 롤 = 넘침). 롤 없음·상한 안 롤 = []."""
-    dist, v = endcard_roll(secs, place)
+    dist, v = endcard_roll(secs, place, reserve)
     mx = END_CARD.scroll_max_px_per_sec
     return [f"[endcard-overflow] 크레딧 롤 속도 {v:.1f} px/s > 상한 {mx:g}(롤 거리 {dist:.0f}px) — credits.yaml 절을 줄인다"] if v > mx else []
 
 
-def endcard_roll_note(secs: list[tuple[str, list[tuple[str, str]]]], place: list[int]) -> list[str]:
+def endcard_roll_note(secs: list[tuple[str, list[tuple[str, str]]]], place: list[int], reserve: float = 0.0) -> list[str]:
     """상한 안 롤 — checks warning(검수자가 보게). 롤 없음·상한 초과(오류 쪽) = []."""
-    dist, v = endcard_roll(secs, place)
+    dist, v = endcard_roll(secs, place, reserve)
     return [f"[endcard-roll] 크레딧이 넘쳐 롤 {dist:.0f}px · {v:.1f} px/s(상한 {END_CARD.scroll_max_px_per_sec:g})"] \
         if 0 < v <= END_CARD.scroll_max_px_per_sec else []
 
@@ -113,7 +127,6 @@ def version_stamp() -> str:
 def version_stamp_box(notice: str | None) -> tuple[float, float, float, float]:
     """도장 글자 상자(x0, y0, x1, y1) — 기준선 = H − y_from_bottom, 오른쪽 끝 = W − x_from_right.
     안내 줄(notice, 왼쪽 x=64·기준선 H−26+dy)과 겹치면 notice 를 우선하고 도장을 STAMP.dy 만큼 위로 올린다(D-0124)."""
-    from engine.typography import adv  # noqa: PLC0415
 
     s = version_stamp()
     w = adv(s, STAMP.size, STAMP.font)
@@ -139,8 +152,28 @@ def project_credit_sections(R: RenderCtx) -> list[tuple[str, list[tuple[str, str
     """이번 렌더의 엔딩 카드 절 — draw_endcard 와 checks 가 같은 입력으로 본다."""
     if R.credits is None:
         raise RuntimeError("엔딩 카드에 크레딧 데이터가 없다(projects/<p>/credits.yaml)")
-    return credit_sections(R.credits, R.assets.rights, R.assets.media, R.cache.get("credit_refs"), R.cache.get("cited_sources"),
-                           R.cache.get("series_records"), missing_license=R.cache.get("missing_license"))   # v4.9.0 콘티 판만
+    secs = credit_sections(R.credits, R.assets.rights, R.assets.media, R.cache.get("credit_refs"), R.cache.get("cited_sources"),
+                           R.cache.get("series_records"), missing_license=R.cache.get("missing_license"),
+                           press=R.cache.get("press_by_scene"))   # v4.9.0 콘티 판만
+    return [x for x, s in zip(secs, R.credits.sections) if s.slot == "column"]   # v7.4.0 — notice 칸은 두 열 밖(notice_lines)
+
+
+def credit_place(R: RenderCtx) -> list[int]:  # noqa: N803
+    """두 열 흐름 절의 열 번호(project_credit_sections 와 같은 순서, notice 칸 제외 — v7.4.0)."""
+    return [s.column for s in R.credits.sections if s.slot == "column"]  # type: ignore[union-attr]
+
+
+def notice_reserve(R: RenderCtx) -> float:  # noqa: N803
+    return NOTICE_H if notice_line(R) else 0.0
+
+
+def notice_line(R: RenderCtx) -> str | None:  # noqa: N803
+    """v7.4.0 D-0229 §2.10 — slot: notice 절을 한 줄로("항목 · 라이선스 줄" 을 · 로 잇는다). 없으면 None."""
+    secs = credit_sections(R.credits, R.assets.rights, R.assets.media, R.cache.get("credit_refs"), R.cache.get("cited_sources"),
+                           R.cache.get("series_records"), missing_license=R.cache.get("missing_license"),
+                           press=R.cache.get("press_by_scene"))
+    parts = [p for (_t, items), s in zip(secs, R.credits.sections) if s.slot == "notice" for m, lic in items for p in (m, lic) if p]
+    return " · ".join(parts) or None
 
 
 def unverified_notice(R: RenderCtx) -> str | None:  # noqa: N803
@@ -172,23 +205,24 @@ def draw_endcard(ctx: cairo.Context, R: RenderCtx, t: float, c: object, a: float
     ctx.rectangle(64, 140, W_OUT - 128, 0.8)
     ctx.fill()
     secs = project_credit_sections(R)
-    place = [s.column for s in R.credits.sections]  # type: ignore[union-attr]
-    over = endcard_overflow(secs, place)
+    place = credit_place(R)
+    rsv = notice_reserve(R)
+    over = endcard_overflow(secs, place, rsv)
     if over:
         raise EndCardOverflowError("; ".join(over))
-    dist, _v = endcard_roll(secs, place)   # D-0106 1-C — 넘치면 롤(잘림 금지, P6)
+    dist, _v = endcard_roll(secs, place, rsv)   # D-0106 1-C — 넘치면 롤(잘림 금지, P6)
     off = 0.0
     if dist > 0:
         span = c.t1 - c.t0 - E.scroll_hold_in_sec - E.scroll_hold_out_sec  # type: ignore[attr-defined]
         off = dist * ease_io((lt - E.scroll_hold_in_sec) / span)
         ctx.save()
-        ctx.rectangle(0, E.scroll_top, W_OUT, E.scroll_bottom - E.scroll_top + E.license_size)
+        ctx.rectangle(0, E.scroll_top, W_OUT, E.scroll_bottom - E.scroll_top + E.license_size - rsv)
         ctx.clip()
 
     def edge(y: float) -> float:
         if dist <= 0:
             return 1.0
-        return max(0.0, min(1.0, (y - E.scroll_top) / E.scroll_fade_px, (E.scroll_bottom + E.license_size - y) / E.scroll_fade_px))
+        return max(0.0, min(1.0, (y - E.scroll_top) / E.scroll_fade_px, (E.scroll_bottom + E.license_size - rsv - y) / E.scroll_fade_px))
 
     n = 0
     for si, _ci, x, head, rows in endcard_layout(secs, place)[0]:
@@ -198,7 +232,11 @@ def draw_endcard(ctx: cairo.Context, R: RenderCtx, t: float, c: object, a: float
             ia = a * smooth((lt - 0.6 - si * 0.18 - n * 0.03) / 0.6)
             n += 1
             y -= off
-            text(ctx, m, x, y, END_CARD.item_size, "sans", (0.86, 0.87, 0.9), ia * edge(y), 0, "l", role="end_card")
+            ls = m.split("\n")
+            for j, ln in enumerate(ls):   # v7.4.0 — 열 폭을 넘는 항목은 여러 줄(endcard_layout 과 같은 줄바꿈)
+                yj = y + ITEM_LINE * j
+                text(ctx, ln, x, yj, END_CARD.item_size, "sans", (0.86, 0.87, 0.9), ia * edge(yj), 0, "l", role="end_card")
+            y += ITEM_LINE * (len(ls) - 1)
             if lic:
                 text(ctx, lic, x, y + 11, END_CARD.license_size, "monom", C["muted"], ia * 0.9 * edge(y + 11), 0, "l", role="end_card")
     if dist > 0:
@@ -209,6 +247,9 @@ def draw_endcard(ctx: cairo.Context, R: RenderCtx, t: float, c: object, a: float
     ctx.fill()
     text(ctx, plan.date.replace(".", ". ") + " 기준", 64, H_OUT - 26, 7.8, "monom", C["muted"], fa, 0, "l", spacing=0.6, role="end_card")
     text(ctx, ENDCARD_NOTE, W_OUT - 64, H_OUT - 26, 7.8, "sans", C["muted"], fa, 0, "r", role="end_card")
+    nl = notice_line(R)
+    if nl:   # v7.4.0 D-0229 §2.10 — 표기 전용 줄(구분선 바로 위, 전체 폭, 가장 작은 글씨)
+        text(ctx, nl, 64, RULE_Y - NOTICE_DY, END_CARD.license_size, "sans", C["muted"], fa, 0, "l", role="end_card")
     notice = unverified_notice(R)
     if notice:   # 맨 마지막 줄, 가장 작은 글씨 — 본문(자막·패널·카드)에는 검증 라벨을 그리지 않는다
         text(ctx, notice, 64, H_OUT - 26 + NOTICE.dy, NOTICE.size, "sans", C["muted"], fa, 0, "l", role="end_card")

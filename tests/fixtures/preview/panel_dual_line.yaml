@@ -19,6 +19,7 @@ event:
   y_prefix: $
   x_labels:
   - 8월 1주
+  - 8월 2주
   - 8월 3주
   - 8월 5주
   series:
@@ -26,11 +27,13 @@ event:
     col: gold
     values:
     - 88.4
+    - null
     - 91.2
     - 89.7
   - label: WTI
     col: us
     values:
     - 84.1
+    - null
     - 86.9
     - 85.3

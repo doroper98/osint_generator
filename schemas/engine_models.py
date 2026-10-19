@@ -84,6 +84,7 @@ class AssetRights(_Strict):
     author: str = ""
     url: str = ""
     rights_status: RightsStatus = "rights_clear"
+    layers: list[str] = Field(default_factory=list)   # v7.4.0 D-0229 §2.1-2 — 지도 데이터가 쓰는 레이어 이름(기록용, 크레딧 문구에는 넣지 않는다)
 
 
 class RightsRegistry(_Strict):

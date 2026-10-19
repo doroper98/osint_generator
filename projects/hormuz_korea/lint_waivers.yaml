@@ -15,3 +15,122 @@ waivers:
     script_approved: 2026-09-28
     reason: "골든 원고(사용자 합격 2026-09-28). 규칙은 v5.5.0(2026-10-02) 신설. V3 는 같은 원고 재현(C8.6, D-0167 §3-1). now_3 은 다음 원고 개정 때 고친다(D162)"
     decided_by: D-0168
+  - kind: transition-bridge
+    sid: route_0
+    text_sha1: d0c703e44ea9fbe68590248296ffeaf296b695d0
+    rule_since: v7.4.0
+    script_approved: 2026-09-26
+    reason: "D-0230 — v7.4.0 이전 원고, 재발 방지 장치는 v7.4.0 이후 원고부터"
+    decided_by: D-0230
+  - kind: transition-bridge
+    sid: war_0
+    text_sha1: 1a957d1a0dc7854cc739ca7bcffdf84ab70af605
+    rule_since: v7.4.0
+    script_approved: 2026-09-26
+    reason: "D-0230 — v7.4.0 이전 원고, 재발 방지 장치는 v7.4.0 이후 원고부터"
+    decided_by: D-0230
+  - kind: transition-bridge
+    sid: cost_0
+    text_sha1: 2183a1acd7e532f7d12f838f523b52db24b08203
+    rule_since: v7.4.0
+    script_approved: 2026-09-26
+    reason: "D-0230 — v7.4.0 이전 원고, 재발 방지 장치는 v7.4.0 이후 원고부터"
+    decided_by: D-0230
+  - kind: transition-bridge
+    sid: review_0
+    text_sha1: 16195ea4adadb75222dd95a3c363d8e1de052ca4
+    rule_since: v7.4.0
+    script_approved: 2026-09-26
+    reason: "D-0230 — v7.4.0 이전 원고, 재발 방지 장치는 v7.4.0 이후 원고부터"
+    decided_by: D-0230
+  - kind: transition-bridge
+    sid: past_0
+    text_sha1: 7b70261d75ecc5278ead714b1593776725303a45
+    rule_since: v7.4.0
+    script_approved: 2026-09-26
+    reason: "D-0230 — v7.4.0 이전 원고, 재발 방지 장치는 v7.4.0 이후 원고부터"
+    decided_by: D-0230
+  - kind: transition-bridge
+    sid: debate_0
+    text_sha1: 7e31d7a8398af02e44da80d48fc6210fb366c9f8
+    rule_since: v7.4.0
+    script_approved: 2026-09-26
+    reason: "D-0230 — v7.4.0 이전 원고, 재발 방지 장치는 v7.4.0 이후 원고부터"
+    decided_by: D-0230
+  - kind: act-frame
+    sid: open_0
+    text_sha1: cc44c3581b838c22a2cf0b457b1c3c68600f45a5
+    rule_since: v7.4.0
+    script_approved: 2026-09-26
+    reason: "D-0230 — v7.4.0 이전 원고, 재발 방지 장치는 v7.4.0 이후 원고부터"
+    decided_by: D-0230
+  - kind: act-frame
+    sid: route_0
+    text_sha1: d0c703e44ea9fbe68590248296ffeaf296b695d0
+    rule_since: v7.4.0
+    script_approved: 2026-09-26
+    reason: "D-0230 — v7.4.0 이전 원고, 재발 방지 장치는 v7.4.0 이후 원고부터"
+    decided_by: D-0230
+  - kind: act-frame
+    sid: war_0
+    text_sha1: 1a957d1a0dc7854cc739ca7bcffdf84ab70af605
+    rule_since: v7.4.0
+    script_approved: 2026-09-26
+    reason: "D-0230 — v7.4.0 이전 원고, 재발 방지 장치는 v7.4.0 이후 원고부터"
+    decided_by: D-0230
+  - kind: act-frame
+    sid: ask_0
+    text_sha1: 9fcf5a7f95888023234954d646a838f672fa1a57
+    rule_since: v7.4.0
+    script_approved: 2026-09-26
+    reason: "D-0230 — v7.4.0 이전 원고, 재발 방지 장치는 v7.4.0 이후 원고부터"
+    decided_by: D-0230
+  - kind: act-frame
+    sid: timeline_0
+    text_sha1: 0e668110fb014e88f5319db99b7e0799f2bfd5b1
+    rule_since: v7.4.0
+    script_approved: 2026-09-26
+    reason: "D-0230 — v7.4.0 이전 원고, 재발 방지 장치는 v7.4.0 이후 원고부터"
+    decided_by: D-0230
+  - kind: act-frame
+    sid: cost_0
+    text_sha1: 2183a1acd7e532f7d12f838f523b52db24b08203
+    rule_since: v7.4.0
+    script_approved: 2026-09-26
+    reason: "D-0230 — v7.4.0 이전 원고, 재발 방지 장치는 v7.4.0 이후 원고부터"
+    decided_by: D-0230
+  - kind: act-frame
+    sid: review_0
+    text_sha1: 16195ea4adadb75222dd95a3c363d8e1de052ca4
+    rule_since: v7.4.0
+    script_approved: 2026-09-26
+    reason: "D-0230 — v7.4.0 이전 원고, 재발 방지 장치는 v7.4.0 이후 원고부터"
+    decided_by: D-0230
+  - kind: act-frame
+    sid: past_0
+    text_sha1: 7b70261d75ecc5278ead714b1593776725303a45
+    rule_since: v7.4.0
+    script_approved: 2026-09-26
+    reason: "D-0230 — v7.4.0 이전 원고, 재발 방지 장치는 v7.4.0 이후 원고부터"
+    decided_by: D-0230
+  - kind: act-frame
+    sid: debate_0
+    text_sha1: 7e31d7a8398af02e44da80d48fc6210fb366c9f8
+    rule_since: v7.4.0
+    script_approved: 2026-09-26
+    reason: "D-0230 — v7.4.0 이전 원고, 재발 방지 장치는 v7.4.0 이후 원고부터"
+    decided_by: D-0230
+  - kind: act-frame
+    sid: decision_0
+    text_sha1: c8df41a2dfd9d8ac4989e8c920b937577b6f9a9a
+    rule_since: v7.4.0
+    script_approved: 2026-09-26
+    reason: "D-0230 — v7.4.0 이전 원고, 재발 방지 장치는 v7.4.0 이후 원고부터"
+    decided_by: D-0230
+  - kind: act-frame
+    sid: now_0
+    text_sha1: 78949ed523988d94a05cc4690564535efdd27713
+    rule_since: v7.4.0
+    script_approved: 2026-09-26
+    reason: "D-0230 — v7.4.0 이전 원고, 재발 방지 장치는 v7.4.0 이후 원고부터"
+    decided_by: D-0230

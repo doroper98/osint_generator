@@ -167,9 +167,9 @@ def project_provenance(P, stages: dict[str, bool]) -> dict:  # noqa: ANN001, N80
             prov["audio"]["bed_bass"] = {"applied": bs.applied.model_dump(), "ratio_db": {"before": bs.before.ratio_db, "after": bs.after.ratio_db},
                                          "rise_db": bs.rise_db, "swell_at": bs.swell_at, "bands_hz": {"bass": list(bs.bass_band_hz), "mid": list(bs.mid_band_hz)}}
     if P.R.credits is not None and any(c.kind == "end" for c in P.plan.cards):   # v4.7.0 D-0106 1-C — 엔딩 카드 롤(없으면 기록 없음)
-        from engine.fullcards import endcard_roll, project_credit_sections, version_stamp  # noqa: PLC0415
+        from engine.fullcards import credit_place, endcard_roll, notice_reserve, project_credit_sections, version_stamp  # noqa: PLC0415
 
-        dist, v = endcard_roll(project_credit_sections(P.R), [s.column for s in P.R.credits.sections])
+        dist, v = endcard_roll(project_credit_sections(P.R), credit_place(P.R), notice_reserve(P.R))
         prov["end_card"] = {"version_stamp": version_stamp()}   # v5.1.0 D-0124 — 화면 도장 = "v" + repo_version(테스트)
         if dist > 0:
             prov["end_card"].update({"roll_px": round(dist, 1), "roll_px_per_sec": round(v, 2)})
@@ -237,6 +237,11 @@ def project_provenance(P, stages: dict[str, bool]) -> dict:  # noqa: ANN001, N80
         prov["map_contrast_fix"] = {"labels": {k: round(v, 2) for k, v in sorted(lcf.items())}}
     if P.R.cache.get("map_theme") is not None:   # v5.18.0 D-0161 §7 — 지도 테마(name·declared·genre_default·reason), 지도 무대만
         prov["map_theme"] = P.R.cache["map_theme"]
+    ml = getattr(P.R.stage, "map_layers", None)
+    if ml is not None and isinstance(prov.get("features_used", {}).get("map_layers"), dict):   # v7.4.0 D-0231 — 실제 켠 지도 레이어와 사유
+        f = prov["features_used"]["map_layers"]
+        f.update({k: (f.get(k, 0) if k in ml else 0) for k in ("roads", "rivers")},   # 끈 레이어는 돌지 않았다(P5)
+                 enabled=list(ml), reason=getattr(P.R.stage, "map_layers_reason", None))
     g = P.R.cache.get("genre") or {}
     prov["genre"] = {"name": g.get("name"), "declared": g.get("declared"), "status": g.get("status")}   # v4.2.0 D-0081 작업 3, v4.3.0 status(proposed 사용 기록)
     from genres.load import load_genre, load_order  # noqa: PLC0415
@@ -308,7 +313,7 @@ def main(argv: list[str] | None = None) -> int:
         (outd / "final.srt").write_text(build_srt(P.plan), encoding="utf-8")
         (outd / "credits.txt").write_text("\n".join(credit_lines(P.R.credits, P.R.assets.rights, P.R.assets.media,
                                                                   P.R.cache.get("credit_refs"), P.R.cache.get("cited_sources"),
-                                                                  P.R.cache.get("series_records"))) + "\n",
+                                                                  P.R.cache.get("series_records"), P.R.cache.get("press_by_scene"))) + "\n",
                                           encoding="utf-8")
         req = P.R.cache.get("credit_refs") or set()
         desc = build_description(P.plan, load_description(proj), sorted(r for r in req if r.startswith("music.")))

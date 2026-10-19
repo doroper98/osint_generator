@@ -39,7 +39,7 @@ import cairo
 from pydantic import BaseModel, ConfigDict
 
 from rules import load_rules
-from script.schema import Script
+from script.schema import Scene, Script
 
 Severity = Literal["error", "warning"]
 NUMERIC = re.compile(r"\d")   # 숫자·날짜가 있는 자막 문장
@@ -181,7 +181,15 @@ def apply_dict(text: str, mapping: dict[str, str] | None = None) -> str:
     keys = sorted((k for k in (mapping or {}) if not k.startswith("_") and k), key=len, reverse=True)
     if not keys:
         return text
-    pat = re.compile("|".join(re.escape(k) for k in keys))
+    sk = load_rules().tts_rules.short_key_boundary   # v7.4.0 D-0246 보충 — 한글 짧은 키는 어절 경계(또는 수사 음절) 뒤에서만
+    allow = sk.allow_after if sk else ""
+
+    def _alt(k: str) -> str:
+        if sk and len(k) <= sk.max_len and all("가" <= c <= "힣" for c in k):
+            return f"(?:(?<![가-힣])|(?<=[{re.escape(allow)}])){re.escape(k)}" if allow else f"(?<![가-힣]){re.escape(k)}"
+        return re.escape(k)
+
+    pat = re.compile("|".join(_alt(k) for k in keys))
     return pat.sub(lambda m: (mapping or {})[m.group(0)], text)
 
 
@@ -266,7 +274,50 @@ def load_pronounce_dict(path: Path | None = None) -> dict[str, str]:
     raw = json.loads(p.read_text(encoding="utf-8"))
     if not isinstance(raw, dict):
         raise ValueError(f"{p}: 발음 사전은 JSON 객체여야 한다")
+    file_map = {str(k): str(v) for k, v in raw.items() if isinstance(k, str) and not k.startswith("_")}
+    out = tensification_entries(file_map)   # v7.4.0 D-0246(UF-127) — 규칙에서 생성한 예외 항목(파일 항목이 같은 key 면 파일이 이긴다)
+    out.update(file_map)
+    return out
+
+
+def load_pronounce_dict_file() -> dict[str, str]:
+    """사전 파일 항목만(규칙 생성 항목 제외) — tensification_entries 가 명사 자체 읽기를 찾을 때."""
+    raw = json.loads(pronounce_dict_path().read_text(encoding="utf-8"))
     return {str(k): str(v) for k, v in raw.items() if isinstance(k, str) and not k.startswith("_")}
+
+
+def tensification_entries(file_map: dict[str, str] | None = None) -> dict[str, str]:
+    """rules tts_rules.tensification_traps → 발음 사전 항목 {명사+조사: spoken}. 사전의 "유가"(油價 → 유까) 치환이 '…유 + 조사 가' 를
+    바꾸지 못하게 더 긴 key 로 막는다(apply_dict 최장 일치, TTS-AP-069·083). 손으로 명사별 항목을 넣지 않는다(P3)."""
+    tt = load_rules().tts_rules.tensification_traps
+    if tt is None:
+        return {}
+    fm = file_map or {}   # 명사 자체에 사전 항목이 있으면(원유 → 워뉴) 그 읽기를 쓴다 — 예외가 명사 읽기를 지우지 않게
+    return {f"{n}{p}": tt.spoken.replace("{noun}", fm.get(n, n)).replace("{particle}", p) for n in tt.suffix_nouns for p in tt.particles}
+
+
+def attribution_mode(proj: "Path | None", script: Script) -> str:
+    """v7.4.0 D-0233(UF-117) — 보도 귀속 방식: order.yaml attribution_mode → 없으면 rules script_schema.attribution_mode
+    (원고 날짜 ≥ attribution_credits_since 일 때만, 아니면 narration — 옛 원고·골든 불변)."""
+    ss = load_rules().script_schema
+    if proj is not None:
+        from genres.load import load_order  # noqa: PLC0415
+
+        order = load_order(proj)
+        if order is not None and order.attribution_mode is not None:
+            return order.attribution_mode
+    since = ss.attribution_credits_since
+    if since and badge_day(script.date) < badge_day(since):
+        return "narration"
+    return ss.attribution_mode
+
+
+def load_claim_kinds(proj: Path) -> "dict[str, str]":
+    """claims.json → {claim_id: claim_kind}(fact | statement). 없으면 {}."""
+    from schemas.source_models import ClaimsFile  # noqa: PLC0415
+
+    p = proj / "intake" / "claims.json"
+    return {c.claim_id: c.claim_kind for c in ClaimsFile.model_validate_json(p.read_text(encoding="utf-8")).claims} if p.exists() else {}
 
 
 def load_claims_for(proj: Path) -> "dict | None":
@@ -286,6 +337,17 @@ def _series_exists(sid: str) -> bool:
 def starts_with_connective(text: str, connectives: list[str]) -> bool:
     """문장이 연결어로 시작하는가(v5.5.0 script_grammar) — 연결어 뒤가 띄어쓰기·쉼표·끝이어야 한다("즉시"는 "즉"이 아니다)."""
     return any(text.startswith(c) and (len(text) == len(c) or text[len(c)] in " ,") for c in connectives)
+
+
+def _press_relayed(text: str, markers: list[str], verbs: list[str]) -> bool:
+    """v7.4.0 D-0234 — 귀속을 남기는 문장에 매체 전달이 겹쳤는가.
+
+    발언 동사가 따로 있거나("X에 따르면 Y는 … 말했다", "X는 Y가 … 말했다고 전했다"),
+    서로 다른 매체 표지가 둘 이상이면("X가 인용한 Y 자료에 따르면") 매체 접두로 본다.
+    """
+    found = [m for m in markers if m in text]
+    found = [m for m in found if not any(m != o and m in o for o in found)]
+    return any(v in text for v in verbs) or len(found) >= 2
 
 
 def _attributed(text: str, markers: list[str]) -> bool:
@@ -318,8 +380,132 @@ def ends_present(text: str) -> bool:
     return True
 
 
+def badge_day(d: str) -> "datetime.date":
+    """날짜 배지 문자열(YYYY / YYYY.MM / YYYY.MM.DD) → 날짜(빠진 월·일 = 1)."""
+    import datetime  # noqa: PLC0415
+
+    p = [int(x) for x in d.split(".")]
+    return datetime.date(p[0], p[1] if len(p) > 1 else 1, p[2] if len(p) > 2 else 1)
+
+
+def scene_day(sc: "Scene") -> "datetime.date":
+    """장면 대표 날짜 — 문장 날짜 중앙값(짝수면 앞쪽 가운데)."""
+    ds = sorted(badge_day(s.date) for s in sc.sentences)
+    return ds[(len(ds) - 1) // 2]
+
+
+def transition_points(script: Script) -> list[tuple[int, list[str], str]]:
+    """시점 전환 지점(v7.4.0 D-0230 B — 장면 경계) — (뒤 장면 첫 문장의 원고 전체 순번, 종류, 설명).
+    stage = 이웃 장면의 stage(이야기 무대)가 둘 다 있고 다름, date_jump = 장면 대표 날짜 차 ≥ rules transition.jump_days."""
+    jd = load_rules().transition.jump_days
+    out, i = [], 0
+    for pa, pb in zip(script.scenes, script.scenes[1:]):
+        i += len(pa.sentences)
+        kind, why = [], []
+        if pa.stage and pb.stage and pa.stage != pb.stage:
+            kind.append("stage")
+            why.append(f"무대 {pa.stage}→{pb.stage}")
+        days = abs((scene_day(pb) - scene_day(pa)).days)
+        if days >= jd:
+            kind.append("date_jump")
+            why.append(f"장면 날짜 {scene_day(pa)}→{scene_day(pb)}({days}일)")
+        if kind:
+            out.append((i, kind, ", ".join(why)))
+    return out
+
+
+def transition_issues(script: Script) -> list[LintIssue]:
+    """[transition-bridge] 오류 — 전환 경계의 앞 장면 마지막·뒤 장면 첫 문장에 role: bridge 가 없다(UF-105, D-0230).
+    [transition-in-scene] 경고 — 장면 안 문장 날짜가 장면 중앙값과 in_scene_jump_days 이상(role: background 제외)."""
+    T = load_rules().transition  # noqa: N806
+    flat = [(f"{sc.id}_{k}", s) for sc in script.scenes for k, s in enumerate(sc.sentences)]
+    out = []
+    for i, _kind, why in transition_points(script):
+        if not any(s.role == "bridge" for _, s in flat[i - 1:i + 1]):
+            sid, s = flat[i]
+            out.append(LintIssue(kind="transition-bridge", severity="error", sid=sid, text=s.text,
+                                 detail=f"시점 전환({why}) — 앞 장면 마지막·이 장면 첫 문장 중 하나를 role: bridge(시점이 바뀐다고 알리는 문장)로(rules transition, UF-105)"))
+    for sc in script.scenes:
+        mid = scene_day(sc)
+        for k, s in enumerate(sc.sentences):
+            gap = abs((badge_day(s.date) - mid).days)
+            if gap >= T.in_scene_jump_days and s.role != "background":
+                out.append(LintIssue(kind="transition-in-scene", severity="warning", sid=f"{sc.id}_{k}", text=s.text,
+                                     detail=f"장면 {sc.id} 날짜 {mid} 와 {gap}일 떨어진 문장 — 회고·배경이면 role: background, 아니면 장면을 나누고 bridge 로(D-0230 §2)"))
+    return out
+
+
+def tensification_issues(script: Script) -> list[LintIssue]:
+    """v7.4.0 D-0246(UF-127) — [tts-tensification] 오류: 발음 텍스트(명시 tts 또는 text)에 rules tts_rules.tensification_traps 의 명사 + 조사가 있는데
+    합성 직전 사전(pronounce_tts) 결과에 그 예외 읽기가 없거나 '명사 + 까' 가 생기면 실패(사전이 실제로 막는지 검증)."""
+    tt = load_rules().tts_rules.tensification_traps
+    if tt is None:
+        return []
+    ent = tensification_entries(load_pronounce_dict_file())
+    out = []
+    for sc in script.scenes:
+        for i, s in enumerate(sc.sentences):
+            src = s.tts or s.text
+            res = pronounce_tts(src)
+            bad = [k for k, v in ent.items() if k in src and v not in res] + [f"{n}까" for n in tt.suffix_nouns if f"{n}까" in res and f"{n}까" not in src]
+            if bad:
+                out.append(LintIssue(kind="tts-tensification", severity="error", sid=f"{sc.id}_{i}", text=src,
+                                     detail=f"'…유 + 조사' 가 사전 '유가'(油價) 치환에 걸렸다 {sorted(set(bad))} — rules tts_rules.tensification_traps·short_key_boundary(UF-127)"))
+    return out
+
+
+def act_frame_issues(script: Script) -> list[LintIssue]:
+    """v7.4.0 D-0229 §2.9(UF-104·115) — [act-frame] 오류: 막(kind act)의 도입(intro·bridge)·정리(outro) 문장 수가 rules tempo 하한 미만."""
+    T = load_rules().tempo  # noqa: N806
+    out = []
+    for sc in script.scenes:
+        if sc.kind != "act":
+            continue
+        n_in = sum(s.role in ("intro", "bridge") for s in sc.sentences)
+        n_out = sum(s.role == "outro" for s in sc.sentences)
+        if n_in < T.act_intro_min or n_out < T.act_outro_min:
+            out.append(LintIssue(kind="act-frame", severity="error", sid=f"{sc.id}_0", text=sc.sentences[0].text,
+                                 detail=f"막 {sc.id}: 도입(intro·bridge) {n_in} < {T.act_intro_min} 또는 정리(outro) {n_out} < {T.act_outro_min} — "
+                                        "막전(왜 지금 이 이야기인가)·막후(무엇이 바뀌었나) 문장을 둔다(rules tempo, UF-104·115)"))
+    return out
+
+
+def tempo_density(rows: list) -> list[str]:
+    """v7.4.0 D-0229 §2.9(UF-115) — 1분 창(문장 시작 기준)마다 사실 문장(script_schema.attribution_markers 귀속) 수 > tempo 상한이면 경고 한 줄씩.
+    rows = 타임라인 행(t0·text·sid — plan row dict 또는 PlanSentence)."""
+    R = load_rules()  # noqa: N806
+    lim, marks = R.tempo.fact_sentences_per_min_max, R.script_schema.attribution_markers
+    g = (lambda r, k: r[k]) if rows and isinstance(rows[0], dict) else getattr  # noqa: E731
+    facts = [(g(r, "t0"), g(r, "sid")) for r in rows if _attributed(g(r, "text"), marks)]
+    out, last_end = [], -1.0
+    for i, (t0, sid) in enumerate(facts):
+        n = sum(1 for t, _ in facts[i:] if t < t0 + 60.0)
+        if n > lim and t0 >= last_end:
+            out.append(f"[tempo-density] {sid}(t={t0:.0f}s) 부터 1분에 사실 문장 {n} > {lim} — 사이에 '왜'·정리 문장이나 호흡을(UF-115)")
+            last_end = t0 + 60.0
+    return out
+
+
+def vocab_issues(script: Script) -> list[LintIssue]:
+    """v7.4.0 D-0229 §2.8 — [verb-target-mismatch] 오류(UF-114), [contrast-conjunction] 경고(UF-108). 값 = rules script_vocab."""
+    V = load_rules().script_vocab  # noqa: N806
+    flat = [(f"{sc.id}_{k}", s) for sc in script.scenes for k, s in enumerate(sc.sentences)]
+    out = []
+    for j, (sid, s) in enumerate(flat):
+        hv = next((v for v in V.hit_verbs if v in s.text), None)
+        ft = next((n for n in V.fixed_targets if n in s.text), None)
+        if hv and ft and not any(n in s.text for n in V.moving_targets):
+            out.append(LintIssue(kind="verb-target-mismatch", severity="error", sid=sid, text=s.text,
+                                 detail=f"고정 시설 '{ft}' 에 '{hv}…' — 고정 표적은 '타격했다·때렸다', '맞히다'는 이동 표적에만(UF-114)"))
+        head = next((h for h in V.contrast_heads if starts_with_connective(s.text, [h])), None)
+        if head and j > 0 and any(v in flat[j - 1][1].text for v in V.statement_verbs):
+            out.append(LintIssue(kind="contrast-conjunction", severity="warning", sid=sid, text=s.text,
+                                 detail=f"앞 문장이 발표·주장인데 '{head}' 로 시작 — {V.contrast_hint}(UF-108)"))
+    return out
+
+
 def lint(script: Script, claims: "dict[str, str] | None" = None, *, check_sources: bool = True,
-         noted: "set[str] | None" = None) -> LintReport:
+         noted: "set[str] | None" = None, mode: str = "narration", kinds: "dict[str, str] | None" = None) -> LintReport:
     """claims = {claim_id: status}(claims.json). check_sources=False 는 출처 검사를 끈다 — 프롬프트 예시처럼
     claims.json 이 없는 원고 조각에만(파리티 테스트)."""
     r = load_rules()
@@ -371,7 +557,16 @@ def lint(script: Script, claims: "dict[str, str] | None" = None, *, check_source
                 if unknown:
                     add("source-unknown", "error", f"claims.json 밖 id {unknown}" if claims is not None else
                         f"claims.json 이 없다 — sources {unknown} 를 확인할 수 없다(18 §3-6)")
-                if claims is not None and any(claims.get(c) == "unverified" and c not in (noted or set()) for c in s.sources) \
+                keep = claims is not None and any(claims.get(c) == "disputed" or (kinds or {}).get(c) == "statement" for c in s.sources)
+                if mode == "credits":   # v7.4.0 D-0233(UF-117) — 귀속은 당사자 발언·논쟁 수치만 요구, 보도 귀속은 크레딧으로
+                    if keep and not any(m in s.text for m in attrib):
+                        add("attribution", "warning", "당사자 발언·논쟁 수치 claim 인용 — 말한 쪽·자료 이름(귀속 표현) 없음(credits 모드)")
+                    pm = next((m for m in r.script_schema.press_markers if m in s.text), None)
+                    if pm and not keep:
+                        add("press-attribution", "warning", f"보도 귀속 {pm!r} — credits 모드: 평서로 쓰고 출처는 엔딩 크레딧 '보도 출처'(UF-117). 분석·추정·전망이면 '~는 분석했습니다' 형태로")
+                    elif pm and _press_relayed(s.text, r.script_schema.press_markers, r.script_schema.press_relay_verbs):
+                        add("press-attribution", "warning", f"당사자 발언·논쟁 문장의 매체 접두 {pm!r} — 발언자·자료 이름만 남기고 매체는 엔딩 크레딧으로(D-0234)")
+                elif claims is not None and any(claims.get(c) == "unverified" and c not in (noted or set()) for c in s.sources) \
                         and not any(m in s.text for m in attrib):
                     add("attribution", "warning", "unverified claim 인용 — 귀속 표현(~라고 주장했습니다/보도했습니다, rules script_schema.attribution_markers) 없음")
             n = subtitle_lines(s.text)
@@ -399,6 +594,10 @@ def lint(script: Script, claims: "dict[str, str] | None" = None, *, check_source
                 add("tense-present", "warning", f"{s.date} 의 일인데 현재형으로 끝남 — 과거의 사건·상태는 과거형으로(script_grammar)")
             total += 1
             flow += starts_with_connective(s.text, sg.connectives)
+    out += transition_issues(script)   # v7.4.0 D-0229 §2.2(UF-105)·D-0230
+    out += vocab_issues(script)        # v7.4.0 D-0229 §2.8(UF-108·114)
+    out += act_frame_issues(script)    # v7.4.0 D-0229 §2.9(UF-104·115)
+    out += tensification_issues(script)   # v7.4.0 D-0246(UF-127)
     if total >= 4:   # v5.5.0 — 문장 흐름: 연결어로 앞 문장을 받는 문장 비율
         r_ = flow / total
         if r_ < sg.connective_min_ratio:
@@ -424,7 +623,8 @@ def main(argv: list[str] | None = None) -> int:
 
     try:
         script = Script.model_validate(yaml.safe_load(path.read_text(encoding="utf-8")))
-        rep = lint(script, load_claims_for(path.parent), noted=noted_claims(path.parent))
+        rep = lint(script, load_claims_for(path.parent), noted=noted_claims(path.parent),
+                   mode=attribution_mode(path.parent, script), kinds=load_claim_kinds(path.parent))
         from script import lint_waivers  # noqa: PLC0415 — v5.17.0 D-0168(plan 과 같은 면제 적용)
 
         rep, waived = lint_waivers.apply(rep, lint_waivers.load(path.parent), script)

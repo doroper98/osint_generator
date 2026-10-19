@@ -1,9 +1,9 @@
-# 『경유의 길 — 사흘에 한 번』 엔딩 크레딧 (v7.3.0). 보도 = 인용 소스(auto: sources). 기사 카드·사진 행은 연출이 쓴 미디어만 채운다(연출 단계에서 rights 보강).
+# 『경유의 길 — 사흘에 한 번』 엔딩 크레딧 (v7.3.0→v7.4.0). 보도 출처 = 장면별 인용 매체(auto: press, D-0233). 기사 카드·사진 행은 연출이 쓴 미디어만 채운다(연출 단계에서 rights 보강).
 schema_version: 1
 sections:
-- title: 보도
+- title: 보도 출처
   column: 0
-  auto: sources
+  auto: press
 - title: 기사 카드
   column: 0
   items:
@@ -13,28 +13,58 @@ sections:
     - media.diesel_road_2026_art_0001
     - media.diesel_road_2026_art_0002
     - media.diesel_road_2026_art_0005
-    - media.diesel_road_2026_art_0007
     - media.diesel_road_2026_art_0011
     - media.diesel_road_2026_art_0012
-    - media.diesel_road_2026_art_0013
     - media.diesel_road_2026_art_0015
-    - media.diesel_road_2026_art_0016
+    - media.diesel_road_2026_art_0017
+    - media.diesel_road_2026_art_0020
     - media.diesel_road_2026_art_0021
-    - media.diesel_road_2026_art_0022
-    - media.diesel_road_2026_art_0023
-    - media.diesel_road_2026_art_0025
+    - media.diesel_road_2026_art_0024
     - media.diesel_road_2026_art_0026
     - media.diesel_road_2026_art_0028
     - media.diesel_road_2026_art_0030
     - media.diesel_road_2026_art_0032
-    - media.diesel_road_2026_art_0033
     - media.diesel_road_2026_art_0034
+- title: 사진
+  column: 0
+  items:
+  - main: 호르무즈 해협 통과 중 경계 근무를 서는 미 해군 (2023. 05)
+    license: U.S. Navy · Public domain
+    rights:
+    - media.hormuz_transit
+  - main: 백악관 남쪽 잔디밭의 트럼프 대통령 (2026. 10. 06)
+    license: 백악관 · Public domain
+    rights:
+    - media.diesel_road_2026_trump_1006
+  - main: 모스크바 정유소 화재 연기 (2026. 06. 18)
+    license: Rotafinus (CC0) · CC0
+    rights:
+    - media.diesel_road_2026_moscow_fire_0618
+  - main: 하바롭스크 정유소 (2005. 10)
+    license: Николай Максимович · CC BY 3.0 · CC BY 3.0
+    rights:
+    - media.diesel_road_2026_khabarovsk_ref_2005
+  - main: 라스라판 LNG 터미널 (2012. 09)
+    license: Matthew Smith · CC BY 2.0 · CC BY 2.0
+    rights:
+    - media.diesel_road_2026_ras_laffan_lng_2012
+  - main: 블라디보스토크 항 (1992. 09)
+    license: U.S. Navy · Public domain
+    rights:
+    - media.diesel_road_2026_vladivostok_port_1992
 - title: 글꼴
   column: 1
   auto: fonts
 - title: 지도
   column: 1
   auto: map
+- title: 휘장
+  column: 1
+  items:
+  - main: Emblem of the President of the Republic of Korea
+    license: Public domain · 용도 한정(D98)
+    rights:
+    - emblems.cheongwadae
 - title: 국기
   column: 1
   items:
@@ -48,7 +78,7 @@ sections:
 - title: 음악
   column: 1
   items:
-  - music: music.zabriskie_mario_bava   # D232 · rules audio.bgm_default 첫 곡 — 제목·라이선스 줄은 BGM 레지스트리
+  - music: music.zabriskie_mario_bava
 - title: 음성
   column: 1
   items:
@@ -56,9 +86,9 @@ sections:
     license: AI 음성 합성
     rights:
     - narration.tts
-
 - title: 표기
   column: 1
+  slot: notice
   items:
   - main: 비행 경로·출발 위치는 개략 표현
     license: 51%는 우크라이나 측 발표로 독립 검증 전 · 위성 사진은 피격 전 자료(비공개 시청 한정)

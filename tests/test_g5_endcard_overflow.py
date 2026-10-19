@@ -52,7 +52,7 @@ class OverflowTest(unittest.TestCase):
         over = fullcards.endcard_overflow(secs, place)
         self.assertEqual(len(over), 1)
         self.assertTrue(over[0].startswith("[endcard-overflow] 크레딧 롤 속도"))
-        R = NS(tb=NS(plan=NS(date="2026.09.29"), order=[]), credits=NS(sections=[NS(column=c) for c in place]),  # noqa: N806
+        R = NS(tb=NS(plan=NS(date="2026.09.29"), order=[]), credits=NS(sections=[NS(column=c, slot="column") for c in place]),   # v7.4.0 credits slot  # noqa: N806
                assets=NS(rights={}, media={}), cache={})
         ctx = cairo.Context(cairo.ImageSurface(cairo.FORMAT_ARGB32, 854, 480))
         with mock.patch.object(fullcards, "credit_sections", return_value=secs):

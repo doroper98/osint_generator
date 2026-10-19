@@ -110,8 +110,9 @@ class RunStageTest(unittest.TestCase):
         # v5.17.0 D-0168(D162) — 그 2개는 projects/hormuz_korea/lint_waivers.yaml 정확 일치 면제 → 통과, [waived …] 경고줄로 남는다
         self.assertTrue(r.ok, r.errors)
         self.assertEqual(r.errors, [])
-        self.assertEqual(sorted(w for w in r.warnings if w.startswith("[waived")),
+        self.assertEqual(sorted(w for w in r.warnings if w.startswith("[waived") and w.endswith("D-0168]")),
                          ["[waived flow-sparse - — D-0168]", "[waived uncertain-phrase now_3 — D-0168]"])
+        self.assertEqual({w.split()[1] for w in r.warnings if w.endswith("D-0230]")}, {"transition-bridge", "act-frame"})   # v7.4.0 D-0230 §3 옛 원고 면제
         self.assertEqual(r.stage, "lint")
         # v3.2.0 — v3 원고가 claims 로 이관돼(D51) sources 경고가 사라졌다. 라벨 집계는 artifacts 로
         self.assertEqual([w for w in r.warnings if "source" in w], [])
