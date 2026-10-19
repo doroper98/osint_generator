@@ -28,7 +28,7 @@ REPO = Path(__file__).resolve().parent.parent
 
 
 class GlyphPerFontTest(unittest.TestCase):
-    def test_missing_in_drawn_font_is_logged(self) -> None:
+    def _miss(self) -> list:
         ctx = cairo.Context(cairo.ImageSurface(cairo.FORMAT_ARGB32, 10, 10))
         typography.GLYPH_MISS = []
         try:
@@ -36,7 +36,15 @@ class GlyphPerFontTest(unittest.TestCase):
             typography.text(ctx, "약 -630", 1, 5, 20, "disp")
         finally:
             miss, typography.GLYPH_MISS = typography.GLYPH_MISS, None
-        self.assertEqual([(n, c) for n, c, _ in miss], [("disp", "−")])
+        return [(n, c) for n, c, _ in miss]
+
+    def test_missing_in_drawn_font_is_logged(self) -> None:
+        # v7.4.0 D-0250(UF-131) — rules fonts.glyph_fallback 이 있으면 '−' 는 같은 굵기 대체 글꼴로 그려 누락이 아니다
+        self.assertEqual(self._miss(), [])
+        from unittest import mock  # noqa: PLC0415
+
+        with mock.patch.dict(typography.GLYPH_FALLBACK, {}, clear=True):   # 대체 사슬이 없으면 그 글꼴 기준 누락으로 남는다(옛 사고 재현)
+            self.assertEqual(self._miss(), [("disp", "−")])
 
     def test_check_glyphs_reports_logged_miss(self) -> None:
         from engine.checks import check_glyphs  # noqa: PLC0415
