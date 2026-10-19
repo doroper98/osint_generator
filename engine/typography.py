@@ -16,7 +16,7 @@ from functools import lru_cache
 
 import cairo
 
-from engine.style import DISPLAY_SPACE, FONT, UNIT_FONT
+from engine.style import DISPLAY_SPACE, FONT, GLYPH_FALLBACK, UNIT_FONT
 
 HANGUL = re.compile("[ᄀ-ᇿ㄰-㆏가-힣]")
 MONO = ("mono", "monom")
@@ -107,6 +107,30 @@ def unit_face(unit: str, name: str = "disp") -> str:
     return UNIT_WEIGHT[UNIT_FONT][name] if UNIT_FONT is not None and re.search("[A-Za-z]", unit) else name
 
 
+def fallback_runs(s: str, name: str) -> "list[list[str]] | None":
+    """v7.4.0 D-0250(UF-131) — rules fonts.glyph_fallback: 그 글꼴 cmap 에 없는 글자만 대체 글꼴 런으로. 대체가 필요 없으면 None."""
+    fb = GLYPH_FALLBACK.get(name)
+    if fb is None:
+        return None
+    cm = font_cmap(name)
+    if all(ch.isspace() or ord(ch) in cm for ch in s):
+        return None
+    runs: list[list[str]] = []
+    for ch in s:
+        f = name if ch.isspace() or ord(ch) in cm else fb
+        if runs and runs[-1][1] == f:
+            runs[-1][0] += ch
+        else:
+            runs.append([ch, f])
+    return runs
+
+
+def drawn_missing(s: str, name: str) -> list[str]:
+    """실제로 그리는 글꼴(대체 사슬 반영) 기준 없는 글자 — checks glyphs 의 전 문자열 대조(UF-131)."""
+    runs = fallback_runs(s, name) or [[s, name]]
+    return [ch for r, f in runs for ch in dict.fromkeys(r) if not ch.isspace() and ord(ch) not in font_cmap(f)]
+
+
 def mixed_runs(s: str, name: str) -> list[list[str]]:
     fb = "sans" if name == "monom" else "sansm"
     runs: list[list[str]] = []
@@ -146,6 +170,20 @@ def text(ctx: cairo.Context, s: str, x: float, y: float, size: float, name: str 
             text(ctx, unit, x, y, size, uf, col, a, halo, "l", 0.0, halo_a, halo_rgb=halo_rgb)
         finally:
             globals()["GLYPH_LOG"] = log
+        return w
+    fr = fallback_runs(s, name) if not (name in MONO and HANGUL.search(s)) else None
+    if fr is not None:   # v7.4.0 D-0250(UF-131) — 없는 글자만 대체 글꼴(같은 굵기)
+        w = sum(tw(ctx, r, size, f) for r, f in fr)
+        x -= w / 2 if anchor == "c" else w if anchor == "r" else 0
+        if GLYPH_MISS is not None:
+            GLYPH_MISS.extend((name, ch, s[:40]) for ch in drawn_missing(s, name))
+        log, globals()["GLYPH_LOG"] = GLYPH_LOG, None
+        miss, globals()["GLYPH_MISS"] = GLYPH_MISS, None
+        try:
+            for r, f in fr:
+                x += text(ctx, r, x, y, size, f, col, a, halo, "l", 0.0, halo_a, halo_rgb=halo_rgb)
+        finally:
+            globals()["GLYPH_LOG"], globals()["GLYPH_MISS"] = log, miss
         return w
     if name in MONO and HANGUL.search(s):
         runs = mixed_runs(s, name)
@@ -243,6 +281,8 @@ def tw(ctx: cairo.Context, s: str, size: float, name: str) -> float:
     us = unit_split(s, name)
     if us is not None:
         return tw(ctx, us[0], size, name) + tw(ctx, us[1], size, us[2])
+    if not (name in MONO and HANGUL.search(s)) and (fr := fallback_runs(s, name)) is not None:   # v7.4.0 D-0250
+        return sum(tw(ctx, r, size, f) for r, f in fr)
     if name in MONO and HANGUL.search(s):
         return sum(tw(ctx, r, size, f) for r, f in mixed_runs(s, name))
     if name in DISP and " " in s:

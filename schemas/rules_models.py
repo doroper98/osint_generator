@@ -1227,6 +1227,7 @@ class Fonts(_Strict):
     mono_hangul_fallback: str
     display_space_advance: float
     unit_font: Optional[Literal["sans"]] = None   # v7.4.0 D-0229 §2.4(UF-111) — display 숫자 뒤 라틴 단위(t·kb/d)를 이 글꼴로(GmarketSans 십자형 t 금지)
+    glyph_fallback: dict[str, str] = Field(default_factory=dict)   # v7.4.0 D-0250(UF-131) — 글꼴 키 → 그 글꼴에 없는 글자를 그릴 글꼴 키
 
 
 class LabelRules(_Strict):
@@ -1632,6 +1633,13 @@ class BattleGeoRules(_Strict):
     verbs: list[str] = Field(min_length=1)
 
 
+class OutletNames(_Strict):
+    """v7.4.0 D-0250(UF-130) — 매체 표기(원고 문장에서 찾는 이름)와 url 도메인."""
+
+    names: list[str] = Field(min_length=1)
+    domains: list[str] = Field(default_factory=list)
+
+
 class CardOverPanel(_Strict):
     """v7.4.0 D-0248(UF-129) — 패널 위 카드 겹침 검사 임계."""
 
@@ -1644,6 +1652,8 @@ class CardOverPanel(_Strict):
 class QAChecks(_Strict):
     overlap_core_elements: int
     card_over_panel: Optional[CardOverPanel] = None   # v7.4.0 D-0248(UF-129)
+    outlet_min_overlap_sec: float = 0.5               # v7.4.0 D-0250(UF-130)
+    outlet_names: dict[str, OutletNames] = Field(default_factory=dict)
     offscreen_clip: int
     missing_glyphs: int
     labels_per_frame_max: int

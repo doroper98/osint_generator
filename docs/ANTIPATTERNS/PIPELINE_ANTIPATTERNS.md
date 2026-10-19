@@ -200,3 +200,11 @@ last_review: 2026-05-19
 - **원칙**: 연출이 그려야 할 데이터는 주문의 구조 필드(order.yaml data.series)로 적고 검사가 대조한다. 이전 승인 연출(track_v*)의 데이터 패널은 새 연출에도 있어야 한다. 빼려면 direction drops {record, reason} — 조용한 드롭 금지(P6).
 - **자동 조치**: 검사 `series_unused`·`panel_dropped` hard(engine/checks.py, 콘티·프리뷰·전편 같은 run_checks), Direction.drops, director 프롬프트 규칙(rules direction_grammar 경유). 재현 시험 `tests/anti_inertia/test_series_panels_kept.py`(v2 초안 = 두 검사 실패, 복원본 = 0).
 - **발견 버전**: v7.4.0 · **상태**: active
+
+## PIPELINE-AP-024 — 2차 보도 기사 카드를 원 매체(가디언)를 말하는 문장에 붙였다
+
+- **증상(실제 현상)**: v7.4.0 diesel_road_2026 교체 3 — 사용자 "기사 조판과 자막 나래이션이 다름"(UF-130). act3_5~6 「가디언도 …」「그래서 가디언은 …」 구간에 Kyiv Independent 기사 카드(art_0001), act2_19 「이후 가디언이 …」 구간에 UNITED24 기사 카드(art_0002). 둘 다 가디언 보도를 인용한 2차 보도다.
+- **원리**: 가디언 원문은 컨테이너에서 열람·권리 기록이 불가해(프록시 403) 2차 보도를 기사 카드로 등재했고, 연출이 내용이 같은 문장에 붙였다. 카드의 매체와 문장이 말하는 매체를 대조하는 검사가 없었다(article_press_missing·press_credit 은 출처 줄 유무만 본다).
+- **원칙**: 문장이 매체를 이름으로 말하면 그 구간 기사 카드는 그 매체의 기사여야 한다. 2차 보도 카드는 매체 이름이 없는 문장(내용 문장)으로 옮긴다. 원 매체 기사를 확보할 수 없으면 카드를 뺀다.
+- **자동 조치**: 검사 `article_outlet` hard `[article-outlet-mismatch]`(rules qa_checks.outlet_names·outlet_min_overlap_sec). 시험 `tests/test_v740_outlet_glyph.py`(현재 diesel 연출 2건 재현). 사용자 결정 D262 로 이 영상은 재렌더 없음(artifacts README 알려진 문제).
+- **발견 버전**: v7.4.0 · **상태**: active

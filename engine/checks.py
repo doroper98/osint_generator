@@ -50,6 +50,7 @@ hard 실패가 하나라도 있으면 시각 검수 LLM 을 부르지 않고 연
 | series_unused | hard | 주문 order.yaml data.series 의 시리즈를 그리는 패널이 없다 `[series-unused]` — direction drops(record·사유)만 예외(v7.4.0 D-0245·UF-126) |
 | panel_dropped | hard | 이전 승인 연출(track_v*/direction.yaml)의 데이터 패널 레코드가 새 연출에 없다 `[panel-dropped]` — drops 사유만 예외(v7.4.0 D-0245·UF-126) |
 | card_over_panel | hard | 패널이 페이드 뺀 구간에 떠 있는 동안 덮개(rules cover_types; 데이터 패널은 + cover_types_on_data_panels 사진·영상·컷아웃·뱃지)가 패널 상자를 덮는다(D-0249) `[card-over-panel]`(rules qa_checks.card_over_panel, v7.4.0 D-0248·UF-129) |
+| article_outlet | hard | 기사 카드가 떠 있는 문장(겹침 ≥ outlet_min_overlap_sec)에 매체 이름이 나오는데 카드 매체(url 도메인·credit_author → rules qa_checks.outlet_names)가 다르다 `[article-outlet-mismatch]`(v7.4.0 D-0250·UF-130) |
 | media_unused | hard | 프로젝트가 등재한 권리 통과 사진({pid}_ 접두 kind photo)이 연출 어디에도 없음 `[media-unused]` — media_notes drop 사유만 예외(v7.4.0 UF-118·D-0238) |
 | badge_orphan | warning | 국기 뱃지가 카드·인용·마커에 붙지 않고 홀로 뜸 `[badge-orphan]`(v7.4.0 D-0240 §4) |
 | article_press_missing | warning | 인물 발언·발표 문장 구간 기사 카드에 press 사진 없음 `[article-press-missing]`(v7.4.0 UF-109·D-0229 §6) |
@@ -104,7 +105,7 @@ SHADOW_PX = 7             # badge_box 가 원 둘레에 더하는 그림자 여�
 HARD = ("map_contrast", "overlap", "offscreen", "glyphs", "glyph_size", "labels", "date", "subtitles", "rights", "forbidden", "stage_continuity",
         "genre_elements", "chart_honesty", "series_limit_3", "units_visible", "as_of_visible", "boundary_as_route",
         "geo_mismatch", "timeline_rescale", "backdrop_rights", "backdrop_repeat", "island_overlap",
-        "backdrop_main_missing", "island_label_clip", "cascade", "subtitle_overlap", "label_collision", "timeline_span", "route_frame", "panel_overflow", "flag_territory", "badge_over_panel", "opening_establish", "camera_continuity", "card_exposure", "route_label_cross", "route_label_overlap", "article_backdrop", "quote_in_script", "route_missing_other", "frame_missing_target", "route_missing", "frame_missing", "bgm_decision", "endcard_black", "camera_per_sentence", "label_jump", "camera_speed", "title_backdrop", "camera_bounds", "cutaway_churn", "unit_glyph_font", "transition_camera", "media_unused", "inset_clipped", "press_credit", "static_camera", "route_speed", "sea_only_frame", "unit_ton_glyph", "badge_clipped", "series_unused", "panel_dropped", "card_over_panel")   # cutaway_churn v7.4.0 D-0229 §2.3, island_label_clip v5.2.0 D-0133 §2, backdrop_main_missing v5.2.0 D-0129 §B, island_overlap v5.1.0 D-0126 Q3, geo_mismatch v4.10.0 D-0116, timeline_rescale v5.1.0 D-0121 §A, backdrop_* v5.1.0 D-0123
+        "backdrop_main_missing", "island_label_clip", "cascade", "subtitle_overlap", "label_collision", "timeline_span", "route_frame", "panel_overflow", "flag_territory", "badge_over_panel", "opening_establish", "camera_continuity", "card_exposure", "route_label_cross", "route_label_overlap", "article_backdrop", "quote_in_script", "route_missing_other", "frame_missing_target", "route_missing", "frame_missing", "bgm_decision", "endcard_black", "camera_per_sentence", "label_jump", "camera_speed", "title_backdrop", "camera_bounds", "cutaway_churn", "unit_glyph_font", "transition_camera", "media_unused", "inset_clipped", "press_credit", "static_camera", "route_speed", "sea_only_frame", "unit_ton_glyph", "badge_clipped", "series_unused", "panel_dropped", "card_over_panel", "article_outlet")   # cutaway_churn v7.4.0 D-0229 §2.3, island_label_clip v5.2.0 D-0133 §2, backdrop_main_missing v5.2.0 D-0129 §B, island_overlap v5.1.0 D-0126 Q3, geo_mismatch v4.10.0 D-0116, timeline_rescale v5.1.0 D-0121 §A, backdrop_* v5.1.0 D-0123
 WARN = ("shots", "media_beats", "media_upscaled", "endcard_roll", "geo_unsourced",   # endcard_roll v4.7.0 D-0106, geo_unsourced D-0107
         "static_window", "stage_choice", "card_island", "island_label_overlap", "cascade_label_hidden",
         "map_contrast_shape", "battle_geo", "portrait_unused", "ratio_graphic", "inset_overlap", "tempo_density", "article_press_missing", "badge_orphan")   # ratio_graphic v7.4.0 D-0229 §2.6   # v5.21.14 D-0195·D-0199. map_contrast_shape v5.18.0 D-0161 §4   # static_window v4.11.0 D-0118, stage_choice v5.1.0 D-0123, card_island v5.2.0 D-0129 §C, island_label_overlap D-0133 §3
@@ -1503,6 +1504,57 @@ def check_card_over_panel(P) -> list[str]:  # noqa: ANN001, N803
             "패널 앞에 끝내거나 뒤에 시작한다(UF-129)" for e, p, t in cards_over_panel(P.events, boxes)]
 
 
+# v7.4.0 D-0250(UF-130 "기사 조판과 자막 나래이션이 다름") — 기사 카드 매체 ↔ 그 구간 문장의 매체 이름
+def _outlet_pat(name: str) -> "re.Pattern[str]":
+    return re.compile(rf"(?<![A-Za-z]){re.escape(name)}(?![A-Za-z])" if re.search("[A-Za-z]", name) else re.escape(name))
+
+
+def outlet_of(asset: dict) -> "str | None":
+    """미디어 레지스트리 기사 → 매체 id(rules qa_checks.outlet_names — url 도메인 우선, 다음 credit_author 이름)."""
+    from urllib.parse import urlparse  # noqa: PLC0415
+
+    host = urlparse(asset.get("url") or "").netloc.lower()
+    who = asset.get("credit_author") or asset.get("author") or ""
+    for oid, o in R_.qa_checks.outlet_names.items():
+        if any(host == d or host.endswith("." + d) for d in o.domains):
+            return oid
+    for oid, o in R_.qa_checks.outlet_names.items():
+        if any(_outlet_pat(n).search(who) for n in o.names):
+            return oid
+    return None
+
+
+def outlets_named(text: str) -> set[str]:
+    return {oid for oid, o in R_.qa_checks.outlet_names.items() if any(_outlet_pat(n).search(text) for n in o.names)}
+
+
+def outlet_mismatches(events: list[dict], sentences: list[tuple[str, float, float, str]], assets: dict) -> list[tuple[dict, str, set, "str | None"]]:
+    """(기사 이벤트, 문장 sid, 문장에 나온 매체, 카드 매체) — 문장이 매체를 말하는데 카드 매체가 그 안에 없을 때."""
+    lim = R_.qa_checks.outlet_min_overlap_sec
+    out = []
+    for e in events:
+        if e.get("type") != "article" or not e.get("mid"):
+            continue
+        card = outlet_of(assets.get(e["mid"]) or {})
+        for sid, a, b, text in sentences:
+            if min(b, e["t1"]) - max(a, e["t0"]) < lim:
+                continue
+            named = outlets_named(text)
+            if named and card not in named:
+                out.append((e, sid, named, card))
+    return out
+
+
+def check_article_outlet(P) -> list[str]:  # noqa: ANN001, N803
+    """[article-outlet-mismatch] hard — 기사 카드가 떠 있는 문장이 다른 매체를 말한다(UF-130)."""
+    from engine.media_registry import cached_registry  # noqa: PLC0415
+
+    reg = {k: v.model_dump() for k, v in cached_registry().items()}
+    sents = [(s.sid, s.t0, s.t1, s.text) for s in P.plan.sentences]
+    return [f"[article-outlet-mismatch] 기사 {e['mid']}(매체 {card or '미등재'}) — {sid} 문장은 {', '.join(sorted(named))} 를 말한다. "
+            "그 매체의 기사로 바꾸거나 매체 이름이 없는 문장으로 옮긴다(UF-130)" for e, sid, named, card in outlet_mismatches(P.events, sents, reg)]
+
+
 def check_press_credit(P, times: list[float], drawn: list[tuple[str, float, str | None, str]]) -> list[str]:  # noqa: ANN001, N803
     """v7.4.0 D-0240 §3 — 기사 카드 press 가 공식 사진(A)이면 자료사진 출처 줄이 있어야 한다(G4 자료사진 표기). 출처 줄을 만들 수 없거나
     (규칙 article_card.press_photo_credit 없음) 프레스 사진이 보이는 프리뷰 컷에 그 줄이 그려지지 않았으면 hard."""
@@ -2051,6 +2103,7 @@ def run_checks(P, times: list[float], provenance: dict, drawn: list[tuple[str, f
         "series_unused": lambda: check_series_unused(P),   # v7.4.0 D-0245(UF-126, hard)
         "panel_dropped": lambda: check_panel_dropped(P),   # v7.4.0 D-0245(UF-126, hard)
         "card_over_panel": lambda: check_card_over_panel(P),   # v7.4.0 D-0248(UF-129, hard)
+        "article_outlet": lambda: check_article_outlet(P),   # v7.4.0 D-0250(UF-130, hard)
         "press_credit": lambda: check_press_credit(P, times, drawn),   # v7.4.0 D-0240 §3(hard)
         "static_camera": lambda: check_static_camera(P),   # v7.4.0 D-0241 §1(hard, UF-120)
         "route_speed": lambda: check_route_speed(P),   # v7.4.0 D-0241 §4(hard, UF-123)

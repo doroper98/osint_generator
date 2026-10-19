@@ -962,6 +962,9 @@ fonts:                     # 09 §1
   mono: "IBM Plex Mono"
   mono_hangul_fallback: sans
   display_space_advance: 0.3
+  # v7.4.0 D-0250(사용자 의견 UF-131 "특수문자 에러" — 카드 큰 숫자 '−3.4%' 의 U+2212 가 GmarketSans 에 없어 네모) — 글꼴에 없는 글자만
+  # 같은 굵기 대체 글꼴로 그린다(글꼴 이름 = engine.style.FONT 키). 원고·데이터 값은 그대로(화면 문자열 정규화 아님)
+  glyph_fallback: {disp: sansbb, dispm: sansb}
   unit_font: sans            # v7.4.0 D-0229 §2.4(UF-111 "십자가 같은 t") — display(큰 숫자) 끝 라틴 단위(t·kb/d·mb/d·bbl)는 IBM Plex Sans KR 같은 굵기로. %·$ 는 그대로
 
 labels:                    # 04 §6·§7
@@ -1644,6 +1647,31 @@ qa_checks:                 # 17 §3 — 결정적 사전 검사 임계
   # v7.4.0 D-0249(D260) — 서사 패널(timeline·precedent 등) = cover_types 만(골든 v3 의 패널 위 사진·영상 유지). 데이터 패널(series[].record 보유 —
   # dual_line·dots·versus·gantt) = cover_types + cover_types_on_data_panels("그래프를 가리지 않도록"). 사진·영상·컷아웃·뱃지는 화면 덮개로 본다(시간 겹침).
   # versus 위 뱃지는 badge_over_panel 이 보고(중복 없음)
+  # v7.4.0 D-0250(사용자 의견 UF-130 "기사 조판과 자막 나래이션이 다름") — 기사 카드가 떠 있는 문장(시간 겹침 ≥ outlet_min_overlap_sec)에 매체 이름이
+  # 나오는데 카드의 매체(미디어 레지스트리 url 도메인·credit_author)가 그 매체가 아니면 [article-outlet-mismatch] hard. 문장에 매체 이름이 없으면 통과.
+  # 매체 id → names(원고에 쓰는 한글·영문 표기) · domains(url). 2차 보도 카드(가디언을 인용한 Kyiv Independent 등)는 가디언 문장에 두지 않는다
+  outlet_min_overlap_sec: 0.5
+  outlet_names:
+    guardian: {names: [가디언, Guardian], domains: [theguardian.com]}
+    reuters: {names: [로이터, Reuters], domains: [reuters.com]}
+    ap: {names: [AP, AP통신, 에이피, Associated Press], domains: [apnews.com]}
+    bloomberg: {names: [블룸버그, Bloomberg], domains: [bloomberg.com]}
+    afp: {names: [AFP, 에이에프피, 아에프페], domains: [afp.com]}
+    iea: {names: [국제에너지기구, IEA], domains: [iea.org]}
+    yonhap: {names: [연합뉴스, Yonhap], domains: [yna.co.kr, yonhapnews.co.kr]}
+    kyunghyang: {names: [경향신문, 주간경향, Kyunghyang], domains: [khan.co.kr]}
+    hankyung: {names: [한국경제, 한경], domains: [hankyung.com]}
+    aljazeera: {names: [알자지라, Al Jazeera], domains: [aljazeera.com]}
+    kyiv_independent: {names: [키이우 인디펜던트, Kyiv Independent], domains: [kyivindependent.com]}
+    united24: {names: [유나이티드24, UNITED24], domains: [united24media.com]}
+    ukrainska_pravda: {names: [우크라인스카 프라우다, Ukrainska Pravda], domains: [pravda.com.ua]}
+    korea_times: {names: [코리아타임스, Korea Times], domains: [koreatimes.co.kr]}
+    joongang: {names: [중앙일보, 코리아중앙데일리, JoongAng], domains: [joongang.co.kr]}
+    nyt: {names: [뉴욕타임스, New York Times], domains: [nytimes.com]}
+    wsj: {names: [월스트리트저널, Wall Street Journal], domains: [wsj.com]}
+    ft: {names: [파이낸셜타임스, Financial Times], domains: [ft.com]}
+    bbc: {names: [BBC, 비비씨], domains: [bbc.com, bbc.co.uk]}
+    cnn: {names: [CNN, 씨엔엔], domains: [cnn.com]}
   card_over_panel: {min_overlap_sec: 0.3, panel_pad_px: 4, cover_types: [card, cascade, article, quote, primitive],
                     cover_types_on_data_panels: [photo, clip, cutout, badge]}
   # v5.21.10 사용자 의견(2026-10-11 "기사 화면이 나왔는데 0.5초도 안 돼서 사라진다", D-0191 §1-2) — 기사(프레스 단독·페이드 뺀 글자 구간)·인용(페이드 뺀 구간)

@@ -30,7 +30,7 @@ from engine.source_note import draw_source_note
 from engine.projection import View
 from engine.reserved import card_zones
 from engine.registry import MAP_LAYER_ORDER, RegistryError
-from engine.style import BACKDROP, FADE, FPS, PANEL, output_profile
+from engine.style import BACKDROP, FADE, FONT, FPS, PANEL, output_profile
 from engine.subtitles import draw_subtitle
 from rules import load_rules
 from engine.timebase import smooth, window
@@ -147,6 +147,32 @@ def render_frame(P: Project, i: int) -> tuple[cairo.ImageSurface, bytearray]:  #
     return surf, buf
 
 
+
+def glyph_sweep(P) -> list[tuple[str, str, str, str]]:  # noqa: ANN001, N803
+    """v7.4.0 D-0250(UF-131 "특수문자 에러") — 문자열에 프로젝트 글꼴 중 하나라도 없는 글자가 있는 이벤트를, 그 이벤트가 떠 있는 시각에 한 번씩
+    그려(파일 저장 없음) 실제 그린 글꼴(대체 사슬 반영) 기준 없는 글자를 모은다. 프리뷰 표본 시각에 걸리지 않은 카드도 잡는다."""
+    from engine import typography  # noqa: PLC0415
+    from engine.checks import _strings  # noqa: PLC0415
+
+    common = frozenset.intersection(*(typography.font_cmap(k) for k in FONT))
+    ts: list[tuple[float, str]] = []
+    for e in P.events:
+        if "t0" not in e or "t1" not in e:
+            continue
+        if any(not ch.isspace() and ord(ch) not in common for s in _strings(e) for ch in s):
+            ts.append((min(e["t1"] - 0.05, e["t0"] + max(0.6, (e["t1"] - e["t0"]) * 0.5)), e.get("type", "")))
+    out: list[tuple[str, str, str, str]] = []
+    for t, typ in sorted(set(ts)):
+        typography.GLYPH_MISS = []
+        try:
+            render_frame(P, min(P.n_frames - 1, max(0, int(t * FPS))))
+        except Exception:  # noqa: BLE001 — 그리기 오류는 다른 검사(offscreen·endcard)가 잡는다. 여기서는 글리프만
+            pass
+        finally:
+            got, typography.GLYPH_MISS = typography.GLYPH_MISS, None
+        out += [(f"sweep {typ} t={t:.2f}", name, ch, txt) for name, ch, txt in got]
+    return out
+
 def auto_preview_times(P: Project) -> list[float]:  # noqa: N803
     """장면마다 30%·70% 지점 + 타이틀·엔딩 카드 가운데."""
     tb = P.R.tb
@@ -243,6 +269,7 @@ def preview(P: Project, times: list[float], labels: list[str] | None = None) -> 
 
     prov["preview"] = {"frames": len(paths), "times": [round(t, 3) for t in times], "dir": out.name,
                        "direction_sha1": direction_sha1(P.root)}   # v5.22.5 D208 — mux 가 전편 연출과 대조
+    miss += glyph_sweep(P)   # v7.4.0 D-0250(UF-131) — 프리뷰 표본 밖 문자열도 실제 그리는 글꼴 기준
     P.R.cache["glyph_miss"] = miss
     checks = run_checks(P, times, prov, drawn, names)   # 17 §3 결정적 사전 검사(D-0047 작업 6)
     from engine.checks import contrast_summary  # noqa: PLC0415
@@ -397,6 +424,7 @@ def render_animatic(P: Project, jobs: int) -> tuple[Path, dict]:  # noqa: N803
     t0 = time.time()
     prov = project_provenance(P, ANIMATIC_STAGES)
     times = auto_preview_times(P)
+    P.R.cache["glyph_miss"] = glyph_sweep(P)   # v7.4.0 D-0250(UF-131) — 콘티 판도 같은 글리프 대조(C12 §3)
     checks = run_checks(P, times, prov, [], [f"t={t:.2f}" for t in times])
     (outd / "animatic_checks.json").write_text(json.dumps(checks, ensure_ascii=False, indent=1), encoding="utf-8")
     if not checks["passed"]:

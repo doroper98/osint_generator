@@ -302,3 +302,11 @@ last_review: 2026-05-23
 - **원칙**: 패널(모든 kind)이 떠 있는 동안 카드·계단식 카드·기사·인용은 패널 상자를 덮지 않는다(사진·영상·컷아웃은 골든 v3 의도 배치라 검사 밖 — 감독 결정 요청). 연출이 패널 앞에 끝내거나 뒤에 시작한다(자동 이동·숨김 없음, P8).
 - **자동 조치**: 검사 `card_over_panel` hard(rules qa_checks.card_over_panel {min_overlap_sec 0.3, panel_pad_px 4}), director 프롬프트 규칙(rules direction_grammar). 시험 `tests/test_v740_card_over_panel.py`.
 - **발견 버전**: v7.4.0 · **상태**: active
+
+## RENDER-AP-031 — 큰 숫자 글꼴에 없는 '−'(U+2212)가 네모로, 글리프 검사는 표본 시각에서만 실제 글꼴 대조 (recurs_of fed_policy_2026 v1 '−' 사고)
+
+- **증상(실제 현상)**: v7.4.0 diesel_road_2026 교체 3 — act3_11 카드 '−3.4%' 가 네모로 나왔다. 사용자 "특수문자 에러"(UF-131).
+- **원리**: `glyphs` 검사의 문자열 대조는 프로젝트 글꼴 **합집합**(IBM Plex 에 U+2212 가 있어 통과)이고, 실제 그린 글꼴 대조(glyph_miss)는 프리뷰 컷 시각에서만 돌아 이 카드 시각이 표본에 없었다. v4.4.0 의 실제 글꼴 대조 장치가 표본 의존이라 같은 부류가 재발했다.
+- **원칙**: 글꼴에 없는 글자는 같은 굵기 대체 글꼴로 그린다(원고·데이터 불변). 글리프 대조는 표본 시각과 상관없이 위험 문자열을 가진 모든 이벤트를 실제로 그려 본다.
+- **자동 조치**: rules `fonts.glyph_fallback {disp: sansbb, dispm: sansb}`(typography.fallback_runs), 프리뷰·콘티 판 `glyph_sweep`(공통 cmap 밖 글자를 가진 이벤트마다 한 프레임, 파일 저장 없음) → checks glyphs hard. 시험 `tests/test_v740_outlet_glyph.py::GlyphFallbackTest`.
+- **발견 버전**: v7.4.0 · **상태**: active
