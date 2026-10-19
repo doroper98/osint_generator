@@ -138,10 +138,10 @@
     "숏 t=257.3→265.5 머무름 2.2s < 6.0s",
     "숏 t=265.5→277.2 머무름 5.8s < 6.0s",
     "숏 t=364.0→368.4 머무름 0.4s < 6.0s",
-    "숏 t=762.8→765.0 머무름 2.2s < 6.0s",
-    "숏 t=769.5→900.4 머무름 4.2s < 6.0s",
-    "숏 t=900.4→910.2 머무름 5.3s < 6.0s",
-    "숏 t=910.2→915.1 머무름 0.5s < 6.0s",
+    "숏 t=762.7→764.9 머무름 2.2s < 6.0s",
+    "숏 t=769.4→900.3 머무름 4.2s < 6.0s",
+    "숏 t=900.3→910.1 머무름 5.3s < 6.0s",
+    "숏 t=910.1→915.1 머무름 0.5s < 6.0s",
     "장면 cold 카메라 이동 3 > 1",
     "장면 act1 카메라 이동 3 > 1",
     "장면 act2 카메라 이동 7 > 1",
@@ -416,9 +416,9 @@
    "details": [
     "[inset-overlap] 위성 인셋 inset_ryazan_esri t=11.2 가 '랴잔 정유소' 와 겹침 — inset.side 를 빈 쪽(대각 포함)으로",
     "[inset-overlap] 위성 인셋 inset_kirishi_esri t=120.9 가 '키리시' 와 겹침 — inset.side 를 빈 쪽(대각 포함)으로",
-    "[inset-overlap] 위성 인셋 inset_kharg_esri t=622.5 가 '하르그섬' 와 겹침 — inset.side 를 빈 쪽(대각 포함)으로",
+    "[inset-overlap] 위성 인셋 inset_kharg_esri t=622.4 가 '하르그섬' 와 겹침 — inset.side 를 빈 쪽(대각 포함)으로",
     "[inset-overlap] 위성 인셋 inset_ras_laffan_esri t=653.2 가 '라스라판' 와 겹침 — inset.side 를 빈 쪽(대각 포함)으로",
-    "[inset-overlap] 위성 인셋 inset_ryazan_esri t=913.4 가 '랴잔 정유소' 와 겹침 — inset.side 를 빈 쪽(대각 포함)으로"
+    "[inset-overlap] 위성 인셋 inset_ryazan_esri t=913.3 가 '랴잔 정유소' 와 겹침 — inset.side 를 빈 쪽(대각 포함)으로"
    ]
   },
   {
@@ -648,11 +648,11 @@
    "details": [],
    "notes": [
     "n/a(none 축) panel versus '8월 한국산 물량 — 두 집계' t0=386.97",
-    "n/a(none 축) panel checklist '쟁점' t0=417.00",
-    "n/a(none 축) panel fork '주요 7개국 가격 상한제' t0=450.86",
-    "n/a(none 축) panel versus '지금도 맞선 두 입장' t0=591.95",
-    "n/a(none 축) panel versus '피해의 원인을 두고' t0=697.72",
-    "n/a(none 축) panel relation '트럼프의 요구' t0=837.57"
+    "n/a(none 축) panel checklist '쟁점' t0=416.98",
+    "n/a(none 축) panel fork '주요 7개국 가격 상한제' t0=450.84",
+    "n/a(none 축) panel versus '지금도 맞선 두 입장' t0=591.90",
+    "n/a(none 축) panel versus '피해의 원인을 두고' t0=697.68",
+    "n/a(none 축) panel relation '트럼프의 요구' t0=837.53"
    ]
   },
   {
@@ -662,11 +662,11 @@
    "details": [],
    "notes": [
     "n/a(none 축) panel versus '8월 한국산 물량 — 두 집계' t0=386.97",
-    "n/a(none 축) panel checklist '쟁점' t0=417.00",
-    "n/a(none 축) panel fork '주요 7개국 가격 상한제' t0=450.86",
-    "n/a(none 축) panel versus '지금도 맞선 두 입장' t0=591.95",
-    "n/a(none 축) panel versus '피해의 원인을 두고' t0=697.72",
-    "n/a(none 축) panel relation '트럼프의 요구' t0=837.57"
+    "n/a(none 축) panel checklist '쟁점' t0=416.98",
+    "n/a(none 축) panel fork '주요 7개국 가격 상한제' t0=450.84",
+    "n/a(none 축) panel versus '지금도 맞선 두 입장' t0=591.90",
+    "n/a(none 축) panel versus '피해의 원인을 두고' t0=697.68",
+    "n/a(none 축) panel relation '트럼프의 요구' t0=837.53"
    ]
   },
   {
@@ -676,11 +676,11 @@
    "details": [],
    "notes": [
     "n/a(none 축) panel versus '8월 한국산 물량 — 두 집계' t0=386.97",
-    "n/a(none 축) panel checklist '쟁점' t0=417.00",
-    "n/a(none 축) panel fork '주요 7개국 가격 상한제' t0=450.86",
-    "n/a(none 축) panel versus '지금도 맞선 두 입장' t0=591.95",
-    "n/a(none 축) panel versus '피해의 원인을 두고' t0=697.72",
-    "n/a(none 축) panel relation '트럼프의 요구' t0=837.57"
+    "n/a(none 축) panel checklist '쟁점' t0=416.98",
+    "n/a(none 축) panel fork '주요 7개국 가격 상한제' t0=450.84",
+    "n/a(none 축) panel versus '지금도 맞선 두 입장' t0=591.90",
+    "n/a(none 축) panel versus '피해의 원인을 두고' t0=697.68",
+    "n/a(none 축) panel relation '트럼프의 요구' t0=837.53"
    ]
   },
   {
@@ -690,11 +690,11 @@
    "details": [],
    "notes": [
     "n/a(none 축) panel versus '8월 한국산 물량 — 두 집계' t0=386.97",
-    "n/a(none 축) panel checklist '쟁점' t0=417.00",
-    "n/a(none 축) panel fork '주요 7개국 가격 상한제' t0=450.86",
-    "n/a(none 축) panel versus '지금도 맞선 두 입장' t0=591.95",
-    "n/a(none 축) panel versus '피해의 원인을 두고' t0=697.72",
-    "n/a(none 축) panel relation '트럼프의 요구' t0=837.57"
+    "n/a(none 축) panel checklist '쟁점' t0=416.98",
+    "n/a(none 축) panel fork '주요 7개국 가격 상한제' t0=450.84",
+    "n/a(none 축) panel versus '지금도 맞선 두 입장' t0=591.90",
+    "n/a(none 축) panel versus '피해의 원인을 두고' t0=697.68",
+    "n/a(none 축) panel relation '트럼프의 요구' t0=837.53"
    ]
   }
  ]
