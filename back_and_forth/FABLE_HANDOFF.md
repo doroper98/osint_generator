@@ -1,5 +1,10 @@
 # 감독(Fable 역할) 세션 인수인계 — 2026-10-11 (v5.21.0)
 
+## 0-0. 2026-10-19 20:30 KST 상태(승계 감독 세션 session_01CLMApgWisjaB6TYfe7EUdx)
+- **diesel_road_2026 v2 트랙 종결.** main 병합 7d85942e(D264). 최종 전달본 = artifacts 62859cc5(교체 3, md5 554f4f85), 사용자에게 3분할로 전달. 알려진 문제 UF-130(기사 매체 불일치 act2_19·act3_5·6)·UF-131(act3_11 −3.4% 글리프)은 사용자 결정으로 재렌더 없음(D262), 장치는 다음 영상부터.
+- 원장 UF-01~131 전부 guarded. 열린 D 없음(D-0245~0250 반영 완료). 다음 일: 사용자 시청 의견·새 주제 지시 대기.
+- 감독 컨테이너 메모: Wikimedia 429 로 골든 재현 데이터(people·media) 미완 — 골든 화소 비교가 필요하면 `python tools/fetch_data.py people media` 재시도(제한 풀린 뒤).
+
 ## 0. 2026-10-19 갱신 — 승계 규칙(사용자 결정 D256)과 현재 상태
 - **승계 규칙**: 감독 세션의 컨텍스트 사용량이 95% 에 이르거나 사용 한도가 차단되면, 감독은 `create_session(model: claude-opus-5-5, title "감독(fable) 승계 — diesel_road_2026 v2", prompt: 이 문서 §0 를 읽고 이어받으라)` 로 **별도 감독 세션**을 연다. 역할 이름은 그대로 `fable`. 구현 세션(아래)은 바꾸지 않는다. 새 감독은 이 문서 → `back_and_forth/README.md` → `CLAUDE.md` → `docs/handoff/15` → DECISIONS D238~ 순으로 읽는다.
 - **현재 트랙**: diesel_road_2026 v2(브랜치 `claude/diesel-road-v2`, 버전 v7.4.0). 구현 세션 = cloud session `session_012yN5MN9eH1tBnNrQ1D8sBG`(Opus). 아티팩트 `artifacts/diesel_road_2026-v7.4.0`(교체본 2 대기). main 병합 보류 중(D-0245 §1).
