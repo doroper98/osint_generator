@@ -1,5 +1,13 @@
 # 감독(Fable 역할) 세션 인수인계 — 2026-10-11 (v5.21.0)
 
+## 0. 2026-10-19 갱신 — 승계 규칙(사용자 결정 D256)과 현재 상태
+- **승계 규칙**: 감독 세션의 컨텍스트 사용량이 95% 에 이르거나 사용 한도가 차단되면, 감독은 `create_session(model: claude-opus-5-5, title "감독(fable) 승계 — diesel_road_2026 v2", prompt: 이 문서 §0 를 읽고 이어받으라)` 로 **별도 감독 세션**을 연다. 역할 이름은 그대로 `fable`. 구현 세션(아래)은 바꾸지 않는다. 새 감독은 이 문서 → `back_and_forth/README.md` → `CLAUDE.md` → `docs/handoff/15` → DECISIONS D238~ 순으로 읽는다.
+- **현재 트랙**: diesel_road_2026 v2(브랜치 `claude/diesel-road-v2`, 버전 v7.4.0). 구현 세션 = cloud session `session_012yN5MN9eH1tBnNrQ1D8sBG`(Opus). 아티팩트 `artifacts/diesel_road_2026-v7.4.0`(교체본 2 대기). main 병합 보류 중(D-0245 §1).
+- **열린 D**: D-0245(그래프 3종 복원, [series-unused]·[panel-dropped] hard), D-0246(발음 '유가' 경음화 — 발음 사전 "경유 가", tensification_traps 규칙 키, 린트 hard, TTS-AP-083), D-0247(dual_line 빈 달 점선 보간, 모든 영상). 구현 순서: 사전+보간 → 재합성·믹스 → 프리뷰 hard 0 → 콘티 판 재렌더(의무) → 게이트 ②(D-0243 위임) → 720p → artifacts 교체 2 → R → 장치(UF-126·127·128 guarded) → E 단계(빠른 묶음+영향 느린 노드, 골든 화소 비교, DEVLOG·CHANGELOG, `merge --no-ff`, PR 없음) → 최종 R.
+- **사용자에게 할 일**: 교체본 2 가 오면 final.mp4(part00+part01 결합, MD5SUMS 대조)·그래프 3컷·두 문장 wav 를 한 줄로 전달. 병합이 끝나면 커밋·테스트 수 한 줄 보고.
+- **예약 점검**: 감독 세션에 send_later 로 45~60분 간격 점검이 걸려 있다. 승계 시 새 세션에서 같은 점검을 다시 건다(옛 세션 트리거는 update_trigger enabled=false).
+- **원장**: UF-126·127·128 status open — 장치가 달리면 guarded 로(구현 세션이 올림). `python tools/feedback_ledger.py --write`.
+
 새 감독 세션은 이 문서를 먼저 읽고, 그 다음 `back_and_forth/README.md`·`CLAUDE.md`·`docs/handoff/15`·`docs/handoff/DECISIONS.md`(D169~D181)를 읽는다.
 사용자 사정(세션 한도)으로 감독 역할이 이 세션으로 옮겨졌다. **역할 이름은 그대로 "fable"** 이다(`check.py --me fable`, 문서 `from: fable`).
 

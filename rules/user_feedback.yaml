@@ -1914,3 +1914,14 @@ entries:
   status: open
   decision: "감독 결정(D-0246) — (1) 그 영상: 지금 도는 그래프 복원 렌더는 버리고, 발음 사전(합성 직전 pronounce_tts, 원고 지문 불변)으로 '경유가'→'경유 가'·'제트유가'→'제트유 가'(엔진 실측으로 분절 확정, MMS 정렬 간격 표·wav 첨부) → 재합성·정렬·믹스 → 콘티 판 재렌더(의무) → 게이트 ② 재기록 → 720p → artifacts 교체 2(UF-126 그래프 복원과 함께). (2) 장치: rules tts_rules.tensification_traps 구조 키(기름 명사 목록 + 조사 가 → 띄어 읽기)에서 발음 사전 생성(모든 영상), 게이트 ① 린트 tts-tensification hard, 테스트(두 문장 치환·'이유가' 불변·규칙 키 생성·린트 효력), TTS-AP-083. '이유가·자유가' 등 비기름 명사는 건드리지 않는다"
   source: 감독 세션(Fable) 사용자 대화 2026-10-19
+- id: UF-128
+  date: '2026-10-19'
+  project: diesel_road_2026
+  at: D-0245 그래프 복원 지시 뒤 — 사용자 추가 지시(모든 영상 규칙)
+  quote: 그리고 그래프가 중간에 끊기지 않도록 중간 보간을 해서 그래프를 표기하도록 해.
+  quote_kind: verbatim
+  category: 차트 — 선 그래프(dual_line)의 빈 달(null)을 선형 보간해 선이 끊기지 않게. 보간 구간은 점선·연하게·값 라벨 없음(정확성 경계), 외삽 금지, 데이터 파일 null 불변
+  guards: []
+  status: open
+  decision: "사용자 결정 → 감독 지시(D-0247) — rules panels.dual_line.gap_policy: interpolate(모든 영상 기본), interpolated_style {dash, alpha 0.6, point false, 값 라벨 없음}, 출처 줄 gap_note '빈 달 보간' 코드가 부착, chart_honesty 보강(보간 점 라벨·같은 스타일·외삽 = hard), provenance interpolated_idx, 테스트, 골든 영향 없음(hormuz dual_line 없음). D-0246 발음 수정과 같은 재렌더에 적용"
+  source: 감독 세션(Fable) 사용자 대화 2026-10-19
