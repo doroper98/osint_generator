@@ -90,7 +90,8 @@ class ProvenanceE2ETest(unittest.TestCase):
         self.assertEqual(next(i for i in chk["items"] if i["id"] == "geo_mismatch")["count"], 0)
         self.assertEqual(prov["genre"], {"name": "geopolitics", "declared": False, "status": "approved"})   # v4.2.0 D-0081 작업 3, v4.3.0 status
         self.assertEqual(prov["stage"], {"name": "mercator", "declared": False, "shots_declared": 0, "instances": {"mercator": 1},
-                                         "configs": {"mercator": {"theme": "dark", "theme_reason": MAP_REASON}}})   # D-0076 작업 7, v4.3.0 configs
+                                         "configs": {"mercator": {"theme": "dark", "theme_reason": MAP_REASON,   # D-0076 작업 7, v4.3.0 configs
+                                                                  "map_layers": [], "map_layers_reason": "v3 골든 사용자 합격본 — D-0231"}}})   # v7.4.0 D-0231 골든 도로·강 끔
         # v5.18.0 D-0161 §7·D-0170 §3-4 — 장르(지정학) 기본 light, 골든은 dark 고정 + 사유 → [map-theme-override] warning 1건이 정상
         self.assertEqual(next(i for i in chk["items"] if i["id"] == "map_contrast")["count"], 0)   # v5.18.0 — 골든 지도 글자 대비 통과
         self.assertGreaterEqual(prov["map_contrast"]["required"]["lowest"][0]["ratio"], 4.5)
