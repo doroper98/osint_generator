@@ -524,7 +524,7 @@ shots:
     sid: act3_14
     'off': 0.0
   mode: drift
-  dur: 32.59
+  dur: 32.57
   camera:
     lon: 126.7
     lat: 40.0
