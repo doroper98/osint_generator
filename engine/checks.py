@@ -49,7 +49,7 @@ hard 실패가 하나라도 있으면 시각 검수 LLM 을 부르지 않고 연
 | badge_clipped | hard | 지도 뱃지 원이 안전 영역(인셋과 같은 여백 — 화면 가장자리·자막 띠 위·날짜 배지 상자 밖) 밖 `[badge-clipped]` — 또는 위 가장자리 보정(edge_nudge)에 기대 붙음 — place_badge 뒤(v7.4.0 D-0244) |
 | series_unused | hard | 주문 order.yaml data.series 의 시리즈를 그리는 패널이 없다 `[series-unused]` — direction drops(record·사유)만 예외(v7.4.0 D-0245·UF-126) |
 | panel_dropped | hard | 이전 승인 연출(track_v*/direction.yaml)의 데이터 패널 레코드가 새 연출에 없다 `[panel-dropped]` — drops 사유만 예외(v7.4.0 D-0245·UF-126) |
-| card_over_panel | hard | 패널(모든 kind)이 페이드 뺀 구간에 떠 있는 동안 카드·계단식 카드·기사·인용·프리미티브가 패널 상자를 덮는다(사진·영상·컷아웃은 골든 v3 의도 배치라 제외, 결정 요청) `[card-over-panel]`(rules qa_checks.card_over_panel, v7.4.0 D-0248·UF-129) |
+| card_over_panel | hard | 패널이 페이드 뺀 구간에 떠 있는 동안 덮개(rules cover_types; 데이터 패널은 + cover_types_on_data_panels 사진·영상·컷아웃·뱃지)가 패널 상자를 덮는다(D-0249) `[card-over-panel]`(rules qa_checks.card_over_panel, v7.4.0 D-0248·UF-129) |
 | media_unused | hard | 프로젝트가 등재한 권리 통과 사진({pid}_ 접두 kind photo)이 연출 어디에도 없음 `[media-unused]` — media_notes drop 사유만 예외(v7.4.0 UF-118·D-0238) |
 | badge_orphan | warning | 국기 뱃지가 카드·인용·마커에 붙지 않고 홀로 뜸 `[badge-orphan]`(v7.4.0 D-0240 §4) |
 | article_press_missing | warning | 인물 발언·발표 문장 구간 기사 카드에 press 사진 없음 `[article-press-missing]`(v7.4.0 UF-109·D-0229 §6) |
@@ -1449,9 +1449,7 @@ def check_panel_dropped(P) -> list[str]:  # noqa: ANN001, N803
     return [f"[panel-dropped] 이전 승인 연출의 데이터 패널 {r} 가 새 연출에 없다 — 다시 넣거나 direction.yaml drops 에 사유(UF-126)" for r in miss]
 
 
-# v7.4.0 D-0248 — 패널 위 화면 요소(카드 계열·기사·인용). 사진·영상·컷아웃은 골든 v3 가 패널 위에 의도적으로 둔다(hormuz strikes·rok_iraq, 사용자 합격)
-# → 제외하고 감독 결정 요청(R-0254). 골든은 손대지 않는다(D-0248 §2(d))
-COVER_TYPES = ("card", "cascade", "article", "quote", "primitive")
+# v7.4.0 D-0248·D-0249 — 덮개 종류는 rules qa_checks.card_over_panel.cover_types·cover_types_on_data_panels(P3)
 
 
 def panel_box() -> tuple[float, float, float, float]:
@@ -1472,8 +1470,11 @@ def cards_over_panel(events: list[dict], boxes: "Callable[[dict], list[tuple] | 
     out = []
     for p in (e for e in events if e["type"] == "panel"):
         a, b = p["t0"] + fade, p["t1"] - fade
+        kinds = set(cfg.cover_types) | (set(cfg.cover_types_on_data_panels) if data_records([p]) else set())
+        if p.get("kind") == "versus":
+            kinds.discard("badge")   # badge_over_panel 이 보고한다(중복 없음)
         for e in events:
-            if e["type"] not in COVER_TYPES:
+            if e["type"] not in kinds:
                 continue
             ov = min(b, e["t1"]) - max(a, e["t0"])
             if ov <= cfg.min_overlap_sec:
@@ -1496,7 +1497,7 @@ def check_card_over_panel(P) -> list[str]:  # noqa: ANN001, N803
             return [tuple(card_box(ctx, e))]
         if e["type"] == "cascade":
             return [tuple(b) for t in (e["t0"] + 1.0, (e["t0"] + e["t1"]) / 2) for b in cascade_boxes(t, e)]
-        return None   # 기사·인용 = 화면 큰 덮개(제자리 상자 계산 없이 겹침으로 본다)
+        return None   # 기사·인용·사진·영상·컷아웃·뱃지 = 화면 덮개로 본다(시간 겹침, D-0249)
 
     return [f"[card-over-panel] {e['type']} {e.get('tag') or e.get('mid') or e.get('title') or ''!s} t={t:.1f} — 패널 {p.get('kind')} {p.get('title')!r} 위. "
             "패널 앞에 끝내거나 뒤에 시작한다(UF-129)" for e, p, t in cards_over_panel(P.events, boxes)]

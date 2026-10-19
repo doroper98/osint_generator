@@ -1637,6 +1637,8 @@ class CardOverPanel(_Strict):
 
     min_overlap_sec: float = Field(gt=0)
     panel_pad_px: float = Field(ge=0)
+    cover_types: list[str] = Field(min_length=1)               # 모든 패널 위 덮개(D-0249)
+    cover_types_on_data_panels: list[str] = Field(default_factory=list)   # 데이터 패널(series record) 위에서만 더 세는 덮개
 
 
 class QAChecks(_Strict):
