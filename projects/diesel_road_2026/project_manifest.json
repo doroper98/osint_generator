@@ -4,8 +4,8 @@
   "title": "경유의 길 — 사흘에 한 번",
   "category": "geopolitics",
   "created_at": "2026-10-17T13:36:28.700647Z",
-  "updated_at": "2026-10-19T01:37:34.664465Z",
-  "current_state": "done",
+  "updated_at": "2026-10-19T03:48:43.001779Z",
+  "current_state": "direction",
   "target_duration_min": 10,
   "topic_summary": "우크라이나의 러시아 정유소 타격과 러시아 경유 부족, 한국산 경유의 블라디보스토크행, 걸프 에너지 시설 타격, 미국의 러시아 경유 거래와 에너지 휴전 붕괴",
   "initial_links": [],
@@ -1393,6 +1393,12 @@
       "to_state": "done",
       "transitioned_at": "2026-10-19T01:37:34.664405Z",
       "reason": "engine deliver ok"
+    },
+    {
+      "from_state": "done",
+      "to_state": "direction",
+      "transitioned_at": "2026-10-19T03:48:43.001696Z",
+      "reason": "reopen → direction — fable: UF-127 발음(경유가·제트유가 재합성)·UF-128 그래프 점선 보간·UF-129 그래프 위 카드 0 — D-0246~0248"
     }
   ],
   "rollbacks": [
@@ -1444,6 +1450,14 @@
       "by": "fable",
       "at": "2026-10-19T00:26:19.981555Z",
       "reason": "UF-126 그래프 누락 — v1 시리즈 패널(dual_line) 3종 복원(D-0245)",
+      "direction_version": 1
+    },
+    {
+      "from_state": "done",
+      "to_state": "direction",
+      "by": "fable",
+      "at": "2026-10-19T03:48:43.001667Z",
+      "reason": "UF-127 발음(경유가·제트유가 재합성)·UF-128 그래프 점선 보간·UF-129 그래프 위 카드 0 — D-0246~0248",
       "direction_version": 1
     }
   ]
