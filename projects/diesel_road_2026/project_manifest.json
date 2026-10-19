@@ -4,8 +4,8 @@
   "title": "경유의 길 — 사흘에 한 번",
   "category": "geopolitics",
   "created_at": "2026-10-17T13:36:28.700647Z",
-  "updated_at": "2026-10-19T03:58:53.219716Z",
-  "current_state": "preview_approval",
+  "updated_at": "2026-10-19T04:00:32.355692Z",
+  "current_state": "render",
   "target_duration_min": 10,
   "topic_summary": "우크라이나의 러시아 정유소 타격과 러시아 경유 부족, 한국산 경유의 블라디보스토크행, 걸프 에너지 시설 타격, 미국의 러시아 경유 거래와 에너지 휴전 붕괴",
   "initial_links": [],
@@ -204,6 +204,27 @@
         "camera_suggest": "18",
         "animatic": "out/animatic.mp4 · 976.939초 · direction 1b0a7331af5a45c241084ee5f939fbeb4779af52 · script 5089819985",
         "user_feedback": "경고: 이 영상 의견 1건 장치 없음 — 영상 전달 뒤 첫 작업으로 장치(D217·D218): UF-126 \"그래프들 왜 다 사라졌어?\"",
+        "asset_library": "공용 자산 미승격 0"
+      },
+      "chosen_version": null
+    },
+    {
+      "gate": "preview_approval",
+      "decision": "approved",
+      "by": "fable",
+      "at": "2026-10-19T04:00:32.355533Z",
+      "comment": "사용자 지시 2026-10-18 '바로 영상' · 감독 사전 위임 D-0243 · D-0245~0248 그래프 복원·보간·카드 겹침·발음 수정 반영",
+      "rollback_to": null,
+      "shown": {
+        "sheet": "/home/user/osint_generator/projects/diesel_road_2026/prev/sheet.jpg",
+        "cuts": "3",
+        "provenance": "/home/user/osint_generator/projects/diesel_road_2026/prev/provenance.json",
+        "drops": "0",
+        "media_used": "quote 2 · article 15 · real 5",
+        "quote_candidates": "2",
+        "camera_suggest": "17",
+        "animatic": "out/animatic.mp4 · 976.896초 · direction cb9faba1b6cd0b5895fe3cabe3d3ae1f2ef2dd31 · script 5089819985",
+        "user_feedback": "경고: 이 영상 의견 4건 장치 없음 — 영상 전달 뒤 첫 작업으로 장치(D217·D218): UF-126 \"그래프들 왜 다 사라졌어?\" · UF-127 \"조사로서 -가 가 붙었는데 경유까, 제트유까 하고 발음 함. 재발 방지 \" · UF-128 \"그리고 그래프가 중간에 끊기지 않도록 중간 보간을 해서 그래프를 표기하도\" · UF-129 \"그리고 그래프 넣는 씬에서 오른쪽 상단 아일랜드가 그래프를 가리지 않도록\"",
         "asset_library": "공용 자산 미승격 0"
       },
       "chosen_version": null
@@ -1449,6 +1470,12 @@
       "to_state": "preview_approval",
       "transitioned_at": "2026-10-19T03:58:53.219646Z",
       "reason": "콘티 판 재렌더(재합성 타임라인) · 프리뷰 checks hard 0 — D-0246~0248, D-0243 사전 위임"
+    },
+    {
+      "from_state": "preview_approval",
+      "to_state": "render",
+      "transitioned_at": "2026-10-19T04:00:32.355612Z",
+      "reason": "preview_approval 승인 — fable"
     }
   ],
   "rollbacks": [
