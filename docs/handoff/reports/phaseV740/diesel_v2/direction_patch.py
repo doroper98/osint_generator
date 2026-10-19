@@ -292,5 +292,34 @@ if not find(lambda e: e["type"] == "card" and sid_of(e) == "act3_21"):
     ev.append({"type": "card", "start": {"sid": "act3_21", "off": 0.2}, "end": {"sid": "act3_21", "edge": "end", "off": 0.4},
                "tag": "강유정 청와대 수석대변인", "lines": ["우크라이나 측 주장은 사실과 다르고 부적절"], "accent": "gold"})
 
+# D-0245(UF-126 "그래프들 왜 다 사라졌어?") — v1 시리즈 패널(dual_line) 3종 복원. 수치·record·출처 줄·축은 track_v1 그대로(data/series 정본), 앵커만 v2 문장
+import copy  # noqa: E402
+
+V1 = yaml.safe_load((P.parent / "track_v1" / "direction.yaml").read_text(encoding="utf-8"))["events"]
+SERIES_ANCHOR = {   # record → (시작 sid, 끝 sid)
+    "RU_REFINERY_RUNS_2026": ("act1_14", "act1_15"),            # 「정제 처리량은 크게 줄었습니다」~「6월 … 380만 배럴」
+    "RU_DIESEL_SEABORNE_EXPORTS_2026": ("act1_20", "act1_20"),  # 「10월 초 경유 해상 수출 … 14만 6천 배럴」
+    "GULF_DIESEL_NET_EXPORTS_2026": ("act4_21", "act4_22"),     # 걸프 = v2 4막. 경유 문장(호르무즈 통과 경유·세계 경유 공급) — 통과량과 다른 집계는 subtitle 로 구분
+}
+ev[:] = [e for e in ev if not (e["type"] == "panel" and e.get("kind") == "dual_line")]
+for v in V1:
+    if v.get("type") != "panel" or v.get("kind") != "dual_line":
+        continue
+    rec = v["series"][0]["record"]
+    a, b = SERIES_ANCHOR[rec]
+    pn = copy.deepcopy(v)
+    pn["start"] = {"sid": a, "off": -0.2}
+    pn["end"] = {"sid": b, "edge": "end", "off": 0.3}
+    if rec == "GULF_DIESEL_NET_EXPORTS_2026":
+        pn["subtitle"] = v["subtitle"] + " · 호르무즈 통과량과 다른 집계"
+    ev.append(pn)
+# 패널 위에 카드가 겹쳐 제목·출처 줄(걸프 "다른 집계")을 가린다 → 패널 구간 카드는 뺀다(수치는 자막·패널 점이 맡는다)
+ev[:] = [e for e in ev if not (e["type"] == "card" and sid_of(e) in ("act1_15", "act4_21", "act4_22"))]
+# 패널이 같은 수치를 맡는 자리의 겹침 정리 — 계단식 카드는 act1_19 까지(10월 초 14만 6천은 패널 마지막 점)
+for e in ev:
+    if e["type"] == "cascade" and sid_of(e) == "act1_18":
+        e["items"] = [it for it in e["items"] if it["at"]["sid"] != "act1_20"]
+        e["end"] = {"sid": "act1_19", "edge": "end", "off": 0.3}
+
 P.write_text(yaml.safe_dump(d, allow_unicode=True, sort_keys=False, width=200), encoding="utf-8")
 print("events", len(ev))

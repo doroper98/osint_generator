@@ -4,8 +4,8 @@
   "title": "경유의 길 — 사흘에 한 번",
   "category": "geopolitics",
   "created_at": "2026-10-17T13:36:28.700647Z",
-  "updated_at": "2026-10-18T20:24:24.429149Z",
-  "current_state": "done",
+  "updated_at": "2026-10-19T00:34:30.679037Z",
+  "current_state": "render",
   "target_duration_min": 10,
   "topic_summary": "우크라이나의 러시아 정유소 타격과 러시아 경유 부족, 한국산 경유의 블라디보스토크행, 걸프 에너지 시설 타격, 미국의 러시아 경유 거래와 에너지 휴전 붕괴",
   "initial_links": [],
@@ -183,6 +183,27 @@
         "camera_suggest": "18",
         "animatic": "out/animatic.mp4 · 976.939초 · direction 1b0a7331af5a45c241084ee5f939fbeb4779af52 · script 5089819985",
         "user_feedback": "경고: 이 영상 의견 2건 장치 없음 — 영상 전달 뒤 첫 작업으로 장치(D217·D218): UF-116 \"콜드 오픈을 이렇게 바꿀께. 전장과는 조금 떨어져 있는 조용하던 10월 \" · UF-119 \"그리고 사진이 두장만 쓰이는거야? 뭐 더 추가 해야 될 사진은 없고? 몇\"",
+        "asset_library": "공용 자산 미승격 0"
+      },
+      "chosen_version": null
+    },
+    {
+      "gate": "preview_approval",
+      "decision": "approved",
+      "by": "fable",
+      "at": "2026-10-19T00:34:30.678930Z",
+      "comment": "사용자 지시 2026-10-18 '바로 영상' · 감독 사전 위임 D-0243 · D-0245 그래프 복원(UF-126) 반영",
+      "rollback_to": null,
+      "shown": {
+        "sheet": "/home/user/osint_generator/projects/diesel_road_2026/prev/sheet.jpg",
+        "cuts": "3",
+        "provenance": "/home/user/osint_generator/projects/diesel_road_2026/prev/provenance.json",
+        "drops": "0",
+        "media_used": "quote 2 · article 15 · real 5",
+        "quote_candidates": "2",
+        "camera_suggest": "18",
+        "animatic": "out/animatic.mp4 · 976.939초 · direction 1b0a7331af5a45c241084ee5f939fbeb4779af52 · script 5089819985",
+        "user_feedback": "경고: 이 영상 의견 1건 장치 없음 — 영상 전달 뒤 첫 작업으로 장치(D217·D218): UF-126 \"그래프들 왜 다 사라졌어?\"",
         "asset_library": "공용 자산 미승격 0"
       },
       "chosen_version": null
@@ -960,6 +981,44 @@
       "errors": [],
       "drops": 0,
       "log": "logs/stages/50_deliver.json"
+    },
+    {
+      "state": "direction",
+      "stage": "direction_validate",
+      "ok": true,
+      "at": "2026-10-19T00:28:26.278618Z",
+      "artifacts": {
+        "script": "/home/user/osint_generator/projects/diesel_road_2026/script.yaml",
+        "label_counts": "{\"verified\": 9, \"corroborated\": 15, \"unverified\": 130, \"disputed\": 5}"
+      },
+      "errors": [],
+      "drops": 0,
+      "log": "logs/stages/51_direction_validate.json"
+    },
+    {
+      "state": "direction",
+      "stage": "validate",
+      "ok": true,
+      "at": "2026-10-19T00:30:50.158787Z",
+      "artifacts": {
+        "direction": "/home/user/osint_generator/projects/diesel_road_2026/direction.yaml",
+        "summary": "{\"camera_keys\": 39, \"events\": 186, \"frames\": 23446}"
+      },
+      "errors": [],
+      "drops": 0,
+      "log": "logs/stages/52_validate.json"
+    },
+    {
+      "state": "direction",
+      "stage": "camera_suggest",
+      "ok": true,
+      "at": "2026-10-19T00:33:12.819654Z",
+      "artifacts": {
+        "camera_suggest": "/home/user/osint_generator/projects/diesel_road_2026/prev/camera_suggest.json"
+      },
+      "errors": [],
+      "drops": 0,
+      "log": "logs/stages/53_camera_suggest.json"
     }
   ],
   "final_outputs": {},
@@ -1251,6 +1310,30 @@
       "to_state": "done",
       "transitioned_at": "2026-10-18T20:24:24.429085Z",
       "reason": "engine deliver ok"
+    },
+    {
+      "from_state": "done",
+      "to_state": "direction",
+      "transitioned_at": "2026-10-19T00:26:19.981581Z",
+      "reason": "reopen → direction — fable: UF-126 그래프 누락 — v1 시리즈 패널(dual_line) 3종 복원(D-0245)"
+    },
+    {
+      "from_state": "direction",
+      "to_state": "preview_qa",
+      "transitioned_at": "2026-10-19T00:33:12.823430Z",
+      "reason": "engine direction_validate, validate, camera_suggest ok"
+    },
+    {
+      "from_state": "preview_qa",
+      "to_state": "preview_approval",
+      "transitioned_at": "2026-10-19T00:33:13.514089Z",
+      "reason": "콘티 판 v2.1 hard 0(음성·원고 불변) · 그래프 3종 복원 연출 프리뷰 checks hard 0 — D-0245, D-0243 사전 위임"
+    },
+    {
+      "from_state": "preview_approval",
+      "to_state": "render",
+      "transitioned_at": "2026-10-19T00:34:30.678989Z",
+      "reason": "preview_approval 승인 — fable"
     }
   ],
   "rollbacks": [
@@ -1294,6 +1377,14 @@
       "by": "fable",
       "at": "2026-10-18T19:14:48.660228Z",
       "reason": "전편 v2 감독 검토 — 블라디보스토크 국기·트럼프 뱃지 위 가장자리 → 화면 안쪽 육지([badge-clipped], D-0244)",
+      "direction_version": 1
+    },
+    {
+      "from_state": "done",
+      "to_state": "direction",
+      "by": "fable",
+      "at": "2026-10-19T00:26:19.981555Z",
+      "reason": "UF-126 그래프 누락 — v1 시리즈 패널(dual_line) 3종 복원(D-0245)",
       "direction_version": 1
     }
   ]
