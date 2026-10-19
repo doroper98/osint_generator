@@ -157,9 +157,12 @@ def preflight(R: RenderCtx, events: list[dict], files: bool = True) -> list[str]
                     errs.append(str(ex))
             continue
         if e["type"] == "panel" and e.get("kind") == "dual_line":   # v7.3.0 D232 U4 — 레코드 대조(보도 인용값 포함)
-            from engine.panels.dual_line import record_errors  # noqa: PLC0415
+            from engine.panels.dual_line import gap_subtitle, interpolated_idx, record_errors  # noqa: PLC0415
 
             errs += record_errors(e)
+            e["interpolated_idx"] = interpolated_idx(e)   # v7.4.0 D-0247 — provenance·정직성 검사
+            if (gs := gap_subtitle(e)) != e.get("subtitle"):
+                e["subtitle_render"] = gs
         if e["type"] == "quote":   # v5.3.1 인용(시안) — 글자 넘침은 렌더 전 오류(P6)
             from engine.quote import QuoteError, quote_lines  # noqa: PLC0415
 

@@ -119,7 +119,7 @@ def chart(body: PanelFn) -> PanelFn:
     """차트 패널 공통 머리 — 제목(중앙 상단) → 태그 줄 → 본문(태그 줄이 있으면 body_shift 만큼 아래로, D-0034 §2)."""
 
     def draw(ctx: cairo.Context, R: RenderCtx, t: float, e: dict, a: float) -> None:  # noqa: N803
-        panel_title(ctx, a, e["title"], e.get("subtitle"))
+        panel_title(ctx, a, e["title"], e.get("subtitle_render", e.get("subtitle")))   # v7.4.0 D-0247 — 보간 표기 붙은 출처 줄(load_project)
         prov_tag(ctx, e, a)
         ctx.save()
         ctx.translate(0, body_shift(e))

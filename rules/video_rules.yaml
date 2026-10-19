@@ -164,6 +164,14 @@ tts_rules:                 # 03 §4·§5
   # D-0165(DECISIONS D159) — 게이트 참값 = 음향 발화 시작: 원본 음성 |a| < silence_thr 가 silence_sec 이상 이어진 뒤 첫 초과 샘플
   # (+ 문장 첫 소리). 대응 = 순서·단조, ±match_window_sec 안 가장 가까운 정렬 어절, 대응 없음 = match_window_sec 로 실패 계상.
   # gate = 절대 시각 기준(옛 edge 간격 일치 검사는 v5.23.0 V4(D-0212) 삭제). silence_thr = script/tts/trim THRESH 와 같아야 한다(테스트).
+  # v7.4.0 D-0246(사용자 의견 UF-127 "조사로서 -가 가 붙었는데 경유까, 제트유까 하고 발음 함. 재발 방지 해") — 발음 사전 "유가": "유까"(油價, TTS-AP-054~057)가
+  # '…유 + 조사 가' 까지 바꿨다(TTS-AP-069 재발 — 그때 명사 2개만 손으로 예외 등재). 예외 항목을 이 목록에서 생성한다(합성 직전 pronounce_tts, 모든 영상).
+  # spoken 이 noun+particle 그대로면 사전의 "유가" 치환만 막는다(최장 일치 한 번 훑기, apply_dict) — 띄어 읽기 쉼 없음. 기름 명사 + 흔한 '유'끝 명사(이유·자유…).
+  tensification_traps:
+    suffix_nouns: [경유, 휘발유, 제트유, 등유, 중유, 원유, 석유, 정제유, 항공유, 벙커유, 윤활유, 연료유, 브렌트유, 비축유, 두바이유, 정유, 산유,
+                   이유, 자유, 사유, 여유, 우유, 소유, 보유, 공유, 고유, 분유, 주유, 급유]
+    particles: [가]
+    spoken: "{noun}{particle}"
   forced_align:
     min_score: 0.62
     silence_thr: 0.012
@@ -832,6 +840,11 @@ panels:                    # D-0032 — 패널 기하·타이밍. 코드에 리�
       name_dx: 12
       name_dy: 4
       name_size: 12
+      # v7.4.0 D-0247(사용자 결정 UF-128 "그래프가 중간에 끊기지 않도록 중간 보간") — 모든 영상 기본. 인접 실측 두 점 사이 선형 보간,
+      # 계열 양 끝 바깥(앞·뒤 null)은 그리지 않는다(외삽 금지). 보간 구간 = 점선·연하게·점 표식 없음·값 라벨 없음. 출처 줄 끝에 gap_note 를 코드가 붙인다
+      gap_policy: interpolate          # interpolate | break(옛 끊기)
+      interpolated_style: {dash: [4, 3], alpha: 0.6, point: false}
+      gap_note: 빈 달 보간
     fork:
       origin: [150, 250]
       origin_r: 8

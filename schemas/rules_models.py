@@ -172,6 +172,14 @@ class ProsodyRules(_Strict):
     final_fall: FinalFallRules
 
 
+class TensificationTraps(_Strict):
+    """v7.4.0 D-0246(UF-127) — '…유 + 조사' 가 발음 사전 "유가"(油價) 치환에 걸리지 않게 하는 예외 항목의 원천(합성 직전 사전에 생성)."""
+
+    suffix_nouns: list[str] = Field(min_length=1)
+    particles: list[str] = Field(min_length=1)
+    spoken: str = "{noun}{particle}"
+
+
 class TTSRules(_Strict):
     forbidden_chars_regex: str
     sino_numbers_no_inner_space: bool
@@ -186,6 +194,7 @@ class TTSRules(_Strict):
     prosody: "ProsodyRules"   # v5.20.0 D-0175 — 문장 끝 억양 보정
     letter_names: list[str] = Field(default_factory=list)       # v5.6.0 TTS-AP-075 — 알파벳 글자 이름(한글). 등재 약어·사전 값의 글자 연속만 합성 직전 띄운다
     acronyms: list["Acronym"] = Field(default_factory=list)      # v5.6.0 사용자 결정 2026-10-04 — 약어 읽기 등재(린트 tts-acronym)
+    tensification_traps: Optional[TensificationTraps] = None    # v7.4.0 D-0246(UF-127) — 발음 사전 '…유가' 예외 항목 원천
 
 
 class Acronym(_Strict):
@@ -1029,6 +1038,14 @@ class GanttRules(_Strict):
     today_label_halo: float
 
 
+class InterpolatedStyle(_Strict):
+    """v7.4.0 D-0247 — 보간 구간 선 스타일(실측과 구분): 점선·알파 배율·점 표식(false 여야 정직성 통과)."""
+
+    dash: list[float] = Field(min_length=2)
+    alpha: float = Field(gt=0, lt=1)
+    point: bool = False
+
+
 class DualLineRules(_Strict):
     x: Range2
     y: Range2                      # 위 y, 아래 y
@@ -1055,6 +1072,9 @@ class DualLineRules(_Strict):
     name_dx: float
     name_dy: float
     name_size: float
+    gap_policy: Literal["interpolate", "break"] = "break"   # v7.4.0 D-0247(UF-128) — 빈 달(null) 처리
+    interpolated_style: Optional[InterpolatedStyle] = None
+    gap_note: str = ""                                     # 보간 구간이 있으면 출처 줄 끝에 코드가 붙이는 문구
 
 
 class ForkRules(_Strict):

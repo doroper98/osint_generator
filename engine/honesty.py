@@ -54,6 +54,10 @@ class ChartMeta(BaseModel):
     compress_marked: int = 0                            # 그중 압축 라벨이 그 컷에 그려진 수
     as_of: Optional[str] = None
     source_shown: Optional[bool] = None                 # None = 프리뷰 컷에 나오지 않아 확인 불가(메모)
+    interpolated: int = 0                               # v7.4.0 D-0247(UF-128) — 보간으로 채운 점 수(dual_line)
+    interp_distinct: bool = True                        # 보간 구간이 실측과 다른 스타일(점선·연하게·점 표식 없음)
+    interp_noted: bool = True                           # 출처 줄에 보간 표기(rules gap_note)
+    extrapolated: int = 0                               # 실측 양 끝 바깥을 채운 점 수(외삽 = hard)
 
 
 def _first_token(s: str) -> str:
@@ -76,6 +80,12 @@ def chart_honesty(m: ChartMeta) -> list[str]:
                    f" 계열 색 {m.series_colors})")
     if m.log_scale and not m.log_label:
         out.append(f"[log-unlabeled] {m.ref}: 로그 척도인데 '로그 척도' 표기가 없다")
+    if m.extrapolated:   # v7.4.0 D-0247(UF-128) — 보간은 실측 사이만
+        out.append(f"[interp-extrapolated] {m.ref}: 실측 양 끝 바깥 {m.extrapolated}점을 채웠다(외삽 금지)")
+    if m.interpolated and not m.interp_distinct:
+        out.append(f"[interp-style] {m.ref}: 보간 {m.interpolated}점이 실측과 같은 스타일(점선·연하게·점·값 라벨 없음 — rules dual_line.interpolated_style)")
+    if m.interpolated and not m.interp_noted:
+        out.append(f"[interp-unmarked] {m.ref}: 보간 {m.interpolated}점인데 출처 줄에 보간 표기(rules dual_line.gap_note)가 없다")
     return out
 
 
@@ -210,9 +220,20 @@ def _dots_meta(e: dict) -> dict:
 def _dual_meta(e: dict) -> dict:
     pv = e["provenance"]
     unit = e.get("unit")
+    L = load_rules().panels.charts.dual_line  # noqa: N806
+    ist = L.interpolated_style
+    ii = e.get("interpolated_idx") or []
+    n_in = sum(len(x) for x in ii)
+    ext = 0
+    for ser, idx in zip(e["series"], ii):   # v7.4.0 D-0247 — 실측 첫·끝 점 바깥 = 외삽
+        real = [i for i, v in enumerate(ser["values"]) if v is not None]
+        ext += sum(1 for k in idx if not real or k < real[0] or k > real[-1])
     return {"series_count": len(e["series"]), "units": [unit] * len(e["series"]) if unit else [],
             "unit_label": unit or e["y_prefix"] or None, "series_colors": [s["col"] for s in e["series"]],
-            "as_of": "08 §9 출처 체계", "source_shown": bool(pv["sources"]) or _tag(pv)}
+            "as_of": "08 §9 출처 체계", "source_shown": bool(pv["sources"]) or _tag(pv),
+            "interpolated": n_in, "extrapolated": ext,
+            "interp_distinct": ist is not None and len(ist.dash) >= 2 and ist.alpha < 1 and not ist.point,
+            "interp_noted": not n_in or bool(L.gap_note) and L.gap_note in (e.get("subtitle_render") or "")}
 
 
 def _tag(pv: dict) -> bool:

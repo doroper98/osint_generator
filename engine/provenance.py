@@ -246,5 +246,6 @@ def build(plan: Plan, keys: list[CamKey], events: list[dict], repo_version: str,
 def panels_used(events: list[dict]) -> list[dict]:
     from engine.panels.base import prov_tag_text  # noqa: PLC0415
 
-    return [{"kind": e["kind"], "title": e["title"], "t0": round(e["t0"], 2), "prov_tag": prov_tag_text(e.get("provenance"))}
+    return [{"kind": e["kind"], "title": e["title"], "t0": round(e["t0"], 2), "prov_tag": prov_tag_text(e.get("provenance")),
+             **({"interpolated_idx": e["interpolated_idx"]} if any(e.get("interpolated_idx") or []) else {})}   # v7.4.0 D-0247(UF-128)
             for e in events if e["type"] == "panel"]

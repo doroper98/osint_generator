@@ -709,7 +709,7 @@ class PanelGantt(_Chart):
 class DualSeries(_Strict):
     label: str
     col: ColorName
-    values: list[Optional[float]] = Field(min_length=2)   # v7.3.0 D232 U4 — null = 그 달 값 없음(선을 끊는다, 보간 금지)
+    values: list[Optional[float]] = Field(min_length=2)   # v7.3.0 D232 U4 — null = 그 달 값 없음. v7.4.0 D-0247 — 렌더는 실측 사이 점선 보간(rules dual_line.gap_policy, 값 라벨 없음)
     decimals: int = Field(default=2, ge=0, le=3)
     record: Optional[str] = None   # v7.3.0 — 데이터 레코드 series_id(data/series). 있으면 load_project 가 값·빈 달을 레코드와 대조(20 §5.1 데이터에서 직접)
     open_idx: list[int] = Field(default_factory=list)   # v7.3.0 — 상·하한 표기 값("4 미만") 자리 = 빈 점(레코드 cited.open 과 대조)
