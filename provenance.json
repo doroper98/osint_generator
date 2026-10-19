@@ -188,9 +188,12 @@
    "versus",
    "versus",
    "relation",
-   "dots"
+   "dots",
+   "dual_line",
+   "dual_line",
+   "dual_line"
   ],
-  "cards": 77,
+  "cards": 74,
   "media": {
    "clip": 0,
    "photo": 5,
@@ -201,13 +204,13 @@
    "article": 15,
    "badge": 20,
    "boom": 1,
-   "card": 77,
+   "card": 74,
    "cascade": 1,
    "country": 4,
    "dip": 7,
    "flight": 12,
    "marker": 25,
-   "panel": 9,
+   "panel": 12,
    "photo": 5,
    "quote": 2,
    "route": 8
@@ -452,6 +455,24 @@
     "title": "러시아 극동을 오간 유조선",
     "t0": 324.77,
     "prov_tag": null
+   },
+   {
+    "kind": "dual_line",
+    "title": "러시아 정제 처리량",
+    "t0": 123.06,
+    "prov_tag": "추정"
+   },
+   {
+    "kind": "dual_line",
+    "title": "러시아 경유 해상 수출",
+    "t0": 160.19,
+    "prov_tag": "추정"
+   },
+   {
+    "kind": "dual_line",
+    "title": "걸프 경유 순수출",
+    "t0": 722.3,
+    "prov_tag": "추정"
    }
   ]
  },
@@ -1055,7 +1076,7 @@
  "cascade": {
   "status": "adopted",
   "events": 1,
-  "items": 3,
+  "items": 2,
   "hidden_labels": [
    {
     "name": "리가",
@@ -1068,12 +1089,6 @@
     "kind": "city",
     "how": "회피",
     "t": 147.11
-   },
-   {
-    "name": "야로슬라블",
-    "kind": "city",
-    "how": "회피",
-    "t": 160.81
    }
   ]
  },
@@ -2095,10 +2110,10 @@
  },
  "checks": {
   "source": "prev/provenance.json",
-  "direction_sha1": "c8e3440c01715eb764fae422029edb2a3ed90b54",
+  "direction_sha1": "37c5fea0d842e97a1a63a9e28a2e120f50cb142a",
   "from_current_direction": true,
   "hard": 0,
-  "warnings": 75,
+  "warnings": 74,
   "passed": true
  },
  "user_feedback_guards": [
@@ -2429,6 +2444,12 @@
   },
   {
    "id": "UF-118",
+   "checks": {
+    "media_unused": 0
+   }
+  },
+  {
+   "id": "UF-119",
    "checks": {
     "media_unused": 0
    }

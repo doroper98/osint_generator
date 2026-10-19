@@ -1,7 +1,7 @@
 {
  "schema_version": 1,
  "hard": 0,
- "warnings": 75,
+ "warnings": 74,
  "passed": true,
  "profile": "full",
  "skipped": [],
@@ -567,11 +567,10 @@
   {
    "id": "cascade_label_hidden",
    "severity": "warning",
-   "count": 3,
+   "count": 2,
    "details": [
     "[cascade-label-hidden] t=147.11 배경 지명 '리가'(city) 이 겹침 카드 때문에 안 보임(회피)",
-    "[cascade-label-hidden] t=147.11 배경 지명 '탈린'(city) 이 겹침 카드 때문에 안 보임(회피)",
-    "[cascade-label-hidden] t=160.81 배경 지명 '야로슬라블'(city) 이 겹침 카드 때문에 안 보임(회피)"
+    "[cascade-label-hidden] t=147.11 배경 지명 '탈린'(city) 이 겹침 카드 때문에 안 보임(회피)"
    ]
   },
   {
