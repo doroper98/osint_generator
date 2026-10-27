@@ -2017,3 +2017,29 @@ entries:
   status: guarded
   decision: D-0251 §5 · DECISIONS D266
   source: 감독 세션(Fable) 사용자 대화 2026-10-27
+- id: UF-135
+  date: '2026-10-27'
+  project: fed_policy_2026
+  at: 전편 v16 — 탈락 요인(UF-132 의 원인 답변)
+  quote: 연준 영상에서 탈락 요인은 너무 차트만 나오기도 하고, 여러 맥락의 차트들이 나오는데, 그게 같은 축척 혹은 같은 차트 안에서 움직이거나 보여주는게 아니니까 전혀 눈에 들어오거나 맥락을 파악하기가 어려웠어.
+  quote_kind: verbatim
+  category: 영상 문법 — 차트만 나오는 구간 + 축척이 다른 독립 차트(아일랜드 10회) 번갈아 띄움 → 맥락 단절. 장치는 E0 에서 규칙·검사로 보강(D-0251 §6.2)
+  guards:
+  - kind: doc
+    ref: back_and_forth/261027_205655_D0206_fable_econ-coverage-plan-showcase.md#경제 영상의 차트는 지도처럼 하나의 연속 세계여야 한다
+  status: guarded
+  decision: D-0251 §6 · DECISIONS D267
+  source: 감독 세션(Fable) 사용자 대화 2026-10-27
+- id: UF-136
+  date: '2026-10-27'
+  project: hormuz_korea
+  at: v3 — 미흡 요인(UF-133 의 원인 답변)
+  quote: 호르무즈는 처음이라 좀 어색한 연출들이 많았지.
+  quote_kind: verbatim
+  category: 영상 문법 — 첫 작품의 연출 미숙(이후 문법 D100~D260 이 대체). 기준 영상은 diesel_road_2026 v2(UF-134)
+  guards:
+  - kind: doc
+    ref: back_and_forth/261027_205655_D0206_fable_econ-coverage-plan-showcase.md#별도 장치 없이 기록만 하고, 기준 영상은 diesel 로 둔다
+  status: guarded
+  decision: D-0251 §6 · DECISIONS D267
+  source: 감독 세션(Fable) 사용자 대화 2026-10-27
