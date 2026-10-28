@@ -1987,7 +1987,7 @@ entries:
   category: 영상 문법 — 전편 판정 탈락(원인 사용자 확인 대기 — backdrop 정적 무대·카메라 7·배경 사진 10 가설)
   guards:
   - kind: doc
-    ref: back_and_forth/261027_205655_D0206_fable_econ-coverage-plan-showcase.md#연준 영상(fed_policy_2026 v16)은 사용자 판정 탈락 — 쇼케이스·새 영상의 기준으로 쓰지 않는다
+    ref: back_and_forth/261027_205655_D0251_fable_econ-coverage-plan-showcase.md#연준 영상(fed_policy_2026 v16)은 사용자 판정 탈락 — 쇼케이스·새 영상의 기준으로 쓰지 않는다
   status: guarded
   decision: D-0251 §5 · DECISIONS D266
   source: 감독 세션(Fable) 사용자 대화 2026-10-27
@@ -2000,7 +2000,7 @@ entries:
   category: 영상 문법 — 전편 판정 미흡(원인 사용자 확인 대기 — 카메라 10·요소 밀도 가설)
   guards:
   - kind: doc
-    ref: back_and_forth/261027_205655_D0206_fable_econ-coverage-plan-showcase.md#호르무즈 영상(hormuz_korea v3)은 사용자 판정 '썩 들지 않음' — 골든 25컷은 회귀 기준(화소)으로만 남고 연출 기준으로 쓰지 않는다
+    ref: back_and_forth/261027_205655_D0251_fable_econ-coverage-plan-showcase.md#호르무즈 영상(hormuz_korea v3)은 사용자 판정 '썩 들지 않음' — 골든 25컷은 회귀 기준(화소)으로만 남고 연출 기준으로 쓰지 않는다
   status: guarded
   decision: D-0251 §5 · DECISIONS D266
   source: 감독 세션(Fable) 사용자 대화 2026-10-27
@@ -2013,7 +2013,7 @@ entries:
   category: 영상 문법 — 기준 영상 지정(최고점)
   guards:
   - kind: doc
-    ref: back_and_forth/261027_205655_D0206_fable_econ-coverage-plan-showcase.md#기준 영상 = diesel_road_2026 v2(교체 3, md5 554f4f85) — 쇼케이스 두 편은 이 영상의 문법으로 만든다
+    ref: back_and_forth/261027_205655_D0251_fable_econ-coverage-plan-showcase.md#기준 영상 = diesel_road_2026 v2(교체 3, md5 554f4f85) — 쇼케이스 두 편은 이 영상의 문법으로 만든다
   status: guarded
   decision: D-0251 §5 · DECISIONS D266
   source: 감독 세션(Fable) 사용자 대화 2026-10-27
@@ -2026,7 +2026,7 @@ entries:
   category: 영상 문법 — 차트만 나오는 구간 + 축척이 다른 독립 차트(아일랜드 10회) 번갈아 띄움 → 맥락 단절. 장치는 E0 에서 규칙·검사로 보강(D-0251 §6.2)
   guards:
   - kind: doc
-    ref: back_and_forth/261027_205655_D0206_fable_econ-coverage-plan-showcase.md#경제 영상의 차트는 지도처럼 하나의 연속 세계여야 한다
+    ref: back_and_forth/261027_205655_D0251_fable_econ-coverage-plan-showcase.md#경제 영상의 차트는 지도처럼 하나의 연속 세계여야 한다
   status: guarded
   decision: D-0251 §6 · DECISIONS D267
   source: 감독 세션(Fable) 사용자 대화 2026-10-27
@@ -2039,7 +2039,7 @@ entries:
   category: 영상 문법 — 첫 작품의 연출 미숙(이후 문법 D100~D260 이 대체). 기준 영상은 diesel_road_2026 v2(UF-134)
   guards:
   - kind: doc
-    ref: back_and_forth/261027_205655_D0206_fable_econ-coverage-plan-showcase.md#별도 장치 없이 기록만 하고, 기준 영상은 diesel 로 둔다
+    ref: back_and_forth/261027_205655_D0251_fable_econ-coverage-plan-showcase.md#별도 장치 없이 기록만 하고, 기준 영상은 diesel 로 둔다
   status: guarded
   decision: D-0251 §6 · DECISIONS D267
   source: 감독 세션(Fable) 사용자 대화 2026-10-27
