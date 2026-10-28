@@ -4,8 +4,8 @@
   "title": "쇼케이스 — 지도 위의 경유",
   "category": "geopolitics",
   "created_at": "2026-10-28T04:39:21.156475Z",
-  "updated_at": "2026-10-28T06:02:02.077614Z",
-  "current_state": "assets",
+  "updated_at": "2026-10-28T06:06:44.289673Z",
+  "current_state": "direction",
   "target_duration_min": 3,
   "topic_summary": "요소·목소리·글꼴 쇼케이스(지경학). 『경유의 길』(diesel_road_2026 v2) 축약 재구성 + 호르무즈·DMZ 자료 장. 새 수치·새 사실 없음(D-0251)",
   "initial_links": [],
@@ -61,6 +61,32 @@
       "errors": [],
       "drops": 0,
       "log": "logs/stages/01_plan.json"
+    },
+    {
+      "state": "assets",
+      "stage": "assets",
+      "ok": true,
+      "at": "2026-10-28T06:03:49.428225Z",
+      "artifacts": {
+        "assets": "/home/user/osint_generator/projects/showcase_geo/assets",
+        "report": "/home/user/osint_generator/projects/showcase_geo/assets/geo_report.json"
+      },
+      "errors": [],
+      "drops": 0,
+      "log": "logs/stages/02_assets.json"
+    },
+    {
+      "state": "assets",
+      "stage": "assets_final",
+      "ok": true,
+      "at": "2026-10-28T06:06:44.277199Z",
+      "artifacts": {
+        "assets": "/home/user/osint_generator/projects/showcase_geo/assets/res_720p",
+        "report": "/home/user/osint_generator/projects/showcase_geo/assets/res_720p/geo_report.json"
+      },
+      "errors": [],
+      "drops": 0,
+      "log": "logs/stages/03_assets_final.json"
     }
   ],
   "final_outputs": {},
@@ -106,6 +132,12 @@
       "to_state": "assets",
       "transitioned_at": "2026-10-28T06:02:02.077553Z",
       "reason": "engine plan ok"
+    },
+    {
+      "from_state": "assets",
+      "to_state": "direction",
+      "transitioned_at": "2026-10-28T06:06:44.289589Z",
+      "reason": "engine assets, assets_final ok"
     }
   ],
   "rollbacks": [],
