@@ -1,0 +1,27 @@
+{
+  "schema_version": 1,
+  "project_id": "showcase_econ",
+  "task_id": "visual_qa-showcase_econ",
+  "worker": "visual_qa",
+  "status": "completed",
+  "started_at": "2026-10-28T07:08:25.561926Z",
+  "completed_at": "2026-10-28T07:09:30.805766Z",
+  "outputs": [
+    "prev/qa_verdict.v1.json",
+    "llm_calls/llm_20261028_070825_d814.json"
+  ],
+  "warnings": [],
+  "errors": [],
+  "scene_refs": [],
+  "source_refs": [],
+  "asset_refs": [],
+  "qa_status": "pass",
+  "risk_flags": [],
+  "worker_provenance": {
+    "prompt_name": "visual_qa",
+    "prompt_sha1": "d8ee0b549578d7a676509bb1c5934fc8fa3644aa",
+    "rules_hash": "9d0e5ead25b51c6bb14491c45981a353e9b91556",
+    "genre": "macro_monetary",
+    "genre_declared": true
+  }
+}

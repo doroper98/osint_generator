@@ -242,7 +242,8 @@ events:
     sid: act2_1
     'off': 0.3
   end:
-    scene_end: act2
+    sid: act2_4
+    'off': 0.0
   date: '2026-07-29'
   lane: events
   label: 7월 29일 동결
@@ -276,7 +277,8 @@ events:
     sid: act2_4
     'off': 0.3
   end:
-    scene_end: act3
+    sid: act3_3
+    'off': 0.0
   date: '2026-09-16'
   lane: events
   label: 9월 16일 인상
