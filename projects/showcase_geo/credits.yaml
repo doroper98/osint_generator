@@ -25,6 +25,13 @@ sections:
     - media.diesel_road_2026_art_0030
     - media.diesel_road_2026_art_0032
     - media.diesel_road_2026_art_0034
+    - media.diesel_road_2026_art_0003
+    - media.diesel_road_2026_art_0009
+    - media.diesel_road_2026_art_0019
+    - media.reuters_0904
+    - media.herald_0907
+    - media.hk_0928
+    - media.sisa_0929
 - title: 사진
   column: 0
   items:
@@ -52,6 +59,30 @@ sections:
     license: U.S. Navy · Public domain
     rights:
     - media.diesel_road_2026_vladivostok_port_1992
+  - main: 이라크 파병 한국군 (2003)
+    license: U.S. Government · Public domain
+    rights:
+    - media.rok_iraq
+  - main: 해상초계기 P-8A
+    license: U.S. Navy · Public domain
+    rights:
+    - media.p8
+  - main: DMZ 인근 지뢰 경고 표지판
+    license: U.S. Navy · Public domain
+    rights:
+    - media.dmz_mine_sign
+  - main: DMZ 철책(을지전망대, 2008)
+    license: Friar's Balsam · CC BY 2.0
+    rights:
+    - media.dmz_fence
+  - main: 혁명수비대의 유조선 나포 영상 (2023)
+    license: U.S. Navy · Public domain
+    rights:
+    - media.niovi
+  - main: 이란 군사 목표 타격 영상 (2026.7.7)
+    license: U.S. Central Command · Public domain
+    rights:
+    - media.strikes
 - title: 글꼴
   column: 1
   auto: fonts
