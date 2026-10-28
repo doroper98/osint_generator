@@ -4,8 +4,8 @@
   "title": "쇼케이스 — 금리 선 위의 1년",
   "category": "economy",
   "created_at": "2026-10-28T05:27:51.339439Z",
-  "updated_at": "2026-10-28T05:31:37.806681Z",
-  "current_state": "script_approval",
+  "updated_at": "2026-10-28T06:18:21.022953Z",
+  "current_state": "voice_timeline",
   "target_duration_min": 3,
   "topic_summary": "요소·목소리·글꼴 쇼케이스(경제). 연준 사실(fed_policy_2026 claims·data/series)을 시간축 한 세계 문법으로 — 새 수치·새 사실 없음(D-0251·D-0253)",
   "initial_links": [],
@@ -28,7 +28,26 @@
     "provenance": "out/provenance.json"
   },
   "render_mode_status": {},
-  "gate_decisions": [],
+  "gate_decisions": [
+    {
+      "gate": "script_approval",
+      "decision": "approved",
+      "by": "user",
+      "at": "2026-10-28T06:18:21.022800Z",
+      "comment": "사용자 원문 \"승인해봐\" (2026-10-28, 감독 세션 대화) — back_and_forth D-0255, 원고 v1 edf97422",
+      "rollback_to": null,
+      "shown": {
+        "script": "/home/user/osint_generator/projects/showcase_econ/script.yaml",
+        "lint_errors": "0",
+        "lint_warnings": "1",
+        "est_sec": "171.6",
+        "media_plan_errors": "0",
+        "script_sha1": "9bfdadfc0a87ef162121f6952aef87718274814e",
+        "media_plan": "사진 0/2 · 기사 후보 23문장 · 172초(chars)"
+      },
+      "chosen_version": null
+    }
+  ],
   "stage_records": [],
   "final_outputs": {},
   "state_history": [
@@ -61,6 +80,12 @@
       "to_state": "script_approval",
       "transitioned_at": "2026-10-28T05:31:37.806632Z",
       "reason": "원고 v1 확정(린트 오류 0) — 게이트 ① 사용자"
+    },
+    {
+      "from_state": "script_approval",
+      "to_state": "voice_timeline",
+      "transitioned_at": "2026-10-28T06:18:21.022876Z",
+      "reason": "script_approval 승인 — user"
     }
   ],
   "rollbacks": [],
