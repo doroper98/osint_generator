@@ -39,6 +39,7 @@ class GenreFilesTest(unittest.TestCase):
         self.assertEqual(p.primitives.new, ["rate_step_line", "dot_plot", "yield_curve_shift", "statement_diff", "target_band"])
         self.assertEqual(set(p.primitives.new) - set(reg.primitives), set(reg.primitives_planned))
         self.assertIn("timeline", p.primitives.reuse)
+        self.assertIn("quote", p.primitives.reuse)   # v7.4.0 back_and_forth D-0256 — 인물 발언 인용([genre-element] 통과)
         self.assertEqual(set(style_for("statement_diff", p.color_semantics).colors), {"added", "removed"})
 
 
