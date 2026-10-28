@@ -1255,6 +1255,13 @@ stage_timeline:            # v4.3.0 D-0084 작업 3·4·D-0085·D-0086 — 시�
     scene_fixed: true              # 장면 안에서 w 변경 금지 — move 는 중심 이동(pan)만
     grammar: "시간축 무대는 축 스케일(카메라 w, 화면이 덮는 일수)을 장면 단위로 고정한다. 확대·축소는 영상 전체 {max}회 이하(오프닝 뒤 작업 척도·중간 1회·엔딩 조망), 한 번에 {ratio}배 이상만 바꾼다. 장면 안에서는 w 를 그대로 두고 중심 이동(pan)만 한다. 지도의 '문장마다 줌 금지'(G4-16)와 같은 원리다. 검사 [timeline-rescale] hard."
 
+chart_world:               # v7.4.0 back_and_forth D-0251 §6.1·§6.2-4(사용자 의견 UF-135 "같은 축척 혹은 같은 차트 안에서 움직이거나 보여주는게 아니니까") — 연출·수정 프롬프트 {{RULES.chart_world}}
+  # {자리}는 같은 규칙 값으로 로더가 채운다(15 P3·C2 .replace). 검사 [chart-world-split]·[chart-only-run](qa_checks.chart_only_run) 과 같은 원칙
+  grammar:
+    - "경제·데이터 영상의 차트는 하나의 시간축 세계다. 카메라가 그 안에서 이동한다. 축척이 다른 독립 차트를 번갈아 띄우지 않는다."
+    - "같은 단위의 시계열은 한 레인(한 축척)에 둔다. 차트 아일랜드가 둘 이상인 영상에서 같은 단위를 다른 레인에 그리면 검사 [chart-world-split] hard."
+    - "차트·카드만 보이는 구간은 {max_sec}초 이하 — 그 안에 사건 핀(marker)·인물 뱃지·사진·기사·인용·지도 중 하나를 넣는다(검사 [chart-only-run] hard, 모든 무대)."
+
 stage_backdrop:            # v5.1.0 back_and_forth D-0121 §B·D-0123 §1(사용자 결정 D106·D108) — 사진 배경 무대(engine/stage_backdrop.py)·backdrop 이벤트(engine/layers/backdrop.py). 설계 px(480p)
   # 사진 = 미디어 레지스트리 kind photo·rights_clear 만(C9·G4-10 — AI 생성·출처 불명 금지). 배경은 장식이라 캡션 바 없음, 크레딧은 credits.yaml media 참조.
   # 연출(LLM)이 장면마다 {type: backdrop, start: {scene_start}, end: {scene_end}, img: <mid>} 로 고른다(P8). 전환은 crossfade 만(줌 범프 금지)
@@ -1702,6 +1709,16 @@ qa_checks:                 # 17 §3 — 결정적 사전 검사 임계
     ft: {names: [파이낸셜타임스, Financial Times], domains: [ft.com]}
     bbc: {names: [BBC, 비비씨], domains: [bbc.com, bbc.co.uk]}
     cnn: {names: [CNN, 씨엔엔], domains: [cnn.com]}
+  # v7.4.0 back_and_forth D-0251 §6.2-3·D-0252(사용자 의견 UF-135 ① "너무 차트만 나오기도 하고") — 차트·카드만 보이는 구간이 max_sec 를 넘으면 [chart-only-run] hard.
+  # 모든 무대·장르, 콘티 판·프리뷰·전편 같은 키(C12-3). 지도 = 비차트(장소), timeline 무대의 시간축 = 차트. provenance chart_only_runs
+  chart_only_run:
+    max_sec: 12
+    step_sec: 0.1
+    chart_types: [panel, series, card]
+    chart_island_kinds: [chart]
+    chart_primitives: [dot_plot, statement_diff]
+    neutral_types: [dip, island]   # island 는 kind 로만 판정(chart → 차트). 그 밖 아일랜드는 안의 사진·영상 이벤트가 따로 센다
+    map_stages: [mercator]
   card_over_panel: {min_overlap_sec: 0.3, panel_pad_px: 4, cover_types: [card, cascade, article, quote, primitive],
                     cover_types_on_data_panels: [photo, clip, cutout, badge]}
   # v5.21.10 사용자 의견(2026-10-11 "기사 화면이 나왔는데 0.5초도 안 돼서 사라진다", D-0191 §1-2) — 기사(프레스 단독·페이드 뺀 글자 구간)·인용(페이드 뺀 구간)

@@ -105,7 +105,7 @@ SHADOW_PX = 7             # badge_box 가 원 둘레에 더하는 그림자 여�
 HARD = ("map_contrast", "overlap", "offscreen", "glyphs", "glyph_size", "labels", "date", "subtitles", "rights", "forbidden", "stage_continuity",
         "genre_elements", "chart_honesty", "series_limit_3", "units_visible", "as_of_visible", "boundary_as_route",
         "geo_mismatch", "timeline_rescale", "backdrop_rights", "backdrop_repeat", "island_overlap",
-        "backdrop_main_missing", "island_label_clip", "cascade", "subtitle_overlap", "label_collision", "timeline_span", "route_frame", "panel_overflow", "flag_territory", "badge_over_panel", "opening_establish", "camera_continuity", "card_exposure", "route_label_cross", "route_label_overlap", "article_backdrop", "quote_in_script", "route_missing_other", "frame_missing_target", "route_missing", "frame_missing", "bgm_decision", "endcard_black", "camera_per_sentence", "label_jump", "camera_speed", "title_backdrop", "camera_bounds", "cutaway_churn", "unit_glyph_font", "transition_camera", "media_unused", "inset_clipped", "press_credit", "static_camera", "route_speed", "sea_only_frame", "unit_ton_glyph", "badge_clipped", "series_unused", "panel_dropped", "card_over_panel", "article_outlet", "catalog_label_overlap")   # cutaway_churn v7.4.0 D-0229 §2.3, island_label_clip v5.2.0 D-0133 §2, backdrop_main_missing v5.2.0 D-0129 §B, island_overlap v5.1.0 D-0126 Q3, geo_mismatch v4.10.0 D-0116, timeline_rescale v5.1.0 D-0121 §A, backdrop_* v5.1.0 D-0123
+        "backdrop_main_missing", "island_label_clip", "cascade", "subtitle_overlap", "label_collision", "timeline_span", "route_frame", "panel_overflow", "flag_territory", "badge_over_panel", "opening_establish", "camera_continuity", "card_exposure", "route_label_cross", "route_label_overlap", "article_backdrop", "quote_in_script", "route_missing_other", "frame_missing_target", "route_missing", "frame_missing", "bgm_decision", "endcard_black", "camera_per_sentence", "label_jump", "camera_speed", "title_backdrop", "camera_bounds", "cutaway_churn", "unit_glyph_font", "transition_camera", "media_unused", "inset_clipped", "press_credit", "static_camera", "route_speed", "sea_only_frame", "unit_ton_glyph", "badge_clipped", "series_unused", "panel_dropped", "card_over_panel", "article_outlet", "catalog_label_overlap", "chart_only_run", "chart_world_split")   # cutaway_churn v7.4.0 D-0229 §2.3, island_label_clip v5.2.0 D-0133 §2, backdrop_main_missing v5.2.0 D-0129 §B, island_overlap v5.1.0 D-0126 Q3, geo_mismatch v4.10.0 D-0116, timeline_rescale v5.1.0 D-0121 §A, backdrop_* v5.1.0 D-0123
 WARN = ("shots", "media_beats", "media_upscaled", "endcard_roll", "geo_unsourced",   # endcard_roll v4.7.0 D-0106, geo_unsourced D-0107
         "static_window", "stage_choice", "card_island", "island_label_overlap", "cascade_label_hidden",
         "map_contrast_shape", "battle_geo", "portrait_unused", "ratio_graphic", "inset_overlap", "tempo_density", "article_press_missing", "badge_orphan")   # ratio_graphic v7.4.0 D-0229 §2.6   # v5.21.14 D-0195·D-0199. map_contrast_shape v5.18.0 D-0161 §4   # static_window v4.11.0 D-0118, stage_choice v5.1.0 D-0123, card_island v5.2.0 D-0129 §C, island_label_overlap D-0133 §3
@@ -2105,6 +2105,10 @@ def run_checks(P, times: list[float], provenance: dict, drawn: list[tuple[str, f
         "card_over_panel": lambda: check_card_over_panel(P),   # v7.4.0 D-0248(UF-129, hard)
         "article_outlet": lambda: check_article_outlet(P),   # v7.4.0 D-0250(UF-130, hard)
         "catalog_label_overlap": lambda: check_catalog_label_overlap(P),   # v7.4.0 D-0251 §1.1(hard, 카탈로그 판만)
+        "chart_only_run": lambda: [f"[chart-only-run] {a:.1f}~{b:.1f}초 ({b - a:.1f}초) 차트·카드만 보인다 — 상한 {QA.chart_only_run.max_sec:g}초. "
+                                   "사건 핀·인물·사진·기사·인용·지도 중 하나를 넣는다(UF-135)" for a, b in chart_only_runs(P)
+                                   if b - a > QA.chart_only_run.max_sec],   # v7.4.0 D-0252(hard)
+        "chart_world_split": lambda: check_chart_world_split(P),   # v7.4.0 D-0251 §6.2-2(hard, UF-135 ②)
         "press_credit": lambda: check_press_credit(P, times, drawn),   # v7.4.0 D-0240 §3(hard)
         "static_camera": lambda: check_static_camera(P),   # v7.4.0 D-0241 §1(hard, UF-120)
         "route_speed": lambda: check_route_speed(P),   # v7.4.0 D-0241 §4(hard, UF-123)
@@ -2157,6 +2161,67 @@ def run_checks(P, times: list[float], provenance: dict, drawn: list[tuple[str, f
     return {"schema_version": 1, "hard": hard, "warnings": sum(i["count"] for i in items if i["severity"] == "warning"),
             "passed": hard == 0, "profile": "animatic" if getattr(P, "animatic", False) else "catalog" if getattr(P, "catalog", False) else "full", "skipped": sorted(skip),
             "thresholds": QA.model_dump(), "items": items}
+
+
+def chart_only_runs(P) -> list[tuple[float, float]]:  # noqa: ANN001, N803
+    """차트·카드만 보이는 연속 구간(v7.4.0 D-0252, rules qa_checks.chart_only_run) — step_sec 표본. 타이틀·엔딩 카드 구간은 끊는다.
+    provenance chart_only_runs 와 검사 [chart-only-run] 이 같은 값을 쓴다(P5)."""
+    C = QA.chart_only_run  # noqa: N806
+    shots = sorted((s for s in (getattr(P, "shots", None) or []) if not s.island), key=lambda s: s.t)
+
+    def stage_at(t: float) -> str:
+        return next((s.stage for s in reversed(shots) if s.t <= t), P.R.stage.name)
+
+    def kind(e: dict) -> str:   # chart · neutral · other
+        typ = e["type"]
+        if typ == "island":
+            return "chart" if e.get("kind") in C.chart_island_kinds else "neutral"
+        if typ in C.chart_types or (typ == "primitive" and e.get("id") in C.chart_primitives):
+            return "chart"
+        return "neutral" if typ in C.neutral_types else "other"
+
+    runs: list[tuple[float, float]] = []
+    start: float | None = None
+    n = int(P.plan.total / C.step_sec) + 1
+    for i in range(n):
+        t = i * C.step_sec
+        act = [e for e in P.events if e["t0"] <= t <= e["t1"]]
+        ks = {kind(e) for e in act}
+        covered = any(e["type"] == "panel" for e in act)
+        only = (not P.R.tb.in_fullcard(t) and "chart" in ks and "other" not in ks
+                and not (stage_at(t) in C.map_stages and not covered))
+        if only and start is None:
+            start = t
+        elif not only and start is not None:
+            runs.append((round(start, 2), round(t, 2)))
+            start = None
+    if start is not None:
+        runs.append((round(start, 2), round(P.plan.total, 2)))
+    return runs
+
+
+def check_chart_world_split(P) -> list[str]:  # noqa: ANN001, N803
+    """[chart-world-split] hard(v7.4.0 D-0251 §6.2-2, UF-135 ② "같은 축척 혹은 같은 차트 안에서 움직이거나 보여주는게 아니니까") —
+    island 이벤트가 2개 이상인 영상에서 같은 단위의 series 가 서로 다른 레인(= 다른 y 축척)에 그려지면 실패. 레인 범위는 무대가 정한다
+    (engine.layers.series.lane_range — 사용자 값 아님). 같은 단위는 한 레인(한 축척) 위에서 카메라가 움직여 보여 준다."""
+    if sum(1 for e in P.events if e["type"] == "island") < 2:
+        return []
+    from data.series import load_series  # noqa: PLC0415
+    from engine.layers.series import record_ids  # noqa: PLC0415
+
+    lanes: dict[str, set[str]] = {}
+    for e in P.events:
+        if e["type"] == "series":
+            for sid in record_ids(e):
+                lanes.setdefault(load_series(sid).unit, set()).add(e["lane"])
+    rng = P.R.cache.get("series_range") or {}
+    out = []
+    for unit, ls in sorted(lanes.items()):
+        scales = {ln: tuple(round(v, 6) for v in rng[ln]) for ln in sorted(ls) if ln in rng}
+        if len(set(scales.values())) > 1:
+            out.append(f"[chart-world-split] 단위 {unit!r} 시계열이 레인 {sorted(ls)} 에 다른 축척 {scales} 로 그려진다 — "
+                       "같은 단위는 한 레인(한 축척)에 두고 카메라가 그 안에서 움직인다(UF-135)")
+    return out
 
 
 def catalog_label_times(P) -> list[float]:  # noqa: ANN001, N803

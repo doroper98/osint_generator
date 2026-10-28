@@ -2027,6 +2027,12 @@ entries:
   guards:
   - kind: doc
     ref: back_and_forth/261027_205655_D0251_fable_econ-coverage-plan-showcase.md#경제 영상의 차트는 지도처럼 하나의 연속 세계여야 한다
+  - {kind: check, ref: chart_only_run}
+  - {kind: check, ref: chart_world_split}
+  - {kind: rule, ref: qa_checks.chart_only_run.max_sec}
+  - {kind: rule, ref: chart_world.grammar}
+  - {kind: test, ref: tests/test_chart_world.py::ChartOnlyRunTest::test_long_chart_only_fails}
+  - {kind: test, ref: tests/test_chart_world.py::ChartWorldSplitTest::test_same_unit_different_lanes_fail}
   status: guarded
   decision: D-0251 §6 · DECISIONS D267
   source: 감독 세션(Fable) 사용자 대화 2026-10-27

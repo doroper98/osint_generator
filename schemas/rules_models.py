@@ -1649,8 +1649,23 @@ class CardOverPanel(_Strict):
     cover_types_on_data_panels: list[str] = Field(default_factory=list)   # 데이터 패널(series record) 위에서만 더 세는 덮개
 
 
+class ChartOnlyRun(_Strict):
+    """v7.4.0 D-0251 §6.2-3·D-0252(UF-135 ① "너무 차트만") — 차트·카드만 보이는 구간 상한. 모든 무대·장르, 콘티 판·프리뷰·전편 같은 키.
+    차트 요소 = chart_types(+ island kind chart_island_kinds, primitive id chart_primitives). neutral_types 는 판정에 넣지 않는다.
+    그 밖 등록 요소와 map_stages 무대가 패널 덮개 없이 보이는 순간 = 비차트(지도는 장소다). 타이틀·엔딩 카드 구간 제외."""
+
+    max_sec: float = Field(gt=0)
+    step_sec: float = Field(gt=0)
+    chart_types: list[str] = Field(min_length=1)
+    chart_island_kinds: list[str] = Field(default_factory=list)
+    chart_primitives: list[str] = Field(default_factory=list)
+    neutral_types: list[str] = Field(default_factory=list)
+    map_stages: list[str] = Field(min_length=1)
+
+
 class QAChecks(_Strict):
     overlap_core_elements: int
+    chart_only_run: ChartOnlyRun                      # v7.4.0 D-0252 — [chart-only-run] hard
     card_over_panel: Optional[CardOverPanel] = None   # v7.4.0 D-0248(UF-129)
     outlet_min_overlap_sec: float = 0.5               # v7.4.0 D-0250(UF-130)
     outlet_names: dict[str, OutletNames] = Field(default_factory=dict)
@@ -1999,6 +2014,12 @@ class StageTimelineRules(_Strict):
     band: TimelineBand             # v4.4.0 — D-0090 작업 2
     missing_mark: TimelineMissingMark
     axis_scale: TimelineAxisScale  # v5.1.0 — D-0121 §A
+
+
+class ChartWorldRules(_Strict):
+    """v7.4.0 D-0251 §6.2-4 — 차트 연속 세계 연출 문법(연출·수정 프롬프트 {{RULES.chart_world}})."""
+
+    grammar: list[str] = Field(min_length=1)
 
 
 class StageBackdropRules(_Strict):
@@ -3098,6 +3119,7 @@ class VideoRules(_Strict):
     primitives: PrimitivesRules = Field(default_factory=PrimitivesRules)   # v4.2.0 D-0081
     stage_timeline: StageTimelineRules   # v4.3.0 — D-0084 작업 3·D-0085
     stage_backdrop: StageBackdropRules   # v5.1.0 — D-0121 §B·D-0123
+    chart_world: ChartWorldRules   # v7.4.0 — D-0251 §6.2-4
     island: IslandRules                  # v5.1.0 — D-0123 §1·D-0126
     cascade: CascadeRules                # v5.2.0 — 겹침 카드(사용자 재구성 2026-10-01, v5.3.0 D-0139 채택)
     quote_center: QuoteCenterRules       # v5.3.1 — 인물 발언 중앙 인용(시안, valdai-2026 한정)

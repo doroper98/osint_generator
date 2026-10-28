@@ -229,6 +229,9 @@ def project_provenance(P, stages: dict[str, bool]) -> dict:  # noqa: ANN001, N80
                           "creep": {"ranges": pc["creep"], "w_ratio": pc["creep_w_ratio"]} if pc["creep"] else None}
     prov["animatic"] = bool(getattr(P, "animatic", False))   # v4.9.0 D-0108 — 콘티 판 여부(전편 false, 콘티 판 true + animatic_run)
     prov["catalog"] = bool(getattr(P, "catalog", False))     # v7.4.0 D-0251 — 카탈로그 판 여부(전편 false, 카탈로그 판 true + catalog_run)
+    from engine.checks import chart_only_runs  # noqa: PLC0415
+
+    prov["chart_only_runs"] = [list(r) for r in chart_only_runs(P)]   # v7.4.0 D-0252 — 차트·카드만 보인 구간(검사 [chart-only-run] 과 같은 값)
     prov["stage"] = P.R.cache.get("stage")   # v4.1.0 D-0076 작업 7 — 무대(name·declared·shots_declared·instances)
     from engine.typography import CONTRAST_FIXED as lcf  # noqa: PLC0415 — 프리뷰(같은 프로세스)
     rjf = P.root / "out" / "render.json"

@@ -76,6 +76,8 @@ def _rules_placeholders(rules: VideoRules) -> dict[str, str]:
         "{{RULES.media.density}}": _media_density(rules),   # v5.19.0 D-0163 §2 — 미디어 비트·기사 카드 밀도(검사 [media-density-*]·[article-unused] 와 같은 값)
         "{{RULES.pacing.static_window}}": _ladder(rules),   # v4.11.0 D-0118 §1 — 변화 사다리(검사 [static-window] 와 같은 값)
         "{{RULES.stage_timeline.axis_scale}}": _axis_scale(rules),   # v5.1.0 D-0121 §A — 검사 [timeline-rescale] 와 같은 값
+        "{{RULES.chart_world}}": _bullets([ln.replace("{max_sec}", f"{rules.qa_checks.chart_only_run.max_sec:g}")
+                                            for ln in rules.chart_world.grammar]),   # v7.4.0 D-0251 §6.2-4 — 검사 [chart-world-split]·[chart-only-run] 과 같은 값
         "{{RULES.backdrop_island}}": _backdrop_island(rules),   # v5.1.0 D-0123·D-0126·D-0121 §C — backdrop 무대·아일랜드·기사 프레스 v2
         "{{RULES.attribution_markers}}": ", ".join(f'"{m}"' for m in rules.script_schema.attribution_markers),   # v4.10.0 D-0116 — 린트·검증 판정과 같은 목록
     }
