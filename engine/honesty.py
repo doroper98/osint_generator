@@ -189,7 +189,7 @@ def project_metas(P, times: list[float], labels: list[str], drawn: list[tuple[st
 
 def _series_metas(P, st, times: list[float], labels: list[str], texts: dict[str, set[str]]) -> list[ChartMeta]:  # noqa: ANN001, N803
     from data.series import load_series  # noqa: PLC0415
-    from engine.layers.series import AXIS, record_ids, source_line  # noqa: PLC0415
+    from engine.layers.series import AXIS, lane_source_text, record_ids  # noqa: PLC0415
 
     out: list[ChartMeta] = []
     by_lane: dict[str, list[dict]] = {}
@@ -203,7 +203,7 @@ def _series_metas(P, st, times: list[float], labels: list[str], texts: dict[str,
         for e in evs:
             cuts = [lab for t, lab in zip(times, labels) if e["t0"] <= t <= e["t1"]]
             if cuts:
-                ok = all(source_line(e) in texts.get(lab, set()) for lab in cuts)
+                ok = all(lane_source_text(e) in texts.get(lab, set()) for lab in cuts)
                 shown = ok if shown is None else shown and ok
         out.append(ChartMeta(ref=f"series lane {lane!r} [{', '.join(r.series_id for r in recs)}]", axis=AXIS,
                              kind="line", series_count=len(evs), units=[r.unit for r in recs],

@@ -105,7 +105,7 @@ SHADOW_PX = 7             # badge_box 가 원 둘레에 더하는 그림자 여�
 HARD = ("map_contrast", "overlap", "offscreen", "glyphs", "glyph_size", "labels", "date", "subtitles", "rights", "forbidden", "stage_continuity",
         "genre_elements", "chart_honesty", "series_limit_3", "units_visible", "as_of_visible", "boundary_as_route",
         "geo_mismatch", "timeline_rescale", "backdrop_rights", "backdrop_repeat", "island_overlap",
-        "backdrop_main_missing", "island_label_clip", "cascade", "subtitle_overlap", "label_collision", "timeline_span", "route_frame", "panel_overflow", "flag_territory", "badge_over_panel", "opening_establish", "camera_continuity", "card_exposure", "route_label_cross", "route_label_overlap", "article_backdrop", "quote_in_script", "route_missing_other", "frame_missing_target", "route_missing", "frame_missing", "bgm_decision", "endcard_black", "camera_per_sentence", "label_jump", "camera_speed", "title_backdrop", "camera_bounds", "cutaway_churn", "unit_glyph_font", "transition_camera", "media_unused", "inset_clipped", "press_credit", "static_camera", "route_speed", "sea_only_frame", "unit_ton_glyph", "badge_clipped", "series_unused", "panel_dropped", "card_over_panel", "article_outlet", "catalog_label_overlap", "chart_only_run", "chart_world_split")   # cutaway_churn v7.4.0 D-0229 §2.3, island_label_clip v5.2.0 D-0133 §2, backdrop_main_missing v5.2.0 D-0129 §B, island_overlap v5.1.0 D-0126 Q3, geo_mismatch v4.10.0 D-0116, timeline_rescale v5.1.0 D-0121 §A, backdrop_* v5.1.0 D-0123
+        "backdrop_main_missing", "island_label_clip", "cascade", "subtitle_overlap", "label_collision", "timeline_span", "route_frame", "panel_overflow", "flag_territory", "badge_over_panel", "opening_establish", "camera_continuity", "card_exposure", "route_label_cross", "route_label_overlap", "article_backdrop", "quote_in_script", "route_missing_other", "frame_missing_target", "route_missing", "frame_missing", "bgm_decision", "endcard_black", "camera_per_sentence", "label_jump", "camera_speed", "title_backdrop", "camera_bounds", "cutaway_churn", "unit_glyph_font", "transition_camera", "media_unused", "inset_clipped", "press_credit", "static_camera", "route_speed", "sea_only_frame", "unit_ton_glyph", "badge_clipped", "series_unused", "panel_dropped", "card_over_panel", "article_outlet", "catalog_label_overlap", "chart_only_run", "chart_world_split", "series_label_overlap")   # cutaway_churn v7.4.0 D-0229 §2.3, island_label_clip v5.2.0 D-0133 §2, backdrop_main_missing v5.2.0 D-0129 §B, island_overlap v5.1.0 D-0126 Q3, geo_mismatch v4.10.0 D-0116, timeline_rescale v5.1.0 D-0121 §A, backdrop_* v5.1.0 D-0123
 WARN = ("shots", "media_beats", "media_upscaled", "endcard_roll", "geo_unsourced",   # endcard_roll v4.7.0 D-0106, geo_unsourced D-0107
         "static_window", "stage_choice", "card_island", "island_label_overlap", "cascade_label_hidden",
         "map_contrast_shape", "battle_geo", "portrait_unused", "ratio_graphic", "inset_overlap", "tempo_density", "article_press_missing", "badge_orphan")   # ratio_graphic v7.4.0 D-0229 §2.6   # v5.21.14 D-0195·D-0199. map_contrast_shape v5.18.0 D-0161 §4   # static_window v4.11.0 D-0118, stage_choice v5.1.0 D-0123, card_island v5.2.0 D-0129 §C, island_label_overlap D-0133 §3
@@ -2109,6 +2109,7 @@ def run_checks(P, times: list[float], provenance: dict, drawn: list[tuple[str, f
                                    "사건 핀·인물·사진·기사·인용·지도 중 하나를 넣는다(UF-135)" for a, b in chart_only_runs(P)
                                    if b - a > QA.chart_only_run.max_sec],   # v7.4.0 D-0252(hard)
         "chart_world_split": lambda: check_chart_world_split(P),   # v7.4.0 D-0251 §6.2-2(hard, UF-135 ②)
+        "series_label_overlap": lambda: check_series_label_overlap(P),   # v7.4.0 D-0256(hard)
         "press_credit": lambda: check_press_credit(P, times, drawn),   # v7.4.0 D-0240 §3(hard)
         "static_camera": lambda: check_static_camera(P),   # v7.4.0 D-0241 §1(hard, UF-120)
         "route_speed": lambda: check_route_speed(P),   # v7.4.0 D-0241 §4(hard, UF-123)
@@ -2221,6 +2222,35 @@ def check_chart_world_split(P) -> list[str]:  # noqa: ANN001, N803
         if len(set(scales.values())) > 1:
             out.append(f"[chart-world-split] 단위 {unit!r} 시계열이 레인 {sorted(ls)} 에 다른 축척 {scales} 로 그려진다 — "
                        "같은 단위는 한 레인(한 축척)에 두고 카메라가 그 안에서 움직인다(UF-135)")
+    return out
+
+
+def check_series_label_overlap(P) -> list[str]:  # noqa: ANN001, N803
+    """[series-label-overlap] hard(v7.4.0 back_and_forth D-0256) — 같은 레인에 series 둘 이상이 떠 있는 순간, 실제로 그린 끝값 라벨
+    글자 상자(engine.layers.series.place_end_label 기록)가 서로 교차하면 실패. 그런 구간만 1초 간격으로 프레임을 그려 잰다."""
+    ser = [e for e in P.events if e.get("type") == "series"]
+    if len(ser) < 2:
+        return []
+    from engine.render import render_frame  # noqa: PLC0415
+
+    times: set[float] = set()
+    for i, a in enumerate(ser):
+        for b in ser[i + 1:]:
+            if a["lane"] == b["lane"]:
+                lo, hi = max(a["t0"], b["t0"]), min(a["t1"], b["t1"])
+                times |= {round(lo + k, 2) for k in range(int(max(0.0, hi - lo)) + 1)}
+    out: list[str] = []
+    for t in sorted(times):
+        P.R.cache.pop("series_end_labels", None)   # 이 프레임에 그린 라벨만
+        render_frame(P, min(P.n_frames - 1, max(0, int(t * FPS))))
+        reg = P.R.cache.get("series_end_labels") or {}
+        for lane, placed in (reg.get("lanes") or {}).items():
+            boxes = [p[2] for p in placed]
+            for i, a in enumerate(boxes):
+                for b in boxes[i + 1:]:
+                    if a[0] < b[2] and b[0] < a[2] and a[1] < b[3] and b[1] < a[3]:
+                        out.append(f"[series-label-overlap] t={t:.2f} 레인 {lane} 끝값 라벨 {tuple(round(v, 1) for v in a)} ↔ "
+                                   f"{tuple(round(v, 1) for v in b)} — rules stage_timeline.series.end_label_min_gap_px")
     return out
 
 

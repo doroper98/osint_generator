@@ -1961,6 +1961,7 @@ class TimelineSeries(_Strict):
     source_size: float
     source_font: str
     source_halo: float
+    end_label_min_gap_px: float = Field(gt=0)   # v7.4.0 D-0256 — 같은 레인 끝값 라벨 세로 최소 간격(기준선 사이)
     change_regime_months: int = Field(ge=1)   # v4.4.0 D-0091 ②
 
 

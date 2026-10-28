@@ -672,6 +672,14 @@ def prepare_series(R: RenderCtx, events: list[dict], cams: np.ndarray, n: int, s
         slots[e["lane"]] = e["slot"] + 1
     for lane in slots:
         R.cache["series_range"][lane] = lane_range(events, lane)
+    from engine.layers.series import source_line  # noqa: PLC0415
+
+    for lane in slots:   # v7.4.0 D-0256 — 레인당 출처 한 줄(레코드 출처를 " · " 로, 같은 출처는 한 번)
+        joined = " · ".join(dict.fromkeys(source_line(e) for e in ser if e["lane"] == lane))
+        for e in ser:
+            if e["lane"] == lane:
+                e["lane_source"] = joined
+                e["lane_n"] = slots[lane]   # 레인 안 series 수 — 둘 이상이면 띠 끝값 라벨을 찍지 않는다(D-0256)
     S = TIMELINE.series  # noqa: N806
     for e in ser:
         if not e["grow"]:

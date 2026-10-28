@@ -1229,6 +1229,9 @@ stage_timeline:            # v4.3.0 D-0084 작업 3·4·D-0085·D-0086 — 시�
     source_size: 11        # v4.4.0 D-0092 B: 10 → 11
     source_font: sansm
     source_halo: 2.5
+    # v7.4.0 back_and_forth D-0256 — 한 레인에 레코드 둘 이상(띠+계단 등)일 때: 끝값 라벨은 값 순서로 세로 분산(기준선 사이 이 값 이상), 띠(band)는 다른 계열과 한 레인이면 끝값 라벨을 찍지 않는다
+    # (상·하한은 띠 자체가 보여 준다), 출처 줄은 레인당 한 줄(레코드 출처를 " · " 로 잇는다). 검사 [series-label-overlap] hard
+    end_label_min_gap_px: 14   # value_size 12 + 2
     change_regime_months: 2   # v4.4.0 D-0091 ② color_by change — 마지막 변화가 이 달 수 안이면 그 방향(hike·cut), 넘으면 hold(동결). FOMC 회의 간격(6~7주) — 연속 회의 인상·인하는 이어지고 동결 결정 뒤는 회색(6 → 2: fed_policy 검수 루브릭 5 지적, 2026 동결기가 인하 색)
   band:                    # v4.4.0 D-0090 작업 2 — series style band(두 레코드 사이 띠 = 목표 범위). 색은 이벤트 col
     fill_alpha: 0.28

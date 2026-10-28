@@ -117,6 +117,27 @@ def source_line(e: dict) -> str:
     return " / ".join(srcs)
 
 
+def lane_source_text(e: dict) -> str:
+    """레인 출처 줄(v7.4.0 D-0256) — 같은 레인 series 전부의 출처를 한 줄로(load_project 가 lane_source 를 붙인다). 없으면 이 이벤트 것."""
+    return e.get("lane_source") or source_line(e)
+
+
+def place_end_label(R: "RenderCtx", t: float, lane: str, y: float, v: float) -> float:  # noqa: N803
+    """같은 프레임·같은 레인 끝값 라벨 기준선 세로 분산(v7.4.0 D-0256) — 이미 놓인 라벨과 rules series.end_label_min_gap_px 안이면
+    값이 작으면 아래로, 크면 위로 민다. 놓인 자리는 R.cache["series_end_labels"] 에(검사 [series-label-overlap] 가 읽는다)."""
+    gap = TIMELINE.series.end_label_min_gap_px
+    reg = R.cache.get("series_end_labels")
+    if reg is None or reg.get("t") != t:
+        reg = R.cache["series_end_labels"] = {"t": t, "lanes": {}}
+    placed = reg["lanes"].setdefault(lane, [])
+    for _ in range(len(placed) + 1):
+        hit = next(((py, pv) for py, pv, _ in placed if abs(y - py) < gap), None)
+        if hit is None:
+            break
+        y = hit[0] + gap if v < hit[1] else hit[0] - gap
+    return y
+
+
 def value_text(e: dict, v: float, unit: str, hi: float | None = None) -> str:
     """끝점 값 라벨 — band 는 "아래–위단위"(rules stage_timeline.band.sep)."""
     if hi is None:
@@ -175,7 +196,7 @@ def draw_series(ctx: cairo.Context, R: "RenderCtx", view: "View", t: float, e: d
                 last = (x, y, v)
     ctx.restore()
     _draw_missing(ctx, view, stage, rec, e, front, a)
-    if last is not None:
+    if last is not None and not (e["style"] == "band" and e.get("lane_n", 1) > 1):   # v7.4.0 D-0256 — 다른 계열과 한 레인이면 띠는 끝값 라벨 없음(상·하한은 띠가 보여 준다)
         sx, sy = view.to_screen(last[0], last[1])
         if S.value_min_x <= sx <= view.vw:
             tip = col if mcol is None else mcol[_month_of(stage, last[0], rec)]
@@ -185,9 +206,11 @@ def draw_series(ctx: cairo.Context, R: "RenderCtx", view: "View", t: float, e: d
             s = value_text(e, last[2], rec.unit, last_hi)
             lw = tw(ctx, s, S.value_size, S.value_font)
             x0 = sx + S.value_dx if sx + S.value_dx + lw <= view.vw - S.axis_zone_px else sx - S.value_dx - lw   # 오른쪽 축 값 자리를 비킨다
-            box = (x0, sy + S.value_dy - S.value_size, x0 + lw, sy + S.value_dy)
+            by = place_end_label(R, t, e["lane"], sy + S.value_dy, last[2])
+            box = (x0, by - S.value_size, x0 + lw, by)
             if not _hits(box, _lane_name_box(ctx, view, stage, e["lane"])):   # 레인 이름을 덮지 않는다(끝점은 그대로)
-                text(ctx, s, box[0], sy + S.value_dy, S.value_size, S.value_font, tip, a, S.value_halo, "l")
+                text(ctx, s, box[0], by, S.value_size, S.value_font, tip, a, S.value_halo, "l")
+                R.cache["series_end_labels"]["lanes"][e["lane"]].append((by, last[2], box))
     _draw_axis(ctx, view, stage, e, rng, rec.unit, a)
     _draw_source(ctx, view, stage, e, a)
 
@@ -337,12 +360,14 @@ def _draw_axis(ctx: cairo.Context, view: "View", stage: "TimelineStage", e: dict
 
 
 def _draw_source(ctx: cairo.Context, view: "View", stage: "TimelineStage", e: dict, a: float) -> None:
-    """출처·기준 시점 줄(20 §5.1·§5.3) — 레인 아래쪽, 왼쪽 고정. 같은 레인의 n 번째 series 는 한 줄씩 위."""
+    """출처·기준 시점 줄(20 §5.1·§5.3) — 레인 아래쪽, 왼쪽 고정. v7.4.0 D-0256 — 레인당 한 줄(레인 첫 series 가 레인 전체 출처를 그린다)."""
+    if e["slot"]:
+        return
     L = TIMELINE.lane_label  # noqa: N806
     S = TIMELINE.series  # noqa: N806
     _, bot = stage.lane_screen(view, stage.lane_index(e["lane"]))
-    text(ctx, source_line(e), L.x, bot - S.source_dy - S.source_step * e["slot"], S.source_size, S.source_font,
+    text(ctx, lane_source_text(e), L.x, bot - S.source_dy, S.source_size, S.source_font,
          C["muted"], a, S.source_halo, "l")
 
 
-__all__ = ["band_pairs", "month_colors", "regimes", "draw_series", "fmt_value", "lane_range", "record_ids", "segments", "source_line", "value_text", "value_y"]
+__all__ = ["lane_source_text", "place_end_label", "band_pairs", "month_colors", "regimes", "draw_series", "fmt_value", "lane_range", "record_ids", "segments", "source_line", "value_text", "value_y"]
