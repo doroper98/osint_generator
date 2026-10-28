@@ -73,6 +73,18 @@ def scan() -> tuple[dict[str, tuple[Path, dict[str, str]]], list[str]]:
     return files, errors
 
 
+def max_num(kind: str) -> int:
+    """다음 번호의 기준 — 이 종류 파일 전부의 max(파일명 번호, 머리말 id 번호). 머리말 id 가 파일명과 어긋난 옛 파일도 센다
+    (2026-10-28 버그: fable 파일명이 D0206 에 고정되고 머리말만 D-0231~ 로 올라가 --next-name 이 같은 번호를 다시 냈다)."""
+    nums = [0]
+    for p in HERE.glob(f"[0-9]*_{kind}[0-9][0-9][0-9][0-9]_*.md"):
+        m = NAME_RE.match(p.name)
+        if m:
+            nums.append(int(m["num"]))
+        nums += [int(x[2:]) for x in id_list(front_matter(p).get("id", "")) if x[0] == kind]
+    return max(nums)
+
+
 def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--me", choices=sorted(MINE), required=True)
@@ -87,16 +99,14 @@ def main() -> int:
     if args.next_name:
         from datetime import datetime, timedelta, timezone
 
-        nums = [int(fid[2:]) for fid in files if fid.startswith(mine_kind)]
-        num = (max(nums) + 1) if nums else 1
+        num = max_num(mine_kind) + 1
         # README §2 — 시각은 KST(UTC+9). 사용자 지시 2026-09-28.
         ts = datetime.now(timezone(timedelta(hours=9))).strftime("%y%m%d_%H%M%S")
         print(f"{ts}_{mine_kind}{num:04d}_{args.me}_{args.next_name}.md")
         return 0
 
     if args.next_id:
-        nums = [int(fid[2:]) for fid in files if fid.startswith(mine_kind)]
-        print(f"{mine_kind}-{(max(nums) + 1) if nums else 1:04d}")
+        print(f"{mine_kind}-{max_num(mine_kind) + 1:04d}")
         return 0
 
     answered: set[str] = set()
