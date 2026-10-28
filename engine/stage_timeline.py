@@ -114,6 +114,7 @@ class TimelineStage:
         self.area_top: float = TIMELINE.area_top         # 레인 영역(뷰포트 설계 px) — 아일랜드면 fit_island 가 상자 안으로 다시 잡는다
         self.area_bottom: float = TIMELINE.area_bottom
         self.island = False                              # v5.1.0 D-0126 Q1 A — 차트 아일랜드 뷰포트(바탕은 아일랜드 상자가 칠한다)
+        self.frame: "Optional[tuple[float, float, float, float]]" = None   # v7.4.0 D-0257(UF-137) — 주 무대 틀(화면 안쪽 안전 영역)
         self._bounds = (0.0, 0.0, self.x_of(self.cfg.end), float(self.n))
 
     # --- 좌표
@@ -178,6 +179,15 @@ class TimelineStage:
         self.island = True
         self.area_top = pad_top
         self.area_bottom = box_h - pad_bottom
+        self.y_px_per_unit = min(TIMELINE.lane_h, (self.area_bottom - self.area_top) / self.n)
+
+    def fit_frame(self, box: "tuple[float, float, float, float]", pad_top: float, pad_bottom: float) -> None:
+        """시간축 주 무대를 화면 안쪽 틀(rules stage_timeline.frame) 안에 담는다(v7.4.0 back_and_forth D-0257, UF-137 "금리 차트가 화면
+        좌우에 다 꽉차서"). 레인 영역 = 틀 안 [pad_top, 틀 높이 − pad_bottom](차트 아일랜드와 같은 패딩 체계 — rules island.chart),
+        세로 척도 = min(lane_h, 영역 ÷ 레인 수). 세계는 하나 그대로 — 카메라가 그 안을 움직이고 틀 밖은 그리지 않는다(클립)."""
+        self.frame = tuple(float(v) for v in box)  # type: ignore[assignment]
+        self.area_top = pad_top
+        self.area_bottom = box[3] - pad_bottom
         self.y_px_per_unit = min(TIMELINE.lane_h, (self.area_bottom - self.area_top) / self.n)
 
     def frame_y1(self, cam_y: float, h: float) -> float:
@@ -254,13 +264,23 @@ class TimelineStage:
         if not self.island:   # 아일랜드 뷰포트 바탕 = 아일랜드 상자(반투명, 배경 사진이 비친다)
             ctx.set_source_rgb(*T.bg_rgb)
             ctx.paint()
+        if self.frame is not None:   # v7.4.0 D-0257 — 틀 = 차트 아일랜드와 같은 상자(그림자·바탕·테두리, rules island)
+            from engine.island import draw_frame  # noqa: PLC0415
+
+            ctx.save()
+            ctx.reset_clip()
+            draw_frame(ctx, self.frame, 1.0)
+            ctx.restore()
+            ctx.save()
+            ctx.rectangle(*self.frame)
+            ctx.clip()
         for i in range(self.n):
             top, bot = self.lane_screen(view, i)
-            ctx.rectangle(0, top, view.vw, bot - top)
+            ctx.rectangle(view.ox, top, view.vw, bot - top)
             ctx.set_source_rgba(*C["white"], T.band_alpha[i % len(T.band_alpha)])
             ctx.fill()
-            ctx.move_to(0, bot)
-            ctx.line_to(view.vw, bot)
+            ctx.move_to(view.ox, bot)
+            ctx.line_to(view.right, bot)
             ctx.set_source_rgba(*C["white"], T.lane_line_alpha)
             ctx.set_line_width(T.lane_line_w)
             ctx.stroke()
@@ -275,13 +295,15 @@ class TimelineStage:
             ctx.stroke()
         for z in self.cfg.compress:
             self._draw_compress(ctx, view, z, top, bot)
+        if self.frame is not None:
+            ctx.restore()
 
     def _draw_compress(self, ctx: cairo.Context, view: "View", z: Compress, top: float, bot: float) -> None:
         """압축 구간: 옅은 가림 + 양 끝 물결 선 + "압축" 라벨(정직성 — 압축 메타가 있으면 화면에 반드시 보인다)."""
         W = TIMELINE.wave  # noqa: N806
         xa, _ = view.to_screen(self.x_of(z.from_), 0.0)
         xb, _ = view.to_screen(self.x_of(z.to), 0.0)
-        if xb < 0 or xa > view.vw:
+        if xb < view.ox or xa > view.right:
             return
         ctx.rectangle(xa, top, xb - xa, bot - top)
         ctx.set_source_rgba(*TIMELINE.bg_rgb, W.shade_alpha)
@@ -298,7 +320,7 @@ class TimelineStage:
             ctx.set_source_rgba(*C[W.color], W.alpha)
             ctx.set_line_width(W.line_w)
             ctx.stroke()
-        cx = min(max((max(xa, 0.0) + min(xb, float(view.vw))) / 2, W.label_margin_px), view.vw - W.label_margin_px)
+        cx = min(max((max(xa, view.ox) + min(xb, view.right)) / 2, view.ox + W.label_margin_px), view.right - W.label_margin_px)
         text(ctx, W.label, cx, top + W.label_dy, W.label_size, W.label_font, C[W.color], W.alpha, W.label_halo, "c")
 
     def compress_on_screen(self, view: "View") -> list[Compress]:
@@ -307,7 +329,7 @@ class TimelineStage:
         for z in self.cfg.compress:
             xa, _ = view.to_screen(self.x_of(z.from_), 0.0)
             xb, _ = view.to_screen(self.x_of(z.to), 0.0)
-            if not (xb < 0 or xa > view.vw):
+            if not (xb < view.ox or xa > view.right):
                 out.append(z)
         return out
 
@@ -317,15 +339,15 @@ class TimelineStage:
         for i, ln in enumerate(self.lanes):
             top, _ = self.lane_screen(view, i)
             name = ln.label if not ln.unit else f"{ln.label} ({ln.unit})"   # engine.layers.series.lane_name 과 같은 문자열
-            text(ctx, name, T.lane_label.x, top + T.lane_label.dy, T.lane_label.size, T.lane_label.font, C["white"], alpha,
+            text(ctx, name, view.ox + T.lane_label.x, top + T.lane_label.dy, T.lane_label.size, T.lane_label.font, C["white"], alpha,
                  T.lane_label.halo, "l")
         _, bot = self.lane_screen(view, self.n - 1)
         unit = self.tick_unit(view.w)
         G = T.grid  # noqa: N806
-        last = -view.vw
+        last = view.ox - view.vw
         for d, kind in self.ticks(view):
             x, _ = view.to_screen(self.x_of(d), 0.0)
-            if x < G.label_margin_px or x > view.vw - G.label_margin_px or x - last < G.min_label_gap_px:
+            if x < view.ox + G.label_margin_px or x > view.right - G.label_margin_px or x - last < G.min_label_gap_px:
                 continue
             text(ctx, self.tick_label(d, unit), x, bot + G.label_dy, G.label_size, G.label_font,
                  C["white"] if kind == "year" else C["muted"], alpha, G.label_halo, "c")

@@ -77,6 +77,11 @@ def render_frame(P: Project, i: int) -> tuple[cairo.ImageSurface, bytearray]:  #
     capture = R.cache.get("route_label_capture") is not None   # v5.22.7 D210 — 이름표 자리 고르기의 예약 상자 붙잡기: 배경(예약 없음)은 그리지 않는다
     if not capture:
         R.stage.render_base(ctx, view)           # 무대 배경: 지형 래스터 + 국경(v4.1.0 D-0076 — MercatorStage = v3 순서 그대로)
+    frame = getattr(R.stage, "frame", None)
+    if frame is not None:   # v7.4.0 D-0257(UF-137) — 시간축 세계는 틀 안에서만(틀 밖 클립). 패널·카드·자막 등 화면 층은 틀 밖 그대로
+        ctx.save()
+        ctx.rectangle(*frame)
+        ctx.clip()
     if getattr(R.stage, "border_glow", False) and not capture:   # v5.4.0 국경선 글로우(정규 — 지도 기본, stage_config.mercator.border_glow: false 로 끔)
         from engine.layers.borders import draw_border_glow  # noqa: PLC0415
 
@@ -99,6 +104,8 @@ def render_frame(P: Project, i: int) -> tuple[cairo.ImageSurface, bytearray]:  #
     flush_route_labels(ctx, R, view, act, t)   # 그린 라벨 상자는 R.reserved 로 — 배경 지명이 피한다
     if panel_a < 0.99:
         R.stage.draw_labels(ctx, view, R.reserved, 1 - panel_a)
+    if frame is not None:
+        ctx.restore()
     from engine import typography as _ty  # noqa: PLC0415
 
     _ty.flush_contrast_fix(ctx)   # v5.21.2 D-0186 §2-1 — 지도 층 완성 뒤·검사 스냅숏 전에 required 글자 국소 대비 보정

@@ -1997,6 +1997,20 @@ class TimelineAxisScale(_Strict):
     grammar: str = Field(pattern=r"\{max\}")
 
 
+class TimelineFrame(_Strict):
+    """v7.4.0 back_and_forth D-0257(UF-137) — 시간축 주 무대 틀: 화면 안쪽 안전 영역 [x, y, 폭, 높이](설계 px). 레인·눈금·글자는 이 안에만.
+    상자 모양(그림자·바탕·테두리·모서리)과 레인 영역 패딩은 차트 아일랜드와 같은 값(rules island·island.chart)."""
+
+    box: tuple[float, float, float, float]
+
+    @model_validator(mode="after")
+    def _inside(self) -> "TimelineFrame":
+        x, y, w, h = self.box
+        if x <= 0 or y <= 0 or w <= 0 or h <= 0:
+            raise ValueError("stage_timeline.frame.box 는 화면 가장자리에서 떨어진 양의 상자")
+        return self
+
+
 class StageTimelineRules(_Strict):
     """v4.3.0 D-0084 작업 3·4·D-0085·D-0086 — 시간축 무대·시리즈 레이어 토큰(engine/stage_timeline.py·engine/layers/series.py)."""
 
@@ -2015,6 +2029,7 @@ class StageTimelineRules(_Strict):
     band: TimelineBand             # v4.4.0 — D-0090 작업 2
     missing_mark: TimelineMissingMark
     axis_scale: TimelineAxisScale  # v5.1.0 — D-0121 §A
+    frame: TimelineFrame           # v7.4.0 — D-0257(UF-137)
 
 
 class ChartWorldRules(_Strict):

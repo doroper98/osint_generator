@@ -148,7 +148,8 @@ def draw_marker(ctx: cairo.Context, R: RenderCtx, view: View, t: float, e: dict)
         return
     x, y = view.to_screen(*e["world"])
     lt = t - e["t0"]
-    if x < -80 or x > view.vw + 80 or y < -40 or y > view.vh + 40:
+    ox, oy = getattr(view, "ox", 0.0), getattr(view, "oy", 0.0)   # v7.4.0 D-0257 — 시간축 틀 원점(지도·아일랜드 = 0)
+    if x < ox - 80 or x > ox + view.vw + 80 or y < oy - 40 or y > oy + view.vh + 40:
         return
     col = map_c(view.stage, "gold") if e.get("hl") else map_c(view.stage, "white")   # v5.18.0 D-0161 §3 — 지도 테마 보정
     halo = map_halo(view.stage)

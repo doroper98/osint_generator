@@ -92,7 +92,7 @@ import numpy as np
 from engine.layers.media import KEN_BURNS_MAX
 from engine.media_plan import article_candidate_usage, density_report, placement_warnings
 from engine.projection import View
-from engine.style import FONT, FPS, H_OUT, W_OUT
+from engine.style import FONT, FPS, H_OUT, TIMELINE, W_OUT
 from engine.typography import FontMissingError, family_found, fc_match, require_family
 from rules import load_rules
 from script.schema import DATE_RE
@@ -105,7 +105,7 @@ SHADOW_PX = 7             # badge_box 가 원 둘레에 더하는 그림자 여�
 HARD = ("map_contrast", "overlap", "offscreen", "glyphs", "glyph_size", "labels", "date", "subtitles", "rights", "forbidden", "stage_continuity",
         "genre_elements", "chart_honesty", "series_limit_3", "units_visible", "as_of_visible", "boundary_as_route",
         "geo_mismatch", "timeline_rescale", "backdrop_rights", "backdrop_repeat", "island_overlap",
-        "backdrop_main_missing", "island_label_clip", "cascade", "subtitle_overlap", "label_collision", "timeline_span", "route_frame", "panel_overflow", "flag_territory", "badge_over_panel", "opening_establish", "camera_continuity", "card_exposure", "route_label_cross", "route_label_overlap", "article_backdrop", "quote_in_script", "route_missing_other", "frame_missing_target", "route_missing", "frame_missing", "bgm_decision", "endcard_black", "camera_per_sentence", "label_jump", "camera_speed", "title_backdrop", "camera_bounds", "cutaway_churn", "unit_glyph_font", "transition_camera", "media_unused", "inset_clipped", "press_credit", "static_camera", "route_speed", "sea_only_frame", "unit_ton_glyph", "badge_clipped", "series_unused", "panel_dropped", "card_over_panel", "article_outlet", "catalog_label_overlap", "chart_only_run", "chart_world_split", "series_label_overlap")   # cutaway_churn v7.4.0 D-0229 §2.3, island_label_clip v5.2.0 D-0133 §2, backdrop_main_missing v5.2.0 D-0129 §B, island_overlap v5.1.0 D-0126 Q3, geo_mismatch v4.10.0 D-0116, timeline_rescale v5.1.0 D-0121 §A, backdrop_* v5.1.0 D-0123
+        "backdrop_main_missing", "island_label_clip", "cascade", "subtitle_overlap", "label_collision", "timeline_span", "route_frame", "panel_overflow", "flag_territory", "badge_over_panel", "opening_establish", "camera_continuity", "card_exposure", "route_label_cross", "route_label_overlap", "article_backdrop", "quote_in_script", "route_missing_other", "frame_missing_target", "route_missing", "frame_missing", "bgm_decision", "endcard_black", "camera_per_sentence", "label_jump", "camera_speed", "title_backdrop", "camera_bounds", "cutaway_churn", "unit_glyph_font", "transition_camera", "media_unused", "inset_clipped", "press_credit", "static_camera", "route_speed", "sea_only_frame", "unit_ton_glyph", "badge_clipped", "series_unused", "panel_dropped", "card_over_panel", "article_outlet", "catalog_label_overlap", "chart_only_run", "chart_world_split", "series_label_overlap", "chart_edge_bleed")   # cutaway_churn v7.4.0 D-0229 §2.3, island_label_clip v5.2.0 D-0133 §2, backdrop_main_missing v5.2.0 D-0129 §B, island_overlap v5.1.0 D-0126 Q3, geo_mismatch v4.10.0 D-0116, timeline_rescale v5.1.0 D-0121 §A, backdrop_* v5.1.0 D-0123
 WARN = ("shots", "media_beats", "media_upscaled", "endcard_roll", "geo_unsourced",   # endcard_roll v4.7.0 D-0106, geo_unsourced D-0107
         "static_window", "stage_choice", "card_island", "island_label_overlap", "cascade_label_hidden",
         "map_contrast_shape", "battle_geo", "portrait_unused", "ratio_graphic", "inset_overlap", "tempo_density", "article_press_missing", "badge_orphan")   # ratio_graphic v7.4.0 D-0229 §2.6   # v5.21.14 D-0195·D-0199. map_contrast_shape v5.18.0 D-0161 §4   # static_window v4.11.0 D-0118, stage_choice v5.1.0 D-0123, card_island v5.2.0 D-0129 §C, island_label_overlap D-0133 §3
@@ -2110,6 +2110,7 @@ def run_checks(P, times: list[float], provenance: dict, drawn: list[tuple[str, f
                                    if b - a > QA.chart_only_run.max_sec],   # v7.4.0 D-0252(hard)
         "chart_world_split": lambda: check_chart_world_split(P),   # v7.4.0 D-0251 §6.2-2(hard, UF-135 ②)
         "series_label_overlap": lambda: check_series_label_overlap(P),   # v7.4.0 D-0256(hard)
+        "chart_edge_bleed": lambda: check_chart_edge_bleed(P),   # v7.4.0 D-0257(hard, UF-137)
         "press_credit": lambda: check_press_credit(P, times, drawn),   # v7.4.0 D-0240 §3(hard)
         "static_camera": lambda: check_static_camera(P),   # v7.4.0 D-0241 §1(hard, UF-120)
         "route_speed": lambda: check_route_speed(P),   # v7.4.0 D-0241 §4(hard, UF-123)
@@ -2252,6 +2253,80 @@ def check_series_label_overlap(P) -> list[str]:  # noqa: ANN001, N803
                         out.append(f"[series-label-overlap] t={t:.2f} 레인 {lane} 끝값 라벨 {tuple(round(v, 1) for v in a)} ↔ "
                                    f"{tuple(round(v, 1) for v in b)} — rules stage_timeline.series.end_label_min_gap_px")
     return out
+
+
+def chart_text_boxes(stage, v: View, events: list[dict], t: float, rng: dict, dx: float = 0.0,  # noqa: ANN001
+                     dy: float = 0.0) -> list[tuple[str, tuple]]:
+    """시간축 세계의 글자 상자(화면 설계 px) — 레인 이름·레인 출처 줄·축 값(그리는 함수와 같은 자리). dx·dy = 아일랜드 상자 원점."""
+    import cairo  # noqa: PLC0415
+
+    from engine.layers.series import fmt_value, lane_name, lane_source_text, value_y  # noqa: PLC0415
+    from engine.typography import tw  # noqa: PLC0415
+
+    ctx = cairo.Context(cairo.ImageSurface(cairo.FORMAT_ARGB32, 1, 1))
+    L, S = TIMELINE.lane_label, TIMELINE.series  # noqa: N806
+    out: list[tuple[str, tuple]] = []
+    for i, ln in enumerate(stage.lanes):
+        top, _ = stage.lane_screen(v, i)
+        x0 = v.ox + L.x
+        out.append((f"레인 이름 {ln.id}", (x0 + dx, top + L.dy - L.size + dy, x0 + tw(ctx, lane_name(ln), L.size, L.font) + dx, top + L.dy + dy)))
+    for e in events:
+        if e.get("type") != "series" or not e["t0"] <= t <= e["t1"] or e.get("slot", 0):
+            continue
+        _, bot = stage.lane_screen(v, stage.lane_index(e["lane"]))
+        s = lane_source_text(e)
+        by = bot - S.source_dy
+        out.append((f"출처 줄 {e['lane']}", (v.ox + L.x + dx, by - S.source_size + dy, v.ox + L.x + tw(ctx, s, S.source_size, S.source_font) + dx, by + dy)))
+        r = rng.get(e["lane"])
+        if r is None:
+            continue
+        from data.series import load_series  # noqa: PLC0415
+
+        unit = load_series(e["series_id"]).unit
+        for val in r:
+            _, sy = v.to_screen(0.0, value_y(stage, e["lane"], r, val))
+            s = fmt_value(val, unit)
+            x1 = v.right - S.axis_label_margin_px
+            out.append((f"축 값 {e['lane']} {s}", (x1 - tw(ctx, s, S.axis_label_size, S.axis_label_font) + dx,
+                                                  sy + S.axis_label_dy - S.axis_label_size + dy, x1 + dx, sy + S.axis_label_dy + dy)))
+    return out
+
+
+def check_chart_edge_bleed(P) -> list[str]:  # noqa: ANN001, N803
+    """[chart-edge-bleed] hard(v7.4.0 back_and_forth D-0257, 사용자 의견 UF-137 "금리 차트가 화면 좌우에 다 꽉차서") — 시간축 세계(주 무대
+    timeline·차트 아일랜드)의 레인 이름·출처 줄·축 값 글자 상자가 그 틀(주 무대 = rules stage_timeline.frame, 아일랜드 = 상자) 밖에 닿으면 실패.
+    시간축 주 무대에 틀이 없으면(화면 가득) 그 자체로 실패. 문장마다 가운데 시각에 잰다."""
+    out: list[str] = []
+    st = P.R.stage
+    chart = P.R.cache.get("island_chart")
+    rng = P.R.cache.get("series_range") or {}
+    if st.name == "timeline":
+        if getattr(st, "frame", None) is None:
+            return ["[chart-edge-bleed] 시간축 주 무대에 틀(rules stage_timeline.frame)이 없다 — 레인이 화면 가장자리까지 찬다(UF-137)"]
+        fx, fy, fw, fh = st.frame
+        for s in P.plan.sentences:
+            t = (s.t0 + s.t1) / 2
+            v = View(st, P.cams[min(P.n_frames - 1, max(0, int(t * FPS)))])
+            for name, b in chart_text_boxes(st, v, P.events, t, rng):
+                if b[0] < fx or b[2] > fx + fw or b[1] < fy or b[3] > fy + fh:
+                    out.append(f"[chart-edge-bleed] t={t:.2f} {name} 상자 {tuple(round(x, 1) for x in b)} 가 틀 {st.frame} 밖에 닿는다")
+    elif chart is not None:
+        from engine.island import chart_view, island_box  # noqa: PLC0415
+
+        cst = chart["stage"]
+        for e in P.events:
+            if e.get("type") != "island" or e.get("kind") != "chart":
+                continue
+            bx, by_, bw, bh = island_box(e)
+            for s in P.plan.sentences:
+                t = (s.t0 + s.t1) / 2
+                if not e["t0"] <= t <= e["t1"]:
+                    continue
+                v = chart_view(chart, t, (bx, by_, bw, bh))
+                for name, b in chart_text_boxes(cst, v, chart["events"], t, rng, bx, by_):
+                    if b[0] < bx or b[2] > bx + bw or b[1] < by_ or b[3] > by_ + bh:
+                        out.append(f"[chart-edge-bleed] t={t:.2f} 아일랜드 {name} 상자 {tuple(round(x, 1) for x in b)} 가 상자 밖에 닿는다")
+    return list(dict.fromkeys(out))
 
 
 def catalog_label_times(P) -> list[float]:  # noqa: ANN001, N803
