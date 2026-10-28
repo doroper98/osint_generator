@@ -1,0 +1,68 @@
+{
+  "schema_version": 2,
+  "project_id": "showcase_geo",
+  "title": "쇼케이스 — 지도 위의 경유",
+  "category": "geopolitics",
+  "created_at": "2026-10-28T04:39:21.156475Z",
+  "updated_at": "2026-10-28T04:47:15.146667Z",
+  "current_state": "script_approval",
+  "target_duration_min": 3,
+  "topic_summary": "요소·목소리·글꼴 쇼케이스(지경학). 『경유의 길』(diesel_road_2026 v2) 축약 재구성 + 호르무즈·DMZ 자료 장. 새 수치·새 사실 없음(D-0251)",
+  "initial_links": [],
+  "paths": {
+    "sources": "intake/sources.json",
+    "claims": "intake/claims.json",
+    "screenshots": "intake/screenshots",
+    "script": "script.yaml",
+    "script_labels": "script_labels.json",
+    "plan": "plan.json",
+    "tts": "tts",
+    "assets": "assets",
+    "media": "media",
+    "direction": "direction.yaml",
+    "prev": "prev",
+    "prev_sheet": "prev/sheet.jpg",
+    "prev_provenance": "prev/provenance.json",
+    "out": "out",
+    "final": "out/final.mp4",
+    "provenance": "out/provenance.json"
+  },
+  "render_mode_status": {},
+  "gate_decisions": [],
+  "stage_records": [],
+  "final_outputs": {},
+  "state_history": [
+    {
+      "from_state": "created",
+      "to_state": "intake",
+      "transitioned_at": "2026-10-28T04:46:09.748321Z",
+      "reason": "쇼케이스 재구성(D-0251) — 기존 합격 프로젝트 claims·sources 이관(diesel_road_2026·hormuz_korea·dmz_mine_2026)"
+    },
+    {
+      "from_state": "intake",
+      "to_state": "source_verify",
+      "transitioned_at": "2026-10-28T04:46:09.835384Z",
+      "reason": "이관 intake — 원 프로젝트 검증 기록 그대로(새 출처 없음)"
+    },
+    {
+      "from_state": "source_verify",
+      "to_state": "research",
+      "transitioned_at": "2026-10-28T04:46:09.844967Z",
+      "reason": "이관 — 원 프로젝트 facts 재사용(새 조사 없음)"
+    },
+    {
+      "from_state": "research",
+      "to_state": "script_draft",
+      "transitioned_at": "2026-10-28T04:46:09.856774Z",
+      "reason": "쇼케이스 원고 v1 — 원 프로젝트 문장 그대로 + 새 연결 문장 1(D-0251 §1.1)"
+    },
+    {
+      "from_state": "script_draft",
+      "to_state": "script_approval",
+      "transitioned_at": "2026-10-28T04:47:15.146617Z",
+      "reason": "원고 v1 확정(린트 오류 0) — 게이트 ① 사용자"
+    }
+  ],
+  "rollbacks": [],
+  "reopens": []
+}

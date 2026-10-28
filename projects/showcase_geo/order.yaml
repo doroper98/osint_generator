@@ -1,0 +1,27 @@
+# 『쇼케이스 — 지도 위의 경유』 주문 (v7.4.0, back_and_forth D-0251 §1·§5 — 사용자 결정 D265 ⑥ "요소·목소리·폰트를 다 담는다, 길이는 자유, 저장소가 커버하는 범위까지만").
+schema_version: 1
+tempo: breath
+attribution_mode: credits   # 보도 출처는 엔딩 크레딧 장면별(기준 작품 diesel_road_2026 v2 와 같다)
+topic: 쇼케이스(지경학) — 『경유의 길』 축약 + 호르무즈·DMZ 자료 장. 화면 요소·목소리·글꼴 확인
+genre: geopolitics
+invariant_layer: docs/handoff/20 §1.1
+length: 내용이 정한다   # D-0251 §1.1 목표 90~120초 — 막 도입·정리(rules tempo act_intro_min·act_outro_min)·연결어 하한(script_grammar)으로 문장 36개
+instructions:
+  - "기준 작품 문법(D-0251 §5, UF-134): diesel_road_2026 v2 — 지도 위에서 사건을 따라가는 카메라 밀도, 이야기 안에 박힌 데이터 패널, 위성 인셋. 문장마다 요소 2~3개, 한꺼번에 튀어나오는 등장 금지."
+  - "새 사실·새 수치 없음(G4). 문장은 원 프로젝트 원고 그대로, 출처 claim 은 원 프로젝트 claims 이관(hormuz → clm_hz_*, dmz → clm_dmz_*). 새 연결 문장 1개(act5_0, 장 전환 고지만)."
+  - "요소 체크리스트(D-0251 §1.2): marker·route·tanker_loop·barrier·ships·boom·country·badge(person·flag·emblem)·card·cascade·panel 11종·dip·photo·clip·cutout·article·post·quote·flight(+위성 인셋)·primitive site_diagram·엔딩 카드. 자료 없는 것은 넣지 않고 media_note 에 미포함 사유."
+  - "글꼴 4종(sans·serif·display·mono)이 모두 실제로 그려져야 한다 — 카탈로그 판 라벨·요소 표로 확인."
+  - "장 전환(자료 장 act3·act5)은 카드 한 장으로 끊는다."
+data:
+  series: [RU_REFINERY_RUNS_2026, GULF_DIESEL_NET_EXPORTS_2026]
+  documents: []
+  notes:
+    - 시리즈는 diesel_road_2026 레코드 그대로(press_cited). 결측 달은 rules 보간 규칙(D-0247).
+media:
+  wanted: [주 무대 메르카토르 light(장르 기본 D154), 위성 인셋(diesel 등재본), 기사 카드(diesel·hormuz 등재본), 초상 뱃지(공용 라이브러리), 국기, 휘장, hormuz 클립·컷아웃(등재본)]
+  rights: 권리 레지스트리·미디어 레지스트리 등재본만. 새 자산 없음(asset_library check = 0). 비공개 시청 전제(D264) — 권리는 기록만.
+decisions:
+  topic: {value: 쇼케이스 데모 2편 중 지경학 편, by: user, ref: "D265 ⑥ · D-0251"}
+  map_theme: {value: light, by: default, ref: "장르 기본(D154) — D-0251 §1.1 mercator light"}
+  bgm: {value: music.zabriskie_mario_bava, by: default, ref: "기준 작품 diesel_road_2026 v2 와 같은 곡(D232)"}
+  resolution: {value: 720p, by: user, ref: 사용자 결정 2026-10-04 "기준 해상도는 720p야"}
