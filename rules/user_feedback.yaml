@@ -2049,3 +2049,14 @@ entries:
   status: guarded
   decision: D-0251 §6 · DECISIONS D267
   source: 감독 세션(Fable) 사용자 대화 2026-10-27
+- id: UF-137
+  date: '2026-10-28'
+  project: showcase_econ
+  at: 콘티 판 v1(artifacts/showcase-v7.4.0, md5 b7ec4692) 전체 — 시간축 무대의 금리·물가 레인이 화면 왼쪽 끝에서 오른쪽 끝까지 꽉 차고, 레인 제목·출처 줄·축 값이 화면 가장자리에 붙어 있음
+  quote: 금리 차트가 화면 좌우에 다 꽉차서 만드는 UI는 UX 측면에서 최악인거 같아.
+  quote_kind: verbatim
+  category: 영상 문법 — 시간축 무대 전면 가득(edge-to-edge) 차트. 레인 선·제목·축 값·출처 줄이 안전 영역 밖(가장자리)까지 그려짐
+  guards: []
+  status: open
+  decision: D-0257(감독 지시 — 시간축 세계를 안전 영역 안의 틀에 담는다, 장치 [chart-edge-bleed] hard 는 콘티 판 v2 전)
+  source: 감독 세션(Fable) 사용자 대화 2026-10-28
