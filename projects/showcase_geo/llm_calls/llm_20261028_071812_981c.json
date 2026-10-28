@@ -1,0 +1,18 @@
+{
+  "schema_version": 1,
+  "call_id": "llm_20261028_071812_981c",
+  "task_id": "revise_direction-showcase_geo",
+  "worker": "revise_direction",
+  "backend": "claude",
+  "model": "claude-opus-5-5",
+  "mode": "response",
+  "system_prompt_hash": "sha256:2455f6aba7b80319033fc198b4344b16467cfe39c7ecdbaf12ed22081fee674c",
+  "user_prompt_path": "llm_calls/llm_20261028_071812_981c.prompt.txt",
+  "raw_response_path": "llm_calls/llm_20261028_071812_981c.raw.txt",
+  "parsed_status": "validation_failed",
+  "started_at": "2026-10-28T07:18:12.894740Z",
+  "completed_at": "2026-10-28T07:24:51.620910Z",
+  "exit_code": 0,
+  "retry_index": 0,
+  "error_message": "check_parsed: 지적받지 않은 부분을 바꿨다(17 §5.5):\n지적 없이 변경: flight|drone||{\"off\": -0.4, \"word\": {\"sid\": \"cold_0\", \"text\": \"랴잔\"}}"
+}
