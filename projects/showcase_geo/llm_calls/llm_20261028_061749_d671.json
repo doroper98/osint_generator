@@ -1,0 +1,18 @@
+{
+  "schema_version": 1,
+  "call_id": "llm_20261028_061749_d671",
+  "task_id": "director-showcase_geo",
+  "worker": "director",
+  "backend": "claude",
+  "model": "claude-opus-5-5",
+  "mode": "response",
+  "system_prompt_hash": "sha256:1b29db199bba726d6d41632b31550f1fe3a43f7ccd4af20a00d9f3da9bb1da84",
+  "user_prompt_path": "llm_calls/llm_20261028_061749_d671.prompt.txt",
+  "raw_response_path": "llm_calls/llm_20261028_061749_d671.raw.txt",
+  "parsed_status": "validation_failed",
+  "started_at": "2026-10-28T06:17:49.920581Z",
+  "completed_at": "2026-10-28T06:26:06.386331Z",
+  "exit_code": 0,
+  "retry_index": 0,
+  "error_message": "check_parsed: 크레딧·권리 점검 실패:\n크레딧 'Emblem of the President of the Republic of Korea' 이 가리키는 권리 항목 없음: emblems.cheongwadae\n크레딧 '국기' 이 가리키는 권리 항목 없음: flags.flag_icons\n크레딧 '내레이션' 이 가리키는 권리 항목 없음: narration.tts\n권리 레지스트리 fonts 절이 비었다 — 렌더가 쓰는 자산의 권리 기록 없음\n권리 레지스트리 map 절이 비었다 — 렌더가 쓰는 자산의 권리 기록 없음\n엔딩 크레딧 누락: media.hk_0928\n권리 레지스트리 narration 절이 비었다 — 렌더가 쓰는 자산의 권리 기록 없음"
+}

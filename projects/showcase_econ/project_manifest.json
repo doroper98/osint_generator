@@ -4,8 +4,8 @@
   "title": "쇼케이스 — 금리 선 위의 1년",
   "category": "economy",
   "created_at": "2026-10-28T05:27:51.339439Z",
-  "updated_at": "2026-10-28T06:18:21.022953Z",
-  "current_state": "voice_timeline",
+  "updated_at": "2026-10-28T06:26:51.680599Z",
+  "current_state": "direction",
   "target_duration_min": 3,
   "topic_summary": "요소·목소리·글꼴 쇼케이스(경제). 연준 사실(fed_policy_2026 claims·data/series)을 시간축 한 세계 문법으로 — 새 수치·새 사실 없음(D-0251·D-0253)",
   "initial_links": [],
@@ -48,7 +48,33 @@
       "chosen_version": null
     }
   ],
-  "stage_records": [],
+  "stage_records": [
+    {
+      "state": "voice_timeline",
+      "stage": "plan",
+      "ok": true,
+      "at": "2026-10-28T06:26:34.649216Z",
+      "artifacts": {
+        "plan": "/home/user/osint_generator/projects/showcase_econ/plan.json",
+        "tts": "/home/user/osint_generator/projects/showcase_econ/tts"
+      },
+      "errors": [],
+      "drops": 0,
+      "log": "logs/stages/01_plan.json"
+    },
+    {
+      "state": "assets",
+      "stage": "assets",
+      "ok": false,
+      "at": "2026-10-28T06:26:40.769099Z",
+      "artifacts": {},
+      "errors": [
+        "geo.yaml 없음: /home/user/osint_generator/projects/showcase_econ/geo.yaml"
+      ],
+      "drops": 0,
+      "log": "logs/stages/02_assets.json"
+    }
+  ],
   "final_outputs": {},
   "state_history": [
     {
@@ -86,6 +112,18 @@
       "to_state": "voice_timeline",
       "transitioned_at": "2026-10-28T06:18:21.022876Z",
       "reason": "script_approval 승인 — user"
+    },
+    {
+      "from_state": "voice_timeline",
+      "to_state": "assets",
+      "transitioned_at": "2026-10-28T06:26:34.656796Z",
+      "reason": "engine plan ok"
+    },
+    {
+      "from_state": "assets",
+      "to_state": "direction",
+      "transitioned_at": "2026-10-28T06:26:51.680515Z",
+      "reason": "지도 무대 없음(시간축 한 세계 B, D-0251 §6.1) — geo 자산 단계 해당 없음(fed_policy_2026 선례: geo.yaml 없음)"
     }
   ],
   "rollbacks": [],
