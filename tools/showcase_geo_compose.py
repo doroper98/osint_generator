@@ -26,6 +26,7 @@ for e in T["events"]:
         e["bigs"] = [["17만 6천 ton", "이상 · 대부분 경유"]]
     if e["type"] == "route" and e.get("label", "").startswith("레일라호 · 두 번째"):   # 원 연출은 다음 문장들까지 — 이 장 끝에서 멈춘다
         e["end"] = {"sid": "act2_6", "edge": "end"}
+    e.pop("route_cross_exempt", None)   # 골든 프로젝트 전용 면제(D-0203) — 이식하지 않는다
     tr.append(e)
 add = []
 # act2 — 연출가 판: 극동 국가 강조·블라디보스토크·하바롭스크 사진·울산
