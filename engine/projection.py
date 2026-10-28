@@ -25,6 +25,11 @@ class View:
         화면 좌표는 뷰포트 왼쪽 위가 원점이다(그리는 쪽이 상자 위치로 옮긴다)."""
         x, y, w = cam
         self.stage = stage
+        self.ox = self.oy = 0.0   # v7.4.0 D-0257(UF-137) — 무대 틀(frame) 왼쪽 위(화면 좌표). 틀이 있는 시간축 주 무대만 0 이 아니다
+        frame = getattr(stage, "frame", None) if viewport is None else None
+        if frame is not None:   # 시간축 세계를 화면 안쪽 틀 안에 담는다 — 뷰포트 = 틀 크기, 화면 좌표 = 틀 원점 + 뷰포트 좌표
+            self.ox, self.oy = float(frame[0]), float(frame[1])
+            viewport = (float(frame[2]), float(frame[3]))
         self.vw, self.vh = viewport if viewport is not None else (float(W_OUT), float(H_OUT))
         xmin, ymin, xmax, ymax = stage.bounds
         fixed = getattr(stage, "y_px_per_unit", None)   # v4.3.0 D-0085 A — 무대가 세로 척도를 고정(시간축). 없으면 등방(지도)
@@ -46,14 +51,19 @@ class View:
             self.y1 = stage.frame_y1(y, self.h)  # type: ignore[attr-defined]
 
     def to_screen(self, x: float, y: float) -> tuple[float, float]:
-        return (x - self.x0) * self.s, (self.y1 - y) * self.sy
+        return self.ox + (x - self.x0) * self.s, self.oy + (self.y1 - y) * self.sy
 
     def to_screen_arr(self, xy: "np.ndarray") -> "np.ndarray":
-        return np.column_stack([(xy[:, 0] - self.x0) * self.s, (self.y1 - xy[:, 1]) * self.sy])
+        return np.column_stack([self.ox + (xy[:, 0] - self.x0) * self.s, self.oy + (self.y1 - xy[:, 1]) * self.sy])
 
     def to_world(self, px: float, py: float) -> tuple[float, float]:
         """to_screen 의 역(배치 슬롯 point — 화면 점 → 월드 좌표)."""
-        return self.x0 + px / self.s, self.y1 - py / self.sy
+        return self.x0 + (px - self.ox) / self.s, self.y1 - (py - self.oy) / self.sy
+
+    @property
+    def right(self) -> float:
+        """뷰포트 오른쪽 끝 화면 x(틀이 없으면 vw)."""
+        return self.ox + self.vw
 
     def visible(self, mn: "np.ndarray", mx: "np.ndarray") -> bool:
         return not (mx[0] < self.x0 or mn[0] > self.x0 + self.w or mx[1] < self.y1 - self.h or mn[1] > self.y1)

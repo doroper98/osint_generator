@@ -441,6 +441,8 @@ def load_project(proj: Path, direction: Optional[Direction] = None, out: Optiona
         R.stage = stages.get(doc.main_stage())
     except ValueError as ex:
         raise ProjectError(f"무대 설정 오류: {ex}") from ex
+    if R.stage.name == "timeline":   # v7.4.0 D-0257(UF-137) — 시간축 주 무대는 화면 안쪽 틀 안에(차트 아일랜드와 같은 패딩, rules island.chart)
+        R.stage.fit_frame(tuple(TIMELINE.frame.box), ISLAND.chart.pad_top, ISLAND.chart.pad_bottom)
     keys, raw_events, sound = load_direction(proj, tb, R.stage, doc)
     try:
         shots = shot_stages(doc, tb, stages.get)

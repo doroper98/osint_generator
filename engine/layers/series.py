@@ -159,9 +159,9 @@ def draw_series(ctx: cairo.Context, R: "RenderCtx", view: "View", t: float, e: d
         front = float(fr[min(len(fr) - 1, max(0, int(t * FPS)))])
     col = C[e["col"]]
     mcol = month_colors(e, R)   # v4.4.0 D-0091 ② — None 이면 한 색(기존 그대로)
-    fx = view.to_screen(front, 0.0)[0] if front != math.inf else float(view.vw)
+    fx = view.to_screen(front, 0.0)[0] if front != math.inf else view.right
     ctx.save()
-    ctx.rectangle(0, 0, max(0.0, fx), stage.area_bottom + TIMELINE.series.clip_below_px)
+    ctx.rectangle(view.ox, view.oy, max(0.0, fx - view.ox), stage.area_bottom + TIMELINE.series.clip_below_px)
     ctx.clip()
     last: tuple[float, float, float] | None = None
     last_hi: float | None = None
@@ -198,14 +198,14 @@ def draw_series(ctx: cairo.Context, R: "RenderCtx", view: "View", t: float, e: d
     _draw_missing(ctx, view, stage, rec, e, front, a)
     if last is not None and not (e["style"] == "band" and e.get("lane_n", 1) > 1):   # v7.4.0 D-0256 — 다른 계열과 한 레인이면 띠는 끝값 라벨 없음(상·하한은 띠가 보여 준다)
         sx, sy = view.to_screen(last[0], last[1])
-        if S.value_min_x <= sx <= view.vw:
+        if view.ox + S.value_min_x <= sx <= view.right:
             tip = col if mcol is None else mcol[_month_of(stage, last[0], rec)]
             ctx.arc(sx, sy, S.tip_r, 0, 2 * math.pi)
             ctx.set_source_rgba(*tip, a)
             ctx.fill()
             s = value_text(e, last[2], rec.unit, last_hi)
             lw = tw(ctx, s, S.value_size, S.value_font)
-            x0 = sx + S.value_dx if sx + S.value_dx + lw <= view.vw - S.axis_zone_px else sx - S.value_dx - lw   # 오른쪽 축 값 자리를 비킨다
+            x0 = sx + S.value_dx if sx + S.value_dx + lw <= view.right - S.axis_zone_px else sx - S.value_dx - lw   # 오른쪽 축 값 자리를 비킨다
             by = place_end_label(R, t, e["lane"], sy + S.value_dy, last[2])
             box = (x0, by - S.value_size, x0 + lw, by)
             if not _hits(box, _lane_name_box(ctx, view, stage, e["lane"])):   # 레인 이름을 덮지 않는다(끝점은 그대로)
@@ -310,7 +310,7 @@ def _lane_name_box(ctx: cairo.Context, view: "View", stage: "TimelineStage", lan
     L = TIMELINE.lane_label  # noqa: N806
     i = stage.lane_index(lane)
     top, _ = stage.lane_screen(view, i)
-    return (L.x, top + L.dy - L.size, L.x + tw(ctx, lane_name(stage.lanes[i]), L.size, L.font), top + L.dy + L.size / 2)
+    return (view.ox + L.x, top + L.dy - L.size, view.ox + L.x + tw(ctx, lane_name(stage.lanes[i]), L.size, L.font), top + L.dy + L.size / 2)
 
 
 def _hits(a: tuple[float, float, float, float], b: tuple[float, float, float, float]) -> bool:
@@ -350,12 +350,12 @@ def _draw_axis(ctx: cairo.Context, view: "View", stage: "TimelineStage", e: dict
     S = TIMELINE.series  # noqa: N806
     for v in (rng[0], rng[1]):
         _, sy = view.to_screen(0.0, value_y(stage, e["lane"], rng, v))
-        ctx.move_to(0, sy)
-        ctx.line_to(view.vw, sy)
+        ctx.move_to(view.ox, sy)
+        ctx.line_to(view.right, sy)
         ctx.set_source_rgba(*C["white"], (S.zero_alpha if v == 0 else S.grid_alpha) * a)
         ctx.set_line_width(S.grid_w)
         ctx.stroke()
-        text(ctx, fmt_value(v, unit), view.vw - S.axis_label_margin_px, sy + S.axis_label_dy, S.axis_label_size, S.axis_label_font,
+        text(ctx, fmt_value(v, unit), view.right - S.axis_label_margin_px, sy + S.axis_label_dy, S.axis_label_size, S.axis_label_font,
              C["muted"], a, S.axis_label_halo, "r")
 
 
@@ -366,7 +366,7 @@ def _draw_source(ctx: cairo.Context, view: "View", stage: "TimelineStage", e: di
     L = TIMELINE.lane_label  # noqa: N806
     S = TIMELINE.series  # noqa: N806
     _, bot = stage.lane_screen(view, stage.lane_index(e["lane"]))
-    text(ctx, lane_source_text(e), L.x, bot - S.source_dy, S.source_size, S.source_font,
+    text(ctx, lane_source_text(e), view.ox + L.x, bot - S.source_dy, S.source_size, S.source_font,
          C["muted"], a, S.source_halo, "l")
 
 

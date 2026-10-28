@@ -1158,6 +1158,11 @@ audio:                     # 10
     scene_start: {lead_sec: 0.05, whoosh_dur_sec: 0.9, whoosh_v: 0.55}                  # sfx_policy: 장면 시작 휙(첫 장면 제외)
 
 stage_timeline:            # v4.3.0 D-0084 작업 3·4·D-0085·D-0086 — 시간축 무대(engine/stage_timeline.py)·시리즈 레이어(engine/layers/series.py). 설계 px(480p)
+  # v7.4.0 back_and_forth D-0257(사용자 의견 UF-137 "금리 차트가 화면 좌우에 다 꽉차서 만드는 UI는 UX 측면에서 최악") — 시간축 주 무대는 화면을 채우지 않고
+  # 안쪽 틀 안에 담는다. 세계는 하나 그대로(카메라가 그 안을 움직인다), 틀 밖은 그리지 않는다(클립). 상자 모양·레인 패딩 = 차트 아일랜드(island·island.chart).
+  # 틀 = 날짜 뱃지(위 56) 아래·자막(2줄 위 끝 약 407) 위·좌우 24. 레인 영역 = 틀 안 [island.chart.pad_top, 높이 − pad_bottom], 세로 척도 = min(lane_h, 영역 ÷ 레인 수). 검사 [chart-edge-bleed] hard
+  frame:
+    box: [24, 60, 806, 330]
   lane_h: 96               # 레인 한 칸 높이 = 무대 세로 척도 y_px_per_unit(D-0085 A). 카메라 w 는 시간 폭만
   area_top: 60             # 레인 영역 위 끝(날짜 배지 아래)
   area_bottom: 380         # 레인 영역 아래 끝(날짜 눈금 라벨·자막 위). 레인 총높이가 작으면 이 안 가운데
