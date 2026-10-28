@@ -22,7 +22,7 @@ __all__ = [
     "CountryEvent", "CutoutEvent", "DipEvent", "MarkerEvent", "PanelPrecedent",
     "PanelRelation", "PanelStatement", "PanelTimeline", "PanelVersus", "PhotoEvent", "Plan", "PlanSentence",
     "RightsRegistry", "RightsStatus", "AssetRights", "RouteEvent", "Scene", "Script", "Sentence", "ShipsEvent", "StageResult", "TankerLoopEvent",
-    "Tier",
+    "Tier", "CatalogFrame", "CatalogFrames",
 ]
 
 
@@ -129,3 +129,21 @@ class StageResult(_Strict):
         if self.ok and (self.drops or self.errors):
             raise ValueError("drops 또는 errors 가 있으면 ok 일 수 없다")
         return self
+
+
+class CatalogFrame(_Strict):
+    """카탈로그 판 표본 한 개(v7.4.0 D-0251) — 라벨에 그린 것과 같은 값(engine.layers.catalog.draw_label)."""
+
+    t: float
+    lines: list[str]
+    elements: list[str]      # 레지스트리 이름(panel:<kind>·primitive:<id>·badge:<kind>)
+    fonts: list[str]         # 실제로 그린 rules fonts 키
+    truncated: list[str] = Field(default_factory=list)   # max_lines 를 넘어 라벨에서 빠진 요소(D-0252)
+
+
+class CatalogFrames(_Strict):
+    """out/catalog_frames.json — tools/catalog_table.py 입력."""
+
+    schema_version: int = 1
+    sample_every_sec: float = Field(gt=0)
+    frames: list[CatalogFrame] = Field(min_length=1)

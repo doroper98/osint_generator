@@ -1810,6 +1810,48 @@ class AnimaticRules(_Strict):
     cost_target_sec_per_300s: float = Field(gt=0)   # 5분 영상 콘티 판 목표 시간(4코어, run_log 실측과 비교)
 
 
+class CatalogLines(_Strict):
+    """카탈로그 라벨 줄 틀 — {자리}는 코드가 채운다(.replace, C2). 값의 출처는 config tts·rules fonts·registries(P5)."""
+
+    stage: str = Field(min_length=1)        # {stage} {theme}
+    elements: str = Field(min_length=1)     # {items}
+    fonts: str = Field(min_length=1)        # {items}
+    voice: str = Field(min_length=1)        # {backend} {style} {speed} {suffix} {span} {semitones}
+    voice_flat: str = Field(min_length=1)   # 끝 억양 꺼짐(final_fall.enabled false) — {backend} {style} {speed}
+
+
+class CatalogLabel(_Strict):
+    """카탈로그 라벨(480p 설계 px) — 왼쪽 위. 날짜 뱃지·자막과 교차하면 checks [catalog-label-overlap] hard(카탈로그 산출물만)."""
+
+    font: str
+    size: float = Field(gt=0)
+    pos: tuple[float, float]                # 글자 블록 좌상단
+    max_w: float = Field(gt=0)
+    alpha: float = Field(gt=0, le=1)
+    color: Color4
+    plate: Color4                           # 바탕판
+    pad: float = Field(ge=0)
+    line_gap: float = Field(gt=0)
+    max_lines: int = Field(ge=3)            # 무대 1 + 요소 ≥ 1 + 음성 1
+    font_keys: list[str] = Field(min_length=1)   # 글꼴 줄에 쓰는 rules fonts 키(순서 = 표기 순서)
+    sep: str
+    indent: str
+    more: str = Field(min_length=1)         # 넘친 요소 수 {n}
+    no_theme: str = Field(min_length=1)     # 지도 무대가 없을 때 테마 자리
+    lines: CatalogLines
+
+
+class CatalogRules(_Strict):
+    """v7.4.0 back_and_forth D-0251 §1.1 — 카탈로그 판(`engine.render --catalog`). 전편 레이어 전부 + 라벨 층. final.mp4 에는 들어가지 않는다."""
+
+    profile: str                            # config engine.output 프로파일 이름 또는 별칭(trial·final)
+    output: str                             # out/ 아래 파일 이름(영상 + 음성)
+    preset: str                             # x264 preset(카탈로그 인코딩만)
+    mp4_comment: str = Field(min_length=1)  # mp4 메타데이터 표식 — deliver(engine.mux)가 보면 거부
+    sample_every_sec: float = Field(gt=0)   # 요소 표(out/catalog_frames.json) 표본 간격
+    label: CatalogLabel
+
+
 class PreviewRules(_Strict):
     """v3.3.0 F6 — auto 프리뷰 샘플."""
 
@@ -3048,6 +3090,7 @@ class VideoRules(_Strict):
     audio: AudioRules
     preview: PreviewRules          # v3.3.0 — D-0056 F6
     animatic: AnimaticRules        # v4.9.0 — D-0108 콘티 판
+    catalog: CatalogRules          # v7.4.0 — D-0251 카탈로그 판
     golden: GoldenRules            # v3.6.0 — D-0066 작업 4
     camera: CameraRules            # v3.3.0 — D-0056 작업 2
     stage: StageRules              # v4.1.0 — D-0076 작업 5

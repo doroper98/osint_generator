@@ -139,13 +139,16 @@ def resolve(e: dict | str) -> Entry:
 @dataclass(frozen=True)
 class LayerSet:
     """렌더 한 벌의 레이어 선택(v4.9.0 back_and_forth D-0108) — render_frame 은 이 객체만 본다(플래그 분기 없음).
-    resolve = 이벤트 → 항목, over_panel = 패널 위 인물 뱃지(D2(c)), overlay = 전체 페이드 뒤 맨 위 층(없으면 None).
-    전편 = `FULL_LAYERS`, 콘티 판 = `engine.layers.animatic.ANIMATIC_LAYERS`(진입 = load_project(animatic=True) 한 곳)."""
+    resolve = 이벤트 → 항목, over_panel = 패널 위 인물 뱃지(D2(c)), overlay = 전체 페이드 뒤 맨 위 층(없으면 None),
+    frame_start = 프레임을 그리기 전 호출(없으면 None — v7.4.0 D-0251 카탈로그 판의 글꼴 기록 시작).
+    전편 = `FULL_LAYERS`, 콘티 판 = `engine.layers.animatic.ANIMATIC_LAYERS`(진입 = load_project(animatic=True) 한 곳),
+    카탈로그 판 = `engine.layers.catalog.CATALOG_LAYERS`(진입 = load_project(catalog=True) 한 곳)."""
 
     name: str
     resolve: Callable[[dict | str], Entry]
     over_panel: Callable[..., None]
     overlay: Optional[Callable[..., None]] = None
+    frame_start: Optional[Callable[..., None]] = None
 
 
 FULL_LAYERS = LayerSet("full", resolve, draw_over_panel)

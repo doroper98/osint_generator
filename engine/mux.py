@@ -228,6 +228,7 @@ def project_provenance(P, stages: dict[str, bool]) -> dict:  # noqa: ANN001, N80
         prov["pacing"] = {"window_sec": pc["window_sec"], "min_changes": pc["min_changes"], "static_windows": pc["static_windows"],
                           "creep": {"ranges": pc["creep"], "w_ratio": pc["creep_w_ratio"]} if pc["creep"] else None}
     prov["animatic"] = bool(getattr(P, "animatic", False))   # v4.9.0 D-0108 — 콘티 판 여부(전편 false, 콘티 판 true + animatic_run)
+    prov["catalog"] = bool(getattr(P, "catalog", False))     # v7.4.0 D-0251 — 카탈로그 판 여부(전편 false, 카탈로그 판 true + catalog_run)
     prov["stage"] = P.R.cache.get("stage")   # v4.1.0 D-0076 작업 7 — 무대(name·declared·shots_declared·instances)
     from engine.typography import CONTRAST_FIXED as lcf  # noqa: PLC0415 — 프리뷰(같은 프로세스)
     rjf = P.root / "out" / "render.json"
@@ -280,16 +281,18 @@ def project_provenance(P, stages: dict[str, bool]) -> dict:  # noqa: ANN001, N80
 
 
 class AnimaticDeliverError(RuntimeError):
-    """deliver 가 콘티 판을 받았다(v4.9.0 D-0108 — 배포 사고 방지, 15 P6)."""
+    """deliver 가 콘티 판(또는 카탈로그 판, v7.4.0 D-0251)을 받았다(v4.9.0 D-0108 — 배포 사고 방지, 15 P6)."""
 
 
 def refuse_animatic(video: Path) -> None:
-    """영상 mp4 메타데이터 comment 가 콘티 판 표식(rules animatic.mp4_comment)이면 오류. 콘티 판을 video_noaudio.mp4 로 복사해도 잡는다."""
-    tag = load_rules().animatic.mp4_comment
+    """영상 mp4 메타데이터 comment 가 콘티 판·카탈로그 판 표식(rules animatic.mp4_comment·catalog.mp4_comment)이면 오류.
+    검토용 판을 video_noaudio.mp4 로 복사해도 잡는다."""
+    rules = load_rules()
     r = subprocess.run(["ffprobe", "-v", "error", "-show_entries", "format_tags=comment", "-of", "default=nw=1:nk=1", str(video)],
                        capture_output=True, text=True, check=True)
-    if r.stdout.strip() == tag:
-        raise AnimaticDeliverError(f"{video.name} 은 콘티 판(animatic)이다 — 배포(deliver) 금지. 전편은 `python -m engine.render <proj> --jobs N`")
+    for name, block in (("콘티 판(animatic)", rules.animatic), ("카탈로그 판(catalog)", rules.catalog)):   # 표식 목록(D-0252 — 비교 한 곳)
+        if r.stdout.strip() == block.mp4_comment:
+            raise AnimaticDeliverError(f"{video.name} 은 {name}이다 — 배포(deliver) 금지. 전편은 `python -m engine.render <proj> --jobs N`")
 
 
 def main(argv: list[str] | None = None) -> int:

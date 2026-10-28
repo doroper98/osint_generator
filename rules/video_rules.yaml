@@ -1640,6 +1640,36 @@ animatic:                  # v4.9.0 back_and_forth D-0108(사용자 결정 D97) 
   checks_skip: [glyphs, glyph_size, rights, media_upscaled, chart_honesty, series_limit_3, units_visible, as_of_visible, labels]
   cost_target_sec_per_300s: 180   # 5분 영상 콘티 판 = 4코어 3분 이내("저렴"의 정의, 실측은 reports/phaseG8/run_log.md)
 
+catalog:                   # v7.4.0 back_and_forth D-0251 §1.1 — 카탈로그 판(catalog ← 그리스어 katalogos "목록으로 세어 적음"). `engine.render --catalog`
+  # 전편 레이어 전부 + 왼쪽 위 라벨 층(지금 화면의 레지스트리 요소·실제로 그린 글꼴·표준 음성). 별도 산출물 — final.mp4 에 넣지 않는다(mux 가 표식을 보면 거부)
+  profile: final             # config engine.output 프로파일 또는 별칭
+  output: catalog.mp4        # out/catalog.mp4 (out/catalog_noaudio.mp4 + out/mix.f32). out/video_noaudio.mp4·final.mp4 는 건드리지 않는다
+  preset: veryfast
+  mp4_comment: "catalog — 카탈로그 판 · 검토용 · 배포 금지"
+  sample_every_sec: 1.0      # out/catalog_frames.json 표본 간격(요소 표 tools/catalog_table.py 입력)
+  label:                     # 480p 설계 px. 날짜 뱃지·자막과 교차하면 checks [catalog-label-overlap] hard
+    font: monom
+    size: 9.5                # layout_480p.min_font_px 와 같다
+    pos: [10, 8]             # 글자 블록 좌상단
+    max_w: 420
+    alpha: 0.92
+    color: [1.0, 1.0, 1.0, 1.0]
+    plate: [0.0, 0.0, 0.0, 0.55]
+    pad: 4
+    line_gap: 12
+    max_lines: 9               # D-0252 — 요소 줄은 자르지 않는다. 넘칠 때만 … +N, provenance catalog_run.truncated
+    font_keys: [sans, serif, display, mono]
+    sep: " · "
+    indent: "  "
+    more: "… +{n}"
+    no_theme: "-"
+    lines:
+      stage: "무대 {stage} · 테마 {theme}"
+      elements: "요소 {items}"
+      fonts: "글꼴 {items}"
+      voice: "음성 {backend} {style} ×{speed} · 끝 '{suffix}' {span}자 −{semitones}반음"
+      voice_flat: "음성 {backend} {style} ×{speed}"
+
 qa_checks:                 # 17 §3 — 결정적 사전 검사 임계
   # v7.4.0 D-0248(사용자 의견 UF-129 "그래프 넣는 씬에서 오른쪽 상단 아일랜드가 그래프를 가리지 않도록 해") — 패널(모든 kind)이 페이드 뺀 구간에 떠 있는 동안
   # 덮개 요소의 제자리 상자가 패널 상자(+panel_pad_px)와 겹치고 시간 겹침 > min_overlap_sec 이면 [card-over-panel] hard.

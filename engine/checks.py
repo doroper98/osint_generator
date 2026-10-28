@@ -105,7 +105,7 @@ SHADOW_PX = 7             # badge_box 가 원 둘레에 더하는 그림자 여�
 HARD = ("map_contrast", "overlap", "offscreen", "glyphs", "glyph_size", "labels", "date", "subtitles", "rights", "forbidden", "stage_continuity",
         "genre_elements", "chart_honesty", "series_limit_3", "units_visible", "as_of_visible", "boundary_as_route",
         "geo_mismatch", "timeline_rescale", "backdrop_rights", "backdrop_repeat", "island_overlap",
-        "backdrop_main_missing", "island_label_clip", "cascade", "subtitle_overlap", "label_collision", "timeline_span", "route_frame", "panel_overflow", "flag_territory", "badge_over_panel", "opening_establish", "camera_continuity", "card_exposure", "route_label_cross", "route_label_overlap", "article_backdrop", "quote_in_script", "route_missing_other", "frame_missing_target", "route_missing", "frame_missing", "bgm_decision", "endcard_black", "camera_per_sentence", "label_jump", "camera_speed", "title_backdrop", "camera_bounds", "cutaway_churn", "unit_glyph_font", "transition_camera", "media_unused", "inset_clipped", "press_credit", "static_camera", "route_speed", "sea_only_frame", "unit_ton_glyph", "badge_clipped", "series_unused", "panel_dropped", "card_over_panel", "article_outlet")   # cutaway_churn v7.4.0 D-0229 §2.3, island_label_clip v5.2.0 D-0133 §2, backdrop_main_missing v5.2.0 D-0129 §B, island_overlap v5.1.0 D-0126 Q3, geo_mismatch v4.10.0 D-0116, timeline_rescale v5.1.0 D-0121 §A, backdrop_* v5.1.0 D-0123
+        "backdrop_main_missing", "island_label_clip", "cascade", "subtitle_overlap", "label_collision", "timeline_span", "route_frame", "panel_overflow", "flag_territory", "badge_over_panel", "opening_establish", "camera_continuity", "card_exposure", "route_label_cross", "route_label_overlap", "article_backdrop", "quote_in_script", "route_missing_other", "frame_missing_target", "route_missing", "frame_missing", "bgm_decision", "endcard_black", "camera_per_sentence", "label_jump", "camera_speed", "title_backdrop", "camera_bounds", "cutaway_churn", "unit_glyph_font", "transition_camera", "media_unused", "inset_clipped", "press_credit", "static_camera", "route_speed", "sea_only_frame", "unit_ton_glyph", "badge_clipped", "series_unused", "panel_dropped", "card_over_panel", "article_outlet", "catalog_label_overlap")   # cutaway_churn v7.4.0 D-0229 §2.3, island_label_clip v5.2.0 D-0133 §2, backdrop_main_missing v5.2.0 D-0129 §B, island_overlap v5.1.0 D-0126 Q3, geo_mismatch v4.10.0 D-0116, timeline_rescale v5.1.0 D-0121 §A, backdrop_* v5.1.0 D-0123
 WARN = ("shots", "media_beats", "media_upscaled", "endcard_roll", "geo_unsourced",   # endcard_roll v4.7.0 D-0106, geo_unsourced D-0107
         "static_window", "stage_choice", "card_island", "island_label_overlap", "cascade_label_hidden",
         "map_contrast_shape", "battle_geo", "portrait_unused", "ratio_graphic", "inset_overlap", "tempo_density", "article_press_missing", "badge_orphan")   # ratio_graphic v7.4.0 D-0229 §2.6   # v5.21.14 D-0195·D-0199. map_contrast_shape v5.18.0 D-0161 §4   # static_window v4.11.0 D-0118, stage_choice v5.1.0 D-0123, card_island v5.2.0 D-0129 §C, island_label_overlap D-0133 §3
@@ -2104,6 +2104,7 @@ def run_checks(P, times: list[float], provenance: dict, drawn: list[tuple[str, f
         "panel_dropped": lambda: check_panel_dropped(P),   # v7.4.0 D-0245(UF-126, hard)
         "card_over_panel": lambda: check_card_over_panel(P),   # v7.4.0 D-0248(UF-129, hard)
         "article_outlet": lambda: check_article_outlet(P),   # v7.4.0 D-0250(UF-130, hard)
+        "catalog_label_overlap": lambda: check_catalog_label_overlap(P),   # v7.4.0 D-0251 §1.1(hard, 카탈로그 판만)
         "press_credit": lambda: check_press_credit(P, times, drawn),   # v7.4.0 D-0240 §3(hard)
         "static_camera": lambda: check_static_camera(P),   # v7.4.0 D-0241 §1(hard, UF-120)
         "route_speed": lambda: check_route_speed(P),   # v7.4.0 D-0241 §4(hard, UF-123)
@@ -2154,8 +2155,40 @@ def run_checks(P, times: list[float], provenance: dict, drawn: list[tuple[str, f
               for k in sorted(skip)]
     hard = sum(i["count"] for i in items if i["severity"] == "hard")
     return {"schema_version": 1, "hard": hard, "warnings": sum(i["count"] for i in items if i["severity"] == "warning"),
-            "passed": hard == 0, "profile": "animatic" if getattr(P, "animatic", False) else "full", "skipped": sorted(skip),
+            "passed": hard == 0, "profile": "animatic" if getattr(P, "animatic", False) else "catalog" if getattr(P, "catalog", False) else "full", "skipped": sorted(skip),
             "thresholds": QA.model_dump(), "items": items}
+
+
+def catalog_label_times(P) -> list[float]:  # noqa: ANN001, N803
+    """라벨 비교차 표본 — 문장마다 시작·가운데·끝(자막이 바뀌는 순간과 가장 긴 자막을 덮는다)."""
+    return sorted({round(t, 3) for s in P.plan.sentences for t in (s.t0 + 0.05, (s.t0 + s.t1) / 2, s.t1 - 0.05) if s.t1 > s.t0})
+
+
+def check_catalog_label_overlap(P) -> list[str]:  # noqa: ANN001, N803
+    """[catalog-label-overlap] hard(v7.4.0 D-0251 §1.1) — 카탈로그 판 라벨 상자(그리기와 같은 label_box)가 날짜 뱃지 상자·자막 글자 상자와 교차.
+    카탈로그 판만(전편·콘티 판은 라벨이 없다 → 빈 목록). 표본 시각마다 실제 프레임을 그려 그 프레임의 라벨 줄로 잰다."""
+    if not getattr(P, "catalog", False):
+        return []
+    import cairo  # noqa: PLC0415
+
+    from engine.hud import date_box  # noqa: PLC0415
+    from engine.layers.catalog import label_box  # noqa: PLC0415
+    from engine.render import render_frame  # noqa: PLC0415
+    from engine.subtitles import subtitle_boxes  # noqa: PLC0415
+
+    ctx = cairo.Context(cairo.ImageSurface(cairo.FORMAT_ARGB32, 1, 1))
+    out: list[str] = []
+    for t in catalog_label_times(P):
+        render_frame(P, min(P.n_frames - 1, max(0, int(t * FPS))))
+        lines = P.R.cache["catalog"]["last"]["lines"]
+        if not lines:   # 전면 카드 구간 — 라벨을 그리지 않는다
+            continue
+        lb = label_box(lines)
+        others = [("날짜 뱃지", date_box())] + [("자막", b) for b in subtitle_boxes(ctx, P.R.tb, t)]
+        for name, b in others:
+            if lb[0] < b[2] and b[0] < lb[2] and lb[1] < b[3] and b[1] < lb[3]:
+                out.append(f"[catalog-label-overlap] t={t:.2f} 라벨 {tuple(round(v, 1) for v in lb)} ↔ {name} {tuple(round(v, 1) for v in b)}")
+    return out
 
 
 HONESTY = ("chart_honesty", "series_limit_3", "units_visible", "as_of_visible")   # engine.honesty.judge 가 내는 id

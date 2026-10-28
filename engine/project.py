@@ -247,6 +247,10 @@ class Project:
     def animatic(self) -> bool:
         return self.layers.name == "animatic"
 
+    @property
+    def catalog(self) -> bool:
+        return self.layers.name == "catalog"
+
 
 def _media_extent(e: dict, w: float, media_assets: dict) -> tuple[float, float]:
     """폭 w 일 때 미디어 상자 (높이, 글자까지 포함한 폭) — 패널 옆 슬롯(engine.placement beside_panel)용."""
@@ -379,15 +383,23 @@ def music_ids(sound: Optional[dict]) -> set[str]:
 
 
 def load_project(proj: Path, direction: Optional[Direction] = None, out: Optional[Output] = None,
-                 animatic: bool = False) -> Project:
+                 animatic: bool = False, catalog: bool = False) -> Project:
     """렌더 입력 한 벌. direction 을 주면 direction.yaml 대신 그것으로(연출 워커의 저장 전 점검 — 렌더와 같은 경로, 15 P8).
     out = 출력 프로파일(v3.6.0, None = config engine.output.default). 설계 좌표·연출·검사는 프로파일과 무관하다.
     animatic = 콘티 판(v4.9.0 back_and_forth D-0108) — **플래그 분기는 여기 한 곳**: 프로파일 rules animatic.profile, 지도 = 전편과 같은
-    본 MercatorStage(v7.4.0 D-0241 §2·UF-121 — 막지도 삭제), 레이어 = ANIMATIC_LAYERS(자리표시), 이미지·영상 파일·초상 실측·권리 점검(check_credits) 건너뜀."""
+    본 MercatorStage(v7.4.0 D-0241 §2·UF-121 — 막지도 삭제), 레이어 = ANIMATIC_LAYERS(자리표시), 이미지·영상 파일·초상 실측·권리 점검(check_credits) 건너뜀.
+    catalog = 카탈로그 판(v7.4.0 back_and_forth D-0251 §1.1) — 전편과 같은 점검·자산·렌더러 + 라벨 층(CATALOG_LAYERS), 프로파일 rules catalog.profile."""
     proj = proj.resolve()
     plan = load_plan(proj)
     tb = Timebase(plan)
     AN = load_rules().animatic  # noqa: N806
+    if catalog:
+        if animatic:
+            raise ProjectError("콘티 판과 카탈로그 판은 함께 만들지 않는다(--animatic · --catalog 중 하나)")
+        CT = load_rules().catalog  # noqa: N806
+        if out is not None and out.name != output_profile(CT.profile).name:
+            raise ProjectError(f"카탈로그 판은 {CT.profile} 고정(rules catalog.profile) — --res {out.name} 와 함께 쓰지 않는다")
+        out = output_profile(CT.profile)
     if animatic:
         if out is not None and out.name != AN.profile:
             raise ProjectError(f"콘티 판은 {AN.profile} 고정(rules animatic.profile) — --res {out.name} 와 함께 쓰지 않는다")
@@ -555,6 +567,13 @@ def load_project(proj: Path, direction: Optional[Direction] = None, out: Optiona
         from engine.layers.animatic import ANIMATIC_LAYERS  # noqa: PLC0415
 
         P = Project(proj, plan, R, keys, events, cams, n, warns, shots, ANIMATIC_LAYERS)  # noqa: N806
+    elif catalog:   # v7.4.0 D-0251 — 라벨 층 입력(이벤트·숏·음성 줄)은 렌더 전에 한 번
+        from engine.layers.catalog import CATALOG_LAYERS, elements, voice_line  # noqa: PLC0415
+
+        R.cache["catalog"] = {"events": events, "shots": shots, "voice": voice_line()}
+        for e in events:   # 레지스트리 밖 이름은 렌더 전 오류(P10)
+            elements([e], e["t0"])
+        P = Project(proj, plan, R, keys, events, cams, n, warns, shots, CATALOG_LAYERS)  # noqa: N806
     else:
         P = Project(proj, plan, R, keys, events, cams, n, warns, shots)  # noqa: N806
     from engine.source_note import add_footnote_notes  # noqa: PLC0415
