@@ -1,0 +1,1118 @@
+{
+ "schema_version": 1,
+ "engine": "engine",
+ "repo_version": "7.4.0",
+ "rules_version": "2.0.0",
+ "rules_hash": "9d0e5ead25b51c6bb14491c45981a353e9b91556",
+ "prompts": {
+  "director": "9a675fdecc5ff9fbdbaeee776dd1b52d7968fa56"
+ },
+ "voice": "supertonic-3 M3 ×0.95",
+ "word_anchor": "mixed",
+ "word_anchors": [
+  {
+   "sid": "act1_5",
+   "word": "2월 28일",
+   "mode": "ratio",
+   "t": 50.316,
+   "alignment_source": "mms_forced_alignment",
+   "note": "단어가 발음 텍스트에 없음"
+  },
+  {
+   "sid": "act1_7",
+   "word": "7월",
+   "mode": "ratio",
+   "t": 62.554,
+   "alignment_source": "mms_forced_alignment",
+   "note": "단어가 발음 텍스트에 없음"
+  },
+  {
+   "sid": "ending_0",
+   "word": "다시",
+   "mode": "aligned",
+   "t": 138.103,
+   "alignment_source": "mms_forced_alignment"
+  }
+ ],
+ "tts": {
+  "resynthesized": []
+ },
+ "total_sec": 154.251,
+ "sentences": 23,
+ "stages": {
+  "plan": true,
+  "geo": false,
+  "preview": false,
+  "render": false,
+  "mix": true,
+  "mux": false,
+  "ai_direction": true,
+  "visual_qa": true,
+  "bundle": false
+ },
+ "features_used": {
+  "camera_keys": 4,
+  "camera_moves": 3,
+  "camera_cuts": 1,
+  "dips": 0,
+  "dips_under": 0,
+  "badges": 1,
+  "badge_kinds": {
+   "person": 1
+  },
+  "panels": [],
+  "cards": 4,
+  "media": {
+   "clip": 0,
+   "photo": 0,
+   "cutout": 0,
+   "article": 3
+  },
+  "event_types": {
+   "article": 3,
+   "badge": 1,
+   "card": 4,
+   "marker": 12,
+   "primitive": 1,
+   "series": 3
+  },
+  "label_lod": true,
+  "vignette": false,
+  "private_only_assets": [],
+  "at_word": {
+   "aligned": 1,
+   "ratio": 2
+  },
+  "map_layers": {
+   "roads": 0,
+   "rivers": 0,
+   "capitals": true
+  },
+  "transitions": [
+   {
+    "sid": "act1_0",
+    "pause_t0": 19.493084,
+    "pause_sec": 1.5,
+    "kind": [
+     "date_jump"
+    ]
+   },
+   {
+    "sid": "act2_0",
+    "pause_t0": 66.382971,
+    "pause_sec": 1.5,
+    "kind": [
+     "date_jump"
+    ]
+   },
+   {
+    "sid": "act3_0",
+    "pause_t0": 105.931066,
+    "pause_sec": 1.5,
+    "kind": [
+     "date_jump"
+    ]
+   }
+  ],
+  "alignment": {
+   "sources": {
+    "mms_forced_alignment": 23
+   },
+   "score_mean_min": 0.7199,
+   "elapsed_ms_total": 62600
+  },
+  "prosody": {
+   "final_fall": {
+    "applied_n": 22,
+    "skipped_n": 1
+   }
+  }
+ },
+ "qa": {
+  "auto_iterations": 2,
+  "user_approved": false,
+  "reviewer": "fable (back_and_forth)",
+  "visual_qa": [
+   "revise"
+  ]
+ },
+ "drops": [],
+ "assets": {
+  "images_used": [],
+  "emblems": {
+   "used": [],
+   "flag_fallback": {}
+  },
+  "badges": {
+   "suggested": [
+    "il",
+    "ir",
+    "us"
+   ],
+   "used": [
+    "warsh"
+   ],
+   "suggested_and_used": [],
+   "suggestions": 4
+  }
+ },
+ "panels": {
+  "used": []
+ },
+ "credits": {
+  "card": {
+   "media": 3,
+   "music": 1,
+   "narration": 1,
+   "people": 1
+  },
+  "description_only": {
+   "fonts": 4
+  }
+ },
+ "reserved": {
+  "avoidance": []
+ },
+ "audio": {
+  "bgm": [
+   "music.zabriskie_patriarch"
+  ],
+  "bed_gain": 0.43,
+  "crossfades": 0,
+  "bed_bass": {
+   "applied": {
+    "shelf": {
+     "freq_hz": 110.0,
+     "gain_db": 5.0,
+     "q": 0.7
+    },
+    "sub": {
+     "band_hz": [
+      55.0,
+      220.0
+     ],
+     "out_lp_hz": 110.0,
+     "filter_order": 4,
+     "gain": 0.35,
+     "env_attack_sec": 0.03,
+     "env_release_sec": 0.25,
+     "env_block_sec": 0.001
+    },
+    "swell": {
+     "sec": 2.5,
+     "depth": 0.35
+    },
+    "norm_ref": 0.4
+   },
+   "ratio_db": {
+    "before": 12.45,
+    "after": 17.76
+   },
+   "rise_db": 5.31,
+   "swell_at": [
+    19.493,
+    66.383,
+    105.931,
+    132.59
+   ],
+   "bands_hz": {
+    "bass": [
+     30.0,
+     120.0
+    ],
+    "mid": [
+     200.0,
+     2000.0
+    ]
+   }
+  }
+ },
+ "end_card": {
+  "version_stamp": "v7.4.0",
+  "roll_px": 72.0,
+  "roll_px_per_sec": 11.08
+ },
+ "render": {
+  "resolution": {
+   "profile": "480p",
+   "width": 854,
+   "height": 480,
+   "fps": 24,
+   "k": 1.0,
+   "pad_x": 0.0,
+   "crf": 19,
+   "preset": "faster"
+  }
+ },
+ "badge": {
+  "R_ignored": [],
+  "head_top": []
+ },
+ "article": [
+  {
+   "mid": "cnn_0916",
+   "t0": 9.74,
+   "press": "none",
+   "theme": "dark",
+   "headline": "original"
+  },
+  {
+   "mid": "cnn_0729",
+   "t0": 75.64,
+   "press": "none",
+   "theme": "dark",
+   "headline": "original"
+  },
+  {
+   "mid": "fox_0916",
+   "t0": 90.78,
+   "press": "none",
+   "theme": "dark",
+   "headline": "original"
+  }
+ ],
+ "timeline": {
+  "w_changes": [
+   {
+    "at": 20.39,
+    "from": 2400.0,
+    "to": 420.0,
+    "ratio": 5.714,
+    "scene_from": "cold",
+    "scene_to": "act1",
+    "n": 1
+   },
+   {
+    "at": 131.79,
+    "from": 420.0,
+    "to": 660.0,
+    "ratio": 1.571,
+    "scene_from": "act2",
+    "scene_to": "ending",
+    "n": 2
+   }
+  ]
+ },
+ "pacing": {
+  "window_sec": 45.0,
+  "min_changes": 3,
+  "static_windows": [],
+  "creep": null
+ },
+ "animatic": true,
+ "catalog": false,
+ "chart_only_runs": [
+  [
+   0.3,
+   1.5
+  ],
+  [
+   19.4,
+   30.2
+  ],
+  [
+   38.4,
+   38.7
+  ],
+  [
+   49.4,
+   50.4
+  ],
+  [
+   55.8,
+   56.0
+  ],
+  [
+   66.1,
+   71.8
+  ],
+  [
+   85.9,
+   86.2
+  ],
+  [
+   125.9,
+   126.3
+  ],
+  [
+   132.3,
+   132.9
+  ]
+ ],
+ "stage": {
+  "name": "timeline",
+  "declared": true,
+  "shots_declared": 0,
+  "instances": {
+   "timeline": 1
+  },
+  "configs": {
+   "timeline": {
+    "lanes": [
+     {
+      "id": "policy_rate",
+      "label": "연방기금금리 (목표 범위·실효)",
+      "kind": "step",
+      "unit": "%"
+     },
+     {
+      "id": "inflation",
+      "label": "소비자물가 상승률 (전년 동월 대비)",
+      "kind": "line",
+      "unit": "%"
+     },
+     {
+      "id": "events",
+      "label": "사건",
+      "kind": "pins"
+     }
+    ],
+    "start": "2019-01-01",
+    "end": "2026-12-31"
+   }
+  }
+ },
+ "genre": {
+  "name": "macro_monetary",
+  "declared": true,
+  "status": "proposed"
+ },
+ "order": {
+  "topic": "쇼케이스(경제) — 연준의 인하·동결·인상(2025.10~2026.09)을 시간축 한 세계 위에서. 화면 요소·목소리·글꼴 확인",
+  "genre": "macro_monetary",
+  "decisions": {
+   "topic": {
+    "value": "쇼케이스 데모 2편 중 경제 편",
+    "by": "user",
+    "ref": "D265 ⑥ · D-0251"
+   },
+   "material": {
+    "value": "연준 사실 + 시간축 세계(X)",
+    "by": "default",
+    "ref": "감독 결정 D-0253"
+   },
+   "macro_monetary_status": {
+    "value": "proposed",
+    "by": "default",
+    "ref": "D-0251 §1.3 — approved 전환은 데모를 본 사용자 결정"
+   },
+   "elements_approval": {
+    "value": "pending",
+    "by": "default",
+    "ref": "D-0251 §3 ② — dot_plot 승인은 데모 시청 뒤"
+   },
+   "bgm": {
+    "value": "music.zabriskie_patriarch",
+    "by": "default",
+    "ref": "fed_policy_2026 credits 선례"
+   },
+   "resolution": {
+    "value": "720p",
+    "by": "user",
+    "ref": "사용자 결정 2026-10-04 \"기준 해상도는 720p야\""
+   }
+  }
+ },
+ "elements": {
+  "new": [
+   "dot_plot"
+  ],
+  "approval": "pending",
+  "by": "default"
+ },
+ "series": [
+  {
+   "series_id": "DFEDTARL",
+   "as_of": "2026-09",
+   "license": "us_gov_public_domain",
+   "source_url": "https://fred.stlouisfed.org/graph/fredgraph.csv?id=DFEDTARL&cosd=2019-01-01",
+   "transform": "month_last",
+   "missing": []
+  },
+  {
+   "series_id": "DFEDTARU",
+   "as_of": "2026-09",
+   "license": "us_gov_public_domain",
+   "source_url": "https://fred.stlouisfed.org/graph/fredgraph.csv?id=DFEDTARU&cosd=2019-01-01",
+   "transform": "month_last",
+   "missing": []
+  },
+  {
+   "series_id": "FEDFUNDS",
+   "as_of": "2026-08",
+   "license": "us_gov_public_domain",
+   "source_url": "https://fred.stlouisfed.org/graph/fredgraph.csv?id=FEDFUNDS&cosd=2019-01-01",
+   "transform": "raw",
+   "missing": []
+  },
+  {
+   "series_id": "CPIAUCSL",
+   "as_of": "2026-08",
+   "license": "us_gov_public_domain",
+   "source_url": "https://fred.stlouisfed.org/graph/fredgraph.csv?id=CPIAUCSL&cosd=2018-01-01",
+   "transform": "yoy_pct",
+   "missing": [
+    "2025-10-01"
+   ]
+  }
+ ],
+ "camera": {
+  "suggest_ran": false,
+  "suggested": 0,
+  "used": 0,
+  "given_to_director": false
+ },
+ "lint_warnings": [
+  "[media-density-total] 과소 — 0개 / 154초 = inf초당 1개 > 60초 (14 §10.1, ['article'] 제외)",
+  "[article-unused] cold_0 1.2초 기사 카드 후보 ['fox_0916', 'nbc_0916', 'abc_0916'] — 0~60초 구간 1/2개. 쓰거나 media_notes.yaml sentences.cold_0.article 에 사유",
+  "[article-unused] ending_0 132.6초 기사 카드 후보 ['fox_0729', 'fox_0916', 'nbc_0916', 'abc_0916'] — 120~180초 구간 0/2개. 쓰거나 media_notes.yaml sentences.ending_0.article 에 사유",
+  "[article-unused] act3_3 125.9초 기사 카드 후보 ['fox_0916'] — 120~180초 구간 0/2개. 쓰거나 media_notes.yaml sentences.act3_3.article 에 사유"
+ ],
+ "media": {
+  "suggested": [
+   {
+    "sid": "act2_5",
+    "scene": "act2",
+    "kind": "article",
+    "trigger": "밝혔",
+    "at": 91.18,
+    "source": "trigger",
+    "asset_id": null
+   }
+  ],
+  "used": [
+   {
+    "mid": "cnn_0916",
+    "kind": "article",
+    "t0": 9.74
+   },
+   {
+    "mid": "cnn_0729",
+    "kind": "article",
+    "t0": 75.64
+   },
+   {
+    "mid": "fox_0916",
+    "kind": "article",
+    "t0": 90.78
+   }
+  ],
+  "suggested_and_used": [
+   "act2:article"
+  ],
+  "density": {
+   "schema_version": 1,
+   "total_sec": 154.251,
+   "items": [
+    {
+     "mid": "cnn_0916",
+     "kind": "article",
+     "t0": 9.74,
+     "t1": 19.09,
+     "scene": "cold"
+    },
+    {
+     "mid": "cnn_0729",
+     "kind": "article",
+     "t0": 75.64,
+     "t1": 80.19,
+     "scene": "act2"
+    },
+    {
+     "mid": "fox_0916",
+     "kind": "article",
+     "t0": 90.78,
+     "t1": 95.49,
+     "scene": "act2"
+    }
+   ],
+   "count": 3,
+   "beat_count": 0,
+   "sec_per_item": null,
+   "target_sec_per_item": [
+    40.0,
+    60.0
+   ],
+   "window": {
+    "window_sec": 40.0,
+    "window_max": 2,
+    "exempt": [
+     "article"
+    ],
+    "max": {
+     "t0": null,
+     "count": 0,
+     "mids": []
+    }
+   },
+   "per_scene": {},
+   "insets": [],
+   "warnings": [
+    "[media-density-total] 과소 — 0개 / 154초 = inf초당 1개 > 60초 (14 §10.1, ['article'] 제외)"
+   ]
+  },
+  "articles": {
+   "schema_version": 1,
+   "candidates": 23,
+   "covered": 5,
+   "used_events": 3,
+   "per_min_max": 2,
+   "unused": [
+    {
+     "sid": "cold_0",
+     "t0": 1.2,
+     "mids": [
+      "fox_0916",
+      "nbc_0916",
+      "abc_0916"
+     ],
+     "reason": null
+    },
+    {
+     "sid": "ending_0",
+     "t0": 132.59,
+     "mids": [
+      "fox_0729",
+      "fox_0916",
+      "nbc_0916",
+      "abc_0916"
+     ],
+     "reason": null
+    },
+    {
+     "sid": "act3_3",
+     "t0": 125.89,
+     "mids": [
+      "fox_0916"
+     ],
+     "reason": null
+    }
+   ],
+   "warnings": [
+    "[article-unused] cold_0 1.2초 기사 카드 후보 ['fox_0916', 'nbc_0916', 'abc_0916'] — 0~60초 구간 1/2개. 쓰거나 media_notes.yaml sentences.cold_0.article 에 사유",
+    "[article-unused] ending_0 132.6초 기사 카드 후보 ['fox_0729', 'fox_0916', 'nbc_0916', 'abc_0916'] — 120~180초 구간 0/2개. 쓰거나 media_notes.yaml sentences.ending_0.article 에 사유",
+    "[article-unused] act3_3 125.9초 기사 카드 후보 ['fox_0916'] — 120~180초 구간 0/2개. 쓰거나 media_notes.yaml sentences.act3_3.article 에 사유"
+   ]
+  },
+  "placement": {
+   "badge:케빈 워시": "slot:timeline_badge",
+   "primitive:19": "slot:card_right"
+  }
+ },
+ "script": {
+  "labels": {
+   "verified": 18,
+   "corroborated": 3,
+   "unverified": 2,
+   "disputed": 0
+  }
+ },
+ "ai_direction": {
+  "origin": "ai+human_edit",
+  "model": "claude-opus-5-5",
+  "prompt_sha1": "9a675fdecc5ff9fbdbaeee776dd1b52d7968fa56",
+  "direction_versions": 2,
+  "used_version": null,
+  "selected": {
+   "version": 3,
+   "by": "code",
+   "reason": "상한 2회 도달 — checks_hard·qa_hard·qa_soft 사전식 최소 (checks hard 0, 검수 hard 5, soft 4)"
+  },
+  "rounds": [
+   {
+    "version": 1,
+    "checks_hard": 9,
+    "qa_hard": null,
+    "qa_soft": null
+   },
+   {
+    "version": 2,
+    "checks_hard": 3,
+    "qa_hard": null,
+    "qa_soft": null
+   },
+   {
+    "version": 3,
+    "checks_hard": 0,
+    "qa_hard": 5,
+    "qa_soft": 4
+   }
+  ],
+  "revisions": [
+   {
+    "direction_version": 2,
+    "changes": 8
+   },
+   {
+    "direction_version": 3,
+    "changes": 3
+   }
+  ],
+  "visual_qa": [
+   {
+    "file": "qa_verdict.v1.json",
+    "verdict": "revise",
+    "hard": 5,
+    "soft": 4
+   }
+  ]
+ },
+ "animatic_run": {
+  "output": "out/animatic.mp4",
+  "profile": "480p",
+  "fps": 24,
+  "preset": "veryfast",
+  "band": "콘티 판 · 검토용 · 배포 금지",
+  "placeholders": {
+   "article": 3,
+   "badge": 1,
+   "primitive": 1
+  },
+  "map": null,
+  "voice": "supertonic-3 M3 ×0.95",
+  "checks_skipped": [
+   "as_of_visible",
+   "chart_honesty",
+   "glyph_size",
+   "glyphs",
+   "labels",
+   "media_upscaled",
+   "rights",
+   "series_limit_3",
+   "units_visible"
+  ],
+  "direction_sha1": "8c6c91777ab3414818ead9c098acdc4fa379d064",
+  "script_sha1": "9bfdadfc0a87ef162121f6952aef87718274814e",
+  "sec": {
+   "render": 419.6,
+   "total": 632.1,
+   "mux": 39.4
+  },
+  "jobs": 3,
+  "frames": 3702,
+  "loudnorm": {
+   "passes": 2,
+   "pass1": {
+    "input_i": -15.57,
+    "input_tp": -0.88,
+    "input_lra": 7.5,
+    "input_thresh": -26.37,
+    "target_offset": -0.04
+   },
+   "pass2": {
+    "output_i": -14.0,
+    "output_tp": -1.5,
+    "normalization_type": "dynamic"
+   },
+   "post_limiter_dbfs": -2.0
+  },
+  "bytes": 9566287
+ },
+ "checks": {
+  "hard": 0,
+  "warnings": 5,
+  "passed": true,
+  "profile": "animatic"
+ },
+ "user_feedback_guards": [
+  {
+   "id": "UF-01",
+   "checks": {
+    "card_exposure": 0
+   }
+  },
+  {
+   "id": "UF-02",
+   "checks": {
+    "camera_continuity": 0,
+    "camera_speed": 0,
+    "camera_bounds": 0
+   }
+  },
+  {
+   "id": "UF-03",
+   "checks": {
+    "route_label_cross": 0,
+    "map_contrast": 0
+   }
+  },
+  {
+   "id": "UF-04",
+   "checks": {
+    "route_label_cross": 0,
+    "route_label_overlap": 0,
+    "label_collision": 0
+   }
+  },
+  {
+   "id": "UF-05",
+   "checks": {
+    "article_backdrop": 0
+   }
+  },
+  {
+   "id": "UF-06",
+   "checks": {
+    "quote_in_script": 0
+   }
+  },
+  {
+   "id": "UF-07",
+   "checks": {
+    "route_missing_other": 0,
+    "route_missing": 0
+   }
+  },
+  {
+   "id": "UF-08",
+   "checks": {
+    "battle_geo": 0
+   }
+  },
+  {
+   "id": "UF-09",
+   "checks": {
+    "route_missing": 0
+   }
+  },
+  {
+   "id": "UF-10",
+   "checks": {
+    "portrait_unused": 0,
+    "quote_in_script": 0
+   }
+  },
+  {
+   "id": "UF-11",
+   "checks": {
+    "route_label_cross": 0,
+    "route_label_overlap": 0
+   }
+  },
+  {
+   "id": "UF-12",
+   "checks": {
+    "frame_missing_target": 0,
+    "frame_missing": 0
+   }
+  },
+  {
+   "id": "UF-16",
+   "checks": {
+    "bgm_decision": 0
+   }
+  },
+  {
+   "id": "UF-18",
+   "checks": {
+    "forbidden": 0
+   }
+  },
+  {
+   "id": "UF-19",
+   "checks": {
+    "camera_per_sentence": 0
+   }
+  },
+  {
+   "id": "UF-20",
+   "checks": {
+    "camera_continuity": 0
+   }
+  },
+  {
+   "id": "UF-25",
+   "checks": {
+    "forbidden": 0
+   }
+  },
+  {
+   "id": "UF-27",
+   "checks": {
+    "portrait_unused": 0
+   }
+  },
+  {
+   "id": "UF-30",
+   "checks": {
+    "bgm_decision": 0
+   }
+  },
+  {
+   "id": "UF-31",
+   "checks": {
+    "media_upscaled": "skipped"
+   }
+  },
+  {
+   "id": "UF-32",
+   "checks": {
+    "boundary_as_route": 0
+   }
+  },
+  {
+   "id": "UF-34",
+   "checks": {
+    "offscreen": 0
+   }
+  },
+  {
+   "id": "UF-35",
+   "checks": {
+    "endcard_black": 0
+   }
+  },
+  {
+   "id": "UF-37",
+   "checks": {
+    "glyph_size": "skipped"
+   }
+  },
+  {
+   "id": "UF-39",
+   "checks": {
+    "timeline_rescale": 0
+   }
+  },
+  {
+   "id": "UF-42",
+   "checks": {
+    "stage_choice": 0,
+    "backdrop_main_missing": 0
+   }
+  },
+  {
+   "id": "UF-45",
+   "checks": {
+    "backdrop_main_missing": 0
+   }
+  },
+  {
+   "id": "UF-46",
+   "checks": {
+    "cascade": 0
+   }
+  },
+  {
+   "id": "UF-54",
+   "checks": {
+    "subtitle_overlap": 0
+   }
+  },
+  {
+   "id": "UF-63",
+   "checks": {
+    "label_collision": 0
+   }
+  },
+  {
+   "id": "UF-72",
+   "checks": {
+    "timeline_span": 0
+   }
+  },
+  {
+   "id": "UF-73",
+   "checks": {
+    "route_frame": 0,
+    "label_collision": 0
+   }
+  },
+  {
+   "id": "UF-77",
+   "checks": {
+    "opening_establish": 0
+   }
+  },
+  {
+   "id": "UF-78",
+   "checks": {
+    "route_missing": 0
+   }
+  },
+  {
+   "id": "UF-80",
+   "checks": {
+    "flag_territory": 0
+   }
+  },
+  {
+   "id": "UF-81",
+   "checks": {
+    "badge_over_panel": 0
+   }
+  },
+  {
+   "id": "UF-84",
+   "checks": {
+    "camera_continuity": 0
+   }
+  },
+  {
+   "id": "UF-88",
+   "checks": {
+    "map_contrast": 0
+   }
+  },
+  {
+   "id": "UF-93",
+   "checks": {
+    "bgm_decision": 0
+   }
+  },
+  {
+   "id": "UF-97",
+   "checks": {
+    "camera_speed": 0,
+    "camera_bounds": 0
+   }
+  },
+  {
+   "id": "UF-98",
+   "checks": {
+    "title_backdrop": 0
+   }
+  },
+  {
+   "id": "UF-99",
+   "checks": {
+    "camera_bounds": 0,
+    "camera_continuity": 0
+   }
+  },
+  {
+   "id": "UF-101",
+   "checks": {
+    "portrait_unused": 0
+   }
+  },
+  {
+   "id": "UF-102",
+   "checks": {
+    "media_beats": 4
+   }
+  },
+  {
+   "id": "UF-104",
+   "checks": {
+    "tempo_density": 0
+   }
+  },
+  {
+   "id": "UF-105",
+   "checks": {
+    "transition_camera": 0
+   }
+  },
+  {
+   "id": "UF-107",
+   "checks": {
+    "inset_overlap": 0
+   }
+  },
+  {
+   "id": "UF-109",
+   "checks": {
+    "article_press_missing": 0
+   }
+  },
+  {
+   "id": "UF-110",
+   "checks": {
+    "cutaway_churn": 0
+   }
+  },
+  {
+   "id": "UF-111",
+   "checks": {
+    "unit_glyph_font": 0
+   }
+  },
+  {
+   "id": "UF-113",
+   "checks": {
+    "ratio_graphic": 0
+   }
+  },
+  {
+   "id": "UF-115",
+   "checks": {
+    "tempo_density": 0
+   }
+  },
+  {
+   "id": "UF-118",
+   "checks": {
+    "media_unused": 0
+   }
+  },
+  {
+   "id": "UF-119",
+   "checks": {
+    "media_unused": 0
+   }
+  },
+  {
+   "id": "UF-120",
+   "checks": {
+    "static_camera": 0
+   }
+  },
+  {
+   "id": "UF-122",
+   "checks": {
+    "unit_ton_glyph": 0
+   }
+  },
+  {
+   "id": "UF-123",
+   "checks": {
+    "route_speed": 0
+   }
+  },
+  {
+   "id": "UF-125",
+   "checks": {
+    "sea_only_frame": 0
+   }
+  },
+  {
+   "id": "UF-126",
+   "checks": {
+    "series_unused": 0,
+    "panel_dropped": 0
+   }
+  },
+  {
+   "id": "UF-128",
+   "checks": {
+    "chart_honesty": "skipped"
+   }
+  },
+  {
+   "id": "UF-129",
+   "checks": {
+    "card_over_panel": 0
+   }
+  },
+  {
+   "id": "UF-130",
+   "checks": {
+    "article_outlet": 0
+   }
+  },
+  {
+   "id": "UF-131",
+   "checks": {
+    "glyphs": "skipped"
+   }
+  },
+  {
+   "id": "UF-135",
+   "checks": {
+    "chart_only_run": 0,
+    "chart_world_split": 0
+   }
+  }
+ ]
+}
