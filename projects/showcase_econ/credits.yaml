@@ -1,0 +1,41 @@
+# 『쇼케이스 — 금리 선 위의 1년』 엔딩 크레딧 (v7.4.0, D-0251 §1.3·D-0253 X) — fed_policy_2026 크레딧에서 출발(자료 auto: series·보도 auto: sources·투자 고지 줄). 연출 단계에서 실제로 쓴 미디어만 남긴다.
+schema_version: 1
+sections:
+  - title: 자료
+    column: 0
+    auto: series
+  - title: 보도 · 공식 발표
+    column: 1
+    auto: sources
+  - title: 안내
+    column: 1
+    items:
+      - main: 투자 권유가 아닌 정보 제공 목적의 영상입니다
+  - title: 글꼴
+    column: 0
+    auto: fonts
+  - title: 음악 · 음성
+    column: 0
+    items:
+      - music: music.zabriskie_patriarch   # v4.6.0 D-0097 작업 4 — 제목·라이선스 줄은 BGM 레지스트리(assets/audio/bgm/registry.yaml)
+      - main: 내레이션
+        license: AI 음성 합성
+        rights: [narration.tts]
+  - title: 사진 · 기사 카드 · 국기
+    column: 1
+    items:
+      - main: 워시 연준 의장 기자회견 (2026.7.29 · 9.16)
+        license: 미 연준 이사회 Flickr · Public Domain Mark
+        rights: [media.fed_presser_0916, media.fed_presser_0916_b, media.fed_presser_0729]
+      - main: 에클스 빌딩 외관·이사회실·아트리움 (자료사진 · 배경)
+        license: 미 연준 이사회 Flickr · US Gov Work·Public Domain Mark
+        rights: [media.fed_eccles_ext, media.fed_boardroom, media.fed_eccles_atrium]
+      - main: 케빈 워시
+        license_ref: warsh
+      - main: 도널드 트럼프
+        license_ref: trump
+      - main: CNN (7.29·9.16)  ·  Fox Business (7.29·9.16)  ·  NBC News (9.16)  ·  ABC News (9.16)
+        rights: [media.cnn_0729, media.fox_0729, media.cnn_0916, media.fox_0916, media.nbc_0916, media.abc_0916]
+      - main: 국기
+        license: flag-icons · MIT
+        rights: [flags.flag_icons]

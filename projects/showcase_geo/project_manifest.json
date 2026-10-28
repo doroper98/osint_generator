@@ -4,8 +4,8 @@
   "title": "쇼케이스 — 지도 위의 경유",
   "category": "geopolitics",
   "created_at": "2026-10-28T04:39:21.156475Z",
-  "updated_at": "2026-10-28T04:47:15.146667Z",
-  "current_state": "script_approval",
+  "updated_at": "2026-10-28T05:45:44.193722Z",
+  "current_state": "voice_timeline",
   "target_duration_min": 3,
   "topic_summary": "요소·목소리·글꼴 쇼케이스(지경학). 『경유의 길』(diesel_road_2026 v2) 축약 재구성 + 호르무즈·DMZ 자료 장. 새 수치·새 사실 없음(D-0251)",
   "initial_links": [],
@@ -28,7 +28,26 @@
     "provenance": "out/provenance.json"
   },
   "render_mode_status": {},
-  "gate_decisions": [],
+  "gate_decisions": [
+    {
+      "gate": "script_approval",
+      "decision": "approved",
+      "by": "user",
+      "at": "2026-10-28T05:45:44.193621Z",
+      "comment": "사용자 원문 \"승인\" (2026-10-28, 감독 세션 대화) — back_and_forth D-0254, 원고 v1 c9522d46",
+      "rollback_to": null,
+      "shown": {
+        "script": "/home/user/osint_generator/projects/showcase_geo/script.yaml",
+        "lint_errors": "0",
+        "lint_warnings": "1",
+        "est_sec": "286.3",
+        "media_plan_errors": "0",
+        "script_sha1": "9e9ee0b613bf8165f7b63b77bfbe9c6eae01c77d",
+        "media_plan": "사진 0/4 · 기사 후보 27문장 · 286초(chars)"
+      },
+      "chosen_version": null
+    }
+  ],
   "stage_records": [],
   "final_outputs": {},
   "state_history": [
@@ -61,6 +80,12 @@
       "to_state": "script_approval",
       "transitioned_at": "2026-10-28T04:47:15.146617Z",
       "reason": "원고 v1 확정(린트 오류 0) — 게이트 ① 사용자"
+    },
+    {
+      "from_state": "script_approval",
+      "to_state": "voice_timeline",
+      "transitioned_at": "2026-10-28T05:45:44.193673Z",
+      "reason": "script_approval 승인 — user"
     }
   ],
   "rollbacks": [],

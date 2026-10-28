@@ -1,0 +1,68 @@
+{
+  "schema_version": 2,
+  "project_id": "showcase_econ",
+  "title": "쇼케이스 — 금리 선 위의 1년",
+  "category": "economy",
+  "created_at": "2026-10-28T05:27:51.339439Z",
+  "updated_at": "2026-10-28T05:31:37.806681Z",
+  "current_state": "script_approval",
+  "target_duration_min": 3,
+  "topic_summary": "요소·목소리·글꼴 쇼케이스(경제). 연준 사실(fed_policy_2026 claims·data/series)을 시간축 한 세계 문법으로 — 새 수치·새 사실 없음(D-0251·D-0253)",
+  "initial_links": [],
+  "paths": {
+    "sources": "intake/sources.json",
+    "claims": "intake/claims.json",
+    "screenshots": "intake/screenshots",
+    "script": "script.yaml",
+    "script_labels": "script_labels.json",
+    "plan": "plan.json",
+    "tts": "tts",
+    "assets": "assets",
+    "media": "media",
+    "direction": "direction.yaml",
+    "prev": "prev",
+    "prev_sheet": "prev/sheet.jpg",
+    "prev_provenance": "prev/provenance.json",
+    "out": "out",
+    "final": "out/final.mp4",
+    "provenance": "out/provenance.json"
+  },
+  "render_mode_status": {},
+  "gate_decisions": [],
+  "stage_records": [],
+  "final_outputs": {},
+  "state_history": [
+    {
+      "from_state": "created",
+      "to_state": "intake",
+      "transitioned_at": "2026-10-28T05:30:52.095109Z",
+      "reason": "쇼케이스 재구성(D-0251·D-0253 X) — fed_policy_2026 claims·sources 이관"
+    },
+    {
+      "from_state": "intake",
+      "to_state": "source_verify",
+      "transitioned_at": "2026-10-28T05:30:52.104801Z",
+      "reason": "이관 intake — 원 프로젝트 검증 기록 그대로(새 출처 없음)"
+    },
+    {
+      "from_state": "source_verify",
+      "to_state": "research",
+      "transitioned_at": "2026-10-28T05:30:52.114669Z",
+      "reason": "이관 — 새 조사 없음(사실 = fed claims + data/series 레코드)"
+    },
+    {
+      "from_state": "research",
+      "to_state": "script_draft",
+      "transitioned_at": "2026-10-28T05:30:52.123547Z",
+      "reason": "쇼케이스 원고 v1 — claims 에서 새로 씀(fed v16 원고 미참조, D-0253 §1)"
+    },
+    {
+      "from_state": "script_draft",
+      "to_state": "script_approval",
+      "transitioned_at": "2026-10-28T05:31:37.806632Z",
+      "reason": "원고 v1 확정(린트 오류 0) — 게이트 ① 사용자"
+    }
+  ],
+  "rollbacks": [],
+  "reopens": []
+}
