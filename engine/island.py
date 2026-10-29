@@ -299,6 +299,7 @@ def label_check(events: list[dict], chart: dict) -> dict:
         if e["type"] != "marker" or not e.get("label"):
             continue
         f0, f1 = int(e["t0"] * FPS), int(e["t1"] * FPS)
+        f0 = -(-f0 // LABEL_STEP_FRAMES) * LABEL_STEP_FRAMES   # v7.4.0 — 공통 표본 격자(핀↔핀 대조는 같은 프레임끼리만 만난다)
         for f in range(f0, f1 + 1, LABEL_STEP_FRAMES):
             t = f / FPS
             box_e = next((i for i in isl if i["t0"] <= t <= i["t1"]), None)

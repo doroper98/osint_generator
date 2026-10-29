@@ -129,7 +129,7 @@ class IslandPinCollisionTest(unittest.TestCase):
         cst.fit_island(island_box({"box": "left"})[3], ISLAND.chart.pad_top, ISLAND.chart.pad_bottom)
         cams = np.tile(np.array([cst.x_of("2026-01-01"), 1.0, 420.0]), (24 * 12, 1))
         pins = [{"type": "marker", "label": f"{d[5:7]}월 {d[8:]}일 인하", "sub": "3.75~4%", "side": "right", "date": d, "lane": "events",
-                 "t0": 1.0 + k, "t1": 11.0, "world": cst.to_world(date=d, lane="events")} for k, d in enumerate(dates)]
+                 "t0": 1.0 + k + k / 24, "t1": 11.0, "world": cst.to_world(date=d, lane="events")} for k, d in enumerate(dates)]
         isl = {"type": "island", "kind": "chart", "box": "left", "t0": 0.0, "t1": 12.0}
         return [isl, *pins], {"stage": cst, "cams": cams, "events": pins}
 
