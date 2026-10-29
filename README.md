@@ -19,6 +19,6 @@
 - `showcase_econ/preview_v5.jpg` — 프리뷰 12컷, checks hard 0. `preview_v5_zoom.png` — 아일랜드 금리 레인 확대(52초·124초)
 
 ## showcase_econ A/B 비교 구간 (검토용 · 배포 금지, D-0253 §2·D-0265·D-0272)
-- `showcase_econ/prev_ab/A.mp4`(본편 A1) · `B.mp4`(시간축 전면 틀, v1 문법 — 사진·카드 없음) — 67.4~90.5초(act2_0~act2_4), 같은 mix.f32 구간
+- `showcase_econ/prev_ab/A.mp4`(본편 A1) · `B.mp4`(시간축 전면 틀, v1 문법 — 사진·카드 없음) — 29.4~54.9초(act1_2~act1_5 — 10월·12월 인하, 동결, 이란 전쟁, D-0273), 같은 mix.f32 구간
 - `sheet.jpg` — 같은 초 6컷, 왼쪽 A · 오른쪽 B. 프리뷰 hard A 0 · B 0(media_density 만 비교 구간 전용 면제 — 구조상 사진 자리 없음)
 - `provenance.json` — ab_compare {sentences, t0, t1, direction_a_sha1, direction_b_sha1, checks_hard, b_exempt}
