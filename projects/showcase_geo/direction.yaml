@@ -1276,6 +1276,36 @@ events:
   label: 도널드 트럼프
   role: 미국 대통령
   accent: us
+# v7.4.0 D-0261 §3(UF-139 사진·영상 하한 [media-density] 1.5/분) — 등재본 3장 보강: 실사 5 → 8(4.0분, 분당 2.0)
+- type: photo
+  start:
+    sid: act2_4
+    'off': 0.5
+  end:
+    sid: act2_4
+    edge: end
+    'off': 0.3
+  mid: diesel_road_2026_vladivostok_port_1992
+  place: map_left
+- type: photo
+  start:
+    sid: act4_1
+    'off': 3.4
+  end:
+    sid: act4_1
+    edge: end
+    'off': -0.1
+  mid: dmz_fence
+  place: map_left
+- type: photo
+  start:
+    sid: ending_0
+    'off': 3.0
+  end:
+    sid: ending_0
+    'off': 7.6
+  mid: diesel_road_2026_ras_laffan_lng_2012
+  place: map_left
 sound:
   bgm: music.zabriskie_mario_bava
   intensity:
