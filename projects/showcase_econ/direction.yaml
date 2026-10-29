@@ -244,7 +244,8 @@ events:
     sid: act1_1
     'off': 0.3
   end:
-    scene_end: act1
+    sid: act1_5
+    'off': -0.1
   date: '2025-10-29'
   lane: events
   label: 10월 29일 인하
@@ -266,7 +267,8 @@ events:
     sid: act1_3
     'off': 0.4
   end:
-    scene_end: act1
+    sid: act1_5
+    'off': -0.1
   date: '2025-12-10'
   lane: events
   label: 12월 10일 인하
@@ -304,7 +306,8 @@ events:
     sid: act1_6
     'off': 0.3
   end:
-    scene_end: act1
+    sid: act1_7
+    'off': -0.1
   date: '2026-05-01'
   lane: events
   label: 워시 의장 취임
