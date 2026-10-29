@@ -222,10 +222,10 @@ def lane_source_join(evs: list[dict]) -> str:
 
 def _asof_join(asofs: list[str]) -> str:
     """["2026-08", "2026-09"] → "2026년 8·9월 기준"(같은 해), 해가 다르면 각자 "YYYY년 M월"."""
-    ym = [tuple(int(x) for x in a.split("-")) for a in asofs]
-    if len({y for y, _ in ym}) == 1:
-        return f"{ym[0][0]}년 " + "·".join(str(m) for _, m in ym) + "월 기준"
-    return "·".join(f"{y}년 {m}월" for y, m in ym) + " 기준"
+    pairs = [tuple(int(x) for x in a.split("-")) for a in asofs]
+    if len({y for y, _ in pairs}) == 1:
+        return f"{pairs[0][0]}년 " + "·".join(str(m) for _, m in pairs) + "월 기준"
+    return "·".join(f"{y}년 {m}월" for y, m in pairs) + " 기준"
 
 
 def lane_source_text(e: dict) -> str:
