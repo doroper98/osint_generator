@@ -1,0 +1,1936 @@
+{
+ "schema_version": 1,
+ "engine": "engine",
+ "repo_version": "7.4.0",
+ "rules_version": "2.0.0",
+ "rules_hash": "c2e8a08fce785df34b0896990cefc696ccefa698",
+ "prompts": {
+  "director": "4b0d8abce2533f324bbe69742891e6ff31b77d96"
+ },
+ "voice": "supertonic-3 M3 ×0.95",
+ "word_anchor": "mixed",
+ "word_anchors": [
+  {
+   "sid": "cold_0",
+   "word": "모스크바",
+   "mode": "aligned",
+   "t": 5.015,
+   "alignment_source": "mms_forced_alignment"
+  },
+  {
+   "sid": "cold_0",
+   "word": "랴잔",
+   "mode": "aligned",
+   "t": 8.683,
+   "alignment_source": "mms_forced_alignment"
+  },
+  {
+   "sid": "act2_5",
+   "word": "니가타",
+   "mode": "aligned",
+   "t": 105.246,
+   "alignment_source": "mms_forced_alignment"
+  },
+  {
+   "sid": "ending_0",
+   "word": "러시아의 정유소",
+   "mode": "aligned",
+   "t": 217.345,
+   "alignment_source": "mms_forced_alignment"
+  },
+  {
+   "sid": "ending_0",
+   "word": "울산",
+   "mode": "aligned",
+   "t": 218.687,
+   "alignment_source": "mms_forced_alignment"
+  },
+  {
+   "sid": "ending_0",
+   "word": "유조선",
+   "mode": "aligned",
+   "t": 219.308,
+   "alignment_source": "mms_forced_alignment"
+  },
+  {
+   "sid": "ending_0",
+   "word": "워싱턴",
+   "mode": "aligned",
+   "t": 221.972,
+   "alignment_source": "mms_forced_alignment"
+  },
+  {
+   "sid": "cold_1",
+   "word": "울산항",
+   "mode": "aligned",
+   "t": 14.524,
+   "alignment_source": "mms_forced_alignment"
+  },
+  {
+   "sid": "act3_6",
+   "word": "한국",
+   "mode": "aligned",
+   "t": 143.771,
+   "alignment_source": "mms_forced_alignment"
+  },
+  {
+   "sid": "act4_2",
+   "word": "10m",
+   "mode": "ratio",
+   "t": 177.445,
+   "alignment_source": "mms_forced_alignment",
+   "note": "단어가 발음 텍스트에 없음"
+  },
+  {
+   "sid": "cold_0",
+   "word": "불길이",
+   "mode": "aligned",
+   "t": 9.665,
+   "alignment_source": "mms_forced_alignment"
+  },
+  {
+   "sid": "act4_1",
+   "word": "폭발이",
+   "mode": "aligned",
+   "t": 173.5,
+   "alignment_source": "mms_forced_alignment"
+  }
+ ],
+ "tts": {
+  "resynthesized": []
+ },
+ "total_sec": 240.934,
+ "sentences": 39,
+ "stages": {
+  "plan": true,
+  "geo": false,
+  "preview": false,
+  "render": false,
+  "mix": true,
+  "mux": false,
+  "ai_direction": true,
+  "visual_qa": false,
+  "bundle": false
+ },
+ "features_used": {
+  "camera_keys": 17,
+  "camera_moves": 7,
+  "camera_cuts": 8,
+  "dips": 7,
+  "dips_under": 1,
+  "badges": 2,
+  "badge_kinds": {
+   "emblem": 1,
+   "person": 1
+  },
+  "panels": [
+   "dots",
+   "dual_line",
+   "dual_line",
+   "statement"
+  ],
+  "cards": 11,
+  "media": {
+   "clip": 1,
+   "photo": 7,
+   "cutout": 0,
+   "article": 3
+  },
+  "event_types": {
+   "article": 3,
+   "badge": 2,
+   "barrier": 1,
+   "boom": 2,
+   "card": 11,
+   "cascade": 1,
+   "clip": 1,
+   "country": 5,
+   "dip": 7,
+   "flight": 1,
+   "marker": 10,
+   "panel": 4,
+   "photo": 7,
+   "primitive": 1,
+   "route": 4,
+   "tanker_loop": 1
+  },
+  "label_lod": true,
+  "vignette": false,
+  "private_only_assets": [
+   "inset_ryazan_esri"
+  ],
+  "flight": {
+   "count": 1,
+   "kinds": {
+    "drone": 1
+   },
+   "insets": [
+    "inset_ryazan_esri"
+   ]
+  },
+  "at_word": {
+   "aligned": 11,
+   "ratio": 1
+  },
+  "map_layers": {
+   "roads": 5,
+   "rivers": 15,
+   "capitals": true,
+   "enabled": [
+    "roads",
+    "rivers"
+   ],
+   "reason": null
+  },
+  "transitions": [
+   {
+    "sid": "act1_0",
+    "pause_t0": 23.193107,
+    "pause_sec": 1.5,
+    "kind": [
+     "date_jump"
+    ]
+   },
+   {
+    "sid": "act2_0",
+    "pause_t0": 76.030952,
+    "pause_sec": 1.5,
+    "kind": [
+     "stage"
+    ]
+   },
+   {
+    "sid": "act3_0",
+    "pause_t0": 114.536803,
+    "pause_sec": 1.5,
+    "kind": [
+     "date_jump",
+     "stage"
+    ]
+   },
+   {
+    "sid": "act4_0",
+    "pause_t0": 163.300952,
+    "pause_sec": 1.5,
+    "kind": [
+     "date_jump",
+     "stage"
+    ]
+   },
+   {
+    "sid": "act5_0",
+    "pause_t0": 185.391156,
+    "pause_sec": 1.5,
+    "kind": [
+     "stage"
+    ]
+   }
+  ],
+  "alignment": {
+   "sources": {
+    "mms_forced_alignment": 39
+   },
+   "score_mean_min": 0.7101,
+   "elapsed_ms_total": 125164
+  },
+  "prosody": {
+   "final_fall": {
+    "applied_n": 37,
+    "skipped_n": 2
+   }
+  }
+ },
+ "qa": {
+  "auto_iterations": 0,
+  "user_approved": false,
+  "reviewer": "fable (back_and_forth)",
+  "visual_qa": []
+ },
+ "drops": [],
+ "assets": {
+  "images_used": [],
+  "emblems": {
+   "used": [
+    "centcom"
+   ],
+   "flag_fallback": {}
+  },
+  "badges": {
+   "suggested": [
+    "fr",
+    "gb",
+    "il",
+    "ir",
+    "jp",
+    "kr",
+    "ru",
+    "trump",
+    "ua",
+    "us"
+   ],
+   "used": [
+    "centcom",
+    "trump"
+   ],
+   "suggested_and_used": [
+    "trump"
+   ],
+   "suggestions": 27
+  }
+ },
+ "panels": {
+  "used": [
+   {
+    "kind": "dots",
+    "title": "러시아 극동을 오간 유조선",
+    "t0": 91.56,
+    "prov_tag": null
+   },
+   {
+    "kind": "dual_line",
+    "title": "러시아 정제 처리량",
+    "t0": 53.55,
+    "prov_tag": "추정"
+   },
+   {
+    "kind": "dual_line",
+    "title": "걸프 경유 순수출",
+    "t0": 149.32,
+    "prov_tag": "추정"
+   },
+   {
+    "kind": "statement",
+    "title": "3월 21일 공동성명",
+    "t0": 142.08,
+    "prov_tag": null
+   }
+  ]
+ },
+ "credits": {
+  "card": {
+   "emblems": 1,
+   "map": 2,
+   "media": 12,
+   "music": 1,
+   "narration": 1,
+   "people": 1
+  },
+  "description_only": {
+   "fonts": 4
+  }
+ },
+ "reserved": {
+  "avoidance": [
+   {
+    "badge": "미 중부사령부",
+    "t0": 131.15,
+    "t1": 134.63,
+    "strategy": [
+     "hold"
+    ],
+    "direction": [
+     "down"
+    ],
+    "max_px": 49.4,
+    "zones": [
+     "card"
+    ],
+    "frames": 83
+   }
+  ]
+ },
+ "audio": {
+  "bgm": [
+   "music.zabriskie_mario_bava"
+  ],
+  "bed_gain": 0.43,
+  "crossfades": 0,
+  "bed_bass": {
+   "applied": {
+    "shelf": {
+     "freq_hz": 110.0,
+     "gain_db": 5.0,
+     "q": 0.7
+    },
+    "sub": {
+     "band_hz": [
+      55.0,
+      220.0
+     ],
+     "out_lp_hz": 110.0,
+     "filter_order": 4,
+     "gain": 0.35,
+     "env_attack_sec": 0.03,
+     "env_release_sec": 0.25,
+     "env_block_sec": 0.001
+    },
+    "swell": {
+     "sec": 2.5,
+     "depth": 0.35
+    },
+    "norm_ref": 0.4
+   },
+   "ratio_db": {
+    "before": 3.12,
+    "after": 8.14
+   },
+   "rise_db": 5.02,
+   "swell_at": [
+    23.193,
+    76.031,
+    114.537,
+    163.301,
+    185.391,
+    215.806
+   ],
+   "bands_hz": {
+    "bass": [
+     30.0,
+     120.0
+    ],
+    "mid": [
+     200.0,
+     2000.0
+    ]
+   }
+  }
+ },
+ "end_card": {
+  "version_stamp": "v7.4.0",
+  "roll_px": 214.0,
+  "roll_px_per_sec": 32.92
+ },
+ "render": {
+  "resolution": {
+   "profile": "480p",
+   "width": 854,
+   "height": 480,
+   "fps": 24,
+   "k": 1.0,
+   "pad_x": 0.0,
+   "crf": 19,
+   "preset": "faster"
+  }
+ },
+ "badge": {
+  "R_ignored": [],
+  "head_top": []
+ },
+ "geo": {
+  "unsourced": [
+   {
+    "kind": "place",
+    "name": "iran_strike",
+    "lonlat": [
+     51.0,
+     33.6
+    ]
+   },
+   {
+    "kind": "place",
+    "name": "gulf",
+    "lonlat": [
+     51.6,
+     27.0
+    ]
+   },
+   {
+    "kind": "place",
+    "name": "dmz_west",
+    "lonlat": [
+     126.85,
+     37.93
+    ]
+   },
+   {
+    "kind": "place",
+    "name": "kirishi",
+    "lonlat": [
+     32.02,
+     59.45
+    ]
+   },
+   {
+    "kind": "place",
+    "name": "khabarovsk_ref",
+    "lonlat": [
+     135.1,
+     48.43
+    ]
+   },
+   {
+    "kind": "place",
+    "name": "komsomolsk_ref",
+    "lonlat": [
+     136.98,
+     50.56
+    ]
+   },
+   {
+    "kind": "place",
+    "name": "primorye",
+    "lonlat": [
+     133.6,
+     44.4
+    ]
+   },
+   {
+    "kind": "place",
+    "name": "yeosu_off",
+    "lonlat": [
+     127.82,
+     34.52
+    ]
+   },
+   {
+    "kind": "place",
+    "name": "south_pars",
+    "lonlat": [
+     52.6,
+     27.5
+    ]
+   },
+   {
+    "kind": "place",
+    "name": "ras_laffan",
+    "lonlat": [
+     51.53,
+     25.92
+    ]
+   },
+   {
+    "kind": "place",
+    "name": "fujairah",
+    "lonlat": [
+     56.36,
+     25.12
+    ]
+   },
+   {
+    "kind": "place",
+    "name": "pump_station",
+    "lonlat": [
+     44.5,
+     24.6
+    ]
+   },
+   {
+    "kind": "place",
+    "name": "gulf_label",
+    "lonlat": [
+     51.5,
+     29.6
+    ]
+   },
+   {
+    "kind": "place",
+    "name": "hz_seoul",
+    "lonlat": [
+     126.98,
+     37.57
+    ]
+   },
+   {
+    "kind": "place",
+    "name": "hz_ulsan",
+    "lonlat": [
+     129.31,
+     35.54
+    ]
+   },
+   {
+    "kind": "place",
+    "name": "hz_busan",
+    "lonlat": [
+     129.04,
+     35.1
+    ]
+   },
+   {
+    "kind": "place",
+    "name": "hz_aden",
+    "lonlat": [
+     46.8,
+     12.4
+    ]
+   },
+   {
+    "kind": "place",
+    "name": "hz_embassy",
+    "lonlat": [
+     126.9775,
+     37.5725
+    ]
+   },
+   {
+    "kind": "place",
+    "name": "hz_erbil",
+    "lonlat": [
+     44.01,
+     36.19
+    ]
+   },
+   {
+    "kind": "place",
+    "name": "dmz_dmz_site",
+    "lonlat": [
+     126.79,
+     38.012
+    ]
+   },
+   {
+    "kind": "place",
+    "name": "dmz_cheongwadae",
+    "lonlat": [
+     126.975,
+     37.587
+    ]
+   },
+   {
+    "kind": "place",
+    "name": "dmz_yeouido",
+    "lonlat": [
+     126.914,
+     37.532
+    ]
+   },
+   {
+    "kind": "place",
+    "name": "dmz_pyongyang",
+    "lonlat": [
+     125.75,
+     39.02
+    ]
+   },
+   {
+    "kind": "place",
+    "name": "dmz_paju_2015",
+    "lonlat": [
+     126.73,
+     37.955
+    ]
+   },
+   {
+    "kind": "place",
+    "name": "dmz_moscow",
+    "lonlat": [
+     37.62,
+     55.75
+    ]
+   },
+   {
+    "kind": "place",
+    "name": "dmz_kyiv",
+    "lonlat": [
+     30.52,
+     50.45
+    ]
+   },
+   {
+    "kind": "place",
+    "name": "dmz_kursk",
+    "lonlat": [
+     36.19,
+     51.73
+    ]
+   },
+   {
+    "kind": "path",
+    "name": "ulsan_vlad",
+    "points": 7,
+    "ends": [
+     [
+      129.45,
+      35.5
+     ],
+     [
+      131.92,
+      43.08
+     ]
+    ]
+   },
+   {
+    "kind": "path",
+    "name": "leyla_2nd",
+    "points": 5,
+    "ends": [
+     [
+      129.45,
+      35.5
+     ],
+     [
+      131.85,
+      42.95
+     ]
+    ]
+   },
+   {
+    "kind": "path",
+    "name": "gulf_exit",
+    "points": 7,
+    "ends": [
+     [
+      50.0,
+      28.6
+     ],
+     [
+      61.5,
+      22.3
+     ]
+    ]
+   },
+   {
+    "kind": "path",
+    "name": "il_ir",
+    "points": 4,
+    "ends": [
+     [
+      34.9,
+      31.7
+     ],
+     [
+      51.0,
+      33.6
+     ]
+    ]
+   },
+   {
+    "kind": "path",
+    "name": "rail_fe",
+    "points": 11,
+    "ends": [
+     [
+      128.47,
+      50.92
+     ],
+     [
+      131.89,
+      43.12
+     ]
+    ]
+   },
+   {
+    "kind": "path",
+    "name": "layla1",
+    "points": 7,
+    "ends": [
+     [
+      129.5,
+      35.45
+     ],
+     [
+      131.93,
+      43.07
+     ]
+    ]
+   },
+   {
+    "kind": "path",
+    "name": "layla2",
+    "points": 10,
+    "ends": [
+     [
+      129.5,
+      35.45
+     ],
+     [
+      131.93,
+      43.07
+     ]
+    ]
+   },
+   {
+    "kind": "path",
+    "name": "astoria",
+    "points": 8,
+    "ends": [
+     [
+      129.5,
+      35.45
+     ],
+     [
+      131.93,
+      43.07
+     ]
+    ]
+   },
+   {
+    "kind": "path",
+    "name": "cheong",
+    "points": 10,
+    "ends": [
+     [
+      127.85,
+      34.48
+     ],
+     [
+      131.93,
+      43.07
+     ]
+    ]
+   },
+   {
+    "kind": "path",
+    "name": "ew_pipeline",
+    "points": 5,
+    "ends": [
+     [
+      49.68,
+      25.93
+     ],
+     [
+      38.1,
+      24.1
+     ]
+    ]
+   },
+   {
+    "kind": "path",
+    "name": "hz_route",
+    "points": 20,
+    "ends": [
+     [
+      56.2,
+      26.45
+     ],
+     [
+      129.35,
+      35.45
+     ]
+    ]
+   },
+   {
+    "kind": "path",
+    "name": "hz_cheong",
+    "points": 18,
+    "ends": [
+     [
+      129.04,
+      35.05
+     ],
+     [
+      47.2,
+      12.3
+     ]
+    ]
+   }
+  ],
+  "matched": [
+   {
+    "kind": "place",
+    "name": "moscow",
+    "lonlat": [
+     37.62,
+     55.75
+    ],
+    "gazetteer": "moscow_rus",
+    "km": 0.6,
+    "tol_km": 25.0
+   },
+   {
+    "kind": "place",
+    "name": "ryazan",
+    "lonlat": [
+     39.7,
+     54.62
+    ],
+    "gazetteer": "ryazan_rus",
+    "km": 1.3,
+    "tol_km": 25.0
+   },
+   {
+    "kind": "place",
+    "name": "ulsan",
+    "lonlat": [
+     129.31,
+     35.54
+    ],
+    "gazetteer": "ulsan_kor",
+    "km": 1.1,
+    "tol_km": 25.0
+   },
+   {
+    "kind": "place",
+    "name": "vladivostok",
+    "lonlat": [
+     131.89,
+     43.12
+    ],
+    "gazetteer": "vladivostok_rus",
+    "km": 2.0,
+    "tol_km": 25.0
+   },
+   {
+    "kind": "place",
+    "name": "niigata",
+    "lonlat": [
+     139.04,
+     37.92
+    ],
+    "gazetteer": "niigata_jpn",
+    "km": 0.0,
+    "tol_km": 25.0
+   },
+   {
+    "kind": "place",
+    "name": "hormuz",
+    "lonlat": [
+     56.35,
+     26.55
+    ],
+    "gazetteer": "strait_of_hormuz",
+    "km": 15.9,
+    "tol_km": 40.0
+   },
+   {
+    "kind": "place",
+    "name": "saratov",
+    "lonlat": [
+     45.95,
+     51.5
+    ],
+    "gazetteer": "saratov_rus",
+    "km": 10.6,
+    "tol_km": 25.0
+   },
+   {
+    "kind": "place",
+    "name": "syzran",
+    "lonlat": [
+     48.4,
+     53.16
+    ],
+    "gazetteer": "syzran_rus",
+    "km": 5.4,
+    "tol_km": 25.0
+   },
+   {
+    "kind": "place",
+    "name": "seoul",
+    "lonlat": [
+     126.98,
+     37.57
+    ],
+    "gazetteer": "seoul_kor",
+    "km": 1.6,
+    "tol_km": 25.0
+   },
+   {
+    "kind": "place",
+    "name": "kharg",
+    "lonlat": [
+     50.32,
+     29.24
+    ],
+    "gazetteer": "kharg_island",
+    "km": 1.1,
+    "tol_km": 10.0
+   },
+   {
+    "kind": "place",
+    "name": "kharkiv",
+    "lonlat": [
+     36.23,
+     49.99
+    ],
+    "gazetteer": "kharkiv_ukr",
+    "km": 1.9,
+    "tol_km": 25.0
+   },
+   {
+    "kind": "place",
+    "name": "poltava",
+    "lonlat": [
+     34.55,
+     49.59
+    ],
+    "gazetteer": "poltava_ukr",
+    "km": 2.3,
+    "tol_km": 25.0
+   },
+   {
+    "kind": "place",
+    "name": "hz_hormuz",
+    "lonlat": [
+     56.35,
+     26.55
+    ],
+    "gazetteer": "strait_of_hormuz",
+    "km": 15.9,
+    "tol_km": 40.0
+   },
+   {
+    "kind": "place",
+    "name": "hz_kharg",
+    "lonlat": [
+     50.32,
+     29.24
+    ],
+    "gazetteer": "kharg_island",
+    "km": 1.1,
+    "tol_km": 10.0
+   }
+  ],
+  "mismatch": []
+ },
+ "cascade": {
+  "status": "adopted",
+  "events": 1,
+  "items": 1,
+  "hidden_labels": [
+   {
+    "name": "탈린",
+    "kind": "city",
+    "how": "회피",
+    "t": 64.2
+   }
+  ]
+ },
+ "border_glow": {
+  "status": "adopted",
+  "on": true
+ },
+ "article": [
+  {
+   "mid": "diesel_road_2026_art_0030",
+   "t0": 206.64,
+   "press": "diesel_road_2026_trump_1006",
+   "theme": "dark",
+   "headline": "original"
+  },
+  {
+   "mid": "diesel_road_2026_art_0009",
+   "t0": 63.9,
+   "press": "none",
+   "theme": "dark",
+   "headline": "original"
+  },
+  {
+   "mid": "diesel_road_2026_art_0020",
+   "t0": 138.15,
+   "press": "none",
+   "theme": "dark",
+   "headline": "original"
+  }
+ ],
+ "pacing": {
+  "window_sec": 45.0,
+  "min_changes": 3,
+  "static_windows": [],
+  "creep": null
+ },
+ "animatic": true,
+ "catalog": false,
+ "chart_only_runs": [
+  [
+   161.5,
+   161.8
+  ]
+ ],
+ "stage": {
+  "name": "mercator",
+  "declared": false,
+  "shots_declared": 0,
+  "instances": {
+   "mercator": 1
+  },
+  "configs": {
+   "mercator": {
+    "theme": "light"
+   }
+  }
+ },
+ "map_theme": {
+  "effective": "light",
+  "source": "genre",
+  "declared": false,
+  "reason": null,
+  "series": null
+ },
+ "genre": {
+  "name": "geopolitics",
+  "declared": false,
+  "status": "approved"
+ },
+ "order": {
+  "topic": "쇼케이스(지경학) — 『경유의 길』 축약 + 호르무즈·DMZ 자료 장. 화면 요소·목소리·글꼴 확인",
+  "genre": "geopolitics",
+  "decisions": {
+   "topic": {
+    "value": "쇼케이스 데모 2편 중 지경학 편",
+    "by": "user",
+    "ref": "D265 ⑥ · D-0251"
+   },
+   "map_theme": {
+    "value": "light",
+    "by": "default",
+    "ref": "장르 기본(D154) — D-0251 §1.1 mercator light"
+   },
+   "bgm": {
+    "value": "music.zabriskie_mario_bava",
+    "by": "default",
+    "ref": "기준 작품 diesel_road_2026 v2 와 같은 곡(D232)"
+   },
+   "resolution": {
+    "value": "720p",
+    "by": "user",
+    "ref": "사용자 결정 2026-10-04 \"기준 해상도는 720p야\""
+   }
+  }
+ },
+ "elements": {
+  "new": [
+   "site_diagram"
+  ],
+  "approval": "pending",
+  "by": "default"
+ },
+ "camera": {
+  "suggest_ran": false,
+  "suggested": 0,
+  "used": 0,
+  "given_to_director": false
+ },
+ "lint_warnings": [
+  "[media-density-total] 과밀 — 8개 / 241초 = 30.1초당 1개 < 40초 (14 §10.1, ['article'] 제외)",
+  "[media-density-scene] 장면 act2: ['diesel_road_2026_khabarovsk_ref_2005', 'diesel_road_2026_vladivostok_port_1992'] > 1 (14 §10.1, ['article'] 제외)",
+  "[media-density-scene] 장면 act3: ['hormuz_transit', 'niovi'] > 1 (14 §10.1, ['article'] 제외)",
+  "[media-density-scene] 장면 act4: ['dmz_mine_sign', 'dmz_fence'] > 1 (14 §10.1, ['article'] 제외)",
+  "[media-kind-repeat] 이웃 장면 act1→act2 같은 형태 ['photo'] (14 §10.1)",
+  "[media-kind-repeat] 이웃 장면 act2→act3 같은 형태 ['photo'] (14 §10.1)",
+  "[media-kind-repeat] 이웃 장면 act3→act4 같은 형태 ['photo'] (14 §10.1)",
+  "[media-burst-window] 96.24초부터 40초 안 3개 ['diesel_road_2026_vladivostok_port_1992', 'hormuz_transit', 'niovi'] > 2 (14 §10.1 하한, D38)",
+  "[article-unused] cold_0 1.2초 기사 카드 후보 ['diesel_road_2026_art_0032'] — 0~60초 구간 0/2개. 쓰거나 media_notes.yaml sentences.cold_0.article 에 사유",
+  "[article-unused] act1_4 46.3초 기사 카드 후보 ['diesel_road_2026_art_0005'] — 0~60초 구간 0/2개. 쓰거나 media_notes.yaml sentences.act1_4.article 에 사유",
+  "[article-unused] act2_4 95.7초 기사 카드 후보 ['diesel_road_2026_art_0002'] — 60~120초 구간 1/2개. 쓰거나 media_notes.yaml sentences.act2_4.article 에 사유",
+  "[article-unused] ending_0 215.8초 기사 카드 후보 ['diesel_road_2026_art_0005', 'diesel_road_2026_art_0001', 'diesel_road_2026_art_0002', 'diesel_road_2026_art_0003', 'diesel_road_2026_art_0020'] — 180~240초 구간 1/2개. 쓰거나 media_notes.yaml sentences.ending_0.article 에 사유"
+ ],
+ "media": {
+  "suggested": [
+   {
+    "sid": "act1_0",
+    "scene": "act1",
+    "kind": "clip",
+    "trigger": "타격",
+    "at": 24.69,
+    "source": "trigger",
+    "asset_id": null
+   },
+   {
+    "sid": "act1_1",
+    "scene": "act1",
+    "kind": "cutout",
+    "trigger": "드론",
+    "at": 29.36,
+    "source": "trigger",
+    "asset_id": null
+   },
+   {
+    "sid": "act1_2",
+    "scene": "act1",
+    "kind": "clip",
+    "trigger": "타격",
+    "at": 33.84,
+    "source": "trigger",
+    "asset_id": null
+   },
+   {
+    "sid": "act1_4",
+    "scene": "act1",
+    "kind": "clip",
+    "trigger": "타격",
+    "at": 46.35,
+    "source": "trigger",
+    "asset_id": null
+   },
+   {
+    "sid": "act3_3",
+    "scene": "act3",
+    "kind": "clip",
+    "trigger": "공습",
+    "at": 130.55,
+    "source": "trigger",
+    "asset_id": null
+   },
+   {
+    "sid": "act5_4",
+    "scene": "act5",
+    "kind": "article",
+    "trigger": "밝혔",
+    "at": 206.54,
+    "source": "trigger",
+    "asset_id": null
+   },
+   {
+    "sid": "ending_0",
+    "scene": "ending",
+    "kind": "clip",
+    "trigger": "타격",
+    "at": 215.81,
+    "source": "trigger",
+    "asset_id": null
+   }
+  ],
+  "used": [
+   {
+    "mid": "diesel_road_2026_moscow_fire_0618",
+    "kind": "photo",
+    "t0": 34.24
+   },
+   {
+    "mid": "diesel_road_2026_art_0030",
+    "kind": "article",
+    "t0": 206.64
+   },
+   {
+    "mid": "niovi",
+    "kind": "clip",
+    "t0": 135.43
+   },
+   {
+    "mid": "diesel_road_2026_khabarovsk_ref_2005",
+    "kind": "photo",
+    "t0": 79.53
+   },
+   {
+    "mid": "diesel_road_2026_art_0009",
+    "kind": "article",
+    "t0": 63.9
+   },
+   {
+    "mid": "hormuz_transit",
+    "kind": "photo",
+    "t0": 126.17
+   },
+   {
+    "mid": "diesel_road_2026_art_0020",
+    "kind": "article",
+    "t0": 138.15
+   },
+   {
+    "mid": "dmz_mine_sign",
+    "kind": "photo",
+    "t0": 165.6
+   },
+   {
+    "mid": "diesel_road_2026_vladivostok_port_1992",
+    "kind": "photo",
+    "t0": 96.24
+   },
+   {
+    "mid": "dmz_fence",
+    "kind": "photo",
+    "t0": 173.69
+   },
+   {
+    "mid": "diesel_road_2026_ras_laffan_lng_2012",
+    "kind": "photo",
+    "t0": 218.81
+   }
+  ],
+  "suggested_and_used": [
+   "act3:clip",
+   "act5:article"
+  ],
+  "density": {
+   "schema_version": 1,
+   "total_sec": 240.934,
+   "items": [
+    {
+     "mid": "diesel_road_2026_moscow_fire_0618",
+     "kind": "photo",
+     "t0": 34.24,
+     "t1": 45.75,
+     "scene": "act1"
+    },
+    {
+     "mid": "diesel_road_2026_art_0009",
+     "kind": "article",
+     "t0": 63.9,
+     "t1": 69.82,
+     "scene": "act1"
+    },
+    {
+     "mid": "diesel_road_2026_khabarovsk_ref_2005",
+     "kind": "photo",
+     "t0": 79.53,
+     "t1": 85.05,
+     "scene": "act2"
+    },
+    {
+     "mid": "diesel_road_2026_vladivostok_port_1992",
+     "kind": "photo",
+     "t0": 96.24,
+     "t1": 101.48,
+     "scene": "act2"
+    },
+    {
+     "mid": "hormuz_transit",
+     "kind": "photo",
+     "t0": 126.17,
+     "t1": 130.45,
+     "scene": "act3"
+    },
+    {
+     "mid": "niovi",
+     "kind": "clip",
+     "t0": 135.43,
+     "t1": 140.43,
+     "scene": "act3"
+    },
+    {
+     "mid": "diesel_road_2026_art_0020",
+     "kind": "article",
+     "t0": 138.15,
+     "t1": 142.88,
+     "scene": "act3"
+    },
+    {
+     "mid": "dmz_mine_sign",
+     "kind": "photo",
+     "t0": 165.6,
+     "t1": 169.99,
+     "scene": "act4"
+    },
+    {
+     "mid": "dmz_fence",
+     "kind": "photo",
+     "t0": 173.69,
+     "t1": 174.6,
+     "scene": "act4"
+    },
+    {
+     "mid": "diesel_road_2026_art_0030",
+     "kind": "article",
+     "t0": 206.64,
+     "t1": 211.78,
+     "scene": "act5"
+    },
+    {
+     "mid": "diesel_road_2026_ras_laffan_lng_2012",
+     "kind": "photo",
+     "t0": 218.81,
+     "t1": 223.41,
+     "scene": "ending"
+    }
+   ],
+   "count": 11,
+   "beat_count": 8,
+   "sec_per_item": 30.1,
+   "target_sec_per_item": [
+    40.0,
+    60.0
+   ],
+   "window": {
+    "window_sec": 40.0,
+    "window_max": 2,
+    "exempt": [
+     "article"
+    ],
+    "max": {
+     "t0": 96.24,
+     "count": 3,
+     "mids": [
+      "diesel_road_2026_vladivostok_port_1992",
+      "hormuz_transit",
+      "niovi"
+     ]
+    }
+   },
+   "per_scene": {
+    "act1": [
+     "diesel_road_2026_moscow_fire_0618"
+    ],
+    "act2": [
+     "diesel_road_2026_khabarovsk_ref_2005",
+     "diesel_road_2026_vladivostok_port_1992"
+    ],
+    "act3": [
+     "hormuz_transit",
+     "niovi"
+    ],
+    "act4": [
+     "dmz_mine_sign",
+     "dmz_fence"
+    ],
+    "ending": [
+     "diesel_road_2026_ras_laffan_lng_2012"
+    ]
+   },
+   "insets": [
+    "inset_ryazan_esri"
+   ],
+   "warnings": [
+    "[media-density-total] 과밀 — 8개 / 241초 = 30.1초당 1개 < 40초 (14 §10.1, ['article'] 제외)",
+    "[media-density-scene] 장면 act2: ['diesel_road_2026_khabarovsk_ref_2005', 'diesel_road_2026_vladivostok_port_1992'] > 1 (14 §10.1, ['article'] 제외)",
+    "[media-density-scene] 장면 act3: ['hormuz_transit', 'niovi'] > 1 (14 §10.1, ['article'] 제외)",
+    "[media-density-scene] 장면 act4: ['dmz_mine_sign', 'dmz_fence'] > 1 (14 §10.1, ['article'] 제외)",
+    "[media-kind-repeat] 이웃 장면 act1→act2 같은 형태 ['photo'] (14 §10.1)",
+    "[media-kind-repeat] 이웃 장면 act2→act3 같은 형태 ['photo'] (14 §10.1)",
+    "[media-kind-repeat] 이웃 장면 act3→act4 같은 형태 ['photo'] (14 §10.1)",
+    "[media-burst-window] 96.24초부터 40초 안 3개 ['diesel_road_2026_vladivostok_port_1992', 'hormuz_transit', 'niovi'] > 2 (14 §10.1 하한, D38)"
+   ]
+  },
+  "articles": {
+   "schema_version": 1,
+   "candidates": 27,
+   "covered": 4,
+   "used_events": 3,
+   "per_min_max": 2,
+   "unused": [
+    {
+     "sid": "cold_0",
+     "t0": 1.2,
+     "mids": [
+      "diesel_road_2026_art_0032"
+     ],
+     "reason": null
+    },
+    {
+     "sid": "act1_4",
+     "t0": 46.35,
+     "mids": [
+      "diesel_road_2026_art_0005"
+     ],
+     "reason": null
+    },
+    {
+     "sid": "act2_4",
+     "t0": 95.74,
+     "mids": [
+      "diesel_road_2026_art_0002"
+     ],
+     "reason": null
+    },
+    {
+     "sid": "ending_0",
+     "t0": 215.81,
+     "mids": [
+      "diesel_road_2026_art_0005",
+      "diesel_road_2026_art_0001",
+      "diesel_road_2026_art_0002",
+      "diesel_road_2026_art_0003",
+      "diesel_road_2026_art_0020"
+     ],
+     "reason": null
+    }
+   ],
+   "warnings": [
+    "[article-unused] cold_0 1.2초 기사 카드 후보 ['diesel_road_2026_art_0032'] — 0~60초 구간 0/2개. 쓰거나 media_notes.yaml sentences.cold_0.article 에 사유",
+    "[article-unused] act1_4 46.3초 기사 카드 후보 ['diesel_road_2026_art_0005'] — 0~60초 구간 0/2개. 쓰거나 media_notes.yaml sentences.act1_4.article 에 사유",
+    "[article-unused] act2_4 95.7초 기사 카드 후보 ['diesel_road_2026_art_0002'] — 60~120초 구간 1/2개. 쓰거나 media_notes.yaml sentences.act2_4.article 에 사유",
+    "[article-unused] ending_0 215.8초 기사 카드 후보 ['diesel_road_2026_art_0005', 'diesel_road_2026_art_0001', 'diesel_road_2026_art_0002', 'diesel_road_2026_art_0003', 'diesel_road_2026_art_0020'] — 180~240초 구간 1/2개. 쓰거나 media_notes.yaml sentences.ending_0.article 에 사유"
+   ]
+  },
+  "placement": {
+   "diesel_road_2026_moscow_fire_0618": "slot:map_left",
+   "niovi": "explicit",
+   "diesel_road_2026_khabarovsk_ref_2005": "slot:map_left",
+   "hormuz_transit": "slot:map_left",
+   "dmz_mine_sign": "slot:map_left",
+   "badge:도널드 트럼프": "slot:map_upper_left",
+   "diesel_road_2026_vladivostok_port_1992": "slot:map_left",
+   "dmz_fence": "slot:map_left",
+   "diesel_road_2026_ras_laffan_lng_2012": "slot:map_left"
+  }
+ },
+ "script": {
+  "labels": {
+   "verified": 4,
+   "corroborated": 11,
+   "unverified": 24,
+   "disputed": 0
+  }
+ },
+ "ai_direction": {
+  "origin": "ai+human_edit",
+  "model": "claude-opus-5-5",
+  "prompt_sha1": "4b0d8abce2533f324bbe69742891e6ff31b77d96",
+  "direction_versions": 1,
+  "used_version": null,
+  "selected": null,
+  "rounds": [],
+  "revisions": [],
+  "visual_qa": []
+ },
+ "animatic_run": {
+  "output": "out/animatic.mp4",
+  "profile": "480p",
+  "fps": 24,
+  "preset": "veryfast",
+  "band": "콘티 판 · 검토용 · 배포 금지",
+  "placeholders": {
+   "article": 3,
+   "badge": 2,
+   "cascade": 1,
+   "clip": 1,
+   "flight": 1,
+   "photo": 7,
+   "primitive": 1
+  },
+  "map": "mercator(본 지도, D-0241)",
+  "voice": "supertonic-3 M3 ×0.95",
+  "checks_skipped": [
+   "as_of_visible",
+   "chart_honesty",
+   "glyph_size",
+   "glyphs",
+   "labels",
+   "media_upscaled",
+   "rights",
+   "series_limit_3",
+   "units_visible"
+  ],
+  "direction_sha1": "d08116bedbcebff7676bf1c36ac269d2d40eae73",
+  "script_sha1": "9e9ee0b613bf8165f7b63b77bfbe9c6eae01c77d",
+  "sec": {
+   "render": 1105.5,
+   "total": 1355.7,
+   "mux": 43.7
+  },
+  "jobs": 3,
+  "frames": 5782,
+  "loudnorm": {
+   "passes": 2,
+   "pass1": {
+    "input_i": -15.91,
+    "input_tp": -0.25,
+    "input_lra": 6.7,
+    "input_thresh": -26.29,
+    "target_offset": 0.07
+   },
+   "pass2": {
+    "output_i": -14.02,
+    "output_tp": -1.5,
+    "normalization_type": "dynamic"
+   },
+   "post_limiter_dbfs": -2.0
+  },
+  "bytes": 29162261
+ },
+ "checks": {
+  "hard": 0,
+  "warnings": 61,
+  "passed": true,
+  "profile": "animatic"
+ },
+ "user_feedback_guards": [
+  {
+   "id": "UF-01",
+   "checks": {
+    "card_exposure": 0
+   }
+  },
+  {
+   "id": "UF-02",
+   "checks": {
+    "camera_continuity": 0,
+    "camera_speed": 0,
+    "camera_bounds": 0
+   }
+  },
+  {
+   "id": "UF-03",
+   "checks": {
+    "route_label_cross": 0,
+    "map_contrast": 0
+   }
+  },
+  {
+   "id": "UF-04",
+   "checks": {
+    "route_label_cross": 0,
+    "route_label_overlap": 0,
+    "label_collision": 0
+   }
+  },
+  {
+   "id": "UF-05",
+   "checks": {
+    "article_backdrop": 0
+   }
+  },
+  {
+   "id": "UF-06",
+   "checks": {
+    "quote_in_script": 0
+   }
+  },
+  {
+   "id": "UF-07",
+   "checks": {
+    "route_missing_other": 0,
+    "route_missing": 0
+   }
+  },
+  {
+   "id": "UF-08",
+   "checks": {
+    "battle_geo": 0
+   }
+  },
+  {
+   "id": "UF-09",
+   "checks": {
+    "route_missing": 0
+   }
+  },
+  {
+   "id": "UF-10",
+   "checks": {
+    "portrait_unused": 0,
+    "quote_in_script": 0
+   }
+  },
+  {
+   "id": "UF-11",
+   "checks": {
+    "route_label_cross": 0,
+    "route_label_overlap": 0
+   }
+  },
+  {
+   "id": "UF-12",
+   "checks": {
+    "frame_missing_target": 0,
+    "frame_missing": 0
+   }
+  },
+  {
+   "id": "UF-16",
+   "checks": {
+    "bgm_decision": 0
+   }
+  },
+  {
+   "id": "UF-18",
+   "checks": {
+    "forbidden": 0
+   }
+  },
+  {
+   "id": "UF-19",
+   "checks": {
+    "camera_per_sentence": 0
+   }
+  },
+  {
+   "id": "UF-20",
+   "checks": {
+    "camera_continuity": 0
+   }
+  },
+  {
+   "id": "UF-25",
+   "checks": {
+    "forbidden": 0
+   }
+  },
+  {
+   "id": "UF-27",
+   "checks": {
+    "portrait_unused": 0
+   }
+  },
+  {
+   "id": "UF-30",
+   "checks": {
+    "bgm_decision": 0
+   }
+  },
+  {
+   "id": "UF-31",
+   "checks": {
+    "media_upscaled": "skipped"
+   }
+  },
+  {
+   "id": "UF-32",
+   "checks": {
+    "boundary_as_route": 0
+   }
+  },
+  {
+   "id": "UF-34",
+   "checks": {
+    "offscreen": 0
+   }
+  },
+  {
+   "id": "UF-35",
+   "checks": {
+    "endcard_black": 0
+   }
+  },
+  {
+   "id": "UF-37",
+   "checks": {
+    "glyph_size": "skipped"
+   }
+  },
+  {
+   "id": "UF-39",
+   "checks": {
+    "timeline_rescale": 0
+   }
+  },
+  {
+   "id": "UF-42",
+   "checks": {
+    "stage_choice": 0,
+    "backdrop_main_missing": 0
+   }
+  },
+  {
+   "id": "UF-45",
+   "checks": {
+    "backdrop_main_missing": 0
+   }
+  },
+  {
+   "id": "UF-46",
+   "checks": {
+    "cascade": 0
+   }
+  },
+  {
+   "id": "UF-54",
+   "checks": {
+    "subtitle_overlap": 0
+   }
+  },
+  {
+   "id": "UF-63",
+   "checks": {
+    "label_collision": 0
+   }
+  },
+  {
+   "id": "UF-72",
+   "checks": {
+    "timeline_span": 0
+   }
+  },
+  {
+   "id": "UF-73",
+   "checks": {
+    "route_frame": 0,
+    "label_collision": 0
+   }
+  },
+  {
+   "id": "UF-77",
+   "checks": {
+    "opening_establish": 0
+   }
+  },
+  {
+   "id": "UF-78",
+   "checks": {
+    "route_missing": 0
+   }
+  },
+  {
+   "id": "UF-80",
+   "checks": {
+    "flag_territory": 0
+   }
+  },
+  {
+   "id": "UF-81",
+   "checks": {
+    "badge_over_panel": 0
+   }
+  },
+  {
+   "id": "UF-84",
+   "checks": {
+    "camera_continuity": 0
+   }
+  },
+  {
+   "id": "UF-88",
+   "checks": {
+    "map_contrast": 0
+   }
+  },
+  {
+   "id": "UF-93",
+   "checks": {
+    "bgm_decision": 0
+   }
+  },
+  {
+   "id": "UF-97",
+   "checks": {
+    "camera_speed": 0,
+    "camera_bounds": 0
+   }
+  },
+  {
+   "id": "UF-98",
+   "checks": {
+    "title_backdrop": 0
+   }
+  },
+  {
+   "id": "UF-99",
+   "checks": {
+    "camera_bounds": 0,
+    "camera_continuity": 0
+   }
+  },
+  {
+   "id": "UF-101",
+   "checks": {
+    "portrait_unused": 0
+   }
+  },
+  {
+   "id": "UF-102",
+   "checks": {
+    "media_beats": 12
+   }
+  },
+  {
+   "id": "UF-104",
+   "checks": {
+    "tempo_density": 0
+   }
+  },
+  {
+   "id": "UF-105",
+   "checks": {
+    "transition_camera": 0
+   }
+  },
+  {
+   "id": "UF-107",
+   "checks": {
+    "inset_overlap": 1
+   }
+  },
+  {
+   "id": "UF-109",
+   "checks": {
+    "article_press_missing": 0
+   }
+  },
+  {
+   "id": "UF-110",
+   "checks": {
+    "cutaway_churn": 0
+   }
+  },
+  {
+   "id": "UF-111",
+   "checks": {
+    "unit_glyph_font": 0
+   }
+  },
+  {
+   "id": "UF-113",
+   "checks": {
+    "ratio_graphic": 0
+   }
+  },
+  {
+   "id": "UF-115",
+   "checks": {
+    "tempo_density": 0
+   }
+  },
+  {
+   "id": "UF-118",
+   "checks": {
+    "media_unused": 0
+   }
+  },
+  {
+   "id": "UF-119",
+   "checks": {
+    "media_unused": 0
+   }
+  },
+  {
+   "id": "UF-120",
+   "checks": {
+    "static_camera": 0
+   }
+  },
+  {
+   "id": "UF-122",
+   "checks": {
+    "unit_ton_glyph": 0
+   }
+  },
+  {
+   "id": "UF-123",
+   "checks": {
+    "route_speed": 0
+   }
+  },
+  {
+   "id": "UF-125",
+   "checks": {
+    "sea_only_frame": 0
+   }
+  },
+  {
+   "id": "UF-126",
+   "checks": {
+    "series_unused": 0,
+    "panel_dropped": 0
+   }
+  },
+  {
+   "id": "UF-128",
+   "checks": {
+    "chart_honesty": "skipped"
+   }
+  },
+  {
+   "id": "UF-129",
+   "checks": {
+    "card_over_panel": 0
+   }
+  },
+  {
+   "id": "UF-130",
+   "checks": {
+    "article_outlet": 0
+   }
+  },
+  {
+   "id": "UF-131",
+   "checks": {
+    "glyphs": "skipped"
+   }
+  },
+  {
+   "id": "UF-135",
+   "checks": {
+    "chart_only_run": 0,
+    "chart_world_split": 0
+   }
+  },
+  {
+   "id": "UF-137",
+   "checks": {
+    "chart_edge_bleed": 0
+   }
+  },
+  {
+   "id": "UF-138",
+   "checks": {
+    "timeline_rescale": 0
+   }
+  },
+  {
+   "id": "UF-139",
+   "checks": {
+    "media_density": 0
+   }
+  }
+ ]
+}
