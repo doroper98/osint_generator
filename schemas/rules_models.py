@@ -1967,6 +1967,11 @@ class TimelineSeries(_Strict):
     source_font: str
     source_halo: float
     end_label_min_gap_px: float = Field(gt=0)   # v7.4.0 D-0256 — 같은 레인 끝값 라벨 세로 최소 간격(기준선 사이)
+    pin_label_rows: int = Field(ge=1)              # v7.4.0 D-0274 §1② — 값 레인 위 핀 라벨 단 수(선 위·아래 각)
+    pin_label_first_dy_px: float = Field(gt=0)     # 점 → 가장 가까운 단 라벨 상자 가장자리
+    pin_label_row_gap_px: float = Field(gt=0)      # 한 줄 라벨 단 간격(글자 + 여백)
+    pin_leader_w: float = Field(gt=0)
+    pin_leader_alpha: float = Field(gt=0, le=1)
     change_regime_months: int = Field(ge=1)   # v4.4.0 D-0091 ②
 
 
@@ -2095,7 +2100,8 @@ class IslandChart(_Strict):
     pad_top: float = Field(ge=0)
     pad_bottom: float = Field(ge=0)
     label_flip_pad: float = Field(ge=0)   # v5.2.0 D-0133 §1 — 아일랜드 마커 라벨 ↔ 상자 가장자리 여백(넘으면 반대쪽, 그래도 넘으면 클램프)
-    lane_h_max: float = Field(gt=0)   # v7.4.0 D-0269 — 아일랜드 시간축 레인 높이 상한(fit_island 만, 주 무대 stage_timeline.lane_h 와 독립)
+    lane_h_max: float = Field(gt=0)   # v7.4.0 D-0269 — 아일랜드 시간축 레인 높이 상한(fit_island 만, 레인 둘 이상일 때만 — D-0274)
+    plot_min_ratio: float = Field(gt=0, le=1)   # v7.4.0 D-0274 §1① — [plot-height] 플롯 세로 합 ÷ 액자 안쪽 높이 하한
 
 
 class CascadeFrontRules(_Strict):

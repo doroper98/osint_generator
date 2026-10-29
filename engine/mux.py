@@ -244,6 +244,12 @@ def project_provenance(P, stages: dict[str, bool]) -> dict:  # noqa: ANN001, N80
     if P.R.cache.get("series_range"):   # v7.4.0 D-0263 — 레인 값 범위·화면에 보인 세로 폭 비율(검사 [flat-lane] 과 같은 값). series 없으면 기록 없음(P5)
         fl = {lane: round(r, 3) for lane, r, _ in flat_lanes(P)}
         prov["lane_range"] = {lane: {"range": list(rng), "visible_ratio": fl.get(lane)} for lane, rng in P.R.cache["series_range"].items()}
+        from engine.checks import plot_height  # noqa: PLC0415
+
+        ph = plot_height(P)   # v7.4.0 D-0274 §1① — 검사 [plot-height] 와 같은 값
+        if ph is not None:
+            prov["plot_height"] = {"plot_px": round(ph[0], 1), "inner_px": round(ph[1], 1), "ratio": round(ph[0] / ph[1], 3),
+                                   "min": _R.island.chart.plot_min_ratio}
     prov["stage"] = P.R.cache.get("stage")   # v4.1.0 D-0076 작업 7 — 무대(name·declared·shots_declared·instances)
     from engine.typography import CONTRAST_FIXED as lcf  # noqa: PLC0415 — 프리뷰(같은 프로세스)
     rjf = P.root / "out" / "render.json"

@@ -1245,6 +1245,15 @@ stage_timeline:            # v4.3.0 D-0084 작업 3·4·D-0085·D-0086 — 시�
     # v7.4.0 back_and_forth D-0256 — 한 레인에 레코드 둘 이상(띠+계단 등)일 때: 끝값 라벨은 값 순서로 세로 분산(기준선 사이 이 값 이상), 띠(band)는 다른 계열과 한 레인이면 끝값 라벨을 찍지 않는다
     # (상·하한은 띠 자체가 보여 준다), 출처 줄은 레인당 한 줄(레코드 출처를 " · " 로 잇는다). 검사 [series-label-overlap] hard
     end_label_min_gap_px: 14   # value_size 12 + 2
+    # v7.4.0 back_and_forth D-0274 §1②·D-0276(UF-143 "차트에 글씨가 너무 겹치네") — 값 레인 위 사건 핀 라벨: 점 가운데 정렬, 선 위 1·2단 → 선 아래 1·2단 순으로
+    # 코드가 고른다(다른 핀 라벨·점, 계열 선·띠, 축 값 라벨, 끝값 라벨과 교차 0, 상자는 플롯 안 x 클램프). 넷 다 막히면 점만(provenance pin_labels.dropped).
+    # 점 ↔ 라벨 상자 가장자리 = first_dy, 단 간격 = row_gap(한 줄 라벨 13 + 여백 3 — 부제 있는 두 줄 라벨은 같은 여백 3 을 두고 상자 높이만큼).
+    # 리더선 = 점 → 라벨 상자 가장자리 세로선. 교차는 [island-pin-collision] hard(주 무대 틀도 같은 키, C12-3)
+    pin_label_rows: 2
+    pin_label_first_dy_px: 18
+    pin_label_row_gap_px: 16
+    pin_leader_w: 1.0
+    pin_leader_alpha: 0.6
     change_regime_months: 2   # v4.4.0 D-0091 ② color_by change — 마지막 변화가 이 달 수 안이면 그 방향(hike·cut), 넘으면 hold(동결). FOMC 회의 간격(6~7주) — 연속 회의 인상·인하는 이어지고 동결 결정 뒤는 회색(6 → 2: fed_policy 검수 루브릭 5 지적, 2026 동결기가 인하 색)
   band:                    # v4.4.0 D-0090 작업 2 — series style band(두 레코드 사이 띠 = 목표 범위). 색은 이벤트 col
     fill_alpha: 0.28
@@ -1460,7 +1469,9 @@ island:                    # v5.1.0 back_and_forth D-0123 §1·D-0126(Q1~Q4 A) �
     # 그래도 넘치면 상자 안으로 클램프. 아일랜드 마커에만(지도·시간축 무대 마커 경로 무변경). 기본 = 점 ↔ 라벨 여백(markers._SIDE dx 12)과 같은 값.
     # 그 뒤에도 상자 밖 = checks island_label_clip hard `[island-label-clip]`, 라벨 ↔ 같은 순간 시리즈 출처 줄 교차 = island_label_overlap warning `[island-label-overlap]`
     label_flip_pad: 12
-    lane_h_max: 135   # v7.4.0 back_and_forth D-0269 — 아일랜드 레인 높이 상한(세로 척도 = min(이 값, 영역 ÷ 레인 수)). 주 무대 시간축은 stage_timeline.lane_h 96 그대로(골든·틀 무영향)
+    lane_h_max: 135   # v7.4.0 back_and_forth D-0269 — 아일랜드 레인 높이 상한(세로 척도 = min(이 값, 영역 ÷ 레인 수)) — 레인 둘 이상일 때만. 레인 하나면 영역 전체(D-0274 §1①, UF-142 "세로축을 늘리란 말이야")
+    # v7.4.0 back_and_forth D-0274 §1①·D-0276 — 플롯(값 레인 띠) 세로 합 ≥ 액자 안쪽 높이 × 이 값. 레인을 쌓아 금리 차트가 눌리면 [plot-height] hard(UF-137·140·142 부류)
+    plot_min_ratio: 0.7
   # v5.2.0 back_and_forth D-0129 §B(사용자 판정 D113 "차트 없이 블러 배경 + 오른쪽 카드만 나오는 화면이 너무 오래 간다") — 주 아일랜드 상시.
   # checks backdrop_main_missing hard: backdrop 무대에서 main_kinds(chart = island kind chart, 그 밖 = 이벤트 type)가 하나도 보이지 않는 구간 > card_only_max_sec
   # → `[backdrop-main-missing] t0-t1 {n}s`(타이틀·엔딩 카드·기사 구간 제외, provenance backdrop.main_missing[]). 코드는 카드를 기사로 바꾸지 않는다(P8) — 검사 + 문법 + 재연출

@@ -181,7 +181,8 @@ class TimelineStage:
         self.island = True
         self.area_top = pad_top
         self.area_bottom = box_h - pad_bottom
-        self.y_px_per_unit = min(ISLAND.chart.lane_h_max, (self.area_bottom - self.area_top) / self.n)   # v7.4.0 D-0269 — 아일랜드 상한(주 무대 lane_h 와 독립)
+        area = (self.area_bottom - self.area_top) / self.n
+        self.y_px_per_unit = area if self.n == 1 else min(ISLAND.chart.lane_h_max, area)   # v7.4.0 D-0269 상한은 레인 둘 이상만 — 하나면 액자 세로 전체(D-0274)
 
     def fit_frame(self, box: "tuple[float, float, float, float]", pad_top: float, pad_bottom: float) -> None:
         """시간축 주 무대를 화면 안쪽 틀(rules stage_timeline.frame) 안에 담는다(v7.4.0 back_and_forth D-0257, UF-137 "금리 차트가 화면
@@ -190,7 +191,8 @@ class TimelineStage:
         self.frame = tuple(float(v) for v in box)  # type: ignore[assignment]
         self.area_top = pad_top
         self.area_bottom = box[3] - pad_bottom
-        self.y_px_per_unit = min(TIMELINE.lane_h, (self.area_bottom - self.area_top) / self.n)
+        area = (self.area_bottom - self.area_top) / self.n
+        self.y_px_per_unit = area if self.n == 1 else min(TIMELINE.lane_h, area)   # v7.4.0 D-0274 — 레인 하나면 틀 세로 전체(아일랜드와 같은 규칙, C12-3)
 
     def frame_y1(self, cam_y: float, h: float) -> float:
         """View 의 위 끝 월드 y(D-0085): 레인 총높이 ≤ 레인 영역이면 영역 가운데 고정, 아니면 카메라 y 를 영역 안으로 클램프."""

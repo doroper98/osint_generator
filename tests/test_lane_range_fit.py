@@ -9,6 +9,7 @@ from __future__ import annotations
 
 import unittest
 from datetime import date
+from unittest import mock
 from types import SimpleNamespace as NS
 
 import numpy as np
@@ -174,8 +175,9 @@ class IslandLeftTallTest(unittest.TestCase):
 
     def test_island_cap_independent_of_main_stage(self) -> None:
         """D-0269 — 아일랜드 레인 상한(island.chart.lane_h_max)은 fit_island 만, 주 무대(stage_timeline.lane_h) 와 독립."""
-        cfg = {"start": "2025-06-01", "end": "2026-12-31", "lanes": [{"id": "policy_rate", "label": "금리", "kind": "step", "unit": "%"}]}
-        isl = TimelineStage(config=cfg)
+        cfg = {"start": "2025-06-01", "end": "2026-12-31", "lanes": [{"id": "policy_rate", "label": "금리", "kind": "step", "unit": "%"},
+                                                                     {"id": "inflation", "label": "물가", "kind": "line", "unit": "%"}]}
+        isl = TimelineStage(config=cfg)   # 상한은 레인 둘 이상일 때만(D-0274 — 하나면 액자 세로 전체)
         isl.fit_island(ISLAND.boxes["left_tall"][3], ISLAND.chart.pad_top, ISLAND.chart.pad_bottom)
         main = TimelineStage(config=cfg)
         self.assertEqual(isl.y_px_per_unit, ISLAND.chart.lane_h_max)
@@ -248,6 +250,28 @@ class PinsOnSeriesTest(unittest.TestCase):
         st = _stage("2025-01-01")
         with self.assertRaisesRegex(ProjectError, "계열이 없다"):
             pins_on_series([{"type": "marker", "date": "2025-10-29", "lane": "policy_rate", "label": "x"}], st, {})
+
+
+class PlotHeightTest(unittest.TestCase):
+    """v7.4.0 D-0274 §1①(UF-142) — 값 레인 세로 합 ≥ 액자 안쪽 높이 × plot_min_ratio. 레인 하나면 lane_h 상한 없이 틀 세로 전체."""
+
+    def _P(self, lanes: list[dict]) -> NS:  # noqa: N802
+        st = TimelineStage(config={"start": "2025-01-01", "end": "2026-12-31", "lanes": lanes})
+        st.fit_frame(tuple(TIMELINE.frame.box), ISLAND.chart.pad_top, ISLAND.chart.pad_bottom)
+        return NS(R=NS(stage=st, cache={}), cams=None, events=SER)
+
+    def test_single_lane_fills_frame(self) -> None:
+        P = self._P([{"id": "policy_rate", "label": "금리", "kind": "step", "unit": "%"}])  # noqa: N806
+        plot, inner = checks.plot_height(P)
+        self.assertGreater(plot, TIMELINE.lane_h)   # 상한 96 을 넘어 틀 세로 전체
+        self.assertEqual(checks.check_plot_height(P), [])
+
+    def test_stacked_lanes_fail(self) -> None:
+        lanes = [{"id": f"l{i}", "label": f"레인{i}", "kind": "line", "unit": "%"} for i in range(4)]
+        P = self._P(lanes)  # noqa: N806
+        P.events = [{**SER[0], "lane": "l0"}]
+        with mock.patch.object(P.R.stage, "y_px_per_unit", 30.0):   # 레인 넷 × 30 = 120 < 270 × 0.7
+            self.assertTrue(checks.check_plot_height(P))
 
 
 class AxisLabelColumnTest(unittest.TestCase):
