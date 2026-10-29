@@ -34,6 +34,7 @@ EPS = 1e-9          # v7.4.0 D-0263 — 눈금 반올림 부동소수 여유
 ROUND_DP = 6        # 범위·눈금 값 소수 자릿수
 DECADE = 10         # 눈금 간격 = 가수 × DECADE^k
 NICE_TRIES = 4      # 가수 목록을 몇 자릿수 위까지 훑는가
+DEC_LAST_DAY = 31   # 12월 마지막 날(전망 열 = 그 해 연말)
 AXIS = "value"   # D-0087 — 값 축(정직성 검사 4개 전부, rules qa_checks.chart_targets)
 
 
@@ -93,9 +94,9 @@ def lane_range(events: list[dict], lane: str, stage: "TimelineStage | None" = No
     recs = [load_series(sid) for e in events if e["type"] == "series" and e["lane"] == lane for sid in record_ids(e)]
     lo_d = stage.cfg.start if stage is not None else None
     hi_d = stage.cfg.end if stage is not None else None
-    vs = [v for r in recs for d, v in r.values if (lo_d is None or d >= lo_d) and (hi_d is None or d <= hi_d)]
+    vs = [v for r in recs for d, v in record_points(r) if (lo_d is None or d >= lo_d) and (hi_d is None or d <= hi_d)]
     if not vs:   # 무대 기간 밖 레코드뿐 — 레코드 전체로(그려질 점은 없지만 범위는 정해야 한다)
-        vs = [v for r in recs for _, v in r.values]
+        vs = [v for r in recs for _, v in record_points(r)]
     if cfg.mode == "zero":
         lo, hi = min(0.0, min(vs)), max(vs)
         return (lo, hi) if hi > lo else (lo, lo + 1)
@@ -112,6 +113,24 @@ def lane_range(events: list[dict], lane: str, stage: "TimelineStage | None" = No
     if dmin >= 0:
         lo = max(lo, 0.0)
     return round(lo, ROUND_DP), round(hi, ROUND_DP)
+
+
+def column_date(label: str, cols: list) -> date:  # noqa: ANN001 — ScatterColumn
+    """전망 열의 날짜(v7.4.0 D-0260 §2) — 연도 열 = 그 해 12월 31일(rules projection.column_date year_end), 장기 = 마지막 연도 열 + longer_run_gap_days."""
+    from datetime import timedelta  # noqa: PLC0415
+
+    if label.isdigit():
+        return date(int(label), MONTHS, DEC_LAST_DAY)
+    last = max(int(c.label) for c in cols if c.label.isdigit())
+    return date(last, MONTHS, DEC_LAST_DAY) + timedelta(days=TIMELINE.projection.longer_run_gap_days)
+
+
+def record_points(rec: object) -> list[tuple[date, float]]:
+    """레코드의 (날짜, 값) — series 는 values, scatter 는 열마다 참가자 값(열 날짜). 레인 범위가 전망 점까지 본다(D-0263 §2①)."""
+    if getattr(rec, "kind", "series") == "scatter":
+        cols = rec.columns  # type: ignore[attr-defined]
+        return [(column_date(c.label, cols), v) for c in cols for v in c.values]
+    return list(rec.values)  # type: ignore[attr-defined]
 
 
 def nice_step(span: float) -> float:
@@ -207,6 +226,11 @@ def draw_series(ctx: cairo.Context, R: "RenderCtx", view: "View", t: float, e: d
     stage: "TimelineStage" = view.stage  # type: ignore[assignment]
     rec = load_series(e["series_id"])
     rng = R.cache["series_range"][e["lane"]]
+    if e["style"] == "projection":   # v7.4.0 D-0260 §2 — 전망 점(같은 레인·같은 축척)
+        _draw_projection(ctx, R, view, stage, t, e, rec, rng, a)
+        _draw_axis(ctx, view, stage, e, rng, rec.unit, a)
+        _draw_source(ctx, view, stage, e, a)
+        return
     front = math.inf
     if e["grow"]:
         fr = R.cache["series_front"][e["key"]]   # 프레임별 앞끝(월드 x) — load_project 가 카메라 경로로 미리 계산
@@ -267,6 +291,83 @@ def draw_series(ctx: cairo.Context, R: "RenderCtx", view: "View", t: float, e: d
                 R.cache["series_end_labels"]["lanes"][e["lane"]].append((by, last[2], box))
     _draw_axis(ctx, view, stage, e, rng, rec.unit, a)
     _draw_source(ctx, view, stage, e, a)
+
+
+def projection_rgb(R: "RenderCtx") -> tuple[float, float, float]:  # noqa: N803
+    """전망 색 = 장르 color_semantics.forecast(D-0264). 없으면 오류(P6 — 다른 색으로 대신하지 않는다)."""
+    from engine.primitives import semantic_rgba  # noqa: PLC0415
+    from genres.load import load_genre  # noqa: PLC0415
+
+    sem = load_genre(R.cache["genre"]["name"]).color_semantics  # type: ignore[attr-defined]
+    if "forecast" not in sem:
+        raise ValueError("series projection: 장르 프로필 color_semantics 에 forecast 가 없다(D-0260 §2)")
+    return semantic_rgba(sem["forecast"])[:3]
+
+
+def projection_dots(stage: "TimelineStage", e: dict, rec: object, rng: tuple[float, float]) -> list[tuple[int, str, float, list[tuple[float, float]], float]]:
+    """열마다 (순번, 열 이름, 열 x(월드), 점 [(월드 x 오프셋 px, 월드 y)], 중앙값 월드 y). 같은 값 점은 가로로 나란히(primitive.dot_plot 배치와 같은 규칙)."""
+    D = _dot_rules()  # noqa: N806
+    step = D.dot_r * 2 + D.dot_gap
+    out = []
+    cols = rec.columns  # type: ignore[attr-defined]
+    for i, c in enumerate(cols):
+        x = stage.x_of(column_date(c.label, cols))
+        groups: dict[float, int] = {}
+        for v in c.values:
+            groups[v] = groups.get(v, 0) + 1
+        pts = [((j * 2 - (k - 1)) * step / 2, value_y(stage, e["lane"], rng, v)) for v, k in groups.items() for j in range(k)]
+        out.append((i, c.label, x, pts, value_y(stage, e["lane"], rng, c.median())))
+    return out
+
+
+def _dot_rules() -> object:
+    """점 크기·간격·중앙값 선·열 이름 크기 = rules primitives.dot_plot(D-0264 — 키 신설 없이 재사용)."""
+    from engine.style import PRIMITIVES  # noqa: PLC0415
+
+    return PRIMITIVES["dot_plot"]
+
+
+def _draw_projection(ctx: cairo.Context, R: "RenderCtx", view: "View", stage: "TimelineStage", t: float, e: dict,  # noqa: N803
+                     rec: object, rng: tuple[float, float], a: float) -> None:
+    """전망 점(v7.4.0 back_and_forth D-0260 §2) — scatter 레코드 열마다 그 해 연말 x 에 참가자별 점, 중앙값 짧은 선, 열 이름(장기),
+    레코드 as_of 다음 달 1일부터 무대 끝까지 전망 음영 띠. 열마다 column_stagger_sec 간격으로 자란다(한꺼번에 금지)."""
+    from engine.primitives.dot_plot import col_label  # noqa: PLC0415
+
+    P, D = TIMELINE.projection, _dot_rules()  # noqa: N806
+    rgb = projection_rgb(R)
+    top, bot = stage.lane_screen(view, stage.lane_index(e["lane"]))
+    asof = rec.as_of  # type: ignore[attr-defined]
+    d0 = date.fromisoformat(f"{asof}-01")   # as_of "YYYY-MM" → 다음 달 1일
+    band_start = date(d0.year + d0.month // MONTHS, d0.month % MONTHS + 1, 1)
+    bx0, _ = view.to_screen(stage.x_of(band_start), 0.0)
+    bx1, _ = view.to_screen(stage.bounds[2], 0.0)
+    ctx.save()
+    if getattr(stage, "frame", None) is not None:
+        ctx.rectangle(*stage.frame)
+        ctx.clip()
+    ctx.rectangle(max(view.ox, bx0), top, max(0.0, min(view.right, bx1) - max(view.ox, bx0)), bot - top)
+    ctx.set_source_rgba(*rgb, P.band_alpha * a)
+    ctx.fill()
+    for i, label, x, pts, my in projection_dots(stage, e, rec, rng):
+        ca = a * window(t, e["t0"] + i * P.column_stagger_sec, e["t1"], TIMELINE.series.fade_sec, TIMELINE.series.fade_sec)
+        if ca <= TIMELINE.series.min_alpha:
+            continue
+        sx, _ = view.to_screen(x, 0.0)
+        for dx, wy in pts:
+            _, sy = view.to_screen(x, wy)
+            ctx.arc(sx + dx, sy, D.dot_r, 0, 2 * math.pi)
+            ctx.set_source_rgba(*rgb, D.dot_alpha * ca)
+            ctx.fill()
+        half = max(D.median_half, max((abs(dx) for dx, _ in pts), default=0.0) + D.dot_r)
+        _, msy = view.to_screen(x, my)
+        ctx.move_to(sx - half, msy)
+        ctx.line_to(sx + half, msy)
+        ctx.set_source_rgba(*rgb, P.median_alpha * ca)
+        ctx.set_line_width(D.median_w)
+        ctx.stroke()
+        low = max(view.to_screen(x, wy)[1] for _, wy in pts)
+        text(ctx, col_label(label), sx, low + P.label_dy, D.col_size, "sansm", rgb, ca, TIMELINE.series.value_halo, "c")
+    ctx.restore()
 
 
 def _month_of(stage: "TimelineStage", x: float, rec: object) -> date:
@@ -424,4 +525,4 @@ def _draw_source(ctx: cairo.Context, view: "View", stage: "TimelineStage", e: di
          C["muted"], a, S.source_halo, "l")
 
 
-__all__ = ["lane_source_text", "place_end_label", "band_pairs", "month_colors", "regimes", "draw_series", "fmt_value", "lane_range", "nice_step", "axis_values", "axis_range_note", "record_ids", "segments", "source_line", "value_text", "value_y"]
+__all__ = ["lane_source_text", "place_end_label", "band_pairs", "month_colors", "regimes", "draw_series", "fmt_value", "lane_range", "nice_step", "axis_values", "axis_range_note", "column_date", "record_points", "projection_dots", "record_ids", "segments", "source_line", "value_text", "value_y"]

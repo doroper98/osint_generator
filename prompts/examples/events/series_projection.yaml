@@ -1,0 +1,22 @@
+# 요소 예시 (v7.4.0, back_and_forth D-0260 §2·D-0264) — series style projection: scatter 레코드(연준 SEP 점도표)를 금리 레인 위 전망 점으로.
+# prompts/examples/events/series_projection.yaml 과 tests/fixtures/preview/series_projection.yaml 은 같은 내용이다(tests/test_projection_dots.py).
+# 열 x = 그 해 12월 31일, 장기 = 마지막 연도 + rules stage_timeline.projection.longer_run_gap_days. 색 = 장르 color_semantics.forecast(amber).
+# 같은 레인의 다른 series(목표 범위 띠·실효금리 계단)와 같은 축척 — 독립 패널이 아니다(UF-135). 무대 end 는 장기 열까지 넓힌다.
+schema_version: 1
+key: series_projection
+source: projects/showcase_econ (D-0260 §2)
+event:
+  type: series
+  t0: 2.0
+  t1: 20.0
+  lane: policy_rate
+  series_id: SEP_20260916
+  style: projection
+  grow: false
+  col: gold
+gallery:
+  t: 8.0
+  stage_config:
+    timeline: {start: "2025-09-01", end: "2031-06-30"}
+  genre: macro_monetary
+  cam: {date: "2029-06-01", w: 400}

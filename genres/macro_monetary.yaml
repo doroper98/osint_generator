@@ -25,6 +25,7 @@ color_semantics:
   cut: "#5aa9ff"                 # 인하 — 차가운 색
   hold: "#a9b0bd"
   target_band: "rgba(232,184,96,0.15)"   # 목표 범위 띠(금색 반투명)
+  forecast: amber                 # v7.4.0 D-0260 §2·D-0264 — 전망 점·중앙값 선·전망 음영 띠(기존 accent 토큰 "추정" 부류, 새 hex 금지 — 사용자가 콘티 판 v3 에서 본다)
   added: green                   # (3) 성명서 문구 추가 — 초록(20 §3.1 policy_document)
   removed: ru                    # (3) 성명서 문구 삭제 — 붉은 취소선(20 §3.1 policy_document)
 primitives:                      # 이 장르에서 쓰는 시각 요소(레지스트리 id)

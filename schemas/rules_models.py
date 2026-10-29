@@ -2003,6 +2003,17 @@ class TimelineLaneRange(_Strict):
     axis_range_note: str = Field(pattern=r"\{lo\}.*\{hi\}")   # 0 이 아닌 곳에서 시작하면 출처 줄 끝에 붙는 표기
 
 
+class TimelineProjection(_Strict):
+    """v7.4.0 back_and_forth D-0260 §2·D-0264 — 시간축 레인 위 전망 점(series style projection, scatter 레코드)."""
+
+    column_date: Literal["year_end"]
+    longer_run_gap_days: int = Field(gt=0)
+    column_stagger_sec: float = Field(ge=0)
+    band_alpha: float = Field(ge=0, le=1)
+    median_alpha: float = Field(gt=0, le=1)
+    label_dy: float = Field(gt=0)
+
+
 class TimelineAxisScale(_Strict):
     """v5.1.0 D-0121 §A(사용자 피드백 D105) — 시간축 축 스케일(카메라 w) 고정. checks timeline_rescale(hard)·provenance timeline.w_changes[].
     grammar 의 {max}·{ratio} 는 같은 블록 값(프롬프트 {{RULES.stage_timeline.axis_scale}})."""
@@ -2046,6 +2057,7 @@ class StageTimelineRules(_Strict):
     missing_mark: TimelineMissingMark
     axis_scale: TimelineAxisScale  # v5.1.0 — D-0121 §A
     lane_range: TimelineLaneRange  # v7.4.0 — D-0263(UF-140)
+    projection: TimelineProjection  # v7.4.0 — D-0260 §2·D-0264
     frame: TimelineFrame           # v7.4.0 — D-0257(UF-137)
 
 

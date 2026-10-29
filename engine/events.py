@@ -101,7 +101,7 @@ class SeriesEvent(_Event):
     type: Literal["series"]
     lane: str
     series_id: str
-    style: Literal["step", "line", "band"]
+    style: Literal["step", "line", "band", "projection"]   # projection = v7.4.0 D-0260 §2 — scatter 레코드(전망 점, rules stage_timeline.projection)
     color_by: Literal["fixed", "change"] = "fixed"   # v4.4.0 D-0091 ② — change: 레코드 값 변화로 달마다 장르 색 의미 hike·cut·hold(코드 계산)
     upper_id: Optional[str] = None   # v4.4.0 D-0090 작업 2 — band: series_id = 아래 끝 레코드, upper_id = 위 끝 레코드(목표 범위 띠)
     grow: bool = True
