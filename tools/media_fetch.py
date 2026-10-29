@@ -118,6 +118,8 @@ def fetch_source(a: MediaAsset, media: Path, restore_from: Path | None = None, t
     if a.url and FLICKR_PAGE_RE.match(a.url):   # v4.4.0 — 기관 공식 Flickr(Commons 가 아님)
         fetch_flickr(a, dest)
         return dest
+    if a.kind == "video" and prm.get("fetch") == "yt-dlp":   # v7.4.0 — Commons 밖 1차 출처 영상(연준·C-SPAN 등), config media.video_fetch
+        return fetch_video(str(prm["url"]), dest)
     kw = {} if tries is None else {"tries": tries}
     ii = commons_fetch.info(a.title, prm.get("thumb_w"))   # 표준 폭만(07 §3.2)
     if not commons_fetch.license_allowed(ii["lic"]) or ii["restrictions"]:
@@ -128,6 +130,38 @@ def fetch_source(a: MediaAsset, media: Path, restore_from: Path | None = None, t
         dest.write_bytes(data)
     else:
         commons_fetch.download(ii, dest)
+    return dest
+
+
+def video_fetch_command(url: str, dest: Path) -> list[str]:
+    """yt-dlp 명령(v7.4.0 UF-141 준비). 허용 도메인·고정 버전 검사 뒤 만든다. 형식·해상도는 config media.video_fetch.
+    쿠키·클라이언트 위장·추출기 인자 같은 봇 검사 우회 옵션은 넣지 않는다 — 막히면 그대로 실패한다."""
+    from urllib.parse import urlparse  # noqa: PLC0415
+
+    from orchestrator.config import load_config  # noqa: PLC0415
+
+    vf = load_config().media.video_fetch
+    if vf is None:
+        raise MediaFetchError("config media.video_fetch 없음 — 영상 받기 설정(허용 도메인·해상도·yt-dlp 버전)을 먼저")
+    host = (urlparse(url).hostname or "").lower()
+    if not any(host == d or host.endswith("." + d) for d in vf.allowed_domains):
+        raise MediaFetchError(f"허용 도메인 밖 영상 주소: {host} — config media.video_fetch.allowed_domains {vf.allowed_domains}")
+    try:
+        got = subprocess.run(["yt-dlp", "--version"], capture_output=True, text=True, check=True).stdout.strip()
+    except (FileNotFoundError, subprocess.CalledProcessError) as ex:
+        raise MediaFetchError(f"yt-dlp 실행 불가: {ex}") from ex
+    if got != vf.yt_dlp_version:
+        raise MediaFetchError(f"yt-dlp 버전 {got} ≠ 고정 {vf.yt_dlp_version} — `pip install yt-dlp=={vf.yt_dlp_version}`")
+    fmt = vf.format.replace("{h}", str(vf.max_height))
+    return ["yt-dlp", "--no-playlist", "--no-progress", "-f", fmt, "--merge-output-format", "mp4", "-o", str(dest), url]
+
+
+def fetch_video(url: str, dest: Path) -> Path:
+    """1차 출처 영상 원본 받기(yt-dlp). 실패하면 오류(조용한 대체 없음, 15 P6)."""
+    dest.parent.mkdir(parents=True, exist_ok=True)
+    r = subprocess.run(video_fetch_command(url, dest), capture_output=True, text=True)
+    if r.returncode != 0 or not dest.exists():
+        raise MediaFetchError(f"영상 받기 실패 {url}: {(r.stderr or r.stdout)[-800:]}")
     return dest
 
 

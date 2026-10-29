@@ -95,6 +95,15 @@ commons:
   tries: 6
   standard_widths: [500, 960, 1280, 1600]
 
+media:
+  # v7.4.0 — 영상 받기(tools/media_fetch 영상 확장, UF-141 준비). 허용 도메인 밖·버전 다른 yt-dlp 는 오류. 봇 검사 우회 옵션 없음.
+  # players.brightcove.net(연준 사이트 플레이어)은 환경 네트워크 허용 대기 — 허용되면 여기에 더한다
+  video_fetch:
+    yt_dlp_version: "2026.10.21"
+    allowed_domains: [federalreserve.gov, commons.wikimedia.org, upload.wikimedia.org, c-span.org]
+    max_height: 720
+    format: "bv*[height<={h}]+ba/b[height<={h}]"
+
 review_gates:
   # v3.0.0 — 사용자 승인 게이트 2개(docs/handoff/16 §5). 승인 없이 게이트 다음 상태로 가지 않는다.
   # 값은 true 만 허용(끌 수 없다). 옛 9개 게이트 키는 상태 머신 교체로 삭제(D-0040 작업 6).
