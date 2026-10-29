@@ -232,7 +232,13 @@ def project_provenance(P, stages: dict[str, bool]) -> dict:  # noqa: ANN001, N80
     from engine.checks import chart_only_runs  # noqa: PLC0415
 
     prov["chart_only_runs"] = [list(r) for r in chart_only_runs(P)]   # v7.4.0 D-0252 — 차트·카드만 보인 구간(검사 [chart-only-run] 과 같은 값)
-    from engine.checks import flat_lanes  # noqa: PLC0415
+    from engine.checks import flat_lanes, media_density  # noqa: PLC0415
+    from rules import load_rules as _load_rules  # noqa: PLC0415
+    _R = _load_rules()
+
+    md_n, md_v = media_density(P.events, P.plan.total)   # v7.4.0 D-0262 ② — 면제 프로젝트도 검사는 돌고 기록(hard 만 면제)
+    prov["media_density"] = {"count": md_n, "value": round(md_v, 3), "min": _R.media_beats.min_density_per_min,
+                             "exempt": P.root.name in _R.media_beats.density_exempt_projects}
 
     if P.R.cache.get("series_range"):   # v7.4.0 D-0263 — 레인 값 범위·화면에 보인 세로 폭 비율(검사 [flat-lane] 과 같은 값). series 없으면 기록 없음(P5)
         fl = {lane: round(r, 3) for lane, r, _ in flat_lanes(P)}

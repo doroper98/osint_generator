@@ -42,6 +42,17 @@ class MediaDensityTest(unittest.TestCase):
         self.assertEqual(sorted(MB.density_exempt_projects), ["fed_timeline_demo", "hormuz_korea"])
         self.assertEqual(checks.check_media_density(_P("hormuz_korea", [])), [])
 
+    def test_provenance_records_exempt_too(self) -> None:
+        """D-0262 ② — 면제 프로젝트도 검사는 돌고 provenance media_density {count, value, min, exempt} 로 남는다(조용히 건너뛰지 않는다)."""
+        import inspect  # noqa: PLC0415
+
+        from engine import mux  # noqa: PLC0415
+
+        src = inspect.getsource(mux)
+        self.assertIn('prov["media_density"]', src)
+        self.assertIn('"exempt": P.root.name in _R.media_beats.density_exempt_projects', src)
+        self.assertEqual(checks.media_density([{"type": "photo"}, {"type": "clip"}], 120.0), (2, 1.0))
+
     def test_media_none_refuses_direction(self) -> None:
         with tempfile.TemporaryDirectory() as d:
             p = Path(d) / "p"
