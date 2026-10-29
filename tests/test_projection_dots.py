@@ -71,3 +71,30 @@ class ProjectionDotsTest(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class LaneSourceJoinTest(unittest.TestCase):
+    """v7.4.0 back_and_forth D-0266 — 같은 매체는 한 번(B), 전망 출처·고정 문구는 레인 줄이 아니라 전망 띠 태그(C)."""
+
+    def test_same_outlet_merged_and_projection_excluded(self) -> None:
+        from engine.layers.series import lane_source_join  # noqa: PLC0415
+
+        ev = [{"type": "series", "series_id": "DFEDTARL", "upper_id": "DFEDTARU", "style": "band"},
+              {"type": "series", "series_id": "FEDFUNDS", "style": "step"},
+              {"type": "series", "series_id": "SEP_20260916", "style": "projection"}]
+        s = lane_source_join(ev)
+        self.assertEqual(s, "FRED(세인트루이스 연은) · 원출처 연준 이사회·H.15 · 2026년 8·9월 기준")
+        self.assertEqual(s.count("FRED"), 1)
+        self.assertNotIn("SEP", s)
+
+    def test_projection_tags_carry_source_and_fixed_note(self) -> None:
+        import numpy as np  # noqa: PLC0415
+
+        from engine.layers.series import projection_tag_lines  # noqa: PLC0415
+        from engine.projection import View  # noqa: PLC0415
+
+        st = _stage()
+        v = View(st, np.array([st.x_of("2027-06-01"), 1.0, 420.0]))
+        lines = [t for t, _ in projection_tag_lines(v, st, EV[0], SEP)]
+        self.assertIn("SEP", lines[0])
+        self.assertEqual(lines[1], "참가자별 전망이며 약속이 아님")

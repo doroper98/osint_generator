@@ -21,6 +21,7 @@ import cairo
 
 from data.series import load_series
 from engine.style import C, FPS, TIMELINE
+from rules import load_rules
 from engine.timebase import ease_out, window
 from engine.typography import text, tw
 
@@ -30,12 +31,14 @@ if TYPE_CHECKING:
     from engine.stage_timeline import TimelineStage
 
 MONTHS = 12
+TAG = load_rules().panels.prov_tag   # 추정 태그 글자(size·font·alpha) 재사용 — D-0266 C
 EPS = 1e-9          # v7.4.0 D-0263 — 눈금 반올림 부동소수 여유
 ROUND_DP = 6        # 범위·눈금 값 소수 자릿수
 DECADE = 10         # 눈금 간격 = 가수 × DECADE^k
 NICE_TRIES = 4      # 가수 목록을 몇 자릿수 위까지 훑는가
 DEC_LAST_DAY = 31   # 12월 마지막 날(전망 열 = 그 해 연말)
 SOURCE_SEP = " · "  # 출처 줄 조각 구분(source_line·lane_source 가 쓰는 것과 같다)
+TAG_PAD = 3         # 전망 띠 태그 줄 사이·레인 위 끝 여백(설계 px, D-0266 C)
 AXIS = "value"   # D-0087 — 값 축(정직성 검사 4개 전부, rules qa_checks.chart_targets)
 
 
@@ -189,6 +192,40 @@ def source_line(e: dict) -> str:
     recs = [load_series(s) for s in record_ids(e)]
     srcs = list(dict.fromkeys(f"{r.source} · {r.as_of_label()}" for r in recs))
     return " / ".join(srcs)
+
+
+def lane_source_join(evs: list[dict]) -> str:
+    """레인 출처 한 줄(v7.4.0 back_and_forth D-0266 B) — 같은 매체(출처 첫 조각)는 한 번, 원출처는 겹치는 앞부분을 묶어 "·" 로,
+    기준 시점은 같은 해면 달을 "·" 로 잇는다. 전망 점(style projection)의 출처는 레인 줄이 아니라 전망 띠 태그로 간다(D-0266 C)."""
+    recs = [load_series(sid) for e in evs if e.get("style") != "projection" for sid in record_ids(e)]
+    groups: dict[str, dict[str, list]] = {}
+    for r in recs:
+        head, *rest = r.source.split(SOURCE_SEP)
+        g = groups.setdefault(head, {"orig": [], "asof": []})
+        for piece in rest:
+            if piece not in g["orig"]:
+                g["orig"].append(piece)
+        if r.as_of not in g["asof"]:
+            g["asof"].append(r.as_of)
+    out = []
+    for head, g in groups.items():
+        orig: list[str] = []
+        for piece in sorted(g["orig"], key=len):
+            base = next((o for o in orig if piece.startswith(o)), None)
+            if base is None:
+                orig.append(piece)
+            else:
+                orig[orig.index(base)] = base + "·" + piece[len(base):].strip()
+        out.append(SOURCE_SEP.join([head, *orig, _asof_join(sorted(g["asof"]))]))
+    return SOURCE_SEP.join(out)
+
+
+def _asof_join(asofs: list[str]) -> str:
+    """["2026-08", "2026-09"] → "2026년 8·9월 기준"(같은 해), 해가 다르면 각자 "YYYY년 M월"."""
+    ym = [tuple(int(x) for x in a.split("-")) for a in asofs]
+    if len({y for y, _ in ym}) == 1:
+        return f"{ym[0][0]}년 " + "·".join(str(m) for _, m in ym) + "월 기준"
+    return "·".join(f"{y}년 {m}월" for y, m in ym) + " 기준"
 
 
 def lane_source_text(e: dict) -> str:
@@ -368,7 +405,17 @@ def _draw_projection(ctx: cairo.Context, R: "RenderCtx", view: "View", stage: "T
         ctx.stroke()
         low = max(view.to_screen(x, wy)[1] for _, wy in pts)
         text(ctx, col_label(label), sx, low + P.label_dy, D.col_size, "sansm", rgb, ca, TIMELINE.series.value_halo, "c")
+    for line, y in projection_tag_lines(view, stage, e, rec):   # D-0266 C — 전망 출처·고정 문구는 전망 띠 안 태그(레인 출처 줄 대신)
+        text(ctx, line, view.right - TIMELINE.series.axis_zone_px, y, TAG.size, TAG.font, rgb, a * TAG.alpha, TIMELINE.series.value_halo, "r")
     ctx.restore()
+
+
+def projection_tag_lines(view: "View", stage: "TimelineStage", e: dict, rec: object) -> list[tuple[str, float]]:
+    """전망 띠 태그 두 줄(v7.4.0 back_and_forth D-0266 C) — (글자, 기준선 y). 레인 위쪽 오른쪽(축 값 자리 왼쪽), 오른쪽 정렬.
+    1줄 = 레코드 출처·기준 시점, 2줄 = 고정 문구(primitives.dot_plot.note, 20 §5.2). 글자 = rules panels.prov_tag(추정 태그 글자 재사용)."""
+    top, _ = stage.lane_screen(view, stage.lane_index(e["lane"]))
+    first = SOURCE_SEP.join([rec.source, rec.as_of_label()])  # type: ignore[attr-defined]
+    return [(first, top + TAG.size + TAG_PAD), (_dot_rules().note, top + 2 * TAG.size + 2 * TAG_PAD)]
 
 
 def _month_of(stage: "TimelineStage", x: float, rec: object) -> date:
@@ -552,4 +599,4 @@ def _draw_source(ctx: cairo.Context, view: "View", stage: "TimelineStage", e: di
         text(ctx, ln, x, y, S.source_size, S.source_font, C["muted"], a, S.source_halo, "l")
 
 
-__all__ = ["lane_source_text", "place_end_label", "band_pairs", "month_colors", "regimes", "draw_series", "fmt_value", "lane_range", "nice_step", "axis_values", "axis_range_note", "column_date", "record_points", "projection_dots", "source_lines", "source_line_boxes", "record_ids", "segments", "source_line", "value_text", "value_y"]
+__all__ = ["lane_source_text", "place_end_label", "band_pairs", "month_colors", "regimes", "draw_series", "fmt_value", "lane_range", "nice_step", "axis_values", "axis_range_note", "column_date", "record_points", "projection_dots", "source_lines", "source_line_boxes", "lane_source_join", "projection_tag_lines", "record_ids", "segments", "source_line", "value_text", "value_y"]
