@@ -306,6 +306,23 @@ def prev_dir(P: Project) -> Path:  # noqa: N803
     return P.root / ("prev" if P.R.out == output_profile() else f"prev_{P.R.out.name}")
 
 
+def sample_drawn(P: Project, times: list[float], labels: list[str]) -> list[tuple[str, float, str | None, str]]:  # noqa: N803
+    """표본 시각 프레임을 그려(저장 없이) 컷마다 그린 글자를 모은다 — 프리뷰가 run_checks 에 넘기는 drawn 과 같은 모양.
+    v7.4.0 — 카탈로그 판은 전편 검사를 돌면서 drawn 을 빈 목록으로 넘겨, series 영상은 [source-missing] 이 늘 실패하고
+    [glyph_size] 는 빈 채로 통과했다(showcase_econ 에서 드러남)."""
+    from engine import typography  # noqa: PLC0415
+
+    drawn: list[tuple[str, float, str | None, str]] = []
+    for tt, lab in zip(times, labels):
+        typography.GLYPH_LOG = []
+        try:
+            render_frame(P, min(P.n_frames - 1, int(tt * FPS)))
+        finally:
+            glog, typography.GLYPH_LOG = typography.GLYPH_LOG, None
+        drawn += [(lab, size, role, txt) for size, role, txt in glog]
+    return drawn
+
+
 def render_chunk(P: Project, st: int, en: int, out: Path) -> None:  # noqa: N803
     OP = P.R.out  # noqa: N806
     preset = load_rules().animatic.preset if P.animatic else load_rules().catalog.preset if P.catalog else OP.preset   # 콘티·카탈로그 판 인코딩만
@@ -506,7 +523,8 @@ def render_catalog(P: Project, jobs: int) -> tuple[Path, dict]:  # noqa: N803
     prov = project_provenance(P, CATALOG_STAGES)
     times = auto_preview_times(P)
     P.R.cache["glyph_miss"] = glyph_sweep(P)
-    checks = run_checks(P, times, prov, [], [f"t={t:.2f}" for t in times])
+    labels = [f"t={t:.2f}" for t in times]
+    checks = run_checks(P, times, prov, sample_drawn(P, times, labels), labels)   # 전편 검사 = 컷에 그린 글자로(출처 줄·글자 크기)
     (outd / "catalog_checks.json").write_text(json.dumps(checks, ensure_ascii=False, indent=1), encoding="utf-8")
     if not checks["passed"]:
         errs = [f"checks hard {i['id']}: {d}" for i in checks["items"] if i["severity"] == "hard" for d in i["details"]]

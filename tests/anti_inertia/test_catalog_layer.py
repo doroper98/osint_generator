@@ -167,6 +167,35 @@ class CatalogTableTest(unittest.TestCase):
 
 
 @pytest.mark.slow   # C8.3(D187) — 골든 자산이 필요한 느린 묶음
+class CatalogChecksSeeDrawnTest(unittest.TestCase):
+    """v7.4.0 — 카탈로그 판 전편 검사는 컷에 그린 글자(drawn)로 돈다. 빈 목록이면 series 출처 줄([source-missing])이 늘 실패하고
+    글자 크기([glyph_size])는 빈 채로 통과한다(showcase_econ 카탈로그에서 드러남)."""
+
+    def test_sample_drawn_collects_glyph_log(self) -> None:
+        from types import SimpleNamespace as NS  # noqa: PLC0415
+        from unittest import mock  # noqa: PLC0415
+
+        from engine import render, typography  # noqa: PLC0415
+
+        def fake(P, i):  # noqa: ANN001, ANN202, N803
+            typography.GLYPH_LOG.append((14.0, "source", f"출처 {i}"))
+            return None, b""
+
+        with mock.patch.object(render, "render_frame", fake):
+            got = render.sample_drawn(NS(n_frames=10_000), [1.0, 2.0], ["t=1.00", "t=2.00"])
+        self.assertEqual([g[0] for g in got], ["t=1.00", "t=2.00"])
+        self.assertIsNone(typography.GLYPH_LOG)
+
+    def test_render_catalog_passes_drawn(self) -> None:
+        import inspect  # noqa: PLC0415
+
+        from engine import render  # noqa: PLC0415
+
+        src = inspect.getsource(render.render_catalog)
+        self.assertIn("sample_drawn(P, times, labels)", src)
+        self.assertNotIn("run_checks(P, times, prov, [],", src)
+
+
 class CatalogFinalUnchangedTest(unittest.TestCase):
     """전편 프레임은 카탈로그 판과 무관 — 같은 프로세스에서 카탈로그 프레임을 그린 뒤 전편을 다시 그려도 md5 가 같고,
     카탈로그 프레임은 라벨 상자 밖 화소가 전편과 같다(라벨 층은 맨 위 덧그림뿐)."""
