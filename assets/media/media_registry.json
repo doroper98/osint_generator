@@ -4822,6 +4822,166 @@
    },
    "source_hash": "f4ec392daf6eb4f5ab160b813ac4df6e",
    "file": "diesel_road_2026_vladivostok_port_1992_720.jpg"
+  },
+  "econ_powell_presser_552": {
+   "kind": "photo",
+   "title": "File:Chairman Jerome Powell answers reporters' questions at the FOMC press conference (55239092858).jpg",
+   "license": "Public domain",
+   "author": "Federalreserve",
+   "credit_author": "미 연준 이사회",
+   "date": "2026-04-29 14:41",
+   "url": "https://commons.wikimedia.org/wiki/File:Chairman_Jerome_Powell_answers_reporters%27_questions_at_the_FOMC_press_conference_(55239092858).jpg",
+   "caption": "파월 연준 의장 기자회견",
+   "file_note": "2026. 04. 29",
+   "depicts": [
+    "제롬 파월 연준 의장",
+    "FOMC 기자회견"
+   ],
+   "is_file_photo": false,
+   "verified_by": {
+    "by": "opus 구현 세션 2 — Commons extmetadata 라이선스·설명문 대조(D-0261 ②②), 실사용 판정은 게이트 ②",
+    "on": "2026-10-29",
+    "casualty_free": true,
+    "relevance": "act1 '1월부터 6월까지 네 번의 회의 동결' — 4월 29일 회의 당일 회견(Commons 설명문: Chair Powell answers reporters' questions at the FOMC press conference on April 29, 2026)"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-10-29",
+   "source_hash": "fe47a140447595223914c1ada029fff4",
+   "tool": {
+    "name": "media_fetch.photo",
+    "params": {
+     "source": "econ_powell_presser_552.jpg",
+     "thumb_w": 1600,
+     "crop": [
+      720,
+      450
+     ],
+     "color": 0.9,
+     "contrast": 1.04,
+     "jpeg_quality": 92
+    }
+   },
+   "file": "econ_powell_presser_552_720.jpg"
+  },
+  "econ_fomc_room_2016": {
+   "kind": "photo",
+   "title": "File:Federal Open Market Committee (FOMC) in Washington DC April 26-27, 2016.jpg",
+   "license": "Public domain",
+   "author": "Federalreserve",
+   "credit_author": "미 연준 이사회",
+   "date": "2016-04-26 17:28",
+   "url": "https://commons.wikimedia.org/wiki/File:Federal_Open_Market_Committee_(FOMC)_in_Washington_DC_April_26-27,_2016.jpg",
+   "caption": "연방공개시장위원회(FOMC) 회의",
+   "file_note": "자료사진 · 2016. 04",
+   "depicts": [
+    "FOMC 회의",
+    "에클스 빌딩 이사회실"
+   ],
+   "is_file_photo": true,
+   "verified_by": {
+    "by": "opus 구현 세션 2 — Commons extmetadata 라이선스·설명문 대조(D-0261 ②②), 실사용 판정은 게이트 ②",
+    "on": "2026-10-29",
+    "casualty_free": true,
+    "relevance": "금리를 정하는 회의 장면 자료사진(회의 결정 문장) — 2016년 4월 회의, 당일 사진 아님"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-10-29",
+   "source_hash": "9e78dbf217f8d340b74b1e3d5d43c2b0",
+   "tool": {
+    "name": "media_fetch.photo",
+    "params": {
+     "source": "econ_fomc_room_2016.jpg",
+     "thumb_w": 1600,
+     "crop": [
+      720,
+      450
+     ],
+     "color": 0.9,
+     "contrast": 1.04,
+     "jpeg_quality": 92
+    }
+   },
+   "file": "econ_fomc_room_2016_720.jpg"
+  },
+  "econ_eccles_2512": {
+   "kind": "photo",
+   "title": "File:2025 construction Eccles Federal Reserve Building Washington DC 2025-12-17 13-01-38 1.jpg",
+   "license": "CC BY 4.0",
+   "author": "G. Edward Johnson",
+   "credit_author": "G. Edward Johnson",
+   "date": "2025-12-17 13:01:38",
+   "url": "https://commons.wikimedia.org/wiki/File:2025_construction_Eccles_Federal_Reserve_Building_Washington_DC_2025-12-17_13-01-38_1.jpg",
+   "caption": "공사 중인 연준 에클스 빌딩",
+   "file_note": "2025. 12. 17",
+   "depicts": [
+    "연준 에클스 빌딩",
+    "워싱턴 D.C."
+   ],
+   "is_file_photo": false,
+   "verified_by": {
+    "by": "opus 구현 세션 2 — Commons extmetadata 라이선스·설명문 대조(D-0261 ②②), 실사용 판정은 게이트 ②",
+    "on": "2026-10-29",
+    "casualty_free": true,
+    "relevance": "act1 '12월 10일 다시 인하' 무렵 연준 본부 — 2025년 12월 17일 촬영(Commons 설명문)"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-10-29",
+   "source_hash": "0a9d73a721adc2c91b1f3f01e55c35ba",
+   "tool": {
+    "name": "media_fetch.photo",
+    "params": {
+     "source": "econ_eccles_2512.jpg",
+     "thumb_w": 1600,
+     "crop": [
+      720,
+      450
+     ],
+     "color": 0.9,
+     "contrast": 1.04,
+     "jpeg_quality": 92
+    }
+   },
+   "file": "econ_eccles_2512_720.jpg"
+  },
+  "econ_eccles_ext_a": {
+   "kind": "photo",
+   "title": "File:Eccles Building (26088200676).jpg",
+   "license": "Public domain",
+   "author": "Federalreserve",
+   "credit_author": "미 연준 이사회",
+   "date": "2011-03-29 11:47",
+   "url": "https://commons.wikimedia.org/wiki/File:Eccles_Building_(26088200676).jpg",
+   "caption": "연준 에클스 빌딩",
+   "file_note": "자료사진 · 2011. 03",
+   "depicts": [
+    "연준 에클스 빌딩",
+    "워싱턴 D.C."
+   ],
+   "is_file_photo": true,
+   "verified_by": {
+    "by": "opus 구현 세션 2 — Commons extmetadata 라이선스·설명문 대조(D-0261 ②②), 실사용 판정은 게이트 ②",
+    "on": "2026-10-29",
+    "casualty_free": true,
+    "relevance": "오프닝·장 전환에서 연준 본부를 보여 주는 자료사진(2011년)"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-10-29",
+   "source_hash": "92a1f520fa71a51863f646b6af681c78",
+   "tool": {
+    "name": "media_fetch.photo",
+    "params": {
+     "source": "econ_eccles_ext_a.jpg",
+     "thumb_w": 1600,
+     "crop": [
+      720,
+      450
+     ],
+     "color": 0.9,
+     "contrast": 1.04,
+     "jpeg_quality": 92
+    }
+   },
+   "file": "econ_eccles_ext_a_720.jpg"
   }
  }
 }
