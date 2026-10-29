@@ -32,9 +32,9 @@ shots:
     lon: null
     lat: null
     place: null
-    date: '2023-08-01'
+    date: '2025-11-01'
     lane: null
-    w: 2400.0
+    w: 400.0
   under: false
   allow_sea: null
   scene: null
@@ -51,7 +51,7 @@ shots:
     place: null
     date: '2026-03-15'
     lane: null
-    w: 420.0
+    w: 400.0
   under: false
   allow_sea: null
   scene: null
@@ -68,7 +68,7 @@ shots:
     place: null
     date: '2026-05-20'
     lane: null
-    w: 420.0
+    w: 400.0
   under: false
   allow_sea: null
   scene: null
@@ -85,7 +85,7 @@ shots:
     place: null
     date: '2026-07-10'
     lane: null
-    w: 330.0
+    w: 400.0
   under: false
   allow_sea: null
   scene: null
@@ -100,14 +100,14 @@ shots:
     lon: null
     lat: null
     place: null
-    date: '2026-02-01'
+    date: '2026-04-01'
     lane: null
-    w: 660.0
+    w: 400.0
   under: false
   allow_sea: null
   scene: null
   stage: null
-  reason: 엔딩 조망 — 원고가 '1년 사이'를 말하므로 2025년 10월 인하부터 2026년 9월 재인상까지 한 화면에 되돌아본다
+  reason: 엔딩 — 같은 축 스케일(w 400, D-0261·UF-138)로 2025년 10월 인하부터 2026년 9월 재인상까지가 한 화면에 들어오는 자리로 이동
 events:
 - type: series
   start: 0.3
