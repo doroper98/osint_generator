@@ -112,6 +112,8 @@ class IslandPathTest(unittest.TestCase):
         with mock.patch.object(checks, "place_over", side_effect=AssertionError("주 무대 좌표로 재면 안 된다")):
             self.assertEqual(checks.offscreen_hits(P), [])
         self.assertEqual(checks._place_label_boxes(None, NS(events=P.events, R=NS(cache={})), None, 1.0), [])
+        with mock.patch.object(checks, "place_over", side_effect=AssertionError("주 무대 좌표로 재면 안 된다")):
+            self.assertEqual(checks.check_label_collision(NS(events=P.events)), [])
 
 
 if __name__ == "__main__":

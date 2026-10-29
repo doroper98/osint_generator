@@ -117,14 +117,14 @@ shots:
     lon: null
     lat: null
     place: null
-    date: '2027-05-01'
+    date: '2027-08-01'
     lane: null
     w: 420.0
   under: false
   allow_sea: null
   scene: null
   stage: timeline
-  reason: 전망 점(2026·2027 열, 연말 x)을 보이려 같은 w 로 오른쪽 이동(D-0260 §2·D-0265)
+  reason: 전망 점(2027 열까지, 연말 x)을 보이려 같은 w 로 오른쪽 이동(D-0260 §2·D-0265)
 - at:
     sid: ending_0
     'off': -0.8

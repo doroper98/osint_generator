@@ -432,7 +432,7 @@ def check_label_collision(P) -> list[str]:  # noqa: ANN001, N803
     """v5.6.0(사용자 지적 2026-10-04 — 수바우키 장면 지명 글자가 서로 겹침, 나토 휘장이 발트해 마커의 날짜를 가림, RENDER-AP-009) —
     같은 순간 보이는 지도 뱃지·마커(점·라벨·부제)·경로/봉쇄선 이름표(RENDER-AP-012) 상자끼리 SUB_TOL_PX 넘게 교차하면 hard. 쌍마다 첫 시각 한 줄."""
     ctx = cairo.Context(cairo.ImageSurface(cairo.FORMAT_ARGB32, 1, 1))
-    evs = [e for e in P.events if e["type"] in ("badge", "marker") and not e.get("over_panel")]
+    evs = [e for e in P.events if e["type"] in ("badge", "marker") and not e.get("over_panel") and not e.get("in_island")]   # 아일랜드 핀 = island label_check
     seen: set[tuple[int, int]] = set()
     out: list[str] = []
     lo = min((e["t0"] for e in evs), default=0.0)
