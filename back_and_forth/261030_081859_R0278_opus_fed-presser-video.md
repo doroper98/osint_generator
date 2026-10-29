@@ -26,7 +26,7 @@ status: done
 
 ## 구간 후보(시각 = 원본 기준 초)
 - 원문은 연준 공식 녹취록(FOMCpresconf20260916.pdf·20260729.pdf). 시각은 MMS 강제 정렬 + 무음 감지로 맞췄다.
-- **발언 ①(9.16, 16.5초)**: 6.5 ~ 23.0 — "Good day. In the meeting just concluded, the FOMC decided to raise the target range for the federal funds rate by a ¼ percentage point to 3¾ to 4 percent, in support of the Federal Reserve's dual mandate." 정렬 '좋은' 6.70 시작, 'mandate' 22.74 끝, 다음 무음 22.63~23.13.
+- **발언 ①(9.16, 16.5초)**: 6.5 ~ 23.0 — "Good day. In the meeting just concluded, the FOMC decided to raise the target range for the federal funds rate by a ¼ percentage point to 3¾ to 4 percent, in support of the Federal Reserve's dual mandate." 정렬 'good' 6.70 시작, 'mandate' 22.74 끝, 다음 무음 22.63~23.13.
 - **발언 ②(7.29, 약 25초 — 상한 20초 초과)**: 34.3 ~ 59.7 — "Today, as you know, our Committee decided to vote by a 9-to-3 vote to maintain the target range for the federal funds rate at 3½ to 3¾ percent." 끝 시각은 창에 따라 흔들렸다(정렬 점수 낮음). 줄이면 34.3 ~ 44.3("…9-to-3 vote…" 까지, 10초)이나 문장 중간에서 끊긴다 — 쓰려면 청취 확인 필요.
 - **현장 ①(7.29, 9.5초)**: 1007.4 ~ 1016.9 — 회견장 전경(기자석 손 든 장면, 연단의 워시 의장). 장면 전환 감지 경계.
 - **현장 ②(7.29, 13.1초)**: 2584.0 ~ 2597.1 — 회견장 전경, 뒤쪽 카메라 포함. 5~10초로 쓰면 2585 ~ 2594.
