@@ -2067,3 +2067,27 @@ entries:
   status: guarded
   decision: D-0257(감독 지시 — 시간축 세계를 안전 영역 안의 틀에 담는다, 장치 [chart-edge-bleed] hard 는 콘티 판 v2 전)
   source: 감독 세션(Fable) 사용자 대화 2026-10-28
+- id: UF-138
+  date: '2026-10-29'
+  project: showcase_econ
+  at: 콘티 판 v1·v2 후보(artifacts/showcase-v7.4.0) — 시간축 카메라 w 2400 → 420 → 330 → 660(5년 조망 → 13개월 → 확대 → 조망), 가로축 스케일이 영상 안에서 네 번 바뀜
+  quote: 내가 저 기준금리 영상 관련해서 지난번에 코멘트 준거 반영이 왜 하나도 안됐지? 내가 차트 액스축 스케일 고정시키라고 했지.
+  quote_kind: verbatim
+  category: 시간축 — 축 스케일 고정(재발). UF-39 장치 [timeline-rescale] 가 "영상당 3회까지 허용"(axis_scale.w_changes_per_video_max 3, 감독 해석 D105·D111)으로 느슨해 통과시킴 — 사용자 원뜻은 "고정"
+  guards: []
+  status: open
+  recurs_of: UF-39
+  decision: D-0261(감독 지시 — w_changes_per_video_max 0, 가로축 스케일 영상 내 고정) · PIPELINE-AP-025 · DECISIONS D271
+  source: 감독 세션(Fable) 사용자 대화 2026-10-29
+- id: UF-139
+  date: '2026-10-29'
+  project: showcase_econ
+  at: 콘티 판 v1·v2 후보 전체 — 사진 0·영상 0·기사 3, 시리즈 3·핀 12(차트만). 감독이 "사진 없이 진행"을 승인(D-0256·2026-10-28 메시지)
+  quote: 그리고 그래프만 주구장창 보여줄꺼면 내가 영상을 왜만들고 왜보냐. 내가 레퍼런스 사진이나 영상 풍부하게 하란 말은 어디다 팔아먹고 저딴식으로 만드는거야 진짜 이해가 안되네
+  quote_kind: verbatim
+  category: 미디어 — 사진·영상 하한(재발). UF-27·89·119 장치(media_unused·article_unused·portrait_unused)는 "등재된 것을 안 쓴" 경우만 잡고 "등재 0" 은 못 잡음. photo_target_per_min 미달은 사유만 받고 통과(경고). 네트워크 차단(Flickr)을 이유로 Commons 탐색을 하지 않음
+  guards: []
+  status: open
+  recurs_of: UF-119
+  decision: D-0261(감독 지시 — [media-density] hard, 등재 0 금지, Commons 탐색 의무, econ 연출 재작업) · PIPELINE-AP-025 · DECISIONS D271
+  source: 감독 세션(Fable) 사용자 대화 2026-10-29
