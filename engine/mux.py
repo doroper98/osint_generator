@@ -232,6 +232,7 @@ def project_provenance(P, stages: dict[str, bool]) -> dict:  # noqa: ANN001, N80
     from engine.checks import chart_only_runs  # noqa: PLC0415
 
     prov["chart_only_runs"] = [list(r) for r in chart_only_runs(P)]   # v7.4.0 D-0252 — 차트·카드만 보인 구간(검사 [chart-only-run] 과 같은 값)
+    prov["chart_only_exempt"] = P.root.name in load_rules().qa_checks.chart_only_run.exempt_projects   # v7.4.0 D-0271 ② — 면제 프로젝트도 구간은 기록(hard 만 면제)
     from engine.checks import flat_lanes, media_density  # noqa: PLC0415
     from rules import load_rules as _load_rules  # noqa: PLC0415
     _R = _load_rules()

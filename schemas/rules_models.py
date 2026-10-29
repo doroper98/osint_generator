@@ -1663,6 +1663,7 @@ class ChartOnlyRun(_Strict):
     chart_island_kinds: list[str] = Field(default_factory=list)
     chart_primitives: list[str] = Field(default_factory=list)
     neutral_types: list[str] = Field(default_factory=list)
+    exempt_projects: dict[str, str] = Field(default_factory=dict)   # v7.4.0 D-0271 — 회귀 기준 프로젝트(폴더 이름) → 사유. hard 만 면제(기록은 남김), 범위는 시험이 고정
     map_stages: list[str] = Field(min_length=1)
 
 

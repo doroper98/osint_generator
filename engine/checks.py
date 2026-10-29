@@ -2198,7 +2198,7 @@ def run_checks(P, times: list[float], provenance: dict, drawn: list[tuple[str, f
         "catalog_label_overlap": lambda: check_catalog_label_overlap(P),   # v7.4.0 D-0251 §1.1(hard, 카탈로그 판만)
         "chart_only_run": lambda: [f"[chart-only-run] {a:.1f}~{b:.1f}초 ({b - a:.1f}초) 차트·카드만 보인다 — 상한 {QA.chart_only_run.max_sec:g}초. "
                                    "사건 핀·인물·사진·기사·인용·지도 중 하나를 넣는다(UF-135)" for a, b in chart_only_runs(P)
-                                   if b - a > QA.chart_only_run.max_sec],   # v7.4.0 D-0252(hard)
+                                   if b - a > QA.chart_only_run.max_sec and P.root.name not in QA.chart_only_run.exempt_projects],   # v7.4.0 D-0252(hard). D-0271 회귀 기준 면제
         "chart_world_split": lambda: check_chart_world_split(P),   # v7.4.0 D-0251 §6.2-2(hard, UF-135 ②)
         "series_label_overlap": lambda: check_series_label_overlap(P),   # v7.4.0 D-0256(hard)
         "chart_edge_bleed": lambda: check_chart_edge_bleed(P),   # v7.4.0 D-0257(hard, UF-137)
