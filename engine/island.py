@@ -253,6 +253,7 @@ def card_overlap_details(rows: list[dict]) -> list[str]:
 # ------------------------------------------------------------------ 마커 라벨 ↔ 상자·출처 줄(v5.2.0 D-0133 §2·§3)
 LABEL_STEP_FRAMES = 2   # 표본 간격(프레임) — 카메라가 움직이는 동안 라벨 자리가 바뀐다
 PIN_TOL_PX = 2.0        # v7.4.0 D-0267 — 핀 라벨 경계 접촉(≤ 2px)은 겹침이 아니다(checks SUB_TOL_PX 와 같은 취지)
+PIN_GAP_PX = 6.0        # 같은 줄 핀 라벨·점 사이 최소 가로 간격(econ 콘티 판 v2 — "12월 10일 인하"·"워시 의장 취임" 라벨이 맞닿음)
 PIN_DOT_PX = 7.0        # 핀 점(맥동 고리 안쪽 점 + 테두리) 반폭 — 라벨이 다른 핀의 점을 덮으면 겹침
 PIN_SAMPLE_LEAD_SEC = 0.6   # 두 핀이 함께 보이기 시작한 뒤 라벨이 다 나타난 시각(draw_marker 라벨 페이드 0.2+0.4초)
 
@@ -385,8 +386,8 @@ def assign_pin_sides(events: list[dict], chart: dict) -> list[str]:
 def _pin_hit(ta: tuple, da: tuple, tb: tuple, db: tuple) -> bool:
     """핀 겹침 — 라벨 글자 상자끼리, 또는 한 핀 라벨이 다른 핀의 점(± PIN_DOT_PX)을 덮는다(econ 콘티 판 v2 56초 '이란 전쟁 시작' 라벨이
     '워시 의장 취임' 점 위를 지났다)."""
-    def ov(a: tuple, b: tuple) -> bool:
-        return min(a[2], b[2]) - max(a[0], b[0]) > PIN_TOL_PX and min(a[3], b[3]) - max(a[1], b[1]) > PIN_TOL_PX
+    def ov(a: tuple, b: tuple) -> bool:   # 가로는 PIN_GAP_PX 보다 가까우면 겹침(맞닿은 라벨 "인하워시" 금지), 세로는 실제 교차
+        return min(a[2], b[2]) - max(a[0], b[0]) > -PIN_GAP_PX and min(a[3], b[3]) - max(a[1], b[1]) > PIN_TOL_PX
     return ov(ta, tb) or ov(ta, db) or ov(da, tb)
 
 

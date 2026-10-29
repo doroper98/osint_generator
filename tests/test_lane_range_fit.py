@@ -150,6 +150,7 @@ class IslandPinCollisionTest(unittest.TestCase):
         b_text, b_dot = (120, 0, 200, 20), (90, 3, 104, 17)   # a 라벨이 b 점(90~104) 위
         self.assertTrue(_pin_hit(a_text, a_dot, b_text, b_dot))
         self.assertFalse(_pin_hit(a_text, a_dot, (220, 0, 300, 20), (205, 3, 219, 17)))
+        self.assertTrue(_pin_hit(a_text, a_dot, (101, 0, 180, 20), (186, 3, 200, 17)))   # 1px 떨어져 맞닿은 라벨도 겹침(간격 하한)
 
     def test_unavoidable_collision_is_hard(self) -> None:
         from engine.island import assign_pin_sides, label_check  # noqa: PLC0415
