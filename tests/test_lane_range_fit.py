@@ -104,6 +104,15 @@ class IslandPathTest(unittest.TestCase):
         got = checks.timeline_lanes_covered(P, lambda e, t: [(box[0] + 10, box[1] + 2, box[0] + 80, box[3] - 2)])
         self.assertEqual([(g[0]["tag"], g[1]) for g in got], [("점도표", "policy_rate")])
 
+    def test_island_markers_not_measured_on_main_stage(self) -> None:
+        """아일랜드 안 핀(in_island)은 주 무대 좌표로 offscreen·label_collision 을 재지 않는다(econ v5 — 주 무대 좌표로 재면 가짜 화면 밖·겹침)."""
+        from unittest import mock  # noqa: PLC0415
+
+        P = NS(events=[{"type": "marker", "in_island": True, "label": "핀", "t0": 0.0, "t1": 5.0, "world": (0.0, 0.0)}])
+        with mock.patch.object(checks, "place_over", side_effect=AssertionError("주 무대 좌표로 재면 안 된다")):
+            self.assertEqual(checks.offscreen_hits(P), [])
+        self.assertEqual(checks._place_label_boxes(None, NS(events=P.events, R=NS(cache={})), None, 1.0), [])
+
 
 if __name__ == "__main__":
     unittest.main()

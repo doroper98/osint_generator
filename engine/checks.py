@@ -480,8 +480,8 @@ def _place_label_boxes(ctx: cairo.Context, P, v: View, t: float) -> list[tuple[s
 
     out: list[tuple[str, tuple]] = []
     for e in P.events:
-        if e["type"] not in ("marker", "route", "barrier") or not e.get("label") or not e["t0"] <= t <= e["t1"]:
-            continue
+        if e["type"] not in ("marker", "route", "barrier") or not e.get("label") or not e["t0"] <= t <= e["t1"] or e.get("in_island"):
+            continue   # 아일랜드 안 핀은 주 무대 지명과 겹침을 따지지 않는다(아일랜드 라벨은 island label_check)
         if e["type"] == "marker":
             if window(t, e["t0"], e["t1"], 0.35, 0.5) <= 0.01 or t - e["t0"] < 0.2:   # 라벨은 0.2초 뒤부터(draw_marker)
                 continue
@@ -861,7 +861,7 @@ def offscreen_hits(P) -> list[tuple[dict, float, float, tuple]]:  # noqa: ANN001
     out: list[tuple[dict, float, float, tuple]] = []
     ctx = cairo.Context(cairo.ImageSurface(cairo.FORMAT_ARGB32, 1, 1))
     for e in P.events:
-        if e["type"] not in ("badge", "marker"):
+        if e["type"] not in ("badge", "marker") or e.get("in_island"):   # 아일랜드 안 핀은 아일랜드 뷰로 그린다 — 주 무대 좌표로 재지 않는다(island label_check)
             continue
         t = e["t0"] + 0.5
         while t < e["t1"] - 0.5:
@@ -2410,6 +2410,8 @@ def flat_lanes(P) -> list[tuple[str, float, tuple[float, float]]]:  # noqa: ANN0
     from data.series import load_series  # noqa: PLC0415
     from engine.layers.series import record_ids  # noqa: PLC0415
 
+    from engine.layers.series import record_points  # noqa: PLC0415
+
     world = chart_world(P)
     rng = P.R.cache.get("series_range") or {}
     if world is None or not rng:
@@ -2419,7 +2421,7 @@ def flat_lanes(P) -> list[tuple[str, float, tuple[float, float]]]:  # noqa: ANN0
     out = []
     for lane, (lo, hi) in rng.items():
         vs = [v for e in events if e.get("type") == "series" and e.get("lane") == lane for sid in record_ids(e)
-              for d, v in load_series(sid).values if span is None or span[0] <= d <= span[1]]
+              for d, v in record_points(load_series(sid)) if span is None or span[0] <= d <= span[1]]   # 전망 점(scatter)도 그려진 데이터
         if not vs or hi <= lo:
             continue
         out.append((lane, (max(vs) - min(vs)) / (hi - lo), (min(vs), max(vs))))
