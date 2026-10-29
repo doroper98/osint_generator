@@ -16,9 +16,6 @@ stage_config:
       label: 소비자물가 상승률 (CPI, 전년 대비)
       kind: line
       unit: '% (전년 대비)'
-    - id: events
-      label: FOMC · 사건
-      kind: pins
 places: {}
 paths: {}
 shots:
@@ -229,7 +226,7 @@ events:
   end:
     scene_end: decision
   date: '2026-09-16'
-  lane: events
+  lane: policy_rate
   label: 9월 16일
   sub: 금리 인상
   side: left
@@ -342,7 +339,7 @@ events:
   end:
     scene_end: cuts_2025
   date: '2025-09-01'
-  lane: events
+  lane: policy_rate
   label: 인하
   sub: 2025년 9월
   side: top
@@ -354,7 +351,7 @@ events:
   end:
     scene_end: cuts_2025
   date: '2025-10-29'
-  lane: events
+  lane: policy_rate
   label: 10월 29일 인하
   sub: −0.25%p
   side: right
@@ -379,7 +376,7 @@ events:
   end:
     scene_end: cuts_2025
   date: '2025-12-10'
-  lane: events
+  lane: policy_rate
   label: 12월 10일 인하
   sub: 3.5~3.75%
   side: right
@@ -406,7 +403,7 @@ events:
     edge: end
     'off': 0.3
   date: '2026-02-28'
-  lane: events
+  lane: policy_rate
   label: 이란 전쟁 시작
   sub: 2월 28일 · 미국·이스라엘 공격
   side: right
@@ -435,7 +432,7 @@ events:
     edge: end
     'off': 0.3
   date: '2026-05-01'
-  lane: events
+  lane: policy_rate
   label: 워시 의장 취임
   sub: 5월
   side: top
@@ -447,7 +444,7 @@ events:
   end:
     scene_end: hold_2026
   date: '2026-06-01'
-  lane: events
+  lane: policy_rate
   label: 워시 첫 주재 회의
   sub: 6월
   side: right
@@ -482,7 +479,7 @@ events:
   end:
     scene_end: july_dissent
   date: '2026-07-29'
-  lane: events
+  lane: policy_rate
   label: 7월 29일 동결
   sub: 9 대 3
   side: left
@@ -820,7 +817,7 @@ events:
   end:
     total: true
   date: '2026-09-16'
-  lane: events
+  lane: policy_rate
   label: 9월 16일 인상
   sub: 3.75~4%
   side: left
@@ -832,7 +829,7 @@ events:
   end:
     total: true
   date: '2026-10-27'
-  lane: events
+  lane: policy_rate
   label: 다음 FOMC
   sub: 10월 말
   side: top

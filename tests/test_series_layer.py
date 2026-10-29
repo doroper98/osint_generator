@@ -21,8 +21,7 @@ from engine.style import C, FPS, H_OUT, TIMELINE, W_OUT
 from data.series import load_series
 
 LANES = [{"id": "policy_rate", "label": "기준금리", "kind": "step", "unit": "%"},
-         {"id": "inflation", "label": "물가상승률", "kind": "line", "unit": "% (전년 대비)"},
-         {"id": "events", "label": "사건", "kind": "pins"}]
+         {"id": "inflation", "label": "물가상승률", "kind": "line", "unit": "% (전년 대비)"}]
 CFG = {"start": "2019-01-01", "end": "2026-10-01", "lanes": LANES}
 
 
@@ -110,9 +109,14 @@ class SeriesWiringTest(unittest.TestCase):
         with self.assertRaisesRegex(ProjectError, "시간축 무대\\(또는 차트 아일랜드\\) 전용"):
             setup([FED], stage_name="mercator")
 
-    def test_series_on_pins_lane_is_error(self) -> None:
-        with self.assertRaisesRegex(ProjectError, "pins"):
-            setup([{**FED, "lane": "events"}])
+    def test_pins_lane_kind_removed(self) -> None:
+        """v7.4.0 D-0274 §1① — 사건 레인(kind pins)은 없다. 핀은 값 레인 위 점(UF-142)."""
+        from pydantic import ValidationError  # noqa: PLC0415
+
+        from schemas.genre_models import TimelineLane  # noqa: PLC0415
+
+        with self.assertRaises(ValidationError):
+            TimelineLane(id="events", label="사건", kind="pins")
 
     def test_unknown_series_is_error(self) -> None:
         with self.assertRaisesRegex(ProjectError, "레코드 없음"):
@@ -124,9 +128,9 @@ class SeriesWiringTest(unittest.TestCase):
 
     def test_pin_marker_attaches(self) -> None:
         st = make_stage("timeline", config=CFG)
-        ev = validate_events([{"type": "marker", "t0": 0, "t1": 5, "date": "2022-03-16", "lane": "events", "label": "첫 인상"}])
+        ev = validate_events([{"type": "marker", "t0": 0, "t1": 5, "date": "2022-03-16", "lane": "policy_rate", "label": "첫 인상"}])
         attach_world(ev, st)
-        self.assertEqual(ev[0]["world"], st.to_world(date="2022-03-16", lane="events"))
+        self.assertEqual(ev[0]["world"], st.to_world(date="2022-03-16", lane="policy_rate"))
         self.assertNotIn("lon", ev[0])
 
 

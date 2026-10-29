@@ -27,8 +27,7 @@ from rules import load_rules
 REPO = Path(__file__).resolve().parent.parent
 SYN = yaml.safe_load((REPO / "tests" / "fixtures" / "honesty" / "synthetic.yaml").read_text(encoding="utf-8"))
 LANES = [{"id": "policy_rate", "label": "기준금리", "kind": "step", "unit": "%"},
-         {"id": "inflation", "label": "물가상승률", "kind": "line", "unit": "% (전년 대비)"},
-         {"id": "events", "label": "사건", "kind": "pins"}]
+         {"id": "inflation", "label": "물가상승률", "kind": "line", "unit": "% (전년 대비)"}]
 CFG = {"start": "2019-01-01", "end": "2026-10-01", "lanes": LANES,
        "compress": [{"from": "2019-01-01", "to": "2021-01-01", "factor": 0.4}]}
 FED = {"type": "series", "t0": 0.0, "t1": 10.0, "lane": "policy_rate", "series_id": "FEDFUNDS", "style": "step", "grow": False}

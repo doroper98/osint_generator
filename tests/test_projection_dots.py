@@ -22,8 +22,7 @@ EV = [{"type": "series", "lane": "policy_rate", "series_id": "SEP_20260916", "st
 
 def _stage() -> TimelineStage:
     st = TimelineStage(config={"start": "2025-09-01", "end": "2031-06-30",
-                               "lanes": [{"id": "policy_rate", "label": "연방기금금리", "kind": "step", "unit": "%"},
-                                         {"id": "events", "label": "사건", "kind": "pins"}]})
+                               "lanes": [{"id": "policy_rate", "label": "연방기금금리", "kind": "step", "unit": "%"}]})
     st.fit_frame(tuple(TIMELINE.frame.box), ISLAND.chart.pad_top, ISLAND.chart.pad_bottom)
     return st
 

@@ -19,7 +19,6 @@ stage:
     lanes:
       - {id: policy_rate, label: 기준금리, kind: step, unit: "%"}
       - {id: inflation,   label: 물가상승률, kind: line, unit: "% (전년 대비)"}
-      - {id: events,      label: 사건, kind: pins}
 color_semantics:
   hike: "#ff7a59"                # 인상 — 따뜻한 색
   cut: "#5aa9ff"                 # 인하 — 차가운 색

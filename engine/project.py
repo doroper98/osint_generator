@@ -12,6 +12,7 @@ import re
 
 import json
 from dataclasses import dataclass, field
+from datetime import date
 from pathlib import Path
 from typing import Optional
 
@@ -673,8 +674,6 @@ def prepare_series(R: RenderCtx, events: list[dict], cams: np.ndarray, n: int, s
             kind = st.lanes[st.lane_index(e["lane"])].kind  # type: ignore[attr-defined]
         except (SeriesError, ValueError) as ex:
             raise ProjectError(f"series {e['series_id']} @ {e['lane']}: {ex}") from ex
-        if kind == "pins":
-            raise ProjectError(f"series {e['series_id']}: 레인 {e['lane']!r} 은 pins(핀 = marker) — step|line 레인에만")
         e["key"], e["slot"] = i, slots.get(e["lane"], 0)
         e["axis"] = e["slot"] == 0
         slots[e["lane"]] = e["slot"] + 1
@@ -711,6 +710,45 @@ def prepare_series(R: RenderCtx, events: list[dict], cams: np.ndarray, n: int, s
             front[i] = best
         front[i1:] = best
         R.cache["series_front"][e["key"]] = front
+    pins_on_series(events, st, R.cache["series_range"])
+
+
+def series_value_at(evs: list[dict], d: date) -> float:
+    """그 날짜의 레인 값(v7.4.0 D-0274 §1① — 핀을 선 위 점으로). 계단·선(전망 점 제외)이 있으면 그 계열의 그 달 값(그 날짜 이전 마지막 값),
+    띠만 있으면 띠 가운데. 날짜가 자료 밖이면 오류(점을 지어내지 않는다, P6)."""
+    from data.series import load_series  # noqa: PLC0415
+    from engine.layers.series import band_pairs  # noqa: PLC0415
+
+    line = next((e for e in evs if e["style"] not in ("band", "projection")), None)
+    if line is not None:
+        vals = [(dd, v) for dd, v in load_series(line["series_id"]).values if dd <= d]
+        if vals:
+            return vals[-1][1]
+    band = next((e for e in evs if e["style"] == "band"), None)
+    if band is not None:
+        pr = [(dd, lo, hi) for dd, lo, hi in band_pairs(band) if dd <= d]
+        if pr:
+            return (pr[-1][1] + pr[-1][2]) / 2
+    raise ProjectError(f"핀 날짜 {d} 에 레인 값이 없다 — 계열 자료 시작 전(핀은 선 위 점, D-0274)")
+
+
+def pins_on_series(events: list[dict], st: object, ranges: dict[str, tuple[float, float]]) -> None:
+    """사건 핀(date 앵커 marker)을 값 레인 위의 점으로(v7.4.0 back_and_forth D-0274 §1①, UF-142 "두 개를 그냥 합쳐서 세로축을 늘리란 말이야").
+    월드 y = 그 날짜 계열 값(series.value_y). 계열 없는 레인의 핀은 오류 — 사건 레인(pins)은 없다."""
+    from engine.layers.series import value_y  # noqa: PLC0415
+
+    by_lane: dict[str, list[dict]] = {}
+    for e in events:
+        if e["type"] == "series":
+            by_lane.setdefault(e["lane"], []).append(e)
+    for e in events:
+        if e["type"] != "marker" or e.get("date") is None or e.get("lane") is None:
+            continue
+        if e["lane"] not in by_lane:
+            raise ProjectError(f"marker {e.get('label')!r} @ {e['date']}: 레인 {e['lane']!r} 에 계열이 없다 — 핀은 값 레인 위 점(D-0274)")
+        d = date.fromisoformat(str(e["date"]))
+        e["pin_value"] = series_value_at(by_lane[e["lane"]], d)
+        e["world"] = (st.x_of(e["date"]), value_y(st, e["lane"], ranges[e["lane"]], e["pin_value"]))  # type: ignore[attr-defined]
 
 
 def head_tops(R: RenderCtx, events: list[dict]) -> list[dict]:  # noqa: N803

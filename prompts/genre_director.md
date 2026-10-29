@@ -38,8 +38,7 @@ note: 장르 프롬프트 층(v4.4.0, back_and_forth D-0090 작업 1) — prompt
 ```json
 {"version": 1, "genre": "{{GENRE.name}}", "stage": "timeline",
  "stage_config": {"timeline": {"start": "2022-01-01", "end": "2026-10-01",
-   "lanes": [{"id": "policy_rate", "label": "연방기금 실효금리", "kind": "step", "unit": "%"},
-             {"id": "events", "label": "기록", "kind": "pins"}]}},
+   "lanes": [{"id": "policy_rate", "label": "연방기금 실효금리", "kind": "step", "unit": "%"}]}},
  "shots": [{"at": 0, "mode": "cut", "dur": 0, "camera": {"date": "2022-06-01", "w": 900}},
            {"at": {"scene_start": "hike", "off": -0.3}, "mode": "move", "dur": 3.0, "camera": {"date": "2023-07-26", "w": 60}},
            {"at": {"scene_start": "now", "off": -0.3}, "mode": "move", "dur": 3.2, "camera": {"date": "2025-01-01", "w": 1400}}],
@@ -51,6 +50,6 @@ note: 장르 프롬프트 층(v4.4.0, back_and_forth D-0090 작업 1) — prompt
    {"type": "badge", "start": {"sid": "hike_0", "off": 0.4}, "end": {"sid": "hike_1", "edge": "end"}, "place": "map_upper_left",
     "kind": "person", "pid": "warsh", "flag": "us", "label": "케빈 워시", "role": "연준 의장", "accent": "gold"},
    {"type": "marker", "start": {"sid": "hike_0", "off": -0.2}, "end": {"sid": "hike_1", "edge": "end", "off": 0.6},
-    "date": "2023-07-26", "lane": "events", "label": "FOMC 회의", "sub": "2023년 7월 26일", "side": "right", "hl": true}],
+    "date": "2023-07-26", "lane": "policy_rate", "label": "FOMC 회의", "sub": "2023년 7월 26일", "side": "right", "hl": true}],
  "sound": {"bgm": null, "intensity": [[0, 0.5], [{"total": true}, 0.5]], "cues": []}}
 ```

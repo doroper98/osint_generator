@@ -17,8 +17,7 @@ from engine.style import ISLAND, TIMELINE, W_OUT
 
 CFG = {"start": "2019-01-01", "end": "2026-12-31",
        "lanes": [{"id": "policy_rate", "label": "연방기금금리 (목표 범위·실효)", "kind": "step", "unit": "%"},
-                 {"id": "inflation", "label": "소비자물가 상승률 (전년 동월 대비)", "kind": "line", "unit": "%"},
-                 {"id": "events", "label": "사건", "kind": "pins"}]}
+                 {"id": "inflation", "label": "소비자물가 상승률 (전년 동월 대비)", "kind": "line", "unit": "%"}]}
 
 
 def _stage(frame: bool = True) -> TimelineStage:
@@ -100,12 +99,6 @@ class TimelineFrameCoverTest(unittest.TestCase):
         got = checks.timeline_lanes_covered(P, lambda e, t: [box])
         self.assertEqual([(g[0]["tag"], g[1]) for g in got], [("수치", "policy_rate")])
         self.assertIn("timeline_frame_cover_types", type(checks.R_.qa_checks.card_over_panel).model_fields)
-
-    def test_cover_on_event_lane_passes(self) -> None:
-        P = self._P()
-        P.events.append({"type": "card", "tag": "핀 옆", "t0": 2.0, "t1": 5.0})
-        box = self._lane(P, "events")   # 레코드 없는 사건 레인 — 허용
-        self.assertEqual(checks.timeline_lanes_covered(P, lambda e, t: [box]), [])
 
     def test_cover_straddling_frame_is_edge_bleed(self) -> None:
         from unittest import mock  # noqa: PLC0415

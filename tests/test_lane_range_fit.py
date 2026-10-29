@@ -24,8 +24,7 @@ SER = [{"type": "series", "lane": "policy_rate", "series_id": "FEDFUNDS", "t0": 
 
 def _stage(start: str) -> TimelineStage:
     st = TimelineStage(config={"start": start, "end": "2026-12-31",
-                               "lanes": [{"id": "policy_rate", "label": "연방기금금리", "kind": "step", "unit": "%"},
-                                         {"id": "events", "label": "사건", "kind": "pins"}]})
+                               "lanes": [{"id": "policy_rate", "label": "연방기금금리", "kind": "step", "unit": "%"}]})
     st.fit_frame(tuple(TIMELINE.frame.box), ISLAND.chart.pad_top, ISLAND.chart.pad_bottom)
     return st
 
@@ -81,8 +80,7 @@ class IslandPathTest(unittest.TestCase):
         from engine.island import island_box  # noqa: PLC0415
 
         cst = TimelineStage(config={"start": start, "end": "2026-12-31",
-                                    "lanes": [{"id": "policy_rate", "label": "연방기금금리", "kind": "step", "unit": "%"},
-                                              {"id": "events", "label": "사건", "kind": "pins"}]})
+                                    "lanes": [{"id": "policy_rate", "label": "연방기금금리", "kind": "step", "unit": "%"}]})
         box = island_box({"box": "left"})
         cst.fit_island(box[3], ISLAND.chart.pad_top, ISLAND.chart.pad_bottom)
         cams = np.tile(np.array([cst.x_of("2025-12-15"), 1.0, 400.0]), (24 * 10, 1))
@@ -124,12 +122,11 @@ class IslandPinCollisionTest(unittest.TestCase):
         from engine.island import island_box  # noqa: PLC0415
 
         cst = TimelineStage(config={"start": "2025-06-01", "end": "2026-12-31",
-                                    "lanes": [{"id": "policy_rate", "label": "연방기금금리", "kind": "step", "unit": "%"},
-                                              {"id": "events", "label": "기록", "kind": "pins"}]})
+                                    "lanes": [{"id": "policy_rate", "label": "연방기금금리", "kind": "step", "unit": "%"}]})
         cst.fit_island(island_box({"box": "left"})[3], ISLAND.chart.pad_top, ISLAND.chart.pad_bottom)
         cams = np.tile(np.array([cst.x_of("2026-01-01"), 1.0, 420.0]), (24 * 12, 1))
-        pins = [{"type": "marker", "label": f"{d[5:7]}월 {d[8:]}일 인하", "sub": "3.75~4%", "side": "right", "date": d, "lane": "events",
-                 "t0": 1.0 + k + k / 24, "t1": 11.0, "world": cst.to_world(date=d, lane="events")} for k, d in enumerate(dates)]
+        pins = [{"type": "marker", "label": f"{d[5:7]}월 {d[8:]}일 인하", "sub": "3.75~4%", "side": "right", "date": d, "lane": "policy_rate",
+                 "t0": 1.0 + k + k / 24, "t1": 11.0, "world": cst.to_world(date=d, lane="policy_rate")} for k, d in enumerate(dates)]
         isl = {"type": "island", "kind": "chart", "box": "left", "t0": 0.0, "t1": 12.0}
         return [isl, *pins], {"stage": cst, "cams": cams, "events": pins}
 
@@ -177,8 +174,7 @@ class IslandLeftTallTest(unittest.TestCase):
 
     def test_island_cap_independent_of_main_stage(self) -> None:
         """D-0269 — 아일랜드 레인 상한(island.chart.lane_h_max)은 fit_island 만, 주 무대(stage_timeline.lane_h) 와 독립."""
-        cfg = {"start": "2025-06-01", "end": "2026-12-31", "lanes": [{"id": "policy_rate", "label": "금리", "kind": "step", "unit": "%"},
-                                                                     {"id": "events", "label": "기록", "kind": "pins"}]}
+        cfg = {"start": "2025-06-01", "end": "2026-12-31", "lanes": [{"id": "policy_rate", "label": "금리", "kind": "step", "unit": "%"}]}
         isl = TimelineStage(config=cfg)
         isl.fit_island(ISLAND.boxes["left_tall"][3], ISLAND.chart.pad_top, ISLAND.chart.pad_bottom)
         main = TimelineStage(config=cfg)
@@ -226,6 +222,32 @@ class EndLabelVsTickTest(unittest.TestCase):
         drawn = axis_label_boxes(ctx, v, st, "policy_rate", (3.0, 5.0), "%", [box])
         self.assertFalse(any(_hits(box, b) for b in drawn))
         self.assertLess(len(drawn), len(ticks)) if nb == by else self.assertEqual(len(drawn), len(ticks))
+
+
+class PinsOnSeriesTest(unittest.TestCase):
+    """v7.4.0 D-0274 §1①(UF-142) — 사건 핀은 값 레인 위의 점: 월드 y = 그 날짜 계열 값. 계열 없는 레인의 핀은 오류."""
+
+    def test_pin_y_is_series_value(self) -> None:
+        from data.series import load_series  # noqa: PLC0415
+        from engine.layers.series import value_y  # noqa: PLC0415
+        from engine.project import pins_on_series  # noqa: PLC0415
+
+        st = _stage("2025-01-01")
+        rng = lane_range(SER, "policy_rate", st)
+        ser = {**SER[0], "style": "step"}
+        mk = {"type": "marker", "date": "2025-10-29", "lane": "policy_rate", "label": "10월 29일 인하"}
+        pins_on_series([ser, mk], st, {"policy_rate": rng})
+        want = [v for d, v in load_series("FEDFUNDS").values if d <= date(2025, 10, 29)][-1]
+        self.assertEqual(mk["pin_value"], want)
+        self.assertAlmostEqual(mk["world"][1], value_y(st, "policy_rate", rng, want))
+        self.assertAlmostEqual(mk["world"][0], st.x_of("2025-10-29"))
+
+    def test_pin_on_lane_without_series_is_error(self) -> None:
+        from engine.project import ProjectError, pins_on_series  # noqa: PLC0415
+
+        st = _stage("2025-01-01")
+        with self.assertRaisesRegex(ProjectError, "계열이 없다"):
+            pins_on_series([{"type": "marker", "date": "2025-10-29", "lane": "policy_rate", "label": "x"}], st, {})
 
 
 class AxisLabelColumnTest(unittest.TestCase):

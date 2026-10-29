@@ -33,7 +33,7 @@ class TimelineLane(_Strict):
 
     id: str
     label: str
-    kind: Literal["step", "line", "pins"]
+    kind: Literal["step", "line"]   # v7.4.0 D-0274 §1① — 사건 레인(pins) 삭제: 핀은 값 레인 위 점(UF-142)
     unit: Optional[str] = None
 
 
