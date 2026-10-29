@@ -2098,3 +2098,14 @@ entries:
   recurs_of: UF-119
   decision: D-0261(감독 지시 — [media-density] hard, 등재 0 금지, Commons 탐색 의무, econ 연출 재작업) · PIPELINE-AP-025 · DECISIONS D271
   source: 감독 세션(Fable) 사용자 대화 2026-10-29
+- id: UF-140
+  date: '2026-10-29'
+  project: showcase_econ
+  at: 콘티 판 v1·v2 후보 — 금리 레인(값 범위 0~5.5%, 레인 높이 약 96px → 0.25%p 계단이 약 4px)·물가 레인(0~8.98%). 13개월을 틀 폭 734px 에 펼치면 변동이 작은 선이 수평 직선으로 보임
+  quote: 그리고 금리 같이 변동이 크지 않은 데이터나 차트의 가로축을 그렇개 늘려버리면 그냥 가로로 펼쳐진 직선으로밖에 안보인다.
+  quote_kind: verbatim
+  category: 시간축 — 레인 세로 범위가 0 기준 고정이라 저변동 데이터가 평평한 선으로 보임(선·계단 그래프의 값 범위는 데이터에 맞추고 축 값을 보여야 한다)
+  guards: []
+  status: open
+  decision: D-0263(감독 지시 — 레인 값 범위 데이터 맞춤 + 최소 표시 높이 검사 [flat-lane] hard)
+  source: 감독 세션(Fable) 사용자 대화 2026-10-29
