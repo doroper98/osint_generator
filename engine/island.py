@@ -253,6 +253,7 @@ def card_overlap_details(rows: list[dict]) -> list[str]:
 # ------------------------------------------------------------------ 마커 라벨 ↔ 상자·출처 줄(v5.2.0 D-0133 §2·§3)
 LABEL_STEP_FRAMES = 2   # 표본 간격(프레임) — 카메라가 움직이는 동안 라벨 자리가 바뀐다
 PIN_TOL_PX = 2.0        # v7.4.0 D-0267 — 핀 라벨 경계 접촉(≤ 2px)은 겹침이 아니다(checks SUB_TOL_PX 와 같은 취지)
+PIN_DOT_PX = 7.0        # 핀 점(맥동 고리 안쪽 점 + 테두리) 반폭 — 라벨이 다른 핀의 점을 덮으면 겹침
 PIN_SAMPLE_LEAD_SEC = 0.6   # 두 핀이 함께 보이기 시작한 뒤 라벨이 다 나타난 시각(draw_marker 라벨 페이드 0.2+0.4초)
 
 
@@ -310,7 +311,7 @@ def label_check(events: list[dict], chart: dict) -> dict:
             if x < -80 or x > v.vw + 80 or y < -40 or y > v.vh + 40:
                 continue   # 렌더러도 그리지 않는다
             x0, y0, x1, y1, how = island_label_rect(ctx, e, x, y, bw)
-            pins.setdefault(f, []).append((e["label"], (x0, y0, x1, y1)))
+            pins.setdefault(f, []).append((e["label"], (x0, y0, x1, y1), (x - PIN_DOT_PX, y - PIN_DOT_PX, x + PIN_DOT_PX, y + PIN_DOT_PX)))
             if how != "none":
                 flips.add(e["label"])
             inside = x0 >= 0 and y0 >= 0 and x1 <= bw and y1 <= bh
@@ -326,8 +327,8 @@ def label_check(events: list[dict], chart: dict) -> dict:
         live = pins[f]
         for i in range(len(live)):
             for j in range(i + 1, len(live)):
-                (na, a), (nb, b) = live[i], live[j]
-                if min(a[2], b[2]) - max(a[0], b[0]) > PIN_TOL_PX and min(a[3], b[3]) - max(a[1], b[1]) > PIN_TOL_PX:
+                (na, a, da), (nb, b, db) = live[i], live[j]
+                if _pin_hit(a, da, b, db):
                     add(collisions, {"a": na, "b": nb}, f / FPS)
     return {"label_clip": clips, "label_overlap": overlaps, "label_flip": sorted(flips), "pin_collision": collisions}
 
@@ -349,12 +350,12 @@ def assign_pin_sides(events: list[dict], chart: dict) -> list[str]:
             return None
         v = chart_view(chart, t, island_box(box_e))
         x, y = v.to_screen(*e["world"])
-        return island_label_rect(ctx, {**e, "side": side}, x, y, island_box(box_e)[2])[:4]
+        return island_label_rect(ctx, {**e, "side": side}, x, y, island_box(box_e)[2])[:4], (x - PIN_DOT_PX, y - PIN_DOT_PX, x + PIN_DOT_PX, y + PIN_DOT_PX)
 
     def hits(e: dict, se: str, p: dict, sp: str) -> bool:
         t = max(e["t0"], p["t0"]) + PIN_SAMPLE_LEAD_SEC
         a, b = rect_at(e, se, t), rect_at(p, sp, t)
-        return bool(a and b and min(a[2], b[2]) - max(a[0], b[0]) > PIN_TOL_PX and min(a[3], b[3]) - max(a[1], b[1]) > PIN_TOL_PX)
+        return bool(a and b and _pin_hit(a[0], a[1], b[0], b[1]))
 
     for e in sorted((e for e in chart["events"] if e["type"] == "marker" and e.get("label")), key=lambda e: e["t0"]):
         others = [p for p in placed if p["t0"] < e["t1"] and e["t0"] < p["t1"]]
@@ -378,6 +379,14 @@ def assign_pin_sides(events: list[dict], chart: dict) -> list[str]:
             break
         placed.append(e)
     return moved
+
+
+def _pin_hit(ta: tuple, da: tuple, tb: tuple, db: tuple) -> bool:
+    """핀 겹침 — 라벨 글자 상자끼리, 또는 한 핀 라벨이 다른 핀의 점(± PIN_DOT_PX)을 덮는다(econ 콘티 판 v2 56초 '이란 전쟁 시작' 라벨이
+    '워시 의장 취임' 점 위를 지났다)."""
+    def ov(a: tuple, b: tuple) -> bool:
+        return min(a[2], b[2]) - max(a[0], b[0]) > PIN_TOL_PX and min(a[3], b[3]) - max(a[1], b[1]) > PIN_TOL_PX
+    return ov(ta, tb) or ov(ta, db) or ov(da, tb)
 
 
 def pin_collision_details(rows: list[dict]) -> list[str]:

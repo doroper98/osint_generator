@@ -142,6 +142,15 @@ class IslandPinCollisionTest(unittest.TestCase):
         self.assertTrue(moved)
         self.assertEqual(label_check(events, chart)["pin_collision"], [])
 
+    def test_label_over_other_dot_counts(self) -> None:
+        """라벨끼리는 안 겹쳐도 한 핀 라벨이 다른 핀의 점을 덮으면 겹침(econ 콘티 판 v2 56초)."""
+        from engine.island import _pin_hit  # noqa: PLC0415
+
+        a_text, a_dot = (10, 0, 100, 20), (0, 3, 14, 17)
+        b_text, b_dot = (120, 0, 200, 20), (90, 3, 104, 17)   # a 라벨이 b 점(90~104) 위
+        self.assertTrue(_pin_hit(a_text, a_dot, b_text, b_dot))
+        self.assertFalse(_pin_hit(a_text, a_dot, (220, 0, 300, 20), (205, 3, 219, 17)))
+
     def test_unavoidable_collision_is_hard(self) -> None:
         from engine.island import assign_pin_sides, label_check  # noqa: PLC0415
 
