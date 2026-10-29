@@ -192,20 +192,6 @@ events:
   sub: 2026년 5월
   side: left
   hl: false
-- type: badge
-  start:
-    sid: act1_6
-    'off': 0.3
-  end:
-    sid: act1_7
-    'off': 1.0
-  place: timeline_badge
-  kind: person
-  pid: warsh
-  flag: us
-  label: 케빈 워시
-  role: 연준 의장
-  accent: gold
 - type: marker
   start:
     word:
@@ -275,18 +261,6 @@ events:
   sub: 1년 전보다 3.4%
   side: left
   hl: true
-- type: primitive
-  id: dot_plot
-  start:
-    sid: act3_1
-    'off': -0.3
-  end:
-    sid: act3_2
-    edge: end
-    'off': 0.8
-  place: card_right
-  record: SEP_20260916
-  tag: 경제전망요약 점도표 · 2026년 9월 16일
 - type: marker
   start:
     sid: act3_3
