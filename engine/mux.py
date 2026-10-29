@@ -196,7 +196,7 @@ def project_provenance(P, stages: dict[str, bool]) -> dict:  # noqa: ANN001, N80
     if ic is not None and (ic["card_overlap"] or prov.get("islands")):   # v5.2.0 D-0129 §C — checks [card-island] 와 같은 값
         prov["island"] = {**(prov.get("island") or {}), "card_overlap": ic["card_overlap"]}
         if "label_clip" in ic:   # v5.2.0 D-0133 §2·§3 — checks [island-label-clip]·[island-label-overlap] 와 같은 값, label_flip = 반전·클램프가 실제로 돈 라벨
-            prov["island"].update({k: ic[k] for k in ("label_clip", "label_overlap", "label_flip")})
+            prov["island"].update({k: ic[k] for k in ("label_clip", "label_overlap", "label_flip", "pin_collision", "pin_sides_moved") if k in ic})   # pin_* = v7.4.0 D-0267
     cas = [e for e in P.events if e["type"] == "cascade"]
     if cas:   # v5.3.0 D-0139 §3·§6 — 겹침 카드(없으면 기록 없음, P5). status = rules cascade.status, hidden_labels = checks [cascade-label-hidden] 와 같은 값
         from engine.checks import cascade_label_report  # noqa: PLC0415

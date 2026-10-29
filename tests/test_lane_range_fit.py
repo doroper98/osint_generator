@@ -116,5 +116,43 @@ class IslandPathTest(unittest.TestCase):
             self.assertEqual(checks.check_label_collision(NS(events=P.events)), [])
 
 
+class IslandPinCollisionTest(unittest.TestCase):
+    """v7.4.0 back_and_forth D-0267 §2 — 아일랜드 기록 레인 핀 라벨 겹침(econ v5 52초 "10월 29일 인하"·"12월 10일 인하"): 반대쪽으로 옮기고,
+    그래도 겹치면 [island-pin-collision] hard."""
+
+    def _chart(self, dates: list[str]) -> tuple[list[dict], dict]:
+        from engine.island import island_box  # noqa: PLC0415
+
+        cst = TimelineStage(config={"start": "2025-06-01", "end": "2026-12-31",
+                                    "lanes": [{"id": "policy_rate", "label": "연방기금금리", "kind": "step", "unit": "%"},
+                                              {"id": "events", "label": "기록", "kind": "pins"}]})
+        cst.fit_island(island_box({"box": "left"})[3], ISLAND.chart.pad_top, ISLAND.chart.pad_bottom)
+        cams = np.tile(np.array([cst.x_of("2026-01-01"), 1.0, 420.0]), (24 * 12, 1))
+        pins = [{"type": "marker", "label": f"{d[5:7]}월 {d[8:]}일 인하", "sub": "3.75~4%", "side": "right", "date": d, "lane": "events",
+                 "t0": 1.0 + k, "t1": 11.0, "world": cst.to_world(date=d, lane="events")} for k, d in enumerate(dates)]
+        isl = {"type": "island", "kind": "chart", "box": "left", "t0": 0.0, "t1": 12.0}
+        return [isl, *pins], {"stage": cst, "cams": cams, "events": pins}
+
+    def test_close_pins_get_opposite_sides(self) -> None:
+        from engine.island import assign_pin_sides, label_check  # noqa: PLC0415
+
+        events, chart = self._chart(["2025-10-29", "2025-12-10"])
+        self.assertEqual(len(label_check(events, chart)["pin_collision"]), 1)   # 옮기기 전 = 겹침
+        moved = assign_pin_sides(events, chart)
+        self.assertTrue(moved)
+        self.assertEqual(label_check(events, chart)["pin_collision"], [])
+
+    def test_unavoidable_collision_is_hard(self) -> None:
+        from engine.island import assign_pin_sides, label_check  # noqa: PLC0415
+
+        events, chart = self._chart(["2025-11-01", "2025-11-03", "2025-11-05"])   # 셋이 붙어 있으면 반대쪽으로도 겹친다
+        assign_pin_sides(events, chart)
+        rows = label_check(events, chart)["pin_collision"]
+        self.assertTrue(rows)
+        P = NS(R=NS(cache={"island_check": {"pin_collision": rows}}))
+        self.assertTrue(checks.check_island_pin_collision(P)[0].startswith("[island-pin-collision]"))
+        self.assertIn("island_pin_collision", checks.HARD)
+
+
 if __name__ == "__main__":
     unittest.main()
