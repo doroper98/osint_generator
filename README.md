@@ -12,3 +12,6 @@
 - `showcase_geo/animatic.mp4` — 240.9초, 480p, 29.2 MB, 표준 음성, checks hard 0(콘티 프로파일, [media-density] 포함)
 - 실사 8(사진 7·클립 1 — 콘티 판은 자리표시) / 4.0분 = 분당 2.0. 게이트 ① 원고 지문 9e9ee0b6 와 같음
 - `sheet_20s.jpg` — 20초 간격 12컷
+
+## showcase_econ 프리뷰 v5(A1 — 사진 배경 + 차트 아일랜드 하나, D-0265) — 감독 확인용
+- `showcase_econ/preview_v5.jpg` — 프리뷰 12컷, checks hard 0. `preview_v5_zoom.png` — 아일랜드 금리 레인 확대(52초·124초)
