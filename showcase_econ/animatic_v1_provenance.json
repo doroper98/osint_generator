@@ -3,7 +3,7 @@
  "engine": "engine",
  "repo_version": "7.4.0",
  "rules_version": "2.0.0",
- "rules_hash": "41ef0d819ba0097f2876d3bed71bc44ffeb7ef1f",
+ "rules_hash": "9d0e5ead25b51c6bb14491c45981a353e9b91556",
  "prompts": {
   "director": "9a675fdecc5ff9fbdbaeee776dd1b52d7968fa56"
  },
@@ -47,7 +47,7 @@
   "mix": true,
   "mux": false,
   "ai_direction": true,
-  "visual_qa": false,
+  "visual_qa": true,
   "bundle": false
  },
  "features_used": {
@@ -129,10 +129,12 @@
   }
  },
  "qa": {
-  "auto_iterations": 0,
+  "auto_iterations": 2,
   "user_approved": false,
   "reviewer": "fable (back_and_forth)",
-  "visual_qa": []
+  "visual_qa": [
+   "revise"
+  ]
  },
  "drops": [],
  "assets": {
@@ -165,7 +167,7 @@
    "people": 1
   },
   "description_only": {
-   "fonts": 1
+   "fonts": 4
   }
  },
  "reserved": {
@@ -611,10 +613,49 @@
   "prompt_sha1": "9a675fdecc5ff9fbdbaeee776dd1b52d7968fa56",
   "direction_versions": 2,
   "used_version": null,
-  "selected": null,
-  "rounds": [],
-  "revisions": [],
-  "visual_qa": []
+  "selected": {
+   "version": 3,
+   "by": "code",
+   "reason": "상한 2회 도달 — checks_hard·qa_hard·qa_soft 사전식 최소 (checks hard 0, 검수 hard 5, soft 4)"
+  },
+  "rounds": [
+   {
+    "version": 1,
+    "checks_hard": 9,
+    "qa_hard": null,
+    "qa_soft": null
+   },
+   {
+    "version": 2,
+    "checks_hard": 3,
+    "qa_hard": null,
+    "qa_soft": null
+   },
+   {
+    "version": 3,
+    "checks_hard": 0,
+    "qa_hard": 5,
+    "qa_soft": 4
+   }
+  ],
+  "revisions": [
+   {
+    "direction_version": 2,
+    "changes": 8
+   },
+   {
+    "direction_version": 3,
+    "changes": 3
+   }
+  ],
+  "visual_qa": [
+   {
+    "file": "qa_verdict.v1.json",
+    "verdict": "revise",
+    "hard": 5,
+    "soft": 4
+   }
+  ]
  },
  "animatic_run": {
   "output": "out/animatic.mp4",
@@ -643,11 +684,11 @@
   "direction_sha1": "8c6c91777ab3414818ead9c098acdc4fa379d064",
   "script_sha1": "9bfdadfc0a87ef162121f6952aef87718274814e",
   "sec": {
-   "render": 459.0,
-   "total": 670.3,
-   "mux": 29.3
+   "render": 419.6,
+   "total": 632.1,
+   "mux": 39.4
   },
-  "jobs": 4,
+  "jobs": 3,
   "frames": 3702,
   "loudnorm": {
    "passes": 2,
@@ -665,7 +706,7 @@
    },
    "post_limiter_dbfs": -2.0
   },
-  "bytes": 9452713
+  "bytes": 9566287
  },
  "checks": {
   "hard": 0,
@@ -1071,12 +1112,6 @@
    "checks": {
     "chart_only_run": 0,
     "chart_world_split": 0
-   }
-  },
-  {
-   "id": "UF-137",
-   "checks": {
-    "chart_edge_bleed": 0
    }
   }
  ]

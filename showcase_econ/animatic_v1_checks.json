@@ -589,18 +589,6 @@
    "details": []
   },
   {
-   "id": "series_label_overlap",
-   "severity": "hard",
-   "count": 0,
-   "details": []
-  },
-  {
-   "id": "chart_edge_bleed",
-   "severity": "hard",
-   "count": 0,
-   "details": []
-  },
-  {
    "id": "press_credit",
    "severity": "hard",
    "count": 0,

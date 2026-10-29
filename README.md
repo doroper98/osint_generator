@@ -1,12 +1,14 @@
 # artifacts/showcase-v7.4.0 — E0 쇼케이스(back_and_forth D-0251)
 
-## showcase_econ 콘티 판 v1 (검토용 · 배포 금지)
-- `showcase_econ/animatic.mp4` — 154.3초, 480p, 표준 음성(Supertonic 3 M3 ×0.95), checks hard 0(콘티 프로파일)
+## showcase_econ 콘티 판 v2 (검토용 · 배포 금지) — 사용자 흐름 검토 대상
+- `showcase_econ/animatic.mp4` — 154.25초, 480p, 표준 음성, checks hard 0(콘티 프로파일). 문법 A1(사진 배경 + 차트 아일랜드 하나, left_tall, w 420 하나 — D-0265·D-0268·D-0270)
+- 금리·기록 두 레인, 금리 범위 3~5%(눈금 0.5), 전망 점(SEP 2026.9), 실사 12(배경 5 + 사진 7, 클립 0) / 2.57분 = 분당 4.67
+- `animatic_v2_sheet.jpg` — 12컷(3~140초)
+
+## showcase_econ 콘티 판 v1 (보존 — 문법 B)
+- `showcase_econ/animatic_v1.mp4` — 154.3초, 480p, 표준 음성(Supertonic 3 M3 ×0.95), checks hard 0(콘티 프로파일)
 - 문법 B(시간축 한 세계). 차트·카드만 보이는 최장 구간 10.8초(상한 12초)
 - `preview_sheet.jpg` — 같은 연출의 프리뷰 컷 12장(480p)
-
-## showcase_econ 콘티 판 v2 후보 — 사용자에게 보내지 않음(R-0262 결정 대기)
-- `showcase_econ/v2_candidate/animatic.mp4` — 154.25초, 틀 [60,60,734,330] 반영, checks hard 0. 카드 3장·점도표 자리가 틀 오른쪽 테두리에 걸침(`cards_over_frame.png`) — UF-129 재발 소지
 
 ## showcase_geo 콘티 판 v1 (검토용 · 배포 금지)
 - `showcase_geo/animatic.mp4` — 240.9초, 480p, 29.2 MB, 표준 음성, checks hard 0(콘티 프로파일, [media-density] 포함)

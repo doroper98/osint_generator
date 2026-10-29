@@ -1,7 +1,7 @@
 {
  "schema_version": 1,
  "hard": 0,
- "warnings": 5,
+ "warnings": 11,
  "passed": true,
  "profile": "animatic",
  "skipped": [
@@ -51,6 +51,15 @@
     "primitive"
    ],
    "cover_types_on_data_panels": [
+    "photo",
+    "clip",
+    "cutout",
+    "badge"
+   ],
+   "timeline_frame_cover_types": [
+    "card",
+    "cascade",
+    "primitive",
     "photo",
     "clip",
     "cutout",
@@ -362,9 +371,15 @@
   {
    "id": "media_beats",
    "severity": "warning",
-   "count": 4,
+   "count": 10,
    "details": [
-    "[media-density-total] 과소 — 0개 / 154초 = inf초당 1개 > 60초 (14 §10.1, ['article'] 제외)",
+    "[media-density-total] 과밀 — 7개 / 154초 = 22.0초당 1개 < 40초 (14 §10.1, ['article'] 제외)",
+    "[media-density-scene] 장면 act1: ['fed_boardroom', 'econ_powell_presser_552', 'econ_warsh_swearing_5'] > 1 (14 §10.1, ['article'] 제외)",
+    "[media-density-scene] 장면 act2: ['fed_presser_0729', 'econ_walmart_2508'] > 1 (14 §10.1, ['article'] 제외)",
+    "[media-density-scene] 장면 act3: ['fed_presser_0916_b', 'fed_eccles_ext'] > 1 (14 §10.1, ['article'] 제외)",
+    "[media-kind-repeat] 이웃 장면 act1→act2 같은 형태 ['photo'] (14 §10.1)",
+    "[media-kind-repeat] 이웃 장면 act2→act3 같은 형태 ['photo'] (14 §10.1)",
+    "[media-burst-window] 30.28초부터 40초 안 3개 ['fed_boardroom', 'econ_powell_presser_552', 'econ_warsh_swearing_5'] > 2 (14 §10.1 하한, D38)",
     "[article-unused] cold_0 1.2초 기사 카드 후보 ['fox_0916', 'nbc_0916', 'abc_0916'] — 0~60초 구간 1/2개. 쓰거나 media_notes.yaml sentences.cold_0.article 에 사유",
     "[article-unused] ending_0 132.6초 기사 카드 후보 ['fox_0729', 'fox_0916', 'nbc_0916', 'abc_0916'] — 120~180초 구간 0/2개. 쓰거나 media_notes.yaml sentences.ending_0.article 에 사유",
     "[article-unused] act3_3 125.9초 기사 카드 후보 ['fox_0916'] — 120~180초 구간 0/2개. 쓰거나 media_notes.yaml sentences.act3_3.article 에 사유"
@@ -375,7 +390,7 @@
    "severity": "warning",
    "count": 1,
    "details": [
-    "[endcard-roll] 크레딧이 넘쳐 롤 72px · 11.1 px/s(상한 60)"
+    "[endcard-roll] 크레딧이 넘쳐 롤 176px · 27.1 px/s(상한 60)"
    ]
   },
   {
@@ -589,6 +604,30 @@
    "details": []
   },
   {
+   "id": "series_label_overlap",
+   "severity": "hard",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "chart_edge_bleed",
+   "severity": "hard",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "media_density",
+   "severity": "hard",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "flat_lane",
+   "severity": "hard",
+   "count": 0,
+   "details": []
+  },
+  {
    "id": "press_credit",
    "severity": "hard",
    "count": 0,
@@ -728,6 +767,12 @@
   },
   {
    "id": "island_label_clip",
+   "severity": "hard",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "island_pin_collision",
    "severity": "hard",
    "count": 0,
    "details": []
