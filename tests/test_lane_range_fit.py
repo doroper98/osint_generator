@@ -204,5 +204,29 @@ class IslandLeftTallTest(unittest.TestCase):
         self.assertTrue(all(abs(a - b) >= TIMELINE.series.axis_label_min_gap_px for a, b in zip(ys, ys[1:])))
 
 
+class EndLabelVsTickTest(unittest.TestCase):
+    """v7.4.0 — 감독 지적(preview_v8_zoom): 금리 레인 끝값 라벨 "3.63%" 가 축 눈금 라벨 "3.5%" 와 겹쳤다. 끝값 라벨은 세로로 비킨다."""
+
+    def test_end_label_moves_off_tick_label(self) -> None:
+        import cairo  # noqa: PLC0415
+
+        from engine.layers.series import _hits, axis_label_boxes, clear_axis_labels  # noqa: PLC0415
+        from engine.projection import View  # noqa: PLC0415
+
+        st = _stage("2025-01-01")
+        v = View(st, _P(st).cams[0])
+        ctx = cairo.Context(cairo.ImageSurface(cairo.FORMAT_ARGB32, 1, 1))
+        ticks = axis_label_boxes(ctx, v, st, "policy_rate", (3.0, 5.0), "%")
+        S = TIMELINE.series  # noqa: N806
+        t = ticks[1]   # 3.5% 눈금 라벨 자리에 끝값 라벨을 겹쳐 놓는다
+        x0, lw, by = t[0] - 4, 34.0, t[3]
+        nb = clear_axis_labels(ctx, v, st, "policy_rate", (3.0, 5.0), "%", x0, lw, by)
+        box = (x0, nb - S.value_size, x0 + lw, nb)
+        # 비킬 자리가 없으면(눈금 간격이 좁다) 그 눈금 라벨을 생략한다 — 그린 눈금 라벨과는 어느 쪽이든 안 겹친다
+        drawn = axis_label_boxes(ctx, v, st, "policy_rate", (3.0, 5.0), "%", [box])
+        self.assertFalse(any(_hits(box, b) for b in drawn))
+        self.assertLess(len(drawn), len(ticks)) if nb == by else self.assertEqual(len(drawn), len(ticks))
+
+
 if __name__ == "__main__":
     unittest.main()

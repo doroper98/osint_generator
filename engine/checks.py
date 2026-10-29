@@ -2323,17 +2323,18 @@ def check_chart_world_split(P) -> list[str]:  # noqa: ANN001, N803
 def check_series_label_overlap(P) -> list[str]:  # noqa: ANN001, N803
     """[series-label-overlap] hard(v7.4.0 back_and_forth D-0256) — 같은 레인에 series 둘 이상이 떠 있는 순간, 실제로 그린 끝값 라벨
     글자 상자(engine.layers.series.place_end_label 기록)가 서로 교차하면 실패. 그런 구간만 1초 간격으로 프레임을 그려 잰다."""
-    ser = [e for e in P.events if e.get("type") == "series"]
-    if len(ser) < 2:
+    ser = [e for e in P.events if e.get("type") == "series" and e.get("style") != "projection"]
+    if not ser:
         return []
+    from engine.layers.series import axis_label_boxes  # noqa: PLC0415
     from engine.render import render_frame  # noqa: PLC0415
 
+    world = chart_world(P)
     times: set[float] = set()
-    for i, a in enumerate(ser):
-        for b in ser[i + 1:]:
-            if a["lane"] == b["lane"]:
-                lo, hi = max(a["t0"], b["t0"]), min(a["t1"], b["t1"])
-                times |= {round(lo + k, 2) for k in range(int(max(0.0, hi - lo)) + 1)}
+    for a in ser:   # v7.4.0 — 끝값 라벨 ↔ 축 눈금 라벨(감독 지적 preview_v8)도 보므로 시리즈 하나여도 1초 간격
+        times |= {round(a["t0"] + k, 2) for k in range(int(max(0.0, a["t1"] - a["t0"])) + 1)}
+    ctx = cairo.Context(cairo.ImageSurface(cairo.FORMAT_ARGB32, 1, 1))
+    rng = P.R.cache.get("series_range") or {}
     out: list[str] = []
     for t in sorted(times):
         P.R.cache.pop("series_end_labels", None)   # 이 프레임에 그린 라벨만
@@ -2346,7 +2347,38 @@ def check_series_label_overlap(P) -> list[str]:  # noqa: ANN001, N803
                     if a[0] < b[2] and b[0] < a[2] and a[1] < b[3] and b[1] < a[3]:
                         out.append(f"[series-label-overlap] t={t:.2f} 레인 {lane} 끝값 라벨 {tuple(round(v, 1) for v in a)} ↔ "
                                    f"{tuple(round(v, 1) for v in b)} — rules stage_timeline.series.end_label_min_gap_px")
-    return out
+            v = _series_view(P, world, t)
+            if v is None or lane not in rng:
+                continue
+            unit = next(load_series_unit(e) for e in ser if e["lane"] == lane)
+            for a in boxes:
+                for b in axis_label_boxes(ctx, v, world[0], lane, rng[lane], unit, boxes):   # 그리기와 같이 겹치는 눈금 라벨은 생략된다
+                    if a[0] < b[2] and b[0] < a[2] and a[1] < b[3] and b[1] < a[3]:
+                        out.append(f"[series-label-overlap] t={t:.2f} 레인 {lane} 끝값 라벨 {tuple(round(x, 1) for x in a)} ↔ 축 눈금 라벨 "
+                                   f"{tuple(round(x, 1) for x in b)} — 끝값 라벨이 비키지 못했다")
+    return list(dict.fromkeys(out))
+
+
+def load_series_unit(e: dict) -> str:
+    from data.series import load_series  # noqa: PLC0415
+
+    return load_series(e["series_id"]).unit
+
+
+def _series_view(P, world, t: float) -> "View | None":  # noqa: ANN001, N803
+    """끝값 라벨을 그린 좌표계의 뷰 — 시간축 주 무대(틀 원점 포함) 또는 차트 아일랜드(상자 원점 0, 그리기가 상자로 옮긴 좌표)."""
+    if world is None:
+        return None
+    st = P.R.stage
+    if st.name == "timeline":
+        return View(st, P.cams[min(P.n_frames - 1, max(0, int(t * FPS)))])
+    chart = P.R.cache.get("island_chart")
+    isl = next((e for e in P.events if e.get("type") == "island" and e.get("kind") == "chart" and e["t0"] <= t <= e["t1"]), None)
+    if not chart or isl is None:
+        return None
+    from engine.island import chart_view, island_box  # noqa: PLC0415
+
+    return chart_view(chart, t, island_box(isl))
 
 
 def chart_text_boxes(stage, v: View, events: list[dict], t: float, rng: dict, dx: float = 0.0,  # noqa: ANN001

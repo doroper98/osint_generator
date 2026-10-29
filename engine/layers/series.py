@@ -266,7 +266,7 @@ def draw_series(ctx: cairo.Context, R: "RenderCtx", view: "View", t: float, e: d
     rng = R.cache["series_range"][e["lane"]]
     if e["style"] == "projection":   # v7.4.0 D-0260 §2 — 전망 점(같은 레인·같은 축척)
         _draw_projection(ctx, R, view, stage, t, e, rec, rng, a)
-        _draw_axis(ctx, view, stage, e, rng, rec.unit, a)
+        _draw_axis(ctx, view, stage, e, rng, rec.unit, a, R, t)
         _draw_source(ctx, view, stage, e, a)
         return
     front = math.inf
@@ -323,11 +323,12 @@ def draw_series(ctx: cairo.Context, R: "RenderCtx", view: "View", t: float, e: d
             lw = tw(ctx, s, S.value_size, S.value_font)
             x0 = sx + S.value_dx if sx + S.value_dx + lw <= view.right - S.axis_zone_px else sx - S.value_dx - lw   # 오른쪽 축 값 자리를 비킨다
             by = place_end_label(R, t, e["lane"], sy + S.value_dy, last[2])
+            by = clear_axis_labels(ctx, view, stage, e["lane"], rng, rec.unit, x0, lw, by)   # v7.4.0 — 축 눈금 라벨을 세로로 비킨다
             box = (x0, by - S.value_size, x0 + lw, by)
             if not _hits(box, _lane_name_box(ctx, view, stage, e["lane"])):   # 레인 이름을 덮지 않는다(끝점은 그대로)
                 text(ctx, s, box[0], by, S.value_size, S.value_font, tip, a, S.value_halo, "l")
                 R.cache["series_end_labels"]["lanes"][e["lane"]].append((by, last[2], box))
-    _draw_axis(ctx, view, stage, e, rng, rec.unit, a)
+    _draw_axis(ctx, view, stage, e, rng, rec.unit, a, R, t)
     _draw_source(ctx, view, stage, e, a)
 
 
@@ -546,12 +547,15 @@ def _draw_missing(ctx: cairo.Context, view: "View", stage: "TimelineStage", rec:
         text(ctx, M.label, sx, bot - M.inset_px + M.label_dy, M.label_size, M.label_font, C[M.color], M.alpha * a, M.label_halo, "c")
 
 
-def _draw_axis(ctx: cairo.Context, view: "View", stage: "TimelineStage", e: dict, rng: tuple[float, float], unit: str, a: float) -> None:
+def _draw_axis(ctx: cairo.Context, view: "View", stage: "TimelineStage", e: dict, rng: tuple[float, float], unit: str, a: float,
+               R: "RenderCtx | None" = None, t: float | None = None) -> None:
     """0 기준선과 범위 끝 값(단위 포함) — 레인 오른쪽 끝에 고정. 레인의 첫 series 만 그린다(겹침 방지)."""
     if not e["axis"]:
         return
     S = TIMELINE.series  # noqa: N806
-    labeled = set(axis_label_values(view, stage, e["lane"], rng))
+    reg = (R.cache.get("series_end_labels") or {}) if R is not None else {}
+    ends = [p[2] for p in (reg.get("lanes") or {}).get(e["lane"], [])] if reg.get("t") == t else []
+    labeled = {v for v, _ in axis_label_items(ctx, view, stage, e["lane"], rng, unit, ends)}
     for v in axis_values(rng):   # v7.4.0 D-0263 — 끝 + 중간 눈금
         _, sy = view.to_screen(0.0, value_y(stage, e["lane"], rng, v))
         ctx.move_to(view.ox, sy)
@@ -562,6 +566,46 @@ def _draw_axis(ctx: cairo.Context, view: "View", stage: "TimelineStage", e: dict
         if v in labeled:   # v7.4.0 D-0268 §2 — 라벨 간격이 axis_label_min_gap_px 미만인 중간 눈금은 선만
             text(ctx, fmt_value(v, unit), view.right - S.axis_label_margin_px, sy + S.axis_label_dy, S.axis_label_size, S.axis_label_font,
                  C["muted"], a, S.axis_label_halo, "r")
+
+
+def axis_label_items(ctx: cairo.Context, view: "View", stage: "TimelineStage", lane: str, rng: tuple[float, float], unit: str,
+                     avoid: list | None = None) -> list[tuple[float, tuple[float, float, float, float]]]:
+    """그린 축 눈금 라벨 (값, 글자 상자)(_draw_axis 와 같은 자리). avoid(끝값 라벨 상자)와 겹치는 눈금 라벨은 생략(눈금선만, v7.4.0)."""
+    S = TIMELINE.series  # noqa: N806
+    out = []
+    for v in axis_label_values(view, stage, lane, rng):
+        _, sy = view.to_screen(0.0, value_y(stage, lane, rng, v))
+        x1 = view.right - S.axis_label_margin_px
+        by = sy + S.axis_label_dy
+        b = (x1 - tw(ctx, fmt_value(v, unit), S.axis_label_size, S.axis_label_font), by - S.axis_label_size, x1, by)
+        if not any(_hits(b, z) for z in avoid or []):
+            out.append((v, b))
+    return out
+
+
+def axis_label_boxes(ctx: cairo.Context, view: "View", stage: "TimelineStage", lane: str, rng: tuple[float, float],
+                     unit: str, avoid: list | None = None) -> list[tuple[float, float, float, float]]:
+    """그린 축 눈금 라벨 글자 상자 — 끝값 라벨 비키기·검사([series-label-overlap])가 같이 쓴다."""
+    return [b for _, b in axis_label_items(ctx, view, stage, lane, rng, unit, avoid)]
+
+
+def clear_axis_labels(ctx: cairo.Context, view: "View", stage: "TimelineStage", lane: str, rng: tuple[float, float], unit: str,
+                      x0: float, lw: float, by: float) -> float:
+    """끝값 라벨 기준선 by 를 축 눈금 라벨과 겹치지 않게 세로로 민다(v7.4.0 — 감독 지적 preview_v8: "3.63%" ↔ "3.5%").
+    end_label_min_gap_px 씩, 겹친 눈금의 반대쪽으로. 레인 띠 밖으로는 밀지 않는다(그때는 검사가 잡는다)."""
+    S = TIMELINE.series  # noqa: N806
+    ticks = axis_label_boxes(ctx, view, stage, lane, rng, unit)
+    top, bot = stage.lane_screen(view, stage.lane_index(lane))
+    for _ in range(len(ticks) + 1):
+        box = (x0, by - S.value_size, x0 + lw, by)
+        hit = next((b for b in ticks if _hits(box, b)), None)
+        if hit is None:
+            return by
+        nb = by - S.end_label_min_gap_px if (box[1] + box[3]) / 2 <= (hit[1] + hit[3]) / 2 else by + S.end_label_min_gap_px
+        if nb - S.value_size < top or nb > bot:
+            return by
+        by = nb
+    return by
 
 
 def axis_label_values(view: "View", stage: "TimelineStage", lane: str, rng: tuple[float, float]) -> list[float]:
@@ -614,4 +658,4 @@ def _draw_source(ctx: cairo.Context, view: "View", stage: "TimelineStage", e: di
         text(ctx, ln, x, y, S.source_size, S.source_font, C["muted"], a, S.source_halo, "l")
 
 
-__all__ = ["lane_source_text", "place_end_label", "band_pairs", "month_colors", "regimes", "draw_series", "fmt_value", "lane_range", "nice_step", "axis_values", "axis_range_note", "column_date", "record_points", "projection_dots", "source_lines", "source_line_boxes", "lane_source_join", "projection_tag_lines", "axis_label_values", "record_ids", "segments", "source_line", "value_text", "value_y"]
+__all__ = ["lane_source_text", "place_end_label", "band_pairs", "month_colors", "regimes", "draw_series", "fmt_value", "lane_range", "nice_step", "axis_values", "axis_range_note", "column_date", "record_points", "projection_dots", "source_lines", "source_line_boxes", "lane_source_join", "projection_tag_lines", "axis_label_values", "axis_label_boxes", "axis_label_items", "clear_axis_labels", "record_ids", "segments", "source_line", "value_text", "value_y"]
