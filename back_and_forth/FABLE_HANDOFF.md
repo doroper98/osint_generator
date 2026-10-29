@@ -3,6 +3,7 @@
 ## 0-1. 2026-10-28 갱신 — E0 쇼케이스 트랙(감독 세션 `session_017Yuw8kbxf9Vxri6LoH5Je4`, Fable 5.1)
 - **현재 트랙**: E0 쇼케이스 데모 2편 + 카탈로그 층(back_and_forth D-0251 §1·§5·§6·§7). 브랜치 `claude/sweet-galileo-7yok3b`(main 8d93103 위), 버전 v7.4.0.
 - **구현 세션**: `session_017Yuw8k4hDAiSpVRGtFv4Lu`(Opus 5.5, env_01SnvGMv3UmrvejEraZxEACo, 2026-10-28 04:06Z 생성). 옛 구현 세션 `session_012yN5MN9eH1tBnNrQ1D8sBG` 은 diesel v2 종결·disconnected.
+- **구현 세션 2(재기동, 2026-10-29 12:39Z)**: `session_017Yuw8mVchPLgYxtnfEwjjh`(Opus 5.5, 같은 env). 구현 세션 1 은 2026-10-28 09:39Z 계정 5시간 한도로 failed·disconnected(마지막 커밋 51cc7fa — 틀·UF-137 guarded까지). 남은 것: econ 콘티 판 v2 → geo 콘티 판 → 골든 25/25 → A/B → 게이트 ② → final·catalog·결합본.
 - **사용자 결정 이 기간**: D264(비공개 시청·권리는 기록만) · D265(보완 방향·쇼케이스) · D266~D268(연준 탈락·호르무즈 미흡·diesel 기준 작품, C0 개정). 원장 UF-132~136.
 - **사용자에게 갈 것(순서)**: ① showcase_geo 원고(gate-view) ② showcase_econ 원고 ③ 콘티 판 2편 ④ 게이트 ② 프리뷰 시트 + A/B 시트(D108 보정) + 카탈로그 요소 표 ⑤ final·catalog·결합본. 사용자 2026-10-28 원문 "영상은 어딨어" — 착수 지시를 기다리다 늦었다. 다음부터 계획 승인 = 착수.
 
