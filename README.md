@@ -22,3 +22,7 @@
 - `showcase_econ/prev_ab/A.mp4`(본편 A1) · `B.mp4`(시간축 전면 틀, v1 문법 — 사진·카드 없음) — 29.4~54.9초(act1_2~act1_5 — 10월·12월 인하, 동결, 이란 전쟁, D-0273), 같은 mix.f32 구간
 - `sheet.jpg` — 같은 초 6컷, 왼쪽 A · 오른쪽 B. 프리뷰 hard A 0 · B 0(media_density 만 비교 구간 전용 면제 — 구조상 사진 자리 없음)
 - `provenance.json` — ab_compare {sentences, t0, t1, direction_a_sha1, direction_b_sha1, checks_hard, b_exempt}
+
+## 게이트 ② 자료 준비분 (사용자 흐름 승인 전 — 아직 보내지 않음, D-0273)
+- `showcase_{econ,geo}/gate2/`: `preview_sheet.jpg`(프리뷰 auto 컷) · `preview_checks.json`·`preview_provenance.json`(hard 0) · `catalog.mp4`(카탈로그 판 720p, 배포 금지) · `catalog_table.md`(카탈로그 판 기록에서 만든 요소·글꼴 표) · `catalog_checks.json`(hard 0) · `media_summary.md`
+- econ 프리뷰는 축 값 라벨 예약 열(cd314ea) 반영. 콘티 판 v2(animatic.mp4)는 그 이전 렌더

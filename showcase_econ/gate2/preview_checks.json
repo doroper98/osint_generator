@@ -1,0 +1,921 @@
+{
+ "schema_version": 1,
+ "hard": 0,
+ "warnings": 11,
+ "passed": true,
+ "profile": "full",
+ "skipped": [],
+ "thresholds": {
+  "overlap_core_elements": 0,
+  "chart_only_run": {
+   "max_sec": 12.0,
+   "step_sec": 0.1,
+   "chart_types": [
+    "panel",
+    "series",
+    "card"
+   ],
+   "chart_island_kinds": [
+    "chart"
+   ],
+   "chart_primitives": [
+    "dot_plot",
+    "statement_diff"
+   ],
+   "neutral_types": [
+    "dip",
+    "island"
+   ],
+   "exempt_projects": {
+    "hormuz_korea": "v3 골든 회귀 기준(사용자 합격본 2026-09-28, 화소 골든 25컷) — 고치면 골든이 바뀐다"
+   },
+   "map_stages": [
+    "mercator"
+   ]
+  },
+  "card_over_panel": {
+   "min_overlap_sec": 0.3,
+   "panel_pad_px": 4.0,
+   "cover_types": [
+    "card",
+    "cascade",
+    "article",
+    "quote",
+    "primitive"
+   ],
+   "cover_types_on_data_panels": [
+    "photo",
+    "clip",
+    "cutout",
+    "badge"
+   ],
+   "timeline_frame_cover_types": [
+    "card",
+    "cascade",
+    "primitive",
+    "photo",
+    "clip",
+    "cutout",
+    "badge"
+   ]
+  },
+  "outlet_min_overlap_sec": 0.5,
+  "outlet_names": {
+   "guardian": {
+    "names": [
+     "가디언",
+     "Guardian"
+    ],
+    "domains": [
+     "theguardian.com"
+    ]
+   },
+   "reuters": {
+    "names": [
+     "로이터",
+     "Reuters"
+    ],
+    "domains": [
+     "reuters.com"
+    ]
+   },
+   "ap": {
+    "names": [
+     "AP",
+     "AP통신",
+     "에이피",
+     "Associated Press"
+    ],
+    "domains": [
+     "apnews.com"
+    ]
+   },
+   "bloomberg": {
+    "names": [
+     "블룸버그",
+     "Bloomberg"
+    ],
+    "domains": [
+     "bloomberg.com"
+    ]
+   },
+   "afp": {
+    "names": [
+     "AFP",
+     "에이에프피",
+     "아에프페"
+    ],
+    "domains": [
+     "afp.com"
+    ]
+   },
+   "iea": {
+    "names": [
+     "국제에너지기구",
+     "IEA"
+    ],
+    "domains": [
+     "iea.org"
+    ]
+   },
+   "yonhap": {
+    "names": [
+     "연합뉴스",
+     "Yonhap"
+    ],
+    "domains": [
+     "yna.co.kr",
+     "yonhapnews.co.kr"
+    ]
+   },
+   "kyunghyang": {
+    "names": [
+     "경향신문",
+     "주간경향",
+     "Kyunghyang"
+    ],
+    "domains": [
+     "khan.co.kr"
+    ]
+   },
+   "hankyung": {
+    "names": [
+     "한국경제",
+     "한경"
+    ],
+    "domains": [
+     "hankyung.com"
+    ]
+   },
+   "aljazeera": {
+    "names": [
+     "알자지라",
+     "Al Jazeera"
+    ],
+    "domains": [
+     "aljazeera.com"
+    ]
+   },
+   "kyiv_independent": {
+    "names": [
+     "키이우 인디펜던트",
+     "Kyiv Independent"
+    ],
+    "domains": [
+     "kyivindependent.com"
+    ]
+   },
+   "united24": {
+    "names": [
+     "유나이티드24",
+     "UNITED24"
+    ],
+    "domains": [
+     "united24media.com"
+    ]
+   },
+   "ukrainska_pravda": {
+    "names": [
+     "우크라인스카 프라우다",
+     "Ukrainska Pravda"
+    ],
+    "domains": [
+     "pravda.com.ua"
+    ]
+   },
+   "korea_times": {
+    "names": [
+     "코리아타임스",
+     "Korea Times"
+    ],
+    "domains": [
+     "koreatimes.co.kr"
+    ]
+   },
+   "joongang": {
+    "names": [
+     "중앙일보",
+     "코리아중앙데일리",
+     "JoongAng"
+    ],
+    "domains": [
+     "joongang.co.kr"
+    ]
+   },
+   "nyt": {
+    "names": [
+     "뉴욕타임스",
+     "New York Times"
+    ],
+    "domains": [
+     "nytimes.com"
+    ]
+   },
+   "wsj": {
+    "names": [
+     "월스트리트저널",
+     "Wall Street Journal"
+    ],
+    "domains": [
+     "wsj.com"
+    ]
+   },
+   "ft": {
+    "names": [
+     "파이낸셜타임스",
+     "Financial Times"
+    ],
+    "domains": [
+     "ft.com"
+    ]
+   },
+   "bbc": {
+    "names": [
+     "BBC",
+     "비비씨"
+    ],
+    "domains": [
+     "bbc.com",
+     "bbc.co.uk"
+    ]
+   },
+   "cnn": {
+    "names": [
+     "CNN",
+     "씨엔엔"
+    ],
+    "domains": [
+     "cnn.com"
+    ]
+   }
+  },
+  "offscreen_clip": 0,
+  "missing_glyphs": 0,
+  "labels_per_frame_max": 18,
+  "subtitle_lines_max": 2,
+  "rights_missing": 0,
+  "forbidden_components": 0,
+  "glyph_size_exempt": [
+   "end_card",
+   "media_meta"
+  ],
+  "label_hidden_max_ratio": 0.5,
+  "route_missing": {
+   "move_verbs": [
+    "보냈",
+    "보내",
+    "파병",
+    "배치",
+    "수송",
+    "이동",
+    "도착",
+    "증파",
+    "급파",
+    "고립"
+   ],
+   "attack_verbs": [
+    "공격",
+    "발사",
+    "타격",
+    "요격",
+    "폭격",
+    "포격"
+   ],
+   "endpoint_tol_deg": 0.6
+  },
+  "frame_missing": {
+   "margin_px": 8.0,
+   "sample_sec": 0.5
+  },
+  "battle_geo": {
+   "verbs": [
+    "점령",
+    "탈환",
+    "공세",
+    "장악",
+    "진격",
+    "교전",
+    "함락",
+    "격퇴"
+   ]
+  },
+  "card_full_exposure_min_sec": 2.5,
+  "ratio_patterns": [
+   "(\\d+|[일이삼사오육칠팔구십백천만]+|한|두|세|네|다섯|여섯|일곱|여덟|아홉|열|스무|스물)\\s*(척|곳|건|명|개|대|기)\\s*(중|가운데)",
+   "(중|가운데)\\s*(\\d+|[일이삼사오육칠팔구십백천만]+|한|두|세|네|다섯|여섯|일곱|여덟|아홉|열)\\s*(척|곳|건|명|개|대|기)"
+  ],
+  "ratio_graphic_kinds": [
+   "dots",
+   "versus"
+  ],
+  "cutaway_full_types": [
+   "article",
+   "backdrop"
+  ],
+  "label_jump_px": 4.0,
+  "camera_bounds_rel_tol": 0.001,
+  "label_slot_sample_sec": 0.25,
+  "map_contrast_text": 4.5,
+  "map_contrast_shape": 3.0,
+  "map_contrast_min_alpha": 0.8,
+  "planned": [],
+  "chart_targets": {
+   "value": [
+    "chart_honesty",
+    "series_limit_3",
+    "units_visible",
+    "as_of_visible"
+   ],
+   "date": [
+    "chart_honesty"
+   ],
+   "none": []
+  },
+  "series_max": 3,
+  "visual_qa_loop_max": 2,
+  "empty_exempt": [
+   "article_press_lead"
+  ],
+  "loop_pick_order": [
+   "checks_hard",
+   "qa_hard",
+   "qa_soft"
+  ]
+ },
+ "items": [
+  {
+   "id": "overlap",
+   "severity": "hard",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "offscreen",
+   "severity": "hard",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "glyphs",
+   "severity": "hard",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "glyph_size",
+   "severity": "hard",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "shots",
+   "severity": "warning",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "media_beats",
+   "severity": "warning",
+   "count": 10,
+   "details": [
+    "[media-density-total] 과밀 — 7개 / 154초 = 22.0초당 1개 < 40초 (14 §10.1, ['article'] 제외)",
+    "[media-density-scene] 장면 act1: ['fed_boardroom', 'econ_powell_presser_552', 'econ_warsh_swearing_5'] > 1 (14 §10.1, ['article'] 제외)",
+    "[media-density-scene] 장면 act2: ['fed_presser_0729', 'econ_walmart_2508'] > 1 (14 §10.1, ['article'] 제외)",
+    "[media-density-scene] 장면 act3: ['fed_presser_0916_b', 'fed_eccles_ext'] > 1 (14 §10.1, ['article'] 제외)",
+    "[media-kind-repeat] 이웃 장면 act1→act2 같은 형태 ['photo'] (14 §10.1)",
+    "[media-kind-repeat] 이웃 장면 act2→act3 같은 형태 ['photo'] (14 §10.1)",
+    "[media-burst-window] 30.28초부터 40초 안 3개 ['fed_boardroom', 'econ_powell_presser_552', 'econ_warsh_swearing_5'] > 2 (14 §10.1 하한, D38)",
+    "[article-unused] cold_0 1.2초 기사 카드 후보 ['fox_0916', 'nbc_0916', 'abc_0916'] — 0~60초 구간 1/2개. 쓰거나 media_notes.yaml sentences.cold_0.article 에 사유",
+    "[article-unused] ending_0 132.6초 기사 카드 후보 ['fox_0729', 'fox_0916', 'nbc_0916', 'abc_0916'] — 120~180초 구간 0/2개. 쓰거나 media_notes.yaml sentences.ending_0.article 에 사유",
+    "[article-unused] act3_3 125.9초 기사 카드 후보 ['fox_0916'] — 120~180초 구간 0/2개. 쓰거나 media_notes.yaml sentences.act3_3.article 에 사유"
+   ]
+  },
+  {
+   "id": "media_upscaled",
+   "severity": "warning",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "endcard_roll",
+   "severity": "warning",
+   "count": 1,
+   "details": [
+    "[endcard-roll] 크레딧이 넘쳐 롤 176px · 27.1 px/s(상한 60)"
+   ]
+  },
+  {
+   "id": "labels",
+   "severity": "hard",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "date",
+   "severity": "hard",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "subtitles",
+   "severity": "hard",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "rights",
+   "severity": "hard",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "forbidden",
+   "severity": "hard",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "stage_continuity",
+   "severity": "hard",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "camera_continuity",
+   "severity": "hard",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "card_exposure",
+   "severity": "hard",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "route_label_cross",
+   "severity": "hard",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "route_label_overlap",
+   "severity": "hard",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "article_backdrop",
+   "severity": "hard",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "quote_in_script",
+   "severity": "hard",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "route_missing",
+   "severity": "hard",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "route_missing_other",
+   "severity": "hard",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "frame_missing",
+   "severity": "hard",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "frame_missing_target",
+   "severity": "hard",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "battle_geo",
+   "severity": "warning",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "bgm_decision",
+   "severity": "hard",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "endcard_black",
+   "severity": "hard",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "camera_per_sentence",
+   "severity": "hard",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "label_jump",
+   "severity": "hard",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "camera_speed",
+   "severity": "hard",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "camera_bounds",
+   "severity": "hard",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "title_backdrop",
+   "severity": "hard",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "cutaway_churn",
+   "severity": "hard",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "transition_camera",
+   "severity": "hard",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "unit_glyph_font",
+   "severity": "hard",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "media_unused",
+   "severity": "hard",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "inset_clipped",
+   "severity": "hard",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "badge_clipped",
+   "severity": "hard",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "series_unused",
+   "severity": "hard",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "panel_dropped",
+   "severity": "hard",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "card_over_panel",
+   "severity": "hard",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "article_outlet",
+   "severity": "hard",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "catalog_label_overlap",
+   "severity": "hard",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "chart_only_run",
+   "severity": "hard",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "chart_world_split",
+   "severity": "hard",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "series_label_overlap",
+   "severity": "hard",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "chart_edge_bleed",
+   "severity": "hard",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "media_density",
+   "severity": "hard",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "flat_lane",
+   "severity": "hard",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "press_credit",
+   "severity": "hard",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "static_camera",
+   "severity": "hard",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "route_speed",
+   "severity": "hard",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "sea_only_frame",
+   "severity": "hard",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "unit_ton_glyph",
+   "severity": "hard",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "ratio_graphic",
+   "severity": "warning",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "inset_overlap",
+   "severity": "warning",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "article_press_missing",
+   "severity": "warning",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "badge_orphan",
+   "severity": "warning",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "tempo_density",
+   "severity": "warning",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "portrait_unused",
+   "severity": "warning",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "genre_elements",
+   "severity": "hard",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "boundary_as_route",
+   "severity": "hard",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "geo_unsourced",
+   "severity": "warning",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "geo_mismatch",
+   "severity": "hard",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "static_window",
+   "severity": "warning",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "timeline_rescale",
+   "severity": "hard",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "backdrop_rights",
+   "severity": "hard",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "backdrop_repeat",
+   "severity": "hard",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "stage_choice",
+   "severity": "warning",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "island_overlap",
+   "severity": "hard",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "backdrop_main_missing",
+   "severity": "hard",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "card_island",
+   "severity": "warning",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "island_label_clip",
+   "severity": "hard",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "island_pin_collision",
+   "severity": "hard",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "island_label_overlap",
+   "severity": "warning",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "cascade",
+   "severity": "hard",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "cascade_label_hidden",
+   "severity": "warning",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "subtitle_overlap",
+   "severity": "hard",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "label_collision",
+   "severity": "hard",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "timeline_span",
+   "severity": "hard",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "route_frame",
+   "severity": "hard",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "panel_overflow",
+   "severity": "hard",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "flag_territory",
+   "severity": "hard",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "badge_over_panel",
+   "severity": "hard",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "opening_establish",
+   "severity": "hard",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "weapon_photo",
+   "severity": "warning",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "map_contrast",
+   "severity": "hard",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "map_contrast_shape",
+   "severity": "warning",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "chart_honesty",
+   "severity": "hard",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "series_limit_3",
+   "severity": "hard",
+   "count": 0,
+   "details": [],
+   "notes": [
+    "n/a(date 축) stage timeline"
+   ]
+  },
+  {
+   "id": "units_visible",
+   "severity": "hard",
+   "count": 0,
+   "details": [],
+   "notes": [
+    "n/a(date 축) stage timeline"
+   ]
+  },
+  {
+   "id": "as_of_visible",
+   "severity": "hard",
+   "count": 0,
+   "details": [],
+   "notes": [
+    "n/a(date 축) stage timeline"
+   ]
+  }
+ ]
+}
