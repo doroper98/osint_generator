@@ -96,6 +96,10 @@ sections:
     license: Public domain · 용도 한정(D98)
     rights:
     - emblems.cheongwadae
+  - main: Seal of United States Central Command
+    license: 미 국방부 · Wikimedia Commons · Public domain
+    rights:
+    - emblems.centcom
 - title: 국기
   column: 1
   items:
