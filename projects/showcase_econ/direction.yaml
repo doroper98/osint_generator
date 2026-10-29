@@ -75,6 +75,23 @@ shots:
   stage: null
   reason: null
 - at:
+    sid: act3_0
+    'off': -0.6
+  mode: move
+  dur: 4.0
+  camera:
+    lon: null
+    lat: null
+    place: null
+    date: '2026-07-10'
+    lane: null
+    w: 330.0
+  under: false
+  allow_sea: null
+  scene: null
+  stage: null
+  reason: "카드·점도표 제거(D-0259·D-0260)로 생긴 30초 정지 구간을 나눈다 — 9월 회의와 10월 27~28일 다음 회의 핀을 한 화면에 당겨 본다"
+- at:
     scene_start: ending
     'off': -0.8
   mode: move
