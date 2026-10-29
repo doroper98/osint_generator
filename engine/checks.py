@@ -2434,7 +2434,7 @@ def check_flat_lane(P) -> list[str]:  # noqa: ANN001, N803
             " 보이는 구간에 맞추거나(값 범위는 무대 기간 데이터로 정해진다) 그 레인을 뺀다(UF-140)" for lane, r, (a, b) in flat_lanes(P) if r < mn]
 
 
-MEDIA_DENSITY_TYPES = ("photo", "clip", "cutout")   # v7.4.0 D-0261 — 실사 이벤트(기사·인셋·뱃지는 세지 않는다)
+MEDIA_DENSITY_TYPES = ("photo", "clip", "cutout", "backdrop")   # v7.4.0 D-0261 — 실사 이벤트(기사·인셋·뱃지는 세지 않는다). D-0265 §5 — 배경 사진(backdrop)도 실사, 이벤트마다 1장
 
 
 def media_density(events: list[dict], total_sec: float) -> tuple[int, float]:

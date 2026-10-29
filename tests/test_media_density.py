@@ -37,6 +37,9 @@ class MediaDensityTest(unittest.TestCase):
         ev = [{"type": "photo"}] * (n - 2) + [{"type": "clip"}, {"type": "cutout"}]
         self.assertEqual(checks.check_media_density(_P("showcase_econ", ev)), [])
 
+    def test_backdrop_counts_as_one_photo(self) -> None:   # D-0265 §5
+        self.assertEqual(checks.media_density([{"type": "backdrop"}, {"type": "photo"}, {"type": "article"}], 60.0), (2, 2.0))
+
     def test_exempt_scope_is_regression_fixtures_only(self) -> None:
         self.assertEqual(MB.min_density_per_min, 1.5)
         self.assertEqual(sorted(MB.density_exempt_projects), ["fed_timeline_demo", "hormuz_korea"])

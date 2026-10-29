@@ -461,7 +461,7 @@ media_beats:               # 14 §10
   # v7.4.0 back_and_forth D-0261(사용자 의견 UF-139 "그래프만 주구장창 보여줄꺼면 내가 영상을 왜만들고 왜보냐… 레퍼런스 사진이나 영상 풍부하게",
   # UF-119 재발) — 검사 [media-density] hard: (photo + clip + cutout 이벤트 수) ÷ 영상 분 < 이 값이면 실패. 사유로 통과 없음. 등재 실사 0 이면
   # 연출 착수 거부 [media-none](workers.direction_io.require_visual_media). 값 1.5 = 감독 제안(D-0261 §2①)
-  min_density_per_min: 1.5
+  min_density_per_min: 1.5   # D-0265 §5 — backdrop 무대의 배경 사진(backdrop 이벤트)도 이벤트마다 사진 1장으로 센다(배경도 실사)
   density_exempt_projects:   # 회귀 기준만(새 영상 아님). 범위 = tests/test_media_density.py 가 이 두 개로 고정
     hormuz_korea: "v3 골든 회귀 기준(사용자 합격본 2026-09-28, 화소 골든 25컷) — 고치면 골든이 바뀐다"
     fed_timeline_demo: "시간축 엔진 검증용 데모(배포 영상 아님) — 미디어 없는 순수 차트 픽스처"
