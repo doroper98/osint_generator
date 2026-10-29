@@ -554,10 +554,24 @@ def load_project(proj: Path, direction: Optional[Direction] = None, out: Optiona
     if island_errs:
         raise ProjectError("아일랜드 점검 실패(P6·P10):\n" + "\n".join(island_errs))
     prepare_series(R, events, chart_cams, n, chart_stage or R.stage)   # v4.3.0 D-0084 작업 4 — 레코드 로드·레인 범위·grow 앞끝(카메라 경로)
-    if chart_stage is not None and R.cache.get("island_check") is not None:   # v5.2.0 D-0133 §2·§3 — 마커 라벨 ↔ 상자·출처 줄(시리즈 slot 뒤)
-        from engine.island import assign_pin_sides, label_check  # noqa: PLC0415
+    from engine.pin_labels import PinScene, assign_pin_rows, pin_label_check  # noqa: PLC0415
 
-        R.cache["island_check"]["pin_sides_moved"] = assign_pin_sides(events, R.cache["island_chart"])   # v7.4.0 D-0267 — 핀 라벨 겹침 피하기
+    scene = None   # v7.4.0 D-0274 §1② — 값 레인 위 핀 라벨 단 배정(주 무대 틀·차트 아일랜드 같은 규칙, C12-3)
+    if chart_stage is not None:
+        from engine.island import island_view_at  # noqa: PLC0415
+
+        scene = PinScene(chart_stage, R.cache["island_chart"]["events"], R.cache["series_range"], R.cache["series_front"],
+                         island_view_at(events, R.cache["island_chart"]))
+    elif R.stage.name == "timeline":
+        scene = PinScene(R.stage, events, R.cache["series_range"], R.cache["series_front"],
+                         lambda t: View(R.stage, cams[min(n - 1, max(0, int(t * FPS)))]))
+    if scene is not None and scene.pins:
+        dropped = assign_pin_rows(scene)
+        R.cache["pin_labels"] = {"rows": {p["label"]: p["pin_row"] for p in scene.pins}, "dropped": dropped,
+                                 "collisions": pin_label_check(scene)}
+    if chart_stage is not None and R.cache.get("island_check") is not None:   # v5.2.0 D-0133 §2·§3 — 마커 라벨 ↔ 상자·출처 줄(시리즈 slot 뒤)
+        from engine.island import label_check  # noqa: PLC0415
+
         R.cache["island_check"].update(label_check(events, R.cache["island_chart"]))
     ign = R.cache["badge"]["R_ignored"]
     warns = [f"[badge-R-ignored] 인물 뱃지 연출 R {len(ign)}건 무시 — 크기는 보이는 인물 수로 코드가 정한다(D-0111): "
@@ -735,6 +749,7 @@ def series_value_at(evs: list[dict], d: date) -> float:
 def pins_on_series(events: list[dict], st: object, ranges: dict[str, tuple[float, float]]) -> None:
     """사건 핀(date 앵커 marker)을 값 레인 위의 점으로(v7.4.0 back_and_forth D-0274 §1①, UF-142 "두 개를 그냥 합쳐서 세로축을 늘리란 말이야").
     월드 y = 그 날짜 계열 값(series.value_y). 계열 없는 레인의 핀은 오류 — 사건 레인(pins)은 없다."""
+    from data.series import load_series  # noqa: PLC0415
     from engine.layers.series import value_y  # noqa: PLC0415
 
     by_lane: dict[str, list[dict]] = {}
@@ -748,6 +763,7 @@ def pins_on_series(events: list[dict], st: object, ranges: dict[str, tuple[float
             raise ProjectError(f"marker {e.get('label')!r} @ {e['date']}: 레인 {e['lane']!r} 에 계열이 없다 — 핀은 값 레인 위 점(D-0274)")
         d = date.fromisoformat(str(e["date"]))
         e["pin_value"] = series_value_at(by_lane[e["lane"]], d)
+        e["pin_unit"] = load_series(by_lane[e["lane"]][0]["series_id"]).unit   # 렌더 시 플롯 경계(축 값 라벨 열) 계산용
         e["world"] = (st.x_of(e["date"]), value_y(st, e["lane"], ranges[e["lane"]], e["pin_value"]))  # type: ignore[attr-defined]
 
 

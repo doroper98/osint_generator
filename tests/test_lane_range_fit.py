@@ -116,50 +116,50 @@ class IslandPathTest(unittest.TestCase):
 
 
 class IslandPinCollisionTest(unittest.TestCase):
-    """v7.4.0 back_and_forth D-0267 §2 — 아일랜드 기록 레인 핀 라벨 겹침(econ v5 52초 "10월 29일 인하"·"12월 10일 인하"): 반대쪽으로 옮기고,
-    그래도 겹치면 [island-pin-collision] hard."""
+    """v7.4.0 back_and_forth D-0274 §1②(UF-143 "차트에 글씨가 너무 겹치네") — 값 레인 위 핀 라벨은 선 위·아래 두 단(+1·+2·−1·−2) 중
+    교차 0 인 첫 단. 넷 다 막히면 점만(dropped). 교차가 남으면 [island-pin-collision] hard."""
 
-    def _chart(self, dates: list[str]) -> tuple[list[dict], dict]:
-        from engine.island import island_box  # noqa: PLC0415
+    def _scene(self, dates: list[str], gap_sec: float = 1.0) -> tuple[list[dict], object]:
+        from engine.island import island_box, island_view_at  # noqa: PLC0415
+        from engine.pin_labels import PinScene  # noqa: PLC0415
+        from engine.project import pins_on_series  # noqa: PLC0415
 
         cst = TimelineStage(config={"start": "2025-06-01", "end": "2026-12-31",
                                     "lanes": [{"id": "policy_rate", "label": "연방기금금리", "kind": "step", "unit": "%"}]})
-        cst.fit_island(island_box({"box": "left"})[3], ISLAND.chart.pad_top, ISLAND.chart.pad_bottom)
+        cst.fit_island(island_box({"box": "left_tall"})[3], ISLAND.chart.pad_top, ISLAND.chart.pad_bottom)
         cams = np.tile(np.array([cst.x_of("2026-01-01"), 1.0, 420.0]), (24 * 12, 1))
-        pins = [{"type": "marker", "label": f"{d[5:7]}월 {d[8:]}일 인하", "sub": "3.75~4%", "side": "right", "date": d, "lane": "policy_rate",
-                 "t0": 1.0 + k + k / 24, "t1": 11.0, "world": cst.to_world(date=d, lane="policy_rate")} for k, d in enumerate(dates)]
-        isl = {"type": "island", "kind": "chart", "box": "left", "t0": 0.0, "t1": 12.0}
-        return [isl, *pins], {"stage": cst, "cams": cams, "events": pins}
+        ser = {"type": "series", "lane": "policy_rate", "series_id": "FEDFUNDS", "style": "step", "grow": False, "t0": 0.0, "t1": 12.0,
+               "slot": 0, "key": 0, "lane_n": 1, "lane_source": "FRED", "axis": True}
+        pins = [{"type": "marker", "label": f"{d[5:7]}월 {d[8:]}일 인하", "sub": "3.75~4%", "date": d, "lane": "policy_rate",
+                 "t0": 1.0 + k * gap_sec, "t1": 11.0} for k, d in enumerate(dates)]
+        rng = lane_range([ser], "policy_rate", cst)
+        pins_on_series([ser, *pins], cst, {"policy_rate": rng})
+        isl = {"type": "island", "kind": "chart", "box": "left_tall", "t0": 0.0, "t1": 12.0}
+        chart = {"stage": cst, "cams": cams, "events": [ser, *pins]}
+        return pins, PinScene(cst, [ser, *pins], {"policy_rate": rng}, {}, island_view_at([isl, ser, *pins], chart))
 
-    def test_close_pins_get_opposite_sides(self) -> None:
-        from engine.island import assign_pin_sides, label_check  # noqa: PLC0415
+    def test_rows_clear_all_obstacles(self) -> None:
+        from engine.pin_labels import assign_pin_rows, pin_label_check  # noqa: PLC0415
 
-        events, chart = self._chart(["2025-10-29", "2025-12-10"])
-        self.assertEqual(len(label_check(events, chart)["pin_collision"]), 1)   # 옮기기 전 = 겹침
-        moved = assign_pin_sides(events, chart)
-        self.assertTrue(moved)
-        self.assertEqual(label_check(events, chart)["pin_collision"], [])
+        pins, scene = self._scene(["2025-10-29", "2025-12-10"])
+        dropped = assign_pin_rows(scene)
+        self.assertEqual(dropped, [])
+        self.assertTrue(all(p["pin_row"] in (1, 2, -1, -2) for p in pins))
+        self.assertNotEqual(pins[0]["pin_row"], pins[1]["pin_row"])   # 가까운 두 핀은 다른 단
+        self.assertEqual(pin_label_check(scene), [])
 
-    def test_label_over_other_dot_counts(self) -> None:
-        """라벨끼리는 안 겹쳐도 한 핀 라벨이 다른 핀의 점을 덮으면 겹침(econ 콘티 판 v2 56초)."""
-        from engine.island import _pin_hit  # noqa: PLC0415
+    def test_crowded_pins_drop_label_or_hard(self) -> None:
+        from engine.pin_labels import assign_pin_rows, pin_label_check  # noqa: PLC0415
 
-        a_text, a_dot = (10, 0, 100, 20), (0, 3, 14, 17)
-        b_text, b_dot = (120, 0, 200, 20), (90, 3, 104, 17)   # a 라벨이 b 점(90~104) 위
-        self.assertTrue(_pin_hit(a_text, a_dot, b_text, b_dot))
-        self.assertFalse(_pin_hit(a_text, a_dot, (220, 0, 300, 20), (205, 3, 219, 17)))
-        self.assertTrue(_pin_hit(a_text, a_dot, (101, 0, 180, 20), (186, 3, 200, 17)))   # 1px 떨어져 맞닿은 라벨도 겹침(간격 하한)
-
-    def test_unavoidable_collision_is_hard(self) -> None:
-        from engine.island import assign_pin_sides, label_check  # noqa: PLC0415
-
-        events, chart = self._chart(["2025-11-01", "2025-11-03", "2025-11-05"])   # 셋이 붙어 있으면 반대쪽으로도 겹친다
-        assign_pin_sides(events, chart)
-        rows = label_check(events, chart)["pin_collision"]
-        self.assertTrue(rows)
-        P = NS(R=NS(cache={"island_check": {"pin_collision": rows}}))
+        pins, scene = self._scene(["2025-11-01", "2025-11-03", "2025-11-05", "2025-11-07", "2025-11-09"], gap_sec=0.1)
+        dropped = assign_pin_rows(scene)
+        self.assertTrue(dropped)   # 자리 넷이 다 막히면 점만
+        self.assertTrue(all(p["pin_row"] is None for p in pins if p["label"] in dropped))
+        rows = [{"a": "x", "b": "계열 FEDFUNDS", "t0": 1.0, "t1": 2.0}]
+        P = NS(R=NS(cache={"pin_labels": {"collisions": rows}}))
         self.assertTrue(checks.check_island_pin_collision(P)[0].startswith("[island-pin-collision]"))
         self.assertIn("island_pin_collision", checks.HARD)
+        self.assertEqual([r for r in pin_label_check(scene) if r["a"] not in dropped and not r["b"].startswith("핀")], [])
 
 
 class IslandLeftTallTest(unittest.TestCase):

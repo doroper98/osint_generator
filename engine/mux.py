@@ -196,7 +196,7 @@ def project_provenance(P, stages: dict[str, bool]) -> dict:  # noqa: ANN001, N80
     if ic is not None and (ic["card_overlap"] or prov.get("islands")):   # v5.2.0 D-0129 §C — checks [card-island] 와 같은 값
         prov["island"] = {**(prov.get("island") or {}), "card_overlap": ic["card_overlap"]}
         if "label_clip" in ic:   # v5.2.0 D-0133 §2·§3 — checks [island-label-clip]·[island-label-overlap] 와 같은 값, label_flip = 반전·클램프가 실제로 돈 라벨
-            prov["island"].update({k: ic[k] for k in ("label_clip", "label_overlap", "label_flip", "pin_collision", "pin_sides_moved") if k in ic})   # pin_* = v7.4.0 D-0267
+            prov["island"].update({k: ic[k] for k in ("label_clip", "label_overlap", "label_flip") if k in ic})
     cas = [e for e in P.events if e["type"] == "cascade"]
     if cas:   # v5.3.0 D-0139 §3·§6 — 겹침 카드(없으면 기록 없음, P5). status = rules cascade.status, hidden_labels = checks [cascade-label-hidden] 와 같은 값
         from engine.checks import cascade_label_report  # noqa: PLC0415
@@ -250,6 +250,9 @@ def project_provenance(P, stages: dict[str, bool]) -> dict:  # noqa: ANN001, N80
         if ph is not None:
             prov["plot_height"] = {"plot_px": round(ph[0], 1), "inner_px": round(ph[1], 1), "ratio": round(ph[0] / ph[1], 3),
                                    "min": _R.island.chart.plot_min_ratio}
+    pl = P.R.cache.get("pin_labels")
+    if pl is not None:   # v7.4.0 D-0274 §1② — 값 레인 위 핀 라벨 단(+1·+2 선 위, −1·−2 아래, None = 점만)·교차(검사 [island-pin-collision] 과 같은 값)
+        prov["pin_labels"] = {"rows": pl["rows"], "dropped": pl["dropped"], "collisions": len(pl["collisions"])}
     prov["stage"] = P.R.cache.get("stage")   # v4.1.0 D-0076 작업 7 — 무대(name·declared·shots_declared·instances)
     from engine.typography import CONTRAST_FIXED as lcf  # noqa: PLC0415 — 프리뷰(같은 프로세스)
     rjf = P.root / "out" / "render.json"

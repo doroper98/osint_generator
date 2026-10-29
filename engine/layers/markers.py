@@ -142,6 +142,32 @@ def marker_text_boxes(ctx: cairo.Context, e: dict, x: float, y: float) -> list[t
     return out
 
 
+def _draw_pin_label(ctx: cairo.Context, R: RenderCtx, view: View, lt: float, a: float, e: dict, x: float, y: float,  # noqa: N803
+                    hk: dict) -> None:
+    """값 레인 위 핀 라벨(D-0274 §1②, UF-143) — load_project 가 고른 단(pin_row)의 상자에 가운데 정렬, 점 → 상자 가장자리 리더선."""
+    from engine.pin_labels import DOT_PX, pin_rect, plot_bounds  # noqa: PLC0415
+
+    row = e.get("pin_row")
+    if row is None:
+        return
+    S = load_rules().stage_timeline.series
+    b = plot_bounds(ctx, view, view.stage, e["lane"], R.cache["series_range"][e["lane"]], e["pin_unit"])
+    x0, y0, x1, y1 = pin_rect(ctx, e, x, y, row, b)
+    la = a * smooth((lt - 0.2) / 0.4)
+    edge = y1 if row > 0 else y0
+    ctx.move_to(x, y - DOT_PX if row > 0 else y + DOT_PX)
+    ctx.line_to(min(max(x, x0), x1), edge)
+    ctx.set_source_rgba(*map_c(view.stage, "white"), S.pin_leader_alpha * la)
+    ctx.set_line_width(S.pin_leader_w)
+    ctx.stroke()
+    cx = (x0 + x1) / 2
+    by = y0 + MK.label_size
+    text(ctx, e["label"], cx, by, MK.label_size, "sansb", map_c(view.stage, "white"), la, 3.2, "c", **hk, contrast="required")
+    if e.get("sub"):
+        text(ctx, e["sub"], cx, by + MK.sub_dy, MK.sub_size, "sansm", map_c(view.stage, "gold_text"), la, 3, "c", **hk, contrast="required")
+    R.reserved.append((x0, y0, x1, y1))
+
+
 def draw_marker(ctx: cairo.Context, R: RenderCtx, view: View, t: float, e: dict) -> None:  # noqa: N803
     a = window(t, e["t0"], e["t1"], 0.35, 0.5)
     if a <= 0.01:
@@ -162,6 +188,9 @@ def draw_marker(ctx: cairo.Context, R: RenderCtx, view: View, t: float, e: dict)
         ctx.set_line_width(1.3)
         ctx.stroke()
     icon(ctx, e.get("icon") or "dot", x, y, col, a * ease_out(lt / 0.3))
+    if e.get("pin_value") is not None:   # v7.4.0 D-0274 §1② — 값 레인 위 핀: 단 라벨 + 리더선(engine.pin_labels), 단 없으면 점만
+        _draw_pin_label(ctx, R, view, lt, a, e, x, y, hk)
+        return
     side, shift = e.get("side") or "right", 0.0
     if e.get("in_island"):   # v5.2.0 D-0133 §1 — 아일랜드 상자 밖으로 나가는 라벨은 반대쪽·클램프(상자 좌표, view.vw = 상자 폭)
         side, shift, _ = island_label(ctx, e, x, view.vw)

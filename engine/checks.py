@@ -74,7 +74,7 @@ hard 실패가 하나라도 있으면 시각 검수 LLM 을 부르지 않고 연
 | card_island | warning | v5.2.0(D-0129 §C): 카드·게시물 카드 제자리 상자와 같은 순간 보이는 아일랜드 상자 교차 > 0 `[card-island]`(provenance island.card_overlap[]) `engine.island` |
 | island_label_clip | hard | v5.2.0(D-0133 §2): 차트 아일랜드 안 마커 라벨 글자 상자가 반전·클램프(island.chart.label_flip_pad, `markers.island_label`) 뒤에도 아일랜드 상자 밖 `[island-label-clip]`(provenance island.label_clip[]) `engine.island.label_check` |
 | plot_height | hard | 시간축 주 무대 틀·차트 아일랜드: 값 레인 세로 합 < 액자 안쪽 높이 × rules island.chart.plot_min_ratio `[plot-height]`(v7.4.0 D-0274 §1①·UF-142) |
-| island_pin_collision | hard | v7.4.0(D-0267 §2): 차트 아일랜드 안 핀 라벨끼리 겹침 — 반대쪽(engine.island.assign_pin_sides)으로 옮겨도 겹치는 쌍 `[island-pin-collision]` |
+| island_pin_collision | hard | v7.4.0(D-0267 §2 → D-0274 §1②): 값 레인 위 핀 라벨(engine.pin_labels 단 배정) ↔ 핀 라벨·점·계열 선·띠·축 값·끝값·플롯 경계 교차 `[island-pin-collision]` |
 | island_label_overlap | warning | v5.2.0(D-0133 §3): 차트 아일랜드 안 마커 라벨 글자 상자 ∩ 같은 순간 시리즈 출처 줄 글자 상자 > 0 `[island-label-overlap]`(provenance island.label_overlap[]) — 고치는 것은 연출 회차 |
 | cascade | hard | v5.2.0 겹침 카드(v5.3.0 D-0139 채택): `[cascade-width]`·`[cascade-back]`·`[cascade-date]`·`[cascade-overflow]`, 문장 지명(마커·at_place·경로·봉쇄선 이름표)이 카드 밑 `[cascade-label-under]`(D-0137 §2) |
 | cascade_label_hidden | warning | v5.3.0(D-0139 §3): 배경 지명(gazetteer·해역)이 겹침 카드 회피로 안 그려지거나 깔림 `[cascade-label-hidden]`(provenance cascade.hidden_labels[]) |
@@ -434,7 +434,7 @@ def check_label_collision(P) -> list[str]:  # noqa: ANN001, N803
     """v5.6.0(사용자 지적 2026-10-04 — 수바우키 장면 지명 글자가 서로 겹침, 나토 휘장이 발트해 마커의 날짜를 가림, RENDER-AP-009) —
     같은 순간 보이는 지도 뱃지·마커(점·라벨·부제)·경로/봉쇄선 이름표(RENDER-AP-012) 상자끼리 SUB_TOL_PX 넘게 교차하면 hard. 쌍마다 첫 시각 한 줄."""
     ctx = cairo.Context(cairo.ImageSurface(cairo.FORMAT_ARGB32, 1, 1))
-    evs = [e for e in P.events if e["type"] in ("badge", "marker") and not e.get("over_panel") and not e.get("in_island")]   # 아일랜드 핀 = island label_check
+    evs = [e for e in P.events if e["type"] in ("badge", "marker") and not e.get("over_panel") and not own_pin_label(e)]   # 아일랜드 핀 = island label_check
     seen: set[tuple[int, int]] = set()
     out: list[str] = []
     lo = min((e["t0"] for e in evs), default=0.0)
@@ -482,7 +482,7 @@ def _place_label_boxes(ctx: cairo.Context, P, v: View, t: float) -> list[tuple[s
 
     out: list[tuple[str, tuple]] = []
     for e in P.events:
-        if e["type"] not in ("marker", "route", "barrier") or not e.get("label") or not e["t0"] <= t <= e["t1"] or e.get("in_island"):
+        if e["type"] not in ("marker", "route", "barrier") or not e.get("label") or not e["t0"] <= t <= e["t1"] or own_pin_label(e):
             continue   # 아일랜드 안 핀은 주 무대 지명과 겹침을 따지지 않는다(아일랜드 라벨은 island label_check)
         if e["type"] == "marker":
             if window(t, e["t0"], e["t1"], 0.35, 0.5) <= 0.01 or t - e["t0"] < 0.2:   # 라벨은 0.2초 뒤부터(draw_marker)
@@ -513,7 +513,7 @@ def _label_reserved(P, ctx: cairo.Context, v: View, act: list[dict], t: float) -
     for e in act:
         if e["type"] == "badge" and not e.get("over_panel") and not e.get("in_island") and (r := place_over(P, ctx, e, t)) is not None:
             reserved.append(r[1])
-        elif e["type"] == "marker" and not e.get("in_island") and e["t0"] <= t <= e["t1"]:
+        elif e["type"] == "marker" and not own_pin_label(e) and e["t0"] <= t <= e["t1"]:
             x, y = v.to_screen(*e["world"])
             reserved.append(marker_box(ctx, e, x, y))
         elif e["type"] == "cascade":
@@ -706,7 +706,7 @@ def route_label_report(P) -> dict[str, list[str]]:  # noqa: ANN001, N803
                                           "라벨을 줄이거나 겹치는 요소의 시간·자리를 바꾼다")
             lines = route_lines(v, P.events, t)
             for e in P.events:
-                if e["type"] != "marker" or e.get("in_island") or not e.get("label") or e.get("route_cross_exempt") or not e["t0"] + 0.3 <= t <= e["t1"] - 0.3:
+                if e["type"] != "marker" or own_pin_label(e) or not e.get("label") or e.get("route_cross_exempt") or not e["t0"] + 0.3 <= t <= e["t1"] - 0.3:
                     continue
                 x, y = v.to_screen(*e["world"])
                 if not (-80 <= x <= W_OUT + 80 and -40 <= y <= H_OUT + 40):
@@ -833,12 +833,19 @@ def check_island_label_clip(P) -> list[str]:  # noqa: ANN001, N803
     return label_clip_details(((P.R.cache.get("island_check") or {}).get("label_clip")) or [])
 
 
-def check_island_pin_collision(P) -> list[str]:  # noqa: ANN001, N803
-    """[island-pin-collision] hard(v7.4.0 back_and_forth D-0267 §2, C12 §3 — 아일랜드 경로 핀↔핀 라벨 겹침). 핀 라벨은 load_project 가
-    engine.island.assign_pin_sides 로 반대쪽으로 옮겨 본 뒤, 그래도 겹치는 쌍(label_check 표본, 렌더와 같은 자리)."""
-    from engine.island import pin_collision_details  # noqa: PLC0415
+def own_pin_label(e: dict) -> bool:
+    """자기 라벨 배치·검사 경로가 따로 있는 마커 — 차트 아일랜드 안(island label_check) 또는 값 레인 위 핀(engine.pin_labels, D-0274).
+    지도 무대 기준 라벨 상자 검사(offscreen·label_collision 등)가 재지 않는다."""
+    return bool(e.get("in_island")) or e.get("pin_value") is not None
 
-    return pin_collision_details(((P.R.cache.get("island_check") or {}).get("pin_collision")) or [])
+
+def check_island_pin_collision(P) -> list[str]:  # noqa: ANN001, N803
+    """[island-pin-collision] hard(v7.4.0 back_and_forth D-0267 §2 → D-0274 §1②, UF-143) — 값 레인 위 핀 라벨이 다른 핀 라벨·점, 계열 선·띠·전망 점,
+    축 값 라벨, 끝값 라벨, 플롯 경계와 교차. 단은 load_project 가 engine.pin_labels.assign_pin_rows 로 골랐다(주 무대 틀·차트 아일랜드 같은 키).
+    표본·자리는 렌더와 같다(engine.pin_labels.pin_label_check)."""
+    rows = ((getattr(P.R, "cache", None) or {}).get("pin_labels") or {}).get("collisions") or []
+    return [f"[island-pin-collision] 핀 {r['a']!r} 라벨 ↔ {r['b']} t={r['t0']:.2f}~{r['t1']:.2f} — 선 위·아래 두 단 어디에도 자리가 없다면"
+            " 연출이 핀 수명을 줄여 순차로 띄운다(D-0274)" for r in rows]
 
 
 def check_island_label_overlap(P) -> list[str]:  # noqa: ANN001, N803
@@ -871,7 +878,7 @@ def offscreen_hits(P) -> list[tuple[dict, float, float, tuple]]:  # noqa: ANN001
     out: list[tuple[dict, float, float, tuple]] = []
     ctx = cairo.Context(cairo.ImageSurface(cairo.FORMAT_ARGB32, 1, 1))
     for e in P.events:
-        if e["type"] not in ("badge", "marker") or e.get("in_island"):   # 아일랜드 안 핀은 아일랜드 뷰로 그린다 — 주 무대 좌표로 재지 않는다(island label_check)
+        if e["type"] not in ("badge", "marker") or own_pin_label(e):   # 아일랜드 안 핀은 아일랜드 뷰로 그린다 — 주 무대 좌표로 재지 않는다(island label_check)
             continue
         t = e["t0"] + 0.5
         while t < e["t1"] - 0.5:
@@ -1773,7 +1780,7 @@ def _story_markers(P, s) -> tuple[list[dict], bool]:  # noqa: ANN001, N803
     """문장 s 가 이름으로 부르는(라벨이 원고에 있는) 지도 마커들과, 문장에 이동·공격 동사가 있는지."""
     RM = QA.route_missing  # noqa: N806
     verb = any(v in s.text for v in RM.move_verbs + RM.attack_verbs)
-    ms = [e for e in P.events if e["type"] == "marker" and e.get("label") and "world" in e and not e.get("in_island")
+    ms = [e for e in P.events if e["type"] == "marker" and e.get("label") and "world" in e and not own_pin_label(e)
           and e["t0"] < s.t1 and e["t1"] > s.t0 and e["label"].replace(" ", "") in s.text.replace(" ", "")]
     return ms, verb
 

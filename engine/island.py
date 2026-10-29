@@ -252,10 +252,6 @@ def card_overlap_details(rows: list[dict]) -> list[str]:
 
 # ------------------------------------------------------------------ 마커 라벨 ↔ 상자·출처 줄(v5.2.0 D-0133 §2·§3)
 LABEL_STEP_FRAMES = 2   # 표본 간격(프레임) — 카메라가 움직이는 동안 라벨 자리가 바뀐다
-PIN_TOL_PX = 2.0        # v7.4.0 D-0267 — 핀 라벨 경계 접촉(≤ 2px)은 겹침이 아니다(checks SUB_TOL_PX 와 같은 취지)
-PIN_GAP_PX = 6.0        # 같은 줄 핀 라벨·점 사이 최소 가로 간격(econ 콘티 판 v2 — "12월 10일 인하"·"워시 의장 취임" 라벨이 맞닿음)
-PIN_DOT_PX = 7.0        # 핀 점(맥동 고리 안쪽 점 + 테두리) 반폭 — 라벨이 다른 핀의 점을 덮으면 겹침
-PIN_SAMPLE_LEAD_SEC = 0.6   # 두 핀이 함께 보이기 시작한 뒤 라벨이 다 나타난 시각(draw_marker 라벨 페이드 0.2+0.4초)
 
 
 def _source_rects(ctx: cairo.Context, chart: dict, v: View, t: float) -> list[tuple[str, Box]]:
@@ -274,6 +270,16 @@ def _source_rects(ctx: cairo.Context, chart: dict, v: View, t: float) -> list[tu
         s = lane_source_text(e)
         out.append((e["lane"], (L.x, by - S.source_size, L.x + tw(ctx, s, S.source_size, S.source_font), by + S.source_size * 0.25)))
     return out
+
+
+def island_view_at(events: list[dict], chart: dict) -> "Callable[[float], Optional[View]]":
+    """시각 → 차트 아일랜드 뷰(그 순간 보이는 차트 아일랜드 상자). 아일랜드가 없으면 None — engine.pin_labels 입력."""
+    isl = [e for e in events if e["type"] == "island" and e.get("kind") == "chart"]
+
+    def at(t: float) -> Optional[View]:
+        box_e = next((i for i in isl if i["t0"] <= t <= i["t1"]), None)
+        return None if box_e is None or island_alpha(t, box_e) <= 0.01 else chart_view(chart, t, island_box(box_e))
+    return at
 
 
 def label_check(events: list[dict], chart: dict) -> dict:
@@ -295,9 +301,8 @@ def label_check(events: list[dict], chart: dict) -> dict:
         else:
             rows.append({**key, **(first or {}), "t0": round(t, 2), "t1": round(t, 2)})
 
-    pins: dict[int, list] = {}   # 표본 프레임 → [(라벨, 글자 상자)] — 핀↔핀 겹침(v7.4.0 D-0267)
     for e in chart["events"]:
-        if e["type"] != "marker" or not e.get("label"):
+        if e["type"] != "marker" or not e.get("label") or e.get("pin_value") is not None:   # 값 레인 위 핀 = engine.pin_labels(D-0274)
             continue
         f0, f1 = int(e["t0"] * FPS), int(e["t1"] * FPS)
         f0 = -(-f0 // LABEL_STEP_FRAMES) * LABEL_STEP_FRAMES   # v7.4.0 — 공통 표본 격자(핀↔핀 대조는 같은 프레임끼리만 만난다)
@@ -313,7 +318,6 @@ def label_check(events: list[dict], chart: dict) -> dict:
             if x < -80 or x > v.vw + 80 or y < -40 or y > v.vh + 40:
                 continue   # 렌더러도 그리지 않는다
             x0, y0, x1, y1, how = island_label_rect(ctx, e, x, y, bw)
-            pins.setdefault(f, []).append((e["label"], (x0, y0, x1, y1), (x - PIN_DOT_PX, y - PIN_DOT_PX, x + PIN_DOT_PX, y + PIN_DOT_PX)))
             if how != "none":
                 flips.add(e["label"])
             inside = x0 >= 0 and y0 >= 0 and x1 <= bw and y1 <= bh
@@ -324,76 +328,7 @@ def label_check(events: list[dict], chart: dict) -> dict:
             for lane, (sx0, sy0, sx1, sy1) in _source_rects(ctx, chart, v, t):
                 if min(x1, sx1) > max(x0, sx0) and min(y1, sy1) > max(y0, sy0):
                     add(overlaps, {"label": e["label"], "lane": lane}, t)
-    collisions: list[dict] = []
-    for f in sorted(pins):
-        live = pins[f]
-        for i in range(len(live)):
-            for j in range(i + 1, len(live)):
-                (na, a, da), (nb, b, db) = live[i], live[j]
-                if _pin_hit(a, da, b, db):
-                    add(collisions, {"a": na, "b": nb}, f / FPS)
-    return {"label_clip": clips, "label_overlap": overlaps, "label_flip": sorted(flips), "pin_collision": collisions}
-
-
-def assign_pin_sides(events: list[dict], chart: dict) -> list[str]:
-    """아일랜드 기록 레인 핀 라벨 자리 고르기(v7.4.0 back_and_forth D-0267 §2) — 날짜 순으로, 이미 놓인(같은 순간 보이는) 핀 라벨과
-    겹치면 점 반대쪽(오른쪽 ↔ 왼쪽, label_flip 체계)으로 옮긴다. 둘 다 겹치면 그대로 두고 검사 [island-pin-collision] 이 잡는다(P6).
-    바꾼 핀 라벨 목록을 돌려준다(provenance)."""
-    from engine.layers.markers import _FLIP, island_label_rect  # noqa: PLC0415
-
-    isl = [e for e in events if e["type"] == "island"]
-    ctx = cairo.Context(cairo.ImageSurface(cairo.FORMAT_ARGB32, 1, 1))
-    placed: list[dict] = []
-    moved: list[str] = []
-
-    def rect_at(e: dict, side: str, t: float) -> Optional[tuple]:
-        box_e = next((i for i in isl if i["t0"] <= t <= i["t1"]), None)
-        if box_e is None:
-            return None
-        v = chart_view(chart, t, island_box(box_e))
-        x, y = v.to_screen(*e["world"])
-        return island_label_rect(ctx, {**e, "side": side}, x, y, island_box(box_e)[2])[:4], (x - PIN_DOT_PX, y - PIN_DOT_PX, x + PIN_DOT_PX, y + PIN_DOT_PX)
-
-    def hits(e: dict, se: str, p: dict, sp: str) -> bool:
-        t = max(e["t0"], p["t0"]) + PIN_SAMPLE_LEAD_SEC
-        a, b = rect_at(e, se, t), rect_at(p, sp, t)
-        return bool(a and b and _pin_hit(a[0], a[1], b[0], b[1]))
-
-    for e in sorted((e for e in chart["events"] if e["type"] == "marker" and e.get("label")), key=lambda e: e["t0"]):
-        others = [p for p in placed if p["t0"] < e["t1"] and e["t0"] < p["t1"]]
-        side0 = e.get("side") or "right"
-        # 후보: (이 핀 쪽, 앞 핀 하나를 반대쪽으로) — 이 핀만 옮기는 것부터, 안 되면 겹치는 앞 핀을 옮긴다
-        cands: list[tuple[str, Optional[dict]]] = [(side0, None)] + ([(_FLIP[side0], None)] if side0 in _FLIP else [])
-        cands += [(side0, p) for p in others if (p.get("side") or "right") in _FLIP]
-        for se, flip_p in cands:
-            sides = {id(p): (_FLIP[p.get("side") or "right"] if p is flip_p else p.get("side") or "right") for p in others}
-            if any(hits(e, se, p, sides[id(p)]) for p in others):
-                continue
-            if flip_p is not None and any(hits(flip_p, sides[id(flip_p)], q, q.get("side") or "right")
-                                          for q in placed if q is not flip_p and q["t0"] < flip_p["t1"] and flip_p["t0"] < q["t1"]):
-                continue   # 앞 핀을 옮기면 그 앞의 핀과 겹친다
-            if flip_p is not None:
-                flip_p["side"] = sides[id(flip_p)]
-                moved.append(flip_p["label"])
-            if se != side0:
-                e["side"] = se
-                moved.append(e["label"])
-            break
-        placed.append(e)
-    return moved
-
-
-def _pin_hit(ta: tuple, da: tuple, tb: tuple, db: tuple) -> bool:
-    """핀 겹침 — 라벨 글자 상자끼리, 또는 한 핀 라벨이 다른 핀의 점(± PIN_DOT_PX)을 덮는다(econ 콘티 판 v2 56초 '이란 전쟁 시작' 라벨이
-    '워시 의장 취임' 점 위를 지났다)."""
-    def ov(a: tuple, b: tuple) -> bool:   # 가로는 PIN_GAP_PX 보다 가까우면 겹침(맞닿은 라벨 "인하워시" 금지), 세로는 실제 교차
-        return min(a[2], b[2]) - max(a[0], b[0]) > -PIN_GAP_PX and min(a[3], b[3]) - max(a[1], b[1]) > PIN_TOL_PX
-    return ov(ta, tb) or ov(ta, db) or ov(da, tb)
-
-
-def pin_collision_details(rows: list[dict]) -> list[str]:
-    return [f"[island-pin-collision] 핀 {r['a']!r} ↔ {r['b']!r} 라벨 겹침 t={r['t0']:.2f}~{r['t1']:.2f} — 반대쪽으로도 겹친다. "
-            "연출이 두 핀을 하나로 합치거나(날짜·값 라벨 둘) 한쪽을 먼저 끝낸다(D-0267)" for r in rows]
+    return {"label_clip": clips, "label_overlap": overlaps, "label_flip": sorted(flips)}
 
 
 def label_clip_details(rows: list[dict]) -> list[str]:
@@ -406,4 +341,4 @@ def label_overlap_details(rows: list[dict]) -> list[str]:
 
 
 __all__ = ["FrameStyle", "card_overlap", "card_overlap_details", "chart_view", "draw_frame", "draw_island", "island_alpha", "island_box", "island_boxes", "island_overlap", "island_slide", "is_main", "label_check",
-           "label_clip_details", "label_overlap_details", "main_missing", "main_missing_details", "assign_pin_sides", "pin_collision_details"]
+           "label_clip_details", "label_overlap_details", "main_missing", "main_missing_details", "island_view_at"]
