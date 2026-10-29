@@ -23,8 +23,7 @@ from tests.test_direction_schema import _plan
 
 REPO = Path(__file__).resolve().parent.parent
 LANES = [{"id": "policy_rate", "label": "기준금리", "kind": "step", "unit": "%"},
-         {"id": "inflation", "label": "물가상승률", "kind": "line", "unit": "%"},
-         {"id": "events", "label": "사건", "kind": "pins"}]
+         {"id": "inflation", "label": "물가상승률", "kind": "line", "unit": "%"}]
 CFG = {"start": "2019-01-01", "end": "2026-10-01", "lanes": LANES,
        "compress": [{"from": "2019-06-01", "to": "2021-01-01", "factor": 0.25}]}
 
@@ -39,7 +38,7 @@ class ProtocolTest(unittest.TestCase):
         self.assertIsInstance(s, Stage)
         self.assertEqual(s.anchor_keys, ("date", "lane"))
         self.assertEqual(s.bounds[:2], (0.0, 0.0))
-        self.assertEqual(s.bounds[3], 3.0)
+        self.assertEqual(s.bounds[3], 2.0)   # 레인 2(v7.4.0 D-0274 — 사건 레인 없음)
 
     def test_config_required(self) -> None:
         with self.assertRaises(TimelineError):
@@ -73,8 +72,8 @@ class WorldTest(unittest.TestCase):
 
     def test_lane_is_id_string(self) -> None:
         s = stage()
-        self.assertEqual(s.to_world(date="2022-01-01", lane="policy_rate")[1], 2.5)
-        self.assertEqual(s.to_world(date="2022-01-01")[1], 1.5)   # lane 없음 = 세로 가운데(카메라)
+        self.assertEqual(s.to_world(date="2022-01-01", lane="policy_rate")[1], 1.5)
+        self.assertEqual(s.to_world(date="2022-01-01")[1], 1.0)   # lane 없음 = 세로 가운데(카메라)
         with self.assertRaises(TimelineError):
             s.to_world(date="2022-01-01", lane=1)   # type: ignore[arg-type]
         with self.assertRaises(TimelineError):
@@ -84,19 +83,19 @@ class WorldTest(unittest.TestCase):
 
     def test_mercator_rejects_timeline_anchor(self) -> None:
         with self.assertRaises(StageError):
-            make_stage("mercator").to_world(date="2022-01-01", lane="events")
+            make_stage("mercator").to_world(date="2022-01-01", lane="policy_rate")
 
 
 class ViewTest(unittest.TestCase):
     def test_vertical_scale_fixed(self) -> None:
-        """D-0085 A — 세로 배율 = lane_h, w 는 시간 폭만. 레인 3개(288px)는 레인 영역 가운데."""
+        """D-0085 A — 세로 배율 = lane_h, w 는 시간 폭만. 레인 2개(192px)는 레인 영역 가운데."""
         s = stage()
         for w in (2000.0, 400.0, 30.0):
-            v = View(s, np.array([1200.0, 1.5, w]))
+            v = View(s, np.array([1200.0, 1.0, w]))
             self.assertEqual((v.sy, v.s), (TIMELINE.lane_h, W_OUT / w))
-            top = v.to_screen(0, 3.0)[1]
+            top = v.to_screen(0, 2.0)[1]
             bot = v.to_screen(0, 0.0)[1]
-            self.assertAlmostEqual(bot - top, 3 * TIMELINE.lane_h)
+            self.assertAlmostEqual(bot - top, 2 * TIMELINE.lane_h)
             self.assertAlmostEqual(top - TIMELINE.area_top, TIMELINE.area_bottom - bot)
 
     def test_w_clamped_to_range(self) -> None:
@@ -170,19 +169,19 @@ class DirectionTimelineTest(unittest.TestCase):
         doc = self._doc()
         self.assertEqual(doc.main_stage(), "timeline")
         cfg = doc.stage_settings("timeline")
-        self.assertEqual([ln["id"] for ln in cfg["lanes"]], ["policy_rate", "inflation", "events"])   # 장르 프로필 기본 레인
+        self.assertEqual([ln["id"] for ln in cfg["lanes"]], ["policy_rate", "inflation"])   # 장르 프로필 기본 레인(v7.4.0 D-0274 — 사건 레인 없음)
         ss = StageSet(configs=doc.stage_configs())
         keys, events, _ = build(doc, Timebase(_plan()), ss.get("timeline"))
         self.assertEqual(keys[1].w, 60)
         st = ss.get("timeline")
-        self.assertEqual((keys[1].x, keys[1].y), st.to_world(date="2022-03-16", lane="events"))
+        self.assertEqual((keys[1].x, keys[1].y), st.to_world(date="2022-03-16", lane="policy_rate"))
         shots = shot_stages(doc, Timebase(_plan()), ss.get)
         self.assertEqual([s.stage for s in shots], ["timeline", "timeline"])
         from engine.registry import validate_events  # noqa: PLC0415
 
         ev = validate_events(events)
         attach_world(ev, st)
-        self.assertEqual(ev[0]["world"], st.to_world(date="2022-03-16", lane="events"))
+        self.assertEqual(ev[0]["world"], st.to_world(date="2022-03-16", lane="policy_rate"))
 
     def test_camera_anchor_must_match_stage(self) -> None:
         raw = self._doc().model_dump(exclude_none=True)
