@@ -398,18 +398,6 @@ events:
   lines:
   - 인플레이션은 여전히 높다
   accent: gold
-- type: marker
-  start:
-    sid: act2_6
-    'off': 0.3
-  end:
-    scene_end: act2
-  date: '2026-08-01'
-  lane: events
-  label: 8월 소비자물가
-  sub: 전년 대비 3.4%
-  side: right
-  hl: true
 - type: card
   start:
     sid: act2_6
