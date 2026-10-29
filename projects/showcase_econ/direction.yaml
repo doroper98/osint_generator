@@ -15,10 +15,6 @@ stage_config:
       label: 연방기금 목표 범위 · 실효금리
       kind: step
       unit: '%'
-    - id: inflation
-      label: 소비자물가 상승률 (전년 대비)
-      kind: line
-      unit: '%'
     - id: events
       label: 기록
       kind: pins
@@ -210,17 +206,6 @@ events:
   series_id: FEDFUNDS
   style: step
   col: amber
-- type: series
-  start:
-    sid: cold_0
-    'off': -0.2
-  end:
-    scene_end: ending
-    'off': 0.5
-  lane: inflation
-  series_id: CPIAUCSL
-  style: line
-  col: teal
 - type: marker
   start:
     sid: cold_0
@@ -420,7 +405,7 @@ events:
   end:
     scene_end: act2
   date: '2026-08-01'
-  lane: inflation
+  lane: events
   label: 8월 소비자물가
   sub: 전년 대비 3.4%
   side: right
@@ -565,7 +550,7 @@ sound:
   cues: []
   no_music_decision: null
 drops:
+- record: CPIAUCSL
+  reason: 아일랜드 높이 298 에 레인 셋이면 금리 값 영역이 약 25px 이라 동결기가 평평해 보인다(UF-140) — 금리 + 기록 두 레인(D-0267 §1). 물가 3.4% 는 act2_6 카드가 말하고, 물가 시계열은 geo 편 dual_line 이 보여 준다
 - record: DFEDTARU
   reason: 차트 아일랜드 policy_rate 레인 band 시리즈(DFEDTARL)의 upper_id 로 목표 범위 상단을 이미 그린다 — 별도 패널은 같은 선을 두 번 그린다
-- record: SEP_20260916
-  reason: act3_1~act3_2 의 primitive dot_plot(record SEP_20260916)으로 점도표를 그린다 — 패널을 더하면 같은 자료가 겹친다
