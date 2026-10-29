@@ -78,5 +78,46 @@ class TimelineFrameTest(unittest.TestCase):
         self.assertIn("chart_edge_bleed", checks.HARD)
 
 
+class TimelineFrameCoverTest(unittest.TestCase):
+    """v7.4.0 back_and_forth D-0259(UF-129 "그래프 넣는 씬에서 오른쪽 상단 아일랜드가 그래프를 가리지 않도록 해" — 시간축 틀 경로)."""
+
+    def _P(self) -> NS:  # noqa: N802
+        P = _P(_stage())
+        P.events = [{"type": "series", "lane": "policy_rate", "series_id": "FEDFUNDS", "t0": 0.0, "t1": 9.0}]
+        return P
+
+    def _lane(self, P: NS, lane: str) -> tuple:  # noqa: N803
+        st = P.R.stage
+        v = View(st, P.cams[0])
+        top, bot = st.lane_screen(v, st.lane_index(lane))
+        return st.frame[0] + 300, top + 2, st.frame[0] + 400, bot - 2
+
+    def test_cover_on_series_lane_is_hard(self) -> None:
+        P = self._P()
+        card = {"type": "card", "tag": "수치", "t0": 2.0, "t1": 5.0}
+        P.events.append(card)
+        box = self._lane(P, "policy_rate")
+        got = checks.timeline_lanes_covered(P, lambda e, t: [box])
+        self.assertEqual([(g[0]["tag"], g[1]) for g in got], [("수치", "policy_rate")])
+        self.assertIn("timeline_frame_cover_types", type(checks.R_.qa_checks.card_over_panel).model_fields)
+
+    def test_cover_on_event_lane_passes(self) -> None:
+        P = self._P()
+        P.events.append({"type": "card", "tag": "핀 옆", "t0": 2.0, "t1": 5.0})
+        box = self._lane(P, "events")   # 레코드 없는 사건 레인 — 허용
+        self.assertEqual(checks.timeline_lanes_covered(P, lambda e, t: [box]), [])
+
+    def test_cover_straddling_frame_is_edge_bleed(self) -> None:
+        from unittest import mock  # noqa: PLC0415
+
+        P = self._P()
+        P.events.append({"type": "card", "tag": "걸침", "t0": 2.0, "t1": 5.0})
+        fx, fy, fw, _ = P.R.stage.frame
+        with mock.patch.object(checks, "timeline_cover_box", return_value=[(fx + fw - 40, fy + 20, fx + fw + 30, fy + 90)]):
+            self.assertTrue(any("걸침" in s for s in checks.check_chart_edge_bleed(P)))
+        with mock.patch.object(checks, "timeline_cover_box", return_value=[(fx + fw - 140, fy + 20, fx + fw - 10, fy + 90)]):
+            self.assertEqual(checks.check_chart_edge_bleed(P), [])
+
+
 if __name__ == "__main__":
     unittest.main()

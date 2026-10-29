@@ -49,7 +49,7 @@ hard 실패가 하나라도 있으면 시각 검수 LLM 을 부르지 않고 연
 | badge_clipped | hard | 지도 뱃지 원이 안전 영역(인셋과 같은 여백 — 화면 가장자리·자막 띠 위·날짜 배지 상자 밖) 밖 `[badge-clipped]` — 또는 위 가장자리 보정(edge_nudge)에 기대 붙음 — place_badge 뒤(v7.4.0 D-0244) |
 | series_unused | hard | 주문 order.yaml data.series 의 시리즈를 그리는 패널이 없다 `[series-unused]` — direction drops(record·사유)만 예외(v7.4.0 D-0245·UF-126) |
 | panel_dropped | hard | 이전 승인 연출(track_v*/direction.yaml)의 데이터 패널 레코드가 새 연출에 없다 `[panel-dropped]` — drops 사유만 예외(v7.4.0 D-0245·UF-126) |
-| card_over_panel | hard | 패널이 페이드 뺀 구간에 떠 있는 동안 덮개(rules cover_types; 데이터 패널은 + cover_types_on_data_panels 사진·영상·컷아웃·뱃지)가 패널 상자를 덮는다(D-0249) `[card-over-panel]`(rules qa_checks.card_over_panel, v7.4.0 D-0248·UF-129) |
+| card_over_panel | hard | 패널이 페이드 뺀 구간에 떠 있는 동안 덮개(rules cover_types; 데이터 패널은 + cover_types_on_data_panels 사진·영상·컷아웃·뱃지)가 패널 상자를 덮는다(D-0249). 시간축 주 무대는 틀 안 시리즈 레인 상자도 데이터 패널로 센다(timeline_frame_cover_types, D-0259) `[card-over-panel]`(rules qa_checks.card_over_panel, v7.4.0 D-0248·UF-129) |
 | article_outlet | hard | 기사 카드가 떠 있는 문장(겹침 ≥ outlet_min_overlap_sec)에 매체 이름이 나오는데 카드 매체(url 도메인·credit_author → rules qa_checks.outlet_names)가 다르다 `[article-outlet-mismatch]`(v7.4.0 D-0250·UF-130) |
 | media_unused | hard | 프로젝트가 등재한 권리 통과 사진({pid}_ 접두 kind photo)이 연출 어디에도 없음 `[media-unused]` — media_notes drop 사유만 예외(v7.4.0 UF-118·D-0238) |
 | badge_orphan | warning | 국기 뱃지가 카드·인용·마커에 붙지 않고 홀로 뜸 `[badge-orphan]`(v7.4.0 D-0240 §4) |
@@ -1501,7 +1501,75 @@ def check_card_over_panel(P) -> list[str]:  # noqa: ANN001, N803
         return None   # 기사·인용·사진·영상·컷아웃·뱃지 = 화면 덮개로 본다(시간 겹침, D-0249)
 
     return [f"[card-over-panel] {e['type']} {e.get('tag') or e.get('mid') or e.get('title') or ''!s} t={t:.1f} — 패널 {p.get('kind')} {p.get('title')!r} 위. "
-            "패널 앞에 끝내거나 뒤에 시작한다(UF-129)" for e, p, t in cards_over_panel(P.events, boxes)]
+            "패널 앞에 끝내거나 뒤에 시작한다(UF-129)" for e, p, t in cards_over_panel(P.events, boxes)] + [
+        f"[card-over-panel] {e['type']} {e.get('tag') or e.get('label') or e.get('mid') or e.get('title') or ''!s} t={t:.1f} — 시간축 틀 안 시리즈 레인 "
+        f"{lane} 위({ov:.1f}초). 사건 레인·틀 밖 자리로 옮기거나 뺀다(UF-129, D-0259)" for e, lane, t, ov in timeline_lanes_covered(P)]
+
+
+TIMELINE_COVER_STEP_SEC = 0.1   # 시간축 틀 덮개 표본 간격(label_hidden 과 같은 값)
+
+
+def timeline_cover_box(P, ctx: cairo.Context, e: dict, t: float) -> "list[tuple] | None":  # noqa: ANN001, N803
+    """시간축 주 무대에서 덮개의 제자리 화면 상자(설계 px). None = 화면 덮개로 본다(컷아웃 — D-0249 와 같은 보수값)."""
+    from engine.cascade import cascade_boxes  # noqa: PLC0415
+    from engine.media_plan import media_box  # noqa: PLC0415
+    from engine.reserved import card_box  # noqa: PLC0415
+
+    if e["type"] in ("card", "primitive"):
+        return [tuple(card_box(ctx, e))]
+    if e["type"] == "cascade":
+        return [tuple(b) for b in cascade_boxes(t, e)]
+    if e["type"] in ("photo", "clip") and "x" in e and e.get("mid") in P.R.assets.media_assets:
+        return [tuple(media_box(e, P.R.assets.media_assets))]
+    if e["type"] == "badge":
+        r = place_over(P, ctx, e, t)
+        return [] if r is None else [r[1]]
+    return None
+
+
+def series_lane_rects(P, t: float) -> list[tuple[str, tuple]]:  # noqa: ANN001, N803
+    """시각 t 에 레코드가 그려지는 시리즈 레인의 화면 상자 — x = 틀 좌우, y = 레인 띠(시간축 주 무대에 틀이 있을 때만)."""
+    st = P.R.stage
+    if st.name != "timeline" or getattr(st, "frame", None) is None:
+        return []
+    lanes = list(dict.fromkeys(e["lane"] for e in P.events if e.get("type") == "series" and e.get("lane") and e["t0"] <= t <= e["t1"]))
+    if not lanes:
+        return []
+    fx, _, fw, _ = st.frame
+    v = View(st, P.cams[min(P.n_frames - 1, max(0, int(t * FPS)))])
+    out = []
+    for ln in lanes:
+        top, bot = st.lane_screen(v, st.lane_index(ln))
+        out.append((ln, (fx, top, fx + fw, bot)))
+    return out
+
+
+def timeline_lanes_covered(P, boxes: "Callable[[dict, float], list[tuple] | None] | None" = None) -> list[tuple[dict, str, float, float]]:  # noqa: ANN001, N803
+    """(덮개, 시리즈 레인, 처음 겹친 시각, 겹친 시간) — v7.4.0 D-0259(UF-129 미보호 경로). 덮개 = rules
+    qa_checks.card_over_panel.timeline_frame_cover_types, 시간 겹침 > min_overlap_sec 이면 보고. 사건 레인(레코드 없음)은 허용.
+    boxes(e, t) = 덮개 제자리 상자(기본 timeline_cover_box)."""
+    cfg = R_.qa_checks.card_over_panel
+    if cfg is None or not cfg.timeline_frame_cover_types or P.R.stage.name != "timeline" or getattr(P.R.stage, "frame", None) is None:
+        return []
+    ctx = cairo.Context(cairo.ImageSurface(cairo.FORMAT_ARGB32, 1, 1))
+    pad = cfg.panel_pad_px
+    out = []
+    for e in P.events:
+        if e["type"] not in cfg.timeline_frame_cover_types:
+            continue
+        hits: dict[str, list[float]] = {}
+        t = e["t0"]
+        while t <= e["t1"]:
+            bx = boxes(e, t) if boxes else timeline_cover_box(P, ctx, e, t)
+            for ln, (x0, y0, x1, y1) in series_lane_rects(P, t):
+                if bx is None or any(a < x1 + pad and c > x0 - pad and b < y1 + pad and d > y0 - pad for a, b, c, d in bx):
+                    hits.setdefault(ln, []).append(t)
+            t += TIMELINE_COVER_STEP_SEC
+        for ln, ts in hits.items():
+            ov = len(ts) * TIMELINE_COVER_STEP_SEC
+            if ov > cfg.min_overlap_sec:
+                out.append((e, ln, ts[0], ov))
+    return out
 
 
 # v7.4.0 D-0250(UF-130 "기사 조판과 자막 나래이션이 다름") — 기사 카드 매체 ↔ 그 구간 문장의 매체 이름
@@ -2310,6 +2378,19 @@ def check_chart_edge_bleed(P) -> list[str]:  # noqa: ANN001, N803
             for name, b in chart_text_boxes(st, v, P.events, t, rng):
                 if b[0] < fx or b[2] > fx + fw or b[1] < fy or b[3] > fy + fh:
                     out.append(f"[chart-edge-bleed] t={t:.2f} {name} 상자 {tuple(round(x, 1) for x in b)} 가 틀 {st.frame} 밖에 닿는다")
+        # v7.4.0 D-0259 — 덮개(카드·프리미티브·사진·뱃지 등) 상자가 틀 테두리에 걸치면(일부만 안) 실패. 완전히 밖이면 틀과 무관
+        cfg = R_.qa_checks.card_over_panel
+        ctx = cairo.Context(cairo.ImageSurface(cairo.FORMAT_ARGB32, 1, 1))
+        for e in P.events:
+            if cfg is None or e["type"] not in cfg.timeline_frame_cover_types:
+                continue
+            t = (e["t0"] + e["t1"]) / 2
+            for b in timeline_cover_box(P, ctx, e, t) or []:
+                inside = b[0] < fx + fw and b[2] > fx and b[1] < fy + fh and b[3] > fy
+                within = b[0] >= fx and b[2] <= fx + fw and b[1] >= fy and b[3] <= fy + fh
+                if inside and not within:
+                    out.append(f"[chart-edge-bleed] t={t:.2f} {e['type']} {e.get('tag') or e.get('label') or e.get('mid') or ''!s} 상자 "
+                               f"{tuple(round(x, 1) for x in b)} 가 틀 {st.frame} 테두리에 걸친다 — 틀 안에 담거나 밖에 둔다(D-0259)")
     elif chart is not None:
         from engine.island import chart_view, island_box  # noqa: PLC0415
 

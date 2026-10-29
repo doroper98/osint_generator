@@ -1946,6 +1946,9 @@ entries:
   - {kind: check, ref: card_over_panel}
   - {kind: rule, ref: qa_checks.card_over_panel}
   - {kind: test, ref: tests/test_v740_card_over_panel.py::CardOverPanelTest::test_card_on_panel_is_hard}
+  - {kind: rule, ref: qa_checks.card_over_panel.timeline_frame_cover_types}
+  - {kind: test, ref: tests/test_timeline_frame.py::TimelineFrameCoverTest::test_cover_on_series_lane_is_hard}
+  - {kind: test, ref: tests/test_timeline_frame.py::TimelineFrameCoverTest::test_cover_straddling_frame_is_edge_bleed}
   status: guarded
   decision: "감독 지시(D-0248) — 그 영상: 그래프 3구간에서 패널과 교차하는 카드류를 연출에서 패널 앞에 끝내거나 뒤에 시작(자동 이동·숨김 없음, P8), 그래프 3컷으로 확인, D-0246·D-0247 과 같은 재렌더. 장치: [card-over-panel] hard(qa_checks.card_over_panel {min_overlap_sec 0.3, panel_pad_px 4}, 모든 무대·모든 패널 kind, 제자리 상자 교차 > 0 · 시간 겹침 > 0.3초, 날짜 배지·자막 제외), 전 렌더 경로 같은 키, 테스트, director 프롬프트 규칙 경유, RENDER-AP 신규"
   source: 감독 세션(Fable) 사용자 대화 2026-10-19
