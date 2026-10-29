@@ -30,6 +30,12 @@ sections:
       - main: 에클스 빌딩 외관·이사회실·아트리움 (자료사진 · 배경)
         license: 미 연준 이사회 Flickr · US Gov Work·Public Domain Mark
         rights: [media.fed_eccles_ext, media.fed_boardroom, media.fed_eccles_atrium]
+      - main: 파월 연준 의장 기자회견 (2026.4.29) · FOMC 회의 (자료사진 · 2016.4) · 에클스 빌딩 (자료사진 · 2011.3)
+        license: 미 연준 이사회 · Wikimedia Commons · Public Domain
+        rights: [media.econ_powell_presser_552, media.econ_fomc_room_2016, media.econ_eccles_ext_a]
+      - main: 공사 중인 에클스 빌딩 (2025.12.17)
+        license: G. Edward Johnson · Wikimedia Commons · CC BY 4.0
+        rights: [media.econ_eccles_2512]
       - main: 케빈 워시
         license_ref: warsh
       - main: 도널드 트럼프
