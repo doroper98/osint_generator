@@ -2105,7 +2105,11 @@ entries:
   quote: 그리고 금리 같이 변동이 크지 않은 데이터나 차트의 가로축을 그렇개 늘려버리면 그냥 가로로 펼쳐진 직선으로밖에 안보인다.
   quote_kind: verbatim
   category: 시간축 — 레인 세로 범위가 0 기준 고정이라 저변동 데이터가 평평한 선으로 보임(선·계단 그래프의 값 범위는 데이터에 맞추고 축 값을 보여야 한다)
-  guards: []
-  status: open
+  guards:
+  - {kind: check, ref: flat_lane}
+  - {kind: rule, ref: stage_timeline.lane_range.flat_lane_min_ratio}
+  - {kind: test, ref: tests/test_lane_range_fit.py::LaneRangeFitTest::test_flat_lane_hard_when_stage_wider_than_view}
+  - {kind: test, ref: tests/test_lane_range_fit.py::LaneRangeFitTest::test_fit_to_stage_period}
+  status: guarded
   decision: D-0263(감독 지시 — 레인 값 범위 데이터 맞춤 + 최소 표시 높이 검사 [flat-lane] hard)
   source: 감독 세션(Fable) 사용자 대화 2026-10-29

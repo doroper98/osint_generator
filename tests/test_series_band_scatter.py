@@ -49,7 +49,7 @@ class BandEventTest(unittest.TestCase):
         self.assertEqual(record_ids(ev[0]), ["DFEDTARL", "DFEDTARU"])
         lo, hi = lane_range(ev, "policy_rate")
         self.assertEqual(lo, 0.0)
-        self.assertEqual(hi, max(v for _, v in load_series("DFEDTARU").values))
+        self.assertGreaterEqual(hi, max(v for _, v in load_series("DFEDTARU").values))   # v7.4.0 D-0263 — fit: 위 끝은 눈금으로 올림(데이터 최소 ≥ 0 이라 아래 끝 0)
 
     def test_value_text_and_source(self) -> None:
         ev = validate_events([BAND])[0]

@@ -65,7 +65,7 @@ class SeriesDataTest(unittest.TestCase):
     def test_lane_range_includes_zero(self) -> None:
         lo, hi = lane_range([FED], "policy_rate")
         self.assertEqual(lo, 0.0)
-        self.assertEqual(hi, max(v for _, v in load_series("FEDFUNDS").values))
+        self.assertGreaterEqual(hi, max(v for _, v in load_series("FEDFUNDS").values))   # v7.4.0 D-0263 — fit: 위 끝은 눈금으로 올림(데이터 최소 ≥ 0 이라 아래 끝 0)
 
     def test_segments_break_at_missing(self) -> None:
         segs = segments(load_series("CPIAUCSL").values)

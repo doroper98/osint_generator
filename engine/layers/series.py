@@ -30,6 +30,10 @@ if TYPE_CHECKING:
     from engine.stage_timeline import TimelineStage
 
 MONTHS = 12
+EPS = 1e-9          # v7.4.0 D-0263 — 눈금 반올림 부동소수 여유
+ROUND_DP = 6        # 범위·눈금 값 소수 자릿수
+DECADE = 10         # 눈금 간격 = 가수 × DECADE^k
+NICE_TRIES = 4      # 가수 목록을 몇 자릿수 위까지 훑는가
 AXIS = "value"   # D-0087 — 값 축(정직성 검사 4개 전부, rules qa_checks.chart_targets)
 
 
@@ -81,13 +85,63 @@ def month_colors(e: dict, R: object) -> dict[date, tuple[float, float, float]] |
     return {d: rgb[r] for (d, _), r in zip(vals, regimes(vals, TIMELINE.series.change_regime_months))}
 
 
-def lane_range(events: list[dict], lane: str) -> tuple[float, float]:
-    """레인 값 범위 — 그 레인의 모든 series 값의 [min(0, 최소), 최대](0 기준선을 늘 포함, 20 §5.3)."""
-    vs = [v for e in events if e["type"] == "series" and e["lane"] == lane for sid in record_ids(e) for _, v in load_series(sid).values]
-    lo, hi = min(0.0, min(vs)), max(vs)
-    if hi <= lo:
-        hi = lo + 1
-    return lo, hi
+def lane_range(events: list[dict], lane: str, stage: "TimelineStage | None" = None) -> tuple[float, float]:
+    """레인 값 범위(v7.4.0 back_and_forth D-0263, UF-140) — rules stage_timeline.lane_range. fit: 무대 기간(stage 가 있으면 cfg start~end) 안
+    그 레인 모든 레코드 값의 [최소 − pad, 최대 + pad], 폭 하한 min_span(단위별), 양 끝 눈금 반올림, 데이터가 모두 0 이상이면 아래 끝 ≥ 0.
+    zero: 옛 [min(0, 최소), 최대]. 영상당 한 번(prepare_series)."""
+    cfg = TIMELINE.lane_range
+    recs = [load_series(sid) for e in events if e["type"] == "series" and e["lane"] == lane for sid in record_ids(e)]
+    lo_d = stage.cfg.start if stage is not None else None
+    hi_d = stage.cfg.end if stage is not None else None
+    vs = [v for r in recs for d, v in r.values if (lo_d is None or d >= lo_d) and (hi_d is None or d <= hi_d)]
+    if not vs:   # 무대 기간 밖 레코드뿐 — 레코드 전체로(그려질 점은 없지만 범위는 정해야 한다)
+        vs = [v for r in recs for _, v in r.values]
+    if cfg.mode == "zero":
+        lo, hi = min(0.0, min(vs)), max(vs)
+        return (lo, hi) if hi > lo else (lo, lo + 1)
+    dmin, dmax = min(vs), max(vs)
+    span = max(dmax - dmin, cfg.min_span.get(recs[0].unit, 0.0) if recs else 0.0)
+    if span <= 0:
+        span = abs(dmax) or 1.0
+    mid = (dmin + dmax) / 2
+    lo, hi = mid - span / 2 - span * cfg.pad_ratio, mid + span / 2 + span * cfg.pad_ratio
+    if dmin >= 0 and lo < 0:
+        lo, hi = 0.0, hi - lo
+    step = nice_step(hi - lo)
+    lo, hi = math.floor(lo / step + EPS) * step, math.ceil(hi / step - EPS) * step
+    if dmin >= 0:
+        lo = max(lo, 0.0)
+    return round(lo, ROUND_DP), round(hi, ROUND_DP)
+
+
+def nice_step(span: float) -> float:
+    """눈금 간격 — nice_mantissas × 10^k 중 (span ÷ 간격) ≤ ticks_max + 1 인 가장 작은 값(v7.4.0 D-0263)."""
+    cfg = TIMELINE.lane_range
+    k = math.floor(math.log10(span / (cfg.ticks_max + 1))) - 1
+    for _ in range(NICE_TRIES):
+        for m in sorted(cfg.nice_mantissas):
+            st = m * DECADE ** k
+            if span / st <= cfg.ticks_max + 1 + EPS:
+                return st
+        k += 1
+    return span
+
+
+def axis_values(rng: tuple[float, float]) -> list[float]:
+    """축 값 — 위·아래 끝 + 그 사이 눈금(최대 ticks_max). 그리기와 검사([chart-edge-bleed])가 같이 쓴다."""
+    lo, hi = rng
+    if TIMELINE.lane_range.mode == "zero":
+        return [lo, hi]
+    st = nice_step(hi - lo)
+    mids = [round(lo + i * st, ROUND_DP) for i in range(1, int(round((hi - lo) / st)))][:TIMELINE.lane_range.ticks_max]
+    return [lo, *mids, hi]
+
+
+def axis_range_note(rng: tuple[float, float], unit: str) -> str | None:
+    """0 이 아닌 곳에서 시작하는 레인의 출처 줄 표기(v7.4.0 D-0263 §2②) — 0 에서 시작하면 None."""
+    if rng[0] == 0:
+        return None
+    return TIMELINE.lane_range.axis_range_note.replace("{lo}", fmt_value(rng[0], "")).replace("{hi}", fmt_value(rng[1], unit))
 
 
 def value_y(stage: "TimelineStage", lane: str, rng: tuple[float, float], v: float) -> float:
@@ -348,7 +402,7 @@ def _draw_axis(ctx: cairo.Context, view: "View", stage: "TimelineStage", e: dict
     if not e["axis"]:
         return
     S = TIMELINE.series  # noqa: N806
-    for v in (rng[0], rng[1]):
+    for v in axis_values(rng):   # v7.4.0 D-0263 — 끝 + 중간 눈금
         _, sy = view.to_screen(0.0, value_y(stage, e["lane"], rng, v))
         ctx.move_to(view.ox, sy)
         ctx.line_to(view.right, sy)
@@ -370,4 +424,4 @@ def _draw_source(ctx: cairo.Context, view: "View", stage: "TimelineStage", e: di
          C["muted"], a, S.source_halo, "l")
 
 
-__all__ = ["lane_source_text", "place_end_label", "band_pairs", "month_colors", "regimes", "draw_series", "fmt_value", "lane_range", "record_ids", "segments", "source_line", "value_text", "value_y"]
+__all__ = ["lane_source_text", "place_end_label", "band_pairs", "month_colors", "regimes", "draw_series", "fmt_value", "lane_range", "nice_step", "axis_values", "axis_range_note", "record_ids", "segments", "source_line", "value_text", "value_y"]

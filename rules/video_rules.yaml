@@ -1264,6 +1264,19 @@ stage_timeline:            # v4.3.0 D-0084 작업 3·4·D-0085·D-0086 — 시�
   # v5.1.0 back_and_forth D-0121 §A(사용자 피드백 D105 — fed 시간축 가로축 스케일이 숏마다 바뀌어 불편) — 축 스케일(카메라 w, 일)을 장면 단위로 고정.
   # w 변화 = 시간축 숏(지도 무대 제외)의 연속한 두 숏 사이 w 가 다름(첫 숏 설정은 변화 아님). checks timeline_rescale(hard)
   # `[timeline-rescale] {at} w {a}→{b} ({이유})`: ① scene_fixed 인데 같은 장면 안 변화 ② 영상 전체 변화 수 > max ③ 비율 max/min < ratio_min. provenance timeline.w_changes[]
+  # v7.4.0 back_and_forth D-0263(사용자 의견 UF-140 "금리 같이 변동이 크지 않은 데이터나 차트의 가로축을 그렇개 늘려버리면 그냥 가로로 펼쳐진 직선으로밖에
+  # 안보인다") — 레인 값 범위를 데이터에 맞춘다. 범위 = 무대 기간(stage_config.timeline start~end) 안 그 레인 레코드 전체의 [최소 − pad, 최대 + pad], pad = 폭 × pad_ratio,
+  # 폭이 min_span(단위별) 보다 작으면 가운데 기준으로 넓힌다(0.25%p 를 절벽처럼 과장하지 않는 하한), 양 끝은 nice_mantissas × 10^k 눈금으로 반올림.
+  # 데이터가 모두 0 이상이면 아래 끝은 0 아래로 내려가지 않는다. 0 이 아닌 곳에서 시작하면 출처 줄 끝에 axis_range_note(정직성 표기, units_visible 이 확인).
+  # 검사 [flat-lane] hard: 그려진 선·계단의 세로 폭 < 레인 값 영역 × flat_lane_min_ratio. 막대(E4)·패널은 대상 아님(0 기준 그대로). 가로축(w)은 고정 — 세로 범위로 살린다
+  lane_range:
+    mode: fit
+    pad_ratio: 0.12
+    nice_mantissas: [1, 2, 2.5, 5]
+    ticks_max: 2
+    min_span: {"%": 1.0, "%p": 1.0, "bp": 50}   # 감독 제안 값(D-0263 §2①) — 사용자 합격 값 아님
+    flat_lane_min_ratio: 0.35
+    axis_range_note: "축 범위 {lo}~{hi}"
   axis_scale:
     w_changes_per_video_max: 0     # v7.4.0 D-0261(사용자 의견 UF-138 "차트 액스축 스케일 고정시키라고 했지", UF-39 재발) — 영상 안 w 는 첫 숏의 하나. 옛 3(오프닝·중간·엔딩 조망)은 폐기
     w_change_ratio_min: 1.5        # 이 미만의 w 변화는 '흔들림'

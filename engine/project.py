@@ -673,11 +673,14 @@ def prepare_series(R: RenderCtx, events: list[dict], cams: np.ndarray, n: int, s
         e["axis"] = e["slot"] == 0
         slots[e["lane"]] = e["slot"] + 1
     for lane in slots:
-        R.cache["series_range"][lane] = lane_range(events, lane)
-    from engine.layers.series import source_line  # noqa: PLC0415
+        R.cache["series_range"][lane] = lane_range(events, lane, st)   # v7.4.0 D-0263 — 무대 기간 안 데이터 맞춤
+    from engine.layers.series import axis_range_note, source_line  # noqa: PLC0415
 
     for lane in slots:   # v7.4.0 D-0256 — 레인당 출처 한 줄(레코드 출처를 " · " 로, 같은 출처는 한 번)
         joined = " · ".join(dict.fromkeys(source_line(e) for e in ser if e["lane"] == lane))
+        note = axis_range_note(R.cache["series_range"][lane], load_series(next(e for e in ser if e["lane"] == lane)["series_id"]).unit)
+        if note:   # v7.4.0 D-0263 §2② — 0 이 아닌 곳에서 시작하는 축은 출처 줄 끝에 범위 표기
+            joined = f"{joined} · {note}"
         for e in ser:
             if e["lane"] == lane:
                 e["lane_source"] = joined

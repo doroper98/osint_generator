@@ -51,6 +51,7 @@ hard 실패가 하나라도 있으면 시각 검수 LLM 을 부르지 않고 연
 | panel_dropped | hard | 이전 승인 연출(track_v*/direction.yaml)의 데이터 패널 레코드가 새 연출에 없다 `[panel-dropped]` — drops 사유만 예외(v7.4.0 D-0245·UF-126) |
 | card_over_panel | hard | 패널이 페이드 뺀 구간에 떠 있는 동안 덮개(rules cover_types; 데이터 패널은 + cover_types_on_data_panels 사진·영상·컷아웃·뱃지)가 패널 상자를 덮는다(D-0249). 시간축 주 무대는 틀 안 시리즈 레인 상자도 데이터 패널로 센다(timeline_frame_cover_types, D-0259) `[card-over-panel]`(rules qa_checks.card_over_panel, v7.4.0 D-0248·UF-129) |
 | media_density | hard | (photo+clip+cutout 이벤트) ÷ 영상 분 < rules media_beats.min_density_per_min(사유 통과 없음, 회귀 기준만 density_exempt_projects) `[media-density]`(v7.4.0 D-0261·UF-139) |
+| flat_lane | hard | 시간축 레인: 카메라가 보여 준 날짜 구간 안 선·계단의 세로 폭 ÷ 레인 값 범위 < rules stage_timeline.lane_range.flat_lane_min_ratio `[flat-lane]`(v7.4.0 D-0263·UF-140) |
 | article_outlet | hard | 기사 카드가 떠 있는 문장(겹침 ≥ outlet_min_overlap_sec)에 매체 이름이 나오는데 카드 매체(url 도메인·credit_author → rules qa_checks.outlet_names)가 다르다 `[article-outlet-mismatch]`(v7.4.0 D-0250·UF-130) |
 | media_unused | hard | 프로젝트가 등재한 권리 통과 사진({pid}_ 접두 kind photo)이 연출 어디에도 없음 `[media-unused]` — media_notes drop 사유만 예외(v7.4.0 UF-118·D-0238) |
 | badge_orphan | warning | 국기 뱃지가 카드·인용·마커에 붙지 않고 홀로 뜸 `[badge-orphan]`(v7.4.0 D-0240 §4) |
@@ -106,7 +107,7 @@ SHADOW_PX = 7             # badge_box 가 원 둘레에 더하는 그림자 여�
 HARD = ("map_contrast", "overlap", "offscreen", "glyphs", "glyph_size", "labels", "date", "subtitles", "rights", "forbidden", "stage_continuity",
         "genre_elements", "chart_honesty", "series_limit_3", "units_visible", "as_of_visible", "boundary_as_route",
         "geo_mismatch", "timeline_rescale", "backdrop_rights", "backdrop_repeat", "island_overlap",
-        "backdrop_main_missing", "island_label_clip", "cascade", "subtitle_overlap", "label_collision", "timeline_span", "route_frame", "panel_overflow", "flag_territory", "badge_over_panel", "opening_establish", "camera_continuity", "card_exposure", "route_label_cross", "route_label_overlap", "article_backdrop", "quote_in_script", "route_missing_other", "frame_missing_target", "route_missing", "frame_missing", "bgm_decision", "endcard_black", "camera_per_sentence", "label_jump", "camera_speed", "title_backdrop", "camera_bounds", "cutaway_churn", "unit_glyph_font", "transition_camera", "media_unused", "inset_clipped", "press_credit", "static_camera", "route_speed", "sea_only_frame", "unit_ton_glyph", "badge_clipped", "series_unused", "panel_dropped", "card_over_panel", "article_outlet", "catalog_label_overlap", "chart_only_run", "chart_world_split", "series_label_overlap", "chart_edge_bleed", "media_density")   # cutaway_churn v7.4.0 D-0229 §2.3, island_label_clip v5.2.0 D-0133 §2, backdrop_main_missing v5.2.0 D-0129 §B, island_overlap v5.1.0 D-0126 Q3, geo_mismatch v4.10.0 D-0116, timeline_rescale v5.1.0 D-0121 §A, backdrop_* v5.1.0 D-0123
+        "backdrop_main_missing", "island_label_clip", "cascade", "subtitle_overlap", "label_collision", "timeline_span", "route_frame", "panel_overflow", "flag_territory", "badge_over_panel", "opening_establish", "camera_continuity", "card_exposure", "route_label_cross", "route_label_overlap", "article_backdrop", "quote_in_script", "route_missing_other", "frame_missing_target", "route_missing", "frame_missing", "bgm_decision", "endcard_black", "camera_per_sentence", "label_jump", "camera_speed", "title_backdrop", "camera_bounds", "cutaway_churn", "unit_glyph_font", "transition_camera", "media_unused", "inset_clipped", "press_credit", "static_camera", "route_speed", "sea_only_frame", "unit_ton_glyph", "badge_clipped", "series_unused", "panel_dropped", "card_over_panel", "article_outlet", "catalog_label_overlap", "chart_only_run", "chart_world_split", "series_label_overlap", "chart_edge_bleed", "media_density", "flat_lane")   # cutaway_churn v7.4.0 D-0229 §2.3, island_label_clip v5.2.0 D-0133 §2, backdrop_main_missing v5.2.0 D-0129 §B, island_overlap v5.1.0 D-0126 Q3, geo_mismatch v4.10.0 D-0116, timeline_rescale v5.1.0 D-0121 §A, backdrop_* v5.1.0 D-0123
 WARN = ("shots", "media_beats", "media_upscaled", "endcard_roll", "geo_unsourced",   # endcard_roll v4.7.0 D-0106, geo_unsourced D-0107
         "static_window", "stage_choice", "card_island", "island_label_overlap", "cascade_label_hidden",
         "map_contrast_shape", "battle_geo", "portrait_unused", "ratio_graphic", "inset_overlap", "tempo_density", "article_press_missing", "badge_orphan")   # ratio_graphic v7.4.0 D-0229 §2.6   # v5.21.14 D-0195·D-0199. map_contrast_shape v5.18.0 D-0161 §4   # static_window v4.11.0 D-0118, stage_choice v5.1.0 D-0123, card_island v5.2.0 D-0129 §C, island_label_overlap D-0133 §3
@@ -2181,6 +2182,7 @@ def run_checks(P, times: list[float], provenance: dict, drawn: list[tuple[str, f
         "series_label_overlap": lambda: check_series_label_overlap(P),   # v7.4.0 D-0256(hard)
         "chart_edge_bleed": lambda: check_chart_edge_bleed(P),   # v7.4.0 D-0257(hard, UF-137)
         "media_density": lambda: check_media_density(P),   # v7.4.0 D-0261(hard, UF-139)
+        "flat_lane": lambda: check_flat_lane(P),   # v7.4.0 D-0263(hard, UF-140)
         "press_credit": lambda: check_press_credit(P, times, drawn),   # v7.4.0 D-0240 §3(hard)
         "static_camera": lambda: check_static_camera(P),   # v7.4.0 D-0241 §1(hard, UF-120)
         "route_speed": lambda: check_route_speed(P),   # v7.4.0 D-0241 §4(hard, UF-123)
@@ -2330,7 +2332,7 @@ def chart_text_boxes(stage, v: View, events: list[dict], t: float, rng: dict, dx
     """시간축 세계의 글자 상자(화면 설계 px) — 레인 이름·레인 출처 줄·축 값(그리는 함수와 같은 자리). dx·dy = 아일랜드 상자 원점."""
     import cairo  # noqa: PLC0415
 
-    from engine.layers.series import fmt_value, lane_name, lane_source_text, value_y  # noqa: PLC0415
+    from engine.layers.series import axis_values, fmt_value, lane_name, lane_source_text, value_y  # noqa: PLC0415
     from engine.typography import tw  # noqa: PLC0415
 
     ctx = cairo.Context(cairo.ImageSurface(cairo.FORMAT_ARGB32, 1, 1))
@@ -2353,13 +2355,60 @@ def chart_text_boxes(stage, v: View, events: list[dict], t: float, rng: dict, dx
         from data.series import load_series  # noqa: PLC0415
 
         unit = load_series(e["series_id"]).unit
-        for val in r:
+        for val in axis_values(r):   # v7.4.0 D-0263 — 끝 + 중간 눈금(그리기와 같은 값)
             _, sy = v.to_screen(0.0, value_y(stage, e["lane"], r, val))
             s = fmt_value(val, unit)
             x1 = v.right - S.axis_label_margin_px
             out.append((f"축 값 {e['lane']} {s}", (x1 - tw(ctx, s, S.axis_label_size, S.axis_label_font) + dx,
                                                   sy + S.axis_label_dy - S.axis_label_size + dy, x1 + dx, sy + S.axis_label_dy + dy)))
     return out
+
+
+FLAT_LANE_STEP_SEC = 0.5   # 카메라가 보여 준 날짜 구간 표본 간격
+
+
+def visited_dates(st, P) -> "tuple[date, date] | None":  # noqa: ANN001, N803
+    """영상 동안 카메라가 화면에 보여 준 날짜 구간(시간축 주 무대) — 프레임 표본의 보이는 x 범위 합."""
+    from datetime import timedelta  # noqa: PLC0415
+
+    if P.cams is None:
+        return None
+    xs0, xs1 = math.inf, -math.inf
+    for i in range(0, P.n_frames, max(1, int(FLAT_LANE_STEP_SEC * FPS))):
+        v = View(st, P.cams[i])
+        xs0, xs1 = min(xs0, v.x0), max(xs1, v.x0 + v.w)
+    if xs0 == math.inf:
+        return None
+    to_d = lambda x: st.cfg.start + timedelta(days=round(st.date_of(max(0.0, x))))  # noqa: E731
+    return to_d(xs0), to_d(xs1)
+
+
+def flat_lanes(P) -> list[tuple[str, float, tuple[float, float]]]:  # noqa: ANN001, N803
+    """(레인, 그려진 세로 폭 ÷ 레인 값 범위, 보인 값 범위) — 카메라가 보여 준 날짜 구간 안의 그 레인 레코드 값으로 잰다(v7.4.0 D-0263)."""
+    from data.series import load_series  # noqa: PLC0415
+    from engine.layers.series import record_ids  # noqa: PLC0415
+
+    st = P.R.stage
+    rng = P.R.cache.get("series_range") or {}
+    if st.name != "timeline" or not rng:
+        return []
+    span = visited_dates(st, P)
+    out = []
+    for lane, (lo, hi) in rng.items():
+        vs = [v for e in P.events if e.get("type") == "series" and e.get("lane") == lane for sid in record_ids(e)
+              for d, v in load_series(sid).values if span is None or span[0] <= d <= span[1]]
+        if not vs or hi <= lo:
+            continue
+        out.append((lane, (max(vs) - min(vs)) / (hi - lo), (min(vs), max(vs))))
+    return out
+
+
+def check_flat_lane(P) -> list[str]:  # noqa: ANN001, N803
+    """[flat-lane] hard(v7.4.0 back_and_forth D-0263, 사용자 의견 UF-140 "변동이 크지 않은 데이터… 가로로 펼쳐진 직선으로밖에 안보인다") —
+    화면에 보인 구간의 선·계단 세로 폭이 레인 값 범위 × rules stage_timeline.lane_range.flat_lane_min_ratio 미만. 경고로 낮추지 않는다."""
+    mn = TIMELINE.lane_range.flat_lane_min_ratio
+    return [f"[flat-lane] 레인 {lane}: 화면에 보인 값 {a:g}~{b:g} 가 레인 범위의 {r:.0%} < {mn:.0%} — 무대 기간(stage_config.timeline start·end)을"
+            " 보이는 구간에 맞추거나(값 범위는 무대 기간 데이터로 정해진다) 그 레인을 뺀다(UF-140)" for lane, r, (a, b) in flat_lanes(P) if r < mn]
 
 
 MEDIA_DENSITY_TYPES = ("photo", "clip", "cutout")   # v7.4.0 D-0261 — 실사 이벤트(기사·인셋·뱃지는 세지 않는다)

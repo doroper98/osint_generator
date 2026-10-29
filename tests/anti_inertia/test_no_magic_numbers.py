@@ -25,7 +25,7 @@ DATA_DRIVEN_MODULES: dict[str, frozenset[float]] = {   # 모듈 → 추가 허�
     "engine/framing.py": frozenset({4}),            # round(·, 4) 보고 자릿수
     "engine/shots.py": frozenset(),
     "engine/stage_timeline.py": frozenset({12, 4}),
-    "engine/layers/series.py": frozenset({12}),
+    "engine/layers/series.py": frozenset({12, 10, 6, 4, 1e-9}),   # 12달 · v7.4.0 D-0263 10진 자릿수(가수 × 10^k, 가수는 rules lane_range.nice_mantissas)·round(·, 6)·가수 훑기 자릿수·부동소수 여유
     "engine/layers/flight.py": frozenset(),         # v7.3.0 D-0206 — 수치는 rules flight
     "engine/honesty.py": frozenset(),     # v4.3.0 — 달력 상수(12달). 레이어 수치는 rules stage_timeline.series  # v4.3.0 — 달력 상수(12달 · 4분기). 무대 수치는 rules stage_timeline
     "engine/camera_suggest.py": frozenset({4}),     # round(·, 4) 보고 자릿수

@@ -1990,6 +1990,19 @@ class TimelineBand(_Strict):
     sep: str = Field(min_length=1)
 
 
+class TimelineLaneRange(_Strict):
+    """v7.4.0 back_and_forth D-0263(사용자 의견 UF-140 "변동이 크지 않은 데이터… 가로로 펼쳐진 직선으로밖에 안보인다") — 시간축 레인 값 범위.
+    fit = [min − pad, max + pad](무대 기간 안 레코드 전체, 영상당 한 번), 최소 폭 하한(단위별), 눈금 반올림. 막대는 0 기준(chart_honesty) 그대로."""
+
+    mode: Literal["fit", "zero"]
+    pad_ratio: float = Field(ge=0, lt=0.5)
+    nice_mantissas: list[float] = Field(min_length=1)
+    ticks_max: int = Field(ge=0)              # 위·아래 끝 사이 중간 눈금 최대 수
+    min_span: dict[str, float]                # 단위 → 최소 폭(없는 단위 = 데이터 폭)
+    flat_lane_min_ratio: float = Field(gt=0, lt=1)   # [flat-lane] hard — 그려진 세로 폭 ÷ 레인 값 영역 높이 하한
+    axis_range_note: str = Field(pattern=r"\{lo\}.*\{hi\}")   # 0 이 아닌 곳에서 시작하면 출처 줄 끝에 붙는 표기
+
+
 class TimelineAxisScale(_Strict):
     """v5.1.0 D-0121 §A(사용자 피드백 D105) — 시간축 축 스케일(카메라 w) 고정. checks timeline_rescale(hard)·provenance timeline.w_changes[].
     grammar 의 {max}·{ratio} 는 같은 블록 값(프롬프트 {{RULES.stage_timeline.axis_scale}})."""
@@ -2032,6 +2045,7 @@ class StageTimelineRules(_Strict):
     band: TimelineBand             # v4.4.0 — D-0090 작업 2
     missing_mark: TimelineMissingMark
     axis_scale: TimelineAxisScale  # v5.1.0 — D-0121 §A
+    lane_range: TimelineLaneRange  # v7.4.0 — D-0263(UF-140)
     frame: TimelineFrame           # v7.4.0 — D-0257(UF-137)
 
 
