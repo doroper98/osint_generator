@@ -2312,11 +2312,6 @@ class IslandRules(_Strict):
     main_kinds: list[Literal["chart", "primitive", "photo", "clip", "article", "panel"]] = Field(min_length=1)
     card_only_max_sec: float = Field(gt=0)   # 주 아일랜드 없는 구간 상한(전환 허용)
 
-    @model_validator(mode="after")
-    def _same_h(self) -> "IslandRules":
-        if len({b[3] for b in self.boxes.values()}) != 1:
-            raise ValueError("island.boxes 높이는 모두 같아야 한다(차트 레인 영역 한 벌, D-0126 Q2)")
-        return self
 
 
 class GenrePromptRules(_Strict):

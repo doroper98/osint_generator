@@ -175,7 +175,7 @@ events:
   img: fed_presser_0916
 - type: island
   kind: chart
-  box: left
+  box: left_tall
   start:
     sid: cold_0
     'off': -0.4

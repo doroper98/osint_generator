@@ -475,7 +475,10 @@ def load_project(proj: Path, direction: Optional[Direction] = None, out: Optiona
             keys = [cam(0.0, *R.stage.to_world(), R.stage.fixed_w, 0.0, "cut")]
         if any(is_island_shot(doc, s_, "backdrop") for s_ in doc.shots):
             chart_stage = stages.get(ISLAND_STAGE)
-            box_h = next(iter(ISLAND.boxes.values()))[3]   # 상자 높이는 모두 같다(rules 검증)
+            hs = {ISLAND.boxes[e.get("box") or "center"][3] for e in raw_events if e.get("type") == "island" and e.get("kind") == "chart"}
+            if len(hs) > 1:   # v7.4.0 D-0268 — 차트 시간축 무대는 영상당 하나 → 차트 아일랜드 상자 높이도 하나(left_tall 등 높이가 다른 상자)
+                raise ProjectError(f"차트 아일랜드 상자 높이가 섞였다 {sorted(hs)} — 한 영상의 차트 아일랜드는 같은 높이 상자만(레인 영역 한 벌)")
+            box_h = hs.pop() if hs else next(iter(ISLAND.boxes.values()))[3]
             chart_stage.fit_island(box_h, ISLAND.chart.pad_top, ISLAND.chart.pad_bottom)   # Q2 A — 레인 자동 맞춤
             R.cache["island"] = {"lane_h_effective": round(chart_stage.y_px_per_unit, 3), "lane_h": TIMELINE.lane_h,
                                  "lanes": chart_stage.n}
