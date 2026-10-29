@@ -2138,3 +2138,14 @@ entries:
   recurs_of: UF-140
   decision: 감독 — 그림 확인 뒤 D(기록 레인 제거·핀을 선 위에·플롯 높이 = 액자 높이 검사)
   source: 감독 세션(Fable) 사용자 대화 2026-10-29
+- id: UF-143
+  date: '2026-10-30'
+  project: showcase_econ
+  at: 감독 스케치(액자 세로 전체 금리 차트) 검토 — 금리 선 위 사건 핀 라벨 5개가 서로·선·띠와 겹침
+  quote: 이거 관련해서 상당히 좋아졌는데, 차트에 글씨가 너무 겹치네?
+  quote_kind: verbatim
+  category: 시간축 — 선 위 핀 라벨 겹침(라벨↔라벨·라벨↔선·띠·축 값). 방향(세로 전체·핀을 선 위에)은 사용자 승인
+  guards: []
+  status: open
+  decision: D-0274(라벨 위·아래 두 단 + 리더선, 상자 교차 0 — [island-pin-collision] 을 선 위 핀·선·띠·축 라벨까지 확장)
+  source: 감독 세션(Fable) 사용자 대화 2026-10-30
