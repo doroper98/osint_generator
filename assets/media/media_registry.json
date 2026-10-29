@@ -4982,6 +4982,128 @@
     }
    },
    "file": "econ_eccles_ext_a_720.jpg"
+  },
+  "econ_warsh_swearing_5": {
+   "kind": "photo",
+   "title": "File:Swearing-in ceremony for Federal Reserve Chair Kevin Warsh at the White House, Friday, May 22, 2026 - 5.jpg",
+   "license": "Public domain",
+   "author": "The White House",
+   "credit_author": "백악관",
+   "date": "2026-05-22 12:10:57",
+   "url": "https://commons.wikimedia.org/wiki/File:Swearing-in_ceremony_for_Federal_Reserve_Chair_Kevin_Warsh_at_the_White_House,_Friday,_May_22,_2026_-_5.jpg",
+   "caption": "워시 연준 의장 취임 선서",
+   "file_note": "2026. 05. 22",
+   "depicts": [
+    "케빈 워시 연준 의장",
+    "클래런스 토머스 대법관",
+    "백악관 이스트룸"
+   ],
+   "is_file_photo": false,
+   "verified_by": {
+    "by": "opus 구현 세션 2 — Commons extmetadata 라이선스·설명문 대조(D-0261 ②②), 실사용 판정은 게이트 ②",
+    "on": "2026-10-29",
+    "casualty_free": true,
+    "relevance": "act1 '5월에는 워시가 연준 의장에 취임' — 취임 선서 당일(Commons 설명문: sworn in by Justice Clarence Thomas … May 22, 2026, Official White House Photo)"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-10-29",
+   "source_hash": "8a855a06964bef71b0b088493264c3e0",
+   "tool": {
+    "name": "media_fetch.photo",
+    "params": {
+     "source": "econ_warsh_swearing_5.jpg",
+     "thumb_w": 1600,
+     "crop": [
+      720,
+      450
+     ],
+     "color": 0.9,
+     "contrast": 1.04,
+     "jpeg_quality": 92
+    }
+   },
+   "file": "econ_warsh_swearing_5_720.jpg"
+  },
+  "econ_warsh_swearing_1": {
+   "kind": "photo",
+   "title": "File:Swearing-in ceremony for Federal Reserve Chair Kevin Warsh at the White House, Friday, May 22, 2026 - 1.jpg",
+   "license": "Public domain",
+   "author": "The White House",
+   "credit_author": "백악관",
+   "date": "2026-05-22 11:42:27",
+   "url": "https://commons.wikimedia.org/wiki/File:Swearing-in_ceremony_for_Federal_Reserve_Chair_Kevin_Warsh_at_the_White_House,_Friday,_May_22,_2026_-_1.jpg",
+   "caption": "워시 의장 임명장에 서명하는 트럼프 대통령",
+   "file_note": "2026. 05. 22",
+   "depicts": [
+    "도널드 트럼프 대통령",
+    "케빈 워시 연준 의장",
+    "백악관 레드룸"
+   ],
+   "is_file_photo": false,
+   "verified_by": {
+    "by": "opus 구현 세션 2 — Commons extmetadata 라이선스·설명문 대조(D-0261 ②②), 실사용 판정은 게이트 ②",
+    "on": "2026-10-29",
+    "casualty_free": true,
+    "relevance": "act1 워시 취임 문장 — 같은 날 임명장 서명(Commons 설명문)"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-10-29",
+   "source_hash": "c005c630c2c0347c139f286b3ce67525",
+   "tool": {
+    "name": "media_fetch.photo",
+    "params": {
+     "source": "econ_warsh_swearing_1.jpg",
+     "thumb_w": 1600,
+     "crop": [
+      720,
+      450
+     ],
+     "color": 0.9,
+     "contrast": 1.04,
+     "jpeg_quality": 92
+    }
+   },
+   "file": "econ_warsh_swearing_1_720.jpg"
+  },
+  "econ_walmart_2508": {
+   "kind": "photo",
+   "title": "File:Walmart - August 2025 - Sarah Stierch.jpg",
+   "license": "CC0",
+   "author": "Missvain",
+   "credit_author": "Missvain",
+   "date": "Taken on 9 August 2025",
+   "url": "https://commons.wikimedia.org/wiki/File:Walmart_-_August_2025_-_Sarah_Stierch.jpg",
+   "caption": "미국 마트의 과일 가격표",
+   "file_note": "자료사진 · 2025. 08",
+   "depicts": [
+    "미국 마트",
+    "식료품 가격"
+   ],
+   "is_file_photo": true,
+   "verified_by": {
+    "by": "opus 구현 세션 2 — Commons extmetadata 라이선스·설명문 대조(D-0261 ②②), 실사용 판정은 게이트 ②",
+    "on": "2026-10-29",
+    "casualty_free": true,
+    "relevance": "act2 '8월 소비자물가는 1년 전보다 3.4%' — 물가 장면 자료사진(2025년 8월 캘리포니아 나파, 2026년 8월 사진 아님)"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-10-29",
+   "source_hash": "03b7813c8d22d6eeca57772c57e0457b",
+   "tool": {
+    "name": "media_fetch.photo",
+    "params": {
+     "source": "econ_walmart_2508.jpg",
+     "thumb_w": 1600,
+     "crop": [
+      720,
+      450
+     ],
+     "color": 0.9,
+     "contrast": 1.04,
+     "jpeg_quality": 92
+    }
+   },
+   "file": "econ_walmart_2508_720.jpg"
   }
  }
 }
