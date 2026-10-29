@@ -1,0 +1,491 @@
+# direction.B.yaml — A/B 비교 구간 전용 B 연출(v7.4.0 D-0253 §2·D-0265). direction.yaml(A1)에서 배경·아일랜드만 뺀 시간축 전면 틀. tools/ab_compare.py 가 읽는다
+version: 1
+genre: macro_monetary
+stage: timeline
+media_note: '인용 0건: 원문 따옴표로 확인된 발언 후보가 없다. 영상 0건: Commons 워시 취임 영상은 원본 서버 429, YouTube 는 서버 403(우회 안 함), 연준 사이트 플레이어(Brightcove)는 도메인 허용 대기 — 클립은 전편 전 목표(D-0265). 사진은 배경 5 + 슬롯 6(손 수정 D-0265: 파월 4.29 회견·워시
+  취임 선서·마트 가격표 추가, 점도표 프리미티브 → 금리 레인 전망 점) · B 비교 연출: 배경 사진·차트 아일랜드 없이 시간축 전면 틀, 사진은 레인 오른쪽 아래 자리(timeline_photo)'
+story_geo_exempt: null
+opening_exempt: null
+stage_reason: A/B 비교 B — 시간축 전면 틀(D-0265 §A/B), 본편은 direction.yaml(A1)
+stage_config:
+  timeline:
+    start: '2025-06-01'
+    end: '2028-12-31'
+    lanes:
+    - id: policy_rate
+      label: 연방기금 목표 범위 · 실효금리
+      kind: step
+      unit: '%'
+    - id: events
+      label: 기록
+      kind: pins
+places: {}
+paths: {}
+shots:
+- at:
+    sid: cold_0
+    'off': -0.4
+  mode: cut
+  dur: 0.0
+  camera:
+    lon: null
+    lat: null
+    place: null
+    date: '2026-06-01'
+    lane: null
+    w: 420.0
+  under: false
+  allow_sea: null
+  scene: null
+  stage: null
+  reason: null
+- at:
+    scene_start: act1
+    'off': -0.6
+  mode: move
+  dur: 3.4
+  camera:
+    lon: null
+    lat: null
+    place: null
+    date: '2026-01-15'
+    lane: null
+    w: 420.0
+  under: false
+  allow_sea: null
+  scene: null
+  stage: null
+  reason: 원고 act1_0 '시간을 1년 전으로 돌려'에 맞춘 의도된 과거 이동
+- at:
+    sid: act2_0
+    'off': -0.6
+  mode: move
+  dur: 3.4
+  camera:
+    lon: null
+    lat: null
+    place: null
+    date: '2026-06-15'
+    lane: null
+    w: 420.0
+  under: false
+  allow_sea: null
+  scene: null
+  stage: null
+  reason: null
+- at:
+    sid: act3_0
+    'off': -0.6
+  mode: move
+  dur: 2.6
+  camera:
+    lon: null
+    lat: null
+    place: null
+    date: '2026-09-01'
+    lane: null
+    w: 420.0
+  under: false
+  allow_sea: null
+  scene: null
+  stage: null
+  reason: null
+- at:
+    sid: act3_1
+    'off': -0.4
+  mode: move
+  dur: 3.0
+  camera:
+    lon: null
+    lat: null
+    place: null
+    date: '2027-08-01'
+    lane: null
+    w: 420.0
+  under: false
+  allow_sea: null
+  scene: null
+  stage: null
+  reason: 전망 점(2027 열까지, 연말 x)을 보이려 같은 w 로 오른쪽 이동(D-0260 §2·D-0265)
+- at:
+    sid: ending_0
+    'off': -0.8
+  mode: move
+  dur: 3.4
+  camera:
+    lon: null
+    lat: null
+    place: null
+    date: '2026-04-01'
+    lane: null
+    w: 420.0
+  under: false
+  allow_sea: null
+  scene: null
+  stage: null
+  reason: 엔딩 — 2025년 10월과 2026년 9월의 3.75~4% 두 지점을 한 화면에 함께 보이려 가운데로 물러남
+events:
+- type: series
+  start:
+    sid: cold_0
+    'off': -0.2
+  end:
+    scene_end: ending
+    'off': 0.5
+  lane: policy_rate
+  series_id: DFEDTARL
+  upper_id: DFEDTARU
+  style: band
+  color_by: change
+  col: gold
+- type: series
+  start:
+    sid: cold_0
+    'off': -0.2
+  end:
+    scene_end: ending
+    'off': 0.5
+  lane: policy_rate
+  series_id: FEDFUNDS
+  style: step
+  col: amber
+- type: marker
+  start:
+    sid: cold_0
+    'off': 0.3
+  end:
+    scene_end: cold
+  date: '2026-09-16'
+  lane: events
+  label: 9월 16일 인상
+  sub: 3.75~4%
+  side: right
+  hl: true
+- type: card
+  start:
+    sid: cold_0
+    'off': 0.8
+  end:
+    sid: cold_0
+    edge: end
+    'off': 0.4
+  tag: 9월 16일 · 연준
+  bigs:
+  - - 3.75~4%
+    - 기준금리 목표 범위 · 0.25%p 인상
+  accent: gold
+- type: article
+  start:
+    sid: cold_1
+    'off': -0.4
+  end:
+    scene_start: act1
+  mid: fox_0916
+  theme: dark
+- type: marker
+  start:
+    sid: act1_1
+    'off': 0.3
+  end:
+    sid: act1_5
+    'off': -0.1
+  date: '2025-10-29'
+  lane: events
+  label: 10월 29일 인하
+  sub: 3.75~4%
+  side: right
+  hl: true
+- type: photo
+  start:
+    sid: act1_2
+    'off': 0.4
+  end:
+    sid: act1_2
+    edge: end
+    'off': 0.4
+  mid: fed_boardroom
+  place: timeline_photo
+- type: marker
+  start:
+    sid: act1_3
+    'off': 0.4
+  end:
+    sid: act1_5
+    'off': -0.1
+  date: '2025-12-10'
+  lane: events
+  label: 12월 10일 인하
+  sub: 3.5~3.75%
+  side: right
+  hl: true
+- type: card
+  start:
+    sid: act1_4
+    'off': 0.3
+  end:
+    sid: act1_4
+    edge: end
+    'off': 0.6
+  tag: 2026년 1~6월
+  lines:
+  - 네 번의 회의 · 금리 그대로
+  accent: muted
+- type: marker
+  start:
+    word:
+      sid: act1_5
+      text: 2월
+  end:
+    sid: act1_6
+    'off': -0.1
+  date: '2026-02-28'
+  lane: events
+  label: 이란 전쟁 시작
+  sub: 2월 28일
+  side: right
+  hl: false
+- type: marker
+  start:
+    sid: act1_6
+    'off': 0.3
+  end:
+    sid: act1_7
+    'off': -0.1
+  date: '2026-05-01'
+  lane: events
+  label: 워시 의장 취임
+  sub: 5월
+  side: right
+  hl: false
+- type: photo
+  start:
+    sid: act1_6
+    'off': 0.4
+  end:
+    sid: act1_6
+    edge: end
+    'off': 0.8
+  mid: econ_warsh_swearing_5
+  place: timeline_photo
+- type: marker
+  start:
+    word:
+      sid: act1_7
+      text: 7월
+  end:
+    scene_end: act1
+  date: '2026-07-29'
+  lane: events
+  label: 7월 회의
+  sub: 갈림길
+  side: left
+  hl: true
+- type: marker
+  start:
+    sid: act2_1
+    'off': 0.2
+  end:
+    scene_end: act2
+  date: '2026-07-29'
+  lane: events
+  label: 7월 29일 동결
+  sub: 3.5~3.75% · 9대 3
+  side: left
+  hl: true
+- type: photo
+  start:
+    sid: act2_1
+    'off': 0.4
+  end:
+    sid: act2_1
+    edge: end
+    'off': 0.6
+  mid: fed_presser_0729
+  place: timeline_photo
+- type: article
+  start:
+    sid: act2_2
+    'off': 0.1
+  end:
+    sid: act2_4
+    'off': 0.3
+  mid: cnn_0729
+  theme: dark
+- type: marker
+  start:
+    sid: act2_4
+    'off': 0.2
+  end:
+    scene_end: act2
+  date: '2026-09-16'
+  lane: events
+  label: 9월 16일 인상
+  sub: 12대 0 만장일치
+  side: right
+  hl: true
+- type: article
+  start:
+    sid: act2_4
+    'off': 0.3
+  end:
+    sid: act2_4
+    edge: end
+    'off': 0.9
+  mid: cnn_0916
+  theme: dark
+- type: card
+  start:
+    sid: act2_5
+    'off': 0.2
+  end:
+    sid: act2_5
+    edge: end
+    'off': 0.6
+  tag: 연준 성명 · 9월 16일
+  lines:
+  - 인플레이션은 여전히 높다
+  accent: gold
+- type: card
+  start:
+    sid: act2_6
+    'off': 0.5
+  end:
+    sid: act2_7
+    edge: end
+    'off': 0.4
+  tag: 8월 소비자물가 · 1년 전 대비
+  bigs:
+  - - 3.4%
+    - 상승
+  accent: amber
+  src: 미 노동통계국(BLS) CPI-U · FRED
+- type: marker
+  start:
+    sid: act3_0
+    'off': 0.3
+  end:
+    scene_end: act3
+  date: '2026-09-16'
+  lane: events
+  label: 9월 16일
+  sub: 경제전망요약 발표
+  side: left
+  hl: true
+- type: photo
+  start:
+    sid: act3_0
+    'off': 0.4
+  end:
+    sid: act3_0
+    edge: end
+    'off': 0.4
+  mid: fed_presser_0916_b
+  place: timeline_photo
+- type: series
+  start:
+    sid: act3_1
+    'off': 0.3
+  end:
+    scene_end: ending
+    'off': 0.5
+  lane: policy_rate
+  series_id: SEP_20260916
+  style: projection
+  grow: false
+  col: gold
+- type: marker
+  start:
+    sid: act3_3
+    'off': 0.3
+  end:
+    scene_end: act3
+  date: '2026-10-27'
+  lane: events
+  label: 10월 27~28일 회의
+  sub: 다음 칸
+  side: left
+  hl: true
+- type: photo
+  start:
+    sid: act3_3
+    'off': 0.4
+  end:
+    sid: act3_3
+    edge: end
+    'off': 0.4
+  mid: fed_eccles_ext
+  place: timeline_photo
+- type: marker
+  start:
+    sid: ending_0
+    'off': 0.4
+  end:
+    scene_end: ending
+    'off': 0.5
+  date: '2025-10-29'
+  lane: events
+  label: 3.75~4%
+  sub: 2025년 10월
+  side: right
+  hl: true
+- type: marker
+  start:
+    word:
+      sid: ending_0
+      text: 다시
+  end:
+    scene_end: ending
+    'off': 0.5
+  date: '2026-09-16'
+  lane: events
+  label: 3.75~4%
+  sub: 2026년 9월
+  side: left
+  hl: true
+- type: photo
+  start:
+    sid: act1_4
+    'off': 0.6
+  end:
+    sid: act1_4
+    edge: end
+    'off': 0.5
+  mid: econ_powell_presser_552
+  place: timeline_photo
+- type: photo
+  start:
+    sid: act2_6
+    'off': 0.8
+  end:
+    sid: act2_6
+    edge: end
+    'off': 0.6
+  mid: econ_walmart_2508
+  place: timeline_photo
+sound:
+  bgm: music.zabriskie_patriarch
+  intensity:
+  - - 0.0
+    - 0.6
+  - - scene_start: act1
+    - 0.55
+  - - sid: act1_5
+    - 0.62
+  - - scene_start: act2
+    - 0.66
+  - - sid: act2_4
+    - 0.72
+  - - scene_start: act3
+    - 0.6
+  - - scene_start: ending
+    - 0.62
+  - - total: true
+      'off': 0.5
+    - 0.0
+  cues: []
+  no_music_decision: null
+drops:
+- record: CPIAUCSL
+  reason: 아일랜드 높이 298 에 레인 셋이면 금리 값 영역이 약 25px 이라 동결기가 평평해 보인다(UF-140) — 금리 + 기록 두 레인(D-0267 §1). 물가 3.4% 는 act2_6 카드가 말하고, 물가 시계열은 geo 편 dual_line 이 보여 준다
+- record: DFEDTARU
+  reason: 차트 아일랜드 policy_rate 레인 band 시리즈(DFEDTARL)의 upper_id 로 목표 범위 상단을 이미 그린다 — 별도 패널은 같은 선을 두 번 그린다
